@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.bin/file/file.c,v 1.4 2007/07/05 23:09:41 tg Exp $ */
+/**	$MirOS: src/usr.bin/file/file.c,v 1.5 2007/07/10 14:10:14 tg Exp $ */
 /*	$OpenBSD: LEGAL.NOTICE,v 1.6 2003/06/13 18:31:14 deraadt Exp $	*/
 /*	$OpenBSD: file.c,v 1.17 2007/02/19 13:02:08 tom Exp $ */
 /*
@@ -77,7 +77,7 @@
 
 #include "patchlevel.h"
 
-__RCSID("$MirOS: src/usr.bin/file/file.c,v 1.4 2007/07/05 23:09:41 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/file/file.c,v 1.5 2007/07/10 14:10:14 tg Exp $");
 
 #ifdef S_IFLNK
 #define SYMLINKFLAG "L"
@@ -99,14 +99,14 @@ private int 		/* Global command-line options 		*/
 
 private const char *magicfile = 0;	/* where the magic is	*/
 private const char *default_magicfile = MAGIC;
-private char *separator = ":";	/* Default field separator	*/
+private const char *separator = ":";	/* Default field separator	*/
 
 private char *progname;		/* used throughout 		*/
 
 private struct magic_set *magic;
 
 private void unwrap(char *);
-private void usage(void);
+private void usage(void) __dead;
 #ifdef HAVE_GETOPT_LONG
 private void help(void);
 #endif
@@ -327,7 +327,7 @@ load(const char *m, int flags)
 		(void)fprintf(stderr, "%s: %s\n", progname, strerror(errno));
 		exit(1);
 	}
-	if (magic_load(magic, magicfile) == -1) {
+	if (magic_load(magic, m) == -1) {
 		(void)fprintf(stderr, "%s: %s\n",
 		    progname, magic_error(magic));
 		exit(1);

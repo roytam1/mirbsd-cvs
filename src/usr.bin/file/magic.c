@@ -65,9 +65,7 @@
 
 #include "patchlevel.h"
 
-#ifndef	lint
-FILE_RCSID("@(#)$Id$")
-#endif	/* lint */
+__RCSID("$MirOS$");
 
 #ifdef __EMX__
 private char *apptypeName = NULL;
@@ -136,8 +134,7 @@ free_mlist(struct mlist *mlist)
 }
 
 public void
-magic_close(ms)
-    struct magic_set *ms;
+magic_close(struct magic_set *ms)
 {
 	free_mlist(ms->mlist);
 	free(ms->o.buf);
@@ -177,8 +174,9 @@ magic_check(struct magic_set *ms, const char *magicfile)
 }
 
 private void
-close_and_restore(const struct magic_set *ms, const char *name, int fd,
-    const struct stat *sb)
+close_and_restore(const struct magic_set *ms,
+    const char *name __attribute__((unused)), int fd,
+    const struct stat *sb __attribute__((unused)))
 {
 	(void) close(fd);
 	if (fd != STDIN_FILENO && (ms->flags & MAGIC_PRESERVE_ATIME) != 0) {

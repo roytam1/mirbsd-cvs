@@ -1,4 +1,4 @@
-/**	$MirOS$ */
+/**	$MirOS: src/usr.bin/file/softmagic.c,v 1.2 2005/03/13 18:32:56 tg Exp $ */
 /*	$OpenBSD: softmagic.c,v 1.11 2004/05/19 02:32:36 tedu Exp $ */
 /*
  * Copyright (c) Ian F. Darwin 1986-1995.
@@ -39,7 +39,7 @@
 #include <time.h>
 #include <regex.h>
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.bin/file/softmagic.c,v 1.2 2005/03/13 18:32:56 tg Exp $");
 
 private int match(struct magic_set *, struct magic *, uint32_t,
     const unsigned char *, size_t);
@@ -240,8 +240,6 @@ mprint(struct magic_set *ms, union VALUETYPE *p, struct magic *m)
 {
 	uint32_t v;
 	int32_t t=0 ;
-	time_t tv;
-
 
   	switch (m->type) {
   	case FILE_BYTE:

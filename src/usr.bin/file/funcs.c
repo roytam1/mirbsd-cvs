@@ -36,9 +36,8 @@
 #include <string.h>
 #include <ctype.h>
 
-#ifndef	lint
-FILE_RCSID("@(#)$Id$")
-#endif	/* lint */
+__RCSID("$MirOS$");
+
 /*
  * Like printf, only we print to a buffer and advance it.
  */
@@ -57,7 +56,7 @@ file_printf(struct magic_set *ms, const char *fmt, ...)
 	if (len == -1) {
 		file_error(ms, errno, "vsnprintf failed");
 		return -1;
-	} else if (len >= ms->o.left) {
+	} else if ((size_t)len >= ms->o.left) {
 		va_end(ap);
 		size = (ms->o.size - ms->o.left) + len + 1024;
 		if ((buf = realloc(ms->o.buf, size)) == NULL) {

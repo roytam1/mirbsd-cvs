@@ -40,7 +40,7 @@
 
 #include "readelf.h"
 
-__RCSID("$MirOS: src/usr.bin/file/readelf.c,v 1.4 2007/06/24 21:15:15 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/file/readelf.c,v 1.5 2007/06/24 21:29:32 tg Exp $");
 
 #ifdef	ELFCORE
 private int dophn_core(struct magic_set *, int, int, int, off_t, int, size_t);
@@ -368,7 +368,7 @@ donote(struct magic_set *ms, unsigned char *nbuf, size_t offset, size_t size,
 	    ((namesz == 7 && strcmp((char *)&nbuf[noff], "MirBSD") == 0) ||
 	    (namesz > NT_MIROS_STRTLEN && strncmp((char *)&nbuf[noff],
 	    NT_MIROS_STRTEST, NT_MIROS_STRTLEN) == 0))) {
-		char *tmp = (char *)&nbuf[noff];
+		const char *tmp = (char *)&nbuf[noff];
 		uint32_t desc;
 
 		if (strcmp((char *)&nbuf[noff], "MirBSD") == 0)

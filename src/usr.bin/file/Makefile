@@ -1,4 +1,4 @@
-# $MirOS: src/usr.bin/file/Makefile,v 1.2 2005/03/13 18:32:56 tg Exp $
+# $MirOS: src/usr.bin/file/Makefile,v 1.3 2006/10/28 19:57:44 tg Exp $
 # $OpenBSD: Makefile,v 1.10 2004/05/19 02:32:35 tedu Exp $
 
 MAGIC=		/etc/magic
@@ -10,6 +10,7 @@ PROG=		file
 SRCS=		file.c apprentice.c fsmagic.c softmagic.c ascmagic.c is_tar.c \
 		print.c compress.c readelf.c magic.c funcs.c
 CPPFLAGS+=	-DMAGIC='"$(MAGIC)"' -DUSE_UTIMES -DHAVE_CONFIG_H
+CPPFLAGS+=	-DHAVE_STDINT_H
 MAN=		file.1 magic.5
 
 CLEANFILES+=	magic
