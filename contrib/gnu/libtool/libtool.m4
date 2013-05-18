@@ -1,4 +1,4 @@
-# $MirOS: contrib/gnu/libtool/libtool.m4,v 1.59 2008/05/02 23:39:30 tg Exp $
+# $MirOS: contrib/gnu/libtool/libtool.m4,v 1.60 2008/05/02 23:42:39 tg Exp $
 #-
 # libtool.m4 - Configure libtool for the host system. -*-Autoconf-*-
 ## Copyright 1996, 1997, 1998, 1999, 2000, 2001, 2003, 2004, 2005, 2006
@@ -583,13 +583,15 @@ else
       CONFIG_SHELL=${MKSH-/bin/mksh}
       export CONFIG_SHELL
       exec $CONFIG_SHELL "[$]0" --no-reexec ${1+"[$]@"}
-    elif test "X`mksh -c 'print found' 2>/dev/null`" = Xfound; then
-      # Find out where we have mksh
-      MKSH=`mksh -c 'whence -p mksh'`
-      export MKSH
+    elif test "X`${MKSH-mksh} -c 'print found' 2>/dev/null`" = Xfound; then
       # If we have mksh, try running configure again with it.
       ORIGINAL_CONFIG_SHELL=${CONFIG_SHELL-/bin/sh}
       export ORIGINAL_CONFIG_SHELL
+      # Find out where we have mksh
+      CONFIG_SHELL=${MKSH-mksh}
+      export CONFIG_SHELL
+      MKSH=`$CONFIG_SHELL -c 'x=$(whence -p mksh); print -- ${x:-$CONFIG_SHELL}'`
+      export MKSH
       CONFIG_SHELL=$MKSH
       export CONFIG_SHELL
       exec $CONFIG_SHELL "[$]0" --no-reexec ${1+"[$]@"}
