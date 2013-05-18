@@ -610,6 +610,8 @@ Date: 24.02.2008
  and I managed to hack on stuff (e.g., mksh). We also made plans for a
  very short-term follow-up #10semel release; mostly, security updates for
  XFree86® and a lot of ports. (FOSDEM was great as usual, though.)</p>
-<p>The &lt;link rel=…&gt; tags for RSS have been fixed; the feeds still do
- not work with Opera though. Does anybody know why? (RSS sucks…)</p>
+<p>The &lt;link rel=…&gt; tags for RSS have been fixed. After removing and
+ re-adding, they should work with Opera now, and the pages are XHTML/1.1
+ compliant again now.</p>
+<p>Currently, pcc cannot compile anything with &lt;stdio.h&gt;.</p>
 ----
