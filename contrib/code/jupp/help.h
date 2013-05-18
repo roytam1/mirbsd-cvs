@@ -13,7 +13,7 @@
 #include "config.h"
 #include "types.h"
 
-struct help *help_actual;
+extern struct help *help_actual;
 
 void help_display PARAMS((SCREEN *t));		/* display text in help window */
 void help_off PARAMS((SCREEN *t));		/* turn help off */
