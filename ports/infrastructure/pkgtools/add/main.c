@@ -1,4 +1,4 @@
-/* $MirOS: ports/infrastructure/pkgtools/add/main.c,v 1.6.2.1 2009/12/23 15:41:46 bsiegert Exp $ */
+/* $MirOS: ports/infrastructure/pkgtools/add/main.c,v 1.6.2.2 2009/12/29 17:09:28 bsiegert Exp $ */
 /* $OpenBSD: main.c,v 1.18 2003/08/06 20:46:36 millert Exp $	*/
 
 /*
@@ -25,15 +25,16 @@
 #include "lib.h"
 #include "add.h"
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/add/main.c,v 1.6.2.1 2009/12/23 15:41:46 bsiegert Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/add/main.c,v 1.6.2.2 2009/12/29 17:09:28 bsiegert Exp $");
 
-static char Options[] = "d:fhIMNnp:qRSt:v";
+static char Options[] = "d:fhIMNnp:qRSt:Uv";
 
 char	*Prefix		= NULL;
 bool	NoInstall	= false;
 bool	NoRecord	= false;
 bool	NoBackups	= false;
 bool	Quiet		= false;
+bool	Update		= false;
 
 char	*Mode		= NULL;
 char	*Owner		= NULL;
@@ -59,6 +60,9 @@ main(int argc, char **argv)
     Pager = cfg_get_pager();
     while ((ch = getopt(argc, argv, Options)) != -1) {
 	switch(ch) {
+	case 'U':
+		Update = true;
+		break;
 	case 'd':
 	    switch(optarg[0]) {
 		case 'c':
@@ -132,6 +136,11 @@ main(int argc, char **argv)
     }
     argc -= optind;
     argv += optind;
+
+    if (Update) {
+	update_src_index();
+	exit(0);
+    }
 
     pkg_count = argc + 1;
     pkgs = (char **)calloc(pkg_count,  sizeof(char **));

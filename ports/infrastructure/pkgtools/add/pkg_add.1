@@ -1,4 +1,4 @@
-.\"	$MirOS: ports/infrastructure/pkgtools/add/pkg_add.1,v 1.14 2009/11/22 18:23:31 tg Exp $
+.\"	$MirOS: ports/infrastructure/pkgtools/add/pkg_add.1,v 1.14.2.1 2009/12/23 15:46:18 bsiegert Exp $
 .\"	$OpenBSD: pkg_add.1,v 1.32 2003/07/14 13:38:24 jmc Exp $
 .\"
 .\" FreeBSD install - a package for the installation and maintenance
@@ -70,7 +70,7 @@
 .\" with -mandoc, it might implement .Mx itself, but we want to
 .\" use our own definition. And .Dd must come *first*, always.
 .\"
-.Dd $Mdocdate: November 22 2009 $
+.Dd $Mdocdate: December 23 2009 $
 .\"
 .\" Check which macro package we use
 .\"
@@ -148,7 +148,7 @@
 .Nd install software package distributions
 .Sh SYNOPSIS
 .Nm pkg_add
-.Op Fl fIMNnqRSv
+.Op Fl fIMNnqRSUv
 .Op Fl d Ar mode
 .Op Fl p Ar prefix
 .Op Fl t Ar template
@@ -232,6 +232,11 @@ Be sure the specified package(s) are from trusted sources.
 .Pp
 The options are as follows:
 .Bl -tag -width Ds
+.It Fl U
+Update the cached index files for remote package repositories defined in
+.Xr pkgtools.conf 5 .
+Overrides all other options except
+.Fl v .
 .It Fl d
 Determines the pager to be called when a package installation needs to
 show a message.
