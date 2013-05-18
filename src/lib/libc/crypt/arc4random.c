@@ -44,9 +44,10 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+#include <syskern/libckern.h>
 #include "thread_private.h"
 
-__RCSID("$MirOS: src/lib/libc/crypt/arc4random.c,v 1.21 2009/01/21 19:38:45 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/crypt/arc4random.c,v 1.22 2009/01/21 19:41:37 tg Exp $");
 
 #ifdef __GNUC__
 #define inline __inline
@@ -309,49 +310,55 @@ arc4random_push(int n)
 uint32_t
 arc4random_pushb(const void *buf, size_t len)
 {
-	uint32_t v, i, k, tr;
+	uint32_t h, vu, vk;
 	size_t j;
 	int mib[2];
 	union {
 		uint8_t buf[256];
 		tai64na_t tai64tm;
-		uint32_t xbuf[2];
-	} idat;
+		struct {
+			const void *sp, *dp;
+			size_t sz;
+		} s;
+		struct {
+			uint32_t h, v;
+		} u;
+	} uu;
 
-	tr = arc4random();
-	v = (rand() << 16) + len;
-	taina_time(&idat.tai64tm);
+	vu = arc4random();
+	uu.s.sp = &uu;
+	uu.s.dp = buf;
+	uu.s.sz = len;
+	h = OAAT0Update(arc4random() & 0xFFFFFF00, (void *)&uu, sizeof(uu.s));
+
+	taina_time(&uu.tai64tm);
 	for (j = 0; j < len; ++j) {
 		register uint8_t c;
 
 		c = ((const uint8_t *)buf)[j];
-		v += c;
-		idat.buf[j % 256] ^= c;
+		uu.buf[j % 256] ^= c;
+		h += c;
+		h += h << 10;
+		h ^= h >> 6;
 	}
-	j = MAX(sizeof (tai64na_t), 2 * sizeof (uint32_t));
-	len = MIN(256, MAX(j, len));
-	v += (k = arc4random()) & 3;
-	v += (intptr_t)buf & 0xFFFFFFFF;
+	len = MIN(256, len);
 
 	mib[0] = CTL_KERN;
 	mib[1] = KERN_ARND;
-	j = sizeof (i);
+	j = sizeof(vk);
 
-	idat.xbuf[1] ^= tr;
-	if (sysctl(mib, 2, &i, &j, &idat.buf[0], len) != 0)
-		i = idat.xbuf[0] ^
-		    (((v & 1) + 1) * (rand() & 0xFF)) ^ arc4random();
-	/* idat.xbuf[1] ^= tr; // dead because of the following line: */
+	if (sysctl(mib, 2, &vk, &j, &uu, len) != 0)
+		vk = 0;
 
-	taina_time(&idat.tai64tm);
-	idat.xbuf[0] ^= v;
-	idat.xbuf[1] ^= i ^ (k & 12);
-	j = MAX(sizeof (tai64na_t), 2 * sizeof (uint32_t));
+	uu.u.h = OAAT0Final(h);
+	uu.u.v = (vk & 0xFFFF0000) | (vu & 0x0000FFFF);
 	_ARC4_LOCK();
-	arc4_addrandom(&idat.buf[0], j);
+	arc4_addrandom((void *)&uu, sizeof(uu.u));
 	_ARC4_UNLOCK();
+	if (/* kernel failed */ !vk)
+		vk = arc4random();
 
-	return ((k & ~15) ^ i);
+	return ((vk & 0x0000FFFF) ^ (vu & 0xFFFF0000) ^ (uu.u.h & 0x00073000));
 }
 
 #if 0
