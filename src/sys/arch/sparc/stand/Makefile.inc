@@ -1,4 +1,4 @@
-# $MirOS: src/sys/arch/sparc/stand/Makefile.inc,v 1.7 2007/06/11 21:12:57 tg Exp $
+# $MirOS: src/sys/arch/sparc/stand/Makefile.inc,v 1.8 2008/07/13 19:42:39 tg Exp $
 # $OpenBSD: Makefile.inc,v 1.12 2004/07/13 21:03:38 marc Exp $
 # $NetBSD: Makefile.inc,v 1.5 1996/02/01 22:33:01 mycroft Exp $
 
@@ -11,6 +11,7 @@ BINDIR=		/usr/mdec
 .include "../Makefile.reloc"
 
 KERNBASE?=	$S/../kern
+HOSTCFLAGS:=	${CFLAGS} ${COPTS}
 COPTS+=		-Wall -Werror -fno-stack-protector -ffreestanding \
 		-fno-zero-initialized-in-bss
 .if ${COPTS:M-O*:N-Os}
@@ -20,6 +21,7 @@ COPTS+=		-Os
 COPTS+=		-Os
 .endif
 SACFLAGS=	-D_STANDALONE
+HOSTCPPFLAGS:=	${CPPFLAGS}
 CPPFLAGS+=	-I${S} -I${SADIR}/libsa -I. -Dmemmove=memcpy -D_STANDALONE \
 		-I${.CURDIR} -Derrno=errno -I${KERNBASE}/include \
 		-DSTANDALONE -DRELOC=${RELOC} -DSUN4 -DSUN4C -DSUN_BOOTPARAMS
@@ -58,19 +60,5 @@ LIBSAOBJDIR=		${LIBSADIR}
 
 DLIBSA=			${LIBSAOBJDIR}/libsa.a
 LLIBSA=			-L${LIBSAOBJDIR} -lsa
-
-### Figure out what to use for libz
-LIBZDIR=		${.CURDIR}/../libz
-
-.if exists(${LIBZDIR}/obj.${MACHINE})
-LIBZOBJDIR=		${LIBZDIR}/obj.${MACHINE}
-.elif exists(${LIBZDIR}/obj)
-LIBZOBJDIR=		${LIBZDIR}/obj
-.else
-LIBZOBJDIR=		${LIBZDIR}
-.endif
-
-DLIBZ=			${LIBZOBJDIR}/libz.a
-LLIBZ=			-L${LIBZOBJDIR} -lz
 
 .endif

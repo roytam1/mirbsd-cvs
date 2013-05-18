@@ -1,4 +1,4 @@
-# $MirOS: src/sys/arch/sparc/stand/libsa/Makefile,v 1.3 2006/06/16 21:52:53 tg Exp $
+# $MirOS: src/sys/arch/sparc/stand/libsa/Makefile,v 1.4 2007/06/12 21:58:26 tg Exp $
 # $OpenBSD: Makefile,v 1.3 2004/07/13 21:03:39 marc Exp $
 
 .include "${.CURDIR}/../Makefile.inc"
@@ -11,7 +11,7 @@ S=		${.CURDIR}/../../../..
 SADIR=		${.CURDIR}/..
 DIR_SA=		$S/lib/libsa
 DIR_KERN=	$S/lib/libkern
-CPPFLAGS+=	-I${S} -I${S}/stand/boot -I${S}/lib -I${BSDSRCDIR}/lib/libz
+CPPFLAGS+=	-I${S} -I${S}/stand/boot
 CPPFLAGS+=	-D__INTERNAL_LIBSA_CREAD #-DCOMPAT_UFS
 DEBUGLIBS=	No
 KERNSTAND=	#defined
@@ -19,6 +19,18 @@ SMALL=		#defined
 
 .include "${KERNBASE}/c/Makefile.inc"
 .include "${KERNBASE}/z/Makefile.adler32"
+.include "${KERNBASE}/z/Makefile.inc"
+
+# Build a small zlib
+CPPFLAGS+=	-DSLOW -DSMALL -DNOBYFOUR -DNO_GZIP
+CPPFLAGS+=	-DDYNAMIC_CRC_TABLE -DBUILDFIXED
+SRCS+=		crc32.c infback.c inffast.c inflate.c inftrees.c
+
+CPPFLAGS+=	-DZCONST=const
+HOSTCPPFLAGS+=	-DZCONST=const
+CLEANFILES+=	${ZLIB_CLEANFLS}
+
+beforedepend: ${ZLIB_GENHDRS}
 
 # stand routines
 SRCS+=	alloc.c exit.c exec.c getfile.c gets.c globals.c \
