@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: ports/infrastructure/install/setup.ksh,v 1.34 2005/12/15 01:39:20 tg Exp $
+# $MirOS: ports/infrastructure/install/setup.ksh,v 1.35 2005/12/15 01:42:58 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -289,13 +289,12 @@ export PERL5LIB=${PERL5LIB%%+(:)}
 
 portsdir=$(readlink -nf $ourpath 2>/dev/null || (cd $ourpath && pwd -P))
 
-cp $portsdir/infrastructure/templates/fake.mtree $portsdir/infrastructure/db/
+cp $portsdir/infrastructure/templates/fake.mtree $T/fake.mtree
 if [[ $myuid != root ]]; then
 	print 'g/[ug]name=[a-z]*/s///g\n'"/^.set/s/   /" \
 	    "uname=$myuid gname=$mygid /\nwq" \
-	    | ed -s $portsdir/infrastructure/db/fake.mtree
+	    | ed -s $T/fake.mtree
 fi
-cat $portsdir/infrastructure/db/fake.mtree >$T/fake.mtree
 (print '/@@local/d\ni\n'; IFS=/; s=;
  for pc in $(print "$localbase"); do
 	s="$s    "; print "$s$pc"
