@@ -1,4 +1,6 @@
-# $MirOS: src/lib/libz/Makefile.gen,v 1.2 2006/06/11 01:19:19 tg Exp $
+# $MirOS: src/lib/libz/Makefile.gen,v 1.3 2006/06/12 22:04:15 tg Exp $
+
+zlib_depends: crc32.h inffixed.h trees.h
 
 crc32.h: mk_crc32
 	./mk_crc32
