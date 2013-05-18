@@ -1,5 +1,5 @@
 <!-- PageID: wlog-8 -->
-<small class="rcsid">$MirOS: www/content/d2xvZy04.inc,v 1.69 2006/04/19 19:01:17 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy04.inc,v 1.70 2006/05/08 18:27:33 tg Exp $</small>
 <h1>MirBSD &ndash; WTF, We Have a Release!?</h1>
 <p><small><a href="#eof">bottom</a> or <a href="/?older">older</a>
  editions</small></p>
@@ -1252,6 +1252,44 @@ celebrate this event, rotate the wlog and start a new one.</p>
   don't think that's going to happen. At least not now &ndash; even some
   finnish person who can't even program sprintf(3) made a job out of it.
   (He didn't discover the bug in that function for years, either.)</p>
+</div>
+
+<div class="wlentry">
+ <h3 id="e20060522">22.05.2006 by tg@</h3>
+ <p>This wlog entry is probably not read by many. Thanks to gecko2, I've
+  got set up at least an AnonCVS mirror (anoncvs@unixforge.de:/cvs IPv4,
+  anoncvs@hephaistos.tb.as8758.net:/cvs IPv6), and remotely possibly, <a
+  href="http://users.unixforge.de/~tglaser/?wlog-8">this page</a> might,
+  with a few broken links/images, be visible.</p>
+ <p>I'm &quot;developing&quot; on NWT at the moment &ndash; a Mitac 4023
+  notebook (Cyrix 486DLC with 33, 66 or 80 MHz, no idea; 12 MiB RAM (and
+  a custom kernel); a 450 MB HDD replacing the old 110 MB one and, yuck,
+  french keyboard (slightly remapped) in US mode of course). I've put an
+  almost usable filesystem on the disc (the contents of bsd.rd's mr.fs),
+  added a few programmes and a dmassage'd GENERIC minus what I don't use
+  on the book (like ext2fs), that works. Its display is okay, (D)STN LCD
+  in VGA greyscale, and I am already getting used to that damn keyboard,
+  but more than less(1) and ssh(1) isn't feasible. Not really good to do
+  any developing work.</p>
+ <p>The server situation is desastrous. I'm thinking of giving up having
+  an own dedicated server and just paying a few people for the services,
+  that is, AnonCVS, AnonRSYNC, website + CVSweb, name and mail server. I
+  think I already know with whom and how to do it, I but need to get out
+  of the contract and, beforehand, back the data. Strato at first tried,
+  I was impressed, to help but now runs a "let's ignore him" strategy. I
+  can understand that, after all I'm only paying 19.90 &euro; per month,
+  but nevertheless they're denying me service.</p>
+ <p>Oh, by the way &ndash; I got odem back working, just its display is,
+  still, a mess: the green part doesn't show. Headaches.</p>
+ <p>Benny has been helping with ports and the interim (excuse for a) web
+  site^Wpages, thanks.</p>
+ <p>Hiroki Sato managed not only to get production IPv6 address space to
+  keep *.allbsd.org reachable but also fixed the mirroring problem, so I
+  think we have two working anoncvs mirrors at the moment. Again, thanks
+  to all the people involved with BSD or not even (e.g. a certain Debian
+  Developer springs to mind) who are helping to ensure the MirOS Project
+  doesn't continue to exist in oblivion but is still discoverable by the
+  general public.</p>
 </div>
 
 <p id="eof">Good luck, have fun, take care etc.pp</p>

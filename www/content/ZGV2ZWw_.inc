@@ -1,5 +1,5 @@
 <!-- PageID: devel -->
-<small class="rcsid">$MirOS: www/content/ZGV2ZWw_.inc,v 1.14 2006/04/10 12:44:46 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/ZGV2ZWw_.inc,v 1.15 2006/04/19 19:01:16 tg Exp $</small>
 <h1>MirOS Project Members</h1>
 <p>The links below show details about every MirOS Project
  team member - developer or contributor. The content is whatever
@@ -20,6 +20,7 @@
 <li>Eimann (historic)</li>
 <li>Robin S. Socha (historic)</li>
 <li>Joshua C. Steele (historic)</li>
+<li>Andreas "gecko2" Gockel</li>
 </ul><h3>DNS</h3><ul>
 <li>Ingo "bogus" Dyck</li>
 <li>Andreas "ScottyTM" Kupfer</li>
@@ -30,6 +31,7 @@
 </ul><h3>mirroring</h3><ul>
 <li>Eike Frost</li>
 <li>Hiroki Sato and the guys at allbsd.org</li>
+<li>Andreas "gecko2" Gockel</li>
 </ul><h3>services</h3><ul>
 <li>Der Verein <a href="http://www.trash.net/verein/">trash.net</a></li>
 <li>The people at <a href="http://www.allbsd.de/">AllBSD.de</a></li>
