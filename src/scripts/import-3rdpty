@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/scripts/import-3rdpty,v 1.12 2005/07/21 19:23:07 tg Exp $
+# $MirOS: src/scripts/import-3rdpty,v 1.13 2005/07/23 15:05:46 tg Exp $
 #-
 # Copyright (c) 2004, 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -23,7 +23,7 @@
 # rect or other, however caused, arising in any way out of the usage
 # of this work, even if advised of the possibility of such damage.
 
-print -r -- '========= $MirOS: src/scripts/import-3rdpty,v 1.12 2005/07/21 19:23:07 tg Exp $ ========='
+print -r -- '========= $MirOS: src/scripts/import-3rdpty,v 1.13 2005/07/23 15:05:46 tg Exp $ ========='
 
 ignlist=0
 force=0
@@ -580,6 +580,21 @@ openbsd)
 		share/man/man4/man4.sparc64 \
 		share/man/man4/man4.vax \
 		share/man/man4/man4.zaurus \
+		share/man/man5/bsd.port.mk.5,v \
+		share/man/man5/bsd.regress.mk.5,v \
+		share/man/man7/mirroring-ports.7,v \
+		share/man/man7/packages-specs.7,v \
+		share/man/man7/packages.7,v \
+		share/man/man7/ports.7,v \
+		share/man/man8/compat_aout.8,v \
+		share/man/man8/compat_bsdos.8,v \
+		share/man/man8/compat_freebsd.8,v \
+		share/man/man8/compat_hpux.8,v \
+		share/man/man8/compat_ibcs2.8,v \
+		share/man/man8/compat_osf1.8,v \
+		share/man/man8/compat_sunos.8,v \
+		share/man/man8/compat_svr4.8,v \
+		share/man/man8/compat_ultrix.8,v \
 		share/man/man8/man8.alpha \
 		share/man/man8/man8.cats \
 		share/man/man8/man8.hp300 \
@@ -595,6 +610,8 @@ openbsd)
 		share/man/man8/man8.sparc64 \
 		share/man/man8/man8.vax \
 		share/man/man8/man8.zaurus \
+		share/man/man8/release.8,v \
+		share/man/man8/yp.8,v \
 		share/misc/pcvtfonts \
 		share/mk/bsd.nls.mk \
 		share/mk/bsd.port.mk \
