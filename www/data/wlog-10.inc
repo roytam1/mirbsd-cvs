@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.388 2012/05/19 22:40:22 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.389 2012/05/19 23:07:42 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -9063,4 +9063,51 @@ Tag: debian mksh news pcli tip
  is, of course, also available. Improvements welcome. Except for
  these three CGIs, our website is fully statically precompiled,
  and that’s a good thing. Please help in making the CGIs secure.</p>
+----
+Date: 15.06.2012 07:37
+Author: tg@
+Title: Tricks for dealing with modern-day X.org
+Tag: debian pcli tip
+
+<p><a href="http://blog.mraw.org/2012/06/15/Fixed/">KiBi is my hero
+ of the day.</a> I’ve long wondered why I couldn’t select fixed-misc
+ as font on my workstation at the dayjob, which is running Kubuntu
+ Hardon Heroin. (Luckily, I managed to avoid upgrading to Prolonged Pain.)
+ Now I guess that’ll work again.</p>
+<p>My work laptop (running testing) also has got this X.org thingy. <a
+ href="@@ABSPATH@@/cvs.cgi/contrib/samples/dot.Xmodmap">My keyboard
+ layout</a> now has got a <tt>grml</tt> branch (named after the person
+ who first cursed about the insane idea of those toy-breaking boys to
+ rearrange the keycodes) that works with it. Since Debian is marginally
+ more sane than Kubuntu, in contrast to the <tt>gnu</tt> branch I use
+ on my orkstation, the <tt>grml</tt> branch still has Meta on the left
+ Alt key, not Mode_switch, as it still works in uxterm, which reduces
+ the diff between the <tt>MAIN</tt> branch (<tt>HEAD</tt>) on XFree86®
+ and this beast.</p>
+<p class="boxhead">And finally: X.org defaults to a black screen and
+ disabled mouse pointer until an application first requests it.
+ Totally unacceptable for evilwm(1) users, and letting people think
+ it crashed, to boot. The Arch Linux guys found this, among others;
+ the fix is: startx(1) users edit <tt>/etc/X11/xinit/xserverrc</tt>
+ to add <tt>-retro</tt> behind the <tt>X</tt>, or copy the file to
+ <tt>~/.xserverrc</tt> and change it there:</p><div class="boxtext">
+ <pre>
+	#!/bin/sh
+
+	exec /usr/bin/X -retro -nolisten tcp "$@"
+ </pre>
+</div><p class="boxfoot">For display managers,similar files exist in
+ <tt>/etc/kde4/kdm</tt> and related places.</p><!-- RSS stop -->
+<p>On the other front, worked on Debian packaging, and upstream on
+ pax(1) and <a href="@@RELPATH@@jupp.htm">jupp</a>, with more things
+ to follow (especially in <a href="@@RELPATH@@mksh.htm">mksh</a>).
+ Also fixed about ⅔ Linux klibc architectures and learned why I’m a
+ BSD developer despite all the bad parts of it ☺ and fixed fakeroot
+ with pax(1) on Hurd… incidentally in code originally designed to
+ support the Linux pax. My dayjob’s keeping me busy, but I’ve got
+ plans to run mksh(1) through Sonar, in addition to the static code
+ analysēs done by (once again, thanks!) Coverity (commits to mksh
+ pending) and Clang/LLVM scan-build. Uhm, what can I say more, grab
+ me in IRC if you need it. Ah, and some other mksh things coming up
+ that may be of interest to people needing to support legacy scripts.</p>
 ----
