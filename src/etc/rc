@@ -1,4 +1,4 @@
-# $MirOS: src/etc/rc,v 1.33 2006/08/09 20:54:49 tg Exp $
+# $MirOS: src/etc/rc,v 1.34 2006/08/09 20:55:46 tg Exp $
 # $OpenBSD: rc,v 1.277 2006/01/12 21:54:15 deraadt Exp $
 #-
 # System startup script run by init on autoboot or after single-user.
@@ -112,7 +112,7 @@ wsconsctl_conf()
 }
 
 # Sort the "/etc/fstab" arrays:
-# -> sorting is done on $_mp[] from 0 to $_fstab - 1
+# -> sorting is done on $_mp[] from 0 to ${#_mp[*]}-1
 # -> swapping is done on $_dev[] $_mp[] $_fstype[] $_opt[] $_rest[]
 function _fsswap
 {
@@ -139,19 +139,17 @@ function _fsswap
 
 function _fssort
 {
-	local i j k
+	integer i j k
 
 	let i=0
-	while (( i < (_fstab - 1) )); do
+	while (( i < (${#_mp[*]} - 1) )); do
 		let j=i
 		let k='i+1'
-		while (( k < _fstab )); do
-			if [[ ${_mp[k]} < ${_mp[j]} ]]; then
-				let j=k
-			fi
+		while (( k < ${#_mp[*]} )); do
+			[[ ${_mp[k]} < ${_mp[j]} ]] && let j=k
 			let k++
 		done
-		_fsswap $i $j
+		(( i != j )) && _fsswap $i $j
 		let i++
 	done
 }
