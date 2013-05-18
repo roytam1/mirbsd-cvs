@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/templates/userlist.db,v 1.10 2008/05/07 12:05:08 tg Exp $
+# $MirOS: ports/infrastructure/templates/userlist.db,v 1.11 2008/05/07 15:07:47 tg Exp $
 #-
 # List of users and groups for MirOS base and the MirPorts infrastructure.
 # Format: three columns, separated by one or more tabs or spaces
@@ -79,7 +79,7 @@
 251	_cvsadmin	NO
 252	_isrc		NO
 253	_lsrc		NO
-254	_anoncvs	!254::0:0:anonymous CVS and RSYNC:/var/anoncvs/anoncvs:/var/anoncvs/anoncvssh
+254	_anoncvs	!254::0:0:anonymous CVS and RSYNC:/var/anoncvs:/usr/libexec/anoncvssh
 254	_anoncvs	NO
 255	_rsync		net/rsync unprivileged group
 ### ports users (registry: MirPorts)

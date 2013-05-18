@@ -1,19 +1,16 @@
-$MirOS: src/libexec/anoncvssh/README,v 1.4 2006/03/29 21:42:23 tg Exp $
+$MirOS: src/libexec/anoncvssh/README,v 1.5 2008/06/07 20:25:43 tg Exp $
 
 On MirBSD, the directory structure outlined below, as well
 as the anoncvssh and accompanying programmes, are already
 installed in /var/anoncvs and its subdirectories.
 Just set a password (may be empty) for user "_anoncvs",
-pull the CVSROOT into /var/anoncvs/anoncvs/cvs and you are
+pull the CVSROOT into /var/anoncvs/cvs and you are
 set up. For empty passwords, remember to configure the SSH
 daemon appropiately.
-Please be reminded that /var/anoncvs must not be mounted
-nodev or nosuid, because anoncvssh is suid root, and
-dev/null and dev/zero must be accessible within the chroot tree.
 
 To use anonymous rsync, place a statically linked rsync
-executable into /var/anoncvs/anoncvs/bin and make it
-chmod 111, chown root:wheel.
+executable into /var/anoncvs/bin and make it
+chmod 110, chown root:_anoncvs.
 
 Please change the defaults to fit your needs.
 _______________________________________________________________________________

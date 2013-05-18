@@ -1,4 +1,4 @@
-# $MirOS: src/etc/rc,v 1.90 2008/10/20 19:29:21 tg Exp $
+# $MirOS: src/etc/rc,v 1.91 2008/11/13 03:30:55 tg Exp $
 # $OpenBSD: rc,v 1.277 2006/01/12 21:54:15 deraadt Exp $
 #-
 # System startup script run by init on autoboot or after single-user.
@@ -588,10 +588,16 @@ if [[ -x /usr/libexec/vi.recover && -d /var/tmp/vi.recover ]]; then
 	echo preserving editor files;	/usr/libexec/vi.recover
 fi
 
-# Copy over /dev/{null,zero} into anoncvs chroot, it needs it
-[[ -c /var/anoncvs/anoncvs/dev/null && -c /var/anoncvs/anoncvs/dev/zero ]] || \
-    [[ ! -d /var/anoncvs/anoncvs || ! -s /var/anoncvs/anoncvssh ]] || \
-    pax -rw -pe /dev/{null,zero} /var/anoncvs/anoncvs
+# Initialise anoncvs chroot /dev directory
+i=0
+grep ':/var/anoncvs.*:/usr/libexec/anoncvssh$' /etc/master.passwd |&
+while IFS=: read -p name pass rest; do
+	[[ $pass = '*' ]] || i=1
+done
+(( i )) && if [[ -d /var/anoncvs/dev/. ]]; then
+	mount_mfs -s 128 swap /var/anoncvs/dev
+	(cd /dev; pax -rw -pe arandom null zero /var/anoncvs/dev/)
+fi
 
 if [[ -e /etc/rc.once ]]; then
 	print rc: running post-install hooks
@@ -789,8 +795,8 @@ EOF
 # Only if it exists and is an unused ram disc array.
 # Compare approximately like the kernel does, except
 # we checksum the first 2 pages instead of a memcmp.
-dev=$(dd if=/dev/rrd0c count=16 2>/dev/wrandom | cksum -a adler32)
-[[ $dev = 1B32098C ]] && swapctl -ap0 /dev/rd0c
+x=$(dd if=/dev/rrd0c count=16 2>/dev/wrandom | cksum -a adler32)
+[[ $x = 1B32098C ]] && swapctl -ap0 /dev/rd0c
 
 if [[ $sshagent_autostart != NO ]]; then
 	echo Setting up ssh-agent directories...

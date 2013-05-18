@@ -1,4 +1,4 @@
-# $MirOS: src/etc/mtree/4.4BSD.dist,v 1.27 2008/05/07 12:19:49 tg Exp $
+# $MirOS: ports/infrastructure/templates/4.4BSD.dist,v 1.4 2008/05/07 12:29:06 tg Exp $
 # $miros: src/etc/mtree/4.4BSD.dist,v 1.27 2008/05/07 12:19:49 tg Exp $
 # $OpenBSD: 4.4BSD.dist,v 1.186 2007/05/23 07:28:15 hshoexer Exp $
 
@@ -1549,35 +1549,29 @@ audit		mode=2770
 # ./var/anoncvs
 anoncvs		mode=755
 
-# ./var/anoncvs/anoncvs
-anoncvs		mode=755
-
-# ./var/anoncvs/anoncvs/bin
+# ./var/anoncvs/bin
 bin		mode=755
-# ./var/anoncvs/anoncvs/bin
+# ./var/anoncvs/bin
 ..
 
-# ./var/anoncvs/anoncvs/cvs
+# ./var/anoncvs/cvs
 cvs		mode=775 nochange
-# ./var/anoncvs/anoncvs/cvs
+# ./var/anoncvs/cvs
 ..
 
-# ./var/anoncvs/anoncvs/dev
+# ./var/anoncvs/dev
 dev		mode=755
-# ./var/anoncvs/anoncvs/dev
+# ./var/anoncvs/dev
 ..
 
-# ./var/anoncvs/anoncvs/etc
+# ./var/anoncvs/etc
 etc		mode=755
-# ./var/anoncvs/anoncvs/etc
+# ./var/anoncvs/etc
 ..
 
-# ./var/anoncvs/anoncvs/tmp
+# ./var/anoncvs/tmp
 tmp		mode=1777
-# ./var/anoncvs/anoncvs/tmp
-..
-
-# ./var/anoncvs/anoncvs
+# ./var/anoncvs/tmp
 ..
 
 # ./var/anoncvs

@@ -1,10 +1,10 @@
-# $MirOS: src/gnu/usr.bin/anoncvs/Makefile,v 1.7 2007/07/07 22:02:42 tg Exp $
+# $MirOS: src/gnu/usr.bin/anoncvs/Makefile,v 1.8 2008/07/10 12:41:47 tg Exp $
 
 CBIN=		anoncvsbin
-BINDIR=		/var/anoncvs/anoncvs
+BINDIR=		/var/anoncvs
 BINOWN=		root
-BINGRP=		wheel
-BINMODE=	111
+BINGRP=		_anoncvs
+BINMODE=	110
 
 CLEANFILES+=	${CBIN}.conf ${CBIN}.c ${CBIN}.cache ${CBIN}.mk \
 		${CBIN}.o ${CBIN} cvs.lo* cvs_stub.c cvs_stub.o

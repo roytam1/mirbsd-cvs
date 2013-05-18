@@ -37,7 +37,7 @@ _hostapd:*:86:86::0:0:HostAP Daemon:/var/empty:/sbin/nologin
 _dvmrpd:*:87:87::0:0:DVMRP Daemon:/var/empty:/sbin/nologin
 _ripd:*:88:88::0:0:RIP Daemon:/var/empty:/sbin/nologin
 _hoststated:*:89:89::0:0:host state Daemon:/var/empty:/sbin/nologin
-_anoncvs:*:254:254::0:0:anonymous CVS and RSYNC:/var/anoncvs/anoncvs:/var/anoncvs/anoncvssh
+_anoncvs:*:254:254::0:0:anonymous CVS and RSYNC:/var/anoncvs:/usr/libexec/anoncvssh
 _rsync:*:255:255::0:0:net/rsync unprivileged group:/var/empty:/sbin/nologin
 _dnscache:*:256:256::0:0:MirPorts -- net/djbdns cache:/nonexistent:/sbin/nologin
 _tinydns:*:257:257::0:0:MirPorts -- net/djbdns server:/nonexistent:/sbin/nologin

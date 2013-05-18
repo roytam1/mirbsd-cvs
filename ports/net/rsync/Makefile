@@ -1,4 +1,4 @@
-# $MirOS: ports/net/rsync/Makefile,v 1.16 2008/07/20 21:35:41 tg Exp $
+# $MirOS: ports/net/rsync/Makefile,v 1.17 2008/11/08 23:04:01 tg Exp $
 # $OpenBSD: Makefile,v 1.41 2004/05/11 13:39:17 naddy Exp $
 
 COMMENT=		mirroring/synchronisation over low bandwidth links
@@ -33,7 +33,6 @@ CONFIGURE_ARGS+=	--with-included-popt \
 			--with-rsyncd-conf=${SYSCONFDIR:Q}/rsyncd.conf
 
 .if ${FLAVOUR:L} == "static"
-# copy this to /var/anoncvs/anoncvs/bin/rsync, chmod 111
 CONFIGURE_ENV+=		ac_cv_header_iconv_h=no
 CONFIGURE_ARGS+=	--disable-debug \
 			--disable-iconv \

@@ -3445,12 +3445,11 @@
 ./var
 ./var/account
 ./var/anoncvs
-./var/anoncvs/anoncvs
-./var/anoncvs/anoncvs/bin
-./var/anoncvs/anoncvs/dev
-./var/anoncvs/anoncvs/etc
-./var/anoncvs/anoncvs/tmp
-./var/anoncvs/anoncvs/var
+./var/anoncvs/bin
+./var/anoncvs/dev
+./var/anoncvs/etc
+./var/anoncvs/tmp
+./var/anoncvs/var
 ./var/audit
 ./var/authpf
 ./var/backups
