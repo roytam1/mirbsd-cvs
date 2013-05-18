@@ -1,3 +1,4 @@
+RCSID: $MirOS: news $
 Title: Older news from the MirOS Project
 Date: 01.03.2006
 

@@ -1,3 +1,4 @@
+RCSID: $MirOS: wlog 9 $
 Date: 25.06.2006
 Author: tg@
 
