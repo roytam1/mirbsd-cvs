@@ -1,4 +1,4 @@
-/* $MirOS: ports/infrastructure/pkgtools/lib/cfgfile.c,v 1.1.2.7 2009/12/29 17:09:32 bsiegert Exp $ */
+/* $MirOS: ports/infrastructure/pkgtools/lib/cfgfile.c,v 1.1.2.8 2009/12/29 22:24:55 bsiegert Exp $ */
 
 /*-
  * Copyright (c) 2009
@@ -36,7 +36,7 @@
 #endif
 #define DEFAULT_CFGFILE SYSCONFDIR "/pkgtools/pkgtools.conf"
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/cfgfile.c,v 1.1.2.7 2009/12/29 17:09:32 bsiegert Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/cfgfile.c,v 1.1.2.8 2009/12/29 22:24:55 bsiegert Exp $");
 
 SLIST_HEAD(cfg_varlist, cfg_var);
 struct cfg_var {
@@ -169,12 +169,12 @@ cfg_read_config(const char *filename)
 		hashmark = (char *)memchr(line, '#', len);
 		if (hashmark) {
 			*hashmark = '\0';
-			len = strlen(line) + 1;
+			len = strlen(line);
 		}
-		if ((len > 1) && line[len - 1] == '\n')
+		if ((len > 0) && line[len - 1] == '\n')
 			line[--len] = '\0';
-		while ((len > 1) && isspace(line[len - 2]))
-			line[--len - 1] = '\0';
+		while ((len > 0) && isspace(line[len - 1]))
+			line[--len] = '\0';
 		while (isspace(*line)) {
 			line++; len--;
 		}
@@ -240,6 +240,10 @@ char
 		return NULL;
 	}
 	*rv = '\0';
+	
+	while (isspace(*string)) {
+		string++; len--;
+	}	
 
 	/* cp: position in string at which there is a '$'
 	 * len: remaining length of string
