@@ -10,6 +10,7 @@
 
 #include <sendmail.h>
 
+SM_RCSID("$MirOS$")
 SM_RCSID("@(#)$Sendmail: milter.c,v 8.269 2007/06/06 17:26:12 ca Exp $")
 
 #if MILTER
@@ -2428,7 +2429,8 @@ milter_negotiate(m, e, milters)
 
 	if (tTd(64, 5))
 		sm_dprintf("milter_negotiate(%s): send: version %lu, fflags 0x%lx, pflags 0x%lx\n",
-			m->mf_name, ntohl(fvers), ntohl(fflags), ntohl(pflags));
+			m->mf_name, (unsigned long)ntohl(fvers),
+			(unsigned long)ntohl(fflags), (unsigned long)ntohl(pflags));
 
 	response = milter_read(m, &rcmd, &rlen, m->mf_timeout[SMFTO_READ], e,
 				"negotiate");

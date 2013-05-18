@@ -14,6 +14,7 @@
 #include <sendmail.h>
 #include <sm/sem.h>
 
+SM_RCSID("$MirOS$")
 SM_RCSID("@(#)$Sendmail: queue.c,v 8.977 2008/02/15 23:19:58 ca Exp $")
 
 #include <dirent.h>
@@ -125,12 +126,17 @@ static SM_DEBUG_T DebugLeakQ = SM_DEBUG_INITIALIZER("leak_q",
 	"@(#)$Debug: leak_q - trace memory leaks during queue processing $");
 #endif /* SM_HEAP_CHECK */
 
+#if 0
 /*
 **  We use EmptyString instead of "" to avoid
 **  'zero-length format string' warnings from gcc
 */
 
 static const char EmptyString[] = "";
+#else
+/* that doesn’t work */
+#define EmptyString "%s", ""
+#endif
 
 static void	grow_wlist __P((int, int));
 static int	multiqueue_cache __P((char *, int, QUEUEGRP *, int, unsigned int *));

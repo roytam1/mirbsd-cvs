@@ -46,6 +46,7 @@
 # if NAMED_BIND
 #  include "sm_resolve.h"
 
+SM_RCSID("$MirOS$")
 SM_RCSID("$Sendmail: sm_resolve.c,v 8.36 2008/02/11 23:04:16 ca Exp $")
 
 static struct stot
@@ -231,7 +232,7 @@ parse_dns_reply(data, len)
 			if (LogLevel > 5)
 				sm_syslog(LOG_WARNING, NOQID,
 					  "ERROR: DNS RDLENGTH=%d > data len=%d",
-					  size, len - (p - data));
+					  size, (int)(len - (p - data)));
 			dns_free_data(r);
 			return NULL;
 		}

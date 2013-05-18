@@ -13,6 +13,7 @@
 
 #include <sendmail.h>
 
+SM_RCSID("$MirOS$")
 SM_RCSID("@(#)$Sendmail: envelope.c,v 8.305 2008/03/31 16:32:13 ca Exp $")
 
 /*
@@ -824,7 +825,7 @@ settime(e)
 	macdefine(&e->e_macro, A_TEMP, macid("{time}"), buf);
 	tm = gmtime(&now);
 	(void) sm_snprintf(buf, sizeof(buf), "%04d%02d%02d%02d%02d",
-			   tm->tm_year + 1900, tm->tm_mon + 1, tm->tm_mday,
+			   (int)(tm->tm_year + 1900), tm->tm_mon + 1, tm->tm_mday,
 			   tm->tm_hour, tm->tm_min);
 	macdefine(&e->e_macro, A_TEMP, 't', buf);
 	(void) sm_strlcpy(buf, ctime(&now), sizeof(buf));

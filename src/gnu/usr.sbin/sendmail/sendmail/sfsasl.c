@@ -9,6 +9,7 @@
  */
 
 #include <sm/gen.h>
+SM_RCSID("$MirOS$")
 SM_RCSID("@(#)$Sendmail: sfsasl.c,v 8.117 2008/01/31 18:48:29 ca Exp $")
 #include <stdlib.h>
 #include <sendmail.h>
@@ -799,7 +800,7 @@ tls_read(fp, buf, size)
 				  ssl_err);
 		else if (LogLevel > 7)
 			sm_syslog(LOG_WARNING, NOQID,
-				  "STARTTLS: read error=%s (%d), retry=%d, ssl_err=%d",
+				  "STARTTLS: read error=%s (%d), errno=%d, retry=%d, ssl_err=%d",
 				  err, r, errno, try, ssl_err);
 		errno = save_errno;
 	}

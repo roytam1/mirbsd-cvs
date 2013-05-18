@@ -14,7 +14,7 @@
 #include <sendmail.h>
 #include <sm/time.h>
 
-SM_RCSID("$MirOS$")
+SM_RCSID("$MirOS: src/gnu/usr.sbin/sendmail/sendmail/deliver.c,v 1.4 2008/05/07 13:15:25 tg Exp $")
 SM_RCSID("@(#)$Sendmail: deliver.c,v 8.1015 2007/10/17 21:35:30 ca Exp $")
 
 #if HASSETUSERCONTEXT
@@ -2928,8 +2928,8 @@ reconnect:	/* after switching to an encrypted connection */
 				e->e_status = "5.4.7";
 				usrerrenh(e->e_status,
 					  "554 Message can't be delivered in time; %ld < %ld",
-					  e->e_deliver_by - (curtime() - e->e_ctime),
-					  mci->mci_min_by);
+					  (long)(e->e_deliver_by - (curtime() - e->e_ctime)),
+					  (long)mci->mci_min_by);
 				rcode = EX_UNAVAILABLE;
 				goto give_up;
 			}
