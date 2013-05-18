@@ -41,7 +41,7 @@
  */
 
 static const char __rcsid[] =
-    "$MirOS: contrib/hosted/tg/code/xchat-randex/main.c,v 1.4 2009/06/06 13:43:04 tg Stab $";
+    "$MirOS: contrib/hosted/tg/code/xchat-randex/main.c,v 1.5 2009/08/02 14:35:00 tg Exp $";
 
 #include <sys/types.h>
 #if defined(HAVE_STDINT_H) && HAVE_STDINT_H
@@ -71,8 +71,7 @@ extern uint32_t arc4random_pushb(const void *, size_t);
 #define arc4random_pushk arc4random_pushb
 #define RELEASE_PAPI	"Win32"
 #else
-extern void arc4random_addrandom(u_char *, int);
-#define arc4random_pushk(b,n) arc4random_addrandom((u_char *)(b), (int)(n))
+#define arc4random_pushk(b,n) arc4random_addrandom((void *)(b), (int)(n))
 #define RELEASE_PAPI	"none"
 #endif
 #else
@@ -80,6 +79,7 @@ extern void arc4random_addrandom(u_char *, int);
 #endif
 
 static unsigned long adler32(unsigned long, const unsigned char *, unsigned);
+extern void arc4random_addrandom(unsigned char *, int);
 
 static xchat_plugin *ph;
 static char buf[128];
@@ -87,7 +87,7 @@ static char buf[128];
 /* The XChat Plugin API 2.0 is not const clean */
 static char randex_name[] = "randex";
 static char randex_desc[] = "MirOS RANDomness EXchange protocol support";
-static char randex_vers[] = "1.06";
+static char randex_vers[] = "1.07";
 static char null[] = "";
 
 int xchat_plugin_init(xchat_plugin *, char **, char **, char **, char *);
@@ -134,7 +134,7 @@ xchat_plugin_init(xchat_plugin *handle, char **name, char **desc,
 	    cmdfn_random, "Show a random number", NULL);
 
 	/* goes to the current tab */
-	xchat_printf(ph, "Constructed RANDEX plugin v%s\n", randex_vers);
+	xchat_printf(ph, "%sstructed RANDEX plugin v%s\n", "Con", randex_vers);
 	return (1);
 }
 
@@ -144,7 +144,7 @@ xchat_plugin_deinit(void)
 	arc4random_stir();
 
 	/* goes to the current tab */
-	xchat_print(ph, "Destructed RANDEX plugin\n");
+	xchat_printf(ph, "%sstructed RANDEX plugin v%s\n", "De", randex_vers);
 	return (1);
 }
 
@@ -198,7 +198,7 @@ hookfn_rawirc(char *word[], char *word_eol[], void *user_data)
 	i = adler32(adler32(1, (const void *)&v, sizeof(v)),
 	    (const void *)word_eol[1], strlen(word_eol[1]));
 	v = time(NULL) ^ (time_t)i;
-	arc4random_pushk(&v, sizeof(v));
+	arc4random_addrandom((void *)&v, sizeof(v));
 	return (XCHAT_EAT_NONE);
 }
 

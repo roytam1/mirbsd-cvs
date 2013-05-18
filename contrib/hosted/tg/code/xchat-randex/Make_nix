@@ -1,4 +1,4 @@
-# $MirOS: contrib/hosted/tg/code/xchat-randex/Make_nix,v 1.4 2009/06/06 12:34:28 tg Exp $
+# $MirOS: contrib/hosted/tg/code/xchat-randex/Make_nix,v 1.5 2009/06/06 13:12:56 tg Rel $
 
 # overwrite these as desired (e.g. ports)
 CC?=		gcc
@@ -8,7 +8,7 @@ CPPFLAGS?=
 CFLAGS?=	-Os -g
 LDFLAGS?=
 # overwrite these only when really needed
-EXTRA_CFLAGS?=	-fno-strict-aliasing -fwrapv
+EXTRA_CFLAGS?=	-fno-strict-aliasing -fwrapv -Wno-unused
 LDFLAGS_RELOC?=	-r
 EXTRA_LDFLAGS?=
 # overwritten in Make_xxx for machdep stuff
