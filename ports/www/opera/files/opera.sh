@@ -1,5 +1,12 @@
 #!@SHELL@
-# $MirOS: ports/www/opera/files/opera.sh,v 1.7 2006/06/25 06:26:52 tg Exp $
+# $MirOS: ports/www/opera/files/opera.sh,v 1.8 2006/12/20 21:39:32 tg Exp $
+
+if ! fgrep "Synchronous DNS Lookup=1" $HOME/.opera/opera6.ini \
+    >/dev/null 2>&1; then
+	echo 'Warning: read the install notice ("pkg_info -D opera")' >&2
+	echo '	 before using the Opera(C) web browser!' >&2
+	sleep 3
+fi
 
 export OPERA_SCRIPT_PATH=$(readlink -nf $0)
 export OPERA_BINARYDIR=@PREFIX@/libexec/ OPERA_DIR=@PREFIX@/share/opera
