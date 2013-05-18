@@ -1,4 +1,4 @@
-/* $MirOS: src/share/misc/licence.template,v 1.14 2006/08/09 19:35:23 tg Rel $ */
+/* $MirOS: contrib/code/mirmake/dist/contrib/mirmake.h,v 1.24 2006/08/26 22:46:43 tg Exp $ */
 
 /*-
  * Copyright (c) 2005, 2006
@@ -191,6 +191,8 @@
 #define uint64_t u_int64_t
 #elif defined(__GLIBC__)
 #include <stdint.h>
+#elif defined(__INTERIX)
+#define uint64_t u_int64_t
 #endif
 
 #ifdef _MIRMAKE_DEFNS
