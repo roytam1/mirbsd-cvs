@@ -1,4 +1,4 @@
-$MirOS: contrib/code/libhaible/OVERVIEW,v 1.24 2006/06/01 22:17:27 tg Exp $
+$MirOS: contrib/code/libhaible/OVERVIEW,v 1.25 2006/06/01 22:42:40 tg Exp $
 $function name		header		manpage		source location
 $ 
 $ Info: #=commented out C=libc H=libhaible G=GPL/libhaible
@@ -17,19 +17,19 @@ fwprintf		#wchar.h	-
 fwscanf			#wchar.h	-
 getwc			 wchar.h	C:getwc		stdio/getwc.c
 getwchar		 wchar.h	C:getwc		stdio/getwchar.c
-iswalnum	LGPL	 wctype.h	C:iswalnum	i18n/iswTYPE.c
-iswalpha	LGPL	 wctype.h	C:iswalnum	i18n/iswTYPE.c
-iswblank	LGPL	 wctype.h	C:iswalnum	i18n/iswTYPE.c
-iswcntrl	LGPL	 wctype.h	C:iswalnum	i18n/iswTYPE.c
-iswctype	LGPL	 wctype.h	C:iswctype	i18n/iswctype.c
-iswdigit	LGPL	 wctype.h	C:iswalnum	i18n/iswTYPE.c
-iswgraph	LGPL	 wctype.h	C:iswalnum	i18n/iswTYPE.c
-iswlower	LGPL	 wctype.h	C:iswalnum	i18n/iswTYPE.c
-iswprint	LGPL	 wctype.h	C:iswalnum	i18n/iswTYPE.c
-iswpunct	LGPL	 wctype.h	C:iswalnum	i18n/iswTYPE.c
-iswspace	LGPL	 wctype.h	C:iswalnum	i18n/iswTYPE.c
-iswupper	LGPL	 wctype.h	C:iswalnum	i18n/iswTYPE.c
-iswxdigit	LGPL	 wctype.h	C:iswalnum	i18n/iswTYPE.c
+iswalnum		 wctype.h	C:iswalnum	i18n/iswTYPE.c
+iswalpha		 wctype.h	C:iswalnum	i18n/iswTYPE.c
+iswblank		 wctype.h	C:iswalnum	i18n/iswTYPE.c
+iswcntrl		 wctype.h	C:iswalnum	i18n/iswTYPE.c
+iswctype		 wctype.h	C:iswctype	i18n/iswctype.c
+iswdigit		 wctype.h	C:iswalnum	i18n/iswTYPE.c
+iswgraph		 wctype.h	C:iswalnum	i18n/iswTYPE.c
+iswlower		 wctype.h	C:iswalnum	i18n/iswTYPE.c
+iswprint		 wctype.h	C:iswalnum	i18n/iswTYPE.c
+iswpunct		 wctype.h	C:iswalnum	i18n/iswTYPE.c
+iswspace		 wctype.h	C:iswalnum	i18n/iswTYPE.c
+iswupper		 wctype.h	C:iswalnum	i18n/iswTYPE.c
+iswxdigit		 wctype.h	C:iswalnum	i18n/iswTYPE.c
 localeconv		 locale.h	C:setlocale	i18n/langinfo.c
 mblen			 stdlib.h	C:mblen		i18n/mblen.c
 mbrlen			 wchar.h	C:mbrlen	i18n/mbrlen.c
@@ -44,9 +44,9 @@ putwchar		 wchar.h	C:putwc		stdio/putwchar.c
 setlocale		 locale.h	C:setlocale	i18n/charsets.c
 swprintf		#wchar.h	-
 swscanf			#wchar.h	-
-towctrans	LGPL	 wctype.h	H:towctrans	libhaible/towctrans.c
-towlower	LGPL	 wctype.h	C:towlower	libhaible/towlower.c
-towupper	LGPL	 wctype.h	C:towlower	libhaible/towupper.c
+towctrans		 wctype.h	C:towctrans	i18n/towctrans.c
+towlower		 wctype.h	C:towlower	i18n/towTYPE.c
+towupper		 wctype.h	C:towlower	i18n/towTYPE.c
 ungetwc			 wchar.h	C:ungetwc	stdio/ungetwc.c
 vfwprintf		#wchar.h	-
 vfwscanf		#wchar.h	-

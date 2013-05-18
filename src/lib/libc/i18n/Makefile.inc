@@ -1,4 +1,4 @@
-# $MirOS: src/lib/libc/i18n/Makefile.inc,v 1.15 2006/06/01 22:42:37 tg Exp $
+# $MirOS: src/lib/libc/i18n/Makefile.inc,v 1.16 2006/06/01 22:47:34 tg Exp $
 
 .PATH: ${LIBCSRCDIR}/i18n
 .PATH: ${LIBCSRCDIR}/locale
@@ -25,6 +25,7 @@ SRCS+=	mbsinit.c
 SRCS+=	mbsrtowcs.c
 SRCS+=	mbstowcs.c
 SRCS+=	mbtowc.c
+SRCS+=	towctrans.c
 SRCS+=	wcrtomb.c
 SRCS+=	wcsrtombs.c
 SRCS+=	wcstombs.c
@@ -34,8 +35,6 @@ SRCS+=	wctomb.c
 SRCS+=	wctrans.c
 SRCS+=	wctype.c
 SRCS+=	wcwidth.c
-
-SRCS+=	multibyte.c
 
 .for _i in alnum alpha blank cntrl digit graph lower print punct space upper \
     xdigit
@@ -83,6 +82,7 @@ MAN+=	mbstowcs.3
 MAN+=	mbtowc.3
 MAN+=	nl_langinfo.3
 MAN+=	setlocale.3
+MAN+=	towctrans.3
 MAN+=	towlower.3
 MAN+=	wcrtomb.3
 MAN+=	wcsrtombs.3
