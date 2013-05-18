@@ -86,7 +86,7 @@ oopen(const char *fname, int mode)
 			goto fnd;
 	errno = EMFILE;
 	return (-1);
-fnd:
+ fnd:
 	/*
 	 * Try to open the device.
 	 * Convert open mode (0,1,2) to F_READ, F_WRITE.
@@ -106,6 +106,13 @@ fnd:
 		return (fd);
 	}
 
+	/* allow f->f_ops to be set by devopen routine */
+	if (f->f_ops != NULL) {
+		error = f->f_ops->open(file, f);
+		if (error == 0)
+			return (fd);
+	}
+
 	/* pass file name to the different filesystem open routines */
 	for (i = 0; i < nfsys; i++) {
 		/* convert mode (0,1,2) to FREAD, FWRITE. */
@@ -121,7 +128,8 @@ fnd:
 		error = ENOENT;
 
 	f->f_dev->dv_close(f);
-err:
+ err:
+	f->f_ops = NULL;
 	f->f_flags = 0;
 	errno = error;
 	return (-1);
