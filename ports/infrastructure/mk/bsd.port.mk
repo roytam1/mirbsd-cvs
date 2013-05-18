@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.95 2006/01/13 03:49:25 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.96 2006/01/25 12:21:34 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -859,7 +859,6 @@ _BAD_LICENCING=		Yes
 DIST_SOURCEDIR?=	${PORTSDIR}/Extras/${DIST_NAME}
 .endif
 .if ${DIST_SOURCE:L} != "distfile"
-DISTFILES=
 NO_CHECKSUM=		defined
 NO_DISTFILES=		defined
 .endif
@@ -1622,6 +1621,10 @@ manpages-check: ${_FAKE_COOKIE}
 #
 # IMPORTANT: pre-fetch/do-fetch/post-fetch MUST be designed so that they
 # can be run several times in a row.
+
+.ifdef NO_DISTFILES
+DISTFILES=
+.endif
 
 fetch:
 .  ifndef NO_DISTFILES
