@@ -1,4 +1,4 @@
-# $MirOS: X11/depends/freetype2/Makefile,v 1.3 2006/06/29 20:57:31 tg Exp $
+# $MirOS: X11/depends/freetype2/Makefile,v 1.4 2006/07/02 23:47:36 tg Exp $
 
 .include "../Makefile.inc"
 .include <bsd.own.mk>
@@ -228,7 +228,7 @@ NOMAN=			Yes
   INCS+=		ttunpat.h
 
 beforeinstall:
-	@mkdir -p ${DESTDIR}${X11BASE}/lib/pkgconfig \
+	@mkdir -p ${DESTDIR}${X11BASE}/{bin,lib/pkgconfig} \
 	    ${DESTDIR}${X11BASE}/include/freetype2/freetype/config
 .for _i in ${INCS}
 	${INSTALL} ${INSTALL_COPY} -o ${BINOWN} -g ${BINGRP} -m ${NONBINMODE} \
