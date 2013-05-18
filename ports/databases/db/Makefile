@@ -1,4 +1,4 @@
-# $MirOS: ports/databases/db/Makefile,v 1.5 2005/07/25 20:31:58 bsiegert Exp $
+# $MirOS: ports/databases/db/Makefile,v 1.8 2006/04/21 15:00:45 bsiegert Exp $
 
 BROKEN=			ask tg@ to re-add SEPARATE_BUILD
 
@@ -49,6 +49,7 @@ CONFIGURE_ARGS+=	--includedir=$$\{prefix}/include/db4
 CONFIGURE_ARGS+=	${CONFIGURE_SHARED}
 
 MODGNU_CONFIG_GUESS_DIRS= ${WRKSRC}/dist
+WRKBUILD=		${WRKDIR}/build
 
 PSEUDO_FLAVORS=		no_tcl no_cxx
 FLAVOR?=

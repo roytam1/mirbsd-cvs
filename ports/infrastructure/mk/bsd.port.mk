@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.107 2006/03/23 21:36:22 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.108 2006/03/27 20:59:32 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -964,6 +964,8 @@ ERRORS+=		"Makefile variable CATEGORIES is mandatory."
 CONFIGURE_SCRIPT?=	configure
 .if ${CONFIGURE_SCRIPT:M/*}
 _CONFIGURE_SCRIPT=	${CONFIGURE_SCRIPT}
+.elif exists(${WRKSRC}/${CONFIGURE_SCRIPT})
+_CONFIGURE_SCRIPT=	${WRKSRC}/${CONFIGURE_SCRIPT}
 .else
 _CONFIGURE_SCRIPT=	./${CONFIGURE_SCRIPT}
 .endif
