@@ -1,3 +1,0 @@
-@comment $MirOS$
-@comment $OpenBSD: PFRAG.shared,v 1.1.1.1 2003/10/27 03:07:33 jolan Exp $
-@lib lib/libSDL_sound.so.1.0

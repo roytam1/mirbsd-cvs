@@ -1,6 +1,0 @@
-@comment $MirOS$
-@comment $OpenBSD: PFRAG.shared,v 1.2 2002/09/08 11:55:35 avsm Exp $
-@lib lib/libwmf-0.2.so.6.0
-@lib lib/libwmf.so.6.0
-@lib lib/libwmflite-0.2.so.6.0
-@lib lib/libwmflite.so.6.0

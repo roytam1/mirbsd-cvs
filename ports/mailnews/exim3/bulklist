@@ -1,9 +1,0 @@
-
-ldap
-ldap mysql no_x11 postgresql
-ldap no_x11
-mysql
-mysql no_x11
-no_x11
-no_x11 postgresql
-postgresql

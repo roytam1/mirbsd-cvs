@@ -1,6 +1,0 @@
-@comment $MirOS: ports/emulators/linux-common/pkg/PLIST,v 1.1 2006/02/01 20:38:45 tg Exp $
-@comment upgrade-no-scripts
-emul/linux/linuxctl
-emul/linux/mtab.empty
-@dirrm emul/linux
-@dirrm emul
