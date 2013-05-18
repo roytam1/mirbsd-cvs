@@ -1,4 +1,4 @@
-XCOMM platform:	$MirOS: X11/xc/config/cf/MirBSD.cf,v 1.25 2008/06/14 13:39:01 tg Exp $
+XCOMM platform:	$MirOS: X11/xc/config/cf/MirBSD.cf,v 1.26 2008/11/18 20:41:09 tg Exp $
 XCOMM platform:	$OpenBSD: OpenBSD.cf,v 1.140 2004/10/10 14:47:28 matthieu Exp $
 XCOMM platform:	$XFree86: xc/config/cf/OpenBSD.cf,v 3.79 2003/01/12 17:03:23 herrb Exp $
 
@@ -14,13 +14,17 @@ XCOMM platform:	$XFree86: xc/config/cf/OpenBSD.cf,v 3.79 2003/01/12 17:03:23 her
 
 #define	XFree86CustomVersion	"for MirOS BSD"
 #undef	MirBSDArchitecture
+#undef	CppArchitecture
+#undef	CppELF
 
 #ifdef	i386Architecture
 #define	MirBSDArchitecture	i386
+#define	CppArchitecture		-D__i386__ -D__i386 -Di386
 #endif
 
 #ifdef	SparcArchitecture
 #define	MirBSDArchitecture	sparc
+#define	CppArchitecture		-D__sparc__ -D__sparc -Dsparc
 #endif
 
 #ifndef	MirBSDArchitecture
@@ -29,6 +33,12 @@ XCOMM platform:	$XFree86: xc/config/cf/OpenBSD.cf,v 3.79 2003/01/12 17:03:23 her
 
 #ifndef	UseElfFormat
 #  define UseElfFormat		YES
+#endif
+
+#if UseElfFormat
+#define	CppELF			-D__ELF__
+#else
+#define	CppELF			/**/
 #endif
 
 #ifndef	OSBinaryType
@@ -157,8 +167,10 @@ XCOMM operating system:  OSName (OSMajorVersion./**/OSMinorVersion./**/OSTeenyVe
 
 #if OSMajorVersion > 10 || (OSMajorVersion == 10 && OSTeenyVersion >= 164)
 #define	CppCmd			/usr/libexec/cpp
-#define	StandardCppDefines	StandardCppOptions StandardDefines -D__MirBSD__ -D__OpenBSD__ -D__unix__ $(CPPFLAGS)
+#define	RawCppCmd		/usr/libexec/cpp
+#define	StandardCppDefines	StandardCppOptions StandardDefines -D__STDC_HOSTED__ -D__MirBSD__ -D__OpenBSD__ -D__unix__ -D__STDC_ISO_10646__=200009L $(CPPFLAGS) -D__WCHAR_MAX__=65535U '-D__WCHAR_TYPE__=short unsigned int' '-D__WINT_TYPE__=unsigned int' CppArchitecture CppELF
 #define	GnuCpp			NO
+#define	CPPAsmOptions		/**/
 #else
 #ifndef	CppCmd
 #define	CppCmd			/usr/bin/cpp
