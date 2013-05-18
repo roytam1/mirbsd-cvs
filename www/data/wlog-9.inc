@@ -1680,4 +1680,10 @@ Author: tg@
  he doesn’t use that nick any longer. I guess you call it “Richtigstellung”
  in German press law.)</p>
 <p>Benny is constantly annoying me too… I’d better go and eat something.</p>
+<p>… the grill is dimensioned much too low and it’s hard to get the grilled
+ sausages. Luckily, users contributed some Altbier, and other visitors went
+ to the barbecue queue for me. Thanks!</p>
+<p>Something seems to be wrong with manpages on the sparc. Maybe that could
+ be fixed during the next build. No idea. I guess it could be a caste-align
+ issue. I do not even want to fix the bootloder, the code is so ugly.</p>
 ----
