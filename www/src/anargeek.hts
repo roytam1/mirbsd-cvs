@@ -1,10 +1,10 @@
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
 
-mws_setname anargeek "The Anargeek Manifesto"
+mws_setname hosted/anargeek "The Anargeek Manifesto"
 mws_setheadline Anargeek
 mws_setheadsize 42
-mws_putheader '$MirOS: www/src/anargeek.hts,v 1.6 2009/06/21 11:22:48 tg Exp $'
+mws_putheader '$MirOS: www/src/anargeek.hts,v 1.7 2009/06/21 11:35:08 tg Exp $'
 mws_content <<'EOF'
 <p>Go <a href="#manifest">directly to the manifesto</a>, leave to the <a
  href="http://anargeek.net/">Anargeek website</a>, or read the <a
