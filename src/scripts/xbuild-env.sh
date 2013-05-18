@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/scripts/xbuild-env.sh,v 1.10 2006/03/01 14:04:32 tg Exp $
+# $MirOS: src/scripts/xbuild-env.sh,v 1.11 2006/03/01 14:06:54 tg Exp $
 #-
 # Copyright (c) 2004, 2005, 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -123,7 +123,7 @@ cat >$CROSSDIR/T_BASEENV <<-EOF
 	MACHINE_ARCH='$MARCH'
 	MKSH='$MKSH'
 	TARGET='$TARGET'
-	export BINOWN BINGRP MKSH
+	export BINOWN BINGRP MKSH SUDO=''
 EOF
 
 cat >$CROSSDIR/T_ENV <<-EOF
