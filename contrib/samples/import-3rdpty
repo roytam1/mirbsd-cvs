@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: contrib/samples/import-3rdpty,v 1.15 2007/02/05 16:42:29 tg Exp $
+# $MirOS: contrib/samples/import-3rdpty,v 1.16 2007/02/06 20:10:07 tg Exp $
 #-
 # Copyright (c) 2004, 2005, 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -24,7 +24,7 @@
 # other issues arising in any way out of its use, even if advised of
 # the possibility of such damage or existence of a defect.
 
-print -ru2 -- '========= $MirOS: contrib/samples/import-3rdpty,v 1.15 2007/02/05 16:42:29 tg Exp $ ========='
+print -ru2 -- '========= $MirOS: contrib/samples/import-3rdpty,v 1.16 2007/02/06 20:10:07 tg Exp $ ========='
 
 ignlist=0
 force=0
@@ -928,6 +928,7 @@ openbsd)
 		sys/dev/dec \
 		sys/dev/eisa \
 		sys/dev/hil \
+		sys/dev/rasops/Makefile \
 		sys/dev/tc \
 		sys/gnu \
 		sys/kern/kern_xxx.c \
