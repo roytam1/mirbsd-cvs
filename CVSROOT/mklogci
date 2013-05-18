@@ -1,5 +1,5 @@
 #!/usr/bin/env mksh
-# $MirOS: CVSROOT/mklogci,v 1.39 2008/07/04 19:54:08 tg Exp $
+# $MirOS: CVSROOT/mklogci,v 1.40 2008/08/04 10:15:11 tg Exp $
 #-
 # Copyright (c) 2005, 2006, 2007
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -43,7 +43,7 @@ function die {
 }
 
 function makeheader {
-	(( cidline )) && cat >$T <<-EOF
+	(( cidline )) && cat <<-EOF
 		Commit ID:	$id
 	EOF
 	cat <<-EOF
