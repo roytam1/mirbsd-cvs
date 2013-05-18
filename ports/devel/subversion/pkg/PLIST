@@ -1,4 +1,4 @@
-@comment $MirOS: ports/devel/subversion/pkg/PLIST,v 1.5 2006/06/04 19:49:14 tg Exp $
+@comment $MirOS: ports/devel/subversion/pkg/PLIST,v 1.6 2006/10/07 21:27:47 bsiegert Exp $
 %%bsddb%%
 bin/svn
 bin/svn_load_dirs
@@ -67,4 +67,8 @@ man/man1/svnsync.1
 man/man1/svnversion.1
 man/man5/svnserve.conf.5
 man/man8/svnserve.8
+share/doc/subversion/fsfs
+share/doc/subversion/ssh-tricks
+share/doc/subversion/svnsync.txt
+@dirrm share/doc/subversion
 @dirrm include/subversion-1

@@ -1,8 +1,8 @@
-# $MirOS: ports/devel/subversion/Makefile,v 1.9 2006/10/07 21:27:45 bsiegert Exp $
+# $MirOS: ports/devel/subversion/Makefile,v 1.10 2006/10/11 15:30:10 bsiegert Exp $
 
 COMMENT=		Subversion revision control system
-VERSION=		1.4.0
-DASH_VER=		-1
+VERSION=		1.4.2
+DASH_VER=		-0
 DISTNAME=		subversion-${VERSION}
 PKGNAME=		subversion-${VERSION}${DASH_VER}
 CATEGORIES=		devel net
@@ -46,7 +46,7 @@ CONFIGURE_ARGS+=	--with-neon=${LOCALBASE}
 CONFIGURE_ARGS+=	--disable-nls
 CONFIGURE_ARGS+=	${CONFIGURE_SHARED}
 
-#MAKE_ENV+=		LD_LIBRARY_PATH=${WRKINST}${LOCALBASE}/lib
+DOCFILES=		svnsync.txt fsfs ssh-tricks
 
 # Workaround for autotools madness
 post-patch:
@@ -59,5 +59,9 @@ post-install:
 	${INSTALL_SCRIPT} ${WRKSRC}/contrib/client-side/svn_load_dirs.pl ${PREFIX}/bin/svn_load_dirs
 	${INSTALL_SCRIPT} ${FILESDIR}/svnup-cvs ${PREFIX}/bin
 	${INSTALL_MAN} ${WRKSRC}/contrib/client-side/svnup-cvs.cat1 ${PREFIX}/man/cat1/svnup-cvs.0
+	${INSTALL_DATA_DIR} ${PREFIX}/share/doc/subversion
+.for i in ${DOCFILES}
+	${INSTALL_DATA} ${WRKSRC}/notes/${i} ${PREFIX}/share/doc/subversion
+.endfor
 
 .include <bsd.port.mk>
