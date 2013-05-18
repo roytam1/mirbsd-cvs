@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/stand/boot/boot.c,v 1.15 2008/12/31 16:38:34 tg Exp $	*/
+/**	$MirOS: src/sys/stand/boot/boot.c,v 1.16 2009/01/11 13:09:20 tg Exp $	*/
 /*	$OpenBSD: boot.c,v 1.36 2007/06/26 10:34:41 tom Exp $	*/
 
 /*
@@ -56,7 +56,6 @@ char prog_ident[40];
 char *progname = "BOOT";
 
 extern	const char version[];
-struct cmd_state cmd;
 int bootprompt = 1;
 uint32_t hook_value = 0;
 

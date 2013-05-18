@@ -85,12 +85,17 @@
 #include "inflate.h"
 #include "inffast.h"
 
-zRCSID("$MirOS: src/kern/z/inflate.c,v 1.3 2008/08/01 14:59:58 tg Exp $")
+zRCSID("$MirOS: src/kern/z/inflate.c,v 1.4 2008/08/01 15:43:04 tg Exp $")
 
 #ifdef MAKEFIXED
 #  ifndef BUILDFIXED
 #    define BUILDFIXED
 #  endif
+#endif
+
+#ifdef SA_FIXED_TABLE
+#define fixed sa_fixed_table
+extern code fixed[544];
 #endif
 
 ZCONST char zERRMSG[] = "error";
@@ -212,7 +217,9 @@ struct inflate_state FAR *state;
 #ifdef BUILDFIXED
     static int virgin = 1;
     static code *lenfix, *distfix;
+#ifndef SA_FIXED_TABLE
     static code fixed[544];
+#endif
 
     /* build fixed huffman tables if first call (may not be thread safe) */
     if (virgin) {

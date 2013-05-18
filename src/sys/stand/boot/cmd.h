@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/stand/boot/cmd.h,v 1.6 2009/01/10 14:21:11 tg Exp $ */
+/**	$MirOS: src/sys/stand/boot/cmd.h,v 1.7 2009/01/10 14:30:45 tg Exp $ */
 /*	$OpenBSD: cmd.h,v 1.16 2007/06/13 02:17:32 drahn Exp $	*/
 
 /*
@@ -42,6 +42,7 @@ struct cmd_table {
 	int (*cmd_exec)(void);
 };
 
+/* WARNING: defined in srt0.S – fix it if changing! */
 struct cmd_state {
 	char bootdev[BOOTDEVLEN]; /* device */
 	char image[MAXPATHLEN - 16]; /* image */

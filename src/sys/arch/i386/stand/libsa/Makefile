@@ -1,4 +1,4 @@
-# $MirOS: src/sys/arch/i386/stand/libsa/Makefile,v 1.26 2009/01/12 17:04:03 tg Exp $
+# $MirOS: src/sys/arch/i386/stand/libsa/Makefile,v 1.27 2009/01/12 17:28:46 tg Exp $
 # $OpenBSD: Makefile,v 1.47 2007/05/30 01:25:43 tom Exp $
 
 .include "${.CURDIR}/../Makefile.inc"
@@ -23,7 +23,8 @@ SMALL=		#defined
 
 # Build a small zlib
 CPPFLAGS+=	-DSLOW -DSMALL -DNOBYFOUR -DNO_GZIP
-CPPFLAGS+=	-DDYNAMIC_CRC_TABLE -DBUILDFIXED -DSA_CRC_TABLE
+CPPFLAGS+=	-DDYNAMIC_CRC_TABLE -DBUILDFIXED
+CPPFLAGS+=	-DSA_CRC_TABLE -DSA_FIXED_TABLE
 SRCS+=		crc32.c inffast.c inflate.c inftrees.c
 
 CPPFLAGS+=	-DZCONST=const

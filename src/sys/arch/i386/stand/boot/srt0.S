@@ -1,4 +1,4 @@
-/* $MirOS: src/sys/arch/i386/stand/boot/srt0.S,v 1.62 2009/01/11 23:16:19 tg Exp $ */
+/* $MirOS: src/sys/arch/i386/stand/boot/srt0.S,v 1.63 2009/01/12 17:04:03 tg Exp $ */
 
 /*-
  * Copyright (c) 2003, 2004, 2005, 2006, 2007, 2008, 2009
@@ -390,6 +390,15 @@ Lmb2rm:	mov	edi,offset Ldrvi
 	.globl	pxe_command_buf
 	.size	pxe_command_buf, 256
 
-	biosdev_lba_buf = pxe_command_buf + 256
+	sa_fixed_table = pxe_command_buf + 256
+	.globl	sa_fixed_table
+	.size	sa_fixed_table, 2176
+
+	biosdev_lba_buf = sa_fixed_table + 2176
 	.globl	biosdev_lba_buf
 	.size	biosdev_lba_buf, 16
+
+	/* last; size unknown (<0x1000) */
+	cmd = biosdev_lba_buf + 16
+	.globl	cmd
+	.size	cmd, 0x0900	/* approx. 0x8C8 */
