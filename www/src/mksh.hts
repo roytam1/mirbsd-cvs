@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.352 2010/08/06 14:02:47 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.353 2010/08/15 00:54:34 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -895,7 +895,9 @@ exec /usr/bin/ld "${args[@]}"</pre>
  package</a>. This will provide their users with a modern, fast, secure,
  featureful shell and enhance the experience.</li>
 <li><a href="http://beastiebox.sourceforge.net/">Beastiebox</a> also comes
- with mksh as an option. It’s NetBSD® based, mostly.</li>
+ with mksh as <a
+ href="http://beastiebox.cvs.sourceforge.net/viewvc/beastiebox/beastiebox/beastiebin/mksh/">an
+ option</a>. It’s NetBSD® based, mostly.</li>
 <li class="cr"><img class="fr" width="85" height="92" alt="[MirPorts quilt]"
  src="@@RELPATH@@pics/quilt.png" />The MirPorts Framework brings mksh to
  OpenBSD, Mac OSX and Interix as well as older MirOS BSD versions, which
