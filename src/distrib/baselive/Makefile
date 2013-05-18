@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/baselive/Makefile,v 1.53 2009/06/29 16:46:36 tg Exp $
+# $MirOS: src/distrib/baselive/Makefile,v 1.54 2009/06/29 17:08:28 tg Exp $
 
 .include <bsd.own.mk>
 
@@ -228,9 +228,9 @@ cdrom-prepare: bsd.gz
 .endif
 .ifdef DO_LIVEBOOT
 	cd ${.CURDIR}/../../sys/arch/i386/stand/liveboot; \
-	    ${MAKE} ${LIVEBOOT_FLAGS} depend && \
-	    ${MAKE} ${LIVEBOOT_FLAGS} clean && \
-	    exec ${MAKE} ${LIVEBOOT_FLAGS}
+	    ${MAKE} ${LIVEBOOT_ARGS} cleandir && \
+	    ${MAKE} ${LIVEBOOT_ARGS} depend && \
+	    exec ${MAKE} ${LIVEBOOT_ARGS}
 .endif
 	cd ${WRKDIR}; \
 	    ${SUDO} cp ${BOOT} b_i386.ldr; \
