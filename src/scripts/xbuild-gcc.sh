@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/scripts/xbuild-gcc.sh,v 1.16 2006/10/15 00:16:49 tg Exp $
+# $MirOS: src/scripts/xbuild-gcc.sh,v 1.17 2007/06/10 11:05:11 tg Exp $
 #-
 # Copyright (c) 2004, 2006, 2007
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -77,7 +77,9 @@ set -x
     MACHINE=$MACHINE \
     MACHINE_ARCH=$MARCH \
     MAKEOBJDIR=obj.$MACHINE \
-    make obj )
+    make \
+	NO_ADA=$no_Ada \
+	obj )
 
 set -e
 ( cd $BSDSRCDIR/gcc; \
