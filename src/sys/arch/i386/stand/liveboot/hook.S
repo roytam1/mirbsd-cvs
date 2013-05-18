@@ -1,4 +1,4 @@
-/* $MirOS: src/sys/arch/i386/stand/liveboot/hook.S,v 1.6 2006/04/10 21:05:20 tg Exp $ */
+/* $MirOS: src/sys/arch/i386/stand/liveboot/hook.S,v 1.7 2006/04/10 23:35:07 tg Exp $ */
 
 /*-
  * Copyright (c) 2006
@@ -41,7 +41,7 @@ lbl_menu0:
 	.asciz	"Continue to normal /boot\n"
 lbl_menu1:
 	.asciz	"Boot into the Live-CD\n"
-lbl_menu1:
+lbl_menu2:
 	.asciz	"Boot the Live-CD dd(1)d onto hard disc\n"
 lbl_menu3:
 	.asciz	"Boot the MirOS installer\n"
@@ -270,7 +270,10 @@ outchc:
 	mov	es,bx
 	mov	di,dx
 	stosw
-	mov	bh,0xb0
+	cmp	ah,9
+	jne	outct1
+	mov	ah,7	/* tweak black/white */
+outct1:	mov	bh,0xb0
 	mov	es,bx
 	mov	di,dx
 	stosw
