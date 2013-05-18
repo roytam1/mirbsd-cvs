@@ -1,4 +1,4 @@
-# $MirOS: src/Makefile,v 1.121 2008/03/27 19:05:10 tg Exp $
+# $MirOS: src/Makefile,v 1.122 2008/04/02 00:17:27 tg Exp $
 # $OpenBSD: Makefile,v 1.103 2004/05/03 15:18:18 drahn Exp $
 
 .if defined(MAKECONF) && exists(${MAKECONF})
@@ -460,6 +460,7 @@ _do-dist:
 		echo CKSUM; \
 		echo CKSUM.gz; \
 		echo index.txt; \
+		echo fixes${OSrev}.ngz; \
 		echo site${OSrev}.ngz; \
 	    ) | ${SUDO} sort -uo index.txt; \
 	    sort -k3 |& exec 3>&p; exec 4<&p; \
