@@ -1,4 +1,4 @@
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.100 2008/03/28 22:03:16 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.101 2008/04/02 23:03:48 tg Exp $'
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -330,6 +330,8 @@ mws_content <<'EOF'
 <p>Support for TenDRA appeared in mksh R31 and appears to be solid; mksh
  uses the ‘system’ profile for compiling by default. Users who wish to
  build mksh with a different profile are welcome to help to port it.</p>
+<p>See <a href="#oe_bsu">ULTRIX</a> for an example of getting a ‘POSIX’
+ profile to work.</p>
 
 <h5 id="oe_muc">Compiler: DEC ucode (MIPS CC)</h5>
 <p>Since mksh R33c, ucode on Ultrix is fully supported. OSF/1 2.0’s
@@ -445,10 +447,12 @@ mws_content <<'EOF'
  GNU/Linux distribution with a different GUI. This may change though.</p>
 
 <h5 id="oe_bsu">OS: ULTRIX</h5>
-<p>Even on ULTRIX 4.5, mksh R33c works fine. You however must pass the
- <tt>-YPOSIX</tt> option to the ucode compiler, as <tt>-YSYSTEM_FIVE</tt>
- does not even compile, and the default <tt>-YBSD</tt> produces a broken
- executable (spins instead of starting up).</p>
+<p>Even on ULTRIX 4.5, mksh R33c works fine.</p>
+<p>You however must pass the <tt>-YPOSIX</tt> option to the ucode compiler,
+ as the default <tt>-YBSD</tt> profile produces a broken executable (spins
+ instead of starting up), and the <tt>-YSYSTEM_FIVE</tt> profile does not
+ even compile. See <a href="#oe_t15">TenDRA</a> for another OE which has
+ issues with different OE profiles.</p>
 
 <h5 id="oe_uwin">OS: UWIN-NT</h5>
 <p>Compilation of mksh R30 on UWIN works with several compilers (bcc, dmc,
