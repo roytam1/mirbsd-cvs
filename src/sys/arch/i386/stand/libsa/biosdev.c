@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/stand/libsa/biosdev.c,v 1.28 2009/01/11 00:32:40 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/stand/libsa/biosdev.c,v 1.29 2009/01/11 01:46:20 tg Exp $ */
 /*	$OpenBSD: biosdev.c,v 1.74 2008/06/25 15:32:18 reyk Exp $	*/
 
 /*
@@ -476,10 +476,10 @@ int
 biosopen(struct open_file *f, ...)
 {
 	va_list ap;
-	register char	*cp, **file;
+	register char *cp, **file;
 	dev_t unit, part;
 	struct diskinfo *dip;
-	int biosdev;
+	int i;
 
 	va_start(ap, f);
 	cp = *(file = va_arg(ap, char **));
@@ -513,8 +513,6 @@ biosopen(struct open_file *f, ...)
 	part = cp[-1] - 'a';
 	++cp;
 
-	biosdev = dip->bios_info.bios_number;
-
 	bootdev_dip = dip;
 
 	/* Fix up bootdev */
@@ -540,8 +538,8 @@ biosopen(struct open_file *f, ...)
 #endif
 
 	/* Try for disklabel again (might be removable media) */
-	if ((biosdev = disk_trylabel(dip)))
-		return (biosdev);
+	if ((i = disk_trylabel(dip)))
+		return (i);
 
 	f->f_devdata = dip;
 
