@@ -1,4 +1,4 @@
-mws_putheader '$MirOS: www/src/ann-10.hts,v 1.2 2008/03/15 23:34:36 tg Exp $'
+mws_putheader '$MirOS: www/src/ann-10.hts,v 1.3 2008/03/16 18:16:07 bsiegert Exp $'
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -46,7 +46,7 @@ mws_content <<'EOF'
  moment. After logging in, either use screen(1) from MirPorts or issue
  the command:</p>
 
-<p><pre>script -lns</pre></p>
+<pre>script -lns</pre>
 
 <p><b>mksh.</b>&nbsp; The MirOS Korn Shell, mksh, is now at release R33.
  It is a great interactive shell but lends itself equally well for
