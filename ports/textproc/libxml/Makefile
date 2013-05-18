@@ -1,10 +1,11 @@
-# $MirOS: ports/textproc/libxml/Makefile,v 1.11 2007/01/25 21:54:43 bsiegert Exp $
+# $MirOS: ports/textproc/libxml/Makefile,v 1.12 2007/02/22 22:57:58 tg Exp $
 # $OpenBSD: Makefile,v 1.76 2004/04/21 04:42:26 robert Exp $
 
 COMMENT=		XML parsing library
 VERSION=		2.6.27
+DASH_VER=		1
 DISTNAME=		libxml2-${VERSION}
-PKGNAME=		libxml-${VERSION}-0
+PKGNAME=		libxml-${VERSION}-1
 CATEGORIES=		textproc
 MASTER_SITES=		ftp://xmlsoft.org/libxml2/ \
 			${HOMEPAGE}sources/ \
@@ -17,6 +18,9 @@ PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
+FLAVORS=		python
+FLAVOR?=
+
 MODULES=		converters/libiconv
 MODULES+=		devel/pkgconfig
 
@@ -28,11 +32,17 @@ CONFIGURE_ARGS+=	--with-html-dir="${PREFIX}/share/doc"
 CONFIGURE_ARGS+=	--with-html-subdir="libxml2/html"
 CONFIGURE_ARGS+=	--with-iconv="${ICONV_PREFIX}"
 CONFIGURE_ARGS+=	--with-zlib
-CONFIGURE_ARGS+=	--without-python
 CONFIGURE_ARGS+=	--without-readline
 CONFIGURE_ARGS+=	--without-threads
 
 CPPFLAGS+=		-DMIRPORTS_LOCALBASE=\"${LOCALBASE:Q}\"
+
+.if ${FLAVOR:L:Mpython}
+CONFIGURE_ARGS+=	--with-python
+B_R_DEPENDS+=		::lang/python/2.3,no_cxx
+.else
+CONFIGURE_ARGS+=	--without-python
+.endif
 
 post-install:
 	${INSTALL_DATA_DIR} ${PREFIX}/share/examples
