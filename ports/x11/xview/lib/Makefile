@@ -12,6 +12,7 @@ post-patch:
 	ln -s ${WRKDIR}/x11/xview/config/${DISTNAME} ${WRKDIST}
 
 CONFIGURE_STYLE=imake
+USE_X11=	Yes
 MAKE_ENV=	IMAKEINCLUDE=-I${LOCALBASE}/lib/X11/config
 
 NO_REGRESS=	Yes
