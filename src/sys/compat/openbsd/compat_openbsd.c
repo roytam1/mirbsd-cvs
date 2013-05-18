@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/compat/openbsd/compat_openbsd.c,v 1.1.7.1 2005/03/06 16:33:43 tg Exp $ */
+/**	$MirOS: src/sys/compat/openbsd/compat_openbsd.c,v 1.2 2006/06/12 20:35:54 tg Exp $ */
 /* 	$OpenBSD: compat_aout.c,v 1.1 2003/06/24 22:45:33 espie Exp $ */
 
 /*
@@ -48,12 +48,6 @@ extern struct sysent openbsd_sysent[];
 extern char *openbsd_syscallnames[];
 #endif
 
-#ifdef __sparc__
-#define DEFAULT_EMULFLAGS	EMUL_ENABLED
-#else
-#define DEFAULT_EMULFLAGS	0
-#endif
-
 struct emul emul_openbsd_aout = {
 	"openbsd",
 	NULL,
@@ -72,7 +66,6 @@ struct emul emul_openbsd_aout = {
 	NULL,
 	sigcode,
 	esigcode,
-	DEFAULT_EMULFLAGS
 };
 
 struct emul emul_openbsd = {
@@ -93,7 +86,6 @@ struct emul emul_openbsd = {
 	exec_elf32_fixup,
 	sigcode,
 	esigcode,
-	DEFAULT_EMULFLAGS
 };
 
 const char openbsd_emul_path[] = "/emul/openbsd";

@@ -1,4 +1,4 @@
-# $MirOS: src/sys/arch/sparc/conf/GENERIC,v 1.5 2006/06/16 15:50:01 tg Exp $
+# $MirOS: src/sys/arch/sparc/conf/GENERIC,v 1.6 2006/06/16 16:06:33 tg Exp $
 # $MirBSD: GENERIC,v 1.2.2.5 2003/11/19 16:39:58 tg Exp $
 # $OpenBSD: GENERIC,v 1.75 2004/03/09 15:24:27 miod Exp $
 # $NetBSD: GENERIC,v 1.48 1997/08/23 19:19:01 mjacob Exp $
@@ -16,16 +16,16 @@ machine		sparc
 
 #option		INSECURE		# securelevel -1; default to secure
 
-#option		DDB			# in-kernel debugger
+option		DDB			# in-kernel debugger
 #option		DDB_SAFE_CONSOLE	# allow break into ddb during boot
-#option		INCLUDE_CONFIG_FILE	# store this file in the kernel
+option		INCLUDE_CONFIG_FILE	# store this file in the kernel
 #makeoptions	DEBUG="-g"		# compile full symbol table
 option		DIAGNOSTIC		# internal consistency checks
 option		KTRACE			# system call tracing, a la ktrace(1)
 option		ACCOUNTING		# acct(2) process accounting
 option		KMEMSTATS		# collect malloc(9) statistics
 option		PTRACE			# ptrace(2) system call
-#option		SCSIDEBUG		# extra debugging information
+option		SCSIDEBUG		# extra debugging information
 #option		SCSITERSE		# be terse with SCSI diagnostic stuff
 #option		APM_NOPRINT		# don't print APM messages
 #makeoptions	CSYS="-Os"		# build extra small kernel
@@ -33,8 +33,8 @@ option		PTRACE			# ptrace(2) system call
 #option		NO_PROPOLICE		# remove stack protector
 
 option		BOOT_CONFIG		# add support for boot -c
-#option		TIMEZONE=0		# time zone to adjust RTC time by
-#option		DST=0			# daylight saving time used by RTC
+option		TIMEZONE=0		# time zone to adjust RTC time by
+option		DST=0			# daylight saving time used by RTC
 #option		MINIROOTSIZE=3840	# size of ramdisk array
 #option		RAMDISK_HOOKS		# allow using initrd
 
@@ -47,11 +47,11 @@ option		SYSVSEM			# System V-like semaphores
 option		SYSVSHM			# System V-like memory sharing
 
 #option		COMPAT_OSSAUDIO		# source compatibility with OSS/Lite
-#option		COMPAT_OPENBSD		# binary compatibility with OpenBSD
+option		COMPAT_OPENBSD		# binary compatibility with OpenBSD
 
 option		FFS			# UFS
 option		FFS_SOFTUPDATES		# Soft updates
-#option		UFS_DIRHASH		# speed up large directories
+option		UFS_DIRHASH		# speed up large directories
 option		QUOTA			# UFS quotas
 option		EXT2FS			# Second Extended Filesystem
 #option		EXT2FS_SYSTEM_FLAGS	# immutable is schg, not uchg
@@ -61,7 +61,7 @@ option		MFS			# memory file system
 option		TCP_SACK		# Selective Acknowledgements for TCP
 option		TCP_ECN			# Explicit Congestion Notification for TCP
 option		TCP_FACK		# Forward Acknowledgements for TCP
-#option		TCP_SIGNATURE		# TCP MD5 Signatures
+option		TCP_SIGNATURE		# TCP MD5 Signatures
 
 option		NFSCLIENT		# Nightmare File System client
 option		NFSSERVER		# Nightmare File System server
@@ -75,45 +75,45 @@ option		PORTAL			# dynamically created filesystem objects
 option		PROCFS			# /proc
 
 option		INET			# IP + ICMP + TCP + UDP
-#option		ALTQ			# ALTQ base
-#option		INET6			# IPv6 (needs INET)
-#option		IPSEC			# IPsec
-#option		KEY			# PF_KEY (implied by IPSEC)
-#option		IPX			# IPX+SPX
-#option		IPXIP			# IPX tunneling over IP
-#option		NETATALK		# AppleTalk
-#option		PPP_BSDCOMP		# PPP BSD compression for pppd(8)
+option		ALTQ			# ALTQ base
+option		INET6			# IPv6 (needs INET)
+option		IPSEC			# IPsec
+option		KEY			# PF_KEY (implied by IPSEC)
+option		IPX			# IPX+SPX
+option		IPXIP			# IPX tunneling over IP
+option		NETATALK		# AppleTalk
+option		PPP_BSDCOMP		# PPP BSD compression for pppd(8)
 #option		PPP_DEFLATE		# PPP zlib compression for pppd(8)
 #option		MROUTING		# Multicast router
 
-#pseudo-device	pf			# packet filter
-#pseudo-device	pflog			# pf log if
-#pseudo-device	pfsync			# pf sync if
-#pseudo-device	sppp	2		# Sync PPP/HDLC
-#pseudo-device	pppoe	1		# PPP over Ethernet (RFC 2516)
-#pseudo-device	enc	1		# IPsec needs this encapsulation iface
-#pseudo-device	faith	1		# IPv{4,6} tcp relay translation iface
+pseudo-device	pf			# packet filter
+pseudo-device	pflog			# pf log if
+pseudo-device	pfsync			# pf sync if
+pseudo-device	sppp	2		# Sync PPP/HDLC
+pseudo-device	pppoe	1		# PPP over Ethernet (RFC 2516)
+pseudo-device	enc	1		# IPsec needs this encapsulation iface
+pseudo-device	faith	1		# IPv{4,6} tcp relay translation iface
 #pseudo-device	strip	1		# Starmode Radio IP interface
 
 pseudo-device	pty	16		# pseudo-terminals (can grow runtime)
-#pseudo-device	tb	1		# tablet line discipline
+pseudo-device	tb	1		# tablet line discipline
 pseudo-device	vnd	16		# paging to files
-#pseudo-device	ccd	4		# concatenated disk devices
-#pseudo-device	rd	2		# ramdisk (fixed/avail and umem)
-#pseudo-device	ksyms	1		# kernel symbols device
-#pseudo-device	systrace 1		# system call tracing device
+pseudo-device	ccd	4		# concatenated disk devices
+pseudo-device	rd	2		# ramdisk (fixed/avail and umem)
+pseudo-device	ksyms	1		# kernel symbols device
+pseudo-device	systrace 1		# system call tracing device
 
 # clonable devices
-#pseudo-device	bpfilter 		# packet filter
-#pseudo-device	bridge			# network bridging support
-#pseudo-device	carp			# CARP protocol support
-#pseudo-device	gif			# IPv[46] over IPv[46] tunnel (RFC1933)
-#pseudo-device	gre			# GRE encapsulation interface
-pseudo-device	loop	2		# network loopback
-#pseudo-device	ppp			# PPP
-#pseudo-device	sl			# CSLIP
-#pseudo-device	tun			# network tunneling over tty
-#pseudo-device	vlan 			# IEEE 802.1Q VLAN
+pseudo-device	bpfilter 		# packet filter
+pseudo-device	bridge			# network bridging support
+pseudo-device	carp			# CARP protocol support
+pseudo-device	gif			# IPv[46] over IPv[46] tunnel (RFC1933)
+pseudo-device	gre			# GRE encapsulation interface
+pseudo-device	loop			# network loopback
+pseudo-device	ppp			# PPP
+pseudo-device	sl			# CSLIP
+pseudo-device	tun			# network tunneling over tty
+pseudo-device	vlan 			# IEEE 802.1Q VLAN
 
 #--- end of machine independent config
 
@@ -241,7 +241,7 @@ sbus*	at xbox?
 #esp0	at obio0 addr 0xfa000000 level 4 flags 0xff0f	#
 
 # sun4c or sun4m SCSI - an NCR53c94 or equivalent behind
-# specialized DMA glue
+# specialised DMA glue
 dma0	at sbus0					# on-board SCSI
 esp0	at sbus0 flags 0xff0f				# sun4c
 esp0	at dma0 flags 0xff0f				# sun4m
@@ -256,7 +256,7 @@ isp*	at sbus?
 options ISP_COMPILE_1000_FW=1
 
 # sun4m Ethernet - an AMD 7990 LANCE behind
-# specialized DMA glue
+# specialised DMA glue
 ledma0	at sbus?					# sun4m on-board
 le0	at ledma0					#
 
@@ -403,8 +403,8 @@ mgx* at sbus?
 wsdisplay* at mgx?
 
 # Vitec/Connectware/AP&D RasterFlex framebuffer series.
-#rfx* at sbus?
-#wsdisplay* at rfx?
+rfx* at sbus?
+wsdisplay* at rfx?
 
 # Microcontroller found on Tadpole SPARCbook
 tctrl0	at obio0

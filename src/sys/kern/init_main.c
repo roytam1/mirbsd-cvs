@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/kern/init_main.c,v 1.6 2006/01/01 20:44:58 tg Exp $ */
+/**	$MirOS: src/sys/kern/init_main.c,v 1.8 2006/05/26 12:04:59 tg Exp $ */
 /*	$OpenBSD: init_main.c,v 1.120 2004/11/23 19:08:55 miod Exp $	*/
 /*	$NetBSD: init_main.c,v 1.84.4.1 1996/06/02 09:08:06 mrg Exp $	*/
 /*	$OpenBSD: kern_xxx.c,v 1.9 2003/08/15 20:32:18 tedu Exp $	*/
@@ -171,7 +171,7 @@ struct emul emul_native = {
 
 
 /*
- * System startup; initialize the world, create process 0, mount root
+ * System startup; initialise the world, create process 0, mount root
  * filesystem, and fork to create init and pagedaemon.  Most of the
  * hard work is done in the lower-level initialization routines including
  * startup(), which does memory initialization and autoconfiguration.
@@ -192,18 +192,18 @@ main(/* XXX should go away */ void *framep)
 	extern void realitexpire(void *);
 
 	/*
-	 * Initialize the current process pointer (curproc) before
+	 * Initialise the current process pointer (curproc) before
 	 * any possible traps/probes to simplify trap processing.
 	 */
 	curproc = p = &proc0;
 
 	/*
-	 * Initialize timeouts.
+	 * Initialise timeouts.
 	 */
 	timeout_startup();
 
 	/*
-	 * Attempt to find console and initialize
+	 * Attempt to find console and initialise
 	 * in case of early panic or other messages.
 	 */
 	config_init();		/* init autoconfiguration data structures */
@@ -217,37 +217,37 @@ main(/* XXX should go away */ void *framep)
 	cpu_startup();
 
 	/*
-	 * Initialize mbufs.  Do this now because we might attempt to
+	 * Initialise mbufs.  Do this now because we might attempt to
 	 * allocate mbufs or mbuf clusters during autoconfiguration.
 	 */
 	mbinit();
 
-	/* Initalize sockets. */
+	/* Initalise sockets. */
 	soinit();
 
-	/* Initialize sysctls (must be done before any processes run) */
+	/* Initialise sysctls (must be done before any processes run) */
 	sysctl_init();
 
 	/*
-	 * Initialize process and pgrp structures.
+	 * Initialise process and pgrp structures.
 	 */
 	procinit();
 
-	/* Initialize file locking. */
+	/* Initialise file locking. */
 	lf_init();
 
 	/*
-	 * Initialize filedescriptors.
+	 * Initialise filedescriptors.
 	 */
 	filedesc_init();
 
 	/*
-	 * Initialize pipes.
+	 * Initialise pipes.
 	 */
 	pipe_init();
 
 	/*
-	 * Initialize kqueues.
+	 * Initialise kqueues.
 	 */
 	kqueue_init();
 
@@ -281,7 +281,7 @@ main(/* XXX should go away */ void *framep)
 	p->p_ucred = crget();
 	p->p_ucred->cr_ngroups = 1;	/* group 0 */
 
-	/* Initialize signal state for process 0. */
+	/* Initialise signal state for process 0. */
 	signal_init();
 	p->p_sigacts = &sigacts0;
 	siginit(p);
@@ -322,7 +322,7 @@ main(/* XXX should go away */ void *framep)
 	 */
 	(void)chgproccnt(0, 1);
 
-	/* Initialize run queues */
+	/* Initialise run queues */
 	rqinit();
 
 	/* Configure the devices */
@@ -331,9 +331,9 @@ main(/* XXX should go away */ void *framep)
 	/* Configure virtual memory system, set vm rlimits. */
 	uvm_init_limits(p);
 
-	/* Initialize the file systems. */
+	/* Initialise the file systems. */
 #if defined(NFSSERVER) || defined(NFSCLIENT)
-	nfs_init();			/* initialize server/shared data */
+	nfs_init();			/* initialise server/shared data */
 #endif
 	vfsinit();
 
@@ -341,20 +341,24 @@ main(/* XXX should go away */ void *framep)
 	initclocks();
 
 #ifdef	SYSVSHM
-	/* Initialize System V style shared memory. */
+	/* Initialise System V style shared memory. */
 	shminit();
 #endif
 
 #ifdef	SYSVSEM
-	/* Initialize System V style semaphores. */
+	/* Initialise System V style semaphores. */
 	seminit();
 #endif
 
 #ifdef	SYSVMSG
-	/* Initialize System V style message queues. */
+	/* Initialise System V style message queues. */
 	msginit();
 #endif
 
+#ifdef __sparc__
+	/* insert a little delay here to let things settle down */
+	delay(10000);
+#endif
 	/* Attach pseudo-devices. */
 	randomattach();
 	for (pdev = pdevinit; pdev->pdev_attach != NULL; pdev++)
@@ -367,7 +371,7 @@ main(/* XXX should go away */ void *framep)
 #endif	/* CRYPTO */
 
 	/*
-	 * Initialize protocols.  Block reception of incoming packets
+	 * Initialise protocols.  Block reception of incoming packets
 	 * until everything is ready.
 	 */
 	s = splimp();
