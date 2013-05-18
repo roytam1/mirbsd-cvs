@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/mirports.sys.mk,v 1.31 2006/05/27 22:32:24 tg Exp $
+# $MirOS: ports/infrastructure/mk/mirports.sys.mk,v 1.32 2006/07/23 17:42:35 tg Exp $
 #-
 # Copyright (c) 2005, 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -200,6 +200,10 @@ HTMLIFY=		sed -e 's/&/\&amp;/g' -e 's/>/\&gt;/g' -e 's/</\&lt;/g'
 _flavour_fragment= \
 	multi=; flavour=; space=; sawflavour=false; \
 	case "$$dir" in \
+	*,) \
+		dir=$${dir%,}; \
+		sawflavour=true; \
+		;; \
 	*,*) \
 		IFS=,; first=true; for i in $$dir; do \
 			if $$first; then \
