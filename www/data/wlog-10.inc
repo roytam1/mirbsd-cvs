@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.229 2009/08/13 15:01:09 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.230 2009/08/15 21:07:19 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -4813,4 +4813,43 @@ Tag: bug event hardware rant snapshot
  the flyers (<a href="@@ABSPATH@@/MirOS/PR/flyer_de.pdf">German</a>,
  <a href="@@ABSPATH@@/MirOS/PR/flyer_en.pdf">English</a> or <a
  href="@@ABSPATH@@/MirOS/PR/flyer_fr.pdf">French</a>) meanwhile.</p>
+----
+Title: I complain, rant and give up, then it works…
+Date: 16.08.2009 15:48
+Author: tg@
+Tag: hardware
+
+<p style="margin-bottom:0px;">The subject line says it all…</p>
+<div style="border:4px ridge blue; margin:0px 24px 0px 24px; padding:12px;"><pre>
+tg@ss5:~ $ uname -a
+MirBSD ss5.mirbsd.org 10 Kv#10uAA-20090810 GENERIC#146 sparc
+tg@ss5:~ $ dmesg
+MirBSD#10uAA (GENERIC) #146: Mon Aug 10 17:57:16 UTC 2009
+        tg@demo.mirbsd.org:/usr/src/distrib/generic/obj/build/GENERIC
+real mem = 33165312
+avail mem = 24928256
+[…]
+sd0 at scsibus0 targ 3 lun 0: &lt;IBM, DORS32160SUN2.1G, WA7A&gt; SCSI2 0/direct fixed
+sd0: 2063MB, 6703 cyl, 5 head, 126 sec, 512 bytes/sec, 4226725 sec total
+[…]
+cgsix0 at sbus0 slot 3 offset 0x0: SUNW,501-2325, 1152x900, rev 11
+wsdisplay0 at cgsix0: console (std, vt100 emulation), using wskbd0
+[…]
+tg@ss5:~ $ sysctl hw machdep
+hw.machine=sparc
+hw.model=SUNW,SPARCstation-5, MB86907 @ 170 MHz, on-chip FPU
+[…]
+machdep.cputype=2
+machdep.v8mul=1
+[…]
+tg@ss5:~ $ top
+[…]
+Memory: Real: 17M/26M act/tot  Free: 1444K  Swap: 2640K/133M used/tot
+[…]
+</pre></div><p style="margin-top:0px;">It may only be a SPARCstation 5,
+ with a rather fast CPU though (the SS20en only have 125 MHz and 150 MHz
+ ROSS CPUs), with a small, slow and lout hard disc and <em>very</em> few
+ RAM, but hey, it installs, the cgsix(4/sparc) scrolls quickly (as the
+ tvtwo(4/sparc) currently is unaccelerated), and builds packages like a
+ charm. Yay! I even have mc (Midnight Commander) now…</p>
 ----
