@@ -2,7 +2,7 @@
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.122 2008/06/03 18:05:10 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.123 2008/06/21 19:45:13 tg Exp $'
 mws_content <<'EOF'
 <h1>mksh(1) R33d</h1>
 <p>This is the website of the MirBSD™ Korn Shell, an actively developed free
@@ -712,6 +712,7 @@ mws_content <<'EOF'
  <li style="list-style:none;">– tests by the project, using Makefile –</li>
  <li>MirOS #10-current (i386 gcc3.4.6)</li>
  <li>MirOS #10-current (i386 pcc-20080502-MirPorts-0)</li>
+ <li>MirOS #10-current (i386 pcc-20080621)</li>
  <li>MirOS #10-current (sparc gcc3.4.6)</li>
  <li style="list-style:none;">– tests by the project, using Build.sh –</li>
  <li>MirOS #10-current (i386 gcc3.4.6)</li>

@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/sys/cdefs.h,v 1.17 2007/09/21 08:32:07 tg Exp $ */
+/**	$MirOS: src/sys/sys/cdefs.h,v 1.18 2008/06/17 22:35:32 tg Exp $ */
 /*	$OpenBSD: cdefs.h,v 1.18 2005/05/27 21:28:12 millert Exp $	*/
 /*	$NetBSD: cdefs.h,v 1.16 1996/04/03 20:46:39 christos Exp $	*/
 
@@ -188,7 +188,9 @@
 #define	__packed		__attribute__((packed))
 #elif __GNUC_PREREQ__(2, 7)
 #define	__packed		__attribute__((__packed__))
-#elif defined(lint) || /* for now */ defined(__PCC__)
+#elif defined(__PCC__)
+#define	__packed		_Pragma("packed 1")
+#elif defined(lint)
 #define	__packed
 #endif
 
@@ -197,10 +199,16 @@
 #endif
 
 #ifdef lint
+#define __aligned(x)
 #define __func__		"__func__"
 #define __restrict__
 #define __unused
+#elif defined(__PCC__)
+#define __aligned(x)		_Pragma("aligned " #x)
+#define __restrict__		restrict
+#define __unused
 #else
+#define __aligned(x)		__attribute__((aligned (x)))
 #define __unused		__attribute__((unused))
 #endif
 
