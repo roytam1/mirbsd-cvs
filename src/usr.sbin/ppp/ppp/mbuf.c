@@ -45,7 +45,7 @@
 #include "prompt.h"
 #include "main.h"
 
-__RCSID("$MirOS: src/usr.sbin/ppp/ppp/mbuf.c,v 1.3 2005/12/04 15:02:27 tg Exp $");
+__RCSID("$MirOS: src/usr.sbin/ppp/ppp/mbuf.c,v 1.4 2005/12/04 19:21:28 tg Exp $");
 
 #define BUCKET_CHUNK	20
 #define BUCKET_HASH	256
@@ -391,12 +391,13 @@ m_enqueue(struct mqueue *queue, struct mbuf *bp)
 struct mbuf *
 m_pullup(struct mbuf *bp)
 {
+  u_char *tmp;
   /* Put it all in one contigous (aligned) mbuf */
 
   if (bp != NULL) {
     if (bp->m_next != NULL) {
       struct mbuf *nbp;
-      u_char *cp, *tmp;
+      u_char *cp;
 
       nbp = m_get(m_length(bp), bp->m_type);
 
