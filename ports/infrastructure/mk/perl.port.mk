@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/perl.port.mk,v 1.3 2005/12/15 01:24:43 tg Exp $
+# $MirOS: ports/infrastructure/mk/perl.port.mk,v 1.4 2005/12/15 14:47:45 bsiegert Exp $
 # $OpenBSD: perl.port.mk,v 1.9 2004/06/08 20:28:19 sturm Exp $
 # Based on bsd.port.mk, originally by Jordan K. Hubbard.
 
@@ -64,6 +64,6 @@ do-install:
 .endif
 
 P5MAN3EXT!=	/usr/bin/perl -e 'use Config; print $$Config{man3ext};'
-P5DLEXT!=	/usr/bin/perl -e 'use Config; print $$Config{dlext};'
+P5DLEXT!=	/usr/bin/perl -e 'use Config; print ".".$$Config{dlext};'
 
 SUBST_VARS+=	P5ARCH P5SITE P5MAN3EXT P5DLEXT
