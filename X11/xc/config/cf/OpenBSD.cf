@@ -304,7 +304,7 @@ XCOMM operating system:  OSName (OSMajorVersion./**/OSMinorVersion./**/OSTeenyVe
 #ifndef HasCookieMaker
 #  define HasCookieMaker	YES
 #  define MkCookieCmd \
-	'dd if=/dev/urandom bs=16 count=1 2>/dev/null | hexdump -e \\"%08x\\"'
+	'dd if=/dev/urandom bs=16 count=1 2>/dev/null | hexdump -ve \\"%08X\\"'
 #endif
 
 

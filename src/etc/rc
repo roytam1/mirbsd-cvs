@@ -1,5 +1,5 @@
 # $MirSecuCron$
-# $MirOS: src/etc/rc,v 1.109 2009/11/15 12:30:22 tg Exp $
+# $MirOS: src/etc/rc,v 1.110 2010/07/11 11:56:04 tg Exp $
 # $OpenBSD: rc,v 1.277 2006/01/12 21:54:15 deraadt Exp $
 #-
 # System startup script run by init on autoboot or after single-user.
@@ -403,13 +403,13 @@ fi
 	chmod 600 /var/db/host.random
 	sync
 
-	let RANDOM=$(dd if=/dev/arandom bs=4 count=1 2>&- | hexdump -e '"%u"')
+	let RANDOM=$(dd if=/dev/arandom bs=4 count=1 2>&- | hexdump -ve '"%u"')
 	typeset -i1 a=RANDOM b=RANDOM c=RANDOM d=RANDOM
 	print -nr -- "${a#1#}${b#1#}${c#1#}${d#1#}" >/dev/arandom
 	unset a b c d
 
 	dd if=/dev/arandom count=3 >>/var/db/host.random
-	let RANDOM=$(dd if=/dev/arandom bs=4 count=1 2>&- | hexdump -e '"%u"')
+	let RANDOM=$(dd if=/dev/arandom bs=4 count=1 2>&- | hexdump -ve '"%u"')
 } >/dev/wrandom 2>&1
 
 # clean up left-over files

@@ -482,7 +482,7 @@ XCOMM operating system:  OSName (OSMajorVersion./**/OSMinorVersion./**/OSTeenyVe
    /* NetBSD 1.5 and later have /dev/urandom */
 #  define HasCookieMaker	YES
 #  define MkCookieCmd \
-	'dd if=/dev/urandom bs=16 count=1 2>/dev/null | hexdump -e \\"%08x\\"'
+	'dd if=/dev/urandom bs=16 count=1 2>/dev/null | hexdump -ve \\"%08X\\"'
 # else
 #  define HasCookieMaker	NO
 # endif

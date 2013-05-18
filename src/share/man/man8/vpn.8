@@ -152,7 +152,7 @@ One practical method of generating them is by using the
 device.
 To produce 160 bits (20 bytes) of randomness, for example, do:
 .Bd -literal -offset indent
-# openssl rand 20 | hexdump -e '20/1 "%02x"'
+# openssl rand 20 | hexdump -ve '20/1 "%02X"'
 .Ed
 or:
 .Bd -literal -offset indent -compact
@@ -184,8 +184,8 @@ algorithms.
 The following would create suitable keys for a 3DES encryption key
 and SHA-1 authentication key:
 .Bd -literal -offset indent
-# openssl rand 24 | hexdump -e '24/1 "%02x"' \*(Gt enc_key
-# openssl rand 20 | hexdump -e '20/1 "%02x"' \*(Gt auth_key
+# openssl rand 24 | hexdump -ve '24/1 "%02X"' \*(Gt enc_key
+# openssl rand 20 | hexdump -ve '20/1 "%02X"' \*(Gt auth_key
 .Ed
 .Pp
 The 3DES encryption key needs 192 bits (3x64), or 24 bytes.
