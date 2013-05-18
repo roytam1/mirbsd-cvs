@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.405 2012/12/07 23:47:47 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.406 2012/12/08 19:25:10 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -9514,4 +9514,45 @@ Tag: debian
  the localpart <tt>tg</tt>. Or just contact me as usual, if you’re already
  acquainted. Or lookup 0xE99007E0. Thanks in advance! (Especially, Python
  Developers’ thoughts are welcome.)</p>
+----
+Date: 10.12.2012 17:28
+Author: bsiegert@
+Title: Call for Participation: BSD developers’ room at FOSDEM 2013
+Tag: news
+
+<p>There is one week left to submit your talk proposals for the BSD
+ devroom at FOSDEM 2013. We still have quite a few slots open, so do not
+ be shy! See the original announcement below:</p>
+
+<blockquote>
+ <p>FOSDEM 2013 will take place on February 2-3, 2013, in Brussels,
+  Belgium. Just like in the last years, there will be both a BSD booth
+  and a developer's room (on Sunday).</p>
+
+ <p>The topics of the devroom include all BSD operating systems. Every
+  talk is welcome, from internal hacker discussion to real-world
+  examples and presentations about new and shiny features. The talks
+  will be 45 minutes including discussion. Feel free to ask if you want
+  to have a longer or shorter slot.</p>
+
+ <p>If you want to do a talk, please submit your proposal to</p>
+
+ <p style="text-align: center">bsiegert at google.com</p>
+
+ <p>and include the following information:</p>
+
+ <ul>
+  <li>Your name</li>
+  <li>The title of your talk (please be descriptive, as titles will be
+     listed with ~400 from other projects)</li>
+  <li>A short abstract of one to two paragraphs</li>
+  <li>A short biography introducing yourself</li>
+  <li>Links to related websites/blogs etc.</li>
+ </ul>
+</blockquote>
+
+<p>The deadline for submissions is December 17, 2012. The talk committee,
+ consisting of Daniel Seuffert, Marius Nünnerich and Benny Siegert,
+ will consider the proposals. If yours has been accepted, you will be
+ informed by e-mail within one week of the submission deadline.</p>
 ----
