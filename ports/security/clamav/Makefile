@@ -1,14 +1,15 @@
-# $MirOS: ports/security/clamav/Makefile,v 1.2 2006/02/09 11:15:18 tg Exp $
+# $MirOS$
+# $MirOS: ports/security/clamav/Makefile,v 1.3 2006/09/14 00:12:55 tg Exp $
 
-COMMENT=			Free Virus Scanner
+COMMENT=		free virus scanner
 VERSION=		0.65
 DISTNAME=		clamav-${VERSION}
 CATEGORIES=		security
 HOMEPAGE=		http://clamav.sourceforge.net/
 
 # GNU GPL
-PERMIT_PACKAGE_CDROM=	Yes
-PERMIT_PACKAGE_FTP=	Yes
+PERMIT_PACKAGE_CDROM=	some dependencies are not allowed for CDROM
+PERMIT_PACKAGE_FTP=	some dependencies are not allowed for FTP
 PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 

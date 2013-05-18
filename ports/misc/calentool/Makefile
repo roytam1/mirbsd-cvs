@@ -1,6 +1,7 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.16 2002/10/27 21:07:53 naddy Exp $
 
-COMMENT=			nice X11-based calendar/scheduling tool (using XView)
+COMMENT=	nice X11-based calendar/scheduling tool (using XView)
 
 DISTNAME=	calentool-2.3
 CATEGORIES=	misc x11
@@ -9,7 +10,7 @@ MASTER_SITES = 	http://www.darwinsys.com/freeware/
 
 PERMIT_PACKAGE_CDROM=	No Fee
 PERMIT_DISTFILES_CDROM=	No Fee
-PERMIT_PACKAGE_FTP=	Yes
+PERMIT_PACKAGE_FTP=	dependency x11/xview is not allowed for FTP
 PERMIT_DISTFILES_FTP=	Yes
 
 BUILD_DEPENDS=	::x11/xview/config

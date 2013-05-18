@@ -1,6 +1,7 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.3 2004/01/11 19:13:09 wilfried Exp $
 
-COMMENT=			extends the Net::DNS module with DNSSEC functionality
+COMMENT=	extends the Net::DNS module with DNSSEC functionality
 
 VERSION=	0.11
 DISTNAME=	Net-DNS-SEC-${VERSION}
@@ -9,8 +10,8 @@ CATEGORIES=	net perl5
 MASTER_SITES=	${MASTER_SITE_PERL_CPAN:=Net/}
 
 
-PERMIT_PACKAGE_CDROM=	Yes
-PERMIT_PACKAGE_FTP=	Yes
+PERMIT_PACKAGE_CDROM=	some dependencies are not allowed for CDROM
+PERMIT_PACKAGE_FTP=	some dependencies are not allowed for FTP
 PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
