@@ -3,7 +3,7 @@
 
 mws_setname legacy/wlog-3 "MirBSD Weblog"
 mws_setheadline MirBSD – Next to Perfection
-mws_putheader '$MirOS: www/src/wlog-3.hts,v 1.1 2008/09/17 21:12:31 tg Exp $'
+mws_putheader '$MirOS: www/src/wlog-3.hts,v 1.2 2009/06/21 11:01:27 tg Exp $'
 mws_content <<'EOF'
 <p><img src="@@RELPATH@@pics/logo-mirbsd.png" width="240" height="60" alt="Logo" /></p>
 <p>This is an archived weblog of the development leading to <a
@@ -56,7 +56,7 @@ mws_content <<'EOF'
 <p>27.03.2003<br />Whoops! ld.so did not appear in our repository; fixed that
  temporarily by &quot;cvs add&quot; until the import of 3.3-current. ISDNd
  compiles; ppp(8) compiles with ISDN and ATM as well, and make includes does
- succeed. And I forgot to announce the <a href="@@RELPATH@@mail.htm">mailing lists</a>.</p>
+ succeed. And I forgot to announce the [link]mailing lists.</p>
 <p>29.03.2003<br />Just fixed the crtbegin/end/ld.so bug that prevented WineX
  from correctly working. That's why I now qualify myself as Journeyer on
  Advogato. Started porting WineX (again). It segfaults; many of my ./configure

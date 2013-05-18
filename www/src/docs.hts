@@ -3,7 +3,7 @@
 
 mws_setname legacy/docs "MirOS Legacy Content"
 mws_setheadline Documentation
-mws_putheader '$MirOS: www/src/docs.hts,v 1.1 2008/09/17 21:12:23 tg Exp $'
+mws_putheader '$MirOS: www/src/docs.hts,v 1.2 2009/06/21 11:01:23 tg Exp $'
 mws_content <<'EOF'
 <p>There should probably be some documentation here.
  For now, there's only the <big><big><a href="http://wiki.mirbsd.de/">MirWiki</a></big></big>
@@ -16,8 +16,6 @@ mws_content <<'EOF'
  (<strong>German</strong>)</li>
 <li><a href="@@RELPATH@@devel.htm">Developers</a>
  &ndash; Who are you crazy people?</li>
-<li><a href="@@RELPATH@@mail.htm">Mailing Lists</a>
- &ndash; How do I reach you?</li>
 <li><a href="@@RELPATH@@history.htm">History of MirOS</a>
  (pretty accurate)</li>
 <li> &mdash; Problem Solution &mdash;</li>

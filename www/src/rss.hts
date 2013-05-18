@@ -1,4 +1,4 @@
-# $MirOS: www/src/rss.hts,v 1.8 2008/12/31 18:12:20 tg Exp $
+# $MirOS: www/src/rss.hts,v 1.9 2009/06/21 11:01:27 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -6,7 +6,7 @@
 mws_setname rss "RSS feeds, mailing lists"
 mws_subdir 0
 mws_setheadline MirOS RSS feeds
-mws_putheader '$MirOS: www/src/rss.hts,v 1.8 2008/12/31 18:12:20 tg Exp $'
+mws_putheader '$MirOS: www/src/rss.hts,v 1.9 2009/06/21 11:01:27 tg Exp $'
 mws_content <<'EOF'
 <h2 id="feeds">Website feeds</h2>
 <p>We offer the following RSS feeds, which can be subscribed to
@@ -30,15 +30,36 @@ mws_content <<'EOF'
   discussion mailing list</a>: for users, developers, mksh<br />
   <a href="http://marc.info/?l=miros-discuss">MARC</a> and <a
   href="http://dir.gmane.org/gmane.os.miros.general">GMane</a> offer
-  more feeds and further ways to read or post to this mailing list</li>
- <li>miros-changes@: a read-only <a
+  more feeds and further ways to read or post to this mailing list
+  (GMane is linked bi-directionally to this list)</li>
+ <li>miros-changes@: a <strong>read-only</strong> <a
   href="http://rss.gmane.org/messages/complete/gmane.os.miros.cvs">source
   changes (CVS generated mails) list</a>: for developers<br />
   <a href="http://marc.info/?l=miros-changes">MARC</a> and <a
   href="http://dir.gmane.org/gmane.os.miros.cvs">GMane</a> offer
   more feeds and further ways to read this mailing list</li>
 </ul>
+
+<p>We've got a <a href="mailto:miros-discuss@mirbsd.org">discussion
+ mailing list</a> and a CVS changes mailing list, both of which are
+ public. All subscribers of the CVS changes mailing list automatically
+ are on the discussion mailing list as well. In order to subscribe, send
+ a mail to <a href="mailto:postmaster@mirbsd.org">the postmaster</a>.
+ We've also got an internal developers-only list, although our development
+ process is usually done in IRC entirely.</p>
+
+<p>Please note that, when subscribing to these mailing lists, you agree
+ that you are responsible for your own spam and malware filtering; we
+ <em>do</em> employ certain tactics, such as greylisting, but do not
+ inspect the content of any mails sent through our servers.</p>
+
 <p style="margin-bottom: 500px">&nbsp;</p>
+<p>Do <em>not</em> send mail to <a
+ href="mailto:junk@mirbsd.de">junk@mirbsd.de</a>, <a
+ href="mailto:junk@mirsolutions.de">junk@mirsolutions.de</a>, <a
+ href="mailto:junk@mirbsd.org">junk@mirbsd.org</a> or <a
+ href="mailto:junk@mirbsd.org">junk@mirbsd.org</a>.
+ It won't do good to you.</p>
 EOF
 mws_putfooter
 exit 0
