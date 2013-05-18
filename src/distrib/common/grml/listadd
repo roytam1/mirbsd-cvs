@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/grml/listadd,v 1.4 2009/08/30 14:16:29 tg Exp $
+# $MirOS: src/distrib/common/grml/listadd,v 1.5 2009/11/11 19:28:50 tg Exp $
 
 CRUNCHSPECIAL tinyirc	srcdir distrib/common/grml/tinyirc
 
@@ -20,4 +20,4 @@ SPECIAL	ln usr/bin/e3 usr/bin/e3vi
 SPECIAL	ln usr/bin/e3 usr/bin/e3ne
 
 # tweak
-SPECIAL	print '/^Welcome/,/^This work/-1c\nWelcome to MirOS for grml.org!\n\nWelcome to the MirOS BSD based rescue system for grml. For further\ninformation please visit http://mirbsd.de/\nNote that the network is not set up yet (use "dhclient ne3" or si-\nmilar to do so). Ctrl-Alt-F2 (-F3, ...) switches virtual consoles.\n.\n/_forceloop=/s/=/=s/\n/-lT1/a\nmksh -lT2 >/dev/null 2>&1\nmksh -lT3 >/dev/null 2>&1\nmksh -lT4 >/dev/null 2>&1\nmksh -lT5 >/dev/null 2>&1\n.\n/IRCUSER=MirBSD/s//IRCUSER=grmlBSD/\n/IRCNICK=MirBSD/s//IRCNICK=bsd4grml/\nwq' | ed -s .profile
+SPECIAL	print '/^Welcome/,/^This work/-1c\nWelcome to MirOS for grml.org!\n\nWelcome to the MirOS BSD based rescue system for grml. For further\ninformation please visit http://mirbsd.de/\nNote that the network is not set up yet (use "dhclient ne3" or si-\nmilar to do so). Ctrl-Alt-F2 (-F3, ...) switches virtual consoles.\n.\n/_forceloop=/s/=/=s/\n/-lT1/a\nmksh -lT2 >/dev/null 2>&1\nmksh -lT3 >/dev/null 2>&1\nmksh -lT4 >/dev/null 2>&1\nmksh -lT5 >/dev/null 2>&1\n.\n/IRCUSER=MirBSD_s/s//IRCUSER=MirBSD_g/\n/IRCNICK=MirOS_BSD/s//IRCNICK=bsd4grml/\nwq' | ed -s .profile
