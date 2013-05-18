@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.113 2008/12/14 00:09:05 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.114 2008/12/17 00:43:08 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -2296,4 +2296,18 @@ Title: Updates
  fingers* Wish me luck. Or employ me. (Donations to be used for travel
  and accomodation for “events” are still desired for all of us
  developers.)</p>
+----
+Date: 17.12.2008 23:20
+Author: tg@
+Title: svn2cvs.sh – convert Subversion to RCS/CVS Repositories
+Tag: mksh
+
+<p><a href="@@ABSPATH@@/cvs.cgi/contrib/hosted/tg/svn2cvs.sh">svn2cvs.sh</a>
+ is an mksh(1) shell script able to convert from Subversion repositories
+ (remote access via URLs, needs installed svn client) to RCS/CVS repositories
+ (local access via pathnames, needs installed rcs(1) ci(1) co(1) GNU RCS, as
+ well as cvs(1) GNU CVS, for rcsfile(5) handling). For more information, see
+ the included help as well as the commit message.</p>
+<p>If you have any improvements or requests regarding this script, please
+ contact me or the <tt>miros-discuss@</tt> mailing list.</p>
 ----
