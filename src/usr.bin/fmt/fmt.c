@@ -168,12 +168,8 @@
  * Initial revision
  */
 
-#ifndef lint
-static const char rcsid[] =
-  "$OpenBSD: fmt.c,v 1.23 2005/03/08 23:34:43 cloder Exp $";
-static const char copyright[] =
-  "Copyright (c) 1997 Gareth McCaughan. All rights reserved.\n";
-#endif /* not lint */
+#include <sys/cdefs.h>
+__COPYRIGHT("Copyright (c) 1997 Gareth McCaughan. All rights reserved.");
 
 #include <ctype.h>
 #include <err.h>
@@ -259,7 +255,9 @@ main(int argc, char *argv[])
 {
 	int ch;			/* used for |getopt| processing */
 
+#ifndef __MirBSD__
 	(void)setlocale(LC_CTYPE, "");
+#endif
 
 	/* 1. Grok parameters. */
 	while ((ch = getopt(argc, argv, "0123456789cd:hl:mnpst:w:")) != -1) {

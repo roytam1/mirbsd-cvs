@@ -16,10 +16,6 @@
  * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-#ifndef lint                                                              
-static const char rcsid[] = "$OpenBSD: which.c,v 1.13 2004/09/24 19:45:27 fgsch Exp $";
-#endif /* not lint */                                                        
-
 #include <sys/param.h>
 #include <sys/stat.h>
 #include <sys/sysctl.h>
@@ -34,6 +30,8 @@ static const char rcsid[] = "$OpenBSD: which.c,v 1.13 2004/09/24 19:45:27 fgsch 
 
 #define PROG_WHICH	1
 #define PROG_WHEREIS	2
+
+__RCSID("$MirOS$");
 
 extern char *__progname;
 
@@ -57,7 +55,9 @@ main(int argc, char *argv[])
 	size_t n;
 	int ch, allmatches = 0, notfound = 0, progmode = PROG_WHICH;
 
+#ifndef __MirBSD__
 	(void)setlocale(LC_ALL, "");
+#endif
 
 	if (argc == 1)
 		usage();

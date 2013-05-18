@@ -1,4 +1,4 @@
-/**	$MirOS$ */
+/**	$MirOS: src/usr.bin/vi/common/key.c,v 1.2 2005/03/13 18:33:55 tg Exp $ */
 /*	$OpenBSD: key.c,v 1.6 2002/02/16 21:27:57 millert Exp $	*/
 
 /*-
@@ -11,10 +11,6 @@
  */
 
 #include "config.h"
-
-#ifndef lint
-static const char sccsid[] = "@(#)key.c	10.33 (Berkeley) 9/24/96";
-#endif /* not lint */
 
 #include <sys/param.h>
 #include <sys/queue.h>
@@ -33,7 +29,8 @@ static const char sccsid[] = "@(#)key.c	10.33 (Berkeley) 9/24/96";
 #include "common.h"
 #include "../vi/vi.h"
 
-__RCSID("$MirOS$");
+__SCCSID("@(#)key.c	10.33 (Berkeley) 9/24/96");
+__RCSID("$MirOS: src/usr.bin/vi/common/key.c,v 1.2 2005/03/13 18:33:55 tg Exp $");
 
 static int	v_event_append(SCR *, EVENT *);
 static int	v_event_grow(SCR *, int);
@@ -120,7 +117,9 @@ v_key_init(sp)
 	 * 8-bit only, for now.  Recompilation should get you any 8-bit
 	 * character set, as long as nul isn't a character.
 	 */
+#ifndef __MirBSD__
 	(void)setlocale(LC_ALL, "");
+#endif
 #if __linux__
 	/*
 	 * In libc 4.5.26, setlocale(LC_ALL, ""), doesn't setup the table

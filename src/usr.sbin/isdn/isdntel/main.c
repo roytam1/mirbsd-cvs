@@ -64,7 +64,9 @@ main(int argc, char **argv)
 	
 	extern char *optarg;	
 
+#ifndef __MirBSD__
 	setlocale( LC_ALL, "");
+#endif
 	
 	while ((i = getopt(argc, argv, "a:d:p:t:")) != -1)
 	{

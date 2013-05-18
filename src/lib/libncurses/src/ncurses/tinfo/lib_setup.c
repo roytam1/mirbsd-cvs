@@ -344,6 +344,11 @@ do_prototype(void)
 NCURSES_EXPORT(char *)
 _nc_get_locale(void)
 {
+#ifdef __MirBSD__
+    static const char lcl[] = "en_US.UTF-8";
+
+    return ((char *)lcl);
+#else
     char *env;
 #if HAVE_LOCALE_H
     /*
@@ -360,6 +365,7 @@ _nc_get_locale(void)
 #endif
     T(("_nc_get_locale %s", _nc_visbuf(env)));
     return env;
+#endif
 }
 
 /*
@@ -368,6 +374,9 @@ _nc_get_locale(void)
 NCURSES_EXPORT(int)
 _nc_unicode_locale(void)
 {
+#ifdef __MirBSD__
+    return (1);
+#else
     int result = 0;
 #if HAVE_LANGINFO_CODESET
     char *env = nl_langinfo(CODESET);
@@ -383,6 +392,7 @@ _nc_unicode_locale(void)
     }
 #endif
     return result;
+#endif
 }
 
 #define CONTROL_N(s) ((s) != 0 && strstr(s, "\016") != 0)

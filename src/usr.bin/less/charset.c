@@ -24,7 +24,7 @@
 #include <locale.h>
 #endif
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.bin/less/charset.c,v 1.2 2006/11/09 00:59:48 tg Exp $");
 
 public int utf_mode = 0;
 
@@ -183,7 +183,9 @@ ilocale()
 {
 	register int c;
 
+#ifndef __MirBSD__
 	setlocale(LC_ALL, "");
+#endif
 	for (c = 0;  c < (int) sizeof(chardef);  c++)
 	{
 		if (isprint(c))
@@ -229,6 +231,9 @@ setbinfmt(s)
 	public void
 init_charset()
 {
+#ifdef __MirBSD__
+	icharset("utf-8");
+#else
 	register char *s;
 
 	s = lgetenv("LESSBINFMT");
@@ -298,6 +303,7 @@ init_charset()
 	 * Default to "latin1".
 	 */
 	(void) icharset("latin1");
+#endif
 #endif
 #endif
 }

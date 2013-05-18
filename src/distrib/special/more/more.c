@@ -83,11 +83,10 @@
 #include <unistd.h>
 #include <paths.h>
 
-__IDSTRING(copyright,
-"@(#) Copyright (c) 1980 The Regents of the University of California.\n\
-All rights reserved.");
+__COPYRIGHT("@(#) Copyright (c) 1980\n\
+	The Regents of the University of California.  All rights reserved.\n");
 __SCCSID("@(#)more.c	5.28 (Berkeley) 3/1/93");
-__RCSID("$MirOS: src/distrib/special/more/more.c,v 1.2 2006/09/22 15:31:54 tg Exp $");
+__RCSID("$MirOS: src/distrib/special/more/more.c,v 1.3 2006/09/22 15:48:37 tg Exp $");
 
 #define Fopen(s, m)	(Currline = 0, file_pos = 0, fopen(s,m))
 #define Ftell(f)	(file_pos)
@@ -218,7 +217,9 @@ main(int argc, char **argv)
 	int		ch;
 	char		initbuf[80];
 
+#ifndef __MirBSD__
 	setlocale(LC_ALL, "");
+#endif
 
 	/* all signals just use a stub handler and interrupt syscalls */
 	sigemptyset(&sa.sa_mask);

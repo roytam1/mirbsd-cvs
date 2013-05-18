@@ -35,19 +35,11 @@
  * $xMach: xargs.c,v 1.6 2002/02/23 05:27:47 tim Exp $
  */
 
-#ifndef lint
-static const char copyright[] =
-"@(#) Copyright (c) 1990, 1993\n\
-	The Regents of the University of California.  All rights reserved.\n";
-#endif /* not lint */
-
-#ifndef lint
-#if 0
-static const char sccsid[] = "@(#)xargs.c	8.1 (Berkeley) 6/6/93";
-#else
-static const char rcsid[] = "$OpenBSD: xargs.c,v 1.24 2005/11/01 04:52:59 deraadt Exp $";
-#endif
-#endif /* not lint */
+#include <sys/cdefs.h>
+__COPYRIGHT("@(#) Copyright (c) 1990, 1993\n\
+	The Regents of the University of California.  All rights reserved.\n");
+__SCCSID("@(#)xargs.c	8.1 (Berkeley) 6/6/93");
+__RCSID("$MirOS$");
 
 #include <sys/param.h>
 #include <sys/wait.h>
@@ -98,7 +90,9 @@ main(int argc, char *argv[])
 	eofstr = "";
 	Jflag = nflag = 0;
 
+#ifndef __MirBSD__
 	(void)setlocale(LC_MESSAGES, "");
+#endif
 
 	/*
 	 * POSIX.2 limits the exec line length to ARG_MAX - 2K.  Running that
@@ -594,7 +588,9 @@ waitchildren(const char *name, int waitall)
 static int
 prompt(void)
 {
+#ifndef __MirBSD__
 	regex_t cre;
+#endif
 	size_t rsize;
 	int match;
 	char *response;
@@ -604,16 +600,23 @@ prompt(void)
 		return (2);	/* Indicate that the TTY failed to open. */
 	(void)fprintf(stderr, "?...");
 	(void)fflush(stderr);
-	if ((response = fgetln(ttyfp, &rsize)) == NULL ||
-	    regcomp(&cre, nl_langinfo(YESEXPR), REG_BASIC) != 0) {
+	if ((response = fgetln(ttyfp, &rsize)) == NULL
+#ifndef __MirBSD__
+	    || regcomp(&cre, nl_langinfo(YESEXPR), REG_BASIC) != 0
+#endif
+	    ) {
 		(void)fclose(ttyfp);
 		return (0);
 	}
+	(void)fclose(ttyfp);
+#ifdef __MirBSD__
+	return (response[0] == 'y' || response[0] == 'Y');
+#else
 	response[rsize - 1] = '\0';
 	match = regexec(&cre, response, 0, NULL, 0);
-	(void)fclose(ttyfp);
 	regfree(&cre);
 	return (match == 0);
+#endif
 }
 
 static void

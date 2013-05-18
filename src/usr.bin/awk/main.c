@@ -35,7 +35,7 @@ const char	*version = "version 20041222";
 #include "awk.h"
 #include "awkgram.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.bin/awk/main.c,v 1.2 2007/04/28 00:12:47 tg Exp $");
 
 #define	MAX_PFILE	20
 
@@ -61,8 +61,10 @@ int main(int argc, char *argv[])
 {
 	const char *fs = NULL;
 
+#ifndef __MirBSD__
 	setlocale(LC_ALL, "");
 	setlocale(LC_NUMERIC, "C"); /* for parsing cmdline & prog */
+#endif
 	cmdname = __progname;
 	if (argc == 1) {
 		fprintf(stderr, "usage: %s [-F fs] [-v var=value] [-safe] "
@@ -155,7 +157,9 @@ int main(int argc, char *argv[])
 	if (!safe)
 		envinit(environ);
 	yyparse();
+#ifndef __MirBSD__
 	setlocale(LC_NUMERIC, ""); /* back to whatever it is locally */
+#endif
 	if (fs)
 		*FS = qstring(fs, '\0');
 	   dprintf( ("errorflag=%d\n", errorflag) );

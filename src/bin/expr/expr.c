@@ -14,6 +14,8 @@
 #include <regex.h>
 #include <err.h>
 
+__RCSID("$MirOS$");
+
 struct val	*make_int(int);
 struct val	*make_str(char *);
 void		 free_value(struct val *);
@@ -497,7 +499,9 @@ main(int argc, char *argv[])
 {
 	struct val     *vp;
 
+#ifndef __MirBSD__
 	(void) setlocale(LC_ALL, "");
+#endif
 	av = argv + 1;
 
 	nexttoken(0);

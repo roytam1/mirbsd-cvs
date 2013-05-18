@@ -1,4 +1,4 @@
-/**	$MirOS: src/lib/libc/time/zdump.c,v 1.5 2006/10/17 19:10:17 tg Exp $ */
+/**	$MirOS: src/lib/libc/time/zdump.c,v 1.6 2006/11/01 20:01:21 tg Exp $ */
 /*	$OpenBSD: zdump.c,v 1.17 2005/08/08 08:05:38 espie Exp $ */
 
 /*-
@@ -46,7 +46,7 @@
 #define ZDUMP_HI_YEAR	2500
 #endif /* !defined ZDUMP_HI_YEAR */
 
-__RCSID("$MirOS: src/lib/libc/time/zdump.c,v 1.5 2006/10/17 19:10:17 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/time/zdump.c,v 1.6 2006/11/01 20:01:21 tg Exp $");
 
 #ifndef MAX_STRING_LENGTH
 #define MAX_STRING_LENGTH	1024
@@ -283,6 +283,7 @@ char *	argv[];
 
 	INITIALIZE(cutlotime);
 	INITIALIZE(cuthitime);
+#ifndef __MirBSD__
 #if HAVE_GETTEXT
 	(void) setlocale(LC_ALL, "");
 #ifdef TZ_DOMAINDIR
@@ -290,6 +291,7 @@ char *	argv[];
 #endif /* defined TEXTDOMAINDIR */
 	(void) textdomain(TZ_DOMAIN);
 #endif /* HAVE_GETTEXT */
+#endif
 	progname = argv[0];
 	vflag = 0;
 	cutarg = NULL;

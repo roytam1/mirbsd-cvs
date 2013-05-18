@@ -40,10 +40,6 @@
  *	J.T. Conklin (jtc@wimsey.com), Winning Strategies, Inc.
  */
 
-#ifndef lint
-static char rcsid[] = "$OpenBSD: getconf.c,v 1.9 2003/07/10 00:06:51 david Exp $";
-#endif /* not lint */
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -52,6 +48,8 @@ static char rcsid[] = "$OpenBSD: getconf.c,v 1.9 2003/07/10 00:06:51 david Exp $
 #include <unistd.h>
 #include <err.h>
 #include <errno.h>
+
+__RCSID("$MirOS$");
 
 static void usage(void);
 
@@ -150,7 +148,9 @@ main(int argc, char *argv[])
 	size_t slen;
 	char * sval;
 
+#ifndef __MirBSD__
 	setlocale(LC_ALL, "");
+#endif
 
 	while ((ch = getopt(argc, argv, "")) != -1) {
 		switch (ch) {

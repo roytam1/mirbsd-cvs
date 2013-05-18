@@ -35,20 +35,12 @@
  *      $Id$
  */
 
-#ifndef lint
-static char copyright[] =
-"@(#) Copyright (c) 1995-1996 Wolfram Schneider, Berlin.\n\
+#include <sys/cdefs.h>
+__COPYRIGHT("@(#) Copyright (c) 1995-1996 Wolfram Schneider, Berlin.\n\
 @(#) Copyright (c) 1989, 1993\n\
-        The Regents of the University of California.  All rights reserved.\n";
-#endif /* not lint */
-
-#ifndef lint
-#if 0
-static char sccsid[] = "@(#)locate.c    8.1 (Berkeley) 6/6/93";
-#else
-static char rcsid[] = "$OpenBSD: locate.c,v 1.18 2004/04/08 20:08:59 jmc Exp $";
-#endif
-#endif /* not lint */
+        The Regents of the University of California.  All rights reserved.\n");
+__SCCSID("@(#)locate.c    8.1 (Berkeley) 6/6/93");
+__RCSID("$MirOS$");
 
 /*
  * Ref: Usenix ;login:, Vol 8, No 1, February/March, 1983, p. 8.
@@ -149,7 +141,9 @@ main(int argc, char *argv[])
 #ifdef MMAP
 	f_mmap = 1;		/* mmap is default */
 #endif
+#ifndef __MirBSD__
 	(void) setlocale(LC_ALL, "");
+#endif
 
 	while ((ch = getopt(argc, argv, "Scd:il:ms")) != -1)
 		switch (ch) {

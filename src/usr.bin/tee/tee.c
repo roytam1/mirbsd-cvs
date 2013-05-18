@@ -30,18 +30,11 @@
  * SUCH DAMAGE.
  */
 
-#ifndef lint
-static char copyright[] =
-"@(#) Copyright (c) 1988, 1993\n\
-	The Regents of the University of California.  All rights reserved.\n";
-#endif /* not lint */
-
-#ifndef lint
-#if 0
-static char sccsid[] = "@(#)tee.c	8.1 (Berkeley) 6/6/93";
-#endif
-static char rcsid[] = "$OpenBSD: tee.c,v 1.6 2003/06/10 22:20:53 deraadt Exp $";
-#endif
+#include <sys/cdefs.h>
+__COPYRIGHT("@(#) Copyright (c) 1988, 1993\n\
+	The Regents of the University of California.  All rights reserved.\n");
+__SCCSID("@(#)tee.c	8.1 (Berkeley) 6/6/93");
+__RCSID("$MirOS$");
 
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -74,7 +67,9 @@ main(int argc, char *argv[])
 	char *buf;
 #define	BSIZE (8 * 1024)
 
+#ifndef __MirBSD__
 	setlocale(LC_ALL, "");
+#endif
 
 	append = 0;
 	while ((ch = getopt(argc, argv, "ai")) != -1)

@@ -32,7 +32,7 @@
 #include <string.h>
 #include <unistd.h>
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.bin/arch/arch.c,v 1.2 2005/03/13 18:32:41 tg Exp $");
 
 static void usage(void);
 
@@ -45,7 +45,9 @@ main(int argc, char *argv[])
 	int short_form = 0, c;
 	char *arch, *opts;
 
+#ifndef __MirBSD__
 	setlocale(LC_ALL, "");
+#endif
 
 	machine = strcmp(__progname, "machine") == 0;
 	if (machine) {

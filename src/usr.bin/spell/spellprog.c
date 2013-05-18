@@ -64,19 +64,11 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef lint
-static const char copyright[] =
-"@(#) Copyright (c) 1991, 1993\n\
-	The Regents of the University of California.  All rights reserved.\n";
-#endif /* not lint */
-
-#ifndef lint
-#if 0
-static const char sccsid[] = "@(#)spell.c	8.1 (Berkeley) 6/6/93";
-#else
-#endif
-static const char rcsid[] = "$OpenBSD: spellprog.c,v 1.4 2003/06/03 02:56:16 millert Exp $";
-#endif /* not lint */
+#include <sys/cdefs.h>
+__COPYRIGHT("@(#) Copyright (c) 1991, 1993\n\
+	The Regents of the University of California.  All rights reserved.\n");
+__SCCSID("@(#)spell.c	8.1 (Berkeley) 6/6/93");
+__RCSID("$MirOS$");
 
 #include <sys/param.h>
 #include <sys/mman.h>
@@ -261,7 +253,9 @@ main(int argc, char **argv)
 	struct stat sb;
 	FILE *file, *found;
 
+#ifndef __MirBSD__
 	setlocale(LC_ALL, "");
+#endif
 
 	outfile = NULL;
 	while ((ch = getopt(argc, argv, "bvxo:")) != -1) {

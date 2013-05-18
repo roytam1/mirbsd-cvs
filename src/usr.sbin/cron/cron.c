@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.sbin/cron/cron.c,v 1.2 2005/03/13 19:16:19 tg Exp $ */
+/**	$MirOS: src/usr.sbin/cron/cron.c,v 1.3 2005/04/26 15:51:34 tg Exp $ */
 /*	$OpenBSD: cron.c,v 1.36 2004/06/17 22:11:55 millert Exp $	*/
 
 /* Copyright 1988,1990,1993,1994 by Paul Vixie
@@ -26,7 +26,7 @@
 
 #include "cron.h"
 
-__RCSID("$MirOS: src/usr.sbin/cron/cron.c,v 1.2 2005/03/13 19:16:19 tg Exp $");
+__RCSID("$MirOS: src/usr.sbin/cron/cron.c,v 1.3 2005/04/26 15:51:34 tg Exp $");
 
 enum timejump { negative, small, medium, large };
 
@@ -72,7 +72,9 @@ main(int argc, char *argv[]) {
 
 	ProgramName = argv[0];
 
+#ifndef __MirBSD__
 	setlocale(LC_ALL, "");
+#endif
 
 #if defined(BSD)
 	setlinebuf(stdout);

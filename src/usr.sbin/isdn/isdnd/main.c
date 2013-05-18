@@ -124,7 +124,9 @@ main(int argc, char **argv)
 #endif
 #endif
 
+#ifndef __MirBSD__
 	setlocale (LC_ALL, "");
+#endif
 	
 	while ((i = getopt(argc, argv, "mc:d:fFlL:Pr:s:t:u:")) != -1)
 	{

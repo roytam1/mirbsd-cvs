@@ -30,18 +30,11 @@
  * SUCH DAMAGE.
  */
 
-#ifndef lint
-static char copyright[] =
-"@(#) Copyright (c) 1993\n\
-	The Regents of the University of California.  All rights reserved.\n";
-#endif /* not lint */
-
-#ifndef lint
-#if 0
-static char sccsid[] = "@(#)touch.c	8.2 (Berkeley) 4/28/95";
-#endif
-static char rcsid[] = "$OpenBSD: touch.c,v 1.12 2005/04/20 19:16:34 deraadt Exp $";
-#endif /* not lint */
+#include <sys/cdefs.h>
+__COPYRIGHT("@(#) Copyright (c) 1993\n\
+	The Regents of the University of California.  All rights reserved.\n");
+__SCCSID("@(#)touch.c	8.2 (Berkeley) 4/28/95");
+__RCSID("$MirOS$");
 
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -71,7 +64,9 @@ main(int argc, char *argv[])
 	int aflag, cflag, mflag, ch, fd, len, rval, timeset;
 	char *p;
 
+#ifndef __MirBSD__
 	setlocale(LC_ALL, "");
+#endif
 
 	aflag = cflag = mflag = timeset = 0;
 	if (gettimeofday(&tv[0], NULL))

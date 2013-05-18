@@ -33,19 +33,11 @@
  * SUCH DAMAGE.
  */
 
-#ifndef lint
-static char copyright[] =
-"@(#) Copyright (c) 1988, 1993, 1994\n\
-	The Regents of the University of California.  All rights reserved.\n";
-#endif /* not lint */
-
-#ifndef lint
-#if 0
-static char sccsid[] = "@(#)cp.c	8.5 (Berkeley) 4/29/95";
-#else
-static char rcsid[] = "$OpenBSD: cp.c,v 1.29 2004/12/13 20:25:34 otto Exp $";
-#endif
-#endif /* not lint */
+#include <sys/cdefs.h>
+__COPYRIGHT("@(#) Copyright (c) 1988, 1993, 1994\n\
+	The Regents of the University of California.  All rights reserved.\n");
+__SCCSID("@(#)cp.c	8.5 (Berkeley) 4/29/95");
+__RCSID("$MirOS$");
 
 /*
  * Cp copies source files to target files.
@@ -102,7 +94,9 @@ main(int argc, char *argv[])
 	int Hflag, Lflag, Pflag, ch, fts_options, r;
 	char *target;
 
+#ifndef __MirBSD__
 	(void)setlocale(LC_ALL, "");
+#endif
 
 	Hflag = Lflag = Pflag = Rflag = 0;
 	while ((ch = getopt(argc, argv, "HLPRfipr")) != -1)

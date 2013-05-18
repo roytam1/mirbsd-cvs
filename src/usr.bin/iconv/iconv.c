@@ -1,4 +1,4 @@
-/* $MirOS: src/share/misc/licence.template,v 1.14 2006/08/09 19:35:23 tg Rel $ */
+/* $MirOS: src/usr.bin/iconv/iconv.c,v 1.1 2006/11/01 22:59:00 tg Exp $ */
 
 /*-
  * Copyright (c) 2006
@@ -42,7 +42,7 @@
 #include <string.h>
 #include <unistd.h>
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.bin/iconv/iconv.c,v 1.1 2006/11/01 22:59:00 tg Exp $");
 
 __dead void dump_csets(void);
 __dead void usage(void);
@@ -58,13 +58,16 @@ int
 main(int argc, char *argv[])
 {
 	bool flag_c = false, flag_s = false;
-	char *fromcs = NULL, *tocs = NULL, *fn, *srcp, *dstp;
+	const char *fromcs = NULL, *tocs = NULL;
+	char *fn, *srcp, *dstp;
 	int c, fd = STDIN_FILENO;
 	size_t m, n, ilen, olen, inval = 0, invaltot = 0;
 	iconv_t cd;
 	off_t iofs;
 
+#ifndef __MirBSD__
 	setlocale(LC_ALL, "");
+#endif
 
 	while ((c = getopt(argc, argv, "cf:lst:")) != -1)
 		switch (c) {
@@ -90,10 +93,18 @@ main(int argc, char *argv[])
 	argv += optind;
 
 	if (fromcs == NULL)
+#ifdef __MirBSD__
+		fromcs = "UTF-8";
+#else
 		fromcs = nl_langinfo(CODESET);
+#endif
 
 	if (tocs == NULL)
+#ifdef __MirBSD__
+		tocs = "UTF-8";
+#else
 		tocs = nl_langinfo(CODESET);
+#endif
 
 #ifdef DEBUG
 	fprintf(stderr, "D: initialising conversion %s -> %s\n", fromcs, tocs);
