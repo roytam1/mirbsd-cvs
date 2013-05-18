@@ -1,10 +1,13 @@
-# $MirOS: src/distrib/i386/livecd/Makefile,v 1.43 2006/05/26 21:18:51 tg Exp $
+# $MirOS: src/distrib/i386/livecd/Makefile,v 1.44 2006/05/28 20:41:18 tg Exp $
 
 .include <bsd.own.mk>
 
 CDROM?=		livecd${OSrev}.iso
 REALOBJDIR!=	readlink -nf ${.OBJDIR}
 HOSTCFLAGS?=	${CFLAGS} ${COPTS}
+
+#ANONCVSROOT=	_anoncvs@anoncvs.66h.42h.de:/cvs
+ANONCVSROOT=	anoncvs@unixforge.de:/cvs
 
 all install:
 
@@ -51,7 +54,7 @@ addjupp:
 		lndir ${BSDSRCDIR}/contrib/code/jupp; \
 	else \
 		cd tempdir; \
-		cvs -Rqz3 -d _anoncvs@anoncvs.66h.42h.de:/cvs co \
+		cvs -Rqz3 -d ${ANONCVSROOT} co \
 		    -PAdjupp contrib/code/jupp || rm -rf jupp; \
 	fi
 	@if [[ -d tempdir/jupp ]]; then \
@@ -70,7 +73,7 @@ addtinyirc:
 		lndir ${BSDSRCDIR}/contrib/code/Snippets; \
 	else \
 		cd tempdir; \
-		cvs -Rqz3 -d _anoncvs@anoncvs.66h.42h.de:/cvs co \
+		cvs -Rqz3 -d ${ANONCVSROOT} co \
 		    -PAdtinyirc contrib/code/Snippets/tinyirc.c \
 		    || rm -rf tinyirc; \
 	fi
