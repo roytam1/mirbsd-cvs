@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.282 2010/02/08 16:41:36 bsiegert Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.283 2010/02/08 17:11:01 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -6237,4 +6237,57 @@ Language: de_DE-1901
 <p>Bauch wieder OK, dafür nen recht wehtuënden Frosch im Hals,
  Hammerkopfschmerzen, Rückenschmerzen und bißchen Gliederschmerzen.
  Grml. Ich mach' im Moment erst mal nix.</p>
+----
+Title: PGP keysigning is useless
+Author: tg@
+Date: 23.02.2010 22:29
+Tag: debian mksh rant
+
+<p>Keysigning is useless. I boot up <a href="http://grml.org/">a
+ suitable live GNU/Linux system</a>, install signing-party, take
+ the trouble that is to set up caff, transfer my secret key from
+ the <a href="@@RELPATH@@main.htm">secure box</a>, sign. I think
+ caff providing the keys in a different order than they're given
+ on the command line sucks and just run caff once per key. I did
+ even start Postwreck. But no, people just don't accept any mail
+ from "EHLO grml" systems, and I still cannot control my reverse
+ DNS despite having a static IPv4 address (and IPv6, which looks
+ to be unused). People also pretend I'm on dial-up. Great!</p>
+<p>I will no longer participate in any (mass) PGP keysigning but
+ will continue to do so on a per-person basis. Probably sign but
+ one <tt>uid</tt>, either apply common sense and upload it to <a
+ href="http://blackhole.pca.dfn.de:11371/">t̲h̲e̲ keyserver</a>, or
+ mail the entire signed key to one address.</p>
+<p>By the way, how crazy is it that I need to use the deprecated
+ <tt>$CONFIG{'mailer-send'}</tt> to pass an envelope-from to the
+ mailer? It also suffers from the same delusion as e.g. nmudiff,
+ namely that my Debian box is a fully set up workstation able to
+ send out eMail and configured correctly. At least, it, unlike a
+ number of others, does not assume I use mud (Mutt). grml…</p>
+<p>Oh, and caff does a protocol violation (by always sending out
+ GnuPG/MIME and not offering the standardised Inline OpenPGP), I
+ think weasel just doesn't care about such. (There is a notation
+ people can use to signal they want PGP/MIME, Inline PGP – which
+ is called "partitioned" – or both (and which order of priority)
+ but, alas, despite Inline PGP being the only one useful for the
+ MUAs without integratin, and being more widely spread than that
+ PGP/MIME crap, the followers of the latter do some (FSF-style?)
+ kind of vendor lockin by not speaking anything else.</p>
+<p>Anyway. I'm all for X.509 except there seems to be no sane CA
+ (Startcom is... trouble, even with Opera; CAcert.org is dying).
+ I'll just buy a certificate (not from Verisign though) for www,
+ and roll <a href="@@RELPATH@@ca.htm">my own</a> again (I can do
+ it, I have experience with that actually).</p>
+<p>On an unrelated side note, still waiting for an OpenSSL patch
+ for that recent TLS extension...</p>
+<p>ObRant: password policies, be they required characters or any
+ kind of length restrictions, suck. People I will eventually end
+ up with <strong>less secure passwords</strong> on such systems,
+ because even if some of mine may appear to be derived from some
+ kind of dictionary (what language that is I'd be interested in,
+ though...) they aren't, and I have my scheme<em>s</em>. You got
+ to have them with a gazillion of passwords used. And I probably
+ will forget them more often (and sending them via eMail is also
+ not a solution).</p>
+<p>Unrelated notice: mksh R39c with bug fixes coming RSN.</p>
 ----
