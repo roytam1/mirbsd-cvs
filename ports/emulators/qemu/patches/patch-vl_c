@@ -1,6 +1,6 @@
-$MirOS: ports/emulators/qemu/patches/patch-vl_c,v 1.2 2005/05/03 19:30:06 tg Exp $
+$MirOS: ports/emulators/qemu/patches/patch-vl_c,v 1.3 2005/11/15 12:25:10 tg Exp $
 --- vl.c.orig	Sun Sep  4 17:11:09 2005
-+++ vl.c	Tue Nov 15 11:53:40 2005
++++ vl.c	Mon Oct  2 21:55:32 2006
 @@ -42,7 +42,7 @@
  #include <dirent.h>
  #ifdef _BSD
@@ -10,15 +10,7 @@ $MirOS: ports/emulators/qemu/patches/patch-vl_c,v 1.2 2005/05/03 19:30:06 tg Exp
  #include <libutil.h>
  #endif
  #else
-@@ -128,6 +128,7 @@ NetDriverState nd_table[MAX_NICS];
- QEMUTimer *gui_timer;
- int vm_running;
- int audio_enabled = 0;
-+int nic_pcnet = 0;
- int sb16_enabled = 1;
- int adlib_enabled = 1;
- int gus_enabled = 1;
-@@ -503,10 +504,18 @@ int64_t cpu_get_real_ticks(void)
+@@ -503,10 +503,18 @@ int64_t cpu_get_real_ticks(void)
  
  #elif defined(__i386__)
  
@@ -37,7 +29,7 @@ $MirOS: ports/emulators/qemu/patches/patch-vl_c,v 1.2 2005/05/03 19:30:06 tg Exp
      return val;
  }
  
-@@ -911,13 +920,6 @@ static int start_rtc_timer(void)
+@@ -911,13 +919,6 @@ static int start_rtc_timer(void)
      return 0;
  }
  
@@ -51,7 +43,7 @@ $MirOS: ports/emulators/qemu/patches/patch-vl_c,v 1.2 2005/05/03 19:30:06 tg Exp
  #endif /* !defined(__linux__) */
  
  #endif /* !defined(_WIN32) */
-@@ -986,7 +988,9 @@ static void init_timers(void)
+@@ -986,7 +987,9 @@ static void init_timers(void)
          } else 
  #endif /* defined(__linux__) */
          {
@@ -61,7 +53,7 @@ $MirOS: ports/emulators/qemu/patches/patch-vl_c,v 1.2 2005/05/03 19:30:06 tg Exp
              pit_min_timer_count = ((uint64_t)itv.it_interval.tv_usec * 
                                     PIT_FREQ) / 1000000;
          }
-@@ -1635,6 +1639,7 @@ static int tun_open(char *ifname, int if
+@@ -1635,6 +1638,7 @@ static int tun_open(char *ifname, int if
  {
      int fd;
      char *dev;
@@ -69,7 +61,7 @@ $MirOS: ports/emulators/qemu/patches/patch-vl_c,v 1.2 2005/05/03 19:30:06 tg Exp
      struct stat s;
  
      fd = open("/dev/tap", O_RDWR);
-@@ -1645,6 +1650,22 @@ static int tun_open(char *ifname, int if
+@@ -1645,6 +1649,22 @@ static int tun_open(char *ifname, int if
  
      fstat(fd, &s);
      dev = devname(s.st_rdev, S_IFCHR);
@@ -92,34 +84,16 @@ $MirOS: ports/emulators/qemu/patches/patch-vl_c,v 1.2 2005/05/03 19:30:06 tg Exp
      pstrcpy(ifname, ifname_size, dev);
  
      fcntl(fd, F_SETFL, O_NONBLOCK);
-@@ -2846,6 +2867,7 @@ void help(void)
- #if defined(TARGET_PPC) || defined(TARGET_SPARC)
-            "-g WxH[xDEPTH]  Set the initial graphical resolution and depth\n"
- #endif
-+           "-nic-pcnet     simulate an AMD PC-Net PCI ethernet adaptor\n"
-            "\n"
-            "Network options:\n"
-            "-nics n         simulate 'n' network cards [default=1]\n"
-@@ -2959,6 +2981,7 @@ enum {
-     QEMU_OPTION_L,
-     QEMU_OPTION_no_code_copy,
-     QEMU_OPTION_pci,
-+    QEMU_OPTION_nic_pcnet,
-     QEMU_OPTION_isa,
-     QEMU_OPTION_prep,
-     QEMU_OPTION_k,
-@@ -3047,8 +3070,9 @@ const QEMUOption qemu_options[] = {
-     
+@@ -3048,7 +3068,7 @@ const QEMUOption qemu_options[] = {
      /* temporary options */
      { "pci", 0, QEMU_OPTION_pci },
-+    { "nic-pcnet", 0, QEMU_OPTION_nic_pcnet },
      { "cirrusvga", 0, QEMU_OPTION_cirrusvga },
 -    { NULL },
 +    { NULL, 0, 0 },
  };
  
  #if defined (TARGET_I386) && defined(USE_CODE_COPY)
-@@ -3185,7 +3209,7 @@ int main(int argc, char **argv)
+@@ -3185,7 +3205,7 @@ int main(int argc, char **argv)
          serial_devices[i][0] = '\0';
      serial_device_index = 0;
      
@@ -128,13 +102,3 @@ $MirOS: ports/emulators/qemu/patches/patch-vl_c,v 1.2 2005/05/03 19:30:06 tg Exp
      for(i = 1; i < MAX_PARALLEL_PORTS; i++)
          parallel_devices[i][0] = '\0';
      parallel_device_index = 0;
-@@ -3452,6 +3476,9 @@ int main(int argc, char **argv)
-                 break;
-             case QEMU_OPTION_pci:
-                 pci_enabled = 1;
-+                break;
-+            case QEMU_OPTION_nic_pcnet:
-+                nic_pcnet = 1;
-                 break;
-             case QEMU_OPTION_isa:
-                 pci_enabled = 0;

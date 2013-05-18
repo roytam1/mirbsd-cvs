@@ -1,6 +1,6 @@
-$MirOS: ports/emulators/qemu/patches/patch-Makefile_target,v 1.3 2005/05/03 19:33:24 tg Exp $
+$MirOS: ports/emulators/qemu/patches/patch-Makefile_target,v 1.4 2005/11/15 12:25:08 tg Exp $
 --- Makefile.target.orig	Sun Sep  4 17:11:09 2005
-+++ Makefile.target	Tue Nov 15 11:37:42 2005
++++ Makefile.target	Mon Oct  2 21:55:30 2006
 @@ -17,7 +17,9 @@ ifdef CONFIG_USER_ONLY
  VPATH+=:$(SRC_PATH)/linux-user
  DEFINES+=-I$(SRC_PATH)/linux-user -I$(SRC_PATH)/linux-user/$(TARGET_ARCH)
@@ -32,15 +32,7 @@ $MirOS: ports/emulators/qemu/patches/patch-Makefile_target,v 1.3 2005/05/03 19:3
  
  pc.o: DEFINES := -DUSE_SB16 $(DEFINES)
  
-@@ -288,6 +295,7 @@ ifeq ($(TARGET_BASE_ARCH), i386)
- VL_OBJS+= ide.o ne2000.o pckbd.o vga.o $(SOUND_HW) dma.o $(AUDIODRV)
- VL_OBJS+= fdc.o mc146818rtc.o serial.o i8259.o i8254.o pc.o
- VL_OBJS+= cirrus_vga.o mixeng.o apic.o parallel.o
-+VL_OBJS+= pcnet.o
- endif
- ifeq ($(TARGET_BASE_ARCH), ppc)
- VL_OBJS+= ppc.o ide.o ne2000.o pckbd.o vga.o $(SOUND_HW) dma.o $(AUDIODRV)
-@@ -427,7 +435,7 @@ clean:
+@@ -427,7 +434,7 @@ clean:
  
  install: all 
  ifneq ($(PROGS),)
