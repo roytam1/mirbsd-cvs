@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/distrib/i386/livecd/munge_it.sh,v 1.40 2006/05/17 13:36:40 tg Exp $
+# $MirOS: src/distrib/i386/livecd/munge_it.sh,v 1.41 2006/05/26 21:18:51 tg Exp $
 #-
 # Copyright (c) 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -77,7 +77,7 @@ EOF
 #EOF
 ed -s etc/rc <<-'EOF'
 	1i
-		# $MirOS: src/distrib/i386/livecd/munge_it.sh,v 1.40 2006/05/17 13:36:40 tg Exp $
+		# $MirOS: src/distrib/i386/livecd/munge_it.sh,v 1.41 2006/05/26 21:18:51 tg Exp $
 	.
 	/shutdown request/ka
 	/^fi/a
@@ -123,6 +123,44 @@ ed -s etc/rc <<-'EOF'
 	.
 	/rd0c/d
 	/openssl genrsa/s/4096/1024/
+	wq
+EOF
+ed -s etc/rc.local <<-'EOF'
+	$a
+		has_pkgs=0
+		for a in /v?/*/*.cgz; do
+			if [[ -s $a ]]; then
+				has_pkgs=1
+				break
+			fi
+		done
+		if [[ $has_pkgs = 1 ]]; then
+			print -n 'preloading packages...'
+			mount_mfs -s 1200000 swap /usr/mpkg
+			has_pkgtools=0
+			print -n ' <pkgtools'
+			for a in /v?/*/pkgutl*.ngz; do
+				if [[ -s $a ]]; then
+					has_pkgtools=$a
+					break
+				fi
+			done
+			if [[ $has_pkgtools != 0 ]]; then
+				tar xzphf $a
+			else
+				print -n ' (compiling)'
+				(cd /usr/ports; make setup)
+			fi
+			print -n '>'
+			for a in /v?/*/*.cgz; do
+				[[ -s $a ]] || continue
+				print -n " ${a%.cgz}"
+				/usr/mpkg/sbin/pkg_info ${a%.cgz} >/dev/null \
+				    2>&1 || /usr/mpkg/sbin/pkg_add $a
+			done
+			print ' done'
+		fi
+	.
 	wq
 EOF
 ed -s etc/rc.securelevel <<-'EOF'
