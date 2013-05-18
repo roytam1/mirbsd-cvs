@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.sbin/ntpd/ntpd.h,v 1.17 2008/06/04 18:28:37 tg Exp $ */
+/**	$MirOS: src/usr.sbin/ntpd/ntpd.h,v 1.18 2009/05/07 19:09:37 tg Exp $ */
 /*	$OpenBSD: ntpd.h,v 1.70 2006/06/04 18:58:13 otto Exp $ */
 
 /*
@@ -61,6 +61,39 @@
 #define	SETTIME_MIN_OFFSET	180	/* min offset for settime at start */
 #define	SETTIME_TIMEOUT		15	/* max seconds to wait with -s */
 #define	LOG_NEGLIGEE		125	/* negligible drift to not log (ms) */
+
+/**
+ * While various sources state that the delay can never be negative,
+ * here is an example where it actually can be, with good reason:
+ *
+ * Assume an NTP server with a low- to medium precision clock (for
+ * purposes of this example, we assume 10 ms), and an NTP client
+ * with a high-precision clock. Assume they sit on a LAN which has
+ * a transaction time of 1 ms. They are 100 ms apart initially. We
+ * can observe the following sample values over two requests with
+ * no adjustment applied in between:
+ *
+ *		Request 1	Request 2	Comment
+ * T1		1000		2000
+ * T2		1101		2101		In Req2, a tick increasement
+ * T3		1101		2111		happens between T2 and T3
+ * T4		1002		2002
+ *
+ * This leaves us with the following results:
+ * Req1:	d =  2		t = 100		v =  2
+ * Req2:	d = -8		t = 105		v = -8
+ *
+ * According to Mark Martinec, the true delay can only be observed
+ * by averaging delays, including negative ones. However, if one end
+ * is a VM or another low-resolution device, and the other end has
+ * a HPET or similar, chances are that most replies have negative
+ * delays. For this reason, MirBSD OpenNTPD 2009-12-24 ignores delays
+ * below DELAY_NEGLIGEE which defaults to 1 ms (to accomodate systems
+ * without sub-millisecond precision); set to 0 to revert to the pre-
+ * vious behaviour.
+ */
+#define DELAY_NEGLIGEE	(-0.001)	/* minimum xfer delay accepted */
+
 
 enum client_state {
 	STATE_NONE,

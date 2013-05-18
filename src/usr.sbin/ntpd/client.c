@@ -27,7 +27,7 @@
 
 #include "ntpd.h"
 
-__RCSID("$MirOS: src/usr.sbin/ntpd/client.c,v 1.17 2009/05/16 11:52:31 tg Exp $");
+__RCSID("$MirOS: src/usr.sbin/ntpd/client.c,v 1.18 2009/05/16 11:53:08 tg Exp $");
 
 #ifdef DDEBUG
 #define log_reply	log_info
@@ -244,8 +244,8 @@ client_dispatch(struct ntp_peer *p, u_int8_t settime, uint8_t trace)
 		return (0);
 	}
 
-	/*
-	 * From RFC 2030 (with a correction to the delay math):
+	/**
+	 * From RFC 2030 (with a correction to the delay math) and rdate(8):
 	 *
 	 *     Timestamp Name          ID   When Generated
 	 *     ------------------------------------------------------------
@@ -254,9 +254,12 @@ client_dispatch(struct ntp_peer *p, u_int8_t settime, uint8_t trace)
 	 *     Transmit Timestamp      T3   time reply sent by server
 	 *     Destination Timestamp   T4   time reply received by client
 	 *
-	 *  The roundtrip delay d and local clock offset t are defined as
+	 *  The roundtrip delay d, local clock offset t, and adjustment
+	 *  error v are defined as:
 	 *
-	 *    d = (T4 - T1) - (T3 - T2)     t = ((T2 - T1) + (T3 - T4)) / 2.
+	 *	d = (T4 - T1) - (T3 - T2)
+	 *	t = ((T2 - T1) + (T3 - T4)) / 2
+	 *	v = |(T2 - T1) - (T3 - T4)|
 	 */
 
 	T1 = p->query->xmttime;
@@ -265,7 +268,7 @@ client_dispatch(struct ntp_peer *p, u_int8_t settime, uint8_t trace)
 
 	p->reply[p->shift].offset = ((T2 - T1) + (T3 - T4)) / 2;
 	p->reply[p->shift].delay = (T4 - T1) - (T3 - T2);
-	if (p->reply[p->shift].delay < 0) {
+	if (p->reply[p->shift].delay < DELAY_NEGLIGEE) {
 		interval = error_interval();
 		set_next(p, interval);
 		log_info("reply from %s: negative delay %fs, "
@@ -275,6 +278,8 @@ client_dispatch(struct ntp_peer *p, u_int8_t settime, uint8_t trace)
 		return (0);
 	}
 	p->reply[p->shift].error = (T2 - T1) - (T3 - T4);
+	if (p->reply[p->shift].error < 0)
+		p->reply[p->shift].error = -p->reply[p->shift].error;
 	p->reply[p->shift].rcvd = time(NULL);
 	p->reply[p->shift].good = 1;
 
