@@ -1,5 +1,3 @@
-/* $MirOS: src/lib/libc/string/strlfun.c,v 1.13 2007/01/07 02:09:49 tg Exp $ */
-
 /*-
  * Copyright (c) 2006
  *	Thorsten Glaser <tg@mirbsd.de>
@@ -79,7 +77,7 @@ extern size_t strlen(const char *);
 #endif
 
 #if !defined(_KERNEL) && !defined(_STANDALONE)
-__RCSID("$MirOS: src/lib/libc/string/strlfun.c,v 1.13 2007/01/07 02:09:49 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/string/strlfun.c,v 1.14 2007/01/07 02:11:40 tg Exp $");
 #endif
 
 size_t strlcat(char *, const char *, size_t);
@@ -112,6 +110,7 @@ strlcat(char *dst, const char *src, size_t dlen)
 }
 #endif /* !HAVE_STRLCAT */
 
+#if !defined(HAVE_STRLCPY) || (HAVE_STRLCPY == 0)
 /* $OpenBSD: strlcpy.c,v 1.10 2005/08/08 08:05:37 espie Exp $ */
 
 /*-
@@ -122,7 +121,6 @@ strlcat(char *dst, const char *src, size_t dlen)
  * copyright notice and this permission notice appear in all copies.
  */
 
-#if !defined(HAVE_STRLCPY) || (HAVE_STRLCPY == 0)
 /*
  * Copy src to string dst of size siz.  At most siz-1 characters
  * will be copied.  Always NUL terminates (unless siz == 0).
