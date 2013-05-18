@@ -1,4 +1,4 @@
-/* $MirOS: src/sys/arch/i386/stand/boot/srt0.S,v 1.18 2008/12/28 19:04:31 tg Exp $ */
+/* $MirOS: src/sys/arch/i386/stand/boot/srt0.S,v 1.19 2008/12/28 20:16:19 tg Exp $ */
 
 /*-
  * Copyright (c) 2003, 2004, 2005, 2006, 2007, 2008
@@ -181,7 +181,7 @@ Llxok:	push	di
 	jcxz	Lnolx		/* HDD */
 	push	cs
 	pop	ds
-	inc	byte ptr [_rval + 1]
+	inc	byte ptr ds:[0x0151]
 	dec	cx
 	jcxz	Lnolx		/* CD, no emulation mode */
 	mov	ax,0x4B00	/* BIOS: terminate emulation */
