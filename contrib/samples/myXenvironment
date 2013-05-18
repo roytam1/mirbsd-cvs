@@ -30,12 +30,16 @@ The file ~/.etc/bin/xtm referred in said file is this one:
 
 ---- cutting here may damage your screen surface -----
 #!/bin/mksh
-# $MirOS: contrib/samples/myXenvironment,v 1.8 2006/02/01 13:32:05 tg Exp $
+# $MirOS: contrib/samples/myXenvironment,v 1.9 2006/02/02 21:51:47 tg Exp $
+unset LANG LC_ALL
+export LC_CTYPE=C
 if [[ $1 = vga ]]; then
 	# exec xtm vga ...
 	shift
 	/usr/X11R6/bin/xterm -class VXTerm "$@" &
 	exit 0
+elif [[ $1 = @(iso|C|c|en|en_US|latin1|iso?(-)8859*) ]]; then
+	exec /usr/X11R6/bin/xterm -title isoTerm -geom 113x42+1+1 -fn 9x15 "$@"
 elif [[ ! -e /usr/mpkg/lib/X11/fonts/terminus || $1 != t* ]]; then
 	:
 elif [[ $1 = tbig ]]; then
@@ -58,7 +62,7 @@ else
 	    -fn -xos4-terminus-medium-r-normal--16-160-72-72-c-80-iso8859-1 \
 	    "$@"
 fi
-exec /usr/X11R6/bin/xterm -geom 113x42+1+1 -fn 9x15 "$@"
+exec /usr/X11R6/bin/xterm -class UXTerm -title uxTerm -u8 -geom 113x42+1+1 "$@"
 ---- cutting here may damage your screen surface -----
 
 When I want to have two windows open the same time, e.g.
