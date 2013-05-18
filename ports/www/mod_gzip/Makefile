@@ -6,8 +6,8 @@ COMMENT=			transparently compress Apache output
 # and has Apache that supports DSO's.
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
-V=		1.3.26.1a
-DISTNAME=	mod_gzip-${V}
+VSN=		1.3.26.1a
+DISTNAME=	mod_gzip-${VSN}
 CATEGORIES=	www
 
 MASTER_SITES=	${MASTER_SITE_SOURCEFORGE:=mod-gzip/}

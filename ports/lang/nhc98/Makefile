@@ -1,4 +1,4 @@
-# $MirOS: ports/lang/nhc98/Makefile,v 1.5 2009/04/18 19:55:57 bsiegert Exp $
+# $MirOS: ports/lang/nhc98/Makefile,v 1.6 2009/04/18 20:55:19 tg Exp $
 # $OpenBSD: Makefile,v 1.2 2004/05/16 23:37:58 pvalchev Exp $
 # $NetBSD: Makefile,v 1.29 2004/03/26 21:19:53 wiz Exp $
 
@@ -7,19 +7,19 @@ BROKEN=		Segmentation fault (core dumped)
 NOT_FOR_PLATFORM=	${LP64_PLATFORMS}
 
 COMMENT=	portable Haskell compiler
-V=		1.16
-DISTNAME=	nhc98-${V}
+VSN=		1.16
+DISTNAME=	nhc98-${VSN}
 CATEGORIES=	lang
 HOMEPAGE=	http://www.haskell.org/nhc98/
 
 MASTER_SITES=	http://www.cs.york.ac.uk/fp/nhc98/
-MASTER_SITES0=	ftp://ftp.cse.unsw.edu.au/pub/users/dons/nhc98/${V}/
+MASTER_SITES0=	ftp://ftp.cse.unsw.edu.au/pub/users/dons/nhc98/${VSN}/
 
 DIST_SUBDIR=	${DISTNAME}
-DISTFILES=	nhc98src-${V}.tar.gz nhc98-${V}-regress.tar.bz2:0
+DISTFILES=	nhc98src-${VSN}.tar.gz nhc98-${VSN}-regress.tar.bz2:0
 
 # these are vendor patches
-PATCHFILES=	patch-${V}-typesyn:0 patch-${V}-ghc6:0
+PATCHFILES=	patch-${VSN}-typesyn:0 patch-${VSN}-ghc6:0
 
 USE_GMAKE=	Yes
 CONFIGURE_STYLE=simple

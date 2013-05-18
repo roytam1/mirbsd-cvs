@@ -2,9 +2,9 @@
 
 COMMENT=			Python package to retrieve data of the IMDb movie database
 
-V=		1.2
-DISTNAME=	imdbpy-${V}
-PKGNAME=	py-imdb-${V}-0
+VSN=		1.2
+DISTNAME=	imdbpy-${VSN}
+PKGNAME=	py-imdb-${VSN}-${DASH_VER}
 CATEGORIES=	misc
 
 HOMEPAGE=	http://imdbpy.sourceforge.net/
@@ -20,7 +20,7 @@ MASTER_SITES=	${MASTER_SITE_SOURCEFORGE:=imdbpy/}
 
 MODULES=	lang/python
 
-WRKDIST=	${WRKDIR}/IMDbPY-${V}
+WRKDIST=	${WRKDIR}/IMDbPY-${VSN}
 
 DOCDIR=		${PREFIX}/share/doc/py-imdb
 EXAMPLESDIR=	${PREFIX}/share/examples/py-imdb

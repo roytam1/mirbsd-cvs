@@ -1,14 +1,14 @@
-# $MirOS: ports/lang/hugs/Makefile,v 1.4 2006/02/09 11:11:55 tg Exp $
+# $MirOS: ports/lang/hugs/Makefile,v 1.5 2006/09/14 00:10:20 tg Exp $
 # $OpenBSD: Makefile,v 1.5 2004/05/17 02:24:32 dons Exp $
 
 COMMENT=			Haskell 98 interpreter
 
-V=		Nov2003
-DISTNAME=	hugs98-${V}
-PKGNAME=	hugs98-200311-0
+VSN=		Nov2003
+DISTNAME=	hugs98-${VSN}
+PKGNAME=	hugs98-200311-${DASH_VER}
 CATEGORIES=	lang
 HOMEPAGE=	http://www.haskell.org/hugs/
-MASTER_SITES=	http://cvs.haskell.org/Hugs/downloads/${V}/
+MASTER_SITES=	http://cvs.haskell.org/Hugs/downloads/${VSN}/
 MASTER_SITES0=	ftp://ftp.cse.unsw.edu.au/pub/users/dons/hugs98/
 
 DISTFILES=	${DISTNAME}.tar.gz ${DISTNAME}-regress.tar.bz2:0

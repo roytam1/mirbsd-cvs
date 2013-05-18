@@ -2,7 +2,7 @@
 PKG_ARCH=	*
 
 COMMENT=			window decoration themes for xfwm4
-DISTNAME=	xfwm4-themes-${V}
+DISTNAME=	xfwm4-themes-${VSN}
 
 HOMEPAGE=	http://www.xfce.org/en/xfwm4_themes.html
 

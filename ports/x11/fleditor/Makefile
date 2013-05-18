@@ -2,9 +2,9 @@
 
 COMMENT=			Text Editor for FLTK
 
-V=			0.4.5
-DISTNAME=		fl_editor-${V}
-PKGNAME=		fleditor-${V}-0
+VSN=			0.4.5
+DISTNAME=		fl_editor-${VSN}
+PKGNAME=		fleditor-${VSN}-${DASH_VER}
 CATEGORIES=		x11
 
 HOMEPAGE=		http://www.robertk.com/source/

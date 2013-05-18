@@ -3,14 +3,15 @@
 BROKEN=			does not use libc getline(3) implementation
 
 COMMENT=		GNU versions of common file management utilities
-COMMENT-ls=		colorized GNU 'ls'
+COMMENT-ls=		colourised GNU 'ls'
 
-V=			4.1
-DISTNAME=		fileutils-$V
+VSN=			4.1
+DISTNAME=		fileutils-${VSN}
 CATEGORIES=		misc
 
-PKGNAME=		${DISTNAME}p1-0
-PKGNAME-ls=		gnuls-$V-0
+# once VSN is 4.2, get the fuck rid of this!
+PKGNAME=		${DISTNAME}p1-${DASH_VER}
+PKGNAME-ls=		gnuls-${VSN}-${DASH_VER}
 
 
 PERMIT_PACKAGE_CDROM=	Yes

@@ -2,7 +2,7 @@
 PKG_ARCH=	*
 
 COMMENT=			icon themes for the xffm file manager
-DISTNAME=	xffm-icons-${V}
+DISTNAME=	xffm-icons-${VSN}
 
 RUN_DEPENDS=	:xffm-*:x11/xfce4/desktop/xffm
 

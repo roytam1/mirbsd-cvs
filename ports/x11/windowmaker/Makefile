@@ -1,12 +1,12 @@
-# $MirOS: ports/x11/windowmaker/Makefile,v 1.11 2007/02/22 22:57:59 tg Exp $
+# $MirOS: ports/x11/windowmaker/Makefile,v 1.12 2007/04/03 19:46:44 tg Exp $
 # $OpenBSD: Makefile,v 1.57 2003/08/16 19:06:07 tedu Exp $
 
 COMMENT=		window manager that emulates NeXTSTEP(tm)
 COMMENT-lang=		language subpackage for Window Maker
 
-V=			0.92.0
+VSN=			0.92.0
 DASH_VER=		2
-DISTNAME=		WindowMaker-${V}
+DISTNAME=		WindowMaker-${VSN}
 PKGNAME=		${DISTNAME:L}-${DASH_VER}
 CATEGORIES=		x11 x11/windowmaker
 HOMEPAGE=		http://www.windowmaker.org/
@@ -36,7 +36,7 @@ CONFIGURE_ENV=		LINGUAS='bg cs da de el es et fi fr gl hr hu it ja ko ms nl no p
 MULTI_PACKAGES= 	-lang
 
 .for i in ${MULTI_PACKAGES}
-PKGNAME$i=      	windowmaker${i}-${V}-${DASH_VER}
+PKGNAME$i=      	windowmaker${i}-${VSN}-${DASH_VER}
 .endfor
 
 SUBPACKAGE?=

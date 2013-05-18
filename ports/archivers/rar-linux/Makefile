@@ -1,13 +1,14 @@
-# $MirOS: ports/archivers/rar-linux/Makefile,v 1.9 2006/09/14 00:06:52 tg Exp $
+# $MirOS: ports/archivers/rar-linux/Makefile,v 1.10 2008/11/08 23:03:33 tg Exp $
 
 ONLY_FOR_PLATFORM=	OpenBSD:*:i386 MirBSD:*:i386
 EMUL=			linux
 
 CATEGORIES=		archivers
-COMMENT=			commercial RAR archiver binary
-V=			3.4.1
-DISTNAME=		rarlinux-${V}
-FULLPKGNAME=		rar-${V}-2-linux
+COMMENT=		commercial RAR archiver binary
+VSN=			3.4.1
+DASH_VER=		2
+DISTNAME=		rarlinux-${VSN}
+FULLPKGNAME=		rar-${VSN}-${DASH_VER}-linux
 MASTER_SITES=		http://www.rarlab.com/rar/
 RESPONSIBLE=		Thorsten Glaser <tg@mirbsd.org>
 HOMEPAGE=		http://www.win-rar.com/index.php

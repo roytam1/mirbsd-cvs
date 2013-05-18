@@ -4,9 +4,9 @@ COMMENT=			scheme r5 library
 
 CATEGORIES=	devel
 
-V=2c9
-DISTNAME=	slib$V
-PKGNAME=	slib-$V-0
+VSN=			2c9
+DISTNAME=		slib${VSN}
+PKGNAME=		slib-${VSN}-${DASH_VER}
 EXTRACT_SUFX=	.zip
 
 HOMEPAGE=	http://swissnet.ai.mit.edu/~jaffer/SCM.html

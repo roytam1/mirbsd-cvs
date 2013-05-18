@@ -1,12 +1,12 @@
-# $MirOS: ports/devel/jakarta-servletapi/Makefile,v 1.2 2005/03/25 23:13:38 bsiegert Exp $
+# $MirOS: ports/devel/jakarta-servletapi/Makefile,v 1.3 2006/09/14 00:08:17 tg Exp $
 # $OpenBSD: Makefile,v 1.8 2004/04/08 06:49:08 brad Exp $
 
 COMMENT=			implementation of the JSP and Java Servlet APIs
 
-V=		3.2.4
-DISTNAME=	jakarta-servletapi-${V}
+VSN=		3.2.4
+DISTNAME=	jakarta-servletapi-${VSN}
 CATEGORIES=	www devel
-MASTER_SITES=	http://archive.apache.org/dist/jakarta/tomcat-3/archive/v${V}/bin/
+MASTER_SITES=	http://archive.apache.org/dist/jakarta/tomcat-3/archive/v${VSN}/bin/
 EXTRACT_SUFX=	.zip
 
 HOMEPAGE=	http://jakarta.apache.org/

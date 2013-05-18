@@ -8,7 +8,7 @@
 ONLY_FOR_PLATFORM=	OpenBSD:*:i386 MirBSD:*:i386
 EMUL=			linux
 
-COMMENT=			libraries for maple V 5; commercial
+COMMENT=			libraries for maple v5; commercial
 
 # Directory where the maple CDROM was mounted
 .if !defined(MAPLE_CDROM)

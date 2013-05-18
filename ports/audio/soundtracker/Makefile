@@ -15,8 +15,8 @@ PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_CDROM= Yes
 PERMIT_DISTFILES_FTP=	Yes
 
-V=v0.6
-MASTER_SITES=		http://www.soundtracker.org/dl/$V/ \
+VSN=			v0.6
+MASTER_SITES=		http://www.soundtracker.org/dl/${VSN}/ \
 			http://mirror.csoft.org/soundtracker/
 
 LIB_DEPENDS=		gtk.1.2,gdk.1.2::x11/gtk+ \

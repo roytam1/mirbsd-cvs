@@ -1,10 +1,10 @@
-# $MirOS: ports/lang/expect/Makefile,v 1.4 2006/09/14 00:10:18 tg Exp $
+# $MirOS: ports/lang/expect/Makefile,v 1.5 2008/03/09 17:23:01 tg Exp $
 # $OpenBSD: Makefile,v 1.42 2004/04/18 19:55:47 jolan Exp $
 
 COMMENT=			sophisticated scripter based on Tcl/Tk
-V=		5.43
-_V=		${V:S/.//}
-DISTNAME=	expect-${V}.0
+VSN=		5.43
+_V=		${VSN:S/.//}
+DISTNAME=	expect-${VSN}.0
 CATEGORIES=	lang
 MASTER_SITES=	http://expect.nist.gov/old/
 HOMEPAGE=	http://expect.nist.gov/
@@ -20,7 +20,7 @@ LIB_DEPENDS+=	tcl84::lang/tcl/8.4
 FLAVOURS=	no_tk
 FLAVOUR?=
 
-SUBST_VARS+=		V _V
+SUBST_VARS+=		VSN _V
 CONFIGURE_STYLE=	gnu
 CONFIGURE_ARGS+=	${CONFIGURE_SHARED}
 CONFIGURE_ARGS+=	--with-tclconfig="${LOCALBASE}/lib/tcl8.4"\
@@ -35,6 +35,6 @@ CONFIGURE_ARGS+=	--with-tkconfig="${LOCALBASE}/lib/tk8.4" \
 
 REGRESS_TARGET=		test
 DESTDIRNAME=		INSTALL_ROOT
-WRKDIST=		${WRKDIR}/expect-${V}
+WRKDIST=		${WRKDIR}/expect-${VSN}
 
 .include <bsd.port.mk>

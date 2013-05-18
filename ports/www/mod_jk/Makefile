@@ -1,4 +1,4 @@
-# $MirOS: ports/www/mod_jk/Makefile,v 1.4 2006/02/09 09:36:20 tg Exp $
+# $MirOS: ports/www/mod_jk/Makefile,v 1.5 2006/09/14 00:14:44 tg Exp $
 # $OpenBSD: Makefile,v 1.1.1.1 2004/01/02 08:19:54 sturm Exp $
 
 IGNORE=		"might be broken, used to use Libtool"
@@ -8,9 +8,9 @@ IGNORE=		"might be broken, used to use Libtool"
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
 COMMENT=			Apache-Tomcat AJP Connector
-V=			1.2.5
-DISTNAME=		jakarta-tomcat-connectors-jk-${V}-src
-PKGNAME=		mod_jk-${V}-0
+VSN=			1.2.5
+DISTNAME=		jakarta-tomcat-connectors-jk-${VSN}-src
+PKGNAME=		mod_jk-${VSN}-${DASH_VER}
 CATEGORIES=		www
 HOMEPAGE=		http://jakarta.apache.org/tomcat/tomcat-4.1-doc/jk2/
 

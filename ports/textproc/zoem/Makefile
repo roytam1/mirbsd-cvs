@@ -4,9 +4,9 @@ BROKEN=			unfetchable distfile
 
 COMMENT=		interpretive macro/programming language
 
-V=		04-111
-DISTNAME=	zoem-${V}
-PKGNAME=	zoem-${V:S,-,.,}-0
+VSN=		04-111
+DISTNAME=	zoem-${VSN}
+PKGNAME=	zoem-${VSN:S,-,.,}-${DASH_VER}
 CATEGORIES=	textproc lang
 
 HOMEPAGE=	http://micans.org/zoem/

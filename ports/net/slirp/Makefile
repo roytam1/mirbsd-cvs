@@ -2,9 +2,10 @@
 
 COMMENT=			SLIP/CSLIP emulator for users with shell accounts
 
-V=		1.0c
-DISTNAME=	slirp-${V}
-PKGNAME=	slirp-${V}-1
+VSN=			1.0c
+DASH_VER=		1
+DISTNAME=		slirp-${VSN}
+PKGNAME=		slirp-${VSN}-${DASH_VER}
 CATEGORIES=	net
 MASTER_SITES=	${MASTER_SITE_BACKUP}
 

@@ -3,11 +3,11 @@
 COMMENT=			Haskell cryptographic library
 CATEGORIES=	security
 
-V=		1.1.2
-DISTNAME=	hs-crypto-${V}
+VSN=		1.1.2
+DISTNAME=	hs-crypto-${VSN}
 MASTER_SITES=	${HOMEPAGE}/downloads/
 HOMEPAGE=	http://www.haskell.org/crypto/
-DISTFILES=	crypto-${V}.tar
+DISTFILES=	crypto-${VSN}.tar
 
 MODULES=	lang/ghc
 BUILD_DEPENDS+=	::devel/haddock

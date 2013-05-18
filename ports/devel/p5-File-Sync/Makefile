@@ -4,9 +4,9 @@ NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
 COMMENT=			perl interface to the sync() system functions
 
-V=		0.09
-DISTNAME=	File-Sync-${V}
-PKGNAME=	p5-${DISTNAME}-0
+VSN=		0.09
+DISTNAME=	File-Sync-${VSN}
+PKGNAME=	p5-${DISTNAME}-${DASH_VER}
 CATEGORIES=	devel perl5
 
 MASTER_SITES=	${MASTER_SITE_PERL_CPAN:=File/}

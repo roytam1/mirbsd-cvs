@@ -4,9 +4,9 @@ BROKEN=			checksum mismatch
 
 COMMENT=		the definitive guide to CVS
 
-V=		1.21
-DISTNAME=	cvsbook-${V}-all
-PKGNAME=	cvs-guide-${V}-0
+VSN=		1.21
+DISTNAME=	cvsbook-${VSN}-all
+PKGNAME=	cvs-guide-${VSN}-${DASH_VER}
 CATEGORIES=	books
 MASTER_SITES=	http://cvsbook.red-bean.com/
 
@@ -18,7 +18,7 @@ PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
-WRKDIST=	${WRKDIR}/cvsbook-${V}
+WRKDIST=	${WRKDIR}/cvsbook-${VSN}
 
 NO_BUILD=	Yes
 NO_REGRESS=	Yes

@@ -1,4 +1,4 @@
-# $MirOS: ports/lang/ghc/Makefile,v 1.5 2006/09/14 00:10:19 tg Exp $
+# $MirOS: ports/lang/ghc/Makefile,v 1.6 2008/06/25 15:27:25 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.17 2004/05/20 00:08:22 dons Exp $
 # 
 # Based on Simon Marlow's port script for FreeBSD:
@@ -23,9 +23,9 @@ ONLY_FOR_PLATFORM=	OpenBSD:*:i386 OpenBSD:*:sparc OpenBSD:*:amd64
 COMMENT=			compiler for the functional language Haskell
 COMMENT-doc=			documentation for the functional language Haskell
 
-V=		6.2.1
+VSN=		6.2.1
 
-DISTNAME=	ghc-${V}
+DISTNAME=	ghc-${VSN}
 CATEGORIES=	lang
 HOMEPAGE=	http://www.haskell.org/ghc/
 
@@ -33,32 +33,32 @@ LIB_DEPENDS=	gmp::devel/gmp
 
 MULTI_PACKAGES=	-doc
 SUBPACKAGE?=
-FULLPKGNAME-doc=ghc-doc-${V}-0
+FULLPKGNAME-doc=ghc-doc-${VSN}-${DASH_VER}
 .if defined(PACKAGING) && ${SUBPACKAGE} == "-doc"
 PKG_ARCH=	*
 .endif
 
 HASKELL=	http://www.haskell.org
-MASTER_SITES=	${HASKELL}/ghc/dist/${V}/
-MASTER_SITES0=	${HASKELL}/ghc/docs/${V}/
+MASTER_SITES=	${HASKELL}/ghc/dist/${VSN}/
+MASTER_SITES0=	${HASKELL}/ghc/docs/${VSN}/
 MASTER_SITES1=	${HASKELL}/definition/
-MASTER_SITES2=	ftp://ftp.cse.unsw.edu.au/pub/users/dons/ghc/${V}/
+MASTER_SITES2=	ftp://ftp.cse.unsw.edu.au/pub/users/dons/ghc/${VSN}/
 
-DIST_SUBDIR=	ghc-${V}
+DIST_SUBDIR=	ghc-${VSN}
 DOC_FILES=	users_guide hslibs building libraries
 DOC_FILES1=	haskell98-report
 DOC_DIR=	${PREFIX}/share/doc/ghc
 
-DISTFILES=	ghc-${V}-src.tar.bz2 \
+DISTFILES=	ghc-${VSN}-src.tar.bz2 \
 		${DOC_FILES:C/(.+)/\1.html.tar.gz:0/g} \
 		${DOC_FILES1:C/(.+)/\1-html.tar.gz:1/g} \
-		ghc-${V}-${ARCH}-unknown-openbsd-hc.tar.bz2:2 \
-		ghc-regress-${V}.tar.bz2:2
+		ghc-${VSN}-${ARCH}-unknown-openbsd-hc.tar.bz2:2 \
+		ghc-regress-${VSN}.tar.bz2:2
 
 # this tarball is the first step in porting to a new architecture
-SUPDISTFILES=	ghc-${V}-i386-unknown-openbsd-hc.tar.bz2:2  \
-		ghc-${V}-sparc-unknown-openbsd-hc.tar.bz2:2 \
-		ghc-${V}-amd64-unknown-openbsd-hc.tar.bz2:2
+SUPDISTFILES=	ghc-${VSN}-i386-unknown-openbsd-hc.tar.bz2:2  \
+		ghc-${VSN}-sparc-unknown-openbsd-hc.tar.bz2:2 \
+		ghc-${VSN}-amd64-unknown-openbsd-hc.tar.bz2:2
 
 # datasize around 130M on amd64
 VMEM_WARNING=	Yes

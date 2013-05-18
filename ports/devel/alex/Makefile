@@ -1,9 +1,9 @@
-# $MirOS$
+# $MirOS: ports/devel/alex/Makefile,v 1.3 2008/04/07 19:20:01 tg Exp $
 # $OpenBSD: Makefile,v 1.2 2004/04/23 02:17:49 dons Exp $
 
 COMMENT=		lexical analyser generator for Haskell
-V=			2.0
-DISTNAME=		alex-${V}
+VSN=			2.0
+DISTNAME=		alex-${VSN}
 CATEGORIES=		devel
 HOMEPAGE=		http://www.haskell.org/alex/
 
@@ -11,7 +11,7 @@ MODULES+=		lang/ghc
 
 MASTER_SITES=		http://www.haskell.org/alex/dist/
 MASTER_SITES0=		ftp://ftp.cse.unsw.edu.au/pub/users/dons/alex/
-DISTFILES=		${DISTNAME}-src.tar.bz2 alex-regress-${V}.tgz:0
+DISTFILES=		${DISTNAME}-src.tar.bz2 alex-regress-${VSN}.tgz:0
 
 BUILD_DEPENDS+=		::textproc/docbook \
 			::textproc/docbook-dsssl \

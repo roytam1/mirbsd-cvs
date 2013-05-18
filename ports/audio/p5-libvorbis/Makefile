@@ -4,9 +4,9 @@ NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
 COMMENT=			Perl extension for Ogg Vorbis streams
 
-V=			0.04
-DISTNAME=		libvorbis-perl-${V}
-PKGNAME=		p5-libvorbis-${V}-0
+VSN=			0.04
+DISTNAME=		libvorbis-perl-${VSN}
+PKGNAME=		p5-libvorbis-${VSN}-${DASH_VER}
 CATEGORIES=		audio perl5
 
 

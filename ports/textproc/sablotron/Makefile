@@ -1,10 +1,10 @@
-# $MirOS: ports/textproc/sablotron/Makefile,v 1.5 2008/04/07 19:20:06 tg Exp $
+# $MirOS: ports/textproc/sablotron/Makefile,v 1.6 2008/05/07 22:48:43 tg Exp $
 # $OpenBSD: Makefile,v 1.17 2004/02/29 00:18:19 avsm Exp $
 
 COMMENT=		fast, compact and portable XSL/XSLT processor
-V=			1.0.1
-DISTNAME=		Sablot-${V}
-PKGNAME=		sablotron-${V}-${DASH_VER}
+VSN=			1.0.1
+DISTNAME=		Sablot-${VSN}
+PKGNAME=		sablotron-${VSN}-${DASH_VER}
 CATEGORIES=    		textproc
 HOMEPAGE=		http://www.gingerall.com/
 

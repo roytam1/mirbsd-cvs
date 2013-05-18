@@ -1,18 +1,18 @@
-# $MirOS: ports/plan9/kencc/Makefile,v 1.6 2008/11/18 21:11:40 tg Exp $
+# $MirOS: ports/plan9/kencc/Makefile,v 1.7 2009/08/16 16:28:02 tg Exp $
 
 # sort of hard to add more...
 ONLY_FOR_PLATFORM=	Darwin:*:powerpc MirBSD:*:i386 OpenBSD:*:i386
 
 COMMENT=		Plan 9 compiler suite
 CATEGORIES=		devel lang plan9
-V=			20060303
+VSN=			20060303
 DASH_VER=		1
-DISTNAME=		kencc-${V}
-DIST_SUBDIR=		inferno-${V}
+DISTNAME=		kencc-${VSN}
+DIST_SUBDIR=		inferno-${VSN}
 DISTFILES=		FreeBSD.tgz MacOSX.tgz inferno.tgz utils.tgz
 HOMEPAGE=		http://www.advogato.org/proj/Kencc/
 RESPONSIBLE=		Thorsten Glaser <tg@mirbsd.de>
-MASTER_SITES=		http://www.vitanuova.com/dist/4e/${V}/
+MASTER_SITES=		http://www.vitanuova.com/dist/4e/${VSN}/
 
 # GPL, LGPL, Lucent 1.02, "Vita Nuova" (MIT-style)
 PERMIT_DISTFILES_CDROM=	Yes

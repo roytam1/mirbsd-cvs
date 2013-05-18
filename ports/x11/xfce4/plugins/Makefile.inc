@@ -1,11 +1,11 @@
-# $MirOS: ports/x11/xfce4/plugins/Makefile.inc,v 1.6 2008/07/28 19:57:31 bsiegert Exp $
+# $MirOS: ports/x11/xfce4/plugins/Makefile.inc,v 1.7 2008/07/30 19:43:59 bsiegert Exp $
 
-V?=		4.0.5
+VSN?=		4.0.5
 DASH_VER?=	1
 CATEGORIES?=	x11 x11/xfce4 x11/xfce4-plugins
 DIST_SUBDIR?=		xfce4
 
-MASTER_SITE_EXTRAS=	http://xfce.org/archive/xfce-${V}/src/
+MASTER_SITE_EXTRAS=	http://xfce.org/archive/xfce-${VSN}/src/
 MASTER_SITE_GOODIES=	http://download.berlios.de/xfce-goodies/
 HOMEPAGE_EXTRAS=	http://www.xfce.org/en/extras.html
 HOMEPAGE_GOODIES=	http://xfce-goodies.berlios.de/

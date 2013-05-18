@@ -2,7 +2,7 @@ Complete documentation on Django may be found in:
 ${PREFIX}/share/doc/${LNAME}/
 
 or online:
-http://www.djangoproject.com/documentation/${V}/
+http://www.djangoproject.com/documentation/${VSN}/
 
 Documentation for GeoDjango v1.0 (GIS support) is currently
 external at: http://geodjango.org/docs/

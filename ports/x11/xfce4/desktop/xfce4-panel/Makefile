@@ -1,7 +1,7 @@
 # $OpenBSD: Makefile,v 1.3 2004/01/09 01:27:42 jolan Exp $
 
 COMMENT=			xfce4 panel
-DISTNAME=	xfce4-panel-${V}
+DISTNAME=	xfce4-panel-${VSN}
 
 LIB_DEPENDS=	${GTK2} \
 		${STARTUP} \

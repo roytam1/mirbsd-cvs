@@ -1,7 +1,7 @@
-@comment $MirOS$
+@comment $MirOS: ports/www/py-django/PLIST,v 1.1 2008/08/12 08:58:44 tg Exp $
 @comment $OpenBSD: PLIST,v 1.3 2008/05/24 04:17:11 wcmaier Exp $
 bin/${LNAME}-admin.py
-lib/python${MODPY_VERSION}/site-packages/Django-${V}_alpha-py${MODPY_VERSION}.egg-info
+lib/python${MODPY_VERSION}/site-packages/Django-${VSN}_alpha-py${MODPY_VERSION}.egg-info
 lib/python${MODPY_VERSION}/site-packages/${LNAME}/__init__.py
 lib/python${MODPY_VERSION}/site-packages/${LNAME}/__init__.pyc
 lib/python${MODPY_VERSION}/site-packages/${LNAME}/bin/__init__.py
@@ -1592,8 +1592,8 @@ share/doc/${LNAME}/pagination.txt
 share/doc/${LNAME}/redirects.txt
 share/doc/${LNAME}/release_notes_0.95.txt
 share/doc/${LNAME}/release_notes_0.96.txt
-share/doc/${LNAME}/release_notes_${V}_alpha.txt
-share/doc/${LNAME}/release_notes_${V}_alpha_2.txt
+share/doc/${LNAME}/release_notes_${VSN}_alpha.txt
+share/doc/${LNAME}/release_notes_${VSN}_alpha_2.txt
 share/doc/${LNAME}/request_response.txt
 share/doc/${LNAME}/serialization.txt
 share/doc/${LNAME}/sessions.txt

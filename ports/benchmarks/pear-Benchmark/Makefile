@@ -1,11 +1,11 @@
-# $MirOS: ports/benchmarks/pear-Benchmark/Makefile,v 1.4 2006/09/14 00:07:25 tg Exp $
+# $MirOS: ports/benchmarks/pear-Benchmark/Makefile,v 1.5 2007/04/11 17:04:18 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.1.1.1 2003/05/23 21:32:52 avsm Exp $
 
 COMMENT=	framework to benchmark PHP scripts or function calls
 
-V=		1.2.1
-DISTNAME=	Benchmark-${V}
-PKGNAME=	pear-Benchmark-${V}-0
+VSN=		1.2.1
+DISTNAME=	Benchmark-${VSN}
+PKGNAME=	pear-Benchmark-${VSN}-${DASH_VER}
 CATEGORIES=	benchmarks pear
 
 MASTER_SITES=	http://pear.php.net/get/

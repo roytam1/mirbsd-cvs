@@ -2,9 +2,9 @@
 
 COMMENT=			connect four of stones in a straight line
 
-V=		2.1.4
-DISTNAME=	4stAttack-${V}
-PKGNAME=	forcedattack-${V}-0
+VSN=		2.1.4
+DISTNAME=	4stAttack-${VSN}
+PKGNAME=	forcedattack-${VSN}-${DASH_VER}
 CATEGORIES=	games
 
 HOMEPAGE=	http://forcedattack.sourceforge.net/

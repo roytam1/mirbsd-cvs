@@ -1,11 +1,11 @@
-# $MirOS: ports/textproc/pear-XML-RSS/Makefile,v 1.4 2006/09/14 00:14:20 tg Exp $
+# $MirOS: ports/textproc/pear-XML-RSS/Makefile,v 1.5 2007/04/16 18:56:21 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.1.1.1 2003/05/23 21:19:29 avsm Exp $
 
 COMMENT=	parser for RDF Site Summary files in PHP
 
-V=		0.9.2
-DISTNAME=	XML_RSS-${V}
-PKGNAME=	pear-XML-RSS-${V}-0
+VSN=		0.9.2
+DISTNAME=	XML_RSS-${VSN}
+PKGNAME=	pear-XML-RSS-${VSN}-${DASH_VER}
 CATEGORIES=	textproc pear
 
 MASTER_SITES=	http://pear.php.net/get/

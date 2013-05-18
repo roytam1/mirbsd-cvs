@@ -6,16 +6,16 @@ ONLY_FOR_PLATFORM=	*:*:i386 *:*:sparc
 
 COMMENT=			Haskell library for concurrent and distributed programming
 
-V=		0.4.1
-DISTNAME=	hs-ports-${V}
+VSN=		0.4.1
+DISTNAME=	hs-ports-${VSN}
 CATEGORIES=	devel
 HOMEPAGE=	http://www.cse.unsw.edu.au/~chak/haskell/ports/ 
 MASTER_SITES=	${HOMEPAGE}
-DISTFILES=	ports-${V}.tar.gz
+DISTFILES=	ports-${VSN}.tar.gz
 
 MODULES=	lang/ghc
 
-WRKDIST=	${WRKDIR}/ports-${V}
+WRKDIST=	${WRKDIR}/ports-${VSN}
 USE_GMAKE=	Yes
 CONFIGURE_STYLE=gnu
 CONFIGURE_ARGS+=--prefix=${PREFIX}

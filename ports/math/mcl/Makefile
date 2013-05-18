@@ -3,9 +3,9 @@
 BROKEN=			unfetchable distfile
 
 COMMENT=		clustering algorithm for graphs
-V=		04-105
-DISTNAME=	mcl-${V}
-PKGNAME=	mcl-${V:S,-,.,}-0
+VSN=		04-105
+DISTNAME=	mcl-${VSN}
+PKGNAME=	mcl-${VSN:S,-,.,}-${DASH_VER}
 CATEGORIES=	math
 
 HOMEPAGE=	http://micans.org/mcl/

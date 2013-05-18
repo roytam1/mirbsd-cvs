@@ -4,9 +4,9 @@ BROKEN=			unfetchable distfile
 
 COMMENT=		No-IP.com Dynamic DNS client
 
-V=			2.1.1
-DISTNAME=		noip-${V}
-PKGNAME=		no-ip-${V}-0
+VSN=			2.1.1
+DISTNAME=		noip-${VSN}
+PKGNAME=		no-ip-${VSN}-${DASH_VER}
 CATEGORIES=		net
 
 HOMEPAGE=		http://www.no-ip.com/

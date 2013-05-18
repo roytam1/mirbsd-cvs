@@ -2,10 +2,11 @@
 
 COMMENT=			external MIME packer/unpacker
 
-V=		1.5
-DISTNAME=	mpack-${V}-src
-PKGNAME=	mpack-${V}-1
-CATEGORIES=	converters mail news
+VSN=			1.5
+DASH_VER=		1
+DISTNAME=		mpack-${VSN}-src
+PKGNAME=		mpack-${VSN}-${DASH_VER}
+CATEGORIES=		converters mail news
 
 # License: BSD
 PERMIT_PACKAGE_CDROM=	Yes

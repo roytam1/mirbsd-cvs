@@ -2,8 +2,8 @@
 
 COMMENT=			documentation for autoconf, automake, libtool
 
-V=		1.3
-DISTNAME=	autobook-${V}
+VSN=		1.3
+DISTNAME=	autobook-${VSN}
 CATEGORIES=	books devel
 
 
@@ -26,6 +26,6 @@ DOCDIR=		${PREFIX}/share/doc
 
 do-install:
 	${INSTALL_DATA_DIR} ${DOCDIR}
-	cd ${DOCDIR} && tar -s/autobook-${V}/autobook/g -zxf ${FULLDISTDIR}/${DISTNAME}${EXTRACT_SUFX}
+	cd ${DOCDIR} && tar -s/autobook-${VSN}/autobook/g -zxf ${FULLDISTDIR}/${DISTNAME}${EXTRACT_SUFX}
 
 .include <bsd.port.mk>

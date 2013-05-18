@@ -1,11 +1,11 @@
-# $MirOS: ports/devel/pear-Date/Makefile,v 1.4 2005/07/07 21:20:15 bsiegert Exp $
+# $MirOS: ports/devel/pear-Date/Makefile,v 1.6 2007/04/07 14:35:03 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.2 2004/02/29 00:09:28 avsm Exp $
 
 COMMENT=	date and timezone classes for PHP
 
-V=		1.4.1
-DISTNAME=	Date-${V}
-PKGNAME=	pear-${DISTNAME}-0
+VSN=		1.4.1
+DISTNAME=	Date-${VSN}
+PKGNAME=	pear-${DISTNAME}-${DASH_VER}
 CATEGORIES=	devel pear
 
 MASTER_SITES=	http://pear.php.net/get/

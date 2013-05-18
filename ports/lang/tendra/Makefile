@@ -3,12 +3,13 @@
 # supports 68k, alpha, mips, sparc as well, but not ported yet
 ONLY_FOR_PLATFORM=	OpenBSD:*:i386 MirBSD:*:i386
 
-COMMENT=			TenDRA: advanced BSD-licensed C compiler
+COMMENT=		TenDRA: advanced BSD-licensed C compiler
 
-V=		20030803
-DISTNAME=	tendra-${V}
-PKGNAME=	tendra-${V}-1
-CATEGORIES=	lang
+VSN=			20030803
+DASH_VER=		1
+DISTNAME=		tendra-${VSN}
+PKGNAME=		tendra-${VSN}-${DASH_VER}
+CATEGORIES=		lang
 
 HOMEPAGE=	http://www.tendra.org/
 

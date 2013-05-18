@@ -10,13 +10,13 @@ PERMIT_DISTFILES_FTP=Yes
 PERMIT_PACKAGE_CDROM=Yes
 PERMIT_DISTFILES_CDROM=Yes
 
-V=1.1.15
-DISTNAME=	pm3-$V
+VSN=			1.1.15
+DISTNAME=		pm3-${VSN}
 
-DISTFILES=	pm3-$V-src.tgz pm3-${V}a-OpenBSD_386-boot.tgz:1
-PATCHFILES=	pm3-$V-BSD.patch-v1.2.gz:0
+DISTFILES=		pm3-${VSN}-src.tgz pm3-${VSN}a-OpenBSD_386-boot.tgz:1
+PATCHFILES=		pm3-${VSN}-BSD.patch-v1.2.gz:0
 
-EXTRACT_ONLY=pm3-$V-src.tgz
+EXTRACT_ONLY=pm3-${VSN}-src.tgz
 
 MASTER_SITES= ftp://m3.polymtl.ca/pub/m3/targzip/
 MASTER_SITES0= http://people.freebsd.org/~jdp/pm3-for-bsd/
@@ -30,7 +30,7 @@ USE_MOTIF=	any
 
 post-extract:
 	@cd ${WRKDIST} && \
-	    tar zxf ${FULLDISTDIR}/pm3-${V}a-OpenBSD_386-boot.tgz
+	    tar zxf ${FULLDISTDIR}/pm3-${VSN}a-OpenBSD_386-boot.tgz
 
 PATCH_DIST_STRIP=-p1
 

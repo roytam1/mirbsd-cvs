@@ -3,9 +3,10 @@
 
 COMMENT=			Sandia Internet path characterization tool
 
-V=		1.4
-DISTNAME=	pchar-${V}
-PKGNAME=	pchar-${V}-1
+VSN=			1.4
+DASH_VER=		1
+DISTNAME=		pchar-${VSN}
+PKGNAME=		pchar-${VSN}-${DASH_VER}
 CATEGORIES=	net
 
 MASTER_SITES=	${HOMEPAGE}

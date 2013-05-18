@@ -1,11 +1,11 @@
-@comment $MirOS: ports/print/ttf-sil-gentium/PLIST,v 1.1 2009/06/22 11:01:02 tg Exp $
+@comment $MirOS: ports/print/ttf-sil-gentium/PLIST,v 1.2 2009/06/22 12:07:31 tg Exp $
 @pkgcfl gentium-*
 lib/X11/fonts/ttf-sil-gentium/FONTLOG
 lib/X11/fonts/ttf-sil-gentium/GENTIUM-FAQ
-lib/X11/fonts/ttf-sil-gentium/GenAI${V}.ttf
-lib/X11/fonts/ttf-sil-gentium/GenAR${V}.ttf
-lib/X11/fonts/ttf-sil-gentium/GenI${V}.ttf
-lib/X11/fonts/ttf-sil-gentium/GenR${V}.ttf
+lib/X11/fonts/ttf-sil-gentium/GenAI${VSN}.ttf
+lib/X11/fonts/ttf-sil-gentium/GenAR${VSN}.ttf
+lib/X11/fonts/ttf-sil-gentium/GenI${VSN}.ttf
+lib/X11/fonts/ttf-sil-gentium/GenR${VSN}.ttf
 lib/X11/fonts/ttf-sil-gentium/OFL
 lib/X11/fonts/ttf-sil-gentium/OFL-FAQ
 lib/X11/fonts/ttf-sil-gentium/QUOTES

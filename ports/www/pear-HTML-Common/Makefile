@@ -1,10 +1,10 @@
-# $MirOS: ports/www/pear-HTML-Common/Makefile,v 1.3 2005/07/07 21:28:17 bsiegert Exp $
+# $MirOS: ports/www/pear-HTML-Common/Makefile,v 1.4 2006/09/14 00:14:57 tg Exp $
 # $OpenBSD: Makefile,v 1.3 2003/11/15 20:02:40 avsm Exp $
 
 COMMENT=			base package for HTML handling in PHP
-V=		1.2.1
-DISTNAME=	HTML_Common-${V}
-PKGNAME=	pear-HTML-Common-${V}-0
+VSN=		1.2.1
+DISTNAME=	HTML_Common-${VSN}
+PKGNAME=	pear-HTML-Common-${VSN}-${DASH_VER}
 CATEGORIES=	devel www pear
 MASTER_SITES=	http://pear.php.net/get/
 EXTRACT_SUFX=	.tgz

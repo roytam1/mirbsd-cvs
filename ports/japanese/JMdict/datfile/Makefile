@@ -1,11 +1,11 @@
-# $MirOS: ports/japanese/jmdict/datfile/Makefile,v 1.2 2007/02/22 15:12:30 tg Exp $
+# $MirOS: ports/japanese/jmdict/datfile/Makefile,v 1.3 2007/04/12 20:20:41 bsiegert Exp $
 
 .include <mirports.sys.mk>
 
 COMMENT=		sqlite2 format JMdict database
 CATEGORIES=		japanese
-V!=			cd ${PORTSDIR}/japanese/JMdict && ${MAKE} show=V
-PKGNAME=		jmdict-datfile-$V-0
+VSN!=			cd ${PORTSDIR}/japanese/JMdict && ${MAKE} show=VSN
+PKGNAME=		jmdict-datfile-${VSN}-${DASH_VER}
 HOMEPAGE=		http://mandrill.fuxx0r.net/jmdict.php
 
 # Creative Commons by-sa 2.5
@@ -14,7 +14,7 @@ PERMIT_DISTFILES_FTP=	Yes
 PERMIT_PACKAGE_CDROM=	Yes
 PERMIT_PACKAGE_FTP=	Yes
 
-BUILD_DEPENDS+=		:JMdict-$V:japanese/JMdict
+BUILD_DEPENDS+=		:JMdict-${VSN}:japanese/JMdict
 BUILD_DEPENDS+=		::japanese/jmdict/jmdict_import
 
 WRKDIST=		${WRKDIR}

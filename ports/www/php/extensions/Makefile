@@ -1,7 +1,7 @@
-# $MirOS: ports/www/php/extensions/Makefile,v 1.25 2009/06/18 20:56:16 tg Exp $
+# $MirOS: ports/www/php/extensions/Makefile,v 1.26 2009/06/21 09:37:08 tg Exp $
 # $OpenBSD: Makefile,v 1.17 2005/12/29 23:06:28 sturm Exp $
 
-FULLPKGNAME=		php-extensions-${V}-${DASH_VER}
+FULLPKGNAME=		php-extensions-${VSN}-${DASH_VER}
 COMMENT=		informational package about PHP5 extensions
 
 MULTI_PACKAGES=
@@ -294,7 +294,7 @@ XSL_DEPENDS=		xslt,exslt::textproc/libxslt
 .for i in ${MULTI_PACKAGES}
 .  if !defined(FULLPKGNAME${i})
 DASH_VER${i}?=		${DASH_VER}
-FULLPKGNAME${i}=	php${i}-${V}-${DASH_VER${i}}
+FULLPKGNAME${i}=	php${i}-${VSN}-${DASH_VER${i}}
 .  endif
 .endfor
 
@@ -306,7 +306,7 @@ SUBST_VARS=		MODULE_NAME PHP_CONFIG_FILE LOCALBASE
 .elif defined(PACKAGING) && empty(SUBPACKAGE)
 LIB_DEPENDS=
 MESSAGE=		${PKGDIR}/DESCR
-SUBST_VARS=		V
+SUBST_VARS=		VSN
 .else
 .  for i in ${MULTI_PACKAGES}
 LIB_DEPENDS+=		${${i:U:S/-//g}_DEPENDS}

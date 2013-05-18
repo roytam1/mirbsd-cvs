@@ -1,12 +1,12 @@
-# $MirOS: ports/net/ipcheck/Makefile,v 1.2 2005/07/07 21:24:12 bsiegert Exp $
+# $MirOS: ports/net/ipcheck/Makefile,v 1.3 2006/09/14 00:11:48 tg Exp $
 # $OpenBSD: Makefile,v 1.16 2004/02/08 20:47:55 xsa Exp $
 
 COMMENT=			fully compliant DynDNS.org client
 
 MV=			0
-V=			207
-PKGNAME=		ipcheck-${MV}.${V}-0
-DISTNAME=		ipcheck.${V}
+VSN=			207
+PKGNAME=		ipcheck-${MV}.${VSN}-${DASH_VER}
+DISTNAME=		ipcheck.${VSN}
 CATEGORIES=		net
 
 HOMEPAGE=		http://ipcheck.sourceforge.net/

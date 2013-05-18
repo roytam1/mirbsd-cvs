@@ -1,19 +1,19 @@
-# $MirOS$
+# $MirOS: ports/devel/happy/Makefile,v 1.3 2008/04/07 19:20:04 tg Exp $
 # $OpenBSD: Makefile,v 1.4 2004/04/23 03:00:07 dons Exp $
 
 COMMENT=		parser generator for the functional language Haskell
-V=			1.14
-DISTNAME=		happy-${V}
+VSN=			1.14
+DISTNAME=		happy-${VSN}
 CATEGORIES=		devel
 HOMEPAGE=		http://www.haskell.org/ghc/
 
 MODULES+=		lang/ghc
 
-MASTER_SITES=		http://www.haskell.org/happy/dist/${V}/
+MASTER_SITES=		http://www.haskell.org/happy/dist/${VSN}/
 MASTER_SITES0=		ftp://ftp.cse.unsw.edu.au/pub/users/dons/happy/
 
-DISTFILES=		happy-${V}-src.tar.gz     \
-			happy-regress-${V}.tar.bz2:0
+DISTFILES=		happy-${VSN}-src.tar.gz     \
+			happy-regress-${VSN}.tar.bz2:0
 
 BUILD_DEPENDS+=		::textproc/docbook \
 			::textproc/docbook-dsssl \

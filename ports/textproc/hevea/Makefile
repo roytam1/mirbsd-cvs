@@ -1,11 +1,11 @@
-# $MirOS: ports/textproc/hevea/Makefile,v 1.1.7.1 2005/03/18 15:52:42 tg Exp $
+# $MirOS: ports/textproc/hevea/Makefile,v 1.2 2006/09/14 00:14:04 tg Exp $
 # $OpenBSD: Makefile,v 1.9 2003/08/22 18:12:24 espie Exp $
 
 COMMENT=			LaTeX to html translator
 
 CATEGORIES=	textproc print
 
-V=1.06
+VSN=			1.06
 # Q Licence 1.0 + LGPL for parts of the runtime
 PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
@@ -16,7 +16,7 @@ BUILD_DEPENDS=	:ocaml-*:lang/ocaml
 
 USE_X11=	Yes
 
-DISTNAME=	hevea-$V
+DISTNAME=	hevea-${VSN}
 MASTER_SITES=	ftp://ftp.inria.fr/INRIA/moscova/hevea/
 
 DISTFILES=	${DISTNAME}${EXTRACT_SUFX} ${DISTNAME}-manual${EXTRACT_SUFX}

@@ -3,9 +3,9 @@
 
 COMMENT=			daemon/libs/toolkit for routing BGP4+, RIP, OSPF, etc.
 
-V=			2.2.2a
-DISTNAME=		mrt-${V}-src
-PKGNAME=		mrtd-${V}-0
+VSN=			2.2.2a
+DISTNAME=		mrt-${VSN}-src
+PKGNAME=		mrtd-${VSN}-${DASH_VER}
 HOMEPAGE=		http://www.mrtd.net/
 
 CATEGORIES=     	net
@@ -21,7 +21,7 @@ MASTER_SITES=		ftp://ftp.merit.edu/net-research/mrt/
 
 CONFIGURE_STYLE=	gnu
 
-WRKDIST=		${WRKDIR}/mrt-${V}/src
+WRKDIST=		${WRKDIR}/mrt-${VSN}/src
 
 NO_REGRESS=		Yes
 

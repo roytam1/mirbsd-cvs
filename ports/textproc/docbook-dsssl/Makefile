@@ -2,8 +2,8 @@
 
 COMMENT=			modular DSSSL stylesheets for the DocBook DTD
 
-V=		1.72
-DISTNAME=	docbook-dsssl-${V}
+VSN=		1.72
+DISTNAME=	docbook-dsssl-${VSN}
 CATEGORIES=    	textproc print
 
 HOMEPAGE=	http://docbook.sourceforge.net/
@@ -15,7 +15,7 @@ PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
 MASTER_SITES=	${MASTER_SITE_SOURCEFORGE:=docbook/}
-DISTFILES=	docbook-dsssl-${V}${EXTRACT_SUFX} docbook-dsssl-doc-${V}${EXTRACT_SUFX}
+DISTFILES=	docbook-dsssl-${VSN}${EXTRACT_SUFX} docbook-dsssl-doc-${VSN}${EXTRACT_SUFX}
 
 NO_BUILD=	Yes
 NO_REGRESS=	Yes

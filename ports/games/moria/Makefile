@@ -2,9 +2,9 @@
 
 COMMENT=			The Dungeons of Moria
 
-V=		5.5.2
-DISTNAME=	um$V
-PKGNAME=	moria-$V-0
+VSN=		5.5.2
+DISTNAME=	um${VSN}
+PKGNAME=	moria-${VSN}-${DASH_VER}
 CATEGORIES=	games
 MASTER_SITES=	ftp://ftp.funet.fi/pub/unix/games/moria/source/ \
 		ftp://alge.anart.no/pub/games/RPG/moria/

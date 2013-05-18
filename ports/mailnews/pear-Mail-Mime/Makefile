@@ -1,11 +1,11 @@
-# $MirOS: ports/mailnews/pear-Mail-Mime/Makefile,v 1.4 2006/09/14 00:10:44 tg Exp $
+# $MirOS: ports/mailnews/pear-Mail-Mime/Makefile,v 1.5 2007/04/12 20:23:46 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.1.1.1 2003/04/03 10:36:22 avsm Exp $
 
 COMMENT=			classes to create and decode MIME messages in PHP
 
-V=		1.2.1
-DISTNAME=	Mail_Mime-${V}
-PKGNAME=	pear-Mail-Mime-${V}-0
+VSN=		1.2.1
+DISTNAME=	Mail_Mime-${VSN}
+PKGNAME=	pear-Mail-Mime-${VSN}-${DASH_VER}
 CATEGORIES=	mail pear
 
 MASTER_SITES=	http://pear.php.net/get/

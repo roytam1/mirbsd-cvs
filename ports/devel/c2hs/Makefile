@@ -1,12 +1,12 @@
-# $MirOS$
+# $MirOS: ports/devel/c2hs/Makefile,v 1.3 2009/04/18 19:53:26 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.1.1.1 2004/05/08 07:21:03 dons Exp $
 
 ONLY_FOR_PLATFORM=	OpenBSD:*:i386 OpenBSD:*:sparc OpenBSD:*:amd64
 
 COMMENT=		interface generator for Haskell to C bindings
 
-V=			0.12.0
-DISTNAME=		c2hs-${V}
+VSN=			0.12.0
+DISTNAME=		c2hs-${VSN}
 CATEGORIES=		devel
 HOMEPAGE=		http://www.cse.unsw.edu.au/~chak/haskell/c2hs/
 MASTER_SITES=		${HOMEPAGE}

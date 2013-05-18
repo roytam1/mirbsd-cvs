@@ -1,15 +1,15 @@
-# $MirOS: ports/net/centericq/Makefile,v 1.35 2008/08/17 01:54:17 tg Exp $
+# $MirOS: ports/net/centericq/Makefile,v 1.36 2008/10/04 19:03:20 tg Exp $
 # $OpenBSD: Makefile,v 1.24 2004/02/03 08:37:55 brad Exp $
 
 # bus error on start
 NOT_FOR_PLATFORM+=	Darwin:*:*
 
 COMMENT=		curses-based multiprotocol IM client implementation
-DISTNAME=		centericq-${V}
-V=			4.21.0
+DISTNAME=		centericq-${VSN}
+VSN=			4.21.0
 DASH_VER=		15
 CATEGORIES=		net
-PATCHFILES=		centericq-${V}.msn.patch:0
+PATCHFILES=		centericq-${VSN}.msn.patch:0
 PATCH_DIST_STRIP=	-p1
 MASTER_SITES=		http://konst.org.ua/download/ \
 			http://konst.home.welcomehome.org/ \
@@ -48,7 +48,7 @@ CONFIGURE_ARGS+=	--enable-locales-fix \
 			--without-fribidi \
 			--with-openssl \
 			--with-libjpeg
-CPPFLAGS+=		-DPORT_VERSION=\"${V}-${DASH_VER}\"
+CPPFLAGS+=		-DPORT_VERSION=\"${VSN}-${DASH_VER}\"
 
 .if ${FLAVOUR:L:Mno_msn}
 CONFIGURE_ARGS+=	--disable-msn

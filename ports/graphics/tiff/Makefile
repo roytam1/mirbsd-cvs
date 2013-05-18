@@ -1,14 +1,14 @@
-# $MirOS: ports/graphics/tiff/Makefile,v 1.15 2008/02/17 15:40:28 bsiegert Exp $
+# $MirOS: ports/graphics/tiff/Makefile,v 1.16 2008/03/09 17:22:55 tg Exp $
 # $OpenBSD: Makefile,v 1.29 2004/05/18 23:35:35 brad Exp $
 
 COMMENT=		library routines for working with TIFF images
 COMMENT-cxx=		C++ API for working with TIFF images
 DESCR=			${PKGDIR}/DESCR
-V=			3.7.4
-_V=			${V:R:S/.//}.${V:E}
+VSN=			3.7.4
+_V=			${VSN:R:S/.//}.${VSN:E}
 DASH_VER=		1
-DISTNAME=		tiff-${V}
-PKGNAME-cxx=		tiff-cxx-${V}-${DASH_VER}
+DISTNAME=		tiff-${VSN}
+PKGNAME-cxx=		tiff-cxx-${VSN}-${DASH_VER}
 CATEGORIES=		graphics
 MASTER_SITES=		http://dl.maptools.org/dl/libtiff/old/
 HOMEPAGE=		http://www.remotesensing.org/libtiff/
@@ -29,7 +29,7 @@ FLAVOUR?=
 
 CONFIGURE_STYLE=	autoconf
 AUTOCONF_NEW=		Yes
-SUBST_VARS+=		V _V
+SUBST_VARS+=		VSN _V
 
 CONFIGURE_ARGS+=	${CONFIGURE_SHARED}
 CONFIGURE_ARGS+=	--enable-old-jpeg

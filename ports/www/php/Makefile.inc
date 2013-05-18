@@ -1,4 +1,4 @@
-# $MirOS: ports/www/php/Makefile.inc,v 1.17 2008/05/02 15:43:05 tg Exp $
+# $MirOS: ports/www/php/Makefile.inc,v 1.18 2009/06/21 09:37:08 tg Exp $
 # $OpenBSD: Makefile.inc,v 1.1.1.1 2004/10/02 11:32:35 robert Exp $
 
 .include <mirports.sys.mk>
@@ -7,18 +7,18 @@
 # and has a httpd that supports DSOs.
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
-V=			5.0.5
+VSN=			5.0.5
 HV=			0.4.8
 DASH_VER=		4
 DASH_VER-gd=		5
-DISTNAME=		php-${V}
+DISTNAME=		php-${VSN}
 CATEGORIES=		www lang
 RESPONSIBLE=		Thorsten Glaser <tg@mirbsd.de>
 HOMEPAGE=		http://www.php.net/ \
 			http://www.hardened-php.net/
 MASTER_SITES=		http://museum.php.net/php5/
 MASTER_SITES0=		http://www.hardened-php.net/
-PATCHFILES=		hardening-patch-${V}-${HV}.patch.gz:0
+PATCHFILES=		hardening-patch-${VSN}-${HV}.patch.gz:0
 PATCH_DIST_STRIP=	-p1
 
 # UPGRADERS: please read BOTH the PHP and Zend licenses
@@ -89,7 +89,7 @@ CONFIGURE_ARGS+=	--enable-yp
 .endif
 
 MODULES+=		converters/libiconv
-CORE_DEPENDENCY=	:php-core-${V}-${DASH_VER}:www/php/core
+CORE_DEPENDENCY=	:php-core-${VSN}-${DASH_VER}:www/php/core
 CORE_LIB_DEPENDS+=	xml2::textproc/libxml \
 			sqlite::databases/sqlite2
 

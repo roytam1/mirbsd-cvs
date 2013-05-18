@@ -2,9 +2,9 @@
 
 COMMENT=			lightweight, universal exporting/require of variables
 
-V=		0.03
-DISTNAME=	UNIVERSAL-exports-${V}
-PKGNAME=	p5-Universal-exports-${V}-0
+VSN=		0.03
+DISTNAME=	UNIVERSAL-exports-${VSN}
+PKGNAME=	p5-Universal-exports-${VSN}-${DASH_VER}
 CATEGORIES=	devel perl5
 
 

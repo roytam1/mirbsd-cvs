@@ -7,17 +7,17 @@ MASTER_SITES=	http://www.cs.arizona.edu/icon/ftp/doc/
 
 
 # This documents version 9.3 of the language.
-V=6
-DISTNAME=	icon-book-$V
+VSN=			6
+DISTNAME=		icon-book-${VSN}
 
 FLAVOURS=two_sided
 FLAVOUR?=
 .if ${FLAVOUR:L} == "two_sided"
 DISTFILES=	ib2up.pdf
-FULLPKGNAME=	implementation-of-icon-two_sided-$V-0
+FULLPKGNAME=	implementation-of-icon-two_sided-${VSN}-${DASH_VER}
 .else
 DISTFILES=	ib1up.pdf
-FULLPKGNAME=	implementation-of-icon-$V-0
+FULLPKGNAME=	implementation-of-icon-${VSN}-${DASH_VER}
 .endif
 
 SUPDISTFILES=	ib1up.pdf ib2up.pdf

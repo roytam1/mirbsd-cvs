@@ -1,4 +1,4 @@
-# $MirOS: ports/lang/squeak/Makefile,v 1.3 2006/02/09 09:36:01 tg Exp $
+# $MirOS: ports/lang/squeak/Makefile,v 1.4 2006/09/14 00:10:28 tg Exp $
 # $OpenBSD: Makefile,v 1.7 2004/05/17 15:04:03 espie Exp $
 
 NOT_FOR_PLATFORM=	${LP64_PLATFORMS}
@@ -17,26 +17,26 @@ PERMIT_PACKAGE_CDROM=	Yes
 MAJOR=3
 MINOR=0
 SUB=3552
-V=${MAJOR}.${MINOR}
-SUBST_VARS=V MAJOR
-DIST_SUBDIR=squeak$V
+VSN=			${MAJOR}.${MINOR}
+SUBST_VARS=		VSN MAJOR
+DIST_SUBDIR=squeak${VSN}
 
 FTPSITE=	ftp://st.cs.uiuc.edu/pub/Smalltalk/Squeak
 HOMEPAGE=	http://squeak.org/
-MASTER_SITES=${FTPSITE}/$V/platform-independent/
-MASTER_SITES0=${FTPSITE}/$V/unix-linux/src/ \
+MASTER_SITES=${FTPSITE}/${VSN}/platform-independent/
+MASTER_SITES0=${FTPSITE}/${VSN}/unix-linux/src/ \
 	http://www-sor.inria.fr/~piumarta/squeak/unix/
 
-COMMON_FILES=ReadMe.txt.gz MajorShrinkFor$V.cs.gz SqueakV${MAJOR}.sources.gz
+COMMON_FILES=ReadMe.txt.gz MajorShrinkFor${VSN}.cs.gz SqueakV${MAJOR}.sources.gz
 
-IMAGE=Squeak$V-${SUB}.zip
+IMAGE=Squeak${VSN}-${SUB}.zip
 
-DISTNAME=squeak-$V
-DISTFILES=Squeak-$V-src.tar.gz:0 ${COMMON_FILES} ${IMAGE}
+DISTNAME=squeak-${VSN}
+DISTFILES=Squeak-${VSN}-src.tar.gz:0 ${COMMON_FILES} ${IMAGE}
 
-EXTRACT_ONLY=Squeak-$V-src.tar.gz ${IMAGE}
+EXTRACT_ONLY=Squeak-${VSN}-src.tar.gz ${IMAGE}
 
-WRKDIST=${WRKDIR}/Squeak-$V
+WRKDIST=${WRKDIR}/Squeak-${VSN}
 WRKSRC=	${WRKDIST}/src/unix
 
 
@@ -48,7 +48,7 @@ ALL_TARGET=all squeak.1
 USE_GMAKE=yes
 USE_X11=yes
 
-MAKE_FLAGS=docdir=${TRUEPREFIX}/share/doc/squeak-$V
+MAKE_FLAGS=docdir=${TRUEPREFIX}/share/doc/squeak-${VSN}
 .if ${MACHINE_ARCH} != "powerpc"
 MAKE_FLAGS+=INTERP=gnu-interp
 .endif
@@ -61,7 +61,7 @@ NO_REGRESS=	Yes
 post-extract:
 	cp ${FILESDIR}/sqOpenBSDSound.c ${WRKSRC}
 	rm ${WRKSRC}/sqUnixSound.c
-	gzip ${WRKDIR}/Squeak$V.{changes,image}
+	gzip ${WRKDIR}/Squeak${VSN}.{changes,image}
 
 post-install:
 	${INSTALL_DATA_DIR} ${PREFIX}/share/squeak
@@ -69,11 +69,11 @@ post-install:
 	do \
 		${INSTALL_DATA} ${FULLDISTDIR}/$$i ${PREFIX}/share/squeak; \
 	done
-	${INSTALL_DATA} ${WRKDIR}/Squeak$V.changes.gz ${PREFIX}/share/squeak
-	${INSTALL_DATA} ${WRKDIR}/Squeak$V.image.gz ${PREFIX}/share/squeak
+	${INSTALL_DATA} ${WRKDIR}/Squeak${VSN}.changes.gz ${PREFIX}/share/squeak
+	${INSTALL_DATA} ${WRKDIR}/Squeak${VSN}.image.gz ${PREFIX}/share/squeak
 	gunzip ${PREFIX}/share/squeak/SqueakV${MAJOR}.sources.gz
-	sed -e 's,@PREFIX@,${TRUEPREFIX},' -e 's,@V@,$V,' \
-	    <${FILESDIR}/inisqueak >${PREFIX}/lib/squeak/$V/inisqueak
+	sed -e 's,@PREFIX@,${TRUEPREFIX},' -e 's,@V@,${VSN},' \
+	    <${FILESDIR}/inisqueak >${PREFIX}/lib/squeak/${VSN}/inisqueak
 	@chmod a+x ${PREFIX}/bin/inisqueak
 
 .include <bsd.port.mk>

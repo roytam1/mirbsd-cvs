@@ -2,8 +2,8 @@
 
 COMMENT=			compilation manager for Haskell programs
  
-V=		3.08
-DISTNAME=	hmake-${V}
+VSN=		3.08
+DISTNAME=	hmake-${VSN}
 CATEGORIES=	devel
 
 HOMEPAGE=	http://www.haskell.org/hmake/

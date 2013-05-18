@@ -1,9 +1,9 @@
-# $MirOS: ports/multimedia/livestream/Makefile,v 1.8 2008/10/04 19:03:19 tg Exp $
+# $MirOS: ports/multimedia/livestream/Makefile,v 1.9 2009/08/16 16:27:35 tg Exp $
 
 COMMENT=			library for live.com streaming servers
-V=			2005.12.23
-DISTNAME=		live.$V
-PKGNAME=		liblivestream-$V-0
+VSN=			2005.12.23
+DISTNAME=		live.${VSN}
+PKGNAME=		liblivestream-${VSN}-${DASH_VER}
 CATEGORIES=		graphics net multimedia
 MASTER_SITES=		http://www.live555.com/liveMedia/public/
 HOMEPAGE=		http://www.live555.com/liveMedia/

@@ -3,10 +3,10 @@
 
 COMMENT=		Tcl/C++ interface used by ns and nam
 
-V=1.0b13
-DISTFILES=	tclcl-src-$V.tar.gz
-DISTNAME=	tclcl-$V
-CATEGORIES=	devel
+VSN=			1.0b13
+DISTFILES=		tclcl-src-${VSN}.tar.gz
+DISTNAME=		tclcl-${VSN}
+CATEGORIES=		devel
 
 HOMEPAGE=	http://www.isi.edu/nsnam/tclcl/index.html
 

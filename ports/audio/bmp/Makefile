@@ -1,14 +1,15 @@
-# $MirOS: ports/audio/bmp/Makefile,v 1.6 2008/03/09 17:22:22 tg Exp $
+# $MirOS: ports/audio/bmp/Makefile,v 1.7 2009/08/15 20:45:17 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.3 2005/01/02 18:57:26 alek Exp $
 
 COMMENT=			gtk+2 media player based on XMMS
 COMMENT-mp3=			MP3 input plugin for bmp
 COMMENT-vorbis=			Ogg Vorbis input plugin for bmp
-V=		0.9.7
-DISTNAME=	bmp-$V
-PKGNAME=	bmp-$V-1
-PKGNAME-mp3=	bmp-mp3-$V-1
-PKGNAME-vorbis=	bmp-vorbis-$V-1
+VSN=			0.9.7
+DASH_VER=		1
+DISTNAME=		bmp-${VSN}
+PKGNAME=		bmp-${VSN}-${DASH_VER}
+PKGNAME-mp3=		bmp-mp3-${VSN}-${DASH_VER}
+PKGNAME-vorbis=		bmp-vorbis-${VSN}-${DASH_VER}
 CATEGORIES=	audio
 MASTER_SITES=	${MASTER_SITE_SOURCEFORGE:=beepmp/}
 

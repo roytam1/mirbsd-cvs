@@ -1,13 +1,13 @@
-# $MirOS$
+# $MirOS: ports/devel/p5-Term-ReadKey/Makefile,v 1.5 2007/10/11 21:10:58 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.11 2004/01/17 15:58:08 naddy Exp $
 
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
 COMMENT=		change terminal modes, and perform non-blocking reads
 
-V=			2.30
-DISTNAME=		TermReadKey-${V}
-PKGNAME=		p5-Term-ReadKey-${V}-${DASH_VER}
+VSN=			2.30
+DISTNAME=		TermReadKey-${VSN}
+PKGNAME=		p5-Term-ReadKey-${VSN}-${DASH_VER}
 CATEGORIES=		devel perl5
 
 

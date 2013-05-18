@@ -2,8 +2,8 @@
 
 COMMENT=			minimalist documentation tool for Haskell
 
-V=			0.2.6
-DISTNAME=		idoc-${V}
+VSN=			0.2.6
+DISTNAME=		idoc-${VSN}
 CATEGORIES=		devel
 HOMEPAGE=		http://www.cse.unsw.edu.au/~chak/haskell/idoc/
 MASTER_SITES=		${HOMEPAGE}

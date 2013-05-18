@@ -1,10 +1,10 @@
 # $OpenBSD: Makefile,v 1.12 2004/03/02 14:32:43 naddy Exp $
 
 COMMENT=			active monitoring tool
-V=			2.65
-PL=			1
-DISTNAME=		symon-${V}
-PKGNAME=		symon-${V}-${PL}
+VSN=			2.65
+DASH_VER=		1
+DISTNAME=		symon-${VSN}
+PKGNAME=		symon-${VSN}-${DASH_VER}
 CATEGORIES=		sysutils net
 
 HOMEPAGE=		http://www.xs4all.nl/~wpd/symon/
@@ -29,7 +29,7 @@ COMMENT-mux=			symon data gatherer
 MUX_LIBDEPENDS=		rrd:rrdtool-*:net/rrdtool
 
 .for i in ${MULTI_PACKAGES}
-FULLPKGNAME${i}=        symon${i}-${V}-${PL}
+FULLPKGNAME${i}=        symon${i}-${VSN}-${DASH_VER}
 .endfor
 
 .if defined(PACKAGING) && !empty(SUBPACKAGE)
@@ -41,7 +41,7 @@ LIB_DEPENDS=		rrd:rrdtool-*:net/rrdtool
 .endif
 
 WRKDIST=		${WRKDIR}/symon
-SUBST_VARS=		V
+SUBST_VARS=		VSN
 
 NO_REGRESS=		Yes
 

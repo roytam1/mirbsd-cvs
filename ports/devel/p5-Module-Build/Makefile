@@ -1,11 +1,11 @@
-# $MirOS: ports/devel/p5-Module-Build/Makefile,v 1.4 2009/01/01 17:42:31 bsiegert Exp $
+# $MirOS: ports/devel/p5-Module-Build/Makefile,v 1.5 2009/05/07 04:58:41 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.1.1.1 2004/05/26 11:16:49 msf Exp $
 
 COMMENT=		build and install Perl modules
 
-V=			0.31
+VSN=			0.31
 DASH_VER=		1
-DISTNAME=		Module-Build-${V}
+DISTNAME=		Module-Build-${VSN}
 PKGNAME=		p5-${DISTNAME}-${DASH_VER}
 CATEGORIES=		devel perl5
 

@@ -1,4 +1,4 @@
-# $MirOS: ports/print/ttf-sil-gentium/Makefile,v 1.1 2009/06/22 11:01:02 tg Exp $
+# $MirOS: ports/print/ttf-sil-gentium/Makefile,v 1.2 2009/06/22 12:07:31 tg Exp $
 
 COMMENT=		extended Unicode Latin font ("a typeface for the nations")
 CATEGORIES=		print graphics textproc productivity x11
@@ -20,14 +20,14 @@ MASTER_SITES=		${MASTER_SITE_DEBIAN:=t/${PKGSTEM}/}
 WRKDIST=		${WRKDIR}/${PKGSTEM}-${VERSION}
 
 FONTDIR=		${PREFIX}/lib/X11/fonts/${PKGSTEM}
-V=			${VERSION:S/.//}
-SUBST_VARS+=		V
+VSN=			${VERSION:S/.//}
+SUBST_VARS+=		VSN
 USE_X11=		Yes
 NO_BUILD=		Yes
 NO_REGRESS=		Yes
 
 DOCS=			FONTLOG GENTIUM-FAQ OFL OFL-FAQ QUOTES README
-FONTS=			GenAI${V}.ttf GenAR${V}.ttf GenI${V}.ttf GenR${V}.ttf
+FONTS=			GenAI${VSN}.ttf GenAR${VSN}.ttf GenI${VSN}.ttf GenR${VSN}.ttf
 
 do-install:
 	@-rm -rf ${FONTDIR}

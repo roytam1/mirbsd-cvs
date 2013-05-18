@@ -7,10 +7,10 @@ COMMENT=			scheme r5 interpreter
 
 CATEGORIES=	lang
 
-V=5d3
-DISTNAME=	scm$V
-PKGNAME=	scm-$V-0
-EXTRACT_SUFX=	.zip
+VSN=			5d3
+DISTNAME=		scm${VSN}
+PKGNAME=		scm-${VSN}-${DASH_VER}
+EXTRACT_SUFX=		.zip
 
 HOMEPAGE=	http://swissnet.ai.mit.edu/~jaffer/SCM.html
 

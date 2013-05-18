@@ -1,4 +1,4 @@
-# $MirOS: ports/audio/xmms/Makefile,v 1.10 2008/03/09 17:22:26 tg Exp $
+# $MirOS: ports/audio/xmms/Makefile,v 1.11 2008/05/07 22:47:54 tg Exp $
 # $OpenBSD: Makefile,v 1.33 2004/05/24 13:17:40 robert Exp $
 
 COMMENT=		Multimedia player for the X Window System
@@ -23,11 +23,11 @@ PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_CDROM= Yes
 PERMIT_DISTFILES_FTP=	Yes
 
-V=			1.2.x
-MASTER_SITES=		${HOMEPAGE}/files/$V/ \
-			ftp://ftp.xmms.org/xmms/$V/ \
-			ftp://ftp.sunet.se/pub/multimedia/xmms/$V/ \
-			ftp://ftp.stealth.net/xmms/$V/
+VSN=			1.2.x
+MASTER_SITES=		${HOMEPAGE}/files/${VSN}/ \
+			ftp://ftp.xmms.org/xmms/${VSN}/ \
+			ftp://ftp.sunet.se/pub/multimedia/xmms/${VSN}/ \
+			ftp://ftp.stealth.net/xmms/${VSN}/
 
 PSEUDO_FLAVOURS=		no_esd no_vorbis no_mikmod no_mp3
 FLAVOUR?=

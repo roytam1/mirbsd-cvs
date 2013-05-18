@@ -1,9 +1,9 @@
-# $MirOS: ports/audio/grip/Makefile,v 1.5 2007/04/04 18:00:24 bsiegert Exp $
+# $MirOS: ports/audio/grip/Makefile,v 1.6 2009/08/15 20:45:18 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.8 2002/12/29 19:29:56 fgsch Exp $
 
 COMMENT=		front-end to external cd audio rippers and mp3 encoders
-V=			3.2.0
-DISTNAME=		grip-${V}
+VSN=			3.2.0
+DISTNAME=		grip-${VSN}
 CATEGORIES=		audio
 EXTRACT_SUFX=		.tar.gz
 HOMEPAGE=		http://www.nostatic.org/grip/

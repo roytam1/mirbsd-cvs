@@ -1,4 +1,4 @@
-@comment $MirOS$
+@comment $MirOS: ports/lang/expect/pkg/PLIST,v 1.2 2005/04/11 19:20:28 tg Exp $
 @comment $OpenBSD: PLIST,v 1.17 2003/09/23 23:08:44 jolan Exp $
 !%%no_tk%%
 bin/autoexpect
@@ -22,7 +22,7 @@ include/expect.h
 include/expect_comm.h
 include/expect_tcl.h
 include/tcldbg.h
-lib/expect${V}/libexpect${_V}.a
+lib/expect${VSN}/libexpect${_V}.a
 lib/libexpect${_V}.a
 man/man1/autoexpect.1
 man/man1/cryptdir.1
@@ -35,4 +35,4 @@ man/man1/passmass.1
 man/man1/unbuffer.1
 man/man3/libexpect.3
 %%SHARED%%
-@dirrm lib/expect${V}
+@dirrm lib/expect${VSN}

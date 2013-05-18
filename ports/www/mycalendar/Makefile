@@ -2,9 +2,9 @@
 
 COMMENT=			lightweight and easy to use web calendar
 
-V=		2.6
-DISTNAME=	calendar-$V
-PKGNAME=	mycalendar-$V-0
+VSN=		2.6
+DISTNAME=	calendar-${VSN}
+PKGNAME=	mycalendar-${VSN}-${DASH_VER}
 CATEGORIES=	www
 
 HOMEPAGE=	http://www.fuzzymonkey.org/newfuzzy/software/perl/

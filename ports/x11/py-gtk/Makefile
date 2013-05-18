@@ -1,13 +1,13 @@
-# $MirOS: ports/x11/py-gtk/Makefile,v 1.7 2006/09/14 00:15:35 tg Exp $
+# $MirOS: ports/x11/py-gtk/Makefile,v 1.8 2007/05/07 19:48:16 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.1.1.1 2004/02/16 21:12:50 xsa Exp $
 
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
 COMMENT=	gtk+2 Python bindings
 
-V=		2.0.0
-DISTNAME=	pygtk-${V}
-PKGNAME=	py-gtk2-${V}-0
+VSN=		2.0.0
+DISTNAME=	pygtk-${VSN}
+PKGNAME=	py-gtk2-${VSN}-${DASH_VER}
 CATEGORIES=	x11
 
 HOMEPAGE=	http://www.pygtk.org/

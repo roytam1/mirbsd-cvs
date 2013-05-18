@@ -1,11 +1,11 @@
-# $MirOS: ports/devel/libgtop/Makefile,v 1.5 2006/09/14 00:08:21 tg Exp $
+# $MirOS: ports/devel/libgtop/Makefile,v 1.6 2007/06/26 21:23:29 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.14 2004/12/11 17:41:52 marcm Exp $
 
 COMMENT=		portable library for obtaining system information
 
-V=			2.14.6
-DISTNAME=		libgtop-${V}
-PKGNAME=		libgtop2-${V}-0
+VSN=			2.14.6
+DISTNAME=		libgtop-${VSN}
+PKGNAME=		libgtop2-${VSN}-${DASH_VER}
 CATEGORIES=		devel x11/gnome
 
 HOMEPAGE=		http://www.gnome.org

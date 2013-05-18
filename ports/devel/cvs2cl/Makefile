@@ -3,9 +3,9 @@
 
 COMMENT=			generate GNU-style ChangeLogs from CVS repositories
 
-V=		2.38
-DISTNAME=	cvs2cl-${V}
-PKGNAME=	${DISTNAME}-1
+VSN=			2.38
+DASH_VER=		1
+DISTNAME=		cvs2cl-${VSN}
 CATEGORIES=     devel
 HOMEPAGE=	http://www.red-bean.com/cvs2cl/
 

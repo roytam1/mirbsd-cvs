@@ -1,13 +1,13 @@
-# $MirOS: ports/audio/abcde/Makefile,v 1.8 2009/08/16 15:19:58 bsiegert Exp $
+# $MirOS: ports/audio/abcde/Makefile,v 1.9 2009/08/16 16:25:54 tg Exp $
 # $OpenBSD: Makefile,v 1.7 2004/04/13 21:07:48 brad Exp $
 
 COMMENT=	command-line utility to rip and encode audio cds
 
-V=		2.1.19
+VSN=		2.1.19
 # cd-diskid version number
 V2=		0.9
-DISTNAME=	abcde_$V.orig
-PKGNAME=	abcde-$V-0
+DISTNAME=	abcde_${VSN}.orig
+PKGNAME=	abcde-${VSN}-${DASH_VER}
 CATEGORIES=	audio
 
 HOMEPAGE=	http://www.hispalinux.es/~data/abcde.php
@@ -31,7 +31,7 @@ FLAVOURS=	lame
 FLAVOUR?=	
 
 NO_REGRESS=	Yes
-WRKDIST=	${WRKDIR}/abcde-$V
+WRKDIST=	${WRKDIR}/abcde-${VSN}
 
 .if ${FLAVOUR:L:Mlame}
 DISTFILES+=		id3_0.12.orig.tar.gz:1

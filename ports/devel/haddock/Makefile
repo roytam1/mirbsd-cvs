@@ -1,9 +1,9 @@
-# $MirOS$
+# $MirOS: ports/devel/haddock/Makefile,v 1.3 2008/04/07 19:20:03 tg Exp $
 # $OpenBSD: Makefile,v 1.4 2004/04/23 02:40:16 dons Exp $
 
 COMMENT=		documentation tool for the functional language Haskell
-V=			0.6
-DISTNAME=		haddock-${V}
+VSN=			0.6
+DISTNAME=		haddock-${VSN}
 CATEGORIES=		devel
 HOMEPAGE=		http://www.haskell.org/haddock/
 
@@ -13,7 +13,7 @@ MASTER_SITES=		http://www.haskell.org/haddock/
 MASTER_SITES0=		ftp://ftp.cse.unsw.edu.au/pub/users/dons/haddock/
 
 DISTFILES=		${DISTNAME}-src.tar.gz \
-			haddock-regress-${V}.tgz:0
+			haddock-regress-${VSN}.tgz:0
 
 BUILD_DEPENDS+=		::textproc/docbook \
 			::textproc/docbook-dsssl \

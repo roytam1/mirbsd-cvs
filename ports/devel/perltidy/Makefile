@@ -2,9 +2,9 @@
 
 COMMENT=			tool to indent and reformat perl scripts
 
-V=		20031021
-DISTNAME=	Perl-Tidy-${V}
-PKGNAME=	perltidy-${V}-0
+VSN=		20031021
+DISTNAME=	Perl-Tidy-${VSN}
+PKGNAME=	perltidy-${VSN}-${DASH_VER}
 CATEGORIES=	devel
 
 MASTER_SITES=	${MASTER_SITE_SOURCEFORGE:=perltidy/}

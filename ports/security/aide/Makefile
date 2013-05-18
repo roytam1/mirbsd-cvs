@@ -2,8 +2,8 @@
 
 COMMENT=			Advanced Intrusion Detection Environment
 
-V=			0.10
-DISTNAME=		aide-${V}
+VSN=			0.10
+DISTNAME=		aide-${VSN}
 CATEGORIES=		security
 
 

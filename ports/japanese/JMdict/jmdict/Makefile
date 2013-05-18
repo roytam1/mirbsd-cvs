@@ -1,10 +1,10 @@
-# $MirOS$
+# $MirOS: ports/japanese/jmdict/jmdict/Makefile,v 1.1 2006/10/07 00:12:59 tg Exp $
 
 COMMENT=		console japanese-english dictionary
 CATEGORIES=		japanese
-V=			0.3
-DISTNAME=		jmdict-$V
-PKGNAME=		jmdict-$V-0
+VSN=			0.3
+DISTNAME=		jmdict-${VSN}
+PKGNAME=		jmdict-${VSN}-${DASH_VER}
 EXTRACT_SUFX=		.tar.bz2
 HOMEPAGE=		http://mandrill.fuxx0r.net/jmdict.php
 

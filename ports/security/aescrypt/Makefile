@@ -2,8 +2,8 @@
 
 COMMENT=			encrypt/decrypt using Rijndael encryption algorithm
 
-V=			0.7
-DISTNAME=		aescrypt-${V}
+VSN=			0.7
+DISTNAME=		aescrypt-${VSN}
 CATEGORIES=		security
 
 

@@ -2,9 +2,9 @@
 
 COMMENT=			the definite guide to DocBook
 
-V=		2.0.8
-DISTNAME=	tdg-en-html-${V}
-PKGNAME=	docbook-guide-${V}-0
+VSN=		2.0.8
+DISTNAME=	tdg-en-html-${VSN}
+PKGNAME=	docbook-guide-${VSN}-${DASH_VER}
 EXTRACT_SUFX=	.zip
 CATEGORIES=	books
 

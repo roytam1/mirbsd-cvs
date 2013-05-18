@@ -1,10 +1,10 @@
-# $MirOS: ports/x11/xfce4/themes/Makefile.inc,v 1.6 2008/07/30 19:43:59 bsiegert Exp $
+# $MirOS: ports/x11/xfce4/themes/Makefile.inc,v 1.7 2008/07/30 20:11:52 bsiegert Exp $
 
-V?=		4.0.5
+VSN?=		4.0.5
 DASH_VER?=	1
 CATEGORIES?=	x11 x11/xfce4 x11/xfce4/themes
 MASTER_SITES?=	ftp://ftp.berlios.de/pub/xfce-goodies/4.0.5/ \
-		http://xfce.org/archive/xfce-${V}/src/
+		http://xfce.org/archive/xfce-${VSN}/src/
 DIST_SUBDIR?=	xfce4
 HOMEPAGE?=	http://www.xfce.org/
 

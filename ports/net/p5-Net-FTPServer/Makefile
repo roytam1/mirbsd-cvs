@@ -2,9 +2,9 @@
 
 COMMENT=			secure, extensible and configurable Perl FTPd
 
-V=		1.119
-DISTNAME=	Net-FTPServer-${V}
-PKGNAME=	p5-${DISTNAME}-0
+VSN=		1.119
+DISTNAME=	Net-FTPServer-${VSN}
+PKGNAME=	p5-${DISTNAME}-${DASH_VER}
 CATEGORIES=	net perl5
 
 MASTER_SITES=	${MASTER_SITE_PERL_CPAN:=Net/}

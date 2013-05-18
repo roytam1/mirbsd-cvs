@@ -1,7 +1,7 @@
 # $OpenBSD: Makefile,v 1.6 2004/02/28 01:23:01 jolan Exp $
 
 COMMENT=			xfce4 file manager
-DISTNAME=	xffm-${V}
+DISTNAME=	xffm-${VSN}
 
 # XXX workaround gcc bugs on alpha/powerpc
 .if ${MACHINE_ARCH:Malpha} || ${MACHINE_ARCH:Mpowerpc}

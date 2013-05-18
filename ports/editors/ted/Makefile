@@ -2,20 +2,20 @@
 
 
 COMMENT=			X11 based RTF editor
-V=		2.14
-DISTNAME=	ted-$V
+VSN=		2.14
+DISTNAME=	ted-${VSN}
 CATEGORIES=	editors textproc print
 HOMEPAGE=	http://www.nllgg.nl/Ted/
 MASTER_SITES=	ftp://ftp.nluug.nl/pub/editors/ted/
 
-DISTFILES=	ted-$V.src.tar.gz
+DISTFILES=	ted-${VSN}.src.tar.gz
 # GPL
 PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 PERMIT_PACKAGE_CDROM=	Yes
 PERMIT_DISTFILES_CDROM=	Yes
 
-WRKDIST=	${WRKDIR}/Ted-$V
+WRKDIST=	${WRKDIR}/Ted-${VSN}
 LIB_DEPENDS=	png.2.::graphics/png \
 		jpeg.62::graphics/jpeg \
 		tiff.35::graphics/tiff

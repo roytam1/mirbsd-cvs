@@ -1,4 +1,4 @@
-# $MirOS: ports/databases/mysql/Makefile,v 1.4 2006/09/14 00:07:49 tg Exp $
+# $MirOS: ports/databases/mysql/Makefile,v 1.5 2007/03/31 22:01:55 tg Exp $
 # $OpenBSD: Makefile,v 1.99 2004/05/21 12:16:21 brad Exp $
 # Uses pthreads
 
@@ -18,8 +18,8 @@ FULLPKGNAME=	mysql-client-${VERSION}-0
 PKGNAME-server=	mysql-server-${VERSION}-0
 FULLPKGNAME-tests= mysql-tests-${VERSION}-0
 CATEGORIES=	databases
-V=		MySQL-4.0
-MASTER_SITES=	http://mysql.mirrors.pair.com/Downloads/$V/
+VSN=		MySQL-4.0
+MASTER_SITES=	http://mysql.mirrors.pair.com/Downloads/${VSN}/
 HOMEPAGE=	http://www.mysql.com/
 
 # GNU GPLv2

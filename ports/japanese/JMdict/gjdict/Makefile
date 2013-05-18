@@ -1,13 +1,13 @@
-# $MirOS: ports/japanese/jmdict/gjdict/Makefile,v 1.1 2006/10/07 00:12:58 tg Exp $
+# $MirOS: ports/japanese/jmdict/gjdict/Makefile,v 1.2 2006/10/08 00:45:52 tg Exp $
 
 BROKEN=			not fully ported nightmare
 BROKEN+=		- start by fixing x11/gtkmm
 
 COMMENT=		graphical japanese-english dictionary
 CATEGORIES=		japanese x11
-V=			1.0.1
-DISTNAME=		gjdict-source-$V
-PKGNAME=		gjdict-$V-0
+VSN=			1.0.1
+DISTNAME=		gjdict-source-${VSN}
+PKGNAME=		gjdict-${VSN}-${DASH_VER}
 EXTRACT_SUFX=		.tar.bz2
 HOMEPAGE=		http://gjdict.sourceforge.net/
 

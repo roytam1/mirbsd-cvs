@@ -1,10 +1,10 @@
-# $MirOS: ports/x11/xfce4/applications/Makefile.inc,v 1.4 2008/07/28 19:57:30 bsiegert Exp $
+# $MirOS: ports/x11/xfce4/applications/Makefile.inc,v 1.5 2008/07/30 19:43:58 bsiegert Exp $
 
-V?=		4.0.5
+VSN?=		4.0.5
 DASH_VER?=	1
 
 CATEGORIES?=	x11 x11/xfce4 x11/xfce4/applications
-MASTER_SITES?=	http://xfce.org/archive/xfce-${V}/src/
+MASTER_SITES?=	http://xfce.org/archive/xfce-${VSN}/src/
 DIST_SUBDIR?=	xfce4
 HOMEPAGE?=	http://xfce.org/index.php?page=overview
 

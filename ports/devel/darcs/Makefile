@@ -4,8 +4,8 @@ BROKEN=			unfetchable distfile
 
 COMMENT=		advanced revision control system written in Haskell
 
-V=		0.9.20
-DISTNAME=	darcs-${V}
+VSN=		0.9.20
+DISTNAME=	darcs-${VSN}
 CATEGORIES=	devel
 
 HOMEPAGE=	http://www.abridgegame.org/darcs/

@@ -1,10 +1,10 @@
-# $MirOS$
+# $MirOS: ports/japanese/jmdict/jmdict_import/Makefile,v 1.1 2006/10/07 00:13:00 tg Exp $
 
 COMMENT=		xml to sqlite2 conversion tool for jmdict
 CATEGORIES=		japanese
-V=			0.3
-DISTNAME=		jmdict-$V
-PKGNAME=		jmdict_import-$V-0
+VSN=			0.3
+DISTNAME=		jmdict-${VSN}
+PKGNAME=		jmdict_import-${VSN}-${DASH_VER}
 EXTRACT_SUFX=		.tar.bz2
 HOMEPAGE=		http://mandrill.fuxx0r.net/jmdict.php
 

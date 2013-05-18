@@ -2,8 +2,8 @@
 
 COMMENT=			collection of useful CVS scripts
 
-V=		0.2.0
-DISTNAME=	cvsutils-${V}
+VSN=		0.2.0
+DISTNAME=	cvsutils-${VSN}
 CATEGORIES=     devel
 
 HOMEPAGE=	http://www.red-bean.com/cvsutils/

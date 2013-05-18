@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/devel/git/Makefile,v 1.1 2009/05/31 18:05:51 tg Exp $
 
 ONLY_FOR_PLATFORM+=	Darwin:*:*	# not tested
 ONLY_FOR_PLATFORM+=	MirBSD:*:* OpenBSD:*:*
@@ -6,9 +6,9 @@ ONLY_FOR_PLATFORM+=	MirBSD:*:* OpenBSD:*:*
 COMMENT=		Git - Tree History Storage Tool
 COMMENT-svn=		Git - Subversion interoperability tools
 
-V=			1.6.3.1
-DISTNAME=		git-${V}
-PKGNAME-svn=		git-svn-${V}-${DASH_VER}
+VSN=			1.6.3.1
+DISTNAME=		git-${VSN}
+PKGNAME-svn=		git-svn-${VSN}-${DASH_VER}
 CATEGORIES=		devel
 HOMEPAGE=		http://git-scm.com/
 
@@ -23,8 +23,8 @@ PERMIT_PACKAGE_FTP=	Yes
 MASTER_SITES=		ftp://ftp.de.kernel.org/pub/software/scm/git/ \
 			ftp://ftp.kernel.org/pub/software/scm/git/ \
 			ftp://ftp.au.kernel.org/pub/software/scm/git/
-DOC_DISTFILES=		git-htmldocs-${V}${EXTRACT_SUFX} \
-			git-manpages-${V}${EXTRACT_SUFX}
+DOC_DISTFILES=		git-htmldocs-${VSN}${EXTRACT_SUFX} \
+			git-manpages-${VSN}${EXTRACT_SUFX}
 DISTFILES=		${DISTNAME}${EXTRACT_SUFX} \
 			${DOC_DISTFILES}
 EXTRACT_ONLY=		${DISTNAME}${EXTRACT_SUFX}

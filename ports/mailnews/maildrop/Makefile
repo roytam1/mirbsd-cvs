@@ -3,8 +3,8 @@
 COMMENT=			local mail delivery agent with filtering abilities
 COMMENT-utils=			userdb and quota tools for the Courier mail suite
 
-V=		1.5.3
-DISTNAME=	maildrop-${V}
+VSN=		1.5.3
+DISTNAME=	maildrop-${VSN}
 CATEGORIES=    	mail
 
 HOMEPAGE=	http://www.flounder.net/~mrsam/maildrop/
@@ -15,7 +15,7 @@ EXTRACT_SUFX=	.tar.bz2
 MULTI_PACKAGES=	-utils
 SUBPACKAGE?=
 
-FULLPKGNAME-utils= courier-utils-${V}-0
+FULLPKGNAME-utils= courier-utils-${VSN}-${DASH_VER}
 
 # GPL
 PERMIT_PACKAGE_CDROM=	Yes

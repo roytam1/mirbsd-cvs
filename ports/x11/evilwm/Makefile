@@ -1,9 +1,9 @@
-# $MirOS: ports/x11/evilwm/Makefile,v 1.9 2008/11/08 23:04:11 tg Exp $
+# $MirOS: ports/x11/evilwm/Makefile,v 1.10 2008/12/07 18:58:09 tg Exp $
 
 COMMENT=		minimalist window manager for keyboard or mouse
 CATEGORIES=		x11
-V=			0.99.18
-PKGNAME=		evilwm-${V}-${PL}
+VSN=			0.99.18
+PKGNAME=		evilwm-${VSN}-${DASH_VER}
 HOMEPAGE=		http://www.6809.org.uk/evilwm/
 RESPONSIBLE=		Thorsten Glaser <tg@mirbsd.org>
 
@@ -23,14 +23,14 @@ CVS_DISTREPO=		${_MIROS_ANONCVS}
 CVS_DISTDATE=		2006/10/27
 CVS_DISTMODS=		X11/extras/evilwm
 CVS_DISTFILE=		mirvilwm
-PL=			0
-SUPDISTFILES+=		evilwm-${V}.tar.gz
+DASH_VER=		0
+SUPDISTFILES+=		evilwm-${VSN}.tar.gz
 .else
-DISTNAME=		evilwm-${V}
-PL=			0
+DISTNAME=		evilwm-${VSN}
+DASH_VER=		0
 MASTER_SITES=		http://www.6809.org.uk/evilwm/
 
-MAKE_FLAGS+=		EVILVERSION=${V} X11LIBDIR=${X11BASE}/lib
+MAKE_FLAGS+=		EVILVERSION=${VSN} X11LIBDIR=${X11BASE}/lib
 SUPDISTFILES+=		mirvilwm-20061027.mcz
 .endif
 

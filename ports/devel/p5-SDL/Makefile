@@ -1,10 +1,11 @@
-# $MirOS: ports/devel/p5-SDL/Makefile,v 1.11 2006/11/17 18:31:40 tg Exp $
+# $MirOS: ports/devel/p5-SDL/Makefile,v 1.12 2007/04/13 19:27:20 bsiegert Exp $
 # $NetBSD: Makefile,v 1.26 2005/04/11 21:45:34 tv Exp $
 
 COMMENT=		Perl module for SDL
-V=			1.20.0
-DISTNAME=		SDL_perl-$V
-PKGNAME=		p5-SDL-$V-2
+VSN=			1.20.0
+DASH_VER=		2
+DISTNAME=		SDL_perl-${VSN}
+PKGNAME=		p5-SDL-${VSN}-${DASH_VER}
 CATEGORIES=		devel perl5
 HOMEPAGE=		http://sdlperl.org/
 MASTER_SITES=		http://zarb.org/~gc/t/
