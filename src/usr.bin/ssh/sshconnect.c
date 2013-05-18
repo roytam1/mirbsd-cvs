@@ -1,4 +1,4 @@
-/* $OpenBSD: sshconnect.c,v 1.182 2006/05/17 12:43:34 markus Exp $ */
+/* $OpenBSD: sshconnect.c,v 1.185 2006/06/14 10:50:42 djm Exp $ */
 /*
  * Author: Tatu Ylonen <ylo@cs.hut.fi>
  * Copyright (c) 1995 Tatu Ylonen <ylo@cs.hut.fi>, Espoo, Finland
@@ -14,7 +14,7 @@
  */
 
 #include "includes.h"
-__RCSID("$MirOS: src/usr.bin/ssh/sshconnect.c,v 1.5 2006/04/19 10:40:56 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/sshconnect.c,v 1.6 2006/06/02 20:50:52 tg Exp $");
 
 #include <sys/wait.h>
 #include <sys/stat.h>
@@ -91,8 +91,7 @@ ssh_proxy_connect(const char *host, u_short port, const char *proxy_command)
 		char *argv[10];
 
 		/* Child.  Permanently give up superuser privileges. */
-		seteuid(original_real_uid);
-		setuid(original_real_uid);
+		permanently_drop_suid(original_real_uid);
 
 		/* Redirect stdin and stdout. */
 		close(pin[1]);
@@ -380,10 +379,10 @@ ssh_exchange_identification(void)
 	int connection_in = packet_get_connection_in();
 	int connection_out = packet_get_connection_out();
 	int minor1 = PROTOCOL_MINOR_1;
-	u_int i;
+	u_int i, n;
 
 	/* Read other side's version identification. */
-	for (;;) {
+	for (n = 0;;) {
 		for (i = 0; i < sizeof(buf) - 1; i++) {
 			size_t len = atomicio(read, connection_in, &buf[i], 1);
 
@@ -400,6 +399,8 @@ ssh_exchange_identification(void)
 				buf[i + 1] = 0;
 				break;
 			}
+			if (++n > 65536)
+				fatal("ssh_exchange_identification: No banner received");
 		}
 		buf[sizeof(buf) - 1] = 0;
 		if (strncmp(buf, "SSH-", 4) == 0)

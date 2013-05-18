@@ -1,4 +1,4 @@
-/* $OpenBSD: ssh-agent.c,v 1.138 2006/05/17 12:43:34 markus Exp $ */
+/* $OpenBSD: ssh-agent.c,v 1.140 2006/06/13 02:17:07 djm Exp $ */
 /*
  * Author: Tatu Ylonen <ylo@cs.hut.fi>
  * Copyright (c) 1995 Tatu Ylonen <ylo@cs.hut.fi>, Espoo, Finland
@@ -35,7 +35,7 @@
  */
 
 #include "includes.h"
-__RCSID("$MirOS: src/usr.bin/ssh/ssh-agent.c,v 1.5 2006/04/19 10:40:54 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/ssh-agent.c,v 1.6 2006/06/02 20:50:50 tg Exp $");
 
 #include <sys/queue.h>
 #include <sys/resource.h>

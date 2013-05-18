@@ -1,4 +1,4 @@
-/* $OpenBSD: sshconnect2.c,v 1.153 2006/05/08 10:49:48 djm Exp $ */
+/* $OpenBSD: sshconnect2.c,v 1.155 2006/06/08 14:45:49 markus Exp $ */
 /*
  * Copyright (c) 2000 Markus Friedl.  All rights reserved.
  *
@@ -24,7 +24,7 @@
  */
 
 #include "includes.h"
-__RCSID("$MirOS: src/usr.bin/ssh/sshconnect2.c,v 1.6 2006/04/19 10:40:56 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/sshconnect2.c,v 1.7 2006/06/02 20:50:52 tg Exp $");
 
 #include <sys/wait.h>
 #include <sys/queue.h>
@@ -52,6 +52,7 @@ __RCSID("$MirOS: src/usr.bin/ssh/sshconnect2.c,v 1.6 2006/04/19 10:40:56 tg Exp 
 #include "canohost.h"
 #include "msg.h"
 #include "pathnames.h"
+#include "uidswap.h"
 
 /* import */
 extern char *client_version_string;
@@ -996,8 +997,7 @@ ssh_keysign(Key *key, u_char **sigp, u_int *lenp,
 		return -1;
 	}
 	if (pid == 0) {
-		seteuid(getuid());
-		setuid(getuid());
+		permanently_drop_suid(getuid());
 		close(from[0]);
 		if (dup2(from[1], STDOUT_FILENO) < 0)
 			fatal("ssh_keysign: dup2: %s", strerror(errno));
