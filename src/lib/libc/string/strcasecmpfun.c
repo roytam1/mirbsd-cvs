@@ -1,4 +1,4 @@
-/* $MirOS: src/lib/libc/string/strcasecmpfun.c,v 1.2 2006/11/21 02:38:32 tg Exp $ */
+/* $MirOS: src/lib/libc/string/strcasecmpfun.c,v 1.3 2006/11/21 02:40:39 tg Exp $ */
 
 /*-
  * Copyright (c) 2006
@@ -25,18 +25,20 @@
  * the possibility of such damage or existence of a defect.
  */
 
-#if defined(WCSCASECMP)
-#define WIDEC 1
-#elif defined(WCSNCASECMP)
-#define WIDEC 1
+#if defined(WCSNCASECMP)
+#define CMP	4
+#elif defined(WCSCASECMP)
+#define CMP	3
+#elif defined(STRNCASECMP)
+#define CMP	2
 #else
-#define WIDEC 0
+#define CMP	1
 #endif
 
-#if WIDEC
+#if CMP > 2
 #include <wctype.h>
 #define CHAR		wchar_t
-#define	LC		L
+#define	LC(x)		L ## x
 #define x_tolower	towlower
 #define strcasecmp	wcscasecmp
 #define strncasecmp	wcsncasecmp
@@ -44,18 +46,18 @@
 #include <ctype.h>
 #include <string.h>
 #define	CHAR		char
-#define	LC		/* nothing */
+#define	LC(x)		x
 #define	x_tolower	_tolower
 #endif
 
-__RCSID("$MirOS: src/lib/libc/string/strcasecmpfun.c,v 1.2 2006/11/21 02:38:32 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/string/strcasecmpfun.c,v 1.3 2006/11/21 02:40:39 tg Exp $");
 
-#if defined(STRCASECMP) || defined(WCSCASECMP)
+#if CMP & 1
 int
 strcasecmp(const CHAR *s1, const CHAR *s2)
 {
 	while (x_tolower(*s1) == x_tolower(*s2))
-		if (*s1++ == LC '\0')
+		if (*s1++ == LC('\0'))
 			return (0);
 		else
 			s2++;
@@ -63,14 +65,14 @@ strcasecmp(const CHAR *s1, const CHAR *s2)
 }
 #endif
 
-#if defined(STRNCASECMP) || defined(WCSNCASECMP)
+#if !(CMP & 1)
 int
 strncasecmp(const CHAR *s1, const CHAR *s2, size_t n)
 {
 	while (n--) {
 		if (x_tolower(*s1) != x_tolower(*s2))
 			return (x_tolower(*s1) - x_tolower(*s2));
-		if (*s1++ == LC '\0')
+		if (*s1++ == LC('\0'))
 			break;
 		s2++;
 	}
