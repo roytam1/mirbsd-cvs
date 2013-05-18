@@ -1,8 +1,9 @@
-# $MirOS: src/gnu/usr.bin/binutils/libiberty/Makefile,v 1.5 2005/07/07 20:17:33 tg Exp $
+# $MirOS: src/gnu/usr.bin/binutils/libiberty/Makefile,v 1.6 2006/10/17 22:17:05 tg Exp $
 
 .include "../Makefile.inc"
 
 LIB=		iberty
+LIBDIR=		${BSD_PREFIX}/lib/gcc/${OStriplet}/3.4.6
 NOPIC=		Yes
 SRCS=		argv.c concat.c copysign.c cp-demangle.c \
 		cp-demint.c cplus-dem.c dyn-string.c fdmatch.c fibheap.c \
@@ -22,9 +23,10 @@ CPPFLAGS+=	-DHAVE_CONFIG_H -I${GNU_LIBIBERTY_SRC} -I${GNU_LIBIBERTY_INC}
 .PATH: ${GNU_LIBIBERTY_SRC}/testsuite
 .PATH: ${GNUSYSTEM_AUX_DIR}
 
-CFLAGS__gplwarn.o= -DMYNAME=\"libiberty\" -DGPLVER=\"2+\"
-
 CLEANFILES+=	test-demangle test-demangle.o test-pexecute test-pexecute.o
+
+beforeinstall:
+	mkdir -p ${DESTDIR}${LIBDIR}
 
 check: test-demangle demangle-expected test-pexecute
 	./test-demangle <${GNU_LIBIBERTY_SRC}/testsuite/demangle-expected
