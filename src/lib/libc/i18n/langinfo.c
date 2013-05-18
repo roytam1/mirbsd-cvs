@@ -1,4 +1,4 @@
-/* $MirOS: src/lib/libc/i18n/langinfo.c,v 1.11 2006/05/30 10:45:57 tg Exp $ */
+/* $MirOS: src/lib/libc/i18n/langinfo.c,v 1.12 2006/09/07 17:13:15 tg Exp $ */
 
 /*-
  * Copyright (c) 2003, 2004, 2005, 2006
@@ -40,7 +40,7 @@
 
 #include "mir18n.h"
 
-__RCSID("$MirOS: src/lib/libc/i18n/langinfo.c,v 1.11 2006/05/30 10:45:57 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/i18n/langinfo.c,v 1.12 2006/09/07 17:13:15 tg Exp $");
 
 /* fake locale support */
 
@@ -81,10 +81,8 @@ __weak_nl_langinfo(nl_item item)
 
 	switch (item) {
 	case CODESET:
-		/* if MIR18N_SB_{MAX,CVT} are both 0xFF, we in fact
-		 * have ISO-8859-1 character set, but we don't care
-		 * because we're on the path to a CESU8-only system */
-		s = __locale_is_utf8 ? "UTF-8" : "ISO_646.irv:1991";
+		/* "UTF-8" should actually be "CESU-8" but who groks THAT? */
+		s = __locale_is_utf8 ? "UTF-8" : MIR18N_CCODESET;
 		break;
 	case D_T_FMT:
 		s = _DefaultTimeLocale.d_t_fmt;

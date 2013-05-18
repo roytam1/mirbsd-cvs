@@ -1,4 +1,4 @@
-/* $MirOS: src/lib/libc/include/mir18n.h,v 1.7 2006/09/07 17:13:16 tg Exp $ */
+/* $MirOS: src/lib/libc/include/mir18n.h,v 1.8 2006/11/01 18:22:40 tg Exp $ */
 
 #ifndef _LIBC_MIR18N_H
 #define _LIBC_MIR18N_H
@@ -21,12 +21,15 @@
 #if MIR18N_C_CSET == 2
 #define MIR18N_SB_MAX	0xFF	/* highest allowed character in 'C' locale */
 #define MIR18N_SB_CVT	0xFF	/* allow historic conversion from/to latin1 */
+#define MIR18N_CCODESET	"ISO-8859-1"	/* nl_langinfo(CODESET) value for C */
 #elif MIR18N_C_CSET == 1
 #define MIR18N_SB_MAX	0x7F	/* highest allowed character in 'C' locale */
 #define MIR18N_SB_CVT	0xFF	/* allow historic conversion from/to latin1 */
+#define MIR18N_CCODESET	"ISO_646.irv:1991"	/* nl_langinfo(CODESET) rv */
 #else
 #define MIR18N_SB_MAX	0x7F	/* highest allowed character in 'C' locale */
 #define MIR18N_SB_CVT	0x7F	/* allow historic conversion from/to latin1 */
+#define MIR18N_CCODESET	"ISO_646.irv:1991"	/* nl_langinfo(CODESET) rv */
 #endif
 
 /* highest allowed character in 'CESU-8' (UTF-8) locale */
