@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.270 2009/12/28 14:58:18 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.271 2009/12/29 20:52:54 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -5842,4 +5842,64 @@ Tag: snapshot
  bought vitamines etc. for $alot € yesterday to fight it better though.</p>
 <p>OpenBSD can build the kernel with pcc now, nice. I thought ÆrieBSD was
  the one with switching to a GNU-free toolchain goal though…</p>
+----
+Title: RCBD #1
+Author: tg@
+Date: 01.01.2010 14:17
+Tag: debian
+
+<p>My first RC Bug-squashing Day (or rather night):</p><ul>
+ <li><a href="http://bugs.debian.org/552791">bug #552791</a> – acorn-fdisk –
+  Copyright file does not contain verbatim copy of the license or a pointer
+  to one</li>
+ <li><a href="http://bugs.debian.org/562647">bug #562647</a> – gidentd –
+  Does not work with ipv4 after recent change in netbase</li>
+ <li><a href="http://bugs.debian.org/558812">bug #558812</a> – dietlibc –
+  incorrect license in debian/copyright</li>
+ <li><a href="http://bugs.debian.org/531937">bug #531937</a> – autossh –
+  FTBFS on mipsel due to missing -fPIC</li>
+</ul>
+<p>I picked all of them mostly randomly from the <a
+ href="http://bugs.debian.org/release-critical/debian/all.html">list</a>
+ Zack gave me, and except dietlibc they are packages I had not even heard
+ of before. The first one begun easily (track down licencing information,
+ pimp <tt>debian/copyright</tt>, but I ended up fixing compiler and lintian
+ warnings and even wrote a manpage for it while there (but for this one, I
+ didn’t bump the Standards-Version). The second one was only the second one
+ to complete because the others took longer; it’s basically a change of a
+ dæmon to use two instead of one listening socket, to work with a “doble
+ stack” OS instead of just a “dual stack” OS by not using v4-mapped IPv6
+ addresses (I considered if to use select(2) or poll(2), or to just fork
+ and have two dæmons running, but that seemed too ressource-consuming to
+ me so I chose the less-complicated poll(2) method, looking at popa3d(8)’s
+ source code (inherited from OpenBSD) in the MirBSD tree since I could not
+ find my network programming book. The third one was basically communicating
+ with upstream; the bug can be blosed with no change to the package. The
+ fourth one took me a while; luckily I have qemu 0.11.0 on MirBSD, and <a
+ href="http://people.debian.org/~aurel32/qemu/mipsel/">aurel32’s mipsel qemu
+ images</a> helped a great deal; however, <tt>cowbuilder --create</tt> failed
+ for me, so I ended up waiting almost the entire night for a-g d-u to finish;
+ in the end, it was simply a bug in upstream’s <tt>configure.ac</tt> which is
+ only exposed due to a <a href="http://bugs.debian.org/519006">toolchain bug
+ on mips(el)</a>.</p>
+<p>To do: my AM Zack needs to upload the NMUs (after checking, of course);
+ I need to communicate some of the fixes upstream (the gidentd upstream is
+ NXDOMAIN ☹), produce a very small testcase for the mipsel toolchain bug,
+ maybe fix some more mipsel FTBFSen as I have a working qemu instance now,
+ but maybe I’ll do that at the BSP when I can’t find IPv6 bugs or so that
+ I feel I can fix (I also want to do an <a href="@@RELPATH@@mksh.htm">mksh</a>
+ release which has to be prepared first RSN, and there’s still the need to
+ formally publish the MirBSD-current bi-arch snapshot and make another ISO
+ out of it for BT and prepare the multi-BSD USB stick for allbsd.de…).</p>
+<p>Annoyances: a-g d-u could ask me things at the start before working for
+ some four+ hours instead of in the middle, and the same questions several
+ times (PAM restart). The sid kernel doesn’t boot today but did yesterday,
+ the lenny kernel produces this:<br /><tt>Starting the hotplug events
+ dispatcher: udevdudevd[320]: udev: missing sysfs features; please update
+ the kernel or disable the kernel's CONFIG_SYSFS_DEPRECATED option; udev
+ may fail to work correctly</tt><br />(I hate udev.) And, worst of all,
+ these annoying fireworks (some sounded like originating from inside our
+ staircase, I pity the neighbour’s cats) when one wants to hack… Finally,
+ I *loathe* CDBS. Debhelper <a
+ href="http://xana.scru.org/xana2/parabola/carhelper/">v5</a> rules!</p>
 ----
