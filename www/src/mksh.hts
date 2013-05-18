@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.476 2012/10/30 20:52:39 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.477 2012/11/20 18:56:49 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -1194,9 +1194,10 @@ exec /usr/bin/ld "${args[@]}"</pre>
  <li>[tg, Clint Adams] Clean up and optimise the error handling code</li>
  <li>[tg] Fix and add some checks in the testsuite</li>
  <li>[tg] Sort list of variables in the source code when possible</li>
- <li>[tg] Add <tt>$BASHPID</tt> (for ormaaj) and <tt>$MKSH_UNIXTIME</tt></li>
+ <li>[tg] Add <tt>$BASHPID</tt> (for ormaaj) and <tt>$EPOCHREALTIME</tt></li>
  <li>[tg] Improve documentation, <tt>#ksh</tt> IRC channel homepage</li>
  <li>[tg, RT] Minix 2 also doesn’t have gettimeofday(2) ⇒ check for it</li>
+ <li>[tg] Fix an input command line editing display redrawing issue</li>
 </ul>
 <p>Changes in the current (unreleased) stable branch:</p><ul>
  <li>[tg] Fix a bug in the manual page</li>
