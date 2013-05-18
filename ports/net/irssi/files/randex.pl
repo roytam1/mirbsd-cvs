@@ -1,4 +1,4 @@
-# $MirOS: ports/net/irssi/files/randex.pl,v 1.3 2008/07/20 01:43:17 tg Exp $
+# $MirOS: ports/net/irssi/files/randex.pl,v 1.4 2008/07/20 15:32:04 tg Exp $
 #-
 # Copyright (c) 2008
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -21,7 +21,9 @@
 # Irssi extension to support MirSirc's randex protocol
 
 use vars qw($VERSION %IRSSI);
-$VERSION = '1.4';
+$VERSION = sprintf "%d.%02d",
+    q$MirOS: ports/net/irssi/files/randex.pl,v 1.4 2008/07/20 15:32:04 tg Exp $
+    =~ m/,v (\d+)\.(\d+) /;
 %IRSSI = (
 	authors		=> 'Thorsten Glaser',
 	contact		=> 'tg@mirbsd.de',
@@ -203,9 +205,10 @@ randfile_timeout
 sub
 sig_setup_changed
 {
-	Irssi::timeout_remove($tmo_randfile) if defined($tmo_randfile);
-	randfile_timeout(2)
-	    if ($g_interval != Irssi::settings_get_int("rand_interval"));
+	if ($g_interval != Irssi::settings_get_int("rand_interval")) {
+		Irssi::timeout_remove($tmo_randfile) if defined($tmo_randfile);
+		randfile_timeout(2);
+	}
 }
 
 sub
