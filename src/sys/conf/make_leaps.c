@@ -1,5 +1,5 @@
 /*-
- * Copyright (c) 2004, 2005, 2007, 2011
+ * Copyright (c) 2004, 2005, 2007, 2011, 2012
  *	Thorsten Glaser <tg@mirbsd.org>
  *
  * Provided that these terms and disclaimer and all copyright notices
@@ -25,14 +25,14 @@
 #include <stdio.h>
 #include <time.h>
 
-__RCSID("$MirOS: src/sys/conf/make_leaps.c,v 1.1 2011/11/20 04:57:14 tg Exp $");
+__RCSID("$MirOS: src/sys/conf/make_leaps.c,v 1.2 2011/11/20 23:40:12 tg Exp $");
 
 static const char preamble[] =
 "/* AUTOMATICALLY GENERATED - DO NOT EDIT! */\n"
 "\n"
 "#include <sys/time.h>\n"
 "\n"
-"__RCSID(\"From: $MirOS: src/sys/conf/make_leaps.c,v 1.1 2011/11/20 04:57:14 tg Exp $\");\n"
+"__RCSID(\"From: $MirOS: src/sys/conf/make_leaps.c,v 1.2 2011/11/20 23:40:12 tg Exp $\");\n"
 "\n"
 "static time_t _leaps_tt[] = {\n";
 
@@ -65,7 +65,10 @@ main(void)
 
 	fputs(preamble, stdout);
 	while (*lp)
-		printf("\t0x%016llXLL,\n", *lp++);
+		if (sizeof(time_t) == 4)
+			printf("\t0x%08XL,\n", (uint32_t)*lp++);
+		else
+			printf("\t0x%016llXLL,\n", (uint64_t)*lp++);
 	fputs(epilogue, stdout);
 
 	return (0);
