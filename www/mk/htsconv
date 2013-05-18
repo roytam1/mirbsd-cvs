@@ -1,4 +1,4 @@
-rcsid_htsconv='$MirOS: www/mk/htsconv,v 1.29 2008/09/17 21:52:07 tg Exp $'
+rcsid_htsconv='$MirOS: www/mk/htsconv,v 1.30 2008/12/04 20:27:14 tg Exp $'
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -94,9 +94,13 @@ function mws_putheader {
 		[[ -n $x ]] || continue
 		mws__header="$mws__header and <span class=\"rcsid\">$x</span>"
 	done
-	for x in "$rcsid_parsed" "$rcsid"; do
+	for x in "$rcsid_cfg" "$rcsid"; do
 		[[ -n $x ]] || continue
 		mws__header="$mws__header from <span class=\"rcsid\">$x</span>"
+	done
+	for x in "${rcsid_db[@]}"; do
+		[[ -n $x ]] || continue
+		mws__header="$mws__header and <span class=\"rcsid\">$x</span>"
 	done
 	mws__header="$mws__header</p>"
 }

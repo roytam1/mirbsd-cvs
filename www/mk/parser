@@ -1,4 +1,4 @@
-rcsid_parser='$MirOS: www/mk/parser,v 1.18 2008/12/04 19:10:47 tg Exp $'
+rcsid_parser='$MirOS: www/mk/parser,v 1.19 2008/12/04 19:38:48 tg Exp $'
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -112,6 +112,7 @@ for srcf in $sources; do
 		print -u2 "Last line of data/$srcf.inc not a separator!"
 		exit 1
 	fi
+	[[ -z $rcsid_parsed ]] || rcsid_db[${#rcsid_db[*]}]=$rcsid_parsed
 done
 integer entries=entry
 if [[ -n $notimesort ]]; then
