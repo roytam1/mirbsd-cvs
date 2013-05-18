@@ -1,6 +1,7 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.3 2004/04/18 06:41:11 robert Exp $
 
-COMMENT=			color-able replacement for tail(1)
+COMMENT=		color-able replacement for tail(1)
 
 DISTNAME=		colortail-0.3.0
 CATEGORIES=		sysutils
@@ -13,7 +14,9 @@ PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
-CONFIGURE_STYLE=	gnu
+CONFIGURE_STYLE=	autoconf
+AUTOCONF_NEW=		Yes
+USE_CXX=		Yes
 
 post-install:
 	${INSTALL_MAN} ${FILESDIR}/colortail.1 ${PREFIX}/man/man1
