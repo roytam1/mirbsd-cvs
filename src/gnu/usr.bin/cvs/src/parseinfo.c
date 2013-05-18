@@ -1,4 +1,4 @@
-/* $MirOS: src/gnu/usr.bin/cvs/src/parseinfo.c,v 1.5 2005/12/05 22:12:48 tg Exp $ */
+/* $MirOS: src/gnu/usr.bin/cvs/src/parseinfo.c,v 1.6 2006/09/21 21:48:37 tg Exp $ */
 
 /*
  * Copyright (C) 1986-2005 The Free Software Foundation, Inc.
@@ -252,7 +252,7 @@ readSizeT (const char *infopath, const char *option, const char *p,
 		       infopath, option, p[strlen(p)]);
 		return false;
 	}
-	TRACE (TRACE_DATA, "readSizeT(): Found factor %lu for %s",
+	TRACE (TRACE_DATA, "readSizeT(): Found factor %zu for %s",
 	       factor, option);
     }
 
@@ -276,9 +276,9 @@ readSizeT (const char *infopath, const char *option, const char *p,
 	/* Don't return an error, just max out.  */
 	num = SIZE_MAX;
 
-    TRACE (TRACE_DATA, "readSizeT(): read number %lu for %s", num, option);
+    TRACE (TRACE_DATA, "readSizeT(): read number %zu for %s", num, option);
     *val = xtimes (strtoul (p, NULL, 10), factor);
-    TRACE (TRACE_DATA, "readSizeT(): returnning %lu for %s", *val, option);
+    TRACE (TRACE_DATA, "readSizeT(): returnning %zu for %s", *val, option);
     return true;
 }
 

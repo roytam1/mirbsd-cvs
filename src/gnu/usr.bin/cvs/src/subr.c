@@ -1285,7 +1285,7 @@ format_cmdline (const char *format, ...)
 	    		dellist(&pflist);
 	    		free(b);
 			error (1, 0,
-"internal error:  unknown integer arg size (%ld)",
+"internal error:  unknown integer arg size (%zd)",
                                length);
 			break;
 		}
@@ -1328,7 +1328,7 @@ format_cmdline (const char *format, ...)
 	    		dellist(&pflist);
 	    		free(b);
 			error (1, 0,
-"internal error:  unknown floating point arg size (%ld)",
+"internal error:  unknown floating point arg size (%zd)",
                                length);
 			break;
 		}
