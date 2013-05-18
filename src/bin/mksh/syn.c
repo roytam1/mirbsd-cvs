@@ -22,7 +22,7 @@
 
 #include "sh.h"
 
-__RCSID("$MirOS: src/bin/mksh/syn.c,v 1.60 2011/04/09 15:14:54 tg Exp $");
+__RCSID("$MirOS: src/bin/mksh/syn.c,v 1.61 2011/04/22 12:15:42 tg Exp $");
 
 extern short subshell_nesting_level;
 
@@ -629,7 +629,7 @@ function_body(char *name,
 	struct op *t;
 	bool old_func_parse;
 
-	sname = wdstrip(name, false, false);
+	sname = wdstrip(name, 0);
 	/*-
 	 * Check for valid characters in name. POSIX and AT&T ksh93 say
 	 * only allow [a-zA-Z_0-9] but this allows more as old pdkshs
