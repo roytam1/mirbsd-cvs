@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: ports/infrastructure/install/setup.ksh,v 1.82 2008/03/14 15:50:55 tg Exp $
+# $MirOS: ports/infrastructure/install/setup.ksh,v 1.83 2008/03/14 15:56:45 tg Exp $
 #-
 # Copyright (c) 2005, 2008
 #	Thorsten “mirabilos” Glaser <tg@66h.42h.de>
@@ -157,8 +157,8 @@ shift $((OPTIND - 1))
 
 # Divine paths again
 #%%BEGIN sync Setup.sh with setup.ksh %% paths
+p=$localbase/bin:$localbase/sbin
 if test $isinterix = no; then
-	p=$localbase/bin
 	for a in /usr/local/bin /usr/bin /bin $xfbase/bin /usr/X11R6/bin \
 	    /usr/sbin /sbin; do
 		case :$p: in
@@ -166,11 +166,9 @@ if test $isinterix = no; then
 		esac
 		test -d $a && p=$p:$a
 	done
-	PATH=$p:$localbase/sbin; export PATH
 else
 	# On Interix, /usr/bin is /bin; gzip lives in /usr/contrib/bin;
 	# gcc has yet its own directory; we have X11R5 as well
-	p=$localbase/bin
 	for a in /usr/local/bin /opt/gcc.3.3/bin /usr/contrib/bin /bin \
 	    /usr/sbin /sbin $localbase/sbin $xfbase/bin /usr/X11R6/bin; do
 		case :$p: in
@@ -180,7 +178,6 @@ else
 	done
 	test -n "$PATH_WINDOWS" && p=$p:/usr/contrib/win32/bin:$PATH_WINDOWS
 	test -d /usr/X11R5/bin && p=$p:/usr/X11R5/bin
-	PATH=$p; export PATH
 
 	LD_LIBRARY_PATH_ORG=$LD_LIBRARY_PATH
 	case :$LD_LIBRARY_PATH: in
@@ -194,6 +191,7 @@ else
 	LD_LIBRARY_PATH=${LD_LIBRARY_PATH%%+(:)}
 	export LD_LIBRARY_PATH LD_LIBRARY_PATH_ORG
 fi
+PATH=$p; export PATH
 #%%END sync Setup.sh with setup.ksh %% paths
 
 # Check some stuff
