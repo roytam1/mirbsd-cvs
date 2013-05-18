@@ -1,5 +1,5 @@
-#!/bin/mksh
-# $MirOS: src/share/misc/licence.template,v 1.24 2008/04/22 11:43:31 tg Rel $
+#!/usr/bin/env mksh
+# $MirOS: ports/infrastructure/scripts/mkspk,v 1.3 2008/05/01 00:52:33 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten “mirabilos” Glaser <tg@mirbsd.de>
@@ -24,7 +24,7 @@
 export PATH=/bin:/usr/bin:/sbin:/usr/sbin:/usr/X11R6/bin _PORTPATH=$PATH
 
 me=${0##*/}
-curdir=$(readlink -fn .)
+curdir=$(realpath .)
 
 function usage {
 	print -u2 Usage: $me /path/to/port

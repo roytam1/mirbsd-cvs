@@ -1,4 +1,4 @@
-# $MirOS: ports/net/sirc/Makefile,v 1.19 2008/07/15 13:15:28 tg Exp $
+# $MirOS: ports/net/sirc/Makefile,v 1.20 2008/07/18 22:41:23 tg Exp $
 
 COMMENT=		programmable small perl irc client (utf-8, TLS, IPv6 ready)
 CATEGORIES=		net
@@ -27,7 +27,7 @@ DATA=			PROGRAMMING README README.socks n0thing.pl \
 
 do-build:
 .for _i in ${SCRIPTS}
-	@cd ${WRKSRC}; f=$$(readlink -nf ${_i}); rm -f ${_i} && cp $$f ${_i}
+	@cd ${WRKSRC}; f=$$(realpath ${_i}); rm -f ${_i} && cp $$f ${_i}
 	print ',g#@PREFIX@#s##${PREFIX}#g\n,g#@SHELL@#s##${SHELL}#g\n,g#@DIST_DATE@#s##${DIST_DATE}#g\nwq' | \
 	    ed -s ${WRKSRC}/${_i}
 .endfor

@@ -1,5 +1,5 @@
-#!/bin/mksh
-# $MirOS: ports/infrastructure/install/setup.ksh,v 1.87 2008/05/31 15:11:43 bsiegert Exp $
+#!/usr/bin/env mksh
+# $MirOS: ports/infrastructure/install/setup.ksh,v 1.88 2008/05/31 20:56:53 bsiegert Exp $
 #-
 # Copyright (c) 2005, 2008
 #	Thorsten “mirabilos” Glaser <tg@mirbsd.de>
@@ -296,7 +296,7 @@ case :$PERL5LIB: in
 esac
 export PERL5LIB=${PERL5LIB%%+(:)}
 
-portsdir=$(readlink -nf $ourpath 2>/dev/null || (cd $ourpath && pwd -P))
+portsdir=$(realpath $ourpath)
 
 cp $portsdir/infrastructure/templates/fake.mtree $T/fake.mtree
 if [[ $myuid != root ]]; then

@@ -1,5 +1,5 @@
 #!/usr/bin/env mksh
-# $MirOS: ports/infrastructure/pkgtools/upgrade/pkg_upgrade.sh,v 1.31 2008/03/24 22:10:58 tg Exp $
+# $MirOS: ports/infrastructure/pkgtools/upgrade/pkg_upgrade.sh,v 1.32 2008/10/05 01:17:54 tg Exp $
 #-
 # Copyright (c) 2006, 2007, 2008
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -24,7 +24,7 @@
 # wrapper for pkg_add to upgrade packages
 
 me=${0##*/}
-cwd=$(readlink -nf .)
+cwd=$(realpath .)
 
 function usage
 {
@@ -138,7 +138,7 @@ while getopts "afhqs" option; do
 done
 shift $((OPTIND - 1))
 [[ -n $1 ]] || usage
-npkg="$(readlink -nf "$1")"
+npkg=$(realpath "$1")
 
 PKG_DBDIR=@@dbdir@@/pkg
 if [[ ! -d $PKG_DBDIR ]]; then

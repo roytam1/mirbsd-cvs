@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/mirports.sys.mk,v 1.50 2008/05/01 00:52:32 tg Exp $
+# $MirOS: ports/infrastructure/mk/mirports.sys.mk,v 1.51 2008/05/03 18:58:38 tg Exp $
 #-
 # Copyright (c) 2005, 2006, 2008
 #	Thorsten “mirabilos” Glaser <tg@mirbsd.de>
@@ -204,8 +204,8 @@ USE_X11?=		No
 #--- former pkgpath.mk
 
 .ifndef	PKGPATH
-_PORTSDIR!=		readlink -nf ${PORTSDIR}
-_CURDIR!=		readlink -nf ${.CURDIR}
+_PORTSDIR!=		realpath ${PORTSDIR}
+_CURDIR!=		realpath ${.CURDIR}
 PKGPATH=		${_CURDIR:S,${_PORTSDIR}/,,}
 .endif
 .if empty(PKGPATH)
