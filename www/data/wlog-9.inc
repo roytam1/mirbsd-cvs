@@ -1414,3 +1414,11 @@ Author: tg@
 <p>From time to time, I'm uploading a new snapshot to the netinstall dir –
  it pays off to look there. Today's one was tested on a WRAP board.</p>
 ----
+Date: 05.08.2007
+Author: tg@
+
+<p><img alt="Fun is when you found it – Geocacheing with Dr. Pfeffer &amp;
+ Co." src="http://www.opencaching.de/statpics/106521.jpg" /></p>
+<p>The BOSng Duo has found another cache, although with minor injuries, we
+ hooked up a friend to the fun and had a definitively nice view.</p>
+----
