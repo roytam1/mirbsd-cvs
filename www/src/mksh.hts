@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.414 2011/07/07 20:59:30 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.415 2011/07/07 21:15:47 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -1006,6 +1006,10 @@ exec /usr/bin/ld "${args[@]}"</pre>
   limits in a single invocation from oksh (thanks millert) -->
  <li>[tg] Drop “set ±o arc4random” (deprecated in R40)</li>
  <li>[tg] Drop old <tt>Build.sh</tt> -long-options (deprecated in R40)</li>
+ <li>[tg] Change the internal hash algorithm from Bob Jenkins’ one-at-a-time
+  to its NUL-counting, never-zero MirOS variant <a
+  href="@@ABSPATH@@/cvs.cgi/src/kern/include/nzat.h">NZAT</a> to optimise</li>
+<!-- stable branch -->
  <li>[tg] Don’t busy-loop on <tt>nameref ARY=ARY</tt> (LHS = RHS)</li>
  <li>[tg, yofuh] Tabcomplete <tt>~foo</tt> like <tt>$FOO</tt> (LP: #710539)</li>
  <li>[tg] Code cleanup, style, and minor assorted fixes</li>
@@ -1017,13 +1021,11 @@ exec /usr/bin/ld "${args[@]}"</pre>
  <li>[tg] <tt>$RANDOM</tt> environment import accepts any string now</li>
  <li>[tg, Lucas Holt] Add <tt>setenv</tt> cshism to <tt>dot.mkshrc</tt></li>
  <li>[tg, Johannes] Allow ^C to interrupt the built-in cat(1)</li>
- <li>[tg] Change the internal hash algorithm from Bob Jenkins’ one-at-a-time
-  to its NUL-counting, never-zero MirOS variant <a
-  href="@@ABSPATH@@/cvs.cgi/src/kern/include/nzat.h">NZAT</a> to optimise</li>
  <li>[tg, Arkadiusz Miśkiewicz, Kacper Kornet] Fix mksh taking down the entire
   terminal, hard, when scripts use <tt>$COLUMNS</tt> and fork off utilities;
   regression introduced in mksh R37 (sorry, no regression test possible)</li>
  <li>[tg, Arkadiusz Miśkiewicz] Properly mark need-ctty regression tests</li>
+ <li>[tg] MKSH_NO_EXTERNAL_CAT – Quell the external cat(1) calls magic</li>
 </ul>
 <p id="r40">mksh R40 is a major everything release:</p><ul>
  <li>[tg] Correct small mistakes in manpage and build script</li>
