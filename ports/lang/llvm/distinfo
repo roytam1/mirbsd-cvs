@@ -1,12 +1,12 @@
 $MirOS$
 
-MD5 (clang-r58565.mcz) = 60af600b94e74b59922fe86fbd1676a6
-MD5 (llvm-r58565.mcz) = 3a2fb28422cdd404aebb596bf12b522d
-RMD160 (clang-r58565.mcz) = 5283b344c658898ebc5d28619f21ad5c8a253b1e
-RMD160 (llvm-r58565.mcz) = bffb82b2ff76dfb3027cbc074680bc8974c93f10
-SHA1 (clang-r58565.mcz) = 612ba14154110961635acbfed3d12a01c9e982e8
-SHA1 (llvm-r58565.mcz) = f40be0b02f27bca46184a70cb695e1f6acd5bd26
-SIZE (clang-r58565.mcz) = 2793884
-SIZE (llvm-r58565.mcz) = 10012758
-TIGER (clang-r58565.mcz) = ed571d304b130eb3c4d0ac1ec0983ff4e91d645ac019c7e4
-TIGER (llvm-r58565.mcz) = e22c04c543f05cd9612817d24155df380607c9be62144e2c
+MD5 (clang-r58935.mcz) = 7556bd93036d28cc96aa72b17083064e
+MD5 (llvm-r58935.mcz) = 37db9137e5ddfd4ded5e46b027c4c47c
+RMD160 (clang-r58935.mcz) = f4daef5b92cfed276da678ac333515ff5b673a3c
+RMD160 (llvm-r58935.mcz) = 7c7dc5554197246e0b257fc2dbb81237e08612d3
+SHA1 (clang-r58935.mcz) = cf7adac64f5cec3a888599fec1d4418fd3f64d8e
+SHA1 (llvm-r58935.mcz) = 2f499eeff8511898937a7775801baa8ba816ce2d
+SIZE (clang-r58935.mcz) = 2863565
+SIZE (llvm-r58935.mcz) = 10143454
+TIGER (clang-r58935.mcz) = 34883a5e46b6e0fedaf3ecffa6ba9aa20e70c8e2af211bb0
+TIGER (llvm-r58935.mcz) = 159ced330c752c4d55703d23417c84acd0e4ecaf31f7122f

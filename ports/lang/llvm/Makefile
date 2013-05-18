@@ -1,9 +1,7 @@
-# $MirOS: ports/lang/llvm/Makefile,v 1.2 2008/11/02 03:51:17 tg Exp $
-
-BROKEN=			porting in progress
+# $MirOS: ports/lang/llvm/Makefile,v 1.3 2008/11/02 17:05:38 tg Exp $
 
 COMMENT=		Low Level Virtual Machine compiler infrastructure
-SVN_DISTREV=		58565
+SVN_DISTREV=		58935
 CATEGORIES=		lang devel
 HOMEPAGE=		http://clang.llvm.org/
 
@@ -22,6 +20,7 @@ SVN_DISTPATH0=		http://llvm.org/svn/llvm-project/cfe/trunk
 USE_CXX=		Yes
 USE_GMAKE=		Yes
 BUILD_DEPENDS+=		:bison-*:devel/bison
+BUILD_DEPENDS+=		:groff-*-!no_x11:textproc/groff
 LIB_DEPENDS+=		ltdl::devel/libtool
 
 MODGNU_RECURSE_DIRS=	${WRKSRC}/autoconf
