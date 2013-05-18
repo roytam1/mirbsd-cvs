@@ -1,8 +1,8 @@
 # $MirOS: ports/devel/libgsf/Makefile,v 1.5 2006/06/03 16:02:39 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.7 2004/12/10 20:33:59 marcm Exp $
 
-COMMENT=			GNOME Structured File library
-COMMENT-gnome=			GNOME specific extensions to libgsf
+COMMENT=		GNOME Structured File library
+COMMENT-gnome=		GNOME specific extensions to libgsf
 
 VERSION=		1.11.1
 DISTNAME=		libgsf-${VERSION}
@@ -11,7 +11,6 @@ PKGNAME-gnome=		libgsf-gnome-${VERSION}-1
 CATEGORIES=		devel
 
 HOMEPAGE=		http://www.gnome.org/
-
 
 # LGPL
 PERMIT_PACKAGE_CDROM=	Yes
@@ -29,6 +28,7 @@ LIB_DEPENDS=		bz2.10.2::archivers/bzip2 \
 			glib-2.0.0.11,gobject-2.0.0.11::devel/glib
 
 USE_GMAKE=		Yes
+USE_CXX=		Yes # depends on fam, which uses CXX
 USE_X11=		Yes
 CONFIGURE_STYLE=	autoconf
 AUTOCONF_NEW=		Yes

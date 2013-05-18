@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.22 2002/10/24 22:46:16 naddy Exp $
 
-COMMENT=			reciprocating engine for X11
+COMMENT=	reciprocating engine for X11
 PKGNAME=	xengine-1.0.1-0
 CATEGORIES=	benchmarks x11
 MASTER_SITES=	ftp://ftp.lab.kdd.co.jp/Usenet/comp.sources.x/volume09/xengine/
@@ -18,6 +18,7 @@ PATCH_DIST_STRIP=	-p1	# no ${PATCHFILES} but used below
 
 WRKDIST=	${WRKDIR}
 CONFIGURE_STYLE=	imake
+USE_X11=		Yes
 
 NO_REGRESS=	Yes
 

@@ -1,6 +1,6 @@
 # $MirOS: ports/devel/libast/Makefile,v 1.1.7.1 2005/03/18 15:44:49 tg Exp $
 
-COMMENT=			Library of Assorted Spiffy Things
+COMMENT=		Library of Assorted Spiffy Things
 VER=			0.5
 DISTNAME=		libast-${VER}
 CATEGORIES=		devel
@@ -17,6 +17,7 @@ PERMIT_DISTFILES_FTP=	Yes
 LIB_DEPENDS=		Imlib2.1::graphics/imlib2
 
 USE_X11=		Yes
+USE_CXX=		Yes # depends on libungif, which uses CXX
 CONFIGURE_STYLE=	autoconf
 CONFIGURE_ARGS+=	${CONFIGURE_SHARED}
 
