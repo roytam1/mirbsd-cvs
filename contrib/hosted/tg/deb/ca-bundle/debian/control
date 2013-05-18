@@ -1,4 +1,6 @@
 Source: ca-bundle
+Origin: WTF
+Bugs: mailto:wtf@mirbsd.org
 Section: misc
 Priority: optional
 Maintainer: Thorsten Glaser <tg@mirbsd.de>

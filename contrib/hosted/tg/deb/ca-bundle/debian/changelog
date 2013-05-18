@@ -1,3 +1,10 @@
+ca-bundle (20110214) unstable; urgency=low
+
+  * KDE 3 is now called Trinity (TDE)
+  * Add Origin and Bugs headers
+
+ -- Thorsten Glaser <tg@mirbsd.de>  Mon, 14 Feb 2011 09:27:09 +0000
+
 ca-bundle (20101212) unstable; urgency=low
 
   * Update MirBSD source pointer
