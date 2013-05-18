@@ -1,5 +1,5 @@
 # $MirSecuCron$
-# $MirOS: src/etc/rc,v 1.107 2009/11/02 18:48:59 tg Exp $
+# $MirOS: src/etc/rc,v 1.108 2009/11/10 17:35:47 tg Exp $
 # $OpenBSD: rc,v 1.277 2006/01/12 21:54:15 deraadt Exp $
 #-
 # System startup script run by init on autoboot or after single-user.
@@ -615,7 +615,8 @@ if [[ -f /var/account/acct ]]; then
 	echo turning on accounting;	accton /var/account/acct
 fi
 
-if [[ -x /usr/libexec/vi.recover && -d /var/tmp/vi.recover ]]; then
+if [[ -x /usr/libexec/vi.recover && -x /usr/bin/perl && \
+    -d /var/tmp/vi.recover ]]; then
 	echo preserving editor files;	/usr/libexec/vi.recover
 fi
 
