@@ -1,4 +1,4 @@
-# $MirOS: ports/devel/lrmi/Makefile,v 1.2 2008/11/01 22:57:46 tg Exp $
+# $MirOS: ports/devel/lrmi/Makefile,v 1.3 2008/12/07 18:57:53 tg Exp $
 
 ONLY_FOR_PLATFORM=	*BSD:*:* Linux:*:*
 
@@ -18,10 +18,7 @@ PERMIT_DISTFILES_FTP=	Yes
 PERMIT_PACKAGE_CDROM=	Yes
 PERMIT_PACKAGE_FTP=	Yes
 
-BUILD_DEPENDS+=		:mirmake->=20081012:devel/mirmake
-# mirmake 20081101 or ↓
-EXTRA_FAKE_FLAGS+=	HDRDST=${WRKINST:Q}${TRUEPREFIX:Q}/include
-# mirmake 20081101 or ↑
+BUILD_DEPENDS+=		:mirmake->=20090912:devel/mirmake
 NO_REGRESS=		Yes
 MAKE_FILE=		${.CURDIR}/Makefile.MirPorts
 EXTRA_XAKE_FLAGS+=	MAKE_FILE=${MAKE_FILE:Q}
