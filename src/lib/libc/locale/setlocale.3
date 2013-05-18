@@ -62,7 +62,7 @@ for formatting numbers.
 .Pp
 The
 .Fn setlocale
-function recognizes several categories of routines.
+function recognises several categories of routines.
 These are the categories and the sets of routines they select:
 .Bl -tag -width LC_MONETARY
 .It Dv LC_ALL
@@ -180,7 +180,7 @@ If the list is terminated with
 .Dv CHAR_MAX ,
 no more grouping is performed.
 .It Fa int_curr_symbol
-The standardized international currency symbol.
+The standardised international currency symbol.
 .It Fa currency_symbol
 The local currency symbol.
 .It Fa mon_decimal_point
@@ -283,28 +283,6 @@ and
 .Fn localeconv
 functions first appeared in
 .Bx 4.4 .
-.Sh CAVEATS
-On current
-.Mx ,
-.Pa /etc/profile
-sets
-.Dv LC_CTYPE
-to either
-.Li "\&""en_US.UTF-8""
-or
-.Ns Li "\&""C"" ,
-depending on whether the terminal is UTF-8 capable or not.
-Even though this is not done if
-.Dv LC_CTYPE
-was already set and exported, certain other programmes, such as
-.Xr startx 1 ,
-may work around this behaviour.
-Therefore, it is recommended to set and export only
-.Dv LC_ALL ,
-or
-.Dv LANG
-if you want to override specific categories,
-in order to manually provide localisation information.
 .Sh BUGS
 The current implementation supports only the
 .Li "\&""C""
@@ -312,12 +290,16 @@ and
 .Li "\&""POSIX""
 locales for all but the
 .Dv LC_CTYPE
+locale,
+and only the
+.Li "\&""en_US.UTF-8""
+.Dv LC_CTYPE
 locale.
 .Pp
 In spite of the gnarly currency support in
 .Fn localeconv ,
 the standards don't include any functions
-for generalized currency formatting.
+for generalised currency formatting.
 .Pp
 .Dv LC_COLLATE
 does not make sense for many languages.
