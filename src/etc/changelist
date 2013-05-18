@@ -1,5 +1,5 @@
 # $MirSecuCron$
-# $MirOS: src/etc/changelist,v 1.16 2009/01/14 21:16:25 tg Exp $
+# $MirOS: src/etc/changelist,v 1.17 2009/07/18 14:09:00 tg Exp $
 # $OpenBSD: changelist,v 1.52 2007/02/28 01:37:15 david Exp $
 #
 # List of files which the security script backs up and checks
@@ -49,6 +49,9 @@
 /etc/ethers
 /etc/exports
 /etc/fbtab
+/etc/fonts/fonts.conf
+/etc/fonts/fonts.dtd
+/etc/fonts/local.conf
 /etc/fstab
 /etc/ftpchroot
 /etc/ftpusers
@@ -87,7 +90,10 @@
 /etc/mail/relay-domains
 /etc/mail/sendmail.cf
 /etc/mail/service.switch
+/etc/mail/spamd.alloweddomains
+/etc/mail/spamd.black
 /etc/mail/spamd.conf
+/etc/mail/spamd.white
 /etc/mail/submit.cf
 /etc/mail/trusted-users
 /etc/mail/virtusertable
@@ -160,7 +166,10 @@
 +/etc/ssh/ssh_host_rsa_key
 /etc/ssh/ssh_host_rsa_key.pub
 /etc/ssh/sshd_config
+/etc/ssl/default.cer
+/etc/ssl/deflt-ca.cer
 /etc/ssl/openssl.cnf
++/etc/ssl/private/default.key
 /etc/ssl/x509v3.cnf
 /etc/sudoers
 /etc/suid_profile
