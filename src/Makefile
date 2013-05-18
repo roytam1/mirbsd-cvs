@@ -1,4 +1,4 @@
-# $MirOS: src/Makefile,v 1.94 2007/01/27 14:54:37 tg Exp $
+# $MirOS: src/Makefile,v 1.95 2007/02/05 17:50:28 tg Exp $
 # $OpenBSD: Makefile,v 1.103 2004/05/03 15:18:18 drahn Exp $
 
 .if defined(MAKECONF) && exists(${MAKECONF})
@@ -130,6 +130,7 @@ do-htman:
 	BSDOBJDIR=${BSDOBJDIR:Q} BSDSRCDIR=${BSDSRCDIR:Q} \
 	    ${_STCMD} -f ${BSDOBJDIR}/htman/.policy.mk \
 	    ${SHELL} ${.CURDIR}/scripts/genhtman.sh
+	. ${.CURDIR}/scripts/roff2htm; output_htaccess >${BSDOBJDIR}/htman/H
 	-rm -f ${BSDOBJDIR}/htman/.policy.mk
 	${SUDO} mkdir -p ${BSDRELDIR}/htman/docs
 	cd ${BSDOBJDIR}/htman/htm && \
@@ -139,6 +140,8 @@ do-htman:
 	cd ${BSDRELDIR}/htman/docs && ${SUDO} rm -f \
 	    $$(find . -type f -a ! -name '*.htm' -a \
 		! -name '*.html' -a ! -name '*.jpg')
+	${SUDO} cp ${BSDOBJDIR}/htman/H ${BSDRELDIR}/htman/.htaccess
+	${SUDO} cp ${BSDOBJDIR}/htman/H ${BSDRELDIR}/htman/docs/.htaccess
 	${SUDO} chown -R 0:0 ${BSDRELDIR}/htman/*
 	${SUDO} chmod -R a=rX ${BSDRELDIR}/htman/*
 
