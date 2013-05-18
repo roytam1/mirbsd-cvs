@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/stand/libsa/biosdev.c,v 1.30 2009/01/11 13:28:49 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/stand/libsa/biosdev.c,v 1.31 2009/01/11 13:36:05 tg Exp $ */
 /*	$OpenBSD: biosdev.c,v 1.74 2008/06/25 15:32:18 reyk Exp $	*/
 
 /*
@@ -122,7 +122,7 @@ bios_getdiskinfo(int dev, bios_diskinfo_t *pdi)
 	}
 #endif
 	if (rv & 0xff) {
-		if (dev >= 0x88 && (biosdev_lbaprobe(dev) & 3) == 3) {
+		if (dev >= 0x88 && (biosdev_lbaprobe(dev) & 16)) {
 			/* fake for CD-ROMs */
 			pdi->bios_heads = 1;
 			pdi->bios_cylinders = 100;

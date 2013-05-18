@@ -1,4 +1,4 @@
-/* $MirOS: src/sys/arch/i386/stand/libsa/biosdev2.S,v 1.1 2009/01/10 23:05:59 tg Exp $ */
+/* $MirOS: src/sys/arch/i386/stand/libsa/biosdev2.S,v 1.2 2009/01/10 23:43:08 tg Exp $ */
 
 /*-
  * Copyright (c) 2009
@@ -28,6 +28,14 @@
 	.globl	real_to_prot
 
 /* int biosdev_lbaprobe(int drive); */
+/*-
+ * return value is a bitmask:
+ * 01 = LBA disc access (42h-44h, 47h, 48h)
+ * 02 = removable drv ctl (45h, 46h, 48h, 49h, INT 15h 52h)
+ * 04 = LBA disc status (48h, 4Eh)
+ * 08 = LBA installation check succeeded
+ * 10 = is a CD-ROM in El Torito "no emulation" mode
+ */
 	.globl	biosdev_lbaprobe
 biosdev_lbaprobe:
 	push	ebp
@@ -51,6 +59,8 @@ biosdev_lbaprobe:
 	jc	LnoLBA
 	cmp	bx,0xAA55
 	jne	LnoLBA
+	and	cl,7
+	or	dh,cl
 	or	ah,ah
 	jz	LnoCD
 	cmp	dl,0x88
@@ -74,8 +84,8 @@ biosdev_lbaprobe:
 	jne	LnoCD
 	test	byte ptr ds:[1],0x0F
 	jne	LnoCD
-	or	dh,2
-LnoCD:	or	dh,1
+	or	dh,16
+LnoCD:	or	dh,8
 LnoLBA:	call	real_to_prot
 	.code32
 	pop	edi
