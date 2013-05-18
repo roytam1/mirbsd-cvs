@@ -48,7 +48,9 @@ dd if=/dev/prandom of=$S bs=160 count=1 >/dev/null 2>&1 || exit 1
 cat $S >>$R
 dd if=/dev/urandom of=$S bs=160 count=27 >/dev/null 2>&1 || exit 1
 cat $S >>$R
+SUMS="$SUMS $RANDOM"
 cat /var/db/host.random >/dev/arandom
+SUMS="$SUMS $RANDOM $(mksh -c 'echo $RANDOM')"
 dd if=/dev/arandom of=$S bs=160 count=1 >/dev/null 2>&1 || {
 	cat $R >/dev/arandom
 	exit 1
@@ -59,21 +61,23 @@ dd if=/dev/urandom of=$S bs=160 count=56 >/dev/null 2>&1 || {
 	cat $R >/dev/arandom
 	exit 1
 }
-SUMS="$(rmd160 $R $S /var/db/host.random) $RANDOM"
+SUMS="$(md5 $R $S /var/db/host.random) $RANDOM $SUMS $(mksh -c 'echo $RANDOM')"
 print $RANDOM | cksum -b -a suma >/var/db/host.random 2>/dev/null
 cat $R $S >>/var/db/host.random
+SUMS="$SUMS $RANDOM"
 dd if=/dev/prandom of=$R bs=160 count=1 >/dev/null 2>&1 || {
 	print -r -- "$SUMS" >/dev/arandom
 	exit 2
 }
 sync
+SUMS="$SUMS $RANDOM"
 dd if=/dev/urandom of=$S bs=160 count=1 >/dev/null 2>&1 || {
 	print -r -- "$SUMS" >>$R
 	cat $R >/dev/arandom
 	exit 2
 }
 cat $R >>$S
-print -r -- "$SUMS $(date)" >$R
+print -r -- "$SECONDS $KSH_VERSION $SUMS $RANDOM $(date)" >$R
 # insert here additional >>$R 2>&1, e.g. ftp(1) calls
 cksum -b -a sha512 <$R | cat - $S >/dev/arandom
 print "notice: system random seed rotated! $((RANDOM & 255))" | logger
