@@ -35,6 +35,8 @@
 #include <string.h>
 #include "local.h"
 
+__RCSID("$MirOS$");
+
 size_t
 fread(void *buf, size_t size, size_t count, FILE *fp)
 {
@@ -46,7 +48,8 @@ fread(void *buf, size_t size, size_t count, FILE *fp)
 	/*
 	 * The ANSI standard requires a return value of 0 for a count
 	 * or a size of 0.  Peculiarily, it imposes no such requirements
-	 * on fwrite; it only requires fread to be broken.
+	 * on fwrite; ANSI C89 only requires fread to be broken. ISO C99
+	 * extends this to fwrite however.
 	 */
 	if ((resid = count * size) == 0)
 		return (0);

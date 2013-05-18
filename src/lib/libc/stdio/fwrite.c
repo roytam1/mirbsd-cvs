@@ -35,6 +35,8 @@
 #include "local.h"
 #include "fvwrite.h"
 
+__RCSID("$MirOS$");
+
 /*
  * Write `count' objects (each size `size') from memory to the given file.
  * Return the number of whole objects written.
@@ -46,8 +48,12 @@ fwrite(const void *buf, size_t size, size_t count, FILE *fp)
 	struct __suio uio;
 	struct __siov iov;
 
+	/* Required by ISO C99 */
+	if ((n = count * size) == 0)
+		return (0);
+
 	iov.iov_base = (void *)buf;
-	uio.uio_resid = iov.iov_len = n = count * size;
+	uio.uio_resid = iov.iov_len = n;
 	uio.uio_iov = &iov;
 	uio.uio_iovcnt = 1;
 
