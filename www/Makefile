@@ -1,4 +1,4 @@
-# $MirOS: www/Makefile,v 1.71 2010/05/13 19:04:14 tg Exp $
+# $MirOS: www/Makefile,v 1.72 2011/02/08 22:13:27 bsiegert Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -52,8 +52,8 @@ WLOGS=		9 10
 # legacy content
 SRCS+=		ann-7.hts ann-8.hts anoncvs.hts bsd-intro.hts clog-2004.hts \
 		clog-2005.hts clog-2006.hts cvsweb.hts docs.hts errata8.hts \
-		faq.es.hts faq.hts fornow.hts history.hts ipv6-sixxs.hts \
-		isdn.hts mirrors.hts mirwarum.hts overview.hts
+		faq.es.hts faq.hts history.hts ipv6-sixxs.hts \
+		isdn.hts mirrors.hts mirwarum.hts
 SRCS+=		wlog-0.hts wlog-1.hts wlog-2.hts wlog-3.hts wlog-4.hts \
 		wlog-5.hts wlog-6.hts wlog-7.hts wlog-8.hts
 
