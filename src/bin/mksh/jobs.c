@@ -22,7 +22,7 @@
 
 #include "sh.h"
 
-__RCSID("$MirOS: src/bin/mksh/jobs.c,v 1.80 2011/07/16 23:37:58 tg Exp $");
+__RCSID("$MirOS: src/bin/mksh/jobs.c,v 1.81 2011/08/27 18:06:46 tg Exp $");
 
 #if HAVE_KILLPG
 #define mksh_killpg		killpg
@@ -1491,6 +1491,8 @@ j_print(Job *j, int how, struct shf *shf)
 				strlcpy(buf, sigtraps[WTERMSIG(p->status)].mess,
 				    sizeof(buf));
 			break;
+		default:
+			buf[0] = '\0';
 		}
 
 		if (how != JP_SHORT) {
