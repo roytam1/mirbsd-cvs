@@ -1,4 +1,4 @@
-/* $MirOS: contrib/hosted/fwcf/adler.h,v 1.3 2006/10/07 21:36:20 tg Exp $ */
+/* $MirOS: contrib/hosted/fwcf/adler.h,v 1.4 2006/12/11 23:54:54 tg Exp $ */
 
 /*-
  * Copyright (c) 2006
@@ -23,12 +23,12 @@
  *-
  * See also:
  *	contrib/hosted/fwcf/adler.h,v
- *	src/sys/arch/i386/stand/libz/adler32.S,v
- *	src/sys/lib/libsa/adler32s.c,v
+ *	kern/z/adler32s.c
+ *	kern/z/adler32_i386.S
  */
 
 #ifndef ADLER_H
-#define ADLER_H	"$MirOS: contrib/hosted/fwcf/adler.h,v 1.3 2006/10/07 21:36:20 tg Exp $"
+#define ADLER_H	"$MirOS: contrib/hosted/fwcf/adler.h,v 1.4 2006/12/11 23:54:54 tg Exp $"
 
 #define ADLER_BASE 65521 /* largest prime smaller than 65536 */
 #define ADLER_NMAX 5552	 /* largest n: 255n(n+1)/2 + (n+1)(BASE-1) <= 2^32-1 */
