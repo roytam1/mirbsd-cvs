@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.382 2012/01/22 12:05:31 bsiegert Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.383 2012/01/22 12:08:50 bsiegert Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -8944,4 +8944,33 @@ Title: Today's piece of Unix history
  unlink() a directory. Thus, rmdir(1) was a setuid executable. rm(1)
  actually called rmdir(1) via fork()+exec() in its recursive mode. Of
  course, there were some bugs in rmdir ...</p>
+----
+Date: 05.02.2012 20:46
+Author: bsiegert@
+Title: FOSDEM 2012: “pkgsrc on MirBSD”
+Tag: event pkgsrc
+
+<p>This weekend, the <a href="http://fosdem.org/2012">FOSDEM 2012</a>
+ took place in Brussels. We gave away DVDs with the latest MirOS BSD
+ snapshot and <a
+ href="http://ftp.netbsd.org/pub/pkgsrc/packages/MirBSD/i386/10uAE_2011Q3/All/">about
+ 3&nbsp;GiB of binary packages for pkgsrc</a>.</p>
+
+<p>I gave a talk entitled <b>“pkgsrc on MirBSD”</b>. It gives a short
+ introduction to both MirBSD and pkgsrc and details how we managed to
+ get MirBSD supported as a platform, including some details on the
+ new-developer process at the NetBSD foundation. The slides are now
+ available <a href="http://slideshare.net/bsiegert/pkgsrc-on-mirbsd">on
+ slideshare</a> or <a href="/MirOS/PR/pkgsrc-on-MirBSD.pdf">as a PDF for
+ download</a>.&nbsp;&mdash;</p>
+
+<p>The showcase is doing strange things. The NetBSD-current kernel
+ panics reproducibly when the network card, an alc, does not have a
+ link. Thus, I put it on a switch with no other connection to “fix” the
+ problem. Furthermore, I have a half-finished pkg_rolling-replace on the
+ NetBSD side; various things now give Memory Errors, including running
+ xfce4-session. Oh well. WindowMaker to the rescue … I am planning on
+ redoing the setup on this machine anyway, once NetBSD-6-alpha will have
+ been branched. I would also like to use LVM to set up the partitions
+ for the Xen domains, to avoid going through a vnd(4) device.</p>
 ----
