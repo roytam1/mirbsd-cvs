@@ -1,5 +1,0 @@
-${FDIALOG} \
-gauge "<C>Hi, this is my gauge!" \
-	50 15 20 \
-ptitle "gauge2.test" \
-sleep 2

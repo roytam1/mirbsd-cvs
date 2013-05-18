@@ -1,5 +1,0 @@
-@comment $MirOS$
-@comment $OpenBSD: PFRAG.no-no_x11,v 1.1 2000/09/22 21:27:30 brad Exp $
-libexec/gnuplot/4.0/gnuplot_x11
-@dirrm libexec/gnuplot/4.0
-@dirrm libexec/gnuplot

@@ -1,2 +1,0 @@
-@comment $OpenBSD: PFRAG.shared,v 1.4 2004/09/15 04:20:24 marcm Exp $
-@lib lib/libsoup-${API_VERSION}.so.7.0

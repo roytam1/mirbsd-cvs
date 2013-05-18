@@ -1,9 +1,0 @@
-@comment $OpenBSD: PLIST,v 1.2 2002/04/07 01:54:51 naddy Exp $
-bin/rtpdump
-bin/rtpplay
-bin/rtpsend
-bin/rtptrans
-share/doc/rtptools/README
-share/doc/rtptools/CHANGES.html
-share/doc/rtptools/rtptools.html
-@dirrm share/doc/rtptools

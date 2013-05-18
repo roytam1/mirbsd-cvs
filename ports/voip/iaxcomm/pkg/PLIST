@@ -1,4 +1,0 @@
-@comment $MirOS$
-bin/iaxcomm
-share/doc/iaxcomm/QUICKSTART
-@dirrm share/doc/iaxcomm

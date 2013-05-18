@@ -1,6 +1,0 @@
-#!/bin/ksh
-# $Id$
-# $MirOS$
-
-# This script is called with mirbsdksh after your ppp(8) or pppd(8)
-# connection has gone down.

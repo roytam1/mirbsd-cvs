@@ -1,7 +1,0 @@
-@comment $MirOS$
-@comment $OpenBSD: PFRAG.shared,v 1.10 2003/01/25 14:14:37 jakob Exp $
-@lib lib/libdns.so.11.2
-@lib lib/libisc.so.7.1
-@lib lib/libisccc.so.1.0
-@lib lib/libisccfg.so.0.7
-@lib lib/liblwres.so.2.1

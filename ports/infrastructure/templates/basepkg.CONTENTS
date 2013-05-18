@@ -1,4 +1,0 @@
-@name faked-basepackage
-@cwd /usr/mpkg
-@comment $MirOS: ports/devel/mirmake/pkg/PLIST,v 1.3 2005/11/18 00:07:11 tg Exp $
-@option base-package

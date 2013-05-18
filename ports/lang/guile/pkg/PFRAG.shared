@@ -1,4 +1,0 @@
-@comment $MirOS$
-@comment $OpenBSD: PFRAG.shared,v 1.2 2000/08/11 04:00:16 brad Exp $
-@lib lib/libguile.so.9.0
-@lib lib/libguilereadline.so.0.0

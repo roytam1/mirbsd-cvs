@@ -1,3 +1,0 @@
-${FDIALOG} inputbox "whats your favorite ice cream?" \
-20 20 \
-ptitle "this is my title" 

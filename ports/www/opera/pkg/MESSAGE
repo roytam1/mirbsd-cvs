@@ -1,6 +1,0 @@
-,-------------------------------------------------------------
-| After starting Opera for the first time, exit it immediately
-| and edit your ~/.opera/opera6.ini; add the following line to
-| the [Performance] section of that file:
-|	Synchronous DNS Lookup=1
-`-------------------------------------------------------------

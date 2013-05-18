@@ -1,8 +1,0 @@
-# $MirOS$
-
-SRCDIRS	distrib/ramtools usr.bin/ssh usr.sbin/isdn
-SRCDIRS	bin sbin usr.bin usr.sbin libexec
-SRCDIRS	sys/arch/i386/stand
-
-LIBS	-L${BSDOBJDIR}/usr.bin/ssh/lib -lssh -lssl -lcrypto -ldes \
-	-lkvm -ledit -lutil -locurses -lm -lz

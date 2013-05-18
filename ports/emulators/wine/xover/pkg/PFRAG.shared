@@ -1,3 +1,0 @@
-@comment $MirOS$
-@lib cxoffice/lib/libwine.so.1.0
-@lib cxoffice/lib/libwine_unicode.so.1.0

@@ -1,8 +1,0 @@
-,-----------------------------------------------------------------
-| This package also contains a sample man.conf(5) file which
-| has been generated at build time from the system /etc/man.conf
-| replacing all occurences of nroff by gnroff, thus enabling
-| MirOS man(1) to make use of GNU groff. You might want to add
-| | alias gman='man -C ${PREFIX}/share/groff/man.conf'
-| to your ~/.profile file.
-`-----------------------------------------------------------------
