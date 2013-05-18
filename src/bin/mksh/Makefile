@@ -1,4 +1,4 @@
-# $MirOS: src/bin/mksh/Makefile,v 1.37 2007/04/23 20:37:16 tg Exp $
+# $MirOS: src/bin/mksh/Makefile,v 1.38 2007/04/24 10:42:02 tg Exp $
 #-
 # use CPPFLAGS=-DDEBUG __CRAZY=Yes to check for certain more stuff
 
@@ -44,7 +44,7 @@ test-build: .PHONY
 	cd build-dir; env CC=${CC:Q} CFLAGS=${CFLAGS:M*:Q} \
 	    CPPFLAGS=${CPPFLAGS:M*:Q} LDFLAGS=${LDFLAGS:M*:Q} \
 	    LIBS= NOWARN=-Wno-error TARGET_OS= CPP= /bin/sh \
-	    ${.CURDIR}/Build.sh -d -r && ./test.sh -v
+	    ${.CURDIR}/Build.sh -r && ./test.sh -v
 
 cleandir: clean-extra
 
