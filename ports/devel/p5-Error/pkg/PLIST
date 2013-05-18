@@ -1,8 +1,0 @@
-@comment $OpenBSD: PLIST,v 1.2 2003/12/31 19:14:10 naddy Exp $
-${P5SITE}/Error.pm
-@comment ${P5ARCH}/auto/Error/.packlist
-man/man3/Error.3p
-@dirrm man/man3
-@comment @dirrm ${P5ARCH}/auto/Error
-@comment @dirrm ${P5ARCH}/auto
-@comment @dirrm ${P5ARCH}
