@@ -1,5 +1,5 @@
 <!-- PageID: mksh -->
-<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.109 2007/05/26 22:38:27 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.110 2007/06/03 17:29:30 tg Exp $</small>
 
 <h1>mksh(1) R29</h1>
 <p>This is the MirBSD&trade; Korn Shell, a more or less portable
@@ -94,6 +94,10 @@
   still active <tt>-fno-tree-vrp</tt> bug workaround thing, the latter
   because the bug seems to only appear for functions that also exist as
   a builtin (which was declared with the nonnull attribute)</li>
+ <li>Fix a long-standing typo, 10x moritz@obsd</li>
+ <li>Make mksh compilable with SUNpro 12 (inside compat_linux(8)) for
+  real, both targetting a Linux binary – Total failed: 12 (11 unexpected) –
+  and a native MirOS BSD binary – which works more than just fine…</li>
 </ul>
 <p>Please use mksh R29f because of below modifications:</p><ul>
  <li>Fix detection of function prototypes (data declaractions were ok)</li>
