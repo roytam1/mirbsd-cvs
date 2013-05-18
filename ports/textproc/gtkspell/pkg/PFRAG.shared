@@ -1,3 +1,0 @@
-@comment $MirOS$
-@comment $OpenBSD: PFRAG.shared,v 1.1.1.1 2003/08/12 06:29:36 jolan Exp $
-@lib lib/libgtkspell.so.0.0
