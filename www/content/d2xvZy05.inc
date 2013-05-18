@@ -1,5 +1,5 @@
 <!-- PageID: wlog-9 -->
-<small class="rcsid">$MirOS: www/content/d2xvZy05.inc,v 1.32 2006/08/09 22:42:45 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy05.inc,v 1.33 2006/08/11 00:36:40 tg Exp $</small>
 <h1>MirBSD &ndash; WTF is Verpeilungsfaktor?</h1>
 <p><small><a href="#eof">bottom</a> or <a href="/?older">older</a>
  editions</small></p>
@@ -478,6 +478,9 @@
   as developer by his own request, fixed *roff macros (new MirNroff cpio
   distfile for Interix might be required soon), enhanced and fixed docs,
   helped FreeWRT people (website/server is down, we know), etc.</p>
+ <p><a href="/?licence">/?licence</a> is now up to date again, and links
+  are actually links.</p>
+ <p>Sendmail 8.13.8 is out, but not a high-priority update.</p>
 </div>
 
 <p id="eof">Good luck, have fun, take care etc.pp</p>
