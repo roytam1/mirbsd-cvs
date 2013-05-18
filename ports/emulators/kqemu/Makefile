@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/emulators/kqemu/Makefile,v 1.1 2008/05/07 15:07:48 tg Exp $
 # $OpenBSD: Makefile,v 1.5 2008/04/29 20:38:03 todd Exp $
 
 ONLY_FOR_PLATFORMS=	\
@@ -8,11 +8,12 @@ ONLY_FOR_PLATFORMS=	\
 
 COMMENT=		QEMU accelerator module
 DISTNAME=		kqemu-1.3.0pre11
+DASH_VER=		1
 CATEGORIES=		emulators
 HOMEPAGE=		http://fabrice.bellard.free.fr/qemu/
 MASTER_SITES=		${HOMEPAGE}
 
-# GPL
+# GPLv2
 PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 PERMIT_PACKAGE_CDROM=	Yes
@@ -25,9 +26,10 @@ CONFIGURE_ARGS=		--prefix=${PREFIX:Q} \
 			--host-cc=${CC:Q} \
 			--make=${MAKE_PROGRAM:Q}
 
-INSTDIR=		${PREFIX}/lib/kqemu
+INSTDIR=		${PREFIX}/libdata
 SUBST_VARS=		INSTDIR
 PLIST=			${PKGDIR}/PLIST.${OStype}
+MESSAGE=		${PKGDIR}/MESSAGE.${OStype}
 
 NO_REGRESS=		Yes
 
