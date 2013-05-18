@@ -1,6 +1,0 @@
-@comment $MirOS$
-@comment $OpenBSD: PLIST,v 1.2 2002/12/22 01:49:19 margarida Exp $
-bin/streamripper
-man/cat1/streamripper.0
-share/doc/streamripper/README
-@dirrm share/doc/streamripper
