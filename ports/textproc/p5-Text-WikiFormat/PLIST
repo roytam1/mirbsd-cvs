@@ -1,7 +1,0 @@
-@comment $MirOS$
-${P5SITE}/Text/WikiFormat.pm
-${P5SITE}/Text/WikiFormat/Blocks.pm
-man/man3/Text::WikiFormat${P5MAN3EXT}
-man/man3/Text::WikiFormat::Blocks${P5MAN3EXT}
-@dirrm ${P5SITE}/Text/WikiFormat
-@dirrm ${P5SITE}/Text

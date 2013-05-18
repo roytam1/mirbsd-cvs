@@ -1,4 +1,0 @@
-@comment $MirOS: ports/essentials/patch/pkg/PLIST,v 1.1 2005/11/10 20:51:35 tg Exp $
-@option base-package
-bin/patch
-man/cat1/patch.0

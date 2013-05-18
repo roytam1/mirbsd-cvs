@@ -1,9 +1,0 @@
-@comment $MirOS$
-${P5SITE}/Algorithm/Annotate.pm
-@comment ${P5ARCH}/auto/Algorithm/Annotate/.packlist
-man/man3/Algorithm::Annotate${P5MAN3EXT}
-@dirrm ${P5ARCH}/auto/Algorithm/Annotate
-@dirrm ${P5ARCH}/auto/Algorithm
-@dirrm ${P5ARCH}/auto
-@dirrm ${P5ARCH}
-@dirrm ${P5SITE}/Algorithm
