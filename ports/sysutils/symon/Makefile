@@ -41,7 +41,6 @@ LIB_DEPENDS=		rrd:rrdtool-*:net/rrdtool
 .endif
 
 WRKDIST=		${WRKDIR}/symon
-SUBST_VARS=		VSN
 
 NO_REGRESS=		Yes
 

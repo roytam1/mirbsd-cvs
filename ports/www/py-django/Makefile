@@ -19,7 +19,7 @@ PERMIT_DISTFILES_FTP=	Yes
 MASTER_SITES=		http://media.djangoproject.com/releases/${VSN}/
 MODULES+=		lang/python
 NO_REGRESS=		Yes
-SUBST_VARS+=		VSN LNAME
+SUBST_VARS+=		LNAME
 
 post-install:
 	${INSTALL_DATA_DIR} ${PREFIX}/share/doc/${LNAME}

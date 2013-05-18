@@ -18,7 +18,7 @@ MAJOR=3
 MINOR=0
 SUB=3552
 VSN=			${MAJOR}.${MINOR}
-SUBST_VARS=		VSN MAJOR
+SUBST_VARS+=		MAJOR
 DIST_SUBDIR=squeak${VSN}
 
 FTPSITE=	ftp://st.cs.uiuc.edu/pub/Smalltalk/Squeak
