@@ -1,4 +1,4 @@
-/**	$MirOS: src/lib/libc/crypt/arc4random.c,v 1.5 2006/06/09 10:02:53 tg Exp $ */
+/**	$MirOS: src/lib/libc/crypt/arc4random.c,v 1.6 2006/08/18 13:02:17 tg Exp $ */
 /*	$OpenBSD: arc4random.c,v 1.14 2005/06/06 14:57:59 kjell Exp $	*/
 
 /*
@@ -43,7 +43,7 @@
 #include <time.h>
 #include <unistd.h>
 
-__RCSID("$MirOS: src/lib/libc/crypt/arc4random.c,v 1.5 2006/06/09 10:02:53 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/crypt/arc4random.c,v 1.6 2006/08/18 13:02:17 tg Exp $");
 
 #ifdef __GNUC__
 #define inline __inline
@@ -186,7 +186,7 @@ arc4random_push(int n)
 }
 
 uint32_t
-arc4random_pushb(void *buf, size_t len)
+arc4random_pushb(const void *buf, size_t len)
 {
 	uint32_t v, i, k;
 	size_t j;
