@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.361 2010/09/24 20:24:53 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.362 2010/10/08 20:46:18 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -17,7 +17,8 @@ mws_content <<'EOF'
  <li><a href="mksh_old.htm#contrib">comparision</a> with other shells</li>
  <li><a href="mksh_bld.htm">Testsuite Results</a> (regression tests)</li>
  <li><a href="mksh_old.htm#vsn">on version numbers</a> – for packagers</li>
- <li><a href="mksh_old.htm#plans">future plans</a></li>
+ <li><a href="#plans">future plans</a> (<a href="mksh_old.htm#plans">older
+  or unrealistic ones</a>)</li>
  <li><a href="#caveat">Upgrade Caveat</a> – for users</li>
  <li><a href="#clog">ChangeLog</a></li>
  <li>information about <a href="mksh_old.htm">old versions</a></li>
@@ -1341,6 +1342,36 @@ exec /usr/bin/ld "${args[@]}"</pre>
  <li>[tg, wbx] Add extension to make “!string” lines work like in GNU bash</li>
 </ul>
 <p><a href="mksh_old.htm#clog">older changes</a></p>
+
+<h2 id="plans">Future Plans</h2><ul>
+<li>Expose real/effective user/group ID ($USER_ID already exists)</li>
+<li>Add read with timeout, sleep as builtin, fractional timeouts.
+ I’m leaning towards ualarm(3) instead of select(2) at the moment…
+ need to find out how to do this portably…</li>
+<li>Synchronise wide character width table with Unicode 6.1.</li>
+<li>Fix Debian #599484: keep errorlevel upon trap entry.</li>
+<li>Implement <tt>+=</tt> for at least arrays, if not scalar variables.
+ Consider changing <tt>=(…)</tt>, and maybe <tt>set -A</tt> (if ksh93
+ matches), to not unset the array, but merely empty it (<tt>unset A[*]</tt>),
+ to protect its locality (typeset). Partially done.</li>
+<li>Consider <tt>read -n</tt> and <tt>read -N</tt> from ksh93, especially
+ in combination with <tt>-a</tt>.</li>
+<li>Implement <tt>read -A</tt> (from ksh93), <tt>read -a</tt> (dump octets
+ or wide characters, depending on <tt>set ±U</tt>, into an array which is
+ its (only) argument, from stdin as if using hd(1), <tt>read -d</tt> (with
+ delimiter the first octet of the OPTARG, NUL if empty) from ksh93</li>
+<li>Build with more platforms’ native tools or other compilers
+ – ACK, kencc, ICC/UWIN, egcs/UWIN, tcc</li>
+<li>Add the ability to handle embedded NUL bytes in strings read,
+ for example in the hexdump “utility” (regression test)
+ <br />XXX this might be a bad idea actually, cf. php’s insecurity
+ <br />will be implemented via read -a, I think, into arrays</li>
+<li>Bugfix for suspending <tt>a &amp;&amp; b</tt> chain</li>
+<li>echo diff &lt;(echo 1) &lt;(echo 2)</li>
+<li>;&amp; and ;;&amp; in case like zsh</li>
+<li>associative arrays</li>
+<li><a href="mksh.htm#plans">older/unrealistic plans</a></li>
+</ul>
 EOF
 mws_putfooter
 exit 0
