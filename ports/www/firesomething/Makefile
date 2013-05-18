@@ -1,10 +1,15 @@
-# $MirOS: ports/www/firesomething/Makefile,v 1.34 2008/12/07 19:56:45 bsiegert Exp $
+# $MirOS: ports/www/firesomething/Makefile,v 1.36 2008/12/08 20:31:25 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.41 2005/11/15 09:21:52 wilfried Exp $
 
-ONLY_FOR_PLATFORM=	*:*:alpha *:*:i386 *:*:sparc *:*:sparc64 *:*:amd64 *:*:powerpc
+# mnbsd/amd64, mnbsd/sparc64 missing
+# darwin extremely difficult, interix impossible
+ONLY_FOR_PLATFORM=	MidnightBSD:*:i386 \
+			MirBSD:*:i386 MirBSD:*:sparc \
+			OpenBSD:*:alpha OpenBSD:*:amd64 OpenBSD:*:i386 \
+			OpenBSD:*:powerpc OpenBSD:*:sparc OpenBSD:*:sparc64
 COMMENT=		one of the successors to the Netscape browser engine
 VER=			3.0.4
-DASH_VER=		1
+DASH_VER=		2
 DISTNAME=		mozilla
 PKGNAME=		firesomething-${VER}-${DASH_VER}
 CATEGORIES=		www
@@ -42,8 +47,7 @@ USE_GMAKE=		Yes
 NO_REGRESS=		Yes
 SUBST_VARS=		LOCALBASE SO_EXTENSION SO_VERSION VER
 
-.include <mirports.sys.mk>
-.if ${OStype:L:Mmidnightbsd}
+.if ${OStype} == "MidnightBSD"
 SO_EXTENSION=
 .else
 SO_EXTENSION=		.${SO_VERSION}
@@ -87,10 +91,8 @@ post-extract:
 	cd ${WRKSRC}/security/nss/lib/ckfw/builtins/ && \
 	    cp ${FILESDIR}/certdata.{c,txt} . && \
 	    touch certdata.txt && sleep 1 && touch certdata.c
-
-post-patch:
 	cd ${WRKSRC}/security/coreconf && \
-	    ln -sf FreeBSD.mk MidnightBSD.mk && \
+	    cp FreeBSD.mk MidnightBSD.mk && \
 	    ln -sf OpenBSD.mk MirBSD.mk
 
 pre-configure:

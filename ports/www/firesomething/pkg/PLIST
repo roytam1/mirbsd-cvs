@@ -1,4 +1,4 @@
-@comment $MirOS: ports/www/firesomething/pkg/PLIST,v 1.11 2008/12/06 13:36:29 tg Exp $
+@comment $MirOS: ports/www/firesomething/pkg/PLIST,v 1.13 2008/12/08 20:31:26 bsiegert Exp $
 @comment $OpenBSD: PLIST,v 1.13 2005/09/24 16:19:29 bernd Exp $
 @pkgcfl mozilla-firebird-*
 @pkgcfl mozilla-firefox-*
@@ -34,12 +34,13 @@ firesomething/components/WebContentConverter.js
 firesomething/components/aboutRobots.js
 firesomething/components/browser.xpt
 firesomething/components/fuelApplication.js
+firesomething/components/jsconsole-clhandler.js
 firesomething/components/libbrowsercomps.so${SO_EXTENSION}
 firesomething/components/libbrowserdirprovider.so${SO_EXTENSION}
 firesomething/components/libdbusservice.so${SO_EXTENSION}
 firesomething/components/libimgicon.so${SO_EXTENSION}
-firesomething/components/jsconsole-clhandler.js
 firesomething/components/nsAddonRepository.js
+firesomething/components/nsBadCertHandler.js
 firesomething/components/nsBlocklistService.js
 firesomething/components/nsBrowserContentHandler.js
 firesomething/components/nsBrowserGlue.js
@@ -114,8 +115,8 @@ firesomething/libnssutil3.so${SO_EXTENSION}
 firesomething/libplc4.so${SO_EXTENSION}
 firesomething/libplds4.so${SO_EXTENSION}
 firesomething/libsmime3.so${SO_EXTENSION}
-firesomething/libsoftokn3.so${SO_EXTENSION}
 firesomething/libsoftokn3.chk
+firesomething/libsoftokn3.so${SO_EXTENSION}
 firesomething/libsqlite3.so${SO_EXTENSION}
 firesomething/libssl3.so${SO_EXTENSION}
 firesomething/libxpcom.so${SO_EXTENSION}
@@ -195,8 +196,8 @@ firesomething/sdk/lib/libembed_base_s.a
 firesomething/sdk/lib/libembed_base_standalone.a
 firesomething/sdk/lib/libmozjs.so${SO_EXTENSION}
 firesomething/sdk/lib/libmozreg_s.a
-firesomething/sdk/lib/libnss.a
 firesomething/sdk/lib/libnspr4.so${SO_EXTENSION}
+firesomething/sdk/lib/libnss.a
 firesomething/sdk/lib/libnssutil.a
 firesomething/sdk/lib/libplc4.so${SO_EXTENSION}
 firesomething/sdk/lib/libplds4.so${SO_EXTENSION}
@@ -204,9 +205,9 @@ firesomething/sdk/lib/libsmime.a
 firesomething/sdk/lib/libsoftokn.a
 firesomething/sdk/lib/libssl.a
 firesomething/sdk/lib/libunicharutil_external_s.a
+firesomething/sdk/lib/libxpcom.so${SO_EXTENSION}
 firesomething/sdk/lib/libxpcomglue.a
 firesomething/sdk/lib/libxpcomglue_s.a
-firesomething/sdk/lib/libxpcom.so${SO_EXTENSION}
 firesomething/sdk/lib/libxul.so${SO_EXTENSION}
 firesomething/searchplugins/amazondotcom.xml
 firesomething/searchplugins/answers.xml
@@ -391,6 +392,7 @@ share/idl/firefox-${VER}/stable/nsISupportsPrimitives.idl
 share/idl/firefox-${VER}/stable/nsITooltipListener.idl
 share/idl/firefox-${VER}/stable/nsITooltipTextProvider.idl
 share/idl/firefox-${VER}/stable/nsITraceRefcnt.idl
+share/idl/firefox-${VER}/stable/nsITraceableChannel.idl
 share/idl/firefox-${VER}/stable/nsIURI.idl
 share/idl/firefox-${VER}/stable/nsIURIContentListener.idl
 share/idl/firefox-${VER}/stable/nsIURL.idl
@@ -1374,6 +1376,7 @@ share/idl/firefox-${VER}/unstable/nsIToolkitProfileService.idl
 share/idl/firefox-${VER}/unstable/nsITooltipListener.idl
 share/idl/firefox-${VER}/unstable/nsITooltipTextProvider.idl
 share/idl/firefox-${VER}/unstable/nsITraceRefcnt.idl
+share/idl/firefox-${VER}/unstable/nsITraceableChannel.idl
 share/idl/firefox-${VER}/unstable/nsITransaction.idl
 share/idl/firefox-${VER}/unstable/nsITransactionList.idl
 share/idl/firefox-${VER}/unstable/nsITransactionListener.idl
