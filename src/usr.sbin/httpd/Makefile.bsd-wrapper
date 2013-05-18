@@ -1,5 +1,5 @@
 # Build wrapper for the HTTP daemon
-# $MirOS: src/usr.sbin/httpd/Makefile.bsd-wrapper,v 1.9 2007/02/08 02:44:30 tg Exp $
+# $MirOS: src/usr.sbin/httpd/Makefile.bsd-wrapper,v 1.10 2007/08/24 14:20:17 tg Exp $
 # $OpenBSD: Makefile.bsd-wrapper,v 1.59 2006/04/04 11:39:27 henning Exp $
 
 .include <bsd.own.mk>
@@ -7,6 +7,7 @@
 
 # until this works with bmake and without a Configure script…
 COPTS+=			-std=gnu89
+CFLAGS+=		${COPTS}
 
 #   MirOS Layout
 #<Layout MirOS>
@@ -41,13 +42,13 @@ HTTPD_INCLUDEDIR=	${HTTPD_EXEC_PREFIX}/libexec/httpd/include
 HTTPD_RUNDIR=		${HTTPD_PREFIX}/logs
 HTTPD_LOGDIR=		${HTTPD_PREFIX}/logs
 
-CONFIG_ARGS=	--with-layout="MirOS" --enable-module="ssl" --enable-suexec \
-		--enable-module="keynote" --enable-rule=INET6 \
-		--suexec-caller="www" \
-		--suexec-docroot="${HTTPD_HTDOCSDIR}" --suexec-userdir="pub" \
-		--suexec-logfile="/var/log/suexec_log" \
-		--suexec-uidmin="1000" --suexec-gidmin="1000" \
-		--suexec-safepath="/usr/bin:/bin:/usr/local/bin:/usr/mpkg/bin"
+CONFIG_ARGS=	--with-layout=MirOS --enable-module=ssl --enable-suexec \
+		--enable-module=keynote --enable-rule=INET6 \
+		--suexec-caller=www \
+		--suexec-docroot=${HTTPD_HTDOCSDIR:Q} --suexec-userdir=pub \
+		--suexec-logfile=/var/log/suexec_log \
+		--suexec-uidmin=1000 --suexec-gidmin=1000 \
+		--suexec-safepath=/usr/bin:/bin:/usr/local/bin:/usr/mpkg/bin
 
 # This is stupid - to build a DSO module for httpd you not only need to
 # --enable-shared, you need to --enable-module or --enable-shared doesn't
@@ -152,7 +153,7 @@ MUNGEDFILES=	${.OBJDIR}/src/ap/Makefile \
 		${.OBJDIR}/Makefile \
 		${.OBJDIR}/config.status
 
-BINFILES= 	src/support/htdigest src/support/htpasswd
+BINFILES=	src/support/htdigest src/support/htpasswd
 
 SBINFILES= \
 	src/httpd \
@@ -555,14 +556,14 @@ ICONFILES= \
 	icons/world2.gif \
 	icons/world2.png
 
-all: 	prereq
-	@cd ${.OBJDIR} && ${MAKE} OPTIM="${CFLAGS} ${COPTS}"
+all: prereq
+	@cd ${.OBJDIR} && ${MAKE} OPTIM=${CFLAGS:Q}
 
 prereq: ${.OBJDIR}/config.status
 
 ${.OBJDIR}/config.status : ${.OBJDIR}/config.layout
-	@cd ${.OBJDIR} && CC="${CC}" OPTIM="${CFLAGS} ${COPTS}" \
-	    LD_SHLIB="${CC}" PATH="/sbin:/usr/sbin:/bin:/usr/bin" \
+	@cd ${.OBJDIR} && CC=${CC:Q} OPTIM=${CFLAGS:Q} \
+	    LD_SHLIB=${CC:Q} PATH=/sbin:/usr/sbin:/bin:/usr/bin \
 	    ${SHELL} configure ${CONFIG_ARGS}
 
 .if !exists(${.OBJDIR}/config.layout)
