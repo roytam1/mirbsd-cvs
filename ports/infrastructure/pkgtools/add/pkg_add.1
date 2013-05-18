@@ -1,4 +1,4 @@
-.\"	$MirOS: ports/infrastructure/pkgtools/add/pkg_add.1,v 1.10 2008/11/16 23:01:18 tg Exp $
+.\"	$MirOS: ports/infrastructure/pkgtools/add/pkg_add.1,v 1.11 2009/08/19 18:30:10 tg Exp $
 .\"	$OpenBSD: pkg_add.1,v 1.32 2003/07/14 13:38:24 jmc Exp $
 .\"
 .\" FreeBSD install - a package for the installation and maintenance
@@ -52,7 +52,7 @@
 .\" .Dd must come before definition of .Mx, because when called
 .\" with -mandoc, it might implement .Mx itself, but we want to
 .\" use our own definition. And .Dd must come *first*, always.
-.Dd $Mdocdate: November 16 2008 $
+.Dd $Mdocdate: August 19 2009 $
 .\"
 .\" Implement .Mx (MirBSD)
 .de Mx
@@ -539,7 +539,7 @@ Starting from
 .Mx 8 ,
 package tools generate SVR4 CPIO archives with CRC by default.
 These files usually have the extension \.cgz, but \.tgz is also possible.
-If compressed with LZMA, they are called \.clz.
+If compressed with LZMA, they are called \.clz or \.cxz (LZMA2).
 Uncompressed packages ending in .cpio and .tar are also allowed, for
 debugging, or slow platforms where the package is later compressed on
 a fast machine.

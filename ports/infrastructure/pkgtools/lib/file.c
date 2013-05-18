@@ -1,4 +1,4 @@
-/* $MirOS: ports/infrastructure/pkgtools/lib/file.c,v 1.21 2008/11/16 23:07:18 tg Exp $ */
+/* $MirOS: ports/infrastructure/pkgtools/lib/file.c,v 1.22 2009/08/19 18:30:11 tg Exp $ */
 /* $OpenBSD: file.c,v 1.26 2003/08/21 20:24:57 espie Exp $	*/
 
 /*
@@ -33,7 +33,7 @@
 #include <libgen.h>
 #include <unistd.h>
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/file.c,v 1.21 2008/11/16 23:07:18 tg Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/file.c,v 1.22 2009/08/19 18:30:11 tg Exp $");
 
 /* Try to find the log dir for an incomplete package specification.
  * Used in pkg_info and pkg_delete. Returns the number of matches,
@@ -97,6 +97,7 @@ trim_end(char *name)
 		goto found;			\
 } while (/* CONSTCOND */ 0)
 	check(".cgz");
+	check(".cxz");
 	check(".clz");
 	check(".tgz");
 	check(".tar");
@@ -125,6 +126,7 @@ ensure_tgz(char *name)
 	len = strlen(name);
 	if ((strcmp(name, "-") == 0) ||
 	    CHK_NAME(name,len,".cgz") ||
+	    CHK_NAME(name,len,".cxz") ||
 	    CHK_NAME(name,len,".clz") ||
 	    CHK_NAME(name,len,".tgz") ||
 	    CHK_NAME(name,len,".tar") ||
@@ -417,7 +419,9 @@ fileGetURL(char *base, char *spec)
 		const char *decompressor = "cat";
 
 		if ((cp = strrchr(fname, '.'))) {
-			if (!strcmp(cp, ".clz"))
+			if (!strcmp(cp, ".cxz"))
+			    decompressor = "xzdec";
+			else if (!strcmp(cp, ".clz"))
 			    decompressor = "lzmadec";
 			else if (strchr(cp, 'z') || strchr(cp, 'Z'))
 			    decompressor = "gzip -fdc";
@@ -709,7 +713,9 @@ unpack(char *pkg, const char *flist)
 	if (strcmp(pkg, "-")) {
 		char *cp;
 		if ((cp = strrchr(pkg, '.'))) {
-			if (!strcmp(cp, ".clz"))
+			if (!strcmp(cp, ".cxz"))
+				decompressor = "xzdec";
+			else if (!strcmp(cp, ".clz"))
 				decompressor = "lzmadec";
 			else if (strchr(cp, 'z') || strchr(cp, 'Z'))
 				decompressor = "gzip -fdc";

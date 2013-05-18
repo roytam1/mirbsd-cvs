@@ -1,7 +1,7 @@
 #!/bin/mksh
-# $MirOS: ports/infrastructure/pkgtools/upgrade/pkg_upgrade.sh,v 1.38 2008/11/11 02:50:09 tg Exp $
+# $MirOS: ports/infrastructure/pkgtools/upgrade/pkg_upgrade.sh,v 1.39 2009/03/29 13:04:06 tg Exp $
 #-
-# Copyright (c) 2006, 2007, 2008
+# Copyright (c) 2006, 2007, 2008, 2009
 #	Thorsten Glaser <tg@mirbsd.de>
 # Copyright (c) 2005, 2007
 #	Benny Siegert <bsiegert@mirbsd.org>
@@ -156,6 +156,8 @@ trap 'rm -rf $TMPDIR; exit 1' 1 2 3 5 13 15
 
 cd $TMPDIR
 case $npkg {
+(*.cxz)
+	xzdec <"$npkg" ;;
 (*.clz)
 	lzmadec <"$npkg" ;;
 (*.*([!.])z*([!.]))

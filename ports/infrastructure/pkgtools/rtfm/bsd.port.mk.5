@@ -1,7 +1,7 @@
-.\" $MirOS: ports/infrastructure/pkgtools/rtfm/bsd.port.mk.5,v 1.31 2009/02/24 19:37:06 bsiegert Exp $
+.\" $MirOS: ports/infrastructure/pkgtools/rtfm/bsd.port.mk.5,v 1.32 2009/08/19 18:30:12 tg Exp $
 .\" $OpenBSD: bsd.port.mk.5,v 1.134 2004/02/18 13:39:02 xsa Exp $
 .\"
-.\" Copyright (c) 2007, 2008 Thorsten Glaser
+.\" Copyright (c) 2007, 2008, 2009 Thorsten Glaser
 .\" Copyright (c) 2006, 2009 Benny Siegert
 .\" Copyright (c) 2000 Marc Espie
 .\"
@@ -63,7 +63,7 @@
 .\" with -mandoc, it might implement .Mx itself, but we want to
 .\" use our own definition. And .Dd must come *first*, always.
 .\"
-.Dd $Mdocdate: February 24 2009 $
+.Dd $Mdocdate: August 19 2009 $
 .\"
 .\" Implement .Mx (MirBSD)
 .\"
@@ -1331,6 +1331,19 @@ by the master site administrator, and due to use of a
 different compressor than the
 .Pa mpczar.z
 helper, it is not guaranteed to be reproducible.
+.It Va xz
+Append the suffix
+.Dq .xz
+to the
+.Ev _CVS_DISTF ,
+and fetch it from the appropriate MASTER_SITES, which
+is initialised to default to ${_MASTER_SITE_MIRBSD}.
+.Pp
+Note that the distfile has to be recompressed manually
+by the master site administrator, and due to use of a
+different compressor than the
+.Pa mpczar.z
+helper, it is not guaranteed to be reproducible.
 .El
 .It Ev MESSAGE
 File recorded in the package and displayed during installation.
@@ -1540,12 +1553,21 @@ sv4cpio with CRC, compressed with
 .Xr gzip 1 .
 Default on all systems except OpenBSD.
 .It Pa .clz
-sv4cpio with CRC, compressed with lzma.
+sv4cpio with CRC, compressed with LZMA-Alone.
 Requires
 .Nm lzmadec
 to be installed to handle,
 .Nm lzma
 and ~320M datasize ulimit to create, no automatic dependency.
+.It Pa .cxz
+sv4cpio with CRC, compressed with LZMA2 (xz).
+Requires
+.Nm xzdec
+to be installed to handle,
+.Nm xz
+and 800 MiB datasize ulimit to create (although, if less is available,
+.Nm xz
+will degrade compression quality automatically), no automatic dependency.
 .It Pa .cpio
 sv4cpio with CRC, uncompressed.
 .It Pa .tgz
@@ -2217,6 +2239,10 @@ instead.
 .It Ev USE_LZMA
 The framework will automatically detect the presence of
 .Pa .tar.lzma
+files to extract.
+.It Ev USE_XZ
+The framework will automatically detect the presence of
+.Pa .tar.xz
 files to extract.
 .It Ev USE_ZIP
 The framework will automatically detect the presence of

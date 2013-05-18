@@ -1,4 +1,4 @@
-/* $MirOS: ports/infrastructure/pkgtools/create/perform.c,v 1.16 2009/08/19 18:30:11 tg Exp $ */
+/* $MirOS: ports/infrastructure/pkgtools/create/perform.c,v 1.17 2009/10/20 19:32:49 bsiegert Exp $ */
 /* $OpenBSD: perform.c,v 1.17 2003/08/27 06:51:26 jolan Exp $	*/
 
 /*
@@ -32,7 +32,7 @@
 #include <signal.h>
 #include <unistd.h>
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/create/perform.c,v 1.16 2009/08/19 18:30:11 tg Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/create/perform.c,v 1.17 2009/10/20 19:32:49 bsiegert Exp $");
 
 static void sanity_check(void);
 static void make_dist(char *, char *, const char *, package_t *);
@@ -277,8 +277,11 @@ make_dist(char *homepath, char *pkg, const char *fsuffix, package_t *plist)
 	snprintf(tball, FILENAME_MAX, "%s/%s.%s", homepath, pkg, fsuffix);
 
     if (!strcmp(fsuffix + strlen(fsuffix) - 2, "lz"))
-	/* LZMA compression */
+	/* LZMA-Alone compression */
 	compression = 2;
+    else if (!strcmp(fsuffix + strlen(fsuffix) - 2, "xz"))
+	/* LZMA2 compression */
+	compression = 3;
     else if (strchr(fsuffix, 'z'))
 	/* gzip compression */
 	compression = 1;
@@ -303,7 +306,8 @@ make_dist(char *homepath, char *pkg, const char *fsuffix, package_t *plist)
 
     if (Verbose)
 	printf("Creating %star ball in '%s'\n",
-	    compression == 2 ? "LZMA compressed " :
+	    compression == 3 ? "LZMA2 compressed " :
+	    compression == 2 ? "LZMA1 compressed " :
 	    compression == 1 ? "gzip'd " : "", tball);
     args[nargs++] = xstrdup(CONTENTS_FNAME);
     args[nargs++] = xstrdup(COMMENT_FNAME);
@@ -375,13 +379,14 @@ make_dist(char *homepath, char *pkg, const char *fsuffix, package_t *plist)
 	char *tf;
 
 	xasprintf(&cp2, "%s | %s >%s", cp, compression == 1 ?
-	  "gzip -n9fc" : "lzma -z9fc", (tf = format_arg(tball)));
+	  "gzip -n9fc" : compression == 2 ? "lzma -z9fc" :
+	  "xz -zfc9e -F xz -C crc32", (tf = format_arg(tball)));
 	xfree(tf);
 	xfree(cp);
     } else
 	cp2 = cp;
 
-    if ((ret = sxsystem(compression == 2, cp2)) == -1) {
+    if ((ret = sxsystem(compression == 2 || compression == 3, cp2)) == -1) {
 	for (i = 0; i < current; i++)
 	    unlink(tempfile[i]);
 	exit(2);

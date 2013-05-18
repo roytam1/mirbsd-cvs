@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.263 2009/11/21 16:44:31 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.264 2009/11/21 20:27:33 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -920,7 +920,9 @@ _CVS_FETCH${_i:N-}=	${MKSH} ${PORTSDIR}/infrastructure/scripts/mkmcz \
 			    ${SVN_DISTDIR${_i:N-}:Q}
 _CVS_FDEP+=		mpczar svn
 .  endif
-.  if defined(_CVS_DISTF${_i:N-}) && (${MCZ_FETCH:L} == "lzma")
+.  if defined(_CVS_DISTF${_i:N-}) && (${MCZ_FETCH:L} == "xz")
+_CVS_DISTF${_i:N-}:=	${_CVS_DISTF${_i:N-}}.xz
+.  elif defined(_CVS_DISTF${_i:N-}) && (${MCZ_FETCH:L} == "lzma")
 _CVS_DISTF${_i:N-}:=	${_CVS_DISTF${_i:N-}}.lzma
 .  endif
 .endfor
@@ -1023,12 +1025,17 @@ _USE_LHARC?=		Yes
     !empty(EXTRACT_ONLY:M*.tlz) || !empty(EXTRACT_ONLY:M*.clz)
 _USE_LZMA?=		Yes
 .endif
+.if !empty(EXTRACT_ONLY:M*.xz) || \
+    !empty(EXTRACT_ONLY:M*.txz) || !empty(EXTRACT_ONLY:M*.cxz)
+_USE_XZ?=		Yes
+.endif
 .if !empty(EXTRACT_ONLY:M*.zip)
 _USE_ZIP?=		Yes
 .endif
 _USE_BZIP2?=		No
 _USE_LHARC?=		No
 _USE_LZMA?=		No
+_USE_XZ?=		No
 _USE_ZIP?=		No
 
 EXTRACT_CASES?=
@@ -1060,6 +1067,16 @@ EXTRACT_CASES+=		\
 	lzmadec <${FULLDISTDIR}/$$archive | ${TAR} xf - ;;		\
     *.lzma)								\
 	lzmadec <${FULLDISTDIR}/$$archive >$$(basename $$archive .lzma) ;;
+.endif
+
+.if ${_USE_XZ:L} != "no"
+#XXX or in base!
+#BUILD_DEPENDS+=	:xz-*:archivers/xz
+EXTRACT_CASES+=		\
+    *.tar.xz | *.txz | *.cpio.xz | *.cxz | *.mcz.xz)			\
+	xzdec <${FULLDISTDIR}/$$archive | ${TAR} xf - ;;		\
+    *.xz)								\
+	xzdec <${FULLDISTDIR}/$$archive >$$(basename $$archive .xz) ;;
 .endif
 
 .if ${_USE_ZIP:L} != "no"
