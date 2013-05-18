@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.261 2009/09/12 12:04:42 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.262 2009/10/17 21:51:42 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -514,6 +514,7 @@ PATCH_DIST_ARGS+=	-C
 TAR?=			/bin/tar
 UNZIP?=			unzip
 BZIP2?=			bzip2
+M4?=			/usr/bin/m4
 
 .if !empty(FAKEOBJDIR_${PKGPATH})
 WRKINST?=		${FAKEOBJDIR_${PKGPATH}}/${PKGNAME}${_FLAVOUR_EXT2}
@@ -799,7 +800,6 @@ GZCAT?=			/usr/bin/gzip -dc
 GZIP?=			-n9
 GZIP_CMD?=		/usr/bin/gzip -nf ${GZIP}
 LDCONFIG?=		[ ! -x /sbin/ldconfig ] || /sbin/ldconfig
-M4?=			/usr/bin/m4
 STRIP?=			/usr/bin/strip
 
 # Autoconf scripts MAY tend to use bison by default otherwise
