@@ -1,5 +1,5 @@
 #!/usr/bin/env mksh
-# $MirOS: ports/infrastructure/pkgtools/upgrade/pkg_upgrade.sh,v 1.23 2007/03/08 10:55:15 tg Exp $
+# $MirOS: ports/infrastructure/pkgtools/upgrade/pkg_upgrade.sh,v 1.24 2007/03/31 20:45:08 tg Exp $
 #-
 # Copyright (c) 2006, 2007
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -237,7 +237,7 @@ fi
 #			    "$package successfully removed"
 		else
 			print -u2 "Notice: $OLDPKGS was not registered" \
-			    "as dependency of $package"
+			    "as backward dependency of $package"
 		fi
 	else
 		print -u2 "Notice: Dependency $package of $OLDPKGS" \
@@ -257,7 +257,7 @@ done <$TMPDIR/+DEPENDS
 #			    "$OLDPKGS successfully removed"
 		else
 			print -u2 "Notice: $package was not registered" \
-			    "as dependency of $OLDPKGS"
+			    "as forward dependency of $OLDPKGS"
 		fi
 		# and add new version (at the bottom, but that's irrelevant)
 		print -r -- "$PKGNAME" >>$PKG_DBDIR/$package/+DEPENDS
