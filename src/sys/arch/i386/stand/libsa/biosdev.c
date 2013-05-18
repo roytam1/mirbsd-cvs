@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/stand/libsa/biosdev.c,v 1.34 2009/01/11 17:08:29 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/stand/libsa/biosdev.c,v 1.35 2009/01/11 17:14:45 tg Exp $ */
 /*	$OpenBSD: biosdev.c,v 1.74 2008/06/25 15:32:18 reyk Exp $	*/
 
 /*
@@ -78,6 +78,9 @@ bios_getdiskinfo(int dev, bios_diskinfo_t *pdi)
 	u_int rv;
 	int lback;
 
+	/* kernel interface, binary compatibility */
+	pdi->old_bios_edd = -1;
+
 	/* Just reset, don't check return code */
 	rv = biosdreset(dev);
 
@@ -127,6 +130,7 @@ bios_getdiskinfo(int dev, bios_diskinfo_t *pdi)
 	pdi->flags &= ~(BDI_LBA | BDI_EL_TORITO);
 	if ((lback & 0x09) == 0x09) {
 		pdi->flags |= BDI_LBA;
+		pdi->old_bios_edd = lback & 7;
 		if (lback & 0x10)
 			pdi->flags |= BDI_EL_TORITO;
 		/* skip sanity check for CHS options in EDD mode */

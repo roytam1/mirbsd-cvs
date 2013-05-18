@@ -1,4 +1,4 @@
-/**	$MirOS$ */
+/**	$MirOS: src/sys/arch/i386/include/biosvar.h,v 1.7 2009/01/11 13:58:48 tg Exp $ */
 /*	$OpenBSD: biosvar.h,v 1.42 2003/11/27 00:31:55 espie Exp $	*/
 
 /*
@@ -146,6 +146,7 @@ typedef struct _bios_diskinfo {
 	u_int bios_cylinders;	/* BIOS cylinders */
 	u_int bios_heads;	/* BIOS heads */
 	u_int bios_sectors;	/* BIOS sectors */
+	int old_bios_edd;	/* EDD support (obsolete) */
 
 	/* BSD section */
 	dev_t bsd_dev;		/* BSD device */
