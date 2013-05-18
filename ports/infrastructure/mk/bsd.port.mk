@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.158 2007/01/29 17:13:08 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.159 2007/01/29 17:15:13 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -359,6 +359,7 @@ WRKDIST?=		${WRKDIR}/${DIST_NAME}
 .elif defined(CVS_DISTMODS) && !empty(CVS_DISTMODS)
 PKGNAME?=		${_CVS_DISTF:R}-${DASH_VER}
 WRKDIST?=		${WRKDIR}/${CVS_DISTMODS}
+MASTER_SITES?=		${_MASTER_SITE_MIRBSD}
 .else
 PKGNAME?=		${DISTNAME}-${DASH_VER}
 WRKDIST?=		${WRKDIR}/${DISTNAME}
@@ -2231,7 +2232,7 @@ fetch-all:
 # these for which there is already a target.
 
 .for _i in - 0 1 2 3 4 5 6 7 8 9
-.  if defined(_CVS_FETCH${_i:S/-//})
+.  if defined(_CVS_FETCH${_i:S/-//}) && ${REFETCH} != "true"
 ${FULLDISTDIR}/${_CVS_DISTF${_i:S/-//}}:
 	@if [[ ! -w ${FULLDISTDIR} ]]; then \
 		print -u2 'Error: some subdirectory of ${DISTDIR}' \
@@ -2249,6 +2250,7 @@ ${FULLDISTDIR}/${_CVS_DISTF${_i:S/-//}}:
 			${ECHO_MSG} ">> Size matches for ${FULLDISTDIR}/${_CVS_DISTF${_i:S/-//}}"; \
 		elif grep -qe "SIZE ($$file)" -e "Size ($$file)" ${CHECKSUM_FILE}; then \
 			${ECHO_MSG} ">> Size does not match for ${FULLDISTDIR}/${_CVS_DISTF${_i:S/-//}}"; \
+			${ECHO_MSG} ">> Try to refetch with ${MAKE} fetch REFETCH=true"; \
 			false; \
 		else \
 			${ECHO_MSG} ">> No size recorded for ${FULLDISTDIR}/${_CVS_DISTF${_i:S/-//}}"; \
