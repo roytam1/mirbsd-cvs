@@ -1,4 +1,4 @@
-# $MirOS: ports/databases/sqlite/Makefile,v 1.10 2007/05/06 20:44:25 tg Exp $
+# $MirOS: ports/databases/sqlite/Makefile,v 1.11 2008/02/28 18:27:21 tg Exp $
 
 COMMENT=		Embedded SQL implementation
 COMMENT-lemon=		Lightweight parser
@@ -28,19 +28,21 @@ CONFIGURE_ARGS=		${CONFIGURE_SHARED} \
 
 NO_REGRESS=		Yes
 
+UMAKE=			${SETENV} ${MAKE_ENV} ${MAKE}
+
 post-extract:
 	cp ${FILESDIR}/regexp.* ${WRKSRC}/src/
 	cp ${FILESDIR}/{Makefile.lemon,lemon.1} ${WRKSRC}/tool/
 
 post-build:
 	cd ${WRKBUILD}/tool && \
-	    ${MAKE} -f Makefile.lemon obj && \
-	    ${MAKE} -f Makefile.lemon BSD_PREFIX=${TRUEPREFIX:Q} depend && \
-	    ${MAKE} -f Makefile.lemon BSD_PREFIX=${TRUEPREFIX:Q}
+	    ${UMAKE} -f Makefile.lemon obj && \
+	    ${UMAKE} -f Makefile.lemon BSD_PREFIX=${TRUEPREFIX:Q} depend && \
+	    ${UMAKE} -f Makefile.lemon BSD_PREFIX=${TRUEPREFIX:Q}
 
 post-install:
 	${INSTALL_MAN} ${WRKSRC}/sqlite3.1 ${PREFIX}/man/man1/
-	cd ${WRKBUILD}/tool && \
+	cd ${WRKBUILD}/tool && ${SETENV} ${MAKE_ENV} ${_FAKE_SETUP} \
 	    ${MAKE} -f Makefile.lemon BSD_PREFIX=${TRUEPREFIX:Q} install
 	${INSTALL_DATA_DIR} ${PREFIX}/share/lemon
 	${INSTALL_DATA} ${WRKSRC}/tool/lempar.c ${PREFIX}/share/lemon/
