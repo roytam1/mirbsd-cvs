@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/ramtools/sshd/Makefile,v 1.2 2006/05/26 18:50:31 tg Exp $
+# $MirOS: src/distrib/special/sshd/Makefile,v 1.3 2006/08/17 20:13:29 tg Exp $
 # $OpenBSD: Makefile,v 1.64 2004/08/23 14:26:39 dtucker Exp $
 #
 # Yes, this is _without_ BSD auth.
@@ -6,6 +6,9 @@
 SSHDIR=	${.CURDIR}/../../../usr.bin/ssh
 
 .PATH: ${SSHDIR}
+
+CFLAGS+=-Wall -Wpointer-arith -Wno-uninitialized -Wstrict-prototypes \
+	-Wmissing-prototypes -Wunused -Wsign-compare -Wshadow
 
 PROG=	sshd
 BINOWN=	root

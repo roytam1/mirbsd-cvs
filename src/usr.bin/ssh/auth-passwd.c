@@ -42,6 +42,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdarg.h>
+#include <unistd.h>
 
 #include "packet.h"
 #include "buffer.h"
@@ -52,7 +53,7 @@
 #include "auth.h"
 #include "auth-options.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.bin/ssh/auth-passwd.c,v 1.6 2006/09/20 21:40:55 tg Exp $");
 
 extern Buffer loginmsg;
 extern ServerOptions options;
@@ -66,6 +67,7 @@ extern login_cap_t *lc;
 #define DAY		(24L * 60 * 60) /* 1 day in seconds */
 #define TWO_WEEKS	(2L * 7 * DAY)	/* 2 weeks in seconds */
 
+#ifdef BSD_AUTH
 static void
 disable_forwarding(void)
 {
@@ -73,6 +75,7 @@ disable_forwarding(void)
 	no_agent_forwarding_flag = 1;
 	no_x11_forwarding_flag = 1;
 }
+#endif
 
 /*
  * Tries to authenticate the user using password.  Returns true if
