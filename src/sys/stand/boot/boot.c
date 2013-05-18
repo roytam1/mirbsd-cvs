@@ -1,8 +1,8 @@
-/**	$MirOS: src/sys/stand/boot/boot.c,v 1.17 2009/01/12 17:36:04 tg Exp $	*/
+/**	$MirOS: src/sys/stand/boot/boot.c,v 1.18 2009/01/14 22:22:42 tg Exp $	*/
 /*	$OpenBSD: boot.c,v 1.36 2007/06/26 10:34:41 tom Exp $	*/
 
 /*
- * Copyright (c) 2002, 2003, 2004, 2006 Thorsten Glaser
+ * Copyright (c) 2002, 2003, 2004, 2006, 2009 Thorsten Glaser
  * Copyright (c) 2003 Dale Rahn
  * Copyright (c) 1997,1998 Michael Shalayeff
  * All rights reserved.
@@ -55,7 +55,8 @@ static const char *const kernels[] = {
 char prog_ident[40];
 char *progname = "BOOT";
 
-extern	const char version[];
+extern const char version[];
+extern int doboot;
 int bootprompt = 1;
 uint32_t hook_value = 0;
 
@@ -162,8 +163,10 @@ boot(dev_t bootdev)
 		if (cmd.timeout) {
 			if (try < 2)
 				cmd.timeout++;
-			else
+			else {
 				printf("Turning timeout off.\n");
+				cmd.timeout = doboot = 0;
+			}
 		}
 	}
 
