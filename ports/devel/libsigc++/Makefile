@@ -1,10 +1,10 @@
-# $MirOS: ports/devel/libsigc++/Makefile,v 1.4 2006/09/14 00:08:23 tg Exp $
+# $MirOS: ports/devel/libsigc++/Makefile,v 1.5 2006/10/06 19:34:37 tg Exp $
 # $OpenBSD: Makefile,v 1.13 2003/11/27 02:22:20 pvalchev Exp $
 
 COMMENT=		callback framework for C++
 COMMENT-docs=		HTML documentation for libsigc++
 V=			2.0.17
-PL=			1
+PL=			2
 DISTNAME=		libsigc++-${V}
 PKGNAME=		libsigc++-${V}-${PL}
 PKGNAME-docs=		libsigc++-docs-${V}-${PL}
