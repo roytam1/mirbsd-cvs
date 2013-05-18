@@ -1,4 +1,4 @@
-/* $MirOS: src/share/misc/licence.template,v 1.20 2006/12/11 21:04:56 tg Rel $ */
+/* $MirOS: src/sys/arch/i386/stand/mbr/mbr.S,v 1.1 2007/02/26 00:13:27 tg Exp $ */
 
 /*-
  * Copyright (c) 2004, 2005, 2007
@@ -24,13 +24,14 @@
  * of said person's immediate fault when using the work as intended.
  */
 
+#include <machine/asm.h>
+
 	.intel_syntax noprefix
 	.code16
 	.text
 
-	.globl	_start
-	.type	_start, @function
-_start:	xor	eax,eax
+ALTENTRY(_start)
+	xor	eax,eax
 	push	eax
 	popfd
 	/* set up stack from 07A0:FFFC (0x179FC) down */
@@ -52,19 +53,25 @@ _start:	xor	eax,eax
 	lret
 
 	/* entry message */
-Lmsg:	.ascii	"Mir-" __BOOT_VER
+DENTRY(Lmsg)
+	.ascii	"Mir-" __BOOT_VER
 #ifdef BOOTMANAGER
 	/* Lm<nn> are patch points */
 	.ascii	": 0="
-Lm00:	.ascii	"00 1="
-Lm01:	.ascii	"00 2="
-Lm02:	.ascii	"00 3="
-Lm03:	.ascii	"00 4=MBR 5=fdd CR=deflt\r\n"
+DENTRY(Lm00)
+	.ascii	"00 1="
+DENTRY(Lm01)
+	.ascii	"00 2="
+DENTRY(Lm02)
+	.ascii	"00 3="
+DENTRY(Lm03)
+	.ascii	"00 4=MBR 5=fdd CR=deflt\r\n"
 #endif
 	.asciz	">"
 
 	/* message that we cannot boot correctly */
-Lmsgf:	.asciz	"bad magic\r\n"
+DENTRY(Lmsgf)
+	.asciz	"bad magic\r\n"
 
 	/* output NUL-terminated string from ds:si */
 Lotxt0:	mov	ah,0x0E
@@ -92,7 +99,7 @@ Lmain:	mov	si,offset Lmsg
 	call	LpBY
 #endif
 	call	Lotxt
-	mov	bx,offset ptab	/* we boot "this one" */
+	mov	bx,offset Lptab	/* we boot "this one" */
 #ifdef BOOTMANAGER
 	/* selection code */
 	xor	ax,ax		/* read CMOS clock ticks since midnight */
@@ -101,7 +108,7 @@ Lmain:	mov	si,offset Lmsg
 	shl	edi,16
 	mov	di,dx		/* 32-bit result in edi */
 	add	edi,183		/* 10 seconds, rounded up one tick */
-	.type	Ltimeout, @data
+	.type	Ltimeout, @object
 	.size	Ltimeout, 4
 	Ltimeout = . - 4	/* offset of the "183" above */
 Lilp:	mov	ah,1		/* check if key was was pressed */
@@ -242,27 +249,29 @@ LpBY2:	stosw
 #endif
 
 	. = 0x01B7
-	.type	apart, @object
 	.size	apart, 1
-apart:	.byte	0xFF		/* default partition [0..3] or none */
+DENTRY(apart)
+	.byte	0xFF		/* default partition [0..3] or none */
 
 	. = 0x01B8
 	/* Microsoft® NT volume ID, or so I think */
 
 	. = 0x01BE
-ptab:	/* partition table */
+DENTRY(Lptab)
+	/* partition table */
 
 	. = 0x01F8
-#ifdef	BOOTMANAGER
 	/* this is pre-installation only */
-	.type	hint, @object
-	.size	hint, 2
-hint:	.word	Ltimeout	/* timeout, measured in ticks, for fdisk */
+	.size	L___hint, 2
+DENTRY(L___hint)
+#ifdef	BOOTMANAGER
+	.word	Ltimeout	/* timeout, measured in ticks, for fdisk */
 #else
 	.word	0xFFFF
 #endif
+DENTRY(L___rest)
 
 	. = 0x01FE
-	.type	magic, @object
-	.size	magic, 2
-magic:	.word	0xAA55
+	.size	L___magic, 2
+DENTRY(L___magic)
+	.word	0xAA55
