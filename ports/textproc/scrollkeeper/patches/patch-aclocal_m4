@@ -1,7 +1,7 @@
-$MirOS$
---- aclocal.m4.orig	Thu Dec 29 23:02:46 2005
-+++ aclocal.m4	Thu Dec 29 23:05:02 2005
-@@ -976,16 +976,6 @@ ifdef([AC_DIVERSION_ICMDS],[
+$MirOS: ports/textproc/scrollkeeper/patches/patch-aclocal_m4,v 1.1 2005/12/29 23:20:23 bsiegert Exp $
+--- aclocal.m4.orig	Sun Mar 16 16:26:38 2008
++++ aclocal.m4	Sun Mar 16 16:29:32 2008
+@@ -976,17 +976,7 @@ ifdef([AC_DIVERSION_ICMDS],[
        rm -f po/POTFILES.tmp
        changequote([,])
    AC_DIVERT_POP()
@@ -15,7 +15,8 @@ $MirOS$
 -        changequote([,])
 -    ])
 -  ])
-+],[])
 -])
++],[])
  
  # Manually sed perl in so people don't have to put the intltool scripts in AC_OUTPUT.
+ 

@@ -1,11 +1,11 @@
-# $MirOS: ports/textproc/scrollkeeper/Makefile,v 1.5 2007/01/29 20:33:35 bsiegert Exp $
+# $MirOS: ports/textproc/scrollkeeper/Makefile,v 1.6 2007/02/22 22:57:58 tg Exp $
 # $OpenBSD: Makefile,v 1.15 2004/12/07 00:23:23 alek Exp $
 
 COMMENT=		open documentation cataloging system
 
 VERSION=		0.3.14
 DISTNAME=		scrollkeeper-${VERSION}
-DASH_VER=		2
+DASH_VER=		3
 CATEGORIES=		textproc
 
 HOMEPAGE=		http://scrollkeeper.sourceforge.net/
