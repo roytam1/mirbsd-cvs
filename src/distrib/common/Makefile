@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/Makefile,v 1.58 2012/01/14 18:59:31 tg Exp $
+# $MirOS: src/distrib/common/Makefile,v 1.60 2012/09/02 12:34:22 tg Exp $
 
 .include <bsd.own.mk>
 
@@ -181,7 +181,6 @@ bsd.st: bsd.uc
 
 bsd.rd.net: bsd.st
 	-rm -f $@
-	config -ef $> <<<'quit'
 	elf2aout $> $@ -b
 
 FLOPPY_BOOTCFG?=@:
@@ -189,7 +188,6 @@ ${FLOPPY}: bsd.st
 	test ! -e ${TMPMOUNT} || (cd ${.CURDIR}; ${MAKE} unconfig)
 	${SUDO} rm -rf ${WRKDIR} e~
 	mkdir -p ${WRKDIR}
-	config -ef bsd.st <<<'quit'
 	gzip -vn9 <bsd.st >${WRKDIR}/bsd
 	${FLOPPY_BOOTCFG}
 	dd if=/dev/zero of=${FLOPPY}~ count=${FLOPPYSIZE}

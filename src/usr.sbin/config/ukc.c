@@ -41,7 +41,7 @@
 #include "ukc.h"
 #include "exec.h"
 
-__RCSID("$MirOS: src/usr.sbin/config/ukc.c,v 1.5 2008/07/26 19:21:54 tg Exp $");
+__RCSID("$MirOS: src/usr.sbin/config/ukc.c,v 1.6 2010/09/21 21:24:39 tg Exp $");
 
 void	init(void);
 void	usage(void);
@@ -120,7 +120,8 @@ ukc(char *file, char *outfile, int uflag, int force)
 		}
 	}
 
-	printf("%s", adjust((caddr_t)nl[P_VERSION].n_value));
+	if (nl[P_VERSION].n_type)
+		printf("%s", adjust((caddr_t)nl[P_VERSION].n_value));
 
 	if (force == 0 && outfile == NULL)
 		printf("warning: no output file specified\n");
@@ -173,7 +174,7 @@ WARNING this kernel doesn't support pseudo devices.\n");
 		if (ukc_mod_kernel == 0) {
 			fprintf(stderr, "Kernel not modified\n");
 			if (nl[P_ENTROPY].n_type == 0)
-				exit(1);
+				return (0);
 			printf("Saving randomised kernel.\n");
 		} else
 			printf("Saving modified kernel.\n");
@@ -196,6 +197,10 @@ init(void)
 #endif
 
 	cd = get_cfdata(0);			/* get first item */
+	if (!cd) {
+		maxdev = totdev = 0;
+		goto no_cfdata;
+	}
 	while (cd->cf_attach != 0) {
 		maxdev = i;
 		totdev = i;
@@ -218,6 +223,7 @@ init(void)
 
 	totdev = totdev - 1;
 
+ no_cfdata:
 	if (nopdev == 0) {
 		p = (int *)adjust((caddr_t)nl[I_PDEVSIZE].n_value);
 		maxpseudo = *p;
