@@ -1,8 +1,9 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.2 2004/01/17 15:58:07 naddy Exp $
 
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
-COMMENT=			access to PostgreSQL databases perl
+COMMENT=	access to PostgreSQL databases in perl
 
 VERSION=	1.9.0
 DISTNAME=	pgsql_perl5-${VERSION}
@@ -13,7 +14,7 @@ MASTER_SITES=	${MASTER_SITE_PERL_CPAN:=Pg/}
 LIB_DEPENDS=	pq.2::databases/postgresql
 
 
-PERMIT_PACKAGE_CDROM=	Yes
+PERMIT_PACKAGE_CDROM=	dependency databases/postgresql is not allowed for CDROM
 PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes

@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/databases/py-psycopg/Makefile,v 1.5 2007/04/03 19:10:51 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.12 2004/02/23 05:06:40 ish Exp $
 
 COMMENT=	PostgreSQL database adapter for Python
@@ -10,11 +10,12 @@ MASTER_SITES=	http://initd.org/pub/software/psycopg/
 HOMEPAGE=	http://initd.org/software/psycopg
 
 PERMIT_PACKAGE_FTP=	Yes
-PERMIT_PACKAGE_CDROM=	Yes
+PERMIT_PACKAGE_CDROM=	dependency databases/postgresql is not allowed for CDROM
 PERMIT_DISTFILES_FTP=	Yes
 PERMIT_DISTFILES_CDROM=	Yes
 
 USE_CXX=	Yes
+USE_X11=	Yes
 
 PYTHON_VER=	2.3
 DATETIME_PATH=	${LOCALBASE}/lib/python${PYTHON_VER}/site-packages/mx/DateTime

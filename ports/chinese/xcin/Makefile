@@ -1,6 +1,7 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.15 2004/01/06 20:58:43 sturm Exp $
 
-COMMENT=			chinese input utility for X
+COMMENT=	chinese input utility for X
 
 DISTNAME=	xcin-2.3.04-3
 PKGNAME=	zh-xcin-2.3.04-0
@@ -13,8 +14,8 @@ HOMEPAGE=	http://xcin.linux.org.tw/
 
 
 # GPL
-PERMIT_PACKAGE_CDROM=   Yes
-PERMIT_PACKAGE_FTP=     Yes
+PERMIT_PACKAGE_CDROM=   dependency chinese/taipeifonts is not allowed for CDROM
+PERMIT_PACKAGE_FTP=     dependency chinese/taipeifonts is not allowed for FTP
 PERMIT_DISTFILES_CDROM= Yes
 PERMIT_DISTFILES_FTP=   Yes
 

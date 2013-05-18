@@ -1,6 +1,7 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.40 2003/12/04 05:34:52 pvalchev Exp $
 
-COMMENT=			MS-DOS Telix-like serial communication program
+COMMENT=		MS-DOS Telix-like serial communication program
 
 VER=			2.00.0
 DISTNAME=		minicom-${VER}.src
@@ -14,7 +15,7 @@ MODULES=		devel/gettext
 RUN_DEPENDS=		::comms/kermit \
 			::comms/lrzsz
 
-PERMIT_PACKAGE_CDROM=	Yes
+PERMIT_PACKAGE_CDROM=	dependencies not allowed for CDROM
 PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
