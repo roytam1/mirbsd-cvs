@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/baselive/Makefile,v 1.35 2008/10/05 16:26:16 tg Exp $
+# $MirOS: src/distrib/baselive/Makefile,v 1.36 2008/10/21 21:03:32 tg Exp $
 
 .include <bsd.own.mk>
 
@@ -217,10 +217,14 @@ cdrom-generate:
 	    ${SUDO} ${MKSH} ${.CURDIR}/mklocatedb.sh ${REALOBJDIR}/${IMAGE}
 	${SUDO} makefs -t cd9660 -o "$$(print -r -- ${CDROM_OPTS} | \
 	    tr ' ~' ', ')" ${CDROM}~ ${WRKDIR}
-	${SUDO} chown $$(id -u) ${WRKDIR}
+	${SUDO} chown $$(id -u) ${CDROM}~ ${WRKDIR}
 	${SUDO} chmod 755 ${WRKDIR}
+.if ${CDROM_PAD} == 1
+	mv ${CDROM}~ ${CDROM}
+.else
 	dd if=${CDROM}~ of=${CDROM} obs=$$((${CDROM_PAD} * 512)) conv=osync
 	${SUDO} rm -f ${CDROM}~
+.endif
 	getextent_cd9660 -f ${CDROM} b_i386.ldr | \
 	    ${MKSH} ${WRKDIR}/v${OSrev}/i386/bootxx.sh -B 11 | \
 	    dd of=${CDROM} conv=notrunc bs=2048 seek=$$(getextent_cd9660 \
