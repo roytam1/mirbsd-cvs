@@ -1,7 +1,7 @@
-$MirOS$
---- src/widget.h.orig	2003-09-01 17:57:56.000000000 +0000
-+++ src/widget.h	2003-09-01 17:57:58.000000000 +0000
-@@ -81,7 +81,7 @@ typedef struct {
+$MirOS: ports/misc/mc/patches/patch-src_widget_h,v 1.1.7.1 2005/03/18 15:50:29 tg Exp $
+--- src/widget.h.orig	Sun Aug 29 18:45:54 2004
++++ src/widget.h	Mon Feb 20 18:32:48 2006
+@@ -77,7 +77,7 @@ typedef struct {
  
  /* For history load-save functions */
  #define INPUT_LAST_TEXT ((char *) 2)

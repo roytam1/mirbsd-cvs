@@ -1,12 +1,15 @@
 The Midnight Commander is a directory browsing tool which bears a
-certain remote resemblance to John Socha's Norton Commander for DOS.
+certain remote resemblance to John Socha's Norton Commander for DOS,
+as well as the free-/shareware clone Volkov Commander for DOS.
 It is feature packed:
 
 	o Built in Virtual File System: manipulate remote files
 	  systems through the ftp protocol. Midnight Commander's own
 	  mcfs protocol has been disabled for security reasons.
 	  Browse tar, compressed tar files, rpm, zip,
-	  cpio, lha and rar files with a single click.  
+	  cpio, lha and rar files with a single click.
+
+	o Built in Samba client library.
 
 	o All of the Midnight Commander operations work with the virtual
 	  file system, enabling you to do complex tasks.

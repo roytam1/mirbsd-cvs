@@ -1,0 +1,13 @@
+$MirOS$
+--- vfs/samba/configure.ac.orig	Sun Mar  7 06:45:09 2004
++++ vfs/samba/configure.ac	Mon Feb 20 19:34:58 2006
+@@ -15,9 +15,6 @@ AC_SUBST(HOST_OS)
+ AC_SUBST(WRAP)
+ AC_SUBST(WRAP32)
+ 
+-# compile with optimization and without debugging by default
+-CFLAGS=${CFLAGS-"-O"}
+-
+ dnl Checks for programs.
+ AC_PROG_CC
+ AC_PROG_INSTALL

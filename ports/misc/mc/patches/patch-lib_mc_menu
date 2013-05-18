@@ -1,6 +1,6 @@
-$MirOS: ports/misc/mc/patches/patch-lib_mc_menu,v 1.2 2005/06/07 08:13:47 tg Exp $
---- lib/mc.menu.orig	Sun Dec  8 01:11:57 2002
-+++ lib/mc.menu	Thu Nov 17 23:35:11 2005
+$MirOS: ports/misc/mc/patches/patch-lib_mc_menu,v 1.3 2005/11/17 23:37:14 tg Exp $
+--- lib/mc.menu.orig	Tue Aug 17 08:30:54 2004
++++ lib/mc.menu	Mon Feb 20 18:32:46 2006
 @@ -1,5 +1,37 @@
  shell_patterns=0
 += t r
@@ -39,7 +39,7 @@ $MirOS: ports/misc/mc/patches/patch-lib_mc_menu,v 1.2 2005/06/07 08:13:47 tg Exp
  @       Do something on the current file
  	CMD=%{Enter command}
  	$CMD %f
-@@ -20,7 +52,7 @@ shell_patterns=0
+@@ -21,7 +53,7 @@ shell_patterns=0
  
  =+ f \.1$ | f \.3$ | f \.4$ | f \.5$ | f \.6$ | f \.7$ | f \.8$ | f \.man$ & t r
  1       Display the file with roff -man
