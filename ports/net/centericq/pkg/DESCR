@@ -22,3 +22,7 @@ case it's iconv'd. This is the case for ICQ (for now), which
 prescribes windows-1252 to be used on the wire. The "Codepages
 conversion" configuration subsection is still displayed but
 ignored in that case, but honoured in a non-unicode locale.
+Beware: centericq always links against libncurses; if this is
+not a libncursesw implementation, UTF-8 mode is still broken!
+(I could have it depend on the libncursesw port, but that one
+is not tested on anything but MirOS-current anyway.)
