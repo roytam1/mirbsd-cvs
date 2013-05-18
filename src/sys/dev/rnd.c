@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/dev/rnd.c,v 1.12 2006/04/11 00:32:52 tg Exp $ */
+/**	$MirOS: src/sys/dev/rnd.c,v 1.13 2006/05/07 06:54:46 tg Exp $ */
 /*	$OpenBSD: rnd.c,v 1.78 2005/07/07 00:11:24 djm Exp $	*/
 
 /*
@@ -366,7 +366,7 @@ int	rnd_debug = 0x0000;
  */
 
 /* pIII/333 reported to have some drops w/ these numbers */
-#define QEVLEN (1024 / sizeof(struct rand_event))
+#define QEVLEN (1024 / sizeof (struct rand_event))
 #define QEVSLOW (QEVLEN * 3 / 4) /* yet another 0.75 for 60-minutes hour /-; */
 #define QEVSBITS 10
 
@@ -391,7 +391,7 @@ struct timer_rand_state {
 
 struct arc4_stream {
 	u_int8_t s[256];
-	u_int	cnt;
+	u_int	 cnt;
 	u_int8_t i;
 	u_int8_t j;
 };
@@ -441,7 +441,7 @@ static u_int32_t roll(u_int32_t w, int i)
 #else
 	w = (w << i) | (w >> (32 - i));
 #endif
-	return w;
+	return (w);
 }
 
 /* must be called at a proper spl, returns ptr to the next event */
@@ -451,14 +451,14 @@ rnd_get(void)
 	struct rand_event *p = rnd_event_tail;
 
 	if (p == rnd_event_head)
-		return NULL;
+		return (NULL);
 
 	if (p + 1 >= &rnd_event_space[QEVLEN])
 		rnd_event_tail = rnd_event_space;
 	else
 		rnd_event_tail++;
 
-	return p;
+	return (p);
 }
 
 /* must be called at a proper spl, returns next available item */
@@ -471,9 +471,9 @@ rnd_put(void)
 		p = rnd_event_space;
 
 	if (p == rnd_event_tail)
-		return NULL;
+		return (NULL);
 
-	return rnd_event_head = p;
+	return (rnd_event_head = p);
 }
 
 /* must be called at a proper spl, returns number of items in the queue */
@@ -481,7 +481,7 @@ static int
 rnd_qlen(void)
 {
 	int len = rnd_event_head - rnd_event_tail;
-	return (len < 0)? -len : len;
+	return ((len < 0) ? -len : len);
 }
 
 void dequeue_randomness(void *);
@@ -540,12 +540,12 @@ arc4_stir(void)
 	register int n, s;
 	int len;
 
-	microtime((struct timeval *) buf);
+	microtime((struct timeval *)buf);
 	len = random_state.entropy_count / 8; /* XXX maybe a half? */
-	if (len > sizeof(buf) - sizeof(struct timeval))
-		len = sizeof(buf) - sizeof(struct timeval);
+	if (len > sizeof (buf) - sizeof (struct timeval))
+		len = sizeof (buf) - sizeof (struct timeval);
 	get_random_bytes(buf + sizeof (struct timeval), len);
-	len += sizeof(struct timeval);
+	len += sizeof (struct timeval);
 
 	s = splhigh();
 	arc4random_state.i--;
@@ -658,8 +658,8 @@ randomattach(void)
 	rnd_states[RND_SRC_TRUE].dont_count_entropy = 1;
 	rnd_states[RND_SRC_TRUE].max_entropy = 1;
 
-	bzero(&rndstats, sizeof(rndstats));
-	bzero(&rnd_event_space, sizeof(rnd_event_space));
+	bzero(&rndstats, sizeof (rndstats));
+	bzero(&rnd_event_space, sizeof (rnd_event_space));
 
 	for (i = 0; i < 256; i++)
 		arc4random_state.s[i] = i;
@@ -672,13 +672,13 @@ randomattach(void)
 int
 randomopen(dev_t dev, int flag, int mode, struct proc *p)
 {
-	return (minor (dev) < RND_NODEV) ? 0 : ENXIO;
+	return ((minor (dev) < RND_NODEV) ? 0 : ENXIO);
 }
 
 int
 randomclose(dev_t dev, int flag, int mode, struct proc *p)
 {
-	return 0;
+	return (0);
 }
 
 /*
@@ -744,8 +744,8 @@ enqueue_randomness(int state, int val)
 {
 	register struct timer_rand_state *p;
 	register struct rand_event *rep;
-	struct timeval	tv;
-	u_int	time, nbits;
+	struct timeval tv;
+	u_int xtime, nbits;
 	int s;
 
 	if (!rnd_attached)
@@ -760,7 +760,7 @@ enqueue_randomness(int state, int val)
 	val += state << 13;
 
 	microtime(&tv);
-	time = tv.tv_usec ^ tv.tv_sec;
+	xtime = tv.tv_usec ^ tv.tv_sec;
 	nbits = 0;
 
 	/*
@@ -770,9 +770,9 @@ enqueue_randomness(int state, int val)
 	 */
 	if (!p->dont_count_entropy) {
 		register int	delta, delta2, delta3;
-		delta  = time   - p->last_time;
-		delta2 = delta  - p->last_delta;
-		delta3 = delta2 - p->last_delta2;
+		delta  = xtime	- p->last_time;
+		delta2 = delta	- p->last_delta;
+		delta3 = delta2	- p->last_delta2;
 
 		if (delta < 0) delta = -delta;
 		if (delta2 < 0) delta2 = -delta2;
@@ -816,11 +816,11 @@ enqueue_randomness(int state, int val)
 			rndstats.rnd_drople++;
 			return;
 		}
-		p->last_time = time;
+		p->last_time = xtime;
 		p->last_delta  = delta3;
 		p->last_delta2 = delta2;
 	} else if (p->max_entropy)
-		nbits = 8 * sizeof(val) - 1;
+		nbits = 8 * sizeof (val) - 1;
 
 	s = splhigh();
 	if ((rep = rnd_put()) == NULL) {
@@ -831,7 +831,7 @@ enqueue_randomness(int state, int val)
 
 	rep->re_state = p;
 	rep->re_nbits = nbits;
-	rep->re_time = time;
+	rep->re_time = xtime;
 	rep->re_val = val;
 
 	rndstats.rnd_enqs++;
@@ -915,15 +915,12 @@ extract_entropy(register u_int8_t *buf, int nbytes)
 	add_timer_randomness(nbytes);
 
 	while (nbytes) {
-		if (nbytes < sizeof(buffer) / 2)
-			i = nbytes;
-		else
-			i = sizeof(buffer) / 2;
+		i = MIN(nbytes, sizeof (buffer) / 2);
 
 		/* Hash the pool to get the output */
 		MD5Init(&tmp);
 		s = splhigh();
-		MD5Update(&tmp, (u_int8_t*)rs->pool, sizeof(rs->pool));
+		MD5Update(&tmp, (u_int8_t*)rs->pool, sizeof (rs->pool));
 		if (rs->entropy_count / 8 > i)
 			rs->entropy_count -= i * 8;
 		else
@@ -955,8 +952,8 @@ extract_entropy(register u_int8_t *buf, int nbytes)
 	}
 
 	/* Wipe data from memory */
-	bzero(&tmp, sizeof(tmp));
-	bzero(&buffer, sizeof(buffer));
+	bzero(&tmp, sizeof (tmp));
+	bzero(&buffer, sizeof (buffer));
 }
 
 /*
@@ -967,7 +964,7 @@ extract_entropy(register u_int8_t *buf, int nbytes)
 void
 get_random_bytes(void *buf, size_t nbytes)
 {
-	extract_entropy((u_int8_t *) buf, nbytes);
+	extract_entropy((u_int8_t *)buf, nbytes);
 	rndstats.rnd_used += nbytes * 8;
 }
 
@@ -985,7 +982,7 @@ randomread(dev_t dev, struct uio *uio, int ioflag)
 	add_timer_randomness((u_long)dev ^ (u_long)uio ^ (u_long)buf);
 
 	while (!ret && uio->uio_resid > 0) {
-		int	n = min(POOLBYTES, uio->uio_resid);
+		int n = min(POOLBYTES, uio->uio_resid);
 
 		switch(minor(dev)) {
 		case RND_RND:
@@ -997,7 +994,7 @@ randomread(dev_t dev, struct uio *uio, int ioflag)
 					ret = EWOULDBLOCK;
 					break;
 				}
-#ifdef	RNDEBUG
+#ifdef RNDEBUG
 				if (rnd_debug & RD_WAIT)
 					printf("rnd: sleep[%u]\n",
 					    random_state.asleep);
@@ -1006,7 +1003,7 @@ randomread(dev_t dev, struct uio *uio, int ioflag)
 				rndstats.rnd_waits++;
 				ret = tsleep(&random_state.asleep,
 				    PWAIT | PCATCH, "rndrd", 0);
-#ifdef	RNDEBUG
+#ifdef RNDEBUG
 				if (rnd_debug & RD_WAIT)
 					printf("rnd: awakened(%d)\n", ret);
 #endif
@@ -1016,13 +1013,13 @@ randomread(dev_t dev, struct uio *uio, int ioflag)
 			if (n > random_state.entropy_count / 8)
 				n = random_state.entropy_count / 8;
 			rndstats.rnd_reads++;
-#ifdef	RNDEBUG
+#ifdef RNDEBUG
 			if (rnd_debug & RD_OUTPUT)
 				printf("rnd: %u possible output\n", n);
 #endif
 		case RND_URND:
 			get_random_bytes((char *)buf, n);
-#ifdef	RNDEBUG
+#ifdef RNDEBUG
 			if (rnd_debug & RD_OUTPUT)
 				printf("rnd: %u bytes for output\n", n);
 #endif
@@ -1050,7 +1047,7 @@ randomread(dev_t dev, struct uio *uio, int ioflag)
 
 	add_timer_randomness((u_long)dev ^ (u_long)uio ^ (u_long)buf);
 	FREE(buf, M_TEMP);
-	return ret;
+	return (ret);
 }
 
 int
@@ -1140,10 +1137,10 @@ randomwrite(dev_t dev, struct uio *uio, int flags)
 
 	if (minor(dev) == RND_RND ||
 	    ((minor(dev) == RND_PRND) && !rnd_addpool_allow))
-		return ENXIO;
+		return (ENXIO);
 
 	if (uio->uio_resid == 0)
-		return 0;
+		return (0);
 
 	MALLOC(buf, u_int32_t *, POOLBYTES, M_TEMP, M_WAITOK);
 	add_timer_randomness((u_long)dev ^ (u_long)uio ^ (u_long)buf);
@@ -1153,7 +1150,7 @@ randomwrite(dev_t dev, struct uio *uio, int flags)
 
 		ret = uiomove((caddr_t)buf, n, uio);
 		if (!ret) {
-			while (n % sizeof(u_int32_t))
+			while (n % sizeof (u_int32_t))
 				((u_int8_t *) buf)[n++] = 0;
 			if (minor(dev) == RND_PRND)
 				for (n >>= 2; n; --n)
@@ -1170,14 +1167,14 @@ randomwrite(dev_t dev, struct uio *uio, int flags)
 
 	add_timer_randomness((u_long)dev ^ (u_long)uio ^ (u_long)buf);
 	FREE(buf, M_TEMP);
-	return ret;
+	return (ret);
 }
 
 int
 randomioctl(dev_t dev, u_long cmd, caddr_t data, int flag, struct proc *p)
 {
-	int	s, ret = 0;
-	u_int	cnt;
+	int s, ret = 0;
+	u_int cnt;
 
 	add_timer_randomness((u_long)p ^ (u_long)data ^ cmd);
 
@@ -1196,10 +1193,7 @@ randomioctl(dev_t dev, u_long cmd, caddr_t data, int flag, struct proc *p)
 		splx(s);
 		break;
 	case RNDADDTOENTCNT:
-		if (securelevel > 1)
-			return (EPERM);
-
-		if (suser(p, 0) != 0)
+		if ((suser(p, 0) != 0) || (securelevel > 1))
 			ret = EPERM;
 		else {
 			cnt = *(u_int *)data;
@@ -1211,10 +1205,7 @@ randomioctl(dev_t dev, u_long cmd, caddr_t data, int flag, struct proc *p)
 		}
 		break;
 	case RNDZAPENTCNT:
-		if (securelevel > 1)
-			return (EPERM);
-
-		if (suser(p, 0) != 0)
+		if ((suser(p, 0) != 0) || (securelevel > 1))
 			ret = EPERM;
 		else {
 			s = splhigh();
@@ -1223,10 +1214,7 @@ randomioctl(dev_t dev, u_long cmd, caddr_t data, int flag, struct proc *p)
 		}
 		break;
 	case RNDSTIRARC4:
-		if (securelevel > 1)
-			return (EPERM);
-
-		if (suser(p, 0) != 0)
+		if ((suser(p, 0) != 0) || (securelevel > 1))
 			ret = EPERM;
 		else if (random_state.entropy_count < 64)
 			ret = EAGAIN;
@@ -1241,7 +1229,7 @@ randomioctl(dev_t dev, u_long cmd, caddr_t data, int flag, struct proc *p)
 			ret = EPERM;
 		else {
 			s = splhigh();
-			bzero(&rndstats, sizeof(rndstats));
+			bzero(&rndstats, sizeof (rndstats));
 			splx(s);
 		}
 		break;
@@ -1250,7 +1238,7 @@ randomioctl(dev_t dev, u_long cmd, caddr_t data, int flag, struct proc *p)
 	}
 
 	add_timer_randomness((u_long)p ^ (u_long)data ^ cmd);
-	return ret;
+	return (ret);
 }
 
 static void
