@@ -1,7 +1,7 @@
 #!/bin/mksh
-#	$MirOS$
-#	$OpenBSD: upgrade.sh,v 1.61 2005/04/02 14:27:08 krw Exp $
-#	$NetBSD: upgrade.sh,v 1.2.4.5 1996/08/27 18:15:08 gwr Exp $
+# $MirOS: src/distrib/common/upgrade.sh,v 1.2 2006/10/17 22:24:51 tg Exp $
+# $OpenBSD: upgrade.sh,v 1.61 2005/04/02 14:27:08 krw Exp $
+# $NetBSD: upgrade.sh,v 1.2.4.5 1996/08/27 18:15:08 gwr Exp $
 #
 # Copyright (c) 1997-2004 Todd Miller, Theo de Raadt, Ken Westerback
 # All rights reserved.
@@ -100,7 +100,7 @@ $(</tmp/fstab)
 
 For the $MODE, filesystems in the fstab will be automatically mounted if the
 'noauto' option is absent, and /sbin/mount_<fstype> is found, and the fstype is
-not nfs. Non-ffs filesystems will be mounted read-only.
+not nfs or mfs. Non-ffs filesystems will be mounted read-only.
 
 You can edit the fstab now, before it is used, but the edited fstab will only
 be used during the upgrade. It will not be copied back to disk.
