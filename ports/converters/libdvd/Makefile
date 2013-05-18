@@ -5,7 +5,7 @@ COMMENT=			descramble scrambled DVDs using ACSS
 VER=		0.2
 DISTNAME=	libdvd-${VER}
 CATEGORIES=	converters
-MASTER_SITES=	http://www.rommelwood.de/~hshoexer/${VER}/
+#MASTER_SITES=	http://www.rommelwood.de/~hshoexer/${VER}/
 
 HOMEPAGE=	http://www.rommelwood.de/~hshoexer/
 

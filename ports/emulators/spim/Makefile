@@ -1,4 +1,4 @@
-# $MirOS: ports/emulators/spim/Makefile,v 1.4 2007/04/11 17:05:31 bsiegert Exp $
+# $MirOS: ports/emulators/spim/Makefile,v 1.5 2008/03/09 19:15:51 tg Exp $
 # $OpenBSD: Makefile,v 1.4 2003/07/03 06:16:22 sturm Exp $
 
 ONLY_FOR_PLATFORM=	MirBSD:*:* OpenBSD:*:*
@@ -18,7 +18,7 @@ PERMIT_PACKAGE_FTP=     "may not bundle with commercial product"
 PERMIT_DISTFILES_CDROM= "may not sell"
 PERMIT_DISTFILES_FTP=   "may not bundle with commercial product"
 
-MASTER_SITES=	http://www.cs.wisc.edu/~larus/SPIM/
+#MASTER_SITES=	http://www.cs.wisc.edu/~larus/SPIM/
 
 CONFIGURE_STYLE= gnu imake
 CONFIGURE_SCRIPT= Configure

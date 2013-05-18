@@ -1,4 +1,4 @@
-# $MirOS: ports/devel/guilib/Makefile,v 1.4 2006/02/09 11:11:22 tg Exp $
+# $MirOS: ports/devel/guilib/Makefile,v 1.5 2006/09/14 00:08:15 tg Exp $
 # $OpenBSD: Makefile,v 1.11 2003/12/30 18:49:04 espie Exp $
 
 COMMENT=			SDL C++ GUI widget library
@@ -7,7 +7,7 @@ PROJ=		GUIlib
 DISTNAME=	${PROJ}-${VER}
 PKGNAME=	guilib-${VER}-0
 CATEGORIES=	devel graphics
-MASTER_SITES=	http://www.libsdl.org/projects/${PROJ}/src/
+#MASTER_SITES=	http://www.libsdl.org/projects/${PROJ}/src/
 HOMEPAGE=	http://www.libsdl.org/projects/GUIlib/
 
 # GPL
