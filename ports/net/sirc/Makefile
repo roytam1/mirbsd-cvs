@@ -1,9 +1,9 @@
-# $MirOS: ports/net/sirc/Makefile,v 1.13 2006/02/05 14:37:58 tg Exp $
+# $MirOS: ports/net/sirc/Makefile,v 1.14 2006/09/14 00:12:17 tg Exp $
 
-COMMENT=			programmable small perl irc client (utf-8, IPv6 ready)
+COMMENT=		programmable small perl irc client (utf-8, IPv6 ready)
 CATEGORIES=		net
 DIST_NAME=		sirc
-DIST_DATE=		20060205
+DIST_DATE=		20070103
 DIST_SOURCE=		port
 PKGNAME=		${DIST_NAME}-${DIST_DATE}-0
 RESPONSIBLE=		Thorsten Glaser <tg@mirbsd.de>
