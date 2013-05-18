@@ -1,5 +1,5 @@
 <!-- PageID: getting -->
-<small class="rcsid">$MirOS: www/content/Z2V0dGluZw__.inc,v 1.14 2006/07/30 20:33:09 bsiegert Exp $</small>
+<small class="rcsid">$MirOS: www/content/Z2V0dGluZw__.inc,v 1.15 2006/07/30 21:18:36 tg Exp $</small>
 <h1>How to get MirOS</h1>
 
 <p>MirOS consists of several parts: the base system (including X11), the
@@ -58,7 +58,7 @@
   <td style="border: 1px solid #333333"><p><a href="/MirOS/v7/bsd/sparc/">via HTTP</a> &ndash;
    <a href="http://f.scarywater.net/miros/">via BitTorrent</a></p></td>
  </tr><tr>
-  <td style="border: 1px solid #333333"><p><b>Development snapshots (current, i386 or sparc)</b></p>
+  <td style="border: 1px solid #333333"><p><b>Development snapshots (current, i386 or sparc)</b></p></td>
   <td style="border: 1px solid #333333"><p><a href="/MirOS/current/">via HTTP</a> &ndash;
    <a href="http://f.scarywater.net/miros/">via BitTorrent</a></p></td>
  </tr>

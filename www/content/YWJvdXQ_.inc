@@ -1,19 +1,19 @@
 <!-- PageID: about -->
-<small class="rcsid">$MirOS: www/content/YWJvdXQ_.inc,v 1.11 2006/07/30 20:33:09 bsiegert Exp $</small>
+<small class="rcsid">$MirOS: www/content/YWJvdXQ_.inc,v 1.12 2006/07/30 21:18:36 tg Exp $</small>
 
 <p>On this page:</p>
 
 <ul>
  <li><a href="#mirbsd">MirOS BSD</a></li>
- <ul>
+ <li><ul>
   <li><a href="#why">Why not just use OpenBSD?</a></li>
   <li><a href="#livecd">Live CD</a></li>
   <li><a href="#licence">Licencing information</a></li>
- </ul>
+ </ul></li>
  <li><a href="#mirports">MirPorts</a></li>
- <ul>
+ <li><ul>
   <li><a href="#whymirports">Why use MirPorts?</a></li>
- </ul>
+ </ul></li>
 </ul>
 
 <h1 id="mirbsd">MirOS BSD</h1>
