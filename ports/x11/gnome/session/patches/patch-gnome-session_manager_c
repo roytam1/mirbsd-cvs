@@ -1,5 +1,5 @@
---- gnome-session/manager.c.orig	Fri Oct  1 06:13:23 2004
-+++ gnome-session/manager.c	Wed Dec  1 23:44:14 2004
+--- gnome-session/manager.c.orig	Mon May 28 13:41:22 2007
++++ gnome-session/manager.c	Mon Jun 25 20:57:06 2007
 @@ -28,7 +28,6 @@
  extern int errno;
  #endif
@@ -8,7 +8,7 @@
  #include "manager.h"
  #include "session.h"
  #include "prop.h"
-@@ -1004,6 +1003,7 @@
+@@ -989,6 +988,7 @@ no_response_warning (gpointer data)
    gchar *message;
    gchar *reasons[3];
    Client* warner = get_warner ();
@@ -16,12 +16,3 @@
  
    switch (save_state)
      {
-@@ -1044,7 +1044,7 @@
- 	{
- 	  gsm_verbose ("have interact_list; sending ping with data to client %p\n", client);
- 	  print_client (client);
--	  IceConn ice_conn = SmsGetIceConnection (client->connection);
-+	  ice_conn = SmsGetIceConnection (client->connection);
- 	  interact_ping_replied = FALSE;
- 	  IcePing (ice_conn, interact_ping_reply, (IcePointer)client);
- 	}
