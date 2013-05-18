@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/bsd.README,v 1.9 2005/11/19 12:34:57 tg Exp $
+# $MirOS: src/share/mk/bsd.README,v 1.10 2005/12/15 01:28:37 tg Exp $
 # $OpenBSD: bsd.README,v 1.37 2005/04/15 17:18:57 espie Exp $
 # $NetBSD: bsd.README,v 1.17 1996/04/13 02:08:08 thorpej Exp $
 # @(#)bsd.README	5.1 (Berkeley) 5/11/90
@@ -410,6 +410,31 @@ yacc that allow multiple lex and yacc targets to be built in parallel.
 If TRUEPREFIX is defined (usually by the MirPorts Framework), certain
 rules regarding DESTDIR are disabled, which helps ports to use the
 <bsd.prog.mk> and <bsd.lib.mk> framework.
+
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+For <bsd.prog.mk> and <bsd.lib.mk> the following additional variables
+exist:
+
+HDRS		default: unset
+HDRS2		default: unset
+HDRSRC		default: ${.CURDIR}
+HDRDST		default: ${DESTDIR}/usr/include
+
+If HDRS or HDRS2 is defined and no includes target is defined by
+the programme or library Makefile, one is automatically defined,
+and works approximately like this:
+
+	.for srcfile in ${HDRS}
+		cd ${HDRSRC}; cp ${srcfile} ${HDRDST}/$$(basename ${srcfile})
+	.endfor
+	.for srcfile dstfile in ${HDRS2}
+		cp ${HDRSRC}/${srcfile} ${HDRDST}/${dstfile}
+	.endfor
+
+The files are only copied if they don't match. An afterincludes
+target is run automatically IFF the automatic includes target is
+used (not otherwise), eg. if HDRS and HDRS2 are defined but empty.
 
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 

@@ -1,4 +1,4 @@
-# $MirOS: src/lib/libkeynote/Makefile,v 1.3 2005/10/21 11:02:45 tg Exp $
+# $MirOS: src/lib/libkeynote/Makefile,v 1.4 2007/04/28 00:12:44 tg Exp $
 # $OpenBSD: Makefile,v 1.15 2004/06/25 05:06:49 msf Exp $
 
 LIB=	keynote
@@ -34,14 +34,5 @@ k.tab.c: keynote.y keynote.h signature.h
 
 lex.kn.c: keynote.l keynote.y keynote.h assertion.h signature.h
 	${LEX.l} ${.CURDIR}/keynote.l
-
-includes:
-	@@cd ${.CURDIR}; for i in $(HDRS); do \
-	    j="cmp -s $$i ${DESTDIR}/usr/include/$$i || \
-		${INSTALL} ${INSTALL_COPY} -o ${BINOWN} -g ${BINGRP} -m 444 \
-		$$i ${DESTDIR}/usr/include"; \
-	    echo $$j; \
-	    eval "$$j"; \
-	done
 
 .include <bsd.lib.mk>

@@ -1,4 +1,4 @@
-# $MirOS: src/lib/libssl/crypto/Makefile,v 1.17 2006/10/15 00:53:04 tg Exp $
+# $MirOS: src/lib/libssl/crypto/Makefile,v 1.18 2007/05/08 22:38:59 tg Exp $
 # $OpenBSD: Makefile,v 1.45 2006/06/27 05:07:47 djm Exp $
 
 .include <bsd.own.mk>
@@ -203,24 +203,13 @@ HDRS=\
 	crypto/x509v3/x509v3.h \
 	e_os2.h \
 	${.CURDIR}/fips.h \
-	${.CURDIR}/fips_rand.h
-
-HDRS_GEN=\
+	${.CURDIR}/fips_rand.h \
 	${.CURDIR}/arch/${MACHINE_ARCH}/opensslconf.h \
 	${.OBJDIR}/obj_mac.h
+HDRSRC=	${SSL_SRC}
+HDRDST=	${DESTDIR}/usr/include/openssl
 
 prereq: obj_mac.h
-
-includes:
-	@test -d ${DESTDIR}/usr/include/openssl || \
-	    mkdir ${DESTDIR}/usr/include/openssl
-	@cd ${SSL_SRC}; \
-	for i in $(HDRS) $(HDRS_GEN); do \
-		j="cmp -s $$i ${DESTDIR}/usr/include/openssl/$$(basename $$i) \
-		    || cp -p $$i ${DESTDIR}/usr/include/openssl/"; \
-		echo $$j; \
-		eval "$$j"; \
-	done
 
 GENERATED=	obj_mac.h obj_dat.h
 CLEANFILES=	${GENERATED} obj_mac.num.tmp

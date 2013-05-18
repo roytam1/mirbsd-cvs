@@ -1,4 +1,4 @@
-# $MirOS: src/lib/libpcap/Makefile,v 1.4 2007/03/09 13:05:07 tg Exp $
+# $MirOS: src/lib/libpcap/Makefile,v 1.5 2007/04/28 00:12:44 tg Exp $
 # $OpenBSD: Makefile,v 1.19 2006/09/18 18:18:17 jmc Exp $
 # $NetBSD: Makefile,v 1.3 1996/05/10 21:54:24 cgd Exp $
 
@@ -46,14 +46,5 @@ CLEANFILES+=	version.c
 version.c: ${.CURDIR}/VERSION
 	@rm -f $@
 	sed 's/.*/char pcap_version[] = "&";/' ${.CURDIR}/VERSION >$@
-
-includes:
-	@cd ${.CURDIR}; for i in $(HDRS); do \
-	    j="cmp -s $$i ${DESTDIR}/usr/include/$$i || \
-		${INSTALL} ${INSTALL_COPY} -o ${BINOWN} -g ${BINGRP} -m 444 $$i \
-		${DESTDIR}/usr/include"; \
-	    echo $$j; \
-	    eval "$$j"; \
-	done
 
 .include <bsd.lib.mk>

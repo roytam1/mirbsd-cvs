@@ -1,4 +1,4 @@
-# $MirOS: src/lib/libocurses/Makefile,v 1.3 2005/10/21 11:02:49 tg Exp $
+# $MirOS: src/lib/libocurses/Makefile,v 1.4 2006/10/27 15:52:26 tg Exp $
 # $OpenBSD: Makefile,v 1.8 2002/06/24 18:03:30 tholo Exp $
 
 #CPPFLAGS+=	-DTFILE=\"/dev/ttyp0\"
@@ -19,10 +19,7 @@ MAN=	ocurses.3 otermcap.3
 SUBDIR+= PSD.doc
 .endif
 
-includes:
-	-cd ${.CURDIR}; cmp -s curses.h ${DESTDIR}/usr/include/ocurses.h || \
-	    ${INSTALL} ${INSTALL_COPY} -o ${BINOWN} -g ${BINGRP} -m 444 \
-	    curses.h ${DESTDIR}/usr/include/ocurses.h
+HDRS2=	curses.h ocurses.h
 
 .include <bsd.own.mk>
 

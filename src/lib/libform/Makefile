@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: src/lib/libform/Makefile,v 1.4 2006/10/28 19:07:32 tg Exp $
 
 LIB=		form
 LIBLINKS=	formw
@@ -157,19 +157,13 @@ ncurses_def.h: ${NCSRCDIR}/include/MKncurses_def.sh \
 	AWK=${AWK:Q} ${MKSH} ${NCSRCDIR}/include/MKncurses_def.sh \
 	    ${NCSRCDIR}/include/ncurses_defs >$@
 
-includes:
-	-[[ -d ${DESTDIR}/usr/include/ncursesw ]] || \
-	    rm -rf ${DESTDIR}/usr/include/ncursesw
-	${INSTALL} -d -o ${BINOWN} -g ${BINGRP} -m ${DIRMODE} \
-	    ${DESTDIR}/usr/include/ncursesw
-.for _i in ${NCSRCDIR}/form/form.h
-	cmp -s ${DESTDIR}/usr/include/ncursesw/${_i:T} ${_i} || \
-	    ${INSTALL} ${INSTALL_COPY} -o ${BINOWN} -g ${BINGRP} \
-	    -m ${NONBINMODE} ${_i} ${DESTDIR}/usr/include/ncursesw/
-.endfor
-	cd ${DESTDIR}/usr/include; \
-	    for i in form.h; do \
-		[[ $$(readlink $$i) = ncursesw/$$i ]] && continue; \
+HDRS=		form/form.h
+HDRSRC=		${NCSRCDIR}
+HDRDST=		${DESTDIR}/usr/include/ncursesw
+
+afterincludes:
+	cd ${DESTDIR}/usr/include; for i in ${HDRS:T}; do \
+		[[ $$(readlink $$i 2>&-) = ncursesw/$$i ]] && continue; \
 		rm -f $$i; \
 		ln -s ncursesw/$$i; \
 	done

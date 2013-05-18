@@ -1,4 +1,4 @@
-# $MirOS: src/lib/libz/Makefile,v 1.21 2007/05/07 16:16:00 tg Exp $
+# $MirOS: src/lib/libz/Makefile,v 1.22 2007/05/08 21:16:17 tg Exp $
 # $OpenBSD: Makefile,v 1.13 2005/07/20 21:29:00 jmc Exp $
 
 SHLIB_VERSION?=	5.3
@@ -49,13 +49,6 @@ MLINKS=	compress.3 zlibVersion.3 compress.3 deflateInit.3 \
 SRCS+=		gzfopen.c
 MAN+=		gzfopen.3
 MLINKS+=	gzfopen.3 gzfdopen.3
-
-includes:
-.for _i in ${HDRS}
-	cd ${.CURDIR} && cmp -s ${_i} ${DESTDIR}/usr/include/${_i} || \
-	    ${INSTALL} ${INSTALL_COPY} -o ${BINOWN} -g ${BINGRP} \
-	    -m ${NONBINMODE} ${_i} ${DESTDIR}/usr/include/
-.endfor
 
 HOSTCFLAGS?=	${CFLAGS}
 HOSTLDFLAGS?=	${LDFLAGS}

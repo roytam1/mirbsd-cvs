@@ -1,4 +1,4 @@
-# $MirOS: src/etc/mtree/4.4BSD.dist,v 1.21 2007/03/09 13:05:11 tg Exp $
+# $MirOS: src/etc/mtree/4.4BSD.dist,v 1.22 2007/05/08 22:38:58 tg Exp $
 # $OpenBSD: 4.4BSD.dist,v 1.184 2007/01/01 21:30:46 aanriot Exp $
 
 /set type=dir uname=root gname=wheel mode=0755
@@ -295,6 +295,11 @@ arpa		gname=bin uname=root mode=0755
 # ./usr/include/libmilter
 libmilter	gname=bin uname=root mode=0755
 # ./usr/include/libmilter
+..
+
+# ./usr/include/ncursesw
+ncursesw	gname=bin uname=root mode=0755
+# ./usr/include/ncursesw
 ..
 
 # ./usr/include/openssl

@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: src/lib/libmenu/Makefile,v 1.4 2006/10/28 19:07:46 tg Exp $
 
 LIB=		menu
 LIBLINKS=	menuw
@@ -131,19 +131,13 @@ ncurses_def.h: ${NCSRCDIR}/include/MKncurses_def.sh \
 	AWK=${AWK:Q} ${MKSH} ${NCSRCDIR}/include/MKncurses_def.sh \
 	    ${NCSRCDIR}/include/ncurses_defs >$@
 
-includes:
-	-[[ -d ${DESTDIR}/usr/include/ncursesw ]] || \
-	    rm -rf ${DESTDIR}/usr/include/ncursesw
-	${INSTALL} -d -o ${BINOWN} -g ${BINGRP} -m ${DIRMODE} \
-	    ${DESTDIR}/usr/include/ncursesw
-.for _i in ${NCSRCDIR}/menu/eti.h ${NCSRCDIR}/menu/menu.h
-	cmp -s ${DESTDIR}/usr/include/ncursesw/${_i:T} ${_i} || \
-	    ${INSTALL} ${INSTALL_COPY} -o ${BINOWN} -g ${BINGRP} \
-	    -m ${NONBINMODE} ${_i} ${DESTDIR}/usr/include/ncursesw/
-.endfor
-	cd ${DESTDIR}/usr/include; \
-	    for i in eti.h menu.h; do \
-		[[ $$(readlink $$i) = ncursesw/$$i ]] && continue; \
+HDRS=		menu/eti.h menu/menu.h
+HDRSRC=		${NCSRCDIR}
+HDRDST=		${DESTDIR}/usr/include/ncursesw
+
+afterincludes:
+	cd ${DESTDIR}/usr/include; for i in ${HDRS:T}; do \
+		[[ $$(readlink $$i 2>&-) = ncursesw/$$i ]] && continue; \
 		rm -f $$i; \
 		ln -s ncursesw/$$i; \
 	done

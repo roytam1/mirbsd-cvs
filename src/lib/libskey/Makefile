@@ -1,4 +1,4 @@
-# $MirOS: src/lib/libskey/Makefile,v 1.2 2005/03/06 20:29:23 tg Exp $
+# $MirOS: src/lib/libskey/Makefile,v 1.3 2005/10/21 11:02:53 tg Exp $
 # $OpenBSD: Makefile,v 1.8 2004/08/05 13:31:36 millert Exp $
 
 SHLIB_VERSION?=	7.0
@@ -15,14 +15,5 @@ MLINKS+=skey.3 atob8.3 skey.3 backspace.3 skey.3 btoa8.3 skey.3 btoe.3 \
 	skey.3 skey_unlock.3 skey.3 skeychallenge.3 skey.3 skeychallenge2.3 \
 	skey.3 skeygetnext.3 skey.3 skeylookup.3 skey.3 skeyverify.3 \
 	skey.3 skeyzero.3 skey.3 skipspace.3
-
-includes:
-	@cd ${.CURDIR}; for i in $(HDRS); do \
-	    j="cmp -s $$i ${DESTDIR}/usr/include/`basename $$i` || \
-		${INSTALL} ${INSTALL_COPY} -o ${BINOWN} -g ${BINGRP} -m 444 $$i \
-		${DESTDIR}/usr/include"; \
-	    echo $$j; \
-	    eval "$$j"; \
-	done
 
 .include <bsd.lib.mk>

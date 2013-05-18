@@ -1,4 +1,4 @@
-# $MirOS: src/lib/libncurses/Makefile,v 1.7 2006/11/02 02:30:39 tg Exp $
+# $MirOS: src/lib/libncurses/Makefile,v 1.8 2006/11/02 13:53:54 tg Exp $
 
 LIB=		ncurses
 LIBLINKS=	curses ncursesw termcap termlib
@@ -752,21 +752,18 @@ unctrl.c: ${NCSRCDIR}/ncurses/base/MKunctrl.awk
 
 prereq: curses.h term.h
 
-includes:
-	-[[ -d ${DESTDIR}/usr/include/ncursesw ]] || \
-	    rm -rf ${DESTDIR}/usr/include/ncursesw
-	${INSTALL} -d -o ${BINOWN} -g ${BINGRP} -m ${DIRMODE} \
-	    ${DESTDIR}/usr/include/ncursesw
-.for _i in curses.h ${NCSRCDIR}/include/ncurses_dll.h term.h \
-    ${NCSRCDIR}/include/termcap.h ${NCSRCDIR}/include/unctrl.h
-	cmp -s ${DESTDIR}/usr/include/ncursesw/${_i:T} ${_i} || \
-	    ${INSTALL} ${INSTALL_COPY} -o ${BINOWN} -g ${BINGRP} \
-	    -m ${NONBINMODE} ${_i} ${DESTDIR}/usr/include/ncursesw/
-.endfor
-	cd ${DESTDIR}/usr/include/ncursesw; ln -sf curses.h ncurses.h
-	cd ${DESTDIR}/usr/include; \
-	    for i in ncurses.h ncurses_dll.h term.h termcap.h unctrl.h; do \
-		[[ $$(readlink $$i) = ncursesw/$$i ]] && continue; \
+HDRS=		${.OBJDIR}/curses.h ncurses_dll.h ${.OBJDIR}/term.h \
+		termcap.h unctrl.h
+HDRSRC=		${NCSRCDIR}/include
+HDRDST=		${DESTDIR}/usr/include/ncursesw
+
+afterincludes:
+	cd ${HDRDST:Q}; if [[ $$(readlink ncurses.h 2>&-) != curses.h ]]; then \
+		rm -f ncurses.h; \
+		ln -sf curses.h ncurses.h; \
+	fi
+	cd ${DESTDIR:Q}/usr/include; for i in ${HDRS:T:S/curses.h/n&/}; do \
+		[[ $$(readlink $$i 2>&-) = ncursesw/$$i ]] && continue; \
 		rm -f $$i; \
 		ln -s ncursesw/$$i; \
 	done

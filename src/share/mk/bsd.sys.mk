@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/bsd.sys.mk,v 1.15 2007/04/18 21:01:21 tg Exp $
+# $MirOS: src/share/mk/bsd.sys.mk,v 1.16 2007/04/27 20:05:09 tg Exp $
 # $OpenBSD: bsd.sys.mk,v 1.8 2000/07/06 23:12:41 millert Exp $
 # $NetBSD: bsd.sys.mk,v 1.2 1995/12/13 01:25:07 cgd Exp $
 
@@ -31,4 +31,41 @@ CXXFLAGS+=	-isystem ${DESTDIR}/usr/include/gxx \
 
 .endif
 
+.if (!target(includes) || defined(BSD_SUBDIR_MK_NOINCLUDES)) && \
+    (defined(BSD_PROG_MK) || defined(BSD_LIB_MK)) && \
+    (defined(HDRS) || defined(HDRS2))
+HDRSRC?=${.CURDIR}
+HDRDST?=${DESTDIR}/usr/include
+
+afterincludes:
+includes: _includes afterincludes
+
+.PHONY: _includes afterincludes
+
+_includes:
+.  ifdef HDRS
+	@cd ${HDRSRC:Q}; for i in ${HDRS}; do \
+		j=$${i##*/}; \
+		if cmp -s "$$i" ${HDRDST:Q}/"$$j"; then \
+			print Header ${HDRDST:Q}/"$$j <=> $$i"; \
+		else \
+			print Header ${HDRDST:Q}/"$$j <-- $$i"; \
+			${INSTALL} ${INSTALL_COPY} -o ${BINOWN} -g ${BINGRP} \
+			    -m ${NONBINMODE} "$$i" ${HDRDST:Q}/; \
+		fi; \
+	done
+.  endif
+.  ifdef HDRS2
+.    for _i _j in ${HDRS2}
+	@if cmp -s ${HDRSRC:Q}/${_i:Q} ${HDRDST:Q}/${_j:Q}; then \
+		print Header ${HDRDST:Q}/${_j:Q} '<=>' ${_i:Q}; \
+	else \
+		print Header ${HDRDST:Q}/${_j:Q} '<--' ${_i:Q}; \
+		${INSTALL} ${INSTALL_COPY} -o ${BINOWN} -g ${BINGRP} \
+		    -m ${NONBINMODE} ${HDRSRC:Q}/${_i:Q} ${HDRDST:Q}/${_j:Q}; \
+	fi
+.    endfor
+.  endif
 .endif
+
+.endif	# ! BSD_SYS_MK

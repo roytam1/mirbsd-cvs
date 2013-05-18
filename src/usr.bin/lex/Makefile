@@ -1,4 +1,4 @@
-# $MirOS: src/usr.bin/lex/Makefile,v 1.4 2007/04/28 00:12:48 tg Exp $
+# $MirOS: src/usr.bin/lex/Makefile,v 1.5 2007/05/17 17:23:26 tg Exp $
 # $OpenBSD: Makefile,v 1.9 2003/12/09 12:42:41 jmc Exp $
 #
 # By default, flex will be configured to generate 8-bit scanners only if the
@@ -32,18 +32,5 @@ SUBDIR+=	 PSD.doc
 
 skel.c:	flex.skl mkskel.sh
 	${SHELL} ${.CURDIR}/mkskel.sh ${.CURDIR}/flex.skl >$@
-
-includes:
-	@cd ${.CURDIR}; for i in ${HDRS}; do \
-		if cmp -s "$$i" ${DESTDIR:Q}/usr/include/"$$i"; then \
-			print Header ${DESTDIR:Q}/usr/include/"$$i" \
-			    is up to date.; \
-		else \
-			print Header ${DESTDIR:Q}/usr/include/"$$i" \
-			    "<-- $$i"; \
-			${INSTALL} ${INSTALL_COPY} -o ${BINOWN} -g ${BINGRP} \
-			    -m ${NONBINMODE} "$$i" ${DESTDIR}/usr/include/; \
-		fi; \
-	done
 
 .include <bsd.prog.mk>

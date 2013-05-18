@@ -1,4 +1,4 @@
-# $MirOS: src/lib/libutil/Makefile,v 1.2 2005/03/06 20:29:37 tg Exp $
+# $MirOS: src/lib/libutil/Makefile,v 1.3 2005/10/21 11:02:57 tg Exp $
 # $OpenBSD: Makefile,v 1.28 2004/07/13 21:09:48 millert Exp $
 # $NetBSD: Makefile,v 1.8 1996/05/16 07:03:28 thorpej Exp $
 
@@ -35,14 +35,5 @@ MLINKS+=uucplock.3 uu_unlock.3
 MLINKS+=uucplock.3 uu_lockerr.3
 MLINKS+=uucplock.3 uu_lock_txfr.3
 MLINKS+=fmt_scaled.3 scan_scaled.3
-
-includes:
-	@cd ${.CURDIR}; for i in $(HDRS); do \
-	    j="cmp -s $$i ${DESTDIR}/usr/include/$$i || \
-		${INSTALL} ${INSTALL_COPY} -o ${BINOWN} -g ${BINGRP} -m 444 $$i \
-		${DESTDIR}/usr/include"; \
-	    echo $$j; \
-	    eval "$$j"; \
-	done
 
 .include <bsd.lib.mk>

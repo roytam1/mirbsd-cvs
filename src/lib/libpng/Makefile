@@ -1,4 +1,4 @@
-# $MirOS: src/lib/libpng/Makefile,v 1.5 2006/06/29 17:14:22 tg Exp $
+# $MirOS: src/lib/libpng/Makefile,v 1.6 2007/05/08 21:52:54 tg Exp $
 
 SHLIB_VERSION?= 7.1
 LIB=		png
@@ -8,18 +8,10 @@ SRCS=		png.c pngerror.c pngget.c pngmem.c pngpread.c \
 DPADD+=		${LIBM} ${LIBZ}
 LDADD+=		-lm -lz
 MAN=		libpng.3 libpngpf.3 png.5
-INCS=		png.h pngconf.h
+HDRS=		png.h pngconf.h
 
 .include <bsd.own.mk>
 COPTS+=		-Wall
 CPPFLAGS+=	-DPNG_NO_ASSEMBLER_CODE -DZCONST=const
-
-includes:
-.for _i in ${INCS}
-	cd ${.CURDIR}; cmp -s ${_i} ${DESTDIR}/usr/include/${_i} \
-	    >/dev/null 2>&1 || ${INSTALL} ${INSTALL_COPY} \
-	    -o ${BINOWN} -g ${BINGRP} -m ${NONBINMODE} \
-	    ${_i} ${DESTDIR}/usr/include/
-.endfor
 
 .include <bsd.lib.mk>

@@ -1,4 +1,4 @@
-# $MirOS: src/lib/libedit/Makefile,v 1.5 2005/04/19 19:30:35 tg Exp $
+# $MirOS: src/lib/libedit/Makefile,v 1.6 2005/10/21 11:02:42 tg Exp $
 # $NetBSD: Makefile,v 1.29 2003/12/05 13:37:48 lukem Exp $
 # @(#)Makefile	8.1 (Berkeley) 6/4/93
 
@@ -28,8 +28,7 @@ SRCS=		editline.c tokenizer.c history.c readline.c
 
 LIBEDITDIR?=	${.CURDIR}
 
-INCS=		histedit.h readline/readline.h
-INCSDIR=	/usr/include
+HDRS2=		histedit.h histedit.h readline/readline.h readline/readline.h
 
 .include <bsd.own.mk>
 CLEANFILES+=	editline.c
@@ -86,16 +85,12 @@ test.o:	${LIBEDITDIR}/TEST/test.c
 test:	test.o libedit.a
 	${CC} ${LDFLAGS} ${LDSTATIC} -o $@ ${.ALLSRC} ${LDADD} -ltermcap
 
-includes:
-	${INSTALL} -d -o ${BINOWN} -g ${BINGRP} -m ${DIRMODE} \
-	    ${DESTDIR}${INCSDIR}/readline
-	-rm -f ${DESTDIR}${INCSDIR}/readline/history.h
-.for _i in ${INCS}
-	cmp -s ${.CURDIR}/${_i} ${DESTDIR}${INCSDIR}/${_i} >/dev/null 2>&1 \
-	    || ${INSTALL} ${INSTALL_COPY} -o ${BINOWN} -g ${BINGRP} \
-	    -m ${NONBINMODE} ${.CURDIR}/${_i} ${DESTDIR}${INCSDIR}/${_i}
-.endfor
-	cd ${DESTDIR}${INCSDIR}/readline && ln -sf readline.h history.h
+afterincludes:
+	cd ${HDRDST:Q}/readline; \
+	    if [[ $$(readlink history.h 2>&-) != readline.h ]]; then \
+		rm -f history.h; \
+		ln -sf readline.h history.h; \
+	fi
 
 .include <bsd.lib.mk>
 

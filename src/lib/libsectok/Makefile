@@ -1,4 +1,4 @@
-# $MirOS: src/lib/libsectok/Makefile,v 1.2 2005/03/06 20:29:22 tg Exp $
+# $MirOS: src/lib/libsectok/Makefile,v 1.3 2005/10/21 11:02:52 tg Exp $
 # $OpenBSD: Makefile,v 1.8 2001/08/03 20:02:36 jakob Exp $
 
 SHLIB_VERSION?=	8.0
@@ -30,14 +30,5 @@ MLINKS+=sectok.3 sectok_print_sw.3
 MLINKS+=sectok.3 sectok_get_sw.3
 MLINKS+=sectok.3 sectok_get_ins.3
 MLINKS+=sectok.3 sectok_swOK.3
-
-includes:
-	@cd ${.CURDIR}; for i in $(HDRS); do \
-	    j="cmp -s $$i ${DESTDIR}/usr/include/`basename $$i` || \
-		${INSTALL} ${INSTALL_COPY} -o ${BINOWN} -g ${BINGRP} -m 444 $$i \
-		${DESTDIR}/usr/include"; \
-	    echo $$j; \
-	    eval "$$j"; \
-	done
 
 .include <bsd.lib.mk>

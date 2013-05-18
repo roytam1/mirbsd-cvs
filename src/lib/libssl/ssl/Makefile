@@ -1,4 +1,4 @@
-# $MirOS: src/lib/libssl/ssl/Makefile,v 1.13 2006/10/15 00:53:05 tg Exp $
+# $MirOS: src/lib/libssl/ssl/Makefile,v 1.14 2007/03/08 10:50:20 tg Exp $
 # $OpenBSD: Makefile,v 1.21 2005/11/24 20:49:23 deraadt Exp $
 
 SHLIB_VERSION?=	11.2
@@ -27,17 +27,9 @@ SRCS=	bio_ssl.c s2_clnt.c s3_both.c s3_srvr.c ssl_err2.c ssl_txt.c	\
 	t1_meth.c
 
 HDRS=	ssl.h ssl2.h ssl3.h ssl23.h tls1.h kssl.h
+HDRSRC=	${LSSL_SRC}
+HDRDST=	${DESTDIR}/usr/include/openssl
 
 .PATH:	${LSSL_SRC}
-
-includes:
-	@test -d ${DESTDIR}/usr/include/openssl || \
-	    mkdir ${DESTDIR}/usr/include/openssl
-	@cd ${LSSL_SRC}; for i in $(HDRS); do \
-		j="cmp -s $$i ${DESTDIR}/usr/include/openssl/$$(basename $$i) \
-		    || cp -p $$i ${DESTDIR}/usr/include/openssl/"; \
-		echo $$j; \
-		eval "$$j"; \
-	done
 
 .include <bsd.lib.mk>
