@@ -20,28 +20,27 @@
 
 #include <machine/asm.h>
 
-RCSID("$MirOS: src/kern/c/i386/memset.S,v 1.3 2009/01/15 21:50:17 tg Exp $")
+RCSID("$MirOS: src/kern/c/i386/memset.S,v 1.4 2009/01/15 21:51:43 tg Exp $")
 
 	.intel_syntax noprefix
 	.text
 
 ENTRY(bzero)
-	push	edi
-	mov	edx,12[esp]
+	mov	edx,8[esp]
 	xor	eax,eax
 	jmp	1f
 
 ENTRY(memset)
-	push	edi
-	mov	edx,16[esp]
+	mov	edx,12[esp]
 
-	movzx	eax,byte ptr 12[esp]
+	movzx	eax,byte ptr 8[esp]
 	mov	ah,al
 	mov	cx,ax
 	shl	eax,16
 	mov	ax,cx
 
-1:	mov	edi,8[esp]
+1:	push	edi
+	mov	edi,8[esp]
 	push	edi
 	cld
 
