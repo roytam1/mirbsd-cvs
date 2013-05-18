@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.506 2013/03/30 23:31:06 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.507 2013/04/01 18:48:03 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -1061,6 +1061,9 @@ exec /usr/bin/ld "${args[@]}"</pre>
  Kacper “draenog” Kornet and Arkadiusz “arekm” Miśkiewicz</li>
 <li class="cr"><a href="http://sisyphus.ru/en/srpm/mksh">Alt Linux Sisyphus</a>
  updated their package to the R40 series by now, thanks!</li>
+<li class="cr">Sabotage Linux has a <a
+ href="https://github.com/rofl0r/sabotage/commits/master/pkg/mksh">port</a>
+ of mksh, too.</li>
 <li class="cr">There are probably many more, please drop us a note!</li>
 <li><a href="http://linux.softpedia.com/get/System/Shells/MirBSD-Korn-Shell-24602.shtml">Softpedia</a>
  lists mksh, just like the <a href="http://directory.fsf.org/mksh.html">FSF/UNESCO
