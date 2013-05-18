@@ -1,6 +1,6 @@
-$MirOS: ports/misc/mc/patches/patch-lib_mc_ext_in,v 1.7 2006/09/28 20:31:52 tg Exp $
---- lib/mc.ext.in.orig	Sat Jul 23 16:50:53 2005
-+++ lib/mc.ext.in	Sat Apr 28 00:00:49 2007
+$MirOS: ports/misc/mc/patches/patch-lib_mc_ext_in,v 1.8 2007/04/28 00:01:23 tg Exp $
+--- lib/mc.ext.in.orig	Tue Sep 16 07:21:32 2008
++++ lib/mc.ext.in	Tue Sep 16 07:21:00 2008
 @@ -106,6 +106,42 @@
  
  ### Archives ###
@@ -44,7 +44,19 @@ $MirOS: ports/misc/mc/patches/patch-lib_mc_ext_in,v 1.7 2006/09/28 20:31:52 tg E
  # .tgz, .tpz, .tar.gz, .tar.z, .tar.Z
  regex/\.t([gp]?z|ar\.g?[zZ])$
  	Open=%cd %p#utar
-@@ -135,6 +171,10 @@ regex/\.(tar|TAR)$
+@@ -119,6 +155,11 @@ regex/\.t(ar\.bz2|bz|b2)$
+ 	Open=%cd %p#utar
+ 	View=%view{ascii} bzip2 -dc %f 2>/dev/null | tar tvvf -
+ 
++# .tar.lzma, .tlz
++regex/\.t(ar\.lzma|lz)$
++	Open=%cd %p#utar
++	View=%view{ascii} lzma -dc %f 2>/dev/null | tar tvvf -
++
+ # .tar.F - used in QNX
+ regex/\.tar\.F$
+ 	# Open=%cd %p#utar
+@@ -135,6 +176,10 @@ regex/\.(tar|TAR)$
  	View=%view{ascii} tar tvvf %f
  
  # lha
@@ -55,7 +67,7 @@ $MirOS: ports/misc/mc/patches/patch-lib_mc_ext_in,v 1.7 2006/09/28 20:31:52 tg E
  type/^LHa\ .*archive
  	Open=%cd %p#ulha
  	View=%view{ascii} lha l %f
-@@ -191,13 +231,20 @@ regex/\.(rpm|spm)$
+@@ -191,13 +236,20 @@ regex/\.(rpm|spm)$
  	Open=%cd %p#rpm
  	View=%view{ascii} if rpm --nosignature --version >/dev/null 2>&1; then RPM="rpm --nosignature" ; else RPM="rpm" ; fi ; $RPM -qivlp --scripts %f
  
@@ -80,7 +92,7 @@ $MirOS: ports/misc/mc/patches/patch-lib_mc_ext_in,v 1.7 2006/09/28 20:31:52 tg E
  	Open=%cd %p#iso9660
  	View=%view{ascii} isoinfo -l -i %f
  
-@@ -251,7 +298,7 @@ shell/.info
+@@ -251,7 +303,7 @@ shell/.info
  regex/\.(so|so\.[0-9\.]*)$
  	View=%view{ascii} file %f && nm %f
  
@@ -89,7 +101,7 @@ $MirOS: ports/misc/mc/patches/patch-lib_mc_ext_in,v 1.7 2006/09/28 20:31:52 tg E
  	Open=case %d/%f in */log/*|*/logs/*) cat %f ;; *) nroff @MAN_FLAGS@ @MANDOC@ %f ;; esac | %var{PAGER:more}
  	View=%view{ascii,nroff} case %d/%f in */log/*|*/logs/*) cat %f ;; *) nroff @MAN_FLAGS@ @MANDOC@ %f ;; esac
  
-@@ -271,15 +318,15 @@ shell/.ms
+@@ -271,19 +323,23 @@ shell/.ms
  	View=%view{ascii,nroff} nroff @MAN_FLAGS@ -ms %f
  
  # Manual page - compressed
@@ -108,7 +120,15 @@ $MirOS: ports/misc/mc/patches/patch-lib_mc_ext_in,v 1.7 2006/09/28 20:31:52 tg E
  	Open=case %d/%f in */log/*|*/logs/*) bzip2 -dc %f ;; *) bzip2 -dc %f | nroff @MAN_FLAGS@ @MANDOC@ ;; esac | %var{PAGER:more}
  	View=%view{ascii,nroff} case %d/%f in */log/*|*/logs/*) bzip2 -dc %f ;; *) bzip2 -dc %f | nroff @MAN_FLAGS@ @MANDOC@ ;; esac
  
-@@ -417,7 +464,7 @@ type/^PDF
++regex/([^0-9]|^[^\.]*)\.([1-9][A-Za-z]*|[ln])\.lzma$
++	Open=case %d/%f in */log/*|*/logs/*) lzma -dc %f ;; *) lzma -dc %f | nroff @MAN_FLAGS@ @MANDOC@ ;; esac | %var{PAGER:more}
++	View=%view{ascii,nroff} case %d/%f in */log/*|*/logs/*) lzma -dc %f ;; *) lzma -dc %f | nroff @MAN_FLAGS@ @MANDOC@ ;; esac
+ 
++
+ ### Images ###
+ 
+ type/^GIF
+@@ -417,7 +473,7 @@ type/^PDF
  
  # html
  regex/\.([hH][tT][mM][lL]?)$
@@ -117,3 +137,15 @@ $MirOS: ports/misc/mc/patches/patch-lib_mc_ext_in,v 1.7 2006/09/28 20:31:52 tg E
  	View=%view{ascii} lynx -dump -force_html %f
  
  # StarOffice 5.2
+@@ -526,6 +582,11 @@ type/^bzip
+ type/^compress
+ 	Open=gzip -dc %f | %var{PAGER:more}
+ 	View=%view{ascii} gzip -dc %f 2>/dev/null
++
++# lzma
++regex/\.lzma$
++	Open=lzma -dc %f | %var{PAGER:more}
++	View=%view{ascii} lzma -dc %f 2>/dev/null
+ 
+ 
+ ### Default ###
