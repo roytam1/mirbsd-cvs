@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.bin/compress/zopen.c,v 1.7 2006/06/15 19:13:07 tg Exp $ */
+/**	$MirOS: src/usr.bin/compress/zopen.c,v 1.8 2007/04/29 21:24:44 tg Exp $ */
 /*	$OpenBSD: zopen.c,v 1.17 2005/08/25 17:07:56 millert Exp $	*/
 /*	$NetBSD: zopen.c,v 1.5 1995/03/26 09:44:53 glass Exp $	*/
 
@@ -85,7 +85,7 @@
 #include "compress.h"
 
 __SCCSID("@(#)zopen.c	8.1 (Berkeley) 6/27/93");
-__RCSID("$MirOS: src/usr.bin/compress/zopen.c,v 1.7 2006/06/15 19:13:07 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/compress/zopen.c,v 1.8 2007/04/29 21:24:44 tg Exp $");
 
 #define	BITS		16		/* Default bits. */
 #define	HSIZE		69001		/* 95% occupancy */
@@ -526,7 +526,7 @@ zread(void *cookie, char *rbp, int num)
 	zs->zs_block_compress = zs->zs_maxbits & BLOCK_MASK;
 	zs->zs_maxbits &= BIT_MASK;
 	zs->zs_maxmaxcode = 1L << zs->zs_maxbits;
-	if (zs->zs_maxbits > BITS) {
+	if (zs->zs_maxbits > BITS || zs->zs_maxbits < 12) {
 		errno = EFTYPE;
 		return (-1);
 	}
