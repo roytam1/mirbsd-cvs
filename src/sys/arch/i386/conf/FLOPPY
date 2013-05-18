@@ -1,9 +1,9 @@
-# $MirOS: src/sys/arch/i386/conf/FLOPPY,v 1.9 2006/02/24 11:55:15 tg Exp $
-# _MirOS: src/sys/arch/i386/conf/GENERIC,v 1.26 2006/01/09 18:34:15 tg Exp $
+# $MirOS: src/sys/arch/i386/conf/FLOPPY,v 1.10 2006/05/15 18:44:47 tg Exp $
+# _MirOS: src/sys/arch/i386/conf/GENERIC,v 1.27 2006/05/25 12:20:30 tg Exp $
 
 machine		i386			# arch, used by config; REQUIRED
 
-# $MirOS: src/sys/arch/i386/conf/FLOPPY,v 1.9 2006/02/24 11:55:15 tg Exp $
+# $MirOS: src/sys/arch/i386/conf/FLOPPY,v 1.10 2006/05/15 18:44:47 tg Exp $
 # $OpenBSD: GENERIC,v 1.112 2004/11/28 23:39:45 canacar Exp $
 #
 # Machine-independent option; used by all architectures.
@@ -47,7 +47,7 @@ option		RAMDISK_HOOKS		# allow using initrd
 #option		COMPAT_OPENBSD		# binary compatibility with OpenBSD
 
 option		FFS			# UFS
-option		FFS_SOFTUPDATES		# Soft updates
+#option		FFS_SOFTUPDATES		# Soft updates
 #option		UFS_DIRHASH		# speed up large directories
 #option		QUOTA			# UFS quotas
 option		EXT2FS			# Second Extended Filesystem
@@ -268,6 +268,7 @@ isapnp0	at isa?
 #option	WSDISPLAY_COMPAT_RAWKBD		# can get raw scancodes
 #option	WSDISPLAY_DEFAULTSCREENS=8	# number of virtual consoles
 #option	WSDISPLAY_COMPAT_PCVT		# emulate some ioctls
+option	WSDISPLAY_SCROLLBACK_SUPPORT	# always on if !SMALL_KERNEL
 
 pckbc0		at isa?			# PC keyboard controller
 pckbd*		at pckbc?		# PC keyboard
@@ -393,7 +394,7 @@ fdc1	at isa? disable port 0x370 irq ? drq ?
 fd0	at fdc0 drive 0 flags 0x20	# always attach fd0 even when !probed
 fd*	at fdc? drive ? flags 0x00
 
-mcd0	at isa? disable port 0x300 irq 10	# Mitsumi CD-ROM drives
+mcd0	at isa? port 0x300 irq 10	# Mitsumi CD-ROM drives
 
 # IDE controllers
 pciide* at pci ? dev ? function ? flags 0x0000
