@@ -1,4 +1,4 @@
-# $MirOS: ports/devel/automake/1.9/Makefile,v 1.10 2007/02/22 22:57:44 tg Exp $
+# $MirOS: ports/devel/automake/1.9/Makefile,v 1.11 2008/04/05 17:48:12 tg Exp $
 # $OpenBSD: Makefile,v 1.27 2002/11/27 07:50:28 ish Exp $
 
 COMMENT=		experimental GNU automatic Makefile generator
@@ -16,7 +16,8 @@ PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
-CONFIGURE_STYLE=	gnu
+CONFIGURE_STYLE=	autoconf no-autoheader
+AUTOCONF_NEW=		Yes
 EXTRA_FAKE_FLAGS=	${DESTDIRNAME}=${WRKINST:Q}
 MPVERSION=		${VERSION}-MirPorts-${DASH_VER}
 SUBST_VARS+=		SUFFIX
