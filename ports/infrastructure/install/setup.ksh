@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: ports/infrastructure/install/setup.ksh,v 1.57 2006/05/27 19:47:33 tg Exp $
+# $MirOS: ports/infrastructure/install/setup.ksh,v 1.58 2006/06/25 00:59:03 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -605,7 +605,7 @@ fi
 
 # Check if we need to install cpio
 # (Only install if it isn't there; the user can use pkg_upgrade himself)
-[[ $ismirbsd = no ]] || if ! pkg_info paxmirabilis >/dev/null 2>&1; then
+[[ $ismirbsd = no ]] && if ! pkg_info paxmirabilis >/dev/null 2>&1; then
 	set -e
 	cd $portsdir/archivers/mircpio
 	mmake fake
