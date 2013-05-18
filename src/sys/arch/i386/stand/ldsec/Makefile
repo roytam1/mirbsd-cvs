@@ -1,8 +1,8 @@
-# $MirOS: src/sys/arch/i386/stand/ldsec/Makefile,v 1.1 2006/04/06 11:07:32 tg Exp $
+# $MirOS: src/sys/arch/i386/stand/ldsec/Makefile,v 1.2 2006/06/15 18:25:16 tg Exp $
 
 SADIR=		${.CURDIR}/..
 
-PROG=		ldsec
+PROG=		bootxx
 SRCS+=		ldsec.S
 NOMAN=		Yes
 INSTALL_STRIP=	# set to empty value

@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/i386/common/list,v 1.20 2006/05/29 06:08:48 tg Exp $
+# $MirOS: src/distrib/i386/common/list,v 1.21 2006/07/05 14:53:56 tg Exp $
 # $OpenBSD: list,v 1.15 2005/05/04 17:08:07 miod Exp $
 
 # copy the crunched binary, link to it, and kill it
@@ -65,7 +65,7 @@ SPECIAL	cd dev; chmod 555 MAKEDEV; ./MAKEDEV ramdisk
 
 # we need the contents of /usr/mdec
 COPY	${DESTDIR}/usr/mdec/boot		usr/mdec/boot
-COPY	${DESTDIR}/usr/mdec/ldsec		usr/mdec/ldsec
+COPY	${DESTDIR}/usr/mdec/bootxx		usr/mdec/bootxx
 
 # various files that we need in /etc for the install
 SCRIPT	${DESTDIR}/etc/disktab			etc/disktab.shadow

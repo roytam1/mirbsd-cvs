@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/i386/common/Makefile.inc,v 1.28 2006/07/16 13:09:15 tg Exp $
+# $MirOS: src/distrib/i386/common/Makefile.inc,v 1.29 2006/07/16 13:19:37 tg Exp $
 # $OpenBSD: Makefile.inc,v 1.15 2004/11/25 22:02:08 deraadt Exp $
 
 .ifndef _MODSRC_DISTRIB_I386_COMMON_MAKEFILE_INC
@@ -37,7 +37,7 @@ REALIMAGE=	${REALOBJDIR}/tmp.ima
 INSTALLBOOT?=	${DESTDIR}/usr/mdec/installboot -s ${FLOPPYSECS} -h 2
 BOOT=		${BSDOBJDIR}/sys/arch/i386/stand/fdboot/boot
 BOOTIN?=	${MOUNT_POINT}/boot
-BOOTXX?=	${DESTDIR}/usr/mdec/ldsec
+BOOTXX?=	${DESTDIR}/usr/mdec/bootxx
 FLOPPYSIZE?=	2880
 FLOPPYSECS?=	18
 FLOPPYTYPE?=	floppy3

@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/i386/common/install.md,v 1.4 2006/04/06 11:07:29 tg Exp $
+# $MirOS: src/distrib/i386/common/install.md,v 1.5 2006/07/03 23:16:18 tg Exp $
 # $OpenBSD: install.md,v 1.28 2005/04/02 14:34:46 krw Exp $
 #
 #
@@ -50,7 +50,7 @@ ARCH=ARCH
 md_installboot() {
 	echo Installing boot block...
 	cat /usr/mdec/boot >/mnt/boot
-	/usr/mdec/installboot -v /mnt/boot /usr/mdec/ldsec ${1}
+	/usr/mdec/installboot -v /mnt/boot /usr/mdec/bootxx ${1}
 	echo "done."
 }
 

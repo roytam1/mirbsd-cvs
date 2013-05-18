@@ -1,4 +1,4 @@
-# $MirOS: src/sys/arch/i386/stand/Makefile,v 1.8 2006/05/15 20:47:05 tg Exp $
+# $MirOS: src/sys/arch/i386/stand/Makefile,v 1.9 2006/06/30 23:18:05 tg Exp $
 # $OpenBSD: Makefile,v 1.12 2004/06/23 00:29:56 tom Exp $
 
 .if ${MACHINE_ARCH} == "i386"
@@ -13,7 +13,7 @@ TEST_DEVS= fd0 svnd0 svnd1
 test-${_i}:
 	${SUDO} mount /dev/${_i}a /mnt
 	${SUDO} cp /usr/mdec/boot /mnt
-	${SUDO} /usr/mdec/installboot -vh2 -s18 /mnt/boot /usr/mdec/ldsec ${_i}
+	${SUDO} /usr/mdec/installboot -vh2 -s18 /mnt/boot /usr/mdec/bootxx ${_i}
 	${SUDO} umount /mnt
 
 zero-${_i}:

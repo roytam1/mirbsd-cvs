@@ -1,4 +1,4 @@
-.\"	$MirOS: src/sys/arch/i386/stand/installboot/installboot.8,v 1.8 2006/04/08 00:03:00 tg Exp $
+.\"	$MirOS: src/sys/arch/i386/stand/installboot/installboot.8,v 1.9 2006/04/08 00:09:12 tg Exp $
 .\"	$OpenBSD: installboot.8,v 1.26 2003/06/06 21:45:33 jmc Exp $
 .\"
 .\" Copyright (c) 1997 Michael Shalayeff
@@ -41,7 +41,7 @@
 .Oo Fl h Ar tracks-per-cyl Oc
 .Op Fl P Ar partition-type
 .Ar boot
-.Ar ldsec
+.Ar bootxx
 .Ar disk
 .Pp
 .Nm
@@ -52,7 +52,7 @@
 .Op Fl P Ar partition-type
 .Op Fl S Ar sector
 .Fl I Ar bootstart bootend
-.Ar ldsec
+.Ar bootxx
 .Ar image.iso
 .Pp
 .Nm
@@ -63,7 +63,7 @@
 .Op Fl P Ar partition-type
 .Op Fl p | Fl S Ar sector
 .Fl i Ar bootstart bootlen
-.Ar ldsec
+.Ar bootxx
 .Ar disc.ima
 .Sh DESCRIPTION
 .Nm installboot
@@ -79,7 +79,7 @@ The options are as follows:
 Do not actually write anything on the disk.
 .It Fl v
 Be verbose, printing out the LBA addresses that are to be stored in
-.Ar ldsec
+.Ar bootxx
 along with lots of other information.
 .It Fl s Ar sectors-per-track
 Used to specify the sectors-per-track value if the drive has
@@ -110,7 +110,7 @@ partition type to search before the standard 0x27 and the fallback
 0xA6, 0xA9 and 0xA5 types.
 .It Fl M
 Installs the first-stage boot loader,
-.Nm ldsec ,
+.Nm bootxx ,
 into the master boot record.
 The partition table does not get overwritten.
 The
@@ -132,7 +132,7 @@ verbose output format.
 .Pp
 Example:
 .Pp
-.Dl # /usr/mdec/installboot -v -I 94376 94396 /usr/mdec/ldsec livecd8.iso
+.Dl # /usr/mdec/installboot -v -I 94376 94396 /usr/mdec/bootxx livecd8.iso
 .Pp
 Note:
 If you use the
@@ -158,7 +158,7 @@ are hard disc sectors (512 bytes each).
 .Pp
 Example:
 .Pp
-.Dl # /usr/mdec/installboot -v -i 1000 82 /usr/mdec/ldsec hda.ima
+.Dl # /usr/mdec/installboot -v -i 1000 82 /usr/mdec/bootxx hda.ima
 .Pp
 Support for porting this to GNU/Linux welcome; contact
 .An Thorsten Glaser Aq tg@mirbsd.de .
@@ -189,10 +189,10 @@ This argument is omitted when
 or
 .Fl i
 are used.
-.It Ar ldsec
+.It Ar bootxx
 The name of the prototype file for the first stage boot program,
 usually
-.Pa /usr/mdec/ldsec .
+.Pa /usr/mdec/bootxx .
 .It Ar disk
 The name of the disk containing the partition in which the second-stage
 boot program resides and the first-stage boot program is to be installed.
@@ -223,7 +223,7 @@ disk on i386.
 The typical use is
 .Pp
 .Dl # cp /usr/mdec/boot /boot
-.Dl # /usr/mdec/installboot -v -n /boot /usr/mdec/ldsec wd0
+.Dl # /usr/mdec/installboot -v -n /boot /usr/mdec/bootxx wd0
 .Pp
 And if the information supplied looks right, run the above without the
 .Fl n
@@ -235,7 +235,7 @@ the above steps with some more steps... and do the following:
 .Dl # fsck /dev/rsd0a
 .Dl # mount /dev/sd0a /mnt
 .Dl # cp /usr/mdec/boot /mnt/boot
-.Dl # /usr/mdec/installboot -v /mnt/boot /usr/mdec/ldsec sd0
+.Dl # /usr/mdec/installboot -v /mnt/boot /usr/mdec/bootxx sd0
 .Pp
 If you need to find the BIOS geometry of the disk for
 .Fl s

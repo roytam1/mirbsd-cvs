@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/stand/installboot/installboot.c,v 1.16 2006/04/08 00:09:12 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/stand/installboot/installboot.c,v 1.17 2006/04/19 11:03:15 tg Exp $ */
 /*	$OpenBSD: installboot.c,v 1.47 2004/07/15 21:44:16 tom Exp $	*/
 /*	$NetBSD: installboot.c,v 1.5 1995/11/17 23:23:50 gwr Exp $ */
 
@@ -88,7 +88,7 @@
 #include <unistd.h>
 #include <util.h>
 
-__RCSID("$MirOS: src/sys/arch/i386/stand/installboot/installboot.c,v 1.16 2006/04/08 00:09:12 tg Exp $");
+__RCSID("$MirOS: src/sys/arch/i386/stand/installboot/installboot.c,v 1.17 2006/04/19 11:03:15 tg Exp $");
 
 extern	char *__progname;
 int	verbose, nowrite, nheads, nsectors, userspec = 0;
@@ -132,9 +132,9 @@ usage(void)
 {
 	fprintf(stderr, "usage:\t%s [-n] [-v] [-s sec-per-track] "
 	    "[-h track-per-cyl]\n", __progname);
-	fprintf(stderr, "\t    boot ldsec device\n");
-	fprintf(stderr, "\t    [-S sector] -I bootstart bootend ldsec device\n");
-	fprintf(stderr, "\t    [-S sector] -i bootstart bootlen ldsec device\n");
+	fprintf(stderr, "\t    boot bootxx device\n");
+	fprintf(stderr, "\t    [-S sector] -I bootstart bootend bootxx device\n");
+	fprintf(stderr, "\t    [-S sector] -i bootstart bootlen bootxx device\n");
 	exit(1);
 }
 

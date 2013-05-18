@@ -1,5 +1,9 @@
-$MirOS: src/sys/arch/i386/stand/README,v 1.1.7.1 2005/03/06 16:33:43 tg Exp $
+$MirOS: src/sys/arch/i386/stand/README,v 1.2 2006/04/06 11:07:31 tg Exp $
 
+
+23.07.2006
+
+ldsec is now bootxx, as with other arches.
 
 06.04.2006
 

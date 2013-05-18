@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/i386/iso/Makefile,v 1.19 2006/04/19 21:28:27 tg Exp $
+# $MirOS: src/distrib/i386/iso/Makefile,v 1.20 2006/06/15 19:18:45 tg Exp $
 # $OpenBSD: Makefile,v 1.3 2003/03/04 20:24:49 deraadt Exp $
 
 .include <bsd.own.mk>
@@ -50,7 +50,7 @@ generate-image:
 	${DESTDIR}/usr/mdec/installboot -v -I \
 	    $$(fgrep 'workdir/v${OSrev}/i386/boot.liv' mkisofs.log | \
 		while read start end rest; do print $$start $$end; done) \
-	    ${DESTDIR}/usr/mdec/ldsec ${CDROM}
+	    ${DESTDIR}/usr/mdec/bootxx ${CDROM}
 
 install:
 	cp ${CDROM} ${DESTDIR}/snapshot/
