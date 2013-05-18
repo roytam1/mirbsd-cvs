@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/scripts/import-3rdpty,v 1.15 2005/07/24 16:48:07 tg Exp $
+# $MirOS: src/scripts/import-3rdpty,v 1.16 2005/09/21 20:33:13 tg Exp $
 #-
 # Copyright (c) 2004, 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -23,7 +23,7 @@
 # rect or other, however caused, arising in any way out of the usage
 # of this work, even if advised of the possibility of such damage.
 
-print -r -- '========= $MirOS: src/scripts/import-3rdpty,v 1.15 2005/07/24 16:48:07 tg Exp $ ========='
+print -r -- '========= $MirOS: src/scripts/import-3rdpty,v 1.16 2005/09/21 20:33:13 tg Exp $ ========='
 
 ignlist=0
 force=0
@@ -440,6 +440,9 @@ openbsd)
 		lib/libc/regex/WHATSNEW \
 		lib/libc/rpc/DISCLAIMER \
 		lib/libc/rpc/README \
+		lib/libc/string/bcmp.c \
+		lib/libc/string/strlcat.c \
+		lib/libc/string/strlcpy.c \
 		lib/libc/string/wcslcat.c \
 		lib/libc/string/wcslcpy.c \
 		lib/libc/string/wcstok.c \
