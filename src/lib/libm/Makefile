@@ -48,14 +48,14 @@
 .if ${MACHINE_ARCH} == "i386"
 .PATH:	${.CURDIR}/arch/i387
 
-#COMMON_SRCS+= fenv.c s_nextafterl.c s_nexttoward.c
+#COMMON_SRCS+= fenv.c
 ARCH_SRCS = e_acos.S e_asin.S e_atan2.S e_exp.S e_expf.S e_fmod.S e_log.S \
 	    e_logf.S e_log10.S e_log10f.S e_log2.S e_log2f.S e_remainder.S \
 	    e_remainderf.S e_scalb.S e_scalbf.S e_sqrt.S e_sqrtf.S s_atan.S \
 	    s_atanf.S s_ceil.S s_ceilf.S s_copysign.S s_copysignf.S s_cos.S \
 	    s_cosf.S s_finite.S s_finitef.S s_floor.S s_floorf.S \
-	    s_ilogb.S s_ilogbf.S s_ilogbl.S s_log1p.S s_log1pf.S \
-	    s_logb.S s_logbf.S s_logbl.S \
+	    s_ilogb.S s_ilogbf.S s_log1p.S s_log1pf.S \
+	    s_logb.S s_logbf.S \
 	    s_rint.S s_rintf.S s_scalbn.S s_scalbnf.S s_significand.S \
 	    s_significandf.S s_sin.S s_sinf.S s_tan.S s_tanf.S lrint.S
 
@@ -70,7 +70,7 @@ CPPFLAGS+=	-DLIBM_SCCS
 CPPFLAGS+=	-D_USE_WRITE
 CPPFLAGS+=	-D_NETBSD_SOURCE	# XXX
 
-SHLIB_VERSION?=	6.2
+SHLIB_VERSION?=	7.0
 LIB=		m
 COMMON_SRCS+= e_acos.c e_acosf.c e_acosh.c e_acoshf.c e_asin.c e_asinf.c \
 	e_atan2.c e_atan2f.c e_atanh.c e_atanhf.c e_cosh.c e_coshf.c e_exp.c \
@@ -82,14 +82,14 @@ COMMON_SRCS+= e_acos.c e_acosf.c e_acosh.c e_acoshf.c e_asin.c e_asinf.c \
 	k_cos.c k_cosf.c k_rem_pio2.c k_rem_pio2f.c k_sin.c k_sinf.c \
 	k_standard.c k_tan.c k_tanf.c \
 	s_asinh.c s_asinhf.c s_atan.c s_atanf.c s_cbrt.c s_cbrtf.c s_ceil.c \
-	s_ceilf.c s_copysign.c s_copysignf.c s_copysignl.c s_cos.c s_cosf.c s_erf.c \
-	s_erff.c s_exp2.c s_exp2f.c s_expm1.c s_expm1f.c s_fabsf.c s_fabsl.c \
+	s_ceilf.c s_copysign.c s_copysignf.c s_cos.c s_cosf.c s_erf.c \
+	s_erff.c s_exp2.c s_exp2f.c s_expm1.c s_expm1f.c s_fabsf.c \
 	s_finite.c s_finitef.c \
-	s_floor.c s_floorf.c s_frexpf.c s_ilogb.c s_ilogbf.c s_ilogbl.c \
+	s_floor.c s_floorf.c s_frexpf.c s_ilogb.c s_ilogbf.c \
 	s_isinff.c s_isnanf.c s_ldexpf.c s_lib_version.c s_log1p.c \
-	s_log1pf.c s_logb.c s_logbf.c s_logbl.c \
-	s_matherr.c s_modff.c s_nextafter.c \
-	s_nextafterf.c s_remquo.c s_remquof.c s_rint.c s_rintf.c s_round.c s_roundf.c s_scalbn.c \
+	s_log1pf.c s_logb.c s_logbf.c \
+	s_matherr.c s_modff.c s_nextafter.c s_nextafterf.c s_nexttoward.c \
+	s_remquo.c s_remquof.c s_rint.c s_rintf.c s_round.c s_roundf.c s_scalbn.c \
 	s_scalbnf.c s_signgam.c s_significand.c s_significandf.c s_sin.c \
 	s_sinf.c s_tan.c s_tanf.c s_tanh.c s_tanhf.c s_trunc.c s_truncf.c \
 	w_acos.c w_acosf.c w_acosh.c w_acoshf.c w_asin.c w_asinf.c w_atan2.c \
@@ -101,10 +101,9 @@ COMMON_SRCS+= e_acos.c e_acosf.c e_acosh.c e_acoshf.c e_asin.c e_asinf.c \
 	w_log2f.c w_logf.c \
 	w_pow.c w_powf.c w_remainder.c w_remainderf.c w_scalb.c w_scalbf.c \
 	w_sinh.c w_sinhf.c w_sqrt.c w_sqrtf.c \
-	s_copysignl.c \
 	lrint.c lrintf.c llrint.c llrintf.c lround.c lroundf.c llround.c \
 	llroundf.c s_frexp.c s_ldexp.c s_modf.c \
-	s_fmax.c s_fmaxf.c s_fmaxl.c s_fmin.c s_fminf.c s_fminl.c s_fdim.c
+	s_fmax.c s_fmaxf.c s_fmin.c s_fminf.c s_fdim.c
 
 .PATH:	${.CURDIR}/compat
 COMMON_SRCS+= compat_cabs.c compat_cabsf.c
@@ -167,8 +166,7 @@ MLINKS+=atanh.3 atanhf.3
 MLINKS+=ceil.3 ceilf.3 \
 	ceil.3 floor.3 \
 	ceil.3 floorf.3
-MLINKS+=copysign.3 copysignf.3 \
-	copysign.3 copysignl.3
+MLINKS+=copysign.3 copysignf.3
 MLINKS+=cos.3 cosf.3
 MLINKS+=cosh.3 coshf.3
 MLINKS+=erf.3 erff.3 erf.3 erfc.3 erf.3 erfcf.3
@@ -186,10 +184,10 @@ MLINKS+=fabs.3 fabsf.3
 MLINKS+=finite.3 finitef.3
 MLINKS+=fmod.3 fmodf.3
 MLINKS+=hypot.3 hypotf.3
-MLINKS+=ieee_test.3 logb.3 ieee_test.3 logbf.3 ieee_test.3 logbl.3
+MLINKS+=ieee_test.3 logb.3 ieee_test.3 logbf.3
 MLINKS+=ieee_test.3 scalb.3 ieee_test.3 scalbf.3
 MLINKS+=ieee_test.3 significand.3 ieee_test.3 significandf.3
-MLINKS+=ilogb.3 ilogbf.3 ilogb.3 ilogbl.3
+MLINKS+=ilogb.3 ilogbf.3
 MLINKS+=isinff.3 isnanf.3
 MLINKS+=j0.3 j0f.3 j0.3 j1.3 j0.3 j1f.3 j0.3 jn.3 j0.3 jnf.3 \
 	j0.3 y0.3 j0.3 y0f.3 j0.3 y1.3 j0.3 y1f.3 j0.3 yn.3 j0.3 ynf.3
@@ -197,15 +195,13 @@ MLINKS+=lgamma.3 lgammaf.3 lgamma.3 lgamma_r.3 lgamma.3 lgammaf_r.3 \
 	lgamma.3 gamma.3 lgamma.3 gammaf.3 lgamma.3 gamma_r.3 \
 	lgamma.3 gammaf_r.3
 MLINKS+=nextafter.3 nextafterf.3 \
-	nextafter.3 nextafterl.3 \
 	nextafter.3 nexttoward.3
 MLINKS+=lrint.3 lrintf.3 lrint.3 llrint.3 lrint.3 llrintf.3
 MLINKS+=remainder.3 remainderf.3 \
 	remainder.3 remquo.3 \
 	remainder.3 remquof.3
 MLINKS+=rint.3 rintf.3
-MLINKS+=scalbn.3 scalbnf.3 \
-	scalbn.3 scalbnl.3
+MLINKS+=scalbn.3 scalbnf.3
 MLINKS+=sin.3 sinf.3
 MLINKS+=sinf.3 sinhf.3
 MLINKS+=sqrt.3 sqrtf.3 sqrt.3 cbrt.3 sqrt.3 cbrtf.3
@@ -216,12 +212,9 @@ MLINKS+=trunc.3 truncf.3
 MLINKS+=lround.3 lroundf.3
 MLINKS+=lround.3 llround.3
 MLINKS+=lround.3 llroundf.3
-MLINKS+=fmax.3 fmaxl.3
 MLINKS+=fmax.3 fmaxf.3
 MLINKS+=fmax.3 fmin.3
-MLINKS+=fmax.3 fminl.3
 MLINKS+=fmax.3 fminf.3
-MLINKS+=fdim.3 fdiml.3
 MLINKS+=fdim.3 fdimf.3
 
 .include "${.CURDIR}/gen/Makefile.inc"

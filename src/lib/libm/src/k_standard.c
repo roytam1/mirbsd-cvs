@@ -19,7 +19,9 @@ __RCSID("$NetBSD: k_standard.c,v 1.17 2011/04/11 15:17:33 drochner Exp $");
 #include "math_private.h"
 #include <errno.h>
 
-__RCSID("$MirOS: src/lib/libm/src/k_standard.c,v 1.3 2006/11/03 18:10:56 tg Exp $\n" _MATH_H_);
+__RCSID("$MirOS$");
+__IDSTRING(rcsid_math_h, _MATH_H_);
+__IDSTRING(rcsid_math_privateh, _MATH_PRIVATE_H_);
 
 #ifndef _USE_WRITE
 #include <stdio.h>			/* fputs(), stderr */

@@ -25,7 +25,7 @@
  */
 
 #include <sys/cdefs.h>
-__RCSID("$NetBSD$");
+__RCSID("$MirOS$");
 #ifdef notdef
 __FBSDID("$FreeBSD: src/lib/msun/src/s_fdim.c,v 1.1 2004/06/30 07:04:01 das Exp $");
 #endif
@@ -46,4 +46,3 @@ fn(type x, type y)			\
 
 DECL(double, fdim)
 DECL(float, fdimf)
-DECL(long double, fdiml)
