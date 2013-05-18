@@ -1,8 +1,10 @@
 <!-- PageID: jupp -->
-<small class="rcsid">$MirOS: www/content/anVwcA__.inc,v 1.5 2006/01/13 03:49:35 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/anVwcA__.inc,v 1.6 2006/01/27 00:14:28 tg Exp $</small>
 <h1>jupp &ndash; the Editor</h1>
 <p>
- The current version is <em>joe-3.1jupp4</em>.
+ The current version is <em>joe-3.1jupp5</em>.
+ This page is accessible under <a href="http://mirbsd.de/jupp">http://mirbsd.de/jupp</a> usually.
+ Please keep in mind that the transition from Wiki content to XHTML isn't finished yet.
 </p>
 
 <h2>About</h2>
@@ -17,6 +19,12 @@
 </p>
 
 <h3>ChangeLog</h3>
+
+<p>Changes for joe-3.1jupp5:<br />
+ Documentation updates.
+ Regenerate externally fetched files and autotools stuff.
+ Fix help URI in jupprc.
+</p>
 
 <p>Changes for joe-3.1jupp4:<br />
  Keyboard fixes and DEC VT320/VT420 support in jupprc.
@@ -53,16 +61,16 @@
 
 <h3>Download</h3>
 <ul>
- <li><a href="http://www.66h.42h.de/MirOS/dist/jupp/joe-3.1jupp4.cpio.gz">http://www.66h.42h.de/MirOS/dist/jupp/joe-3.1jupp4.cpio.gz</a></li>
+ <li><a href="http://www.66h.42h.de/MirOS/dist/jupp/joe-3.1jupp5.cpio.gz">http://www.66h.42h.de/MirOS/dist/jupp/joe-3.1jupp5.cpio.gz</a></li>
 </ul>
 
 <p>Check the sums!</p>
 <ul>
  <li>Please use gzsig(1) to verify
   the integrity of the distfile instead!</li>
- <li>RMD160 (joe-3.1jupp3.cpio.gz) = 577e5b491f5b9283f03f2971cb0f4b8b34f9b206</li>
- <li>610826335 381871 /MirOS/dist/jupp/joe-3.1jupp4.cpio.gz</li>
- <li>MD5 (joe-3.1jupp3.cpio.gz) = cec044997dfd352ab1f5d57fd996b0cc</li>
+ <li>RMD160 (joe-3.1jupp5.cpio.gz) = ef4aea18031ed6886a9dd589b7aa94224f2df78d</li>
+ <li>1995370055 392643 /MirOS/dist/jupp/joe-3.1jupp5.cpio.gz</li>
+ <li>MD5 (joe-3.1jupp5.cpio.gz) = 6e2a0302fd577f7b0e2ed116a0da004b</li>
 </ul>
 
 <h3>Unpacking</h3>
@@ -85,12 +93,13 @@
 <p>
 
 <h2>Binaries</h2>
-<p>
+<p>Currently, there are no precompiled binaries available.</p>
+<!-- p>
  <em>NEW!</em> Precompiled Mac OSX and MS Interix/SFU 3.5 binaries are at
 </p><ul>
  <li><a href="https://users.mirsolutions.de:446/~tg/binaries/joe-3.1j3-macbin.tgz">https://users.mirsolutions.de:446/~tg/binaries/joe-3.1j3-macbin.tgz</a> (MD5: f112dbaf6d1d89124af9f8721f344a4f)</li>
  <li><a href="https://users.mirsolutions.de:446/~tg/binaries/joe-3.1j3-winbin.tgz">https://users.mirsolutions.de:446/~tg/binaries/joe-3.1j3-winbin.tgz</a> (MD5: 2cd16647c094d2da92c60f7ccd25dfe9)</li>
-</ul>
+</ul -->
 
 <h1>Finally...</h1>
 <pre>
