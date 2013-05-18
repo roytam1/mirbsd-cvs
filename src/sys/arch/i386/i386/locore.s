@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/i386/locore.s,v 1.11 2010/09/19 18:55:31 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/i386/locore.s,v 1.12 2011/07/06 22:22:10 tg Exp $ */
 /*	$OpenBSD: locore.s,v 1.77.2.1 2005/02/27 00:39:58 brad Exp $	*/
 /*	$NetBSD: locore.s,v 1.145 1996/05/03 19:41:19 christos Exp $	*/
 
@@ -225,6 +225,12 @@ start:	movw	$0x1234,0x472			# warm boot
 	call	1f
 
 	/* NZAATFinish */
+	mov	edx,ebx
+	shl	edx,10
+	add	ebx,edx
+	mov	edx,ebx
+	shr	edx,6
+	xor	ebx,edx
 	lea	eax,[ebx*8+ebx]
 	mov	ebx,eax
 	shr	ebx,11

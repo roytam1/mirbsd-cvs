@@ -50,24 +50,24 @@ MD5 ("12345678901234567890123456789012345678901234567890123456789012345678901234
 MD5 (one million 'a' characters) = 7707d6ae4e027c70eea2a935c2296f21
 NZAT test suite:
 NZAT ("") = 00000001
-NZAT ("a") = 00DB819B
-NZAT ("abc") = AEE3F5CB
-NZAT ("message digest") = C630E7D4
-NZAT ("abcdefghijklmnopqrstuvwxyz") = 545D59ED
-NZAT ("abcdbcdecdefdefgefghfghighijhijkijkljklmklmnlmnomnopnopq") = 25D6FFDF
-NZAT ("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789") = 84012282
-NZAT ("12345678901234567890123456789012345678901234567890123456789012345678901234567890") = EAFB53F2
-NZAT (one million 'a' characters) = D887FD44
+NZAT ("a") = C31517C4
+NZAT ("abc") = C3E39E2D
+NZAT ("message digest") = 434B78B4
+NZAT ("abcdefghijklmnopqrstuvwxyz") = 318954F5
+NZAT ("abcdbcdecdefdefgefghfghighijhijkijkljklmklmnlmnomnopnopq") = 68FD17F5
+NZAT ("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789") = E5CA86DC
+NZAT ("12345678901234567890123456789012345678901234567890123456789012345678901234567890") = 5A666520
+NZAT (one million 'a' characters) = A71E8216
 NZAAT test suite:
 NZAAT ("") = 00000000
-NZAAT ("a") = 00DB819B
-NZAAT ("abc") = AEE3F5CB
-NZAAT ("message digest") = C630E7D4
-NZAAT ("abcdefghijklmnopqrstuvwxyz") = 545D59ED
-NZAAT ("abcdbcdecdefdefgefghfghighijhijkijkljklmklmnlmnomnopnopq") = 25D6FFDF
-NZAAT ("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789") = 84012282
-NZAAT ("12345678901234567890123456789012345678901234567890123456789012345678901234567890") = EAFB53F2
-NZAAT (one million 'a' characters) = D887FD44
+NZAAT ("a") = C31517C4
+NZAAT ("abc") = C3E39E2D
+NZAAT ("message digest") = 434B78B4
+NZAAT ("abcdefghijklmnopqrstuvwxyz") = 318954F5
+NZAAT ("abcdbcdecdefdefgefghfghighijhijkijkljklmklmnlmnomnopnopq") = 68FD17F5
+NZAAT ("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789") = E5CA86DC
+NZAAT ("12345678901234567890123456789012345678901234567890123456789012345678901234567890") = 5A666520
+NZAAT (one million 'a' characters) = A71E8216
 OAAT test suite:
 OAAT ("") = 00000000
 OAAT ("a") = CA2E9442

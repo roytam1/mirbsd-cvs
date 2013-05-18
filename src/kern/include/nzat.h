@@ -33,7 +33,7 @@
 
 #include <sys/types.h>
 
-__RCSID("$MirOS: src/share/misc/licence.template,v 1.28 2008/11/14 15:33:44 tg Rel $");
+__RCSID("$MirOS: src/kern/include/nzat.h,v 1.1 2011/07/06 22:18:52 tg Exp $");
 
 /*-
  * This file defines the NZAT hash which is derived from Bob Jenkins’
@@ -59,15 +59,22 @@ __RCSID("$MirOS: src/share/misc/licence.template,v 1.28 2008/11/14 15:33:44 tg R
  *	This is the Mix part of both Update functions (common)
  * FIN(s) → { s += s << 3; s ^= s >> 11; s += s << 15; result ← s; }
  *	This is the Postprocess function for the one-at-a-time hash
- * NZF(s) → { if(!s){++s;} FIN(s); }
- *	This is the Postprocess function for the NZAT hash
+ * NZF(s) → { MIX(s); if(!s){++s;} FIN(s); }
+ * NZF(s) ≘ { if (!s) { s = 1; } else { NAF(s); } }
+ *	This is the Postprocess function for the new NZAT hash
+ * NAF(s) → { MIX(s); FIN(s); }
+ *	This shall become the Postprocess function for the NZAAT hash
  *
  * This means that the difference between OAAT and NZAT is ① a factor
  * c (constant) that is added to the state in addition to every input
  * octet, ② preventing the hash result from becoming 0, by a volunta‐
- * ry collision on exactly(!) one value. It’s assumed the impact from
- * these changes doesn’t change the hash’s properties, except for the
- * new collision. NZAAT does not collide more than OAAT.
+ * ry collision on exactly(!) one value, and ③ mixing in another zero
+ * data octet to improve avalanche behaviour; OAAT’s avalanche bitmap
+ * is all green except for the last (OAAT) data octet; we avoid a few
+ * yellow-bit patterns, nothing really bad, by making that last octet
+ * be not really the last. The impact of these changes doesn’t worsen
+ * the hash’s properties, except for NZAT’s new collision. NZAAT does
+ * not collide more than OAAT, so it’s better in all respects.
  *
  * First some observations on some of the above primitives, proven by
  * me empirically (can be proven algebraically as well):
@@ -129,6 +136,8 @@ __RCSID("$MirOS: src/share/misc/licence.template,v 1.28 2008/11/14 15:33:44 tg R
 
 /* NULs zählen an allen Teilen */
 #define NZAATFinish(h) do {					\
+	(h) += (h) << 10;					\
+	(h) ^= (h) >> 6;					\
 	(h) += (h) << 3;					\
 	(h) ^= (h) >> 11;					\
 	(h) += (h) << 15;					\

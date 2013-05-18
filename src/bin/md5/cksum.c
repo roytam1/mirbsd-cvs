@@ -59,7 +59,7 @@
 
 extern const uint8_t RFC1321_padding[64];
 
-__RCSID("$MirOS: src/bin/md5/cksum.c,v 1.13 2011/07/06 21:08:21 tg Exp $");
+__RCSID("$MirOS: src/bin/md5/cksum.c,v 1.14 2011/07/06 22:21:53 tg Exp $");
 
 #define MAX_DIGEST_LEN			128
 
@@ -1120,13 +1120,15 @@ NZAT_Final(NZAT_CTX *ctx)
 
 	h = *ctx;
 	if (h == 0) {
-		++*ctx;
+		++h;
 	} else {
+		h += h << 10;
+		h ^= h >> 6;
 		h += h << 3;
 		h ^= h >> 11;
 		h += h << 15;
-		*ctx = h;
 	}
+	*ctx = h;
 }
 
 void
@@ -1135,6 +1137,8 @@ NZAAT_Final(NZAT_CTX *ctx)
 	register uint32_t h;
 
 	h = *ctx;
+	h += h << 10;
+	h ^= h >> 6;
 	h += h << 3;
 	h ^= h >> 11;
 	h += h << 15;

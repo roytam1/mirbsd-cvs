@@ -24,7 +24,7 @@
 #define RELEASE_OS	"unknown OS"
 #endif
 
-#define RELEASE_VER	"TinyIRC 20100921"
+#define RELEASE_VER	"TinyIRC 20110717"
 #define RELEASE_L	RELEASE_VER " (" RELEASE_OS ") MirOS-contrib"
 #define RELEASE_S	RELEASE_VER " MirOS"
 
@@ -86,7 +86,7 @@
 #define	__RCSID(x)	static const char __rcsid[] __attribute__((used)) = (x)
 #endif
 
-__RCSID("$MirOS: contrib/code/Snippets/tinyirc.c,v 1.39 2010/09/21 21:24:03 tg Exp $");
+__RCSID("$MirOS: contrib/code/Snippets/tinyirc.c,v 1.40 2011/07/06 22:22:04 tg Exp $");
 
 #ifndef __dead
 #define __dead
@@ -214,6 +214,8 @@ void arc4hashpush_(const uint8_t *buf)
 	}
 	s = h;
 
+	h += h << 10;
+	h ^= h >> 6;
 	h += h << 3;
 	h ^= h >> 11;
 	h += h << 15;

@@ -25,7 +25,7 @@
  */
 
 static const char __rcsid[] =
-    "$MirOS: contrib/hosted/tg/arc4rootdom.c,v 1.1 2009/11/29 17:56:51 tg Exp $";
+    "$MirOS: contrib/hosted/tg/arc4rootdom.c,v 1.2 2011/07/06 22:22:04 tg Exp $";
 
 #include <sys/param.h>
 #include <sys/types.h>
@@ -100,6 +100,8 @@ arc4random_pushb(const void *buf, size_t len)
 		}
 
 		len = MIN(sizeof(uu), j);
+		h += h << 10;
+		h ^= h >> 6;
 		h += h << 3;
 		h ^= h >> 11;
 		h += h << 15;
