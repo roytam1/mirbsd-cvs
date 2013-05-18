@@ -1,4 +1,4 @@
-/* $MirOS: src/include/wchar.h,v 1.28 2008/11/22 12:33:25 tg Exp $ */
+/* $MirOS: src/include/wchar.h,v 1.29 2008/11/22 13:51:09 tg Exp $ */
 
 /*-
  * Copyright (c) 2007, 2008
@@ -219,6 +219,10 @@ __END_DECLS
 wchar_t *ambsntowcs(const char *, size_t)
     __attribute__((nonnull (1), bounded (string, 1, 2)));
 wchar_t *ambstowcs(const char *)
+    __attribute__((nonnull (1)));
+char *awcsntombs(const wchar_t *, size_t)
+    __attribute__((nonnull (1)));
+char *awcstombs(const wchar_t *)
     __attribute__((nonnull (1)));
 #endif
 
