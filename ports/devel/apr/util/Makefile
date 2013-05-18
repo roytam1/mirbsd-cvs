@@ -1,6 +1,7 @@
-# $MirOS: ports/devel/apr/util/Makefile,v 1.1 2006/10/05 21:11:39 bsiegert Exp $
+# $MirOS: ports/devel/apr/util/Makefile,v 1.2 2006/12/20 15:31:21 tg Exp $
 
 COMMENT=		companion library to APR
+VERSION=		0.9.15
 DISTNAME=		apr-util-${VERSION}
 
 FLAVORS=		bsddb

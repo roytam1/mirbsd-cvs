@@ -1,7 +1,7 @@
-#$MirOS: ports/devel/apr/apr/Makefile,v 1.2 2006/10/11 15:26:40 bsiegert Exp $
+#$MirOS: ports/devel/apr/apr/Makefile,v 1.3 2006/12/20 15:31:20 tg Exp $
 
 COMMENT=		Apache portable runtime library
-DASH_VER=		1
+DASH_VER=		0
 DISTNAME=		apr-${VERSION}
 
 post-install:
