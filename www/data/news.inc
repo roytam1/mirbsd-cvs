@@ -641,3 +641,13 @@ Date: 01.03.2008
  Once it’s uploaded, the <a href="@@RELPATH@@mksh.htm">mksh homepage</a>
  will be updated with appropriate information. UPDATE: It’s out now.</p>
 ----
+Title: Heads-Up: MirPorts changes
+Date: 09.03.2008
+
+<p>There is a new MirMake version, with getopt(3) changes for Darwin
+ again. We do not think that this has any effect on already-built
+ packages, but be careful.</p>
+<p>The variables <tt>FLAVOR</tt> and <tt>FLAVORS</tt> have been
+ renamed to <tt>FLAVOUR</tt> and <tt>FLAVOURS</tt>, respectively,
+ to reflect correct English spelling.</p>
+----
