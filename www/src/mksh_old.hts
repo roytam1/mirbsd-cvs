@@ -1,10 +1,10 @@
-# $MirOS: www/src/mksh_old.hts,v 1.11 2008/09/30 17:34:25 tg Exp $
+# $MirOS: www/src/mksh_old.hts,v 1.12 2008/10/26 22:46:47 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/mksh/old "mksh – old versions"
-mws_putheader '$MirOS: www/src/mksh_old.hts,v 1.11 2008/09/30 17:34:25 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh_old.hts,v 1.12 2008/10/26 22:46:47 tg Exp $'
 mws_content <<'EOF'
 <h1><a href="mksh.htm">mksh</a> – old versions</h1>
 <p>This page lists information about mksh R29 and earlier.</p>
@@ -24,6 +24,8 @@ mws_content <<'EOF'
  of the manual page using nroff(1) if found</li>
 </ul>
 <p>These special values in <tt>CPPFLAGS</tt> are recognised:</p><ul>
+<li><tt>-DMKSH_AFREE_DEBUG</tt> – run with extra alloc/free checking
+ (mksh R36b and below)</li>
 <li><tt>-DMKSH_NEED_MKNOD</tt> – if MKSH_SMALL is set, do not omit the mknod(8)
  builtin functionality from the binary; <strong>deprecated</strong>, use the
  environment variable <tt>HAVE_MKNOD=[0|1]</tt> to determine if this builtin
@@ -267,6 +269,476 @@ mws_content <<'EOF'
 </ul>
 
 <h2 id="clog">Recent Changes</h2>
+<p id="r36b">mksh R36b is a compatible, major bug-fix update:</p><ul>
+ <li>[tg] Add check for naming the output file “scn” instead of “a.out” or
+  “a.exe” when compiling scn.c, for Haiku, from Adam “replaced” Hoka</li>
+ <li>[tg] Rewrite utf_backch macro and x_bs2 function into a combined
+  x_bs3 function for the Emacs editing mode, to optimise them and get
+  rid of the use of <tt>__typeof__</tt> (suggested by Anders “ragge”
+  Magnusson after the problem was spot by replaced) and one of the uses
+  of the statements-as-expressions feature</li>
+ <li>[ahoka] Add mirtoconf check for nice(3), missing on Haiku</li>
+ <li>[tg] Remove all uses of the statements-as-expressions feature by
+  rewriting the source code accordingly and optimising some parts</li>
+ <li>[tg] Recognise nwcc (Nils Weller’s C compiler) in <tt>Build.sh</tt></li>
+ <li>[tg] If &lt;strings.h&gt; exists, pull it in for strcasecmp(3)</li>
+ <li>[tg] Welcome QNX/Neutrino; work around broken <tt>/bin/ed</tt></li>
+ <li>[tg] Simplify, shorten, speed up <tt>PS1</tt> in <tt>dot.mkshrc</tt></li>
+ <li>[tg] Remove some dead code courtesy of scan-build native runs</li>
+ <li>[tg] Add some casts to prevent LLVM+Clang warnings</li>
+ <li>[tg] Work around llvm-gcc-4.2.1 -Wformat pickyness</li>
+ <li>[tg] Add new <tt>Build.sh</tt> option ‘-llvm’ (clang, llvm-gcc)</li>
+ <li>[tg] Speed up mirtoconf if ‘-DMKSH_ASSUME_UTF8’ is set</li>
+ <li>[tg] Add the workaround for Debian #492377 into the main mirtoconf
+  function (hiding gcc errors during the configure phase) because Gentoo
+  has similar scanner issues; reported by Hanno Böck</li>
+ <li>[tg] If an MKSH_SMALL has arc4random(3), skip the rand(3)/srand(3)
+  fall-back altogether to shrink size, also removed need for time(3)</li>
+ <li>[tg] Fix alias expansion recursion check if the word to be expanded
+  is immediately followed by end of input, add test case; spotted by
+  Michael Hlavinka in pdksh and mksh; RedHat #474115</li>
+ <li>[tg] Fix string/wdstring confusion preventing bashiop (&amp;&gt;foo)
+  to work inside a function, add regression test, limit to 99 fds</li>
+ <li>[tg] change regression tests to <tt>set -U</tt> or <tt>set +U</tt>
+  instead of <tt>set -o utf8-{hack,mode}</tt>, as well as query using
+  <tt>$-</tt> ipv <tt>$(set +o)</tt> (easier and more reliable)</li>
+ <li>[tg] Add comment to regression tests which can fail on slow machines
+  or Cygwin environments due to timing issues</li>
+ <li>[tg] Remove a lot of superfluous casts, improve type cleanliness</li>
+ <li>[tg] Insert a couple of <tt>/* CONSTCOND */</tt> for lint</li>
+</ul>
+<p id="r36">mksh R36 features the following changes:</p><ul>
+ <li>Fix <tt>Build.sh</tt> invocation without ‘-r’, 10x Elias Pipping</li>
+ <li>Mention the <strong>MirOS OPTU-8</strong> and <em>MirOS OPTU-16</em>
+  encodings in the manual page, now that we have a name for it</li>
+ <li>In the MirOS base installation via <tt>Makefile</tt> (and <em>not</em>
+  via <tt>Build.sh</tt>, run with <tt>-DMKSH_AFREE_DEBUG</tt> (unless ramdisc
+  or MirOS-stable or formal release, i.e. DEBUGLIBS is not set)</li>
+ <li>Merge final version of jaredy’s fix for the stack-storage free issue</li>
+ <li>Be more efficient in the mksh(1) manual page example section</li>
+ <li>Fix multi-line <tt>$PS1</tt> in the (officially orphaned and unsupported)
+  “vi” command-line editing mode (regression; reported by asarch via IRC)</li>
+ <li>Fix multi-line <tt>$PS1</tt> where the last line is too long for the edit
+  area to fit on the screen, genuine (pdksh, probably) bug, while here</li>
+ <li>Plug a memory leak; patch from jaredy taken via oksh</li>
+ <li>Fix mis-information re. <tt>-o posix</tt> mode in the manual page</li>
+ <li>If <tt>-o posix</tt> is set, do not keep file descriptors created via
+  I/O redirection, as Korn Shells do, private; add regression test; Debian
+  Closes: #499139; reported by Markus Schaber and Agustin Martin Domingo</li>
+ <li>Work around GNU getopt(3) violating every single standard in existence
+  regarding flag placement on the command line (test suite), from Debian</li>
+ <li>Sync internal wcwidth(3) implementation with Markus Kuhn’s latest</li>
+ <li>Optimise internal multibyte⇐⇒wide character conversion functions</li>
+ <li>Emacs editing mode: if the input line is modified (after a history
+  search) or newly typed or empty, preserve it when scrolling the history,
+  requested by many (at least: gecko2, Matthias Diener, Benny, myself)</li>
+ <li>Do not push lines beginning with an IFS character or IFS white space
+  into the history (at the <tt>PS1</tt> prompt only), for Matthias Diener</li>
+ <li>Emacs editing mode: if an Escape character ends a history search, and
+  Escape is bound to prefix-1, and the following character in prefix-1 mode
+  is a prefix-1 or prefix-2 key, do not swallow the Escape character</li>
+ <li>Emacs editing mode: new command “edit-line”, bound to <tt>^Xe</tt> by
+  default like in lynx(1), allows for interactive editing of the current
+  input line similar to Vi mode “v” command, requested by asarch in IRC</li>
+ <li><tt>Build.sh</tt>: remove the problematic ‘-q’ option</li>
+ <li>Fix internal type abuse: convert more int to bool</li>
+ <li>Ignore duplicates when pushing interactive lines into the history,
+  prodded by Matthias Diener, wanted by myself for quite a while</li>
+ <li>Ignore duplicates after <tt>fc -s</tt> editing too, fix regress test</li>
+ <li>&lt;libutil.h&gt; needs &lt;sys/types.h&gt; on some platforms</li>
+ <li>Implement somewhat different behaviour for repeated invocations of the
+  Emacs prev-hist-word editing command, so that even a single invocation
+  trashes “the mark”, but repeated invocations scroll up the history, similar
+  to what GNU bash attempts and zsh does, by request of Han Boetes</li>
+ <li>Improve support for AIX 5.2 / xlC V7.0, from Jupp “cnuke” Söntgen,
+  which does not respect cc -qversion or ld -V (new for improved version
+  reporting on AIX 5.3 / xlC V9.0), but also errors out if a static bounds
+  checker on arrays is triggered by pointer assignment (such as <tt>p =
+  arr[sizeof (arr)];</tt>, even if the only accesses are of the <tt>*--p</tt>
+  style, by preventing it from recognising static storage in this case</li>
+ <li>Neither AIX has a UTF-8 locale, so disable use of setlocale(3) there</li>
+ <li>Fix some of the things the LLVM-Clang scan-build static analyser spotted
+  and a couple of compile time warnings</li>
+ <li>Reduce amout of stack space eaten, prefer <tt>.bss</tt> storage</li>
+ <li>Restore old input line on history search abortion</li>
+ <li>(<i>unrelated</i>) update <tt>arc4random.c</tt> sample to allow use of
+  arc4random_pushb(3) on GNU/Cygwin by using Microsoft® CryptoAPI</li>
+ <li>Bring back automatic <tt>-o posix</tt> setting if the shell is invoked
+  as “sh” or “-sh” (unless compiled with MKSH_SMALL), add regression test,
+  change it to be only compiled in with <tt>-DMKSH_BINSHREDUCED</tt></li>
+ <li>Improve mksh(1) manual page</li>
+ <li>Add support for Digital UNIX (DEC OSF/1) V2.0 (MIPS) with DEC C and
+  ucode ld, work around a bug by conditionally using static linking</li>
+ <li>Change <tt>Build.sh</tt> slightly to accomodate for “true Bourne
+  shells” such as OSF/1 V2.0’s <tt>/bin/sh</tt> in printf(1) detection</li>
+ <li>Improve OS / compiler / linker version reporting</li>
+ <li>Optimise the code and <tt>Build.sh</tt> slightly</li>
+ <li>(<i>unrelated</i>) fix <tt>arc4random.c</tt> sample missing defns</li>
+ <li>Use the Unicode MirOS Licence template proper in <tt>copyright</tt></li>
+</ul>
+<p id="r35b">mksh R35b comes with the following bug fixes:</p><ul>
+ <li>IRIX also has no UTF-8 locale at all, confirmed by Elias Pipping</li>
+ <li>Fix regression test suite for MKSH_SMALL</li>
+ <li>Bring in latest changes from oksh (OpenBSD ksh, not DeliLinux crap)</li>
+ <li>Fix abuse and unsafe use of str_save() and str_nsave()</li>
+ <li>Optimise the implementations of str_save() and str_nsave()</li>
+ <li>If MKSH_AFREE_DEBUG is defined, guard against afree()ing a pointer
+  which has not been allocated from the given pool, from Todd C. Miller</li>
+ <li>Fix attempt to free a pointer to stack (function-local) storage when
+  redefining a function containing a call to the “time” built-in, discovered
+  by Elias Pipping, patch by Jared Yanovich, help from Todd C. Miller</li>
+ <li>Protect a little against people not running “./test.sh -v” but calling
+  it with, for instance, GNU bash (as homsn did…)</li>
+ <li>Honour <tt>$PERL</tt> environment variable in test.sh, improve scanning
+  for Perl, do not use potentially undefined $^O, print Perl version</li>
+ <li>Add &lt;sys/types.h&gt; as &lt;ulimit.h&gt; requirement (dietlibc)</li>
+ <li>Work around bug in BSD/OS 3.1 /bin/ksh (PD KSH v5.2.8 96/08/19)</li>
+ <li>Add regression tests from OpenBSD’s &lt;bsd.regress.mk&gt; suite</li>
+ <li>Use better CPPFLAGS for AIX, Minix 3 (from pdksh)</li>
+ <li>Expose the “s ≠ NULL” str_[n]save_() API and use it where the string
+  can never be NULL (local stack storage), from gcc-4.2 warnings</li>
+ <li>Clean up pointer-to-integer-cast warnings in the mirtoconf process</li>
+</ul>
+<p id="r35">mksh R35 comes with helluva changes:</p><ul>
+  <li>Simplify and refactor the ulimit builtin, partially from oksh</li>
+ <li>Some style cleanup; use appropriate integer types</li>
+ <li>Fix a bug in table (e.g. kill -l, tab completion) display: the width
+  of non-ASCII characters is now honoured in the utf8-hack mode</li>
+ <li>Improve handling of invalid UTF-8 in certain areas, and multibyte
+  (UTF-8 / CESU-8) in general</li>
+ <li>When using “typeset -Z«n»” on an integer variable with a base other
+  than ten, zero-pad the value instead of the base – pdksh, oksh, zsh, and
+  AT&amp;T ksh93 are wrong here; GNU bash doesn’t even have typeset</li>
+ <li>Improve parsing of “set +o” output where done (dot.mkshrc, check.t)</li>
+ <li>Improve regression tests</li>
+ <li>Support for base-1 numbers: in non-utf8-hack mode, ‘1#x’ means the same
+  as the ASCII code for ‘x’ (e.g. 78hex), where ‘x’ is any single octet (byte);
+  in utf8-hack mode, ‘x’ is <em>either</em> a <strong>valid and minimalistically
+  encoded</strong> UTF-8 multibyte character in the range 0000‥FFFD, <em>or</em>
+  a single octet <em>with no trailing octets (bytes)</em>, which will then be
+  converted as if it were an ASCII value, or, if bit7 is set, be mapped into the
+  PUA range of EF80‥EFFF assigned by CSUR for this purpose; this mapping is, in
+  both cases, bidirectional; the planned base-0 number support is not possible
+  with the code, so use base-1 (with utf8-hack disabled, or &amp; 0xFF) instead
+  (while it is recommended to parse only single octets, there is a regression
+  test showing correct and safe multibyte parsing, which however is error-prone
+  to implement and thusly not recommended) – “genial” replaced@TNG, “this sounds
+  fun” ggergely, agreed bsiegert@ and others</li>
+ <li>Pull in more current versions of supplied files; use Unicode 5.0</li>
+ <li>Clean up unused definitions in build system; document MKSH_CLS_STRING</li>
+ <li>Remove advertising clause from <tt>copyright</tt> file; while we’d be
+  pleased to be mentioned if something contains our code, tg@ will no longer
+  enforce the requirement to advertise with that specific formula, and we’d
+  prefer if people remember the OpenHAL vs ath5k incident and that they cannot
+  simply change licencing of existing code; patches sent to the MirOS Project
+  for inclusion shall be accepted if they’re agreed to match this licence</li>
+ <li>Simplify <tt>dot.mkshrc</tt> sample file: licence is merged into the main
+  copyright file; AT&amp;T ksh93 compatibility was improved</li>
+ <li>Fix a display problem regarding fullwidth characters (e.g. CJK)</li>
+ <li>Set the “C” locale in <tt>Build.sh</tt> for tool execution; otherwise,
+  certain OEs behave strange; thanks to Adam “replaced” Hoka for spotting</li>
+ <li>Use <tt>en_US.utf8</tt> as UTF-8 locale for the testsuite for now</li>
+ <li>If <tt>setlocale(LC_CTYPE, "")</tt> is not available, look at the
+  environment variables ourselves – brings UTF-8 support to poor OSes</li>
+ <li>Remove some now-dead code; speed up configuration process; shrink</li>
+ <li>Default to no setlocale(3) due to stubbed or missing locale support
+  on GNU/Cygwin, OpenBSD, OSF/1 in <tt>Build.sh</tt>; a few more that are
+  quite unlikely to have a UTF-8 locale: BSD/OS, Interix, Minix, PW32, Ultrix,
+  AT&amp;T UWIN; default to always UTF-8 on Plan 9</li>
+ <li>Fix for testsuite unexpected failure if running as root in one case</li>
+ <li>Initialise all shell integer variables (<tt>OPTIND</tt>, <tt>PPID</tt>,
+  <tt>RANDOM</tt>, <tt>SECONDS</tt>, <tt>TMOUT</tt>) to base 10</li>
+ <li>Reintroduce from mksh pre-R24 shell integer variable <tt>PGRP</tt> set
+  to the PID of the process group leader via getpgrp(2)</li>
+ <li>New shell integer variable <tt>USER_ID</tt> set to the geteuid(2) and
+  used by <tt>dot.mkshrc</tt> to speed up logins, saves a spawn of id(1),
+  mentioned by and realisation planned with Andreas "gecko2" Gockel</li>
+ <li>Fix <tt>dot.mkshrc</tt> tilde replacement in both <tt>$PS1</tt> and the
+  pushd/popd/dirs implementation when the home directory is empty, the root
+  directory, or ends with a slash (disable replacement in that case)</li>
+ <li>Support dietlibc, force it into providing a BSDish <tt>caddr_t</tt></li>
+ <li>Do not use LDFLAGS and LIBS while compiling with <tt>-c</tt></li>
+ <li>Add realpath(3) builtin, to further speed up logins and chdirs</li>
+ <li>Optimise the code somewhat by making use of possible assumptions</li>
+ <li>Set the “C” locale in <tt>test.sh</tt> as well to quell warnings</li>
+ <li>Split the regression tests that use locale between <tt>en_US.utf8</tt>
+  and <tt>en_US.UTF-8</tt>, since not all OSes support either one, and
+  make only HP-UX and GNU use the latter</li>
+ <li>Fix kill, mknod(8) builtin usage msg, from Igor Sobrado via oksh</li>
+ <li>Use proper <tt>ptrdiff_t</tt> casts for pointer arithmetics, inspired
+  by an oksh commit from Federico Schwindt</li>
+ <li>Remove check category “pdksh” from <tt>check.t</tt> and test script</li>
+ <li>Improve Darwin, OSF/1, HP aCC, SUNpro version reporting</li>
+ <li>Support GNU bash “&amp;&gt;” extension, even better than they do,
+  suggested by Lukas “smultron” from MidnightBSD</li>
+ <li>Basic support for LLVM+clang in the build system with experimental
+  “ccc” compiler driver; llvm-gcc worked as-is before already</li>
+ <li>Better support for contributed <tt>arc4random.c</tt> file</li>
+ <li>Do not spin if unlink(2) fails on $HISTFILE, from Decklin Foster</li>
+ <li>Dump the perl(1) <tt>$^O</tt> variable in <tt>test.sh</tt> to logs</li>
+ <li>Pull in latest changes from oksh</li>
+ <li>Allow white space between a here string indicator and the string,
+  accidentally discovered by twkm (#ksh, freenode)</li>
+ <li>Allow fd specifications outside the 0‥9 range for I/O redirections,
+  and bounds check them to be lower than the <tt>FDBASE</tt> definition,
+  currently still 10 if MKSH_SMALL, 24 otherwise (unportable)</li>
+ <li>Improve the regression test suite: for one test, we had a bizarre
+  constraint telling it won’t work on UWIN, which was based upon false
+  assumptions, but Tru64 would fail it since its cat(1) unexpectedly outputs
+  some error messages (fix by closing stderr for cat); another test would
+  unexpectedly print <em>no</em> error message on Solaris (fix by making
+  the error message optional in the perlre(1) used)</li>
+ <li>Switch back to en_US.UTF-8 for glibc, Debian can do both, Mandriva
+  fails on en_US.utf8 (XXX no libc5 auto-detection to disable it)</li>
+</ul>
+<p id="r33d">mksh R33d is a quick security-update with these changes:</p><ul>
+ <li>Move a portability define from <tt>sh.h</tt> to the <tt>setmode.c</tt>
+  helper, as it’s <em>only</em> needed there, and we want to use the latter
+  from MirMake as well</li>
+ <li>SECURITY: when spawning mksh on a new terminal, for example with
+  <tt>sudo mksh -lT/dev/ttyC7</tt>, flush all of that tty’s I/O first</li>
+ <li><tt>dot.mkshrc</tt>: ensure “ls” is no alias, don’t hardcode its path</li>
+</ul>
+<p id="r33c">mksh R33c issues fixes for the following issues:</p><ul>
+ <li>Handle Ultrix mmap(2) having a different prototype (returning a
+  <tt>caddr_t</tt> instead of a <tt>void *</tt> and not defining
+  MAP_FAILED; making Ultrix 4.5 a fully supported platform</li>
+ <li>Decrease code size and optimise (using puts-style functions instead
+  of printf-style functions for fixed strings; bool instead of int)</li>
+ <li>Correct behaviour of “export”, “export -p”, “readonly”, “readonly
+  -p”, “typeset”, “typeset -p”, “typeset” and their respective
+  descriptions in the manual page; problem reported by Danijel Tasov</li>
+ <li>Work around dup2(2) problem (preserving the close-on-exec flag)
+  on Ultrix using code from mirbsdksh-1.11, lost in oksh</li>
+ <li>Clean up <tt>Build.sh</tt> a little more</li>
+ <li>Correct quotes and some other stuff in the regression tests;
+  fix for running with old Perl (5.002 or so, Linux 2.0, BSD/OS)</li>
+ <li>Export the new “__progname” and “__perlname” environment variables
+  to the suite run from <tt>check.t</tt> in <tt>check.pl</tt></li>
+ <li>Do not mistake IBM xlC and VisualAge for different things, thanks
+  to Pascal “loki” Bleser from OpenSuSE for information on them</li>
+</ul>
+<p id="r33b">mksh R33b comes with the following minor fixes:</p><ul>
+ <li>Fix some minor code issues remarked by MIPSpro</li>
+ <li>Port to SGI IRIX 6.5 (uname: IRIX64) using gcc and MIPSpro</li>
+ <li>Scan for a lot more compilers; add support for MIPSpro</li>
+ <li>Ignore if the OS doesn’t define <tt>MAP_FILE</tt> for mmap(2)</li>
+ <li>Use <tt>sys/types.h</tt> as <tt>sys/mkdev.h</tt> dependency</li>
+ <li>Enable OSF/1 V2.0 <tt>/bin/sh</tt> to run <tt>Build.sh</tt></li>
+ <li>Add strcasecmp(3) proto for Ultrix 4.5 only (imake style)</li>
+ <li>Add S_ISLNK if the OS doesn’t define it</li>
+ <li>Use tempnam(3) if mkstemp(3) not found – <strong>not recommended</strong></li>
+ <li>Reduce dependency on certain OE facilities: printf(1), fgrep(1) being
+  able to scan for two patterns at the same time, perl5 being named perl</li>
+ <li>New <tt>-T-</tt> option for dæmonisation, cf. man page</li>
+ <li>Port to BSDi BSD/OS 3.1 (gcc 1.42 and gcc 2.7.2.1 supported)</li>
+ <li>Simplify the <tt>dot.mkshrc</tt> file and make it more robust</li>
+ <li>Report OE and <tt>$CC</tt> version in <tt>Build.sh</tt>, for logs</li>
+ <li>Fix look’n’feel of the mksh(1) manual page, so that it still looks
+  best in AT&amp;T nroff(1), looks much better in GNU groff (the PDF version
+  we place on the website), and looks some better <em>and</em> gains the
+  ability to copy’n’paste from it for GNU gnroff -Tutf8, originally prompted
+  by Patrick “aptituz” Schoenfeld and “lintian -viI mksh*.changes”, but then
+  improved (and nroff hacked) by tg@ a lot</li>
+ <li>Shut up some gcc warnings (explicit braces; cast <tt>MAP_FAILED</tt>)</li>
+ <li>Try to get rid of the test “if the compiler fails correctly” by using
+  the errorlevel of the <tt>$CC</tt> process (except with Microsoft Visual C++
+  which returns non-zero even on success sometimes), thus supporting DEC C on
+  OSF/1 (and, quite possibly, gcc3 on Mac OSX Leopard)</li>
+ <li>If revoke(2) and flock(2) are found, check if they’re declared</li>
+ <li>Promote Tru64 to a fully supported operating environment, even though it
+  needs a plethora of <tt>_*_SOURCE</tt> defines and has <tt>SIGMAX</tt>
+  instead of <tt>NSIG</tt>; OSF/1 V4.0 and Tru64 (OSF/1 V5.1) are supported
+  with both gcc and HP/Compaq/DEC C in various versions</li>
+ <li>Generalise the workaround for incompatible <tt>sig_t</tt> across the
+  platforms that need it (currently, OSF/1 and PW32)</li>
+ <li>Shut up annoying warning about gcc 2.7.2.3, 2.8.1, 2.95.x not knowing the
+  “-std=gnu99” and “-std=c99” options without setting proper errorlevel</li>
+</ul>
+<p id="r33">A release with many new features is mksh R33, look yourself:</p><ul>
+ <li>Sync with OpenBSD ksh (no real functional changes)</li>
+ <li>Enhance the <tt>print</tt> builtin with two new escape sequences:
+  <tt>\x<b>AB</b></tt> parses the next up to two hexadecimal digits <b>AB</b>
+  and outputs a raw octet (byte) whose ordinary value is <b>AB</b>;
+  <tt>\u<b>ABCD</b></tt> parses up to four hexadecimal digits and outputs
+  the UTF-8 (CESU-8) representation of the unicode codepoint U+<b>ABCD</b>
+  from the BMP (Basic Multilingual Plane), not depending on the locale</li>
+ <li>The <tt>.</tt> (“dot”) command (and its counterpart <tt>source</tt>)
+  needs an argument (the script to source); from Debian pdksh package</li>
+ <li>In the lexer, do not expand aliases if there is an opening parenthesis
+  just after the token (from Debian pdksh). This fixes the namespace issue
+  that caused a POSIX function definition <tt>stop() { … }</tt> to fail due
+  to “stop” being a built-in Korn shell alias. Now, aliases are removed when
+  a POSIX function with the same name is defined; Korn functions are still
+  different: their definition does not fail, but the alias retains its
+  precendence (unchanged behaviour)</li>
+ <li>Accordingly, do not disable built-in aliases in POSIX mode any more</li>
+ <li>Since POSIX mode now only turns off braceexpand mode (which can then
+  be turned back on), do not handle being called as <tt>-sh</tt> or <tt>sh</tt>
+  specially any longer</li>
+ <li>Clean up the source code: make some constants private to the only file
+  using it; optimise; comment some code; improve portability with regards to
+  stupid tools in /usr/bin (or /usr/xpg4/bin) and foreign compilers</li>
+ <li>Implement “here strings” (like ksh93 or zsh; GNU bash collapses white
+  space if the string is not double-quoted): you can now replace <tt>print
+  -r -- "$foo" | command</tt> with <tt>command &lt;&lt;&lt;"$foo"</tt> with
+  the very same semantics as <tt>command &lt;&lt;EOF<br />$foo<br />EOF</tt>
+  (stripping initial tabs is not possible)</li>
+ <li>Implement string replacement <tt>${var/pattern/string}</tt> (where
+  <em>pattern</em> is an extended glob pattern), like GNU bash; like with
+  the substring accessor (<tt>${var: x: y}</tt>) mksh implements almost all
+  corner cases (and double slash), but do not handle trimming arrays yet</li>
+ <li><em>Side note:</em> You can now, as a consequence of the two items
+  above, write, for instance, <tt>x=${x//foo*bar/baz}</tt> instead of the
+  more complicated <tt>x=$(sed -e 's/foo.*bar/baz/g' &lt;&lt;&lt;"$x")</tt>
+  or the mksh R32 and before idiom <tt>x=$(print -r -- "$x" | sed -e
+  's/foo.*bar/baz/g')</tt> – be sure to check $KSH_VERSION first though</li>
+ <li>Use the new <tt>&#36;Mdocdate&#36;</tt> RCS keyword in the manual page
+  mksh(1) as well; since this is not portable in tmac.doc especially to GNU
+  groff, prepend a seven-liner implementing it to the <tt>.Dd</tt> macro</li>
+ <li>Fix a mistake in using the <tt>.Nm</tt> macro in the manual page</li>
+ <li>Make <tt>Build.sh</tt> and the generated <tt>test.sh</tt> more chatty
+  about what they’re doing and what versions (aids debugging build logs)</li>
+ <li>Update the <tt>dot.mkshrc</tt> sample and make it more portable; it
+ requires mksh R33 or above now though due to use of special functions</li>
+ <li>Enhance the website, especially the section about official testing:
+  now, the tests are split into tests done by us via Makefile (MirOS only),
+  Build.sh (portably), porting frameworks, with arc4random.c added, tests by
+  others via Build.sh, via packaging frameworks, failed tests; more links</li>
+ <li>Note: the “vi” editing mode is code of historical value and, at the
+  moment, unmaintained. It does not benefit from the fixes to the “emacs”
+  editing mode (horizontal scrolling) or new features (bind keys that end
+  their sequence with a tilde; UTF-8 support). Neither is it supported in
+  either editing mode to bind keys that generate a sequence consisting of
+  more than just a prefix (ESC, ^X, or ESC [), another octet and (“emacs”
+  only) an optional tilde (but this might come in the future). This is
+  explicitly mentioned here due to a user inquiry.</li>
+</ul>
+<p id="r32">Sported by mksh R32 are these changes:</p><ul>
+ <li>Make checks for symbol declarations compile checks instead of link
+  checks, as the binding may not succeed due to different symbol types,
+  for instance on AIX, if the declaration does not match</li>
+ <li>Widen the range of array indices to [0‥2³²-1], with negative values
+  being mapped into the high-bit31 range for simplicity</li>
+ <li>Fix the pipeline-as-coprocess internal error</li>
+ <li>Do not require certain integer types to be defined any more</li>
+ <li>Optimise the code and reduce its RAM usage</li>
+</ul>
+<p id="r31d">Everyone should upgrade to mksh R31d with fixes for…</p><ul>
+ <li>Support pcc (the ragge version of the Portable C Compiler)</li>
+ <li>Add pushd/popd/dirs functions (csh) and precmd/chpwd hooks (zsh) to
+  <tt>dot.mkshrc</tt> which now requires readlink(1) with <tt>-f</tt>;
+  requested by many (e.g. some Gentoo users; XTaran of symlink.ch)</li>
+ <li>Enable colour escapes in <tt>dot.mkshrc</tt> since almost nobody groks
+  how to do it right from the manual</li>
+ <li>Remove <tt>-DMKSH_NEED_MKNOD</tt> checks from <tt>Build.sh</tt>,
+  people should use the <tt>HAVE_MKNOD</tt> environment variable</li>
+ <li>Implement parallel make in <tt>Build.sh</tt></li>
+ <li>Fix another busy-loop spinning problem introduced by an icc warning,
+  thanks to spaetzle@freewrt.org for keeping to bug me to look for it, as
+  it affected GNU/Linux most, followed by Solaris, rarely BSD</li>
+ <li>Improve standard integer type detection in <tt>Build.sh</tt></li>
+ <li>Cleanups in code, build script and manual page</li>
+</ul>
+<p id="r31c">The mksh R31c (Solaris-only) upgrade for cnuke@ was caused by:</p><ul>
+ <li>Clean up <tt>Build.sh</tt> and “test … -o …” doesn’t exist in Bourne</li>
+ <li>Detect if the non-standard <tt>u_int32_t</tt> type, which was
+  unfortunately used by the OpenBSD project in designing the standard
+  arc4random(3) API, is present (which it isn’t on Solaris), and, if
+  not, emulate it using the standard <tt>uint32_t</tt> (ISO C99) from
+  &lt;stdint.h&gt;, which we fake as needed (if the standard integer
+  types are not present, e.g. on PW32 and OSF/1); change mksh as well as <a
+  href="http://cvs.mirbsd.de/contrib/code/Snippets/arc4random.c?rev=HEAD">the
+  arc4random.c contribution</a> to not use these non-standard types</li>
+ <li>Remove unused types from the faked &lt;stdint.h&gt; file</li>
+</ul>
+<p id="r31b">A quick upgrade, mksh R31b with major bug fixes:</p><ul>
+ <li>Fix typo (blsk → bksl) in <tt>check.t</tt> test naming</li>
+ <li>Autoscan for <tt>uint32_t</tt>, <tt>u_int</tt> etc. presence</li>
+ <li>Fix some memory leaks, mostly by NetBSD® via OpenBSD</li>
+ <li>The “unset” builtin always returns zero, even if the variable
+  was already unset, as per SUSv3 (reported by Arkadiusz Miskiewicz
+  via pld-linux → oksh)</li>
+ <li>In tab-completion, escape the question mark, reminded by
+  cbiere@netbsd.org, via oksh</li>
+ <li>Fix a busy-loop problem, Debian #296446 via oksh</li>
+ <li>Fix a few display output problems in the build script</li>
+ <li>Shut up some gcc warnings on Fedora; beautify some code</li>
+ <li>Support OSF/1 with gcc2.8, thanks to Jupp Schugt</li>
+ <li>Fix gcc4 detection of __attribute__() on non-SSP targets</li>
+</ul>
+<p id="r31">mksh R31 was released as part of MirOS #10 with these news:</p><ul>
+ <li>Support the TenDRA compiler (possibly also Ten15, not tried)</li>
+ <li>Begin supporting Fabrice Bellard’s Tiny C Compiler (tcc on Debian
+  cannot link due to duplicate symbols in GNU libc, thus unfinished)</li>
+ <li>Improve some mirtoconf checks (most notably, mknod(2) and macros)</li>
+ <li>Add new emacs editing command “clear-screen” (<tt>ESC ^L</tt>)
+  as requested by D. Adam Karim &lt;archite@midnightbsd.org&gt;</li>
+ <li>Support building for MidnightBSD</li>
+ <li>Add new shell alias “source”, semantics like the GNU bash builtin</li>
+ <li>Add new shell option “set ±o arc4random”, controlling whether rand(3) or
+  arc4random(3) is used for the $RANDOM value, use arc4random_pushb(3)</li>
+ <li>Add new builtin “rename” (just calls rename(2) on its arguments)</li>
+ <li>Fix the inofficial OpenBSD port, from D. Adam “Archite” Karim, 10x</li>
+ <li>Disable the less(1) history file by default (privacy issues) in the sample
+  <tt>dot.mkshrc</tt> file; mention other things in <tt>etc_profile</tt></li>
+ <li>Fix a syntax error in Build.sh checking for TenDRA</li>
+</ul>
+<p id="r30">A milestone in development: mksh R30 can do this:</p><ul>
+ <li>Build on and for Solaris, Linux and MirBSD with Sun’s C compiler</li>
+ <li>No longer build a statically linked shell by default; do not try,
+  do not provide any means; user has to use LDFLAGS instead</li>
+ <li>Remove some probably dead mirtoconf checks</li>
+ <li>Remove commented out <tt>-fwhole-program --combine</tt> check and
+  still active <tt>-fno-tree-vrp</tt> bug workaround thing, the latter
+  because the bug seems to only appear for functions that also exist as
+  a builtin (which was declared with the nonnull attribute)</li>
+ <li>Fix a long-standing typo, 10x moritz@obsd</li>
+ <li>Prefer more common signal names (SIGCHLD) over uncommon ones (SIGCLD)</li>
+ <li>Quieten gcc and support SUNpro 5.8 on Solaris 10 on sparc64</li>
+ <li>Optimise signal handling and detection; enable compilers whose
+  præprocessor doesn’t have <tt>-dD</tt> to generate list of signals</li>
+ <li>Optimise mirtoconf meta-checks for persistent history etc.</li>
+ <li>Fix a bug preventing manual page generation on Solaris</li>
+ <li>Add support for the Intel® C Compiler and quieten it a little; fix a few
+  minor buglets (mostly type conversion) its too verbose warnings show, as
+  well as some errno ab-/mis-use</li>
+ <li>Remove support for honouring the <tt>CPP</tt> environment variable;
+  <tt>$CC -E -</tt> is simply used instead in the places where <tt>$CPP</tt>
+  was used previously, because that was used in other places already, and
+  to prevent it from behaving differently from the $CC used</li>
+ <li>If a file called <tt>arc4random.c</tt> is lying around in the source
+  directory at mirtoconf time, scan for <tt>&lt;sys/sysctl.h&gt;</tt> and
+  use the file if arc4random(3) isn’t found otherwise. From Debian.</li>
+ <li>If the basename of argv[0] starts with “sh”, activate FPOSIX
+  early, preventing some typical ksh aliases from being defined</li>
+ <li>If FPOSIX, don’t pre-define aliases (except integer and local) to benefit
+  operating environments that never heard of the great Korn Shell…</li>
+ <li>#if defined(MKSH_SMALL) || defined(MKSH_NOVI) disable the vi
+  editing mode</li>
+ <li>Don’t try to execute ELF, a.out, COFF, gzip or MZ binaries</li>
+ <li>Can be built on HP-UX (PA-RISC and IA64) with gcc or HP C/aC++</li>
+ <li>Support <tt>x=(a b c)</tt> bash-like array initialisation</li>
+ <li>Support <tt>${foo:2:3}</tt> bash-like substring expansion</li>
+ <li>Many mirtoconf improvements, fixes; speed-up; better portability</li>
+ <li>Enable compilation using Microsoft C/C++ Standard Compiler</li>
+ <li>Add UWIN build target using various compilers with the cc wrapper</li>
+ <li>Fix struct padding mistakes uncovered by the Microsoft compiler</li>
+ <li>Fix double initialisation / unused value assignment errors unveiled
+  by Borland C++ Builder 5.5</li>
+ <li>Fix superfluous code detected by gcc 4.2</li>
+ <li>Fix large file support for OSes that require CPPFLAGS contains
+  <tt>-D_FILE_OFFSET_BITS=64</tt> – it was detected but not actually
+  used in the build; thanks to hondza for the problem report!</li>
+ <li>Give the lexer a bigger state stack if !MKSH_SMALL</li>
+ <li>Prepare for addition of make(1)-style search/replace operations;
+  correct the code for other substitution expansion operations</li>
+ <li>Default $CC to cc not gcc, this is no non-unix-ware ☺</li>
+ <li>Support AIX with gcc and xlC; clean up code to warning-free</li>
+ <li>Prefer well-known signal names to alphabetically earlier ones</li>
+ <li>Fix a bug delivering ERR and EXIT pseudo-signals to traps combined
+  with “set -e”, thanks Clint Pachl and Otto Moerbeek for the hint</li>
+</ul>
 <p>In mksh R29g we MFCd the following changes:</p><ul>
  <li>Some optimisations from above; no longer execute foreign objects</li>
  <li>Improvements in checking for __attribute__, multi-idstring support,
