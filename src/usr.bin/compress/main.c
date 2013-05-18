@@ -1,15 +1,13 @@
 /*	$OpenBSD: main.c,v 1.75 2009/04/18 18:21:54 naddy Exp $	*/
 
-#ifndef SMALL
-static const char copyright[] =
-"@(#) Copyright (c) 1992, 1993\n\
-	The Regents of the University of California.  All rights reserved.\n"
-"Copyright (c) 1997-2002 Michael Shalayeff\n";
-#endif
+#include <sys/cdefs.h>
 
 #ifndef SMALL
-static const char license[] =
-"\n"
+__COPYRIGHT("@(#) Copyright (c) 1992, 1993\n\
+	The Regents of the University of California.  All rights reserved.\n"
+"Copyright (c) 1997-2002 Michael Shalayeff\n");
+
+__IDSTRING(licence, "\n"
 " Redistribution and use in source and binary forms, with or without\n"
 " modification, are permitted provided that the following conditions\n"
 " are met:\n"
@@ -32,7 +30,7 @@ static const char license[] =
 " HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,\n"
 " STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING\n"
 " IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF\n"
-" THE POSSIBILITY OF SUCH DAMAGE.\n";
+" THE POSSIBILITY OF SUCH DAMAGE.\n");
 #endif /* SMALL */
 
 #include <sys/param.h>
@@ -52,7 +50,7 @@ static const char license[] =
 #include <paths.h>
 #include "compress.h"
 
-__RCSID("$MirOS: src/usr.bin/compress/main.c,v 1.11 2007/04/29 21:24:44 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/compress/main.c,v 1.12 2009/10/27 19:27:15 tg Exp $");
 
 #define min(a,b) ((a) < (b)? (a) : (b))
 
@@ -281,10 +279,9 @@ main(int argc, char *argv[])
 			break;
 #ifndef SMALL
 		case 'L':
-			fputs(copyright, stderr);
-			fputs(license, stderr);
-#endif
+			printf("BSD licence\n");
 			exit (0);
+#endif
 		case 'r':
 			recurse++;
 			break;
