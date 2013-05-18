@@ -1,8 +1,41 @@
 mws_setname subprojects/a4rp5bsd "BSD::arc4random – Perl bindings"
 mws_setheadline "Perl bindings for arc4random"
-mws_putheader '$MirOS$'
+mws_putheader '$MirOS: www/src/a4rp5bsd.hts,v 1.1 2009/10/15 16:55:04 tg Exp $'
 mws_content <<'EOF'
-<p>Sorry, nothing here yet (dummy page).</p>
+<h2>Table of Content</h2>
+EOF
+mws_maketoc
+mws_content <<'EOF'
+<h2>BSD::arc4random</h2>
+<p>This is the primary homepage and distribution site for
+ <tt>BSD::arc4random</tt> – a set of Perl bindings for the
+ arc4random(3) suite of functions. The package is distributed
+ on CPAN as well, thanks to Vutral, although uploads there
+ may be delayed – this page is considered authoritative.</p>
+<p>Apologies for the lack of content, it will be remedied
+ when spare time is available.</p>
+<h2>Download</h2>
+<p>The current version is BSD::arc4random 1.43 dated 2009-11-29
+ (29 November 2009). Download mirrors and checksums:</p><ul>
+ <li><a href="https://www.mirbsd.org/MirOS/dist/hosted/p5/BSD-arc4random-1.43.tar.gz">https://www.mirbsd.org/MirOS/dist/hosted/p5/BSD-arc4random-1.43.tar.gz</a></li>
+ <li><a href="http://pub.allbsd.org/MirOS/dist/hosted/p5/BSD-arc4random-1.43.tar.gz">http://pub.allbsd.org/MirOS/dist/hosted/p5/BSD-arc4random-1.43.tar.gz</a></li>
+ <li style="list-style:none;">All official distfiles are gzsig(1)d.</li>
+ <li>RMD160 (BSD-arc4random-1.43.tar.gz) = cef0f789f9ec426480e5203ed17a8105a8165d97</li>
+ <li>TIGER (BSD-arc4random-1.43.tar.gz) = a706df55e15a31ef1abe80c0d5abbd28e6af70833f95e7d9</li>
+ <li>4127304926 13712 /MirOS/dist/hosted/p5/BSD-arc4random-1.43.tar.gz</li>
+ <li>MD5 (BSD-arc4random-1.43.tar.gz) = dfc0323f56aa157e5ccedd23060697d3</li>
+</ul>
+<h2>Links</h2>
+<p><a href="http://search.cpan.org/dist/BSD-arc4random/">CPAN page</a></p>
+<p><a href="http://packages.debian.org/sid/libbsd-arc4random-perl">Debian
+ package page</a></p>
+<p><a href="@@RELPATH@@a4rcontrb.htm">arc4random.c (contrib)</a> – page
+ (currently no content either, sorry) for a file adding arc4random(3) to
+ some operating systems, such as GNU/Linux, that don’t have it, perusing
+ <tt>/dev/urandom</tt> for entropy</p>
+<p><a href="http://packages.debian.org/sid/libbsd-dev">Debian package
+ page</a> for <a href="http://libbsd.freedesktop.org/">libbsd</a>, which
+ also provided arc4random(3) and friends</p>
 EOF
 mws_putfooter
 exit 0
