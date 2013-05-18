@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.250 2009/07/07 18:38:56 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.251 2009/07/07 18:43:00 tg Exp $'
 mws_content <<'EOF'
 <h2>mksh(1) R38c</h2>
 
@@ -1043,7 +1043,7 @@ mws_content <<'EOF'
  <li>[OpenBSD] Fix segfaults caused by missing check for end of input
   in the tokeniser on “let --” and other input</li>
  <li>[OpenBSD] Make Vi editing mode <tt>^W</tt> behave like Emacs mode’s</li>
- <li>[tg] If no killpg(3) is avaiable, use kill(2) and hope it works</li>
+ <li>[tg] If no killpg(3) is available, use kill(2) and hope it works</li>
  <li>[tg] <tt>-DMKSH_NO_LIMITS</tt> skips trying to build the ulimit code</li>
 </ul>
 <p id="r38b">mksh R38b fixes the following problems:</p><ul>
