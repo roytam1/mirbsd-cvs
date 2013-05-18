@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/stand/libsa/biosdev.c,v 1.36 2009/01/11 17:18:33 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/stand/libsa/biosdev.c,v 1.37 2009/01/11 22:49:51 tg Exp $ */
 /*	$OpenBSD: biosdev.c,v 1.74 2008/06/25 15:32:18 reyk Exp $	*/
 
 /*
@@ -107,18 +107,11 @@ bios_getdiskinfo(int dev, bios_diskinfo_t *pdi)
 
 	lback = biosdev_lbaprobe(dev);
 
-	if (rv & 0xff) {
-		if ((lback & 0x19) == 0x19) {
-			/* CD-ROM, LBA (only) */
-			pdi->bios_heads = 15;
-			pdi->bios_cylinders = 15;
-			pdi->bios_sectors = 32;
-		} else if ((lback & 0x09) == 0x09) {
+	if ((rv & 0xff) && ((lback & 0x19) != 0x19)) {
+		if ((lback & 0x09) == 0x09)
 			printf("bios_getdiskinfo(%X): LBA but no CHS, not "
 			    "a CD-ROM? please report %X\n", dev, lback);
-			return 1;
-		} else
-			return 1;
+		return 1;
 	}
 
 	/* Fix up info */
@@ -131,29 +124,22 @@ bios_getdiskinfo(int dev, bios_diskinfo_t *pdi)
 	if ((lback & 0x09) == 0x09) {
 		pdi->flags |= BDI_LBA;
 		pdi->old_bios_edd = lback & 7;
-		if (lback & 0x10)
+		if (lback & 0x10) {
+			pdi->bios_heads = 16;
+			pdi->bios_cylinders = 16;
+			pdi->bios_sectors = 32;
 			pdi->flags |= BDI_EL_TORITO;
-		/* skip sanity check for CHS options in EDD mode */
-		return (0);
-	}
-
-	/* Sanity check */
-	if (!pdi->bios_cylinders || !pdi->bios_heads || !pdi->bios_sectors) {
+		}
+	} else if (pdi->bios_cylinders < 2 || pdi->bios_heads < 2 ||
+	    pdi->bios_sectors < 1) {
 #ifdef BIOS_DEBUG
-		printf("sanity: c/h/s value zero: %d/%d/%d\n",
+		printf("sanity: c/h/s values insane: %d/%d/%d\n",
 		    pdi->bios_cylinders, pdi->bios_heads, pdi->bios_sectors);
 #endif
-		return(1);
+		return (1);
 	}
 
-	if (pdi->bios_heads < 2) {
-#ifdef BIOS_DEBUG
-		printf("sanity: c/h/s heads < 2\n");
-#endif
-		return(1);
-	}
-
-	return 0;
+	return (0);
 }
 
 /*
