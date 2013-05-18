@@ -1,5 +1,5 @@
 <!-- PageID: wlog-9 -->
-<small class="rcsid">$MirOS: www/content/d2xvZy05.inc,v 1.43 2006/09/04 00:53:48 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy05.inc,v 1.44 2006/09/14 00:42:08 tg Exp $</small>
 <h1>MirBSD &ndash; WTF is Verpeilungsfaktor?</h1>
 <p><small><a href="#eof">bottom</a> or <a href="/?older">older</a>
  editions</small></p>
@@ -692,6 +692,23 @@
   solutions (which suck) is the way to go in this world. Does this suck?
   I guess it does. And I guess I'm not the first dreamer.</p>
  <p>And I guess I don't have the vigour to do even one of them :'(</p>
+</div>
+
+<div class="wlentry">
+ <h3 id="e20060920">20.09.2006 by tg@</h3>
+ <p>I hope the last wlog entry did not scare too many of you. First, I'm
+  apologising to Benny for slandering his effort. Second, MirOS is going
+  to continue, and in fact, Benny and I have talked about long-term plan
+  (not 9) regarding packages, syspkgs, and so on. This is, seriously, an
+  idea that will take years to complete, so we won't discuss it for now,
+  unless someone asks us (over a few beers *hint hint*).</p>
+ <p>While my work situation did not improve yet, I hope to be invited to
+  a personal talk at some companies soon&#8230; who knows&#8230;</p>
+ <p>I hacked quite well on fwcf &ndash; our first hosted foreign project
+  &ndash; that's some good creative work, finally.</p>
+ <p>mksh(1) world domination is going to succeed.</p>
+ <p>-rHEAD contains lots of security updates; yes I promised a snapshot,
+  quite some time ago actually, to be out shortly. Okay okay.</p>
 </div>
 
 <p id="eof">Good luck, have fun, take care etc.pp</p>
