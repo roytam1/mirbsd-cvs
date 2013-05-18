@@ -1,5 +1,5 @@
 <!-- PageID: wlog-9 -->
-<small class="rcsid">$MirOS: www/content/d2xvZy05.inc,v 1.15 2006/07/10 01:14:02 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy05.inc,v 1.16 2006/07/16 13:22:45 tg Exp $</small>
 <h1>MirBSD &ndash; WTF is Verpeilungsfaktor?</h1>
 <p><small><a href="#eof">bottom</a> or <a href="/?older">older</a>
  editions</small></p>
@@ -265,6 +265,52 @@
   have some TODO there too). So that's it for today I guess. But I'll be
   back.</p>
  <p>Benny finally inaugurated the aqua category in MirPorts.</p>
+ <hr />
+ <p>Hm&#8230; hacking on FreeWRT&#8230; bad code quality, although I may
+  not rant as much as I want because, as a core developer over there too
+  (yes, I really am one) I represent the project *sigh* but at least the
+  rants won't be found here that easily.</p>
+ <p>paxmirabilis (MirCpio, aka pax(1) cpio(1) tar(1)) is now being used,
+  instead of GNU tar. It got some enhancements (eg. extracting to stderr
+  or rough glibc compatibility) in the progress and might include direct
+  gzip I/O, and even ZIP (maybe zip, at first only unzip) support later.
+  Yay for MirOS!</p>
+ <p>My idea is to replace busybox' cpio/tar/pax by paxmirabilis as well,
+  but that will probably only be an option. No idea which one is smaller
+  though.</p>
+ <p>We also plan to make the packaging system more alike to MirPorts, to
+  reduce overhead and improve legibility. Targets such as update-patches
+  will be added, and the other targets renamed too. In general, we would
+  like to clean up the mess left there&#8230;</p>
+ <p>Maybe it could generate Config.in and the ipkg control file from the
+  Makefile then (for the developer to check in, though) kind of like the
+  DESCRIPTION and CATEGORY fields in a MirPort.</p>
+ <p>There's much more stuff to do, but for now I'm cursing about da shit
+  (Linux&reg; / iptables) being unextractable on a case-insensitive fuck
+  filesystem like the damned Macintosh have.</p>
+ <p>Ew, yeah. ncurses was being configured for the build system, instead
+  of the target system. Many ports call autoconf (seen by the message to
+  please provide AUTOCONF_VERSION environment variable), or are in other
+  respects plainly broken, or try to access /dev/pts or something. A few
+  ports still use host tools (e.g. openssl uses nm).</p>
+ <p>For MirOS, I should plan to feed back binutils and gcc-4.3 ports (to
+  cross-build from lunox to MirOS, at least) to the FSF. Maybe we could,
+  then, even make a Soekris FreeWRT with MirOS kernel and BSD libc? That
+  all isn't even limited to WRT boxen anyway, we plan much more.</p>
+ <p>Oh yes, and the entropy d&aelig;mon&#8230; need to investigate about
+  how *nix IPC works best though.</p>
+ <p>#include &lt;rant/usual/subversion&gt;</p>
+ <p>If I get the clues about when mksh segfaults, we should bring out an
+  mksh R28 with the fix, I think. Optimally so that mksh R28 is the code
+  which corresponds to MirOS #9bis. Other fixes, such as manual page, or
+  so, are of course greatly appreciated. Send diffs ;)</p>
+ <p>Most funny thing of today: Mac OSX Tiger comes with /usr/bin/make as
+  GNU make 3.80, but this apparently is not &quot;new enough&quot; for a
+  certain package manager, namely Fink, which brings in its own version,
+  GNU make 3.79.1 &ndash; do I need to say that both don't run correctly
+  and the MirPorts Framework is required for GNU make 3.81 on Mac OSX as
+  of now? Besides&#8230; someone tell the FSF that case-insensitive file
+  systems are <em>not</em> only occuring on DOS/Windows&reg;!</p>
 </div>
 
 <p id="eof">Good luck, have fun, take care etc.pp</p>
