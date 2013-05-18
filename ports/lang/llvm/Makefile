@@ -1,4 +1,10 @@
-# $MirOS: ports/lang/llvm/Makefile,v 1.9 2009/12/05 00:36:43 tg Exp $
+# $MirOS: ports/lang/llvm/Makefile,v 1.10 2009/12/05 16:09:45 tg Exp $
+
+# may not be too hard to add more (Interix and OpenBSD gcc may be too old tho)
+ONLY_FOR_PLATFORM+=	MirBSD:10.163:*
+# untested
+ONLY_FOR_PLATFORM+=	Darwin:*:*
+ONLY_FOR_PLATFORM+=	MidnightBSD:*:*
 
 COMMENT=		Low Level Virtual Machine compiler infrastructure
 SVN_DISTREV=		90573
@@ -12,16 +18,6 @@ PERMIT_PACKAGE_CDROM=	Yes
 PERMIT_PACKAGE_FTP=	Yes
 
 .include <mirports.sys.mk>
-
-.if ${OStype} == "MirBSD"
-.  if ${OSver:R} < 10
-IGNORE+=		"cannot be built: Operating System too old and unsupported"
-.  elif ${OSver:R} == 10
-.    if ${OSver:E} < 163
-IGNORE+=		"is not for you: You're not fit enough for that much disgusting C++ junk. Go away"
-.    endif
-.  endif
-.endif
 
 SVN_DISTDIR=		llvm
 SVN_DISTPATH=		http://llvm.org/svn/llvm-project/llvm/trunk
