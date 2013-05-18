@@ -1,4 +1,4 @@
-@comment $MirOS: ports/www/p5-URI/pkg/PLIST,v 1.1.7.1 2005/03/18 16:00:00 tg Exp $
+@comment $MirOS: ports/www/p5-URI/pkg/PLIST,v 1.2 2005/12/15 14:47:45 bsiegert Exp $
 @comment $OpenBSD: PLIST,v 1.7 2004/04/22 22:15:47 naddy Exp $
 ${P5SITE}/URI.pm
 ${P5SITE}/URI/Escape.pm
@@ -50,16 +50,16 @@ ${P5SITE}/URI/urn.pm
 ${P5SITE}/URI/urn/isbn.pm
 ${P5SITE}/URI/urn/oid.pm
 @comment ${P5ARCH}/auto/URI/.packlist
-man/man3/URI.${P5MAN3EXT}
-man/man3/URI::Escape.${P5MAN3EXT}
-man/man3/URI::Heuristic.${P5MAN3EXT}
-man/man3/URI::QueryParam.${P5MAN3EXT}
-man/man3/URI::Split.${P5MAN3EXT}
-man/man3/URI::URL.${P5MAN3EXT}
-man/man3/URI::WithBase.${P5MAN3EXT}
-man/man3/URI::data.${P5MAN3EXT}
-man/man3/URI::file.${P5MAN3EXT}
-man/man3/URI::ldap.${P5MAN3EXT}
+man/man3/URI${P5MAN3EXT}
+man/man3/URI::Escape${P5MAN3EXT}
+man/man3/URI::Heuristic${P5MAN3EXT}
+man/man3/URI::QueryParam${P5MAN3EXT}
+man/man3/URI::Split${P5MAN3EXT}
+man/man3/URI::URL${P5MAN3EXT}
+man/man3/URI::WithBase${P5MAN3EXT}
+man/man3/URI::data${P5MAN3EXT}
+man/man3/URI::file${P5MAN3EXT}
+man/man3/URI::ldap${P5MAN3EXT}
 @comment @dirrm ${P5ARCH}/auto/URI
 @comment @dirrm ${P5ARCH}/auto
 @comment @dirrm ${P5ARCH}
