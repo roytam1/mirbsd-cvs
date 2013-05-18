@@ -1,14 +1,14 @@
-# $MirOS: www/src/jupp.hts,v 1.26 2011/07/03 00:39:37 tg Exp $
+# $MirOS: www/src/jupp.hts,v 1.27 2011/07/17 00:40:18 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/juppp "jupp – Programmer’s Editor"
 mws_setheadline jupp – the Editor which sucks less
-mws_putheader '$MirOS: www/src/jupp.hts,v 1.26 2011/07/03 00:39:37 tg Exp $'
+mws_putheader '$MirOS: www/src/jupp.hts,v 1.27 2011/07/17 00:40:18 tg Exp $'
 mws_content <<'EOF'
 <p>The current version is <em>joe-2.8jupp2</em> for MS-DOS® compatible systems,
- and <em>joe-3.1jupp16</em> for Unix/GNU compatible systems. This page is
+ and <em>joe-3.1jupp17</em> for Unix/GNU compatible systems. This page is
  accessible under <a href="http://mirbsd.de/jupp">http://mirbsd.de/jupp</a>
  canonically.</p>
 
@@ -85,8 +85,8 @@ mws_content <<'EOF'
 <h2 id="fetch">Retrieval</h2>
 <h3>Direct download</h3>
 <p>You can download jupp at least from one of the following mirrors:</p><ul>
- <li><a href="https://www.mirbsd.org/MirOS/dist/jupp/joe-3.1jupp16.cpio.gz">https://www.mirbsd.org/MirOS/dist/jupp/joe-3.1jupp16.cpio.gz</a></li>
- <li><a href="http://pub.allbsd.org/MirOS/dist/jupp/joe-3.1jupp16.cpio.gz">http://pub.allbsd.org/MirOS/dist/jupp/joe-3.1jupp16.cpio.gz</a></li>
+ <li><a href="https://www.mirbsd.org/MirOS/dist/jupp/joe-3.1jupp17.cpio.gz">https://www.mirbsd.org/MirOS/dist/jupp/joe-3.1jupp17.cpio.gz</a></li>
+ <li><a href="http://pub.allbsd.org/MirOS/dist/jupp/joe-3.1jupp17.cpio.gz">http://pub.allbsd.org/MirOS/dist/jupp/joe-3.1jupp17.cpio.gz</a></li>
  <li style="list-style:none;">↑ Unix │ DOS ↓</li>
  <li><a href="https://www.mirbsd.org/MirOS/dist/jupp/joe-2.8jupp2.cpio.gz">https://www.mirbsd.org/MirOS/dist/jupp/joe-2.8jupp2.cpio.gz</a></li>
  <li><a href="http://pub.allbsd.org/MirOS/dist/jupp/joe-2.8jupp2.cpio.gz">http://pub.allbsd.org/MirOS/dist/jupp/joe-2.8jupp2.cpio.gz</a></li>
@@ -94,10 +94,10 @@ mws_content <<'EOF'
 </ul>
 <p>Please do not forget to check the received file’s integry using both
  gzsig(1) and one of the hashes below:</p><ul>
- <li>RMD160 (joe-3.1jupp16.cpio.gz) = b060dae5c998dc3d3d7183f6192b258a4cc68257</li>
- <li>TIGER (joe-3.1jupp16.cpio.gz) = 2d5b1de0d1eef394df0669abbd07038a928beb23435a2563</li>
- <li>4055260056 433370 /MirOS/dist/jupp/joe-3.1jupp16.cpio.gz</li>
- <li>MD5 (joe-3.1jupp16.cpio.gz) = 1b7c37b804f95927e2993a896f2819d0</li>
+ <li>RMD160 (joe-3.1jupp17.cpio.gz) = 5b6db54521dad3b52a06642d68b44923267a9182</li>
+ <li>TIGER (joe-3.1jupp17.cpio.gz) = abc2052016a43958b8b4ab502fe0ce59ce4903d392e2d498</li>
+ <li>3562473917 433759 /MirOS/dist/jupp/joe-3.1jupp17.cpio.gz</li>
+ <li>MD5 (joe-3.1jupp17.cpio.gz) = 4c14800df05ec92171582a348a4d890a</li>
  <li style="list-style:none;">↑ Unix │ DOS ↓</li>
  <li>RMD160 (joe-2.8jupp2.cpio.gz) = a4e8b49faae7dcda377479311092d9868207fe41</li>
  <li>TIGER (joe-2.8jupp2.cpio.gz) = c3a234efde9365e3b3d28094ce6133babc9c7325d8613555</li>
@@ -107,10 +107,11 @@ mws_content <<'EOF'
 
 <h3>Unpacking</h3>
 <p>Use a command like<br />
- <tt>$ tar xzf joe-3.1jupp16.cpio.gz</tt> # paxtar, bsdtar<br />
- <tt>$ gzip -dc joe-3.1jupp16.cpio.gz | cpio -mid</tt> # any cpio<br />
- <tt>$ pax -r -z &lt;joe-3.1jupp16.cpio.gz</tt> # any POSIX® archiver<br />
- <tt>$ gzip -dc joe-3.1jupp16.cpio.gz | pax -r</tt> # on MS Windows®<br />
+ <tt>$ tar xzf joe-3.1jupp17.cpio.gz</tt> # paxtar, bsdtar<br />
+ <tt>$ gzip -dc joe-3.1jupp17.cpio.gz | cpio -mid</tt> # any cpio<br />
+ <tt>$ pax -r -z &lt;joe-3.1jupp17.cpio.gz</tt> # any POSIX® archiver<br />
+ <tt>$ gzip -dc joe-3.1jupp17.cpio.gz | pax -r</tt> # on MS Windows®<br />
+ <tt>$ tar xzf jupp_3.1.17.orig.tar.gz</tt> # ustarball from Debian<br />
  to extract the distfile. The DOS version requires similar commands.
  Both extract into a sub-directory <tt>jupp/</tt> (not versioned).</p>
 <p>Some browsers already extract the file during downloading; skip the
@@ -221,6 +222,14 @@ $ $SUDO make install</pre>
 <!--
 <p>[2009-09-20] Changes in the current development version:</p><ul>
 -->
+<p id="r3_1j17">[2011-07-27] Changes for joe-3.1jupp17:</p><ul>
+ <li>For Johannes Langøy from Бања Лука</li>
+ <li>Skip restoring the terminal after exiting jupp, so that the
+  content of the last file edited is still visible for copy/pasting</li>
+ <li>Improve syntax highlighting for shell</li>
+ <li>Fix restoring context after losing sync for diff</li>
+ <li>Improve diff detection in jupp</li>
+</ul>
 <p id="r3_1j16">[2011-07-18] Changes for joe-3.1jupp16:</p><ul>
  <li>Better match for Python files for *rc (except jupprc, which had
   this already)</li>

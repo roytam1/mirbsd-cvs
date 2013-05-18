@@ -37,7 +37,7 @@ of the current state-of-the-art JOE editor from Sourceforge,
 with Joe H. Allen himself starting development again after
 over eight years. The MirOS fork has added UTF-8 Support for
 non-LOCALE-aware operating systems (such as OpenBSD and older
-versions of MirOS), the "jupp" flavour, not doing tab comple‐
+versions of MirOS), the “jupp” flavour, not doing tab comple‐
 tion in the search and replace dialogues, as well as -Wall
 -Werror fixes, numerous bug and security fixes. It also con‐
 tains an extension to visibly display tabs and spaces, and
