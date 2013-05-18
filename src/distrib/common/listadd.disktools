@@ -1,4 +1,0 @@
-# $MirOS$
-
-LINK	instbin					sbin/scan_ffs
-LINK	instbin					usr/sbin/vnconfig
