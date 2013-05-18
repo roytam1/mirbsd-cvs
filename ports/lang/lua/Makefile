@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/lang/lua/Makefile,v 1.6 2009/08/29 12:41:12 tg Exp $
 # $OpenBSD: Makefile,v 1.36 2009/06/24 14:19:06 jolan Exp $
 
 COMMENT=		powerful, light-weight programming language
@@ -24,6 +24,7 @@ MASTER_SITES=		http://www.lua.org/ftp/ \
 SHARED_ONLY=		Yes
 #SHARED_LIBS=		lua 5.1
 EXTRA_XAKE_FLAGS+=	LIBlua_VERSION=5.1
+CPPFLAGS+=		-DLUA_ROOT=\"${LOCALBASE:Q}/\"
 CFLAGS+=		${PICFLAG}
 NO_REGRESS=		Yes
 
