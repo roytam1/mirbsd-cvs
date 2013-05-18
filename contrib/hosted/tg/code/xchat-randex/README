@@ -21,7 +21,7 @@ Supported commands (with examples):
 
 * /RANDFILE C:\PUTTY.RNG
 
-  Read the file into the entropy pool, then save 256 bytes of
+  Read the file into the entropy pool, then save 600 bytes of
   entropy into that file.
 
 * /RANDSTIR
@@ -33,4 +33,4 @@ Supported commands (with examples):
   Display a 32-bit random number (hexadecimal and decimal).
 
 _____________________________________________________________________________________
-$MirOS: contrib/hosted/tg/code/xchat-randex/README,v 1.2 2009/08/02 15:15:14 tg Exp $
+$MirOS: contrib/hosted/tg/code/xchat-randex/README,v 1.3 2009/09/08 16:43:02 tg Exp $

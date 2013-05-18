@@ -42,7 +42,7 @@
  */
 
 static const char __rcsid[] =
-    "$MirOS: contrib/hosted/tg/code/xchat-randex/main.c,v 1.7 2009/08/02 15:10:16 tg Exp $";
+    "$MirOS: contrib/hosted/tg/code/xchat-randex/main.c,v 1.8 2009/08/02 15:15:14 tg Exp $";
 
 #include <sys/types.h>
 #if defined(HAVE_STDINT_H) && HAVE_STDINT_H
@@ -364,7 +364,7 @@ cmdfn_randfile(char *word[], char *word_eol[], void *user_data)
 	const char *fn;
 	FILE *f;
 	size_t n;
-	char pb[256];
+	char pb[600];
 
 	fn = word[2];
 	if (!fn || !fn[0]) {

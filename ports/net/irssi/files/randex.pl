@@ -21,7 +21,7 @@
 
 use vars qw($VERSION %IRSSI);
 $VERSION = sprintf "%d.%02d",
-    q$MirOS: ports/net/irssi/files/randex.pl,v 1.12 2009/01/13 21:39:58 tg Exp $
+    q$MirOS: ports/net/irssi/files/randex.pl,v 1.14 2009/08/02 14:35:00 tg Exp $
     =~ m/,v (\d+)\.(\d+) /;
 # do not send mail to junk@mirbsd.org
 %IRSSI = (
@@ -203,8 +203,8 @@ randfile_loadstore
 		if (defined($dlen) && $dlen) {
 			my $d = $data;
 
-			$data = arc4random_bytes(1024);
-			$dlen = 1024;
+			$data = arc4random_bytes(300);
+			$dlen = 300;
 			arc4random_addrandom($d);
 		} else {
 			$dlen = 0;
@@ -223,7 +223,7 @@ randfile_loadstore
 		Irssi::print("warning: cannot lock '$randfile'");
 	}
 	truncate($fh, 0);
-	$data .= arc4random_bytes(1560 - $dlen);
+	$data .= arc4random_bytes(600 - $dlen);
 	syswrite($fh, $data, length($data));
 	close($fh);
 }
