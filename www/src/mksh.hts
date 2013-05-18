@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.251 2009/07/07 18:43:00 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.252 2009/07/07 20:01:27 tg Exp $'
 mws_content <<'EOF'
 <h2>mksh(1) R38c</h2>
 
@@ -1028,6 +1028,14 @@ mws_content <<'EOF'
   and, implicitly, BeOS (not finished yet)</li>
  <li>[tg] Shut up a bogus gcc warning during configuration process</li>
  <li>[tg] Spell <tt>AT&amp;T</tt> consistently in the source code</li>
+ <li>[tg] Tweak mksh(1) manual page, from wbx@ and «lewellyn:#ksh»</li>
+ <li>[tg] <tt>dot.mkshrc</tt>: fix <tt>$@</tt> vs. <tt>$*</tt> mix-up</li>
+ <li>[tg] <tt>dot.mkshrc</tt>: add DJB cdb hash function</li>
+ <li>[tg] Sync with oksh: fix Vi editing mode word erase handling, again</li>
+ <li>[tg] Skip whitespace between function name and definition parenthesēs
+  during alias conflict detection to be more robust (cf. Debian #535970)</li>
+ <li>[tg] Build system improvements for ACK and nwcc, both on Debian sid</li>
+ <li>[tg] Fix spelling error in changelog discovered by Lintian</li>
 </ul>
 <p id="r38c">mksh R38c contains the following fixes:</p><ul>
  <li>[tg] Fix regression tests on OSes insisting on a shebang (Cygwin)</li>
