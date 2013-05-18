@@ -1,11 +1,11 @@
-# $MirOS: ports/editors/emacs/Makefile,v 1.9 2008/11/08 23:03:39 tg Exp $
+# $MirOS: ports/editors/emacs/Makefile,v 1.10 2010/07/20 19:25:46 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.21 2004/02/04 07:39:18 sturm Exp $
 
 COMMENT=		GNU editor: extensible, customizable, self documenting
 COMMENT-el=		elisp sources for those who want to read/modify them
 COMMENT-leim=		Library of Emacs Input Methods
 VERSION=		21.3
-DASH_VER=		1
+DASH_VER=		2
 DISTNAME=		emacs-${VERSION}
 FULLPKGNAME-el=		emacs-el-${VERSION}-${DASH_VER}
 FULLPKGNAME-leim=	emacs-leim-${VERSION}-${DASH_VER}
@@ -31,9 +31,9 @@ SUBPACKAGE?=
 FLAVOURS=		no_x11
 FLAVOUR?=
 
-.if ${OSname} == "MidnightBSD"
+.if ${OSname:L} == "midnightbsd"
 GCCARCH=		${ARCH}-ecce-freebsd6
-.elif ${OSname} == "MirBSD"
+.elif ${OSname:L} == "mirbsd"
 GCCARCH=		${ARCH}-ecce-openbsd3.5
 .else
 GCCARCH=		${OStriplet}

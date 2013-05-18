@@ -1,7 +1,7 @@
 $OpenBSD: patch-configure,v 1.7 2004/02/26 08:19:26 pvalchev Exp $
 disable Xaw3d
---- configure.orig	2003-03-18 07:19:12.000000000 -0700
-+++ configure	2004-02-25 17:25:48.000000000 -0700
+--- configure.orig	Tue Mar 18 14:18:50 2003
++++ configure	Tue Jul 20 19:54:35 2010
 @@ -834,8 +834,11 @@ case "${canonical}" in
        m68k-*-openbsd*)  machine=hp9000s300 ;;
        mipsel-*-openbsd*) machine=pmax ;;
@@ -27,3 +27,29 @@ disable Xaw3d
    if test "${USE_X_TOOLKIT}" != "none"; then
      ac_safe=`echo "X11/Xaw3d/Scrollbar.h" | sed 'y%./+-%__p_%'`
  echo $ac_n "checking for X11/Xaw3d/Scrollbar.h""... $ac_c" 1>&6
+@@ -8550,7 +8553,6 @@ else
+ /* Override any gcc2 internal prototype to avoid an error.  */
+ /* We use char because int might match the return type of a gcc2
+     builtin and then its argument prototype would still apply.  */
+-char $ac_func();
+ 
+ int main() {
+ 
+@@ -9735,7 +9737,7 @@ echo creating lib-src/Makefile
+   sed -e '1,/start of cpp stuff/d'\
+       -e 's,/\*\*/#\(.*\)$,/* \1 */,' \
+       < Makefile.c > junk.c
+-  $CPP $undefs -I. -I$top_srcdir/src $CPPFLAGS junk.c | \
++  $CPP $undefs -I. -I$top_srcdir/src junk.c | \
+       sed -e 's/^ /	/' -e '/^#/d' -e '/^[ 	]*$/d' > junk2.c
+   cat junk1.c junk2.c > Makefile.new
+   rm -f junk.c junk1.c junk2.c
+@@ -9751,7 +9753,7 @@ echo creating src/Makefile
+   sed -e '1,/start of cpp stuff/d'\
+       -e 's,/\*\*/#\(.*\)$,/* \1 */,' \
+       < Makefile.c > junk.c
+-  $CPP $undefs -I. -I$top_srcdir/src $CPPFLAGS junk.c | \
++  $CPP $undefs -I. -I$top_srcdir/src junk.c | \
+       sed -e 's/^ /	/' -e '/^#/d' -e '/^[ 	]*$/d' > junk2.c
+   cat junk1.c junk2.c > Makefile.new
+   rm -f junk.c junk1.c junk2.c
