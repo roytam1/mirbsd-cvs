@@ -15,7 +15,7 @@
 #include "cvs.h"
 #include "getline.h"
 
-__RCSID("$MirOS: src/gnu/usr.bin/cvs/src/logmsg.c,v 1.8 2007/02/01 23:24:28 tg Exp $");
+__RCSID("$MirOS: src/gnu/usr.bin/cvs/src/logmsg.c,v 1.9 2007/03/10 23:53:41 tg Exp $");
 
 static int find_type (Node * p, void *closure);
 static int fmt_proc (Node * p, void *closure);
@@ -202,8 +202,10 @@ do_editor (const char *dir, char **messagep, const char *repository,
     char *line;
     int line_length;
     size_t line_chars_allocated;
+    char *fname;
     struct stat pre_stbuf, post_stbuf;
     int retcode = 0;
+    int finish = 0;
 
     assert (!current_parsed_root->isremote != !repository);
 
@@ -215,15 +217,8 @@ do_editor (const char *dir, char **messagep, const char *repository,
         error(1, 0, "no editor defined, must use -e or -m");
 
   again:
-    if (LogMsgFile)
-    {
-	if (unlink_file (LogMsgFile) < 0)
-	    error (0, errno, "warning: cannot remove temp file %s", LogMsgFile);
-	free (LogMsgFile);
-	LogMsgFile = NULL;
-    }
     /* Create a temporary file.  */
-    if( ( fp = cvs_temp_file( &LogMsgFile ) ) == NULL )
+    if( ( fp = cvs_temp_file( &fname ) ) == NULL )
 	error( 1, errno, "cannot create temporary file" );
 
     if (*messagep)
@@ -236,6 +231,8 @@ do_editor (const char *dir, char **messagep, const char *repository,
     }
     else
 	(void) fputc ('\n', fp);
+    if (finish)
+	goto finish_off;
 
     if (repository != NULL)
 	/* tack templates on if necessary */
@@ -295,9 +292,19 @@ do_editor (const char *dir, char **messagep, const char *repository,
   "%s----------------------------------------------------------------------\n",
 		    CVSEDITPREFIX);
 
+ finish_off:
     /* finish off the temp file */
     if (fclose (fp) == EOF)
-        error (1, errno, "%s", LogMsgFile);
+        error (1, errno, "%s", fname);
+    if (LogMsgFile)
+    {
+	if (unlink_file (LogMsgFile) < 0)
+	    error (0, errno, "warning: cannot remove temp file %s", LogMsgFile);
+	free (LogMsgFile);
+    }
+    LogMsgFile = fname;
+    if (finish)
+	return;
     if (stat (LogMsgFile, &pre_stbuf) == -1)
 	pre_stbuf.st_mtime = 0;
 
@@ -406,6 +413,8 @@ do_editor (const char *dir, char **messagep, const char *repository,
     }
     if (line)
 	free (line);
+    finish = 1;
+    goto again;
 }
 
 /* Runs the user-defined verification script as part of the commit or import
