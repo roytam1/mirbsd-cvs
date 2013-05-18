@@ -1,11 +1,11 @@
-# $MirOS: ports/devel/sdl/Makefile,v 1.6 2006/02/09 09:35:48 tg Exp $
+# $MirOS: ports/devel/sdl/Makefile,v 1.7 2006/09/14 00:08:53 tg Exp $
 # $OpenBSD: Makefile,v 1.32 2004/04/23 12:09:18 robert Exp $
 # Uses pthreads
 
-COMMENT=			cross-platform multimedia library
+COMMENT=		cross-platform multimedia library
 VERSION=		1.2.9
 DISTNAME=		SDL-${VERSION}
-PKGNAME=		sdl-${VERSION}-1
+PKGNAME=		sdl-${VERSION}-3
 CATEGORIES=		devel
 HOMEPAGE=		http://www.libsdl.org/
 
@@ -23,7 +23,12 @@ AUTOCONF_NEW=		Yes
 AUTOMAKE_VERSION=	1.9
 CONFIGURE_ENV+=		X11BASE="${X11BASE}"
 CONFIGURE_ARGS+=	${CONFIGURE_SHARED} \
+			--enable-static \
+			--disable-dependency-tracking \
+			--disable-libtool-lock \
+			--disable-joystick \
 			--disable-oss \
+			--disable-alsa \
 			--disable-ltdl \
 			--enable-dlopen \
 			--enable-pthread-sem

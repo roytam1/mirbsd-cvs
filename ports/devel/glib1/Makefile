@@ -1,7 +1,7 @@
-# $MirOS: ports/devel/glib1/Makefile,v 1.7 2006/02/09 09:35:44 tg Exp $
+# $MirOS: ports/devel/glib1/Makefile,v 1.8 2006/09/14 00:08:12 tg Exp $
 # $OpenBSD: Makefile,v 1.52 2003/05/27 23:00:50 miod Exp $
 
-COMMENT=			useful routines for C programming
+COMMENT=		useful routines for C programming
 DISTNAME=		glib-1.2.10
 PKGNAME=		${DISTNAME}-3
 CATEGORIES=		devel
@@ -14,7 +14,9 @@ PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
 CONFIGURE_STYLE=	autoconf
-CONFIGURE_ARGS+=	${CONFIGURE_SHARED} --enable-static
+CONFIGURE_ARGS+=	${CONFIGURE_SHARED} \
+			--enable-static \
+			--disable-libtool-lock
 
 NO_REGRESS=		Yes
 

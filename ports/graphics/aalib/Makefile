@@ -1,7 +1,7 @@
-# $MirOS: ports/graphics/aalib/Makefile,v 1.2 2005/12/30 01:16:40 tg Exp $
+# $MirOS: ports/graphics/aalib/Makefile,v 1.3 2006/09/14 00:09:47 tg Exp $
 # $OpenBSD: Makefile,v 1.18 2003/04/06 01:15:10 margarida Exp $
 
-COMMENT=			ascii art library
+COMMENT=		ascii art library
 DISTNAME=		aalib-1.4rc4
 CATEGORIES=		graphics
 MASTER_SITES=		${MASTER_SITE_SOURCEFORGE:=aa-project/}
@@ -16,7 +16,9 @@ PERMIT_DISTFILES_FTP=	Yes
 WRKDIST=		${WRKDIR}/aalib-1.4.0
 #CONFIGURE_STYLE=	autogen
 CONFIGURE_STYLE=	autoconf
-CONFIGURE_ARGS+=	--enable-static ${CONFIGURE_SHARED}
+CONFIGURE_ARGS+=	--enable-static \
+			${CONFIGURE_SHARED} \
+			--disable-libtool-lock
 
 FLAVORS=		no_x11
 FLAVOR?=
