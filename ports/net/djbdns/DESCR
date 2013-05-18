@@ -34,6 +34,14 @@ several components:
   listening on IPv4 addresses in this version, and, courtesy of fefe,
   listening on multiple addresses at once.
 • Several IPv6-related bugs and fefe's shortcomings have been fixed.
+• dnscachet6 can now listen on an IPv6 instead of IPv6 address too,
+  but not (yet) multiple addresses. It uses IPv4/IPv6 transport on
+  the outgoing side in both cases, though.
+
+In the future, the xxxt6 binaries will replace the respective xxx
+binaries with no way to get the v4-only behaviour back. We’re almost
+there, as most of them now handle IPv4 transport as well, even on
+the BSDs, as opposed to Fefe’s versions.
 
 More information at http://www.lifewithdjbdns.org/ as well as in the
 tinydns-data(8) manual page and on ${HOMEPAGE}
