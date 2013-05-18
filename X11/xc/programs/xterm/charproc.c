@@ -1,4 +1,4 @@
-/* $MirOS$ */
+/* $MirOS: X11/xc/programs/xterm/charproc.c,v 1.4 2009/01/07 12:33:50 tg Exp $ */
 /* $XTermId: charproc.c,v 1.550 2005/02/05 00:25:54 tom Exp $ */
 
 /*
@@ -402,7 +402,7 @@ static XtActionsRec actionsList[] = {
 static XtResource resources[] =
 {
     Bres(XtNallowSendEvents, XtCAllowSendEvents, screen.allowSendEvents, False),
-    Bres(XtNallowFontOps, XtCAllowFontOps, screen.allowFontOps, Falsee),
+    Bres(XtNallowFontOps, XtCAllowFontOps, screen.allowFontOps, False),
     Bres(XtNallowWindowOps, XtCAllowWindowOps, screen.allowWindowOps, False),
     Bres(XtNalwaysHighlight, XtCAlwaysHighlight, screen.always_highlight, False),
     Bres(XtNappcursorDefault, XtCAppcursorDefault, misc.appcursorDefault, False),
