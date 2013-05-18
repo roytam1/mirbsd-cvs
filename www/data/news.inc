@@ -87,6 +87,30 @@ Author: tg@
  only redistribute it on CDs, DVDs or USB Sticks in order to comply with
  the licence of the Opera© browser included. You can, of course, also simply
  do a <a href="http://www.mirbsd.org/MirOS/current/">netinstall</a>.</p>
+<p><strong>Update:</strong> the pictures are here!</p>
+<table width="100%">
+ <tr><td width="128"><a href="@@RELPATH@@pics/LinuxTag_2007/benz-wrk.jpg"><img
+  src="@@RELPATH@@pics/LinuxTag_2007/benz-wrk.png" /></a></td><td>
+  Benny bei der Arbeit (benz at work)
+ </td></tr>
+ <tr><td width="128"><a href="@@RELPATH@@pics/LinuxTag_2007/d-benz.jpg"><img
+  src="@@RELPATH@@pics/LinuxTag_2007/d-benz.png" /></a></td><td>
+  Dæmonische Bilder: Benny (benz, Developer) – bsiegert@
+ </td></tr>
+ <tr><td width="128"><a href="@@RELPATH@@pics/LinuxTag_2007/d-mira.jpg"><img
+  src="@@RELPATH@@pics/LinuxTag_2007/d-mira.png" /></a></td><td>
+  Dæmonische Bilder: Thorsten (mira, Developer) – tg@
+ </td></tr>
+ <tr><td width="128"><a href="@@RELPATH@@pics/LinuxTag_2007/d-zeno.jpg"><img
+  src="@@RELPATH@@pics/LinuxTag_2007/d-zeno.png" /></a></td><td>
+  Dæmonische Bilder: Przemysław (zeno, User &amp; Booth Staff) – przemek@
+ </td></tr>
+ <tr><td width="128"><a href="@@RELPATH@@pics/LinuxTag_2007/groupies.jpg"><img
+  src="@@RELPATH@@pics/LinuxTag_2007/groupies.png" /></a></td><td>
+  Benny, Przemek, mira and much, whose laptop just got freshly installed…
+ </tr></tr>
+</table>
+<p>The last picture was made by Stefan Schumacher, thanks!</p>
 ----
 Title: mksh improves portability
 Date: 05.06.2007
