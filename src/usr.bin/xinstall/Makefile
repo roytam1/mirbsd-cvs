@@ -1,4 +1,4 @@
-# $MirOS: src/usr.bin/xinstall/Makefile,v 1.6 2008/04/06 22:48:19 tg Exp $
+# $MirOS: src/usr.bin/xinstall/Makefile,v 1.7 2008/04/07 00:30:58 tg Exp $
 
 PROG=	xinstall
 SRCS=	${PROG}.c
@@ -6,7 +6,7 @@ MAN=	install.1
 
 .include <bsd.own.mk>
 
-.if ${MACHINE_OS} == "Linux"
+.if (${MACHINE_OS} == "Linux") || (${MACHINE_OS} == "GNU")
 HAVE_SETMODE?=	0
 .endif
 HAVE_SETMODE?=	1
