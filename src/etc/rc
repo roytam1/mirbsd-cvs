@@ -1,4 +1,4 @@
-# $MirOS: src/etc/rc,v 1.30 2006/08/09 14:15:16 tg Exp $
+# $MirOS: src/etc/rc,v 1.31 2006/08/09 14:25:06 tg Exp $
 # $OpenBSD: rc,v 1.277 2006/01/12 21:54:15 deraadt Exp $
 #-
 # System startup script run by init on autoboot or after single-user.
@@ -613,11 +613,11 @@ if [[ $mrouted_flags != NO ]]; then
 fi
 
 if [[ $ospfd_flags != NO && -x /usr/sbin/ospfd ]]; then
-	echo -n ' ospfd';		ospfd $ospfd_flags
+	echo -n ' ospfd';		/usr/sbin/ospfd $ospfd_flags
 fi
 
 if [[ $bgpd_flags != NO && -x /usr/sbin/bgpd ]]; then
-	echo -n ' bgpd';		bgpd $bgpd_flags
+	echo -n ' bgpd';		/usr/sbin/bgpd $bgpd_flags
 fi
 
 if [[ $dhcpd_flags != NO && -f /etc/dhcpd.conf ]]; then
@@ -625,7 +625,7 @@ if [[ $dhcpd_flags != NO && -f /etc/dhcpd.conf ]]; then
 	[[ -f /etc/dhcpd.interfaces ]] && \
 	    dhcpd_ifs=$(stripcom /etc/dhcpd.interfaces)
 	_flags="$dhcpd_flags $dhcpd_ifs"
-	echo -n ' dhcpd';		dhcpd $_flags
+	echo -n ' dhcpd';		/usr/sbin/dhcpd $_flags
 fi
 
 if ifconfig lo0 inet6 >&- 2>&-; then
@@ -633,16 +633,16 @@ if ifconfig lo0 inet6 >&- 2>&-; then
 	if [[ $fw = 0 ]]; then
 		if [[ $rtsold_flags != NO ]]; then
 			echo -n ' rtsold'
-			rtsold $rtsold_flags
+			/usr/sbin/rtsold $rtsold_flags
 		fi
 	else
 		if [[ $route6d_flags != NO ]]; then
 			echo -n ' route6d'
-			route6d $route6d_flags
+			/usr/sbin/route6d $route6d_flags
 		fi
 		if [[ $rtadvd_flags != NO ]]; then
 			echo -n ' rtadvd'
-			rtadvd $rtadvd_flags
+			/usr/sbin/rtadvd $rtadvd_flags
 		fi
 	fi
 fi
@@ -669,7 +669,7 @@ fi
 if [[ $httpd_flags != NO ]]; then
 	# Clean up left-over httpd locks
 	rm -f /var/www/logs/{ssl_mutex,httpd.lock,accept.lock}.*
-	echo -n ' httpd';		httpd $httpd_flags
+	echo -n ' httpd';		/usr/sbin/httpd $httpd_flags
 fi
 
 if [[ $ftpd_flags != NO ]]; then
@@ -677,7 +677,7 @@ if [[ $ftpd_flags != NO ]]; then
 fi
 
 if [[ $ftpproxy_flags != NO ]]; then
-	echo -n ' ftp-proxy';		ftp-proxy $ftpproxy_flags
+	echo -n ' ftp-proxy';		/usr/sbin/ftp-proxy $ftpproxy_flags
 fi
 
 if [[ $identd_flags != NO ]]; then
@@ -721,7 +721,7 @@ if [[ $rbootd_flags != NO && -s /etc/rbootd.conf ]]; then
 fi
 
 if [[ $isdnd_flags != NO ]]; then
-	echo -n ' isdnd';		isdnd $isdnd_flags
+	echo -n ' isdnd';		/usr/sbin/isdnd $isdnd_flags
 fi
 
 echo .
@@ -751,23 +751,23 @@ echo -n standard daemons:
 # don't run daemon if $food_flags == NO or /usr/sbin/food doesn't exist
 
 if [[ $apmd_flags != NO && -x /usr/sbin/apmd ]]; then
-	echo -n ' apmd';	apmd $apmd_flags
+	echo -n ' apmd';	/usr/sbin/apmd $apmd_flags
 fi
 
 if [[ $acpid_flags != NO && -x /usr/sbin/acpid ]]; then
-	echo -n ' acpid';	acpid $acpid_flags
+	echo -n ' acpid';	/usr/sbin/acpid $acpid_flags
 fi
 
 if [[ $sensorsd_flags != NO && -x /usr/sbin/sensorsd ]]; then
-	echo -n ' sensorsd';	sensorsd $sensorsd_flags
+	echo -n ' sensorsd';	/usr/sbin/sensorsd $sensorsd_flags
 fi
 
 if [[ $hotplugd_flags != NO && -x /usr/sbin/hotplugd ]]; then
-	echo -n ' hotplugd';	hotplugd $hotplugd_flags
+	echo -n ' hotplugd';	/usr/sbin/hotplugd $hotplugd_flags
 fi
 
 if [[ $watchdogd_flags != NO && -x /usr/sbin/watchdogd ]]; then
-	echo -n ' watchdogd';	watchdogd $watchdogd_flags
+	echo -n ' watchdogd';	/usr/sbin/watchdogd $watchdogd_flags
 fi
 
 echo -n ' cron';		cron
@@ -777,7 +777,7 @@ echo .
 date
 
 if [[ $wsmoused_flags != NO && -x /usr/sbin/wsmoused ]]; then
-	echo starting wsmoused...;	wsmoused $wsmoused_flags
+	echo starting wsmoused...;	/usr/sbin/wsmoused $wsmoused_flags
 fi
 
 # Alternatively, on some architectures, xdm may be started in /etc/ttys.
