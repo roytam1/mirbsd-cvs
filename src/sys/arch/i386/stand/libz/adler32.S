@@ -42,18 +42,18 @@
 	.text
 
 /* void ADLER32_Update(ADLER32_CTX *ctx, const uint8_t *buf, size_t len) */
-	.globl	_C(ADLER32_Update)
-_C(ADLER32_Update):
+/* u_long adler32(u_long adler, const uint8_t *buf, unsigned len) */
+	.globl	_C(adler32)
+_C(adler32):
 	push	ebp
 	mov	ebp,esp
 	push	ebx
 	push	esi
 	push	edi
-	mov	eax,[ebp+8]	/* ctx */
+	mov	edi,[ebp+8]	/* adler */
 	mov	esi,[ebp+12]	/* buf */
 	mov	ecx,[ebp+16]	/* len */
 
-	mov	edi,[eax]	/* *ctx */
 	xor	ebx,ebx
 	mov	bx,di		/* EBX = s1 (lower half) */
 	shr	edi,16		/* EDI = s2 (upper half) */
@@ -89,9 +89,7 @@ _C(ADLER32_Update):
 	jmp	.L1
 .L4:	/* return */
 	shl	edi,16
-	or	edi,ebx
-	mov	eax,[ebp+8]	/* ctx */
-	mov	[eax],edi
+	lea	eax,[edi+ebx]
 	pop	edi
 	pop	esi
 	pop	ebx

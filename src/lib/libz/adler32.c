@@ -1,8 +1,11 @@
-/**	$MirOS: src/lib/libz/adler32.c,v 1.5 2006/06/08 19:02:56 tg Exp $ */
+/**	$MirOS: src/lib/libz/adler32.c,v 1.6 2006/06/12 22:04:15 tg Exp $ */
 /*	$OpenBSD: adler32.c,v 1.6 2005/07/20 15:56:40 millert Exp $	*/
 /* adler32.c -- compute the Adler-32 checksum of a data stream
  * Copyright (C) 1995-2004 Mark Adler
  * For conditions of distribution and use, see copyright notice in zlib.h
+ *
+ * An implementation of adler32() in i386 assembly, optimised for small
+ * size, can be found in src/sys/arch/i386/stand/libz/adler32.S
  */
 
 #include "zutil.h"
@@ -23,7 +26,7 @@
 #define zADDRND(x)	arc4random_push((x) ^ (uint32_t)time(NULL))
 #endif
 
-zRCSID("$MirOS: src/lib/libz/adler32.c,v 1.5 2006/06/08 19:02:56 tg Exp $")
+zRCSID("$MirOS: src/lib/libz/adler32.c,v 1.6 2006/06/12 22:04:15 tg Exp $")
 
 #define BASE 65521UL    /* largest prime smaller than 65536 */
 #define NMAX 5552
