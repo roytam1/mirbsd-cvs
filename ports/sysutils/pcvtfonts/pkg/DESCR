@@ -1,7 +1,0 @@
-The fonts which come with OpenBSD for changing the VGA text
-mode resolution from 80x25 to 80x43 or 80x50.
-
-This product includes software developed by Hellmuth Michaelis and Joerg Wunsch.
-
-To achieve higher resolutions, it is highly recommended to
-start XFree86® instead.
