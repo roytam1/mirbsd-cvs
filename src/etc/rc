@@ -1,4 +1,4 @@
-# $MirOS: src/etc/rc,v 1.41 2006/08/14 20:32:44 tg Exp $
+# $MirOS: src/etc/rc,v 1.42 2006/08/16 18:46:14 tg Exp $
 # $OpenBSD: rc,v 1.277 2006/01/12 21:54:15 deraadt Exp $
 #-
 # System startup script run by init on autoboot or after single-user.
@@ -157,6 +157,7 @@ trap : 3	# shouldn't be needed
 # If we are about to shut down, execute this bunch of code,
 # otherwise (startup), skip below
 if [[ $1 = shutdown ]]; then
+	[[ -x /usr/sbin/wsconfig ]] && /usr/sbin/wsconfig -s 1
 	echo Received shutdown request.
 	dd if=/dev/arandom of=/var/db/host.random bs=1024 count=8 >&- 2>&- && \
 	    chmod 600 /var/db/host.random >&- 2>&- && \
