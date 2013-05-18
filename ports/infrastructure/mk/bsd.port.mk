@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.109 2006/04/25 20:01:00 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.110 2006/05/28 20:45:17 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -2222,7 +2222,7 @@ _package-links:
 .for _l in FTP CDROM
 .  if ${PERMIT_PACKAGE_${_l}:L} == "yes"
 	@echo "Link to ${${_l}_PACKAGES}/${FULLPKGNAME${SUBPACKAGE}}${PKG_SUFX}"
-	@mkdir -p ${${_l}_PACKAGES}
+	@mkdir -p -m 0775 ${${_l}_PACKAGES}
 	@rm -f ${${_l}_PACKAGES}/${FULLPKGNAME${SUBPACKAGE}}${PKG_SUFX}
 	@ln ${PKGFILE${SUBPACKAGE}} \
 	  ${${_l}_PACKAGES}/${FULLPKGNAME${SUBPACKAGE}}${PKG_SUFX} 2>/dev/null || \
