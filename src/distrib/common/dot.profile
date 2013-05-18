@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/dot.profile,v 1.42 2008/12/30 02:00:11 tg Exp $
+# $MirOS: src/distrib/common/dot.profile,v 1.43 2009/01/12 21:54:40 tg Exp $
 # $OpenBSD: dot.profile,v 1.4 2002/09/13 21:38:47 deraadt Exp $
 # $NetBSD: dot.profile,v 1.1 1995/12/18 22:54:43 pk Exp $
 #
@@ -128,7 +128,7 @@ This work is provided "AS IS" and WITHOUT WARRANTY of any kind.\n'
 
 	# Installing or upgrading?
 	_forceloop=
-	while [[ -z $_forceloop ]]; do
+	while [[ $_forceloop != [Ss]* ]]; do
 		print -n '(I)nstall'
 		[ -f upgrade ] && print -n ', (U)pgrade'
 		print -n ' or (S)hell? '
@@ -136,8 +136,6 @@ This work is provided "AS IS" and WITHOUT WARRANTY of any kind.\n'
 		case $_forceloop {
 		([Ii]*)	/install ;;
 		([Uu]*)	/upgrade ;;
-		([Ss]*)	;;
-		(*)	_forceloop= ;;
 		}
 	done
 else
@@ -146,6 +144,8 @@ fi
 export TERM=vt220
 print -n '\nAvailable editor: ed'
 [ -x /usr/bin/vi ] && print -n ' (n)vi'
-[ -x /usr/bin/e3 ] && print -n ' e3'
+[ -x /usr/bin/e3 ] && print -n ' e3*'
 [ -s /ed.hlp ] && print -n ' - help with # less /ed.hlp'
-print '\n'
+print
+[ -x /usr/bin/tinyirc ] && print 'Chat client: tinyirc'
+print
