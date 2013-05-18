@@ -34,37 +34,13 @@ static char *rcsid = "$OpenBSD: multibyte.c,v 1.4 2003/06/02 20:18:38 millert Ex
 #include <stdlib.h>
 #include <wchar.h>
 
-__RCSID("$MirOS: src/lib/libc/i18n/multibyte.c,v 1.3 2006/05/21 12:52:57 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/i18n/multibyte.c,v 1.4 2006/06/01 22:17:21 tg Exp $");
 
 /*
  * Stub multibyte character functions.
  * This cheezy implementation is fixed to the native single-byte
  * character set.
  */
-
-int
-__weak_iswalnum(wint_t x)
-{
-	return isalnum(x);
-}
-
-int
-__weak_iswalpha(wint_t x)
-{
-	return isalpha(x);
-}
-
-int
-__weak_iswlower(wint_t x)
-{
-	return islower(x);
-}
-
-int
-__weak_iswupper(wint_t x)
-{
-	return isupper(x);
-}
 
 wint_t
 __weak_towlower(wint_t x)
@@ -78,9 +54,5 @@ __weak_towupper(wint_t x)
 	return toupper(x);
 }
 
-__weak_alias(iswalnum, __weak_iswalnum);
-__weak_alias(iswalpha, __weak_iswalpha);
-__weak_alias(iswlower, __weak_iswlower);
-__weak_alias(iswupper, __weak_iswupper);
 __weak_alias(towlower, __weak_towlower);
 __weak_alias(towupper, __weak_towupper);

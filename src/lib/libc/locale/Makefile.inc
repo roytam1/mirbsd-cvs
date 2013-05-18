@@ -1,4 +1,4 @@
-# $MirOS: src/lib/libc/locale/Makefile.inc,v 1.5 2006/06/01 21:58:13 tg Exp $
+# $MirOS: src/lib/libc/locale/Makefile.inc,v 1.6 2006/06/01 22:17:26 tg Exp $
 # $OpenBSD: Makefile.inc,v 1.10 2005/08/08 05:53:01 espie Exp $
 
 .ifdef __LIBC_OPENBSD_LOCALE
@@ -70,8 +70,16 @@ MLINKS+=setlocale.3 localeconv.3
 # stubs
 MAN+=	iswalnum.3 towlower.3
 MLINKS+=iswalnum.3 iswalpha.3
+MLINKS+=iswalnum.3 iswblank.3
+MLINKS+=iswalnum.3 iswcntrl.3
+MLINKS+=iswalnum.3 iswdigit.3
+MLINKS+=iswalnum.3 iswgraph.3
 MLINKS+=iswalnum.3 iswlower.3
+MLINKS+=iswalnum.3 iswprint.3
+MLINKS+=iswalnum.3 iswpunct.3
+MLINKS+=iswalnum.3 iswspace.3
 MLINKS+=iswalnum.3 iswupper.3
+MLINKS+=iswalnum.3 iswxdigit.3
 MLINKS+=towlower.3 towupper.3
 
 .endif

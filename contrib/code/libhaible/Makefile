@@ -1,4 +1,4 @@
-# $MirOS: contrib/code/libhaible/Makefile,v 1.32 2006/06/01 22:03:22 tg Exp $
+# $MirOS: contrib/code/libhaible/Makefile,v 1.33 2006/06/01 22:17:27 tg Exp $
 
 LIB=	haible
 NOPIC=	Yes	# for now
@@ -32,34 +32,13 @@ CPPFLAGS+= -I${LIBCSRCDIR}/include
 #SRCS+=	wprintf.c
 #SRCS+=	wscanf.c
 
-.for _wctype in alnum alpha blank cntrl digit graph lower print punct \
-    space upper xdigit
-GENERATED+=	isw${_wctype}.c
-
-isw${_wctype}.c: iswTYPE.c
-	sed 's!TYPE!${_wctype}!g' <$> >$@
-.endfor
-
-SRCS+=	${GENERATED}
-
-CLEANFILES+=	${GENERATED}
-
-beforedepend: ${GENERATED}
-
 # manual pages
 MAN+=		MB_CUR_MAX.3 wcswidth.3 wcwidth.3
 MLINKS+=	MB_CUR_MAX.3 MB_LEN_MAX.3
 
 # reachover for libc
 .PATH: ${LIBCSRCDIR}/locale
-MAN+=		iswctype.3 towctrans.3
-MLINKS+=	iswalnum.3 iswblank.3 \
-		iswalnum.3 iswcntrl.3 \
-		iswalnum.3 iswdigit.3 \
-		iswalnum.3 iswgraph.3 \
-		iswalnum.3 iswprint.3 \
-		iswalnum.3 iswpunct.3 \
-		iswalnum.3 iswspace.3 \
-		iswalnum.3 iswxdigit.3
+MAN+=		iswctype.3
+MAN+=		towctrans.3
 
 .include <bsd.lib.mk>
