@@ -1,4 +1,4 @@
-# $MirOS: src/Makefile,v 1.127 2008/07/03 19:13:42 tg Exp $
+# $MirOS: src/Makefile,v 1.128 2008/07/09 23:57:20 tg Exp $
 # $OpenBSD: Makefile,v 1.103 2004/05/03 15:18:18 drahn Exp $
 
 .if defined(MAKECONF) && exists(${MAKECONF})
@@ -422,8 +422,8 @@ _do-dist:
 	cd ${BSDRELDIR}; ${SUDO} umount ${BSDRELDIR}/usr; \
 	test -e ${BSDRELDIR}/rel/pkgutl${OSrev}.ngz
 	@date
-	if [[ ! -e ${BSDRELDIR}/rel/htpsd${OSrev}.ngz || \
-	    ! -e ${BSDRELDIR}/rel/htusd${OSrev}.ngz ]]; then \
+	if [[ ! -e ${BSDRELDIR}/rel/htmi${OSrev}.ngz || \
+	    ! -e ${BSDRELDIR}/rel/htmd${OSrev}.ngz ]]; then \
 		cd ${.CURDIR} && exec ${MAKE} do-htman; \
 	fi
 .endif
