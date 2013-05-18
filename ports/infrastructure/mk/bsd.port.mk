@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.78 2005/12/16 22:41:11 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.79 2005/12/17 00:55:14 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -672,6 +672,9 @@ MESSAGE?=		${PKGDIR}/MESSAGE${SUBPACKAGE}
 DESCR?=			${PKGDIR}/DESCR${SUBPACKAGE}
 
 MTREE_FILE?=
+.if ${PREFIX} == "/usr"
+MTREE_FILE+=		${PORTSDIR}/infrastructure/templates/4.4BSD.dist
+.endif
 MTREE_FILE+=		${PORTSDIR}/infrastructure/db/fake.mtree
 
 # Fill out package command, and package dependencies
@@ -1272,7 +1275,7 @@ ${PORTSDIR}/infrastructure/db/fake.mtree: ${PORTSDIR}/infrastructure/templates/f
 	cp $> $@
 	if [[ ${BINOWN} != root ]]; then \
 		print 'g/[ug]name=[a-z]*/s///g\n'"/^.set/s/   /" \
-		    "uname=${BINOWN} gname=${BINGRP} /\nwq" \
+		    "uname=@BINOWN@ gname=@BINGRP@ /\nwq" \
 		    | ed -s $@; \
 	fi
 
@@ -1387,7 +1390,11 @@ ${WRKPKG}/mtree.spec: ${MTREE_FILE}
 	@(print '/@@local/d\ni\n'; IFS=/; s=; \
 	 for pc in $$(print ${LOCALBASE:Q}); do \
 		s="$$s    "; print "$$s$$pc"; \
-	 done; print '.\nwq') | ed -s $@.tmp
+	 done; \
+	 print .; \
+	 print '%g/@BINOWN@/s//${BINOWN}/g'; \
+	 print '%g/@BINGRP@/s//${BINGRP}/g'; \
+	 print wq) | ed -s $@.tmp
 	@mv -f $@.tmp $@
 
 # substitute

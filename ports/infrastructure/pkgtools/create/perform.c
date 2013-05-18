@@ -1,4 +1,4 @@
-/* $MirOS: ports/infrastructure/pkgtools/create/perform.c,v 1.3 2005/05/22 03:52:46 bsiegert Exp $ */
+/* $MirOS: ports/infrastructure/pkgtools/create/perform.c,v 1.4 2005/09/12 22:59:54 tg Exp $ */
 /* $OpenBSD: perform.c,v 1.17 2003/08/27 06:51:26 jolan Exp $	*/
 
 /*
@@ -33,7 +33,7 @@
 #include <signal.h>
 #include <unistd.h>
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/create/perform.c,v 1.3 2005/05/22 03:52:46 bsiegert Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/create/perform.c,v 1.4 2005/09/12 22:59:54 tg Exp $");
 
 static void sanity_check(void);
 static void make_dist(char *, char *, const char *, package_t *);
@@ -49,6 +49,7 @@ pkg_perform(char **pkgs)
     package_t plist;
     /* What we tack on to the end of the finished package */
     const char *fsuffix;
+    bool hackmandir = false;
 
     /* Preliminary setup */
     sanity_check();
@@ -135,9 +136,26 @@ pkg_perform(char **pkgs)
      * hack.  It's not a real create in progress.
      */
     if (PlistOnly) {
-	check_list(home, &plist);
+	check_list(home, &plist, false);
 	write_plist(&plist, stdout);
 	exit(0);
+    }
+
+    /* Check if we're dressing for the operating system */
+    if (!strcmp(Prefix, "/usr")) {
+	hackmandir = true;
+	if (BaseDir) {
+	    char *pf = copy_string(strconcat(BaseDir, Prefix));
+	    char *s = copy_string(strconcat(pf, "/man"));
+	    if (!pf || !s)
+		err(1, "cannot copy_string");
+	    if (!isdir(s))
+		hackmandir = false;
+	    else if (rename(s, strconcat(pf, "/share/man")))
+		err(1, "cannot rename %s to share/man", s);
+	    free(s);
+	    free(pf);
+	}
     }
 
     /* Make a directory to stomp around in */
@@ -146,7 +164,7 @@ pkg_perform(char **pkgs)
     signal(SIGHUP, cleanup);
 
     /* Make first "real contents" pass over it */
-    check_list(home, &plist);
+    check_list(home, &plist, hackmandir);
     (void) umask(022);	/* make sure gen'ed directories, files don't have
 			   group or other write bits. */
     /* copy_plist(home, &plist); */

@@ -1,7 +1,7 @@
-# $MirOS: ports/infrastructure/templates/4.4BSD.dist,v 1.1 2005/12/17 01:51:25 tg Exp $
+# $MirOS: ports/infrastructure/templates/4.4BSD.dist,v 1.2 2005/12/17 01:52:24 tg Exp $
 # $OpenBSD: 4.4BSD.dist,v 1.176 2005/06/03 22:25:50 deraadt Exp $
 
-/set type=dir mode=0755
+/set type=dir uname=@BINOWN@ gname=@BINGRP@ mode=0755
 # .
 . nochange
 
@@ -1338,24 +1338,6 @@ crash		mode=770
 # ./var/crash
 ..
 
-# ./var/cron
-cron		mode=0555
-
-# ./var/cron/atjobs
-atjobs		mode=01770
-
-# ./var/cron/tabs
-..
-
-# ./var/cron/tabs
-tabs		mode=01730
-
-# ./var/cron/tabs
-..
-
-# ./var/cron
-..
-
 # ./var/db
 db
 # ./var/db
@@ -1397,32 +1379,6 @@ spool
 # ./var/spool/clientmqueue
 clientmqueue	mode=0770 gname=smmsp
 # ./var/spool/clientmqueue
-..
-
-# ./var/spool/ftp
-ftp		mode=0555
-
-# ./var/spool/ftp/bin
-bin		mode=0511
-# ./var/spool/ftp/bin
-..
-
-# ./var/spool/ftp/etc
-etc		mode=0511
-# ./var/spool/ftp/etc
-..
-
-# ./var/spool/ftp/hidden
-hidden		mode=0111
-# ./var/spool/ftp/hidden
-..
-
-# ./var/spool/ftp/pub			XXX
-#pub		mode=0555
-# ./var/spool/ftp/pub			XXX
-#..
-
-# ./var/spool/ftp
 ..
 
 # ./var/spool/lock

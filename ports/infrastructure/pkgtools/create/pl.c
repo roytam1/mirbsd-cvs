@@ -1,4 +1,4 @@
-/**	$MirOS: ports/infrastructure/pkgtools/create/pl.c,v 1.15 2005/11/23 17:32:21 tg Exp $ */
+/**	$MirOS: ports/infrastructure/pkgtools/create/pl.c,v 1.16 2005/11/23 17:41:06 bsiegert Exp $ */
 /*	$OpenBSD: pl.c,v 1.11 2003/08/15 00:03:22 espie Exp $	*/
 
 /*
@@ -29,7 +29,7 @@
 #include <md5.h>
 #include <unistd.h>
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/create/pl.c,v 1.15 2005/11/23 17:32:21 tg Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/create/pl.c,v 1.16 2005/11/23 17:41:06 bsiegert Exp $");
 
 ld_type_t LdType = LD_STATIC;
 
@@ -129,7 +129,7 @@ check_lib(package_t *pkg, plist_t *p, char *cwd)
 
 /* Check a list for files that require preconversion */
 void
-check_list(char *home, package_t *pkg)
+check_list(char *home, package_t *pkg, bool syshack)
 {
 	plist_t	*tmp;
 	plist_t	*p;
@@ -200,6 +200,11 @@ check_list(char *home, package_t *pkg)
 				break;
 			len = strlen(p->name);
 			tmp = NULL;
+			if (syshack && !strncmp(p->name, "man/", 4)) {
+				cp = strconcat("share/", p->name);
+				free(p->name);
+				p->name = copy_string(cp);
+			}
 			if (p->name[len - 1] != '/') {   /* not a dir/ entry */
 				if (BaseDir)
 					(void) snprintf(name, sizeof(name),

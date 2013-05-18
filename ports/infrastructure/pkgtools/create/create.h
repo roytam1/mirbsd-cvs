@@ -1,4 +1,4 @@
-/* $MirOS$ */
+/* $MirOS: ports/infrastructure/pkgtools/create/create.h,v 1.2 2005/05/22 03:52:46 bsiegert Exp $ */
 /* $OpenBSD: create.h,v 1.4 2003/08/15 00:03:22 espie Exp $ */
 
 /*
@@ -44,7 +44,7 @@ extern bool	PlistOnly;
 extern int	WantUSTAR;
 extern ld_type_t LdType;
 
-void		check_list(char *, package_t *);
+void		check_list(char *, package_t *, bool);
 void		copy_plist(char *, package_t *);
 
 #endif	/* _INST_CREATE_H_INCLUDE */
