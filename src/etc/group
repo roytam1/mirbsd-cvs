@@ -154,5 +154,6 @@ _hiawatha:*:579:
 _puppet:*:580:
 _gonzui:*:581:
 _tabled:*:582:
+_kqemu:*:597:
 nogroup:*:32766:
 nobody:*:32767:
