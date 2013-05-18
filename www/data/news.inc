@@ -929,3 +929,19 @@ Date: 09.07.2008 18:20
  as this is a new system and VMware has issues, this will probably take
  a while. However, all data should be available from some place anytime.</p>
 ----
+Title: mksh R35 released!
+Date: 11.07.2008
+Author: tg@
+
+<p>The <a href="@@RELPATH@@mksh.htm">MirBSD Korn Shell R35</a> has just
+ been released; as per the <a href="@@RELPATH@@mksh.htm#r35">Changelog</a>
+ this is a major update with some bugfixes, a lot of new features, and
+ licence simplification (the advertising clause is gone). This version
+ was not tested on AIX, BSD/OS, Interix, GNU/kFreeBSD, UWIN, the Intel
+ compiler, but we expect no regressions on these platforms either. New
+ supported platforms include dietlibc, LLVM.</p>
+<p>Online manual: <a href="@@RELPATH@@htman/i386/man1/mksh.htm">HTML</a>,
+ <a href="/MirOS/dist/mir/mksh/mksh.pdf">PDF</a> (<a
+ href="http://www.cl.cam.ac.uk/~mgk25/iso-paper.html">ISO A4 paper</a>, we
+ don’t support Imperial units, as even the USA has converted to Metric)</p>
+----
