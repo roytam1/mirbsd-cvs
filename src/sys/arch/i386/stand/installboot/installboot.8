@@ -1,4 +1,4 @@
-.\"	$MirOS: src/sys/arch/i386/stand/installboot/installboot.8,v 1.15 2009/01/20 21:33:15 tg Exp $
+.\"	$MirOS: src/sys/arch/i386/stand/installboot/installboot.8,v 1.16 2009/01/31 18:48:57 tg Exp $
 .\"	$OpenBSD: installboot.8,v 1.28 2007/05/31 19:20:03 jmc Exp $
 .\"
 .\" Copyright (c) 1997 Michael Shalayeff
@@ -26,7 +26,7 @@
 .\" SUCH DAMAGE.
 .\"
 .\"
-.Dd $Mdocdate: January 20 2009 $
+.Dd $Mdocdate: January 31 2009 $
 .Dt INSTALLBOOT 8 i386
 .Os
 .Sh NAME
@@ -34,7 +34,7 @@
 .Nd installs a bootstrap on an FFS disk or partition
 .Sh SYNOPSIS
 .Nm installboot
-.Op Fl Mnv
+.Op Fl nv
 .Oo Fl s Ar sectors-per-track Oc
 .Oo Fl h Ar tracks-per-cyl Oc
 .Op Fl P Ar partition-type
@@ -86,15 +86,6 @@ also sedecimal or octal values are allowed, provided
 they are prefixed with 0x or 0, respectively) as user-specified
 partition type to search before the standard 0x27 and the fallback
 0xA6, 0xA9 and 0xA5 types.
-.It Fl M
-Installs the first-stage boot loader,
-.Nm bootxx ,
-into the master boot record.
-The partition table does not get overwritten.
-The
-.Pa /boot
-file had better be not too fragmented for this to work.
-This option is not yet supported.
 .El
 .Pp
 The arguments are:
@@ -158,6 +149,18 @@ and
 you can use the boot block command:
 .Pp
 .Dl boot> machine diskinfo
+.Pp
+Make a CD-ROM bootable for i386 (both as CD and as HD/CF/USB):
+.Pp
+.Bd -literal -offset ident
+getextent_cd9660 -f cdrom10.iso boot \*(Ba \e
+    mksh /usr/mdec/bootxx.sh -S 2 \*(Ba \e
+    dd of=cdrom10.iso conv=notrunc
+getextent_cd9660 -f cdrom10.iso boot \*(Ba \e
+    mksh /usr/mdec/bootxx.sh -B 11 \*(Ba \e
+    dd of=cdrom10.iso conv=notrunc bs=2048 \e
+    seek=$(getextent_cd9660 -f cdrom10.iso -b '$BootImage$')
+.Ed
 .Sh SEE ALSO
 .Xr boot 8 ,
 .Xr disklabel 8 ,
