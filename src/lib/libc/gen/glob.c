@@ -71,7 +71,15 @@
 #include <string.h>
 #include <unistd.h>
 
-__RCSID("$MirOS: src/lib/libc/gen/glob.c,v 1.3 2010/10/08 20:00:49 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/gen/glob.c,v 1.4 2010/10/08 20:06:49 tg Exp $");
+
+#define	GLOB_LIMIT_MALLOC	65536
+#define	GLOB_LIMIT_STAT		128
+#define	GLOB_LIMIT_READDIR	16384
+
+#define	GLOB_INDEX_MALLOC	0
+#define	GLOB_INDEX_STAT		1
+#define	GLOB_INDEX_READDIR	2
 
 #define	DOLLAR		'$'
 #define	DOT		'.'
@@ -129,7 +137,7 @@ static int	 g_lstat(Char *, struct stat *, glob_t *);
 static DIR	*g_opendir(Char *, glob_t *);
 static const Char *g_strchr(const Char *, int);
 static int	 g_stat(Char *, struct stat *, glob_t *);
-static int	 glob0(const Char *, glob_t *);
+static int	 glob0(const Char *, glob_t *, size_t *);
 static int	 glob1(Char *, Char *, glob_t *, size_t *);
 static int	 glob2(Char *, Char *, Char *, Char *, Char *, Char *,
 		    glob_t *, size_t *);
@@ -138,8 +146,8 @@ static int	 glob3(Char *, Char *, Char *, Char *, Char *,
 static int	 globextend(const Char *, glob_t *, size_t *, struct stat *);
 static const Char *
 		 globtilde(const Char *, Char *, size_t, glob_t *);
-static int	 globexp1(const Char *, glob_t *);
-static int	 globexp2(const Char *, const Char *, glob_t *);
+static int	 globexp1(const Char *, glob_t *, size_t *);
+static int	 globexp2(const Char *, const Char *, glob_t *, size_t *);
 static int	 match(Char *, Char *, Char *);
 #ifdef DEBUG
 static void	 qprintf(const char *, Char *);
@@ -152,6 +160,8 @@ glob(const char *pattern, int flags, int (*errfunc)(const char *, int),
 	const u_char *patnext;
 	int c;
 	Char *bufnext, *bufend, patbuf[MAXPATHLEN];
+	/* 0 = malloc(), 1 = stat(), 2 = readdir() */
+	size_t limit[] = { 0, 0, 0 };
 
 	patnext = (const u_char *) pattern;
 	if (!(flags & GLOB_APPEND)) {
@@ -185,9 +195,9 @@ glob(const char *pattern, int flags, int (*errfunc)(const char *, int),
 	*bufnext = EOS;
 
 	if (flags & GLOB_BRACE)
-		return globexp1(patbuf, pglob);
+		return globexp1(patbuf, pglob, limit);
 	else
-		return glob0(patbuf, pglob);
+		return glob0(patbuf, pglob, limit);
 }
 
 /*
@@ -196,18 +206,18 @@ glob(const char *pattern, int flags, int (*errfunc)(const char *, int),
  * characters
  */
 static int
-globexp1(const Char *pattern, glob_t *pglob)
+globexp1(const Char *pattern, glob_t *pglob, size_t *limit)
 {
 	const Char* ptr = pattern;
 
 	/* Protect a single {}, for find(1), like csh */
 	if (pattern[0] == LBRACE && pattern[1] == RBRACE && pattern[2] == EOS)
-		return glob0(pattern, pglob);
+		return glob0(pattern, pglob, limit);
 
 	if ((ptr = (const Char *) g_strchr(ptr, LBRACE)) != NULL)
-		return globexp2(ptr, pattern, pglob);
+		return globexp2(ptr, pattern, pglob, limit);
 
-	return glob0(pattern, pglob);
+	return glob0(pattern, pglob, limit);
 }
 
 
@@ -217,7 +227,7 @@ globexp1(const Char *pattern, glob_t *pglob)
  * If it fails then it tries to glob the rest of the pattern and returns.
  */
 static int
-globexp2(const Char *ptr, const Char *pattern, glob_t *pglob)
+globexp2(const Char *ptr, const Char *pattern, glob_t *pglob, size_t *limit)
 {
 	int     i, rv;
 	Char   *lm, *ls;
@@ -253,7 +263,7 @@ globexp2(const Char *ptr, const Char *pattern, glob_t *pglob)
 
 	/* Non matching braces; just glob the pattern */
 	if (i != 0 || *pe == EOS)
-		return glob0(patbuf, pglob);
+		return glob0(patbuf, pglob, limit);
 
 	for (i = 0, pl = pm = ptr; pm <= pe; pm++) {
 		switch (*pm) {
@@ -299,7 +309,7 @@ globexp2(const Char *ptr, const Char *pattern, glob_t *pglob)
 #ifdef DEBUG
 				qprintf("globexp2:", patbuf);
 #endif
-				rv = globexp1(patbuf, pglob);
+				rv = globexp1(patbuf, pglob, limit);
 				if (rv && rv != GLOB_NOMATCH)
 					return rv;
 
@@ -386,12 +396,11 @@ globtilde(const Char *pattern, Char *patbuf, size_t patbuf_len, glob_t *pglob)
  * to find no matches.
  */
 static int
-glob0(const Char *pattern, glob_t *pglob)
+glob0(const Char *pattern, glob_t *pglob, size_t *limit)
 {
 	const Char *qpatnext;
 	int c, err, oldpathc;
 	Char *bufnext, patbuf[MAXPATHLEN];
-	size_t limit = 0;
 
 	qpatnext = globtilde(pattern, patbuf, MAXPATHLEN, pglob);
 	oldpathc = pglob->gl_pathc;
@@ -449,7 +458,7 @@ glob0(const Char *pattern, glob_t *pglob)
 	qprintf("glob0:", patbuf);
 #endif
 
-	if ((err = glob1(patbuf, patbuf+MAXPATHLEN-1, pglob, &limit)) != 0)
+	if ((err = glob1(patbuf, patbuf+MAXPATHLEN-1, pglob, limit)) != 0)
 		return(err);
 
 	/*
@@ -462,7 +471,7 @@ glob0(const Char *pattern, glob_t *pglob)
 		if ((pglob->gl_flags & GLOB_NOCHECK) ||
 		    ((pglob->gl_flags & GLOB_NOMAGIC) &&
 		    !(pglob->gl_flags & GLOB_MAGCHAR)))
-			return(globextend(pattern, pglob, &limit, NULL));
+			return(globextend(pattern, pglob, limit, NULL));
 		else
 			return(GLOB_NOMATCH);
 	}
@@ -514,6 +523,13 @@ glob2(Char *pathbuf, Char *pathbuf_last, Char *pathend, Char *pathend_last,
 			if (g_lstat(pathbuf, &sb, pglob))
 				return(0);
 
+			if ((pglob->gl_flags & GLOB_LIMIT) &&
+			    limitp[GLOB_INDEX_STAT]++ >= GLOB_LIMIT_STAT) {
+				errno = 0;
+				*pathend++ = SEP;
+				*pathend = EOS;
+				return GLOB_NOSPACE;
+			}
 			if (((pglob->gl_flags & GLOB_MARK) &&
 			    pathend[-1] != SEP) && (S_ISDIR(sb.st_mode) ||
 			    (S_ISLNK(sb.st_mode) &&
@@ -601,6 +617,14 @@ glob3(Char *pathbuf, Char *pathbuf_last, Char *pathend, Char *pathend_last,
 	while ((dp = (*readdirfunc)(dirp))) {
 		u_char *sc;
 		Char *dc;
+
+		if ((pglob->gl_flags & GLOB_LIMIT) &&
+		    limitp[GLOB_INDEX_READDIR]++ >= GLOB_LIMIT_READDIR) {
+			errno = 0;
+			*pathend++ = SEP;
+			*pathend = EOS;
+			return GLOB_NOSPACE;
+		}
 
 		/* Initial DOT must be matched literally. */
 		if (dp->d_name[0] == DOT && *pattern != DOT)
@@ -716,7 +740,7 @@ globextend(const Char *path, glob_t *pglob, size_t *limitp, struct stat *sb)
 	for (p = path; *p++;)
 		;
 	len = (size_t)(p - path);
-	*limitp += len;
+	limitp[GLOB_INDEX_MALLOC] += len;
 	if ((copy = malloc(len)) != NULL) {
 		if (g_Ctoc(path, copy, len)) {
 			free(copy);
@@ -727,7 +751,7 @@ globextend(const Char *path, glob_t *pglob, size_t *limitp, struct stat *sb)
 	pathv[pglob->gl_offs + pglob->gl_pathc] = NULL;
 
 	if ((pglob->gl_flags & GLOB_LIMIT) &&
-	    (newn * sizeof(*pathv)) + *limitp >= ARG_MAX) {
+	    (newn * sizeof(*pathv)) + limitp[GLOB_INDEX_MALLOC] >= GLOB_LIMIT_MALLOC) {
 		errno = 0;
 		return(GLOB_NOSPACE);
 	}

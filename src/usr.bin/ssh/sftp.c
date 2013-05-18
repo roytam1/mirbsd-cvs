@@ -46,7 +46,7 @@
 #include "sftp-common.h"
 #include "sftp-client.h"
 
-__RCSID("$MirOS: src/usr.bin/ssh/sftp.c,v 1.20 2009/03/22 15:01:20 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/sftp.c,v 1.21 2009/10/04 14:29:09 tg Exp $");
 
 extern const char *__progname;
 
@@ -547,7 +547,7 @@ process_put(struct sftp_conn *conn, char *src, char *dst, char *pwd,
 
 	memset(&g, 0, sizeof(g));
 	debug3("Looking up %s", src);
-	if (glob(src, GLOB_NOCHECK | GLOB_MARK, NULL, &g)) {
+	if (glob(src, GLOB_NOCHECK | GLOB_MARK | GLOB_LIMIT, NULL, &g)) {
 		error("File \"%s\" not found.", src);
 		err = -1;
 		goto out;
