@@ -113,9 +113,6 @@ editor (jupp/joe/jstar/jmacs/jpico) and a simple IRC client (tinyirc) have
 been added (both are covered by the GPL though; source code is in the CVS,
 in the contrib module).
 
-On i386, serial console users are currently unable to use the Live CD, but
-this will be developed later.
-
 
 MirBSD Licence
 --------------
@@ -172,4 +169,4 @@ code is available at http://www.mirbsd.org/ and its mirrors; further
 information can be found at /usr/share/doc/legal/ as well.
 
 _______________________________________________________________________
-$MirOS: src/distrib/common/00-README,v 1.7 2007/05/28 13:57:35 tg Exp $
+$MirOS: src/distrib/common/00-README,v 1.8 2007/06/04 09:05:40 tg Exp $

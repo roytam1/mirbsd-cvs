@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/distrib/baselive/munge_it.sh,v 1.21 2007/05/25 23:08:56 tg Exp $
+# $MirOS: src/distrib/baselive/munge_it.sh,v 1.22 2007/06/04 08:36:36 tg Exp $
 #-
 # Copyright (c) 2006, 2007
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -72,7 +72,7 @@ ed -s etc/ntpd.conf <<-'EOMD'
 EOMD
 ed -s etc/rc <<-'EOMD'
 	1i
-		# $MirOS: src/distrib/baselive/munge_it.sh,v 1.21 2007/05/25 23:08:56 tg Exp $
+		# $MirOS: src/distrib/baselive/munge_it.sh,v 1.22 2007/06/04 08:36:36 tg Exp $
 	.
 	/shutdown request/ka
 	/^fi/a
@@ -123,69 +123,6 @@ ed -s etc/rc <<-'EOMD'
 			s/,/%2c/g
 			s/ /%20/g
 		    ')>" >/dev/wrandom 2>&1)
-	.
-	/parsed console/a
-		[[ -e /etc/ttys ]] && if [[ $consdev != nochg ]]; then
-			print -n adjusting /etc/ttys ...
-			x=$(uname -m)
-			if [[ $x = i386 ]]; then
-				# clean up if we don't match
-				if ! grep "^#AUTOCONS:$consdev,$consspeed." /etc/ttys >&- 2>&-; then
-					print -n ' cleanup (i386)'
-					ed -s /etc/ttys <<-EOF
-						%g/^#AUTOCONS/d
-						%g/	#AUTOADD\$/d
-						%g/	#AUTODEL\$/s/^#*//
-						%g/	#AUTODEL\$/s///
-						wq
-					EOF
-				fi
-			fi
-			# if consdev=ttyC0: wscons, no change needed
-			if [[ $consdev = ttyC0 ]]; then
-				print -n ' wscons'
-				# wscons, reset to default on sparc, no action on i386
-				if [[ $x = sparc ]]; then
-					print -n ' (sparc)'
-					ed -s /etc/ttys <<-EOF
-						/console.*suncons/s/^#*//
-						/console.*std/s/^#*/#/
-						wq
-					EOF
-				fi
-			else
-				# serial console, disable wscons
-				print -n " serial ($consspeed bps)"
-				if [[ $x = sparc ]]; then
-					# we just use /dev/console for both
-					# XXX what is this ttyC0 entry?
-					print -n ' (sparc)'
-					ed -s /etc/ttys <<-EOF
-						/console.*suncons/s/^#*/#/
-						/console.*std/s/^#*//
-						/console.*std/s/std.[0-9]*/std.$consspeed/
-						wq
-					EOF
-				fi
-				if [[ $x = i386 ]]; then
-					# keep wscons but enable tty0X dev
-					print -n ' (i386)'
-					if ! grep "^$consdev	.*std.$consspeed\".*	on" \
-					    /etc/ttys >&- 2>&-; then
-						print -n ' -> adding'
-						ed -s /etc/ttys <<-EOF
-							%g/^$consdev	/s/^.*\$/#&	#AUTODEL/
-							wq
-						EOF
-						cat >>/etc/ttys <<-EOF
-							$consdev	"/usr/libexec/getty std.$consspeed"	vt100	on  secure	#AUTOADD
-							#AUTOCONS:$consdev,$consspeed.
-						EOF
-					fi
-				fi
-			fi
-			print ' done.'
-		fi
 	.
 	/openssl genrsa/s/4096/1024/
 	/xdm may be started/i
