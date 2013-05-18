@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/distrib/baselive/munge_it.sh,v 1.31 2008/05/13 11:49:02 tg Exp $
+# $MirOS: src/distrib/baselive/munge_it.sh,v 1.32 2008/05/13 12:14:29 tg Exp $
 #-
 # Copyright (c) 2006, 2007, 2008
 #	Thorsten “mirabilos” Glaser <tg@mirbsd.de>
@@ -25,6 +25,17 @@
 set -ex
 myplace=$(readlink -nf $(dirname "$0"))
 
+ed -s etc/X11/XF86Config <<-'EOF'
+	/FontPath.*local/s/^/#/
+	/FontPath.*100dpi.*unscaled/s/^/#/
+	/FontPath.*Speedo/s/^/#/
+	/FontPath.*Type1/s/^/#/
+	/FontPath.*/s/^/#/
+	/FontPath.*100dpi/s/^/#/
+	/FontPath.*cyrillic/s/^/#/
+	/FontPath.*OTF/s/^/#/
+	wq
+EOF
 ed -s etc/X11/xdm/Xresources <<-'EOMD'
 	/^xlogin.greeting:/s/CLIENTHOST/the MirOS BSD Live CD/
 	/-100-100-/s//-75-75-/
@@ -67,7 +78,7 @@ ed -s etc/ntpd.conf <<-'EOMD'
 EOMD
 ed -s etc/rc <<-'EOMD'
 	1i
-		# $MirOS: src/distrib/baselive/munge_it.sh,v 1.31 2008/05/13 11:49:02 tg Exp $
+		# $MirOS: src/distrib/baselive/munge_it.sh,v 1.32 2008/05/13 12:14:29 tg Exp $
 	.
 	/cprng.*pr16/d
 	i
@@ -178,8 +189,6 @@ ed -s var/cron/tabs/root <<-'EOMD'
 	wq
 EOMD
 
-install -c -o root -g staff -m 644 \
-    $myplace/$MACHINE/XF86Config etc/X11/XF86Config
 install -c -o root -g staff -m 644 \
     $myplace/fstab etc/fstab
 install -c -o root -g staff -m 644 \
