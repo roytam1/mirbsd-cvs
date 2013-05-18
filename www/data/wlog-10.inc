@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.352 2011/08/20 11:45:42 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.353 2011/08/20 21:01:42 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -8394,7 +8394,7 @@ Tag: debian event geocache
  before 11 o’clock anyway…</p>
 <p>Talked to a lot of people, introduced my favourite Fedora Packager
  to Geocaching. Now my throat is sore and I’m tired. Social Event was
- not so good, as usual. (And even the vegetarian food now costs money
+ not my case, as usual. (And even the vegetarian food now costs money
  as opposed to, I think, two years ago.) At least dry and not too
  loud. Still, best thing of FrOSCon is the Friday Evening Jugoslawian
  Food Mealtime ;-)</p>
