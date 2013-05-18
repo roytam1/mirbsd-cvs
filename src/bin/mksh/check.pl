@@ -151,7 +151,8 @@
 #	p	tag takes parameters (used with m).
 #	s	tag can be used several times.
 
-use POSIX qw(EINTR);
+#use POSIX qw(EINTR);
+use Errno;
 use Getopt::Std;
 use Config;
 
@@ -557,7 +558,9 @@ run_test
 	$xpid = waitpid($pid, 0);
 	$child_kill_ok = 0;
 	if ($xpid < 0) {
-	    next if $! == EINTR;
+	    if ($!{EINTR}) {
+		next if $! == EINTR;
+	    }
 	    print STDERR "$prog: error waiting for child - $!\n";
 	    return undef;
 	}
