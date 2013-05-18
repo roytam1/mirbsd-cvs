@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.206 2009/07/07 18:35:26 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.207 2009/07/07 19:08:55 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -4291,7 +4291,7 @@ Tag: event
  of OpenNTPD myself! Imagine that!</p>
 ----
 Title: RFH: mksh development
-Date: 07.07.2009 19:07
+Date: 07.07.2009 20:29
 Author: tg@
 Tag: mksh
 
@@ -4311,8 +4311,28 @@ Tag: mksh
  about it; they mostly know what they're doing, even if I worked on ksh
  for longer than most of them, many eyes do help, and most of the time
  I do <strong>not</strong> know what I'm doing XD</p>
+<p>[Update] There's also the issue of inter-(POSIX-compatible)-shell
+ discussion. For instance, "set -u" vs "$@", which has come up in <a
+ href="http://bugs.debian.org/522255">Debian #522255</a> because GNU
+ bash4 decided to switch to the behaviour used by the Bourne shell
+ (from V7 to SVR4.2), all Korn shells, ash and its descendents (like
+ posh) except dash, to not treat it specially. (Funny too how they
+ suggest 「${@:-}」 or 「${@:+}」 instead of 「${1+"$@"}」 (from the
+ GNU(!) autoconf texinfo documentation) as replacements.) Oh well,
+ zsh also behaves like bash2/3 and dash, but then, it's not even a
+ POSIX compatible shell. *sigh* Now I wonder what AT&amp;T ksh93 will
+ do and <a href="http://article.gmane.org/gmane.os.miros.general/8846">a
+ confirmation</a> if it's indeed being forcibly changed by POSIX (IMHO,
+ they could at least "agree to disagree", like they usually do, and make
+ it vendor defined, so that scripts could not depend on it - "set -u" is
+ something I don't use anyway).</p>
 <p>So if you're interested in the further development of MirBSD, The
  MirOS Project, one of its subprojects, such as The MirPorts Framework,
  mksh(1), MirMake, even jupp-2.8 or jupp-3.x, please talk to me.</p>
+<p>[Update] Do the same for POSIX compatible shell discussion, if you
+ are going to take mksh, its goals, needs and history seriously. (Yes,
+ it also has bugs, like a non-recursive parser troubling COMSUBs, but
+ they may be fixed long-term, especially if people contribute. Ideas,
+ at the very least.)</p>
 <p>Thanks in advance.</p>
 ----
