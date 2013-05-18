@@ -1,4 +1,4 @@
-# $MirOS: www/LICENCE,v 1.9 2006/01/20 13:08:06 tg Exp $
+# $MirOS: www/LICENCE,v 1.10 2006/08/09 16:16:17 tg Exp $
 #-
 # This is the website / webpages for The MirOS Project.
 # Copyright (c) 2002, 2003, 2004, 2005, 2006
@@ -15,10 +15,6 @@
 # pyright notices above, these terms and the disclaimer are retained
 # in all redistributions or reproduced in accompanying documentation
 # or other materials provided with binary redistributions.
-#
-# All advertising materials mentioning features or use of this soft-
-# ware must display the following acknowledgement:
-#	This product includes material provided by Thorsten Glaser.
 #
 # Neither the name of The MirOS Project nor the names of its contri-
 # butors may be used to endorse or promote products derived from the
@@ -85,7 +81,8 @@ and must not be used by anyone without an explicit written licence. It
 is used on the website of the MirOS Project to represent "MirBSD" (the
 predecessor of MirOS+MirPorts) and unmodified website mirrors are allowed
 to display it for this purpose exactly as on the original website of the
-MirOS Project and mirabile. Use the "MirOS Project" logo instead.
+MirOS Project and mirabile. Use the "MirOS Project" logo instead. Some
+of the other images are also not freely available.
 
 The CVSweb CGI script is covered by a two-clause UCB-style BSD licence.
 
