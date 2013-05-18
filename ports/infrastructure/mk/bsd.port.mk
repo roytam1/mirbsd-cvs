@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.185 2007/08/11 15:44:09 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.186 2007/08/16 12:28:37 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -324,13 +324,13 @@ _BULK_COOKIE=		${BULK_COOKIES_DIR}/${FULLPKGNAME}
 _FAKE_COOKIE=		${WRKINST}/.fake_done
 _INSTALL_PRE_COOKIE=	${WRKINST}/.install_started
 .else
-_INSTALL_PRE_COOKIE=	${WRKDIR}/.install_started
-_FAKE_COOKIE=		${WRKDIR}/.fake_done
+_INSTALL_PRE_COOKIE=	${WRKBUILD}/.install_started
+_FAKE_COOKIE=		${WRKBUILD}/.fake_done
 .endif
 _PACKAGE_COOKIE=	${PKGFILE}
-_CONFIGURE_COOKIE=	${WRKDIR}/.configure_done
-_BUILD_COOKIE=		${WRKDIR}/.build_done
-_REGRESS_COOKIE=	${WRKDIR}/.regress_done
+_CONFIGURE_COOKIE=	${WRKBUILD}/.configure_done
+_BUILD_COOKIE=		${WRKBUILD}/.build_done
+_REGRESS_COOKIE=	${WRKBUILD}/.regress_done
 
 _ALL_COOKIES=		${_EXTRACT_COOKIE} ${_PATCH_COOKIE} \
 			${_CONFIGURE_COOKIE} ${_INSTALL_PRE_COOKIE} \
@@ -457,7 +457,7 @@ WRKDIR?=		${.CURDIR}/w-${PKGNAME}${_FLAVOR_EXT2}
 
 WRKSRC?=		${WRKDIST}
 WRKBUILD?=		${WRKSRC}
-WRKPKG?=		${WRKDIR}/pkg
+WRKPKG?=		${WRKBUILD}/.pkg
 WRKCONF?=		${WRKBUILD}
 
 ALL_TARGET?=		all
