@@ -1,10 +1,10 @@
-# $MirOS: ports/net/djbdns/Makefile,v 1.37 2009/05/30 21:40:28 tg Exp $
+# $MirOS: ports/net/djbdns/Makefile,v 1.38 2009/05/30 21:52:28 tg Exp $
 
 COMMENT=		collection of Domain Name System server and tools
 VERSION=		1.05
 CATEGORIES=		net
 DISTNAME=		djbdns-${VERSION}
-DASH_VER=		36
+DASH_VER=		37
 MANVER=			20031023
 HOMEPAGE=		http://cr.yp.to/djbdns.html
 RESPONSIBLE=		Thorsten Glaser <tg@mirbsd.org>
@@ -37,11 +37,15 @@ post-extract:
 	cd ${FILESDIR}; pax -rw build ${WRKDIR}
 	cd ${WRKDIR}; mv djbdns-${VERSION} src; mv djbdns-man man
 
+post-build:
+	cat ${FILESDIR}/data/dnsroots.icann6 ${FILESDIR}/data/dnsroots.icann \
+	    >${WRKBUILD}/dnsroots.icann6+4
+
 post-install:
 	${INSTALL_DATA_DIR} ${PREFIX}/share/djbdns
 	${INSTALL_DATA} ${FILESDIR}/data/dnsroots.icann \
 	    ${PREFIX}/share/djbdns/dnsroots.global
-	${INSTALL_DATA} ${FILESDIR}/data/dnsroots.icann6 \
+	${INSTALL_DATA} ${WRKBUILD}/dnsroots.icann6+4 \
 	    ${PREFIX}/share/djbdns/dnsroots.global.v6
 
 .include <bsd.port.mk>
