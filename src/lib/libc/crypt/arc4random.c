@@ -47,7 +47,7 @@
 #include <syskern/libckern.h>
 #include "thread_private.h"
 
-__RCSID("$MirOS: src/lib/libc/crypt/arc4random.c,v 1.23 2009/11/09 21:58:39 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/crypt/arc4random.c,v 1.24 2009/11/09 22:35:50 tg Exp $");
 
 struct arc4_stream {
 	u_int8_t i;
@@ -304,55 +304,66 @@ arc4random_push(int n)
 uint32_t
 arc4random_pushb(const void *buf, size_t len)
 {
-	uint32_t h, vu, vk;
 	size_t j;
 	int mib[2];
 	union {
 		uint8_t buf[256];
-		tai64na_t tai64tm;
 		struct {
+			tai64na_t tai64tm;
 			const void *sp, *dp;
 			size_t sz;
+			uint32_t vu;
 		} s;
-		struct {
-			uint32_t h, v;
-		} u;
 	} uu;
+	struct {
+		uint32_t h;
+		uint16_t u;
+		uint8_t k[10];
+	} av;
 
-	vu = arc4random();
-	uu.s.sp = &uu;
-	uu.s.dp = buf;
-	uu.s.sz = len;
-	h = OAAT0Update(arc4random() & 0xFFFFFF00, (void *)&uu, sizeof(uu.s));
-
-	taina_time(&uu.tai64tm);
-	for (j = 0; j < len; ++j) {
+	{
+		register uint32_t h;
+		register size_t n = 0;
 		register uint8_t c;
 
-		c = ((const uint8_t *)buf)[j];
-		uu.buf[j % 256] ^= c;
-		h += c;
-		h += h << 10;
-		h ^= h >> 6;
+		av.u = arc4random() & 0xFFFF;
+		uu.s.sp = &uu;
+		uu.s.dp = buf;
+		uu.s.sz = len;
+		uu.s.vu = arc4random();
+		taina_time(&uu.s.tai64tm);
+
+		h = OAAT0Update(arc4random() & 0xFFFFFF00,
+		    (void *)&uu, sizeof(uu.s));
+		j = MAX(len, sizeof(uu.s));
+
+		while (n < j) {
+			c = ((const uint8_t *)buf)[n % len];
+			uu.buf[n % sizeof(uu.buf)] ^= c;
+			h += c;
+			h += h << 10;
+			h ^= h >> 6;
+			++n;
+		}
+
+		len = MIN(sizeof(uu), j);
+		av.h = OAAT0Final(h);
 	}
-	len = MIN(256, len);
 
 	mib[0] = CTL_KERN;
 	mib[1] = KERN_ARND;
-	j = sizeof(vk);
+	j = sizeof(av.k);
 
-	if (sysctl(mib, 2, &vk, &j, &uu, len) != 0)
-		vk = 0;
+	av.u += sysctl(mib, 2, av.k, &j, &uu, len);
 
-	uu.u.h = OAAT0Final(h);
-	uu.u.v = (vk & 0xFFFF0000) | (vu & 0x0000FFFF);
 	_ARC4_LOCK();
-	arc4_addrandom((void *)&uu, sizeof(uu.u));
+	arc4_addrandom((void *)&av, sizeof(av));
+	if (arc4_getbyte() & 1)
+		(void)arc4_getbyte();
+	av.h = arc4_getword();
 	_ARC4_UNLOCK();
-	if (/* kernel failed */ !vk)
-		vk = arc4random();
 
-	return ((vk & 0x0000FFFF) ^ (vu & 0xFFFF0000) ^ (uu.u.h & 0x00073000));
+	return (av.h);
 }
 
 #if 0

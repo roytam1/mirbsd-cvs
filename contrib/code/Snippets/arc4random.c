@@ -1,5 +1,5 @@
 static const char __vcsid[] = "@(#) MirOS contributed arc4random.c (old)"
-    "\n	@(#)rcsid_master: $MirOS: contrib/code/Snippets/arc4random.c,v 1.20 2009/11/09 18:12:50 tg Exp $"
+    "\n	@(#)rcsid_master: $MirOS: contrib/code/Snippets/arc4random.c,v 1.21 2009/11/09 22:35:49 tg Exp $"
     ;
 
 /*-
@@ -488,7 +488,12 @@ arc4random_pushb(const void *src, size_t len)
 	size_t rlen;
 	union {
 		uint8_t buf[256];
-		struct timeval tv;
+		struct {
+			struct timeval tv;
+			const void *sp, *dp;
+			size_t sz;
+			uint32_t vu;
+		} s;
 		uint32_t xbuf;
 	} idat;
 	uint32_t res = 1;
@@ -498,19 +503,29 @@ arc4random_pushb(const void *src, size_t len)
 		rs_initialized = 1;
 	}
 
-	gettimeofday(&idat.tv, NULL);
-	for (rlen = 0; rlen < len; ++rlen)
-		idat.buf[rlen % sizeof(idat)] ^= ((const uint8_t *)src)[rlen];
-	rlen = MIN(sizeof(idat), MAX(sizeof(struct timeval), len));
+	idat.s.sp = &idat;
+	idat.s.dp = src;
+	idat.s.sz = len;
+	idat.s.vu = arc4_getword();
+	gettimeofday(&idat.s.tv, NULL);
 
-	if (arc4_writeback(&idat.buf[0], rlen, 1))
+	rlen = MAX(sizeof(idat.s), len);
+	while (rlen--)
+		idat.buf[rlen % sizeof(idat.buf)] ^=
+		    ((const uint8_t *)src)[rlen % len];
+	rlen = MIN(sizeof(idat), MAX(sizeof(idat.s), len));
+
+	if (arc4_writeback((void *)&idat, rlen, 1))
 		res = 0;
-	arc4_addrandom(&idat.buf[0], rlen);
+	arc4_addrandom((void *)&idat, rlen);
+	rlen = arc4_getbyte() & 1;
 	if (res)
 		res = idat.xbuf;
 	else
 		/* we got entropy from the kernel, so consider us stirred */
 		stir_finish(idat.buf[5]);
+	if (rlen)
+		(void)arc4_getbyte();
 	return (res ^ arc4_getword());
 }
 #endif
