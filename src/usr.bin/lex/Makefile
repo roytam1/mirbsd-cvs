@@ -1,4 +1,4 @@
-# $MirOS: src/usr.bin/lex/Makefile,v 1.3 2005/03/15 19:23:52 tg Exp $
+# $MirOS: src/usr.bin/lex/Makefile,v 1.4 2007/04/28 00:12:48 tg Exp $
 # $OpenBSD: Makefile,v 1.9 2003/12/09 12:42:41 jmc Exp $
 #
 # By default, flex will be configured to generate 8-bit scanners only if the
@@ -23,6 +23,7 @@ DPADD=		${LIBL}
 LINKS=		${BINDIR}/flex ${BINDIR}/lex \
 		${BINDIR}/flex ${BINDIR}/flex++
 MLINKS=		flex.1 lex.1 flex.1 flex++.1
+HDRS=		FlexLexer.h
 
 # This just gets installed verbatim
 .if make(install)
@@ -33,7 +34,16 @@ skel.c:	flex.skl mkskel.sh
 	${SHELL} ${.CURDIR}/mkskel.sh ${.CURDIR}/flex.skl >$@
 
 includes:
-	${INSTALL} ${INSTALL_COPY} -o ${BINOWN} -g ${BINGRP} -m ${SHAREMODE} \
-	    ${.CURDIR}/FlexLexer.h ${DESTDIR}/usr/include/
+	@cd ${.CURDIR}; for i in ${HDRS}; do \
+		if cmp -s "$$i" ${DESTDIR:Q}/usr/include/"$$i"; then \
+			print Header ${DESTDIR:Q}/usr/include/"$$i" \
+			    is up to date.; \
+		else \
+			print Header ${DESTDIR:Q}/usr/include/"$$i" \
+			    "<-- $$i"; \
+			${INSTALL} ${INSTALL_COPY} -o ${BINOWN} -g ${BINGRP} \
+			    -m ${NONBINMODE} "$$i" ${DESTDIR}/usr/include/; \
+		fi; \
+	done
 
 .include <bsd.prog.mk>
