@@ -1,4 +1,4 @@
-# $MirOS: www/Makefile,v 1.64 2009/12/28 14:58:04 tg Exp $
+# $MirOS: www/Makefile,v 1.65 2009/12/28 16:50:36 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -170,6 +170,12 @@ _reinstall:
 .htm~.val:
 	@print -r Creating ${@:Q} from ${<:Q} ...
 	@${_htm_2xhtml} <$< >$@
+
+.ifdef validate
+VOBJS:=		${validate:=.val}
+
+.MAIN: validation
+.endif
 
 validation: .PHONY ${VOBJS}
 	@print -r Validating ${.ALLSRC:Q} ...
