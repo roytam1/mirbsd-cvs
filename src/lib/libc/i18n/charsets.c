@@ -1,4 +1,4 @@
-/* $MirOS: src/share/misc/licence.template,v 1.2 2005/03/03 19:43:30 tg Rel $ */
+/* $MirOS: src/lib/libc/i18n/charsets.c,v 1.1 2005/09/22 21:21:09 tg Exp $ */
 
 /*-
  * Copyright (c) 2005
@@ -30,14 +30,22 @@
 #include <locale.h>
 #include <nl_types.h>
 
-__RCSID("$MirOS: src/lib/libc/gen/i18n.c,v 1.1.7.1 2005/03/06 16:33:39 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/i18n/charsets.c,v 1.1 2005/09/22 21:21:09 tg Exp $");
 
-/* fake locale support */
+/* simple locale support (C and UTF-8) */
+
+int locale_is_utf8 = 0;
 
 char *
 __weak_setlocale(int category, const char *locale)
 {
 	return "C";
+}
+
+size_t
+__mb_cur_max(void)
+{
+	return (locale_is_utf8 ? MB_LEN_MAX : 1);
 }
 
 __weak_alias(setlocale, __weak_setlocale);
