@@ -77,7 +77,7 @@
 #define	__RCSID(x)	static const char __rcsid[] __attribute__((used)) = (x)
 #endif
 
-__RCSID("$MirOS: contrib/code/Snippets/tinyirc.c,v 1.24 2008/12/20 16:58:22 tg Exp $");
+__RCSID("$MirOS: contrib/code/Snippets/tinyirc.c,v 1.25 2008/12/20 17:01:31 tg Exp $");
 
 #ifndef __dead
 #define __dead
@@ -820,6 +820,7 @@ void parseinput(void)
 		tputs_x(tgoto(CM, 0, LI - 1));
 		tputs_x(CE);
 		snprintf(lineout, LINELEN, inputbuf, inputbuf + 384);
+		bzero(inputbuf, sizeof (inputbuf));
 	}
 
  parseinput_cont:
