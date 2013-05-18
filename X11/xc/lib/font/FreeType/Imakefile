@@ -1,3 +1,4 @@
+XCOMM $MirOS$
 XCOMM $XFree86: xc/lib/font/FreeType/Imakefile,v 1.31 2003/11/20 22:36:34 dawes Exp $
 
 #if BuildServer && DoLoadableServer
@@ -8,12 +9,13 @@ SUBDIRS = module
 #endif
 
 DEFINES = ServerExtraDefines StrcasecmpDefines Freetype2BuildDefines \
-	  -DXFREE86_FT2
+	  -DXFREE86_FT2 -DFT2_BUILD_LIBRARY
 
 FT2SOURCEDIR = $(TOP)/extras/freetype2/src
 FT2INCS = $(FREETYPE2INCLUDES)
 
-INCLUDES = $(FT2INCS) -I. -I$(FONTINCSRC) -I../include -I$(XINCLUDESRC) \
+INCLUDES = -I$(FT2SOURCEDIR)/../include \
+	   $(FT2INCS) -I. -I$(FONTINCSRC) -I../include -I$(XINCLUDESRC) \
            -I$(SERVERSRC)/include -I$(FT2SOURCEDIR)/truetype \
            -I$(INCLUDESRC)
 

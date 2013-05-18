@@ -8,7 +8,7 @@
 /*    ANSI-specific library and header configuration file (specification   */
 /*    only).                                                               */
 /*                                                                         */
-/*  Copyright 2002, 2003, 2004 by                                          */
+/*  Copyright 2002, 2003, 2004, 2005, 2006 by                              */
 /*  David Turner, Robert Wilhelm, and Werner Lemberg.                      */
 /*                                                                         */
 /*  This file is part of the FreeType project, and may only be used,       */
@@ -34,6 +34,11 @@
 
 #ifndef __FTSTDLIB_H__
 #define __FTSTDLIB_H__
+
+
+#include <stddef.h>
+
+#define ft_ptrdiff_t  ptrdiff_t
 
 
   /**********************************************************************/
@@ -65,6 +70,8 @@
 
 #include <limits.h>
 
+#define FT_CHAR_BIT   CHAR_BIT
+#define FT_INT_MAX    INT_MAX
 #define FT_UINT_MAX   UINT_MAX
 #define FT_ULONG_MAX  ULONG_MAX
 
@@ -79,14 +86,15 @@
 #include <ctype.h>
 
 #define ft_isalnum   isalnum
-#define ft_isupper   isupper
-#define ft_islower   islower
 #define ft_isdigit   isdigit
+#define ft_islower   islower
+#define ft_isupper   isupper
 #define ft_isxdigit  isxdigit
 
 
 #include <string.h>
 
+#define ft_memchr   memchr
 #define ft_memcmp   memcmp
 #define ft_memcpy   memcpy
 #define ft_memmove  memmove
@@ -100,8 +108,21 @@
 #define ft_strrchr  strrchr
 
 
+  /**********************************************************************/
+  /*                                                                    */
+  /*                           file handling                            */
+  /*                                                                    */
+  /**********************************************************************/
+
+
 #include <stdio.h>
 
+#define FT_FILE     FILE
+#define ft_fclose   fclose
+#define ft_fopen    fopen
+#define ft_fread    fread
+#define ft_fseek    fseek
+#define ft_ftell    ftell
 #define ft_sprintf  sprintf
 
 
@@ -115,9 +136,32 @@
 #include <stdlib.h>
 
 #define ft_qsort  qsort
+
 #define ft_exit   exit    /* only used to exit from unhandled exceptions */
 
+
+  /**********************************************************************/
+  /*                                                                    */
+  /*                        memory allocation                           */
+  /*                                                                    */
+  /**********************************************************************/
+
+
+#define ft_scalloc   calloc
+#define ft_sfree     free
+#define ft_smalloc   malloc
+#define ft_srealloc  realloc
+
+
+  /**********************************************************************/
+  /*                                                                    */
+  /*                          miscellaneous                             */
+  /*                                                                    */
+  /**********************************************************************/
+
+
 #define ft_atol   atol
+#define ft_labs   labs
 
 
   /**********************************************************************/
@@ -151,6 +195,7 @@
 #define offsetof(TYPE, MEMBER) ((xf86size_t)&((TYPE*)0)->MEMBER)
 #endif
 
+#define FT_INT_MAX    2147483647
 #define FT_UINT_MAX   4294967295U
 #ifdef LONG64
 #define FT_ULONG_MAX 18446744073709551615UL

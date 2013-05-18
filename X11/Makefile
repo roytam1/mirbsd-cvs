@@ -1,9 +1,9 @@
-# $MirOS: X11/Makefile,v 1.23 2006/06/30 23:18:03 tg Exp $
+# $MirOS: X11/Makefile,v 1.24 2006/07/01 00:35:00 tg Exp $
 
 .include <bsd.own.mk>
 .include "${BSDSRCDIR}/Makefile.inc"
 
-SUBOBJDIR!=	readlink ${.OBJDIR} 2>/dev/null || ( cd ${.OBJDIR} && pwd )
+SUBOBJDIR!=	readlink -nf ${.OBJDIR} 2>/dev/null
 BINDIST=	programs/Xserver/hw/xfree86/etc/bindist
 HOSTDEF=	xc/${BINDIST}/OpenBSD-${MACHINE}/host.def
 CONFHOSTDEF=	xc/config/cf/host.def
@@ -45,7 +45,9 @@ b-r:
 	cd ${.CURDIR} && exec ${MAKE} build
 
 compile:
-	cd ${.CURDIR}/depends && ${MAKE} depend && exec ${MAKE}
+	mkdir -p ${SUBOBJDIR}/xc/exports/{bin,include,lib}
+	cd ${.CURDIR}/depends && ${MAKE} depend && ${MAKE} && \
+	    exec ${MAKE} install X11BASE=${SUBOBJDIR}/xc/exports
 	rm -f ${CONFHOSTDEF}
 	${INSTALL} ${HOSTDEF} ${CONFHOSTDEF}
 .if defined(NOFONTS) && ${NOFONTS:L} != "no"
