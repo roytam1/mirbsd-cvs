@@ -2,7 +2,7 @@
 
 #include "sh.h"
 
-__RCSID("$MirOS: src/bin/mksh/shf.c,v 1.24 2008/12/13 17:02:17 tg Exp $");
+__RCSID("$MirOS: src/bin/mksh/shf.c,v 1.25 2009/03/14 18:12:55 tg Exp $");
 
 /* flags to shf_emptybuf() */
 #define EB_READSW	0x01	/* about to switch to reading */
@@ -175,8 +175,7 @@ struct shf *
 shf_sopen(char *buf, int bsize, int sflags, struct shf *shf)
 {
 	/* can't have a read+write string */
-	if (!(sflags & (SHF_RD | SHF_WR)) ||
-	    (sflags & (SHF_RD | SHF_WR)) == (SHF_RD | SHF_WR))
+	if (!(sflags & SHF_RD) ^ !(sflags & SHF_WR))
 		internal_errorf("shf_sopen: flags 0x%x", sflags);
 
 	if (!shf) {
