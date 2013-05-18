@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/install.sub,v 1.50 2009/08/11 14:30:48 tg Exp $
+# $MirOS: src/distrib/common/install.sub,v 1.51 2009/08/15 17:35:52 tg Exp $
 # $OpenBSD: install.sub,v 1.388 2005/07/02 00:55:48 uwe Exp $
 # $NetBSD: install.sub,v 1.5.2.8 1996/09/02 23:25:02 pk Exp $
 #
@@ -721,6 +721,10 @@ v6_config() {
 	ask_until "IPv6 prefix length for $_ifs?" "${_prefixlen:=64}"
 	ifconfig $_ifs inet6 $_addr prefixlen $resp $_eui up || return
 	echo inet6 $_addr $resp $_eui $media >>$_hn
+	if [[ -n $_eui ]]; then
+		set -- $(v6_info $_ifs)
+		[[ -n $2 ]] && _addr=$2
+	fi
 	addhostent "$_addr" "$_name"
 
 	v6_defroute $_ifs
