@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/mirports.sys.mk,v 1.43 2007/03/22 01:27:11 tg Exp $
+# $MirOS: ports/infrastructure/mk/mirports.sys.mk,v 1.44 2008/03/09 17:22:56 tg Exp $
 #-
 # Copyright (c) 2005, 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -40,6 +40,9 @@ OSver!=	print '.include "/usr/share/mk/sys.mk"\nall:\n.ifdef OSrelm\n\t@echo' \
 	    | MAKEFLAGS= ${MAKE} -rf - all
 # fake 'uname -r' for speed
 OSREV=	${OSver:R}
+.elif ${OStype} == "MidnightBSD"
+OSver!=	uname -r | sed 's/^\([0-9]*\)\.\([0-9]*\)[^0-9]*.*$$/\1.\2/'
+OSREV=	${OSver}
 .elif ${OStype} == "OpenBSD"
 OSver!=	print '.include "/usr/share/mk/sys.mk"\nall:\n\t@echo $${OSREV}' \
 	    | MAKEFLAGS= ${MAKE} -rf - all
@@ -123,6 +126,25 @@ _SYSTRACE_ARGS=		-i -a
 _CKSUM_A=
 _GDIFFLAG=		NEED_GDIFF=yes
 .  endif
+.endif
+
+#---
+
+.if ${OStype} == "MidnightBSD"
+LDFLAGS+=		-specs=${LOCALBASE}/db/specs
+.  ifndef BOOTSTRAP	# Install these first
+_CKSUM_A=		${LOCALBASE}/bin/cksum -a
+M4=			${LOCALBASE}/bin/gm4
+.  else
+_CKSUM_A=
+.  endif
+HAS_TIMET64=		No
+NO_SYSTRACE=		not on MidnightBSD
+FETCH_CMD?=		/usr/bin/ftp
+PATCH?=			${LOCALBASE}/bin/patch
+TAR=			${LOCALBASE}/bin/tar
+BZIP2=			/usr/bin/bzip2
+CHOWN=			/usr/sbin/chown
 .endif
 
 #---

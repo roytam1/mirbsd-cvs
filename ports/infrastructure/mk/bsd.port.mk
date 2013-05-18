@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.192 2008/02/24 11:36:29 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.193 2008/03/09 17:22:55 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -349,7 +349,10 @@ GMAKE?=			gmake
 CHECKSUM_FILE?=		${.CURDIR}/distinfo
 
 # Don't touch!!! Used for generating checksums.
-.ifdef _CKSUM_SIZE
+.if defined(BOOTSTRAP)
+_CIPHERS=		sha1 md5
+.  undef _CKSUM_SIZE
+.elif defined(_CKSUM_SIZE)
 _CKSUM_SIZE:=1
 _CIPHERS=		rmd160 tiger sha1 md5
 .else
@@ -1861,7 +1864,7 @@ ${_BULK_COOKIE}: ${_PACKAGE_COOKIES}
 # The real targets. Note that some parts always get run, some parts can be
 # disabled, and there are hooks to override behavior.
 
-.if ${MACHINE_OS} == "Darwin"
+.if (${MACHINE_OS} == "Darwin") || (${OStype} == "MidnightBSD")
 ${_WRKDIR_COOKIE}: ${LOCALBASE}/db/specs
 .else
 ${_WRKDIR_COOKIE}:
@@ -2524,7 +2527,7 @@ _fetch-onefile:
 
 # foobar
 
-.if ${MACHINE_OS} == "Darwin"
+.if (${MACHINE_OS} == "Darwin") || (${OStype} == "MidnightBSD")
 .  if exists(${CC})
 CC_SPECS=	${CC}
 .  elif exists(/usr/bin/${CC})
@@ -2547,6 +2550,8 @@ ${LOCALBASE}/db/specs: ${CC_SPECS}
 		    ed -s $$t; \
 	else \
 		reallinker=$$(${CC} -print-prog-name=collect2); \
+		[[ -x $$reallinker ]] || \
+		    reallinker=$$(${CC} -print-prog-name=ld); \
 		print '/^\*linker:$$/+1s!^collect2!${LOCALBASE}/db/collect2' \
 		    "-Ww,collect2 $$reallinker!\nwq" | ed -s $$t; \
 	fi; \

@@ -1,8 +1,8 @@
 #!/bin/mksh
-# $MirOS: ports/infrastructure/install/setup.ksh,v 1.79 2008/02/24 10:38:08 tg Exp $
+# $MirOS: ports/infrastructure/install/setup.ksh,v 1.80 2008/02/24 11:36:30 tg Exp $
 #-
-# Copyright (c) 2005
-#	Thorsten "mirabile" Glaser <tg@66h.42h.de>
+# Copyright (c) 2005, 2008
+#	Thorsten “mirabilos” Glaser <tg@66h.42h.de>
 #
 # Licensee is hereby permitted to deal in this work without restric-
 # tion, including unlimited rights to use, publicly perform, modify,
@@ -248,6 +248,11 @@ case $(uname -s 2>/dev/null || uname) {
 	defmanpath='/usr/share/man:/usr/X11R6/man:/usr/X11R5/man'
 	export FETCH_CMD=$fetch BOOTSTRAP=yes
 	;;
+(MidnightBSD*)
+	ismnbsd=yes
+	defmanpath='/usr/local/man:/usr/share/man:/usr/X11R6/man' #XXX
+	export BOOTSTRAP=yes
+	;;
 (MirBSD*)
 	ismirbsd=yes
 	defmanpath='/usr/local/man:/usr/share/man:/usr/X11R6/man'
@@ -266,15 +271,16 @@ case $(uname -s 2>/dev/null || uname) {
 	;;
 }
 
-if [[ $ismirbsd$isopenbsd = *yes* && $user != root:bin ]]; then
+if [[ $ismirbsd$isopenbsd$ismnbsd = *yes* && $user != root:bin ]]; then
 	print -u2 WARNING: Using the MirPorts Framework without sudo is
 	print -u2 highly discouraged if you do not need to do so. Several
 	print -u2 applications install programmes with setuid/setgid bits
 	print -u2 set, leading to potential exploits of your user account.
 	print -u2 In contrast, they handle suid-root and sgid-wheel properly.
 	print -u2
-	if [[ $isopenbsd = yes ]]; then
-		print -u2 Even on OpenBSD, you should install MirPorts with sudo.
+	if [[ $isopenbsd$ismnbsd = yes ]]; then
+		print -u2 Even on OpenBSD and MidnightBSD, you should \
+		    install MirPorts with sudo.
 		print -u2
 	fi
 fi
@@ -317,6 +323,11 @@ else
 	run_mtree=0
 fi
 mkdir -p $etc
+if [[ $ismirbsd = no ]]; then
+	# create playpen base, so that pkg_add of paxmirabilis works
+	mkdir -p $localbase/tmp
+	export PKG_TMPDIR=$localbase/tmp
+fi
 
 
 # Install the ld(1) wrapper
@@ -328,10 +339,8 @@ ed -s $localbase/bin/ld <<-EOF
 	wq
 EOF
 chmod 555 $localbase/bin/ld
-if [[ $isdarwin = *yes* ]]; then
-	ln -f $localbase/bin/ld $localbase/db/libtool
-	ln -f $localbase/bin/ld $localbase/db/collect2
-fi
+[[ $isdarwin = *yes* ]] && ln -f $localbase/bin/ld $localbase/db/libtool
+[[ $isdarwin$ismnbsd = *yes* ]] && ln -f $localbase/bin/ld $localbase/db/collect2
 
 
 # Check if we need to install mirmake
@@ -400,6 +409,8 @@ fi
 		osmandir=man/cat
 		if [[ $isinterix = yes ]]; then
 			ostype=Interix
+		elif [[ $ismnbsd = yes ]]; then
+			ostype=MidnightBSD
 		elif [[ $ismirbsd = yes ]]; then
 			ostype=MirBSD
 		elif [[ $isopenbsd = yes ]]; then
@@ -467,6 +478,23 @@ if [[ ! -f /usr/bin/nroff && ! -f $localbase/bin/nroff ]]; then
 fi
 (( iopt )) && exit 0
 unset NROFF
+
+
+# Check if we need to build lndir
+if ! whence -p lndir >&-; then
+	mkdir -p $T/lndir_build
+	cp $portsdir/infrastructure/install/lndir.c $T/lndir_build/
+	(cd $T/lndir_build; $localbase/bin/mmake \
+	    -f $shmk/bsd.prog.mk PROG=lndir NOMAN=yes)
+	install -c -m 755 $T/lndir_build/lndir $localbase/bin/
+fi
+
+
+# Install other missing files
+if [[ $ismnbsd = yes && ! -e /usr/include/tzfile.h ]]; then
+	rm -f $shmk/tzfile.h
+	install -c -m 444 $portsdir/infrastructure/install/tzfile.h $shmk/
+fi
 
 
 # Check if we need to install mtree
@@ -702,9 +730,10 @@ fi
 	cd $portsdir/archivers/mircpio
 	mmake fake
 	x=$(mmake show=_FAKE_COOKIE)
+	rm -f $localbase/bin/tar
 	cp ${x%.fake_done}$(mmake show=PREFIX)/bin/tar $localbase/bin/
 	mmake package
-	pkg_add -N $(mmake show=_PACKAGE_COOKIE)
+	$localbase/sbin/pkg_add -N $(mmake show=_PACKAGE_COOKIE)
 	set +e
 	mmake clean
 	cd $T
@@ -712,7 +741,7 @@ fi
 
 
 # Check if we need to install patch
-[[ $isinterix = *yes* ]] && \
+[[ $isinterix$ismnbsd = *yes* ]] && \
     if ! pkg_info patch >/dev/null 2>&1; then
 	cd $portsdir/essentials/patch
 	set -e
@@ -724,7 +753,7 @@ fi
 
 
 # Check if we need to install cksum
-[[ $isdarwin$isinterix = *yes* ]] && \
+[[ $isdarwin$isinterix$ismnbsd = *yes* ]] && \
     if ! pkg_info mircksum >/dev/null 2>&1; then
 	cd $portsdir/essentials/cksum
 	set -e
@@ -736,7 +765,7 @@ fi
 
 
 # Check if we need to install GNU m4
-[[ $isinterix = *yes* ]] && \
+[[ $isinterix$ismnbsd = *yes* ]] && \
     if ! pkg_info m4 >/dev/null 2>&1; then
 	cd $portsdir/lang/m4
 	set -e
@@ -745,7 +774,7 @@ fi
 	mmake clean
 	cd $T
 fi
-[[ $isdarwin$isinterix = *yes* ]] && unset BOOTSTRAP
+[[ $isdarwin$isinterix$ismnbsd = *yes* ]] && unset BOOTSTRAP
 
 
 # Check if we need to install GNU wget
@@ -762,6 +791,8 @@ fi
 
 
 # End of installation programme
+
+[[ $ismirbsd = yes ]] || rm -rf $localbase/tmp
 
 (( topt )) || if [[ $ismirbsd$isopenbsd = *yes* && $myuid = root ]]; then
 	print Augmenting user and group database...

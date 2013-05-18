@@ -1,6 +1,6 @@
-.\" $MirOS: ports/Setup.sh.8,v 1.20 2006/12/31 17:03:16 tg Exp $
+.\" $MirOS: ports/Setup.sh.8,v 1.21 2008/03/12 23:17:19 tg Exp $
 .\"-
-.\" Copyright (c) 2005, 2006
+.\" Copyright (c) 2005, 2006, 2008
 .\"	Thorsten Glaser <tg@mirbsd.de>
 .\" Derived from work Copyright (c) 1991
 .\"	The Regents of the University of California.
@@ -79,7 +79,7 @@
 .	\}
 .\}
 ..
-.Dd October 6, 2006
+.Dd $Mdocdate$
 .Dt SETUP.SH 8
 .Os MirPorts\ Framework
 .Sh NAME
@@ -164,10 +164,13 @@ If unset, MirOS nrcon (from
 .At
 nroff) is used if found.
 .Pp
-Default value: /usr/bin/env nroff -Tascii
+Default value: /usr/bin/env nroff \-Tascii
 .Pp
 Suggested value for operating systems with GNU groff:
-.Li /path/to/nroff -c -Tlatin1
+.Li /path/to/nroff \-c \-Tlatin1
+.Pp
+Some operating systems with GNU groff can also use:
+.Li /path/to/nroff \-c \-Tutf8
 .It OPENNT_ROOT
 If set, Interix operating system type is assumed.
 .It OVERRIDE_MKSH
@@ -457,6 +460,19 @@ is not being found at
 or within
 .Pa ${LOCALBASE}/bin ,
 this programme is installed.
+.Ss LNDIR
+Port location:
+none yet
+.Pp
+If
+.Xr lndir 1
+is not being found in the
+.Ev PATH ,
+this is built and installed into
+.Pa ${LOCALBASE}/bin .
+No manual page is installed, because
+.Xr lndir 1
+usually comes with XFree86\(rg.
 .Ss PACKAGE TOOLS
 Port location:
 .Pa essentials/pkgtools
@@ -473,7 +489,7 @@ They are upgradable using a port, too.
 Port location:
 .Pa archivers/mircpio
 .Pp
-On Darwin (Mac OSX) and Interix, paxmirabilis aka MirCpio
+On Darwin (Mac OSX), Interix and MidnightBSD, paxmirabilis aka MirCpio
 is installed because the native archivers lack functionality.
 This programme and all following are actually already
 installed using a MirPort during set up time, too.
@@ -483,11 +499,12 @@ Port location:
 .Pp
 Interix does not come with
 .Xr patch 1 .
+MidnightBSD's is broken.
 .Ss CKSUM
 Port location:
 .Pa essentials/cksum
 .Pp
-This port is needed on Interix and Darwin, and optional on
+This port is needed on Darwin, Interix and MidnightBSD, and optional on
 .Ox ,
 to verify file checksums.
 .Ss GNU TEXINFO
@@ -501,7 +518,7 @@ Port location:
 .Pp
 .Tn GNU
 .Xr m4 1
-is installed early on Interix because autoconf depends on it.
+is installed early on Interix and MidnightBSD because autoconf depends on it.
 .Ss GNU WGET
 Port location:
 .Pa net/wget
@@ -522,9 +539,15 @@ Install the MirPorts Framework as a user on a shell on an
 box:
 .Bd -literal
 % cd
-% mkdir -p .etc/bin .etc/pkg
+% mkdir \-p .etc/bin .etc/pkg
 % setenv MKSH ~/.etc/bin/mksh
-% sh mirports/Setup.sh -uel ~/.etc/pkg
+% sh mirports/Setup.sh \-uel ~/.etc/pkg
+.Pp
+Install the MirPorts Framework system-wide on a MidnightBSD box:
+.Bd -literal
+$ cd /usr/mirports
+$ /bin/mksh Setup.sh \-e
+# (users must source /usr/mpkg/db/SetEnv.sh before using)
 .Ed
 .Sh DIAGNOSTICS
 Most error messages are displayed on stderr, some on stdout.
@@ -561,7 +584,7 @@ in cases of errors and should abort on all errors and corner cases.
 .Xr sh 1 ,
 .Xr wget 1
 .Pp
-.Pa http://www.mirbsd.org/man7/BSD-Licence.htm
+.Pa http://www.mirbsd.org/man7/BSD\-Licence
 .Sh AUTHORS
 .Nm
 was written by
@@ -585,7 +608,7 @@ more than once overwrites some files and doesn't
 touch some others.
 You must check them manually in any case.
 For upgrading, you should use package tools upgrades
-whenever possible \(em this is only a bootstrapping tool.
+whenever possible \*(en this is only a bootstrapping tool.
 .Pp
 For many tools, upgrade them using packages even after
 bootstrapping, because ports/packages honour ${CC}, ${CFLAGS}
