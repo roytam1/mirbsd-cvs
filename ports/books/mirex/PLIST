@@ -1,4 +1,5 @@
-@comment $MirOS: ports/books/mirex/pkg/PLIST,v 1.9 2008/03/14 14:53:25 tg Exp $
+@comment $MirOS: ports/books/mirex/PLIST,v 1.1 2008/08/26 19:18:56 tg Exp $
+share/examples/mirex/MirOS-Licence
 share/examples/mirex/acronyms
 share/examples/mirex/daemon.png
 share/examples/mirex/devel-keys
