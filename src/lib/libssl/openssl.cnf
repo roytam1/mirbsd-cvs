@@ -1,11 +1,12 @@
 # $MirSecuCron$
-# $MirOS: src/lib/libssl/openssl.cnf,v 1.4 2009/05/20 09:43:10 tg Exp $
+# $MirOS: src/lib/libssl/openssl.cnf,v 1.5 2009/07/18 14:09:17 tg Exp $
 #
 # OpenSSL example configuration file.
 # This is mostly being used for generation of certificate requests.
 #
 
 RANDFILE		= /dev/arandom
+default_md		= sha1
 
 ####################################################################
 [ req ]
