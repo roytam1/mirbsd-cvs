@@ -1,4 +1,4 @@
-/* $MirOS: gcc/gcc/protector.c,v 1.3 2005/03/25 19:29:10 tg Exp $ */
+/* $MirOS: gcc/gcc/protector.c,v 1.4 2006/07/04 00:02:14 tg Exp $ */
 
 /* RTL buffer overflow protection function for GNU C compiler
    Copyright (C) 2003, 2005
@@ -52,7 +52,7 @@ Software Foundation, 59 Temple Place - Suite 330, Boston, MA
 #include "reload.h"
 #include "protector.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: gcc/gcc/protector.c,v 1.4 2006/07/04 00:02:14 tg Exp $");
 
 /* Round a value to the lowest integer less than it that is a multiple of
    the required alignment.  Avoid using division in case the value is
@@ -2410,7 +2410,7 @@ push_frame_in_operand (rtx insn, rtx orig,
 	       && GET_CODE (XEXP (x, 1)) == REG
 	       && fp_equiv[REGNO (XEXP (x, 1))])
 	if (REGNO (XEXP (x, 0)) <= LAST_VIRTUAL_REGISTER
-	    || reg_renumber != 0 && reg_renumber[REGNO (XEXP (x, 0))] > 0)
+	    || reg_renumber != 0 && reg_renumber[REGNO (XEXP (x, 0))] >= 0)
 	  fp_equiv[REGNO (XEXP (x, 0))] = fp_equiv[REGNO (XEXP (x, 1))];
       break;
 
