@@ -40,11 +40,9 @@ Lretrocfg() {		# retrieve kernel config file
 	rm -f $Tin $Tout
 }
 
-/bin/cat <<-'EOF'
-
+print '
 	**********************************
 	Do not login as root, use sudo(8)!
 	**********************************
-
-EOF
-: $MirOS$
+'
+: $MirOS: src/etc/root.profile,v 1.11 2008/05/25 22:10:19 tg Exp $
