@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/Makefile.i386-big,v 1.21 2009/08/15 18:21:12 tg Exp $
+# $MirOS: src/distrib/common/Makefile.i386-big,v 1.22 2009/08/15 18:24:43 tg Exp $
 
 IMAGESIZE=	8192
 IMAGETYPE=	ipldisc
@@ -21,7 +21,7 @@ bsd: ${BSDOBJDIR}/distrib/generic/bsd
 cdrom-mdcopy:
 .if defined(SERIALSPEED)
 	sed \
-	    -e 's!^boot .*$!boot /v${OSrev}/i386/bsd.rd!' \
+	    -e 's!^boot .*$$!boot /v${OSrev}/i386/bsd.rd!' \
 	    -e 's/@/${SERIALSPEED}/g' \
 	    ${TOPDIR}/tools/boot.cfg.serial >${WRKDIR}/boot.cfg
 .endif
