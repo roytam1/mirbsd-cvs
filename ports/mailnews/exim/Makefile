@@ -1,7 +1,7 @@
-# $MirOS: ports/mailnews/exim/Makefile,v 1.8 2007/04/12 20:22:18 bsiegert Exp $
+# $MirOS: ports/mailnews/exim/Makefile,v 1.9 2008/03/09 17:23:04 tg Exp $
 
 COMMENT=		flexible mail transfer agent
-VERSION=		4.62
+VERSION=		4.69
 DISTNAME=		exim-${VERSION}
 DASH_VER=		0
 CATEGORIES=		mail
@@ -19,6 +19,8 @@ PERMIT_PACKAGE_CDROM=	Yes
 PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
+
+NO_REGRESS=		Yes
 
 FLAVOURS=		no_x11 no_perl mysql pgsql ldap iconv
 FLAVOUR?=
