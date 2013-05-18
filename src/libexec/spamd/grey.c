@@ -32,6 +32,7 @@
 #include <fcntl.h>
 #include <pwd.h>
 #include <signal.h>
+#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -43,7 +44,7 @@
 #include "grey.h"
 #include "sync.h"
 
-__RCSID("$MirOS: src/libexec/spamd/grey.c,v 1.2 2007/03/09 13:05:09 tg Exp $");
+__RCSID("$MirOS: src/libexec/spamd/grey.c,v 1.3 2007/04/30 11:30:19 tg Exp $");
 
 extern time_t passtime, greyexp, whiteexp, trapexp;
 extern struct syslog_data sdata;
@@ -90,6 +91,7 @@ SLIST_HEAD(, db_change) db_changes = SLIST_HEAD_INITIALIZER(db_changes);
 
 struct mail_addr {
 	SLIST_ENTRY(mail_addr)	entry;
+	bool			fullmatch;
 	char			addr[MAX_MAIL];
 };
 
@@ -323,6 +325,10 @@ readsuffixlists(void)
 				len--;
 			if ((m = malloc(sizeof(struct mail_addr))) == NULL)
 				goto bad;
+			if ((m->fullmatch = (*buf == '='))) {
+				++buf;
+				--len;
+			}
 			if ((len + 1) > sizeof(m->addr)) {
 				syslog_r(LOG_ERR, &sdata,
 				    "line too long in %s - file ignored",
@@ -662,7 +668,7 @@ trapcheck(DB *db, char *to)
 	if (!SLIST_EMPTY(&match_suffix)) {
 		s = strlen(trap);
 		SLIST_FOREACH(m, &match_suffix, entry) {
-			j = s - strlen(m->addr);
+			j = m->fullmatch ? 0 : s - strlen(m->addr);
 			if ((j >= 0) && (strcasecmp(trap+j, m->addr) == 0))
 				smatch = 1;
 		}
