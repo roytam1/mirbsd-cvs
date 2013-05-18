@@ -1,4 +1,4 @@
-.\" $MirOS: ports/infrastructure/pkgtools/rtfm/bsd.port.mk.5,v 1.23 2008/10/05 19:04:34 tg Exp $
+.\" $MirOS: ports/infrastructure/pkgtools/rtfm/bsd.port.mk.5,v 1.24 2008/11/01 22:57:23 tg Exp $
 .\" $OpenBSD: bsd.port.mk.5,v 1.134 2004/02/18 13:39:02 xsa Exp $
 .\"
 .\" Copyright (c) 2007, 2008 Thorsten Glaser
@@ -63,7 +63,7 @@
 .\" with -mandoc, it might implement .Mx itself, but we want to
 .\" use our own definition. And .Dd must come *first*, always.
 .\"
-.Dd $Mdocdate: October 5 2008 $
+.Dd $Mdocdate: November 1 2008 $
 .\"
 .\" Implement .Mx (MirBSD)
 .\"
@@ -568,7 +568,7 @@ selects the older version 2.13,
 .Sq yes
 selects the current version from the 2.5x series.
 If autoconf must be run manually,
-.Ev MODGNU_AUTOCONF_DEPENDS
+.Ev MODGNU_AUTOCONF_DEPS
 can be used to specify what packages to depend upon.
 .It Ev AUTOCONF_VERSION
 Manually set the autoconf version to use.
@@ -832,18 +832,6 @@ The port has no man pages the Imakefile should try installing.
 There is a configure script, but it does not fit the normal gnu configure
 conventions.
 .El
-.It Ev MODGNU_RECURSE_DIRS
-If a port uses more than one
-.Cm configure
-script, set this to all directories that contain one.
-Copies
-.Pa config.guess
-to the right places; if
-.Ev CONFIGURE_STYLE
-is
-.Ar autoconf ,
-autoconf is also called in the given directories,
-and so on for autogen, autoheader, MirLibtool conversion, etc.
 .It Ev COPTS
 User settings.
 Supplementary options appended to ${CFLAGS} for building.
@@ -1241,6 +1229,43 @@ retrieved.
 File recorded in the package and displayed during installation.
 Defaults to ${PKGDIR}/MESSAGE if this file exists.
 Leave empty if no message is needed.
+.It Ev MODGNU_RECURSE_DIRS
+If a port uses more than one
+.Cm configure
+script, set this to all directories that contain one.
+Copies
+.Pa config.guess
+to the right places; if
+.Ev CONFIGURE_STYLE
+is
+.Ar autoconf ,
+autoconf is also called in the given directories,
+and so on for autogen, autoheader, MirLibtool conversion, etc.
+.It Ev MODGNU_TYPESCAN
+Set this to the names of functions where the configure script
+scans for types of its arguments, to prevent bogus warnings
+such as:
+.Pp
+.Bd -literal
+conftest.c:141: error: conflicting types for 'recv'
+/usr/include/sys/socket.h:451: error: previous declaration of 'recv' was here
+.Ed
+.Pp
+These warnings are grepped from the
+.Pa config.log
+file in case someone forgot to run our patched version of
+.Pa ports/devel/autoconf/2.{13,61}
+on the script, which prevents mis-not-detection of functions.
+.It Ev MODSIMPLE_USE_INSTALL
+Set to the
+.Xr install 1
+programme to use to copy files for installation.
+.Pp
+Default:
+.Li ${INSTALL} -c -o ${BINOWN} -g ${BINGRP}
+.It Ev MOTIFLIB
+Read-only.
+Correct incantation to link with motif.
 .It Ev MTREE_FILE
 .Xr mtree 8
 specification to check when creating a PLIST with the
@@ -1261,24 +1286,6 @@ This feature is primarily intended for large, interconnected ports,
 such as the kde suite, where a base package sets up a large, extra
 directory hierarchy that would make the manual checking of packing lists
 tedious.
-.It Ev MODGNU_TYPESCAN
-Set this to the names of functions where the configure script
-scans for types of its arguments, to prevent bogus warnings
-such as:
-.Pp
-.Bd -literal
-conftest.c:141: error: conflicting types for 'recv'
-/usr/include/sys/socket.h:451: error: previous declaration of 'recv' was here
-.Ed
-.Pp
-These warnings are grepped from the
-.Pa config.log
-file in case someone forgot to run our patched version of
-.Pa ports/devel/autoconf/2.{13,61}
-on the script, which prevents mis-not-detection of functions.
-.It Ev MOTIFLIB
-Read-only.
-Correct incantation to link with motif.
 .It Ev MULTI_PACKAGES
 Set to a list of package extensions for ports that create multiple packages.
 See
@@ -2382,6 +2389,9 @@ situation, where all these files will automatically default to the
 non-flavour version if there is no flavour-specific file around.
 .Sh SEE ALSO
 .Xr ftp 1 ,
+.Xr make 1
+or
+.Xr mmake 1 ,
 .Xr pkg_add 1 ,
 .Xr library-specs 7 ,
 .Xr packages-specs 7
