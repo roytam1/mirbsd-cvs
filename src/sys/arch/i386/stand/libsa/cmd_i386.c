@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/stand/libsa/cmd_i386.c,v 1.9 2008/12/28 18:56:11 tg Exp $	*/
+/**	$MirOS: src/sys/arch/i386/stand/libsa/cmd_i386.c,v 1.10 2009/01/01 21:46:38 tg Exp $	*/
 /*	$OpenBSD: cmd_i386.c,v 1.29 2006/09/18 21:14:15 mpf Exp $	*/
 
 /*
@@ -201,6 +201,7 @@ Xboot(void)
 
 	/* Load %dl, ljmp */
 	baddr = 0x00007C00;
+	gateA20(0);
 	bootbuf(buf, 512, dev, baddr);
 
 bad:
