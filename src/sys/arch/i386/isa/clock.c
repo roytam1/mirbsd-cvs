@@ -1,9 +1,9 @@
-/**	$MirOS: src/sys/arch/i386/isa/clock.c,v 1.11 2010/07/25 16:37:59 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/isa/clock.c,v 1.12 2010/09/12 19:02:16 tg Exp $ */
 /*	$OpenBSD: clock.c,v 1.31 2004/02/27 21:07:49 grange Exp $	*/
 /*	$NetBSD: clock.c,v 1.39 1996/05/12 23:11:54 mycroft Exp $	*/
 
 /*-
- * Copyright (c) 2004, 2005, 2010
+ * Copyright (c) 2004, 2005, 2010, 2011
  *	Thorsten Glaser <tg@mirbsd.org>
  * Copyright (c) 1993, 1994 Charles Hannum.
  * Copyright (c) 1990 The Regents of the University of California.
@@ -428,22 +428,49 @@ unsigned int delaycount;	/* calibrated loop variable (1 millisecond) */
 void
 findcpuspeed(void)
 {
-	int i;
+	unsigned int i, guess = FIRST_GUESS;
 	int remainder;
+	uint64_t j;
 
-	/* Put counter in count down mode */
-	outb(TIMER_MODE, TIMER_SEL0 | TIMER_16BIT | TIMER_RATEGEN);
-	outb(TIMER_CNTR0, 0xff);
-	outb(TIMER_CNTR0, 0xff);
-	for (i = FIRST_GUESS; i; i--)
-		;
-	/* Read the value left in the counter */
-	remainder = gettick();
+	goto start_loop;
+
+	do {
+		guess <<= 1;
+		printf("clock: another round trying to find CPU speed\n");
+ start_loop:
+		if (!guess) {
+			/* yuk */
+			printf("clock: couldn't find CPU speed\n");
+			delaycount = 1024;
+			return;
+		}
+
+		/* Put counter in count down mode */
+		outb(TIMER_MODE, TIMER_SEL0 | TIMER_16BIT | TIMER_RATEGEN);
+		outb(TIMER_CNTR0, 0xff);
+		outb(TIMER_CNTR0, 0xff);
+		for (i = guess; i; i--)
+			;
+		/* Read the value left in the counter */
+		remainder = gettick();
+	} while (remainder == 0xFFFF);
+
 	/*
 	 * Formula for delaycount is:
 	 *  (loopcount * timer clock speed) / (counter ticks * 1000)
 	 */
-	delaycount = (FIRST_GUESS * TIMER_DIV(1000)) / (0xffff-remainder);
+	j = guess;
+	j *= TIMER_DIV(1000);
+	j /= 0xFFFF - remainder;
+	if (j > 0xFFFFFFFFULL) {
+		/* yuk */
+		printf("clock: CPU speed too large\n");
+		j = 0xFFFFFFFFULL;
+	}
+	delaycount = j;
+
+	if (guess != FIRST_GUESS)
+		printf("clock: if this is qemu, try with '-icount auto'\n");
 }
 
 #if defined(I586_CPU) || defined(I686_CPU)
