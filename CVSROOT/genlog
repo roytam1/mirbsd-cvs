@@ -1,5 +1,5 @@
 #!/usr/bin/env mksh
-# $MirOS: src/share/misc/licence.template,v 1.28 2008/11/14 15:33:44 tg Rel $
+# $MirOS: CVSROOT/genlog,v 1.14 2009/11/22 22:22:58 tg Exp $
 #-
 # Copyright (c) 2004, 2005, 2006, 2009
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -22,6 +22,11 @@
 # Check if log file is larger than a certain size, if yes, rename it
 # (locked); do the same for the history file.
 # Then append stdin to log file.
+#
+# Note: the aging works like this: foo.00 foo.01 ... foo.38 foo
+# The next rotation would rename foo into foo.39 and open a new foo,
+# which means files are only accessible with the number once complete.
+# This may be subject to change.
 
 export LC_ALL=C
 unset LANGUAGE

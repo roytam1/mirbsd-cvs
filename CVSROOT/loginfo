@@ -1,4 +1,16 @@
-# $MirOS: CVSROOT/loginfo,v 1.26 2011/06/11 21:43:58 tg Exp $
+# $MirOS: CVSROOT/loginfo,v 1.27 2011/07/28 10:22:11 tg Exp $
+#-
+# Note: with the current system, the last directory to be committed
+# into “wins” the eMail and changelog location. This will be replaced
+# with a system where directories can gather interest for recipients
+# of an eMail soon. Unsure what to do about changelogs; probably the
+# main changelog if not the entirety of the commit goes into exactly
+# one non-main (e.g. hosted-user) one. (Duplication is evil.)
+# Check for: -D (split mail), -f (main wins on conflict), -I (make
+# this global I think), -M (keep at '(multiple)'), -m (register an
+# interest), -P (just slap the header on the mail – interacts with
+# the -D option! only one!), -R (ugh… probably make -m/-R tuples
+# and, similarily to -D, split and take care of -P).
 #-
 # The "loginfo" file controls where "cvs commit" log information is
 # sent. The first entry on a line is a regular expression which must
