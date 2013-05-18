@@ -2,7 +2,7 @@
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.181 2008/10/28 14:32:35 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.182 2008/10/30 19:40:35 tg Exp $'
 mws_content <<'EOF'
 <h1>mksh(1) R36</h1>
 <p>This is the website of the MirBSD™ Korn Shell, an actively developed free
@@ -57,7 +57,7 @@ mws_content <<'EOF'
  Tru64 (OSF/1 V5.1B) system, an OSF/1 V2.0 system and an Ultrix 4.5 system.
  Thanks to Adam “replaced” Hoka for a BSDi BSD/OS 3.1 ISO9660 image and
  offering to help with HP-sUX testing (now that HP TestDrive went down) and
- porting to Haiku.
+ porting to Haiku. Thanks to André “naaina” Wösten for ssh on a QNX box.
  (Did I miss anyone? Mail me if so.)</p>
 <p>What is mksh(1)? – Short answer: The MirBSD Korn Shell. Okay, but what
  exactly does it do, or why another shell? These questions will be answered
@@ -473,6 +473,9 @@ mws_content <<'EOF'
  it’s possible that PW32 and Minix 3, at least, need job control disabled
  or worked around. Maybe peek at how ash/bash for PW32 do it. gcc works.</p>
 
+<h5 id="oe_qnx">OS: QNX/Neutrino</h5>
+<p>QNX/Neutrino (Perl: “nto”) support appeared in mksh R36b.</p>
+
 <h5 id="oe_solaris">OS: Solaris</h5>
 <p>Solaris is full supported since “forever” with gcc, and since mksh R30
  with Sun’s C compiler. Both 32-bit and 64-bit modes work; 64-bit mode is
@@ -754,6 +757,7 @@ mws_content <<'EOF'
  <li>MirOS #10-current (i386 pcc20081028-MirPorts-0)</li>
  <li>MirOS #10-current (i386 SUNWcc5.9 Linux_i386 2007/05/03, GNU ld 2.13.90.0.2 20020802)</li>
  <li>MidnightBSD 0.2.1-RELEASE-p2 (i386 pcc20081028-MirPorts-0)</li>
+ <li>QNX 6.3.2 2006/03/16-14:19:50EST (i386 gcc2.95.3)</li>
 </ul>
 <h3 id="regress_rel">Current Release</h3>
 <ul>
@@ -1016,6 +1020,8 @@ mws_content <<'EOF'
  <li>[tg] Remove all uses of the statements-as-expressions feature by
   rewriting the source code accordingly and optimising some parts</li>
  <li>[tg] Recognise nwcc (Nils Weller’s C compiler) in <tt>Build.sh</tt></li>
+ <li>[tg] If &lt;strings.h&gt; exists, pull it in for strcasecmp(3)</li>
+ <li>[tg] Welcome QNX/Neutrino; work around broken <tt>/bin/ed</tt></li>
 </ul>
 <p id="r36">mksh R36 features the following changes:</p><ul>
  <li>Fix <tt>Build.sh</tt> invocation without ‘-r’, 10x Elias Pipping</li>
