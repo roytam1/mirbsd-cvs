@@ -1,5 +1,5 @@
 /**	$XFree86$ */
-/**	$MirOS: src/usr.bin/compress/zopen.c,v 1.10 2011/10/11 19:25:29 tg Exp $ */
+/**	$MirOS: X11/xc/lib/font/fontfile/decompress.c,v 1.5 2011/10/11 19:33:52 tg Exp $ */
 /**	_MirOS: src/usr.bin/compress/zopen.c,v 1.10 2011/10/11 19:25:29 tg Exp $ */
 /*	$OpenBSD: zopen.c,v 1.17 2005/08/25 17:07:56 millert Exp $	*/
 /*	$NetBSD: zopen.c,v 1.5 1995/03/26 09:44:53 glass Exp $	*/
@@ -83,7 +83,7 @@
 #define __RCSID(x)	static const char __rcsid[] = x
 #endif
 
-__RCSID("$MirOS: src/usr.bin/compress/zopen.c,v 1.10 2011/10/11 19:25:29 tg Exp $");
+__RCSID("$MirOS: X11/xc/lib/font/fontfile/decompress.c,v 1.5 2011/10/11 19:33:52 tg Exp $");
 
 #define	BITS		16		/* Default bits. */
 #define	HSIZE		69001		/* 95% occupancy */
@@ -312,8 +312,7 @@ zread(BufFilePtr zsf)
 			 * that's better than dumping core.
 			 */
 			if (zs->zs_stackp >= (u_char *)&zs->zs_htab[HSIZE]) {
-				errno = EINVAL;
-				return (-1);
+				return (BUFFILEEOF);
 			}
 			*zs->zs_stackp++ = tab_suffixof(zs->zs_code);
 			zs->zs_code = tab_prefixof(zs->zs_code);
