@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: src/lib/libmdsup/Makefile,v 1.1 2008/10/16 13:31:20 tg Exp $
 
 LIB=		mdsup
 NOMAN=		Yes
@@ -14,13 +14,13 @@ SRCS=
 
 .if ${MACHINE_ARCH} == "i386"
 SRCS+=		divsi3.S udivsi3.S
-SRCS+=		bzero.S memcpy.S
+SRCS+=		memcpy.S memset.S
 
 .elif ${MACHINE_ARCH} == "sparc"
 CPPFLAGS+=	-DSTRONG_SPARC
 COPTS+=		-msoft-float
 
-SRCS+=		bzero.S memcpy.c
+SRCS+=		bzero.S memcpy.c memset.c
 SRCS+=		mul.S umul.S
 SRCS+=		rem.S sdiv.S udiv.S urem.S
 
