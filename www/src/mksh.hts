@@ -2,7 +2,7 @@
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.203 2009/02/15 15:26:24 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.204 2009/02/22 19:07:23 tg Exp $'
 mws_content <<'EOF'
 <h1>mksh(1) R36b</h1>
 <p>This is the website of the MirBSD™ Korn Shell, an actively developed free
@@ -681,6 +681,11 @@ mws_content <<'EOF'
  href="http://cvsweb.netbsd.org/bsdweb.cgi/pkgsrc/shells/mksh/">package</a>
  created by us and kept up to date by Blair Sadewitz and Adam “replaced” Hoka.
  We do not provide an inofficial source package any longer.</li>
+<li>The <a href="http://wiki.netbsd.se/Desktop_Project">Desktop NetBSD
+ project</a> also contains mksh; see the source of their <a
+ href="http://cvsweb.netbsd.org/bsdweb.cgi/pkgsrc/meta-pkgs/desktop-gnome/Makefile">meta
+ package</a>. This will provide their users with a modern, fast, secure,
+ featureful shell and enhance the experience.</li>
 <li><a href="http://beastiebox.sourceforge.net/">Beastiebox</a> also comes
  with mksh as an option. It’s NetBSD® based, mostly.</li>
 <li>The MirPorts Framework brings mksh to OpenBSD, Mac OSX and Interix as
