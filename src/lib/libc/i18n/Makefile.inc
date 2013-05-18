@@ -1,4 +1,4 @@
-# $MirOS: src/lib/libc/i18n/Makefile.inc,v 1.32 2008/11/22 13:51:09 tg Exp $
+# $MirOS: src/lib/libc/i18n/Makefile.inc,v 1.33 2008/11/22 14:00:50 tg Exp $
 
 .PATH: ${LIBCSRCDIR}/i18n
 .PATH: ${LIBCSRCDIR}/locale
@@ -47,6 +47,10 @@ SRCS+=		ambstowcs.c
 SRCS+=		awcstombs.c
 UNIFDEF_SRCS+=	ambsntowcs.c ambstowcs.c -DL_ambsntowcs
 UNIFDEF_SRCS+=	awcsntombs.c awcstombs.c -DL_awcsntombs
+MAN+=		ambstowcs.3
+MLINKS+=	ambstowcs.3 awcstombs.3
+MLINKS+=	ambstowcs.3 ambsntowcs.3
+MLINKS+=	ambstowcs.3 awcsntombs.3
 
 # MirOS reimplementation of the Plan 9 rune stuff API
 UNIFDEF_SRCS+=	p9¾_chartorune.c runestuff.c -DL_chartorune
