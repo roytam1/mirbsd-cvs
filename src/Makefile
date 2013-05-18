@@ -1,4 +1,4 @@
-# $MirOS: src/Makefile,v 1.83 2006/11/17 01:48:55 tg Exp $
+# $MirOS: src/Makefile,v 1.84 2006/11/17 01:52:21 tg Exp $
 # $OpenBSD: Makefile,v 1.103 2004/05/03 15:18:18 drahn Exp $
 
 .if defined(MAKECONF) && exists(${MAKECONF})
@@ -274,7 +274,7 @@ _do-dist:
 		find usr/mpkg | sort | ${SUDO} cpio -oC512 -Hsv4cpio -Mset | \
 		    gzip -n9 | ${SUDO} dd of=../rel/pkgutl${OSrev}.ngz && t=; \
 		[[ -z $$t ]] || rm -f ${BSDRELDIR}/rel/pkgutl${OSrev}.ngz; \
-		cd ${BSDRELDIR}; ${SUDO} rm -f base/dev/!(MAKEDEV) \
+		cd ${BSDRELDIR}; ${SUDO} rm -rf base/dev/!(MAKEDEV) \
 		    base/usr/{mpkg,ports} base/.etc base/var/games; \
 		${SUDO} mkdir -m 0775 ${BSDRELDIR}/base/usr/ports; \
 		${SUDO} chown root:wsrc ${BSDRELDIR}/base/usr/ports; \
