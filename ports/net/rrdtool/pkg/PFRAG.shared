@@ -1,4 +1,0 @@
-@comment $MirOS$
-@comment $OpenBSD: PFRAG.shared,v 1.6 2002/12/27 15:26:07 danh Exp $
-%%tcl%%
-@lib lib/librrd.so.0.0

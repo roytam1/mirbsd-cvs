@@ -1,4 +1,0 @@
-transcode is a text console video-stream processing tool.
-
-This module adds Quicktime(tm) audio and video decoding and encoding
-functionality to transcode with help from the libquicktime package.
