@@ -1,4 +1,4 @@
-# $MirOS: src/gnu/usr.bin/anoncvs/Makefile,v 1.6 2007/02/09 19:12:18 tg Exp $
+# $MirOS: src/gnu/usr.bin/anoncvs/Makefile,v 1.7 2007/07/07 22:02:42 tg Exp $
 
 CBIN=		anoncvsbin
 BINDIR=		/var/anoncvs/anoncvs
@@ -33,21 +33,21 @@ distribution:
 	install -c -o ${BINOWN} -g ${BINGRP} -m ${NONBINMODE} \
 	    ${.CURDIR}/dot.plan ${DESTDIR}${BINDIR}/.plan
 	install -c -o ${BINOWN} -g ${BINGRP} -m ${NONBINMODE} \
-	    ${.CURDIR}/resolv.conf ${DESTDIR}${BINDIR}/etc
+	    ${.CURDIR}/resolv.conf ${DESTDIR}${BINDIR}/etc/
 	install -c -o ${BINOWN} -g ${BINGRP} -m ${NONBINMODE} \
-	    ${DESTDIR}/etc/group ${DESTDIR}${BINDIR}/etc
+	    ${DESTDIR}/etc/group ${DESTDIR}${BINDIR}/etc/
 	install -c -o ${BINOWN} -g ${BINGRP} -m ${NONBINMODE} \
-	    ${DESTDIR}/etc/hosts ${DESTDIR}${BINDIR}/etc
+	    ${DESTDIR}/etc/hosts ${DESTDIR}${BINDIR}/etc/
 	install -c -o ${BINOWN} -g ${BINGRP} -m ${NONBINMODE} \
-	    ${DESTDIR}/etc/passwd ${DESTDIR}${BINDIR}/etc
+	    ${DESTDIR}/etc/passwd ${DESTDIR}${BINDIR}/etc/
 	install -c -o ${BINOWN} -g ${BINGRP} -m ${NONBINMODE} \
-	    ${DESTDIR}/etc/protocols ${DESTDIR}${BINDIR}/etc
+	    ${DESTDIR}/etc/protocols ${DESTDIR}${BINDIR}/etc/
 	install -c -o ${BINOWN} -g ${BINGRP} -m ${NONBINMODE} \
-	    ${DESTDIR}/etc/pwd.db ${DESTDIR}${BINDIR}/etc
+	    ${DESTDIR}/etc/pwd.db ${DESTDIR}${BINDIR}/etc/
 	install -c -o ${BINOWN} -g ${BINGRP} -m ${NONBINMODE} \
-	    ${DESTDIR}/etc/services ${DESTDIR}${BINDIR}/etc
+	    ${DESTDIR}/etc/services ${DESTDIR}${BINDIR}/etc/
 	install -c -o ${BINOWN} -g ${BINGRP} -m ${NONBINMODE} \
-	    ${DESTDIR}/etc/ttys ${DESTDIR}${BINDIR}/etc
+	    ${DESTDIR}/etc/ttys.dist ${DESTDIR}${BINDIR}/etc/ttys
 .else
 distribution:
 	@echo "Error: doing make distribution here is a great cause"
