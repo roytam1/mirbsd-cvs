@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/baselive/Makefile,v 1.16 2007/02/20 00:26:35 tg Exp $
+# $MirOS: src/distrib/baselive/Makefile,v 1.17 2007/03/09 11:31:49 tg Exp $
 
 .include <bsd.own.mk>
 
@@ -86,6 +86,7 @@ ${IMAGE}:
 	${SUDO} fsck -fy ${VND_RDEV}
 	${SUDO} vnconfig -v -u ${VND}
 	${SUDO} rm -rf ${TMPMOUNT}
+	${SUDO} dd if=/dev/arandom bs=512 count=1 of=$@ conv=notrunc
 
 addcontrib:
 	@if [[ ! -s ${BSDSRCDIR}/contrib/code/jupp/jupprc ]]; then \
