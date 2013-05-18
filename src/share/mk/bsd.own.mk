@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/bsd.own.mk,v 1.17 2005/07/04 02:37:18 tg Exp $
+# $MirOS: src/share/mk/bsd.own.mk,v 1.18 2005/08/21 11:26:19 tg Exp $
 # $OpenBSD: bsd.own.mk,v 1.92 2005/01/18 00:28:42 mickey Exp $
 # $NetBSD: bsd.own.mk,v 1.24 1996/04/13 02:08:09 thorpej Exp $
 
@@ -8,8 +8,8 @@ BSD_OWN_MK=1
 # Host-specific overrides
 .if defined(MAKECONF) && exists(${MAKECONF})
 .  include "${MAKECONF}"
-.elif exists(/etc/mk.conf)
-.  include "/etc/mk.conf"
+.elif exists(/etc/${MAKE:T}.cfg)
+.  include "/etc/${MAKE:T}.cfg"
 .endif
 
 CROSS_MODE?=	No

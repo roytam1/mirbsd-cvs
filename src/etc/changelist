@@ -1,4 +1,4 @@
-# $MirOS: src/etc/changelist,v 1.5 2005/07/24 15:45:28 tg Exp $
+# $MirOS: src/etc/changelist,v 1.6 2005/08/07 20:34:13 tg Exp $
 # $OpenBSD: changelist,v 1.42 2005/02/07 06:45:17 david Exp $
 #
 # List of files which the security script backs up and checks
@@ -75,9 +75,9 @@
 /etc/mail/trusted-users
 /etc/mail/virtusertable
 /etc/mailer.conf
+/etc/make.cfg
 /etc/man.conf
 /etc/master.passwd
-/etc/mk.conf
 /etc/moduli
 /etc/monthly
 /etc/monthly.local

@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/bsd.README,v 1.5 2005/04/29 15:42:53 tg Exp $
+# $MirOS: src/share/mk/bsd.README,v 1.6 2005/07/04 02:37:18 tg Exp $
 # $OpenBSD: bsd.README,v 1.37 2005/04/15 17:18:57 espie Exp $
 # $NetBSD: bsd.README,v 1.17 1996/04/13 02:08:08 thorpej Exp $
 # @(#)bsd.README	5.1 (Berkeley) 5/11/90
@@ -148,8 +148,9 @@ It has no targets.
 
 To get system-specific configuration parameters, bsd.own.mk will try to
 include the file specified by the "MAKECONF" variable.  If MAKECONF is not
-set, or no such file exists, the system make configuration file, /etc/mk.conf
-is included.  These files may define any of the variables described below.
+set, or no such file exists, the system make configuration file,
+/etc/${MAKE}.cfg, is included.  These files may define any of the variables
+described below.
 
 bsd.own.mk sets the following variables, if they are not already defined
 (defaults are in brackets):
