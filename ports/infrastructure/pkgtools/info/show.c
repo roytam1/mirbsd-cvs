@@ -1,4 +1,4 @@
-/* $MirOS: ports/infrastructure/pkgtools/info/show.c,v 1.4 2005/05/06 17:35:15 tg Exp $ */
+/* $MirOS: ports/infrastructure/pkgtools/info/show.c,v 1.5 2007/03/30 23:20:11 bsiegert Exp $ */
 /* $OpenBSD: show.c,v 1.13 2003/08/21 20:24:56 espie Exp $ */
 
 /*
@@ -25,7 +25,7 @@
 #include "lib.h"
 #include "info.h"
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/info/show.c,v 1.4 2005/05/06 17:35:15 tg Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/info/show.c,v 1.5 2007/03/30 23:20:11 bsiegert Exp $");
 
 /* structure to define entries for the "show table" */
 typedef struct show_t {
@@ -97,7 +97,7 @@ show_index(const char *title, const char *fname)
 	strlcpy(line, "???\n", sizeof(line));
 
 	if (!Quiet) {
-		printf("%s%-18s ", InfoPrefix, title);
+		printf("%s%-20s ", InfoPrefix, title);
 	}
 	if ((fp = fopen(fname, "r")) == NULL) {
 		pwarnx("show_file (%s): can't open '%s' for reading", title, fname);
