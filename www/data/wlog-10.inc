@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.373 2011/11/22 19:10:17 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.374 2011/12/18 13:14:24 bsiegert Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -8843,4 +8843,37 @@ Tag: pkgsrc news
  <a href="http://www.netbsd.org/docs/pkgsrc/using.html#using-pkg">relevant
  section of the pkgsrc guide</a>.
 </p>
+----
+Date: 28.12.2011 23:06
+Author: tg@
+Title: MirBSD-current snapshot uploaded, some things gone
+Tag: news snapshot
+
+<p>What’s going on in MirOS Project land? Other than all developers
+ being buried in dayjob work, of course… (sorry for that, guys; even
+ tg@ has now succumbed to an ever-growing backlog but <em>will</em>
+ be back, some time)</p>
+<p>tg@ uploaded a new MirBSD-current/i386 snapshot (20111228) plus
+ a full set of HTML manpages for all architectures (so they all are
+ in the new amber style), and redid the usual combined i386+sparc
+ <tt>cdrom10.iso</tt> Midi-ISO as well as the netboot.me kit. Older
+ binary packages may no longer be supported: the old libgcc_s DLL
+ is no longer provided in <tt>fixes10.ngz</tt>, and it may be time
+ to reduce the amount of packages in MirPorts to concentrate on
+ those worth the effort and receiving enough care.</p>
+<p>Thanks to bsiegert@’s amazing work, the pkgsrc® kit of anno 2007
+ could finally be deleted. <a href="@@RELPATH@@pkgsrc.htm">The page
+ about pkgsrc® on MirOS</a> describes instructions to use instead.
+ At some point, we may release a binary bootstrap kit along with
+ the snapshots as set ready for pickup by the installer.</p>
+<p>No MirGRML based on the latest Grml 2011.12 release will be made.
+ We’ll be investigating a possible solution for a flavour of the
+ popular GNU/Linux OS to accompany full Triforce Live CDs in the
+ future (for now, we’ll keep the old MirGRML 2009.10 on them).</p>
+<p>We hope to be able to return to investing more spare (heh…) time
+ into development some time. For now, we apologise for the slowed
+ down development and reaction even in important subprojects such
+ as <a href="@@RELPATH@@mksh.htm">mksh</a>. Occasionally, they do
+ have updates, e.g. <a href="@@RELPATH@@jupp.htm#bins">the latest
+ Jupp/Win32 release</a>, or fixes in CVS.</p>
 ----
