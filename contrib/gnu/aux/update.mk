@@ -1,4 +1,4 @@
-# $MirOS: contrib/gnu/aux/update.mk,v 1.2 2005/02/10 22:10:00 tg Exp $
+# $MirOS: contrib/gnu/aux/update.mk,v 1.3 2005/02/11 14:31:17 tg Exp $
 
 ONLY?=
 SOURCES=
@@ -29,7 +29,6 @@ POSSIBLE_SOURCES+=					\
 	automake/lib/missing				\
 	automake/lib/texinfo.tex			\
 	automake/lib/ylwrap				\
-	aux/_gplwarn.c					\
 	aux/install-sh					\
 	aux/mkinstalldirs				\
 	aux/move-if-change				\
