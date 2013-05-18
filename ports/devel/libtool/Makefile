@@ -1,4 +1,4 @@
-# $MirOS: ports/devel/libtool/Makefile,v 1.9 2007/05/07 21:56:24 tg Exp $
+# $MirOS: ports/devel/libtool/Makefile,v 1.10 2008/03/09 17:22:31 tg Exp $
 
 COMMENT=		complete GNU libtool with MirLibtool patches added
 CATEGORIES=		devel
@@ -6,7 +6,7 @@ CVS_DISTREPO=		:pserver:anonymous@cvs.sv.gnu.org:/sources/libtool
 CVS_DISTDATE=		2006/06/30
 CVS_DISTTAGS=		branch-1-5
 CVS_DISTMODS=		libtool
-DASH_VER=		2
+DASH_VER=		3
 _DATE=			${CVS_DISTDATE:C![/:]!!g:Q:S!\\ !!}
 PKGNAME=		libtool-1.5.23a.${_DATE}-${DASH_VER}
 HOMEPAGE=		http://www.gnu.org/software/libtool/
