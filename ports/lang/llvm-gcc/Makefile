@@ -1,4 +1,4 @@
-# $MirOS: ports/lang/llvm-gcc/Makefile,v 1.2 2008/11/10 20:30:54 tg Exp $
+# $MirOS: ports/lang/llvm-gcc/Makefile,v 1.3 2008/11/11 05:30:58 tg Exp $
 
 ONLY_FOR_PLATFORM=	Darwin:*:* MirBSD:*:i386
 
@@ -52,7 +52,6 @@ CONFIGURE_ARGS+=	--enable-static \
 			--enable-llvm=${LOCALBASE:Q} \
 			--enable-languages=c,objc,c++,obj-c++,fortran \
 			--enable-threads \
-			--enable-target-optspace \
 			--with-libiconv-prefix=${ICONV_PREFIX:Q} \
 			--with-gnu-ld \
 			--with-gnu-as \
