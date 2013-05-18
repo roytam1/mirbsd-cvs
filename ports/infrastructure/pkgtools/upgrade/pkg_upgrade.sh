@@ -1,5 +1,5 @@
 #!/usr/bin/env mksh
-# $MirOS: ports/infrastructure/pkgtools/upgrade/pkg_upgrade.sh,v 1.20 2006/09/20 22:24:49 tg Exp $
+# $MirOS: ports/infrastructure/pkgtools/upgrade/pkg_upgrade.sh,v 1.21 2006/12/11 21:26:17 tg Exp $
 #-
 # Copyright (c) 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -87,6 +87,7 @@ function build_stub
 	cat $oldpkgdir/+COMMENT >> $stubpkgdir/+COMMENT
 	cp $oldpkgdir/+DESC $stubpkgdir
 	[[ -f $TMPDIR/+REQUIRED_BY ]] && cp $TMPDIR/+REQUIRED_BY $stubpkgdir
+	[[ -f $TMPDIR/+DEPENDS ]] && cp $TMPDIR/+DEPENDS $stubpkgdir
 
 	echo "@name shlibs-$OLDPKGS" > $stubcontents
 	echo "@pkgdep $PKGNAME" >> $stubcontents
@@ -104,6 +105,16 @@ function build_stub
 +DESC
 EOF
 
+	# Register dependencies of the stub
+	[[ -f $stubpkgdir/+DEPENDS ]] && while read package; do
+		if [[ -d $PKG_DBDIR/$package ]] ; then
+			print -r -- "shlibs-$OLDPKGS" >> $PKG_DBDIR/$package/+REQUIRED_BY
+			print -u2 -r "Debug: Dependency of shlibs-$OLDPKGS on $package successully registered"
+		else
+			print -u2 -r "Warning: Dependency $package missing!"
+		fi
+	done < $stubpkgdir/+DEPENDS
+	
 	# Register the package
 	mv -f $stubpkgdir $PKG_DBDIR
 	mv -f $oldcontents_new $oldcontents
@@ -209,10 +220,10 @@ stubfiles=$TMPDIR/+STUB				# files to put into shlibs stub
 
 if grep -qi '^@option base-package' $TMPDIR/+CONTENTS; then
 	print -u2 "$me: '$OLDPKGS' is a base package, unregistering only"
-	pkg_delete $fd -U $OLDPKGS && pkg_add $fa -Nq "$npkg"
+	pkg_delete $fd -C -U $OLDPKGS && pkg_add $fa -Nq "$npkg"
 else
 	[[ $stubs = 1 && -s $stubfiles ]] && build_stub
-	pkg_delete $fd $OLDPKGS && pkg_add $fa "$npkg"
+	pkg_delete -C $fd $OLDPKGS && pkg_add $fa "$npkg"
 fi
 
 # forward dependency information of old package
