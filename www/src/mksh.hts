@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.366 2010/12/11 21:22:50 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.367 2010/12/11 21:25:22 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -1107,6 +1107,8 @@ exec /usr/bin/ld "${args[@]}"</pre>
  <li>[tg] <tt>dot.mkshrc</tt> no longer <tt>export</tt>s <tt>$PS1</tt>,
   as recommended by Frank Terbeck, to avoid confusing other shells</li>
  <li>[tg] The character width table is now in sync with Unicode 6.0.0</li>
+ <li>[tg] MKSH_SMALL doesn’t imply HAVE_REVOKE=0 any longer</li>
+ <li>[tg] Ignore a ‘$’ preceding ‘"…"’ (like bash, ksh93)</li>
 </ul>
 <p id="r39c">mksh R39c is an important minor bugfix release:</p><ul>
  <li>[tg] Build system, code, docs and testsuite cleanup, also style(9)</li>
