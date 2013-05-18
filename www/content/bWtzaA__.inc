@@ -1,5 +1,5 @@
 <!-- PageID: mksh -->
-<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.78 2007/01/06 18:59:17 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.79 2007/01/17 02:10:54 tg Exp $</small>
 
 <h1>mksh(1) R28</h1>
 <p>This is the MirBSD&trade; Korn Shell, a more or less portable
@@ -123,6 +123,14 @@
  <li>Add -fwrapv to standard CFLAGS, just to be safe, like with when I
   added -fno-strict-aliasing; this is pending a bug fix in gcc, see <a
   href="http://gcc.gnu.org/bugzilla/show_bug.cgi?id=30477">PR#30477</a></li>
+ <li>autoconfify compiler flags, c preprocessor</li>
+ <li>add option to avoid pulling in getpwnam(3) in !MKSH_SMALL</li>
+ <li>scan for certain headers, types; improve portability</li>
+ <li>speed up autoconfiguration process in failure case</li>
+ <li>finally fix static vs dynamic linking issues</li>
+ <li>fix manpage (.Nm macro) glitch with GNU nroff 1.15</li>
+ <li>improve auto-detection of which regression tests are valid</li>
+ <li>mention failure to revoke(2) is possibly insecure</li>
 </ul>
 <p>Upgrading to mksh R28 with these changes is highly recommended:</p><ul>
  <li>For these who build software as root, the regression testsuite
@@ -412,10 +420,10 @@
  <li>MD5 (mksh-R28.cpio.gz) = 1869f79961c365c65116974706a56c67</li>
 </ul>
 
-<p>There is a <a href="http://users.unixforge.de/~tglaser/mksh_28.9.20070117.dsc">Debian
- experimental source package</a> (<b>dget</b>table) of mksh-current as of 2007/01/17,
+<p>There is a <a href="http://users.unixforge.de/~tglaser/mksh_28.9.20070118.dsc">Debian
+ experimental source package</a> (<b>dget</b>table) of mksh-current as of 2007/01/18,
  not GnuPG-signed <em>yet</em> due to hardware issues. (Just in case, cksum is
- 1213678833 262 and tiger is 70668b81d2cdce6fa014a114cf6e29aaf5bd9262f0e3a3d1.)
+ 567803576 262 and tiger is 4ac95268c34b3ee4775adc96b17a28330d642ea4275e3bb7.)
  The .tar.gz is gzsig(1)d, though.</p>
 
 <p>Find older versions below:</p>
