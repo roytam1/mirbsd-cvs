@@ -79,6 +79,6 @@ dd if=/dev/urandom of=$S bs=160 count=1 >/dev/null 2>&1 || {
 cat $R >>$S
 print -r -- "$SECONDS $KSH_VERSION $SUMS $RANDOM $(date)" >$R
 # insert here additional >>$R 2>&1, e.g. ftp(1) calls
-cksum -b -a sha512 <$R | cat - $S >/dev/arandom
+TZ=UTC date | cat $R - | cksum -b -a sha512 | cat - $S >/dev/arandom
 print "notice: system random seed rotated! $((RANDOM & 255))" | logger
 print -n $RANDOM >/dev/prandom
