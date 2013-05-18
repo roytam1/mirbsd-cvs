@@ -558,3 +558,12 @@ Date: 28.12.2007
 <p>The design was tested on Camino (Mozilla), Firefox, Safari, IE6, Opera,
  and lynx. I hope that covers the ususal suspects.</p>
 ----
+Title: RSS feeds
+Date: 21.01.2008
+
+<p>RSS feeds (in RSS 2.0 format) are now available (again). The available
+ feeds are <a href="@@RELPATH@@news.rss">news</a> and <a
+ href="@@RELPATH@@wlog-9.rss">wlog-9</a>. <tt>link</tt> tags have also been
+ placed, so your browser should be able to auto-detect them. If you have
+ any problem, do not hesitate to contact me.</p>
+----
