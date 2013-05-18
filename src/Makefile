@@ -1,4 +1,4 @@
-# $MirOS: src/Makefile,v 1.126 2008/05/01 01:13:47 tg Exp $
+# $MirOS: src/Makefile,v 1.127 2008/07/03 19:13:42 tg Exp $
 # $OpenBSD: Makefile,v 1.103 2004/05/03 15:18:18 drahn Exp $
 
 .if defined(MAKECONF) && exists(${MAKECONF})
@@ -20,6 +20,7 @@ NO_LIVECD=	ENOCOFFEE
 CVSROOT?=	/cvs
 ANONCVSROOT?=	anoncvs@anoncvs.mirbsd.org:/cvs
 _SAFEPATH=	/usr/dbin:/bin:/usr/bin:/usr/dsbin:/sbin:/usr/sbin:/usr/X11R6/bin
+BATCH?=		No
 
   SUBDIR+= lib
   SUBDIR+= include
@@ -236,7 +237,7 @@ dist-q:
 	cd ${.CURDIR} && exec /usr/bin/env -i MAKEFLAGS=${MFLAGS:M*:Q} \
 	    HOME=$$(/usr/bin/mktemp -d /var/tmp/buildhome.XXXXXXXXXX) \
 	    PATH=${_SAFEPATH} TZ=UTC \
-	    ${MAKE} BATCH=1 _do-dist 2>&1 | tee -a ${.CURDIR}/Build.log
+	    ${MAKE} BATCH=Yes _do-dist 2>&1 | tee -a ${.CURDIR}/Build.log
 	@date | tee -a ${.CURDIR}/Build.log
 	-[[ -d ${BSDRELDIR}/rel && -s ${.CURDIR}/Build.log ]] && \
 	    ${SUDO} cp ${.CURDIR}/Build.log ${BSDRELDIR}/rel/
@@ -306,7 +307,7 @@ _do-dist:
 	@${SUDO} rm -f ${BSDRELDIR}/rel/Build.log
 	@echo Initiating MirOS Build...
 	@date
-.ifdef BATCH
+.if ${BATCH:L} == "yes"
 	@echo BATCH mode engaged.
 .else
 	@echo INTERACTIVE mode engaged.
@@ -442,7 +443,7 @@ _do-dist:
 	    ${SUDO} ${SHELL} ${BSDSRCDIR}/scripts/tarsets check
 .endfor
 	@echo ============================================================
-.ifndef BATCH
+.if ${BATCH:L} == "yes"
 	@date
 	@read a?'Press Return to continue...'
 .endif
@@ -490,7 +491,8 @@ _do-dist:
 .endif
 	@echo ============================================================
 .if !defined(NO_LIVECD)
-	cd ${BSDSRCDIR}/distrib/baselive && ${MAKE} it #cleanworkdir
+	cd ${BSDSRCDIR}/distrib/baselive && \
+	    ${MAKE} BATCH=${BATCH:Q} it #cleanworkdir
 	@echo
 	@echo Done with MirOS Snapshot generation.
 	@/bin/ls -Fl ${BSDOBJDIR}/distrib/baselive/livecd${OSrev}.iso

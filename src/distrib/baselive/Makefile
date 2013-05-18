@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/baselive/Makefile,v 1.25 2008/03/21 04:48:21 tg Exp $
+# $MirOS: src/distrib/baselive/Makefile,v 1.26 2008/06/13 19:58:34 tg Exp $
 
 .include <bsd.own.mk>
 
@@ -36,6 +36,8 @@ BOOTXX?=	${DESTDIR}/usr/mdec/bootxx
 
 CDROM?=		livecd${OSrev}.iso
 CDROM_MDOPTS?=
+
+BATCH?=		No
 
 all install:
 
@@ -155,6 +157,9 @@ cdrom-prepare: bsd.gz
 	-${SUDO} rm -f ${WRKDIR}/boot.cat ${CDROM}
 
 cdrom-generate:
+.if ${BATCH:L} != "yes"
+	@print Build coordination: press RETURN to continue...; read dummy
+.endif
 	cd ${WRKDIR}; \
 	    sort -k3 |& exec 3>&p; exec 4<&p; \
 	    sort |& exec 5>&p; exec 6<&p; \
