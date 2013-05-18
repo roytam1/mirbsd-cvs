@@ -1,4 +1,4 @@
-/* $MirOS: contrib/code/mirmake/dist/contrib/mirmake.h,v 1.41 2008/06/17 22:49:39 tg Exp $ */
+/* $MirOS: contrib/code/mirmake/dist/contrib/mirmake.h,v 1.42 2008/07/05 17:00:28 tg Exp $ */
 
 /*-
  * Copyright (c) 2005, 2006, 2008
@@ -87,9 +87,9 @@
 #define	__const		const
 #define	__signed	signed
 #define	__volatile	volatile
-#if defined(__cplusplus)
-#define	__inline	inline		/* convert to C++ keyword */
-#elif !defined(__GNUC__) && !defined(lint)
+#if (defined(__cplusplus) || defined(__PCC__)) && !defined(__inline)
+#define	__inline	inline		/* convert to C++/C99 keyword */
+#elif !defined(__GNUC__) && !defined(lint) && !defined(__inline)
 #define	__inline			/* delete GCC keyword */
 #endif
 
