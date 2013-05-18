@@ -14,6 +14,10 @@
   </ul>--></li>
   <li><a href="/irc.htm">IRC</a></li>
   <li><a href="/projects.htm">Project Ideas</a></li>
-  <li><a href="/?danke">Donate</a></li>
+  <li><a href="/danke.htm">Donate</a></li>
   <li>Manpages <a href="/htman/i386/">i386</a> <a href="/htman/sparc/">sparc</a></li>
+  <li>Subprojects<ul class="lv2">
+	<li><a href="/jupp.htm">jupp</a> Editor</li>
+	<li><a href="/mksh.htm">mksh</a> Shell</li>
+  </ul></li>
   <li><a href="/?style">StyleSelect</a></li>
