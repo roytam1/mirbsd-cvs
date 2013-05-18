@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.392 2012/07/15 15:31:29 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.393 2012/07/15 15:34:45 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -2210,7 +2210,7 @@ Tag: hardware bug
  den Arsch gerettet hat... Leider bist Du nicht mehr im IRC, aber falls
  Du dies liest, fühl Dir gedankt!</p>
 ----
-Date: 27.11.2008 7
+Date: 27.11.2008 7:00
 Author: tg@
 Title: Netcraft confirms: my IBM X40 is dying
 Tag: hardware
