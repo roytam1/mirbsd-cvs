@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/distrib/i386/livecd/munge_it.sh,v 1.2 2006/04/05 23:14:40 tg Exp $
+# $MirOS: src/distrib/i386/livecd/munge_it.sh,v 1.3 2006/04/05 23:39:47 tg Exp $
 #-
 # Copyright (c) 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -63,7 +63,7 @@ ed -s etc/ntpd.conf <<-'EOF'
 EOF
 ed -s etc/rc <<-'EOF'
 	1i
-		# $MirOS: src/distrib/i386/livecd/munge_it.sh,v 1.2 2006/04/05 23:14:40 tg Exp $
+		# $MirOS: src/distrib/i386/livecd/munge_it.sh,v 1.3 2006/04/05 23:39:47 tg Exp $
 	.
 	/^rm.*fastboot$/a
 
@@ -134,13 +134,14 @@ install -c -o root -g staff -m 644 $myplace/XF86Config etc/X11/XF86Config
 install -c -o root -g staff -m 644 $myplace/fstab etc/fstab
 install -c -o root -g staff -m 644 $myplace/rc.netselect etc/rc.netselect
 
+(cd dev; mksh ./MAKEDEV std)
 pwd_mkdb -pd $(readlink -nf etc) master.passwd
 dd if=/dev/urandom bs=4096 count=1 of=var/db/host.random
 
 # tmp because of perms
 find dev etc root tmp var | sort | cpio -oC512 -Hsv4crc -Mset | \
     gzip -n9 >home/fsrw.cgz
-rm -rf dev root var
-mkdir dev root var
+rm -rf root var
+mkdir root var
 
 exit 0
