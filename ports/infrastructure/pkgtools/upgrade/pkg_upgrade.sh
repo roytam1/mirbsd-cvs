@@ -1,5 +1,5 @@
 #!/usr/bin/env mksh
-# $MirOS: ports/infrastructure/pkgtools/upgrade/pkg_upgrade.sh,v 1.26 2007/04/01 00:30:10 tg Exp $
+# $MirOS: ports/infrastructure/pkgtools/upgrade/pkg_upgrade.sh,v 1.27 2007/05/09 17:25:03 tg Exp $
 #-
 # Copyright (c) 2006, 2007
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -227,16 +227,8 @@ fi
 # forward dependency information of backward dependencies of old package
 [[ -f $TMPDIR/+DEPENDS ]] && while read package; do
 	if [[ -e $PKG_DBDIR/$package/+REQUIRED_BY ]]; then
-		if grep "^$OLDPKGS\$" $PKG_DBDIR/$package/+REQUIRED_BY \
-		    >/dev/null 2>&1; then
-			print "%g/^$OLDPKGS\$/d\nwq" | ed -s \
-			    $PKG_DBDIR/$package/+REQUIRED_BY
-#			print -u2 "Debug: dependency of $OLDPKGS on" \
-#			    "$package successfully removed"
-		else
-			print -u2 "Notice: $OLDPKGS was not registered" \
-			    "as backward dependency of $package"
-		fi
+		print "%g/^$OLDPKGS\$/d\nwq" | \
+		    ed -s $PKG_DBDIR/$package/+REQUIRED_BY
 		# and add new version if we deleted the one from pkg_add
 		if ! grep "^$PKGNAME\$" $PKG_DBDIR/$package/+REQUIRED_BY \
 		    >/dev/null 2>&1; then
