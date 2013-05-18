@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/share/misc/licence.template,v 1.20 2006/12/11 21:04:56 tg Rel $
+# $MirOS: src/etc/anacron,v 1.1 2007/06/16 22:57:29 tg Exp $
 #-
 # Copyright (c) 2007
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -24,14 +24,19 @@
 export PATH=/bin:/usr/bin:/sbin:/usr/sbin
 cd /
 umask 077
+typeset -i minutes=15
 
 function schedule {
 	typeset what=$1
 
-	print scheduling job $what to run in 15 minutes
-	sleep $((15 * 60))
-	mksh /etc/cronrun -n $what
-	print job $what finished with return code $?
+	print scheduling job $what to run in $minutes minutes
+	(
+		sleep $((minutes * 60))
+		print running scheduled $what cronjob
+		mksh /etc/cronrun -n $what
+		print job $what finished with return code $?
+	) &
+	let minutes+=15
 }
 
 function tryjob {
@@ -49,13 +54,19 @@ function tryjob {
 			(( (line + days) > time )) || schedule $job
 		else
 			print no run-time found for job $job
+			schedule $job
 		fi
 	else
 		print no log file found for job $job
+		schedule $job
 	fi
 }
 
 tryjob daily 3
 tryjob weekly 10
 tryjob monthly 34
+if (( minutes != 15 )); then
+	wait
+	print all jobs finished
+fi
 exit 0
