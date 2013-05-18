@@ -1,5 +1,5 @@
 <!-- PageID: wlog-9 -->
-<small class="rcsid">$MirOS: www/content/d2xvZy05.inc,v 1.60 2006/10/31 01:20:58 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy05.inc,v 1.61 2006/11/01 18:07:10 tg Exp $</small>
 <h1>MirBSD &ndash; WTF is Verpeilungsfaktor?</h1>
 <p><small><a href="#eof">bottom</a> or <a href="/?older">older</a>
  editions</small></p>
@@ -1040,6 +1040,9 @@ plot [150:200] 	"bs06.4Kmin.txt" using 1:3 with lines title "exc{\350}s en chlor
   (need to take latin1 fallback for 'C' locale into account, discuss the
   issue on mailing list first).</p>
  <p>bsiegert@ has phone, yet no 'net, at home now. Yay!</p>
+ <p>Actually I won't implement the conversion routine for the editors as
+  I found that it's much easier to just open a pipe to iconv(1), which I
+  added (written myself) today. locale(1) was taken from TNF though.</p>
 </div>
 
 <p id="eof">Good luck, have fun, take care etc.pp</p>
