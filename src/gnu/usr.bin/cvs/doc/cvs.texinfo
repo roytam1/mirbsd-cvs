@@ -2,7 +2,7 @@
 @comment Documentation for CVS.
 @setfilename cvs.info
 @afourpaper
-@comment $MirOS: src/gnu/usr.bin/cvs/doc/cvs.texinfo,v 1.15 2011/06/11 02:56:53 tg Exp $
+@comment $MirOS: src/gnu/usr.bin/cvs/doc/cvs.texinfo,v 1.16 2011/10/16 18:38:12 tg Exp $
 @macro copyleftnotice
 @noindent
 Copyright @copyright{} 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000,
@@ -7198,7 +7198,7 @@ The date (UTC) the revision was checked in, in a format suitable
 for the Berkeley mdoc macro processing.
 
 @example
-$Mdocdate: June 11 2011 $
+$Mdocdate: October 16 2011 $
 @end example
 
 @cindex Header keyword
@@ -9209,7 +9209,8 @@ For each file in @var{files}, print the head revision
 of the trunk, together with information on the last
 modification for each line.  If backwards annotation
 is requested, show the first modification after the
-specified revision.
+specified revision.  (Backwards annotation currently
+appears to be broken.)
 
 @menu
 * annotate options::            annotate options
@@ -9227,6 +9228,7 @@ them):
 @table @code
 @item -b
 Backwards, show when a line was removed.
+Currently appears to be broken.
 
 @item -l
 Local directory only, no recursion.
