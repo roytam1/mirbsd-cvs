@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/news.inc,v 1.147 2011/07/25 16:00:04 tg Exp $
+RCSID: $MirOS: www/data/news.inc,v 1.148 2011/07/25 16:21:55 tg Exp $
 Title: Older news from the MirOS Project
 Date: 01.03.2006
 
@@ -1978,4 +1978,19 @@ Tag: mksh
  <li>mksh R42 is where we tentatively target associative arrays for, now.
   Multidimensional arrays should be introduced at the same time.</li>
 </ul>
+----
+Date: 15.01.2012 20:50
+Author: tg@
+Title: State of the Art (MirBSD-current snapshot)
+Tag: snapshot
+
+<p>The current “state of the art” in MirBSD land was just uploaded. This
+ snapshot carries a new patchlevel to show that things happened, such as
+ a bootloader fix for systems with more than one hard disc; but be aware
+ we’re not yet finished with all we think must be done. – The entropyKey
+ software stack has been updated, by the way, and tg@’s shiny new second
+ stick was inaugurated during this build, so it contains Moarrr Entropy™
+ in addition to e.g. the mksh(1) fix noted on the mailing list.</p>
+<p>The MirOS infrastructure servers will be upgraded to patchlevel 10uB0
+ shortly.</p>
 ----
