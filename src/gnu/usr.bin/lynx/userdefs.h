@@ -1,4 +1,4 @@
-/* $MirOS: src/gnu/usr.bin/lynx/userdefs.h,v 1.12 2006/11/10 20:19:26 tg Exp $ */
+/* $MirOS: src/gnu/usr.bin/lynx/userdefs.h,v 1.13 2006/11/16 22:24:58 tg Exp $ */
 
 /*
  * Lynx - Hypertext navigation system
@@ -516,7 +516,7 @@
  * that preference in their RC file.  This may be a comma-separated list
  * of languages in decreasing preference.
  */
-#define PREFERRED_LANGUAGE "en"
+#define PREFERRED_LANGUAGE ""
 
 /*****************************
  * PREFERRED_CHARSET specifies the character set in MIME notation (e.g.,
