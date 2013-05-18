@@ -1,4 +1,4 @@
-# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.128 2009/03/29 13:04:12 tg Exp $
+# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.129 2009/05/20 10:23:16 tg Exp $
 #-
 # Copyright (c) 2006, 2008
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -34,7 +34,7 @@ function testfunc {
 		#include <sys/param.h>
 		$3
 		$1;
-		int main() {
+		int main(int argc, char *argv[]) {
 			$4
 			$2;
 			return 0;
@@ -376,7 +376,7 @@ if [[ -e $d_build/PSD12.make.txt ]]; then
 EOF
 fi
 
-# check for fgetln, strlcpy/strlcat, arc4random, arc4random_pushb
+# check for fgetln, strlcpy/strlcat, arc4random
 add_fgetln=
 if testfunc 'char *fgetln(FILE *, size_t *)' 'fgetln(stdin, &x)' \
     '#include <stdio.h>' 'size_t x;'; then
@@ -388,13 +388,15 @@ if testfunc 'size_t strlcpy(char *, const char *, size_t)' \
 	add_strlfun=$d_build/strlfun.c
 fi
 add_arcfour=
-if testfunc 'uint32_t arc4random_pushb(const void *, size_t)' \
-    'return arc4random_pushb(main, 1)'; then
+if ! testfunc 'u_int32_t arc4random(void)' \
+    'return ((int)arc4random())'; then
 	add_arcfour=$top/dist/contrib/arc4random.c
-	if ! testfunc 'u_int32_t arc4random(void)' \
-	    'return ((int)arc4random())'; then
-		CPPFLAGS="$CPPFLAGS -D_ARC4RANDOM_WRAP"
-	fi
+elif ! testfunc 'void arc4random_stir(void)' \
+    'arc4random_stir()'; then
+	add_arcfour=$top/dist/contrib/arc4random.c
+elif ! testfunc 'void arc4random_addrandom(unsigned char *, int)' \
+    'arc4random_addrandom((void *)argv[0], argc)'; then
+	add_arcfour=$top/dist/contrib/arc4random.c
 fi
 add_libohash=
 if testfunc 'u_int32_t ohash_interval(const char *, const char **)' \

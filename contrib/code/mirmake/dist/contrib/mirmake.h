@@ -1,4 +1,4 @@
-/* $MirOS: contrib/code/mirmake/dist/contrib/mirmake.h,v 1.45 2008/12/29 22:36:19 tg Exp $ */
+/* $MirOS: contrib/code/mirmake/dist/contrib/mirmake.h,v 1.46 2009/03/15 14:54:36 tg Exp $ */
 
 /*-
  * Copyright (c) 2005, 2006, 2008, 2009
@@ -323,21 +323,6 @@ u_int32_t arc4random(void);
 void arc4random_stir(void);
 void arc4random_addrandom(unsigned char *, int)
     __attribute__((bounded (string, 1, 2)));
-#endif
-#if !defined(__MirBSD__) || (MirBSD < 0x0880)
-void arc4random_push(int);
-#endif
-#if !defined(__MirBSD__) || (MirBSD < 0x0982)
-#ifndef arc4random_pushk
-#define arc4random_pushk arc4random_pushb
-#endif
-uint32_t arc4random_pushb(const void *, size_t)
-    __attribute__((bounded (string, 1, 2)));
-#endif
-
-#ifndef arc4random_pushk
-#define arc4random_pushk(buf, len) \
-	arc4random_addrandom((unsigned char *)(buf), (int)(len))
 #endif
 
 __END_DECLS
