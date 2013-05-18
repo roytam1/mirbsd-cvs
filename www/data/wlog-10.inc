@@ -348,7 +348,7 @@ Author: tg@
 <p>Ah, and BOINC is running stable on MirBSD. MidnightBSD has some
  issues, mainly due to the fucked-up FreeBSD kernel and brandelf.</p>
 ----
-Date: 12.04.2008
+Date: 12.04.2008 21:59:14
 Author: tg@
 Title: a few news items
 
@@ -376,7 +376,7 @@ Title: a few news items
  called Ballermann). Development may slow down a little due to that (no
  more 100+ CVS spa^H^H^Hmails per day, yay!) but will not stall.</p>
 ----
-Date: 12.04.2008
+Date: 12.04.2008 21:26:39
 Author: tg@
 Title: Willkommen, Schweiz!
 Language: de
