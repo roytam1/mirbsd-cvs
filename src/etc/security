@@ -1,11 +1,12 @@
 #!/bin/mksh
 # $Id$
-# $MirOS: src/etc/security,v 1.6 2005/07/04 12:43:41 tg Exp $
+# $MirOS: src/etc/security,v 1.7 2005/07/07 13:39:23 tg Exp $
 # $OpenBSD: security,v 1.71 2005/02/22 10:50:55 otto Exp $
 # from: @(#)security	8.1 (Berkeley) 6/9/93
 
 export TZ=UTC
 PATH=/bin:/usr/bin:/sbin:/usr/sbin
+cd /
 
 umask 077
 

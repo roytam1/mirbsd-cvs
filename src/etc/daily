@@ -1,11 +1,12 @@
 #!/bin/mksh
-# $MirOS: src/etc/daily,v 1.7 2005/09/23 09:26:09 tg Exp $
+# $MirOS: src/etc/daily,v 1.8 2005/11/18 21:21:23 tg Exp $
 # $OpenBSD: daily,v 1.50 2005/03/17 18:16:52 millert Exp $
 # From: @(#)daily	8.2 (Berkeley) 1/25/94
 
 export TZ=UTC
 PATH=/bin:/usr/bin:/sbin:/usr/sbin:/usr/local/bin:/usr/mpkg/bin
 bak=/var/backups
+cd /
 
 sysctl -n kern.version
 

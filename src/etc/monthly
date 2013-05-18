@@ -1,8 +1,9 @@
 #!/bin/mksh
-# $MirOS: src/etc/monthly,v 1.4 2005/07/07 13:39:22 tg Exp $
+# $MirOS: src/etc/monthly,v 1.5 2006/01/03 03:54:56 tg Exp $
 # $OpenBSD: monthly,v 1.5 1998/02/02 23:08:57 millert Exp $
 
 export TZ=UTC
+cd /
 
 if [ -f /etc/monthly.local ];then
 	echo ""
