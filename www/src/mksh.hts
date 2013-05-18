@@ -4,9 +4,9 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.259 2009/08/01 22:01:18 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.260 2009/08/01 22:44:23 tg Exp $'
 mws_content <<'EOF'
-<h2>mksh(1) R38c</h2>
+<h2>mksh(1) R39</h2>
 
 <p>This is the website of the MirBSD™ Korn Shell, an actively developed free
  implementation of the Korn Shell programming language and a successor to the
@@ -40,8 +40,8 @@ mws_content <<'EOF'
 </ul>
 
 <h2 id="prefetch">Introduction</h2>
-<p>The current version of mksh is <strong>mksh R38c</strong> from
- <em>10 June 2009</em>.</p>
+<p>The current version of mksh is <strong>mksh R39</strong> from
+ <em>2 August 2009</em>.</p>
 <p>Thanks to “Der Verein <a href="http://www.trash.net/verein/">trash.net</a>”
  for sponsoring access to a Solaris 8 box. Thanks to HP TestDrive, which helps
  in keeping mksh portable to several Unixes and compilers, and track down some
@@ -167,14 +167,14 @@ mws_content <<'EOF'
  extract from the CPIO distfile and is available even on a stock Microsoft®
  Windows® installation (<tt>\WINNT\SYSTEM32\PAX.EXE</tt>).</p>
 <h3 id="mirrors">Known Mirrors</h3><ul>
- <li><a href="https://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R38c.cpio.gz">https://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R38c.cpio.gz</a></li>
- <li><a href="http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R38c.cpio.gz">http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R38c.cpio.gz</a></li>
+ <li><a href="https://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R39.cpio.gz">https://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R39.cpio.gz</a></li>
+ <li><a href="http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R39.cpio.gz">http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R39.cpio.gz</a></li>
 </ul>
 <h3 id="hashes">Checksums and Hashes</h3><ul>
- <li>RMD160 (mksh-R38c.cpio.gz) = d2a5f00a992e359f985b9023d9780c5283adb2e5</li>
- <li>TIGER (mksh-R38c.cpio.gz) = 8857775db4e60f66b03337f85a212f266890a71b5a284a54</li>
- <li>860103691 276630 /MirOS/dist/mir/mksh/mksh-R38c.cpio.gz</li>
- <li>MD5 (mksh-R38c.cpio.gz) = 692192a6468b5f5c5e559756f1851766</li>
+ <li>RMD160 (mksh-R39.cpio.gz) = 5a5bcbe288e722f9772e27d2fdc36eee174bbb7b</li>
+ <li>TIGER (mksh-R39.cpio.gz) = 2a2c08ccf5e27365aa652663629789ade93b3d30c0d1d51f</li>
+ <li>4103085544 278476 /MirOS/dist/mir/mksh/mksh-R39.cpio.gz</li>
+ <li>MD5 (mksh-R39.cpio.gz) = b2eeb4fe4ccac2704e1440e53cd2672c</li>
  <li style="list-style:none;">All official distfiles are gzsig(1)d.</li>
 </ul>
 
@@ -187,9 +187,9 @@ mws_content <<'EOF'
 <p>The first example is using BSD paxtar (MirOS BSD, OpenBSD, NetBSD®), or
  “bsdtar” (DragonFly); the second and third use cpio(1) or pax(1) and are
  for most operating systems; the fourth is for Debian.</p><ul>
-<li>$ tar xzf mksh-R38c.cpio.gz &amp;&amp; cd mksh</li>
-<li>$ gzip -dc mksh-R38c.cpio.gz | cpio -mid &amp;&amp; cd mksh</li>
-<li>$ gzip -dc mksh-R38c.cpio.gz | pax -r &amp;&amp; cd mksh</li>
+<li>$ tar xzf mksh-R39.cpio.gz &amp;&amp; cd mksh</li>
+<li>$ gzip -dc mksh-R39.cpio.gz | cpio -mid &amp;&amp; cd mksh</li>
+<li>$ gzip -dc mksh-R39.cpio.gz | pax -r &amp;&amp; cd mksh</li>
 </ul>
 
 <h3 id="compile">Compilation</h3>
@@ -207,7 +207,7 @@ mws_content <<'EOF'
  well, but the ULTRIX <tt>/bin/sh</tt> or the C shell (csh, tcsh) or “bsh”
  or a scripting shell like the wish won’t. Accepted arguments are:</p><ul>
 <li><tt>-combine</tt> – all-in-one build, recommended unless gcc is broken;
- ignored if $CC does not support "-fwhole-program --combine" (gcc4, R37+)</li>
+ ignored if $CC does not support “-fwhole-program --combine” (gcc4, R37+)</li>
 <li><tt>-j</tt> – parallel build (mksh R31d and up)</li>
 <li><tt>-llvm[=…]</tt> – compile to bytecode; option arguments (or, if none
  given, ‘-std-compile-opts’) are passed to LLVM opt (mksh R36b and up)</li>
@@ -242,7 +242,7 @@ mws_content <<'EOF'
  for these that need it; currently: QNX (R38c+)</li>
 <li style="list-style:none;">Feature selectors:</li>
 <li><tt>USE_PRINTF_BUILTIN=1</tt> – add <tt>printf.c</tt> to the list of
- files to be compiled and set a flag so it is used as builtin</li>
+ files to be compiled and set a flag so it is used as builtin (R39+)</li>
 </ul>
 <p>If <tt>CPPFLAGS</tt> contain any of the following definitions, the resulting
  binary will be compiled with a specific flavour:</p><ul>
@@ -261,7 +261,7 @@ mws_content <<'EOF'
  56/24), e.g. if the system supports few (mksh R37c and up)</li>
 <li><tt>-DMKSH_MIDNIGHTBSD01ASH_COMPAT</tt> – parse “--” on the shell command
  line like MidnightBSD 0.1 <tt>/bin/sh</tt> (different from all other shells);
- <em>requires</em> <tt>-DMKSH_BINSHREDUCED</tt> or "-o posix" (R38+)</li>
+ <em>requires</em> <tt>-DMKSH_BINSHREDUCED</tt> or “-o posix” (R38+)</li>
 <li><tt>-DMKSH_NOPWNAM</tt> – omit getpwnam(3) calls (<tt>~foo/</tt> expansion)
  in order to not pull in the nsswitch or PAM libraries</li>
 <li><tt>-DMKSH_NOVI</tt> – omit the vi command line editing mode (which is
@@ -293,12 +293,12 @@ mws_content <<'EOF'
 
 <h5 id="oe_ack">Compiler: ACK</h5>
 <p>Support for <a href="http://www.cs.vu.nl/ack/">ACK on Minix 3</a> has
- been added in mksh R37c with a workaround a known ACK bug (the "const"
+ been added in mksh R37c with a workaround a known ACK bug (the “const”
  bug); it is now perfectly usable.</p>
 <p>Support for <a
  href="http://tack.sourceforge.net/">other ACK versions</a> or targets can
  be user-contributed. It currently lacks a sane frontend supporting things
- like "cc -E" (<tt>ack -E</tt> is ignored), at the least, and does not yet
+ like “cc -E” (<tt>ack -E</tt> is ignored), at the least, and does not yet
  process system headers like &lt;sys/types.h&gt;.</p>
 
 <h5 id="oe_bcc">Compiler: Borland C++ Builder</h5>
@@ -612,7 +612,7 @@ mws_content <<'EOF'
  ChangeLog</a>, these are the packager-visible upgrade notes regarding
  changes in the build system (<tt>Build.sh</tt> and friends, compiler
  support, packaging conventions, bad examples, etc).</p>
-<p>mksh R39 has user-visible changes regarding "set -u" ("set -o nounset")
+<p>mksh R39 has user-visible changes regarding “set -u” (“set -o nounset”)
  and alias/function name conflicts regarding whitespace before parenthesēs,
  as well as a much enhanced <tt>dot.mkshrc</tt> sample file I urge to install.
  People using a Makefile to build it may need to regenerate their set of
@@ -725,7 +725,7 @@ mws_content <<'EOF'
 <li>Frugalware Linux contains a broken mksh package; the build logs show
  the problem is on their side. (XXX Someone has any URL for us?)</li>
 <li>Slackware and Zenwalk GNU/Linux had once been targeted to be packaged
- by Olivier Duchateau, but we don't know the current state (XXX)</li>
+ by Olivier Duchateau, but we don’t know the current state (XXX)</li>
 <li>There are probably many more, please drop us a note!</li>
 <li><a href="http://linux.softpedia.com/get/System/Shells/MirBSD-Korn-Shell-24602.shtml">Softpedia</a>
  lists mksh, just like the FSF/UNESCO directory.</li>
@@ -917,6 +917,8 @@ mws_content <<'EOF'
   limits in a single invocation from oksh (thanks millert) -->
  <li>[ahoka] Begin porting to <a href="http://www.haiku-os.org/">Haiku</a>
   and, implicitly, BeOS (not finished yet)</li>
+</ul>
+<p id="r39">mksh R39 evolved into these through various means:</p><ul>
  <li>[tg] Shut up a bogus gcc warning during configuration process</li>
  <li>[tg] Spell <tt>AT&amp;T</tt> consistently in the source code</li>
  <li>[tg] Tweak mksh(1) manual page, from wbx@ and «lewellyn:#ksh»</li>
@@ -938,8 +940,8 @@ mws_content <<'EOF'
   them are now enumerated on the webpage; fixed some breakage; portability</li>
  <li>[tg] MKSH_NOPWNAM and MKSH_SMALL will now both disable the <tt>~fac/</tt>
   (homedir) expansion code wholly if defined, not just getpwnam(3) calls</li>
- <li>[tg] shells without job control no longer define the standard "stop" and
-  "suspend" aliases (they are pointless anyway); regression tests know</li>
+ <li>[tg] shells without job control no longer define the standard “stop” and
+  “suspend” aliases (they are pointless anyway); regression tests know</li>
  <li>[tg] use system RCS ID macros on MirBSD if decent enough</li>
  <li>[tg] shut up bogus gcc 4.5/trunk warnings caused by over-optimisation</li>
  <li>[tg] restore ANSI C compilability broken in R38 (speed up, even)</li>
@@ -1006,7 +1008,7 @@ mws_content <<'EOF'
  href="mailto:junk@mirsolutions.de">junk@mirsolutions.de</a>, <a
  href="mailto:junk@mirbsd.org">junk@mirbsd.org</a> or <a
  href="mailto:junk@mirbsd.org">junk@mirbsd.org</a>.
- It won't do good to you.</p>
+ It won’t do good to you.</p>
 EOF
 mws_putfooter
 exit 0
