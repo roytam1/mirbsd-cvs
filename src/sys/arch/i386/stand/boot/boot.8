@@ -1,4 +1,4 @@
-.\"	$MirOS: src/sys/arch/i386/stand/boot/boot.8,v 1.2 2005/03/06 21:27:03 tg Exp $
+.\"	$MirOS: src/sys/arch/i386/stand/boot/boot.8,v 1.3 2005/04/29 18:34:57 tg Exp $
 .\"	$OpenBSD: boot.8,v 1.41 2005/02/18 15:26:23 robert Exp $
 .\"
 .\" Copyright (c) 1997-2001 Michael Shalayeff
@@ -42,7 +42,7 @@ arising during an El Torito boot from a CD-ROM drive on broken hardware.
 As described in
 .Xr boot_i386 8 ,
 this program is loaded by the
-.Xr ffspbr 8
+.Xr ldsec 8
 primary bootstrap loader if loaded from a floppy or hard disc drive.
 If being loaded from CD, that action is taken directly by the BIOS.
 It can also be started as if it were a native MS-DOS .COM executable.
@@ -339,7 +339,7 @@ Displays system time and date.
 .El
 .Sh FILES
 .Bl -tag -width /usr/mdec/biosbootxx -compact
-.It Pa /usr/mdec/ffspbr
+.It Pa /usr/mdec/ldsec
 first stage bootstrap
 .It Pa /usr/mdec/pxeboot
 PXE bootstrap

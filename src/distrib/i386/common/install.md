@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/i386/common/install.md,v 1.2 2005/03/06 18:58:03 tg Exp $
+# $MirOS: src/distrib/i386/common/install.md,v 1.3 2005/07/01 13:31:29 tg Exp $
 # $OpenBSD: install.md,v 1.28 2005/04/02 14:34:46 krw Exp $
 #
 #
@@ -51,7 +51,7 @@ MDDISKDEVS='/^\([sw]d\)*\(raid\)*\(ccd\)*[0-9][0-9]* /s/ .*//p'
 md_installboot() {
 	echo Installing boot block...
 	cat /usr/mdec/boot >/mnt/boot
-	/usr/mdec/installboot -v /mnt/boot /usr/mdec/ffspbr ${1}
+	/usr/mdec/installboot -v /mnt/boot /usr/mdec/ldsec ${1}
 	echo "done."
 }
 

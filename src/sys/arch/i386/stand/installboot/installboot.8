@@ -1,4 +1,4 @@
-.\"	$MirOS: src/sys/arch/i386/stand/installboot/installboot.8,v 1.2 2005/03/06 21:27:05 tg Exp $
+.\"	$MirOS: src/sys/arch/i386/stand/installboot/installboot.8,v 1.3 2005/12/04 13:27:00 tg Exp $
 .\"	$OpenBSD: installboot.8,v 1.26 2003/06/06 21:45:33 jmc Exp $
 .\"
 .\" Copyright (c) 1997 Michael Shalayeff
@@ -41,7 +41,7 @@
 .Oo Fl h Ar tracks-per-cyl Oc
 .Op Fl P Ar partition-type
 .Ar boot
-.Ar ffspbr
+.Ar ldsec
 .Ar disk
 .Sh DESCRIPTION
 .Nm installboot
@@ -56,8 +56,8 @@ The options are as follows:
 .It Fl n
 Do not actually write anything on the disk.
 .It Fl v
-Be verbose, printing out the LBA addresses that are stored in
-.Ar ffspbr
+Be verbose, printing out the LBA addresses that are to be stored in
+.Ar ldsec
 along with lots of other information.
 .It Fl s Ar sectors-per-track
 Used to specify the sectors-per-track value if the drive has
@@ -88,7 +88,7 @@ partition type to search before the standard 0x27 and the fallback
 0xA6, 0xA9 and 0xA5 types.
 .It Fl M
 Installs the first-stage boot loader,
-.Nm ffspbr ,
+.Nm ldsec ,
 into the master boot record.
 The partition table does not get overwritten.
 The
@@ -102,10 +102,10 @@ The arguments are:
 The name of the second-stage boot program in the mounted file system
 where the first-stage boot program is to be installed.
 This should be a full pathname.
-.It Ar ffspbr
+.It Ar ldsec
 The name of the prototype file for the first stage boot program,
 usually
-.Pa /usr/mdec/ffspbr .
+.Pa /usr/mdec/ldsec .
 .It Ar disk
 The name of the disk containing the partition in which the second-stage
 boot program resides and the first-stage boot program is to be installed.
@@ -136,7 +136,7 @@ disk on i386.
 The typical use is
 .Pp
 .Dl # cp /usr/mdec/boot /boot
-.Dl # /usr/mdec/installboot -v -n /boot /usr/mdec/ffspbr wd0
+.Dl # /usr/mdec/installboot -v -n /boot /usr/mdec/ldsec wd0
 .Pp
 And if the information supplied looks right, run the above without the
 .Fl n
@@ -148,7 +148,7 @@ the above steps with some more steps... and do the following:
 .Dl # fsck /dev/rsd0a
 .Dl # mount /dev/sd0a /mnt
 .Dl # cp /usr/mdec/boot /mnt/boot
-.Dl # /usr/mdec/installboot -v /mnt/boot /usr/mdec/ffspbr sd0
+.Dl # /usr/mdec/installboot -v /mnt/boot /usr/mdec/ldsec sd0
 .Pp
 If you need to find the BIOS geometry of the disk for
 .Fl s

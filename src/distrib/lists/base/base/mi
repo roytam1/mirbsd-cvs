@@ -671,8 +671,8 @@
 ./usr/local/share/examples
 ./usr/mdec
 ./usr/mdec/boot
-./usr/mdec/ffspbr
 ./usr/mdec/installboot
+./usr/mdec/ldsec
 ./usr/mdec/mbrldr
 ./usr/mdec/mbrmgr
 ./usr/mdec/pxeboot

@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/i386/common/Makefile.inc,v 1.9 2006/02/14 20:47:52 tg Exp $
+# $MirOS: src/distrib/i386/common/Makefile.inc,v 1.10 2006/02/24 01:30:39 tg Exp $
 # $OpenBSD: Makefile.inc,v 1.15 2004/11/25 22:02:08 deraadt Exp $
 
 .ifndef _MODSRC_DISTRIB_I386_COMMON_MAKEFILE_INC
@@ -65,7 +65,7 @@ ${FS}:	bsd.gz
 	    obs=512 conv=osync
 	${SUDO} dd if=bsd.gz of=${MOUNT_POINT}/bsd obs=512 conv=osync
 	${SUDO} /usr/mdec/installboot -v -s ${FLOPPYSECS} -h 2 \
-	    ${MOUNT_POINT}/boot ${DESTDIR}/usr/mdec/ffspbr ${VND_CRDEV}
+	    ${MOUNT_POINT}/boot ${DESTDIR}/usr/mdec/ldsec ${VND_CRDEV}
 	@echo ""
 	@df -i ${MOUNT_POINT}
 	@echo ""

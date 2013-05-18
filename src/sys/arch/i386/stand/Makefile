@@ -1,8 +1,8 @@
-# $MirOS: src/sys/arch/i386/stand/Makefile,v 1.4 2005/04/29 18:34:57 tg Exp $
+# $MirOS: src/sys/arch/i386/stand/Makefile,v 1.5 2005/12/04 17:50:20 tg Exp $
 # $OpenBSD: Makefile,v 1.12 2004/06/23 00:29:56 tom Exp $
 
 .if ${MACHINE} == "i386"
-  SUBDIR+= etc libsa libz mbrldr mbrmgr pbr
+  SUBDIR+= etc ldsec libsa libz mbrldr mbrmgr
 .endif
   SUBDIR+= boot installboot
   SUBDIR+= pxeboot
@@ -13,8 +13,7 @@ TEST_DEVS= fd0 svnd0 svnd1
 test-${_i}:
 	${SUDO} mount /dev/${_i}a /mnt
 	${SUDO} cp /usr/mdec/boot /mnt
-	${SUDO} /usr/mdec/installboot -vh2 -s18 \
-	    /mnt/boot /usr/mdec/ffspbr ${_i}
+	${SUDO} /usr/mdec/installboot -vh2 -s18 /mnt/boot /usr/mdec/ldsec ${_i}
 	${SUDO} umount /mnt
 
 zero-${_i}:

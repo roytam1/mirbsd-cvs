@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/stand/installboot/installboot.c,v 1.5 2005/12/04 13:27:00 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/stand/installboot/installboot.c,v 1.6 2006/01/03 03:07:56 tg Exp $ */
 /*	$OpenBSD: installboot.c,v 1.47 2004/07/15 21:44:16 tom Exp $	*/
 /*	$NetBSD: installboot.c,v 1.5 1995/11/17 23:23:50 gwr Exp $ */
 
@@ -84,7 +84,7 @@
 #include <unistd.h>
 #include <util.h>
 
-__RCSID("$MirOS: src/sys/arch/i386/stand/installboot/installboot.c,v 1.5 2005/12/04 13:27:00 tg Exp $");
+__RCSID("$MirOS: src/sys/arch/i386/stand/installboot/installboot.c,v 1.6 2006/01/03 03:07:56 tg Exp $");
 
 extern	char *__progname;
 int	verbose, nowrite, nheads, nsectors, userspec = 0;
@@ -131,7 +131,7 @@ static void
 usage(void)
 {
 	fprintf(stderr, "usage: %s [-n] [-v] [-s sec-per-track] "
-	    "[-h track-per-cyl] boot ffspbr device\n", __progname);
+	    "[-h track-per-cyl] boot ldsec device\n", __progname);
 	exit(1);
 }
 

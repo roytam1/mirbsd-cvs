@@ -1,4 +1,4 @@
-/* $MirOS: src/sys/arch/i386/stand/pbr/ffs/pbr.S,v 1.6 2005/12/04 13:22:16 tg Exp $ */
+/* $MirOS: src/sys/arch/i386/stand/pbr/ffs/pbr.S,v 1.7 2005/12/04 23:14:40 tg Exp $ */
 
 /*-
  * Copyright (c) 2003, 2004, 2005
