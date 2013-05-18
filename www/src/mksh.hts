@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.292 2009/10/17 22:06:06 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.293 2009/10/27 17:03:45 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -481,7 +481,9 @@ mws_content <<'EOF'
 <h5 id="oe_hurd">OS: GNU/Hurd</h5>
 <p>This operating system is supported (on i386) since R29 but not well
  tested. mksh is part of Debian GNU/Hurd, so it is expected to work.</p>
-<p>
+<p>Starting with mksh R40, there is no arbitrary limit on pathnames any
+ more, as the operating system requires. (However, there are still other
+ inherent limits in mksh, such as that of an interactive input line.)</p>
 
 <h5 id="oe_kbsd">OS: GNU/k*BSD</h5>
 <p>This operating environment has been supported for quite a while as part
