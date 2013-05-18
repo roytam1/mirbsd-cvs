@@ -1,6 +1,6 @@
 #!/bin/mksh
 # $Id$
-# $MirOS: src/etc/ppp/ip-up,v 1.2 2005/07/07 13:39:25 tg Exp $
+# $MirOS: src/etc/ppp/ip-up,v 1.3 2006/01/28 14:30:49 tg Exp $
 
 # This script is called when your ppp(8) or pppd(8) connection
 # goes up and after the connection, including routing, has al-
@@ -8,6 +8,9 @@
 
 
 ### Samples
+
+## things to do before the state table gets flushed
+#ifconfig gif0 down		# if using an IPv6 tunnel
 
 ## OpenIPF
 #pfctl -f /etc/pf.conf 2>&1	| logger -t pfctl-load
