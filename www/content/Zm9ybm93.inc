@@ -1,5 +1,5 @@
 <!-- PageID: fornow -->
-<small class="rcsid">$MirOS: www/content/b3ZlcnZpZXc_.inc,v 1.20 2006/04/19 19:01:16 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/Zm9ybm93.inc,v 1.1 2006/05/08 20:52:16 tg Exp $</small>
 <h1>MirOS Website (for now)</h1>
 
 <h2>About this page</h2>
@@ -53,7 +53,6 @@
 <h2>Index of files on mirbsd.de</h2><ul>
 <li><a href="http://mirbsd.de/MirOS-Licence">MirOS-Licence</a> (our licence template)</li>
 <li><a href="http://mirbsd.de/ISC-Licence">ISC-Licence</a> (ISC/OpenBSD)</li>
-<li><a href="http://mirbsd.de/deflt">deflt</a> redirector (old)</li>
 <li><a href="http://mirbsd.de/impressum">impressum</a> (German)</li>
 <li><a href="http://mirbsd.de/irc">irc</a> info</li>
 <li><a href="http://mirbsd.de/root">root</a> = standard page (redirector)</li>
