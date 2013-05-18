@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/i386/livecd/Makefile,v 1.38 2006/05/25 21:27:15 tg Exp $
+# $MirOS: src/distrib/i386/livecd/Makefile,v 1.39 2006/05/25 21:32:05 tg Exp $
 
 .include <bsd.own.mk>
 
@@ -146,7 +146,7 @@ clean cleandir cleannobsd: cleanworkdir
 	-rm -rf tempdir tmpmnt
 
 cleanworkdir:
-	-test -e workdir && ${SUDO} rm -rf workdir
+	-test ! -e workdir || ${SUDO} rm -rf workdir
 
 tstmnt:
 	${SUDO} vnconfig svnd0 ${CDROM}
