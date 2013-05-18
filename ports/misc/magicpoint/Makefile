@@ -1,12 +1,12 @@
-# $MirOS: ports/misc/magicpoint/Makefile,v 1.2 2005/07/07 21:23:42 bsiegert Exp $
+# $MirOS: ports/misc/magicpoint/Makefile,v 1.3 2006/09/14 00:11:16 tg Exp $
 # $OpenBSD: Makefile,v 1.32 2004/04/09 09:52:09 espie Exp $
 
-COMMENT=			X11-based presentation tool
-DISTNAME=	magicpoint-1.10a
-PKGNAME=	${DISTNAME}-1
-CATEGORIES=	misc productivity
-MASTER_SITES=	ftp://ftp.mew.org/pub/MagicPoint/
-HOMEPAGE=	http://www.mew.org/mgp/
+COMMENT=		X11-based presentation tool
+DISTNAME=		magicpoint-1.10a
+DASH_VER=		1
+CATEGORIES=		misc productivity
+MASTER_SITES=		ftp://sh.wide.ad.jp/WIDE/free-ware/mgp/
+HOMEPAGE=		http://member.wide.ad.jp/wg/mgp/
 
 # BSD
 PERMIT_PACKAGE_CDROM=	Yes
@@ -14,40 +14,40 @@ PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
-FLAVORS=	no_gif freetype2
+FLAVORS=		no_gif freetype2
 FLAVOR?=
 
-LIB_DEPENDS+=	ttf.1::print/freetype \
-		png.2::graphics/png \
-		mng::graphics/libmng
-RUN_DEPENDS+=	pnmscale::graphics/netpbm
+LIB_DEPENDS+=		ttf.1::print/freetype \
+			png.2::graphics/png \
+			mng::graphics/libmng
+RUN_DEPENDS+=		pnmscale::graphics/netpbm
 
-MODULES=	devel/gettext
-USE_X11=	Yes
-CONFIGURE_STYLE=autoconf gnu imake no-autoheader
-CONFIGURE_ARGS+= --disable-vflib
-CONFIGURE_ARGS+= --enable-freetype-charset16
+MODULES=		devel/gettext
+USE_X11=		Yes
+CONFIGURE_STYLE=	autoconf gnu imake no-autoheader
+CONFIGURE_ARGS+=	--disable-vflib
+CONFIGURE_ARGS+=	--enable-freetype-charset16
 
 .if !${FLAVOR:L:Mfreetype2}
-CONFIGURE_ARGS+= --disable-xft2
+CONFIGURE_ARGS+=	--disable-xft2
 .endif
 
 .if ${FLAVOR:L:Mno_gif}
-CONFIGURE_ARGS+= --disable-gif
+CONFIGURE_ARGS+=	--disable-gif
 .else
-USE_CXX=	Yes
-CONFIGURE_ARGS+= --enable-gif
-LIB_DEPENDS+=	ungif.5::graphics/libungif
+USE_CXX=		Yes
+CONFIGURE_ARGS+=	--enable-gif
+LIB_DEPENDS+=		ungif.5::graphics/libungif
 .endif
 
-NO_REGRESS=	Yes
+NO_REGRESS=		Yes
 
 post-extract:
 	-rm -rf ${WRKSRC}/missing	# crap...
 
 post-configure:
 	@cd ${WRKSRC}/contrib/xmindpath && \
-		./configure --prefix='$${DESTDIR}${PREFIX}'
+	    ./configure --prefix='$${DESTDIR}'${PREFIX:Q}
 
 post-build:
 	@cd ${WRKSRC}/contrib/xmindpath && ${MAKE_PROGRAM}
