@@ -1441,6 +1441,7 @@
 ./usr/include/sys/socketvar.h
 ./usr/include/sys/sockio.h
 ./usr/include/sys/stat.h
+./usr/include/sys/statvfs.h
 ./usr/include/sys/stdarg.h
 ./usr/include/sys/swap.h
 ./usr/include/sys/syscall.h
@@ -4195,11 +4196,14 @@
 ./usr/share/man/cat2/kill.0
 ./usr/share/man/cat2/kqueue.0
 ./usr/share/man/cat2/ktrace.0
+./usr/share/man/cat2/lchflags.0
+./usr/share/man/cat2/lchmod.0
 ./usr/share/man/cat2/lchown.0
 ./usr/share/man/cat2/link.0
 ./usr/share/man/cat2/listen.0
 ./usr/share/man/cat2/lseek.0
 ./usr/share/man/cat2/lstat.0
+./usr/share/man/cat2/lutimes.0
 ./usr/share/man/cat2/madvise.0
 ./usr/share/man/cat2/mincore.0
 ./usr/share/man/cat2/minherit.0
@@ -4286,6 +4290,7 @@
 ./usr/share/man/cat2/socketpair.0
 ./usr/share/man/cat2/stat.0
 ./usr/share/man/cat2/statfs.0
+./usr/share/man/cat2/statvfs.0
 ./usr/share/man/cat2/swapctl.0
 ./usr/share/man/cat2/symlink.0
 ./usr/share/man/cat2/sync.0

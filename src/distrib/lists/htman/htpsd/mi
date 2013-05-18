@@ -134,11 +134,14 @@
 ./man2/kill.htm
 ./man2/kqueue.htm
 ./man2/ktrace.htm
+./man2/lchflags.htm
+./man2/lchmod.htm
 ./man2/lchown.htm
 ./man2/link.htm
 ./man2/listen.htm
 ./man2/lseek.htm
 ./man2/lstat.htm
+./man2/lutimes.htm
 ./man2/madvise.htm
 ./man2/mincore.htm
 ./man2/minherit.htm
@@ -225,6 +228,7 @@
 ./man2/socketpair.htm
 ./man2/stat.htm
 ./man2/statfs.htm
+./man2/statvfs.htm
 ./man2/swapctl.htm
 ./man2/symlink.htm
 ./man2/sync.htm

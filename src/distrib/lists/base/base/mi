@@ -464,7 +464,7 @@
 ./usr/lib/i18n/libmapper_serial.so.5.0
 ./usr/lib/i18n/libmapper_std.so.5.0
 ./usr/lib/i18n/libmapper_zone.so.5.0
-./usr/lib/libc.so.40.3
+./usr/lib/libc.so.40.4
 ./usr/lib/libcrypto.so.14.1
 ./usr/lib/libcurses.so.14.0
 ./usr/lib/libdes.so.11.0
@@ -488,7 +488,7 @@
 ./usr/lib/libpanelw.so.6.0
 ./usr/lib/libpcap.so.6.0
 ./usr/lib/libpng.so.7.1
-./usr/lib/libpthread.so.10.0
+./usr/lib/libpthread.so.10.1
 ./usr/lib/libsectok.so.8.0
 ./usr/lib/libskey.so.7.0
 ./usr/lib/libssl.so.11.2
