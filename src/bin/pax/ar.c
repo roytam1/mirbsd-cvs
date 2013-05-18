@@ -302,7 +302,7 @@ uar_wr(ARCHD *arcn)
 	    (extname ? strlen(extname) : 0));
 	h.ar_magic[0] = 0x60;
 	h.ar_magic[1] = 0x0A;
-	arcn->pad = arcn->sb.st_size & 1;
+	arcn->pad = (arcn->sb.st_size + (extname ? strlen(extname) : 0)) & 1;
 
 	if (wr_rdbuf((void *)&h, sizeof(HD_AR)) < 0)
 		return (-1);
