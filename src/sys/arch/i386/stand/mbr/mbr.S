@@ -1,4 +1,4 @@
-/* $MirOS: src/sys/arch/i386/stand/mbr/mbr.S,v 1.4 2007/02/26 02:11:33 tg Exp $ */
+/* $MirOS: src/sys/arch/i386/stand/mbr/mbr.S,v 1.5 2007/02/26 17:07:19 tg Exp $ */
 
 /*-
  * Copyright (c) 2004, 2005, 2007
@@ -70,7 +70,7 @@ LDENTRY(Lm01)
 LDENTRY(Lm02)
 	.ascii	"00 3="
 LDENTRY(Lm03)
-	.ascii	"00 4=MBR 5=fdd CR=deflt\r\n"
+	.ascii	"00 4=MBR 5=fdd Ret=deflt\r\n"
 #endif
 	.asciz	">"
 
@@ -131,7 +131,10 @@ Lsday:	cmp	ecx,edi		/* time is over? */
 	ja	Lscanp		/* yes, fake a return keypress */
 	jmp	Lilp		/* no, jump back to the input */
 	/* below: input loop without timeout */
-Lkeyp:	xor	ah,ah		/* get pressed key */
+Lkeyp:	mov	ah,1		/* check if a key was pressed */
+	int	0x16		/* bizarre hack for Intel Macintosh ― if */
+	jz	Lkeyp		/* none was pressed, loop, else below fails */
+	xor	ah,ah		/* get pressed key */
 	int	0x16
 	sub	al,13		/* return */
 	jb	Lkeyp		/* illegal */
@@ -209,9 +212,7 @@ LbCHS:	mov	ax,0x0201	/* load 0x01 sector */
 Labend:	/* we can't boot, abort */
 	mov	si,offset Lmsgf
 	call	Lotxt
-	xor	ax,ax		/* wait for any keypress */
-	int	0x16
-	jmp	0xF000,0xFFF0	/* reset */
+Lablp:	jmp	Lablp
 
 Ltry:	mov	bp,4		/* number of tries */
 	mov	ds:[0x3FE],bp	/* place where later should be 0x55 0xAA magic */
