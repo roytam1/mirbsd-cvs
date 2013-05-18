@@ -1,5 +1,5 @@
 #!/usr/bin/env mksh
-# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.122 2008/10/12 18:04:28 tg Exp $
+# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.123 2008/10/12 18:10:15 tg Exp $
 #-
 # Copyright (c) 2006, 2008
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -219,6 +219,15 @@ ed -s $d_build/F/libckern.h <<-'EOF'
 	.
 	wq
 EOF
+ed -s $d_build/strlfun.c <<-'EOF'
+	0a
+		#define L_strlcpy
+		#define L_strlcat
+		#define __predict_true(exp)	((exp) != 0)
+		#define __predict_false(exp)	((exp) != 0)
+	.
+	wq
+EOF
 
 # Patch sources
 for ps in make.1 mk/{bsd.own.mk,bsd.prog.mk,bsd.sys.mk,sys.mk} mkdep.sh; do
@@ -378,7 +387,7 @@ fi
 add_strlfun=
 if testfunc 'size_t strlcpy(char *, const char *, size_t)' \
     'strlcpy(dst, src, 1)' '' 'char src[3] = "Hi", dst[3];'; then
-	add_strlfun=$d_src/kern/c/strlfun.c
+	add_strlfun=$d_build/strlfun.c
 fi
 add_arcfour=
 if testfunc 'uint32_t arc4random_pushb(const void *, size_t)' \
