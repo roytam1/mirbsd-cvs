@@ -1,5 +1,5 @@
 /*
- * $LynxId: LYMain.c,v 1.238 2012/08/05 01:03:03 tom Exp $
+ * $LynxId: LYMain.c,v 1.241 2013/05/02 10:41:09 tom Exp $
  */
 #include <HTUtils.h>
 #include <HTTP.h>
@@ -150,6 +150,13 @@ LOCAL_EXECUTION_LINKS_ON_BUT_NOT_REMOTE;
 #if defined(LYNXCGI_LINKS) && !defined(VMS)	/* WebSter Mods -jkt */
 char *LYCgiDocumentRoot = NULL;	/* DOCUMENT_ROOT in the lynxcgi env */
 #endif /* LYNXCGI_LINKS */
+
+#ifdef TRACK_INTERNAL_LINKS
+BOOLEAN track_internal_links = TRUE;
+
+#else
+BOOLEAN track_internal_links = FALSE;
+#endif
 
 #ifdef REVERSE_CLEAR_SCREEN_PROBLEM
 BOOLEAN enable_scrollback = TRUE;
@@ -2355,7 +2362,7 @@ void reload_read_cfg(void)
     }
     if (!save_rc(rcfp)) {
 	HTAlwaysAlert(NULL, OPTIONS_NOT_SAVED);
-	LYRemoveTemp(tempfile);
+	(void) LYRemoveTemp(tempfile);
 	FREE(tempfile);
 	return;			/* can not write the very own file :( */
     } {
@@ -2396,7 +2403,7 @@ void reload_read_cfg(void)
 	 */
 	rcfp = fopen(tempfile, "r");
 	read_rc(rcfp);
-	LYRemoveTemp(tempfile);
+	(void) LYRemoveTemp(tempfile);
 	FREE(tempfile);		/* done with it - kw */
 
 #ifdef USE_CHARSET_CHOICE
@@ -4230,7 +4237,9 @@ static BOOL parse_arg(char **argv,
      */
     if (*arg_name != '-'
 #if EXTENDED_OPTION_LOGIC
-	|| (no_options_further == TRUE && nof_index < (*countp))
+	|| ((no_options_further == TRUE)
+	    && (countp != 0)
+	    && (nof_index < (*countp)))
 #endif
 	) {
 #if EXTENDED_STARTFILE_RECALL
