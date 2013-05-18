@@ -1,4 +1,4 @@
-/* $MirOS: src/gnu/usr.bin/binutils/libiberty/config.h,v 1.2 2005/06/05 21:36:39 tg Exp $ */
+/* $MirOS: src/gnu/usr.bin/binutils/libiberty/config.h,v 1.3 2005/11/22 16:46:01 tg Exp $ */
 
 /* hand-edited */
 
@@ -65,6 +65,7 @@
 #define HAVE_STRINGS_H 1
 #define HAVE_STRING_H 1
 #define HAVE_STRNCASECMP 1
+#define HAVE_STRNDUP 1
 #define HAVE_STRRCHR 1
 #define HAVE_STRSIGNAL 1
 #define HAVE_STRSTR 1
