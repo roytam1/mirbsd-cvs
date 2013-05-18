@@ -1,5 +1,5 @@
 #!/usr/bin/perl -T
-my $rcsid = '$MirOS: www/files/man.cgi,v 1.1 2012/05/19 21:40:12 tg Exp $';
+my $rcsid = '$MirOS: www/files/man.cgi,v 1.2 2012/05/21 20:56:29 tg Exp $';
 #-
 # Copyright © 2012
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -82,7 +82,12 @@ sub tohtml {
 }
 
 if ($query ne "") {
-	@files = <htman/*/man{[1-9],3p,PSD,SMM,USD,PAPERS}/{,.}*${query}*.htm>;
+	@files = <htman/*/man[1-9]/{,.}*${query}*.htm>;
+	my @f;
+	@f = <htman/*/man{3p,PSD,SMM,USD,PAPERS}/*${query}*.htm>;
+	push @files, @f if (@f > 0);
+	@f = <htman/*/manINFO/*${query}*.html>;
+	push @files, @f if (@f > 0);
 }
 
 if (@files > 0) {
@@ -90,7 +95,8 @@ if (@files > 0) {
 
 	foreach my $a (qw( i386 sparc )) {
 		# from MirOS: src/etc/man.conf,v 1.5 2009/07/18 14:09:03 tg Exp $
-		foreach my $o (qw( 1 8 6 2 3 5 7 4 9 3p PSD SMM USD PAPERS )) {
+		foreach my $o (qw( 1 8 6 2 3 5 7 4 9 3p
+		    PSD SMM USD PAPERS INFO )) {
 			my @filtered = grep /^htman\/\Q$a\E\/man\Q$o\E\//,
 			    @files;
 			if (@filtered > 0) {
@@ -109,7 +115,7 @@ if (@files > 0) {
 		next unless (-r _ && -f _ && -s _);
 
 		my ($a, $k) = $fn =~
-		    /^htman\/([^\/]*)\/man([^\/]*\/.*)[.]htm$/;
+		    /^htman\/([^\/]*)\/man([^\/]*\/.*)[.]html?$/;
 		$results{$k} .= $a . ' ';
 
 		if ($ino) {
@@ -145,7 +151,7 @@ if (@files > 0) {
 			next;
 		}
 		# both i386 and sparc: duplicates or no?
-		@a = grep /man\Q$k\E[.]htm$/, @files;
+		@a = grep /man\Q$k\E[.]html?$/, @files;
 		if (@a < 2) {
 			$results{$k} = '-';
 		} else {
@@ -207,19 +213,38 @@ if ($ares == 3) {
 		    "match for " . tohtml($query) . "</a></p>\n";
 	}
 	$output .= "<ul>\n";
-	foreach my $k (sort keys %results) {
+	my @res = sort keys %results;
+	foreach my $k (grep(!/^INFO/, @res)) {
 		my $a = $results{$k};
 		my ($s, $n) = split /\//, $k, 2;
+		my $x = $k . ".htm";
 		if ($a eq '-') {
-			$output .= " <li><a href=\"htman/i386/man" . $k .
-			    ".htm\">" . $n . "(" . $s . ")</a></li>\n";
+			$output .= " <li><a href=\"htman/i386/man" . $x .
+			    "\">" . $n . "(" . $s . ")</a></li>\n";
 			next;
 		}
 		$_ = $a;
 		my @aa = split;
 		foreach my $r (@aa) {
-			$output .= " <li><a href=\"htman/" . $r . "/man" . $k .
-			    ".htm\">" . $n . "(" . $s . "/" . $r . ")</a></li>\n";
+			$output .= " <li><a href=\"htman/" . $r . "/man" . $x .
+			    "\">" . $n . "(" . $s . "/" . $r . ")</a></li>\n";
+		}
+	}
+	foreach my $k (grep(/^INFO/, @res)) {
+		my $a = $results{$k};
+		my ($s, $n) = split /\//, $k, 2;
+		$s = "GNU";
+		my $x = $k . ".html";
+		if ($a eq '-') {
+			$output .= " <li><a href=\"htman/i386/man" . $x .
+			    "\">" . $n . "(" . $s . ")</a></li>\n";
+			next;
+		}
+		$_ = $a;
+		my @aa = split;
+		foreach my $r (@aa) {
+			$output .= " <li><a href=\"htman/" . $r . "/man" . $x .
+			    "\">" . $n . "(" . $s . "/" . $r . ")</a></li>\n";
 		}
 	}
 	$output .= "</ul>\n";
