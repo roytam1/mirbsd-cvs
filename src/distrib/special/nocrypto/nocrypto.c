@@ -2,7 +2,7 @@
 
 #include <stdlib.h>
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/distrib/special/nocrypto/nocrypto.c,v 1.1 2006/02/24 01:37:37 tg Exp $");
 
 __dead void
 ASN1_OCTET_STRING_new(void)
@@ -102,6 +102,18 @@ d2i_ASN1_OCTET_STRING(void)
 
 __dead void
 i2d_ASN1_OCTET_STRING(void)
+{
+	abort();
+}
+
+__dead void
+PEM_read_ASN1_OCTET_STRING(void)
+{
+	abort();
+}
+
+__dead void
+PEM_write_ASN1_OCTET_STRING(void)
 {
 	abort();
 }
