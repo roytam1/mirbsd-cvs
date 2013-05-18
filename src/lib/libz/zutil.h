@@ -1,4 +1,4 @@
-/**	$MirOS: src/lib/libz/zutil.h,v 1.9 2005/12/06 01:07:17 tg Exp $ */
+/**	$MirOS: src/lib/libz/zutil.h,v 1.10 2006/01/31 10:32:01 tg Exp $ */
 /*	$OpenBSD: zutil.h,v 1.9 2005/07/20 15:56:42 millert Exp $	*/
 /* zutil.h -- internal interface and configuration of the compression library
  * Copyright (C) 1995-2005 Jean-loup Gailly.
@@ -132,5 +132,18 @@ void   zcfree  OF((voidpf opaque, voidpf ptr));
            (*((strm)->zalloc))((strm)->opaque, (items), (size))
 #define ZFREE(strm, addr)  (*((strm)->zfree))((strm)->opaque, (voidpf)(addr))
 #define TRY_FREE(s, p) {if (p) ZFREE(s, p);}
+
+#if defined(_STANDALONE) || \
+    (!defined(ZLIB_HAS_ADLERPUSH) && !defined(ZLIB_HAS_CRC32PUSH))
+#define zADDRND(x)	/* nothing */
+#elif defined(_KERNEL)
+#include <sys/kernel.h>	/* for time */
+#include <dev/rndvar.h>
+#define zADDRND(x)	rnd_addpool_add((x) ^ (uint32_t)time.tv_sec)
+#elif defined(ZLIB_NO_ADLERPUSH)
+#define zADDRND(x)	/* nothing */
+#else
+#define zADDRND(x)	arc4random_push(x)
+#endif
 
 #endif /* ZUTIL_H */
