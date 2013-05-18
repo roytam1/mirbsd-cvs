@@ -1,4 +1,4 @@
-/* $MirOS: src/kern/c/libckern.h,v 1.1 2007/02/06 16:24:42 tg Exp $ */
+/* $MirOS: src/kern/include/libckern.h,v 1.1 2007/02/06 18:58:06 tg Exp $ */
 
 #ifndef __LIBCKERN_H_
 #define __LIBCKERN_H_
@@ -8,6 +8,10 @@
 #if !defined(_STANDALONE) && !defined(_WCHAR_H_)
 typedef __WCHAR_TYPE__	wchar_t;
 typedef __WINT_TYPE__	wint_t;
+typedef struct {
+	unsigned int count:2;
+	unsigned int value:12;	/* 10 for mbstowcs, 12 for wcstombs */
+} __attribute__((packed)) mbstate_t;
 
 /* makedepend may not define __WCHAR_MAX__ */
 #if defined(__WCHAR_MAX__) && (__WCHAR_MAX__ != 65535U)
