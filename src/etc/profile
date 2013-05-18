@@ -1,4 +1,4 @@
-# $MirOS: src/etc/profile,v 1.42 2007/02/02 01:54:01 tg Exp $
+# $MirOS: src/etc/profile,v 1.43 2007/02/02 02:02:48 tg Exp $
 #-
 umask 022
 [ -z "$KSH_VERSION" ] && alias print='echo -e'
@@ -10,13 +10,6 @@ umask 022
 	eval $x
 else
 	TERM=vt220
-fi
-LC_CTYPE=${LC_ALL:-${LC_CTYPE:-${LANG}}}
-test -n "$LC_CTYPE" || if /usr/sbin/wsconfig -Uq 2>&-; then
-	LC_CTYPE=en_US.UTF-8
-	set -o utf8-hack 2>&-
-else
-	LC_CTYPE=C
 fi
 case "${TERM}:$COLORTERM" in
 *:NO|ansi-nt*|vt*|xterm-r6:*)
@@ -44,6 +37,7 @@ else
 	PSX='$ '
 fi
 export PATH
+BROWSER=lynx
 CVSUMASK=002
 EDITOR=/bin/ed
 unset HISTFILE
@@ -92,7 +86,7 @@ XDG_CACHE_HOME=$HOME/.etc/xdg/cache
 XDG_CONFIG_HOME=$HOME/.etc/xdg/config
 XDG_DATA_HOME=$HOME/.etc/xdg/data
 export BROWSER CVSUMASK EDITOR HOME HOSTNAME IRCNAME IRCPORT IRCSERVER
-export LC_CTYPE OSNAME PAGER PS1 TERM USER USER_ID XDG_CACHE_HOME
+export OSNAME PAGER PS1 TERM USER USER_ID XDG_CACHE_HOME
 export XDG_CONFIG_HOME XDG_DATA_HOME
 unset NOCOLOURPROMPT PSX x
 alias cls='print -n \\033c'
@@ -134,14 +128,6 @@ function Lstripcom	# strip comments (and whitespace) from file(s)
 		[[ -n $_line ]] && print -r -- $_line
 	done
 }
-
-[[ $BROWSER = lynx* ]] && unset BROWSER
-if [[ $LC_CTYPE = *@(UTF|utf)?(-)8 ]]; then
-	: ${BROWSER:=lynx -display_charset utf8}
-else
-	: ${BROWSER:=lynx}
-fi
-[[ $BROWSER = lynx* ]] && alias lynx="$BROWSER"
 
 if [ -O /tmp/ssh-agent/$USER_ID ]; then
 	# If the agent is not running, remove stale files
