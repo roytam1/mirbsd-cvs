@@ -3,7 +3,7 @@
 
 #include "sh.h"
 
-__RCSID("$MirOS: src/bin/mksh/histrap.c,v 1.24 2006/08/15 23:56:32 tg Exp $");
+__RCSID("$MirOS: src/bin/mksh/histrap.c,v 1.25 2006/08/24 18:57:30 tg Exp $");
 
 #if !defined(__sun__)
 #define DO_HISTORY
@@ -19,6 +19,36 @@ __RCSID("$MirOS: src/bin/mksh/histrap.c,v 1.24 2006/08/15 23:56:32 tg Exp $");
 #elif defined(__gnu_linux__) || defined(__sun__) || defined(__CYGWIN__)
 #define	NEED_MKSH_SIGNAME	/* sync the list above with Build.sh */
 #define	mksh_siglist(x)	strsignal(x)
+#elif defined(__minix)
+#define	mksh_signame(x)	_mksh_signal[(x),0]
+#define	mksh_siglist(x) _mksh_signal[(x),1]
+static const char *_mksh_signal[25,2] = {
+	{ NULL,		NULL },
+	{ "HUP",	"Hangup" },
+	{ "INT",	"Interrupt" },
+	{ "QUIT",	"Quit" },
+	{ "ILL",	"Illegal instruction" },
+	{ "TRAP",	"Trace trap" },
+	{ "ABRT",	"Abort" },
+	{ "BUS",	"Bus error" },
+	{ "FPE",	"Floating point exception" },
+	{ "KILL",	"Killed" },
+	{ "USR1",	"User defined signal 1" },
+	{ "SEGV",	"Memory fault" },
+	{ "USR2",	"User defined signal 2" },
+	{ "PIPE",	"Broken pipe" },
+	{ "ALRM",	"Alarm clock" },
+	{ "TERM",	"Terminated" },
+	{ "EMT",	"EMT trap" },
+	{ "CHLD",	"Child exited" },
+	{ "CONT",	"Continued" },
+	{ "STOP",	"Stopped (signal)" },
+	{ "TSTP",	"Stopped" },
+	{ "WINCH",	"Window size change" },
+	{ "TTIN",	"Stopped (tty input)" },
+	{ "TTOU",	"Stopped (tty output)" },
+	{ "ERR",	"Error handler" }
+};
 #else
 # error "Define sys_sig{name,list} for this platform!"
 #endif
