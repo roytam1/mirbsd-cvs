@@ -1,8 +1,9 @@
-# $MirOS: ports/textproc/libxml/Makefile,v 1.18 2008/08/26 17:17:39 tg Exp $
+# $MirOS: ports/textproc/libxml/Makefile,v 1.19 2010/08/16 19:40:31 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.76 2004/04/21 04:42:26 robert Exp $
 
 COMMENT=		XML parsing library
 MODPY_EGG_VERSION=	2.6.32
+DASH_VER=		1
 DISTNAME=		libxml2-${MODPY_EGG_VERSION}
 PKGNAME=		libxml-${MODPY_EGG_VERSION}-${DASH_VER}
 CATEGORIES=		textproc
@@ -32,7 +33,7 @@ CONFIGURE_ARGS+=	--with-iconv=${ICONV_PREFIX:Q}
 CONFIGURE_ARGS+=	--with-zlib
 CONFIGURE_ARGS+=	--without-readline
 CONFIGURE_ARGS+=	--without-threads
-CONFIGURE_ARGS+=	--with-python
+CONFIGURE_ARGS+=	--with-python=${LOCALBASE}/bin/python${MODPY_VERSION}
 
 CPPFLAGS+=		-DMIRPORTS_LOCALBASE=\"${LOCALBASE:Q}\"
 
