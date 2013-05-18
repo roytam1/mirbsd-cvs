@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/dot.profile,v 1.32 2008/10/20 18:20:31 tg Exp $
+# $MirOS: src/distrib/common/dot.profile,v 1.33 2008/10/20 19:29:20 tg Exp $
 # $OpenBSD: dot.profile,v 1.4 2002/09/13 21:38:47 deraadt Exp $
 # $NetBSD: dot.profile,v 1.1 1995/12/18 22:54:43 pk Exp $
 #
@@ -39,16 +39,20 @@ umask 022
 cd /
 ulimit -c 0
 
+_getrnd() {
+	(ulimit -T 60; exec ftp -mvo /dev/arandom \
+	    https://call.mirbsd.org/rn.cgi?bsdrdskg,$(dd \
+	    if=/dev/arandom bs=57 count=1 | \
+	    b64encode -r - | tr '+=/' '._-')) >/dev/wrandom 2>&1
+}
+
 sshd() {
 	if grep -q '^root:x:' /etc/master.passwd 2>/dev/null; then
 		print -u2 error: you must passwd root first
 		return 1
 	fi
 	if [[ ! -f /etc/ssh/ssh_host_rsa_key ]]; then
-		(ulimit -T 60; exec ftp -mvo /dev/arandom \
-		    https://call.mirbsd.org/rn.cgi?bsdrdskg,$(dd \
-		    if=/dev/arandom bs=57 count=1 2>&- | \
-		    b64encode -r - | tr '+=/' '._-')) >/dev/wrandom 2>&1
+		_getrnd
 		print -n "ssh-keygen: generating new RSA host key... "
 		sleep 3
 		if ssh-keygen -qt rsa -f /etc/ssh/ssh_host_rsa_key -N ''; then
