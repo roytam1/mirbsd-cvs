@@ -1,4 +1,4 @@
-@comment $MirOS$
+@comment $MirOS: ports/graphics/libwmf/pkg/PLIST,v 1.2 2007/08/20 19:20:44 bsiegert Exp $
 @comment $OpenBSD: PLIST,v 1.2 2002/09/08 11:55:35 avsm Exp $
 bin/libwmf-config
 bin/libwmf-fontmap
@@ -31,7 +31,6 @@ include/libwmf/macro.h
 include/libwmf/svg.h
 include/libwmf/types.h
 include/libwmf/x.h
-lib/gtk-2.0/loaders/io-wmf.la
 lib/libwmf.la
 lib/libwmflite.la
 share/doc/libwmf/caolan/2.html
@@ -302,14 +301,11 @@ share/libwmf/fonts/n022024l.afm
 share/libwmf/fonts/n022024l.pfb
 share/libwmf/fonts/s050000l.afm
 share/libwmf/fonts/s050000l.pfb
-%%SHARED%%
 @dirrm share/libwmf/fonts
 @dirrm share/libwmf
 @dirrm share/doc/libwmf/html
 @dirrm share/doc/libwmf/caolan/pics
 @dirrm share/doc/libwmf/caolan
 @dirrm share/doc/libwmf
-@dirrm lib/gtk-2.0/loaders
-@dirrm lib/gtk-2.0
 @dirrm include/libwmf/gd
 @dirrm include/libwmf

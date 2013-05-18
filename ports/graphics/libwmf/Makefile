@@ -1,9 +1,9 @@
-# $MirOS$
+# $MirOS: ports/graphics/libwmf/Makefile,v 1.4 2007/08/20 19:20:43 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.7 2004/02/26 16:40:11 espie Exp $
 
 COMMENT=	WMF handling and conversion library
-
 DISTNAME=	libwmf-0.2.8.4
+DASH_VER=	1
 CATEGORIES=	graphics devel
 MASTER_SITES=	${MASTER_SITE_SOURCEFORGE:=wvware/}
 
