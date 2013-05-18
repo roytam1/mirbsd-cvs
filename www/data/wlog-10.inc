@@ -6121,6 +6121,8 @@ Tag: debian
  sarge edition, which I got for free recently) and found a nice graphic
  explaining what non-native english speakers (I even had latin first, and 3
  programming languages!) don't, from the Debian constitution.</p>
+<p>Congratulations <a href="http://fsinfo.cs.uni-sb.de/~abe/Links/">XTaran</a>
+ for making it as well, even visible on the website already!</p>
 <p>Please don't file an "Please package mksh R39b" bug again, I am aware
  there's a new version ;-) as I'm upstream too. I'm just short of time at
  the moment, and I'd like to put out high-quality packages. Besides, the
