@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: contrib/hosted/tg/rstat,v 1.3 2010/09/24 19:59:04 tg Exp $
+# $MirOS: contrib/hosted/tg/rstat,v 1.5 2010/09/25 12:11:23 tg Exp $
 #-
 # Copyright © 2010
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -89,6 +89,8 @@ while :; do
 	# these numbers are "inclusive", detrend them
 	stats[16]=$(calculate ${stats[16]} - ${stats[49]})
 	stats[40]=$(calculate ${stats[40]} - ${stats[4]})
+	stats[48]=$(calculate ${stats[48]} - ${stats[4]})
+	stats[56]=$(calculate ${stats[56]} - \( 24 \* ${stats[4]} \))
 
 	# convert bits to bytes
 	count=$(calculate $count / 8)
