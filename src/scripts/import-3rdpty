@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/scripts/import-3rdpty,v 1.25 2005/11/23 21:03:41 tg Exp $
+# $MirOS: src/scripts/import-3rdpty,v 1.26 2005/11/23 21:24:32 tg Exp $
 #-
 # Copyright (c) 2004, 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -23,7 +23,7 @@
 # rect or other, however caused, arising in any way out of the usage
 # of this work, even if advised of the possibility of such damage.
 
-print -r -- '========= $MirOS: src/scripts/import-3rdpty,v 1.25 2005/11/23 21:03:41 tg Exp $ ========='
+print -r -- '========= $MirOS: src/scripts/import-3rdpty,v 1.26 2005/11/23 21:24:32 tg Exp $ ========='
 
 ignlist=0
 force=0
@@ -1045,7 +1045,8 @@ openbsd)
 		usr.sbin/httpd/conf/ssl.csr \
 		usr.sbin/httpd/conf/ssl.key \
 		usr.sbin/httpd/conf/ssl.prm \
-		usr.sbin/httpd/htdocs/manual/search \
+		usr.sbin/httpd/htdocs/manual/images/apache_header.gif \
+		usr.sbin/httpd/htdocs/manual/images/apache_pb.gif \
 		usr.sbin/httpd/icons/small \
 		usr.sbin/httpd/src/lib \
 		usr.sbin/httpd/src/regex \
