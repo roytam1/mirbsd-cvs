@@ -1,4 +1,4 @@
-# $MirOS: src/lib/libncurses/Makefile,v 1.6 2006/10/28 19:20:09 tg Exp $
+# $MirOS: src/lib/libncurses/Makefile,v 1.7 2006/11/02 02:30:39 tg Exp $
 
 LIB=		ncurses
 LIBLINKS=	curses ncursesw termcap termlib
@@ -755,7 +755,7 @@ prereq: curses.h term.h
 includes:
 	-[[ -d ${DESTDIR}/usr/include/ncursesw ]] || \
 	    rm -rf ${DESTDIR}/usr/include/ncursesw
-	${INSTALL} -d -o ${BINOWN} -g ${CONFGRP} -m ${DIRMODE} \
+	${INSTALL} -d -o ${BINOWN} -g ${BINGRP} -m ${DIRMODE} \
 	    ${DESTDIR}/usr/include/ncursesw
 .for _i in curses.h ${NCSRCDIR}/include/ncurses_dll.h term.h \
     ${NCSRCDIR}/include/termcap.h ${NCSRCDIR}/include/unctrl.h
@@ -780,7 +780,7 @@ catmaninstall:
 .endif
 
 afterinstall:
-	${INSTALL} -d -o ${BINOWN} -g ${BINGRP} -m ${DIRMODE} \
+	${INSTALL} -d -o ${BINOWN} -g ${CONFGRP} -m ${DIRMODE} \
 	    ${DESTDIR}/usr/share/doc/html/curses
 	cd ${NCSRCDIR}/doc/html; ${INSTALL} ${INSTALL_COPY} -o ${DOCOWN} \
 	    -g ${DOCGRP} -m ${DOCMODE} NCURSES-Programming-HOWTO.html \
