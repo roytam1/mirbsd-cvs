@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/sys.mk,v 1.31 2005/08/21 11:45:50 tg Exp $
+# $MirOS: src/share/mk/sys.mk,v 1.32 2005/08/26 20:56:00 tg Exp $
 # $OpenBSD: sys.mk,v 1.45 2005/03/07 00:06:00 deraadt Exp $
 # $NetBSD: sys.mk,v 1.27 1996/04/10 05:47:19 mycroft Exp $
 # @(#)sys.mk	5.11 (Berkeley) 3/13/91
@@ -9,12 +9,8 @@ _SYS_MK=1
 MACHINE_OS?=	unknown
 .if ${MACHINE_OS} == "BSD"
 OStype=		MirBSD
-.elif ${MACHINE_OS} == "Linux"
-OStype=		MirLinux
 .else
-ERRORS+=	Something fishy: $$MACHINE_OS unknown!
-___DISPLAY_MAKEVARS+=ERRORS
-OStype=		unknown
+.  error MACHINE_OS (${MACHINE_OS}) unknown!
 .endif
 
 .if defined(EXTRA_SYS_MK_INCLUDES)
