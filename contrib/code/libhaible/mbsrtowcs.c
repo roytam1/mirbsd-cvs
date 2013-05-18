@@ -1,4 +1,4 @@
-/* $MirOS: contrib/code/libhaible/mbsrtowcs.c,v 1.8 2006/05/30 21:56:46 tg Exp $ */
+/* $MirOS: contrib/code/libhaible/mbsrtowcs.c,v 1.9 2006/05/30 21:57:25 tg Exp $ */
 
 /*-
  * Copyright (c) 2006
@@ -25,7 +25,7 @@
 
 #include "mir18n.h"
 
-__RCSID("$MirOS: contrib/code/libhaible/mbsrtowcs.c,v 1.8 2006/05/30 21:56:46 tg Exp $");
+__RCSID("$MirOS: contrib/code/libhaible/mbsrtowcs.c,v 1.9 2006/05/30 21:57:25 tg Exp $");
 
 size_t
 mbsrtowcs(wchar_t *__restrict__ pwcs, const char **__restrict__ s,
@@ -34,7 +34,7 @@ mbsrtowcs(wchar_t *__restrict__ pwcs, const char **__restrict__ s,
 	static mbstate_t internal = { 0, 0 };
 	const unsigned char *src = (const unsigned char *)(*s);
 	wint_t c, w;
-	size_t num, rv = 0;
+	size_t num, count = 0;
 
 	if (ps == NULL)
 		ps = &internal;
@@ -42,13 +42,18 @@ mbsrtowcs(wchar_t *__restrict__ pwcs, const char **__restrict__ s,
 	if (!__locale_is_utf8) {
 		while (((pwcs == NULL) ? 1 : n--) > 0) {
 			c = *src++;
+			if (c > MIR18N_SB_CVT) {
+ ilseq:
+				errno = EILSEQ;
+				return ((size_t)(-1));
+			}
 			if (pwcs != NULL)
-				pwcs[rv] = (wchar_t)c;
+				pwcs[count] = (wchar_t)c;
 			if (c == '\0') {
 				src = NULL;
 				break;
 			}
-			rv++;
+			count++;
 		}
 	} else {
 		while (((pwcs == NULL) ? 1 : n--) > 0) {
@@ -57,16 +62,16 @@ mbsrtowcs(wchar_t *__restrict__ pwcs, const char **__restrict__ s,
 				c = *src;
 				if (c < 0x80) {
 					if (pwcs != NULL)
-						pwcs[rv] = (wchar_t)c;
+						pwcs[count] = (wchar_t)c;
 					if (c == '\0') {
 						src = NULL;
 						break;
 					}
 					src++;
-					rv++;
+					count++;
 					continue;
 				} else if (c < 0xC2)
-					goto bad_input;
+					goto ilseq;
 				if (c < 0xE0) {
 					w = (wchar_t)(c & 0x1F) << 6;
 					num = 1;
@@ -74,7 +79,7 @@ mbsrtowcs(wchar_t *__restrict__ pwcs, const char **__restrict__ s,
 					w = (wchar_t)(c & 0x0F) << 12;
 					num = 2;
 				} else
-					goto bad_input;
+					goto ilseq;
 				src++;
 			} else {
 				w = ps->value << 6;
@@ -91,20 +96,17 @@ mbsrtowcs(wchar_t *__restrict__ pwcs, const char **__restrict__ s,
 					goto bad_input_backup;
 			}
 			if (pwcs != NULL) {
-				pwcs[rv] = w;
+				pwcs[count] = w;
 				ps->count = 0;
 			}
-			rv++;
+			count++;
 			continue;
  bad_input_backup:
 			src = s2;
-			goto bad_input;
+			goto ilseq;
 		}
 	}
 	if (pwcs != NULL)
 		*s = (const char *)src;
-	return (rv);
- bad_input:
-	errno = EILSEQ;
-	return ((size_t)(-1));
+	return (count);
 }
