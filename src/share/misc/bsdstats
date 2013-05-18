@@ -1,9 +1,29 @@
-# $MirOS: src/share/misc/bsdstats,v 1.23 2007/04/19 18:53:29 tg Exp $
+# $MirOS: src/share/misc/bsdstats,v 1.24 2007/04/22 13:49:48 tg Exp $
 # $FreeBSD: ports/sysutils/bsdstats/files/300.statistics,v 1.38 2006/12/05 13:49:45 scrappy Exp $
+#-
+# Copyright (c) 2007
+#	Thorsten Glaser <tg@mirbsd.de>
+# Loosely based upon the original bsdstats script and API by
+#	Marc G. Fournier <scrappy@freebsd.org>
+#
+# Provided that these terms and disclaimer and all copyright notices
+# are retained or reproduced in an accompanying document, permission
+# is granted to deal in this work without restriction, including un-
+# limited rights to use, publicly perform, distribute, sell, modify,
+# merge, give away, or sublicence.
+#
+# This work is provided "AS IS" and WITHOUT WARRANTY of any kind, to
+# the utmost extent permitted by applicable law, neither express nor
+# implied; without malicious intent or gross negligence. In no event
+# may a licensor, author or contributor be held liable for indirect,
+# direct, other damage, loss, or other issues arising in any way out
+# of dealing in the work, even if advised of the possibility of such
+# damage or existence of a defect, except proven that it results out
+# of said person's immediate fault when using the work as intended.
 
 rpt='http://rpt.bsdstats.org/scripts/'
 
-export TZ=UTC PATH=/bin:/usr/bin:/sbin:/usr/sbin:/usr/local/bin:/usr/mpkg/bin
+export TZ=UTC PATH=/bin:/usr/bin:/sbin:/usr/sbin
 
 # RFC 2396
 function uri_escape
@@ -57,7 +77,7 @@ function report_ports
 	qs="token=$stats_key&key=$stats_token$qs"
 	qs="POST $path HTTP/1.0
 Host: $host
-User-Agent: bsdstats \$MirOS: src/share/misc/bsdstats,v 1.23 2007/04/19 18:53:29 tg Exp $
+User-Agent: bsdstats \$MirOS: src/share/misc/bsdstats,v 1.24 2007/04/22 13:49:48 tg Exp $
 Connection: close
 Content-Type: application/x-www-form-urlencoded
 Content-Length: ${#qs}
@@ -163,7 +183,7 @@ if (( $(date -r $stats_report_time +%Y%m) < $(date -r $now +%Y%m) )); then
 		[[ $res = *OK* ]] || ok=0
 		# report MirPorts Framework installed binary packages
 		qs=
-		(find /usr/mpkg/db/pkg -name +CONTENTS -print0 | \
+		(find /usr/mpkg/db/pkg -name +CONTENTS -print0 2>/dev/null | \
 		    xargs -0 grep '^@comment.*subdir=' | \
 		    sed 's!^[^:]*/\([^/:]*\)/+CONTENTS:.*subdir=\([^, ]*\).*$!\1:\2!' | \
 		    sort) |&	# interesting that we _need_ the parens here oO
@@ -180,6 +200,32 @@ if (( $(date -r $stats_report_time +%Y%m) < $(date -r $now +%Y%m) )); then
 			name=$(print -r -- "$name" | tr - ,)
 			qs="$qs:$(uri_escape "$stem-$vers$name")"
 		done
+		# scan for NetBSD pkgsrc installed binary packages
+		res=
+		for dir in /usr/pkg/pkgdb /usr/pkg/db/pkg /var/db/pkg; do
+			[[ -e $dir ]] || continue
+			for file in $dir/*/+BUILD_INFO; do
+				[[ -e $file ]] || continue
+				res=y
+				break 2
+			done
+		done
+		[[ -n $res ]] || dir=/nonexistent
+		(find $dir -name +BUILD_INFO 2>/dev/null | sort) |&
+		while IFS= read -pr fn; do
+			name=${fn%/*}		# directory
+			name=${name##*/}	# pkgname
+			[[ $name = *@(nb)+([0-9]) ]] || name=${name}nb0
+			eval $(print 'all:\n\t@print -r -- dir=${PKGPATH:Q}' \
+			    'flavours=${PKG_OPTIONS:Q}\n.include "'"$fn\"" | \
+			    make -f - all)	# subdir, flavours
+			qs="$qs&port[]=$(uri_escape "${dir%%/*}")"
+			for flavour in $flavours; do
+				name=$name,$flavour
+			done
+			qs="$qs:$(uri_escape "$name")"
+		done
+		# report any found binary packages now at once
 		[[ -z $qs ]] || report_ports
 	fi
 	uri="disable_token.php?key=$stats_key&token=$stats_token"
