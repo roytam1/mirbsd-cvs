@@ -1,9 +1,9 @@
-# $MirOS: ports/devel/ccache/Makefile,v 1.8 2008/10/04 23:47:13 tg Exp $
+# $MirOS: ports/devel/ccache/Makefile,v 1.9 2008/10/05 15:17:55 tg Exp $
 # $OpenBSD: Makefile,v 1.6 2003/09/28 17:19:14 naddy Exp $
 
 COMMENT=		pre-processor caching program for C/C++ compilers
 DISTNAME=		ccache-2.4
-DASH_VER=		2
+DASH_VER=		3
 CATEGORIES=		devel
 HOMEPAGE=		http://ccache.samba.org/
 RESPONSIBLE=		R. Tyler Ballance <tyler@mirbsd.org>
