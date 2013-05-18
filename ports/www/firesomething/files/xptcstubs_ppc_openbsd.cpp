@@ -14,7 +14,7 @@
  *
  * The Original Code is mozilla.org code.
  *
- * The Initial Developer of the Original Code is
+ * The Initial Developer of the Original Code is 
  * Netscape Communications Corporation.
  * Portions created by the Initial Developer are Copyright (C) 1999
  * the Initial Developer. All Rights Reserved.
@@ -25,7 +25,7 @@
  *   waterson@netscape.com (Chris Waterson)
  *
  * Alternatively, the contents of this file may be used under the terms of
- * either the GNU General Public License Version 2 or later (the "GPL"), or
+ * either the GNU General Public License Version 2 or later (the "GPL"), or 
  * the GNU Lesser General Public License Version 2.1 or later (the "LGPL"),
  * in which case the provisions of the GPL or the LGPL are applicable instead
  * of those above. If you wish to allow use of your version of this file only
@@ -58,7 +58,7 @@
 // - 'args[]' contains the arguments passed on stack
 // - 'gprData[]' contains the arguments passed in integer registers
 // - 'fprData[]' contains the arguments passed in floating point registers
-//
+// 
 // The parameters are mapped into an array of type 'nsXPTCMiniVariant'
 // and then the method gets called.
 
@@ -111,7 +111,7 @@ PrepareAndDispatch(nsXPTCStubBase* self,
         const nsXPTParamInfo& param = info->GetParam(i);
         const nsXPTType& type = param.GetType();
         nsXPTCMiniVariant* dp = &dispatchParams[i];
-
+	
         if (!param.IsOut() && type == nsXPTType::T_DOUBLE) {
             if (fpr < FPR_COUNT)
                 dp->val.d = fprData[fpr++];

@@ -19,7 +19,7 @@ const PRUint32 FPR_COUNT            = 8;
 // - 'args[]' contains the arguments passed on stack
 // - 'gpregs[]' contains the arguments passed in integer registers
 // - 'fpregs[]' contains the arguments passed in floating point registers
-//
+// 
 // The parameters are mapped into an array of type 'nsXPTCMiniVariant'
 // and then the method gets called.
 
@@ -68,7 +68,7 @@ PrepareAndDispatch(nsXPTCStubBase * self, PRUint32 methodIndex,
         const nsXPTParamInfo& param = info->GetParam(i);
         const nsXPTType& type = param.GetType();
         nsXPTCMiniVariant* dp = &dispatchParams[i];
-
+	
         if (!param.IsOut() && type == nsXPTType::T_DOUBLE) {
             if (nr_fpr < FPR_COUNT)
                 dp->val.d = fpregs[nr_fpr++];

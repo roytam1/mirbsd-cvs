@@ -1,34 +1,33 @@
-# $MirOS: ports/www/firesomething/Makefile,v 1.7 2005/12/18 16:36:46 tg Exp $
-# $OpenBSD: Makefile,v 1.10 2004/08/08 17:19:36 robert Exp $
-
-BROKEN=			Kaput. I suggest ports/www/opera (BSD), K-Meleon (Win), Safari (Mac)
+# $MirOS: ports/www/firesomething/Makefile,v 1.6 2005/07/06 19:21:37 bsiegert Exp $
+# $OpenBSD: Makefile,v 1.41 2005/11/15 09:21:52 wilfried Exp $
 
 ONLY_FOR_PLATFORM=	*:*:alpha *:*:i386 *:*:sparc *:*:sparc64 *:*:amd64 *:*:powerpc
 COMMENT=		"one of the successors to the Netscape browser engine"
-VERSION=		0.8
-DASH_VER=		-1
+VER=			1.5.0.3
+DASH_VER=		-0
 DISTNAME=		mozilla
-PKGNAME=		firesomething-${VERSION}${DASH_VER}
+PKGNAME=		firesomething-${VER}${DASH_VER}
 CATEGORIES=		www
 HOMEPAGE=		http://www.mozilla.org/projects/firefox/
 
-# MPL; strange Trademark licence policy
-PERMIT_PACKAGE_CDROM=	"trademark licencing issues"
-PERMIT_PACKAGE_FTP=	"http://mozilla.org/foundation/licensing.html"
-PERMIT_DISTFILES_CDROM=	"unsure of licencing implications"
+SO_VERSION=		8.0
+
+# mozilla public license
+PERMIT_PACKAGE_CDROM=	Yes
+PERMIT_PACKAGE_FTP=	Yes
+PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
-MASTER_SITES=		http://ftp.eu.mozilla.org/pub/mozilla.org/firefox/releases/${VERSION}/ \
-			http://ftp.mozilla.org/pub/firefox/releases/${VERSION}/
-DISTFILES=		firefox-source-${VERSION}.tar.bz2
+MASTER_SITES=		http://ftp.eu.mozilla.org/pub/mozilla.org/firefox/releases/${VER}/source/ \
+			http://ftp.mozilla.org/pub/mozilla.org/firefox/releases/${VER}/source/
+DISTFILES=		firefox-${VER}-source.tar.bz2
 
-MODULES+=		devel/pkgconfig
-BUILD_DEPENDS=		:zip->=2.3:archivers/zip
-LIB_DEPENDS=		gtk.1,gdk.1::x11/gtk+1 \
-			glib.1,gmodule.1::devel/glib1 \
-			IDL.4::devel/ORBit \
-			jpeg.62::graphics/jpeg \
-			png.3::graphics/png
+MODULES=		devel/gettext
+RUN_DEPENDS=		:esound-*:audio/esound
+BUILD_DEPENDS=		:libIDL-*:devel/libIDL \
+			:zip->=2.3:archivers/zip \
+			:pkgconfig-*:devel/pkgconfig
+LIB_DEPENDS=		gdk-x11-2.0.0.0,gdk_pixbuf-2.0.0.0,gtk-x11-2.0.0.0::x11/gtk+
 
 VMEM_WARNING=		Yes
 USE_CXX=		Yes
@@ -36,38 +35,41 @@ USE_X11=		Yes
 USE_GMAKE=		Yes
 # Regression tests are too hard to adapt to run here
 NO_REGRESS=		Yes
+SUBST_VARS=		LOCALBASE SO_VERSION
 
-MODGNU_CONFIG_GUESS_DIRS=	${WRKSRC}/build/autoconf \
-				${WRKSRC}/nsprpub/build/autoconf \
-				${WRKSRC}/directory/c-sdk/config/autoconf
+MODGNU_CONFIG_GUESS_DIRS=	${WRKSRC} \
+				${WRKSRC}/nsprpub
 
 CONFIGURE_STYLE=	autoconf no-autoheader
 CONFIGURE_ARGS=		--with-system-jpeg=${LOCALBASE}	\
 			--with-system-png=${LOCALBASE}	\
 			--with-system-zlib=/usr/lib	\
 			--with-pthreads			\
+			--without-system-nspr		\
 			--enable-xft			\
 			--enable-optimize=-Os		\
+			--enable-default-toolkit=gtk2	\
 			--disable-debug			\
 			--disable-tests			\
 			--disable-pedantic		\
-			--disable-installer
+			--disable-installer		\
+			--disable-updater		\
+			--disable-gnomeui		\
+			--disable-gnomevfs		\
+			--enable-xinerama		\
+			--enable-svg			\
+			--enable-svg-renderer=cairo	\
+			--enable-system-cairo		\
+			--enable-canvas
+
 # from browser/config/mozconfig
-CONFIGURE_ARGS+=	--disable-ldap			\
-			--disable-mailnews		\
-			--enable-extensions=cookie,xml-rpc,xmlextras,p3p,pref,transformiix,universalchardet,typeaheadfind,webservices \
-			--enable-crypto			\
-			--disable-composer
+CONFIGURE_ARGS+=	--enable-application=browser
 
-# There is no problem with the propolice-enabled gcc3 on amd64 and sparc64,
-# but it is reported to still be broken on others. XXX test that!
-.if ${MACHINE_ARCH} != "amd64" && ${MACHINE_ARCH} != "sparc64"
-CFLAGS+=		-fno-stack-protector
-.endif
-
-CONFIGURE_ENV=		MOZ_PHOENIX=1
-MAKE_ENV=		MOZ_PHOENIX=1 \
-			LD_LIBRARY_PATH="${WRKSRC}/dist/bin"
+MAKE_ENV=		MOZ_CO_PROJECT=browser \
+			LD_LIBRARY_PATH="${WRKSRC}/dist/bin" \
+			SO_VERSION="${SO_VERSION}"
+CONFIGURE_ENV=		${MAKE_ENV} \
+			PKG_CONFIG_PATH="${LOCALBASE}/lib/pkgconfig:${X11BASE}/lib/pkgconfig"
 
 MOB=			${WRKSRC}/dist/bin
 MOZ=			${PREFIX}/firesomething
@@ -81,23 +83,31 @@ post-patch:
 .endfor
 
 pre-configure:
-.for dir in / nsprpub directory/c-sdk
-	@cd ${WRKSRC}/${dir} && ${SETENV} ${AUTOCONF_ENV} ${AUTOCONF}
-.endfor
+#	@cd ${WRKSRC}/nsprpub && ${SETENV} ${AUTOCONF_ENV} ${AUTOCONF}
 	@perl -pi -e 's|_LOCALBASE_|${LOCALBASE}|g; s|_X11BASE_|${X11BASE}|g' \
 		${WRKSRC}/browser/app/mozilla.in
+	@perl -pi -e 's|_SO_VERSION_|${SO_VERSION}|g' \
+		${WRKSRC}/nsprpub/pr/include/md/_openbsd.h \
+		${WRKSRC}/xpcom/components/nsNativeComponentLoader.cpp
 
 do-install:
-	${INSTALL_DATA_DIR} ${MOZ}
-.for dir in chrome components defaults res searchplugins
-	@cd ${MOB} && ${TAR} -chf - ${dir} | \
+.for dir in chrome components defaults extensions greprefs res searchplugins
+	${INSTALL_DATA_DIR} ${MOZ}/${dir}
+	cd ${MOB} && ${TAR} -chf - ${dir} | \
 		${TAR} -xf - -C ${MOZ}
 .endfor
-	@cd ${MOB} && ${TAR} -chf - *.so.1.0 | \
+	cd ${MOB} && ${TAR} -chf - *.so.?.? | \
 		${TAR} -xf - -C ${MOZ}
-	@chmod 444 ${MOZ}/*.so.1.0 ${MOZ}/components/*.so.1.0
+	chmod 444 ${MOZ}/*.so.?.? ${MOZ}/components/*.so.?.? ${MOZ}/components/*.js
+	${INSTALL_DATA} ${WRKSRC}/LICENSE ${MOZ}
+
+	${INSTALL_DATA} ${WRKSRC}/browser/app/mozicon16.xpm ${WRKSRC}/browser/app/mozicon50.xpm ${MOZ}
 	${INSTALL_SCRIPT} ${MOB}/firefox ${PREFIX}/bin/firesomething
-	${INSTALL_SCRIPT} ${MOB}/run-mozilla.sh ${MOB}/mozilla-config ${MOZ}
-	${INSTALL_PROGRAM} ${MOB}/regchrome ${MOB}/regxpcom ${MOB}/firefox-bin ${MOZ}
+	${INSTALL_SCRIPT} ${MOB}/firefox-config ${PREFIX}/bin/
+	ln -f ${PREFIX}/bin/firesomething ${PREFIX}/bin/firefox
+	${INSTALL_SCRIPT} ${MOB}/run-mozilla.sh ${MOZ}
+	${INSTALL_PROGRAM} ${MOB}/regxpcom ${MOB}/mozilla-xremote-client ${MOZ}
+	${INSTALL_PROGRAM} ${MOB}/firefox-bin ${MOZ}/firesomething-bin
+	ln -f ${MOZ}/firesomething-bin ${MOZ}/firefox-bin
 
 .include <bsd.port.mk>

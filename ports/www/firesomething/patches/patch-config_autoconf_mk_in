@@ -1,23 +1,24 @@
+$MirOS$
 $OpenBSD: patch-config_autoconf_mk_in,v 1.1.1.1 2004/02/15 19:37:25 wilfried Exp $
---- config/autoconf.mk.in.orig	2003-10-30 22:11:05.000000000 +0100
-+++ config/autoconf.mk.in	2004-02-13 13:44:07.000000000 +0100
-@@ -29,13 +29,13 @@ MOZILLA_VERSION = @MOZILLA_VERSION@
+--- config/autoconf.mk.in.orig	Wed Aug 17 19:16:55 2005
++++ config/autoconf.mk.in	Thu Dec  8 20:42:02 2005
+@@ -54,13 +54,13 @@ MOZ_APP_VERSION = @MOZ_APP_VERSION@
  prefix		= @prefix@
  exec_prefix	= @exec_prefix@
  bindir		= @bindir@
--includedir	= @includedir@/mozilla-$(MOZILLA_VERSION)
+-includedir	= @includedir@/$(MOZ_APP_NAME)-$(MOZ_APP_VERSION)
 +includedir	= $(prefix)/firesomething/include
  libdir		= @libdir@
  datadir		= @datadir@
  mandir		= @mandir@
- idldir		= @datadir@/idl/mozilla-$(MOZILLA_VERSION)
+ idldir		= @datadir@/idl/$(MOZ_APP_NAME)-$(MOZ_APP_VERSION)
  
--mozappdir	= $(libdir)/mozilla-$(MOZILLA_VERSION)
+-mozappdir	= $(libdir)/$(MOZ_APP_NAME)-$(MOZ_APP_VERSION)
 +mozappdir	= $(prefix)/firesomething
- mredir		= $(libdir)/mre/mre-$(MOZILLA_VERSION)
+ mredir		= $(libdir)/mre/mre-$(MOZ_APP_VERSION)
  mrelibdir	= $(mredir)/lib
  
-@@ -172,7 +172,7 @@ OS_LDFLAGS	= @LDFLAGS@
+@@ -240,7 +240,7 @@ OS_LDFLAGS	= @LDFLAGS@
  OS_COMPILE_CFLAGS = $(OS_CPPFLAGS) @COMPILE_CFLAGS@
  OS_COMPILE_CXXFLAGS = $(OS_CPPFLAGS) @COMPILE_CXXFLAGS@
  

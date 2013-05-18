@@ -14,7 +14,7 @@
  *
  * The Original Code is mozilla.org code.
  *
- * The Initial Developer of the Original Code is
+ * The Initial Developer of the Original Code is 
  * Netscape Communications Corporation.
  * Portions created by the Initial Developer are Copyright (C) 1998
  * the Initial Developer. All Rights Reserved.
@@ -25,7 +25,7 @@
  *   waterson@netscape.com (Chris Waterson)
  *
  * Alternatively, the contents of this file may be used under the terms of
- * either the GNU General Public License Version 2 or later (the "GPL"), or
+ * either the GNU General Public License Version 2 or later (the "GPL"), or 
  * the GNU Lesser General Public License Version 2.1 or later (the "LGPL"),
  * in which case the provisions of the GPL or the LGPL are applicable instead
  * of those above. If you wish to allow use of your version of this file only
@@ -66,7 +66,7 @@ invoke_count_words(PRUint32 paramCount, nsXPTCVariant* s)
 extern "C" void
 invoke_copy_to_stack(PRUint32* d,
                      PRUint32 paramCount,
-                     nsXPTCVariant* s,
+                     nsXPTCVariant* s, 
                      PRUint32* gpregs,
                      double* fpregs)
 {
@@ -74,7 +74,7 @@ invoke_copy_to_stack(PRUint32* d,
     PRUint32 fpr = 0;
     PRUint32 tempu32;
     PRUint64 tempu64;
-
+    
     for(uint32 i = 0; i < paramCount; i++, s++) {
         if(s->IsPtrData())
             tempu32 = (PRUint32) s->ptr;
@@ -131,7 +131,7 @@ invoke_copy_to_stack(PRUint32* d,
             else
                 *d++          = tempu32;
         }
-
+        
     }
 }
 

@@ -17,7 +17,7 @@
 # Copyright (C) 1999 Netscape Communications Corporation. All
 # Rights Reserved.
 #
-# Contributor(s):
+# Contributor(s): 
 #   Franz.Sirl-kernel@lauterbach.com (Franz Sirl)
 #   beard@netscape.com (Patrick Beard)
 #   waterson@netscape.com (Chris Waterson)
@@ -44,10 +44,10 @@
 	.type  SharedStub,@function
 
 SharedStub:
-        stwu	sp,-112(sp)			# room for
+        stwu	sp,-112(sp)			# room for 
 						# linkage (8),
 						# gprData (32),
-						# fprData (64),
+						# fprData (64), 
 						# stack alignment(8)
         mflr	r0
 	stw	r0,116(sp)			# save LR backchain
@@ -70,19 +70,20 @@ SharedStub:
 	stfd	f8,96(sp)
 
 						# r3 has the 'self' pointer already
-
+	
 	mr      r4,r11				# r4 <= methodIndex selector, passed
 						# via r11 in the nsXPTCStubBase::StubXX() call
-
+	
 	addi	r5,sp,120			# r5 <= pointer to callers args area,
 						# beyond r3-r10/f1-f8 mapped range
-
+	
 	addi	r6,sp,8				# r6 <= gprData
 	addi	r7,sp,40			# r7 <= fprData
-
+      
 	bl	PrepareAndDispatch@local	# Go!
-
+    
 	lwz	r0,116(sp)			# restore LR
 	mtlr	r0
 	la	sp,112(sp)			# clean up the stack
 	blr
+

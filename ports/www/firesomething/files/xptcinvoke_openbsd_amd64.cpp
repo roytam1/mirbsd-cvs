@@ -101,7 +101,7 @@ XPTC_InvokeByIndex(nsISupports * that, PRUint32 methodIndex,
 {
     PRUint32 nr_gpr, nr_fpr, nr_stack;
     invoke_count_words(paramCount, params, nr_gpr, nr_fpr, nr_stack);
-
+    
     // Stack, if used, must be 16-bytes aligned
     if (nr_stack)
         nr_stack = (nr_stack + 1) & ~1;
@@ -136,7 +136,7 @@ XPTC_InvokeByIndex(nsISupports * that, PRUint32 methodIndex,
     case 0:;
 #undef ARG_FPR
     }
-
+    
     // Load GPR registers from gpregs[]
     register PRUint64 a0 asm("rdi");
     register PRUint64 a1 asm("rsi");
@@ -144,7 +144,7 @@ XPTC_InvokeByIndex(nsISupports * that, PRUint32 methodIndex,
     register PRUint64 a3 asm("rcx");
     register PRUint64 a4 asm("r8");
     register PRUint64 a5 asm("r9");
-
+    
     switch (nr_gpr) {
 #define ARG_GPR(N) \
     case N+1: a##N = gpregs[N];
@@ -162,12 +162,12 @@ XPTC_InvokeByIndex(nsISupports * that, PRUint32 methodIndex,
     asm("" ::
         "x" (d0), "x" (d1), "x" (d2), "x" (d3),
         "x" (d4), "x" (d5), "x" (d6), "x" (d7));
-
+    
     // Get pointer to method
     PRUint64 methodAddress = *((PRUint64 *)that);
     methodAddress += 8 * methodIndex;
     methodAddress = *((PRUint64 *)methodAddress);
-
+    
     typedef PRUint32 (*Method)(PRUint64, PRUint64, PRUint64, PRUint64, PRUint64, PRUint64);
     PRUint32 result = ((Method)methodAddress)(a0, a1, a2, a3, a4, a5);
     return result;

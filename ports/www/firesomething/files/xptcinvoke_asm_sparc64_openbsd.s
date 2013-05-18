@@ -4,20 +4,20 @@
  * License Version 1.1 (the "License"); you may not use this file
  * except in compliance with the License. You may obtain a copy of
  * the License at http://www.mozilla.org/MPL/
- *
+ * 
  * Software distributed under the License is distributed on an "AS
  * IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or
  * implied. See the License for the specific language governing
  * rights and limitations under the License.
- *
+ * 
  * The Original Code is mozilla.org code.
- *
+ * 
  * The Initial Developer of the Original Code is Netscape
  * Communications Corporation. Portions created by Netscape are
  * Copyright (C) 2001 Netscape Communications Corporation. All
  * Rights Reserved.
- *
- * Contributor(s):
+ * 
+ * Contributor(s): 
  *   Stuart Parmenter <pavlov@netscape.com>
  *   Chris Seawood <cls@seawood.org>
  */
@@ -38,7 +38,7 @@
 /*
     XPTC_InvokeByIndex(nsISupports* that, PRUint32 methodIndex,
                    PRUint32 paramCount, nsXPTCVariant* params);
-
+    
 */
 XPTC_InvokeByIndex:
         save    %sp,-(128 + 64),%sp ! room for the register window and
@@ -61,7 +61,7 @@ XPTC_InvokeByIndex:
 !   BIAS is 0x7ff (2047)
 !
 
-!   load the %o1..5 64bit (extended word) output registers registers
+!   load the %o1..5 64bit (extended word) output registers registers 
         ldx     [%sp + 0x7ff + 136],%o1    ! %i1
         ldx     [%sp + 0x7ff + 144],%o2    ! %i2
         ldx     [%sp + 0x7ff + 152],%o3    ! %i3

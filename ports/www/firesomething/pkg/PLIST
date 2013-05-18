@@ -1,50 +1,68 @@
 @comment $MirOS$
-@comment $OpenBSD: PLIST,v 1.2 2004/08/08 17:19:37 robert Exp $
+@comment $OpenBSD: PLIST,v 1.13 2005/09/24 16:19:29 bernd Exp $
 @pkgcfl mozilla-firebird-*
 @pkgcfl mozilla-firefox-*
-@pkgcfl firesomething-*
+%%SHARED%%
 bin/firesomething
-firesomething/chrome/US.jar
+bin/firefox-config
+bin/firefox
+firesomething/
+firesomething/LICENSE
+firesomething/chrome/
 firesomething/chrome/browser.jar
+firesomething/chrome/browser.manifest
 firesomething/chrome/chromelist.txt
 firesomething/chrome/classic.jar
+firesomething/chrome/classic.manifest
 firesomething/chrome/comm.jar
-firesomething/chrome/embed-sample.jar
+firesomething/chrome/comm.manifest
 firesomething/chrome/en-US.jar
-firesomething/chrome/en-mac.jar
-firesomething/chrome/en-unix.jar
-firesomething/chrome/en-win.jar
-firesomething/chrome/installed-chrome.txt
-firesomething/chrome/modern.jar
-firesomething/chrome/pipnss.jar
+firesomething/chrome/en-US.manifest
+firesomething/chrome/icons/
+firesomething/chrome/icons/default/
+firesomething/chrome/icons/default/default.xpm
 firesomething/chrome/pippki.jar
+firesomething/chrome/pippki.manifest
+firesomething/chrome/reporter.jar
+firesomething/chrome/reporter.manifest
 firesomething/chrome/toolkit.jar
+firesomething/chrome/toolkit.manifest
+firesomething/components/
+firesomething/components/accessibility-atk.xpt
 firesomething/components/accessibility.xpt
+firesomething/components/alerts.xpt
 firesomething/components/appshell.xpt
+firesomething/components/appstartup.xpt
 firesomething/components/autocomplete.xpt
 firesomething/components/autoconfig.xpt
 firesomething/components/bookmarks.xpt
+firesomething/components/browsercompsbase.xpt
 firesomething/components/caps.xpt
 firesomething/components/chardet.xpt
 firesomething/components/chrome.xpt
 firesomething/components/commandhandler.xpt
+firesomething/components/commandlines.xpt
 firesomething/components/composer.xpt
 firesomething/components/content_base.xpt
 firesomething/components/content_html.xpt
 firesomething/components/content_htmldoc.xpt
 firesomething/components/content_xmldoc.xpt
 firesomething/components/content_xslt.xpt
+firesomething/components/content_xtf.xpt
 firesomething/components/cookie.xpt
 firesomething/components/directory.xpt
 firesomething/components/docshell.xpt
 firesomething/components/dom.xpt
 firesomething/components/dom_base.xpt
+firesomething/components/dom_canvas.xpt
 firesomething/components/dom_core.xpt
 firesomething/components/dom_css.xpt
 firesomething/components/dom_events.xpt
 firesomething/components/dom_html.xpt
+firesomething/components/dom_loadsave.xpt
 firesomething/components/dom_range.xpt
 firesomething/components/dom_stylesheets.xpt
+firesomething/components/dom_svg.xpt
 firesomething/components/dom_traversal.xpt
 firesomething/components/dom_views.xpt
 firesomething/components/dom_xbl.xpt
@@ -53,29 +71,32 @@ firesomething/components/dom_xul.xpt
 firesomething/components/downloads.xpt
 firesomething/components/editor.xpt
 firesomething/components/embed_base.xpt
+firesomething/components/extensions.xpt
 firesomething/components/exthandler.xpt
+firesomething/components/fastfind.xpt
 firesomething/components/filepicker.xpt
 firesomething/components/find.xpt
 firesomething/components/gfx.xpt
-firesomething/components/helperAppDlg.xpt
+firesomething/components/gksvgrenderer.xpt
 firesomething/components/history.xpt
 firesomething/components/htmlparser.xpt
 firesomething/components/imglib2.xpt
 firesomething/components/intl.xpt
-firesomething/components/ipcd.xpt
 firesomething/components/jar.xpt
 firesomething/components/jsconsole-clhandler.js
 firesomething/components/jsconsole.xpt
 firesomething/components/jsdservice.xpt
-firesomething/components/jsurl.xpt
 firesomething/components/layout_base.xpt
+firesomething/components/layout_printing.xpt
 firesomething/components/layout_xul.xpt
 firesomething/components/layout_xul_tree.xpt
 firesomething/components/locale.xpt
 firesomething/components/lwbrk.xpt
+firesomething/components/migration.xpt
 firesomething/components/mimetype.xpt
 firesomething/components/mozbrwsr.xpt
 firesomething/components/mozfind.xpt
+firesomething/components/mozgnome.xpt
 firesomething/components/necko.xpt
 firesomething/components/necko_about.xpt
 firesomething/components/necko_cache.xpt
@@ -85,13 +106,16 @@ firesomething/components/necko_dns.xpt
 firesomething/components/necko_file.xpt
 firesomething/components/necko_ftp.xpt
 firesomething/components/necko_http.xpt
-firesomething/components/necko_jar.xpt
 firesomething/components/necko_res.xpt
 firesomething/components/necko_socket.xpt
 firesomething/components/necko_strconv.xpt
 firesomething/components/necko_viewsource.xpt
+firesomething/components/nsBrowserContentHandler.js
+firesomething/components/nsBrowserGlue.js
 firesomething/components/nsCloseAllWindows.js
+firesomething/components/nsDefaultCLH.js
 firesomething/components/nsDictionary.js
+firesomething/components/nsExtensionManager.js
 firesomething/components/nsFilePicker.js
 firesomething/components/nsHelperAppDlg.js
 firesomething/components/nsInterfaceInfoToIDL.js
@@ -99,11 +123,11 @@ firesomething/components/nsKillAll.js
 firesomething/components/nsProgressDialog.js
 firesomething/components/nsProxyAutoConfig.js
 firesomething/components/nsResetPref.js
+firesomething/components/nsSetDefaultBrowser.js
 firesomething/components/nsSidebar.js
-firesomething/components/nsUpdateNotifier.js
+firesomething/components/nsUpdateService.js
 firesomething/components/nsXmlRpcClient.js
 firesomething/components/oji.xpt
-firesomething/components/p3p.xpt
 firesomething/components/passwordmgr.xpt
 firesomething/components/pipboot.xpt
 firesomething/components/pipnss.xpt
@@ -111,25 +135,23 @@ firesomething/components/pippki.xpt
 firesomething/components/plugin.xpt
 firesomething/components/pref.xpt
 firesomething/components/prefetch.xpt
-firesomething/components/prefmigr.xpt
 firesomething/components/profile.xpt
-firesomething/components/profilesharingsetup.xpt
 firesomething/components/progressDlg.xpt
 firesomething/components/proxyObjInst.xpt
 firesomething/components/rdf.xpt
-firesomething/components/related.xpt
 firesomething/components/satchel.xpt
 firesomething/components/search.xpt
+firesomething/components/shellservice.xpt
 firesomething/components/shistory.xpt
 firesomething/components/sidebar.xpt
+firesomething/components/toolkitprofile.xpt
+firesomething/components/toolkitremote.xpt
 firesomething/components/txmgr.xpt
 firesomething/components/txtsvc.xpt
-firesomething/components/typeaheadfind.xpt
-firesomething/components/ucnative.xpt
 firesomething/components/uconv.xpt
 firesomething/components/unicharutil.xpt
+firesomething/components/update.xpt
 firesomething/components/uriloader.xpt
-firesomething/components/util.xpt
 firesomething/components/webBrowser_core.xpt
 firesomething/components/webbrowserpersist.xpt
 firesomething/components/webshell_idls.xpt
@@ -148,54 +170,72 @@ firesomething/components/xpcom_threads.xpt
 firesomething/components/xpcom_xpti.xpt
 firesomething/components/xpconnect.xpt
 firesomething/components/xpinstall.xpt
-firesomething/components/xremoteservice.xpt
+firesomething/components/xulapp.xpt
 firesomething/components/xuldoc.xpt
 firesomething/components/xultmpl.xpt
+firesomething/defaults/
+firesomething/defaults/autoconfig/
 firesomething/defaults/autoconfig/platform.js
 firesomething/defaults/autoconfig/prefcalls.js
-firesomething/defaults/pref/all.js
-firesomething/defaults/pref/editor.js
-firesomething/defaults/pref/mailnews.js
-firesomething/defaults/pref/non-shared.txt
-firesomething/defaults/pref/security-prefs.js
-firesomething/defaults/pref/unix.js
-firesomething/defaults/pref/xpinstall.js
-firesomething/defaults/profile/US/bookmarks.html
-firesomething/defaults/profile/US/chrome/userChrome-example.css
-firesomething/defaults/profile/US/chrome/userContent-example.css
-firesomething/defaults/profile/US/localstore.rdf
-firesomething/defaults/profile/US/mimeTypes.rdf
-firesomething/defaults/profile/US/panels.rdf
-firesomething/defaults/profile/US/search.rdf
+firesomething/defaults/pref/
+firesomething/defaults/pref/channel-prefs.js
+firesomething/defaults/pref/firefox-l10n.js
+firesomething/defaults/pref/firefox.js
+firesomething/defaults/pref/reporter.js
+firesomething/defaults/profile/
 firesomething/defaults/profile/bookmarks.html
+firesomething/defaults/profile/chrome/
 firesomething/defaults/profile/chrome/userChrome-example.css
 firesomething/defaults/profile/chrome/userContent-example.css
 firesomething/defaults/profile/localstore.rdf
 firesomething/defaults/profile/mimeTypes.rdf
-firesomething/defaults/profile/panels.rdf
+firesomething/defaults/profile/prefs.js
 firesomething/defaults/profile/search.rdf
+firesomething/extensions/
+firesomething/extensions/inspector@mozilla.org/
+firesomething/extensions/inspector@mozilla.org/chrome/
+firesomething/extensions/inspector@mozilla.org/chrome.manifest
+firesomething/extensions/inspector@mozilla.org/chrome/chromelist.txt
+firesomething/extensions/inspector@mozilla.org/chrome/inspector.jar
+firesomething/extensions/inspector@mozilla.org/components/
+firesomething/extensions/inspector@mozilla.org/components/inspector-cmdline.js
+firesomething/extensions/inspector@mozilla.org/components/inspector.xpt
+firesomething/extensions/inspector@mozilla.org/defaults/
+firesomething/extensions/inspector@mozilla.org/defaults/preferences/
+firesomething/extensions/inspector@mozilla.org/defaults/preferences/inspector.js
+firesomething/extensions/inspector@mozilla.org/install.rdf
+firesomething/extensions/{972ce4c6-7e08-4474-a285-3208198ce6fd}/
+firesomething/extensions/{972ce4c6-7e08-4474-a285-3208198ce6fd}/install.rdf
 firesomething/firefox-bin
-firesomething/mozilla-config
-firesomething/regchrome
+firesomething/firesomething-bin
+firesomething/greprefs/
+firesomething/greprefs/all.js
+firesomething/greprefs/security-prefs.js
+firesomething/greprefs/xpinstall.js
+firesomething/mozicon16.xpm
+firesomething/mozicon50.xpm
+firesomething/mozilla-xremote-client
 firesomething/regxpcom
+firesomething/res/
 firesomething/res/EditorOverride.css
 firesomething/res/arrow.gif
 firesomething/res/arrowd.gif
 firesomething/res/bloatcycle.html
 firesomething/res/broken-image.gif
-firesomething/res/builtin/htmlBindings.xml
-firesomething/res/builtin/platformHTMLBindings.xml
 firesomething/res/charsetData.properties
 firesomething/res/charsetalias.properties
 firesomething/res/cmessage.txt
+firesomething/res/dtd/
 firesomething/res/dtd/mathml.dtd
 firesomething/res/dtd/xhtml11.dtd
+firesomething/res/entityTables/
 firesomething/res/entityTables/html40Latin1.properties
 firesomething/res/entityTables/html40Special.properties
 firesomething/res/entityTables/html40Symbols.properties
 firesomething/res/entityTables/htmlEntityVersions.properties
 firesomething/res/entityTables/mathml20.properties
 firesomething/res/entityTables/transliterate.properties
+firesomething/res/fonts/
 firesomething/res/fonts/fontEncoding.properties
 firesomething/res/fonts/mathfont.properties
 firesomething/res/fonts/mathfontCMEX10.properties
@@ -206,8 +246,11 @@ firesomething/res/fonts/mathfontMath2.properties
 firesomething/res/fonts/mathfontMath4.properties
 firesomething/res/fonts/mathfontPUA.properties
 firesomething/res/fonts/mathfontSymbol.properties
+firesomething/res/fonts/pangoFontEncoding.properties
 firesomething/res/forms.css
 firesomething/res/grabber.gif
+firesomething/res/hiddenWindow.html
+firesomething/res/html/
 firesomething/res/html.css
 firesomething/res/html/gopher-audio.gif
 firesomething/res/html/gopher-binary.gif
@@ -223,14 +266,9 @@ firesomething/res/langGroups.properties
 firesomething/res/language.properties
 firesomething/res/loading-image.gif
 firesomething/res/mathml.css
-firesomething/res/platform-forms.css
 firesomething/res/quirk.css
-firesomething/res/rdf/dom-test-4.css
-firesomething/res/rdf/folder-closed.gif
-firesomething/res/rdf/folder-open.gif
-firesomething/res/rdf/ignore-test.xul
-firesomething/res/rdf/loading.gif
 firesomething/res/sample.unixpsfonts.properties
+firesomething/res/samples/
 firesomething/res/samples/Anieyes.gif
 firesomething/res/samples/aform.css
 firesomething/res/samples/beeptest.html
@@ -238,30 +276,18 @@ firesomething/res/samples/bform.css
 firesomething/res/samples/bg.jpg
 firesomething/res/samples/cform.css
 firesomething/res/samples/checkboxTest.xul
-firesomething/res/samples/colorpicker.xul
 firesomething/res/samples/demoform.css
-firesomething/res/samples/dexopenchrome.xul
-firesomething/res/samples/dexparamdialog.html
-firesomething/res/samples/dexparamdialog.xul
 firesomething/res/samples/find.html
 firesomething/res/samples/gear1.gif
-firesomething/res/samples/hidetoolicon.css
-firesomething/res/samples/hidetoolicon.xul
 firesomething/res/samples/image_props.html
 firesomething/res/samples/mozform.css
 firesomething/res/samples/printsetup.html
 firesomething/res/samples/raptor.jpg
 firesomething/res/samples/rock_gra.gif
-firesomething/res/samples/sampleimages/bongo.gif
-firesomething/res/samples/sampleimages/down.gif
-firesomething/res/samples/sampleimages/left.gif
-firesomething/res/samples/sampleimages/right.gif
-firesomething/res/samples/sampleimages/up.gif
 firesomething/res/samples/scrollbarTest1.xul
 firesomething/res/samples/scrollbarTest2.xul
 firesomething/res/samples/sliderTest1.xul
 firesomething/res/samples/soundtest.html
-firesomething/res/samples/tab.xul
 firesomething/res/samples/test.wav
 firesomething/res/samples/test0.html
 firesomething/res/samples/test1.html
@@ -296,9 +322,8 @@ firesomething/res/samples/test_weight.html
 firesomething/res/samples/toolbarTest1.xul
 firesomething/res/samples/treeTest1.css
 firesomething/res/samples/treeTest1.xul
-firesomething/res/samples/widgets.xul
-firesomething/res/samples/xpmenu.xul
 firesomething/res/samples/xulTest.css
+firesomething/res/svg.css
 firesomething/res/table-add-column-after-active.gif
 firesomething/res/table-add-column-after-hover.gif
 firesomething/res/table-add-column-after.gif
@@ -317,6 +342,7 @@ firesomething/res/table-remove-column.gif
 firesomething/res/table-remove-row-active.gif
 firesomething/res/table-remove-row-hover.gif
 firesomething/res/table-remove-row.gif
+firesomething/res/throbber/
 firesomething/res/throbber/anim.gif
 firesomething/res/throbber/anims00.gif
 firesomething/res/throbber/anims01.gif
@@ -353,313 +379,24 @@ firesomething/res/unixcharset.properties
 firesomething/res/viewer.properties
 firesomething/res/viewsource.css
 firesomething/run-mozilla.sh
+firesomething/searchplugins/
+firesomething/searchplugins/amazondotcom.png
+firesomething/searchplugins/amazondotcom.src
+firesomething/searchplugins/answers.png
+firesomething/searchplugins/answers.src
+firesomething/searchplugins/creativecommons.png
+firesomething/searchplugins/creativecommons.src
+firesomething/searchplugins/eBay.gif
+firesomething/searchplugins/eBay.src
 firesomething/searchplugins/google.gif
 firesomething/searchplugins/google.src
-%%SHARED%%
-@dirrm firesomething/searchplugins
-@dirrm firesomething/res/throbber
-@dirrm firesomething/res/samples/sampleimages
-@dirrm firesomething/res/samples
-@dirrm firesomething/res/rdf
-@dirrm firesomething/res/html
-@dirrm firesomething/res/fonts
-@dirrm firesomething/res/entityTables
-@dirrm firesomething/res/dtd
-@dirrm firesomething/res/builtin
-@dirrm firesomething/res
-@dirrm firesomething/defaults/profile/chrome
-@dirrm firesomething/defaults/profile/US/chrome
-@dirrm firesomething/defaults/profile/US
-@dirrm firesomething/defaults/profile
-@dirrm firesomething/defaults/pref
-@dirrm firesomething/defaults/autoconfig
-@dirrm firesomething/defaults
-@dirrm firesomething/components
-@exec mkdir -p %D/firesomething/chrome/toolkit/content/passwordmgr
-@dirrm firesomething/chrome/toolkit/content/passwordmgr
-@exec mkdir -p %D/firesomething/chrome/toolkit/content/mozapps/xpinstall
-@dirrm firesomething/chrome/toolkit/content/mozapps/xpinstall
-@exec mkdir -p %D/firesomething/chrome/toolkit/content/mozapps/downloads
-@dirrm firesomething/chrome/toolkit/content/mozapps/downloads
-@dirrm firesomething/chrome/toolkit/content/mozapps
-@exec mkdir -p %D/firesomething/chrome/toolkit/content/global/bindings
-@dirrm firesomething/chrome/toolkit/content/global/bindings
-@exec mkdir -p %D/firesomething/chrome/toolkit/content/global-region
-@dirrm firesomething/chrome/toolkit/content/global-region
-@exec mkdir -p %D/firesomething/chrome/toolkit/content/global-platform
-@dirrm firesomething/chrome/toolkit/content/global-platform
-@dirrm firesomething/chrome/toolkit/content/global
-@dirrm firesomething/chrome/toolkit/content
-@dirrm firesomething/chrome/toolkit
-@exec mkdir -p %D/firesomething/chrome/pippki/content/pippki
-@dirrm firesomething/chrome/pippki/content/pippki
-@dirrm firesomething/chrome/pippki/content
-@dirrm firesomething/chrome/pippki
-@exec mkdir -p %D/firesomething/chrome/pipnss/content/pipnss
-@dirrm firesomething/chrome/pipnss/content/pipnss
-@dirrm firesomething/chrome/pipnss/content
-@dirrm firesomething/chrome/pipnss
-@exec mkdir -p %D/firesomething/chrome/modern/skin/modern/communicator/cookie
-@dirrm firesomething/chrome/modern/skin/modern/communicator/cookie
-@dirrm firesomething/chrome/modern/skin/modern/communicator
-@dirrm firesomething/chrome/modern/skin/modern
-@dirrm firesomething/chrome/modern/skin
-@dirrm firesomething/chrome/modern
-@exec mkdir -p %D/firesomething/chrome/en-win/locale/en-US/navigator-platform
-@dirrm firesomething/chrome/en-win/locale/en-US/navigator-platform
-@exec mkdir -p %D/firesomething/chrome/en-win/locale/en-US/global-platform
-@dirrm firesomething/chrome/en-win/locale/en-US/global-platform
-@exec mkdir -p %D/firesomething/chrome/en-win/locale/en-US/communicator-platform/pref
-@dirrm firesomething/chrome/en-win/locale/en-US/communicator-platform/pref
-@dirrm firesomething/chrome/en-win/locale/en-US/communicator-platform
-@dirrm firesomething/chrome/en-win/locale/en-US
-@dirrm firesomething/chrome/en-win/locale
-@dirrm firesomething/chrome/en-win
-@exec mkdir -p %D/firesomething/chrome/en-unix/locale/en-US/navigator-platform
-@dirrm firesomething/chrome/en-unix/locale/en-US/navigator-platform
-@exec mkdir -p %D/firesomething/chrome/en-unix/locale/en-US/global-platform
-@dirrm firesomething/chrome/en-unix/locale/en-US/global-platform
-@exec mkdir -p %D/firesomething/chrome/en-unix/locale/en-US/communicator-platform/pref
-@dirrm firesomething/chrome/en-unix/locale/en-US/communicator-platform/pref
-@dirrm firesomething/chrome/en-unix/locale/en-US/communicator-platform
-@dirrm firesomething/chrome/en-unix/locale/en-US
-@dirrm firesomething/chrome/en-unix/locale
-@dirrm firesomething/chrome/en-unix
-@exec mkdir -p %D/firesomething/chrome/en-mac/locale/en-US/navigator-platform
-@dirrm firesomething/chrome/en-mac/locale/en-US/navigator-platform
-@exec mkdir -p %D/firesomething/chrome/en-mac/locale/en-US/global-platform
-@dirrm firesomething/chrome/en-mac/locale/en-US/global-platform
-@exec mkdir -p %D/firesomething/chrome/en-mac/locale/en-US/communicator-platform/pref
-@dirrm firesomething/chrome/en-mac/locale/en-US/communicator-platform/pref
-@dirrm firesomething/chrome/en-mac/locale/en-US/communicator-platform
-@dirrm firesomething/chrome/en-mac/locale/en-US
-@dirrm firesomething/chrome/en-mac/locale
-@dirrm firesomething/chrome/en-mac
-@exec mkdir -p %D/firesomething/chrome/en-US/locale/en-US/pippki
-@dirrm firesomething/chrome/en-US/locale/en-US/pippki
-@exec mkdir -p %D/firesomething/chrome/en-US/locale/en-US/pipnss
-@dirrm firesomething/chrome/en-US/locale/en-US/pipnss
-@exec mkdir -p %D/firesomething/chrome/en-US/locale/en-US/passwordmgr
-@dirrm firesomething/chrome/en-US/locale/en-US/passwordmgr
-@exec mkdir -p %D/firesomething/chrome/en-US/locale/en-US/p3p
-@dirrm firesomething/chrome/en-US/locale/en-US/p3p
-@exec mkdir -p %D/firesomething/chrome/en-US/locale/en-US/necko
-@dirrm firesomething/chrome/en-US/locale/en-US/necko
-@exec mkdir -p %D/firesomething/chrome/en-US/locale/en-US/navigator
-@dirrm firesomething/chrome/en-US/locale/en-US/navigator
-@exec mkdir -p %D/firesomething/chrome/en-US/locale/en-US/mozapps/xpinstall
-@dirrm firesomething/chrome/en-US/locale/en-US/mozapps/xpinstall
-@exec mkdir -p %D/firesomething/chrome/en-US/locale/en-US/mozapps/downloads
-@dirrm firesomething/chrome/en-US/locale/en-US/mozapps/downloads
-@dirrm firesomething/chrome/en-US/locale/en-US/mozapps
-@exec mkdir -p %D/firesomething/chrome/en-US/locale/en-US/global/history
-@dirrm firesomething/chrome/en-US/locale/en-US/global/history
-@dirrm firesomething/chrome/en-US/locale/en-US/global
-@exec mkdir -p %D/firesomething/chrome/en-US/locale/en-US/cookie
-@dirrm firesomething/chrome/en-US/locale/en-US/cookie
-@exec mkdir -p %D/firesomething/chrome/en-US/locale/en-US/communicator/xpinstall
-@dirrm firesomething/chrome/en-US/locale/en-US/communicator/xpinstall
-@exec mkdir -p %D/firesomething/chrome/en-US/locale/en-US/communicator/xml
-@dirrm firesomething/chrome/en-US/locale/en-US/communicator/xml
-@exec mkdir -p %D/firesomething/chrome/en-US/locale/en-US/communicator/webservices
-@dirrm firesomething/chrome/en-US/locale/en-US/communicator/webservices
-@exec mkdir -p %D/firesomething/chrome/en-US/locale/en-US/communicator/sidebar
-@dirrm firesomething/chrome/en-US/locale/en-US/communicator/sidebar
-@exec mkdir -p %D/firesomething/chrome/en-US/locale/en-US/communicator/security
-@dirrm firesomething/chrome/en-US/locale/en-US/communicator/security
-@exec mkdir -p %D/firesomething/chrome/en-US/locale/en-US/communicator/search
-@dirrm firesomething/chrome/en-US/locale/en-US/communicator/search
-@exec mkdir -p %D/firesomething/chrome/en-US/locale/en-US/communicator/profile
-@dirrm firesomething/chrome/en-US/locale/en-US/communicator/profile
-@exec mkdir -p %D/firesomething/chrome/en-US/locale/en-US/communicator/pref
-@dirrm firesomething/chrome/en-US/locale/en-US/communicator/pref
-@exec mkdir -p %D/firesomething/chrome/en-US/locale/en-US/communicator/layout
-@dirrm firesomething/chrome/en-US/locale/en-US/communicator/layout
-@exec mkdir -p %D/firesomething/chrome/en-US/locale/en-US/communicator/history
-@dirrm firesomething/chrome/en-US/locale/en-US/communicator/history
-@exec mkdir -p %D/firesomething/chrome/en-US/locale/en-US/communicator/dom
-@dirrm firesomething/chrome/en-US/locale/en-US/communicator/dom
-@exec mkdir -p %D/firesomething/chrome/en-US/locale/en-US/communicator/directory
-@dirrm firesomething/chrome/en-US/locale/en-US/communicator/directory
-@dirrm firesomething/chrome/en-US/locale/en-US/communicator
-@exec mkdir -p %D/firesomething/chrome/en-US/locale/en-US/browser/sidebar
-@dirrm firesomething/chrome/en-US/locale/en-US/browser/sidebar
-@exec mkdir -p %D/firesomething/chrome/en-US/locale/en-US/browser/pref
-@dirrm firesomething/chrome/en-US/locale/en-US/browser/pref
-@exec mkdir -p %D/firesomething/chrome/en-US/locale/en-US/browser/history
-@dirrm firesomething/chrome/en-US/locale/en-US/browser/history
-@exec mkdir -p %D/firesomething/chrome/en-US/locale/en-US/browser/cookieviewer
-@dirrm firesomething/chrome/en-US/locale/en-US/browser/cookieviewer
-@exec mkdir -p %D/firesomething/chrome/en-US/locale/en-US/browser/bookmarks
-@dirrm firesomething/chrome/en-US/locale/en-US/browser/bookmarks
-@dirrm firesomething/chrome/en-US/locale/en-US/browser
-@exec mkdir -p %D/firesomething/chrome/en-US/locale/en-US/autoconfig
-@dirrm firesomething/chrome/en-US/locale/en-US/autoconfig
-@dirrm firesomething/chrome/en-US/locale/en-US
-@dirrm firesomething/chrome/en-US/locale
-@dirrm firesomething/chrome/en-US
-@exec mkdir -p %D/firesomething/chrome/embed-sample/skin/classic/embed
-@dirrm firesomething/chrome/embed-sample/skin/classic/embed
-@dirrm firesomething/chrome/embed-sample/skin/classic
-@dirrm firesomething/chrome/embed-sample/skin
-@exec mkdir -p %D/firesomething/chrome/embed-sample/locale/en-US/embed
-@dirrm firesomething/chrome/embed-sample/locale/en-US/embed
-@dirrm firesomething/chrome/embed-sample/locale/en-US
-@dirrm firesomething/chrome/embed-sample/locale
-@exec mkdir -p %D/firesomething/chrome/embed-sample/content/embed
-@dirrm firesomething/chrome/embed-sample/content/embed
-@dirrm firesomething/chrome/embed-sample/content
-@dirrm firesomething/chrome/embed-sample
-@exec mkdir -p %D/firesomething/chrome/comm/content/xbl-marquee
-@dirrm firesomething/chrome/comm/content/xbl-marquee
-@exec mkdir -p %D/firesomething/chrome/comm/content/p3p
-@dirrm firesomething/chrome/comm/content/p3p
-@exec mkdir -p %D/firesomething/chrome/comm/content/necko
-@dirrm firesomething/chrome/comm/content/necko
-@exec mkdir -p %D/firesomething/chrome/comm/content/navigator-region
-@dirrm firesomething/chrome/comm/content/navigator-region
-@exec mkdir -p %D/firesomething/chrome/comm/content/navigator-platform
-@dirrm firesomething/chrome/comm/content/navigator-platform
-@exec mkdir -p %D/firesomething/chrome/comm/content/navigator
-@dirrm firesomething/chrome/comm/content/navigator
-@exec mkdir -p %D/firesomething/chrome/comm/content/cookie
-@dirrm firesomething/chrome/comm/content/cookie
-@exec mkdir -p %D/firesomething/chrome/comm/content/communicator/xpinstall
-@dirrm firesomething/chrome/comm/content/communicator/xpinstall
-@exec mkdir -p %D/firesomething/chrome/comm/content/communicator/xml
-@dirrm firesomething/chrome/comm/content/communicator/xml
-@exec mkdir -p %D/firesomething/chrome/comm/content/communicator/sidebar
-@dirrm firesomething/chrome/comm/content/communicator/sidebar
-@exec mkdir -p %D/firesomething/chrome/comm/content/communicator/search
-@dirrm firesomething/chrome/comm/content/communicator/search
-@exec mkdir -p %D/firesomething/chrome/comm/content/communicator/related
-@dirrm firesomething/chrome/comm/content/communicator/related
-@exec mkdir -p %D/firesomething/chrome/comm/content/communicator/profile
-@dirrm firesomething/chrome/comm/content/communicator/profile
-@exec mkdir -p %D/firesomething/chrome/comm/content/communicator/pref
-@dirrm firesomething/chrome/comm/content/communicator/pref
-@exec mkdir -p %D/firesomething/chrome/comm/content/communicator/p3p
-@dirrm firesomething/chrome/comm/content/communicator/p3p
-@exec mkdir -p %D/firesomething/chrome/comm/content/communicator/history
-@dirrm firesomething/chrome/comm/content/communicator/history
-@exec mkdir -p %D/firesomething/chrome/comm/content/communicator/directory
-@dirrm firesomething/chrome/comm/content/communicator/directory
-@exec mkdir -p %D/firesomething/chrome/comm/content/communicator/alerts
-@dirrm firesomething/chrome/comm/content/communicator/alerts
-@exec mkdir -p %D/firesomething/chrome/comm/content/communicator-region
-@dirrm firesomething/chrome/comm/content/communicator-region
-@exec mkdir -p %D/firesomething/chrome/comm/content/communicator-platform
-@dirrm firesomething/chrome/comm/content/communicator-platform
-@dirrm firesomething/chrome/comm/content/communicator
-@exec mkdir -p %D/firesomething/chrome/comm/content/autoconfig
-@dirrm firesomething/chrome/comm/content/autoconfig
-@dirrm firesomething/chrome/comm/content
-@dirrm firesomething/chrome/comm
-@exec mkdir -p %D/firesomething/chrome/classic/skin/classic/navigator/icons
-@dirrm firesomething/chrome/classic/skin/classic/navigator/icons
-@exec mkdir -p %D/firesomething/chrome/classic/skin/classic/navigator/btn1
-@dirrm firesomething/chrome/classic/skin/classic/navigator/btn1
-@dirrm firesomething/chrome/classic/skin/classic/navigator
-@exec mkdir -p %D/firesomething/chrome/classic/skin/classic/mozapps/xpinstall
-@dirrm firesomething/chrome/classic/skin/classic/mozapps/xpinstall
-@exec mkdir -p %D/firesomething/chrome/classic/skin/classic/mozapps/pref
-@dirrm firesomething/chrome/classic/skin/classic/mozapps/pref
-@exec mkdir -p %D/firesomething/chrome/classic/skin/classic/mozapps/downloads
-@dirrm firesomething/chrome/classic/skin/classic/mozapps/downloads
-@dirrm firesomething/chrome/classic/skin/classic/mozapps
-@exec mkdir -p %D/firesomething/chrome/classic/skin/classic/messenger/smime/icons
-@dirrm firesomething/chrome/classic/skin/classic/messenger/smime/icons
-@dirrm firesomething/chrome/classic/skin/classic/messenger/smime
-@exec mkdir -p %D/firesomething/chrome/classic/skin/classic/messenger/messengercompose
-@dirrm firesomething/chrome/classic/skin/classic/messenger/messengercompose
-@exec mkdir -p %D/firesomething/chrome/classic/skin/classic/messenger/icons
-@dirrm firesomething/chrome/classic/skin/classic/messenger/icons
-@exec mkdir -p %D/firesomething/chrome/classic/skin/classic/messenger/addressbook/icons
-@dirrm firesomething/chrome/classic/skin/classic/messenger/addressbook/icons
-@dirrm firesomething/chrome/classic/skin/classic/messenger/addressbook
-@dirrm firesomething/chrome/classic/skin/classic/messenger
-@exec mkdir -p %D/firesomething/chrome/classic/skin/classic/global/tree
-@dirrm firesomething/chrome/classic/skin/classic/global/tree
-@exec mkdir -p %D/firesomething/chrome/classic/skin/classic/global/toolbar
-@dirrm firesomething/chrome/classic/skin/classic/global/toolbar
-@exec mkdir -p %D/firesomething/chrome/classic/skin/classic/global/splitter
-@dirrm firesomething/chrome/classic/skin/classic/global/splitter
-@exec mkdir -p %D/firesomething/chrome/classic/skin/classic/global/scrollbar
-@dirrm firesomething/chrome/classic/skin/classic/global/scrollbar
-@exec mkdir -p %D/firesomething/chrome/classic/skin/classic/global/radio
-@dirrm firesomething/chrome/classic/skin/classic/global/radio
-@exec mkdir -p %D/firesomething/chrome/classic/skin/classic/global/progressmeter
-@dirrm firesomething/chrome/classic/skin/classic/global/progressmeter
-@exec mkdir -p %D/firesomething/chrome/classic/skin/classic/global/menu
-@dirrm firesomething/chrome/classic/skin/classic/global/menu
-@exec mkdir -p %D/firesomething/chrome/classic/skin/classic/global/icons
-@dirrm firesomething/chrome/classic/skin/classic/global/icons
-@exec mkdir -p %D/firesomething/chrome/classic/skin/classic/global/filepicker
-@dirrm firesomething/chrome/classic/skin/classic/global/filepicker
-@exec mkdir -p %D/firesomething/chrome/classic/skin/classic/global/console
-@dirrm firesomething/chrome/classic/skin/classic/global/console
-@exec mkdir -p %D/firesomething/chrome/classic/skin/classic/global/checkbox
-@dirrm firesomething/chrome/classic/skin/classic/global/checkbox
-@exec mkdir -p %D/firesomething/chrome/classic/skin/classic/global/arrow
-@dirrm firesomething/chrome/classic/skin/classic/global/arrow
-@dirrm firesomething/chrome/classic/skin/classic/global
-@exec mkdir -p %D/firesomething/chrome/classic/skin/classic/editor/icons
-@dirrm firesomething/chrome/classic/skin/classic/editor/icons
-@dirrm firesomething/chrome/classic/skin/classic/editor
-@exec mkdir -p %D/firesomething/chrome/classic/skin/classic/communicator/xpinstall
-@dirrm firesomething/chrome/classic/skin/classic/communicator/xpinstall
-@exec mkdir -p %D/firesomething/chrome/classic/skin/classic/communicator/taskbar
-@dirrm firesomething/chrome/classic/skin/classic/communicator/taskbar
-@exec mkdir -p %D/firesomething/chrome/classic/skin/classic/communicator/sidebar
-@dirrm firesomething/chrome/classic/skin/classic/communicator/sidebar
-@exec mkdir -p %D/firesomething/chrome/classic/skin/classic/communicator/search
-@dirrm firesomething/chrome/classic/skin/classic/communicator/search
-@exec mkdir -p %D/firesomething/chrome/classic/skin/classic/communicator/related
-@dirrm firesomething/chrome/classic/skin/classic/communicator/related
-@exec mkdir -p %D/firesomething/chrome/classic/skin/classic/communicator/profile
-@dirrm firesomething/chrome/classic/skin/classic/communicator/profile
-@exec mkdir -p %D/firesomething/chrome/classic/skin/classic/communicator/icons
-@dirrm firesomething/chrome/classic/skin/classic/communicator/icons
-@exec mkdir -p %D/firesomething/chrome/classic/skin/classic/communicator/directory
-@dirrm firesomething/chrome/classic/skin/classic/communicator/directory
-@exec mkdir -p %D/firesomething/chrome/classic/skin/classic/communicator/cookie
-@dirrm firesomething/chrome/classic/skin/classic/communicator/cookie
-@exec mkdir -p %D/firesomething/chrome/classic/skin/classic/communicator/brand
-@dirrm firesomething/chrome/classic/skin/classic/communicator/brand
-@exec mkdir -p %D/firesomething/chrome/classic/skin/classic/communicator/bookmarks
-@dirrm firesomething/chrome/classic/skin/classic/communicator/bookmarks
-@exec mkdir -p %D/firesomething/chrome/classic/skin/classic/communicator/alerts
-@dirrm firesomething/chrome/classic/skin/classic/communicator/alerts
-@dirrm firesomething/chrome/classic/skin/classic/communicator
-@exec mkdir -p %D/firesomething/chrome/classic/skin/classic/browser/pref
-@dirrm firesomething/chrome/classic/skin/classic/browser/pref
-@exec mkdir -p %D/firesomething/chrome/classic/skin/classic/browser/bookmarks
-@dirrm firesomething/chrome/classic/skin/classic/browser/bookmarks
-@dirrm firesomething/chrome/classic/skin/classic/browser
-@dirrm firesomething/chrome/classic/skin/classic
-@dirrm firesomething/chrome/classic/skin
-@dirrm firesomething/chrome/classic
-@exec mkdir -p %D/firesomething/chrome/browser/content/browser/pref
-@dirrm firesomething/chrome/browser/content/browser/pref
-@exec mkdir -p %D/firesomething/chrome/browser/content/browser/history
-@dirrm firesomething/chrome/browser/content/browser/history
-@exec mkdir -p %D/firesomething/chrome/browser/content/browser/cookieviewer
-@dirrm firesomething/chrome/browser/content/browser/cookieviewer
-@exec mkdir -p %D/firesomething/chrome/browser/content/browser/bookmarks
-@dirrm firesomething/chrome/browser/content/browser/bookmarks
-@dirrm firesomething/chrome/browser/content/browser
-@dirrm firesomething/chrome/browser/content
-@dirrm firesomething/chrome/browser
-@exec mkdir -p %D/firesomething/chrome/US/locale/US/navigator-region
-@dirrm firesomething/chrome/US/locale/US/navigator-region
-@exec mkdir -p %D/firesomething/chrome/US/locale/US/global-region
-@dirrm firesomething/chrome/US/locale/US/global-region
-@exec mkdir -p %D/firesomething/chrome/US/locale/US/communicator-region
-@dirrm firesomething/chrome/US/locale/US/communicator-region
-@exec mkdir -p %D/firesomething/chrome/US/locale/US/browser-region
-@dirrm firesomething/chrome/US/locale/US/browser-region
-@dirrm firesomething/chrome/US/locale/US
-@dirrm firesomething/chrome/US/locale
-@dirrm firesomething/chrome/US
-@dirrm firesomething/chrome
-@dirrm firesomething
+firesomething/searchplugins/yahoo.gif
+firesomething/searchplugins/yahoo.src
+@cwd ${LOCALBASE}/firesomething
+@exec rm -rf /tmp/.mozilla
+@exec cd %D && env HOME=/tmp LD_LIBRARY_PATH=%D ./regxpcom
+@exec rm -rf /tmp/.mozilla
+@unexec rm -f %D/components/compreg.dat
+@unexec rm -f %D/components/xpti.dat
+@unexec rm -f %D/chrome/chrome.rdf
+@unexec rm -rf %D/chrome/overlayinfo
