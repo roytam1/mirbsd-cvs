@@ -1,3 +1,8 @@
+Title: Older news from the MirOS Project
+Date: 01.03.2006
+
+<p>Read <a href="@@RELPATH@@oldnews.htm#onews">even older news</a>.</p>
+----
 Title: Some bad CDs distributed on FOSDEM
 Date: 27.03.2006
 
