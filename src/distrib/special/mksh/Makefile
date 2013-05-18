@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/special/mksh/Makefile,v 1.1 2007/01/26 18:39:49 tg Exp $
+# $MirOS: src/distrib/special/mksh/Makefile,v 1.2 2007/02/18 16:24:11 tg Exp $
 # $miros: src/bin/mksh/Makefile,v 1.29 2007/01/18 16:05:05 tg Exp $
 
 .include <bsd.own.mk>
@@ -20,7 +20,7 @@ CPPFLAGS+=	-DMKSH_SMALL -DMKSH_ASSUME_UTF8 -DMKSH_NEED_MKNOD \
 		-DHAVE_SETLOCALE_CTYPE=0 -DHAVE_LANGINFO_CODESET=0 \
 		-DHAVE_REVOKE=0 -DHAVE_SETMODE=1 -DHAVE_SETRESUGID=1 \
 		-DHAVE_SETGROUPS=1 -DHAVE_STRCASESTR=1 -DHAVE_STRLCPY=1 \
-		-DHAVE_MULTI_IDSTRING=1
+		-DHAVE_MULTI_IDSTRING=1 -DHAVE_PERSISTENT_HISTORY=0
 COPTS+=		-std=gnu99 -Wall -fno-inline
 CDIAGFLAGS+=	-Wno-cast-qual
 
