@@ -1,4 +1,4 @@
-/**	$MirOS: src/include/stdlib.h,v 1.6 2005/09/30 22:13:54 tg Exp $ */
+/**	$MirOS: src/include/stdlib.h,v 1.7 2005/11/21 19:31:54 tg Exp $ */
 /*	$OpenBSD: stdlib.h,v 1.34 2005/05/27 17:45:56 millert Exp $	*/
 /*	$NetBSD: stdlib.h,v 1.25 1995/12/27 21:19:08 jtc Exp $	*/
 
@@ -91,7 +91,8 @@ typedef struct {
 #endif
 
 /* maximum length of a multibyte character sequence (current locale) */
-#define	MB_CUR_MAX	(__locale_is_utf8 ? MB_LEN_MAX : 1)
+#undef MB_CUR_MAX
+#define MB_CUR_MAX	(__mb_cur_max())
 
 #include <sys/cdefs.h>
 
@@ -105,7 +106,7 @@ typedef struct {
 #endif
 
 __BEGIN_DECLS
-extern int __locale_is_utf8;
+extern int __mb_cur_max(void);
 
 __dead void	 abort(void);
 int	 abs(int);

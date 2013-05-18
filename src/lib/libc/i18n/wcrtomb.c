@@ -1,4 +1,4 @@
-/* $MirOS: src/lib/libc/i18n/wcrtomb.c,v 1.2 2005/09/30 22:13:56 tg Exp $ */
+/* $MirOS: src/lib/libc/i18n/wcrtomb.c,v 1.3 2005/12/17 05:46:15 tg Exp $ */
 
 /*-
  * Copyright (c) 2005
@@ -28,7 +28,9 @@
 #include <errno.h>
 #include <wchar.h>
 
-__RCSID("$MirOS: src/lib/libc/i18n/wcrtomb.c,v 1.2 2005/09/30 22:13:56 tg Exp $");
+#include "mir18n.h"
+
+__RCSID("$MirOS: src/lib/libc/i18n/wcrtomb.c,v 1.3 2005/12/17 05:46:15 tg Exp $");
 
 size_t
 wcrtomb(char *__restrict__ sb, wchar_t wc, mbstate_t *__restrict__ ps)

@@ -1,8 +1,8 @@
-/* $MirOS: src/lib/libc/i18n/isutf8.c,v 1.4 2005/09/30 22:15:07 tg Exp $ */
+/* $MirOS: src/lib/libc/i18n/isutf8.c,v 1.5 2005/12/17 05:46:14 tg Exp $ */
 
 /*-
- * Copyright (c) 2005
- *	Thorsten "mirabile" Glaser <tg@66h.42h.de>
+ * Copyright (c) 2005, 2006
+ *	Thorsten Glaser <tg@mirbsd.de>
  *
  * Licensee is hereby permitted to deal in this work without restric-
  * tion, including unlimited rights to use, publicly perform, modify,
@@ -22,7 +22,21 @@
  */
 
 #include <sys/cdefs.h>
+#include <stdbool.h>
+#include <stdlib.h>
 
-__RCSID("$MirOS: src/lib/libc/i18n/isutf8.c,v 1.4 2005/09/30 22:15:07 tg Exp $");
+#include "mir18n.h"
 
-int __locale_is_utf8 = 0;
+__RCSID("$MirOS: src/lib/libc/i18n/isutf8.c,v 1.5 2005/12/17 05:46:14 tg Exp $");
+
+bool __locale_is_utf8 = false;
+
+int __weak___mb_cur_max(void);
+
+int
+__weak___mb_cur_max(void)
+{
+	return (__locale_is_utf8 ? 3 : 1);
+}
+
+__weak_alias(__mb_cur_max, __weak___mb_cur_max);

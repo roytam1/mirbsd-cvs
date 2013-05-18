@@ -1,4 +1,4 @@
-/* $MirOS: src/lib/libc/i18n/btowc.c,v 1.4 2005/09/30 22:13:55 tg Exp $ */
+/* $MirOS: src/lib/libc/i18n/btowc.c,v 1.5 2005/12/17 05:46:14 tg Exp $ */
 
 /*-
  * Copyright (c) 2005
@@ -23,7 +23,9 @@
 
 #include <wchar.h>
 
-__RCSID("$MirOS: src/lib/libc/i18n/btowc.c,v 1.4 2005/09/30 22:13:55 tg Exp $");
+#include "mir18n.h"
+
+__RCSID("$MirOS: src/lib/libc/i18n/btowc.c,v 1.5 2005/12/17 05:46:14 tg Exp $");
 
 wint_t
 btowc(int c)

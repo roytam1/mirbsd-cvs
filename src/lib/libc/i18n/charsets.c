@@ -1,4 +1,4 @@
-/* $MirOS: src/lib/libc/i18n/charsets.c,v 1.8 2005/09/30 22:15:07 tg Exp $ */
+/* $MirOS: src/lib/libc/i18n/charsets.c,v 1.9 2005/12/17 05:46:14 tg Exp $ */
 
 /*-
  * Copyright (c) 2005
@@ -33,7 +33,9 @@
 #include <stdlib.h>
 #include <wchar.h>
 
-__RCSID("$MirOS: src/lib/libc/i18n/charsets.c,v 1.8 2005/09/30 22:15:07 tg Exp $");
+#include "mir18n.h"
+
+__RCSID("$MirOS: src/lib/libc/i18n/charsets.c,v 1.9 2005/12/17 05:46:14 tg Exp $");
 
 /* simple locale support (C and UTF-8) */
 
