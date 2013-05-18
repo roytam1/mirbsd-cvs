@@ -1,8 +1,4 @@
-nano is a small, free and friendly editor which aims to replace
-Pico, the default editor included in the non-free Pine package.
-Rather than just copying Pico's look and feel, nano also implements
-some missing (or disabled by default) features in Pico, such as
-"search and replace" and "goto line number".
-
-Available flavours:
-	slang - build using the S-Lang library for screen handling
+GNU nano is a free replacement for Pico, the default Pine editor.
+GNU nano is an effort to provide a Pico-like editor, but also
+includes some features that were missing in the original, such as
+'search and replace', 'goto line' or internationalisation support.
