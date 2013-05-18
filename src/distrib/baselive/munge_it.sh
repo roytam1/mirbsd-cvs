@@ -1,5 +1,5 @@
 #!/usr/bin/env mksh
-# $MirOS: src/distrib/baselive/munge_it.sh,v 1.43 2008/11/01 02:07:46 tg Exp $
+# $MirOS: src/distrib/baselive/munge_it.sh,v 1.44 2008/11/29 17:10:53 tg Exp $
 #-
 # Copyright (c) 2006, 2007, 2008
 #	Thorsten “mirabilos” Glaser <tg@mirbsd.de>
@@ -78,7 +78,7 @@ ed -s etc/ntpd.conf <<-'EOMD'
 EOMD
 ed -s etc/rc <<-'EOMD'
 	1i
-		# $MirOS: src/distrib/baselive/munge_it.sh,v 1.43 2008/11/01 02:07:46 tg Exp $
+		# $MirOS: src/distrib/baselive/munge_it.sh,v 1.44 2008/11/29 17:10:53 tg Exp $
 	.
 	/cprng.*pr16/d
 	i
@@ -194,7 +194,7 @@ pwd_mkdb -pd $(realpath etc) master.passwd
 
 for f in usr/dbin/* usr/dsbin/*; do
 	for d in bin sbin usr/bin usr/sbin; do
-		[[ -e $d/${f##*/} ]] && ln -f $f $d/${f##*/}
+		[[ ! -e $d/${f##*/} ]] || ln -f $f $d/${f##*/}
 	done
 done
 rm -f sbin/dbins
