@@ -2,7 +2,7 @@
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.126 2008/06/28 23:05:18 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.127 2008/06/29 19:52:03 tg Exp $'
 mws_content <<'EOF'
 <h1>mksh(1) R33d</h1>
 <p>This is the website of the MirBSD™ Korn Shell, an actively developed free
@@ -903,6 +903,7 @@ mws_content <<'EOF'
 <li>Adding builtins <tt>fstat</tt>, <tt>lstat</tt>, <tt>traverse</tt>, …</li>
 <li>for a b in …; do (like make(1) does)</li>
 <li>${foo:S/bar/baz/g} ${foo:C/bar/baz/x}</li>
+<li>More than 9 fds in redirections and <tt>print -u<i>n</i></tt></li>
 <li>A sensible website</li>
 <li>Build and actually work on more platforms – PW32, Minix 3,
  Plan 9, Syllable – debug these</li>
