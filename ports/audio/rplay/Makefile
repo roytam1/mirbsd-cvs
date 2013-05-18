@@ -1,3 +1,4 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.22 2002/10/24 22:20:03 naddy Exp $
 
 COMMENT=			network audio player
@@ -7,10 +8,10 @@ CATEGORIES=	audio
 HOMEPAGE=	http://rplay.doit.org/
 
 
-PERMIT_PACKAGE_CDROM=	Yes
-PERMIT_PACKAGE_FTP=	Yes
-PERMIT_DISTFILES_CDROM=	Yes
-PERMIT_DISTFILES_FTP=	Yes
+PERMIT_PACKAGE_CDROM=	non-free dependency
+PERMIT_PACKAGE_FTP=	non-free dependency
+PERMIT_DISTFILES_CDROM=	non-free dependency
+PERMIT_DISTFILES_FTP=	non-free dependency
 
 MASTER_SITES=	${HOMEPAGE}/dist/
 
