@@ -1,4 +1,3 @@
-/**	$MirOS: src/lib/libc/gen/setmode.c,v 1.10 2008/04/19 16:27:23 tg Exp $ */
 /*	$OpenBSD: setmode.c,v 1.17 2005/08/08 08:05:34 espie Exp $	*/
 /*	$NetBSD: setmode.c,v 1.15 1997/02/07 22:21:06 christos Exp $	*/
 
@@ -57,12 +56,12 @@
 #endif
 
 __SCCSID("@(#)setmode.c	8.2 (Berkeley) 3/25/94");
-__RCSID("$MirOS: src/lib/libc/gen/setmode.c,v 1.10 2008/04/19 16:27:23 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/gen/setmode.c,v 1.11 2009/04/07 18:41:43 tg Exp $");
 
 /* for mksh */
 #ifdef ksh_isdigit
 #undef isdigit
-#define isdigit 	ksh_isdigit
+#define isdigit		ksh_isdigit
 #endif
 
 #ifndef S_ISTXT
@@ -109,7 +108,7 @@ getmode(const void *bbox, mode_t omode)
 		/*
 		 * When copying the user, group or other bits around, we "know"
 		 * where the bits are in the mode so that we can do shifts to
-		 * copy them around.  If we don't use shifts, it gets real
+		 * copy them around. If we don't use shifts, it gets real
 		 * grundgy with lots of single bit checks and bit sets.
 		 */
 		case 'u':
@@ -125,7 +124,7 @@ getmode(const void *bbox, mode_t omode)
  common:
 			if (set->cmd2 & CMD2_CLR) {
 				clrval =
-				    (set->cmd2 & CMD2_SET) ?  S_IRWXO : value;
+				    (set->cmd2 & CMD2_SET) ? S_IRWXO : value;
 				if (set->cmd2 & CMD2_UBITS)
 					newmode &= ~((clrval<<6) & set->bits);
 				if (set->cmd2 & CMD2_GBITS)
@@ -198,7 +197,7 @@ setmode(const char *p)
 
 	/*
 	 * Get a copy of the mask for the permissions that are mask relative.
-	 * Flip the bits, we want what's not set.  Since it's possible that
+	 * Flip the bits, we want what's not set. Since it's possible that
 	 * the caller is opening files inside a signal handler, protect them
 	 * as best we can.
 	 */
@@ -419,8 +418,8 @@ dumpmode(BITCMD *set)
 
 /*
  * Given an array of bitcmd structures, compress by compacting consecutive
- * '+', '-' and 'X' commands into at most 3 commands, one of each.  The 'u',
- * 'g' and 'o' commands continue to be separate.  They could probably be
+ * '+', '-' and 'X' commands into at most 3 commands, one of each. The 'u',
+ * 'g' and 'o' commands continue to be separate. They could probably be
  * compacted, but it's not worth the effort.
  */
 static void

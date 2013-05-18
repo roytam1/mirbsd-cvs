@@ -22,7 +22,7 @@
 
 #include "sh.h"
 
-__RCSID("$MirOS: src/bin/mksh/tree.c,v 1.26 2009/05/16 16:59:41 tg Exp $");
+__RCSID("$MirOS: src/bin/mksh/tree.c,v 1.27 2009/06/08 20:06:49 tg Exp $");
 
 #define INDENT	4
 
@@ -84,8 +84,7 @@ ptree(struct op *t, int indent, struct shf *shf)
 		shf_puts("! ", shf);
 		t = t->right;
 		goto Chain;
-	case TDBRACKET:
-	  {
+	case TDBRACKET: {
 		int i;
 
 		shf_puts("[[", shf);
@@ -93,7 +92,7 @@ ptree(struct op *t, int indent, struct shf *shf)
 			fptreef(shf, indent, " %S", t->args[i]);
 		shf_puts(" ]] ", shf);
 		break;
-	  }
+	}
 	case TSELECT:
 		fptreef(shf, indent, "select %s ", t->str);
 		/* FALLTHRU */

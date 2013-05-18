@@ -18,11 +18,11 @@
 
 #include "sh.h"
 
-__RCSID("$MirOS: src/bin/mksh/strlcpy.c,v 1.5 2009/05/16 18:57:54 tg Rel $");
+__RCSID("$MirOS: src/bin/mksh/strlcpy.c,v 1.6 2009/05/27 09:58:24 tg Rel $");
 
 /*
- * Copy src to string dst of size siz.  At most siz-1 characters
- * will be copied.  Always NUL terminates (unless siz == 0).
+ * Copy src to string dst of size siz. At most siz-1 characters
+ * will be copied. Always NUL terminates (unless siz == 0).
  * Returns strlen(src); if retval >= siz, truncation occurred.
  */
 size_t
