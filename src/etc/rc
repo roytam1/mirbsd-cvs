@@ -1,5 +1,5 @@
 # $MirSecuCron$
-# $MirOS: src/etc/rc,v 1.98 2009/03/29 13:04:16 tg Exp $
+# $MirOS: src/etc/rc,v 1.99 2009/07/18 14:09:06 tg Exp $
 # $OpenBSD: rc,v 1.277 2006/01/12 21:54:15 deraadt Exp $
 #-
 # System startup script run by init on autoboot or after single-user.
@@ -425,9 +425,30 @@ typeset -i1 a=RANDOM b=RANDOM c=RANDOM d=RANDOM
 print -n "${a#1#}${b#1#}${c#1#}${d#1#}" >/dev/arandom
 unset a b c d
 
+# Initialise anoncvs chroot /dev directory
+i=0
+grep ':/var/anoncvs.*:/usr/libexec/anoncvssh$' /etc/master.passwd |&
+while IFS=: read -p name pass rest; do
+	[[ $pass = '*' ]] || i=1
+done
+(( i )) && if [[ -d /var/anoncvs/dev/. ]]; then
+	mount_mfs -s 128 swap /var/anoncvs/dev
+	(cd /dev; pax -rw -pe arandom null zero /var/anoncvs/dev/)
+	syslogd_flags="$syslogd_flags -a /var/anoncvs/dev/log"
+fi
+
 echo starting system logger
 rm -f /dev/log
-if [[ -d /var/empty ]]; then
+if [[ $httpd_flags != NO && " $httpd_flags " != *@( -u )* ]]; then
+	rm -f /var/www/dev/log
+	mkdir -p -m 0555 /var/www/dev
+	syslogd_flags="$syslogd_flags -a /var/www/dev/log"
+fi
+if [[ $named_flags != NO && -d /var/named/dev/. ]]; then
+	rm -f /var/named/dev/log
+	syslogd_flags="$syslogd_flags -a /var/named/dev/log"
+fi
+if [[ -d /var/empty/. ]]; then
 	rm -f /var/empty/dev/log
 	mkdir -p -m 0555 /var/empty/dev
 	syslogd_flags="$syslogd_flags -a /var/empty/dev/log"
@@ -592,17 +613,6 @@ fi
 
 if [[ -x /usr/libexec/vi.recover && -d /var/tmp/vi.recover ]]; then
 	echo preserving editor files;	/usr/libexec/vi.recover
-fi
-
-# Initialise anoncvs chroot /dev directory
-i=0
-grep ':/var/anoncvs.*:/usr/libexec/anoncvssh$' /etc/master.passwd |&
-while IFS=: read -p name pass rest; do
-	[[ $pass = '*' ]] || i=1
-done
-(( i )) && if [[ -d /var/anoncvs/dev/. ]]; then
-	mount_mfs -s 128 swap /var/anoncvs/dev
-	(cd /dev; pax -rw -pe arandom null zero /var/anoncvs/dev/)
 fi
 
 if [[ -e /etc/rc.once ]]; then
