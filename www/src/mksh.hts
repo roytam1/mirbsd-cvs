@@ -2,7 +2,7 @@
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.139 2008/07/11 11:07:02 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.140 2008/07/11 11:14:42 tg Exp $'
 mws_content <<'EOF'
 <h1>mksh(1) R35</h1>
 <p>This is the website of the MirBSD™ Korn Shell, an actively developed free
@@ -567,8 +567,7 @@ mws_content <<'EOF'
 <li><a href="http://www.debian.org/">Debian</a> GNU/Linux, GNU/HURD and
  GNU/kFreeBSD have an <a href="http://packages.debian.org/mksh">mksh package</a>
  maintained by the MirOS Project and uploaded (sponsored) by Bastian “waldi”
- Blank and Otavio Salvador; the debconf questions and dietlibc stub were taken
- from dash. The <a
+ Blank and Otavio Salvador; the debconf questions were taken from dash. The <a
  href="http://www.mirbsd.org/MirOS/dist/mir/mksh/ports/mksh_35.1-1.dsc">mksh
  Debian source package</a> is available, too.</li>
 <li><a href="http://www.gentoo.org/">Gentoo GNU/Linux</a> has an mksh <a
@@ -782,6 +781,11 @@ mws_content <<'EOF'
  <li>Red Hat GNU/Linux RHEL5 2.6.18-8.1.6.el5 (amd64 gcc4.1.1-52)</li>
  <li>SuSE GNU/Linux SLES10 2.6.16.27-0.9-smp (amd64 gcc4.1.0)</li>
  <li>SuSE GNU/Linux SLES10 2.6.16.27-0.9-default (IA64 gcc4.1.0)</li>
+ <li style="list-style:none;">– other build system integration –</li>
+ <li>See the <a href="#otheros">Inclusion</a> section for general information</li>
+ <li>MirOS #10-current (i386 gcc3.4.6) via MirOS SRPM</li>
+ <li>OpenBSD 4.3 GENERIC#207 (zaurus gcc3.3.5) via MirOS OpenBSD-Port</li>
+ <li>Debian GNU/Linux 4.0 etch 2.6.18-4-686 (i386 gcc4.1.1-21) via MirOS SRPM</li>
 </ul>
 <h3 id="regress_dev">Development Versions</h3>
 <ul>
