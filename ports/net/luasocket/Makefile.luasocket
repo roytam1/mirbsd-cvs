@@ -1,11 +1,7 @@
-# $MirOS: ports/net/luasocket/Makefile.luasocket,v 1.1 2009/08/29 13:50:13 tg Exp $
+# $MirOS: ports/net/luasocket/Makefile.luasocket,v 1.2 2009/08/30 16:11:58 tg Exp $
 
 CPPFLAGS+=	-DLUASOCKET_DEBUG
 CPPFLAGS+=	-DUNIX_HAS_SUN_LEN
-
-.if (${MACHINE_OS} == "Darwin")
-LDFLAGS+=	-bundle -undefined dynamic_lookup
-.endif
 
 SRCS_MIME=	mime.c
 SRCS_SOCKET=	auxiliar.c buffer.c except.c inet.c io.c luasocket.c \
@@ -17,6 +13,5 @@ all install:
 	mkdir -p build-${_i}
 	cd build-${_i} && ${MAKE} -f ${MAKEFILE_BUNDLE} $@ \
 	    LIB=${_n} LIBDIR=${LUALIBDIR:Q}/${_s} \
-	    SRCS=${SRCS_${_i:U}:Q} SRCDIR=${.CURDIR:Q}/src \
-	    SOBJS=${SRCS_${_i:U}:S/.c$/.o/:Q}
+	    SRCS=${SRCS_${_i:U}:Q} SRCDIR=${.CURDIR:Q}/src
 .endfor
