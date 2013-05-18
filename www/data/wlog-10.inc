@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.364 2011/09/04 11:44:19 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.365 2011/09/14 20:54:11 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -7907,6 +7907,52 @@ Tag: debian mksh news pcli release
  add if I can’t get it out quickly enough (especially at work). Sowwy…</p>
 <p>Me like the cat picture postings (Amayita, Tiago, ¡Gracias!).</p>
 ----
+Date: 19.07.2011 07:32
+Author: bsiegert@
+Title: Progress with pkgsrc and other things
+Tag: pkgsrc
+
+<p>pkgsrc-2011Q2 has been released. This is the first release which is
+ really usable on MirOS. Bootstrapping works without applying patches
+ before; I updated the <a href="@@RELPATH@@pkgsrc.htm">pkgsrc
+ instructions</a> accordingly. During the freeze, there were two
+ last-minute fixes to important base packages (gmake and glib2) which
+ did not go in before the branch was cut off. One of them (gmake) has
+ been pulled up on my request after Alistair G. Crooks encouraged to do
+ so.</p>
+
+<p>I finally managed to get a MirOS instance running on Xen with HVM
+ using NetBSD-current as the Domain-0. I had to compile my own DOM0
+ kernel to include support for the alc ethernet driver&mdash;yes, the
+ one where I did not manage to fix the driver under MirOS. The first
+ impression: Compilation and other CPU-intensive tasks are very fast,
+ while I/O is quite slow. The qemu-dm process, which provides hard disk
+ and network drivers to the DomU, seems to get congested quite rapidly.
+ Btw, emulating an Intel Gigabit network card works very well with our
+ em(4) driver.</p>
+
+
+<p>To profit from the VM, I set up a bulk build with a fresh
+ pkgsrc-2011Q2 checkout, using the pbulk framework. Technically, it
+ looks very nice and more sane overall than a simple recursive make:
+ there is a scan phase at the start, where a dependency tree of all
+ packages is constructed. Then, a master process decides which package
+ to build next. It can optionally distribute the builds over several
+ machines at once. However, I found the documentation to be severely
+ lacking; what’s more, the pkgsrc guide and the <tt>doc/HOWTO-pbulk</tt>
+ file have obviously been written by persons with different approaches
+ w.r.t. suggested directory layout etc.</p>
+
+<p>I created a NetBSD slice of 55 GiB, mounted in MirOS under /pbulk,
+ for all data relative to the bulk build and added it as a physical
+ device in the VM configuration. However, the I/O congestion becomes
+ worse after some time building things. The ssh connection becomes more
+ or less unresponsive, and qemu-dm takes 100% of the Dom0 cpu. Even
+ after stopping the build with ^Z, the hard disk is thrashing for
+ several minutes with qemu-dm at 100% cpu, before slowly going back to
+ normal after a few minutes. WTF? For what it is worth, the VM has 1 GiB
+ of RAM allocated and no swap. More tuning required&nbsp;…</p>
+----
 Date: 25.07.2011 16:01
 Author: tg@
 Title: DebConf
@@ -8583,4 +8629,35 @@ Tag: debian news pcli snapshot
  be generated for other manpage references (whose targets may or may not
  exist, for example if they aren’t part of MirOS base/XFree86®). But on
  the other hand, Valid XHTML/1.1 and CSS speaks for itself ☻☺</p>
+----
+Date: 20.09.2011 22:36
+Author: bsiegert@
+Title: pkgsrc frozen
+Tag: pkgsrc
+
+<p>So the pkgsrc tree has been frozen in preparation for the 2011Q3
+ release. I managed to sneak in a few interesting commits just after the
+ deadline *cough*. Firstly, Python 2.6 and 2.7 now build fine. The
+ corresponding <a href="http://bugs.python.org/issue12976">Python
+ bug</a> was marked wontfix though&mdash;even though it only touches six
+ lines or so. Apparently they have a policy not to support what they
+ call “marginal platforms” even when people submit them patches. Compare
+ to perl, where more changes were required, but they were all committed
+ upstream, and all new releases support MirBSD out of the box.</p>
+
+<p>The second change concerns X11. Many new packages want to have X11R7
+ and/or xcb libraries, which our X11 does not provide. Thus, after a
+ some discussion on tech-pkg, I switched the MirBSD platform to modular
+ X libraries. This means that libX11 etc. are built as packages inside
+ pkgsrc instead of relying on <tt>/usr/X11R6</tt>. If you already use
+ pkgsrc, you might need to recompile X11-using packages after this
+ change, or use <tt>pkg_rolling-replace</tt>. Incidentally, I had to fix
+ a few bugs in libX11 ;).</p>
+
+<p>The final thing concerns the texlive packages, which should all be
+ working now. They were using <tt>pax -rw</tt> to copy files around
+ without creating the destination directory first. This is an error
+ condition in paxmirabilis, and it should also be elsewhere. For
+ example, pax in Darwin accepts it although the manpage says
+ otherwise. Strange.</p>
 ----
