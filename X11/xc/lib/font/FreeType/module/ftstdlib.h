@@ -1,4 +1,4 @@
-/* $MirOS$ */
+/* $MirOS: X11/xc/lib/font/FreeType/module/ftstdlib.h,v 1.3 2006/07/01 21:05:57 tg Exp $ */
 /* ftstdlib.h -- modified for XFree86. */
 /* $XFree86: xc/lib/font/FreeType/module/ftstdlib.h,v 1.3 2004/12/31 02:56:03 tsi Exp $ */
 
@@ -9,7 +9,7 @@
 /*    ANSI-specific library and header configuration file (specification   */
 /*    only).                                                               */
 /*                                                                         */
-/*  Copyright 2002, 2003, 2004, 2005, 2006 by                              */
+/*  Copyright 2002, 2003, 2004, 2005, 2006, 2007 by                        */
 /*  David Turner, Robert Wilhelm, and Werner Lemberg.                      */
 /*                                                                         */
 /*  This file is part of the FreeType project, and may only be used,       */
@@ -84,15 +84,6 @@
   /**********************************************************************/
 
 
-#include <ctype.h>
-
-#define ft_isalnum   isalnum
-#define ft_isdigit   isdigit
-#define ft_islower   islower
-#define ft_isupper   isupper
-#define ft_isxdigit  isxdigit
-
-
 #include <string.h>
 
 #define ft_memchr   memchr
@@ -107,6 +98,7 @@
 #define ft_strncmp  strncmp
 #define ft_strncpy  strncpy
 #define ft_strrchr  strrchr
+#define ft_strstr   strstr
 
 
   /**********************************************************************/
@@ -174,12 +166,12 @@
 
 #include <setjmp.h>
 
-#define ft_jmp_buf  jmp_buf   /* note: this cannot be a typedef since */
-                              /*       jmp_buf is defined as a macro  */
-                              /*       on certain platforms           */
-
-#define ft_setjmp   setjmp    /* same thing here */
-#define ft_longjmp  longjmp   /* "               */
+#define ft_jmp_buf     jmp_buf  /* note: this cannot be a typedef since */
+                                /*       jmp_buf is defined as a macro  */
+                                /*       on certain platforms           */
+ 
+#define ft_longjmp     longjmp
+#define ft_setjmp( b ) setjmp( *(jmp_buf*) &(b) )    /* same thing here */
 
 
 #else
