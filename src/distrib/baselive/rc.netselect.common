@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/baselive/rc.netselect.common,v 1.10 2007/08/01 15:27:04 tg Exp $
+# $MirOS: src/distrib/baselive/rc.netselect.common,v 1.11 2007/08/01 21:37:53 tg Exp $
 #-
 # Copyright (c) 2006, 2007
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -39,7 +39,7 @@ function get_kbdtype {
 		[[ $resp = [a-z]* ]] && if kbd $resp; then
 			ed -s /etc/wsconsctl.conf <<-EOF
 				%g/keyboard.encoding/d
-				$a
+				\$a
 				keyboard.encoding=$resp
 				.
 				wq
