@@ -1,6 +1,8 @@
 # $OpenBSD: Makefile,v 1.5 2004/05/18 23:26:33 dons Exp $
 
-COMMENT=			advanced revision control system written in Haskell
+BROKEN=			unfetchable distfile
+
+COMMENT=		advanced revision control system written in Haskell
 
 V=		0.9.20
 DISTNAME=	darcs-${V}

@@ -1,6 +1,8 @@
 # $OpenBSD: Makefile,v 1.3 2004/02/01 20:07:41 sturm Exp $
 
-COMMENT=			the definitive guide to CVS
+BROKEN=			checksum mismatch
+
+COMMENT=		the definitive guide to CVS
 
 V=		1.21
 DISTNAME=	cvsbook-${V}-all

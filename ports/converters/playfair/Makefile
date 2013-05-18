@@ -1,9 +1,11 @@
-# $MirOS: ports/converters/playfair/Makefile,v 1.3 2005/04/11 15:54:50 tg Exp $
+# $MirOS: ports/converters/playfair/Makefile,v 1.4 2006/09/14 00:07:44 tg Exp $
 # $OpenBSD: Makefile,v 1.2 2004/04/12 07:22:23 jolan Exp $
+
+BROKEN=			unfetchable distfile
 
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS} *:*:sparc64
 
-COMMENT=			strips DRM from iTMS protected AAC audio files
+COMMENT=		strips DRM from iTMS protected AAC audio files
 DISTNAME=	playfair-0.5.0
 CATEGORIES=	converters audio
 MASTER_SITES=	http://sarovar.org/download.php/270/
