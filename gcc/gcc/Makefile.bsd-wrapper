@@ -1,4 +1,4 @@
-# $MirOS: gcc/gcc/Makefile.bsd-wrapper,v 1.38 2006/03/31 03:27:40 tg Exp $
+# $MirOS: gcc/gcc/Makefile.bsd-wrapper,v 1.39 2006/03/31 16:14:49 tg Exp $
 
 .include <bsd.own.mk>
 .include "${GNUSYSTEM_AUX_DIR}/locations.mk"
@@ -147,10 +147,12 @@ post-install:
 	    ${DESTDIR}${GCC_PREFIX}/lib/libgcc_s.so.${LIBGCC_REV}
 .  endif
 .endif
+.if ${NOMAN:L} == "no"
 .for _i in ${INFO}
 	${INSTALL} ${INSTALL_COPY} -o ${MANOWN} -g ${MANGRP} -m ${MANMODE} \
 	    ${_i} ${DESTDIR}${GCC_INFODIR}/
 .endfor
+.endif
 .ifndef _CROSSBUILD
 	${INSTALL} ${INSTALL_COPY} ${INSTALL_STRIP} -m ${BINMODE} \
 	    -o ${BINOWN} -g ${BINGRP} cpp ${DESTDIR}${GCC_PREFIX}/bin/${M_CPP}
