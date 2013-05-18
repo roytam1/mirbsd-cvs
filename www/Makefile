@@ -1,4 +1,4 @@
-# $MirOS: www/Makefile,v 1.6 2007/06/22 23:37:29 tg Exp $
+# $MirOS: www/Makefile,v 1.7 2007/07/01 22:07:09 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -69,8 +69,13 @@ CLEANFILES+=	getdate
 getdate: ${TOP}/mk/getdate.c
 	${LINK.c} ${COPTS} -I${TOP}/mk -DTEST -DIN_RCS -o $@ ${.ALLSRC}
 
-site.tgz:
-	-rm -rf dst $@
+site.tgz: _reinstall
+	find dst | sort | sed -e '/^dst$$/d' -e 's,^dst/,,' | \
+	    (cd dst && cpio -voC512 -Hustar -Mdist) | gzip -n9 >$@.tmp
+	mv $@.tmp $@
+
+_reinstall:
+	-rm -rf dst
 	mkdir dst dst/permalinks
 	pax -rw -pe -dv ${OBJS:Nstamp_*} dst/
 .for _i in ${GENSRCS}
@@ -83,9 +88,6 @@ site.tgz:
 	cd dst && rm -rf $$(find . -name CVS -o -name .cvsignore)
 	chmod -R u=rwX,go=rX dst
 	chmod a+x dst/cvs.cgi
-	find dst | sort | sed -e '/^dst$$/d' -e 's,^dst/,,' | \
-	    (cd dst && cpio -voC512 -Hustar -Mdist) | gzip -n9 >$@.tmp
-	mv $@.tmp $@
 
 .SUFFIXES: .htm .hts
 
@@ -96,7 +98,8 @@ site.tgz:
 	    (rm -f $@.tmp; exit 1)
 	@mv -f $@.tmp $@
 
-.PHONY: clean cleandir depend install deinstall reinstall cp-herc cp-heph rs-heph
+.PHONY: clean cleandir depend install deinstall reinstall _reinstall \
+	cp-herc cp-heph rs-heph
 
 cp-herc: site.tgz
 	ssh hercs 'cd /var/www/oldsite; tar xzvf -' <site.tgz
@@ -104,7 +107,7 @@ cp-herc: site.tgz
 cp-heph: site.tgz
 	ssh hephaistos 'cd Web; tar xzvpf -' <site.tgz
 
-rs-heph: site.tgz
+rs-heph:
 	rsync -rxlztpgavPHK dst/ hephaistos:Web/
 
 depend: .depend
@@ -114,6 +117,6 @@ depend: .depend
 
 lazy: .PHONY
 	cd ${.CURDIR} && make obj && make depend && \
-	    make && make reinstall && exec make rs-heph
+	    make && make _reinstall && exec make rs-heph
 
 .include <bsd.obj.mk>
