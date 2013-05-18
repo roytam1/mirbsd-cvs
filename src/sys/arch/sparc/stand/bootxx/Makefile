@@ -1,4 +1,4 @@
-# $MirOS: src/sys/arch/sparc/stand/bootxx/Makefile,v 1.17 2008/10/21 18:51:00 tg Exp $
+# $MirOS: src/sys/arch/sparc/stand/bootxx/Makefile,v 1.18 2009/04/16 12:14:11 tg Exp $
 # $OpenBSD: Makefile,v 1.7 2003/08/11 06:35:45 deraadt Exp $
 # $NetBSD: Makefile,v 1.2 1995/09/30 21:43:38 pk Exp $
 
@@ -8,7 +8,7 @@ S=	${.CURDIR}/../../../..
 PROG=		bootxx
 NOMAN=		yes
 INSTALL_STRIP=	#empty
-CLEANFILES+=	${PROG}~ ${PROG}.elf ${PROG}.unstripped bxinst
+CLEANFILES+=	${PROG}.elf bxinst
 
 SRCS=		srt0.S bootxx.c btable.S closeall.c dvma.c promdev.c
 
@@ -19,14 +19,10 @@ CPPFLAGS+=	-I${.CURDIR}/../common -I${.CURDIR}/../../../../arch \
 all: ${PROG} bxinst
 
 ${PROG}: ${PROG}.elf
-	objcopy -S ${PROG}.elf ${PROG}~
-	elf2aout ${PROG}~ ${PROG} -b
+	elf2aout ${PROG}.elf ${PROG} -b
 
-${PROG}.unstripped: ${PROG}.elf
-	elf2aout ${PROG}.elf ${PROG}.unstripped -b
-
-bxinst: ${.CURDIR}/mkbxinst.sh ${PROG}.unstripped
-	${MKSH} ${.CURDIR}/mkbxinst.sh ${PROG}.unstripped >$@
+bxinst: ${.CURDIR}/mkbxinst.sh ${PROG}
+	${MKSH} ${.CURDIR}/mkbxinst.sh ${PROG} >$@
 
 srt0.o: srt0.S
 	${CC} ${CFLAGS} ${CPPFLAGS} -D_LOCORE -c ${.IMPSRC}
