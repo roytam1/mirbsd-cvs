@@ -1,6 +1,6 @@
 # Override default paths when building in the MirOS source tree
 #
-# $MirOS: src/gnu/usr.bin/perl/config.over,v 1.2 2005/03/13 15:01:15 tg Exp $
+# $MirOS: src/gnu/usr.bin/perl/config.over,v 1.3 2005/10/21 10:46:27 tg Exp $
 # $OpenBSD: config.over,v 1.13 2005/02/18 17:46:02 millert Exp $
 #
 
@@ -56,7 +56,7 @@ installsiteman3dir='/usr/local/man/man3'
 # Never hardcode developer info into a distribution
 cf_by='root'
 cf_email='root@localhost'
-cf_time='Thu Jan  1  0:00:00 UTC 1970'
+cf_time='Thu Jan  1 00:00:00 UTC 1970'
 perladmin='root@localhost'
 mydomain=''
 myhostname=''
