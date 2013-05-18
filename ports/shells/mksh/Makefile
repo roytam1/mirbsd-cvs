@@ -1,7 +1,7 @@
-# $MirOS: ports/shells/mksh/Makefile,v 1.50 2010/01/29 10:54:36 tg Exp $
+# $MirOS: ports/shells/mksh/Makefile,v 1.51 2010/02/25 22:07:54 tg Exp $
 
 COMMENT=		MirBSD Korn Shell
-DISTNAME=		mksh-R39c
+DISTNAME=		mksh-R40
 PKGNAME=		${DISTNAME:S/-R/-/}-${DASH_VER}
 CATEGORIES=		shells
 HOMEPAGE=		http://mirbsd.de/mksh
@@ -20,7 +20,7 @@ BSH?=			/bin/sh
 
 do-build:
 	cd ${WRKBUILD} && ${SETENV} ${MAKE_ENV} NROFF=${NROFF:C/ *$//:Q} \
-	    SHELL=${BSH:Q} ${BSH} ${WRKSRC}/Build.sh -combine
+	    SHELL=${BSH:Q} ${BSH} ${WRKSRC}/Build.sh -c lto
 
 do-install:
 	${INSTALL_DATA_DIR} ${PREFIX}/share/examples/mksh
