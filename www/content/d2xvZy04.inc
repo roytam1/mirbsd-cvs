@@ -1,5 +1,5 @@
 <!-- PageID: wlog-8 -->
-<small class="rcsid">$MirOS: www/content/d2xvZy04.inc,v 1.74 2006/05/28 21:08:59 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy04.inc,v 1.75 2006/06/02 20:47:09 tg Exp $</small>
 <h1>MirBSD &ndash; WTF, We Have a Release!?</h1>
 <p><small><a href="#eof">bottom</a> or <a href="/?older">older</a>
  editions</small></p>
@@ -1334,6 +1334,22 @@ celebrate this event, rotate the wlog and start a new one.</p>
   "works", the manual pages don't disagree with SUSv3 and ISO 9899:1999,
   the code adheres to the manual pages, the code is bug-free; write some
   more (missing) manual pages, etc.</p>
+</div>
+
+<div class="wlentry">
+ <h3 id="e20060603">03.06.2006 by tg@</h3>
+ <p>Forking seems to be common against my Verpeiler mates; first wbx and
+  OpenWRT/FreeWRT (and he's done an OpenBSD/WbxBSD split too, with MirOS
+  stuff inside), after &ndash; of course &ndash; me OpenBSD/MirBSD; now,
+  <a href="http://blog.annulator.de/">Angelo Laub</a> (yeah, that MacOSX
+  worm guy is a drinking mate of mine) does an OpenBSD fork as well (or,
+  at least he's asked me for help).</p>
+ <p>Benny is never there when you need him except later, but the old and
+  new fxp(4) codes both work on HERC, so what, I leave in the new "old",
+  he'll test on monday, and I'll go snapshot now. Expect some surprises,
+  if everything goes well.</p>
+ <p>TGEN and Tonnerre are interesting people. Sad they're usually quiet,
+  in <a href="/?irc">IRC</a> (#bsd).</p>
 </div>
 
 <p id="eof">Good luck, have fun, take care etc.pp</p>
