@@ -25,7 +25,7 @@ __RCSID("$NetBSD: s_logb.c,v 1.12 2011/08/03 14:13:07 joerg Exp $");
 #include "math_private.h"
 
 #ifndef __HAVE_LONG_DOUBLE
-__strong_alias(logbl,logb)
+__strong_alias(logbl,logb);
 #endif
 
 double

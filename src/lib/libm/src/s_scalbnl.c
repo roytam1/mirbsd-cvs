@@ -41,7 +41,7 @@ __RCSID("$NetBSD: s_scalbnl.c,v 1.1 2011/07/26 16:10:16 joerg Exp $");
 #ifdef __HAVE_LONG_DOUBLE
 
 #ifdef __weak_alias
-__weak_alias(scalbnl, _scalbnl)
+__weak_alias(scalbnl, _scalbnl);
 #endif
 
 #if LDBL_MANT_DIG == 64

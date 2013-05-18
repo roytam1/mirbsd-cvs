@@ -24,7 +24,7 @@ __RCSID("$NetBSD: s_cosf.c,v 1.9 2007/08/20 16:01:39 drochner Exp $");
 
 #if 0 /* notyet */
 #ifdef __weak_alias
-__weak_alias(cosf, _cosf)
+__weak_alias(cosf, _cosf);
 #endif
 #endif
 
