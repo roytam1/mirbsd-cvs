@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.107 2008/03/14 14:51:41 tg Exp $
+# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.108 2008/03/27 17:42:43 tg Exp $
 #-
 # Copyright (c) 2006, 2008
 #	Thorsten “mirabilos” Glaser <tg@mirbsd.de>
@@ -108,8 +108,11 @@ Interix:*:*)
 	/usr/bin/install -c -m 555 $d_script/../contrib/mktemp.sh \
 	    /usr/bin/mktemp
 	;;
-*:*:i[3456789x]86)
+*:*:[Ii][3456789Xx]86)
 	new_macarc=i386
+	;;
+*:*:[Xx]86_64 | *:*:[Aa][Mm][Dd]64)
+	new_macarc=amd64
 	;;
 esac
 
