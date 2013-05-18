@@ -1029,3 +1029,50 @@ Title: "Requesting inclusion of mksh (shell) into Mac OS X"
  version is available from <a
  href="http://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R35.cpio.gz">http://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R35.cpio.gz</a>.</p>
 ----
+Date: 14.07.2008 00:00
+Author: tg@
+Title: Inclusion of the MirBSD Korn Shell
+
+<p>As <a href="http://marc.info/?m=121469556601834">requested</a>, <a
+ href="@@RELPATH@@permalinks/wlog-10_e20080712-bsiegert.htm">Benny</a>
+ has written to Apple, Inc. about inclusion of mksh. Lucas “laffer1” Holt
+ of MidnightBSD has said to follow, as has Andreas “gecko2” Gockel, the
+ Fink maintainer for <a href="@@RELPATH@@mksh.htm">mksh</a>. Link to <a
+ href="@@RELPATH@@permalinks/wlog-10_e20080714-tg.htm">this entry</a>.</p>
+<p>Lucas actually said he would care more about and use mksh(1) if it
+ were integrated in Mac OSX, as most MidnightBSD developers (like Benny)
+ do most of their work on a Macintosh. He has integrated mksh in his
+ operating system quite some time ago.</p>
+<p>mksh is also the default shell, including <tt>/bin/sh</tt>, on <a
+ href="https://www.freewrt.org/trac">FreeWRT</a> Embedded GNU/Linux.</p>
+<p>Andreas already has run tests for using mksh(1) as <tt>/bin/sh</tt>
+ on Darwin, although I did not request that personally, and brought up
+ the question of <tt>/etc/profile</tt> adjustments and <tt>~/.mkshrc</tt>
+ integration. (FreeWRT has a changed system-wide profile including a
+ system-wide copy of the mkshrc file; other possible ways would involve
+ setting <tt>$ENV</tt> or (preferred) placing <tt>.mkshrc</tt> in the
+ New User’s Skeleton and in root’s home directory, if existent.</p>
+<p>Strong points of <a href="@@RELPATH@@mksh.htm">mksh</a>: free (as in BSD,
+ now even without advertising clause), small, fast, portable, easy to use,
+ can run many ksh93 and bash scripts, is actively developed, and benefits
+ from the BSD development style (central development, security focus).</p>
+<p>To everyone with an Apple ID: please suggest to Apple to include mksh(1),
+ write to them how good it is despite lacking popularity, how compatible it
+ is, and just how much you like to use it. Even if you do not use it yourself,
+ if you can follow our reasons, write to them. If you have access to other
+ operating systems, do the same, especially with mere porting frameworks, as
+ the OpenBSD ports tree still does not include our port, which was ready-made
+ for committing by me to reduce workload for them.</p>
+<p>Some unrelated side notes… Geocacheing continues:
+ <img src="https://call.mirbsd.org/sp.cgi?oc" alt="OpenCaching.de" />
+ <img src="https://call.mirbsd.org/sp.cgi?gc" alt="The Frog Site" />
+ <img src="https://call.mirbsd.org/sp.cgi?tc" alt="Rare Jewels" />
+ <img src="https://call.mirbsd.org/sp.cgi?nc" alt="Broken Webpages²" />
+ – Dr. Pfeffer especially liked mine<tt>^W</tt>Waldemar’s Zaurus SL-C3200 with
+ CacheWolf running on Ewe… even if I still think it’s dead slow. Interestingly,
+ porting Ewe to the iPhone G3 would not violate the clause preventing you from
+ creating “instant messaging or real time navigation software”, and CacheWolf
+ itself would not have to be ported. I’d like to have more RAM on the Z though
+ – maybe via the SD Card slot?<br />SCSI sucks. And mksh gets better… IRIX,
+ and a bug fix. Just still no SunOS 5.5 (missing <tt>/usr</tt> on the HDD).</p>
+----
