@@ -1,11 +1,10 @@
-# $MirOS: ports/essentials/cksum/Makefile,v 1.19 2006/12/28 02:33:15 tg Exp $
+# $MirOS: ports/essentials/cksum/Makefile,v 1.20 2008/02/10 11:38:43 bsiegert Exp $
 
 COMMENT=		MirOS cksum(1) with multiple hash algorithms
 CATEGORIES=		essentials
-DISTNAME=		cksum-20061013
-DASH_VER=		1
+DISTNAME=		cksum-20080309
 EXTRACT_SUFX=		.cgz
-#HOMEPAGE=		http://wiki.mirbsd.de/MirCksum
+#HOMEPAGE=		http://www.mirbsd.org/mircksum.htm
 RESPONSIBLE=		Thorsten Glaser <tg@mirbsd.de>
 MASTER_SITES=		${_MASTER_SITE_MIRBSD:distfiles/=dist/mir/cksum/}
 
@@ -17,14 +16,10 @@ PERMIT_PACKAGE_FTP=	Yes
 
 .include <mirports.sys.mk>
 
-WRKDIST=		${WRKDIR}/md5
-CPPFLAGS+=		-isystem ${.SYSMK} -D_MIRMAKE_DEFNS
+WRKDIST=		${WRKDIR}/cksum
+#CPPFLAGS+=		-isystem ${.SYSMK} -D_MIRMAKE_DEFNS
 
-.if ${OBJECT_FMT} == "PE"
-MAKE_ENV+=		AFLAGS=-DUNDERSCORES
-.endif
-
-BUILD_DEPENDS+=		:mirmake->=20061228:devel/mirmake
+BUILD_DEPENDS+=		:mirmake->=20080309:devel/mirmake
 
 .include <bsd.port.mk>
 

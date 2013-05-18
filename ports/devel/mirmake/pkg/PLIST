@@ -1,4 +1,4 @@
-@comment $MirOS: ports/devel/mirmake/pkg/PLIST,v 1.4 2005/12/20 19:57:52 tg Exp $
+@comment $MirOS: ports/devel/mirmake/pkg/PLIST,v 1.5 2006/10/13 16:55:32 tg Exp $
 @option base-package
 IFSFU:bin/install
 bin/lorder
@@ -13,6 +13,7 @@ man/cat1/mmake.0
 man/cat1/readlink.0
 man/cat1/tsort.0
 share/mmake/PSD12.make.txt
+share/mmake/adler32.h
 share/mmake/bsd.cfwrap.mk
 share/mmake/bsd.dep.mk
 share/mmake/bsd.lib.mk
@@ -28,9 +29,12 @@ share/mmake/md4.h
 share/mmake/md5.h
 share/mmake/mirmake.h
 share/mmake/rmd160.h
+share/mmake/sfv.h
 share/mmake/sha1.h
 share/mmake/sha2.h
+share/mmake/suma.h
 share/mmake/sys.mk
 share/mmake/sysexits.h
 share/mmake/tiger.h
+share/mmake/whirlpool.h
 @dirrm share/mmake
