@@ -1,3 +1,0 @@
-@comment $OpenBSD: PLIST,v 1.2 2003/12/22 01:14:15 espie Exp $
-share/doc/icon/icon-book${FLAVOUR_EXT}.pdf
-@dirrm share/doc/icon
