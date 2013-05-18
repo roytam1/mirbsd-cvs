@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/scripts/roff2htm,v 1.14 2005/11/15 20:39:40 tg Exp $
+# $MirOS: src/scripts/roff2htm,v 1.15 2005/11/15 20:54:00 tg Exp $
 # $ekkoBSD: catman2html.sh,v 1.2 2004/03/07 03:02:53 stephen Exp $
 #-
 # Copyright (c) 2004, 2005
@@ -38,8 +38,8 @@
 
 # Set up
 
+gendate=$(date +"%F %T")		# current time
 set -A do_convert_asciiexp		# clear the array
-gendate=
 {
 	typeset -ui16 i			# hexadecimal local var
 	typeset x=0			# decimal local int var
@@ -131,7 +131,7 @@ output_header()
 		</head><body>
 		<h1>MirOS Manual: <a href="../man${2}/${1}.htm"><tt>${1}(${2})</tt></a></h1>
 		<p style="font-size:xx-small;">Generated on ${gendate} by
-		 \$MirOS: src/scripts/roff2htm,v 1.14 2005/11/15 20:39:40 tg Exp $</p>
+		 \$MirOS: src/scripts/roff2htm,v 1.15 2005/11/15 20:54:00 tg Exp $</p>
 		<hr />
 	EOF
 }
@@ -151,14 +151,15 @@ output_footer()
 	EOF
 }
 
-do_convert_onepage()
+do_conversion()
 {
-	output_header $1 $2
+	output_header ${1:-missing-pagename} ${2:-0}
 	do_convert
 	output_footer
 }
 
-do_convert_page()
+# convert_page /path/to/man.cat1 /targetpath
+convert_page()
 {
 	fn=$1				# filename
 	bn=${fn##*/}			# basename
@@ -169,21 +170,13 @@ do_convert_page()
 	tn=$2/man${sect}/${page}.htm	# target file
 
 	print -nru2 -- $fn -\> $tn
-	do_convert_onepage $page $sect <$fn >$tn
+	do_conversion $page $sect <$fn >$tn
 	print -u2
-}
-
-# convert_page /path/to/man.cat1 /targetpath
-convert_page()
-{
-	gendate=$(date +"%F %T")	# current time
-	do_convert_page "$@"
 }
 
 # convert_all /path/to/share/man /targetpath
 convert_all()
 {
-	gendate=$(date +"%F %T")	# current time
 	tp=${2:-$(pwd)/mbsdman}		# target basepath
 
 	for x in 1 2 3 3p 4 5 6 7 8 9; do
@@ -191,6 +184,6 @@ convert_all()
 		print DirectoryIndex /dev/null >$tp/man$x/.htaccess
 	done
 	find ${1:-/usr/share/man}/cat* -name \*.0 | while read f; do
-		do_convert_page $f $tp	# any subpages
+		convert_page $f $tp	# any subpages
 	done
 }
