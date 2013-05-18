@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.200 2009/06/06 14:20:06 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.201 2009/06/21 11:28:45 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -1112,8 +1112,7 @@ Tag: geocache mksh
 
 <h3><a href="@@RELPATH@@mksh.htm">mksh</a> – The iShell</h3>
 <p style="margin-bottom:0px;">Try this:</p>
-<div style="border:4px ridge blue; margin:0px 24px 0px 24px; padding:12px;">
- <pre>
+<div style="border:4px ridge blue; margin:0px 24px 0px 24px; padding:12px;"><pre>
 	$ cvs -d _anoncvs@anoncvs.mirbsd.org:/cvs co -PA mksh
 	$ cd mksh
 	$ cat &gt;iBuild.sh &lt;&lt;-'EOF'
@@ -1132,8 +1131,7 @@ Tag: geocache mksh
 	EOF
 	$ mksh iBuild.sh mksh Build.sh -r
 	$ file mksh
- </pre>
-</div><p style="margin-top:0px;">Mach-O executable arm</p>
+</pre></div><p style="margin-top:0px;">Mach-O executable arm</p>
 <p>Of course, you need the iPhone 2.0 SDK on your Mac for this (and,
  presumably, an installed native mksh… otherwise just change the above
  instructions a little.</p>
@@ -2459,11 +2457,11 @@ Tag: event
 <p>We all somehow are, at the moment. Get better, everyone. (replaced
  couldn’t get to the BSD@Wien pre-christmas party either…)</p>
 <p style="margin-bottom:0px;">cnuke@ pointed me to a nice IRC quote:</p>
-<div style="border:4px ridge blue; margin:0px 24px 0px 24px; padding:12px;">
- <pre>17:57 &lt; jtsn&gt; Der 25C3 ist lustig. Deutsche Vortragende brechen sich vor deutschen Zuhörern auf Englisch einen ab. ;-)
+<div style="border:4px ridge blue; margin:0px 24px 0px 24px; padding:12px;"><pre>
+17:57 &lt; jtsn&gt; Der 25C3 ist lustig. Deutsche Vortragende brechen sich vor deutschen Zuhörern auf Englisch einen ab. ;-)
 18:01 &lt; jtsn&gt; Adolfs Werk war sehr nachhaltig. ;-)
-18:01 &lt; jtsn&gt; Das gab's nichtmal in der DDR, das<i>[sic!]</i> Deutsche mit Deutschen auf Russisch reden. ;-)</pre>
-</div><p style="margin-top:0px;">This’ll be my <tt>~/.etc/sig</tt> for
+18:01 &lt; jtsn&gt; Das gab's nichtmal in der DDR, das<i>[sic!]</i> Deutsche mit Deutschen auf Russisch reden. ;-)
+</pre></div><p style="margin-top:0px;">This’ll be my <tt>~/.etc/sig</tt> for
  a while… it does hold some truth. *looks at this wlog*</p>
 <p>Benny is still alive, yet a little offline, hacking on perl stuff for
  MirPorts. Good riddance.</p>
@@ -2693,12 +2691,10 @@ Tag: grml snippet
 <p><a href="http://www.outflux.net/blog/archives/2009/01/13/etoomanycerts/">A
  Debian person</a> wonders about sendmail… but the answer is relatively easy.
 </p><p style="margin-bottom:0px;">Snippet from the config:</p>
-<div style="border:4px ridge blue; margin:0px 24px 0px 24px; padding:12px;">
- <pre>
+<div style="border:4px ridge blue; margin:0px 24px 0px 24px; padding:12px;"><pre>
 O CACertPath=/etc/ssl/certs
 O CACertFile=/etc/ssl/deflt-ca.cer
- </pre>
-</div><p style="margin-top:0px;">Here, <tt>CACertPath</tt> is the name of a
+</pre></div><p style="margin-top:0px;">Here, <tt>CACertPath</tt> is the name of a
  <em>directory</em> containing files named <i>xxxxxxxx.y</i> where <i>x</i>
  is the hash of the certificate and <i>y</i> is a number starting at 0 that
  is used to avoid collision if two CA certificates have the same hash. They
@@ -3667,23 +3663,19 @@ Date: 29.03.2009 22:28
 Tag: bug mksh snippet
 
 <p style="margin-bottom:0px;">How about this:</p>
-<div style="border:4px ridge blue; margin:0px 24px 0px 24px; padding:12px;">
- <pre>
+<div style="border:4px ridge blue; margin:0px 24px 0px 24px; padding:12px;"><pre>
 	tg@herc:~ $ /bin/sh -c 'echo "0=($0) 1=($1) 2=($2) 3=($3)"' -- a "b c"
 	0=(--) 1=(a) 2=(b c) 3=()
 	tg@herc:~ $ nbsh -c 'echo "0=($0) 1=($1) 2=($2) 3=($3)"' -- a "b c"
 	0=(--) 1=(a) 2=(b c) 3=()
- </pre>
-</div><p style="margin-top:0px;">Heck, not just NetBSD® ash, and almost
+</pre></div><p style="margin-top:0px;">Heck, not just NetBSD® ash, and almost
  any shell Debian can dig out (bash pdksh ksh93 zsh dash posh) behaves
  the same as mksh.</p>
 <p style="margin-bottom:0px;">MidnightBSD (DragonFly and FreeBSD too):</p>
-<div style="border:4px ridge blue; margin:0px 24px 0px 24px; padding:12px;">
- <pre>
+<div style="border:4px ridge blue; margin:0px 24px 0px 24px; padding:12px;"><pre>
 	tg@mnbsd:~ $ /bin/sh -c 'echo "0=($0) 1=($1) 2=($2) 3=($3)"' -- a "b c"
 	0=(a) 1=(b c) 2=() 3=()
- </pre>
-</div><p style="margin-top:0px;">And the best thing of all: I am to "fix"
+</pre></div><p style="margin-top:0px;">And the best thing of all: I am to "fix"
  this in mksh, as the old FreeBSD® ash is documented to have that weird
  behaviour. (Well, there's always <tt>-DMKSH_BINSHREDUCED</tt>...)</p>
 <p>This is not a fault of MidnightBSD (except they could fix mports to
@@ -3890,16 +3882,14 @@ Title: perl and HTML entities
 Tag: snippet
 
 <p style="margin-bottom:0px;">I don’t even know perl(1), I just can RTFM…</p>
-<div style="border:4px ridge blue; margin:0px 24px 0px 24px; padding:12px;">
- <pre>
+<div style="border:4px ridge blue; margin:0px 24px 0px 24px; padding:12px;"><pre>
 <em>tg@bleu:~ $</em> echo 'xyzz�€y' | perl -C -pe \
     's/([\x{7f}-\x{ffff}])/"&amp;#".unpack("U",$1).";"/eg'
 <em>xyzz&amp;#65533;&amp;#8364;y</em>
 <em>tg@bleu:~ $</em> echo 'xyzz�€y' | perl -C -pe \
     's/([\x{7f}-\x{ffff}])/sprintf "&amp;#x%X;",unpack("U",$1)/eg'
 <em>xyzz&amp;#xFFFD;&amp;#x20AC;y</em>
- </pre>
-</div><p style="margin-top:0px;">Just hacked it for Natureshadow.</p>
+</pre></div><p style="margin-top:0px;">Just hacked it for Natureshadow.</p>
 ----
 Date: 22.04.2009 17:26
 Author: tg@
@@ -3907,11 +3897,9 @@ Title: perl and quoted-printable
 Tag: snippet
 
 <p style="margin-bottom:0px;">While here anyway…</p>
-<div style="border:4px ridge blue; margin:0px 24px 0px 24px; padding:12px;">
- <pre>
+<div style="border:4px ridge blue; margin:0px 24px 0px 24px; padding:12px;"><pre>
 <em>$</em> perl -pe 's/=(\n|[a-fA-F0-9]{2})/$1 eq "\n" ? "" : pack("C",hex($1))/eg'
- </pre>
-</div><p style="margin-top:0px;">Needed it once for SyGroup.</p>
+</pre></div><p style="margin-top:0px;">Needed it once for SyGroup.</p>
 ----
 Date: 23.04.2009 18:14
 Author: tg@
@@ -3987,8 +3975,7 @@ Tag: grml
  second stage loader &ndash; mostly because the bootloader itself is,
  too, and this enabled me to squeeze out a few more bytes there.)</p>
 <p style="margin-bottom:0px;">To say it with Mika Prokop himself:</p>
-<div style="border:4px ridge blue; margin:0px 24px 0px 24px; padding:12px;">
- <pre>
+<div style="border:4px ridge blue; margin:0px 24px 0px 24px; padding:12px;"><pre>
 23:22⎜«mikap:#grml» mirabilos: und dein bootloader ist geil :)
 23:29⎜«mikap:#grml» und ich finds saugeil dass ich ein bsd zum booten mit
      ⎜  grml hab, das muss ich dann gleich mal auf usb-stick installieren
@@ -4015,8 +4002,7 @@ Tag: grml
 &lt;mirabilos:#grml&gt; i386 boot (from cd, hdd, usb, compactflash, sd) into either
    live or install mode + sparc boot (voa OpenBOOT) into install mode
 &lt;mika:#grml&gt; mirabilos: pfuh *verbeuge_again* :)
- </pre>
-</div><p style="margin-top:0px;" xml:lang="de">Ich glaube, Mika mag meinen
+</pre></div><p style="margin-top:0px;" xml:lang="de">Ich glaube, Mika mag meinen
  Bootloader ;)</p>
 <p>For simplicity, getextent_cd9660(1) will also be added to the grml-live
  ISO build process, as its output is easier to parse than J&#xFFFD;rg's
@@ -4034,14 +4020,12 @@ Title: GNU GRUB2 and BSD – state of affairs
 <p>It appears that the kernel gets a page fault trying to access its own
  <tt>.bss</tt> – but I didn’t really look into it. Any takers?</p>
 <p style="margin-bottom:0px;">This is bad, I wanted to add this…</p>
-<div style="border:4px ridge blue; margin:0px 24px 0px 24px; padding:12px;">
- <pre>
+<div style="border:4px ridge blue; margin:0px 24px 0px 24px; padding:12px;"><pre>
 menuentry "bsd4grml from harddisk (ISO = grml_2009.05-rc1.iso)" {
         loopback        loop (hd0,1)/grml/grml_2009.05-rc1.iso
         openbsd         (loop)/boot/addons/bsd4grml/bsd.rd
 }
- </pre>
-</div><p style="margin-top:0px;">… to the solution using GRUB2 for <a
+</pre></div><p style="margin-top:0px;">… to the solution using GRUB2 for <a
  href="http://michael-prokop.at/blog/2009/05/25/boot-an-iso-via-grub2/">ISO
  loopback boot</a>, which <a href="http://blog.zugschlus.de/archives/825-grml-als-eigenes-Rescuesystem.html"
  xml:lang="de">Zugschlus</a> brought into practical use.</p>
@@ -4120,12 +4104,10 @@ Tag: grml
  builds have already done so for a couple of days – starting at 2009.08
  (the next scheduled formal release).</p>
 <p style="margin-bottom:0px;">This basically means you will be able to</p>
-<div style="border:4px ridge blue; margin:0px 24px 0px 24px; padding:12px;">
- <pre>
+<div style="border:4px ridge blue; margin:0px 24px 0px 24px; padding:12px;"><pre>
 # dd if=grml-daily.iso of=/dev/sda [bs=…]
 # dd if=/dev/cdrom of=/dev/sda [bs=…]
- </pre>
-</div><p style="margin-top:0px;">to create a bootable USB stick (or a
+</pre></div><p style="margin-top:0px;">to create a bootable USB stick (or a
  Live HDD, CF/SD/MMC card, etc). MirOS CDs have been using this since
  approximately October 2007. Support for loading GNU GRUB2 instead of
  boot(8/i386) was a dozen-line patch adding some ifdefs to our source
@@ -4172,11 +4154,30 @@ Author: tg@
 
 <p>Thanks to smultron and quite some bugfixing and hacking of yours
  truly, the titles of the pages on our website are now pregenerated
- PNG images depicting the headline text in <em>Gentium Oblique</em>
+ PNG images, depicting the headline text in <em>Gentium Italic</em>
  (the font in which our flyers have always been set, as well as the
  <a href="@@ABSPATH@@/MirOS/dist/mir/mksh/mksh.pdf">PDF</a> version
  of the <a href="@@RELPATH@@mksh.htm">mksh</a> manual page (since a
  few weeks, once I found out how to use it with groff).</p>
 <p>Of course, it <strong>still</strong> looks superb in Lynx, using
  &lt;img alt="…" /&gt; tags, and is valid XHTML/1.1 still.</p>
+----
+Title: Website: “Corporate” Identity II.
+Date: 22.06.2009 12:21
+Author: tg@
+
+<p>We’re now doing Font Embedding (MSIE4+ and CSS3 styles) with the
+ already mentioned Gentium font, using Gentium Basic for the styles
+ it doesn’t support (bold; bold italic). Sadly, if the browser does
+ not yet support it, the bold formatting is lost in its entirety if
+ Gentium is installed locally. I also tried putting “Gentium Basic”
+ first in the font-family list, but it doesn’t fall back to Gentium
+ upon encountering Greek or Cyrillic characters then, but uses some
+ totally random fonts instead (something illegible for Greek), that
+ Opera 9 stuff on MirBSD, that is.</p>
+<p>bsiegert@ has tested it with Safari 4 from 北京 and says that it
+ works, although his screenshot looks like browser emboldened to me
+ (no idea… but trying to combine Gentium + Gentium Italic + Gentium
+ Basic Bold + Gentium Basic Bold Italic into one font is hard.</p>
+<p>And the Ⅱ U+2161 ROMAN NUMERAL TWO is missing… ☹</p>
 ----
