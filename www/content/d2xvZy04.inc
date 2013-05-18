@@ -1,5 +1,5 @@
 <!-- PageID: wlog-8 -->
-<small class="rcsid">$MirOS: www/content/d2xvZy04.inc,v 1.71 2006/05/22 12:39:36 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy04.inc,v 1.72 2006/05/28 01:58:17 tg Exp $</small>
 <h1>MirBSD &ndash; WTF, We Have a Release!?</h1>
 <p><small><a href="#eof">bottom</a> or <a href="/?older">older</a>
  editions</small></p>
@@ -1311,6 +1311,17 @@ celebrate this event, rotate the wlog and start a new one.</p>
   disaster, he's been informed though. I hope something else comes up in
   short terms, though.)</p>
  <p>It could rain a little less.</p>
+</div>
+
+<div class="wlentry">
+ <h3 id="e20060528">28.05.2006 by tg@</h3>
+ <p>Waldemar Brodkorb, a friend (and beer drinking mate) of mine, has <a
+  href="http://openbsd-geek.de/archives/223-OpenWrt-Project.html">had to
+  leave the OpenWRT project</a> in order to fork. Sounds familiar? Well,
+  I am now a full FreeWRT developer as well. Just wanted to tell you, so
+  you don't worry &ndash; I won't lessen working on MirOS. Rather, I may
+  be able to impregnate the GNU-dominated world of embedded systems with
+  a little BSD spirit.</p>
 </div>
 
 <p id="eof">Good luck, have fun, take care etc.pp</p>
