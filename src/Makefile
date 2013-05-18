@@ -1,4 +1,4 @@
-# $MirOS: src/Makefile,v 1.45 2006/05/25 21:34:41 tg Exp $
+# $MirOS: src/Makefile,v 1.48 2006/05/26 19:45:37 tg Exp $
 # $OpenBSD: Makefile,v 1.103 2004/05/03 15:18:18 drahn Exp $
 
 .if defined(MAKECONF) && exists(${MAKECONF})
@@ -205,7 +205,7 @@ _do-dist:
 .ifndef OVERRIDE_CONTINUE
 	${SUDO} install -c -o 0 -g 0 -m 600 /dev/null /var/tmp/.buildnotice
 .endif
-	${SUDO} mksh -c 'echo rm -rf ${HOME} >>/var/tmp/.buildnotice'
+	${SUDO} ${MKSH} -c 'echo rm -rf ${HOME} >>/var/tmp/.buildnotice'
 	@date
 .ifdef BATCH
 	@echo BATCH mode engaged.
@@ -243,9 +243,14 @@ _do-dist:
 .endif
 	@date
 	@echo "============================================================"
+	@for f in ${BSDSRCDIR}/*${OSrev}.ngz; do \
+		[[ -e $$f ]] || break; \
+		${SUDO} ln $$f ${BSDRELDIR}/rel/ || \
+		    ${SUDO} cp $$f ${BSDRELDIR}/rel/; \
+	done
 	@if [[ -e /var/tmp/.buildnotice ]]; then \
 		${SUDO} cat /var/tmp/.buildnotice; \
-		${SUDO} /bin/mksh /var/tmp/.buildnotice; \
+		${SUDO} ${MKSH} /var/tmp/.buildnotice; \
 		${SUDO} rm -f /var/tmp/.buildnotice || true; \
 		echo "============================================================"; \
 	fi
