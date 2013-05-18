@@ -1,9 +1,9 @@
-# $MirOS: ports/www/firesomething/Makefile,v 1.27 2008/05/21 12:23:23 tg Exp $
+# $MirOS: ports/www/firesomething/Makefile,v 1.28 2008/05/26 05:45:51 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.41 2005/11/15 09:21:52 wilfried Exp $
 
 ONLY_FOR_PLATFORM=	*:*:alpha *:*:i386 *:*:sparc *:*:sparc64 *:*:amd64 *:*:powerpc
 COMMENT=		one of the successors to the Netscape browser engine
-VER=			2.0.0.14
+VER=			3.0.1
 DASH_VER=		0
 DISTNAME=		mozilla
 PKGNAME=		firesomething-${VER}-${DASH_VER}
@@ -18,12 +18,13 @@ PERMIT_DISTFILES_FTP=	Yes
 
 .include <mirports.sys.mk>
 
+MASTER_SITES=		ftp://releases.mozilla.org/pub/mozilla.org/firefox/releases/${VER}/source/ \
 MASTER_SITES=		ftp://archive.mozilla.org/pub/mozilla.org/firefox/releases/${VER}/source/ \
 			http://ftp.eu.mozilla.org/pub/mozilla.org/firefox/releases/${VER}/source/ \
 			http://ftp.mozilla.org/pub/mozilla.org/firefox/releases/${VER}/source/
 #MASTER_SITES=		${_MASTER_SITE_MIRBSD}
 DISTFILES=		firefox-${VER}-source.tar.bz2
-SO_VERSION=		9.0
+SO_VERSION=		10.0
 
 MODULES+=		devel/gettext devel/pkgconfig
 RUN_DEPENDS+=		:esound-*:audio/esound

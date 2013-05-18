@@ -1,16 +1,16 @@
-$MirOS$
+$MirOS: ports/www/firesomething/patches/patch-browser_app_mozilla_in,v 1.3 2008/05/21 06:31:03 bsiegert Exp $
 $OpenBSD: patch-browser_app_mozilla_in,v 1.4 2005/10/13 04:32:41 bernd Exp $
---- browser/app/mozilla.in.orig	Thu Nov  8 09:52:56 2007
-+++ browser/app/mozilla.in	Tue Apr  1 01:58:58 2008
-@@ -93,6 +93,7 @@ moz_pis_startstop_scripts()
+--- browser/app/mozilla.in.orig	2007-10-05 09:29:26.000000000 +0200
++++ browser/app/mozilla.in	2008-08-24 15:31:41.000000000 +0200
+@@ -53,6 +53,7 @@
  #set -x
  
  moz_libdir=%MOZAPPDIR%
-+MOZ_PLUGIN_PATH=/usr/mpkg/lib/mozilla-plugins
- MRE_HOME=%MREDIR%
++MOZ_PLUGIN_PATH=_LOCALBASE_/lib/mozilla-plugins
  
  # Use run-mozilla.sh in the current dir if it exists
-@@ -131,6 +132,7 @@ if [ $found = 0 ]; then
+ # If not, then start resolving symlinks until we find run-mozilla.sh
+@@ -90,6 +91,7 @@ if [ $found = 0 ]; then
    # Check default compile-time libdir
    if [ -x "$moz_libdir/run-mozilla.sh" ]; then
      dist_bin="$moz_libdir"
@@ -18,16 +18,3 @@ $OpenBSD: patch-browser_app_mozilla_in,v 1.4 2005/10/13 04:32:41 bernd Exp $
    else 
      echo "Cannot find mozilla runtime directory. Exiting."
      exit 1
-@@ -172,7 +174,11 @@ do
-   esac
- done
- 
--export MRE_HOME
-+if [ `/usr/X11R6/bin/fc-list | wc -l` -eq 0 ]
-+then export GDK_USE_XFT=0
-+fi
-+
-+export MOZ_PLUGIN_PATH MRE_HOME
- 
- ## Start addon scripts
- moz_pis_startstop_scripts "start"

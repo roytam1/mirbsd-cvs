@@ -1,8 +1,8 @@
-$MirOS: ports/www/firesomething/patches/patch-configure_in,v 1.6 2008/05/21 06:31:03 bsiegert Exp $
+$MirOS: ports/www/firesomething/patches/patch-configure_in,v 1.7 2008/05/21 12:23:24 tg Exp $
 $OpenBSD: patch-configure_in,v 1.5 2005/04/09 08:11:19 wilfried Exp $
---- configure.in.orig	2007-12-18 22:34:10.000000000 +0100
-+++ configure.in	2008-05-20 20:57:43.000000000 +0200
-@@ -61,7 +61,7 @@ dnl ====================================
+--- configure.in.orig	2008-06-25 00:51:17.000000000 +0200
++++ configure.in	2008-08-24 16:01:00.000000000 +0200
+@@ -62,7 +62,7 @@ dnl ====================================
  
  AC_PREREQ(2.13)
  AC_INIT(config/config.mk)
@@ -11,7 +11,7 @@ $OpenBSD: patch-configure_in,v 1.5 2005/04/09 08:11:19 wilfried Exp $
  AC_CANONICAL_SYSTEM
  TARGET_CPU="${target_cpu}"
  TARGET_VENDOR="${target_vendor}"
-@@ -763,7 +763,7 @@ tools are selected during the Xcode/Deve
+@@ -852,7 +852,7 @@ tools are selected during the Xcode/Deve
                   int main() { return 0; }],
     result=yes,
     result=no)
@@ -20,22 +20,22 @@ $OpenBSD: patch-configure_in,v 1.5 2005/04/09 08:11:19 wilfried Exp $
    AC_MSG_RESULT($result)
  
    if test "$result" = "no" ; then
-@@ -1413,10 +1413,10 @@ dnl Get mozilla version from central mil
+@@ -1540,10 +1540,10 @@ dnl Get mozilla version from central mil
  MOZILLA_VERSION=`$PERL $srcdir/config/milestone.pl -topsrcdir $srcdir`
  
  dnl Get version of various core apps from the version files.
 -FIREFOX_VERSION=`cat $topsrcdir/browser/config/version.txt`
 -THUNDERBIRD_VERSION=`cat $topsrcdir/mail/config/version.txt`
 -SUNBIRD_VERSION=`cat $topsrcdir/calendar/sunbird/config/version.txt`
--SEAMONKEY_VERSION=`cat $topsrcdir/xpfe/bootstrap/version.txt`
+-SEAMONKEY_VERSION=`cat $topsrcdir/suite/config/version.txt`
 +FIREFOX_VERSION=`cat ./browser/config/version.txt`
 +THUNDERBIRD_VERSION=`cat ./mail/config/version.txt`
 +SUNBIRD_VERSION=`cat ./calendar/sunbird/config/version.txt`
-+SEAMONKEY_VERSION=`cat ./xpfe/bootstrap/version.txt`
++SEAMONKEY_VERSION=`cat ./suite/config/version.txt`
  
  AC_DEFINE_UNQUOTED(MOZILLA_VERSION,"$MOZILLA_VERSION")
  AC_DEFINE_UNQUOTED(MOZILLA_VERSION_U,$MOZILLA_VERSION)
-@@ -2027,8 +2027,18 @@ case "$target" in
+@@ -2204,8 +2204,18 @@ case "$target" in
  	esac
  	;;
  
@@ -56,7 +56,7 @@ $OpenBSD: patch-configure_in,v 1.5 2005/04/09 08:11:19 wilfried Exp $
      DSO_CFLAGS=''
      DSO_PIC_CFLAGS='-fPIC'
      DSO_LDOPTS='-shared -fPIC'
-@@ -2955,7 +2965,7 @@ then
+@@ -3213,7 +3223,7 @@ then
  			fi
  			;;
  

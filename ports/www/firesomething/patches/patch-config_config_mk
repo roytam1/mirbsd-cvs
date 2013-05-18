@@ -1,7 +1,7 @@
-$MirOS: ports/www/firesomething/patches/patch-config_config_mk,v 1.4 2008/05/21 06:31:03 bsiegert Exp $
---- config/config.mk.orig	2007-11-23 22:12:26.000000000 +0100
-+++ config/config.mk	2008-05-20 20:54:10.000000000 +0200
-@@ -119,7 +119,7 @@ endif
+$MirOS: ports/www/firesomething/patches/patch-config_config_mk,v 1.5 2008/05/21 12:23:23 tg Exp $
+--- config/config.mk.orig	2008-06-25 01:29:46.000000000 +0200
++++ config/config.mk	2008-08-24 14:50:13.000000000 +0200
+@@ -131,7 +131,7 @@ endif
  # but save the version to allow multiple versions of the same base
  # platform to be built in the same tree.
  #

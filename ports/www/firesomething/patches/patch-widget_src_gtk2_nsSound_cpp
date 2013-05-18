@@ -1,8 +1,8 @@
-$MirOS$
+$MirOS: ports/www/firesomething/patches/patch-widget_src_gtk2_nsSound_cpp,v 1.3 2008/05/21 06:31:05 bsiegert Exp $
 $OpenBSD: patch-widget_src_gtk2_nsSound_cpp,v 1.1 2005/01/04 21:27:28 wilfried Exp $
---- widget/src/gtk2/nsSound.cpp.orig	Fri Aug 25 20:29:03 2006
-+++ widget/src/gtk2/nsSound.cpp	Tue Oct 24 14:40:37 2006
-@@ -114,7 +114,7 @@ nsSound::Init()
+--- widget/src/gtk2/nsSound.cpp.orig	2007-05-20 10:56:36.000000000 +0200
++++ widget/src/gtk2/nsSound.cpp	2008-08-24 14:52:52.000000000 +0200
+@@ -115,7 +115,7 @@ nsSound::Init()
  
      EsdOpenSoundType EsdOpenSound;
  
@@ -10,4 +10,4 @@ $OpenBSD: patch-widget_src_gtk2_nsSound_cpp,v 1.1 2005/01/04 21:27:28 wilfried E
 +    elib = PR_LoadLibrary("libesd.so");
      if (!elib) return NS_ERROR_FAILURE;
  
-     EsdOpenSound = (EsdOpenSoundType) PR_FindSymbol(elib, "esd_open_sound");
+     EsdOpenSound = (EsdOpenSoundType) PR_FindFunctionSymbol(elib, "esd_open_sound");
