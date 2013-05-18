@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/i386/common/Makefile.inc,v 1.17 2006/05/15 20:47:03 tg Exp $
+# $MirOS: src/distrib/i386/common/Makefile.inc,v 1.18 2006/06/11 01:08:29 tg Exp $
 # $OpenBSD: Makefile.inc,v 1.15 2004/11/25 22:02:08 deraadt Exp $
 
 .ifndef _MODSRC_DISTRIB_I386_COMMON_MAKEFILE_INC
@@ -22,7 +22,6 @@ LISTS+=		${.CURDIR}/list.local
 .endif
 UTILS?=		${.CURDIR}/../../miniroot
 STRIP?=		strip
-STRIP_ADDS?=	-K cngetc
 
 MOUNT_POINT=	${REALOBJDIR}/tmpmnt
 MTREE?=		${UTILS}/mtree.conf
@@ -87,7 +86,7 @@ NEWFSARGS=	-m 0 -o space -c 16 -i 3072
 
 bsd.gz: ${DO_BSDRD_UC}
 	cp ${DO_BSDRD_UC} bsd.strip
-	${STRIP} --strip-all -R .comment -R .eh_frame ${STRIP_ADDS} bsd.strip
+	${STRIP} --strip-all -R .comment -R .eh_frame bsd.strip
 	gzip -nc9 bsd.strip >bsd.gz
 
 ${DO_BSDRD_UC}: ${IMAGE} bsd rdsetroot

@@ -1,8 +1,7 @@
-# $MirOS: src/distrib/i386/floppy/Makefile,v 1.1.7.1 2005/03/06 16:33:37 tg Exp $
+# $MirOS: src/distrib/i386/floppy/Makefile,v 1.2 2005/12/04 23:14:40 tg Exp $
 
 RAMDISK=	FLOPPY
 NOBSDRD=	defined
-STRIP_ADDS=
 DISKTYPE=	rdroot
 NBLKS=		3072
 MTREE=		${UTILS}/mtree.conf.small
