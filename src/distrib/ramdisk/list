@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/i386/common/listpre.full,v 1.4 2006/05/26 19:06:17 tg Exp $
+# $MirOS: src/distrib/ramdisk/list,v 1.4 2006/07/03 23:17:50 tg Exp $
 
 SRCDIRS distrib/ramtools distrib/special
 SRCDIRS bin sbin usr.bin usr.sbin libexec
@@ -52,7 +52,6 @@ LINK	instbin					sbin/rtsol
 LINK	instbin					sbin/scsi
 LINK	instbin					sbin/swapctl
 LINK	instbin					sbin/umount
-LINK	instbin					usr/bin/awk
 LINK	instbin					usr/bin/compress usr/bin/gzip usr/bin/gunzip
 LINK	instbin					usr/bin/find
 LINK	instbin					usr/bin/ftp
@@ -91,7 +90,7 @@ SCRIPT	${CURDIR}/../miniroot/dot.profile	.profile
 SCRIPT	${CURDIR}/../miniroot/install.sh	install
 SCRIPT	${CURDIR}/../miniroot/install.sub	install.sub
 SPECIAL	chmod 755 install
-SCRIPT	${CURDIR}/../../miniroot/upgrade.sh	upgrade
+SCRIPT	${CURDIR}/../miniroot/upgrade.sh	upgrade
 SPECIAL	chmod 755 upgrade
 
 # and a few bits of entropy
