@@ -1,4 +1,4 @@
-.\" $MirOS: src/share/tmac/mdoc/doc-groff,v 1.1 2008/03/04 00:09:34 tg Exp $
+.\" $MirOS: src/share/tmac/mdoc/doc-groff,v 1.2 2008/03/23 22:03:11 tg Exp $
 .\"-
 .\" Copyright (c) 2008
 .\"	Thorsten Glaser <tg@mirbsd.de>
@@ -44,7 +44,9 @@
 .	ds Lq \[lq]
 .\" sL is normally ', which renders to ’, but we want ‘
 .\" in UTF-8 mode (ASCII and Latin1 modes just pass through)
+.\" and for PostScript
 .	if \*[.T]utf8 .ds sL `
+.	if \*[.T]ps .ds sL `
 .\" sR is normally ', which renders to ’, this is okay
 .\}
 .\"
