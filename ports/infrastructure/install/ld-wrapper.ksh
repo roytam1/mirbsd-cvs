@@ -1,5 +1,5 @@
-#!/usr/bin/env mksh
-# $MirOS: ports/infrastructure/install/ld-wrapper.ksh,v 1.4 2006/08/16 19:43:53 tg Exp $
+#!/bin/mksh
+# $MirOS: ports/infrastructure/install/ld-wrapper.ksh,v 1.5 2008/02/24 10:54:42 tg Exp $
 #-
 # Copyright (c) 2006, 2008
 #	Thorsten Glaser <tg@mirbsd.de>
