@@ -3,7 +3,7 @@
 
 mws_setname hosted/ksh-chan "The #ksh on Freenode page"
 mws_setheadline 'Channel page for #ksh'
-mws_putheader '$MirOS: www/src/ksh-chan.hts,v 1.30 2012/07/20 22:09:49 tg Exp $'
+mws_putheader '$MirOS: www/src/ksh-chan.hts,v 1.31 2012/09/14 08:38:38 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of contents</h2>
 EOF
@@ -41,6 +41,11 @@ mws_content <<'EOF'
  a short summary to the channel.</p>
 <h3 id="nopaste">Known “nopaste” sites</h3>
 <ul>
+ <li><a href="http://sprunge.us/">http://sprunge.us/</a> – pipe stuff into:<pre>
+	sprunge() {
+		curl -F "sprunge=&lt;-" http://sprunge.us
+	}
+  </pre></li>
  <li><a href="http://sial.org/pbot/ksh/">http://sial.org/pbot/ksh/</a></li>
  <li><a href="http://nopaste.snit.ch/">http://nopaste.snit.ch/</a></li>
  <li><a href="http://paste.pocoo.org/">http://paste.pocoo.org/</a></li>
