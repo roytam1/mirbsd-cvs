@@ -38,7 +38,7 @@
 #endif
 #endif
 
-__RCSID("$MirOS: src/bin/mksh/funcs.c,v 1.223 2012/08/03 18:30:13 tg Exp $");
+__RCSID("$MirOS: src/bin/mksh/funcs.c,v 1.224 2012/10/03 15:13:31 tg Exp $");
 
 #if HAVE_KILLPG
 /*
@@ -976,7 +976,9 @@ c_typeset_vardump(struct tbl *vp, uint32_t flag, int thing, bool pflag,
 		 * Only report first 'element' of an array with
 		 * no set elements.
 		 */
-	} while (any_set && (vp = vp->u.array));
+		if (!any_set)
+			return;
+	} while ((vp = vp->u.array));
 }
 
 int

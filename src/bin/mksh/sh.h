@@ -1559,9 +1559,11 @@ EXTERN mksh_ari_t histsize;	/* history size */
 /* user and system time of last j_waitjed job */
 EXTERN struct timeval j_usrtime, j_systime;
 
-#define notoktomul(fac1, fac2)	(((fac1) != 0) && ((fac2) != 0) && \
-				    ((SIZE_MAX / (fac2)) < (fac1)))
-#define notoktoadd(val, cnst)	((val) > (SIZE_MAX - (cnst)))
+#define notok2mul(max, val, c)	(((val) != 0) && ((c) != 0) && \
+				    (((max) / (c)) < (val)))
+#define notok2add(max, val, c)	((val) > ((max) - (c)))
+#define notoktomul(val, cnst)	notok2mul(SIZE_MAX, (val), (cnst))
+#define notoktoadd(val, cnst)	notok2add(SIZE_MAX, (val), (cnst))
 #define checkoktoadd(val, cnst) do {					\
 	if (notoktoadd((val), (cnst)))					\
 		internal_errorf(Tintovfl, (size_t)(val),		\
