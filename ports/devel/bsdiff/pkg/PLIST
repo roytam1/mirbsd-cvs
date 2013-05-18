@@ -1,5 +1,0 @@
-@comment $MirOS: ports/devel/bsdiff/pkg/PLIST,v 1.1.7.1 2005/03/18 15:44:30 tg Exp $
-bin/bsdiff
-bin/bspatch
-man/cat1/bsdiff.0
-man/cat1/bspatch.0

@@ -1,9 +1,0 @@
-$MirOS$
---- aclocal.m4.orig	Mon Apr  7 12:57:03 2008
-+++ aclocal.m4	Mon Apr  7 12:57:10 2008
-@@ -1019,5 +1019,4 @@ AC_SUBST([am__tar])
- AC_SUBST([am__untar])
- ]) # _AM_PROG_TAR
- 
--m4_include([acinclude/libtool.m4])
- m4_include([acinclude/sdl.m4])
