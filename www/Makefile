@@ -1,4 +1,4 @@
-# $MirOS: www/Makefile,v 1.55 2009/07/27 12:04:55 tg Exp $
+# $MirOS: www/Makefile,v 1.56 2009/10/15 16:55:03 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -53,6 +53,8 @@ SRCS+=		ann-7.hts ann-8.hts anoncvs.hts bsd-intro.hts clog-2004.hts \
 		isdn.hts mirrors.hts mirwarum.hts overview.hts
 SRCS+=		wlog-0.hts wlog-1.hts wlog-2.hts wlog-3.hts wlog-4.hts \
 		wlog-5.hts wlog-6.hts wlog-7.hts wlog-8.hts
+
+INCSRCS+=	datatest
 
 INCSRCS+=	news
 news.cut: stamp_htm_news
