@@ -1,7 +1,7 @@
-# $MirOS: ports/misc/figlet/Makefile,v 1.8 2006/06/24 12:51:43 tg Exp $
+# $MirOS: ports/misc/figlet/Makefile,v 1.9 2006/09/14 00:11:13 tg Exp $
 # $OpenBSD: Makefile,v 1.14 2002/10/27 21:07:53 naddy Exp $
 
-COMMENT=			generates ASCII banner art
+COMMENT=		generates ASCII banner art
 DISTNAME=		figlet222
 PKGNAME=		figlet-2.2.2-1
 CATEGORIES=		misc graphics
@@ -13,13 +13,14 @@ PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
-#MASTER_SITES+=		ftp://ftp.figlet.org/pub/figlet/program/unix/
-MASTER_SITES+=		http://public.enst.fr/pkgsrc/distfiles/
+MASTER_SITES+=		ftp://ftp.figlet.org/pub/figlet/program/unix/
+#MASTER_SITES0=		ftp://ftp.figlet.org/pub/figlet/fonts/
+MASTER_SITES0=		${_MASTER_SITE_MIRBSD}
 
 DISTFILES=		${DISTNAME}${EXTRACT_SUFX} \
-			figlet-fonts-20021023/contributed.tar.gz \
-			figlet-fonts-20021023/international.tar.gz \
-			figlet-fonts-20021023/ms-dos.tar.gz
+			figlet-fonts-20021023/contributed.tar.gz:0 \
+			figlet-fonts-20021023/international.tar.gz:0 \
+			figlet-fonts-20021023/ms-dos.tar.gz:0
 EXTRA_MAKE_FLAGS+=	DEFAULTFONTDIR=${PREFIX}/share/figlet
 NO_REGRESS=		Yes
 

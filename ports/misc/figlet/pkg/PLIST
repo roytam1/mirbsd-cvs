@@ -1,4 +1,4 @@
-@comment $MirOS: ports/misc/figlet/pkg/PLIST,v 1.2 2005/12/28 01:46:22 tg Exp $
+@comment $MirOS: ports/misc/figlet/pkg/PLIST,v 1.3 2006/06/24 12:51:43 tg Exp $
 bin/chkfont
 bin/figlet
 bin/figlet-febrew
@@ -425,7 +425,7 @@ share/figlet/nfi1____.flf
 share/figlet/nipples.flf
 share/figlet/notie_ca.flf
 share/figlet/npn_____.flf
-share/figlet/n${BINOWN}reek.flf
+share/figlet/ntgreek.flf
 share/figlet/null.flc
 share/figlet/nvscript.flf
 share/figlet/o8.flf
