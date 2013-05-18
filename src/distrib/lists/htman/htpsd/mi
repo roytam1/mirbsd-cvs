@@ -3480,6 +3480,7 @@
 ./man3/strncat.htm
 ./man3/strncmp.htm
 ./man3/strncpy.htm
+./man3/strnsvis.htm
 ./man3/strnvis.htm
 ./man3/strpbrk.htm
 ./man3/strptime.htm
@@ -3488,6 +3489,8 @@
 ./man3/strsignal.htm
 ./man3/strspn.htm
 ./man3/strstr.htm
+./man3/strsvis.htm
+./man3/strsvisx.htm
 ./man3/strtod.htm
 ./man3/strtofflags.htm
 ./man3/strtok.htm
@@ -3534,6 +3537,7 @@
 ./man3/svcraw_create.htm
 ./man3/svctcp_create.htm
 ./man3/svcudp_bufcreate.htm
+./man3/svis.htm
 ./man3/swab.htm
 ./man3/swap16.htm
 ./man3/swap32.htm

@@ -350,6 +350,7 @@
 ./usr/bin/rwho
 ./usr/bin/scp
 ./usr/bin/script
+./usr/bin/sdiff
 ./usr/bin/sectok
 ./usr/bin/sed
 ./usr/bin/sftp
@@ -1753,6 +1754,7 @@
 ./usr/share/man/cat1/rwho.0
 ./usr/share/man/cat1/scp.0
 ./usr/share/man/cat1/script.0
+./usr/share/man/cat1/sdiff.0
 ./usr/share/man/cat1/sectok.0
 ./usr/share/man/cat1/sed.0
 ./usr/share/man/cat1/sftp.0
