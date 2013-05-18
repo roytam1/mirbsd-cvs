@@ -1309,3 +1309,38 @@ Author: tg@
  make it even more than OpenBSD's OpenSSH. Yay! (bsiegert@ thinks so too.)
  Eat this ☻</p>
 ----
+Date: 09.07.2007
+Author: tg@
+
+<p>Not the best day for fate… herc had an almost-panic in the UFS code, my
+ bedside lamp got crashed by the telephone receiver when gecko2 called me,
+ I had to nuke tcpdump(8) due to §202c StGB, and mksh R29g was only almost
+ tested before release (it defines <tt>_LARGEFILE_SOURCE=1</tt> even if it
+ is unneccessary). I'm even thinking of removing all pre-R30 stuff off the
+ <a href="@@RELPATH@@mksh.htm">mksh page</a> once R30 is out (which might,
+ I must admit, not happen before MirOS #10, but it <em>will</em> rock). At
+ least MirOS #10RC2 is going to happen soon, despite some bugs in the pak-
+ kage tools bsiegert@ is trying to hunt down right now.</p>
+<p>À propos gecko2: as he (and zeno) are booth staff, bsiegert@ and I have
+ agreed to enable them to post wlogs here, so don't be shocked. kimnotyze,
+ probably hoping to get an entry ticket from me, said he'll help out staff
+ at <a href="http://www.froscon.de/">FrOSCon</a> as well, but doesn't wlog
+ as of now (this may change if he's involved more).</p>
+<p>I added cprng to the base system, a daemon tjat tries to gather entropy
+ from measuring the difference between the CPU clock and timer interrupt –
+ an interesting idea, yet it doesn't work on all hardware. Still better to
+ have it than to not have good <em>local</em> entropy, besides it's fed to
+ the kernel random(9) subsystem alongside with tty(4), disc and network IO
+ (and possibly truly random stuff from the VIA C3/C7 RNG, hifn(4) cards or
+ even from hotbits/fourmilab/randomnumbers.info). The mix is what makes it
+ good, but arc4random(3) with multiple concurrent accesses is a difference
+ to more popular OSes ☺ which makes it truly great. So just use one source
+ of entropy – <tt>/dev/arandom</tt> – which is rather high-quality even if
+ its absolute entropy count is less than the one from urandom.</p>
+<p>Somehow, I also managed to wreck something in my other pet project – <a
+ href="https://www.freewrt.org/">FreeWRT</a>. It is often annoying to work
+ with Linux, and this shows it one more time: module loading doesn't work,
+ and we have issues with binary-only stuff (BLOBs) too. Still it is slowly
+ being undermined by addition of mir-tools to the system ☻ and – while a̲l̲l̲
+ embedded system development kits suck, this one sucks the least.</p>
+----
