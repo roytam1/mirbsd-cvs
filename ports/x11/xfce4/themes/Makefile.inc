@@ -1,4 +1,4 @@
-# $MirOS: ports/x11/xfce4/themes/Makefile.inc,v 1.5 2008/07/28 19:57:31 bsiegert Exp $
+# $MirOS: ports/x11/xfce4/themes/Makefile.inc,v 1.6 2008/07/30 19:43:59 bsiegert Exp $
 
 V?=		4.0.5
 DASH_VER?=	1
@@ -21,3 +21,4 @@ XFDESK=	:xfdesktop-*:x11/xfce4/desktop/xfdesktop
 
 CONFIGURE_STYLE?=	autoconf
 AUTOCONF_NEW?=		yes
+MODULES+=		devel/pkgconfig

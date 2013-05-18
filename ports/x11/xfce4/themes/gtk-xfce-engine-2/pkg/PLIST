@@ -1,6 +1,6 @@
+@comment $MirOS$
 @comment $OpenBSD: PLIST,v 1.2 2004/01/09 01:27:43 jolan Exp $
-lib/gtk-2.0/2.2.0/engines/libxfce.la
-lib/gtk-2.0/2.2.0/engines/libxfce.so
+lib/gtk-2.0/${MODGTK_VERSION}/engines/libxfce.la
 share/themes/Xfce-b5/ICON.png
 share/themes/Xfce-b5/README.html
 share/themes/Xfce-b5/gtk-2.0/gtkrc
@@ -61,3 +61,7 @@ share/themes/Xfce/gtk-2.0/gtkrc
 @dirrm share/themes/Xfce-b5/gtk-2.0
 @dirrm share/themes/Xfce-b5
 @dirrm share/themes/Xfce
+@dirrm share/themes
+@dirrm lib/gtk-2.0/${MODGTK_VERSION}/engines
+@dirrm lib/gtk-2.0/${MODGTK_VERSION}
+@dirrm lib/gtk-2.0

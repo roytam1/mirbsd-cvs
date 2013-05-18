@@ -7,4 +7,6 @@ BUILD_DEPENDS=	${PKG}
 RUN_DEPENDS=	${XFDESK}
 LIB_DEPENDS=	${GTK2}
 
+MODULES+=	x11/gtk+
+
 .include <bsd.port.mk>
