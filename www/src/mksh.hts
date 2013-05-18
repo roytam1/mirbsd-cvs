@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.272 2009/08/30 12:45:48 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.273 2009/08/30 21:49:12 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -952,8 +952,13 @@ mws_content <<'EOF'
  <li>[tg] Document the optional, unsupported, printf(1) builtin in TFM</li>
  <li>[tg] Replace realpath(3) dependency and internally used get_phys_path()
   pdksh code with own implementation; always offer the realpath builtin</li>
- <li>[tg](dev-branch) Implement ksh93-like nameref='typeset -n' (bounded variables)</li>
+ <li>[tg] Implement nameref='typeset -n' (bounded variables) like AT&amp;T
+  ksh93, but with mksh-style nested/dynamic scoping and at-use resolving</li>
  <li>[tg] Add “chdir” builtin doing the same as the “cd” special builtin</li>
+ <li>[tg, David Korn] Document more differences between mksh (and pdksh)
+  and AT&amp;T ksh (or, more specific, ksh88, ksh93) in the manual page</li>
+ <li>[tg] Support “'a'” as an alternative to €1#a”, like ksh93 does</li>
+ <li>[tg] Add ksh’s “test -o ?foo”: true if “foo” is a valid shell option</li>
 </ul>
 <p id="r39">mksh R39 evolved into these through various means:</p><ul>
  <li>[tg] Shut up a bogus gcc warning during configuration process</li>
