@@ -127,7 +127,7 @@
 #include <openssl/md5.h>
 #include <openssl/fips.h>
 
-__RCSID("$MirOS: src/lib/libssl/src/ssl/s3_srvr.c,v 1.5 2009/11/09 19:18:36 tg Exp $");
+__RCSID("$MirOS: src/lib/libssl/src/ssl/s3_srvr.c,v 1.6 2009/11/14 14:33:47 tg Exp $");
 
 static SSL_METHOD *ssl3_get_server_method(int ver);
 static int ssl3_get_client_hello(SSL *s);
@@ -787,6 +787,11 @@ static int ssl3_get_client_hello(SSL *s)
 			}
 		if (j == 0)
 			{
+/*
+ * Disabled because it can be used in a ciphersuite downgrade
+ * attack: CVE-2010-4180. http://openssl.org/news/secadv_20101202.txt
+ */
+#if 0
 			if ((s->options & SSL_OP_NETSCAPE_REUSE_CIPHER_CHANGE_BUG) && (sk_SSL_CIPHER_num(ciphers) == 1))
 				{
 				/* Very bad for multi-threading.... */
@@ -794,6 +799,7 @@ static int ssl3_get_client_hello(SSL *s)
 								       0);
 				}
 			else
+#endif
 				{
 				/* we need to have the cipher in the cipher
 				 * list if we are asked to reuse it */
