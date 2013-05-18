@@ -1,28 +1,21 @@
-/* $MirOS: src/usr.bin/host/host.c,v 1.4 2007/08/08 19:09:47 tg Exp $ */
-
 /*-
- * Copyright (c) 2001, 2002, 2003, 2004, 2006, 2010
- *	Thorsten Glaser <tg@mirbsd.de>
+ * Copyright (c) 2001, 2002, 2003, 2004, 2006, 2010, 2011
+ *	Thorsten Glaser <tg@mirbsd.org>
  *
- * Licensee is hereby permitted to deal in this work without restric-
- * tion, including unlimited rights to use, publicly perform, modify,
- * merge, distribute, sell, give away or sublicence, provided all co-
- * pyright notices above, these terms and the disclaimer are retained
- * in all redistributions or reproduced in accompanying documentation
- * or other materials provided with binary redistributions.
+ * Provided that these terms and disclaimer and all copyright notices
+ * are retained or reproduced in an accompanying document, permission
+ * is granted to deal in this work without restriction, including un-
+ * limited rights to use, publicly perform, distribute, sell, modify,
+ * merge, give away, or sublicence.
  *
- * Advertising materials mentioning features or use of this work must
- * display the following acknowledgement:
- *	This product includes material provided by Thorsten Glaser.
- *
- * Licensor offers the work "AS IS" and WITHOUT WARRANTY of any kind,
- * express, or implied, to the maximum extent permitted by applicable
- * law, without malicious intent or gross negligence; in no event may
- * licensor, an author or contributor be held liable for any indirect
- * or other damage, or direct damage except proven a consequence of a
- * direct error of said person and intended use of this work, loss or
- * other issues arising in any way out of its use, even if advised of
- * the possibility of such damage or existence of a defect.
+ * This work is provided "AS IS" and WITHOUT WARRANTY of any kind, to
+ * the utmost extent permitted by applicable law, neither express nor
+ * implied; without malicious intent or gross negligence. In no event
+ * may a licensor, author or contributor be held liable for indirect,
+ * direct, other damage, loss, or other issues arising in any way out
+ * of dealing in the work, even if advised of the possibility of such
+ * damage or existence of a defect, except proven that it results out
+ * of said person's immediate fault when using the work as intended.
  *-
  * Based upon code by:
  * Copyright (c) 1985, 1989 Regents of the University of California.
@@ -105,7 +98,7 @@ Common opts:  [-d] [-f|-F filename] [-I chars] [-i|-n] [-q] [-T] [-Z]\n\
 Other opts:   [-c class] [-e] [-m] [-o] [-r] [-R] [-s secs] [-u] [-w]\n\
 Ext. usage:   [-x [name ...]] [-X server [name ...]]\n\
 ";
-char *version = "961113-MirOS";
+static const char version[] = "961113-MirOS-20110418";
 
 #include <sys/param.h>
 #include <sys/socket.h>
@@ -127,8 +120,10 @@ char *version = "961113-MirOS";
 #include <time.h>
 #include <unistd.h>
 
+#ifndef __MirBSD__
 #ifdef USE_LIBBSD
 #include <bsd/string.h>
+#endif
 
 #undef __IDSTRING
 #undef __IDSTRING_CONCAT
@@ -150,7 +145,7 @@ extern  u_int32_t       _getlong(const unsigned char *);
 #endif
 
 __SCCSID("@(#)host.c	e07@nikhef.nl (Eric Wassenaar) 961013");
-__RCSID("$MirOS: src/usr.bin/host/host.c,v 1.4 2007/08/08 19:09:47 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/host/host.c,v 1.5 2010/06/08 08:38:29 tg Exp $");
 
 #ifndef NO_DATA
 #define NO_DATA	NO_ADDRESS	/* used here only in case authoritative */
@@ -169,10 +164,14 @@ __RCSID("$MirOS: src/usr.bin/host/host.c,v 1.4 2007/08/08 19:09:47 tg Exp $");
 #define NOT_DOTTED_QUAD	((ipaddr_t)-1)
 #define BROADCAST_ADDR	((ipaddr_t)0xffffffff)
 #define LOCALHOST_ADDR	((ipaddr_t)0x7f000001)
+#if 0
 #if PACKETSZ > 8192
 #define MAXPACKET PACKETSZ	/* PACKETSZ should be the max udp size (512) */
 #else
 #define MAXPACKET 8192		/* but tcp packets can be considerably larger */
+#endif
+#else /* !0 */
+#define MAXPACKET 262144	/* accomodate large AXFR */
 #endif
 #ifndef HFIXEDSZ
 #define HFIXEDSZ 12		/* actually sizeof(HEADER) */
@@ -879,6 +878,39 @@ strxcpy(char *dst, char *src, size_t howmany)
 	strlcpy(dst, src, howmany);
 	return dst;
 }
+
+/*
+ * Copyright (c) 1985, 1989 Regents of the University of California.
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms are permitted
+ * provided that source distributions retain this entire copyright
+ * notice and comment. Neither the name of the University nor the
+ * names of its contributors may be used to endorse or promote
+ * products derived from this software without specific prior
+ * written permission.
+ * THIS SOFTWARE IS PROVIDED ``AS IS'' AND WITHOUT ANY EXPRESS OR
+ * IMPLIED WARRANTIES, INCLUDING, WITHOUT LIMITATION, THE IMPLIED
+ * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
+ */
+
+/*
+ * Originally, this program came from Rutgers University, however it
+ * is based on nslookup and other pieces of named tools, so it needs
+ * that copyright notice.
+ */
+
+/*
+ * Rewritten by Eric Wassenaar, Nikhef-H, <e07@nikhef.nl>
+ *
+ * The officially maintained source of this program is available
+ * via anonymous ftp from machine 'ftp.nikhef.nl' [192.16.199.1]
+ * in the directory '/pub/network' as 'host.tar.Z'
+ *
+ * You are kindly requested to report bugs and make suggestions
+ * for improvements to the author at the given email address,
+ * and to not re-distribute your own modifications to others.
+ */
 
 /*
 ** MAIN -- Start of program host
