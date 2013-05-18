@@ -1,5 +1,5 @@
 <!-- PageID: wlog-9 -->
-<small class="rcsid">$MirOS: www/content/d2xvZy05.inc,v 1.14 2006/07/09 00:39:27 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy05.inc,v 1.15 2006/07/10 01:14:02 tg Exp $</small>
 <h1>MirBSD &ndash; WTF is Verpeilungsfaktor?</h1>
 <p><small><a href="#eof">bottom</a> or <a href="/?older">older</a>
  editions</small></p>
@@ -255,6 +255,16 @@
  <p>Thie image: <img src="http://www.opencaching.de/statpics/106521.jpg"
   alt="statistics" /> will show the hopefully increasing number although
   I won't join the hype. I don't like hypes.</p>
+</div>
+
+<div class="wlentry">
+ <h3 id="e20060716">16.07.2006 by tg@</h3>
+ <p>I started to hack on MirOS again &ndash; despite the heat &ndash; on
+  the distrib stuff, specifically (using makefs(8), and synching between
+  the architectures), wbx@ called me out for some FreeWRT work *sigh* (I
+  have some TODO there too). So that's it for today I guess. But I'll be
+  back.</p>
+ <p>Benny finally inaugurated the aqua category in MirPorts.</p>
 </div>
 
 <p id="eof">Good luck, have fun, take care etc.pp</p>
