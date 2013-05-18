@@ -1,0 +1,30 @@
+$MirOS$
+--- diff/ifdef.c.orig	Thu Jun 18 16:56:52 1998
++++ diff/ifdef.c	Wed Sep 15 23:33:50 2010
+@@ -21,6 +21,8 @@ and this notice must be preserved on all
+ 
+ #include "diff.h"
+ 
++__RCSID("$MirOS$");
++
+ struct group
+ {
+   struct file_data const *file;
+@@ -189,7 +191,7 @@ format_group (doit, format, endchar, gro
+ 
+ 	    default:
+ 	      {
+-		int value;
++		int value = 0;
+ 		char *speclim;
+ 
+ 		f = scan_printf_spec (spec);
+@@ -322,7 +324,7 @@ print_ifdef_lines (doit, format, group)
+ 
+ 		default:
+ 		  {
+-		    int value;
++		    int value = 0;
+ 		    char *speclim;
+ 
+ 		    f = scan_printf_spec (spec);

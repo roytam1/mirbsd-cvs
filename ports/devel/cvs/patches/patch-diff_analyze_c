@@ -1,0 +1,21 @@
+$MirOS$
+--- diff/analyze.c.orig	Tue Mar 20 22:06:37 2001
++++ diff/analyze.c	Wed Sep 15 23:33:50 2010
+@@ -31,6 +31,8 @@ GNU General Public License for more deta
+ #include "diff.h"
+ #include "cmpbuf.h"
+ 
++__RCSID("$MirOS$");
++
+ extern int no_discards;
+ 
+ static int *xvec, *yvec;	/* Vectors being compared. */
+@@ -358,7 +360,7 @@ compareseq (xoff, xlim, yoff, ylim, mini
+   else
+     {
+       int c;
+-      struct partition part;
++      struct partition part = { 0, 0, 0, 0 };
+ 
+       /* Find a point of correspondence in the middle of the files.  */
+ 
