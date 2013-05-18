@@ -1,4 +1,4 @@
-/* $MirOS: www/files/vstyle.css,v 1.24 2009/10/31 17:02:38 tg Exp $ */
+/* $MirOS: www/files/vstyle.css,v 1.25 2010/02/08 19:28:09 bsiegert Exp $ */
 
 /*-
  * The MirOS Project - Webpages
@@ -209,6 +209,10 @@ h2 a {
 	text-decoration:none;
 	font-style:italic;
 	border-bottom:none !important;
+}
+
+h5 {
+	text-decoration:underline;
 }
 
 .wlsubtitle {
