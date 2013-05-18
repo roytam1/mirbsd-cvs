@@ -5269,6 +5269,7 @@
 ./usr/share/man/cat3/arc4random_buf.0
 ./usr/share/man/cat3/arc4random_push.0
 ./usr/share/man/cat3/arc4random_pushb.0
+./usr/share/man/cat3/arc4random_pushb_fast.0
 ./usr/share/man/cat3/arc4random_pushk.0
 ./usr/share/man/cat3/arc4random_stir.0
 ./usr/share/man/cat3/arc4random_uniform.0

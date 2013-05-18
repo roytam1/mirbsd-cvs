@@ -3017,6 +3017,7 @@
 ./man3/arc4random_buf.htm
 ./man3/arc4random_push.htm
 ./man3/arc4random_pushb.htm
+./man3/arc4random_pushb_fast.htm
 ./man3/arc4random_pushk.htm
 ./man3/arc4random_stir.htm
 ./man3/arc4random_uniform.htm

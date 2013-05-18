@@ -1,27 +1,15 @@
-/*	$OpenBSD: arc4.h,v 1.1 2003/10/07 07:07:14 markus Exp $	*/
-/*
- * Copyright (c) 2003 Markus Friedl <markus@openbsd.org>
- *
- * Permission to use, copy, modify, and distribute this software for any
- * purpose with or without fee is hereby granted, provided that the above
- * copyright notice and this permission notice appear in all copies.
- *
- * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
- * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
- * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
- * ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
- * WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
- * ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
- * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
- */
+/* $MirOS$ */
 
-#define RC4STATE 256
-#define RC4KEYLEN 16
+/* rewritten; no code left, only the API */
 
-struct rc4_ctx {
-	u_int8_t x, y;
-	u_int8_t state[RC4STATE];
-};
+#include <sys/slibkern.h>
+
+/* struct rc4_ctx == struct arcfour_status */
+#define rc4_ctx arcfour_status
+
+/* this is actually correct, unlike OpenBSD's which is 256 = too small */
+#define RC4STATE	sizeof(struct rc4_ctx)
+#define RC4KEYLEN	16
 
 void	rc4_keysetup(struct rc4_ctx *, u_char *, u_int32_t);
 void	rc4_crypt(struct rc4_ctx *, u_char *, u_char *, u_int32_t);

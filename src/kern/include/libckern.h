@@ -1,4 +1,4 @@
-/* $MirOS: src/kern/include/libckern.h,v 1.22 2010/01/10 20:18:50 tg Exp $ */
+/* $MirOS: src/kern/include/libckern.h,v 1.23 2010/09/12 12:24:29 tg Exp $ */
 
 /*-
  * Copyright (c) 2008, 2010
@@ -65,6 +65,12 @@ typedef struct {
 } __attribute__((packed)) mbstate_t;
 #endif
 
+struct arcfour_status {
+	uint8_t S[256];
+	uint8_t i;
+	uint8_t j;
+};
+
 #undef WCHAR_MIN
 #define WCHAR_MIN	0
 #undef WCHAR_MAX
@@ -81,8 +87,19 @@ typedef struct {
 __BEGIN_DECLS
 void __main(void);
 
+void arc4random_roundhash(uint32_t *, uint8_t *, const void *, size_t)
+    __attribute__((bounded (minbytes, 1, 128)))
+    __attribute__((bounded (buffer, 3, 4)));
 /* u_int32_t in the original API, but we pray they're the same */
 uint32_t arc4random_uniform(uint32_t);
+
+/* arcfour: base cipher */
+void arcfour_init(struct arcfour_status *);
+void arcfour_ksa256(struct arcfour_status *, const uint8_t *)
+    __attribute__((bounded (minbytes, 2, 256)));
+void arcfour_ksa(struct arcfour_status *, const uint8_t *, size_t)
+    __attribute__((bounded (buffer, 2, 3)));
+uint8_t arcfour_byte(struct arcfour_status *);
 
 int bcmp(const void *, const void *, size_t)
     __attribute__((bounded (buffer, 1, 3)))

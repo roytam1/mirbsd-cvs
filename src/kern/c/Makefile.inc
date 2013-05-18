@@ -1,4 +1,4 @@
-# $MirOS: src/kern/c/Makefile.inc,v 1.19 2010/01/10 20:18:48 tg Exp $
+# $MirOS: src/kern/c/Makefile.inc,v 1.20 2010/09/12 12:24:28 tg Exp $
 
 .ifndef _KERNBASE_C_MAKEFILE_INC
 _KERNBASE_C_MAKEFILE_INC=	#defined
@@ -66,7 +66,11 @@ XSRCS+=		hdump.c
 KUSRCS+=	oaat.c
 KUSRCS+=	optu16to8.c optu8to16.c
 
+KUSRCS+=	arc4random_roundhash.c
 KUSRCS+=	arc4random_uniform.c
+KUSRCS+=	arcfour_base.c
+KUSRCS+=	arcfour_ksa.c
+KUSRCS+=	arcfour_ksa256.c
 
 # …
 

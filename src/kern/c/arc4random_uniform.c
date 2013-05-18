@@ -19,9 +19,9 @@
  */
 
 #include <libckern.h>
-#include <limits.h>
+#include <sys/limits.h>
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/kern/c/arc4random_uniform.c,v 1.1 2010/09/12 12:24:28 tg Exp $");
 
 /* u_int32_t in the original API, but we pray they're the same */
 extern uint32_t arc4random(void);

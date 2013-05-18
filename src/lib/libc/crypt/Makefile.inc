@@ -1,9 +1,9 @@
-# $MirOS: src/lib/libc/crypt/Makefile.inc,v 1.5 2008/12/27 21:56:26 tg Exp $
+# $MirOS: src/lib/libc/crypt/Makefile.inc,v 1.6 2010/01/07 22:34:49 tg Exp $
 # $OpenBSD: Makefile.inc,v 1.15 2003/08/12 01:22:17 deraadt Exp $
 
 .PATH: ${LIBCSRCDIR}/arch/${MACHINE_ARCH}/crypt ${LIBCSRCDIR}/crypt
 
-SRCS+=	cast.c crypt.c crypt2.c md5crypt.c arc4random.c blowfish.c
+SRCS+=	cast.c crypt.c crypt2.c md5crypt.c blowfish.c
 SRCS+=  bcrypt.c pwd_gensalt.c skipjack.c to64.c
 
 MAN+=	crypt.3 blowfish.3 arc4random.3
@@ -13,9 +13,13 @@ MLINKS+=crypt.3 des_setkey.3 blowfish.3 blf_key.3 blowfish.3 blf_enc.3
 MLINKS+=blowfish.3 blf_dec.3 blowfish.3 blf_ecb_encrypt.3
 MLINKS+=blowfish.3 blf_ecb_decrypt.3 blowfish.3 blf_cbc_encrypt.3
 MLINKS+=blowfish.3 blf_cbc_decrypt.3
+
+SRCS+=	arc4random_addrandom.c arc4random_base.c arc4random_buf.c \
+	arc4random_pushb.c arc4random_stir.c
 MLINKS+=arc4random.3 arc4random_stir.3 arc4random.3 arc4random_addrandom.3
 MLINKS+=arc4random.3 arc4random_buf.3 arc4random.3 arc4random_uniform.3
-MLINKS+=arc4random.3 arc4random_push.3 arc4random.3 arc4random_pushb.3
+MLINKS+=arc4random.3 arc4random_pushb_fast.3
 
 SRCS+=	arc4pushk.c
+MLINKS+=arc4random.3 arc4random_push.3 arc4random.3 arc4random_pushb.3
 MLINKS+=arc4random.3 arc4random_pushk.3

@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/dev/rndvar.h,v 1.20 2009/11/09 19:43:45 tg Exp $ */
+/**	$MirOS: src/sys/dev/rndvar.h,v 1.21 2010/09/12 12:24:30 tg Exp $ */
 /*	$OpenBSD: rndvar.h,v 1.19 2003/11/03 18:24:28 tedu Exp $	*/
 
 /*
@@ -42,6 +42,8 @@
 #endif
 
 #ifndef _ASM_SOURCE
+
+#include <sys/slibkern.h>
 
 #define	RND_RND		0	/* real randomness like nuclear chips */
 #define	RND_SRND	1	/* strong random source */
