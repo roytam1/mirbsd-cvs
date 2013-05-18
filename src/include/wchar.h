@@ -1,4 +1,4 @@
-/* $MirOS: src/include/wchar.h,v 1.15 2007/02/06 23:33:00 tg Exp $ */
+/* $MirOS: src/include/wchar.h,v 1.16 2007/02/07 17:34:05 tg Exp $ */
 
 /*-
  * Copyright (c) 2007
@@ -176,21 +176,26 @@ __END_DECLS
 #ifdef __GNUC__
 #define btowc(c)	__extension__({			\
 	wint_t __WC_tmp = (c);				\
+							\
 	(__WC_tmp > 0x7F ? WEOF : __WC_tmp);		\
 })
 #define mblen(s,n)	__extension__({			\
 	mbstate_t __WC_ps = { 0, 0 };			\
 	int __WC_rv;					\
+							\
 	(((__WC_rv = mbrtowc(NULL, (s), (n),		\
 	    &__WC_ps)) < 0) ? -1 : __WC_rv);		\
 })
 #define mbsinit(c)	__extension__({			\
-	const mbstate_t *ps = (c);			\
-	((ps == NULL) ? -1 : ps->count == 0 ? 1 : 0);	\
+	const mbstate_t *__WC_ps = (c);			\
+							\
+	(__WC_ps == NULL ? -1 :				\
+	    __WC_ps->count == 0 ? 1 : 0);		\
 })
 #define mbslen(c)	__extension__({			\
 	const uint8_t *__WC_s = (c);			\
 	size_t __WC_num = 0;				\
+							\
 	while (*__WC_s) {				\
 		if ((*__WC_s & 0xC0) != 0x80)		\
 			++__WC_num;			\
@@ -201,22 +206,26 @@ __END_DECLS
 #define mbstowcs(pwcs,s,n)	__extension__({		\
 	mbstate_t __WC_ps = { 0, 0 };			\
 	const char *__WC_sb = (s);			\
+							\
 	(mbsrtowcs((pwcs), &__WC_sb, (n), &__WC_ps));	\
 })
 #define mbtowc(pwc,s,n)	__extension__({			\
 	mbstate_t __WC_ps = { 0, 0 };			\
 	int __WC_rv;					\
+							\
 	(((__WC_rv = mbrtowc((pwc), (s), (n),		\
 	    &__WC_ps)) < 0) ? -1 : __WC_rv);		\
 })
 #define wcstombs(s,pwcs,n)	__extension__({		\
 	mbstate_t __WC_ps = { 0, 0 };			\
 	const wchar_t *__WC_sb = (pwcs);		\
+							\
 	(wcsrtombs((s), &__WC_sb, (n), &__WC_ps));	\
 })
 #define wcswidth(s,n)	__extension__({			\
 	int __WC_width = 0, __WC_i, __WC_n = (n);	\
 	const wchar_t *__WC_s = (s);			\
+							\
 	while (__WC_n--) {				\
 		if (*__WC_s == L'\0')			\
 			break;				\
@@ -231,29 +240,33 @@ __END_DECLS
 })
 #define wctob(c)	__extension__({			\
 	wint_t __WC_tmp = (c);				\
+							\
 	(__WC_tmp > 0x7F ? EOF : (int)__WC_tmp);	\
 })
 #define wctomb(s,c)	__extension__({			\
 	mbstate_t __WC_ps = { 0, 0 };			\
 	char *__WC_s = (s);				\
+							\
 	(__WC_s ? wcrtomb(__WC_s, (c), &__WC_ps) : 0);	\
 })
 /* initialise/set/reset a mbstate_t to empty */
-#define mbsreset(ps)	do {			\
-		mbstate_t *__WC_s = (ps);	\
-		if (ps != NULL)			\
-			ps->count = 0;		\
-	} while (0)
+#define mbsreset(ps)	do {				\
+	mbstate_t *__WC_s = (ps);			\
+							\
+	if (__WC_s != NULL)				\
+		__WC_s->count = 0;			\
+} while (0)
 /* roll back the middle char of a mis-done 3-byte mb->wc conversion */
 #define mbrtowc_rollback(ps)	__extension__({		\
-		const mbstate_t *__WC_s = (ps);		\
-		int __WC_rv = EOF;			\
-		if (__WC_s->count == 1 &&		\
-		    __WC_s->value >= 0x20)		\
-			__WC_rv = 0x80 |		\
-			    (__WC_s->value & 0x3F);	\
-		(__WC_rv);				\
-	})
+	const mbstate_t *__WC_s = (ps);			\
+	int __WC_rv = EOF;				\
+							\
+	if (__WC_s->count == 1 &&			\
+	    __WC_s->value >= 0x20)			\
+		__WC_rv = 0x80 |			\
+		    (__WC_s->value & 0x3F);		\
+	(__WC_rv);					\
+})
 #endif
 
 #endif

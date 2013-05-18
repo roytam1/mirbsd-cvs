@@ -1,4 +1,4 @@
-/* $MirOS: src/include/ctype.h,v 1.15 2007/03/22 03:06:48 tg Exp $ */
+/* $MirOS: src/include/ctype.h,v 1.16 2007/03/22 03:57:49 tg Exp $ */
 
 /*-
  * Copyright (c) 2006, 2007
@@ -70,6 +70,7 @@ extern const unsigned char __C_attribute_table_pg[256];
 #ifdef __GNUC__
 #define __CTYPE_IMPL(c,t) __extension__({				\
 	unsigned __CTYPE_Ic = (c);					\
+									\
 	(__CTYPE_Ic > 127) ? 0 :					\
 	 ((__C_attribute_table_pg[__CTYPE_Ic] & (_ctp_ ## t & 0xFF)) &&	\
 	 !(__C_attribute_table_pg[__CTYPE_Ic] & (_ctp_ ## t >> 8)));	\
@@ -98,11 +99,13 @@ extern const unsigned char __C_attribute_table_pg[256];
 #ifdef __GNUC__
 #define tolower(c)	__extension__({			\
 	int __CTYPE_Tl = (c);				\
+							\
 	(__CTYPE_Tl >= 'A') && (__CTYPE_Tl <= 'Z') ?	\
 	    __CTYPE_Tl - 'A' + 'a' : __CTYPE_Tl;	\
 })
 #define toupper(c)	__extension__({			\
 	int __CTYPE_Tu = (c);				\
+							\
 	(__CTYPE_Tu >= 'a') && (__CTYPE_Tu <= 'z') ?	\
 	    __CTYPE_Tu - 'a' + 'A' : __CTYPE_Tu;	\
 })
@@ -121,10 +124,11 @@ extern const unsigned char __C_attribute_table_pg[256];
 #endif /* !_ANSI_SOURCE && !_POSIX_SOURCE */
 
 #if __OPENBSD_VISIBLE
-#define isbinry(ch)	__extension__({	\
-	uint8_t c = (ch);		\
-	((c == 0x00) || (c == 0xC0) ||	\
-	    (c == 0xC1) || (c > 0xEF));	\
+#define isbinry(c)	__extension__({				\
+	uint8_t __CTYPE_Ic = (c);				\
+								\
+	((__CTYPE_Ic == 0x00) || (__CTYPE_Ic == 0xC0) ||	\
+	    (__CTYPE_Ic == 0xC1) || (__CTYPE_Ic > 0xEF));	\
 })
 #endif
 
