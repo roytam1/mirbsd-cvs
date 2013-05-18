@@ -1,5 +1,5 @@
 <!-- PageID: wlog-8 -->
-<small class="rcsid">$MirOS: www/content/d2xvZy04.inc,v 1.32 2006/02/01 02:17:00 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy04.inc,v 1.33 2006/02/01 21:59:48 tg Exp $</small>
 <h1>MirBSD &ndash; WTF, We Have a Release!?</h1>
 <p><small><a href="#eof">bottom</a> or <a href="/?older">older</a>
  editions</small></p>
@@ -385,6 +385,21 @@ celebrate this event, rotate the wlog and start a new one.</p>
   respectively the porting framework, so that opera runs better.</p>
  <p>Should I really go to the exam tomorrow? Chances are I get 40% while
   to pass you need to have more than 50%.</p>
+ <p>Soryu (&#x60e3;&#x6d41;&#x30fb;&#x30a2;&#x30b9;&#x30ab;&#x30fb;&#x30e9;&#x30f3;&#x30b0;&#x30ec;&#x30fc;)
+  (his nick) pointed me via <a href="http://mirbsd.de/irc">IRC</a> to an
+  ambiente stream at radioio.com &ndash; a site which offers two quality
+  variants on the website (AM quality and FM quality, wtf?)<br />Now the
+  fun part: Opera opens a pop-up and offers to download an m3u file when
+  asking for an mp3 stream (thank goddess, I only have mpg123 installed,
+  playing music on the pentium &#x2160; router). The filename: A1med.m3u
+  (this of course raises suspicions) &ndash; so I test-run the AM stream
+  and get presented an A1lo.m3u. Interesting. Viewing the source it's an
+  easy task to see the URI, so I ftp(1) A1hi.m3u which in fact exists! I
+  guess it's a subscriber-only feature, but 128 kbps 44k1Hz J/S MP3 is a
+  lot better than 64 kbps 22k05Hz J/S, isn't it? Now I'm listening to <a
+  href="http://radioio.sc.llnwd.net:8610/">the stream</a> and will sleep
+  (or at least try to). I decided that I have no chance to pass the exam
+  scheduled for tomorrow, that's the only reason to still be awake.</p>
 </div>
 
 <p id="eof">Good luck, have fun, take care etc.pp</p>
