@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/distrib/baselive/munge_it.sh,v 1.17 2007/02/20 00:57:32 tg Exp $
+# $MirOS: src/distrib/baselive/munge_it.sh,v 1.18 2007/02/20 01:09:34 tg Exp $
 #-
 # Copyright (c) 2006, 2007
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -72,7 +72,7 @@ ed -s etc/ntpd.conf <<-'EOMD'
 EOMD
 ed -s etc/rc <<-'EOMD'
 	1i
-		# $MirOS: src/distrib/baselive/munge_it.sh,v 1.17 2007/02/20 00:57:32 tg Exp $
+		# $MirOS: src/distrib/baselive/munge_it.sh,v 1.18 2007/02/20 01:09:34 tg Exp $
 	.
 	/shutdown request/ka
 	/^fi/a
@@ -104,8 +104,20 @@ ed -s etc/rc <<-'EOMD'
 
 		# try to get some entropy from the network
 		(ulimit -T 60; exec /usr/bin/ftp -mvo /dev/arandom \
-		    https://herc.mirbsd.org/rn.cgi?live"<$(uname -a)>" \
-		    >/dev/wrandom 2>&1)
+		    https://herc.mirbsd.org/rn.cgi?live"<$(uname -a | sed '
+			s/%/%25/g
+			s/;/%3b/g
+			s,/,%2f,g
+			s/?/%3f/g
+			s/:/%3a/g
+			s/@/%40/g
+			s/&/%26/g
+			s/=/%3d/g
+			s/+/%2b/g
+			s/\$/%24/g
+			s/,/%2c/g
+			s/ /%20/g
+		    ')>" >/dev/wrandom 2>&1)
 	.
 	/parsed console/a
 		[[ -e /etc/ttys ]] && if [[ $consdev != nochg ]]; then
