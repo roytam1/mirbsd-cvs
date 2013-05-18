@@ -1,4 +1,4 @@
-/**	$MirOS$ */
+/**	$MirOS: src/include/time.h,v 1.2 2005/03/06 17:16:58 tg Exp $ */
 /*	$OpenBSD: time.h,v 1.16 2003/08/01 17:38:33 avsm Exp $	*/
 /*	$NetBSD: time.h,v 1.9 1994/10/26 00:56:35 cgd Exp $	*/
 
@@ -53,7 +53,7 @@
 #elif defined(lint)
 #define	NULL	0
 #else
-#define	NULL	((void *)((_BSD_PTRDIFF_T_)0UL))
+#define	NULL	((void *)((__PTRDIFF_TYPE__)0UL))
 #endif
 #endif
 
@@ -67,9 +67,9 @@ typedef	_BSD_TIME_T_	time_t;
 #undef	_BSD_TIME_T_
 #endif
 
-#ifdef	_BSD_SIZE_T_
-typedef	_BSD_SIZE_T_	size_t;
-#undef	_BSD_SIZE_T_
+#if !defined(_GCC_SIZE_T)
+#define	_GCC_SIZE_T
+typedef	__SIZE_TYPE__	size_t;
 #endif
 
 #define CLOCKS_PER_SEC	100

@@ -1,4 +1,4 @@
-/**	$MirOS: src/include/stddef.h,v 1.2 2005/03/06 19:13:40 tg Exp $ */
+/**	$MirOS: src/include/stddef.h,v 1.3 2005/07/25 19:16:10 tg Exp $ */
 /*	$OpenBSD: stddef.h,v 1.8 2005/05/11 18:44:12 espie Exp $	*/
 /*	$NetBSD: stddef.h,v 1.4 1994/10/26 00:56:26 cgd Exp $	*/
 
@@ -38,24 +38,24 @@
 
 #include <machine/ansi.h>
 
-typedef	_BSD_PTRDIFF_T_	ptrdiff_t;
-
-#ifdef	_BSD_SIZE_T_
-typedef	_BSD_SIZE_T_	size_t;
-#undef	_BSD_SIZE_T_
+#if !defined(_GCC_PTRDIFF_T)
+#define	_GCC_PTRDIFF_T
+typedef	__PTRDIFF_TYPE__ ptrdiff_t;
 #endif
 
-#ifdef	_BSD_WCHAR_T_
-/* in C++, wchar_t is a built-in type */
-#ifndef __cplusplus
-typedef	_BSD_WCHAR_T_	wchar_t;
-#undef	_BSD_WCHAR_T_
-#endif
+#if !defined(_GCC_SIZE_T)
+#define	_GCC_SIZE_T
+typedef	__SIZE_TYPE__	size_t;
 #endif
 
-#ifdef	_BSD_WINT_T_
-typedef	_BSD_WINT_T_	wint_t;
-#undef	_BSD_WINT_T_
+#if !defined(_GCC_WCHAR_T) && !defined(__cplusplus)
+#define	_GCC_WCHAR_T
+typedef	__WCHAR_TYPE__	wchar_t;
+#endif
+
+#if !defined(_GCC_WINT_T)
+#define	_GCC_WINT_T
+typedef	__WINT_TYPE__	wint_t;
 #endif
 
 #ifndef	NULL
@@ -64,7 +64,7 @@ typedef	_BSD_WINT_T_	wint_t;
 #elif defined(lint)
 #define	NULL	0
 #else
-#define	NULL	((void *)((_BSD_PTRDIFF_T_)0UL))
+#define	NULL	((void *)((__PTRDIFF_TYPE__)0UL))
 #endif
 #endif
 

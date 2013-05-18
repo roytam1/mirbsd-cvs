@@ -1,4 +1,4 @@
-/**	$MirOS: src/include/string.h,v 1.4 2005/07/26 18:40:56 tg Exp $ */
+/**	$MirOS: src/include/string.h,v 1.5 2005/07/27 14:45:07 tg Exp $ */
 /*	$OpenBSD: string.h,v 1.15 2005/03/30 03:04:16 deraadt Exp $	*/
 /*	$NetBSD: string.h,v 1.6 1994/10/26 00:56:30 cgd Exp $	*/
 
@@ -43,9 +43,9 @@
 #include <machine/ansi.h>
 #endif
 
-#ifdef	_BSD_SIZE_T_
-typedef	_BSD_SIZE_T_	size_t;
-#undef	_BSD_SIZE_T_
+#if !defined(_GCC_SIZE_T)
+#define	_GCC_SIZE_T
+typedef	__SIZE_TYPE__	size_t;
 #endif
 
 #ifndef NULL
@@ -54,7 +54,7 @@ typedef	_BSD_SIZE_T_	size_t;
 #elif defined(lint)
 #define	NULL	0
 #else
-#define	NULL	((void *)((_BSD_PTRDIFF_T_)0UL))
+#define	NULL	((void *)((__PTRDIFF_TYPE__)0UL))
 #endif
 #endif
 

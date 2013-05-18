@@ -1,4 +1,4 @@
-/* $MirOS: src/share/misc/licence.template,v 1.2 2005/03/03 19:43:30 tg Rel $ */
+/* $MirOS: src/include/wchar.h,v 1.1 2005/09/22 19:53:04 tg Exp $ */
 
 /*-
  * Copyright (c) 2005
@@ -35,17 +35,18 @@
 #include <stdio.h>
 #include <time.h>
 
-#ifdef	_BSD_WCHAR_T_
-/* in C++, wchar_t is a built-in type */
-#ifndef __cplusplus
-typedef	_BSD_WCHAR_T_	wchar_t;
-#endif
-#undef	_BSD_WCHAR_T_
+#if !defined(_GCC_WCHAR_T) && !defined(__cplusplus)
+#define	_GCC_WCHAR_T
+typedef	__WCHAR_TYPE__	wchar_t;
 #endif
 
-#ifdef	_BSD_WINT_T_
-typedef	_BSD_WINT_T_	wint_t;
-#undef	_BSD_WINT_T_
+#if !defined(_GCC_WINT_T)
+#define	_GCC_WINT_T
+typedef	__WINT_TYPE__	wint_t;
+#endif
+
+#if __WCHAR_MAX__ != 65535U
+#error GCC __WCHAR_MAX__ does not indicate UCS-2
 #endif
 
 typedef unsigned long int wctype_t;

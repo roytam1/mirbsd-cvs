@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/include/ansi.h,v 1.4 2005/07/25 17:45:21 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/include/ansi.h,v 1.5 2005/09/22 19:45:24 tg Exp $ */
 /*	$OpenBSD: ansi.h,v 1.9 2004/01/03 14:08:52 espie Exp $	*/
 /*	$NetBSD: ansi.h,v 1.7 1996/11/15 22:38:50 jtc Exp $	*/
 
@@ -46,9 +46,6 @@
  *	#endif
  */
 #define	_BSD_CLOCK_T_	unsigned long		/* clock() */
-#define	_BSD_PTRDIFF_T_	int			/* ptr1 - ptr2 */
-#define	_BSD_SIZE_T_	unsigned int		/* sizeof() */
-#define	_BSD_SSIZE_T_	int			/* byte count or error */
 #ifdef __BIT_TYPES_DEFINED__
 #define	_BSD_TIME_T_	int64_t			/* time() */
 #else
@@ -63,16 +60,6 @@
 #endif
 #define _BSD_CLOCKID_T_	int
 #define _BSD_TIMER_T_	int
-
-/*
- * wchar_t is declared to be an "unsigned short" for size reasons on MirOS,
- * so we can only support the BMP, but this is okay for us.  We also only
- * support UTF-8 and ISO-8859-1/transparent encodings externally, and UCS-2
- * is only being used internally, in machine endianness.
- * wint_t must be an int or unsigned int because of integer promotion rules.
- */
-#define	_BSD_WCHAR_T_	unsigned short		/* wchar_t */
-#define _BSD_WINT_T_	unsigned int		/* wint_t */
 
 /*
  * We describe off_t here so its declaration can be visible to

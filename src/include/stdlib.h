@@ -1,4 +1,4 @@
-/**	$MirOS: src/include/stdlib.h,v 1.5 2005/09/30 22:07:32 tg Exp $ */
+/**	$MirOS: src/include/stdlib.h,v 1.6 2005/09/30 22:13:54 tg Exp $ */
 /*	$OpenBSD: stdlib.h,v 1.34 2005/05/27 17:45:56 millert Exp $	*/
 /*	$NetBSD: stdlib.h,v 1.25 1995/12/27 21:19:08 jtc Exp $	*/
 
@@ -42,17 +42,14 @@
 #include <sys/types.h>
 #endif
 
-#ifdef	_BSD_SIZE_T_
-typedef	_BSD_SIZE_T_	size_t;
-#undef	_BSD_SIZE_T_
+#if !defined(_GCC_SIZE_T)
+#define	_GCC_SIZE_T
+typedef	__SIZE_TYPE__	size_t;
 #endif
 
-#ifdef	_BSD_WCHAR_T_
-/* in C++, wchar_t is a built-in type */
-#ifndef __cplusplus
-typedef	_BSD_WCHAR_T_	wchar_t;
-#endif
-#undef	_BSD_WCHAR_T_
+#if !defined(_GCC_WCHAR_T) && !defined(__cplusplus)
+#define	_GCC_WCHAR_T
+typedef	__WCHAR_TYPE__	wchar_t;
 #endif
 
 typedef struct {
@@ -79,7 +76,7 @@ typedef struct {
 #elif defined(lint)
 #define	NULL	0
 #else
-#define	NULL	((void *)((_BSD_PTRDIFF_T_)0UL))
+#define	NULL	((void *)((__PTRDIFF_TYPE__)0UL))
 #endif
 #endif
 

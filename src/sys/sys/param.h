@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/sys/param.h,v 1.23 2005/09/20 18:52:51 tg Exp $ */
+/**	$MirOS: src/sys/sys/param.h,v 1.24 2005/10/21 10:51:17 tg Exp $ */
 /*	$OpenBSD: param.h,v 1.54 2004/02/27 18:06:55 deraadt Exp $	*/
 /*	$NetBSD: param.h,v 1.23 1996/03/17 01:02:29 thorpej Exp $	*/
 
@@ -62,7 +62,7 @@
 #elif defined(lint)
 #define	NULL		0
 #else
-#define	NULL		((void *)((_BSD_PTRDIFF_T_)0UL))
+#define	NULL	((void *)((__PTRDIFF_TYPE__)0UL))
 #endif
 #endif
 

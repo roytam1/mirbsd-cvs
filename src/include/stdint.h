@@ -1,4 +1,4 @@
-/* $MirOS: src/include/stdint.h,v 1.2 2005/05/19 20:48:38 tg Exp $ */
+/* $MirOS: src/include/stdint.h,v 1.3 2005/07/25 17:48:48 tg Exp $ */
 
 /*-
  * Copyright (c) 2004, 2005
@@ -145,7 +145,7 @@ typedef	uint64_t	uintmax_t;
 
 /* wchar_t is an unsigned short */
 #define	WCHAR_MIN		0
-#define	WCHAR_MAX		UINT16_MAX
+#define	WCHAR_MAX		0xFFFDU		/* match <wchar.h> */
 #define	WINT_MIN		INT32_MIN
 #define	WINT_MAX		INT32_MAX
 

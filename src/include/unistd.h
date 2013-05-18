@@ -1,4 +1,4 @@
-/**	$MirOS: src/include/unistd.h,v 1.2 2005/03/06 19:13:40 tg Exp $ */
+/**	$MirOS: src/include/unistd.h,v 1.3 2005/07/25 19:16:10 tg Exp $ */
 /*	$OpenBSD: unistd.h,v 1.53 2005/05/27 17:45:56 millert Exp $ */
 /*	$NetBSD: unistd.h,v 1.26.4.1 1996/05/28 02:31:51 mrg Exp $	*/
 
@@ -50,7 +50,7 @@
 #elif defined(lint)
 #define	NULL	0
 #else
-#define	NULL	((void *)((_BSD_PTRDIFF_T_)0UL))
+#define	NULL	((void *)((__PTRDIFF_TYPE__)0UL))
 #endif
 #endif
 

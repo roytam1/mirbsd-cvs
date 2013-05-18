@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/sys/types.h,v 1.2 2005/03/06 21:28:35 tg Exp $ */
+/**	$MirOS: src/sys/sys/types.h,v 1.3 2005/07/07 14:39:28 tg Exp $ */
 /*	$OpenBSD: types.h,v 1.26 2004/07/13 21:04:29 millert Exp $	*/
 /*	$NetBSD: types.h,v 1.29 1996/11/15 22:48:25 jtc Exp $	*/
 
@@ -100,14 +100,20 @@ typedef	_BSD_CLOCK_T_	clock_t;
 #undef	_BSD_CLOCK_T_
 #endif
 
-#ifdef	_BSD_SIZE_T_
-typedef	_BSD_SIZE_T_	size_t;
-#undef	_BSD_SIZE_T_
+#if !defined(_GCC_SIZE_T)
+#define	_GCC_SIZE_T
+typedef	__SIZE_TYPE__	size_t;
 #endif
 
-#ifdef	_BSD_SSIZE_T_
-typedef	_BSD_SSIZE_T_	ssize_t;
-#undef	_BSD_SSIZE_T_
+#if !defined(_GCC_SSIZE_T)
+#define	_GCC_SIZE_T
+#if __SIZE_TYPE__ == unsigned int
+typedef	int		ssize_t;
+#elif __SIZE_TYPE__ == unsigned long
+typedef	long		ssize_t;
+#else
+#error Don't know GCC __SIZE_TYPE__
+#endif
 #endif
 
 #ifdef	_BSD_TIME_T_
