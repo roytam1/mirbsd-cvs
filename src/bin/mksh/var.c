@@ -27,7 +27,7 @@
 #include <sys/sysctl.h>
 #endif
 
-__RCSID("$MirOS: src/bin/mksh/var.c,v 1.151 2012/06/28 20:02:29 tg Exp $");
+__RCSID("$MirOS: src/bin/mksh/var.c,v 1.152 2012/07/01 15:38:09 tg Exp $");
 
 /*-
  * Variables
@@ -1254,7 +1254,7 @@ unsetspec(struct tbl *vp)
 		flushcom(true);
 		break;
 	case V_IFS:
-		setctypes(" \t\n", C_IFS);
+		setctypes(TC_IFSWS, C_IFS);
 		ifs0 = ' ';
 		break;
 	case V_TMPDIR:
