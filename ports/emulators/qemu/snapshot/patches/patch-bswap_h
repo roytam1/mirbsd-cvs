@@ -1,7 +1,7 @@
-$MirOS$
---- bswap.h.orig	Sun Jan  6 19:38:19 2008
-+++ bswap.h	Wed May  7 14:12:56 2008
-@@ -43,20 +43,26 @@
+$MirOS: ports/emulators/qemu/snapshot/patches/patch-bswap_h,v 1.1 2008/05/07 15:53:09 tg Exp $
+--- bswap.h.orig	Wed Sep 23 19:01:07 2009
++++ bswap.h	Sat Oct 17 16:35:43 2009
+@@ -49,20 +49,26 @@
  
  #endif /* !HAVE_BYTESWAP_H */
  
@@ -26,5 +26,5 @@ $MirOS$
  }
 +#endif
  
- static inline void bswap16s(uint16_t *s)
- {
+ #endif /* ! HAVE_MACHINE_BSWAP_H */
+ 

@@ -1,21 +1,22 @@
+$MirOS$
 $OpenBSD: patch-Makefile,v 1.7 2008/04/28 22:52:38 todd Exp $
---- Makefile.orig	Sun Jan  6 14:38:41 2008
-+++ Makefile	Tue Apr  1 01:33:38 2008
-@@ -149,7 +149,7 @@ clean:
- 	rm -f slirp/*.o slirp/*.d audio/*.o audio/*.d
- 	$(MAKE) -C tests clean
+--- Makefile.orig	Wed Sep 23 19:01:07 2009
++++ Makefile	Sat Oct 17 16:37:41 2009
+@@ -293,7 +293,7 @@ endif
+ 		$(INSTALL_DATA) $(SRC_PATH)/pc-bios/keymaps/$$x "$(DESTDIR)$(datadir)/keymaps"; \
+ 	done
  	for d in $(TARGET_DIRS); do \
 -	$(MAKE) -C $$d $@ || exit 1 ; \
 +	$(MAKE) -C $$d $@ || exit $$? ; \
          done
  
- distclean: clean
-@@ -206,7 +206,7 @@ cscope:
+ # various test targets
+@@ -310,7 +310,7 @@ cscope:
  
  # documentation
  %.html: %.texi
--	texi2html -monolithic -number $<
-+	-texi2html -monolithic -number $<
+-	$(call quiet-command,texi2html -I=. -monolithic -number $<,"  GEN   $@")
++	$(call quiet-command,-texi2html -I=. -monolithic -number $<,"  GEN   $@")
  
  %.info: %.texi
- 	makeinfo $< -o $@
+ 	$(call quiet-command,makeinfo -I . $< -o $@,"  GEN   $@")

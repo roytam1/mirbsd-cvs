@@ -1,101 +1,26 @@
-$MirOS$
+$MirOS: ports/emulators/qemu/snapshot/patches/patch-Makefile_target,v 1.1 2008/05/07 15:53:08 tg Exp $
 $OpenBSD: patch-Makefile_target,v 1.12 2008/04/28 22:52:38 todd Exp $
 
 	• use scn.c due to systrace on /dev/null.gcda
 	• use -D_NETBSD_SOURCE for some <math.h> funcs on MirBSD #10
 
---- Makefile.target.orig	Sun Jan  6 19:38:18 2008
-+++ Makefile.target	Wed May  7 14:31:22 2008
-@@ -102,7 +102,7 @@ OP_CFLAGS := -Wall -O2 -g -fno-strict-al
+--- Makefile.target.orig	Wed Sep 23 19:01:07 2009
++++ Makefile.target	Sat Oct 17 16:43:27 2009
+@@ -24,7 +24,7 @@ PROGS=$(QEMU_PROG)
  # cc-option
- # Usage: OP_CFLAGS+=$(call cc-option, -falign-functions=0, -malign-functions=0)
+ # Usage: CFLAGS+=$(call cc-option, $(CFLAGS), -falign-functions=0, -malign-functions=0)
  
--cc-option = $(shell if $(CC) $(OP_CFLAGS) $(1) -S -o /dev/null -xc /dev/null \
-+cc-option = $(shell if $(CC) $(OP_CFLAGS) $(1) -S $(SRC_PATH)/scn.c \
-               > /dev/null 2>&1; then echo "$(1)"; else echo "$(2)"; fi ;)
+-cc-option = $(shell if $(CC) $(1) $(2) -S -o /dev/null -xc /dev/null \
++cc-option = $(shell if $(CC) $(1) $(2) -S $(SRC_PATH)/scn.c \
+               > /dev/null 2>&1; then echo "$(2)"; else echo "$(3)"; fi ;)
  
- OP_CFLAGS+=$(call cc-option, -fno-reorder-blocks, "")
-@@ -114,6 +114,8 @@ OP_CFLAGS+=$(call cc-option, -fno-align-
- OP_CFLAGS+=$(call cc-option, -fno-align-jumps, "")
- OP_CFLAGS+=$(call cc-option, -fno-align-functions, $(call cc-option, -malign-functions=0, ""))
- OP_CFLAGS+=$(call cc-option, -fno-section-anchors, "")
-+OP_CFLAGS+=$(call cc-option, -fno-stack-protector, "")
-+OP_CFLAGS+=$(call cc-option, -fhonour-copts, "")
- 
- ifeq ($(ARCH),i386)
- HELPER_CFLAGS+=-fomit-frame-pointer
-@@ -136,11 +138,11 @@ endif
+ HELPER_CFLAGS=
+@@ -52,7 +52,7 @@ ifeq ($(ARCH),ia64)
+ CFLAGS+=-mno-sdata
  endif
- endif
- 
--ifeq ($(ARCH),x86_64)
--  ifneq ($(CONFIG_SOLARIS),yes)
--    BASE_LDFLAGS+=-Wl,-T,$(SRC_PATH)/$(ARCH).ld
--  endif
--endif
-+#ifeq ($(ARCH),x86_64)
-+#  ifneq ($(CONFIG_SOLARIS),yes)
-+#    BASE_LDFLAGS+=-Wl,-T,$(SRC_PATH)/$(ARCH).ld
-+#  endif
-+#endif
- 
- ifeq ($(ARCH),ppc)
- CPPFLAGS+= -D__powerpc__
-@@ -188,7 +190,7 @@ BASE_LDFLAGS+=-Wl,-G0 -Wl,-T,$(SRC_PATH)
- endif
- 
- ifeq ($(ARCH),arm)
--OP_CFLAGS+=-mno-sched-prolog -fno-omit-frame-pointer
-+OP_CFLAGS+=-mno-sched-prolog -fno-omit-frame-pointer -mapcs-frame
- BASE_LDFLAGS+=-Wl,-T,$(SRC_PATH)/$(ARCH).ld
- endif
- 
-@@ -215,6 +217,10 @@ BASE_LDFLAGS+=-Wl,-T,$(SRC_PATH)/$(ARCH)
- endif
- endif
- 
-+ifdef CONFIG_OSS_LIBRARY
-+LIBS+=-lossaudio
-+endif
-+
- ifeq ($(CONFIG_DARWIN),yes)
- LIBS+=-lmx
- endif
-@@ -231,7 +237,8 @@ OP_LDFLAGS+=$(OS_LDFLAGS) $(ARCH_LDFLAGS
- 
- #########################################################
  
 -CPPFLAGS+=-D_GNU_SOURCE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE
 +CPPFLAGS+=-D_GNU_SOURCE -D_NETBSD_SOURCE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE
-+#CPPFLAGS+= -DDEBUG_GDB -DDEBUG -DDEBUG_KBD -DDEBUG_MOUSE
+ CPPFLAGS+=-U_FORTIFY_SOURCE
  LIBS+=-lm
- ifndef CONFIG_USER_ONLY
- LIBS+=-lz
-@@ -537,7 +544,7 @@ endif
- ifndef CONFIG_DARWIN
- ifndef CONFIG_WIN32
- ifndef CONFIG_SOLARIS
--VL_LIBS+=-lutil
-+#VL_LIBS+=-lutil
- endif
- endif
- endif
-@@ -557,12 +564,12 @@ ifeq ($(ARCH),sparc64)
-   endif
- endif
- 
--ifeq ($(ARCH),x86_64)
--  VL_LDFLAGS+=-m64
--  ifneq ($(CONFIG_SOLARIS),yes)
--    VL_LDFLAGS+=-Wl,-T,$(SRC_PATH)/$(ARCH).ld
--  endif
--endif
-+#ifeq ($(ARCH),x86_64)
-+#  VL_LDFLAGS+=-m64
-+#  ifneq ($(CONFIG_SOLARIS),yes)
-+#    VL_LDFLAGS+=-Wl,-T,$(SRC_PATH)/$(ARCH).ld
-+#  endif
-+#endif
- 
  ifdef CONFIG_WIN32
- SDL_LIBS := $(filter-out -mwindows, $(SDL_LIBS)) -mconsole

@@ -1,6 +1,6 @@
 $OpenBSD: patch-slirp_slirp_config_h,v 1.4 2007/05/01 12:55:14 todd Exp $
---- slirp/slirp_config.h.orig	Mon Feb  5 17:01:54 2007
-+++ slirp/slirp_config.h	Sat Mar 10 16:39:40 2007
+--- slirp/slirp_config.h.orig	Wed Sep 23 19:01:08 2009
++++ slirp/slirp_config.h	Sat Oct 17 16:35:43 2009
 @@ -92,7 +92,7 @@
  #undef BAD_SPRINTF
  
@@ -28,7 +28,7 @@ $OpenBSD: patch-slirp_slirp_config_h,v 1.4 2007/05/01 12:55:14 todd Exp $
  
  /* Define if you have sys/stropts.h */
  #undef HAVE_SYS_STROPTS_H
-@@ -200,7 +200,7 @@
+@@ -197,7 +197,7 @@
  #undef HAVE_GRANTPT
  
  /* Define if you have fchmod */

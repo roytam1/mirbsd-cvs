@@ -1,7 +1,7 @@
-$MirOS$
---- hw/nand.c.orig	Sun Jan  6 19:38:19 2008
-+++ hw/nand.c	Wed May  7 15:05:14 2008
-@@ -83,22 +83,29 @@ struct nand_flash_s {
+$MirOS: ports/emulators/qemu/snapshot/patches/patch-hw_nand_c,v 1.1 2008/05/07 15:53:10 tg Exp $
+--- hw/nand.c.orig	Wed Sep 23 19:01:08 2009
++++ hw/nand.c	Sat Oct 17 16:35:43 2009
+@@ -83,22 +83,29 @@ struct NANDFlashState {
  
  # define PAGE(addr)		((addr) >> ADDR_SHIFT)
  # define PAGE_START(page)	(PAGE(page) * (PAGE_SIZE + OOB_SIZE))

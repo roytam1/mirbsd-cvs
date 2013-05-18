@@ -1,7 +1,7 @@
-$MirOS$
---- target-m68k/helper.c.orig	Sun Jan  6 19:38:22 2008
-+++ target-m68k/helper.c	Wed May  7 15:25:14 2008
-@@ -20,6 +20,7 @@
+$MirOS: ports/emulators/qemu/snapshot/patches/patch-target-m68k_helper_c,v 1.1 2008/05/07 15:53:12 tg Exp $
+--- target-m68k/helper.c.orig	Wed Sep 23 19:00:50 2009
++++ target-m68k/helper.c	Sat Oct 17 16:36:12 2009
+@@ -19,6 +19,7 @@
   */
  
  #include <stdio.h>

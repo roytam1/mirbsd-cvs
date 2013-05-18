@@ -1,7 +1,7 @@
-$MirOS$
---- hw/sh7750.c.orig	Sun Jan  6 19:38:19 2008
-+++ hw/sh7750.c	Wed May  7 15:28:13 2008
-@@ -199,6 +199,7 @@ static uint32_t sh7750_mem_readb(void *o
+$MirOS: ports/emulators/qemu/snapshot/patches/patch-hw_sh7750_c,v 1.1 2008/05/07 15:53:11 tg Exp $
+--- hw/sh7750.c.orig	Wed Sep 23 19:01:08 2009
++++ hw/sh7750.c	Sat Oct 17 16:35:43 2009
+@@ -208,6 +208,7 @@ static uint32_t sh7750_mem_readb(void *o
  	error_access("byte read", addr);
  	assert(0);
      }
@@ -9,7 +9,7 @@ $MirOS$
  }
  
  static uint32_t sh7750_mem_readw(void *opaque, target_phys_addr_t addr)
-@@ -222,6 +223,7 @@ static uint32_t sh7750_mem_readw(void *o
+@@ -242,6 +243,7 @@ static uint32_t sh7750_mem_readw(void *o
  	error_access("word read", addr);
  	assert(0);
      }
@@ -17,11 +17,11 @@ $MirOS$
  }
  
  static uint32_t sh7750_mem_readl(void *opaque, target_phys_addr_t addr)
-@@ -257,6 +259,7 @@ static uint32_t sh7750_mem_readl(void *o
+@@ -289,6 +291,7 @@ static uint32_t sh7750_mem_readl(void *o
  	error_access("long read", addr);
  	assert(0);
      }
 +    return (0);		/* shut up gcc */
  }
  
- static void sh7750_mem_writeb(void *opaque, target_phys_addr_t addr,
+ #define is_in_sdrmx(a, x) (a >= SH7750_SDMR ## x ## _A7 \
