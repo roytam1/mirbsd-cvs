@@ -1,4 +1,4 @@
-# $MirOS: ports/Makefile,v 1.18 2006/07/23 20:43:07 tg Exp $
+# $MirOS: ports/Makefile,v 1.19 2006/09/20 22:24:50 tg Exp $
 # $OpenBSD: Makefile,v 1.43 2003/12/15 17:56:40 espie Exp $
 # $FreeBSD: Makefile,v 1.36 1997/10/04 15:54:31 jkh Exp $
 #-
@@ -149,7 +149,7 @@ setup: Setup.sh
 	fi
 	${SUDO} ln -sf /etc/X11/app-defaults /usr/mpkg/lib/X11/app-defaults
 	env CC='${CC}' SHELL=${SHELL} MKSH=${MKSH} \
-	    ${SUDO} /bin/sh ${.CURDIR}/Setup.sh
+	    ${SUDO} /bin/sh ${.CURDIR}/Setup.sh -T
 
 nfo: Setup.sh.nfo Setup.sh.htm
 

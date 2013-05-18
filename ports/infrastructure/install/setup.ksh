@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: ports/infrastructure/install/setup.ksh,v 1.66 2006/10/13 17:16:31 tg Exp $
+# $MirOS: ports/infrastructure/install/setup.ksh,v 1.67 2006/10/13 17:25:59 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -29,7 +29,7 @@
 function usage
 {
 	print -u2 "Syntax: Setup.sh [-u|-U user[:group]]] [-e|-E sysconfdir]"
-	print -u2 "\t[-l localbase] [-X xfbase] [-N]"
+	print -u2 "\t[-l localbase] [-X xfbase] [-DiNT]"
 	print -u2 "  -e\tset sysconfdir (default /etc; -e: \$localbase/etc)"
 	print -u2 "  -u\tinstall as user (default root:bin except on Interix)"
 	exit 1
@@ -129,18 +129,20 @@ else
 	user=root:bin
 fi
 etc=/etc
-let iopt=0
-let nopt=0
+integer iopt=0
+integer nopt=0
+integer topt=0
 d=0
-while getopts "DE:ehil:NU:uX:" opt; do
+while getopts "DE:ehil:NTU:uX:" opt; do
 	case $opt {
 	(D)	trap - 0 1 2 3 13 15
 		d=1 ;;
 	(E)	etc=${OPTARG%%*(/)} ;;
 	(e)	etc=@LOCALBASE@/etc ;;
-	(i)	let iopt=1 ;;
+	(i)	iopt=1 ;;
 	(l)	localbase=${OPTARG%%*(/)} ;;
 	(N)	nopt=1 ;;
+	(T)	topt=1 ;;
 	(U)	user=$OPTARG ;;
 	(u)	user=$(id -un):$(id -gn) ;;
 	(X)	xfbase=${OPTARG%%*(/)} ;;
@@ -622,8 +624,15 @@ elif [[ $(cd $localbase/db/pkg && echo pkgtools-*) != "pkgtools-*" ]]; then
 	    . $localbase/db/SetEnv.sh; \
 	    mmake repackage reupgrade clean)
 else
-	dependdist pkgtools
-	cd $T/ports/infrastructure/pkgtools
+	if (( topt == 0 )); then
+		dependdist pkgtools
+		cd $T/ports/infrastructure/pkgtools
+	else
+		mkdir -p $T/ports/infrastructure/pkgtools
+		cd $T/ports/infrastructure/pkgtools
+		lndir $portsdir/infrastructure/pkgtools
+		f_ver=20061013	# hardcoded here, update manually and seldom
+	fi
 	export LOCALBASE=$localbase PORTSDIR=$portsdir
 	set -e
 	mmake obj

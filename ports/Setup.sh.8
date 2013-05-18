@@ -1,4 +1,4 @@
-.\" $MirOS: ports/Setup.sh.8,v 1.17 2006/08/16 20:02:24 tg Exp $
+.\" $MirOS: ports/Setup.sh.8,v 1.18 2006/10/06 14:08:02 tg Exp $
 .\"-
 .\" Copyright (c) 2005, 2006
 .\"	Thorsten Glaser <tg@mirbsd.de>
@@ -66,13 +66,13 @@
 .Nd first-time installation of MirPorts Framework
 .Sh SYNOPSIS
 .Nm
-.Op Fl DNi
+.Op Fl DiNT
+.Op Fl e | Fl E Ar sysconfdir
+.Op Fl l Ar localbase
 .Oo
 . Fl u |
 . Fl U Ar user Ns Op Ar :group
 .Oc
-.Op Fl e | Fl E Ar sysconfdir
-.Op Fl l Ar localbase
 .Op Fl X Ar xfbase
 .Op Ar mirror
 .Sh DESCRIPTION
@@ -246,6 +246,17 @@ Use with care.
 Better don't use (see
 .Sx CAVEATS
 below).
+.It Fl T
+Use the locally checked out version of the package tools for
+bootstrapping, instead of downloading a distfile and using it.
+Note this might break things horridly and hard-codes a specific
+version number.
+This is, however, used by MirOS native MirPorts
+.Dq make setup
+command, so that users of a fresh MirOS BSD + MirPorts installation
+can install binary packages without having to download anything.
+This does not prevent MirMake from being downloaded even on MirOS
+if it's not recent enough, and is only intended for current snapshots.
 .It Fl U Ar user Ns Op Ar :group
 Use its arguments as
 .Ev BINOWN
@@ -480,6 +491,8 @@ It pulls in metaauto, autoconf-new (2.60 and up) and help2man.
 .Sh EXAMPLES
 Install the MirPorts Framework natively on MirOS-current:
 .Bd -literal
+$ cd /usr/ports; make setup
+  # - or -
 $ sudo sh /usr/ports/Setup.sh
 .Ed
 .Pp
