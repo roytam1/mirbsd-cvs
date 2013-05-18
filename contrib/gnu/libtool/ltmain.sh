@@ -1,12 +1,13 @@
+# $MirOS: contrib/gnu/libtool/ltmain.in,v 1.44 2008/05/02 23:42:40 tg Exp $
+# $miros: contrib/gnu/libtool/ltmain.in,v 1.44 2008/05/02 23:42:40 tg Exp $
+#-
 # ltmain.sh - Provide generalized library-building support services.
-# $MirOS: contrib/gnu/libtool/ltmain.in,v 1.43 2008/03/14 19:15:51 tg Exp $
-# $miros: contrib/gnu/libtool/ltmain.in,v 1.43 2008/03/14 19:15:51 tg Exp $
 # NOTE: Changing this file will not affect anything until you rerun configure.
 #
 # Copyright (C) 1996, 1997, 1998, 1999, 2000, 2001, 2003, 2004, 2005, 2006
 # Free Software Foundation, Inc.
 # Originally by Gordon Matzigkeit <gord@gnu.ai.mit.edu>, 1996
-# MirLibtool patches contributed 2004, 2005, 2006 by
+# MirLibtool patches contributed 2004, 2005, 2006, 2008 by
 # Thorsten Glaser <tg@mirbsd.de> for the MirOS Project
 #
 # This program is free software; you can redistribute it and/or modify
@@ -48,7 +49,7 @@ EXIT_FAILURE=1
 PROGRAM=ltmain.sh
 PACKAGE=libtool
 VERSION=1.5.23a
-TIMESTAMP=" (MirLibtool 2008/03/14 19:16:30)"
+TIMESTAMP=" (MirLibtool 2008/05/02 23:45:23)"
 
 # Be Bourne compatible (taken from Autoconf:_AS_BOURNE_COMPATIBLE).
 if test -n "${ZSH_VERSION+set}" && (emulate sh) >/dev/null 2>&1; then
