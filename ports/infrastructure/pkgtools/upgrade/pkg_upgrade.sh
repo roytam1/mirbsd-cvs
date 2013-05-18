@@ -1,5 +1,5 @@
 #!/usr/bin/env mksh
-# $MirOS: ports/infrastructure/pkgtools/upgrade/pkg_upgrade.sh,v 1.12 2006/01/17 22:54:17 tg Exp $
+# $MirOS: ports/infrastructure/pkgtools/upgrade/pkg_upgrade.sh,v 1.13 2006/01/17 22:57:00 tg Exp $
 #-
 # Copyright (c) 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -48,6 +48,7 @@ while getopts "afhq" option; do
 done
 shift $((OPTIND - 1))
 [[ -n $1 ]] || usage
+npkg="$(readlink -nf "$1")"
 
 PKG_DBDIR=@@dbdir@@/pkg
 if [[ ! -d $PKG_DBDIR ]] ; then
@@ -55,7 +56,7 @@ if [[ ! -d $PKG_DBDIR ]] ; then
 	exit 1
 fi
 
-if [[ ! -s $1 ]]; then
+if [[ ! -s $npkg ]]; then
 	print -u2 "$me: package file '$1' does not exist"
 	exit 1
 fi
@@ -66,7 +67,7 @@ trap 'rm -rf $TMPDIR ; exit 1' 1 2 3 13 15
 
 OLDPWD=$PWD
 cd $TMPDIR
-tar xfz $1 +CONTENTS
+tar xfz "$npkg" +CONTENTS
 cd $PKG_DBDIR
 PKGNAME=$(awk '$1=="@name" { print $2 }' $TMPDIR/+CONTENTS)
 OLDPKGS=$(echo ${PKGNAME%%-[0-9]*}-[0-9]*)
@@ -84,7 +85,7 @@ grep -q '^@option no-default-conflict' $TMPDIR/+CONTENTS
 if [[ $? -eq 0 || -z "$OLDPKGS" ]]; then
 	# we can safely go on
 	[[ $quiet = 1 ]] || print -u2 "$me: adding previously uninstalled '${1##*/}'"
-	exec pkg_add $1
+	exec pkg_add "$npkg"
 fi
 
 if [[ $OLDPKGS = *\ * ]]; then
@@ -107,9 +108,9 @@ fi
 
 if grep -q '^@option base-package' $PKG_DBDIR/$OLDPKGS/+CONTENTS ; then
 	print -u2 "$me: '$OLDPKGS' is a base package, unregistering only"
-	pkg_delete -DU $OLDPKGS && pkg_add -Nq $1
+	pkg_delete -DU $OLDPKGS && pkg_add -Nq "$npkg"
 else
-	pkg_delete $OLDPKGS && pkg_add $1
+	pkg_delete $OLDPKGS && pkg_add "$npkg"
 fi
 
 if [[ -f $TMPDIR/+REQUIRED_BY && -d $PKG_DBDIR/$PKGNAME ]] ; then
