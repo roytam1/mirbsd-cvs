@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.356 2010/08/27 20:23:38 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.357 2010/08/28 20:26:26 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -39,7 +39,9 @@ mws_content <<'EOF'
  information. The <a href="http://directory.fsf.org/mksh.html">FSF/UNESCO
  directory of Free Software</a> lists mksh, too. There also is an <a
  href="https://www.ohloh.net/p/mksh">mksh project page on ohlol</a>, a
- statistics site. Get the Logo (<a href="@@RELPATH@@pics/mksh.svg">SVG</a>).</p>
+ statistics site. mksh is <a href="https://launchpad.net/mksh">experimentally
+ tracked at Launchpad</a>. Download the Logo as <a
+ href="@@RELPATH@@pics/mksh.svg">SVG</a> if you want.</p>
 
 <h2 class="cr" id="prefetch">Introduction</h2>
 <p>The current version of mksh is <strong>mksh R39c</strong> from
@@ -494,7 +496,7 @@ exec /usr/bin/ld "${args[@]}"</pre>
 <p>Supported with OpenADK (static eglibc) and NDK (although the build
  process is currently not feasible with an Android.mk file but possible
  if the CPPFLAGS and signames.inc are pregenerated; sys_signame[] has
- been pushed upstream and is currently under evaluation). Integration
+ been pushed upstream and is in Android 1.6). Integration
  into both AOSP and the Google master, as <tt>/system/bin/sh</tt>, has
  been done and it can be enabled on a per-target basis at the moment;
  the next (end of 2010 or so) release of Android is expected to ship

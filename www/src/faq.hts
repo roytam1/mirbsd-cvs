@@ -3,7 +3,7 @@
 
 mws_setname legacy/faq "MirOS Legacy Content"
 mws_setheadline FAQ
-mws_putheader '$MirOS: www/src/faq.hts,v 1.1 2008/09/17 21:12:24 tg Exp $'
+mws_putheader '$MirOS: www/src/faq.hts,v 1.2 2009/06/21 11:01:23 tg Exp $'
 mws_content <<'EOF'
 <h2>Other languages</h2>
 
@@ -61,9 +61,10 @@ mws_content <<'EOF'
 <h2 id="s_down">Downloading</h2>
 
 <h3 id="down_bt">Where is the BitTorrent server?</h3>
-<p>The MirOS torrents are hosted at a large tracker reachable at <a
- href="http://f.scarywater.net/miros/">http://f.scarywater.net/miros/</a>
- (plase consider sponsoring the server administrator as well).</p>
+<p>The MirOS torrents are hosted at a large anonymous tracker and
+ listed on the <a href="@@RELPATH@@bt.htm">BitTorrent page</a> of
+ the project. The previous server, <tt>f.scarywater.net</tt>, no
+ longer exists.</p>
 <small><a href="#toc">back</a></small>
 
 <h2 id="s_inst">Installation</h2>

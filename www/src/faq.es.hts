@@ -3,7 +3,7 @@
 
 mws_setname legacy/faq.es "MirOS Legacy Content"
 mws_setheadline FAQ en español
-mws_putheader '$MirOS: www/src/faq.es.hts,v 1.1 2008/09/17 21:12:24 tg Exp $'
+mws_putheader '$MirOS: www/src/faq.es.hts,v 1.2 2009/06/21 11:01:23 tg Exp $'
 mws_content <<'EOF'
 <h2>Otros linguas</h2>
 
@@ -50,9 +50,9 @@ mws_content <<'EOF'
 
 <h3 id="down_bt">&iquest;Donde est&aacute; el servidor BitTorrent?</h3>
 <p>Los torrents de MirOS estt&aacute;n alojados en un largo tracker
- alcanzable en <a href="http://f.scarywater.net/miros/">http://f.scarywater.net/miros/</a>
- (por favor, considera
- patrocinar el administrador del servidor tambi&eacute;n).</p>
+ anonimoso y se puede mirarlos en la <a
+ href="@@RELPATH@@bt.htm">página BitTorrent</a> del proyeto. El
+ servidor precedente, <tt>f.scarywater.net</tt>, no existe.</p>
 <small><a href="#toc">back</a></small>
 
 <h2 id="s_inst">Instalaci&oacute;n</h2>

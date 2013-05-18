@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.307 2010/08/15 13:40:40 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.308 2010/08/24 14:54:53 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -6994,7 +6994,7 @@ Tag: debian event mksh snapshot
  the greek restaurant in the city will not be visited by me again. Anyway,
  if you didn’t attend FrOSCon, your own fault…</p>
 <p>Since the BitTorrent tracker used by MirOS is down, here’s the link to <a
- href="@@RELPATH@@f/MirOS%20%2310-current%20%28FrOSCon%202010%29%20%5B2C7AF16C%5D.torrent">the
+ href="@@RELPATH@@f/MIRA0819.torrent">the [updated 2010-08-28]
  current (FrOSCon 2010 Edition) snapshot’s torrent</a>, Triforce as usual.
  We’ll probably rewrite torrent files for all our ISOs and publish them on
  the MirBSD website. I’m currently considering OpenBitTorrent plus one or
@@ -7004,4 +7004,68 @@ Tag: debian event mksh snapshot
  as news entry, once done.</p>
 <p>On the plus side, the review process of mksh(1) in Android continues,
  and I fixed the realpath builtin to behave even more POSIX-ish.</p>
+----
+Title: mksh, encodings, MirBSD, BitTorrent, WinCE
+Author: tg@
+Date: 28.08.2010 20:31
+Tag: android debian geocache hardware mksh news release snapshot
+
+<p><a href="@@RELPATH@@mksh.htm">mksh</a> was merged into Android (both
+ AOSP and Google’s internal master tree) in the night 24/25th August,
+ and is expected to be the one shell to rule them all, for Gingerbread.</p>
+<p>mksh(1) now also has a <tt>cat</tt> builtin, for here documents
+ mostly. It calls the cat(1) command if it receives any options. The
+ shell is nevertheless smaller than yesterday because of improved
+ string pooling.</p>
+<p>There’s another reason to use the MirOS OPTU-16 encoding instead of <a
+ href="http://thread.gmane.org/gmane.os.miros.general/8899">PEP 383</a>,
+ on which I already wrote: try passing a wide-char filename to a function
+ such as MessageBoxW, or create a filename on a system using wide chars,
+ such as FAT’s LFN or ISO 9660’s Joliet, or one that only allows Unicode
+ (canonically decomposed – ü → ü – out of all things) like HFS+. OPTU-8
+ at least maps to somewhat reserved codepoints (would, of course, be
+ better to get an official 128 codepoint block, but the chance’s small
+ of getting that in the BMP). Still.</p>
+<p>Oh well, the torrents. I’ve remade them all, using one DHT seed node
+ and <a href="http://openbittorrent.com/">OpenBitTorrent</a> as tracker
+ and put them on a very rudimentary <a href="@@RELPATH@@bt.htm">BT</a>
+ page that will be completely redone soonish. Please re-download them.
+ I currently do not believe <tt>f.scarywater.net</tt> will return.</p>
+<p>Finally, I fell victim to a selling-out and may have just bought a
+ Windows Mobile 6 based phone (Glofiish X650) and an SDHC card and an
+ extra battery with double capacity. Well, at least it’s said to run <a
+ href="http://www.cachewolf.de/">CacheWolf</a> well. I still would like
+ to have something like Interix, Cygwin, UWIN, coLinux, or maybe some
+ qemu-for-WinCE variant that runs Android, Maemo, Debian/armhf (or armel
+ or arm) at near-native speed (and is usable – the device sadly doesn’t
+ have a hardware keyboard, but it comes with SiRFstar Ⅲ GPSr). It only
+ has 64 MiB RAM, like the Zaurus SL-C3200 and the jesusPhone, though.
+ ☹ Any chance to get <a href="@@RELPATH@@mksh.htm">MirWorldDomination</a>
+ onto that device as well?</p><!-- RSS stop -->
+<p>Tomorrow, eight years ago, is the date we now use as birthing point
+ for <a href="@@RELPATH@@main.htm">MirOS</a>. The thing is, we did not
+ really want to create a BSD of our own, fork, or whatnot. We were mostly
+ happy OpenBSD users (really happy before the first eMail exchange with
+ its developers, where Theo de Raadt did indeed stand out but was not
+ the only one – just the one with the authority to deny us), improved it
+ locally and submitted patches and ports. We were flamed for that or,
+ worse, ignored. I begun putting up my “OpenBSD patchkit” on my homepage
+ (back then, at Tripod) and still tried to feed things to upstream and
+ OpenBSD. Then, at some point, Theo de Raadt made it clear he did not
+ want me and the patch kit had grown (from one 4M file into several of
+ them), so I ended up doing a “cvs -d /cvs init” and went from there.
+ Benny’s story is similar – he laughed at me while trying to get ports
+ added to OpenBSD, then discovered his ports were added to the MirPorts
+ Framework and getting commit access there was easier than getting some
+ random developer to commit something of his to OpenBSD. (This trend
+ ended there though… <em>every single</em> person I approached since
+ has become OpenBSD ports committer – I wonder whether they used my
+ invitation letter to blackmail Theo?) It’s often thought that there
+ was a clash of opinions between Theo and me. I think while we might
+ disagree in certain aspects or priorities things should have, in the
+ end we both wanted the same thing, I just was promised to never become
+ a member of the OpenBSD project, so it’s really just “them” being
+ uncooperative. (They (Henning and others) did burn the T-Shirt I gave
+ Theo as a gift some day for making OpenBSD what it was. I won’t comment
+ on that, again, now.)</p>
 ----

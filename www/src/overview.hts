@@ -3,7 +3,7 @@
 
 mws_setname legacy/overview "MirOS Legacy Content"
 mws_setheadline Quick Overview – All in one page
-mws_putheader '$MirOS: www/src/overview.hts,v 1.5 2009/06/21 11:01:26 tg Exp $'
+mws_putheader '$MirOS: www/src/overview.hts,v 1.6 2009/10/31 22:28:07 tg Exp $'
 mws_content <<'EOF'
 <h2>Maintenance</h2>
 <p>The <a href="@@RELPATH@@fornow.htm">&quot;For Now Page&quot;</a> has replaced
@@ -14,7 +14,7 @@ mws_content <<'EOF'
 
 <h2 id="status">Status</h2><p>
  <a href="@@RELPATH@@ann-10.htm">MirOS #10</a> is the latest release.
- The <a href="http://f.scarywater.net/miros/">BitTorrent tracker</a> contains it.
+ The <a href="@@RELPATH@@bt.htm">BitTorrent tracker</a> contains it.
  The <a href="@@ABSPATH@@/current/i386/">latest snapshot</a> of the current development version (i386) is newer.
  MirPorts infrastructure and new installer (<a href="@@ABSPATH@@/ports.htm">docs</a>) are stable and working on Darwin, MidnightBSD, MirOS, and OpenBSD. Interix does not work.
  We expect a small percentage of individual ports to be broken or (more) out of date due to lack of manpower.
@@ -47,7 +47,7 @@ mws_content <<'EOF'
   <!-- li><a href="https://mirbsd.mirsolutions.de:445/cvs.cgi/">http://mirbsd.mirsolutions.de/cvs.cgi/</a></li -->
  </ul></li>
  <li id="release">Release<ul>
-  <li><a href="http://f.scarywater.net/miros/">MirOS #10</a> (BitTorrent, ISO)</li>
+  <li><a href="@@RELPATH@@bt.htm">MirOS #10</a> (BitTorrent, ISO)</li>
   <li><a href="https://www.mirbsd.org/MirOS/v10/">MirOS #10</a> (NetInstall)</li>
   <li><a href="https://www.mirbsd.org/MirOS/ISOs/MIR80316.ISO">MirOS #10</a> (HTTP, ISO)</li>
   <li><a href="http://f.scarywater.net/miros/BSD-8semel-full--i386-source.ISO.torrent">ISO (BitTorrent)</a> #8semel (i386)</li>
@@ -58,7 +58,7 @@ mws_content <<'EOF'
   <li><a href="http://www.mirbsd.org/MirOS/v7.4/bsd/sparc/">Direct Download</a> #7quater (sparc) + updates</li>
  </ul></li>
  <li id="snapshots">Snapshots<ul>
-  <li><a href="http://f.scarywater.net/miros/">Please use our BitTorrent tracker</a> to download if available</li>
+  <li><a href="@@RELPATH@@bt.htm">Please use our BitTorrent tracker</a> to download if available</li>
 <!--  <li><a href="http://www.mirbsd.org/MirOS/current/i386-20060420/">MirOS BSD #8-current/i386, 2006-04-20</a> (binary only)</li> -->
  </ul></li>
  <li>Website<ul>

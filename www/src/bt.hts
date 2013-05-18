@@ -3,10 +3,37 @@
 
 mws_setname bt 'BitTorrent information'
 mws_setheadline BitTorrent information
-mws_putheader '$MirOS: www/src/bt.hts,v 1.10 2009/07/07 19:13:37 tg Exp $'
+mws_putheader '$MirOS: www/src/bt.hts,v 1.11 2009/10/31 22:28:07 tg Exp $'
 mws_content <<'EOF'
 <!-- http://www.mirbsd.org/bt.htm#id -->
 <p><strong>Warning:</strong> Not finished yet.</p>
+<h2>For now…</h2>
+<p>The <tt>f.scarywater.net</tt> tracker no longer exists; this is a
+ list of <tt>*.torrent</tt> files for The MirOS Project hosted here.
+ Please <strong>redownload</strong> these, as they are redone for DHT
+ and a new tracker on 2010-08-28. This webpage will receive rework as
+ well in the coming days.</p>
+<ul>
+ <li><a href="@@RELPATH@@f/MIR40614.torrent">2004-06-14 #7quater</a>
+  single file <tt>MirOS #7quater (full install).iso</tt> [F24074D9]</li>
+ <li><a href="@@RELPATH@@f/MIR51223.torrent">2005-12-23 #8semel</a>
+  single file <tt>MIR51223.ISO</tt> [5A4673CA]</li>
+ <li><a href="@@RELPATH@@f/MIR60625.torrent">2006-06-25 #9semel</a>
+  single file <tt>MIR60625.ISO</tt> [81ECE929] FrOSCon 2006</li>
+ <li><a href="@@RELPATH@@f/MIR80316.torrent">2008-03-16 #10semel</a>
+  single file <tt>MIR80316.ISO</tt> [76D0638A]</li>
+ <li><a href="@@RELPATH@@f/MIR91031.torrent">2009-10-31 snapshot</a>
+  subdirectory <tt>MirOS #10-current (Samhain 2009)</tt> containing
+  checksums, build logs (i386 + sparc), gzipped ISO, CVS repo</li>
+ <li><a href="@@RELPATH@@f/MIRA0131.torrent">2010-01-31 snapshot</a>
+  single file <tt>MIRA0131.ISO</tt> [6DE59E85] FOSDEM 2010</li>
+ <li><a href="@@RELPATH@@f/MIRA0819.torrent">2010-08-19 snapshot</a>
+  single file <tt>MIRA0819.ISO</tt> [2C7AF16C] FrOSCon 2010</li>
+</ul>
+<p>The 32-bit hex numbers in square brackets are the CRC32 or SFV
+ checksum of the files, as usual for the Anime Torrent scene ☺</p>
+
+<hr />
 <h2>Tracker</h2>
 <p>This information represents the files shown on the <a
  href="http://f.scarywater.net/miros/">Scarywater MirOS tracker</a>.
