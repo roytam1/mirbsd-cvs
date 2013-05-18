@@ -1,4 +1,4 @@
-/* $MirOS: src/usr.sbin/wsconfig/wsconfig.c,v 1.2 2006/08/16 23:13:02 tg Exp $ */
+/* $MirOS: src/usr.sbin/wsconfig/wsconfig.c,v 1.3 2006/08/16 23:19:33 tg Exp $ */
 
 /*-
  * Copyright (c) 2006
@@ -33,7 +33,7 @@
 #include <string.h>
 #include <unistd.h>
 
-__RCSID("$MirOS: src/usr.sbin/wsconfig/wsconfig.c,v 1.2 2006/08/16 23:13:02 tg Exp $");
+__RCSID("$MirOS: src/usr.sbin/wsconfig/wsconfig.c,v 1.3 2006/08/16 23:19:33 tg Exp $");
 
 #define DEFDEV	"/dev/ttyCcfg"
 
@@ -43,7 +43,8 @@ int
 main(int argc, char **argv)
 {
 	const char *wsdev, *est;
-	int wsfd, c, action, nr = 0, rv = 0;
+	int wsfd, c, rv = 0;
+	int action, nr = 0;
 
 	wsdev = DEFDEV;
 	action = 0;
@@ -71,6 +72,7 @@ main(int argc, char **argv)
 	if (!action)
 		usage();
 
+	/* apparently O_RDONLY wouldn't matter but we stay safe */
 	if ((wsfd = open(wsdev, O_RDWR, 0)) < 0)
 		err(2, "open %s", wsdev);
 
