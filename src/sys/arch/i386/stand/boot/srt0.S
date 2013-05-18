@@ -1,4 +1,4 @@
-/* $MirOS: src/sys/arch/i386/stand/boot/srt0.S,v 1.34 2009/01/02 06:37:02 tg Exp $ */
+/* $MirOS: src/sys/arch/i386/stand/boot/srt0.S,v 1.35 2009/01/02 07:26:36 tg Exp $ */
 
 /*-
  * Copyright (c) 2003, 2004, 2005, 2006, 2007, 2008, 2009
@@ -110,110 +110,6 @@ Linit:	pop	di
 	mov	ax,0xB800
 	mov	gs,ax		/* for UD() */
 	UD(0)			/** @: we're here */
-
-#if 1
-	push	dx
-	mov	ax,cs
-	mov	bx,1760
-
-	mov	dl,ah
-	shr	dl,4
-	mov	dh,0x20
-	add	dl,0x30
-	cmp	dl,0x39
-	jbe	1f
-	add	dl,7
-1:	gs mov	[bx],dx
-	add	bx,2
-	shl	ax,4
-
-	mov	dl,ah
-	shr	dl,4
-	mov	dh,0x20
-	add	dl,0x30
-	cmp	dl,0x39
-	jbe	1f
-	add	dl,7
-1:	gs mov	[bx],dx
-	add	bx,2
-	shl	ax,4
-
-	mov	dl,ah
-	shr	dl,4
-	mov	dh,0x20
-	add	dl,0x30
-	cmp	dl,0x39
-	jbe	1f
-	add	dl,7
-1:	gs mov	[bx],dx
-	add	bx,2
-	shl	ax,4
-
-	mov	dl,ah
-	shr	dl,4
-	mov	dh,0x20
-	add	dl,0x30
-	cmp	dl,0x39
-	jbe	1f
-	add	dl,7
-1:	gs mov	[bx],dx
-	add	bx,2
-	shl	ax,4
-
-	mov	dl,0x3a
-	mov	dh,0x20
-	gs mov	[bx],dx
-	add	bx,2
-
-	mov	ax,di
-
-	mov	dl,ah
-	shr	dl,4
-	mov	dh,0x20
-	add	dl,0x30
-	cmp	dl,0x39
-	jbe	1f
-	add	dl,7
-1:	gs mov	[bx],dx
-	add	bx,2
-	shl	ax,4
-
-	mov	dl,ah
-	shr	dl,4
-	mov	dh,0x20
-	add	dl,0x30
-	cmp	dl,0x39
-	jbe	1f
-	add	dl,7
-1:	gs mov	[bx],dx
-	add	bx,2
-	shl	ax,4
-
-	mov	dl,ah
-	shr	dl,4
-	mov	dh,0x20
-	add	dl,0x30
-	cmp	dl,0x39
-	jbe	1f
-	add	dl,7
-1:	gs mov	[bx],dx
-	add	bx,2
-	shl	ax,4
-
-	mov	dl,ah
-	shr	dl,4
-	mov	dh,0x20
-	add	dl,0x30
-	cmp	dl,0x39
-	jbe	1f
-	add	dl,7
-1:	gs mov	[bx],dx
-	add	bx,2
-	shl	ax,4
-
-	pop	dx
-#endif
-
 #ifndef SMALL_BOOT
 	cmp	di,0x0150	/* test for .COM offset */
 	jne	Ldxok
@@ -297,24 +193,24 @@ Lirrf:	jnz	Lirrf		/* forever loop */
 	add	ax,cx		/* ax:0000 is now _start+0x50 */
 	mov	ecx,offset _rval - SA_LINKADDR
 	shr	ecx,4
-	sub	ax,cx
+	sub	ax,cx		/* source */
 	cmp	ax,SA_LINKSEG
 	je	LisRel
 	UD(2)			/** B: relocation needed */
-	mov	bx,SA_LINKSEG + 0x2000
-	cmp	ax,SA_LINKSEG - 0x1000
+	mov	bx,SA_LINKSEG + 0x2000		/* stack above */
+	cmp	ax,SA_LINKSEG - 0x1000		/* lower boundry */
 	jb	Lrel2		/* below target area, relocate once */
-	mov	bx,SA_LINKSEG - 0x2000
-	cmp	ax,SA_LINKSEG + 0x1000
+	mov	bx,SA_LINKSEG - 0x2000		/* stack below */
+	cmp	ax,SA_LINKSEG + 0x1000		/* upper boundary */
 	ja	Lrel2		/* above target area, relocate once */
 	/* within target area, relocate twice */
 	UD(3)			/** C: relocate twice */
-	xor	bx,bx
+	xor	bx,bx		/* stack at very bottom */
 	mov	ss,bx		/* safe stack */
 	mov	sp,0xFFFC
 	mov	bx,SA_LINKSEG + 0x2000
-	mov	es,bx		/* safe target */
-	mov	ds,ax
+	mov	es,bx		/* safe target: above */
+	mov	ds,ax		/* original source */
 	xor	si,si
 	xor	di,di
 	mov	cx,0x4000
@@ -322,14 +218,14 @@ Lirrf:	jnz	Lirrf		/* forever loop */
 	push	es
 	mov	eax,offset Lrel2 - SA_LINKADDR
 	push	ax
-	mov	ax,es
-	mov	bx,SA_LINKSEG - 0x2000
+	mov	ax,es		/* target -> new source */
+	mov	bx,SA_LINKSEG - 0x2000		/* stack below */
 	lret
-Lrel2:	mov	ds,ax
+Lrel2:	mov	ds,ax		/* source (original or above) */
 	UD(4)			/** D: relocate once */
 	mov	ax,SA_LINKSEG
-	mov	es,ax
-	mov	ss,bx
+	mov	es,ax		/* new target: final destination */
+	mov	ss,bx		/* stack (above or below) */
 	mov	sp,0xFFFC
 	xor	si,si
 	xor	di,di
@@ -337,7 +233,6 @@ Lrel2:	mov	ds,ax
 	rep	movsd
 
 LisRel:	UD(5)			/** E: done reloc, or not needed */
-	/* relocation truncation workaround */
 	mov	ax,SA_LOADSEG
 	push	ax
 	mov	eax,offset Lmain - SA_LOADADDR
