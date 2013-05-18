@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.199 2009/06/06 14:17:06 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.200 2009/06/06 14:20:06 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -4165,4 +4165,18 @@ Author: tg@
  MirBSD</a>), thus gecko2@ offered to push it into Fink.</p>
 <p>I hope “Biertier” comrad now joins the fun set up by Vutral and me,
  especially since he operates an SSL-only private IRC server.</p>
+----
+Title: Website: now with “Corporate” Identity
+Date: 21.06.2009 11:25
+Author: tg@
+
+<p>Thanks to smultron and quite some bugfixing and hacking of yours
+ truly, the titles of the pages on our website are now pregenerated
+ PNG images depicting the headline text in <em>Gentium Oblique</em>
+ (the font in which our flyers have always been set, as well as the
+ <a href="@@ABSPATH@@/MirOS/dist/mir/mksh/mksh.pdf">PDF</a> version
+ of the <a href="@@RELPATH@@mksh.htm">mksh</a> manual page (since a
+ few weeks, once I found out how to use it with groff).</p>
+<p>Of course, it <strong>still</strong> looks superb in Lynx, using
+ &lt;img alt="…" /&gt; tags, and is valid XHTML/1.1 still.</p>
 ----
