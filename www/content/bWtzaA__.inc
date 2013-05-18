@@ -1,5 +1,5 @@
 <!-- PageID: mksh -->
-<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.39 2006/07/25 17:26:28 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.40 2006/07/27 14:45:30 tg Exp $</small>
 
 <h1>mksh(1) R27e</h1>
 <p>This is the MirBSD&trade; Korn Shell, a more or less portable
@@ -39,7 +39,17 @@
   <tt>/bin/sh</tt> although it's not specifically designed to</li>
  <li>Simplify nroff macro load in manual page</li>
  <li>Add sample file: <tt>dot.mkshrc</tt></li>
- <li>Correct and enhance book citation list in the manual page.</li>
+ <li>Correct and enhance book citation list in the manual page</li>
+ <li>Bring back the "version" editing command in both emacs and
+  vi modes, at <tt>ESC ^V</tt> like AT&amp;T ksh93r+</li>
+ <li>Fix typo which resulted in the wrong names for signals being
+  printed (error codes were used instead) on GNU/Linux, Solaris
+  and GNU/Cygwin. Ease changing signame/siglist sources.</li>
+ <li>Some more code cleanup</li>
+ <li>Merge OpenBSD changes, yielding better multiline prompt
+  support and textual improvements in the manual page</li>
+ <li>Adjust $PS1 sizing, printing, and redrawal routines
+  for mksh behaviour and single- and multiline prompts</li>
 </ul>
 <p>We recommend mksh <b>R27e</b> to be used:</p><ul>
  <li>Allow <tt>Test.sh</tt> to be passed parameters (-v)</li>
