@@ -1,5 +1,5 @@
 #!/bin/mksh
-rcsid='$MirOS: src/sys/arch/sparc/stand/bootxx/mkbxinst.sh,v 1.12 2009/02/01 15:50:10 tg Exp $'
+rcsid='$MirOS: src/sys/arch/sparc/stand/bootxx/mkbxinst.sh,v 1.13 2009/02/01 16:18:51 tg Exp $'
 #-
 # Copyright (c) 2007, 2008, 2009
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -263,7 +263,7 @@ while getopts ":0:g:N:S:" ch; do
 		fi ;;
 	(*)	print -u2 'Syntax:
 	bxinst [-0 secno [-g C:H:S]] [-N name] [-S scale] <blocklist >loader
-Default scale=0, geometry: 2048 cyls 1 head 640 secs'
+Default scale=0, suggest secno=24, geometry: 2048 cyls 1 head 640 secs'
 		exit 1 ;;
 	}
 done
