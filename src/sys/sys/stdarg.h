@@ -1,4 +1,4 @@
-/* $MirOS: src/sys/sys/stdarg.h,v 1.4 2008/11/09 20:20:32 tg Exp $ */
+/* $MirOS: src/sys/sys/stdarg.h,v 1.5 2009/10/16 17:35:57 tg Exp $ */
 
 /*-
  * Copyright (c) 2007, 2008, 2009
@@ -42,7 +42,8 @@ typedef __gnuc_va_list va_list;
 typedef _BSD_VA_LIST_ va_list;
 #endif
 
-#if defined(__llvm__) && defined(__clang__)
+#if (defined(__llvm__) && defined(__clang__)) || \
+    (__GNUC__ > 4) || ((__GNUC__ == 4) && (__GNUC_MINOR__ >= 4))
 #define va_start(ap,list)	__builtin_va_start((ap), (list))
 #else
 #define va_start(ap,list)	__builtin_stdarg_start((ap), (list))
