@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/baselive/Makefile,v 1.57 2009/08/01 13:24:29 tg Exp $
+# $MirOS: src/distrib/baselive/Makefile,v 1.58 2009/08/02 16:20:49 tg Exp $
 
 .include <bsd.own.mk>
 
@@ -110,6 +110,9 @@ unpack:
 .if ${GRML:L} != "no"
 	mkdir -p ${WRKDIR}/boot/grml
 .endif
+	# needed for the installer of MirOS-current snapshots
+	ln -s v${OSrev} ${WRKDIR}/current
+	# unpack the dist sets
 .for _i in base dev etc gnu xbase xetc xfont xserv
 	cd ${WRKDIR} && ${SUDO} tar xzphf ${STUFFDIR}/${_i}${OSrev}.ngz
 .endfor
