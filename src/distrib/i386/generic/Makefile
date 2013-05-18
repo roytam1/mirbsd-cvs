@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/i386/generic/Makefile,v 1.4 2006/02/01 18:30:49 tg Exp $
+# $MirOS: src/distrib/i386/generic/Makefile,v 1.5 2006/02/14 20:47:52 tg Exp $
 
 RAMDISK=	GENERIC
 SYSDIR=		${.CURDIR}/../../../sys
@@ -8,11 +8,27 @@ MAKE_CLEAN?=	${MAKE} clean
 
 all:	bsd
 
+rebsd:
+	rm -f bsd
+	cd ${.CURDIR} && exec ${MAKE} MAKE_CLEAN=: bsd
+
 depend:
 	# Nothing here so far...
 
 install:
 	cp bsd ${DESTDIR}/snapshot/bsd
+
+install-root:
+	@if [[ -e /bsd ]]; then \
+		echo Move /bsd out of the way!; \
+		exit 1; \
+	elif [[ ! -e /bsd.old ]]; then \
+		echo Back up your old kernel to /bsd.old!; \
+		exit 1; \
+	else \
+		set -x; \
+		install -c -o root -g daemon -m 400 bsd /; \
+	fi
 
 cleandir: clean
 
@@ -26,3 +42,5 @@ cleannobsd:
 .include "Makefile.kernel"
 .include <bsd.obj.mk>
 .include <bsd.subdir.mk>
+
+.PHONY: rebsd install-root
