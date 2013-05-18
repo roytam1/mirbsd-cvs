@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/sys/cdefs.h,v 1.22 2009/09/27 11:35:18 tg Exp $ */
+/**	$MirOS: src/sys/sys/cdefs.h,v 1.23 2009/10/16 17:35:57 tg Exp $ */
 /*	$OpenBSD: cdefs.h,v 1.18 2005/05/27 21:28:12 millert Exp $	*/
 /*	$NetBSD: cdefs.h,v 1.16 1996/04/03 20:46:39 christos Exp $	*/
 
@@ -203,13 +203,16 @@
 #define __func__		"__func__"
 #define __restrict__
 #define __unused
+#define __a_used
 #elif defined(__PCC__)
 #define __aligned(x)		_Pragma("aligned " #x)
 #define __restrict__		restrict
-#define __unused
+#define __unused		__attribute__((unused))
+#define __a_used
 #else
 #define __aligned(x)		__attribute__((aligned (x)))
 #define __unused		__attribute__((unused))
+#define __a_used		__attribute__((used))
 #endif
 
 #if defined(__ELF__) && defined(__GNUC__) && \
@@ -224,7 +227,7 @@
 #define __IDSTRING_EXPAND(l,p)		__IDSTRING_CONCAT(l,p)
 #define __IDSTRING(prefix, string)				\
 	static const char __IDSTRING_EXPAND(__LINE__,prefix) []	\
-	    __attribute__((used)) = "@(""#)" #prefix ": " string
+	    __a_used = "@(""#)" #prefix ": " string
 #endif
 #define __COPYRIGHT(x)		__IDSTRING(copyright,x)
 #define __KERNEL_RCSID(n,x)	__IDSTRING(rcsid_ ## n,x)
