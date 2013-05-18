@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/distrib/i386/livecd/munge_it.sh,v 1.11 2006/04/07 12:15:58 tg Exp $
+# $MirOS: src/distrib/i386/livecd/munge_it.sh,v 1.12 2006/04/07 12:37:02 tg Exp $
 #-
 # Copyright (c) 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -63,7 +63,7 @@ ed -s etc/ntpd.conf <<-'EOF'
 EOF
 ed -s etc/rc <<-'EOF'
 	1i
-		# $MirOS: src/distrib/i386/livecd/munge_it.sh,v 1.11 2006/04/07 12:15:58 tg Exp $
+		# $MirOS: src/distrib/i386/livecd/munge_it.sh,v 1.12 2006/04/07 12:37:02 tg Exp $
 	.
 	/shutdown request/ka
 	/^fi/a
@@ -149,7 +149,7 @@ ln -s dev/.root root
 
 # tmp because of perms
 find dev/.root etc tmp var | sort | cpio -oC512 -Hsv4crc -Mset >home/fsrw.cpio
-rm -rf dev/.root var
-mkdir var
+rm -rf dev/.root var sys
+mkdir -p dev/.root var
 
 exit 0
