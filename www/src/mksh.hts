@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.451 2012/04/07 10:11:18 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.452 2012/04/14 16:28:56 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -382,7 +382,8 @@ mws_content <<'EOF'
 <p>Support for the Caldera/SCO UNIX® based, BSD-licenced portable C compiler
  in the <a href="http://pcc.ludd.ltu.se/">ragge version</a> has been added
  with mksh R31d. Versions from end of April 2008 onwards are known to work
- reliably, even with -O enabled.</p>
+ reliably, even with -O enabled. Intermediate bugs that may have appeared
+ are just as quickly fixed.</p>
 
 <h5 class="cr" id="oe_sun">Compiler: SUNpro</h5>
 <p>Support for the <a href="http://developers.sun.com/sunstudio/">SUN Studio
@@ -474,8 +475,9 @@ exec /usr/bin/ld "${args[@]}"</pre>
 
 <h5 class="cr" id="oe_klcc">Toolchain: klibc</h5>
 <p>klibc needs <tt>-DMKSH_NO_LIMITS</tt> and can then use stock klcc as
- compiler wrapper (CC=klcc). Then, mkstemp(3) must be added to klibc;
- a patch to add it is currently pending inclusion review.</p>
+ compiler wrapper (CC=klcc). On some platforms, it’s already usable by
+ now; m68k needs to build with <tt>-g</tt> and without any <tt>-O</tt>
+ in <tt>CFLAGS</tt>, other platforms may be similarily broken.</p>
 
 <h5 class="cr" id="oe_musl">Toolchain: musl</h5>
 <p>Has broken <tt>-D_GNU_SOURCE</tt>, needs <tt>-D_BSD_SOURCE</tt> too,
@@ -483,6 +485,14 @@ exec /usr/bin/ld "${args[@]}"</pre>
  wrapper is broken with many gcc versions. Signals are broken but with
  <tt>-DMKSH_NOPROSPECTOFWORK</tt> it works. (Note that this option
  produces a shell not supporting standard Korn Shell scripts.)</p>
+
+<h5 class="cr" id="oe_bs3">OS: 386BSD</h5>
+<p>This seems to work with mksh R41, although on 386BSD-0.0new (anything
+ older than 386BSD-0.1) you need to patch the kernel against <a
+ href="http://groups.google.com/group/comp.unix.bsd/browse_thread/thread/1c6397039f10e76b">a
+ close-on-exec bug</a> and a bug when switching the terminal between <a
+ href="http://groups.google.com/group/comp.unix.bsd/browse_thread/thread/cb899f7ccb81550b">cooked
+ and raw mode</a>.</p>
 
 <h5 class="cr" id="oe_aix">OS: AIX</h5>
 <p>Support for AIX with xlC appeared in mksh R30.</p>
