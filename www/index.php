@@ -1,5 +1,5 @@
 <?php
-/* $MirOS: www/index.php,v 1.18 2006/05/08 21:05:30 tg Exp $ */
+/* $MirOS: www/index.php,v 1.19 2006/06/09 20:31:14 tg Exp $ */
 /*-
  * The MirOS Project - Webpages
  * Copyrighted material; read LICENCE for terms of use.
@@ -50,7 +50,7 @@
  </ul>
 </div>
 <div class="content">
- <div style="border:4px ridge blue; margin:0px 24px 0px 24px; padding:12px;">
+ <div style="border:4px ridge red; margin:0px 24px 0px 24px; padding:12px;">
   <h1>Important message</h1>
   <p>This website is currently under reconstruction. The information
    you find here is probably out of date and not maintained any more
