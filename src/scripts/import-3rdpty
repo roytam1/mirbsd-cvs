@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/scripts/import-3rdpty,v 1.39 2006/06/01 23:22:22 tg Exp $
+# $MirOS: src/scripts/import-3rdpty,v 1.40 2006/06/01 23:24:38 tg Exp $
 #-
 # Copyright (c) 2004, 2005, 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -24,7 +24,7 @@
 # other issues arising in any way out of its use, even if advised of
 # the possibility of such damage or existence of a nontrivial bug.
 
-print -ru2 -- '========= $MirOS: src/scripts/import-3rdpty,v 1.39 2006/06/01 23:22:22 tg Exp $ ========='
+print -ru2 -- '========= $MirOS: src/scripts/import-3rdpty,v 1.40 2006/06/01 23:24:38 tg Exp $ ========='
 
 ignlist=0
 force=0
@@ -1473,8 +1473,13 @@ cvs)
 	fi
 	;;
 expat)
-	print -u2 not implemented yet
-	exit 1
+	[[ $tag = expat-[1-9]_+([0-9])_+([0-9]) ]] || tagerr=1
+	realtag=$tag
+	tagformat=expat-1_95_8
+	if [[ ! -e doc/xmlwf.1 ]]; then
+		print -u2 Error: must be in src directory to commit.
+		exit 1
+	fi
 	;;
 lynx)
 	[[ $tag = lynx-[2-9]_+([0-9])_+([0-9])?(dev_+([0-9])?([a-z])) ]] \

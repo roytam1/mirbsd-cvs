@@ -1,7 +1,7 @@
-# $MirOS: src/lib/libexpat/Makefile,v 1.2 2005/10/21 11:02:44 tg Exp $
+# $MirOS: src/lib/libexpat/Makefile,v 1.4 2005/11/03 22:28:10 tg Exp $
 # $OpenBSD: Makefile,v 1.2 2004/09/22 21:37:35 espie Exp $
 
-SHLIB_VERSION?= 5.0
+SHLIB_VERSION?= 6.0
 LIB=		expat
 .PATH: ${.CURDIR}/lib
 SRCS=		xmlparse.c xmltok.c xmlrole.c
