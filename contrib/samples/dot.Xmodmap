@@ -1,4 +1,4 @@
-! $MirOS: contrib/samples/dot.Xmodmap,v 1.23 2010/04/04 10:35:51 tg Exp $
+! $MirOS: contrib/samples/dot.Xmodmap,v 1.24 2010/12/05 20:19:30 tg Exp $
 !-
 ! Copyright © 2004, 2007, 2008, 2010
 !	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
@@ -26,7 +26,8 @@
 ! All ISO-8859-1 code points are directly typable on a 101-key board
 ! and most directly typable code points are a part of codepage 1252.
 !
-! This file is m̲o̲s̲t̲l̲y̲ documented in kbd-xf86 in this directory.
+! This file has been modified to work on GNU: U+009B is not allowed,
+! and uxterm uses Mode_switch, not Meta, there, so bind it to Alt_L.
 !
 ! Diversions from pristine XFree86(R) and Windows(R) 2000 US layout:
 ! • The Alt_L key generates Meta_L	(adds 0x80 to latin1 code)
@@ -77,7 +78,7 @@
 !   parentheses: (unshift/shift) 〈〉 《》 / 〔〕 【】/ 「」 『』 
 ! Note: ☁ = available for reassignment
 
-keycode	0x09 =	grave		Escape			U00E0	U009B
+keycode	0x09 =	grave		Escape			U00E0
 keycode	0x43 =	F1		XF86_Switch_VT_1	U263B	U250C
 keycode	0x44 =	F2		XF86_Switch_VT_2	U263A	U2500
 keycode	0x45 =	F3		XF86_Switch_VT_3	U2639	U2510
@@ -94,7 +95,7 @@ keycode	0x6F =	Print		Sys_Req
 keycode	0x4E =	Scroll_Lock	Pointer_Accelerate
 keycode	0x6E =	Pause		Break
 
-keycode	0x31 =	Escape		asciitilde	U009B		U00FE
+keycode	0x31 =	Escape		asciitilde	Escape		U00FE
 keycode	0x0A =	1		exclam		U00B1		U00A1
 keycode	0x0B =	2		at		U00B2		U00C0
 keycode	0x0C =	3		numbersign	U00B3		U00A3
@@ -176,7 +177,7 @@ keycode	0x6C =	KP_Enter	Return
 
 keycode	0x25 =	Control_L	Control_L
 keycode	0x73 =	Alt_L		Alt_L
-keycode	0x40 =	Meta_L		Meta_L
+keycode	0x40 =	Mode_switch	Mode_switch
 keycode	0x41 =	space		space		U00A0		U00A0
 keycode	0x71 =	Alt_R		Alt_R
 keycode	0x74 =	Meta_R		Meta_R
