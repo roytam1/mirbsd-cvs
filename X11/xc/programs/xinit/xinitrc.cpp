@@ -1,5 +1,5 @@
 XCOMM!/bin/mksh
-XCOMM $MirOS$
+XCOMM $MirOS: X11/xc/programs/xinit/xinitrc.cpp,v 1.4 2006/01/22 17:46:33 tg Exp $
 XCOMM $Xorg: xinitrc.cpp,v 1.3 2000/08/17 19:54:30 cpqbld Exp $
 
 userresources=$HOME/.Xresources
@@ -30,4 +30,7 @@ XCOMM start some nice programs
 xclock -geometry 50x50-1+1 &
 xconsole -iconic &
 xterm -geometry 80x24 &
-twm || evilwm || xterm
+
+exec twm
+exec evilwm	# should not happen as default
+exec xterm	# last resort
