@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/stand/libsa/biosdev.c,v 1.8 2008/12/28 03:40:15 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/stand/libsa/biosdev.c,v 1.9 2008/12/28 05:45:10 tg Exp $ */
 /*	$OpenBSD: biosdev.c,v 1.74 2008/06/25 15:32:18 reyk Exp $	*/
 
 /*
@@ -563,15 +563,8 @@ biosopen(struct open_file *f, ...)
 #endif
 
 	/* Try for disklabel again (might be removable media) */
-	if (dip->bios_info.flags & BDI_BADLABEL){
-		const char *st = bios_getdisklabel(&dip->bios_info,
-		    &dip->disklabel);
-		if (st != NULL) {
-			printf("%s\n", st);
-			return ERDLAB;
-		}
-		dip->bios_info.flags &= !BDI_BADLABEL;
-	}
+	if ((biosdev = disk_trylabel(dip)))
+		return (biosdev);
 
 	f->f_devdata = dip;
 
@@ -709,4 +702,20 @@ int
 biosioctl(struct open_file *f, u_long cmd, void *data)
 {
 	return 0;
+}
+
+int
+disk_trylabel(struct diskinfo *dip)
+{
+	const char *st;
+
+	if (dip->bios_info.flags & BDI_BADLABEL){
+		st = bios_getdisklabel(&dip->bios_info, &dip->disklabel);
+		if (st != NULL) {
+			printf("%s\n", st);
+			return ERDLAB;
+		}
+		dip->bios_info.flags &= !BDI_BADLABEL;
+	}
+	return (0);
 }

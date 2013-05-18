@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/stand/libsa/cmd_i386.c,v 1.6 2008/08/01 12:39:07 tg Exp $	*/
+/**	$MirOS: src/sys/arch/i386/stand/libsa/cmd_i386.c,v 1.7 2008/12/28 18:10:09 tg Exp $	*/
 /*	$OpenBSD: cmd_i386.c,v 1.29 2006/09/18 21:14:15 mpf Exp $	*/
 
 /*
@@ -115,10 +115,9 @@ Xlabel(void)
 		return (0);
 	}
 	printf("Disklabel for device %x (%cd%c): ", d, dname[0], dname[2]);
-	if (dip->bios_info.flags & BDI_BADLABEL) {
-		printf("%s\n", "*none*");
+	if ((dip->bios_info.flags & BDI_BADLABEL) &&
+	    (d = disk_trylabel(dip)))
 		return (0);
-	}
 	putchar('\n');
 	for (d = 0; d < dip->disklabel.d_npartitions; ++d)
 		if (dip->disklabel.d_partitions[d].p_fstype ||

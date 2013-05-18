@@ -47,5 +47,6 @@ TAILQ_HEAD(disklist_lh, diskinfo);
 extern struct diskinfo *bootdev_dip;
 
 void dump_diskinfo(void);
+int disk_trylabel(struct diskinfo *);
 
 #endif /* _DISKPROBE_H */
