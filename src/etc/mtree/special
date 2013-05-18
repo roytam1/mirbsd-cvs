@@ -1,4 +1,4 @@
-# $MirOS: src/etc/mtree/special,v 1.8 2006/01/12 02:58:13 tg Exp $
+# $MirOS: src/etc/mtree/special,v 1.9 2006/04/13 02:11:08 tg Exp $
 # $OpenBSD: special,v 1.66 2005/06/08 20:11:38 deraadt Exp $
 # $NetBSD: special,v 1.4 1996/05/08 21:30:18 pk Exp $
 # @(#)special	8.2 (Berkeley) 1/23/94
@@ -202,14 +202,10 @@ anoncvssh	type=file mode=4110 uname=root gname=_anoncvs
 anoncvs		type=dir mode=0755 uname=root gname=wheel
 .hushlogin	type=file mode=0444 uname=root gname=wheel
 .plan		type=file mode=0444 uname=root gname=wheel
-.profile	type=file mode=0444 uname=root gname=wheel
+.profile	type=file mode=0444 uname=root gname=wheel optional
 bin		type=dir mode=0755 uname=root gname=wheel
-cat		type=file mode=0111 uname=root gname=wheel
 cvs		type=file mode=0111 uname=root gname=wheel
-pwd		type=file mode=0111 uname=root gname=wheel
-rm		type=file mode=0111 uname=root gname=wheel
 rsync		type=file mode=0111 uname=root gname=wheel optional
-sh		type=file mode=0111 uname=root gname=wheel
 ..	#./var/anoncvs/anoncvs/bin
 dev		type=dir mode=0755 uname=root gname=wheel
 null		type=char mode=0666 uname=root gname=wheel
