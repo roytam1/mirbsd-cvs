@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/sys/slibkern.h,v 1.1 2008/09/06 22:21:05 tg Exp $ */
+/**	$MirOS: src/sys/sys/slibkern.h,v 1.2 2010/09/12 21:25:19 tg Exp $ */
 /*	$OpenBSD: libkern.h,v 1.22 2004/08/07 00:38:32 deraadt Exp $	*/
 /*	$NetBSD: libkern.h,v 1.7 1996/03/14 18:52:08 christos Exp $	*/
 
@@ -86,13 +86,7 @@ u_long	 random(void);
 void	 srandom(u_long);
 int	 scanc(u_int, const u_char *, const u_char [], int);
 int	 skpc(int, size_t, u_char *);
-char	*strncpy(char *, const char *, size_t)
-		__attribute__ ((__bounded__(__string__,1,3)));
-int	 strncmp(const char *, const char *, size_t);
-int	 strncasecmp(const char *, const char *, size_t);
 int	 getsn(char *, int);
-char	*strchr(const char *, int);
-char	*strrchr(const char *, int);
 
 extern u_int8_t const __bcd2bin[], __bin2bcd[];
 #define	bcd2bin(b)	(__bcd2bin[(b)&0xff])

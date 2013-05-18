@@ -1,5 +1,5 @@
 /*-
- * Copyright (c) 2008
+ * Copyright (c) 2011
  *	Thorsten Glaser <tg@mirbsd.org>
  *
  * Provided that these terms and disclaimer and all copyright notices
@@ -20,16 +20,26 @@
 
 #include <libckern.h>
 
-__RCSID("$MirOS: src/kern/c/memchr.c,v 1.1 2008/08/01 18:09:17 tg Exp $");
+__RCSID("$MirOS: src/share/misc/licence.template,v 1.28 2008/11/14 15:33:44 tg Rel $");
 
-void *
-memchr(const void *b, int c, size_t len)
+char *
+strchr(const char *s, int c)
 {
-	const uint8_t *cp = b;
-
-	while (len--)
-		if (*cp++ == (uint8_t)c)
+	do {
+		if (*s == c)
 			/* const broken by BAD API */
-			return ((void *)(cp - 1));
+			return ((char *)s);
+	} while (*s++);
+
 	return (NULL);
 }
+
+#ifdef lint
+char *
+index(const char *s, int c)
+{
+	return (strchr(s, c));
+}
+#else
+__strong_alias(index, strchr);
+#endif /* lint */

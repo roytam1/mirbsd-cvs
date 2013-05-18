@@ -1,4 +1,4 @@
-# $MirOS: src/sys/lib/libsa/Makefile,v 1.7 2010/01/10 19:21:38 tg Exp $
+# $MirOS: src/sys/lib/libsa/Makefile,v 1.8 2010/01/10 20:18:56 tg Exp $
 # $OpenBSD: Makefile,v 1.22 2005/05/24 22:25:46 millert Exp $
 # $NetBSD: Makefile,v 1.13 1996/10/02 16:19:51 ws Exp $
 
@@ -27,8 +27,7 @@ CPPFLAGS+= -D__INTERNAL_LIBSA_CREAD
 
 # stand routines
 SRCS+=	alloc.c exit.c exec.c getfile.c gets.c globals.c \
-	printf.c snprintf.c strerror.c \
-	strncpy.c strchr.c
+	printf.c snprintf.c strerror.c
 
 # math from libkern
 SRCS+=	divdi3.c qdivrem.c

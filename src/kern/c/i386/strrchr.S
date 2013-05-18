@@ -7,7 +7,7 @@
 #include <machine/asm.h>
 
 	.section .comment
-	.asciz	"$MirOS: src/lib/libc/arch/i386/string/rindex.S,v 1.3 2005/04/16 20:36:13 tg Exp $"
+	.asciz	"$MirOS: src/lib/libc/arch/i386/string/rindex.S,v 1.4 2005/09/22 20:06:18 tg Exp $"
 
 	.text
 

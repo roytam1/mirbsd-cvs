@@ -1,7 +1,7 @@
-/* $MirOS: src/kern/include/libckern.h,v 1.23 2010/09/12 12:24:29 tg Exp $ */
+/* $MirOS: src/kern/include/libckern.h,v 1.24 2010/09/12 17:10:47 tg Exp $ */
 
 /*-
- * Copyright (c) 2008, 2010
+ * Copyright (c) 2008, 2010, 2011
  *	Thorsten Glaser <tg@mirbsd.org>
  *
  * Provided that these terms and disclaimer and all copyright notices
@@ -141,6 +141,7 @@ size_t optu8to16(wchar_t * __restrict__, const char * __restrict__,
     __attribute__((bounded (string, 2, 3)));
 
 int strcasecmp(const char *, const char *);
+char *strchr(const char *, int);
 int strcmp(const char *, const char *);
 int strcoll(const char *, const char *);
 size_t strlcat(char *, const char *, size_t)
@@ -150,6 +151,9 @@ size_t strlcpy(char *, const char *, size_t)
 size_t strlen(const char *);
 int strncasecmp(const char *, const char *, size_t);
 int strncmp(const char *, const char *, size_t);
+char *strncpy(char *, const char *, size_t)
+    __attribute__((bounded (string, 1, 3)));
+char *strrchr(const char *, int);
 size_t strxfrm(char *, const char *, size_t)
     __attribute__((bounded (string, 1, 3)));
 

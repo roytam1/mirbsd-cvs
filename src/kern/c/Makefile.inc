@@ -1,4 +1,4 @@
-# $MirOS: src/kern/c/Makefile.inc,v 1.20 2010/09/12 12:24:28 tg Exp $
+# $MirOS: src/kern/c/Makefile.inc,v 1.21 2010/09/12 17:10:49 tg Exp $
 
 .ifndef _KERNBASE_C_MAKEFILE_INC
 _KERNBASE_C_MAKEFILE_INC=	#defined
@@ -16,7 +16,8 @@ _KERNBASE_C_MAKEFILE_INC=	#defined
 # strlen() wcslen()
 # bzero() ffs() memchr() memcmp()=bcmp() memcpy()=bcopy()=memmove() memset()
 # strcmp()=strcoll()
-# strncmp()
+# strchr()=index() strrchr()=rindex()
+# strncmp() strncpy()
 
 .include "${KERNBASE}/c/${MACHINE_ARCH}/Makefile.inc"
 

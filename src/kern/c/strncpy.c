@@ -1,8 +1,11 @@
-/*	$OpenBSD: strchr.c,v 1.4 2003/08/11 06:23:09 deraadt Exp $	*/
+/*	$OpenBSD: strncpy.c,v 1.6 2005/08/08 08:05:37 espie Exp $	*/
 
 /*-
  * Copyright (c) 1990 The Regents of the University of California.
  * All rights reserved.
+ *
+ * This code is derived from software contributed to Berkeley by
+ * Chris Torek.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -29,24 +32,30 @@
  * SUCH DAMAGE.
  */
 
-#if defined(LIBC_SCCS) && !defined(lint)
-static char *rcsid = "$OpenBSD: strchr.c,v 1.4 2003/08/11 06:23:09 deraadt Exp $";
-#endif /* LIBC_SCCS and not lint */
+#include <sys/types.h>
+#include <libckern.h>
 
-#ifndef _STANDALONE
-#include <string.h>
-#else
-#include <lib/libsa/stand.h>
-#endif
+__RCSID("$MirOS$");
 
+/*
+ * Copy src to dst, truncating or null-padding to always copy n bytes.
+ * Return dst.
+ */
 char *
-strchr(const char *p, int ch)
+strncpy(char *dst, const char *src, size_t n)
 {
-	for (;; ++p) {
-		if (*p == ch)
-			return((char *)p);
-		if (!*p)
-			return((char *)NULL);
+	if (n != 0) {
+		char *d = dst;
+		const char *s = src;
+
+		do {
+			if ((*d++ = *s++) == 0) {
+				/* NUL pad the remaining n-1 bytes */
+				while (--n != 0)
+					*d++ = 0;
+				break;
+			}
+		} while (--n != 0);
 	}
-	/* NOTREACHED */
+	return (dst);
 }

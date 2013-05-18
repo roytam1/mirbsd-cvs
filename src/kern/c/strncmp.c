@@ -32,17 +32,17 @@
 #include <sys/types.h>
 #include <libckern.h>
 
-__RCSID("$MirOS: src/share/misc/licence.template,v 1.28 2008/11/14 15:33:44 tg Rel $");
+__RCSID("$MirOS: src/kern/c/strncmp.c,v 1.1 2010/01/10 20:18:48 tg Exp $");
 
 int
 strncmp(const char *s1, const char *s2, size_t n)
 {
-
 	if (n == 0)
 		return (0);
 	do {
 		if (*s1 != *s2++)
-			return (*(unsigned char *)s1 - *(unsigned char *)--s2);
+			return (*(const unsigned char *)s1 -
+			    *(const unsigned char *)--s2);
 		if (*s1++ == 0)
 			break;
 	} while (--n != 0);

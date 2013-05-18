@@ -1,4 +1,4 @@
-# $MirOS: src/lib/libc/string/Makefile.inc,v 1.25 2008/12/27 21:43:23 tg Exp $
+# $MirOS: src/lib/libc/string/Makefile.inc,v 1.26 2010/01/10 20:18:52 tg Exp $
 # $OpenBSD: Makefile.inc,v 1.17 2005/05/26 12:56:01 otto Exp $
 
 # string sources
@@ -35,36 +35,14 @@ UNIFDEF_SRCS+=	wcsndup.c strndup.c -DWIDEC
 
 # machine-dependent net sources
 # m-d Makefile.inc must include sources for:
-#	bcopy() index()
-#	rindex() strcat() strcpy() strcspn()
-#	strncat() strncpy() strpbrk() strsep()
+#	bcopy()
+#	strcat() strcpy() strcspn()
+#	strncat() strpbrk() strsep()
 #	strspn() strstr() swav()
 # m-d Makefile.inc may include sources for:
-#	memcpy() memmove() strchr() strrchr()
+#	memcpy() memmove()
 
 .include "${LIBCSRCDIR}/arch/${MACHINE_ARCH}/string/Makefile.inc"
-
-# if no machine specific strchr(3), build one out of index(3).
-.ifndef _MD_STRCHR
-UNIFDEF_SRCS+=	strchr.c index.c -DSTRCHR
-.else
-LOBJS+=		strchr.ln
-
-strchr.ln: index.c
-	${LINT} ${LINTFLAGS} ${CFLAGS:M-[IDU]*} ${CPPFLAGS:M-[IDU]*} -i \
-	    -DSTRCHR -o $@ $>
-.endif
-
-# if no machine specific strrchr(3), build one out of rindex(3).
-.ifndef _MD_STRRCHR
-UNIFDEF_SRCS+=	strrchr.c rindex.c -DSTRRCHR
-.else
-LOBJS+=		strrchr.ln
-
-strrchr.ln: rindex.c
-	${LINT} ${LINTFLAGS} ${CFLAGS:M-[IDU]*} ${CPPFLAGS:M-[IDU]*} -i \
-	    -DSTRRCHR -o $@ $>
-.endif
 
 MAN+=	bm.3 bcmp.3 bcopy.3 bstring.3 bzero.3 ffs.3 memccpy.3 memchr.3 \
 	memcmp.3 memcpy.3 memmove.3 memset.3 strcasecmp.3 strcat.3 \

@@ -1,4 +1,4 @@
-# $MirOS: src/sys/arch/i386/stand/libsa/Makefile,v 1.33 2009/12/26 15:09:01 tg Exp $
+# $MirOS: src/sys/arch/i386/stand/libsa/Makefile,v 1.34 2010/01/10 19:21:36 tg Exp $
 # $OpenBSD: Makefile,v 1.47 2007/05/30 01:25:43 tom Exp $
 
 .include "${.CURDIR}/../Makefile.inc"
@@ -44,8 +44,8 @@ SRCS+=	gidt.S debug_i386.S \
 
 # stand routines
 SRCS+=	alloc.c exit.c getfile.c gets.c globals.c \
-	strncmp.c printf.c snprintf.c \
-	strerror.c strncpy.c strtol.c strtoll.c ctime.c
+	printf.c snprintf.c \
+	strerror.c strtol.c strtoll.c ctime.c
 
 # io routines
 SRCS+=	close.c closeall.c dev.c disklabel.c dkcksum.c fstat.c ioctl.c lseek.c \

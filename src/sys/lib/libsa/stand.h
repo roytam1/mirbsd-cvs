@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/lib/libsa/stand.h,v 1.14 2009/08/11 13:24:01 tg Exp $	*/
+/**	$MirOS: src/sys/lib/libsa/stand.h,v 1.15 2009/10/04 16:49:44 tg Exp $	*/
 /*	$OpenBSD: stand.h,v 1.46 2007/05/04 21:44:07 reyk Exp $	*/
 /*	$NetBSD: stand.h,v 1.18 1996/11/30 04:35:51 gwr Exp $	*/
 
@@ -134,11 +134,8 @@ void	twiddle(void);
 void	gets(char *);
 __dead void	panic(const char *, ...) __attribute__((noreturn));
 __dead void	_rtt(void) __attribute__((noreturn));
-char	*strncpy(char *, const char *, size_t);
-int	strncmp(const char *, const char *, size_t);
 long	strtol(const char *, char **, int);
 long long	strtoll(const char *, char **, int);
-char	*strchr(const char *, int);
 void	exec(char *, void *, int);
 void	exit(void);
 int	open(const char *, int);
