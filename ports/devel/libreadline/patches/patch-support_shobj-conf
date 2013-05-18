@@ -1,12 +1,19 @@
-$MirOS: ports/devel/libreadline/patches/patch-support_shobj-conf,v 1.3 2008/04/22 17:24:18 bsiegert Exp $
---- support/shobj-conf.orig	Tue Aug 26 13:44:31 2008
-+++ support/shobj-conf	Tue Aug 26 13:44:51 2008
-@@ -182,7 +182,7 @@ darwin*|macosx*)
+$MirOS: ports/devel/libreadline/patches/patch-support_shobj-conf,v 1.4 2008/08/26 13:53:03 tg Exp $
+--- support/shobj-conf.orig	Sat Dec  6 14:27:35 2008
++++ support/shobj-conf	Sat Dec  6 14:45:29 2008
+@@ -182,12 +182,12 @@ darwin*|macosx*)
  	SHLIB_LIBS='-lncurses'	# see if -lcurses works on MacOS X 10.1 
  	;;
  
 -openbsd*|netbsd*)
-+openbsd*|netbsd*|mirbsd*)
++midnightbsd*|mirbsd*|netbsd*|openbsd*)
  	SHOBJ_CFLAGS=-fPIC
  	SHOBJ_LD='${CC}'
- 	SHOBJ_LDFLAGS='-shared'
+-	SHOBJ_LDFLAGS='-shared'
++	SHOBJ_LDFLAGS='-shared -Wl,-soname,$@'
+ 
+-	SHLIB_XLDFLAGS='-R$(libdir)'
++	SHLIB_XLDFLAGS='-Wl,-rpath,$(libdir)'
+ 	SHLIB_LIBVERSION='$(SHLIB_LIBSUFF).$(SHLIB_MAJOR)$(SHLIB_MINOR)'
+ 	;;
+ 
