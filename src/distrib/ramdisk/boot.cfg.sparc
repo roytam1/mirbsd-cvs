@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/i386/iso/boot.cfg,v 1.10 2006/06/21 21:23:59 tg Exp $
+# $MirOS: src/distrib/sparc/cdfs/boot.cfg,v 1.1 2006/07/05 04:51:23 tg Exp $
 #
 set image /v9/sparc/bsd.rd
 set timeout 12

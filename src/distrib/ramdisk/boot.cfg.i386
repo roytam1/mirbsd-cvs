@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/i386/iso/boot.cfg,v 1.10 2006/06/21 21:23:59 tg Exp $
+# $MirOS: src/distrib/i386/iso/boot.cfg,v 1.11 2006/07/05 04:51:23 tg Exp $
 #-
 # Note this file is processed in the IBM-CP437 charset!
 #
@@ -12,8 +12,4 @@ echo
 echo To boot the MirOS installation system, from which you can
 echo install, upgrade, back up, or manually repair a MirOS sy-
 echo stem, wait twelve seconds or enter the command 'boot'.
-echo
-echo If this is a Live CD, you can run it by entering the com-
-echo mand 'boot /bsd', or 'boot /bsd -a' if you need to choose
-echo a different CD-ROM drive than cd0a for it to run off.
 echo

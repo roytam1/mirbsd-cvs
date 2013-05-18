@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/i386/livecd/Makefile,v 1.47 2006/06/15 19:18:46 tg Exp $
+# $MirOS: src/distrib/i386/livecd/Makefile,v 1.48 2006/07/23 23:41:27 tg Exp $
 
 .include <bsd.own.mk>
 
@@ -21,10 +21,7 @@ unpack:
 .endfor
 	cd workdir && ln -s ${.CURDIR}/../iso/00-README
 	cd workdir/v${OSrev} && ln -s ${BSDRELDIR}/rel i386
-	cd workdir/etc; \
-	    for a in ${.CURDIR}/../iso/boot.cfg ${.CURDIR}/boot.*; do \
-		${SUDO} cp $$a .; \
-	done
+	${SUDO} cp ${.CURDIR}/boot.* workdir/etc/
 	# create mount points
 	${SUDO} mkdir workdir/usr/{mpkg,ports/{Distfiles,Packages}}
 
