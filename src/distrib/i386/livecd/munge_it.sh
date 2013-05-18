@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/distrib/i386/livecd/munge_it.sh,v 1.41 2006/05/26 21:18:51 tg Exp $
+# $MirOS: src/distrib/i386/livecd/munge_it.sh,v 1.42 2006/05/26 21:40:21 tg Exp $
 #-
 # Copyright (c) 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -68,6 +68,17 @@ ed -s etc/master.passwd <<-'EOF'
 	.
 	wq
 EOF
+ed -s etc/make.cfg <<-'EOF'
+	$a
+		### Run MirPorts off the Live CD
+		DISTDIR?=		${LOCALBASE}/.ports/Distfiles
+		BULK_COOKIES_DIR?=	${LOCALBASE}/.ports/Bulk
+		PKGREPOSITORY?=		${LOCALBASE}/.ports/Packages
+		WRKOBJDIR?=		${LOCALBASE}/.ports/build
+
+	.
+	wq
+EOF
 #ed -s etc/ntpd.conf <<-'EOF'
 #	/^.server /d
 #	i
@@ -77,7 +88,7 @@ EOF
 #EOF
 ed -s etc/rc <<-'EOF'
 	1i
-		# $MirOS: src/distrib/i386/livecd/munge_it.sh,v 1.41 2006/05/26 21:18:51 tg Exp $
+		# $MirOS: src/distrib/i386/livecd/munge_it.sh,v 1.42 2006/05/26 21:40:21 tg Exp $
 	.
 	/shutdown request/ka
 	/^fi/a
