@@ -1,4 +1,4 @@
-# $MirOS: src/etc/rc,v 1.73 2007/07/07 23:47:33 tg Exp $
+# $MirOS: src/etc/rc,v 1.74 2007/07/18 23:12:33 tg Exp $
 # $OpenBSD: rc,v 1.277 2006/01/12 21:54:15 deraadt Exp $
 #-
 # System startup script run by init on autoboot or after single-user.
@@ -574,7 +574,7 @@ if [[ ! -f /etc/ssl/private/default.key \
     || ! -f /etc/ssl/deflt-ca.cer ]]; then
 	echo -n "openssl: generating new host RSA key... "
 	rm -f /etc/ssl/{def{ault,lt-ca}.cer,private/default.key}
-	# XXX 6000-8000 is recommended... choose 4096 to be nice to old boxen
+	# XXX 6000-8000 is recommended... choose less to be nice to old boxen
 	if openssl genrsa -out /etc/ssl/private/default.key 4096 \
 	    >/dev/wrandom 2>&1; then
 		chmod 600 /etc/ssl/private/default.key

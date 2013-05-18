@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/install.sub,v 1.19 2007/06/30 02:40:52 tg Exp $
+# $MirOS: src/distrib/common/install.sub,v 1.20 2007/07/31 22:17:27 tg Exp $
 # $OpenBSD: install.sub,v 1.388 2005/07/02 00:55:48 uwe Exp $
 # $NetBSD: install.sub,v 1.5.2.8 1996/09/02 23:25:02 pk Exp $
 #
@@ -1578,6 +1578,16 @@ questions() {
 			cp /tmp/sysctl.conf /mnt/etc/sysctl.conf
 		fi
 	fi
+
+	echo 'The size for the RSA host key can now be selected here. Larger'
+	echo 'key sizes usually mean more security, but always imply much'
+	echo 'longer key exchange times (e.g. mail delivery, ssh login), so'
+	echo 'they are not recommended for old boxen (say, a SPARCstation)'
+	echo 'or if you have to communicate with them very often; choose a'
+	echo 'lower size (e.g. 2048) than the default of 4096 then.'
+	ask_which "size" "should the RSA host key have" \
+	    "2048 3072 4096 6144 8192" 4096
+	[[ $resp = done ]] || print "/4096/s//$resp/\nwq" | ed -s /mnt/etc/rc
 
 	[[ -z $SERIALDEV ]] && return
 	ask_yn "Change the default console to $SERIALDEV?"
