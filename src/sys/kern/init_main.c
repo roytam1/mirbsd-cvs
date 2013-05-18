@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/kern/init_main.c,v 1.8 2006/05/26 12:04:59 tg Exp $ */
+/**	$MirOS: src/sys/kern/init_main.c,v 1.9 2006/06/16 18:43:32 tg Exp $ */
 /*	$OpenBSD: init_main.c,v 1.120 2004/11/23 19:08:55 miod Exp $	*/
 /*	$NetBSD: init_main.c,v 1.84.4.1 1996/06/02 09:08:06 mrg Exp $	*/
 /*	$OpenBSD: kern_xxx.c,v 1.9 2003/08/15 20:32:18 tedu Exp $	*/
@@ -97,6 +97,8 @@
 #include <crypto/cryptodev.h>
 #include <crypto/cryptosoft.h>
 #endif
+
+#include <dev/cons.h>
 
 #if defined(NFSSERVER) || defined(NFSCLIENT)
 extern void nfs_init(void);
@@ -483,6 +485,17 @@ main(/* XXX should go away */ void *framep)
 	if (kthread_create(start_crypto, NULL, NULL, "crypto"))
 		panic("crypto thread");
 #endif	/* CRYPTO */
+
+	/* Help /etc/rc to determine which device is the console */
+	if (cn_tab == NULL)
+		printf("consdev: NULL\n");
+	else
+		printf("consdev: %s %d,%d\n",
+		    cn_tab->cn_pri == CN_DEAD ? "DEAD" :
+		    cn_tab->cn_pri == CN_NORMAL ? "NORMAL" :
+		    cn_tab->cn_pri == CN_INTERNAL ? "INTERNAL" :
+		    cn_tab->cn_pri == CN_REMOTE ? "REMOTE" : "UNKNOWN",
+		    major(cn_tab->cn_dev), minor(cn_tab->cn_dev));
 
 	microtime(&rtv);
 	add_true_randomness(rtv.tv_sec ^ rtv.tv_usec);
