@@ -1,5 +1,5 @@
 #!/bin/sh
-# $MirOS: contrib/code/mirmake/dist/scripts/Copy.sh,v 1.25 2006/10/13 16:41:47 tg Exp $
+# $MirOS: contrib/code/mirmake/dist/scripts/Copy.sh,v 1.26 2008/03/09 14:16:07 tg Exp $
 
 wd=$(readlink -f $(dirname $0))
 version=$(date +%Y%m%d)
@@ -9,8 +9,9 @@ cd $wd/..
 rm -rf src
 cvs -Rqd ${CVSROOT:-/cvs} co -PA \
     contrib/gnu/config/config.guess \
+    src/usr.bin/lndir src/usr.bin/xinstall \
     src/usr.bin/make src/usr.bin/mkdep src/usr.bin/lorder \
-    src/usr.bin/readlink src/usr.bin/tsort src/usr.bin/xinstall \
+    src/usr.bin/readlink src/usr.bin/tsort \
     src/include/getopt.h src/include/ohash.h src/include/sysexits.h \
     src/include/stdbool.h \
     src/include/adler32.h src/include/md4.h src/include/md5.h \
