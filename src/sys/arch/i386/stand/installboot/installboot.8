@@ -1,4 +1,4 @@
-.\"	$MirOS: src/sys/arch/i386/stand/installboot/installboot.8,v 1.3 2005/12/04 13:27:00 tg Exp $
+.\"	$MirOS: src/sys/arch/i386/stand/installboot/installboot.8,v 1.4 2006/04/06 11:07:31 tg Exp $
 .\"	$OpenBSD: installboot.8,v 1.26 2003/06/06 21:45:33 jmc Exp $
 .\"
 .\" Copyright (c) 1997 Michael Shalayeff
@@ -43,6 +43,20 @@
 .Ar boot
 .Ar ldsec
 .Ar disk
+.Pp
+.Nm
+.Op Fl n
+.Op Fl v
+.Fl I Ar bootstart bootend
+.Ar ldsec
+.Ar image.iso
+.Pp
+.Nm
+.Op Fl n
+.Op Fl v
+.Fl i Ar bootstart bootlen
+.Ar ldsec
+.Ar disc.ima
 .Sh DESCRIPTION
 .Nm installboot
 is used to install a
@@ -94,6 +108,48 @@ The partition table does not get overwritten.
 The
 .Pa /boot
 file had better be not too fragmented for this to work.
+This option is not yet supported.
+.It Fl I
+Instead of installing the first-stage boot loader on a disc,
+write it to the beginning of an ISO 9660 image file.
+The arguments
+.Ar bootstart
+and
+.Ar bootend
+are ISO sectors (2048 bytes each) as given in the
+.Xr mkisofs 8
+verbose output format.
+.Pp
+Example:
+.Pp
+.Dl # /usr/mdec/installboot -v -I 94376 94396 /usr/mdec/ldsec livecd8.iso
+.Pp
+Note:
+If you use the
+.Fl boot-info-table
+option of
+.Xr mkisofs 8 ,
+the resulting bootloader (i.e. the
+.Fl b Ar eltorito_boot_image
+argument to
+.Nm mkisofs )
+cannot be used to boot the same image from hard disc any more.
+Use another copy of the second-stage loader.
+.It Fl i
+Instead of installing the first-stage boot loader on a disc,
+write it to the beginning of a hard disc image file.
+The arguments
+.Ar bootstart
+and
+.Ar bootlen
+are hard disc sectors (512 bytes each).
+.Pp
+Example:
+.Pp
+.Dl # /usr/mdec/installboot -v -i 1000 82 /usr/mdec/ldsec hda.ima
+.Pp
+Support for porting this to GNU/Linux welcome; contact
+.An Thorsten Glaser Aq tg@mirbsd.de .
 .El
 .Pp
 The arguments are:
@@ -172,3 +228,11 @@ You cannot run
 for a drive/partition other than the one you want the
 .Pa /boot
 to be loaded from.
+.Pp
+Both the
+.Fl I
+and
+.Fl i
+options require the
+.Pa /boot
+programme to be present in one piece, i.e. not fragmented.

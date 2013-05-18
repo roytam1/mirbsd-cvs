@@ -1,5 +1,5 @@
 <!-- PageID: wlog-8 -->
-<small class="rcsid">$MirOS: www/content/d2xvZy04.inc,v 1.62 2006/04/06 12:01:00 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy04.inc,v 1.63 2006/04/06 21:57:20 tg Exp $</small>
 <h1>MirBSD &ndash; WTF, We Have a Release!?</h1>
 <p><small><a href="#eof">bottom</a> or <a href="/?older">older</a>
  editions</small></p>
@@ -1049,6 +1049,68 @@ celebrate this event, rotate the wlog and start a new one.</p>
   preload it into the kernel? I even think so), get rid of the huge time
   consuming MAKEDEV stage in /etc/rc (and don't swapon rd0c *g*), make a
   liveboot (with sercons by high order bits), last bring back X.</p>
+</div>
+
+<div class="wlentry">
+ <h3 id="e20060407">07.04.2006 by tg@</h3>
+ <p style="margin-bottom:0px;">From the category &quot;useless patches I
+  designed and took me some time&#8230;</p>
+ <div style="border:4px ridge blue; margin:0px 24px 0px 24px; padding:12px;">
+  <pre>
+	H4sIAAAAAAACA6VXa1PjxhL9bP+KXie7kbGELb8AAwlk2ZtQxeItINlKEcolS2NbhaxRjcYG35v9
+	7/f0jPxiIUslrkUrjXpOd58+0zM6TyPx2KM4zXWQJEMp9W5YPv73v/LV+2saxYnoUT2c5/VchfV8
+	kdcDFU7qcWu/W4fDNKpvOK5vBeHOy0poFYt5nI5J4b88lin5uwflKB6NyJuRl5GnMPAkes/ztkdK
+	e3SaKWo2Gl1qNnvtbq/dIa+BX4nharXa39p3/F5r39qXT07I812/QTVzPTkpe/WdndL3H2PVv+7R
+	P8iSMzKu6o12vbG3DlCP6cNjRt/TTr1c+/dO9tZOuuT7vcZer+VvOaE6fPQzkf58ffZEEQahbSA4
+	yLrfoabfa7d7fpe0nFqM0hLjUugXIDrkHxx06r5f9wHW6uFfp0HjB7URBWN4ZY926L3MFioeTzQ5
+	YZV9t1wTgbl22KR0M5Eq1yKlyjRWwRB6q9AvSZALRUd6fNLtTnbbzcluJH4s176JaK5dNlzjboDB
+	wzCPDBbRDv/RRRyKNBeC4pwmQonhgjKhprHWIgIxFIkgAQ2kJzB4kOqeHmI9kTMNQecQd+gZGA1l
+	u7ALk1nEap+lSQwQYJhgc4aa5cKlbDZM4jAxXkZSTV2aSqyGhWuF2XK7EGarUCYjwzcqAG9RzP6G
+	M3aVk1QYypSMZiGcsFEYymkWpAt2H8lwNhWpDtjYwMBeaiRI00ALFQdJTpg9jyPM5oxoGKeBWjz1
+	s2uIYuJPEUQQzYXSWMZwscZhR7DlwZEI9AzEsDukS3JkicvlSHsG5iFQgqazXBP8ZEmwgIGgkUwS
+	+cAIQXifyodERGPBuL2ilrEJF8nqgmT4WEawTgTFe1L2XZ6/UWimYTQSKjduTT0rp9d0fl0hLED6
+	fH7za/+3G/p8enV1ennzBycASuk+TiPXwIjHDPnlLmcYT7MkFpHLxWW4afAYT2dT2CAAvaEjxBVk
+	sA2DYSIMTBI8uCslTQO8iuUsR25mJrDHSuY5pWKcxGORhuKQa5xKEnM2mAYLq5dm191nwTSsYijn
+	koeMU4rkQIlQqsiZDfC8P9C041IURJEa6PLSci7jqIxaBWPh8H21TP8re6VRpjBn5OQ6Ekq5VDEW
+	PXqb062X3uEy5wsqK0IPiXpaoXJ3VCnXXpr7p/72ZCoRfpVbb0JmzLwNF8kdcQuiJMIMLMk5avln
+	WnFpMEDtx2kwFdXD5zw/8emdGxykrrS5E6i5BeWNbjfOJcMCicPYAqeSeIy14/PtF7Q4w/5+0/V9
+	0L+/7/pNpn8axKmDEChQ49ClcBIo2sH9/PYOxJaGscwH0D3kNJIDXgIMnEheTkMlRzk/8nQ8ZYiR
+	czJvERje0jE1XL5PoG/cH3Kr/Tpps8kQ+vdm+6YK8vm5378Z/P7hCsSklaqdjuYXaqwZAKYTEUR8
+	4/mH0MDDBJyQ44QYGQstM+3YtDgh+Jn0PqafenlvXqlW6Q3PqkI7tVfMO392JpVKOZZEODGt3TyH
+	WMP0w+SHHj+UVvEFWsYOcAGILEwpDjrcOZsNU5FvV2ITjbPlkS8kklyU0LdUngmOvngxVCK451oU
+	8ZwjHjyUVlVBw9QyKSJy6fK3iwuXGkaSsBqRU1gekV81YyVU6tHxQUaczrH6ow1dAsL07koxv/C+
+	YuMjs/EdUBsmuFoN20goBpCMpaLZPDBUtH334DVMQM38B18bkb57Rw4TkWn66y9yViIpimXGLH92
+	pGrysm2E42YdA41dkkcgBg0U6beKuq4M2bUJurXn4kBRa3aabqv1irCxNNF1j42mbgv8Gvl3DAnC
+	EjQJvLXXbZsm20De9R3io5Lp++FEhPekggfele6LDsNnGc+k4WBgFAFJYgLu+dkFA/JBYY//ifqD
+	q7P+5cUfPb75fFV1Ma9kegj1P324PPvw++DT6dWNS++K0CD7IwiEzaAEIwSG5v6KrrY0OtyqiV1c
+	pdXyL0THwnkiuWIOmx0dF73D6u5Z2XETfCK6lZPixlt2oBqvidpK+kfAb658btG0zRGtSaIeFTQt
+	WSgie0rDkgK7Lm32ryrac+G8qmpmab6ibC8EvFm3L6a5chg4Mg1lLqpmX/26W3MFeL7Zz/hhq4ar
+	yr00L5nxn5lszVcbxA61LRSz97cYW77pGTuz2FaG5ukFS1uElemaka97jMlrzKsYJ5VEBpHBXfeO
+	WIY6sTV06ey8//6Xs/PL//RRjSgxu0bDtK9lHVgDSTAUyVfFsJt1s2Pb4kHD3XtFf+EIomQ3GuhF
+	Juh46Q3H1/TRWTsj83qW8qG12FJrW/nwzgXRXuDZEkfDRIb35qgnCcczo1jrzzEGuebBY1pB2An2
+	JbK3RvF/BdSIuHjlWyKW5xOT7V6bs201um6r88p0R3wkXBL+Lh8WYt/gmA2eofeZLrU+cg75FLNU
+	9HItPC/HzzG+MThtI+uCJ5zAOVlzsrSLs9JstPdJBOFkd6l76N1qfajBnJk50HzYHmRmuDiSFJY2
+	RLatHZM9Iw/MHGeo18uovdy/i853TO3VAFA8zzx9Kbw+h9QoOvIye5j9iOtmdGio+GowQxzZky59
+	IyVe4/vDclGpvprKtznqFBE6uooFf33iHEjOW/4U0SKvFqdcy6fdQWxYoZylepDdNu6gkZlaBbbh
+	+E3RQJc08pgZWEpnreLlPYuVV+z6aXUKMnnaLcIegVSQFZuQoTZMkKRFtqNK4AszJadRtNllu3hz
+	PTi/fv/rlZMPd3M9wFc1FkghXssmc3KJk3Bg1B+E+HosNo0nev4/Dg3uDVITAAA=
+  </pre>
+ </div><p style="margin-top:0px;">(yeah, base64 gzip'd)</p>
+ <p>I should be working even more on the Live CD but that's it for today
+  (after realising that the above patch is not useful unless /boot gains
+  ISO 9660 filesystem reading support. (Also it seems to not work.)</p>
+ <p>After poking around a bit, I found out this diff indeed does work, I
+  just need to use <tt>workdir/usr/mdec/boot</tt> instead of the logical
+  <tt>workdir/etc/boot.x86</tt> because the latter contains a mkisofs(8)
+  boot info table which forces El Torito boot.</p>
+ <p>After poking around <strong>even more</strong> I shockedly found out
+  that our <tt>/boot</tt> can actually read (just not 'ls') ISO 9660 CDs
+  (when used as hard discs) without further patching.<br />(Now that I'm
+  writing this wlog entry, this isn't that surprising &ndash; after all,
+  I had patched in &quot;no emulation&quot; boot some time ago.)<br />So
+  it can be used, and this patch shall be committed instead. I'll retain
+  the early version from above though because it expresses quite some of
+  my frustration of today.</p>
 </div>
 
 <p id="eof">Good luck, have fun, take care etc.pp</p>

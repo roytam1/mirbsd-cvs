@@ -1,10 +1,10 @@
-/**	$MirOS: src/sys/arch/i386/stand/installboot/installboot.c,v 1.8 2006/04/07 22:45:48 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/stand/installboot/installboot.c,v 1.7 2006/04/06 11:07:31 tg Exp $ */
 /*	$OpenBSD: installboot.c,v 1.47 2004/07/15 21:44:16 tom Exp $	*/
 /*	$NetBSD: installboot.c,v 1.5 1995/11/17 23:23:50 gwr Exp $ */
 
 /*-
- * Copyright (c) 2003, 2004, 2005
- *	Thorsten "mirabile" Glaser <tg@66h.42h.de>
+ * Copyright (c) 2003, 2004, 2005, 2006
+ *	Thorsten Glaser <tg@mirbsd.de>
  *
  * Licensee is hereby permitted to deal in this work without restric-
  * tion, including unlimited rights to use, publicly perform, modify,
@@ -12,6 +12,10 @@
  * pyright notices above, these terms and the disclaimer are retained
  * in all redistributions or reproduced in accompanying documentation
  * or other materials provided with binary redistributions.
+ *
+ * All advertising materials mentioning features or use of this soft-
+ * ware must display the following acknowledgement:
+ *	This product includes material provided by Thorsten Glaser.
  *
  * Licensor offers the work "AS IS" and WITHOUT WARRANTY of any kind,
  * express, or implied, to the maximum extent permitted by applicable
@@ -84,7 +88,7 @@
 #include <unistd.h>
 #include <util.h>
 
-__RCSID("$MirOS: src/sys/arch/i386/stand/installboot/installboot.c,v 1.8 2006/04/07 22:45:48 tg Exp $");
+__RCSID("$MirOS: src/sys/arch/i386/stand/installboot/installboot.c,v 1.9 2006/04/07 22:46:45 tg Exp $");
 
 extern	char *__progname;
 int	verbose, nowrite, nheads, nsectors, userspec = 0;
@@ -126,8 +130,12 @@ static int	do_record(u_int8_t *, daddr_t, u_int);
 static void
 usage(void)
 {
-	fprintf(stderr, "usage: %s [-n] [-v] [-s sec-per-track] "
+	fprintf(stderr, "usage:\t%s [-n] [-v] [-s sec-per-track] "
 	    "[-h track-per-cyl] boot ldsec device\n", __progname);
+	fprintf(stderr, "\t%s [-n] [-v] -I bootstart bootend ldsec file.iso\n",
+	    __progname);
+	fprintf(stderr, "\t%s [-n] [-v] -i bootstart bootlen ldsec file.ima\n",
+	    __progname);
 	exit(1);
 }
 
@@ -182,11 +190,12 @@ main(int argc, char *argv[])
 	bios_diskinfo_t di;
 	long mbrofs;
 	int mbrpart;
+	long isoofs = 0, isolen = 0, imaofs = 0;
 
 	fprintf(stderr, "MirOS BSD installboot " __BOOT_VER "\n");
 
 	nsectors = nheads = -1;
-	while ((c = getopt(argc, argv, "h:MnP:s:v")) != -1) {
+	while ((c = getopt(argc, argv, "h:I:i:MnP:s:v")) != -1) {
 		switch (c) {
 		case 'h':
 			nheads = atoi(optarg);
@@ -194,6 +203,16 @@ main(int argc, char *argv[])
 				warnx("invalid value for -h");
 				nheads = -1;
 			} else	userspec = 1;
+			break;
+		case 'I':
+			isoofs = strtol(optarg, NULL, 0);
+			if (isoofs < 1)
+				errx(1, "invalid bootstart argument");
+			break;
+		case 'i':
+			imaofs = strtol(optarg, NULL, 0);
+			if (imaofs < 1)
+				errx(1, "invalid bootstart argument");
 			break;
 		case 'M':
 #if 0
@@ -229,6 +248,10 @@ main(int argc, char *argv[])
 		}
 	}
 
+	if ((isoofs && imaofs) || ((isoofs || imaofs) &&
+	    (userpt || (nsectors != -1) || (nheads != -1))))
+		usage();
+
 	if (argc - optind < 3) {
 		usage();
 	}
@@ -237,16 +260,36 @@ main(int argc, char *argv[])
 	proto = argv[optind + 1];
 	realdev = dev = argv[optind + 2];
 
-	/* Open and check raw disk device */
-	if ((devfd = opendev(dev, (nowrite? O_RDONLY:O_RDWR),
-			     OPENDEV_PART, &realdev)) < 0)
-		err(1, "open: %s", realdev);
+	if (isoofs || imaofs) {
+		isolen = strtol(boot, NULL, 0);
+		if (isolen <= (isoofs ? isoofs : 4))
+			errx(1, "invalid boot%s argument",
+			    isoofs ? "end" : "len");
+		if (isoofs) {
+			isolen = isolen - isoofs + 1;
+			imaofs = isoofs << 2;
+		}
+		if ((devfd = open(dev, (nowrite ? O_RDONLY : O_RDWR))) < 0)
+			err(1, "open: %s", dev);
+	} else {
+		/* Open and check raw disk device */
+		if ((devfd = opendev(dev, (nowrite? O_RDONLY:O_RDWR),
+				     OPENDEV_PART, &realdev)) < 0)
+			err(1, "open: %s", realdev);
+	}
 
 	if (verbose) {
-		fprintf(stderr, "boot: %s\n", boot);
+		if (imaofs)
+			fprintf(stderr, "boot: %lu %lu\n", imaofs,
+			    isolen * (isoofs ? 4 : 1));
+		else
+			fprintf(stderr, "boot: %s\n", boot);
 		fprintf(stderr, "proto: %s\n", proto);
 		fprintf(stderr, "device: %s\n", realdev);
 	}
+
+	if (imaofs)
+		goto do_loadproto;
 
 	if (ioctl(devfd, DIOCGDINFO, &dl) != 0)
 		err(1, "disklabel: %s", realdev);
@@ -259,6 +302,7 @@ main(int argc, char *argv[])
 	if (dl.d_type == 0)
 		warnx("disklabel type unknown");
 
+ do_loadproto:
 	/* Load proto blocks into core */
 	if ((protostore = loadprotoblocks(proto, &protosize)) == NULL)
 		exit(1);
@@ -273,6 +317,35 @@ main(int argc, char *argv[])
 
 	if (fstat(devfd, &sb) < 0)
 		err(1, "stat: %s", realdev);
+
+	if (imaofs) {
+		u_int8_t *bt;
+
+		if (verbose)
+			fprintf(stderr, "Will load %lu blocks of size "
+			    "%d each.\n", isolen, isoofs ? 2048 : 512);
+		bt = block_table_p;
+		while (isolen) {
+			bt += record_block(bt, imaofs, (isoofs ? 4 : 1));
+			imaofs += (isoofs ? 4 : 1);
+			isolen--;
+		}
+		bt += record_block(bt, 0, 0);
+
+		if (bt > (block_table_p + maxblocklen))
+			errx(1, "Too many blocks");
+
+		if (verbose)
+			fprintf(stderr, "%s: %d entries total (%d bytes)\n",
+			    boot, block_count_p[0], curblocklen);
+
+		if (!nowrite) {
+			if (write(devfd, protostore, protosize) != protosize)
+				err(1, "write bootstrap");
+		}
+		close(devfd);
+		return (0);
+	}
 
 	if (!S_ISCHR(sb.st_mode))
 		errx(1, "%s: Not a character device", realdev);
