@@ -1,9 +1,9 @@
-# $MirOS: ports/graphics/cairo/Makefile,v 1.11 2007/02/22 22:57:51 tg Exp $
+# $MirOS: ports/graphics/cairo/Makefile,v 1.12 2008/03/15 20:27:21 bsiegert Exp $
 
 COMMENT=		vector graphics library
 
-DISTNAME=		cairo-1.2.6
-DASH_VER=		1
+DISTNAME=		cairo-1.6.4
+DASH_VER=		0
 CATEGORIES=		graphics
 
 RESPONSIBLE=		Benny Siegert <bsiegert@gmx.de>
@@ -19,6 +19,7 @@ PERMIT_DISTFILES_FTP=	Yes
 MASTER_SITES=		http://cairographics.org/releases/
 
 #LIB_DEPENDS+=		glitz::graphics/glitz
+LIB_DEPENDS+=		pixman-1:pixman->=0.10:graphics/pixman
 MODULES+=		devel/pkgconfig
 MODULES+=		graphics/png
 
@@ -32,11 +33,5 @@ CONFIGURE_ARGS+=	--enable-static
 CONFIGURE_ARGS+=	--enable-pdf=yes
 # enabling those introduces a circular dependency
 CONFIGURE_ARGS+=	--enable-svg=no
-
-.include <mirports.sys.mk>
-
-.if ${MACHINE_OS} == "Darwin"
-CONFIGURE_ARGS+=	--enable-atsui=yes
-.endif
 
 .include <bsd.port.mk>

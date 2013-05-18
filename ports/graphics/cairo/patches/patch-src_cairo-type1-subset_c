@@ -1,7 +1,7 @@
-$MirOS$
---- src/cairo-type1-subset.c.orig	Sat Mar 15 22:24:32 2008
-+++ src/cairo-type1-subset.c	Sat Mar 15 22:24:43 2008
-@@ -37,6 +37,8 @@
+$MirOS: ports/graphics/cairo/patches/patch-src_cairo-type1-subset_c,v 1.1 2008/03/15 20:27:21 bsiegert Exp $
+--- src/cairo-type1-subset.c.orig	Tue Apr  8 00:30:08 2008
++++ src/cairo-type1-subset.c	Mon Aug 25 18:32:53 2008
+@@ -44,6 +44,8 @@
  #include "cairo-scaled-font-subsets-private.h"
  #include "cairo-output-stream-private.h"
  
