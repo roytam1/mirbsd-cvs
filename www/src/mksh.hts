@@ -1,4 +1,4 @@
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.96 2008/03/24 04:42:21 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.97 2008/03/24 20:02:40 tg Exp $'
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -692,6 +692,7 @@ mws_content <<'EOF'
  <li style="list-style:none;">– tests by third parties (Build.sh) –</li>
  <li>HP OSF/1 V4.0 1229 (alpha DEC C V5.9-005 Rev. 1229) <em>by Jupp Schugt</em></li>
  <li>HP OSF/1 V4.0 1229 (alpha gcc2.8.1 alpha-dec-osf4.0d) <em>by Jupp Schugt</em></li>
+ <li>SGI IRIX64 (mips gcc3.4.1 mips-sgi-irix6.5) <em>by Elias Pipping</em></li>
  <li style="list-style:none;">– other build system integration –</li>
  <li>See the <a href="#otheros">Inclusion</a> section for general information</li>
  <li>MirOS #10 RC8 (i386 gcc3.4.6) <em>via MirPorts Framework</em></li>
