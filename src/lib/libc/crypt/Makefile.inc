@@ -1,4 +1,4 @@
-# $MirOS: src/lib/libc/crypt/Makefile.inc,v 1.7 2010/09/12 17:10:50 tg Exp $
+# $MirOS: src/lib/libc/crypt/Makefile.inc,v 1.8 2010/09/21 19:38:21 tg Exp $
 # $OpenBSD: Makefile.inc,v 1.15 2003/08/12 01:22:17 deraadt Exp $
 
 .PATH: ${LIBCSRCDIR}/arch/${MACHINE_ARCH}/crypt ${LIBCSRCDIR}/crypt
@@ -18,7 +18,7 @@ SRCS+=	arc4random_addrandom.c
 SRCS+=	arc4random_base.c
 SRCS+=	arc4random_buf.c
 SRCS+=	arc4random_pushb_fast.c
-SRCS+=	arc4random_push✲_old.c
+SRCS+=	arc4random_pushb_old.c
 SRCS+=	arc4random_stir.c
 MLINKS+=arc4random.3 arc4random_buf.3
 MLINKS+=arc4random.3 arc4random_uniform.3
