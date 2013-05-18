@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.246 2008/12/07 20:32:24 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.247 2009/01/03 20:45:38 bsiegert Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -2239,12 +2239,16 @@ ${_CONFIGURE_COOKIE}: ${_PATCH_COOKIE}
 	sed -e 's/@@OScompat@@/${OScompat}/' \
 	    -e 's/@@OStype@@/${OStype}/' \
 	    <${PORTSDIR}/infrastructure/db/uname.sed >${WRKDIR}/bin/uname
-.  endif
-	ln -s ${WRKDIR}/bin/mpcc ${WRKDIR}/bin/cc
 	chmod ${BINMODE} ${WRKDIR}/bin/uname
+.  endif
+	ln -sf ${WRKDIR}/bin/mpcc ${WRKDIR}/bin/cc
 .  if ${MACHINE} != "i386"
 	ln -sf ${WRKSRC}/RULES/i386-openbsd-cc.rul \
 	    ${WRKSRC:Q}/RULES/${MACHINE:Q}-openbsd-cc.rul
+.  endif
+.  if ${OStype} == "Darwin"
+	ln -sf ${WRKSRC:Q}/RULES/power-macintosh-darwin-cc.rul \
+	    ${WRKSRC:Q}/RULES/i386-darwin-cc.rul
 .  endif
 .endif
 .if target(do-configure)
