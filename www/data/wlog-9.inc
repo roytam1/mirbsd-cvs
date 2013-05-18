@@ -2837,3 +2837,14 @@ Date: 06.03.2008
  convincing the build system to <em>only</em> use the system zlib proves
  difficult.</p>
 ----
+Date: 06.03.2008
+Author: tg@
+
+<p>Thanks Benny, I’m glad to have a developer like you too.</p>
+<p>Whew. mksh is done. I hacked a little on mcabber, and <strong>if</strong>
+ your libc is recent enough, it even can display the new uppercase eszett
+ the DIN proposed onto us (ẞ ← it’s in fixed-misc in MirBSD, and in a few
+ other fonts such as the Linux Libertine). Mine wasn’t, of course. My work
+ system is, actually, too old… (currently I’m building i386 stuff either in
+ a chroot or in a dual-boot).</p>
+----
