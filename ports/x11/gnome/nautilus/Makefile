@@ -1,14 +1,14 @@
-# $MirOS: ports/x11/gnome/nautilus/Makefile,v 1.3 2006/09/14 00:15:20 tg Exp $
+# $MirOS: ports/x11/gnome/nautilus/Makefile,v 1.4 2007/04/18 20:05:07 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.13 2004/12/15 13:57:57 alek Exp $
 
 COMMENT=		GNOME shell and file manager
 
-DISTNAME=		nautilus-2.8.2
+DISTNAME=		nautilus-2.18.3
 CATEGORIES=		x11 x11/gnome
 
 HOMEPAGE=		http://www.gnome.org/projects/nautilus/
 
-MASTER_SITES=		${MASTER_SITE_GNOME:=sources/nautilus/2.8/}
+MASTER_SITES=		${MASTER_SITE_GNOME:=sources/nautilus/2.18/}
 EXTRACT_SUFX=           .tar.bz2
 
 # LGPL
