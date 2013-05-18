@@ -1,16 +1,16 @@
-# $MirOS: ports/x11/gnome/panel/Makefile,v 1.4 2006/09/14 00:15:21 tg Exp $
+# $MirOS: ports/x11/gnome/panel/Makefile,v 1.5 2007/04/18 20:05:07 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.15 2004/12/30 04:25:06 marcm Exp $
 
 COMMENT=		GNOME panel
 
-VERSION=		2.8.2
+VERSION=		2.18.2
 DISTNAME=		gnome-panel-${VERSION}
-PKGNAME=		${DISTNAME}-1
+PKGNAME=		${DISTNAME}-${DASH_VER}
 CATEGORIES=		x11 x11/gnome
 
 HOMEPAGE=		http://www.gnome.org
 
-MASTER_SITES=		${MASTER_SITE_GNOME:=sources/gnome-panel/2.8/}
+MASTER_SITES=		${MASTER_SITE_GNOME:=sources/gnome-panel/2.18/}
 EXTRACT_SUFX=           .tar.bz2
 
 # LGPL
@@ -21,12 +21,12 @@ PERMIT_DISTFILES_FTP=	Yes
 
 MODULES=		devel/gettext devel/pkgconfig graphics/png
 
-BUILD_DEPENDS=		:p5-XML-Parser-*:textproc/p5-XML-Parser \
-			:scrollkeeper->=0.3.12:textproc/scrollkeeper
-RUN_DEPENDS=		:scrollkeeper->=0.3.12:textproc/scrollkeeper
-LIB_DEPENDS= 		gnome-desktop-2.0::x11/gnome/desktop \
-			wnck-1.4::devel/libwnck \
-			ecal,edataserver::x11/gnome/evolution-data-server
+BUILD_DEPENDS+=		:p5-XML-Parser-*:textproc/p5-XML-Parser
+B_R_DEPENDS+=		:scrollkeeper->=0.3.12:textproc/scrollkeeper
+LIB_DEPENDS+= 		gnome-desktop-2.0::x11/gnome/desktop
+LIB_DEPENDS+= 		wnck-1.4::devel/libwnck
+LIB_DEPENDS+= 		gnome-menu::x11/gnome/menus
+LIB_DEPENDS+=		camel-1.2.0.0,ebook-1.2.0.0,ecal-1.2.0.0,edataserver-1.2.0.0,edataserverui-1.2.0.0::x11/gnome/evolution-data-server
 
 USE_X11=		Yes
 USE_CXX=		Yes # fam, shared-mime-info
