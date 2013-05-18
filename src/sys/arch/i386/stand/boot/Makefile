@@ -1,4 +1,4 @@
-# $MirOS: src/sys/arch/i386/stand/boot/Makefile,v 1.27 2009/01/12 21:54:40 tg Exp $
+# $MirOS: src/sys/arch/i386/stand/boot/Makefile,v 1.28 2009/01/31 18:49:26 tg Exp $
 
 SMALL_BOOT?=	No
 
@@ -12,6 +12,10 @@ SADIR=${.CURDIR}/..
 CPPFLAGS+=	${DEBUGFLAGS}
 CPPFLAGS+=	${SACFLAGS:M-[DI]*}
 COPTS+=		${SACFLAGS:N-[DI]*}
+
+.if defined(MBSD_PREFIX) && !empty(MBSD_PREFIX)
+CPPFLAGS+=	-DMBSD_PREFIX=\"${MBSD_PREFIX:Q}\"
+.endif
 
 #AFLAGS+=	-Wa,-R
 #AFLAGS+=	-Wa,-a

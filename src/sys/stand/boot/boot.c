@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/stand/boot/boot.c,v 1.18 2009/01/14 22:22:42 tg Exp $	*/
+/**	$MirOS: src/sys/stand/boot/boot.c,v 1.19 2009/01/31 18:48:13 tg Exp $	*/
 /*	$OpenBSD: boot.c,v 1.36 2007/06/26 10:34:41 tom Exp $	*/
 
 /*
@@ -44,10 +44,14 @@ extern BOOTPLAYER bootplayer;
 
 #include "cmd.h"
 
+#ifndef MBSD_PREFIX
+#define MBSD_PREFIX ""
+#endif
+
 static const char *const kernels[] = {
-	"/bsd",
+	MBSD_PREFIX "/bsd",
 #if !defined(SMALL_BOOT)
-	"/bsd.old",
+	MBSD_PREFIX "/bsd.old",
 #endif
 	NULL
 };
@@ -70,7 +74,7 @@ boot(dev_t bootdev)
 	uint32_t ip;
 #endif
 #if defined(IN_PXEBOOT) || !defined(SMALL_BOOT)
-	char myconf[32];
+	char myconf[64];
 #endif
 
 	machdep();
@@ -96,7 +100,8 @@ boot(dev_t bootdev)
 	 */
 	if (have_pxe > 0) {
 		cmd.boothowto = 0;
-		snprintf(myconf, sizeof(myconf), "/%d.%d.%d.%d/boot.cfg",
+		snprintf(myconf, sizeof (myconf),
+		    MBSD_PREFIX "/%d.%d.%d.%d/boot.cfg",
 		    ip & 0xff, (ip >> 8) & 0xff, (ip >> 16) & 0xff, ip >> 24);
 		cmd.conf = myconf;
 		cmd.addr = (void *)DEFAULT_KERNEL_ADDRESS;
@@ -108,7 +113,7 @@ boot(dev_t bootdev)
 #if !defined(SMALL_BOOT)
 	if (hook_value) {
 		cmd.boothowto = 0;
-		snprintf(myconf, sizeof (myconf), "/boot.%d",
+		snprintf(myconf, sizeof (myconf), MBSD_PREFIX "/boot.%d",
 		    (hook_value % 999));
 		cmd.conf = myconf;
 		cmd.addr = (void *)DEFAULT_KERNEL_ADDRESS;
@@ -124,7 +129,7 @@ boot(dev_t bootdev)
 			printf("Attempt to read %s failed.\n", cmd.conf);
 #endif
 		cmd.boothowto = 0;
-		cmd.conf = "/boot.cfg";
+		cmd.conf = MBSD_PREFIX "/boot.cfg";
 		cmd.addr = (void *)DEFAULT_KERNEL_ADDRESS;
 		cmd.timeout = 5;
 
