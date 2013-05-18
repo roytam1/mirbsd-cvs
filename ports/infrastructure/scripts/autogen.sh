@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: ports/infrastructure/scripts/autogen.sh,v 1.11 2009/03/29 13:04:07 tg Exp $
+# $MirOS: ports/infrastructure/scripts/autogen.sh,v 1.12 2009/12/06 13:03:57 tg Exp $
 #-
 # Copyright (c) 2004, 2005, 2006, 2008, 2009
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -61,17 +61,17 @@ set -x
 ACLOCAL_AMFLAGS=
 [[ -e Makefile.am ]] && ACLOCAL_AMFLAGS=$(grep '^[:space:]*ACLOCAL_AMFLAGS' \
     Makefile.am | cut -d '=' -f 2)
-[[ -n $NO_ACLOCAL ]] || aclocal -I . $ACLOCAL_AMFLAGS
+[[ -n $NO_ACLOCAL ]] || aclocal -I . $ACLOCAL_AMFLAGS $ACLOCAL_FLAGS
 f=configure.ac
 [[ ! -e $f ]] && f=configure.in
 [[ -n $NO_AUTOHEADER ]] || if fgrep -q \
     -e AC_CONFIG_HEADER -e AM_CONFIG_HEADER $f; then
-	autoheader
+	autoheader $AUTOHEADER_FLAGS
 fi
 set +e
 integer rv=0
 [[ ! -e Makefile.am ]] || automake --foreign -a $AM_FLAGS || rv=$?
-if autoconf; then
+if autoconf $AUTOCONF_FLAGS; then
 	chmod 664 configure
 else
 	(( rv = rv ? rv : 1 ))
