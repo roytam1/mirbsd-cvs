@@ -3,7 +3,7 @@
 
 /*-
  * Copyright (c) 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010,
- *		 2011, 2012
+ *		 2011, 2012, 2013
  *	Thorsten Glaser <tg@mirbsd.org>
  *
  * Provided that these terms and disclaimer and all copyright notices
@@ -1213,9 +1213,8 @@ print_columns(struct shf *shf, unsigned int n,
 
 	rows = (n + cols - 1) / cols;
 	if (prefcol && cols > rows) {
-		i = rows;
-		rows = cols > n ? n : cols;
-		cols = i;
+		cols = rows;
+		rows = (n + cols - 1) / cols;
 	}
 
 	max_col = -max_col;
