@@ -1,5 +1,5 @@
 #!/bin/sh
-# $MirOS: contrib/hosted/fwcf/fwcf.sh,v 1.25 2007/03/02 05:42:28 tg Exp $
+# $MirOS: contrib/hosted/fwcf/fwcf.sh,v 1.26 2007/03/07 00:23:06 tg Exp $
 #-
 # Copyright (c) 2006, 2007
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -248,7 +248,7 @@ if test $1 = status; then
 		IFS=' ' read newsum newname <&4 || exit 255
 		test x"$oldname" = x"$newname" || exit 255
 		test x"$oldsum" = x"$newsum" && continue
-		test $gotany = 0 && $q '%32s %32s %s\n' \
+		test $gotany = 0 && $q '%-32s %-32s %s\n' \
 		    'MD5 hash of old file' 'MD5 hash of new file' 'filename'
 		gotany=8
 		test $q = : && break
