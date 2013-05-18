@@ -1,5 +1,5 @@
 #!/bin/sh
-# $MirOS: ports/Setup.sh,v 1.43 2008/05/03 01:28:58 tg Exp $
+# $MirOS: ports/Setup.sh,v 1.44 2008/07/11 11:22:14 tg Exp $
 #-
 # Copyright (c) 2005, 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -36,8 +36,8 @@ export localbase
 export xfbase
 
 # minimum req'd version (change this below too)
-mksh_ver=33
-mksh_date=2008/04/11
+mksh_ver=34
+mksh_date=2008/05/17
 
 mirror=$1
 case x$1 in
@@ -257,7 +257,7 @@ fi
 rm -f $MKSH.$tpfx.1
 if test $badp = 1; then
 	echo 'You need superuser privilegues to continue installation.' >&2
-	echo 'Ask your system operator to install a recent mksh (R33d)' >&2
+	echo 'Ask your system operator to install a recent mksh (R35+)' >&2
 	echo 'or call this script with MKSH=/path/to/mksh (is compiled' >&2
 	echo 'if it does not exist, but the path must exist).' >&2
 	cd
