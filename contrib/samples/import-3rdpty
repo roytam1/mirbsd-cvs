@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: contrib/samples/import-3rdpty,v 1.23 2008/05/03 01:09:31 tg Exp $
+# $MirOS: contrib/samples/import-3rdpty,v 1.24 2008/10/05 16:26:15 tg Exp $
 #-
 # Copyright (c) 2004, 2005, 2006, 2007, 2008
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -19,7 +19,7 @@
 # damage or existence of a defect, except proven that it results out
 # of said person's immediate fault when using the work as intended.
 
-print -ru2 -- '========= $MirOS: contrib/samples/import-3rdpty,v 1.23 2008/05/03 01:09:31 tg Exp $ ========='
+print -ru2 -- '========= $MirOS: contrib/samples/import-3rdpty,v 1.24 2008/10/05 16:26:15 tg Exp $ ========='
 
 ignlist=0
 force=0
@@ -1439,6 +1439,7 @@ case $vendor {
  (freetype)	B=1.1.115; V=freetype	;; # freetype.org
  (libz|zlib)	B=1.1.117; V=libz	;; # zlib stuff
  (ewe|ewesoft)	B=1.1.119; V=ewesoft	;; # www.ewesoft.com
+ (pcc|ragge)	B=1.1.121; V=pcc	;; # pcc &c.
  (tg)		B=1.1.201; V=tg		;; # Thorsten Glaser
  (bsiegert)	B=1.1.203; V=bsiegert	;; # Benny Siegert
 #(wbx)		B=1.1.205; V=wbx	;; # Waldemar Brodkorb
@@ -1446,6 +1447,8 @@ case $vendor {
 #(dave)		B=1.1.209; V=dave	;; # Dave Steinberg
 #(sap|stephen)	B=1.1.211; V=sap	;; # Stephen Paskaluk
 #(tyler)	B=1.1.215; V=tyler	;; # R. Tyler Ballance
+#(gecko?(2))	B=1.1.217; V=gecko2	;; # Andreas Gockel
+ (ahoka|replaced) B=1.1.219; V=ahoka	;; # Adam Hoka
  (*)		print -ru2 -- Error: Vendor Branch $branch non-existant.
 		exit 1			;;
 }
