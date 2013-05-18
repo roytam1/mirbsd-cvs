@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/dot.profile,v 1.11 2007/03/26 17:57:07 tg Exp $
+# $MirOS: src/distrib/common/dot.profile,v 1.12 2007/05/23 19:58:03 tg Exp $
 # $OpenBSD: dot.profile,v 1.4 2002/09/13 21:38:47 deraadt Exp $
 # $NetBSD: dot.profile,v 1.1 1995/12/18 22:54:43 pk Exp $
 #
@@ -79,10 +79,10 @@ if [ ! -f /.profile.done ]; then
 
 	# on sparc, use the nvram to provide some additional entropy
 	# also read some stuff from the HDD etc. (doesn't matter if it breaks)
-	( ( (for d in w:126 s:126 c:96 f:1 rai:1; do dd if=/dev/r${d%:*}d0c \
-	     count=${d#*:}; done; dd if=/var/db/host.random of=/dev/arandom; \
-	     eeprom; dmesg; sysctl -a; ) 2>&1 | cksum -b -a cksum -a sha512 \
-	    -a suma -a tiger -a rmd160 -a adler32 >/dev/wrandom) &)
+	( ( (for d in {w,s,rai,c}:128, f:1, r:1,128; do b=${d#*,}; d=${d%,*};\
+	     dd if=/dev/r${d%:*}d0c count=${d#*:} ${b:+bs=$b of=/dev/arandom}\
+	     ; done; eeprom; dmesg; sysctl -a) 2>&1 | cksum -acksum -asha512 \
+	     -asuma -atiger -armd160 -aadler32 -b >/dev/wrandom) &)
 
 	# say hello and legalese
 	echo '
@@ -97,7 +97,6 @@ other terms used by MirOS or its contributed material.
 This work is provided "AS IS" and WITHOUT WARRANTY of any kind.\n'
 
 	mount -u $rootdisk / || mount -fuw /dev/rd0a /
-	rm -f /var/db/host.random
 
 	# set up some sane defaults
 	echo 'erase ^?, werase ^W, kill ^U, intr ^C, status ^T'
