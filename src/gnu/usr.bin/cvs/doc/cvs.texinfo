@@ -2,7 +2,7 @@
 @comment Documentation for CVS.
 @setfilename cvs.info
 @afourpaper
-@comment $MirOS: src/gnu/usr.bin/cvs/doc/cvs.texinfo,v 1.11 2010/09/19 19:42:52 tg Exp $
+@comment $MirOS: src/gnu/usr.bin/cvs/doc/cvs.texinfo,v 1.12 2011/05/06 21:22:51 tg Exp $
 @macro copyleftnotice
 @noindent
 Copyright @copyright{} 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000,
@@ -744,7 +744,7 @@ they should be in separate locations.
 @c /home/joe/sources.  But this node is too long
 @c as it is; need a little reorganization...
 
-@cindex :local:, setting up
+@cindex local method, setting up
 @sc{cvs} can access a repository by a variety of
 means.  It might be on the local computer, or it might
 be on a computer across the room or across the world.
@@ -2379,8 +2379,8 @@ details.
 There is no need to edit @file{inetd.conf} or start a
 @sc{cvs} server daemon.
 
-@cindex :server:, setting up
-@cindex :ext:, setting up
+@cindex server method, setting up
+@cindex ext method, setting up
 @cindex Kerberos, using kerberized rsh
 @cindex SSH (rsh replacement)
 @cindex rsh replacements (Kerberized, SSH, &c)
@@ -2786,7 +2786,7 @@ want to include the @file{passwd} file in checkouts of
 @cindex Login (subcommand)
 @cindex Password client, using
 @cindex Authenticated client, using
-@cindex :pserver:, setting up
+@cindex pserver method, setting up
 To run a @sc{cvs} command on a remote repository via
 the password-authenticating server, one specifies the
 @code{pserver} protocol, optional username, repository host, an
@@ -2950,8 +2950,8 @@ security, get Kerberos.
 
 @cindex GSSAPI
 @cindex Security, GSSAPI
-@cindex :gserver:, setting up
-@cindex Kerberos, using :gserver:
+@cindex gserver method, setting up
+@cindex Kerberos, using gserver method
 GSSAPI is a generic interface to network security
 systems such as Kerberos 5.
 If you have a working GSSAPI library, you can have
@@ -3002,9 +3002,9 @@ cvs -d :gserver:faun.example.org:/usr/local/cvsroot checkout foo
 @node Kerberos authenticated
 @subsection Direct connection with Kerberos
 
-@cindex Kerberos, using :kserver:
+@cindex Kerberos, using kserver method
 @cindex Security, Kerberos
-@cindex :kserver:, setting up
+@cindex kserver method, setting up
 The easiest way to use Kerberos is to use the Kerberos
 @code{rsh}, as described in @ref{Connecting via rsh}.
 The main disadvantage of using rsh is that all the data
@@ -3049,7 +3049,7 @@ connection via rsh; this version will not do so.
 @subsection Connecting with fork
 
 @cindex fork, access method
-@cindex :fork:, setting up
+@cindex fork method, setting up
 This access method allows you to connect to a
 repository on your local disk via the remote protocol.
 In other words it does pretty much the same thing as
@@ -3075,7 +3075,7 @@ repository.  For example:
 cvs -d :fork:/usr/local/cvsroot checkout foo
 @end example
 
-@cindex CVS_SERVER, and :fork:
+@cindex CVS_SERVER, and fork method
 As with @code{:ext:}, the server is called @samp{cvs}
 by default, or the value of the @code{CVS_SERVER}
 environment variable.
@@ -7198,7 +7198,7 @@ The date (UTC) the revision was checked in, in a format suitable
 for the Berkeley mdoc macro processing.
 
 @example
-$Mdocdate: September 19 2010 $
+$Mdocdate: May 6 2011 $
 @end example
 
 @cindex Header keyword
@@ -15689,21 +15689,21 @@ the problem, the next steps depend largely on which
 access method you are using.
 
 @table @code
-@cindex :ext:, troubleshooting
+@cindex ext method, troubleshooting
 @item :ext:
 Try running the rsh program from the command line.  For
 example: "rsh servername cvs -v" should print @sc{cvs}
 version information.  If this doesn't work, you need to
 fix it before you can worry about @sc{cvs} problems.
 
-@cindex :server:, troubleshooting
+@cindex server method, troubleshooting
 @item :server:
 You don't need a command line rsh program to use this
 access method, but if you have an rsh program around,
 it may be useful as a debugging tool.  Follow the
 directions given for :ext:.
 
-@cindex :pserver:, troubleshooting
+@cindex pserver method, troubleshooting
 @item :pserver:
 Errors along the lines of "connection refused" typically indicate
 that inetd isn't even listening for connections on port 2401
