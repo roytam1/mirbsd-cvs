@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.183 2009/04/17 15:15:07 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.184 2009/04/18 20:02:08 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -3814,4 +3814,81 @@ Title: mksh world domination via Cydia
  the jesusPhone. Oh, and I’d like to have swap over NFS (or something
  similarily useful), as I refuse to cross-build, other than exclusively
  for bootstrapping – a lession learned from OpenBSD (and myself).</p>
+----
+Date: 22.04.2009 16:47
+Author: tg@
+Title: Mehr über kaputte Compiler
+Tag: bug rant
+Language: de
+
+<p>Als ich <a href="@@RELPATH@@permalinks/wlog-10_e20090417-tg.htm">über
+ Compiler</a> fluchte hatte ich eigentlich nur im Sinn, festzustellen,
+ daß wir wohl weiterhin mit gcc3 „stuck“ sind. Zugegeben, ich habe den
+ Autor von nwcc als Idioten bezeichnet in einem „rant“, aber die Antwort,
+ die ich per privater eMail erhielt – daher nicht hier wiedergegeben –
+ überraschte mich doch etwas. Ich habe nichtmals alles von ihr gelesen,
+ aber… naja. nwcc baut mksh nicht korrekt, selbst wenn er korrekt tut,
+ weil er zum Beispiel 「void **」 mit 「void *」 verwechselt. Ich schrieb
+ von Warnungen, aber der Autor von nwcc zieht es vor, nicht zwischen
+ gcc-Warnungen beim Bauen von nwcc und nwcc-Warnungen beim Bauen von <a
+ href="@@RELPATH@@mksh.htm">mksh</a> zu unterscheiden. Weiterhin wagt er
+ es, meinen rant-Idioten als ad-hominem-Attacke zu bezeichnen, selber
+ jedoch erst recht eine derselben zu lancieren.</p>
+<p>Nunja. Ich denke, ich habe durch das entfernen des ohnehin defekten
+ nwcc-Ports seinem Wunsch genüge getan. Hiermit weise ich darauf hin,
+ daß der erwähnte Idiot keinesfalls wider seine Person gerichtet war,
+ sondern sich auf die Tätigkeit des Hartkodierens falscher bzw. nicht
+ portabler Annahmen bezog. Damit ist das Kapitel für mich geschlossen.
+ Achja: in einem Makefile eine Regel wie ein Verzeichnis nennen tut
+ nicht – das mußte ich lernen (bei install(1) zum Beispiel), und selbst
+ wenn es funktioniert tut sie nicht das, was Nils Weller gerne hätte,
+ nämlich automatisch in das Verzeichnis hinabsteigen und dort weiter
+ make(1)n.</p>
+----
+Date: 22.04.2009 16:53
+Author: tg@
+Title: HW RNG, Geocaching und so
+Tag: geocache
+Language: de
+
+<p>Bei <a href="http://www.naturalnik.de/wordpress/">Natureshadow</a>
+ seinem Blog findet man bisweilen lustige Sachen, zum Beispiel den
+ unten eingebetteten T5-Cacher (nicht im RSS).</p>
+<p><a href="http://blog.rheinlandcacher.de/">Geocachen im Rheinland</a>
+ ist auch nett, hat öfters Tips und so. Schade ist, daß man die Coins
+ nicht als Nichtmitglied in einem Klub bestellen kann. Bei Bertelsmann
+ bin ich ja auch raus.</p><!-- RSS stop -->
+<p>[…] sorry, muß erst auf Erlaubnis zum Deeplink warten.</p>
+----
+Date: 22.04.2009 16:58
+Author: tg@
+Title: mksh $(…) evaluation bug
+Tag: bug mksh
+
+<p><a href="https://bugzilla.redhat.com/show_bug.cgi?id=496791">RedHat
+ BZ#496791</a> is another example of a bug I documented better in the
+ commitids 10049EF448F5F89A278 and 10049EF493039137B14 in mksh(1).</p>
+<p>The gist is: $(…) are not parsed recursively but by a lexer hack,
+ namely merely looking at matching parenthesēs; this needs to go away.
+ Until then, this bug cannot be fixed.</p>
+<p>And while at it, ((foo); bar) subshells need to be fixed so that
+ they are not parsed as ((…)) arithmetic expression with a failure
+ upon encountering a sole closing parenthesis.</p>
+<p>The <a href="@@RELPATH@@mksh.htm#plans">mksh plans</a> list this.</p>
+----
+Date: 22.04.2009 16:07
+Author: tg@
+Title: perl and HTML entities
+
+<p style="margin-bottom:0px;">I don’t even know perl(1), I just can RTFM…</p>
+<div style="border:4px ridge blue; margin:0px 24px 0px 24px; padding:12px;">
+ <pre>
+<em>tg@bleu:~ $</em> echo 'xyzz�€y' | perl -C -pe \
+    's/([\x{7f}-\x{ffff}])/"&#".unpack("U",$1).";"/eg'
+<em>xyzz&#65533;&#8364;y</em>
+<em>tg@bleu:~ $</em> echo 'xyzz�€y' | perl -C -pe \
+    's/([\x{7f}-\x{ffff}])/sprintf "&#x%X;",unpack("U",$1)/eg'
+<em>xyzz&#xFFFD;&#x20AC;y</em>
+ </pre>
+</div><p style="margin-top:0px;">Just hacked it for Natureshadow.</p>
 ----
