@@ -1,8 +1,8 @@
 #!/bin/mksh
-# $MirOS: src/scripts/editdiff,v 1.3 2005/06/05 15:22:55 tg Exp $
+# $MirOS: src/share/misc/licence.template,v 1.6 2006/01/24 22:24:02 tg Rel $
 #-
-# Copyright (c) 2004
-#	Thorsten "mirabile" Glaser <tg@66h.42h.de>
+# Copyright (c) 2004, 2006
+#	Thorsten Glaser <tg@mirbsd.de>
 #
 # Licensee is hereby permitted to deal in this work without restric-
 # tion, including unlimited rights to use, publicly perform, modify,
@@ -26,17 +26,17 @@
 
 f="$1"; shift
 rev="$1"
-if [[ $rev = -- ]]; then
-	rev=
-	shift
-elif [[ $rev = ask ]]; then
+if [[ $rev = ask ]]; then
 	read rev?'Revision: '
 	[[ -z $rev ]] && exit 0
-	rev="-r$rev"
 	shift
 elif [[ -n $rev ]]; then
-	rev="-r$rev"
 	shift
+fi
+if [[ $rev = +(-) ]]; then
+	rev=
+elif [[ -n $rev && $rev != -* ]]; then
+	rev=-r$rev
 fi
 cp=
 dp=
