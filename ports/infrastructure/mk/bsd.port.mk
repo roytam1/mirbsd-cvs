@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.257 2009/08/16 17:25:49 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.258 2009/08/29 12:44:04 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -2456,7 +2456,8 @@ _package: ${_PKG_PREREQ}
 	case "$${duplicates}" in "");; \
 	*)	echo "\n*** WARNING *** Duplicates in PLIST:\n$$duplicates\n";; \
 	esac
-	@cd ${.CURDIR} && if ${SUDO} ${SETENV} PATH=${PKG_CMDDIR:Q}:$$PATH \
+	@ulimit -d $(ulimit -H -d); ulimit -m $(ulimit -H -m); \
+	cd ${.CURDIR} && if ${SUDO} ${SETENV} PATH=${PKG_CMDDIR:Q}:$$PATH \
 	    ${PKG_CMD_CREATE} ${PKG_ARGS} ${PKGFILE${SUBPACKAGE}}; then \
 		mode=$$(id -u):$$(id -g); \
 		${SUDO} ${CHOWN} $${mode} ${PKGFILE${SUBPACKAGE}}; \
