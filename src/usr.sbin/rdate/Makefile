@@ -1,10 +1,14 @@
-# $MirOS: src/usr.sbin/rdate/Makefile,v 1.5 2006/06/09 20:58:08 tg Exp $
+# $MirOS: src/usr.sbin/rdate/Makefile,v 1.6 2007/05/14 22:06:51 tg Exp $
 
 PROG=	rdate
-SRCS=	ntp.c ntpleaps.c rdate.c rfc868time.c
+SRCS=	ntp.c rdate.c rfc868time.c
 MAN=	rdate.8
 
+.ifdef SMALL
+CPPFLAGS+= -DNO_UTIL
+.else
 DPADD+= ${LIBUTIL}
 LDADD+= -lutil
+.endif
 
 .include <bsd.prog.mk>

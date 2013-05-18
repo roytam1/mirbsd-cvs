@@ -49,7 +49,7 @@
 #include <time.h>
 #include <unistd.h>
 
-__RCSID("$MirOS: src/usr.sbin/rdate/ntp.c,v 1.8 2006/08/28 13:15:43 tg Exp $");
+__RCSID("$MirOS: src/usr.sbin/rdate/ntp.c,v 1.9 2007/05/14 22:06:51 tg Exp $");
 
 /* This macro is not implemented on all operating systems */
 #ifndef	SA_LEN
@@ -64,8 +64,12 @@ __RCSID("$MirOS: src/usr.sbin/rdate/ntp.c,v 1.8 2006/08/28 13:15:43 tg Exp $");
 extern u_int32_t arc4random(void);
 #endif
 
+#ifdef __MirBSD__
+#define tick2utc(tv)	tai2utc(timet2tai(tv))
+#else
 /* from ntpleaps.c */
 extern time_t tick2utc(time_t);
+#endif
 
 /*
  * NTP definitions.  Note that these assume 8-bit bytes - sigh.  There
