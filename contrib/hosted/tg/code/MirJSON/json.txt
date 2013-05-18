@@ -156,5 +156,22 @@ although some decoders read e.g. literalnull or \n case-insensitively.
 - Objects do not emit slots whose value is undefined at all! (but slots with null)
 - Arrays emit undefined values as literalnull
 
+
+### Encoding detection ###
+
+Peek at the octet stream received. The checks are ordered.
+
+EF BB BF	-> skip 3; return UTF-8
+00 00 FE FF	-> skip 4; return UCS-4BE
+00 00 00 ??	-> skip 0; return UCS-4BE
+?? 00 00 00	-> skip 0; return UCS-4LE
+FF FE 00 00	-> skip 4; return UCS-4LE
+FF FE		-> skip 2; return UCS-2LE
+FE FF		-> skip 2; return UCS-2BE
+00 ??		-> skip 0; return UCS-2BE
+?? 00		-> skip 0; return UCS-2LE
+otherwise	-> skip 0; return UTF-8
+
+
 __________________________________________________________________________________
-$MirOS: contrib/hosted/tg/code/MirJSON/json.txt,v 1.2 2012/04/08 17:37:59 tg Exp $
+$MirOS: contrib/hosted/tg/code/MirJSON/json.txt,v 1.3 2012/12/01 19:59:44 tg Exp $

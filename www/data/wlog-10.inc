@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.402 2012/12/01 21:25:53 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.403 2012/12/01 21:30:05 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -9403,4 +9403,8 @@ Title: Proposed extensions to the JSON specification
  outer layers worry about compression. The data is usually unrelated to
  the JSON-encoded structure, and even if it’s related to other data the
  base64 representation is usually similar (unless misaligned).</p>
+<p><strong>Update</strong> 02.12.2012 – Wrong I was about the first two
+ characters: “"€"” is a valid JSON text. Still possible to peek at four
+ octets and determine the encoding by ordering the tests; updated my <a
+ href="@@ABSPATH@@/cvs.cgi/contrib/hosted/tg/code/MirJSON/json.txt?rev=HEAD">notes</a>.</p>
 ----
