@@ -1,5 +1,5 @@
-#!/bin/mksh
-# $MirOS: CVSROOT/mklogci,v 1.30 2007-11-18 21:57:31 bsiegert Exp $
+#!/usr/bin/env mksh
+# $MirOS: CVSROOT/mklogci,v 1.31 2007/11/18 21:58:46 bsiegert Exp $
 #-
 # Copyright (c) 2005, 2006, 2007
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -9,10 +9,6 @@
 # is granted to deal in this work without restriction, including un-
 # limited rights to use, publicly perform, distribute, sell, modify,
 # merge, give away, or sublicence.
-#
-# Advertising materials mentioning features or use of this work must
-# display the following acknowledgement:
-#	This product includes material provided by Thorsten Glaser.
 #
 # This work is provided "AS IS" and WITHOUT WARRANTY of any kind, to
 # the utmost extent permitted by applicable law, neither express nor
@@ -40,15 +36,13 @@
 #	-p pathr	= the %p argument
 #	-R replyto	= set Reply-To: replyto header
 
-function die
-{
+function die {
 	print -r Error: "$@"
 	rm -f $repo/.tmp/cl.*.$id
 	exit 1
 }
 
-function makeheader
-{
+function makeheader {
 	cat <<-EOF
 		Commit ID:	$id
 		CVSROOT:	$repo
@@ -58,8 +52,7 @@ function makeheader
 	EOF
 }
 
-function writelog
-{
+function writelog {
 	{
 		cat "$@"
 		print ________________________________________________________________________
@@ -67,8 +60,7 @@ function writelog
 	} | $SHELL $repo/CVSROOT/genlog $logfile $repo/CVSROOT/history
 }
 
-function writemail
-{
+function writemail {
 	sendmail -t |&
 	print -pr -- To: $mailto
 	print -pr -- Subject: CVS: $hn: $module
@@ -82,8 +74,7 @@ function writemail
 	exec 3>&-
 }
 
-function addnames
-{
+function addnames {
 	integer i
 	integer linln
 
@@ -109,8 +100,7 @@ function addnames
 	done
 }
 
-function addflist
-{
+function addflist {
 	set -A add_names
 	IFS= read dir
 	[[ $dir = */ ]] || die addflist "($dir)" does not look like a directory
@@ -128,7 +118,7 @@ function addflist
 	addnames
 }
 
-SHELL=/bin/mksh
+SHELL=$(whence -p mksh) || SHELL=/bin/mksh
 id=$1
 [[ -z $id ]] && exit 255
 shift
@@ -173,18 +163,18 @@ fi
 if [[ -e $repo/.tmp/do-dump ]]; then
 	if DUMPFN=$(mktemp $repo/.tmp/dump.XXXXXXXXXXXX); then
 		cat >$DUMPFN
-		(
+		{
 			local argv
 			set -A argv -- "$0" "$@"
 			print "BEGIN calling information"
 			integer i=0
 			while (( i < ${#argv[*]} )); do
-				print -nr -- "<${argv[i++]}> "
+				print -nr -- "[$i]<${argv[i++]}> "
 			done
 			print
 			cat $DUMPFN
 			print "END calling information"
-		) | logger -t "CVS:dump"
+		} | logger -t "CVS:dump"
 	else
 		DUMPFN=0
 	fi
@@ -208,7 +198,7 @@ while (( $# > 2 )); do
 	files[i]=$1
 	fold[i]=$2
 	fnew[i]=$3
-	if [[ $i = 0 && $2 = -\ * && $3 = NONE ]]; then
+	if [[ $i = 0 && $2 = @(- )* && $3 = NONE ]]; then
 		# cvs import or cvs add directory
 		break
 	else
@@ -297,7 +287,7 @@ done
 
 # Strip trailing blank lines from the log message; multiple blank
 # lines are compressed into one, and leading blank lines are removed
-[[ ${#log_lines[*]} -gt 0 ]] && \
+(( ${#log_lines[*]} )) && \
     while [[ ${log_lines[${#log_lines[*]}-1]} = *([	 ]) ]]; do
 	unset log_lines[${#log_lines[*]}-1]
 done
@@ -312,7 +302,7 @@ sp=
 while (( i < ${#log_lines[*]} )); do
 	if [[ ${log_lines[i]} = *([	 ]) ]]; then
 		let ++i
-		[[ $isblank = 1 ]] && continue
+		(( isblank )) && continue
 		print >>$msgf
 		isblank=1
 	else
@@ -356,7 +346,7 @@ leave=$?
 # Look for a log file which matches this log message
 let i=0
 lmsg=$(<$msgf)
-while : ; do
+while :; do
 	if [[ ! -e $prefix.msg.$i.$id ]]; then
 		cp $msgf $prefix.msg.$i.$id
 		break
@@ -396,7 +386,7 @@ while (( j < ${#files[*]} )); do
 done
 
 # End here if this is not my last invocation
-[[ $leave = 1 ]] && exit 0
+(( leave )) && exit 0
 module=$(<$modf)
 
 # Prepare the final commit message
@@ -434,7 +424,7 @@ if [[ -s $diff ]]; then
 		print copyrighted and covered by the licence terms of the \
 		    files themselves. >>$difc
 		print >>$difc
-		CVSROOT="$repo" $SHELL $diff >>$difc
+		CVSROOT=$repo $SHELL $diff >>$difc
 	else
 		difc=$diff
 	fi

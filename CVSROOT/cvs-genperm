@@ -1,5 +1,5 @@
-#!/bin/mksh
-# $MirOS: CVSROOT/cvs-genperm,v 1.32 2007/08/30 21:08:08 tg Exp $
+#!/usr/bin/env mksh
+# $MirOS: CVSROOT/cvs-genperm,v 1.33 2008/07/03 16:54:21 tg Exp $
 #-
 # Copyright (c) 2003, 2004, 2005, 2006, 2007
 #	Thorsten Glaser <tg@mirbsd.de>

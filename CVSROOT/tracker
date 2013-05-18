@@ -1,21 +1,43 @@
-#!/bin/mksh
-# $MirOS: CVSROOT/tracker,v 1.7 2006/09/21 00:08:12 tg Exp $
+#!/usr/bin/env mksh
+# $MirOS: src/share/misc/licence.template,v 1.20 2006/12/11 21:04:56 tg Rel $
+#-
+# Copyright (c) 2005
+#	Thorsten Glaser <tg@mirbsd.de>
+#
+# Provided that these terms and disclaimer and all copyright notices
+# are retained or reproduced in an accompanying document, permission
+# is granted to deal in this work without restriction, including un-
+# limited rights to use, publicly perform, distribute, sell, modify,
+# merge, give away, or sublicence.
+#
+# This work is provided "AS IS" and WITHOUT WARRANTY of any kind, to
+# the utmost extent permitted by applicable law, neither express nor
+# implied; without malicious intent or gross negligence. In no event
+# may a licensor, author or contributor be held liable for indirect,
+# direct, other damage, loss, or other issues arising in any way out
+# of dealing in the work, even if advised of the possibility of such
+# damage or existence of a defect, except proven that it results out
+# of said person's immediate fault when using the work as intended.
 #-
 # Record the last directory where the current commit is taking place
 # in for use by the mklogci and mklogtag scripts. Note that the pre-
 # fix for temporary files (idea: tmpdir/prefix.*.commitid) is synced
 # with the other files.
 
-[[ -e $1/.tmp/do-dump ]] && (
+repo=$1
+id=$2
+dir=$3
+
+[[ -e $repo/.tmp/do-dump ]] && {
 	local argv
 	set -A argv -- "$0" "$@"
 	print "BEGIN calling information"
 	integer i=0
 	while (( i < ${#argv[*]} )); do
-		print -nr -- "<${argv[i++]}> "
+		print -nr -- "[$i]<${argv[i++]}> "
 	done
 	print
 	print "END calling information (no stdin)"
-    ) | logger -t "CVS:dump"
+} | logger -t "CVS:dump"
 
-print -r -- "$3" >$1/.tmp/cl.lastdir.$2
+print -r -- "$dir" >$repo/.tmp/cl.lastdir.$id
