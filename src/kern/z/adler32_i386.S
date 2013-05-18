@@ -1,4 +1,4 @@
-/* $MirOS: src/kern/z/adler32_i386.S,v 1.2 2007/02/18 16:51:44 tg Exp $ */
+/* $MirOS: src/kern/z/adler32_i386.S,v 1.3 2007/02/28 16:11:32 tg Exp $ */
 
 /*-
  * Copyright (c) 2006, 2007
@@ -36,7 +36,7 @@
 #include <dev/rndvar.h>
 #endif
 
-RCSID("$MirOS: src/kern/z/adler32_i386.S,v 1.2 2007/02/18 16:51:44 tg Exp $")
+RCSID("$MirOS: src/kern/z/adler32_i386.S,v 1.3 2007/02/28 16:11:32 tg Exp $")
 
 #define BASE	65521	/* largest prime smaller than 65536 */
 #define NMAX	5552	/* largest n: 255n(n+1)/2 + (n+1)(BASE-1) <= 2^32-1 */
@@ -91,13 +91,8 @@ ENTRY(adler32)
 	jmp	.L1
 .L4:	/* return */
 	shl	edi,16
-#ifdef _KERNEL
-	mov	eax,[rnd_addpool_allow]
-	or	eax,eax			/* allowed to rnd_addpool_add? */
-#endif
 	lea	eax,[edi+ebx]
 #ifdef _KERNEL
-	jz	.Ladrn			/* no, just return the value */
 	mov	ebx,[rnd_addpool_num]	/* where are we at? */
 	xor	[rnd_addpool_buf+4*ecx],eax
 	inc	ebx
@@ -105,7 +100,6 @@ ENTRY(adler32)
 	jb	.Ladrw
 	xor	ebx,ebx
 .Ladrw:	mov	[rnd_addpool_num],ebx
-.Ladrn:
 #endif
 #if !defined(_KERNEL) && !defined(_STANDALONE)
 	push	eax			/* return value */
