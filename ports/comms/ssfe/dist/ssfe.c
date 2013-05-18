@@ -57,7 +57,7 @@
 #define	__RCSID(x)	static const char __rcsid[] __attribute__((used)) = (x)
 #endif
 
-__RCSID("$MirOS: ports/comms/ssfe/dist/ssfe.c,v 1.8 2006/01/24 22:05:06 tg Exp $");
+__RCSID("$MirOS: ports/comms/ssfe/dist/ssfe.c,v 1.9 2007/01/09 01:04:31 tg Exp $");
 
 #define BUF_SIZE 4096
 #define MAX_COLS 4096
@@ -484,11 +484,11 @@ void Newline(const char *ob) {
     normal();
     winscroll();
     gotoxy(Cols-1, wherey);
-    if (ob) write(1, ob, strlen(ob));
-    if (bold) setbold();
-    if (under) setunder();
-    if (inv) setinv();
-  }
+  } else normal();
+  if (ob) write(1, ob, strlen(ob));
+  if (bold) setbold();
+  if (under) setunder();
+  if (inv) setinv();
 }
 
 #ifdef __GNUC__
