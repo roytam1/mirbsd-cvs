@@ -1,9 +1,9 @@
 #include <sys/cdefs.h>
-__RCSID("$MirOS: src/lib/libpng/png.c,v 1.6 2006/06/29 17:14:23 tg Exp $");
+__RCSID("$MirOS: src/lib/libpng/png.c,v 1.7 2007/05/22 20:46:17 tg Exp $");
 
 /* png.c - location for general purpose libpng functions
  *
- * Last changed in libpng 1.2.17 May 15, 2007
+ * Last changed in libpng 1.2.21 October 4, 2007
  * For conditions of distribution and use, see copyright notice in png.h
  * Copyright (c) 1998-2007 Glenn Randers-Pehrson
  * (Version 0.96 Copyright (c) 1996, 1997 Andreas Dilger)
@@ -15,7 +15,7 @@ __RCSID("$MirOS: src/lib/libpng/png.c,v 1.6 2006/06/29 17:14:23 tg Exp $");
 #include "png.h"
 
 /* Generate a compiler error if there is an old png.h in the search path. */
-typedef version_1_2_18 Your_png_h_is_not_version_1_2_18;
+typedef version_1_2_25 Your_png_h_is_not_version_1_2_25;
 
 /* Version information for C files.  This had better match the version
  * string defined in png.h.  */
@@ -68,11 +68,6 @@ const int png_pass_ystart[] = {0, 0, 4, 0, 2, 0, 1};
 
 /* offset to next interlace block in the y direction */
 const int png_pass_yinc[] = {8, 8, 8, 4, 4, 2, 2};
-
-/* width of interlace block (used in assembler routines only) */
-#ifdef PNG_HAVE_MMX_COMBINE_ROW
-const int png_pass_width[] = {8, 4, 4, 2, 2, 1, 1};
-#endif
 
 /* Height of interlace block.  This is not currently used - if you need
  * it, uncomment it here and in png.h
@@ -136,7 +131,7 @@ png_sig_cmp(png_bytep sig, png_size_t start, png_size_t num_to_check)
 #if defined(PNG_1_0_X) || defined(PNG_1_2_X)
 /* (Obsolete) function to check signature bytes.  It does not allow one
  * to check a partial signature.  This function might be removed in the
- * future - use png_sig_cmp().  Returns true (nonzero) if the file is a PNG.
+ * future - use png_sig_cmp().  Returns true (nonzero) if the file is PNG.
  */
 int PNGAPI
 png_check_sig(png_bytep sig, int num)
@@ -651,7 +646,7 @@ png_init_io(png_structp png_ptr, png_FILE_p fp)
 png_charp PNGAPI
 png_convert_to_rfc1123(png_structp png_ptr, png_timep ptime)
 {
-   static PNG_CONST char short_months[12][4] =
+   static const char short_months[12][4] =
         {"Jan", "Feb", "Mar", "Apr", "May", "Jun",
          "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
 
@@ -676,7 +671,7 @@ png_convert_to_rfc1123(png_structp png_ptr, png_timep ptime)
 #ifdef USE_FAR_KEYWORD
    {
       char near_time_buf[29];
-      sprintf(near_time_buf, "%d %s %d %02d:%02d:%02d +0000",
+      png_snprintf6(near_time_buf,29,"%d %s %d %02d:%02d:%02d +0000",
           ptime->day % 32, short_months[(ptime->month - 1) % 12],
           ptime->year, ptime->hour % 24, ptime->minute % 60,
           ptime->second % 61);
@@ -684,7 +679,7 @@ png_convert_to_rfc1123(png_structp png_ptr, png_timep ptime)
           29*png_sizeof(char));
    }
 #else
-   sprintf(png_ptr->time_buffer, "%d %s %d %02d:%02d:%02d +0000",
+   png_snprintf6(png_ptr->time_buffer,29,"%d %s %d %02d:%02d:%02d +0000",
        ptime->day % 32, short_months[(ptime->month - 1) % 12],
        ptime->year, ptime->hour % 24, ptime->minute % 60,
        ptime->second % 61);
@@ -694,26 +689,17 @@ png_convert_to_rfc1123(png_structp png_ptr, png_timep ptime)
 }
 #endif /* PNG_TIME_RFC1123_SUPPORTED */
 
-#if 0
-/* Signature string for a PNG file. */
-png_bytep PNGAPI
-png_sig_bytes(void)
-{
-   return ((png_bytep)"\211\120\116\107\015\012\032\012");
-}
-#endif
 #endif /* defined(PNG_READ_SUPPORTED) || defined(PNG_WRITE_SUPPORTED) */
 
 png_charp PNGAPI
 png_get_copyright(png_structp png_ptr)
 {
-   if (&png_ptr != NULL)  /* silence compiler warning about unused png_ptr */
-   return ((png_charp) "\n libpng version 1.2.18-MirOS - May 15, 2007\n\
-   Copyright (c) 2004-2007 The MirOS Project - http://mirbsd.de/\n\
-   Copyright (c) 1998-2007 Glenn Randers-Pehrson\n\
+   png_ptr = png_ptr;  /* silence compiler warning about unused png_ptr */
+   return ((png_charp) "\n libpng version 1.2.25-MirOS - February 18, 2008\n\
+   Copyright (c) 2004-2008 The MirOS Project - http://mirbsd.de/\n\
+   Copyright (c) 1998-2008 Glenn Randers-Pehrson\n\
    Copyright (c) 1996-1997 Andreas Dilger\n\
    Copyright (c) 1995-1996 Guy Eric Schalnat, Group 42, Inc.\n");
-   return ((png_charp) "");
 }
 
 /* The following return the library version as a short string in the
@@ -728,27 +714,28 @@ png_charp PNGAPI
 png_get_libpng_ver(png_structp png_ptr)
 {
    /* Version of *.c files used when building libpng */
-   if (&png_ptr != NULL)  /* silence compiler warning about unused png_ptr */
-      return ((png_charp) PNG_LIBPNG_VER_STRING);
-   return ((png_charp) "");
+   png_ptr = png_ptr;  /* silence compiler warning about unused png_ptr */
+   return ((png_charp) PNG_LIBPNG_VER_STRING);
 }
 
 png_charp PNGAPI
 png_get_header_ver(png_structp png_ptr)
 {
    /* Version of *.h files used when building libpng */
-   if (&png_ptr != NULL)  /* silence compiler warning about unused png_ptr */
-      return ((png_charp) PNG_LIBPNG_VER_STRING);
-   return ((png_charp) "");
+   png_ptr = png_ptr;  /* silence compiler warning about unused png_ptr */
+   return ((png_charp) PNG_LIBPNG_VER_STRING);
 }
 
 png_charp PNGAPI
 png_get_header_version(png_structp png_ptr)
 {
    /* Returns longer string containing both version and date */
-   if (&png_ptr != NULL)  /* silence compiler warning about unused png_ptr */
-      return ((png_charp) PNG_HEADER_VERSION_STRING);
-   return ((png_charp) "");
+   png_ptr = png_ptr;  /* silence compiler warning about unused png_ptr */
+   return ((png_charp) PNG_HEADER_VERSION_STRING
+#ifndef PNG_READ_SUPPORTED
+   "     (NO READ SUPPORT)"
+#endif
+   "\n");
 }
 
 #if defined(PNG_READ_SUPPORTED) || defined(PNG_WRITE_SUPPORTED)
@@ -759,7 +746,7 @@ png_handle_as_unknown(png_structp png_ptr, png_bytep chunk_name)
    /* check chunk_name and return "keep" value if it's on the list, else 0 */
    int i;
    png_bytep p;
-   if((png_ptr == NULL && chunk_name == NULL) || png_ptr->num_chunk_list<=0)
+   if(png_ptr == NULL || chunk_name == NULL || png_ptr->num_chunk_list<=0)
       return 0;
    p=png_ptr->chunk_list+png_ptr->num_chunk_list*5-5;
    for (i = png_ptr->num_chunk_list; i; i--, p-=5)
@@ -786,20 +773,6 @@ png_access_version_number(void)
    return((png_uint_32) PNG_LIBPNG_VER);
 }
 
-
-#if defined(PNG_READ_SUPPORTED) /*&& defined(PNG_ASSEMBLER_CODE_SUPPORTED)*/
-#if !defined(PNG_1_0_X)
-/* this function was added to libpng 1.2.0 */
-#if !defined(PNG_USE_PNGGCCRD) && \
-    !(defined(PNG_MMX_CODE_SUPPORTED) && defined(PNG_USE_PNGVCRD))
-int PNGAPI
-png_mmx_support(void)
-{
-    return -1;
-}
-#endif
-#endif /* PNG_1_0_X  && PNG_ASSEMBLER_CODE_SUPPORTED */
-#endif /* PNG_READ_SUPPORTED */
 
 #if defined(PNG_READ_SUPPORTED) || defined(PNG_WRITE_SUPPORTED)
 #ifdef PNG_SIZE_T

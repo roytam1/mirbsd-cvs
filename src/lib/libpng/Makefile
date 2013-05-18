@@ -1,6 +1,6 @@
-# $MirOS: src/lib/libpng/Makefile,v 1.8 2007/05/22 20:16:55 tg Exp $
+# $MirOS: src/lib/libpng/Makefile,v 1.9 2007/07/05 22:18:13 tg Exp $
 
-SHLIB_VERSION?= 7.1
+SHLIB_VERSION?= 8.0
 LIB=		png
 SRCS=		png.c pngerror.c pngget.c pngmem.c pngpread.c \
 		pngread.c pngrio.c pngrtran.c pngrutil.c pngset.c \
@@ -12,7 +12,10 @@ HDRS=		png.h pngconf.h
 
 .include <bsd.own.mk>
 COPTS+=		-Wall
-CPPFLAGS+=	-DPNG_NO_ASSEMBLER_CODE -DZCONST=const
+CPPFLAGS+=	-DZCONST=const
+
+# broken API
+CFLAGS_png.o+=	-Wno-cast-qual
 
 afterinstall:
 	${INSTALL} ${INSTALL_COPY} -o ${BINOWN} -g ${BINGRP} -m ${NONBINMODE} \
