@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/share/misc/licence.template,v 1.6 2006/01/24 22:24:02 tg Rel $
+# $MirOS: contrib/code/heartbeat/hbserver,v 1.4 2006/03/20 00:16:54 tg Exp $
 #-
 # Copyright (c) 2004, 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -254,7 +254,7 @@ while read s; do
 done <"$conf"
 
 # start the action script manager
-eval "PATH=$PATH:. hbaction >/dev/null 2>&1 |&"
+eval "PATH=$PATH:. hbaction 2>/dev/null |&"
 print -rp "INITCOOKIE $thecookie"
 read -p cookie
 if [[ $cookie = "GOTCOOKIE $thecookie" ]]; then
