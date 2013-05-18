@@ -1,7 +1,8 @@
-# $MirOS: ports/devel/mirmake/Makefile,v 1.14 2006/06/23 17:34:42 tg Exp $
+# $MirOS: ports/devel/mirmake/Makefile,v 1.15 2006/09/14 00:08:26 tg Exp $
 
-COMMENT=			portable MirOS make(1) variant
+COMMENT=		portable MirOS make(1) variant
 DISTNAME=		mirmake-20060623
+PKGNAME=		${DISTNAME}-1
 CATEGORIES=		devel essentials
 RESPONSIBLE=		Thorsten Glaser <tg@mirbsd.de>
 MASTER_SITES=		${_MASTER_SITE_MIRBSD:distfiles/=dist/mir/make/}
