@@ -1,4 +1,4 @@
-/* $MirOS: src/include/wchar.h,v 1.20 2008/08/01 19:10:58 tg Exp $ */
+/* $MirOS: src/include/wchar.h,v 1.21 2008/08/01 21:22:55 tg Exp $ */
 
 /*-
  * Copyright (c) 2007, 2008
@@ -94,7 +94,8 @@ wint_t	getwc(FILE *);
 wint_t	getwchar(void);
 size_t	mbrlen(const char *__restrict__, size_t, mbstate_t *__restrict__);
 size_t	mbrtowc(wchar_t *__restrict__, const char *__restrict__, size_t,
-	    mbstate_t *__restrict__);
+	    mbstate_t *__restrict__)
+	    __attribute__((bounded (string, 2, 3)));
 int	mbsinit(const mbstate_t *);
 size_t	mbslen(const char *);
 #if __OPENBSD_VISIBLE
@@ -103,10 +104,18 @@ size_t	mbsnrtowcs(wchar_t *__restrict__, const char **__restrict__,
 #endif
 size_t	mbsrtowcs(wchar_t *__restrict__, const char **__restrict__, size_t,
 	    mbstate_t *__restrict__);
+#if __OPENBSD_VISIBLE
+size_t	optu16to8(char *__restrict__, wchar_t, mbstate_t *__restrict__)
+	    __attribute__((bounded (minbytes, 1, MB_CUR_MAX)));
+size_t	optu8to16(wchar_t *__restrict__, const char *__restrict__, size_t,
+	    mbstate_t *__restrict__)
+	    __attribute__((bounded (string, 2, 3)));
+#endif
 wint_t	putwc(wchar_t, FILE *);
 wint_t	putwchar(wchar_t);
 wint_t	ungetwc(wint_t, FILE *);
-size_t	wcrtomb(char *__restrict__, wchar_t, mbstate_t *__restrict__);
+size_t	wcrtomb(char *__restrict__, wchar_t, mbstate_t *__restrict__)
+	    __attribute__((bounded (minbytes, 1, MB_CUR_MAX)));
 int	wcscasecmp(const wchar_t *, const wchar_t *);
 wchar_t	*wcscat(wchar_t *__restrict__, const wchar_t *__restrict__);
 wchar_t	*wcschr(const wchar_t *, wchar_t);
