@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/i386/common/Makefile.inc,v 1.18 2006/06/11 01:08:29 tg Exp $
+# $MirOS: src/distrib/i386/common/Makefile.inc,v 1.19 2006/06/15 20:01:48 tg Exp $
 # $OpenBSD: Makefile.inc,v 1.15 2004/11/25 22:02:08 deraadt Exp $
 
 .ifndef _MODSRC_DISTRIB_I386_COMMON_MAKEFILE_INC
@@ -44,9 +44,6 @@ CFLAGS+=	${CDIAGFLAGS} ${COPTS}
 HOSTCFLAGS?=	${CFLAGS}
 
 SYSDIR=		${.CURDIR}/../../../sys
-SYSSUBDIR=	${SYSDIR}/arch/i386
-KERNDIR=	${SYSSUBDIR}/compile/${RAMDISK}
-MAKE_CLEAN?=	${MAKE} clean
 
 DO_FLOPPY?=	Yes
 DO_BSDRD_NAME?=	bsd.rd

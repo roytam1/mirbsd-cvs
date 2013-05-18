@@ -1,4 +1,8 @@
-# $MirOS: src/distrib/Makefile.kernel,v 1.6 2006/06/16 12:34:37 tg Exp $
+# $MirOS: src/distrib/Makefile.kernel,v 1.7 2006/06/16 13:12:56 tg Exp $
+
+SYSDIR?=	${BSDSRCDIR}/sys
+SYSSUBDIR?=	${SYSDIR}/arch/${MACHINE}
+KERNDIR?=	${SYSSUBDIR}/compile/${RAMDISK}
 
 KCONFIG?=	config -s ${SYSDIR} -b . ${SYSSUBDIR}/conf/${RAMDISK}
 KMAKE_CLEAN?=	${MAKE} clean

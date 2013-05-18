@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/i386/generic/Makefile,v 1.10 2006/06/16 13:12:56 tg Exp $
+# $MirOS: src/distrib/generic/Makefile,v 1.1 2006/07/03 22:08:06 tg Exp $
 
 .include <bsd.own.mk>
 CFLAGS+=	${CDIAGFLAGS} ${COPTS}
@@ -6,8 +6,6 @@ HOSTCFLAGS?=	${CFLAGS}
 
 RAMDISK=	GENERIC
 SYSDIR=		${.CURDIR}/../../sys
-SYSSUBDIR=	${SYSDIR}/arch/${MACHINE}
-KERNDIR=	${SYSSUBDIR}/compile/${RAMDISK}
 
 .if exists(${.CURDIR}/Makefile.${MACHINE})
 .  include "${.CURDIR}/Makefile.${MACHINE}"

@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/ramdisk/Makefile,v 1.2 2005/03/06 18:58:04 tg Exp $
+# $MirOS: src/distrib/ramdisk/Makefile,v 1.3 2006/07/03 22:09:44 tg Exp $
 # $OpenBSD: Makefile,v 1.26 2004/02/28 04:53:30 jolan Exp $
 
 REV=		${OSrev}
@@ -55,9 +55,7 @@ NEWFSOPTS_FD=	${NEWFSOPTS} -i 1048575 -c 256 -s ${FLOPPYSIZE}
 
 # build kernel
 RAMDISK=	${KERNEL}
-SYSDIR?=	${.CURDIR}/../sys
-SYSSUBDIR=	${SYSDIR}/arch/${MACHINE}
-KERNDIR=	${SYSSUBDIR}/compile/${RAMDISK}
+SYSDIR=		${.CURDIR}/../../sys
 .include "../Makefile.kernel"
 
 .ifndef DESTDIR
