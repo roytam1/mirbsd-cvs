@@ -1,6 +1,6 @@
-$MirOS: ports/devel/cvs/patches/patch-src_main_c,v 1.7 2010/09/15 23:41:21 tg Exp $
+$MirOS: ports/devel/cvs/patches/patch-src_main_c,v 1.8 2010/09/18 23:14:07 tg Exp $
 --- src/main.c.orig	Sun Oct  2 15:16:59 2005
-+++ src/main.c	Sat Sep 18 22:56:07 2010
++++ src/main.c	Fri May  6 21:03:03 2011
 @@ -24,6 +24,12 @@
  #include "strftime.h"
  #include "xgethostname.h"
@@ -9,7 +9,7 @@ $MirOS: ports/devel/cvs/patches/patch-src_main_c,v 1.7 2010/09/15 23:41:21 tg Ex
 +#include <bsd/bsd.h>
 +#endif
 +
-+__RCSID("$MirOS: ports/devel/cvs/patches/patch-src_main_c,v 1.7 2010/09/15 23:41:21 tg Exp $");
++__RCSID("$MirOS: ports/devel/cvs/patches/patch-src_main_c,v 1.8 2010/09/18 23:14:07 tg Exp $");
 +
  const char *program_name;
  const char *program_path;
@@ -164,7 +164,28 @@ $MirOS: ports/devel/cvs/patches/patch-src_main_c,v 1.7 2010/09/15 23:41:21 tg Ex
      TRACE (TRACE_FUNCTION, "main: Session ID is %s", global_session_id);
  
      /* Look up the command name. */
-@@ -1244,7 +1185,7 @@ parse_tagdate (char **tag, char **date, 
+@@ -1011,7 +952,7 @@ cause intermittent sandbox corruption.")
+ 	    /* Now we've reconciled CVSROOT from the command line, the
+ 	       CVS/Root file, and the environment variable.  Do the
+ 	       last sanity checks on the variable. */
+-	    if (!CVSroot_parsed)
++	    if (!CVSroot_parsed && cm->func != version)
+ 	    {
+ 		error (0, 0,
+ 		       "No CVSROOT specified!  Please use the `-d' option");
+@@ -1043,6 +984,11 @@ cause intermittent sandbox corruption.")
+ 
+ 	assert (current_parsed_root == NULL);
+ 
++	/* Handle running 'cvs version' with no CVSROOT.  */
++
++	if (cm->func == version && !CVSroot_parsed)
++	    server_active = !0;
++
+ 	/* If we're running the server, we want to execute this main
+ 	   loop once and only once (we won't be serving multiple roots
+ 	   from this connection, so there's no need to do it more than
+@@ -1244,7 +1190,7 @@ parse_tagdate (char **tag, char **date, 
  	if (*++p)
  	{
  	    if (*date) free (*date);
@@ -173,7 +194,7 @@ $MirOS: ports/devel/cvs/patches/patch-src_main_c,v 1.7 2010/09/15 23:41:21 tg Ex
  	}
      }
      else if (strlen (input))
-@@ -1285,7 +1226,7 @@ date_from_time_t (time_t unixtime)
+@@ -1285,7 +1231,7 @@ date_from_time_t (time_t unixtime)
  	ftm = localtime (&unixtime);
  
      (void) sprintf (date, DATEFORM,
@@ -182,7 +203,7 @@ $MirOS: ports/devel/cvs/patches/patch-src_main_c,v 1.7 2010/09/15 23:41:21 tg Ex
  		    ftm->tm_mon + 1, ftm->tm_mday, ftm->tm_hour,
  		    ftm->tm_min, ftm->tm_sec);
      ret = xstrdup (date);
-@@ -1315,8 +1256,9 @@ date_to_internet (char *dest, const char
+@@ -1315,8 +1261,9 @@ date_to_internet (char *dest, const char
  void
  date_to_tm (struct tm *dest, const char *source)
  {
@@ -193,7 +214,7 @@ $MirOS: ports/devel/cvs/patches/patch-src_main_c,v 1.7 2010/09/15 23:41:21 tg Ex
  		&dest->tm_hour, &dest->tm_min, &dest->tm_sec)
  	    != 6)
  	/* Is there a better way to handle errors here?  I made this
-@@ -1324,9 +1266,7 @@ date_to_tm (struct tm *dest, const char 
+@@ -1324,9 +1271,7 @@ date_to_tm (struct tm *dest, const char 
  	   deal with fatal errors.  */
  	error (0, 0, "internal error: bad date %s", source);
  
@@ -204,7 +225,7 @@ $MirOS: ports/devel/cvs/patches/patch-src_main_c,v 1.7 2010/09/15 23:41:21 tg Ex
      dest->tm_mon -= 1;
  }
  
-@@ -1348,10 +1288,10 @@ tm_to_internet (char *dest, const struct
+@@ -1348,10 +1293,10 @@ tm_to_internet (char *dest, const struct
        {"Jan", "Feb", "Mar", "Apr", "May", "Jun",
  	 "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
      

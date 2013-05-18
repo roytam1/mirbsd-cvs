@@ -1,13 +1,21 @@
-$MirOS$
+$MirOS: ports/devel/cvs/patches/patch-contrib_rcs2log_sh,v 1.2 2010/09/15 20:56:57 tg Exp $
 --- contrib/rcs2log.sh.orig	Tue Jul 12 14:12:33 2005
-+++ contrib/rcs2log.sh	Wed Sep 15 19:36:14 2010
++++ contrib/rcs2log.sh	Fri May  6 22:44:21 2011
 @@ -1,4 +1,5 @@
  #! /bin/sh
-+# $MirOS$
++# $MirOS: ports/devel/cvs/patches/patch-contrib_rcs2log_sh,v 1.2 2010/09/15 20:56:57 tg Exp $
  
  # Copyright (C) 1995-2005 The Free Software Foundation, Inc.
  
-@@ -199,7 +200,7 @@ month_data='
+@@ -31,6 +32,7 @@ Options:
+   -i INDENT  Indent change log lines by INDENT spaces (default 8).
+   -l LENGTH  Try to limit log lines to LENGTH characters (default 79).
+   -L FILE  Use rlog-format FILE for source of logs.
++  -n  Obsolete, use -u instead (whose syntax differs).
+   -R  If no FILEs are given and RCS is used, recurse through working directory.
+   -r OPTION  Pass OPTION to subsidiary log command.
+   -t TABWIDTH  Tab stops are every TABWIDTH characters (default 8).
+@@ -199,7 +201,7 @@ month_data='
  	m[9]="Oct"; m[10]="Nov"; m[11]="Dec"
  '
  
@@ -16,7 +24,7 @@ $MirOS$
  test -n "$logdir" || exit
  llogout=$logdir/l
  trap exit 1 2 13 15
-@@ -632,7 +633,7 @@ $AWK '
+@@ -632,7 +634,7 @@ $AWK '
  # Sort the log entries, first by date+time (in reverse order),
  # then by author, then by log entry, and finally by file name and revision
  # (just in case).

@@ -1,11 +1,11 @@
-$MirOS: ports/devel/cvs/patches/patch-src_server_c,v 1.3 2010/09/15 23:41:21 tg Exp $
+$MirOS: ports/devel/cvs/patches/patch-src_server_c,v 1.4 2010/09/19 18:42:03 tg Exp $
 --- src/server.c.orig	Wed Sep 28 15:25:37 2005
-+++ src/server.c	Sun Sep 19 14:38:03 2010
++++ src/server.c	Fri May  6 21:03:29 2011
 @@ -20,6 +20,8 @@
  #include "getline.h"
  #include "getnline.h"
  
-+__RCSID("$MirOS: ports/devel/cvs/patches/patch-src_server_c,v 1.3 2010/09/15 23:41:21 tg Exp $");
++__RCSID("$MirOS: ports/devel/cvs/patches/patch-src_server_c,v 1.4 2010/09/19 18:42:03 tg Exp $");
 +
  int server_active = 0;
  
@@ -41,6 +41,15 @@ $MirOS: ports/devel/cvs/patches/patch-src_server_c,v 1.3 2010/09/15 23:41:21 tg 
  	                      "R", "s", referrer ? referrer->original : "NONE",
  	                      "p", "s", ".",
  	                      "r", "s", current_parsed_root->directory,
+@@ -3519,7 +3531,7 @@ do_cvs_command (char *cmd_name, int (*co
+      * Therefore, we wish to avoid reprocessing the command since that would
+      * cause endless recursion.
+      */
+-    if (isProxyServer())
++    if ((command != version || current_parsed_root) && isProxyServer())
+     {
+ # ifdef PROXY_SUPPORT
+ 	if (reprocessing)
 @@ -6271,8 +6283,12 @@ size_t MaxProxyBufferSize = (size_t)(8 *
  
  static const char *const server_usage[] =
