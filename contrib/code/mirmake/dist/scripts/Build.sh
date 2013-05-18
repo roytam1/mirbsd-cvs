@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.83 2006/08/27 00:49:09 tg Exp $
+# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.84 2006/08/27 00:53:32 tg Exp $
 #-
 # Copyright (c) 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -370,7 +370,7 @@ mkdir -p \$DESTDIR$dt_bin \$DESTDIR$dt_man \$DESTDIR$dt_mk
 \$i -c \$s \$ug -m 555 $d_build/make \$DESTDIR$dt_bin/$new_exenam
 \$i -c \$ug -m 555 $top/tmpx/mkdep $top/tmpx/lorder \$DESTDIR$dt_bin/
 \$i -c \$ug -m 444 $d_build/F/*.h $d_build/mk/*.mk \$DESTDIR$dt_mk/
-progs="libmirmake readlink tsort"
+progs="readlink tsort"
 sfu=:
 EOF
 [[ $new_machos = Interix ]] && cat >>Install.sh <<EOF
@@ -401,10 +401,13 @@ else
 EOF
 fi
 cat >>Install.sh <<EOF
+(cd $d_build/libmirmake; SRCS="$SRCS" $d_build/make -m $d_build/mk \\
+    NOOBJ=yes NOMAN=yes INSTALL_STRIP=\$s \\
+    DESTDIR="\$DESTDIR" LIBDIR=$dt_mk install)
 for prog in \$progs; do
-	(cd $d_build/\$prog; $d_build/make -m $d_build/mk \\
-	    NOOBJ=yes NOMAN=yes INSTALL_STRIP=\$s \\
-	    DESTDIR="\$DESTDIR" BINDIR=$dt_bin LIBDIR=$dt_mk install)
+	(cd $d_build/\$prog; $d_build/make -m $d_build/mk INSTALL_STRIP=\$s \\
+	    NOOBJ=yes NOMAN=yes LDADD=\$DESTDIR$dt_mk/libmirmake.a \\
+	    DESTDIR="\$DESTDIR" BINDIR=$dt_bin install)
 done
 EOF
 
