@@ -1,7 +1,7 @@
-# $MirOS: ports/devel/mirmake/Makefile,v 1.10 2006/03/19 21:49:52 tg Exp $
+# $MirOS: ports/devel/mirmake/Makefile,v 1.11 2006/03/27 20:12:40 tg Exp $
 
 COMMENT=		"portable MirOS make(1) variant"
-DISTNAME=		mirmake-20060327
+DISTNAME=		mirmake-20060527
 CATEGORIES=		devel essentials
 RESPONSIBLE=		Thorsten Glaser <tg@mirbsd.de>
 MASTER_SITES=		${_MASTER_SITE_MIRBSD:distfiles/=dist/mir/make/}
@@ -24,9 +24,9 @@ FMANDIR=		man/cat
 .endif
 
 .if ${OStype} == "Interix"
-SED_PLIST+=	| sed -e '/^IFSFU:/s///'
+SED_PLIST+=		| sed -e '/^IFSFU:/s///'
 .else
-SED_PLIST+=	| sed -e '/^IFSFU:/d'
+SED_PLIST+=		| sed -e '/^IFSFU:/d'
 .endif
 
 do-build:
@@ -39,3 +39,5 @@ do-install:
 	cd ${WRKBUILD} && ${SETENV} ${MAKE_ENV} ${_FAKE_SETUP} ./Install.sh
 
 .include <bsd.port.mk>
+
+_CIPHERS+=		cksum
