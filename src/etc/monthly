@@ -1,6 +1,6 @@
 #!/bin/mksh
 # $MirSecuCron$
-# $MirOS: src/etc/monthly,v 1.18 2009/03/29 13:04:15 tg Exp $
+# $MirOS: src/etc/monthly,v 1.19 2009/07/18 14:09:03 tg Exp $
 # $OpenBSD: monthly,v 1.5 1998/02/02 23:08:57 millert Exp $
 
 umask 022
@@ -22,13 +22,12 @@ if [[ -e /var/log/wtmp ]]; then
 	print Doing login accounting for the time since last run
 	print and rotating login accounting log file:
 	ac -p | sort -nr +1
-	if [[ -e /var/log/wtmp.0 ]]; then
-		rm -f /var/log/wtmp.0.gz
-		gzip -n9 /var/log/wtmp.0
-	fi
-	install -c -o root -g wheel -m 640 /dev/null /var/log/wtmp.1
-	[[ -e /var/log/wtmp.0.gz ]] && mv /var/log/wtmp.0.gz /var/log/wtmp.1.gz
+	for f in /var/log/wtmp.*.gz; do
+		[[ -s $f ]] || continue
+		gzip -d "$f"
+	done
+	install -c -o root -g wheel -m 640 /dev/null /var/log/wtmp.new
+	[[ -e /var/log/wtmp.0 ]] && mv /var/log/wtmp.0 /var/log/wtmp.1
 	mv /var/log/wtmp /var/log/wtmp.0
 	mv /var/log/wtmp.1 /var/log/wtmp
-	gzip -n9 /var/log/wtmp.0
 fi
