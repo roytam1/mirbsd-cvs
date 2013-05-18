@@ -80,14 +80,7 @@ mbsrtowcs(wchar_t *__restrict__ dst, const char **__restrict__ src,
 
  conv_state:
 	while (__predict_false(count)) {
-		if ((c = *s++) == 0) {
-			ps->count = count;
-			ps->value = wc >> 6;
-			if (dst != NULL)
-				*src = NULL;
-			return (d - dst);
-		}
-		if ((c & 0xC0) != 0x80)
+		if (((c = *s++) & 0xC0) != 0x80)
 			goto ilseq;
 		c &= 0x3F;
 		wc |= c << (6 * --count);
