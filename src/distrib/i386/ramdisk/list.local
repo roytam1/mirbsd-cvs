@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/i386/ramdisk/list.local,v 1.9 2006/02/24 11:55:15 tg Exp $
+# $MirOS: src/distrib/i386/ramdisk/list.local,v 1.10 2006/02/24 12:10:05 tg Exp $
 
 # extra
 
@@ -24,7 +24,7 @@ COPY	${CURDIR}/inetd.conf			etc/inetd.conf
 COPY	${DESTDIR}/etc/ntpd.conf		etc/ntpd.conf
 
 # sync with ports/books/mirex/Makefile
-SPECIAL	tail -3 <${DESTDIR}/usr/share/doc/README | grep '^key ' | while IFS="	" read keynr keyfile; do IFS=" :"; set -A keyno $keynr; IFS=; print $keyfile >gzsigkey.${keyno[1]}; done
+SPECIAL	tail -3 <${DESTDIR}/usr/share/doc/README | grep '^key ' | while IFS="	" read keynr keyfile; do IFS=" :"; set -A keyno $$keynr; IFS=; print $$keyfile >gzsigkey.$${keyno[1]}; done
 
 # kernel PPPD
 
