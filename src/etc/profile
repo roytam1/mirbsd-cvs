@@ -1,4 +1,4 @@
-# $MirOS: src/etc/profile,v 1.37 2006/11/17 17:48:36 tg Exp $
+# $MirOS: src/etc/profile,v 1.38 2007/01/06 00:32:22 tg Exp $
 #-
 umask 022
 [ -z "$KSH_VERSION" ] && alias print='echo -e'
@@ -50,7 +50,8 @@ unset HISTFILE
 HOSTNAME=$(ulimit -c 0; hostname -s 2>/dev/null)
 IRCNAME="MirOS packages a kernel, userland and the attitude"
 IRCSERVER=irc4.mirbsd.org	# irc.mirbsd.org supports IPv4 and IPv6 though
-IRCPORT=6666			# irc*.mirbsd.org support SSL on port 6668 too
+				# irc*.66h.42h.de:6666 = irc*.mirbsd.org:6667
+IRCPORT=6667			# irc*.{mirbsd.org,66h.42h.de}:6668 support SSL
 OSNAME=$(ulimit -c 0; uname -s 2>/dev/null)
 OSNAME=${OSNAME:-unknown}
 PAGER=/usr/bin/less
