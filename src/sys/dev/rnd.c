@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/dev/rnd.c,v 1.35 2008/03/22 22:26:29 tg Exp $ */
+/**	$MirOS: src/sys/dev/rnd.c,v 1.36 2008/03/22 22:54:17 tg Exp $ */
 /*	$OpenBSD: rnd.c,v 1.78 2005/07/07 00:11:24 djm Exp $	*/
 
 /*
@@ -560,11 +560,13 @@ arc4_stir(void)
 	if ((initial_entropy_ptr >= 0) /* initialised */ &&
 	    (initial_entropy_ptr < sizeof (initial_entropy)) /* not full */ &&
 	    (random_state.entropy_count > 8) /* some real entropy left */) {
-		extract_entropy(&si, 1);
+		uint8_t tmpbuf; /* coz extract_entropy can fill the pool too */
+
+		extract_entropy(&tmpbuf, 1);
 		if (initial_entropy_ptr < sizeof (initial_entropy))
-			initial_entropy[initial_entropy_ptr++] = si;
+			initial_entropy[initial_entropy_ptr++] = tmpbuf;
 		else /* don't waste it */
-			buf[0] ^= si;
+			buf[0] ^= tmpbuf;
 	}
 	if (initial_entropy_ptr != sizeof (initial_entropy))
 		for (n = 255; n >= 0; n--)
