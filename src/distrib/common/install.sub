@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/install.sub,v 1.10 2007/03/29 17:04:20 tg Exp $
+# $MirOS: src/distrib/common/install.sub,v 1.12 2007/05/18 07:27:02 tg Exp $
 # $OpenBSD: install.sub,v 1.388 2005/07/02 00:55:48 uwe Exp $
 # $NetBSD: install.sub,v 1.5.2.8 1996/09/02 23:25:02 pk Exp $
 #
@@ -445,7 +445,11 @@ manual_net_cfg() {
 	  ftp -mvo /dev/arandom $pf://herc.mirbsd.org/rn.cgi?bsdrdnet
 	  date
 	) &
-	[[ -x /usr/sbin/ntpd ]] && /usr/sbin/ntpd -s
+	if [[ -x /usr/sbin/ntpd ]]; then
+		print -n Starting ntpd, this may take up to a minute...
+		/usr/sbin/ntpd -s
+		print done
+	fi
 }
 
 # log in via ftp to host $1 as user $2 with password $3
