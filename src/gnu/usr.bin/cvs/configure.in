@@ -1,4 +1,4 @@
-dnl $MirOS: src/gnu/usr.bin/cvs/configure.in,v 1.8 2011/05/06 23:17:25 tg Exp $
+dnl $MirOS: src/gnu/usr.bin/cvs/configure.in,v 1.9 2011/06/11 03:55:33 tg Exp $
 dnl
 dnl configure.in for cvs
 
@@ -180,8 +180,6 @@ AC_REQUIRE([gl_AC_TYPE_INTMAX_T])
 AC_REQUIRE([gl_FUNC_MMAP_ANON])
 AC_REQUIRE([gl_AC_TYPE_LONG_LONG])])
 CCVS_CALL_GNULIB_MACROS_ONCE()
-dnl Until I persuade the GNULIB folks to integrate this module.
-gl_GLOB
 
 #
 # End GNULIB stuff.
