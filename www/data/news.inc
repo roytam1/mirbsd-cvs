@@ -417,3 +417,28 @@ Date: 24.08.2007
 <p>tg@ and bsiegert@ are appearing at the FH site later this evening and
  are open for food’n’beer suggestions from donators ☻</p>
 ----
+Title: MirOS #10 RC6 (i386, sparc)
+Date: 30.08.2007
+
+<table width="100%"><tr>
+ <td style="width:160px;"><a
+  href="@@RELPATH@@pics/XTaranStation.jpg"><img
+  src="@@RELPATH@@pics/XTaranStation.png" alt="XTaran no SPARCstation"
+  /></a></td>
+ <td>XTaran of symlink.ch fame has finally helped us to test the latest,
+  greatest and ultimately vt100, grey-on-blue / grey-on-black snapshot –
+  as you can see, it boots up quite nicely. First, the text is still all
+  black on white, but as soon as the framebuffer is initialised, that is
+  switched to lightgrey on black, and further kernel messages are in our
+  well-known, famous lightgrey on blue colour composition.<br />WARNING:
+  The linked image is more than 1 MiB in size.</td>
+</tr></table>
+<p>Furthermore, this very snapshot has been uploaded (for both the sparc
+ and i386 architectures, with a readme for the former) to /MirOS/current
+ and waits for your test results. We would be glad if someone could help
+ us to fix the remaining bugs especially in the sparc port (nroff, issue
+ with the bootloader and bsd.rd, etc).</p>
+<p>The aforementioned XFree86 font issues have been solved provisionally
+ by putting back the cropped and charset-reduced font sets; we will look
+ into this issue after the release sometime.</p>
+----
