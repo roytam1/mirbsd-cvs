@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/scripts/xbuild-binutils.sh,v 1.7 2006/03/01 14:04:07 tg Exp $
+# $MirOS: src/scripts/xbuild-binutils.sh,v 1.8 2006/03/01 20:13:58 tg Exp $
 #-
 # Copyright (c) 2004, 2005, 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -26,6 +26,9 @@
 #-
 # call this with the canonical target name as parameter
 
+[[ -n $1 ]] && TARGET=$1
+[[ -n $2 ]] && EMULATION=$2
+
 [[ -z $CROSSDIR ]] && CROSSDIR=${DESTDIR}/usr/cross/${TARGET}
 
 if [[ ! -s $CROSSDIR/T_BASEENV ]]; then
@@ -35,9 +38,6 @@ fi
 
 . $CROSSDIR/T_BASEENV
 export SHELL=$MKSH
-
-[[ -n $1 ]] && TARGET=$1
-[[ -n $2 ]] && EMULATION=$2
 
 if [[ -z $TARGET ]]; then
 	print -u2 No target given.
