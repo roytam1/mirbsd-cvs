@@ -1,25 +1,25 @@
-# $MirOS: ports/infrastructure/install/distinfo.sh,v 1.99 2010/01/29 10:54:34 tg Exp $
+# $MirOS: ports/infrastructure/install/distinfo.sh,v 1.100 2010/02/25 22:07:55 tg Exp $
 
 case $what in
 make)
 	f_key=gzsigkey.pub
-	f_ver=20100110
+	f_ver=20100605
 	f_dist=mirmake-$f_ver.cpio.gz
 	f_path=mir/make
-	distinfo_md5=2f64ac79c22d0524d777580153151460
-	distinfo_sum=3315356924
-	distinfo_size=383713
-	distinfo_date="Jan 10 13:36"
+	distinfo_md5=6cd727820bef14afc3500095ec133cd5
+	distinfo_sum=2630193548
+	distinfo_size=383792
+	distinfo_date="Jun  5  2010"
 	;;
 mksh)
 	f_key=gzsigkey.pub
-	f_ver=39c
+	f_ver=40b
 	f_dist=mksh-R$f_ver.cpio.gz
 	f_path=mir/mksh
-	distinfo_md5=0c3cd172b47eefcdf9a302baa42f5092
-	distinfo_sum=1146532199
-	distinfo_size=296033
-	distinfo_date="Feb 25 22:03"
+	distinfo_md5=afb08b65272ace550ec59b26a876a7de
+	distinfo_sum=3391516625
+	distinfo_size=320793
+	distinfo_date="Jul 16 23:40"
 	;;
 mtree)
 	f_key=gzsigkey.pub
@@ -29,7 +29,7 @@ mtree)
 	distinfo_md5=2af647aa0564064434e4eedd475e705e
 	distinfo_sum=926768756
 	distinfo_size=19523
-	distinfo_date="Nov 22 20:48"
+	distinfo_date="Nov 22  2009"
 	;;
 nroff)
 	f_key=gzsigkey.pub
@@ -39,7 +39,7 @@ nroff)
 	distinfo_md5=288945978e5612ad6d900b0e29fdf8db
 	distinfo_sum=2278748484
 	distinfo_size=237087
-	distinfo_date="Nov 22 20:49"
+	distinfo_date="Nov 22  2009"
 	;;
 pkgtools)
 	f_key=
