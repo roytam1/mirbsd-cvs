@@ -2,7 +2,7 @@
 
 /* Base configuration file for all MirOS BSD targets.
    Copyright (C) 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2005, 2006, 2007,
-   2008
+   2008, 2009
    Free Software Foundation, Inc.
    Contributed by Thorsten “mirabilos” Glaser <tg@mirbsd.org>
 
@@ -56,7 +56,10 @@ Boston, MA 02111-1307, USA.  */
 
 /* MIRBSD_NATIVE is defined when gcc is integrated into the MirOS
    source tree so it can be configured appropriately.  The same
-   applies for MIRBSD_CROSS, except it's used in cross-compiling.  */
+   applies for MIRBSD_CROSS, except it's used in cross-compiling,
+   but only outside of the mbsd-bug package or other standardised
+   cross-build environments that use sysroot instead, because the
+   include path is *emptied* by MIRBSD_CROSS.  */
 #if defined(MIRBSD_NATIVE) || defined(MIRBSD_CROSS)
 
 /* Look for the include files in the system-defined places.  */
@@ -215,14 +218,14 @@ Boston, MA 02111-1307, USA.  */
 /*
  * Work around gcc version-specific library vs rpath problem.
  * Components are:
- *	%R = sysroot præfix (usually empty)
+ *	%R = sysroot præfix (empty except if cross-compiling)
  *	STANDARD_EXEC_PREFIX = “${PREFIX}/lib/gcc/”
  *	DEFAULT_TARGET_MACHINE = “${OStriplet}”
  *	DEFAULT_TARGET_VERSION = “3.4.6”
  */
-#undef MIRBSD_RPATH
-#define MIRBSD_RPATH	"-rpath %R" STANDARD_EXEC_PREFIX \
-			    DEFAULT_TARGET_MACHINE "/" DEFAULT_TARGET_VERSION
+#undef MIRBSD_RDIR
+#define MIRBSD_RDIR	"%R" STANDARD_EXEC_PREFIX DEFAULT_TARGET_MACHINE \
+			"/" DEFAULT_TARGET_VERSION
 
 /* Provide a LINK_SPEC appropriate for MirOS BSD.  Here we provide
    support for the special GCC options -assert, -R, -rpath, -shared,
@@ -232,8 +235,8 @@ Boston, MA 02111-1307, USA.  */
    target-specific LINK_SPEC options.  */
 
 #define MIRBSD_LINK_SPEC			\
-  "%{assert*}					\
-   %{R*} %{rpath*} " MIRBSD_RPATH "		\
+  "%{assert*} %{R*} %{rpath*}			\
+   -L" MIRBSD_RDIR " -rpath " MIRBSD_RDIR "	\
    %{!shared:					\
      -dc -dp					\
      %{!nostdlib:%{!r*:%{!e*:-e __start}}}	\
