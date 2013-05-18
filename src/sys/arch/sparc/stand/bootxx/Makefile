@@ -1,23 +1,21 @@
-# $MirOS: src/sys/arch/sparc/stand/bootxx/Makefile,v 1.12 2007/10/16 21:52:51 tg Exp $
+# $MirOS: src/sys/arch/sparc/stand/bootxx/Makefile,v 1.13 2007/10/16 21:56:27 tg Exp $
 # $OpenBSD: Makefile,v 1.7 2003/08/11 06:35:45 deraadt Exp $
 # $NetBSD: Makefile,v 1.2 1995/09/30 21:43:38 pk Exp $
 
 .PATH:	${.CURDIR}/../common
 S=	${.CURDIR}/../../../..
 
-PROG=	bootxx
-
-NOMAN=	yes
-INSTALL_STRIP=
-
-SRCS=	srt0.S bootxx.c btable.S closeall.c dvma.c promdev.c
+PROG=		bootxx
+NOMAN=		yes
+INSTALL_STRIP=	#empty
+SRCS=		srt0.S bootxx.c btable.S closeall.c dvma.c promdev.c
 
 # pre-built bits of libkern
-KOBJS=	__main.o bzero.o urem.o udiv.o
-_KOBJS=${KOBJS:S,^,${LIBKERNOBJDIR}/,g}
+KOBJS=		__main.o bzero.o udiv.o urem.o
+_KOBJS=		${KOBJS:S,^,${LIBKERNOBJDIR}/,g}
 # pre-built bits of libsa
-SOBJS=	alloc.o exit.o printf.o memcpy.o memset.o
-_SOBJS=${SOBJS:S,^,${LIBSAOBJDIR}/,g}
+SOBJS=		alloc.o exit.o memcpy.o memset.o printf.o
+_SOBJS=		${SOBJS:S,^,${LIBSAOBJDIR}/,g}
 
 CPPFLAGS+=	-I${.CURDIR}/../common -I${.CURDIR}/../../../../arch \
 		-I${.CURDIR}/../../../.. -I${.CURDIR}/../../../../lib/libsa \
@@ -32,12 +30,13 @@ ${PROG}: ${PROG}.elf
 
 .include <bsd.prog.mk>
 
+LINK.prog=	:
+
 ${PROG}.bin: ${PROG}
 	strip -F a.out-sunos-big -s -o $@ $>
 
 ${PROG}.elf: ${OBJS}
 	${LD} -N -Ttext ${RELOC} -e start ${OBJS} ${_SOBJS} ${_KOBJS} -o $@
-	@size $@
 
 bxinst: ${PROG}.bin bxinst.sh
 	eval $$(nm --target=a.out-sunos-big ${PROG} | \

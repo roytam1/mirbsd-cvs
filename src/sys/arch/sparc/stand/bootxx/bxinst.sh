@@ -1,5 +1,5 @@
 #!/usr/bin/env mksh
-# $MirOS: src/sys/arch/sparc/stand/bootxx/bxinst.sh,v 1.3 2007/10/16 21:48:58 tg Exp $
+# $MirOS: src/sys/arch/sparc/stand/bootxx/bxinst.sh,v 1.4 2007/10/16 21:52:51 tg Exp $
 #-
 # Copyright (c) 2007
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -75,7 +75,7 @@ print -n '\01\03\01\07\060\0200\0\07@@PARTONE@@'
 # note: currently, MI installboot(8) assumes 512-byte blocks, maybe
 #       do an optimisation similar to the i386 first-stage bootloader
 out_int32 $blktblnum
-out_int32 512
+out_int32 512		# XXX size of filesystem blocks
 let i=0
 while (( i < blktblsz )); do
 	out_int32 ${blktblent[i++]}
