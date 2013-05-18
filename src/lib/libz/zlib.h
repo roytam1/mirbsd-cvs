@@ -1,8 +1,9 @@
-/**	$MirOS: src/lib/libz/zlib.h,v 1.6 2006/01/24 13:04:10 tg Exp $ */
+/**	$MirOS: src/lib/libz/zlib.h,v 1.7 2006/01/24 19:41:51 tg Exp $ */
 /*	$OpenBSD: zlib.h,v 1.9 2005/07/20 15:56:41 millert Exp $	*/
 /* zlib.h -- interface of the 'zlib' general purpose compression library
   version 1.2.3, July 18th, 2005
 
+  Copyright (c) 2006 Thorsten Glaser
   Copyright (C) 1995-2005 Jean-loup Gailly and Mark Adler
 
   This software is provided 'as-is', without any express or implied
@@ -1338,6 +1339,7 @@ ZEXTERN int            ZEXPORT inflateSyncPoint OF((z_streamp z));
 ZEXTERN const uLongf * ZEXPORT get_crc_table    OF((void));
 __END_DECLS
 
+#ifndef ZLIB_FREESTANDING
 /* MirOS extension */
 #define ZLIB_HAS_GZFOPEN
 #include <stdio.h>
@@ -1345,5 +1347,6 @@ __BEGIN_DECLS
 FILE *gzfopen(const char *, const char *);
 FILE *gzfdopen(int, const char *);
 __END_DECLS
+#endif /* ZLIB_FREESTANDING */
 
 #endif /* ZLIB_H */

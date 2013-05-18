@@ -1,4 +1,4 @@
-/**	$MirOS: src/lib/libz/zutil.h,v 1.8 2005/12/04 23:14:40 tg Exp $ */
+/**	$MirOS: src/lib/libz/zutil.h,v 1.9 2005/12/06 01:07:17 tg Exp $ */
 /*	$OpenBSD: zutil.h,v 1.9 2005/07/20 15:56:42 millert Exp $	*/
 /* zutil.h -- internal interface and configuration of the compression library
  * Copyright (C) 1995-2005 Jean-loup Gailly.
@@ -105,7 +105,7 @@ extern const char * const z_errmsg[10]; /* indexed by 2-zlib_error */
 #define zmemzero(dest, len) memset(dest, 0, len)
 
 /* Diagnostic functions */
-#ifdef DEBUG
+#if defined(DEBUG) && !defined(ZLIB_FREESTANDING)
 #  include <stdio.h>
    extern int z_verbose;
    extern void z_error    OF((char *m));
