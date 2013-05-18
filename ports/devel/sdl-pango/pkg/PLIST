@@ -1,5 +1,0 @@
-@comment $MirOS$
-include/SDL_Pango.h
-lib/libSDL_Pango.la
-lib/pkgconfig/SDL_Pango.pc
-@dirrm lib/pkgconfig
