@@ -1,4 +1,4 @@
-rcsid_parser='$MirOS: www/mk/parser,v 1.17 2008/12/04 18:49:00 tg Exp $'
+rcsid_parser='$MirOS: www/mk/parser,v 1.18 2008/12/04 19:10:47 tg Exp $'
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -8,6 +8,7 @@ set -A e_id
 set -A ei_body
 set -A ei_indir
 set -A ei_srcf
+set -A ei_skip
 set -A ei_time
 
 nl='
@@ -18,7 +19,12 @@ integer guid
 integer state
 typeset -l parser_lctmp
 
-for srcf in $name; do
+for srcf in $sources; do
+	eval parser_lctmp=\$tags_${srcf//\-/_}
+	tags=:
+	for x in $parser_lctmp; do
+		tags=$tags$x:
+	done
 	guid=10000
 	ids=:
 	state=1
@@ -47,6 +53,14 @@ for srcf in $name; do
 			done
 			ei_srcf[entry]=$srcf
 			ids=$ids${e_id[entry]}:
+			if [[ $tags != : ]]; then
+				ei_skip[entry]=1
+				for x in ${e_tag[entry]}; do
+					[[ $tags = *:$x:* ]] || continue
+					unset ei_skip[entry]
+					break
+				done
+			fi
 			let ++entry
 			state=2
 		elif (( state > 0 )); then
@@ -80,7 +94,7 @@ for srcf in $name; do
 				ei_time[entry]="$((e_tmpy)) $((e_tmpm)) $((e_tmpd)) $((10#0${e_tmp[3]})) $((10#0${e_tmp[4]})) $((10#0${e_tmp[5]}))"
 			elif [[ $parser_lctmp = tag ]]; then
 				parser_lctmp=${e_tag[entry]}
-				e_tag[entry]=
+				unset e_tag[entry]
 				for x in $parser_lctmp; do
 					if [[ $x != +([0-9a-z_]) ]]; then
 						print -u2 "Invalid tag '$x' in" \
@@ -102,16 +116,18 @@ done
 integer entries=entry
 if [[ -n $notimesort ]]; then
 	entry=-1
+	state=0
 	while (( ++entry < entries )); do
-		ei_indir[entry]=$entry
+		[[ ${ei_skip[entry]} = 1 ]] || ei_indir[state++]=$entry
 	done
 else
 	( integer e=-1; while (( ++e < entries )); do
-		print ${ei_time[e]} $e
-	  done | tee /tmp/x1 | sort -nbk1,1 -k2,2 -k3,3 -k4,4 -k5,5 -k6,6 | tee /tmp/x2 ) |&
+		[[ ${ei_skip[e]} = 1 ]] || print ${ei_time[e]} $e
+	  done | sort -nbk1,1 -k2,2 -k3,3 -k4,4 -k5,5 -k6,6 ) |&
 	state=0
 	while read -p y m d H M S entry; do
 		ei_indir[state++]=$entry
 	done
 fi
+entries=$state
 return 0
