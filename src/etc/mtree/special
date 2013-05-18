@@ -1,4 +1,4 @@
-# $MirOS: src/etc/mtree/special,v 1.14 2006/10/28 21:22:27 tg Exp $
+# $MirOS: src/etc/mtree/special,v 1.15 2006/10/28 21:27:14 tg Exp $
 # $OpenBSD: special,v 1.66 2005/06/08 20:11:38 deraadt Exp $
 # $NetBSD: special,v 1.4 1996/05/08 21:30:18 pk Exp $
 # @(#)special	8.2 (Berkeley) 1/23/94
@@ -55,6 +55,7 @@ local-host-names	type=file mode=0640 uname=root gname=wheel
 mailertable.db		type=file mode=0640 uname=root gname=wheel optional
 relay-domains		type=file mode=0640 uname=root gname=wheel optional
 sendmail.cf		type=file mode=0644 uname=root gname=wheel optional
+service.switch		type=file mode=0640 uname=root gname=wheel
 submit.cf		type=file mode=0644 uname=root gname=wheel optional
 trusted-users		type=file mode=0640 uname=root gname=wheel optional
 userdb.db		type=file mode=0640 uname=root gname=wheel optional
