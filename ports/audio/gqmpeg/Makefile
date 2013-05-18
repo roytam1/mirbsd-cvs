@@ -1,6 +1,9 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.33 2003/05/14 13:09:52 margarida Exp $
 
-COMMENT=			front-end to various audio players
+BROKEN=			GNOME 1 has been removed
+
+COMMENT=		front-end to various audio players
 
 DISTNAME=		gqmpeg-0.20.0		
 CATEGORIES=		audio
@@ -20,9 +23,9 @@ MODULES=		devel/gettext graphics/png
 
 RUN_DEPENDS+=		:mpg321-*:audio/mpg321
 
-LIB_DEPENDS=		gdk_pixbuf.2::graphics/gdk-pixbuf
+#LIB_DEPENDS=		gdk_pixbuf.2::graphics/gdk-pixbuf
 USE_CXX=		Yes
-
+USE_X11=		Yes
 CONFIGURE_STYLE=	gnu
 AUTOCONF_NEW=		Yes
 
