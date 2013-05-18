@@ -1,4 +1,4 @@
-/* $MirOS: ports/infrastructure/pkgtools/add/perform.c,v 1.26 2009/11/22 15:34:13 tg Exp $ */
+/* $MirOS: ports/infrastructure/pkgtools/add/perform.c,v 1.27 2009/11/29 16:56:44 bsiegert Exp $ */
 /* $OpenBSD: perform.c,v 1.32 2003/08/21 20:24:56 espie Exp $	*/
 
 /*
@@ -29,7 +29,7 @@
 #include <signal.h>
 #include <errno.h>
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/add/perform.c,v 1.26 2009/11/22 15:34:13 tg Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/add/perform.c,v 1.27 2009/11/29 16:56:44 bsiegert Exp $");
 
 static int pkg_do(char *);
 static int sanity_check(char *);
@@ -586,43 +586,29 @@ install_dep_ftp(char *base, char *pattern)
 static void
 register_dep_(char *pkg, char *dep)
 {
-    char *cp;
+    char *dep2, *bdep, *new_pkgdeps;
 
     if (!pkg || !dep)
 	return;
 
-    if ((cp = basename(dep)) == NULL) {
-	pwarnx("dependency name too long: %s\n"
-	    "dependency registration is incomplete", dep);
+    if ((dep2 = strdup(dep)) == NULL) {
+	pwarn("dependency registration on %s is incomplete", dep);
 	return;
     }
-    dep = cp;
-
-    /* cut off .cgz extension... we can't modify original "dep"
-     * tho, because if we're called from install_dep_ftp it might
-     * be in use otherwise, and I didn't bother to check... -TG */
-    if ((cp = strrchr(dep, '.')) != NULL) {
-	/* cf. ensure_tgz() in lib/file.c */
-	if (!strcmp(cp, ".cgz") ||
-	    !strcmp(cp, ".cxz") ||
-	    !strcmp(cp, ".clz") ||
-	    !strcmp(cp, ".cpio") ||
-	    !strcmp(cp, ".tgz") ||
-	    !strcmp(cp, ".tar")) {
-		*cp = '\0';
-	} else if (!strcmp(cp, ".gz"))
-		if ((cp = strrchr(cp, '.')) != NULL)
-			if (!strcmp(cp, ".tar.gz"))
-				*cp = '\0';
+    if ((bdep = basename(dep2)) == NULL) {
+	free(dep2);
+	pwarn("dependency registration on %s is incomplete", dep);
+	return;
     }
 
-    if (asprintf(&cp, "%s%s\n", PkgDeps ? PkgDeps : "", dep) < 0)
-	    pwarnx("cannot allocate memory for PkgDeps list!\n"
-		    "dependency registration is incomplete");
-	else {
-	    free(PkgDeps);
-	    PkgDeps = cp;
-	}
+    if (asprintf(&new_pkgdeps, "%s%s\n", PkgDeps ? PkgDeps : "",
+		trim_end(bdep)) < 0)
+	pwarn("dependency registration on %s is incomplete", dep);
+    else {
+	free(PkgDeps);
+	PkgDeps = new_pkgdeps;
+    }
+    free(dep2);
 }
 
 /* write the dependencies of a package into its dbdir and register them */
