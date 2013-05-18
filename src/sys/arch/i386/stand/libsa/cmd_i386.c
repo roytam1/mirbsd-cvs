@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/stand/libsa/cmd_i386.c,v 1.18 2009/01/02 04:58:41 tg Exp $	*/
+/**	$MirOS: src/sys/arch/i386/stand/libsa/cmd_i386.c,v 1.19 2009/01/02 20:21:54 tg Exp $	*/
 /*	$OpenBSD: cmd_i386.c,v 1.29 2006/09/18 21:14:15 mpf Exp $	*/
 
 /*
@@ -288,6 +288,7 @@ Xmdexec(void)
 	int fd, sz, type = 0;
 	char *buf;
 	uint32_t baddr, jaddr = 0xF000FFF0;
+	struct stat sb;
 
 	if (cmd.argc != 3) {
  synerr:
@@ -308,6 +309,15 @@ Xmdexec(void)
 	if ((fd = open(qualify(cmd.argv[2]), 0)) < 0) {
 		printf("open(%s): %s\n", cmd.argv[2], strerror(errno));
 		return (0);
+	}
+
+	sb.st_size = 0;
+	if (fstat(fd, &sb) < 0 || sb.st_size <= 0)
+		printf("cannot stat %s, assuming %d bytes\n", cmd.argv[2], sz);
+	else {
+		printf("allocating %d bytes for %s (fallback was %d bytes)\n",
+		    (int)sb.st_size, cmd.argv[2], sz);
+		sz = (int)sb.st_size;
 	}
 
 	buf = alloc(sz + 15);
