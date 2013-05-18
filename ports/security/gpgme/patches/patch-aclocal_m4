@@ -1,0 +1,10 @@
+$MirOS$
+--- aclocal.m4.orig	Wed Sep 13 20:47:48 2006
++++ aclocal.m4	Wed Sep 13 20:49:25 2006
+@@ -892,6 +892,5 @@ AC_SUBST([am__untar])
+ 
+ m4_include([m4/glibc21.m4])
+ m4_include([m4/gpg-error.m4])
+-m4_include([m4/libtool.m4])
+ m4_include([m4/pth.m4])
+ m4_include([acinclude.m4])

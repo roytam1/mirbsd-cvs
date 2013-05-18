@@ -1,10 +1,10 @@
-@comment $OpenBSD: PLIST,v 1.2 2002/03/17 21:33:08 couderc Exp $
+@comment $MirOS$
 @unexec install-info --delete --info-dir=%D/info %D/info/gpgme.info
 bin/gpgme-config
 include/gpgme.h
 info/gpgme.info
-lib/libgpgme.a
+lib/libgpgme-pthread.la
 lib/libgpgme.la
 share/aclocal/gpgme.m4
-%%SHARED%%
+@dirrm share/aclocal
 @exec install-info --info-dir=%D/info %D/info/gpgme.info
