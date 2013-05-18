@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.315 2010/11/07 14:18:15 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.316 2010/12/11 13:27:23 bsiegert Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -7235,4 +7235,56 @@ Date: 11.12.2010 14:10
 
 <p>I will be on 27C3 in Berlin from December 27 to 30, even though tg@
  will not.</p>
+----
+Title: pkgsrc Mini-Howto
+Author: bsiegert@
+Date: 31.12.2010 12:50
+
+<p>27C3 brought significant advancements in pkgsrc support for MirOS
+ BSD. I am in contact with a NetBSD developer, who is favourable to
+ including the patch upstream in pkgsrc. For them, there are two parts
+ for this: (a) the mere addition of a "MirBSD" stanza, which is
+ unproblematic, and (b) other code changes, which need more review. Note
+ that pkgsrc is currently frozen before the 2010Q4 release, so our
+ patches will likely be deferred until after the freeze.</p>
+
+<p>If you would like the current patches, which are still in a bit of a
+ rough shape, here is how to use it:</p>
+
+<ol>
+ <li>Make sure there are no mentions of MirPorts in your current
+  environment. Most importantly, remove /usr/mpkg/bin and /usr/mpkg/sbin
+  from your PATH. This is needed when building or installing packages;
+  the reason is that the package tools from MirPorts and pkgsrc have the
+  same name but are incompatible with each other.</li>
+ <li>Check out pkgsrc, for example to /usr/pkgsrc:<br />
+  <tt>cvs -qd anoncvs@anoncvs.netbsd.org:/cvsroot co -P pkgsrc</tt></li>
+ <li>To be sure that the patches will apply, downgrade the patched
+  directories:<br />
+  <tt>cd pkgsrc ; cvs -q up -Pd -D 2010-12-27 bootstrap devel/bmake
+  devel/libtool* lang/perl5 mk</tt></li>
+ <li>Apply <a
+  href="http://dl.dropbox.com/u/17617299/MirOS/pkgsrc-bootstrap.diff">pkgsrc-bootstrap.diff</a>,
+  then <a
+  href="http://dl.dropbox.com/u/17617299/MirOS/pkgsrc-libtool-miros.diff">pkgsrc-libtool-miros.diff</a>:<br
+  /><tt>cat pkgsrc-bootstrap.diff pkgsrc-libtool-miros.diff | patch
+  -p0</tt></li>
+ <li>Check that there are no rejected patches:<br />
+  <tt>find . -name "*.rej"</tt><br />
+  should give no results.</li>
+ <li>Bootstrap pkgsrc. In this example, we install (using sudo) into
+  /usr/pkg. The dbdir should be inside the prefix to avoid conflicts
+  with MirPorts.<br />
+  <tt>cd bootstrap ; ./bootstrap --prefix /usr/pkg --pkgdbdir
+  /usr/pkg/db</tt>
+ <li>Add /usr/pkg/bin and /usr/pkg/sbin to your path:<br />
+  <tt>export PATH=/usr/pkg/bin:${PATH}:/usr/pkg/sbin</tt></li>
+ <li>I recommend to install perl first because it is needed by many
+  other packages and because it needs a workaround at the moment:<br />
+  <tt>cd ../lang/perl5 ; bmake install &amp;&amp; cd /usr/pkg/lib
+  &amp;&amp; ln perl5/5.12.0/*/CORE/libperl.so.* .</tt></li>
+</ol>
+
+<p>You can now use pkgsrc to build whatever you like. Please test this
+ procedure and report whether it works for you.</p>
 ----
