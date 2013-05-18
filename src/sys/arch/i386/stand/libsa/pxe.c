@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/stand/libsa/pxe.c,v 1.19 2009/03/15 17:14:14 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/stand/libsa/pxe.c,v 1.20 2009/10/27 13:10:52 tg Exp $ */
 /*	$OpenBSD: pxe.c,v 1.5 2007/07/27 17:46:56 tom Exp $ */
 /*	$NetBSD: pxe.c,v 1.5 2003/03/11 18:29:00 drochner Exp $	*/
 
@@ -104,6 +104,8 @@
 #include "pxeboot.h"
 #include "pxe.h"
 #include "pxe_netif.h"
+
+#define PXE_LOUD 0
 
 extern uint32_t pxe_bang;
 extern uint32_t pxe_plus;
@@ -356,11 +358,19 @@ pxe_init(int quiet)
 	int i;
 	u_int8_t cksum, *ucp;
 
-	if (have_pxe >= 0)
+	if (have_pxe >= 0) {
+#if PXE_LOUD
+		printf(" {no:have_pxe=%d}", have_pxe);
+#endif
 		return (have_pxe == 0 ? 1 : 0);
+	}
 	have_pxe = 0;
-	if (!(i386_biosflags & 4))
+	if (!(i386_biosflags & 4)) {
+#if PXE_LOUD
+		printf(" {pxe_unlikely}");
+#endif
 		return (1);	/* not “probably” booted from PXE */
+	}
 
 	/*
 	 * Checking for the presence of PXE is a machine-dependent
@@ -377,17 +387,35 @@ pxe_init(int quiet)
 	pxenv = NULL;
 	pxe = NULL;
 
-	if (pxe_plus)
+	if (pxe_plus) {
+#if PXE_LOUD
+		printf(" {try:plus=%04X:%04X}", pxe_plus >> 16,
+		    pxe_plus & 0xFFFF);
+#endif
 		try_pxenv(PTOV(pxe_plus >> 16, pxe_plus & 0xFFFF));
+	}
 
-	if (pxe_bang)
+	if (pxe_bang) {
+#if PXE_LOUD
+		printf(" {try:bang=%04X:%04X}", pxe_bang >> 16,
+		    pxe_bang & 0xFFFF);
+#endif
 		try_pxe(PTOV(pxe_bang >> 16, pxe_bang & 0xFFFF));
+	}
 
-	if (pxe_plus == pxe_bang && (pxe || pxenv))
+	if (pxe_plus == pxe_bang && (pxe || pxenv)) {
+#if PXE_LOUD
+		printf(" {pxelinux}");
+#endif
 		goto got_one;	/* probably from SYSLINUX */
+	}
 
-	if (!(i386_dosdev & 1))
+	if (!(i386_dosdev & 1)) {
+#if PXE_LOUD
+		printf(" {pxe_disabled}");
+#endif
 		return (1);	/* PXE scan disabled */
+	}
 
 	for (cp = (char *)0x90000; cp >= (char *)0x10000; cp -= 0x10) {
 		if (pxenv == NULL)
@@ -400,9 +428,15 @@ pxe_init(int quiet)
 	}
 
 	if (pxe == NULL && pxenv == NULL) {
-		if (!quiet) printf("pxe_init: No PXE BIOS found.\n");
+#if !PXE_LOUD
+		if (!quiet)
+#endif
+			printf("pxe_init: No PXE BIOS found.\n");
 		return 1;
 	}
+#if PXE_LOUD
+	printf(" {scan:pxenv=%X,pxe=%X}", (unsigned)pxenv, (unsigned)pxe);
+#endif
 
  got_one:
 	if (pxenv && (pxenv != PTOV(pxe_plus >> 16, pxe_plus & 0xFFFF)))
@@ -494,7 +528,8 @@ pxeinfo(void)
 		return;
 	}
 
-	printf(" mac %s", ether_sprintf(bootplayer.CAddr));
+	printf(" %s %05X mac %s", pxe_call == pxecall_bang ? "!PXE" : "PXENV+",
+	    (unsigned)pxecall_addr, ether_sprintf(bootplayer.CAddr));
 	p = (u_int8_t *)&myip.s_addr;
 	printf(", ip %d.%d.%d.%d", p[0], p[1], p[2], p[3]);
 	p = (u_int8_t *)&servip.s_addr;
