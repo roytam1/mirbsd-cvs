@@ -1,31 +1,25 @@
-# $MirOS: src/sys/arch/i386/stand/bootxx/Makefile,v 1.2 2007/10/20 18:22:40 tg Exp $
+# $MirOS: src/sys/arch/i386/stand/bootxx/Makefile,v 1.3 2007/10/20 21:28:40 tg Exp $
 
 PROG=		bootxx
 SRCS+=		bootxx.S
 NOMAN=		Yes
 INSTALL_STRIP=	# empty
-LDFLAGS=	-nostdlib -Ttext 0 -N -Bstatic
 CPPFLAGS+=	${DEBUGFLAGS}
-CLEANFILES+=	${PROG}.elf ${.CURDIR}/disasm bxinst
+CLEANFILES+=	${PROG}~ ${.CURDIR}/disasm bxinst
 
 all: ${PROG} bxinst
 
-${PROG}: ${PROG}.elf
-	objcopy -x $@.elf $@
-
-.include <bsd.prog.mk>
-
-LINK.prog=	:
-
-${PROG}.elf: ${OBJS} ${DPADD}
-	${LD} ${LDFLAGS} -o ${PROG}.elf ${OBJS} ${LDADD}
+${PROG}: ${OBJS} ${DPADD}
+	${LD} -N -Ttext 0 -e _start ${OBJS} ${LDADD} -o $@~
+	@size $@~
+	objcopy -x $@~ $@
 
 disasm: ${.CURDIR}/disasm
 
-bxinst: ${.CURDIR}/mkbxinst.sh ${PROG}.elf
-	${MKSH} ${.CURDIR}/mkbxinst.sh ${PROG}.elf >$@
+bxinst: ${.CURDIR}/mkbxinst.sh ${PROG}
+	${MKSH} ${.CURDIR}/mkbxinst.sh ${PROG} >$@
 
 ${.CURDIR}/disasm: ${PROG}
-	objdump -d -Mintel,i8086 ${PROG}.elf >$@
+	objdump -dS -Mintel,i8086 ${PROG}~ >$@
 
 .include <bsd.prog.mk>
