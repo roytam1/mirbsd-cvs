@@ -1,4 +1,4 @@
-# $MirOS: ports/shells/mksh/Makefile,v 1.33 2007/10/26 22:22:09 tg Exp $
+# $MirOS: ports/shells/mksh/Makefile,v 1.34 2008/03/02 15:41:16 tg Exp $
 
 COMMENT=		MirBSD Korn Shell
 DISTNAME=		mksh-R33
@@ -19,6 +19,7 @@ WRKDIST=		${WRKDIR}/mksh
 BSH?=			/bin/sh
 
 do-build:
+	-uname -a; ${CC} -v
 	cd ${WRKBUILD} && ${SETENV} ${MAKE_ENV} NROFF=${NROFF:C/ *$//:Q} \
 	    SHELL=${BSH:Q} ${BSH} ${WRKSRC}/Build.sh -Q
 
