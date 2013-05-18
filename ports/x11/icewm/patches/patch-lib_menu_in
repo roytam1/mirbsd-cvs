@@ -1,8 +1,8 @@
-$MirOS$
+$MirOS: ports/x11/icewm/patches/patch-lib_menu_in,v 1.2 2005/04/28 22:30:52 tg Exp $
 $OpenBSD: patch-lib_menu_in,v 1.2 2004/05/21 17:00:09 naddy Exp $
 --- lib/menu.in.orig	Sun Jan  9 21:47:58 2005
 +++ lib/menu.in	Thu Apr 28 22:30:19 2005
-@@ -5,15 +5,115 @@
+@@ -5,15 +5,119 @@
  # (re)install icewm.
  #
  prog xterm xterm xterm
@@ -24,6 +24,8 @@ $OpenBSD: patch-lib_menu_in,v 1.2 2004/05/21 17:00:09 naddy Exp $
 +#menufile Tool_bar folder toolbar
 +menu Applications folder {
 +    menu Editors folder {
++        prog Jupp emacs jupp
++        prog ed vim ed
 +        prog NEdit nedit nedit
 +        prog fte fte fte
 +        prog vim vim gvim 
@@ -36,6 +38,8 @@ $OpenBSD: patch-lib_menu_in,v 1.2 2004/05/21 17:00:09 naddy Exp $
 +        prog Xc_oral xcoral xcoral
 +    }
 +    menu "WWW Browsers" folder {
++        prog Lynx lynx xterm -T Lynx -e lynx 
++        prog Links+ lynx links -g
 +        prog Netscape netscape netscape
 +        prog Konqueror konqueror konqueror
 +        prog Mozilla mozilla mozilla
@@ -44,7 +48,6 @@ $OpenBSD: patch-lib_menu_in,v 1.2 2004/05/21 17:00:09 naddy Exp $
 +        prog Opera opera opera
 +        prog Dillo dillo dillo
 +        prog Amaya amaya amaya
-+        prog Lynx lynx xterm -T Lynx -e lynx 
 +    }
 +    menu "Mail and News" folder {
 +        prog Kmail kmail kmail
@@ -56,6 +59,7 @@ $OpenBSD: patch-lib_menu_in,v 1.2 2004/05/21 17:00:09 naddy Exp $
 +	prog Pine pine xterm -T Pine -e pine
 +    }
 +    menu "Internet Utilities" folder {
++        prog sirc xchat xterm -T sirc -e sirc
 +        prog XChat xchat xchat
 +        prog GTK-Gnutella gtk-gnutella gtk-gnutella
 +    }

@@ -1,8 +1,8 @@
-# $MirOS: ports/x11/icewm/Makefile,v 1.2 2005/03/27 20:42:17 tg Exp $
+# $MirOS: ports/x11/icewm/Makefile,v 1.3 2006/09/14 00:15:26 tg Exp $
 # $OpenBSD: Makefile,v 1.16 2004/05/25 16:36:35 naddy Exp $
 
-COMMENT=			small, fast window manager
-DISTNAME=		icewm-1.2.20
+COMMENT=		small, fast window manager with themes
+DISTNAME=		icewm-1.2.28
 CATEGORIES=     	x11
 HOMEPAGE=		http://www.icewm.org/
 
@@ -28,11 +28,18 @@ CONFIGURE_ARGS=		--with-imlib=${PREFIX}/bin \
 			--disable-nls \
 			--disable-i18n \
 			--enable-gradients
+INSTALL_TARGET=		install install-man
 
 post-install:
-	@perl -pi -e 's:%%SYSCONFDIR%%:${SYSCONFDIR}:g;' \
-		-e 's:%%PREFIX%%:${TRUEPREFIX}:g;' \
-		${PREFIX}/share/doc/icewm/icewm-7.html
 	${INSTALL_DATA} ${FILESDIR}/*.xpm ${PREFIX}/share/icewm/taskbar/
+	cd ${PREFIX}/share/icewm/taskbar && \
+	    mv start.xpm icewm.xpm && \
+	    ln -s bsd-daemon.xpm start.xpm
+	for file in share/doc/icewm/icewm-7.html man/man1/icewm.1; do \
+		chmod u+w ${PREFIX}/$$file; \
+		print '%g#%%SYSCONFDIR%%#s##${SYSCONFDIR}#g\n%g#%%PREFIX%%#s##${TRUEPREFIX}#g\nwq' | \
+		    ed -s ${PREFIX}/$$file; \
+		chmod ${DOCMODE} ${PREFIX}/$$file; \
+	done
 
 .include <bsd.port.mk>
