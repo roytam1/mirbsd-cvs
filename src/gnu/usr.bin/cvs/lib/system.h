@@ -1,5 +1,3 @@
-/* $MirOS: src/gnu/usr.bin/cvs/lib/system.h,v 1.3 2005/04/19 20:58:17 tg Exp $ */
-
 /* system-dependent definitions for CVS.
    Copyright (C) 1989-1992 Free Software Foundation, Inc.
 

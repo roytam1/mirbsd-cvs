@@ -1,5 +1,3 @@
-/* $MirOS$ */
-
 /* Work around the bug in Solaris 7 whereby a fd that is opened on
    /dev/null will cause select/poll to hang when given a NULL timeout.
 
@@ -42,20 +40,17 @@
 #include <sys/stat.h>
 #include <errno.h>
 
+#if defined STDC_HEADERS || defined HAVE_STRING_H
+# include <string.h>
+#else
+# include <strings.h>
+#endif
 #ifdef HAVE_UNISTD_H
 # include <unistd.h>
 #endif /* HAVE_UNISTD_H */
 
 #include "minmax.h"
 #include "xtime.h"
-
-#if defined(HAVE_STRING_H)
-# include <string.h>
-#elif defined(HAVE_STRINGS_H)
-# include <strings.h>
-#endif
-
-__RCSID("$MirOS$");
 
 static struct stat devnull;
 static int devnull_set = -1;

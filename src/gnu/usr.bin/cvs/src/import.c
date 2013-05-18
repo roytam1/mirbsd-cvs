@@ -1,5 +1,3 @@
-/* $MirOS: src/gnu/usr.bin/cvs/src/import.c,v 1.6 2007/01/27 23:46:27 tg Exp $ */
-
 /*
  * Copyright (C) 1986-2005 The Free Software Foundation, Inc.
  *
@@ -27,7 +25,7 @@
 #include "lstat.h"
 #include "save-cwd.h"
 
-__RCSID("$MirOS: src/gnu/usr.bin/cvs/src/import.c,v 1.6 2007/01/27 23:46:27 tg Exp $");
+__RCSID("$MirOS: src/gnu/usr.bin/cvs/src/import.c,v 1.7 2007/02/01 23:24:27 tg Exp $");
 
 static char *get_comment (const char *user);
 static int add_rev (char *message, RCSNode *rcs, char *vfile,
@@ -1276,7 +1274,7 @@ add_rcs_file (const char *message, const char *rcs, const char *user,
 	(void) time (&now);
     ftm = gmtime (&now);
     (void) sprintf (altdate1, DATEFORM,
-		    ftm->tm_year + (ftm->tm_year < 100 ? 0LL : 1900LL),
+		    (long)ftm->tm_year + (ftm->tm_year < 100 ? 0L : 1900L),
 		    ftm->tm_mon + 1, ftm->tm_mday, ftm->tm_hour,
 		    ftm->tm_min, ftm->tm_sec);
     author = getcaller ();

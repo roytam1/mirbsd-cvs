@@ -1,5 +1,3 @@
-/* $MirOS: src/gnu/usr.bin/cvs/src/main.c,v 1.6 2005/12/05 22:12:48 tg Exp $ */
-
 /*
  * Copyright (C) 1986-2005 The Free Software Foundation, Inc.
  *
@@ -26,7 +24,7 @@
 #include "strftime.h"
 #include "xgethostname.h"
 
-__RCSID("$MirOS: src/gnu/usr.bin/cvs/src/main.c,v 1.6 2005/12/05 22:12:48 tg Exp $");
+__RCSID("$MirOS: src/gnu/usr.bin/cvs/src/main.c,v 1.7 2005/12/06 23:30:40 tg Exp $");
 
 const char *program_name;
 const char *program_path;
@@ -469,38 +467,6 @@ enum {COMMITID_RAW_SIZE = (sizeof(time_t) + RANDOM_BYTES)};
 static char const alphabet[62] =
   "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
-/* Divide BUF by D, returning the remainder.  Replace BUF by the
-   quotient.  BUF[0] is the most significant part of BUF.
-   D must not exceed UINT_MAX >> CHAR_BIT.  */
-static unsigned int
-divide_by (unsigned char buf[COMMITID_RAW_SIZE], unsigned int d)
-{
-    unsigned int carry = 0;
-    int i;
-    for (i = 0; i < COMMITID_RAW_SIZE; i++)
-    {
-	unsigned int byte = buf[i];
-	unsigned int dividend = (carry << CHAR_BIT) + byte;
-	buf[i] = dividend / d;
-	carry = dividend % d;
-    }
-    return carry;
-}
-
-static void
-convert (char const input[COMMITID_RAW_SIZE], char *output)
-{
-    static char const zero[COMMITID_RAW_SIZE] = { 0, };
-    unsigned char buf[COMMITID_RAW_SIZE];
-    size_t o = 0;
-    memcpy (buf, input, COMMITID_RAW_SIZE);
-    while (memcmp (buf, zero, COMMITID_RAW_SIZE) != 0)
-	output[o++] = alphabet[divide_by (buf, sizeof alphabet)];
-    if (! o)
-	output[o++] = '0';
-    output[o] = '\0';
-}
-
 
 int
 main (int argc, char **argv)
@@ -771,9 +737,9 @@ distribution kit for a complete list of contributors and copyrights.\n",
 
     /* Calculate the cvs global session ID */
 
-    global_session_id = Xasprintf ("1%010llX%04X%04X", (long long)time (NULL),
+    global_session_id = Xasprintf ("1%010llX%04X%04X", (uint64_t)time (NULL),
 				   (int)getpid() & 0xFFFF,
-				   (int)arc4random()&0xFFFF);
+				   (int)arc4random() & 0xFFFF);
 
     TRACE (TRACE_FUNCTION, "main: Session ID is %s", global_session_id);
 
@@ -1245,7 +1211,7 @@ date_from_time_t (time_t unixtime)
 	ftm = localtime (&unixtime);
 
     (void) sprintf (date, DATEFORM,
-		    ftm->tm_year + (ftm->tm_year < 100 ? 0LL : 1900LL),
+		    (long)ftm->tm_year + (ftm->tm_year < 100 ? 0L : 1900L),
 		    ftm->tm_mon + 1, ftm->tm_mday, ftm->tm_hour,
 		    ftm->tm_min, ftm->tm_sec);
     ret = xstrdup (date);
@@ -1307,10 +1273,10 @@ tm_to_internet (char *dest, const struct tm *source)
       {"Jan", "Feb", "Mar", "Apr", "May", "Jun",
 	 "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
     
-    sprintf (dest, "%d %s %lld %02d:%02d:%02d -0000", source->tm_mday,
+    sprintf (dest, "%d %s %ld %02d:%02d:%02d -0000", source->tm_mday,
 	     source->tm_mon < 0 || source->tm_mon > 11
                ? "???" : month_names[source->tm_mon],
-	     (int64_t)source->tm_year + 1900, source->tm_hour, source->tm_min,
+	     (long)source->tm_year + 1900, source->tm_hour, source->tm_min,
              source->tm_sec);
 }
 

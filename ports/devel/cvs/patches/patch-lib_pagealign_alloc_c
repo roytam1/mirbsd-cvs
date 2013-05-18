@@ -1,6 +1,6 @@
-$MirOS$
---- lib/pagealign_alloc.c.orig	Tue Jul 12 15:39:13 2005
-+++ lib/pagealign_alloc.c	Mon Oct  2 04:40:37 2006
+$MirOS: ports/devel/cvs/patches/patch-lib_pagealign_alloc_c,v 1.1 2006/10/02 05:59:16 tg Exp $
+--- lib/pagealign_alloc.c.orig	Sat Mar 10 23:14:20 2007
++++ lib/pagealign_alloc.c	Sat Mar 10 23:14:14 2007
 @@ -44,6 +44,10 @@
  #include "xalloc.h"
  #include "gettext.h"
@@ -24,11 +24,12 @@ $MirOS$
      {
        fd = open ("/dev/zero", O_RDONLY, 0666);
        if (fd < 0)
+-	error (EXIT_FAILURE, errno, _("Failed to open /dev/zero for read"));
 +	{
 +	  if (!beenhere)
 +	    {
 +	      beenhere = 1;
- 	error (EXIT_FAILURE, errno, _("Failed to open /dev/zero for read"));
++	      error (EXIT_FAILURE, errno, _("Failed to open /dev/zero for read"));
 +	    }
 +	  else
 +	    {

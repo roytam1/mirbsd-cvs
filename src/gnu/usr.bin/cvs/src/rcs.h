@@ -33,7 +33,7 @@
    CVS) will put this into RCS files.  Considered obsolete.  */
 #define RCSDEAD		"dead"
 
-#define	DATEFORM	"%02lld.%02d.%02d.%02d.%02d.%02d"
+#define	DATEFORM	"%02ld.%02d.%02d.%02d.%02d.%02d"
 #define	SDATEFORM	"%d.%d.%d.%d.%d.%d"
 
 /*

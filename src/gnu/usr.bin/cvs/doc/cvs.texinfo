@@ -2,11 +2,11 @@
 @comment Documentation for CVS.
 @setfilename cvs.info
 @afourpaper
-@comment $MirOS: src/gnu/usr.bin/cvs/doc/cvs.texinfo,v 1.5 2005/12/05 22:12:42 tg Exp $
+@comment $MirOS: src/gnu/usr.bin/cvs/doc/cvs.texinfo,v 1.6 2005/12/06 23:30:37 tg Exp $
 @macro copyleftnotice
 @noindent
 Copyright @copyright{} 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000,
-                       2001, 2002, 2003, 2004, 2005
+                       2001, 2002, 2003, 2004, 2005, 2006
                        Free Software Foundation, Inc.
 
 @multitable @columnfractions .12 .88
@@ -76,7 +76,7 @@ approved by the Free Software Foundation.
 @finalout
 
 @include version.texi
-@settitle CVS---Concurrent Versions System v@value{EDITION}
+@settitle CVS---Concurrent Versions System v@value{VERSION}
 @setchapternewpage odd
 
 @c -- TODO list:
@@ -2238,7 +2238,7 @@ proxy.  @var{hostname} should be the name of the HTTP proxy server to connect
 through and @var{port} is the port number on the HTTP proxy server to connect
 via.  @var{port} defaults to 8080.
 
-@strong{NOTE: An HTTP proxy server is not the same as a @sc{cvs} write proxy
+@emph{NOTE: An HTTP proxy server is not the same as a @sc{cvs} write proxy
 server - please see @ref{Write proxies} for more on @sc{cvs} write proxies.}
 
 For example, to connect pserver via a web proxy listening on port 8000 of
@@ -2248,7 +2248,7 @@ www.myproxy.net, you would use a method of:
 :pserver;proxy=www.myproxy.net;proxyport=8000:@var{pserver_connection_string}
 @end example
 
-@strong{NOTE: In the above example, @var{pserver_connection_string} is still
+@emph{NOTE: In the above example, @var{pserver_connection_string} is still
 required to connect and authenticate to the CVS server, as noted in the
 upcoming sections on password authentication, @code{gserver}, and
 @code{kserver}.  The example above only demonstrates a modification to the
@@ -2677,7 +2677,7 @@ encouraged.  Please send a mail to one of the @sc{cvs} mailing lists
 (@code{info-cvs@@nongnu.org} or @code{bug-cvs@@nongnu.org}) if you use the 
 @sc{cvs} PAM support.
 
-@strong{WARNING: Using PAM gives the system administrator much more 
+@emph{WARNING: Using PAM gives the system administrator much more 
 flexibility about how @sc{cvs} users are authenticated but 
 no more security than other methods.  See below for more.} 
 
@@ -3996,7 +3996,7 @@ place.  Therefore, one might delete, move, or rename a
 tag.
 
 @noindent
-@strong{WARNING: the commands in this section are
+@emph{WARNING: the commands in this section are
 dangerous; they permanently discard historical
 information and it can be difficult or impossible to
 recover from errors.  If you are a @sc{cvs}
@@ -4026,7 +4026,7 @@ of branch tags.  In that case, any non-branch tags encountered will
 trigger warnings and will not be deleted.
 
 @noindent
-@strong{WARNING: Moving branch tags is very dangerous!  If you think
+@emph{WARNING: Moving branch tags is very dangerous!  If you think
 you need the @code{-B} option, think again and ask your @sc{cvs}
 administrator about it (if that isn't you).  There is almost certainly
 another way to accomplish what you want to accomplish.}
@@ -4057,7 +4057,7 @@ In that case, non-branch tags encountered with the given
 name are ignored with a warning message.
 
 @noindent
-@strong{WARNING: Moving branch tags is very dangerous!  If you think you
+@emph{WARNING: Moving branch tags is very dangerous!  If you think you
 need the @code{-B} option, think again and ask your @sc{cvs}
 administrator about it (if that isn't you).  There is almost certainly
 another way to accomplish what you want to accomplish.}
@@ -4906,7 +4906,7 @@ merging the changes between them into the working
 directory need not change anything.  Therefore, there
 is no conflict.
 
-@strong{WARNING: In versions of @sc{cvs} prior to 1.12.2, there was a
+@emph{WARNING: In versions of @sc{cvs} prior to 1.12.2, there was a
 major problem with using @samp{-kk} on merges.  Namely, @samp{-kk}
 overrode any default keyword expansion mode set in the archive file in
 the repository.  This could, unfortunately for some users, cause data
@@ -7744,7 +7744,7 @@ $ cd wdiff-0.05
 $ cvs import -m "Import of FSF v. 0.05" fsf/wdiff FSF_DIST WDIFF_0_05
 @end example
 
-@strong{WARNING: If you use a release tag that already exists in one of the
+@emph{WARNING: If you use a release tag that already exists in one of the
 repository archives, files removed by an import may not be detected.}
 
 For files that have not been modified locally, the newly created
@@ -8621,7 +8621,7 @@ give an error if you mistype a tag name.
 @code{annotate}, @code{checkout}, @code{export},
 @code{rdiff}, @code{rtag}, and @code{update}.
 
-@strong{WARNING:  The @code{commit} and @code{remove}
+@emph{WARNING:  The @code{commit} and @code{remove}
 commands also have a
 @samp{-f} option, but it has a different behavior for
 those commands.  See @ref{commit options}, and
@@ -8642,7 +8642,7 @@ The @samp{-k} option is available with the @code{add},
 @code{checkout}, @code{diff}, @code{export}, @code{import},
 @code{rdiff}, and @code{update} commands.
 
-@strong{WARNING: Prior to CVS version 1.12.2, the @samp{-k} flag
+@emph{WARNING: Prior to CVS version 1.12.2, the @samp{-k} flag
 overrode the @samp{-kb} indication for a binary file.  This could
 sometimes corrupt binary files.  @xref{Merging and keywords}, for
 more.}
@@ -9513,7 +9513,9 @@ that the argument file contains the log message.
 At @code{commit}, a unique commitid is placed in the @sc{rcs}
 file inside the repository. All files committed at once
 get the same commitid, a string consisting only of hexadecimal
-digits (usually 16 in GNU CVS, 19 in MirOS GNU CVS).
+digits (usually 16 in GNU CVS, 19 in MirOS BSD and MirPorts GNU CVS).
+FSF GNU CVS 1.11, MirOS GNU CVS 1.11, and OpenBSD OpenCVS do not
+support commitids yet.
 The commitid can be retrieved with
 the @code{log} and @code{status} command; see @ref{log},
 @ref{File status}.
@@ -11295,7 +11297,7 @@ Delete your working copy of the file if the release
 succeeds.  If this flag is not given your files will
 remain in your working directory.
 
-@strong{WARNING:  The @code{release} command deletes
+@emph{WARNING:  The @code{release} command deletes
 all directories and files recursively.  This
 has the very serious side-effect that any directory
 that you have created inside your checked-out sources,
@@ -12988,7 +12990,7 @@ two versions of the files, and require the user using
 mechanisms outside @sc{cvs}, to insert any necessary
 changes.
 
-@strong{WARNING: do not use @code{COPY} with
+@emph{WARNING: do not use @code{COPY} with
 @sc{cvs} 1.9 or earlier - such versions of @sc{cvs} will
 copy one version of your file over the other, wiping
 out the previous contents.}
@@ -14455,7 +14457,7 @@ Unique Session ID of the @sc{cvs} process. This is a
 random string of printable characters of at least 16
 characters length. Users should assume that it may
 someday grow to at most 256 characters in length.
-Currently, MirOS GNU CVS uses 19 characters.
+Currently, MirPorts GNU CVS uses 19 characters.
 @end table
 
 If you want to pass a value to the administrative files
@@ -15819,6 +15821,15 @@ The list of contributors here is not comprehensive; for a more
 complete list of who has contributed to this manual see
 the file @file{doc/ChangeLog} in the @sc{cvs} source
 distribution.
+
+The MirOS Project uses @sc{cvs} heavily in MirOS BSD and the
+MirPorts Framework and has enhanced it. Responsible:
+
+@display
+Thorsten Glaser <@t{tg@@mirbsd.de}>
+@end display
+
+CVS Homepage: @url{http://www.nongnu.org/cvs/}
 
 @c ---------------------------------------------------------------------
 @node BUGS

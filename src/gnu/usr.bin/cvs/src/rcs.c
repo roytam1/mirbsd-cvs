@@ -1,5 +1,3 @@
-/* $MirOS: src/gnu/usr.bin/cvs/src/rcs.c,v 1.4 2005/04/19 21:51:15 tg Exp $ */
-
 /*
  * Copyright (C) 1986-2005 The Free Software Foundation, Inc.
  *
@@ -35,7 +33,7 @@
 # endif
 #endif
 
-__RCSID("$MirOS: src/gnu/usr.bin/cvs/src/rcs.c,v 1.4 2005/04/19 21:51:15 tg Exp $");
+__RCSID("$MirOS: src/gnu/usr.bin/cvs/src/rcs.c,v 1.5 2005/12/05 22:12:48 tg Exp $");
 
 /* The RCS -k options, and a set of enums that must match the array.
    These come first so that we can use enum kflag in function
@@ -3155,8 +3153,8 @@ RCS_getrevtime (RCSNode *rcs, const char *rev, char *date, int fudge)
     xtm.tm_year = y - ((y >= 1900) ? 1900 : 0);
 
     /* put the date in a form getdate can grok */
-    tdate = Xasprintf ("%lld-%d-%d %d:%d:%d -0000",
-		       (int64_t)xtm.tm_year + 1900, xtm.tm_mon, xtm.tm_mday,
+    tdate = Xasprintf ("%ld-%d-%d %d:%d:%d -0000",
+		       (long)xtm.tm_year + 1900, xtm.tm_mon, xtm.tm_mday,
 		       xtm.tm_hour, xtm.tm_min, xtm.tm_sec);
 
     /* Turn it into seconds since the epoch.
@@ -3177,7 +3175,7 @@ RCS_getrevtime (RCSNode *rcs, const char *rev, char *date, int fudge)
 	/* Put an appropriate string into `date', if we were given one. */
 	ftm = gmtime (&revdate.tv_sec);
 	(void) sprintf (date, DATEFORM,
-			ftm->tm_year + (ftm->tm_year < 100 ? 0LL : 1900LL),
+			(long)ftm->tm_year + (ftm->tm_year < 100 ? 0L : 1900L),
 			ftm->tm_mon + 1, ftm->tm_mday, ftm->tm_hour,
 			ftm->tm_min, ftm->tm_sec);
     }
@@ -5085,7 +5083,7 @@ RCS_checkin (RCSNode *rcs, const char *update_dir, const char *workfile_in,
 	(void) time (&modtime);
     ftm = gmtime (&modtime);
     delta->date = Xasprintf (DATEFORM,
-			     ftm->tm_year + (ftm->tm_year < 100 ? 0LL : 1900LL),
+			     (long)ftm->tm_year + (ftm->tm_year < 100 ? 0L : 1900L),
 			     ftm->tm_mon + 1, ftm->tm_mday, ftm->tm_hour,
 			     ftm->tm_min, ftm->tm_sec);
     if (flags & RCS_FLAGS_DEAD)

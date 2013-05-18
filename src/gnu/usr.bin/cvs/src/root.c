@@ -1,5 +1,3 @@
-/* $MirOS: src/gnu/usr.bin/cvs/src/root.c,v 1.4 2005/12/05 22:12:50 tg Exp $ */
-
 /*
  * Copyright (C) 1986-2005 The Free Software Foundation, Inc.
  *
@@ -20,7 +18,7 @@
 #include <assert.h>
 #include "getline.h"
 
-__RCSID("$MirOS: src/gnu/usr.bin/cvs/src/root.c,v 1.4 2005/12/05 22:12:50 tg Exp $");
+__RCSID("$MirOS: src/gnu/usr.bin/cvs/src/root.c,v 1.5 2005/12/16 16:09:46 tg Exp $");
 
 /* Printable names for things in the current_parsed_root->method enum variable.
    Watch out if the enum is changed in cvs.h! */

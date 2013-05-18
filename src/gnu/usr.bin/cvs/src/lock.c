@@ -1,4 +1,3 @@
-/* $MirOS: src/gnu/usr.bin/cvs/src/lock.c,v 1.2 2006/03/27 11:35:11 tg Exp $ */
 /*
  * Copyright (C) 1986-2005 The Free Software Foundation, Inc.
  *
@@ -72,8 +71,7 @@
 
 #include "cvs.h"
 
-__RCSID("$MirOS$");
-
+__RCSID("$MirOS: src/gnu/usr.bin/cvs/src/lock.c,v 1.3 2006/03/27 11:36:22 tg Exp $");
 
 struct lock {
     /* This is the directory in which we may have a lock named by the

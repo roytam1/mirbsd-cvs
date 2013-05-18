@@ -1,5 +1,3 @@
-/* $MirOS$ */
-
 /* sdiff-format output routines for GNU DIFF.
    Copyright (C) 1991, 1992, 1993, 1998 Free Software Foundation, Inc.
 
@@ -23,7 +21,7 @@ and this notice must be preserved on all copies.  */
 
 #include "diff.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/gnu/usr.bin/cvs/diff/side.c,v 1.2 2005/03/13 15:50:31 tg Exp $");
 
 static unsigned print_half_line PARAMS((char const * const *, unsigned, unsigned));
 static unsigned tab_from_to PARAMS((unsigned, unsigned));

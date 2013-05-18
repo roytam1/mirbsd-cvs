@@ -1,5 +1,3 @@
-/* $MirOS: src/gnu/usr.bin/cvs/src/mkmodules.c,v 1.5 2005/04/19 22:23:08 tg Exp $ */
-
 /*
  * Copyright (C) 1986-2005 The Free Software Foundation, Inc.
  *
@@ -17,7 +15,7 @@
 #include "history.h"
 #include "save-cwd.h"
 
-__RCSID("$MirOS: src/gnu/usr.bin/cvs/src/mkmodules.c,v 1.5 2005/04/19 22:23:08 tg Exp $");
+__RCSID("$MirOS: src/gnu/usr.bin/cvs/src/mkmodules.c,v 1.6 2005/12/05 22:12:48 tg Exp $");
 
 #ifndef DBLKSIZ
 #define	DBLKSIZ	4096			/* since GNU ndbm doesn't define it */

@@ -1,7 +1,16 @@
-$MirOS$
---- src/tag.c.orig	Sun Sep  4 00:27:22 2005
-+++ src/tag.c	Mon Oct  2 04:40:37 2006
-@@ -310,6 +310,7 @@ posttag_proc (const char *repository, co
+$MirOS: ports/devel/cvs/patches/patch-src_tag_c,v 1.1 2006/10/02 05:59:18 tg Exp $
+--- src/tag.c.orig	Sat Mar 10 23:14:20 2007
++++ src/tag.c	Sat Mar 10 23:14:14 2007
+@@ -20,6 +20,8 @@
+ #include "cvs.h"
+ #include "save-cwd.h"
+ 
++__RCSID("$MirOS: src/gnu/usr.bin/cvs/src/tag.c,v 1.5 2006/03/27 11:36:22 tg Exp $");
++
+ static int rtag_proc (int argc, char **argv, char *xwhere,
+ 		      char *mwhere, char *mfile, int shorten,
+ 		      int local_specified, char *mname, char *msg);
+@@ -310,6 +312,7 @@ posttag_proc (const char *repository, co
       * %b = branch mode = "?" (delete ops - unknown) | "T" (branch)
       *                    | "N" (not branch)
       * %c = cvs_cmd_name
@@ -9,7 +18,7 @@ $MirOS$
       * %p = path from $CVSROOT
       * %r = path from root
       * %{sVv} = attribute list = file name, old version tag will be deleted
-@@ -333,6 +334,7 @@ posttag_proc (const char *repository, co
+@@ -333,6 +336,7 @@ posttag_proc (const char *repository, co
  			      "b", "c", delete_flag
  			      ? '?' : branch_mode ? 'T' : 'N',
  			      "c", "s", cvs_cmd_name,
@@ -17,7 +26,7 @@ $MirOS$
  #ifdef SERVER_SUPPORT
  			      "R", "s", referrer ? referrer->original : "NONE",
  #endif /* SERVER_SUPPORT */
-@@ -747,6 +749,7 @@ pretag_proc (const char *repository, con
+@@ -747,6 +751,7 @@ pretag_proc (const char *repository, con
       * %b = branch mode = "?" (delete ops - unknown) | "T" (branch)
       *                    | "N" (not branch)
       * %c = cvs_cmd_name
@@ -25,7 +34,7 @@ $MirOS$
       * %p = path from $CVSROOT
       * %r = path from root
       * %{sVv} = attribute list = file name, old version tag will be deleted
-@@ -770,6 +773,7 @@ pretag_proc (const char *repository, con
+@@ -770,6 +775,7 @@ pretag_proc (const char *repository, con
  			      "b", "c", delete_flag
  			      ? '?' : branch_mode ? 'T' : 'N',
  			      "c", "s", cvs_cmd_name,
@@ -33,7 +42,7 @@ $MirOS$
  #ifdef SERVER_SUPPORT
  			      "R", "s", referrer ? referrer->original : "NONE",
  #endif /* SERVER_SUPPORT */
-@@ -1450,6 +1454,7 @@ val_fileproc (void *callerdat, struct fi
+@@ -1450,6 +1456,7 @@ val_fileproc (void *callerdat, struct fi
   *   		2. If IDB is non-NULL and val-tags cannot be opened for write.
   *   		   This allows callers to ignore the harmless inability to
   *   		   update the val-tags cache.
@@ -41,7 +50,7 @@ $MirOS$
   *   false	If the file could be opened and the tag is not present.
   */
  static int is_in_val_tags (DBM **idb, const char *name)
-@@ -1458,6 +1463,10 @@ static int is_in_val_tags (DBM **idb, co
+@@ -1458,6 +1465,10 @@ static int is_in_val_tags (DBM **idb, co
      char *valtags_filename;
      datum mytag;
      int status;

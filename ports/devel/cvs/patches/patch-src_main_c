@@ -1,7 +1,16 @@
-$MirOS: ports/devel/cvs/patches/patch-src_main_c,v 1.1 2006/10/02 05:59:17 tg Exp $
---- src/main.c.orig	Sun Oct  2 15:16:59 2005
-+++ src/main.c	Mon Oct  2 06:11:15 2006
-@@ -465,39 +465,7 @@ enum {COMMITID_RAW_SIZE = (sizeof(time_t
+$MirOS: ports/devel/cvs/patches/patch-src_main_c,v 1.2 2006/10/02 06:12:44 tg Exp $
+--- src/main.c.orig	Sat Mar 10 23:14:20 2007
++++ src/main.c	Sat Mar 10 23:14:14 2007
+@@ -24,6 +24,8 @@
+ #include "strftime.h"
+ #include "xgethostname.h"
+ 
++__RCSID("$MirOS: src/gnu/usr.bin/cvs/src/main.c,v 1.7 2005/12/06 23:30:40 tg Exp $");
++
+ const char *program_name;
+ const char *program_path;
+ const char *cvs_cmd_name;
+@@ -465,39 +467,7 @@ enum {COMMITID_RAW_SIZE = (sizeof(time_t
  static char const alphabet[62] =
    "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
  
@@ -41,7 +50,7 @@ $MirOS: ports/devel/cvs/patches/patch-src_main_c,v 1.1 2006/10/02 05:59:17 tg Ex
  int
  main (int argc, char **argv)
  {
-@@ -676,6 +644,7 @@ main (int argc, char **argv)
+@@ -676,6 +646,7 @@ main (int argc, char **argv)
  		(void) fputs ("\
  Copyright (C) 2005 Free Software Foundation, Inc.\n\
  \n\
@@ -49,7 +58,7 @@ $MirOS: ports/devel/cvs/patches/patch-src_main_c,v 1.1 2006/10/02 05:59:17 tg Ex
  Senior active maintainers include Larry Jones, Derek R. Price,\n\
  and Mark D. Baushke.  Please see the AUTHORS and README files from the CVS\n\
  distribution kit for a complete list of contributors and copyrights.\n",
-@@ -764,57 +733,12 @@ distribution kit for a complete list of 
+@@ -764,57 +735,12 @@ distribution kit for a complete list of 
      if (argc < 1)
  	usage (usg);
  
@@ -110,16 +119,16 @@ $MirOS: ports/devel/cvs/patches/patch-src_main_c,v 1.1 2006/10/02 05:59:17 tg Ex
      TRACE (TRACE_FUNCTION, "main: Session ID is %s", global_session_id);
  
      /* Look up the command name. */
-@@ -1285,7 +1209,7 @@ date_from_time_t (time_t unixtime)
+@@ -1285,7 +1211,7 @@ date_from_time_t (time_t unixtime)
  	ftm = localtime (&unixtime);
  
      (void) sprintf (date, DATEFORM,
 -		    ftm->tm_year + (ftm->tm_year < 100 ? 0 : 1900),
-+		    (int)ftm->tm_year + (ftm->tm_year < 100 ? 0 : 1900),
++		    (long)ftm->tm_year + (ftm->tm_year < 100 ? 0L : 1900L),
  		    ftm->tm_mon + 1, ftm->tm_mday, ftm->tm_hour,
  		    ftm->tm_min, ftm->tm_sec);
      ret = xstrdup (date);
-@@ -1315,8 +1239,9 @@ date_to_internet (char *dest, const char
+@@ -1315,8 +1241,9 @@ date_to_internet (char *dest, const char
  void
  date_to_tm (struct tm *dest, const char *source)
  {
@@ -130,7 +139,7 @@ $MirOS: ports/devel/cvs/patches/patch-src_main_c,v 1.1 2006/10/02 05:59:17 tg Ex
  		&dest->tm_hour, &dest->tm_min, &dest->tm_sec)
  	    != 6)
  	/* Is there a better way to handle errors here?  I made this
-@@ -1324,9 +1249,7 @@ date_to_tm (struct tm *dest, const char 
+@@ -1324,9 +1251,7 @@ date_to_tm (struct tm *dest, const char 
  	   deal with fatal errors.  */
  	error (0, 0, "internal error: bad date %s", source);
  
@@ -141,12 +150,16 @@ $MirOS: ports/devel/cvs/patches/patch-src_main_c,v 1.1 2006/10/02 05:59:17 tg Ex
      dest->tm_mon -= 1;
  }
  
-@@ -1351,7 +1274,7 @@ tm_to_internet (char *dest, const struct
-     sprintf (dest, "%d %s %d %02d:%02d:%02d -0000", source->tm_mday,
+@@ -1348,10 +1273,10 @@ tm_to_internet (char *dest, const struct
+       {"Jan", "Feb", "Mar", "Apr", "May", "Jun",
+ 	 "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
+     
+-    sprintf (dest, "%d %s %d %02d:%02d:%02d -0000", source->tm_mday,
++    sprintf (dest, "%d %s %ld %02d:%02d:%02d -0000", source->tm_mday,
  	     source->tm_mon < 0 || source->tm_mon > 11
                 ? "???" : month_names[source->tm_mon],
 -	     source->tm_year + 1900, source->tm_hour, source->tm_min,
-+	     (int)source->tm_year + 1900, source->tm_hour, source->tm_min,
++	     (long)source->tm_year + 1900, source->tm_hour, source->tm_min,
               source->tm_sec);
  }
  

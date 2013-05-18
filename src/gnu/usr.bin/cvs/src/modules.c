@@ -1,5 +1,3 @@
-/* $MirOS: src/gnu/usr.bin/cvs/src/modules.c,v 1.3 2005/04/19 20:58:21 tg Exp $ */
-
 /*
  * Copyright (C) 1986-2005 The Free Software Foundation, Inc.
  *
@@ -31,6 +29,7 @@
 #include "cvs.h"
 #include "save-cwd.h"
 
+__RCSID("$MirOS$");
 
 /* Defines related to the syntax of the modules file.  */
 

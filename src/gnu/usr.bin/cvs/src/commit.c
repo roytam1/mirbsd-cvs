@@ -1,5 +1,3 @@
-/* $MirOS: src/gnu/usr.bin/cvs/src/commit.c,v 1.6 2007/01/27 23:46:27 tg Exp $ */
-
 /*
  * Copyright (C) 1986-2005 The Free Software Foundation, Inc.
  *
@@ -27,7 +25,7 @@
 #include "fileattr.h"
 #include "hardlink.h"
 
-__RCSID("$MirOS: src/gnu/usr.bin/cvs/src/commit.c,v 1.6 2007/01/27 23:46:27 tg Exp $");
+__RCSID("$MirOS: src/gnu/usr.bin/cvs/src/commit.c,v 1.7 2007/02/01 23:24:27 tg Exp $");
 
 static Dtype check_direntproc (void *callerdat, const char *dir,
                                const char *repos, const char *update_dir,
@@ -2237,9 +2235,9 @@ checkaddfile (const char *file, const char *repository, const char *tag,
 		   this was added into the log message. */
 		t = time (NULL);
 		ct = gmtime (&t);
-		tmp = Xasprintf ("file %s was added on branch %s on %lld-%02d-%02d %02d:%02d:%02d +0000",
+		tmp = Xasprintf ("file %s was added on branch %s on %ld-%02d-%02d %02d:%02d:%02d +0000",
 				 file, tag,
-				 (int64_t)ct->tm_year
+				 (long)ct->tm_year
 				  + (ct->tm_year < 100 ? 0 : 1900),
 				 ct->tm_mon + 1, ct->tm_mday,
 				 ct->tm_hour, ct->tm_min, ct->tm_sec);

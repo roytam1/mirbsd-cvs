@@ -1,5 +1,3 @@
-/* $MirOS: src/gnu/usr.bin/cvs/src/update.c,v 1.3 2005/04/19 20:58:22 tg Exp $ */
-
 /*
  * Copyright (C) 1986-2005 The Free Software Foundation, Inc.
  *
@@ -52,6 +50,8 @@
 #include "getline.h"
 #include "buffer.h"
 #include "hardlink.h"
+
+__RCSID("$MirOS$");
 
 static int checkout_file (struct file_info *finfo, Vers_TS *vers_ts,
 				 int adding, int merging, int update_server);

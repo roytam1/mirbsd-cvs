@@ -1,7 +1,16 @@
-$MirOS$
---- src/parseinfo.c.orig	Tue Sep  6 04:40:15 2005
-+++ src/parseinfo.c	Mon Oct  2 04:40:37 2006
-@@ -230,7 +230,7 @@ readSizeT (const char *infopath, const c
+$MirOS: ports/devel/cvs/patches/patch-src_parseinfo_c,v 1.1 2006/10/02 05:59:17 tg Exp $
+--- src/parseinfo.c.orig	Sat Mar 10 23:14:20 2007
++++ src/parseinfo.c	Sat Mar 10 23:14:14 2007
+@@ -15,6 +15,8 @@
+ #include "getline.h"
+ #include "history.h"
+ 
++__RCSID("$MirOS$");
++
+ /*
+  * Parse the INFOFILE file for the specified REPOSITORY.  Invoke CALLPROC for
+  * the first line in the file that matches the REPOSITORY, or if ALL != 0, any
+@@ -230,7 +232,7 @@ readSizeT (const char *infopath, const c
  	return true;
      }
  
@@ -10,7 +19,7 @@ $MirOS$
      if (!isdigit (p[strlen(p) - 1]))
      {
  	switch (p[strlen(p) - 1])
-@@ -241,7 +241,7 @@ readSizeT (const char *infopath, const c
+@@ -241,7 +243,7 @@ readSizeT (const char *infopath, const c
  		factor = xtimes (factor, 1024);
  	    case 'M':
  		factor = xtimes (factor, 1024);
@@ -19,28 +28,28 @@ $MirOS$
  		factor = xtimes (factor, 1024);
  		break;
  	    default:
-@@ -250,7 +250,7 @@ readSizeT (const char *infopath, const c
+@@ -250,7 +252,7 @@ readSizeT (const char *infopath, const c
  		       infopath, option, p[strlen(p)]);
  		return false;
  	}
 -	TRACE (TRACE_DATA, "readSizeT(): Found factor %u for %s",
-+	TRACE (TRACE_DATA, "readSizeT(): Found factor %lu for %s",
++	TRACE (TRACE_DATA, "readSizeT(): Found factor %zu for %s",
  	       factor, option);
      }
  
-@@ -274,9 +274,9 @@ readSizeT (const char *infopath, const c
+@@ -274,9 +276,9 @@ readSizeT (const char *infopath, const c
  	/* Don't return an error, just max out.  */
  	num = SIZE_MAX;
  
 -    TRACE (TRACE_DATA, "readSizeT(): read number %u for %s", num, option);
-+    TRACE (TRACE_DATA, "readSizeT(): read number %lu for %s", num, option);
++    TRACE (TRACE_DATA, "readSizeT(): read number %zu for %s", num, option);
      *val = xtimes (strtoul (p, NULL, 10), factor);
 -    TRACE (TRACE_DATA, "readSizeT(): returnning %u for %s", *val, option);
-+    TRACE (TRACE_DATA, "readSizeT(): returnning %lu for %s", *val, option);
++    TRACE (TRACE_DATA, "readSizeT(): returnning %zu for %s", *val, option);
      return true;
  }
  
-@@ -298,7 +298,7 @@ new_config (void)
+@@ -298,7 +300,7 @@ new_config (void)
      new->MaxCompressionLevel = 9;
  #endif /* SERVER_SUPPORT */
  #ifdef PROXY_SUPPORT
@@ -49,7 +58,7 @@ $MirOS$
                                                            * by default.
                                                            */
  #endif /* PROXY_SUPPORT */
-@@ -392,6 +392,9 @@ parse_config (const char *cvsroot, const
+@@ -392,6 +394,9 @@ parse_config (const char *cvsroot, const
       */
      bool processing = true;
      bool processed = true;
@@ -59,7 +68,7 @@ $MirOS$
  
      TRACE (TRACE_FUNCTION, "parse_config (%s)", cvsroot);
  
-@@ -689,13 +692,29 @@ parse_config (const char *cvsroot, const
+@@ -689,13 +694,29 @@ parse_config (const char *cvsroot, const
  	    readBool (infopath, "UseArchiveCommentLeader", p,
  		      &retval->UseArchiveCommentLeader);
  #ifdef SERVER_SUPPORT

@@ -1,5 +1,3 @@
-/* $MirOS: src/gnu/usr.bin/cvs/src/parseinfo.c,v 1.6 2006/09/21 21:48:37 tg Exp $ */
-
 /*
  * Copyright (C) 1986-2005 The Free Software Foundation, Inc.
  *
@@ -16,6 +14,8 @@
 #include "cvs.h"
 #include "getline.h"
 #include "history.h"
+
+__RCSID("$MirOS$");
 
 /*
  * Parse the INFOFILE file for the specified REPOSITORY.  Invoke CALLPROC for

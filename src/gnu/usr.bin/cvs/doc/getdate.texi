@@ -1,5 +1,5 @@
 @c GNU date syntax documentation
-@c $MirOS: src/gnu/usr.bin/cvs/doc/getdate.texi,v 1.3 2005/04/19 20:58:16 tg Exp $
+@c $MirOS: ports/devel/cvs/patches/patch-doc_getdate_texi,v 1.1 2006/10/02 05:59:15 tg Exp $
 
 @c Copyright (C) 1994, 1995, 1996, 1997, 1998, 1999, 2000, 2001, 2002,
 @c 2003, 2004, 2005 Free Software Foundation, Inc.
@@ -523,4 +523,4 @@ version of the @acronym{GNU} coreutils manual which is not yet
 restricted by the licencing conditions of the GNU Free Documentation
 License, but more freely redistributable.  Appropriate changes for
 the in-tree @code{get_date} version of CVS have been applied.
-The MirOS version is maintained by Thorsten Glaser @email{tg@@66h.42h.de}.
+The MirOS version is maintained by Thorsten Glaser @email{tg@@mirbsd.de}.

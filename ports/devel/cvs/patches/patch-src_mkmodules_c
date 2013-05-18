@@ -1,7 +1,16 @@
-$MirOS$
---- src/mkmodules.c.orig	Tue May 24 20:58:39 2005
-+++ src/mkmodules.c	Mon Oct  2 04:40:37 2006
-@@ -68,6 +68,7 @@ static const char *const loginfo_content
+$MirOS: ports/devel/cvs/patches/patch-src_mkmodules_c,v 1.1 2006/10/02 05:59:17 tg Exp $
+--- src/mkmodules.c.orig	Sat Mar 10 23:14:20 2007
++++ src/mkmodules.c	Sat Mar 10 23:14:14 2007
+@@ -15,6 +15,8 @@
+ #include "history.h"
+ #include "save-cwd.h"
+ 
++__RCSID("$MirOS: src/gnu/usr.bin/cvs/src/mkmodules.c,v 1.6 2005/12/05 22:12:48 tg Exp $");
++
+ #ifndef DBLKSIZ
+ #define	DBLKSIZ	4096			/* since GNU ndbm doesn't define it */
+ #endif
+@@ -68,6 +70,7 @@ static const char *const loginfo_content
      "# If any format strings are present in the filter, they will be replaced\n",
      "# as follows:\n",
      "#    %c = canonical name of the command being executed\n",
@@ -9,7 +18,7 @@ $MirOS$
  #ifdef PROXY_SUPPORT
      "#    %R = the name of the referrer, if any, otherwise the value NONE\n",
  #endif
-@@ -131,6 +132,7 @@ static const char *const verifymsg_conte
+@@ -131,6 +134,7 @@ static const char *const verifymsg_conte
      "#\n",
      "# Format strings present in the filter will be replaced as follows:\n",
      "#    %c = canonical name of the command being executed\n",
@@ -17,7 +26,7 @@ $MirOS$
  #ifdef PROXY_SUPPORT
      "#    %R = the name of the referrer, if any, otherwise the value NONE\n",
  #endif
-@@ -163,6 +165,7 @@ static const char *const commitinfo_cont
+@@ -163,6 +167,7 @@ static const char *const commitinfo_cont
      "#\n",
      "# Format strings present in the filter will be replaced as follows:\n",
      "#    %c = canonical name of the command being executed\n",
@@ -25,7 +34,7 @@ $MirOS$
  #ifdef PROXY_SUPPORT
      "#    %R = the name of the referrer, if any, otherwise the value NONE\n",
  #endif
-@@ -199,6 +202,7 @@ static const char *const taginfo_content
+@@ -199,6 +204,7 @@ static const char *const taginfo_content
      "#                     | \"N\" (not branch)\n",
      "#    %o = operation = \"add\" | \"mov\" | \"del\"\n",
      "#    %c = canonical name of the command being executed\n",
@@ -33,7 +42,7 @@ $MirOS$
  #ifdef PROXY_SUPPORT
      "#    %R = the name of the referrer, if any, otherwise the value NONE\n",
  #endif
-@@ -245,6 +249,7 @@ static const char *const preproxy_conten
+@@ -245,6 +251,7 @@ static const char *const preproxy_conten
      "# If any format strings are present in the filter, they will be replaced\n",
      "# as follows:\n",
      "#    %c = canonical name of the command being executed\n",
@@ -41,7 +50,7 @@ $MirOS$
  #ifdef PROXY_SUPPORT
      "#    %R = the name of the referrer, if any, otherwise the value NONE\n",
  #endif
-@@ -271,6 +276,7 @@ static const char *const postadmin_conte
+@@ -271,6 +278,7 @@ static const char *const postadmin_conte
      "# If any format strings are present in the filter, they will be replaced\n",
      "# as follows:\n",
      "#    %c = canonical name of the command being executed\n",
@@ -49,7 +58,7 @@ $MirOS$
  #ifdef PROXY_SUPPORT
      "#    %R = the name of the referrer, if any, otherwise the value NONE\n",
  #endif
-@@ -299,6 +305,7 @@ static const char *const postproxy_conte
+@@ -299,6 +307,7 @@ static const char *const postproxy_conte
      "# If any format strings are present in the filter, they will be replaced\n",
      "# as follows:\n",
      "#    %c = canonical name of the command being executed\n",
@@ -57,7 +66,7 @@ $MirOS$
  #ifdef PROXY_SUPPORT
      "#    %R = the name of the referrer, if any, otherwise the value NONE\n",
  #endif
-@@ -328,6 +335,7 @@ static const char *const posttag_content
+@@ -328,6 +337,7 @@ static const char *const posttag_content
      "#                     | \"N\" (not branch)\n",
      "#    %o = operation = \"add\" | \"mov\" | \"del\"\n",
      "#    %c = canonical name of the command being executed\n",
@@ -65,7 +74,7 @@ $MirOS$
  #ifdef PROXY_SUPPORT
      "#    %R = the name of the referrer, if any, otherwise the value NONE\n",
  #endif
-@@ -368,6 +376,7 @@ static const char *const postwatch_conte
+@@ -368,6 +378,7 @@ static const char *const postwatch_conte
      "# If any format strings are present in the filter, they will be replaced\n",
      "# as follows:\n",
      "#    %c = canonical name of the command being executed\n",
@@ -73,7 +82,7 @@ $MirOS$
  #ifdef PROXY_SUPPORT
      "#    %R = the name of the referrer, if any, otherwise the value NONE\n",
  #endif
-@@ -446,6 +455,7 @@ static const char *const notify_contents
+@@ -446,6 +457,7 @@ static const char *const notify_contents
      "#\n",
      "# format strings are replaceed as follows:\n",
      "#    %c = canonical name of the command being executed\n",
@@ -81,7 +90,7 @@ $MirOS$
  #ifdef PROXY_SUPPORT
      "#    %R = the name of the referrer, if any, otherwise the value NONE\n",
  #endif
-@@ -489,67 +499,67 @@ static const char *const modules_content
+@@ -489,67 +501,67 @@ static const char *const modules_content
  };
  
  static const char *const config_contents[] = {
@@ -171,7 +180,7 @@ $MirOS$
      "# establishing one or more read-only mirrors which serve as proxies for\n",
      "# the write server in write mode or redirect the client to the primary for\n",
      "# write requests.\n",
-@@ -558,13 +568,13 @@ static const char *const config_contents
+@@ -558,13 +570,13 @@ static const char *const config_contents
      "#\n",
      "#   PrimaryServer=:fork:localhost/cvsroot\n",
      "\n",
@@ -189,7 +198,7 @@ $MirOS$
      "#\n",
      "# High values for MaxProxyBufferSize may speed up a secondary server\n",
      "# with old hardware and a lot of available memory but can actually slow a\n",
-@@ -575,23 +585,23 @@ static const char *const config_contents
+@@ -575,23 +587,23 @@ static const char *const config_contents
      "#   MaxProxyBufferSize=1G\n",
  #endif /* PROXY_SUPPORT */
      "\n",
@@ -220,7 +229,7 @@ $MirOS$
      "#\n",
      "# For example:\n",
      "#\n",
-@@ -816,7 +826,7 @@ mkmodules (char *dir)
+@@ -816,7 +828,7 @@ mkmodules (char *dir)
      }
  
      if (restore_cwd (&cwd))
@@ -229,7 +238,7 @@ $MirOS$
  	       cwd.name);
      free_cwd (&cwd);
  
-@@ -878,7 +888,7 @@ checkout_file (char *file, char *temp)
+@@ -878,7 +890,7 @@ checkout_file (char *file, char *temp)
      {
  	/* Probably not necessary (?); RCS_parsercsfile already printed a
  	   message.  */
@@ -238,7 +247,7 @@ $MirOS$
  	free (rcs);
  	return 1;
      }
-@@ -962,20 +972,22 @@ write_dbmfile( char *temp )
+@@ -962,20 +974,22 @@ write_dbmfile( char *temp )
  	    key.dptr = vp;
  	    while (*vp && !isspace ((unsigned char) *vp))
  		vp++;

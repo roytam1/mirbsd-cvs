@@ -1,5 +1,3 @@
-/* $MirOS: src/gnu/usr.bin/cvs/lib/vasnprintf.c,v 1.3 2005/04/19 20:58:17 tg Exp $ */
-
 /* vsprintf with automatic memory allocation.
    Copyright (C) 1999, 2002-2005 Free Software Foundation, Inc.
 
@@ -54,8 +52,6 @@
 
 /* Checked size_t computations.  */
 #include "xsize.h"
-
-__RCSID("$MirOS: src/gnu/usr.bin/cvs/lib/vasnprintf.c,v 1.3 2005/04/19 20:58:17 tg Exp $");
 
 /* Some systems, like OSF/1 4.0 and Woe32, don't have EOVERFLOW.  */
 #ifndef EOVERFLOW

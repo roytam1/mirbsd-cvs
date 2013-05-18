@@ -1,5 +1,3 @@
-/* $MirOS$ */
-
 /* Three way file comparison program (diff3) for Project GNU.
    Copyright (C) 1988, 1989, 1992, 1993, 1994, 1997, 1998 Free Software Foundation, Inc.
 
@@ -24,7 +22,7 @@
 #include "getopt.h"
 #include "diffrun.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/gnu/usr.bin/cvs/diff/diff3.c,v 1.2 2005/03/13 15:50:31 tg Exp $");
 
 /* diff3.c has a real initialize_main function. */
 #ifdef initialize_main

@@ -1,8 +1,8 @@
-# $MirOS: src/gnu/usr.bin/cvs/Makefile.bsd-wrapper,v 1.7 2006/10/02 04:19:42 tg Exp $
+# $MirOS: src/gnu/usr.bin/cvs/Makefile.bsd-wrapper,v 1.8 2007/02/17 03:22:32 tg Exp $
 # $OpenBSD: Makefile.bsd-wrapper,v 1.44 2004/01/02 09:01:24 millert Exp $
 
-# MirOS patchlevel
-FSFMARGS+=	MIROS_BASE_EXTRA_CFLAGS=-D\'PACKAGE_STRINGADD=\"-09AC\"\'
+# MirOS patchlevel – in sync with MirPorts-2 rev.
+FSFMARGS+=	MIROS_BASE_EXTRA_CFLAGS=-D\'PACKAGE_STRINGADD=\"-0A10\"\'
 
 # ATTN: see below
 
@@ -17,6 +17,7 @@ CFARGS=	--prefix=/usr --mandir=/usr/share/man --datadir=/usr/libexec \
 	--disable-old-info-format-support --with-rsh=/usr/bin/ssh \
 	--with-editor=/bin/ed --with-tmpdir=/var/tmp --with-umask=002 \
 	--with-cvs-admin-group=_cvsadmin --enable-config-override=no
+CFVARS+=ac_cv_sys_long_file_names=yes
 XARGS=	ZLIB_LIBS=-lz
 
 .include <bsd.own.mk>
