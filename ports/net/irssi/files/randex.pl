@@ -21,11 +21,11 @@
 
 use vars qw($VERSION %IRSSI);
 $VERSION = sprintf "%d.%02d",
-    q$MirOS: ports/net/irssi/files/randex.pl,v 1.7 2008/07/25 13:45:01 tg Exp $
+    q$MirOS: ports/net/irssi/files/randex.pl,v 1.8 2008/12/02 20:44:29 tg Exp $
     =~ m/,v (\d+)\.(\d+) /;
 %IRSSI = (
 	authors		=> 'Thorsten Glaser',
-	contact		=> 'tg@mirbsd.de',
+	contact		=> 'tg@mirbsd.org',
 	name		=> 'randex',
 	description	=> 'implement MirSirc\'s randex protocol',
 	license		=> 'MirOS',
@@ -47,7 +47,7 @@ cmd_randex
 {
 	my ($data, $server, $witem) = @_;
 	my $recip = undef;
-	my $towho;
+	my $towho = "";
 	my $s;
 
 	if (!$server || !$server->{connected}) {
@@ -55,10 +55,10 @@ cmd_randex
 		return;
 	}
 
-	if ($data && ($data ne "*")) {
+	($towho) = split(' ', $data) if ($data);
+	if ($data && ($towho ne "*")) {
 		$recip = $server;
-		$towho = $data;
-	} elsif (($witem && ($witem->{type} eq "QUERY")) || ($data eq "*")) {
+	} elsif (($witem && ($witem->{type} eq "QUERY")) || ($towho eq "*")) {
 		$recip = $witem->{server};
 		$towho = $witem->{name};
 	}
@@ -67,7 +67,8 @@ cmd_randex
 		return;
 	}
 
-	$s = pack("u", arc4random_bytes(32, "for $towho"));
+	$data = "" unless ($data);
+	$s = pack("u", arc4random_bytes(32, "to $towho for $data"));
 	chop($s);
 	$recip->send_raw("PRIVMSG ${towho} :\caENTROPY ${s}\ca");
 	Irssi::print("Initiating the RANDEX protocol with ${towho}")
