@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.353 2010/08/15 00:54:34 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.354 2010/08/15 12:58:27 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -1052,6 +1052,9 @@ exec /usr/bin/ld "${args[@]}"</pre>
   arc4random API, which we no longer call), so don’t provide it from
   <tt>Build.sh</tt> any longer</li>
  <li>[tg, tonnerre] Scan for <tt>uint8_t</tt> and provide if not found</li>
+ <li>[tg] Fix realpath builtin for “/file/” arguments wrt. POSIX</li>
+ <li>[tg] Do not generate &lt;stdint.h&gt; from Build.sh as file any more
+  if it is missing; rather let sh.h define the types appropriately</li>
 </ul>
 <p id="r39c">mksh R39c is an important minor bugfix release:</p><ul>
  <li>[tg] Build system, code, docs and testsuite cleanup, also style(9)</li>
