@@ -1,5 +1,5 @@
 <!-- PageID: wlog-8 -->
-<small class="rcsid">$MirOS: www/content/d2xvZy04.inc,v 1.86 2006/06/17 16:35:39 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy04.inc,v 1.87 2006/06/17 22:17:54 tg Exp $</small>
 <h1>MirBSD &ndash; WTF, We Have a Release!?</h1>
 <p><small><a href="#eof">bottom</a> or <a href="/?older">older</a>
  editions</small></p>
@@ -1508,6 +1508,41 @@ celebrate this event, rotate the wlog and start a new one.</p>
   perl, all the stuff you can't cross-build, and ports.</p>
  <p>I also gave up on the amd64, macppc and pmax ports. We're restricted
   to i386 and sparc for now, due to lack of resources.</p>
+</div>
+
+<div class="wlentry">
+ <h3 id="e20060618"><small>still counts as</small>18.06.2006 by tg@</h3>
+ <p>Today's entry is not a wlog but a blog entry, sorry people, but wbx@
+  prodded (provoked too) me after an 18-hour hacking session to write <a
+  href="http://www.freewrt.org/index.php?blog/show/3">about FreeWRT been
+  cross-built</a>. Guess: Which host operating system, target OS editor,
+  shell? (You probably already know without reading that blog entry.)</p>
+ <p>MirOS also profited from it &ndash; fixed a corner case in $PS1 home
+  directory to tilde character (bash-like) expansion.</p>
+ <p>Now I have <strong>two</strong> operating systems to take care of at
+  MARC, GMane, OSnews, DistroWatch, Freshmeat, Slashdot (no longer since
+  they're not lynx-compatible any more), Symlink, and whatnot. Damn!</p>
+ <p>wbx@ will regret it some day to have me as core developer&#8230; I'm
+  the first one to write an UTF-8 commit message and compiling an editor
+  with UTF-8 support although that is globally disabled also goes to me.
+  I also named patches &quot;interestingly&quot; and cursed almost every
+  other project in the world, mostly Linux, but also GNU, OpenWrt, and a
+  few other entities, as well as both hard- and software, in today's svn
+  commit messages. And that only was the first day&#8230; I already have
+  been thinking about evil plans with entropy, arcfour, openntpd, and an
+  astonishing number of other things I already forgot.</p>
+ <p>Note to self: <a href="http://mirbsd.de/mksh">mksh</a>'s Build.sh is
+  not designed for cross-compilations. Almost as evil as pppd(8). Fix it
+  for the next major release.</p>
+ <p>&Agrave; propos Subversion: It is as shitty as CVS, only slower. I'm
+  serious. I really mean it. I mean, I've ranted a lot about svn before,
+  but now that I've actually used it&#8230; it's not gotten better. It's
+  really slow and sucks. Rather the contrary. Well, it can do renames or
+  moves, right? Thanks, I'd rather have working $FreeWRT$ expansion than
+  that (yes). Oh, and please, could we set that globally instead of have
+  it being made a property of every single fucking file in existence and
+  having to take special care for newly-added files? CVS rules seriously
+  (I'm positive now).</p>
 </div>
 
 <p id="eof">Good luck, have fun, take care etc.pp</p>
