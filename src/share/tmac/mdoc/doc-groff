@@ -1,7 +1,7 @@
-.\" $MirOS: src/share/tmac/mdoc/doc-groff,v 1.2 2008/03/23 22:03:11 tg Exp $
+.\" $MirOS: src/share/tmac/mdoc/doc-groff,v 1.3 2008/12/17 20:18:03 tg Exp $
 .\"-
 .\" Copyright (c) 2008
-.\"	Thorsten Glaser <tg@mirbsd.de>
+.\"	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
 .\"
 .\" Provided that these terms and disclaimer and all copyright notices
 .\" are retained or reproduced in an accompanying document, permission
@@ -21,8 +21,6 @@
 .\" After doc-nroff has run, change some characters to GNU groff vers.
 .\" To debug UTF-8, run gnroff with -rD1 (we will use only ascii chars
 .\" then), otherwise Unicode quotation marks shall be emitted.
-.\"
-.\"	%beginstrip%
 .\"-
 .\" for tty devices only: \- gives out U+2212 (−) normally, but we
 .\" want U+002D (-) for copy’n’paste capability in manual pages
@@ -49,7 +47,17 @@
 .	if \*[.T]ps .ds sL `
 .\" sR is normally ', which renders to ’, this is okay
 .\}
+.\"-
+.\" Try to make GNU groff and AT&T nroff more compatible
+.\" * ` generates ‘ in groff, so use \`
+.\" * ' generates ’ in groff, \' generates ´, so use \*(aq
+.\" * - generates ‐ in groff, \- generates −, see above (instead of −)
+.\"   thus use - for hyphens and \- for minus signs and option dashes
+.\" * ~ is size-reduced and placed atop in groff, so use \*(TI
+.\" * ^ is size-reduced and placed atop in groff, so use \*(ha
+.\" * \(en does not work in nroff, so use \*(en
 .\"
-.\"	You might want to look at src/bin/mksh/mksh.1 for more
-.\"	changes required to make manual pages look good in GNU
-.\"	groff (utf8 and ps modes) as well as AT&T nroff
+.ds aq \(aq
+.ds TI \(ti
+.ds ha \(ha
+.ds en \(en

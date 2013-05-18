@@ -1,15 +1,31 @@
-.\" $MirOS: contrib/samples/portmdoc,v 1.2 2008/03/14 16:45:59 tg Exp $
+.\" $MirOS: contrib/samples/portmdoc,v 1.3 2008/03/14 17:07:41 tg Exp $
+.\"-
+.\" Copyright (c) 2008
+.\"	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
 .\"-
 .\" Try to make GNU groff and AT&T nroff more compatible
-.\" * ` generates ‘ in groff, so use \`
-.\" * ' generates ’ in groff, \' generates ´, so use \*(aq
-.\" * - generates ‐ in groff, \- generates −, fixed in tmac/mdoc/doc-groff
+.\" * ` generates ‘ in gnroff, so use \`
+.\" * ' generates ’ in gnroff, \' generates ´, so use \*(aq
+.\" * - generates ‐ in gnroff, \- generates −, so .tr it to -
 .\"   thus use - for hyphens and \- for minus signs and option dashes
 .\" * ~ is size-reduced and placed atop in groff, so use \*(TI
 .\" * ^ is size-reduced and placed atop in groff, so use \*(ha
 .\" * \(en does not work in nroff, so use \*(en
 .\"
 .ie \n(.g \{\
+.	if \*[.T]ascii .tr \-\N'45'
+.	if \*[.T]latin1 .tr \-\N'45'
+.	if \*[.T]utf8 .tr \-\N'45'
+.	ds <= \[<=]
+.	ds >= \[>=]
+.	ds Rq \[rq]
+.	ds Lq \[lq]
+.	ds sL \(aq
+.	ds sR \(aq
+.	if \*[.T]utf8 .ds sL `
+.	if \*[.T]ps .ds sL `
+.	if \*[.T]utf8 .ds sR '
+.	if \*[.T]ps .ds sR '
 .	ds aq \(aq
 .	ds TI \(ti
 .	ds ha \(ha
