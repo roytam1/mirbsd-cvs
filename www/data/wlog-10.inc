@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.176 2009/03/29 17:45:54 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.177 2009/03/29 22:37:30 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -3690,4 +3690,16 @@ Tag: bug mksh
 <p>I don't remember any more what NetBSD® 1.5 did that its <tt>/bin/sh</tt>
  could not be replaced by mksh, but they fixed it in 1.6 &ndash; Kubuntu
  (the LTS version) fscks up similarily...</p>
+----
+Date: 05.04.2009 12:16
+Author: tg@
+Title:
+Tag: mksh
+
+<p><a href="http://www.midnightbsd.org/">laffer1</a> remembered me of <a
+ href="@@RELPATH@@permalinks/wlog-10_e20080712-bsiegert.htm">Benny’s</a>
+ Apple bug report about <a href="@@RELPATH@@mksh.htm">mksh</a> inclusion
+ into their base system. He also did it back then, as requested, and the
+ bug #6735470 would be the result. Unfortunately, one still cannot get a
+ publicly accessible version of them.</p>
 ----
