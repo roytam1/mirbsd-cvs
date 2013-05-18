@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.375 2011/12/28 23:19:07 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.376 2012/01/05 21:22:13 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -8877,7 +8877,7 @@ Tag: news snapshot
  have updates, e.g. <a href="@@RELPATH@@jupp.htm#bins">the latest
  Jupp/Win32 release</a>, or fixes in CVS.</p>
 ----
-Date: 05.01.2012 21:22
+Date: 05.01.2012 21:41
 Author: tg@
 Title: Clone a disc with progress indicator
 Tag: debian pcli tip
@@ -8890,7 +8890,7 @@ Tag: debian pcli tip
  <pre>
 	dd if=/dev/mapper/vg01-${customername}--hudson bs=1048576 | \
 	    pv -pter -B 1048576 -s 85899345920 | \
-	    xz -0 >/mnt/ci-${customername}-snap-20120105-lenny.img.xz
+	    xz -0 &gt;/mnt/ci-${customername}-snap-20120105-lenny.img.xz
  </pre>
 </div><p class="boxfoot">I used this At wOrk today to back up a Jenkins VM
  before upgrading its underlying operating system for evaluation. Here, the
@@ -8901,4 +8901,5 @@ Tag: debian pcli tip
  gzip(1)-only systems. (Except that it’s not under an Open Source licence.)</p>
 <p><a href="http://sourceforge.net/projects/clpbar/">clpbar</a> might also
  be worth looking into. XTaran points out sid has this as bar.</p>
+<p>PS: Last of June, 2012, will be a leap second.</p>
 ----
