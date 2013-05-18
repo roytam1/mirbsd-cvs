@@ -42,7 +42,7 @@
  */
 
 static const char __rcsid[] =
-    "$MirOS: contrib/hosted/tg/code/xchat-randex/main.c,v 1.4 2009/06/06 13:43:04 tg Stab $";
+    "$MirOS: contrib/hosted/tg/code/xchat-randex/main.c,v 1.7 2009/08/02 15:10:16 tg Exp $";
 
 #include <sys/types.h>
 #if defined(HAVE_STDINT_H) && HAVE_STDINT_H
@@ -373,12 +373,15 @@ cmdfn_randfile(char *word[], char *word_eol[], void *user_data)
 		return (XCHAT_EAT_XCHAT);
 	}
 
+	(void)arc4random();
+
 	if ((f = fopen(fn, "rb")) != NULL) {
 		do {
 			if ((n = fread(pb, 1, sizeof(pb), f)))
 				arc4random_addrandom((void *)pb, n);
 		} while (n);
 		fclose(f);
+		(void)arc4random();
 	}
 
 	if ((f = fopen(fn, "wb")) != NULL) {
@@ -392,6 +395,7 @@ cmdfn_randfile(char *word[], char *word_eol[], void *user_data)
 			xchat_printf(ph, "Write error: %u/%u to %s\n",
 			    (unsigned)n, (unsigned)sizeof(pb), fn);
 		fclose(f);
+		(void)arc4random();
 	} else
 		xchat_printf(ph, "Could not open %s for writing!\n", fn);
 

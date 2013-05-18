@@ -8,5 +8,27 @@ Notes:
 
   This file is required at least on Win32 and some GNU platforms.
 
+Supported commands (with examples):
+
+* /RANDEX nick
+  /RANDEX #channel
+  /RANDEX *
+
+  Initiate the RANDEX protocol with the nick/channel given, or
+  the current channel ('*')
+
+* /RANDFILE C:\PUTTY.RNG
+
+  Read the file into the entropy pool, then save 256 bytes of
+  entropy into that file.
+
+* /RANDSTIR
+
+  Stir the pool, i.e. request new entropy from the kernel.
+
+* /RANDOM
+
+  Display a 32-bit random number (hexadecimal and decimal).
+
 _____________________________________________________________________________________
-$MirOS$
+$MirOS: contrib/hosted/tg/code/xchat-randex/README,v 1.1 2009/08/01 13:37:15 tg Exp $
