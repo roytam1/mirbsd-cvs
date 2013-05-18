@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/sys.mk,v 1.134 2008/11/01 21:45:38 tg Exp $
+# $MirOS: src/share/mk/sys.mk,v 1.135 2008/11/09 23:45:50 tg Exp $
 # $OpenBSD: sys.mk,v 1.45 2005/03/07 00:06:00 deraadt Exp $
 # $NetBSD: sys.mk,v 1.27 1996/04/10 05:47:19 mycroft Exp $
 # @(#)sys.mk	5.11 (Berkeley) 3/13/91
@@ -21,7 +21,7 @@ OStype=		MirBSD
 # Sync these with <sys/param.h>
 unix=		We run ${OStype}.
 OSrev=		10		# MirOS version (major)
-OSrpl=		162		# MirOS patchlevel
+OSrpl=		163		# MirOS patchlevel
 OScompat=	3.5		# OpenBSD compatibility revision
 .if !defined(OSNAME) || empty(OSNAME)
 OSNAME!=	uname -s
@@ -29,9 +29,9 @@ OSNAME!=	uname -s
 OSname=		${OSNAME:L}
 OStriplet?=	${MACHINE_ARCH}-ecce-${OSname}${OSrev}
 _MIRMAKE_EXE=	/usr/bin/make
-_MIRMAKE_VER=	20081109
+_MIRMAKE_VER=	20081110
 
-.SUFFIXES:	.out .a .ln .o .lo .s .S .c .m .cc .C .cxx .cpp .y .l .i .h .sh .m4
+.SUFFIXES:	.out .a .ln .o .lo .s .S .c .m .cc .C .cxx .cpp .F .f .y .l .i .h .sh .m4
 .LIBS:		.a
 
 AR?=		ar
@@ -61,6 +61,13 @@ CXX?=		c++
 CXXFLAGS?=	${CFLAGS:N-std=c99:N-std=gnu99}
 COMPILE.cc?=	${CXX} ${CXXFLAGS:M*} ${CPPFLAGS} -c
 LINK.cc?=	${CXX} ${CXXFLAGS:M*} ${CPPFLAGS} ${LDFLAGS}
+
+FC?=		llvm-gfortran
+FFLAGS?=	-O2
+COMPILE.f?=	${FC} ${FFLAGS:M*} -c
+LINK.f?=	${FC} ${FFLAGS:M*} ${LDFLAGS}
+COMPILE.F?=	${FC} ${FFLAGS:M*} -D_ASM_SOURCE ${CPPFLAGS} -c
+LINK.F?=	${FC} ${FFLAGS:M*} -D_ASM_SOURCE ${CPPFLAGS} ${LDFLAGS}
 
 LEX?=		lex
 LFLAGS?=
@@ -156,6 +163,27 @@ CTAGS?=		/usr/bin/ctags
 	${COMPILE.cc} ${CXXFLAGS_${.TARGET:.a=.o}:M*} ${.IMPSRC}
 .cpp.a:
 	${COMPILE.cc} ${CXXFLAGS_${.TARGET:S/.a$/.o/}:M*} ${.IMPSRC}
+	${AR} ${ARFLAGS} $@ $*.o
+	rm -f $*.o
+
+# Fortran
+.f:
+	${LINK.f} -o $@ ${.IMPSRC} ${LDLIBS}
+.f.o:
+	${COMPILE.f} ${FFLAGS_${.TARGET}:M*} ${.IMPSRC}
+.f.a:
+	${COMPILE.f} ${FFLAGS_${.TARGET:.a=.o}:M*} ${.IMPSRC}
+	${AR} ${ARFLAGS} $@ $*.o
+	rm -f $*.o
+
+.F:
+	${LINK.F} -o $@ ${.IMPSRC} ${LDLIBS}
+.F.o:
+	${COMPILE.F} ${FFLAGS_${.TARGET}:M*} ${.IMPSRC}
+.F.i:
+	${COMPILE.F} ${FFLAGS_${.TARGET:.i=.o}:M*} -o $@ -E ${.IMPSRC}
+.F.a:
+	${COMPILE.S} ${FFLAGS_${.TARGET:.a=.o}:M*} ${.IMPSRC}
 	${AR} ${ARFLAGS} $@ $*.o
 	rm -f $*.o
 

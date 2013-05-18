@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/bsd.lib.mk,v 1.76 2008/10/05 20:14:30 tg Exp $
+# $MirOS: src/share/mk/bsd.lib.mk,v 1.77 2008/10/27 21:12:19 tg Exp $
 # $OpenBSD: bsd.lib.mk,v 1.43 2004/09/20 18:52:38 espie Exp $
 # $NetBSD: bsd.lib.mk,v 1.67 1996/01/17 20:39:26 mycroft Exp $
 # @(#)bsd.lib.mk	5.26 (Berkeley) 5/2/91
@@ -63,6 +63,12 @@ SHLIB_LINKS?=
 LINKER?=	${LIBTOOL} --tag=CXX --mode=link ${CXX}
 .  else
 LINKER?=	${CXX}
+.  endif
+.elif !empty(SRCS:M*.F) || !empty(SRCS:M*.f)
+.  if ${LTMIRMAKE:L} == "yes"
+LINKER?=	${LIBTOOL} --tag=CC --mode=link ${FC}
+.  else
+LINKER?=	${FC}
 .  endif
 .else
 .  if ${LTMIRMAKE:L} == "yes"
