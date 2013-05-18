@@ -1,10 +1,8 @@
-/* $MirOS: src/usr.bin/oldroff/nroff/n2.c,v 1.6 2006/10/13 20:36:36 tg Exp $ */
-
 /*-
  * Copyright (c) 1979, 1980, 1981, 1986, 1988, 1990, 1991, 1992
  *     The Regents of the University of California.
  * Copyright (C) Caldera International Inc.  2001-2002.
- * Copyright (c) 2003, 2004, 2005
+ * Copyright (c) 2003, 2004, 2005, 2012
  *	Thorsten "mirabilos" Glaser <tg@mirbsd.org>
  * All rights reserved.
  *
@@ -57,7 +55,7 @@ extern
 jmp_buf sjbuf;
 
 __SCCSID("@(#)n2.c	4.2 (Berkeley) 4/18/91");
-__RCSID("$MirOS: src/usr.bin/oldroff/nroff/n2.c,v 1.6 2006/10/13 20:36:36 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/oldroff/nroff/n2.c,v 1.7 2008/11/08 23:04:41 tg Exp $");
 
 /*
 troff2.c
@@ -249,7 +247,7 @@ flusho(){
 				tcsetattr(1, TCSAFLUSH, &ttys);
 			}
 			{
-			char *p = t.twinit;
+			const char *p = t.twinit;
 			while (*p++)
 				;
 			write(ptid, t.twinit, p-t.twinit-1);

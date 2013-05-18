@@ -1,10 +1,8 @@
-/* $MirOS: src/usr.bin/oldroff/nroff/n10.c,v 1.5 2008/11/08 23:04:41 tg Exp $ */
-
 /*-
  * Copyright (c) 1979, 1980, 1981, 1986, 1988, 1990, 1991, 1992
  *     The Regents of the University of California.
  * Copyright (C) Caldera International Inc.  2001-2002.
- * Copyright (c) 2003, 2004, 2005, 2011
+ * Copyright (c) 2003, 2004, 2005, 2011, 2012
  *	Thorsten "mirabilos" Glaser <tg@mirbsd.org>
  * All rights reserved.
  *
@@ -53,7 +51,7 @@ extern
 #include "pathnames.h"
 
 __SCCSID("@(#)n10.c	4.6 (Berkeley) 4/18/91");
-__RCSID("$MirOS: src/usr.bin/oldroff/nroff/n10.c,v 1.5 2008/11/08 23:04:41 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/oldroff/nroff/n10.c,v 1.6 2011/07/16 15:13:39 tg Exp $");
 
 /*
 nroff10.c
@@ -91,7 +89,7 @@ int plotmode;
 
 ptinit(){
 	register i, j;
-	register char **p;
+	register const char **p;
 	char *q;
 	int x[8];
 	extern char *setbrk();
@@ -156,8 +154,8 @@ int i;
 ptout1()
 {
 	register i, k;
-	register char *codep;
-	extern char *plot();
+	register const char *codep;
+	extern const char *plot();
 	int *q, w, j, phyw, eightbit;
 
 	for(q=oline; q<olinep; q++){
@@ -223,11 +221,11 @@ ptout1()
 	if(!w)for(k=phyw/t.Char;k>0;k--)oput('\b');
 	}
 }
-char *plot(x)
+const char *plot(x)
 char *x;
 {
 	register int i;
-	register char *j, *k;
+	register const char *j, *k;
 
 	if(!plotmode)oputs(t.ploton);
 	k = x;
@@ -247,8 +245,8 @@ char *x;
 }
 move(){
 	register k;
-	register char *i, *j;
-	char *p, *q;
+	register const char *i, *j;
+	const char *p, *q;
 	int iesct, dt;
 
 	iesct = esct;
