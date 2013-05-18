@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: contrib/code/heartbeat/toolkit.mirdns/distribute.sh,v 1.5 2006/03/19 23:33:12 tg Exp $
+# $MirOS: contrib/code/heartbeat/toolkit.mirdns/distribute.sh,v 1.6 2006/03/20 00:26:40 tg Exp $
 #-
 # Copyright (c) 2004, 2005, 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -41,11 +41,8 @@ cd $tinydns
 if [[ -z $1 ]]; then
 	# master distributor
 	for m in N-*; do
-		if [[ -e $m ]]; then
-			${SHELL:-/bin/mksh} $0 $m >/dev/null 2>&1 &
-		else
-			exit 0
-		fi
+		[[ -e $m ]] || break
+		${SHELL:-/bin/mksh} $0 $m >/dev/null 2>&1 &
 	done
 	let rv=0
 	[[ -s Z-zones && -s Z-slaves ]] && for m in $(<Z-zones); do
