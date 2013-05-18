@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/bsd.sys.mk,v 1.19 2007/06/12 19:48:23 tg Exp $
+# $MirOS: src/share/mk/bsd.sys.mk,v 1.20 2008/08/01 15:35:14 tg Exp $
 # $OpenBSD: bsd.sys.mk,v 1.8 2000/07/06 23:12:41 millert Exp $
 # $NetBSD: bsd.sys.mk,v 1.2 1995/12/13 01:25:07 cgd Exp $
 
@@ -44,8 +44,8 @@ LDFLAGS+=	-Wl,-rpath-link -Wl,${DESTDIR}/usr/lib
 .if (!target(includes) || defined(BSD_SUBDIR_MK_NOINCLUDES)) && \
     (defined(BSD_PROG_MK) || defined(BSD_LIB_MK)) && \
     (defined(HDRS) || defined(HDRS2))
-HDRSRC?=${.CURDIR}
-HDRDST?=${DESTDIR}/usr/include
+HDRSRC?=	${.CURDIR}
+HDRDST?=	${DESTDIR}${BSD_PREFIX}/include
 
 afterincludes:
 includes: _includes afterincludes
