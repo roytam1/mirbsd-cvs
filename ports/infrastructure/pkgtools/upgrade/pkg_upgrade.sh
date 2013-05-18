@@ -1,5 +1,5 @@
 #!/usr/bin/env mksh
-# $MirOS: ports/infrastructure/pkgtools/upgrade/pkg_upgrade.sh,v 1.29 2007/07/22 19:48:01 bsiegert Exp $
+# $MirOS: ports/infrastructure/pkgtools/upgrade/pkg_upgrade.sh,v 1.30 2007/08/16 12:28:39 tg Exp $
 #-
 # Copyright (c) 2006, 2007
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -169,7 +169,12 @@ cd $cwd
 
 grep -q '^@option no-default-conflict' $TMPDIR/+CONTENTS
 if [[ $? -eq 0 || ( -z $OLDPKGS && $force = 1) ]]; then
-	OLDPKGS=$(awk '$1=="@pkgcfl" { system("pkg_info -e " $2) }' $TMPDIR/+CONTENTS)
+	OLDPKGS=
+	while read cmd arg rest; do
+		[[ $cmd = @pkgcfl ]] || continue
+		OLDPKGS=$(pkg_info -e "$arg")
+		[[ -z $OLDPKGS ]] || break
+	done <$TMPDIR/+CONTENTS
 fi
 
 if [[ -z "$OLDPKGS" ]]; then
