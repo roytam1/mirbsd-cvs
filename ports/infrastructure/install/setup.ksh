@@ -1,5 +1,5 @@
 #!/usr/bin/env mksh
-# $MirOS: ports/infrastructure/install/setup.ksh,v 1.88 2008/05/31 20:56:53 bsiegert Exp $
+# $MirOS: ports/infrastructure/install/setup.ksh,v 1.89 2008/10/05 16:10:04 tg Exp $
 #-
 # Copyright (c) 2005, 2008
 #	Thorsten “mirabilos” Glaser <tg@mirbsd.de>
@@ -67,7 +67,8 @@ function dependdist
 			sum=bad
 		fi
 	fi
-	test $sum != good || if gzsig verify -q $T/$f_key $f_dist 2>/dev/null; then
+	test $sum != good || test -z "$f_key" || \
+	    if gzsig verify -q $T/$f_key $f_dist 2>/dev/null; then
 		echo Note: cryptographically strong checksum verified successfully for $f_dist >&2
 		sum=verygood
 	fi
@@ -708,7 +709,7 @@ else
 		mkdir -p $T/pkgtools
 		cd $T/pkgtools
 		lndir $portsdir/infrastructure/pkgtools
-		f_ver=20070431	# hardcoded here, update manually and seldom
+		f_ver=20081108	# hardcoded here, update manually and seldom
 		app=-opt_t
 	fi
 	export LOCALBASE=$localbase PORTSDIR=$portsdir
