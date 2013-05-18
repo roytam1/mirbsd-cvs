@@ -1,4 +1,4 @@
-/* $MirOS: contrib/code/mirmake/dist/contrib/mirmake.h,v 1.37 2008/04/06 22:35:24 tg Exp $ */
+/* $MirOS: contrib/code/mirmake/dist/contrib/mirmake.h,v 1.38 2008/04/06 22:37:36 tg Exp $ */
 
 /*-
  * Copyright (c) 2005, 2006, 2008
@@ -230,6 +230,10 @@
 
 #ifdef _MIRMAKE_DEFNS
 __BEGIN_DECLS
+
+#if !defined(BSD) && !defined(__APPLE__)
+#include <stdio.h>	/* for FILE - C sucks here */
+#endif
 
 #if !defined(BSD) && !defined(__APPLE__)
 char *fgetln(FILE *, size_t *);
