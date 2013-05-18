@@ -1,4 +1,4 @@
-							MirOS BSD #10-beta
+							     MirOS BSD #10
 
 Setup CD for MirOS (i386 and sparc)
 ===================================
@@ -172,4 +172,4 @@ code is available at http://www.mirbsd.org/ and its mirrors; further
 information can be found at /usr/share/doc/legal/ as well.
 
 _______________________________________________________________________
-$MirOS: src/distrib/common/00-README,v 1.6 2007/03/08 09:01:58 tg Exp $
+$MirOS: src/distrib/common/00-README,v 1.7 2007/05/28 13:57:35 tg Exp $

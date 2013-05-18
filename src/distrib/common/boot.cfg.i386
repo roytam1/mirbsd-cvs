@@ -1,11 +1,11 @@
-# $MirOS: src/distrib/common/boot.cfg.i386,v 1.5 2007/03/08 09:01:58 tg Exp $
+# $MirOS: src/distrib/common/boot.cfg.i386,v 1.6 2007/03/18 06:19:38 tg Exp $
 #
 set image /v10/i386/bsd.rd
 set timeout 12
 echo
-echo ===============================================================
-echo # MirOS BSD #10-beta (i386) | (c) 2002-2007 The MirOS Project #
-echo ===============================================================
+echo ==========================================================
+echo # MirOS BSD #10 (i386) | (c) 2002-2007 The MirOS Project #
+echo ==========================================================
 echo
 echo To boot the MirOS installation system, from which you can
 echo install, upgrade, back up, or manually repair a MirOS sy-
