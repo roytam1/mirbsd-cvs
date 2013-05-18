@@ -1,11 +1,11 @@
-# $MirOS: www/src/mksh_old.hts,v 1.44 2011/10/16 01:15:23 tg Exp $
+# $MirOS: www/src/mksh_old.hts,v 1.45 2011/12/11 19:18:34 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/mksh/old "mksh – old versions"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh_old.hts,v 1.44 2011/10/16 01:15:23 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh_old.hts,v 1.45 2011/12/11 19:18:34 tg Exp $'
 mws_content <<'EOF'
 <h2><a href="mksh.htm">mksh</a> – old versions</h2>
 
@@ -1638,11 +1638,12 @@ mws_content <<'EOF'
 <li>bash-style multiline command line editing, as an option (the current
  horizontally scrolled one is finally (with R28) bug-free even with
  multiline and very long prompts optionally with embedded newlines,
- and more suitable for small terminals)</li>
+ and more suitable for small terminals) ‣ not portable w/o curses</li>
 <li>Ensure arithmetics are properly bound to <tt>mksh_ari_t</tt> and
  <tt>mksh_uari_t</tt> and offer switching to 64 bit, including as
  array index type, as a compile time option;
- seeing as some systems (DEC?) may not have a 64 bit type</li>
+ seeing as some systems (DEC?) may not have a 64 bit type
+ ‣ partially done with lksh</li>
 <li>Adding <tt>goto</tt> and <tt>label</tt> keywords/commands</li>
 <li>Can not [[ or (( yield the inode of a file, if we don’t get
  a stat(1) builtin? (For hashes by file.) Maybe make a builtin
@@ -1651,8 +1652,6 @@ mws_content <<'EOF'
 <li>for a b in …; do (like make(1) does)</li>
 <li>${foo:S/bar/baz/g} and maybe ${foo:C/bar/baz/x} via regex(3)</li>
 <li>A sensible website</li>
-<li>Mode for no input line editing at all (required for Plan 9)
- and no Emacs just Vi mode (requested by unknown at FOSDEM 2009 – yuck)</li>
 <li>Real Unicode command line editing code</li>
 <li>Real Unicode internal op – ${foo:2:3} now works with MirOS OPTU-8
  but having internal representation being MirOS OPTU-16 would help in
@@ -1660,9 +1659,7 @@ mws_content <<'EOF'
 <li><tt>/etc/mkshrc</tt> (maybe only if ~/.mkshrc does not exist,
  with similar rules; ENV=/ could be the magic "default" value;
  maybe go through $ENV -&gt; ~/.mkshrc -&gt; /etc/mkshrc by both
- existence and being &gt;0 bytes...</li>
-<li>An option to rot13 the mirtoconf output (build log scanners
- are Moste Annoying)</li>
+ existence and being &gt;0 bytes... ‣ probably rejected</li>
 </ul>
 EOF
 mws_putfooter

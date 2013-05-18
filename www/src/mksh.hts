@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.463 2012/07/20 22:09:49 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.464 2012/07/20 23:22:05 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -1152,6 +1152,9 @@ exec /usr/bin/ld "${args[@]}"</pre>
   in the same code wrt. completion display and other expansions</li>
  <li>[tg] Make quoted output of “typeset -p” AT&amp;T ksh93 compatible</li>
  <li>[tg] Implement <tt>${foo@Q}</tt> like <tt>${foo:Q}</tt> in make(1)</li>
+ <li>[tg] Remove some unused code; more int → bool conversion</li>
+ <li>[tg] Fix using here documents in COMSUB etc. (LP#1030581)</li>
+ <li>[tg] Implement ksh93 feature <tt>${ foo;}</tt>, see mksh(1) RTFM ☺</li>
 </ul>
 <p>Changes in the current (unreleased) stable branch:</p><ul>
  <li>[tg] Fix a bug in the manual page</li>
@@ -1466,6 +1469,7 @@ exec /usr/bin/ld "${args[@]}"</pre>
 <p><a href="mksh_old.htm#clog">older changes</a></p>
 
 <h2 id="plans">Future Plans</h2><ul>
+<li>bind keys of dynamic length ‣ begun in a branch</li>
 <li>dynamic input LINE length, instead of a hardcoded value at compile time</li>
 <li>cache optimised extglobs (especially for ${foo/bar/baz})</li>
 <li>typed variables; using ${var@?} more (JSON!)</li>
@@ -1477,12 +1481,10 @@ exec /usr/bin/ld "${args[@]}"</pre>
  Plan 9, Syllable – debug these</li>
 <li>Bugfix for suspending <tt>a &amp;&amp; b</tt> chain</li>
 <li>“process substitution” echo diff &lt;(echo 1) &lt;(echo 2) <a
- href="http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=606821">#606821</a></li>
+ href="http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=606821">#606821</a>
+ ‣ pretty hard, it turns out (parsing concept is done in tg@’s head)</li>
 <li>whence -p -a foo</li>
 <li>read -e (or something): use the edit.c stuff for inputting</li>
-<li>The ability to build mksh64 on some platforms, to use with legacy scripts
- requiring 64-bit arithmetics, not compatible to regular mksh to its users;
- probably on LP64 platforms only</li>
 <li><a href="mksh_old.htm#plans">older/unrealistic plans</a></li>
 <li>… such as a better website, more clearly arranged, etc…</li>
 </ul>
