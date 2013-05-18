@@ -1,7 +1,8 @@
-@comment $MirOS: ports/www/firesomething/pkg/PLIST,v 1.7 2008/05/21 12:23:24 tg Exp $
+@comment $MirOS: ports/www/firesomething/pkg/PLIST,v 1.7.2.1 2008/09/06 19:29:02 bsiegert Exp $
 @comment $OpenBSD: PLIST,v 1.13 2005/09/24 16:19:29 bernd Exp $
 @pkgcfl mozilla-firebird-*
 @pkgcfl mozilla-firefox-*
+bin/firefox
 bin/firesomething
 firesomething/.autoreg
 firesomething/README.txt
@@ -86,7 +87,7 @@ firesomething/defaults/profile/prefs.js
 firesomething/dictionaries/en-US.aff
 firesomething/dictionaries/en-US.dic
 firesomething/extensions/{972ce4c6-7e08-4474-a285-3208198ce6fd}/install.rdf
-firesomething/firefox
+firesomething/firesomething
 firesomething/firesomething-bin
 firesomething/greprefs/all.js
 firesomething/greprefs/security-prefs.js
@@ -1500,6 +1501,7 @@ share/idl/firefox-${VER}/unstable/xpcjsid.idl
 @dirrm firesomething/res/entityTables
 @dirrm firesomething/res/dtd
 @dirrm firesomething/res
+@dirrm firesomething/plugins
 @dirrm firesomething/modules
 @dirrm firesomething/icons
 @dirrm firesomething/greprefs

@@ -1,10 +1,10 @@
-# $MirOS: ports/www/firesomething/Makefile,v 1.28.2.1 2008/08/24 14:52:23 bsiegert Exp $
+# $MirOS: ports/www/firesomething/Makefile,v 1.28.2.2 2008/09/06 19:29:00 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.41 2005/11/15 09:21:52 wilfried Exp $
 
 ONLY_FOR_PLATFORM=	*:*:alpha *:*:i386 *:*:sparc *:*:sparc64 *:*:amd64 *:*:powerpc
 COMMENT=		one of the successors to the Netscape browser engine
 VER=			3.0.1
-DASH_VER=		0
+DASH_VER=		2
 DISTNAME=		mozilla
 PKGNAME=		firesomething-${VER}-${DASH_VER}
 CATEGORIES=		www
@@ -50,6 +50,7 @@ CONFIGURE_STYLE=	autoconf no-autoheader
 CONFIGURE_ARGS+=	--with-system-jpeg=${LOCALBASE}	\
 			--with-system-png=${PNG_BASE}	\
 			--with-system-zlib=/usr/lib	\
+			--with-system-sqlite		\
 			--with-pthreads			\
 			--without-system-nspr		\
 			--enable-xft			\
@@ -90,11 +91,13 @@ pre-configure:
 		${WRKSRC}/browser/app/mozilla.in
 	@perl -pi -e 's|_SO_VERSION_|${SO_VERSION}|g' \
 		${WRKSRC}/nsprpub/pr/include/md/_openbsd.h \
-		${WRKSRC}/xpcom/components/nsNativeComponentLoader.cpp
+		${WRKSRC}/xpcom/components/nsNativeComponentLoader.cpp \
+		${WRKSRC}/browser/installer/unix/packages-static
 
 post-install:
 	cd ${PREFIX} && \
-	    mv -f bin/firefox bin/firesomething && \
+	    mv -f firesomething/firefox firesomething/firesomething && \
 	    mv -f firesomething/firefox-bin firesomething/firesomething-bin
+	cd ${PREFIX}/bin && ln -sf ../firesomething/firesomething firesomething
 
 .include <bsd.port.mk>

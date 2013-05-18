@@ -1,5 +1,25 @@
-@comment $MirOS: ports/www/firesomething/pkg/PFRAG.shared,v 1.5 2008/05/21 06:31:06 bsiegert Exp $
+@comment $MirOS: ports/www/firesomething/pkg/PFRAG.shared,v 1.5.2.1 2008/09/06 19:29:02 bsiegert Exp $
 @comment $OpenBSD: PFRAG.shared,v 1.7 2005/09/08 12:48:39 kurt Exp $
+@lib firesomething/components/libbrowsercomps.so.${SO_VERSION}
+@lib firesomething/components/libbrowserdirprovider.so.${SO_VERSION}
+@lib firesomething/components/libdbusservice.so.${SO_VERSION}
+@lib firesomething/components/libimgicon.so.${SO_VERSION}
+@lib firesomething/libfreebl3.so.${SO_VERSION}
+@lib firesomething/libmozjs.so.${SO_VERSION}
+@lib firesomething/libnspr4.so.${SO_VERSION}
+@lib firesomething/libnss3.so.${SO_VERSION}
+@lib firesomething/libnssckbi.so.${SO_VERSION}
+@lib firesomething/libnssdbm3.so.${SO_VERSION}
+@lib firesomething/libnssutil3.so.${SO_VERSION}
+@lib firesomething/libplc4.so.${SO_VERSION}
+@lib firesomething/libplds4.so.${SO_VERSION}
+@lib firesomething/libsmime3.so.${SO_VERSION}
+@lib firesomething/libsoftokn3.so.${SO_VERSION}
+@lib firesomething/libsqlite3.so.${SO_VERSION}
+@lib firesomething/libssl3.so.${SO_VERSION}
+@lib firesomething/libxpcom.so.${SO_VERSION}
+@lib firesomething/libxul.so.${SO_VERSION}
+@lib firesomething/plugins/libnullplugin.so.${SO_VERSION}
 @lib firesomething/sdk/lib/libmozjs.so.${SO_VERSION}
 @lib firesomething/sdk/lib/libnspr4.so.${SO_VERSION}
 @lib firesomething/sdk/lib/libplc4.so.${SO_VERSION}
