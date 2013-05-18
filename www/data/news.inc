@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/news.inc,v 1.144 2011/06/12 18:12:04 tg Exp $
+RCSID: $MirOS: www/data/news.inc,v 1.145 2011/06/12 18:59:34 tg Exp $
 Title: Older news from the MirOS Project
 Date: 01.03.2006
 
@@ -1970,4 +1970,13 @@ Tag: mksh
  href="@@RELPATH@@mksh.htm#c40">caveats</a> are filled in, due to the sheer
  amount of changes. The diff between the last and the new release is more
  than half of the last release’s size, after all – it’s been 15½ months.</p>
+<p>The plan for the next two releases is:</p><ul>
+ <li>mksh R41 will fix all bugs popping up within the next few weeks, as
+  they usually show up shortly after a release only, when things are getting
+  adopted. Furthermore, it removes deprecated code that emits a warning in
+  R40: several <tt>Build.sh</tt> options, plus <tt>set ±o arc4random</tt>.
+  Finally, I plan on speed-up for arrays by using hashtables internally.</li>
+ <li>mksh R42 is where we tentatively target associative arrays for, now.
+  Multidimensional arrays should be introduced at the same time.</li>
+</ul>
 ----

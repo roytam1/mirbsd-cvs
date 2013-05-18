@@ -3,7 +3,7 @@
 
 mws_setname hosted/ksh-chan "The #ksh on Freenode page"
 mws_setheadline 'Channel page for #ksh'
-mws_putheader '$MirOS: www/src/ksh-chan.hts,v 1.16 2011/04/03 21:51:53 tg Exp $'
+mws_putheader '$MirOS: www/src/ksh-chan.hts,v 1.17 2011/04/22 21:44:36 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of contents</h2>
 EOF
@@ -22,8 +22,8 @@ mws_content <<'EOF'
  ones listed on the <a href="http://freenode.net/">Freenode website</a>, such
  as <tt>irc.eu.freenode.net</tt> or <tt>irc.ipv6.freenode.net</tt>, or, of
  course, a specific server like <tt>calkins.freenode.net</tt> (IPv6, Italy)
- or <tt>kornbluth.freenode.net</tt> (IPv4, Germany). The port to use is 7000
- or 7070 if you can do <a
+ or <tt>kornbluth.freenode.net</tt> (IPv4, Germany). The port to use is 6697
+ (or 7000 or 7070) if you can do <a
  href="http://ubuntu-tutorials.com/2010/01/30/accessing-freenode-irc-network-via-ssl-secure-connection/">SSL</a>,
  6667 otherwise (discouraged).
  Tor users can connect to <tt>mejokbp2brhw4omd.onion</tt> (anonymous hidden
@@ -47,11 +47,11 @@ mws_content <<'EOF'
 </ul>
 
 <h2 id="vsns">Korn Shell versions</h2>
-<p>This information is current as of: 2011-04-03 (3 April 2011)</p>
+<p>This information is current as of: 2011-06-12 (12 June 2011)</p>
 <p><a href="http://www.kornshell.com/">AT&amp;T Korn Shell</a>: latest is
  ksh93u dated 2011-02-08 (8 February 2011); actively developed</p>
 <p><a href="@@RELPATH@@mksh.htm">MirBSD Korn Shell</a>: latest is
- mksh R39c, dated 2010-02-25 (25 February 2010); link to active <a
+ mksh R40, dated 2011-06-12 (12 June 2011); link to active <a
  href="@@RELPATH@@mksh.htm#clog">development trunk changelog</a></p>
 <p><a href="http://www.cs.mun.ca/~michael/pdksh/">Public Domain Korn
  Shell</a>: latest is pdksh-5.2.14 dated 1999-07-13 (13 July 1999)</p>
