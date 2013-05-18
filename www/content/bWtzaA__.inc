@@ -1,5 +1,5 @@
 <!-- PageID: mksh -->
-<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.21 2006/01/27 11:32:45 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.22 2006/01/30 12:37:20 tg Exp $</small>
 
 <h1>mksh(1) R26c</h1>
 <p>This is the MirBSD&trade; Korn Shell, a more or less portable
@@ -26,9 +26,9 @@
 </ul>
 
 <h2 id="clog">Recent Changes</h2>
-<!--
 <p>Changes in the current (unreleased) development version:</p><ul>
--->
+ <li>emacs-usemeta now behaves like vi-show8 (be careful with 0x80-0x9F)</li>
+</ul>
 <p>Changes in the minor version <b>R26c</b>, relative to R26b:</p><ul>
  <li>Code cleanup by OpenBSD</li>
  <li>Documentation enhancements</li>
