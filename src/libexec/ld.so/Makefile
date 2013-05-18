@@ -1,4 +1,4 @@
-# $MirOS: src/libexec/ld.so/Makefile,v 1.6 2006/06/30 18:11:00 tg Exp $
+# $MirOS: src/libexec/ld.so/Makefile,v 1.7 2006/06/30 18:15:28 tg Exp $
 # $OpenBSD: Makefile,v 1.34 2006/05/11 22:03:22 deraadt Exp $
 
 SUBDIR=	ldconfig ldd
@@ -15,8 +15,7 @@ SRCS+=	library.c
 
 PROG=	ld.so
 
-.include <bsd.own.mk>
-
+.include "Makefile.inc"
 .include "${.CURDIR}/${MACHINE_ARCH}/Makefile.inc"
 .PATH:	${.CURDIR}/${MACHINE_ARCH}
 
