@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: ports/infrastructure/install/setup.ksh,v 1.39 2005/12/18 03:49:22 tg Exp $
+# $MirOS: ports/infrastructure/install/setup.ksh,v 1.40 2005/12/18 16:36:29 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -306,29 +306,28 @@ _MIRMAKE_VER?=0
 all:
 	@echo \${_MIRMAKE_VER}
 EOF
-shmk=$localbase/share/make
-if [[ $(make -f f all) -ge 20051215 ]]; then
-	# Version matches; check for ${.SYSMK}
+shmk=$localbase/share/mmake
+mv=20051220
+if [[ $(make -f f all) -ge $mv ]]; then
+	# Version matches; write a wrapper if needed
 	sysmk=$(make -f f ___DISPLAY_MAKEVARS=.SYSMK)
-	if [[ $ismirbsd = yes && $sysmk = /usr/share/mk \
-	    && $localbase = /usr/mpkg && $myuid = root && $mygid = bin ]]; then
-		# On MirOS-Default, use /usr/share/mk
-		shmk=/usr/share/mk
-	elif [[ $sysmk = $shmk ]]; then
-		: # Everything OK, we don't need to update
+	m=$(whence -p make)
+	if [[ $sysmk = $shmk ]]; then
+		# Trouble ahead
+		[[ $m = /usr/bin/make ]] || rm -f $m
 	else
 		# Write a wrapper
-		m=$(whence -p make)
-		cat >$localbase/bin/make <<-EOF
+		cat >$localbase/bin/mmake <<-EOF
 			#!$MKSH
-			exec $m -m $localbase/share/make -m $sysmk "\$@"
+			exec $m -m $shmk -m $sysmk "\$@"
 		EOF
-		chown $myuid:$mygid $localbase/bin/make
-		chmod 555 $localbase/bin/make
+		chown $myuid:$mygid $localbase/bin/mmake
+		chmod 555 $localbase/bin/mmake
 		mkdir -p $shmk
 	fi
-else
-	# Too old, install new mirmake
+fi
+if [[ $(mmake -f f all) -lt $mv ]]; then
+	# Too old (or nonexistant), install new mirmake
 	dependdist make
 	cd mirmake
 	osmandir=man/cat
@@ -345,7 +344,7 @@ else
 	u=$myuid:$mygid
 	[[ $u = root:bin ]] && u=
 	set -e
-	$SHELL ./Build.sh $ostype $localbase $osmandir make "" "" "" $SHELL $u
+	$SHELL ./Build.sh $ostype $localbase $osmandir mmake "" "" "" $SHELL $u
 	$SHELL ./Install.sh
 	set +e
 	cd $T
@@ -371,10 +370,10 @@ if [[ ! -f /usr/bin/nroff && ! -f $localbase/bin/nroff ]]; then
 	set -e
 	for subdir in mirnroff/src/{usr.bin/oldroff,share/tmac}; do
 		cd $subdir
-		make NOMAN=yes obj
-		make NOMAN=yes depend
-		make NOMAN=yes
-		make NOMAN=yes install
+		mmake NOMAN=yes obj
+		mmake NOMAN=yes depend
+		mmake NOMAN=yes
+		mmake NOMAN=yes install
 		cd ../../../..
 	done
 	set +e
@@ -390,10 +389,10 @@ if [[ ! -x /usr/sbin/mtree && ! -x $localbase/bin/mtree ]]; then
 	dependdist mtree
 	set -e
 	cd mtree
-	make obj
-	make depend
-	make
-	make install
+	mmake obj
+	mmake depend
+	mmake
+	mmake install
 	set +e
 	cd ..
 	rm -rf mtree
@@ -409,7 +408,7 @@ cat >$localbase/db/SetEnv.sh <<-EOF
 	PORTSDIR='$portsdir'
 	SYSCONFDIR='$etc'
 	X11BASE='$xfbase'
-	MAKECONF='$localbase/db/make.cfg'
+	MAKECONF='$localbase/db/mmake.cfg'
 	BINOWN='$myuid'
 	BINGRP='$mygid'
 	PATH='$PATH'
@@ -439,7 +438,7 @@ cat >$localbase/db/SetEnv.csh <<-EOF
 	setenv PORTSDIR '$portsdir'
 	setenv SYSCONFDIR '$etc'
 	setenv X11BASE '$xfbase'
-	setenv MAKECONF '$localbase/db/make.cfg'
+	setenv MAKECONF '$localbase/db/mmake.cfg'
 	setenv BINOWN '$myuid'
 	setenv BINGRP '$mygid'
 	setenv PATH '$PATH'
@@ -465,7 +464,7 @@ cat >$localbase/db/SetEnv.make <<-EOF
 	PORTSDIR?=	$portsdir
 	SYSCONFDIR?=	$etc
 	X11BASE?=	$xfbase
-	MAKECONF=	$localbase/db/make.cfg
+	MAKECONF=	$localbase/db/mmake.cfg
 	BINOWN?=	$myuid
 	BINGRP?=	$mygid
 	_PORTPATH?=	$PATH
@@ -484,35 +483,39 @@ EOF
 EOF
 
 warn_makecfg=0
-[[ -s $localbase/db/make.cfg ]] && warn_makecfg=1
-if [[ ! -s $localbase/db/make.cfg ]]; then
-	cat >$localbase/db/make.cfg <<-EOF
+[[ -s $localbase/db/mmake.cfg && ! -s $localbase/db/make.cfg ]] \
+    && mv $localbase/db/make.cfg $localbase/db/mmake.cfg
+[[ -s $localbase/db/mmake.cfg ]] && warn_makecfg=1
+if [[ ! -s $localbase/db/mmake.cfg ]]; then
+	cat >$localbase/db/mmake.cfg <<-EOF
 		# Default to include system-wide configuration
 		.if exists(/etc/\${MAKE:T}.cfg)
 		.  include "/etc/\${MAKE:T}.cfg"
+		.elif exists(/etc/make.cfg)
+		.  include "/etc/make.cfg"
 		.endif
 
 	EOF
 	if [[ -e /etc/mk.conf ]]; then
-		cat >>$localbase/db/make.cfg <<-EOF
+		cat >>$localbase/db/mmake.cfg <<-EOF
 			# Older system-wide configuration
 			.include "/etc/mk.conf"
 
 		EOF
 	fi
-	cat >>$localbase/db/make.cfg <<-EOF
+	cat >>$localbase/db/mmake.cfg <<-EOF
 		# Some stubs
 	EOF
 	if [[ $myuid = root ]]; then
-		cat >>$localbase/db/make.cfg <<-EOF
+		cat >>$localbase/db/mmake.cfg <<-EOF
 			SUDO=			sudo	# Default on for root
 		EOF
 	else
-		cat >>$localbase/db/make.cfg <<-EOF
+		cat >>$localbase/db/mmake.cfg <<-EOF
 			SUDO=				# Default off for user
 		EOF
 	fi
-	cat >>$localbase/db/make.cfg <<-EOF
+	cat >>$localbase/db/mmake.cfg <<-EOF
 		#CLEANDEPENDS=		No	# Default to yes
 		#PREFER_SUBPKG_INSTALL=	No	# Default to yes
 	EOF
@@ -521,12 +524,12 @@ fi
 cd $portsdir/infrastructure/pkgtools
 export LOCALBASE=$localbase PORTSDIR=$portsdir
 set -e
-make cleandir
-make obj
-make cleandir
-make depend
-make PORTABLE=Yes PKG_USER="$myuid"
-make install
+mmake cleandir
+mmake obj
+mmake cleandir
+mmake depend
+mmake PORTABLE=Yes PKG_USER="$myuid"
+mmake install
 set +e
 rm -rf {add,create,delete,info,lib,pkg,rtfm,upgrade}/obj
 unset LOCALBASE
@@ -539,13 +542,13 @@ cd $T
     if ! pkg_info paxmirabilis >/dev/null 2>&1; then
 	set -e
 	cd $portsdir/archivers/mircpio
-	make fake
-	x=$(make show=_FAKE_COOKIE)
-	cp ${x%.fake_done}$(make show=PREFIX)/bin/tar $localbase/bin/
-	make package
-	pkg_add -N $(make show=_PACKAGE_COOKIE)
+	mmake fake
+	x=$(mmake show=_FAKE_COOKIE)
+	cp ${x%.fake_done}$(mmake show=PREFIX)/bin/tar $localbase/bin/
+	mmake package
+	pkg_add -N $(mmake show=_PACKAGE_COOKIE)
 	set +e
-	make clean
+	mmake clean
 	cd $T
 fi
 
@@ -555,9 +558,9 @@ fi
     if ! pkg_info patch >/dev/null 2>&1; then
 	cd $portsdir/essentials/patch
 	set -e
-	make install
+	mmake install
 	set +e
-	make clean
+	mmake clean
 	cd $T
 fi
 
@@ -567,9 +570,9 @@ fi
     if ! pkg_info mircksum >/dev/null 2>&1; then
 	cd $portsdir/essentials/cksum
 	set -e
-	make install
+	mmake install
 	set +e
-	make clean
+	mmake clean
 	cd $T
 fi
 
@@ -579,9 +582,9 @@ fi
     if ! pkg_info m4 >/dev/null 2>&1; then
 	cd $portsdir/lang/m4
 	set -e
-	make install
+	mmake install
 	set +e
-	make clean
+	mmake clean
 	cd $T
 fi
 [[ $isinterix = *yes* ]] && unset BOOTSTRAP
@@ -592,9 +595,9 @@ fi
     if ! pkg_info wget >/dev/null 2>&1; then
 	cd $portsdir/net/wget
 	set -e
-	make install
+	mmake install
 	set +e
-	make clean
+	mmake clean
 	cd $T
 fi
 [[ $isinterix = *yes* ]] && unset FETCH_CMD
@@ -610,7 +613,7 @@ else
 fi
 
 [[ $warn_makecfg = 1 ]] && cat >&2 <<-EOF
-	Warning: $localbase/db/make.cfg already existed before!
+	Warning: $localbase/db/mmake.cfg already existed before!
 	Please verify if this file contains desired settings.
 EOF
 if [[ $ismirbsd = yes && $myuid = root && $localbase = /usr/mpkg ]]; then

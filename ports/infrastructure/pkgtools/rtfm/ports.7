@@ -1,4 +1,4 @@
-.\" $MirOS: ports/infrastructure/pkgtools/rtfm/ports.7,v 1.3.2.1 2005/08/21 11:52:03 tg Exp $
+.\" $MirOS: ports/infrastructure/pkgtools/rtfm/ports.7,v 1.4 2005/09/12 22:53:26 tg Exp $
 .\" $OpenBSD: ports.7,v 1.42 2004/04/16 21:23:08 jmc Exp $
 .\" $FreeBSD: ports.7,v 1.7 1998/06/23 04:38:50 hoek Exp $
 .\"-
@@ -47,7 +47,7 @@ application source code compile and run on
 .Mx , Ox ,
 Darwin (Mac OS X) and Interix.
 Compiling an application is as simple as typing
-.Ic make
+.Ic mmake
 in the port directory!
 The
 .Pa Makefile
@@ -55,7 +55,7 @@ automatically fetches the
 application source code, either from a local disk or via ftp, unpacks it
 on the local system, applies the patches, and compiles it.
 If all goes well, simply type
-.Ic sudo make install
+.Ic mmake install
 to install the application.
 .Pp
 For more information about using ports, see
@@ -99,7 +99,7 @@ see
 display the contents of the index in a user-friendly way,
 .It Ar search
 invoked with a key, e.g.,
-.Ic make search key=foo ,
+.Ic mmake search key=foo ,
 retrieve information relevant to a given port (obsolescent).
 .El
 .Sh SELECTING A SET OF PORTS
@@ -118,7 +118,7 @@ port maintained by a given person.
 .Pp
 For instance, to invoke clean on all ports in the x11 category, one can say:
 .Bd -literal -offset indent
-	$ make category=x11 clean
+	$ mmake category=x11 clean
 .Ed
 .Pp
 The index search is done by a perl script, so all regular expressions from
@@ -146,7 +146,7 @@ is executed.
 Default behavior is to call exit, but this can be overridden on the command
 line, e.g., to avoid stopping after each problem.
 .Bd -literal -offset indent
-$ make REPORT_PROBLEM=true
+$ mmake REPORT_PROBLEM=true
 .Ed
 .Pp
 The targets that do this are
@@ -180,7 +180,7 @@ Typical use only runs
 explicitly (if root or
 .Ev SUDO
 is defined in
-.Pa /etc/make.cfg ) ,
+.Pa /etc/mmake.cfg ) ,
 or
 .Ar build
 (as user), then
@@ -210,7 +210,7 @@ The main
 mirror should still hold a copy of old distfiles, indexed by checksum.
 Using
 .Bd -literal -offset indent
-$ make checksum REFETCH=true
+$ mmake checksum REFETCH=true
 .Ed
 .Pp
 will try to get a set of distfiles that match the recorded checksum.
@@ -360,19 +360,19 @@ in the environment of the
 .Xr make 1
 command:
 .Bd -literal -offset indent
-$ env FLAVOR="static" make package
+$ env FLAVOR="static" mmake package
 .Ed
 .Pp
 and of course, use the same settings for the subsequent invocations of make:
 .Bd -literal -offset indent
-$ env FLAVOR="static" make package
-$ env FLAVOR="static" make clean
+$ env FLAVOR="static" mmake package
+$ env FLAVOR="static" mmake clean
 .Ed
 .Pp
 More than one flavour may be specified:
 .Bd -literal -offset indent
 $ cd /usr/ports/mail/exim
-$ env FLAVOR="mysql ldap" make package
+$ env FLAVOR="mysql ldap" mmake package
 .Ed
 .Pp
 Specifying a flavour that does not exist is an error.
@@ -409,7 +409,7 @@ the subpackages will be called
 .Ic mysql-tests-<version> and mysql-server-<version> .
 .Pp
 When
-.Ic make install
+.Ic mmake install
 is invoked, all subpackages are installed by default.
 See
 .Ev PREFER_SUBPKG_INSTALL
@@ -422,16 +422,16 @@ in the environment of the
 .Xr make 1
 command during the install/deinstall phase:
 .Bd -literal -offset indent
-$ env SUBPACKAGE="-server" make install
-$ env SUBPACKAGE="-server" make deinstall
+$ env SUBPACKAGE="-server" mmake install
+$ env SUBPACKAGE="-server" mmake deinstall
 .Ed
 .Pp
 .Sh PORT VARIABLES
 These can be changed in the environment, or in
-.Pa /etc/make.cfg
+.Pa /etc/mmake.cfg
 for persistence.
 They can also be set on make's command line, e.g.,
-.Ic make VAR_FOO=foo
+.Ic mmake VAR_FOO=foo
 .Pp
 Boolean variables should be set to
 .Dv Yes
@@ -496,7 +496,7 @@ Location of the ports tree
 .Pq usually Pa /usr/ports .
 .It Ev PREFER_SUBPKG_INSTALL
 If set to No, don't install all subpackages when executing
-.Ic make install .
+.Ic mmake install .
 Default is Yes.
 .It Ev USE_SYSTRACE
 Set to
@@ -522,14 +522,12 @@ Set
 and
 .Ev DISTDIR
 in
-.Pa /etc/make.cfg
+.Pa /etc/mmake.cfg
 accordingly.
 .Sh FILES
 .Bl -tag -width /usr/ports/xxxxxxxx -compact
-.It Pa /etc/make.cfg
-Default MirMake configuration file.
 .It Pa /etc/mmake.cfg
-MirMake on Darwin, OpenBSD etc. configuration file.
+Default MirMake configuration file.
 .It Pa /usr/ports
 The default ports directory.
 .It Pa /usr/ports/Makefile

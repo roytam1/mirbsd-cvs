@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/old-install.mk,v 1.4 2005/08/20 12:33:54 tg Exp $
+# $MirOS: ports/infrastructure/mk/old-install.mk,v 1.5 2005/12/15 01:24:43 tg Exp $
 # $OpenBSD: old-install.mk,v 1.10 2002/06/27 12:47:23 mpech Exp $
 # Stuff that is needed for old, pre-fake, port installations.
 
@@ -34,18 +34,18 @@ ${_INSTALL_COOKIE}: ${_BUILD_COOKIE}
 .  if !defined(NO_PKG_REGISTER) && !defined(FORCE_PKG_REGISTER)
 	@if [ -d ${PKG_DBDIR}/${FULLPKGNAME} -o "X$$(ls -d ${PKG_DBDIR}/${FULLPKGNAME:C/-[0-9].*//g}-* 2> /dev/null)" != "X" ]; then \
 		echo "===>  ${FULLPKGNAME} is already installed - perhaps an older version?"; \
-		echo "      If so, you may wish to \"make deinstall\" and install"; \
-		echo "      this port again by \"make reinstall\" to upgrade it properly."; \
+		echo "      If so, you may wish to \"mmake deinstall\" and install"; \
+		echo "      this port again by \"mmake reinstall\" to upgrade it properly."; \
 		echo "      If you really wish to overwrite the old port of ${FULLPKGNAME}"; \
 		echo "      without deleting it first, set the variable \"FORCE_PKG_REGISTER\""; \
-		echo "      in your environment or the \"make install\" command line."; \
+		echo "      in your environment or the \"mmake install\" command line."; \
 		exit 1; \
 	fi
 .  endif
 	@if [ $$(${SH} -c umask) != ${DEF_UMASK} ]; then \
 		${ECHO_MSG} "===>  Warning: your umask is \"$$(${SH} -c umask)"\".; \
 		${ECHO_MSG} "      If this is not desired, set it to an appropriate value"; \
-		${ECHO_MSG} "      and install this port again by \"make reinstall\"."; \
+		${ECHO_MSG} "      and install this port again by \"mmake reinstall\"."; \
 	fi
 	@${_MAKE_COOKIE} ${_INSTALL_PRE_COOKIE}
 .  if target(pre-install)

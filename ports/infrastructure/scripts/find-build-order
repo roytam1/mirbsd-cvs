@@ -44,8 +44,8 @@ do
 	\#*);;			# comments
 	*)
 		echo "Depending $i" >&2
-		cd ${PORTSDIR}/$i && make FULL_PACKAGE_NAME=yes $j $type
-		k=`cd ${PORTSDIR}/$i && make FULL_PACKAGE_NAME=yes $j package-name`
+		cd ${PORTSDIR}/$i && mmake FULL_PACKAGE_NAME=yes $j $type
+		k=`cd ${PORTSDIR}/$i && mmake FULL_PACKAGE_NAME=yes $j package-name`
 		echo "$k $k";;
 	esac
 done)|tsort|tail -r

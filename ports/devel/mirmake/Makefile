@@ -1,8 +1,7 @@
-# $MirOS: ports/devel/mirmake/Makefile,v 1.6 2005/12/15 01:43:00 tg Exp $
+# $MirOS: ports/devel/mirmake/Makefile,v 1.7 2005/12/15 02:28:55 tg Exp $
 
 COMMENT=		"portable MirOS make(1) variant"
-DISTNAME=		mirmake-20051215
-PKGNAME=		${DISTNAME}-1
+DISTNAME=		mirmake-20051220
 CATEGORIES=		devel essentials
 RESPONSIBLE=		Thorsten Glaser <tg@66h.42h.de>
 MASTER_SITES=		${_MASTER_SITE_MIRBSD:distfiles/=dist/mir/make/}
@@ -32,7 +31,7 @@ SED_PLIST+=	| sed -e '/^IFSFU:/d'
 
 do-build:
 	cd ${WRKBUILD} && ${SETENV} ${MAKE_ENV} ${MKSH} ./Build.sh \
-	    ${OStype} ${PREFIX} ${FMANDIR} make \
+	    ${OStype} ${PREFIX} ${FMANDIR} mmake \
 	    ${MACHINE} ${MACHINE_ARCH} ${MACHINE_OS} \
 	    ${MKSH} ${BINOWN}:${BINGRP}
 

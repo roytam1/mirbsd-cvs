@@ -1,4 +1,4 @@
-.\" $MirOS: ports/infrastructure/pkgtools/rtfm/bsd.port.mk.5,v 1.4 2005/09/12 22:53:26 tg Exp $
+.\" $MirOS: ports/infrastructure/pkgtools/rtfm/bsd.port.mk.5,v 1.5 2005/11/15 19:33:59 tg Exp $
 .\" $OpenBSD: bsd.port.mk.5,v 1.134 2004/02/18 13:39:02 xsa Exp $
 .\"
 .\" Copyright (c) 2000 Marc Espie
@@ -133,7 +133,7 @@ can be used to avoid all checksumming steps.
 Clean ports contents.
 By default, it will clean the work directory.
 It can be invoked as
-make clean='[depends bulk work fake flavors dist install sub package packages]'.
+mmake clean='[depends bulk work fake flavors dist install sub package packages]'.
 .Bl -tag -width packages
 .It Va work
 Clean work directory.
@@ -164,7 +164,7 @@ Short-hand for
 .Sq sub package .
 .El
 .It Ar clean-depends
-Short hand for make clean=depends.
+Short hand for mmake clean=depends.
 .It Ar configure
 Configure the port.
 Might be a void operation.
@@ -182,7 +182,7 @@ Check all the port's dependencies, that is:
 Prints a one-line index entry of the port, suitable for
 .Pa ${PORTSDIR}/INDEX .
 .It Ar distclean
-Short-hand for make clean=dist.
+Short-hand for mmake clean=dist.
 .It Ar distpatch
 Apply distribution patches only.
 See
@@ -347,7 +347,7 @@ directly.
 So, if the
 .Ar do-patch
 target is overridden, it should still begin by calling
-make distpatch, before applying
+mmake distpatch, before applying
 .Ox
 specific patches.
 Accordingly, the exact sequence of hooks is:
@@ -398,8 +398,8 @@ by checking the corresponding packages are actually installed,
 and install the missing ports by recursing through the ports tree.
 Invoked right before installing the package.
 .It Ar show
-Invoked as make show=name, show the contents of ${name}.
-Invoked as make show="name1 name2 ...",
+Invoked as mmake show=name, show the contents of ${name}.
+Invoked as mmake show="name1 name2 ...",
 show the contents of ${name1} ${name2} ...,
 one variable value per line.
 Mostly used from recursive makes, or to know the contents of another
@@ -470,8 +470,8 @@ and that some variables are marked as
 which means that they shouldn't ever be changed.
 .Bl -tag -width MASTER_SITES
 .It Ev show
-Invoked as make show=name, show the contents of ${name}.
-Invoked as make show="name1 name2 ...", show the contents of
+Invoked as mmake show=name, show the contents of ${name}.
+Invoked as mmake show="name1 name2 ...", show the contents of
 ${name1} ${name2} ...,
 one variable value per line.
 .It Ev ALLFILES
@@ -488,7 +488,7 @@ Can be set to empty, to yield a package's default target.
 Current machine architecture (read-only).
 .It Ev AUTOCONF
 Location of the autoconf binary if needed.
-Defaults to autoconf (though make autoreconf might be more appropriate).
+Defaults to autoconf (though mmake autoreconf might be more appropriate).
 .It Ev AUTOCONF_DIR
 Where to invoke autoconf if ${CONFIGURE_STYLE} includes autoconf.
 Defaults to ${WRKSRC}.
@@ -531,7 +531,7 @@ Define only for broken ports, set to reason the port is broken.
 See also
 .Ev NO_IGNORE .
 .It Ev BSD_INSTALL_{PROGRAM,SCRIPT,DATA,MAN}[_DIR]
-Macros passed to make and configure invocations.
+Macros passed to mmake and configure invocations.
 Set based on corresponding INSTALL_* variables.
 .It Ev BIN_PACKAGES
 User settings.
@@ -647,7 +647,7 @@ Defaults to distinfo.
 .It Ev CLEANDEPENDS
 If set to
 .Sq Yes ,
-.Sq make clean
+.Sq mmake clean
 will also clean dependencies.
 Can be overridden on a per-${PKGPATH} basis,
 by setting CLEANDEPENDS_${PKGPATH}.
@@ -1331,7 +1331,7 @@ Extra list of flavors that do not register in package names, but are still
 used to control build logic, and e.g., working directory names.
 Its main use is for disabling part of a multi-packages build, for instance:
 .Bd -literal
-FLAVOR=no_gnome make package
+FLAVOR=no_gnome mmake package
 .Ed
 .Pp
 Creation of a separate working directory is mandatory.
@@ -1435,7 +1435,7 @@ User settings.
 If set to
 .Xr sudo 8
 in
-.Xr make.cfg 5 ,
+.Xr mmake.cfg 5 ,
 the ports tree will only invoke root's privileges for the parts that
 really require it.
 .It Ev SUPDISTFILES
@@ -1538,7 +1538,7 @@ Set to
 .Sq Yes
 to protect port building with systrace.
 Set by the user, e.g. in
-.Pa /etc/make.cfg .
+.Pa /etc/mmake.cfg .
 .It Ev USE_X11
 Set to
 .Sq Yes
@@ -1560,7 +1560,7 @@ Apart from the actual port, may
 hold all kinds of cookies that checkpoint the port's build.
 Read-only.
 Ports that need to know the WRKDIR of another port must use
-cd that_port_dir && make show=WRKDIR for this.
+cd that_port_dir && mmake show=WRKDIR for this.
 Note that WRKDIR may be a symbolic link.
 .It Ev WRKDIST
 Subdirectory of ${WRKDIR} in which the distribution files normally unpacks.
@@ -1921,7 +1921,7 @@ The framework will automatically detect the presence of
 .Pa .zip
 files to extract.
 .It Ev VARNAME
-Use make show=name instead of make show VARNAME=name.
+Use mmake show=name instead of mmake show VARNAME=name.
 .El
 .Sh OBSOLETE FILES
 .Bl -tag -width files/md5
@@ -2071,18 +2071,18 @@ describe step, since a MULTI_PACKAGES port will produce several
 descriptions).
 .Pp
 If MULTI_PACKAGES is set, each element of MULTI_PACKAGES triggers a
-recursive make package, with SUBPACKAGE set to the right value, and
+recursive mmake package, with SUBPACKAGE set to the right value, and
 PACKAGING defined.
 For instance, if MULTI_PACKAGES=-lib -server,
-make package will work as follows:
+mmake package will work as follows:
 .Pp
 .Bl -bullet -compact
 .It
-Run env SUBPACKAGE= PACKAGING= make package,
+Run env SUBPACKAGE= PACKAGING= mmake package,
 .It
-Run env SUBPACKAGE=-lib PACKAGING=-lib make package,
+Run env SUBPACKAGE=-lib PACKAGING=-lib mmake package,
 .It
-Run env SUBPACKAGE=-server PACKAGING=-server make package,
+Run env SUBPACKAGE=-server PACKAGING=-server mmake package,
 .El
 .Pp
 The port's Makefile can test the value of SUBPACKAGE to specialize

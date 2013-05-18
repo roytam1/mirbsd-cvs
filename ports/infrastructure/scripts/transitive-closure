@@ -1,5 +1,5 @@
 #!/usr/bin/perl
-# $MirOS$
+# $MirOS: ports/infrastructure/scripts/transitive-closure,v 1.1.7.1 2005/03/18 15:47:19 tg Exp $
 #
 # Copyright (c) 2003 Marc Espie.
 #
@@ -69,7 +69,7 @@ while (my $v = pop(@todo)) {
 #
 # Well, no more excuse.
 #
-# cd /usr/ports && make all-dir-depends >all-depends ECHO_MSG=:
+# cd /usr/ports && mmake all-dir-depends >all-depends ECHO_MSG=:
 #
 # will yield a list that contains all dependencies.
 # (this takes a little less time than regenerating the INDEX).

@@ -1,5 +1,5 @@
 #!/bin/sh
-# $MirOS: ports/infrastructure/scripts/check_register,v 1.1.7.1 2005/03/18 15:47:19 tg Exp $
+# $MirOS: ports/infrastructure/scripts/check_register,v 1.2 2005/07/05 20:08:32 tg Exp $
 # $OpenBSD: check_register,v 1.2 2003/08/02 10:53:52 espie Exp $
 # Copyright (c) 2001
 # Marc Espie.  All rights reserved.
@@ -34,7 +34,7 @@
 
 known1=$(mktemp ${TMPDIR}/known.XXXXXXXXX)
 known2=$(mktemp ${TMPDIR}/known.XXXXXXXXX)
-cd ${PORTSDIR} && make show=FULLPKGPATH ECHO_MSG=: | tee ${known1}
+cd ${PORTSDIR} && mmake show=FULLPKGPATH ECHO_MSG=: | tee ${known1}
 sort -o ${known1} -u ${known1}
 
 cd ${PORTSDIR} && find . -path ./Distfiles -prune -o \
@@ -46,7 +46,7 @@ cd ${PORTSDIR} && find . -path ./Distfiles -prune -o \
 	do
 		d=$(dirname $f)
 		echo $d
-		cd ${PORTSDIR} && cd $d && make show=FULLPKGPATH >>${known2}
+		cd ${PORTSDIR} && cd $d && mmake show=FULLPKGPATH >>${known2}
 	done
 sort -o ${known2} -u ${known2}
 diff $diffopts ${known1} ${known2}

@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.85 2005/12/18 05:40:16 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.86 2005/12/18 16:36:40 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -9,11 +9,11 @@
 # Each port has a maintainer, which is the email address(es) of the person(s)
 # to contact if you have questions/suggestions about that specific port.
 # To obtain that address, just type
-#	make show=RESPONSIBLE
+#	mmake show=RESPONSIBLE
 # in the specific port's directory.
 #
 # For the MirPorts Framework, the master contact address is the mailing list:
-#	make show=_MIRPORTS_ADDRESS
+#	mmake show=_MIRPORTS_ADDRESS
 
 # Any variable or target starting with an underscore (e.g., _DEPEND_ECHO)
 # is internal to bsd.port.mk, not part of the user's API, and liable to
@@ -615,8 +615,7 @@ _SYSTRACE_CMD=
 .endif
 SYSTRACE_FILTER?=	${PORTSDIR}/infrastructure/templates/systrace.filter
 _SYSTRACE_POLICIES+=	${SHELL} /usr/bin/env \
-			/usr/bin/make ${PKG_CMDDIR:S!/sbin!/bin!}/make \
-			${LOCALBASE}/bin/gmake
+			${_MIRMAKE_EXE} ${LOCALBASE}/bin/gmake
 SYSTRACE_SUBST_VARS+=	DISTDIR PKG_TMPDIR PORTSDIR TMPDIR WRKDIR
 .for _v in ${SYSTRACE_SUBST_VARS}
 _SYSTRACE_SED_SUBST+=	-e 's,$${${_v}},${${_v}},g'
@@ -1712,7 +1711,7 @@ checksum: fetch
 			echo "Make sure the Makefile and checksum file ($$checksum_file)"; \
 			echo "are up to date.  If you want to fetch a good copy of this"; \
 			echo "file from the OpenBSD or MirOS main archive, type"; \
-			echo "\"make REFETCH=true [other args]\"."; \
+			echo "\"mmake REFETCH=true [other args]\"."; \
 			exit 1; \
 		  fi; \
 		fi ; \
@@ -1774,6 +1773,7 @@ ${_BULK_COOKIE}: ${_PACKAGE_COOKIES}
 ${_WRKDIR_COOKIE}:
 	@rm -rf ${WRKDIR}
 	@mkdir -p ${WRKDIR} ${WRKDIR}/bin
+	@ln -s ${_MIRMAKE_EXE} ${WRKDIR}/bin/make
 	@${_MAKE_COOKIE} $@
 
 ${_EXTRACT_COOKIE}: ${_WRKDIR_COOKIE} ${_SYSTRACE_COOKIE}

@@ -34,7 +34,7 @@ set -e
 : ${TMPDIR=/tmp}
 if [ ! -f $DISTDIR/Makefile ]
 then
-	echo >&2 "missing $DISTDIR/Makefile, run make mirror-maker first"
+	echo >&2 "missing $DISTDIR/Makefile, run mmake mirror-maker first"
 	exit 1
 fi
 cd $DISTDIR
@@ -43,7 +43,7 @@ TMP1=`mktemp $TMPDIR/list.XXXXXXXXXX` || exit 1
 trap 'rm -f $TMP1 $TMP2' 0 1 2 3 5 10 15
 TMP2=`mktemp ${TMPDIR}/list.XXXXXXXXXX` || exit 1
 touch force$$
-make -f Makefile -k FETCH=echo F=force$$ all|sort -u >$TMP1
+mmake -f Makefile -k FETCH=echo F=force$$ all|sort -u >$TMP1
 rm force$$
 find . -type f -print|sed -e 's,^\./,,' |grep -v '^Makefile$' |sort -u >$TMP2
 echo "#! /bin/sh"

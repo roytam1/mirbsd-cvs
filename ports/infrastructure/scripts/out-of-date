@@ -41,7 +41,7 @@ for s in $SPECS; do
 	fi
 done
 echo "Checking new package names"
-cd $PORTSDIR && make SUBDIRLIST=$TMPDIR/specs show=FULLPKGNAME\${SUBPACKAGE} ECHO_MSG=: REPORT_PROBLEM=true|sort >$TMPDIR/new
+cd $PORTSDIR && mmake SUBDIRLIST=$TMPDIR/specs show=FULLPKGNAME\${SUBPACKAGE} ECHO_MSG=: REPORT_PROBLEM=true|sort >$TMPDIR/new
 echo "Recording old package names"
 pkg_info|cut -d\  -f1|sort >$TMPDIR/old
 echo "Showing discrepancies"
