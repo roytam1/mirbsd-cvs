@@ -1,5 +1,5 @@
-# $MirOS: src/gnu/usr.bin/perl/Makefile.bsd-wrapper,v 1.17 2006/09/22 05:34:08 tg Exp $
-# $OpenBSD: Makefile.bsd-wrapper,v 1.70 2006/03/28 19:22:56 millert Exp $
+# $MirOS: src/gnu/usr.bin/perl/Makefile.bsd-wrapper,v 1.18 2006/09/22 12:56:39 tg Exp $
+# $OpenBSD: Makefile.bsd-wrapper,v 1.71 2006/11/09 21:31:12 millert Exp $
 #
 # Build wrapper for Perl 5.8.8
 #
