@@ -24,7 +24,7 @@
 #include "lib.h"
 #include <sys/wait.h>
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/exec.c,v 1.10 2008/11/02 19:05:49 tg Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/exec.c,v 1.11 2008/11/02 19:28:43 tg Exp $");
 
 #ifdef AS_USER
 static bool PrivsDropped = false;
@@ -111,7 +111,8 @@ raise_privs(void)
 bool
 have_emulation(char *emul)
 {
-	char buf[FILENAME_MAX]; /* XXX arbitrary size */
+	char *buf;
+	bool rv = false;
 
 	if (!emul || !emul[0])
 		return true;
@@ -119,18 +120,18 @@ have_emulation(char *emul)
 	/* first: are we already running the right OS? */
 	if (!strcasecmp(emul, piperead("uname -s"))) {
 		if (Verbose)
-			printf("- natively running %s\n", buf);
+			printf("- natively running %s\n", emul);
 		return true;
 	}
 
 	/* On BSD: is the emulation enabled? */
 	/* calling sysctl via popen encapsulates platform-specific stuff */
-	snprintf(buf, sizeof(buf), "sysctl -n kern.emul.%s 2>/dev/null",
-			emul);
+	xasprintf(&buf, "sysctl -n kern.emul.%s 2>/dev/null", emul);
 	if (!strcmp("1", piperead(buf))) {
 		if (Verbose)
 			printf("- %s emulation enabled\n", emul);
-		return true;
+		rv = true;
 	}
-	return false;
+	xfree(buf);
+	return (rv);
 }
