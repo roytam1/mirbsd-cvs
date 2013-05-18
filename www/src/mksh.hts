@@ -2,7 +2,7 @@
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.204 2009/02/22 19:07:23 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.205 2009/02/23 20:07:03 tg Exp $'
 mws_content <<'EOF'
 <h1>mksh(1) R36b</h1>
 <p>This is the website of the MirBSD™ Korn Shell, an actively developed free
@@ -1026,6 +1026,10 @@ mws_content <<'EOF'
  <br />XXX this might be a bad idea actually, cf. php’s insecurity</li>
 <li>Bugfix for suspending <tt>a &amp;&amp; b</tt> chain</li>
 <li>echo diff &lt;(echo 1) &lt;(echo 2)</li>
+<li>;&amp; and ;;&amp; in case like zsh</li>
+<li>read with timeout like ksh93</li>
+<li>read -e like ksh93</li>
+<li>maybe associative arrays? meh, rather the bloat… naah</li>
 </ul>
 
 <h2 id="clog">Recent Changes</h2>
