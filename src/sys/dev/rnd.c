@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/dev/rnd.c,v 1.32 2007/09/24 16:56:23 tg Exp $ */
+/**	$MirOS: src/sys/dev/rnd.c,v 1.33 2007/09/28 18:33:24 tg Exp $ */
 /*	$OpenBSD: rnd.c,v 1.78 2005/07/07 00:11:24 djm Exp $	*/
 
 /*
@@ -627,6 +627,8 @@ void
 randomattach(void)
 {
 	int i;
+	/* this one is generated from newvers.sh */
+	extern unsigned char initial_entropy[16];
 
 	if (rnd_attached) {
 #ifdef RNDEBUG
@@ -659,6 +661,21 @@ randomattach(void)
 	timeout_add(&rnd_addpool_timeout, hz << 5);
 	/* this one is enqueued in init_main.c */
 	rnd_bootpool ^= random() << 8;
+	/* this one is generated from newvers.sh */
+	add_true_randomness(initial_entropy[0] << 24 |
+	    initial_entropy[1] << 16 |
+	    initial_entropy[2] << 8 | initial_entropy[3]);
+	add_true_randomness(initial_entropy[4] << 24 |
+	    initial_entropy[5] << 16 |
+	    initial_entropy[6] << 8 | initial_entropy[7]);
+	add_true_randomness(initial_entropy[8] << 24 |
+	    initial_entropy[9] << 16 |
+	    initial_entropy[10] << 8 | initial_entropy[11]);
+	add_true_randomness(initial_entropy[12] << 24 |
+	    initial_entropy[13] << 16 |
+	    initial_entropy[14] << 8 | initial_entropy[15]);
+	/* prevent leaks through drivers, LKMs, etc. */
+	bzero(initial_entropy, 16);
 }
 
 int
