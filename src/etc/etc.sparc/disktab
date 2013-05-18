@@ -30,9 +30,9 @@
 #	t[a-p]	partition types (filesystem, swap, etc)
 
 rdroot|ramdisk miniroot image for boot floppy:\
-	:ty=ramdisk:rm#300:se#512:nc#27:nt#8:ns#16:\
-	:pa#3456:oa#0:ta=4.2BSD:ba#4096:fa#512:\
-	:pc#3456:oc#0:
+	:ty=ramdisk:rm#300:se#512:nc#26:nt#8:ns#16:\
+	:pa#3328:oa#0:ta=4.2BSD:ba#4096:fa#512:\
+	:pc#3328:oc#0:
 
 ipldisc|ramdisk miniroot image for bsd.rd:\
 	:ty=ramdisk:rm#300:se#512:nc#29:nt#8:ns#16:\
