@@ -1,4 +1,4 @@
-.\" $MirOS: src/share/doc/legal/lbsd.mdoc,v 1.25 2009/01/17 12:49:03 tg Exp $
+.\" $MirOS: src/share/doc/legal/lbsd.mdoc,v 1.26 2009/01/17 12:55:43 tg Exp $
 .\" partially derived from:
 .\" $OpenBSD: COPYRIGHT,v 1.3 2003/06/04 16:08:07 deraadt Exp $
 .\" @(#)COPYRIGHT	5.1 (Berkeley) 7/1/91
@@ -124,6 +124,7 @@ when advertising for
 .Bl -bullet -compact
 .so lbsd-adv.mdoc
 .El
+.if \ng==0 \{\
 .Pp
 .Mx
 contains contributed material from GNU and XFree86\(rg, which require
@@ -131,6 +132,7 @@ these additional advertising clauses to be reproduced:
 .Bl -bullet -compact
 .so lbsd-adc.mdoc
 .El
+.\}
 .Pp
 All trademarks and registered trademarks are properties of their
 respective owners.
@@ -152,6 +154,7 @@ placed alongside it, it is either available via standard means,
 specifically AnonCVS, AnonRSYNC, or HTTP distfile download, from
 the project server, or, in some cases, available upon request for
 a reasonable time period, such as three years.
+.if \ng==0 \{\
 .Sh FILES
 .Bl -tag -width 8n -compact
 .It Pa /usr/share/doc/legal/1stREAD
@@ -167,6 +170,7 @@ Licence preferred to be used for code newly added to
 Online version of
 .Pa licence\.template .
 .El
+.\}
 .Sh SEE ALSO
 .Pa http://mirbsd\.de/
 .Pp
