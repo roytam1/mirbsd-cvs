@@ -38,7 +38,7 @@
 #include "channels.h"
 #include "groupaccess.h"
 
-__RCSID("$MirOS: src/usr.bin/ssh/servconf.c,v 1.12 2006/09/21 21:47:31 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/servconf.c,v 1.13 2006/09/21 21:48:58 tg Exp $");
 
 static void add_listen_addr(ServerOptions *, char *, u_short);
 static void add_one_listen_addr(ServerOptions *, char *, u_short);
@@ -328,6 +328,8 @@ static struct {
 	{ "reversemappingcheck", sDeprecated, SSHCFG_GLOBAL },
 	{ "clientaliveinterval", sClientAliveInterval, SSHCFG_GLOBAL },
 	{ "clientalivecountmax", sClientAliveCountMax, SSHCFG_GLOBAL },
+	{ "authorizedkeysfile", sDeprecated, SSHCFG_GLOBAL },
+	{ "authorizedkeysfile2", sDeprecated, SSHCFG_GLOBAL },
 	{ "authorisedkeysfile", sAuthorisedKeysFile, SSHCFG_GLOBAL },
 	{ "authorisedkeysfile2", sAuthorisedKeysFile2, SSHCFG_GLOBAL },
 	{ "useprivilegeseparation", sUsePrivilegeSeparation, SSHCFG_GLOBAL},
