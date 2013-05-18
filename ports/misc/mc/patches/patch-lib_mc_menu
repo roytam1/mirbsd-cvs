@@ -1,4 +1,4 @@
-$MirOS: ports/misc/mc/patches/patch-lib_mc_menu,v 1.11 2007/10/03 23:55:59 tg Exp $
+$MirOS: ports/misc/mc/patches/patch-lib_mc_menu,v 1.12 2008/03/23 15:52:32 tg Exp $
 --- lib/mc.menu.orig	Tue Aug 17 08:30:54 2004
 +++ lib/mc.menu	Wed Oct  3 23:54:42 2007
 @@ -1,4 +1,44 @@
@@ -14,17 +14,17 @@ $MirOS: ports/misc/mc/patches/patch-lib_mc_menu,v 1.11 2007/10/03 23:55:59 tg Ex
 +
 ++ t r
 +l       Show CVS log of file
-+	mksh -c '[[ -s CVS/Root && "$(<CVS/Root)" != :* ]] && export CVSREADONLYFS=1; cvs -q log %f' 2>&1 | less
++	mksh -c 'unset CVSREADONLYFS; [[ -s CVS/Root && "$(<CVS/Root)" != :* ]] && export CVSREADONLYFS=1; cvs -q log %f' 2>&1 | less
 +
 ++ t r
 += t r & ! T n
 +c       Diff current file to current CVS revision
-+	mksh -c '[[ -s CVS/Root && "$(<CVS/Root)" != :* ]] && export CVSREADONLYFS=1; cvs -q diff -dupa %f' 2>&1 | less
++	mksh -c 'unset CVSREADONLYFS; [[ -s CVS/Root && "$(<CVS/Root)" != :* ]] && export CVSREADONLYFS=1; cvs -q diff -dupa %f' 2>&1 | less
 +
 ++ t r
 +C       Diff current file to specific CVS revision
 +	BREV=%{Enter revision to diff against}
-+	mksh -c '[[ -s CVS/Root && "$(<CVS/Root)" != :* ]] && export CVSREADONLYFS=1; cvs -q diff -dupar'"$BREV %f" 2>&1 | less
++	mksh -c 'unset CVSREADONLYFS; [[ -s CVS/Root && "$(<CVS/Root)" != :* ]] && export CVSREADONLYFS=1; cvs -q diff -dupar'"$BREV %f" 2>&1 | less
 +
 ++ t r
 +e       Edit current revision diff against baserev
