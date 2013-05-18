@@ -1,4 +1,5 @@
 @name faked-basepackage
 @cwd /usr/mpkg
-@comment $MirOS: ports/devel/mirmake/pkg/PLIST,v 1.3 2005/11/18 00:07:11 tg Exp $
+@comment subdir=@subdir@ cdrom=yes ftp=yes
+@comment $MirOS: ports/infrastructure/templates/basepkg.CONTENTS,v 1.1 2005/12/20 20:01:14 tg Exp $
 @option base-package

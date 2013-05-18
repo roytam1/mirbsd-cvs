@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: ports/infrastructure/install/setup.ksh,v 1.75 2006/12/28 03:34:26 tg Exp $
+# $MirOS: ports/infrastructure/install/setup.ksh,v 1.76 2007/01/18 19:41:29 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -371,6 +371,7 @@ f_verexist=$($localbase/bin/mmake -f f all 2>/dev/null)
 			# Fake package installation
 			mkdir -p $localbase/db/pkg/mirmake-$f_ver-0
 			sed -e "s#/usr/mpkg#$localbase#" \
+			    -e 's#@subdir@#devel/mirmake,#' \
 			    <$portsdir/infrastructure/templates/basepkg.CONTENTS \
 			    >$localbase/db/pkg/mirmake-$f_ver-0/+CONTENTS
 			print mirmake >$localbase/db/pkg/mirmake-$f_ver-0/+COMMENT
@@ -415,6 +416,7 @@ fi
 		# Fake package installation
 		mkdir -p $localbase/db/pkg/mirmake-$f_ver-0
 		sed -e "s#/usr/mpkg#$localbase#" \
+		    -e 's#@subdir@#devel/mirmake,#' \
 		    <$portsdir/infrastructure/templates/basepkg.CONTENTS \
 		    >$localbase/db/pkg/mirmake-$f_ver-0/+CONTENTS
 		print MirOS make variant \
@@ -453,6 +455,7 @@ if [[ ! -f /usr/bin/nroff && ! -f $localbase/bin/nroff ]]; then
 	# Fake package installation
 	mkdir -p $localbase/db/pkg/nroff-$f_ver-0
 	sed -e "s#/usr/mpkg#$localbase#" \
+	    -e 's#@subdir@#essentials/nroff,#' \
 	    <$portsdir/infrastructure/templates/basepkg.CONTENTS \
 	    >$localbase/db/pkg/nroff-$f_ver-0/+CONTENTS
 	print unix text processor >$localbase/db/pkg/nroff-$f_ver-0/+COMMENT
@@ -476,6 +479,7 @@ if [[ ! -x /usr/sbin/mtree && ! -x $localbase/bin/mtree ]]; then
 	# Fake package installation
 	mkdir -p $localbase/db/pkg/mtree-$f_ver-0
 	sed -e "s#/usr/mpkg#$localbase#" \
+	    -e 's#@subdir@#essentials/mtree,#' \
 	    <$portsdir/infrastructure/templates/basepkg.CONTENTS \
 	    >$localbase/db/pkg/mtree-$f_ver-0/+CONTENTS
 	print mtree >$localbase/db/pkg/mtree-$f_ver-0/+COMMENT
@@ -658,6 +662,7 @@ else
 	# Fake package installation
 	mkdir -p $localbase/db/pkg/pkgtools-$f_ver-0
 	sed -e "s#/usr/mpkg#$localbase#" \
+	    -e 's#@subdir@#essentials/pkgtools,#' \
 	    <$portsdir/infrastructure/templates/basepkg.CONTENTS \
 	    >$localbase/db/pkg/pkgtools-$f_ver-0/+CONTENTS
 	print autopackage tools >$localbase/db/pkg/pkgtools-$f_ver-0/+COMMENT
