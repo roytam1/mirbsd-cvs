@@ -1,5 +1,5 @@
 #!/usr/bin/env mksh
-# $MirOS: CVSROOT/mklogtag,v 1.17 2008/07/03 18:09:36 tg Exp $
+# $MirOS: CVSROOT/mklogtag,v 1.18 2008/07/03 18:35:09 tg Exp $
 #-
 # Copyright (c) 2005, 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -33,6 +33,9 @@ if [[ -z $id || $id = @(-|%I) ]]; then
 		id=$(perl -e 'print getpgrp();' 2>&-) || id=
 	fi
 	[[ -z $id || $id -eq 0 ]] && exit 255
+	cidline=0
+else
+	cidline=1
 fi
 
 function die {
@@ -180,8 +183,10 @@ hn=$(hostname 2>/dev/null)
 [[ $hn = *.* ]] || hn=$hn.$(domainname 2>/dev/null)
 [[ $hn = *. ]] && hn=${hn}invalid
 
-cat >$T <<-EOF
+(( cidline )) && cat >$T <<-EOF
 	Commit ID:	$id
+EOF
+cat >$T <<-EOF
 	CVSROOT:	$repo
 	Module name:	$module
 	Changes by:	${USER}@$hn	$(TZ=UTC date '+%Y/%m/%d %T' 2>/dev/null) UTC

@@ -1,5 +1,5 @@
 #!/usr/bin/env mksh
-# $MirOS: CVSROOT/mklogci,v 1.38 2008/07/03 18:41:13 tg Exp $
+# $MirOS: CVSROOT/mklogci,v 1.39 2008/07/04 19:54:08 tg Exp $
 #-
 # Copyright (c) 2005, 2006, 2007
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -43,8 +43,10 @@ function die {
 }
 
 function makeheader {
-	cat <<-EOF
+	(( cidline )) && cat >$T <<-EOF
 		Commit ID:	$id
+	EOF
+	cat <<-EOF
 		CVSROOT:	$repo
 		Module name:	$module
 		Changes by:	${USER}@$hn	$(TZ=UTC date '+%Y/%m/%d %T' 2>/dev/null) UTC
@@ -167,6 +169,9 @@ if [[ -z $id || $id = @(-|%I) ]]; then
 		id=$(perl -e 'print getpgrp();' 2>&-) || id=
 	fi
 	[[ -z $id || $id -eq 0 ]] && exit 255
+	cidline=0
+else
+	cidline=1
 fi
 
 logfile=
