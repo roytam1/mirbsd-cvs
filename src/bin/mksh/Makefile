@@ -1,4 +1,6 @@
-# $MirOS$
+# $MirOS: src/bin/mksh/Makefile,v 1.33 2007/03/04 00:13:14 tg Exp $
+#-
+# use CPPFLAGS=-DDEBUG __CRAZY=Yes to check for certain more stuff
 
 .include <bsd.own.mk>
 

@@ -2,11 +2,11 @@
 
 #include "sh.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/bin/mksh/syn.c,v 1.11 2007/03/04 00:13:17 tg Exp $");
 
 struct nesting_state {
-	int	start_token;	/* token than began nesting (eg, FOR) */
-	int	start_line;	/* line nesting began on */
+	int start_token;	/* token than began nesting (eg, FOR) */
+	int start_line;		/* line nesting began on */
 };
 
 static void yyparse(void);
