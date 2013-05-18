@@ -1,4 +1,4 @@
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.84 2008/03/04 22:55:45 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.85 2008/03/05 00:14:35 tg Exp $'
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -773,6 +773,14 @@ mws_content <<'EOF'
   (not finished yet)</li>
  <li>Port to <a href="http://www.syllable.org/">Syllable</a> (segfaults
   on startup @ Syllable Desktop; didn’t test Syllable Server yet)</li>
+ <li>Simplify the <tt>dot.mkshrc</tt> file and make it more robust</li>
+ <li>Report OE and <tt>$CC</tt> version in <tt>Build.sh</tt>, for logs</li>
+ <li>Fix look’n’feel of the mksh(1) manual page, so that it still looks
+  teh best in AT&T nroff(1), looks much better in GNU groff (the PDF version
+  we place on the website), and looks some better <em>and</em> gains the
+  ability to copy’n’paste from it for GNU gnroff -Tutf8, originally prompted
+  by Patrick “aptituz” Schoenfeld and “lintian -viI mksh*.changes”, but then
+  improved (and nroff hacked) by tg@ a lot</li>
 </ul>
 <p>A release with many new features is mksh R33, look yourself:</p><ul>
  <li>Sync with OpenBSD ksh (no real functional changes)</li>
