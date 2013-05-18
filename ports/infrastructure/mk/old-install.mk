@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/old-install.mk,v 1.5 2005/12/15 01:24:43 tg Exp $
+# $MirOS: ports/infrastructure/mk/old-install.mk,v 1.6 2005/12/20 19:57:54 tg Exp $
 # $OpenBSD: old-install.mk,v 1.10 2002/06/27 12:47:23 mpech Exp $
 # Stuff that is needed for old, pre-fake, port installations.
 
@@ -104,8 +104,8 @@ plist: install
 # accordance to the @pkgdep directive in the packing lists
 
 fake-pkg: ${_PKG_PREREQ}
-	@if [ $$(echo ${_COMMENT} | wc -c) -gt 72 ]; then \
-	    echo "** "${_COMMENT}" too large - installation not recorded."; \
+	@if [ $$(echo ${_COMMENT:Q} | wc -c) -gt 72 ]; then \
+	    echo "** "${_COMMENT:Q}" too large - installation not recorded."; \
 	    exit 1; \
 	 fi
 	@if [ ! -d ${PKG_DBDIR} ]; then rm -f ${PKG_DBDIR}; mkdir -p ${PKG_DBDIR}; fi
@@ -117,7 +117,7 @@ fake-pkg: ${_PKG_PREREQ}
 		mkdir -p ${PKG_DBDIR}/${FULLPKGNAME}; \
 		${PKG_CMD} ${PKG_ARGS} -O ${PKGFILE} > ${PKG_DBDIR}/${FULLPKGNAME}/+CONTENTS; \
 		cp ${WRKPKG}/DESCR${SUBPACKAGE} ${PKG_DBDIR}/${FULLPKGNAME}/+DESC; \
-		echo ${_COMMENT} >${PKG_DBDIR}/${FULLPKGNAME}/+COMMENT; \
+		echo ${_COMMENT:Q} >${PKG_DBDIR}/${FULLPKGNAME}/+COMMENT; \
 		if [ -f ${WRKPKG}/INSTALL${SUBPACKAGE} ]; then \
 			cp ${WRKPKG}/INSTALL${SUBPACKAGE} ${PKG_DBDIR}/${FULLPKGNAME}/+INSTALL; \
 		fi; \

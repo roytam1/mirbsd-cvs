@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.subdir.mk,v 1.4 2005/12/15 01:24:43 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.subdir.mk,v 1.6 2006/02/09 13:31:31 tg Exp $
 # $OpenBSD: bsd.port.subdir.mk,v 1.64 2004/04/07 13:06:33 espie Exp $
 # $FreeBSD: bsd.port.subdir.mk,v 1.20 1997/08/22 11:16:15 asami Exp $
 #
@@ -152,8 +152,7 @@ README.html:
 	name=$$(eval $$toset ${MAKE} _print-packagename); \
 	case $$name in \
 		README) comment=;; \
-		*) comment=$$(eval $$toset ${MAKE} show=_COMMENT \
-		    | sed -e 's,^",,' -e 's,"$$,,' | ${HTMLIFY});; \
+		*) comment=$$(eval $$toset ${MAKE} show=_COMMENT | ${HTMLIFY});; \
 	esac; \
 	cd ${.CURDIR}; \
 	echo "<dt><a href=\"${PKGDEPTH}$$dir/$$name.html\">$d</a><dd>$$comment" >>$@.tmp

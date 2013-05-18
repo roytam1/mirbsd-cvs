@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.126 2006/08/26 23:34:16 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.127 2006/09/09 14:14:22 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -2446,11 +2446,11 @@ _EXTRA_DESCRIBE+=	"(uses C++)"
 .if ${USE_X11:L} == "yes"
 _EXTRA_DESCRIBE+=	"(uses X11)"
 .endif
-.if ${USE_GMAKE:L} == "yes"
+.if (${USE_GMAKE:L} == "yes") || (${USE_SCHILY:L} == "yes")
 _EXTRA_DESCRIBE+=	"(uses GNU Make)"
 .endif
 .if ${USE_SCHILY:L} == "yes"
-_EXTRA_DESCRIBE+=	"(uses GNU Make) (uses Schily)"
+_EXTRA_DESCRIBE+=	"(uses Schily)"
 .endif
 .if ${USE_MOTIF:L} == "yes"
 _EXTRA_DESCRIBE+=	"(uses Motif)"
@@ -2487,7 +2487,7 @@ describe:
 .  else
 	@echo -n "${PREFIX}|"
 .  endif
-	@echo -n ${_COMMENT}${_EXTRA_DESCRIBE}"|${HOMEPAGE}|"; \
+	@echo -n ${_COMMENT:Q}${_EXTRA_DESCRIBE}\|${HOMEPAGE:Q}\|; \
 	if [ -f ${DESCR} ]; then \
 		echo -n "${DESCR:S,^${PORTSDIR}/,,}|"; \
 	else \
