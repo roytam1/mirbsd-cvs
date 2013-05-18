@@ -494,7 +494,6 @@
 ./usr/dbin/uncompress
 ./usr/dbin/zcat
 ./usr/dsbin
-./usr/dsbin/ancontrol
 ./usr/dsbin/atactl
 ./usr/dsbin/badsect
 ./usr/dsbin/brconfig
@@ -506,7 +505,6 @@
 ./usr/dsbin/dmesg
 ./usr/dsbin/dump
 ./usr/dsbin/dumpfs
-./usr/dsbin/fdisk
 ./usr/dsbin/ffsinfo
 ./usr/dsbin/fsck
 ./usr/dsbin/fsck_ext2fs
@@ -516,7 +514,6 @@
 ./usr/dsbin/growfs
 ./usr/dsbin/halt
 ./usr/dsbin/ifconfig
-./usr/dsbin/iopctl
 ./usr/dsbin/isakmpd
 ./usr/dsbin/kbd
 ./usr/dsbin/lmccontrol
@@ -533,7 +530,6 @@
 ./usr/dsbin/mount_mfs
 ./usr/dsbin/mount_msdos
 ./usr/dsbin/mount_nfs
-./usr/dsbin/mount_ntfs
 ./usr/dsbin/mount_portal
 ./usr/dsbin/mount_procfs
 ./usr/dsbin/mountd

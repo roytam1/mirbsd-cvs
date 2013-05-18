@@ -3,6 +3,10 @@
 ./sbin/iopctl
 ./sbin/mount_ntfs
 ./usr/bin/pctr
+./usr/dsbin/ancontrol
+./usr/dsbin/fdisk
+./usr/dsbin/iopctl
+./usr/dsbin/mount_ntfs
 ./usr/mdec/mbrldr
 ./usr/mdec/mbrmgr
 ./usr/mdec/pxeboot
