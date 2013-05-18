@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.113 2008/04/06 22:42:55 tg Exp $
+# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.114 2008/04/06 23:09:43 tg Exp $
 #-
 # Copyright (c) 2006, 2008
 #	Thorsten “mirabilos” Glaser <tg@mirbsd.de>
@@ -453,6 +453,7 @@ fi
 rm -rf $d_build/xinstall
 cd $d_src/usr.bin; find xinstall | cpio -pdlu $d_build
 cd $d_build/xinstall
+cp $d_src/bin/mksh/setmode.c .
 ed -s install.1 <<-'EOF'
 	/Nm install/s//Nm binstall/
 	wq
