@@ -3,7 +3,7 @@
 
 mws_setname subprojects/a4rp5bsd "arc4random for non-MirBSD"
 mws_setheadline "arc4random for non-MirBSD systems"
-mws_putheader '$MirOS: www/src/a4rcontrb.hts,v 1.1 2009/10/15 16:55:04 tg Exp $'
+mws_putheader '$MirOS: www/src/a4rcontrb.hts,v 1.2 2010/02/14 19:28:03 tg Exp $'
 mws_content <<'EOF'
 <p>This will, some day, be the homepage of the arc4random(3) suite
  for non-MirBSD systems. The codes need to be rewritten anyway, and
@@ -23,7 +23,8 @@ mws_content <<'EOF'
 </ul>
 <p>There are also <a href="@@ABSPATH@@/MirOS/dist/hosted/other/">versioned
  downloads</a> of the main <tt>arc4random.c</tt> file, for mksh(1) packagers'
- convenience.</p>
+ convenience. (Nowadays, <a href="@@RELPATH@@mksh.htm">mksh</a> doesn’t use
+ it any longer, but others – BSD::arc4random, for example – do.)</p>
 
 <h2>See also</h2>
 <p><a href="http://packages.debian.org/sid/libbsd-dev">Debian package
