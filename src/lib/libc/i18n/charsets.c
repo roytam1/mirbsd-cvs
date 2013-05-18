@@ -1,4 +1,4 @@
-/* $MirOS: src/lib/libc/i18n/charsets.c,v 1.1 2005/09/22 21:21:09 tg Exp $ */
+/* $MirOS: src/lib/libc/i18n/charsets.c,v 1.2 2005/09/22 21:24:47 tg Exp $ */
 
 /*-
  * Copyright (c) 2005
@@ -29,8 +29,9 @@
 #include <langinfo.h>
 #include <locale.h>
 #include <nl_types.h>
+#include <wchar.h>
 
-__RCSID("$MirOS: src/lib/libc/i18n/charsets.c,v 1.1 2005/09/22 21:21:09 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/i18n/charsets.c,v 1.2 2005/09/22 21:24:47 tg Exp $");
 
 /* simple locale support (C and UTF-8) */
 
@@ -39,7 +40,30 @@ int locale_is_utf8 = 0;
 char *
 __weak_setlocale(int category, const char *locale)
 {
-	return "C";
+	if ((category != LC_CTYPE) && (category != LC_ALL))
+		return ("C");
+
+	if (locale == NULL)
+		return (locale_is_utf8 ? "en_US.UTF-8" : "C");
+
+	if (*locale == '\0') {
+		locale = getenv("LC_ALL");
+		if (!locale || !*locale) {
+			locale = getenv("LC_CTYPE");
+			if (!locale || !*locale)
+				locale = getenv("LANG");
+			if (!locale)
+				locale = "C";
+		}
+	}
+
+	if (strcasestr(locale, "UTF-8") || strcasestr(locale, "utf8")) {
+		locale_is_utf8 = !0;
+		return ("en_US.UTF-8");
+	}
+
+	locale_is_utf8 = 0;
+	return ("C");
 }
 
 size_t
