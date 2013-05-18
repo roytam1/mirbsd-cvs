@@ -1,6 +1,8 @@
 #!/usr/bin/env mksh
-# $MirOS: ports/infrastructure/pkgtools/upgrade/pkg_upgrade.sh,v 1.9 2005/12/18 05:40:16 tg Exp $
+# $MirOS: ports/infrastructure/pkgtools/upgrade/pkg_upgrade.sh,v 1.10 2005/12/18 16:36:43 tg Exp $
 #-
+# Copyright (c) 2006
+#	Thorsten Glaser <tg@mirbsd.de>
 # Copyright (c) 2005
 #	Benny Siegert <bsiegert@66h.42h.de>
 #
@@ -28,17 +30,19 @@ me=${0##*/}
 function usage
 {
 	print -u2 Usage:
-	print -u2 "\t$me [-af] pkgname.cgz"
+	print -u2 "\t$me [-afq] pkgname.cgz"
 	exit 1
 }
 
 auto=0
 force=0
-while getopts "afh" option; do
+quiet=0
+while getopts "afhq" option; do
 	case $option {
 	(a)	auto=1 ;;
 	(f)	force=1 ;;
 	(h)	usage ;;
+	(q)	quiet=1 ;;
 	(*)	usage ;;
 	}
 done
@@ -67,7 +71,10 @@ cd $PKG_DBDIR
 PKGNAME=$(awk '$1=="@name" { print $2 }' $TMPDIR/+CONTENTS)
 OLDPKGS=$(echo ${PKGNAME%%-[0-9]*}-[0-9]*)
 [[ $OLDPKGS = ?(${PKGNAME%%-[0-9]*})@(-\[0-9\]\*) ]] && OLDPKGS=
-[[ $auto = 1 && -z $OLDPKGS ]] && exit 0
+if [[ $auto = 1 && -z $OLDPKGS ]]; then
+	[[ $quiet = 1 ]] || print -u2 "$me: ignoring uninstalled package '$1'"
+	exit 0
+fi
 cd $OLDPWD
 
 #XXX what does this do?
@@ -76,6 +83,7 @@ cd $OLDPWD
 grep -q '^@option no-default-conflict' $TMPDIR/+CONTENTS
 if [[ $? -eq 0 || -z "$OLDPKGS" ]]; then
 	# we can safely go on
+	[[ $quiet = 1 ]] || print -u2 "$me: adding previously uninstalled '$1'"
 	exec pkg_add $1
 fi
 
@@ -98,7 +106,7 @@ if [[ -f $PKG_DBDIR/$OLDPKGS/+REQUIRED_BY ]] ; then
 fi
 
 if grep -q '^@option base-package' $PKG_DBDIR/$OLDPKGS/+CONTENTS ; then
-	echo "This is a base package, unregistering only"
+	print -u2 "$me: '$OLDPKGS' is a base package, unregistering only"
 	pkg_delete -DU $OLDPKGS && pkg_add -Nq $1
 else
 	pkg_delete $OLDPKGS && pkg_add $1
