@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/share/misc/licence.template,v 1.6 2006/01/24 22:24:02 tg Rel $
+# $MirOS: contrib/code/heartbeat/hbbackend.mirdns,v 1.5 2006/03/20 00:23:31 tg Exp $
 #-
 # Copyright (c) 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -108,7 +108,7 @@ function dns_write
 function do_dnsup
 {
 	if (( thecookie )); then
-		print ACTION CALL $thecookie MirDNSv3 $myuser \
+		print -n ACTION CALL $thecookie MirDNSv3 $myuser \
 		    | nc -4nuw0 127.0.0.1 3740
 	else
 		mksh $tinydns/make.sh
