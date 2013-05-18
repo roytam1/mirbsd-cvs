@@ -20,7 +20,8 @@
 # of said person’s immediate fault when using the work as intended.
 #-
 # Analoguhr mit Digitalanzeige. Grundlegende Annahme: schnelles Ter‐
-# minal, d.h. keine Voroptimierung der Darstellung durch Shellcode.
+# minal, d.h. keine Voroptimierung der Darstellung durch das Skript;
+# Font im Seitenverhältnis 1:2 (z.B. 9x18 aus XFree86® fixed-misc).
 
 if [[ $KSH_VERSION != @(\@\(#\)MIRBSD KSH R)@(4[1-9]|[5-9][0-9]|[1-9][0-9]+([0-9]))\ +([0-9])/+([0-9])/+([0-9])?(\ *) ]]; then
 	print -u2 Uhr requires mksh R41 or newer.
@@ -198,6 +199,49 @@ while (( ++i < 12 )); do
 done
 exec 3>&p; exec 3>&-
 
+(( L = LINES >= (COLUMNS / 2) ? (COLUMNS / 2) : LINES ))
+# fine-tuning of roman numeral position via screen size
+(( ++mkx[7] ))
+(( ++mkx[8] ))
+case $L {
+(22|23)	(( ++mkx[6] )) ;|
+(23)
+	(( mky[1] += 2 ))
+	(( mky[2] += 2 ))
+	(( mky[10] += 2 ))
+	(( mky[11] += 2 ))
+	;;
+(24|25|29|30|31|34)
+	(( mky[4] += 2 ))
+	(( mky[8] += 2 ))
+	;|
+(27|28|29)
+	(( ++mkx[10] ))
+	(( mky[8] += 2 ))
+	(( mky[9] += 2 ))
+	(( mky[10] += 2 ))
+	;|
+(27|29|31)
+	(( mky[0] -= 2 ))
+	;|
+(27)
+	(( --mkx[4] ))
+	(( --mkx[5] ))
+	(( ++mkx[6] ))
+	(( mkx[7] += 2 ))
+	(( ++mkx[8] ))
+	(( ++mkx[10] ))
+	;;
+(29)
+	(( mky[5] += 2 ))
+	(( mky[7] += 2 ))
+	;;
+(30)
+	(( mky[11] -= 2 ))
+	;;
+}
+(( mky[0] += 2 * (L & 1) ))
+
 # clear framebuffer and screen
 set -A fb
 integer fb
@@ -206,8 +250,8 @@ print -n -- '\e[H\e[J'
 # draw hour markers
 set -A lb
 integer e f=-1 k
-(( LINES > 21 )) && while (( ++f < 12 )); do
-	i=mkx[f]
+(( L > 21 )) && while (( ++f < 12 )); do
+	(( i=mkx[f] ))
 	(( j = mky[f] & ~1 ))
 	case $f {
 	(0) e=7 S='# # # # #  # ## # # #' ;;
@@ -223,9 +267,17 @@ integer e f=-1 k
 	(10) e=3 S='# # # # #' ;;
 	(11) e=5 S='# # # #  ## # #' ;;
 	}
+	Y='0 1 2'
+	if (( L > 26 )); then
+		d='###########'
+		S="${d::e+2} ${S::e}  ${S: e:e}  ${S:2*e} ${d::e+2}"
+		(( e += 2 ))
+		Y+=' 3 4'
+		(( j += 2 ))
+	fi
 	(( i -= e / 2 ))
 	k=0
-	for y in 0 1 2; do
+	for y in $Y; do
 		(( y = j - y * 2 + 1 + (r & 1) ))
 		(( dy = y + 1 ))
 		(( x = i - 1 ))
