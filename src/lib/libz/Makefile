@@ -1,4 +1,4 @@
-# $MirOS: src/lib/libz/Makefile,v 1.22 2007/05/08 21:16:17 tg Exp $
+# $MirOS: src/lib/libz/Makefile,v 1.23 2007/05/17 18:38:36 tg Exp $
 # $OpenBSD: Makefile,v 1.13 2005/07/20 21:29:00 jmc Exp $
 
 SHLIB_VERSION?=	5.3
@@ -52,7 +52,8 @@ MLINKS+=	gzfopen.3 gzfdopen.3
 
 HOSTCFLAGS?=	${CFLAGS}
 HOSTLDFLAGS?=	${LDFLAGS}
-HOSTCPPFLAGS+=	${CPPFLAGS} -I${.CURDIR}
+HOSTCPPFLAGS?=	${CPPFLAGS}
+HOSTCPPFLAGS+=	-I${.CURDIR}
 
 beforedepend: ${GENHDRS}
 
