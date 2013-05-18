@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.171 2007/05/06 18:35:46 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.172 2007/05/07 22:34:11 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -269,6 +269,7 @@ NO_REGRESS=		Yes
 .endif
 
 .if ${USE_MOTIF:L} != "no"
+USE_X11=		Yes
 MODULES+=		motif
 .endif
 
