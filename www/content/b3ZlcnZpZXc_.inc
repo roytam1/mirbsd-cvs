@@ -1,5 +1,5 @@
 <!-- PageID: overview -->
-<small class="rcsid">$MirOS: www/content/b3ZlcnZpZXc_.inc,v 1.29 2008/03/16 00:08:07 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/b3ZlcnZpZXc_.inc,v 1.30 2008/07/20 23:08:37 tg Exp $</small>
 <h1>Quick Overview &ndash; All in one page</h1>
 
 <h2>Maintenance</h2>
@@ -64,7 +64,8 @@
   <li><a href="http://mirbsd.de/fornow">http://mirbsd.de/fornow</a></li>
  </ul></li>
  <li>CVS Repositories<ul>
-  <li><a href="/MirOS/CVS/cvsrepo-20080316.cgz">/cvs</a> (4th, current)</li>
+  <li><a href="/MirOS/CVS/cvsrepo-20080722.cgz">/cvs</a> (4th, current)</li>
+  <li><a href="/MirOS/dist/hosted/other/ewe-rcsfiles.cgz">MirEwe</a> (orphaned subproject)</li>
   <li><a href="/MirOS/CVS/cvsroot-historic.cgz">/ncvs /ocvs /lcvs</a> (1st, 2nd, 3rd combined, historic, final)</li>
  </ul></li>
 </ul>

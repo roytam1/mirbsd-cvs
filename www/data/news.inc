@@ -950,3 +950,33 @@ Author: tg@
 <p><strong>Update 18.07.2008</strong> – mksh R35b is out, with major bug
  fixes, read the <a href="@@RELPATH@@mksh.htm#r35b">changelog</a>.</p>
 ----
+Title: MirOS-current DuaLive snapshot on BT
+Date: 22.07.2008 23:12
+Author: tg@
+
+<p>The <a href="@@RELPATH@@bt.htm#s80722">2008-07-22</a> snapshot of
+ MirOS BSD/i386 #10-current has been released as a new-style dualive CD
+ image (BaseLive + Install CD for i386, Install CD for sparc, build logs,
+ a selected few binary packages and their distfiles, but nothing fancy) on
+ the <a href="http://f.scarywater.net/miros/">usual BitTorrent tracker</a>,
+ multi-tracked with a major BT site for these who pick it up there.</p>
+<p>It's also available for <a href="/MirOS/current/">NetInstall</a> on both
+ architectures. Note that <tt>/MirOS/</tt> has been cleaned up a little:
+ some old NetInstall or upgrade packages are removed.</p>
+<p>The <a href="/MirOS/Pkgs/v10/i386/">#10/i386 binary packages</a> should
+ all be installable on this snapshot, although it does come with more recent
+ MirPorts Framework and a couple of <a href="/MirOS/Pkgs/current/">current
+ binary packages</a> as well.</p>
+----
+Title: MirOS Project @ FrOSCon 2008
+Date: 22.07.2008 23:16
+Author: tg@
+
+<p>The MirOS Project will show up with both developers to run a booth at <a
+ href="http://www.froscon.org/">FrOSCon</a>; we will be giving away Live CDs
+ (either #10-stable or #10-current) and flyers. You will be able to meet us
+ and a few helpers (known from IRC and mailing lists) there, chat about mksh,
+ have a beer, fun, whatever.</p>
+<p>This year, one of the two <a href="http://www.xfree86.org/">XFree86®</a>
+ developers will also attend; you can probably meet him at our booth.</p>
+----
