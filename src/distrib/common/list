@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/list,v 1.17 2007/07/07 20:32:06 tg Exp $
+# $MirOS: src/distrib/common/list,v 1.18 2007/07/08 15:00:30 tg Exp $
 
 # standard tools in the crunched binary
 COPY	${OBJDIR}/instbin			instbin
@@ -49,6 +49,7 @@ LINK	instbin					usr/bin/nc
 LINK	instbin					usr/bin/printf
 LINK	instbin					usr/bin/script
 LINK	instbin					usr/bin/sed
+LINK	instbin					usr/bin/sort
 LINK	instbin					usr/libexec/cprng
 LINK	instbin					usr/mdec/installboot
 LINK	instbin					usr/sbin/chkuterm
