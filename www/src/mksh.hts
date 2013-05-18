@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.393 2011/03/28 21:58:12 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.394 2011/04/03 21:51:54 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -544,6 +544,7 @@ exec /usr/bin/ld "${args[@]}"</pre>
  href="http://dev.haiku-os.org/ticket/5567">a kernel from r35836 up</a>
  is required due to a bugfix wrt. signal handling. (This for <a
  href="http://www.haiku-os.org/">Haiku</a>; we have no idea about BeOS.)</p>
+<p>gcc4hybrid might not work, gcc2hybrid might work well.</p>
 
 <h5 class="cr" id="oe_bsi">OS: BSDi BSD/OS</h5>
 <p>BSD/OS 3.1 works fine with mksh R33.</p>
@@ -1040,7 +1041,7 @@ exec /usr/bin/ld "${args[@]}"</pre>
  <!-- li>Import the GNU bash- and zsh-style ability to get and set multiple
   limits in a single invocation from oksh (thanks millert) -->
  <li>[tg] Correct small mistakes in manpage and build script</li>
- <li>[ahoka, tg, stippi, bonefish] Port to <a
+ <li>[ahoka, tg, stippi, bonefish, cnuke] Port to <a
   href="http://www.haiku-os.org/">Haiku</a> (and probably, implicitly,
   BeOS; this is not tested though)</li>
  <li>[tg, stippi] Add Haiku specific RLIMIT_NOVMON as ‘V’ to ulimit builtin</li>
@@ -1197,6 +1198,7 @@ exec /usr/bin/ld "${args[@]}"</pre>
  <li>[tg] Permit <tt>${foo%(*}</tt> on FSH (Debian Closes: #619947)</li>
  <li>[tg, rsc] Allow skipping testcases that need a controlling tty</li>
  <li>[tg] Correct skipping the UTF-8 BOM when identifying a file</li>
+ <li>[tg] Do not use <tt>&lt;stdbool.h&gt;</tt> any longer</li>
 </ul>
 <p id="r39c">mksh R39c is an important minor bugfix release:</p><ul>
  <li>[tg] Build system, code, docs and testsuite cleanup, also style(9)</li>
