@@ -1,4 +1,4 @@
-# $MirOS: ports/www/firesomething/Makefile,v 1.33 2008/12/06 16:11:48 tg Exp $
+# $MirOS: ports/www/firesomething/Makefile,v 1.34 2008/12/07 19:56:45 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.41 2005/11/15 09:21:52 wilfried Exp $
 
 ONLY_FOR_PLATFORM=	*:*:alpha *:*:i386 *:*:sparc *:*:sparc64 *:*:amd64 *:*:powerpc
@@ -40,8 +40,7 @@ USE_X11=		Yes
 USE_GMAKE=		Yes
 # Regression tests are too hard to adapt to run here
 NO_REGRESS=		Yes
-SUBST_VARS=		LOCALBASE SO_EXTENSION SO_VERSION VER
-SO_EXTENSION=		.${SO_VERSION}
+SUBST_VARS=		LOCALBASE SO_VERSION VER
 
 MODGNU_RECURSE_DIRS=	${WRKSRC}/nsprpub ${WRKSRC}
 CONFIGURE_STYLE=	autoconf no-autoheader
