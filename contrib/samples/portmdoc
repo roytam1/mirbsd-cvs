@@ -1,4 +1,4 @@
-.\" $MirOS: contrib/samples/portmdoc,v 1.6 2009/11/17 21:28:25 tg Exp $
+.\" $MirOS: contrib/samples/portmdoc,v 1.7 2010/03/15 17:57:38 tg Exp $
 .\"-
 .\" Copyright (c) 2008, 2009, 2010
 .\"	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
@@ -35,8 +35,6 @@
 .	ds TI \(ti
 .	ds ha \(ha
 .	ds en \(en
-.	if \*[.T]utf8 .tr \[la]\*(Lt
-.	if \*[.T]utf8 .tr \[ra]\*(Gt
 .\}
 .el \{\
 .	ds aq '
@@ -59,11 +57,13 @@
 .\" with -mandoc, it might implement .Mx itself, but we want to
 .\" use our own definition. And .Dd must come *first*, always.
 .\"
-.Dd $Mdocdate: November 17 2009 $
+.Dd $Mdocdate: March 15 2010 $
 .\"
-.\" Check which macro package we use
+.\" Check which macro package we use, and do other -mdoc setup.
 .\"
 .ie \n(.g \{\
+.	if \*[.T]utf8 .tr \[la]\*(Lt
+.	if \*[.T]utf8 .tr \[ra]\*(Gt
 .	ie d volume-ds-1 .ds tT gnu
 .	el .ds tT bsd
 .\}

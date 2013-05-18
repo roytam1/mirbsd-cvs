@@ -1,4 +1,4 @@
-.\" $MirOS: src/share/man/man9/style.9,v 1.13 2010/01/29 09:34:24 tg Exp $
+.\" $MirOS: src/share/man/man9/style.9,v 1.14 2010/01/29 09:38:57 tg Exp $
 .\"-
 .\" Copyright (c) 2002-2010 The MirOS Project.
 .\" Copyright (c) ? OpenBSD
@@ -29,7 +29,7 @@
 .\"	$OpenBSD: style.9,v 1.50 2008/11/14 13:42:05 tedu Exp $
 .\"
 .\"-
-.\" Copyright (c) 2008, 2009
+.\" Copyright (c) 2008, 2009, 2010
 .\"	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
 .\"-
 .\" Try to make GNU groff and AT&T nroff more compatible
@@ -40,6 +40,8 @@
 .\" * ~ is size-reduced and placed atop in groff, so use \*(TI
 .\" * ^ is size-reduced and placed atop in groff, so use \*(ha
 .\" * \(en does not work in nroff, so use \*(en
+.\" * <>| are problematic, so redefine and use \*(Lt\*(Gt\*(Ba
+.\" Also make sure to use \& especially with two-letter words.
 .\" The section after the "doc" macropackage has been loaded contains
 .\" additional code to convene between the UCB mdoc macropackage (and
 .\" its variant as BSD mdoc in groff) and the GNU mdoc macropackage.
@@ -84,11 +86,13 @@
 .\" with -mandoc, it might implement .Mx itself, but we want to
 .\" use our own definition. And .Dd must come *first*, always.
 .\"
-.Dd $Mdocdate: November 17 2009 $
+.Dd $Mdocdate: March 15 2010 $
 .\"
-.\" Check which macro package we use
+.\" Check which macro package we use, and do other -mdoc setup.
 .\"
 .ie \n(.g \{\
+.	if \*[.T]utf8 .tr \[la]\*(Lt
+.	if \*[.T]utf8 .tr \[ra]\*(Gt
 .	ie d volume-ds-1 .ds tT gnu
 .	el .ds tT bsd
 .\}
@@ -217,18 +221,23 @@ Also, add
 .Aq Pa sys/time.h
 before the other system includes, but after
 .Aq Pa sys/types.h .
+Put non-local includes in brackets, local includes in double quotes.
 .Bd -literal -offset indent
-#include \*(Ltsys/types.h\*(Gt	/* non-local includes in brackets */
+.if "\*(tT"gnu" .nr in-synopsis-section 1
+.In sys/types.h
+.if "\*(tT"gnu" .nr in-synopsis-section 0
 .Ed
 .Pp
 Machine and device includes follow.
 If it's a networked programme, put the network include files next.
 .Bd -literal -offset indent
+.if "\*(tT"gnu" .nr in-synopsis-section 1
 .In net/if.h
 .In net/if_dl.h
 .In net/route.h
 .In netinet/in.h
 .In protocols/rwhod.h
+.if "\*(tT"gnu" .nr in-synopsis-section 0
 .Ed
 .Pp
 Then there's an optional blank line, followed by the other files from
@@ -243,7 +252,9 @@ then network includes sorted (if possible), then
 .Pa /usr/include
 files sorted, then local includes (also sorted if possible).
 .Bd -literal -offset indent
+.if "\*(tT"gnu" .nr in-synopsis-section 1
 .In stdio.h
+.if "\*(tT"gnu" .nr in-synopsis-section 0
 .Ed
 .Pp
 Global pathnames are defined in
@@ -252,12 +263,29 @@ Pathnames local to the programme go in
 .Dq Pa pathnames.h
 in the local directory.
 .Bd -literal -offset indent
+.if "\*(tT"gnu" .nr in-synopsis-section 1
 .In paths.h
+.if "\*(tT"gnu" .nr in-synopsis-section 0
 .Ed
 .Pp
 Then there's a mandatory blank line, and the user include files.
 .Bd -literal -offset indent
-#include "pathnames.h"	/* local includes in double quotes */
+.ie "\*(tT"gnu" \{\
+.	nr curr-font \n[.f]
+.	nr curr-size \n[.ps]
+.	nop \*[Fd-font]#include "pathnames.h"
+.	ft \n[curr-font]
+.	ps \n[curr-size]u
+.\}
+.el \{\
+.	nr cF \n(.f
+.	nr cZ \n(.s
+.	fI
+\&\*(fD#include "pathnames.h"
+.	br
+.	ft \n(cF
+.	fs \n(cZ
+.\}
 .Ed
 .Pp
 The includes block is separated by another blank line from the file
@@ -435,7 +463,9 @@ and
 macros rather than rolling your own lists whenever possible.
 Thus, the previous example would be better written:
 .Bd -literal -offset indent
+.if "\*(tT"gnu" .nr in-synopsis-section 1
 .In sys/queue.h
+.if "\*(tT"gnu" .nr in-synopsis-section 0
 
 struct foo {
 	LIST_ENTRY(foo) link;	/* queue glue for foo lists */
@@ -678,7 +708,7 @@ The function type should be on a line by itself
 preceding the function.
 This eases searching for a function implementation:
 .Pp
-.Li $ grep \-r '\*(hafunction' \&.
+.Li $ grep \-r \*(aq\*(hafunction\*(aq \&.
 .Bd -literal -offset indent
 static char *
 function(int a1, int a2, float fl, int a4)
@@ -887,7 +917,9 @@ Long parameter lists are wrapped with a normal four space indent.
 .Pp
 Variable numbers of arguments should look like this:
 .Bd -literal -offset indent
+.if "\*(tT"gnu" .nr in-synopsis-section 1
 .In stdarg.h
+.if "\*(tT"gnu" .nr in-synopsis-section 0
 
 void vaf(const char *fmt, ...)
     __attribute__((format (printf, 1, 2)));
@@ -963,7 +995,7 @@ any warnings, failures or malfunctions with gcc3
 pcc
 .Fl O ,
 SUNWcc, and gcc4
-.Fl O2 fwrapv fno-strict-aliasing Wformat .
+.Fl O2 fwrapv fno\-strict\-aliasing Wformat .
 .Pp
 Note that documentation follows its own style guide,
 as documented in
@@ -978,7 +1010,7 @@ extensions.
 function bla {
 	(( x )) && foo=abcdefghijklmnopqrstuvwxyz$(fnord \e
 	    ABCDEFGHIJKLMNOPQRSTUVWXYZ)
-	[[ $foo = @([a\-z_]*([a\-z0-9_]) ]] \*(Ba\*(Ba exit 1
+	[[ $foo = @([a\-z_]*([a\-z0\-9_]) ]] \*(Ba\*(Ba exit 1
 }
 .Ed
 .Sh FILES
