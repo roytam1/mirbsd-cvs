@@ -1,7 +1,0 @@
-PerlIO::via::dynamic is used for creating dynamic PerlIO layers. It is
-useful when the behavior or the layer depends on variables. You should
-not use this module as via layer directly (ie :via(dynamic)).
-
-Use the constructor to create new layers, with two arguments: translate
-and untranslate. Then use $p-via ($fh)> to wrap the handle. Once <$fh>
-is destroyed, the temporary namespace for the IO layer will be removed.
