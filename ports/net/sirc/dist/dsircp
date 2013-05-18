@@ -1,5 +1,5 @@
 #!/usr/bin/env perl
-# $MirOS: ports/net/sirc/dist/dsircp,v 1.24 2009/01/08 20:23:30 tg Exp $
+# $MirOS: ports/net/sirc/dist/dsircp,v 1.25 2009/08/02 14:34:59 tg Exp $
 #-
 # dsircp: dumb-mode small irc client in perl
 # by orabidoo <roger.espel.llima@pobox.com>
@@ -7,7 +7,7 @@
 # Copyright (C) 1995-1997 Roger Espel Llima
 # Copyright (c) 2002-2003 Hubert Feyrer
 # Copyright (c) Phil Stracchino
-# Copyright (c) 2001-2009 Thorsten Glaser
+# Copyright (c) 2001-2010 Thorsten Glaser
 #
 # This work is provided "AS IS" and WITHOUT WARRANTY of any kind, to
 # the utmost extent permitted by applicable law, neither express nor
@@ -544,7 +544,7 @@ sub print {
     if ($set{"SHOWTIME"} eq 'off') {
       $tstamp = "";
     }
-    print $tstamp . $what, "\n" || &exit;
+    print($tstamp . $what, "\n") || &exit;
   } elsif ($ansi) {
     $tstamp = "\cv" . $tstamp . "\cv ";
     if ($set{"SHOWTIME"} eq 'off') {
@@ -569,14 +569,14 @@ sub print {
       my $code = $ansi_code->[$is_bold][$is_ul][$is_rev];
       $what =~ s/\c[bv_]/$code/;
     }
-    print $tstamp . $what, $normal, "\n" || &exit;
+    print($tstamp . $what, $normal, "\n") || &exit;
   } else {
     $tstamp .= "| ";
     if ($set{"SHOWTIME"} eq 'off') {
       $tstamp = "";
     }
     $what =~ tr/\ca-\ch\cj-\c_//d;
-    print $tstamp . $what, "\n" || &exit;
+    print($tstamp . $what, "\n") || &exit;
   }
 }
 
