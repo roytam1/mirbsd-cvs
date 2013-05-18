@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.407 2012/12/10 16:44:56 bsiegert Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.408 2012/12/15 13:24:19 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -9564,7 +9564,10 @@ Tag: debian politics
 <p style="font-size:small;">(Apologies for putting this on Planet Debian,
  but it says the one or other non-English post is okay as long as it’s an
  exception. I feel I need to reach more people with this, but don’t feel
- like translating this into English right now.)</p>
+ like translating this into English right now.)<br />Update: Tanguy asked
+ for a short English summary: it’s me ranting against the rioting against
+ muslims and the call for more CCTV surveillance after a <em>possible</em>
+ bomb was found at the train station.</p>
 <p>In Bonn herrscht immer noch „Bombenstimmung“, wenn man z.B. auf die
  Webseite der Lokalzeitung schaut – von dem Amoklauf in Connecticut, über
  den sich im IRC gewunder wird, ist immer noch nichts zu sehen, dafür wird
@@ -9595,4 +9598,11 @@ Tag: debian politics
  den Groupies von Theo de Raadt, die noch asiger zu Leuten sind als er
  selber.) (Außerdem muß man ja befürchten, durch Besitz eines Korans schon
  vorverurteilt zu werden heutzutage *seufz*… ich finde das nicht gut!)</p>
+<p>Update (ich vergaß): auch der Ruf nach mehr Videoüberwachung ist nur
+ Panikmache. Das geht nur zu Lasten des Normalbürgers. Vielleicht lassen
+ sich noch Kleinstdelikte wie Taschendiebstahl damit abschrecken, aber
+ gerade diese Bomben und dergleichen sind doch oft von Leuten, die vor
+ Konsequenzen keine Angst haben, organisiert. Die werden dann maximal
+ Märtyrer. Ich wiederhole nochmal für die Politiker und die ganz langsamen
+ unter den Lesern: Überwachung verhindert <em>keine</em> Straftat.</p>
 ----
