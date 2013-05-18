@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.211 2009/07/09 17:18:11 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.212 2009/07/09 17:19:35 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -4369,5 +4369,19 @@ Author: tg@
   href="@@ABSPATH@@/MirOS-Licence">licence</a></li>
 </ul>
 <p>Any <a href="mailto:t.glaser@tarent.de">feedback</a> welcome!</p>
-<p><strong>Update</strong> 09.07. – version 0.90 -> 0.91-1</p>
+<p><strong>Update</strong> 09.07. – version 0.90 -> 0.91-1<br />I also crafted
+ a <a href="http://trac.gajim.org/ticket/5153">patch for gajim to use
+ kwalletcli</a>, let's see if it gets in. More to follow.</p>
+----
+Title: mksh change announcement: support future POSIX standard
+Date: 09.07.2009 18:54
+Author: tg@
+Tag: mksh
+
+<p>mksh(1)'s "set -u" handling will change RSN to match what POSIX will
+ mandate in the next version, matching similar changes in GNU bash 4 and
+ AT&amp;T ksh93.</p>
+<p>Most of the thread can be seen on the miros-discuss@ mailing list
+ archives (although both MARC and GMane seem to not have all related
+ eMails... weird).</p>
 ----
