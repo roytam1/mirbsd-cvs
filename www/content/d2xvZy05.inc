@@ -1,5 +1,5 @@
 <!-- PageID: wlog-9 -->
-<small class="rcsid">$MirOS: www/content/d2xvZy05.inc,v 1.10 2006/07/06 00:12:18 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy05.inc,v 1.11 2006/07/06 00:25:02 tg Exp $</small>
 <h1>MirBSD &ndash; WTF is Verpeilungsfaktor?</h1>
 <p><small><a href="#eof">bottom</a> or <a href="/?older">older</a>
  editions</small></p>
@@ -207,6 +207,22 @@
  <p>IPv6 tunnel providers suck. All of them. And perl(1) sucks more.</p>
  <p>It finally cooled down today with a thunderstorm. Problem: both soil
   and air are wetter now, so if the sun comes back, it'll be sticky.</p>
+</div>
+
+<div class="wlentry">
+ <h3 id="e20060706">06.07.2006 by tg@</h3>
+ <p>The <a href="http://bsdnews.com/view_story.php3?story_id=5889">story
+  on Daily D&aelig;monnews</a> I submitted today got accepted!</p>
+ <p>surrounder from #UnixNL helps seeding BT, dankjewel!</p>
+ <p>I <strong>did</strong> get rid of binstall (the joke) now. And also,
+  fd0 on machines without floppy. <tt>boot.net</tt> is also superfluous,
+  as the elf2aout(1)-generated boot can be used as netbootloader as well
+  (and quite well) &ndash; why not, since <tt>bsd.rd.net</tt> is created
+  just the same way.</p>
+ <p>Benny now has internet access at home. I still am trying to prod him
+  to commit that all-japanese wlog entry of his, though. (Wait! That one
+  would even be committed to /?wlog-8 right? Damn boy you're late.)</p>
+ <p>It actually <em>is</em> cooler than the days before, good.</p>
 </div>
 
 <p id="eof">Good luck, have fun, take care etc.pp</p>
