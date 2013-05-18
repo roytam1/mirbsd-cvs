@@ -72,7 +72,7 @@
 #define	__RCSID(x)	static const char __rcsid[] __attribute__((used)) = (x)
 #endif
 
-__RCSID("$MirOS: contrib/code/Snippets/tinyirc.c,v 1.21 2008/12/09 19:48:35 tg Exp $");
+__RCSID("$MirOS: contrib/code/Snippets/tinyirc.c,v 1.22 2008/12/09 20:27:02 tg Exp $");
 
 #ifndef __dead
 #define __dead
@@ -786,7 +786,7 @@ void parseinput(void)
 	j = 0;
 	if (i == DO_QUIT)
 	    snprintf(&lineout[strlen(lineout)], LINELEN - strlen(lineout),
-		" :using %s ", RELEASE_L);
+		" :using %s (RANDOM=%u)", RELEASE_L, arc4random());
 	outcol = printf("= %s", lineout);
 	while (tok_out[++j]) {
 	   snprintf(&lineout[strlen(lineout)], LINELEN - strlen(lineout),
