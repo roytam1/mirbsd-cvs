@@ -1,8 +1,0 @@
-mws_setname subprojects/a4rp5bsd "arc4random for non-MirBSD"
-mws_setheadline "arc4random for non-MirBSD systems"
-mws_putheader '$MirOS$'
-mws_content <<'EOF'
-<p>Sorry, nothing here yet (dummy page).</p>
-EOF
-mws_putfooter
-exit 0

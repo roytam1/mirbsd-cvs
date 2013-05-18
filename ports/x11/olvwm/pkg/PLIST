@@ -1,5 +1,0 @@
-@comment $OpenBSD: PLIST,v 1.2 2002/04/07 01:54:54 naddy Exp $
-bin/olvwm
-lib/help/olvwm.info
-man/cat1/olvwm.0
-man/cat1/olvwmrc.0

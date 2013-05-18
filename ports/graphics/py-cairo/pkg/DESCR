@@ -1,4 +1,0 @@
-Pycairo is set of Python bindings for the cairo graphics library.
-
-Currently there is no Python specific cairo API documentation. However,
-there is the cairo C documentation which can be useful. 
