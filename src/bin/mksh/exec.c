@@ -2,11 +2,11 @@
 
 #include "sh.h"
 
-__RCSID("$MirOS: src/bin/mksh/exec.c,v 1.19 2006/11/10 06:16:24 tg Exp $");
+__RCSID("$MirOS: src/bin/mksh/exec.c,v 1.20 2006/11/12 14:58:14 tg Exp $");
 
 static int	comexec(struct op *, struct tbl *volatile, char **,
 		    int volatile);
-static void scriptexec(struct op *, char **) __attribute__((noreturn));
+static void	scriptexec(struct op *, char **) __dead;
 static int	call_builtin(struct tbl *, char **);
 static int	iosetup(struct ioword *, struct tbl *);
 static int	herein(const char *, int);
