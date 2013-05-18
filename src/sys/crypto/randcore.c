@@ -1,4 +1,4 @@
-/* $MirOS: src/sys/crypto/randcore.c,v 1.6 2011/02/19 14:41:39 tg Exp $ */
+/* $MirOS: src/sys/crypto/randcore.c,v 1.7 2011/07/06 22:22:11 tg Exp $ */
 
 /*-
  * Copyright © 2010, 2011
@@ -72,8 +72,8 @@ struct timeout rnd_lopool_timeout;
 /*
  * Backend routine for adding some bytes, together with pointer,
  * size, stack, and timing information, into the hash lopool.
- * We use Bob Jenkins’ one-at-a-time hash only for folding the
- * user-specified information into 32 NZAAT hashes (128 bytes)
+ * We use the NZAT hash transformation only for folding the user-
+ * specified information into 32 NZAT hash states (128 bytes)
  * and count the bytes we added. (rnd_lopool_addh adds an NZAAT
  * hash of the data, not the data itself.) Once the content is
  * 128 bytes or more, rnd_lopool_dequeue collapses them into
