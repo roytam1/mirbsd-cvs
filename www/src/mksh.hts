@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.305 2010/01/01 14:45:40 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.306 2010/01/01 20:46:23 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -206,9 +206,10 @@ mws_content <<'EOF'
  href="http://heirloom.sourceforge.net/sh.html">Heirloom sh</a>, DEC OSF/1
  V2.0 <tt>/bin/sh</tt>), Korn shell (ksh, ksh88, ksh93, pdksh, mksh, oksh,
  maybe the MKS ksh), POSIX shell (posh, <tt>/usr/xpg4/bin/sh</tt>, ash,
- dash), or a super-set (GNU bash) to work; the Z Shell sometimes works as
- well, but the ULTRIX <tt>/bin/sh</tt> or the C shell (csh, tcsh) or “bsh”
- or a scripting shell like the wish won’t. Accepted arguments are:</p><ul>
+ dash), related shell (J�rg Schilling’s bsh or sh, the Z Shell), or a Bourne
+ or POSIX superset (such as GNU bash) to work; the ULTRIX <tt>/bin/sh</tt>
+ or the C shell (csh, tcsh) or “bsh” or a scripting shell like the wish won’t.
+ <br />Accepted arguments are:</p><ul>
 <li><tt>-combine</tt> – all-in-one build, recommended unless gcc is broken;
  ignored if $CC does not support “-fwhole-program --combine” (gcc4, R37+)</li>
 <li><tt>-j</tt> – parallel build (mksh R31d and up)</li>
