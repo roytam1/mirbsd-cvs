@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/distrib/common/upgrade.sh,v 1.5 2007/06/22 20:06:58 tg Exp $
+# $MirOS: src/distrib/common/upgrade.sh,v 1.6 2007/08/24 14:40:35 tg Exp $
 # $OpenBSD: upgrade.sh,v 1.61 2005/04/02 14:27:08 krw Exp $
 # $NetBSD: upgrade.sh,v 1.2.4.5 1996/08/27 18:15:08 gwr Exp $
 #
@@ -130,6 +130,17 @@ install_sets
     cp /mnt/etc/boot.cfg /mnt/boot.cfg
 [[ -e /mnt/etc/spamd.conf && ! -e /mnt/etc/mail/spamd.conf ]] && \
     cp /mnt/etc/spamd.conf /mnt/etc/mail/spamd.conf
+[[ -d /mnt/usr/dbin/. || -d /mnt/usr/dsbin/. ]] && \
+    for f in /mnt/usr/dbin/* /mnt/usr/dsbin/*; do
+	[[ -f $f ]] || continue
+	for d in bin sbin usr/bin usr/sbin; do
+		if [[ -e /mnt/$d/${f##*/} ]]; then
+			rm -f $f
+			ln -sf ../../$d/${f##*/} $f
+			break
+		fi
+	done
+done
 
 # Perform final steps common to both an install and an upgrade.
 finish_up
