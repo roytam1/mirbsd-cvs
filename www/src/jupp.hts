@@ -1,11 +1,11 @@
-# $MirOS: www/src/jupp.hts,v 1.35 2012/06/08 21:43:00 tg Exp $
+# $MirOS: www/src/jupp.hts,v 1.36 2012/07/18 17:39:01 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/juppp "jupp – Programmer’s Editor"
 mws_setheadline jupp – the Editor which sucks less
-mws_putheader '$MirOS: www/src/jupp.hts,v 1.35 2012/06/08 21:43:00 tg Exp $'
+mws_putheader '$MirOS: www/src/jupp.hts,v 1.36 2012/07/18 17:39:01 tg Exp $'
 mws_content <<'EOF'
 <p>The current version is <em>joe-2.8jupp2</em> for MS-DOS® compatible systems,
  and <em>joe-3.1jupp21</em> for Unix/GNU compatible systems. This page is
@@ -39,6 +39,10 @@ mws_content <<'EOF'
 <p>Kudos to Joe H. Allen for bringing me a better WordStar&trade;-compatible
  editor than Intergalactic Digital Research, DR Editor R2.00, DR DOS 5
  (and its predecessor from DR DOS 3.41).</p>
+<p>jupp is experimentally tracked <a href="https://launchpad.net/jupp">at
+ Launchpad</a>, too. But you can still, of course, send mails to the <a
+ href="mailto:miros-discuss@mirbsd.org">mailing list</a> and ask on <a
+ href="@@RELPATH@@irc.htm">IRC</a> (in <tt>#MirBSD</tt>, for example).</p>
 
 <h2 id="features">Features</h2>
 <p>Basic differences between <em>joe</em> and <em>jupp</em> are:</p><ul>
