@@ -48,7 +48,7 @@
 #include <syskern/libckern.h>
 #include "thread_private.h"
 
-__RCSID("$MirOS: src/lib/libc/crypt/arc4random.c,v 1.27 2010/01/06 17:52:32 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/crypt/arc4random.c,v 1.28 2010/01/06 19:11:54 tg Exp $");
 
 struct arc4_stream {
 	u_int8_t i;
@@ -61,6 +61,10 @@ static struct arc4_stream rs;
 static pid_t arc4_stir_pid;
 static int arc4_count;
 
+#if 0
+static void arc4_add_lazy(const uint8_t *, size_t)
+    __attribute__((__bounded__ (__string__,1,2)));
+#endif
 static uint8_t arc4_getbyte(void);
 void arc4random_atexit(void);
 
@@ -75,11 +79,14 @@ arc4random_atexit(void)
 	int mib[2];
 
 	_ARC4_LOCK();
+#if 0
+	arc4_add_lazy(NULL, 0);		/* flush buffer */
+#endif
 	mib[0] = 0;
 	while (mib[0] < 240)
 		buf.carr[mib[0]++] = arc4_getbyte();
 	buf.spid = arc4_stir_pid;
-	buf.cnt = (u_int)arc4_count | rs_initialized ? 0 : 0x80000000;
+	buf.cnt = (u_int)arc4_count | (rs_initialized ? 0 : 0x80000000);
 	_ARC4_UNLOCK();
 
 	mib[0] = CTL_KERN;
@@ -209,6 +216,83 @@ arc4random_addrandom(u_char *dat, int datlen)
 	arc4_addrandom(dat, datlen);
 	_ARC4_UNLOCK();
 }
+
+#if 0
+/* len=0: flush; len=1..128: normal operation; 128..~238: inval/possible */
+static void
+arc4_add_lazy(const uint8_t *buf, size_t len)
+{
+	static uint8_t arc4_lazybuf[256];
+	static uint8_t arc4_lazyfree = 0;
+	static struct timeval arc4_lazytv = { 0, 0 };
+	struct timeval curtv;
+
+	/* assert(len <= 128); */
+
+	if (arc4_lazyfree == 0) {
+ arc4_lazy_start:
+		if (len == 0)
+			return;
+		arc4_lazybuf[0] = arc4_getbyte();
+		arc4_lazyfree = 255;
+	}
+
+	if (len == 0 || (len + sizeof(uint64_t)) > arc4_lazyfree) {
+		int i = 256 - arc4_lazyfree, j;
+
+		j = 256 + (arc4_getbyte() & 0x0F);
+		/* diffusion, so that input is weighted the same */
+		while (i < 256)
+			arc4_lazybuf[i++] = arc4_getbyte();
+		arc4_addrandom(arc4_lazybuf, 256);
+		j += arc4_getbyte() & 0x0F;
+		/* throw away some; fewer than normal stir though */
+		while (j--)
+			(void)arc4_getbyte();
+		/* reset pool and re-do */
+		goto arc4_lazy_start;
+	}
+
+	if (!gettimeofday(&curtv, NULL)) {
+		struct timeval deltatv;
+		uint64_t deltaval;
+
+		timersub(&curtv, &arc4_lazytv, &deltatv);
+		deltaval = deltatv.tv_sec * 1000000 + deltatv.tv_usec;
+		arc4_lazytv = curtv;
+		while (deltaval) {
+			arc4_lazybuf[256 - arc4_lazyfree--] = deltaval & 0xFF;
+			deltaval >>= 8;
+		}
+	}
+
+	memcpy(arc4_lazybuf + 256 - arc4_lazyfree, buf, len);
+	arc4_lazyfree -= len;
+}
+
+void
+arc4random_add_lazy(const void *buf, size_t len)
+{
+	_ARC4_LOCK();
+	if (!rs_initialized)
+		arc4_stir();
+	_ARC4_UNLOCK();
+
+	while (len > 128) {
+		_ARC4_LOCK();
+		arc4_addrandom(buf, 128);
+		_ARC4_UNLOCK();
+		buf = (const char *)buf + 128;
+		len -= 128;
+	}
+
+	if (len) {
+		_ARC4_LOCK();
+		arc4_add_lazy(buf, len);
+		_ARC4_UNLOCK();
+	}
+}
+#endif
 
 u_int32_t
 arc4random(void)
