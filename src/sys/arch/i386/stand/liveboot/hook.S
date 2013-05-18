@@ -1,4 +1,4 @@
-/* $MirOS: src/sys/arch/i386/stand/liveboot/hook.S,v 1.24 2009/01/17 12:18:24 tg Exp $ */
+/* $MirOS: src/sys/arch/i386/stand/liveboot/hook.S,v 1.25 2009/02/01 10:25:48 tg Exp $ */
 
 /*-
  * Copyright (c) 2006, 2007, 2009
@@ -27,7 +27,11 @@
 lbl_mayskip:
 	.ascii	"\n\rHold down SHIFT to skip the coloured menu"
 	.ascii	" and go directly to the bootloader...\n\r"
+#ifdef FORGRML
+	.ascii	"On a WRAP/Soekris, press 4"
+#else
 	.ascii	"On a WRAP/Soekris, press 4 (Live) or 7 (Setup)"
+#endif
 	.asciz	" for serial console @38k4,8N1.\n\r"
 lbl_title:
 	.ascii	"MirOS #"
@@ -36,6 +40,9 @@ lbl_title:
 #ifndef HAVE_DUALIVE
 	.ascii	"/i386"
 #endif
+#ifdef FORGRML
+	.asciz	" Rescue CD for grml.org"
+#else
 	.ascii	" Setup/Rescue/"
 #ifndef HAVE_DUALIVE
 #ifndef HAVE_GRML
@@ -51,8 +58,11 @@ lbl_title:
 #endif
 #endif
 	.asciz	" CD"
+#endif
 lbl_menus:
-#ifdef HAVE_GRML
+#if defined(FORGRML)
+	.byte	7
+#elif defined(HAVE_GRML)
 	.byte	10
 #else
 	.byte	9
@@ -64,6 +74,7 @@ lbl_menus:
 	.long	lbl_menu4 - SA_LINKADDR
 	.long	lbl_menu5 - SA_LINKADDR
 	.long	lbl_menu6 - SA_LINKADDR
+#ifndef FORGRML
 	.long	lbl_menu7 - SA_LINKADDR
 	.long	lbl_menu8 - SA_LINKADDR
 #ifdef HAVE_GRML
@@ -91,13 +102,34 @@ lbl_menu8:
 lbl_menu9:
 	.asciz	"Switch to GNU GRUB for booting into grml\n"
 #endif
+#else
+lbl_menu0:
+	.asciz	"Continue to normal MirOS boot loader\n"
+lbl_menu1:
+	.asciz	"Boot the MirOS BSD rescue system ramdisk kernel\n"
+lbl_menu2:
+	.asciz	"Boot the rescue system, entering UKC (userconf)\n"
+lbl_menu3:
+	.asciz	"Rescue system, serial console at COM1:9600,8N1\n"
+lbl_menu4:
+	.asciz	"Rescue system, serial console at COM1:38400,8N1\n"
+lbl_menu5:
+	.asciz	"Rescue system, serial console at COM1:115200,8N1\n"
+lbl_menu6:
+	.asciz	"Chain to GNU GRUB for booting into grml.org again\n"
+#endif
 lbl_ask:
 	.ascii	"\nUse the cursor up/down keys to navigate\n"
 	.ascii	"and press return to activate the selected item\n"
 	.asciz	"or enter the number of the entry to boot: "
 lbl_widmung:
+#ifdef FORGRML
+	.ascii	"MirBSD for grml.org is proudly presented to you by\n"
+	.asciz	"Thorsten Glaser, Michael Prokop, and their contributors."
+#else
 	.ascii	"This MirBSD Setup/Rescue/Triforce/DuaLive-CD ISO image is proudly\n"
 	.asciz	"presented by The MirOS Project developers and contributors."
+#endif
 
 Ltick:	.long	0	/* end tick for timeout */
 Lmenu:	.word	0	/* which menu point has been chosen (MBZ) */
