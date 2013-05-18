@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/dev/rnd.c,v 1.65 2010/09/24 20:35:12 tg Exp $ */
+/**	$MirOS: src/sys/dev/rnd.c,v 1.66 2010/09/24 21:31:19 tg Exp $ */
 /*	$OpenBSD: rnd.c,v 1.78 2005/07/07 00:11:24 djm Exp $	*/
 
 /*
@@ -1101,6 +1101,9 @@ randomioctl(dev_t dev, u_long cmd, caddr_t data, int flag, struct proc *p)
 
 		if (i > sizeof(sar->buf) / sizeof(sar->buf[0]))
 			rv = EINVAL;
+		else if (sar->source == 0)
+			/* just add; i==0 will be caught */
+			add_entropy_words(sar->buf, i);
 		else if (i > 0)
 			while (i--)
 				enqueue_randomness(sar->source, sar->buf[i]);

@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/dev/rndioctl.h,v 1.2 2005/03/06 21:27:35 tg Exp $ */
+/**	$MirOS: src/sys/dev/rndioctl.h,v 1.3 2010/09/24 21:31:19 tg Exp $ */
 /*	$OpenBSD: rndioctl.h,v 1.10 2003/06/02 19:24:22 mickey Exp $	*/
 
 /*
@@ -43,7 +43,7 @@ struct rnd_pool_info {
 
 struct rnd_add_randomness {
 	u_int32_t buf[16];
-	int source;		/* RND_SRC_* */
+	int source;		/* RND_SRC_* or 0 to just add w/o stats */
 	unsigned char count;	/* 1..16 */
 };
 
