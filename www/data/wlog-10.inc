@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.145 2009/01/21 13:09:24 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.146 2009/01/21 20:29:19 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -2930,6 +2930,7 @@ Date: 21.01.2009 13:08
 Author: tg@
 Title: Sponsor for FOSDEM
 Date: 21.01.2009 20:02
+Tag: event
 
 <p>My employer, <a href="http://www.tarent.com/">tarent Gesellschaft
  für Software-Entwicklung und IT-Beratung mbH</a>, is sponsoring the
@@ -2960,4 +2961,44 @@ Date: 21.01.2009 20:02
  Come and <a href="@@RELPATH@@irc.htm">talk</a> if you’re interested
  (in return, like here, we will publicly thank you or provide custom
  MirOS editions, possibly Live DVDs with binary packages, etc).</p>
+----
+Date: 24.01.2009 13:12
+Author: tg@
+Title: miscellany
+
+<p>My <a href="http://thread.gmane.org/gmane.comp.compilers.pcc/1220">pcc
+ <tt>wchar_t</tt> patch</a> thread gets attention again. Yay!</p>
+<p>Good I just installed MirOS on soon-to-be-<tt>tear</tt> (althouh on
+ <tt>odem</tt>’s old 2.5″ HDD. I cou^H^Haught an error due to /dev/MAKEDEV
+ using the installer’s user and group databases, which were missing some.
+ And good I compiled a kernel beforehand… bzero(3) is optimised in locore,
+ memset(3) isn’t. Lession learned? Maybe. I bet I’ll do quite some of these
+ “Flüchtigkeitsfehler” again in the future, I always used to do so, even
+ at school.</p>
+<p>Damn. SCSI is expensive, and SSDs are available only for SATAn.</p>
+<p>Whew, finally weekend. I slept what appears to be 10 hours and dazed
+ for some more. Now I’m unwilling to do any work, but I’ll do what I’m
+ owing y’all. (Yes, <em>normally</em> I try to write British English.)
+ I estimate we’ll have a new i386 snapshot, and mika his special edition,
+ by tomorrow evening. Too bad I delayed testing the MirGRML due to the
+ dayjob workload and general… unwillingness. Anyway, FOSDEM is coming,
+ we’ll shine.</p>
+<p>Lucas “laffer1” Holt from <a href="http://www.midnightbsd.org/">our
+ other ally</a> MidnightBSD will also do a special ISO for FOSDEM, which
+ we’ll distribute among people. I wonder if Debian GNU/kFreeBSD does some,
+ maybe an updated GING CD, but I guess that’s up to the Debian people,
+ not for us BSDers.</p>
+<p>Since I started working, I can’t bring myself to eat anything in the
+ morning, nor really in the evening. I wonder why that is… I still have
+ a package of black bread here I bought when gecko2@ visited me, that
+ would be 31 Dec I guess. I probably have to throw it away by now, but
+ that sucks. I hope I don’t get even more ill… my colleagues and I have
+ not been feeling all that well for days.</p>
+<p>On building a cross-compiler package: I wish I could bring myself to
+ get it done by FOSDEM, maybe Robert Schuster would help baking the JDK.
+ I just don’t see me doing it during working hours, however much tarent
+ endorses OSS work, because they’re already helping with FOSDEM…</p>
+<p>Anyway, I’d better stop concocting some text here, and instead bring
+ the mock-<tt>tear</tt> installation into working state and get it to
+ start rsynching, cvs(1) co(1)ing, and compiling…</p>
 ----
