@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.183 2007/07/09 18:39:05 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.184 2007/08/07 19:30:45 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -2758,7 +2758,6 @@ print-all-depends:
 .endif
 
 print-depends: print-build-depends print-run-depends
-	# Nothing to do...
 
 .for _i in build all run
 full-${_i}-depends:
