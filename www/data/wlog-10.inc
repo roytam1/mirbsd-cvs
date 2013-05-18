@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.161 2009/02/21 14:05:37 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.162 2009/02/21 19:00:08 bsiegert Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -3352,4 +3352,56 @@ Title: History lesson
  to do things differently.”</blockquote>
 
 <p>Funny how history repeats itself, isn't it?</p>
+----
+Author: tg@
+Date: 23.02.2009 15:40
+Title: one (lonely) day at work
+
+<p>Today is Rosenmontag, so we were only four people in total today.
+ Anyway, we tried to use Mondo to back up and, subsequently, clone a
+ Gemeinschaft system with CentOS/amd64.</p>
+<p>We learned a few lessions:</p><ul>
+ <li>a <a href="http://grml.org/">grml</a> CD is handy, even if it’s
+  just a grml-mir</li>
+ <li>CentOS sucks, RPM sucks, YUM sucks</li>
+ <li>Very few software is available for CentOS</li>
+ <li>Upstream software sucks (RPM and DEB versions differ)</li>
+ <li>Mondo sucks, it can’t deliver what it promises, has a shitload
+  of bugs and is very hard to use</li>
+ <li>You’ll have to install a bootloader yourself after a rescue</li>
+ <li>The GNU GRUB-legacy from CentOS cannot access (even read-only!)
+  a filesystem created with <tt>mke2fs -j /dev/sda1</tt> on grml-mir.
+  Neither can <tt>ports/sysutils/pxegrub</tt> from MirBSD.</li>
+ <li>Debian Lenny/amd64 comes with a working GRUB1, but not with a
+  pxegrub image… anyway, copy ldbsd.com to pxebsd.0 on the netboot
+  server we already have, enter it into <tt>pxelinux.cfg/default</tt>
+  and use <tt>boot&gt; machine exec grub tftp:/stage2</tt> to chain
+  to it. Then copy all the stuff from /usr/lib/grub/… and the binary
+  /usr/sbin/grub to it, <strong>remove</strong> /boot/grub/stage*
+  first, copy the Debian stuff over, and install (./grub). Voilá.</li>
+ <li>GNU bash sucks. Especially with a foreign keyboard layout where
+  the ‘-’ key produces a ‘ß’, which inserts a multibyte UTF-8 character.
+  Of course, “yum install mksh” worked, thanks to rsc.</li>
+ <li>Any kind of vi(1) sucks. Just some, like vim, suck more.</li>
+</ul>
+<p>In the end, we got what we wanted, with a combination of the MirGRML
+ ISO, stock Debian packages, a call to rsync after mondorestore, and
+ my cool bootloader. By the way, this means that both using boot(8/i386)
+ as direct boot image and as “pxebsd.0” image chained(!) from PXELINUX
+ are tested now. (Do not chain to “ldbsd.com” as PXELINUX will unload
+ the PXE/UNDI stack before calling it, possibly. It insists that PXE boot
+ images¹ are called *.0…)</p>
+<p>① which, according to hpa’s FOSDEM talk, must be smaller than 32 KiB…
+ the hell… but if such a situation should ever arise, PXELINUX is, in
+ fact, smaller. I haven’t yet such a pedantic NIC yet, though.</p>
+<p>Too bad that cost me almost the entire afternoon, since I had planned
+ on beginning to cross-compile Java™ 6 to MirBSD™ using Robert’s IcedTea
+ patches, and hack some more on FreeWRT. But at least, we have achieved
+ something (the second server is running just fine now) and learned a lot
+ in the progress.</p>
+<p>In unrelated news, mikap has integrated bsd4grml into the <a
+ href="http://ml.grml.org/pipermail/grml-testing-changes/2009-February/000354.html">new
+ grml-live version</a>. Although a few commits to the bootloader (cd9660),
+ getextent_cd9660(1), kernel, installer, tpmrng(8) are still pending; he
+ will be provided with a new version of bsd4grml then.</p>
 ----
