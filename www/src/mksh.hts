@@ -1,10 +1,10 @@
-# $MirOS: www/src/mksh.hts,v 1.10 2007/06/24 12:04:08 tg Exp $
+# $MirOS: www/src/mksh.hts,v 1.11 2007/06/27 23:33:16 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.10 2007/06/24 12:04:08 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.11 2007/06/27 23:33:16 tg Exp $'
 mws_content <<'EOF'
 <h1>mksh(1) R29</h1>
 <p>This is the website of the MirBSD™ Korn Shell, an actively developed free
@@ -32,6 +32,11 @@ mws_content <<'EOF'
 <h2 id="prefetch">Introduction</h2>
 <p>The current version of mksh is <strong>mksh R29f</strong> from
  <em>26 May 2007</em>.</p>
+<p>Thanks to “Der Verein <a href="http://www.trash.net/verein/">trash.net</a>”
+ for sponsoring access to a Solaris 8 box. Thanks to HP TestDrive, which helps
+ in keeping mksh portable to several Unixes and compilers, and track down some
+ architecture- or glibc-specific bugs. Thanks to Julian “yofuh” Wiesener for
+ just another account on a Sun E420 on Solaris 11β.</p>
 <p>What is mksh(1)? – Short answer: The MirBSD Korn Shell. Okay, but what
  exactly does it do, or why another shell? These questions will be answered
  <a href="#contrib">below</a> for the people interested. Right now, you only
@@ -462,21 +467,24 @@ mws_content <<'EOF'
   <li>Solaris 10 Generic_125100-04 (sparc64,V9 sun4u gcc3.4.6)</li>
   <li>Solaris 10 Generic_125100-04 (sparc,V8+ sun4u SUNcc5.8 121015-04, ld 5.10-1.482)</li>
   <li>Solaris 10 Generic_125100-04 (sparc64,V9 sun4u SUNcc5.8 121015-04, ld 5.10-1.482)</li>
+  <li>ecce!GNU/Linux 1.00 2.0.38a (i386 libc5 gcc2.7.2.3)</li>
   <li>Debian GNU/Linux 3.1 sarge 2.6.8-3 (alpha gcc1:3.3.5-13)</li>
   <li>Debian GNU/Linux 4.0 etch 2.6.18-4-686 (i386 gcc4.1.1-21)</li>
   <li>Debian GNU/Linux 4.0 etch 2.6.18-4-686 (i386 icc9.1.042)</li>
   <li>Debian GNU/Linux 4.0 etch 2.6.18-4-686 (i386 icc10.0.023)</li>
+  <li>Red Hat Enterprise Linux 5 2.6.18-8.1.6.el5 (IA64 icc9.1.047)</li>
+  <li>Oracle Enterprise Linux 4 2.6.9-42.0.0.0.1.ELsmp (amd64 gcc3.4.6)</li>
   <li>Debian GNU/kFreeBSD 4.0 sid 5.4-1-486 (i386 gcc4.1.2-12)</li>
   <li>Debian GNU/kFreeBSD 4.0 sid 6.2-1-686 (i386 gcc1:3.3.6-15)</li>
   <li>Debian GNU/kFreeBSD 4.0 sid 6.2-1-686 (i386 gcc3.4.6-5)</li>
   <li>Debian GNU/kFreeBSD 4.0 sid 6.2-1-686 (i386 gcc4.0.3-7)</li>
   <li>Debian GNU/kFreeBSD 4.0 sid 6.2-1-686 (i386 gcc4.1.2-12)</li>
   <li>Debian GNU/kFreeBSD 4.0 sid 6.2-1-686 (i386 gcc4.2-20070609-1)</li>
-  <li>ecce!GNU/Linux 1.00 2.0.38a (i386 libc5 gcc2.7.2.3)</li>
-  <li>Mac OSX Tiger 10.4.10 Darwin 8.10.0 (macppc gcc4.0.1 Apple build 5363)</li>
   <li>DragonFly 1.9-DEVELOPMENT Feb 20, 2007 (i386 gcc3.4.6)</li>
   <li>NetBSD 3.0_STABLE (i386 gcc3.3.3)</li>
   <li>OpenBSD 4.1-current GENERIC#1241 May 17, 2007 (sparc64 gcc3.3.5)</li>
+  <li>FreeBSD 6.2-RELEASE (IA64 gcc3.4.6)</li>
+  <li>Mac OSX Tiger 10.4.10 Darwin 8.10.0 (macppc gcc4.0.1 Apple build 5363)</li>
  </ul></li>
  <li>mksh R29d<ul>
   <li>Darwin 8.9.0 Mac OSX 10.4 (powerpc)</li>
