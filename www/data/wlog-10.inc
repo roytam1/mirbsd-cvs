@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.279 2010/02/05 12:37:20 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.280 2010/02/05 12:48:32 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -6178,4 +6178,20 @@ Tag: debian event
  certainly be there, though.</p>
 <p>Could someone please order nice weather? I still need to eat some
  lunch and find a supermarket to shop for the weekend!</p>
+----
+Title: FOSDEM 2010, day #2
+Author: tg@
+Date: 07.02.2010 14:06
+Tag: event
+Language: de_DE-1901
+
+<p>Ich glaube, das Essen gestern (war eh’ scheiße, heh… anyway, der
+ Couscous-Laden hatte zu, und Benny und gecko2@ und Anhäne haben mich
+ zum Inder geschleppt) ist schuld, daß es mitr im Moment scheiße (heh…)
+ geht. Mist.</p>
+<p>Ich freue mich schon auf das Essen gleich, hoffe, daß es frischen
+ Minztee in großen Mengen geben wird. Und daß ich die Reise nach Hause
+ unbeschadet überstehen werde. Immerhin haben wir gut, aber zu wenig ☺
+ wie immer… geschlafen.</p>
+<p>XTaran hält gerade seinen Vortrag. Dem Benz seiner war gut.</p>
 ----
