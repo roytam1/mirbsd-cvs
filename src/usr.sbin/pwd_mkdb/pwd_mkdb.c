@@ -31,20 +31,6 @@
  * SUCH DAMAGE.
  */
 
-#ifndef lint
-static const char copyright[] =
-"@(#) Copyright (c) 1991, 1993, 1994\n\
-	The Regents of the University of California.  All rights reserved.\n";
-#endif /* not lint */
-
-#ifndef lint
-#if 0
-static const char sccsid[] = "from: @(#)pwd_mkdb.c	8.5 (Berkeley) 4/20/94";
-#else
-static const char rcsid[] = "$OpenBSD: pwd_mkdb.c,v 1.38 2004/08/08 00:05:09 deraadt Exp $";
-#endif
-#endif /* not lint */
-
 #include <sys/param.h>
 #include <sys/stat.h>
 
@@ -62,6 +48,11 @@ static const char rcsid[] = "$OpenBSD: pwd_mkdb.c,v 1.38 2004/08/08 00:05:09 der
 #include <unistd.h>
 #include <util.h>
 
+__COPYRIGHT("@(#) Copyright (c) 1991, 1993, 1994\n\
+	The Regents of the University of California.  All rights reserved.\n");
+__SCCSID("@(#)pwd_mkdb.c	8.5 (Berkeley) 4/20/94");
+__RCSID("$MirOS$");
+
 #define	INSECURE	1
 #define	SECURE		2
 #define	PERM_INSECURE	(S_IRUSR|S_IWUSR|S_IRGRP|S_IROTH)
@@ -73,13 +64,27 @@ static const char rcsid[] = "$OpenBSD: pwd_mkdb.c,v 1.38 2004/08/08 00:05:09 der
 
 #define	SHADOW_GROUP	"_shadow"
 
+#ifdef PWD_MKDB_FOR_BSD_RD
+#ifndef BSIZE
+#define BSIZE	256
+#endif
+#ifndef NELEM
+#define NELEM	32
+#endif
+#define LORDER	4321	/* big endian */
+#else
+#define BSIZE	4096
+#define NELEM	256
+#define LORDER	0	/* host endian */
+#endif
+
 HASHINFO openinfo = {
-	4096,		/* bsize */
+	BSIZE,		/* bsize */
 	32,		/* ffactor */
-	256,		/* nelem */
+	NELEM,		/* nelem */
 	2048 * 1024,	/* cachesize */
 	NULL,		/* hash() */
-	0		/* lorder */
+	LORDER		/* lorder */
 };
 
 static char *pname;				/* password file name */
@@ -88,13 +93,13 @@ static int clean;				/* what to remove on cleanup */
 static int hasyp;				/* are we running YP? */
 
 void	cleanup(void);
-void	error(char *);
-void	errorx(char *);
+void	error(const char *) __dead;
+void	errorx(const char *) __dead;
 void	cp(char *, char *, mode_t);
 void	mv(char *, char *);
 int	scan(FILE *, struct passwd *, int *);
-void	usage(void);
-char	*changedir(char *path, char *dir);
+void	usage(void) __dead;
+char	*changedir(const char *path, char *dir);
 void	db_store(FILE *, FILE *, DB *, DB *,struct passwd *, int, char *, uid_t);
 
 int
@@ -300,7 +305,7 @@ main(int argc, char **argv)
 
 	/* Store YP token, if needed. */
 	if (hasyp && !username) {
-		key.data = (u_char *)_PW_YPTOKEN;
+		key.data = (u_char *)strdup(_PW_YPTOKEN);
 		key.size = strlen(_PW_YPTOKEN);
 		data.data = (u_char *)NULL;
 		data.size = 0;
@@ -425,7 +430,7 @@ mv(char *from, char *to)
 }
 
 void
-error(char *name)
+error(const char *name)
 {
 
 	warn("%s", name);
@@ -434,7 +439,7 @@ error(char *name)
 }
 
 void
-errorx(char *name)
+errorx(const char *name)
 {
 
 	warnx("%s", name);
@@ -473,17 +478,18 @@ usage(void)
 }
 
 char *
-changedir(char *path, char *dir)
+changedir(const char *path, char *dir)
 {
 	static char fixed[MAXPATHLEN];
 	char *p;
 
 	if (!dir)
-		return (path);
-
-	if ((p = strrchr(path, '/')) != NULL)
-		path = p + 1;
-	snprintf(fixed, sizeof(fixed), "%s/%s", dir, path);
+		strlcpy(fixed, path, sizeof (fixed));
+	else {
+		if ((p = strrchr(path, '/')) != NULL)
+			path = p + 1;
+		snprintf(fixed, sizeof (fixed), "%s/%s", dir, path);
+	}
 	return (fixed);
 }
 
