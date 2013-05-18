@@ -38,7 +38,7 @@
 #include "ntpd.h"
 #include "ntp.h"
 
-__RCSID("$MirOS: src/usr.sbin/ntpd/ntp.c,v 1.13 2007/10/03 21:35:15 tg Exp $");
+__RCSID("$MirOS: src/usr.sbin/ntpd/ntp.c,v 1.14 2007/10/03 21:41:46 tg Exp $");
 
 #define	PFD_PIPE_MAIN	0
 #define	PFD_MAX		1
@@ -407,8 +407,9 @@ priv_adjtime(void)
 
 	TAILQ_FOREACH(p, &conf->ntp_peers, entry) {
 		if (conf->trace > 5)
-			log_info("priv_adjtime, %s peer, trust %d %s,"
+			log_info("priv_adjtime, #%02d %s peer, trust %d %s,"
 			    " st %2d dst %3dms ofs %6.1fms addr %s",
+			    offset_cnt,
 			    p->update.good ? "good" : "bad ",
 			    p->trustlevel,
 			    p->trustlevel < TRUSTLEVEL_BADPEER ? "bad" : "ok",
@@ -417,7 +418,9 @@ priv_adjtime(void)
 			    p->update.offset * 1000.,
 			    log_sockaddr((struct sockaddr *)&p->addr->ss));
 		else if (conf->trace > 3)
-			log_info("priv_adjtime, peer trustlevel %d %s, %sgood",
+			log_info("priv_adjtime, #%02d, peer"
+			    " trustlevel %d %s, %sgood",
+			    offset_cnt,
 			    p->trustlevel,
 			    p->trustlevel < TRUSTLEVEL_BADPEER ? "bad" : "ok",
 			    p->update.good ? "" : "not ");
