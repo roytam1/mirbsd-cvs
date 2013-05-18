@@ -1,5 +1,5 @@
 #!/usr/bin/env mksh
-# $MirOS: ports/infrastructure/pkgtools/upgrade/pkg_upgrade.sh,v 1.25 2007/04/01 00:05:22 tg Exp $
+# $MirOS: ports/infrastructure/pkgtools/upgrade/pkg_upgrade.sh,v 1.26 2007/04/01 00:30:10 tg Exp $
 #-
 # Copyright (c) 2006, 2007
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -24,6 +24,7 @@
 # wrapper for pkg_add to upgrade packages
 
 me=${0##*/}
+cwd=$(readlink -nf .)
 
 function usage
 {
@@ -154,7 +155,6 @@ TMPDIR=$(mktemp -d /tmp/pkg_upgrade.XXXXXXXXXX) || exit 1
 trap 'rm -rf $TMPDIR; exit 0' 0
 trap 'rm -rf $TMPDIR; exit 1' 1 2 3 5 13 15
 
-OLDPWD=$PWD
 cd $TMPDIR
 tar xfz "$npkg" +CONTENTS
 cd $PKG_DBDIR
@@ -165,7 +165,7 @@ if [[ $auto = 1 && -z $OLDPKGS ]]; then
 	[[ $quiet = 1 ]] || print -u2 "$me: ignoring uninstalled package '${1##*/}'"
 	exit 0
 fi
-cd $OLDPWD
+cd $cwd
 
 grep -q '^@option no-default-conflict' $TMPDIR/+CONTENTS
 if [[ $? -eq 0 || -z "$OLDPKGS" ]]; then
