@@ -1,4 +1,4 @@
-/* $MirOS: www/files/vstyle.css,v 1.8 2008/03/24 18:20:35 tg Exp $ */
+/* $MirOS: www/files/vstyle.css,v 1.9 2008/05/29 16:01:08 bsiegert Exp $ */
 /*-
  * The MirOS Project - Webpages
  * Copyrighted material; read LICENCE for terms of use.
@@ -48,6 +48,11 @@ a:visited {
 	font-size:12px;
 	background: #242424;
 	border-bottom: 5px solid #FFB92A;
+}
+
+.note {
+	font-size:9pt;
+	color:#333333;
 }
 
 img {
