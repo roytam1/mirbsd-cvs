@@ -151,6 +151,22 @@ expected-stdout:
 	hi
 	there
 ---
+name: alias-9
+description:
+	Check that recursion is detected/avoided in aliases.
+stdin:
+	echo -n >tf
+	ls			# pre-fetch ls(1) binary
+	(sleep 3; kill -9 $$) &	# may need to adjust for slow machines
+	alias ls=ls
+	ls
+	echo $(ls)
+	exit 0
+expected-stdout:
+	tf
+	tf
+	tf
+---
 name: arith-lazy-1
 description:
 	Check that only one side of ternary operator is evaluated
