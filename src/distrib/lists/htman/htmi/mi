@@ -382,6 +382,7 @@
 ./man1/piconv.htm
 ./man1/pkg.htm
 ./man1/pkg_add.htm
+./man1/pkg_check.htm
 ./man1/pkg_create.htm
 ./man1/pkg_delete.htm
 ./man1/pkg_info.htm
