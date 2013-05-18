@@ -1,5 +1,5 @@
 #!/bin/mksh
-rcsid='$MirOS: src/sys/arch/i386/stand/bootxx/mkbxinst.sh,v 1.8 2008/10/21 01:20:30 tg Exp $'
+rcsid='$MirOS: src/sys/arch/i386/stand/bootxx/mkbxinst.sh,v 1.9 2009/01/02 05:01:46 tg Exp $'
 #-
 # Copyright (c) 2007, 2008, 2009
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -33,14 +33,13 @@ function die {
 
 nm $1 |&
 while read -p adr typ sym; do
-	[[ $sym = @(_start|blkcnt|blktbl|bpbspt|bpbtpc|partp|secsizofs) ]] || continue
+	[[ $sym = @(_start|bkcnt|bktbl|geomh|geoms|partp|secsz) ]] || continue
 	eval typeset -i10 sym_$sym=0x\$adr
 done
 
 T=$(mktemp /tmp/tmp.XXXXXXXXXX) || die 255 Cannot create temporary file
 objcopy -O binary $1 $T
-thecode=$(dd if=$T bs=1\
-    skip=$sym__start count=$((sym_blktbl - sym__start)) 2>/dev/null | \
+thecode=$(dd if=$T bs=1 count=$((sym_bktbl - sym__start)) 2>/dev/null | \
     hexdump -ve '1/1 "0x%02X "')
 rm -f $T
 
@@ -74,12 +73,12 @@ cat <<'EOF'
 
 EOF
 print set -A thecode $thecode
-print typeset -i ofs_blkcnt=$((sym_blkcnt - sym__start))
-print typeset -i ofs_numheads=$((sym_bpbtpc - sym__start))
-print typeset -i ofs_numsecs=$((sym_bpbspt - sym__start))
+print typeset -i ofs_bkcnt=$((sym_bkcnt - sym__start))
+print typeset -i ofs_geomh=$((sym_geomh - sym__start))
+print typeset -i ofs_geoms=$((sym_geoms - sym__start))
 print typeset -i ofs_partp=$((sym_partp - sym__start))
-print typeset -i begptr=$((sym_blktbl - sym__start))
-print typeset -i ofs_secsiz=$((sym_secsizofs - sym__start))
+print typeset -i ofs_secsz=$((sym_secsz - sym__start))
+print typeset -i begptr=$((sym_bktbl - sym__start))
 cat <<'EOF'
 typeset -Uui8 thecode
 
@@ -142,21 +141,16 @@ function record_block {
 	fi
 }
 
-typeset -i flag_one=0 partp=0 numheads=0 numsecs=0 sscale=0 bsz=5
+typeset -i partp=0 numheads=0 numsecs=0 sscale=0 bsh=9
 
 while getopts ":0:1B:h:p:S:s:" ch; do
 	case $ch {
 	(0)	;;
-	(1)	flag_one=1 ;;
-	(B)	if (( (bsz = OPTARG) < 4 || OPTARG > 15 )); then
+	(1)	;;
+	(B)	if (( (bsh = OPTARG) < 8 || OPTARG > 15 )); then
 			print -u2 error: invalid block size "2^'$OPTARG'"
 			exit 1
 		fi
-		if (( (bsz != 9) && (bsz != 11) )); then
-			print -u2 error: cannot handle blocks !512 !2048 yet
-			exit 1	# for now
-		fi
-		(( bsz -= 4 ))
 		;;
 	(h)	if (( (numheads = OPTARG) < 1 || OPTARG > 256 )); then
 			print -u2 warning: invalid head count "'$OPTARG'"
@@ -175,9 +169,9 @@ while getopts ":0:1B:h:p:S:s:" ch; do
 			numsecs=0
 		fi ;;
 	(*)	print -u2 'Syntax:
-	bxinst [-1] [-h heads] [-p partitiontype] [-S scale]
+	bxinst [-1] [-B blocksize] [-h heads] [-p partitiontype] [-S scale]
 	    [-s sectors] <sectorlist | dd of=image conv=notrunc
-Default values: heads=16 sectors=63 partitiontype=0x27 scale=0'
+Default values: blocksize=9 heads=16 sectors=63 partitiontype=0x27 scale=0'
 		exit 1 ;;
 	}
 done
@@ -209,21 +203,22 @@ if (( curptr-- > 510 )); then
 fi
 while (( ++curptr < 510 )); do
 	(( thecode[curptr] = (curptr & 0xFCF) == 0x1C2 ? 0 : RANDOM & 0xFF ))
+	# ensure the “active” flag is never set to 0x00 or 0x80
+	if (( ((curptr + 2) & 0xFCF) == 0x01C0 )); then
+		(( thecode[curptr] & 0x7F )) || let --curptr
+	fi
 done
 thecode[510]=0x55
 thecode[511]=0xAA
 
 # fill in other data
-(( thecode[ofs_blkcnt] = wrec ))
-(( thecode[ofs_numheads] = numheads & 0xFF ))
-(( thecode[ofs_numheads + 1] = numheads >> 8 ))
-(( thecode[ofs_numsecs] = numsecs ))
-(( flag_one )) && thecode[ofs_numsecs + 1]=0x80
+(( thecode[ofs_bkcnt] = wrec ))
+(( thecode[ofs_geomh] = numheads & 0xFF ))
+(( thecode[ofs_geomh + 1] = numheads >> 8 ))
+(( thecode[ofs_geoms] = numsecs ))
 (( thecode[ofs_partp] = partp ))
-if (( bsz != 5 )); then
-	print -u2 "using sectors of 2^$((bsz + 4)) bytes"
-	(( thecode[ofs_secsiz] = bsz ))
-fi
+print -u2 "using sectors of 2^$bsh = $((1 << bsh)) bytes"
+(( bsh == 9 )) || (( thecode[ofs_secsz] = (1 << (bsh - 8)) ))
 
 # create the output string
 ostr=

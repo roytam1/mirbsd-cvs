@@ -1,7 +1,7 @@
-/* $MirOS: src/sys/arch/i386/stand/bootxx/bootxx.S,v 1.14 2009/01/10 23:53:27 tg Exp $ */
+/* $MirOS: src/share/misc/licence.template,v 1.28 2008/11/14 15:33:44 tg Rel $ */
 
 /*-
- * Copyright (c) 2003, 2004, 2005, 2007, 2009
+ * Copyright (c) 2009
  *	Thorsten Glaser <tg@mirbsd.org>
  *
  * Provided that these terms and disclaimer and all copyright notices
@@ -20,289 +20,225 @@
  * of said person's immediate fault when using the work as intended.
  */
 
-/* we somewhat assume ELF binutils with this, others might work... */
-#define _ASM_LABEL(x)	x
-#define FTYPE(x)	.type x,@function
-#define OTYPE(x)	.type x,@object
-
-#define LDENTRY(x)	OTYPE(_ASM_LABEL(x)); _ASM_LABEL(x):
-#define LTENTRY(x)	FTYPE(_ASM_LABEL(x)); _ASM_LABEL(x):
-#define GDENTRY(x)	.globl _ASM_LABEL(x); LDENTRY(x)
-#define GTENTRY(x)	.globl _ASM_LABEL(x); LTENTRY(x)
-
-/* ... as long as they do Intel syntax (since 1999 or earlier) */
 	.intel_syntax noprefix
 	.code16
 	.text
 
-GTENTRY(_start)
-	xor	ax,ax
-	push	ax
-	popf
-	/* set up stack from 07C0:FFFC (0x17BFC) down */
-	add	ax,0x07C0
-	mov	ss,ax
+	.globl	_start
+	.type	_start,@function
+_start:	xor	ecx,ecx
+	mov	ss,cx
 	mov	sp,0xFFFC
-	push	ds
-	push	si
-	push	ax		/* for retf */
+	push	ecx
+	popfd
+	mov	es,cx
+	mov	di,0x7C00	/* 0000:_start pre-reloc */
+	push	di
+	/* save partition table entry */
+	mov	cl,16
+	rep	movsb
+	pop	si
+	mov	ds,cx
+	mov	bx,SA_LINKSEG
+	push	bx
+	push	bx
+	mov	es,bx
+	mov	di,offset _start
+	mov	ch,2		/* 512 bytes */
+	rep	movsb
+	pop	ds
 	push	offset Lmain
-	/* set up code and data at 07C0:0000 (0x07C00) = 0000:7C00 up */
-	mov	ds,ax
-	mov	es,ax
-	/* jump to 'cs:offset Lmain' */
 	lret
 
-LDENTRY(Lmsg)
-	.ascii	__BOOT_VER
+	Lpblk = _start + 0x10
+	Lebss = Lpblk + 0x18	/* make sure this is < Lmmsg */
+
+Lemsg:	.ascii	__BOOT_VER
 	.asciz	" Loading "
+Lmmsg:	.ascii	"bad magic"
+Lfmsg:	.ascii	" error"
+Lbmsg:	.asciz	"\r\n"
 
-LDENTRY(Lerr)
-	.ascii	"bad magic"
-LDENTRY(Lldf)
-	.ascii	" ERR"
-LDENTRY(Lcrlf)
-	.asciz	"\r\n"
+	.globl	bkcnt
+	.type	bkcnt,@object
+	.size	bkcnt,1
+bkcnt:	.byte	(bkend - bktbl)
 
-#define BLKCNT	(blkend - blktbl)
-GDENTRY(blkcnt)
-	.byte	BLKCNT
-	.size	blkcnt,1
+	.globl	geomh
+	.type	geomh,@object
+	.size	geomh,2
+geomh:	.word	2		/* 1..256 = tracks per cylinder */
 
-LDENTRY(Lldp)
-	.word	LsLBA
+	.globl	geoms
+	.type	geoms,@object
+	.size	geoms,2
+geoms:	.word	18		/* 1..63 = sectors per track */
 
-GDENTRY(partp)
-	.byte	0		/* must be Ldrv - 1 */
+	.globl	partp
+	.type	partp,@object
 	.size	partp,1
-LDENTRY(Ldrv)
-	.byte	0x80
+partp:	.byte	0
+Ldrv:	.byte	0x80		/* must be at partp + 1 */
 
-GDENTRY(bpbspt)
-	.word	18
-	.size	bpbspt,2
-
-GDENTRY(bpbtpc)
-	.word	2
-	.size	bpbtpc,2
+Lload:	.word	LsLBA
 
 	/* output NUL-terminated string from ds:si */
-LTENTRY(Lotxt0)
-	mov	ah,0x0E
+Lotxt0:	mov	ah,0x0E
 	mov	bx,7
 	int	0x10
-GTENTRY(Lotxt)
-	lodsb
+Lotxt:	lodsb
 	or	al,al
 	jnz	Lotxt0
 	ret
 
-	/* If something went wrong, but we didn't yet try the subrouting
-	 * to cope with broken BIOSes and Soekris, redo from start.
-	 */
-Lbarf:	call	Lotxt			/* something went wrong */
-	mov	ax,offset LsBRK		/* offset of broken-BIOS load sub */
-	xchg	ax,[Lldp]
-	cmp	ax,offset LsBRK		/* broken BIOS sub already tried? */
-	jne	LbLBA
-	xor	ah,ah
+Lbarf:	call	Lotxt
+	mov	ax,offset LsCHS
+	xchg	ax,[Lload]
+	cmp	ax,offset LsCHS
+	jne	Lretr
+	xor	ax,ax
 	int	0x16
 	jmp	0xF000,0xFFF0
 
-LTENTRY(Lmain)
-	mov	[Ldrv],dl	/* save boot device */
-	/* say hello */
-	mov	si,offset Lmsg
+Lmain:	sti
+	mov	[Ldrv],dl
+	mov	si,offset Lemsg
+	cmp	dl,0x80
+	jb	Lbarf		/* floppy: only try CHS */
 	call	Lotxt
-	/* check for single-block CHS */
-	mov	ax,offset LsBRK
-	xchg	bh,[bpbspt+1]
-	and	bh,0x80
-	jnz	LbCHS		/* yep, hardcoded via bootloader */
-	push	ax
-	mov	ah,2		/* get shift state of keyboard */
-	int	0x16
-	and	al,3		/* any shift key pressed? */
-	pop	ax
-	jnz	LbCHS		/* if so, go to single sector mode */
-	/* check for LBA vs. CHS */
-	mov	ah,0x41		/* LBA installation check */
-	mov	bx,0x55AA	/* magic */
-	int	0x13
-	mov	ax,offset LsCHS
-	jc	LbCHS		/* CF set -> nope, use CHS */
-	cmp	bx,0xAA55	/* magic */
-	jne	LbCHS		/* bad magic -> nope, use CHS */
-	and	cl,1		/* API subset support bitmap */
-	jnz	LbLBA		/* extended disc access funcs supported */
 
-LbCHS:	mov	word ptr ds:[Lldp],ax
-LbLBA:	xor	di,di
-	push	di		/* 0 */
-	mov	ax,0x0010
-	stosw
-	push	di		/* 2 */
-	mov	ax,SA_LINKSEG	/* libsa constant */
-	mov	fs,ax		/* for magic check and booting */
-	push	ax		/* running counter, for loading */
-	mov	si,offset blktbl
-	mov	cl,[blkcnt]
-Lmlp1:	/* main load loop */
-	xor	eax,eax
-	lodsb
-	/*
-	 * al contains bitmasked:
-	 * aaabbbbb
-	 * -> a=number of bytes-1 that follow	(-> dl)
-	 * -> b=number of sectors-1 to load	(-> al)
-	 * si, cl contain what is to be processed
+Lretr:	xor	bx,bx		/* load offset (begin) */
+	mov	si,offset bktbl
+	movzx	bp,byte ptr [bkcnt]
+
+Lloop:	lodsb
+	/*-
+	 * AL contains bitmasked:  aaabbbbb
+	 * -> a = (number of bytes - 1) that follow	(-> CX)
+	 * -> b = (number of sectors - 1) to load	(-> DI)
+	 * BX contains current load address offset
+	 * SI contains pointer to data being processed
+	 * BP contains number of entries to process
 	 */
-
-	pop	bx
-	pop	di
-	push	di
 
 	/* decode */
-	mov	dl,al
-	shr	dl,5
-	and	al,0x1F
+	movzx	cx,al
+	shr	cl,5
+	and	ax,0x1F
 	inc	ax
-	inc	dx
-	stosd
+	inc	cx
+	push	ax		/* later DI */
 
-	xchg	ax,bx		/* load segment */
+	/* create LBA parameter block */
+	mov	di,offset Lpblk
+	mov	ax,0x0010
 	stosw
-	shl	bx,(9 - 4)	/* number of sectors, times their size,
-				   divided by size of one paragraph */
-	secsizofs = . - 1
-	.globl	secsizofs
-	.size	secsizofs,1
-	add	bx,ax		/* increment load addr. segment accordingly */
-	push	bx		/* and save for next round */
-	push	cx		/* save blkcnt */
-
-Lmlp2:	movsb			/* copy over as many bytes as needed */
-	dec	dl
-	jne	Lmlp2
-	xor	ax,ax		/* pad with up to 7 NUL-bytes */
+	mov	al,1
+	stosw
+	mov	ax,bx
+	stosw
+	mov	ax,cs
+	stosw
+	rep	movsb		/* copy CX bytes */
+	xor	ax,ax		/* pad with 8 (up to 7 needed) NUL bytes */
 	stosw
 	stosw
 	stosw
 	stosw
 
-	/*
-	 * at this point, we have the following:
-	 * si points to the _next_ entry to load
-	 * on top of stack, there is the number of
-	 *    entries to load, including the current one
-	 * the _next_ load address is below that on the stack
-	 * below that, 0x0002 (for DI) is on the stack
-	 * the LBA parameter block is filled in.
-	 * BX is set up to the load segment (offset = const. 0000)
+	pop	di
+	/*-
+	 * Lpblk, Ldrv are filled in completely
+	 * CS = DS = ES = SA_LINKSEG = 0x4000
+	 * DI = number of sectors to still load
+	 * BX = load offset (segment CS)
+	 * BP = number of entries to load, including this one
+	 * SI = pointer to next entry to load
 	 */
-	/* call subroutine that does the actual loading */
+	push	bp
+	push	si
+Lld1s:	mov	si,offset Lpblk
+	call	[Lload]
+	mov	bp,4		/* number of retries */
 	mov	dl,[Ldrv]
-	call	[Lldp]
-	/* and loop back */
-	pop	cx
-	dec	cl
-	jne	Lmlp1
-
-	/* ok, second-stage boot loader is in memory, starting FS:[0000] */
-	xor	eax,eax
-	mov	ax,[partp]
-	/* check some "random" ASCII string, i.e. the boot magic */
-	xchg	eax,fs:[4]
-	cmp	eax,0x6A6D4F00
-	mov	si,offset Lerr		/* "bad magic" */
-	jne	Lbarf			/* it isn't correct, barf out */
-	/* new line, for the fine look */
-	mov	si,offset Lcrlf
-	call	Lotxt
-	/* set up and jump into /boot */
-	pop	si			/* running counter */
-	pop	si			/* 2 */
-	pop	cx			/* 0 */
-	pop	si			/* original SI */
-	pop	ds			/* original DS */
-	push	fs			/* load segment */
-	push	cx			/* 0 */
-	lret
-
-	/* LBA boot routine */
-LsLBA:	push	si			/* save blktbl offset */
-	mov	ah,0x42			/* BIOS routine loadLBA */
-	xor	si,si			/* offset parblk */
-	call	LsINT			/* call BIOS subroutine */
-	pop	si
-Lretn:	ret
-
-	/* some broken BIOSes don't allow multi-sector transfers... */
-LsBRK:	mov	dh,1
-	xchg	dh,ds:[2]		/* number of sectors to load */
-LsBR0:	push	dx
-	call	LsCHS			/* chain to default CHS loader */
-	pop	dx
-	dec	dh
-	je	Lretn			/* loop one by one over the sectors */
-	add	word ptr ds:[6],32	/* size of a sector in paragraphs */
-	inc	dword ptr ds:[8]
-	jmp	LsBR0
-
-	/* CHS boot routine */
-LsCHS:	push	dx
-	/* LBA -> CHS */
-	mov	ax,ds:[8]
-	mov	dx,ds:[10]
-	div	word ptr [bpbspt]
-	inc	dx			/* quotient AX, remainder DX */
-	push	dx			/* sector */
-	xor	dx,dx
-	div	word ptr [bpbtpc]
-	pop	cx			/* cylinder AX, head DX */
-	shl	ah,6
-	xchg	ah,al
-	or	cx,ax
-	mov	dh,dl
-	pop	ax
-	mov	dl,al
-	/* call the BIOS */
-	mov	ah,2
-	mov	al,ds:[2]
-	xor	bx,bx
-
-	/* call the interrupt */
-LsINT:	mov	bp,4			/* number of retries */
-LsIN0:	pusha
-	mov	es,ds:[6]
+Lldlp:	pusha
+	stc
 	int	0x13
-	push	ds
-	pop	es
-	/* progress meter */
 	pushf
-	mov	ax,0x0E2E
+	mov	ax,0x0E2E	/* "dot" as progress meter */
 	mov	bx,7
-	int	0x10			/* output a dot */
+	int	0x10
 	popf
+	sti
 	popa
-	jnc	Lretn
+	jnc	Lldok
 	dec	bp
 	pusha
-	mov	si,offset Lldf
+	pushf
+	xor	ax,ax		/* reset drive */
+	int	0x13
+	popf
+	mov	si,offset Lfmsg
 	jz	Lbarf
-	mov	ax,0x0E30		/* say it fails */
+	mov	ax,0x0E30	/* number as fail meter */
 	add	ax,bp
 	mov	bx,7
 	int	0x10
-	xor	ax,ax
-	int	0x13
 	popa
-	jmp	LsIN0
+	jmp	Lldlp
+Lldok:	/* increment load address by sector size */
+	add	bh,2		/* 512 bytes */
+	.globl	secsz
+	.type	secsz,@object
+	.size	secsz,1
+	secsz = . - 1		/* the "2" above */
+L...1:	mov	4[si],bx
+	/* increment quadword by one */
+	add	dword ptr 8[si],1
+	adc	dword ptr 12[si],0
+	/* load next sector */
+	dec	di
+	jnz	Lld1s
+	pop	si
+	pop	bp
+	dec	bp
+	jnz	Lloop
 
-GDENTRY(blktbl)
-	/* free space for block table till end of sector */
+	/* check bootloader magic */
+	xor	eax,eax
+	push	ax		/* return address */
+	mov	ax,[partp]
+	xchg	eax,ds:[4]	/* location of magic in /boot */
+	cmp	eax,0x696D4F00
+	mov	si,offset Lmmsg
+	jne	Lbarf
+	mov	si,offset Lbmsg
+	call	Lotxt
+	mov	si,offset _start
+	ret
 
-	. = 0x1FE
-GDENTRY(blkend)
-	.word	0xAA55
-	.size	blkend,2
+LsCHS:	mov	ax,8[si]
+	mov	dx,10[si]
+	div	word ptr [geoms]
+	inc	dx		/* remainder: sector */
+	xor	cx,cx
+	xchg	cx,dx
+	div	word ptr [geomh]
+	shl	ah,6		/* quotient: cylinder */
+	xchg	ah,al
+	or	cx,ax
+	mov	dh,dl		/* remainder: head */
+	mov	ax,0x0201
+	ret
+
+LsLBA:	mov	ah,0x42
+	ret
+
+	.globl	bktbl
+	.type	bktbl,@object
+bktbl:	.long	0xCAFEBABE
+
+	. = _start + 0x01FE
+	.globl	bkend
+	.type	bkend,@object
+bkend:	.word	0xAA55

@@ -1,4 +1,4 @@
-/* $MirOS: src/sys/arch/i386/stand/boot/srt0.S,v 1.70 2009/01/12 21:00:16 tg Exp $ */
+/* $MirOS: src/sys/arch/i386/stand/boot/srt0.S,v 1.71 2009/01/12 21:25:23 tg Exp $ */
 
 /*-
  * Copyright (c) 2003, 2004, 2005, 2006, 2007, 2008, 2009
@@ -52,7 +52,7 @@ _start:	cli
 Lrval:	.p2align 2
 	. = _start + 4
 	/*	  ffffddpp	(f)lags user(p)artype (d)rive */
-Ldrvi:	.long	0x6A6D4F00	/* drive information */
+Ldrvi:	.long	0x696D4F00	/* drive information and magic */
 	i386_userpt = Ldrvi
 	i386_biosdev = Ldrvi + 1
 	i386_biosflags = Ldrvi + 2
