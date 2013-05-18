@@ -1,4 +1,4 @@
-/* $MirOS: src/lib/libc/i18n/wcrtomb.c,v 1.13 2006/11/01 20:01:19 tg Exp $ */
+/* $MirOS: src/lib/libc/i18n/wcrtomb.c,v 1.14 2006/11/01 20:12:44 tg Exp $ */
 
 /*-
  * Copyright (c) 2005, 2006
@@ -38,13 +38,13 @@
 
 #include "mir18n.h"
 
-__RCSID("$MirOS: src/lib/libc/i18n/wcrtomb.c,v 1.13 2006/11/01 20:01:19 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/i18n/wcrtomb.c,v 1.14 2006/11/01 20:12:44 tg Exp $");
 
 size_t
-wcrtomb(char *__restrict__ src, wchar_t wc, mbstate_t *__restrict__ ps)
+wcrtomb(char *__restrict__ dst, wchar_t wc, mbstate_t *__restrict__ ps)
 {
 	static mbstate_t internal_mbstate = { 0, 0 };
-	unsigned char *s = (unsigned char *)src;
+	unsigned char *s = (unsigned char *)dst;
 	unsigned count;
 
 	if (__predict_false(ps == NULL))
@@ -52,7 +52,7 @@ wcrtomb(char *__restrict__ src, wchar_t wc, mbstate_t *__restrict__ ps)
 
 	count = __locale_is_utf8 ? ps->count : 0;
 
-	if (__predict_false(src == NULL)) {
+	if (__predict_false(dst == NULL)) {
 		ps->count = 0;
 		return (++count);
 	}
@@ -80,5 +80,5 @@ wcrtomb(char *__restrict__ src, wchar_t wc, mbstate_t *__restrict__ ps)
 		*s++ = ((wc >> (6 * --count)) & 0x3F) | 0x80;
 	}
 	ps->count = 0;
-	return ((char *)s - src);
+	return ((char *)s - dst);
 }
