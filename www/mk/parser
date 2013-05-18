@@ -1,4 +1,4 @@
-rcsid_parser='$MirOS: www/mk/parser,v 1.4 2008/07/18 13:20:47 tg Exp $'
+rcsid_parser='$MirOS: www/mk/parser,v 1.5 2008/07/24 13:09:39 tg Exp $'
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -68,13 +68,9 @@ while IFS= read -r line; do
 			typeset -i -Z2 e_tmpM=10#0${e_tmp[4]}
 			typeset -i -Z2 e_tmpS=10#0${e_tmp[5]}
 			e_date[entry]=$e_tmpd.$e_tmpm.$e_tmpy
-			tdate="$e_tmpy-$e_tmpm-$e_tmpd $e_tmpH:$e_tmpM:$e_tmpS"
-			"$DST"/getdate "$tdate" |&
-			while read -p tai rest; do
-				integer ei_date[entry]=tai
-				break
-			done
-			while read -p rest; do :; done	# flush co-process
+			integer ei_date[entry]=$(perl -MPOSIX -e "print
+			    mktime($e_tmpS, $e_tmpM, $e_tmpH,
+			    $e_tmpd, $e_tmpm, $((e_tmpy - 1900)));")
 		fi
 	else
 		e_body[entry]=${e_body[entry]}${e_body[entry]+$nl}$line

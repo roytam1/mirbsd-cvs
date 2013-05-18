@@ -1,4 +1,4 @@
-# $MirOS: www/Makefile,v 1.29 2008/06/28 20:42:44 bsiegert Exp $
+# $MirOS: www/Makefile,v 1.30 2008/09/17 21:12:01 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -64,11 +64,11 @@ INCSRCS+=	${WLOGS:S/^/wlog-/}
 .for _i in ${INCSRCS}
 GENSRCS+=	stamp_htm_${_i} stamp_rss_${_i}
 
-stamp_htm_${_i}: getdate ${DEPS_mk_inc2htm} \
+stamp_htm_${_i}: ${DEPS_mk_inc2htm} \
     ${TOP}/data/${_i}.inc ${TOP}/data/${_i}.cfg
 	${U_ENV} ${MKSH} ${TOP}/mk/inc2htm ${_i} >$@
 
-stamp_rss_${_i}: getdate ${DEPS_mk_inc2rss} \
+stamp_rss_${_i}: ${DEPS_mk_inc2rss} \
     ${TOP}/data/${_i}.inc ${TOP}/data/${_i}.cfg
 	${U_ENV} ${MKSH} ${TOP}/mk/inc2rss ${_i} >$@
 .endfor
@@ -92,10 +92,6 @@ deinstall:
 reinstall: deinstall .WAIT install
 
 all: ${OBJS}
-
-CLEANFILES+=	getdate
-getdate: ${TOP}/mk/getdate.c ${TOP}/mk/getdate.h ${TOP}/mk/gettime.c
-	${LINK.c} ${COPTS} -I${TOP}/mk -DTEST -DIN_RCS -o $@ ${.ALLSRC:N*.h}
 
 site.tgz: _reinstall
 	find dst | sort | sed -e '/^dst$$/d' -e 's,^dst/,,' | \
