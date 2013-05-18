@@ -1,7 +1,7 @@
-# $MirOS: ports/x11/rox-filer/Makefile,v 1.4 2006/02/09 11:15:54 tg Exp $
+# $MirOS: ports/x11/rox-filer/Makefile,v 1.5 2006/09/14 00:15:37 tg Exp $
 # $OpenBSD: Makefile,v 1.20 2004/04/02 19:07:05 sturm Exp $
 
-COMMENT=			gtk file manager with desktop features
+COMMENT=		gtk file manager with desktop features
 VERSION=		2.1.1
 DISTNAME=		rox-${VERSION}
 PKGNAME=		rox-filer-${VERSION}-0
@@ -17,6 +17,8 @@ PERMIT_DISTFILES_FTP=	Yes
 MASTER_SITES=		${MASTER_SITE_SOURCEFORGE:=rox/}
 DISTFILES=		${DISTNAME}.tgz
 
+USE_CXX=		Yes # depends on shared-mime-info, which uses CXX
+USE_X11=		Yes
 MODULES+=		devel/pkgconfig
 LIB_DEPENDS=	gtk-x11-2.0.0.9,gdk_pixbuf-2.0.0.9,gdk-x11-2.0.0.9::x11/gtk+ \
 		xml2::textproc/libxml
