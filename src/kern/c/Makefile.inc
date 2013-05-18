@@ -1,4 +1,4 @@
-# $MirOS: src/kern/c/Makefile.inc,v 1.3 2007/02/06 15:55:09 tg Exp $
+# $MirOS: src/kern/c/Makefile.inc,v 1.4 2007/02/06 16:24:42 tg Exp $
 
 # imports:
 # ifdef(KERNSTAND)	-> bootloader, no kernel/libc only stuff
@@ -9,6 +9,7 @@
 
 # md stuff must define sources for the following functions:
 # htonl() htons() ntohl() ntohs()
+# strlen()
 
 .include "${KERNBASE}/c/${MACHINE_ARCH}/Makefile.inc"
 
@@ -20,7 +21,6 @@ CPPFLAGS+=	-I${KERNBASE}/c
 # SRCS, UNIFDEF_SRCS: kernel, userland, bootloader
 # KUSRCS, UIF_KUSRCS: kernel, userland
 
-SRCS+=		strlen.c
 UIF_KUSRCS+=	wcslen.c strlen.c -DWIDEC
 
 # …
