@@ -1,4 +1,4 @@
-# $MirOS: src/etc/profile,v 1.8 2005/07/31 13:46:09 tg Exp $
+# $MirOS: src/etc/profile,v 1.9 2005/09/23 09:26:09 tg Exp $
 
 umask 022
 [ -z "$KSH_VERSION" ] && alias print='echo -e'
@@ -33,7 +33,7 @@ if [ -z "$USER" ]; then
 elif [ $USER_ID -eq 0 ]; then
 	PATH=/root/.etc/bin:/usr/sbin:/sbin:/usr/bin:/bin:/usr/X11R6/bin:/usr/local/bin:/usr/mpkg/bin
 else
-	PATH=~/.etc/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/X11R6/bin:/usr/local/bin:/usr/mpkg/bin:/usr/games
+	PATH=~/.etc/bin:/usr/local/bin:/usr/mpkg/bin:/usr/bin:/bin:/usr/X11R6/bin:/usr/sbin:/sbin:/usr/mpkg/sbin:/usr/games
 	PSX='$ '
 fi
 export PATH
