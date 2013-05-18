@@ -1,5 +1,5 @@
 <?php
-/* $MirOS: www/404.php,v 1.7 2005/08/04 09:03:33 tg Exp $ */
+/* $MirOS: www/404.php,v 1.8 2005/12/20 08:58:45 tg Exp $ */
 /*-
  * The MirOS Project - Webpages
  * Copyrighted material; read LICENCE for terms of use.
@@ -19,7 +19,7 @@
 	$rq = mybase64($rq).".inc";
 ?>
  <title>404 - N&uuml;s jefonde!</title>
- <meta name="RCSId" content="$MirOS: www/404.php,v 1.7 2005/08/04 09:03:33 tg Exp $" />
+ <meta name="RCSId" content="$MirOS: www/404.php,v 1.8 2005/12/20 08:58:45 tg Exp $" />
  <meta name="robots" content="index, follow" />
  <style type="text/css"><!--
 a.wmd {
@@ -63,21 +63,6 @@ body {
 <?php
  }
 ?>
-<script type="text/javascript"><!--
-	google_ad_client = "pub-0266998858986985";
-	google_ad_width = 728;
-	google_ad_height = 90;
-	google_ad_format = "728x90_as";
-	google_ad_channel = "5681440722";
-	google_color_border = "CCCCCC";
-	google_color_bg = "FFFFFF";
-	google_color_link = "000000";
-	google_color_url = "006600";
-	google_color_text = "333333";
-//--></script>
-<script type="text/javascript"
- src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
-</script>
 <table width="400" cellpadding="3" cellspacing="5">
 <tr style="height:40px;"><td valign="middle" align="left">
   <a class="wmd" href="https://MirBSD.MirSolutions.de:445/"><img
