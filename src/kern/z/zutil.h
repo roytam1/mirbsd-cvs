@@ -1,4 +1,4 @@
-/* $MirOS: src/kern/z/zutil.h,v 1.4 2009/10/04 16:49:42 tg Exp $ */
+/* $MirOS: src/kern/z/zutil.h,v 1.6 2010/09/12 17:25:12 tg Exp $ */
 
 /* zutil.h -- internal interface and configuration of the compression library
  * Copyright (C) 1995-2005 Jean-loup Gailly.
@@ -27,6 +27,7 @@
 #  define NO_ERRNO_H
 #elif defined(_KERNEL)
 #  include <sys/systm.h>
+#  include <dev/rndvar.h>
 #  define zRCSID(x)	/* nothing */
 #  define NO_ERRNO_H
 #elif defined(STDC)
@@ -299,7 +300,7 @@ void   zcfree  OF((voidpf opaque, voidpf ptr));
 #elif defined(_STANDALONE)
 #define zADDRND(x)	/* nothing */
 #elif defined(_KERNEL)
-#define zADDRND(x)	/* nothing, for now */
+#define zADDRND(x)	rnd_lopool_addv(x)
 #elif defined(arc4random_pushb_fast)
 /* user-space, with new, faster functions */
 #define zADDRND(x)	arc4random_pushb_fast(&x, sizeof(x))
