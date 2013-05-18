@@ -51,6 +51,7 @@
 #endif /* MONCONTROL */
 
 #ifdef _DEFINE
+SM_IDSTR(MiRCSid, "@(#)$MirOS$")
 SM_IDSTR(SmailId, "@(#)$Id$")
 #endif /* _DEFINE */
 
@@ -719,9 +720,9 @@ MCI
 #if STARTTLS
 #define MCIF_TLS	0x00100000	/* STARTTLS supported */
 #define MCIF_TLSACT	0x00200000	/* STARTTLS active */
-#define MCIF_EXTENS	(MCIF_EXPN | MCIF_SIZE | MCIF_8BITMIME | MCIF_DSN | MCIF_8BITOK | MCIF_AUTH | MCIF_ENHSTAT | MCIF_TLS)
 #else /* STARTTLS */
-#define MCIF_EXTENS	(MCIF_EXPN | MCIF_SIZE | MCIF_8BITMIME | MCIF_DSN | MCIF_8BITOK | MCIF_AUTH | MCIF_ENHSTAT)
+#define MCIF_TLS	0
+#define MCIF_TLSACT	0
 #endif /* STARTTLS */
 #define MCIF_DLVR_BY	0x00400000	/* DELIVERBY */
 #if _FFR_IGNORE_EXT_ON_HELO
@@ -730,6 +731,8 @@ MCI
 #define MCIF_INLONGLINE 0x01000000	/* in the middle of a long line */
 #define MCIF_AUTH2	0x02000000	/* got 2 AUTH lines */
 #define MCIF_ONLY_EHLO	0x10000000	/* use only EHLO in smtpinit */
+
+#define MCIF_EXTENS	(MCIF_EXPN | MCIF_SIZE | MCIF_8BITMIME | MCIF_DSN | MCIF_8BITOK | MCIF_AUTH | MCIF_ENHSTAT | MCIF_TLS | MCIF_AUTH2)
 
 /* states */
 #define MCIS_CLOSED	0		/* no traffic on this connection */
