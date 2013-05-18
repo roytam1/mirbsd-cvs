@@ -1,5 +1,5 @@
 <!-- PageID: wlog-9 -->
-<small class="rcsid">$MirOS: www/content/d2xvZy05.inc,v 1.13 2006/07/09 00:37:42 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy05.inc,v 1.14 2006/07/09 00:39:27 tg Exp $</small>
 <h1>MirBSD &ndash; WTF is Verpeilungsfaktor?</h1>
 <p><small><a href="#eof">bottom</a> or <a href="/?older">older</a>
  editions</small></p>
@@ -244,6 +244,17 @@
   page of <a href="/?mksh">mksh</a> got pushed up to -current and a text
   about its requirements.</p>
  <p>Adding the above functionality is a milestone, btw.</p>
+</div>
+
+<div class="wlentry">
+ <h3 id="e20060709">09.07.2006 by tg@</h3>
+ <p>Thanks to Dr. Pfeffer (pepper) of BOSng, I've now also been out to a
+  geocacheing session for the first time, with his Windows&reg; PDA that
+  can do GPS. It took us <em>quite</em> some time, but it was helluv fun
+  and I hope we'll continue the journey.</p>
+ <p>Thie image: <img src="http://www.opencaching.de/statpics/106521.jpg"
+  alt="statistics" /> will show the hopefully increasing number although
+  I won't join the hype. I don't like hypes.</p>
 </div>
 
 <p id="eof">Good luck, have fun, take care etc.pp</p>
