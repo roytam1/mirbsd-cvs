@@ -1,17 +1,19 @@
-$MirOS$
+$MirOS: ports/sysutils/pciutils/patches/patch-lib_configure,v 1.2 2006/07/21 23:40:30 tg Exp $
 $OpenBSD: patch-lib_configure,v 1.1.1.1 2006/03/25 21:53:35 matthieu Exp $
---- lib/configure.orig	Wed Sep 21 11:41:41 2005
-+++ lib/configure	Fri Jul 21 23:39:06 2006
-@@ -74,6 +74,12 @@ case $sys in
- 		echo >>$c '#define PCI_PATH_FBSD_DEVICE "/dev/pci"'
- 		ok=1
+--- lib/configure.orig	Mon Feb 11 20:03:55 2008
++++ lib/configure	Fri Jun  4 19:08:32 2010
+@@ -70,12 +70,12 @@ case $sys in
+ 		esac
+ 		echo >>$c '#define PCI_HAVE_STDINT_H'
  		;;
-+	openbsd|mirbsd)
-+		echo_n " obsd-device"
-+		echo >>$c '#define PCI_HAVE_PM_OBSD_DEVICE'
-+		echo >>$c '#define PCI_PATH_OBSD_DEVICE "/dev/pci"'
-+		ok=1
-+		;;
- 	aix)
- 		echo_n " aix-device"
- 		echo >>$c '#define PCI_HAVE_PM_AIX_DEVICE'
+-	freebsd)
++	freebsd|midnightbsd)
+ 		echo_n " fbsd-device"
+ 		echo >>$c '#define PCI_HAVE_PM_FBSD_DEVICE'
+ 		echo >>$c '#define PCI_PATH_FBSD_DEVICE "/dev/pci"'
+ 		;;
+-        openbsd)
++        mirbsd|openbsd)
+ 	        echo_n " obsd-device"
+ 		echo >>$c '#define PCI_HAVE_PM_OBSD_DEVICE'
+ 		echo >>$c '#define PCI_PATH_OBSD_DEVICE "/dev/pci"'
