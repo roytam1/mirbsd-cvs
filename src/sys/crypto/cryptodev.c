@@ -41,7 +41,7 @@
 #include <dev/rndvar.h>
 #include <sys/conf.h>
 #include <sys/device.h>
-#include <crypto/md5.h>
+#include <syskern/md5.h>
 #include <crypto/sha1.h>
 #include <crypto/rmd160.h>
 #include <crypto/cast.h>

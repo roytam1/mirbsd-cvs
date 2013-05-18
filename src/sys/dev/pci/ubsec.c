@@ -1,4 +1,4 @@
-/**	$MirOS$ */
+/**	$MirOS: src/sys/dev/pci/ubsec.c,v 1.2 2005/03/06 21:27:50 tg Exp $ */
 /*	$OpenBSD: ubsec.c,v 1.135 2004/05/07 14:42:26 millert Exp $	*/
 
 /*
@@ -52,7 +52,7 @@
 #include <crypto/cryptodev.h>
 #include <crypto/cryptosoft.h>
 #include <dev/rndvar.h>
-#include <crypto/md5.h>
+#include <syskern/md5.h>
 #include <crypto/sha1.h>
 
 #include <dev/pci/pcireg.h>

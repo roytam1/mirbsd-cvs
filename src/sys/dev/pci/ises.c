@@ -1,4 +1,4 @@
-/**	$MirOS$ */
+/**	$MirOS: src/sys/dev/pci/ises.c,v 1.2 2005/03/06 21:27:48 tg Exp $ */
 /*	$OpenBSD: ises.c,v 1.27 2004/05/07 14:42:26 millert Exp $	*/
 
 /*
@@ -45,7 +45,7 @@
 #include <crypto/cryptodev.h>
 #include <crypto/cryptosoft.h>
 #include <dev/rndvar.h>
-#include <crypto/md5.h>
+#include <syskern/md5.h>
 #include <crypto/sha1.h>
 #include <crypto/rmd160.h>
 

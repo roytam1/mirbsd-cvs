@@ -46,7 +46,7 @@
 
 #include <machine/bus.h>
 
-#include <crypto/md5.h>
+#include <syskern/md5.h>
 #include <crypto/sha1.h>
 #include <crypto/cryptodev.h>
 #include <crypto/cryptosoft.h>

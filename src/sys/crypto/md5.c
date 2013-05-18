@@ -19,7 +19,7 @@
 
 #include <sys/param.h>
 #include <sys/systm.h>
-#include <crypto/md5.h>
+#include <syskern/md5.h>
 
 #define PUT_64BIT_LE(cp, value) do {					\
 	(cp)[7] = (value) >> 56;					\

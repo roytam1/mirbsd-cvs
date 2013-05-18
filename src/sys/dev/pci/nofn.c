@@ -48,7 +48,7 @@
 #include <crypto/cryptodev.h>
 #include <crypto/cryptosoft.h>
 #include <dev/rndvar.h>
-#include <crypto/md5.h>
+#include <syskern/md5.h>
 #include <crypto/sha1.h>
 
 #include <dev/pci/pcireg.h>

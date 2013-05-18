@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/net/if_spppsubr.c,v 1.9 2007/05/29 10:23:07 tg Exp $ */
+/**	$MirOS: src/sys/net/if_spppsubr.c,v 1.10 2007/09/16 10:52:20 tg Exp $ */
 /*	$OpenBSD: if_spppsubr.c,v 1.34 2005/06/08 06:55:33 henning Exp $	*/
 /*
  * Synchronous PPP/Cisco link level subroutines.
@@ -63,7 +63,7 @@
 
 #if defined (__OpenBSD__)
 #include <sys/timeout.h>
-#include <crypto/md5.h>
+#include <syskern/md5.h>
 #else
 #include <sys/md5.h>
 #endif

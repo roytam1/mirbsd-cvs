@@ -38,7 +38,7 @@
 #include <sys/kernel.h>
 #include <sys/syslog.h>
 
-#include <crypto/md5.h>
+#include <syskern/md5.h>
 
 #include <net/if.h>
 #include <net/if_dl.h>

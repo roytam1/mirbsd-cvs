@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/netinet/tcp_input.c,v 1.9 2006/01/31 10:58:10 tg Exp $ */
+/**	$MirOS: src/sys/netinet/tcp_input.c,v 1.10 2008/02/22 22:50:45 tg Exp $ */
 /*	$OpenBSD: tcp_input.c,v 1.168 2004/05/21 11:36:23 markus Exp $	*/
 /*	$OpenBSD: tcp_input.c,v 1.158.2.3 2005/01/11 04:40:29 brad Exp $	*/
 /*	$OpenBSD: tcp_input.c,v 1.178 2004/11/25 15:32:08 markus Exp $	*/
@@ -133,7 +133,7 @@ struct  tcpipv6hdr tcp_saveti6;
 #endif /* INET6 */
 
 #ifdef TCP_SIGNATURE
-#include <crypto/md5.h>
+#include <syskern/md5.h>
 #endif
 
 int	tcprexmtthresh = 3;

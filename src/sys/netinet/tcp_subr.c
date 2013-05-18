@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/netinet/tcp_subr.c,v 1.5 2006/10/17 20:48:52 tg Exp $	*/
+/**	$MirOS: src/sys/netinet/tcp_subr.c,v 1.6 2008/02/22 22:50:45 tg Exp $	*/
 /*	$OpenBSD: tcp_subr.c,v 1.85 2004/11/25 15:32:08 markus Exp $	*/
 /*	$NetBSD: tcp_subr.c,v 1.22 1996/02/13 23:44:00 christos Exp $	*/
 
@@ -101,7 +101,7 @@
 #endif /* INET6 */
 
 #ifdef TCP_SIGNATURE
-#include <crypto/md5.h>
+#include <syskern/md5.h>
 #endif /* TCP_SIGNATURE */
 
 /* patchable/settable parameters for tcp */

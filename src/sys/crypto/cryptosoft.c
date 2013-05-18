@@ -28,7 +28,7 @@
 #include <sys/sysctl.h>
 #include <sys/errno.h>
 #include <dev/rndvar.h>
-#include <crypto/md5.h>
+#include <syskern/md5.h>
 #include <crypto/sha1.h>
 #include <crypto/rmd160.h>
 #include <crypto/cast.h>

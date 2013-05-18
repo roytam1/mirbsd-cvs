@@ -1,4 +1,4 @@
-/* $MirOS: src/sys/dev/rnd.c,v 1.71 2010/12/24 00:11:00 tg Exp $ */
+/* $MirOS: src/sys/dev/rnd.c,v 1.72 2011/02/19 14:41:36 tg Exp $ */
 
 /*-
  * rnd.c -- A strong random number generator
@@ -267,7 +267,7 @@
 #include <sys/timeout.h>
 #include <sys/poll.h>
 
-#include <crypto/md5.h>
+#include <syskern/md5.h>
 #include <crypto/randimpl.h>
 
 #include <dev/rndioctl.h>
