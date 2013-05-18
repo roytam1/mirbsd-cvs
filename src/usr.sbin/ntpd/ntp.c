@@ -38,7 +38,7 @@
 #include "ntpd.h"
 #include "ntp.h"
 
-__RCSID("$MirOS: src/usr.sbin/ntpd/ntp.c,v 1.21 2008/05/13 21:08:00 tg Exp $");
+__RCSID("$MirOS: src/usr.sbin/ntpd/ntp.c,v 1.21.2.1 2008/06/04 17:51:00 tg Exp $");
 
 #define	PFD_PIPE_MAIN	0
 #define	PFD_MAX		1
@@ -258,15 +258,14 @@ ntp_main(int pipe_prnt[2], struct ntpd_conf *nconf)
 		if (ntp_usr1) {
 			log_info("ntp engine reset");
 			for (j = idx_peers; j < i; j++) {
-				bzero(idx2peer[j - idx_peers]->reply,
-				    sizeof (idx2peer[j - idx_peers]->reply));
-				idx2peer[j - idx_peers]->shift = 0;
-				if (idx2peer[j - idx_peers]->trustlevel >
-				    TRUSTLEVEL_RESET)
+				struct ntp_peer *p = idx2peer[j - idx_peers];
+
+				bzero(p->reply, sizeof (p->reply));
+				p->shift = 0;
+				if (p->trustlevel > TRUSTLEVEL_RESET)
 					/* the next 2 queries are fast */
-					idx2peer[j - idx_peers]->trustlevel =
-					    TRUSTLEVEL_RESET;
-				set_next(idx2peer[j - idx_peers], -1);
+					p->trustlevel = TRUSTLEVEL_RESET;
+				set_next(p, -1);
 			}
 			ntp_usr1 = 0;
 		}
