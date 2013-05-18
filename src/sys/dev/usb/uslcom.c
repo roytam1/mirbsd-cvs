@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: uslcom.c,v 1.13 2007/06/14 10:11:16 mbalmer Exp $	*/
 
 /*
@@ -167,14 +168,16 @@ uslcom_attach(struct device *parent, struct device *self, void *aux)
 	usb_interface_descriptor_t *id;
 	usb_endpoint_descriptor_t *ed;
 	usbd_status error;
-	char *devinfop;
+//	char *devinfop;
+	char devinfop[1024];
 	int i;
 
 	bzero(&uca, sizeof(uca));
 	sc->sc_udev = uaa->device;
-	devinfop = usbd_devinfo_alloc(uaa->device, 0);
+//	devinfop = usbd_devinfo_alloc(uaa->device, 0);
+	usbd_devinfo(uaa->device, 0, devinfop, sizeof (devinfop));
 	printf("\n%s: %s\n", sc->sc_dev.dv_xname, devinfop);
-	usbd_devinfo_free(devinfop);
+//	usbd_devinfo_free(devinfop);
 
 	if (usbd_set_config_index(sc->sc_udev, USLCOM_CONFIG_NO, 1) != 0) {
 		printf("%s: could not set configuration no\n",

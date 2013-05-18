@@ -192,6 +192,11 @@ device	ubsa: ucombus
 attach	ubsa at uhub
 file	dev/usb/ubsa.c			ubsa
 
+# Silicon Laboratories CP210x serial
+device	uslcom: ucombus
+attach	uslcom at uhub
+file	dev/usb/uslcom.c		uslcom
+
 # iPAQ PDAs
 # Generic ipaq support
 device	uipaq: ucombus

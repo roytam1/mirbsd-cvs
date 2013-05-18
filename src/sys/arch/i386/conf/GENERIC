@@ -1,4 +1,4 @@
-# $MirOS: src/sys/arch/i386/conf/GENERIC,v 1.30 2007/01/26 19:33:11 tg Exp $
+# $MirOS: src/sys/arch/i386/conf/GENERIC,v 1.32 2007/02/12 19:12:47 tg Exp $
 # $OpenBSD: GENERIC,v 1.360 2004/05/11 04:01:00 deraadt Exp $
 # $NetBSD: GENERIC,v 1.48 1996/05/20 18:17:23 mrg Exp $
 #-
@@ -13,7 +13,7 @@
 
 machine		i386			# arch, used by config; REQUIRED
 
-# $MirOS: src/sys/arch/i386/conf/GENERIC,v 1.30 2007/01/26 19:33:11 tg Exp $
+# $MirOS: src/sys/arch/i386/conf/GENERIC,v 1.32 2007/02/12 19:12:47 tg Exp $
 # $OpenBSD: GENERIC,v 1.112 2004/11/28 23:39:45 canacar Exp $
 #
 # Machine-independent option; used by all architectures.
@@ -239,6 +239,8 @@ uplcom* at uhub? port ?			# I/O DATA USB-RSAQ2 serial adapter
 ucom*	at uplcom? portno ?
 umct*	at uhub? port ?			# MCT USB-RS232 serial adapter
 ucom*	at umct? portno ?
+uslcom*	at uhub?			# Silicon Laboratories CP210x serial
+ucom*	at uslcom?
 uaudio* at uhub? port ? configuration ?	# USB Audio
 audio*	at uaudio?
 umidi*	at uhub? port ? configuration ?	# USB MIDI
