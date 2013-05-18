@@ -851,3 +851,19 @@ Title: Linuxtag 2008, Berlin, .de
  of course).</p>
 <p>We'll attend Tuesday (probably late) till Saturday.</p>
 ----
+Date: 13.06.2008
+Author: tg@
+Title: Getting things done… slowly
+
+<p>While “the swiss are laggards, and the people from Bern are the slow
+ motion of switzerland”, other things take their time as well. However,
+ vnd(4) updates have started, and other encryption schemes (including a
+ hardware-accelerated AES variant for Columbo0815 from #IceWM) will end
+ up in the code very soon, as promised.</p>
+<p>During hacking, I spot other things – bugs in the random(4) code, as
+ well as improvements to the kernel and XFree86® possibly leading to my
+ pcengines.ch ALIX.1c board to be supported (thanks to undeadly.org for
+ keeping me informed). And Benny fixed ports bugs again, as well as put
+ security updates for Freetype2 et al. into the tree. Thanks!</p>
+<p>FWIW: Opera 9.50 segfaults on me. It can’t be updated thusly.</p>
+----
