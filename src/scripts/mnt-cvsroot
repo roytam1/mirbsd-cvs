@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/scripts/mnt-cvsroot,v 1.10 2005/11/03 12:42:29 tg Exp $
+# $MirOS: src/scripts/mnt-cvsroot,v 1.11 2005/12/17 05:46:22 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -18,7 +18,7 @@
 # or other damage, or direct damage except proven a consequence of a
 # direct error of said person and intended use of this work, loss or
 # other issues arising in any way out of its use, even if advised of
-# the possibility of such damage or existence of a nontrivial bug.
+# the possibility of such damage or existence of a defect.
 #-
 # Change CVSROOT of a checked out tree (and save space with it)
 
@@ -66,7 +66,7 @@ if [[ $useroot = 1 ]]; then
 fi
 
 trap 'rm -f "$T"; exit 0' 0
-trap 'rm -f "$T"; trap - EXIT; exit 1' 1 2 3 13 15
+trap 'rm -f "$T"; trap - EXIT; exit 1' 1 2 3 5 13 15
 
 if [[ $useroot = 0 ]]; then
 	chmod 664 "$T"

@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/scripts/tarck,v 1.2 2005/06/05 15:22:56 tg Exp $
+# $MirOS: src/scripts/tarck,v 1.3 2005/12/17 05:46:23 tg Exp $
 #-
 # Copyright (c) 2004
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -18,7 +18,7 @@
 # or other damage, or direct damage except proven a consequence of a
 # direct error of said person and intended use of this work, loss or
 # other issues arising in any way out of its use, even if advised of
-# the possibility of such damage or existence of a nontrivial bug.
+# the possibility of such damage or existence of a defect.
 
 if [[ -z $DESTDIR ]]; then
 	print "Must set DESTDIR before calling ${0##*/}!"
@@ -27,7 +27,7 @@ fi
 
 T=$(mktemp /tmp/_tmp.XXXXXXXXXX) || exit 1
 trap 'rm -f $T ; exit 0' 0
-trap 'rm -f $T ; exit 1' 1 2 3 13 15
+trap 'rm -f $T ; exit 1' 1 2 3 5 13 15
 
 for set in $(for i in */mi; do basename "${i%/mi}"; done); do
 	${SHELL:-/bin/mksh} "${0%/*}/tarsets" "$set"

@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/mirports.sys.mk,v 1.33 2006/08/10 16:45:48 tg Exp $
+# $MirOS: ports/infrastructure/mk/mirports.sys.mk,v 1.34 2006/08/16 19:51:15 tg Exp $
 #-
 # Copyright (c) 2005, 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -10,8 +10,8 @@
 # in all redistributions or reproduced in accompanying documentation
 # or other materials provided with binary redistributions.
 #
-# All advertising materials mentioning features or use of this soft-
-# ware must display the following acknowledgement:
+# Advertising materials mentioning features or use of this work must
+# display the following acknowledgement:
 #	This product includes material provided by Thorsten Glaser.
 #
 # Licensor offers the work "AS IS" and WITHOUT WARRANTY of any kind,
@@ -21,7 +21,7 @@
 # or other damage, or direct damage except proven a consequence of a
 # direct error of said person and intended use of this work, loss or
 # other issues arising in any way out of its use, even if advised of
-# the possibility of such damage or existence of a nontrivial bug.
+# the possibility of such damage or existence of a defect.
 
 .ifndef	MIRPORTS_SYS_MK
 
@@ -248,7 +248,7 @@ _depfile_fragment= \
 	if [[ -z $$_DEPENDS_FILE ]]; then \
 		_DEPENDS_FILE=$$(mktemp /tmp/depends.XXXXXXXXXXXX|| exit 1); \
 		export _DEPENDS_FILE; \
-		trap "rm -f $${_DEPENDS_FILE}" 0 1 2 3 13 15; \
+		trap "rm -f $${_DEPENDS_FILE}" 0 1 2 3 5 13 15; \
 	fi
 
 

@@ -1,20 +1,20 @@
-# $MirOS: ports/mailnews/pine/Makefile,v 1.20 2006/05/08 16:00:41 tg Exp $
+# $MirOS: ports/mailnews/pine/Makefile,v 1.21 2006/09/14 00:10:45 tg Exp $
 # $OpenBSD: Makefile,v 1.56 2003/10/05 21:42:29 jakob Exp $
 
 ONLY_FOR_PLATFORM=	OpenBSD:*:* MirBSD:*:*
 
-COMMENT=			program for Internet News and eMail
-COMMENT-cclient=			University of Washington c-client mail access routines
-COMMENT-daemon=			University of Washington IMAP4rev1/POP2/POP3 mail servers
-COMMENT-mailutil=			University of Washington IMAP4rev1/POP2/POP3 mail utility
-COMMENT-pico=			small text editor
-COMMENT-pilot=			file system browser
+COMMENT=		program for Internet News and eMail
+COMMENT-cclient=	University of Washington c-client mail access routines
+COMMENT-daemon=		University of Washington IMAP4rev1/POP2/POP3 mail servers
+COMMENT-mailutil=	University of Washington IMAP4rev1/POP2/POP3 mail utility
+COMMENT-pico=		small text editor
+COMMENT-pilot=		file system browser
 CATEGORIES=		devel editors mail net news sysutils
 VERSION=		4.64
 PICO_VERSION=		4.10
 PILOT_VERSION=		2.0
 IMAP_VERSION=		2004.357
-PINE_PATCHLEV=		6	# must be the highest
+PINE_PATCHLEV=		7	# must be the highest
 CCLIENT_PATCHLEV=	5
 PICOLOT_PATCHLEV=	2
 PINE_PATCHLEV?=		${CCLIENT_PATCHLEV}

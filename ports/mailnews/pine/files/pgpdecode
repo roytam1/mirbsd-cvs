@@ -1,5 +1,5 @@
 #!/bin/sh
-# $MirOS$
+# $MirOS: ports/mailnews/pine/files/pgpdecode,v 1.1.7.1 2005/03/18 15:49:47 tg Exp $
 #
 # ---------- pgpdecode ---------
 # 21.03.96 Roland Rosenfeld <roland@spinnaker.rhein.de>
@@ -9,7 +9,7 @@
 T=$(mktemp /tmp/pgpdecode.XXXXXXXXXX) || exit 1
 S=$(mktemp /tmp/pgpdecode.XXXXXXXXXX) || { rm -f $T; exit 1; }
 trap 'rm -f $S $T ; exit 0' 0
-trap 'rm -f $S $T ; exit 1' 1 2 3 13 15
+trap 'rm -f $S $T ; exit 1' 1 2 3 5 13 15
 
 (pgp -f >$T) 2>&1 | tee $S 1>&2
 sed -e 's/^/| /' $S

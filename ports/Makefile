@@ -1,4 +1,4 @@
-# $MirOS: ports/Makefile,v 1.17 2006/02/21 18:04:47 tg Exp $
+# $MirOS: ports/Makefile,v 1.18 2006/07/23 20:43:07 tg Exp $
 # $OpenBSD: Makefile,v 1.43 2003/12/15 17:56:40 espie Exp $
 # $FreeBSD: Makefile,v 1.36 1997/10/04 15:54:31 jkh Exp $
 #-
@@ -20,7 +20,7 @@
 # or other damage, or direct damage except proven a consequence of a
 # direct error of said person and intended use of this work, loss or
 # other issues arising in any way out of its use, even if advised of
-# the possibility of such damage or existence of a nontrivial bug.
+# the possibility of such damage or existence of a defect.
 #-
 # For a complete list of people who contributed to MirPorts read the
 # CVS ChangeLog, and the OpenBSD CVS ChangeLogs.
@@ -107,7 +107,7 @@ mirror-maker:
 	@echo ".PHONY: default all ftp cdrom" >>${MIRROR_MK}
 	@_DONE_FILES=$$(mktemp /tmp/depends.XXXXXXXXX|| exit 1); \
 	export _DONE_FILES; \
-	trap "rm -f $${_DONE_FILES}" 0 1 2 3 13 15; \
+	trap "rm -f $${_DONE_FILES}" 0 1 2 3 5 13 15; \
 	${MAKE} fetch-makefile \
 		ECHO_MSG='echo >&2' \
 		>>${MIRROR_MK}

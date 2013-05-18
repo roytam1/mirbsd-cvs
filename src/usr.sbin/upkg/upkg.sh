@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/usr.sbin/upkg/upkg.sh,v 1.4 2005/10/31 13:28:52 bsiegert Exp $
+# $MirOS: src/usr.sbin/upkg/upkg.sh,v 1.5 2005/11/03 19:20:51 bsiegert Exp $
 #-
 # Copyright (c) 2005
 #	Benny Siegert <bsiegert@66h.42h.de>
@@ -57,7 +57,7 @@ function upkg_add
 
 	TMPDIR=$(mktemp -d /tmp/pkg_upgrade.XXXXXXXXXX)
 	trap 'rm -rf $TMPDIR ; exit 0' 0
-	trap 'rm -rf $TMPDIR ; exit 1' 1 2 3 13 15
+	trap 'rm -rf $TMPDIR ; exit 1' 1 2 3 5 13 15
 	
 	upkg_get_file "$1" | (cd $TMPDIR ; tar xzf -)
 	cd $TMPDIR

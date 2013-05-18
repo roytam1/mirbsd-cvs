@@ -1,5 +1,5 @@
 #!/usr/bin/env mksh
-# $MirOS: ports/infrastructure/pkgtools/upgrade/pkg_upgrade.sh,v 1.16 2006/02/20 21:08:56 tg Exp $
+# $MirOS: ports/infrastructure/pkgtools/upgrade/pkg_upgrade.sh,v 1.19 2006/08/22 20:50:49 bsiegert Exp $
 #-
 # Copyright (c) 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -143,7 +143,7 @@ fi
 
 TMPDIR=$(mktemp -d /tmp/pkg_upgrade.XXXXXXXXXX) || exit 1
 trap 'rm -rf $TMPDIR ; exit 0' 0
-trap 'rm -rf $TMPDIR ; exit 1' 1 2 3 13 15
+trap 'rm -rf $TMPDIR ; exit 1' 1 2 3 5 13 15
 
 OLDPWD=$PWD
 cd $TMPDIR

@@ -1,5 +1,5 @@
 #!/bin/sh
-# $MirOS: src/usr.bin/lorder/lorder.sh,v 1.3 2005/09/13 11:11:13 tg Exp $
+# $MirOS: src/usr.bin/lorder/lorder.sh,v 1.4 2005/09/19 19:24:49 tg Exp $
 # $OpenBSD: lorder.sh,v 1.14 2003/07/02 00:21:16 avsm Exp $
 # $NetBSD: lorder.sh.gnm,v 1.3 1995/12/20 04:45:11 cgd Exp $
 #-
@@ -52,7 +52,7 @@ S=`mktemp /tmp/_symbolXXXXXXXXXX` || {
 
 # remove temporary files on HUP, INT, QUIT, PIPE, TERM
 trap "rm -f $R $S; exit 0" 0
-trap "rm -f $R $S; exit 1" 1 2 3 13 15
+trap "rm -f $R $S; exit 1" 1 2 3 5 13 15
 
 # make sure files depend on themselves
 for file in "$@"; do
