@@ -1,4 +1,4 @@
-# $MirOS: src/usr.sbin/Makefile,v 1.23 2007/10/29 20:38:46 tg Exp $
+# $MirOS: src/usr.sbin/Makefile,v 1.24 2008/08/05 22:36:05 tg Exp $
 # $OpenBSD: Makefile,v 1.110 2004/05/04 23:27:21 deraadt Exp $
 
 .include <bsd.own.mk>
@@ -102,6 +102,7 @@
   SUBDIR+= usbdevs
   SUBDIR+= vipw
   SUBDIR+= vnconfig
+  SUBDIR+= wake
   SUBDIR+= wsconscfg
   SUBDIR+= wsconfig
 .if ${MACHINE_ARCH} == "i386"

@@ -28,7 +28,6 @@
 
 /* Send Wake-on-LAN packets to machines on the local Ethernet */
 
-#include <sys/types.h>
 #include <sys/param.h>
 #include <sys/queue.h>
 #include <sys/ioctl.h>
@@ -52,12 +51,18 @@
 #include <sysexits.h>
 #include <unistd.h>
 
+__RCSID("$MirOS$");
+
 #ifndef SYNC_LEN
 #define SYNC_LEN 6
 #endif
 
 #ifndef DESTADDR_COUNT
 #define DESTADDR_COUNT 16
+#endif
+
+#ifndef _PATH_BPF
+#define _PATH_BPF "/dev/bpf%d"
 #endif
 
 static __dead void usage(void);

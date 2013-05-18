@@ -715,6 +715,7 @@
 ./usr/sbin/vipw
 ./usr/sbin/visudo
 ./usr/sbin/vnconfig
+./usr/sbin/wake
 ./usr/sbin/wsconfig
 ./usr/sbin/wsconscfg
 ./usr/sbin/wsmoused
@@ -2498,6 +2499,7 @@
 ./usr/share/man/cat8/vmstat.0
 ./usr/share/man/cat8/vnconfig.0
 ./usr/share/man/cat8/vpn.0
+./usr/share/man/cat8/wake.0
 ./usr/share/man/cat8/weekly.0
 ./usr/share/man/cat8/wicontrol.0
 ./usr/share/man/cat8/wsconscfg.0
