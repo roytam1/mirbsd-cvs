@@ -1,4 +1,4 @@
-$MirOS: ports/www/firesomething/patches/patch-config_rules_mk,v 1.2 2006/05/11 20:55:42 bsiegert Exp $
+$MirOS: ports/www/firesomething/patches/patch-config_rules_mk,v 1.4 2008/05/21 06:31:03 bsiegert Exp $
 $OpenBSD: patch-config_rules_mk,v 1.2 2004/12/27 21:21:39 wilfried Exp $
 --- config/rules.mk.orig	2007-12-18 22:33:08.000000000 +0100
 +++ config/rules.mk	2008-05-20 20:55:32.000000000 +0200
@@ -48,7 +48,7 @@ $OpenBSD: patch-config_rules_mk,v 1.2 2004/12/27 21:21:39 wilfried Exp $
  endif
  else
 -ifneq (,$(filter OSF1 BSD_OS FreeBSD NetBSD OpenBSD SunOS Darwin,$(OS_ARCH)))
-+ifneq (,$(filter OSF1 BSD_OS FreeBSD MidnightBSD NetBSD MirBSD OpenBSD SunOS Darwin,$(OS_ARCH)))
++ifneq (,$(filter BSD_OS Darwin FreeBSD MidnightBSD MirBSD NetBSD OSF1 OpenBSD SunOS,$(OS_ARCH)))
  CLEANUP1	:= | egrep -v '(________64ELEL_|__.SYMDEF)'
  CLEANUP2	:= rm -f ________64ELEL_ __.SYMDEF
  else
