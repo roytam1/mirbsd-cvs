@@ -1,7 +1,8 @@
-# $MirOS: ports/infrastructure/install/distinfo.sh,v 1.16 2006/01/27 11:32:45 tg Exp $
+# $MirOS: ports/infrastructure/install/distinfo.sh,v 1.17 2006/01/30 12:37:20 tg Exp $
 
 case $what in
 make)
+	f_key=signkey
 	f_ver=20051230
 	f_dist=mirmake-$f_ver.cpio.gz
 	f_path=mir/make
@@ -11,6 +12,7 @@ make)
 	distinfo_date="Dec 30 00:19"
 	;;
 mksh)
+	f_key=signkey
 	f_ver=26c
 	f_dist=mksh-R$f_ver.cpio.gz
 	f_path=mir/mksh
@@ -20,6 +22,7 @@ mksh)
 	distinfo_date="Jan 30 11:52"
 	;;
 mtree)
+	f_key=signkey
 	f_ver=20050912
 	f_dist=mirmtree-$f_ver.cpio.gz
 	f_path=mir/mtree
@@ -29,6 +32,7 @@ mtree)
 	distinfo_date="Sep 12 19:19"
 	;;
 nroff)
+	f_key=signkey
 	f_ver=20050912
 	f_dist=mirnroff-$f_ver.cpio.gz
 	f_path=mir/nroff
