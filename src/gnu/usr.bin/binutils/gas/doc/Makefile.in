@@ -14,7 +14,7 @@
 
 @SET_MAKE@
 
-# $MirOS: src/gnu/usr.bin/binutils/gas/doc/Makefile.am,v 1.5 2005/07/17 14:25:29 tg Exp $
+# $MirOS: src/gnu/usr.bin/binutils/gas/doc/Makefile.in,v 1.10 2006/07/01 14:00:35 tg Exp $
 #
 srcdir = @srcdir@
 top_srcdir = @top_srcdir@
@@ -604,7 +604,7 @@ info-local: $(MANS)
 # the man output looks standard.
 as.1: $(srcdir)/as.texinfo asconfig.texi gasver.texi $(CPU_DOCS)
 	touch $@
-	-$(TEXI2POD) $(MANCONF) < $(srcdir)/as.texinfo > as.pod
+	-$(TEXI2POD) $(MANCONF) $(srcdir)/as.texinfo > as.pod
 	-($(POD2MAN) as.pod | \
 	        sed -e '/^.if n .na/d' > $@.T$$$$ && \
 	        mv -f $@.T$$$$ $@) || \

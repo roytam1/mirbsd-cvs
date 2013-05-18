@@ -1,4 +1,4 @@
-# $MirOS: src/gnu/usr.bin/binutils/gas/doc/Makefile.am,v 1.4 2005/06/05 21:24:14 tg Exp $
+# $MirOS: src/gnu/usr.bin/binutils/gas/doc/Makefile.am,v 1.5 2005/07/17 14:25:29 tg Exp $
 #
 ## Process this file with automake to generate Makefile.in
 
@@ -94,7 +94,7 @@ info-local: $(MANS)
 # the man output looks standard.
 as.1: $(srcdir)/as.texinfo asconfig.texi gasver.texi $(CPU_DOCS)
 	touch $@
-	-$(TEXI2POD) $(MANCONF) < $(srcdir)/as.texinfo > as.pod
+	-$(TEXI2POD) $(MANCONF) $(srcdir)/as.texinfo > as.pod
 	-($(POD2MAN) as.pod | \
 	        sed -e '/^.if n .na/d' > $@.T$$$$ && \
 	        mv -f $@.T$$$$ $@) || \
