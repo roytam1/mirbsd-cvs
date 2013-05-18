@@ -1,24 +1,4 @@
-# $MirOS: contrib/samples/etc_profile,v 1.6 2006/08/08 23:33:10 tg Exp $
-# _MirBSD: src/etc/profile,v 1.51 2004/08/23 21:23:03 tg Stab $
-#-
-# Copyright (c) 1999, 2000, 2003, 2004, 2005
-#	Thorsten "mirabile" Glaser <tg@66h.42h.de>
-#
-# Licensee is hereby permitted to deal in this work without restric-
-# tion, including unlimited rights to use, publicly perform, modify,
-# merge, distribute, sell, give away or sublicence, provided all co-
-# pyright notices above, these terms and the disclaimer are retained
-# in all redistributions or reproduced in accompanying documentation
-# or other materials provided with binary redistributions.
-#
-# Licensor offers the work "AS IS" and WITHOUT WARRANTY of any kind,
-# express, or implied, to the maximum extent permitted by applicable
-# law, without malicious intent or gross negligence; in no event may
-# licensor, an author or contributor be held liable for any indirect
-# or other damage, or direct damage except proven a consequence of a
-# direct error of said person and intended use of this work, loss or
-# other issues arising in any way out of its use, even if advised of
-# the possibility of such damage or existence of a nontrivial bug.
+# $MirOS: contrib/samples/etc_profile,v 1.7 2006/08/13 00:50:51 tg Exp $
 #-
 # Initialisation file for MirOS ksh (pdksh, sh), (s)ash and GNU bash
 # Fallback mode only for non-Korn-shells, though.
@@ -140,20 +120,9 @@ if [ -n "$KSH_VERSION" ]; then
 	set +o sh +o vi +o posix
 	unset KSH_TRIED
 	[[ ${COLUMNS:-1} -le 1 ]] && export COLUMNS=80
-	[ -n "$USER" ] && \
-	    PS1='${USER}@'"${HOSTNAME}"':$(local _PWD_TEMP="$PWD";
-	    local _PWD_TEMP2=
-	    while (( (${#_PWD_TEMP2} + ${#_PWD_TEMP}) > (COLUMNS / 3))); do
-		if [[ $_PWD_TEMP = *@(/)* ]]; then
-			_PWD_TEMP2=".../"
-			_PWD_TEMP="${_PWD_TEMP#*/}";
-		else
-			_PWD_TEMP2="..."
-			_PWD_TEMP="${_PWD_TEMP#?????}";
-		fi; done;
-	    print "${_PWD_TEMP2}${_PWD_TEMP}")'"$(if [ $USER_ID -eq 0 ]; then
-	    print ' # '; else print ' $ '; fi)"
+	# we rely on ~/.mkshrc to set $PS1 here
 	if [ -z "$NOCOLOURPROMPT" ]; then
+		# XXX doesn't work since ~/.mkshrc overrides this
 		if [ $USER_ID -eq 0 ]; then
 			PS1='${X_COLOUR}[41;30m${USER}[0m@${HOSTNAME}:${PWD} # '
 		else
@@ -178,14 +147,7 @@ elif [ -n "$BASH_VERSION" ]; then
 else
 	export MIROS=ash$MIROS
 fi
-alias la='ls -a'
-[ $USER_ID -eq 0 ] && alias l=la || alias l=ls
-alias ll='l -l'
-alias lo='ll -o'
 alias cls='echo -ne \\033c'
-[ -x /usr/bin/hd ] || eval alias hd=\''hexdump -e '\''\'\'''\''"%08.8_ax' \
-	'  " 8/1 "%02X " " - " 8/1 "%02X "'\''\'\'''\'' -e '\''\'\'''\'\" \
-	'  |" "%_p"'\''\'\'''\'' -e '\''\'\'''\''"|\n"'\''\'\'''\'' '\'
 function bye		# cu ;-)
 {
 	[ "$1" = k ] && ssh-agent -k
@@ -249,17 +211,6 @@ function loadimage	# call xloadimage by URI
 		fi
 	done
 }
-function Lstripcom	# strip comments from file
-{
-	local _line
-
-	set -o noglob
-	cat "$@" | while read _line; do
-		_line=${_line%%#*}
-		[[ -n $_line ]] && echo $_line
-	done
-	set +o noglob
-}
 function Lfirstcol	# only the first column (useful for regen-obsdp)
 {
 	set -o noglob
@@ -283,7 +234,6 @@ function Lretrocfg	# retrieve kernel config file
 [ -x /emul/linux/bin/bash ] && alias lx='/emul/linux/bin/bash --login'
 unset HISTFILE
 set -o emacs
-set +o emacs-usemeta 2>/dev/null
 USER_NAME=_nonexistent
 [ -x /usr/bin/id ] && USER_NAME=$(id -un 2>/dev/null)
 if [ -O /tmp/.ssh-agent/$USER_NAME ]; then
