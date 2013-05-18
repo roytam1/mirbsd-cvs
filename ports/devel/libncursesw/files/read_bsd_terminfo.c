@@ -1,4 +1,5 @@
-/**	$MirOS: src/lib/libncurses/src/ncurses/tinfo/read_bsd_terminfo.c,v 1.4 2006/10/27 16:13:46 tg Exp $ */
+/**	$MirOS: src/lib/libncurses/src/ncurses/tinfo/read_bsd_terminfo.c,v 1.5 2006/10/31 02:52:39 tg Exp $ */
+/**	_MirOS: src/lib/libncurses/src/ncurses/tinfo/read_bsd_terminfo.c,v 1.5 2006/10/31 02:52:39 tg Exp $ */
 /*	$OpenBSD: read_bsd_terminfo.c,v 1.14 2003/06/17 21:56:24 millert Exp $	*/
 
 /*
@@ -16,6 +17,17 @@
  * WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
  * ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
  * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+ *
+ * The following disclaimer must also be retained in all copies:
+ *
+ * Licensor offers the work "AS IS" and WITHOUT WARRANTY of any kind,
+ * express, or implied, to the maximum extent permitted by applicable
+ * law, without malicious intent or gross negligence; in no event may
+ * licensor, an author or contributor be held liable for any indirect
+ * or other damage, or direct damage except proven a consequence of a
+ * direct error of said person and intended use of this work, loss or
+ * other issues arising in any way out of its use, even if advised of
+ * the possibility of such damage or existence of a defect.
  */
 
 #include <curses.priv.h>
@@ -23,9 +35,11 @@
 #include <term.h>	/* lines, columns, cur_term */
 #include <term_entry.h>
 
-__RCSID("$MirOS: src/lib/libncurses/src/ncurses/tinfo/read_bsd_terminfo.c,v 1.4 2006/10/27 16:13:46 tg Exp $");
+__RCSID("$MirOS: src/lib/libncurses/src/ncurses/tinfo/read_bsd_terminfo.c,v 1.5 2006/10/31 02:52:39 tg Exp $");
 
-#define	_PATH_TERMINFO	"/usr/share/misc/terminfo"
+#ifndef _PATH_TERMINFO
+#define _PATH_TERMINFO	"/usr/share/misc/terminfo"
+#endif /* ! _PATH_TERMINFO */
 
 /* Function prototypes for private functions, */
 static int _nc_lookup_bsd_terminfo_entry(const char *const, const char *const, TERMTYPE *);
@@ -119,7 +133,7 @@ _nc_lookup_bsd_terminfo_entry(tn, filename, tp)
     TERMTYPE *const tp;
 {
     char  *pathvec[2], *sfn;
-    char  *capbuf, *cptr, *infobuf, *iptr, lastc;
+    char  *capbuf, *cptr, *infobuf, *iptr;
     int    error;
     size_t len;
     ENTRY  thisentry;
@@ -167,14 +181,16 @@ _nc_lookup_bsd_terminfo_entry(tn, filename, tp)
 	*iptr++ = '\n';
 
 	/* Copy the rest of capbuf, converting ':' -> ',' */
-	for (++cptr, lastc = '\0'; *cptr; cptr++) {
-	    /* XXX - somewhat simplistic */
-	    if (*cptr == ':' && lastc != '\\')
-		*iptr++ = ',';
-	    else
-		*iptr++ = *cptr;
-	    lastc = *cptr;
-	}
+	for (++cptr; *cptr; ++cptr)
+		if ((*cptr == '\\') || (*cptr == '^')) {
+			*iptr++ = *cptr++;
+			if (!*cptr)
+				break;
+			*iptr++ = *cptr;
+		} else if (*cptr == ':')
+			*iptr++ = ',';
+		else
+			*iptr++ = *cptr;
 	*iptr++ = '\n';
 	*iptr = '\0';
 
