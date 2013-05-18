@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/pkgtools/Makefile.inc,v 1.15 2008/03/12 23:43:13 tg Exp $
+# $MirOS: ports/infrastructure/pkgtools/Makefile.inc,v 1.16 2008/03/12 23:46:49 tg Exp $
 # $OpenBSD: Makefile.inc,v 1.2 1997/09/21 11:44:03 deraadt Exp $
 
 .ifndef _MODPORTS_INFRASTRUCTURE_PKGTOOLS_MAKEFILE_INC
@@ -17,7 +17,7 @@ CPPFLAGS+=	-DDEF_LOG_DIR=\"${PKG_DB_DIR}/pkg\"
 .include <bsd.own.mk>
 
 .ifndef LIB
-CPPFLAGS+=	${DEBUG} -I${.CURDIR}/../lib
+CPPFLAGS+=	-I${.CURDIR}/../lib
 
 .  include <bsd.obj.mk>
 .  if exists(${.CURDIR}/../lib/${__objdir})
