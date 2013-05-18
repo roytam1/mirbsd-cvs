@@ -1,8 +1,8 @@
-# $MirOS: ports/www/lynx/Makefile,v 1.6 2006/08/26 23:35:00 tg Exp $
+# $MirOS: ports/www/lynx/Makefile,v 1.7 2006/09/13 19:31:52 tg Exp $
 
 COMMENT=			standard text-mode world wide web browser
 CATEGORIES=			www essentials
-VERSION=			2.8.6pre.3
+VERSION=			2.8.6pre.5
 PL=				0
 DISTNAME=			lynx${VERSION:C/[a-z]$//}
 .if ${VERSION} != ${VERSION:C/[a-z]$//}
@@ -41,6 +41,7 @@ CONFIGURE_ARGS+=		--disable-ipv6
 CPPFLAGS+=			-DLYNX_VERSION=\"${VERSION}-MirPorts-${PL}\"
 
 post-install:
+	${INSTALL_SCRIPT} ${WRKSRC}/samples/oldlynx ${PREFIX}/bin/
 	mv -f ${WRKINST}${SYSCONFDIR}/lynx.{cfg,lss} \
 	    ${PREFIX}/share/lynx_doc/samples/
 	-rm -rf ${WRKINST}${SYSCONFDIR}

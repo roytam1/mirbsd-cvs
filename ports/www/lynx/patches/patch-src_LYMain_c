@@ -1,6 +1,6 @@
-$MirOS: ports/www/lynx/patches/patch-src_LYMain_c,v 1.2 2006/08/16 19:32:27 tg Exp $
---- src/LYMain.c.orig	Sun Sep 10 23:38:16 2006
-+++ src/LYMain.c	Wed Sep 13 18:51:51 2006
+$MirOS: ports/www/lynx/patches/patch-src_LYMain_c,v 1.3 2006/09/13 19:31:53 tg Exp $
+--- src/LYMain.c.orig	Tue Sep 19 00:28:05 2006
++++ src/LYMain.c	Mon Oct  2 22:42:03 2006
 @@ -64,7 +64,7 @@
  #define COOKIE_FILE "cookies"
  #define TRACE_FILE "LY-TRACE.LOG"
@@ -10,7 +10,7 @@ $MirOS: ports/www/lynx/patches/patch-src_LYMain_c,v 1.2 2006/08/16 19:32:27 tg E
  #define TRACE_FILE "Lynx.trace"
  #endif /* FNAMES_8_3 */
  
-@@ -1156,6 +1156,11 @@ int main(int argc,
+@@ -1160,6 +1160,11 @@ int main(int argc,
      StrAllocCopy(LYUserAgent, LYNX_NAME);
      StrAllocCat(LYUserAgent, "/");
      StrAllocCat(LYUserAgent, LYNX_VERSION);
@@ -22,7 +22,7 @@ $MirOS: ports/www/lynx/patches/patch-src_LYMain_c,v 1.2 2006/08/16 19:32:27 tg E
      if (HTLibraryVersion) {
  	StrAllocCat(LYUserAgent, " libwww-FM/");
  	StrAllocCat(LYUserAgent, HTLibraryVersion);
-@@ -2045,10 +2050,7 @@ int main(int argc,
+@@ -2049,10 +2054,7 @@ int main(int argc,
       * synchronized.  - FM
       */
      if (!bookmark_page || *bookmark_page == '\0') {

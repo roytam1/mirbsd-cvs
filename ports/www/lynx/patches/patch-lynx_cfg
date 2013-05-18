@@ -1,6 +1,6 @@
-$MirOS: ports/www/lynx/patches/patch-lynx_cfg,v 1.2 2006/08/16 19:32:27 tg Exp $
---- lynx.cfg.orig	Sun Sep 10 23:38:16 2006
-+++ lynx.cfg	Wed Sep 13 18:51:51 2006
+$MirOS: ports/www/lynx/patches/patch-lynx_cfg,v 1.3 2006/09/13 19:31:53 tg Exp $
+--- lynx.cfg.orig	Tue Sep 19 00:28:05 2006
++++ lynx.cfg	Mon Oct  2 22:42:03 2006
 @@ -92,12 +92,12 @@
  #
  # Normally we expect you will connect to a remote site, e.g., the Lynx starting
@@ -199,7 +199,7 @@ $MirOS: ports/www/lynx/patches/patch-lynx_cfg,v 1.2 2006/08/16 19:32:27 tg Exp $
  
  .h2 VIEWER
  # MIME types may be assigned to external viewers using
-@@ -3190,7 +3200,9 @@ COLOR:6:brightred:black
+@@ -3204,7 +3214,9 @@ COLOR:6:brightred:black
  # otherwise. Set this setting to TRUE if you prefer numbered links, but wish
  # to get valid HTML source when printing or mailing when in psrc view.
  # Default is FALSE.
@@ -210,7 +210,7 @@ $MirOS: ports/www/lynx/patches/patch-lynx_cfg,v 1.2 2006/08/16 19:32:27 tg Exp $
  
  
  .h1 HTML Parsing
-@@ -3223,13 +3235,11 @@ COLOR:6:brightred:black
+@@ -3237,13 +3249,11 @@ COLOR:6:brightred:black
  
  .h2 JUSTIFY
  # JUSTIFY - Appearance
@@ -228,7 +228,7 @@ $MirOS: ports/www/lynx/patches/patch-lynx_cfg,v 1.2 2006/08/16 19:32:27 tg Exp $
  
  .h2 JUSTIFY_MAX_VOID_PERCENT
  # JUSTIFY_MAX_VOID_PERCENT - Appearance
-@@ -3257,7 +3267,8 @@ COLOR:6:brightred:black
+@@ -3271,7 +3281,8 @@ COLOR:6:brightred:black
  # explicit activation can also be requested with the -tna command line
  # option.
  #
@@ -238,7 +238,7 @@ $MirOS: ports/www/lynx/patches/patch-lynx_cfg,v 1.2 2006/08/16 19:32:27 tg Exp $
  
  .h2 LEFTARROW_IN_TEXTFIELD_PROMPT
  # LEFTARROW_IN_TEXTFIELD_PROMPT
-@@ -3319,26 +3330,26 @@ COLOR:6:brightred:black
+@@ -3333,26 +3344,26 @@ COLOR:6:brightred:black
  #ENABLE_LYNXRC:emacs_keys:ON
  #ENABLE_LYNXRC:file_editor:ON
  #ENABLE_LYNXRC:file_sorting_method:ON
