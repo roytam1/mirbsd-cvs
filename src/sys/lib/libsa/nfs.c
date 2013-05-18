@@ -47,6 +47,9 @@
 #include "nfs.h"
 #include "rpc.h"
 
+#define ALLOC(var)	var = alloc(sizeof (*var))
+#define AFREE(var)	free(var, sizeof (*var))
+
 /* Define our own NFS attributes without NQNFS stuff. */
 struct nfsv2_fattrs {
 	n_long	fa_type;
@@ -117,11 +120,11 @@ nfs_getrootfh(struct iodesc *d, char *path, u_char *fhp)
 	struct {
 		n_long	h[RPC_HEADER_WORDS];
 		struct args d;
-	} sdata;
+	} *sdata;
 	struct {
 		n_long	h[RPC_HEADER_WORDS];
 		struct repl d;
-	} rdata;
+	} *rdata;
 	size_t cc;
 	int rv = -1;
 
@@ -130,8 +133,11 @@ nfs_getrootfh(struct iodesc *d, char *path, u_char *fhp)
 		printf("nfs_getrootfh: %s\n", path);
 #endif
 
-	args = &sdata.d;
-	repl = &rdata.d;
+	ALLOC(sdata);
+	ALLOC(rdata);
+
+	args = &sdata->d;
+	repl = &rdata->d;
 
 	bzero(args, sizeof(*args));
 	len = strlen(path);
@@ -158,6 +164,8 @@ nfs_getrootfh(struct iodesc *d, char *path, u_char *fhp)
 	bcopy(repl->fh, fhp, sizeof(repl->fh));
 	rv = 0;
  out:
+	AFREE(rdata);
+	AFREE(sdata);
 	return (rv);
 }
 
@@ -182,11 +190,11 @@ nfs_lookupfh(struct nfs_iodesc *d, char *name, struct nfs_iodesc *newfd)
 	struct {
 		n_long	h[RPC_HEADER_WORDS];
 		struct args d;
-	} sdata;
+	} *sdata;
 	struct {
 		n_long	h[RPC_HEADER_WORDS];
 		struct repl d;
-	} rdata;
+	} *rdata;
 	ssize_t cc;
 	int rv;
 
@@ -195,8 +203,11 @@ nfs_lookupfh(struct nfs_iodesc *d, char *name, struct nfs_iodesc *newfd)
 		printf("lookupfh: called\n");
 #endif
 
-	args = &sdata.d;
-	repl = &rdata.d;
+	ALLOC(sdata);
+	ALLOC(rdata);
+
+	args = &sdata->d;
+	repl = &rdata->d;
 
 	bzero(args, sizeof(*args));
 	bcopy(d->fh, args->fh, sizeof(args->fh));
@@ -229,6 +240,8 @@ nfs_lookupfh(struct nfs_iodesc *d, char *name, struct nfs_iodesc *newfd)
 	bcopy(&repl->fa, &newfd->fa, sizeof(newfd->fa));
 	rv = 0;
  out:
+	AFREE(rdata);
+	AFREE(sdata);
 	return (rv);
 }
 
@@ -241,11 +254,11 @@ nfs_readlink(struct nfs_iodesc *d, char *buf)
 	struct {
 		n_long	h[RPC_HEADER_WORDS];
 		u_char fh[NFS_FHSIZE];
-	} sdata;
+	} *sdata;
 	struct {
 		n_long	h[RPC_HEADER_WORDS];
 		struct nfs_readlnk_repl d;
-	} rdata;
+	} *rdata;
 	ssize_t cc;
 	int rv;
 
@@ -254,10 +267,13 @@ nfs_readlink(struct nfs_iodesc *d, char *buf)
 		printf("readlink: called\n");
 #endif
 
-	bcopy(d->fh, sdata.fh, NFS_FHSIZE);
+	ALLOC(sdata);
+	ALLOC(rdata);
+
+	bcopy(d->fh, sdata->fh, NFS_FHSIZE);
 	cc = rpc_call(d->iodesc, NFS_PROG, NFS_VER2, NFSPROC_READLINK,
-	    sdata.fh, NFS_FHSIZE,
-	    &rdata.d, sizeof(rdata.d));
+	    sdata->fh, NFS_FHSIZE,
+	    &rdata->d, sizeof(rdata->d));
 	if (cc == -1) {
 		rv = errno;
 		goto out;
@@ -267,21 +283,23 @@ nfs_readlink(struct nfs_iodesc *d, char *buf)
 		goto out;
 	}
 
-	if (rdata.d.errno) {
-		rv = ntohl(rdata.d.errno);
+	if (rdata->d.errno) {
+		rv = ntohl(rdata->d.errno);
 		goto out;
 	}
 
-	rdata.d.len = ntohl(rdata.d.len);
-	if (rdata.d.len > NFS_MAXPATHLEN) {
+	rdata->d.len = ntohl(rdata->d.len);
+	if (rdata->d.len > NFS_MAXPATHLEN) {
 		rv = ENAMETOOLONG;
 		goto out;
 	}
 
-	bcopy(rdata.d.path, buf, rdata.d.len);
-	buf[rdata.d.len] = 0;
+	bcopy(rdata->d.path, buf, rdata->d.len);
+	buf[rdata->d.len] = 0;
 	rv = 0;
  out:
+	AFREE(rdata);
+	AFREE(sdata);
 	return (rv);
 }
 
@@ -297,18 +315,21 @@ nfs_readdata(struct nfs_iodesc *d, off_t off, void *addr, size_t len)
 	struct {
 		n_long	h[RPC_HEADER_WORDS];
 		struct nfs_read_args d;
-	} sdata;
+	} *sdata;
 	struct {
 		n_long	h[RPC_HEADER_WORDS];
 		struct nfs_read_repl d;
-	} rdata;
+	} *rdata;
 	size_t cc;
 	long x;
 	int hlen, rlen;
 	ssize_t rv = -1;
 
-	args = &sdata.d;
-	repl = &rdata.d;
+	ALLOC(sdata);
+	ALLOC(rdata);
+
+	args = &sdata->d;
+	repl = &rdata->d;
 
 	bcopy(d->fh, args->fh, NFS_FHSIZE);
 	args->off = htonl((n_long)off);
@@ -343,6 +364,8 @@ nfs_readdata(struct nfs_iodesc *d, off_t off, void *addr, size_t len)
 	bcopy(repl->data, addr, x);
 	rv = x;
  out:
+	AFREE(rdata);
+	AFREE(sdata);
 	return (rv);
 }
 
@@ -389,8 +412,7 @@ int
 nfs_open(char *path, struct open_file *f)
 {
 	struct nfs_iodesc *newfd, *currfd;
-	char namebuf[NFS_MAXPATHLEN + 1], *cp, *ncp;
-	char linkbuf[NFS_MAXPATHLEN + 1];
+	char *namebuf, *linkbuf, *cp, *ncp;
 	int nlinks = 0, error = 0, c;
 
 #ifdef NFS_DEBUG
@@ -402,6 +424,7 @@ nfs_open(char *path, struct open_file *f)
 		return (ENXIO);
 	}
 
+	namebuf = alloc(NFS_MAXPATHLEN + 1);
 	currfd = &nfs_root_node;
 	newfd = 0;
 
@@ -457,9 +480,12 @@ nfs_open(char *path, struct open_file *f)
 		if (newfd->fa.fa_type == htonl(NFLNK)) {
 			int link_len, len;
 
+			linkbuf = alloc(NFS_MAXPATHLEN + 1);
 			error = nfs_readlink(newfd, linkbuf);
-			if (error)
+			if (error) {
+				free(linkbuf, NFS_MAXPATHLEN + 1);
 				goto out;
+			}
 
 			link_len = strlen(linkbuf);
 			len = strlen(cp);
@@ -472,6 +498,7 @@ nfs_open(char *path, struct open_file *f)
 
 			bcopy(cp, &namebuf[link_len], len + 1);
 			bcopy(linkbuf, namebuf, link_len);
+			free(linkbuf, NFS_MAXPATHLEN + 1);
 
 			/*
 			 * If absolute pathname, restart at root.
@@ -498,7 +525,8 @@ nfs_open(char *path, struct open_file *f)
 
 	error = 0;
 
-out:
+ out:
+	free(namebuf, NFS_MAXPATHLEN + 1);
 	if (!error) {
 		f->f_fsdata = (void *)currfd;
 		return (0);

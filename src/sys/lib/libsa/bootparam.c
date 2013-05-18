@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/lib/libsa/bootparam.c,v 1.2 2005/03/06 21:28:07 tg Exp $ */
+/**	$MirOS: src/sys/lib/libsa/bootparam.c,v 1.3 2008/08/01 11:25:01 tg Exp $ */
 /*	$OpenBSD: bootparam.c,v 1.11 2003/08/11 06:23:09 deraadt Exp $	*/
 /*	$NetBSD: bootparam.c,v 1.10 1996/10/14 21:16:55 thorpej Exp $	*/
 
@@ -102,9 +102,6 @@ int xdr_string_decode(char **p, char *str, int *len_p);
 int
 bp_whoami(int sockfd)
 {
-	int ldomainnamelen;
-	char ldomainname[MAXHOSTNAMELEN];
-
 	/* RPC structures for PMAPPROC_CALLIT */
 	struct args {
 		u_int32_t prog;
@@ -203,9 +200,8 @@ bp_whoami(int sockfd)
 		return (-1);
 	}
 
-	/* domain name */
-	domainnamelen = 0;
-	if (xdr_string_decode(&recv_head, ldomainname, &ldomainnamelen)) {
+	/* domain name (ignored) */
+	if (xdr_string_decode(&recv_head, NULL, NULL)) {
 		RPC_PRINTF(("bp_whoami: bad domainname\n"));
 	}
 
@@ -230,27 +226,32 @@ bp_whoami(int sockfd)
 int
 bp_getfile(int sockfd, char *key, struct in_addr *serv_addr, char *pathname)
 {
-	struct {
+	struct bp_sdata {
 		n_long	h[RPC_HEADER_WORDS];
 		n_long  d[64];
-	} sdata;
-	struct {
+	} *sdata;
+	struct bp_rdata {
 		n_long	h[RPC_HEADER_WORDS];
 		n_long  d[128];
-	} rdata;
-	char serv_name[FNAME_SIZE];
+	} *rdata;
+	char *serv_name;
 	char *send_tail, *recv_head;
 	/* misc... */
 	struct iodesc *d;
 	int sn_len, path_len, rlen;
+	int rv = -1;
 
 	if (!(d = socktodesc(sockfd))) {
 		RPC_PRINTF(("bp_getfile: bad socket. %d\n", sockfd));
 		return (-1);
 	}
 
-	send_tail = (char *)sdata.d;
-	recv_head = (char *)rdata.d;
+	sdata = alloc(sizeof (struct bp_sdata));
+	rdata = alloc(sizeof (struct bp_rdata));
+	serv_name = alloc(FNAME_SIZE);
+
+	send_tail = (char *)sdata->d;
+	recv_head = (char *)rdata->d;
 
 	/*
 	 * Build request message.
@@ -259,13 +260,13 @@ bp_getfile(int sockfd, char *key, struct in_addr *serv_addr, char *pathname)
 	/* client name (hostname) */
 	if (xdr_string_encode(&send_tail, hostname, hostnamelen)) {
 		RPC_PRINTF(("bp_getfile: bad client\n"));
-		return (-1);
+		goto out;
 	}
 
 	/* key name (root or swap) */
 	if (xdr_string_encode(&send_tail, key, strlen(key))) {
 		RPC_PRINTF(("bp_getfile: bad key\n"));
-		return (-1);
+		goto out;
 	}
 
 	/* RPC: bootparam/getfile */
@@ -275,14 +276,14 @@ bp_getfile(int sockfd, char *key, struct in_addr *serv_addr, char *pathname)
 
 	rlen = rpc_call(d,
 		BOOTPARAM_PROG, BOOTPARAM_VERS, BOOTPARAM_GETFILE,
-		sdata.d, send_tail - (char *)sdata.d,
-		rdata.d, sizeof(rdata.d));
+		sdata->d, send_tail - (char *)sdata->d,
+		rdata->d, sizeof(rdata->d));
 	if (rlen < 4) {
 		RPC_PRINTF(("bp_getfile: short reply\n"));
 		errno = EBADRPC;
-		return (-1);
+		goto out;
 	}
-	recv_head = (char *)rdata.d;
+	recv_head = (char *)rdata->d;
 
 	/*
 	 * Parse result message.
@@ -292,24 +293,29 @@ bp_getfile(int sockfd, char *key, struct in_addr *serv_addr, char *pathname)
 	sn_len = FNAME_SIZE-1;
 	if (xdr_string_decode(&recv_head, serv_name, &sn_len)) {
 		RPC_PRINTF(("bp_getfile: bad server name\n"));
-		return (-1);
+		goto out;
 	}
 
 	/* server IP address (mountd/NFS) */
 	if (xdr_inaddr_decode(&recv_head, serv_addr)) {
 		RPC_PRINTF(("bp_getfile: bad server addr\n"));
-		return (-1);
+		goto out;
 	}
 
 	/* server pathname */
 	path_len = MAXPATHLEN-1;
 	if (xdr_string_decode(&recv_head, pathname, &path_len)) {
 		RPC_PRINTF(("bp_getfile: bad server path\n"));
-		return (-1);
+		goto out;
 	}
 
 	/* success */
-	return(0);
+	rv = 0;
+ out:
+	free(serv_name, FNAME_SIZE);
+	free(rdata, sizeof (struct bp_rdata));
+	free(sdata, sizeof (struct bp_sdata));
+	return (rv);
 }
 
 
@@ -351,14 +357,18 @@ xdr_string_decode(char **pkt, char *str, int *len_p)
 	slen = ntohl(*lenp);
 	plen = (slen + 3) & ~3;
 
-	if (slen > *len_p)
+	if (len_p == NULL)
+		slen = 0;
+	else if (slen > *len_p)
 		slen = *len_p;
 	datap = *pkt;
 	*pkt += plen;
-	bcopy(datap, str, slen);
-
-	str[slen] = '\0';
-	*len_p = slen;
+	if (str) {
+		bcopy(datap, str, slen);
+		str[slen] = '\0';
+	}
+	if (len_p)
+		*len_p = slen;
 
 	return (0);
 }

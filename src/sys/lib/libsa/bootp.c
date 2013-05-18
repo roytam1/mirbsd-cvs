@@ -1,4 +1,4 @@
-/**	$MirOS$ */
+/**	$MirOS: src/sys/lib/libsa/bootp.c,v 1.3 2008/08/01 11:25:01 tg Exp $ */
 /*	$OpenBSD: bootp.c,v 1.12 2006/02/06 17:37:28 jmc Exp $	*/
 /*	$NetBSD: bootp.c,v 1.10 1996/10/13 02:28:59 christos Exp $	*/
 
@@ -70,14 +70,10 @@ bootp(int sock)
 {
 	struct iodesc *d;
 	struct bootp *bp;
-	struct {
+	struct bootp_xbuf {
 		u_char header[HEADER_SIZE];
-		struct bootp wbootp;
-	} wbuf;
-	struct {
-		u_char header[HEADER_SIZE];
-		struct bootp rbootp;
-	} rbuf;
+		struct bootp xbootp;
+	} *rbuf, *wbuf;
 
 #ifdef BOOTP_DEBUG
 	if (debug)
@@ -95,7 +91,10 @@ bootp(int sock)
 		printf("bootp: d=%x\n", (u_int)d);
 #endif
 
-	bp = &wbuf.wbootp;
+	rbuf = alloc(sizeof (struct bootp_xbuf));
+	wbuf = alloc(sizeof (struct bootp_xbuf));
+
+	bp = &wbuf->xbootp;
 	bzero(bp, sizeof(*bp));
 
 	bp->bp_op = BOOTREQUEST;
@@ -113,7 +112,10 @@ bootp(int sock)
 
 	(void)sendrecv(d,
 	    bootpsend, bp, sizeof(*bp),
-	    bootprecv, &rbuf.rbootp, sizeof(rbuf.rbootp));
+	    bootprecv, &rbuf->xbootp, sizeof(rbuf->xbootp));
+
+	free(wbuf, sizeof (struct bootp_xbuf));
+	free(rbuf, sizeof (struct bootp_xbuf));
 
 	/* Bump xid so next request will be unique. */
 	++d->xid;
