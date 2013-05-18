@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/dev/rnd.c,v 1.22 2006/06/29 13:27:36 tg Exp $ */
+/**	$MirOS: src/sys/dev/rnd.c,v 1.23 2006/08/18 12:29:52 tg Exp $ */
 /*	$OpenBSD: rnd.c,v 1.78 2005/07/07 00:11:24 djm Exp $	*/
 
 /*
@@ -168,7 +168,7 @@
  * This macro xors its argument into a temporary pool, if that pool is
  * not already full. The pool itself is poured once about every minute
  * into the random pool using add_true_randomness() if it contains data.
- * The pool is sized at 16 (rnd_addpool_size) uint32_ts FOR A REASON!
+ * The pool is sized at 32 (rnd_addpool_size) uint32_ts FOR A REASON!
  *
  * This function can be disabled using the "kern.pushrand" sysctl.
  * The buffer can be filled with writes to /dev/prandom unless the
@@ -840,7 +840,7 @@ enqueue_randomness(int xstate, int val)
 	rep->re_time = xtime;
 	rep->re_val = val;
 
-	if (state == xstate) {
+	if (xstate < RND_SRC_NUM) {
 		rndstats.rnd_enqs++;
 		rndstats.rnd_ed[nbits]++;
 		rndstats.rnd_sc[state]++;

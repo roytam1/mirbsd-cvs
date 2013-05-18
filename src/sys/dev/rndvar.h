@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/dev/rndvar.h,v 1.4 2006/03/27 09:45:29 tg Exp $ */
+/**	$MirOS: src/sys/dev/rndvar.h,v 1.5 2006/08/18 12:29:52 tg Exp $ */
 /*	$OpenBSD: rndvar.h,v 1.19 2003/11/03 18:24:28 tedu Exp $	*/
 
 /*
@@ -35,7 +35,7 @@
 #define __RNDVAR_H__
 
 #define POOLWORDS 1024	/* Power of 2 - note that this is 32-bit words */
-#define	rnd_addpool_size 16 /* 32-bit words; don't change */
+#define	rnd_addpool_size 32 /* 32-bit words; don't change */
 
 #ifndef _ASM_SOURCE
 
@@ -56,7 +56,7 @@
 #define	RND_SRC_VIDEO	7
 #define	RND_SRC_TRUST	8	/* not yet in stats */
 #define	RND_SRC_POOL	9	/* not yet in stats */
-#define	RND_SRC_NUM	8
+#define	RND_SRC_NUM	8	/* size of stats structure */
 
 struct rndstats {
 	quad_t rnd_total;	/* total bits of entropy generated */
