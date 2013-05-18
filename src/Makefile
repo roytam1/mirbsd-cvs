@@ -1,4 +1,4 @@
-# $MirOS: src/Makefile,v 1.96 2007/02/08 21:13:33 tg Exp $
+# $MirOS: src/Makefile,v 1.97 2007/03/09 11:31:49 tg Exp $
 # $OpenBSD: Makefile,v 1.103 2004/05/03 15:18:18 drahn Exp $
 
 .if defined(MAKECONF) && exists(${MAKECONF})
@@ -232,6 +232,7 @@ _do-dist:
 		    /var/tmp/.buildnotice; \
 	fi
 	${SUDO} ${MKSH} -c 'echo rm -rf ${HOME} >>/var/tmp/.buildnotice'
+	@${SUDO} rm -f ${BSDRELDIR}/rel/Build.log
 	@echo Initiating MirOS Build...
 	@date
 .ifdef BATCH
