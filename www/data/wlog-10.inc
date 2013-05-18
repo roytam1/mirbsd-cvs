@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.207 2009/07/07 19:08:55 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.208 2009/07/07 20:29:37 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -4335,4 +4335,39 @@ Tag: mksh
  they may be fixed long-term, especially if people contribute. Ideas,
  at the very least.)</p>
 <p>Thanks in advance.</p>
+----
+Title: kwalletcli Public Beta Test
+Date: 08.07.2009 15:54
+Author: tg@
+
+<p>I have developed <tt>kwalletcli</tt>, a command-line interface to the
+ KDE Wallet, for <a href="http://www.tarent.com/">tarent GmbH</a>, and
+ would like public feedback, before releasing an 1.00 version, both on <a
+ href="@@ABSPATH@@/cvs.cgi/contrib/hosted/tg/code/kwalletcli/">the source
+ code</a> and <a href="https://eurynome.mirbsd.org/debs/dists/hardy/wtf/pkgs/kwalletcli/kwalletcli_0.90.dsc">an
+ experimental Debian package</a> of it.</p>
+<p>Nice things it can do:</p><ul>
+ <li>get and set password stanzas in the KWallet via CLI</li>
+ <li>contains a CLI wrapper around pinentry’s Aegypten protocol</li>
+ <li>contains an Aegypten protocol server, <tt>pinentry-kwallet</tt>, which
+  checks the KWallet before deferring to another pinentry of your choice</li>
+ <li>contains an ssh-askpass(1) alike kwalletaskpass tool</li>
+ <li>can be used in gajim and pidgin to store Jabber passwords in the KDE
+  Wallet (not included; patches for these will be made separately)</li>
+ <li>plugins for other tools do not introduce dependencies due to separation
+  via CLI API</li>
+ <li>nice, (hopefully) consistent shell CLI API</li>
+ <li>low dependencies: KDE 3 (for kwalletcli itself – KDE 4 might even work,
+  with minor Makefile changes, but that was not tested), another pinentry
+  (x11, qt, gtk-2, curses – all tested) if needed, gpg-agent if needed, <a
+  href="@@RELPATH@@mksh.htm">mksh</a> to run the scripts, ssh-add(1) to make
+  use of kwalletaskpass</li>
+ <li>with appropriate agents, GnuPG 2 and SSH keys can be made available to
+  pure CLI sessions as well, if one has logged in via KDE first (we do this
+  at work on our standard desktops, courtesy by me)</li>
+ <li><a href="@@ABSPATH@@/MirOS-Licence">
+ <li>OSI certified Open Source™ Software under a free, very unrestrictive, <a
+  href="@@ABSPATH@@/MirOS-Licence">licence</a></li>
+</ul>
+<p>Any <a href="mailto:t.glaser@tarent.de">feedback</a> welcome!</p>
 ----
