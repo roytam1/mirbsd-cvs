@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/distrib/baselive/dot.xsession,v 1.1 2006/08/19 01:29:14 tg Exp $
+# $MirOS: src/distrib/baselive/dot.xsession,v 1.2 2006/08/19 01:37:50 tg Exp $
 #-
 # Copyright (c) 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -24,9 +24,14 @@
 # other issues arising in any way out of its use, even if advised of
 # the possibility of such damage or existence of a defect.
 
-test x"$1" = x"failsafe" && exec xterm -geometry 80x24-0-0
+test x"$1" = x"failsafe" && exec /usr/X11R6/bin/xterm -geometry 80x24-0-0
 
 test -n "$KSH_VERSION" || exec /bin/mksh "$0" "$@"
+
+export PATH=/usr/bin:/bin:/usr/X11R6/bin:/usr/sbin:/sbin
+for i in /usr/mpkg/bin /usr/local/bin ~/.etc/bin; do
+	[[ -d $i/. ]] && PATH=$i:$PATH
+done
 
 [[ -s $HOME/.Xresources ]] && xrdb -undef -load $HOME/.Xresources
 [[ -s $HOME/.Xmodmap ]] && xmodmap $HOME/.Xmodmap
