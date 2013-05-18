@@ -24,8 +24,9 @@ or directly start the Setup programme. Note: formal release ISOs are never
 Live CDs because of their multi-architecture capabilities.
 
 For further information on how to set up MirOS, visit the website and read
-the installation instructions at the following URI:
-	http://www.mirbsd.org/man7/install.i386.htm
+the installation instructions at the following URIs:
+	http://www.mirbsd.org/man7/install.i386
+	http://www.mirbsd.org/man7/install.sparc
 You are also invited to go to the OpenBSD website: http://www.openbsd.org/
 and review their installation instructions for the i386 and sparc plaforms
 as additional hints, but keep in mind a MirOS installation is slightly yet
@@ -169,4 +170,4 @@ code is available at http://www.mirbsd.org/ and its mirrors; further
 information can be found at /usr/share/doc/legal/ as well.
 
 ________________________________________________________________________
-$MirOS: src/distrib/common/00-README,v 1.10 2007/06/30 02:47:41 tg Exp $
+$MirOS: src/distrib/common/00-README,v 1.10 2008/03/10 15:40:56 tg Exp $
