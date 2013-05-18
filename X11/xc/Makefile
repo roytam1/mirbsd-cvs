@@ -97,6 +97,17 @@ World:
 	@$(RM) $(VERSPROG)
 	@echo ""
 
+ReWorld:
+	$(MAKE_CMD) $(MFLAGS) $(WORLDOPTS) World
+	@echo ""
+	@date
+	@echo ""
+	@$(RM) $(VERSPROG)
+	@$(CC) $(VERSINC) -o $(VERSPROG) $(VERSSRC)
+	@echo Full rebuild of XFree86`$(VERSPROG)` complete.
+	@$(RM) $(VERSPROG)
+	@echo ""
+
 .PRECIOUS: Makefile
 
 # This is just a sequence of bootstrapping steps we have to do.

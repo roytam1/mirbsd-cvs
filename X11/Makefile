@@ -1,4 +1,4 @@
-# $MirOS: X11/Makefile,v 1.26 2006/07/01 20:47:00 tg Exp $
+# $MirOS: X11/Makefile,v 1.27 2006/07/01 20:48:02 tg Exp $
 
 .include <bsd.own.mk>
 .include "${BSDSRCDIR}/Makefile.inc"
@@ -11,6 +11,7 @@ XCONFIG=	xc/${BINDIST}/OpenBSD-${MACHINE}/XF86Config
 LOCALAPPX=	/usr/local/lib/X11
 LOCALAPPD=	${LOCALAPPX}/app-defaults
 REALAPPD=	/etc/X11/app-defaults
+WORLD=		World
 
 DIROWN?=	root
 DIRGRP?=	wheel
@@ -48,12 +49,15 @@ compile:
 	mkdir -p ${SUBOBJDIR}/xc/exports/{bin,include,lib}
 	cd ${.CURDIR}/depends && ${MAKE} depend && ${MAKE} && \
 	    exec ${SUDO} ${MAKE} install X11BASE=${SUBOBJDIR}/xc/exports
+	${SUDO} chown -R $$(id -u) ${SUBOBJDIR}/xc/exports
+	cd ${SUBOBJDIR}/xc/exports/include/freetype2/freetype; \
+	    ln -s ${SUBOBJDIR}/xc/extras/freetype2/include/freetype/internal
 	rm -f ${CONFHOSTDEF}
 	${INSTALL} ${HOSTDEF} ${CONFHOSTDEF}
 .if defined(NOFONTS) && ${NOFONTS:L} != "no"
 	echo "#define BuildFonts		NO" >>${CONFHOSTDEF}
 .endif
-	cd xc && exec ${MAKE} World WORLDOPTS="CC=${CC:Q} CXX=${CXX:Q} \
+	cd xc && exec ${MAKE} ${WORLD} WORLDOPTS="CC=${CC:Q} CXX=${CXX:Q} \
 	    COPTS=${COPTS:Q} CPPFLAGS=${CPPFLAGS:Q}" \
 	    CC="${CC}" CXX="${CXX}" COPTS="${COPTS}" CPPFLAGS="${CPPFLAGS}"
 	cd ${.CURDIR}/extras && ${MAKE} depend && exec ${MAKE}
