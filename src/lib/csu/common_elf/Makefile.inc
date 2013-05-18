@@ -1,7 +1,7 @@
-# $MirOS: src/lib/csu/common_elf/Makefile.inc,v 1.12 2008/11/22 14:17:21 tg Exp $
+# $MirOS: src/lib/csu/common_elf/Makefile.inc,v 1.13 2008/12/26 16:25:51 tg Exp $
 # $NetBSD: Makefile.inc,v 1.23 2003/03/19 16:54:25 ross Exp $
 
-.include <bsd.own.mk>
+.include "${.CURDIR}/../Makefile.inc"
 
 .if !defined(ELFSIZE) || empty(ELFSIZE)
 ELFSIZE=	32
