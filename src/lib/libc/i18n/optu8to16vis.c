@@ -1,5 +1,5 @@
 /*-
- * Copyright (c) 2008
+ * Copyright (c) 2008, 2009
  *	Thorsten Glaser <tg@mirbsd.org>
  *
  * Provided that these terms and disclaimer and all copyright notices
@@ -24,9 +24,10 @@
 
 #include <wchar.h>
 
-__RCSID("$MirOS: src/lib/libc/i18n/optu8to16vis.c,v 1.1 2008/08/17 00:19:08 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/i18n/optu8to16vis.c,v 1.2 2008/11/22 09:02:33 tg Exp $");
 
-static wchar_t vistable[128] = {
+#define vistable (vistable_ - 0xEF80)
+static wchar_t vistable_[128] = {
 	0x20AC, 0x278A, 0x201A, 0x0192, 0x201E, 0x2026, 0x2020, 0x2021,
 	0x02C6, 0x2030, 0x0160, 0x2039, 0x0152, 0x278B, 0x017D, 0x278C,
 	0x278D, 0x2018, 0x2019, 0x201C, 0x201D, 0x2022, 0x2013, 0x2014,
@@ -57,6 +58,6 @@ optu8to16vis(wchar_t * restrict pwc, const char * restrict src, size_t n,
 
 	rv = optu8to16(pwc, src, n, ps);
 	if (pwc && iswoctet(*pwc))
-		*pwc = vistable[*pwc & 0x7F];
+		*pwc = vistable[*pwc];
 	return (rv);
 }
