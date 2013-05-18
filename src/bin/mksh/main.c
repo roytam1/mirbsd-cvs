@@ -6,7 +6,7 @@
 #define	EXTERN				/* define EXTERNs in sh.h */
 #include "sh.h"
 
-__RCSID("$MirOS: src/bin/mksh/main.c,v 1.43 2006/08/01 12:22:26 tg Exp $");
+__RCSID("$MirOS: src/bin/mksh/main.c,v 1.44 2006/08/01 13:43:27 tg Exp $");
 
 extern char **environ;
 
@@ -21,6 +21,9 @@ static const char *initcoms[] = {
 	"typeset", "-r", "KSH_VERSION", NULL,
 	"typeset", "-x", "SHELL", "PATH", "HOME", NULL,
 	"typeset", "-i", "PPID", "OPTIND=1", NULL,
+#ifdef __Plan9__
+	"eval", "HOME=\"$home\"", NULL,
+#endif
 	"eval", "typeset -i RANDOM SECONDS=\"${SECONDS-0}\" TMOUT=\"${TMOUT-0}\"", NULL,
 	"alias",
 	 /* Standard ksh aliases */
