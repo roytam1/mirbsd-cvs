@@ -1,5 +1,5 @@
 <!-- PageID: wlog-8 -->
-<small class="rcsid">$MirOS: www/content/d2xvZy04.inc,v 1.59 2006/03/31 23:32:28 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy04.inc,v 1.60 2006/03/31 23:41:42 tg Exp $</small>
 <h1>MirBSD &ndash; WTF, We Have a Release!?</h1>
 <p><small><a href="#eof">bottom</a> or <a href="/?older">older</a>
  editions</small></p>
@@ -887,7 +887,7 @@ celebrate this event, rotate the wlog and start a new one.</p>
  <p>Kind of another interesting read from my research into Jolix: the <a
   href="http://www.softpanorama.org/People/Torvalds/Finland_period/xenix_microsoft_shortlived_love_affair_with_unix.shtml">story
   on XENIX</a> and <a href="http://www.softpanorama.org/People/Torvalds/Finland_period/minix_as_a_precursor_of_linux.shtml">how
-  Linus can't code</a> (with proof by Lars Wirzenius). It also suggests,
+  Linus can't code</a> (with proof by <a href="http://liw.iki.fi/liw/texts/linux-anecdotes.html">Lars Wirzenius</a>). It also suggests,
   although whom do you believe, that there were more than just six files
   involved in porting. I'm strangely fascinated by their stories and web
   pages and wonder what to do with it. I doubt they'd work for MirOS tho
@@ -1003,8 +1003,8 @@ celebrate this event, rotate the wlog and start a new one.</p>
 		mov	edi,edx
 		xor	ecx,ecx
 		dec	ecx
-		cld
 		mov	al,0
+		cld
 		repne
 		scasb
 		not	ecx
