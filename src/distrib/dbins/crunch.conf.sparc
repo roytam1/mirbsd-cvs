@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: src/distrib/dbins/crunch.conf.sparc,v 1.1 2008/03/27 19:05:12 tg Exp $
 
 srcdirs bin sbin usr.bin usr.sbin
 libs -lcrypto -lcurses -ldes -ledit -levent -lkeynote -lkvm -lm -lpcap -lssl -lutil -lz
@@ -27,6 +27,7 @@ ln compress gzcat
 ln compress gzip
 ln compress uncompress
 ln compress zcat
+ln cp mv_cp
 ln dump rdump
 ln mknod mkfifo
 ln mksh -mksh
@@ -39,6 +40,7 @@ ln pax cpio
 ln pax tar
 ln reboot halt
 ln restore rrestore
+ln rm mv_rm
 ln swapctl swapon
 
 special rtquery srcdir sbin/routed/rtquery
