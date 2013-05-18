@@ -2,7 +2,7 @@
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.184 2008/11/08 17:46:59 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.185 2008/11/09 20:47:54 tg Exp $'
 mws_content <<'EOF'
 <h1>mksh(1) R36</h1>
 <p>This is the website of the MirBSD™ Korn Shell, an actively developed free
@@ -191,6 +191,8 @@ mws_content <<'EOF'
  well, but the ULTRIX <tt>/bin/sh</tt> or the C shell (csh, tcsh) or “bsh”
  or a scripting shell like the wish won’t. Accepted arguments are:</p><ul>
 <li><tt>-j</tt> – parallel build (mksh R31d and up)</li>
+<li><tt>-llvm[=…]</tt> – compile to bytecode; option arguments (or, if none
+ given, ‘-std-compile-opts’) are passed to LLVM opt (mksh R36b and up)</li>
 <li><tt>-Q</tt> – be (only) a little less verbose</li>
 <li><tt>-r</tt> – don’t try to build a pre-formatted version
  of the manual page using nroff(1) if found – <em>recommended</em></li>
@@ -753,7 +755,10 @@ mws_content <<'EOF'
 <h3 id="regress_dev">Development Versions post release</h3>
 <ul>
  <li style="list-style:none;">– tests by the project, using Build.sh –</li>
- <li>MirOS #10-current (i386 clang58935 llvm58935)</li>
+ <li>MirOS #10-current (i386 clang58935mp0 llvm58935mp0)</li>
+ <li>MirOS #10-current (i386 clang58935mp0 opt+llc+llvm58935mp0)</li>
+ <li>MirOS #10-current (i386 llvmgcc4.2.1-Apple_5627 llvm58935mp0)</li>
+ <li>MirOS #10-current (i386 llvmgcc4.2.1-Apple_5627 opt+llc+llvm58935mp0)</li>
  <li>MirOS #10-current (i386 pcc20081028)</li>
  <li>MirOS #10-current (i386 pcc20081028-MirPorts-0)</li>
  <li>MirOS #10-current (i386 SUNWcc5.9 Linux_i386 2007/05/03, GNU ld 2.13.90.0.2 20020802)</li>
@@ -1026,6 +1031,8 @@ mws_content <<'EOF'
  <li>[tg] Simplify, shorten, speed up <tt>PS1</tt> in <tt>dot.mkshrc</tt></li>
  <li>[tg] Remove some dead code courtesy of scan-build native runs</li>
  <li>[tg] Add some casts to prevent LLVM+Clang warnings</li>
+ <li>[tg] Work around llvm-gcc-4.2.1 -Wformat pickyness</li>
+ <li>[tg] Add new <tt>Build.sh</tt> option ‘-llvm’ (clang, llvm-gcc)</li>
 </ul>
 <p id="r36">mksh R36 features the following changes:</p><ul>
  <li>Fix <tt>Build.sh</tt> invocation without ‘-r’, 10x Elias Pipping</li>
