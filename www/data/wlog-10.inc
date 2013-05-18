@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.147 2009/01/24 13:24:14 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.148 2009/01/25 15:10:25 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -3003,8 +3003,9 @@ Title: miscellany
  start rsynching, cvs(1) co(1)ing, and compiling…</p>
 ----
 Author: tg@
-Title: 2009-01-24 snapshot compiled, pending validation
-Date: 25.01.2009 15:01
+Title: 2009-01-24 snapshot uploaded, pending validation
+ID: e20090125-tg
+Date: 25.01.2009 20:48
 Tag: snapshot
 
 <p>Yesternight, I built an i386 snapshot (including a bsd4grml). This
@@ -3019,10 +3020,13 @@ Tag: snapshot
  are due, but we’d appreciate independent test results, as usual.</p>
 <p>Plans for the FOSDEM Edition Triforce™ (MirOS DuaLive™ + MirGRML)
  CD-ROM are to add a few packages to the usual baseLive image: IceWM,
- screen, rsync(GPLv2), mc, sirc (inclusing ssfe, BSD::arc4random and
- RANDEX protocol support); possibly ent, lzmadec</p>
+ screen, rsync(GPLv2), mc; possibly ent, lzmadec</p>
 <p>Watch the <a href="@@RELPATH@@main.htm">news</a> for announcements
  about usability of the 2009-01-24 snapshot.</p>
+<p>Update: the three serial console floppies and the five ISOs are
+ there and should arrive at the public mirrors tonight. They are in
+ fact bootable and quite probably usable, but bsiegert@ still has to
+ do the validation by doing a full install and some port builds.</p>
 ----
 Author: tg@
 Title: Das Wetter bessert sich
