@@ -1,6 +1,7 @@
-# $MirOS: src/distrib/common/Makefile.i386,v 1.12 2010/01/17 01:15:46 tg Exp $
+# $MirOS: src/distrib/common/Makefile.i386,v 1.13 2011/08/18 14:50:34 tg Exp $
 
-IMAGESIZE=	3072
+IMAGESIZE=	2880
+IMAGETYPE=	floppy3
 
 LISTADDS=	boot-fd cd9660 dhclient disktools dl-noman ext2fs i386 \
 		msdos no-huge pager-more ppp-off
