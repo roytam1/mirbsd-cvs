@@ -43,7 +43,7 @@
 #include <stdint.h>
 #include <unistd.h>
 
-__RCSID("$MirOS: src/libexec/cprng/cprng.c,v 1.8 2007/07/18 23:12:34 tg Exp $");
+__RCSID("$MirOS: src/libexec/cprng/cprng.c,v 1.9 2007/08/06 09:52:24 tg Exp $");
 
 #ifndef MAYPROF
 #if defined(SIGPROF) && defined(ITIMER_PROF)
@@ -56,6 +56,7 @@ __RCSID("$MirOS: src/libexec/cprng/cprng.c,v 1.8 2007/07/18 23:12:34 tg Exp $");
 volatile sig_atomic_t glocke;
 useconds_t littlesleep = 2000;
 uint8_t obuf[1024];
+uint64_t intropy = 0;
 #if MAYPROF
 bool doprof = false;
 #endif
@@ -142,6 +143,7 @@ main(int argc, char *argv[])
 {
 	size_t num;
 	int c = 0;
+	unsigned u;
 	char *cp;
 
 #if MAYPROF
@@ -199,9 +201,13 @@ main(int argc, char *argv[])
 	getent(obuf, 12 + 1);
 	write(c, obuf, 12);
 	usleep(littlesleep);
-	read(c, obuf, 1);
-	sleep(((obuf[0] ^ obuf[12]) & 0x0F) + 7);
-	littlesleep = ((unsigned)((obuf[0] ^ obuf[12]) & 0xF0) << 4) + 42000;
+	if (!intropy)
+		read(c, &intropy, sizeof (intropy));
+	u = intropy & 0x0F;
+	intropy >>= 4;
+	u = ((u << 4) | u) ^ obuf[12];
+	sleep((u & 0x0F) + 7);
+	littlesleep = ((u & 0xF0) << 4) + 42000;
 	goto main_loop;
 
  out_bytes:
