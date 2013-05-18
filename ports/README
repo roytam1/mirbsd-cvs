@@ -1,4 +1,4 @@
-$MirOS: ports/README,v 1.6 2008/02/28 12:06:38 tg Exp $
+$MirOS: ports/README,v 1.7 2008/10/26 22:41:54 tg Exp $
 
 The MirPorts Framework
 ----------------------
@@ -15,16 +15,23 @@ MirPorts currently works on:
  * OpenBSD 3.4 (not tested)
  * OpenBSD 3.5
  * OpenBSD 3.6 (and up)
+ * ÆrieBSD (not tested)
  * MidnightBSD 0.2-CURRENT (and up)
  * MirOS BSD #8 (and up)
  * Mac OSX 10.3
  * Mac OSX 10.4
+ * Mac OSX 10.5
+ * Mac OSX 10.6
  * Interix/SFU 3.5
+ * Interix/SUA 6.x
 XXX this is out of date
 
 For installation, change to the MirPorts directory
 (usually /usr/ports) and issue the following command:
 $ make setup
+
+You do NOT need to do that if you selected the pkgutl10.ngz
+distribution set during the MirBSD installer run!
 
 Read the Setup.sh(8) manual page for further information,
 or go to http://www.mirbsd.org/ports.htm for details.
