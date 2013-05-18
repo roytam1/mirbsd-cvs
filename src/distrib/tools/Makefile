@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/tools/Makefile,v 1.8 2007/10/01 22:00:24 tg Exp $
+# $MirOS: src/distrib/tools/Makefile,v 1.9 2007/10/02 00:48:12 tg Exp $
 
 all: sundsklbl
 
@@ -34,15 +34,17 @@ sundsklbl: sundsklbl.c
 makecdimage: .PHONY
 	-rm -rf cddir ${CDROM} mkisofs.log
 	mkdir -p cddir/v${OSrev}/{i386,sparc}
-	cp ${DSTTOPDIR}/i386/boot cddir/b_i386.iso
-	cp ${DSTTOPDIR}/i386/boot cddir/b_i386.ldr
-	cp ${DSTTOPDIR}/sparc/boot cddir/b_sparc.ldr
-	cp ${.CURDIR}/../common/00-README ${.CURDIR}/boot.cfg cddir/
-	cp ${DSTTOPDIR}/i386/{bsd.rd,pxeboot} cddir/v${OSrev}/i386/
-	cp ${DSTTOPDIR}/sparc/{bootxx,bsd.rd} cddir/v${OSrev}/sparc/
+	for arch in i386 sparc; do \
+		for file in ${DSTTOPDIR}/$$arch/{*boot*,bsd.rd,*mbr*}; do \
+			[[ -e $$file ]] || continue; \
+			install -m644 $$file cddir/v${OSrev}/$$arch/; \
+		done; \
+		mv cddir/v${OSrev}/$$arch/boot cddir/b_$$arch.ldr; \
+	done
+	cp cddir/b_i386.ldr cddir/b_i386.iso		# El Torito
 	ln cddir/v${OSrev}/sparc/bsd.rd cddir/vmunix	# for kicks
 	ln cddir/v${OSrev}/sparc/bsd.rd cddir/bsd	# for idiots
-	chmod -R u+w cddir
+	cp ${.CURDIR}/../common/00-README ${.CURDIR}/boot.cfg cddir/
 	mkisofs -r -f -L -d -D -N -v -v -b b_i386.iso -c boot.cat \
 	    -no-emul-boot -boot-load-size 4 -boot-info-table \
 	    -P 'The http://mirbsd.de/ team and its contributors' \
@@ -59,13 +61,13 @@ makebootcd_i386: .PHONY
 	    b_i386.ldr mkisofs.log | \
 	    while read start end rest; do \
 		print -- $$start $$end; \
-	done) /usr/mdec/bootxx ${CDROM}
+	done) ${DSTTOPDIR}/i386/bootxx ${CDROM}
 
 makebootcd_sparc: .PHONY
 	/usr/mdec/installboot -v $$(fgrep \
 	    b_sparc.ldr mkisofs.log | \
 	    while read start end rest; do \
 		print -- -s $$start -e $$end; \
-	done) dummy /usr/mdec/bootxx ${CDROM}
+	done) dummy ${DSTTOPDIR}/sparc/bootxx ${CDROM}
 
 .include <bsd.obj.mk>
