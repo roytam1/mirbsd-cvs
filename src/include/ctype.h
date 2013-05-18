@@ -1,7 +1,7 @@
-/* $MirOS: src/include/ctype.h,v 1.16 2007/03/22 03:57:49 tg Exp $ */
+/* $MirOS: src/include/ctype.h,v 1.17 2007/05/07 13:05:16 tg Exp $ */
 
 /*-
- * Copyright (c) 2006, 2007
+ * Copyright (c) 2006, 2007, 2008
  *	Thorsten Glaser <tg@mirbsd.de>
  *
  * Provided that these terms and disclaimer and all copyright notices
@@ -119,8 +119,8 @@ extern const unsigned char __C_attribute_table_pg[256];
 #define isblank(c)	__CTYPE_IMPL((c),blank)
 #define toascii(c)	((c) & 0x7F)
 
-#define _tolower(c)	((c) - 'A' + 'a')
-#define _toupper(c)	((c) - 'a' + 'A')
+#define _tolower(c)	((c) | 0x20)
+#define _toupper(c)	((c) & 0xDF)
 #endif /* !_ANSI_SOURCE && !_POSIX_SOURCE */
 
 #if __OPENBSD_VISIBLE
