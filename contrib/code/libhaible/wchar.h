@@ -1,4 +1,4 @@
-/* $MirOS: contrib/code/libhaible/wchar.h,v 1.1 2006/05/23 10:35:28 tg Exp $ */
+/* $MirOS: contrib/code/libhaible/wchar.h,v 1.2 2006/05/23 10:39:45 tg Exp $ */
 
 /*-
  * Copyright (c) 2005, 2006
@@ -167,8 +167,8 @@ int	wcswidth(const wchar_t *, size_t);
 size_t	wcsxfrm(wchar_t *__restrict__, const wchar_t *__restrict__, size_t);
 #endif
 int	wctob(wint_t);
-#ifdef notyet
 wctype_t wctype(const char *);
+#ifdef notyet
 int	wcwidth(wchar_t);
 #endif
 wchar_t	*wmemchr(const wchar_t *, wchar_t, size_t);

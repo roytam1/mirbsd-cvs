@@ -1,12 +1,15 @@
-# $MirOS: contrib/code/libhaible/Makefile,v 1.5 2006/05/30 10:48:54 tg Exp $
+# $MirOS: contrib/code/libhaible/Makefile,v 1.6 2006/05/30 11:08:19 tg Exp $
 
 LIB=	haible
 NOPIC=	Yes	# for now
 SRCS+=	attribute.c
+SRCS+=	iswctype.c
 SRCS+=	tow_nop.c
 SRCS+=	towctrans.c
 SRCS+=	towlower.c
 SRCS+=	towupper.c
+SRCS+=	wctrans.c
+SRCS+=	wctype.c
 SRCS+=	wcwidth.c
 
 .for _wctype in alnum alpha blank cntrl digit graph lower print punct \

@@ -1,8 +1,8 @@
-/* $MirOS: contrib/code/libhaible/wctype.h,v 1.4 2006/05/30 11:08:19 tg Exp $ */
+/* $MirOS: src/share/misc/licence.template,v 1.7 2006/04/09 22:08:49 tg Rel $ */
 
 /*-
- * Copyright (c) 2005
- *	Thorsten "mirabile" Glaser <tg@66h.42h.de>
+ * Copyright (c) 2006
+ *	Thorsten Glaser <tg@mirbsd.de>
  *
  * Licensee is hereby permitted to deal in this work without restric-
  * tion, including unlimited rights to use, publicly perform, modify,
@@ -25,35 +25,40 @@
  * the possibility of such damage or existence of a nontrivial bug.
  */
 
-#ifndef	_WCTYPE_H_
-#define	_WCTYPE_H_
+#include <wctype.h>
 
-#include <wchar.h>
+#define mir18n_caseconv
+#include "mir18n.h"
 
-#ifndef __BIT_TYPES_DEFINED__
-#include <machine/types.h>
-#endif
+__RCSID("$MirOS$");
 
-typedef const uint16_t * const *wctrans_t;
+/* this is, admittedly, taken from libutf8 */
+struct trans_property {
+	const char *property;
+	wctrans_t translation;
+};
 
-__BEGIN_DECLS
-int	iswalnum(wint_t);
-int	iswalpha(wint_t);
-int	iswblank(wint_t);
-int	iswcntrl(wint_t);
-int	iswdigit(wint_t);
-int	iswgraph(wint_t);
-int	iswlower(wint_t);
-int	iswprint(wint_t);
-int	iswpunct(wint_t);
-int	iswspace(wint_t);
-int	iswupper(wint_t);
-int	iswxdigit(wint_t);
-int	iswctype(wint_t, wctype_t);
-wint_t	towctrans(wint_t, wctrans_t);
-wint_t	towlower(wint_t);
-wint_t	towupper(wint_t);
-wctrans_t wctrans(const char *);
-__END_DECLS
+static int trans_property_cmp(const void *, const void *);
 
-#endif
+static struct trans_property all_properties[] = {
+	{ "tolower", tolower_table },
+	{ "toupper", toupper_table }
+};
+
+static int
+trans_property_cmp(const void *s1, const void *s2)
+{
+	return (strcmp(((const struct trans_property *)s1)->property,
+	    ((const struct trans_property *)s2)->property));
+}
+
+wctrans_t
+wctrans(const char *property)
+{
+	struct trans_property *rv;
+
+	rv = bsearch(property, all_properties,
+	    (sizeof (all_properties) / sizeof (all_properties[0])),
+	    sizeof (struct trans_property), trans_property_cmp);
+	return ((rv == NULL) ? NULL : rv->translation);
+}
