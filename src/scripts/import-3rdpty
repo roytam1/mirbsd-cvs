@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/scripts/import-3rdpty,v 1.17 2005/09/21 21:01:57 tg Exp $
+# $MirOS: src/scripts/import-3rdpty,v 1.18 2005/09/23 10:13:41 tg Exp $
 #-
 # Copyright (c) 2004, 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -23,7 +23,7 @@
 # rect or other, however caused, arising in any way out of the usage
 # of this work, even if advised of the possibility of such damage.
 
-print -r -- '========= $MirOS: src/scripts/import-3rdpty,v 1.17 2005/09/21 21:01:57 tg Exp $ ========='
+print -r -- '========= $MirOS: src/scripts/import-3rdpty,v 1.18 2005/09/23 10:13:41 tg Exp $ ========='
 
 ignlist=0
 force=0
@@ -900,17 +900,17 @@ case $vendor {
   freeb*)	B=1.1.9;   V=freebsd	;; # The FreeBSD uhm...
   fsf|FSF)	B=1.1.101; V=FSF	;; # The Free Software Foundation
   [xX]@(11|c|f86)) B=1.1.103; V=xwindow	;; # X Consortium / XFree86(TM)
-  expat)	B=1.1.105; V=expat	;; # expat developer team
+# expat)	B=1.1.105; V=expat	;; # expat developer team
   ?(lib)png)	B=1.1.107; V=libpng	;; # libpng whatever project
   lynx|cdk)	B=1.1.109; V=lynx	;; # Thomas Dickey (lynx, cdk)
   gpc)		B=1.1.111; V=gpc	;; # GNU Pascal
   tg)		B=1.1.201; V=tg		;; # Thorsten Glaser
   bsiegert)	B=1.1.203; V=bsiegert	;; # Benny Siegert
 # wbx)		B=1.1.205; V=wbx	;; # Waldemar Brodkorb
-  cnuke)	B=1.1.207; V=cnuke	;; # Jupp (Josef) Söntgen
+# cnuke)	B=1.1.207; V=cnuke	;; # Jupp (Josef) Söntgen
 # dave)		B=1.1.209; V=dave	;; # Dave Steinberg
-  sap|stephen)	B=1.1.211; V=sap	;; # Stephen Paskaluk
-  tyler)	B=1.1.215; V=tyler	;; # R. Tyler Ballance
+# sap|stephen)	B=1.1.211; V=sap	;; # Stephen Paskaluk
+# tyler)	B=1.1.215; V=tyler	;; # R. Tyler Ballance
   *)		print -r -- Error: Vendor Branch $branch non-existant.
 		exit 1			;;
 }
