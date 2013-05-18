@@ -1,10 +1,12 @@
-# $MirOS: ports/lang/nhc98/Makefile,v 1.3 2006/09/14 00:10:24 tg Exp $
+# $MirOS: ports/lang/nhc98/Makefile,v 1.4 2008/10/04 19:03:14 tg Exp $
 # $OpenBSD: Makefile,v 1.2 2004/05/16 23:37:58 pvalchev Exp $
 # $NetBSD: Makefile,v 1.29 2004/03/26 21:19:53 wiz Exp $
 
+BROKEN=		assembler error in Integer runtime
+
 NOT_FOR_PLATFORM=	${LP64_PLATFORMS}
 
-COMMENT=			portable Haskell compiler
+COMMENT=	portable Haskell compiler
 V=		1.16
 DISTNAME=	nhc98-${V}
 CATEGORIES=	lang
@@ -25,12 +27,14 @@ CONFIGURE_ARGS=--installdir=${PREFIX}
 
 # if you use ghc to build nhc98, it will run 2.5x faster than with gcc
 # so we relegate the gcc path to archs with no ghc
-.if ${MACHINE_ARCH} == "i386" || ${MACHINE_ARCH} == "sparc"
+.if ${OStype} == "OpenBSD" && (${MACHINE_ARCH} == "i386" || ${MACHINE_ARCH} == "sparc")
 MODULES=	lang/ghc
 CONFIGURE_ARGS+=--buildwith=ghc
 .else
-CONFIGURE_ARGS+=--buildwith=gcc
+CONFIGURE_ARGS+=--buildwith=${CC}
 .endif
+
+EXTRA_XAKE_FLAGS=	OPT=${CFLAGS:Q}
 
 REGRESS_DEPENDS=::lang/python/2.2
 REGRESS_RESULT=	${WRKSRC}/../${DISTNAME}-regress/actual.result 
