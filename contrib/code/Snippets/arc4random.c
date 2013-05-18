@@ -1,5 +1,5 @@
 static const char __vcsid[] = "@(#) MirOS contributed arc4random.c (old)"
-    "\n	@(#)rcsid_master: $MirOS: contrib/code/Snippets/arc4random.c,v 1.16 2009/08/02 13:09:12 tg Stab $"
+    "\n	@(#)rcsid_master: $MirOS: contrib/code/Snippets/arc4random.c,v 1.18 2009/09/20 13:29:17 tg Stab $"
     ;
 
 /*-
@@ -361,6 +361,9 @@ arc4_writeback(uint8_t *buf, size_t len, char do_rd)
 		for (i = 0; i < MAX(ksz, sizeof(w32_hkcu)); ++i)
 			w32_hkcu[i % sizeof(w32_hkcu)] ^= w32_buf[i % ksz];
 	}
+
+	if (!do_rd)
+		goto nogen_out;
 
 	if (has_rkey && gettimeofday(&tv, NULL) == 0) {
 		/* we have registry key; rate-limit CryptGenRandom */
