@@ -1,4 +1,4 @@
-/* $MirOS: gcc/gcc/config/mirbsd.h,v 1.11 2006/06/15 19:18:47 tg Exp $ */
+/* $MirOS: gcc/gcc/config/mirbsd.h,v 1.12 2006/09/20 17:45:29 tg Exp $ */
 
 /* Base configuration file for all MirOS BSD targets.
    Copyright (C) 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2005
@@ -23,15 +23,17 @@ the Free Software Foundation, 59 Temple Place - Suite 330,
 Boston, MA 02111-1307, USA.  */
 
 /* TARGET_OS_CPP_BUILTINS() common to all MirOS BSD targets.  */
-#define MIRBSD_OS_CPP_BUILTINS()		\
-  do						\
-    {						\
-      builtin_define ("__MirBSD__");		\
-      builtin_define ("__OpenBSD__");		\
-      builtin_define ("__unix__");		\
-      builtin_assert ("system=unix");		\
-      builtin_assert ("system=MirBSD");		\
-    }						\
+#define MIRBSD_OS_CPP_BUILTINS()			\
+  do							\
+    {							\
+      builtin_define ("__MirBSD__");			\
+      builtin_define ("__OpenBSD__");			\
+      builtin_define ("__unix__");			\
+      builtin_define ("__STDC_ISO_10646__=200009L");	\
+      builtin_assert ("system=unix");			\
+      builtin_assert ("system=bsd");			\
+      builtin_assert ("system=MirBSD");			\
+    }							\
   while (0)
 
 /* CPP_SPEC parts common to all MirOS BSD targets.  */
