@@ -1,6 +1,6 @@
 mws_setname subprojects/kwalletcli "kwalletcli – CLI for the KDE Wallet"
 mws_setheadline CLI for the KDE Wallet
-mws_putheader '$MirOS: www/src/kwalletcli.hts,v 1.17 2010/03/03 11:47:56 tg Exp $'
+mws_putheader '$MirOS: www/src/kwalletcli.hts,v 1.18 2010/07/19 20:39:20 tg Exp $'
 mws_content <<'EOF'
 <h2>Table of Content</h2>
 EOF
@@ -16,7 +16,8 @@ mws_content <<'EOF'
 <h2 id="main">CLI for the KDE Wallet</h2>
 <p>What's it? A command-line interface to the KDE Wallet, for KDE 3 and
  KDE 4 both (so shell scripts, Python, etc. do not need to use DCOP or
- D-Bus to access it to store passwords). Please read <a
+ D-Bus directly to access it to store passwords, instead being able to
+ call this convenient wrapper). Please read <a
  href="@@RELPATH@@permalinks/wlog-10_e20090708-tg.htm">the wlog entry
  announcing kwalletcli public beta test</a> for some more background
  information. Currently, only the default wallet is supported; while
@@ -26,14 +27,14 @@ mws_content <<'EOF'
  src="@@RELPATH@@pics/open_source_button.png" /></p>
 
 <h3 id="download">Download</h3>
-<p>Current version: kwalletcli 2.02 (2010-03-03)</p><ul>
- <li>RMD160 (kwalletcli-2.02.tar.gz) = cd16f18f043f6e69bb880c2195f8d5cf55d56c74</li>
- <li>TIGER (kwalletcli-2.02.tar.gz) = 718648351d8ae808300ae0055c86f23b87a49ac2fe79d23e</li>
- <li>319340280 56900 <a href="@@ABSPATH@@/MirOS/dist/hosted/kwalletcli/kwalletcli-2.02.tar.gz">/MirOS/dist/hosted/kwalletcli/kwalletcli-2.02.tar.gz</a></li>
- <li>MD5 (kwalletcli-2.02.tar.gz) = 015252dcec6ce2db3a335e8a6c57b469</li>
+<p>Current version: kwalletcli 2.03 (2010-11-16)</p><ul>
+ <li>RMD160 (kwalletcli-2.03.tar.gz) = 9fbd5d89992fbfba0de9b3a48e98b8b6824e5702</li>
+ <li>TIGER (kwalletcli-2.03.tar.gz) = 749dc34b99dc787f88c9fe14dfd7d4ca6040e729cc1ffed5</li>
+ <li>4046039585 56962 /MirOS/dist/hosted/kwalletcli/kwalletcli-2.03.tar.gz</li>
+ <li>MD5 (kwalletcli-2.03.tar.gz) = 73adff20ae40c03b5da0a49b5bb21c4d</li>
  <li style="list-style:none;">Mirrors</li>
- <li><a href="https://www.mirbsd.org/MirOS/dist/hosted/kwalletcli/kwalletcli-2.02.tar.gz">Germany</a></li>
- <li><a href="http://pub.allbsd.org/MirOS/dist/hosted/kwalletcli/kwalletcli-2.02.tar.gz">Japan</a></li>
+ <li><a href="https://www.mirbsd.org/MirOS/dist/hosted/kwalletcli/kwalletcli-2.03.tar.gz">Germany</a></li>
+ <li><a href="http://pub.allbsd.org/MirOS/dist/hosted/kwalletcli/kwalletcli-2.03.tar.gz">Japan</a></li>
 </ul>
 
 <h3 id="contents">Ingredients</h3>
@@ -63,13 +64,14 @@ mws_content <<'EOF'
  D-Bus instead of using the libkwalletclient convenience libraries;
  support for selecting a non-default keyring; more utilities on top
  of <tt>kwalletcli(1)</tt> (e.g. a libpurple plugin, and means for
- M*zilla Firef*x to use it to store passwords in the Wallet).</p>
+ M*zilla Firef*x, Opera and other desktop software to use it to store
+ passwords in the Wallet).</p>
 
 <h2 id="packaging">Packaging</h2>
 <p><a href="http://packages.debian.org/kwalletcli">Debian</a> has a
  kwalletcli (KDE 4) package in squeeze/sid, and it will be released
- with Debian 6.0 when it's ready. The backports repository will soon
- contain a kwalletcli (KDE 3) package for lenny.</p>
+ with Debian 6.0 when it's ready. The backports repository contains
+ a kwalletcli (KDE 3) package for lenny.</p>
 <p>Suggested packaging: MidnightBSD mports (for they provide KDE
  anyway), OpenSuSE Build Service (RPM for many platforms), etc.<br />
  If KDE (upstream) desires, they may include it (under The MirOS
@@ -139,6 +141,18 @@ mws_content <<'EOF'
 <p><a href="https://www.tarent.de/">tarent GmbH</a>, which sponsored
  development of kwalletcli, has been using it to make the live of its
  employees on their GNU/Linux desktops easier, since mid-2009.</p>
+
+<h2 id="clog">ChangeLog</h2>
+<p id="r2_03">kwalletcli 2.03</p><ul>
+ <li>Fix building the kwalletcli binary with <a
+  href="https://fedoraproject.org/wiki/UnderstandingDSOLinkChange">indirect
+  linking</a>; patch from Felix Geyer &lt;debfx＠ubuntu.com&gt;</li>
+ <li>In kwalletaskpass(1), do not even attempt to call kwalletcli(1)
+  if <tt>$DISPLAY</tt> is unset or empty, it will not be able to
+  communicate with it anyway. Fixes spurious “Do you want to store …
+  in the KDE Wallet?” questions when logged in via ssh(1).</li>
+ <li>Small documentation improvements, mostly re. <tt>$DISPLAY</tt></li>
+</ul>
 EOF
 mws_putfooter
 exit 0
