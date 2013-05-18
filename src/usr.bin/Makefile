@@ -1,4 +1,4 @@
-# $MirOS: src/usr.bin/Makefile,v 1.9 2006/06/08 23:57:37 tg Exp $
+# $MirOS: src/usr.bin/Makefile,v 1.10 2006/06/16 23:35:37 tg Exp $
 # $OpenBSD: Makefile,v 1.90 2004/05/02 17:55:09 millert Exp $
 
 .include <bsd.own.mk>
@@ -100,7 +100,7 @@
   SUBDIR+= passwd
   SUBDIR+= paste
   SUBDIR+= patch
-.if ${MACHINE} == "i386"
+.if ${MACHINE_ARCH} == "i386"
   SUBDIR+= pctr
 .endif
   SUBDIR+= pkill

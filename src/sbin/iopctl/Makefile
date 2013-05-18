@@ -1,7 +1,7 @@
-# $MirOS: src/sbin/iopctl/Makefile,v 1.3 2005/03/15 18:39:18 tg Exp $
+# $MirOS: src/sbin/iopctl/Makefile,v 1.4 2005/11/23 16:43:55 tg Exp $
 # $OpenBSD: Makefile,v 1.7 2004/05/03 15:18:19 drahn Exp $
 
-.if ${MACHINE} == "i386"
+.if ${MACHINE_ARCH} == "i386"
 PROG=   iopctl
 MAN=	iopctl.8
 .else

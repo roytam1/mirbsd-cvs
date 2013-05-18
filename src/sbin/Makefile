@@ -1,8 +1,8 @@
-# $MirOS: src/sbin/Makefile,v 1.11 2006/06/16 23:35:36 tg Exp $
+# $MirOS: src/sbin/Makefile,v 1.12 2006/06/17 22:12:39 tg Exp $
 
 .include <bsd.own.mk>
 
-.if ${MACHINE} == "i386"
+.if ${MACHINE_ARCH} == "i386"
   SUBDIR+= ancontrol
 .endif
   SUBDIR+= atactl
@@ -16,7 +16,7 @@
   SUBDIR+= dmesg
   SUBDIR+= dump
   SUBDIR+= dumpfs
-.if ${MACHINE} == "i386"
+.if ${MACHINE_ARCH} == "i386"
   SUBDIR+= fdisk
 .endif
   SUBDIR+= ffsinfo
@@ -28,7 +28,7 @@
   SUBDIR+= growfs
   SUBDIR+= ifconfig
   SUBDIR+= init
-.if ${MACHINE} == "i386"
+.if ${MACHINE_ARCH} == "i386"
   SUBDIR+= iopctl
 .endif
 # SUBDIR+= ipsecctl
@@ -46,7 +46,7 @@
   SUBDIR+= mount_kernfs
   SUBDIR+= mount_msdos
   SUBDIR+= mount_nfs
-.if ${MACHINE} == "i386"
+.if ${MACHINE_ARCH} == "i386"
   SUBDIR+= mount_ntfs
 .endif
   SUBDIR+= mount_portal

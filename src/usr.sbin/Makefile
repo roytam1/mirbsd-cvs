@@ -1,11 +1,11 @@
-# $MirOS: src/usr.sbin/Makefile,v 1.15 2006/06/16 23:35:37 tg Exp $
+# $MirOS: src/usr.sbin/Makefile,v 1.16 2006/06/17 22:12:57 tg Exp $
 # $OpenBSD: Makefile,v 1.110 2004/05/04 23:27:21 deraadt Exp $
 
 .include <bsd.own.mk>
 
   SUBDIR+= ac
   SUBDIR+= accton
-.if ${MACHINE} == "i386"
+.if ${MACHINE_ARCH} == "i386"
   SUBDIR+= apm
   SUBDIR+= apmd
 .endif
@@ -21,7 +21,7 @@
   SUBDIR+= dhcpd
   SUBDIR+= dhcrelay
   SUBDIR+= edquota
-.if ${MACHINE} == "sparc"
+.if ${MACHINE_ARCH} == "sparc"
   SUBDIR+= eeprom
 .endif
   SUBDIR+= faithd
@@ -37,7 +37,7 @@
   SUBDIR+= ifwatchd
   SUBDIR+= inetd
   SUBDIR+= iostat
-.if ${MACHINE} == "i386"
+.if ${MACHINE_ARCH} == "i386"
   SUBDIR+= isdn
 .endif
   SUBDIR+= kvm_mkdb

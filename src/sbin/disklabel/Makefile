@@ -1,4 +1,4 @@
-# $MirOS: src/sbin/disklabel/Makefile,v 1.5 2005/04/29 18:34:53 tg Exp $
+# $MirOS: src/sbin/disklabel/Makefile,v 1.6 2006/06/17 22:12:40 tg Exp $
 # $OpenBSD: Makefile,v 1.38 2005/04/01 16:00:09 deraadt Exp $
 
 .include <bsd.own.mk>
@@ -25,12 +25,12 @@ manpage.c:
 .endif
 	print ';' >>$@
 
-.if ${MACHINE} == "i386"
+.if ${MACHINE_ARCH} == "i386"
 CPPFLAGS+=	-DNUMBOOT=2 -DDOSLABEL
 CPPFLAGS+=	-DSEEALSO="\"fdisk(8), installboot(8)\""
 .endif
 
-.if ${MACHINE} == "sparc"
+.if ${MACHINE_ARCH} == "sparc"
 CPPFLAGS+=	-DSEEALSO="\"installboot(8)\"" -DCYLCHECK -DAAT0
 .endif
 

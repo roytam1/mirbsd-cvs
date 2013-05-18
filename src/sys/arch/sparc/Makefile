@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: src/sys/arch/sparc/Makefile,v 1.2 2005/03/06 21:27:15 tg Exp $
 # $OpenBSD: Makefile,v 1.8 2002/07/15 21:29:16 mickey Exp $
 # $NetBSD: Makefile,v 1.4 1996/03/25 22:48:09 mrg Exp $
 
@@ -8,7 +8,7 @@
 S=${.CURDIR}/../..
 .include "$S/kern/Make.tags.inc"
 
-.if ${MACHINE} == "sparc"
+.if ${MACHINE_ARCH} == "sparc"
 SUBDIR= stand
 .endif
 
