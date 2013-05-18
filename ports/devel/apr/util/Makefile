@@ -1,4 +1,4 @@
-# $MirOS: ports/devel/apr/util/Makefile,v 1.3 2007/12/27 15:33:10 bsiegert Exp $
+# $MirOS: ports/devel/apr/util/Makefile,v 1.4 2008/03/09 17:22:29 tg Exp $
 
 COMMENT=		companion library to APR
 VERSION=		0.9.15
@@ -13,7 +13,7 @@ MODULES=		textproc/expat converters/libiconv
 
 .if ${FLAVOUR:L:Mbsddb}
 LIB_DEPENDS+=		db.4.2::databases/db
-CONFIGURE_ARGS+=	--with-dbm=db42 --with-berkeley-db
+CONFIGURE_ARGS+=	--with-dbm=db42 --with-berkeley-db=${LOCALBASE}
 .else
 CONFIGURE_ARGS+=	--without-berkeley-db
 .endif

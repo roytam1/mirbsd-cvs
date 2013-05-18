@@ -1,4 +1,4 @@
-# $MirOS: ports/devel/apr/Makefile.inc,v 1.2 2006/12/20 15:31:18 tg Exp $
+# $MirOS: ports/devel/apr/Makefile.inc,v 1.3 2007/12/27 15:33:10 bsiegert Exp $
 
 VERSION?=		0.9.17
 CATEGORIES=		devel net
@@ -43,7 +43,7 @@ EXTRACT_SUFX=		.tar.bz2
 #RUN_DEPENDS+=		:p5-URI-*:www/p5-URI
 #MODULES=		textproc/expat
 
-CONFIGURE_STYLE=	autoconf
+CONFIGURE_STYLE?=	autoconf
 AUTOCONF_NEW=		Yes
 
 CONFIGURE_ARGS+=	${CONFIGURE_SHARED}
