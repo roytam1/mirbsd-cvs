@@ -1,4 +1,4 @@
-.\" $MirOS: src/bin/mksh/mksh.1,v 1.113 2008/03/04 00:09:34 tg Exp $
+.\" $MirOS: contrib/samples/portmdoc,v 1.1 2008/03/12 23:09:25 tg Exp $
 .\"-
 .\" Try to make GNU groff and AT&T nroff more compatible
 .\" * ` generates ‘ in groff, so use \`
@@ -29,6 +29,11 @@
 .\}
 .el .xD \\$1 \\$2 \\$3 \\$4 \\$5 \\$6 \\$7 \\$8
 ..
+.\"
+.\" .Dd must come before definition of .Mx, because when called
+.\" with -mandoc, it might implement .Mx itself, but we want to
+.\" use our own definition. And .Dd must come *first*, always.
+.Dd $Mdocdate$
 .\"
 .\" Implement .Mx (MirBSD)
 .de Mx

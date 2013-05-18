@@ -1,4 +1,4 @@
-.\"	$MirOS: src/bin/md5/cksum.1,v 1.18 2008/03/12 23:17:19 tg Exp $
+.\"	$MirOS: src/bin/md5/cksum.1,v 1.19 2008/03/13 00:25:46 tg Exp $
 .\"	$OpenBSD: cksum.1,v 1.5 2005/03/07 23:41:53 jmc Exp $
 .\"
 .\" Copyright (c) 2006, 2007, 2008
@@ -66,6 +66,11 @@
 .el .xD \\$1 \\$2 \\$3 \\$4 \\$5 \\$6 \\$7 \\$8
 ..
 .\"
+.\" .Dd must come before definition of .Mx, because when called
+.\" with -mandoc, it might implement .Mx itself, but we want to
+.\" use our own definition. And .Dd must come *first*, always.
+.Dd $Mdocdate$
+.\"
 .\" Implement .Mx (MirBSD)
 .de Mx
 .nr cF \\n(.f
@@ -91,7 +96,6 @@
 .	\}
 .\}
 ..
-.Dd $Mdocdate$
 .Dt CKSUM 1
 .Os
 .Sh NAME

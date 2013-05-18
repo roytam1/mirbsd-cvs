@@ -1,4 +1,4 @@
-.\" $MirOS: ports/infrastructure/pkgtools/rtfm/packages-specs.7,v 1.3 2008/03/09 17:22:57 tg Exp $
+.\" $MirOS: ports/infrastructure/pkgtools/rtfm/packages-specs.7,v 1.4 2008/03/12 23:17:21 tg Exp $
 .\" $OpenBSD: packages-specs.7,v 1.7 2003/09/02 18:37:08 jmc Exp $
 .\"
 .\" Copyright (c) 2001 Marc Espie
@@ -56,6 +56,11 @@
 .el .xD \\$1 \\$2 \\$3 \\$4 \\$5 \\$6 \\$7 \\$8
 ..
 .\"
+.\" .Dd must come before definition of .Mx, because when called
+.\" with -mandoc, it might implement .Mx itself, but we want to
+.\" use our own definition. And .Dd must come *first*, always.
+.Dd $Mdocdate$
+.\"
 .\" Implement .Mx (MirBSD)
 .de Mx
 .nr cF \\n(.f
@@ -81,7 +86,6 @@
 .	\}
 .\}
 ..
-.Dd $Mdocdate: March 9 2008 $
 .Dt PACKAGES-SPECS 7
 .Os
 .Sh NAME

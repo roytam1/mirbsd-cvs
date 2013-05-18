@@ -1,4 +1,4 @@
-.\"	$MirOS: src/usr.bin/make/make.1,v 1.11 2008/03/12 23:17:19 tg Exp $
+.\"	$MirOS: src/usr.bin/make/make.1,v 1.12 2008/03/14 16:37:09 tg Exp $
 .\"	$OpenBSD: make.1,v 1.68 2007/05/31 19:20:13 jmc Exp $
 .\"	$OpenPackages$
 .\"	$NetBSD: make.1,v 1.18 1997/03/10 21:19:53 christos Exp $
@@ -63,6 +63,11 @@
 .el .xD \\$1 \\$2 \\$3 \\$4 \\$5 \\$6 \\$7 \\$8
 ..
 .\"
+.\" .Dd must come before definition of .Mx, because when called
+.\" with -mandoc, it might implement .Mx itself, but we want to
+.\" use our own definition. And .Dd must come *first*, always.
+.Dd $Mdocdate$
+.\"
 .\" Implement .Mx (MirBSD)
 .de Mx
 .nr cF \\n(.f
@@ -88,7 +93,6 @@
 .	\}
 .\}
 ..
-.Dd $Mdocdate: March 12 2008 $
 .Dt MAKE 1
 .Os
 .Sh NAME
