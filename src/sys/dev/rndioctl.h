@@ -1,4 +1,4 @@
-/**	$MirOS$ */
+/**	$MirOS: src/sys/dev/rndioctl.h,v 1.2 2005/03/06 21:27:35 tg Exp $ */
 /*	$OpenBSD: rndioctl.h,v 1.10 2003/06/02 19:24:22 mickey Exp $	*/
 
 /*
@@ -41,6 +41,12 @@ struct rnd_pool_info {
 	u_int32_t *buf;
 };
 
+struct rnd_add_randomness {
+	u_int32_t buf[16];
+	int source;		/* RND_SRC_* */
+	unsigned char count;	/* 1..16 */
+};
+
 #define RNDGETENTCNT	_IOR('R', 0, u_int)
 #define RNDADDTOENTCNT	_IOW('R', 1, u_int)
 #define RNDGETPOOL	_IOWR('R', 2, struct rnd_pool_info)
@@ -48,6 +54,6 @@ struct rnd_pool_info {
 #define RNDZAPENTCNT	_IO( 'R', 4)
 #define RNDSTIRARC4	_IO( 'R', 5)
 #define RNDCLRSTATS	_IO( 'R', 6)
-
+#define RNDADDRNDNESS	_IOW('R', 8, struct rnd_add_randomness)
 
 #endif /* __RNDIOCTL_H__ */

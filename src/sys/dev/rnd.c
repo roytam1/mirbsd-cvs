@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/dev/rnd.c,v 1.64 2010/09/24 19:59:09 tg Exp $ */
+/**	$MirOS: src/sys/dev/rnd.c,v 1.65 2010/09/24 20:35:12 tg Exp $ */
 /*	$OpenBSD: rnd.c,v 1.78 2005/07/07 00:11:24 djm Exp $	*/
 
 /*
@@ -1040,6 +1040,7 @@ randomioctl(dev_t dev, u_long cmd, caddr_t data, int flag, struct proc *p)
 	add_timer_randomness((u_long)p ^ (u_long)data ^ cmd);
 
 	switch (cmd) {
+	case RNDADDRNDNESS:
 	case RNDADDTOENTCNT:
 	case RNDZAPENTCNT:
 	case RNDSTIRARC4:
@@ -1093,6 +1094,18 @@ randomioctl(dev_t dev, u_long cmd, caddr_t data, int flag, struct proc *p)
 		bzero(&rndstats, sizeof(rndstats));
 		splx(s);
 		break;
+
+	case RNDADDRNDNESS: {
+		const struct rnd_add_randomness *sar = (const void *)data;
+		size_t i = sar->count;
+
+		if (i > sizeof(sar->buf) / sizeof(sar->buf[0]))
+			rv = EINVAL;
+		else if (i > 0)
+			while (i--)
+				enqueue_randomness(sar->source, sar->buf[i]);
+		break;
+	}
 
 	default:
 		rv = ENOTTY;
