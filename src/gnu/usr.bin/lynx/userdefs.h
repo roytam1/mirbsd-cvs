@@ -1,4 +1,4 @@
-/* $MirOS: src/gnu/usr.bin/lynx/userdefs.h,v 1.5 2005/10/21 21:42:33 tg Exp $ */
+/* $MirOS: src/gnu/usr.bin/lynx/userdefs.h,v 1.6 2005/12/19 23:57:01 tg Exp $ */
 
 /*
  * Lynx - Hypertext navigation system
@@ -591,8 +591,13 @@
  * and use "http://" as the default (e.g., gopher.wfbr.edu or gopher.wfbr.
  * will be made gopher://gopher.wfbr.edu).
  */
+#if 0
 #define URL_DOMAIN_PREFIXES "www."
 #define URL_DOMAIN_SUFFIXES ".com,.edu,.net,.org"
+#else
+#define URL_DOMAIN_PREFIXES ""
+#define URL_DOMAIN_SUFFIXES ""
+#endif
 
 /********************************
  * If LIST_NEWS_NUMBERS is set TRUE, Lynx will use an ordered list
