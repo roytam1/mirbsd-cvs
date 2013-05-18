@@ -1,4 +1,4 @@
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.106 2008/04/17 21:25:09 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.107 2008/04/20 03:46:17 tg Exp $'
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -893,7 +893,11 @@ mws_content <<'EOF'
   improved; support now en par with Plan 9’s, thanks to Anthony Morphett
   &lt;awmorp@gmail.com&gt; – maybe the rest is a kernel bug?)</li>
  <li>Import the GNU bash- and zsh-style ability to get and set multiple
-  limits in a single invocation from oksh (thanks millert)</li>
+  limits in a single invocation from oksh (thanks millert)
+  <strong>NOTE: backed out due to problems!</strong> We need to find a way
+  to allow <tt>ulimit -dS 262144</tt> even with the change first. That is
+  a pretty common idiom, and R34 will continue to support it, even if it’s
+  shipping without this change then. (But we retained all the goodies.)</li>
  <li>Some style cleanup; use appropriate integer types</li>
  <li>Fix a bug in table (e.g. kill -l, tab completion) display: the width
   of non-ASCII characters is now honoured in the utf8-hack mode</li>
