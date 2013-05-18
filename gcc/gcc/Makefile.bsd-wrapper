@@ -1,4 +1,4 @@
-# $MirOS: gcc/gcc/Makefile.bsd-wrapper,v 1.30 2006/03/01 13:12:05 tg Exp $
+# $MirOS: gcc/gcc/Makefile.bsd-wrapper,v 1.31 2006/03/01 13:20:07 tg Exp $
 
 .include <bsd.own.mk>
 .include "${GNUSYSTEM_AUX_DIR}/locations.mk"
@@ -152,3 +152,7 @@ pre-clean:
 .PHONY: all-quick
 
 .include <bsd.cfwrap.mk>
+
+.ifdef _CROSSBUILD
+XVARS+=	GCC_NO_WERROR=1 GCC_HONOUR_COPTS=0
+.endif
