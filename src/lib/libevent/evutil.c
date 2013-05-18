@@ -63,6 +63,10 @@
 #include "evutil.h"
 #include "log.h"
 
+__RCSID("$MirOS$");
+__RCSID(_EVENT_H_);
+__RCSID(_EVUTIL_H_);
+
 int
 evutil_socketpair(int family, int type, int protocol, int fd[2])
 {

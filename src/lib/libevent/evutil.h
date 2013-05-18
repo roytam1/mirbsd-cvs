@@ -28,7 +28,7 @@
  */
 
 #ifndef _EVUTIL_H_
-#define _EVUTIL_H_
+#define _EVUTIL_H_ "$MirOS$"
 
 /** @file evutil.h
 
@@ -81,7 +81,11 @@ int evutil_snprintf(char *buf, size_t buflen, const char *format, ...)
 	__attribute__((format(printf, 3, 4)))
 #endif
 	;
-int evutil_vsnprintf(char *buf, size_t buflen, const char *format, va_list ap);
+int evutil_vsnprintf(char *buf, size_t buflen, const char *format, va_list ap)
+#ifdef __GNUC__
+	__attribute__((__format__ (__printf__, 3, 0)))
+#endif
+	;
 
 #ifdef __cplusplus
 }

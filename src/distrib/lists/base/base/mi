@@ -469,7 +469,7 @@
 ./usr/lib/libcurses.so.14.1
 ./usr/lib/libdes.so.11.0
 ./usr/lib/libedit.so.7.0
-./usr/lib/libevent.so.1.4
+./usr/lib/libevent.so.3.1
 ./usr/lib/libexpat.so.6.0
 ./usr/lib/libform.so.6.0
 ./usr/lib/libformw.so.6.0
