@@ -1,10 +1,10 @@
 divert(-1)dnl
 #
-# $MirOS: src/gnu/usr.sbin/sendmail/cf/cf/openbsd-proto.mc,v 1.6 2007/02/05 17:29:27 tg Exp $
+# $MirOS: src/gnu/usr.sbin/sendmail/cf/cf/openbsd-proto.mc,v 1.7 2008/05/07 13:15:16 tg Exp $
 # @(#)openbsd-proto.mc $Revision$
 #
 # Copyright (c) 2002, 2003, 2004, 2005, 2007, 2008
-#	Thorsten "mirabilos" Glaser <tg@MirBSD.de>
+#	Thorsten "mirabilos" Glaser <tg@mirbsd.org>
 # Copyright (c) 1998 Sendmail, Inc.  All rights reserved.
 # Copyright (c) 1983 Eric P. Allman.  All rights reserved.
 # Copyright (c) 1988, 1993
@@ -20,7 +20,7 @@ divert(-1)dnl
 #
 
 divert(0)dnl
-VERSIONID(`$MirOS: src/gnu/usr.sbin/sendmail/cf/cf/openbsd-proto.mc,v 1.6 2007/02/05 17:29:27 tg Exp $')dnl
+VERSIONID(`$MirOS: src/gnu/usr.sbin/sendmail/cf/cf/openbsd-proto.mc,v 1.7 2008/05/07 13:15:16 tg Exp $')dnl
 OSTYPE(openbsd)dnl
 dnl
 dnl If you have a non-static IP address you may wish to forward outgoing mail
@@ -33,7 +33,8 @@ dnl
 dnl Disable EXPN and VRFY to help thwart address harvesters and require
 dnl senders to say hello.
 dnl
-define(`confPRIVACY_FLAGS', `authwarnings,needmailhelo,noexpn,novrfy,nobodyreturn')dnl
+define(`confPRIVACY_FLAGS',
+  `authwarnings,needmailhelo,noexpn,novrfy,nobodyreturn')dnl
 dnl
 dnl We wish to make the existence of the local-host-names and
 dnl trusted-users files optional, hence the "-o" below.
@@ -50,10 +51,11 @@ FEATURE(`nouucp', `reject')dnl
 dnl
 dnl
 dnl The access database allows for certain actions to be taken
-dnl based on the source address.
+dnl based on the source or destination address.
 dnl The access database file should be considered optional.
 dnl
-FEATURE(`access_db', `hash -o -T<TMPF> MAIL_SETTINGS_DIR`'access')dnl
+FEATURE(`access_db', `hash -o -T<TMPF> MAIL_SETTINGS_DIR`'access',
+  `relaytofulladdress')dnl
 FEATURE(`blacklist_recipients')dnl
 dnl
 dnl Enable support for /etc/mail/local-host-names.
@@ -133,7 +135,6 @@ define(`confSERVER_CERT',	`/etc/ssl/default.cer')dnl
 define(`confCLIENT_CERT',	`/etc/ssl/default.cer')dnl
 define(`confSERVER_KEY',	`/etc/ssl/private/default.key')dnl
 define(`confCLIENT_KEY',	`/etc/ssl/private/default.key')dnl
-dnl This one is just faster and as secure as /dev/urandom.
 define(`confRAND_FILE',		`/dev/arandom')dnl
 dnl
 dnl
@@ -201,12 +202,13 @@ define(`SMTP_MAILER_FLAGS', `67E')dnl
 dnl
 dnl Adhere to ~/.etc standard of MirOS
 dnl
-define(`confFORWARD_PATH', `$z/.etc/forward.$w:$z/.etc/forward:$z/.forward.$w:$z/.forward')dnl
+define(`confFORWARD_PATH',
+  `$z/.etc/forward.$w:$z/.etc/forward:$z/.forward.$w:$z/.forward')dnl
 dnl
 dnl Say hello to our friendly user
 dnl
 define(`confSMTP_LOGIN_MSG',
- `$j ready at $b\n >> Bitte keine Werbung einwerfen! <<\nWho do you wanna pretend to be today?')dnl
+  `$j ready at $b\n >> Bitte keine Werbung einwerfen! <<\nWho do you wanna pretend to be today?')dnl
 dnl
 dnl
 dnl That's all, folks.
