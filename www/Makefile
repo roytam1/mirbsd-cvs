@@ -1,4 +1,4 @@
-# $MirOS: www/Makefile,v 1.60 2009/11/12 22:41:30 tg Exp $
+# $MirOS: www/Makefile,v 1.61 2009/11/25 09:14:58 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -158,9 +158,9 @@ _reinstall:
 
 .hts.htm~:
 	@dstd='$@'; dstf=$${dstd%~}; rm -f $@; \
-	 print -r "( . mk/htsconv; mws_basepath $$dstf; . $< ) >$$dstf"; \
+	 print -r "(. mk/htsconv; mws_basepath $$dstf; mws__do $<) >$$dstf"; \
 	 export ${U_ENV}; if (cd ${DST}; . ${TOP}/mk/htsconv; \
-	    mws_basepath $$dstf; . $<) >$@; then \
+	    mws_basepath $$dstf; mws__do $<) >$@; then \
 		(. ${TOP}/mk/htsconv; mws_moveifchange -k $$dstd $$dstf); \
 	 else \
 		rm -f $@; \

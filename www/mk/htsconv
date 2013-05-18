@@ -1,4 +1,4 @@
-rcsid_htsconv='$MirOS: www/mk/htsconv,v 1.44 2009/10/31 17:21:05 tg Exp $'
+rcsid_htsconv='$MirOS: www/mk/htsconv,v 1.45 2009/10/31 19:55:49 bsiegert Exp $'
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -10,6 +10,7 @@ mws__pagename=
 mws__header=
 mws__rss=
 mws__difftag=MBSD_HTSCONV_GENDATE_TAG_25705
+unset mws__srcfile
 unset mws__abspath
 unset mws__relpath
 unset mws__canonpath
@@ -18,6 +19,13 @@ unset mws__fontsize
 mws__canonsite=https://www.mirbsd.org
 nl='
 '
+
+function mws__do {
+	mws__srcfile=$1
+
+	set +e
+	. "$1"
+}
 
 function mws_setname {
 	mws__pagename=$2
@@ -53,6 +61,45 @@ function mws_subdir {
 
 function mws_basepath {
 	mws__canonpath=$mws__canonsite/$1
+}
+
+# this only matches lines like this:
+# ^<h[23456] id="…id…">…content…</h[23456]>$
+function mws_maketoc {
+	local level=0 sps='       ' line lna llv lid
+
+	if [[ -z $mws__srcfile ]]; then
+		print -u2 Internal error: not called via mws__do!
+		exit 1
+	fi
+	(grep '^<h[2-6] id="[^">]*">.*</h[2-6]>$' "$mws__srcfile"
+	 print '<h1') |&
+	while IFS= read -pr line; do
+		set -A lna -- $line
+		(( llv = ${lna[0]#\<h} - 1 ))
+		while (( level < llv )); do
+			if (( level )); then
+				print "${sps::level}<li><ul>"
+			else
+				print "<ul>"
+			fi
+			let ++level
+		done
+		while (( level > llv )); do
+			let --level
+			if (( level )); then
+				print "${sps::level}</ul></li>"
+			else
+				print "</ul>"
+			fi
+		done
+		(( level )) || break
+		lid=${line#\<h? id=\"}
+		lid=${lid%%\"*}
+		line=${line#*\>}
+		line=${line%\</h?\>}
+		print "${sps::level}<li><a href=\"#$lid\">$line</a></li>"
+	done
 }
 
 function mws_makepic {
