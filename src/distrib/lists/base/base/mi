@@ -319,7 +319,6 @@
 ./usr/bin/passwd
 ./usr/bin/paste
 ./usr/bin/patch
-./usr/bin/pctr
 ./usr/bin/pgrep
 ./usr/bin/pkill
 ./usr/bin/pmdb
@@ -646,10 +645,6 @@
 ./usr/mdec
 ./usr/mdec/boot
 ./usr/mdec/installboot
-./usr/mdec/ldsec
-./usr/mdec/mbrldr
-./usr/mdec/mbrmgr
-./usr/mdec/pxeboot
 ./usr/obj
 ./usr/ports
 ./usr/releng
@@ -658,8 +653,6 @@
 ./usr/sbin/accton
 ./usr/sbin/activadm
 ./usr/sbin/activinit
-./usr/sbin/apm
-./usr/sbin/apmd
 ./usr/sbin/apxs
 ./usr/sbin/arp
 ./usr/sbin/bad144
@@ -679,13 +672,13 @@
 ./usr/sbin/ifwatchd
 ./usr/sbin/inetd
 ./usr/sbin/iostat
-./usr/sbin/isdnd
 ./usr/sbin/kvm_mkdb
 ./usr/sbin/logresolve
 ./usr/sbin/lpc
 ./usr/sbin/lpd
 ./usr/sbin/lptest
 ./usr/sbin/mailwrapper
+./usr/sbin/makefs
 ./usr/sbin/map-mbone
 ./usr/sbin/memconfig
 ./usr/sbin/mrinfo
@@ -750,12 +743,9 @@
 ./usr/sbin/visudo
 ./usr/sbin/vnconfig
 ./usr/sbin/wsconscfg
-./usr/sbin/wsfontload
 ./usr/sbin/wsmoused
-./usr/sbin/wssetfont
 ./usr/sbin/zdump
 ./usr/sbin/zic
-./usr/sbin/zzz
 ./usr/share
 ./usr/share/calendar
 ./usr/share/calendar/calendar.all
@@ -1718,7 +1708,6 @@
 ./usr/share/man/cat1/paste.0
 ./usr/share/man/cat1/patch.0
 ./usr/share/man/cat1/pax.0
-./usr/share/man/cat1/pctr.0
 ./usr/share/man/cat1/pgrep.0
 ./usr/share/man/cat1/pkill.0
 ./usr/share/man/cat1/pmdb.0
@@ -1862,7 +1851,6 @@
 ./usr/share/man/cat4/ami.0
 ./usr/share/man/cat4/amphy.0
 ./usr/share/man/cat4/an.0
-./usr/share/man/cat4/apm.0
 ./usr/share/man/cat4/arandom.0
 ./usr/share/man/cat4/aria.0
 ./usr/share/man/cat4/arp.0
@@ -1882,7 +1870,6 @@
 ./usr/share/man/cat4/bge.0
 ./usr/share/man/cat4/bha.0
 ./usr/share/man/cat4/bio.0
-./usr/share/man/cat4/bios.0
 ./usr/share/man/cat4/bktr.0
 ./usr/share/man/cat4/bmtphy.0
 ./usr/share/man/cat4/boca.0
@@ -1901,7 +1888,6 @@
 ./usr/share/man/cat4/cmpci.0
 ./usr/share/man/cat4/cnw.0
 ./usr/share/man/cat4/com.0
-./usr/share/man/cat4/cpu.0
 ./usr/share/man/cat4/crypto.0
 ./usr/share/man/cat4/cua.0
 ./usr/share/man/cat4/cue.0
@@ -1920,7 +1906,6 @@
 ./usr/share/man/cat4/ef.0
 ./usr/share/man/cat4/eg.0
 ./usr/share/man/cat4/el.0
-./usr/share/man/cat4/elansc.0
 ./usr/share/man/cat4/em.0
 ./usr/share/man/cat4/emu.0
 ./usr/share/man/cat4/enc.0
@@ -1937,12 +1922,10 @@
 ./usr/share/man/cat4/fxp.0
 ./usr/share/man/cat4/gdt.0
 ./usr/share/man/cat4/gem.0
-./usr/share/man/cat4/geodesc.0
 ./usr/share/man/cat4/gif.0
 ./usr/share/man/cat4/gpr.0
 ./usr/share/man/cat4/gre.0
 ./usr/share/man/cat4/gtp.0
-./usr/share/man/cat4/gus.0
 ./usr/share/man/cat4/hifn.0
 ./usr/share/man/cat4/hil.0
 ./usr/share/man/cat4/hilid.0
@@ -1951,7 +1934,6 @@
 ./usr/share/man/cat4/hme.0
 ./usr/share/man/cat4/hsq.0
 ./usr/share/man/cat4/iavc.0
-./usr/share/man/cat4/ichpcib.0
 ./usr/share/man/cat4/icmp.0
 ./usr/share/man/cat4/icmp6.0
 ./usr/share/man/cat4/icsphy.0
@@ -1987,8 +1969,6 @@
 ./usr/share/man/cat4/isp.0
 ./usr/share/man/cat4/it.0
 ./usr/share/man/cat4/iwic.0
-./usr/share/man/cat4/iy.0
-./usr/share/man/cat4/joy.0
 ./usr/share/man/cat4/keynote.0
 ./usr/share/man/cat4/kmem.0
 ./usr/share/man/cat4/ksyms.0
@@ -1999,23 +1979,19 @@
 ./usr/share/man/cat4/lkm.0
 ./usr/share/man/cat4/lm.0
 ./usr/share/man/cat4/lmc.0
-./usr/share/man/cat4/lms.0
 ./usr/share/man/cat4/lo.0
 ./usr/share/man/cat4/lofn.0
 ./usr/share/man/cat4/lpt.0
 ./usr/share/man/cat4/lxtphy.0
 ./usr/share/man/cat4/maestro.0
-./usr/share/man/cat4/mcd.0
 ./usr/share/man/cat4/mem.0
 ./usr/share/man/cat4/midi.0
 ./usr/share/man/cat4/mii.0
-./usr/share/man/cat4/mms.0
 ./usr/share/man/cat4/mpt.0
 ./usr/share/man/cat4/mpu.0
 ./usr/share/man/cat4/mtd.0
 ./usr/share/man/cat4/mtdphy.0
 ./usr/share/man/cat4/mtio.0
-./usr/share/man/cat4/mtrr.0
 ./usr/share/man/cat4/ncr.0
 ./usr/share/man/cat4/ne.0
 ./usr/share/man/cat4/neo.0
@@ -2024,7 +2000,6 @@
 ./usr/share/man/cat4/nge.0
 ./usr/share/man/cat4/noct.0
 ./usr/share/man/cat4/nofn.0
-./usr/share/man/cat4/npx.0
 ./usr/share/man/cat4/nsclpcsio.0
 ./usr/share/man/cat4/nsgphy.0
 ./usr/share/man/cat4/nsphy.0
@@ -2040,7 +2015,6 @@
 ./usr/share/man/cat4/pchb.0
 ./usr/share/man/cat4/pci.0
 ./usr/share/man/cat4/pcib.0
-./usr/share/man/cat4/pcibios.0
 ./usr/share/man/cat4/pcic.0
 ./usr/share/man/cat4/pciide.0
 ./usr/share/man/cat4/pckbc.0
@@ -2048,7 +2022,6 @@
 ./usr/share/man/cat4/pcmcia.0
 ./usr/share/man/cat4/pcppi.0
 ./usr/share/man/cat4/pcscp.0
-./usr/share/man/cat4/pctr.0
 ./usr/share/man/cat4/pf.0
 ./usr/share/man/cat4/pflog.0
 ./usr/share/man/cat4/pfsync.0
@@ -2056,12 +2029,10 @@
 ./usr/share/man/cat4/pms.0
 ./usr/share/man/cat4/pmsi.0
 ./usr/share/man/cat4/pnp.0
-./usr/share/man/cat4/powernowhack.0
 ./usr/share/man/cat4/ppb.0
 ./usr/share/man/cat4/ppp.0
 ./usr/share/man/cat4/pppoe.0
 ./usr/share/man/cat4/prandom.0
-./usr/share/man/cat4/pss.0
 ./usr/share/man/cat4/ptm.0
 ./usr/share/man/cat4/pty.0
 ./usr/share/man/cat4/puc.0
@@ -2079,12 +2050,10 @@
 ./usr/share/man/cat4/rtfps.0
 ./usr/share/man/cat4/rtii.0
 ./usr/share/man/cat4/safe.0
-./usr/share/man/cat4/sb.0
 ./usr/share/man/cat4/sbus.0
 ./usr/share/man/cat4/scsi.0
 ./usr/share/man/cat4/scsibus.0
 ./usr/share/man/cat4/sd.0
-./usr/share/man/cat4/sea.0
 ./usr/share/man/cat4/ses.0
 ./usr/share/man/cat4/sf.0
 ./usr/share/man/cat4/sf2r.0
@@ -2096,7 +2065,6 @@
 ./usr/share/man/cat4/sl.0
 ./usr/share/man/cat4/sm.0
 ./usr/share/man/cat4/speaker.0
-./usr/share/man/cat4/spkr.0
 ./usr/share/man/cat4/spp.0
 ./usr/share/man/cat4/sppp.0
 ./usr/share/man/cat4/sqphy.0
@@ -2137,7 +2105,6 @@
 ./usr/share/man/cat4/udsbr.0
 ./usr/share/man/cat4/uftdi.0
 ./usr/share/man/cat4/ugen.0
-./usr/share/man/cat4/uha.0
 ./usr/share/man/cat4/uhci.0
 ./usr/share/man/cat4/uhid.0
 ./usr/share/man/cat4/uhidev.0
@@ -2172,7 +2139,6 @@
 ./usr/share/man/cat4/wb.0
 ./usr/share/man/cat4/wd.0
 ./usr/share/man/cat4/wdc.0
-./usr/share/man/cat4/wdt.0
 ./usr/share/man/cat4/we.0
 ./usr/share/man/cat4/wi.0
 ./usr/share/man/cat4/wscons.0
@@ -2180,8 +2146,6 @@
 ./usr/share/man/cat4/wskbd.0
 ./usr/share/man/cat4/wsmouse.0
 ./usr/share/man/cat4/wsmux.0
-./usr/share/man/cat4/wss.0
-./usr/share/man/cat4/wt.0
 ./usr/share/man/cat4/xe.0
 ./usr/share/man/cat4/xf86.0
 ./usr/share/man/cat4/xl.0
@@ -2228,9 +2192,6 @@
 ./usr/share/man/cat5/intro.0
 ./usr/share/man/cat5/isakmpd.conf.0
 ./usr/share/man/cat5/isakmpd.policy.0
-./usr/share/man/cat5/isdnd.acct.0
-./usr/share/man/cat5/isdnd.rates.0
-./usr/share/man/cat5/isdnd.rc.0
 ./usr/share/man/cat5/keynote.0
 ./usr/share/man/cat5/lastlog.0
 ./usr/share/man/cat5/link.0
@@ -2323,8 +2284,6 @@
 ./usr/share/man/cat8/activadm.0
 ./usr/share/man/cat8/activinit.0
 ./usr/share/man/cat8/afterboot.0
-./usr/share/man/cat8/apm.0
-./usr/share/man/cat8/apmd.0
 ./usr/share/man/cat8/apxs.0
 ./usr/share/man/cat8/arp.0
 ./usr/share/man/cat8/atactl.0
@@ -2384,7 +2343,6 @@
 ./usr/share/man/cat8/intro.0
 ./usr/share/man/cat8/iostat.0
 ./usr/share/man/cat8/isakmpd.0
-./usr/share/man/cat8/isdnd.0
 ./usr/share/man/cat8/kbd.0
 ./usr/share/man/cat8/kvm_mkdb.0
 ./usr/share/man/cat8/ldconfig.0
@@ -2405,6 +2363,7 @@
 ./usr/share/man/cat8/lpd.0
 ./usr/share/man/cat8/mail.local.0
 ./usr/share/man/cat8/mailwrapper.0
+./usr/share/man/cat8/makefs.0
 ./usr/share/man/cat8/makekey.0
 ./usr/share/man/cat8/map-mbone.0
 ./usr/share/man/cat8/memconfig.0
@@ -2561,12 +2520,9 @@
 ./usr/share/man/cat8/wicontrol.0
 ./usr/share/man/cat8/wsconscfg.0
 ./usr/share/man/cat8/wsconsctl.0
-./usr/share/man/cat8/wsfontload.0
 ./usr/share/man/cat8/wsmoused.0
-./usr/share/man/cat8/wssetfont.0
 ./usr/share/man/cat8/zdump.0
 ./usr/share/man/cat8/zic.0
-./usr/share/man/cat8/zzz.0
 ./usr/share/man/cat9
 ./usr/share/man/man1
 ./usr/share/man/man2

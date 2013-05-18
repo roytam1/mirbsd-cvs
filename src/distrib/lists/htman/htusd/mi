@@ -262,7 +262,6 @@
 ./man1/patch.htm
 ./man1/pax.htm
 ./man1/pcitweak.htm
-./man1/pctr.htm
 ./man1/perl.htm
 ./man1/perl5004delta.htm
 ./man1/perl5005delta.htm
@@ -629,7 +628,6 @@
 ./man4/ami.htm
 ./man4/amphy.htm
 ./man4/an.htm
-./man4/apm.htm
 ./man4/arandom.htm
 ./man4/aria.htm
 ./man4/arp.htm
@@ -649,7 +647,6 @@
 ./man4/bge.htm
 ./man4/bha.htm
 ./man4/bio.htm
-./man4/bios.htm
 ./man4/bktr.htm
 ./man4/bmtphy.htm
 ./man4/boca.htm
@@ -671,7 +668,6 @@
 ./man4/cmpci.htm
 ./man4/cnw.htm
 ./man4/com.htm
-./man4/cpu.htm
 ./man4/crypto.htm
 ./man4/cua.htm
 ./man4/cue.htm
@@ -693,7 +689,6 @@
 ./man4/ef.htm
 ./man4/eg.htm
 ./man4/el.htm
-./man4/elansc.htm
 ./man4/elographics.htm
 ./man4/em.htm
 ./man4/emu.htm
@@ -714,13 +709,11 @@
 ./man4/fxp.htm
 ./man4/gdt.htm
 ./man4/gem.htm
-./man4/geodesc.htm
 ./man4/gif.htm
 ./man4/glint.htm
 ./man4/gpr.htm
 ./man4/gre.htm
 ./man4/gtp.htm
-./man4/gus.htm
 ./man4/hifn.htm
 ./man4/hil.htm
 ./man4/hilid.htm
@@ -732,7 +725,6 @@
 ./man4/i740.htm
 ./man4/i810.htm
 ./man4/iavc.htm
-./man4/ichpcib.htm
 ./man4/icmp.htm
 ./man4/icmp6.htm
 ./man4/icsphy.htm
@@ -768,8 +760,6 @@
 ./man4/isp.htm
 ./man4/it.htm
 ./man4/iwic.htm
-./man4/iy.htm
-./man4/joy.htm
 ./man4/js_x.htm
 ./man4/kbd.htm
 ./man4/keyboard.htm
@@ -783,26 +773,22 @@
 ./man4/lkm.htm
 ./man4/lm.htm
 ./man4/lmc.htm
-./man4/lms.htm
 ./man4/lo.htm
 ./man4/lofn.htm
 ./man4/lpt.htm
 ./man4/lxtphy.htm
 ./man4/maestro.htm
-./man4/mcd.htm
 ./man4/mem.htm
 ./man4/mga.htm
 ./man4/microtouch.htm
 ./man4/midi.htm
 ./man4/mii.htm
-./man4/mms.htm
 ./man4/mouse.htm
 ./man4/mpt.htm
 ./man4/mpu.htm
 ./man4/mtd.htm
 ./man4/mtdphy.htm
 ./man4/mtio.htm
-./man4/mtrr.htm
 ./man4/mutouch.htm
 ./man4/ncr.htm
 ./man4/ne.htm
@@ -813,7 +799,6 @@
 ./man4/nge.htm
 ./man4/noct.htm
 ./man4/nofn.htm
-./man4/npx.htm
 ./man4/nsc.htm
 ./man4/nsclpcsio.htm
 ./man4/nsgphy.htm
@@ -832,7 +817,6 @@
 ./man4/pchb.htm
 ./man4/pci.htm
 ./man4/pcib.htm
-./man4/pcibios.htm
 ./man4/pcic.htm
 ./man4/pciide.htm
 ./man4/pckbc.htm
@@ -840,7 +824,6 @@
 ./man4/pcmcia.htm
 ./man4/pcppi.htm
 ./man4/pcscp.htm
-./man4/pctr.htm
 ./man4/penmount.htm
 ./man4/pf.htm
 ./man4/pflog.htm
@@ -849,12 +832,10 @@
 ./man4/pms.htm
 ./man4/pmsi.htm
 ./man4/pnp.htm
-./man4/powernowhack.htm
 ./man4/ppb.htm
 ./man4/ppp.htm
 ./man4/pppoe.htm
 ./man4/prandom.htm
-./man4/pss.htm
 ./man4/ptm.htm
 ./man4/pty.htm
 ./man4/puc.htm
@@ -877,12 +858,10 @@
 ./man4/s3virge.htm
 ./man4/safe.htm
 ./man4/savage.htm
-./man4/sb.htm
 ./man4/sbus.htm
 ./man4/scsi.htm
 ./man4/scsibus.htm
 ./man4/sd.htm
-./man4/sea.htm
 ./man4/ses.htm
 ./man4/sf.htm
 ./man4/sf2r.htm
@@ -895,7 +874,6 @@
 ./man4/sl.htm
 ./man4/sm.htm
 ./man4/speaker.htm
-./man4/spkr.htm
 ./man4/spp.htm
 ./man4/sppp.htm
 ./man4/sqphy.htm
@@ -940,7 +918,6 @@
 ./man4/udsbr.htm
 ./man4/uftdi.htm
 ./man4/ugen.htm
-./man4/uha.htm
 ./man4/uhci.htm
 ./man4/uhid.htm
 ./man4/uhidev.htm
@@ -981,7 +958,6 @@
 ./man4/wb.htm
 ./man4/wd.htm
 ./man4/wdc.htm
-./man4/wdt.htm
 ./man4/we.htm
 ./man4/wi.htm
 ./man4/wscons.htm
@@ -989,8 +965,6 @@
 ./man4/wskbd.htm
 ./man4/wsmouse.htm
 ./man4/wsmux.htm
-./man4/wss.htm
-./man4/wt.htm
 ./man4/xe.htm
 ./man4/xf86.htm
 ./man4/xl.htm
@@ -1042,9 +1016,6 @@
 ./man5/intro.htm
 ./man5/isakmpd.conf.htm
 ./man5/isakmpd.policy.htm
-./man5/isdnd.acct.htm
-./man5/isdnd.rates.htm
-./man5/isdnd.rc.htm
 ./man5/keynote.htm
 ./man5/lastlog.htm
 ./man5/link.htm
@@ -1143,8 +1114,6 @@
 ./man8/activadm.htm
 ./man8/activinit.htm
 ./man8/afterboot.htm
-./man8/apm.htm
-./man8/apmd.htm
 ./man8/apxs.htm
 ./man8/arp.htm
 ./man8/atactl.htm
@@ -1206,7 +1175,6 @@
 ./man8/intro.htm
 ./man8/iostat.htm
 ./man8/isakmpd.htm
-./man8/isdnd.htm
 ./man8/kbd.htm
 ./man8/kvm_mkdb.htm
 ./man8/ldconfig.htm
@@ -1229,6 +1197,7 @@
 ./man8/mailq.htm
 ./man8/mailstats.htm
 ./man8/mailwrapper.htm
+./man8/makefs.htm
 ./man8/makekey.htm
 ./man8/makemap.htm
 ./man8/map-mbone.htm
@@ -1390,12 +1359,9 @@
 ./man8/wicontrol.htm
 ./man8/wsconscfg.htm
 ./man8/wsconsctl.htm
-./man8/wsfontload.htm
 ./man8/wsmoused.htm
-./man8/wssetfont.htm
 ./man8/zdump.htm
 ./man8/zic.htm
-./man8/zzz.htm
 ./manSMM/.htaccess
 ./manSMM/01.setup.htm
 ./manSMM/02.config.htm

@@ -1,4 +1,4 @@
-# $MirOS: src/Makefile,v 1.63 2006/07/03 01:19:54 tg Exp $
+# $MirOS: src/Makefile,v 1.64 2006/07/04 03:45:17 tg Exp $
 # $OpenBSD: Makefile,v 1.103 2004/05/03 15:18:18 drahn Exp $
 
 .if defined(MAKECONF) && exists(${MAKECONF})
@@ -162,8 +162,7 @@ _DISTS=	base
 _DISTS=	base x11 htman
 .endif
 
-_INDEX_FILES=	CKSUM RMD160 RMD160.gz boot.iso boot.liv \
-		source${OSrev}.ngz xfree${OSrev}.ngz
+_INDEX_FILES=	CKSUM RMD160 RMD160.gz source${OSrev}.ngz xfree${OSrev}.ngz
 
 .ifdef QUICK_DIST
 .  include "gcc/Makefile.lang"

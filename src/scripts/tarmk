@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/scripts/tarmk,v 1.4 2005/12/17 05:46:23 tg Exp $
+# $MirOS: src/scripts/tarmk,v 1.5 2005/12/17 07:15:16 tg Exp $
 #-
 # Copyright (c) 2004
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -50,7 +50,7 @@ if [[ -z $lists ]]; then
 	exit 2
 fi
 
-print "Generating release tarballs for MirOS #${rel}"
+print "Generating release tarballs for MirOS #${rel}/${mach}"
 
 cd "$src"
 for set in $lists; do
