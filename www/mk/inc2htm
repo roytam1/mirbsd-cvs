@@ -1,4 +1,4 @@
-# $MirOS: www/mk/inc2htm,v 1.9 2007/06/04 10:00:15 tg Exp $
+# $MirOS: www/mk/inc2htm,v 1.1 2007/06/09 23:29:54 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -91,10 +91,9 @@ while (( entryp >= 0 )); do
 	output $entryp $eid | mws_content >>$fe
 	mws_putfooter >>$fe
 	if (( entryc < cutoff )); then
-		print "mws_content <<-'EOF'" >>${name}.cut
-		output $entryp $eid @@RELPATH@@permalinks/ | sed 's/^/	/' \
-		    >>${name}.cut
-		print EOF >>${name}.cut
+		print "mws_content <<'EOF_cutoff_$name'" >>${name}.cut
+		output $entryp $eid @@RELPATH@@permalinks/ >>${name}.cut
+		print EOF_cutoff_$name >>${name}.cut
 	else
 		output $entryp $eid permalinks/ | mws_content >>$fn
 	fi
