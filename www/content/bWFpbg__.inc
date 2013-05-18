@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/bWFpbg__.inc,v 1.39 2006/01/15 22:42:38 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bWFpbg__.inc,v 1.40 2006/01/20 13:08:09 tg Exp $</small>
 <h1>MirBSD &nbsp; MirLinux &nbsp; MirPorts &nbsp; &mdash; &nbsp; Main Page</h1>
 <h2>Welcome to the MirOS Project!</h2>
 <p>This project is driven by a small number of people, that's why this
@@ -22,9 +22,9 @@
  in order to prevent abuse of our name and provide integrity of distfiles.</p>
 <p>Go to <a href="/?news">the main news page</a>.</p>
 <h3 style="color:red;">Latest Releases</h3>
-<!-- p>CURRENT: January 13th, 2005: #8-current snapshot available via our <a
+<!-- p>CURRENT: January 13th, 2006: #8-current snapshot available via our <a
  href="http://f.scarywater.net/miros/">BitTorrent</a> tracker.</p -->
-<p>CURRENT: January 13th, 2005: #8-current snapshot available for <a
+<p>CURRENT: January 13th, 2006: #8-current snapshot available for <a
  href="/MirOS/current/i386-20060113/">download</a> via the usual mirrors.</p>
 <p>STABLE: December 24th, 2005: <a href="/?ann-8">MirOS #8</a> is
  available via our <a href="http://f.scarywater.net/miros/">BitTorrent
