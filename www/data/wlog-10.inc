@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.358 2011/08/26 20:19:16 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.359 2011/08/26 20:20:45 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -8408,7 +8408,7 @@ Tag: debian pcli security
 	14:31⎜*<b>&lt;</b>* Signoff: XTaran (*.net *.split)</pre>
 <p>… doesn’t prevent me from telling him…</p>
 <pre xml:lang="de-DE-1901">
-	16:39⎜&lt;mira|AO&gt; XTaran: n̲i̲e̲ n̲i̲e̲ n̲i̲e̲ n̲i̲e̲ n̲i̲e̲ n̲i̲e̲ n̲i̲e̲
+	14:39⎜&lt;mira|AO&gt; XTaran: n̲i̲e̲ n̲i̲e̲ n̲i̲e̲ n̲i̲e̲ n̲i̲e̲ n̲i̲e̲ n̲i̲e̲
 	     ⎜empfiehlt man k̶i̶l̶l̶a̶l̶l̶, i̲m̲m̲e̲r̲ nur p̲k̲i̲l̲l̲!</pre>
 <p>“Now playing: Monzy — kill dash” ⇒ good idea… ☺</p>
 <hr />
@@ -8420,4 +8420,9 @@ Tag: debian pcli security
  </pre>
 </div><p class="boxfoot">… excerpt from the pkill(1) manual page,
  where you can see it stems from grep(1) clearly.</p>
+<hr />
+<p>Yes, this website (and thus the RSS export) is Lynx on uxterm
+ -fn -misc-fixed-medium-r-normal--18-120-100-100-c-90-iso10646-1
+ -fw -misc-fixed-medium-r-normal-ko-18-120-100-100-c-180-iso10646-1
+ on XFree86® optimised. Your browser might not do combining.</p>
 ----
