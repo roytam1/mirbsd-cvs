@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/special/Makefile,v 1.10 2006/09/22 15:40:02 tg Exp $
+# $MirOS: src/distrib/special/Makefile,v 1.11 2006/09/29 22:25:36 tg Exp $
 #-
 # Tools which must be compiled differently for
 # the small or floppy ramdiscs because of missing
@@ -17,6 +17,7 @@
 .if ${MACHINE} == "i386"
   SUBDIR+=	less
 .endif
+  SUBDIR+=	mksh
   SUBDIR+=	more
 .if ${MACHINE} == "i386"
   SUBDIR+=	ppp
