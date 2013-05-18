@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/net/pf.c,v 1.9 2009/04/12 12:00:05 tg Exp $ */
+/**	$MirOS: src/sys/net/pf.c,v 1.10 2010/09/21 21:24:23 tg Exp $ */
 /*	$OpenBSD: pf.c,v 1.433.2.8 2005/02/19 22:47:44 brad Exp $ */
 
 /*
@@ -5703,6 +5703,13 @@ pf_test6_eh(int dir, struct ifnet *ifp, struct mbuf **m0,
 		break;
 	}
 
+	case IPPROTO_ICMP: {
+		action = PF_DROP;
+		DPFPRINTF(PF_DEBUG_MISC,
+		    ("pf: dropping IPv6 packet with ICMPv4 payload\n"));
+		goto done;
+	}
+
 	case IPPROTO_ICMPV6: {
 		struct icmp6_hdr	ih;
 
@@ -5731,13 +5738,6 @@ pf_test6_eh(int dir, struct ifnet *ifp, struct mbuf **m0,
 			action = pf_test_icmp(&r, &s, dir, kif,
 			    m, off, h, &pd, &a, &ruleset, &ip6intrq);
 		break;
-	}
-
-	case IPPROTO_ICMP: {
-		action = PF_DROP;
-		DPFPRINTF(PF_DEBUG_MISC,
-		    ("pf: dropping IPv6 packet with ICMPv4 payload\n"));
-		goto done;
 	}
 
 	default:

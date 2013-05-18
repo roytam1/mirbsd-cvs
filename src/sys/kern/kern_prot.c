@@ -1,5 +1,6 @@
-/**	$MirOS$ */
+/**	$MirOS: src/sys/kern/kern_prot.c,v 1.2 2005/03/06 21:28:00 tg Exp $ */
 /*	$OpenBSD: kern_prot.c,v 1.26 2003/09/01 18:06:03 henning Exp $	*/
+/* + 1.39.4.1 */
 /*	$NetBSD: kern_prot.c,v 1.33 1996/02/09 18:59:42 christos Exp $	*/
 
 /*
@@ -300,7 +301,7 @@ sys_setpgid(curp, v, retval)
 		return (EINVAL);
 
 	if (pid != 0 && pid != curp->p_pid) {
-		if ((targp = pfind(pid)) == 0 || !inferior(targp))
+		if ((targp = pfind(pid)) == 0 || !inferior(targp, curp))
 			return (ESRCH);
 		if (targp->p_session != curp->p_session)
 			return (EPERM);
