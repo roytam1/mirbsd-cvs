@@ -1,7 +1,7 @@
-$MirOS: ports/print/ghostscript/esp/patches/patch-configure_ac,v 1.1 2005/12/16 01:17:24 bsiegert Exp $
---- configure.ac.orig	Mon Dec 12 18:03:08 2005
-+++ configure.ac	Mon Dec 12 18:06:50 2005
-@@ -593,13 +593,13 @@ if test x$no_x != xyes; then
+$MirOS$
+--- configure.ac.orig	Sun Apr 23 13:30:04 2006
++++ configure.ac	Thu Apr 27 16:12:43 2006
+@@ -499,13 +499,13 @@
  
  	AC_CHECK_LIB(X11,XOpenDisplay)
  	AC_CHECK_LIB(Xext,XdbeQueryExtension)
@@ -12,8 +12,8 @@ $MirOS: ports/print/ghostscript/esp/patches/patch-configure_ac,v 1.1 2005/12/16 
  
  	if test "$ac_cv_lib_Xt_XtAppCreateShell" = yes; then
  		X_DEVS="\$(DD)x11.dev \$(DD)x11alpha.dev \$(DD)x11cmyk.dev \$(DD)x11mono.dev \$(DD)x11_.dev \$(DD)x11alt_.dev \$(DD)x11cmyk2.dev \$(DD)x11cmyk4.dev \$(DD)x11cmyk8.dev \$(DD)x11rg16x.dev \$(DD)x11rg32x.dev \$(DD)x11gray2.dev \$(DD)x11gray4.dev"
--		X_LIBS="-lXt -lXext -lX11"
-+		X_LIBS="-lXt -lXext -lX11 -lSM -lICE"
+-		X_LIBS="Xt Xext X11"
++		X_LIBS="Xt Xext X11 SM ICE"
  	fi
  fi
  

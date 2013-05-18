@@ -1,8 +1,8 @@
-# $MirOS: ports/print/ghostscript/esp/Makefile,v 1.3 2005/12/16 01:17:24 bsiegert Exp $
+# $MirOS: ports/print/ghostscript/esp/Makefile,v 1.4 2006/02/09 11:15:14 tg Exp $
 
 COMMENT=		"ESP Ghostscript, a PostScript interpreter"
-VERSION=		7.07.1
-DASH_VER=		-1
+VERSION=		8.15.2
+DASH_VER=		-0
 DISTNAME=		espgs-${VERSION}-source
 PKGNAME=		ghostscript-${VERSION}${DASH_VER}
 CATEGORIES=		print
@@ -15,12 +15,12 @@ PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
-MASTER_SITES=		ftp://ftp.easysw.com/pub/ghostscript/ \
-			ftp://ftp2.easysw.com/pub/ghostscript/ \
-			ftp://ftp.funet.fi/pub/mirrors/ftp.easysw.com/pub/ghostscript/ \
-			ftp://ftp.mpg.goe.ni.schule.de/pub/internet/printing/ghostscript/ \
-			ftp://ftp.ntua.gr/pub/gnu/ghostscript/ \
-			ftp://ftp.fisek.com.tr/pub/ghostscript/
+MASTER_SITES=		ftp://ftp.easysw.com/pub/ghostscript/${VERSION}/ \
+			ftp://ftp2.easysw.com/pub/ghostscript/${VERSION}/ \
+			ftp://ftp.funet.fi/pub/mirrors/ftp.easysw.com/pub/ghostscript/${VERSION}/  \
+			ftp://ftp.mpg.goe.ni.schule.de/pub/internet/printing/ghostscript/${VERSION}/  \
+			ftp://ftp.ntua.gr/pub/gnu/ghostscript/${VERSION}/  \
+			ftp://ftp.fisek.com.tr/pub/ghostscript/${VERSION}/ 
 
 EXTRACT_SUFX=		.tar.bz2
 WRKDIST=		${WRKDIR}/${DISTNAME:S/-source//}
@@ -28,7 +28,7 @@ WRKDIST=		${WRKDIR}/${DISTNAME:S/-source//}
 LIB_DEPENDS=		jpeg.62::graphics/jpeg \
 			tiff.35::graphics/tiff
 RUN_DEPENDS=		:gs-fonts-std-*:print/ghostscript/fonts-std
-MODULES+=		graphics/png
+MODULES+=		graphics/png converters/libiconv
 
 FAKE_FLAGS=		BINMODE=${BINMODE} \
 			SHAREMODE=${SHAREMODE}
@@ -43,12 +43,12 @@ CONFIGURE_ARGS=		${CONFIGURE_SHARED} --with-ijs \
 
 NO_REGRESS=		Yes
 
-FLAVORS=		A4 no_x11 cups
-FLAVOR?=		A4
+FLAVORS=		no_x11 cups
+FLAVOR?=
 
-.if ${FLAVOR:U:MA4}
+.include <mirports.sys.mk>
+
 CFLAGS+=		-DA4
-.endif
 
 .if ${FLAVOR:L:Mno_x11}
 CONFIGURE_ARGS+=	--without-x

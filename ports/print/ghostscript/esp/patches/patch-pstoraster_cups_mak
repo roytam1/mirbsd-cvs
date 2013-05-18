@@ -1,6 +1,6 @@
-$MirOS$
---- pstoraster/cups.mak.orig	2004-06-13 16:43:14.000000000 +0200
-+++ pstoraster/cups.mak	2004-06-13 16:43:41.000000000 +0200
+$MirOS: ports/print/ghostscript/esp/patches/patch-pstoraster_cups_mak,v 1.1.7.1 2005/03/18 15:51:03 tg Exp $
+--- pstoraster/cups.mak.orig	Mon Feb 21 16:16:38 2005
++++ pstoraster/cups.mak	Thu Apr 27 16:09:00 2006
 @@ -24,9 +24,9 @@
  
  cups_=	$(GLOBJ)gdevcups.$(OBJ)
@@ -13,4 +13,4 @@ $MirOS$
 +CUPSDATA= $(DESTDIR)`cups-config --datadir`
  
  $(DD)cups.dev:	$(cups_) $(GLD)page.dev
- 	$(SETPDEV2) $(DD)cups $(cups_)
+ 	$(ADDMOD) $(DD)cups -lib cupsimage -lib cups
