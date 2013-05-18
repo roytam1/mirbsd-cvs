@@ -1,4 +1,4 @@
-# $MirOS: src/share/misc/Makefile,v 1.6 2006/06/09 00:44:17 tg Exp $
+# $MirOS: src/share/misc/Makefile,v 1.7 2006/09/13 01:08:20 tg Exp $
 # $OpenBSD: Makefile,v 1.10 2004/11/19 18:18:53 deraadt Exp $
 # from: @(#)Makefile	5.13 (Berkeley) 5/7/91
 
@@ -14,6 +14,7 @@ FILES+=	eqnchar
 FILES+=	getopt
 FILES+=	inter.phone
 FILES+=	licence.template
+FILES+=	license.template
 FILES+=	man.template
 FILES+=	mdoc.template
 FILES+=	na.phone
