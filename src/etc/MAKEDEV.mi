@@ -1,7 +1,7 @@
 define(COMM,`#')dnl
 include(MAKEDEV.sub)dnl
 dnl
-vers(a, {-$MirOS: src/etc/MAKEDEV.mi,v 1.12 2008/12/10 18:06:05 tg Exp $-})dnl
+vers(a, {-$MirOS: src/etc/MAKEDEV.mi,v 1.13 2009/03/29 13:04:15 tg Exp $-})dnl
 vers(a, {-$OpenBSD: MAKEDEV.mi,v 1.73 2005/02/07 06:14:18 david Exp $-})dnl
 dnl
 divert(1)dnl
@@ -60,7 +60,8 @@ dnl
 dnl
 divert(0)dnl
 #!/bin/mksh
-# $MirOS: src/etc/MAKEDEV.mi,v 1.12 2008/12/10 18:06:05 tg Exp $
+# $MirSecuCron$
+# $MirOS: src/etc/MAKEDEV.mi,v 1.13 2009/03/29 13:04:15 tg Exp $
 #
 # THIS FILE AUTOMATICALLY GENERATED.  DO NOT EDIT.
 # generated from:

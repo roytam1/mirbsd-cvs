@@ -1,5 +1,5 @@
-# $Id$
-# $MirOS: src/gnu/usr.sbin/sendmail/cf/cf/access,v 1.1.7.1 2005/03/06 16:46:48 tg Exp $
+# $MirSecuCron$
+# $MirOS: src/gnu/usr.sbin/sendmail/cf/cf/access,v 1.2 2008/11/11 19:00:00 tg Exp $
 # $OpenBSD: access,v 1.1 2003/09/23 21:37:11 millert Exp $
 #
 # sendmail(8) access database.  Rebuild by running as root:

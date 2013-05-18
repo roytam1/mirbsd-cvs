@@ -1,4 +1,6 @@
-#	$OpenBSD: locate.rc,v 1.6 2003/09/18 09:20:13 jmc Exp $
+# $MirSecuCron$
+# $MirOS$
+# $OpenBSD: locate.rc,v 1.6 2003/09/18 09:20:13 jmc Exp $
 #
 # /etc/locate.rc -  command script for updatedb(8)
 #

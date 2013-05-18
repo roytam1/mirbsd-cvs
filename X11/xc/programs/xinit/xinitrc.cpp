@@ -1,5 +1,6 @@
 XCOMM!/bin/sh
-XCOMM $MirOS: X11/xc/programs/xinit/xinitrc.cpp,v 1.10 2007/06/04 19:04:36 tg Exp $
+XCOMM $MirSecuCron$
+XCOMM $MirOS: X11/xc/programs/xinit/xinitrc.cpp,v 1.11 2008/11/06 23:02:44 tg Exp $
 XCOMM $Xorg: xinitrc.cpp,v 1.3 2000/08/17 19:54:30 cpqbld Exp $
 
 userresources=$HOME/.Xresources

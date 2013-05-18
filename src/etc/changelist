@@ -1,4 +1,5 @@
-# $MirOS: src/etc/changelist,v 1.15 2008/11/30 16:49:20 tg Exp $
+# $MirSecuCron$
+# $MirOS: src/etc/changelist,v 1.16 2009/01/14 21:16:25 tg Exp $
 # $OpenBSD: changelist,v 1.52 2007/02/28 01:37:15 david Exp $
 #
 # List of files which the security script backs up and checks
@@ -10,12 +11,18 @@
 
 /.profile
 /boot.cfg
+/dev/MAKEDEV
 /etc/Distfile
 /etc/X11/XF86Config
+/etc/X11/twm/system.twmrc
 /etc/X11/xdm/Xaccess
+/etc/X11/xdm/Xresources
 /etc/X11/xdm/Xservers
 /etc/X11/xdm/Xsession
+/etc/X11/xdm/Xsetup_0
+/etc/X11/xdm/Xwilling
 /etc/X11/xdm/xdm-config
+/etc/X11/xinit/xinitrc
 /etc/anacron
 /etc/arp.conf
 /etc/bgpd.conf
@@ -110,6 +117,15 @@
 /etc/pf.os
 /etc/phones
 /etc/portal.conf
++/etc/ppp/chap-secrets
+/etc/ppp/ip-down
+/etc/ppp/ip-up
+/etc/ppp/options
++/etc/ppp/pap-secrets
+/etc/ppp/ppp.conf
+/etc/ppp/ppp.linkdown
+/etc/ppp/ppp.linkup
++/etc/ppp/ppp.secret
 /etc/printcap
 /etc/profile
 /etc/protocols

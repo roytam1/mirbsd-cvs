@@ -1,4 +1,6 @@
-#	$OpenBSD: rc.securelevel,v 1.16 2004/07/06 04:05:03 deraadt Exp $
+# $MirSecuCron$
+# $MirOS$
+# $OpenBSD: rc.securelevel,v 1.16 2004/07/06 04:05:03 deraadt Exp $
 #
 # site-specific startup actions, daemons, and other things which
 # can be done BEFORE your system goes into securemode.  For actions

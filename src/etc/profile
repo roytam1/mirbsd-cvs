@@ -1,4 +1,4 @@
-# $Id$
+# $MirSecuCron$
 
 PATH=/sbin:/bin:/usr/sbin:/usr/bin:/usr/local/bin:/usr/mpkg/bin
 umask 022
@@ -89,4 +89,4 @@ if [ -O /var/run/ssh-agent/$USER_ID ]; then
 	unset _dir
 fi
 
-: $MirOS: src/etc/profile,v 1.61 2009/01/13 21:11:20 tg Exp $
+: $MirOS: src/etc/profile,v 1.62 2009/03/29 13:04:16 tg Exp $

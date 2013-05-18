@@ -1,4 +1,5 @@
-# $Id$
+# $MirSecuCron$
+# $MirOS$
 
 MYADDR:
  add! default HISADDR

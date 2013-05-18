@@ -3,7 +3,8 @@
 #	example of a configuration file for the isdn daemon
 #	---------------------------------------------------
 #
-# $MirOS$
+# $MirSecuCron$
+# $MirOS: src/etc/isdnd.rc.sample,v 1.1.7.1 2005/03/06 16:33:39 tg Exp $
 # $NetBSD: isdnd.rc.sample,v 1.4 2002/04/11 09:08:19 martin Exp $
 #
 #	last edit-date: [Wed Jul 19 09:59:42 2000]

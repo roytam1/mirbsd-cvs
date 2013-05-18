@@ -1,5 +1,5 @@
-# $Id$
-# $MirOS: src/etc/rc.local,v 1.8 2008/05/23 13:43:06 tg Exp $
+# $MirSecuCron$
+# $MirOS: src/etc/rc.local,v 1.9 2008/12/10 18:06:07 tg Exp $
 # $OpenBSD: rc.local,v 1.38 2005/03/29 21:41:59 uwe Exp $
 
 # site-specific startup actions, daemons, and other things which

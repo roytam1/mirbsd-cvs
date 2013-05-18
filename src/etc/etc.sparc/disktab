@@ -1,4 +1,5 @@
-# $MirOS: src/etc/etc.sparc/disktab,v 1.11 2008/07/13 23:53:08 tg Exp $
+# $MirSecuCron$
+# $MirOS: src/etc/etc.sparc/disktab,v 1.14 2009/04/17 19:26:30 tg Exp $
 # $OpenBSD: disktab,v 1.18 2005/02/07 06:08:10 david Exp $
 # $OpenBSD: disktab,v 1.21 2003/03/01 00:46:24 miod Exp $
 #	@(#)disktab	5.5 (Berkeley) 2/27/91

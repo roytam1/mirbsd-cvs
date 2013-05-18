@@ -1,3 +1,6 @@
+# $MirSecuCron$
+# $MirOS$
+
 # default settings
 CERTPATHLEN		= 1
 CERTUSAGE		= digitalSignature,keyCertSign,cRLSign

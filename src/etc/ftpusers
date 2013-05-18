@@ -1,4 +1,5 @@
-# $MirOS: ports/infrastructure/install/mkuserdb.ksh,v 1.6 2008/05/01 00:52:30 tg Exp $
+# $MirSecuCron$
+# $MirOS: src/etc/ftpusers,v 1.9 2008/05/07 12:18:42 tg Exp $
 #
 # Users who are not allowed to use ftp access; read by ftpd(8)
 

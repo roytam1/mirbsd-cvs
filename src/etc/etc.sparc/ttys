@@ -1,5 +1,5 @@
-# $Id$
-# $MirOS: src/etc/etc.sparc/ttys,v 1.6 2008/06/27 21:04:58 tg Exp $
+# $MirSecuCron$
+# $MirOS: src/etc/etc.sparc/ttys,v 1.7 2008/06/27 21:10:39 tg Exp $
 # $OpenBSD: ttys,v 1.8 2002/08/12 10:45:06 miod Exp $
 #
 # Please note that the word “secure” on the line below starting with

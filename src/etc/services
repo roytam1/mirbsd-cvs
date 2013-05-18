@@ -1,4 +1,5 @@
-# $MirOS: src/etc/services,v 1.6 2007/03/09 13:05:11 tg Exp $
+# $MirSecuCron$
+# $MirOS: src/etc/services,v 1.7 2008/04/09 03:10:06 tg Exp $
 # $OpenBSD: services,v 1.66 2007/03/04 12:46:25 jmc Exp $
 #
 # Network services, Internet style

@@ -1,4 +1,5 @@
-# $MirOS$
+# $MirSecuCron$
+# $MirOS: src/etc/isdnd.sppp.sample,v 1.1.7.1 2005/03/06 16:33:39 tg Exp $
 #
 # This file is sufficient to be placed as /etc/isdn/isdnd.rc
 # in order to dial out using a 'ppp -ddial MirISDN' command.

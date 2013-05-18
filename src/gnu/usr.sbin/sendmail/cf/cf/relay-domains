@@ -1,5 +1,5 @@
-# $Id$
-# $MirOS$
+# $MirSecuCron$
+# $MirOS: src/gnu/usr.sbin/sendmail/cf/cf/relay-domains,v 1.1.7.1 2005/03/06 16:46:48 tg Exp $
 # $OpenBSD: relay-domains,v 1.2 2003/12/23 21:17:04 miod Exp $
 #
 # List of other domains to relay mail for here (one per line).

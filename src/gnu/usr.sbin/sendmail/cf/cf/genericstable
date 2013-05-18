@@ -1,5 +1,5 @@
-# $Id$
-# $MirOS$
+# $MirSecuCron$
+# $MirOS: src/gnu/usr.sbin/sendmail/cf/cf/genericstable,v 1.1.7.1 2005/03/06 16:46:48 tg Exp $
 # $OpenBSD: genericstable,v 1.1 2004/08/14 17:06:03 millert Exp $
 #
 # sendmail(8) generics table.  Rebuild by running as root:

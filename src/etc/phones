@@ -1,4 +1,6 @@
-#	$OpenBSD: phones,v 1.3 1996/09/20 21:00:35 deraadt Exp $
+# $MirSecuCron$
+# $MirOS$
+# $OpenBSD: phones,v 1.3 1996/09/20 21:00:35 deraadt Exp $
 #
 # phones -- remote host phone number data base
 # see tip(1), phones(5)

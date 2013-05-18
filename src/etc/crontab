@@ -1,4 +1,5 @@
-# $MirOS: src/etc/crontab,v 1.27 2008/12/10 18:06:05 tg Exp $
+# $MirSecuCron$
+# $MirOS: src/etc/crontab,v 1.28 2009/03/29 13:04:15 tg Exp $
 # $OpenBSD: crontab,v 1.15 2007/02/27 16:04:16 beck Exp $
 #
 # /var/cron/tabs/root - root's crontab

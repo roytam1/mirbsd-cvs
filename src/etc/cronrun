@@ -1,6 +1,6 @@
 #!/bin/mksh
-# $Id$
-# $MirOS: src/etc/cronrun,v 1.9 2008/12/10 18:06:05 tg Exp $
+# $MirSecuCron$
+# $MirOS: src/etc/cronrun,v 1.10 2009/03/29 13:04:15 tg Exp $
 #-
 # Copyright (c) 2007
 #	Thorsten Glaser <tg@mirbsd.de>

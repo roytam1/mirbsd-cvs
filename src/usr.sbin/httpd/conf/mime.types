@@ -1,4 +1,5 @@
-# $MirOS: src/usr.sbin/httpd/conf/mime.types,v 1.2 2005/03/13 19:16:30 tg Exp $
+# $MirSecuCron$
+# $MirOS: src/usr.sbin/httpd/conf/mime.types,v 1.3 2006/09/20 23:45:04 tg Exp $
 #
 # This is a comment. I love comments.
 

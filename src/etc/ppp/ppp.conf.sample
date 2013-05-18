@@ -1,12 +1,11 @@
-# $Id$
-
 #################################################################
 #
 #  	PPP  Sample Configuration File
 #
 #	  Originally written by Toshiharu OHNO
 #
-# $MirOS: src/etc/ppp/ppp.conf.sample,v 1.2 2005/03/06 19:05:58 tg Exp $
+# $MirSecuCron$
+# $MirOS: src/etc/ppp/ppp.conf.sample,v 1.3 2008/05/25 20:13:27 tg Exp $
 # $OpenBSD: ppp.conf.sample,v 1.21 2002/06/09 06:15:15 todd Exp $
 #
 #################################################################

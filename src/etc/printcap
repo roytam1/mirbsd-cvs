@@ -1,5 +1,5 @@
-# $Id$
-# $MirOS: src/etc/printcap,v 1.7 2009/03/29 13:04:16 tg Exp $
+# $MirSecuCron$
+# $MirOS: src/etc/printcap,v 1.8 2009/06/19 18:18:05 tg Exp $
 # $OpenBSD: printcap,v 1.4 2003/03/28 21:32:30 jmc Exp $
 
 #lp|local line printer:\

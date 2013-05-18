@@ -1,4 +1,5 @@
-# $MirOS: src/etc/gettytab,v 1.3 2008/06/27 21:04:57 tg Exp $
+# $MirSecuCron$
+# $MirOS: src/etc/gettytab,v 1.4 2008/06/27 21:10:37 tg Exp $
 # $OpenBSD: gettytab,v 1.4 2000/09/08 02:27:36 pjanzen Exp $
 #
 # Most of the table entries here are just copies of the old getty table.

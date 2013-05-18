@@ -1,6 +1,6 @@
 #!/bin/mksh
-# $Id$
-# $MirOS: src/etc/ppp/ip-up,v 1.5 2008/12/10 18:06:08 tg Exp $
+# $MirSecuCron$
+# $MirOS: src/etc/ppp/ip-up,v 1.6 2009/03/29 13:04:17 tg Exp $
 
 # This script is called when your ppp(8) or pppd(8) connection
 # goes up and after the connection, including routing, has al-

@@ -1,4 +1,5 @@
-# $MirOS$
+# $MirSecuCron$
+# $MirOS: src/etc/pf.os,v 1.3 2007/06/16 14:46:31 tg Exp $
 # $OpenBSD: pf.os,v 1.21 2006/07/28 21:51:12 david Exp $
 # passive OS fingerprinting
 # -------------------------

@@ -1,5 +1,6 @@
-#	$OpenBSD: networks,v 1.5 1997/09/15 09:54:52 deraadt Exp $
-#
+# $MirSecuCron$
+# $MirOS$
+# $OpenBSD: networks,v 1.5 1997/09/15 09:54:52 deraadt Exp $
 
 # Internet networks (from nic.ddn.mil)
 # 1) The multicast network

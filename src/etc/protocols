@@ -1,7 +1,8 @@
+# $MirSecuCron$
+# $MirOS$
+# $OpenBSD: protocols,v 1.21 2004/05/07 16:27:23 henning Exp $
 #
 # Internet (IP) protocols
-#
-#	$OpenBSD: protocols,v 1.21 2004/05/07 16:27:23 henning Exp $
 #
 # Updated based on RFC 1340, Assigned Numbers (July 1992).
 # See also http://www.iana.org/assignments/protocol-numbers

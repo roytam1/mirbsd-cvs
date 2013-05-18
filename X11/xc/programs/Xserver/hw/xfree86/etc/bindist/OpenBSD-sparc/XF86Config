@@ -1,8 +1,8 @@
 #
 # Unaccelerated, single display configuration
 #
-# $Id$
-# $MirOS: X11/xc/programs/Xserver/hw/xfree86/etc/bindist/OpenBSD-sparc/XF86Config,v 1.2 2005/03/19 17:26:25 tg Exp $
+# $MirSecuCron$
+# $MirOS: X11/xc/programs/Xserver/hw/xfree86/etc/bindist/OpenBSD-sparc/XF86Config,v 1.3 2008/06/11 10:11:46 tg Exp $
 # $OpenBSD: XF86Config,v 1.5 2003/08/31 13:45:34 matthieu Exp $
 
 Section "ServerLayout"

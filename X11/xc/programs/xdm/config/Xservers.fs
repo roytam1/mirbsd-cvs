@@ -1,3 +1,5 @@
+# $MirSecuCron$
+# $MirOS$
 # $Xorg: Xservers.fs,v 1.3 2000/08/17 19:54:17 cpqbld Exp $
 #
 # Xservers file, fileserver prototype (any machine without a display)

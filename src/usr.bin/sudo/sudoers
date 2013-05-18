@@ -1,4 +1,5 @@
-# $MirOS: src/usr.bin/sudo/sudoers,v 1.4 2006/01/11 20:48:06 tg Exp $
+# $MirSecuCron$
+# $MirOS: src/usr.bin/sudo/sudoers,v 1.5 2008/11/29 17:10:19 tg Exp $
 # sudoers file.
 #
 # This file MUST be edited with the 'visudo' command as root.

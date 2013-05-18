@@ -1,4 +1,5 @@
-# $MirOS$
+# $MirSecuCron$
+# $MirOS: src/etc/hosts,v 1.2 2008/06/15 14:14:17 tg Exp $
 # $OpenBSD: hosts,v 1.11 2002/09/26 23:35:51 krw Exp $
 #
 # Host Database

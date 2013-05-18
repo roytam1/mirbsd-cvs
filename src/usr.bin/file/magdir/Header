@@ -1,4 +1,6 @@
 # Magic
+#	$MirSecuCron$
+#	$MirOS$
 #	$OpenBSD: Header,v 1.5 1997/04/03 17:39:38 kstailey Exp $
 
 # Magic data for file(1) command.

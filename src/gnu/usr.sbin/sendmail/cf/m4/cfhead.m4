@@ -1,3 +1,4 @@
+# $MirSecuCron$
 #
 # Copyright (c) 1998-2004 Sendmail, Inc. and its suppliers.
 #	All rights reserved.

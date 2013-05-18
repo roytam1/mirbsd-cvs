@@ -1,3 +1,5 @@
+# $MirSecuCron$
+# $MirOS$
 #
 # login	local-addr	remote-addr	mask		opt1	opt2 
 #							(compress == link0)

@@ -1,6 +1,6 @@
 #!/bin/mksh
-# $Id$
-# $MirOS: src/etc/daily,v 1.22 2008/12/10 18:15:11 tg Exp $
+# $MirSecuCron$
+# $MirOS: src/etc/daily,v 1.23 2009/03/29 13:04:15 tg Exp $
 # $OpenBSD: daily,v 1.50 2005/03/17 18:16:52 millert Exp $
 # From: @(#)daily	8.2 (Berkeley) 1/25/94
 

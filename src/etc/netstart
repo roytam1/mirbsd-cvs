@@ -1,5 +1,6 @@
 #!/bin/mksh
-# $MirOS: src/etc/netstart,v 1.10 2008/12/10 18:06:05 tg Exp $
+# $MirSecuCron$
+# $MirOS: src/etc/netstart,v 1.11 2009/03/29 13:04:15 tg Exp $
 # $OpenBSD: netstart,v 1.105 2005/05/22 08:56:08 todd Exp $
 
 # strip comments (and leading/trailing whitespace if IFS is set) from

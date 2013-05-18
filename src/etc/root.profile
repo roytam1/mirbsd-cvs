@@ -1,3 +1,5 @@
+# $MirSecuCron$
+
 PATH=/sbin:/usr/sbin:/bin:/usr/bin
 HOME=/
 LC_CTYPE=en_US.UTF-8
@@ -45,4 +47,4 @@ print '
 	Do not login as root, use sudo(8)!
 	**********************************
 '
-: $MirOS: src/etc/root.profile,v 1.11 2008/05/25 22:10:19 tg Exp $
+: $MirOS: src/etc/root.profile,v 1.12 2008/12/28 06:58:08 tg Exp $

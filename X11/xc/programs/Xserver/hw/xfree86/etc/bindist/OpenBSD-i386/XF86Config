@@ -1,4 +1,5 @@
-# $MirOS$
+# $MirSecuCron$
+# $MirOS: X11/xc/programs/Xserver/hw/xfree86/etc/bindist/OpenBSD-i386/XF86Config,v 1.1 2008/06/11 10:11:46 tg Exp $
 #-
 # Sample XFree86 configuration.
 
