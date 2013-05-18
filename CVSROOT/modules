@@ -1,4 +1,4 @@
-# $MirOS: CVSROOT/modules,v 1.16 2006/08/24 14:13:39 tg Exp $
+# $MirOS: CVSROOT/modules,v 1.17 2006/09/12 22:58:09 tg Exp $
 # from $OpenBSD: modules,v 1.17 1998/07/12 04:44:24 todd Exp $
 #-
 # Three different line formats are valid:
@@ -51,6 +51,14 @@ miniports	-a ports/Makefile ports/Setup.sh \
 # All of contrib needed for building a baselive cd image
 basedep		-a contrib/code/Snippets/tinyirc.c \
 		   contrib/code/jupp
+
+# All of ports needed for bootstrapping on Mac OSX / Darwin
+osxports	-a ports/Makefile ports/Setup.sh \
+		   ports/archivers/mircpio \
+		   ports/devel/cvs \
+		   ports/essentials/cksum \
+		   ports/essentials/pkgtools \
+		   ports/infrastructure
 
 # Ported projects
 jupp		contrib/code/jupp
