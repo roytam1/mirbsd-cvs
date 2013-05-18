@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.266 2009/08/08 13:08:46 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.267 2009/08/08 14:01:20 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -658,12 +658,17 @@ mws_content <<'EOF'
  Service</a> provides an mksh package inside the <a
  href="http://download.opensuse.org/repositories/shells/SLES_9/src/">shells repo</a>,
  thanks to Pascal “loki” Bleser and Marcus “darix” Rückert; the RPMs are
- available for various distributions as well as as SRPM (source RPM).
+ available as SRPM (source RPM) as well as for <a
+ http://download.opensuse.org/repositories/shells/">various distributions</a>.
  The inofficial <em>portable</em> SRPM has been retired; the OBS SRPM
  has been changed to be buildable on Debian and MirBSD as well as include
  the contributed <tt>arc4random.c</tt> file. There are <a
  href="http://download.opensuse.org/repositories/home:/mirabile/CentOS_5/src/">more
- downloads</a> available, just browse a little.</li>
+ downloads</a> available, just browse a little.<br />Basically, go to <a
+ href="http://download.opensuse.org/repositories/home:/mirabile/">mirabilos’
+ home project</a>, find the subdirectory most closely matching your GNU/Linux
+ distribution and proceed to the binaries. The SRPMs (source RPM in the
+ <tt>*/src/</tt> subdirectories) should be all the same.</li>
 <li><a href="http://finkproject.org/">Fink</a> delivers an <a
  href="http://pdb.finkproject.org/pdb/package.php/mksh">mksh package</a>
  from Andreas “gecko2” Gockel.</li>
