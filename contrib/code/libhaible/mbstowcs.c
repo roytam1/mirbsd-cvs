@@ -1,4 +1,4 @@
-/* $MirOS: src/share/misc/licence.template,v 1.7 2006/04/09 22:08:49 tg Rel $ */
+/* $MirOS: contrib/code/libhaible/mbstowcs.c,v 1.1 2006/05/30 19:49:45 tg Exp $ */
 
 /*-
  * Copyright (c) 2006
@@ -23,13 +23,14 @@
 
 #include <wchar.h>
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: contrib/code/libhaible/mbstowcs.c,v 1.1 2006/05/30 19:49:45 tg Exp $");
 
 size_t
 mbstowcs(wchar_t *__restrict__ pwcs, const char *__restrict__ s, size_t n)
 {
 	mbstate_t state;
+	const char *sb = s;
 
 	bzero(&state, sizeof (mbstate_t));
-	return (mbsrtowcs(pwcs, &s, n, &state));
+	return (mbsrtowcs(pwcs, &sb, n, &state));
 }

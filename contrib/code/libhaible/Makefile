@@ -1,4 +1,4 @@
-# $MirOS: contrib/code/libhaible/Makefile,v 1.22 2006/05/30 20:46:31 tg Exp $
+# $MirOS: contrib/code/libhaible/Makefile,v 1.23 2006/05/30 20:57:53 tg Exp $
 
 LIB=	haible
 NOPIC=	Yes	# for now
@@ -6,7 +6,8 @@ SRCS+=	attribute.c
 SRCS+=	iswctype.c
 SRCS+=	mblen.c
 SRCS+=	mbrlen.c
-#SRCS+=	mbstowcs.c
+SRCS+=	mbsrtowcs.c
+SRCS+=	mbstowcs.c
 SRCS+=	mbtowc.c
 SRCS+=	tow_nop.c
 SRCS+=	towctrans.c
@@ -31,12 +32,13 @@ LIBCSRCDIR?=	${BSDSRCDIR}/lib/libc
 
 .PATH: ${LIBCSRCDIR}/locale
 CPPFLAGS+= -I${LIBCSRCDIR}/locale
-#SRCS+=	wcstod.c
+SRCS+=	wcstod.c
 SRCS+=	wcstol.c
 SRCS+=	wcstoll.c
 SRCS+=	wcstoul.c
 SRCS+=	wcstoull.c
 
+CFLAGS_wcstod.o+=	-Wno-cast-qual
 CFLAGS_wcstol.o+=	-Wno-cast-qual
 CFLAGS_wcstoll.o+=	-Wno-cast-qual
 CFLAGS_wcstoul.o+=	-Wno-cast-qual
@@ -45,7 +47,6 @@ CFLAGS_wcstoull.o+=	-Wno-cast-qual
 # missing
 #SRCS+=	fwprintf.c
 #SRCS+=	fwscanf.c
-#SRCS+=	mbsrtowcs.c
 #SRCS+=	swprintf.c
 #SRCS+=	swscanf.c
 #SRCS+=	vfwprintf.c
@@ -56,9 +57,6 @@ CFLAGS_wcstoull.o+=	-Wno-cast-qual
 #SRCS+=	vwscanf.c
 #SRCS+=	wcscoll.c
 #SRCS+=	wcsftime.c
-#SRCS+=	wcsrtombs.c
-#SRCS+=	wcstof.c
-#SRCS+=	wcstold.c
 #SRCS+=	wprintf.c
 #SRCS+=	wscanf.c
 
@@ -84,8 +82,7 @@ MLINKS+=	catgets.3 catclose.3
 # reachover for libc
 .PATH: ${LIBCSRCDIR}/locale
 MAN+=		iswctype.3 mbrlen.3 towctrans.3 wctrans.3 wctype.3
-# not yet
-#MAN+=		mbsrtowcs.3 wcsrtombs.3
+MAN+=		mbsrtowcs.3 wcsrtombs.3
 MLINKS+=	iswalnum.3 iswblank.3 \
 		iswalnum.3 iswcntrl.3 \
 		iswalnum.3 iswdigit.3 \

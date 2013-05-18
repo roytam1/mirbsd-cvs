@@ -1,4 +1,4 @@
-$MirOS: contrib/code/libhaible/OVERVIEW,v 1.11 2006/05/30 20:06:20 tg Exp $
+$MirOS: contrib/code/libhaible/OVERVIEW,v 1.15 2006/05/30 20:57:53 tg Exp $
 $function name		header		manpage		source location
 $ 
 $ Info: # = commented out
@@ -35,9 +35,8 @@ mblen			 stdlib.h	C:mblen		libhaible/mblen.c
 mbrlen			 wchar.h	H:mbrlen	libhaible/mbrlen.c
 mbrtowc			 wchar.h	C:mbrtowc	i18n/mbrtowc.c
 mbsinit			 wchar.h	C:mbsinit	i18n/mbsinit.c
-mbsrtowcs		#wchar.h	#:mbsrtowcs
+mbsrtowcs		 wchar.h	H:mbsrtowcs	libhaible/mbsrtowcs.c
 mbstowcs		 stdlib.h	C:mbstowcs	libhaible/mbstowcs.c
-mbstowcs	dep	 stdlib.h	C:mbstowcs	STUB! i18n/multibyte.c
 mbtowc			 stdlib.h	C:mbtowc	libhaible/mbtowc.c
 nl_langinfo		 langinfo.h	C:nl_langinfo	i18n/langinfo.c
 putwc			 wchar.h	C:putwc		stdio/putwc.c
@@ -74,7 +73,7 @@ wcsncmp			 wchar.h	C:wmemchr	string/wcsncmp.c
 wcsncpy			 wchar.h	C:wmemchr	string/wcsncpy.c
 wcspbrk			 wchar.h	C:wmemchr	string/wcspbrk.c
 wcsrchr			 wchar.h	C:wmemchr	string/wcsrchr.c
-wcsrtombs		#wchar.h	#:wcsrtombs
+wcsrtombs		 wchar.h	H:wcsrtombs
 wcsspn			 wchar.h	C:wmemchr	string/wcsspn.c
 wcsstr			 wchar.h	C:wmemchr	string/wcsstr.c
 wcstod			 wchar.h	-		locale/wcstod.c
