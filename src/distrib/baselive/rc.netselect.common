@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/baselive/rc.netselect.common,v 1.2 2006/10/17 18:26:18 tg Exp $
+# $MirOS: src/distrib/baselive/rc.netselect.common,v 1.3 2006/11/19 16:43:41 tg Exp $
 #-
 # Copyright (c) 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -29,6 +29,13 @@ function show_info
 	print 'To get support, use lynx(1) with the following resources:'
 	print 'online man pages: http://www.mirbsd.org/cman/'
 	print 'interactive help: http://www.mirbsd.org/?irc'
+	[[ -e /NONFREE.TXT || -e /nonfree.txt ]] || return
+	print
+	print 'ATTENTION: this Live CD contains possibly non-free or'
+	print 'otherwise restricted components! These are:'
+	(head -1 /NONFREE.TXT 2>&-; head -1 /nonfree.txt 2>&-) | \
+	    fold -sw70 | sed 's!^!| '
+	print 'Please read /NONFREE.TXT for further information.'
 }
 
 function get_passwd

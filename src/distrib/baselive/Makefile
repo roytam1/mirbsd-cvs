@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/baselive/Makefile,v 1.12 2006/10/29 16:49:21 tg Exp $
+# $MirOS: src/distrib/baselive/Makefile,v 1.13 2006/11/17 03:05:13 tg Exp $
 
 .include <bsd.own.mk>
 
@@ -61,7 +61,7 @@ unpack-mi:
 		ln -s $$f; \
 	done
 	${SUDO} chown -R 0:0 ${WRKDIR}/v${OSrev}
-	cp ${TOPDIR}/common/00-README ${WRKDIR}/
+	cp ${TOPDIR}/common/{00-README,01-3RDPTY} ${WRKDIR}/
 	cat ${TOPDIR}/common/boot.cfg.${MACHINE} ${.CURDIR}/boot.cfg.tail | \
 	    sudo dd of=${WRKDIR}/boot.cfg
 
