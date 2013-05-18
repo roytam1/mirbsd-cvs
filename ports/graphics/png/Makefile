@@ -1,8 +1,8 @@
-# $MirOS: ports/graphics/png/Makefile,v 1.6 2006/10/06 15:17:20 tg Exp $
+# $MirOS: ports/graphics/png/Makefile,v 1.7 2008/03/23 17:05:29 tg Exp $
 # $OpenBSD: Makefile,v 1.46 2004/07/06 22:17:48 brad Exp $
 
 COMMENT=		library for manipulating PNG images
-DISTNAME=		libpng-1.2.12
+DISTNAME=		libpng-1.2.26
 PKGNAME=		${DISTNAME:S/lib//}-${DASH_VER}
 CATEGORIES=		graphics
 MASTER_SITES=		${MASTER_SITE_SOURCEFORGE:=libpng/}
@@ -14,7 +14,7 @@ PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
-FAKE_FLAGS=		DESTDIR="${WRKINST}" PREFIX="${PREFIX}"
+FAKE_FLAGS=		DESTDIR=${WRKINST:Q} PREFIX=${PREFIX:Q}
 MAKE_FILE=		scripts/makefile.openbsd
 REGRESS_TARGET=		test
 

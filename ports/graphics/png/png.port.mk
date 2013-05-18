@@ -1,4 +1,4 @@
-# $MirOS: ports/graphics/png/png.port.mk,v 1.5 2008/03/23 17:04:36 tg Exp $
+# $MirOS: ports/graphics/png/png.port.mk,v 1.6 2008/04/07 19:21:55 tg Exp $
 
 # Valid choices: any, base, port
 USE_PNG?=		any
@@ -14,8 +14,10 @@ USE_PNG=		port
 .endif
 
 .if ${USE_PNG:L:Mport}
-LIB_DEPENDS+=		png::graphics/png
-CPPFLAGS+=		-I${LOCALBASE}/include/libpng
+LIB_DEPENDS+=		png:png->=1.2.26-0:graphics/png
+PNG_BASE=		${LOCALBASE}/pkgview/png
+CPPFLAGS+=		-I${PNG_BASE:Q}/include
+LDFLAGS+=		-Wl,-rpath,${PNG_BASE:Q}/lib -L${PNG_BASE:Q}/lib
 .elif !${USE_PNG:L:Mbase}
 .  error USE_PNG=${USE_PNG:L} invalid
 .endif
