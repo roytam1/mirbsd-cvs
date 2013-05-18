@@ -1,7 +1,7 @@
-$MirOS$
---- src/xz/message.c.orig	Sat Oct 23 14:47:09 2010
-+++ src/xz/message.c	Sat Dec 11 20:31:39 2010
-@@ -1068,7 +1068,7 @@ message_version(void)
+$MirOS: ports/archivers/xz/patches/patch-src_xz_message_c,v 1.1 2010/12/11 20:33:27 tg Exp $
+--- src/xz/message.c.orig	Fri Jun 22 06:22:06 2012
++++ src/xz/message.c	Thu Oct 18 15:24:56 2012
+@@ -1082,7 +1082,7 @@ message_version(void)
  	// line tool version, so print both.
  	if (opt_robot) {
  		printf("XZ_VERSION=%" PRIu32 "\nLIBLZMA_VERSION=%" PRIu32 "\n",

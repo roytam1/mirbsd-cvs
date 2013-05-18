@@ -1,9 +1,8 @@
-# $MirOS: ports/archivers/xz/Makefile,v 1.1 2010/11/20 16:56:05 bsiegert Exp $
+# $MirOS: ports/archivers/xz/Makefile,v 1.2 2010/12/11 20:33:27 tg Exp $
 # $OpenBSD: Makefile,v 1.4 2010/11/08 20:11:13 naddy Exp $
 
 COMMENT=		LZMA compression and decompression tools
-DISTNAME=		xz-5.0.0
-DASH_VER=		1
+DISTNAME=		xz-5.0.4
 CATEGORIES=		archivers
 HOMEPAGE=		http://tukaani.org/xz/
 MASTER_SITES=		${HOMEPAGE}
@@ -39,5 +38,10 @@ post-install:
 .for _i _j in ${MANLINKTBL}
 	cd ${PREFIX}/man/man1 && rm -f ${_j} && ln -s ${_i}tbl ${_j}tbl
 .endfor
+	${INSTALL_DATA_DIR} ${PREFIX}/share/examples/xz/old
+	mv ${PREFIX}/share/doc/xz/examples_old/* \
+	    ${PREFIX}/share/examples/xz/old/
+	mv ${PREFIX}/share/doc/xz/examples/* ${PREFIX}/share/examples/xz/
+	rmdir ${PREFIX}/share/doc/xz/examples{,_old}
 
 .include <bsd.port.mk>

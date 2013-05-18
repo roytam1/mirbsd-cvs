@@ -1,6 +1,6 @@
-$MirOS$
---- configure.ac.orig	Sat Oct 23 16:47:09 2010
-+++ configure.ac	Sat Nov 20 17:31:16 2010
+$MirOS: ports/archivers/xz/patches/patch-configure_ac,v 1.1 2010/11/20 16:56:06 bsiegert Exp $
+--- configure.ac.orig	Fri Jun 22 06:22:06 2012
++++ configure.ac	Thu Oct 18 15:24:57 2012
 @@ -15,10 +15,9 @@
  # of malloc(), stat(), or lstat(), since we don't use those functions in
  # a way that would cause the problems the autoconf macros check.
@@ -22,7 +22,7 @@ $MirOS$
  AC_PROG_LN_S
  
  AC_PROG_CC_C99
-@@ -439,9 +438,7 @@ fi
+@@ -443,9 +442,7 @@ fi
  
  echo
  echo "Initializing Libtool:"
