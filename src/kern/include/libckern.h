@@ -1,4 +1,4 @@
-/* $MirOS: src/kern/include/libckern.h,v 1.2 2007/02/06 22:09:44 tg Exp $ */
+/* $MirOS: src/kern/include/libckern.h,v 1.3 2007/02/06 23:19:33 tg Exp $ */
 
 #ifndef __LIBCKERN_H_
 #define __LIBCKERN_H_
@@ -24,6 +24,9 @@ typedef struct {
 #define WCHAR_MAX	0xFFFDU
 #undef WEOF
 #define WEOF		0xFFFFU
+#ifndef EOF
+#define EOF		(-1)
+#endif
 #endif /* !_STANDALONE && !_WCHAR_H_ */
 
 __BEGIN_DECLS
@@ -34,6 +37,23 @@ __END_DECLS
 __BEGIN_DECLS
 size_t wcslen(const wchar_t *);
 __END_DECLS
+
+/* initialise/set/reset a mbstate_t to empty */
+#define mbsreset(ps)	do {			\
+		mbstate_t *__WC_s = (ps);	\
+		if (ps != NULL)			\
+			ps->count = 0;		\
+	} while (0)
+/* roll back the middle char of a mis-done 3-byte mb->wc conversion */
+#define mbrtowc_rollback(ps)	__extension__({		\
+		const mbstate_t *__WC_s = (ps);		\
+		int __WC_rv = EOF;			\
+		if (__WC_s->count == 1 &&		\
+		    __WC_s->value >= 0x20)		\
+			__WC_rv = 0x80 |		\
+			    (__WC_s->value & 0x3F);	\
+		(__WC_rv);				\
+	})
 #endif
 
 #endif
