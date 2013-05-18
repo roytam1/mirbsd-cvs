@@ -1,8 +1,8 @@
-# $MirOS: ports/essentials/cksum/Makefile,v 1.24 2008/03/14 17:17:26 tg Exp $
+# $MirOS: ports/essentials/cksum/Makefile,v 1.25 2009/06/29 19:36:16 tg Exp $
 
 COMMENT=		MirOS cksum(1) with multiple hash algorithms
 CATEGORIES=		essentials
-DISTNAME=		cksum-20090629
+DISTNAME=		cksum-20090829
 EXTRACT_SUFX=		.cgz
 #HOMEPAGE=		http://www.mirbsd.org/mircksum.htm
 RESPONSIBLE=		Thorsten Glaser <tg@mirbsd.org>

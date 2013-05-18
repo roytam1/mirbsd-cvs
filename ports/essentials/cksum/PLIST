@@ -1,4 +1,4 @@
-@comment $MirOS: ports/essentials/cksum/pkg/PLIST,v 1.4 2008/03/14 17:17:27 tg Exp $
+@comment $MirOS: ports/essentials/cksum/PLIST,v 1.1 2009/06/29 19:36:16 tg Exp $
 @option base-package
 bin/adler32
 bin/adler32sum
@@ -9,6 +9,8 @@ bin/md4
 bin/md4sum
 bin/md5
 bin/md5sum
+bin/oaat
+bin/oaatsum
 bin/rmd160
 bin/rmd160sum
 bin/sfv
