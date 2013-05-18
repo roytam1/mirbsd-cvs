@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/list.sparc-fdd,v 1.6 2008/10/21 19:37:04 tg Exp $
+# $MirOS: src/distrib/common/list.sparc-fdd,v 1.7 2008/12/10 18:03:21 tg Exp $
 
 SRCDIRS	distrib/special sys/arch/sparc/stand
 SRCDIRS	bin sbin usr.bin usr.sbin libexec
@@ -72,7 +72,9 @@ COPY	${TOPDIR}/common/protocols		etc/protocols
 SYMLINK	/tmp/resolv.conf.shadow			etc/resolv.conf
 COPY	${TOPDIR}/common/services		etc/services
 COPY	${TOPDIR}/common/shells			etc/shells
-COPY	${DESTDIR}/etc/spwd.db			etc/spwd.db
+COPY	${TOPDIR}/common/spwd.db		etc/spwd.db
+SPECIAL	chown root:_shadow etc/spwd.db
+SPECIAL	chmod 640 etc/spwd.db
 TERMCAP	vt100,vt220,wsvtg,wsvt25,dumb		usr/share/misc/termcap
 
 # install stuff
