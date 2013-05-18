@@ -1,4 +1,4 @@
-cURL is a tool for getting files from FTP, HTTP, HTTPS, Gopher and
+cURL is a tool for getting files from FTP, HTTP, HTTPS, Telnet and
 DICT servers, with URL syntax support.
 
 cURL supports HTTP POST, HTTP PUT, FTP uploading, HTTP form based
