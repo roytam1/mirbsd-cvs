@@ -1,6 +1,6 @@
 mws_setname subprojects/kwalletcli "kwalletcli – CLI for the KDE Wallet"
 mws_setheadline CLI for the KDE Wallet
-mws_putheader '$MirOS: www/src/kwalletcli.hts,v 1.16 2010/03/03 11:36:10 tg Exp $'
+mws_putheader '$MirOS: www/src/kwalletcli.hts,v 1.17 2010/03/03 11:47:56 tg Exp $'
 mws_content <<'EOF'
 <h2>Table of Content</h2>
 EOF
@@ -78,7 +78,7 @@ mws_content <<'EOF'
 <p>Either Qt3 and KDE3, or Qt4 and KDE4, development headers and
  libraries, and the matching compiler (gcc/g++ is tested, others are
  not). Either MirMake (MirBSD make(1)) or GNU make. For the scripts, <a
- href="@@RELPATH@@mksh.htm">mksh</a> is a run-time dependency. The
+ href="@@RELPATH@@mksh.htm">mksh</a> R38+ is a run-time dependency. The
  manpages require nroff/gnroff and the <tt>-mdoc</tt> macropackage to
  compile. The HTML manpages can only be re-made on MirBSD.</p>
 
