@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: ports/infrastructure/install/setup.ksh,v 1.44 2005/12/20 20:20:56 tg Exp $
+# $MirOS: ports/infrastructure/install/setup.ksh,v 1.45 2005/12/23 20:18:11 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -339,6 +339,7 @@ if [[ $f_ver -ge $mv ]]; then
 		sed -e "s#/usr/mpkg#$localbase#" \
 		    <$portsdir/infrastructure/templates/basepkg.CONTENTS \
 		    >$localbase/db/pkg/mirmake-$f_ver-0/+CONTENTS
+		print mirmake >$localbase/db/pkg/mirmake-$f_ver-0/+COMMENT
 	fi
 fi
 if [[ $(mmake -f f all) -lt $mv ]]; then
@@ -373,6 +374,7 @@ if [[ $(mmake -f f all) -lt $mv ]]; then
 	sed -e "s#/usr/mpkg#$localbase#" \
 	    <$portsdir/infrastructure/templates/basepkg.CONTENTS \
 	    >$localbase/db/pkg/mirmake-$f_ver-0/+CONTENTS
+	print MirOS make variant >$localbase/db/pkg/mirmake-$f_ver-0/+COMMENT
 fi
 
 # Copy <*.mk> includes
@@ -408,6 +410,7 @@ if [[ ! -f /usr/bin/nroff && ! -f $localbase/bin/nroff ]]; then
 	sed -e "s#/usr/mpkg#$localbase#" \
 	    <$portsdir/infrastructure/templates/basepkg.CONTENTS \
 	    >$localbase/db/pkg/nroff-$f_ver-0/+CONTENTS
+	print unix text processor >$localbase/db/pkg/nroff-$f_ver-0/+COMMENT
 fi
 [[ $iopt = 1 ]] && exit 0
 unset NROFF
@@ -430,6 +433,7 @@ if [[ ! -x /usr/sbin/mtree && ! -x $localbase/bin/mtree ]]; then
 	sed -e "s#/usr/mpkg#$localbase#" \
 	    <$portsdir/infrastructure/templates/basepkg.CONTENTS \
 	    >$localbase/db/pkg/mtree-$f_ver-0/+CONTENTS
+	print mtree >$localbase/db/pkg/mtree-$f_ver-0/+COMMENT
 fi
 [[ $run_mtree = 0 ]] &&	mtree -U -e -d -n -p / -f $T/fake.mtree
 
@@ -579,6 +583,7 @@ else
 	sed -e "s#/usr/mpkg#$localbase#" \
 	    <$portsdir/infrastructure/templates/basepkg.CONTENTS \
 	    >$localbase/db/pkg/pkgtools-$f_ver-0/+CONTENTS
+	print package tools >$localbase/db/pkg/pkgtools-$f_ver-0/+COMMENT
 fi
 
 
