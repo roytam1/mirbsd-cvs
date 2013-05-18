@@ -1,4 +1,4 @@
-.\"	$MirOS: src/share/man/man9/random.9,v 1.5 2010/09/21 17:41:32 tg Exp $
+.\"	$MirOS: src/share/man/man9/random.9,v 1.6 2010/09/24 19:59:08 tg Exp $
 .\"	$OpenBSD: random.9,v 1.19 2004/04/04 13:19:36 jmc Exp $
 .\"
 .\" Copyright (c) 1996,2000 Michael Shalayeff
@@ -24,7 +24,7 @@
 .\" (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
 .\" THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .\"
-.Dd $Mdocdate: September 21 2010 $
+.Dd $Mdocdate: September 24 2010 $
 .Dt RND 9
 .Os
 .Sh NAME
@@ -54,6 +54,8 @@
 .Fn arc4random "void"
 .Ft void
 .Fn arc4random_buf "void *buf" "size_t len"
+.Ft uint32_t
+.Fn arc4random_uniform "uint32_t upper_bound"
 .Ft void
 .Fn rnd_lopool_add "const void *buf" "size_t len"
 .Ft void
@@ -98,6 +100,13 @@ to the entropy pool.
 .Fn arc4random_buf
 will fill a buffer with bytes from the same source.
 .Pp
+.Fn arc4random_uniform
+will give the result of
+.Fn arc4random
+modulo
+.Fa upper_bound ,
+except the result is uniformly distributed across the result value space.
+.Pp
 .Fn rnd_lopool_add
 will add bytes from
 .Xr wrandom 4
@@ -117,7 +126,9 @@ takes an integral argument instead of a buffer.
 None of these functions should really be called during the
 .Xr autoconf 4
 process.
-Calling
+Calling the three
 .Nm arc4random
-however is safe at any time since
+and the three
+.Nm rnd_lopool_add
+functions however is safe at any time since
 .Mx 11 .
