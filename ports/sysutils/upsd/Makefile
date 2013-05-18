@@ -1,15 +1,8 @@
-# New ports collection makefile for:    upsd
-# Version required:     2.0.1.6
-# Date created:         22 Nov 1999
-# Whom:                 Kevin Lo <kevlo@openbsd.org>
-#
+# $MirOS$
 # $OpenBSD: Makefile,v 1.13 2002/08/05 02:25:28 kevlo Exp $
-#
 
-COMMENT=			APC Smart UPS Monitoring Daemon
-
+COMMENT=	APC Smart UPS Monitoring Daemon
 DISTNAME=	upsd-2.0.1.6
-PKGNAME=	upsd-2.0-0
 CATEGORIES=	sysutils
 MASTER_SITES=	${MASTER_SITE_LOCAL}
 
@@ -19,7 +12,7 @@ PERMIT_PACKAGE_FTP=	"missing license"
 PERMIT_DISTFILES_CDROM=	"missing license"
 PERMIT_DISTFILES_FTP=	Yes
 
-WRKDIST=	${WRKDIR}/${PKGNAME}
+WRKDIST=	${WRKDIR}/upsd-2.0
 
 pre-build:
 	@perl -pi -e 's:%%SYSCONFDIR%%:${SYSCONFDIR}:' \
