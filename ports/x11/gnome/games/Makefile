@@ -1,10 +1,9 @@
-# $MirOS: ports/x11/gnome/games/Makefile,v 1.5 2006/12/20 15:32:36 tg Exp $
+# $MirOS: ports/x11/gnome/games/Makefile,v 1.6 2007/03/31 22:02:11 tg Exp $
 
 COMMENT=		GNOME games
 
 VERSION=		2.8.3
-# XXX is this correct?
-DISTNAME=		gnome-games-${VERSION}-${DASH_VER}
+DISTNAME=		gnome-games-${VERSION}
 CATEGORIES=		x11/gnome games
 
 RESPONSIBLE=		Benny Siegert <bsiegert@gmx.de>
