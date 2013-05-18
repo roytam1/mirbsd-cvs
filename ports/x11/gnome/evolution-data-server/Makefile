@@ -1,13 +1,12 @@
-# $MirOS: ports/x11/gnome/evolution-data-server/Makefile,v 1.2 2006/02/09 11:15:42 tg Exp $
+# $MirOS: ports/x11/gnome/evolution-data-server/Makefile,v 1.3 2006/09/14 00:15:17 tg Exp $
 # $OpenBSD: Makefile,v 1.4 2004/12/11 06:03:08 marcm Exp $
 
-COMMENT=			data backends for the Evolution mail/PIM suite
+COMMENT=		data backends for the Evolution mail/PIM suite
 
 DISTNAME=		evolution-data-server-1.0.3
 CATEGORIES=		x11/gnome databases
 
 HOMEPAGE=		http://www.gnome.org
-MAINTAINER=		Marc Matteo <marcm@openbsd.org>
 
 MASTER_SITES=		${MASTER_SITE_GNOME:=sources/evolution-data-server/1.0/}
 EXTRACT_SUFX=           .tar.bz2
