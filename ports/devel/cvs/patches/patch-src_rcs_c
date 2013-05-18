@@ -1,11 +1,11 @@
-$MirOS: ports/devel/cvs/patches/patch-src_rcs_c,v 1.2 2007/03/10 23:53:50 tg Exp $
+$MirOS: ports/devel/cvs/patches/patch-src_rcs_c,v 1.3 2007/06/06 13:46:44 tg Exp $
 --- src/rcs.c.orig	Wed Sep 28 15:25:37 2005
 +++ src/rcs.c	Wed Jun  6 13:37:36 2007
 @@ -33,6 +33,8 @@
  # endif
  #endif
  
-+__RCSID("$MirOS: ports/devel/cvs/patches/patch-src_rcs_c,v 1.2 2007/03/10 23:53:50 tg Exp $");
++__RCSID("$MirOS: ports/devel/cvs/patches/patch-src_rcs_c,v 1.3 2007/06/06 13:46:44 tg Exp $");
 +
  /* The RCS -k options, and a set of enums that must match the array.
     These come first so that we can use enum kflag in function
@@ -91,7 +91,7 @@ $MirOS: ports/devel/cvs/patches/patch-src_rcs_c,v 1.2 2007/03/10 23:53:50 tg Exp
 +{
 +    int year, mon, mday, hour, min, sec;
 +    char buf[100];
-+    const char *months[] = { "January", "Febuary", "March", "April",
++    const char *months[] = { "January", "February", "March", "April",
 +	"May", "June", "July", "August",
 +	"September", "October", "November", "December",
 +	"corrupt" };
