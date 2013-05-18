@@ -1,5 +1,5 @@
-#!/bin/sh
-# $MirOS: contrib/code/mirmake/Build.sh,v 1.36 2008/05/08 20:22:01 tg Exp $
+#!/usr/bin/env sh
+# $MirOS: contrib/code/mirmake/Build.sh,v 1.37 2008/07/11 11:22:15 tg Exp $
 #-
 # Copyright (c) 2004, 2005, 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -30,7 +30,7 @@ MPT=${3:-man/cat}	# manpath (cat magic) (optional)
 MKN=${4:-bmake}		# name of executable (optional)
 MAC=$5			# machine (i386, macppc) (optional)
 MAR=$6			# machine_arch (i386, powerpc) (optional)
-MOS=$7			# machine_os (BSD, Linux) (optional)
+MOS=$7			# machine_os (BSD, Darwin, GNU, Interix) (optional)
 MKS=$8			# mirbsdksh path (optional)
 BIN=$9			# binown:bingrp (optional)
 
@@ -66,7 +66,7 @@ fi
 if [ x"$MOS" = x"" ]; then
 	u=`uname`
 	case $u in
-	*Linux*)	MOS=Linux	;;
+	*Linux*|*GNU*)	MOS=GNU		;;
 	*BSD*)		MOS=BSD		;;
 	*Interix*)	MOS=Interix	;;
 	*Darwin*)	MOS=Darwin	;;
@@ -83,7 +83,8 @@ Interix)
 BSD|Darwin)
 	# Okay, we know this MACHINE_OS
 	;;
-Linux)
+GNU|Linux)
+	MOS=GNU
 	# austriancoder's GNU/Linux has _no_ uname option to
 	# display the correct machine architecture, nor some
 	# kind of arch(1) utility like OpenBSD; from FreeWRT
@@ -102,7 +103,7 @@ Linux)
 	echo "development team at miros-discuss@mirbsd.org and"
 	echo "submit your operating system information and uname -a"
 	echo "output. Currently, the following values are supported:"
-	echo "- BSD Darwin Interix Linux"
+	echo "- BSD Darwin GNU Interix"
 	echo "Your uname -a output is:"
 	uname -a
 	OSN=	# fall through
@@ -129,7 +130,7 @@ if [ x"$OSN" = x"" ]; then
 	echo "and are guessed from machine='$MAC' and"
 	echo "machine_arch='$MAR' respectively."
 	echo "Possible values: (i386, i386), (macppc, powerpc), etc."
-	echo "<machine_os> can currently only be: BSD Darwin Interix Linux"
+	echo "<machine_os> can currently only be: BSD Darwin GNU Interix"
 	echo "If <manpath> contains the string 'cat', a catmanpage is"
 	echo "generated and installed, else, an unformatted manpage"
 	echo "will be installed. If <mksh> is given, it is searched"
@@ -140,7 +141,7 @@ fi
 
 mktest=
 for f in mksh mirbsdksh ksh; do
-	for d in /bin /usr/local/bin /bin /sw/bin; do
+	for d in /usr/dbin /usr/bin /usr/local/bin /bin /sw/bin; do
 		mktest="${mktest}${d}/${f} "
 	done
 done

@@ -1,5 +1,5 @@
-#!/bin/mksh
-# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.118 2008/05/07 13:34:38 tg Exp $
+#!/usr/bin/env mksh
+# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.119 2008/07/11 11:34:27 tg Exp $
 #-
 # Copyright (c) 2006, 2008
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -143,7 +143,7 @@ BSD)
 
 	# XXX what about NetBSD? They have ELF a.out PE coff ...
 	;;
-Linux)
+GNU)
 	_obfm=ELF
 	_rtld=GNU
 	# XXX noone sane uses Linux with a.out libc4 these days?
