@@ -1,4 +1,4 @@
-# $MirOS: src/share/man/man4/Makefile,v 1.4 2005/03/29 18:06:03 tg Exp $
+# $MirOS: src/share/man/man4/Makefile,v 1.5 2007/02/02 16:58:18 tg Exp $
 
 MANSECT=	4
 
@@ -19,6 +19,9 @@ MLINKS+=sk.4 skc.4
 MLINKS+=tty.4 cua.4
 MLINKS+=usb.4 uhub.4
 MLINKS+=vnd.4 svnd.4
+
+MLINKS+=	speaker.4 spkr.4
+MLINKS+=	mem.4 kmem.4
 
 .include "../automan.mk"
 .include <bsd.prog.mk>
