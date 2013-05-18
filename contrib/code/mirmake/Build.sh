@@ -1,5 +1,5 @@
 #!/bin/sh
-# $MirOS: contrib/code/mirmake/Build.sh,v 1.30 2007/10/27 00:17:19 tg Exp $
+# $MirOS: contrib/code/mirmake/Build.sh,v 1.31 2008/03/09 16:58:50 tg Exp $
 #-
 # Copyright (c) 2004, 2005, 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -77,6 +77,9 @@ Linux)
 	case $MAC in
 	i[3456789]86)
 		MAR=i386
+		;;
+	x86_64)
+		MAR=amd64
 		;;
 	esac
 	;;
