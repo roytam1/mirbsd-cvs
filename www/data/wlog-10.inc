@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.77 2008/09/09 19:14:20 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.78 2008/09/14 15:40:18 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -1624,4 +1624,16 @@ Title: SoftwareFreedomDay aftrap (of niet…)
  mksh, mirmake en zo doen, wanneer het werk nog arbeidsvermogen overig
  laat (da’s soms moeilijk). gecko2@ doet goeie werk met het opzetten van
  VMware voor eurynome, ter gebruik stellen van een IPv4, enzo.</p>
+----
+Title: PHP is dead!
+Date: 17.09.2008 21:58
+Author: tg@
+
+<p>The MirBSD website now runs without PHP even for legacy content. All HTML
+ files are statically generated using <a href="@@RELPATH@@mksh.htm">mksh</a>
+ and <a href="@@RELPATH@@htman/i386/man1/make.htm">MirMake</a>. Pretty much
+ unbreakable, we think.</p>
+<p>While here, I’d like to invite you to try out mksh-current from CVS, as
+ several (minor) bugs have been fixed. There are still some new features
+ pending for another release.</p>
 ----
