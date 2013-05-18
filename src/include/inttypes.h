@@ -1,4 +1,4 @@
-/* $MirOS: src/include/inttypes.h,v 1.3 2005/12/17 05:46:12 tg Exp $ */
+/* $MirOS: src/include/inttypes.h,v 1.4 2007/05/17 01:53:30 tg Exp $ */
 
 #ifndef	_INTTYPES_H_
 #define	_INTTYPES_H_
@@ -93,12 +93,12 @@
 #define PRIxFAST64	"llx"
 #define PRIXFAST64	"llX"
 
-#define PRIdMAX		"lld"
-#define PRIiMAX		"lli"
-#define PRIoMAX		"llo"
-#define PRIuMAX		"llu"
-#define PRIxMAX		"llx"
-#define PRIXMAX		"llX"
+#define PRIdMAX		"jd"
+#define PRIiMAX		"ji"
+#define PRIoMAX		"jo"
+#define PRIuMAX		"ju"
+#define PRIxMAX		"jx"
+#define PRIXMAX		"jX"
 
 #define PRIdPTR		"td"
 #define PRIiPTR		"ti"
@@ -109,17 +109,17 @@
 
 /* scanning macros */
 
-#define SCNd8		"d"
-#define SCNi8		"i"
-#define SCNo8		"o"
-#define SCNu8		"u"
-#define SCNx8		"x"
+#define SCNd8		"hhd"
+#define SCNi8		"hhi"
+#define SCNo8		"hho"
+#define SCNu8		"hhu"
+#define SCNx8		"hhx"
 
-#define SCNd16		"d"
-#define SCNi16		"i"
-#define SCNo16		"o"
-#define SCNu16		"u"
-#define SCNx16		"x"
+#define SCNd16		"hd"
+#define SCNi16		"hi"
+#define SCNo16		"ho"
+#define SCNu16		"hu"
+#define SCNx16		"hx"
 
 #define SCNd32		"d"
 #define SCNi32		"i"
@@ -133,17 +133,17 @@
 #define SCNu64		"llu"
 #define SCNx64		"llx"
 
-#define SCNdLEAST8	"d"
-#define SCNiLEAST8	"i"
-#define SCNoLEAST8	"o"
-#define SCNuLEAST8	"u"
-#define SCNxLEAST8	"x"
+#define SCNdLEAST8	"hhd"
+#define SCNiLEAST8	"hhi"
+#define SCNoLEAST8	"hho"
+#define SCNuLEAST8	"hhu"
+#define SCNxLEAST8	"hhx"
 
-#define SCNdLEAST16	"d"
-#define SCNiLEAST16	"i"
-#define SCNoLEAST16	"o"
-#define SCNuLEAST16	"u"
-#define SCNxLEAST16	"x"
+#define SCNdLEAST16	"hd"
+#define SCNiLEAST16	"hi"
+#define SCNoLEAST16	"ho"
+#define SCNuLEAST16	"hu"
+#define SCNxLEAST16	"hx"
 
 #define SCNdLEAST32	"d"
 #define SCNiLEAST32	"i"
@@ -157,17 +157,17 @@
 #define SCNuLEAST64	"llu"
 #define SCNxLEAST64	"llx"
 
-#define SCNdFAST8	"d"
-#define SCNiFAST8	"i"
-#define SCNoFAST8	"o"
-#define SCNuFAST8	"u"
-#define SCNxFAST8	"x"
+#define SCNdFAST8	"hhd"
+#define SCNiFAST8	"hhi"
+#define SCNoFAST8	"hho"
+#define SCNuFAST8	"hhu"
+#define SCNxFAST8	"hhx"
 
-#define SCNdFAST16	"d"
-#define SCNiFAST16	"i"
-#define SCNoFAST16	"o"
-#define SCNuFAST16	"u"
-#define SCNxFAST16	"x"
+#define SCNdFAST16	"hd"
+#define SCNiFAST16	"hi"
+#define SCNoFAST16	"ho"
+#define SCNuFAST16	"hu"
+#define SCNxFAST16	"hx"
 
 #define SCNdFAST32	"d"
 #define SCNiFAST32	"i"
@@ -181,11 +181,11 @@
 #define SCNuFAST64	"llu"
 #define SCNxFAST64	"llx"
 
-#define SCNdMAX		"lld"
-#define SCNiMAX		"lli"
-#define SCNoMAX		"llo"
-#define SCNuMAX		"llu"
-#define SCNxMAX		"llx"
+#define SCNdMAX		"jd"
+#define SCNiMAX		"ji"
+#define SCNoMAX		"jo"
+#define SCNuMAX		"ju"
+#define SCNxMAX		"jx"
 
 #define SCNdPTR		"td"
 #define SCNiPTR		"ti"
