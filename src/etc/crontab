@@ -1,5 +1,5 @@
 # $Id$
-# $MirOS: src/etc/crontab,v 1.9 2006/06/27 18:04:43 tg Exp $
+# $MirOS: src/etc/crontab,v 1.10 2006/08/16 18:46:14 tg Exp $
 # $OpenBSD: crontab,v 1.12 2003/03/10 01:05:28 deraadt Exp $
 #
 # /var/cron/tabs/root - root's crontab
@@ -28,5 +28,5 @@ HOME=/var/log
 57	*/3	*	*	*	/usr/bin/nice -n -19 /usr/libexec/randshuffle
 #
 # pull random bytes from the 'net (useful for headless servers, but insecure)
-#9	*/5	*	*	*	/usr/bin/ftp -r 120 -Vo - http://www.randomnumbers.info/cgibin/wqrng.cgi?amount=42\&limit=999 2>&1 | /bin/cksum -ba sha512 >/dev/prandom
-#31	*/7	*	*	*	/usr/bin/ftp -r 120 -mvo /dev/arandom http://fourmilab.ch/cgi-bin/uncgi/Hotbits?nbytes=64\&fmt=bin 2>&1 | /bin/cksum -ba suma >/dev/prandom
+#9	*/5	*	*	*	/bin/sleep $(/usr/bin/jot -r 1 60 900); /usr/bin/ftp -r 120 -Vo - http://www.randomnumbers.info/cgibin/wqrng.cgi?amount=42\&limit=999 2>&1 | /bin/cksum -ba sha512 >/dev/prandom
+#31	*/7	*	*	*	/bin/sleep $(/usr/bin/jot -r 1 60 900); /usr/bin/ftp -r 120 -mvo /dev/arandom http://fourmilab.ch/cgi-bin/uncgi/Hotbits?nbytes=64\&fmt=bin 2>&1 | /bin/cksum -ba suma >/dev/prandom
