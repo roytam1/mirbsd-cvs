@@ -1,5 +1,5 @@
 /*
- * $LynxId: HTUtils.h,v 1.77 2007/07/01 15:30:33 tom Exp $
+ * $LynxId: HTUtils.h,v 1.103 2010/10/27 00:08:52 tom Exp $
  *
  * Utility macros for the W3 code library
  * MACROS FOR GENERAL USE
@@ -74,11 +74,6 @@ char *alloca();
 #define DISP_PARTIAL		/* experimental */
 #endif
 
-/* since 2.8.6dev.1, Lynx requires an ANSI C (c89) compiler */
-#define ANSI_VARARGS 1
-#undef HAVE_STDARG_H
-#define HAVE_STDARG_H 1
-
 #if defined(VMS) || defined(_WINDOWS)
 #define HAVE_STDLIB_H 1
 #endif
@@ -133,6 +128,8 @@ char *alloca();
 
 #endif /* HAVE_CONFIG_H */
 
+#include <assert.h>
+
 /* suppress inadvertant use of gettext in makeuctb when cross-compiling */
 #ifdef DONT_USE_GETTEXT
 #undef HAVE_GETTEXT
@@ -160,13 +157,22 @@ char *alloca();
 #define LY_MAXPATH 256
 #endif
 
-#ifndef	GCC_NORETURN
-#define	GCC_NORETURN		/* nothing */
+#ifndef GCC_NORETURN
+#define GCC_NORETURN		/* nothing */
 #endif
 
-#ifndef	GCC_UNUSED
-#define	GCC_UNUSED		/* nothing */
+#ifndef GCC_UNUSED
+#define GCC_UNUSED		/* nothing */
 #endif
+
+#if defined(__GNUC__) && defined(_FORTIFY_SOURCE)
+#define USE_IGNORE_RC
+extern int ignore_unused;
+
+#define IGNORE_RC(func) ignore_unused = (int) func
+#else
+#define IGNORE_RC(func) (void) func
+#endif /* gcc workarounds */
 
 #if defined(__CYGWIN32__) && ! defined(__CYGWIN__)
 #define __CYGWIN__ 1
@@ -225,7 +231,9 @@ typedef unsigned short mode_t;
 #endif
 
 #if  defined(__EMX__) || defined(WIN_EX) || defined(HAVE_POPEN)
+# if 0 /* <20111014043246.C79038@mail101.his.com> */
 #  define CAN_CUT_AND_PASTE
+# endif
 #endif
 
 #if defined(USE_SLANG) || (defined(USE_COLOR_STYLE) && defined(__EMX__))
@@ -315,6 +323,7 @@ Standard C library for malloc() etc
 #endif
 
 #define isEmpty(s)   ((s) == 0 || *(s) == 0)
+#define non_empty(s) !isEmpty(s)
 
 #define NonNull(s) (((s) != 0) ? s : "")
 #define NONNULL(s) (((s) != 0) ? s : "(null)")
@@ -322,13 +331,13 @@ Standard C library for malloc() etc
 /* array/table size */
 #define	TABLESIZE(v)	(sizeof(v)/sizeof(v[0]))
 
-#define	typecalloc(cast)		(cast *)calloc(1,sizeof(cast))
-#define	typecallocn(cast,ntypes)	(cast *)calloc(ntypes,sizeof(cast))
+#define	typecalloc(cast)		(cast *)calloc((size_t)1, sizeof(cast))
+#define	typecallocn(cast,ntypes)	(cast *)calloc((size_t)(ntypes),sizeof(cast))
 
-#define typeRealloc(cast,ptr,ntypes)    (cast *)realloc(ptr, (ntypes)*sizeof(cast))
+#define typeRealloc(cast,ptr,ntypes)    (cast *)realloc(ptr, (size_t)(ntypes)*sizeof(cast))
 
 #define typeMalloc(cast)                (cast *)malloc(sizeof(cast))
-#define typeMallocn(cast,ntypes)        (cast *)malloc((ntypes)*sizeof(cast))
+#define typeMallocn(cast,ntypes)        (cast *)malloc((size_t)(ntypes)*sizeof(cast))
 
 /*
 
@@ -426,20 +435,10 @@ are generally not the response status from any specific protocol.
 #define HT_NOT_LOADED         -29999
 
 #ifndef va_arg
-# if defined(HAVE_STDARG_H) && defined(ANSI_VARARGS)
 #  include <stdarg.h>
-# else
-#  if HAVE_VARARGS_H
-#   include <varargs.h>
-#  endif
-# endif
 #endif
 
-#if defined(ANSI_VARARGS)
 #define LYva_start(ap,format) va_start(ap,format)
-#else
-#define LYva_start(ap,format) va_start(ap)
-#endif
 
 /*
  * GCC can be told that some functions are like printf (and do type-checking on
@@ -481,7 +480,7 @@ Out Of Memory checking for malloc() return:
 
 #ifndef TOLOWER
 
-#ifdef EXP_ASCII_CTYPES
+#ifdef USE_ASCII_CTYPES
 
 #define TOLOWER(c) ascii_tolower(UCH(c))
 #define TOUPPER(c) ascii_toupper(UCH(c))
@@ -535,6 +534,97 @@ extern int WWW_TraceMask;
 #define TRACE_GRIDTEXT  (TRACE_bit(7))
 #define TRACE_TIMING    (TRACE_bit(8))
 
+/*
+ * Get printing/scanning formats.
+ */
+#if defined(HAVE_INTTYPES_H)
+#include <inttypes.h>
+#endif
+
+/*
+ * Printing/scanning-formats for "off_t", as well as cast needed to fit.
+ */
+#if defined(HAVE_LONG_LONG) && defined(HAVE_INTTYPES_H) && defined(SIZEOF_OFF_T)
+#if (SIZEOF_OFF_T == 8) && defined(PRId64)
+
+#define PRI_off_t	PRId64
+#define SCN_off_t	SCNd64
+#define CAST_off_t(n)	(int64_t)(n)
+
+#elif (SIZEOF_OFF_T == 4) && defined(PRId32)
+
+#define PRI_off_t	PRId32
+#define SCN_off_t	SCNd32
+
+#if (SIZEOF_INT == 4)
+#define CAST_off_t(n)	(int)(n)
+#elif (SIZEOF_LONG == 4)
+#define CAST_off_t(n)	(long)(n)
+#else
+#define CAST_off_t(n)	(int32_t)(n)
+#endif
+
+#endif
+#endif
+
+#ifndef PRI_off_t
+#if defined(HAVE_LONG_LONG) && (SIZEOF_OFF_T > SIZEOF_LONG)
+#define PRI_off_t	"lld"
+#define SCN_off_t	"lld"
+#define CAST_off_t(n)	(long long)(n)
+#else
+#define PRI_off_t	"ld"
+#define SCN_off_t	"ld"
+#define CAST_off_t(n)	(long)(n)
+#endif
+#endif
+
+/*
+ * Printing-format for "time_t", as well as cast needed to fit.
+ */
+#if defined(HAVE_LONG_LONG) && defined(HAVE_INTTYPES_H) && defined(SIZEOF_TIME_T)
+#if (SIZEOF_TIME_T == 8) && defined(PRId64)
+
+#define PRI_time_t	PRId64
+#define SCN_time_t	SCNd64
+#define CAST_time_t(n)	(int64_t)(n)
+
+#elif (SIZEOF_TIME_T == 4) && defined(PRId32)
+
+#define PRI_time_t	PRId32
+#define SCN_time_t	SCNd32
+
+#if (SIZEOF_INT == 4)
+#define CAST_time_t(n)	(int)(n)
+#elif (SIZEOF_LONG == 4)
+#define CAST_time_t(n)	(long)(n)
+#else
+#define CAST_time_t(n)	(int32_t)(n)
+#endif
+
+#endif
+#endif
+
+#ifndef PRI_time_t
+#if defined(HAVE_LONG_LONG) && (SIZEOF_TIME_T > SIZEOF_LONG)
+#define PRI_time_t	"lld"
+#define SCN_time_t	"lld"
+#define CAST_time_t(n)	(long long)(n)
+#else
+#define PRI_time_t	"ld"
+#define SCN_time_t	"ld"
+#define CAST_time_t(n)	(long)(n)
+#endif
+#endif
+
+/*
+ * Printing-format for "UCode_t".
+ */
+#define PRI_UCode_t	"lX"
+
+/*
+ * Verbose-tracing.
+ */
 #if defined(USE_VERTRACE) && !defined(LY_TRACELINE)
 #define LY_TRACELINE __LINE__
 #endif
@@ -548,7 +638,7 @@ extern int WWW_TraceMask;
 #define CTRACE(p)         ((void)((TRACE) && ( LY_SHOWWHERE fprintf p )))
 #define CTRACE2(m,p)      ((void)((m)     && ( LY_SHOWWHERE fprintf p )))
 #define tfp TraceFP()
-#define CTRACE_SLEEP(secs) if (TRACE && LYTraceLogFP == 0) sleep(secs)
+#define CTRACE_SLEEP(secs) if (TRACE && LYTraceLogFP == 0) sleep((unsigned)secs)
 #define CTRACE_FLUSH(fp)   if (TRACE) fflush(fp)
 
 #include <www_tcp.h>
@@ -602,6 +692,7 @@ extern int WWW_TraceMask;
 #define SHORTENED_RBIND		/* FIXME: do this in configure-script */
 
 #ifdef USE_SSL
+
 #define free_func free__func
 
 #ifdef USE_OPENSSL_INCL
@@ -612,7 +703,10 @@ extern int WWW_TraceMask;
 
 #else
 
-#ifdef USE_GNUTLS_INCL
+#if defined(USE_GNUTLS_FUNCS)
+#include <tidy_tls.h>
+#define USE_GNUTLS_INCL 1	/* do this for the ".c" ifdef's */
+#elif defined(USE_GNUTLS_INCL)
 #include <gnutls/openssl.h>
 /*
  * GNUTLS's implementation of OpenSSL is very incomplete and rudimentary.
@@ -621,6 +715,10 @@ extern int WWW_TraceMask;
 #ifndef SSL_VERIFY_PEER
 #define SSL_VERIFY_PEER			0x01
 #endif
+#else
+
+#ifdef USE_NSS_COMPAT_INCL
+#include <nss_compat_ossl/nss_compat_ossl.h>
 
 #else /* assume SSLeay */
 #include <ssl.h>
@@ -628,10 +726,10 @@ extern int WWW_TraceMask;
 #include <rand.h>
 #include <err.h>
 #endif
+#endif
 #endif /* USE_OPENSSL_INCL */
 
 #undef free_func
-
 #endif /* USE_SSL */
 
 #ifdef HAVE_LIBDMALLOC
@@ -654,7 +752,7 @@ extern int WWW_TraceMask;
 extern "C" {
 #endif
 #ifndef TOLOWER
-#ifdef EXP_ASCII_CTYPES
+#ifdef USE_ASCII_CTYPES
     extern int ascii_toupper(int);
     extern int ascii_tolower(int);
     extern int ascii_isupper(int);
@@ -666,7 +764,7 @@ extern "C" {
 #ifdef USE_SSL
     extern SSL *HTGetSSLHandle(void);
     extern void HTSSLInitPRNG(void);
-    extern char HTGetSSLCharacter(void *handle);
+    extern int HTGetSSLCharacter(void *handle);
 #endif				/* USE_SSL */
 
 #ifdef __cplusplus
