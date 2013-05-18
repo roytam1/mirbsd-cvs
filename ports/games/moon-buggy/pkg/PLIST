@@ -1,5 +1,0 @@
-@comment $OpenBSD: PLIST,v 1.2 2004/01/09 20:49:36 sturm Exp $
-bin/moon-buggy
-man/man6/moon-buggy.6
-@exec mkdir -p -m775 /var/games/moon-buggy
-@extraunexec rm -fr /var/games/moon-buggy

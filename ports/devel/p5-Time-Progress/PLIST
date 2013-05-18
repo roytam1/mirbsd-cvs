@@ -1,9 +1,0 @@
-@comment $MirOS$
-${P5SITE}/Time/Progress.pm
-@comment ${P5ARCH}/auto/Time/Progress/.packlist
-man/man3/Time::Progress${P5MAN3EXT}
-@dirrm ${P5ARCH}/auto/Time/Progress
-@dirrm ${P5ARCH}/auto/Time
-@dirrm ${P5ARCH}/auto
-@dirrm ${P5ARCH}
-@dirrm ${P5SITE}/Time
