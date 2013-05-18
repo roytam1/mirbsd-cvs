@@ -1,4 +1,4 @@
-/* $MirOS: contrib/hosted/fwcf/tool.c,v 1.4 2007/03/03 19:13:12 tg Exp $ */
+/* $MirOS: contrib/hosted/fwcf/tool.c,v 1.6 2007/03/09 22:25:45 tg Exp $ */
 
 /*-
  * Copyright (c) 2006, 2007
@@ -32,7 +32,7 @@
 #include "minilzop.h"
 #include "pack.h"
 
-__RCSID("$MirOS: contrib/hosted/fwcf/tool.c,v 1.4 2007/03/03 19:13:12 tg Exp $");
+__RCSID("$MirOS: contrib/hosted/fwcf/tool.c,v 1.6 2007/03/09 22:25:45 tg Exp $");
 
 static __dead void usage(void);
 static int mkfwcf(int, const char *, int);
@@ -66,7 +66,8 @@ main(int argc, char *argv[])
 		switch (c) {
 #ifndef SMALL
 		case 'C':
-			if (!(calg = strtonum(optarg, 1, 255, NULL)))
+			if (!(calg = strtonum(optarg, 1, 255, NULL))
+			    && !(calg = compressor_getbyname(optarg)))
 				usage();
 			break;
 		case 'c':

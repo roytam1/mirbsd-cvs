@@ -1,4 +1,4 @@
-/* $MirOS: contrib/hosted/fwcf/compress.h,v 1.8 2006/09/24 19:11:56 tg Exp $ */
+/* $MirOS: contrib/hosted/fwcf/compress.h,v 1.9 2006/09/26 10:25:02 tg Exp $ */
 
 /*
  * This file is part of the FreeWRT project. FreeWRT is copyrighted
@@ -45,6 +45,7 @@ int compress_list(void);
 
 /* high-level */
 fwcf_compressor *compressor_get(uint8_t);
+int compressor_getbyname(const char *);
 int list_compressors(void);
 __END_DECLS
 
