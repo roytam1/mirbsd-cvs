@@ -1,4 +1,4 @@
-/* $MirOS: src/lib/libc/i18n/btowc.c,v 1.7 2006/05/21 12:38:39 tg Exp $ */
+/* $MirOS: src/lib/libc/i18n/btowc.c,v 1.8 2006/05/21 12:50:36 tg Exp $ */
 
 /*-
  * Copyright (c) 2005
@@ -25,14 +25,14 @@
 
 #include "mir18n.h"
 
-__RCSID("$MirOS: src/lib/libc/i18n/btowc.c,v 1.7 2006/05/21 12:38:39 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/i18n/btowc.c,v 1.8 2006/05/21 12:50:36 tg Exp $");
 
 wint_t __weak_btowc(int);
 
 wint_t
 __weak_btowc(int c)
 {
-	return (((c >= 0) && (c <= (_locale_is_utf8 ? 0x7E : 0xFF)))
+	return (((c >= 0) && (c <= (__locale_is_utf8 ? 0x7E : 0xFF)))
 	    ? (wchar_t)c : WEOF);
 }
 

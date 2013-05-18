@@ -1,4 +1,4 @@
-/* $MirOS: src/lib/libc/i18n/wctob.c,v 1.8 2006/05/21 12:38:40 tg Exp $ */
+/* $MirOS: src/lib/libc/i18n/wctob.c,v 1.9 2006/05/21 12:50:36 tg Exp $ */
 
 /*-
  * Copyright (c) 2005
@@ -29,14 +29,14 @@
 
 #include "mir18n.h"
 
-__RCSID("$MirOS: src/lib/libc/i18n/wctob.c,v 1.8 2006/05/21 12:38:40 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/i18n/wctob.c,v 1.9 2006/05/21 12:50:36 tg Exp $");
 
 int __weak_wctob(wint_t);
 
 int
 __weak_wctob(wint_t c)
 {
-	return (((c >= 0) && (c <= (_locale_is_utf8 ? 0x7E : 0xFF)))
+	return (((c >= 0) && (c <= (__locale_is_utf8 ? 0x7E : 0xFF)))
 	    ? (int)c : EOF);
 }
 
