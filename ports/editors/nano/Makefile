@@ -1,4 +1,4 @@
-# $MirOS: ports/editors/nano/Makefile,v 1.6 2008/03/14 00:13:21 tg Exp $
+# $MirOS: ports/editors/nano/Makefile,v 1.7 2010/03/31 22:42:35 gecko2 Exp $
 # $OpenBSD: Makefile,v 1.36 2004/02/20 21:30:38 naddy Exp $
 
 COMMENT=		Free Pico clone with some new features
@@ -36,10 +36,12 @@ post-install:
 	    ChangeLog.pre-2.1 INSTALL NEWS README README.SVN THANKS TODO \
 	    UPGRADE doc/faq.html doc/texinfo/nano.html \
 	    ${PREFIX}/share/doc/nano/
+	cd ${WRKSRC:Q}/doc/man && ${INSTALL_DATA} \
+	    nano.1.html nanorc.5.html rnano.1.html \
+	    ${PREFIX}/share/doc/nano/man-html/
 	cd ${WRKSRC:Q} && ${INSTALL_DATA} \
 	    doc/man/fr/nano.1.html doc/man/fr/rnano.1.html \
 	    doc/man/fr/nanorc.5.html ${PREFIX}/share/doc/nano/man-html/fr/
-	mv ${PREFIX}/share/nano/man-html/* ${PREFIX}/share/doc/nano/man-html
-	rmdir ${PREFIX}/share/nano/man-html
+	-rm -rf ${PREFIX}/share/nano/man-html
 
 .include <bsd.port.mk>
