@@ -1,4 +1,4 @@
-/* $MirOS: ports/infrastructure/pkgtools/add/add.h,v 1.2 2005/09/19 18:07:56 tg Exp $ */
+/* $MirOS: ports/infrastructure/pkgtools/add/add.h,v 1.3 2005/12/16 12:12:52 tg Exp $ */
 /* $OpenBSD: add.h,v 1.3 1998/10/13 23:09:49 marc Exp $ */
 /* from FreeBSD Id: add.h,v 1.8 1997/02/22 16:09:15 peter Exp  */
 
@@ -39,7 +39,7 @@ extern const char *Directory;
 extern char	*PkgName;
 extern char	FirstPen[];
 extern add_mode_t AddMode;
-extern display_mode_t DisplayMode;
+extern const char *Pager;
 
 int		make_hierarchy(char *);
 void		extract_plist(const char *, package_t *);

@@ -1,4 +1,4 @@
-/* $MirOS: ports/infrastructure/pkgtools/add/main.c,v 1.5 2008/09/19 17:27:44 bsiegert Exp $ */
+/* $MirOS: ports/infrastructure/pkgtools/add/main.c,v 1.6 2009/11/29 17:02:42 bsiegert Exp $ */
 /* $OpenBSD: main.c,v 1.18 2003/08/06 20:46:36 millert Exp $	*/
 
 /*
@@ -25,7 +25,7 @@
 #include "lib.h"
 #include "add.h"
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/add/main.c,v 1.5 2008/09/19 17:27:44 bsiegert Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/add/main.c,v 1.6 2009/11/29 17:02:42 bsiegert Exp $");
 
 static char Options[] = "d:fhIMNnp:qRSt:v";
 
@@ -42,7 +42,7 @@ char	*PkgName	= NULL;
 const char *Directory	= NULL;
 char	FirstPen[FILENAME_MAX];
 add_mode_t AddMode	= NORMAL;
-display_mode_t DisplayMode = CAT;
+const char *Pager;
 
 char **pkgs;
 int pkg_count = 0;
@@ -55,21 +55,23 @@ main(int argc, char **argv)
     int ch, error;
     char *cp;
 
+    cfg_read_config();
+    Pager = cfg_get_pager();
     while ((ch = getopt(argc, argv, Options)) != -1) {
 	switch(ch) {
 	case 'd':
 	    switch(optarg[0]) {
 		case 'c':
-		    DisplayMode = CAT;
+		    Pager = "/bin/cat";
 		    break;
 		case 'e':
-		    DisplayMode = ENV;
+		    Pager = getenv("PAGER");
 		    break;
 		case 'l':
-		    DisplayMode = LESS;
+		    Pager = "less";
 		    break;
 		case 'm':
-		    DisplayMode = MORE;
+		    Pager = "more";
 		    break;
 		default:
 		    usage();

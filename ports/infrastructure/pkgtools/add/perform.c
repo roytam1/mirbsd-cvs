@@ -1,4 +1,4 @@
-/* $MirOS: ports/infrastructure/pkgtools/add/perform.c,v 1.28 2009/12/14 19:20:02 bsiegert Exp $ */
+/* $MirOS: ports/infrastructure/pkgtools/add/perform.c,v 1.29 2009/12/18 22:27:08 bsiegert Exp $ */
 /* $OpenBSD: perform.c,v 1.32 2003/08/21 20:24:56 espie Exp $	*/
 
 /*
@@ -29,7 +29,7 @@
 #include <signal.h>
 #include <errno.h>
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/add/perform.c,v 1.28 2009/12/14 19:20:02 bsiegert Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/add/perform.c,v 1.29 2009/12/18 22:27:08 bsiegert Exp $");
 
 static int pkg_do(char *);
 static int sanity_check(char *);
@@ -454,31 +454,12 @@ pkg_do(char *pkg)
     }
 
     if ((p = find_plist(&Plist, PLIST_DISPLAY, NULL)) != NULL) {
-	const char *Pager;
 	char buf[BUFSIZ];
-	struct stat sbuf;
-
-	switch(DisplayMode) {
-	    case CAT:
-		Pager = "/bin/cat";
-		break;
-	    case LESS:
-		Pager = "less";
-		break;
-	    case MORE:
-		Pager = NULL;
-		break;
-	    case ENV:
-		Pager = getenv("PAGER");
-		break;
-	    default:
-		Pager = "more";
-	}
 
 	snprintf(buf, sizeof buf, "%s/%s", LogDir, p->name);
-	if (stat(buf,&sbuf) == -1 || xsystem(false, "%s %s", Pager, buf)) {
+	if (!fexists(buf) || xsystem(false, "%s %s", Pager, buf)) {
 	    pwarnx("cannot open '%s' as display file", buf);
-	    DisplayMode = CAT;	/* in case the pager is just missing */
+	    Pager = "/bin/cat";	/* in case the pager is just missing */
 	}
     }
 

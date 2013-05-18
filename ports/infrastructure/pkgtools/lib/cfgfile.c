@@ -1,4 +1,4 @@
-/* $MirOS: ports/infrastructure/pkgtools/lib/cfgfile.c,v 1.1.2.2 2009/12/23 13:37:46 bsiegert Exp $ */
+/* $MirOS: ports/infrastructure/pkgtools/lib/cfgfile.c,v 1.1.2.3 2009/12/23 13:54:14 bsiegert Exp $ */
 
 /*-
  * Copyright (c) 2009
@@ -37,7 +37,7 @@
 #endif
 #define CFG_FILE SYSCONFDIR "/pkgtools/pkgtools.conf"
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/cfgfile.c,v 1.1.2.2 2009/12/23 13:37:46 bsiegert Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/cfgfile.c,v 1.1.2.3 2009/12/23 13:54:14 bsiegert Exp $");
 
 typedef SLIST_HEAD(cfg_varlist, cfg_var) cfg_varlist;
 struct cfg_var {
@@ -47,6 +47,7 @@ struct cfg_var {
 };
 
 static cfg_varlist Vars = SLIST_HEAD_INITIALIZER(Vars);
+static char *Pager = NULL;
 
 FILE
 *cfg_open(void)
@@ -91,12 +92,19 @@ parse_var(char *line, size_t i, size_t len)
 	SLIST_INSERT_HEAD(&Vars, var, entries);
 }
 
+
 /* Parse a configuration directive. i is the index of the space separating
  * the directive from the arguments.
  */
 static void
 parse_command(char *line, size_t i, size_t len)
 {
+	if (i == 5 && !strncasecmp(line, "Pager", i)) {
+		if (Pager)
+			free(Pager);
+		Pager = cfg_expand_vars(line + i + 1, len - i - 1);
+	} else
+		warnx("Unrecognized command: %s", line);
 }
 
 /* Read the configuration file. Returns true if successful, false otherwise.
@@ -260,3 +268,8 @@ char
 	return rv;
 }
 
+const char
+*cfg_get_pager(void)
+{
+	return Pager ? (const char *)Pager : "/bin/cat";
+}
