@@ -1,4 +1,4 @@
-# $MirOS: X11/Makefile,v 1.33 2006/09/24 19:00:50 tg Exp $
+# $MirOS: X11/Makefile,v 1.34 2006/10/16 19:38:00 tg Exp $
 
 .include <bsd.own.mk>
 .include "${BSDSRCDIR}/Makefile.inc"
@@ -43,7 +43,7 @@ b-r:
 	cd ${.CURDIR} && exec ${MAKE} build
 
 compile:
-	${INSTALL} -d -o 0 -g 0 -m ${DIRMODE} \
+	${INSTALL} -d -m ${DIRMODE} \
 	    ${SUBOBJDIR}/xc/exports/bin \
 	    ${SUBOBJDIR}/xc/exports/include \
 	    ${SUBOBJDIR}/xc/exports/include/{DPS,GL,X11,fontconfig,freetype2} \
