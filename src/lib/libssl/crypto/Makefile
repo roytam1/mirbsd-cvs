@@ -1,9 +1,9 @@
-# $MirOS: src/lib/libssl/crypto/Makefile,v 1.12 2006/06/11 00:22:18 tg Exp $
-# $OpenBSD: Makefile,v 1.44 2005/11/24 20:49:21 deraadt Exp $
+# $MirOS: src/lib/libssl/crypto/Makefile,v 1.13 2006/06/17 22:11:32 tg Exp $
+# $OpenBSD: Makefile,v 1.45 2006/06/27 05:07:47 djm Exp $
 
 .include <bsd.own.mk>
 
-SHLIB_VERSION?=	13.1
+SHLIB_VERSION?=	14.0
 LIB=		crypto
 
 SSLEAYDIST=	src
@@ -49,7 +49,8 @@ SRCS+=	rc2ofb64.c
 SRCS+=	rc4_skey.c
 .if ${MKC_USAP:L} != "yes"
 SRCS+=	rc5_ecb.c rc5_enc.c rc5_skey.c rc5cfb64.c rc5ofb64.c e_rc5.c
-#SRCS+=	i_cbc.c i_cfb64.c i_ofb64.c i_ecb.c i_skey.c e_idea.c
+# http://www.mediacrypt.com/_contents/10_idea/102040_li_nc.asp
+SRCS+=	i_cbc.c i_cfb64.c i_ofb64.c i_ecb.c i_skey.c e_idea.c
 .endif
 SRCS+=	bf_skey.c bf_ecb.c bf_cfb64.c bf_ofb64.c
 SRCS+=	c_skey.c c_ecb.c c_cfb64.c c_ofb64.c c_enc.c
@@ -58,11 +59,12 @@ SRCS+=	bn_mul.c bn_print.c bn_rand.c bn_shift.c
 SRCS+=	bn_word.c bn_blind.c bn_gcd.c bn_prime.c bn_err.c
 SRCS+=	bn_sqr.c bn_recp.c bn_mont.c bn_mpi.c bn_mod.c
 SRCS+=	bn_exp2.c bn_ctx.c
-SRCS+=	bn_sqrt.c bn_kron.c
+SRCS+=	bn_sqrt.c bn_kron.c bn_x931p.c
 SRCS+=	rsa_eay.c rsa_gen.c rsa_lib.c rsa_sign.c
 SRCS+=	rsa_saos.c rsa_err.c rsa_pk1.c rsa_ssl.c
 SRCS+=	rsa_none.c rsa_chk.c rsa_oaep.c rsa_null.c rsa_asn1.c
-SRCS+=	dsa_gen.c dsa_key.c dsa_lib.c dsa_vrf.c
+SRCS+=	rsa_pss.c rsa_x931.c
+SRCS+=	dsa_gen.c dsa_key.c dsa_lib.c dsa_vrf.c 	
 SRCS+=	dsa_sign.c dsa_err.c dsa_asn1.c dsa_ossl.c
 SRCS+=	dh_gen.c dh_key.c dh_lib.c dh_check.c dh_err.c dh_asn1.c
 SRCS+=	buffer.c buf_err.c

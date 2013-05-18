@@ -1,4 +1,4 @@
-/* $MirOS: src/lib/libssl/src/apps/speed.c,v 1.2 2005/03/06 20:29:28 tg Exp $ */
+/* $MirOS: src/lib/libssl/src/apps/speed.c,v 1.3 2005/04/29 13:52:28 tg Exp $ */
 
 /* apps/speed.c -*- mode:C; c-file-style: "eay" -*- */
 /* Copyright (C) 1995-1998 Eric Young (eay@cryptsoft.com)
@@ -1708,7 +1708,7 @@ show_res:
 				k,rsa_bits[k],rsa_results[k][0],
 				rsa_results[k][1]);
 		else
-			fprintf(stdout,"rsa %4u bits %8.4fs %8.4fs %8.1f %8.1f\n",
+			fprintf(stdout,"rsa %4u bits %8.6fs %8.6fs %8.1f %8.1f\n",
 				rsa_bits[k],rsa_results[k][0],rsa_results[k][1],
 				1.0/rsa_results[k][0],1.0/rsa_results[k][1]);
 		}
@@ -1727,7 +1727,7 @@ show_res:
 			fprintf(stdout,"+F3:%u:%u:%f:%f\n",
 				k,dsa_bits[k],dsa_results[k][0],dsa_results[k][1]);
 		else
-			fprintf(stdout,"dsa %4u bits %8.4fs %8.4fs %8.1f %8.1f\n",
+			fprintf(stdout,"dsa %4u bits %8.6fs %8.6fs %8.1f %8.1f\n",
 				dsa_bits[k],dsa_results[k][0],dsa_results[k][1],
 				1.0/dsa_results[k][0],1.0/dsa_results[k][1]);
 		}

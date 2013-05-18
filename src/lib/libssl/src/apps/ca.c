@@ -1,4 +1,4 @@
-/* $MirOS: src/lib/libssl/src/apps/ca.c,v 1.2 2005/03/06 20:29:26 tg Exp $ */
+/* $MirOS: src/lib/libssl/src/apps/ca.c,v 1.3 2005/04/29 13:52:27 tg Exp $ */
 
 /* apps/ca.c */
 /* Copyright (C) 1995-1998 Eric Young (eay@cryptsoft.com)
@@ -945,7 +945,6 @@ bad:
 			if (verbose) BIO_printf(bio_err,
 				"Done. %d entries marked as expired\n",i);
 	      		}
-			goto err;
 	  	}
 
  	/*****************************************************************/
