@@ -1,4 +1,4 @@
-/* $MirOS: src/sys/arch/i386/stand/boot/srt0.S,v 1.22 2009/01/01 17:46:19 tg Exp $ */
+/* $MirOS: src/sys/arch/i386/stand/boot/srt0.S,v 1.23 2009/01/01 19:13:32 tg Exp $ */
 
 /*-
  * Copyright (c) 2003, 2004, 2005, 2006, 2007, 2008
@@ -652,13 +652,17 @@ Lpmode:	mov	eax,0x10
 	mov	ecx,offset _C_LABEL(end)
 	mov	edi,offset _C_LABEL(edata)
 	sub	ecx,edi
-	push	ecx
+	/* 1) align */
+1:	test	cl,3
+	jz	2f
+	stosb
+	dec	ecx
+	jnz	1b
+	/* 2) rest in whole dwords, don’t care about overhang */
+2:	add	ecx,3
 	shr	ecx,2
 	cld
 	rep	stosd
-	pop	ecx
-	and	ecx,0x00000003
-	rep	stosb
 #ifdef BOOTSELECT_HOOK
 	/* store saved hook value */
 	pop	ecx
