@@ -1,5 +1,0 @@
-@comment $MirOS$
-emul/linux/linuxctl
-emul/linux/mtab.empty
-@dirrm emul/linux
-@dirrm emul

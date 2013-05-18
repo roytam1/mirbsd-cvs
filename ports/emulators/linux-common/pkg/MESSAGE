@@ -1,4 +1,0 @@
-+===========================================================
-| To fully set up this port, execute the following command:
-| $ sudo ${PREFIX}/emul/linux/linuxctl setup
-+===========================================================

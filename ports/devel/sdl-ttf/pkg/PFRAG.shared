@@ -1,3 +1,0 @@
-@comment $MirOS$
-@comment $OpenBSD: PFRAG.shared,v 1.5 2003/04/05 22:24:36 margarida Exp $
-@lib lib/libSDL_ttf.so.6.0

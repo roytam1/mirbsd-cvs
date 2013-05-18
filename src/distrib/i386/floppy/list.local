@@ -1,4 +1,0 @@
-# $MirOS$
-# use smaller more(1) for more and less
-
-LINK	instbin					usr/bin/more usr/bin/less

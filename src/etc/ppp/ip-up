@@ -1,7 +1,0 @@
-#!/bin/ksh
-# $Id$
-# $MirOS$
-
-# This script is called with mirbsdksh when your ppp(8) or pppd(8)
-# connection goes up and the connection, including routing, has
-# already been established.

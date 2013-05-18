@@ -1,3 +1,0 @@
-@comment $MirOS$
-@lib lib/libhistory.so.5.0
-@lib lib/libreadline.so.5.0

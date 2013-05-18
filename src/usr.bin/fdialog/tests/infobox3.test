@@ -1,1 +1,0 @@
-${FDIALOG} info "this is my infobox" 5 25 sleep 3 ptitle "This is my title" 

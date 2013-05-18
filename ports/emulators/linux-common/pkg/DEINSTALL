@@ -1,8 +1,0 @@
-#!/bin/sh
-# $MirOS$
-
-PATH=/bin:/usr/bin:/sbin:/usr/sbin
-PREFIX=${PKG_PREFIX:-/usr/local}
-
-sudo $PREFIX/emul/linux/linuxctl dispose
-exit 0

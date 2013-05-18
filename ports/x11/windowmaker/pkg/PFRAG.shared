@@ -1,3 +1,0 @@
-@comment $MirOS$
-@comment $OpenBSD: PFRAG.shared,v 1.4 2001/05/21 14:06:02 wilfried Exp $
-@lib lib/libwraster.so.5.0

@@ -1,3 +1,0 @@
-@comment $MirOS$
-include/iaxclient.h
-lib/libiaxclient.a

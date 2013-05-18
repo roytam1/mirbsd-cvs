@@ -1,4 +1,0 @@
-@comment $MirOS$
-@comment $OpenBSD: PFRAG.shared,v 1.6 2002/04/19 16:34:16 wilfried Exp $
-@lib lib/libgdkmm.so.2.2
-@lib lib/libgtkmm.so.2.5
