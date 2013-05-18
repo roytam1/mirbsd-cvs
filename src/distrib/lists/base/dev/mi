@@ -1024,6 +1024,7 @@
 ./usr/include/gxx/valarray
 ./usr/include/gxx/vector
 ./usr/include/histedit.h
+./usr/include/iconv.h
 ./usr/include/ieeefp.h
 ./usr/include/ifaddrs.h
 ./usr/include/inttypes.h
@@ -1626,6 +1627,7 @@
 ./usr/lib/libbfd.la
 ./usr/lib/libc.a
 ./usr/lib/libcdk.a
+./usr/lib/libcitrus_iconv.a
 ./usr/lib/libcompat.a
 ./usr/lib/libcrypto.a
 ./usr/lib/libcurses.a
