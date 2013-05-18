@@ -1,5 +1,5 @@
 <!-- PageID: wlog-8 -->
-<small class="rcsid">$MirOS: www/content/d2xvZy04.inc,v 1.76 2006/06/04 00:14:38 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy04.inc,v 1.77 2006/06/09 20:34:50 tg Exp $</small>
 <h1>MirBSD &ndash; WTF, We Have a Release!?</h1>
 <p><small><a href="#eof">bottom</a> or <a href="/?older">older</a>
  editions</small></p>
@@ -1364,6 +1364,25 @@ celebrate this event, rotate the wlog and start a new one.</p>
   year-old unmaintained and unaudited stuff to linger around.</p>
  <p>The tries to update libncurses failed&#8230; see the commit message,
   if you really want to know more.</p>
+</div>
+
+<div class="wlentry">
+ <h3 id="e20060610">10.06.2006 by tg@</h3>
+ <p>There was a soccer competition at my university &ndash; although ex,
+  I participiated, and it wasn't even me playing badly that we lost, but
+  the others (Economists, Mecha builders etc.) brought some professional
+  players so we didn't stand a chance. 4:0 4:0 1:1 and out.</p>
+ <p>I didn't have much success trying to trace down my LCD issues. It is
+  in both cases a low-voltage differential thingie with digital (serial)
+  transfer, so no idea why green is missing. Looks like I have invest my
+  first FreeWRT wage into an LCD, or rather, a laptop &ndash; or ask the
+  local Arab whether he's got an idea.</p>
+ <p>Still haven't done much for FreeWRT, but tomorrow, wbx@ will show me
+  how the system &quot;usually&quot; works under GNU/Lunox. Also, I will
+  start by doing an mksh port, let him check it and then try a 'svn ci',
+  in the hope I didn't do anything wrong, to test that.</p>
+ <p>Oh, the surprises are unveiled I guess. I've just cross-built a (not
+  yet tested) GENERIC for sparc. More surprises to come.</p>
 </div>
 
 <p id="eof">Good luck, have fun, take care etc.pp</p>
