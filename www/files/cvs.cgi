@@ -46,7 +46,7 @@
 # OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 # SUCH DAMAGE.
 #
-# $MirOS: www/files/cvs.cgi,v 1.1 2007/06/09 23:29:49 tg Exp $
+# $MirOS: www/files/cvs.cgi,v 1.2 2008/11/08 22:24:35 tg Exp $
 # $FreeBSD: projects/cvsweb/cvsweb.cgi,v 1.291 2005/01/22 12:43:55 scop Exp $
 # $Id$
 # $Idaemons: /home/cvs/cvsweb/cvsweb.cgi,v 1.84 2001/10/07 20:50:10 knu Exp $
@@ -3772,7 +3772,7 @@ EOF
 
   printf(<<EOF, $scriptwhere);
 </table>
-<hr style="width: 100%%" />
+<hr style="width: 100%" />
 <form method="get" action="%s">
 <div style="float: left">
 <label for="f">Diff format:<br />
