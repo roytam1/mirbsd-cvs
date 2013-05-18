@@ -1,22 +1,22 @@
-# $MirOS: ports/graphics/netpbm/Makefile,v 1.2 2005/07/07 21:21:50 bsiegert Exp $
+# $MirOS: ports/graphics/netpbm/Makefile,v 1.3 2006/02/09 11:11:51 tg Exp $
 # $OpenBSD: Makefile,v 1.30 2004/02/23 08:20:11 pvalchev Exp $
 # $NetBSD: Makefile,v 1.25 1999/03/04 14:18:54 tron Exp $
 
-COMMENT=	"toolkit for converting images between different formats"
-COMMENT-hpcd=	"convert photo CD images into ppm format"
-VERSION=	9.24
-DISTNAME=	netpbm-${VERSION}
-PKGNAME=	${DISTNAME}-2
-PKGNAME-hpcd=	hpcdtoppm-${VERSION}-2
-CATEGORIES=	graphics
-MASTER_SITES=	${MASTER_SITE_SOURCEFORGE:=netpbm/}
-EXTRACT_SUFX=	.tgz
-HOMEPAGE=	http://netpbm.sourceforge.net/
-LIB_DEPENDS=	tiff.35::graphics/tiff \
-		jpeg.62::graphics/jpeg \
-		png.2::graphics/png
+COMMENT=		"toolkit for converting images between different formats"
+COMMENT-hpcd=		"convert photo CD images into ppm format"
+VERSION=		9.24
+DISTNAME=		netpbm-${VERSION}
+PKGNAME=		${DISTNAME}-2
+PKGNAME-hpcd=		hpcdtoppm-${VERSION}-2
+CATEGORIES=		graphics
+MASTER_SITES=		${MASTER_SITE_SOURCEFORGE:=netpbm/}
+EXTRACT_SUFX=		.tgz
+HOMEPAGE=		http://netpbm.sourceforge.net/
+LIB_DEPENDS=		tiff.35::graphics/tiff \
+			jpeg.62::graphics/jpeg \
+			png.2::graphics/png
 
-MULTI_PACKAGES=	-hpcd
+MULTI_PACKAGES=		-hpcd
 SUBPACKAGE?=
 
 # GPL, BSD/MIT, etc.
@@ -31,9 +31,9 @@ PERMIT_PACKAGE_CDROM=	"no fee"
 PERMIT_PACKAGE_CDROM=	Yes
 .endif
 
-FAKE_FLAGS=	PREFIX="${WRKINST}${TRUEPREFIX}"
-USE_GMAKE=	Yes
-MAKE_FILE=	GNUmakefile
+FAKE_FLAGS=		PREFIX="${WRKINST}${TRUEPREFIX}"
+USE_GMAKE=		Yes
+MAKE_FILE=		GNUmakefile
 
 pre-build:
 	@mv -f ${WRKSRC}/pm_config.h ${WRKSRC}/pm_config.h.new
@@ -46,16 +46,16 @@ pre-build:
 		${WRKSRC}/Makefile.config
 	@cd ${WRKSRC}/shhopt; ln -sf shhopt.h pm_shhopt.h
 
-NO_REGRESS=	Yes
+NO_REGRESS=		Yes
 
 .if defined(PACKAGING) && ${SUBPACKAGE} == "-hpcd"
-LIB_DEPENDS=	pbm.1,pgm.1,ppm.1::graphics/netpbm
+LIB_DEPENDS=		pbm.1,pgm.1,ppm.1::graphics/netpbm
 .endif
 
 .include <bsd.port.mk>
 
 .if defined(NO_SHARED_LIBS) && ${NO_SHARED_LIBS:L} == "yes"
-MAKE_FLAGS+=	NETPBMLIBTYPE=unixstatic
+EXTRA_XAKE_FLAGS+=	NETPBMLIBTYPE=unixstatic
 .else
-MAKE_FLAGS+=	NETPBMLIBTYPE=unixshared
+EXTRA_XAKE_FLAGS+=	NETPBMLIBTYPE=unixshared
 .endif
