@@ -8,7 +8,7 @@
  <meta name="copyright" content="All rights reserved. Redistribution except for scientific and educational uses strictly prohibited." />
  <meta name="owner" content="The MirOS Project and The MirPorts Framework" />
  <meta name="licence" content="see the source files in CVSWEB for details" />
- <!-- $MirOS: www/mk/tmpl.pre,v 1.16 2008/06/03 18:04:54 tg Exp $ -->
+ <!-- $MirOS: www/mk/tmpl.pre,v 1.17 2008/06/13 18:43:03 tg Exp $ -->
  <title>MirOS: @@TITLE@@</title>
  <meta name="robots" content="index, follow" />@@RSS@@
  <!--
@@ -24,7 +24,7 @@
 <li><a href="@@RELPATH@@wlog-10.htm">Weblog</a> for #10</li>
 <li><a href="@@RELPATH@@oldnews.htm">Old News</a> &amp; WLog</li>
 </ul></li>
-<li><a href="/?about">About</a></li>
+<li><a href="@@RELPATH@@about.htm">About</a></li>
 <!-- these are not in a usable state
 <li><a href="/?docs">Documentation</a></li>
 <li><a href="/?faq">FAQ</a></li>

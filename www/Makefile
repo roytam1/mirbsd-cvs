@@ -1,4 +1,4 @@
-# $MirOS: www/Makefile,v 1.27 2008/05/03 01:44:04 tg Exp $
+# $MirOS: www/Makefile,v 1.28 2008/05/29 16:01:07 bsiegert Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -19,6 +19,7 @@ BSDSRCDIR?=/nonexistant
 
 U_ENV+=		TOP=${TOP:Q} DST=${DST:Q} MKSH=${MKSH:Q} SHELL=${MKSH:Q}
 
+SRCS+=		about.hts
 SRCS+=		ann-10.hts
 SRCS+=		bt.hts
 SRCS+=		clog11.hts
