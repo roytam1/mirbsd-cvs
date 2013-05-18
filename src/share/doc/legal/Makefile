@@ -1,4 +1,4 @@
-# $MirOS: src/share/doc/legal/Makefile,v 1.7 2009/01/17 12:50:00 tg Exp $
+# $MirOS: src/share/doc/legal/Makefile,v 1.8 2009/06/29 17:55:18 tg Exp $
 
 BINDIR=		${DOCDIR}/legal
 NROFF=		nrcon -e ${MACROS} ${PAGES}
@@ -11,7 +11,7 @@ GENFS=		LICENCE-BSD.0 LICENCE-BSD
 ROFFS=		lbsd-adc.mdoc lbsd-adv.mdoc lbsd-ansi.mdoc lbsd-caldera.mdoc \
 		lbsd-darpa.mdoc lbsd-ieee.mdoc lbsd-ucb.mdoc lbsd.mdoc
 MACROS=		-mdoc
-CLEANFILES+=	${GENFS} grml.0 grml
+CLEANFILES+=	${GENFS} grml.0 grml bsd4me.0 bsd4me
 
 all: ${GENFS}
 
@@ -27,6 +27,13 @@ grml.0: ${ROFFS}
 	    >$@ || (rm -f $@; false)
 
 grml: grml.0
+	col -bx <${.ALLSRC} >$@
+
+bsd4me.0: ${ROFFS}
+	( cd ${.CURDIR} && ${NROFF} -rg2 ${.CURDIR}/lbsd.mdoc ) \
+	    >$@ || (rm -f $@; false)
+
+bsd4me: bsd4me.0
 	col -bx <${.ALLSRC} >$@
 
 beforeinstall:

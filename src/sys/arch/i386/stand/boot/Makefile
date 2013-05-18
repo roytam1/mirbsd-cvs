@@ -1,4 +1,4 @@
-# $MirOS: src/sys/arch/i386/stand/boot/Makefile,v 1.30 2009/02/01 16:16:30 tg Exp $
+# $MirOS: src/sys/arch/i386/stand/boot/Makefile,v 1.31 2009/08/09 19:39:39 tg Exp $
 
 SMALL_BOOT?=	No
 BOOTLDR_PATH?=	${.CURDIR}
@@ -35,7 +35,7 @@ INSTALL_STRIP=
 LDFLAGS+=	${BOOTLDFLAGS}
 SRCS=		srt0.S
 
-.ifdef BOOTSELECT_HOOK
+.if defined(BOOTSELECT_HOOK) && (${BOOTSELECT_HOOK:L} != "no")
 SRCS+=		hook.S
 CPPFLAGS+=	-DBOOTSELECT_HOOK
 .endif
