@@ -1,5 +1,5 @@
 <!-- PageID: mksh -->
-<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.97 2007/04/23 12:22:19 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.98 2007/04/23 22:33:21 tg Exp $</small>
 
 <h1>mksh(1) R29</h1>
 <p>This is the MirBSD&trade; Korn Shell, a more or less portable
@@ -707,7 +707,7 @@
 <ul>
  <li>mksh-current<ul>
   <li>Darwin ??? Mac OSX 10.4 (powerpc)</li>
-  <li>AIX 5.3 ML05</li>
+  <li>AIX 5.3 ML05 – thanks Gurft</li>
  </ul></li>
  <li>mksh R29c<ul>
   <li>MirOS #10-beta (i386 gcc3.4.6)</li>
@@ -721,6 +721,8 @@
   <li>FreeBSD 6.1 (i386, ia64 gcc3.4.4)</li>
   <li>HP-UX 11i B.11.11 (PA-RISC gcc3.4.2) <em>no regression test run</em></li>
   <li>HP-UX 11i v2 B.11.23 (ia64 gcc3.4.3)</li>
+  <li>– tests by third parties –</li>
+  <li>Solaris 10 (sun4us gcc4.0.3 "gccfss") 32-bit, 64-bit – thanks Ankon</li>
  </ul></li>
  <li>mksh R29 &ndash; release candidate<ul>
   <li>MirOS #7-stable (sparc gcc2.95), #9-current (i386 gcc3.4.6)</li>
