@@ -1,5 +1,7 @@
-# $MirOS: ports/misc/figlet/Makefile,v 1.4 2005/12/28 01:46:22 tg Exp $
+# $MirOS: ports/misc/figlet/Makefile,v 1.5 2006/02/09 11:12:06 tg Exp $
 # $OpenBSD: Makefile,v 1.14 2002/10/27 21:07:53 naddy Exp $
+
+BROKEN=			rewrite in BSD make
 
 COMMENT=	"generates ASCII banner art"
 PKGNAME=	figlet-2.2.2-0
