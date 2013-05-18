@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/stand/libsa/dev_i386.c,v 1.7 2009/01/01 23:27:46 tg Exp $	*/
+/**	$MirOS: src/sys/arch/i386/stand/libsa/dev_i386.c,v 1.8 2009/01/02 04:58:41 tg Exp $	*/
 /*	$OpenBSD: dev_i386.c,v 1.30 2007/06/27 20:29:37 mk Exp $	*/
 
 /*
@@ -104,7 +104,7 @@ devboot(dev_t bootdev, char *p)
 		*p++ = '0';
 		*p++ = 'a';
 		*p = '\0';
-		printf(" (ISO 9660 device)");
+		printf(" (El Torito)");
 		return;
 	}
 #endif
