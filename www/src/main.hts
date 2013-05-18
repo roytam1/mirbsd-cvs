@@ -1,4 +1,4 @@
-# $MirOS: www/src/main.hts,v 1.16 2011/06/04 16:41:34 tg Exp $
+# $MirOS: www/src/main.hts,v 1.17 2011/10/16 01:15:23 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -7,7 +7,7 @@ mws_setname main "Welcome at The MirOS Project"
 mws_setrss "news.rss"
 mws_subdir 0
 mws_setheadline Welcome to the MirOS Project!
-mws_putheader '$MirOS: www/src/main.hts,v 1.16 2011/06/04 16:41:34 tg Exp $'
+mws_putheader '$MirOS: www/src/main.hts,v 1.17 2011/10/16 01:15:23 tg Exp $'
 mws_content <<'EOF'
 <p class="rcsid">MirOS BSD &amp; MirPorts Framework – a wonderful
  operating system for a world of peace</p>
@@ -33,11 +33,17 @@ mws_content <<'EOF'
  href="@@ABSPATH@@/MirOS/PR/flyer_fr.pdf">français/French</a>).
  Please note the BSD-Licence(7), especially the advertising clauses.</p>
 
-<h2>Translations</h2>
+<h2 id="transl">Translations</h2>
 
 <p>Bohdan Zograf has kindly published a <a
  href="http://www.webhostinghub.com/support/about-miros-be">Belorussian
  translation of the MirBSD website</a>, thanks!</p>
+
+<p>Under the nickname <a href="http://softdroid.net/">Android SDK</a>,
+ Vlad Brown made an <a href="http://softdroid.net/mirbsd">Ukrainian
+ translation of the “About MirOS” page</a>, thanks! There’s apparently
+ a longer translation project ongoing, related to his professional
+ interests, with lynx(1) possibly following.</p>
 
 <h2>News</h2>
 
