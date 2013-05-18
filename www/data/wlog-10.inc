@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.182 2009/04/16 14:25:59 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.183 2009/04/17 15:15:07 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -3799,4 +3799,19 @@ Language: de
  großes Verlangen danach. MIPSpro ist eh’ seltsam.</p>
 <p>gcc4 ist ja erwiesenermaßen absolut selbstdisqualifizierend, LLVM ekliges
  CFrustFrust, also bleibt wohl nur noch gcc3 übrig… ☹</p>
+----
+Date: 18.04.2009 19:57
+Author: tg@
+Title: mksh world domination via Cydia
+
+<p>I amended my WTF *.deb repository (link to the WTF repository <a
+ href="https://eurynome.mirbsd.org/debs/debidx.htm">overview page</a>),
+ which carried Debian packages I needed, and later packages for their
+ derivates used at $workplace as well, by iPhoneOS 2.2 packages, after
+ gecko2@ nagged me enough.</p>
+<p>Let’s see if it makes. Requests for packaging welcome, but also if
+ someone has already attempted to have dget, dpkg-source &amp; al. on
+ the jesusPhone. Oh, and I’d like to have swap over NFS (or something
+ similarily useful), as I refuse to cross-build, other than exclusively
+ for bootstrapping – a lession learned from OpenBSD (and myself).</p>
 ----
