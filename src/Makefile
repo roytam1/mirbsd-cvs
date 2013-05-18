@@ -1,4 +1,4 @@
-# $MirOS: src/Makefile,v 1.65 2006/07/05 23:59:46 tg Exp $
+# $MirOS: src/Makefile,v 1.66 2006/08/18 22:39:54 tg Exp $
 # $OpenBSD: Makefile,v 1.103 2004/05/03 15:18:18 drahn Exp $
 
 .if defined(MAKECONF) && exists(${MAKECONF})
@@ -34,12 +34,12 @@ afterinstall:
 mksystrace: mksystrace-obj mksystrace-dest
 
 mksystrace-obj:
-	cd ${BSDOBJDIR} && env WRITEDIR="${BSDOBJDIR}" \
+	cd ${BSDOBJDIR} && env WRITEDIR=${BSDOBJDIR:Q} \
 	    ${SHELL} ${BSDSRCDIR}/scripts/systrace.mk ${MAKE}
 
 mksystrace-dest:
-	d="${DESTDIR}"; cd $${d:-/}; [[ -n $$d ]] || d="/:/*"; \
-	    env WRITEDIR="$$d" NOWRITEDIR="${BSDOBJDIR}" \
+	d=${DESTDIR:Q}; cd $${d:-/}; [[ -n $$d ]] || d="/:/*"; \
+	    env WRITEDIR="$$d" NOWRITEDIR=${BSDOBJDIR:Q} \
 	    ${SUDO} ${SHELL} ${BSDSRCDIR}/scripts/systrace.mk ${MAKE}
 
 build-pre:
@@ -104,7 +104,7 @@ release:
 do-htman:
 	-rm -rf ${BSDOBJDIR}/htman
 	mkdir -p ${BSDOBJDIR}/htman/{man,htm}
-	cd ${BSDOBJDIR}/htman && env WRITEDIR="${BSDOBJDIR}/htman" \
+	cd ${BSDOBJDIR}/htman && env WRITEDIR=${BSDOBJDIR:Q}/htman \
 	    ${SHELL} ${BSDSRCDIR}/scripts/systrace.mk ${MAKE} ${SHELL}
 .for _set _dir in x11 X11R6 base share
 	cd ${BSDRELDIR}/${_set}/usr/${_dir}/man \
@@ -118,7 +118,7 @@ do-htman:
 .endfor
 	cp ${BSDOBJDIR}/share/doc/legal/LICENCE-BSD.0 \
 	    ${BSDOBJDIR}/htman/man/cat7/BSD-Licence.0
-	BSDOBJDIR="${BSDOBJDIR}" BSDSRCDIR="${BSDSRCDIR}" \
+	BSDOBJDIR=${BSDOBJDIR:Q} BSDSRCDIR=${BSDSRCDIR:Q} \
 	    ${_STCMD} -f ${BSDOBJDIR}/htman/.policy.mk \
 	    ${SHELL} ${.CURDIR}/scripts/genhtman.sh
 	-rm -f ${BSDOBJDIR}/htman/.policy.mk
@@ -145,13 +145,13 @@ base-distinstall:
 	-rm -f ${_STFILE_DEST}
 
 dist-q:
-	cd ${.CURDIR} && exec /usr/bin/env -i MAKEFLAGS=${MFLAGS:Q} \
+	cd ${.CURDIR} && exec /usr/bin/env -i MAKEFLAGS=${MFLAGS:M*:Q} \
 	    HOME=$$(/usr/bin/mktemp -d /var/tmp/buildhome.XXXXXXXXXX) \
 	    PATH=/bin:/usr/bin:/sbin:/usr/sbin:/usr/X11R6/bin TZ=UTC \
 	    ${MAKE} BATCH=1 _do-dist 2>&1 | tee -a ${.CURDIR}/Build.log
 
 dist:
-	cd ${.CURDIR} && exec /usr/bin/env -i MAKEFLAGS=${MFLAGS:Q} \
+	cd ${.CURDIR} && exec /usr/bin/env -i MAKEFLAGS=${MFLAGS:M*:Q} \
 	    HOME=$$(/usr/bin/mktemp -d /var/tmp/buildhome.XXXXXXXXXX) \
 	    PATH=/bin:/usr/bin:/sbin:/usr/sbin:/usr/X11R6/bin TZ=UTC \
 	    ${MAKE} _do-dist 2>&1 | tee -a ${.CURDIR}/Build.log
@@ -185,13 +185,13 @@ _do-dist:
 .endif
 	@echo Initialising sudo as ${SUDO:Q}
 	${SUDO} true
-	@echo "============================================================"
-	@echo Initiating MirOS Build...
+	@echo ============================================================
 	@if [[ ! -e /var/tmp/.buildnotice ]]; then \
 		${SUDO} install -c -o 0 -g 0 -m 600 /dev/null \
 		    /var/tmp/.buildnotice; \
 	fi
 	${SUDO} ${MKSH} -c 'echo rm -rf ${HOME} >>/var/tmp/.buildnotice'
+	@echo Initiating MirOS Build...
 	@date
 .ifdef BATCH
 	@echo BATCH mode engaged.
@@ -202,7 +202,7 @@ _do-dist:
 	@echo QUICK dist-build mode active:
 	@echo not building XFree86®, ports, live CD or HTML manual pages.
 .endif
-	@echo "============================================================"
+	@echo ============================================================
 	${SUDO} rm -rf ${BSDOBJDIR} ${BSDRELDIR}
 	cd ${.CURDIR} && exec ${MAKE} distrib-dirs DESTDIR=
 	cd ${.CURDIR} && exec ${MAKE} b-r
@@ -231,7 +231,7 @@ _do-dist:
 	${SUDO} rm -rf ${BSDRELDIR}/rel
 	mkdir ${BSDRELDIR}/rel
 	@date
-	@echo "============================================================"
+	@echo ============================================================
 	@for f in ${BSDSRCDIR}/*${OSrev}.ngz ${BSDSRCDIR}/*.cgz; do \
 		[[ -e $$f ]] || continue; \
 		${SUDO} ln $$f ${BSDRELDIR}/rel/ || \
@@ -241,16 +241,16 @@ _do-dist:
 		${SUDO} cat /var/tmp/.buildnotice; \
 		${SUDO} ${MKSH} /var/tmp/.buildnotice; \
 		${SUDO} rm -f /var/tmp/.buildnotice || true; \
-		echo "============================================================"; \
+		echo ============================================================; \
 	fi
-	@echo "Checking files:"
-	@echo ""
+	@echo Checking files:
+	@echo
 .for _set in ${_DISTS}
 	-cd ${BSDSRCDIR}/distrib/lists/${_set} && \
-	    DESTDIR="${BSDRELDIR}/${_set}" RELEASEDIR="${BSDRELDIR}/rel" \
+	    DESTDIR=${BSDRELDIR:Q}/${_set} RELEASEDIR=${BSDRELDIR:Q}/rel \
 	    ${SUDO} ${SHELL} ${BSDSRCDIR}/scripts/tarck
 .endfor
-	@echo "============================================================"
+	@echo ============================================================
 .ifndef BATCH
 	@date
 	@read a?'Press Return to continue...'
@@ -265,7 +265,7 @@ _do-dist:
 	    -o root -g wheel -m 444 * ${BSDRELDIR}/rel/
 .for _set in ${_DISTS}
 	-cd ${BSDSRCDIR}/distrib/lists/${_set} && \
-	    DESTDIR="${BSDRELDIR}/${_set}" RELEASEDIR="${BSDRELDIR}/rel" \
+	    DESTDIR=${BSDRELDIR:Q}/${_set} RELEASEDIR=${BSDRELDIR:Q}/rel \
 	    ${SUDO} ${SHELL} ${BSDSRCDIR}/scripts/tarmk ${OSrev}
 .endfor
 	-cd ${BSDRELDIR}/rel && ${SUDO} touch ${_INDEX_FILES} index.txt
@@ -277,18 +277,18 @@ _do-dist:
 .endfor
 	-cd ${BSDRELDIR}/rel && cksum * | ${SUDO} sort -k3 -uo CKSUM
 	-cd ${BSDRELDIR}/rel && rmd160 !(CKSUM) | ${SUDO} sort -uo RMD160
-	@echo "============================================================"
+	@echo ============================================================
 	@echo Done with MirOS Build.
 	@date
 	@/bin/ls -Fl ${BSDRELDIR}/rel
-	@echo "============================================================"
+	@echo ============================================================
 .if !defined(QUICK_DIST) && !defined(NO_LIVECD)
 	cd ${BSDSRCDIR}/distrib/baselive && ${MAKE} it #cleanworkdir
 	@echo
 	@echo Done with MirOS Snapshot generation.
 	@date
 	@/bin/ls -Fl ${BSDOBJDIR}/distrib/baselive/livecd${OSrev}.iso
-	@echo "============================================================"
+	@echo ============================================================
 .endif
 
 .PHONY:	beforeinstall afterinstall mksystrace mksystrace-obj mksystrace-dest \
