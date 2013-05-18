@@ -26,12 +26,12 @@
 export PATH=/bin:/usr/bin:/sbin:/usr/sbin
 
 sleep $((RANDOM % 120 + 30))
-( date; print -r "$$ $((RANDOM << 15 | RANDOM)) $PPID $SECONDS $TMOUT" \
-    "$KSH_VERSION"; ps ax ) 2>&1 | cksum -ba sha256 >/dev/wrandom
+(print -r "$$ $((RANDOM << 15 | RANDOM)) $PPID $SECONDS $TMOUT $KSH_VERSION"; \
+ sysctl -a; ps -akwwx -o "$(ps -L)"; ps -aexwwo pid,args; ps -axwwo pid,args; \
+ date) 2>&1 | cksum -ba sha256 >/dev/wrandom
 sleep $((RANDOM % 9 + 9))
 cat /var/db/host.random >/dev/urandom 2>&1
 sleep $((RANDOM % 9 + 9))
-rm -f /var/db/host.random
 umask 077
 ( ( dd if=/dev/prandom bs=64 count=1; \
     dd if=/dev/arandom bs=64 count=31; \
@@ -40,9 +40,8 @@ umask 077
     chown 0:0 /var/db/host.random; \
     chmod 600 /var/db/host.random) \
     >/dev/wrandom 2>&1
-sleep $((RANDOM % 3 + 3))
+sleep $((RANDOM % 3 + 2))
+print -n $$ $((RANDOM << 15 | RANDOM)) $SECONDS | cksum -ba suma >/dev/wrandom
+sleep $((RANDOM % 1))
 print "notice: system random seed rotated! $((RANDOM & 255))" | logger
-sleep $((RANDOM % 9 + 9))
-( TZ=UTC date; print -r "$$ $((RANDOM << 15 | RANDOM)) $SECONDS" ) 2>&1 | \
-    cksum -ba suma >/dev/wrandom
 exit 0
