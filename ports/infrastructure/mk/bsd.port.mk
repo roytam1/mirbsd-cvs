@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.103 2006/02/09 17:40:23 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.104 2006/02/21 03:36:05 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -804,19 +804,19 @@ _CDROM_OVERRIDE=	:
 .for _i in - 0 1 2 3 4 5 6 7 8 9
 .  if defined(CVS_DISTREPO${_i:S/-//})
 CVS_DISTFILE${_i:S/-//}?=${CVS_DISTMODS${_i:S/-//}}
-_CVS_DISTF${_i:S/-//}=	${CVS_DISTFILE${_i:S/-//}}
-.    if defined(CVS_DISTDATE${_i:S/-//})
-.      for _j in ${CVS_DISTDATE${_i:S/-//}:C![^0-9]!!g}
-_CVS_DISTF${_i:S/-//}:=	${_CVS_DISTF${_i:S/-//}}-${_j}
-.      endfor
-.    endif
+_CVS_DISTF${_i:S/-//}=	${CVS_DISTFILE${_i:S/-//}}-
 .    if defined(CVS_DISTTAGS${_i:S/-//})
 .      for _j in ${CVS_DISTTAGS${_i:S/-//}:C![^0-9a-zA-Z_-]!!g}
-_CVS_DISTF${_i:S/-//}:=	${_CVS_DISTF${_i:S/-//}}-T${_j}
+_CVS_DISTF${_i:S/-//}:=	${_CVS_DISTF${_i:S/-//}}T${_j}-
+.      endfor
+.    endif
+.    if defined(CVS_DISTDATE${_i:S/-//})
+.      for _j in ${CVS_DISTDATE${_i:S/-//}:C![^0-9]!!g}
+_CVS_DISTF${_i:S/-//}:=	${_CVS_DISTF${_i:S/-//}}${_j}
 .      endfor
 .    endif
 .    if defined(CVS_DISTTAGS${_i:S/-//}) || defined(CVS_DISTDATE${_i:S/-//})
-_CVS_DISTF${_i:S/-//}:=	${_CVS_DISTF${_i:S/-//}}.mcz
+_CVS_DISTF${_i:S/-//}:=	${_CVS_DISTF${_i:S/-//}:S/-$//}.mcz
 .    else
 ERRORS+=		"neither CVS_DISTDATE${_i:S/-//} nor CVS_DISTTAGS${_i:S/-//} defined"
 .    endif
