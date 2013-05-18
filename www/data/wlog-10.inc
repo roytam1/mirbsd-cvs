@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.344 2011/07/25 09:30:51 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.345 2011/07/25 16:00:05 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -4974,7 +4974,7 @@ Tag: bug debian event geocache rant
  there) proved impossible for me. I won't budge either: web fora are
  simply not for me to use. Period. This is my fault (for not fitting
  in) as well as the fault of some of the rest of the team (for ignoring
- years of experience, or for simply <span xml:lang="de_DE-1901">nicht
+ years of experience, or for simply <span xml:lang="de-DE-1901">nicht
  über den eigenen Tellerrand schauen</span> (however one says this in
  English, I don't know) and not caring of these who do; for supporting
  the commercial gc.com site over the three alternatives too). I will
@@ -5310,8 +5310,8 @@ Tag: bug event security snapshot
  href="http://article.gmane.org/gmane.comp.web.lynx.devel/6570">these</a>
  <a href="http://www.securityfocus.com/bid/36935">bugs</a>?”<br />Expect
  a fix for the latter sometime soon, it does in fact have more effect than
- most sites say, to avoid <span xml:lang="de_DE-1901">Panikmache</span>
- (unlike that <span xml:lang="de_DE-1901">Schweinegrippe</span> stuff);
+ most sites say, to avoid <span xml:lang="de-DE-1901">Panikmache</span>
+ (unlike that <span xml:lang="de-DE-1901">Schweinegrippe</span> stuff);
  I’m lucky my online banking stuff keeps SIDs in the URI ipv Cookie, but
  still… very bad. Switching renegotiation off as a quick würgaround also
  is evil, for example, my SMTP setup (using X.509v3 SSL certificate auth
@@ -5340,18 +5340,18 @@ Tag: bug event snapshot
 <p>I came back from <a href="http://www.openrheinruhr.de/">OpenRheinRuhr</a>,
  and (apparently in contrast to many others) liked it, save for the (a)social
  event, which some organisers admit hasn't been what was promised to them. My
- hotel was actually some kind of <span xml:lang="de_DE-1901">Vereinshaus</span>
+ hotel was actually some kind of <span xml:lang="de-DE-1901">Vereinshaus</span>
  and Billard club, so I had to eat supper (after fleeing the Casino, I had
  wanted to eat with some others deciding to split/fork, but formorer couldn't
  decide, so I walked the 3km, but didn't find anything appealing on the way,
  since I walked towards the outside of the city) in a smokey bar. So 2007,
  that. But I watched some kind of Billard competition during that, the meal
  was good and much, and the beer good and rather affordable. (I even took a
- <span xml:lang="de_DE-1901">Krug</span> to my room with me to flee smoke.)
+ <span xml:lang="de-DE-1901">Krug</span> to my room with me to flee smoke.)
  Breakfast was included, the quality much more than I had expected at that
  price (I paid almost twice that in Basel, where I didn't even have a private
  loo adjourning the room, much less a proper bathroom with douche). The city,
- despite confusing it with other <span xml:lang="de_DE-1901">Ruhrpott</span>
+ despite confusing it with other <span xml:lang="de-DE-1901">Ruhrpott</span>
  cities beginning with <b>BO</b>, was nice and quiet (although the visitor
  count suggests that it was too remote, I rather prefer this to the usual
  rush and street mob, and it was still lively).</p>
@@ -5465,7 +5465,7 @@ Tag: debian
 <p>I must admit I also have the context switching problem (but hey, that’s
  what you get for being a sysadmin, and our
  <a href="http://www.gepa3.de/shop/index.php">coffee</a> (GEPA, <span
- xml:lang="de_DE-1901">ganze Bohne, im Eimer, fair gehandelt</span>),
+ xml:lang="de-DE-1901">ganze Bohne, im Eimer, fair gehandelt</span>),
  even if not <a href="@@RELPATH@@anargeek.htm@koffie">Café Libertad</a>,
  who, incidentally, are Debian Wine distributors, is good), but since I’m
  usually not working for customer projects, I’m rarely time bound, and
@@ -5531,7 +5531,7 @@ Title: BASE – schlimmere Verbrecher als Debiltel
 Author: tg@
 Date: 11.12.2009 17:37
 Tag: rant
-Language: de_DE-1901
+Language: de-DE-1901
 
 <p>Bei VIAG Interkom einen Händivertrag (Händi, schwäbisches Fremdwort,
  von "Jo hän di denn do koa Kabel dran?") kündigt, geht das relativ gut,
@@ -5631,7 +5631,7 @@ Title: Stehen, Warten, Beten
 Author: tg@
 Date: 17.12.2009 14:52
 Tag: rant
-Language: de_DE-1901
+Language: de-DE-1901
 
 <p>SWB. Stehen, Warten, Beten.</p><!-- RSS stop -->
 <p>Am Dienstag Abend waren wir mit <a
@@ -6142,7 +6142,7 @@ Title: FOSDEM 2010, day #2
 Author: tg@
 Date: 07.02.2010 14:06
 Tag: event
-Language: de_DE-1901
+Language: de-DE-1901
 
 <p>Ich glaube, das Essen gestern (war eh’ scheiße, heh… anyway, der
  Couscous-Laden hatte zu, und Benny und gecko2@ und Anhäne haben mich
@@ -6191,7 +6191,7 @@ Title: the day after FOSDEM
 Author: tg@
 Date: 08.02.2010 17:10
 Tag: event
-Language: de_DE-1901
+Language: de-DE-1901
 
 <p>Bauch wieder OK, dafür nen recht wehtuënden Frosch im Hals,
  Hammerkopfschmerzen, Rückenschmerzen und bißchen Gliederschmerzen.
@@ -6823,7 +6823,7 @@ Tag: debian event geocache grml
  gecko2@ (Staff) for MirOS, tg@ and “XTaran” abe@ (Developer), kimnotyze
  (Hacker) for FreeWRT. (XTaran will probably be helping Debian/Grml too.)
  This year, it’ll be my job (after 2 years of aptituz) to keep the <span
- xml:lang="de_DE-1901">Altbier-Fraktion</span> watered, I’m thinking one
+ xml:lang="de-DE-1901">Altbier-Fraktion</span> watered, I’m thinking one
  crate of Schlösser Alt and one crate of Hannen Alt?</p>
 <p>Have a look at <a href="http://www.froscon.de/programm/uebersicht.html">the
  Program</a> and don’t tell me you won’t come! It will rock! (Except there
@@ -7906,4 +7906,32 @@ Tag: debian mksh news pcli release
  so it doesn’t allow such either</span>. I often forget what I wanted to
  add if I can’t get it out quickly enough (especially at work). Sowwy…</p>
 <p>Me like the cat picture postings (Amayita, Tiago, ¡Gracias!).</p>
+----
+Date: 25.07.2011 16:01
+Author: tg@
+Title: DebConf
+Tag: debian event
+
+<p>Sitting in <span xml:lang="sr-Cyrl">Бања Лука, Република Српска,
+ Босна и Херцеговина</span> (<span xml:lang="sr-Latn">Banja Luka,
+ Republika Srpska, Bosna i Hercegovina</span>) let’s just say the
+ country is pretty nice. People are okay, the beer is not called
+ “Nektar” by accident, and the <span xml:lang="sr-Latn">Mark</span>
+ (subunit <span xml:lang="sr-Latn">Fennig</span>, funnily enough)
+ is worth 1 DM. Price niveau is below Germany (even when we had
+ the DM) in some things, below or at modern European in others.
+ In short, very affordable. They don’t accept paper money though,
+ it’s really hard to get coins in most places, and they only want
+ those. The food is okay, and my hotel is very luxurious. It’s
+ also got LAN.</p>
+<p>The weather is not so nice at the moment though: raining a lot,
+ and expecting 30°C too-hot sun in two days. And there are still
+ no Geocaches in the area.</p>
+<p>Anyway, DebConf is going on, I’m acclimating and trying to get
+ people, faces, nicknames and realnames connected. And accents.
+ (And pronunciation of names – for example, Ian differs totally
+ from what I’d use.) We even have working wire network (LAN) most
+ of the time ;-)</p>
+<p>We’re indeed still working on resurrecting m68k, but that’s no
+ news. More on that later, I’d say.</p>
 ----
