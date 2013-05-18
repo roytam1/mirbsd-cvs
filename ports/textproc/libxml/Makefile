@@ -1,4 +1,4 @@
-# $MirOS: ports/textproc/libxml/Makefile,v 1.17 2008/05/02 15:10:41 tg Exp $
+# $MirOS: ports/textproc/libxml/Makefile,v 1.18 2008/08/26 17:17:39 tg Exp $
 # $OpenBSD: Makefile,v 1.76 2004/04/21 04:42:26 robert Exp $
 
 COMMENT=		XML parsing library
@@ -6,7 +6,7 @@ MODPY_EGG_VERSION=	2.6.32
 DISTNAME=		libxml2-${MODPY_EGG_VERSION}
 PKGNAME=		libxml-${MODPY_EGG_VERSION}-${DASH_VER}
 CATEGORIES=		textproc
-MASTER_SITES=		ftp://xmlsoft.org/libxml2/ \
+MASTER_SITES=		ftp://xmlsoft.org/libxml2/old/ \
 			${HOMEPAGE}sources/ \
 			${MASTER_SITE_GNOME:=sources/libxml2/2.6/}
 HOMEPAGE=		http://xmlsoft.org/
