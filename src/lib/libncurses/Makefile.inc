@@ -1,4 +1,4 @@
-# $MirOS: src/lib/libncurses/Makefile.inc,v 1.4.2.1 2006/10/27 15:53:03 tg Exp $
+# $MirOS: src/lib/libncurses/Makefile.inc,v 1.6 2006/10/27 16:12:44 tg Exp $
 
 # XXX should be defined elsewhere
 AWK?=		/usr/bin/awk
@@ -35,7 +35,9 @@ ${_i:S/.1$/.1tbl/:S/.1m$/.1tbl/:S/.3x$/.3tbl/}: ${NCSRCDIR}/man/${_i}
 .endfor
 
 .ifdef LIB
-afterinstall:
+afterinstall: afterinstall-liblinks
+
+afterinstall-liblinks: .PHONY
 	cd ${DESTDIR}${LIBDIR}; l=; for i in ${_LIBS}; do \
 		[[ -e $$i ]] || continue; \
 		for j in ${LIBLINKS}; do \
