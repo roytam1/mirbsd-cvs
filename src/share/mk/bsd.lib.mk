@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/bsd.lib.mk,v 1.42 2006/07/03 02:29:03 tg Exp $
+# $MirOS: src/share/mk/bsd.lib.mk,v 1.43 2006/08/27 01:08:59 tg Exp $
 # $OpenBSD: bsd.lib.mk,v 1.43 2004/09/20 18:52:38 espie Exp $
 # $NetBSD: bsd.lib.mk,v 1.67 1996/01/17 20:39:26 mycroft Exp $
 # @(#)bsd.lib.mk	5.26 (Berkeley) 5/2/91
@@ -6,12 +6,12 @@
 .if !defined(BSD_LIB_MK)
 BSD_LIB_MK=1
 
-.if !defined(BSD_OWN_MK)
-.  include <bsd.own.mk>
-.endif
-
 .if exists(${.CURDIR}/../Makefile.inc)
 .  include "${.CURDIR}/../Makefile.inc"
+.endif
+
+.if !defined(BSD_OWN_MK)
+.  include <bsd.own.mk>
 .endif
 
 .if defined(SHLIB_MAJOR) && !empty(SHLIB_MAJOR) \
