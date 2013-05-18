@@ -1,5 +1,6 @@
+# $MirOS$
+#-
 # libtool.m4 - Configure libtool for the host system. -*-Autoconf-*-
-# $MirOS: contrib/gnu/libtool/libtool.m4,v 1.57 2008/03/14 19:15:50 tg Exp $
 ## Copyright 1996, 1997, 1998, 1999, 2000, 2001, 2003, 2004, 2005, 2006
 ## Free Software Foundation, Inc.
 ## Originally by Gordon Matzigkeit <gord@gnu.ai.mit.edu>, 1996
@@ -13,17 +14,22 @@
 # serial 48 AC_PROG_LIBTOOL
 
 
+dnl Protect against multiple inclusion
+dnl ----------------------------------
+ifdef([LT_MIRLIBTOOL_LOADED], [], [
+
 dnl Enable overwriting autoconf'd functions without aclocal bringing them in
 dnl ------------------------------------------------------------------------
 builtin([define], [NOACLOCAL_DEFUN], defn([AC_DEFUN]))dnl
 
-dnl Support using MirLibtool with Autoconf 2.13 and 2.60
+dnl Support using MirLibtool with Autoconf 2.13 and 2.6x
 dnl ----------------------------------------------------
-ifdef([m4_PACKAGE_VERSION], [], [sinclude([m4salt.inc])])dnl
-ifelse(m4_PACKAGE_VERSION, [fnord_acsalt],
+ifelse(AC_AUTOCONF_VERSION, [2.13],
 [dnl Autoconf 2.13
 dnl  =============
-
+dnl
+sinclude([m4salt.inc])dnl
+dnl
 dnl This is originally from Autoconf 2.59
 dnl but modified due to us not having autom4te
 dnl
@@ -100,7 +106,7 @@ AC_DIVERT_POP()dnl
 dnl  End of Autoconf switch (2.13)
 dnl  ====================== ------
 ],
-[dnl Autoconf 2.5x
+[dnl Autoconf 2.6x
 dnl  =============
 
 dnl This is originally from Autoconf 2.59
@@ -142,6 +148,10 @@ AC_LANG([C])dnl
 dnl  End of Autoconf switch (2.60)
 dnl  ====================== ------
 ])dnl
+
+dnl Protect against multiple inclusion
+dnl ----------------------------------
+define([LT_MIRLIBTOOL_LOADED], [])dnl
 
 
 dnl Here it goes
@@ -240,6 +250,15 @@ AC_LIBTOOL_OBJDIR
 
 AC_REQUIRE([_LT_AC_SYS_COMPILER])dnl
 _LT_AC_PROG_ECHO_BACKSLASH
+
+ifelse(AC_AUTOCONF_VERSION, [2.13], [
+dnl From Autoconf 2.61
+if ( (MAIL=60; unset MAIL) || exit) >/dev/null 2>&1; then
+  as_unset=unset
+else
+  as_unset=false
+fi
+])dnl
 
 case $host_os in
 aix3*)
@@ -6721,3 +6740,6 @@ SED=$lt_cv_path_SED
 AC_SUBST([SED])
 AC_MSG_RESULT([$SED])
 ])
+
+dnl   -----------------
+])dnl end of MirLibtool
