@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/bsd.sys.mk,v 1.18 2007/05/21 18:29:19 tg Exp $
+# $MirOS: src/share/mk/bsd.sys.mk,v 1.19 2007/06/12 19:48:23 tg Exp $
 # $OpenBSD: bsd.sys.mk,v 1.8 2000/07/06 23:12:41 millert Exp $
 # $NetBSD: bsd.sys.mk,v 1.2 1995/12/13 01:25:07 cgd Exp $
 
@@ -13,7 +13,7 @@ BSD_SYS_MK=1
 # The "if" is in case we want the current directory to have
 # preference, due to gcc (GNU cpp, actually) brain-deadness
 # The :N:S works around make idiocy, :M doesn't expand vars
-.if ${CPPFLAGS:N0:S/-I${.CURDIR}/0/:M0} == ""
+.if ${CPPFLAGS:N1:S-I${.CURDIR}1:M1} == ""
 CPPFLAGS+=	-idirafter ${.CURDIR}
 .endif
 
