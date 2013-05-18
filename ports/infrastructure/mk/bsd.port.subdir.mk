@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.subdir.mk,v 1.7 2006/09/13 22:07:12 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.subdir.mk,v 1.8 2007/01/26 20:31:54 tg Exp $
 # $OpenBSD: bsd.port.subdir.mk,v 1.64 2004/04/07 13:06:33 espie Exp $
 # $FreeBSD: bsd.port.subdir.mk,v 1.20 1997/08/22 11:16:15 asami Exp $
 #
@@ -86,7 +86,7 @@ _subdir_fragment= \
 		dir=$$d; \
 		${_flavour_fragment}; \
 		set +e; \
-		if [ -r bulklist ]; then \
+		if [[ $$d != *,* && -r bulklist ]]; then \
 			while read flavour; do \
 				f=$$([[ -z $$flavour ]] || echo "$$flavour" \
 				    | sed -e 's/ /,/g'); \
