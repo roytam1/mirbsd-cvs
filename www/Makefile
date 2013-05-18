@@ -1,4 +1,4 @@
-# $MirOS: www/Makefile,v 1.25 2008/03/22 20:38:16 tg Exp $
+# $MirOS: www/Makefile,v 1.26 2008/03/27 21:46:33 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -102,7 +102,6 @@ _reinstall:
 .for _i in ${GENSRCS}
 	pax -rw -pe -dv $$(<${_i}) dst/
 .endfor
-	cd ${TOP}/legacy && pax -rw -pe -v . ${DST}/dst/	# legacy
 	cd ${TOP} && pax -rw -pe -v content ${DST}/dst/		# legacy
 	cd ${TOP}/files && pax -rw -pe -v . ${DST}/dst/
 	cd ${TOP} && pax -rw -pe -v pics ${DST}/dst/
