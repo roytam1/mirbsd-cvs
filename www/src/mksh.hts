@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.503 2013/03/24 00:56:30 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.504 2013/03/29 17:39:43 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -1649,7 +1649,7 @@ exec /usr/bin/ld "${args[@]}"</pre>
 <li><tt>$&amp;</tt> in/after replacements, possibly as array?
  maybe not with that name, see the <tt>&amp;&gt;</tt> disaster.</li>
 <li>something like <tt>${ …;}</tt> except without changing stdout,
- and with a special variable (<tt>MKSH_RV</tt>?) being the result,
+ and with a special variable (<tt>REPLY</tt>?) being the result,
  i.e. that what is interpolated from running this expression, with
  the variable being reset to "" on starting it</li>
 <li>something like <tt>${${foo#bar}%baz}</tt> like other shells do?</li>
