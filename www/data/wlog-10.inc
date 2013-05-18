@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.62 2008/07/25 16:46:34 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.63 2008/07/26 19:46:26 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -1278,4 +1278,23 @@ Title: Katze müßte man sein…
  generate any interrupt requests on modifier key presses or releases. This
  means you’re stuck to DIN or PS/2 pckbd(4) or Sun (&amp;c.) zskbd(4/sparc)
  for entropy collection via IMACSing. Can’t be helped…</p>
+----
+Date: 30.07.2008 00:16
+Author: tg@
+Title: Get me some beer, Wine sucks
+
+<p>… I still wish I were a cat, sometimes.</p>
+<p>Tonight, I managed to port Wine 1.0 from pkgsrc®, with thanks to <a
+ href="http://www.feyrer.de/NetBSD/blog.html/nb_20080728_1037.html">Hubert
+ Feyrer</a> for mentioning, except it seems to stumble about W^X and
+ memory allocation/mapping in general. I guess we need some help from
+ OpenBSD toolchain experts and possibly both FreeBSD® and pkgsrc® porters
+ dealing with this. I can’t, but I tried a lot.</p>
+<p>My other project for tonight failed, once because it has just too many
+ unported dependencies, second because one of them requires gcc4, namely <a
+ href="http://undeadly.org/cgi?action=article&amp;sid=20080728142422">webkit
+ (non-Qt)</a>. Okay, they say webkit-Qt can be built with gcc 3.4.6, but it
+ seems to be not recommended. Thus no midori for us ☹ (yet).</p>
+<p>The third thing was getting rid of J�rg Schilling… but due to the heat I
+ slept bad and could not get up early. Really! (Yeah yeah…)</p>
 ----
