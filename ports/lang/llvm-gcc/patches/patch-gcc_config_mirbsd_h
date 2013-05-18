@@ -1,8 +1,12 @@
-$MirOS: ports/lang/llvm-gcc/patches/patch-gcc_config_mirbsd_h,v 1.1 2008/11/10 20:30:55 tg Exp $
---- gcc/config/mirbsd.h.orig	Tue Nov 11 01:56:31 2008
-+++ gcc/config/mirbsd.h	Tue Nov 11 01:56:31 2008
-@@ -0,0 +1,343 @@
-+/* $MirOS: ports/lang/llvm-gcc/patches/patch-gcc_config_mirbsd_h,v 1.1 2008/11/10 20:30:55 tg Exp $ */
+$MirOS: ports/lang/llvm-gcc/patches/patch-gcc_config_mirbsd_h,v 1.2 2008/11/11 05:30:59 tg Exp $
+
+	Available back to the FSF under copyright assignment;
+	Apple and LLVM are of course also invited to take it.
+
+--- gcc/config/mirbsd.h.orig	Sat Dec 20 22:55:01 2008
++++ gcc/config/mirbsd.h	Sun Dec 21 01:39:16 2008
+@@ -0,0 +1,355 @@
++/* $MirOS: ports/lang/llvm-gcc/patches/patch-gcc_config_mirbsd_h,v 1.2 2008/11/11 05:30:59 tg Exp $ */
 +
 +/* Base configuration file for all MirOS BSD targets on llvm-gcc.
 +   Copyright (c) 2008 Free Software Foundation, Inc.
@@ -12,8 +16,7 @@ $MirOS: ports/lang/llvm-gcc/patches/patch-gcc_config_mirbsd_h,v 1.1 2008/11/10 2
 +
 +GCC is free software; you can redistribute it and/or modify
 +it under the terms of the GNU General Public License as published by
-+the Free Software Foundation; either version 2, or (at your option)
-+any later version.
++the Free Software Foundation; version 2.
 +
 +GCC is distributed in the hope that it will be useful,
 +but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -156,6 +159,18 @@ $MirOS: ports/lang/llvm-gcc/patches/patch-gcc_config_mirbsd_h,v 1.1 2008/11/10 2
 +#define ENDFILE_SPEC MIRBSD_ENDFILE_SPEC
 +
 +
++/*
++ * Work around gcc version-specific library vs rpath problem.
++ * Components are:
++ *	%R = sysroot præfix (usually empty)
++ *	STANDARD_EXEC_PREFIX = “${PREFIX}/lib/gcc/”
++ *	DEFAULT_TARGET_MACHINE = “${OStriplet}”
++ *	DEFAULT_TARGET_VERSION = “4.2.1”
++ */
++#undef MIRPORTS_RPATH
++#define MIRPORTS_RPATH	"-rpath %R" STANDARD_EXEC_PREFIX \
++			    DEFAULT_TARGET_MACHINE "/" DEFAULT_TARGET_VERSION
++
 +/* Provide a LINK_SPEC appropriate for MirOS BSD.  Here we provide
 +   support for the special GCC options -assert, -R, -rpath, -shared,
 +   -nostdlib, -static, -rdynamic, and -dynamic-linker.
@@ -164,7 +179,8 @@ $MirOS: ports/lang/llvm-gcc/patches/patch-gcc_config_mirbsd_h,v 1.1 2008/11/10 2
 +   target-specific LINK_SPEC options.  */
 +
 +#define MIRBSD_LINK_SPEC			\
-+  "%{assert*} %{R*} %{rpath*}			\
++  "%{assert*}					\
++   %{R*} %{rpath*} " MIRPORTS_RPATH "		\
 +   %{!shared:					\
 +     -dc -dp					\
 +     %{!nostdlib:%{!r*:%{!e*:-e __start}}}	\

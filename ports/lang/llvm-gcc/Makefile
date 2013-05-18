@@ -1,10 +1,10 @@
-# $MirOS: ports/lang/llvm-gcc/Makefile,v 1.3 2008/11/11 05:30:58 tg Exp $
+# $MirOS: ports/lang/llvm-gcc/Makefile,v 1.4 2008/11/11 06:49:24 tg Exp $
 
 ONLY_FOR_PLATFORM=	Darwin:*:* MirBSD:*:i386
 
 COMMENT=		Low Level Virtual Machine gcc front-end
 SVN_DISTREV=		58935
-DASH_VER=		1
+DASH_VER=		2
 CATEGORIES=		lang devel
 HOMEPAGE=		http://www.llvm.org/
 
