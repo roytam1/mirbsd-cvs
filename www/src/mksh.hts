@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.471 2012/10/03 18:04:34 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.472 2012/10/21 17:42:53 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -1175,10 +1175,18 @@ exec /usr/bin/ld "${args[@]}"</pre>
   which is totally bogus, but musl, just like dietlibc, gets it wrong</li>
  <li>[tg] Improve compile-time assertions</li>
  <li>[tg] Repair <tt>select</tt> builtin without any choices given</li>
- <li>[tg] Add <tt>-DMKSH_GCC565048</tt> hack to avoid some compile-time
+ <li>[tg] Add <tt>-DMKSH_GCC55009</tt> hack to avoid some compile-time
   assertions and introduce <tt>arith-mandatory</tt> in <tt>check.t</tt>
   to substitute for missing that compile-time check; will change</li>
  <li>[tg] Rewrite lots of code to not rely on <tt>-fwrapv</tt> so much</li>
+ <li>[tg] <tt>Build.sh</tt>: Fix flock(2) detection on GNU/Linux</li>
+ <li>[Andrew Kudryashov] Manpage: fix default for <tt>HISTSIZE</tt></li>
+ <li>[tg] Add debugging aid (split-screen mechanism using GNU screen)</li>
+ <li>[Andrew Kudryashov] Manpage, Website: point out correct mailing list</li>
+ <li>[tg, Andrew Kudryashov] Fix <tt>~/nonexistant</tt> tab completion</li>
+ <li>[tg] Optimise sh -c “[^]\t\n"-$&amp;-*;-?[\\`|]*” to exec, inspired by
+  Jilles Tjoelker (<em>experimental</em>, not as good as it could be)</li>
+ <li>[tg] Fix <tt>$?</tt> inside <tt>eval</tt></li>
 </ul>
 <p>Changes in the current (unreleased) stable branch:</p><ul>
  <li>[tg] Fix a bug in the manual page</li>
