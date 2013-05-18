@@ -5323,6 +5323,7 @@
 ./man3p/warnings.htm
 ./man3p/warnings::register.htm
 ./man5/bsd.port.mk.htm
+./man7/cvs-distfiles.htm
 ./man7/mirror-maker.htm
 ./man7/mirroring-ports.htm
 ./man7/packages-specs.htm
