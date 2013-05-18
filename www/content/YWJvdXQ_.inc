@@ -1,5 +1,5 @@
 <!-- PageID: about -->
-<small class="rcsid">$MirOS: www/content/YWJvdXQ_.inc,v 1.10 2006/01/27 00:54:10 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/YWJvdXQ_.inc,v 1.11 2006/07/30 20:33:09 bsiegert Exp $</small>
 
 <p>On this page:</p>
 
@@ -20,10 +20,10 @@
 
 <p>MirOS is available as a BSD flavour which originated
  as an OpenBSD patchkit, but has grown very much on its own, though
- still being synchronized with the ongoing development of OpenBSD,
+ still being synchronised with the ongoing development of OpenBSD,
  thus inheriting most of its good security history. This variant is
  also called &quot;MirBSD&quot;, but the usage of that word to denote
- MirOS BSD is deprecated.</p>
+ MirOS BSD (plus MirPorts) is deprecated.</p>
 
 <p>A very good general overview about MirOS BSD and MirPorts is available
  from our <a href="http://www.allbsd.de/src/Flyer/MirOS/">information
@@ -40,6 +40,8 @@
 
 <!-- most of these are copied verbatim from the English flyer, need
 to elaborate more -->
+
+<!-- look at http://www.mirbsd.org/?wlog-8#e20060301 -->
 
 <p>MirOS BSD often anticipates bigger changes in OpenBSD and includes them
  before OpenBSD itself. For example, ELF on i386 and support for gcc3 were
@@ -91,7 +93,7 @@ to elaborate more -->
  <a href="/cvs.cgi/src/share/doc/legal/">1stREAD and LICENCE</a>
  files and the <a href="/LICENCE">website licence</a>.
  We prefer new code and documentation to be placed under our
- <a href="/?licence">licence template</a> which is compliant to the
+ <a href="/MirOS-Licence">licence template</a> which is compliant to the
  Open Source Definition and conforms to the Debian Free Software
  Guidelines. (Don't be scared by the length of the template, the actual
  licence stops after the first *- followed by instructions only, and
@@ -104,18 +106,18 @@ to elaborate more -->
  system.</p>
 
 <p>Using MirPorts is straightforward. After the first checkout or after
- updates, <tt>make setup</tt> in /usr/mirports automatically installs the
+ updates, <tt>make setup</tt> in /usr/ports automatically installs the
  package tools and configuration. The ports themselves are in subdirectories,
- sorted by category. Just executing <tt>make install</tt> in such a directory
+ sorted by category. Just executing <tt>mmake install</tt> in such a directory
  will download the source code, compile it, create a binary package and install
  it. Dependencies are automatically installed when necessary. Some ports exist
  in several "flavours", e.g. with or without X support.</p>
- 
+
 <p>Many ports removed for political reasons in OpenBSD (e.g. all the DJB
  software or the Flash Plugin) have been kept in MirPorts and can continue
  being used. We also want to be a place for unofficial or rejected OpenBSD
  ports.</p>
- 
+
 <p>MirPorts does not use the package tools from OpenBSD, which are written in
  Perl, but continues to maintain the previous C-based tools. New features are
  in-place package upgrades and installing your own MirPorts instance as a
@@ -145,12 +147,11 @@ to elaborate more -->
 <p>For all platforms, we are still searching for developers as well as testers
  to build packages and to submit bug reports to the developers.</p>
 
-<p><b>MirLibtool.</b> &nbsp; Libtool is used by many packages to build shared
-libraries in  a portable way. However, there are many problems with
-it&mdash;for example, it breaks when no C++ compiler is installed. Therefore,
-MirPorts contains a modified version named MirLibtool.</p>
+<p><b>MirLibtool.</b> &nbsp; GNU Libtool is used by many packages to build shared
+ libraries in a portable way. However, there are many problems with
+ it&mdash;for example, it breaks when no C++ compiler is installed. Therefore,
+ MirPorts contains a modified version nicknamed MirLibtool.</p>
 
 <p>MirLibtool is based on GNU libtool 1.5. It is compatible with all versions
  of autotools. The MirPorts infrastructure installs it automatically whenever a
  port uses autoconf to recreate its configure script.</p>
-

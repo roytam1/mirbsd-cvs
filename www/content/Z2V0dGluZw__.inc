@@ -1,5 +1,5 @@
 <!-- PageID: getting -->
-<small class="rcsid">$MirOS: www/content/Z2V0dGluZw__.inc,v 1.12 2006/04/19 19:01:16 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/Z2V0dGluZw__.inc,v 1.14 2006/07/30 20:33:09 bsiegert Exp $</small>
 <h1>How to get MirOS</h1>
 
 <p>MirOS consists of several parts: the base system (including X11), the
@@ -13,13 +13,13 @@
  MirOS booth include:</p>
 
 <ul>
- <li><a href="http://www.froscon.org/">FROSCON, St. Augustin (near Bonn),
-  .de</a></li>
- <li><a href="http://www.ccc.de/congress/">Chaos Communication Congress, Berlin,
-  .de</a></li>
- <li><a href="http://www.fosdem.org/">FOSDEM, Bruxelles, .be</a></li>
+ <li><a href="http://www.froscon.org/">FROSCON</a>, St. Augustin (near Bonn),
+  .de</li>
+ <li><a href="http://www.ccc.de/congress/">Chaos Communication Congress</a>, Berlin,
+  .de</li>
+ <li><a href="http://www.fosdem.org/">FOSDEM</a>, Bruxelles, .be</li>
 </ul>
- 
+
 <p>You can also ask <a href="mailto:tg@66h.42h.de">Thorsten</a> for install
  CDs and <a href="mailto:bsiegert@66h.42h.de">Benny</a> for CDs with binary
  packages, distfiles and MirPorts on them. They will ship per snail mail;
@@ -35,11 +35,17 @@
  costs for us. You will find all downloads on <a
  href="http://f.scarywater.net/miros/">our tracker page</a>. <b>Please leave
  the download window open for as long as possible after you finish.</b></p>
- 
+
 <table style="border: 1px solid #333333">
  <tr>
   <th></th>
   <th style="border: 1px solid #333333">Download</th>
+ </tr><tr>
+  <td style="border: 1px solid #333333"><p><b>MirOS #9semel (stable, i386)</b></p>
+   <p>Released 25.06.2006 (<a href="http://marc.theaimsgroup.com/?m=115110448632235">Release
+    announcement</a>).</p></td>
+  <td style="border: 1px solid #333333"><p><a href="/MirOS/ISOs/MIR60625.ISO">via HTTP</a> &ndash;
+   <a href="http://f.scarywater.net/miros/">via BitTorrent</a></p></td>
  </tr><tr>
   <td style="border: 1px solid #333333"><p><b>MirOS #8semel (stable, i386)</b></p>
    <p>Released 23.12.2005 (<a href="/?ann-8">Release
@@ -57,6 +63,6 @@
    <a href="http://f.scarywater.net/miros/">via BitTorrent</a></p></td>
  </tr>
 </table>
- 
+
 <p>More information about <a href="/?anoncvs">anonCVS</a> and
  anonRSYNC can be found on the <a href="/?mirrors">Mirrors</a> list.</p>

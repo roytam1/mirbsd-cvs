@@ -1,17 +1,19 @@
 <!-- PageID: main -->
-<small class="rcsid">$MirOS: www/content/bWFpbg__.inc,v 1.51 2006/04/23 00:57:51 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bWFpbg__.inc,v 1.53 2006/07/30 20:33:10 bsiegert Exp $</small>
 
 <h1>Welcome to the MirOS Project!</h1>
 
 <h2>What is MirOS?</h2>
 
-<p>MirOS BSD is a secure operating system from the BSD family for i386 and
- sparc systems. It is based on <a
+<p>MirOS BSD is a secure operating system from the BSD family for 32-bit
+ i386 and sparc systems. It is based on <a
  href="http://www.openbsd.org/">OpenBSD</a>. MirPorts is a portable ports
  tree to facilitate the installation of additional software. The project
  also releases some portable software: mksh, a ksh-based shell;
  PaxMirabilis, an archiver for various formats; MirMake, a framework for
- building software.</p>
+ building software; MirNroff, an AT&amp;T nroff based man page (and text
+ document) formatter; MirCksum, a flexible checksumming and hash generation
+ tool; and some more.</p>
 
 <p>If you want to know more about these programs, visit the <a
  href="/?about">About MirOS</a> page.</p>
@@ -29,8 +31,8 @@
 <div class="newsentry"> <!-- have to add this to css -->
 <h3>25.07.2006: MirPorts heads-up</h3>
 <p>Due to the introduction of a new ld wrapper, you will have to re-do
- "make setup" (or a similar command line) after updating the infrastructure
- from CVS.</p>
+ "make setup" (or invoke Setup.sh(8) manually in a similar manner) after
+ updating the infrastructure from CVS.</p>
 </div>
 
 <div class="newsentry"> <!-- have to add this to css -->
@@ -55,6 +57,3 @@
  edition please verify the checksums of the data on the CD. Some of
  the CDs we distributed at FOSDEM were burned from a bad ISO.</p>
 </div>
-
-
-
