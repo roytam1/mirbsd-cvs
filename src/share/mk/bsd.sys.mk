@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/bsd.sys.mk,v 1.21 2008/11/01 21:45:38 tg Exp $
+# $MirOS: src/share/mk/bsd.sys.mk,v 1.22 2008/12/10 21:38:56 tg Exp $
 # $OpenBSD: bsd.sys.mk,v 1.8 2000/07/06 23:12:41 millert Exp $
 # $NetBSD: bsd.sys.mk,v 1.2 1995/12/13 01:25:07 cgd Exp $
 
@@ -17,30 +17,30 @@ BSD_SYS_MK=1
 CPPFLAGS+=	-idirafter ${.CURDIR}
 .endif
 
-.if ${OBJECT_FMT} == "ELF"
+.if ${OBJECT_FMT} == "ELF"						#mmk-1(
 LDFLAGS+=	-Wl,-O2		# optimise hash table
-.endif
-
+.endif\
+									#mmk-1)
 # The following is only wanted for source tree builds, not MirPorts
 .if !defined(TRUEPREFIX) || empty(TRUEPREFIX)
 
-.  if !defined(EXPERIMENTAL)
+.  if !defined(EXPERIMENTAL)						#mmk-2(
 CFLAGS+=	-Werror
 .    if !defined(BSD_CFWRAP_MK) && !make(depend)
 _ORIG_CC:=	${CC}
 CC:=		env GCC_HONOUR_COPTS=2 ${CC}
 .    endif
-.  endif
+.  endif								#mmk-2)
 _ORIG_CC?=	${CC}
 
-.  if defined(DESTDIR) && !empty(DESTDIR)
+.  if defined(DESTDIR) && !empty(DESTDIR)				#mmk-3(
 CPPFLAGS+=	-nostdinc -isystem ${DESTDIR}/usr/include
 CXXFLAGS+=	-isystem ${DESTDIR}/usr/include/gxx \
 		-isystem ${DESTDIR}/usr/include/gxx/${OStriplet} \
 		-isystem ${DESTDIR}/usr/include/gxx/backward
 LDFLAGS+=	-Wl,-rpath-link -Wl,${DESTDIR}/usr/lib
-.  endif
-
+.  endif\
+									#mmk-3)
 .endif
 
 .if (!target(includes) || defined(BSD_SUBDIR_MK_NOINCLUDES)) && \
