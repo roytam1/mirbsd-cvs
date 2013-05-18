@@ -12,10 +12,11 @@
  */
 
 #include "includes.h"
-RCSID("$MirOS: src/usr.bin/ssh/ssh-keygen.c,v 1.6 2005/11/23 19:45:15 tg Exp $");
+RCSID("$MirOS: src/usr.bin/ssh/ssh-keygen.c,v 1.7 2005/12/20 19:57:36 tg Exp $");
 
 #include <openssl/evp.h>
 #include <openssl/pem.h>
+#include <openssl/err.h>
 
 #include "xmalloc.h"
 #include "key.h"
@@ -443,6 +444,10 @@ do_convert_from_ossl(struct passwd *pw)
 		k->rsa = PEM_read_RSA_PUBKEY(fp, NULL, NULL, NULL);
 	}
 	if (k == NULL || k->rsa == NULL) {
+		unsigned long e;
+		ERR_load_crypto_strings();
+		while ((e = ERR_get_error()))
+			fprintf(stderr, "%s\n", ERR_error_string(e, NULL));
 		fprintf(stderr, "decode blob failed.\n");
 		exit(1);
 	}
