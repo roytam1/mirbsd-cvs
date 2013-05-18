@@ -2,7 +2,7 @@
 @comment Documentation for CVS.
 @setfilename cvs.info
 @afourpaper
-@comment $MirOS: src/gnu/usr.bin/cvs/doc/cvs.texinfo,v 1.13 2011/05/06 21:56:22 tg Exp $
+@comment $MirOS: src/gnu/usr.bin/cvs/doc/cvs.texinfo,v 1.14 2011/05/06 22:24:52 tg Exp $
 @macro copyleftnotice
 @noindent
 Copyright @copyright{} 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000,
@@ -8159,6 +8159,7 @@ reference to @sc{cvs} commands, @pxref{Invoking CVS}).
 * rdiff::                       'patch' format diffs between releases
 * release::                     Indicate that a directory is no longer in use
 * server & pserver::            Act as a server for a client on stdin/stdout
+* suck::                        Download RCS ,v file raw
 * update::                      Bring work tree in sync with repository
 @end menu
 
@@ -11455,6 +11456,25 @@ Load configuration from @var{path} rather than the default location
 @file{/etc/cvs.conf} or prefixed by @file{/etc/cvs/}.  This option is
 supported beginning with @sc{cvs} release 1.12.13.
 @end table
+
+@c - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+@node suck
+@appendixsec suck---Download RCS ,v file raw
+@cindex suck (subcommand)
+
+@itemize @bullet
+@item
+suck module/path
+@item
+Requires: repository
+@end itemize
+
+Locates the file module/path,v or module/pa/Attic/th,v and downloads
+it raw as RCS comma-v file.
+
+Output consists of the real pathname of the comma-v file, relative to
+the CVS repository, followed by a newline and the binary file content
+immediately thereafter.
 
 @c - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 @node update

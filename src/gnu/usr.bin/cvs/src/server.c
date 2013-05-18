@@ -20,7 +20,7 @@
 #include "getline.h"
 #include "getnline.h"
 
-__RCSID("$MirOS: src/gnu/usr.bin/cvs/src/server.c,v 1.5 2010/09/19 19:43:10 tg Exp $");
+__RCSID("$MirOS: src/gnu/usr.bin/cvs/src/server.c,v 1.6 2011/05/06 21:04:19 tg Exp $");
 
 int server_active = 0;
 
@@ -4633,6 +4633,14 @@ serve_rls (char *arg)
 
 
 static void
+serve_suck (char *arg)
+{
+  do_cvs_command ("suck", suck);
+}
+
+
+
+static void
 serve_add (char *arg)
 {
     do_cvs_command ("add", add);
@@ -5974,6 +5982,7 @@ struct request requests[] =
   REQ_LINE("rannotate", serve_rannotate, 0),
   REQ_LINE("noop", serve_noop, RQ_ROOTLESS),
   REQ_LINE("version", serve_version, RQ_ROOTLESS),
+  REQ_LINE("suck", serve_suck, 0),
   REQ_LINE(NULL, NULL, 0)
 
 #undef REQ_LINE

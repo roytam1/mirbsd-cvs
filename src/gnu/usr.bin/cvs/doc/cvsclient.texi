@@ -1412,6 +1412,12 @@ Response expected: yes.
 Request that the server transmit its version message.
 The @code{Root} request need not have been previously sent.
 
+@item suck \n
+Response expected: yes.
+Actually do a cvs command.  This uses a previous @code{Argument}
+request (only one, because the cvs command takes only one).
+This is a MirBSD/MirPorts and Debian specific extension.
+
 @item @var{other-request} @var{text} \n
 Response expected: yes.
 Any unrecognized request expects a response, and does not

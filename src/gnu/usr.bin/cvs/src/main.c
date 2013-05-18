@@ -28,7 +28,7 @@
 #include <bsd/bsd.h>
 #endif
 
-__RCSID("$MirOS: src/gnu/usr.bin/cvs/src/main.c,v 1.11 2010/09/19 19:43:06 tg Exp $");
+__RCSID("$MirOS: src/gnu/usr.bin/cvs/src/main.c,v 1.12 2011/05/06 21:04:19 tg Exp $");
 
 const char *program_name;
 const char *program_path;
@@ -176,6 +176,7 @@ static const struct cmd
 #ifdef SERVER_SUPPORT
     { "server",   NULL,       NULL,        server,    CVS_CMD_MODIFIES_REPOSITORY | CVS_CMD_USES_WORK_DIR },
 #endif
+    { "suck",     NULL,       NULL,        suck,      0 },
     { "status",   "st",       "stat",      cvsstatus, CVS_CMD_USES_WORK_DIR },
     { "tag",      "ta",       "freeze",    cvstag,    CVS_CMD_MODIFIES_REPOSITORY | CVS_CMD_USES_WORK_DIR },
     { "unedit",   NULL,       NULL,        unedit,    CVS_CMD_MODIFIES_REPOSITORY | CVS_CMD_USES_WORK_DIR },

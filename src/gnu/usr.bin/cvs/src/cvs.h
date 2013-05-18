@@ -1,4 +1,4 @@
-/* $MirOS: ports/devel/cvs/patches/patch-src_cvs_h,v 1.3 2010/09/15 20:57:00 tg Exp $ */
+/* $MirOS: src/gnu/usr.bin/cvs/src/cvs.h,v 1.5 2010/09/19 19:43:03 tg Exp $ */
 
 /*
  * Copyright (C) 1986-2005 The Free Software Foundation, Inc.
@@ -506,6 +506,8 @@ FILE *cvs_temp_file (char **filename);
 int ls (int argc, char *argv[]);
 int unlink_file (const char *f);
 int unlink_file_dir (const char *f);
+
+int suck (int argc, char *argv[]);
 
 /* This is the structure that the recursion processor passes to the
    fileproc to tell it about a particular file.  */
