@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/i386/common/Makefile.inc,v 1.19 2006/06/15 20:01:48 tg Exp $
+# $MirOS: src/distrib/i386/common/Makefile.inc,v 1.20 2006/07/03 22:12:01 tg Exp $
 # $OpenBSD: Makefile.inc,v 1.15 2004/11/25 22:02:08 deraadt Exp $
 
 .ifndef _MODSRC_DISTRIB_I386_COMMON_MAKEFILE_INC
@@ -34,7 +34,7 @@ VND_RDEV=	/dev/r${VND}a
 VND_CRDEV=	/dev/r${VND}c
 REALIMAGE=	${REALOBJDIR}/tmp.ima
 BOOT=		${BSDOBJDIR}/sys/arch/i386/stand/fdboot/boot
-FLOPPYSIZE?=	144
+FLOPPYSIZE?=	2880
 FLOPPYSECS?=	18
 FLOPPYTYPE?=	floppy3
 .if !${COPTS:M-Os}
@@ -56,7 +56,7 @@ all:	${DO_BSDRD_NAME}
 .endif
 
 ${FS}:	bsd.gz
-	dd if=/dev/zero of=${REALIMAGE} bs=10k count=${FLOPPYSIZE}
+	dd if=/dev/zero of=${REALIMAGE} count=${FLOPPYSIZE}
 	${SUDO} vnconfig -v -c ${VND} ${REALIMAGE}
 	${SUDO} disklabel -w -r ${VND} ${FLOPPYTYPE}
 	${SUDO} newfs -m 0 -o space -i 1048576 -c 80 -b 4096 ${VND_RDEV}
@@ -116,8 +116,8 @@ rd_teardown:
 	cp ${REALIMAGE} ${IMAGE}
 	rm ${REALIMAGE}
 
-rdsetroot:	${TOP}/../common/elfrdsetroot.c
-	${HOSTCC} ${HOSTCFLAGS} -DDEBUG -o $@ ${TOP}/../common/elfrdsetroot.c
+rdsetroot: ${TOP}/../common/elfrdsetroot.c
+	${HOSTCC} ${HOSTCFLAGS} -DDEBUG -o $@ $>
 
 unconfig:
 	-${SUDO} umount -f ${VND_DEV}
@@ -157,14 +157,14 @@ clean cleandir:
 .endif
 	/bin/rm -f core ${IMAGE} ${CBIN} ${CBIN}.mk ${CBIN}*.cache boot \
 	    *.o *.lo *.c bsd bsd.rd bsd.gz bsd.strip floppy*.fs rdsetroot \
-	    cdrom*.fs ${CRUNCHCONF} ${DO_BSDRD_NAME}{,.uncompressed} \
+	    cdrom*.fs ${CRUNCHCONF} ${DO_BSDRD_NAME} ${DO_BSDRD_UC} \
 	    ${FS} ${REALIMAGE}
 	/bin/rm -rf ${MOUNT_POINT}
 
 cleannobsd:
 	/bin/rm -f core ${IMAGE} ${CBIN} ${CBIN}.mk ${CBIN}*.cache boot \
 	    *.o *.lo *.c bsd.rd bsd.gz bsd.strip floppy*.fs rdsetroot \
-	    cdrom*.fs ${CRUNCHCONF} ${DO_BSDRD_NAME}{,.uncompressed} \
+	    cdrom*.fs ${CRUNCHCONF} ${DO_BSDRD_NAME} ${DO_BSDRD_UC} \
 	    ${FS} ${REALIMAGE}
 	/bin/rm -rf ${MOUNT_POINT}
 
