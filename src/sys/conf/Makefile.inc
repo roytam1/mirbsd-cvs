@@ -1,4 +1,4 @@
-# $MirOS: src/sys/conf/Makefile.inc,v 1.33 2008/08/03 00:21:26 tg Exp $
+# $MirOS: src/sys/conf/Makefile.inc,v 1.34 2008/08/16 23:21:46 tg Exp $
 #-
 # Copyright (c) 2005, 2006, 2007, 2008
 #	Thorsten "mirabilos" Glaser <tg@mirbsd.de>
@@ -176,6 +176,9 @@ depend:: .depend
 	@sed -e 's/.*\.o:.* /assym.h: /' <assym.dep >>.depend
 	@rm -f assym.dep
 
+INSTALL_KERNEL=	bsd
+install-unstripped:
+	@cd ${.CURDIR} && exec ${MAKE} install INSTALL_KERNEL=bsd.unstripped
 install:
 	@if [[ -e /bsd ]]; then \
 		echo Move /bsd out of the way!; \
@@ -185,7 +188,7 @@ install:
 		exit 1; \
 	else \
 		set -x; \
-		install -c -o root -g daemon -m 400 bsd /; \
+		install -c -o root -g daemon -m 400 ${INSTALL_KERNEL} /bsd; \
 		install -c -o root -g wheel -m 644 \
 		    kvm_bsd.db /var/db/kvm_bsd.new; \
 	fi
