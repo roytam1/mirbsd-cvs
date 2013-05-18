@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/i386/generic/Makefile,v 1.7 2006/05/26 18:55:11 tg Exp $
+# $MirOS: src/distrib/sparc/generic/Makefile,v 1.1 2006/06/11 01:08:30 tg Exp $
 
 RAMDISK=	GENERIC
 SYSDIR=		${.CURDIR}/../../../sys
@@ -17,6 +17,10 @@ depend:
 
 install:
 	cp bsd ${DESTDIR}/snapshot/bsd
+	s=$$(printf "find sd\nexit" | config -e ${DESTDIR}/snapshot/bsd | \
+	    grep scsibus | awk '{print $$1}'); \
+	    printf "add sd0\n%s\n%s\nchange %s\ny\n3\n\n\nquit\n" $$s $$s $$s | \
+	    config -e -o ${DESTDIR}/snapshot/bsd.scsi3 ${DESTDIR}/snapshot/bsd
 
 install-root:
 	@if [[ -e /bsd ]]; then \
