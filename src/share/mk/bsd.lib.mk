@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/bsd.lib.mk,v 1.28 2005/11/19 12:34:57 tg Exp $
+# $MirOS: src/share/mk/bsd.lib.mk,v 1.29 2005/12/04 19:32:36 tg Exp $
 # $OpenBSD: bsd.lib.mk,v 1.43 2004/09/20 18:52:38 espie Exp $
 # $NetBSD: bsd.lib.mk,v 1.67 1996/01/17 20:39:26 mycroft Exp $
 # @(#)bsd.lib.mk	5.26 (Berkeley) 5/2/91
@@ -77,12 +77,6 @@ LINK.shlib?=	${LINKER} ${CFLAGS} ${SHLIB_FLAGS} -shared \
 
 .MAIN: all
 
-# If building new-style shared libraries with debugging information,
-# add some debugging flags to the .so file compiling.
-.if ${DEBUGLIBS:L} == "yes"
-PICFLAG+=	-g
-.endif
-
 # prefer .S to a .c, remove stuff not used in the BSD libraries.
 # .so used for PIC object files.  .ln used for lint output files.
 # .m for objective c files.
@@ -110,11 +104,7 @@ PICFLAG+=	-g
 	    "-DPIC ${PICFLAG} ${.IMPSRC} -o $@"
 	@${COMPILE.c} ${CFLAGS_${.TARGET:C/\.(g|s)o$/.o/}} \
 	    -DPIC ${PICFLAG} ${.IMPSRC} -o $@.o
-.if ${DEBUGLIBS:L} == "yes"
-	@${LD} -X -r $@.o -o $@
-.else
 	@${LD} -x -r $@.o -o $@
-.endif
 	@rm -f $@.o
 
 .c.ln:
@@ -263,21 +253,8 @@ realinstall:
 	${LINK.shlib} -install_name ${LIBDIR}/${SHLIB_SONAME} \
 	    -o ${SHLIB_SONAME}
 .    endif
-.    if ${DEBUGLIBS:L} != "yes"
 	${INSTALL} ${INSTALL_COPY} -o ${LIBOWN} -g ${LIBGRP} -m ${LIBMODE} \
 	    ${SHLIB_SONAME} ${DESTDIR}${LIBDIR}/
-.    else
-	-rm -f ${DESTDIR}${LIBDIR}/${SHLIB_SONAME}.{dbg,tmp}
-	${INSTALL} ${INSTALL_COPY} -o ${LIBOWN} -g ${LIBGRP} -m 600 \
-	    ${SHLIB_SONAME} ${DESTDIR}${LIBDIR}/${SHLIB_SONAME}.tmp
-	objcopy --only-keep-debug ${SHLIB_SONAME} \
-	    ${DESTDIR}${LIBDIR}/${SHLIB_SONAME}.dbg && cd ${DESTDIR}${LIBDIR} \
-	    && objcopy --strip-debug --add-gnu-debuglink=${SHLIB_SONAME}.dbg \
-	    ${SHLIB_SONAME}.tmp && chmod ${SHAREMODE} ${SHLIB_SONAME}.dbg && \
-	    chown ${LIBOWN}:${LIBGRP} ${SHLIB_SONAME}.dbg && ln -f \
-	    ${SHLIB_SONAME}.tmp ${SHLIB_SONAME} && chmod ${LIBMODE} \
-	    ${SHLIB_SONAME} && rm -f ${SHLIB_SONAME}.tmp
-.    endif
 .    for _i in ${SHLIB_LINKS}
 	@rm -f ${DESTDIR}${LIBDIR}/${_i}
 	cd ${DESTDIR}${LIBDIR} && if ! ln -s ${SHLIB_SONAME} ${_i}; then \

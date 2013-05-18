@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/bsd.prog.mk,v 1.17 2005/10/26 17:51:27 tg Exp $
+# $MirOS: src/share/mk/bsd.prog.mk,v 1.18 2005/11/19 12:34:57 tg Exp $
 # $OpenBSD: bsd.prog.mk,v 1.44 2005/04/15 17:18:57 espie Exp $
 # $NetBSD: bsd.prog.mk,v 1.55 1996/04/08 21:19:26 jtc Exp $
 # @(#)bsd.prog.mk	5.26 (Berkeley) 6/25/91
@@ -22,10 +22,6 @@ CXXFLAGS+=	${CXXDIAGFLAGS}
 .endif
 CFLAGS+=	${COPTS}
 CXXFLAGS+=	${CXXOPTS}
-.if ${DEBUGPROGS:L} == "yes"
-CFLAGS+=	-g
-CXXFLAGS+=	-g
-.endif
 
 .if defined(PROG) && !empty(PROG)
 SRCS?=	${PROG}.c
@@ -87,21 +83,8 @@ realinstall:
 	@echo Relinking ${PROG}
 	${LINK.prog} -o ${PROG}
 .      endif
-.      if (${DEBUGPROGS:L} != "yes") || empty(INSTALL_STRIP)
 	${INSTALL} ${INSTALL_COPY} ${INSTALL_STRIP} -o ${BINOWN} -g ${BINGRP} \
 	    -m ${BINMODE} ${PROG} ${DESTDIR}${BINDIR}/
-.      else
-	-rm -f ${DESTDIR}${BINDIR}/${PROG}.{dbg,tmp}
-	${INSTALL} ${INSTALL_COPY} ${INSTALL_STRIP} -o ${BINOWN} -g ${BINGRP} \
-	    -m 600 ${PROG} ${DESTDIR}${BINDIR}/${PROG}.tmp
-	objcopy --only-keep-debug ${PROG} \
-	    ${DESTDIR}${BINDIR}/${PROG}.dbg && cd ${DESTDIR}${BINDIR} \
-	    && objcopy --strip-debug --add-gnu-debuglink=${PROG}.dbg \
-	    ${PROG}.tmp && chmod ${SHAREMODE} ${PROG}.dbg && \
-	    chown ${BINOWN}:${BINGRP} ${PROG}.dbg && ln -f \
-	    ${PROG}.tmp ${PROG} && chmod ${BINMODE} \
-	    ${PROG} && rm -f ${PROG}.tmp
-.      endif
 .    endif
 .  endif
 
