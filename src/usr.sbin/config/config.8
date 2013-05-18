@@ -79,7 +79,7 @@ a new GENERIC kernel (assuming a complete kernel source tree is available in
 # cd /usr/src/sys/arch/i386/conf
 # config ./GENERIC
 # cd ../compile/GENERIC
-# make depend && make
+# /usr/src/make.sh depend && /usr/src/make.sh
 .Ed
 .Pp
 Replace
@@ -175,7 +175,7 @@ when building the kernel.
 After running
 .Nm
 it is wise to run
-.Dq make depend
+.Dq /usr/src/make.sh depend
 in the new build directory.
 .Nm
 prints a reminder of this when it completes.
@@ -396,10 +396,10 @@ should be a name indicative of a particular configuration (often
 that of the hostname).
 .Nm config
 will warn you if a
-.Dq make clean
+.Dq /usr/src/make.sh clean
 is required;
 you can also do a
-.Dq make depend
+.Dq /usr/src/make.sh depend
 so that you will have dependencies there the next time you do a compile.
 .Pp
 After either of these two methods, you can place the new kernel (called

@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.sbin/config/main.c,v 1.2 2005/03/13 19:16:18 tg Exp $ */
+/**	$MirOS: src/usr.sbin/config/main.c,v 1.3 2005/12/04 15:02:22 tg Exp $ */
 /*	$OpenBSD: main.c,v 1.37 2005/04/28 22:28:00 deraadt Exp $	*/
 /*	$NetBSD: main.c,v 1.22 1997/02/02 21:12:33 thorpej Exp $	*/
 
@@ -59,7 +59,7 @@ static char copyright[] =
 #include <unistd.h>
 #include "config.h"
 
-__RCSID("$MirOS: src/usr.sbin/config/main.c,v 1.2 2005/03/13 19:16:18 tg Exp $");
+__RCSID("$MirOS: src/usr.sbin/config/main.c,v 1.3 2005/12/04 15:02:22 tg Exp $");
 
 int	firstfile(const char *);
 int	yyparse(void);
@@ -274,7 +274,7 @@ main(int argc, char *argv[])
 	if (mksymlinks() || mkmakefile() || mkheaders() || mkswap() ||
 	    mkioconf() || mkcfgfile())
 		stop();
-	(void)printf("Don't forget to run \"make depend\"\n");
+	(void)printf("Don't forget to run \"/usr/src/make.sh depend\"\n");
 	optiondelta();
 	exit(0);
 }
@@ -804,5 +804,5 @@ optiondelta(void)
 	free(newopts);
 	if (ret == 0 || madedir == 1)
 		return;
-	(void)printf("Kernel options have changed -- you must run \"make clean\"\n");
+	(void)printf("Kernel options have changed -- you must run \"/usr/src/make.sh clean\"\n");
 }
