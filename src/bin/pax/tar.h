@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: tar.h,v 1.7 2003/06/02 23:32:09 millert Exp $	*/
 /*	$NetBSD: tar.h,v 1.3 1995/03/21 09:07:51 cgd Exp $	*/
 

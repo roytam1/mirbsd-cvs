@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: sel_subs.h,v 1.4 2003/06/02 23:32:09 millert Exp $	*/
 /*	$NetBSD: sel_subs.h,v 1.3 1995/03/21 09:07:44 cgd Exp $	*/
 

@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: pat_rep.h,v 1.4 2003/06/02 23:32:08 millert Exp $	*/
 /*	$NetBSD: pat_rep.h,v 1.3 1995/03/21 09:07:35 cgd Exp $	*/
 
