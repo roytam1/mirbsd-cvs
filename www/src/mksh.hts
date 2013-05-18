@@ -1,10 +1,10 @@
-# $MirOS: www/src/mksh.hts,v 1.39 2007/07/30 20:11:42 tg Exp $
+# $MirOS: www/src/mksh.hts,v 1.40 2007/07/31 13:58:28 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.39 2007/07/30 20:11:42 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.40 2007/07/31 13:58:28 tg Exp $'
 mws_content <<'EOF'
 <h1>mksh(1) R30</h1>
 <p>This is the website of the MirBSD™ Korn Shell, an actively developed free
@@ -643,6 +643,7 @@ mws_content <<'EOF'
   (not finished yet)</li>
  <li>Support the TenDRA compiler (and, possibly, Ten15 too).</li>
  <li>Begin supporting Fabrice Bellard's Tiny C Compiler.</li>
+ <li>Add new bindable command “clear-screen” e.g. for <tt>^L</tt> key.</li>
 </ul>
 <p>A milestone in development: mksh R30 can do this:</p><ul>
  <li>Build on and for Solaris, Linux and MirBSD with Sun's C compiler</li>
