@@ -1,4 +1,4 @@
-/**	$MirOS: src/include/stdlib.h,v 1.25 2010/09/15 22:48:37 tg Exp $ */
+/**	$MirOS: src/include/stdlib.h,v 1.26 2010/09/21 21:24:06 tg Exp $ */
 /*	$OpenBSD: stdlib.h,v 1.34 2005/05/27 17:45:56 millert Exp $	*/
 /*	$NetBSD: stdlib.h,v 1.25 1995/12/27 21:19:08 jtc Exp $	*/
 
@@ -136,6 +136,7 @@ ldiv_t	 ldiv(long, long);
 long long
 	 llabs(long long);
 void	*malloc(size_t);
+int	 posix_memalign(void **, size_t, size_t);
 char	*mkdtemp(char *);
 int	 mkstemp(char *);
 int	 mkstemps(char *, int);

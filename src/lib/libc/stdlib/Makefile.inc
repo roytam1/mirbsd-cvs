@@ -1,4 +1,4 @@
-# $MirOS: src/lib/libc/stdlib/Makefile.inc,v 1.8 2008/08/01 19:07:44 tg Exp $
+# $MirOS: src/lib/libc/stdlib/Makefile.inc,v 1.9 2010/12/23 18:11:45 tg Exp $
 
 # stdlib sources
 .PATH: ${LIBCSRCDIR}/arch/${MACHINE_ARCH}/stdlib ${LIBCSRCDIR}/stdlib
@@ -28,7 +28,8 @@ CFLAGS_strtoull.o+= -Wno-cast-qual
 CFLAGS_system.o+= -Wno-error
 CFLAGS_tfind.o+= -Wno-cast-qual
 CFLAGS_tsearch.o+= -Wno-cast-qual
-CFLAGS_malloc.o+= -Wno-error
+CFLAGS_malloc_brk.o+= -Wno-error
+CFLAGS_malloc_mmap.o+= -Wno-error
 .endif
 
 SRCS+=	abs.S
@@ -51,6 +52,8 @@ MALLOC_TYPE?=mmap
 SRCS+=	malloc_mmap.c
 .elif ${MALLOC_TYPE:L} == "brk"
 SRCS+=	malloc_brk.c
+.elif ${MALLOC_TYPE:L} == "omalloc"
+SRCS+=	malloc.c
 .else
 .  error MALLOC_TYPE "${MALLOC_TYPE:L}" unknown.
 .endif
