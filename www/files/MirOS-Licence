@@ -32,12 +32,12 @@ in some (droit d’auteur) countries authors cannot disclaim all liabi‐
 lities. Compliance to OSD⁽³⁾ 1.9 and DFSG⁽⁴⁾ 1.1 is ensured and GPLv2
 compatibility is asserted unless advertising clauses are used. OKD⁽⁵⁾
 1.0 conformance is certified, the OKFN list⁽⁶⁾ includes it. The MirOS
-Licence also qualifies as both a Free Software⁽⁷⁾ and Free Documenta-
+Licence also qualifies as both a Free Software⁽⁷⁾ and Free Documenta‐
 tion⁽⁸⁾ licence by the FSF.
 
 We believe you are not liable for work inserted which is intellectual
 property of third parties, if you were not aware of the fact, act ap‐
-propriately as soon as you become aware of that problem, seek an ami-
+propriately as soon as you become aware of that problem, seek an ami‐
 cable solution for all parties, and never knowingly distribute a work
 without being authorised to do so by its licensors.
 
@@ -52,4 +52,5 @@ R̲E̲F̲E̲R̲E̲N̲C̲E̲S̲:̲
 ⑧ http://www.gnu.org/philosophy/free-doc.html
 
 ⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼
-$MirOS: src/share/misc/licence.template,v 1.26 2008/07/07 13:28:40 tg Rel $
+$miros: src/share/misc/licence.template,v 1.26 2008/07/07 13:28:40 tg Rel $
+$MirOS$
