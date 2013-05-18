@@ -1,4 +1,4 @@
-# $MirOS: src/lib/libssl/crypto/Makefile,v 1.10 2005/12/06 01:46:44 tg Exp $
+# $MirOS: src/lib/libssl/crypto/Makefile,v 1.11 2006/03/27 19:30:35 tg Exp $
 # $OpenBSD: Makefile,v 1.44 2005/11/24 20:49:21 deraadt Exp $
 
 .include <bsd.own.mk>
@@ -237,8 +237,6 @@ includes:
 		echo $$j; \
 		eval "$$j"; \
 	done
-	chown -R ${BINOWN}:${BINGRP} ${DESTDIR}/usr/include/openssl
-	chmod -R a=rX ${DESTDIR}/usr/include/openssl
 
 GENERATED=	obj_mac.h obj_dat.h
 CLEANFILES=	${GENERATED} obj_mac.num.tmp

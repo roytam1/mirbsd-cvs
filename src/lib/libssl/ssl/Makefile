@@ -1,4 +1,4 @@
-# $MirOS: src/lib/libssl/ssl/Makefile,v 1.8 2006/03/27 19:19:14 tg Exp $
+# $MirOS: src/lib/libssl/ssl/Makefile,v 1.9 2006/05/10 17:53:12 tg Exp $
 # $OpenBSD: Makefile,v 1.21 2005/11/24 20:49:23 deraadt Exp $
 
 SHLIB_VERSION?=	11.0
@@ -38,7 +38,5 @@ includes:
 		echo $$j; \
 		eval "$$j"; \
 	done
-	chown -R ${BINOWN}:${BINGRP} ${DESTDIR}/usr/include/openssl
-	chmod -R a=rX ${DESTDIR}/usr/include/openssl
 
 .include <bsd.lib.mk>
