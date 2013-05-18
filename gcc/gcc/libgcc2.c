@@ -1,4 +1,4 @@
-/* $MirOS$ */
+/* $MirOS: gcc/gcc/libgcc2.c,v 1.4 2006/03/01 20:08:10 tg Exp $ */
 
 /* More subroutines needed by GCC output code on some machines.  */
 /* Compile this one with gcc.  */
@@ -62,6 +62,7 @@ Software Foundation, 59 Temple Place - Suite 330, Boston, MA
 #endif
 
 #if defined (L_negdi2)
+#ifndef _LIBC_PROVIDES_QUAD_
 DWtype
 __negdi2 (DWtype u)
 {
@@ -71,6 +72,7 @@ __negdi2 (DWtype u)
 
   return w.ll;
 }
+#endif /* _LIBC_PROVIDES_QUAD_ */
 #endif
 
 #ifdef L_addvsi3
@@ -403,6 +405,7 @@ __mulvDI3 (DWtype u, DWtype v)
 /* Unless shift functions are defined with full ANSI prototypes,
    parameter b will be promoted to int if word_type is smaller than an int.  */
 #ifdef L_lshrdi3
+#ifndef _LIBC_PROVIDES_QUAD_
 DWtype
 __lshrdi3 (DWtype u, word_type b)
 {
@@ -428,9 +431,11 @@ __lshrdi3 (DWtype u, word_type b)
 
   return w.ll;
 }
+#endif /* _LIBC_PROVIDES_QUAD_ */
 #endif
 
 #ifdef L_ashldi3
+#ifndef _LIBC_PROVIDES_QUAD_
 DWtype
 __ashldi3 (DWtype u, word_type b)
 {
@@ -456,9 +461,11 @@ __ashldi3 (DWtype u, word_type b)
 
   return w.ll;
 }
+#endif /* _LIBC_PROVIDES_QUAD_ */
 #endif
 
 #ifdef L_ashrdi3
+#ifndef _LIBC_PROVIDES_QUAD_
 DWtype
 __ashrdi3 (DWtype u, word_type b)
 {
@@ -485,6 +492,7 @@ __ashrdi3 (DWtype u, word_type b)
 
   return w.ll;
 }
+#endif /* _LIBC_PROVIDES_QUAD_ */
 #endif
 
 #ifdef L_ffssi2
@@ -525,6 +533,7 @@ __ffsDI2 (DWtype u)
 #endif
 
 #ifdef L_muldi3
+#ifndef _LIBC_PROVIDES_QUAD_
 DWtype
 __muldi3 (DWtype u, DWtype v)
 {
@@ -537,13 +546,16 @@ __muldi3 (DWtype u, DWtype v)
 
   return w.ll;
 }
+#endif /* _LIBC_PROVIDES_QUAD_ */
 #endif
 
 #if (defined (L_udivdi3) || defined (L_divdi3) || \
      defined (L_umoddi3) || defined (L_moddi3))
+#ifndef _LIBC_PROVIDES_QUAD_
 #if defined (sdiv_qrnnd)
 #define L_udiv_w_sdiv
 #endif
+#endif /* _LIBC_PROVIDES_QUAD_ */
 #endif
 
 #ifdef L_udiv_w_sdiv
@@ -663,7 +675,9 @@ __udiv_w_sdiv (UWtype *rp __attribute__ ((__unused__)),
 
 #if (defined (L_udivdi3) || defined (L_divdi3) || \
      defined (L_umoddi3) || defined (L_moddi3))
+#ifndef _LIBC_PROVIDES_QUAD_
 #define L_udivmoddi4
+#endif /* _LIBC_PROVIDES_QUAD_ */
 #endif
 
 #ifdef L_clz
@@ -1065,6 +1079,7 @@ __udivmoddi4 (UDWtype n, UDWtype d, UDWtype *rp)
 #endif
 
 #ifdef L_divdi3
+#ifndef _LIBC_PROVIDES_QUAD_
 DWtype
 __divdi3 (DWtype u, DWtype v)
 {
@@ -1086,9 +1101,11 @@ __divdi3 (DWtype u, DWtype v)
 
   return w;
 }
+#endif /* _LIBC_PROVIDES_QUAD_ */
 #endif
 
 #ifdef L_moddi3
+#ifndef _LIBC_PROVIDES_QUAD_
 DWtype
 __moddi3 (DWtype u, DWtype v)
 {
@@ -1109,9 +1126,11 @@ __moddi3 (DWtype u, DWtype v)
 
   return w;
 }
+#endif /* _LIBC_PROVIDES_QUAD_ */
 #endif
 
 #ifdef L_umoddi3
+#ifndef _LIBC_PROVIDES_QUAD_
 UDWtype
 __umoddi3 (UDWtype u, UDWtype v)
 {
@@ -1121,17 +1140,21 @@ __umoddi3 (UDWtype u, UDWtype v)
 
   return w;
 }
+#endif /* _LIBC_PROVIDES_QUAD_ */
 #endif
 
 #ifdef L_udivdi3
+#ifndef _LIBC_PROVIDES_QUAD_
 UDWtype
 __udivdi3 (UDWtype n, UDWtype d)
 {
   return __udivmoddi4 (n, d, (UDWtype *) 0);
 }
+#endif /* _LIBC_PROVIDES_QUAD_ */
 #endif
 
 #ifdef L_cmpdi2
+#ifndef _LIBC_PROVIDES_QUAD_
 word_type
 __cmpdi2 (DWtype a, DWtype b)
 {
@@ -1148,9 +1171,11 @@ __cmpdi2 (DWtype a, DWtype b)
     return 2;
   return 1;
 }
+#endif /* _LIBC_PROVIDES_QUAD_ */
 #endif
 
 #ifdef L_ucmpdi2
+#ifndef _LIBC_PROVIDES_QUAD_
 word_type
 __ucmpdi2 (DWtype a, DWtype b)
 {
@@ -1167,6 +1192,7 @@ __ucmpdi2 (DWtype a, DWtype b)
     return 2;
   return 1;
 }
+#endif /* _LIBC_PROVIDES_QUAD_ */
 #endif
 
 #if defined(L_fixunstfdi) && (LIBGCC2_LONG_DOUBLE_TYPE_SIZE == 128)

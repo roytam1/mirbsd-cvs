@@ -1,4 +1,4 @@
-# $MirOS: gcc/Makefile.inc,v 1.24 2006/09/22 04:17:32 tg Exp $
+# $MirOS: gcc/Makefile.inc,v 1.25 2006/11/03 01:14:03 tg Exp $
 
 .ifndef _MODGCC_MAKEFILE_INC
 _MODGCC_MAKEFILE_INC=1
@@ -23,7 +23,7 @@ OBJC_GC=	--enable-objc-gc
 
 # System defines
 GCCVERSION=	3.4.6
-LIBGCC_REV=	1.1
+LIBGCC_REV=	2.0
 # XXX how about automatically deriving these below?
 LIBGCJ_REV=	5.0
 LIBOBJC_REV=	3.1

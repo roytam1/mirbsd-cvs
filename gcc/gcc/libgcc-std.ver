@@ -81,10 +81,12 @@ GCC_3.0 {
   # libgcc2 DImode arithmetic (for 32-bit targets).
   __absvdi2
   __addvdi3
+%if !defined(_LIBC_PROVIDES_QUAD_)
   __ashldi3
   __ashrdi3
   __cmpdi2
   __divdi3
+%endif
   __ffsdi2
   __fixdfdi
   __fixsfdi
@@ -102,17 +104,25 @@ GCC_3.0 {
   __floatdisf
   __floatdixf
   __floatditf
+%if !defined(_LIBC_PROVIDES_QUAD_)
   __lshrdi3
   __moddi3
   __muldi3
+%endif
   __mulvdi3
+%if !defined(_LIBC_PROVIDES_QUAD_)
   __negdi2
+%endif
   __negvdi2
   __subvdi3
+%if !defined(_LIBC_PROVIDES_QUAD_)
   __ucmpdi2
   __udivdi3
+%endif
   __udivmoddi4
+%if !defined(_LIBC_PROVIDES_QUAD_)
   __umoddi3
+%endif
 
   # libgcc2 TImode arithmetic (for 64-bit targets).
   __ashlti3

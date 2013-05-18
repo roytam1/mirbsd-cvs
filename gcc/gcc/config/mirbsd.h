@@ -1,4 +1,4 @@
-/* $MirOS: gcc/gcc/config/mirbsd.h,v 1.18 2007/10/05 21:07:55 tg Exp $ */
+/* $MirOS: gcc/gcc/config/mirbsd.h,v 1.21 2009/02/25 17:41:42 tg Exp $ */
 
 /* Base configuration file for all MirOS BSD targets.
    Copyright (C) 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2005, 2006, 2007,
@@ -265,6 +265,10 @@ Boston, MA 02111-1307, USA.  */
 /* MirOS libc already provides the ProPolice functions.  */
 
 #define _LIBC_PROVIDES_SSP_
+
+/* MirOS libc already provides the quad arithmetic functions.  */
+
+#define _LIBC_PROVIDES_QUAD_
 
 /* MirOS BSD targets need to make the stack executable.  */
 
