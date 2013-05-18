@@ -1,8 +1,8 @@
-# $MirOS: ports/textproc/libcroco/Makefile,v 1.3 2006/02/09 11:15:30 tg Exp $
+# $MirOS: ports/textproc/libcroco/Makefile,v 1.4 2006/09/14 00:14:08 tg Exp $
 
-COMMENT=			parse and manipulate CSS (Cascading Style Sheets)
+COMMENT=		parse and manipulate CSS (Cascading Style Sheets)
 
-VERSION=		0.6.0
+VERSION=		0.6.1
 DISTNAME=		libcroco-${VERSION}
 CATEGORIES=		textproc x11/gnome
 

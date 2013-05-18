@@ -1,4 +1,4 @@
-@comment $MirOS$
+@comment $MirOS: ports/textproc/libcroco/pkg/PLIST,v 1.1.7.1 2005/03/18 15:52:47 tg Exp $
 bin/croco-0.6-config
 bin/csslint-0.6
 include/libcroco-0.6/libcroco/cr-additional-sel.h
@@ -29,10 +29,8 @@ include/libcroco-0.6/libcroco/cr-token.h
 include/libcroco-0.6/libcroco/cr-utils.h
 include/libcroco-0.6/libcroco/libcroco-config.h
 include/libcroco-0.6/libcroco/libcroco.h
-lib/libcroco-0.6.a
 lib/libcroco-0.6.la
 lib/pkgconfig/libcroco-0.6.pc
-%%SHARED%%
 @dirrm lib/pkgconfig
 @dirrm include/libcroco-0.6/libcroco
 @dirrm include/libcroco-0.6
