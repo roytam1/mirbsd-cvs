@@ -1,4 +1,4 @@
-# $MirOS: src/share/doc/legal/Makefile,v 1.6 2009/01/17 12:49:03 tg Exp $
+# $MirOS: src/share/doc/legal/Makefile,v 1.7 2009/01/17 12:50:00 tg Exp $
 
 BINDIR=		${DOCDIR}/legal
 NROFF=		nrcon -e ${MACROS} ${PAGES}
@@ -27,7 +27,7 @@ grml.0: ${ROFFS}
 	    >$@ || (rm -f $@; false)
 
 grml: grml.0
-	col -b <${.ALLSRC} >$@
+	col -bx <${.ALLSRC} >$@
 
 beforeinstall:
 	cd ${.CURDIR} && install -c -o ${DOCOWN} -g ${DOCGRP} -m ${DOCMODE} \

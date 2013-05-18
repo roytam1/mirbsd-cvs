@@ -1,4 +1,4 @@
-.\" $MirOS: src/share/doc/legal/lbsd.mdoc,v 1.26 2009/01/17 12:55:43 tg Exp $
+.\" $MirOS: src/share/doc/legal/lbsd.mdoc,v 1.27 2009/01/17 12:59:17 tg Exp $
 .\" partially derived from:
 .\" $OpenBSD: COPYRIGHT,v 1.3 2003/06/04 16:08:07 deraadt Exp $
 .\" @(#)COPYRIGHT	5.1 (Berkeley) 7/1/91
@@ -11,7 +11,13 @@ This is the
 .Nm BSD-Licence
 for the
 .Mx
-base system.
+.ie \ng==1 \{\
+bsd4grml
+.\}
+.el \{\
+base
+.\}
+system.
 .Sh DESCRIPTION
 This document provides a list of all advertising clauses
 required to be reproduced when distributing
