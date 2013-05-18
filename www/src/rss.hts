@@ -1,4 +1,4 @@
-# $MirOS: www/src/rss.hts,v 1.11 2009/09/25 18:25:21 tg Exp $
+# $MirOS: www/src/rss.hts,v 1.12 2009/09/25 18:28:32 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -6,7 +6,7 @@
 mws_setname rss "RSS feeds, mailing lists"
 mws_subdir 0
 mws_setheadline MirOS RSS feeds
-mws_putheader '$MirOS: www/src/rss.hts,v 1.11 2009/09/25 18:25:21 tg Exp $'
+mws_putheader '$MirOS: www/src/rss.hts,v 1.12 2009/09/25 18:28:32 tg Exp $'
 mws_content <<'EOF'
 <h2 id="feeds">Website feeds</h2>
 <p>We offer the following RSS feeds, which can be subscribed to
@@ -23,7 +23,7 @@ mws_content <<'EOF'
 </ul>
 
 <h2 id="lists">Mailing lists</h2>
-<p>The following feeds are autmatically generated from the mailing lists:</p>
+<p>The following feeds are automatically generated from the mailing lists:</p>
 <ul>
  <li><a href="mailto:miros-discuss@mirbsd.org">miros-discuss@</a>: a <a
   href="http://rss.gmane.org/messages/complete/gmane.os.miros.general">general
