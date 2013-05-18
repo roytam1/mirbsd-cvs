@@ -1,9 +1,10 @@
-# $MirOS: ports/x11/gnome/librsvg/Makefile,v 1.8 2007/04/18 20:05:07 bsiegert Exp $
+# $MirOS: ports/x11/gnome/librsvg/Makefile,v 1.9 2007/07/10 19:18:49 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.12 2004/12/23 05:03:09 marcm Exp $
 
 COMMENT=		SAX-based render library for SVG files
 
 VERSION=		2.16.1
+DASH_VER=		1
 DISTNAME=		librsvg-${VERSION}
 CATEGORIES=		devel x11/gnome
 
