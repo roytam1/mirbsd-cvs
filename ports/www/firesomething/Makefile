@@ -1,10 +1,10 @@
-# $MirOS: ports/www/firesomething/Makefile,v 1.28 2008/05/26 05:45:51 bsiegert Exp $
+# $MirOS: ports/www/firesomething/Makefile,v 1.29 2008/11/13 20:18:17 tg Exp $
 # $OpenBSD: Makefile,v 1.41 2005/11/15 09:21:52 wilfried Exp $
 
 ONLY_FOR_PLATFORM=	*:*:alpha *:*:i386 *:*:sparc *:*:sparc64 *:*:amd64 *:*:powerpc
 COMMENT=		one of the successors to the Netscape browser engine
 VER=			2.0.0.14
-DASH_VER=		0
+DASH_VER=		1
 DISTNAME=		mozilla
 PKGNAME=		firesomething-${VER}-${DASH_VER}
 CATEGORIES=		www
@@ -21,7 +21,6 @@ PERMIT_DISTFILES_FTP=	Yes
 MASTER_SITES=		ftp://archive.mozilla.org/pub/mozilla.org/firefox/releases/${VER}/source/ \
 			http://ftp.eu.mozilla.org/pub/mozilla.org/firefox/releases/${VER}/source/ \
 			http://ftp.mozilla.org/pub/mozilla.org/firefox/releases/${VER}/source/
-#MASTER_SITES=		${_MASTER_SITE_MIRBSD}
 DISTFILES=		firefox-${VER}-source.tar.bz2
 SO_VERSION=		9.0
 
@@ -74,6 +73,9 @@ CONFIGURE_ENV=		${MAKE_ENV}
 
 post-extract:
 	@cp ${FILESDIR}/xptc* ${WRKSRC}/xpcom/reflect/xptcall/src/md/unix/
+	cd ${WRKSRC}/security/nss/lib/ckfw/builtins/ && \
+	    cp ${FILESDIR}/certdata.{c,txt} . && \
+	    touch certdata.txt && sleep 1 && touch certdata.c
 
 post-patch:
 .for dir in security/coreconf directory/c-sdk/config

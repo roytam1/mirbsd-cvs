@@ -1,7 +1,7 @@
-$MirOS: ports/www/firesomething/patches/patch-configure_in,v 1.6 2008/05/21 06:31:03 bsiegert Exp $
+$MirOS: ports/www/firesomething/patches/patch-configure_in,v 1.7 2008/05/21 12:23:24 tg Exp $
 $OpenBSD: patch-configure_in,v 1.5 2005/04/09 08:11:19 wilfried Exp $
---- configure.in.orig	2007-12-18 22:34:10.000000000 +0100
-+++ configure.in	2008-05-20 20:57:43.000000000 +0200
+--- configure.in.orig	Tue Dec 18 21:33:47 2007
++++ configure.in	Thu Nov 13 22:02:05 2008
 @@ -61,7 +61,7 @@ dnl ====================================
  
  AC_PREREQ(2.13)
@@ -35,7 +35,7 @@ $OpenBSD: patch-configure_in,v 1.5 2005/04/09 08:11:19 wilfried Exp $
  
  AC_DEFINE_UNQUOTED(MOZILLA_VERSION,"$MOZILLA_VERSION")
  AC_DEFINE_UNQUOTED(MOZILLA_VERSION_U,$MOZILLA_VERSION)
-@@ -2027,8 +2027,18 @@ case "$target" in
+@@ -2027,12 +2027,22 @@ case "$target" in
  	esac
  	;;
  
@@ -43,19 +43,23 @@ $OpenBSD: patch-configure_in,v 1.5 2005/04/09 08:11:19 wilfried Exp $
 -    DLL_SUFFIX=".so.1.0"
 +*-midnightbsd*)
 +    DLL_SUFFIX=".so"
-+    DSO_CFLAGS=''
-+    DSO_PIC_CFLAGS='-fPIC'
-+    DSO_LDOPTS='-shared -fPIC'
-+    if test "$LIBRUNPATH"; then
+     DSO_CFLAGS=''
+     DSO_PIC_CFLAGS='-fPIC'
+     DSO_LDOPTS='-shared -fPIC'
+     if test "$LIBRUNPATH"; then
 +       DSO_LDOPTS="-R$LIBRUNPATH $DSO_LDOPTS"
 +    fi
 +    ;;
 +
 +*-openbsd*|*-mirbsd*)
 +    DLL_SUFFIX=".so.${SO_VERSION}"
-     DSO_CFLAGS=''
-     DSO_PIC_CFLAGS='-fPIC'
-     DSO_LDOPTS='-shared -fPIC'
++    DSO_CFLAGS=''
++    DSO_PIC_CFLAGS='-fPIC'
++    DSO_LDOPTS='-shared -fPIC'
++    if test "$LIBRUNPATH"; then
+ 	DSO_LDOPTS="-R$LIBRUNPATH $DSO_LDOPTS"
+     fi
+     ;;
 @@ -2955,7 +2965,7 @@ then
  			fi
  			;;

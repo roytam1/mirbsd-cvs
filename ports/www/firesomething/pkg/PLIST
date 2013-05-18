@@ -1,7 +1,11 @@
-@comment $MirOS: ports/www/firesomething/pkg/PLIST,v 1.7 2008/05/21 12:23:24 tg Exp $
+@comment $MirOS: ports/www/firesomething/pkg/PLIST,v 1.8 2008/11/13 20:18:18 tg Exp $
 @comment $OpenBSD: PLIST,v 1.13 2005/09/24 16:19:29 bernd Exp $
 @pkgcfl mozilla-firebird-*
 @pkgcfl mozilla-firefox-*
+@unexec rm -f %D/components/compreg.dat
+@unexec rm -f %D/components/xpti.dat
+@unexec rm -f %D/chrome/chrome.rdf
+@unexec rm -rf %D/chrome/overlayinfo
 bin/firefox-config
 bin/firesomething
 firesomething/TestGtkEmbed
@@ -3678,7 +3682,3 @@ share/idl/firefox-${VER}/xpcjsid.idl
 @exec rm -rf /tmp/.mozilla
 @exec cd %D && env HOME=/tmp LD_LIBRARY_PATH=%D ./regxpcom
 @exec rm -rf /tmp/.mozilla
-@unexec rm -f %D/components/compreg.dat
-@unexec rm -f %D/components/xpti.dat
-@unexec rm -f %D/chrome/chrome.rdf
-@unexec rm -rf %D/chrome/overlayinfo
