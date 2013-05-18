@@ -1,4 +1,4 @@
-# $MirOS: ports/devel/smpeg/Makefile,v 1.10 2006/11/03 20:20:57 tg Exp $
+# $MirOS: ports/devel/smpeg/Makefile,v 1.11 2007/02/22 22:57:50 tg Exp $
 # $OpenBSD: Makefile,v 1.16 2003/12/29 13:45:30 espie Exp $
 
 COMMENT=		mpeg video player library with sound support
@@ -13,9 +13,9 @@ PERMIT_PACKAGE_FTP=     Yes
 PERMIT_DISTFILES_CDROM= Yes
 PERMIT_DISTFILES_FTP=   Yes
 
-MASTER_SITES=	ftp://ftp.lokigames.com/pub/open-source/smpeg/ \
-		ftp://sunsite.auc.dk/pub/os/linux/loki/open-source/smpeg/ \
-		ftp://snuffleupagus.animearchive.org/loki/open-source/smpeg/
+MASTER_SITES=		ftp://ftp.lokigames.com/pub/open-source/smpeg/ \
+			ftp://sunsite.auc.dk/pub/os/linux/loki/open-source/smpeg/ \
+			ftp://snuffleupagus.animearchive.org/loki/open-source/smpeg/
 
 LIB_DEPENDS+=		SDL::devel/sdl
 USE_X11=		Yes
@@ -24,6 +24,9 @@ USE_CXX=		Yes
 CONFIGURE_STYLE=	autogen no-autoheader
 CONFIGURE_ARGS+=	${CONFIGURE_SHARED} \
 			--disable-gtk-player
+
+post-extract:
+	-rm -f ${WRKSRC}/aclocal.m4
 
 post-install:
 	${INSTALL_MAN} ${FILESDIR}/smpeg.3 ${PREFIX}/man/man3/
