@@ -1,4 +1,4 @@
-/*	$MirOS: src/sys/arch/i386/stand/libsa/gidt.S,v 1.13 2009/01/10 12:10:39 tg Exp $ */
+/*	$MirOS: src/sys/arch/i386/stand/libsa/gidt.S,v 1.14 2009/01/10 12:12:19 tg Exp $ */
 /*	$OpenBSD: gidt.S,v 1.32 2006/12/26 19:30:44 tom Exp $	*/
 
 /*
@@ -38,84 +38,6 @@
 #include <assym.h>
 
 #include "gidt.h"
-
-#ifdef GIDT_DEBUG
-#define	gidt_debug0		; \
-	mov	$0xb8000, %eax	; \
-	mov	$0x47314730, (%eax)
-#define	gidt_debug1		; \
-	mov	$(0xb8000 - SA_LINKADDR), %eax	; \
-	mov	$0x4f314f30, (%eax)
-#define	gidt_debug2		; \
-	mov	$0xb8004, %eax	; \
-	mov	$0x47334732, (%eax)
-#define	gidt_debug3		; \
-	mov	$0xb8004, %eax	; \
-	mov	$0x4f334f32, (%eax)
-#define gidt_debug4		; \
-	movl	$0xb8008, %eax	; \
-	movl	$0x47344733, (%eax)
-#else
-#define gidt_debug0 /* gidt_debug0 */
-#define gidt_debug1 /* gidt_debug1 */
-#define gidt_debug2 /* gidt_debug2 */
-#define gidt_debug3 /* gidt_debug3 */
-#define gidt_debug4 /* gidt_debug4 */
-#endif
-
-#define prot2real						\
-	gidt_debug0;						\
-								\
-	ljmp	$S16TEXT, $1f - SA_LINKADDR;			\
-1:								\
-	.code16;						\
-	movw	$S16DATA, %ax;					\
-	movw	%ax, %ds;					\
-	movw	%ax, %es;					\
-	gidt_debug1;						\
-								\
-	movl	%cr0, %eax;	/* disable pmmm */		\
-	andl 	$~CR0_PE, %eax;					\
-	movl	%eax, %cr0;					\
-								\
-	/* reload real cs:ip */					\
-	data32 ljmp	$(SA_LINKADDR >> 4), $1f - SA_LINKADDR;	\
-1:								\
-	movw	%cs, %ax;	/* setup: %ds, %es = %cs */	\
-	movw	%ax, %ds;					\
-	movw	%ax, %es;					\
-	xorw	%ax, %ax;	/* setup: %ss = 0x0000 */	\
-	movw	%ax, %ss;					\
-								\
-	gidt_debug2;						\
-								\
-	data32 addr32 lidt (Idtr_real - SA_LINKADDR); /* load idtr for real mode */
-
-#define real2prot						\
-	gidt_debug3;						\
-								\
-	movw	$SA_LINKADDR >> 4, %ax;				\
-	movw	%ax, %ds;					\
-	data32 addr32 lgdt (Gdtr - SA_LINKADDR);		\
-								\
-	movl	%cr0, %eax;	/* enable pmmm */		\
-	orl	$CR0_PE, %eax;					\
-	movl	%eax, %cr0;					\
-								\
-	data32 ljmp	$S32TEXT, $1f;   /* reload %cs,flush pipeline */\
-1:								\
-	.code32;						\
-	/* reload 32bit %ds, %ss, %es */			\
-	mov	$S32DATA, %eax;					\
-	mov	%ax, %ds;					\
-	mov	%ax, %ss;					\
-	mov	%ax, %es;					\
-								\
-	gidt_debug4;						\
-								\
-	/* load idtr for debugger and DOS/BIOS iface */		\
-	lidt	Idtr;
-
 
 	.globl	_C_LABEL(BIOS_regs)
 
@@ -520,10 +442,25 @@ prot_to_real:
 	pop	eax
 	sub	eax,SA_LINKADDR
 	push	ax
-	.att_syntax
-	prot2real
-	.intel_syntax noprefix
-	.code16
+	/* switch to 16 bit code size */
+	ljmp	S16TEXT,offset Lp2r32 - SA_LINKADDR
+Lp2r32:	.code16
+	mov	ax,S16DATA
+	mov	ds,ax
+	mov	es,ax
+	/* disable protected mode */
+	mov	eax,cr0
+	and	eax,~CR0_PE
+	mov	cr0,eax
+	/* switch to 16 bit data size */
+	data32 ljmp SA_LINKSEG,offset Lp2r16 - SA_LINKADDR
+Lp2r16:	mov	ax,cs
+	mov	ds,ax
+	mov	es,ax
+	xor	ax,ax
+	mov	ss,ax
+	/* load real mode IDT */
+	data32 addr32 lidt (offset Idtr_real - SA_LINKADDR)
 	ret
 
 /*-
@@ -535,10 +472,22 @@ prot_to_real:
 	.code16
 	.globl	real_to_prot
 real_to_prot:
-	.att_syntax
-	real2prot
-	.intel_syntax noprefix
-	.code32
+	mov	ax,SA_LINKSEG
+	mov	ds,ax
+	data32 addr32 lgdt (offset Gdtr - SA_LINKADDR)
+	/* enter protected mode */
+	mov	eax,cr0
+	or	eax,CR0_PE
+	mov	cr0,eax
+	/* switch to 32 bit */
+	data32 ljmp S32TEXT,offset Lr2p32
+Lr2p32:	.code32
+	mov	eax,S32DATA
+	mov	ds,ax
+	mov	es,ax
+	mov	ss,ax
+	/* load protected mode IDT */
+	lidt	Idtr
 	/* fix up return address */
 	xor	eax,eax
 	pop	ax
