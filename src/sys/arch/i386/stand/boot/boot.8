@@ -1,4 +1,4 @@
-.\" $MirOS: src/sys/arch/i386/stand/boot/boot.8,v 1.18 2009/02/01 10:31:15 tg Exp $
+.\" $MirOS: src/sys/arch/i386/stand/boot/boot.8,v 1.19 2009/08/09 20:18:20 tg Exp $
 .\"-
 .\" Copyright (c) 2009
 .\"	Thorsten Glaser <tg@mirbsd.org>
@@ -18,7 +18,7 @@
 .\" damage or existence of a defect, except proven that it results out
 .\" of said person's immediate fault when using the work as intended.
 .\"-
-.Dd $Mdocdate: February 1 2009 $
+.Dd $Mdocdate: August 9 2009 $
 .Dt BOOT 8 i386
 .Os
 .Sh NAME
@@ -112,20 +112,26 @@ This also implies we cannot chain any other bootloader.
 Furthermore, we require the machine to be in Real Mode, not in VM86 mode,
 so EMM386.SYS, Win32 or similar must not be active.
 We ask DOS for the current drive to use this information later.
+DOS has set up a PSP (Program Segment Prefix) for us, which may contain
+a command line which we store away for later perusal if it is not empty.
 .It COMBOOT
 We are loaded in a similar way as from DOS, except the machine
 state is not changed as much from the initial state.
 After determining that we are in fact loaded via COMBOOT and not DOS,
 we ask SYSLINUX to terminate after gathering information about the boot
 drive, partition, or PXE; the UNDI and PXE stacks are kept active if any.
+The COMBOOT API has set up a PSP like DOS as well, which we handle the same.
 .It Multiboot
 We request to be loaded to 0x00100000 (the HMA) due to GNU GRUB's
 limitations, save the boot device off the MBI structure, copy ourselves
 to the final location, and switch back to Real Mode.
 Modules passed to us by the Multiboot compliant boot loader will be moved
 off to just above 20 MiB in memory; their dirnames as well as any command
-lines (to the Multiboot OS kernel, i.e. this bootloader, as well as to the
-Multiboot modules) are discarded.
+lines to the Multiboot modules are discarded.
+If a command line is passed to the Multiboot OS kernel, i.e. this
+bootloader, the pathname of the loader is skipped; it is then cut off
+after a certain size limit (currently, 256 bytes) and stored away for
+later use.
 The modules are made available as regular files using the virtual lmbm
 .Pq Loadable Multiboot Modules
 device and filesystem (in-RAM file store, really).
@@ -140,19 +146,28 @@ PXENV+ and !PXE structure pointers, multiboot module information) are
 stored in safe locations.
 .It
 The code is relocated to the final address once or twice if needed.
-The final address is 4000:0000h with the stack beginning at 3000:FFFCh.
+The final address is 4000:0000h with the stack beginning at 3000:FF7Ch.
+The 128 bytes in between, from 3000:FF80h onwards, contains a potentially
+stored away PSP command line, before it is moved to the buffer after the
+bss and ssbss sections have been initialised (zeroed out).
 The stack is shared between Real Mode and 32-bit Virtual Protected Address Mode.
 The code is mostly organised using the small memory model, with everything
 within 64 KiB (although the real limit is more than 256 bytes less than that
 due to initial loading issues), except some rather large uninitialised areas
-and the disc I/O bounce buffer, which begin at 3000:0000 and grow upwards.
+and the disc I/O bounce buffer, which begin at 3000:0000 and grow upwards,
+nicknamed the ssbss section.
 The heap begins after the bss section and grows up to just short of 9000:0000h.
 .It
 If the bootloader is compiled to do so, for example on a Live CD, it displays
 a boot menu unless the shift key is pressed, and retains the numeric return
-value for later, to replace the cfg suffix of the configuration file with it.
+value for later, to replace the cfg suffix of the configuration file with it,
+unless a (non-empty) command line is passed.
 .It
 The system is switched to Protected Mode.
+.It
+If a command line was passed, it is moved from its original (Multiboot, above
+1 MiB or way below in the real mode area) or temporary (0x3FF80) location to
+.Ic cmd_buf .
 .It
 The hardware is probed:
 .Pp
@@ -177,7 +192,14 @@ Floppy disc drives
 Hard disc drives, including El Torito CD-ROM drives
 .El
 .It
-Unless a control key is held, the files
+If a command line was passed, it is executed.
+If it contained a
+.Nm boot
+command, the kernel is attempted to be loaded; otherwise, or if it
+fails, execution flow continues at the command prompt (see below)
+with no timeout or auto-boot enabled.
+.It
+Unless a control key is held or a command line was passed, the files
 .Pa /x.x.x.x/boot.cfg
 if loaded via PXE
 .Pq where x.x.x.x is our own IPv4 address
@@ -220,7 +242,7 @@ Leading and trailing whitespace is ignored.
 .Sh COMMANDS
 The following commands are accepted at the loader prompt:
 .Bl -tag -width reboot
-.It boot Op Ar image Op Fl acds
+.It Cm boot Op Ar image Op Fl acds
 Boots the kernel image specified by
 .Ar image
 with any options given.
@@ -246,33 +268,36 @@ at the earliest convenient point.
 .It Fl s
 Attempts to boot into single-user mode.
 .El
-.It cat Ar image
+.It Cm cat Ar image
 Displays the file onto the console.
 Output is paginated every 24 lines.
-.It echo
+.It Cm echo
 Displays the arguments onto the console.
-.It env
+.It Cm env
 On i386, this command is not used.
-.It help
+.It Cm help
 Prints a list of available commands.
-.It ls Op Ar dirspec
+.It Cm ls Op Ar dirspec
 Prints the content of the specified directory in long format.
 Output is paginated every 24 lines.
 .Pp
 The cd9660, tftp and nfs filesystems do not support this command.
 They will either always fail or always succeed with sane but unusable results.
 The FAT12, FAT16 and FAT28 filesystems have hardcoded perms and uid/gid.
-.It machine Op Ar command
+.It Cm machine Op Ar command
 Issues machine-specific commands:
 .Bl -tag -width diskinfo
-.It Nm boot Ar dev
+.It Cm boot Ar dev
 Load a bootsector (MBR or PBR) from the indicated device and boot it.
 Possible devices are fd0 (floppy boot), hd0 (MBR), hd0a, hd0b, hd0c,
 hd0d (PBR), and some more useless combinations.
-.It Nm diskinfo
+.It Cm diskinfo
 Display a list of probed floppy and hard disc drives including BIOS
 and geometry information.
-.It Nm exec Ar type image
+.It Cm exec dos
+Execute INT 21h, AH=4Ch, to return to DOS or SYSLINUX, if possible.
+This will not always work and may hang your system.
+.It Cm exec Ar type image
 Load a bootsector or other bootloader from an
 .Ar image
 file and execute it.
@@ -298,12 +323,12 @@ Boot sector or image, loaded to 0000:7C00h
 .Nm
 second-stage loader
 .El
-.It Nm label Op Ar device
+.It Cm label Op Ar device
 Displays the idea
 .Nm
 has about the disklabel of the currently active or the specified
 .Ar device .
-.It Nm memory Op Ar arg
+.It Cm memory Op Ar arg
 If used without any arguments, print the current idea
 .Nm
 has about the memory configuration taken from BIOS or probed.
@@ -329,26 +354,26 @@ This example excludes the 15\(en16 MiB range from the map of useful memory:
 .Bd -unfilled -offset indent
 boot> machine mem \-0x100000@0x00F00000
 .Ed
-.It regs
+.It Cm regs
 Debugging command displaying register dumps.
-.It oldbios
+.It Cm oldbios
 Enable or disable the so-called
 .Dq Old BIOS / Soekris helper ,
 which restricts
 .Nm
 from loading more than one sector at a time from disc.
 .El
-.It macro
+.It Cm macro
 Displays the names of all currently defined macros.
 Up to four can be defined, holding up to 256 characters.
-.It macro Ar name Op Ar cmd
+.It Cm macro Ar name Op Ar cmd
 Deletes the macro
 .Ar name ,
 or defines it to
 .Ar cmd .
-.It reboot
+.It Cm reboot
 Initiates a warm machine reboot.
-.It set Op Ar name Op Ar value
+.It Cm set Op Ar name Op Ar value
 If invoked without arguments, prints a list of variables and their values.
 If only a
 .Ar name
@@ -357,24 +382,24 @@ Otherwise, the variable is set to the new
 .Ar value .
 The following variables are defined:
 .Bl -tag -width timeout
-.It addr
+.It Cm addr
 Address at which to load the kernel
-.It debug
+.It Cm debug
 Debug flag
-.It device
+.It Cm device
 Boot device name (see below)
-.It doboot
+.It Cm doboot
 .Dq 0
 disables automatic boot on entering an empty line
-.It howto
+.It Cm howto
 Options passed to the loaded kernel, see
 .Cm boot
-.It image
+.It Cm image
 File name containing the kernel
 .Ar image
-.It timeout
+.It Cm timeout
 Number of seconds to wait for human intervention before auto-booting
-.It tty
+.It Cm tty
 Name of the active console device, for example:
 .Bl -bullet -compact
 .It
@@ -385,7 +410,7 @@ com1
 pc0
 .El
 .El
-.It stty Op Ar device Op Ar speed
+.It Cm stty Op Ar device Op Ar speed
 Displays or sets the
 .Ar speed
 for a console
@@ -401,7 +426,7 @@ switch to a serial console device; it is not used on the PC CRT console.
 The default baudrate is 9600 bps.
 .Nm
 uses eight data bits, no parity, one stop bit.
-.It time
+.It Cm time
 Displays the system date and time.
 .El
 .Sh IMAGE SPECIFICATIONS
@@ -672,6 +697,13 @@ If they have no names, they are given an enumerated hex number as name.
 These filesystems and devices will only appear of loaded via PXE.
 They obviously do not support
 .Cm ls .
+.It http
+There are plans to support this if
+.Nm pxebsd.0
+is loaded from gPXE, but no code yet.
+For now, gPXE can load
+.Nm
+using Multiboot, and any passed modules are handled via lmbmfs.
 .It ustarfs
 This filesystem will be implemented soon.
 .El
