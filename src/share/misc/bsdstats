@@ -1,4 +1,4 @@
-# $MirOS: src/share/misc/bsdstats,v 1.22 2007/04/19 12:59:39 tg Exp $
+# $MirOS: src/share/misc/bsdstats,v 1.23 2007/04/19 18:53:29 tg Exp $
 # $FreeBSD: ports/sysutils/bsdstats/files/300.statistics,v 1.38 2006/12/05 13:49:45 scrappy Exp $
 
 rpt='http://rpt.bsdstats.org/scripts/'
@@ -57,7 +57,7 @@ function report_ports
 	qs="token=$stats_key&key=$stats_token$qs"
 	qs="POST $path HTTP/1.0
 Host: $host
-User-Agent: bsdstats \$MirOS: src/share/misc/bsdstats,v 1.22 2007/04/19 12:59:39 tg Exp $
+User-Agent: bsdstats \$MirOS: src/share/misc/bsdstats,v 1.23 2007/04/19 18:53:29 tg Exp $
 Connection: close
 Content-Type: application/x-www-form-urlencoded
 Content-Length: ${#qs}
@@ -87,13 +87,13 @@ else
 		return 0
 	fi
 fi
-bsdstats_flags=$(. /etc/rc.conf; echo "$bsdstats_flags")
 stats_token=
 integer stats_token_time=0
 integer stats_report_time=0
-uname_code=$(uname -a | b64encode -r | tr -d '\012\015')
 [[ -s /var/db/bsdstats ]] && . /var/db/bsdstats
 print "last report time was: $stats_report_time ($(date -r $stats_report_time))"
+bsdstats_flags=$(. /etc/rc.conf; echo "$bsdstats_flags")
+uname_code=$(uname -a | b64encode -r | tr -d '\012\015')$stats_sysadd
 (( stats_report_time < 1136073623 )) && stats_report_time=0
 [[ $stats_uname_code = $uname_code ]] || stats_report_time=0
 (( stats_token_time < 1136073623 )) && stats_token_time=0
@@ -196,7 +196,7 @@ print "stats_key=$stats_key" >/var/db/bsdstats.new
 print "stats_token=$stats_token" >>/var/db/bsdstats.new
 print "stats_token_time=$stats_token_time" >>/var/db/bsdstats.new
 print "stats_report_time=$stats_report_time" >>/var/db/bsdstats.new
-print "stats_uname_code='$uname_code'" >>/var/db/bsdstats.new
+print "stats_uname_code=$uname_code" >>/var/db/bsdstats.new
 mv -f /var/db/bsdstats.new /var/db/bsdstats
 (( ok )) || print some failures occured, check /var/log/messages, tag bsdstats
 print "done, used token from $stats_token_time ($(date -r $stats_token_time))"
