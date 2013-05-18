@@ -1,4 +1,4 @@
-# $MirOS: contrib/hosted/fwcf/BSDmakefile,v 1.6 2006/09/24 21:51:27 tg Exp $
+# $MirOS: contrib/hosted/fwcf/BSDmakefile,v 1.7 2006/09/26 10:25:02 tg Exp $
 #-
 # This file is part of the FreeWRT project. FreeWRT is copyrighted
 # material, please see the LICENCE file in the top-level directory
@@ -13,6 +13,7 @@
 test: _SUBDIRUSE
 
 .include <bsd.own.mk>
+COPTS?=		# for OpenBSD
 .if !${COPTS:M-fhonour-copts} || !${CFLAGS:M-fhonour-copts}
 CFLAGS+=	${COPTS}
 .endif

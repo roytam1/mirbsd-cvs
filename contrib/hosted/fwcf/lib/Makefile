@@ -1,4 +1,4 @@
-# $MirOS: contrib/hosted/fwcf/lib/Makefile,v 1.3 2006/09/26 10:25:06 tg Exp $
+# $MirOS: contrib/hosted/fwcf/lib/Makefile,v 1.4 2007/03/09 21:10:30 tg Exp $
 #-
 # This file is part of the FreeWRT project. FreeWRT is copyrighted
 # material, please see the LICENCE file in the top-level directory
@@ -6,6 +6,7 @@
 
 LIB=		fwcf
 NOPIC=		Yes
+NOPROFILE=	Yes	# for OpenBSD
 SRCS+=		compress.c
 SRCS+=		cpr_get.c
 SRCS+=		cpr_list.c
@@ -22,5 +23,6 @@ SRCS+=		unwraps.c
 SRCS+=		wraps.c
 
 CFLAGS_header.o+= -DDEBUG_ADLER
+_CFLADD+=	header.o
 
 .include <bsd.lib.mk>

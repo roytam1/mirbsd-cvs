@@ -1,4 +1,4 @@
-# $MirOS: contrib/hosted/fwcf/fwcf.helper/Makefile,v 1.7 2006/09/26 10:25:05 tg Exp $
+# $MirOS: contrib/hosted/fwcf/fwcf.helper/Makefile,v 1.8 2007/03/09 21:10:29 tg Exp $
 #-
 # This file is part of the FreeWRT project. FreeWRT is copyrighted
 # material, please see the LICENCE file in the top-level directory
@@ -7,6 +7,7 @@
 PROG=		fwcf.helper
 SRCS=		tool.c sys_bsd.c
 CFLAGS_tool.o+=	-DSMALL
+_CFLADD+=	tool.o
 NOMAN=		Yes
 SRCS+=		compress.c
 SRCS+=		cpr_get.c
