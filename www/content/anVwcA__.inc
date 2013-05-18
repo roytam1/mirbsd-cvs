@@ -1,8 +1,8 @@
 <!-- PageID: jupp -->
-<small class="rcsid">$MirOS: www/content/anVwcA__.inc,v 1.12 2006/10/24 11:26:56 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/anVwcA__.inc,v 1.13 2006/11/05 21:38:22 tg Exp $</small>
 <h1>jupp &ndash; the Editor</h1>
 <p>
- The current version is <em>joe-3.1jupp6</em>.
+ The current version is <em>joe-3.1jupp7</em>.
  This page is accessible under <a href="http://mirbsd.de/jupp">http://mirbsd.de/jupp</a> usually.
 </p>
 
@@ -18,6 +18,26 @@
 </p>
 
 <h3>ChangeLog</h3>
+
+<p>Changes for joe-3.1jupp7:</p><ul>
+<li>Bugfix in bundled strlcat() implementation</li>
+<li>Bugfix (off-by-one array bounds) in from_uni()</li>
+<li>New option "vispace" to make spaces and tabs visible, like in
+  Microsoft&#174; Works&#174;. Works best with Unicode.</li>
+<li>"noxon" and "baud" are now menu entries; these two and
+  "keepup" have been moved to the top so they can be switched
+  quickly if you're in an ssh situation</li>
+<li>Disable funny behaviour of keys in menus, fixes POLS</li>
+<li>Reduce memory usage a little</li>
+<li>In the options menu, if "return" is hit instead of entering a value,
+  and it is not a string, it's handled sensitively: numbers keep their
+  value, syntax gets unset, and encoding gets reset to the fdefault map.</li>
+<li>Nicely format the options menu (as columns); print values for the
+  syntax and encoding options as well in the oversight, use ellipsis for
+  strings which aren't displayed otherwise</li>
+<li>Spelling fixes in the options menu</li>
+<li>Honour internationalisation framework of MirOS #9-current and newer</li>
+</ul>
 
 <p>Changes for joe-3.1jupp6:<br />
  Non-code (documentation) updates.
@@ -55,27 +75,29 @@
 <ul>
  <li>obviously, another flavour, jupp, similar to jstar</li>
  <li>utf-8 support on non-locale-aware OSses</li>
- <li>security fixes</li>
+ <li>bug and security fixes</li>
  <li>tab completion fixes</li>
  <li>code cleanup</li>
  <li>compiles with -Wall -Werror (on MirBSD)</li>
+ <li>improved options menu</li>
+ <li>visibled spaces</li>
 </ul>
 
 <h2>Retrieval</h2>
 
 <h3>Download</h3>
 <ul>
- <li><a href="http://www.mirbsd.org/MirOS/dist/jupp/joe-3.1jupp5.cpio.gz">http://www.mirbsd.org/MirOS/dist/jupp/joe-3.1jupp5.cpio.gz</a></li>
+ <li><a href="http://www.mirbsd.org/MirOS/dist/jupp/joe-3.1jupp7.cpio.gz">http://www.mirbsd.org/MirOS/dist/jupp/joe-3.1jupp7.cpio.gz</a></li>
 </ul>
 
 <p>Check the sums!</p>
 <ul>
  <li>Please use gzsig(1) to verify
   the integrity of the distfile instead!</li>
- <li>RMD160 (joe-3.1jupp6.cpio.gz) = 2140048edef4fcc36d1480d8b29d04073b45c655</li>
- <li>3394796773 398142 /MirOS/dist/jupp/joe-3.1jupp6.cpio.gz</li>
- <li>MD5 (joe-3.1jupp6.cpio.gz) = 89d6c4aa5ca3d3d07029ed617c082ea4</li>
- <li>TIGER (joe-3.1jupp6.cpio.gz) = f4ed0c47b8abbdaf9169898f4712bfc8a2b76b957439a524</li>
+ <li>RMD160 (joe-3.1jupp7.cpio.gz) = 6b1e329f177a84769afe9e2b2812eebd770d4b52</li>
+ <li>3005792967 400544 /MirOS/dist/jupp/joe-3.1jupp7.cpio.gz</li>
+ <li>MD5 (joe-3.1jupp7.cpio.gz) = cc5c01fd701978bd582a33f84b4f49dc</li>
+ <li>TIGER (joe-3.1jupp7.cpio.gz) = f3bca5cf6572e214b68dd9382af4290a977f6d374582e27d</li>
 </ul>
 
 <h3>Unpacking</h3>
@@ -88,7 +110,7 @@
 <p>
  This is just another GNU autotools programme, so doing
 </p><ul>
- <li>CFLAGS='-O2 yourcflagshere' $SHELL ./configure</li>
+ <li>CFLAGS='-O2 yourcflagshere -fno-omit-frame-pointer' $SHELL ./configure</li>
  <li>make</li>
  <li>$SUDO make install</li>
 </ul><p>
@@ -114,12 +136,6 @@
   href="http://mira.66h.42h.de/pub/jupp-w32.exe.asc">OpenPGP
   signature</a>)</li>
 </ul>
-<!-- p>
- <em>NEW!</em> Precompiled Mac OSX and MS Interix/SFU 3.5 binaries are at
-</p><ul>
- <li><a href="https://users.mirsolutions.de:446/~tg/binaries/joe-3.1j3-macbin.tgz">https://users.mirsolutions.de:446/~tg/binaries/joe-3.1j3-macbin.tgz</a> (MD5: f112dbaf6d1d89124af9f8721f344a4f)</li>
- <li><a href="https://users.mirsolutions.de:446/~tg/binaries/joe-3.1j3-winbin.tgz">https://users.mirsolutions.de:446/~tg/binaries/joe-3.1j3-winbin.tgz</a> (MD5: 2cd16647c094d2da92c60f7ccd25dfe9)</li>
-</ul -->
 
 <h1>Finally...</h1>
 <pre>

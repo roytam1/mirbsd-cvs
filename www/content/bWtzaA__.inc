@@ -1,5 +1,5 @@
 <!-- PageID: mksh -->
-<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.64 2006/11/09 00:28:36 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.65 2006/11/09 15:16:38 tg Exp $</small>
 
 <h1>mksh(1) R28</h1>
 <p>This is the MirBSD&trade; Korn Shell, a more or less portable
@@ -53,9 +53,34 @@
  <li>Add <tt>set -o utf8-hack</tt> aka <tt>mksh -U</tt> which
   changes the Emacs editing mode to an experimental CESU-8 aware
   multibyte mode (not implemented using wide chars unless internally
-  needed; does not require OS support)</li>
+  needed; does not require OS support); check setlocale(LC_CTYPE, "")
+  and nl_langinfo(CODESET) if found to auto-enable utf-8 mode</li>
  <li>Simplify and clean up code; try to remove or replace function calls
   by smaller equivalents; spot a few non-fatal off-by-one errors</li>
+ <li>If Build.sh is called with <tt>-DMKSH_SMALL</tt> in the CPPFLAGS
+  environment variable, the built-in mknod(8) will not be included,
+  and other functionality and verbose usage messages will be excluded;
+  some macros will be turned into functions to save space and to check
+  if the utf8-hack should be enabled, nl_langinfo(3) is not called.
+  The -T option to mksh(1) and persistent history are not supported.</li>
+ <li>Hand-optimise the code to be small, even in the normal build</li>
+ <li>Unbreak the -d option to <tt>Build.sh</tt></li>
+ <li>Check for <tt>cc</tt> options -Wno-error, -fwhole-program --combine,
+  and (if MKSH_SMALL) -fno-inline and use them if they don't fail</li>
+ <li>The autoconf-style checks have been enhanced, improved and be made
+  more verbose by default</li>
+ <li>Rewrite a few functions both to save space and to simplify/unify
+  the code; also spotted a few bugs in existing (inherited) code</li>
+ <li>Fix format string mistakes and wrong function and data prototypes</li>
+ <li>Correct zero-padding for right-justified strings; add regression test</li>
+ <li>EXECSHELL is now ${EXECSHELL:-/bin/sh} again</li>
+ <li>Remove duplicate code if feasible; rewrite remaining code to solve
+  all use cases, or use standard library functions such as qsort(3);
+  rework the ctypes and chtypes stuff, get rid of libc/ctype.h</li>
+ <li>Change the eaccess() code to not use setreuid(2) and friends, like
+  OpenBSD ksh and apparently pdksh. I'm not too sure about the implications,
+  except that they only affect setuid shell scripts.</li>
+ <li>Use setresuid(2) and friends instead of seteuid(2), setuid(2) etc.</li>
 </ul>
 <p>Upgrading to mksh R28 with these changes is highly recommended:</p><ul>
  <li>For these who build software as root, the regression testsuite
