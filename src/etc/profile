@@ -1,4 +1,4 @@
-# $MirOS: src/etc/profile,v 1.23 2006/07/03 12:37:35 tg Exp $
+# $MirOS: src/etc/profile,v 1.24 2006/07/04 01:16:33 tg Exp $
 #-
 umask 022
 [ -z "$KSH_VERSION" ] && alias print='echo -e'
@@ -88,7 +88,7 @@ alias cls='print -n \\033c'
 alias la='ls -Fa'
 test $USER_ID -eq 0 && alias l=la || alias l='ls -F'
 alias ll='l -l'
-alias lo='ll -o'
+alias lo='la -lo'
 test x"$_shellok" = x"1" || return
 unset _shellok
 [[ -x /emul/linux/bin/bash ]] && alias lx='/emul/linux/bin/bash --login'
