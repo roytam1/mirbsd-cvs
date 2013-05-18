@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.430 2011/11/22 19:10:21 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.431 2011/11/26 00:50:05 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -36,10 +36,8 @@ mws_content <<'EOF'
   src="@@RELPATH@@pics/mksh128x100.png" /></object>
  </span>This page is always accessible via a redirection at <a
  href="http://mirbsd.de/mksh"><tt>http://mirbsd.de/mksh</tt></a>, which is
- the canonical homepage URI, and in case the webserver is unreachable, <a
- href="http://mirbsd.de/mksh-fornow">the backup page</a> will provide basic
- information. The <a href="http://directory.fsf.org/mksh.html">FSF/UNESCO
- directory of Free Software</a> lists mksh, too. There also is an <a
+ the canonical homepage URI. There also is (most of the time) <a
+ href="http://freecode.com/projects/mksh">mksh on Freshmeat</a> and an <a
  href="https://www.ohloh.net/p/mksh">mksh project page on ohlol</a>, a
  statistics site. mksh is <a href="https://launchpad.net/mksh">experimentally
  tracked at Launchpad</a>. Download the Logo as <a
@@ -90,7 +88,7 @@ mws_content <<'EOF'
  and <a href="http://www.opensource.org/docs/osd">OSD</a>-compliant (and OSI
  approved)
  successor to pdksh, developed as part of <a href="http://mirbsd.de/">the
- MirOS Project</a> as native Bourne/POSIX/korn shell for MirOS BSD, but also
+ MirOS Project</a> as native Bourne/POSIX/Korn shell for MirOS BSD, but also
  to be readily available under other UNIX®-like operating systems.</p>
 <p id="lic">The source code for mksh is available at the MirOS Project mirrors
  as well as these of other operating system projects due to being <a
@@ -149,7 +147,8 @@ mws_content <<'EOF'
  href="@@ABSPATH@@/man/mksh.1">HTML</a> and <a
  href="@@ABSPATH@@/MirOS/dist/mir/mksh/mksh.pdf">PDF</a> format.
  Reading books about Korn Shells in general is recommended as further help,
- but beware of the <a href="mksh_old.htm#contrib">differences</a> to other shells. Some
+ but beware of the <a href="mksh_old.htm#contrib">differences</a> (ATTENTION
+ outdated content behind that link) to other shells. Some
  ISBNs are listed at the end of the manual page.</p>
 <p>The <a href="@@RELPATH@@tag_mksh.rss">RSS feed</a> collects news and wlog
  entries regarding mksh.</p>
@@ -192,7 +191,8 @@ mws_content <<'EOF'
  <li>TIGER (mksh-R40c.cpio.gz) = 93d69dea5600be4a5c37eceb6bc995bf3b2f9d2ff8f3f59f</li>
  <li>4222136680 321859 /MirOS/dist/mir/mksh/mksh-R40c.cpio.gz</li>
  <li>MD5 (mksh-R40c.cpio.gz) = 43a79f721091833bdab3d00fbfe54a14</li>
- <li style="list-style:none;">All official distfiles are gzsig(1)d.</li>
+ <li style="list-style:none;">All official distfiles are gzsig(1)d. with our
+  <a href="/gzsigkey.cer">current signature key</a>.</li>
 </ul>
 
 <h3 id="decomp">Decompression</h3>
@@ -651,7 +651,8 @@ exec /usr/bin/ld "${args[@]}"</pre>
  16-bit platforms, unless a user contributes code.</p>
 
 <h5 class="cr" id="oe_mnt">OS: MiNT / FreeMiNT</h5>
-<p>Support appeared in mksh R40. You must use pdksh with CC=gcc to run
+<p>Support appeared in mksh R40. Depending on the distribution you use,
+ you must use pdksh with CC=gcc to run
  <tt>Build.sh</tt> – cc and bash are both too broken. Afterwards, you
  <strong>must</strong> use the just-built mksh (after moving it out of
  the build directory) to re-run <tt>Build.sh</tt> with the same flags,
@@ -659,6 +660,8 @@ exec /usr/bin/ld "${args[@]}"</pre>
 <p>Most things work. FD_CLOEXEC is broken, so filedescriptor privacy
  has POSIX level only. <tt>/dev/tty</tt> is usually unusable; it might
  help to symlink <tt>/dev/console</tt> there but break other things.</p>
+<p>(At OpenRheinRuhr 2011, tg@ had access to a FreeMiNT distribution
+ which did not seem to exhibit any of the mentioned problems. YMMV.)</p>
 
 <h5 class="cr" id="oe_bsm"><img width="98" height="92" alt="[MirBSD logo]"
  class="fr" src="@@RELPATH@@pics/logosmw.png" />OS: MirBSD</h5>
@@ -669,6 +672,11 @@ exec /usr/bin/ld "${args[@]}"</pre>
 <p>Perfect choice.</p>
 <p>Starting with NetBSD 1.6, mksh can replace /bin/ksh and /bin/sh without
  any problems. On NetBSD 1.5, mksh can only replace /bin/ksh safely.</p>
+
+<h5 class="cr" id="oe_msys">OS: MSYS</h5>
+<p>mksh compiles on MSYS (that is something different from using MinGW for
+ the nascent <a href="#oe_winapi">native WinAPI port</a>; it’s basically
+ an old version of Cygwin wrapped) with few issues.</p>
 
 <h5 class="cr" id="oe_bso"><img width="70" height="64" alt="[OpenBSD logo]"
  class="fr" src="@@RELPATH@@pics/logos/openbsd.png" />OS: OpenBSD</h5>
@@ -794,7 +802,10 @@ exec /usr/bin/ld "${args[@]}"</pre>
  ChangeLog</a>, these are the packager-visible upgrade notes regarding
  changes in the build system (<tt>Build.sh</tt> and friends, compiler
  support, packaging conventions, bad examples, etc). This is also <em>not</em>
- <a href="#caveat">the users' upgrade caveat list</a>.</p>
+ <a href="#caveat">the users' upgrade caveat list</a>.<br />Packagers also
+ please note: it’s <tt>mksh</tt> or “The MirBSD Korn Shell” (“MidnightBSD
+ Korn Shell” is also appropriate), but <em>never</em> <del>Mksh</del> or
+ somesuch!</p>
 <p id="p40c">mksh R40c got better support for OPENSTEP, Interix, kFreeBSD,
  MSYS, Hurd. No packaging changes worth mentioning, though.</p>
 <p id="p40b">mksh R40b changed <tt>dot.mkshrc</tt> and has a new option for
@@ -828,7 +839,7 @@ exec /usr/bin/ld "${args[@]}"</pre>
  the <tt>Build.sh</tt> options, CPPFLAGS, etc. might have changed a
  little in the meantime. In general, you want the following:</p>
 <pre>% cd mksh
-% sh Build.sh -r</pre>
+% sh Build.sh -r -c lto</pre>
 <p>Optionally set CC and other variables, as usual.</p>
 
 <h2 id="otheros">Inclusion in other operating systems</h2><ul>
@@ -868,7 +879,7 @@ exec /usr/bin/ld "${args[@]}"</pre>
  The inofficial <em>portable</em> SRPM has been retired; the OBS SRPM
  has been changed to be buildable on Debian and MirBSD as well as include
  the contributed <tt>arc4random.c</tt> file. There are <a
- href="http://download.opensuse.org/repositories/home:/mirabile/CentOS_5/src/">more
+ href="http://download.opensuse.org/repositories/home:/mirabile/Mandriva_2010/src/">more
  downloads</a> available, just browse a little.<br />Basically, go to <a
  href="http://download.opensuse.org/repositories/home:/mirabile/">mirabilos’
  home project</a>, find the subdirectory most closely matching your GNU/Linux
@@ -878,11 +889,11 @@ exec /usr/bin/ld "${args[@]}"</pre>
  src="@@RELPATH@@pics/logos/fink.png" /><a
  href="http://finkproject.org/">Fink</a> delivers an <a
  href="http://pdb.finkproject.org/pdb/package.php/mksh">mksh package</a>
- from Andreas “gecko2” Gockel.</li>
+ from Andreas “gecko2” Gockel with broken package versioning.</li>
 <li class="cr"><img class="fr" width="122" height="64" alt="[SourceMage logo]"
  src="@@RELPATH@@pics/logos/smgl.png" /><a
  href="http://www.sourcemage.org/">SMGL</a> (Sourcemage GNU/Linux) has an
- <a href="http://distro.ibiblio.org/pub/linux/distributions/sourcemage/codex/test/shell-term-fm/mksh/">mksh
+ <a href="http://www.sourcemage.org/projects/grimoire/repository/show/shell-term-fm/mksh/">mksh
  spell</a> in their grimoire, developed by the MirOS Project together with
  Daniel “morfic” Goller, updated by Thomas “sobukus” Orgis and Vlad
  “Stealth” Glagolev.</li>
@@ -896,14 +907,15 @@ exec /usr/bin/ld "${args[@]}"</pre>
  (a FreeWRT 1.0 fork) also contains mksh as an optional package.</li>
 <li><a href="http://openwrt.org/">OpenWrt Embedded GNU/Linux Distribution</a>
  also <a href="https://dev.openwrt.org/browser/packages/utils/mksh">provides
- mksh</a> on ADSL/WLAN routers thanks to Felix “nbd” Fietkau.</li>
+ mksh</a> (rarely updated) on ADSL/WLAN routers thanks to Felix “nbd” Fietkau.</li>
 <li class="cr"><img class="fr" width="60" height="60" alt="[Android-x86 logo]"
  src="@@RELPATH@@pics/logos/andr_x86.png" />The <a
  href="http://www.android-x86.org/">Android-x86 Project</a> has
  mksh as <tt>/bin/sh</tt> since 2010-02-25. AOSP and the Google
  master build mksh and ash since 2010-08-24/25, and it can be
  enabled as <tt>/system/bin/sh</tt> on a per-target basis or the
- default can be switched from ash, which is done for 3.0 and up.</li>
+ default can be switched from ash, which is done for 3.0 and up.
+ It’s hard to get updates in there, though.</li>
 <li class="cr"><img class="fr" width="66" height="62" alt="[Grml logo]"
  src="@@RELPATH@@pics/logos/grml.png" /><a
  href="http://www.ubuntu.com/">Ubuntu GNU/Linux</a>, the <a
@@ -915,11 +927,12 @@ exec /usr/bin/ld "${args[@]}"</pre>
 <li class="cr"><img class="fr" width="68" height="64" alt="[Arch logo]"
  src="@@RELPATH@@pics/logos/arch.png" /><a
  href="http://www.archlinux.org/">Arch GNU/Linux</a> users can install
- an <a href="http://aur.archlinux.org/packages.php?do_Details=1&amp;ID=3431">mksh
- package</a> by Daniel “homsn” Hommel. No idea about Arch Hurd, though.</li>
+ an <a href="http://www.archlinux.org/packages/?q=mksh">mksh
+ package</a> by Daniel “homsn” Hommel, promoted by Thorsten “Atsutane”
+ Töpper, since the Arch Hurd guys were faster.</li>
 <li class="cr"><img class="fr" width="58" height="48" alt="[T2 logo]"
  src="@@RELPATH@@pics/logos/t2.png" /><a
- href="http://t2-project.org/">T2 SDE</a> (ROCK Linux) contains a <a
+ href="http://t2-project.org/">T2 SDE</a> (ROCK Linux) contains a dusty <a
  href="http://t2-project.org/packages/mksh.html">package</a> as well.</li>
 <li class="cr"><img class="fr" width="64" height="64" alt="[FreeBSD logo]"
  src="@@RELPATH@@pics/logos/freebsd.png" /><a
@@ -927,7 +940,8 @@ exec /usr/bin/ld "${args[@]}"</pre>
  <a href="http://www.dragonflybsd.org/">DragonFly BSD</a> versions and <a
  href="http://www.desktopbsd.net/">DesktopBSD</a>) also have a <a
  href="http://cvsweb.freebsd.org/ports/shells/mksh/">port</a> created by
- Andreas “ankon” Kohn and kept up to date by Martin “miwi” Wilke. It is
+ Andreas “ankon” Kohn and kept up to date by Martin “miwi” Wilke and
+ Olivier Duchateau. It is
  unknown if this applies to <a href="http://www.pcbsd.org/">PC-BSD</a> too,
  but there’s no mksh PBI (yet?).</li>
 <li class="cr"><img class="fr" width="64" height="64" alt="[MidnightBSD logo]"
@@ -945,8 +959,8 @@ exec /usr/bin/ld "${args[@]}"</pre>
  href="http://www.pkgsrc.org/">NetBSD® pkgsrc®</a> (native also on recent
  DragonFly BSD; available for many other operating systems as well) has a <a
  href="http://cvsweb.netbsd.org/bsdweb.cgi/pkgsrc/shells/mksh/">package</a>
- created by us and kept up to date by Blair Sadewitz and Adam “replaced” Hoka.
- We do not provide an inofficial source package any longer.</li>
+ created by us and kept up to date by Blair Sadewitz and our very own Ádám
+ “replaced” Hóka and Dr. Benny “benz” Siegert.</li>
 <li class="cr"><img class="fr" width="80" height="60" alt="[NetBSD logo]"
  src="@@RELPATH@@pics/logos/netbsd.png" />The <a
  href="http://wiki.netbsd.se/Desktop_Project">Desktop NetBSD
@@ -965,44 +979,46 @@ exec /usr/bin/ld "${args[@]}"</pre>
 <li class="cr"><img class="fr" width="70" height="64" alt="[OpenBSD logo]"
  src="@@RELPATH@@pics/logos/openbsd.png" />An <a
  href="http://thread.gmane.org/gmane.os.openbsd.ports/41322">inofficial
- port</a> for <a href="http://www.openbsd.org/">OpenBSD</a> is available</li>
+ port</a> for <a href="http://www.openbsd.org/">OpenBSD</a> is available.
+ Nobody dares commit it though, so it only gets updated on request.</li>
 <li class="cr">ChinaLinux mirrors (and apparently packages) mksh.</li>
 <li class="cr"><img class="fr" width="96" height="64" alt="[HMUG logo]"
  src="@@RELPATH@@pics/logos/hmug.png" />The <a
  href="http://www.hmug.org/pub/MacOS_X/BSD/Applications/Shells/mksh/">HMUG</a>,
  some US-American Apple Users’ Group packages mksh for Darwin, too.</li>
-<li class="cr">Frugalware Linux contains an mksh <a
+<li class="cr">Frugalware Linux contains an extremely old mksh <a
  href="http://www.frugalware.org/packages/107405">package</a></li>
-<li class="cr">Olivier Duchateau provides Slackware/Zenwalk GNU/Linux <a
- href="http://www.errements.net/slackbuilds/mksh/">packaging</a> for mksh</li>
-<li class="cr"><a href="http://slackbuilds.org/repository/13.37/system/mksh/">A
+<li class="cr">Olivier Duchateau used to provide Slackware/Zenwalk GNU/Linux
+ packages, but <a href="http://slackbuilds.org/repository/13.37/system/mksh/">a
  SlackBuild for mksh</a> is also available now</li>
 <li class="cr"><img class="fr" width="262" height="60" alt="[GreenViolet logo]"
  src="@@RELPATH@@pics/logos/lewellyn.png" />(Open)Solaris <a
  href="http://www.greenviolet.net/projects/general-open-source/mksh.gv">packages</a>
  exist courtesy of Matt “lewellyn” Lewandowsky</li>
 <li class="cr"><img class="fr" width="109" height="64" alt="[OpenPKG logo]"
- src="@@RELPATH@@pics/logos/openpkg.png" />Apparently, there is an <a
+ src="@@RELPATH@@pics/logos/openpkg.png" />Apparently, there was an <a
  href="http://www.openpkg.org/product/packages/?package=mksh">OpenPKG
- package</a> as well</li>
-<li class="cr"><a href="http://svn.rpmforge.net/svn/trunk/rpms/mksh/mksh.spec">Dag
- Wieers</a> has an RPMforge package too, based on Fedora’s by Robert Scheck</li>
+ package</a> as well… before OpenPKG went down the commercial drain</li>
+<li class="cr">Dag Wieërs had an RPMforge package, based on Fedora’s</li>
 <li class="cr"><img class="fr" width="96" height="64" alt="[PLD Linux logo]"
  src="@@RELPATH@@pics/logos/pld.png" />The <a
- href="http://cvs.pld-linux.org/cgi-bin/cvsweb.cgi/packages/mksh/mksh.spec">PLD
- Linux Distribution</a> also has one</li>
-<li class="cr">A rather old package is included with <a
- href="http://sisyphus.ru/en/srpm/mksh">Alt Linux Sisyphus</a>.</li>
+ href="http://cvs.pld-linux.org/cgi-bin/cvsweb.cgi/packages/mksh/">PLD
+ Linux Distribution</a> also has a very actively maintained one by
+ Kacper “draenog” Kornet and Arkadiusz “arekm” Miśkiewicz</li>
+<li class="cr"><a href="http://sisyphus.ru/en/srpm/mksh">Alt Linux Sisyphus</a>
+ updated their package to the R40 series by now, thanks!</li>
 <li class="cr">There are probably many more, please drop us a note!</li>
 <li><a href="http://linux.softpedia.com/get/System/Shells/MirBSD-Korn-Shell-24602.shtml">Softpedia</a>
- lists mksh, just like the FSF/UNESCO directory.</li>
+ lists mksh, just like the <a href="http://directory.fsf.org/mksh.html">FSF/UNESCO
+ directory of Free Software</a>.</li>
 <li><strong>Missing packaging:</strong> SuSE native (use OBS for now), MacPorts
  (none at all), Mandriva/Mageia (use OBS; being worked on), OpenEmbedded
  (being worked on), iPhoneOS (compile yourself; being worked on), Knoppix and
  SIDUX (just add them), Nexenta (need a contact person), Arch native (use
- AUR), PC-BSD (use pkgsrc® or so; need a contact person for PBI), OpenSolaris
+ Community), PC-BSD (use pkgsrc® or so; need a contact person for PBI), OpenSolaris
  (being worked on), OpenBSD (use unofficial port), BeOS (maybe broken) / Haiku,
- formal/public/official SlackBuild or even part of Slackware (worked on),
+ Slackware native (use SlackBuild), MPE/iX (no response from the volunteers ☹),
+ LynxOS (never got the 30-day eval version they promised me ☹),
  Plan 9 (slightly broken), Syllable Desktop (broken, kernel issue, may have
  been fixed in the meantime), Pardus (maybe being worked on?), NetBSD base
  system (under discussion; pkgsrc® has it), Maemo/MeeGo, Palm WebOS, ...</li>
