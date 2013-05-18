@@ -470,6 +470,15 @@ esac
 
 # Configuration depending on OS name
 case $TARGET_OS in
+386BSD)
+	# required fixes for 386BSD-0.0new are:
+	# http://groups.google.com/group/comp.unix.bsd/browse_thread/thread/1c6397039f10e76b?hl=en
+	# http://groups.google.com/group/comp.unix.bsd/browse_thread/thread/cb899f7ccb81550b?hl=en
+	# from 386BSD-0.1 on, it works out of the box
+	: ${HAVE_CAN_OTWO=0}
+	add_cppflags -DMKSH_NO_SIGSETJMP
+	add_cppflags -DMKSH_TYPEDEF_SIG_ATOMIC_T=int
+	;;
 AIX)
 	add_cppflags -D_ALL_SOURCE
 	: ${HAVE_SETLOCALE_CTYPE=0}
