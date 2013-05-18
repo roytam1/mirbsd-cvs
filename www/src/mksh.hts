@@ -1,10 +1,10 @@
-# $MirOS: www/src/mksh.hts,v 1.65 2007/09/26 14:54:18 tg Exp $
+# $MirOS: www/src/mksh.hts,v 1.66 2007/10/02 18:55:01 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.65 2007/09/26 14:54:18 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.66 2007/10/02 18:55:01 tg Exp $'
 mws_content <<'EOF'
 <h1>mksh(1) R31c</h1>
 <p>This is the website of the MirBSD™ Korn Shell, an actively developed free
@@ -205,7 +205,9 @@ mws_content <<'EOF'
 <li><tt>-DMKSH_ASSUME_UTF8</tt> – do not use setlocale(3) or
  nl_langinfo(CODESET); assume the terminal is always in UTF-8 mode</li>
 <li><tt>-DMKSH_NEED_MKNOD</tt> – if MKSH_SMALL is set, do not omit the mknod(8)
- builtin functionality from the binary</li>
+ builtin functionality from the binary; <strong>deprecated</strong>, use the
+ environment variable <tt>HAVE_MKNOD=[0|1]</tt> to determine if this builtin
+ should be compiled in or not instead; this define will be removed RSN</li>
 <li><tt>-DMKSH_NOPWNAM</tt> – if MKSH_SMALL is not set, still omit getpwnam(3)
  calls in order to not pull in the nsswitch or PAM libraries</li>
 <li><tt>-DMKSH_NOVI</tt> – if this or MKSH_SMALL is set, the vi command line
@@ -214,7 +216,8 @@ mws_content <<'EOF'
 <p>You can override certain mirtoconf checks by setting environment variables
  like <tt>HAVE_REVOKE=0</tt> (default for Linux) – if these are set to 0 or 1,
  the values are used; if unset, the values are probed.</p>
-<p>Starting in mksh R31, the mknod(8) builtin can be disabled by HAVE_MKNOD=0.
+<p>Starting in mksh R31, the mknod(8) builtin can be disabled by HAVE_MKNOD=0
+ and enabled by HAVE_MKNOD=1.
  Other useful items are HAVE_SETLOCALE_CTYPE=0, HAVE_PERSISTENT_HISTORY=0.</p>
 
 <h4 id="oespec">Operating Environment specific notes</h4>
