@@ -1,7 +1,8 @@
-# $MirOS: ports/games/bsdgames/Makefile,v 1.13 2007/02/22 21:37:02 tg Exp $
+# $MirOS: ports/games/bsdgames/Makefile,v 1.14 2007/02/22 22:12:43 tg Exp $
 
 COMMENT=		BSD base system games
 CATEGORIES=		games
+DASH_VER=		1
 CVS_DISTREPO=		anoncvs@anoncvs.ca.openbsd.org:/cvs
 CVS_DISTDATE=		2007/02/22
 CVS_DISTMODS=		src/games
@@ -23,11 +24,21 @@ PREFIX=			/usr
 EXTRA_MAKE_FLAGS=	HOSTCC=${CC:Q}
 EXTRA_FAKE_FLAGS=	MANDIR=${PREFIX:Q}/share/man/cat
 
-EXTRA_FORTUNES=		at.linux fh-brs fvl fvl_vendor martin.piskernig \
-			norbert.tretkowski rss thomas.ogrisegg
+EXTRA_FORTUNES=		alexander.griesser alexander.talos andreas.krennmair \
+			at.linux at.statistik de.misc en.misc fvl fvl_vendor \
+			larry.wall martin.piskernig norbert.tretkowski \
+			rainer.weikusat rss thomas.ogrisegg tretkowski fh-brs
+.if (${OStype} == "Interix") || (${OStype} == "OpenBSD")
+FORTUNE_COPY=		cat	# crippled OS
+.else
+MODULES+=		converters/libiconv
+FORTUNE_COPY=		iconv -f iso-8859-1 -t utf-8
+.endif
 
 post-extract:
-	cd ${FILESDIR}; cp ${EXTRA_FORTUNES} ${WRKSRC}/fortune/datfiles/
+.for _i in ${EXTRA_FORTUNES}
+	${FORTUNE_COPY} <${FILESDIR}/${_i} >${WRKSRC}/fortune/datfiles/${_i}
+.endfor
 
 do-configure:
 	cd ${WRKSRC} && ${MAKE} obj
