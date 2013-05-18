@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/i386/livecd/Makefile,v 1.42 2006/05/26 21:09:02 tg Exp $
+# $MirOS: src/distrib/i386/livecd/Makefile,v 1.43 2006/05/26 21:18:51 tg Exp $
 
 .include <bsd.own.mk>
 
@@ -119,8 +119,7 @@ makeimg: bsd.gz mr.fs
 	    tftpboot/bsd tftpboot/pxeboot v${OSrev}/i386/boot.iso \
 	    v${OSrev}/i386/boot.liv >>RMD160
 	rm -f workdir/boot.cat
-	sort -uo workdir/RMD160 workdir/RMD160
-	gzip -n9 <workdir/RMD160 >workdir/RMD160.gz
+	cd workdir; rm -f boot.cat; sort -uo RMD160 RMD160; gzip -n9 RMD160
 	# pad for gzsig(1) application later on
 	dd if=/dev/zero count=2 >>workdir/RMD160.gz
 	-rm -f ${CDROM}
