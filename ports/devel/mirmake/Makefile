@@ -1,8 +1,7 @@
-# $MirOS: ports/devel/mirmake/Makefile,v 1.15 2006/09/14 00:08:26 tg Exp $
+# $MirOS: ports/devel/mirmake/Makefile,v 1.16 2006/10/06 22:20:42 tg Exp $
 
 COMMENT=		portable MirOS make(1) variant
-DISTNAME=		mirmake-20060623
-PKGNAME=		${DISTNAME}-1
+DISTNAME=		mirmake-20061013
 CATEGORIES=		devel essentials
 RESPONSIBLE=		Thorsten Glaser <tg@mirbsd.de>
 MASTER_SITES=		${_MASTER_SITE_MIRBSD:distfiles/=dist/mir/make/}
@@ -16,7 +15,7 @@ PERMIT_PACKAGE_FTP=	Yes
 
 WRKDIST=		${WRKDIR}/mirmake
 NO_REGRESS=		Yes
-MAKE_ENV+=		NROFF=${NROFF:C/ *$//:Q}
+MAKE_ENV+=		NROFF=${NROFF:M*:Q}
 
 .if ${OStype} == "Interix"
 SED_PLIST+=		| sed -e '/^IFSFU:/s///'
