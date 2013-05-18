@@ -1,10 +1,11 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.9 2003/11/15 15:12:54 sturm Exp $
 
-COMMENT=			perl interface to the SAX2 XML Parser
+COMMENT=	perl interface to the SAX2 XML Parser
 
-VERSION=	0.12
+VERSION=	0.96
 DISTNAME=	XML-SAX-${VERSION}
-PKGNAME=	p5-${DISTNAME}-0
+PKGNAME=	p5-${DISTNAME}-${DASH_VER}
 CATEGORIES=	textproc perl5
 
 MASTER_SITES=	${MASTER_SITE_PERL_CPAN:=XML/}
@@ -15,8 +16,7 @@ PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
-RUN_DEPENDS=	:p5-XML-NamespaceSupport->=0.03:textproc/p5-XML-NamespaceSupport
-BUILD_DEPENDS=	${RUN_DEPENDS}
+B_R_DEPENDS=	:p5-XML-NamespaceSupport->=0.03:textproc/p5-XML-NamespaceSupport
 
 CONFIGURE_STYLE= perl
 
