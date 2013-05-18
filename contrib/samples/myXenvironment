@@ -30,13 +30,13 @@ The file ~/.etc/bin/xtm referred in said file is this one:
 
 ---- cutting here may damage your screen surface -----
 #!/bin/mksh
-# $MirOS: contrib/samples/myXenvironment,v 1.6 2006/02/01 00:47:01 tg Exp $
+# $MirOS: contrib/samples/myXenvironment,v 1.7 2006/02/01 00:49:02 tg Exp $
 if [[ $1 = vga ]]; then
 	# exec xtm vga ...
 	shift
 	/usr/X11R6/bin/xterm -class VXTerm "$@" &
 	exit 0
-elif [[ ! -e /usr/mpkg/lib/X11/fonts/terminus ]]; then
+elif [[ ! -e /usr/mpkg/lib/X11/fonts/terminus || $1 != t* ]]; then
 	:
 elif [[ $1 = tbig ]]; then
 	# exec xtm tbig ...
