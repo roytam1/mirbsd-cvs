@@ -1,5 +1,5 @@
 <?php
-/* $MirOS: www/files/index.php,v 1.8 2008/05/03 02:11:16 tg Exp $ */
+/* $MirOS: www/files/index.php,v 1.9 2008/05/03 02:20:26 tg Exp $ */
 /*-
  * The MirOS Project - Webpages
  * Copyrighted material; read LICENCE for terms of use.
@@ -96,12 +96,14 @@ function get_include_contents($filename) {
 ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
  "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"><head>
+ <meta http-equiv="content-type" content="text/html; charset=utf-8" />
  <meta name="MSSmartTagsPreventParsing" content="TRUE" />
  <link rel="stylesheet" type="text/css" href="vstyle.css" />
  <meta name="author" content="Thorsten Glaser" />
  <meta name="copyright" content="All rights reserved. Redistribution except for scientific and educational uses strictly prohibited." />
  <meta name="owner" content="The MirOS Project and The MirPorts Framework" />
  <meta name="licence" content="see the source files in CVSWEB for details" />
+ <!-- $MirOS: www/mk/tmpl.pre,v 1.14 2008/03/14 21:13:09 tg Exp $ -->
  <title>MirOS/MirPorts: a wonderful operating system for a world of peace</title>
  <meta name="robots" content="index, follow" />
  <!--
@@ -115,16 +117,14 @@ function get_include_contents($filename) {
  <ul class="lv1">
   <li><a href="/main.htm">Main</a><ul class="lv2">
 	<li><a href="/wlog-10.htm">Weblog</a> for #10</li>
-	<li><a href="/?older">Old News</a> &amp; Log</li>
+	<li><a href="/oldnews.htm">Old News</a> &amp; WLog</li>
   </ul></li>
   <li><a href="/?about">About</a></li>
 <!-- these are not in a usable state
   <li><a href="/?docs">Documentation</a></li>
   <li><a href="/?faq">FAQ</a></li>
 -->
-  <li class="spacer"><a href="/getting.htm">Download</a><!-- <ul class="lv2">
-	<li><a href="/?mirrors">Mirrors</a></li>
-  </ul>--></li>
+  <li class="spacer"><a href="/getting.htm">Download</a></li>
   <li><a href="/irc.htm">IRC</a></li>
   <li><a href="/projects.htm">Project Ideas</a></li>
   <li><a href="/danke.htm">Donate</a></li>
@@ -156,13 +156,14 @@ function get_include_contents($filename) {
  ?>
 </div>
 <div class="heading">
- <img class="hdrlnks" src="pics/logo-grey.png"
-  alt="MirOS Logo" />
+ <a href="main.htm"><img class="hdrlnks"
+  src="pics/logo-grey.png" alt="MirOS Logo" /></a>
 </div>
 <div class="footer"><p>• <a
  href="http://mirbsd.de/impressum">Impressum</a> • <a
  href="http://validator.w3.org/check/referer">Valid HTML!</a> • <a
  href="mailto:miros-discuss@66h.42h.de">E-Mail</a> contact to the
  MirOS Project •</p>
+<p class="rcsdiv">Generated using the old, abandoned CMS</p>
 </div>
 </body></html>
