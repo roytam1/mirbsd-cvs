@@ -1,7 +1,15 @@
 <!-- PageID: news -->
-<small class="rcsid">$MirOS: www/content/bmV3cw__.inc,v 1.62 2006/03/19 22:39:21 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bmV3cw__.inc,v 1.63 2006/03/27 07:27:03 tg Exp $</small>
 
 <h1>Current MirOS News</h1><ul>
+
+<li>29.03.2006<br />We've added a new server to the Freeforge IRC network,
+	<tt>herc.66h.42h.de</tt> Port 6668 (SSL), 6667 and 6666 (non-SSL).
+	You can either directly connect to that server or the round-robin,
+	<tt>irc.66h.42h.de</tt> (or <tt>irc4.66h.42h.de</tt> for IPv4-only
+	or <tt>irc6.66h.42h.de</tt> for IPv6-only connections). Note: this
+	server does have IPv6 connectivity, however it's only a SixXS over
+	ADSL (consumer line) connection, so don't overload it.</li>
 
 <li>27.03.2006<br />In case you have acquired a MirOS CD-ROM "FOSDEM 2006"
 	edition please verify the checksums of the data on the CD. Some of

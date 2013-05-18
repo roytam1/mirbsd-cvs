@@ -1,5 +1,5 @@
 <!-- PageID: wlog-8 -->
-<small class="rcsid">$MirOS: www/content/d2xvZy04.inc,v 1.53 2006/03/27 07:27:04 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy04.inc,v 1.54 2006/03/27 21:20:52 tg Exp $</small>
 <h1>MirBSD &ndash; WTF, We Have a Release!?</h1>
 <p><small><a href="#eof">bottom</a> or <a href="/?older">older</a>
  editions</small></p>
@@ -378,7 +378,7 @@ celebrate this event, rotate the wlog and start a new one.</p>
 </div>
 
 <div class="wlentry">
- <h3 id="e20060201">01.02.2006 by tg@</h3>   
+ <h3 id="e20060201">01.02.2006 by tg@</h3>
  <p>I've been working on libiconv integration into MirPorts today which,
   the way I did it, also benefits Darwin. I also hacked a bit on varouus
   iconv(3)-using ports including centericq, and changed the linuxulator,
@@ -404,7 +404,7 @@ celebrate this event, rotate the wlog and start a new one.</p>
 </div>
 
 <div class="wlentry">
- <h3 id="e20060202">02.02.2006 by tg@</h3>   
+ <h3 id="e20060202">02.02.2006 by tg@</h3>
  <p>So, I did sleep long and not take the exam. I would not have passed,
   anyway.</p>
  <p>Some lazy day today, but I'll continue hacking on various stuff. And
@@ -803,8 +803,105 @@ celebrate this event, rotate the wlog and start a new one.</p>
  <p>Benny thinks he found a bug in perl(1) - my gdb(1) backtrace however
   tells me he'd better look at fseeko() from /usr/lib/libc.so.38.2</p>
  <p>I thought spring was there... but it rained cats and dogs later that
-  day. And no new anime episodes to watch - for weeks!</p>
+  day. And no new anime episodes to watch &ndash; for weeks!</p>
  <p>Hubert says NetBSD&reg; runs as DomU on Xen3. Me wanna!!!</p>
+</div>
+
+<div class="wlentry">
+ <h3 id="e20060329">29.03.2006 by tg@</h3>
+ <p>An meiner Fachhochschule gehen zur Zeit eMails zu einer Aussage des
+  Herrn Prof. Dr. Matthias Jarke, Pr&#228;sident der Gesellschaft f&#252;r
+  Informatik e.V., im Rahmen eines Interviews zur Er&#246;ffnung des
+  Informatikjahrs, herum, die lautet: "Selbstverst&#228;ndlich wird das
+  Ausbilduingsniveau von Bachelor-Absolventen deutlich unterhalb des
+  bisherigen Diploms liegen, wohl nur knapp oberhalb einer an das Abitur
+  angeh&#228;ngten IT-Ausbildung."<br />Ich kann mich der Aussage selber nicht
+  ganz anschlie&#223;en, denn eine IT-Ausbildung bei der IHK ist im Gegenteil
+  eher <strong>wertvoller</strong> als ein Studium. Zwar lernt man, wie
+  ein Kommilitone schrieb, dort keine "design patterns", daf&#252;r mehrfach
+  (flach und falsch) Grundlagen von Programmiersprachen, aber wenn man
+  seine Ausbildung selbst in die Hand nimmt, Wert auf vieles legt und sich
+  engagiert sowie in der ohnehin zur Verf&#252;gung stehenden freien Zeit liest
+  oder sich anderweitig weiterbildet (gerne w&#228;hrend Kaffeetrinkens) statt
+  die Zeit mit Counter-Strike, Blobby Volley, Browsergames oder sich (bei
+  Anderen statt bei der Jugend- und Auszubildendenvertretung!) dar&#252;ber zu
+  beschweren, da&#223; man nichts als Rechner schleppen tun mu&#223;/darf. Ich habe
+  wenig Ausbildungsrelevantes gelernt und in der Berufsschule eigentlich
+  nur Wirtschaft (wu&#223;te ich vorher, war es mir aber sogar wert), habe aber
+  viel "nebenbei" gelernt, zum Beispiel, Telex, Kabel ziehen im DVT/HVT,
+  ATM, Taktsynchronisation im SDH2000+ Netz, usw. und besonders wertvoll
+  war, in einem gro&#223;en Unternehmen immer wieder an anderen Orten zu arbeiten,
+  ganze Proze&#223;ketten kennenzulernen, &#252;ber den Tellerrand zu schauen und zu
+  sehen, was in der Realit&#228;t <strong>wirklich</strong> ben&#246;tigt wird:
+  Skripte und schnelle (aber f&#252;r Kollegen noch verst&#228;ndliche, also auf
+  niedrigem Niveau) Frickell&#246;sungen, die, wenn sie nicht mehr tun, halt
+  neugeschrieben werden, aber daf&#252;r proze&#223;orientiert, gut dokumentiert
+  und in SAP R/3 verbucht. Keine "design patterns", kein Java oder auch
+  nur C (naja, bei meiner Abschlu&#223;arbeit habe ich etwas in C geschrieben,
+  aber au&#223;er Headern, Deklarationen und Optionen parsen waren das
+  vielleicht noch 10 Zeilen Code). Ach ja, und ich habe gelernt, wie schei&#223;e
+  MS Office ist und da&#223; Openoffice noch schlechter ist.</p>
+ <p>The time of adding entropy exchange to networked d&aelig;mons is now
+  over, I suppose. I have added the function to ntpd(8), it is performed
+  when an OpenNTPD client talks to it, since we know it sends out random
+  data (arc4random(3)) instead of its own xmttime.</p>
+ <p>Today I have also completely re-written HTTPS certificate validation
+  code for lynx(1) in an attempt to make it work with CAcert.org (a page
+  whose certificates contain multiple CNs in the DN). It works so far, I
+  have submitted a link to our CVSweb to the lynx-dev mailing list, will
+  submit a full patch later so it might get into lynx 2.8.6dev.18 soon.</p>
+ <p>I will have to write an ASN.1 OCTET STREAM encoding/decoding module,
+  in PEM format, like vnconfig(8) uses for its keys, for openssltool(1),
+  for the sake of completeness. Well, later, as time permits.</p>
+ <p>Still <a href="http://marc.theaimsgroup.com/?m=114359728005822">have
+  to debug</a> the heartbeat server stuff and MirDNS #3. Also will be as
+  time permits.</p>
+ <p>Time ought to already have permitted bsiegert@ to commit his pending
+  wlog entry, though&#8230;</p>
+ <p>I'm inmidst of merging gcc 3.4.6 (final), so HEAD doesn't build now.
+  This will be sorted out later as well, though.</p>
+ <p>Another thing I'd like to do for the next snapshot is either finally
+  rewrite the installer or add an automated Live CD feature to the CDs I
+  burn (e.g. for <a href="http://froscon.org/">FROSCON</a>). In addition
+  to that, I'm pondering to write an MS-DOS only boot loader (to start a
+  kernel loaded via MS-DOS I/O from FAT, NTFS (via ntfsdos.exe), CD-ROM,
+  etc. by means of himem.sys and a small relocation/memmove function). I
+  still wonder if I can manage to add 'boot -acs...' functionality. This
+  beast would of course be written in gas-intel-howto(7) and be built as
+  a normal part of MirOS userland (machdep). Kinda loadlin.exe on drugs.
+  But this may prove useful later. (Also, our bootloader ought to adhere
+  to the multiboot specification in order to make it runnable from grub,
+  to bootstrap MirOS from GNU/Linux systems &ndash; can you say Thinkpad
+  dear Mr. JanA?).</p>
+ <p>The Jolitzens have quite a lot of interesting material on their page
+  (e.g. regarding the current BSDs' developers and past). I wonder which
+  parts of 386BSD 1.0 made it into MirBSD, what do they think of OpenBSD
+  and whether we will get, some time, a kernel architect. (I'd be happy,
+  for now, even with a kernel developer; I still plan to teach myself by
+  writing herculesfb(4) though. Tho I have to do a gcc 4.1 port as well,
+  and do lots of other things.)</p>
+ <p>Martin Michlmayr has built, while we're on the topic gcc 4.1, Debian
+  with it and documented that; together with hints, he also linked to <a
+  href="http://lists.debian.org/debian-devel/2006/03/msg01084.html">Take
+  some time to read this if you intend to touch any C++ code</a>.</p>
+ <p>Kind of another interesting read from my research into Jolix: the <a
+  href="http://www.softpanorama.org/People/Torvalds/Finland_period/xenix_microsoft_shortlived_love_affair_with_unix.shtml">story
+  on XENIX</a> and <a href="http://www.softpanorama.org/People/Torvalds/Finland_period/minix_as_a_precursor_of_linux.shtml">how
+  Linus can't code</a> (with proof by Lars Wirzenius). It also suggests,
+  although whom do you believe, that there were more than just six files
+  involved in porting. I'm strangely fascinated by their stories and web
+  pages and wonder what to do with it. I doubt they'd work for MirOS tho
+  (even if they could play all the kernel design they want).</p>
+ <p>Another thing I researched into yesterday was TAOUP; I found that <a
+  href="http://www.cl.cam.ac.uk/~mgk25/ucs/utf-8-history.txt">Plan 9 did
+  invent UTF-8</a> with a funny story. (Why doesn't it surprise me today
+  when I see this story is hosted by Markus Kuhn?) I wonder if we simply
+  could switch to UTF-8 only operation mode too. I'd like it. No umlauts
+  and only basic ISO_646.irv:1991 (that's ASCII for you stupid americans
+  aka ANSI_X3.4-1968) for the programmes which don't. That was basically
+  what my plans for the "C" locale were. Well, we do export nl_langinfo,
+  setlocale etc. as weak symbols for users to override so I suppose I'll
+  do the switch. But quietly, so Benny doesn't realise it. (Damn.)</p>
 </div>
 
 <p id="eof">Good luck, have fun, take care etc.pp</p>
