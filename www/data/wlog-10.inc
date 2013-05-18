@@ -77,3 +77,31 @@ Author: tg@
  unable to test diffs because my monitor is too small… Doesn’t anyone
  happen to want to give away a TFT that can do 1152x900 for free? ☺</p>
 ----
+Date: 15.03.2008
+Author: tg@
+Subject: The Unicode Release
+
+<p>MirOS ξ (MirOS XI) is not only our eleventh release (as I started
+ counting at zero), it is also the Unicode release. While it finally
+ makes sparc a fully supported platform, the real focus is on Unicode,
+ and bsiegert@’s girlfriend seems to have realised that better than I
+ did.</p>
+<p>However, in fact, that was only a start. We need to change the <a
+ href="http://article.gmane.org/gmane.os.miros.general/7938">character
+ set</a> in order to be able to handle binary files transparently with
+ Unicode-enabled applications – col(1) and tr(1) in MirOS #10 – before
+ converting more applications to use Unicode.</p>
+<p>Please give feedback on the thread linked above, if you can.</p>
+<p>MirOS #10 does come with everything needed by <em>applications</em>
+ for full Unicode support though, and in contrast to OpenBSD, things
+ really do work. This justifies calling the release like this, even
+ with a Unicode character in its codename.</p>
+<p>For the first time, the “tag line” comes without a “WTF?”. You may
+ take this as a sign that we are not confused about ourselves, have
+ gotten over the initial cause to make MirOS and now no longer merely
+ are a team that wants to improve OpenBSD. We are a small but powerful
+ operating system project, with goals (already met or new ones) of our
+ own. We still track OpenBSD, but that’s no longer the focus. Benny’s
+ girlfriend also got that right. And her mouse did attract the users,
+ and stayed topic on the other BSDs’ websites. Wow.</p>
+----
