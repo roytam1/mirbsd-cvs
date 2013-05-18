@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.106 2008/11/26 17:40:59 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.107 2008/11/26 17:45:07 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -2179,4 +2179,22 @@ Title: Laptops &ndash; IBM X40 vs MiTAC 4023
  als den Nike-Sticker, mit dem er beklebt ist, gehalten hast, mir schon
  den Arsch gerettet hat... Leider bist Du nicht mehr im IRC, aber falls
  Du dies liest, fühl Dir gedankt!</p>
+----
+Date: 27.11.2008 7
+Author: tg@
+Title: Netcraft confirms: my IBM X40 is dying
+
+<p>Well, maybe not Netcraft. But I couldn't resist the joke, having been
+ a regular Slashdot reader for years, seeing its quality sink, until I
+ suddenly could not login any more with lynx(1), best browser ever.</p>
+<p>This morning, I tried to power it on from cold state, and could not
+ even see that password (machine + IDE) prompt. After I typed blindly,
+ I was able to use Fn-F7 (seems as if it's not enabled that early in
+ the boot process), but only for less than one second each try, despite
+ unplugging the AC power supply again. Well, I made it through the boot
+ and shut down the box cleanly again, but it confirms that it's not a
+ heat issue. But what else could it have been? At first I thought that
+ maybe the PSU sent too much current or something, but that's also not
+ it. Perhaps Tonnerre is right and it's all Knoppix' fault ;)</p>
+<p>Looks like I'm going to do some hacking on <tt>nwt</tt> today...</p>
 ----
