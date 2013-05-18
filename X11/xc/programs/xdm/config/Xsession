@@ -51,6 +51,7 @@ esac
 
 startup=$HOME/.xsession
 resources=$HOME/.Xresources
+modmap=$HOME/.Xmodmap
 
 if [ -s "$startup" ]; then
 	if [ -x "$startup" ]; then
@@ -62,7 +63,12 @@ else
 	if [ -f "$resources" ]; then
 		xrdb -undef -load "$resources"
 	fi
-	xterm &
+	if [ -f "$modmap" ]; then
+	    xmodmap "$modmap"
+	fi
+	xclock -geometry 50x50-1+1 &
+	xconsole -iconic &
+	xterm -geometry 80x24 &
 	sleep 1
 	twm
 fi
