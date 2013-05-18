@@ -2799,7 +2799,8 @@ Author: tg@
  During the process, of course, bugs were spotted… e.g. in the docs. Of
  course, the new internal sftp subsystem isn’t on the ramdisc, either.</p>
 <p>And, I upgraded Sendmail, without the support of OpenBSD…</p>
-<p>Note: new kernels and old <tt>/sbin/sysctl</tt>, and vice versa, will
- not have the <tt>kern.ospatchlevel</tt> entry, which is required to build
+<p>Note: new kernels and old <tt>/sbin/sysctl</tt> and
+ <tt>/usr/bin/uname</tt>, and vice versa, will not have the
+ <tt>kern.ospatchlevel</tt> entry, which is required to build
  XFree86® and/or imake(1) with MirOS.</p>
 ----
