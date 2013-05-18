@@ -1661,4 +1661,8 @@ Author: tg@
  last night, which made me sleepy…) and I’d rather get it done now.</p>
 <p>Expect a wlog entry per day per developer (well, at least me), and these
  are constantly updated (maybe, we’re lazy slackers after all).</p>
+<p>*sigh* Benny updated the index but didn't commit the other migrated HTML
+ files. This website just became <em>more</em> broken in a sudden.</p>
+<p>We just ate a little and now are going home. FrOSCon looks superb, but a
+ Live CD Image is still not there. It's closing time...</p>
 ----
