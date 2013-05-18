@@ -1,5 +1,5 @@
-/**	$MirOS: src/usr.bin/yacc/skeleton.c,v 1.3 2005/11/23 18:04:33 tg Exp $ */
-/*	$OpenBSD: skeleton.c,v 1.26 2006/04/20 16:51:32 deraadt Exp $	*/
+/**	$MirOS: src/usr.bin/yacc/skeleton.c,v 1.4 2006/09/20 21:41:09 tg Exp $ */
+/*	$OpenBSD: skeleton.c,v 1.29 2008/07/08 15:06:50 otto Exp $	*/
 /*	$NetBSD: skeleton.c,v 1.10 1996/03/25 00:36:18 mrg Exp $	*/
 
 /*
@@ -36,7 +36,7 @@
 
 #include <sys/cdefs.h>
 __SCCSID("@(#)skeleton.c	5.8 (Berkeley) 4/29/95");
-__RCSID("$MirOS: src/usr.bin/yacc/skeleton.c,v 1.3 2005/11/23 18:04:33 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/yacc/skeleton.c,v 1.4 2006/09/20 21:41:09 tg Exp $");
 
 #include "defs.h"
 
@@ -50,10 +50,11 @@ __RCSID("$MirOS: src/usr.bin/yacc/skeleton.c,v 1.3 2005/11/23 18:04:33 tg Exp $"
 
 char *banner[] =
 {
-    "/* From $MirOS$ */",
+    "/* From $MirOS: src/usr.bin/yacc/skeleton.c,v 1.4 2006/09/20 21:41:09 tg Exp $ */",
     "#include <stdlib.h>",
+    "#include <string.h>",
     "__SCCSID(\"@(#)yaccpar	1.9 (Berkeley) 02/21/93\");",
-    "__RCSID(\"$MirOS: src/usr.bin/yacc/skeleton.c,v 1.3 2005/11/23 18:04:33 tg Exp $\");",
+    "__RCSID(\"$miros: src/usr.bin/yacc/skeleton.c,v 1.5 2008/07/08 19:22:00 tg Exp $\");",
     "#define YYBYACC 1",
     "#define YYMAJOR 1",
     "#define YYMINOR 9",
@@ -158,14 +159,23 @@ char *body[] =
     "    else if ((newsize *= 2) > YYMAXDEPTH)",
     "        newsize = YYMAXDEPTH;",
     "    i = yyssp - yyss;",
+    "#ifdef SIZE_MAX",
+    "#define YY_SIZE_MAX SIZE_MAX",
+    "#else",
+    "#define YY_SIZE_MAX 0xffffffffU",
+    "#endif",
+    "    if (newsize && YY_SIZE_MAX / newsize < sizeof *newss)",
+    "        goto bail;",
     "    newss = yyss ? (short *)realloc(yyss, newsize * sizeof *newss) :",
-    "      (short *)malloc(newsize * sizeof *newss);",
+    "      (short *)malloc(newsize * sizeof *newss); /* overflow check above */",
     "    if (newss == NULL)",
     "        goto bail;",
     "    yyss = newss;",
     "    yyssp = newss + i;",
+    "    if (newsize && YY_SIZE_MAX / newsize < sizeof *newvs)",
+    "        goto bail;",
     "    newvs = yyvs ? (YYSTYPE *)realloc(yyvs, newsize * sizeof *newvs) :",
-    "      (YYSTYPE *)malloc(newsize * sizeof *newvs);",
+    "      (YYSTYPE *)malloc(newsize * sizeof *newvs); /* overflow check above */",
     "    if (newvs == NULL)",
     "        goto bail;",
     "    yyvs = newvs;",
@@ -331,7 +341,10 @@ char *body[] =
     "                YYPREFIX, yystate, yyn, yyrule[yyn]);",
     "#endif",
     "    yym = yylen[yyn];",
-    "    yyval = yyvsp[1-yym];",
+    "    if (yym)",
+    "        yyval = yyvsp[1-yym];",
+    "    else",
+    "        memset(&yyval, 0, sizeof yyval);",
     "    switch (yyn)",
     "    {",
     0
