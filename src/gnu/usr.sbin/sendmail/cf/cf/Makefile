@@ -1,9 +1,9 @@
-# $MirOS: src/gnu/usr.sbin/sendmail/cf/cf/Makefile,v 1.2 2005/03/13 15:11:42 tg Exp $
-# $OpenBSD: Makefile,v 1.21 2004/12/16 00:21:29 millert Exp $
+# $MirOS: src/gnu/usr.sbin/sendmail/cf/cf/Makefile,v 1.3 2005/05/05 00:41:03 tg Exp $
+# $OpenBSD: Makefile,v 1.22 2006/03/22 18:43:53 millert Exp $
 #
 #  Makefile for configuration files.
 #
-#	$Sendmail: Makefile,v 8.59 2004/08/06 03:54:05 gshapiro Exp $
+#	$Sendmail: Makefile,v 8.60 2005/06/14 02:16:34 gshapiro Exp $
 #
 
 #
@@ -189,6 +189,7 @@ M4FILES=\
 	${CFDIR}/ostype/dynix3.2.m4 \
 	${CFDIR}/ostype/freebsd4.m4 \
 	${CFDIR}/ostype/freebsd5.m4 \
+	${CFDIR}/ostype/freebsd6.m4 \
 	${CFDIR}/ostype/gnu.m4 \
 	${CFDIR}/ostype/hpux10.m4 \
 	${CFDIR}/ostype/hpux11.m4 \

@@ -1,5 +1,5 @@
-# $MirOS$
-# $OpenBSD: Makefile,v 1.9 2004/12/22 17:01:03 millert Exp $
+# $MirOS: src/gnu/usr.sbin/sendmail/libmilter/Makefile,v 1.2 2005/03/13 15:11:45 tg Exp $
+# $OpenBSD: Makefile,v 1.10 2005/10/12 18:54:56 deraadt Exp $
 
 .include <bsd.own.mk>
 
@@ -24,9 +24,6 @@ SRCS=		main.c engine.c listener.c handler.c comm.c smfi.c signal.c \
 CPPFLAGS+=	-D_FFR_MILTER_ROOT_UNSAFE -ULDAPMAP -pthread \
 		-Dsm_snprintf=snprintf
 .PATH:		${.CURDIR}/../libsm
-
-# Only build the .a version for now.
-NOPIC=yes
 
 includes:
 	${INSTALL} -d -o ${BINOWN} -g ${BINGRP} -m 755 \
