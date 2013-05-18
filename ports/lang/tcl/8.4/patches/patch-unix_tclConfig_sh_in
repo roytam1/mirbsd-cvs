@@ -1,7 +1,7 @@
-$MirOS$
+$MirOS: ports/lang/tcl/8.4/patches/patch-tclConfig_sh_in,v 1.1 2005/04/11 19:14:44 tg Exp $
 $OpenBSD: patch-tclConfig_sh_in,v 1.1 2003/11/08 04:50:58 kevlo Exp $
---- tclConfig.sh.in.orig	Tue Dec  7 00:23:23 2004
-+++ tclConfig.sh.in	Mon Apr 11 19:04:34 2005
+--- unix/tclConfig.sh.in.orig	Thu Oct 19 17:25:52 2006
++++ unix/tclConfig.sh.in	Mon Nov 20 21:05:13 2006
 @@ -110,10 +110,6 @@ TCL_RANLIB='@RANLIB@'
  TCL_LIB_FLAG='@TCL_LIB_FLAG@'
  

@@ -1,4 +1,4 @@
-@comment $MirOS$
+@comment $MirOS: ports/lang/tcl/8.4/pkg/PLIST,v 1.2 2005/04/11 18:48:40 tg Exp $
 @comment $OpenBSD: PLIST,v 1.2 2003/12/01 05:48:00 jose Exp $
 @option no-default-conflict
 @pkgcfl tcl-8.4.*
@@ -158,6 +158,7 @@ lib/tcl8.4/man/man3/Tcl_ChannelName.3
 lib/tcl8.4/man/man3/Tcl_ChannelOutputProc.3
 lib/tcl8.4/man/man3/Tcl_ChannelSeekProc.3
 lib/tcl8.4/man/man3/Tcl_ChannelSetOptionProc.3
+lib/tcl8.4/man/man3/Tcl_ChannelThreadActionProc.3
 lib/tcl8.4/man/man3/Tcl_ChannelVersion.3
 lib/tcl8.4/man/man3/Tcl_ChannelWatchProc.3
 lib/tcl8.4/man/man3/Tcl_ChannelWideSeekProc.3
