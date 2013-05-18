@@ -1,4 +1,4 @@
-# $MirOS: ports/emulators/debian/Makefile,v 1.2 2006/01/18 11:24:36 tg Exp $
+# $MirOS: ports/emulators/debian/Makefile,v 1.3 2006/02/01 20:38:42 tg Exp $
 
 ONLY_FOR_PLATFORM=	MirBSD:*:i386 OpenBSD:*:i386
 
@@ -6,7 +6,7 @@ COMMENT=		"Debian GNU/Linux shared libraries"
 EMUL=			linux
 CATEGORIES=		emulators
 DISTNAME=		debian-libs-3.1
-FULLPKGNAME=		${DISTNAME}-1
+FULLPKGNAME=		${DISTNAME}-2
 RESPONSIBLE=		Thorsten Glaser <tg@mirbsd.de>
 RUN_DEPENDS+=		:linux-common-*:emulators/linux-common
 
@@ -25,6 +25,8 @@ MASTER_SITES2=		${MASTER_SITE_DEBIAN:=f/fontconfig/}
 MASTER_SITES3=		${MASTER_SITE_DEBIAN:=f/freetype/}
 MASTER_SITES4=		${MASTER_SITE_DEBIAN:=x/xfree86/}
 MASTER_SITES5=		${MASTER_SITE_DEBIAN:=z/zlib/}
+MASTER_SITES6=		${MASTER_SITE_DEBIAN:=x/xrender/}
+MASTER_SITES7=		${MASTER_SITE_DEBIAN:=g/gcc-3.3/}
 
 DISTFILES=		libc6_2.3.2.ds1-22_i386.deb:0 \
 			libexpat1_1.95.8-3_i386.deb:1 \
@@ -34,10 +36,13 @@ DISTFILES=		libc6_2.3.2.ds1-22_i386.deb:0 \
 			libsm6_4.3.0.dfsg.1-14sarge1_i386.deb:4 \
 			libx11-6_4.3.0.dfsg.1-14sarge1_i386.deb:4 \
 			libxext6_4.3.0.dfsg.1-14sarge1_i386.deb:4 \
+			libxft1_4.3.0.dfsg.1-14sarge1_i386.deb:4 \
 			libxpm4_4.3.0.dfsg.1-14sarge1_i386.deb:4 \
 			libxt6_4.3.0.dfsg.1-14sarge1_i386.deb:4 \
 			xlibs_4.3.0.dfsg.1-14sarge1_all.deb:4 \
-			zlib1g_1.2.2-4.sarge.2_i386.deb:5
+			zlib1g_1.2.2-4.sarge.2_i386.deb:5 \
+			libxrender1_0.8.3-7_i386.deb:6 \
+			libstdc++5_3.3.5-13_i386.deb:7
 
 WRKDIST=		${WRKDIR}/debian-libs
 NO_BUILD=		Yes
@@ -53,23 +58,36 @@ do-extract:
 
 LIBS=			/lib/ld-linux.so.2 \
 			/lib/libc.so.6 \
+			/lib/libcrypt.so.1 \
 			/lib/libdl.so.2 \
 			/lib/libm.so.6 \
+			/lib/libnsl.so.1 \
+			/lib/libnss_compat.so.2 \
+			/lib/libnss_dns.so.2 \
+			/lib/libnss_files.so.2 \
 			/lib/libpthread.so.0 \
+			/lib/libresolv.so.2 \
+			/lib/librt.so.1 \
+			/lib/libutil.so.1 \
 			/usr/X11R6/lib/libICE.so.6 \
 			/usr/X11R6/lib/libSM.so.6 \
 			/usr/X11R6/lib/libX11.so.6 \
 			/usr/X11R6/lib/libXext.so.6 \
+			/usr/X11R6/lib/libXft.so.1 \
 			/usr/X11R6/lib/libXpm.so.4 \
 			/usr/X11R6/lib/libXt.so.6 \
+			/usr/lib/libXrender.so.1 \
 			/usr/lib/libexpat.so.0 \
 			/usr/lib/libfontconfig.so.1 \
 			/usr/lib/libfreetype.so.6 \
+			/usr/lib/libstdc++.so.5 \
 			/usr/lib/libz.so.1
 
 do-install:
 	${INSTALL_DATA_DIR} ${BASEDIR}
 .for _i in ${LIBS}
+	chmod u+w ${WRKDIST}${_i}
+	perl -i -pe 's!/lib/ld-linux\.so\.2!/dbl/ld-linux.so.2!' ${WRKDIST}${_i}
 	${INSTALL} ${INSTALL_COPY} -o ${BINOWN} -g ${BINGRP} -m 444 \
 	    ${WRKDIST}${_i} ${BASEDIR}/
 .endfor
