@@ -1,4 +1,4 @@
-# $MirOS: gcc/Makefile.sub,v 1.16 2007/06/10 03:19:27 tg Exp $
+# $MirOS: gcc/Makefile.sub,v 1.17 2007/06/10 12:48:36 tg Exp $
 
 .if defined(COMPILER_ONLY) && ${COMPILER_ONLY:L} != "no"
 
@@ -61,11 +61,6 @@ prereq: _SUBDIRUSE
   SKIPDIR+= libjava
 .  endif
 
-.endif
-
-# cross-compiling a native compiler?
-.if (${CROSS_MODE:L} == "yes") && !defined(_CROSSBUILD)
-  SKIPDIR+= libada
 .endif
 
 .if defined(SUBONLY) && !empty(SUBONLY)

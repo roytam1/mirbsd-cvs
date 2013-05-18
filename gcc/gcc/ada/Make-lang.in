@@ -287,6 +287,16 @@ gnattools: $(GCC_PARTS) $(CONFIG_H) prefix.o force
 	$(MAKE) -C ada $(ADA_TOOLS_FLAGS_TO_PASS) gnattools2
 	$(MAKE) -C ada $(ADA_TOOLS_FLAGS_TO_PASS) gnattools3
 
+RTS_XDIR:=$(strip $(subst \,/,$(shell $(target_noncanonical)-gnatls -v | grep adalib )))
+gnattools-xnative: prefix.o force
+	$(MAKE) -C ada $(FLAGS_TO_PASS) $(ADA_FLAGS_TO_PASS) \
+	   ADA_INCLUDES="-I$(RTS_XDIR)../adainclude -I$(RTS_XDIR)" \
+	   GNATMAKE="gnatmake" \
+	   GNATBIND="gnatbind" \
+	   GNATLINK="gnatlink" \
+	   LIBGNAT="" \
+	   gnattools1-re gnattools2 gnattools4
+
 regnattools: 
 	$(MAKE) -C ada $(ADA_TOOLS_FLAGS_TO_PASS) gnattools1-re
 	$(MAKE) -C ada $(ADA_TOOLS_FLAGS_TO_PASS) gnattools2

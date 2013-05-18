@@ -1,11 +1,11 @@
-# $MirOS: gcc/libada/Makefile,v 1.1 2005/03/25 18:33:13 tg Exp $
+# $MirOS: gcc/libada/Makefile,v 1.2 2007/06/10 03:19:27 tg Exp $
 
 .ifdef _CROSSBUILD
 FLAGS+=	ALL_TARGET='gnatlib cross-gnattools ada.all.cross'
 FLAGS+=	GNATLIBCFLAGS=${CROSSCFLAGS:M*:Q}
-#.elif ${CROSS_MODE:L} == "yes"
-#FLAGS+=	ALL_TARGET='ada/stamp-sdefault gnattools'
-#FLAGS+=	GNATLIBCFLAGS=${CROSSCFLAGS:M*:Q}
+.elif ${CROSS_MODE:L} == "yes"
+FLAGS+=	ALL_TARGET=gnattools-xnative
+FLAGS+=	GNATLIBCFLAGS=${CFLAGS:M*:Q}
 .else
 FLAGS+=	ALL_TARGET=gnatlib_and_tools
 .endif
