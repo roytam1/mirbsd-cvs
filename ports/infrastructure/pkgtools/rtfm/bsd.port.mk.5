@@ -1,4 +1,4 @@
-.\" $MirOS: ports/infrastructure/pkgtools/rtfm/bsd.port.mk.5,v 1.13 2007/01/01 16:53:44 tg Exp $
+.\" $MirOS: ports/infrastructure/pkgtools/rtfm/bsd.port.mk.5,v 1.14 2007/03/30 23:20:11 bsiegert Exp $
 .\" $OpenBSD: bsd.port.mk.5,v 1.134 2004/02/18 13:39:02 xsa Exp $
 .\"
 .\" Copyright (c) 2007 Thorsten Glaser
@@ -670,12 +670,11 @@ inappropriate.
 .It Ev COMMENT-foo-vanilla
 Comment used for a sub-, flavored package.
 .It Ev COMES_WITH
+.Pq deprecated
 The first release where the port was made part of the standard
-distribution.
-If the current
 .Ox
-version is >= this version then a notice
-will be displayed instead of the port being built.
+distribution.
+Normally not used in MirPorts.
 .It Ev CONFIGURE_ARGS
 Arguments to pass to configure script.
 Defaults are empty, except for
@@ -701,9 +700,16 @@ Assume
 .Xr perl 1
 .Xr ExtUtils::MakeMaker 3p
 style.
+This is the style used by most Perl modules with a
+.Pa Makefile.PL .
+.It Ar modbuild
+Perl modules using
+.Xr Module::Build 3 ,
+i.e. with a
+.Pa Build.PL
+file.
 .It Ar gnu
-Assume
-gnu configure style.
+Assume gnu configure style.
 .It Ar dest
 Add this if the port does not handle
 .Ev DESTDIR
@@ -753,8 +759,16 @@ There is a configure script, but it does not fit the normal gnu configure
 conventions.
 .El
 .It Ev MODGNU_CONFIG_GUESS_DIRS , MODGNU_TWIDDLE_DIRS
-If a port uses config.guess outside WRKSRC, the directories
-containing the other copies must be set here.
+If a port uses more than one
+.Cm configure
+script, set this to all other directories that contain one.
+Copies
+.Pa config.guess
+to the right places; if
+.Ev CONFIGURE_STYLE
+is
+.Ar autoconf ,
+autoconf is also called in the given directories.
 .It Ev COPTS
 User settings.
 Supplementary options appended to ${CFLAGS} for building.
@@ -792,23 +806,13 @@ Optional, but either this or
 must be specified.
 .El
 .Pp
-Full documentation for this modus operandi is not yet
-specified within the scope of this manual page (see
-the notes at the bottom of its source code for details),
-but you will get a variable
-.Ev _CVS_DISTF${_i}
-defining the filename in the following scheme:
-.Li basename[-dateext][-tagext].mcz
+For the full documentation for these variables, see
+.Xr cvs-distfiles 7 .
 .Pp
 .Ev WRKDIST
-is set automatically to ${WRKDIR}/${CVS_DISTMODS}
-if unset, so take care.
+is set automatically to ${WRKDIR}/${CVS_DISTMODS}.
 .Ev PKGNAME
-defaults to ${_CVS_DISTF:R}-${DASH_VER}
-which works in most cases as well.
-Other ports have different sensible values, e.g. libtool
-uses libtool-1.5.23a.${CVS_DISTDATE:S!/!!g}-${DASH_VER}
-because it pulls from the branch-1-5 tag.
+defaults to ${_CVS_DISTF:R}-${DASH_VER}.
 .It Ev CXXDIAGFLAGS
 Flags appended to
 .Ev CXXFLAGS
@@ -828,8 +832,6 @@ This replaces the former
 .Dq package patchlevel .
 Default is 0.
 .Pp
-The default may rise to 1 in the future, so packagers
-can use -0 patchlevels for their own, local, testing.
 .It Ev DEF_UMASK
 Correct value of umask for the port to build and package correctly.
 Tested against the actual umask at
@@ -2280,162 +2282,3 @@ MirLibtool and the
 configure style are MirPorts additions.
 .\" Voluntarily undocumented:
 .\" AUTOCONF_ENV: probably not needed anyway, should be internal.
-.Sh BUGS AND LIMITATIONS
-.Ev LOCALBASE ,
-.Ev X11BASE ,
-.Ev SYSCONFDIR
-and
-.Ev PREFIX
-are not heeded consistently.
-Most of the ports tree will probably fall
-apart if one tries to build/use stuff elsewhere.
-.\" TODO: merge this
-.\"-
-.\" This document describes how the "fetch distfile via CVS" method
-.\" operates.
-.\"
-.\"
-.\" 0. Table of contents
-.\" ====================
-.\"
-.\" 1. The problem
-.\" 2. From a user's point of view
-.\" 3. More interesting possibilities
-.\" 4. What's working behind the curtains
-.\" 5. Adding subversion support
-.\"
-.\"
-.\" 1. The problem
-.\" ==============
-.\"
-.\" Often, software is not distributed as nicely as we would like
-.\" to have it - in a versioned tarball, gzip'd or compress'd, you
-.\" know what I'm talking about. Sometimes, tarballs are not ver-
-.\" sioned, broken, or just too old. But almost universally, source
-.\" code is available via a revision control system - such as CVS.
-.\"
-.\" This manual documents a method to fetch sources via CVS, while
-.\" retaining control over correct checksums etc.
-.\"
-.\"
-.\" 2. From a user's point of view
-.\" ==============================
-.\"
-.\" To enable the CVS_DISTF fetch method, you have to put a few
-.\" liness into your port Makefile. As usual, learning by an ex-
-.\" ample is "the way to go" - prominent examples are the three
-.\" ports essentials/pkgtools, games/bsdgames, and devel/libtool.
-.\"
-.\" The user interface consists of a few variables you can set:
-.\" CVS_DISTREPO	- the value of the -d option to cvs
-.\" CVS_DISTDATE	- optional: value of -D option to cvs checkout
-.\" CVS_DISTTAGS	- optional: value of -r option to cvs checkout
-.\" CVS_DISTMODS	- module(s) to check out, separated by space
-.\" CVS_DISTFILE	- optional: file name prefix
-.\"
-.\" Note: while both CVS_DISTDATE and CVS_DISTTAGS are optional,
-.\" it is required to set one of them because HEAD checkouts are
-.\" a moving target and thus not supported benefitting checksumming.
-.\"
-.\" Setting CVS_DISTREPO${_i} enables CVS_DISTF operation on a
-.\" specific distfile. ${_i} can be empty or a single decimal
-.\" digit, in case you need more than one distfile.
-.\"
-.\" Once operation has started, _CVS_DISTF${_i} is set to the name
-.\" of the file created in ${FULLDISTDIR} (/usr/ports/Distfiles),
-.\" in the following scheme: basename[-dateext][-tagext].mcz
-.\"
-.\" The basename is CVS_DISTFILE${_i}, or (if unset) CVS_DISTMODS${_i}
-.\" with dashes removed. The dateext (only if CVS_DISTDATE is set)
-.\" is exactly this, but with all non-numerical parts removed. The
-.\" tagext (if CVS_DISTTAGS) is the tag, with all characters except
-.\" digits, letters, dash or underscore removed, and a capital T pre-
-.\" pended. This ensures in almost all cases that _CVS_DISTF is unique.
-.\"
-.\" Then, _CVS_FETCH${_i} is set to a command to "retrieve the file"
-.\" if it is not yet there. If _CVS_DISTF (empty modifier) is set,
-.\" archivers/mpczar is pulled in as a fetch dependency automatically,
-.\" so you must make sure that, if multiple distfiles, the first slot
-.\" for CVS_DISTF is used.
-.\"
-.\" All _CVS_DISTF${_i} are added to _DISTFILES automatically, so there
-.\" is no need to do this. Now you only need to set a PKGNAME and you're
-.\" done.
-.\"
-.\"
-.\" 3. More interesting possibilities
-.\" =================================
-.\"
-.\" The infrastructure automatically defaults to setting the (first) di-
-.\" stribution directory: WRKDIST?=${WRKDIR}/${CVS_DISTMODS}
-.\"
-.\" If CVS_DISTMODS (without ${_i}) contains more than one module, you
-.\" must, consequentially, set WRKDIST yourself (also if you differ from
-.\" what the infrastructure thinks is a sensible default).
-.\"
-.\" The package name is a requirement which still must be set manually,
-.\" unless the new default of ${_CVS_DISTF:R}-${DASH_VER} suite your
-.\" port, which will cover 95% of the cases. THIS ONLY WORKS IF YOU USE
-.\" CVS_DISTDATE *AND* *NOT* CVS_DISTTAGS. Another example is to just
-.\" set a sensible one yourself, like libtool does (which pulls from the
-.\" branch-1-5 tag): PKGNAME=libtool-1.5.23a.${CVS_DISTDATE:S!/!!g}-${DASH_VER}
-.\" Of course, this needs more maintenance.
-.\"
-.\"
-.\" 4. What's working behind the curtains
-.\" =====================================
-.\"
-.\" The infrastructure defines a target ${FULLDISTDIR}/${_CVS_DISTF${_i}}
-.\" for each file, which is invoked by 'mmake fetch' automatically and
-.\" only if the file does not exist. However, the target itself also checks
-.\" for the existence of the distfile, because in some rare cases all de-
-.\" pendencies are invoked.
-.\"
-.\" First thing is to execute a 'mmake fetch-depends' so that mpczar is
-.\" only built if one of the CVS_DISTF files is missing. This is done
-.\" already inside the check for existence.
-.\"
-.\" After that, _CVS_FETCH${_i} is invoked on the file and the size is
-.\" checked (cloned from a "normal" fetch process).
-.\"
-.\" Checksumming, extracting and so on are processed with no difference;
-.\" the .mcz file extension yielded an addition to EXTRACT_CASES of course.
-.\"
-.\" Operation of _CVS_FETCH:
-.\"
-.\" The script /usr/ports/infrastructure/scripts/mkmcz is invoked with
-.\" a few parameters (target, repo, date, tag, modules) - note that it
-.\" is already prepared for an SVN_DISTF action yet not tested - and
-.\" then creates said *.mcz file, as follows:
-.\"
-.\" Prepare a temporary directory (mkdtemp), change into it, invoke
-.\" 'cvs checkout', call mpczar on the current directory with an
-.\" appropriate set of "ignore files" ('CVS' and '.svn').
-.\"
-.\" 'mpczar' then archives all files (no directories, pipes, devices,
-.\" symbolic links, and other funky stuff) in ASCII sort order into an
-.\" System V CPIO archive with CRC, using the new -M option to cpio(1)
-.\" which tells it to "normalise" the archive: serialise inode numbers,
-.\" zero out mtime, ownership and device information, and, for effi-
-.\" ciency, store hard links' file contents only once. This is safe in
-.\" the scenario (it would not be safe if one of the files to pack had
-.\" a hard link to outside the area which is packed, because its link
-.\" count is increased by one then). The CPIO archive is LZ compressed
-.\" using the 'mpczar.z' helper (really just compress(1) in disguise),
-.\" which is a mathematical function.
-.\"
-.\" This achieves that the same unordered set of input files always
-.\" creates the same archive (with the same checksum).
-.\"
-.\"
-.\" 5. Adding subversion support
-.\" ============================
-.\"
-.\" SVN_DISTF support would be straight-forward but needs to be tested.
-.\" Basically, do a 'less /usr/ports/infrastructure/mk/bsd.port.mk'
-.\" and a '/CVS<return>' then clone everything you find. If you pass
-.\" '-s' to mpczar as very first argument (and don't change the others)
-.\" it calls svn instead of cvs.
-.\"
-.\" Because I (tg@) do not support, trust, or endorse subversion, I will
-.\" not add such a thing.

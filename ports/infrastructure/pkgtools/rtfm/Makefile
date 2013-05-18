@@ -1,7 +1,7 @@
-# $MirOS: ports/infrastructure/pkgtools/rtfm/Makefile,v 1.2 2005/11/16 11:52:53 tg Exp $
+# $MirOS: ports/infrastructure/pkgtools/rtfm/Makefile,v 1.3 2005/11/23 17:32:22 tg Exp $
 
 MAN+=		bsd.port.mk.5 mirroring-ports.7 packages-specs.7 packages.7 \
-		ports.7 rcdb.3
+		ports.7 cvs-distfiles.7 rcdb.3
 
 PORTSDIR?=	${.CURDIR}/../../..
 .PATH: ${PORTSDIR}

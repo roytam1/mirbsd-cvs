@@ -1,0 +1,190 @@
+.\" $MirOS$
+.\"
+.\" Copyright (c) 2007 Thorsten Glaser
+.\" Copyright (c) 2007 Benny Siegert
+.\"
+.\" All rights reserved.
+.\"
+.\" Redistribution and use in source and binary forms, with or without
+.\" modification, are permitted provided that the following conditions
+.\" are met:
+.\" 1. Redistributions of source code must retain the above copyright
+.\"    notice, this list of conditions and the following disclaimer.
+.\" 2. Redistributions in binary form must reproduce the above copyright
+.\"    notice, this list of conditions and the following disclaimer in the
+.\"    documentation and/or other materials provided with the distribution.
+.\"
+.\" THIS SOFTWARE IS PROVIDED BY THE DEVELOPERS ``AS IS'' AND ANY EXPRESS OR
+.\" IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+.\" OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+.\" IN NO EVENT SHALL THE DEVELOPERS BE LIABLE FOR ANY DIRECT, INDIRECT,
+.\" INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
+.\" NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+.\" DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+.\" THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+.\" (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
+.\" THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+.\"
+.Dd September 22, 2007
+.Dt CVS-DISTFILES 7
+.Os
+.Sh NAME
+.Nm cvs-distfiles
+.Nd fetch distfiles for MirPorts via CVS
+.Sh SYNOPSIS
+.Fd CVS_DISTREPO=cvs.example.com:/cvs
+.Fd CVS_DISTDATE=2007-09-22
+.Fd CVS_DISTTAGS=1_0_release
+.Fd CVS_DISTMODS=src
+.Sh DESCRIPTION
+This document describes how the "fetch distfile via CVS" method
+in MirPorts operates.
+.Ss The problem
+Often, software is not distributed as nicely as we would like
+to have it - in a versioned tarball, gzip'd or compress'd.
+Sometimes, tarballs are not versioned, broken, or just too old.
+But almost universally, source code is available via a revision control
+system - such as CVS.
+.Pp
+This manual documents a method to fetch sources via CVS, while
+retaining control over correct checksums etc.
+.Ss From a user's point of view
+To enable the CVS_DISTF fetch method, you have to put a few
+liness into your port Makefile.
+As usual, learning by an example is "the way to go" - prominent
+examples are the three ports essentials/pkgtools, games/bsdgames,
+and devel/libtool.
+.Pp
+The user interface consists of a few variables you can set:
+.Bl -tag -width CVS_DISTREPO
+.It Ev CVS_DISTREPO
+the value of the -d option to cvs
+.It Ev CVS_DISTDATE
+.Pq optional
+value of -D option to cvs checkout
+.It Ev CVS_DISTTAGS
+.Pq optional
+value of -r option to cvs checkout
+.It Ev CVS_DISTMODS
+module(s) to check out, separated by space
+.It Ev CVS_DISTFILE
+.Pq optional
+file name prefix
+.El
+.Pp
+Note: while both CVS_DISTDATE and CVS_DISTTAGS are optional,
+it is required to set one of them because HEAD checkouts are
+a moving target and thus not supported benefitting checksumming.
+.Pp
+Setting CVS_DISTREPO${_i} enables CVS_DISTF operation on a
+specific distfile.
+${_i} can be empty or a single decimal digit, in case you need more
+than one distfile.
+.Pp
+Once operation has started, _CVS_DISTF${_i} is set to the name
+of the file created in ${FULLDISTDIR} (/usr/ports/Distfiles),
+in the following scheme: basename[-dateext][-tagext].mcz
+.Pp
+The basename is CVS_DISTFILE${_i}, or (if unset) CVS_DISTMODS${_i}
+with dashes removed.
+The dateext (only if CVS_DISTDATE is set) is exactly this, but with
+all non-numerical parts removed.
+The tagext (if CVS_DISTTAGS) is the tag, with all characters except
+digits, letters, dash or underscore removed, and a capital T prepended.
+This ensures in almost all cases that _CVS_DISTF is unique.
+.Pp
+Then, _CVS_FETCH${_i} is set to a command to "retrieve the file"
+if it is not yet there.
+If _CVS_DISTF (empty modifier) is set, archivers/mpczar is pulled in
+as a fetch dependency automatically, so you must make sure that, if
+multiple distfiles, the first slot for CVS_DISTF is used.
+.Pp
+All _CVS_DISTF${_i} are added to _DISTFILES automatically, so there
+is no need to do this.
+Now you only need to set a PKGNAME and you are done.
+.Ss More interesting possibilities
+The infrastructure automatically defaults to setting the (first) di-
+stribution directory:
+.D1 WRKDIST?=${WRKDIR}/${CVS_DISTMODS}
+.Pp
+If CVS_DISTMODS (without ${_i}) contains more than one module, you
+must, consequentially, set WRKDIST yourself (also if you differ from
+what the infrastructure thinks is a sensible default).
+.Pp
+The package name is a requirement which still must be set manually,
+unless the new default of ${_CVS_DISTF:R}-${DASH_VER} suits your
+port, which will cover 95% of the cases.
+THIS ONLY WORKS IF YOU USE CVS_DISTDATE *AND* *NOT* CVS_DISTTAGS.
+Another example is to just set a sensible one yourself, like libtool
+does (which pulls from the branch-1-5 tag):
+.D1 PKGNAME=libtool-1.5.23a.${CVS_DISTDATE:S!/!!g}-${DASH_VER}
+.Pp
+Of course, this needs more maintenance.
+.Ss What is working behind the curtains
+The infrastructure defines a target ${FULLDISTDIR}/${_CVS_DISTF${_i}}
+for each file, which is invoked by 
+.Sq Cm mmake Ar fetch
+automatically and only if the file does not exist.
+However, the target itself also checks for the existence of the
+distfile, because in some rare cases all dependencies are invoked.
+.Pp
+First thing is to execute a
+.Sq Cm mmake Ar fetch-depends
+so that mpczar is only built if one of the CVS_DISTF files is missing.
+This is done already inside the check for existence.
+.Pp
+After that, _CVS_FETCH${_i} is invoked on the file and the size is
+checked (cloned from a "normal" fetch process).
+.Pp
+Checksumming, extracting and so on are processed with no difference;
+the .mcz file extension yielded an addition to EXTRACT_CASES, of course.
+.Pp
+Operation of _CVS_FETCH:
+.Pp
+The script /usr/ports/infrastructure/scripts/mkmcz is invoked with
+a few parameters (target, repo, date, tag, modules) - note that it
+is already prepared for an SVN_DISTF action yet not tested - and
+then creates said *.mcz file, as follows:
+.Pp
+Prepare a temporary directory (mkdtemp), change into it, invoke
+.Sq Cm cvs Ar checkout ,
+call mpczar on the current directory with an appropriate set of
+"ignore files" 
+.Pq So CVS Sc and So .svn Sc .
+.Pp
+.Xr mpczar 1
+then archives all files (no directories, pipes, devices,
+symbolic links, and other funky stuff) in ASCII sort order into an
+System V CPIO archive with CRC, using the new -M option to
+.Xr cpio 1 ,
+which tells it to "normalise" the archive: serialise inode numbers,
+zero out mtime, ownership and device information, and, for effi-
+ciency, store hard links' file contents only once.
+This is safe in the scenario (it would not be safe if one of the files
+to pack had a hard link to outside the area which is packed, because
+its link count is increased by one then).
+The CPIO archive is LZ compressed using the 'mpczar.z' helper (really
+just
+.Xr compress 1
+in disguise), which is a mathematical function.
+.Pp
+This achieves that the same unordered set of input files always
+creates the same archive (with the same checksum).
+.Ss Adding subversion support
+SVN_DISTF support would be straight-forward but needs to be tested.
+Basically, do a
+.Sq Cm less Pa /usr/ports/infrastructure/mk/bsd.port.mk
+and a
+.Sq Ic /CVS ,
+then clone everything you find.
+If you pass
+.Fl s
+to mpczar as very first argument (and don't change the others)
+it calls svn instead of cvs.
+.Pp
+Because I (tg@) do not support, trust, or endorse subversion, I will
+not add such a thing.
+.Sh SEE ALSO
+.Xr bsd.port.mk 5 ,
+.Xr ports 7 ,
+.Xr mpczar 1 .
