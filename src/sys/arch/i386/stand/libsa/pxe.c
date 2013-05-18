@@ -1,3 +1,4 @@
+/*	$MirOS$ */
 /*	$OpenBSD: pxe.c,v 1.5 2007/07/27 17:46:56 tom Exp $ */
 /*	$NetBSD: pxe.c,v 1.5 2003/03/11 18:29:00 drochner Exp $	*/
 
@@ -104,6 +105,8 @@
 #include "pxe.h"
 #include "pxe_netif.h"
 
+int have_pxe = -1;
+
 void	(*pxe_call)(u_int16_t);
 
 void	pxecall_bangpxe(u_int16_t);	/* pxe_call.S */
@@ -201,7 +204,6 @@ pxereadudp(struct iodesc *d, void *pkt, size_t len, time_t tleft)
  * We only allow one open socket.
  */
 
-static int pxe_inited;
 static struct iodesc desc;
 
 int
@@ -212,11 +214,11 @@ pxe_netif_open()
 #ifdef NETIF_DEBUG
 	printf("pxe_netif_open()\n");
 #endif
-	if (!pxe_inited) {
-		if (pxe_init(0) != 0)
-			return -1;
-		pxe_inited = 1;
-	}
+	if (have_pxe < 0)
+		pxe_init(0);
+	if (!have_pxe)
+		return (-1);
+
 	/* BI_ADD(&bi_netif, BTINFO_NETIF, sizeof(bi_netif)); */
 
 	bzero(uo, sizeof(*uo));
@@ -301,10 +303,8 @@ extern u_int16_t pxenv_off, pxenv_seg;
 void
 pxeprobe(void)
 {
-	if (!pxe_inited) {
-		if (pxe_init(1) == 0) {
-			pxe_inited = 1;
-		}
+	if (have_pxe < 0) {
+		pxe_init(1);
 	}
 }
 
@@ -317,6 +317,10 @@ pxe_init(int quiet)
 	char *cp;
 	int i;
 	u_int8_t cksum, *ucp;
+
+	if (have_pxe >= 0)
+		return (have_pxe == 0 ? 1 : 0);
+	have_pxe = 0;
 
 	/*
 	 * Checking for the presence of PXE is a machine-dependent
@@ -450,6 +454,7 @@ pxe_init(int quiet)
 	else
 		netmask = IN_CLASSC_NET;
 
+	have_pxe = 1;
 	return 0;
 }
 
@@ -460,6 +465,11 @@ pxeinfo(void)
 #ifdef PXE_DEBUG
 	t_PXENV_UNDI_GET_NIC_TYPE *gnt = (void *) pxe_command_buf;
 #endif
+
+	if (have_pxe <= 0) {
+		printf(" %s\n", have_pxe ? "err" : "none");
+		return;
+	}
 
 	printf(" mac %s", ether_sprintf(bootplayer.CAddr));
 	p = (u_int8_t *)&myip.s_addr;

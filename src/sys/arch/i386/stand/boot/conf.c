@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/stand/boot/conf.c,v 1.12 2008/12/31 16:38:36 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/stand/boot/conf.c,v 1.13 2009/01/10 12:38:56 tg Exp $ */
 /*	$OpenBSD: conf.c,v 1.39 2008/04/19 23:20:22 weingart Exp $	*/
 
 /*
@@ -35,8 +35,6 @@
 #include <tori.h>
 #ifndef SMALL_BOOT
 #include <lib/libsa/fat.h>
-#endif
-#if 1 //def notdef
 #include <lib/libsa/nfs.h>
 #include <lib/libsa/tftp.h>
 #include <lib/libsa/netif.h>
@@ -44,33 +42,46 @@
 #include <biosdev.h>
 #include <dev/cons.h>
 #include "debug.h"
+#ifndef SMALL_BOOT
 #include "pxeboot.h"
 #include "pxe_net.h"
+#endif
+
+#ifndef SMALL_BOOT
+void pxecheck(void);
+#endif
 
 const char version[] = __BOOT_VER;
-int	debug = 1;
+int debug = 1;
 
 void (*sa_cleanup)(void) = NULL;
 
 void (*i386_probe1[])(void) = {
 	ps2probe, gateA20on, /* debug_init, */ cninit,
-	apmprobe, pciprobe, /* smpprobe, */ pxeprobe, memprobe
+	apmprobe, pciprobe, /* smpprobe, */
+#ifndef SMALL_BOOT
+	pxeprobe, pxecheck,
+#endif
+	memprobe
 };
 void (*i386_probe2[])(void) = {
  	diskprobe
 };
+#ifndef SMALL_BOOT
 void (*i386_probe3[])(void) = {
 	pxeinfo
 /*	netprobe_pxe, netprobe_mac, netprobe_inet4, netprobe_bootdev */
 };
+#endif
 
 struct i386_boot_probes probe_list[] = {
 	{ "probing", i386_probe1, NENTS(i386_probe1) },
 	{ "disk",    i386_probe2, NENTS(i386_probe2) },
+#ifndef SMALL_BOOT
 	{ "net",     i386_probe3, NENTS(i386_probe3) },
+#endif
 };
 int nibprobes = NENTS(probe_list);
-
 
 struct fs_ops file_system[] = {
 #ifndef SMALL_BOOT
@@ -82,12 +93,10 @@ struct fs_ops file_system[] = {
 #ifndef SMALL_BOOT
 	{ fat_open,    fat_close,    fat_read,    fat_write,    fat_seek,
 	  fat_stat,    fat_readdir    },
-#if 1 //def notdef
 	{ nfs_open,    nfs_close,    nfs_read,    nfs_write,    nfs_seek,
 	  nfs_stat,    nfs_readdir    },
 	{ tftp_open,   tftp_close,   tftp_read,   tftp_write,   tftp_seek,
 	  tftp_stat,   tftp_readdir   },
-#endif
 #endif
 };
 int nfsys = NENTS(file_system);
@@ -103,13 +112,12 @@ struct devsw	devsw[] = {
 };
 int ndevs = NENTS(devsw);
 
+#ifndef SMALL_BOOT
 struct devsw	netsw[] = {
 	{ "net",  net_strategy, net_open, net_close, net_ioctl },
 };
 
-#if 1 //def notdef
 struct netif_driver	*netif_drivers[] = {
-	NULL
 };
 int n_netif_drivers = NENTS(netif_drivers);
 #endif
@@ -120,3 +128,21 @@ struct consdev constab[] = {
 	{ NULL }
 };
 struct consdev *cn_tab = constab;
+
+#ifndef SMALL_BOOT
+void
+pxecheck(void)
+{
+	if (have_pxe > 0) {
+		have_pxe = 1;
+		sa_cleanup = pxe_shutdown;
+	} else {
+		have_pxe = 0;
+		nibprobes -= 1;
+		nfsys -= 2;
+#if 0
+		ndevs -= 1;
+#endif
+	}
+}
+#endif

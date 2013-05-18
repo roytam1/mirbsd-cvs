@@ -1,3 +1,4 @@
+/*	$MirOS$ */
 /*	$OpenBSD: pxeboot.h,v 1.1 2004/03/19 13:48:18 tom Exp $ */
 /*	$NetBSD$	*/
 
@@ -42,6 +43,8 @@
 
 #define SEGOFF2FLAT(seg, off) ((void *)((((u_int32_t)(seg))<<4) + \
     ((u_int32_t)(off))))
+
+extern int have_pxe;
 
 void	pxeprobe(void);
 void	pxeinfo(void);

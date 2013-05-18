@@ -55,6 +55,7 @@
 #include <lib/libsa/net.h>
 #include "pxe_netif.h"
 #include "pxe_net.h"
+#include "pxeboot.h"
 
 static int netdev_sock = -1;
 static int netdev_opens;
@@ -70,6 +71,9 @@ int
 net_open(struct open_file *f, ...)
 {
 	int error = 0;
+
+	if (have_pxe < 1)
+		return (ENXIO);
 
 #ifdef	NETIF_DEBUG
 	if (debug)
