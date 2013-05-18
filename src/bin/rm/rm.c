@@ -1,4 +1,4 @@
-/* $MirOS: src/bin/rm/rm.c,v 1.3 2008/03/02 19:45:04 tg Exp $ */
+/* $MirOS: src/bin/rm/rm.c,v 1.4 2008/03/02 20:08:56 tg Exp $ */
 /* $NetBSD: rm.c,v 1.46 2007/06/24 17:59:31 christos Exp $ */
 /* $OpenBSD: rm.c,v 1.18 2005/06/14 19:15:35 millert Exp $ */
 
@@ -36,7 +36,7 @@ __COPYRIGHT("@(#) Copyright (c) 1990, 1993, 1994\n\
 	The Regents of the University of California.  All rights reserved.\n");
 __SCCSID("@(#)rm.c	8.8 (Berkeley) 4/27/95");
 __RCSID("$NetBSD: rm.c,v 1.46 2007/06/24 17:59:31 christos Exp $");
-__RCSID("$MirOS: src/bin/rm/rm.c,v 1.3 2008/03/02 19:45:04 tg Exp $");
+__RCSID("$MirOS: src/bin/rm/rm.c,v 1.4 2008/03/02 20:08:56 tg Exp $");
 
 #include <sys/param.h>
 #include <sys/stat.h>
@@ -140,6 +140,29 @@ main(int argc, char *argv[])
 	/* NOTREACHED */
 }
 
+#define TRYRENAME(fn, func, rv) do {				\
+	char dname[MAXPATHLEN];					\
+	size_t dcount = strlen(fn);				\
+	uint64_t dhash = dcount * (intptr_t)(fn);		\
+								\
+	/* for fun: push back hash of original pathname */	\
+	while (dcount--)					\
+		dhash += (fn)[dcount] * dcount;			\
+	arc4random_pushb(&dhash, sizeof (dhash));		\
+								\
+	/* try to rename entry randomly before removal */	\
+	do {							\
+		if ((size_t)snprintf(dname, sizeof (dname),	\
+		    "%s/.rm.%08X", dirname(fn),			\
+		    arc4random()) >= (sizeof (dname) + 5)) {	\
+			/* resulting path would be too long */	\
+			memcpy(dname, (fn), strlen(fn) + 1);	\
+			break;					\
+		}						\
+	} while (rename((fn), dname));				\
+	rv = func(dname);					\
+} while (/* CONSTCOND */ 0)
+
 void
 rm_tree(char **argv)
 {
@@ -221,25 +244,9 @@ rm_tree(char **argv)
 		switch (p->fts_info) {
 		case FTS_DP:
 		case FTS_DNR:
-			if (Pflag) {
-				char dname[MAXPATHLEN];
-
-				do {
-					/* rename directory before unlinking,
-					 * unless the pathname is too long
-					 */
-					if ((size_t)snprintf(dname,
-					    sizeof (dname),
-					    "%s/.rm.%08X",
-					    dirname(p->fts_accpath),
-					    arc4random()) >= sizeof (dname)) {
-						memcpy(dname, p->fts_accpath,
-						    strlen(p->fts_accpath) + 1);
-						break;
-					}
-				} while (rename(p->fts_accpath, dname));
-				rval = rmdir(dname);
-			} else
+			if (Pflag)
+				TRYRENAME(p->fts_accpath, rmdir, rval);
+			else
 				rval = rmdir(p->fts_accpath);
 			if (rval != 0 && fflag && errno == ENOENT)
 				continue;
@@ -247,25 +254,9 @@ rm_tree(char **argv)
 
 		default:
 			if (Pflag) {
-				char dname[MAXPATHLEN];
-
 				if (rm_overwrite(p->fts_accpath, NULL))
 					continue;
-				do {
-					/* rename file before unlinking,
-					 * unless the pathname is too long
-					 */
-					if ((size_t)snprintf(dname,
-					    sizeof (dname),
-					    "%s/.rm.%08X",
-					    dirname(p->fts_accpath),
-					    arc4random()) >= sizeof (dname)) {
-						memcpy(dname, p->fts_accpath,
-						    strlen(p->fts_accpath) + 1);
-						break;
-					}
-				} while (rename(p->fts_accpath, dname));
-				rval = unlink(dname);
+				TRYRENAME(p->fts_accpath, unlink, rval);
 			} else
 				rval = unlink(p->fts_accpath);
 			if (rval != 0 && fflag && NONEXISTENT(errno))
@@ -312,46 +303,15 @@ rm_file(char **argv)
 		if (!fflag && !check(f, f, &sb))
 			continue;
 		else if (S_ISDIR(sb.st_mode)) {
-			if (Pflag) {
-				char dname[MAXPATHLEN];
-
-				do {
-					/* rename directory before unlinking,
-					 * unless the pathname is too long
-					 */
-					if ((size_t)snprintf(dname,
-					    sizeof (dname),
-					    "%s/.rm.%08X",
-					    dirname(f),
-					    arc4random()) >= sizeof (dname)) {
-						memcpy(dname, f,
-						    strlen(f) + 1);
-						break;
-					}
-				} while (rename(f, dname));
-				rval = rmdir(dname);
-			} else
+			if (Pflag)
+				TRYRENAME(f, rmdir, rval);
+			else
 				rval = rmdir(f);
 		} else {
 			if (Pflag) {
-				char dname[MAXPATHLEN];
-
 				if (rm_overwrite(f, &sb))
 					continue;
-				do {
-					/* rename file before unlinking,
-					 * unless the pathname is too long
-					 */
-					if ((size_t)snprintf(dname,
-					    sizeof (dname),
-					    "%s/.rm.%08X",
-					    dirname(f),
-					    arc4random()) >= sizeof (dname)) {
-						memcpy(dname, f, strlen(f) + 1);
-						break;
-					}
-				} while (rename(f, dname));
-				rval = unlink(dname);
+				TRYRENAME(f, unlink, rval);
 			} else
 				rval = unlink(f);
 		}
