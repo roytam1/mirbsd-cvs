@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/lib/libsa/stand.h,v 1.7 2007/02/06 16:24:45 tg Exp $	*/
+/**	$MirOS: src/sys/lib/libsa/stand.h,v 1.8 2008/08/01 11:25:03 tg Exp $	*/
 /*	$OpenBSD: stand.h,v 1.46 2007/05/04 21:44:07 reyk Exp $	*/
 /*	$NetBSD: stand.h,v 1.18 1996/11/30 04:35:51 gwr Exp $	*/
 
@@ -42,6 +42,16 @@
 #include <sys/stdarg.h>
 #include "saioctl.h"
 #include "saerrno.h"
+
+#ifndef NULL
+#ifdef __GNUG__
+#define	NULL		__null
+#elif defined(lint)
+#define	NULL		0
+#else
+#define	NULL		((void *)((__PTRDIFF_TYPE__)0UL))
+#endif
+#endif
 
 struct open_file;
 
@@ -136,7 +146,7 @@ u_int	dkcksum(struct disklabel *);
 
 void	printf(const char *, ...);
 int	snprintf(char *, size_t, const char *, ...);
-void	vprintf(const char *, __va_list);
+void	vprintf(const char *, va_list);
 void	twiddle(void);
 void	gets(char *);
 __dead void	panic(const char *, ...) __attribute__((noreturn));
