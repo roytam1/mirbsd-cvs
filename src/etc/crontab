@@ -1,4 +1,4 @@
-# $MirOS: src/etc/crontab,v 1.18 2007/03/09 13:05:10 tg Exp $
+# $MirOS: src/etc/crontab,v 1.19 2007/04/17 22:32:42 tg Exp $
 # $OpenBSD: crontab,v 1.15 2007/02/27 16:04:16 beck Exp $
 #
 # /var/cron/tabs/root - root's crontab
@@ -26,9 +26,9 @@ HOME=/var/log
 # store random seed to disc every three hours
 # add hardware sensors etc. to pool twice an hour
 57	*/3	*	*	*	/usr/bin/nice -n -19 /usr/libexec/randshuffle
-14,44	*	*	*	*	/bin/sleep $(/usr/bin/jot -r 1 30 90); (/sbin/sysctl -a; /bin/ps -akwwx -o "$(/bin/ps -L)"; /bin/ps -aexwwo pid,args; /bin/ps -axwwo pid,args) 2>&1 | /bin/cksum -ba cksum -a md4 -a rmd160 -a sfv -a sha384 -a tiger -a adler32 -a sum >/dev/wrandom
+14,44	*	*	*	*	(/bin/sleep $(/usr/bin/jot -r 1 30 90); /sbin/sysctl -a; /bin/ps -akwwx -o "$(/bin/ps -L)"; /bin/ps -aexwwo pid,args; /bin/ps -axwwo pid,args) 2>&1 | /bin/cksum -ba cksum -a md4 -a rmd160 -a sfv -a sha384 -a tiger -a adler32 -a sum >/dev/wrandom
 #
 # pull random bytes from the 'net (useful for headless servers, but insecure)
-#11	0,12	*	*	*	/bin/sleep $(/usr/bin/jot -r 1 60 900); /usr/bin/time -l /usr/bin/ftp -Vo - http://www.randomnumbers.info/cgibin/wqrng.cgi?amount=56\&limit=999 2>&1 | /bin/cksum -ba sha512 -a sfv >/dev/wrandom
-#31	4,16	*	*	*	/bin/sleep $(/usr/bin/jot -r 1 60 900); /usr/bin/time -l /usr/bin/ftp -mvo /dev/arandom https://www.fourmilab.ch/cgi-bin/Hotbits?nbytes=64\&fmt=bin 2>&1 | /bin/cksum -ba suma >/dev/wrandom
-#51	8,20	*	*	*	/bin/sleep $(/usr/bin/jot -r 1 60 900); /usr/bin/time -l /usr/bin/ftp -mvo /dev/arandom http://www.random.org/cgi-bin/randbyte?nbytes=64\&format=f 2>&1 | /bin/cksum -ba suma >/dev/wrandom
+#11	0,12	*	*	*	(/bin/sleep $(/usr/bin/jot -r 1 60 900); /usr/bin/time -l /usr/bin/ftp -Vo - http://www.randomnumbers.info/cgibin/wqrng.cgi?amount=56\&limit=999) 2>&1 | /bin/cksum -ba sha512 -a sfv >/dev/wrandom
+#31	4,16	*	*	*	(/bin/sleep $(/usr/bin/jot -r 1 60 900); /usr/bin/time -l /usr/bin/ftp -mvo /dev/arandom https://www.fourmilab.ch/cgi-bin/Hotbits?nbytes=64\&fmt=bin) 2>&1 | /bin/cksum -ba suma >/dev/wrandom
+#51	8,20	*	*	*	(/bin/sleep $(/usr/bin/jot -r 1 60 900); /usr/bin/time -l /usr/bin/ftp -mvo /dev/arandom http://www.random.org/cgi-bin/randbyte?nbytes=64\&format=f) 2>&1 | /bin/cksum -ba suma >/dev/wrandom
