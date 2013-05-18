@@ -359,12 +359,14 @@ search_directory(char *name, struct open_file *f, ino_t *inumber_p)
 int
 ufs_open(char *path, struct open_file *f)
 {
-	char namebuf[MAXPATHLEN+1], *cp, *ncp, *buf = NULL;
+	char *namebuf, *cp, *ncp, *buf = NULL;
 	ino_t inumber, parent_inumber;
 	int rc, c, nlinks = 0;
 	struct file *fp;
 	size_t buf_size;
 	struct fs *fs;
+
+	namebuf = alloc(MAXPATHLEN + 1);
 
 	/* allocate file system specific data structure */
 	fp = alloc(sizeof(struct file));
@@ -530,6 +532,7 @@ out:
 		free(fp->f_fs, SBSIZE);
 		free(fp, sizeof(struct file));
 	}
+	free(namebuf, MAXPATHLEN + 1);
 	return (rc);
 }
 

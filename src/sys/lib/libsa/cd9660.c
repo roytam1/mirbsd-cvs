@@ -293,8 +293,7 @@ cd9660_read(struct open_file *f, void *start, size_t size, size_t *resid)
 	struct file *fp = (struct file *)f->f_fsdata;
 	int rc = 0;
 	daddr_t bno;
-	char buf[ISO_DEFAULT_BLOCK_SIZE];
-	char *dp;
+	char *dp, *buf = NULL;
 	size_t nread, off;
 
 	while (size) {
@@ -302,17 +301,21 @@ cd9660_read(struct open_file *f, void *start, size_t size, size_t *resid)
 			break;
 		bno = (fp->off >> ISO_DEFAULT_BLOCK_SHIFT) + fp->bno;
 		if (fp->off & (ISO_DEFAULT_BLOCK_SIZE - 1)
-		    || size < ISO_DEFAULT_BLOCK_SIZE)
+		    || size < ISO_DEFAULT_BLOCK_SIZE) {
+			if (!buf)
+				buf = alloc(ISO_DEFAULT_BLOCK_SIZE);
 			dp = buf;
-		else
+		} else
 			dp = start;
 		twiddle();
 		rc = f->f_dev->dv_strategy(f->f_devdata, F_READ, cdb2devb(bno),
 					   ISO_DEFAULT_BLOCK_SIZE, dp, &nread);
 		if (rc)
-			return rc;
-		if (nread != ISO_DEFAULT_BLOCK_SIZE)
-			return EIO;
+			goto out;
+		if (nread != ISO_DEFAULT_BLOCK_SIZE) {
+			rc = EIO;
+			goto out;
+		}
 
 		/*
 		 * off is either 0 in the dp == start case or
@@ -335,6 +338,9 @@ cd9660_read(struct open_file *f, void *start, size_t size, size_t *resid)
 	}
 	if (resid)
 		*resid = size;
+ out:
+	if (buf)
+		free(buf, ISO_DEFAULT_BLOCK_SIZE);
 	return rc;
 }
 
