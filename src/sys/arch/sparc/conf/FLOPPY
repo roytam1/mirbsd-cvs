@@ -1,4 +1,4 @@
-# $MirOS: src/sys/arch/sparc/conf/FLOPPY,v 1.1 2008/07/12 22:19:20 tg Exp $
+# $MirOS: src/sys/arch/sparc/conf/FLOPPY,v 1.2 2008/07/12 22:43:05 tg Exp $
 # $miros: src/sys/arch/sparc/conf/GENERIC,v 1.18 2007/08/25 15:46:16 tg Exp $
 
 machine		sparc			# arch, used by config; REQUIRED
@@ -58,7 +58,7 @@ option		MFS			# memory file system
 #option		NFSSERVER		# Nightmare File System server
 
 option		CD9660			# ISO 9660 + Rock Ridge file system
-option		MSDOSFS			# MS-DOS file system
+#option		MSDOSFS			# MS-DOS file system
 option		FDESC			# /dev/fd
 #option		FIFO			# FIFOs; RECOMMENDED
 #option		KERNFS			# /kern
