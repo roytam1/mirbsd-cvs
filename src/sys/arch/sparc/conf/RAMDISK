@@ -1,4 +1,4 @@
-# $MirOS: src/sys/arch/sparc/conf/RAMDISK,v 1.7 2007/01/26 19:33:11 tg Exp $
+# $MirOS: src/sys/arch/sparc/conf/RAMDISK,v 1.8 2007/06/10 16:46:44 tg Exp $
 # $miros: src/sys/arch/sparc/conf/GENERIC,v 1.14 2007/06/10 18:15:25 tg Exp $
 
 machine		sparc			# arch, used by config; REQUIRED
@@ -123,6 +123,9 @@ option		SUN4M		# sun4m - SS10, SS20, Classic, etc.
 
 maxusers	2		# estimated number of users
 
+option		WSEMUL_SUN	# provide sun terminal emulation; required
+option		WSEMUL_NO_VT100	# do not provide vt100 terminal emulation
+
 config		bsd	root on rd0a
 
 # Main bus and CPU .. all systems.
@@ -208,7 +211,7 @@ spif*	at sbus?					# spif serial cards
 stty*	at spif?
 sbpp*	at spif?
 
-bpp*	at sbus?					# parallel port 
+bpp*	at sbus?					# parallel port
 
 # SUNW,xbox SBus Expansion Subsystem
 xbox*	at sbus?					# SBus Expansion box
