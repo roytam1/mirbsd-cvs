@@ -1,5 +1,5 @@
 #!/usr/bin/env mksh
-# $MirOS: CVSROOT/mklogci,v 1.36 2008/07/03 18:29:49 tg Exp $
+# $MirOS: CVSROOT/mklogci,v 1.37 2008/07/03 18:35:08 tg Exp $
 #-
 # Copyright (c) 2005, 2006, 2007
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -110,7 +110,7 @@ function addflist {
 			dir=$fn
 			set -A add_names
 		elif [[ -z $fn || $fn = *([	 ]) ]]; then
-			break
+			continue
 		else
 			add_names[${#add_names[*]}]=$fn
 		fi
