@@ -1,7 +1,7 @@
-# $MirOS: src/sys/conf/Makefile.inc,v 1.9 2006/01/31 11:26:26 tg Exp $
+# $MirOS: src/sys/conf/Makefile.inc,v 1.10 2006/03/27 09:27:26 tg Exp $
 #-
 # Copyright (c) 2005, 2006
-#	Thorsten "mirabile" Glaser <tg@mirbsd.de>
+#	Thorsten "mirabilos" Glaser <tg@mirbsd.de>
 #
 # Licensee is hereby permitted to deal in this work without restric-
 # tion, including unlimited rights to use, publicly perform, modify,
@@ -43,6 +43,28 @@ CFLAGS=		${DEBUG} ${CDIAGFLAGS} ${CMACHFLAGS} \
 AFLAGS=		-x assembler-with-cpp -traditional-cpp -D_LOCORE
 STRIPFLAGS=	-g -X -x
 
+# load lines for config "xxx" will be emitted as:
+# xxx: ${SYSTEM_DEP} swapxxx.o
+#	${SYSTEM_LD_HEAD}
+#	${SYSTEM_LD} swapxxx.o
+#	${SYSTEM_LD_TAIL}
+SYSTEM_OBJ?=	locore.o tai_leaps.o init_ssp.o \
+		param.o ioconf.o ${OBJS} ${LIBKERN} ${LIBCOMPAT}
+SYSTEM_DEP?=	Makefile ${SYSTEM_OBJ}
+SYSTEM_LD_HEAD?=rm -f $@
+SYSTEM_LD?=	@echo ${LD} ${LINKFLAGS} -o $@ '$${SYSTEM_OBJ}' vers.o; \
+		${LD} ${LINKFLAGS} -o $@ ${SYSTEM_OBJ} vers.o
+SYSTEM_LD_TAIL?=@${SIZE} $@; chmod 755 $@
+DEBUG?=
+.if ${DEBUG} == "-g"
+LINKFLAGS+=	-X
+SYSTEM_LD_TAIL+=; \
+		echo cp $@ $@.gdb; rm -f $@.gdb; cp $@ $@.gdb; \
+		echo ${STRIP} ${STRIPFLAGS} $@; ${STRIP} ${STRIPFLAGS} $@
+.else
+LINKFLAGS+=	-x
+.endif
+
 .ifndef NO_GZIP
 SYSTEM_LD_GZIP=	echo gzip -n9 $@; rm -f $@.gz; gzip -n9 $@; mv $@.gz $@
 .endif
@@ -83,10 +105,22 @@ HOSTED_C=	${HOSTCC} ${HOSTED_CFLAGS} ${HOSTED_CPPFLAGS} -c $<
 
 # these are 'make depend'ed
 _COMMON_SRCS=	param.c ioconf.c tai_leaps.c
+SRCS?=		${_MDINC}/locore.s ${_COMMON_SRCS} ${CFILES} ${SFILES}
 
 # Propolice init
 init_ssp.o: $S/kern/init_ssp.c
 	${NORMAL_C} -fno-stack-protector
+
+assym.h: $S/kern/genassym.sh ${_MDINC}/genassym.cf Makefile
+	${SHELL} $S/kern/genassym.sh ${CC} ${CFLAGS} ${CPPFLAGS} \
+	    ${PARAM} <${_MDINC}/genassym.cf >assym.h.tmp && \
+	    mv -f assym.h.tmp assym.h
+
+ioconf.o: ioconf.c
+	${NORMAL_C}
+
+locore.o: ${_MDINC}/locore.s assym.h
+	${NORMAL_S}
 
 param.c: $S/conf/param.c
 	rm -f param.c
@@ -94,9 +128,6 @@ param.c: $S/conf/param.c
 
 param.o: param.c Makefile
 	${NORMAL_C_C}
-
-ioconf.o: ioconf.c
-	${NORMAL_C}
 
 tai_leaps.o: tai_leaps.c
 	${NORMAL_C}
@@ -110,15 +141,31 @@ tai_make: tai_make.o
 tai_make.o: $S/lib/libkern/tai_make.c
 	${HOSTED_C}
 
+# depend on root or device configuration
+autoconf.o conf.o: Makefile
+
+# depend on maxusers
+machdep.o: Makefile
+
 .PATH: ${BSDSRCDIR}/lib/libz
 .include "${BSDSRCDIR}/lib/libz/Makefile.gen"
 
-# libz generated headers
-.depend: crc32.h inffixed.h trees.h
+clean::
+	rm -f eddep *bsd *bsd.gdb tags *.[io] [a-z]*.s \
+	    [Ee]rrs linterrs makelinks genassym genassym.o assym.h
 
-newvers: ${SYSTEM_DEP} ${SYSTEM_SWAP_DEP}
-	${SHELL} $S/conf/newvers.sh "${OSrev}" "${OSrpl}" "${OScompat}"
-	${CC} ${CFLAGS} ${CPPFLAGS} -c vers.c
+depend:: .depend
+.depend: ${SRCS} assym.h param.c ${APMINC} crc32.h inffixed.h trees.h
+	CC=${CC:Q} ${MKDEP} -D_ASM_SOURCE ${AFLAGS} ${CPPFLAGS} \
+	    ${_MDINC}/locore.s
+	CC=${CC:Q} ${MKDEP} -a ${CFLAGS} ${CPPFLAGS} param.c ioconf.c ${CFILES}
+.if defined(SFILES) && !empty(SFILES)
+	CC=${CC:Q} ${MKDEP} -a -D_ASM_SOURCE ${AFLAGS} ${CPPFLAGS} ${SFILES}
+.endif
+	CC=${CC:Q} ${SHELL} $S/kern/genassym.sh ${MKDEP} -f assym.dep \
+	    ${CFLAGS} ${CPPFLAGS} <${_MDINC}/genassym.cf
+	@sed -e 's/.*\.o:.* /assym.h: /' <assym.dep >>.depend
+	@rm -f assym.dep
 
 install:
 	@if [[ -e /bsd ]]; then \
@@ -132,18 +179,6 @@ install:
 		install -c -o root -g daemon -m 400 bsd /; \
 	fi
 
-clean::
-	rm -f eddep *bsd *bsd.gdb tags *.[io] [a-z]*.s \
-	    [Ee]rrs linterrs makelinks genassym genassym.o assym.h
-
-lint:
-	@lint -hbxncez -DGENERIC -Dvolatile= ${CPPFLAGS} ${PARAM} -UKGDB \
-	    ${CFILES} ioconf.c param.c | \
-	    grep -v 'static function .* unused'
-
-tags:
-	@echo "see $S/kern/Makefile for tags"
-
 links:
 	egrep '#if' ${CFILES} | sed -f $S/conf/defines | \
 	  sed -e 's/:.*//' -e 's/\.c/.o/' | sort -u >dontlink
@@ -152,8 +187,14 @@ links:
 	  sed 's,.*/\(.*.o\),rm -f \1; ln -s ../GENERIC/\1 \1,' >makelinks
 	${SHELL} makelinks && rm -f dontlink makelinks
 
-# depend on root or device configuration
-autoconf.o conf.o: Makefile
+lint:
+	@lint -hbxncez -DGENERIC -Dvolatile= ${CPPFLAGS} ${PARAM} -UKGDB \
+	    ${CFILES} ioconf.c param.c | \
+	    grep -v 'static function .* unused'
 
-# depend on maxusers
-machdep.o: Makefile
+newvers: ${SYSTEM_DEP} ${SYSTEM_SWAP_DEP}
+	${SHELL} $S/conf/newvers.sh "${OSrev}" "${OSrpl}" "${OScompat}"
+	${CC} ${CFLAGS} ${CPPFLAGS} -c vers.c
+
+tags:
+	@echo "see $S/kern/Makefile for tags"
