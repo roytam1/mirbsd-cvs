@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.sbin/httpd/src/main/http_protocol.c,v 1.9 2008/03/19 23:07:20 tg Exp $ */
+/**	$MirOS: src/usr.sbin/httpd/src/main/http_protocol.c,v 1.10 2008/07/10 14:23:54 tg Exp $ */
 /*	$OpenBSD: http_protocol.c,v 1.32 2008/01/24 11:56:29 krw Exp $ */
 /* ====================================================================
  * The Apache Software License, Version 1.1
@@ -80,6 +80,8 @@
 #include "http_conf_globals.h"
 #include "util_md5.h"           /* For digestAuth */
 #include "ap_sha1.h"
+
+__RCSID("$MirOS$");
 
 #define SET_BYTES_SENT(r) \
   do { if (r->sent_bodyct) \

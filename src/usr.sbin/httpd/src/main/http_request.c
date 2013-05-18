@@ -78,6 +78,8 @@
 #include "scoreboard.h"
 #include "fnmatch.h"
 
+__RCSID("$MirOS$");
+
 /*****************************************************************
  *
  * Getting and checking directory configuration.  Also checks the
@@ -1242,6 +1244,7 @@ static request_rec *internal_internal_redirect(const char *new_uri, request_rec 
 {
     int access_status;
     request_rec *new;
+    const char *ccp;
 
     if (ap_is_recursion_limit_exceeded(r)) {
         ap_die(HTTP_INTERNAL_SERVER_ERROR, r);
@@ -1298,6 +1301,9 @@ static request_rec *internal_internal_redirect(const char *new_uri, request_rec 
     new->no_local_copy   = r->no_local_copy;
     new->read_length     = r->read_length;     /* We can only read it once */
     new->vlist_validator = r->vlist_validator;
+
+    if ((ccp = ap_table_get(r->notes, "address-family")) != NULL)
+	ap_table_setn(new->notes, "address-family", ccp);
 
     ap_table_setn(new->subprocess_env, "REDIRECT_STATUS",
 	ap_psprintf(r->pool, "%d", r->status));
