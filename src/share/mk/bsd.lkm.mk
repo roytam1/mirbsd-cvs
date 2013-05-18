@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/bsd.lkm.mk,v 1.3 2005/08/31 22:11:11 tg Exp $
+# $MirOS: src/share/mk/bsd.lkm.mk,v 1.4 2005/11/17 12:05:08 tg Exp $
 # $OpenBSD: bsd.lkm.mk,v 1.19 2003/05/20 22:49:13 millert Exp $
 
 .if exists(${.CURDIR}/../Makefile.inc)
@@ -65,6 +65,7 @@ ${LKM}_init.sh: ${LKM}.ko
 ${LKM}_done.sh: ${LKM}.ko
 	print '#!/bin/sh' >$@
 	print 'cd `dirname "$$0"`' >>$@
+	print 'rm -f ${LKM}' >>$@
 	print -n 'exec /sbin/modunload ' >>$@
 	if [[ -x ${POSTUNINSTALL} ]]; then \
 		print -- '-p ${POSTUNINSTALL} -n ${LKM}'; \
