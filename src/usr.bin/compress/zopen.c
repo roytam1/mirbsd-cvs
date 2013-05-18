@@ -1,9 +1,9 @@
-/**	$MirOS: src/usr.bin/compress/zopen.c,v 1.8 2007/04/29 21:24:44 tg Exp $ */
+/**	$MirOS: src/usr.bin/compress/zopen.c,v 1.9 2011/10/11 19:18:36 tg Exp $ */
 /*	$OpenBSD: zopen.c,v 1.17 2005/08/25 17:07:56 millert Exp $	*/
 /*	$NetBSD: zopen.c,v 1.5 1995/03/26 09:44:53 glass Exp $	*/
 
 /*-
- * Copyright (c) 2005, 2006
+ * Copyright (c) 2005, 2006, 2011
  *	Thorsten Glaser <tg@mirbsd.de>
  * Copyright (c) 1985, 1986, 1992, 1993
  *	The Regents of the University of California.  All rights reserved.
@@ -84,8 +84,11 @@
 #include <fcntl.h>
 #include "compress.h"
 
-__SCCSID("@(#)zopen.c	8.1 (Berkeley) 6/27/93");
-__RCSID("$MirOS: src/usr.bin/compress/zopen.c,v 1.8 2007/04/29 21:24:44 tg Exp $");
+#ifndef __RCSID
+#define __RCSID(x)	static const char __rcsid[] = x
+#endif
+
+__RCSID("$MirOS: src/usr.bin/compress/zopen.c,v 1.9 2011/10/11 19:18:36 tg Exp $");
 
 #define	BITS		16		/* Default bits. */
 #define	HSIZE		69001		/* 95% occupancy */
@@ -794,13 +797,13 @@ z_open(int fd, const char *mode, char *name __attribute__((unused)),
 		return (NULL);
 	}
 
-	if ((zs = calloc(1, sizeof (struct s_zstate))) == NULL)
+	if ((zs = calloc(1, sizeof(struct s_zstate))) == NULL)
 		return (NULL);
 
 	/* User settable max # bits/code. */
 	zs->zs_maxbits = bits ? bits : BITS;
 	/* Should NEVER generate this code. */
-	zs->zs_maxmaxcode = 1 << zs->zs_maxbits;
+	zs->zs_maxmaxcode = 1L << zs->zs_maxbits;
 	zs->zs_hsize = HSIZE;		/* For dynamic table sizing. */
 	zs->zs_free_ent = 0;		/* First unused entry. */
 	zs->zs_block_compress = BLOCK_MASK;
