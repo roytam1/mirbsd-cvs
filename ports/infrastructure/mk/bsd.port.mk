@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.87 2005/12/20 19:57:53 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.88 2005/12/29 22:01:13 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -710,6 +710,16 @@ PKG_ARGS+=		-S ${WRKINST}
 PKG_ARGS+=		${PKG_ARGS_ADD}
 .if !defined(_COMMENT)
 ERRORS+=		"Missing port comment in Makefile."
+.endif
+.if ${FULLPKGNAME:C/^.*-([^-]*)-[0-9][0-9]*(-[a-zA-Z][^-]*)*$/\1/:N[0-9][0-9.]*}
+ERRORS+=		"Invalid version number in main package: ${FULLPKGNAME:C/^.*-([^-]*)-[0-9][0-9]*(-[a-zA-Z][^-]*)*$/\1/}."
+.endif
+.if defined(MULTI_PACKAGES) && !empty(MULTI_PACKAGES)
+.  for _s in ${MULTI_PACKAGES}
+.    if ${FULLPKGNAME${_s}:C/^.*-([^-]*)-[0-9][0-9]*(-[a-zA-Z][^-]*)*$/\1/:N[0-9][0-9.]*}
+ERRORS+=		"Invalid version number in '${_s}' subpackage: ${FULLPKGNAME${_s}:C/^.*-([^-]*)-[0-9][0-9]*(-[a-zA-Z][^-]*)*$/\1/}."
+.    endif
+.  endfor
 .endif
 
 CHMOD?=			/bin/chmod
