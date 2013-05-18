@@ -17,10 +17,15 @@
 ./man4/esp.htm
 ./man4/fga.htm
 ./man4/fvme.htm
+./man4/ie.htm
+./man4/intro.htm
+./man4/kmem.htm
+./man4/le.htm
 ./man4/lebuffer.htm
 ./man4/led.htm
 ./man4/ledma.htm
 ./man4/magma.htm
+./man4/mem.htm
 ./man4/mgx.htm
 ./man4/openprom.htm
 ./man4/pninek.htm
@@ -46,4 +51,6 @@
 ./man4/zskbd.htm
 ./man4/zstty.htm
 ./man4/zx.htm
+./man8/MAKEDEV.htm
 ./man8/eeprom.htm
+./man8/installboot.htm
