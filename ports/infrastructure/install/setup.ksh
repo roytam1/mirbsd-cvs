@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: ports/infrastructure/install/setup.ksh,v 1.52 2006/03/19 20:24:24 tg Exp $
+# $MirOS: ports/infrastructure/install/setup.ksh,v 1.53 2006/03/19 20:28:24 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -313,7 +313,7 @@ EOF
 shmk=$localbase/share/mmake
 mv=20051220
 f_ver=$(make -f f all)
-if [[ $f_ver -ge $mv ]]; then
+(( nopt )) || if [[ $f_ver -ge $mv ]]; then
 	# Version matches; write a wrapper if needed
 	sysmk=$(make -f f ___DISPLAY_MAKEVARS=.SYSMK)
 	m=$(whence -p make)
@@ -331,7 +331,6 @@ if [[ $f_ver -ge $mv ]]; then
 				exit 1
 			fi
 		fi
-		rm -f $localbase/bin/mmake
 		cat >$localbase/bin/mmake <<-EOF
 			#!$MKSH
 			exec $m -m $shmk -m $sysmk "\$@"
@@ -347,7 +346,7 @@ if [[ $f_ver -ge $mv ]]; then
 		print mirmake >$localbase/db/pkg/mirmake-$f_ver-0/+COMMENT
 	fi
 fi
-if [[ $(mmake -f f all) -lt $mv ]]; then
+(( nopt )) || if [[ $(mmake -f f all) -lt $mv ]]; then
 	if [[ $(cd $localbase/db/pkg && echo mirmake-*) != "mirmake-*" ]]; then
 		print -u2 Error: You must upgrade MirMake via ports.
 		exit 1
