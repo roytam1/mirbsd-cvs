@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/ksh-chan.inc,v 1.6 2011/08/26 19:42:05 tg Exp $
+RCSID: $MirOS: www/data/ksh-chan.inc,v 1.7 2011/11/22 19:41:27 tg Exp $
 Title: Homepage of the original Korn Shell
 Link: http://www.kornshell.com/
 
@@ -206,4 +206,15 @@ Link: http://www.grymoire.com/Unix/Quote.html
 
 Short tutorial for correct quoting in the pre-POSIX Bourne
 Shell, as well as the C Shell.
+----
+Title: Evolution of shells in Linux – From Bourne to Bash and beyond
+Link: https://www.ibm.com/developerworks/linux/library/l-linux-shells/index.html
+
+11-page article in IBM developerWorks by M. Tim Jones; Summary:
+Pointing and clicking is fine for most day-to-day computing tasks,
+but to really take advantage of the strengths of Linux over other
+environments, you eventually need to crack the shell and enter the
+command line. Lots of command shells are available, from Bash and
+Korn to C shell and various exotic and strange shells. Learn which
+shell is right for you.
 ----
