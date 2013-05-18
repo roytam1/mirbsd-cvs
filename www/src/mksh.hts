@@ -1,10 +1,10 @@
-# $MirOS: www/src/mksh.hts,v 1.20 2007/07/09 19:43:31 tg Exp $
+# $MirOS: www/src/mksh.hts,v 1.21 2007/07/17 11:28:52 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.20 2007/07/09 19:43:31 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.21 2007/07/17 11:28:52 tg Exp $'
 mws_content <<'EOF'
 <h1>mksh(1) R29</h1>
 <p>This is the website of the MirBSD™ Korn Shell, an actively developed free
@@ -727,7 +727,7 @@ LINK.EXE: Microsoft (R) Incremental Linker Version 7.00.9466
 <li>${foo//bar/baz/g}</li>
 <li>${foo:S/bar/baz/g} ${foo:C/bar/baz/x}</li>
 <li>A sensible website</li>
-<li>Build on more platforms – PW32, Minix 3, Plan 9</li>
+<li>Build on more platforms – PW32, Minix 3, Plan 9, Syllable</li>
 <li>Build with platforms' native tools – ACK, kencc, ICC/UWIN, egcs/UWIN</li>
 </ul>
 
