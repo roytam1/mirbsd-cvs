@@ -1326,7 +1326,7 @@ getsc_line(Source *s)
 
 	/* Done here to ensure nothing odd happens when a timeout occurs */
 	XcheckN(s->xs, xp, LINE);
-	memset(xp, 0, LINE);
+	*xp = '\0';
 	s->start = s->str = xp;
 
 	if (have_tty && ksh_tmout) {

@@ -22,7 +22,7 @@
 
 #include "sh.h"
 
-__RCSID("$MirOS: src/bin/mksh/expr.c,v 1.37 2009/10/04 13:19:33 tg Exp $");
+__RCSID("$MirOS: src/bin/mksh/expr.c,v 1.39 2009/11/28 14:28:00 tg Exp $");
 
 /* The order of these enums is constrained by the order of opinfo[] */
 enum token {
@@ -710,8 +710,11 @@ utf_skipcols(const char *p, int cols)
 {
 	int c = 0;
 
-	while (c < cols)
+	while (c < cols) {
+		if (!*p)
+			return (p + cols - c);
 		c += utf_widthadj(p, &p);
+	}
 	return (p);
 }
 
