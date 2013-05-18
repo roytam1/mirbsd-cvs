@@ -1,25 +1,26 @@
-# $MirOS: ports/graphics/ImageMagick/Makefile,v 1.12 2007/04/07 14:35:57 bsiegert Exp $
+# $MirOS: ports/graphics/ImageMagick/Makefile,v 1.13 2008/03/09 17:22:48 tg Exp $
 # $OpenBSD: Makefile,v 1.83 2005/06/28 18:08:23 naddy Exp $
 
 COMMENT=	image processing tools
 
 VER=		6.2.3
-DASHVER=	3
-DISTNAME=	ImageMagick-${VER}-${DASHVER}
-PKGNAME=	ImageMagick-${VER}.${DASHVER}-1
+PATCHLEVEL=	3
+DASH_VER=	2
+DISTNAME=	ImageMagick-${VER}-${PATCHLEVEL}
+PKGNAME=	ImageMagick-${VER}.${PATCHLEVEL}-${DASH_VER}
 CATEGORIES=	graphics
 
 HOMEPAGE=	http://www.imagemagick.org
 MASTER_SITES=	${HOMEPAGE}/download/ \
 		${MASTER_SITE_SOURCEFORGE:=imagemagick/}
 
-LIB_DEPENDS+=	bz2.10::archivers/bzip2 \
-		jbig.1.2::graphics/jbigkit \
+LIB_DEPENDS+=	bz2::archivers/bzip2 \
+		jbig::graphics/jbigkit \
 		png::graphics/png \
 		tiff::graphics/tiff \
 		xml2::textproc/libxml \
-		lcms.1::graphics/lcms \
-		jasper.1::graphics/jasper \
+		lcms::graphics/lcms \
+		jasper::graphics/jasper \
 		ltdl::devel/libtool
 
 RUN_DEPENDS=	::graphics/mpeg-lib
@@ -70,7 +71,7 @@ BUILD_DEPENDS+=	:transfig-*:print/transfig
 RUN_DEPENDS+=	:netpbm-*:graphics/netpbm
 BUILD_DEPENDS+=	:netpbm-*:graphics/netpbm
 
-WRKDIST=	${WRKDIR}/${DISTNAME:S/-${DASHVER}$//}
+WRKDIST=	${WRKDIR}/${DISTNAME:S/-${PATCHLEVEL}$//}
 
 post-install:
 	@perl -pi -e s#'-L${WRKBUILD}/(magick|wand)/.libs '#''#g \
