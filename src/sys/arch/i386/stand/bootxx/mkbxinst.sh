@@ -1,5 +1,5 @@
 #!/bin/mksh
-rcsid='$MirOS: src/sys/arch/i386/stand/bootxx/mkbxinst.sh,v 1.10 2009/01/31 18:51:19 tg Exp $'
+rcsid='$MirOS: src/sys/arch/i386/stand/bootxx/mkbxinst.sh,v 1.11 2009/01/31 18:59:18 tg Exp $'
 #-
 # Copyright (c) 2007, 2008, 2009
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -19,8 +19,8 @@ rcsid='$MirOS: src/sys/arch/i386/stand/bootxx/mkbxinst.sh,v 1.10 2009/01/31 18:5
 # damage or existence of a defect, except proven that it results out
 # of said person's immediate fault when using the work as intended.
 #-
-# Create a self-installing bootxx for i386.
-# Arguments: $1 = ELF bootxx, linked
+# Create a self-installing bootxx for i386 (32 bit).
+# Arguments: $1 = ELF (i386) bootxx, linked
 # Output: shell script to stdout
 
 function die {
@@ -37,7 +37,7 @@ while read -p adr typ sym; do
 	eval typeset -i10 sym_$sym=0x\$adr
 done
 
-T=$(mktemp /tmp/tmp.XXXXXXXXXX) || die 255 Cannot create temporary file
+T=$(mktemp /tmp/bxinst.XXXXXXXXXX) || die 255 Cannot create temporary file
 objcopy -O binary $1 $T
 thecode=$(dd if=$T bs=1 count=$((sym_bktbl - sym__start)) 2>/dev/null | \
     hexdump -ve '1/1 "0x%02X "')
@@ -66,7 +66,7 @@ cat <<'EOF'
 # damage or existence of a defect, except proven that it results out
 # of said person’s immediate fault when using the work as intended.
 #-
-# Self-installing i386 boot blocks for MirOS BSD
+# Self-installing 32-bit x86 boot blocks for MirOS BSD/i386
 # Reads a list of extents (firstblock lastblock) from standard input
 # and writes bootxx to standard output, which can subsequentially be
 # stored as partition boot record (or floppy boot sector) on disc.
