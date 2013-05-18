@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.208 2008/08/27 07:31:41 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.209 2008/09/09 19:21:41 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -349,6 +349,17 @@ GMAKE?=			gmake
 USE_CCACHE?=		No
 
 CHECKSUM_FILE?=		${.CURDIR}/distinfo
+
+.if ${USE_CCACHE:L:Myes}
+. if !make(describe)
+BUILD_DEPENDS+=		::devel/ccache
+. endif
+CCACHE_DIR?=		${HOME}/.ccache
+CC:=			env CCACHE_DIR=${CCACHE_DIR:Q} ccache ${CC}
+. if ${USE_CXX:L:Myes}
+CXX:=			env CCACHE_DIR=${CCACHE_DIR:Q} ccache ${CXX}
+. endif
+.endif
 
 # Don't touch!!! Used for generating checksums.
 _CIPHERS=		rmd160 tiger sha1 md5
