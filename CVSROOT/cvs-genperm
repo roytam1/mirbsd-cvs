@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: CVSROOT/cvs-genperm,v 1.14 2005/12/18 16:49:52 tg Exp $
+# $MirOS: CVSROOT/cvs-genperm,v 1.15 2005/12/20 00:30:57 tg Exp $
 #-
 # Copyright (c) 2003, 2004, 2005
 #	Thorsten "mirabile" Glaser <tg@mirbsd.de>
@@ -44,7 +44,7 @@ fi
 WD="$(pwd)"
 
 if [[ $1 = -R ]]; then
-	fr=/CVSROOT
+	fr=/{CVSROOT,Logs}
 	shift
 else
 	fr=
