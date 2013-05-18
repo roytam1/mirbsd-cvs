@@ -37,7 +37,7 @@
 __COPYRIGHT("@(#) Copyright (c) 1991, 1993\n\
 	The Regents of the University of California.  All rights reserved.\n");
 __SCCSID("@(#)init.c	8.2 (Berkeley) 4/28/95");
-__RCSID("$MirOS: src/sbin/init/init.c,v 1.3 2011/02/19 01:08:34 tg Exp $");
+__RCSID("$MirOS: src/sbin/init/init.c,v 1.4 2011/02/19 02:55:53 tg Exp $");
 
 #include <sys/sysctl.h>
 #include <sys/wait.h>
@@ -1290,7 +1290,7 @@ state_func_t
 nice_death(void)
 {
 	session_t *sp;
-	int i, rnd_fd = -1, arnd_fd;
+	int i, rnd_fd, arnd_fd;
 	pid_t pid;
 	static const int death_sigs[3] = { SIGHUP, SIGTERM, SIGKILL };
 	int howto = RB_HALT;
@@ -1298,11 +1298,11 @@ nice_death(void)
 	char rnd_buf[128];
 
 	arnd_fd = open("/dev/arandom", O_RDWR);
-	rnd_fd = open("/var/db/host.random", O_WRONLY | O_APPEND | O_SYNC);
-	arc4random_buf(rnd_buf, 1);
 	/* trigger a reset of arandom(4), arc4random(9) */
-	if (arnd_fd != -1)
-		write(arnd_fd, rnd_buf, 1);
+	if (arnd_fd != -1) {
+		arc4random_buf(rnd_buf, 16);
+		write(arnd_fd, rnd_buf, 16);
+	}
 
 	for (sp = sessions; sp; sp = sp->se_next) {
 		sp->se_flags &= ~SE_PRESENT;
@@ -1350,6 +1350,8 @@ nice_death(void)
 
 	arc4random_stir();
 
+	rnd_fd = open("/var/db/host.random", O_WRONLY | O_APPEND | O_SYNC);
+
 	for (i = 0; i < 3; ++i) {
 		if (kill(-1, death_sigs[i]) == -1 && errno == ESRCH)
 			goto die;
@@ -1366,8 +1368,8 @@ nice_death(void)
 		status = errno;
 
 		if (arnd_fd != -1) {
-			arc4random_buf(rnd_buf, 1);
-			write(arnd_fd, rnd_buf, 1);
+			arc4random_buf(rnd_buf, 16);
+			write(arnd_fd, rnd_buf, 16);
 		}
 		if (rnd_fd != -1) {
 			if (arnd_fd != -1)
@@ -1385,8 +1387,8 @@ nice_death(void)
 
  die:
 	if (arnd_fd != -1) {
-		arc4random_buf(rnd_buf, 1);
-		write(arnd_fd, rnd_buf, 1);
+		arc4random_buf(rnd_buf, 16);
+		write(arnd_fd, rnd_buf, 16);
 		close(arnd_fd);
 	}
 	if (rnd_fd != -1) {
