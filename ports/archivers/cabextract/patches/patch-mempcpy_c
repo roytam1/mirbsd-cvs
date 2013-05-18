@@ -1,12 +1,12 @@
-$MirOS$
+$MirOS: ports/archivers/cabextract/patches/patch-mempcpy_c,v 1.1.7.1 2005/03/18 15:42:40 tg Exp $
 $OpenBSD$
---- mempcpy.c.orig	Sat Oct 23 09:46:58 2004
-+++ mempcpy.c	Sat Oct 23 09:47:11 2004
+--- mempcpy.c.orig	2004-07-16 16:07:01.000000000 +0200
++++ mempcpy.c	2008-12-15 22:44:59.000000000 +0100
 @@ -29,7 +29,12 @@ Copies @var{length} bytes from memory re
  
  */
  
-+#ifndef __OpenBSD__
++#if (!defined(__OpenBSD__) && !defined (__APPLE__))
  #include <ansidecl.h>
 +#else
 +#define PARAMS(ARGS)    ARGS
