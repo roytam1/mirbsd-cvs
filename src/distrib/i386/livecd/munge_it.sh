@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/distrib/i386/livecd/munge_it.sh,v 1.5 2006/04/05 23:57:37 tg Exp $
+# $MirOS: src/distrib/i386/livecd/munge_it.sh,v 1.6 2006/04/05 23:58:35 tg Exp $
 #-
 # Copyright (c) 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -63,20 +63,20 @@ ed -s etc/ntpd.conf <<-'EOF'
 EOF
 ed -s etc/rc <<-'EOF'
 	1i
-		# $MirOS: src/distrib/i386/livecd/munge_it.sh,v 1.5 2006/04/05 23:57:37 tg Exp $
+		# $MirOS: src/distrib/i386/livecd/munge_it.sh,v 1.6 2006/04/05 23:58:35 tg Exp $
 	.
 	/^rm.*fastboot$/a
 
 		function do_mfsmount
 		{
 			print -n " $1"
-			mount_mfs -s ${2:-262144} swap /$1
+			mount_mfs -s ${2:-300000} swap /$1
 		}
 		print -n 'initialising memory filesystems...'
-		do_mfsmount dev 16384
-		do_mfsmount etc 131072
+		do_mfsmount dev 15000
+		do_mfsmount etc 150000
 		do_mfsmount root
-		do_mfsmount tmp 524288
+		do_mfsmount tmp 600000
 		do_mfsmount var
 		sleep 2
 		gzip -dc /home/fsrw.cgz | tar xphf -
