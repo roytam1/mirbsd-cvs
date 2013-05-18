@@ -110,10 +110,10 @@ extern uint32_t pxe_plus;
 
 int have_pxe = -1;
 
-void	(*pxe_call)(u_int16_t);
+int (*pxe_call)(u_int16_t);
 
-extern void pxecall_bang(u_int16_t);
-extern void pxecall_plus(u_int16_t);
+extern int pxecall_bang(u_int16_t);
+extern int pxecall_plus(u_int16_t);
 
 extern char pxe_command_buf[256];
 

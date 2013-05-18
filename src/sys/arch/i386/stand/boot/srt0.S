@@ -1,4 +1,4 @@
-/* $MirOS: src/sys/arch/i386/stand/boot/srt0.S,v 1.65 2009/01/12 17:42:51 tg Exp $ */
+/* $MirOS: src/sys/arch/i386/stand/boot/srt0.S,v 1.66 2009/01/12 18:07:22 tg Exp $ */
 
 /*-
  * Copyright (c) 2003, 2004, 2005, 2006, 2007, 2008, 2009
@@ -72,12 +72,15 @@ Ldrvi:	.long	0x6A6D4F00	/* drive information */
 	.size	i386_biosdev,1
 	.size	i386_biosflags,1
 	.size	i386_dosdev,1
+	. = _start + 8
 pxe_bang:
 	.size	pxe_bang,4
 	.long	0		/* address of !PXE structure */
+	. = _start + 12
 pxe_plus:
 	.size	pxe_plus,4
 	.long	0		/* address of PXENV+ structure */
+	. = _start + 16
 bios_bootpte:
 	.size	bios_bootpte,16
 	.long	0, 0, 0, 0	/* 16 bytes from initial DS:SI */
@@ -320,14 +323,16 @@ Lstart:	call	idt_init
 	sti
 	.globl	Lhook
 	call	Lhook
-	push	eax
+	mov	ebx,eax
 #endif
 
-	cli
 	call	real_to_prot
 Lsta32:	.code32
 	/* zero out .bss section */
 	xor	eax,eax
+	push	eax
+	popfd
+	sti
 	mov	ecx,offset _end
 	mov	edi,offset _edata
 	sub	ecx,edi
@@ -340,7 +345,7 @@ Lsta32:	.code32
 
 #ifdef BOOTSELECT_HOOK
 	/* store user choice */
-	pop	dword ptr [hook_value]
+	mov	[hook_value],ebx
 #endif
 
 	movzx	eax,byte ptr [i386_biosdev]
@@ -389,38 +394,34 @@ Lmb2rm:	mov	edi,offset Ldrvi
 pxecall_bang:
 	push	ebp
 	mov	ebp,esp
+	pushfd
 	push	ebx
 	push	esi
 	push	edi
 
 	mov	ebx,[ebp+8]
-	mov	ecx,[pxe_bang]
-	mov	ebp,offset pxe_command_buf - offset bounce_buf
-	mov	edx,offset pxecall_bang_rt - offset _start
+	mov	edi,offset pxe_command_buf - offset bounce_buf
 
-	cli
 	call	prot_to_real
 	.code16
 	sti
 
 	push	ss
-	push	bp
+	push	di
 	push	bx
-	push	cs
-	push	dx
-	push	ecx
-	lret
-pxecall_bang_rt:
+	lcall	dword ptr ds:[8]	/* pxe_bang */
 	add	sp,6
+	movzx	ebx,ax
 
-	cli
 	call	real_to_prot
 	.code32
 	sti
 
+	mov	eax,ebx
 	pop	edi
 	pop	esi
 	pop	ebx
+	popfd
 	pop	ebp
 	ret
 
@@ -428,35 +429,32 @@ pxecall_bang_rt:
 pxecall_plus:
 	push	ebp
 	mov	ebp,esp
+	pushfd
 	push	ebx
 	push	esi
 	push	edi
 
 	mov	ebx,[ebp+8]
-	mov	ecx,[pxe_plus]
 	mov	edi,offset pxe_command_buf - offset bounce_buf
-	mov	edx,offset pxecall_plus_rt - offset _start
 
-	cli
 	call	prot_to_real
 	.code16
 	sti
 
 	push	ss
 	pop	es
-	push	cs
-	push	dx
-	push	ecx
-	lret
-pxecall_plus_rt:
-	cli
+	lcall	dword ptr ds:[12]	/* pxe_plus */
+	movzx	ebx,ax
+
 	call	real_to_prot
 	.code32
 	sti
 
+	mov	eax,ebx
 	pop	edi
 	pop	esi
 	pop	ebx
+	popfd
 	pop	ebp
 	ret
 #endif
