@@ -1,6 +1,6 @@
 mws_setname subprojects/kwalletcli "kwalletcli – CLI for the KDE Wallet"
 mws_setheadline CLI for the KDE Wallet
-mws_putheader '$MirOS: www/src/kwalletcli.hts,v 1.25 2011/06/03 14:02:34 tg Exp $'
+mws_putheader '$MirOS: www/src/kwalletcli.hts,v 1.26 2011/07/25 16:00:08 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Content</h2>
 EOF
@@ -115,6 +115,35 @@ mws_content <<'EOF'
 <p>The kwalletcli(1) manpage provides a documentation of the shell
  binding. The other utilities part of the distribution, as well as
  the Python binding, serve as usage examples.</p>
+
+<h3 id="b_pyex">Python example (contrib)</h3>
+<p class="boxhead">This is a user-contributed example in Python, submitted
+ by Stephen McIntosh:</p><div class="boxtext">
+ <pre>
+import kwalletbinding as kw
+def operation():
+    op = raw_input("Add or Read? ")
+    return op
+def addpass():
+    kw.kwallet_put('kdewalletcli',
+      raw_input("Name: "),
+      raw_input("Password: "))
+    print("...\nDone!")
+def getpass():
+    readpass = kw.kwallet_get('kdewalletcli',
+      raw_input("Name: "))
+    print "...\nThe password is: " + readpass
+
+if kw.kwallet_available():
+    op = operation()
+    if op.lower() == "add":
+        addpass()
+    else:
+        getpass()
+else:
+    print "KDE Wallet not available!"
+ </pre>
+</div><p class="boxfoot">(edited slightly for legibility)</p>
 
 <h2 id="security">Security</h2>
 <p>Passwords can, of course, only be accessed if the KDE Wallet is
