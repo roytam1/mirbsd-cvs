@@ -1,4 +1,4 @@
-# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.130 2009/11/09 17:59:22 tg Exp $
+# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.131 2009/11/09 21:36:36 tg Exp $
 #-
 # Copyright (c) 2006, 2008
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -390,13 +390,13 @@ fi
 add_arcfour=
 if ! testfunc 'u_int32_t arc4random(void)' \
     'return ((int)arc4random())'; then
-	add_arcfour=$top/dist/contrib/arc4random.c
+	add_arcfour=$top/dist/contrib/code/Snippets/arc4random.c
 elif ! testfunc 'void arc4random_stir(void)' \
     'arc4random_stir()'; then
-	add_arcfour=$top/dist/contrib/arc4random.c
+	add_arcfour=$top/dist/contrib/code/Snippets/arc4random.c
 elif ! testfunc 'void arc4random_addrandom(unsigned char *, int)' \
     'arc4random_addrandom((void *)argv[0], argc)'; then
-	add_arcfour=$top/dist/contrib/arc4random.c
+	add_arcfour=$top/dist/contrib/code/Snippets/arc4random.c
 fi
 add_libohash=
 if testfunc 'u_int32_t ohash_interval(const char *, const char **)' \

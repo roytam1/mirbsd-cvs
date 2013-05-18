@@ -1,5 +1,5 @@
 #!/bin/sh
-# $MirOS: contrib/code/mirmake/dist/scripts/Copy.sh,v 1.31 2008/10/12 17:56:25 tg Exp $
+# $MirOS: contrib/code/mirmake/dist/scripts/Copy.sh,v 1.32 2008/10/12 18:04:28 tg Exp $
 
 wd=$(realpath $(dirname $0))
 version=$(date +%Y%m%d)
@@ -8,6 +8,7 @@ echo version=$version >$wd/Version.sh
 cd $wd/..
 rm -rf src
 cvs -Rqd ${CVSROOT:-/cvs} co -PA \
+    contrib/code/Snippets/arc4random.c \
     contrib/gnu/config/config.guess \
     src/bin/mksh/setmode.c \
     src/usr.bin/lndir src/usr.bin/xinstall \
