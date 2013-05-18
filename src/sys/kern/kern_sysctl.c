@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/kern/kern_sysctl.c,v 1.11 2007/05/16 20:50:48 tg Exp $ */
+/**	$MirOS: src/sys/kern/kern_sysctl.c,v 1.12 2007/09/24 16:24:24 tg Exp $ */
 /*	$NetBSD: kern_sysctl.c,v 1.146 2003/09/28 13:24:48 dsl Exp $	*/
 /*	$OpenBSD: kern_sysctl.c,v 1.126 2005/06/04 05:10:40 tedu Exp $	*/
 /*	$NetBSD: kern_sysctl.c,v 1.17 1996/05/20 17:49:05 mrg Exp $	*/
@@ -446,9 +446,6 @@ kern_sysctl(name, namelen, oldp, oldlenp, newp, newlen, p)
 			arc4random_bytes(buf, *oldlenp);
 			if ((error = copyout(buf, oldp, *oldlenp)))
 				return (error);
-			i = arc4_getbyte() % 3;
-			while (i--)
-				(void)arc4_getbyte();
 		}
 		return (0);
 	}

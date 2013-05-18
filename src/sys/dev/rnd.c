@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/dev/rnd.c,v 1.30 2007/08/24 14:15:05 tg Exp $ */
+/**	$MirOS: src/sys/dev/rnd.c,v 1.31 2007/09/24 16:24:25 tg Exp $ */
 /*	$OpenBSD: rnd.c,v 1.78 2005/07/07 00:11:24 djm Exp $	*/
 
 /*
@@ -634,8 +634,11 @@ arc4random_bytes(void *buf, size_t n)
 	u_int8_t *end = cp + n;
 
 	arc4maybeinit();
+	n = arc4_getbyte() % 3;
 	while (cp < end)
 		*cp++ = arc4_getbyte();
+	while (n--)
+		(void)arc4_getbyte();
 }
 
 void
@@ -1043,17 +1046,8 @@ randomread(dev_t dev, struct uio *uio, int ioflag)
 				buf[i] = random() << 16 | (random() & 0xFFFF);
 			break;
 		case RND_ARND:
-		{
-			u_int8_t *cp = (u_int8_t *) buf;
-			u_int8_t *end = cp + n;
-			arc4maybeinit();
-			while (cp < end)
-				*cp++ = arc4_getbyte();
-			i = arc4_getbyte() % 3;
-			while (i--)
-				(void)arc4_getbyte();
+			arc4random_bytes(buf, n);
 			break;
-		}
 		default:
 			ret = ENXIO;
 		}
