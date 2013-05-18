@@ -1,9 +1,0 @@
-@comment $MirOS$
-${P5SITE}/UNIVERSAL/require.pm
-@comment ${P5ARCH}/auto/UNIVERSAL/require/.packlist
-man/man3/UNIVERSAL::require${P5MAN3EXT}
-@comment @dirrm ${P5ARCH}/auto/UNIVERSAL/require
-@comment @dirrm ${P5ARCH}/auto/UNIVERSAL
-@comment @dirrm ${P5ARCH}/auto
-@comment @dirrm ${P5ARCH}
-@dirrm ${P5SITE}/UNIVERSAL
