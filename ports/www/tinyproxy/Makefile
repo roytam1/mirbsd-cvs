@@ -1,14 +1,15 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.9 2004/02/25 02:35:17 naddy Exp $
 
-COMMENT=			lightweight HTTP/SSL proxy
+COMMENT=		lightweight HTTP/SSL proxy
 
-VERSION=		1.6.2
+VERSION=		1.6.3
 DISTNAME=		tinyproxy-${VERSION}
 CATEGORIES=		www net
 
-HOMEPAGE=		http://tinyproxy.sourceforge.net/
+HOMEPAGE=		http://projects.banu.com/tinyproxy/
 
-MASTER_SITES=		${MASTER_SITE_SOURCEFORGE:=tinyproxy/}
+MASTER_SITES=		http://files.banu.com/pub/tinyproxy/1.6/
 
 
 # GPL
@@ -19,6 +20,7 @@ PERMIT_DISTFILES_FTP=	Yes
 
 CONFIGURE_STYLE=	simple
 CONFIGURE_ARGS+=	--with-config=${SYSCONFDIR}/tinyproxy/tinyproxy.conf
+USE_CXX=		Yes
 
 DOCS=			HT* RFC_INFO filter-howto.txt *.html
 
