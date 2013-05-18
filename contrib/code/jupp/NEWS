@@ -13,6 +13,7 @@ JOE 3.1jupp23
 - Allow building against bionic libc (for Android)
 - Securely make backup files using mkstemp(3), thanks Han Boetes
 - Print math results more precisely; if possible, as integer
+- Permit hexadecimal input in math expressions
 
 JOE 3.1jupp22
 
