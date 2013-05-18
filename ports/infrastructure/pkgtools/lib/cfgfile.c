@@ -1,4 +1,4 @@
-/* $MirOS: ports/infrastructure/pkgtools/lib/cfgfile.c,v 1.1.2.4 2009/12/23 15:41:47 bsiegert Exp $ */
+/* $MirOS: ports/infrastructure/pkgtools/lib/cfgfile.c,v 1.1.2.5 2009/12/26 22:21:15 bsiegert Exp $ */
 
 /*-
  * Copyright (c) 2009
@@ -29,15 +29,14 @@
 #include <string.h>
 #include <errno.h>
 #include <err.h>
-#include <sys/queue.h>
 #include "lib.h"
 
 #ifndef SYSCONFDIR
 # define SYSCONFDIR "/etc"
 #endif
-#define CFG_FILE SYSCONFDIR "/pkgtools/pkgtools.conf"
+#define DEFAULT_CFGFILE SYSCONFDIR "/pkgtools/pkgtools.conf"
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/cfgfile.c,v 1.1.2.4 2009/12/23 15:41:47 bsiegert Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/cfgfile.c,v 1.1.2.5 2009/12/26 22:21:15 bsiegert Exp $");
 
 SLIST_HEAD(cfg_varlist, cfg_var);
 struct cfg_var {
@@ -47,18 +46,8 @@ struct cfg_var {
 };
 
 static struct cfg_varlist Vars = SLIST_HEAD_INITIALIZER(Vars);
-static char *Pager = NULL;
-
-LIST_HEAD(cfg_sourcelist, cfg_source);
-struct cfg_source {
-	unsigned long priority;
-	bool remote;
-	char *source;
-	LIST_ENTRY(cfg_source) entries;
-};
-
 static struct cfg_sourcelist Sources = LIST_HEAD_INITIALIZER(Sources);
-	
+static char *Pager = NULL;
 
 /* Parse a line of the form "key=value", where i is the index of the '='
  * sign and len is the length of the string. Works even when the string is
@@ -116,54 +105,24 @@ static void
 parse_source(char *string, size_t len)
 {
 	char *arg, *sep;
-	struct cfg_source *source, *sp;
-
-	source = malloc(sizeof (struct cfg_source));
-	if (!source) {
-		warn(NULL);
-		return;
-	}
+	unsigned long priority;
 
 	arg = cfg_expand_vars(string, len);
-	if (!arg) {
-		free(source);
+	if (!arg)
 		return;
-	}
 	
-	source->priority = (unsigned long)strtol(arg, &sep, 0);
+	priority = (unsigned long)strtol(arg, &sep, 0);
 	if (!sep || *sep == '\0') {
 		warnx("Syntax error in Source line '%s'", arg);
 		free(arg);
-		free(source);
+		return;
 	}
 	while (*sep && isspace(*sep))
 		sep++;
-	source->source = strdup(sep);
+	
+	cfg_add_source(priority, isURL(sep), sep);
+
 	free(arg);
-	if (!source->source) {
-		warn(NULL);
-		free(source);
-		return;
-	}
-	source->remote = isURL(source->source);
-
-	if (Verbose)
-		printf("Got package source '%s'%s, priority %lu\n",
-				source->source,
-				source->remote ? " (remote)" : "",
-				source->priority);
-
-	if (LIST_EMPTY(&Sources) ||
-			LIST_FIRST(&Sources)->priority >= source->priority)
-		LIST_INSERT_HEAD(&Sources, source, entries);
-	else {
-		LIST_FOREACH(sp, &Sources, entries) {
-			if (sp->priority >= source->priority) {
-				LIST_INSERT_BEFORE(sp, source, entries);
-				break;
-			}
-		}
-	}
 }
 
 /* Parse a configuration directive. i is the index of the space separating
@@ -196,7 +155,7 @@ cfg_read_config(const char *filename)
 	size_t len, i;
 	bool line_end;
 
-	cfgfile = fopen(filename ? filename : CFG_FILE, "r");
+	cfgfile = fopen(filename ? filename : DEFAULT_CFGFILE, "r");
 	if (!cfgfile) {
 		warn("Error opening configuration file");
 		return false;
@@ -348,8 +307,84 @@ char
 	return rv;
 }
 
+/* Get the name of the pager for showing "DISPLAY" files */
 const char
 *cfg_get_pager(void)
 {
 	return Pager ? (const char *)Pager : "/bin/cat";
+}
+
+/* Debug function; dumps the list of sources to stdout */
+void
+cfg_dump_sources(void)
+{
+	struct cfg_source *sp;
+
+	if (LIST_EMPTY(&Sources)) {
+		printf("Source list empty!\n");
+		return;
+	}
+
+	LIST_FOREACH(sp, &Sources, entries)
+		printf("Source %lu\t%s%s\n", sp->priority, sp->source,
+				sp->remote ? " (remote)" : "");
+}
+
+/* Adds a package source to the list */
+void
+cfg_add_source(unsigned long priority, bool remote, const char *source)
+{
+	struct cfg_source *sp, *sp_temp, *newsp;
+
+	/* Check for duplicates */
+	LIST_FOREACH_SAFE(sp, &Sources, entries, sp_temp) {
+		if (!strcmp(sp->source, source)) {
+			if (sp->remote == remote && sp->priority == priority)
+				return; /* entry already exists */
+			else {
+				/* entry exists but with different prio */
+				LIST_REMOVE(sp, entries);
+				free(sp->source);
+				free(sp);
+			}
+		}
+	}
+
+	newsp = malloc(sizeof (struct cfg_source));
+	if (!newsp) {
+		warn(NULL);
+		return;
+	}
+
+	newsp->source = strdup(source);
+	if (!newsp->source) {
+		warn(NULL);
+		free(newsp);
+		return;
+	}
+	newsp->remote = remote;
+	newsp->priority = priority;
+
+	if (Verbose)
+		printf("Got package source '%s'%s, priority %lu\n",
+				newsp->source,
+				newsp->remote ? " (remote)" : "",
+				newsp->priority);
+
+	if (LIST_EMPTY(&Sources) ||
+			LIST_FIRST(&Sources)->priority >= newsp->priority)
+		LIST_INSERT_HEAD(&Sources, newsp, entries);
+	else {
+		LIST_FOREACH(sp, &Sources, entries) {
+			if (sp->priority >= newsp->priority) {
+				LIST_INSERT_BEFORE(sp, newsp, entries);
+				return;
+			}
+			/* if not, insert at the end */
+			if (!LIST_NEXT(sp, entries)) {
+				LIST_INSERT_AFTER(sp, newsp, entries);
+				return;
+			}
+		}
+	}
 }

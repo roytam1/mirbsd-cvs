@@ -1,4 +1,4 @@
-/**	$MirOS: ports/infrastructure/pkgtools/lib/lib.h,v 1.28.2.2 2009/12/23 15:41:47 bsiegert Exp $ */
+/**	$MirOS: ports/infrastructure/pkgtools/lib/lib.h,v 1.28.2.3 2009/12/26 22:21:16 bsiegert Exp $ */
 /*	$OpenBSD: lib.h,v 1.14 2003/08/21 20:24:57 espie Exp $	*/
 
 /*
@@ -24,6 +24,7 @@
 #define _INST_LIB_LIB_H_
 
 /* Includes */
+#include <sys/queue.h>
 #include <sys/param.h>
 #include <sys/stat.h>
 #include <sys/file.h>
@@ -151,6 +152,15 @@ typedef struct package_t {
 enum {
 	ChecksumLen = 16,
 	LegibleChecksumLen = 33
+};
+
+/* list of package sources */
+LIST_HEAD(cfg_sourcelist, cfg_source);
+struct cfg_source {
+	unsigned long priority;
+	bool remote;
+	char *source;
+	LIST_ENTRY(cfg_source) entries;
 };
 
 /* type of function to be handed to findmatchingname; return value of this
@@ -283,7 +293,8 @@ int sxsystem(bool, const char *)
 /* configuration file */
 bool		cfg_read_config(const char*);
 void		cfg_dump_vars(void);
-char		*cfg_expand_vars(char*, size_t);
-const char	*cfg_get_pager(void);
+char*		cfg_expand_vars(char*, size_t);
+const char*	cfg_get_pager(void);
+void		cfg_add_source(unsigned long, bool, const char*);
 
 #endif /* _INST_LIB_LIB_H_ */
