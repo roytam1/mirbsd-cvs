@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.444 2012/03/24 21:22:48 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.445 2012/03/24 23:05:04 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -187,10 +187,10 @@ mws_content <<'EOF'
  <li><a href="http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R40e.cpio.gz">http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R40e.cpio.gz</a></li>
 </ul>
 <h3 id="hashes">Checksums and Hashes</h3><ul>
- <li>RMD160 (mksh-R40e.cpio.gz) = 138abac674cface64510926fc5cc3e62b8821236</li>
- <li>TIGER (mksh-R40e.cpio.gz) = 2e06947db5cb1fe6c38a21a5113615f87ccc219fc1791422</li>
- <li>2947775569 328113 /MirOS/dist/mir/mksh/mksh-R40e.cpio.gz</li>
- <li>MD5 (mksh-R40e.cpio.gz) = 27edb8231f22ca6a15e4a8aebbd271cd</li>
+ <li>RMD160 (mksh-R40e.cpio.gz) = 07480cde98b27b62d600c3bd1f3bf47498f84f56</li>
+ <li>TIGER (mksh-R40e.cpio.gz) = 66d23e640072637beb8f0be6eef38323adfeacb99702054d</li>
+ <li>4062255369 328168 /MirOS/dist/mir/mksh/mksh-R40e.cpio.gz</li>
+ <li>MD5 (mksh-R40e.cpio.gz) = d9a2df50c09692fc24d52ee9cf3bb789</li>
  <li style="list-style:none;">All official distfiles are gzsig(1)d. with our
   <a href="/gzsigkey.cer">current signature key</a>.</li>
 </ul>
