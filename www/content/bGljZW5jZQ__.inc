@@ -1,7 +1,14 @@
 <!-- PageID: licence -->
-<small class="rcsid">$MirOS: src/share/misc/licence.template,v 1.14 2006/08/09 19:35:23 tg Rel $</small>
+<small class="rcsid">$MirOS: www/content/bGljZW5jZQ__.inc,v 1.8 2006/08/11 00:46:07 tg Exp $</small>
 <h1>The MirOS Licence Template</h1>
 
+<h2>Normative</h2>
+<p>The first paragraph of the licence (up to the *- or #-) is normative;
+ the <a href="/cvs.cgi/src/share/misc/licence.template?rev=HEAD">latest
+ revision</a> can be retrieved in plain text form via CVS. The RCS status
+ of the file denotes its release status (Rel = adapted by MirOS team).</p>
+
+<h2>Informative, with clickable links</h2>
 <pre>/* &#36;MirOS: src/share/misc/licence.template,v 1.14 2006/08/09 19:35:23 tg Rel $ */
 
 /*-
