@@ -1,7 +1,7 @@
-$MirOS: ports/security/gnupg/patches/patch-configure_ac,v 1.1 2006/09/09 14:33:28 tg Exp $
---- configure.ac.orig	Tue Aug  1 10:40:32 2006
-+++ configure.ac	Mon Sep 11 00:41:33 2006
-@@ -734,12 +734,12 @@ AC_DEFINE_UNQUOTED(PRINTABLE_OS_NAME, "$
+$MirOS: ports/security/gnupg/patches/patch-configure_ac,v 1.2 2006/09/11 01:02:03 tg Exp $
+--- configure.ac.orig	Mon Mar  5 09:09:20 2007
++++ configure.ac	Sun Mar 11 20:13:05 2007
+@@ -796,12 +796,12 @@ AC_DEFINE_UNQUOTED(PRINTABLE_OS_NAME, "$
  #
  NAME_OF_DEV_RANDOM="/dev/random"
  NAME_OF_DEV_URANDOM="/dev/urandom"
@@ -19,7 +19,7 @@ $MirOS: ports/security/gnupg/patches/patch-configure_ac,v 1.1 2006/09/09 14:33:2
  AC_DEFINE_UNQUOTED(NAME_OF_DEV_RANDOM, "$NAME_OF_DEV_RANDOM",
                     [defined to the name of the strong random device])
  AC_DEFINE_UNQUOTED(NAME_OF_DEV_URANDOM, "$NAME_OF_DEV_URANDOM",
-@@ -885,6 +885,16 @@ if test x"$use_sha512" = xyes ; then
+@@ -947,6 +947,16 @@ if test x"$use_sha512" = xyes ; then
  fi
  
  AM_CONDITIONAL(USE_SHA512, test x"$use_sha512" = xyes)

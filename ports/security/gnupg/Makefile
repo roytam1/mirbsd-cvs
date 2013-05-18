@@ -1,13 +1,13 @@
-# $MirOS: ports/security/gnupg/Makefile,v 1.14 2006/12/07 19:03:37 tg Exp $
+# $MirOS: ports/security/gnupg/Makefile,v 1.15 2007/02/22 22:57:55 tg Exp $
 # $OpenBSD: Makefile,v 1.52 2005/05/17 15:08:34 martin Exp $
 
 COMMENT=		GNU privacy guard - a GPL'd PGP replacement
-VERSION=		1.4.5
+VERSION=		1.4.7
 DISTNAME=		gnupg-${VERSION}
-PKGNAME=		${DISTNAME}-6
 CATEGORIES=		security
 HOMEPAGE=		http://www.gnupg.org/
-MASTER_SITES=		ftp://ftp.gnupg.org/gcrypt/gnupg/ \
+MASTER_SITES=		http://ftp.gnupg.org/gcrypt/gnupg/ \
+			ftp://ftp.gnupg.org/gcrypt/gnupg/ \
 			ftp://gd.tuwien.ac.at/privacy/gnupg/gnupg/ \
 			ftp://sunsite.dk/pub/security/gcrypt/gnupg/ \
 			ftp://ftp.linux.it/pub/mirrors/gnupg/gnupg/ \
@@ -26,8 +26,7 @@ PERMIT_PACKAGE_FTP=	Yes
 MODULES+=		converters/libiconv
 LIB_DEPENDS+=		bz2::archivers/bzip2
 LIB_DEPENDS+=		usb::devel/libusb
-BUILD_DEPENDS+=		::archivers/mircpio
-RUN_DEPENDS+=		::archivers/mircpio
+B_R_DEPENDS+=		::archivers/mircpio
 CONFIGURE_STYLE=	autogen
 AUTOCONF_NEW=		Yes
 AUTOMAKE_VERSION=	1.9
@@ -35,6 +34,7 @@ AUTOGEN=		${SHELL} ${WRKSRC}/scripts/autogen.sh
 CONFIGURE_ARGS+=	--enable-static-rnd=linux \
 			--disable-ldap \
 			--disable-generic \
+			--enable-mailto \
 			--disable-nls \
 			--enable-noexecstack \
 			--without-included-zlib \
@@ -46,6 +46,11 @@ CONFIGURE_ARGS+=	--disable-asm
 .endif
 # libedit is *not* enough here.
 CONFIGURE_ARGS+=	--without-readline
+
+.if ${MACHINE_OS} == "BSD"
+# cought by systrace
+CONFIGURE_ENV+=		gnupg_cv_ipc_rmid_deferred_release=no
+.endif
 
 FLAVORS=		no-idea
 
@@ -72,11 +77,10 @@ post-extract:
 	ln -s ${WRKDIR}/idea.c ${WRKSRC}/cipher/idea.c
 .endif
 
-DOCFILES=	README AUTHORS COPYING THANKS TODO BUGS \
-		doc/DETAILS doc/FAQ doc/OpenPGP doc/HACKING doc/faq.html
+DOCFILES=	AUTHORS BUGS NEWS PROJECTS README THANKS TODO \
+		doc/DETAILS doc/HACKING doc/OpenPGP doc/highlights-1.4.txt
 
 post-install:
-	${INSTALL_DATA_DIR} ${PREFIX}/share/doc/gnupg
-	cd ${WRKSRC} && ${INSTALL_DATA} ${DOCFILES} ${PREFIX}/share/doc/gnupg/
+	cd ${WRKSRC} && ${INSTALL_DATA} ${DOCFILES} ${PREFIX}/share/gnupg/
 
 .include <bsd.port.mk>
