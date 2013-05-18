@@ -1,4 +1,4 @@
-/**	$MirOS: src/lib/libc/crypt/arc4random.c,v 1.8 2007/01/15 02:19:25 tg Exp $ */
+/**	$MirOS: src/lib/libc/crypt/arc4random.c,v 1.9 2007/02/07 21:16:58 tg Exp $ */
 /*	$OpenBSD: arc4random.c,v 1.14 2005/06/06 14:57:59 kjell Exp $	*/
 
 /*
@@ -46,7 +46,7 @@
 #include <string.h>
 #include <unistd.h>
 
-__RCSID("$MirOS: src/lib/libc/crypt/arc4random.c,v 1.8 2007/01/15 02:19:25 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/crypt/arc4random.c,v 1.9 2007/02/07 21:16:58 tg Exp $");
 
 #ifdef __GNUC__
 #define inline __inline
@@ -100,11 +100,13 @@ arc4_stir(struct arc4_stream *as)
 {
 	int     mib[2];
 	size_t	i, len;
-	u_char rnd[128];
-	tai64na_t tm;
+	u_char rnd[128] __attribute__((aligned (16)));
 
-	taina_time(&tm);
-	arc4_addrandom(as, (void *)&tm, sizeof (tm));
+	len = sizeof (tai64na_t);
+	taina_time((tai64na_t *)&rnd);
+	*((pid_t *)(rnd + len)) = arc4_stir_pid = getpid();
+	len += sizeof (pid_t);
+	arc4_addrandom(as, rnd, len);
 
 	mib[0] = CTL_KERN;
 	mib[1] = KERN_ARND;
@@ -118,15 +120,15 @@ arc4_stir(struct arc4_stream *as)
 				break;
 		}
 	}
-
-	arc4_stir_pid = getpid();
+	/* discard by a randomly fuzzed factor as well */
+	len = 256 + (arc4_getbyte(as) & 0x0F);
 	arc4_addrandom(as, rnd, sizeof(rnd));
 
 	/*
 	 * Discard early keystream, as per recommendations in:
 	 * http://www.wisdom.weizmann.ac.il/~itsik/RC4/Papers/Rc4_ksa.ps
 	 */
-	for (i = 0; i < 256; i++)
+	for (i = 0; i < len; i++)
 		(void)arc4_getbyte(as);
 	arc4_count = 400000;
 }
@@ -195,16 +197,18 @@ arc4random_pushb(const void *buf, size_t len)
 	size_t j;
 	int mib[2];
 	uint8_t sbuf[256];
+	tai64na_t tai64tm;
 
 	v = (rand() << 16) + len;
 	for (j = 0; j < len; ++j)
-		v += ((uint8_t *)buf)[j];
-	len = MIN(len, 256 - sizeof (tai64na_t));
+		v += ((const uint8_t *)buf)[j];
+	len = MAX(MIN(len, 256), sizeof (tai64na_t));
 	v += (k = arc4random()) & 3;
-	memmove(sbuf + sizeof (tai64na_t), buf, len);
-	taina_time((void *)sbuf);
-	len += sizeof (tai64na_t);
+	memmove(sbuf, buf, len);
+	taina_time(&tai64tm);
 	v += (intptr_t)buf & 0xFFFFFFFF;
+	for (j = 0; j < sizeof (tai64na_t); ++j)
+		sbuf[j] ^= ((uint8_t *)&tai64tm)[j];
 
 	mib[0] = CTL_KERN;
 	mib[1] = KERN_ARND;
@@ -214,10 +218,10 @@ arc4random_pushb(const void *buf, size_t len)
 		i = (((v & 1) + 1) * (rand() & 0xFF)) ^ arc4random() ^
 		    *((uint32_t *)(sbuf + (len - 4)));
 
-	len = sizeof (uint32_t);
-	memmove(sbuf, &v, len);
-	memmove(sbuf + len, &i, len);
-	arc4_addrandom(&rs, sbuf, 2 * len);
+	memcpy(sbuf, &v, sizeof (uint32_t));
+	memcpy(sbuf + sizeof (uint32_t), &i, sizeof (uint32_t));
+	memcpy(sbuf + 2 * sizeof (uint32_t), &tai64tm, sizeof (tai64na_t));
+	arc4_addrandom(&rs, sbuf, 2 * sizeof (uint32_t) + sizeof (tai64na_t));
 
 	return ((k & ~3) ^ i);
 }
