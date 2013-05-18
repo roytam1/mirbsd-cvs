@@ -1,7 +1,5 @@
-# $MirOS: ports/devel/gmp/Makefile,v 1.4 2007/02/22 22:57:47 tg Exp $
+# $MirOS: ports/devel/gmp/Makefile,v 1.5 2008/07/30 15:22:32 tg Exp $
 # $OpenBSD: Makefile,v 1.11 2004/02/22 22:21:01 naddy Exp $
-
-NOT_FOR_PLATFORM+=	Darwin:*:i386
 
 COMMENT=		library for arbitrary precision arithmetic
 DISTNAME=		gmp-4.1.4
@@ -22,7 +20,12 @@ CONFIGURE_ARGS+=	${CONFIGURE_SHARED} \
 			--enable-mpbsd \
 			--enable-mpfr
 
+.include <mirports.sys.mk>
+
 post-extract:
+.if ${OStype} == "Darwin"
+	cd ${WRKSRC}/mpn/x86 && rm -f {,*/{,*/}}{dive_1,mode1o}*
+.endif
 	rm -f ${WRKSRC}/gmp.info*
 
 .include <bsd.port.mk>
