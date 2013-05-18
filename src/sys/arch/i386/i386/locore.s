@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/i386/locore.s,v 1.6 2006/12/11 23:54:59 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/i386/locore.s,v 1.7 2008/03/10 18:54:47 tg Exp $ */
 /*	$OpenBSD: locore.s,v 1.77.2.1 2005/02/27 00:39:58 brad Exp $	*/
 /*	$NetBSD: locore.s,v 1.145 1996/05/03 19:41:19 christos Exp $	*/
 
@@ -219,10 +219,6 @@ start:	movw	$0x1234,0x472			# warm boot
  * limited rights to use, publicly perform, distribute, sell, modify,
  * merge, give away, or sublicence.
  *
- * Advertising materials mentioning features or use of this work must
- * display the following acknowledgement:
- *	This product includes material provided by Thorsten Glaser.
- *
  * This work is provided "AS IS" and WITHOUT WARRANTY of any kind, to
  * the utmost extent permitted by applicable law, neither express nor
  * implied; without malicious intent or gross negligence. In no event
@@ -234,7 +230,7 @@ start:	movw	$0x1234,0x472			# warm boot
  */
 	xor	esi,esi
 	mov	ecx,1048576+65536
-	mov	edi,[RELOC(_C_LABEL(rnd_bootpool))]
+	mov	edi,[RELOC(_C_LABEL(initial_entropy))]
 	xor	ebx,ebx
 	mov	bx,di		/* EBX = s1 (lower half) */
 	shr	edi,16		/* EDI = s2 (upper half) */
@@ -271,7 +267,7 @@ start:	movw	$0x1234,0x472			# warm boot
 4:	/* return */
 	shl	edi,16
 	or	edi,ebx
-	mov	[RELOC(_C_LABEL(rnd_bootpool))],edi
+	mov	[RELOC(_C_LABEL(initial_entropy))],edi
 	/* and out of the adler32 subroutine */
 	popfd
 	popad
