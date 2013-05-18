@@ -1,8 +1,8 @@
 #!/bin/mksh
-# $MirOS: src/scripts/import-3rdpty,v 1.34 2005/12/20 18:53:49 tg Exp $
+# $MirOS: src/scripts/import-3rdpty,v 1.35 2005/12/23 12:06:18 tg Exp $
 #-
-# Copyright (c) 2004, 2005
-#	Thorsten "mirabile" Glaser <tg@66h.42h.de>
+# Copyright (c) 2004, 2005, 2006
+#	Thorsten Glaser <tg@mirbsd.de>
 #
 # Licensee is hereby permitted to deal in this work without restric-
 # tion, including unlimited rights to use, publicly perform, modify,
@@ -24,7 +24,7 @@
 # other issues arising in any way out of its use, even if advised of
 # the possibility of such damage or existence of a nontrivial bug.
 
-print -r -- '========= $MirOS: src/scripts/import-3rdpty,v 1.34 2005/12/20 18:53:49 tg Exp $ ========='
+print -r -- '========= $MirOS: src/scripts/import-3rdpty,v 1.35 2005/12/23 12:06:18 tg Exp $ ========='
 
 ignlist=0
 force=0
@@ -625,7 +625,35 @@ openbsd)
 		lib/libc/db/mpool/mpool.libtp \
 		lib/libc/gen/getdomainname.3 \
 		lib/libc/gmon \
-		lib/libc/locale \
+		lib/libc/locale/___runetype_mb.c \
+		lib/libc/locale/__mb_cur_max.c \
+		lib/libc/locale/_def_messages.c \
+		lib/libc/locale/_def_monetary.c \
+		lib/libc/locale/_def_numeric.c \
+		lib/libc/locale/_def_time.c \
+		lib/libc/locale/_wcstol.h \
+		lib/libc/locale/_wcstoul.h \
+		lib/libc/locale/_wctrans.c \
+		lib/libc/locale/_wctrans_local.h \
+		lib/libc/locale/iswctype.c \
+		lib/libc/locale/localeconv.c \
+		lib/libc/locale/mbrtowc_sb.c \
+		lib/libc/locale/multibyte_sb.c \
+		lib/libc/locale/nl_langinfo.c \
+		lib/libc/locale/rune.c \
+		lib/libc/locale/rune.h \
+		lib/libc/locale/rune_local.h \
+		lib/libc/locale/runeglue.c \
+		lib/libc/locale/runetable.c \
+		lib/libc/locale/runetype.h \
+		lib/libc/locale/setlocale.c \
+		lib/libc/locale/setrunelocale.c \
+		lib/libc/locale/wcstod.c \
+		lib/libc/locale/wcstol.c \
+		lib/libc/locale/wcstoll.c \
+		lib/libc/locale/wcstoul.c \
+		lib/libc/locale/wcstoull.c \
+		lib/libc/locale/wctoint.h \
 		lib/libc/md \
 		lib/libc/net/nsap_addr.c \
 		lib/libc/nls \
