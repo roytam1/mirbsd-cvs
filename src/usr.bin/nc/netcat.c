@@ -1,4 +1,4 @@
-/* $MirOS: src/usr.bin/nc/netcat.c,v 1.3 2005/04/29 18:35:10 tg Exp $ */
+/* $MirOS: src/usr.bin/nc/netcat.c,v 1.4 2005/11/23 18:04:11 tg Exp $ */
 /* $OpenBSD: netcat.c,v 1.81 2005/05/28 16:57:48 marius Exp $ */
 /*
  * Copyright (c) 2004 Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -54,7 +54,7 @@
 #include <fcntl.h>
 #include "atomicio.h"
 
-__RCSID("$MirOS: src/usr.bin/nc/netcat.c,v 1.3 2005/04/29 18:35:10 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/nc/netcat.c,v 1.4 2005/11/23 18:04:11 tg Exp $");
 
 #undef BUFSIZ
 #define BUFSIZ 4096
@@ -101,7 +101,7 @@ int	socks_connect(const char *, const char *, struct addrinfo, const char *, con
 int	udptest(int);
 int	unix_connect(char *);
 int	unix_listen(char *);
-int     set_common_sockopts(int);
+void    set_common_sockopts(int);
 void	usage(int);
 void	prepend_peer(const struct sockaddr *);
 
@@ -311,7 +311,6 @@ main(int argc, char *argv[])
 				int rv, plen;
 				char buf[8192];
 
-				len = sizeof(z);
 				plen = jflag ? 8192 : 1024;
 				rv = recvfrom(s, buf, plen, MSG_PEEK,
 				    (struct sockaddr *)&cliaddr, &len);
@@ -325,7 +324,6 @@ main(int argc, char *argv[])
 
 				connfd = s;
 			} else {
-				len = sizeof(cliaddr);
 				connfd = accept(s, (struct sockaddr *)&cliaddr,
 				    &len);
 			}
@@ -637,7 +635,7 @@ readwrite(int nfd)
 			} else {
 				if (tflag)
 					atelnet(nfd, buf, n);
-				if (atomicio(vwrite, lfd, buf, n) != n)
+				if ((int)atomicio(vwrite, lfd, buf, n) != n)
 					return;
 			}
 		}
@@ -650,7 +648,7 @@ readwrite(int nfd)
 				pfd[1].fd = -1;
 				pfd[1].events = 0;
 			} else {
-				if (atomicio(vwrite, nfd, buf, n) != n)
+				if ((int)atomicio(vwrite, nfd, buf, n) != n)
 					return;
 			}
 		}
@@ -773,7 +771,7 @@ udptest(int s)
 	return (ret);
 }
 
-int
+void
 set_common_sockopts(int s)
 {
 	int x = 1;

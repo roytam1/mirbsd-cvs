@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.bin/mail/cmd2.c,v 1.2 2005/03/13 18:33:14 tg Exp $ */
+/**	$MirOS: src/usr.bin/mail/cmd2.c,v 1.3 2005/11/23 17:36:21 tg Exp $ */
 /*	$OpenBSD: cmd2.c,v 1.15 2004/09/15 22:21:40 deraadt Exp $	*/
 /*	$NetBSD: cmd2.c,v 1.7 1997/05/17 19:55:10 pk Exp $	*/
 
@@ -33,9 +33,10 @@
 
 #include "rcv.h"
 #include "extern.h"
+#include <sys/wait.h>
 
 __SCCSID("@(#)cmd2.c	8.1 (Berkeley) 6/6/93");
-__RCSID("$MirOS: src/usr.bin/mail/cmd2.c,v 1.2 2005/03/13 18:33:14 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/mail/cmd2.c,v 1.3 2005/11/23 17:36:21 tg Exp $");
 
 /*
  * Mail -- a mail program

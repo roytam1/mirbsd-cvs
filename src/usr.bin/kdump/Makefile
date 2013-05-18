@@ -1,4 +1,4 @@
-# $MirOS: src/usr.bin/kdump/Makefile,v 1.2 2005/03/13 18:33:04 tg Exp $
+# $MirOS: src/usr.bin/kdump/Makefile,v 1.3 2005/11/23 17:36:17 tg Exp $
 # $OpenBSD: Makefile,v 1.8 2003/07/02 20:54:17 deraadt Exp $
 
 LDSTATIC=	${STATIC}
@@ -20,7 +20,6 @@ ioctl.c: ${.CURDIR}/mkioctls
 	    ${DESTDIR}/usr/include/dev/systrace.h \
 	    ${DESTDIR}/usr/include/dev/wscons/wsconsio.h \
 	    ${DESTDIR}/usr/include/dev/vndioctl.h \
-	    ${DESTDIR}/usr/include/scsi/ses.h \
 	    ${DESTDIR}/usr/include/net/bpf.h \
 	    ${DESTDIR}/usr/include/net/if_ieee80211.h \
 	    ${DESTDIR}/usr/include/net/if_ppp.h \

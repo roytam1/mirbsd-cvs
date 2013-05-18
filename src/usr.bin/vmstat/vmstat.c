@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.bin/vmstat/vmstat.c,v 1.2 2005/03/13 18:34:02 tg Exp $ */
+/**	$MirOS: src/usr.bin/vmstat/vmstat.c,v 1.3 2005/11/23 18:04:27 tg Exp $ */
 /*	$NetBSD: vmstat.c,v 1.29.4.1 1996/06/05 00:21:05 cgd Exp $	*/
 /*	$OpenBSD: vmstat.c,v 1.96 2005/07/04 01:54:10 djm Exp $	*/
 
@@ -69,7 +69,7 @@ static char copyright[] =
 #include <uvm/uvm_extern.h>
 
 __SCCSID("@(#)vmstat.c	8.1 (Berkeley) 6/6/93");
-__RCSID("$MirOS: src/usr.bin/vmstat/vmstat.c,v 1.2 2005/03/13 18:34:02 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/vmstat/vmstat.c,v 1.3 2005/11/23 18:04:27 tg Exp $");
 
 struct nlist namelist[] = {
 #define X_UVMEXP	0		/* sysctl */
@@ -563,7 +563,9 @@ dosum(void)
 	(void)printf("%11u traps\n", uvmexp.traps);
 	(void)printf("%11u interrupts\n", uvmexp.intrs);
 	(void)printf("%11u cpu context switches\n", uvmexp.swtch);
+#if 0 /* XXX */
 	(void)printf("%11u fpu context switches\n", uvmexp.fpswtch);
+#endif
 	(void)printf("%11u software interrupts\n", uvmexp.softs);
 	(void)printf("%11u syscalls\n", uvmexp.syscalls);
 	(void)printf("%11u pagein operations\n", uvmexp.pageins);
@@ -743,6 +745,7 @@ dointr(void)
 			return;
 		}
 
+#ifdef KERN_INTRCNT_VECTOR
 		mib[0] = CTL_KERN;
 		mib[1] = KERN_INTRCNT;
 		mib[2] = KERN_INTRCNT_VECTOR;
@@ -754,6 +757,7 @@ dointr(void)
 			snprintf(intrname, sizeof(intrname), "irq%d/%s",
 			    vector, name);
 		}
+#endif
 
 		mib[0] = CTL_KERN;
 		mib[1] = KERN_INTRCNT;

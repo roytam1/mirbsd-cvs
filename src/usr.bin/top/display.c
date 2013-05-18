@@ -47,6 +47,7 @@
 
 #include <sys/types.h>
 #include <sys/time.h>
+#include <sys/dkstat.h>
 #include <sys/sched.h>
 #include <stdio.h>
 #include <ctype.h>

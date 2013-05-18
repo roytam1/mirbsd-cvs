@@ -239,6 +239,7 @@ get_system_info(struct system_info *si)
 	int i;
 	int64_t *tmpstate;
 
+#ifdef __SMP__
 	if (ncpu > 1) {
 		size = CPUSTATES * sizeof(int64_t);
 		for (i = 0; i < ncpu; i++) {
@@ -251,6 +252,7 @@ get_system_info(struct system_info *si)
 			    cp_old[i], cp_diff[i]);
 		}
 	} else {
+#endif
 		int cp_time_mib[] = {CTL_KERN, KERN_CPTIME};
 		long cp_time_tmp[CPUSTATES];
 
@@ -262,7 +264,6 @@ get_system_info(struct system_info *si)
 		/* convert cp_time counts to percentages */
 		(void) percentages(CPUSTATES, cpu_states, cp_time[0],
 		    cp_old[0], cp_diff[0]);
-	}
 
 	size = sizeof(sysload);
 	if (sysctl(sysload_mib, 2, &sysload, &size, NULL, 0) < 0)
@@ -414,10 +415,12 @@ state_abbr(struct kinfo_proc2 *pp)
 {
 	static char buf[10];
 
+#ifdef __SMP__
 	if (ncpu > 1 && pp->p_cpuid != KI_NOCPU)
 		snprintf(buf, sizeof buf, "%s/%llu",
 		    state_abbrev[(unsigned char)pp->p_stat], pp->p_cpuid);
 	else
+#endif
 		snprintf(buf, sizeof buf, "%s",
 		    state_abbrev[(unsigned char)pp->p_stat]);
 	return buf;

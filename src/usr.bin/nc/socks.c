@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.bin/nc/socks.c,v 1.4 2005/05/19 22:57:39 tg Exp $ */
+/**	$MirOS: src/usr.bin/nc/socks.c,v 1.5 2005/11/23 18:04:11 tg Exp $ */
 /*	$OpenBSD: socks.c,v 1.15 2005/05/24 20:13:28 avsm Exp $	*/
 
 /*
@@ -40,7 +40,7 @@
 #include <unistd.h>
 #include "atomicio.h"
 
-__RCSID("$MirOS: src/usr.bin/nc/socks.c,v 1.4 2005/05/19 22:57:39 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/nc/socks.c,v 1.5 2005/11/23 18:04:11 tg Exp $");
 
 #define SOCKS_PORT	"1080"
 #define HTTP_PROXY_PORT	"3128"
@@ -251,16 +251,17 @@ socks_connect(const char *host, const char *port,
 		}
 		if (r == -1 || (size_t)r >= sizeof(buf))
 			errx(1, "hostname too long");
-		r = strlen(buf);
+		r = strlen((char *)buf);
 
 		cnt = atomicio(vwrite, proxyfd, buf, r);
-		if (cnt != r)
+		if ((int)cnt != r)
 			err(1, "write failed (%d/%d)", cnt, r);
 
 		/* Read reply */
 		for (r = 0; r < HTTP_MAXHDRS; r++) {
-			proxy_read_line(proxyfd, buf, sizeof(buf));
-			if (r == 0 && strncmp(buf, "HTTP/1.0 200 ", 12) != 0)
+			proxy_read_line(proxyfd, (char *)buf, sizeof(buf));
+			if (r == 0 && strncmp((char *)buf,
+			    "HTTP/1.0 200 ", 12) != 0)
 				errx(1, "Proxy error: \"%s\"", buf);
 			/* Discard headers until we hit an empty line */
 			if (*buf == '\0')
