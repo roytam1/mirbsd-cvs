@@ -1,8 +1,10 @@
 #!/bin/mksh
-# $MirOS: contrib/hosted/tg/arngc,v 1.4 2011/08/04 19:26:52 tg Exp $
+# $MirOS: contrib/hosted/tg/deb/arngc/arngc,v 1.1 2011/08/04 20:39:03 tg Exp $
 #-
 # Copyright © 2011
 #	Thorsten Glaser <tg@mirbsd.org>
+# Copyright © 2012
+#	Thorsten Glaser <t.glaser@tarent.de>
 #
 # Provided that these terms and disclaimer and all copyright notices
 # are retained or reproduced in an accompanying document, permission
@@ -99,10 +101,48 @@ if [[ $server != +([0-9]).+([0-9]).+([0-9]).+([0-9]):+([0-9]) ]]; then
 	exit 2
 fi
 
+if ! T=$(mktemp -d /tmp/XXXXXXXX) || [[ ! -d $T/. ]]; then
+	print -u2 cannot create temporary directory
+	exit 255
+fi
+
+use4=0
+for prog in stunnel4 stunnel; do
+	prog=$(whence -p $prog)
+	[[ -n $prog && -x $prog ]] || continue
+	x=$("$prog" -version 2>&1 | grep '^stunnel [0-9]')
+	[[ $x = 'stunnel 4'* ]] || continue
+	use4=1
+	break
+done
+function doscript {
+	print -r "server='$server' threshold='$threshold'"
+	print -r "T='${T//\'/\'\\\'\'}'"
+	print "function runtunnel {"
+	if (( use4 )); then
+		print -r "	prog='${prog//\'/\'\\\'\'}'"
+		cat >"$T/control" <<-EOF
+			client = yes
+			connect = $server
+		EOF
+		print -r '	"$prog" -fd 4 4<"$T/control"'
+	else
+		print -r '	stunnel -c -r "$server"'
+	fi
+	cat <<-'EOF'
+		}
+		runtunnel </dev/null 2>/dev/null | rngd -f \
+		    -r /proc/self/fd/0 -H 0.99 -B 2 -s 32 \
+		    -W "$threshold" -t 300 -T 60 2>&1 | \
+		    logger -t arngc &
+		rm -rf "$T"
+	EOF
+}
+doscript >"$T/arngc2"
+
 echo $threshold >/proc/sys/kernel/random/write_wakeup_threshold
-mksh -T- -c 'stunnel -c -r '$server' </dev/null 2>/dev/null | \
-    rngd -f -r /proc/self/fd/0 -H 0.99 -B 2 -s 32 -W '$threshold' -t 300 -T 60 2>&1 | \
-    logger -t arngc'
+cd /
+mksh -T- "$T/arngc2"
 sleep 0.25
 print -u2 It may take up to one minute to decide whether rngd works.
 print -u2 Get statistics into syslog with: sudo pkill -USR1 rngd

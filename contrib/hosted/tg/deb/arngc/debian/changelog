@@ -1,10 +1,12 @@
-arngc (20110805) xunstable; urgency=low
+arngc (20120509) unstable; urgency=low
 
   * README.Debian: mention how to disable stunnel, too
-    XXX missing: drive stunnel4 to avoid zombies, if detected
   * clean up; mark as Multi-Arch; bump Policy
+  * if stunnel4, avoid zombies, drive it directly instead of
+    using the stunnel 3 compat wrapper
+  * do not pollute the process list that much
 
- -- Thorsten Glaser <tg@mirbsd.de>  Wed, 09 May 2012 10:27:03 +0000
+ -- Thorsten Glaser <tg@mirbsd.de>  Wed, 09 May 2012 11:09:38 +0000
 
 arngc (20110804) unstable; urgency=low
 
