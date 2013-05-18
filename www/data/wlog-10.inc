@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.164 2009/02/24 20:39:19 bsiegert Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.165 2009/02/24 20:43:26 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -3341,7 +3341,7 @@ Title: History lesson
  article, the situation was very similar in the early 1990s, when
  FreeBSD and later NetBSD forked from 386BSD:</p>
 
-<blockquote>“The Jolitzes [...] seem to have tried to control quality by
+<blockquote><p>“The Jolitzes [...] seem to have tried to control quality by
  doing most of the work themselves. This inevitably made their release
  cycle slow, but it was also an implied snub to would-be collaborators
  &ndash; who took their contributions elsewhere. [...] By the time 1.0
@@ -3349,7 +3349,7 @@ Title: History lesson
  had moved to the more active and open NetBSD and FreeBSD teams.
  [The Jolitzes] were criticized for their autocratic style. The
  strength of their convictions did not endear them to people who wanted
- to do things differently.”</blockquote>
+ to do things differently.”</p></blockquote>
 
 <p>Funny how history repeats itself, isn't it?</p>
 ----
