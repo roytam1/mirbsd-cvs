@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.75 2005/12/16 14:58:14 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.76 2005/12/16 16:41:02 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -470,9 +470,6 @@ MAKE_ENV+=		HOME=${PORTHOME:Q} PATH=${PORTPATH:Q} \
 
 .if defined(LDADD) && !empty(LDADD)
 MAKE_ENV+=		LDADD=${LDADD:Q}
-.  if defined(LDADD_CYCLIC)
-MAKE_ENV+=		LDADD_CYCLIC=1
-.  endif
 .endif
 
 DISTORIG?=		.bak.orig
