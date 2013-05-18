@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.381 2011/02/18 22:42:15 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.382 2011/02/19 21:48:13 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -634,6 +634,16 @@ exec /usr/bin/ld "${args[@]}"</pre>
  with it similarily to QNX, but MirBSD ed needs very many patches, so
  this was not tried.</p>
 
+<h5 class="cr" id="oe_mnt">OS: MiNT / FreeMiNT</h5>
+<p>Support appeared in mksh R40. You must use pdksh with CC=gcc to run
+ <tt>Build.sh</tt> – cc and bash are both too broken. Afterwards, you
+ <strong>must</strong> use the just-built mksh (after moving it out of
+ the build directory) to re-run <tt>Build.sh</tt> with the same flags,
+ due to bugs in pdksh on MiNT as well.</p>
+<p>Most things work. FD_CLOEXEC is broken, so filedescriptor privacy
+ has POSIX level only. <tt>/dev/tty</tt> is usually unusable; it might
+ help to symlink <tt>/dev/console</tt> there but break other things.</p>
+
 <h5 class="cr" id="oe_bsm"><img width="98" height="92" alt="[MirBSD logo]"
  class="fr" src="@@RELPATH@@pics/logosmw.png" />OS: MirBSD</h5>
 <p>Perfect choice. This is where mksh comes from.</p>
@@ -1151,6 +1161,8 @@ exec /usr/bin/ld "${args[@]}"</pre>
  <li>[tg] If the built-in cat is invoked from a direct builtin call, it
   now properly handles the POSIXly demanded ‘-u’ option (as a no-op)</li>
  <li>[tg] Support the <tt>PIPESTATUS</tt> array (like GNU bash)</li>
+ <li>[tg] Port to MiNT / FreeMiNT (Atari m68k operating system)</li>
+ <li>[tg] Do not close filedescriptor #3 (controlling tty) on UWIN</li>
 </ul>
 <p id="r39c">mksh R39c is an important minor bugfix release:</p><ul>
  <li>[tg] Build system, code, docs and testsuite cleanup, also style(9)</li>
