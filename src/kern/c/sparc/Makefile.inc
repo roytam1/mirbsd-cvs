@@ -1,4 +1,4 @@
-# $MirOS: src/kern/c/sparc/Makefile.inc,v 1.5 2008/08/01 18:31:02 tg Exp $
+# $MirOS: src/kern/c/sparc/Makefile.inc,v 1.6 2008/08/03 21:02:02 tg Exp $
 
 SRCS+=		htonl.c htons.c ntohl.c ntohs.c
 
@@ -8,6 +8,9 @@ UIF_KUSRCS+=	wcslen.c strlen.c -DWIDEC
 
 SRCS+=		bzero.S ffs.S memchr.c memcmp.c memcpy.c memset.c strcmp.c
 LSRCS+=		Lbzero.c Lffs.c
+
+# broken standard API
+CFLAGS_memchr.o= -Wno-cast-qual
 
 SRCS+=		mul.S umul.S
 SRCS+=		saveregs.S
