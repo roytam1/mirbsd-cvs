@@ -1,4 +1,4 @@
-/* $MirOS: contrib/code/mirmake/dist/contrib/mirmake.h,v 1.43 2008/11/10 01:40:13 tg Exp $ */
+/* $MirOS: contrib/code/mirmake/dist/contrib/mirmake.h,v 1.44 2008/12/29 20:15:11 tg Exp $ */
 
 /*-
  * Copyright (c) 2005, 2006, 2008
@@ -207,7 +207,9 @@
 #define	SA_LEN(x)	(((x)->sa_family == AF_INET) ? \
 			    sizeof(struct sockaddr_in) : \
 			    sizeof(struct sockaddr))
-#else
+#elif defined(__APPLE__)
+#define	SA_LEN(x)	(((struct sockaddr *)(x))->sa_len)
+#elif !defined(BSD) /* from <sys/param.h> */
 #define	SA_LEN(x)	(((x)->sa_family == AF_INET6) ? \
 			    sizeof(struct sockaddr_in6) : \
 			    (((x)->sa_family == AF_INET) ? \
