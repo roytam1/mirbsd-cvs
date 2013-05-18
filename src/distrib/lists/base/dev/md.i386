@@ -3332,7 +3332,6 @@
 ./usr/lib/gcc/i386-ecce-mirbsd8/3.4.5/libgcc.a
 ./usr/lib/gcc/i386-ecce-mirbsd8/3.4.5/libgcc_eh.a
 ./usr/lib/gcc/i386-ecce-mirbsd8/3.4.5/libgcov.a
-./usr/lib/gcc/i386-ecce-mirbsd8/3.4.5/libgpc.a
 ./usr/lib/gcc/i386-ecce-mirbsd8/3.4.5/specs
 ./usr/lib/gcc/i386-ecce-mirbsd8/3.4.5/units
 ./usr/lib/gcc/i386-ecce-mirbsd8/3.4.5/units/crt.inc

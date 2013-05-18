@@ -124,11 +124,8 @@
 ./sbin/mount_msdos
 ./sbin/mount_nfs
 ./sbin/mount_ntfs
-./sbin/mount_null
 ./sbin/mount_portal
 ./sbin/mount_procfs
-./sbin/mount_umap
-./sbin/mount_union
 ./sbin/mountd
 ./sbin/ncheck
 ./sbin/ncheck_ffs
@@ -247,6 +244,7 @@
 ./usr/bin/gzcat
 ./usr/bin/gzexe
 ./usr/bin/gzip
+./usr/bin/gzsig
 ./usr/bin/hd
 ./usr/bin/head
 ./usr/bin/help
@@ -500,7 +498,6 @@
 ./usr/libexec/diff3prog
 ./usr/libexec/fingerd
 ./usr/libexec/ftpd
-./usr/libexec/getNAME
 ./usr/libexec/getty
 ./usr/libexec/httpd
 ./usr/libexec/httpd/include
@@ -601,7 +598,6 @@
 ./usr/libexec/spellprog
 ./usr/libexec/ssh-keysign
 ./usr/libexec/sudo_noexec.so
-./usr/libexec/telnetd
 ./usr/libexec/tftpd
 ./usr/libexec/vfontedpr
 ./usr/libexec/vi.recover
@@ -674,11 +670,9 @@
 ./usr/sbin/dhcpd
 ./usr/sbin/dhcrelay
 ./usr/sbin/edquota
-./usr/sbin/extattrctl
 ./usr/sbin/faithd
 ./usr/sbin/fdformat
 ./usr/sbin/getencstat
-./usr/sbin/getextattr
 ./usr/sbin/group
 ./usr/sbin/groupadd
 ./usr/sbin/groupdel
@@ -740,7 +734,6 @@
 ./usr/sbin/sensorsd
 ./usr/sbin/sesd
 ./usr/sbin/setencstat
-./usr/sbin/setextattr
 ./usr/sbin/setobjstat
 ./usr/sbin/sliplogin
 ./usr/sbin/slstats
@@ -1561,6 +1554,7 @@
 ./usr/share/man/cat1/gzcat.0
 ./usr/share/man/cat1/gzexe.0
 ./usr/share/man/cat1/gzip.0
+./usr/share/man/cat1/gzsig.0
 ./usr/share/man/cat1/hd.0
 ./usr/share/man/cat1/head.0
 ./usr/share/man/cat1/help.0
@@ -1810,13 +1804,6 @@
 ./usr/share/man/cat2/errno.0
 ./usr/share/man/cat2/exect.0
 ./usr/share/man/cat2/execve.0
-./usr/share/man/cat2/extattr.0
-./usr/share/man/cat2/extattr_delete_fd.0
-./usr/share/man/cat2/extattr_delete_file.0
-./usr/share/man/cat2/extattr_get_fd.0
-./usr/share/man/cat2/extattr_get_file.0
-./usr/share/man/cat2/extattr_set_fd.0
-./usr/share/man/cat2/extattr_set_file.0
 ./usr/share/man/cat2/fchdir.0
 ./usr/share/man/cat2/fchflags.0
 ./usr/share/man/cat2/fchmod.0
@@ -3368,9 +3355,6 @@
 ./usr/share/man/cat3/expm1.0
 ./usr/share/man/cat3/expm1f.0
 ./usr/share/man/cat3/exporttai.0
-./usr/share/man/cat3/extattr.0
-./usr/share/man/cat3/extattr_namespace_to_string.0
-./usr/share/man/cat3/extattr_string_to_namespace.0
 ./usr/share/man/cat3/f.0
 ./usr/share/man/cat3/fabs.0
 ./usr/share/man/cat3/fabsf.0
@@ -4300,7 +4284,6 @@
 ./usr/share/man/cat3/positionCDKSelection.0
 ./usr/share/man/cat3/positionCDKSwindow.0
 ./usr/share/man/cat3/positionCDKViewer.0
-./usr/share/man/cat3/posix1e.0
 ./usr/share/man/cat3/posix2time.0
 ./usr/share/man/cat3/post_form.0
 ./usr/share/man/cat3/post_menu.0
@@ -5873,7 +5856,6 @@
 ./usr/share/man/cat8/dump.0
 ./usr/share/man/cat8/dumpfs.0
 ./usr/share/man/cat8/edquota.0
-./usr/share/man/cat8/extattrctl.0
 ./usr/share/man/cat8/faithd.0
 ./usr/share/man/cat8/faq.0
 ./usr/share/man/cat8/fdisk.0
@@ -5886,9 +5868,7 @@
 ./usr/share/man/cat8/fsdb.0
 ./usr/share/man/cat8/ftpd.0
 ./usr/share/man/cat8/genassym.sh.0
-./usr/share/man/cat8/getNAME.0
 ./usr/share/man/cat8/getencstat.0
-./usr/share/man/cat8/getextattr.0
 ./usr/share/man/cat8/getty.0
 ./usr/share/man/cat8/group.0
 ./usr/share/man/cat8/groupadd.0
@@ -5950,11 +5930,8 @@
 ./usr/share/man/cat8/mount_msdos.0
 ./usr/share/man/cat8/mount_nfs.0
 ./usr/share/man/cat8/mount_ntfs.0
-./usr/share/man/cat8/mount_null.0
 ./usr/share/man/cat8/mount_portal.0
 ./usr/share/man/cat8/mount_procfs.0
-./usr/share/man/cat8/mount_umap.0
-./usr/share/man/cat8/mount_union.0
 ./usr/share/man/cat8/mountd.0
 ./usr/share/man/cat8/mrinfo.0
 ./usr/share/man/cat8/mrouted.0
@@ -6039,7 +6016,6 @@
 ./usr/share/man/cat8/sensorsd.0
 ./usr/share/man/cat8/sesd.0
 ./usr/share/man/cat8/setencstat.0
-./usr/share/man/cat8/setextattr.0
 ./usr/share/man/cat8/setobjstat.0
 ./usr/share/man/cat8/sftp-server.0
 ./usr/share/man/cat8/showmount.0
@@ -6075,7 +6051,6 @@
 ./usr/share/man/cat8/talkd.0
 ./usr/share/man/cat8/tcpdrop.0
 ./usr/share/man/cat8/tcpdump.0
-./usr/share/man/cat8/telnetd.0
 ./usr/share/man/cat8/tftpd.0
 ./usr/share/man/cat8/timed.0
 ./usr/share/man/cat8/timedc.0
@@ -6138,7 +6113,6 @@
 ./usr/share/man/cat9/UVM_MAPFLAG.0
 ./usr/share/man/cat9/VOP_CREATE.0
 ./usr/share/man/cat9/VOP_FSYNC.0
-./usr/share/man/cat9/VOP_GETEXTATTR.0
 ./usr/share/man/cat9/VOP_ISLOCKED.0
 ./usr/share/man/cat9/VOP_LINK.0
 ./usr/share/man/cat9/VOP_LOCK.0
@@ -6151,11 +6125,9 @@
 ./usr/share/man/cat9/VOP_REMOVE.0
 ./usr/share/man/cat9/VOP_REVOKE.0
 ./usr/share/man/cat9/VOP_RMDIR.0
-./usr/share/man/cat9/VOP_SETEXTATTR.0
 ./usr/share/man/cat9/VOP_STRATEGY.0
 ./usr/share/man/cat9/VOP_SYMLINK.0
 ./usr/share/man/cat9/VOP_UNLOCK.0
-./usr/share/man/cat9/VOP_WHITEOUT.0
 ./usr/share/man/cat9/abs.0
 ./usr/share/man/cat9/add_audio_randomness.0
 ./usr/share/man/cat9/add_disk_randomness.0
@@ -6291,7 +6263,6 @@
 ./usr/share/man/cat9/dopowerhooks.0
 ./usr/share/man/cat9/doshutdownhooks.0
 ./usr/share/man/cat9/dostartuphooks.0
-./usr/share/man/cat9/extattr.0
 ./usr/share/man/cat9/extent.0
 ./usr/share/man/cat9/extent_alloc.0
 ./usr/share/man/cat9/extent_alloc_region.0

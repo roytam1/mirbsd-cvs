@@ -18,7 +18,6 @@
 ./etc/hosts.equiv
 ./etc/hosts.lpd
 ./etc/inetd.conf
-./etc/ksh.kshrc
 ./etc/localtime
 ./etc/locate.rc
 ./etc/login.conf
@@ -53,7 +52,6 @@
 ./etc/motd
 ./etc/mrouted.conf
 ./etc/mtree/4.4BSD.dist
-./etc/mtree/BSD.local.dist
 ./etc/mtree/special
 ./etc/myname
 ./etc/netstart
