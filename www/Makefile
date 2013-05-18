@@ -1,4 +1,4 @@
-# $MirOS: www/Makefile,v 1.76 2011/06/06 22:05:48 tg Exp $
+# $MirOS: www/Makefile,v 1.77 2012/05/07 16:42:27 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -48,6 +48,7 @@ CLEANFILES+=	tags.lst tags.out
 TAGCLOUD+=	debian
 TAGCLOUD+=	mksh
 TAGCLOUD+=	pcli
+USELINKED+=	acronyms
 WLOGS=		9 10
 
 # legacy content
@@ -146,6 +147,7 @@ _reinstall:
 .for _i in ${GENSRCS}
 	pax -rw -pe -dv $$(<${_i}) dst/
 .endfor
+	cd ${TOP}/.linked && pax -rw -pe -v ${USELINKED} ${DST}/dst/
 	cd ${TOP}/files && pax -rw -pe -v . ${DST}/dst/
 	cd ${TOP} && pax -rw -pe -v pics ${DST}/dst/
 	cd dst && \
