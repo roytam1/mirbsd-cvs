@@ -168,9 +168,9 @@ command for more information.
 
 send the protocol-specific message(s) to switch to TLS for communication.
 B<protocol> is a keyword for the intended protocol.  Currently, the only
-supported keywords are "esmtp", "smtp" and "pop3".
+supported keywords are "simple", "jabber", "esmtp", "smtp" and "pop3".
 The "esmtp" protocol sends out a "EHLO openssl" SMTP command before
-issuing the "STARTTLS" command.
+issuing the "STARTTLS" command. (Nowadays, "smtp" does so, too.)
 
 =item B<-engine id>
 

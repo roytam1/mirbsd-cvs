@@ -1,4 +1,4 @@
-/* $MirOS: src/lib/libssl/src/apps/s_client.c,v 1.4 2005/07/27 14:35:06 tg Exp $ */
+/* $MirOS: src/lib/libssl/src/apps/s_client.c,v 1.5 2008/04/03 18:44:24 tg Exp $ */
 
 /* apps/s_client.c */
 /* Copyright (C) 1995-1998 Eric Young (eay@cryptsoft.com)
@@ -122,7 +122,7 @@
 #define APPS_WIN16
 #endif
 
-__RCSID("$MirOS: src/lib/libssl/src/apps/s_client.c,v 1.4 2005/07/27 14:35:06 tg Exp $");
+__RCSID("$MirOS: src/lib/libssl/src/apps/s_client.c,v 1.5 2008/04/03 18:44:24 tg Exp $");
 
 /* With IPv6, it looks like Digital has mixed up the proper order of
    recursive header file inclusion, resulting in the compiler complaining
@@ -228,7 +228,7 @@ static void sc_usage(void)
 	BIO_printf(bio_err," -starttls prot - use the STARTTLS command before starting TLS\n");
 	BIO_printf(bio_err,"                 for those protocols that support it, where\n");
 	BIO_printf(bio_err,"                 'prot' defines which one to assume.  Currently, only\n");
-	BIO_printf(bio_err,"                 \"simple\", \"smtp\", \"esmtp\" and \"pop3\" are supported.\n");
+	BIO_printf(bio_err,"                 \"simple\", \"smtp\", \"jabber\" and \"pop3\" are supported.\n");
 #ifndef OPENSSL_NO_ENGINE
 	BIO_printf(bio_err," -engine id    - Initialise and use the specified engine\n");
 #endif
@@ -432,6 +432,8 @@ int MAIN(int argc, char **argv)
 				starttls_proto = 2;
 			else if (strcmp(*argv,"esmtp") == 0)
 				starttls_proto = 1;
+			else if (strcmp(*argv,"jabber") == 0)
+				starttls_proto = 100;
 			else if (strcmp(*argv,"simple") == 0)
 				starttls_proto = 0x1002;
 			else
@@ -636,6 +638,14 @@ re_start:
 			goto end;
 			}
 		BIO_printf(sbio,"STLS\r\n");
+		BIO_read(sbio,sbuf,BUFSIZZ);
+		}
+	if (starttls_proto == 100)
+		{
+		BIO_printf(sbio,"<?xml version='1.0'?><stream:stream xmlns:stream='http://etherx.jabber.org/streams' xmlns='jabber:server' version='1.0'>\n");
+		BIO_read(sbio,sbuf,BUFSIZZ);
+		BIO_read(sbio,sbuf,BUFSIZZ);
+		BIO_printf(sbio,"<starttls xmlns='urn:ietf:params:xml:ns:xmpp-tls'/>\n");
 		BIO_read(sbio,sbuf,BUFSIZZ);
 		}
 	if (starttls_proto == 0x1002)
