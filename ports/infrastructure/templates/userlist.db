@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/templates/userlist.db,v 1.5 2007/02/17 03:37:00 tg Exp $
+# $MirOS: ports/infrastructure/templates/userlist.db,v 1.6 2007/02/17 20:16:18 tg Exp $
 #
 # List of users and groups for the MirPorts infrastructure.
 # Format: three columns, separated by one or more tabs or spaces
@@ -107,7 +107,7 @@
 513	_vsftpd		net/vsftpd
 514	_scanlogd	security/scanlogd
 515	_squid		www/squid
-516	_privoxy	www/privoxyy
+516	_privoxy	www/privoxy
 517	_wnn		japanese/Wnn
 518	_dovecot	mail/dovecot
 519	_news		news/leafnode
