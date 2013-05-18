@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.478 2012/11/26 23:14:49 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.480 2012/11/30 21:57:34 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -465,11 +465,7 @@ exec /usr/bin/ld "${args[@]}"</pre>
  and thus need <tt>-DMKSH_NO_SIGSUSPEND</tt> (R41 experimental option).</p>
 
 <h5 class="cr" id="oe_musl">Toolchain: musl</h5>
-<p>Has broken <tt>-D_GNU_SOURCE</tt>, needs <tt>-D_BSD_SOURCE</tt> too,
- so figure out a new set of forced <tt>CPPFLAGS</tt> for this. Compiler
- wrapper is broken with many gcc versions. Signals are broken but with
- <tt>-DMKSH_NOPROSPECTOFWORK</tt> it works. (Note that this option
- produces a shell not supporting standard Korn Shell scripts.)</p>
+<p>Appears to work just fine in R41b and up.</p>
 
 <h5 class="cr" id="oe_bs3">OS: 386BSD</h5>
 <p>This seems to work with mksh R41, although on 386BSD-0.0new (anything
@@ -1114,6 +1110,13 @@ exec /usr/bin/ld "${args[@]}"</pre>
   limits in a single invocation from oksh (thanks millert) -->
  <li>[tg] Make <tt>-DMKSH_DISABLE_EXPERIMENTAL</tt> a nop again</li>
  <li>[tg] Re-enable <tt>${ precmd;}</tt> in <tt>dot.mkshrc</tt></li>
+<li style="list-style:none;">Changes already MFCd into R41-stable branch</li>
+ <li>[tg] Fix gettimeofday(2) detection at build time (warning)</li>
+ <li>[RT, tg] <tt>Build.sh</tt>: catch non-working dash printf builtin</li>
+ <li>[chris2, dalias, tg] Remove musl libc workaround and use _GNU_SOURCE
+  which they kindly aliased to _ALL_SOURCE, which is implemented now</li>
+ <li>[tg] Quell some LLVM+Clang warnings; overhaul scan-build assert(3)s</li>
+ <li>[tg] Fix getn and some cases of possible array bounds trespasses</li>
 </ul>
 <p id="r41">mksh R41 brings a number of bugfixes and new features:</p><ul>
  <li>[tg] Drop “set ±o arc4random” (deprecated in R40)</li>
@@ -1204,12 +1207,6 @@ exec /usr/bin/ld "${args[@]}"</pre>
  <li>[tg] Track the tty to keep <tt>$COLUMNS</tt> and <tt>$LINES</tt>
   up-to-date after a <tt>SIGWINCH</tt> even in scripts</li>
 </ul>
-<!--
-<p>Changes in the current (unreleased) stable branch:</p><ul>
-NB: this for R40-stable!
- <li>[tg] Fix a bug in the manual page</li>
-</ul>
--->
 <p id="r40f">mksh R40f fixes a critical bug as well as this:</p><ul>
  <li>[tg, RT] Implement fcntl(2)-based advisory locking as an alternative
   iff flock(2) is not found (LP: #912691); keep trying in the face of EINTR</li>
