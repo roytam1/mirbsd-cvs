@@ -10185,6 +10185,31 @@ expected-stdout:
 	b
 	x
 ---
+name: case-braces
+description:
+	Check that case end tokens are not mixed up (Debian #220272)
+stdin:
+	i=0
+	for value in 'x' '}' 'esac'; do
+		print -n "$((++i))($value)bourne "
+		case $value in
+		}) echo brace ;;
+		*) echo no ;;
+		esac
+		print -n "$((++i))($value)korn "
+		case $value {
+		esac) echo esac ;;
+		*) echo no ;;
+		}
+	done
+expected-stdout:
+	1(x)bourne no
+	2(x)korn no
+	3(})bourne brace
+	4(})korn no
+	5(esac)bourne no
+	6(esac)korn esac
+---
 name: stateptr-underflow
 description:
 	This check overflows an Xrestpos stored in a short in R40
