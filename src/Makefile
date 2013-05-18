@@ -1,4 +1,4 @@
-# $MirOS: src/Makefile,v 1.38 2006/02/24 12:26:18 tg Exp $
+# $MirOS: src/Makefile,v 1.39 2006/04/10 21:18:23 tg Exp $
 # $OpenBSD: Makefile,v 1.103 2004/05/03 15:18:18 drahn Exp $
 
 .if defined(MAKECONF) && exists(${MAKECONF})
@@ -264,8 +264,16 @@ _do-dist:
 	-cd ${BSDRELDIR}/rel && ${SUDO} touch ${_INDEX_FILES} index.txt
 	-cd ${BSDRELDIR}/rel && /bin/ls -1 | ${SUDO} sort -uo index.txt
 	-cd ${BSDRELDIR}/rel && ${SUDO} rm -f ${_INDEX_FILES}
+.for _i in ${_INDEX_FILES:M*.ngz}
+	test ! -e ${BSDSRCDIR}/${_i} || \
+	    ${SUDO} ln -s ${BSDSRCDIR}/${_i} ${BSDRELDIR}/rel/
+.endfor
 	-cd ${BSDRELDIR}/rel && cksum * | ${SUDO} sort -k3 -uo CKSUM
 	-cd ${BSDRELDIR}/rel && rmd160 !(CKSUM) | ${SUDO} sort -uo RMD160
+	-gzip -n9 <${BSDRELDIR}/rel/RMD160 >${HOME}/RMD160.gz
+	# pad for gzsig(1) application later on
+	-dd if=/dev/zero bs=768 count=1 >>${HOME}/RMD160.gz
+	-${SUDO} mv ${HOME}/RMD160.gz ${BSDRELDIR}/rel/
 	@echo "============================================================"
 	@echo Done with MirOS Build.
 	@date
