@@ -1,4 +1,4 @@
-# $MirOS: src/Makefile,v 1.60 2006/07/01 00:48:20 tg Exp $
+# $MirOS: src/Makefile,v 1.61 2006/07/02 18:17:38 tg Exp $
 # $OpenBSD: Makefile,v 1.103 2004/05/03 15:18:18 drahn Exp $
 
 .if defined(MAKECONF) && exists(${MAKECONF})
@@ -146,13 +146,13 @@ base-distinstall:
 dist-q:
 	cd ${.CURDIR} && exec /usr/bin/env -i MAKEFLAGS=${MFLAGS:Q} \
 	    HOME=$$(/usr/bin/mktemp -d /var/tmp/buildhome.XXXXXXXXXX) \
-	    PATH=/bin:/usr/bin:/sbin:/usr/sbin:/usr/X11R6/bin \
+	    PATH=/bin:/usr/bin:/sbin:/usr/sbin:/usr/X11R6/bin TZ=UTC \
 	    ${MAKE} BATCH=1 _do-dist 2>&1 | tee -a ${.CURDIR}/Build.log
 
 dist:
 	cd ${.CURDIR} && exec /usr/bin/env -i MAKEFLAGS=${MFLAGS:Q} \
 	    HOME=$$(/usr/bin/mktemp -d /var/tmp/buildhome.XXXXXXXXXX) \
-	    PATH=/bin:/usr/bin:/sbin:/usr/sbin:/usr/X11R6/bin \
+	    PATH=/bin:/usr/bin:/sbin:/usr/sbin:/usr/X11R6/bin TZ=UTC \
 	    ${MAKE} _do-dist 2>&1 | tee -a ${.CURDIR}/Build.log
 
 .ifdef QUICK_DIST
