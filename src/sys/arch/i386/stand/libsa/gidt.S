@@ -1,4 +1,4 @@
-/*	$MirOS: src/sys/arch/i386/stand/libsa/gidt.S,v 1.12 2009/01/10 12:09:26 tg Exp $ */
+/*	$MirOS: src/sys/arch/i386/stand/libsa/gidt.S,v 1.13 2009/01/10 12:10:39 tg Exp $ */
 /*	$OpenBSD: gidt.S,v 1.32 2006/12/26 19:30:44 tom Exp $	*/
 
 /*
@@ -506,14 +506,6 @@ Ltcend:	pop	si		/* offset Ltcbeg */
 	mov	cx,offset Ltcend - offset Ltcbeg
 	rep	movsb
 	lret			/* temporary CS:IP (0000:0610h) on stack */
-
-	.code32
-	.globl	_ASM_LABEL(pmm_leave)
-pmm_leave:
-	.att_syntax
-	prot2real
-	.intel_syntax noprefix
-	jmp	bx
 
 /*-
  * Switch from protected mode to real mode.
