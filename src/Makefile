@@ -1,6 +1,9 @@
-# $MirOS: src/Makefile,v 1.28 2005/12/21 19:26:58 tg Exp $
+# $MirOS: src/Makefile,v 1.29 2005/12/22 01:12:33 tg Exp $
 # $OpenBSD: Makefile,v 1.103 2004/05/03 15:18:18 drahn Exp $
 
+.if defined(MAKECONF) && exists(${MAKECONF})
+.  error MAKECONF is set to '${MAKECONF}', you don't want this!
+.endif
 .include <bsd.own.mk>
 .include "Makefile.inc"
 NOMAN?=	no
