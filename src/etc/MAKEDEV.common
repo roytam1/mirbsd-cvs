@@ -1,4 +1,4 @@
-vers(a, {-$MirOS: src/etc/MAKEDEV.common,v 1.8 2007/02/02 16:45:10 tg Exp $-})dnl
+vers(a, {-$MirOS: src/etc/MAKEDEV.common,v 1.9 2008/06/27 21:02:22 tg Exp $-})dnl
 vers(a, {-$OpenBSD: MAKEDEV.common,v 1.19 2005/06/29 18:23:26 todd Exp $-})dnl
 divert(1)dnl
 dnl
@@ -124,7 +124,6 @@ target(all, systrace)dnl
 target(all, pctr)dnl
 target(all, pctr0)dnl
 target(all, pf)dnl
-twrget(all, cry, crypto)dnl
 target(all, apm)dnl
 dnl #notyet#target(all, acpi)dnl
 twrget(all, tth, ttyh, 0, 1)dnl
@@ -474,8 +473,6 @@ _mkdev(fdesc, fd, {-RMlist="mkdir -p fd;$RMlist" n=0
 __devitem(grf_mac, grf*, Raw interface to the mac68k graphics devices,grf)dnl
 __devitem(oppr, openprom,PROM settings,openprom)dnl
 _cdev(oppr, openprom, 70, 0)dnl
-__devitem(cry, crypto, Hardware crypto access driver,crypto)dnl
-_mkdev(cry, crypto, {-M crypto c major_cry_c-} 0)dnl
 __devitem(pf, pf*, Packet Filter)dnl
 _mkdev(pf, {-pf*-}, {-M pf c major_pf_c 0 600-})dnl
 __devitem(bpf, bpf*, Berkeley Packet Filter)dnl
