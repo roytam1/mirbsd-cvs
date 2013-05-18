@@ -203,6 +203,11 @@ device	uipaq: ucombus
 attach	uipaq at uhub
 file	dev/usb/uipaq.c			uipaq
 
+# Qualcomm MSM EVDO
+device	umsm: ucombus
+attach	umsm at uhub
+file	dev/usb/umsm.c			umsm
+
 # Scanners
 # Generic scanner support
 device	uscanner
