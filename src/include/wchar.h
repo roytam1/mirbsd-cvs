@@ -1,7 +1,7 @@
-/* $MirOS: src/include/wchar.h,v 1.17 2007/05/07 13:05:16 tg Exp $ */
+/* $MirOS: src/include/wchar.h,v 1.18 2007/06/16 21:05:13 tg Exp $ */
 
 /*-
- * Copyright (c) 2007
+ * Copyright (c) 2007, 2008
  *	Thorsten Glaser <tg@mirbsd.de>
  *
  * Provided that these terms and disclaimer and all copyright notices
@@ -53,8 +53,18 @@ typedef	__WINT_TYPE__	wint_t;
 
 typedef unsigned int wctype_t;
 typedef struct {
+	/*-
+	 * 0: initial state
+	 * 1: "value" contains one more octet worth of information
+	 * 2: "value" contains two more octets worth of information
+	 * 3: "value" is a magic state value, used internally
+	 */
 	unsigned int count:2;
-	unsigned int value:12;	/* 10 for mbstowcs, 12 for wcstombs */
+	/*-
+	 * 10 bits for mbstowcs(3)
+	 * 12 bits for wcstombs(3)
+	 */
+	unsigned int value:12;
 } __attribute__((packed)) mbstate_t;
 
 #undef WCHAR_MIN
