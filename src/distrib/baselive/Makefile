@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/baselive/Makefile,v 1.22 2007/07/11 16:08:55 tg Exp $
+# $MirOS: src/distrib/baselive/Makefile,v 1.23 2007/07/15 20:48:38 tg Exp $
 
 .include <bsd.own.mk>
 
@@ -73,6 +73,8 @@ ${IMAGE}:
 	cd ${TMPMOUNT} && ${SUDO} ${MKSH} MAKEDEV all
 	-${SUDO} dd if=/dev/arandom bs=512 count=4 of=${TMPMOUNT}/.rs
 	${SUDO} makefs -s ${IMAGESIZE}b -o ${IMAGEOPTS} ${IMAGE} ${TMPMOUNT}
+	${SUDO} dd if=/dev/arandom bs=512 count=1 of=$@ conv=notrunc
+	sync
 	${SUDO} vnconfig -v -c ${VND} ${IMAGE}
 	${SUDO} disklabel -w ${RAWLABEL} ${VND} ${IMAGETYPE}
 	${SUDO} mount -r ${VND_DEV} ${TMPMOUNT}
@@ -84,7 +86,6 @@ ${IMAGE}:
 	${SUDO} fsck -fy ${VND_RDEV}
 	${SUDO} vnconfig -v -u ${VND}
 	${SUDO} rm -rf ${TMPMOUNT}
-	${SUDO} dd if=/dev/arandom bs=512 count=1 of=$@ conv=notrunc
 
 addcontrib:
 	@if [[ ! -s ${BSDSRCDIR}/contrib/code/jupp/jupprc ]]; then \
