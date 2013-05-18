@@ -1,4 +1,4 @@
-# $MirOS: src/share/doc/legal/Makefile,v 1.8 2009/06/29 17:55:18 tg Exp $
+# $MirOS: src/share/doc/legal/Makefile,v 1.9 2009/08/30 14:16:30 tg Exp $
 
 BINDIR=		${DOCDIR}/legal
 NROFF=		nrcon -e ${MACROS} ${PAGES}
@@ -9,7 +9,8 @@ NOPROG=		Yes
 NOMAN=		Yes
 GENFS=		LICENCE-BSD.0 LICENCE-BSD
 ROFFS=		lbsd-adc.mdoc lbsd-adv.mdoc lbsd-ansi.mdoc lbsd-caldera.mdoc \
-		lbsd-darpa.mdoc lbsd-ieee.mdoc lbsd-ucb.mdoc lbsd.mdoc
+		lbsd-darpa.mdoc lbsd-ieee.mdoc lbsd-mnbsd.mdoc lbsd-ucb.mdoc \
+		lbsd.mdoc
 MACROS=		-mdoc
 CLEANFILES+=	${GENFS} grml.0 grml bsd4me.0 bsd4me
 
@@ -40,6 +41,6 @@ beforeinstall:
 	cd ${.CURDIR} && install -c -o ${DOCOWN} -g ${DOCGRP} -m ${DOCMODE} \
 	    ${FILES} ${DESTDIR}${BINDIR}/
 	install -c -o ${DOCOWN} -g ${DOCGRP} -m ${DOCMODE} LICENCE-BSD \
-	    ${DESTDIR}${BINDIR}/LICENCE-BSD 
+	    ${DESTDIR}${BINDIR}/LICENCE-BSD
 
 .include <bsd.prog.mk>
