@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.271 2009/12/28 14:55:12 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.272 2010/01/09 18:34:00 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -1241,12 +1241,13 @@ IGNORE+=		"is marked as broken: ${BROKEN}"
 .  endif
 .  if defined(ONLY_FOR_PLATFORM)
 __OK!=	ok=0; \
+	set -o noglob; \
 	for match in ${ONLY_FOR_PLATFORM}; do \
 		saveIFS=$$IFS; \
 		IFS=:; set -A s -- $$match; \
 		IFS=$$saveIFS; \
-		[[ $${s[0]} = ${OStype} ]] || continue; \
-		[[ $${s[2]} = @(${ARCH}|${MACHINE_ARCH}) ]] || continue; \
+		[[ $${s[0]} = @(\*|${OStype}) ]] || continue; \
+		[[ $${s[2]} = @(\*|${ARCH}|${MACHINE_ARCH}) ]] || continue; \
 		if [[ $${s[1]} = *.* ]]; then \
 			saveIFS=$$IFS; \
 			IFS=.; set -A sv -- $${s[1]}; \
@@ -1256,7 +1257,7 @@ __OK!=	ok=0; \
 				(( $${sv[1]} <= ${OSver:E} )) || continue; \
 			fi; \
 		else \
-			[[ $${s[1]} = ${OSREV} ]] || continue; \
+			[[ $${s[1]} = @(\*|${OSREV}) ]] || continue; \
 		fi; \
 		ok=1; \
 		break; \
@@ -1273,6 +1274,7 @@ IGNORE+=		"is only for ${ONLY_FOR_PLATFORM}, not ${OStype}:${OSver}:${ARCH} (${M
 .  endif
 .  if defined(NOT_FOR_PLATFORM)
 __OK!=	ok=1; \
+	set -o noglob; \
 	test="${OStype}:${OSREV}:${ARCH} ${OStype}:${OSREV}:${MACHINE_ARCH}"; \
 	for match in ${NOT_FOR_PLATFORM}; do \
 		for platform in $$test; do \
