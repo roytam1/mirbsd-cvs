@@ -1,5 +1,5 @@
 #if defined(VARSPEC_DEFNS)
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/bin/mksh/var_spec.h,v 1.1 2009/09/26 03:40:03 tg Exp $");
 #define FN(name)			/* nothing */
 #elif defined(VARSPEC_ENUMS)
 #define FN(name)			V_##name,
@@ -12,6 +12,8 @@ __RCSID("$MirOS$");
 #ifndef F0
 #define F0 FN
 #endif
+
+/* NOTE: F0 are skipped for the ITEMS array, only FN generate names */
 
 /* 0 is always V_NONE */
 F0(NONE)
