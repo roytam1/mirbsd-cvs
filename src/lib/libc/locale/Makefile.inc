@@ -28,4 +28,7 @@ MLINKS+=setlocale.3 localeconv.3 \
 	iswalnum.3 iswxdigit.3 \
 	towlower.3 towupper.3
 
+MLINKS+=mbsrtowcs.3 mbsnrtowcs.3
+MLINKS+=wcsrtombs.3 wcsnrtombs.3
+
 CFLAGS+=-I${.CURDIR}

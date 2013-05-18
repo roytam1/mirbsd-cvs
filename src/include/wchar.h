@@ -1,4 +1,4 @@
-/* $MirOS: src/include/wchar.h,v 1.9 2006/07/03 16:14:41 tg Exp $ */
+/* $MirOS: src/include/wchar.h,v 1.10 2006/10/28 18:53:35 tg Exp $ */
 
 #ifndef	_WCHAR_H_
 #define	_WCHAR_H_
@@ -53,6 +53,10 @@ size_t	mbrtowc(wchar_t *__restrict__, const char *__restrict__, size_t,
 	    mbstate_t *__restrict__);
 int	mbsinit(const mbstate_t *);
 size_t	mbslen(const char *);
+#if __OPENBSD_VISIBLE || (defined(_GNU_SOURCE) && !defined(__STRICT_ANSI__))
+size_t	mbsnrtowcs(wchar_t *__restrict__, const char **__restrict__,
+	    size_t, size_t, mbstate_t *__restrict__);
+#endif
 size_t	mbsrtowcs(wchar_t *__restrict__, const char **__restrict__, size_t,
 	    mbstate_t *__restrict__);
 wint_t	putwc(wchar_t, FILE *);
@@ -76,6 +80,10 @@ int	wcsncasecmp(const wchar_t *, const wchar_t *, size_t);
 wchar_t	*wcsncat(wchar_t *__restrict__, const wchar_t *__restrict__, size_t);
 int	wcsncmp(const wchar_t *, const wchar_t *, size_t);
 wchar_t	*wcsncpy(wchar_t *__restrict__, const wchar_t *__restrict__, size_t);
+#if __OPENBSD_VISIBLE || (defined(_GNU_SOURCE) && !defined(__STRICT_ANSI__))
+size_t	wcsnrtombs(char *__restrict__, const wchar_t **__restrict__,
+	    size_t, size_t, mbstate_t *__restrict__);
+#endif
 wchar_t	*wcspbrk(const wchar_t *, const wchar_t *);
 wchar_t	*wcsrchr(const wchar_t *, wchar_t);
 size_t	wcsrtombs(char *__restrict__, const wchar_t **__restrict__, size_t,

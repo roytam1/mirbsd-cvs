@@ -1,4 +1,4 @@
-/* $MirOS: src/lib/libc/i18n/mbsrtowcs.c,v 1.4 2006/11/01 20:01:19 tg Exp $ */
+/* $MirOS: src/lib/libc/i18n/mbsrtowcs.c,v 1.6 2006/11/19 22:05:11 tg Exp $ */
 
 /*-
  * Copyright (c) 2006
@@ -30,11 +30,17 @@
 
 #include "mir18n.h"
 
-__RCSID("$MirOS: src/lib/libc/i18n/mbsrtowcs.c,v 1.4 2006/11/01 20:01:19 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/i18n/mbsrtowcs.c,v 1.6 2006/11/19 22:05:11 tg Exp $");
 
+#ifdef MBSNRTOWCS
+size_t
+mbsnrtowcs(wchar_t *__restrict__ dst, const char **__restrict__ src,
+    size_t max, size_t len, mbstate_t *__restrict__ ps)
+#else
 size_t
 mbsrtowcs(wchar_t *__restrict__ dst, const char **__restrict__ src,
     size_t len, mbstate_t *__restrict__ ps)
+#endif
 {
 	static mbstate_t internal_mbstate = { 0, 0 };
 	const unsigned char *s = (const unsigned char *)(*src);
@@ -55,6 +61,19 @@ mbsrtowcs(wchar_t *__restrict__ dst, const char **__restrict__ src,
 	}
 
  conv_first:
+#ifdef MBSNRTOWCS
+	if (s >= (*(const unsigned char **)src + max)) {
+		/* wc is unimportant here since count == 0 */
+ empty_buf:
+		if (dst != NULL) {
+			/* ps is only updated if we really write! */
+			ps->count = count;
+			ps->value = wc >> 6;
+			*src = (const char *)s;
+		}
+		return (d - dst);
+	}
+#endif
 	wc = *s++;
 	if (__predict_true(!__locale_is_utf8 || (wc < 0x80))) {
 		if (__predict_false(wc > MIR18N_SB_CVT)) {
@@ -80,6 +99,10 @@ mbsrtowcs(wchar_t *__restrict__ dst, const char **__restrict__ src,
 
  conv_state:
 	while (__predict_false(count)) {
+#ifdef MBSNRTOWCS
+		if (s >= (*(const unsigned char **)src + max))
+			goto empty_buf;	/* here, we store wc and count */
+#endif
 		if (((c = *s++) & 0xC0) != 0x80)
 			goto ilseq;
 		c &= 0x3F;

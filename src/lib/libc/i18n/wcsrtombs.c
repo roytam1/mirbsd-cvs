@@ -1,4 +1,4 @@
-/* $MirOS: src/lib/libc/i18n/wcsrtombs.c,v 1.2 2006/06/03 13:25:06 tg Exp $ */
+/* $MirOS: src/lib/libc/i18n/wcsrtombs.c,v 1.3 2006/11/01 20:01:20 tg Exp $ */
 
 /*-
  * Copyright (c) 2006
@@ -30,11 +30,17 @@
 
 #include "mir18n.h"
 
-__RCSID("$MirOS: src/lib/libc/i18n/wcsrtombs.c,v 1.2 2006/06/03 13:25:06 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/i18n/wcsrtombs.c,v 1.3 2006/11/01 20:01:20 tg Exp $");
 
+#ifdef WCSNRTOMBS
+size_t
+wcsnrtombs(char *__restrict__ dst, const wchar_t **__restrict__ src,
+    size_t max, size_t len, mbstate_t *__restrict__ ps)
+#else
 size_t
 wcsrtombs(char *__restrict__ dst, const wchar_t **__restrict__ src,
     size_t len, mbstate_t *__restrict__ ps)
+#endif
 {
 	static mbstate_t internal_mbstate = { 0, 0 };	/* if ps == NULL */
 	const wchar_t *s = *src;
@@ -61,6 +67,10 @@ wcsrtombs(char *__restrict__ dst, const wchar_t **__restrict__ src,
 
  process_firstbyte:
 	/* count is zero here; devour an input wide character */
+#ifdef WCSNRTOMBS
+	if (s >= (*src + max))
+		goto empty_buf;
+#endif
 	wc = *s++;
 	/* create the first output byte and state information from it */
 	if (__predict_false(wc > wc_max)) {
@@ -104,6 +114,9 @@ wcsrtombs(char *__restrict__ dst, const wchar_t **__restrict__ src,
 			/* loop on to the next full input wide character */
 			goto process_firstbyte;
 
+#ifdef WCSNRTOMBS
+ empty_buf:
+#endif
 	if (dst != NULL) {
 		*src = s;
 		/* save state information for restarting */

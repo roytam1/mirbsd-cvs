@@ -1,4 +1,4 @@
-# $MirOS: src/lib/libc/i18n/Makefile.inc,v 1.20 2006/07/03 16:14:42 tg Exp $
+# $MirOS: src/lib/libc/i18n/Makefile.inc,v 1.21 2006/11/01 19:49:33 tg Exp $
 
 .PATH: ${LIBCSRCDIR}/i18n
 .PATH: ${LIBCSRCDIR}/locale
@@ -38,6 +38,9 @@ SRCS+=	wctomb.c
 SRCS+=	wctrans.c
 SRCS+=	wctype.c
 SRCS+=	wcwidth.c
+
+SRCS+=	mbsnrtowcs.c
+SRCS+=	wcsnrtombs.c
 
 .for _i in alnum alpha blank cntrl digit graph lower print punct space upper \
     xdigit
