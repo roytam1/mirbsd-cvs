@@ -1,8 +1,8 @@
-# $MirOS: ports/devel/pcre/Makefile,v 1.6 2007/05/17 23:06:32 tg Exp $
+# $MirOS: ports/devel/pcre/Makefile,v 1.7 2007/05/17 23:09:36 tg Exp $
 # $OpenBSD: Makefile,v 1.12 2004/01/14 17:21:52 jakob Exp $
 
 COMMENT=		perl-compatible regular expression library
-DISTNAME=		pcre-7.1
+DISTNAME=		pcre-7.4
 CATEGORIES=		devel
 MASTER_SITES=		ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/ \
 			${MASTER_SITE_SOURCEFORGE:=pcre/}
