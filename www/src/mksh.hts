@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.317 2010/01/29 18:27:31 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.318 2010/02/14 19:28:04 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -864,6 +864,14 @@ mws_content <<'EOF'
   limits in a single invocation from oksh (thanks millert) -->
  <li>[ahoka] Begin porting to <a href="http://www.haiku-os.org/">Haiku</a>
   and, implicitly, BeOS (not finished yet)</li>
+ <li>[tg] Build system, ode and testsuite cleanup, also for style(9)</li>
+ <li>[tg] Build.sh now requires people to whitelist conftest*.c</li>
+ <li>[tg] AIX builds no longer pull in libcrypt uselessly by default</li>
+ <li>[tg] Parse and evaluate <tt>${parameter op word}</tt> correctly (NOT COMPLETE YET!)</li>
+ <li>[tg] Fix possible SIGSEGV in interactive mode <tt>bind</tt> builtin due
+  to mis-optimisation of gcc combined with a bogus prototype; discovered by
+  Grml's Frank Terbeck</li>
+ <li>[tg] Prevent Build.sh from accidentally removing <tt>mksh.1</tt></li>
 </ul>
 <p id="r39b">mksh R39b is a major stability and bugfix update:</p><ul>
  <li>[tg] Clean up some more strict *roff or compiler warnings: dashes,
