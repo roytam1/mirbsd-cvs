@@ -1,4 +1,4 @@
-/*	$MirOS: src/sys/arch/i386/stand/libsa/gidt.S,v 1.22 2009/01/11 22:27:17 tg Exp $ */
+/*	$MirOS: src/sys/arch/i386/stand/libsa/gidt.S,v 1.23 2009/01/11 23:08:08 tg Exp $ */
 /*	$OpenBSD: gidt.S,v 1.32 2006/12/26 19:30:44 tom Exp $	*/
 
 /*
@@ -446,6 +446,9 @@ Lp2r32:	.code16
 	mov	ax,S16DATA
 	mov	ds,ax
 	mov	es,ax
+	mov	fs,ax
+	mov	gs,ax
+	mov	ss,ax
 	/* disable protected mode */
 	mov	eax,cr0
 	and	eax,~CR0_PE
@@ -462,6 +465,8 @@ Lp2r16:	/* convert ESP to SS:SP */
 	mov	ax,cs
 	mov	ds,ax
 	mov	es,ax
+	mov	fs,ax
+	mov	gs,ax
 	/* load real mode IDT */
 	data32 addr32 lidt (Idtr_real - SA_LINKADDR)
 	ret
@@ -496,6 +501,8 @@ Lr2p32:	.code32
 	mov	eax,S32DATA
 	mov	ds,ax
 	mov	es,ax
+	mov	fs,ax
+	mov	gs,ax
 	mov	ss,ax
 	/* load protected mode IDT */
 	lidt	Idtr

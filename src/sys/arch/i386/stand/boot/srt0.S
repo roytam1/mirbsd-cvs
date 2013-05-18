@@ -1,4 +1,4 @@
-/* $MirOS: src/sys/arch/i386/stand/boot/srt0.S,v 1.60 2009/01/11 22:51:16 tg Exp $ */
+/* $MirOS: src/sys/arch/i386/stand/boot/srt0.S,v 1.61 2009/01/11 22:52:35 tg Exp $ */
 
 /*-
  * Copyright (c) 2003, 2004, 2005, 2006, 2007, 2008, 2009
@@ -326,10 +326,6 @@ Lstart:	call	idt_init
 	cli
 	call	real_to_prot
 Lsta32:	.code32
-	mov	ax,ds
-	mov	fs,ax
-	mov	gs,ax
-
 	/* zero out .bss section */
 	xor	eax,eax
 	mov	ecx,offset _end
