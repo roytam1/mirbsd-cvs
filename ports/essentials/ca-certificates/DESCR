@@ -13,7 +13,7 @@ mes employing OpenSSL will use the SSL_CERT_DIR en-
 vironment variable set thusly.
 
 Other programmes must be configured to set the cer-
-tificate store to ${PREFIX}/share/ca-certificates/
+tificate store to: ${PREFIX}/share/ca-certificates/
 
 Java™ programmes can use the “keystore.jks” file in
 the very same directory: -storepass ‘changeit’ – It
@@ -21,4 +21,5 @@ contains RSA, DSS and ECC certificates now. This is
 created with OpenJDK 6 and tested with Sun J2SDK 5.
 
 GnuTLS users and others requiring a single file set
-SSL_CERT_FILE to “pkbundle.pem” at the same location.
+the configuration/environment setting SSL_CERT_FILE
+to: ${PREFIX}/share/ca-certificates/pkbundle.pem

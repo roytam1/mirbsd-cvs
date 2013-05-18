@@ -1,4 +1,4 @@
-@comment $MirOS: ports/essentials/ca-certificates/PLIST,v 1.6 2010/12/12 16:17:29 tg Exp $
+@comment $MirOS: ports/essentials/ca-certificates/PLIST,v 1.7 2011/03/30 10:16:12 tg Exp $
 share/ca-certificates/-VERSION
 share/ca-certificates/00673b5b.0
 share/ca-certificates/02a57f7e.0
@@ -40,7 +40,6 @@ share/ca-certificates/1676090a.0
 share/ca-certificates/1689a10b.0
 share/ca-certificates/17b51fe6.0
 share/ca-certificates/18376275.0
-share/ca-certificates/18376275.1
 share/ca-certificates/1920cacb.0
 share/ca-certificates/197e0cd1.0
 share/ca-certificates/19899da5.0
@@ -310,7 +309,6 @@ share/ca-certificates/be143e53.0
 share/ca-certificates/bf64f35b.0
 share/ca-certificates/bf87590f.0
 share/ca-certificates/bfa5f89f.0
-share/ca-certificates/c0cafbd2.0
 share/ca-certificates/c19d42c7.0
 share/ca-certificates/c19d42c7.1
 share/ca-certificates/c1e65b0d.0
@@ -322,7 +320,6 @@ share/ca-certificates/c483e3b7.0
 share/ca-certificates/c51c224c.0
 share/ca-certificates/c527e4ab.0
 share/ca-certificates/c61efb68.0
-share/ca-certificates/c61efb68.1
 share/ca-certificates/c71aaf32.0
 share/ca-certificates/c7e2a638.0
 share/ca-certificates/c8763593.0
@@ -349,7 +346,6 @@ share/ca-certificates/d66b55d9.0
 share/ca-certificates/d777342d.0
 share/ca-certificates/d78a75c7.0
 share/ca-certificates/d8274e24.0
-share/ca-certificates/d8afe988.0
 share/ca-certificates/db65db21.0
 share/ca-certificates/dbc54cab.0
 share/ca-certificates/dcc12642.0

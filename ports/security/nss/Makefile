@@ -1,9 +1,9 @@
-# $MirOS: ports/security/nss/Makefile,v 1.4 2010/12/12 16:37:41 tg Exp $
+# $MirOS: ports/security/nss/Makefile,v 1.5 2011/03/30 10:28:10 tg Exp $
 
 COMMENT=		Network Security Services from the Mozilla project
 VERSION=		3.12.4
 MAJOR_VERSION=		3
-DASH_VER=		5
+DASH_VER=		6
 V=			${VERSION:S/./_/g}
 DISTNAME=		nss-${VERSION}
 CATEGORIES=		security devel
