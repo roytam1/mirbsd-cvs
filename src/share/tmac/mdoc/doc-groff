@@ -1,4 +1,4 @@
-.\" $MirOS: src/share/misc/licence.template,v 1.20 2006/12/11 21:04:56 tg Rel $
+.\" $MirOS: src/share/tmac/mdoc/doc-groff,v 1.1 2008/03/04 00:09:34 tg Exp $
 .\"-
 .\" Copyright (c) 2008
 .\"	Thorsten Glaser <tg@mirbsd.de>
@@ -43,7 +43,8 @@
 .	ds Rq \[rq]
 .	ds Lq \[lq]
 .\" sL is normally ', which renders to ’, but we want ‘
-.	ds sL `
+.\" in UTF-8 mode (ASCII and Latin1 modes just pass through)
+.	if \*[.T]utf8 .ds sL `
 .\" sR is normally ', which renders to ’, this is okay
 .\}
 .\"
