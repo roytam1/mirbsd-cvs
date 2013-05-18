@@ -1,5 +1,6 @@
 divert(-1)
 #
+# Copyright (c) 2009 Thorsten Glaser <t.glaser@tarent.de>
 # Copyright (c) 1998-2007 Sendmail, Inc. and its suppliers.
 #	All rights reserved.
 # Copyright (c) 1983, 1995 Eric P. Allman.  All rights reserved.
@@ -13,7 +14,8 @@ divert(-1)
 #
 divert(0)
 
-VERSIONID(`$Sendmail: proto.m4,v 8.734 2008/01/24 23:42:01 ca Exp $')
+dnl VERSIONID(`$Sendmail: proto.m4,v 8.734 2008/01/24 23:42:01 ca Exp $')
+VERSIONID(`$MirOS$')
 
 # level CF_LEVEL config file format
 V`'CF_LEVEL/ifdef(`VENDOR_NAME', `VENDOR_NAME', `Berkeley')
@@ -1458,9 +1460,16 @@ ifdef(`_LDAP_ROUTING_', `dnl
 # SMTP operation modes
 C{SMTPOpModes} s d D
 
+SLDAPSubst
+# substitute <foo|bar> with <bar> but leave <foo> intact
+R<$*>		$: <> <$(ldaprx $1 $: $)> <$1>
+R<><><$*>	$: <> <$1> <>
+R<><$*><$*>	$: <$1>
+
 SLDAPExpand
-# do the LDAP lookups
-R<$+><$+><$*>	$: <$(ldapmra $2 $: $)> <$(ldapmh $2 $: $)> <$1> <$2> <$3>
+# do the LDAP lookups, replacing mailHost "anything|hostname" with "hostname"
+R<$+><$+><$*>		$: <$(ldapmra $2 $: $)> <$1> <$2> <$3> $>LDAPSubst <$(ldapmh $2 $: $)>
+R<$*><$+><$+><$*><$*>	$: <$1> <$5> <$2> <$3> <$4>
 
 # look for temporary failures and...
 R<$* <TMPF>> <$*> <$+> <$+> <$*>	$: $&{opMode} $| TMPF <$&{addr_type}> $| $3
