@@ -1,10 +1,10 @@
-# $MirOS: ports/devel/soup/Makefile,v 1.6 2005/12/27 23:18:02 bsiegert Exp $
+# $MirOS: ports/devel/soup/Makefile,v 1.7 2006/02/09 09:35:50 tg Exp $
 # $OpenBSD: Makefile,v 1.4 2003/12/04 23:07:25 pvalchev Exp $
 
 COMMENT=		"SOAP (Simple Object Access Protocol) implementation in C"
 
 DISTNAME=		soup-0.7.11
-PKGNAME=		${DISTNAME}-3
+PKGNAME=		${DISTNAME}-4
 CATEGORIES=		devel
 
 HOMEPAGE=		http://www.gnome.org/
@@ -21,7 +21,7 @@ EXTRACT_SUFX=		.tar.bz2
 
 LIB_DEPENDS=		glib.1.2,gmodule.1.2::devel/glib1 \
 			popt::devel/popt \
-			xml2.6::textproc/libxml
+			xml2.2.6::textproc/libxml
 
 USE_GMAKE=		Yes
 CONFIGURE_STYLE=	autoconf
