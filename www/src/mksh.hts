@@ -2,7 +2,7 @@
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.148 2008/07/14 13:04:30 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.149 2008/07/14 14:40:48 tg Exp $'
 mws_content <<'EOF'
 <h1>mksh(1) R35</h1>
 <p>This is the website of the MirBSD™ Korn Shell, an actively developed free
@@ -792,6 +792,8 @@ mws_content <<'EOF'
  <li>Debian GNU/Linux 4.0 testing 2.6.24-1-686 (i386 gcc4.3.1-2 libc6-2.7-10 + dietlibc-0.31-1) via MirOS Debian package</li>
  <li style="list-style:none;">– tests by third parties (Build.sh) –</li>
  <li>MidnightBSD 0.1.1-RELEASE (amd64 gcc3.4.4-20050518), by Lucas Holt</li>
+ <li>HP OSF/1 V4.0F 1229 (alpha DEC C V5.9-005) <em>by Jupp Schugt</em></li>
+ <li>HP OSF/1 V4.0F 1229 (alpha gcc2.8.1 alpha-dec-osf4.0d) <em>by Jupp Schugt</em></li>
  <li>SGI IRIX64 6.5 (mips:R10K mipspro7.4.4m) <em>except</em> locale support, by Elias Pipping</li>
  <li>SGI IRIX64 6.5 (mips:R10K gcc3.4.1) <em>except</em> locale support, by Elias Pipping</li>
 </ul>
@@ -821,9 +823,6 @@ mws_content <<'EOF'
  <li>Debian GNU/Linux 4.0 etch 2.6.18-5-alpha-generic (alpha gcc4.1.1-21)</li>
  <li>Debian GNU/Linux 4.0 sid 2.6.22-2-powerpc (macppc gcc4.2.2-3)</li>
  <li>SuSE GNU/Linux SLES10 2.6.16.27-0.9-default (IA64 icc9.1.046-20070111)</li>
- <li style="list-style:none;">– tests by third parties (Build.sh) –</li>
- <li>HP OSF/1 V4.0F 1229 (alpha DEC C V5.9-005) <em>by Jupp Schugt</em></li>
- <li>HP OSF/1 V4.0F 1229 (alpha gcc2.8.1 alpha-dec-osf4.0d) <em>by Jupp Schugt</em></li>
 </ul>
 <h3 id="regress_old">Older Releases</h3>
 <ul>
@@ -970,6 +969,7 @@ mws_content <<'EOF'
   by Elias Pipping, patch by Jared Yanovich, help from Todd C. Miller</li>
  <li>Protect a little against people not running “./test.sh -v” but calling
   it with, for instance, GNU bash (as homsn did…)</li>
+ <li>Honour <tt>$PERL</tt> environment variable in test.sh, improve scan</li>
 </ul>
 <p id="r35">mksh R35 comes with helluva changes:</p><ul>
   <li>Simplify and refactor the ulimit builtin, partially from oksh</li>
