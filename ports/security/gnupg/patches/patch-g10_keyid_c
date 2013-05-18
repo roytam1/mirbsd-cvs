@@ -1,7 +1,7 @@
-$MirOS: ports/security/gnupg/patches/patch-g10_keyid_c,v 1.1 2006/09/11 01:02:03 tg Exp $
---- g10/keyid.c.orig	Tue Dec 20 17:24:09 2005
-+++ g10/keyid.c	Sun Mar 11 20:14:50 2007
-@@ -450,8 +450,8 @@ mk_datestr (char *buffer, time_t atime)
+$MirOS: ports/security/gnupg/patches/patch-g10_keyid_c,v 1.2 2007/03/11 20:41:15 tg Exp $
+--- g10/keyid.c.orig	Tue Oct 23 07:50:11 2007
++++ g10/keyid.c	Tue Apr  1 15:22:23 2008
+@@ -448,8 +448,8 @@ mk_datestr (char *buffer, time_t atime)
          strcpy (buffer, "????" "-??" "-??"); /* mark this as invalid */
      else {
          tp = gmtime (&atime);

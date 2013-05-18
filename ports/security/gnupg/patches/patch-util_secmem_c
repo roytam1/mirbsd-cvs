@@ -1,7 +1,7 @@
-$MirOS$
---- util/secmem.c.orig	Mon Jul 31 09:32:34 2006
-+++ util/secmem.c	Mon Sep 11 00:41:33 2006
-@@ -37,6 +37,15 @@
+$MirOS: ports/security/gnupg/patches/patch-util_secmem_c,v 1.1 2006/09/11 01:02:04 tg Exp $
+--- util/secmem.c.orig	Tue Oct 23 07:55:08 2007
++++ util/secmem.c	Tue Apr  1 15:22:25 2008
+@@ -36,6 +36,15 @@
  #include <sys/lock.h>
  #endif
  #endif
@@ -17,7 +17,7 @@ $MirOS$
  
  #include "types.h"
  #include "memory.h"
-@@ -92,6 +101,19 @@ static int suspend_warning;
+@@ -91,6 +100,19 @@ static int suspend_warning;
  static void
  print_warn(void)
  {

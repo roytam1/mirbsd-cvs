@@ -1,9 +1,8 @@
-# $MirOS: ports/security/gnupg/Makefile,v 1.18 2007/04/13 19:27:22 bsiegert Exp $
+# $MirOS: ports/security/gnupg/Makefile,v 1.19 2008/03/09 17:23:29 tg Exp $
 # $OpenBSD: Makefile,v 1.52 2005/05/17 15:08:34 martin Exp $
 
 COMMENT=		GNU privacy guard - PGP replacement under GPL
-VERSION=		1.4.7
-DISTNAME=		gnupg-${VERSION}
+DISTNAME=		gnupg-1.4.9
 CATEGORIES=		security
 HOMEPAGE=		http://www.gnupg.org/
 MASTER_SITES=		http://ftp.gnupg.org/gcrypt/gnupg/ \
@@ -23,11 +22,22 @@ PERMIT_DISTFILES_FTP=	Yes
 PERMIT_PACKAGE_CDROM=	Yes
 PERMIT_PACKAGE_FTP=	Yes
 
+.include <mirports.sys.mk>
+
+.if ${MACHINE_OS} == "BSD"
+.  if ${MACHINE_ARCH} == "sparc"
+GPG_USE_LIBUSB=		No
+.  endif
+.endif
+GPG_USE_LIBUSB?=	Yes
+
 MODULES+=		converters/libiconv
 LIB_DEPENDS+=		bz2::archivers/bzip2
+.if ${GPG_USE_LIBUSB:L} == "yes"
+USE_CXX=		Yes
 LIB_DEPENDS+=		usb::devel/libusb
+.endif
 B_R_DEPENDS+=		::archivers/mircpio
-USE_CXX=		Yes # depends on libusb, which uses CXX
 CONFIGURE_STYLE=	autogen
 AUTOCONF_NEW=		Yes
 AUTOMAKE_VERSION=	1.9
@@ -42,11 +52,11 @@ CONFIGURE_ARGS+=	--enable-static-rnd=linux \
 			--without-libcurl \
 			--without-included-regex \
 			--with-tar=${LOCALBASE:Q}/bin/tar
-.if ${MACHINE_ARCH} == "m68k"
-CONFIGURE_ARGS+=	--disable-asm
-.endif
 # libedit is *not* enough here.
 CONFIGURE_ARGS+=	--without-readline
+.if ${GPG_USE_LIBUSB:L} == "no"
+CONFIGURE_ARGS+=	--disable-card-support
+.endif
 
 .if ${MACHINE_OS} == "BSD"
 # cought by systrace
@@ -54,8 +64,6 @@ CONFIGURE_ENV+=		gnupg_cv_ipc_rmid_deferred_release=no
 .endif
 
 FLAVOURS=		no_idea
-
-.include <mirports.sys.mk>
 
 .if ${MKC_USAP:L} == "yes"
 FLAVOUR?=		no_idea

@@ -1,7 +1,7 @@
-$MirOS: ports/security/gnupg/patches/patch-util_miscutil_c,v 1.1 2006/09/11 01:02:04 tg Exp $
---- util/miscutil.c.orig	Mon Oct  2 12:07:00 2006
-+++ util/miscutil.c	Sun Mar 11 20:15:29 2007
-@@ -125,8 +125,8 @@ strtimestamp( u32 stamp )
+$MirOS: ports/security/gnupg/patches/patch-util_miscutil_c,v 1.2 2007/03/11 20:41:16 tg Exp $
+--- util/miscutil.c.orig	Tue Oct 23 07:55:08 2007
++++ util/miscutil.c	Tue Apr  1 15:22:24 2008
+@@ -123,8 +123,8 @@ strtimestamp( u32 stamp )
      }
      else {
          tp = gmtime( &atime );
@@ -12,7 +12,7 @@ $MirOS: ports/security/gnupg/patches/patch-util_miscutil_c,v 1.1 2006/09/11 01:0
      }
      return buffer;
  }
-@@ -147,8 +147,8 @@ isotimestamp (u32 stamp)
+@@ -145,8 +145,8 @@ isotimestamp (u32 stamp)
      }
      else {
          tp = gmtime( &atime );
