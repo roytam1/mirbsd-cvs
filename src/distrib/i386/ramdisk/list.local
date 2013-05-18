@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/i386/ramdisk/list.local,v 1.5 2005/07/14 22:02:13 tg Exp $
+# $MirOS: src/distrib/i386/ramdisk/list.local,v 1.6 2005/07/14 22:26:47 tg Exp $
 
 # extra
 
@@ -42,7 +42,6 @@ COPY	${CURDIR}/../../miniroot/login.conf	etc/login.conf
 COPY	${DESTDIR}/etc/ssh/ssh_config		etc/ssh/ssh_config
 
 SPECIAL	sed 's!^.*rmitRootLogi.*!PermitRootLogin yes!' <${DESTDIR}/etc/ssh/sshd_config >etc/ssh/sshd_config
-SPECIAL	echo /bin/mksh >etc/shells
 SPECIAL	sed 's!^root.*!root:x:0:0:daemon:0:0:MirOS Ramdisk Root:/:/bin/mksh!' <${DESTDIR}/etc/master.passwd >etc/master.passwd
 
 SPECIAL	/usr/sbin/pwd_mkdb -d ./etc /etc/master.passwd

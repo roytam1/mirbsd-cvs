@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/distrib/miniroot/install.sh,v 1.7 2005/12/15 00:51:18 tg Exp $
+# $MirOS: src/distrib/miniroot/install.sh,v 1.8 2005/12/18 01:55:45 tg Exp $
 # $OpenBSD: install.sh,v 1.152 2005/04/21 21:41:33 krw Exp $
 # $NetBSD: install.sh,v 1.5.2.8 1996/08/27 18:15:05 gwr Exp $
 #
@@ -393,7 +393,7 @@ while :; do
 
 	if (( (_rootuid < 1000) || (_rootuid > 32765) )); then
 		print UID mismatch, must be between 1000 and 32765.
-	elif [[ $resp != $pass ]]; then
+	elif [[ $resp != $_password ]]; then
 		print Passwords do not match.
 	elif [[ $_rootuser != *([a-z]) ]]; then
 		print Username is not alphabetic.
@@ -465,13 +465,14 @@ $_rootuser:*:$_rootuid:
 .
 wq
 EOF
-print "/^@ROOT@/s//$_rootuser\nwq" | ed -s /mnt/etc/sudoers
+print "/^@ROOT@/s//$_rootuser/\nwq" | ed -s /mnt/etc/sudoers
 cp -r /mnt/etc/skel /mnt/home/$_rootuser
 chmod 711 /mnt/home/$_rootuser
 chown -R $_rootuid:$_rootuid /mnt/home/$_rootuser
+/mnt/usr/sbin/pwd_mkdb -pd /mnt/etc master.passwd
 
-echo "done.\nGenerating initial host.random file..."
-dd if=/dev/urandom of=/mnt/var/db/host.random bs=1024 count=64
+echo -n "done.\nGenerating initial host.random file..."
+dd if=/dev/urandom of=/mnt/var/db/host.random bs=1024 count=64 >/dev/null 2>&1
 chmod 600 /mnt/var/db/host.random
 echo "done."
 
