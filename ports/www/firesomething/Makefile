@@ -1,10 +1,10 @@
-# $MirOS: ports/www/firesomething/Makefile,v 1.26 2008/05/21 06:31:02 bsiegert Exp $
+# $MirOS: ports/www/firesomething/Makefile,v 1.27 2008/05/21 12:23:23 tg Exp $
 # $OpenBSD: Makefile,v 1.41 2005/11/15 09:21:52 wilfried Exp $
 
 ONLY_FOR_PLATFORM=	*:*:alpha *:*:i386 *:*:sparc *:*:sparc64 *:*:amd64 *:*:powerpc
 COMMENT=		one of the successors to the Netscape browser engine
-VER=			2.0.0.13
-DASH_VER=		1
+VER=			2.0.0.14
+DASH_VER=		0
 DISTNAME=		mozilla
 PKGNAME=		firesomething-${VER}-${DASH_VER}
 CATEGORIES=		www
