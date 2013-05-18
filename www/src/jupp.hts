@@ -1,11 +1,11 @@
-# $MirOS: www/src/jupp.hts,v 1.16 2009/08/08 14:24:19 tg Exp $
+# $MirOS: www/src/jupp.hts,v 1.17 2009/08/10 15:53:07 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/juppp "jupp – Programmer’s Editor"
 mws_setheadline jupp – the Editor which sucks less
-mws_putheader '$MirOS: www/src/jupp.hts,v 1.16 2009/08/08 14:24:19 tg Exp $'
+mws_putheader '$MirOS: www/src/jupp.hts,v 1.17 2009/08/10 15:53:07 tg Exp $'
 mws_content <<'EOF'
 <p>The current version is <em>joe-2.8jupp1</em> for MS-DOS® compatible systems,
  and <em>joe-3.1jupp11</em> for Unix/GNU compatible systems. This page is
@@ -149,6 +149,15 @@ $ $SUDO make install</pre>
     <li>TIGER (JDOS281.EXE) = 865eca8722492422493f849546074cdbb16b8e7f18df071a</li>
     <li>1316941124 105360 /MirOS/dist/jupp/JDOS281.EXE</li>
     <li>MD5 (JDOS281.EXE) = 382ff7d173fdb18553f96c6e5cdff2db</li>
+  </ul></li>
+  <li>JOE 2.8jupp1 (released 20090718) for MS-DOS® and Unix: bundle of
+   the <tt>*rc</tt> files, self-extracting LHarc archive. Download:<ul>
+    <li><a href="https://www.mirbsd.org/MirOS/dist/jupp/JxRC281.EXE">https://www.mirbsd.org/MirOS/dist/jupp/JxRC281.EXE</a></li>
+    <li><a href="http://pub.allbsd.org/MirOS/dist/jupp/JxRC281.EXE">http://pub.allbsd.org/MirOS/dist/jupp/JxRC281.EXE</a></li>
+    <li>RMD160 (JxRC281.EXE) = c8b85b9edd1115ac4ac2e15042dd8d0a86618d20</li>
+    <li>TIGER (JxRC281.EXE) = 6b88c72fa8750cd7cafb68182da3ebff429a68b42efe8ad0</li>
+    <li>2084697129 35728 /MirOS/dist/jupp/JxRC281.EXE</li>
+    <li>MD5 (JxRC281.EXE) = 540870f1598ea3a4a9d4e688092f92f6</li>
   </ul></li>
  </ul></li>
 </ul>
