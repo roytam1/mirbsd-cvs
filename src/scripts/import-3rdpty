@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/scripts/import-3rdpty,v 1.13 2005/07/23 15:05:46 tg Exp $
+# $MirOS: src/scripts/import-3rdpty,v 1.14 2005/07/24 13:11:06 tg Exp $
 #-
 # Copyright (c) 2004, 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -23,7 +23,7 @@
 # rect or other, however caused, arising in any way out of the usage
 # of this work, even if advised of the possibility of such damage.
 
-print -r -- '========= $MirOS: src/scripts/import-3rdpty,v 1.13 2005/07/23 15:05:46 tg Exp $ ========='
+print -r -- '========= $MirOS: src/scripts/import-3rdpty,v 1.14 2005/07/24 13:11:06 tg Exp $ ========='
 
 ignlist=0
 force=0
@@ -305,10 +305,12 @@ openbsd)
 		distrib/alpha \
 		distrib/amd64 \
 		distrib/cats \
+		distrib/common/rdsetroot.c,v \
 		distrib/crunch \
 		distrib/hp300 \
 		distrib/hppa \
 		distrib/hppa64 \
+		distrib/i386/Makefile.inc,v \
 		distrib/i386/cdfs \
 		distrib/i386/cdfs-emu \
 		distrib/i386/ramdiskA \
@@ -325,8 +327,11 @@ openbsd)
 		distrib/sets \
 		distrib/sgi \
 		distrib/sparc64 \
+		distrib/special/ccdconfig \
 		distrib/special/gzip \
 		distrib/special/ifconfig \
+		distrib/special/kbd \
+		distrib/special/rsh \
 		distrib/vax \
 		distrib/zaurus \
 		etc/afs \
