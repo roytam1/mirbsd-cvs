@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/share/misc/licence.template,v 1.4 2005/12/15 02:46:54 tg Rel $
+# $MirOS: ports/infrastructure/scripts/mkspk,v 1.1 2005/12/17 04:05:27 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@mirbsd.de>
@@ -25,6 +25,8 @@
 # the possibility of such damage or existence of a nontrivial bug.
 #-
 # Make a system package out of a port.
+
+export PATH=/bin:/usr/bin:/sbin:/usr/sbin:/usr/X11R6/bin _PORTPATH=$PATH
 
 me=${0##*/}
 curdir=$(readlink -fn .)
@@ -56,14 +58,16 @@ mk="$mk -m $pp/infrastructure/install"
 
 export PORTSDIR=$pp LOCALBASE=/usr SYSCONFDIR=/etc X11BASE=/usr/X11R6
 export PREFIX=/usr PKG_CMDDIR=/usr/db/sbin PKGREPOSITORY=$curdir/mkspk-$$
-unset MAKECONF BINOWN BINGRP SUDO
-mkdir -p /usr/db/{pkg,sbin} $PKGREPOSITORY $curdir/mkspk-$$-tmp
+unset MAKECONF BINOWN BINGRP
+$SUDO mkdir -p /usr/db/{pkg,sbin}
+mkdir -p $PKGREPOSITORY $curdir/mkspk-$$-tmp $curdir/mkspk
 
 cd $curdir/mkspk-$$-tmp
 lndir $pp/infrastructure/pkgtools
 set -e
 /usr/bin/make obj
-/usr/bin/make NOMAN=Yes BSD_PREFIX=/usr/db all install
+/usr/bin/make NOMAN=Yes BSD_PREFIX=/usr/db all
+$SUDO /usr/bin/make NOMAN=Yes BSD_PREFIX=/usr/db install
 set +e
 cd $curdir
 rm -rf mkspk-$$-tmp
@@ -78,15 +82,15 @@ set +e
 cd $PKGREPOSITORY
 rm -rf CDROM FTP
 [[ -s /usr/db/shareddirs.db ]] || print -u2 $me: warning: shareddirs.db unused
-$PKG_CMDDIR/pkg_delete -f *
+$SUDO $PKG_CMDDIR/pkg_delete -f *
 
 [[ -s /usr/db/shareddirs.db ]] && print -u2 $me: warning: shareddirs.db in use
-rmdir /usr/db/pkg || print -u2 $me: warning: still packages installed
-rm /usr/db/sbin/pkg /usr/db/sbin/pkg_*
-rmdir /usr/db/sbin || print -u2 $me: warning: /usr/db/sbin not empty
-rm /usr/db/fake.mtree
-[[ -s /usr/db/shareddirs.db ]] || rm /usr/db/shareddirs.db
-rmdir /usr/db || print -u2 $me: warning: not completely cleaned up
+$SUDO rmdir /usr/db/pkg || print -u2 $me: warning: still packages installed
+$SUDO rm /usr/db/sbin/pkg /usr/db/sbin/pkg_*
+$SUDO rmdir /usr/db/sbin || print -u2 $me: warning: /usr/db/sbin not empty
+$SUDO rm /usr/db/fake.mtree
+[[ -s /usr/db/shareddirs.db ]] || $SUDO rm /usr/db/shareddirs.db
+$SUDO rmdir /usr/db || print -u2 $me: warning: not completely cleaned up
 
 list=
 for file in *; do
@@ -99,5 +103,8 @@ done
 print Removing unneeded dependencies: $list
 rm $list
 
-print You now can cd to $PKGREPOSITORY and run * through cgz2ngz.
+print You now can cd to mkspk/ and run * through cgz2ngz.
+mv * $curdir/mkspk
+cd $curdir
+rmdir $PKGREPOSITORY
 exit 0
