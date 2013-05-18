@@ -1,9 +1,9 @@
-$MirOS: ports/net/sirc/dist/README,v 1.2 2005/09/01 20:38:50 tg Exp $
+$MirOS: ports/net/sirc/dist/README,v 1.3 2007/01/09 01:03:43 tg Exp $
 
 Attention: this file is not accurate, please use the manual page.
 
 
-           sirc, by orabidoo <roger.espel.llima@pobox.com>
+	   sirc, by orabidoo <roger.espel.llima@pobox.com>
 	   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
@@ -21,7 +21,7 @@ interpreter, with the perl client taking about 60k (and it's usable on
 its own if you don't have access to a C compiler) and with the
 interface, once compiled, taking just another 30 or 40k.  The two
 together, while lacking the huge complexity of ircII, make a very usable
-client.  And if you know perl, you'll find you can do quite complicated
+client.	 And if you know perl, you'll find you can do quite complicated
 and interesting things with sirc too :)
 
 
@@ -34,7 +34,7 @@ ChangeLog	- the list of changes in different versions
 PROGRAMMING	- documentation for programming within sirc (scripting)
 install		- installation script - will setup everything for you
 dsirc		- the dumb-mode client itself
-n0thing.pl      - a script for sirc
+n0thing.pl	- a script for sirc
 sirc.help.gz	- sirc's help file.  sirc can read it in compressed (.gz)
 		  format, so there is no need to gunzip it here
 ssfe.c		- source code for the front end
@@ -47,9 +47,9 @@ ssfe.1		- man page for ssfe
 
 If you're reading this, we'll assume that you've already uncompressed
 the sirc.tar.gz file, and de-tared it, and you have all of these files a
-directory, and it is your current directory. 
+directory, and it is your current directory.
 
-Then just type ./install, and follow the instructions.  In any case, if
+Then just type ./install, and follow the instructions.	In any case, if
 you don't know what to answer to something the installation script is
 asking you, just press Enter to use the default answer.
 
@@ -60,7 +60,7 @@ client are:
  n0thing.pl	- the irc script, if you want it
  sirc		- little shell script to start the client
  ssfe		- the front end, if you want it
- sircsock.ph    - if the install script created it
+ sircsock.ph	- if the install script created it
  getopts.pl	- if it had to create it
  socks.pl	- if you want the socks proxy support
  sirc.help.gz	- if you want the online help
@@ -72,8 +72,8 @@ the help, or 60k without the help.
 If you have enough disk space, you're encouraged to keep everything,
 including the doc files README and PROGRAMMING.
 
-For the client to work properly, the files "sirc.help.gz" and 
-"sircsock.ph" and "getopts.pl" (if you have them) must be in the same 
+For the client to work properly, the files "sirc.help.gz" and
+"sircsock.ph" and "getopts.pl" (if you have them) must be in the same
 directory as the main "dsirc" file.
 
 You never need to uncompress sirc.help.gz, as the client is smart enough
@@ -90,7 +90,7 @@ Options are:
   -p <number>	- specify port number
   -i <name>	- specify IRCNAME
   -n <nick>	- specify nickname (sorta useless as an option, you can
-  		                    specify that without the -n)
+				    specify that without the -n)
   -s <server>	- specify server (sorta useless as an option too)
   -l <filename> - specify file to be loaded instead of ~/.sircrc.pl
   -L <filename> - specify file to be loaded instead of ~/.sircrc
@@ -111,7 +111,7 @@ To run dsirc directly without using the "sirc" shell-script:
 As usual, arguments between [] are optional.
 
 In restricted mode, sirc does not allow any access to files; the commands
-LOAD, EVAL, CD, SYSTEM, DCC GET, DCC SEND are disallowed, as well as
+LOAD, EVAL, CD, SYSTEM are disallowed, as well as
 running a .sircrc.pl and logging.
 
 You can specify options for ssfe's operation in the environment variable
@@ -123,9 +123,9 @@ So if you want beeps on by default, you should add the line
 "SSFE='-beep' ; export SSFE" to your .profile.
 
 
-In case dsirc (or whatever program you run in ssfe) gets stuck, remember 
-the combination of keys that will cause ssfe to exit: ^x c (i.e. 
-Control-X followed by C).  When running in dumb mode, sirc can be 
+In case dsirc (or whatever program you run in ssfe) gets stuck, remember
+the combination of keys that will cause ssfe to exit: ^x c (i.e.
+Control-X followed by C).  When running in dumb mode, sirc can be
 interrupted by pressing ^c (Control-C).
 
 
@@ -133,8 +133,8 @@ interrupted by pressing ^c (Control-C).
 ## Recognised shell variables:
 
 SIRCSERVER, IRCSERVER	- server to use, optionally followed by a port
-			  and a password, in the form server:port:pass; 
-			  overriden by -s or the second command-line 
+			  and a password, in the form server:port:pass;
+			  overriden by -s or the second command-line
 			  option; defaults to us.undernet.org
 
 SIRCPORT, IRCPORT	- port to connect to if not specified in the
@@ -159,10 +159,10 @@ IRCFINGER		- reply to CTCP FINGER, defaults to
 USERINFO		- reply to CTCP USERINFO, defaults to
 			  "yep, i'm a user"
 
-SSFE			- options for ssfe, if you're using it.  set it
-			  to "-beep" to have beep on, or to "-hold" to 
-			  have hold-mode on, or to "-prompt '> '" to 
-			  have "> " as a prompt, or any combination of 
+SSFE			- options for ssfe, if you're using it.	 set it
+			  to "-beep" to have beep on, or to "-hold" to
+			  have hold-mode on, or to "-prompt '> '" to
+			  have "> " as a prompt, or any combination of
 			  such options
 
 			  this variable is read by the "sirc" script,
@@ -174,8 +174,8 @@ LOCALHOST		  IP addresses
 
 ## Using it:
 
-sirc has been designed to look a lot like ircII, while staying as simple 
-and small as possible.  A number of things which are usually defined as 
+sirc has been designed to look a lot like ircII, while staying as simple
+and small as possible.	A number of things which are usually defined as
 aliases with ircII are builtin with sirc, to make it more usable.
 
 sirc is undernet-friendly, /silence, /map, and even /rping and /uping
@@ -188,16 +188,12 @@ and sirc's own messages follows these conventions:
   <yournick> blah blah blah  <- you spoke on a channel (your nick will
 				be underlined or colored)
   * nick someaction	     <- person did a /me
-  * yournick someaction      <- you did a /me (your nick will be underlined
+  * yournick someaction	     <- you did a /me (your nick will be underlined
 				or somehow colored)
   [nick] blah blah blah	     <- you got a private message (the nick will
 				be in bold)
   >nick< blah blah blah	     <- you sent a private message (the nick
 				will be in bold)
-  =nick= blah blah blah	     <- you got a message through a /dcc chat
-				(nick is in bold)
-  |nick| blah blah blah	     <- you sent a message through a /dcc chat
-				(nick is in bold)
   -nick- blah blah blah	     <- you got a notice (nick in bold)
   -> -nick- blah blah blah   <- you sent a notice (no bold :p)
   *> nick action	     <- you got a /describe (nick in bold)
@@ -205,7 +201,6 @@ and sirc's own messages follows these conventions:
 
   *** Something		     <- general line from the server or client
   *E* Something		     <- there's been an error somewhere
-  *D* Something		     <- something about DCC
   *H* Something		     <- you're getting help with /HELP
   *(* Something		     <- you're being notified of someone's signoff
   *)* Something		     <- you're being notified of someone's signon
@@ -222,18 +217,18 @@ and sirc's own messages follows these conventions:
 Commands start with a / (no surprise here), and the standard set of
 commands is here:
 
-ADMIN, ALIAS, AWAY, BYE, CD, CLEAR, CONNECT, CTCP, DCC, DESCRIBE, DIE,
-EVAL, EXIT, HELP, IGNORE, INFO, INVITE, JOIN, KICK, KILL, LEAVE, LINKS,
-LIST, LOAD, LUSERS, MAP, ME, MODE, MOTD, MSG, NAMES, NICK, NOTE, NOTICE,
-NOTIFY, OPER, QUERY, PART, PING, QUERY, QUIT, QUOTE, RPING, SAY, SERVER,
+ADMIN, ALIAS, AWAY, BYE, CD, CLEAR, CONNECT, CTCP, DESCRIBE, DIE, EVAL,
+EXIT, HELP, IGNORE, INFO, INVITE, JOIN, KICK, KILL, LEAVE, LINKS, LIST,
+LOAD, LUSERS, MAP, ME, MODE, MOTD, MSG, NAMES, NICK, NOTE, NOTICE, NOTIFY,
+OPER, QUERY, PART, PING, QUERY, QUIT, QUOTE, RANDEX, RPING, SAY, SERVER,
 SET, SIGNOFF, SILENCE, SQUIT, STATS, TIME, TOPIC, TRACE, UPING,
 USERHOST, USERS, VERSION, WALLOPS, WHO, WHOIS, WHOWAS.
 
 For help on a command, inside sirc, type /help <name of the command>
 (once again, without the <>'s).
 
-Like with ircII, commands preceded with a ^ after the / will be silent, 
-and commands preceded with an extra / will not expand aliases or do 
+Like with ircII, commands preceded with a ^ after the / will be silent,
+and commands preceded with an extra / will not expand aliases or do
 functions.
 
 In addition to the standard IRC commands, the following commands have
@@ -246,9 +241,7 @@ D [#chnl] nk1 nk2.. - deops a number of people in your the specified
 DEOP [#chnl] nicks    channel (default = the current), grouping mode
 		      changes 3 by 3
 
-DE nick action      - short for DESCRIBE
-
-HOP                 - leaves your current channel
+DE nick action	    - short for DESCRIBE
 
 IG [-][pattern]	    - short for IGNORE
 
@@ -257,8 +250,8 @@ INV nicks [#chnnel]   with I or INV as well as INVITE, you can specify
 		      more than one nick, and the channel defaults to your
 		      current channel
 
-J channel           - short for JOIN
-                      with J as well as JOIN, the trailing # is added
+J channel	    - short for JOIN
+		      with J as well as JOIN, the trailing # is added
 		      if not given;  without arguments, it will join
 		      the channel you were most recently invited to.
 
@@ -266,34 +259,34 @@ K [#channel] reason - short for KICK
 		      with K as well as with KICK, the channel defaults
 		      to your current channel
 
-LL                  - same as WHO <#currentchannel>
+LL		    - same as WHO <#currentchannel>
 
-M nick mesg         - short for MSG
+M nick mesg	    - short for MSG
 
-MO modes            - short for MODE <#currentchannel>
+MO modes	    - short for MODE <#currentchannel>
 
 N [-][nick...]	    - short for NOTIFY
 
 NEXT		    - goes to the next channel, if you're on several
 
-NO nick mesg        - short for NOTICE
+NO nick mesg	    - short for NOTICE
 
 O [#chnl] nk1 nk2.. - ops a number of people in the specified channel
 OP [#chnl] nicks      (default = the current channel), grouping mode
 		      changes 3 by 3
 
-P nick|#channel     - short for PING
+P nick|#channel	    - short for PING
 
 T [#chnnl] [topic]  - short for TOPIC
-                      with T as well as with TOPIC, the channel defaults
+		      with T as well as with TOPIC, the channel defaults
 		      to your current channel
 
-UMODE               - short for MODE <nickname>
+UMODE		    - short for MODE <nickname>
 
-W [nick]            - short for WHOIS, defaults to your own nick
+W [nick]	    - short for WHOIS, defaults to your own nick
 
-WI nick             - asks for WHOIS info on nick's server, which gives
-                      idle time, but takes longer to reply than /W
+WI nick		    - asks for WHOIS info on nick's server, which gives
+		      idle time, but takes longer to reply than /W
 
 
 Some commands are partly taken from ircII, but work in a different
@@ -311,10 +304,10 @@ ALIAS [-]alias text - without arguments, shows the list of aliases;
 		      will *not* msg orabidoo when you do /blah, because
 		      evaluation is not recursive.
 
-		      substitution of arguments is implemented, so $0 
-		      expands to the first argument, $1 the second, and 
-		      so on; putting a "-" after the number makes it 
-		      expand to that argument and all the following, so 
+		      substitution of arguments is implemented, so $0
+		      expands to the first argument, $1 the second, and
+		      so on; putting a "-" after the number makes it
+		      expand to that argument and all the following, so
 		      $0- is all the arguments and $1- is all the
 		      arguments but the first. $$ expands to a $, and
 		      $some_variable_name expands to the contents of
@@ -332,26 +325,13 @@ SET [-]var value    - without arguments, shows the list of variables
 
 		      see the list of SET variables below.
 
-DCC cmd nick [args] - deals with direct client connections; available
-		      commands are:
-		      	/dcc chat nickname
-			/dcc rchat oldname newname   <- rename a dcc chat
-			/dcc get nickname [file]
-			/dcc send nickname file
-			/dcc rename nickname [oldfilename] newfilename
-			/dcc close chat nickname
-			/dcc close get nickname [file]
-			/dcc close send nickname [file]
-			/dcc list
-			/dcc		<- same as /dcc list
-
-EVAL code           - evaluates perl code in sirc's context.  useful for
+EVAL code	    - evaluates perl code in sirc's context.  useful for
 		      little calculations and checks, as well as for
 		      checking that your functions work.  as it can be
 		      used to mess with the client's internal variables,
 		      use at your own risk.
 
-LOAD filename       - loads a sirc script, which is actually a file of
+LOAD filename	    - loads a sirc script, which is actually a file of
 		      perl code, into sirc's context.  tilde-expansion is
 		      done on the filename, which is searched for in all
 		      the directories specified in the perl variable
@@ -399,18 +379,18 @@ CTCP off|none|noreply|noflood|on|all
 		      "none" disables the processing of all CTCPs, even
 		      CTCP action -- they will be shown like messages with
 		      embedded ^A's.  "noreply" and "off" are synonymous,
-		      and disable all automatic CTCP replies.  incoming
-		      CTCPs are still processed, so you can take DCC CHATs
-		      and see actions.  "noflood" and "on" are synonymous;
-		      this is the default value and will auto-reply to
-		      those CTCPs that ask for it, up to 2 every 10 seconds.
-		      "all" will process and reply to all CTCPs.
+		      and disable all automatic CTCP replies.  Incoming
+		      CTCPs are still processed, so you can see actions.
+		      "noflood" and "on" are synonymous; this is the default
+		      value and will auto-reply to those CTCPs that ask for
+		      it, up to 2 every 10 seconds. "all" will process and
+		      reply to all CTCPs.
 
 		      note that even in "all" mode, stacked CTCPs (more than
 		      one in a single message) are not recognised.  I have
 		      yet to see those in actual use other than in floods.
 
-CTRL_T text         - sets the text that the ^t key types; the default is
+CTRL_T text	    - sets the text that the ^t key types; the default is
 		      "/next", which switches to the next channel.
 
 EIGHT_BIT on|off    - if set to off, accented iso-latin-1 characters are
@@ -419,24 +399,24 @@ EIGHT_BIT on|off    - if set to off, accented iso-latin-1 characters are
 
 FINGER text	    - used for replying to CTCP FINGERs.
 
-IRCNAME text        - used as the ircname on the next server connection.
+IRCNAME text	    - used as the ircname on the next server connection.
 
 LOADPATH path	    - Sets the path in which sirc looks for scripts to /load;
 		      it is formatted as a list of pathnames separated by
-                      colons, and ~'s are allowed.
+		      colons, and ~'s are allowed.
 
 LOCALHOST	    - sets which IP address to use, on machines with
 		      more than one (virtual hosts).
 
 LOG on|off	    - toggles logging on or off, or tells if it's on
-                      or off.  logging is just like with ircII except
+		      or off.  logging is just like with ircII except
 		      that there are no log levels; if it's on, all that
 		      goes to the screen goes to the logfile.  this is
-		      the same as the old /log command.  if you log
+		      the same as the old /log command.	 if you log
 		      into a .gz file, sirc automatically calls gzip to
 		      log in compressed form.
 
-LOGFILE filename    - sets the logfile.  defaults to ~/sirc.log
+LOGFILE filename    - sets the logfile.	 defaults to ~/sirc.log
 
 PRINTUH off|none|some|all|on
 		    - toggles printing the user@host on messages, notices,
@@ -446,18 +426,8 @@ PRINTUH off|none|some|all|on
 		      other useful places.  "all" will print them everywhere.
 
 PRINTCHAN on|off    - toggles printing the channel on public messages and
-		      actions.  by default this is off, and the channel is
+		      actions.	by default this is off, and the channel is
 		      not printed when it is the current channel.
-
-SENDAHEAD number    - sets the amount by which the DCC SEND code will send
-		      ahead of what is acknowledged.  this is a hack to
-		      speed up DCC transfers;  a value of 0 switches back
-		      to the old, slow DCC (like ircII's).  the default
-		      value (4096) is enough to speed it up quite a bit,
-		      and something like 16386 will make it even faster.
-		      setting it higher than what your kernel is willing
-		      to buffer will result in your client blocking; sizes
-		      of up to 16k should be quite safe.
 
 USERINFO text	    - used for replying to CTCP USERINFOs.
 
@@ -540,23 +510,23 @@ The command-line editor recognises the following editing keys:
   ^a		  - go to the beginning of the line
   ^b, left arrow  - move left a letter
   ^c		  - interrupt: ignored by the front-end, can be used
-  		    to interrupt connecting to a server, with sirc
+		    to interrupt connecting to a server, with sirc
   ^d		  - delete the character under the cursor
   ^e		  - go to the end of the line
   ^f, right arrow - move right a letter
   ^h, del	  - erase the previous character
   ^i, tab	  - go to next /msg in msg history
-  ^j, ^m, enter   - send the line
+  ^j, ^m, enter	  - send the line
   ^k		  - erase from the cursor to the end of the line
   ^l		  - redisplay the status bar and the command line
   ^n, down arrow  - go to the next line in command-line history
   ^o		  - with sirc, type the last msg you got on the command
-  		    line
+		    line
   ^p, up arrow	  - go to the previous line in command-line history
   ^t		  - with sirc, switch to the next channel you're on
   ^u		  - erase command-line
   ^v		  - insert the next character literally, even if it's
-  		    a ^something
+		    a ^something
   ^x b		  - toggle beep on or off (off by default)
   ^x c		  - exit the front end, back to the unix prompt
   ^x y		  - set hold mode on
@@ -565,7 +535,7 @@ The command-line editor recognises the following editing keys:
   ^x n		  - set hold mode off
   ^y		  - yank the current line in the history without sending it
   ^z		  - suspend ssfe and sirc and go back to the unix
-  		    prompt - you come back with 'fg'
+		    prompt - you come back with 'fg'
 
 Note that to do effects on irc (bold, inverse, underlined), you need to
 type ^v^b to get a ^b character (since ^b would otherwise move your
@@ -596,8 +566,8 @@ The options for ssfe can be:
   -irc		   - word-wrap, control chars and ^v^b^_ all as in irc
   -hold		   - set hold mode
   -beep		   - let beeps through in irc/cooked mode
-  -flow            - keeps ^S/^Q as special characters, for terminals using
-                     ^S/^Q flow-control
+  -flow		   - keeps ^S/^Q as special characters, for terminals using
+		     ^S/^Q flow-control
   -print	   - print your own commands back on the scrolling window
   -prompt <prompt> - set a prompt in the command-line (max 8 chars)
 
@@ -664,11 +634,10 @@ THX-1138!fleuret@clipper.ens.fr
     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
 
-If you make improvements to sirc, please send me the modifications 
+If you make improvements to sirc, please send me the modifications
 (context diffs appreciated) and they might make it to the next release.
 
 For bug reports, comments, questions, email roger.espel.llima@pobox.com
 
 You can always find the latest version of sirc at the following URL:
 http://www.eleves.ens.fr:8080/home/espel/sirc.html
-

@@ -1,5 +1,5 @@
 #!/usr/bin/perl
-# $MirOS: ports/net/sirc/dist/dsircp,v 1.14 2008/07/15 12:40:11 tg Exp $
+# $MirOS: ports/net/sirc/dist/dsircp,v 1.15 2008/07/15 12:49:46 tg Exp $
 #-
 # dsircp: dumb-mode small irc client in perl
 # by orabidoo <roger.espel.llima@pobox.com>
@@ -94,7 +94,7 @@ use BSD::arc4random qw(arc4random_pushb arc4random_bytes);
 &Getopts('n:s:p:u:i:l:L:H:rqQR78UC:XT');
 
 %set=("LOGFILE", "", "LOG", "off", "PRINTUH", "none", "PRINTCHAN", "off",
-	"LOCALHOST", "", "CTCP", "no", "SENDAHEAD", 4096,
+	"LOCALHOST", "", "CTCP", "no",
 	"USERINFO", "", "FINGER", "", "IRCNAME", "", "EIGHT_BIT", "on",
 	"LOADPATH", join(":", @loadpath), "CTRL_T", "/next", "UTF", "on",
 	"CHARSET", "iso-8859-1", "SHOWTIME", "on");
@@ -758,8 +758,6 @@ sub doset {
     $set{$var}=$val if $val =~ /^(none|all)$/;
     $set{$var}="noreply" if $val =~ /^(noreply|off)$/;
     $set{$var}="noflood" if $val =~ /^(noflood|on)$/;
-  } elsif ($var eq 'SENDAHEAD') {
-    $set{$var}=$val if $val =~ /^\d+$/ && $val<=65536;
   } elsif ($var eq 'USERINFO') {
     $set{$var}=$val;
   } elsif ($var eq 'FINGER') {
@@ -1297,7 +1295,7 @@ sub docommand {
     &sl("MODE $nick $args");
   } elsif ($cmd eq 'MO' || $cmd eq 'MODE') {
     &dosplat;
-    $args=$talkchannel if $args eq ''
+    $args=$talkchannel if $args eq '';
     if ($args) {
       &sl("MODE $args");
     } else {
@@ -1305,7 +1303,7 @@ sub docommand {
     }
   } elsif ($cmd eq 'NA' || $cmd eq 'NAMES') {
     &dosplat;
-    $args=$talkchannel if $args eq ''
+    $args=$talkchannel if $args eq '';
     if ($args) {
       &sl("NAMES $args");
     } else {
@@ -1462,12 +1460,11 @@ sub remsel {
   delete $sel_fds{$_[0]};
 }
 
-@hooks=("action", "ctcp", "ctcp_reply", "input",
-	"invite", "join", "kick", "leave", "mode", "msg", "nick", "notice",
-	"server_notice", "notify_signoff", "notify_signon", "public",
-	"raw_irc", "send_action", "send_text", "send_notice",
-	"signoff", "topic", "disconnect", "status", "print", "command",
-	"chat_disconnect", "send_ctcp", "capab");
+@hooks=("action", "ctcp", "ctcp_reply", "input", "invite", "join", "kick",
+	"leave", "mode", "msg", "nick", "notice", "server_notice",
+	"notify_signoff", "notify_signon", "public", "raw_irc",
+	"send_action", "send_text", "send_notice", "signoff", "topic",
+	"disconnect", "status", "print", "command", "send_ctcp", "capab");
 
 sub addhook {
   local($type, $name)=@_;

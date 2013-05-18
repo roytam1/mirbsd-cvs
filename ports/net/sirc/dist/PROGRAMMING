@@ -1,4 +1,4 @@
-$MirOS$
+$MirOS: ports/net/sirc/dist/PROGRAMMING,v 1.2 2005/12/18 16:36:44 tg Exp $
 
                     programming your sirc client
 	            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -68,7 +68,7 @@ It can also use a number of routines from the sirc client:
   &dostatus;	   	 redisplays the status line
 
   &msg("nck", "msg");	 sends a message, printing it.  the destination
-			 can be a nick, a channel, or a =nick (DCC CHAT)
+			 can be a nick or a channel
 
   &notice("nck", "msg"); sends a notice, printing it.  the destination
 			 can be a channel or a nick
@@ -211,7 +211,7 @@ read-only by scripts.
 			 proxy machine when sirc is running with socks
 			 support loaded.  $bindaddr is a 4-byte string
 			 representing a packed in_addr; you can get an
-			 integer out of it (as used by DCC CHAT/SEND)
+			 integer out of it
 			 with unpack("N", $binaddr); and a dotted quad
 			 with join(".", unpack("C4", $bindaddr));
 
@@ -320,10 +320,6 @@ capab        *	activated on a reply to an &send_capab('FOO') with
 		the answer from the server. (These two variables are
 		also available as arguments, in this order.)
 
-chat_disconnect activated when a dcc chat is lost (but not when the
-		user closes one with DCC CLOSE CHAT)
-		1st arg is the nick associated with the chat
-
 ctcp	     *	activated by any ctcp, BEFORE the client parses
 		and eventually answers the ctcp.
 		1st arg is the nick or channel it was sent to
@@ -334,28 +330,6 @@ ctcp_reply	activated by ctcp replies;
 		1st arg is the nick or channel it was sent to
 		2nd arg is the ctcp command
 		3rd arg are the arguments
-
-dcc_chat	activated by received text over a dcc chat
-		1st arg is the nick
-		2nd arg is the text
-
-dcc_disconnect  activated when a dcc get or send is finished or closed
-		(even when the user closes one with DCC CLOSE GET/SEND)
-		1st arg is the nick associated with the chat
-		2nd arg is the filename
-		3rd arg is the number of bytes transferred
-		4th arg is the number of seconds the transfer took
-
-dcc_request	activated by a received dcc chat or send request, and
-		after the client has processed the request.  this is
-		the hook to use if you want to implement any kind of
-		auto-dcc.
-		1st arg is the type ("CHAT" or "SEND")
-		2nd arg is the machine address (a 32-bit integer)
-		3rd arg is the port
-		for a DCC SEND offer:
-		  4th arg is the file name
-		  5th arg is the file lenght
 
 disconnect	activated by losing the connection to the server, or
 		breaking it with /disconnect (but not with /server).
@@ -439,11 +413,6 @@ send_action	activated when we send a /me or a /de
 send_ctcp	activated when we send a ctcp
 		1st arg is the nick or channel the ctcp is being sent to
 		2nd arg is the complete ctcp text (type and arguments)
-
-send_dcc_chat	activated when we send text over a dcc chat
-		($who, $user and $host do not apply here)
-		1st arg is the nick we're sending to
-		2nd arg is the text
 
 send_text	activated when we send a /msg or speak on a channel
 		($who, $user and $host do not apply here)

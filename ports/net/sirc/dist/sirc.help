@@ -1,24 +1,23 @@
 @main
 Welcome to sirc v. $version, by orabidoo  (last changed: $date),
 a small and simple IRC client written in perl, with extensions for
-$MirOS: ports/net/sirc/dist/sirc.help,v 1.3 2006/01/01 04:50:43 tg Exp $ by
-Thorsten "mirabile" Glaser <tg@mirbsd.de> and others.
+$MirOS: ports/net/sirc/dist/sirc.help,v 1.4 2007/01/09 00:51:17 tg Exp $ by
+Thorsten "mirabilos" Glaser <tg@mirbsd.de> and others.
 
 To get help on a particular topic, type "/help <topic>"  (without the
 <>'s or the ""'s)
 
 List of topics for help:
-ADMIN     ALIAS     AWAY      BYE       CD        CLEAR      CONNECT
-CTCP      DCC       DEOP      DESCRIBE  DIE       DISCONNECT EVAL
-EXIT      HELP      HOP       IGNORE    INFO      INVITE     JOIN
-KICK      KILL      LEAVE     LINKS     LIST      LL         LOAD
-LUSERS    MAP       ME        MODE      MOTD      MSG        NAMES
-NEXT      NICK      NOTE      NOTICE    NOTIFY    OP         OPER
-PART      PING      QUERY     QUIT      QUOTE     REHASH     RPING
-SAY       SERVER    SET       SIGNOFF   SILENCE   SQUIT      STATS
-SYSTEM    TIME      TOPIC     TRACE     UMODE     UPING      USERS
-VERSION   WALLOPS   WHO       WHOIS     WHOWAS    W          keys
-newuser
+ADMIN     ALIAS    AWAY       BYE       CD          CLEAR    CONNECT
+CTCP      DEOP     DESCRIBE   DIE       DISCONNECT  EVAL     EXIT
+HELP      IGNORE   INFO       INVITE    JOIN        KICK     KILL
+LEAVE     LINKS    LIST       LL        LOAD        LUSERS   MAP
+ME        MODE     MOTD       MSG       NAMES       NEXT     NICK
+NOTE      NOTICE   NOTIFY     OP        OPER        PART     PING
+QUERY     QUIT     QUOTE      RANDEX    REHASH      RPING    SAY
+SERVER    SET      SIGNOFF    SILENCE   SQUIT       STATS    SYSTEM
+TIME      TOPIC    TRACE      UMODE     UPING       USERS    VERSION
+WALLOPS   WHO      WHOIS      WHOWAS    W           keys     newuser
 @admin
 Usage: ADMIN [<server>|<nickname>]
 Asks for administrative details about the given server or the server
@@ -56,20 +55,6 @@ Sends a specially-coded message to another user's client, according
 to the CTCP protocol (client-to-client protocol).
 Useful values for <command> include: ACTION, CLIENTINFO, FINGER, TIME
 USERINFO, VERSION.
-@dcc
-Usage: DCC <function> <arguments>
-Handles direct connections to remote clients.
-  DCC CHAT <nick>         - opens a direct connection for chatting,
-                                use "/msg =<nick>" to send through it
-  DCC RCHAT <nick1> <n2>  - renames a DCC CHAT
-  DCC SEND <nick> <file>  - offers to send a file
-  DCC GET <nick> [<file>] - starts getting a file
-  DCC RENAME <nick> [<oldfilename>] <newfilename>
-                              - renames a file before DCC GETting it
-  DCC CLOSE <args>        - closes a DCC CHAT, GET or SEND;
-                                <args> is CHAT, GET or SEND followed by
-                                a nickname and an optional filename
-  DCC LIST                - lists all your DCC connections
 @deop
 Usage: DEOP [<#channel>] <nick1> [<nick2> ...]
 Removes channel-op status from the given users on the given channel,
@@ -96,9 +81,6 @@ Quits sirc, with an optional parting message.
 @help
 Usage: HELP <topic>
 Gets help on the specified topic, as you can see.
-@hop
-Usage: HOP
-Leaves the current channel.
 @ignore
 Usage: IGNORE [-][<pattern>]
 Lets you ignore messages and notices from a list of users.
@@ -184,9 +166,6 @@ on Undernet.
 Usage: ME <action>
 Does an action on your current channel. This makes use of the CTCP
 protocol.
-@mo
-Usage: MO <mode changes>
-Short for MODE #your_current_channel <mode changes>
 @mode
 Usage: MODE <#channel> [+|-]<modechars> [<parameters>]
    or: MODE <#channel> [+|-]b [<nick>[!<user>[@<host>]]]
@@ -201,22 +180,21 @@ For channel modes, the following are available:
 For user modes, the following are available:
  o (irc operator)        w (receive wallops)
  s (get server notices)  i (be invisible)
-See also: MO
+Can be shortened to MO.
 @motd
 Usage: MOTD [<server>|<nickname>]
 Displays the message of the day for the named server, or the server
 that user is using, or your own server.
 @msg
-Usage: MSG <nick>|<#channel>|=<nick> <message>
+Usage: MSG <nick>|<#channel> <message>
 Sends a private message to the given user, or a line of text
 to the given channel.
-If the nickname is preceded with a "=", the message will be sent over
-a DCC CHAT connection to that user, assuming there is one.
 Can be shortened to M.
 @names
 Usage: NAMES [<#channel>]
-Shows a list of the users on the specified channel, or of all
-the visible users on IRC.
+Shows a list of the users on the specified channel, or of the current
+channel. To get a list of all visible users on IRC, use /Q NAMES.
+Can be shortened to NA.
 @next
 Usage: NEXT
 Switches to the next channel, if you're on more than one.
@@ -273,6 +251,9 @@ Can be shortened to BYE.
 Usage: QUOTE <text>
 Sends the text directly to the server.
 Can be shortened to Q.
+@randex
+Usage: RANDEX [<nick>|<#channel>]
+Send entropy to the specified peer, initiate the RANDEX protocol.
 @rping
 Undernet oper-only command, for newer 2.9 servers.
 @rehash
@@ -348,19 +329,12 @@ various situations.  The possible values are:
   all      --  print them in all cases
 The default is "none".  "off" is synonymous with "none" and "on" with
 "all".
-@set sendahead
-Sets the amount (in bytes) by which DCC SEND will send ahead of the
-acknowledged amount.  A value of 0 reverts to the old ircII-like
-behavior; higher values speed up the transfer, although rising it more
-than like 8k or so hardly makes a difference, and setting it higher
-than what your Unix kernel is willing to buffer would be a bad idea.
-The default value is 4096.
 @set showtime
 Sets whether sirc will show timestamps on messages.
 @set userinfo
 Sets the CTCP userinfo reply.
 The default value is whatever is in the environment variable $USERINFO,
-or "yep, I'm a happy OpenBSD user".
+or "yep, I'm a happy MirBSD user".
 @set utf
 Sets whether sirc will support UTF-8 conversion.
 The possible values are:
@@ -488,4 +462,4 @@ editing keys are recognised (with ^key meaning Control-key):
   ^x c            - exit the front end, back to the unix prompt
   ^x h            - toggle hold mode
   ^y              - yank line in the history without sending it
-  ^z              - suspend sirc - you come back with 'fg'
+  ^z              - suspend sirc - you come back with 'fg', or never

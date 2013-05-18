@@ -1,9 +1,9 @@
-# $MirOS: ports/net/sirc/Makefile,v 1.17 2007/03/01 21:34:15 tg Exp $
+# $MirOS: ports/net/sirc/Makefile,v 1.18 2007/05/20 23:01:26 tg Exp $
 
 COMMENT=		programmable small perl irc client (utf-8, TLS, IPv6 ready)
 CATEGORIES=		net
 DIST_NAME=		sirc
-DIST_DATE=		20070520
+DIST_DATE=		20080715
 DIST_SOURCE=		port
 RESPONSIBLE=		Thorsten Glaser <tg@mirbsd.de>
 HOMEPAGE=		http://www.iagora.com/~espel/sirc/sirc.html
@@ -15,6 +15,7 @@ PERMIT_PACKAGE_CDROM=	Yes
 PERMIT_PACKAGE_FTP=	Yes
 
 RUN_DEPENDS=		:p5-Socket6->=0.08:net/p5-Socket6 \
+			:p5-BSD-arc4random-*:security/p5-BSD-arc4random \
 			:ssfe-*:comms/ssfe
 NO_REGRESS=		Yes
 
@@ -27,8 +28,8 @@ DATA=			PROGRAMMING README README.socks n0thing.pl \
 do-build:
 .for _i in ${SCRIPTS}
 	@cd ${WRKSRC}; f=$$(readlink -nf ${_i}); rm -f ${_i} && cp $$f ${_i}
-	print '%g#@PREFIX@#s##${PREFIX}#g\n%g#@SHELL@#s##${SHELL}#g\n%g#@DIST_DATE@#s##${DIST_DATE}#g\nwq' \
-	    | ed -s ${WRKSRC}/${_i}
+	print ',g#@PREFIX@#s##${PREFIX}#g\n,g#@SHELL@#s##${SHELL}#g\n,g#@DIST_DATE@#s##${DIST_DATE}#g\nwq' | \
+	    ed -s ${WRKSRC}/${_i}
 .endfor
 
 do-install:
