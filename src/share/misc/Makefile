@@ -1,4 +1,4 @@
-# $MirOS: src/share/misc/Makefile,v 1.4 2005/07/24 13:08:05 tg Exp $
+# $MirOS: src/share/misc/Makefile,v 1.5 2005/10/29 07:26:16 tg Exp $
 # $OpenBSD: Makefile,v 1.10 2004/11/19 18:18:53 deraadt Exp $
 # from: @(#)Makefile	5.13 (Berkeley) 5/7/91
 
@@ -19,6 +19,7 @@ FILES+=	na.phone
 FILES+=	operator
 FILES+=	scsi_modes
 FILES+=	usb_hid_usages
+FILES+=	utf-8-demo
 FILES+=	zipcodes
 
 realinstall:
