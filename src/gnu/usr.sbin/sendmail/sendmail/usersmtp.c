@@ -2703,8 +2703,9 @@ smtpdata(m, mci, e, ctladdr, xstart)
 	}
 
 	/* terminate the message */
-	if (sm_io_fprintf(mci->mci_out, SM_TIME_DEFAULT, ".%s", m->m_eol) ==
-								SM_IO_EOF)
+	if (sm_io_fprintf(mci->mci_out, SM_TIME_DEFAULT, "%s.%s",
+			bitset(MCIF_INLONGLINE, mci->mci_flags) ? m->m_eol : "",
+			m->m_eol) == SM_IO_EOF)
 		goto writeerr;
 	if (TrafficLogFile != NULL)
 		(void) sm_io_fprintf(TrafficLogFile, SM_TIME_DEFAULT,

@@ -1865,7 +1865,8 @@ putheader(mci, hdr, e, flags)
 
 			if (bitset(H_FROM, h->h_flags))
 				oldstyle = false;
-			commaize(h, p, oldstyle, mci, e);
+			commaize(h, p, oldstyle, mci, e,
+				 PXLF_HEADER | PXLF_STRIPMQUOTE);
 		}
 		else
 		{
@@ -1977,6 +1978,7 @@ put_vanilla_header(h, v, mci)
 **		oldstyle -- true if this is an old style header.
 **		mci -- the connection information.
 **		e -- the envelope containing the message.
+**		putflags -- flags for putxline()
 **
 **	Returns:
 **		true iff header field was written successfully
@@ -1986,17 +1988,17 @@ put_vanilla_header(h, v, mci)
 */
 
 bool
-commaize(h, p, oldstyle, mci, e)
+commaize(h, p, oldstyle, mci, e, putflags)
 	register HDR *h;
 	register char *p;
 	bool oldstyle;
 	register MCI *mci;
 	register ENVELOPE *e;
+	int putflags;
 {
 	register char *obp;
 	int opos, omax, spaces;
 	bool firstone = true;
-	int putflags = PXLF_HEADER | PXLF_STRIPMQUOTE;
 	char **res;
 	char obuf[MAXLINE + 3];
 

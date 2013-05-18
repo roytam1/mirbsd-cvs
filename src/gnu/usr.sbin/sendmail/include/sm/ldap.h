@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2001-2003, 2005, 2006 Sendmail, Inc. and its suppliers.
+ * Copyright (c) 2001-2003, 2005-2007 Sendmail, Inc. and its suppliers.
  *      All rights reserved.
  *
  * By using this file, you agree to the terms and conditions set
@@ -90,6 +90,10 @@ struct sm_ldap_struct
 
 	/* ldapmap_lookup options */
 	char		ldap_attrsep;
+
+# if _FFR_LDAP_NETWORK_TIMEOUT
+	struct timeval	ldap_networktmo;
+# endif /* _FFR_LDAP_NETWORK_TIMEOUT */
 
 	/* Linked list of maps sharing the same LDAP binding */
 	void		*ldap_next;

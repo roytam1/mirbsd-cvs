@@ -506,7 +506,7 @@ sendmail_mpe_emuluid()
 **		emulated egid if present, else true egid.
 */
 
-static uid_t sendmail_mpe_egid = -1;
+static gid_t sendmail_mpe_egid = -1;
 
 #undef getegid
 gid_t
