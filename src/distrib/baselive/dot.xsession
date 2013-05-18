@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/distrib/baselive/dot.xsession,v 1.12 2009/03/29 13:04:12 tg Exp $
+# $MirOS: src/distrib/baselive/dot.xsession,v 1.13 2009/10/31 20:09:54 tg Exp $
 #-
 # Copyright (c) 2006, 2007, 2008, 2009
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -34,25 +34,23 @@ done
 
 xclock -render -update 1 -geometry 50x50-1+1 &
 
-text=twm:0,evilwm-session:101,evilwm-bare:102,failsafe:1
 failsafe='xterm -geometry 80x24-0-0'
-typeset -i number=103
+text=twm:101,evilwm-session:102,evilwm-bare:103,failsafe:1
+typeset -i number=104
 set -A wm
-defwm=twm
 wm[0]=twm
-wm[101]=evilwm-session
-wm[102]=evilwm
 wm[1]=$failsafe
+wm[101]=twm
+wm[102]=evilwm-session
+wm[103]=evilwm
 if x=$(whence -p icewm-session); then
-	defwm=icewm
+	wm[0]=$x
 	text=$text,icewm:$number
-	wm[number]=$x
-	let number++
+	wm[number++]=$x
 fi
 if x=$(whence -p wm2); then
 	text=$text,wm2:$number
-	wm[number]=$x
-	let number++
+	wm[number++]=$x
 fi
 
 xmessage -button $text -center -default $defwm -timeout 12 \
@@ -61,6 +59,8 @@ Wait 12 seconds for default"
 number=$?
 
 WINDOWMANAGER=${wm[number]:-$failsafe}
+
+test -f /desktop.png && xsetbg /desktop.png >/dev/null 2>&1
 
 eval exec $WINDOWMANAGER
 # can't happen
