@@ -1,4 +1,4 @@
-/* $MirOS: src/sys/dev/ic/tpm.c,v 1.2 2009/02/22 12:24:25 tg Exp $ */
+/* $MirOS: src/sys/dev/ic/tpm.c,v 1.3 2009/02/22 16:27:26 tg Exp $ */
 
 /*-
  * Copyright (c) 2009 Thorsten Glaser <tg@mirbsd.org>
@@ -248,7 +248,7 @@ tpm_attach(struct device *parent, struct device *self, void *aux)
 	outb(TPM_ADDR, 0x00);
 	tpm_sc->version[0] = inb(TPM_DATA);
 	if (tpm_sc->version[0] == 0xFF) {
-		printf("tpm: version query failed\n");
+		printf("\ntpm: version query failed\n");
 		return;
 	}
 	outb(TPM_ADDR, 0x01);
@@ -262,7 +262,7 @@ tpm_attach(struct device *parent, struct device *self, void *aux)
 	outb(TPM_ADDR, 0x04);
 	tpm_sc->vendor[0] = inb(TPM_DATA);
 	if (tpm_sc->vendor[0] == 0xFF) {
-		printf("tpm: vendor query failed\n");
+		printf("\ntpm: vendor query failed\n");
 		return;
 	}
 	outb(TPM_ADDR, 0x05);
