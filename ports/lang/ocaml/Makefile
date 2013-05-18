@@ -1,12 +1,13 @@
-# $MirOS: ports/lang/ocaml/Makefile,v 1.2 2005/07/07 21:22:31 bsiegert Exp $
+# $MirOS: ports/lang/ocaml/Makefile,v 1.3 2006/09/14 00:10:25 tg Exp $
 # $OpenBSD: Makefile,v 1.27 2004/03/05 21:54:35 avsm Exp $
 
-COMMENT=			ML language based on complete class-based objective system
+COMMENT=	ML language based on complete class-based objective system
 DISTNAME=	ocaml-3.07
-PKGNAME=	${DISTNAME}pl2-0
+PATCHLEVEL=	pl2
+PKGNAME=	${DISTNAME}${PATCHLEVEL}-${DASH_VER}
 CATEGORIES=	lang
 MASTER_SITES=	http://caml.inria.fr/distrib/${DISTNAME}/
-DISTFILES=	${PKGNAME}.tar.gz ${DOCFILES}
+DISTFILES=	${DISTNAME}${PATCHLEVEL}.tar.gz ${DOCFILES}
 HOMEPAGE=	http://www.ocaml.org/
 
 # QPL/LGPL
