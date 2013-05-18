@@ -1,5 +1,5 @@
-# $MirOS: src/sys/arch/i386/conf/RAMDISK,v 1.17 2010/01/17 01:15:48 tg Exp $
-# $miros: src/sys/arch/i386/conf/GENERIC,v 1.42 2009/02/16 21:21:01 tg Exp $
+# $MirOS: src/sys/arch/i386/conf/RAMDISK,v 1.19 2011/08/18 15:03:41 tg Exp $
+# $miros: src/sys/arch/i386/conf/GENERIC,v 1.47 2012/07/06 14:34:33 tg Exp $
 
 machine		i386			# arch, used by config; REQUIRED
 
@@ -126,6 +126,7 @@ option		I586_CPU
 
 #option		CYRIX_CACHE_WORKS	# enable Cyrix 486DLC cache
 #option		CYRIX_CACHE_REALLY_WORKS
+#option		PENTIUM_BROKEN_TSC	# do not use TSC for timekeeping
 
 #option		USER_PCICONF		# user-space PCI configuration
 #option		VM86			# Virtual 8086 emulation
@@ -236,6 +237,8 @@ pcmcia*	at pcic? controller ? socket ?
 #ucom*	at umct? portno ?
 #uslcom*	at uhub?			# Silicon Laboratories CP210x serial
 #ucom*	at uslcom?
+#umsm*	at uhub?			# Qualcomm MSM EVDO
+#ucom*	at umsm?
 #uaudio* at uhub? port ? configuration ?	# USB Audio
 #audio*	at uaudio?
 #umidi*	at uhub? port ? configuration ?	# USB MIDI
@@ -266,6 +269,10 @@ pcmcia*	at pcic? controller ? socket ?
 #ugen*	at uhub? port ? configuration ? # USB Generic driver
 
 #puc*	at pci?				# PCI "universal" communication device
+
+#sdhc*	at pci?				# SD Host Controller
+#sdmmc*	at sdhc?			# SD/MMC bus
+#scsibus* at sdmmc?			# SCSI emulation
 
 npx0	at isa? port 0xf0 irq 13	# math coprocessor (required)
 isadma0	at isa?
@@ -468,7 +475,7 @@ tx*	at pci? dev ? function ?		# SMC 83C170 EPIC ethernet
 tl*	at pci? dev ? function ?		# Compaq Thunderlan ethernet
 vr*	at pci? dev ? function ?		# VIA Rhine ethernet
 wb*	at pci? dev ? function ?		# Winbond W89C840F ethernet
-sf*	at pci? dev ? function ?		# Adaptec AIC-6915 ethernet
+#sf*	at pci? dev ? function ?		# Adaptec AIC-6915 ethernet
 sis*	at pci? dev ? function ?		# SiS 900/7016 ethernet
 ste*	at pci? dev ? function ?		# Sundance ST201 ethernet
 dc*	at pci? dev ? function ?		# 21143, "tulip" clone ethernet
