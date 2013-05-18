@@ -1,7 +1,8 @@
 /*	$OpenBSD: ntp.c,v 1.92 2006/10/21 07:30:58 henning Exp $ */
 
 /*
- * Copyright (c) 2006, 2007, 2008, 2009 Thorsten Glaser <tg@mirbsd.org>
+ * Copyright (c) 2006, 2007, 2008, 2009, 2010
+ *	Thorsten Glaser <tg@mirbsd.org>
  * Copyright (c) 2003, 2004 Henning Brauer <henning@openbsd.org>
  * Copyright (c) 2004 Alexander Guy <alexander.guy@andern.org>
  *
@@ -38,7 +39,7 @@
 #include "ntpd.h"
 #include "ntp.h"
 
-__RCSID("$MirOS: src/usr.sbin/ntpd/ntp.c,v 1.24 2009/05/07 19:09:36 tg Exp $");
+__RCSID("$MirOS: src/usr.sbin/ntpd/ntp.c,v 1.25 2010/09/21 21:24:46 tg Exp $");
 
 #define	PFD_PIPE_MAIN	0
 #define	PFD_MAX		1
@@ -82,6 +83,7 @@ ntp_main(int pipe_prnt[2], struct ntpd_conf *nconf)
 	struct stat		 stb;
 	time_t			 nextaction;
 	void			*newp;
+	time_t			 nextstir, now;
 
 	switch (pid = fork()) {
 	case -1:
@@ -92,6 +94,11 @@ ntp_main(int pipe_prnt[2], struct ntpd_conf *nconf)
 	default:
 		return (pid);
 	}
+
+	/* force re-stir directly after fork, before chroot */
+	arc4random_stir();
+	(void)arc4random();
+	nextstir = time(NULL) + 5400;
 
 	if ((se = getservbyname("ntp", "udp")) == NULL)
 		fatal("getservbyname");
@@ -160,6 +167,12 @@ ntp_main(int pipe_prnt[2], struct ntpd_conf *nconf)
 		peer_cnt++;
 
 	while (ntp_quit == 0) {
+		if (nextstir < (now = time(NULL))) {
+			/* 1.5 hours after start, then every 2 hrs */
+			arc4random_stir();
+			nextstir = now + 7200;
+		}
+
 		if (peer_cnt > idx2peer_elms) {
 			if ((newp = realloc(idx2peer, sizeof(void *) *
 			    peer_cnt)) == NULL) {
@@ -187,7 +200,7 @@ ntp_main(int pipe_prnt[2], struct ntpd_conf *nconf)
 
 		bzero(pfd, sizeof(struct pollfd) * pfd_elms);
 		bzero(idx2peer, sizeof(void *) * idx2peer_elms);
-		nextaction = time(NULL) + 3600;
+		nextaction = now + 3600;
 		pfd[PFD_PIPE_MAIN].fd = ibuf_main->fd;
 		pfd[PFD_PIPE_MAIN].events = POLLIN;
 
@@ -201,7 +214,7 @@ ntp_main(int pipe_prnt[2], struct ntpd_conf *nconf)
 		idx_peers = i;
 		sent_cnt = trial_cnt = 0;
 		TAILQ_FOREACH(p, &conf->ntp_peers, entry) {
-			if (p->next > 0 && p->next <= time(NULL)) {
+			if (p->next > 0 && p->next <= now) {
 				if (p->state > STATE_DNS_INPROGRESS)
 					trial_cnt++;
 				if (client_query(p) == 0)
@@ -212,7 +225,7 @@ ntp_main(int pipe_prnt[2], struct ntpd_conf *nconf)
 
 			if (p->deadline > 0 && p->deadline < nextaction)
 				nextaction = p->deadline;
-			if (p->deadline > 0 && p->deadline <= time(NULL)) {
+			if (p->deadline > 0 && p->deadline <= now) {
 				timeout = error_interval();
 				log_debug("no reply from %s received in time, "
 				    "next query %ds", log_sockaddr(
@@ -240,7 +253,7 @@ ntp_main(int pipe_prnt[2], struct ntpd_conf *nconf)
 		if (ibuf_main->w.queued > 0)
 			pfd[PFD_PIPE_MAIN].events |= POLLOUT;
 
-		timeout = nextaction - time(NULL);
+		timeout = nextaction - now;
 		if (timeout < 0)
 			timeout = 0;
 
