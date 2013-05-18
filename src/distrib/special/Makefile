@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/special/Makefile,v 1.15 2007/02/18 01:55:22 tg Exp $
+# $MirOS: src/distrib/special/Makefile,v 1.16 2007/03/10 19:34:27 tg Exp $
 #-
 # Tools which must be compiled differently for
 # the small or floppy ramdiscs because of missing
@@ -26,6 +26,7 @@
 .if ${MACHINE} == "i386"
   SUBDIR+=	ppp		# i386 bsd.rd
 # SUBDIR+=	pppd		# i386 floppy
+  SUBDIR+=	rdate		# i386 bsd.rd, for now; maybe it fits...
 .endif
   SUBDIR+=	script		# i386 floppy + bsd.rd, sparc floppy + mr
 .if ${MACHINE} == "i386"
