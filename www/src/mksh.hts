@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.409 2011/07/02 18:03:48 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.410 2011/07/03 23:26:44 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -673,6 +673,7 @@ exec /usr/bin/ld "${args[@]}"</pre>
 
 <h5 class="cr" id="oe_plan9"><img width="50" height="64" alt="[Plan 9 mascot]"
  class="fr" src="@@RELPATH@@pics/logos/glenda.png" />OS: Plan 9</h5>
+<p><strong>Needs retesting with mksh R40</strong></p>
 <p>Plan 9 is not supported yet – we were able to create an executable, but
  it did not return to the prompt after running a non-builtin command; this
  is job control issues, and patches are welcome. (Note this is for R37 and
@@ -705,6 +706,7 @@ exec /usr/bin/ld "${args[@]}"</pre>
 
 <h5 class="cr" id="oe_syll"><img width="186" height="64" alt="[Syllable logo]"
  class="fr" src="@@RELPATH@@pics/logos/syllable.png" />OS: Syllable Desktop</h5>
+<p><strong>Needs retesting with mksh R40</strong></p>
 <p>This does not yet work due to a signal passing bug in the AtheOS kernel,
  we were told by their developers. However, mksh R33 is at the same level
  of support as Plan 9 now.</p>
@@ -1000,7 +1002,7 @@ exec /usr/bin/ld "${args[@]}"</pre>
  <li>[tg] Drop old <tt>Build.sh</tt> -long-options (deprecated in R40)</li>
  <li>[tg] Don’t busy-loop on <tt>nameref ARY=ARY</tt> (LHS = RHS)</li>
  <li>[tg, yofuh] Tabcomplete <tt>~foo</tt> like <tt>$FOO</tt> (LP: #710539)</li>
- <li>[tg] Code cleanup and minor assorted fixes</li>
+ <li>[tg] Code cleanup, style, and minor assorted fixes</li>
  <li>[tg] Tabcomplete <tt>~foo/M↹</tt> (with slash) economically</li>
  <li>[tg] Add new experimental <tt>global</tt> builtin, doing the same
   as <tt>local</tt> (<tt>typeset</tt>, really – but that doesn’t deserve
@@ -1008,6 +1010,7 @@ exec /usr/bin/ld "${args[@]}"</pre>
  <li>[tg] Better error messages with non-integral environment imports</li>
  <li>[tg] <tt>$RANDOM</tt> environment import accepts any string now</li>
  <li>[tg, Lucas Holt] Add <tt>setenv</tt> cshism to <tt>dot.mkshrc</tt></li>
+ <li>[tg, Johannes] Allow ^C to interrupt the built-in cat(1)</li>
 </ul>
 <p id="r40">mksh R40 is a major everything release:</p><ul>
  <li>[tg] Correct small mistakes in manpage and build script</li>
