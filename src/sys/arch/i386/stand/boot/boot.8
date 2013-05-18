@@ -1,4 +1,4 @@
-.\"	$MirOS: src/sys/arch/i386/stand/boot/boot.8,v 1.6 2006/10/13 19:18:03 tg Exp $
+.\"	$MirOS: src/sys/arch/i386/stand/boot/boot.8,v 1.7 2008/08/01 11:24:58 tg Exp $
 .\"	$OpenBSD: boot.8,v 1.47 2007/05/31 19:20:03 jmc Exp $
 .\"
 .\" Copyright (c) 1997-2001 Michael Shalayeff
@@ -39,26 +39,33 @@ The main purpose of this program is to load the system kernel while dealing
 with the downfalls of the PC BIOS architecture, as well as with problems
 arising during an El Torito boot from a CD-ROM drive on broken hardware.
 .Pp
+By renaming it to
+.Pa boot.com
+and placing on a FAT filesystem, it can be called directly from the DOS
+operating system (if running without a virtual memory manager such as
+EMM386.SYS or Windows\(rg 386, 3.x, 9x) or from SYSLINUX (and ISOLINUX,
+PXELINUX, EXTLINUX) as a module.
+This provides a convenient way to load the kernel.
+.Pp
 As described in
 .Xr boot_i386 8 ,
 this program is loaded by the
 .Xr bootxx 8
 primary bootstrap loader if loaded from a floppy or hard disc drive.
 If being loaded from CD, that action is taken directly by the BIOS.
-It can also be started as if it were a native MS-DOS .COM executable.
-This provides a convenient way to load the kernel.
 This programme acts as an enhanced boot monitor for PC systems, providing
 a common interface for the kernel to start from.
 .Pp
-The
-.Nm
-programme can be loaded by the BIOS directly from an ISO9660 filesystem.
-The emulation mode must be set to
+To boot from an ISO 9660 filesystem via El Torito, set the mode to
 .Dq 0 - No Emulation
-for this programme to work correctly.
-Some hardware needs in addition to that a specification that only the
-first sector (first four virtual sectors, 2048 Bytes) of the file are
-to be loaded, because they cannot load more.
+and use the
+.Fl B Ar 11
+option to
+.Pa bootxx.sh
+to install the primary bootloader into the boot image sector, whose
+size must be exactly 2048 bytes; use
+.Xr getextent_cd9660 1
+to determine where to binary-patch the filesystem image.
 The load address is \fB0x07C0:0x0000\fR.
 .Pp
 Basic operations include:
@@ -133,8 +140,8 @@ starts.
 .It
 The header line
 .Pp
-.Dl >> MirBSD boot x.xx
-.Dl booting from device 80h
+.Dl >> MirBSD boot mmnn
+.Dl booting from device 80h = hd0a
 .Pp
 is displayed to the active console, where
 .Ar x.xx
@@ -213,6 +220,9 @@ at the earliest convenient point.
 .It Fl s
 Causes the kernel to boot single-user.
 .El
+.It cat Ar file
+Displays the file argument loaded from the currently active
+filesystem or the one given, if any.
 .It echo Op Ar args
 Displays
 .Ar args
@@ -227,6 +237,9 @@ These are defined for i386 architecture:
 .It Nm diskinfo
 Prints a list of hard disks installed on your system including:
 BIOS device number, and the BIOS geometry.
+.It Nm label
+Displays the disklabel read from the disc or faked for the
+currently active device, or the device given.
 .It Nm memory
 If used without any arguments, this command will print out
 the memory configuration as determined through BIOS routines.
@@ -373,6 +386,15 @@ Invoke the serial console at every boot:
 .Pp
 .Dl # echo \&"set tty com0\&" >/boot.cfg
 .Pp
+You can place multiple commands in one line with the
+.Sq \`
+character.
+Most prominent use would be on machines whose serial console
+is unusable from within the boot loader, but the only way to
+talk to the kernel, e.g. for installation on a WRAP:
+.Pp
+.Dl boot> set tty com0 \` boot /bsd.rd
+.Pp
 Boot the kernel named
 .Pa /bsd
 from the second hard disk in
@@ -389,9 +411,32 @@ option.
 .Pp
 .Dl boot> boot hd1a:/bsd -c
 .Pp
-Attention: the ISO 9660 filesystem interface supports only
+Attention: the ISO 9660 and FAT filesystem interfaces support only
 .Dq short
 (i.e. MS-DOS like 8.3) file names.
+.Pp
+Supported filesystems are: 4.2FFS, ISO 9660, FAT12, FAT16, FAT28.
+.Pp
+If a disklabel cannot be read from a device, either via an MBR
+partition (BIOS discs >= 0x80 only) or as Superfloppy (BIOS hard
+discs only if no MBR partition can be found), one is faked.
+The device size defaults to the size of an 1440 KiB floppy disc,
+but if any MBR primary partitions are found which span more space,
+these values are used instead.
+The
+.Sq c
+slice is filled appropriately.
+The
+.Sq d ,
+.Sq e ,
+.Sq f
+and
+.Sq g
+slices are filled with the four MBR primary partitions, if any.
+The
+.Sq a
+slice is filled, in this order, with: the partition passed to
+SYSLINUX in DS:SI, the first non-empty MBR partition, the whole disc.
 .Sh SEE ALSO
 .Xr gzip 1 ,
 .Xr autoconf 4 ,
@@ -427,3 +472,7 @@ instead.
 The change for
 .Mx 8
 was done to accommodate CD-ROM and MS-DOS based booting.
+Starting with
+.Mx 11 ,
+FAT filesystems are supported, disklabels faked if none exist,
+and SYSLINUX support appeared.
