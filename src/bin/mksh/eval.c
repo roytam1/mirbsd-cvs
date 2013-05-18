@@ -394,7 +394,7 @@ expand(const char *cp,	/* input word */
 						    str_val(st->var));
 						NZATFinish(h);
 						x.str = shf_smprintf("%08X",
-						     (unsigned int)h);
+						    (unsigned int)h);
 						break;
 					}
 					case '0': {
