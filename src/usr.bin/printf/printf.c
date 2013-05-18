@@ -47,7 +47,7 @@
 #define vstrchr strchr
 #endif
 
-__RCSID("$MirOS: src/usr.bin/printf/printf.c,v 1.17 2011/03/13 15:10:09 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/printf/printf.c,v 1.18 2011/08/17 20:54:24 tg Exp $");
 
 static int	 print_escape_str(const char *);
 static int	 print_escape(const char *);
@@ -96,6 +96,10 @@ static const char *s_ptr;
 
 #ifndef vstrchr
 #define vstrchr		strchr
+#endif
+
+#ifndef cstrerror
+#define cstrerror(e)	((const char *)strerror(e))
 #endif
 
 #ifdef MKSH_PRINTF_BUILTIN
@@ -601,7 +605,7 @@ check_conversion(const char *s, const char *ep)
 			uwarnx(UWARNX "%s: not completely converted", s);
 		rval = 1;
 	} else if (errno == ERANGE) {
-		uwarnx(UWARNX "%s: %s", s, strerror(ERANGE));
+		uwarnx(UWARNX "%s: %s", s, cstrerror(ERANGE));
 		rval = 1;
 	}
 }
