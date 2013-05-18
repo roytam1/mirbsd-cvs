@@ -1,4 +1,4 @@
-# $MirOS: gcc/gcc/Makefile.bsd-wrapper,v 1.40 2006/06/11 01:45:19 tg Exp $
+# $MirOS: gcc/gcc/Makefile.bsd-wrapper,v 1.41 2006/06/17 18:11:25 tg Exp $
 
 .include <bsd.own.mk>
 .include "${GNUSYSTEM_AUX_DIR}/locations.mk"
@@ -21,8 +21,14 @@ MAN+=		doc/gcj.1 doc/gcjh.1 doc/gij.1 doc/jcf-dump.1 \
 INFO+=		doc/gcj.info
 .endif
 
+.if defined(CROSS_MODE) && !defined(_CROSSBUILD)
+ALL_TARGET?=	config.status auto-host.h build- c collect2 xgcc cpp xlimits.h
+.else
 ALL_TARGET?=
-.ifdef _CROSSBUILD
+.endif
+.if defined(CROSS_MODE) && !defined(_CROSSBUILD)
+INST_TARGET=	INSTALL_TARGET='install-common lang.install-normal' install
+.elif defined(_CROSSBUILD)
 INST_TARGET=	INSTALL_TARGET='install-common $$(INSTALL_HEADERS) \
 		$$(INSTALL_LIBGCC) lang.install-normal install-driver' install
 .else
@@ -164,6 +170,11 @@ post-install:
 	${INSTALL} ${INSTALL_COPY} ${INSTALL_STRIP} -m ${BINMODE} \
 	    -o ${BINOWN} -g ${BINGRP} xgcc ${DESTDIR}${GCC_PREFIX}/bin/mgcc
 	cd ${DESTDIR}${GCC_PREFIX}/bin && ln -f mgcc gcc-${GCCVERSION}
+.endif
+.if defined(CROSS_MODE) && !defined(_CROSSBUILD)
+	@echo 'Remember to copy over: /usr/lib/crt{begin,end}{,S,T}.o'
+	@echo '  /usr/lib/gcc/${GCCTARGET}/${GCCVERSION}/{f{PIC,pic},include}'
+	@echo '  /usr/lib/gcc/${GCCTARGET}/${GCCVERSION}/lib{gcc,gcov}.a'
 .endif
 	chown -R ${BINOWN}:${BINGRP} \
 	    ${DESTDIR}${GCC_PREFIX}/lib/gcc/${GCCTARGET}/${GCCVERSION}
