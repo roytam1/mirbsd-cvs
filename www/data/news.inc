@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/news.inc,v 1.87 2008/11/14 15:58:57 tg Exp $
+RCSID: $MirOS: www/data/news.inc,v 1.88 2008/11/18 21:37:21 tg Exp $
 Title: Older news from the MirOS Project
 Date: 01.03.2006
 
@@ -527,6 +527,7 @@ Date: 22.11.2007
 ----
 Title: Security updates
 Date: 26.11.2007
+Tag: security
 
 <p>A security update for perl in the base system has been committed.
  To install it, update <tt>src/gnu/usr.bin/perl</tt> via cvs and
@@ -545,6 +546,7 @@ Date: 26.11.2007
 ----
 Title: MirOS at 24C3
 Date: 26.12.2007
+Tag: event
 
 <p>The project will be present (albeit without tg@) at the 24th Chaos
  Communication Congress at Berlin, Germany. We will have (maybe) a table
@@ -574,6 +576,7 @@ Date: 21.01.2008
 ----
 Title: MirOS at FOSDEM 2008
 Date: 07.02.2008
+Tag: event
 
 <p>The MirOS project will be present at <a
  href="http://www.fosdem.org/2008/">FOSDEM 2008</a> in Bruxelles,
@@ -588,6 +591,7 @@ Date: 07.02.2008
 ----
 Title: mirmake 20080218 released
 Date: 20.02.2008
+Tag: mirmake
 
 <p><a href="@@RELPATH@@MirOS/dist/mir/make/">mirmake-20080218</a> has been
  released. Read the <a
@@ -596,12 +600,14 @@ Date: 20.02.2008
 ----
 Title: MirOS @ FOSDEM 2008
 Date: 22.02.2008
+Tag: event
 
 <p>bsiegert@ currently sits at the Early Bird beer event in Bruxelles,
  tg@ and gecko2@ will follow tomorrow and man the MirOS booth ☻</p>
 ----
 Title: FOSDEM follow-up
 Date: 24.02.2008
+Tag: event
 
 <p><a href="@@RELPATH@@MirOS/dist/mir/make/">mirmake-20080224</a> and
  assorted commits in the MirPorts Framework fix all known Mac OSX Leopard
@@ -622,6 +628,7 @@ Date: 24.02.2008
 ----
 Title: mksh R33 released
 Date: 01.03.2008
+Tag: mksh
 
 <p><a href="@@RELPATH@@mksh.htm">mksh R33</a> has been released; read the
  <a href="@@RELPATH@@mksh.htm#clog">ChangeLog</a> for details. (Happy
@@ -681,6 +688,7 @@ Date: 14.03.2008
 ----
 Title: MirOS ξ relased
 Date: 16.03.2008
+Tag: release
 
 <p>MirOS BSD #10 for the i386 and sparc architectures is our eleventh
  formal major release. Grab it while you can, either via the usual <a
@@ -703,6 +711,7 @@ Date: 16.03.2008
 ----
 Title: MirOS #10 downloads
 Date: 20.03.2008
+Tag: release
 
 <p>We had about 1500 downloads of the full ISO in the last 4 days,
  which is actually making our primary mirror traffic problems.</p>
@@ -730,6 +739,7 @@ Date: 20.03.2008
 ----
 Title: MirOS #10 downloads reloaded; new Errata page
 Date: 24.03.2008
+Tag: security
 
 <p>After 1600+ downloads, we think it has settled down a little.
  Nevertheless, we got a request to use a new form of distribution,
@@ -741,6 +751,7 @@ Date: 24.03.2008
 ----
 Title: MirOS #10 first binary update published
 Date: 27.03.2008
+Tag: security release
 
 <p>The <a href="@@RELPATH@@errata10.htm#binup">Errata page</a> lists
  a binary update for the Sendmail and Apache security flaws and a
@@ -749,6 +760,7 @@ Date: 27.03.2008
 Title: MirOS #10 Serial Console NetInstall ISOs available
 Date: 27.03.2008
 Author: tg@
+Tag: snapshot
 
 <p>I thought these might come in handy for poor i386 users:</p><ul>
  <li><a href="@@ABSPATH@@/MirOS/v10/cdrom10-9600,8n1.iso">COM1:9600,8,N,1</a></li>
@@ -767,6 +779,7 @@ Author: tg@
 Title: mksh R33b, no, R33c released
 Date: 28.03.2008
 Author: tg@
+Tag: mksh
 
 <p>The <a href="@@RELPATH@@mksh.htm">MirBSD Korn Shell R33b</a> has just
  been released; as per the <a href="@@RELPATH@@mksh.htm#r33b">Changelog</a>
@@ -782,6 +795,7 @@ Author: tg@
 Title: mksh, mirmake, pkgtools upgraded
 Date: 12.04.2008
 Author: tg@
+Tag: mksh mirmake
 
 <p>The <a href="@@RELPATH@@mksh.htm">MirBSD Korn Shell R33d</a> has been
  released, mostly containing a security fix for the <tt>-T</tt> option,
@@ -822,6 +836,7 @@ Author: tg@
 Title: MirOS-current snapshot on BT
 Date: 14.05.2008 21:37
 Author: tg@
+Tag: snapshot
 
 <p>The <a href="@@RELPATH@@bt.htm#s80514">2008-05-14</a> snapshot of
  MirOS BSD/i386 #10-current has been released as a simple baselive CD
@@ -839,6 +854,7 @@ Author: tg@
 Title: ssh host key changes for anoncvs mirror [updated]
 Date: 15.05.2008 15:42
 Author: tg@
+Tag: security
 
 <p>Our anoncvs mirror has changed its ssh host keys due to a Debian-specific
  problem (it's hosted on a machine running Debian GNU/Linux courtesy of
@@ -856,6 +872,7 @@ Author: tg@
 Title: update for 2008-05-14 snapshot available
 Date: 15.05.2008 16:24
 Author: tg@
+Tag: snapshot
 
 <p>The <a href="@@ABSPATH@@/MirOS/current/i386/fixes10.ngz">fixes10.ngz</a> set, of
  course gzsig(1)d, contains an updated <a href="@@RELPATH@@mksh.htm">mksh</a>
@@ -875,6 +892,7 @@ Author: tg@
 ----
 Title: CVE-2008-1447
 Date: 08.07.2008 22:19
+Tag: security
 
 <p>The <a href="http://cert.uni-stuttgart.de/ticker/article.php?mid=1476">CVE-2008-1447</a>
  does not, according to various sources, affect systems that randomise
@@ -931,6 +949,7 @@ Date: 09.07.2008 18:20
 Title: mksh R35 released! [Update: R35b]
 Date: 11.07.2008
 Author: tg@
+Tag: mksh
 
 <p>The <a href="@@RELPATH@@mksh.htm">MirBSD Korn Shell R35</a> has just
  been released; as per the <a href="@@RELPATH@@mksh.htm#r35">Changelog</a>
@@ -953,6 +972,7 @@ Author: tg@
 Title: MirOS-current DuaLive snapshot on BT
 Date: 22.07.2008 23:12
 Author: tg@
+Tag: snapshot
 
 <p>The <a href="@@RELPATH@@bt.htm#s80722">2008-07-22</a> snapshot of
  MirOS BSD/i386 #10-current has been released as a new-style dualive CD
@@ -971,6 +991,7 @@ Author: tg@
 Title: MirOS Project @ FrOSCon 2008
 Date: 22.07.2008 23:16
 Author: tg@
+Tag: event
 
 <p>The MirOS Project will show up with both developers to run a booth at <a
  href="http://www.froscon.org/">FrOSCon</a>; we will be giving away Live CDs
@@ -983,6 +1004,7 @@ Author: tg@
 Title: Bugs in the current snapshot
 Date: 26.07.2008 18:42
 Author: tg@
+Tag: snapshot bug
 
 <p>The following bugs are known in the MirOS #10-current snapshot, dated
  2008-07-22:</p><ul>
@@ -1058,6 +1080,7 @@ Tag: cpio
 Title: MirOS #10-current (i386, sparc) 2008-10-30 snapshot published
 Date: 30.10.2008 18:42
 Author: tg@
+Tag: snapshot
 
 <p>Today, a new snapshot of MirOS-current has been uploaded into the <a
  href="@RELPATH@@MirOS/current/">NetInstall</a> area. The <tt>cdrom10.iso</tt>
@@ -1088,6 +1111,7 @@ Author: tg@
 Title: MirOS-current DuaLive snapshot on BT
 Date: 07.11.2008 00:45
 Author: tg@
+Tag: snapshot
 
 <p>The <a href="@@RELPATH@@bt.htm#s81106">2008-11-06</a> snapshot of
  MirOS BSD/i386 #10-current has been released as a new-style dualive CD
@@ -1153,6 +1177,7 @@ Date: 14.11.2008
 ----
 Title: pcc cpp imported, Reiser CCCP dropped
 Date: 18.11.2008 21:30
+Tag: pcc
 
 <p>The C Præprocessor, cpp(1), in MirOS-current has changed.</p>
 <p><tt>/usr/bin/cpp</tt> is henceforth deprecated in MirOS-current as well as

@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.107 2008/11/26 17:45:07 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.108 2008/11/27 07:53:30 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -487,6 +487,7 @@ Title: Geocacheing in Basel
 Date: 20.04.2008 02:34
 Author: tg@
 Title: Back home again
+Tag: hardware mksh
 
 <p>Back home… there just ain’t such place as [::1]… (that’s localhost for all
  of you who don’t use BSD). Swinging on the bike and going to the ice dealer,
@@ -855,6 +856,7 @@ Title: Linuxtag 2008, Berlin, .de
 Date: 13.06.2008
 Author: tg@
 Title: Getting things done… slowly
+Tag: hardware
 
 <p>While “the swiss are laggards, and the people from Bern are the slow
  motion of switzerland”, other things take their time as well. However,
@@ -1311,6 +1313,7 @@ Title: Get me some beer, Wine sucks
 Date: 02.08.2008 00:12
 Author: tg@
 Title: HEAD may be broken, but improvements coming, OPTU-8 charset
+Tag: unicode
 
 <p>I started hacking on the bootloader issue, decided to move out the
  various libraries into <tt>src/kern/</tt> first, and completed that
@@ -1406,6 +1409,7 @@ Title: X11, etc.
 Date: 24.08.2008 10:28
 Author: bsiegert@
 Title: pkg-config woes, FrOSCon
+Tag: event
 
 <p>In my recent entry, I already talked a bit about pkg-config and its
  framework support. It turns out that there is another problem. The
@@ -1441,6 +1445,7 @@ Title: pkg-config woes, FrOSCon
 Date: 25.08.2008 13:02
 Author: tg@
 Title: FrOSCon redux
+Tag: event
 
 <p>Hum. This year’s FrOSCon… sucks. At least the catering, which was
  so much better last year (remembering the Chili con Carne, as well
@@ -1516,6 +1521,7 @@ Title: FrOSCon redux
 Date: 29.08.2008
 Author: tg@
 Title: Six Years of MirBSD
+Tag: release mksh
 
 <p>Six years ago, I started collecting patches against OpenBSD, a bunch
  of 4.4 elitist snobs since the 1980s (or so they say). Said patchkit
@@ -1537,6 +1543,7 @@ Title: Six Years of MirBSD
 Date: 05.09.2008 15:04
 Author: bsiegert@
 Title: cairo regressions
+Tag: bug
 
 <p>It seems that everytime I update cairo, another annoying bug pops up.
  This one is actually a regression: the exact same bug had been fixed in
@@ -1568,6 +1575,7 @@ Title: cairo regressions
 Date: 09.09.2008 18:50
 Author: tg@
 Title: Aus gegebenem Anlaß^Hss
+Tag: event
 
 <p>Wir haben jetzt ein Blumenkohl-Icon fürs iPhone, Dank an die RUBIs.</p>
 <p>Google ist definitiv evil. Ich vermeide sie auch so wie es eben geht,
@@ -1602,6 +1610,7 @@ Title: Aus gegebenem Anlaß^Hss
 Date: 14.09.2008 15:26
 Author: tg@
 Title: SoftwareFreedomDay aftrap (of niet…)
+Tag: event
 
 <p>Zaterdag 13 September, Baarn, Nederland. Iedereen wacht op me. Spijtig
  dat ik niet kan komen. Ik wilde met een vriend die een auto heeft naar
@@ -1632,6 +1641,7 @@ Title: SoftwareFreedomDay aftrap (of niet…)
 Title: PHP is dead!
 Date: 17.09.2008 21:58
 Author: tg@
+Tag: security
 
 <p>The MirBSD website now runs without PHP even for legacy content. All HTML
  files are statically generated using <a href="@@RELPATH@@mksh.htm">mksh</a>
@@ -1715,6 +1725,7 @@ Title: I agree with RMS
 Date: 13.10.2008 22:29
 Author: tg@
 Title: mksh – please test release candidate
+Tag: mksh
 
 <p>Hi everyone, <a href="@@RELPATH@@mksh.htm">mksh</a>’s current
  development version should be tested on as many platforms as
@@ -1745,6 +1756,7 @@ Title: mksh – please test release candidate
 Date: 19.10.2008 20:20
 Author: tg@
 Title: Getting closer
+Tag: bug
 
 <p>I’ve built i386 and sparc intermediate snapshots. We’ve been fixing
  things lately, so that another combined DuaLive CD is not so far off,
@@ -1780,6 +1792,7 @@ Title: Getting closer
 Date: 21.10.2008 21:54
 Author: tg@
 Title: Closer, but no game
+Tag: bug
 
 <p>On a somewhat unrelated topic, I would like to remind the readers
  of this wlog that next weekend, winter time will enact, i.e. you’ve
@@ -1853,6 +1866,7 @@ Tag: mksh
 Date: 22.10.2008 21:08
 Author: tg@
 Title: All software sucks…
+Tag: bug
 
 <p>I did not get much further. While I had the brilliant idea to embed a
  native little-endian BSD disklabel inside the first 512 bytes of the
@@ -1873,6 +1887,7 @@ Title: All software sucks…
 Date: 24.10.2008 21:42
 Author: tg@
 Title: Giving up far-away aims to achieve the nearest ones at all
+Tag: bug
 
 <p>While I could use newfs(8)+vnd(4)+mount(8) or makefs(8) with a fixed
  block size for a live CD, or a ports version of mkisofs, or create the
@@ -1933,6 +1948,7 @@ Title: new developer
 Date: 01.11.2008 00:36
 Author: tg@
 Title: WTF we have a symlink
+Tag: bug snapshot
 
 <p>Much closer to a new DuaLive CD. Reading Ecma 119 (ISO 9660), El Torito,
  and IEEE P1282 (Rock Ridge). Fixing bugs in makefs(8) as if there were no
@@ -1971,6 +1987,7 @@ Title: WTF we have a symlink
 Date: 09.11.2008 02:36
 Author: tg@
 Title: website fun
+Tag: security
 
 <p>Now that the website is running on MirOS httpd(8), we can have some
  fun… SSL and such. The following picture may not be displayed if you
@@ -2019,6 +2036,7 @@ Title: compilers
 Date: 12.11.2008 23:55
 Author: tg@
 Title: small updates
+Tag: security
 
 <p><tt>/MirOS/current/i386/fixes10.ngz</tt> holds a new libm, with which
  you can use the three new binary packages (lzma, llvm, llvm-gcc4.2) I’ve
@@ -2038,6 +2056,7 @@ Title: small updates
 Date: 17.11.2008 01:17
 Author: tg@
 Title: aalloc and COFF
+Tag: mksh
 
 <p>I got (E)COFF executables to work, even though I cannot produce them <a
  href="@@ABSPATH@@/cvs.cgi/src/sys/arch/i386/include/exec.h">except with a
@@ -2054,6 +2073,7 @@ Title: aalloc and COFF
 Date: 22.11.2008 14:22
 Author: tg@
 Title: galloc and OPTU
+Tag: unicode mksh
 
 <p>aalloc was a failure and prone to mis-type; I’ve started on galloc,
  which is supposed to be even more type-safe and flexible, yet still
@@ -2084,6 +2104,7 @@ Title: galloc and OPTU
 Date: 23.11.2008 17:26
 Author: tg@
 Title: pcc and OPTU – and just how much Mirzilla Firetapir sucks
+Tag: pcc unicode bug
 
 <p>Today, I was sort of bored, so I enhanced something other than our
  libc, namely <a href="http://pcc.ludd.ltu.se/">pcc</a>, with support
@@ -2109,6 +2130,7 @@ Title: pcc and OPTU – and just how much Mirzilla Firetapir sucks
 Date: 25.11.2008 17:57
 Author: tg@
 Title: pcc and Win32
+Tag: pcc unicode
 
 <p style="margin-bottom:0px;">I think I’m quite finished with the Unicode
  stuff. You can now do really weird things like this:</p>
@@ -2138,6 +2160,7 @@ Title: pcc and Win32
 Date: 26.11.2008 17:40
 Author: tg@
 Title: Laptops &ndash; IBM X40 vs MiTAC 4023
+Tag: hardware bug
 
 <p>Today, I intended to do some hacking too, maybe on that new allocator
  for <a href="@@RELPATH@@mksh.htm">mksh</a> again. However, I never came
@@ -2183,6 +2206,7 @@ Title: Laptops &ndash; IBM X40 vs MiTAC 4023
 Date: 27.11.2008 7
 Author: tg@
 Title: Netcraft confirms: my IBM X40 is dying
+Tag: hardware
 
 <p>Well, maybe not Netcraft. But I couldn't resist the joke, having been
  a regular Slashdot reader for years, seeing its quality sink, until I
