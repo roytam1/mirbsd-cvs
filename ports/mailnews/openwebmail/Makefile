@@ -1,6 +1,7 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.19 2004/03/04 06:34:09 kevlo Exp $
 
-COMMENT=			highly configurable webmail client
+COMMENT=	highly configurable webmail client
 
 DISTNAME=	openwebmail-2.30
 CATEGORIES=	mail www
@@ -13,10 +14,7 @@ PERMIT_PACKAGE_FTP=    Yes
 PERMIT_DISTFILES_CDROM=Yes
 PERMIT_DISTFILES_FTP=  Yes
 
-MASTER_SITES=	http://turtle.ee.ncku.edu.tw/openwebmail/download/ \
-		ftp://openwebmail.org/pub/ \
-		http://turtle.ee.ncku.edu.tw/openwebmail/download/old/
-EXTRACT_SUFX=	.tgz
+MASTER_SITES=	http://openwebmail.org/openwebmail/download/release/
 
 RUN_DEPENDS=	::textproc/ispell \
 		:p5-Text-Iconv->=1.2:converters/p5-Text-Iconv \
