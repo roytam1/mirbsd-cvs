@@ -1,5 +1,4 @@
-/* $MirOS: src/gnu/usr.bin/lynx/src/LYKeymap.c,v 1.3 2005/06/22 11:15:43 tg Exp $ */
-
+/* $LynxId: LYKeymap.c,v 1.64 2007/05/13 15:34:50 Thorsten.Glaser Exp $ */
 #include <HTUtils.h>
 #include <LYUtils.h>
 #include <LYGlobalDefs.h>

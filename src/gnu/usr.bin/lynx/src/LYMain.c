@@ -1,5 +1,5 @@
-/* $MirOS: src/gnu/usr.bin/lynx/src/LYMain.c,v 1.11 2006/09/20 22:03:17 tg Exp $ */
-
+/* $MirOS: src/gnu/usr.bin/lynx/src/LYMain.c,v 1.12 2006/11/10 20:19:27 tg Exp $ */
+/* $LynxId: LYMain.c,v 1.171 2007/05/13 22:45:47 Chuck.Houpt Exp $ */
 #include <HTUtils.h>
 #include <HTTP.h>
 #include <HTParse.h>
@@ -206,9 +206,6 @@ BOOLEAN dump_output_immediately = FALSE;
 BOOLEAN dump_to_stderr = FALSE;
 BOOLEAN emacs_keys = EMACS_KEYS_ALWAYS_ON;
 BOOLEAN error_logging = MAIL_SYSTEM_ERROR_LOGGING;
-BOOLEAN ftp_passive = FTP_PASSIVE;	/* TRUE if doing ftp in passive mode */
-BOOLEAN ftp_local_passive;
-char *ftp_lasthost;
 BOOLEAN goto_buffer = GOTOBUFFER;	/* TRUE if offering default goto URL */
 BOOLEAN historical_comments = FALSE;
 BOOLEAN is_www_index = FALSE;
@@ -282,6 +279,14 @@ BOOLEAN no_shell = FALSE;
 BOOLEAN no_suspend = FALSE;
 BOOLEAN no_telnet_port = FALSE;
 BOOLEAN no_useragent = FALSE;
+
+#ifndef DISABLE_FTP
+BOOLEAN ftp_passive = FTP_PASSIVE;	/* TRUE if doing ftp in passive mode */
+BOOLEAN ftp_local_passive;
+HTList *broken_ftp_epsv = NULL;
+HTList *broken_ftp_retr = NULL;
+char *ftp_lasthost = NULL;
+#endif
 
 #ifndef DISABLE_NEWS
 BOOLEAN no_goto_news = FALSE;
@@ -502,6 +507,7 @@ BOOLEAN LYShowTransferRate = TRUE;
 int LYTransferRate = rateKB;
 int LYAcceptEncoding = encodingALL;
 int LYAcceptMedia = mediaOpt1;
+char *LYTransferName = NULL;
 
 char *XLoadImageCommand = NULL;	/* Default image viewer for X */
 BOOLEAN LYNoISMAPifUSEMAP = FALSE;	/* Omit ISMAP link if MAP present? */
@@ -540,7 +546,7 @@ BOOL ok_justify = FALSE;
 int justify_max_void_percent = 35;
 #endif
 
-#ifdef EXP_LOCALE_CHARSET
+#ifdef USE_LOCALE_CHARSET
 BOOLEAN LYLocaleCharset = FALSE;
 #endif
 
@@ -754,7 +760,11 @@ static void free_lynx_globals(void)
     FREE(proxyauth_info[0]);
     FREE(proxyauth_info[1]);
     FREE(lynxjumpfile);
+#ifndef DISABLE_FTP
     FREE(ftp_lasthost);
+    LYFreeStringList(broken_ftp_epsv);
+    LYFreeStringList(broken_ftp_retr);
+#endif
     FREE(startrealm);
     FREE(personal_mail_address);
     FREE(anonftp_password);
@@ -762,6 +772,7 @@ static void free_lynx_globals(void)
     FREE(URLDomainSuffixes);
     FREE(XLoadImageCommand);
     FREE(lynx_temp_space);
+    FREE(LYTransferName);
     FREE(LYTraceLogPath);
     FREE(lynx_cfg_file);
 #if defined(USE_COLOR_STYLE)
@@ -809,9 +820,6 @@ void reset_signals(void)
 void exit_immediately(int code)
 {
     reset_signals();
-#ifdef NCURSES_NO_LEAKS
-    _nc_freeall();
-#endif
     exit(code);
 }
 
@@ -855,37 +863,6 @@ static void FixCharacters(void)
     }
 }
 #endif /* EBCDIC */
-
-static void tildeExpand(char **pathname,
-			BOOLEAN embedded)
-{
-    char *temp = *pathname;
-
-    if (embedded) {
-	if (temp != NULL) {
-	    temp = strstr(*pathname, "/~");
-	    if (temp != 0)
-		temp++;
-	    else
-		temp = *pathname;
-	}
-    }
-
-    if (temp != NULL
-	&& temp[0] == '~') {
-	if (temp[1] == '/'
-	    && temp[2] != '\0') {
-	    temp = NULL;
-	    StrAllocCopy(temp, *pathname + 2);
-	    StrAllocCopy(*pathname, wwwName(Home_Dir()));
-	    LYAddPathSep(pathname);
-	    StrAllocCat(*pathname, temp);
-	    FREE(temp);
-	} else if (temp[1] == '\0') {
-	    StrAllocCopy(*pathname, wwwName(Home_Dir()));
-	}
-    }
-}
 
 static BOOL GetStdin(char **buf,
 		     BOOL marker)
@@ -967,6 +944,7 @@ static void SetLocale(void)
 #if defined(HAVE_LIBINTL_H) || defined(HAVE_LIBGETTEXT_H)
     {
 	char *cp;
+
 	if ((cp = LYGetEnv("LYNX_LOCALEDIR")) == 0)
 	    cp = LOCALEDIR;
 	bindtextdomain("lynx", cp);
@@ -1104,7 +1082,7 @@ int main(int argc,
 #ifdef LY_FIND_LEAKS
     /*
      * Register the final function to be executed when being exited.  Will
-     * display memory leaks if LY_FIND_LEAKS is defined.
+     * display memory leaks if the -find-leaks option is used.
      */
     atexit(LYLeaks);
     /*
@@ -1147,6 +1125,7 @@ int main(int argc,
     MessageSecs = SECS2Secs(MESSAGESECS);
     ReplaySecs = SECS2Secs(REPLAYSECS);
 
+    StrAllocCopy(LYTransferName, "KiB");
     StrAllocCopy(helpfile, HELPFILE);
     StrAllocCopy(startfile, STARTFILE);
     LYEscapeStartfile(&startfile);
@@ -1217,7 +1196,7 @@ int main(int argc,
 #ifdef WIN_EX			/* for Windows 2000 ... 1999/08/23 (Mon) 08:24:35 */
     if (access(lynx_temp_space, 0) != 0)
 #endif
-	tildeExpand(&lynx_temp_space, TRUE);
+	LYTildeExpand(&lynx_temp_space, TRUE);
 
     if ((cp = strstr(lynx_temp_space, "$USER")) != NULL) {
 	char *cp1;
@@ -1415,14 +1394,14 @@ int main(int argc,
      * Open command-script, if specified
      */
     if (lynx_cmd_script != 0) {
-	tildeExpand(&lynx_cmd_script, TRUE);
+	LYTildeExpand(&lynx_cmd_script, TRUE);
 	LYOpenCmdScript();
     }
     /*
      * Open command-logging, if specified
      */
     if (lynx_cmd_logfile != 0) {
-	tildeExpand(&lynx_cmd_logfile, TRUE);
+	LYTildeExpand(&lynx_cmd_logfile, TRUE);
 	LYOpenCmdLogfile(argc, argv);
     }
 #endif
@@ -1461,7 +1440,7 @@ int main(int argc,
 	StrAllocCopy(lynx_cfg_file, LYNX_CFG_FILE);
 
 #ifndef _WINDOWS		/* avoid the whole ~ thing for now */
-    tildeExpand(&lynx_cfg_file, FALSE);
+    LYTildeExpand(&lynx_cfg_file, FALSE);
 #endif
 
     /*
@@ -1578,7 +1557,7 @@ int main(int argc,
     if (!lynx_lss_file)
 	StrAllocCopy(lynx_lss_file, LYNX_LSS_FILE);
 
-    tildeExpand(&lynx_lss_file, TRUE);
+    LYTildeExpand(&lynx_lss_file, TRUE);
 
     /*
      * If the lynx-style file is not available, inform the user and exit.
@@ -1597,7 +1576,7 @@ int main(int argc,
      */
     read_rc(NULL);
 
-#ifdef EXP_LOCALE_CHARSET
+#ifdef USE_LOCALE_CHARSET
     LYFindLocaleCharset();
 #endif
 
@@ -1639,6 +1618,33 @@ int main(int argc,
 	}
 	LYStdinArgs_free();
     }
+#ifdef HAVE_TTYNAME
+    /*
+     * If the input is not a tty, we are either running in cron, or are
+     * getting input via a pipe:
+     *
+     * a) in cron, none of stdin/stdout/stderr are tty's.
+     * b) from a pipe, we should have either "-" or "-stdin" options.
+     */
+    if (!LYGetStdinArgs
+	&& !startfile_stdin
+	&& !isatty(fileno(stdin))
+	&& (isatty(fileno(stdout) || isatty(fileno(stderr))))) {
+	int ignored = 0;
+	int ch;
+
+	while ((ch = fgetc(stdin)) != EOF) {
+	    ++ignored;
+	}
+	if (ignored) {
+	    fprintf(stderr,
+		    gettext("Ignored %d characters from standard input.\n"), ignored);
+	    fprintf(stderr,
+		    gettext("Use \"-stdin\" or \"-\" to tell how to handle piped input.\n"));
+	}
+    }
+#endif /* HAVE_TTYNAME */
+
 #ifdef CAN_SWITCH_DISPLAY_CHARSET
     if (current_char_set == auto_display_charset)	/* Better: explicit option */
 	switch_display_charsets = 1;
@@ -1696,14 +1702,14 @@ int main(int argc,
 
 	    LYAddPathToHome(LYCookieFile, LY_MAXPATH, COOKIE_FILE);
 	} else {
-	    tildeExpand(&LYCookieFile, FALSE);
+	    LYTildeExpand(&LYCookieFile, FALSE);
 	}
 	LYLoadCookies(LYCookieFile);
     }
 
     /* tilde-expand LYCookieSaveFile */
     if (LYCookieSaveFile != NULL) {
-	tildeExpand(&LYCookieSaveFile, FALSE);
+	LYTildeExpand(&LYCookieSaveFile, FALSE);
     }
 
     /*
@@ -1719,6 +1725,13 @@ int main(int argc,
 	}
     }
 #endif
+
+    /*
+     * Check for a help file URL in the environment. Overiding
+     * compiled-in default and configuration file setting, if found.
+     */
+    if ((cp = LYGetEnv("LYNX_HELPFILE")) != NULL)
+	StrAllocCopy(helpfile, cp);
 
     /*
      * Set up our help and about file base paths. - FM
@@ -1742,7 +1755,7 @@ int main(int argc,
 	FREE(lynx_save_space);
     }
     if (lynx_save_space) {
-	tildeExpand(&lynx_save_space, TRUE);
+	LYTildeExpand(&lynx_save_space, TRUE);
 #ifdef VMS
 	LYLowerCase(lynx_save_space);
 	if (strchr(lynx_save_space, '/') != NULL) {
@@ -2055,6 +2068,14 @@ int main(int argc,
 	ftp_ok = (BOOL) (!no_outside_ftp && ftp_ok);
 	rlogin_ok = (BOOL) (!no_outside_rlogin && rlogin_ok);
     }
+#ifdef DISABLE_FTP
+    ftp_ok = FALSE;
+#else
+    /* predefine some known broken ftp servers */
+    LYSetConfigValue(RC_BROKEN_FTP_RETR, "ProFTPD 1.2.5");
+    LYSetConfigValue(RC_BROKEN_FTP_RETR, "spftp/");
+    LYSetConfigValue(RC_BROKEN_FTP_EPSV, "(Version wu-2.6.2-12)");
+#endif
 
     /*
      * Make sure our bookmark default strings are all allocated and
@@ -2306,20 +2327,6 @@ void reload_read_cfg(void)
 #ifdef EXP_CHARSET_CHOICE
 	init_charset_subsets();
 #endif
-
-	/* We are not interested in startfile here */
-	/* but other things may be lost: */
-
-	/*
-	 * Process any command line arguments not already handled.
-	 */
-	/* Not implemented yet here */
-
-	/*
-	 * Process any stdin-derived arguments for a lone "-" which we've
-	 * loaded into LYStdinArgs.
-	 */
-	/* Not implemented yet here */
 
 	/*
 	 * Initialize other things based on the configuration read.
@@ -3154,31 +3161,7 @@ static int version_fun(char *next_arg GCC_UNUSED)
     printf("%s\n", result);
     free(result);
 
-/*
- * SYSTEM_NAME is set by the configure script.  Show build date/time for other
- * systems, according to predefined compiler symbols.
- */
-#ifdef SYSTEM_NAME
-    printf(gettext("Built on %s\n"), SYSTEM_NAME);
-#else
-#ifdef __CYGWIN__
-    printf("Compiled by CYGWIN.\n");
-#else
-#ifdef __BORLANDC__
-    printf("Compiled by Borland C++.\n");
-#else
-#ifdef _MSC_VER
-    printf("Compiled by Microsoft Visual C++.\n");
-#else
-#ifdef __DJGPP__
-    printf("Compiled by DJGPP.\n");
-#else
     printf("No compilation information available.\n");
-#endif /* __DJGPP__ */
-#endif /* _MSC_VER */
-#endif /* __BORLANDC__ */
-#endif /* __CYGWIN__ */
-#endif
 
     puts("");
     puts(gettext("Copyrights held by the Lynx Developers Group,"));
@@ -3455,10 +3438,12 @@ keys (may be incompatible with some curses packages)"
       "from",		4|TOGGLE_ARG,		LYNoFromHeader,
       "toggle transmission of From headers"
    ),
+#ifndef DISABLE_FTP
    PARSE_SET(
       "ftp",		4|UNSET_ARG,		ftp_ok,
       "disable ftp access"
    ),
+#endif
    PARSE_FUN(
       "get_data",	2|FUNCTION_ARG,		get_data_fun,
       "user data for get forms, read from stdin,\nterminated by '---' on a line"
@@ -3664,6 +3649,12 @@ keys (may be incompatible with some curses packages)"
       "partial_thres",	4|NEED_INT_ARG,		partial_threshold,
       "[=NUMBER]\nnumber of lines to render before repainting display\n\
 with partial-display logic"
+   ),
+#endif
+#ifndef DISABLE_FTP
+   PARSE_SET(
+      "passive-ftp",	4|TOGGLE_ARG,		ftp_passive,
+      "toggles passive ftp connection"
    ),
 #endif
    PARSE_FUN(

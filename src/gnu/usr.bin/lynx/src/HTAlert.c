@@ -1,5 +1,3 @@
-/* $MirOS: src/gnu/usr.bin/lynx/src/HTAlert.c,v 1.2 2005/03/27 22:42:36 tg Exp $ */
-
 /*	Displaying messages and getting input for Lynx Browser
  *	==========================================================
  *
@@ -100,6 +98,18 @@ void HTInfoMsg(const char *Msg)
     }
 }
 
+void HTInfoMsg2(const char *Msg2, const char *Arg)
+{
+    _user_message(Msg2, Arg);
+    if (non_empty(Msg2)) {
+	CTRACE((tfp, "Info message: "));
+	CTRACE((tfp, Msg2, Arg));
+	CTRACE((tfp, "\n"));
+	LYstore_message2(Msg2, Arg);
+	LYSleepInfo();
+    }
+}
+
 /*	Issue an important message.			HTUserMsg()
  *	--------------------------------
  */
@@ -149,7 +159,7 @@ const char *HTProgressUnits(int rate)
 
     if (!bunits) {
 	bunits = gettext("bytes");
-	kbunits = gettext("KiB");
+	kbunits = gettext(LYTransferName);
     }
     return ((rate == rateKB)
 #ifdef USE_READPROGRESS

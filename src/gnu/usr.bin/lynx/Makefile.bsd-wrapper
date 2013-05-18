@@ -1,4 +1,4 @@
-# $MirOS: src/gnu/usr.bin/lynx/Makefile.bsd-wrapper,v 1.12 2006/10/28 19:56:45 tg Exp $
+# $MirOS: src/gnu/usr.bin/lynx/Makefile.bsd-wrapper,v 1.13 2007/05/08 21:52:54 tg Exp $
 # $OpenBSD: Makefile.bsd-wrapper,v 1.12 2003/05/01 18:59:36 avsm Exp $
 
 MAN=		lynx.1
@@ -7,17 +7,40 @@ FSFMAKEFILE=	makefile
 
 .include <bsd.own.mk>
 
-CFARGS=		--sysconfdir=/etc --prefix=/usr --with-ssl=/usr --with-zlib \
-		--enable-addrlist-page --enable-charset-choice --enable-widec \
-		--enable-color-style --disable-full-paths --enable-warnings \
-		--enable-internal-links --enable-kbd-layout --enable-ipv6 \
-		--enable-nested-tables --disable-nls --enable-nsl-fork \
-		--with-screen=ncursesw --disable-scrollbar --enable-cjk \
-		--enable-underlines --enable-vertrace --without-bzlib
-.if ${NOPIC:L} == "no"
+CFARGS+=	--prefix=/usr \
+		--sysconfdir=/etc \
+		--enable-vertrace \
+		--enable-warnings \
+		--disable-nls \
+		--disable-full-paths \
+		--with-ssl=/usr \
+		--without-gnutls \
+		--without-socks \
+		--without-socks5 \
+		--with-screen=ncursesw \
+		--enable-widec \
+		--enable-addrlist-page \
+		--enable-charset-choice \
+		--enable-cjk \
+		--enable-japanese-utf8 \
+		--enable-color-style \
+		--disable-default-colors \
+		--disable-htmlized-cfg \
+		--enable-ipv6 \
+		--enable-kbd-layout \
+		--enable-locale-charset \
+		--enable-nested-tables \
+		--disable-scrollbar \
+		--enable-justify-elts \
+		--enable-internal-links \
+		--enable-nsl-fork \
+		--enable-underlines \
+		--without-bzlib \
+		--with-zlib \
+		--without-x
+
+.if ${NOPIC:L} != "no"
 # japanese-utf8 logic needs some sort of iconv
-CFARGS+=	--enable-japanese-utf8
-.else
 # citrus iconv does not work on static arches :(
 CFARGS+=	--disable-japanese-utf8
 .endif
@@ -48,9 +71,11 @@ HTMLTESTS=	ALT88592.html ISO_LATIN1_test.html README.txt \
 		test-styles.html unicode.html utf-8-demo.html
 
 lynx.1:	${.CURDIR}/lynx.man
-	-cp -p ${.ALLSRC} $@
+	-cp ${.ALLSRC} $@
 
-post-install:
+do-install:
+	${INSTALL_PROGRAM} lynx ${DESTDIR}/usr/bin/lynx
+	${INSTALL_SCRIPT} ${.CURDIR}/samples/oldlynx ${DESTDIR}/usr/bin/
 .for _i in ${HTMLFILES}
 	${INSTALL_DOC} ${.CURDIR}/lynx_help/${_i} \
 	    ${DESTDIR}${HTMLDIR}/lynx_help/${_i}
@@ -64,13 +89,8 @@ post-install:
 	    ${DESTDIR}${HTMLDIR}/lynx_help/test/${_i}
 .endfor
 
-do-install:
-	${INSTALL_PROGRAM} lynx ${DESTDIR}/usr/bin/lynx
-	${INSTALL_SCRIPT} ${.CURDIR}/samples/oldlynx ${DESTDIR}/usr/bin/
-
 distribution:
-	${INSTALL_DATA} ${.CURDIR}/lynx.cfg ${DESTDIR}/etc/lynx.cfg
-	${INSTALL_DATA} ${.CURDIR}/samples/lynx.lss ${DESTDIR}/etc/lynx.lss
-	chgrp ${CONFGRP} ${DESTDIR}/etc/lynx.cfg ${DESTDIR}/etc/lynx.lss
+	cd ${.CURDIR} && ${INSTALL_DATA} -g ${CONFGRP} \
+	    lynx.cfg samples/lynx.lss ${DESTDIR}/etc/
 
 .include <bsd.cfwrap.mk>

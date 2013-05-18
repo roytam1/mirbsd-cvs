@@ -1,5 +1,3 @@
-/* $MirOS: src/gnu/usr.bin/lynx/src/LYrcFile.h,v 1.5 2006/09/13 19:18:38 tg Exp $ */
-
 #ifndef LYRCFILE_H
 #define LYRCFILE_H
 
@@ -26,6 +24,8 @@
 #define RC_BOLD_HEADERS                 "bold_headers"
 #define RC_BOLD_NAME_ANCHORS            "bold_name_anchors"
 #define RC_BOOKMARK_FILE                "bookmark_file"
+#define RC_BROKEN_FTP_EPSV              "broken_ftp_epsv"
+#define RC_BROKEN_FTP_RETR              "broken_ftp_retr"
 #define RC_BZIP2_PATH                   "bzip2_path"
 #define RC_CASE_SENSITIVE_ALWAYS_ON     "case_sensitive_always_on"
 #define RC_CASE_SENSITIVE_SEARCHING     "case_sensitive_searching"
@@ -198,6 +198,7 @@
 #define RC_SHOW_COLOR                   "show_color"
 #define RC_SHOW_CURSOR                  "show_cursor"
 #define RC_SHOW_DOTFILES                "show_dotfiles"
+#define RC_SHOW_KB_NAME                 "show_kb_name"
 #define RC_SHOW_KB_RATE                 "show_kb_rate"
 #define RC_SNEWSPOST_PROXY              "snewspost_proxy"
 #define RC_SNEWSREPLY_PROXY             "snewsreply_proxy"
