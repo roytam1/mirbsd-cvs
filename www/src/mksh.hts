@@ -2,7 +2,7 @@
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.199 2009/01/08 21:36:35 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.200 2009/02/01 13:22:49 tg Exp $'
 mws_content <<'EOF'
 <h1>mksh(1) R36b</h1>
 <p>This is the website of the MirBSD™ Korn Shell, an actively developed free
@@ -1017,7 +1017,23 @@ mws_content <<'EOF'
  <br />XXX this might be a bad idea actually, cf. php’s insecurity</li>
 <li>Bugfix for suspending <tt>a &amp;&amp; b</tt> chain</li>
 <li>echo diff &lt;(echo 1) &lt;(echo 2)</li>
-<li>Bugfix: <tt>${foo/%/x}</tt> (% and maybe #) doesn’t work</li>
+<li>Bugfix: <tt>${foo/%/x}</tt> (% and maybe #) doesn’t work:
+ <pre>
+	tg@bleu:~ $ foo='%20%21%22%40'
+	tg@bleu:~ $ print ${foo/@(%)/x}
+	%20%21%22%40
+	tg@bleu:~ $ foo=$foo mksh -c 'print ${foo/@(%)/x}'
+	x20%21%22%40
+	tg@bleu:~ $ foo=$foo mksh -c 'print -- "${foo//@(%)/\\x}"'
+	 !"@
+	tg@bleu:~ $ set +U
+	tg@bleu:~ $ print -- "${foo//@(%)/\\x}"
+	 !"@
+	tg@bleu:~ $ set -U
+	tg@bleu:~ $ print -- "${foo//@(%)/\\x}"
+	%20%21%22%40
+ </pre>
+</li>
 </ul>
 
 <h2 id="clog">Recent Changes</h2>
