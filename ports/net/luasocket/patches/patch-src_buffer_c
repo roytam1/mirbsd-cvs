@@ -1,6 +1,7 @@
+$MirOS$
 $OpenBSD: patch-src_buffer_c,v 1.2 2009/08/22 20:28:40 robert Exp $
---- src/buffer.c.orig	Thu Apr 27 03:22:59 2006
-+++ src/buffer.c	Sat Aug 29 13:03:49 2009
+--- src/buffer.c.orig	Mon Oct 15 04:20:42 2007
++++ src/buffer.c	Sun Jan 15 12:06:56 2012
 @@ -33,7 +33,7 @@ static int sendraw(p_buffer buf, const c
  /*-------------------------------------------------------------------------*\
  * Initializes module
@@ -44,8 +45,8 @@ $OpenBSD: patch-src_buffer_c,v 1.2 2009/08/22 20:28:40 robert Exp $
 -int buffer_meth_send(lua_State *L, p_buffer buf) {
 +int ls_buffer_meth_send(lua_State *L, p_buffer buf) {
      int top = lua_gettop(L);
-     p_timeout tm = timeout_markstart(buf->tm);
      int err = IO_DONE;
+     size_t size = 0, sent = 0;
 @@ -106,7 +106,7 @@ int buffer_meth_send(lua_State *L, p_buf
  /*-------------------------------------------------------------------------*\
  * object:receive() interface
@@ -53,8 +54,8 @@ $OpenBSD: patch-src_buffer_c,v 1.2 2009/08/22 20:28:40 robert Exp $
 -int buffer_meth_receive(lua_State *L, p_buffer buf) {
 +int ls_buffer_meth_receive(lua_State *L, p_buffer buf) {
      int err = IO_DONE, top = lua_gettop(L);
-     p_timeout tm = timeout_markstart(buf->tm);
      luaL_Buffer b;
+     size_t size;
 @@ -149,7 +149,7 @@ int buffer_meth_receive(lua_State *L, p_
  /*-------------------------------------------------------------------------*\
  * Determines if there is any data in the read buffer
@@ -64,7 +65,7 @@ $OpenBSD: patch-src_buffer_c,v 1.2 2009/08/22 20:28:40 robert Exp $
      return buf->first >= buf->last;
  }
  
-@@ -239,7 +239,7 @@ static int recvline(p_buffer buf, luaL_B
+@@ -244,7 +244,7 @@ static int recvline(p_buffer buf, luaL_B
  static void buffer_skip(p_buffer buf, size_t count) {
      buf->received += count;
      buf->first += count;
@@ -73,7 +74,7 @@ $OpenBSD: patch-src_buffer_c,v 1.2 2009/08/22 20:28:40 robert Exp $
          buf->first = buf->last = 0;
  }
  
-@@ -251,7 +251,7 @@ static int buffer_get(p_buffer buf, cons
+@@ -256,7 +256,7 @@ static int buffer_get(p_buffer buf, cons
      int err = IO_DONE;
      p_io io = buf->io;
      p_timeout tm = buf->tm;

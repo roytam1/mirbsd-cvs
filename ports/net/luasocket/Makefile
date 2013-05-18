@@ -1,18 +1,18 @@
-# $MirOS: ports/net/luasocket/Makefile,v 1.4 2009/08/30 18:25:10 tg Exp $
+# $MirOS: ports/net/luasocket/Makefile,v 1.5 2009/11/14 21:13:13 tg Exp $
 # $OpenBSD: Makefile,v 1.17 2009/08/22 20:28:40 robert Exp $
 
 COMMENT=		network support for the lua language
-DISTNAME=		luasocket-2.0.1
-DASH_VER=		1
+DISTNAME=		luasocket-2.0.2
 CATEGORIES=		net
-MASTER_SITES=		http://luaforge.net/frs/download.php/1589/
-HOMEPAGE=		http://www.cs.princeton.edu/~diego/professional/luasocket/
+HOMEPAGE=		http://w3.impa.br/~diego/software/luasocket/home.html
 
 # MIT
 PERMIT_PACKAGE_CDROM=	Yes
 PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
+
+MASTER_SITES=		http://files.luaforge.net/releases/luasocket/luasocket/${DISTNAME}/
 
 BUILD_DEPENDS+=		:mirmake->=20090830:devel/mirmake
 MODULES=		lang/lua
