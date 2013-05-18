@@ -1,4 +1,4 @@
-@comment $MirOS$
+@comment $MirOS: ports/www/firesomething/pkg/PFRAG.shared,v 1.2 2006/05/11 20:55:47 bsiegert Exp $
 @comment $OpenBSD: PFRAG.shared,v 1.7 2005/09/08 12:48:39 kurt Exp $
 @lib firesomething/components/libaccessibility.so.${SO_VERSION}
 @lib firesomething/components/libappcomps.so.${SO_VERSION}
@@ -22,6 +22,7 @@
 @lib firesomething/components/libhtmlpars.so.${SO_VERSION}
 @lib firesomething/components/libi18n.so.${SO_VERSION}
 @lib firesomething/components/libimglib2.so.${SO_VERSION}
+@lib firesomething/components/libinspector.so.${SO_VERSION}
 @lib firesomething/components/libjar50.so.${SO_VERSION}
 @lib firesomething/components/libjsd.so.${SO_VERSION}
 @lib firesomething/components/libmork.so.${SO_VERSION}
@@ -71,3 +72,5 @@
 @lib firesomething/libxpcom_compat.so.${SO_VERSION}
 @lib firesomething/libxpcom_core.so.${SO_VERSION}
 @lib firesomething/libxpistub.so.${SO_VERSION}
+@lib firesomething/plugins/libnullplugin.so.${SO_VERSION}
+@lib firesomething/plugins/libunixprintplugin.so.${SO_VERSION}

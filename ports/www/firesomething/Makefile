@@ -1,9 +1,9 @@
-# $MirOS: ports/www/firesomething/Makefile,v 1.12 2006/09/14 00:14:35 tg Exp $
+# $MirOS: ports/www/firesomething/Makefile,v 1.13 2006/12/20 15:32:04 tg Exp $
 # $OpenBSD: Makefile,v 1.41 2005/11/15 09:21:52 wilfried Exp $
 
 ONLY_FOR_PLATFORM=	*:*:alpha *:*:i386 *:*:sparc *:*:sparc64 *:*:amd64 *:*:powerpc
 COMMENT=		one of the successors to the Netscape browser engine
-VER=			1.5.0.5
+VER=			1.5.0.6
 DISTNAME=		mozilla
 PKGNAME=		firesomething-${VER}-${DASH_VER}
 CATEGORIES=		www
@@ -35,7 +35,7 @@ USE_X11=		Yes
 USE_GMAKE=		Yes
 # Regression tests are too hard to adapt to run here
 NO_REGRESS=		Yes
-SUBST_VARS=		LOCALBASE SO_VERSION
+SUBST_VARS=		LOCALBASE SO_VERSION VER
 
 MODGNU_CONFIG_GUESS_DIRS=	${WRKSRC} \
 				${WRKSRC}/nsprpub
@@ -88,24 +88,7 @@ pre-configure:
 		${WRKSRC}/nsprpub/pr/include/md/_openbsd.h \
 		${WRKSRC}/xpcom/components/nsNativeComponentLoader.cpp
 
-do-install:
-.for dir in chrome components defaults extensions greprefs res searchplugins
-	${INSTALL_DATA_DIR} ${MOZ}/${dir}
-	cd ${MOB} && ${TAR} -chf - ${dir} | \
-		${TAR} -xf - -C ${MOZ}
-.endfor
-	cd ${MOB} && ${TAR} -chf - *.so.?.? | \
-		${TAR} -xf - -C ${MOZ}
-	chmod 444 ${MOZ}/*.so.?.? ${MOZ}/components/*.so.?.? ${MOZ}/components/*.js
-	${INSTALL_DATA} ${WRKSRC}/LICENSE ${MOZ}
-
-	${INSTALL_DATA} ${WRKSRC}/browser/app/mozicon16.xpm ${WRKSRC}/browser/app/mozicon50.xpm ${MOZ}
-	${INSTALL_SCRIPT} ${MOB}/firefox ${PREFIX}/bin/firesomething
-	${INSTALL_SCRIPT} ${MOB}/firefox-config ${PREFIX}/bin/
-	ln -f ${PREFIX}/bin/firesomething ${PREFIX}/bin/firefox
-	${INSTALL_SCRIPT} ${MOB}/run-mozilla.sh ${MOZ}
-	${INSTALL_PROGRAM} ${MOB}/regxpcom ${MOB}/mozilla-xremote-client ${MOZ}
-	${INSTALL_PROGRAM} ${MOB}/firefox-bin ${MOZ}/firesomething-bin
-	ln -f ${MOZ}/firesomething-bin ${MOZ}/firefox-bin
+post-install:
+	ln -f ${PREFIX}/bin/firefox ${PREFIX}/bin/firesomething
 
 .include <bsd.port.mk>
