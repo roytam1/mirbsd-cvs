@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/distrib/common/install.sh,v 1.17 2008/09/20 19:35:23 tg Exp $
+# $MirOS: src/distrib/common/install.sh,v 1.18 2008/11/13 03:24:31 tg Exp $
 # $OpenBSD: install.sh,v 1.152 2005/04/21 21:41:33 krw Exp $
 # $NetBSD: install.sh,v 1.5.2.8 1996/08/27 18:15:05 gwr Exp $
 #
@@ -489,6 +489,7 @@ cat >/mnt/etc/rc.once <<-'EOF'
 	    b64encode -r - | tr '+=/' '._-')) >/dev/wrandom 2>&1 &
 	newaliases 2>&1 | logger -t rc.once
 	sync
+	sleep 1
 	( (
 		print running daily, weekly and monthly cronjobs
 		mksh /etc/cronrun -n daily &
@@ -499,6 +500,7 @@ cat >/mnt/etc/rc.once <<-'EOF'
 		sync
 		rm -f /var/run/cron.maintenance /etc/rc.once
 	) 2>&1 | logger -t rc.once ) &
+	sleep 3
 EOF
 
 echo -n "done.\nGenerating initial host.random file..."

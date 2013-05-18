@@ -1,4 +1,4 @@
-# $MirOS: src/etc/rc,v 1.89 2008/10/20 18:20:31 tg Exp $
+# $MirOS: src/etc/rc,v 1.90 2008/10/20 19:29:21 tg Exp $
 # $OpenBSD: rc,v 1.277 2006/01/12 21:54:15 deraadt Exp $
 #-
 # System startup script run by init on autoboot or after single-user.
@@ -593,6 +593,11 @@ fi
     [[ ! -d /var/anoncvs/anoncvs || ! -s /var/anoncvs/anoncvssh ]] || \
     pax -rw -pe /dev/{null,zero} /var/anoncvs/anoncvs
 
+if [[ -e /etc/rc.once ]]; then
+	print rc: running post-install hooks
+	/bin/mksh /etc/rc.once
+fi
+
 # Generate all the RSA keys we might need
 if [[ ! -s /etc/ssl/private/default.key && -s /etc/ssh/ssh_host_rsa_key ]]; then
 	print "openssl: using old SSH host RSA key"
@@ -637,11 +642,6 @@ if [[ ! -s /etc/ssh/ssh_host_rsa_key.pub ]]; then
 	chmod 600 /etc/ssh/ssh_host_rsa_key
 	chmod 644 /etc/ssh/ssh_host_rsa_key.pub
 	print done.
-fi
-
-if [[ -e /etc/rc.once ]]; then
-	print rc: running post-install hooks
-	/bin/mksh /etc/rc.once
 fi
 
 echo -n starting network daemons:
