@@ -1,4 +1,4 @@
-# $MirOS: src/share/misc/bsdstats,v 1.19 2007/03/11 18:51:02 tg Exp $
+# $MirOS: src/share/misc/bsdstats,v 1.20 2007/03/12 22:32:38 tg Exp $
 # $FreeBSD: /usr/local/www/cvsroot/FreeBSD/ports/sysutils/bsdstats/files/300.statistics,v 1.33 2006/10/04 04:51:41 scrappy Exp $
 
 rpt='http://rpt.bsdstats.org/scripts/'
@@ -62,8 +62,8 @@ uname_code=$(uname -a | b64encode -r | tr -d '\012\015')
 [[ -s /var/db/bsdstats ]] && . /var/db/bsdstats
 print "last report time was: $stats_report_time ($(date -r $stats_report_time))"
 (( stats_report_time < 1136073623 )) && stats_report_time=0
+[[ $stats_uname_code = $uname_code ]] || stats_report_time=0
 (( stats_token_time < 1136073623 )) && stats_token_time=0
-[[ $stats_uname_code = $uname_code ]] || stats_token_time=0
 (( stats_token_time > 0 )) || stats_token=
 integer ok=1
 if [[ -z $stats_token || -z $stats_key ]]; then
