@@ -1,5 +1,5 @@
 #!/usr/bin/env mksh
-# $MirOS: CVSROOT/genlog,v 1.11 2008/07/03 17:24:31 tg Exp $
+# $MirOS: CVSROOT/genlog,v 1.12 2008/08/05 06:07:32 tg Exp $
 #-
 # Copyright (c) 2004, 2005, 2006
 #	Thorsten "mirabilos" Glaser <tg@mirbsd.de>
@@ -26,6 +26,12 @@
 export LC_ALL=C
 unset LANGUAGE
 
+if stat --help >/dev/null 2>&1; then
+	statcmd='stat -c %s'	# GNU stat
+else
+	statcmd='stat -f %z'	# BSD stat (or so we assume)
+fi
+
 f=${1:-ChangeLog}
 h=${2:-${f%ChangeLog}history}
 
@@ -42,8 +48,7 @@ fi
 print '[ continued ]' >$h.lock
 
 if [[ -e $h ]]; then
-	set -A o -- $(/bin/ls -l $h)
-	let s=${o[4]}
+	let s=$($statcmd $h)
 else
 	let s=0
 fi
@@ -84,8 +89,7 @@ fi
 print '[ continued ]' >$f.lock
 
 if [[ -e $f ]]; then
-	set -A o -- $(/bin/ls -l $f)
-	let s=${o[4]}
+	let s=$($statcmd $f)
 else
 	let s=0
 fi
