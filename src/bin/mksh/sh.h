@@ -164,7 +164,7 @@
 #endif
 
 #ifdef EXTERN
-__RCSID("$MirOS: src/bin/mksh/sh.h,v 1.647 2013/04/01 02:37:51 tg Exp $");
+__RCSID("$MirOS: src/bin/mksh/sh.h,v 1.648 2013/04/26 17:23:15 tg Exp $");
 #endif
 #define MKSH_VERSION "R44 2013/03/31"
 
@@ -1262,10 +1262,6 @@ EXTERN char *tmpdir;		/* TMPDIR value */
 EXTERN const char *prompt;
 EXTERN int cur_prompt;		/* PS1 or PS2 */
 EXTERN int current_lineno;	/* LINENO value */
-
-#define NOBLOCK	((struct op *)NULL)
-#define NOWORD	((char *)NULL)
-#define NOWORDS	((char **)NULL)
 
 /*
  * Description of a command or an operation on commands.
