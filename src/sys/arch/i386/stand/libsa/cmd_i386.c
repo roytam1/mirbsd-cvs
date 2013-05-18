@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/stand/libsa/cmd_i386.c,v 1.25 2009/10/04 16:49:43 tg Exp $	*/
+/**	$MirOS: src/sys/arch/i386/stand/libsa/cmd_i386.c,v 1.26 2009/10/24 15:57:11 tg Exp $	*/
 /*	$OpenBSD: cmd_i386.c,v 1.29 2006/09/18 21:14:15 mpf Exp $	*/
 
 /*
@@ -38,44 +38,15 @@
 #include "biosdev.h"
 #include "libsa.h"
 #include <cmd.h>
-
+#include "cmd_i386.h"
 
 extern const char version[];
 extern int i386_flag_oldbios;
-
-#ifndef SMALL_BOOT
-int Xboot(void);
-int Xdiskinfo(void);
-int Xlabel(void);
-int Xmdexec(void);
-#endif
-int Xmemory(void);
-#ifndef SMALL_BOOT
-int Xregs(void);
-#endif
-int Xoldbios(void);
 
 /* From gidt.S */
 __dead void bootbuf(void *codebuf, uint32_t codesize, uint32_t code_esdi,
     int dl, uint32_t initial_csip);
 __dead void rtdos(void);
-
-const struct cmd_table cmd_machine[] = {
-#ifndef SMALL_BOOT
-	{ "boot",	CMDT_CMD, Xboot },
-	{ "diskinfo",	CMDT_CMD, Xdiskinfo },
-	{ "exec",	CMDT_CMD, Xmdexec },
-	{ "label",	CMDT_CMD, Xlabel },
-#endif
-	{ "memory",	CMDT_CMD, Xmemory },
-#ifndef SMALL_BOOT
-#ifdef DEBUG
-	{ "regs",	CMDT_CMD, Xregs },
-#endif
-#endif
-	{ "oldbios",	CMDT_CMD, Xoldbios },
-	{ NULL, 0, NULL }
-};
 
 #ifndef SMALL_BOOT
 int

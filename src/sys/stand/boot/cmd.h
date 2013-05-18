@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/stand/boot/cmd.h,v 1.13 2009/10/24 14:16:52 tg Exp $ */
+/**	$MirOS: src/sys/stand/boot/cmd.h,v 1.14 2009/10/24 14:19:37 tg Exp $ */
 /*	$OpenBSD: cmd.h,v 1.16 2007/06/13 02:17:32 drahn Exp $	*/
 
 /*
@@ -47,6 +47,7 @@ struct cmd_table {
 	int (*cmd_exec)(void);
 };
 
+#ifndef CMD_TABLE_ONLY
 /* WARNING: defined in srt0.S – fix it if changing! */
 struct cmd_state {
 	char bootdev[BOOTDEVLEN]; /* device */
@@ -75,4 +76,5 @@ void boot(dev_t);
 
 int docmd(void);		/* No longer static: needed by regress test */
 char *qualify(char *);		/* No longer static: needed by cmd_*.c */
+#endif
 #endif

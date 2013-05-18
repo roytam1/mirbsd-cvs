@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/stand/boot/conf.c,v 1.17 2009/01/10 22:18:52 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/stand/boot/conf.c,v 1.19 2009/08/11 13:23:58 tg Exp $ */
 /*	$OpenBSD: conf.c,v 1.39 2008/04/19 23:20:22 weingart Exp $	*/
 
 /*
@@ -49,6 +49,9 @@
 #include <biosdev.h>
 #include <dev/cons.h>
 #include "debug.h"
+#define CMD_TABLE_ONLY
+#include <stand/boot/cmd.h>
+#include "cmd_i386.h"
 #ifdef USE_PXE
 #include "disk.h"
 #include "pxeboot.h"
@@ -131,6 +134,23 @@ struct consdev constab[] = {
 	{ NULL }
 };
 struct consdev *cn_tab = constab;
+
+const struct cmd_table cmd_machine[] = {
+#ifndef SMALL_BOOT
+	{ "boot",	CMDT_CMD, Xboot },
+	{ "diskinfo",	CMDT_CMD, Xdiskinfo },
+	{ "exec",	CMDT_CMD, Xmdexec },
+	{ "label",	CMDT_CMD, Xlabel },
+#endif
+	{ "memory",	CMDT_CMD, Xmemory },
+#ifndef SMALL_BOOT
+#ifdef DEBUG
+	{ "regs",	CMDT_CMD, Xregs },
+#endif
+#endif
+	{ "oldbios",	CMDT_CMD, Xoldbios },
+	{ NULL, 0, NULL }
+};
 
 #ifdef USE_PXE
 static struct fs_ops tftp_fs_ops[] = {
