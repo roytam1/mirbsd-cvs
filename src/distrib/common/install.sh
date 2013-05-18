@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/distrib/common/install.sh,v 1.23 2009/08/30 16:35:12 tg Exp $
+# $MirOS: src/distrib/common/install.sh,v 1.24 2009/09/23 16:12:40 tg Exp $
 # $OpenBSD: install.sh,v 1.152 2005/04/21 21:41:33 krw Exp $
 # $NetBSD: install.sh,v 1.5.2.8 1996/08/27 18:15:05 gwr Exp $
 #
@@ -447,11 +447,27 @@ done )
 [[ -s /tmp/kbdtype ]] && \
     print keyboard.encoding=$(</tmp/kbdtype) >>/mnt/etc/wsconsctl.conf
 
-# Amend target fstab by kernfs (BSD) / sysfs (Linux) and procfs (both)
-[[ $MODE = install ]] && cat >>/mnt/etc/fstab <<__EOF
+# calculate mfs size based on total hardware memory size, and set it
+# to 0 if <60 MB RAM, or if something is mounted on/below /tmp already
+integer avmem=$(sysctl -n hw.usermem)
+(( avmem = avmem > 250000000 ? 620000 : avmem > 120000000 ? 300000 : \
+    avmem > 60000000 ? 120000 : 0 ))
+while read type dir rest; do
+	[[ $dir = /tmp@(|/*) ]] || continue
+	avmem=0
+	break
+done </mnt/etc/fstab
+# amend target fstab by kernfs, mfs (BSD) / sysfs, tmpfs (Linux)
+# and procfs (both)
+cat >>/mnt/etc/fstab <<__EOF
 kern /kern kernfs rw,noauto 0 0
 proc /proc procfs rw,linux 0 0
 __EOF
+(( avmem )) && cat >>/mnt/etc/fstab <<__EOF
+swap /tmp mfs rw,-s$avmem 0 0
+__EOF
+# mount the mfs *now* in case we chroot /mnt after install
+(( avmem )) && mount_mfs -s $avmem swap /mnt/tmp
 
 # Generate initial user
 ed -s /mnt/etc/master.passwd <<EOF
