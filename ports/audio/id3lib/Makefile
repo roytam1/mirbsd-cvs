@@ -1,7 +1,9 @@
-# $MirOS: ports/audio/id3lib/Makefile,v 1.1.7.1 2005/03/18 15:42:54 tg Exp $
+# $MirOS: ports/audio/id3lib/Makefile,v 1.2 2006/09/14 00:07:02 tg Exp $
 # $OpenBSD: Makefile,v 1.6 2004/01/10 03:15:19 brad Exp $
 
-COMMENT=			library for manipulating ID3v1 and ID3v2 tags
+BROKEN=			needs MirLibtool but autoconf fails
+
+COMMENT=		library for manipulating ID3v1 and ID3v2 tags
 
 VERSION=		3.8
 DISTNAME=		id3lib-${VERSION}.3
@@ -19,7 +21,8 @@ MASTER_SITES=		${MASTER_SITE_SOURCEFORGE:=id3lib/}
 
 USE_GMAKE=		Yes
 NO_REGRESS=		Yes
-CONFIGURE_STYLE=	gnu
-CONFIGURE_ARGS=		${CONFIGURE_SHARED}
+CONFIGURE_STYLE=	autoconf
+CONFIGURE_ARGS+=	${CONFIGURE_SHARED}
+CONFIGURE_ARGS+=	--enable-static
 
 .include <bsd.port.mk>
