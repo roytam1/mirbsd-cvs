@@ -1,7 +1,7 @@
-# $MirOS: ports/graphics/ImageMagick/Makefile,v 1.10 2006/09/14 00:09:47 tg Exp $
+# $MirOS: ports/graphics/ImageMagick/Makefile,v 1.11 2006/10/30 18:51:34 tg Exp $
 # $OpenBSD: Makefile,v 1.83 2005/06/28 18:08:23 naddy Exp $
 
-COMMENT=			image processing tools
+COMMENT=	image processing tools
 
 VER=		6.2.3
 DASHVER=	3
@@ -55,8 +55,8 @@ FLAVORS=	no_x11
 FLAVOR?=
 
 .if ${FLAVOR:L:Mno_x11}
-BUILD_DEPENDS+=	:ghostscript-*:print/ghostscript/artifex,no_x11
-RUN_DEPENDS+=	:ghostscript-*:print/ghostscript/artifex,no_x11
+BUILD_DEPENDS+=	:ghostscript-*:print/ghostscript/esp,no_x11
+RUN_DEPENDS+=	:ghostscript-*:print/ghostscript/esp,no_x11
 CONFIGURE_ARGS+= --without-x --without-ttf
 CONFIGURE_ENV+=	ac_cv_path_FIGDecodeDelegate=no
 .else
