@@ -1,8 +1,8 @@
-# $MirOS: ports/net/rsync/Makefile,v 1.8 2006/06/21 21:21:06 tg Exp $
+# $MirOS: ports/net/rsync/Makefile,v 1.9 2006/09/14 00:12:15 tg Exp $
 # $OpenBSD: Makefile,v 1.41 2004/05/11 13:39:17 naddy Exp $
 
-COMMENT=			mirroring/synchronisation over low bandwidth links
-DISTNAME=		rsync-2.6.8
+COMMENT=		mirroring/synchronisation over low bandwidth links
+DISTNAME=		rsync-2.6.9
 CATEGORIES=		net
 HOMEPAGE=		http://rsync.samba.org/
 RESPONSIBLE=		Thorsten Glaser <tg@66h.42h.de>
@@ -22,11 +22,13 @@ MASTER_SITES=		http://rsync.samba.org/ftp/rsync/ \
 CONFIGURE_STYLE=	gnu
 CONFIGURE_ARGS+=	--with-included-popt \
 			--with-rsh="ssh -T" \
-			--with-rsyncd-conf="${SYSCONFDIR}/rsyncd.conf"
+			--with-rsyncd-conf=${SYSCONFDIR:Q}/rsyncd.conf
 
 .if ${FLAVOR:L} == "static"
 # copy this to /var/anoncvs/anoncvs/bin/rsync, chmod 111
 CONFIGURE_ENV+=		ac_cv_header_iconv_h=no
+CONFIGURE_ARGS+=	--disable-debug \
+			--disable-locale
 LDSTATIC=		-static
 .endif
 
@@ -34,6 +36,7 @@ DOCDIR=			${PREFIX}/share/doc/rsync
 
 post-install:
 	${INSTALL_DATA_DIR} ${DOCDIR}
-	${INSTALL_DATA} ${WRKSRC}/tech_report.tex ${DOCDIR}/
+	cd ${WRKSRC}; ${INSTALL_DATA} NEWS OLDNEWS README TODO \
+	    tech_report.tex ${DOCDIR}/
 
 .include <bsd.port.mk>
