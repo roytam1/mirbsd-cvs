@@ -658,6 +658,7 @@
 ./usr/mdec
 ./usr/mdec/boot
 ./usr/mdec/bootxx
+./usr/mdec/bootxx.sh
 ./usr/mdec/installboot
 ./usr/obj
 ./usr/ports

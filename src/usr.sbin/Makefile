@@ -1,4 +1,4 @@
-# $MirOS: src/usr.sbin/Makefile,v 1.20 2006/08/16 23:12:05 tg Exp $
+# $MirOS: src/usr.sbin/Makefile,v 1.21 2007/07/09 18:34:15 tg Exp $
 # $OpenBSD: Makefile,v 1.110 2004/05/04 23:27:21 deraadt Exp $
 
 .include <bsd.own.mk>
@@ -34,6 +34,7 @@
 .if ${CROSS_MODE:L} != "yes"
   SUBDIR+= httpd
 .endif
+  SUBDIR+= installboot
 # SUBDIR+= ifstated
   SUBDIR+= ifwatchd
   SUBDIR+= inetd
