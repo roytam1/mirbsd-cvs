@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.71 2005/12/15 01:24:42 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.72 2005/12/16 11:14:50 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -798,6 +798,7 @@ _CDROM_OVERRIDE=	:
 
 .for _i in - 0 1 2 3 4 5 6 7 8 9
 .  if defined(CVS_DISTREPO${_i:S/-//})
+CVS_DISTFILE${_i:S/-//}?=${CVS_DISTMODS${_i:S/-//}}
 _CVS_DISTF${_i:S/-//}=	${CVS_DISTFILE${_i:S/-//}}
 .    if defined(CVS_DISTDATE${_i:S/-//})
 .      for _j in ${CVS_DISTDATE${_i:S/-//}:C![^0-9]!!g}
