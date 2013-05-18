@@ -1,6 +1,6 @@
-.\" $MirOS: src/share/man/man9/style.9,v 1.15 2010/03/15 18:05:07 tg Exp $
+.\" $MirOS: src/share/man/man9/style.9,v 1.16 2010/08/28 16:52:58 tg Exp $
 .\"-
-.\" Copyright (c) 2002-2010 The MirOS Project.
+.\" Copyright (c) 2002-2011 The MirOS Project.
 .\" Copyright (c) ? OpenBSD
 .\" Copyright (c) 1995 FreeBSD Inc.
 .\" All rights reserved.
@@ -86,7 +86,7 @@
 .\" with -mandoc, it might implement .Mx itself, but we want to
 .\" use our own definition. And .Dd must come *first*, always.
 .\"
-.Dd $Mdocdate: March 15 2010 $
+.Dd $Mdocdate: August 28 2010 $
 .\"
 .\" Check which macro package we use, and do other -mdoc setup.
 .\"
@@ -380,8 +380,8 @@ void usage(int) __dead;
 Use gcc attributes extensively to catch programming errors, e.g.,
 .Bd -literal -offset indent
 wchar_t *ambsntowcs(const char *, size_t)
-    __attribute__((nonnull (1)))
-    __attribute__((bounded (string, 1, 2)));
+    __attribute__((__nonnull__ (1)))
+    __attribute__((__bounded__ (__string__, 1, 2)));
 /* use of an argument mandated by function pointer API */
 static int x_del_char(int __unused);
 .Ed
@@ -576,14 +576,14 @@ statement is more than a single line, in which case they are permitted.
 .Bd -literal -offset indent
 for (p = buf; *p != \*(aq\e0\*(aq; ++p)
 	;	/* nothing */
-while (1)	/* or: for (;;) */
+while (/* CONSTCOND */ 1)	/* or: for (;;) */
 	stmt;
-while (1) {
+while (/* CONSTCOND */ 1) {
 	z = a + really + long + statement + that + needs +
 	    two + lines + gets + indented + four + spaces +
 	    on + the + second + and + subsequent + lines;
 }
-while (1) {
+while (/* CONSTCOND */ 1) {
 	if (cond)
 		stmt;
 }
@@ -627,7 +627,7 @@ a compiler warning.
 .Bd -literal -offset indent
 if (test)
 	stmt;
-else if (bar) {
+else if (bar != NULL) {
 	stmt;
 	stmt;
 } else
@@ -640,7 +640,7 @@ Avoid doing multiple assignments in one statement, like this:
 if (foo) {
 	stmt;
 	stmt;
-else if (bad)
+} else if (bad)
 	*wp++ = QCHAR, *wp++ = c;
 else
 	stmt;
@@ -649,7 +649,7 @@ else
 if (foo) {
 	stmt;
 	stmt;
-else if (good) {
+} else if (good) {
 	*wp++ = QCHAR;
 	*wp++ = c;
 } else
@@ -855,22 +855,17 @@ Don't use
 .Ql \&!
 for tests unless it's a boolean, i.e., use
 .Bd -literal -offset indent
-if (*p == \*(aq\e0\*(aq)
+if (p != NULL && *p == \*(aq\e0\*(aq)
 .Ed
 not
 .Bd -literal -offset indent -compact
-if (!*p)
+if (p && !*p)
 .Ed
 .Pp
 Use
 .Aq Pa stdbool.h
 for boolean values, not
 .Vt int .
-The
-.Li \&!ptr
-construct is allowed for
-.Dv NULL
-pointer checks; boolean accesses to numeric variables are similarily tolerated.
 .Pp
 Routines returning
 .Li void *
