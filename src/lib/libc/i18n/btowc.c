@@ -1,8 +1,8 @@
-/* $MirOS: src/lib/libc/i18n/btowc.c,v 1.12 2006/06/02 19:46:30 tg Exp $ */
+/* $MirOS: src/share/misc/licence.template,v 1.7 2006/04/09 22:08:49 tg Rel $ */
 
 /*-
- * Copyright (c) 2005
- *	Thorsten "mirabile" Glaser <tg@66h.42h.de>
+ * Copyright (c) 2006
+ *	Thorsten Glaser <tg@mirbsd.de>
  *
  * Licensee is hereby permitted to deal in this work without restric-
  * tion, including unlimited rights to use, publicly perform, modify,
@@ -10,6 +10,10 @@
  * pyright notices above, these terms and the disclaimer are retained
  * in all redistributions or reproduced in accompanying documentation
  * or other materials provided with binary redistributions.
+ *
+ * All advertising materials mentioning features or use of this soft-
+ * ware must display the following acknowledgement:
+ *	This product includes material provided by Thorsten Glaser.
  *
  * Licensor offers the work "AS IS" and WITHOUT WARRANTY of any kind,
  * express, or implied, to the maximum extent permitted by applicable
@@ -25,12 +29,12 @@
 
 #include "mir18n.h"
 
-__RCSID("$MirOS: src/lib/libc/i18n/btowc.c,v 1.12 2006/06/02 19:46:30 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/i18n/btowc.c,v 1.13 2006/06/03 22:09:54 tg Exp $");
 
 wint_t
 btowc(int c)
 {
 	wint_t wc = c;
 
-	return ((wc > (__locale_is_utf8 ? 0x7E : MIR18N_SB_CVT)) ? wc : WEOF);
+	return ((wc > (__locale_is_utf8 ? 0x7E : MIR18N_SB_CVT)) ? WEOF : wc);
 }

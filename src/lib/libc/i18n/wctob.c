@@ -1,8 +1,8 @@
-/* $MirOS: src/lib/libc/i18n/wctob.c,v 1.12 2006/06/02 19:45:00 tg Exp $ */
+/* $MirOS: src/share/misc/licence.template,v 1.7 2006/04/09 22:08:49 tg Rel $ */
 
 /*-
- * Copyright (c) 2005
- *	Thorsten "mirabile" Glaser <tg@66h.42h.de>
+ * Copyright (c) 2006
+ *	Thorsten Glaser <tg@mirbsd.de>
  *
  * Licensee is hereby permitted to deal in this work without restric-
  * tion, including unlimited rights to use, publicly perform, modify,
@@ -29,10 +29,10 @@
 
 #include "mir18n.h"
 
-__RCSID("$MirOS: src/lib/libc/i18n/wctob.c,v 1.12 2006/06/02 19:45:00 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/i18n/wctob.c,v 1.13 2006/06/03 22:09:54 tg Exp $");
 
 int
 wctob(wint_t c)
 {
-	return ((c > (__locale_is_utf8 ? 0x7E : MIR18N_SB_CVT)) ? (int)c : EOF);
+	return ((c > (__locale_is_utf8 ? 0x7E : MIR18N_SB_CVT)) ? EOF : (int)c);
 }
