@@ -1,12 +1,12 @@
 $MirOS$
 
-MD5 (clang-r58935.mcz) = 7556bd93036d28cc96aa72b17083064e
-MD5 (llvm-r58935.mcz) = 37db9137e5ddfd4ded5e46b027c4c47c
-RMD160 (clang-r58935.mcz) = f4daef5b92cfed276da678ac333515ff5b673a3c
-RMD160 (llvm-r58935.mcz) = 7c7dc5554197246e0b257fc2dbb81237e08612d3
-SHA1 (clang-r58935.mcz) = cf7adac64f5cec3a888599fec1d4418fd3f64d8e
-SHA1 (llvm-r58935.mcz) = 2f499eeff8511898937a7775801baa8ba816ce2d
-SIZE (clang-r58935.mcz) = 2863565
-SIZE (llvm-r58935.mcz) = 10143454
-TIGER (clang-r58935.mcz) = 34883a5e46b6e0fedaf3ecffa6ba9aa20e70c8e2af211bb0
-TIGER (llvm-r58935.mcz) = 159ced330c752c4d55703d23417c84acd0e4ecaf31f7122f
+MD5 (clang-r58935.mcz.lzma) = 1ac25e9b73d42ca9064071c5129a28e2
+MD5 (llvm-r58935.mcz.lzma) = 945c16f78236a5cc988356ee6c4bfa2a
+RMD160 (clang-r58935.mcz.lzma) = 5c143d6dc7a38ed1d64a84cd79ec5ed1de621c80
+RMD160 (llvm-r58935.mcz.lzma) = f39e50bdb0e4e68f17d96bf0ae48768d2779c5ec
+SHA1 (clang-r58935.mcz.lzma) = 40eb0e688dfe1701a406e701b67a6d947095b78d
+SHA1 (llvm-r58935.mcz.lzma) = dfd8d006d880e704697a8d027290c877140f8fc8
+SIZE (clang-r58935.mcz.lzma) = 1513376
+SIZE (llvm-r58935.mcz.lzma) = 4164692
+TIGER (clang-r58935.mcz.lzma) = 8e226908ca651a4ee22d83fa8cfe39bdc9c3e2a6bf18e5dd
+TIGER (llvm-r58935.mcz.lzma) = ebaeea043602fba969d46cd5be82e1708d20782c1416e619

@@ -1,4 +1,4 @@
-# $MirOS: ports/lang/llvm/Makefile,v 1.6 2008/11/10 00:36:00 tg Exp $
+# $MirOS: ports/lang/llvm/Makefile,v 1.7 2008/11/10 01:01:32 tg Exp $
 
 COMMENT=		Low Level Virtual Machine compiler infrastructure
 SVN_DISTREV=		58935
@@ -28,6 +28,7 @@ SVN_DISTPATH=		http://llvm.org/svn/llvm-project/llvm/trunk
 SVN_DISTDIR0=		llvm/tools/clang
 SVN_DISTREV0=		${SVN_DISTREV}
 SVN_DISTPATH0=		http://llvm.org/svn/llvm-project/cfe/trunk
+MCZ_FETCH=		lzma
 
 USE_CXX=		Yes
 USE_GMAKE=		Yes
