@@ -1,4 +1,4 @@
-/**	$MirOS: ports/infrastructure/pkgtools/lib/str.c,v 1.13 2009/11/29 13:42:45 bsiegert Exp $ */
+/**	$MirOS: ports/infrastructure/pkgtools/lib/str.c,v 1.13.2.1 2010/02/27 11:11:21 bsiegert Exp $ */
 /*	$OpenBSD: str.c,v 1.11 2003/07/04 17:31:19 avsm Exp $	*/
 
 /*
@@ -24,7 +24,7 @@
 #include <fnmatch.h>
 #include "lib.h"
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/str.c,v 1.13 2009/11/29 13:42:45 bsiegert Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/str.c,v 1.13.2.1 2010/02/27 11:11:21 bsiegert Exp $");
 
 /* "normalize" a URL by replacing all the characters which are "not nice"
  * in a filename by '_' characters.
@@ -38,19 +38,8 @@ normalize_name(char *filename)
 		return;
 
 	for (cp = filename; *cp; cp++) {
-		switch (*cp) {
-			case ':':
-			case '/':
-			case '.':
-			case '~':
-			case '$':
-			case '%':
-			case '@':
-			case '?':
-			case '&':
-				*cp = '_';
-				break;
-		}
+		if (!isalnum(*cp))
+			*cp = '_';
 	}
 }
 
