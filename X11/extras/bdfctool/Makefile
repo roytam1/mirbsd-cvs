@@ -1,4 +1,4 @@
-# $MirOS: X11/extras/bdfctool/Makefile,v 1.4 2012/08/23 17:30:06 tg Exp $
+# $MirOS: X11/extras/bdfctool/Makefile,v 1.5 2012/08/23 18:38:56 tg Exp $
 
 PROG=		bdfctool
 SRCS=		${PROG}.sh
@@ -7,7 +7,6 @@ INSTALL_STRIP=	#no
 CLEANFILES+=	testfont.bdf testfont.tmp testfont.tsq testfont.tst
 
 regress: ${PROG}
-	chmod +x ${PROG}
 	./${PROG} -c <${.CURDIR}/testfont.man >testfont.tsq
 	./${PROG} -d <testfont.tsq >testfont.bdf
 	diff -u testfont.bdf ${.CURDIR}/testfont.out
