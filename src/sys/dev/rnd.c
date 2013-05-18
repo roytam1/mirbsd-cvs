@@ -1248,16 +1248,12 @@ rnd_addpool_reinit(void *v)
 {
 	extern int hz;
 	register int i = rnd_addpool_num;
-	/* empty about once every minute by default */
-	int delay = hz << 6;
 
 	if (!rnd_addpool_allow || !rnd_attached) {
-		/* reschedule in four and a bit minutes, it's off anyway */
-		timeout_add(&rnd_addpool_timeout, hz << 8);
+		/* reschedule in about eight minutes, it's disabled anyway */
+		timeout_add(&rnd_addpool_timeout, hz << 9);
 		return;
 	}
-
-	delay += (arc4random() & 15) - 8; /* randomise re-schedule interval */
 
 	/* add this user-space and untrusted bucket to random pool */
 	if (!i)
@@ -1270,6 +1266,6 @@ rnd_addpool_reinit(void *v)
 	}
 	rnd_addpool_num = i;
 
-	/* re-schedule this routine */
-	timeout_add(&rnd_addpool_timeout, delay);
+	/* re-schedule this routine in about 32..40 seconds (randomised) */
+	timeout_add(&rnd_addpool_timeout, (hz << 5) + (random() % (hz << 3)));
 }
