@@ -1,5 +1,5 @@
 #!/bin/mksh
-rcsid='$MirOS: src/sys/arch/i386/stand/bootxx/mkbxinst.sh,v 1.13 2009/02/02 22:48:55 tg Exp $'
+rcsid='$MirOS: src/sys/arch/i386/stand/bootxx/mkbxinst.sh,v 1.14 2009/02/02 22:50:28 tg Exp $'
 #-
 # Copyright (c) 2007, 2008, 2009
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -134,7 +134,7 @@ while getopts ":0:1B:h:p:S:s:" ch; do
 	case $ch {
 	(0)	;;
 	(1)	;;
-	(B)	if (( (bsh = OPTARG) < 8 || OPTARG > 15 )); then
+	(B)	if (( (bsh = OPTARG) < 9 || OPTARG > 15 )); then
 			print -u2 error: invalid block size "2^'$OPTARG'"
 			exit 1
 		fi
