@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/tools/Makefile,v 1.10 2007/10/02 18:34:47 tg Exp $
+# $MirOS: src/distrib/tools/Makefile,v 1.11 2007/10/16 22:05:42 tg Exp $
 
 all: sundsklbl
 
@@ -52,20 +52,19 @@ makecdimage: .PHONY
 	    -V 'MirOS #${OSrev} BSD manifold-boot CD' \
 	    -volset "$$(uname -sl) i386/sparc Setup" -sysid MirOSBSD \
 	    -pad -o ${CDROM} cddir 2>&1 | tee mkisofs.log
-	dd if=${.CURDIR}/dual_chain.bin of=${CDROM} conv=notrunc
-
-makebootcd: makebootcd_${MACHINE}
-
-makebootcd_i386: .PHONY
+.if ${MACHINE} == "i386"
 	/usr/mdec/installboot -S 24 -v -h 16 -s 63 -I $$(fgrep \
 	    b_i386.ldr mkisofs.log | \
 	    while read start end rest; do \
 		print -- $$start $$end; \
 	done) ${DSTTOPDIR}/i386/bootxx ${CDROM}
-
-makebootcd_sparc: .PHONY
+.else
+	@print Can only do this on i386 at the moment.
+	@exit 1
+.endif
 	fgrep b_sparc.ldr mkisofs.log | \
 	    ${MKSH} ${BSDSRCDIR}/usr.sbin/installboot/bxinst.sparc | \
-	    dd of=${CDROM} bs=512 seek=1 conv=notrunc
+	    cat ${.CURDIR}/dual_chain.bin - | \
+	    dd of=${CDROM} conv=notrunc
 
 .include <bsd.obj.mk>
