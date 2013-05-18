@@ -365,6 +365,12 @@ Title: a few news items
  Even Jonathan got hooked now. We found another (his first) two today.</p>
 <p>As we’re sort of a big family, you’ll occasionally find German-language
  postings here. Don’t wonder. We have people who especially read that.</p>
+<p>Ah, and while we’re at stats bragging:<br /><img alt="BOINC stats"
+ src="http://www.boincstats.com/signature/user_1525395.gif" /><br />These
+ were made on gecko2’s Intel Mac (Darwin), my laptop (MirBSD), and a few
+ even on hephaistos (GNU/Linux). MidnightBSD needs to use brandelf, thus
+ execution of Linux/i386-ELF binaries fails or, after branding, checksum
+ verification (which BOINC does) fails. Sucks to be FreeBSD derived.</p>
 <p>I’ll be in Switzerland (Cōnfœderatio Helvetica) next week, while Benny
  happens to be on vacation on Mallorca (hopefully not near the war zone
  called Ballermann). Development may slow down a little due to that (no
