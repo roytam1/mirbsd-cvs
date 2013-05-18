@@ -1,4 +1,4 @@
-# $MirOS: src/sys/arch/sparc/conf/FLOPPY,v 1.4 2008/07/13 20:06:14 tg Exp $
+# $MirOS: src/sys/arch/sparc/conf/FLOPPY,v 1.5 2008/07/13 23:53:08 tg Exp $
 # $miros: src/sys/arch/sparc/conf/GENERIC,v 1.18 2007/08/25 15:46:16 tg Exp $
 
 machine		sparc			# arch, used by config; REQUIRED
@@ -54,7 +54,7 @@ option		MFS			# memory file system
 #option		TCP_FACK		# Forward Acknowledgements for TCP
 #option		TCP_SIGNATURE		# TCP MD5 Signatures
 
-option		NFSCLIENT		# Nightmare File System client
+#option		NFSCLIENT		# Nightmare File System client
 #option		NFSSERVER		# Nightmare File System server
 
 option		CD9660			# ISO 9660 + Rock Ridge file system
