@@ -66,4 +66,3 @@
 >>124   beshort x       version 0x%04x
 >126    short   0x4d49  (little endian)
 >>124   leshort x       version 0x%04x
-

@@ -172,4 +172,3 @@
 # 0	lelong&0xFF00FFFF 0xB000301	ld86 M68K executable
 # 0	lelong&0xFF00FFFF 0xC000301	ld86 NS16K executable
 # 0	lelong&0xFF00FFFF 0x17000301	ld86 SPARC executable
-

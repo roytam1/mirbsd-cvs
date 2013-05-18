@@ -31,4 +31,3 @@
 # From RISC OS Programmer's Reference Manual, Appendix E
 0	string		Maestro\r	RISC OS music file
 >8	byte		x		version %d
-

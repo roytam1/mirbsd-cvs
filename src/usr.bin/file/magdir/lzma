@@ -1,3 +1,6 @@
+# $MirOS$
+
+#------------------------------------------------------------------------------
 # LZMA (Lempel-Ziv-Markov chain-Algorithm) file format supported by:
 #   - 7-Zip <http://7-zip.org/>
 #   - LZMA SDK <http://7-zip.org/sdk.html>
