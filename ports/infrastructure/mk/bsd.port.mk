@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.218 2008/10/05 17:53:33 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.219 2008/10/10 20:06:14 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -949,26 +949,31 @@ _PERL_FIX_SHAR?=	perl -ne 'print if $$s || ($$s = m:^\#(\!\s*/bin/sh\s*| This is
 # XXX note that we DON'T set EXTRACT_SUFX.
 .if ${_USE_ZIP:L} != "no"
 BUILD_DEPENDS+=		:unzip-*:archivers/unzip
-EXTRACT_CASES+=		*.zip) ${UNZIP} -q ${FULLDISTDIR}/$$archive \
-			    -d ${WRKDIR};;
+EXTRACT_CASES+=		\
+    *.zip) \
+	${UNZIP} -q ${FULLDISTDIR}/$$archive -d ${WRKDIR} ;;
 .endif
 .if ${_USE_BZIP2:L} != "no"
 BUILD_DEPENDS+=		:bzip2-*:archivers/bzip2
-EXTRACT_CASES+=		*.tar.bz2 | *.cpio.bz2 | *.cbz) ${BZIP2} -dc \
-			    ${FULLDISTDIR}/$$archive | ${TAR} xf - ;;
+EXTRACT_CASES+=		\
+    *.tar.bz2 | *.tbz | *.cpio.bz2 | *.cbz) \
+	${BZIP2} -dc ${FULLDISTDIR}/$$archive | ${TAR} xf - ;;
 .endif
-EXTRACT_CASES+=		*.tar | *.cpio) ${TAR} xf ${FULLDISTDIR}/$$archive ;;
-EXTRACT_CASES+=		*.shar.gz|*.shar.Z|*.sh.gz|*.sh.Z) ${GZIP_CMD} -dc \
-			    ${FULLDISTDIR}/$$archive | ${_PERL_FIX_SHAR} \
-			    | ${SH} ;;
-EXTRACT_CASES+=		*.shar | *.sh) ${_PERL_FIX_SHAR} \
-			    ${FULLDISTDIR}/$$archive | ${SH} ;;
-EXTRACT_CASES+=		*.tar.gz | *.cpio.gz | *.cgz | *.mcz) ${GZIP_CMD} -dc \
-			    ${FULLDISTDIR}/$$archive | ${TAR} xf - ;;
-EXTRACT_CASES+=		*.gz) ${GZIP_CMD} -dc ${FULLDISTDIR}/$$archive \
-			    >$$(basename $$archive .gz) ;;
-EXTRACT_CASES+=		*) ${GZIP_CMD} -dc ${FULLDISTDIR}/$$archive \
-			    | ${TAR} xf - ;;
+EXTRACT_CASES+=		\
+    *.tar.gz | *.tgz | *.cpio.gz | *.cgz | *.mcz)			\
+	${GZIP_CMD} -dc ${FULLDISTDIR}/$$archive | ${TAR} xf - ;;	\
+    *.tar | *.cpio)							\
+	${TAR} xf ${FULLDISTDIR}/$$archive ;;				\
+    *.shar.gz | *.shar.Z | *.sh.gz | *.sh.Z)				\
+	${GZIP_CMD} -dc ${FULLDISTDIR}/$$archive |			\
+	    ${_PERL_FIX_SHAR} | ${SH} ;;				\
+    *.shar | *.sh)							\
+	${_PERL_FIX_SHAR} ${FULLDISTDIR}/$$archive | ${SH} ;;		\
+    *.gz)								\
+	${GZIP_CMD} -dc ${FULLDISTDIR}/$$archive			\
+	    >$$(basename $$archive .gz) ;;				\
+    *)									\
+	${GZIP_CMD} -dc ${FULLDISTDIR}/$$archive | ${TAR} xf - ;;
 
 PATCH_CASES?=
 .if ${_USE_BZIP2:L} != "no"
