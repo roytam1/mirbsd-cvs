@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: ports/infrastructure/install/setup.ksh,v 1.70 2006/12/23 04:17:50 tg Exp $
+# $MirOS: ports/infrastructure/install/setup.ksh,v 1.71 2006/12/28 00:22:18 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -566,6 +566,8 @@ EOF
 	DISTDIR=	$DISTDIR
 EOF
 
+. $localbase/db/SetEnv.sh
+
 warn_makecfg=0
 [[ -s $localbase/db/make.cfg && ! -s $localbase/db/mmake.cfg ]] \
     && mv $localbase/db/make.cfg $localbase/db/mmake.cfg
@@ -621,7 +623,6 @@ if [[ $(cd $localbase/db/pkg && echo pkgtools-$f_ver-*) \
 elif [[ $(cd $localbase/db/pkg && echo pkgtools-*) != "pkgtools-*" ]]; then
 	print Upgrading package tools, please wait...
 	(cd $portsdir/essentials/pkgtools; \
-	    . $localbase/db/SetEnv.sh; \
 	    mmake repackage reupgrade clean)
 else
 	if (( topt == 0 )); then
