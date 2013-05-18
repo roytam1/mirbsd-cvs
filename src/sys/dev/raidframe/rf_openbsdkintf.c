@@ -1,4 +1,4 @@
-/* $MirOS: src/sys/dev/raidframe/rf_openbsdkintf.c,v 1.2 2005/03/06 21:27:56 tg Exp $ */
+/* $MirOS: src/sys/dev/raidframe/rf_openbsdkintf.c,v 1.3 2005/12/19 21:49:56 tg Exp $ */
 /* $OpenBSD: rf_openbsdkintf.c,v 1.31 2005/12/08 05:53:45 tedu Exp $	*/
 /* $NetBSD: rf_netbsdkintf.c,v 1.109 2001/07/27 03:30:07 oster Exp $	*/
 
@@ -486,6 +486,7 @@ raidattach(int num)
 void
 rf_buildroothack(void *arg)
 {
+	extern int rootdev_override;
 	RF_ConfigSet_t *config_sets = arg;
 	RF_ConfigSet_t *cset;
 	RF_ConfigSet_t *next_cset;
@@ -548,12 +549,14 @@ rf_buildroothack(void *arg)
 				rootdev = MAKEDISKDEV(majdev,rootID,0);
 				boothowto |= RB_DFLTROOT;
 				snprintf(root_devname, 16, "raid%da", rootID);
+			} else if (rootdev_override) {
+				printf("raidframe: eligible root device raid%da ignored (rootdev set via UKC)\n", rootID);
 			} else {
 				/* Found a RAID, but e.g. RAMDISK kernel */
 				printf("raidframe: Found eligible root device, but this is not a generic kernel.\nraidframe: Please choose a root device.\nPossible answer: rd0a (if you booted a ramdisk)\n");
 				boothowto |= RB_ASKNAME;
 			}
-		} else if (num_root > 1) {
+		} else if ((num_root > 1) && !rootdev_override) {
 			/* We can't guess... Require the user to answer... */
 			printf("raidframe: Found more than one eligible root device.\nraidframe: Please choose a root device.\nPossible answers: [rsw]d0a raid[0-9]a\n");
 			boothowto |= RB_ASKNAME;

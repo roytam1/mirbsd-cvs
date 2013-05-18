@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/i386/livecd/Makefile,v 1.10 2006/04/06 11:25:37 tg Exp $
+# $MirOS: src/distrib/i386/livecd/Makefile,v 1.11 2006/04/06 11:40:42 tg Exp $
 
 .include <bsd.own.mk>
 
@@ -31,17 +31,14 @@ addcontrib:
 	@if [[ -d tempdir/jupp ]]; then \
 		targpath=$$(readlink -nf workdir); \
 		cd tempdir/jupp; \
-		CC=${CC:Q} ${MKSH} ./configure \
-		    --prefix=/usr --sysconfdir=/etc; \
+		CC=${CC:Q} CFLAGS=${CFLAGS:Q}\ ${COPTS:Q} ${MKSH} \
+		    ./configure --prefix=/usr --sysconfdir=/etc; \
 		make; \
-		make install DESTDIR="$$targpath"; \
+		${SUDO} make install DESTDIR="$$targpath"; \
 	fi
 
-prepimg: bsd.gz
+prepimg:
 	cd workdir && ${SUDO} mksh ${.CURDIR}/munge_it.sh
-	${SUDO} dd if=bsd.gz obs=2048 conv=osync of=workdir/bsd
-	${SUDO} dd if=workdir/usr/mdec/boot obs=2048 conv=osync \
-	    of=workdir/etc/boot.386
 
 bsd.gz: ${REALOBJDIR}/../generic/bsd
 	-rm -f bsd bsd.gz
@@ -53,7 +50,10 @@ nukefiles:
 	cd workdir/usr && ${SUDO} rm -rf \
 	    X11R6/{lib/X11/doc,man} share/{doc,info,man}
 
-makeimg:
+makeimg: bsd.gz
+	${SUDO} dd if=bsd.gz obs=2048 conv=osync of=workdir/bsd
+	${SUDO} dd if=workdir/usr/mdec/boot obs=2048 conv=osync \
+	    of=workdir/etc/boot.386
 	${SUDO} mkisofs -R -T -L -d -D -N -v -v \
 	    -b etc/boot.386 -c etc/boot.cat \
 	    -P "The http://MirBSD.org/ team and its contributors" \
