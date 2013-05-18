@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.250 2009/11/03 20:37:21 bsiegert Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.251 2009/11/03 20:45:28 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -5332,4 +5332,36 @@ Bus error
  Martin W. Gregory, The infectiousness of pompous prose, <i>Nature</i>
  <b>360</b> 11&ndash;12 (1992). Unfortunately, you will need a
  subscription to read it.</p>
+----
+Title: this snapshot CDs, next snapshot codename
+Author: tg@
+Date: 06.11.2009 19:24
+Tag: bug event security snapshot
+
+<p><a href="http://www.openrheinruhr.de/aussteller.html">OpenRheinRuhr</a>
+ will see <a href="@@RELPATH@@permalinks/news_e20091031-tg.htm">our latest
+ snapshot</a> on CDs (although we seem to be short of flyers ☹). Complete,
+ with MirOS BSD (i386, sparc; i386 Live) and MirGRML (i386).</p>
+<p>The next snapshot’s codename has been decided upon angrily today: “wtf
+ is with <a href="http://www.openbsd.org/errata44.html">all</a> <a
+ href="http://article.gmane.org/gmane.comp.web.lynx.devel/6570">these</a>
+ <a href="http://www.securityfocus.com/bid/36935">bugs</a>?”<br />Expect
+ a fix for the latter sometime soon, it does in fact have more effect than
+ most sites say, to avoid <span xml:lang="de_DE-1901">Panikmache</span>
+ (unlike that <span xml:lang="de_DE-1901">Schweinegrippe</span> stuff);
+ I’m lucky my online banking stuff keeps SIDs in the URI ipv Cookie, but
+ still… very bad. Switching renegotiation off as a quick würgaround also
+ is evil, for example, my SMTP setup (using X.509v3 SSL certificate auth
+ for relaying) might break. But we are said to expect an amended SSL/TLS
+ protocol soon, hopefully with OpenSSL patch.</p>
+<p><a href="@@ABSPATH@@/cvs.cgi/src/distrib/common/ekeyrng">ekeyrng</a> is
+ a very rough draft (shell prototype) currently driving, together with a
+ small USB backport, a <a href="http://www.entropykey.co.uk/">Simtec
+ EntropyKey</a> in <tt>herc</tt> into wrandom(4) (for now). Really, the
+ Lua tools should be used, but this is good for the installer, although
+ the <a href="@@ABSPATH@@/cvs.cgi/contrib/hosted/tg/tpmrx">TPM</a>, eKey
+ and truerand – cprng(8) – functionality should be combined into one small,
+ efficient, C dæmon doing so (but without the hacks to keep cprng(8) within
+ one memory page to cease swapping). Still, it’s great!</p><!-- RSS stop -->
+<p>bsiegert@ will be offline for a week.</p>
 ----
