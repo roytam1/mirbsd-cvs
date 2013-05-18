@@ -1,5 +1,5 @@
-/**	$MirOS: src/usr.bin/ssh/myproposal.h,v 1.3 2005/04/14 20:07:45 tg Exp $ */
-/*	$OpenBSD: myproposal.h,v 1.17 2005/05/23 23:32:46 djm Exp $	*/
+/**	$MirOS: src/usr.bin/ssh/myproposal.h,v 1.4 2005/06/22 16:11:39 tg Exp $ */
+/*	$OpenBSD: myproposal.h,v 1.18 2005/07/25 11:59:39 markus Exp $	*/
 
 /*
  * Copyright (c) 2000 Markus Friedl.  All rights reserved.
@@ -36,7 +36,7 @@
 	"hmac-ripemd160,hmac-ripemd160@openssh.com," \
 	"hmac-sha1,hmac-md5," \
 	"hmac-sha1-96,hmac-md5-96"
-#define	KEX_DEFAULT_COMP	"none,zlib"
+#define	KEX_DEFAULT_COMP	"none,zlib@openssh.com,zlib"
 #define	KEX_DEFAULT_LANG	""
 
 

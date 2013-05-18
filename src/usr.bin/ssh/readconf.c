@@ -12,7 +12,7 @@
  */
 
 #include "includes.h"
-RCSID("$MirOS: src/usr.bin/ssh/readconf.c,v 1.4 2005/06/22 16:11:39 tg Exp $");
+RCSID("$MirOS: src/usr.bin/ssh/readconf.c,v 1.5 2005/11/23 18:04:20 tg Exp $");
 
 #include "ssh.h"
 #include "xmalloc.h"
@@ -680,7 +680,7 @@ parse_int:
 			fwd.listen_host = cleanhostname(fwd.listen_host);
 		} else {
 			fwd.listen_port = a2port(fwd.listen_host);
-			fwd.listen_host = "";
+			fwd.listen_host = NULL;
 		}
 		if (fwd.listen_port == 0)
 			fatal("%.200s line %d: Badly formatted port number.",

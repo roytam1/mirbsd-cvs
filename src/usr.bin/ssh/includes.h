@@ -1,5 +1,5 @@
-/**	$MirOS: src/usr.bin/ssh/includes.h,v 1.2 2005/03/13 18:33:30 tg Exp $ */
-/*	$OpenBSD: includes.h,v 1.19 2005/05/19 02:42:26 djm Exp $	*/
+/**	$MirOS: src/usr.bin/ssh/includes.h,v 1.3 2005/06/22 16:11:39 tg Exp $ */
+/*	$OpenBSD: includes.h,v 1.20 2005/11/15 11:59:54 millert Exp $	*/
 
 /*
  * Author: Tatu Ylonen <ylo@cs.hut.fi>
@@ -19,7 +19,7 @@
 
 #include <sys/types.h>
 #include <sys/socket.h>
-#include <sys/select.h>
+#include <sys/queue.h>
 #include <sys/param.h>
 #include <sys/ioctl.h>
 #include <sys/endian.h>

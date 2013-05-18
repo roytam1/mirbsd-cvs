@@ -1,4 +1,4 @@
-/* $MirOS: src/usr.bin/ssh/scp.c,v 1.3 2005/04/14 19:49:34 tg Exp $ */
+/* $MirOS: src/usr.bin/ssh/scp.c,v 1.4 2005/06/22 16:11:39 tg Exp $ */
 
 /*
  * scp - secure remote copy.  This is basically patched BSD rcp which
@@ -73,7 +73,7 @@
  */
 
 #include "includes.h"
-RCSID("$MirOS: src/usr.bin/ssh/scp.c,v 1.3 2005/04/14 19:49:34 tg Exp $");
+RCSID("$MirOS: src/usr.bin/ssh/scp.c,v 1.4 2005/06/22 16:11:39 tg Exp $");
 
 #include "xmalloc.h"
 #include "atomicio.h"
@@ -223,6 +223,9 @@ main(int argc, char **argv)
 	char *targ, *endp;
 	extern char *optarg;
 	extern int optind;
+
+	/* Ensure that fds 0, 1 and 2 are open or directed to /dev/null */
+	sanitise_stdfd();
 
 	args.list = NULL;
 	addargs(&args, "ssh");		/* overwritten with ssh_program */
@@ -566,7 +569,10 @@ syserr:			run_err("%s: %s", name, strerror(errno));
 		if (response() < 0)
 			goto next;
 		if ((bp = allocbuf(&buffer, fd, 2048)) == NULL) {
-next:			(void) close(fd);
+next:			if (fd != -1) {
+				(void) close(fd);
+				fd = -1;
+			}
 			continue;
 		}
 		if (showprogress)
@@ -595,8 +601,11 @@ next:			(void) close(fd);
 		if (showprogress)
 			stop_progress_meter();
 
-		if (close(fd) < 0 && !haderr)
-			haderr = errno;
+		if (fd != -1) {
+			if (close(fd) < 0 && !haderr)
+				haderr = errno;
+			fd = -1;
+		}
 		if (!haderr)
 			(void) atomicio(vwrite, remout, "", 1);
 		else

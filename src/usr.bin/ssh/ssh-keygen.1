@@ -1,5 +1,5 @@
-.\"	$MirOS: src/usr.bin/ssh/ssh-keygen.1,v 1.4 2005/04/26 15:21:50 tg Exp $
-.\"	$OpenBSD: ssh-keygen.1,v 1.69 2005/06/08 03:50:00 djm Exp $
+.\"	$MirOS: src/usr.bin/ssh/ssh-keygen.1,v 1.5 2005/06/22 16:11:39 tg Exp $
+.\"	$OpenBSD: ssh-keygen.1,v 1.71 2005/10/31 19:55:25 jmc Exp $
 .\"
 .\"  -*- nroff -*-
 .\"
@@ -119,6 +119,9 @@ keys for use by SSH protocol version 2.
 The type of key to be generated is specified with the
 .Fl t
 option.
+If invoked without any arguments,
+.Nm
+will generate an RSA key for use in SSH protocol 2 connections.
 .Pp
 .Nm
 is also used to generate groups for use in Diffie-Hellman group

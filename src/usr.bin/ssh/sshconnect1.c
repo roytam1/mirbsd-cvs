@@ -13,7 +13,7 @@
  */
 
 #include "includes.h"
-RCSID("$MirOS: src/usr.bin/ssh/sshconnect1.c,v 1.2 2005/03/13 18:33:33 tg Exp $");
+RCSID("$MirOS: src/usr.bin/ssh/sshconnect1.c,v 1.3 2005/06/22 16:11:40 tg Exp $");
 
 #include <openssl/bn.h>
 #include <openssl/md5.h>
@@ -84,7 +84,7 @@ try_agent_authentication(void)
 		/* Wait for server's response. */
 		type = packet_read();
 
-		/* The server sends failure if it doesn\'t like our key or
+		/* The server sends failure if it doesn't like our key or
 		   does not support RSA authentication. */
 		if (type == SSH_SMSG_FAILURE) {
 			debug("Server refused our key.");
@@ -215,8 +215,8 @@ try_rsa_authentication(int idx)
 	type = packet_read();
 
 	/*
-	 * The server responds with failure if it doesn\'t like our key or
-	 * doesn\'t support RSA authentication.
+	 * The server responds with failure if it doesn't like our key or
+	 * doesn't support RSA authentication.
 	 */
 	if (type == SSH_SMSG_FAILURE) {
 		debug("Server refused our key.");
