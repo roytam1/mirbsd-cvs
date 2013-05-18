@@ -1,27 +1,27 @@
-# $MirOS: ports/databases/db/Makefile,v 1.9 2006/04/25 20:01:00 tg Exp $
+# $MirOS: ports/databases/db/Makefile,v 1.10 2006/09/14 00:07:48 tg Exp $
 
 BROKEN=			ask tg@ to re-add SEPARATE_BUILD
 
-COMMENT=			Berkeley DB, revision 4
-COMMENT-doc=			Berkeley DB documentation, revision 4
-COMMENT-tcl=			Berkeley DB Tcl library, revision 4
-COMMENT-cxx=			Berkeley DB C++ library, revision 4
+COMMENT=		Berkeley DB, revision 4
+COMMENT-doc=		Berkeley DB documentation, revision 4
+COMMENT-tcl=		Berkeley DB Tcl library, revision 4
+COMMENT-cxx=		Berkeley DB C++ library, revision 4
 DESCR=			${PKGDIR}/DESCR
 
 RESPONSIBLE=		Benny Siegert <bsiegert@gmx.de>
 
-VERSION=		4.2.52
-DASH_VER=		.4-2
-DISTNAME=		db-${VERSION}
-PKGNAME=		db-${VERSION}${DASH_VER}
-PKGNAME-doc=		db-doc-${VERSION}${DASH_VER}
-PKGNAME-tcl=		db-tcl-${VERSION}${DASH_VER}
-PKGNAME-cxx=		db-cxx-${VERSION}${DASH_VER}
+VERSION=		4.2.52.4
+DASH_VER=		2
+DISTNAME=		db-${VERSION:R}
+PKGNAME=		db-${VERSION}-${DASH_VER}
+PKGNAME-doc=		db-doc-${VERSION}-${DASH_VER}
+PKGNAME-tcl=		db-tcl-${VERSION}-${DASH_VER}
+PKGNAME-cxx=		db-cxx-${VERSION}-${DASH_VER}
 CATEGORIES=		databases
 HOMEPAGE=		http://www.sleepycat.com/
 MASTER_SITES=		ftp://sleepycat1.inetu.net/releases/ \
 			${HOMEPAGE}/update/snapshot/
-MASTER_SITES0=		${HOMEPAGE}/update/${VERSION}/
+MASTER_SITES0=		${HOMEPAGE}/update/${VERSION:R}/
 DIST_SUBDIR=		db4
 
 TCL_VERSION=		8.4
