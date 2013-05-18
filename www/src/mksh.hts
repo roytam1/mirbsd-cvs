@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.332 2010/04/08 13:31:40 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.333 2010/04/09 19:32:52 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -932,7 +932,7 @@ exec /usr/bin/ld "${args[@]}"</pre>
   [Herbert Xu, Geoff Clare] Add more regression tests for this</li>
  <li>[tg] Fix single quotes in "${foo#bar}" (differs from "${foo-bar}")</li>
  <li>[oksh] Fix mknod(8) usage message: b|c are <em>not</em> optional</li>
- <li>[tg, oksh] Fix "${x#?}" expansion when quoted</li>
+ <li>[tg, oksh] Fix "${x#?}" expansion when quoted (quotes, space)</li>
 </ul>
 <p id="r39c">mksh R39c is an important minor bugfix release:</p><ul>
  <li>[tg] Build system, code, docs and testsuite cleanup, also style(9)</li>
