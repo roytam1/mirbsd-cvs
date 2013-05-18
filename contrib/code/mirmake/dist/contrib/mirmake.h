@@ -1,4 +1,4 @@
-/* $MirOS: contrib/code/mirmake/dist/contrib/mirmake.h,v 1.40 2008/05/03 01:09:28 tg Exp $ */
+/* $MirOS: contrib/code/mirmake/dist/contrib/mirmake.h,v 1.41 2008/06/17 22:49:39 tg Exp $ */
 
 /*-
  * Copyright (c) 2005, 2006, 2008
@@ -264,6 +264,11 @@ void arc4random_push(int);
 #endif
 uint32_t arc4random_pushb(const void *, size_t)
     __attribute__((bounded (string, 1, 2)));
+#endif
+
+#ifndef arc4random_pushk
+#define arc4random_pushk(buf, len) \
+	arc4random_addrandom((unsigned char *)(buf), (int)(len))
 #endif
 
 __END_DECLS
