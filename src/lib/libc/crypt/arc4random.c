@@ -1,7 +1,8 @@
-/**	$MirOS: src/lib/libc/crypt/arc4random.c,v 1.4 2006/06/02 02:29:45 tg Exp $ */
+/**	$MirOS: src/lib/libc/crypt/arc4random.c,v 1.5 2006/06/09 10:02:53 tg Exp $ */
 /*	$OpenBSD: arc4random.c,v 1.14 2005/06/06 14:57:59 kjell Exp $	*/
 
 /*
+ * Copyright (c) 2006 Thorsten Glaser <tg@mirbsd.de>
  * Copyright (c) 1996, David Mazieres <dm@uun.org>
  *
  * Permission to use, copy, modify, and distribute this software for any
@@ -38,10 +39,11 @@
 #include <sys/sysctl.h>
 #include <fcntl.h>
 #include <stdlib.h>
+#include <string.h>
 #include <time.h>
 #include <unistd.h>
 
-__RCSID("$MirOS: src/lib/libc/crypt/arc4random.c,v 1.4 2006/06/02 02:29:45 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/crypt/arc4random.c,v 1.5 2006/06/09 10:02:53 tg Exp $");
 
 #ifdef __GNUC__
 #define inline __inline
@@ -180,17 +182,39 @@ arc4random(void)
 void
 arc4random_push(int n)
 {
-	int     i, mib[2];
-	size_t	len = sizeof(int);
+	arc4random_pushb(&n, sizeof (int));
+}
+
+uint32_t
+arc4random_pushb(void *buf, size_t len)
+{
+	uint32_t v, i, k;
+	size_t j;
+	int mib[2];
+	uint8_t sbuf[256];
+
+	v = (random() << 16) + len;
+	for (j = 0; j < len; ++j)
+		v += ((uint8_t *)buf)[j];
+	len = MIN(len, 256 - sizeof (tai64na_t));
+	v += (k = arc4random()) & 3;
+	memmove(sbuf + sizeof (tai64na_t), buf, len);
+	taina_time((void *)sbuf);
+	len += sizeof (tai64na_t);
+	v += (intptr_t)buf & 0xFFFFFFFF;
 
 	mib[0] = CTL_KERN;
 	mib[1] = KERN_ARND;
+	j = sizeof (i);
 
-	/* supply n to kernel and get back another random int */
-	if (!sysctl(mib, 2, &i, &len, &n, sizeof(int)))
-		/*
-		 * do not add the n, but rather the kernel-supplied
-		 * new random value to our local arc4 generator
-		 */
-		arc4_addrandom(&rs, (u_char *)&i, len);
+	if (sysctl(mib, 2, &i, &j, sbuf, len) != 0)
+		i = (((v & 1) + 1) * (random() & 0xFF)) ^ arc4random()
+		    ^ *((uint32_t *)(sbuf + (len - 4)));
+
+	len = sizeof (uint32_t);
+	memmove(sbuf, &v, len);
+	memmove(sbuf + len, &i, len);
+	arc4_addrandom(&rs, sbuf, 2 * len);
+
+	return ((k & ~3) ^ i);
 }

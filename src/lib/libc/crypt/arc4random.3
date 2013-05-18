@@ -1,4 +1,4 @@
-.\" $MirOS: src/lib/libc/crypt/arc4random.3,v 1.4 2006/05/28 23:38:21 tg Exp $
+.\" $MirOS: src/lib/libc/crypt/arc4random.3,v 1.5 2006/05/28 23:38:39 tg Exp $
 .\" $OpenBSD: arc4random.3,v 1.19 2005/07/17 08:50:55 jaredy Exp $
 .\"
 .\" Copyright 1997 Niels Provos <provos@physnet.uni-hamburg.de>
@@ -38,7 +38,8 @@
 .Nm arc4random ,
 .Nm arc4random_stir ,
 .Nm arc4random_addrandom ,
-.Nm arc4random_push
+.Nm arc4random_push ,
+.Nm arc4random_pushb
 .Nd arc4 random number generator
 .Sh SYNOPSIS
 .Fd #include <stdlib.h>
@@ -49,7 +50,9 @@
 .Ft void
 .Fn arc4random_addrandom "u_char *dat" "int datlen"
 .Ft void
-.Fn arc4random_push "int"
+.Fn arc4random_push "int value"
+.Ft uint32_t
+.Fn arc4random_pushb "void *buf" "size_t len"
 .Sh DESCRIPTION
 The
 .Fn arc4random
@@ -94,9 +97,21 @@ automatically initialises itself.
 .Pp
 The
 .Fn arc4random_push
-function can be used by processes to add entropy into the
+and
+.Fn arc4random_pushb
+functions can be used by processes to add entropy into the
 kernel pool by means of a circular addition buffer.
 This interface can be disabled by a system administrator.
+The passed value is also used to stir the internal userland
+.Fn arc4random
+pool value, more or less directly as well as with the value
+returned by the kernel after adding the arguments to the kernel pool.
+At the moment, the kernel accepts up to 256 bytes.
+The
+.Fn arc4random_pushb
+returns a 32-bit random value like
+.Fn arc4random
+which can be used by the caller if desired.
 .Sh SEE ALSO
 .Xr rand 3 ,
 .Xr rand48 3 ,
@@ -122,3 +137,6 @@ These functions first appeared in
 .Fn arc4random_push
 first appeared in
 .Mx 8 .
+.Fn arc4random_pushb
+first appeared in
+.Mx 9bis .

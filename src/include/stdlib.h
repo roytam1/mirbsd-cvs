@@ -1,4 +1,4 @@
-/**	$MirOS: src/include/stdlib.h,v 1.10 2006/05/30 19:55:53 tg Exp $ */
+/**	$MirOS: src/include/stdlib.h,v 1.11 2006/07/04 21:38:13 tg Exp $ */
 /*	$OpenBSD: stdlib.h,v 1.34 2005/05/27 17:45:56 millert Exp $	*/
 /*	$NetBSD: stdlib.h,v 1.25 1995/12/27 21:19:08 jtc Exp $	*/
 
@@ -239,6 +239,8 @@ void	arc4random_stir(void);
 void	arc4random_addrandom(unsigned char *, int)
 	__attribute__((__bounded__ (__string__,1,2)));
 void	arc4random_push(int);
+uint32_t arc4random_pushb(void *, size_t)
+	__attribute__((bounded (buffer, 1, 2)));
 
 void	setprogname(const char *);
 const char *getprogname(void);
