@@ -1783,7 +1783,7 @@ mksh_cfg= NSIG
 	    grep '^mksh_cfg *=[	 ]*[0-9x ()+-]*.*$' | \
 	    sed 's/^mksh_cfg *=[	 ]*\([0-9x ()+-][0-9x	 ()+-]*\).*$/\1/'`
 	case $NSIG in
-	*[\ \(\)+-]*) NSIG=`"$AWK" "BEGIN { print $NSIG }"` ;;
+	*[\ \(\)+-]*) NSIG=`"$AWK" "BEGIN { print $NSIG }" </dev/null` ;;
 	esac
 	printf=printf
 	(printf hallo) >/dev/null 2>&1 || printf=echo
