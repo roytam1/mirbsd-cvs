@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/dev/rnd.c,v 1.26 2006/10/08 00:24:43 tg Exp $ */
+/**	$MirOS: src/sys/dev/rnd.c,v 1.27 2007/02/02 16:45:07 tg Exp $ */
 /*	$OpenBSD: rnd.c,v 1.78 2005/07/07 00:11:24 djm Exp $	*/
 
 /*
@@ -518,6 +518,9 @@ arc4_getbyte(void)
 	register u_int8_t si, sj, ret;
 	int s;
 
+	if (!rnd_attached)
+		return (random() & 0xFF);
+
 	s = splhigh();
 	rndstats.arc4_reads++;
 	arc4random_state.cnt++;
@@ -584,10 +587,6 @@ arc4maybeinit(void)
 	if (!arc4random_initialised) {
 		/* 10 minutes, per dm@'s suggestion */
 		timeout_add(&arc4_timeout, 10 * 60 * hz);
-#ifdef DIAGNOSTIC
-		if (!rnd_attached)
-			panic("arc4maybeinit: premature");
-#endif
 		arc4random_initialised++;
 		arc4_stir();
 	}
