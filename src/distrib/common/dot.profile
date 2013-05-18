@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/dot.profile,v 1.54 2009/11/11 19:28:48 tg Exp $
+# $MirOS: src/distrib/common/dot.profile,v 1.55 2009/11/12 22:24:39 tg Exp $
 # $OpenBSD: dot.profile,v 1.4 2002/09/13 21:38:47 deraadt Exp $
 # $NetBSD: dot.profile,v 1.1 1995/12/18 22:54:43 pk Exp $
 #
@@ -86,7 +86,6 @@ if [ ! -f /.profile.done ]; then
 	# on sparc, use the nvram to provide some additional entropy
 	# also read some stuff from the HDD etc. (doesn't matter if it breaks)
 	[[ -x /usr/libexec/cprng ]] && /usr/libexec/cprng -p
-	[[ -x /usr/libexec/ekeyrng ]] && /usr/libexec/ekeyrng
 	[[ -x /usr/libexec/tpmrng ]] && /usr/libexec/tpmrng
 	( ( (for d in {w,s,rai,c}:128, r:1,128; do b=${d#*,}; d=${d%,*}; dd \
 	     if=/dev/r${d%:*}d0c count=${d#*:} ${b:+bs=$b of=/dev/urandom}; \
@@ -112,6 +111,9 @@ This work is provided "AS IS" and WITHOUT WARRANTY of any kind.\n'
 
 	# Extract and save one boot's worth of dmesg
 	dmesg | sed -ne '/^MirBSD/h;/^MirBSD/!H;${g;p;}' >/var/run/dmesg.boot
+
+	# Now we can try to access an eKey if there is one
+	[[ -x /usr/libexec/ekeyrng ]] && /usr/libexec/ekeyrng
 
 	# look if we're DHCP/TFTP enabled
 	if [ -e usr/libexec/tftpd ]; then
