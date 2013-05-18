@@ -2,10 +2,9 @@
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname legacy/ipv6-sixxs "MirOS Legacy Content"
-mws_putheader '$MirOS: www/src/ipv6-sixxs.hts,v 1.1 2008/09/17 21:12:25 tg Exp $'
+mws_setheadline IPv6 with SixXS and MirOS
+mws_putheader '$MirOS: www/src/ipv6-sixxs.hts,v 1.2 2008/11/08 22:24:38 tg Exp $'
 mws_content <<'EOF'
-<h1>IPv6 with SixXS and MirOS</h1>
-
 <h3>Introduction</h3>
 <p>Recently, the <tt>ipng.org.uk</tt> tunnel broker went down, and, looking
  for alternatives, most of the MirOS team and our friends has decided to go

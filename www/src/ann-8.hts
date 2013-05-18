@@ -2,11 +2,11 @@
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname legacy/ann-8 "MirOS Legacy Content"
-mws_putheader '$MirOS$'
+mws_setheadline 'MirOS #8'
+mws_putheader '$MirOS: www/src/ann-8.hts,v 1.1 2008/09/17 21:12:22 tg Exp $'
 mws_content <<'EOF'
-<p style="font-size:smaller; text-align:right;">Codename: WTF we have a release?</p>
-
-<h1 id="top">MirOS #8</h1>
+<p id="top" style="font-size:smaller; text-align:right;">Codename:
+ WTF we have a release?</p>
 
 <p style="font-size:smaller; text-align:right; font-variant:small-caps;">All
  your build system are belong to us!</p>

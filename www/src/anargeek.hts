@@ -2,10 +2,11 @@
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname anargeek "The Anargeek Manifesto"
-mws_putheader '$MirOS: www/src/anargeek.hts,v 1.3 2008/11/06 21:55:58 tg Exp $'
+mws_setheadline Anargeek
+mws_putheader '$MirOS: www/src/anargeek.hts,v 1.4 2008/11/06 22:04:26 tg Exp $'
 mws_content <<'EOF'
-<h1><a href="http://anargeek.net/">Anargeek</a></h1>
-<p>Go <a href="#manifest">directly to the manifesto</a>, or read the <a
+<p>Go <a href="#manifest">directly to the manifesto</a>, leave to the <a
+ href="http://anargeek.net/">Anargeek website</a>, or read the <a
  href="#koffie">unrelated side note</a> about coffee.</p>
 <h2>Why this page?</h2>
 <p>On <a href="http://www.fosdem.org/">FOSDEM</a> 2005 some guy walked past

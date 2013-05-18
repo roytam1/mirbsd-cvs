@@ -2,10 +2,9 @@
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname legacy/history "MirOS Legacy Content"
-mws_putheader '$MirOS: www/src/history.hts,v 1.1 2008/09/17 21:12:24 tg Exp $'
+mws_setheadline History of MirOS
+mws_putheader '$MirOS: www/src/history.hts,v 1.2 2008/11/08 22:24:37 tg Exp $'
 mws_content <<'EOF'
-<h1>History of MirOS</h1>
-
 <p>On <a href="http://marc.info/?m=103065556502499">August
  29th, 2002</a>, <a href="http://theos.com/">Theo de Raadt</a>, leader
  of the operating system project <a href="http://www.openbsd.org/">OpenBSD</a>,

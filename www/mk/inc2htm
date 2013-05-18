@@ -1,4 +1,4 @@
-rcsid_inc2htm='$MirOS: www/mk/inc2htm,v 1.22 2008/12/07 17:30:11 tg Exp $'
+rcsid_inc2htm='$MirOS: www/mk/inc2htm,v 1.23 2009/02/16 21:42:11 tg Exp $'
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -77,11 +77,9 @@ function mopen {
 	print -r -- "$fn"
 	mws_setname $whoami "$pname – Page $number"
 	mws_subdir 0
+	mws_setheadline "$ptitle"
 	mws_putheader >$fn~
-	cat >>$fn~ <<-EOF
-		<h1>${ptitle}</h1>
-		<p>${plinks}
-	EOF
+	print -r -- "<p>${plinks}" >>$fn~
 }
 
 function mclose {
@@ -99,6 +97,7 @@ print -r -- ${name}_all.htm
 mws_setname $whoami "$pname – All in One Page"
 mws_setrss "${mws__relpath}${name}.rss"
 mws_subdir 0
+mws_setheadline "$ptitle"
 mws_putheader >${name}_all.htm~
 plinks="<a href=\"${name}_all.htm\">All</a> <a href=\"${name}.htm\">1</a>"
 plinksr="<a href=\"../${name}_all.htm\">All</a> <a href=\"../${name}.htm\">1</a>"
@@ -110,10 +109,7 @@ while (( i <= ((entries - cutoff) / perpage + 1) )); do
 done
 plinks="${plinks}</p>"
 plinksr="${plinksr}</p>"
-cat >>${name}_all.htm~ <<-EOF
-	<h1>${ptitle}</h1>
-	<p>${plinks}
-EOF
+print -r -- "<p>${plinks}" >>${name}_all.htm~
 mopen 1
 mkdir -p permalinks
 integer entryc=0
@@ -128,11 +124,9 @@ while (( entryp >= 0 )); do
 		mws_push
 		mws_setname $whoami "$pname"
 		mws_subdir 1
+		mws_setheadline "$ptitle"
 		mws_putheader >$fe~
-		cat >>$fe~ <<-EOF
-			<h1>${ptitle}</h1>
-			<p>${plinksr}
-		EOF
+		print -r -- "<p>${plinksr}" >>$fe~
 		output | mws_content >>$fe~
 		mclose $fe
 		mws_pop

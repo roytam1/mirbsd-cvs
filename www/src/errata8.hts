@@ -2,11 +2,10 @@
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname legacy/errata "MirOS Legacy Content"
-mws_putheader '$MirOS$'
+mws_setheadline 'Errata for MirOS #8'
+mws_putheader '$MirOS: www/src/errata8.hts,v 1.1 2008/09/17 21:12:23 tg Exp $'
 mws_content <<'EOF'
-<h1>Errata for MirOS #8</h1>
-
-<h1>Errata for MirOS #8semel</h1>
+<h2>Errata for MirOS #8semel</h2>
 
 <p>Updates for the errata below can be found in the directory
  <tt>/MirOS/v8.1/updates/</tt> on your favourite <a

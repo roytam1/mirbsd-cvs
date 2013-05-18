@@ -2,9 +2,9 @@
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname legacy/clog-2005 "MirOS Legacy Content"
-mws_putheader '$MirOS$'
+mws_setheadline 2005 snapshots of MirOS-current
+mws_putheader '$MirOS: www/src/clog-2005.hts,v 1.1 2008/09/17 21:12:22 tg Exp $'
 mws_content <<'EOF'
-<h1>2005 snapshots of MirOS-current</h1>
 <h3>Infos &ndash; <a href="#eof">bottom</a></h3>
 
 <p id="snap1207">07.12.2005<br />Announcement relative to the <a

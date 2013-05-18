@@ -1,14 +1,13 @@
-# $MirOS: www/src/rss.hts,v 1.7 2008/12/31 18:10:54 tg Exp $
+# $MirOS: www/src/rss.hts,v 1.8 2008/12/31 18:12:20 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname rss "RSS feeds, mailing lists"
 mws_subdir 0
-mws_putheader '$MirOS: www/src/rss.hts,v 1.7 2008/12/31 18:10:54 tg Exp $'
+mws_setheadline MirOS RSS feeds
+mws_putheader '$MirOS: www/src/rss.hts,v 1.8 2008/12/31 18:12:20 tg Exp $'
 mws_content <<'EOF'
-<h1>MirOS RSS feeds</h1>
-
 <h2 id="feeds">Website feeds</h2>
 <p>We offer the following RSS feeds, which can be subscribed to
  using an RSS reader:</p>

@@ -3,9 +3,11 @@
 
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.246 2009/06/10 21:26:18 tg Exp $'
+mws_setheadline The MirBSD Korn Shell
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.247 2009/06/12 19:18:39 tg Exp $'
 mws_content <<'EOF'
-<h1>mksh(1) R38c</h1>
+<h2>mksh(1) R38c</h2>
+
 <p>This is the website of the MirBSD™ Korn Shell, an actively developed free
  implementation of the Korn Shell programming language and a successor to the
  Public Domain Korn Shell (pdksh).</p>

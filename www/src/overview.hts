@@ -2,10 +2,9 @@
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname legacy/overview "MirOS Legacy Content"
-mws_putheader '$MirOS: www/src/overview.hts,v 1.3 2008/11/11 01:54:08 tg Exp $'
+mws_setheadline Quick Overview – All in one page
+mws_putheader '$MirOS: www/src/overview.hts,v 1.4 2008/12/10 18:40:18 tg Exp $'
 mws_content <<'EOF'
-<h1>Quick Overview &ndash; All in one page</h1>
-
 <h2>Maintenance</h2>
 <p>The <a href="@@RELPATH@@fornow.htm">&quot;For Now Page&quot;</a> has replaced
  the &quot;main page&quot; at the moment &ndash; see there for the

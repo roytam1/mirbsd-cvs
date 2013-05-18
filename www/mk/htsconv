@@ -1,4 +1,4 @@
-rcsid_htsconv='$MirOS: www/mk/htsconv,v 1.33 2008/12/17 23:53:17 tg Exp $'
+rcsid_htsconv='$MirOS: www/mk/htsconv,v 1.34 2009/02/16 21:42:11 tg Exp $'
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -10,11 +10,18 @@ mws__difftag=MBSD_HTSCONV_GENDATE_TAG_7567
 unset mws__abspath
 unset mws__relpath
 unset mws__canonpath
+unset mws__headline
 mws__canonsite=https://www.mirbsd.org
+nl='
+'
 
 function mws_setname {
 	mws__pagename=$2
 	# change index to mark $1
+}
+
+function mws_setheadline {
+	mws__headline=$*
 }
 
 function mws_setrss {
@@ -45,6 +52,9 @@ function mws_putheader {
 	if [[ -z $mws__canonpath ]]; then
 		print -u2 Internal error: mws_basepath not called!
 		exit 1
+	fi
+	if [[ -n $mws__headline ]]; then
+		mws__headline="$nl<h1>$mws__headline</h1>"
 	fi
 	mws__content <<-EOF
 		<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
@@ -97,7 +107,7 @@ function mws_putheader {
 		</ul></li>
 		 </ul>
 		</div>
-		<div class="content">
+		<div class="content">$mws__headline
 	EOF
 	mws__header="<p class=\"rcsdiv\">Generated <!-- $mws__difftag --> on"
 	mws__header="$mws__header <span class=\"rcsid\">$(date +'%F %T')</span>"

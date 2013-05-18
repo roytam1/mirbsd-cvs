@@ -1,13 +1,12 @@
-# $MirOS: www/src/projects.hts,v 1.4 2008/03/24 19:59:30 tg Exp $
+# $MirOS: www/src/projects.hts,v 1.5 2008/09/17 21:12:29 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname projects "Project Ideas"
-mws_putheader '$MirOS: www/src/projects.hts,v 1.4 2008/03/24 19:59:30 tg Exp $'
+mws_setheadline Project Ideas
+mws_putheader '$MirOS: www/src/projects.hts,v 1.5 2008/09/17 21:12:29 tg Exp $'
 mws_content <<'EOF'
-<h1>Project Ideas</h1>
-
 <p>The following project ideas can be submitted to the MirOS Project
  by everybody who feels like having the necessary skills.
  To avoid duplicate work, we suggest the applicant to <a

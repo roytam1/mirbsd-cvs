@@ -1,4 +1,4 @@
-# $MirOS: www/src/main.hts,v 1.13 2009/02/09 11:46:52 tg Exp $
+# $MirOS: www/src/main.hts,v 1.14 2009/02/09 11:48:28 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -6,10 +6,9 @@
 mws_setname main "Welcome at The MirOS Project"
 mws_setrss "news.rss"
 mws_subdir 0
-mws_putheader '$MirOS: www/src/main.hts,v 1.13 2009/02/09 11:46:52 tg Exp $'
+mws_setheadline Welcome to the MirOS Project!
+mws_putheader '$MirOS: www/src/main.hts,v 1.14 2009/02/09 11:48:28 tg Exp $'
 mws_content <<'EOF'
-<h1>Welcome to the MirOS Project!</h1>
-
 <p class="rcsid">MirOS BSD &amp; MirPorts Framework – a wonderful
  operating system for a world of peace</p>
 

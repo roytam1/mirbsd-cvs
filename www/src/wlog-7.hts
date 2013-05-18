@@ -2,9 +2,9 @@
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname legacy/wlog-7 "MirBSD Weblog"
-mws_putheader '$MirOS: www/src/wlog-7.hts,v 1.2 2008/11/08 22:24:39 tg Exp $'
+mws_setheadline MirBSD – RELEASE TIME!!! Stable Services for Commercial Customers
+mws_putheader '$MirOS: www/src/wlog-7.hts,v 1.3 2008/11/11 01:54:08 tg Exp $'
 mws_content <<'EOF'
-<h1>MirBSD &ndash; RELEASE TIME!!! Stable Services for Commercial Customers</h1>
 <h3>News <small><a href="#eof">bottom</a></small></h3>
 <h6>Note: all these entries are from tg@ up to November 3rd, when the
  new MirOS website was brought up.</h6>

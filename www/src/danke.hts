@@ -3,9 +3,9 @@
 
 mws_setname donations "Donations"
 mws_subdir 0
-mws_putheader '$MirOS: www/src/danke.hts,v 1.6 2008/09/17 21:12:23 tg Exp $'
+mws_setheadline Donating to the MirOS Project
+mws_putheader '$MirOS: www/src/danke.hts,v 1.7 2008/11/08 22:24:37 tg Exp $'
 mws_content <<'EOF'
-<h1>Donating to the MirOS Project</h1>
 <h2>Considering to donate?</h2>
 <p>Thanks for considering to donate. You can contact the individual
  developers and send them money, preferably by wiring (for Germans:

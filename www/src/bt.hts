@@ -2,10 +2,10 @@
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname bt 'BitTorrent information'
-mws_putheader '$MirOS: www/src/bt.hts,v 1.7 2009/04/05 14:39:13 tg Exp $'
+mws_setheadline BitTorrent information
+mws_putheader '$MirOS: www/src/bt.hts,v 1.8 2009/04/26 18:12:26 tg Exp $'
 mws_content <<'EOF'
 <!-- http://www.mirbsd.org/bt.htm#id -->
-<h1>BitTorrent information</h1>
 <p><strong>Warning:</strong> Not finished yet.</p>
 <h2>Tracker</h2>
 <p>This information represents the files shown on the <a

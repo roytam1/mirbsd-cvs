@@ -2,10 +2,9 @@
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname legacy/bsd-intro "MirOS Legacy Content"
-mws_putheader '$MirOS: www/src/bsd-intro.hts,v 1.1 2008/09/17 21:12:22 tg Exp $'
+mws_setheadline What is BSD? What is OpenBSD?
+mws_putheader '$MirOS: www/src/bsd-intro.hts,v 1.2 2008/11/08 22:24:37 tg Exp $'
 mws_content <<'EOF'
-<h1>What is BSD? What is OpenBSD?</h1>
-
 <h2>Introduction</h2>
 
 <p>This essay tries to make you aware what BSD is, what MirBSD is, what
@@ -332,7 +331,7 @@ mws_content <<'EOF'
   Softupdates and background fsck</a> in BSD</li>
 </ul>
 
-<h1>Final words</h1>
+<h2>Final words</h1>
 
 <p>This essay will probably get extended if some new information that looks
  useful will be contributed. The article lives from your feedback, so please

@@ -2,10 +2,9 @@
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname legacy/faq.es "MirOS Legacy Content"
-mws_putheader '$MirOS$'
+mws_setheadline FAQ en español
+mws_putheader '$MirOS: www/src/faq.es.hts,v 1.1 2008/09/17 21:12:24 tg Exp $'
 mws_content <<'EOF'
-<h1>FAQ en espa&ntilde;ol</h1>
-
 <h2>Otros linguas</h2>
 
 <ul>

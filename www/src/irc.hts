@@ -1,14 +1,13 @@
-# $MirOS: www/src/irc.hts,v 1.1 2007/08/29 19:53:38 tg Exp $
+# $MirOS: www/src/irc.hts,v 1.2 2008/01/10 20:27:31 bsiegert Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname irc "Internet Relay Chat: synchronously communicating with developers"
 mws_subdir 0
-mws_putheader '$MirOS: www/src/irc.hts,v 1.1 2007/08/29 19:53:38 tg Exp $'
+mws_setheadline The MirOS Project on IRC
+mws_putheader '$MirOS: www/src/irc.hts,v 1.2 2008/01/10 20:27:31 bsiegert Exp $'
 mws_content <<'EOF'
-<h1>The MirOS Project on IRC</h1>
-
 <p>IRC stands for Internet Relay Chat. The project has two channels that
  allow you to socialize with other users and developers and maybe pose
  some questions directly.</p>

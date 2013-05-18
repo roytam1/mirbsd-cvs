@@ -2,10 +2,9 @@
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname legacy/anoncvs "MirOS Legacy Content"
-mws_putheader '$MirOS: www/src/anoncvs.hts,v 1.1 2008/09/17 21:12:22 tg Exp $'
+mws_setheadline Anonymous CVS access to the MirOS repository
+mws_putheader '$MirOS: www/src/anoncvs.hts,v 1.2 2008/12/10 18:40:18 tg Exp $'
 mws_content <<'EOF'
-<h1>Anonymous CVS access to the MirOS repository</h1>
-
 <h3 id="what">What is anonCVS?</h3>
 <p>#include &lt;nice_blurb_about_what_anoncvs_is.h&gt;<br />
 #include &lt;nice_blurb_about_what_anonrsync_is.h&gt;</p>
