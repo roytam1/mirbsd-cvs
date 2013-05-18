@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/i386/conf.c,v 1.4 2005/08/02 11:59:04 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/i386/conf.c,v 1.5 2005/10/21 12:54:32 tg Exp $ */
 /*	$OpenBSD: conf.c,v 1.111 2005/07/31 06:39:07 dlg Exp $	*/
 /*	$NetBSD: conf.c,v 1.75 1996/05/03 19:40:20 christos Exp $	*/
 
@@ -136,7 +136,7 @@ int	nblkdev = sizeof(bdevsw) / sizeof(bdevsw[0]);
 	(dev_type_stop((*))) enodev, 0, seltrue, \
 	(dev_type_mmap((*))) enodev }
 
-/* open, close, read, write */
+/* open, close, read, write, ioctl */
 #define	cdev_isdnbchan_init(c,n) { \
 	dev_init(c,n,open), dev_init(c,n,close), dev_init(c,n,read), \
 	dev_init(c,n,write), dev_init(c,n,ioctl), (dev_type_stop((*))) enodev, \
