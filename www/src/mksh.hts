@@ -3,7 +3,7 @@
 
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.223 2009/04/13 18:21:28 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.224 2009/04/13 18:48:16 tg Exp $'
 mws_content <<'EOF'
 <h1>mksh(1) R37c</h1>
 <p>This is the website of the MirBSD™ Korn Shell, an actively developed free
@@ -630,12 +630,12 @@ mws_content <<'EOF'
 <li><a href="http://openwrt.org/">OpenWrt Embedded GNU/Linux Distribution</a>
  also <a href="https://dev.openwrt.org/browser/packages/utils/mksh">provides
  mksh</a> on ADSL/WLAN routers thanks to Felix “nbd” Fietkau.</li>
-<li><a href="http://www.ubuntu.com/">Ubuntu GNU/Linux</a>, <a
- href="http://www.nexenta.org/os">Nexenta OS</a> (GNU/Solaris), the <a
+<li><a href="http://www.ubuntu.com/">Ubuntu GNU/Linux</a>, the <a
  href="http://grml.org/">grml</a> (and grml64) Live-CD, and other Debian
- derivates also have an mksh package; Knoppix, SIDUX, and grml-small do
- <em>not</em> contain or offer mksh. <em>Note</em>: We need URLs to the
- packages for these, can anyone provide any?</li>
+ derivates also have an mksh package; Knoppix, SIDUX, <a
+ href="http://www.nexenta.org/os">Nexenta OS</a> (GNU/Solaris), and
+ grml-small do <em>not</em> contain or offer mksh. <em>Note</em>: We need
+ URLs to the packages for these, can anyone provide any?</li>
 <li><a href="http://www.archlinux.org/">Arch GNU/Linux</a> users can install
  an <a href="http://aur.archlinux.org/packages.php?do_Details=1&amp;ID=3431">mksh
  package</a> by Daniel “homsn” Hommel.</li>
