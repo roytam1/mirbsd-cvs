@@ -1,4 +1,4 @@
-# $MirOS: src/usr.bin/ssh/Makefile.inc,v 1.5 2006/02/22 02:16:43 tg Exp $
+# $MirOS: src/usr.bin/ssh/Makefile.inc,v 1.6 2007/05/08 21:52:56 tg Exp $
 # $OpenBSD: Makefile.inc,v 1.30 2005/06/17 02:45:19 djm Exp $
 
 .ifndef _MODSRC_USR_BIN_SSH_MAKEFILE_INC
@@ -37,5 +37,9 @@ DPADD+=         ${.CURDIR}/../lib/libssh.a
 .if exists(../Makefile.inc)
 .  include "../Makefile.inc"
 .endif
+
+# make position-independent executables to gain improved
+# address space randomisation on re-execution
+LDFLAGS+=	-pie
 
 .endif
