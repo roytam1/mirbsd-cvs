@@ -1,6 +1,7 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.2 2004/03/31 03:49:16 jolan Exp $
 
-COMMENT=			library that handles the decoding of sound file formats
+COMMENT=	library that handles the decoding of sound file formats
 DISTNAME=	SDL_sound-1.0.1
 PKGNAME=	${DISTNAME:L:S/_/-/}-1
 CATEGORIES=	devel audio
@@ -23,6 +24,8 @@ LIB_DEPENDS+=	physfs.0.0::devel/physfs \
 		FLAC.5.2::audio/flac \
 		speex.2.2::audio/speex
 
+USE_CXX=	Yes # depends on smpeg and flac, which uses CXX
+USE_X11=	Yes # depends on SDL, which needs X11
 CONFIGURE_STYLE=gnu
 CONFIGURE_ARGS+=--disable-modplug
 

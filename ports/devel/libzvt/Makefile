@@ -1,6 +1,7 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.2 2003/12/09 17:32:57 marcm Exp $
 
-COMMENT=			library for handling pseudo terminals
+COMMENT=		library for handling pseudo terminals
 DISTNAME=		libzvt-2.0.1
 CATEGORIES=		devel
 HOMEPAGE=		http://www.gnome.org/
@@ -19,6 +20,7 @@ LIB_DEPENDS=		gdk-x11-2.0.0.0,gdk_pixbuf-2.0.0.0,gtk-x11-2.0.0.0::x11/gtk+ \
 MODULES+=		devel/pkgconfig
 
 USE_CXX=		Yes
+USE_X11=		Yes # depends on gtk+, which needs X11
 CONFIGURE_STYLE=	gnu
 CONFIGURE_ARGS+=	${CONFIGURE_SHARED}
 CONFIGURE_ARGS+=	--disable-gtk-doc
