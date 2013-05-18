@@ -1,4 +1,4 @@
-/* $MirOS: src/share/misc/licence.template,v 1.20 2006/12/11 21:04:56 tg Rel $ */
+/* $MirOS: src/lib/csu/i386_elf/crt0.c,v 1.4 2007/02/06 01:35:27 tg Exp $ */
 
 /*-
  * Copyright (c) 2004, 2005, 2007
@@ -31,7 +31,9 @@ __asm__(".text"
 "\n	.globl	_start"
 "\n_start:"
 "\n__start:"
-"\n	cld"
+#ifdef extra_paranoid
+"\n	cld"			/* see setregs() in i386 machdep.c */
+#endif
 "\n	push	ebx"		/* ps_strings	*/
 "\n	push	ecx"		/* obj		*/
 "\n	push	edx"		/* cleanup	*/
@@ -46,4 +48,4 @@ __asm__(".text"
 
 #include "common.c"
 
-__RCSID("$MirOS: src/lib/csu/i386_elf/crt0.c,v 1.3 2005/12/17 05:46:13 tg Exp $");
+__RCSID("$MirOS: src/lib/csu/i386_elf/crt0.c,v 1.4 2007/02/06 01:35:27 tg Exp $");
