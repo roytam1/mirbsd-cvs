@@ -453,7 +453,7 @@ ENTRY(bootbuf)
 	push	ax		/* future CS */
 	push	di		/* future IP */
 	push	dx		/* future DL (drive) */
-	push	cx		/* source buffer size */
+	push	ecx		/* source buffer size */
 	shr	esi,4
 	push	si		/* source buffer segment */
 	mov	eax,ebp
@@ -473,10 +473,26 @@ Ltcbeg:	/* temporary relocation code, copied to 0000:0610h */
 	pop	di		/* buffer target (DI) */
 	pop	es		/* buffer target (ES) */
 	pop	ds		/* source buffer segment */
-	pop	cx		/* source buffer size */
+Ltcbig:	pop	ecx		/* source buffer size */
 	xor	si,si		/* source buffer offset */
-	rep	movsb
-	xor	ax,ax
+	cmp	ecx,0x00010000
+	jb	Ltcseg
+	/* copy 64 KiB, reduce, retry */
+	sub	ecx,0x00010000
+	push	ecx
+	mov	ecx,0x4000	/* 64 KiB in dwords */
+	push	di
+	rep	movsd
+	pop	di
+	mov	ax,ds
+	add	ax,0x1000
+	mov	ds,ax
+	mov	ax,es
+	add	ax,0x1000
+	mov	es,ax
+	jmp	Ltcbig
+Ltcseg:	rep	movsb
+Ltcrun:	xor	ax,ax
 	mov	ds,ax
 	mov	si,0x0600
 	pop	dx

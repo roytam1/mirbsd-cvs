@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/stand/libsa/cmd_i386.c,v 1.15 2009/01/02 01:42:07 tg Exp $	*/
+/**	$MirOS: src/sys/arch/i386/stand/libsa/cmd_i386.c,v 1.16 2009/01/02 01:45:44 tg Exp $	*/
 /*	$OpenBSD: cmd_i386.c,v 1.29 2006/09/18 21:14:15 mpf Exp $	*/
 
 /*
@@ -297,11 +297,13 @@ Xmdexec(void)
 		return (0);
 	}
 
-	if (!strcmp(cmd.argv[1], "sector"))
+	if (!strcmp(cmd.argv[1], "sector")) {
 		type = 1;
-	else if (!strcmp(cmd.argv[1], "grub"))
+		sz = 65520;
+	} else if (!strcmp(cmd.argv[1], "grub")) {
 		type = 2;
-	else
+		sz = 131040;
+	} else
 		goto synerr;
 
 	if ((fd = open(qualify(cmd.argv[2]), 0)) < 0) {
@@ -309,12 +311,12 @@ Xmdexec(void)
 		return (0);
 	}
 
-	buf = alloc(65295);
+	buf = alloc(sz + 15);
 	baddr = (intptr_t)buf;
 	baddr = (baddr + 15) & ~15;
 	buf = (void *)((intptr_t)baddr);
 
-	if ((sz = read(fd, buf, 65280)) < 0) {
+	if ((sz = read(fd, buf, sz)) < 0) {
 		printf("read error\n");
 		close(fd);
 		return(0);
