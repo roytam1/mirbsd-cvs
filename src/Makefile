@@ -1,4 +1,4 @@
-# $MirOS: src/Makefile,v 1.144 2009/11/15 12:39:33 tg Exp $
+# $MirOS: src/Makefile,v 1.145 2009/12/27 17:05:39 tg Exp $
 # $OpenBSD: Makefile,v 1.103 2004/05/03 15:18:18 drahn Exp $
 
 .if defined(MAKECONF) && exists(${MAKECONF})
@@ -62,8 +62,14 @@ build-pre:
 	    && exec ${SUDO} ${_STCMD_DEST} ${MAKE} includes
 	rm -rf ${BSDOBJDIR}/lib
 	cd ${.CURDIR}/lib && ${MAKE} obj && exec ${_STCMD_OBJ} ${MAKE} depend
+	cd ${.CURDIR}/lib/csu \
+	    && ${_STCMD_OBJ} ${MAKE} \
+	    && exec ${SUDO} ${_STCMD_DEST} ${MAKE} install NOMAN=yes
 
 build-lib:
+	cd ${.CURDIR}/lib/libc \
+	    && ${_STCMD_OBJ} ${MAKE} \
+	    && exec ${SUDO} ${_STCMD_DEST} ${MAKE} install NOMAN=yes
 	cd ${.CURDIR}/lib \
 	    && ${_STCMD_OBJ} ${MAKE} \
 	    && exec ${SUDO} ${_STCMD_DEST} ${MAKE} install NOMAN=yes
