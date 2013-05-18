@@ -3,9 +3,10 @@
 #define mir18n_caseconv
 #include "mir18n.h"
 
-__RCSID("$MirOS: src/lib/libc/i18n/tbl_towl.c,v 1.2 2007/02/07 17:29:00 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/i18n/tbl_towl.c,v 1.3 2007/06/15 20:05:30 tg Exp $");
 
 /* generated automatically from UnicodeData-5.0.0d10.txt (BMP) */
+/* added unidirectional case mapping from U+1E9E to U+00DF */
 
 static const uint16_t tolower_table_page00[256] = {
 	0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000,

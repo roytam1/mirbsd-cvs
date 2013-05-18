@@ -1,13 +1,12 @@
-/* $MirOS: src/lib/libc/i18n/tbl_attr.c,v 1.3 2007/02/07 17:28:58 tg Exp $ */
-
 #include <wchar.h>
 
 #define mir18n_attributes
 #include "mir18n.h"
 
-__RCSID("$MirOS: src/lib/libc/i18n/tbl_attr.c,v 1.3 2007/02/07 17:28:58 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/i18n/tbl_attr.c,v 1.4 2007/07/15 19:06:37 tg Exp $");
 
 /* generated automatically from UnicodeData-5.0.0d10.txt (BMP) */
+/* added attributes to U+1E9E uppercase eszett */
 
 static const unsigned char attribute_table_page01[256] = {
 	/* 0x0100 */ upper | alpha | print | graph | alnum,

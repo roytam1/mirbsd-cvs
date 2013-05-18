@@ -1,13 +1,12 @@
-/* $MirOS: src/lib/libc/i18n/tbl_att0.c,v 1.2 2007/02/07 17:28:58 tg Exp $ */
-
 #include <wchar.h>
 
 #define mir18n_attributes
 #include "mir18n.h"
 
-__RCSID("$MirOS: src/lib/libc/i18n/tbl_att0.c,v 1.2 2007/02/07 17:28:58 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/i18n/tbl_att0.c,v 1.3 2007/07/15 19:06:36 tg Exp $");
 
 /* generated automatically from UnicodeData-5.0.0d10.txt (BMP) */
+/* added “lower” attribute to U+00DF lowercase eszett */
 
 const unsigned char __C_attribute_table_pg[256] = {
 	/* 0x0000 */ cntrl,
