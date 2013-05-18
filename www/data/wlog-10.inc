@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.351 2011/08/18 22:00:58 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.352 2011/08/20 11:45:42 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -8381,4 +8381,21 @@ Tag: news snapshot
  <li style="list-style:none;"><a href="@@RELPATH@@bt.htm#s110818">BitTorrent
   download</a> is <a href="@@RELPATH@@f/MIRB0818.torrent">available</a></li>
 </ul>
+----
+Date: 20.08.2011 21:01
+Author: tg@
+Title: FrOSCon 2011, Day 1
+Tag: debian event geocache
+
+<p>Built the <a href="@@RELPATH@@f/MIRB0818.torrent">ISO</a> in the
+ morning, today. Finally. Whew. It was much too warm in the mēnsa,
+ and why did I have to get up so early anyway? Real Conferences™
+ don’t start before 10 o’clock, and there are no sensible activities
+ before 11 o’clock anyway…</p>
+<p>Talked to a lot of people, introduced my favourite Fedora Packager
+ to Geocaching. Now my throat is sore and I’m tired. Social Event was
+ not so good, as usual. (And even the vegetarian food now costs money
+ as opposed to, I think, two years ago.) At least dry and not too
+ loud. Still, best thing of FrOSCon is the Friday Evening Jugoslawian
+ Food Mealtime ;-)</p>
 ----
