@@ -1,5 +1,5 @@
 <!-- PageID: wlog-8 -->
-<small class="rcsid">$MirOS: www/content/d2xvZy04.inc,v 1.63 2006/04/06 21:57:20 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy04.inc,v 1.64 2006/04/07 23:25:29 tg Exp $</small>
 <h1>MirBSD &ndash; WTF, We Have a Release!?</h1>
 <p><small><a href="#eof">bottom</a> or <a href="/?older">older</a>
  editions</small></p>
@@ -1053,6 +1053,18 @@ celebrate this event, rotate the wlog and start a new one.</p>
 
 <div class="wlentry">
  <h3 id="e20060407">07.04.2006 by tg@</h3>
+ <p>Caf&eacute; Libertad delivered in less than 24 hours. The DPD person
+  today surprised me at about 11 o'clock. And they put lots of anarchist
+  advertising material, a poster and (YAY!) some (notebook!) stickers in
+  as well as a "self-organisational newsletter". Me likey.</p>
+ <p>Only today I got notice that Benny is having a one-week trip with no
+  internet access&#8230; and that's only because of some allbsd.de mails
+  and not because he told me. And that despite me trying to impress him,
+  and the rest of my readership, with this live CD (and my call for some
+  testers). I don't know where he travels to, I can only suppose it's an
+  important thing related to studies, for he explained me some of _that_
+  bunch of problems recently (and I don't know either how he can manage;
+  that's one of the reasons I stopped studying altogether).</p>
  <p style="margin-bottom:0px;">From the category &quot;useless patches I
   designed and took me some time&#8230;</p>
  <div style="border:4px ridge blue; margin:0px 24px 0px 24px; padding:12px;">
@@ -1111,6 +1123,20 @@ celebrate this event, rotate the wlog and start a new one.</p>
   it can be used, and this patch shall be committed instead. I'll retain
   the early version from above though because it expresses quite some of
   my frustration of today.</p>
+ <p>I hacked another bunch into it now&#8230; support for images of hard
+  disc drives (with 512 byte sectors instead of 2048), using a specified
+  PBR (512-byte) sector (instead of sector 0) or even (hard disc images,
+  only, for obvious reasons) MBR partition table support (including that
+  userpt stuff). userpt is also supported for CD-ROM images, though it's
+  probably not very useful (unless booting e.g. a kernel from wd1). IMHO
+  these things are all nice to have, will prove useful and make a unique
+  selling (and marketing! hi Daniel) point.</p>
+ <p>I'll forget the idea about porting it to GNU/Linux though &ndash; it
+  doesn't even have nlist&#8230; how am I supposed to get the offsets of
+  my declared-as-global functions within the ELF first-stage boot loader
+  now? Some Lunox or Kinderunix guru reading this and want to send me an
+  unidiff? (Only -i must work, -I or neither-of-these-specified does not
+  need to be used. Partition tables must work, though.)</p>
 </div>
 
 <p id="eof">Good luck, have fun, take care etc.pp</p>
