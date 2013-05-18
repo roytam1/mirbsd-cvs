@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.subdir.mk,v 1.13 2008/10/16 19:35:55 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.subdir.mk,v 1.14 2008/10/16 19:47:54 tg Exp $
 # $OpenBSD: bsd.port.subdir.mk,v 1.64 2004/04/07 13:06:33 espie Exp $
 # $FreeBSD: bsd.port.subdir.mk,v 1.20 1997/08/22 11:16:15 asami Exp $
 #
@@ -49,7 +49,13 @@ STRIP?=		-s
 .endif
 
 ECHO_MSG?=	echo
+
+BULK?=		No
+.if ${BULK:L} == "yes"
+REPORT_PROBLEM?=env PORTSDIR=${PORTSDIR} ${SHELL} ${PORTSDIR}/infrastructure/scripts/failedport $$dir,$$f
+.else
 REPORT_PROBLEM?=exit 1
+.endif
 
 # create a list of subdirectories
 .ifdef SUBONLY
