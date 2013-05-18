@@ -1,4 +1,4 @@
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.86 2008/03/05 00:47:54 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.87 2008/03/05 00:49:38 tg Exp $'
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -51,7 +51,10 @@ mws_content <<'EOF'
  thanks to Otavio Salvador for uploading a couple of my Debian packages. The
  Debian GNU/k*BSD and HURD developers were quite helpful in assisting and
  testing as well. Thanks to Thomas E. “TGEN” Spanjaard for access to both a
- NetBSD and a DragonFly system. (Did I miss anyone? Mail me if so.)</p>
+ NetBSD and a DragonFly system. Thanks to Josef “jupp” / “penpen” Schugt for
+ testing mksh on a HP OSF/1 V4.0 system from the Uni Bonn Physik CIP Pool.
+ Thanks to DEChengst from #UnixNL for providing access to a HP/Compaq Tru64
+ (OSF/1 V5.1B) system. (Did I miss anyone? Mail me if so.)</p>
 <p>What is mksh(1)? – Short answer: The MirBSD Korn Shell. Okay, but what
  exactly does it do, or why another shell? These questions will be answered
  <a href="#contrib">below</a> for the people interested. Right now, you only
@@ -637,12 +640,15 @@ mws_content <<'EOF'
  <li>AIX 5.3 (powerpc gcc4.0.0_powerpc-ibm-aix5.1.0.0, LD 1.65 04/06/2005)</li>
  <li>AIX 5.3 32-bit (powerpc xlC9.0 070428, LD 1.65 04/06/2005)</li>
  <li>AIX 5.3 64-bit (powerpc xlC9.0 070428, LD 1.65 04/06/2005)</li>
+ <li>HP Tru64 OSF1 V5.1 2650 (alpha Compaq C V6.5-011 Rev. 2650)</li>
+ <li>HP Tru64 OSF1 V5.1 2650 (alpha gcc2.97-tru64-010710 alphaev56)</li>
  <li>HP-UX 11i 11.11 B.11.11 U PA-RISC 9000/800 (hppa aCC HP92453-01 B.11.X.36086-36089-36092.GP, ld 92453-07 B.11.60 070209) <em>no regression test run</em></li>
  <li>HP-UX 11i v2 B.11.23 U ia64 (IA64 aCC B3910B A.06.10 [Mar 22 2006], ld 92453-07 B.12.45)</li>
  <li>HP-UX 11i v2 B.11.23 U ia64 (IA64 gcc3.4.3)</li>
  <li>HP-UX 11i v3 B.11.31 U PA-RISC 9000/800 (hppa aCC HP92453-01 B.11.X.36086-36089-36092.GP, ld 92453-07 B.11.60 070209)</li>
  <li>Mac OSX Leopard 10.5.2 Darwin 9.2.0 (i386 gcc4.0.1 Apple Inc. build 5465)</li>
  <li>Mac OSX Leopard 10.5.2 Darwin 9.2.0 (i386 gcc4.2.1 Apple Inc. build 5531)</li>
+ <li>Mac OSX Leopard Server 10.5.2 Darwin 9.2.0 (macppc gcc3.3 20030304 Apple Computer, Inc. build 1823, ld64-77)</li>
  <li>Mac OSX Leopard Server 10.5.2 Darwin 9.2.0 (macppc gcc4.0.1 Apple Inc. build 5465)</li>
  <li>Solaris 8 Generic_117350-41 (sparc,V8+ sun4u gcc3.4.3)</li>
  <li>Solaris 8 Generic_117350-41 (sparc64,V9 sun4u gcc3.4.3)</li>
@@ -680,10 +686,10 @@ mws_content <<'EOF'
  <li style="list-style:none;">– older mksh versions –</li>
  <li>See <a href="@@RELPATH@@mksh_old.htm#regress">the old-mksh site</a></li>
  <li style="list-style:none;">– tests by third parties (Build.sh) –</li>
- <li>Jupp Schugt (the IceWM coffee pot maintainer) sometimes tests mksh with
-  gcc on OSF/1 (Digital UNIX®); this has been done last for mksh R31c</li>
+ <li>HP OSF/1 V4.0 1229 (alpha DEC C V5.9-005 Rev. 1229) <em>by Jupp Schugt</em></li>
+ <li>HP OSF/1 V4.0 1229 (alpha gcc2.8.1 alpha-dec-osf4.0d) <em>by Jupp Schugt</em></li>
  <li style="list-style:none;">– other build system integration –</li>
- <li>See the <a href="#otheros">Inclusion</a> page for general information</li>
+ <li>See the <a href="#otheros">Inclusion</a> section for general information</li>
  <li>MirOS #10 RC8 (i386 gcc3.4.6) <em>via MirPorts Framework</em></li>
  <li>OpenBSD 4.3-beta GENERIC#201 (zaurus gcc3.3.5) <em>via MirOS provided OpenBSD port</em></li>
  <li>Debian GNU/kFreeBSD 4.0 sid 6.2-1-686 (i386 gcc4.2.3-2) <em>via MirOS provided Debian package</em></li>
@@ -708,7 +714,6 @@ mws_content <<'EOF'
  <li>Debian GNU/Linux 2.6.18-5-s390x (S/390 gcc4.2.3-2) <em>by debian-31 buildd via Debian’s package</em></li>
  <li>Debian GNU/Linux 2.6.23.16 (sparc64,V8 gcc4.2.3-2) <em>by lebrun buildd via Debian’s package</em></li>
  <li style="list-style:none;">– known to <strong>FAIL</strong> building</li>
- <li>Mac OSX Leopard Server 10.5.2 Darwin 9.2.0 (macppc gcc3.3 20030304 Apple Computer, Inc. build 1823, ld64-77)</li>
  <li>Fabrice Bellard’s tcc in combination with GNU libc often fails linking</li>
  <li>Some pcc versions mis-compile with -O enabled</li>
 </ul>
@@ -754,7 +759,7 @@ mws_content <<'EOF'
 <li>A sensible website</li>
 <li>Build and actually work on more platforms – PW32, Minix 3,
  Plan 9, Syllable – debug these</li>
-<li>Test ourselves on more platforms – OSF/1, Tru64, Ultrix</li>
+<li>Test ourselves on more platforms – OSF/1, Ultrix</li>
 <li>Build with more platforms’ native tools or other compilers
  – ACK, kencc, ICC/UWIN, egcs/UWIN, tcc</li>
 <li>Maybe handle base-0 and base-1 “integers” as octets and unicode
@@ -781,6 +786,20 @@ mws_content <<'EOF'
   ability to copy’n’paste from it for GNU gnroff -Tutf8, originally prompted
   by Patrick “aptituz” Schoenfeld and “lintian -viI mksh*.changes”, but then
   improved (and nroff hacked) by tg@ a lot</li>
+ <li>Shut up some gcc warnings (explicit braces; cast <tt>MAP_FAILED</tt>)</li>
+ <li>Try to get rid of the test “if the compiler fails correctly” by using
+  the errorlevel of the <tt>$CC</tt> process (except with Microsoft Visual C++
+  which returns non-zero even on success sometimes), thus supporting DEC C on
+  OSF/1 (and, quite possibly, gcc3 on Mac OSX Leopard)</li>
+ <li>If revoke(2) and flock(2) are found, check if they’re declared</li>
+ <li>Promote Tru64 to a fully supported operating environment, even though it
+  needs a plethora of <tt>_*_SOURCE</tt> defines and has <tt>SIGMAX</tt>
+  instead of <tt>NSIG</tt>; OSF/1 V4.0 and Tru64 (OSF/1 V5.1) are supported
+  with both gcc and HP/Compaq/DEC C in various versions</li>
+ <li>Generalise the workaround for incompatible <tt>sig_t</tt> across the
+  platforms that need it (currently, OSF/1 ad PW32)</li>
+ <li>Shut up annoying warning about gcc 2.7.2.3, 2.8.1, 2.95.x not knowing the
+  “-std=gnu99” and “-std=c99” options without setting proper errorlevel</li>
 </ul>
 <p>A release with many new features is mksh R33, look yourself:</p><ul>
  <li>Sync with OpenBSD ksh (no real functional changes)</li>
