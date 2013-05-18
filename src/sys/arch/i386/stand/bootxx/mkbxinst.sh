@@ -1,5 +1,5 @@
 #!/bin/mksh
-rcsid='$MirOS: src/sys/arch/i386/stand/bootxx/mkbxinst.sh,v 1.12 2009/02/01 15:50:09 tg Exp $'
+rcsid='$MirOS: src/sys/arch/i386/stand/bootxx/mkbxinst.sh,v 1.13 2009/02/02 22:48:55 tg Exp $'
 #-
 # Copyright (c) 2007, 2008, 2009
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -205,7 +205,7 @@ thecode[511]=0xAA
 (( thecode[ofs_geoms] = numsecs ))
 (( thecode[ofs_partp] = partp ))
 print -u2 "using sectors of 2^$bsh = $((1 << bsh)) bytes"
-(( bsh == 9 )) || (( thecode[ofs_secsz] = (1 << (bsh - 8)) ))
+(( thecode[ofs_secsz] = (1 << (bsh - 8)) ))
 
 # create the output string
 ostr=
