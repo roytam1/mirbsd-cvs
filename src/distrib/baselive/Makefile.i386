@@ -1,9 +1,11 @@
-# $MirOS: src/distrib/baselive/Makefile.i386,v 1.1 2006/08/19 19:06:04 tg Exp $
+# $MirOS: src/distrib/baselive/Makefile.i386,v 1.2 2006/10/02 07:03:16 tg Exp $
 
 KERNEL_PREP=	print 'rootdev 6 0\nquit' | config -ef bsd.tmp
 BOOT=		${REALOBJDIR}/../../sys/arch/i386/stand/liveboot/boot
 CDROM_MDOPTS=	-b etc/boot.iso -c etc/boot.cat \
 		-no-emul-boot -boot-load-size 4 -boot-info-table
+
+it: do-cdrom
 
 bsd: ${BSDOBJDIR}/distrib/generic/bsd
 	cp -f $> $@

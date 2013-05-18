@@ -1,10 +1,12 @@
-# $MirOS: src/distrib/baselive/Makefile,v 1.6 2006/10/02 07:03:16 tg Exp $
+# $MirOS: src/distrib/baselive/Makefile,v 1.7 2006/10/02 07:08:10 tg Exp $
 
 .include <bsd.own.mk>
 
 # common variables
 REALOBJDIR!=	readlink -nf ${.OBJDIR}
 TOPDIR?=	${.CURDIR}/..
+
+.MAIN: all
 
 .if exists(${.CURDIR}/Makefile.${MACHINE})
 .  include "${.CURDIR}/Makefile.${MACHINE}"
@@ -37,15 +39,13 @@ CDROM_MDOPTS?=
 
 all install:
 
-it: ${CDROM}
+do-cdrom: unpack addcontrib prepimg nukefiles makeimg
 
-.ifdef FINISHED_WORK
-${CDROM}: unpack gendev addcontrib prepimg nukefiles makeimg
-.else
-${CDROM}:
+.if !target(it)
+it:
 	@print -u2 The baselive cd infrastructure is not ready yet.
 	@print -u2 Please try again later.
-	@touch $@
+	@touch ${CDROM}
 .endif
 
 unpack: unpack-mi unpack-md
@@ -63,8 +63,6 @@ unpack-mi:
 	    sudo dd of=${WRKDIR}/etc/boot.cfg
 
 unpack-md:
-
-gendev: ${IMAGE} bsd
 
 ${IMAGE}:
 	test ! -e ${TMPMOUNT} || (cd ${TOPDIR}/common; ${MAKE} unconfig)
@@ -119,7 +117,7 @@ bsd.gz: bsd ${IMAGE}
 nukefiles:
 	cd ${WRKDIR} && ${SUDO} rm -rf etc/X11 usr/{local/lib/X11,releng} \
 	    usr/{,X11R6/}{doc,info,man} usr/X11R6/lib/X11/doc
-	-for name in ${WRKDIR}/usr/lib/*@(.so.*|.a); do \
+	-for name in ${WRKDIR}/usr/{,X11R6/}lib/*@(.so.*|.a); do \
 		print -n stripping $${name##*/} ...; \
 		if [[ $$name = *.a ]]; then \
 			${SUDO} strip -g $$name && print; \
@@ -136,7 +134,7 @@ cdrom-prepare: bsd.gz
 	cd ${WRKDIR}; sed 's!RMD160 (!&v${OSrev}/${MACHINE}/!' \
 	    <v${OSrev}/${MACHINE}/RMD160 >RMD160; ${SUDO} touch etc/boot.cat
 	cd ${WRKDIR}; rmd160 00-README bsd etc/boot.* stand/* >>RMD160
-	-${SUDO} rm -f ${WRKDIR}/etc/boot.cat ${CDROM}
+	-${SUDO} rm -f ${WRKDIR}/etc/boot.cat ${CDROM} ${WRKDIR}/RMD160.gz
 
 cdrom-generate:
 	cd ${WRKDIR}; sort -uo RMD160 RMD160; gzip -n9 RMD160

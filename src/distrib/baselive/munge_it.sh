@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/distrib/baselive/munge_it.sh,v 1.10 2006/10/02 07:03:17 tg Exp $
+# $MirOS: src/distrib/baselive/munge_it.sh,v 1.11 2006/10/02 07:09:14 tg Exp $
 #-
 # Copyright (c) 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -24,14 +24,15 @@
 # other issues arising in any way out of its use, even if advised of
 # the possibility of such damage or existence of a defect.
 #-
-# Patch a freshly unpacked MirOS installation into the standard live
-# CD distribution.
+# Patch a freshly unpacked MirOS installation into the standard base
+# system generated live CD distribution.
 
 set -ex
 myplace=$(readlink -nf $(dirname "$0"))
 
 ed -s etc/X11/xdm/Xresources <<-'EOMD'
 	/^xlogin.greeting:/s/CLIENTHOST/the MirOS BSD Live CD/
+	/-100-100-/s//-75-75-/
 	/^Chooser.label.label:/s/CLIENTHOST/Live-CD/
 	wq
 EOMD
@@ -72,43 +73,33 @@ ed -s etc/ntpd.conf <<-'EOMD'
 EOMD
 ed -s etc/rc <<-'EOMD'
 	1i
-		# $MirOS: src/distrib/baselive/munge_it.sh,v 1.10 2006/10/02 07:03:17 tg Exp $
+		# $MirOS: src/distrib/baselive/munge_it.sh,v 1.11 2006/10/02 07:09:14 tg Exp $
 	.
 	/shutdown request/ka
 	/^fi/a
 
-		mount /dev/rd0a /dev
+		mount -fwo async,noatime /dev/rd0a /dev
 		cat /dev/.rs >/dev/arandom 2>&-
 		( (dd if=/dev/rwd0c count=126; dd if=/dev/rsd0c count=126) \
 		    2>&1 | cksum -ba sha512 >/dev/arandom ) &
-		(cd /dev; ln -s $(sysctl -n kern.root_device) root)
-		rm -f /dev/.rs
+		(cd /dev; ln -s $(sysctl -n kern.root_device) root; rm -f .rs)
 		print \#\\tThis product includes material provided by Thorsten Glaser.
 	.
 	/^raidctl.*all/s/^/#/
-	/^rm.*fastboot$/a
-
-		function do_mfsmount
-		{
-			print -n " $1"
-			mount_mfs -s ${2:-300000} swap /$1
-		}
-		print -n 'initialising memory filesystems...'
-		do_mfsmount etc 20480
-		do_mfsmount home
-		do_mfsmount tmp 600000
-		do_mfsmount usr/X11R6/lib/X11 20480
-		do_mfsmount var
-		print '... done'
-		sleep 2
+	/^umount/a
+		mount -fwo async,noatime /dev/rd0a /dev
+	.
+	/t nonfs/i
 		print -n 'extracting mfs contents...'
 		gzip -dc /stand/fsrw.dat | pax -r -pe
-		print ' done'
+		print -n ' populating...'
 		sleep 1
 		cp -r etc/skel home/live
 		chown -R 32762:32762 home/live
 		[[ -s /stand/locate.database ]] && \
 		    cp /stand/locate.database /var/db/locate.database
+		print ' done'
+
 	.
 	/parsed console/a
 		[[ -e /etc/ttys ]] && if [[ $consdev != nochg ]]; then
