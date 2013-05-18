@@ -1,4 +1,4 @@
-# $MirOS: src/sys/arch/sparc/conf/Makefile.sparc,v 1.8 2006/01/31 10:17:47 tg Exp $
+# $MirOS: src/sys/arch/sparc/conf/Makefile.sparc,v 1.9 2006/01/31 10:41:28 tg Exp $
 # $OpenBSD: Makefile.sparc,v 1.33 2003/11/20 08:38:52 espie Exp $
 # $NetBSD: Makefile.sparc,v 1.32.4.1 1996/06/12 20:26:32 pk Exp $
 
@@ -93,10 +93,10 @@ assym.h: $S/kern/genassym.sh ${SPARC}/sparc/genassym.cf Makefile
 SRCS=	${SPARC}/sparc/locore.s ${_COMMON_SRCS} ${CFILES} ${SFILES}
 depend:: .depend
 .depend: ${SRCS} assym.h param.c
-	${MKDEP} ${AFLAGS} ${CPPFLAGS} ${SPARC}/sparc/locore.s
+	${MKDEP} -D_ASM_SOURCE ${AFLAGS} ${CPPFLAGS} ${SPARC}/sparc/locore.s
 	${MKDEP} -a ${CFLAGS} ${CPPFLAGS} param.c ioconf.c ${CFILES}
 .if !empty(SFILES)
-	${MKDEP} -a ${AFLAGS} ${CPPFLAGS} ${SFILES}
+	${MKDEP} -a -D_ASM_SOURCE ${AFLAGS} ${CPPFLAGS} ${SFILES}
 .endif
 	${SHELL} $S/kern/genassym.sh ${MKDEP} -f assym.dep ${CFLAGS} \
 	    ${CPPFLAGS} <${SPARC}/sparc/genassym.cf

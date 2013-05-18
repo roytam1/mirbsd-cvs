@@ -1,4 +1,4 @@
-# $MirOS: src/sys/conf/Makefile.inc,v 1.8 2006/01/31 10:41:29 tg Exp $
+# $MirOS: src/sys/conf/Makefile.inc,v 1.9 2006/01/31 11:26:26 tg Exp $
 #-
 # Copyright (c) 2005, 2006
 #	Thorsten "mirabile" Glaser <tg@mirbsd.de>
@@ -74,8 +74,8 @@ NORMAL_C_C=	${CC} ${CFLAGS} ${CPPFLAGS} ${PARAM} -c $<
 DRIVER_C=	${CC} ${CFLAGS} ${CPPFLAGS} -c $<
 DRIVER_C_C=	${CC} ${CFLAGS} ${CPPFLAGS} ${PARAM} -c $<
 
-NORMAL_S=	${CC} ${AFLAGS} ${CPPFLAGS} -c $<
-NORMAL_S_C=	${CC} ${AFLAGS} ${CPPFLAGS} ${PARAM} -c $<
+NORMAL_S=	${CC} -D_ASM_SOURCE ${AFLAGS} ${CPPFLAGS} -c $<
+NORMAL_S_C=	${CC} -D_ASM_SOURCE ${AFLAGS} ${CPPFLAGS} ${PARAM} -c $<
 
 HOSTED_C=	${HOSTCC} ${HOSTED_CFLAGS} ${HOSTED_CPPFLAGS} -c $<
 
