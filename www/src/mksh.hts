@@ -2,7 +2,7 @@
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.175 2008/10/24 21:39:36 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.177 2008/10/25 18:26:55 tg Exp $'
 mws_content <<'EOF'
 <h1>mksh(1) R36</h1>
 <p>This is the website of the MirBSD™ Korn Shell, an actively developed free
@@ -55,7 +55,9 @@ mws_content <<'EOF'
  testing mksh on a Digital Unix (OSF/1 V4.0) system from the Uni Bonn Physik
  CIP Pool. Thanks to DEChengst from #UnixNL for providing access to a HP/Compaq
  Tru64 (OSF/1 V5.1B) system, an OSF/1 V2.0 system and an Ultrix 4.5 system.
- Thanks to Adam “replaced” Hoka for a BSDi BSD/OS 3.1 ISO9660 image.
+ Thanks to Adam “replaced” Hoka for a BSDi BSD/OS 3.1 ISO9660 image and
+ offering to help with HP-sUX testing (now that HP TestDrive went down) and
+ porting to Haiku.
  (Did I miss anyone? Mail me if so.)</p>
 <p>What is mksh(1)? – Short answer: The MirBSD Korn Shell. Okay, but what
  exactly does it do, or why another shell? These questions will be answered
@@ -613,7 +615,7 @@ mws_content <<'EOF'
  href="http://download.opensuse.org/repositories/shells/SLES_9/src/">shells repo</a>,
  thanks to Pascal “loki” Bleser and Marcus “darix” Rückert; the RPMs are
  available for various distributions as well as as SRPM (source RPM).
- The inofficial <em>portable</em> SRPM</a> has been retired; the OBS SRPM
+ The inofficial <em>portable</em> SRPM has been retired; the OBS SRPM
  has been changed to be buildable on Debian and MirBSD as well as include
  the <tt>arc4random.c</tt> sample file.</li>
 <li><a href="http://finkproject.org/">Fink</a> delivers an <a
