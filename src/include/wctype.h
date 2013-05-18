@@ -1,4 +1,4 @@
-/* $MirOS: src/include/wctype.h,v 1.1 2005/09/22 19:53:04 tg Exp $ */
+/* $MirOS: src/include/wctype.h,v 1.2 2005/12/17 05:46:13 tg Exp $ */
 
 /*-
  * Copyright (c) 2005
@@ -35,21 +35,29 @@ typedef const short * const * wctrans_t;
 __BEGIN_DECLS
 int	iswalnum(wint_t);
 int	iswalpha(wint_t);
+#ifdef notyet
 int	iswblank(wint_t);
 int	iswcntrl(wint_t);
 int	iswdigit(wint_t);
 int	iswgraph(wint_t);
+#endif
 int	iswlower(wint_t);
+#ifdef notyet
 int	iswprint(wint_t);
 int	iswpunct(wint_t);
 int	iswspace(wint_t);
+#endif
 int	iswupper(wint_t);
+#ifdef notyet
 int	iswxdigit(wint_t);
 int	iswctype(wint_t, wctype_t);
 wint_t	towctrans(wint_t, wctrans_t);
+#endif
 wint_t	towlower(wint_t);
 wint_t	towupper(wint_t);
+#ifdef notyet
 wctrans_t wctrans(const char *);
+#endif
 __END_DECLS
 
 #endif
