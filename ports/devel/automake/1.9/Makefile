@@ -1,9 +1,9 @@
-# $MirOS: ports/devel/automake/1.9/Makefile,v 1.12 2008/05/13 12:56:42 tg Exp $
+# $MirOS: ports/devel/automake/1.9/Makefile,v 1.13 2009/12/06 15:23:07 tg Exp $
 # $OpenBSD: Makefile,v 1.27 2002/11/27 07:50:28 ish Exp $
 
 COMMENT=		experimental GNU automatic Makefile generator
 VERSION=		1.9.6
-DASH_VER=		5
+DASH_VER=		6
 DISTNAME=		automake-${VERSION}
 SUFFIX=			-1.9
 CATEGORIES=		devel
