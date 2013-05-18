@@ -1,3 +1,0 @@
-@comment $OpenBSD: PLIST,v 1.1.1.1 2001/01/11 00:13:12 naddy Exp $
-bin/wmapm
-man/man1/wmapm.1
