@@ -1,10 +1,10 @@
-# $MirOS: ports/graphics/imlib/Makefile,v 1.5 2006/02/09 09:35:54 tg Exp $
+# $MirOS: ports/graphics/imlib/Makefile,v 1.6 2006/02/09 11:11:49 tg Exp $
 # $OpenBSD: Makefile,v 1.46 2003/11/14 23:52:42 brad Exp $
 # $FreeBSD: Makefile,v 1.45 1999/03/09 01:08:57 nectar Exp $
 
 COMMENT=		"image manipulation library for X11"
 DISTNAME=		imlib-1.9.15
-PKGNAME=		${DISTNAME}-1
+PKGNAME=		${DISTNAME}-2
 CATEGORIES=		graphics devel
 MASTER_SITES=		${MASTER_SITE_GNOME:=sources/imlib/1.9/}
 HOMEPAGE=		http://freshmeat.net/projects/imlib/
@@ -26,7 +26,8 @@ USE_GMAKE=		Yes
 CONFIGURE_STYLE=	autoconf
 AUTOCONF_NEW=		Yes
 CONFIGURE_ARGS+=	${CONFIGURE_SHARED}
-CONFIGURE_ARGS+=	--disable-modules --disable-nls
+CONFIGURE_ARGS+=	--enable-modules
+CONFIGURE_ARGS+=	--disable-nls
 
 FLAVORS=		no_cxx
 FLAVOR?=
