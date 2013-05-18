@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/dev/rndvar.h,v 1.6 2006/08/22 20:58:24 tg Exp $ */
+/**	$MirOS: src/sys/dev/rndvar.h,v 1.7 2006/10/07 21:36:21 tg Exp $ */
 /*	$OpenBSD: rndvar.h,v 1.19 2003/11/03 18:24:28 tedu Exp $	*/
 
 /*
@@ -64,7 +64,7 @@ struct rndstats {
 	quad_t rnd_reads;	/* strong read calls */
 	quad_t arc4_reads;	/* aRC4 data bytes read so far */
 	quad_t arc4_nstirs;	/* arc4 pool stirs */
-	quad_t arc4_stirs;	/* arc4 pool stirs (bits used) */
+	quad_t arc4_stirs;	/* arc4 pool stirs (bytes used) */
 
 	quad_t rnd_pad[5];
 
