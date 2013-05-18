@@ -1,4 +1,4 @@
-/* $MirOS: src/gnu/usr.bin/lynx/src/LYKeymap.c,v 1.2 2005/03/27 22:42:36 tg Exp $ */
+/* $MirOS: src/gnu/usr.bin/lynx/src/LYKeymap.c,v 1.3 2005/06/22 11:15:43 tg Exp $ */
 
 #include <HTUtils.h>
 #include <LYUtils.h>
@@ -1763,8 +1763,8 @@ char *key_for_func_ext(int lac,
  * This function returns TRUE if the ch is non-alphanumeric and maps to KeyName
  * (LYK_foo in the keymap[] array).  - FM
  */
-BOOL LYisNonAlnumKeyname(int ch,
-			 int KeyName)
+BOOLEAN LYisNonAlnumKeyname(int ch,
+			    int KeyName)
 {
     if (ch < 0 || ch >= KEYMAP_SIZE)
 	return (FALSE);

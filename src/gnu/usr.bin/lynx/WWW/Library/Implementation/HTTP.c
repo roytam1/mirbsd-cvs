@@ -1,5 +1,3 @@
-/* $MirOS: src/gnu/usr.bin/lynx/WWW/Library/Implementation/HTTP.c,v 1.4 2006/02/21 03:00:19 tg Exp $ */
-
 /*	HyperText Tranfer Protocol	- Client implementation		HTTP.c
  *	==========================
  * Modified:
@@ -626,55 +624,14 @@ static int HTLoadHTTP(const char *arg,
 
 	X509_NAME_oneline(X509_get_subject_name(SSL_get_peer_certificate(handle)),
 			  ssl_dn, sizeof(ssl_dn));
-#if 0
-/* XXX fix for multiple /CN= in this */
-HTSprintf0(&msg, "SSL DN is '%s'", ssl_dn);
-/* SSL DN is '/CN=cacert.org/CN=*.cacert.org' (y) */
-HTForcedPrompt(ssl_noprompt, msg, YES);
-FREE(msg);
-#endif
-#if 0
-	if ((cert_host = strstr(ssl_dn, "/CN=")) == NULL) {
-	    HTSprintf0(&msg,
-		       gettext("SSL error:Can't find common name in certificate-Continue?"));
-	    if (!HTForcedPrompt(ssl_noprompt, msg, YES)) {
-		status = HT_NOT_LOADED;
-		FREE(msg);
-		goto done;
-	    }
-	} else {
-	    cert_host += 4;
-	    if ((p = strchr(cert_host, '/')) != NULL)
-		*p = '\0';
-	    if ((p = strchr(cert_host, ':')) != NULL)
-		*p = '\0';
-	    ssl_host = HTParse(url, "", PARSE_HOST);
-	    if ((p = strchr(ssl_host, ':')) != NULL)
-		*p = '\0';
-	    p = NULL;
-	    StrAllocCopy(p, "www.");
-	    StrAllocCat(p, cert_host);
-	    if (strcasecomp_asterisk(ssl_host, cert_host)
-	     && strcasecomp_asterisk(ssl_host, p)) {
-		HTSprintf0(&msg,
-			   gettext("SSL error:host(%s)!=cert(%s)-Continue?"),
-			   ssl_host,
-			   cert_host);
-		if (!HTForcedPrompt(ssl_noprompt, msg, YES)) {
-		    status = HT_NOT_LOADED;
-		    FREE(msg);
-		    goto done;
-		}
-	    }
-	}
-#else
+
 	/*
 	 * X.509 DN validation taking ALL CN fields into account
 	 * (c) 2006 Thorsten Glaser <tg@mirbsd.de>
 	 */
 
 	/* initialise status information */
-	status_sslcertcheck = 0;		/* 0 = no CN found in DN */
+	status_sslcertcheck = 0;	/* 0 = no CN found in DN */
 	ssl_dn_start = ssl_dn;
 	ssl_all_cns = NULL;
 	/* get host we're connecting to */
@@ -682,13 +639,9 @@ FREE(msg);
 	/* strip port number */
 	if ((p = strchr(ssl_host, ':')) != NULL)
 	    *p = '\0';
-#if 0 /* debug */
-HTSprintf0(&msg, "SSL init host(%s) dn(%s)", ssl_host, ssl_dn_start);
-HTForcedPrompt(ssl_noprompt, msg, YES);FREE(msg);
-#endif
 	/* validate all CNs found in DN */
 	while ((cert_host = strstr(ssl_dn_start, "/CN=")) != NULL) {
-	    status_sslcertcheck = 1;		/* 1 = could not verify CN */
+	    status_sslcertcheck = 1;	/* 1 = could not verify CN */
 	    /* start of CommonName */
 	    cert_host += 4;
 	    /* find next part of DistinguishedName */
@@ -700,14 +653,6 @@ HTForcedPrompt(ssl_noprompt, msg, YES);FREE(msg);
 	    /* strip port number */
 	    if ((p = strchr(cert_host, ':')) != NULL)
 		*p = '\0';
-#if 0 /* debug */
-StrAllocCopy(p,cert_host);
-if (ssl_dn_start) *ssl_dn_start = '/';
-HTSprintf0(&msg, "SSL check host(%s) next(%s)", p/*cert_host*/, ssl_dn_start ? ssl_dn_start : "<NULL>");
-FREE(p);
-if (ssl_dn_start) *ssl_dn_start = '\0';
-HTForcedPrompt(ssl_noprompt, msg, YES);FREE(msg);
-#endif
 	    /* verify this CN */
 	    if (!strcasecomp_asterisk(ssl_host, cert_host)) {
 		status_sslcertcheck = 2;	/* 2 = verified peer */
@@ -715,11 +660,7 @@ HTForcedPrompt(ssl_noprompt, msg, YES);FREE(msg);
 		HTSprintf0(&msg,
 			   gettext("Verified connection to %s (cert=%s)"),
 			   ssl_host, cert_host);
-#if 0 /* debug */
-		HTForcedPrompt(ssl_noprompt, msg, YES);
-#else
 		_HTProgress(msg);
-#endif
 		FREE(msg);
 		/* no need to continue the verification loop */
 		break;
@@ -737,23 +678,26 @@ HTForcedPrompt(ssl_noprompt, msg, YES);FREE(msg);
 	    /* now retry next CN found in DN */
 	    *ssl_dn_start = '/';	/* formerly NUL byte */
 	}
-	/* if an error occured, format the appropriate message */
-	if (status_sslcertcheck == 0)
+
+	/* if an error occurred, format the appropriate message */
+	if (status_sslcertcheck == 0) {
 	    HTSprintf0(&msg,
 		       gettext("SSL error:Can't find common name in certificate-Continue?"));
-	else if (status_sslcertcheck == 1)
+	} else if (status_sslcertcheck == 1) {
 	    HTSprintf0(&msg,
 		       gettext("SSL error:host(%s)!=cert(%s)-Continue?"),
-			       ssl_host, ssl_all_cns);
-	/* if an error occured, let the user decide how much he trusts */
-	if (status_sslcertcheck < 2)
+		       ssl_host, ssl_all_cns);
+	}
+
+	/* if an error occurred, let the user decide how much he trusts */
+	if (status_sslcertcheck < 2) {
 	    if (!HTForcedPrompt(ssl_noprompt, msg, YES)) {
 		status = HT_NOT_LOADED;
 		FREE(msg);
 		FREE(ssl_all_cns);
 		goto done;
 	    }
-#endif
+	}
 
 	HTSprintf0(&msg,
 		   gettext("Secure %d-bit %s (%s) HTTP connection"),
@@ -938,7 +882,7 @@ HTForcedPrompt(ssl_noprompt, msg, YES);FREE(msg);
 	 *
 	 * If there ever is a need to send "Negotiate:  trans" and really mean
 	 * it, we should send "Negotiate:  trans,trans" or similar, since that
-	 * is semantically equivalent and some servers may ignore "Negotiate: 
+	 * is semantically equivalent and some servers may ignore "Negotiate:
 	 * trans" as a special case when it comes from Lynx (to work around the
 	 * old faulty behavior).  - kw
 	 *
@@ -1061,7 +1005,7 @@ HTForcedPrompt(ssl_noprompt, msg, YES);FREE(msg);
 		} else if (auth && *auth == '\0') {
 		    /*
 		     * If auth is a zero-length string, the user either
-		     * cancelled or goofed at the username and password prompt. 
+		     * cancelled or goofed at the username and password prompt.
 		     * - FM
 		     */
 		    if (!(traversal || dump_output_immediately) &&
@@ -1728,7 +1672,7 @@ HTForcedPrompt(ssl_noprompt, msg, YES);FREE(msg);
 		 * would include POST content, we seek confirmation from an
 		 * interactive user, with option to use 303 for 301 (but not
 		 * for 307), and otherwise refuse the redirection.  We also
-		 * don't allow permanent redirection if we keep POST content. 
+		 * don't allow permanent redirection if we keep POST content.
 		 * If we don't find the Location header or it's value is
 		 * zero-length, we display whatever the server returned, and
 		 * the user should RELOAD that to try again, or make a

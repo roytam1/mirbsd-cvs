@@ -1,4 +1,4 @@
-/* $MirOS: src/gnu/usr.bin/lynx/src/LYMain.c,v 1.6 2005/10/21 21:42:36 tg Exp $ */
+/* $MirOS: src/gnu/usr.bin/lynx/src/LYMain.c,v 1.7 2005/12/19 23:57:05 tg Exp $ */
 
 #include <HTUtils.h>
 #include <HTTP.h>
@@ -3161,8 +3161,7 @@ static int version_fun(char *next_arg GCC_UNUSED)
     puts(gettext("See http://lynx.isc.org/ and the online help for more information."));
     puts("");
 #ifdef USE_SSL
-    puts("Cry for help to obtain information about SSL for Lynx.");
-#ifdef OPENSSL_VERSION_TEXT
+#if defined(OPENSSL_VERSION_TEXT) && !defined(LIBGNUTLS_VERSION)
     puts("See http://www.openssl.org/ for information about OpenSSL.");
 #endif /* OPENSSL_VERSION_TEXT */
     puts("");

@@ -208,7 +208,7 @@ int LYUpload_options(char **newfile,
 	    fprintf(fp0, "   <a href=\"LYNXDIRED://UPLOAD=%d/TO=%s\">",
 		    count, curloc);
 	    fprintf(fp0, "%s", (cur_upload->name ?
-			  cur_upload->name : gettext("No Name Given")));
+				cur_upload->name : gettext("No Name Given")));
 	    fprintf(fp0, "</a>\n");
 	}
     } else {
