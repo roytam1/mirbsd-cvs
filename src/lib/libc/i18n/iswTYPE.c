@@ -1,4 +1,4 @@
-/* $MirOS: src/share/misc/licence.template,v 1.20 2006/12/11 21:04:56 tg Rel $ */
+/* $MirOS: src/lib/libc/i18n/iswTYPE.c,v 1.3 2007/02/02 21:06:20 tg Exp $ */
 
 /*-
  * Copyright (c) 2006
@@ -25,8 +25,9 @@
 #define mir18n_attributes
 #include "mir18n.h"
 
-__RCSID("$MirOS: src/lib/libc/i18n/iswTYPE.c,v 1.2 2006/11/01 20:01:18 tg Exp $ expanded to isw@@TYPE@@.c");
+__RCSID("$MirOS: src/lib/libc/i18n/iswTYPE.c,v 1.3 2007/02/02 21:06:20 tg Exp $ expanded to isw@@TYPE@@.c");
 
+#undef isw@@TYPE@@
 int
 isw@@TYPE@@(wint_t wc)
 {
