@@ -1491,3 +1491,17 @@ Author: tg@
  hold an hour or so only), I could use it for geocacheing.</p>
 <p>UPDATE: This even led to spotting bugs in MirPorts and CacheWolf.</p>
 ----
+Date: 10.08.2007
+Author: tg@
+
+<p>While I didn't have much time today during work due to some lecture, my
+ SPARCstation 20 was busy building a snapshot (and still is, and even will
+ still be the next day or more), Dr. Pfeffer improved CacheWolf further, I
+ bought a GPS mouse at ePray (together with Addy, the “&amp; friends” part
+ from <a href="@@RELPATH@@permalinks/wlog-9_e20070805-tg.htm">the last</a>
+ try, and an intern who seems to like the idea), read raw NMEA 0183 output
+ from wbx@’s device and conjured nmeadecode(8) which, until we get nmea(4)
+ and friends, will just read the serial stuff from userland, timestamp it,
+ act as simple NTP server (to use with <tt>serverloop</tt> in ntpd.conf(5)
+ and bound on a different port), and display position data to stdout.</p>
+----
