@@ -1,12 +1,12 @@
-# $MirOS: ports/net/mcabber/Makefile,v 1.7 2008/06/25 18:16:57 tg Exp $
+# $MirOS: ports/net/mcabber/Makefile,v 1.8 2008/06/25 19:14:51 tg Exp $
 
 COMMENT=		curses-based jabber client implementation
-DISTNAME=		mcabber-0.9.7
-DASH_VER=		1
+DISTNAME=		mcabber-0.9.8
 CATEGORIES=		net
 EXTRACT_SUFX=		.tar.bz2
 HOMEPAGE=		http://www.lilotux.net/~mikael/mcabber/
-MASTER_SITES=		${HOMEPAGE}files/
+MASTER_SITES=		${HOMEPAGE}files/ \
+			http://mcabber.com/files/
 
 # GNU GPLv2
 PERMIT_DISTFILES_CDROM=	Yes
@@ -34,8 +34,7 @@ MODULES+=		devel/pkgconfig
 MODULES+=		devel/libncursesw
 
 post-install:
-	${INSTALL_DATA_DIR} ${PREFIX}/share/doc/mcabber
-	${INSTALL_DATA_DIR} ${PREFIX}/share/examples/mcabber
+	${INSTALL_DATA_DIR} ${PREFIX}/share/{doc,examples}/mcabber
 	cd ${WRKSRC} && \
 	    ${INSTALL_DATA} contrib/themes/*.txt doc/README_PGP.txt README \
 	    ${PREFIX}/share/doc/mcabber/ && \
