@@ -1,10 +1,10 @@
-/**	$MirOS: src/sys/dev/rnd.c,v 1.33 2007/09/28 18:33:24 tg Exp $ */
+/**	$MirOS: src/sys/dev/rnd.c,v 1.34 2008/03/21 19:22:16 tg Exp $ */
 /*	$OpenBSD: rnd.c,v 1.78 2005/07/07 00:11:24 djm Exp $	*/
 
 /*
  * rnd.c -- A strong random number generator
  *
- * Copyright (c) 2000, 2002, 2003, 2004, 2005, 2006, 2007
+ * Copyright (c) 2000, 2002, 2003, 2004, 2005, 2006, 2007, 2008
  *	Thorsten “mirabilos” Glaser <tg@mirbsd.de>
  * Copyright (c) 1996, 1997, 2000-2002 Michael Shalayeff.
  * Copyright Theodore Ts'o, 1994, 1995, 1996, 1997, 1998, 1999.
@@ -433,6 +433,10 @@ static int arc4random_initialised;
 struct rndstats rndstats;
 int arc4random_seedfreq = 0;
 
+/* from sys/conf/newvers.sh */
+extern unsigned char initial_entropy[16];
+static int initial_entropy_ptr = -1;
+
 static __inline u_int32_t
 roll(u_int32_t w, int i)
 {
@@ -553,10 +557,32 @@ arc4_stir(void)
 
 	s = splhigh();
 	arc4random_state.i--;
+	if (initial_entropy_ptr < 0) {
+		/* before initial slow pool depletion */
+		for (n = 255; n >= 0; n--)
+			buf[n] = buf[n % len];
+	} else if (initial_entropy_ptr < sizeof (initial_entropy)) {
+		/* add into the slow pool if we still have real entropy */
+		if (random_state.entropy_count > 8) {
+			uint8_t tbuf;
+
+			/* tmp buffer, in case extract_entropy does this too */
+			extract_entropy(&tbuf, 1);
+			if (initial_entropy_ptr < sizeof (initial_entropy))
+				initial_entropy[initial_entropy_ptr++] = tbuf;
+		}
+	} else {
+		/* the slow pool is full, use and empty it */
+		for (n = 255; n >= 0; n--)
+			buf[n] = buf[n % len] ^
+			    initial_entropy[n % sizeof (initial_entropy)];
+		bzero(initial_entropy, sizeof (initial_entropy));
+		initial_entropy_ptr = 0;
+	}
 	for (n = 0; n < 256; n++) {
 		arc4random_state.i++;
 		si = arc4random_state.s[arc4random_state.i];
-		arc4random_state.j += si + buf[n % len];
+		arc4random_state.j += si + buf[n];
 		arc4random_state.s[arc4random_state.i] =
 		    arc4random_state.s[arc4random_state.j];
 		arc4random_state.s[arc4random_state.j] = si;
@@ -628,7 +654,6 @@ randomattach(void)
 {
 	int i;
 	/* this one is generated from newvers.sh */
-	extern unsigned char initial_entropy[16];
 
 	if (rnd_attached) {
 #ifdef RNDEBUG
@@ -676,6 +701,7 @@ randomattach(void)
 	    initial_entropy[14] << 8 | initial_entropy[15]);
 	/* prevent leaks through drivers, LKMs, etc. */
 	bzero(initial_entropy, 16);
+	initial_entropy_ptr = 0;
 }
 
 int
@@ -926,8 +952,26 @@ extract_entropy(register u_int8_t *buf, int nbytes)
 	MD5_CTX tmp;
 	u_int i;
 	int s;
+	static int recursively_called = 0;
 
-	add_timer_randomness(nbytes);
+	if (!recursively_called)
+		add_timer_randomness(nbytes);
+
+	if (!recursively_called && (rs->entropy_count >= 8) &&
+	    (initial_entropy_ptr >= 0) && (rs->entropy_count / 8 <= nbytes)) {
+		/* this extraction would deplete the pool entirely */
+		if (initial_entropy_ptr < sizeof (initial_entropy)) {
+			/* so save one byte of real entropy to an extra pool */
+			s = splhigh();
+			add_timer_randomness(initial_entropy_ptr);
+			recursively_called = 1;
+			extract_entropy(&initial_entropy[initial_entropy_ptr++],
+			    1);
+			recursively_called = 0;
+			splx(s);
+		} else
+			arc4_reinit(NULL);
+	}
 
 	while (nbytes) {
 		i = MIN(nbytes, sizeof (buffer) / 2);
