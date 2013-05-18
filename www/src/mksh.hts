@@ -2,7 +2,7 @@
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.210 2009/03/24 17:47:40 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.211 2009/03/24 18:23:24 tg Exp $'
 mws_content <<'EOF'
 <h1>mksh(1) R36b</h1>
 <p>This is the website of the MirBSD™ Korn Shell, an actively developed free
@@ -241,6 +241,8 @@ mws_content <<'EOF'
  (mksh R36b and below)</li>
 <li><tt>-DMKSH_BINSHREDUCED</tt> – include code to automatically “set -o
  posix” to reduce functionality if called as <tt>sh</tt> or <tt>-sh</tt></li>
+<li><tt>-DUSE_REALLOC_MALLOC=0<tt> – if <tt>realloc(NULL, n)</tt> is not
+ equivalent to <tt>malloc(n)</tt> (n &gt; 0) as ANSI C89 prescribes</li>
 </ul>
 <p>You can override certain mirtoconf checks by setting environment variables
  like <tt>HAVE_REVOKE=0</tt> (default for Linux) – if these are set to 0 or 1,
