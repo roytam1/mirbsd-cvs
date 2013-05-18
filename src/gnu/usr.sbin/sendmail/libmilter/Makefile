@@ -1,4 +1,4 @@
-# $MirOS: src/gnu/usr.sbin/sendmail/libmilter/Makefile,v 1.2 2005/03/13 15:11:45 tg Exp $
+# $MirOS: src/gnu/usr.sbin/sendmail/libmilter/Makefile,v 1.3 2006/03/23 13:20:21 tg Exp $
 # $OpenBSD: Makefile,v 1.10 2005/10/12 18:54:56 deraadt Exp $
 
 .include <bsd.own.mk>
@@ -26,7 +26,7 @@ CPPFLAGS+=	-D_FFR_MILTER_ROOT_UNSAFE -ULDAPMAP -pthread \
 .PATH:		${.CURDIR}/../libsm
 
 includes:
-	${INSTALL} -d -o ${BINOWN} -g ${BINGRP} -m 755 \
+	${INSTALL} -d -o ${BINOWN} -g ${BINGRP} -m ${DIRMODE} \
 	    ${DESTDIR}/usr/include/libmilter
 .for _i in ${HDRS}
 	${INSTALL} ${INSTALL_COPY} -o ${BINOWN} -g ${BINGRP} \

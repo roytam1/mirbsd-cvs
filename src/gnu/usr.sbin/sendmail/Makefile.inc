@@ -1,4 +1,4 @@
-# $MirOS: src/gnu/usr.sbin/sendmail/Makefile.inc,v 1.4 2005/10/21 10:46:29 tg Exp $
+# $MirOS: src/gnu/usr.sbin/sendmail/Makefile.inc,v 1.5 2006/03/23 13:20:21 tg Exp $
 # $OpenBSD: Makefile.inc,v 1.17 2006/02/04 09:46:23 mbalmer Exp $
 
 .ifndef _MODSRC_GNU_USR_SBIN_SENDMAIL_MAKEFILE_INC
@@ -6,6 +6,7 @@ _MODSRC_GNU_USR_SBIN_SENDMAIL_MAKEFILE_INC=1
 
 .include <bsd.own.mk>
 SENDMAIL_WANT_LDAP?=	No
+LOCALBASE?=		/usr/mpkg
 
 .include <bsd.obj.mk>
 
@@ -53,8 +54,8 @@ LDFLAGS+=	-L${.CURDIR}/../libsm
 .  if !defined(LIB) || (${LIB} != "milter")
 ENVDEF+=	-DLDAPMAP
 LDADD+=		-lldap -llber
-CPPFLAGS+=	-I/usr/local/include
-LDFLAGS+=	-L/usr/local/lib
+CPPFLAGS+=	-I${LOCALBASE}/include
+LDFLAGS+=	-L${LOCALBASE}/lib
 .  endif
 .endif
 
