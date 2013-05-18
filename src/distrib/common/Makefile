@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/Makefile,v 1.7 2006/08/18 21:41:25 tg Exp $
+# $MirOS: src/distrib/common/Makefile,v 1.8 2006/08/19 11:46:07 tg Exp $
 
 .include <bsd.own.mk>
 
@@ -146,7 +146,7 @@ ${IMAGE}: ${CBIN}
 
 bsd.uc: bsd ${IMAGE} ${RDSETROOT}
 	-rm -f $@
-	gzip -d <$> >$@
+	gzip -d <bsd >$@
 	${RAMDISK_PREP}
 	${REALOBJDIR}/${RDSETROOT} $@ <${IMAGE}
 
