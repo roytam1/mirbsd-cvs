@@ -1,7 +1,7 @@
-# $MirOS$
+# $MirOS: src/distrib/ramtools/ppp/Makefile,v 1.1 2006/05/15 19:20:17 tg Exp $
 
-BSDSRCDIR?=	/usr/src
-NOMAN=		yes
+.include <bsd.own.mk>
 
-.PATH:	${BSDSRCDIR}/usr.sbin/pppd/chat
-.include "${BSDSRCDIR}/usr.sbin/pppd/chat/Makefile"
+SRC_PATH=	${BSDSRCDIR}/usr.sbin/pppd/chat
+
+.include "${SRC_PATH}/Makefile"
