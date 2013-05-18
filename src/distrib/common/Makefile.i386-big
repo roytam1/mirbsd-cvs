@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/Makefile.i386-big,v 1.11 2007/10/01 22:00:24 tg Exp $
+# $MirOS: src/distrib/common/Makefile.i386-big,v 1.12 2007/10/20 22:44:40 tg Exp $
 
 IMAGESIZE=	8192
 IMAGETYPE=	ipldisc
@@ -8,12 +8,18 @@ KERNEL_BUILD=	no
 RAMDISK_PREP=	print 'rootdev 17 0\nquit' | config -ef $@
 
 FLOPPY=		no
-CDROM_MDOPTS=	-b b_${MACHINE}.iso -c boot.cat \
-		-no-emul-boot -boot-load-size 4 -boot-info-table
+CDROM_MDOPTS=	-b b_${MACHINE}.iso -c boot.cat -no-emul-boot
 
 bsd: ${BSDOBJDIR}/distrib/generic/bsd
 	cp -f $> $@
 
 cdrom-mdcopy:
-	cp ${BOOT} ${WRKDIR}/b_${MACHINE}.iso
+	dd if=/dev/arandom bs=2048 count=1 of=${WRKDIR}/b_${MACHINE}.iso
 	cp ${DESTDIR}/usr/mdec/pxeboot ${WRKDIR}/v${OSrev}/${MACHINE}/
+
+cdrom-mdboot:
+	fgrep ${WRKDIR}/b_${MACHINE}.ldr mkisofs.log | \
+	    ${MKSH} ${BOOTSH} -B 11 | \
+	    dd of=${CDROM} conv=notrunc bs=2048 seek=$$(fgrep \
+	    ${WRKDIR}/b_${MACHINE}.iso mkisofs.log | \
+	    while read s rest; do print $$s; done) 2>/dev/null

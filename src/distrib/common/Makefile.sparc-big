@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/Makefile.sparc,v 1.10 2007/10/20 22:44:40 tg Exp $
+# $MirOS: src/distrib/common/Makefile.sparc-big,v 1.1 2008/07/12 22:06:13 tg Exp $
 # $OpenBSD: Makefile.inc,v 1.14 2002/05/01 19:21:28 mickey Exp $
 
 RAWLABEL=
@@ -10,3 +10,5 @@ FLOPPY=		no
 cdrom-mdcopy:
 	ln ${WRKDIR}/v${OSrev}/${MACHINE}/bsd.rd ${WRKDIR}/vmunix # for kicks
 	ln ${WRKDIR}/v${OSrev}/${MACHINE}/bsd.rd ${WRKDIR}/bsd	# no comment…
+
+cdrom-mdboot:

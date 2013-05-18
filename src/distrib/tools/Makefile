@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/tools/Makefile,v 1.18 2007/10/20 23:30:40 tg Exp $
+# $MirOS: src/distrib/tools/Makefile,v 1.19 2008/03/15 22:23:04 tg Exp $
 
 all: sundsklbl
 
@@ -44,17 +44,21 @@ makecdimage: .PHONY
 		done; \
 		mv cddir/v${OSrev}/$$arch/boot cddir/b_$$arch.ldr; \
 	done
-	cp cddir/b_i386.ldr cddir/b_i386.iso		# El Torito
-	ln cddir/v${OSrev}/sparc/bsd.rd cddir/vmunix	# for kicks
-	ln cddir/v${OSrev}/sparc/bsd.rd cddir/bsd	# for idiots
+	dd if=/dev/arandom bs=2048 count=1 of=cddir/b_i386.iso	# El Torito
+	ln cddir/v${OSrev}/sparc/bsd.rd cddir/vmunix		# for kicks
+	ln cddir/v${OSrev}/sparc/bsd.rd cddir/bsd		# for idiots
 	cp ${.CURDIR}/../common/00-README ${.CURDIR}/boot.cfg cddir/
 	mkisofs -r -f -L -d -D -N -v -v -b b_i386.iso -c boot.cat \
-	    -no-emul-boot -boot-load-size 4 -boot-info-table \
+	    -no-emul-boot \
 	    -P 'The http://mirbsd.de/ team and its contributors' \
 	    -p 'Copyright © 2002-2008 by The MirOS Project' \
 	    -V 'MirOS #${OSrev} BSD manifold-boot CD' \
 	    -volset "$$(uname -sl) i386/sparc Setup" -sysid MirOSBSD \
 	    -pad -o ${CDROM} cddir 2>&1 | tee mkisofs.log
+	fgrep b_i386.ldr mkisofs.log | \
+	    ${MKSH} ${BSDSRCDIR}/usr.sbin/installboot/bxinst.i386 -B 11 | \
+	    dd of=${CDROM} conv=notrunc bs=2048 seek=$$(fgrep b_i386.iso \
+	    mkisofs.log | while read s rest; do print $$s; done) 2>/dev/null
 	fgrep b_i386.ldr mkisofs.log | \
 	    ${MKSH} ${BSDSRCDIR}/usr.sbin/installboot/bxinst.i386 -S 2 | \
 	    dd of=${CDROM} conv=notrunc bs=512 seek=${CHAINSECTOR} 2>/dev/null

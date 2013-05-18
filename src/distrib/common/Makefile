@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/Makefile,v 1.28 2007/10/20 23:30:40 tg Exp $
+# $MirOS: src/distrib/common/Makefile,v 1.29 2008/03/15 22:23:04 tg Exp $
 
 .include <bsd.own.mk>
 
@@ -191,7 +191,7 @@ ${FLOPPY}: bsd.st
 	${SUDO} vnconfig -v -u ${VND}
 	${SUDO} rm -rf ${TMPMOUNT} ${WRKDIR}
 
-${CDROM}: cdrom-prepare cdrom-mdcopy cdrom-generate
+${CDROM}: cdrom-prepare cdrom-mdcopy cdrom-generate cdrom-mdboot
 
 cdrom-prepare: bsd.rd
 	${SUDO} rm -rf ${WRKDIR}
