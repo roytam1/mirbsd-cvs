@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/bsd.dep.mk,v 1.8 2005/12/15 01:13:44 tg Exp $
+# $MirOS: src/share/mk/bsd.dep.mk,v 1.10 2006/01/31 13:37:26 tg Exp $
 # $OpenBSD: bsd.dep.mk,v 1.5 2003/08/07 11:24:03 espie Exp $
 # $NetBSD: bsd.dep.mk,v 1.12 1995/09/27 01:15:09 christos Exp $
 
@@ -14,10 +14,10 @@ depend: beforedepend .depend _SUBDIRUSE afterdepend
 	@rm -f .depend
 	@files="${.ALLSRC:M*.s} ${.ALLSRC:M*.S}"; \
 	if [[ $$files != " " ]]; then \
-		echo ${MKDEP_SH} -a ${MKDEP} ${CFLAGS:M-[ID]*} \
-		    ${CPPFLAGS} ${AINC} $$files; \
-		CC=${CC:Q} ${MKDEP_SH} -a ${MKDEP} ${CFLAGS:M-[ID]*} \
-		    ${CPPFLAGS} ${AINC} $$files; \
+		echo ${MKDEP_SH} -a ${MKDEP} -D_ASM_SOURCE \
+		    ${AFLAGS:M-[ID]*} ${CPPFLAGS} ${AINC} $$files; \
+		CC=${CC:Q} ${MKDEP_SH} -a ${MKDEP} -D_ASM_SOURCE \
+		    ${AFLAGS:M-[ID]*} ${CPPFLAGS} ${AINC} $$files; \
 	fi
 	@files="${.ALLSRC:M*.c} ${.ALLSRC:M*.m}"; \
 	if [[ $$files != " " ]]; then \
