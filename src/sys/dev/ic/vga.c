@@ -1,5 +1,5 @@
-/* $MirOS: src/sys/dev/ic/vga.c,v 1.2 2005/03/06 21:27:40 tg Exp $ */
-/* $OpenBSD: vga.c,v 1.32 2004/02/27 17:44:44 millert Exp $ */
+/* $MirOS: src/sys/dev/ic/vga.c,v 1.3 2006/10/17 23:16:45 tg Exp $ */
+/* $OpenBSD: vga.c,v 1.42 2006/11/29 19:11:15 miod Exp $ */
 /* $NetBSD: vga.c,v 1.28.2.1 2000/06/30 16:27:47 simonb Exp $ */
 
 /*
@@ -105,6 +105,7 @@ int	vga_mapchar(void *, int, unsigned int *);
 void	vga_putchar(void *, int, int, u_int, long);
 int	vga_alloc_attr(void *, int, int, int, long *);
 void	vga_copyrows(void *, int, int, int);
+void	vga_unpack_attr(void *, long, int *, int *, int *);
 
 void	vga_panic_hook(void);
 
@@ -116,19 +117,43 @@ static const struct wsdisplay_emulops vga_emulops = {
 	pcdisplay_erasecols,
 	vga_copyrows,
 	pcdisplay_eraserows,
-	vga_alloc_attr
+	vga_alloc_attr,
+	vga_unpack_attr
 };
 
 /*
  * translate WS(=ANSI) color codes to standard pc ones
  */
-static unsigned char fgansitopc[] = {
+static const unsigned char fgansitopc[] = {
+#ifdef __alpha__
+	/*
+	 * XXX DEC HAS SWITCHED THE CODES FOR BLUE AND RED!!!
+	 * XXX We should probably not bother with this
+	 * XXX (reinitialize the palette registers).
+	 */
+	FG_BLACK, FG_BLUE, FG_GREEN, FG_CYAN, FG_RED,
+	FG_MAGENTA, FG_BROWN, FG_LIGHTGREY
+#else
 	FG_BLACK, FG_RED, FG_GREEN, FG_BROWN, FG_BLUE,
 	FG_MAGENTA, FG_CYAN, FG_LIGHTGREY
 }, bgansitopc[] = {
 	BG_BLACK, BG_RED, BG_GREEN, BG_BROWN, BG_BLUE,
 	BG_MAGENTA, BG_CYAN, BG_LIGHTGREY
 };
+
+/*
+ * translate standard pc color codes to WS(=ANSI) ones
+ */
+static const u_int8_t pctoansi[] = {
+#ifdef __alpha__
+	WSCOL_BLACK, WSCOL_RED, WSCOL_GREEN, WSCOL_BROWN,
+	WSCOL_BLUE, WSCOL_MAGENTA, WSCOL_CYAN, WSCOL_WHITE
+#else
+	WSCOL_BLACK, WSCOL_BLUE, WSCOL_GREEN, WSCOL_CYAN,
+	WSCOL_RED, WSCOL_MAGENTA, WSCOL_BROWN, WSCOL_WHITE
+#endif
+};
+
 
 const struct wsscreen_descr vga_stdscreen = {
 	"80x25", 80, 25,
@@ -213,7 +238,7 @@ int	vga_load_font(void *, void *, struct wsdisplay_font *);
 int	vga_delete_font(void *, void *, int);
 void	vga_scrollback(void *, void *, int);
 void	vga_burner(void *v, u_int on, u_int flags);
-u_int16_t vga_getchar(void *, int, int);
+int	vga_getchar(void *, int, int, struct wsdisplay_charcell *);
 
 void vga_doswitch(struct vga_config *);
 
@@ -527,6 +552,7 @@ vga_extended_attach(self, iot, memt, type, map)
 	aa.scrdata = (vc->hdl.vh_mono ? &vga_screenlist_mono : &vga_screenlist);
 	aa.accessops = &vga_accessops;
 	aa.accesscookie = vc;
+	aa.defaultscreens = 0;
 
         config_found(self, &aa, wsemuldisplaydevprint);
 }
@@ -982,6 +1008,30 @@ vga_alloc_attr(id, fg, bg, flags, attrp)
 }
 
 void
+vga_unpack_attr(id, attr, fg, bg, ul)
+	void *id;
+	long attr;
+	int *fg, *bg, *ul;
+{
+	struct vgascreen *scr = id;
+	struct vga_config *vc = scr->cfg;
+
+	if (vc->hdl.vh_mono) {
+		*fg = (attr & 0x07) == 0x07 ? WSCOL_WHITE : WSCOL_BLACK;
+		*bg = attr & 0x70 ? WSCOL_WHITE : WSCOL_BLACK;
+		if (ul != NULL)
+			*ul = *fg != WSCOL_WHITE && (attr & 0x01) ? 1 : 0;
+	} else {
+		*fg = pctoansi[attr & 0x07];
+		*bg = pctoansi[(attr & 0x70) >> 4];
+		if (*ul != NULL)
+			*ul = 0;
+	}
+	if (attr & FG_INTENSE)
+		*fg += 8;
+}
+
+void
 vga_copyrows(id, srcrow, dstrow, nrows)
 	void *id;
 	int srcrow, dstrow, nrows;
@@ -1283,15 +1333,16 @@ vga_burner(v, on, flags)
 	splx(s);
 }
 
-u_int16_t
-vga_getchar(c, row, col)
+int
+vga_getchar(c, row, col, cell)
 	void *c;
 	int row, col;
+	struct wsdisplay_charcell *cell;
 {
 	struct vga_config *vc = c;
-
-	return (pcdisplay_getchar(vc->active, row, col));
-}
+	
+	return (pcdisplay_getchar(vc->active, row, col, cell));
+}	
 
 void
 vga_panic_hook(void)
