@@ -1,6 +1,6 @@
-# $MirOS: ports/sysutils/daemontools/Makefile,v 1.6 2006/02/21 13:06:23 tg Exp $
+# $MirOS: ports/sysutils/daemontools/Makefile,v 1.7 2006/09/14 00:13:30 tg Exp $
 
-COMMENT=			collection of tools for managing unix services
+COMMENT=		collection of tools for managing unix services
 CATEGORIES=		sysutils
 DISTNAME=		daemontools-0.76
 MANVER=			20020131
@@ -16,28 +16,27 @@ PERMIT_PACKAGE_FTP=	No
 PERMIT_DISTFILES_CDROM=	No
 PERMIT_DISTFILES_FTP=	"http://cr.yp.to/distributors.html"
 
-FETCH_CMD=		lynx -source >$$f
+DISTFILES=		${DISTNAME}${EXTRACT_SUFX} \
+			${DISTNAME}-man-${MANVER}${EXTRACT_SUFX}:0
+MASTER_SITES=		http://cr.yp.to/daemontools/
+MASTER_SITES0=		http://smarden.org/pape/djb/manpages/
+WRKDIST=		${WRKDIR}
+NO_REGRESS=		Yes
 
-DISTFILES=	${DISTNAME}${EXTRACT_SUFX} \
-		${DISTNAME}-man-${MANVER}${EXTRACT_SUFX}:0
-MASTER_SITES=	http://cr.yp.to/daemontools/
-MASTER_SITES0=	http://smarden.org/pape/djb/manpages/
+MAN8LIST=		envdir envuidgid fghack multilog setlock setuidgid \
+			softlimit supervise svc svok svscan svstat tai64n \
+			tai64nlocal svscanboot pgrphack readproctitle
 
-MAN8LIST=	envdir envuidgid fghack multilog setlock setuidgid softlimit \
-		supervise svc svok svscan svstat tai64n tai64nlocal \
-		svscanboot pgrphack readproctitle
-
-BINLIST=	envdir envuidgid fghack multilog pgrphack readproctitle \
-		setlock setuidgid softlimit supervise svc svok svscan \
-		svstat tai64n tai64nlocal
-
-WRKDIST=	${WRKDIR}
+BINLIST=		envdir envuidgid fghack multilog pgrphack \
+			readproctitle setlock setuidgid softlimit \
+			supervise svc svok svscan svstat tai64n tai64nlocal
 
 do-build:
-	@echo ${CC} ${CFLAGS} >${WRKSRC}/admin/${DISTNAME}/src/conf-cc
-	@echo ${CC} ${CFLAGS} ${LDFLAGS} >${WRKSRC}/admin/${DISTNAME}/src/conf-ld
-	@echo ${PREFIX} >${WRKSRC}/admin/${DISTNAME}/src/home
-	cd ${WRKSRC}/admin/${DISTNAME}/src && make it
+	@echo ${CC:Q} ${CFLAGS:M*:Q} >${WRKSRC}/admin/${DISTNAME}/src/conf-cc
+	@echo ${CC:Q} ${CFLAGS:M*:Q} ${LDFLAGS:M*:Q} \
+	    >${WRKSRC}/admin/${DISTNAME}/src/conf-ld
+	@echo ${PREFIX:Q} >${WRKSRC}/admin/${DISTNAME}/src/home
+	cd ${WRKSRC}/admin/${DISTNAME}/src && ${MAKE_PROGRAM} it
 
 do-install:
 .for i in ${BINLIST}
@@ -50,11 +49,10 @@ do-install:
 	done
 	print '%g!^/command!s!!${TRUEPREFIX}/bin!\nwq' \
 	    | ed -s ${WRKSRC}/admin/${DISTNAME}/src/svscanboot
-	${INSTALL_SCRIPT} ${WRKSRC}/admin/${DISTNAME}/src/svscanboot ${PREFIX}/bin/
+	${INSTALL_SCRIPT} ${WRKSRC}/admin/${DISTNAME}/src/svscanboot \
+	    ${PREFIX}/bin/
 .for i in ${MAN8LIST}
-	${INSTALL_MAN} ${WRKDIR}/daemontools-man/$i.8 ${PREFIX}/man/man8
+	${INSTALL_MAN} ${WRKDIR}/daemontools-man/$i.8 ${PREFIX}/man/man8/
 .endfor
-
-NO_REGRESS=	Yes
 
 .include <bsd.port.mk>
