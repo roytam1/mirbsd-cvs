@@ -1,4 +1,4 @@
-# $MirOS: contrib/hosted/tg/deb/arngc/debian/control,v 1.1 2011/08/04 20:39:04 tg Exp $
+# $MirOS: contrib/hosted/tg/deb/arngc/debian/control,v 1.2 2011/08/04 20:40:04 tg Exp $
 #-
 Source: arngc
 Origin: WTF
@@ -6,8 +6,8 @@ Bugs: mailto:wtf@mirbsd.org
 Section: admin
 Priority: extra
 Maintainer: Thorsten Glaser <tg@mirbsd.de>
-Build-Depends: debhelper (>= 5)
-Standards-Version: 3.9.2
+Build-Depends: debhelper (>= 5), ed
+Standards-Version: 3.9.3
 # First word is the $CVSROOT (-d arg) string, second word the module.
 Vcs-CVS: :ext:_anoncvs@anoncvs.mirbsd.org:/cvs contrib/hosted/tg/deb/arngc
 Vcs-Browser: http://cvs.mirbsd.de/contrib/hosted/tg/deb/arngc/

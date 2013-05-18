@@ -1,5 +1,5 @@
 #!/usr/bin/make -f
-# $MirOS: contrib/hosted/tg/deb/arngc/debian/rules,v 1.1 2011/08/04 20:39:05 tg Exp $
+# $MirOS: contrib/hosted/tg/deb/arngc/debian/rules,v 1.2 2011/11/12 00:11:21 tg Exp $
 
 build build-arch build-indep:
 
@@ -20,6 +20,9 @@ binary-indep:
 	dh_fixperms
 	dh_installdeb
 	dh_gencontrol
+	# Multi-Arch in a sarge compatible way
+	printf '/^Architecture: all/a\n%s\n.\nw\nq\n' 'Multi-Arch: foreign' | \
+	    ed -s debian/arngc/DEBIAN/control
 	dh_md5sums
 	dh_builddeb
 

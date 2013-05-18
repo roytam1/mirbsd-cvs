@@ -5,7 +5,8 @@ by its initscript:
 
 This might also help: avoid running stunnel as daemon
 
+	sudo /usr/sbin/update-rc.d -f stunnel remove
 	sudo /usr/sbin/update-rc.d -f stunnel4 remove
 
 ___________________________________________________________________________________________
-$MirOS: contrib/hosted/tg/deb/arngc/debian/README.Debian,v 1.1 2011/08/04 20:47:40 tg Exp $
+$MirOS: contrib/hosted/tg/deb/arngc/debian/README.Debian,v 1.2 2011/09/17 17:55:17 tg Exp $
