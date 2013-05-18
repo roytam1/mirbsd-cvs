@@ -1,4 +1,4 @@
-# $MirOS: gcc/gcc/Makefile.bsd-wrapper,v 1.46 2007/06/10 03:19:27 tg Exp $
+# $MirOS: gcc/gcc/Makefile.bsd-wrapper,v 1.47 2007/06/10 12:48:36 tg Exp $
 
 .include <bsd.own.mk>
 .include "${GNUSYSTEM_AUX_DIR}/locations.mk"
@@ -23,7 +23,7 @@ INFO+=		doc/gcj.info
 
 .if (${CROSS_MODE:L} == "yes") && !defined(_CROSSBUILD)
 ALL_TARGET?=	native xgcc cpp xlimits.h
-XARGS+=		LANGUAGES='c $$(CONFIG_LANGUAGES)'
+FSFMARGS+=	LANGUAGES='c $$(CONFIG_LANGUAGES)'
 XARGS+=		GNATMAKENATIVE="--GCC=/usr/bin/mgcc --GNATLINK='/usr/bin/gnatlink --GCC=/usr/bin/mgcc --LINK=/usr/bin/mgcc'"
 .else
 ALL_TARGET?=
