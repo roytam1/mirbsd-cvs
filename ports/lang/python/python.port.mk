@@ -1,4 +1,4 @@
-# $MirOS: ports/lang/python/python.port.mk,v 1.5 2008/08/12 08:38:45 tg Exp $
+# $MirOS: ports/lang/python/python.port.mk,v 1.6 2008/08/27 09:55:13 tg Exp $
 # $OpenBSD: python.port.mk,v 1.10 2004/08/06 07:33:19 xsa Exp $
 
 CATEGORIES+=		lang/python
@@ -12,6 +12,16 @@ _MODPY_BUILD_DEPENDS=	:python->=${MODPY_MINPKG}:lang/python/${MODPY_VERSION}
 BUILD_DEPENDS+=		${_MODPY_BUILD_DEPENDS}
 .endif
 RUN_DEPENDS+=		${_MODPY_BUILD_DEPENDS}
+
+.if defined(MODPY_SETUPTOOLS) && ${MODPY_SETUPTOOLS:U} == YES
+# The setuptools module provides a package locator (site.py) that is
+# required at runtime for the pkg_resources stuff to work
+MODPY_SETUPUTILS_DEPEND?=:py-setuptools-*:devel/py-setuptools
+MODPY_RUN_DEPENDS+=	${MODPY_SETUPUTILS_DEPEND}
+BUILD_DEPENDS+=		${MODPY_SETUPUTILS_DEPEND}
+# The setuptools uses test target
+REGRESS_TARGET?=	test
+.endif
 
 .if !defined(NO_SHARED_LIBS) || ${NO_SHARED_LIBS:U} != YES
 .  if ${MODPY_VERSION} != "2.5"
@@ -27,6 +37,9 @@ MODPY_SITEPKG=		${MODPY_LIBDIR}/site-packages
 
 SUBST_VARS:=		MODPY_EGG_VERSION MODPY_VERSION ${SUBST_VARS}
 
+#XXX What the F…?
+LDFLAGS+=		-L${MODPY_LIBDIR:Q}/config
+
 MODPY_USE_DISTUTILS?=	Yes
 
 .if ${MODPY_USE_DISTUTILS:L} == "yes"
@@ -36,7 +49,14 @@ MODPY_SETUP?=		setup.py
 
 # build or build_ext are commonly used
 MODPY_DISTUTILS_BUILD?=		build --build-base=${WRKSRC}
+
+.if defined(MODPY_SETUPTOOLS) && ${MODPY_SETUPTOOLS:U} == YES
+MODPY_DISTUTILS_INSTALL?=	install --prefix=${LOCALBASE} \
+				--root=${DESTDIR} \
+				--single-version-externally-managed
+.else
 MODPY_DISTUTILS_INSTALL?=	install --prefix=${PREFIX}
+.endif
 
 _MODPY_CMD=	@cd ${WRKSRC} && ${SETENV} ${MAKE_ENV} \
 			${MODPY_BIN} ./${MODPY_SETUP}
@@ -52,6 +72,13 @@ do-build:
 do-install:
 	${_MODPY_CMD} ${MODPY_DISTUTILS_BUILD} ${MODPY_DISTUTILS_BUILDARGS} \
 		${MODPY_DISTUTILS_INSTALL} ${MODPY_DISTUTILS_INSTALLARGS}
+.  endif
+
+# setuptools supports regress testing from setup.py using a standard target
+.  if !target(do-regress) && \
+      defined(MODPY_SETUPTOOLS) && ${MODPY_SETUPTOOLS:U} == YES
+do-regress:
+	${_MODPY_CMD} ${REGRESS_TARGET}
 .  endif
 
 .endif

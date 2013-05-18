@@ -1,4 +1,4 @@
-# $MirOS: ports/databases/py-psycopg2/Makefile,v 1.1 2008/08/20 07:22:27 tg Exp $
+# $MirOS: ports/databases/py-psycopg2/Makefile,v 1.2 2008/08/20 07:25:11 tg Exp $
 
 CATEGORIES=		databases python
 COMMENT=		PostgreSQL database adapter for Python
@@ -30,9 +30,6 @@ REGRESS_DEPENDS+=	:postgresql-*:databases/postgresql
 #	    psql -U postgres
 REGRESS_IS_INTERACTIVE=	Yes
 PSYCOPG2_TESTDB?=	psycopg2_test
-
-#XXX What the F…?
-LDFLAGS+=		-L${MODPY_LIBDIR:Q}/config
 
 post-install:
 	${INSTALL_DATA_DIR} ${PREFIX}/share/{doc,examples}/py-psycopg2

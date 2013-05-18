@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/security/py-crypto/Makefile,v 1.5 2008/08/27 09:52:33 tg Exp $
 # $OpenBSD: Makefile,v 1.1.1.1 2004/02/03 07:19:06 ish Exp $
 
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
@@ -19,7 +19,6 @@ PERMIT_DISTFILES_FTP=	Yes
 MASTER_SITES=		http://www.amk.ca/files/python/crypto/
 
 MODULES+=		lang/python
-LDFLAGS+=		-L${MODPY_LIBDIR:Q}/config
 
 post-install:
 	${INSTALL_DATA_DIR} ${PREFIX}/share/doc/py-crypto
