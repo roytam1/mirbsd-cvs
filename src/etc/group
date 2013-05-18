@@ -116,5 +116,14 @@ _flowd:*:542:
 _cyrus:*:543:
 _openldap:*:544:
 _asterisk:*:545:
+_honeyd:*:546:
+_kismet:*:547:
+_polipo:*:548:
+_netplan:*:549:
+_nagios:*:550:
+_gpsd:*:551:
+_xavante:*:552:
+_saned:*:553:
+_avenger:*:554:
 nogroup:*:32766:
 nobody:*:32767:

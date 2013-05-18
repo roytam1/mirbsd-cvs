@@ -67,6 +67,7 @@ Policy: @@PROG@@, Emulation: native
 	native-getsid: permit
 	native-getsockname: permit
 	native-getsockopt: permit
+	native-getthrid: permit
 	native-gettimeofday: permit
 	native-getuid: permit
 	native-ioctl: permit
@@ -103,6 +104,8 @@ Policy: @@PROG@@, Emulation: native
 	native-recvfrom: permit
 	native-recvmsg: permit
 	native-rename: permit
+	native-rfork: permit
+	native-sched_yield: permit
 	native-select: permit
 	native-semget: permit
 	native-sendmsg: permit
@@ -141,6 +144,10 @@ Policy: @@PROG@@, Emulation: native
 	native-symlink: filename match "/<non-existent filename>: *" then deny[enoent]
 	native-symlink: string eq "" and filename eq "" then deny[enoent]
 	native-sync: permit
+	native-threxit: permit
+	native-thrsigdivert: permit
+	native-thrsleep: permit
+	native-thrwakeup: permit
 	native-umask: permit
 	native-utimes: permit
 	native-vfork: permit

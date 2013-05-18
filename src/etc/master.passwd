@@ -92,4 +92,13 @@ _flowd:*:542:542::0:0:MirPorts -- net/flowd:/nonexistent:/sbin/nologin
 _cyrus:*:543:543::0:0:MirPorts -- mail/cyrus-imapd:/nonexistent:/sbin/nologin
 _openldap:*:544:544::0:0:MirPorts -- databases/openldap:/nonexistent:/sbin/nologin
 _asterisk:*:545:545::0:0:MirPorts -- telephony/asterisk:/nonexistent:/sbin/nologin
+_honeyd:*:546:546::0:0:MirPorts -- net/honeyd:/nonexistent:/sbin/nologin
+_kismet:*:547:547::0:0:MirPorts -- net/kismet:/nonexistent:/sbin/nologin
+_polipo:*:548:548::0:0:MirPorts -- www/polipo:/nonexistent:/sbin/nologin
+_netplan:*:549:549::0:0:MirPorts -- misc/plan:/nonexistent:/sbin/nologin
+_nagios:*:550:550::0:0:MirPorts -- net/nagios:/nonexistent:/sbin/nologin
+_gpsd:*:551:551::0:0:MirPorts -- misc/gpsd:/nonexistent:/sbin/nologin
+_xavante:*:552:552::0:0:MirPorts -- www/xavante:/nonexistent:/sbin/nologin
+_saned:*:553:553::0:0:MirPorts -- graphics/sane-backends:/nonexistent:/sbin/nologin
+_avenger:*:554:554::0:0:MirPorts -- mail/avenger:/nonexistent:/sbin/nologin
 nobody:*:32767:32767::0:0:Unprivileged User:/nonexistent:/sbin/nologin
