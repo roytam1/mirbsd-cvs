@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.92 2008/11/06 22:25:37 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.93 2008/11/06 22:30:01 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -663,10 +663,10 @@ Title: be careful what you wish for…
  commit eMail “spam” ☺</p>
 <p>While on the spam topic: do <strong>not</strong> send an eMail to one of
  the following addresses: <a href="mailto:junk@mirbsd.org">junk@mirbsd.org</a>,
- <a href="mailto:junk@66h.42h.de">junk@66h.42h.de</a>, or <a
+ <a href="mailto:junk@mirbsd.org">junk@mirbsd.org</a>, or <a
  href="mailto:junk@mirbsd.de">junk@mirbsd.de</a>, or, again, <a
  href="mailto:junk@mirbsd.org">&lt;junk@mirbsd.org&gt;</a>, <a
- href="mailto:junk@66h.42h.de">&lt;junk@66h.42h.de&gt;</a>, or <a
+ href="mailto:junk@mirbsd.org">&lt;junk@mirbsd.org&gt;</a>, or <a
  href="mailto:junk@mirbsd.de">&lt;junk@mirbsd.de&gt;</a> (greytrapping)</p>
 <p>Luckily, my internet uplink has been stable for more than 4⅓ days now,
  after repeated phoning (an 0800 number then) and resetting the NTBBA.</p>

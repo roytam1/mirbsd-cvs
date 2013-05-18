@@ -1,8 +1,8 @@
 #!/bin/sh
-# $MirOS: contrib/code/Snippets/dynip.shar,v 1.3 2005/12/17 05:46:05 tg Exp $
+# $MirOS: contrib/code/Snippets/dynip.shar,v 1.4 2008/05/03 01:09:23 tg Exp $
 #-
 # Copyright (c) 2000, 2001, 2002, 2003, 2004
-#	Thorsten "mirabilos" Glaser <tg@66h.42h.de>
+#	Thorsten "mirabilos" Glaser <tg@mirbsd.org>
 #
 # Provided that these terms and disclaimer and all copyright notices
 # are retained or reproduced in an accompanying document, permission
@@ -32,7 +32,7 @@
 echo x - ip-up
 sed 's/^X//' >ip-up << 'END-of-ip-up'
 X#!/bin/mksh
-X# from $MirOS: contrib/code/Snippets/dynip.shar,v 1.3 2005/12/17 05:46:05 tg Exp $
+X# from $MirOS: contrib/code/Snippets/dynip.shar,v 1.4 2008/05/03 01:09:23 tg Exp $
 X# $Id$
 X
 X# This script is called with mirbsdksh when your ppp(8) or pppd(8)
@@ -99,7 +99,7 @@ END-of-ip-up
 echo x - ip-down
 sed 's/^X//' >ip-down << 'END-of-ip-down'
 X#!/bin/mksh
-X# from $MirOS: contrib/code/Snippets/dynip.shar,v 1.3 2005/12/17 05:46:05 tg Exp $
+X# from $MirOS: contrib/code/Snippets/dynip.shar,v 1.4 2008/05/03 01:09:23 tg Exp $
 X# $Id$
 X
 X# This script is called with mirbsdksh after your ppp(8) or pppd(8)

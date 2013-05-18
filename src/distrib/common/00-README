@@ -57,7 +57,7 @@ What is MirBSD?
 ---------------
 
 MirBSD(tm) is not a stand-alone project or product, but rather it is defi-
-ned as the contents of the founder's (Thorsten "mirabile" Glaser) /usr/src
+ned as the content of the founder's (Thorsten "mirabilos" Glaser) /usr/src
 and /usr/ports directories. Thusly, this name is only colloquially used if
 referring to a combination of MirOS BSD and the MirPorts Framework.
 
@@ -120,7 +120,7 @@ MirBSD Licence
 
 MirBSD is
 Copyright (c) 2002, 2003
-	Thorsten "mirabilos" Glaser <tg@66h.42h.de>
+	Thorsten "mirabilos" Glaser <tg@mirbsd.org>
 MirOS is
 Copyright (c) 2003, 2004, 2005, 2006, 2007, 2008
 	The MirOS Project Team (see /usr/share/doc/legal/LICENCE)
@@ -170,4 +170,4 @@ code is available at http://www.mirbsd.org/ and its mirrors; further
 information can be found at /usr/share/doc/legal/ as well.
 
 ________________________________________________________________________
-$MirOS: src/distrib/common/00-README,v 1.10 2008/03/10 15:40:56 tg Exp $
+$MirOS: src/distrib/common/00-README,v 1.11 2008/06/11 10:26:13 tg Exp $

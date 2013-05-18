@@ -35,7 +35,7 @@ The file ~/.etc/bin/xtm referred in said file is this one:
 
 ---- cutting here may damage your screen surface -----
 #!/bin/mksh
-# $MirOS: contrib/samples/myXenvironment,v 1.12 2006/10/17 21:41:03 tg Exp $
+# $MirOS: contrib/samples/myXenvironment,v 1.13 2006/12/20 16:23:00 tg Exp $
 unset LANG LC_ALL
 export LC_CTYPE=C
 if [[ $1 = vga ]]; then
@@ -84,13 +84,13 @@ changed IRC networks).
 if [ -e /usr/mpkg/lib/X11/fonts/terminus ]; then
 	/usr/X11R6/bin/xterm -T irc-quakenet -si -geom 127x11+0+0 \
 	    -fn -xos4-terminus-bold-r-normal--14-140-72-72-c-80-iso8859-1 \
-	    -class TXTerm -e tinyirc mirabile irc.quakenet.org &
+	    -class TXTerm -e tinyirc mirabilos irc.quakenet.org &
 	/usr/X11R6/bin/xterm -T irc-opn -si -geom 127x31+0+159 \
 	    -fn -xos4-terminus-medium-r-normal--16-160-72-72-c-80-iso8859-1 \
 	    -class TXTerm -e sirc -i "MirBSD packages a kernel, userland and da attitude" &
 else
 	/usr/X11R6/bin/xterm -T irc-quakenet -si -geom 144x11+0+0 -fn 7x13 \
-	    -e tinyirc mirabile irc.quakenet.org &
+	    -e tinyirc mirabilos irc.quakenet.org &
 	/usr/X11R6/bin/xterm -T irc-opn -si -geom 113x32+0+146 -fn 9x15 \
 	    -e sirc -i "MirBSD packages a kernel, userland and da attitude" &
 fi

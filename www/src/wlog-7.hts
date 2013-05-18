@@ -2,7 +2,7 @@
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname legacy/wlog-7 "MirBSD Weblog"
-mws_putheader '$MirOS$'
+mws_putheader '$MirOS: www/src/wlog-7.hts,v 1.1 2008/09/17 21:12:32 tg Exp $'
 mws_content <<'EOF'
 <h1>MirBSD &ndash; RELEASE TIME!!! Stable Services for Commercial Customers</h1>
 <h3>News <small><a href="#eof">bottom</a></small></h3>
@@ -1085,7 +1085,7 @@ mws_content <<'EOF'
  first step for a proper printing support architecture, with all kinds of
  printer drivers. The next step will be gimp-print support in espgs and
  CUPS.<br />
- Create a <a href="http://frankie.66h.42h.de/files/MirOS-LT-2004.pdf">flyer</a>
+ Create a <a href="http://frankie.mirbsd.org/files/MirOS-LT-2004.pdf">flyer</a>
  (actually a <i>leporello</i>, to be folded twice) for LinuxTag 2004. My cousin
  has created a <i>huge</i> (91x85 cm) poster (a variation of the original
  "logo" by insk) in CorelDRAW. I will try to have it printed at the university
@@ -1116,7 +1116,7 @@ mws_content <<'EOF'
  booth, I am always asked the same questions: <i>"What is the difference to
  OpenBSD?", "Why another fork?"</i> etc. These questions are of course answered
  thoroughly in our
- <a href="http://frankie.66h.42h.de/files/MirOS-LT-2004.pdf">flyer</a>.</p>
+ <a href="http://frankie.mirbsd.org/files/MirOS-LT-2004.pdf">flyer</a>.</p>
 <p>29.06.2004 by tg@<br />Okay, LinuxTag is over, and the new torrents are
  made available. I'm still trying to catch up, and I'll likely install MirOS
  on my <a href="http://news.gmane.org/group/gmane.comp.hardware.soekris.technical/">shiny</a>
@@ -1253,7 +1253,7 @@ mws_content <<'EOF'
  39 &euro; per month, and I'll be using it 95% for MirOS and 4% to give out
  shell accounts to friends or BSD developers. You might be able to send money
  to me via Paypal (I didn't test that yet) or just German bank transfer. Just
- <a href="mailto:tg@66h.42h.de">drop a mail</a> if interested.<br />Tyler
+ <a href="mailto:tg@mirbsd.org">drop a mail</a> if interested.<br />Tyler
  has mirrored the website, so add that to the list which already includes advo
  and Eimanns etherkiller. Tyler should learn how to write wlog entries :)</p>
 <p>30.09.2004 by tg@<br />Starting the wlog tradition again, or so. I've
@@ -1643,9 +1643,9 @@ mws_content <<'EOF'
  in a computer geek, and someone interested in funding my travel expenses to
  Berlin (21C3), Luxembourg-Kirchberg (linuxdays.lu), Bruxelles (FOSDEM 2005)
  and Karlsruhe (LinuxTag 2005)? It's not too much, about 50 &euro; per travel.
- People interested <a href="mailto:tg@66h.42h.de">mail me</a> or try to use <a
+ People interested <a href="mailto:tg@mirbsd.org">mail me</a> or try to use <a
  href="@@RELPATH@@danke.htm">Paypal</a> (which I haven't used yet myself, though, so please
- drop me an <a href="mailto:tg@66h.42h.de">eMail</a> if you've donated, so I
+ drop me an <a href="mailto:tg@mirbsd.org">eMail</a> if you've donated, so I
  can check that (first few donations only).</p>
 <p>26.11.2004 by tg@<br />I actually have drunk a whole bottle of wine without
  feeling drunk yesterday. Weird, normally I get drunk really well after really
@@ -1974,7 +1974,7 @@ mws_content <<'EOF'
  von Bibliotheken (png, expat, cdk, readline), neue Binutils, neues CVS sind
  nur die j&uuml;ngsten Beispiele. Wer weiterdiskutieren m&ouml;chte, bediene
  sich doch bitte eines <a href="http://www.oftc.net/">geeigneteren</a> <a
- href="mailto:miros-discuss@66h.42h.de">Mediums</a>, denn das WWW ist f&uuml;r
+ href="mailto:miros-discuss@mirbsd.org">Mediums</a>, denn das WWW ist f&uuml;r
  so etwas ungeeignet.<br />Nachtrag: ISDN mit OpenBSD 2.8 hat nie korrekt
  funktioniert und kann auch mit der Fritz!Card nicht umgehen. Hellmuth hat
  wegen mangelnden Interesses von seiten der OpenBSDler aufgegeben.</p>
@@ -2570,7 +2570,7 @@ mws_content <<'EOF'
  and related stuff). At work, my apprenticeship's final project is keeping
  me busy, as does the flu (I had fever today at work, the first time since
  all this illness fuss started!). <tt>mirbsd.org</tt> should work as eMail
- domain (an alias to 66h.42h.de) soon enough. We're continuing until first
+ domain (an alias to mirbsd.org) soon enough. We're continuing until first
  lawyer letters regarding patents come in, I think. The OSI is a bunch of,
  politic even, wusses who now have made a public mailing list an official!
  committee of theirs. (I wonder if I am, now, too?) I started flaming some

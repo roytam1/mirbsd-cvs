@@ -1,4 +1,4 @@
-# $MirOS: src/share/misc/licence.template,v 1.24 2008/04/22 11:43:31 tg Rel $
+# $MirOS: contrib/samples/openssl.cnf,v 1.3 2008/05/03 01:09:31 tg Exp $
 #-
 # Copyright (c) 2001, 2002, 2003
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -139,5 +139,5 @@ keyUsage		= critical,digitalSignature,nonRepudiation,keyEncipherment,dataEnciphe
 nsCaPolicyUrl		= https://MirBSD.BSDadvocacy.org:8890/ca-pol.php
 nsCertType		= client,server,email,objsign,sslCA,emailCA,objCA
 nsComment		= "Credits to Gertrud Glaser and Theo de Raadt with his team!"
-subjectAltName		= email:mirabile@bsdcow.net,DNS:herc.66h.42h.de,URI:https://MirBSD.BSDadvocacy.org:8890/ca.php
+subjectAltName		= email:mirabilos@bsdcow.net,DNS:herc.mirbsd.org,URI:https://MirBSD.BSDadvocacy.org:8890/ca.php
 subjectKeyIdentifier	= hash

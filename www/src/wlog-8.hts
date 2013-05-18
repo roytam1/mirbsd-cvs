@@ -2,7 +2,7 @@
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname legacy/wlog-8 "MirBSD Weblog"
-mws_putheader '$MirOS$'
+mws_putheader '$MirOS: www/src/wlog-8.hts,v 1.1 2008/09/17 21:12:33 tg Exp $'
 mws_content <<'EOF'
 <h1>MirBSD &ndash; WTF, We Have a Release!?</h1>
 <p><small><a href="#eof">bottom</a> or <a href="@@RELPATH@@older.htm">older</a>
@@ -724,7 +724,7 @@ celebrate this event, rotate the wlog and start a new one.</p>
   working properly. I also enhanced inetd(8) by DJB ucspi-tcp compatible
   environment variables.</p>
  <p>Maybe I'll use <tt>mirbsd.org</tt> as primary domain now and the old
-  <tt>66h.42h.de</tt> will serve as fallback in case &#39764;&#29579; is
+  <tt>mirbsd.org</tt> will serve as fallback in case &#39764;&#29579; is
   unreachable (it's pretty stable unless I try to build a snapshot).</p>
  <p>I bought a Nokia 6150 (old enough so I know I can use it) via ePray,
   still waiting for it to arrive (and hopefully a PSU too). I do already

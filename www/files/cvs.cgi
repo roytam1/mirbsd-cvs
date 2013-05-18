@@ -12,7 +12,7 @@
 #             Jens-Uwe Mager       <jum@helios.de>
 #             Ville Skyttä         <scop@FreeBSD.org>
 #             Vassilii Khachaturov <vassilii@tarunz.org>
-#	      Thorsten Glaser	   <tg@66h.42h.de>
+#	      Thorsten Glaser	   <tg@mirbsd.org>
 #
 # Based on:
 # * Bill Fenners cvsweb.cgi revision 1.28 available from:
@@ -46,7 +46,7 @@
 # OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 # SUCH DAMAGE.
 #
-# $MirOS: www/files/cvs.cgi,v 1.1 2007/06/09 23:15:50 tg Exp $
+# $MirOS: www/files/cvs.cgi,v 1.1 2007/06/09 23:29:49 tg Exp $
 # $FreeBSD: projects/cvsweb/cvsweb.cgi,v 1.291 2005/01/22 12:43:55 scop Exp $
 # $Id$
 # $Idaemons: /home/cvs/cvsweb/cvsweb.cgi,v 1.84 2001/10/07 20:50:10 knu Exp $

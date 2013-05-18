@@ -3,13 +3,13 @@
 
 mws_setname oldnews "Old News and Weblog"
 mws_subdir 0
-mws_putheader '$MirOS: www/src/oldnews.hts,v 1.4 2008/07/11 15:23:10 tg Exp $'
+mws_putheader '$MirOS: www/src/oldnews.hts,v 1.5 2008/09/17 21:12:28 tg Exp $'
 mws_content <<'EOF'
 <h1>Older News and Weblogs</h1>
 
 <h2 id="owlog">Old Weblog</h2><ul>
 <li><a href="@@RELPATH@@wlog-0.htm">From the beginning to December 2002</a> after
- the first BSD-mirabile snapshot ever (derived from OpenBSD-current-mirabile)
+ the first BSD-mirabilos snapshot ever (derived from OpenBSD-current-mirabilos)
  has been uploaded to the world wide web</li>
 <li><a href="@@RELPATH@@wlog-1.htm">From December 2002 to January 2003</a>
  starting with release of MirBSD Snapshot #1</li>
@@ -58,17 +58,17 @@ mws_content <<'EOF'
 	built (you can pull it from an older snapshot or #8-stable).</li>
 
 <li>29.03.2006<br />We've added a new server to the Freeforge IRC network,
-	<tt>herc.66h.42h.de</tt> Port 6668 (SSL), 6667 and 6666 (non-SSL).
+	<tt>herc.mirbsd.org</tt> Port 6668 (SSL), 6667 and 6666 (non-SSL).
 	You can either directly connect to that server or the round-robin,
-	<tt>irc.66h.42h.de</tt> (or <tt>irc4.66h.42h.de</tt> for IPv4-only
-	or <tt>irc6.66h.42h.de</tt> for IPv6-only connections). Note: this
+	<tt>irc.mirbsd.org</tt> (or <tt>irc4.mirbsd.org</tt> for IPv4-only
+	or <tt>irc6.mirbsd.org</tt> for IPv6-only connections). Note: this
 	server does have IPv6 connectivity, however it's only a SixXS over
 	ADSL (consumer line) connection, so don't overload it.</li>
 
 <li>19.03.2006<br />We've added a new server to the Freeforge IRC network,
-	<tt>maou.66h.42h.de</tt> Port 6668 (SSL), 6667 and 6666 (non-SSL).
+	<tt>maou.mirbsd.org</tt> Port 6668 (SSL), 6667 and 6666 (non-SSL).
 	You can either directly connect to that server or the round-robin,
-	<tt>irc.66h.42h.de</tt> (or <tt>irc4.66h.42h.de</tt> for IPv4-only
+	<tt>irc.mirbsd.org</tt> (or <tt>irc4.mirbsd.org</tt> for IPv4-only
 	connections). We sit on channel <tt>#mirbsd</tt> and <tt>#bsd</tt>
 	like before.</li>
 
@@ -181,7 +181,7 @@ mws_content <<'EOF'
 
 <li>14.12.2005<br />Updating project servers to new snapshot; expect some,
 	minor, instabilities. Switched IRC channel from OFTC to FreeForge,
-	with SSL soon and VPN already enabled: server thor.66h.42h.de:6667
+	with SSL soon and VPN already enabled: server thor.mirbsd.org:6667
 	or irc.freeforge.net:6667 channel #mirbsd</li>
 
 <li>07.12.2005<br />New i386 binary snapshot, source snapshot and CVS repo
@@ -619,7 +619,7 @@ mws_content <<'EOF'
 	see the <a href="@@RELPATH@@anoncvs.htm">appropriate page</a> (bottom). The <a
 	href="/cman/">online manual pages</a> have been updated to reflect
 	the current state of the art.<br />We're awaiting your <a
-	href="mailto:miros-discuss@66h.42h.de">reports</a> on how you
+	href="mailto:miros-discuss@mirbsd.org">reports</a> on how you
 	tested the new snapshot and like MirOS - and if you want to fix
 	stuff, please don't be shy, send an unidiff!</li>
 
@@ -755,7 +755,7 @@ mws_content <<'EOF'
 	available for a snapshot dated 03.05.2004 which fixes the issues
 	above and updates some other components. This is the first time we
 	distribute a snapshot via BitTorrent, so please <a
-	href="mailto:miros-discuss@66h.42h.de">join us to discuss</a> and
+	href="mailto:miros-discuss@mirbsd.org">join us to discuss</a> and
 	submit feedback about this method. (We don't have a way to seed
 	the download with more than 4 KiB/sec yet, if you are interested
 	in helping to seed, please contact us.) - It appears that using

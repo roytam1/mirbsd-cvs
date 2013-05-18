@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-9.inc,v 1.94 2008/08/16 22:19:14 tg Exp $
+RCSID: $MirOS: www/data/wlog-9.inc,v 1.95 2008/09/17 21:12:18 tg Exp $
 Date: 25.06.2006
 Author: tg@
 
@@ -146,7 +146,7 @@ Author: tg@
 		21750000 21750000 rtld 0    1   0      /usr/libexec/ld.so
 	cpu0 at mainbus0: TMS390Z50 v0 or TMS390Z55 @ 75 MHz, on-chip FPU
 	cpu0: physical 20K instruction (64 b/l), 16K data (32 b/l), 1024K external (32 b/l) cache enabled
-	MirBSD demo.66h.42h.de 9 Kv#9s81-stable-20060627 GENERIC#92 sparc
+	MirBSD demo.mirbsd.org 9 Kv#9s81-stable-20060627 GENERIC#92 sparc
   </pre>
  </div><p style="margin-top:0px;">(ciruZ thinks it is pretty cool ;)</p>
  <p>Okay, there's not much more to do except letting the sparc compile a

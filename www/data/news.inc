@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/news.inc,v 1.82 2008/10/30 18:49:53 tg Exp $
+RCSID: $MirOS: www/data/news.inc,v 1.83 2008/11/07 00:49:37 tg Exp $
 Title: Older news from the MirOS Project
 Date: 01.03.2006
 
@@ -893,7 +893,7 @@ Date: 09.07.2008 18:20
  <li>master system, restricted access, ssh, rsync + cvs: <ul>
   <li>offering: <tt>/MirOS</tt> <tt>/Pkgs</tt> <tt>/cvs</tt> <tt>/ncvs</tt> <tt>/ocvs</tt></li>
   <li><tt>_anoncvs@herc.mirbsd.org</tt> (private, IPv4 + IPv6)</li>
-  <li><tt>_anoncvs@herc.66h.42h.de</tt> (private, IPv4 + IPv6)</li>
+  <li><tt>_anoncvs@herc.mirbsd.org</tt> (private, IPv4 + IPv6)</li>
  </ul></li>
  <li>primary mirror, ssh, rsync + cvs, currently the same as 2.anoncvs: <ul>
   <li><tt>anoncvs@anoncvs.mirbsd.org</tt> (public, IPv4 + IPv6)</li>

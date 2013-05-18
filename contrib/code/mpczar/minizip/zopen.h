@@ -1,8 +1,8 @@
-/* $MirOS: contrib/code/mpczar/minizip/zopen.h,v 1.2 2005/11/16 20:04:51 tg Stab $ */
+/* $MirOS: contrib/code/mpczar/minizip/zopen.h,v 1.3 2005/12/17 05:46:10 tg Exp $ */
 
 /*-
  * Copyright (c) 2005
- *	Thorsten "mirabile" Glaser <tg@66h.42h.de>
+ *	Thorsten "mirabilos" Glaser <tg@mirbsd.org>
  *
  * Licensee is hereby permitted to deal in this work without restric-
  * tion, including unlimited rights to use, publicly perform, modify,

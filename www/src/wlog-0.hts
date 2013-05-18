@@ -2,10 +2,10 @@
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname legacy/wlog-0 "MirBSD Weblog"
-mws_putheader '$MirOS$'
+mws_putheader '$MirOS: www/src/wlog-0.hts,v 1.1 2008/09/17 21:12:30 tg Exp $'
 mws_content <<'EOF'
-<h1>BSD-mirabile</h1>
-<p>This is an archived weblog of the development from OpenBSD-current-mirabile
+<h1>BSD-mirabilos</h1>
+<p>This is an archived weblog of the development from OpenBSD-current-mirabilos
  to <a href="@@RELPATH@@main.htm">MirOS</a>. All entries are courtesy of the developer
  tg@ and have not been changed.</p>
 <h3>News <small><a href="#eof">bottom</a></small></h3>
@@ -42,8 +42,8 @@ mws_content <<'EOF'
 <p>28.10.2002<br />Yes, the snapshot was uploaded and verified.<br />The new
  stock apache has been imported, expect some merge conflicts, I'll solve them
  later - I'm currently busy otherwhere...</p>
-<p>29.10.2002<br />Now, my project is called &quot;BSD-mirabile&quot; rather
- than OpenBSD-mirabile. The binary I provided is ok, but don't use the source
+<p>29.10.2002<br />Now, my project is called &quot;BSD-mirabilos&quot; rather
+ than OpenBSD-mirabilos. The binary I provided is ok, but don't use the source
  yet.<br />
  In the future, such marks will be at the _end_ of <tt>obsd.diff</tt> file.</p>
 <p>01.11.2002<br />After further synching, the obsd.diff file will even further

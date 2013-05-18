@@ -2,7 +2,7 @@
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname legacy/ann-7 "MirOS Legacy Content"
-mws_putheader '$MirOS$'
+mws_putheader '$MirOS: www/src/ann-7.hts,v 1.1 2008/09/17 21:12:21 tg Exp $'
 mws_content <<'EOF'
 <h1>MirOS #7quinquies</h1>
 
@@ -209,7 +209,7 @@ project.</p>
 <li>Manpage fixes and enhancements, date display fixed and unified between
  tmac.an.old and tmac.mdoc; Makefile enhancements (make foo.E generates a
  preprocessed source file); what is now MirOS/MirPorts and started as
- OpenBSD-current-mirabile is more than one year old! - Updated papers, USD,
+ OpenBSD-current-mirabilos is more than one year old! - Updated papers, USD,
  PSD and SMM documentation from 4.4BSD-Alpha under the Caldera license.</li>
 <li>Configuration files change: A lot of &quot;dotfiles&quot; such as
  <tt>~/.ssh</tt> have been moved (for example to <tt>~/.etc/ssh</tt>).
@@ -258,7 +258,7 @@ raid0&quot; (or -A root) and reboot, after which the installer should
 automatically recognize it.</p>
 
 <p>If you have support inquiries or other questions, please visit the IRC
- channel <tt>#mirbsd</tt> on the Freeforge network: maou.66h.42h.de or
+ channel <tt>#mirbsd</tt> on the Freeforge network: maou.mirbsd.org or
  irc.freeforge.net.<br />We used to be in #deutsch at OFTC: <a
  href="http://www.oftc.net/">irc6.oftc.net</a> (or irc.oftc.net for all
  these people who only have IPv4 instead of full Internet access).<br />
@@ -287,7 +287,7 @@ to <tt>ksh</tt> - using tcsh or GNU bash is not officially supported.</p>
 <p>Please read the full stuff at <a href="@@RELPATH@@about.htm">About MirOS</a>.</p>
 
 <pre>
-# $MirOS: www/content/YW5uLTc_.inc,v 1.12 2006/03/19 21:23:18 tg Exp $
+# $MirOS: www/src/ann-7.hts,v 1.1 2008/09/17 21:12:21 tg Exp $
 # $OpenBSD: COPYRIGHT,v 1.2 2001/01/29 02:11:07 niklas Exp $
 # @(#)COPYRIGHT	5.1 (Berkeley) 7/1/91
 
@@ -305,8 +305,8 @@ terms and conditions:
 
  *-
  * Copyright (c) 2002, 2003, 2004
- *		by The MirOS Project &lt;miros-dev@66h.42h.de&gt;
- *	Thorsten Glaser &lt;tg@66h.42h.de&gt;
+ *		by The MirOS Project &lt;miros-dev@mirbsd.org&gt;
+ *	Thorsten Glaser &lt;tg@mirbsd.org&gt;
  *	Benny Siegert &lt;bsiegert@gmx.de&gt;
  *
  * Licensee is hereby permitted to deal in this work without restric-

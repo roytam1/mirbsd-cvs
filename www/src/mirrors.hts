@@ -2,7 +2,7 @@
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname legacy/mirrors "MirOS Legacy Content"
-mws_putheader '$MirOS$'
+mws_putheader '$MirOS: www/src/mirrors.hts,v 1.1 2008/09/17 21:12:27 tg Exp $'
 mws_content <<'EOF'
 <h1>MirOS mirrors</h1>
 
@@ -36,7 +36,7 @@ mws_content <<'EOF'
 </ul>
 
 <h3>anonCVS</h3>
-<p>_anoncvs@anoncvs.66h.42h.de:/cvs</p>
+<p>_anoncvs@anoncvs.mirbsd.org:/cvs</p>
 
 <h3>anonRSYNC</h3>
 <p>click <a href="@@RELPATH@@anoncvs.htm">...</a> for more info until some lazy bum

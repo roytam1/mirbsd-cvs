@@ -1,8 +1,8 @@
 #!/bin/mksh
-# $MirOS: contrib/code/heartbeat/toolkit.mirdns/cvt-aaaa.sh,v 1.2 2005/05/25 23:50:30 tg Exp $
+# $MirOS: contrib/code/heartbeat/toolkit.mirdns/cvt-aaaa.sh,v 1.3 2005/12/17 05:46:07 tg Exp $
 #-
 # Copyright (c) 2004
-#	Thorsten "mirabile" Glaser <tg@66h.42h.de>
+#	Thorsten "mirabilos" Glaser <tg@mirbsd.org>
 #
 # Licensee is hereby permitted to deal in this work without restric-
 # tion, including unlimited rights to use, publicly perform, modify,

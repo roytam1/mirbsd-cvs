@@ -2,7 +2,7 @@
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname legacy/bsd-intro "MirOS Legacy Content"
-mws_putheader '$MirOS$'
+mws_putheader '$MirOS: www/src/bsd-intro.hts,v 1.1 2008/09/17 21:12:22 tg Exp $'
 mws_content <<'EOF'
 <h1>What is BSD? What is OpenBSD?</h1>
 
@@ -298,7 +298,7 @@ mws_content <<'EOF'
  <li><a href="http://catalog.com/hopkins/unix-haters/handbook.html">The
   UNIX&reg;-Haters Handbook</a></li>
  <li>About <a href="http://marc.info/?l=openbsd-misc&amp;m=103203098724291&amp;w=2">
-  using rdate(8)</a> to sync your workstation's time, by mirabile</li>
+  using rdate(8)</a> to sync your workstation's time, by mirabilos</li>
  <li>The <a href="http://sites.inka.de/mips/unix/unixphil.html">Unix
   Philosophy</a> (German) by naddy@openbsd.org</li>
  <li>Configuring an OpenBSD system with <a

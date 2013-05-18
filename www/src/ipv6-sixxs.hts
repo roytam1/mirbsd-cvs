@@ -2,7 +2,7 @@
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname legacy/ipv6-sixxs "MirOS Legacy Content"
-mws_putheader '$MirOS$'
+mws_putheader '$MirOS: www/src/ipv6-sixxs.hts,v 1.1 2008/09/17 21:12:25 tg Exp $'
 mws_content <<'EOF'
 <h1>IPv6 with SixXS and MirOS</h1>
 
@@ -151,7 +151,7 @@ fxp0:\
  <tt>::1     localhost6</tt><br />to <tt>/etc/hosts</tt> and
  typing <tt>$ lynx localhost6</tt> should work if you started
  Apache. You can, after enabling the tunnel, test from outside
- and to outside (herc.v6.66h.42h.de for example), too. The SixXS
+ and to outside (herc.v6.mirbsd.org for example), too. The SixXS
  site also displays which transport you are using.</p>
 <p>We still can't support IPv4-mapped addresses (that is, listening
  to [::] (the IN6ADDR_ANY) does not get the d&aelig;mon IPv4

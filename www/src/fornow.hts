@@ -2,7 +2,7 @@
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname legacy/fornow "MirOS Legacy Content"
-mws_putheader '$MirOS$'
+mws_putheader '$MirOS: www/src/fornow.hts,v 1.1 2008/09/17 21:12:24 tg Exp $'
 mws_content <<'EOF'
 <h1>MirOS Website (for now)</h1>
 
@@ -23,7 +23,7 @@ mws_content <<'EOF'
  href="http://mirbsd.de/irc">Zope</a>).</p>
 <p>If the MirSolutions webserver is not reachable, try alternative DNS
  names: <a href="http://www.mirbsd.org/">mirbsd.org</a> (now preferred)
- or <a href="http://www.66h.42h.de/">www.66h.42h.de</a> (may point to
+ or <a href="http://www.mirbsd.org/">www.mirbsd.org</a> (may point to
  another mirror which may differ from the MirSolutions server). We do
  have both server reachability and DNS issues from time to time.</p>
 
@@ -94,10 +94,10 @@ mws_content <<'EOF'
 </ul>
 
 <h2>Other useful links</h2><ul>
-<li><a href="http://mira.66h.42h.de/pub/jdos16.exe">Jupp 2.8 for MS-DOS&reg;</a></li>
-<li><a href="http://mira.66h.42h.de/pub/jupp-w32.exe">Jupp 3.1.6 for Win32</a></li>
-<li><a href="http://mira.66h.42h.de/pub/KBDmir1U.exe">Keyboard driver with Meta key for Windows NT&reg;/2000</a> and up</li>
-<li><a href="http://mira.66h.42h.de/pub/openntpd-3.9p1-leapsecs.diff">Leap second diff against portable OpenNTPD 3.9p1</a> (see <a href="http://www.openntpd.org/">OpenNTPD homepage</a>)</li>
+<li><a href="http://mira.mirbsd.org/pub/jdos16.exe">Jupp 2.8 for MS-DOS&reg;</a></li>
+<li><a href="http://mira.mirbsd.org/pub/jupp-w32.exe">Jupp 3.1.6 for Win32</a></li>
+<li><a href="http://mira.mirbsd.org/pub/KBDmir1U.exe">Keyboard driver with Meta key for Windows NT&reg;/2000</a> and up</li>
+<li><a href="http://mira.mirbsd.org/pub/openntpd-3.9p1-leapsecs.diff">Leap second diff against portable OpenNTPD 3.9p1</a> (see <a href="http://www.openntpd.org/">OpenNTPD homepage</a>)</li>
 </ul>
 EOF
 mws_putfooter

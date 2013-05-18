@@ -1,7 +1,7 @@
 These are the public SSH keys of the MirOS developers, sorted by login name:
 
-bsiegert	ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAIEAxgiHlIckV+JhD+l1bHElMTafm2sHisWvIMoRQoZs722YCUG5Bni8GTzYeObcuq8UB6Kc3woCYedaQcJ2dSgxssUy5yfLcWfXPCzKS6r7M/WizKCRgDLAfRbheXcQCLdxTpgrPRuKcBJJwsfsTpMJ4G5wlNb0yFIioeeVlyNWnqM= bsiegert@amiras.66h.42h.de
-tg		ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAASEAmE/kae2OppreGbHl/45N56/d1IhXYQsc95ydk8UQuoOKd6e/+MRzwwcKz37v/VZX1co9knQECn8Pk+URARq7KChTvi2blM0T7Aqj140NVf6XTKxwx6uJpmgeOGLcGOxmgFjYkfcdMPPuejwJBpt+8fdFeKsDcKfD2oibXN7v11zngjSortJhhObsNpkfrJRKQRESudMv9+NSdty020iFw7r+P3vXZQcGlDt14iLcJplYwHW3KqcAs2Hfc9mA/p8BraMg9HwGprSiuqI25lmZFvaX3IcCtmH36blxTYgEDmfUcDZonlHP7dpxyzg4pHtuYyXzxPMl0yDHqJ7jWVzUecXYzji4aVIxaDVWRlkfrohRYD6Gzo+lAEo3a6TVstgr tg@odem.66h.42h.de
+bsiegert	ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAIEAxgiHlIckV+JhD+l1bHElMTafm2sHisWvIMoRQoZs722YCUG5Bni8GTzYeObcuq8UB6Kc3woCYedaQcJ2dSgxssUy5yfLcWfXPCzKS6r7M/WizKCRgDLAfRbheXcQCLdxTpgrPRuKcBJJwsfsTpMJ4G5wlNb0yFIioeeVlyNWnqM= bsiegert@amiras.mirbsd.org
+tg		ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAASEAmE/kae2OppreGbHl/45N56/d1IhXYQsc95ydk8UQuoOKd6e/+MRzwwcKz37v/VZX1co9knQECn8Pk+URARq7KChTvi2blM0T7Aqj140NVf6XTKxwx6uJpmgeOGLcGOxmgFjYkfcdMPPuejwJBpt+8fdFeKsDcKfD2oibXN7v11zngjSortJhhObsNpkfrJRKQRESudMv9+NSdty020iFw7r+P3vXZQcGlDt14iLcJplYwHW3KqcAs2Hfc9mA/p8BraMg9HwGprSiuqI25lmZFvaX3IcCtmH36blxTYgEDmfUcDZonlHP7dpxyzg4pHtuYyXzxPMl0yDHqJ7jWVzUecXYzji4aVIxaDVWRlkfrohRYD6Gzo+lAEo3a6TVstgr tg@odem.mirbsd.org
 
 
 These are the PGP fingerprints of the MirOS developers’ keys:
@@ -22,4 +22,4 @@ gzsig(1) public keys are not kept in this file, and not used for ssh ac-
 cess; they are shown in src/share/doc/README in the base system instead.
 The ssh(1) public keys above are not used for gzsig(1) work.
 
-$MirOS: contrib/samples/devel-keys,v 1.4 2006/01/27 00:58:55 tg Exp $
+$MirOS: contrib/samples/devel-keys,v 1.5 2008/03/10 15:06:58 tg Exp $

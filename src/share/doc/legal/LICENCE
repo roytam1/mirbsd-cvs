@@ -1,4 +1,4 @@
-$MirOS: src/share/doc/legal/LICENCE,v 1.19 2008/04/22 13:09:28 tg Exp $
+$MirOS: src/share/doc/legal/LICENCE,v 1.20 2008/10/26 22:45:48 tg Exp $
 
 MirOS base system and BSD - TOU
 -------------------------------
@@ -41,7 +41,7 @@ and MirPorts; thus, MirOS is derived from MirBSD™.
 # of said person’s immediate fault when using the work as intended.
 
 The following persons are MirOS developers:
-* Thorsten „mirabilos“ Glaser <tg@66h.42h.de>
+* Thorsten „mirabilos“ Glaser <tg@mirbsd.org>
 * Adam „replaced“ Hoka <ahoka@mirbsd.de>
 * Benny „benz“ Siegert <bsiegert@gmx.de>
 

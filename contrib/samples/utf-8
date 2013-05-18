@@ -1,4 +1,4 @@
-┋ $MirOS: contrib/samples/utf-8,v 1.1.7.1 2005/02/05 01:59:40 tg Exp $
+┋ $MirOS: contrib/samples/utf-8,v 1.2 2006/11/19 15:51:26 tg Exp $
 
 The Unicode Basic Multilingual Plane
 ┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
@@ -9,7 +9,7 @@ and thus, this file should show up fine in an uxterm
 on MirOS (see xterm(1) for further reference).
 
 This file was generated (and hand-edited afterwards)
-© by Thorsten "mirabile" Glaser <tg@66h.42h.de>. Be-
+© by Thorsten "mirabilos" Glaser <tg@mirbsd.org>. Be-
 cause this is a mere "database" it can be used with-
 out the need of a special licence, but if possible I
 would like to be credited on derivates.

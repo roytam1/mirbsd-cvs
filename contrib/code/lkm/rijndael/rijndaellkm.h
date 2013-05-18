@@ -1,8 +1,8 @@
-/* $MirOS: contrib/code/lkm/rijndael/rijndaellkm.h,v 1.3 2008/03/20 19:34:51 tg Exp $ */
+/* $MirOS: contrib/code/lkm/rijndael/rijndaellkm.h,v 1.4 2008/05/03 01:09:28 tg Exp $ */
 
 /*-
  * Copyright (c) 2005, 2008
- *	Thorsten "mirabilos" Glaser <tg@66h.42h.de>
+ *	Thorsten "mirabilos" Glaser <tg@mirbsd.org>
  *
  * Licensee is hereby permitted to deal in this work without restric-
  * tion, including unlimited rights to use, publicly perform, modify,

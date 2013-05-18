@@ -1,9 +1,9 @@
-# $MirOS: src/distrib/common/install.sub,v 1.39 2008/07/18 14:53:23 tg Exp $
+# $MirOS: src/distrib/common/install.sub,v 1.40 2008/08/26 08:37:45 tg Exp $
 # $OpenBSD: install.sub,v 1.388 2005/07/02 00:55:48 uwe Exp $
 # $NetBSD: install.sub,v 1.5.2.8 1996/09/02 23:25:02 pk Exp $
 #
 # Copyright (c) 2003, 2004, 2005, 2008
-#	Thorsten “mirabilos” Glaser <tg@66h.42h.de>
+#	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
 # Copyright (c) 1997-2005 Todd Miller, Theo de Raadt, Ken Westerback
 # All rights reserved.
 #

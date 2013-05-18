@@ -2,7 +2,7 @@
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname legacy/history "MirOS Legacy Content"
-mws_putheader '$MirOS$'
+mws_putheader '$MirOS: www/src/history.hts,v 1.1 2008/09/17 21:12:24 tg Exp $'
 mws_content <<'EOF'
 <h1>History of MirOS</h1>
 
@@ -20,11 +20,11 @@ mws_content <<'EOF'
  code of the then-dying MicroBSD (publically released under a good licence),
  and the KAME patch bringing IPv6 support to the Apache HTTP d&aelig;mon.
  <br />It was to be decided how to name the child. The first shot was
- <tt>OpenBSD-current-mirabile</tt>, since Thorsten Glasers pseudonym has
+ <tt>OpenBSD-current-mirabilos</tt>, since Thorsten Glasers pseudonym has
  been like it since early 1993; but that was too long. Even the later
- <tt>OpenBSD-mirabile</tt> was too long, and lasted not more than a few
+ <tt>OpenBSD-mirabilos</tt> was too long, and lasted not more than a few
  days until the next quarrel with the OpenBSD people. The patchkit was
- then renamed into BSD-mirabile.</p>
+ then renamed into BSD-mirabilos.</p>
 <p>Eventually, it was decided that using CVS instead of just providing
  diffs to OpenBSD would be progress (I've considered OpenCM more than
  just a little bit, but its main advocate and coder Todd Fries told me
@@ -84,7 +84,7 @@ mws_content <<'EOF'
 <h3>A short timeline submitted to Levenez</h3>
 <p>Note: this has been amended with updates from the original mail.</p>
 <pre>From: Thorsten Glaser &lt;tg-v2003@netcologne.de&gt;
-Message-ID: &lt;Pine.BSO.4.58.0310201046240.4697@herc.66h.42h.de&gt;
+Message-ID: &lt;Pine.BSO.4.58.0310201046240.4697@herc.mirbsd.org&gt;
 Date: Mon, 17 Nov 2003 16:09:43 +0000 (UTC)
 Subject: MirBSD at Unix history
 
