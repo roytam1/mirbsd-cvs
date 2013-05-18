@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.228 2009/08/12 14:50:31 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.229 2009/08/13 15:01:09 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -4761,4 +4761,56 @@ Author: tg@
  I <em>do</em> have a rather heavy headache right now, but just could
  not go back to sleep two hours ago.)</p>
 <p>PS: <a href="http://www.froscon.org/">go here</a></p>
+----
+Title: It sucks! I want no more!
+Date: 15.08.2009 21:07
+Author: tg@
+Tag: bug event hardware rant snapshot
+
+<p>You all know that the sparc (demo) freezed on me. Well, the VT420
+ only emitted “Keyboard Error 4”, I tried the other sparc (ss20/marc).
+ Also equipped with one of these 36G LVD/SE U160 SCA HDDs, it exploded.
+ Literally. Something – I still don’t know what (smells in the area of
+ the tvtwo(4/sparc) and le(4/sparc) but…) as this happened during the
+ installation, which continued as if nothing had happened, except that,
+ a minute after the explosive sound, it begun to smell. *sigh*</p>
+<p>Me then go back to <tt>demo</tt>, even put in the tvtwo(4/sparc) for
+ monitor/keyboard console (sucky German keyboard, but after installing
+ kbd(8) works), use the <tt>Stop-N</tt> trick (hold it down and power
+ on) to erase the PROM (thanks NetBSD® FAQ, no thanks to the people in
+ #sparc in IRC who suggested <tt>Stop-A</tt>) to switch from serial to
+ k/m console, then it installed… and froze.</p>
+<p>To add insult to injury (luckily not mine), the VT420 works again.</p>
+<p>I tried hard to get you at least a minimal set of binary packages –
+ gmake (so it’s self-hosted), lzma (for *.clz binary package support),
+ screen (because people need it), jupp (vi(1) is in base, but no editor
+ other than ed(1)…), rsync (even though it’s now GPLv3, we depend on it
+ heavily) – but just <strong>could not</strong>, no matter how hard.</p>
+<p>On the other front, after re-doing the installer a few times due to
+ some fuckup in <tt>install.sub</tt> (don’t ask, but I really extracted
+ the image from the symbol-less kernel and put it back afterwards…), a
+ number of core packages for i386 were built, and bsiegert@ is supplying
+ another few hundred. Yay!</p>
+<p>I’ll still follow the plan to create the FrOSCon ISO tomorrow, will
+ add a minimal set of i386 packages plus their distfiles where licences
+ require it, and refer people to the online repository. I cannot add any
+ “real” sparc packages, so there will be none. I’m tempted to modify the
+ sparc installer by image extraction too, since the mount_mfs(8) fails
+ when the box has too much RAM (more than about 300 MiB), but don’t want
+ to power on one of these boxen and lose even more time (if not body or
+ possession).</p>
+<p>qemu is getting better at emulating a sparc, but we still cannot go
+ to user space. ☹</p>
+<hr style="width: 66%" />
+<p>If someone is really interested in getting MirOS working on boxen
+ compatible to the SheevaPlug (ARM 1.2 GHz), despite our rather old gcc
+ and binutils, <em>please</em> contact us. I’d drop sparc support over
+ it once working.</p>
+<hr style="width: 66%" />
+<p>See you all kissing the <a href="http://www.froscon.org/">blue
+ frog</a>, but remember, don’t kiss a porc. You can read the <a
+ href="@@ABSPATH@@/MirOS/PR/advertisement.pdf">advertisement</a> or
+ the flyers (<a href="@@ABSPATH@@/MirOS/PR/flyer_de.pdf">German</a>,
+ <a href="@@ABSPATH@@/MirOS/PR/flyer_en.pdf">English</a> or <a
+ href="@@ABSPATH@@/MirOS/PR/flyer_fr.pdf">French</a>) meanwhile.</p>
 ----
