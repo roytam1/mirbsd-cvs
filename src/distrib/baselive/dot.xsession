@@ -1,8 +1,8 @@
 #!/bin/mksh
-# $MirOS: src/distrib/baselive/dot.xsession,v 1.11 2008/10/21 21:03:33 tg Exp $
+# $MirOS: src/distrib/baselive/dot.xsession,v 1.12 2009/03/29 13:04:12 tg Exp $
 #-
-# Copyright (c) 2006, 2007, 2008
-#	Thorsten Glaser <tg@mirbsd.de>
+# Copyright (c) 2006, 2007, 2008, 2009
+#	Thorsten Glaser <tg@mirbsd.org>
 #
 # Provided that these terms and disclaimer and all copyright notices
 # are retained or reproduced in an accompanying document, permission
@@ -38,11 +38,13 @@ text=twm:0,evilwm-session:101,evilwm-bare:102,failsafe:1
 failsafe='xterm -geometry 80x24-0-0'
 typeset -i number=103
 set -A wm
+defwm=twm
 wm[0]=twm
 wm[101]=evilwm-session
 wm[102]=evilwm
 wm[1]=$failsafe
 if x=$(whence -p icewm-session); then
+	defwm=icewm
 	text=$text,icewm:$number
 	wm[number]=$x
 	let number++
@@ -53,7 +55,7 @@ if x=$(whence -p wm2); then
 	let number++
 fi
 
-xmessage -button $text -center -default twm -timeout 12 \
+xmessage -button $text -center -default $defwm -timeout 12 \
     "Choose window manager
 Wait 12 seconds for default"
 number=$?
