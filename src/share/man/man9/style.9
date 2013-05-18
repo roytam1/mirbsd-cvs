@@ -1,4 +1,4 @@
-.\" $MirOS: src/share/man/man9/style.9,v 1.18 2011/05/05 00:06:42 tg Exp $
+.\" $MirOS: src/share/man/man9/style.9,v 1.19 2011/07/05 20:13:22 tg Exp $
 .\"-
 .\" Copyright (c) 2002-2011 The MirOS Project.
 .\" Copyright (c) ? OpenBSD
@@ -86,7 +86,7 @@
 .\" with -mandoc, it might implement .Mx itself, but we want to
 .\" use our own definition. And .Dd must come *first*, always.
 .\"
-.Dd $Mdocdate: May 5 2011 $
+.Dd $Mdocdate: July 5 2011 $
 .\"
 .\" Check which macro package we use, and do other -mdoc setup.
 .\"
@@ -694,6 +694,14 @@ a = (((b\-\*(Gtc[0] + \*(TId) == (e \*(Ba\*(Ba f)) \*(Ba\*(Ba (g && h)) ? \e
 k = !(l &
     FLAGS);
 .Ed
+.Pp
+Lines ought to be not larger than 80 characters.
+Stick to 75 characters or less if possible, but in some cases
+it's ok to put a character in the 80th column.
+Descriptions should not be longer than 66 characters,
+eMails must not be longer then 72 characters per line.
+In object-oriented languages, it may be acceptable to use
+up to 100 characters per line.
 .Pp
 Exits should be 0 on success, and non-zero for errors.
 .Bd -literal -offset indent
