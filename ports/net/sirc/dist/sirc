@@ -1,5 +1,5 @@
 #!@SHELL@
-# $MirOS: ports/net/sirc/dist/sirc,v 1.6 2007/01/03 23:30:29 tg Exp $
+# $MirOS: ports/net/sirc/dist/sirc,v 1.7 2008/10/13 21:44:31 tg Exp $
 #-
 # Copyright (c) 2002, 2003, 2004, 2005, 2007, 2008
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -30,8 +30,13 @@ if [[ $1 = -d ]]; then
 fi
 
 DASH_X=
-x=$(locale charmap 2>/dev/null) || x=
-[[ -n $x ]] || x=${LC_ALL:-${LC_CTYPE:-${LANG}}}
-[[ $x = *@(UTF|utf)?(-)8* ]] && DASH_X=-X
+if [[ -n $COMSPEC || $TERM = *cygwin* ]]; then
+	DASH_X='-C cp437'
+	export CYGWIN="$CYGWIN codepage:oem"
+else
+	x=$(locale charmap 2>/dev/null) || x=
+	[[ -n $x ]] || x=${LC_ALL:-${LC_CTYPE:-${LANG}}}
+	[[ $x = *@(UTF|utf)?(-)8* ]] && DASH_X=-X
+fi
 
 eval exec ssfe $SSFE $PERL $SKRIPT $DASH_X $SIRCOPTS \"\$@\"
