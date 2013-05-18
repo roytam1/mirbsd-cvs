@@ -1,4 +1,4 @@
-# $MirOS: src/sys/conf/Makefile.inc,v 1.27 2007/05/08 21:52:55 tg Exp $
+# $MirOS: src/sys/conf/Makefile.inc,v 1.28 2007/06/11 21:21:25 tg Exp $
 #-
 # Copyright (c) 2005, 2006, 2007
 #	Thorsten "mirabilos" Glaser <tg@mirbsd.de>
@@ -184,7 +184,8 @@ install:
 	else \
 		set -x; \
 		install -c -o root -g daemon -m 400 bsd /; \
-		install -c -o root -g wheel -m 644 kvm_bsd.db /var/db/; \
+		install -c -o root -g wheel -m 644 \
+		    kvm_bsd.db /var/db/kvm_bsd.new; \
 	fi
 
 links:
