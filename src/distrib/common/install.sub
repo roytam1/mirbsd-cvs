@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/install.sub,v 1.47 2009/08/09 12:59:49 tg Exp $
+# $MirOS: src/distrib/common/install.sub,v 1.48 2009/08/09 13:04:09 tg Exp $
 # $OpenBSD: install.sub,v 1.388 2005/07/02 00:55:48 uwe Exp $
 # $NetBSD: install.sub,v 1.5.2.8 1996/09/02 23:25:02 pk Exp $
 #
@@ -951,7 +951,8 @@ __EOT
 		isin $_f $_get_sets || continue
 		echo "Getting $_f ..."
 		case $_f in
-		*.ngz)	ftp $_ftp_active -o - -V -m "$_src/$_f" | tar zxphf - -C /mnt
+		*.ngz)	ftp $_ftp_active -o - -V -m "$_src/$_f" | \
+			    gzip -dcf | tar xphf - -C /mnt
 			;;
 		*)	ftp $_ftp_active -o "/mnt/$_f" -V -m "$_src/$_f"
 			;;
