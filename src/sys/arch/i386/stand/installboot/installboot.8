@@ -1,4 +1,4 @@
-.\"	$MirOS: src/sys/arch/i386/stand/installboot/installboot.8,v 1.17 2009/01/31 19:09:18 tg Exp $
+.\"	$MirOS: src/sys/arch/i386/stand/installboot/installboot.8,v 1.18 2009/06/07 11:46:28 tg Exp $
 .\"	$OpenBSD: installboot.8,v 1.28 2007/05/31 19:20:03 jmc Exp $
 .\"
 .\" Copyright (c) 1997 Michael Shalayeff
@@ -26,7 +26,7 @@
 .\" SUCH DAMAGE.
 .\"
 .\"
-.Dd $Mdocdate: January 31 2009 $
+.Dd $Mdocdate: June 7 2009 $
 .Dt INSTALLBOOT 8 i386
 .Os
 .Sh NAME
@@ -170,6 +170,12 @@ getextent_cd9660 -f cdrom10.iso boot \*(Ba \e
 .Xr disklabel 8 ,
 .Xr fdisk 8 ,
 .Xr init 8
+.Sh HISTORY
+The
+.Fl A
+option is supported by
+.Nm bootxx
+0AA8 and up.
 .Sh BUGS
 The disklabel
 .Va d_type
