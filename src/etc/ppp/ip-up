@@ -1,0 +1,7 @@
+#!/bin/mksh
+# $Id$
+# $MirOS: src/etc/ppp/ip-up,v 1.1.7.1 2005/03/06 16:33:39 tg Exp $
+
+# This script is called when your ppp(8) or pppd(8) connection
+# goes up and after the connection, including routing, has al-
+# ready been established.
