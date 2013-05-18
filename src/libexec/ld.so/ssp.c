@@ -22,16 +22,17 @@
 #include <sys/sysctl.h>
 #include "archdep.h"
 
-__RCSID("$MirOS: src/libexec/ld.so/ssp.c,v 1.1 2008/10/16 14:19:01 tg Exp $");
+__RCSID("$MirOS: src/libexec/ld.so/ssp.c,v 1.2 2008/10/16 14:43:23 tg Exp $");
 
 #if (defined(__SSP__) || defined(__SSP_ALL__)) && \
     !defined(__IN_MKDEP) && !defined(lint)
 #error "You must compile this file with -fno-stack-protector"
 #endif
 
-extern long __guard[8];
-
 void __guard_setup(void);
+__dead void __stack_smash_handler(char [], int);
+
+long __guard[8] = { 0, 0, 0, 0, 0, 0, 0, 0 };
 
 void
 __guard_setup(void)
@@ -52,4 +53,18 @@ __guard_setup(void)
 	mib[1] = KERN_ARND;
 	/* _dl_sysctl is implemented in asm and thusly safe to use */
 	_dl_sysctl(mib, 2, cp, &n, NULL, 0);
+}
+
+static const char ovmsg[] = "stack overflow in ld.so function ";
+
+void
+__stack_smash_handler(char func[], int damaged)
+{
+	_dl_write(2, ovmsg, sizeof (ovmsg) - 1);
+	while (*func) {
+		_dl_write(2, func, 1);
+		func++;
+	}
+	_dl_write(2, "\n", 1);
+	_dl_exit(127);
 }

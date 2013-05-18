@@ -1,4 +1,4 @@
-/**	$MirOS: src/libexec/ld.so/util.c,v 1.2 2006/08/30 03:52:53 tg Exp $ */
+/**	$MirOS: src/libexec/ld.so/util.c,v 1.3 2008/10/16 14:32:16 tg Exp $ */
 /*	$OpenBSD: util.c,v 1.18 2004/06/14 15:07:36 millert Exp $	*/
 
 /*
@@ -33,22 +33,7 @@
 #include <string.h>
 #include "archdep.h"
 
-__RCSID("$MirOS: src/libexec/ld.so/util.c,v 1.2 2006/08/30 03:52:53 tg Exp $");
-
-__dead void __stack_smash_handler(char [], int);
-
-/*
- * Stack protector dummies.
- * Ideally, a scheme to compile these stubs from libc should be used, but
- * this would end up dragging too much code from libc here.
- */
-long __guard[8] = {0, 0, 0, 0, 0, 0, 0, 0};
-
-void
-__stack_smash_handler(char func[], int damaged)
-{
-	_dl_exit(127);
-}
+__RCSID("$MirOS: src/libexec/ld.so/util.c,v 1.3 2008/10/16 14:32:16 tg Exp $");
 
 /*
  * Static vars usable after bootstrapping.
