@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/news.inc,v 1.95 2009/01/08 21:36:34 tg Exp $
+RCSID: $MirOS: www/data/news.inc,v 1.96 2009/01/08 21:37:55 tg Exp $
 Title: Older news from the MirOS Project
 Date: 01.03.2006
 
@@ -1296,4 +1296,25 @@ Tag: mksh snapshot
  <em>how</em> good of a rescue system our <tt>bsd.rd</tt> kernel is,
  already, and what added benefit a minimal pretty standard Live Linux
  may provide.</p>
+----
+Date: 18.01.2009 00:17
+Title: MirOS #10/i386 binary packages problems
+
+<p>It has come to our attention that a good share of the available <a
+ href="@@ABSPATH@@/MirOS/Pkgs/v10/i386/">binary packages</a> for the
+ last stable version have actually been accidentally built against a
+ (very old) version of MirOS #10-current, thus demanding slightly newer
+ libraries. We estimate this problem being resolved when the next batch
+ of binary packages for #10-stable is built, although there is none
+ scheduled as of yet, and a run for #10-current will probablt precede
+ it. Sorry about that.</p>
+<p>An analysis of the code in question however shows that it is almost
+ certain to be safe – for the purpose of running the aforementioned
+ binary packages <strong>only</strong> – to rename <tt>libc.so.41.0</tt>
+ to <tt>libc.so.41.1</tt> to quell the warning encountered (or one of
+ them, possibly, but the most frequent one at that). The addition of
+ functions was almost certainly not relevant for MirPorts use.</p>
+<p>We apologise about the inconvenience. If you run into any problems,
+ please contact us on <a href="@@RELPATH@@irc.htm">IRC</a> or via the <a
+ href="@@RELPATH@@rss.htm#lists">mailing list</a>.</p>
 ----
