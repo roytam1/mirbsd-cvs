@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.253 2009/11/08 19:44:03 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.254 2009/11/08 20:09:06 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -5400,4 +5400,18 @@ Tag: bug event snapshot
  at 26C3 by formorer from the Grml team <i>*grins</i> and I wonder if the
  celebrities equipeed with a MirCD or MirUSB stick, like Werner Koch, will
  make good use of it ;-)</p>
+----
+Title: I am happy with my eKey
+Author: tg@
+Date: 12.11.2009 19:16
+
+<p><a href="http://blog.halon.org.uk/2009/11/12#ekey-02">Neil</a>, I am
+ happy with my <a href="http://www.entropykey.co.uk/">eKey</a>, and I
+ would blog it if I had a blog ☺ (And yours doesn’t allow comments. But
+ then, <a href="http://blog.digital-scurf.org/">Daniel’s</a> doesn’t,
+ either.) I’d have liked proper (C flute / piano / voice) notes, though…
+ never got the hang of string instruments.</p>
+<p>Of course I still have to make a MirPort for that Lua dæmon, but for
+ now, things work quite well. (I do have a rather large TODO and woke up
+ with headaches and slight cold today.)</p>
 ----
