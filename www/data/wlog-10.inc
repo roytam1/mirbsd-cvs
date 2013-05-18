@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.257 2009/11/15 14:54:14 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.258 2009/11/25 09:12:57 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -5510,4 +5510,29 @@ Tag: debian
  personal needs or getting coffee/food/…).</p>
 <p>Now I still wish I could split myself in half to get more time for all
  the projects I have…</p>
+----
+Title: more mkshdroid and other OSS project stuff
+Author: tg@
+Date: 02.12.2009 17:21
+Tag: android debian mksh
+
+<p>I managed to create an avd "Android 2.0-current", with stuff completely
+ built by myself. Now I "just" need to get project/external/mksh.git to be
+ created and writable by me. Or, even better, nuke that NetBSD® ash they're
+ currently using and replace it with a sensible shell, at least mksh-small.
+ Then adb can be built with<em>out</em> <tt>-DSH_HISTORY</tt> (which, with
+ <a href="@@RELPATH@@mksh.htm">mksh</a>, is required for usability).</p>
+<p>I wonder if I could take over Mæmo as well... *grins*</p>
+<p>On unrelated side notes, I'm trying to get the "debian" tagged entries
+ aggregated on Plänet Debian, and I'm &ndash; again &ndash; in the NM
+ process trying to become a DD, with slightly different goals this time,
+ and also as a liaison between my employer and the project. (But I'd also
+ like these porting machines... 'sides, there's still an mksh+dietlibc on
+ hppa bug open...)</p>
+<p>I also got HP-UX back at HP PvP (not player versus player though ;) for
+ mksh(1) porting/testing. Sadly, Itanic only, no humppa machines.</p>
+<p>In case someone ever needs it, a collection of scripts called <a
+ href="https://evolvis.org/projects/bw2mw/">BitWeaver → MediaWiki</a>
+ does exactly that and has been released under GNU GPLv2 (only) courtesy
+ of <a href="http://www.tarent.com/">my employer</a>. Cheers!</p>
 ----
