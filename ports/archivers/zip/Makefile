@@ -1,16 +1,20 @@
-# $MirOS: ports/archivers/zip/Makefile,v 1.2 2005/07/07 21:17:05 bsiegert Exp $
+# $MirOS: ports/archivers/zip/Makefile,v 1.3 2006/02/09 11:11:01 tg Exp $
 # $OpenBSD: Makefile,v 1.30 2003/05/24 02:40:42 jolan Exp $
 # $FreeBSD: Makefile,v 1.11 1997/11/25 20:45:45 ache Exp $
 
 COMMENT=	"create/update ZIP files compatible with PKZip(tm)"
 
-DISTNAME=	zip23
-PKGNAME=	zip-2.3-0
+DISTNAME=	zip231
+PKGNAME=	zip-2.31-0
 CATEGORIES=	archivers
-MASTER_SITES=	ftp://ftp.uu.net/pub/archiving/zip/src/ \
-		ftp://ftp.icce.rug.nl/infozip/src/
+MASTER_SITES=	ftp://ftp.info-zip.org/pub/infozip/src/ \
+		ftp://mirror.switch.ch/ftp/mirror/infozip/src/ \
+		http://www.mirrorservice.org/sites/ftp.info-zip.org/pub/infozip/src/ \
+		${MASTER_SITE_SOURCEFORGE:=infozip/}
 
-DISTFILES=	zip23.tar.gz zcrypt29.zip
+
+
+DISTFILES=	zip231.tar.gz zcrypt29.zip
 
 HOMEPAGE=	http://www.ctan.org/tex-archive/tools/zip/info-zip/Zip.html
 
@@ -20,14 +24,13 @@ PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
-CPPFLAGS+=		-I. -DUNIX
-FAKE_FLAGS=	prefix="${WRKINST}${PREFIX}"
+EXTRA_FAKE_FLAGS=	prefix="${WRKINST}${PREFIX}"
 
 MAKE_FILE=	unix/Makefile
 
 ALL_TARGET=	generic
 
-WRKDIST=	${WRKDIR}/zip-2.3
+WRKDIST=	${WRKDIR}/zip-2.31
 
 DOCS=	README WHERE
 
