@@ -1,12 +1,12 @@
-# $MirOS: X11/depends/freetype2/Makefile,v 1.4 2006/07/02 23:47:36 tg Exp $
+# $MirOS: X11/depends/freetype2/Makefile,v 1.6 2006/10/16 19:38:00 tg Exp $
 
 .include "../Makefile.inc"
 .include <bsd.own.mk>
 
 # This is the one from the freetype project
-#LT_VERSION=		9:10:3
+#LT_VERSION=		9:16:3
 # This is bumped like we need it
-LT_VERSION=		11:10:0
+LT_VERSION=		12:16:1
 
 FT_VERSION=		${LT_VERSION:S/:/./g}
 LT_CURRENT=		${FT_VERSION:R:R}
@@ -54,7 +54,9 @@ NOMAN=			Yes
   SRCS+=		afdummy.c
   SRCS+=		afglobal.c
   SRCS+=		afhints.c
+  SRCS+=		afindic.c
   SRCS+=		aflatin.c
+#  SRCS+=		aflatin2.c
   SRCS+=		afloader.c
   SRCS+=		afmodule.c
   SRCS+=		afmparse.c
@@ -86,17 +88,20 @@ NOMAN=			Yes
   SRCS+=		ftcmru.c
   SRCS+=		ftcsbits.c
   SRCS+=		ftdbgmem.c
+  SRCS+=		ftgasp.c
   SRCS+=		ftgloadr.c
   SRCS+=		ftglyph.c
   SRCS+=		ftgrays.c
   SRCS+=		ftgxval.c
   SRCS+=		ftgzip.c
+  SRCS+=		ftlcdfil.c
   SRCS+=		ftlzw.c
   SRCS+=		ftmm.c
   SRCS+=		ftnames.c
   SRCS+=		ftobjs.c
   SRCS+=		ftotval.c
   SRCS+=		ftoutln.c
+  SRCS+=		ftpatent.c
   SRCS+=		ftpfr.c
   SRCS+=		ftraster.c
   SRCS+=		ftrend1.c
@@ -197,12 +202,14 @@ NOMAN=			Yes
   INCS+=		ftchapters.h
   INCS+=		fterrdef.h
   INCS+=		fterrors.h
+  INCS+=		ftgasp.h
   INCS+=		ftglyph.h
   INCS+=		ftgxval.h
   INCS+=		ftgzip.h
   INCS+=		ftimage.h
   INCS+=		ftincrem.h
   INCS+=		ftlist.h
+  INCS+=		ftlcdfil.h
   INCS+=		ftlzw.h
   INCS+=		ftmac.h
   INCS+=		ftmm.h
