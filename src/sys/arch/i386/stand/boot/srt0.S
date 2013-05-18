@@ -1,4 +1,4 @@
-/* $MirOS: src/sys/arch/i386/stand/boot/srt0.S,v 1.40 2009/01/02 20:52:28 tg Exp $ */
+/* $MirOS: src/sys/arch/i386/stand/boot/srt0.S,v 1.41 2009/01/02 20:55:28 tg Exp $ */
 
 /*-
  * Copyright (c) 2003, 2004, 2005, 2006, 2007, 2008, 2009
@@ -170,7 +170,7 @@ Llxok:	push	di
 	int	0x22
 	pop	cx
 	cmp	cl,2
-	jne	Lnolz		/* HDD or El Torito no emulation */
+	jne	Lnolx		/* HDD or El Torito no emulation */
 	push	cs
 	pop	ds
 	mov	ax,0x4B00	/* BIOS: terminate emulation */
