@@ -211,4 +211,7 @@ Author: tg@
  took me a while and about a dozen attempts, but finally I succeeded.</p>
 <p>Other than that, I didn’t hack much. I walked about 5‥6 km (single way) to
  buy myself a Döner though ☺ bad weather doesn’t have to mean stay inside.</p>
+<p>We should be at way more than 1500 downloads in total by now… 1405 on the
+ Germany 1 mirror, more than 100 on Germany 2, an unknown lot on Japan, more
+ than 60 BT downloads from me and friends… that accumulates quite.</p>
 ----
