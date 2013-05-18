@@ -1,10 +1,10 @@
-# $MirOS: www/src/mksh_old.hts,v 1.3 2007/07/26 22:03:40 tg Exp $
+# $MirOS: www/src/mksh_old.hts,v 1.4 2007/09/07 22:22:15 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/mksh/old "mksh – old versions"
-mws_putheader '$MirOS: www/src/mksh_old.hts,v 1.3 2007/07/26 22:03:40 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh_old.hts,v 1.4 2007/09/07 22:22:15 tg Exp $'
 mws_content <<'EOF'
 <h1><a href="mksh.htm">mksh</a> – old versions</h1>
 <p>This page lists information about mksh R29 and earlier.</p>
@@ -22,6 +22,12 @@ mws_content <<'EOF'
 <li><tt>-q</tt> (all versions): output almost nothing</li>
 <li><tt>-r</tt> (all versions): don't try to build a pre-formatted version
  of the manual page using nroff(1) if found</li>
+</ul>
+<p>These special values in <tt>CPPFLAGS</tt> are recognised:</p><ul>
+<li><tt>-DMKSH_NEED_MKNOD</tt> – if MKSH_SMALL is set, do not omit the mknod(8)
+ builtin functionality from the binary; <strong>deprecated</strong>, use the
+ environment variable <tt>HAVE_MKNOD=[0|1]</tt> to determine if this builtin
+ should be compiled in or not instead; has been removed past R31c</li>
 </ul>
 <p>The build script also honours the following environment variables:</p><ul>
 <li><tt>CPP</tt> ($CC -E -) – the C præprocessor used</li>
