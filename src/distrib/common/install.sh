@@ -1,9 +1,9 @@
 #!/bin/mksh
-# $MirOS: src/distrib/common/install.sh,v 1.20 2008/11/29 17:10:55 tg Exp $
+# $MirOS: src/distrib/common/install.sh,v 1.21 2009/03/29 13:04:14 tg Exp $
 # $OpenBSD: install.sh,v 1.152 2005/04/21 21:41:33 krw Exp $
 # $NetBSD: install.sh,v 1.5.2.8 1996/08/27 18:15:05 gwr Exp $
 #
-# Copyright (c) 2007, 2008 Thorsten Glaser
+# Copyright (c) 2007, 2008, 2009 Thorsten Glaser
 # Copyright (c) 1997-2004 Todd Miller, Theo de Raadt, Ken Westerback
 # All rights reserved.
 #
@@ -487,6 +487,11 @@ cat >/mnt/etc/rc.once <<-'EOF'
 	    tr ' ' '_'),seed=$(dd if=/dev/arandom bs=57 count=1 | \
 	    b64encode -r - | tr '+=/' '._-')) >/dev/wrandom 2>&1 &
 	newaliases 2>&1 | logger -t rc.once
+	# back up base configuration, dotfiles, etc.
+	(for f in .* var/anoncvs/.*; do
+		[[ -f $f ]] && print -r -- "$f"
+	done; find etc var/anoncvs/etc var/cron var/www/conf) | sort | \
+	    cpio -oC512 -Hustar -Mset | gzip -n9 >/var/backups/_basecfg.tgz
 	sync
 	sleep 1
 	( (
