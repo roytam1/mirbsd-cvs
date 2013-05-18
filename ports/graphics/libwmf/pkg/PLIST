@@ -1,3 +1,4 @@
+@comment $MirOS$
 @comment $OpenBSD: PLIST,v 1.2 2002/09/08 11:55:35 avsm Exp $
 bin/libwmf-config
 bin/libwmf-fontmap
@@ -7,6 +8,7 @@ bin/wmf2gd
 bin/wmf2svg
 bin/wmf2x
 include/libwmf/api.h
+include/libwmf/canvas.h
 include/libwmf/color.h
 include/libwmf/defs.h
 include/libwmf/eps.h
@@ -29,9 +31,8 @@ include/libwmf/macro.h
 include/libwmf/svg.h
 include/libwmf/types.h
 include/libwmf/x.h
-lib/libwmf.a
+lib/gtk-2.0/loaders/io-wmf.la
 lib/libwmf.la
-lib/libwmflite.a
 lib/libwmflite.la
 share/doc/libwmf/caolan/2.html
 share/doc/libwmf/caolan/Arc.html
@@ -114,6 +115,7 @@ share/doc/libwmf/html/annotated.html
 share/doc/libwmf/html/api_8c.html
 share/doc/libwmf/html/api_8h.html
 share/doc/libwmf/html/bbuf_8c.html
+share/doc/libwmf/html/canvas_8h.html
 share/doc/libwmf/html/classes.html
 share/doc/libwmf/html/clip_8h.html
 share/doc/libwmf/html/coord_8h.html
@@ -144,6 +146,7 @@ share/doc/libwmf/html/globals.html
 share/doc/libwmf/html/include_2libwmf_2color_8h.html
 share/doc/libwmf/html/include_2libwmf_2font_8h.html
 share/doc/libwmf/html/index.html
+share/doc/libwmf/html/io-wmf_8c.html
 share/doc/libwmf/html/ipa_2bmp_8h.html
 share/doc/libwmf/html/ipa_2eps_2region_8h.html
 share/doc/libwmf/html/ipa_2fig_2region_8h.html
@@ -162,6 +165,7 @@ share/doc/libwmf/html/magick_8c.html
 share/doc/libwmf/html/magick_8h.html
 share/doc/libwmf/html/meta_8c.html
 share/doc/libwmf/html/meta_8h.html
+share/doc/libwmf/html/metadefs_8h.html
 share/doc/libwmf/html/player_2region_8h.html
 share/doc/libwmf/html/player_8c.html
 share/doc/libwmf/html/plot_2bmp_8h.html
@@ -170,6 +174,8 @@ share/doc/libwmf/html/plot_2draw_8h.html
 share/doc/libwmf/html/plot_8c.html
 share/doc/libwmf/html/plot_8h.html
 share/doc/libwmf/html/record_8h.html
+share/doc/libwmf/html/recorder_8c.html
+share/doc/libwmf/html/recorder_8h.html
 share/doc/libwmf/html/src_2font_8h.html
 share/doc/libwmf/html/src_2ipa_2fig_2color_8h.html
 share/doc/libwmf/html/src_2ipa_2fig_2font_8h.html
@@ -180,6 +186,7 @@ share/doc/libwmf/html/src_2ipa_2x_2font_8h.html
 share/doc/libwmf/html/src_2ipa_2xgd_2font_8h.html
 share/doc/libwmf/html/src_2player_2color_8h.html
 share/doc/libwmf/html/stream_8c.html
+share/doc/libwmf/html/structWmfContext.html
 share/doc/libwmf/html/struct__wmfAPI.html
 share/doc/libwmf/html/struct__wmfAPI__Options.html
 share/doc/libwmf/html/struct__wmfAttributeStore.html
@@ -188,7 +195,11 @@ share/doc/libwmf/html/struct__wmfBMP.html
 share/doc/libwmf/html/struct__wmfBMP__Draw__t.html
 share/doc/libwmf/html/struct__wmfBMP__Read__t.html
 share/doc/libwmf/html/struct__wmfBrush.html
+share/doc/libwmf/html/struct__wmfCanvasBrush.html
+share/doc/libwmf/html/struct__wmfCanvasFont.html
+share/doc/libwmf/html/struct__wmfCanvasPen.html
 share/doc/libwmf/html/struct__wmfColorData.html
+share/doc/libwmf/html/struct__wmfConstruct.html
 share/doc/libwmf/html/struct__wmfDC.html
 share/doc/libwmf/html/struct__wmfD__Coord.html
 share/doc/libwmf/html/struct__wmfD__Rect.html
@@ -219,6 +230,7 @@ share/doc/libwmf/html/struct__wmfPolyPoly__t.html
 share/doc/libwmf/html/struct__wmfPolyRectangle__t.html
 share/doc/libwmf/html/struct__wmfRGB.html
 share/doc/libwmf/html/struct__wmfROP__Draw__t.html
+share/doc/libwmf/html/struct__wmfRecordBox.html
 share/doc/libwmf/html/struct__wmfStream.html
 share/doc/libwmf/html/struct__wmfUserData__t.html
 share/doc/libwmf/html/struct__wmfWriteFileInfo.html
@@ -297,5 +309,7 @@ share/libwmf/fonts/s050000l.pfb
 @dirrm share/doc/libwmf/caolan/pics
 @dirrm share/doc/libwmf/caolan
 @dirrm share/doc/libwmf
+@dirrm lib/gtk-2.0/loaders
+@dirrm lib/gtk-2.0
 @dirrm include/libwmf/gd
 @dirrm include/libwmf

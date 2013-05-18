@@ -1,8 +1,9 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.7 2004/02/26 16:40:11 espie Exp $
 
-COMMENT=			WMF handling and conversion library
+COMMENT=	WMF handling and conversion library
 
-DISTNAME=	libwmf-0.2.6
+DISTNAME=	libwmf-0.2.8.4
 CATEGORIES=	graphics devel
 MASTER_SITES=	${MASTER_SITE_SOURCEFORGE:=wvware/}
 
@@ -13,8 +14,9 @@ PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
-LIB_DEPENDS=	xml2::textproc/libxml \
-		jpeg.62::graphics/jpeg
+LIB_DEPENDS+=		xml2::textproc/libxml
+LIB_DEPENDS+=		jpeg::graphics/jpeg
+LIB_DEPENDS+=		gdk_pixbuf-2.0.0.0::x11/gtk+
 MODULES+=		graphics/png
 
 USE_X11=	Yes
