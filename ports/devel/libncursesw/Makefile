@@ -1,4 +1,4 @@
-# $MirOS: ports/devel/libncursesw/Makefile,v 1.4 2006/10/31 04:08:56 tg Exp $
+# $MirOS: ports/devel/libncursesw/Makefile,v 1.5 2007/02/22 22:57:48 tg Exp $
 
 COMMENT=			new curses library (wide character version)
 COMMENT-data=			terminfo database for ncurses (multifile format)
@@ -9,7 +9,8 @@ PKGNAME=			libncursesw-$V-2
 PKGNAME-data=			terminfo-$V-0-wide
 HOMEPAGE=			http://www.gnu.org/software/ncurses/ncurses.html
 RESPONSIBLE=			Thorsten Glaser <tg@mirbsd.de>
-MASTER_SITES=			ftp://invisible-island.net/ncurses/
+MASTER_SITES=			ftp://invisible-island.net/ncurses/ \
+				http://ftp.gnu.org/pub/gnu/ncurses/
 
 # X11-style
 PERMIT_DISTFILES_CDROM=		Yes
