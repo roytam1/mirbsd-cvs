@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.256 2009/08/16 17:20:53 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.257 2009/08/16 17:25:49 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -1348,11 +1348,11 @@ MAKE_ENV+=		CPPFLAGS=${CPPFLAGS:Q}
 
 MODBMAKE_configure=	cd ${WRKBUILD} && \
 			    exec ${_SYSTRACE_CMD} ${SETENV} ${MAKE_ENV} \
-			    ${MAKE_PROGRAM} ${MAKE_FLAGS} -f ${MAKE_FILE} obj
+			    ${MAKE_PROGRAM} ${MAKE_FLAGS} -f ${MAKE_FILE:Q} obj
 
 MODBMAKE_pre_build=	cd ${WRKBUILD} && \
 			    exec ${_SYSTRACE_CMD} ${SETENV} ${MAKE_ENV} \
-			    ${MAKE_PROGRAM} ${MAKE_FLAGS} -f ${MAKE_FILE} depend
+			    ${MAKE_PROGRAM} ${MAKE_FLAGS} -f ${MAKE_FILE:Q} depend
 
 MODSIMPLE_configure=	cd ${WRKCONF} && \
 			    ${_SYSTRACE_CMD} ${SETENV} \
@@ -2309,7 +2309,7 @@ ${_BUILD_COOKIE}: ${_CONFIGURE_COOKIE}
 .  else
 # What BUILD normally does:
 	@cd ${WRKBUILD} && exec ${_SYSTRACE_CMD} ${SETENV} ${MAKE_ENV} \
-	    ${MAKE_PROGRAM} ${MAKE_FLAGS} -f ${MAKE_FILE} ${ALL_TARGET}
+	    ${MAKE_PROGRAM} ${MAKE_FLAGS} -f ${MAKE_FILE:Q} ${ALL_TARGET}
 # End of BUILD
 .  endif
 .  if target(post-build)
@@ -2329,7 +2329,7 @@ ${_REGRESS_COOKIE}: ${_BUILD_COOKIE}
 .  else
 # What REGRESS normally does:
 	@cd ${WRKBUILD} && exec ${SETENV} ${MAKE_ENV} ${REGRESS_ENV} \
-	    ${MAKE_PROGRAM} ${REGRESS_FLAGS} -f ${MAKE_FILE} ${REGRESS_TARGET}
+	    ${MAKE_PROGRAM} ${REGRESS_FLAGS} -f ${MAKE_FILE:Q} ${REGRESS_TARGET}
 # End of REGRESS
 .  endif
 .  if target(post-regress)
@@ -2379,7 +2379,7 @@ ${_FAKE_COOKIE}: ${_BUILD_COOKIE} ${WRKPKG}/mtree.spec
 # What FAKE normally does:
 	@cd ${WRKBUILD} && exec ${SUDO} ${_SYSTRACE_CMD} \
 	    ${SETENV} ${MAKE_ENV} ${_FAKE_SETUP} \
-	    ${MAKE_PROGRAM} ${FAKE_FLAGS} -f ${MAKE_FILE} ${FAKE_TARGET}
+	    ${MAKE_PROGRAM} ${FAKE_FLAGS} -f ${MAKE_FILE:Q} ${FAKE_TARGET}
 # End of FAKE.
 .  endif
 .  for _m in ${MODULES}
