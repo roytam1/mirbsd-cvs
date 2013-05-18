@@ -538,3 +538,32 @@ Date: 20.04.2008 03:52
 <p>Oh, and the charsets of the mails are b0rken. (WTF windows-1252 when I
  send UTF-8?) See all the ugly details here (XXX insert link).</p>
 ----
+Date: 20.04.2008 21:42
+Author: tg@
+Subject: more rants
+
+<p>I already ranted about pcc… well, I got a reply to my <em>first</em> mail
+ to the pcc list (where the second one cleared up the five things mentioned
+ in the previous posting), a sort of still friendly one-liner, to which I
+ replied with that he should probably read my other mail, to which I only
+ got an unfriendly comment that “you are wrong”. Hah! (Well, I got my “pcc
+ -E” fixed.)</p>
+<p>I guess I just cannot recommend to use pcc, and will have to maintain my
+ own set of patches. Trying to get them upstream shipwrecks on a barrier of
+ incompetence, regarding not only autotools but also how a compiler (cc(1)
+ standard interface) must work: at first, on -O (or -O*), pcc did simply an
+ <tt>Oflag++;</tt> which I mentioned as wrong (adding a fix)… but <a
+ href="http://marc.info/?m=120866404218935">look for yourself</a>. Oh, and
+ they reply using weird – OpenBSD (latin1) or Windows (cp1252) – encodings
+ on mails properly sent using Unicode (UTF-8), as is the default in sane
+ operating systems like MirOS and <a href="http://9fans.net/">Plan 9</a>.
+ Incompetence whereever you look. This matches the interesting UCB hack in
+ mv(1) I recently found… or OpenBSD’s inability to port GNU tools.</p>
+<p>Also, I suppose my ISP/Telco is going to get some angered tg@ tomorrow.
+ The <a href="http://www.pool.ntp.org/scores/87.79.237.121">NTP Pool</a>
+ scores show that I’m suffering from <em>a lot</em> of network hiccups.
+ This LCP fluctuation kind of sucks, as does the current transfer rate.
+ Just the latency is still surplus, 11.2ms to heise.de (suckers as well,
+ but for totally different reasons) and 18.3ms to google.com (also suckers,
+ for a couple of yet another reasons I think I already elaborated).</p>
+----
