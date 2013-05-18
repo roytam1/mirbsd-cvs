@@ -1,3 +1,0 @@
-@comment $MirOS$
-lib/php/modules/fam.so
-@dirrm lib/php/modules
