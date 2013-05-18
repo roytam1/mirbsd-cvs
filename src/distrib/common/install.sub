@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/install.sub,v 1.14 2007/05/24 08:09:36 tg Exp $
+# $MirOS: src/distrib/common/install.sub,v 1.15 2007/05/24 23:04:05 tg Exp $
 # $OpenBSD: install.sub,v 1.388 2005/07/02 00:55:48 uwe Exp $
 # $NetBSD: install.sub,v 1.5.2.8 1996/09/02 23:25:02 pk Exp $
 #
@@ -1704,10 +1704,10 @@ SERIALDEV=$(get_serialdev)
 THESETS="bsd bsd.rd $MDSETS"
 DEFAULTSETS="bsd"
 for _set in base etc gnu dev ada xbase xetc unfree pkgutl ports source \
-    xfree site; do
+    xfree pkgsrc site; do
 	[[ $MODE == upgrade && $_set == ?(x)etc ]] && continue
 	THESETS="$THESETS ${_set}${VERSION}.ngz"
-	isin $_set ada xbase xetc unfree pkgutl ports source xfree site || \
+	isin $_set base etc gnu dev && \
 	    DEFAULTSETS="$DEFAULTSETS ${_set}${VERSION}.ngz"
 done
 # Since etc${VERSION}.ngz is not in DEFAULTSETS for upgrades, it can always be
