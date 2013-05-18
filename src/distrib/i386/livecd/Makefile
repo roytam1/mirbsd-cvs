@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/i386/livecd/Makefile,v 1.22 2006/04/07 23:30:09 tg Exp $
+# $MirOS: src/distrib/i386/livecd/Makefile,v 1.23 2006/04/07 23:38:14 tg Exp $
 
 .include <bsd.own.mk>
 
@@ -13,11 +13,16 @@ it: ${CDROM}
 ${CDROM}: unpack gendev addcontrib prepimg nukefiles makeimg
 
 unpack:
-	mkdir -p workdir
+	mkdir -p workdir/v8
 #.for _i in base dev etc gnu xbase xetc
 .for _i in base dev etc gnu
 	cd workdir && ${SUDO} tar xzphf ${BSDRELDIR}/rel/${_i}${OSrev}.ngz
 .endfor
+	cd workdir/v8 && ln -s ${BSDRELDIR}/rel i386
+	cd workdir/etc; \
+	    for a in ${.CURDIR}/../iso/boot.cfg ${.CURDIR}/boot.*; do \
+		${SUDO} ln -fs $$a; \
+	done
 
 gendev: mr.fs
 
@@ -70,11 +75,11 @@ nukefiles:
 
 makeimg: bsd.gz
 	${SUDO} dd if=bsd.gz obs=2048 conv=osync of=workdir/bsd
-	${SUDO} dd if=workdir/usr/mdec/boot obs=2048 conv=osync \
-	    of=workdir/etc/boot.x86
+	${SUDO} dd if=${BSDOBJDIR}/sys/arch/i386/stand/liveboot/boot \
+	    obs=2048 conv=osync of=workdir/etc/boot.x86
 	-rm -f ${CDROM}
 	touch ${CDROM}
-	${SUDO} mkisofs -R -T -L -d -D -N -v -v \
+	${SUDO} mkisofs -R -T -L -d -D -N -v -v -f \
 	    -b etc/boot.x86 -c etc/boot.cat -p "Thorsten Glaser" \
 	    -P "The http://MirBSD.org/ team and its contributors" \
 	    -V "MirOS #${OSrev} BSD/${MACHINE} Live CD" \
@@ -93,12 +98,19 @@ unconfig:
 	-${SUDO} umount -f /dev/svnd0a
 	-${SUDO} vnconfig -u svnd0
 
-.PHONY: addcontrib gendev it makeimg nukefiles prepimg unconfig unpack
+.PHONY:	addcontrib clean cleandir cleannobsd gendev it makeimg \
+	nukefiles prepimg tstmnt tstumnt unconfig unpack
 
 clean cleandir cleannobsd:
 	-rm -f ${CDROM} bsd{,.gz} mkisofs.log mr.fs rdsetroot
 	-rm -rf tempdir tmpmnt
 	-${SUDO} rm -rf workdir
+
+tstmnt:
+	${SUDO} vnconfig svnd0 ${CDROM}
+	${SUDO} mount_cd9660 /dev/svnd0a tmpmnt
+
+tstumnt: unconfig
 
 .include <bsd.obj.mk>
 .include <bsd.subdir.mk>

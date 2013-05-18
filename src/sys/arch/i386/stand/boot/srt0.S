@@ -1,4 +1,4 @@
-/* $MirOS: src/share/misc/licence.template,v 1.6 2006/01/24 22:24:02 tg Rel $ */
+/* $MirOS: src/sys/arch/i386/stand/boot/srt0.S,v 1.4 2006/04/05 22:12:17 tg Exp $ */
 
 /*-
  * Copyright (c) 2003, 2004, 2005, 2006
@@ -421,6 +421,11 @@ LpreFD:	/* prepare booting */
 	xor	eax,eax
 	call	Lhook
 	push	eax
+#if 1
+	add	ax,0x4030
+		gs mov [(0x0C86)], ax; \
+		push ax; xor ax,ax; int 0x16; pop ax
+#endif
 #endif
 	UD(14)			/** N: preparing 32-bit */
 	xor	edx,edx
@@ -509,10 +514,10 @@ Lpmode:	mov	eax,0x10
 	mov	ds,ax
 	mov	fs,ax
 	mov	gs,ax
+	push	edx
 #ifdef BOOTSELECT_HOOK
 	push	esi
 #endif
-	push	edx
 	UD32(15)		/** O: 32-bit reached */
 	call	_ASM_LABEL(pmm_init)
 	UD32(16)		/** P: PMM initialised */
@@ -528,16 +533,22 @@ Lpmode:	mov	eax,0x10
 	pop	ecx
 	and	ecx,0x00000003
 	rep	stosb
+#ifdef BOOTSELECT_HOOK
+	/* store saved hook value */
+	pop	ecx
+	mov	[_C_LABEL(hook_value)],ecx
+#if 1
+	mov ebx,(0xB8C88); \
+	add	cx,0x4030
+		mov word ptr [ebx],cx
+#endif
+#endif
 	/* store saved BIOS boot device */
 	pop	edx
 	mov	[_C_LABEL(userpt)],dh
 	mov	dh,0
 	push	edx
 	mov	[_C_LABEL(bios_bootdev)],edx
-#ifdef BOOTSELECT_HOOK
-	pop	ecx
-	mov	[_C_LABEL(hook_value)],ecx
-#endif
 	UD32(17)		/** Q: jump into C code */
 	/* jump into boot loader C code */
 	call	_C_LABEL(boot)
