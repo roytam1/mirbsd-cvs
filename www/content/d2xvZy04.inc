@@ -1,5 +1,5 @@
 <!-- PageID: wlog-8 -->
-<small class="rcsid">$MirOS: www/content/d2xvZy04.inc,v 1.56 2006/03/29 21:50:52 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy04.inc,v 1.57 2006/03/30 02:29:25 tg Exp $</small>
 <h1>MirBSD &ndash; WTF, We Have a Release!?</h1>
 <p><small><a href="#eof">bottom</a> or <a href="/?older">older</a>
  editions</small></p>
@@ -935,6 +935,35 @@ celebrate this event, rotate the wlog and start a new one.</p>
   tld1 answering, host doesn't, he can't ping www.mirbsd.org. But I just
   got an eMail from someone using www.mirbsd.org so I guess something is
   just really FUBAR or wrong here.</p>
+</div>
+
+<div class="wlentry">
+ <h3 id="e20060330">30.03.2006 by tg@</h3>
+ <p>Today, it's porting kencc and fixing gcc. Duh.</p>
+ <p>All I wish for now are proper COFF support in the kernel and support
+  for the *.8 object format (intermediate) in libbfd; some startup files
+  to make 8l output work and maybe we can use our libc if converted from
+  ar(1) to iar format. Later, we can add ELF to 8l.</p>
+ <p>Funny people on IRC. No, really. Why should Unicode die?</p>
+ <p style="margin-bottom:0px;">On ICB, Theo's been an arsehole again</p>
+ <div style="border:4px ridge blue; margin:0px 24px 0px 24px; padding:12px;">
+  <pre>
+	/group hackers
+	[=Status=] You are now in group hackers
+	some interesting facts about the Plan 9 compiler:
+	&lt;*deraadt*&gt; who are you?
+	&lt;*deraadt*&gt; developers only.
+	it's now part of "Inferno" and thus under MIT licence
+	I'm that MirBSD guy
+	just trying to port it in order to look if it can be used to compile at least simple programmes
+	&lt;deraadt&gt; So please fuck off.
+	okay, I just wanted to be nice and tell you
+	/quit
+  </pre>
+ </div><p style="margin-top:0px;">... what do I do? Nothing.</p>
+ <p>The only positive thing is that, despite the rain, it's been a nice,
+  quite interesting, day in various regards. Too bad I'm still awake and
+  probably won't make it in time tomorrow either...</p>
 </div>
 
 <p id="eof">Good luck, have fun, take care etc.pp</p>
