@@ -356,7 +356,7 @@ parse_args(const char **argv,
 				break;
 			}
 			i = option(go.optarg);
-#ifndef MKSH_NO_DEPRECATED_WARNING
+#if !defined(MKSH_NO_DEPRECATED_WARNING) && !defined(MKSH_DISABLE_DEPRECATED)
 			if ((enum sh_flag)i == FARC4RANDOM) {
 				warningf(true, "Do not use set ±o arc4random,"
 				    " it will be removed in the next version"
