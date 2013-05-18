@@ -1,6 +1,6 @@
 # $MirOS: src/distrib/common/Makefile.i386,v 1.6 2009/08/15 18:26:26 tg Exp $
 
-BOOT=		${BSDOBJDIR}/sys/arch/i386/stand/fdboot/boot
+BOOT=		${DESTDIR}/usr/mdec/boot.fd
 IMAGESIZE=	2816
 
 .if defined(SERIALSPEED)

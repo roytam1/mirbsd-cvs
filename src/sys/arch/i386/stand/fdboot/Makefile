@@ -1,12 +1,14 @@
-# $MirOS: src/sys/arch/i386/stand/fdboot/Makefile,v 1.11 2009/01/10 22:18:52 tg Exp $
+# $MirOS: src/sys/arch/i386/stand/fdboot/Makefile,v 1.12 2009/02/01 16:16:31 tg Exp $
 
 #BOOTSELECT_HOOK=yes
 BOOTLDR_PATH=	${.CURDIR}/../boot
 NOMAN=		yes
 SMALL_BOOT=	Yes
 
-# This doesn't get installed
-install:
+# This gets installed under a different name
+realinstall:
+	${INSTALL} ${INSTALL_COPY} ${INSTALL_STRIP} -o ${BINOWN} -g ${BINGRP} \
+	    -m ${BINMODE} ${PROG} ${DESTDIR}${BINDIR}/boot.fd
 
 .PATH: ${BOOTLDR_PATH}
 .include "${BOOTLDR_PATH}/Makefile"
