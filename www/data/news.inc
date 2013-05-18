@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/news.inc,v 1.104 2009/02/13 21:15:47 tg Exp $
+RCSID: $MirOS: www/data/news.inc,v 1.105 2009/03/29 11:42:49 tg Exp $
 Title: Older news from the MirOS Project
 Date: 01.03.2006
 
@@ -1470,4 +1470,21 @@ Title: [current] /usr/dbin and /usr/dsbin removed
  them, your user shell will be <tt>/usr/dbin/mksh</tt>, and the likes. So
  be careful wrt that directory. – A fresh MirOS installation however will
  no longer contain it.</p>
+----
+Author: tg@
+Date: 29.03.2009 14:59
+Title: mksh – MidnightBSD Korn Shell
+Tag: mksh
+
+<p><a href="@@RELPATH@@mksh.htm">mksh</a>, the MirBSD™ Korn Shell, is not
+ only the <a href="http://www.midnightbsd.org/">MidnightBSD</a> /bin/ksh,
+ it is now their default <tt>/bin/sh</tt> as well! See the <a
+ href="http://www.midnightbsd.org/pipermail/midnightbsd-cvs/2009-March/008099.html">commit
+ message</a> for details.</p>
+<p>laffer1@mnbsd and tg@mbsd worked together to create compatibility code
+ for the FreeBSD® ash extensions; the version R37 of mksh(1) used already
+ has been proven as <tt>/bin/sh</tt> in MirBSD and FreeWRT for some time,
+ and Debian as well, which provided valuable corner case tests leading to
+ eventual bugfixes.</p>
+<p>We can only suggest others follow ☺ Apple, pkgsrc®, where are you?</p>
 ----

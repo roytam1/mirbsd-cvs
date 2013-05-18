@@ -2,7 +2,7 @@
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.212 2009/03/24 18:34:36 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.213 2009/03/26 11:26:15 tg Exp $'
 mws_content <<'EOF'
 <h1>mksh(1) R36b</h1>
 <p>This is the website of the MirBSD™ Korn Shell, an actively developed free
@@ -451,8 +451,9 @@ mws_content <<'EOF'
 <p>Support for IRIX64 6.5 appeared in mksh R33b.</p>
 
 <h5 id="oe_mnbsd">OS: MidnightBSD</h5>
-<p>mksh is part of MidnightBSD 0.3 and above and used as native /bin/ksh;
- it almost certainly can be used as /bin/sh as well.</p>
+<p>mksh is part of MidnightBSD 0.2-CURRENT and above and used as native
+ /bin/ksh; it almost certainly can be used as /bin/sh as well.</p>
+<p>MidnightBSD 0.3 uses mksh as <tt>/bin/sh</tt> indeed.</p>
 
 <h5 id="oe_minix">OS: Minix</h5>
 <p>Minix 3 is not supported yet – we were able to create an executable, but
@@ -686,8 +687,8 @@ mws_content <<'EOF'
  MidnightBSD 0.2-CURRENT from 18th August 2007 onwards has mksh as both <a
  href="http://cvsweb.midnightbsd.org/src/contrib/mksh/"><tt>/bin/mksh</tt></a>
  and <a href="http://cvsweb.midnightbsd.org/src/bin/mksh/"><tt>/bin/ksh</tt></a>,
- i.e. it is the default MidnightBSD Korn shell. Plans are to make it
- the default shell as well, according to the founder, laffer1.</li>
+ i.e. it is the default MidnightBSD Korn shell. From 29 March 2009 onwards, it
+ is also the default <tt>/bin/sh</tt> (since MidnightBSD 0.3).</li>
 <li><a href="http://www.pkgsrc.org/">NetBSD® pkgsrc®</a> (native also on recent
  DragonFly BSD; available for many other operating systems as well) has a <a
  href="http://cvsweb.netbsd.org/bsdweb.cgi/pkgsrc/shells/mksh/">package</a>
@@ -1104,6 +1105,7 @@ mws_content <<'EOF'
   here: <tt>[ x -eq y]</tt>; for gps23 from <tt>#ksh</tt></li>
  <li>[tg] Reduce memory consumption by allocator simplification</li>
  <li>[tg] Fix bugs spotted by DEC ucode cc (ULTRIX) and gcc 1.42 (BSD/OS)</li>
+ <li>[laffer1] Make mksh the default <tt>/bin/sh</tt> in MidnightBSD</li>
 </ul>
 <p id="r36b">mksh R36b is a compatible, major bug-fix update:</p><ul>
  <li>[tg] Add check for naming the output file “scn” instead of “a.out” or
