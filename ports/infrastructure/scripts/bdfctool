@@ -373,6 +373,7 @@ function parse_bdf {
 			;;
 		}
 	done
+	set -A f -- $line
 	numchar=${f[1]}
 	set -A cc
 	set -A cn
