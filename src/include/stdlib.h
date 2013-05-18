@@ -1,4 +1,4 @@
-/**	$MirOS: src/include/stdlib.h,v 1.23 2010/01/16 20:29:40 tg Exp $ */
+/**	$MirOS: src/include/stdlib.h,v 1.24 2010/09/12 17:10:38 tg Exp $ */
 /*	$OpenBSD: stdlib.h,v 1.34 2005/05/27 17:45:56 millert Exp $	*/
 /*	$NetBSD: stdlib.h,v 1.25 1995/12/27 21:19:08 jtc Exp $	*/
 
@@ -40,6 +40,7 @@
 
 #if !defined(_ANSI_SOURCE)	/* for quad_t, etc. */
 #include <sys/types.h>
+#include <sys/wait.h>
 #endif
 
 #if !defined(_GCC_SIZE_T)
