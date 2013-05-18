@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.209 2009/07/08 15:55:14 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.210 2009/07/08 16:01:09 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -4269,7 +4269,7 @@ Tag: event
  with homophones, by the way?), comrad's pictures:<br /><a
  href="@@RELPATH@@pics/LinuxTag_2009/booth.jpg"><img
  alt="The BSD booth setting (overview picture; mira says hello"
- src="@@RELPATH@@pics/LinuxTag_2009/booth_s.jpg" /></a><br /><a
+ src="@@RELPATH@@pics/LinuxTag_2009/booth_s.jpg" /></a> <a
  href="@@RELPATH@@pics/LinuxTag_2009/merchandise.jpg"><img
  alt="MirOS merchandise, grml and fun buttons, etc."
  src="@@RELPATH@@pics/LinuxTag_2009/merchandise_s.jpg" /></a></p>
