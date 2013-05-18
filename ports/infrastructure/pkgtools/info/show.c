@@ -1,4 +1,4 @@
-/* $MirOS: ports/infrastructure/pkgtools/info/show.c,v 1.6 2007/07/08 02:00:45 tg Exp $ */
+/* $MirOS: ports/infrastructure/pkgtools/info/show.c,v 1.7 2009/10/20 19:32:49 bsiegert Exp $ */
 /* $OpenBSD: show.c,v 1.13 2003/08/21 20:24:56 espie Exp $ */
 
 /*
@@ -25,7 +25,7 @@
 #include "lib.h"
 #include "info.h"
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/info/show.c,v 1.6 2007/07/08 02:00:45 tg Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/info/show.c,v 1.7 2009/10/20 19:32:49 bsiegert Exp $");
 
 /* structure to define entries for the "show table" */
 typedef struct show_t {
@@ -58,6 +58,8 @@ static show_t	showv[] = {
 	{	PLIST_EXTRAUNEXEC,
 				"@extraunexec %s",
 						"\tExtra UNEXEC: %s" },
+	{	PLIST_NEWDEP,	"@newdep %s",	"\tNew package dependency: %s" },
+	{	PLIST_LIBDEP,	"@libdep %s",	"\tLibrary dependency: %s" },
 	{	PLIST_SAMPLE,	"@sample %s",	"\tInstall configuration file: %s" },
 	{	PLIST_LIB,	"@lib %s",	"\tShared library: %s" },
 	{	PLIST_SHELL,	"@shell %s",	"\tShell: %s" },
@@ -164,6 +166,8 @@ show_plist(const char *title, package_t *plist, pl_ent_t type)
 		case PLIST_PKGCFL:
 		case PLIST_EXTRA:
 		case PLIST_EXTRAUNEXEC:
+		case PLIST_NEWDEP:
+		case PLIST_LIBDEP:
 		case PLIST_SAMPLE:
 		case PLIST_ARCH:
 		case PLIST_LIB:
