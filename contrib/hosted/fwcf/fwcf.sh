@@ -1,5 +1,5 @@
 #!/bin/sh
-# $MirOS: contrib/hosted/fwcf/fwcf.sh,v 1.22 2007/02/28 23:17:34 tg Exp $
+# $MirOS: contrib/hosted/fwcf/fwcf.sh,v 1.23 2007/03/02 05:31:34 tg Exp $
 #-
 # Copyright (c) 2006, 2007
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -34,6 +34,8 @@
 # 8 - fwcf status: differences found
 # 9 - fwcf status: old status file not found
 # 10 - fwcf dump: failed
+# 11 - fwcf commit: fwcf setup not yet run (use -f to force)
+# 11 - fwcf status: fwcf setup not yet run
 # 255 - fwcf erase: failed
 # 255 - internal error
 
@@ -143,6 +145,13 @@ fi
 
 if test $1 = commit; then
 	umount /tmp/.fwcf/temp >/dev/null 2>&1
+	if test ! -e /tmp/.fwcf; then
+		cat >&2 <<-EOF
+			fwcf: error: not yet initialised
+			explanation: "fwcf setup" was not yet run
+		EOF
+		test x"$1" = x"-f" || exit 11
+	fi
 	if test -e /etc/.fwcf_unclean; then
 		cat >&2 <<-EOF
 			fwcf: error: unclean startup (or setup run with -N)!
@@ -181,6 +190,13 @@ if test $1 = commit; then
 fi
 
 if test $1 = status; then
+	if test ! -e /tmp/.fwcf; then
+		cat >&2 <<-EOF
+			fwcf: error: not yet initialised
+			explanation: "fwcf setup" was not yet run
+		EOF
+		test x"$1" = x"-f" || exit 11
+	fi
 	rm -f /tmp/.fwcf/*_status /tmp/.fwcf/*_files
 	rflag=0
 	q=printf	# or : (true) if -q
@@ -255,6 +271,12 @@ if test $1 = dump; then
 fi
 
 if test $1 = restore; then
+	if test -e /tmp/.fwcf; then
+		echo 'fwcf: warning: "fwcf setup" already run!' >&2
+		echo 'please reboot after restoring; in no event' >&2
+		echo 'run "fwcf commit" to prevent data loss' >&2
+		echo -n >/etc/.fwcf_unclean
+	fi
 	fn=$2
 	test -n "$fn" || fn=-
 	if ! ( fwcf.helper -MD $fn | mtd -F write - fwcf ); then
