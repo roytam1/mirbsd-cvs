@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.105 2008/03/14 14:28:19 tg Exp $
+# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.106 2008/03/14 14:37:38 tg Exp $
 #-
 # Copyright (c) 2006, 2008
 #	Thorsten “mirabilos” Glaser <tg@mirbsd.de>
@@ -521,6 +521,34 @@ if [[ -s $d_build/libmirmake/libmirmake.a ]]; then
 \$i -c \$ug -m 600 $d_build/libmirmake/libmirmake.a \$DESTDIR${dt_mk}/
 ranlib \$DESTDIR${dt_mk}/libmirmake.a
 chmod 444 \$DESTDIR${dt_mk}/libmirmake.a
+EOF
+fi
+
+# build lndir
+rm -rf $d_build/lndir
+cd $d_src/usr.bin; find lndir | cpio -pdlu $d_build
+cd $d_build/lndir
+CPPFLAGS="$CPPFLAGS -I$d_src/include" \
+    ${d_build}/bmake -m ${d_build}/mk NOMAN=yes NOOBJ=yes || exit 1
+cd $top
+cat >>Install.sh <<EOF
+\$i -c -s \$ug -m 555 ${d_build}/lndir/lndir \$DESTDIR${dt_bin}/
+EOF
+if [[ $is_catman = 1 ]]; then
+	cd $d_build/lndir
+	if ! $NROFF -mandoc lndir.1 >lndir.cat1; then
+		echo "Warning: manpage build failure." >&2
+		is_catman=0
+	fi
+	cd $top
+fi
+if [[ $is_catman = 0 ]]; then
+	cat >>Install.sh <<EOF
+\$i -c \$ug -m 444 ${d_build}/lndir/lndir.1 \$DESTDIR${dt_man}/lndir.1
+EOF
+else
+	cat >>Install.sh <<EOF
+\$i -c \$ug -m 444 ${d_build}/lndir/lndir.cat1 \$DESTDIR${dt_man}/lndir.0
 EOF
 fi
 
