@@ -1,4 +1,4 @@
-# $MirOS: src/sys/arch/sparc/conf/FLOPPY,v 1.3 2008/07/12 23:01:06 tg Exp $
+# $MirOS: src/sys/arch/sparc/conf/FLOPPY,v 1.4 2008/07/13 20:06:14 tg Exp $
 # $miros: src/sys/arch/sparc/conf/GENERIC,v 1.18 2007/08/25 15:46:16 tg Exp $
 
 machine		sparc			# arch, used by config; REQUIRED
@@ -26,7 +26,7 @@ option		NO_PROPOLICE		# remove stack protector
 option		BOOT_CONFIG		# add support for boot -c
 option		TIMEZONE=0		# time zone to adjust RTC time by
 option		DST=0			# daylight saving time used by RTC
-option		MINIROOTSIZE=3264	# size of ramdisk array
+option		MINIROOTSIZE=3328	# size of ramdisk array
 option		RAMDISK_HOOKS		# allow using initrd
 
 #option		CRYPTO			# Cryptographic framework
