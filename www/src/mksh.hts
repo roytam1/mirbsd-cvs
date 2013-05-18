@@ -1,11 +1,11 @@
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.99 2008/03/27 23:43:41 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.100 2008/03/28 22:03:16 tg Exp $'
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_content <<'EOF'
-<h1>mksh(1) R33b</h1>
+<h1>mksh(1) R33c</h1>
 <p>This is the website of the MirBSD™ Korn Shell, an actively developed free
  implementation of the Korn Shell programming language and a successor to the
  Public Domain Korn Shell (pdksh).</p>
@@ -31,8 +31,8 @@ mws_content <<'EOF'
 </ul>
 
 <h2 id="prefetch">Introduction</h2>
-<p>The current version of mksh is <strong>mksh R33b</strong> from
- <em>28 March 2008</em>.</p>
+<p>The current version of mksh is <strong>mksh R33c</strong> from
+ <em>2 April 2008</em>.</p>
 <p>Thanks to “Der Verein <a href="http://www.trash.net/verein/">trash.net</a>”
  for sponsoring access to a Solaris 8 box. Thanks to HP TestDrive, which helps
  in keeping mksh portable to several Unixes and compilers, and track down some
@@ -145,14 +145,14 @@ mws_content <<'EOF'
  extract from the CPIO distfile and is available even on a stock Microsoft®
  Windows® installation.</p>
 <h3 id="mirrors">Known Mirrors</h3><ul>
- <li><a href="http://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R33b.cpio.gz">http://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R33b.cpio.gz</a></li>
- <li><a href="http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R33b.cpio.gz">http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R33b.cpio.gz</a></li>
+ <li><a href="http://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R33c.cpio.gz">http://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R33c.cpio.gz</a></li>
+ <li><a href="http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R33c.cpio.gz">http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R33c.cpio.gz</a></li>
 </ul>
 <h3 id="hashes">Checksums and Hashes</h3><ul>
- <li>RMD160 (mksh-R33b.cpio.gz) = f4beb8ea2419d1e64dd266db72f4bee103009030</li>
- <li>TIGER (mksh-R33b.cpio.gz) = c85fed10bbaa65f4c4468b741a6591f3e2e9361747973996</li>
- <li>3810798626 255256 /MirOS/dist/mir/mksh/mksh-R33b.cpio.gz</li>
- <li>MD5 (mksh-R33b.cpio.gz) = 4a882352ba709130020d940bfaba25ed</li>
+ <li>RMD160 (mksh-R33c.cpio.gz) = b6f2c1abb5ee4e8bd68a737cc44d2efeb7c59325</li>
+ <li>TIGER (mksh-R33c.cpio.gz) = 58d7b5ea8c543ed996ed98e452fe77c116dfa0a11f4768f2</li>
+ <li>148695879 255853 /MirOS/dist/mir/mksh/mksh-R33c.cpio.gz</li>
+ <li>MD5 (mksh-R33c.cpio.gz) = f6c9a62aec8ad195f3db73a2ed2665e2</li>
  <li style="list-style:none;">All official distfiles are gzsig(1)d.</li>
 </ul>
 
@@ -165,11 +165,11 @@ mws_content <<'EOF'
 <p>The first example is using BSD paxtar (MirOS BSD, OpenBSD, NetBSD®), or
  “bsdtar” (DragonFly); the second and third use cpio(1) or pax(1) and are
  for most operating systems; the fourth is for Debian.</p><ul>
-<li>$ tar xzf mksh-R33b.cpio.gz &amp;&amp; cd mksh</li>
-<li>$ gzip -dc mksh-R33b.cpio.gz | cpio -mid &amp;&amp; cd mksh</li>
-<li>$ gzip -dc mksh-R33b.cpio.gz | pax -r &amp;&amp; cd mksh</li>
+<li>$ tar xzf mksh-R33c.cpio.gz &amp;&amp; cd mksh</li>
+<li>$ gzip -dc mksh-R33c.cpio.gz | cpio -mid &amp;&amp; cd mksh</li>
+<li>$ gzip -dc mksh-R33c.cpio.gz | pax -r &amp;&amp; cd mksh</li>
 <li style="list-style:none;">and, in exceptional cases</li>
-<li>$ tar xzf mksh_33.2.orig.tar.gz &amp;&amp; cd mksh-33.2</li>
+<li>$ tar xzf mksh_33.3.orig.tar.gz &amp;&amp; cd mksh-33.3</li>
 </ul>
 
 <h3 id="compile">Compilation</h3>
@@ -240,20 +240,29 @@ mws_content <<'EOF'
 <p>This compiler is somewhat supported in mksh R30 with UWIN’s cc wrapper.
  (We haven’t been able to produce a working executable though.)</p>
 
+<h5 id="oe_decc">Compiler: DEC/Compaq/HP C for OSF/1 and Tru64</h5>
+<p>This compiler is fully supported with mksh R33b (partial support did
+ appear earlier).</p>
+
 <h5 id="oe_dmc">Compiler: Digital Mars</h5>
 <p>This compiler is somewhat supported in mksh R30 with UWIN’s cc wrapper
  and a few kludges. (We haven’t been able to produce a tested executable
  though, due to general stability issues with the UWIN platform.)</p>
 
 <h5 id="oe_gcc">Compiler: GCC</h5>
-<p>The GNU C Compiler 2.7.2.3, egcs (gcc 2.95) and the GNU Compiler Collection
- (gcc 3.x, 4.x) are known to work, but not all versions work on all targets.
+<p>The GNU C Compiler 1.42, 2.7.2.1, 2.7.2.3, egcs (gcc 2.95) and the GNU
+ Compiler Collection (gcc 3.x, 4.x) are known to work, but not all versions
+ work on all targets.
  Specific C flags, known extensions, etc. are autoprobed; cross-compilation
  works fine. Use of gcc 4.x is discouraged because of several dangerous changes
  in how the optimiser works; it is possible to work around their trading off
  reliability for benchmark-only speed increases, but because mksh developers
  do not use gcc 4.x this will have to be user-contributed. On the other hand,
  gcc 3.x (in some cases 2.x) is the best choice for compiling mksh.</p>
+<p>On BSDi BSD/OS, where gcc 1.42 and gcc 2.7.2.1 are available, the cc(1)
+ manual page mentions that gcc 1.42 produces more reliable code, so we
+ recommend to build mksh with <tt>CC=cc</tt> (gcc1) instead of <tt>CC=gcc</tt>
+ or <tt>CC=gcc2</tt> there instead.</p>
 <p>Since mksh uses ProPolice, the Stack-Smashing Protector, some GCC versions’
  compilates require additional shared libaraies.</p>
 <p>For gcc 2.x which does not grok <tt>-std=<i>foo</i></tt>, set the variables
@@ -265,7 +274,7 @@ mws_content <<'EOF'
  (or rather, the system libraries do, I think), so it is default. PA-RISC too
  works fine, so this compiler is a primary choice.</p>
 
-<h5 id="oe_xlc">Compiler: IBM XL C/C++</h5>
+<h5 id="oe_xlc">Compiler: IBM XL C/C++ / VisualAge</h5>
 <p>IBM xlC 9.0 on AIX is supported in mksh R30 and above.</p>
 <p>IBM xlC 8.0 on Linux/POWER and IBM xlC 6.0β on MacOS X are on the TODO.</p>
 
@@ -294,6 +303,9 @@ mws_content <<'EOF'
  for them, they used to be off by default) and remove <tt>/Ze</tt>.</p>
 <p>On Interix, this compiler is maturely usable and a good choice.</p>
 
+<h5 id="oe_mpp">Compiler: MIPSpro</h5>
+<p>Support for SGI’s MIPSpro compiler on IRIX appeared in mksh R33b.</p>
+
 <h5 id="oe_pcc">Compiler: PCC (BSD)</h5>
 <p>Support for the Caldera/SCO UNIX® based, BSD-licenced portable C compiler
  in the <a href="http://pcc.ludd.ltu.se/">ragge version</a> 0.9.8
@@ -319,10 +331,25 @@ mws_content <<'EOF'
  uses the ‘system’ profile for compiling by default. Users who wish to
  build mksh with a different profile are welcome to help to port it.</p>
 
+<h5 id="oe_muc">Compiler: DEC ucode (MIPS CC)</h5>
+<p>Since mksh R33c, ucode on Ultrix is fully supported. OSF/1 2.0’s
+ ucode version cannot be supported as of now, as we don’t know how to
+ determine linkage failures: the compiler returns errorlevel zero, an
+ a.out file is generated and has executable permissions.</p>
+
 <h5 id="oe_aix">OS: AIX</h5>
 <p>Support for AIX with xlC appeared in mksh R30.</p>
 <p>If passing custom LDFLAGS, don’t forget the export symbols required for
  using libcrypt. If passing custom LIBS, don’t forget <tt>-lcrypt</tt>.</p>
+
+<h5 id="oe_bsi">OS: BSDi BSD/OS</h5>
+<p>BSD/OS 3.1 works fine with mksh R33.</p>
+
+<h5 id="oe_dfl">OS: DragonFly BSD</h5>
+<p>Perfect choice.</p>
+
+<h5 id="oe_bsf">OS: FreeBSD</h5>
+<p>Perfect choice.</p>
 
 <h5 id="oe_hurd">OS: GNU/HURD</h5>
 <p>This operating system is supported (on i386) since R29 but not well
@@ -352,6 +379,9 @@ mws_content <<'EOF'
  library providing arc4random(3).</p>
 <p>mksh can replace /bin/ksh and /bin/sh without any problems.</p>
 
+<h5 id="oe_sgi">OS: IRIX</h5>
+<p>Support for IRIX65 6.5 appeared in mksh R33b.</p>
+
 <h5 id="oe_mnbsd">OS: MidnightBSD</h5>
 <p>mksh is part of MidnightBSD 0.3 and above and used as native /bin/ksh;
  it almost certainly can be used as /bin/sh as well.</p>
@@ -361,6 +391,27 @@ mws_content <<'EOF'
  it did not run properly due to job control issues, similar to Plan 9.
  Minix 1 and Minix 2 will never be supported due to size constraints on
  16-bit platforms, unless a user contributes code.</p>
+
+<h5 id="oe_bsm">OS: MirBSD</h5>
+<p>Perfect choice. This is where mksh comes from.</p>
+
+<h5 id="oe_bsn">OS: NetBSD</h5>
+<p>Perfect choice.</p>
+<p>Starting with NetBSD 1.6, mksh can replace /bin/ksh and /bin/sh without
+ any problems. On NetBSD 1.5, mksh can only replace /bin/ksh safely.</p>
+
+<h5 id="oe_bso">OS: OpenBSD</h5>
+<p>The setlocale(3) call in OpenBSD’s libc is broken until before 4.1 and
+ will always return non-UTF8 even if run within an uxterm (xterm(1)) which
+ comes with OpenBSD’s base installation. If not upgrading to OpenBSD 4.1,
+ use a different setlocale library function like <a
+ href="/cvs.cgi/contrib/code/Snippets/setlocale.c?rev=HEAD">this one</a>
+ and pass its filename as $LIBS to <tt>Build.sh</tt>.</p>
+<p>mksh can replace /bin/ksh and /bin/sh without any problems.</p>
+
+<h5 id="oe_osf1">OS: DEC/Compaq OSF/1, Compaq/HP Tru64</h5>
+<p>Digital Unix is somewhat supported using gcc as of mksh R31b.
+ With mksh R33b, many more versions and the native compiler work.</p>
 
 <h5 id="oe_plan9">OS: Plan 9</h5>
 <p>Plan 9 is not supported yet – we were able to create an executable, but
@@ -375,18 +426,6 @@ mws_content <<'EOF'
  it’s possible that PW32 and Minix 3, at least, need job control disabled
  or worked around. Maybe peek at how ash/bash for PW32 do it. gcc works.</p>
 
-<h5 id="oe_openbsd">OS: OpenBSD</h5>
-<p>The setlocale(3) call in OpenBSD’s libc is broken until before 4.1 and
- will always return non-UTF8 even if run within an uxterm (xterm(1)) which
- comes with OpenBSD’s base installation. If not upgrading to OpenBSD 4.1,
- use a different setlocale library function like <a
- href="/cvs.cgi/contrib/code/Snippets/setlocale.c?rev=HEAD">this one</a>
- and pass its filename as $LIBS to <tt>Build.sh</tt>.</p>
-<p>mksh can replace /bin/ksh and /bin/sh without any problems.</p>
-
-<h5 id="oe_osf1">OS: OSF/1</h5>
-<p>Digital Unix is somewhat supported using gcc as of mksh R31b.</p>
-
 <h5 id="oe_solaris">OS: Solaris</h5>
 <p>Solaris is full supported since “forever” with gcc, and since mksh R30
  with Sun’s C compiler. Both 32-bit and 64-bit modes work; 64-bit mode is
@@ -397,6 +436,19 @@ mws_content <<'EOF'
 <p>Solaris does not come with Berkeley mdoc macros for nroff, so using
  the HTML or PDF versions of the manual pages or pregenerating a catman
  page on another OS is required.</p>
+
+<h5 id="oe_syll">OS: Syllable Desktop</h5>
+<p>This does not yet work due to a signal passing bug in the AtheOS kernel,
+ we were told by their developers. However, mksh R33 is at the same level
+ of support as Plan 9 now.</p>
+<p>Syllable Server will work, as it is, <em>at the moment</em>, “just” a
+ GNU/Linux distribution with a different GUI. This may change though.</p>
+
+<h5 id="oe_bsu">OS: ULTRIX</h5>
+<p>Even on ULTRIX 4.5, mksh R33c works fine. You however must pass the
+ <tt>-YPOSIX</tt> option to the ucode compiler, as <tt>-YSYSTEM_FIVE</tt>
+ does not even compile, and the default <tt>-YBSD</tt> produces a broken
+ executable (spins instead of starting up).</p>
 
 <h5 id="oe_uwin">OS: UWIN-NT</h5>
 <p>Compilation of mksh R30 on UWIN works with several compilers (bcc, dmc,
@@ -431,6 +483,7 @@ mws_content <<'EOF'
  formatting time.</p>
 
 <h2 id="upgrade">For packagers: Upgrades</h2>
+<p>No changes in mksh R33c except for Ultrix support.</p>
 <p>In mksh R33b, much more compilers are detected, even if not all of
  them are supported. The OE (OS and CC/LD) versions are now dumped too.
  Instead of <tt>#error</tt>, forced link failures are now used as the
@@ -478,7 +531,7 @@ mws_content <<'EOF'
  GNU/kFreeBSD have an <a href="http://packages.debian.org/mksh">mksh package</a>
  maintained by the MirOS Project and uploaded (sponsored) by Bastian “waldi”
  Blank and Otavio Salvador; the debconf questions were taken from dash. The <a
- href="http://www.mirbsd.org/MirOS/dist/mir/mksh/ports/mksh_33.2-1.dsc">mksh
+ href="http://www.mirbsd.org/MirOS/dist/mir/mksh/ports/mksh_33.3-1.dsc">mksh
  Debian source package</a> is available, too.</li>
 <li><a href="http://www.gentoo.org/">Gentoo GNU/Linux</a> has an mksh <a
  href="http://sources.gentoo.org/viewcvs.py/gentoo-x86/app-shells/mksh/">ebuild</a>
@@ -500,7 +553,7 @@ mws_content <<'EOF'
  as well as as SRPM (source RPM). There used to be a repository by <a
  href="http://ftp.skynet.be/pub/suser-guru/rpm/packages/System/mksh/">loki</a>
  in the past.</li>
-<li>An <a href="http://www.mirbsd.org/MirOS/dist/mir/mksh/ports/mksh-33b-1.src.rpm">inofficial
+<li>An <a href="http://www.mirbsd.org/MirOS/dist/mir/mksh/ports/mksh-33c-1.src.rpm">inofficial
  <em>portable</em> SRPM</a> (created on Debian GNU/kFreeBSD) is available
  as well. This one contains the <tt>arc4random.c</tt> support routines for
  operating systems from clueless vendors (GNU, Sun, etc).</li>
@@ -651,6 +704,7 @@ mws_content <<'EOF'
  <li>Debian GNU/kFreeBSD 4.0 sid 6.2-1-686 (i386 gcc4.1.2-19)</li>
  <li>Debian GNU/kFreeBSD 4.0 sid 6.2-1-686 (i386 gcc4.2.3-2)</li>
  <li>Debian GNU/kFreeBSD 4.0 sid 6.2-1-686 (i386 gcc4.3-20080227-1)</li>
+ <li>DEC ULTRIX 4.5 0 RISC (mips cc3.0 ucode9.2)</li>
  <li>AIX 5.3 (powerpc gcc4.0.0_powerpc-ibm-aix5.1.0.0, LD 1.65 04/06/2005)</li>
  <li>AIX 5.3 32-bit (powerpc xlC9.0 070428, LD 1.65 04/06/2005)</li>
  <li>AIX 5.3 64-bit (powerpc xlC9.0 070428, LD 1.65 04/06/2005)</li>
@@ -717,29 +771,40 @@ mws_content <<'EOF'
  <li>Red Hat FC8 2.6.23.15-137.fc8 (i386 gcc4.1.2-33) <em>via MirOS provided SRPM package</em></li>
  <li>Red Hat FC8 2.6.23.15-137.fc8 (amd64 gcc4.1.2-33) <em>via MirOS provided SRPM package</em></li>
  <li style="list-style:none;">– tests by third parties (packagers) –</li>
- <li>Debian GNU/kFreeBSD 6.3-1-686 (i386 gcc4.2.3-2) <em>by himalia1 buildd via Debian’s package</em></li>
- <li>Debian GNU/kFreeBSD 6.3-1-amd64-k8 (amd64 gcc4.2.3-2) <em>by shockley buildd via Debian’s package</em></li>
+ <li>Debian GNU/kFreeBSD 6.3-1-686 (i386 gcc4.3.0-2) <em>by ganymede1 buildd via Debian’s package</em></li>
+ <li>Debian GNU/kFreeBSD 6.3-1-amd64-k8 (amd64 gcc4.3.0-2) <em>by ganymede2 buildd via Debian’s package</em></li>
  <li>Mac OSX Leopard 10.5.2 Darwin 9.2.0 (i386 gcc4.0.1 Apple Inc. build 5465) <em>by gecko2 via Fink package</em></li>
  <li>Debian GNU GNU-Mach 1.3.99/Hurd-0.3 i686-AT386 (i386 gcc4.2.2-4) <em>by beethoven buildd via Debian’s package</em></li>
- <li>Debian GNU/Linux 2.6.18-4-alpha-generic (alpha gcc4.2.3-2) <em>by goetz buildd via Debian’s package</em></li>
- <li>Debian GNU/Linux 2.6.22-3-vserver-amd64 (amd64 gcc4.2.3-2) <em>by excelsior buildd via Debian’s package</em></li>
- <li>Debian GNU/Linux 2.6.20 (arm gcc4.2.3-1) <em>by europa buildd via Debian’s package</em></li>
- <li>Debian GNU/Linux 2.6.23-rc8-iop32x (armel gcc4.2.3-2) <em>by ALL6500 buildd via Debian’s package</em></li>
+ <li>Debian GNU/Linux 2.6.18-4-alpha-generic (alpha gcc4.2.3-3) <em>by goetz buildd via Debian’s package</em></li>
+ <li>Debian GNU/Linux 2.6.22-3-vserver-amd64 (amd64 gcc4.2.3-3) <em>by excelsior buildd via Debian’s package</em></li>
+ <li>Debian GNU/Linux 2.6.18sam armv4l (arm gcc4.3.0-1) <em>by grieg buildd via Debian’s package</em></li>
+ <li>Debian GNU/Linux 2.6.24-1-iop32x armv5tel (armel gcc4.3.0-2) <em>by arcadelt buildd via Debian’s package</em></li>
  <li>Debian GNU/Linux 2.6.22-14-hppa64 (hppa gcc4.2.3-2) <em>by bld-3 buildd via Debian’s package</em></li>
  <li>Debian GNU/Linux 2.6.24.1 (i386 gcc4.2.3-2) <em>by ninsei buildd via Debian’s package</em></li>
- <li>Debian GNU/Linux 2.6.18-dsa-mckinley (IA64 gcc4.2.3-1) <em>by mundy buildd via Debian’s package</em></li>
- <li>Debian GNU/Linux 2.6.24-1-mac (mac68k gcc4.2.3-1) <em>by poseidon buildd via Debian’s package</em></li>
- <li>Debian GNU/Linux 2.6.25-rc3-00000-g84d8498-dirty (mips gcc4.2.3-2) <em>by ball buildd via Debian’s package</em></li>
- <li>Debian GNU/Linux 2.6.17-1-sb1-bcm91250a (mipsel gcc4.2.3-2) <em>by rem buildd via Debian’s package</em></li>
- <li>Debian GNU/Linux 2.6.18-5-s390x (S/390 gcc4.2.3-2) <em>by debian-31 buildd via Debian’s package</em></li>
- <li>Debian GNU/Linux 2.6.23.16 (sparc64,V8 gcc4.2.3-2) <em>by lebrun buildd via Debian’s package</em></li>
+ <li>Debian GNU/Linux 2.6.18-dsa-mckinley (IA64 gcc4.3.0-2) <em>by mundy buildd via Debian’s package</em></li>
+ <li>Debian GNU/Linux 2.6.24-1-mac (mac68k gcc4.2.3-2) <em>by zeus buildd via Debian’s package</em></li>
+ <li>Debian GNU/Linux 2.6.25-rc3-00000-g84d8498-dirty (mips gcc4.3.0-2) <em>by mayr buildd via Debian’s package</em></li>
+ <li>Debian GNU/Linux 2.6.24.1 (mipsel gcc4.3.0-2) <em>by rem buildd via Debian’s package</em></li>
+ <li>Debian GNU/Linux 2.6.8-powerpc-smp (macppc gcc4.3.0-2) <em>by voltaire buildd via Debian’s package</em></li>
+ <li>Debian GNU/Linux 2.6.18-5-s390x (S/390 gcc4.3.0-2) <em>by debian-31 buildd via Debian’s package</em></li>
+ <li>Debian GNU/Linux 2.6.23.16 (sparc64,V8 gcc4.3.0-2) <em>by lebrun buildd via Debian’s package</em></li>
+ <li>Fedora GNU/Linux Extras 6 2.6.16.46-0.7-xen (i386 gcc4.1.1-30 Red Hat) <em>by build13 buildd via the openSUSE Build Service</em></li>
+ <li>OpenSuSE GNU/Linux 10.2 2.6.16.46-0.7-xen (i386 gcc4.1.2-20061115 SuSE) <em>by build18 buildd via the openSUSE Build Service</em></li>
+ <li>OpenSuSE GNU/Linux 10.2 2.6.16.46-0.7-xen (amd64 gcc4.1.2-20061115 SuSE) <em>by build15 buildd via the openSUSE Build Service</em></li>
+ <li>OpenSUSE GNU/Linux 10.3 2.6.16.46-0.7-xen (i386 gcc4.2.1 SuSE) <em>by build12 buildd via the openSUSE Build Service</em></li>
+ <li>OpenSUSE GNU/Linux 10.3 2.6.16.46-0.7-xen (amd64 gcc4.2.1 SuSE) <em>by build19 buildd via the openSUSE Build Service</em></li>
+ <li>SLES GNU/Linux 9 2.6.16.46-0.7-xen (i386 gcc3.3.3 SuSE) <em>by build19 buildd via the openSUSE Build Service</em></li>
+ <li>SLES GNU/Linux 9 2.6.16.46-0.7-xen (amd64 gcc3.3.3 SuSE) <em>by build10 buildd via the openSUSE Build Service</em></li>
+ <li>SuSE GNU/Linux 10.1 2.6.16.46-0.7-xen (i386 gcc4.1.0 SuSE) <em>by build02 buildd via the openSUSE Build Service</em></li>
+ <li>SuSE GNU/Linux 10.1 2.6.16.46-0.7-xen (amd64 gcc4.1.0 SuSE) <em>by build10 buildd via the openSUSE Build Service</em></li>
+ <li>SuSE GNU/Linux Factory 2.6.16.46-0.7-xen (i386 gcc4.3.0 SuSE) <em>by build13 buildd via the openSUSE Build Service</em></li>
+ <li>SuSE GNU/Linux Factory 2.6.16.46-0.7-xen (amd64 gcc4.3.0-20080221-r132521 SuSE) <em>by build13 buildd via the openSUSE Build Service</em></li>
  <li style="list-style:none;">– known to <strong>FAIL</strong> building</li>
  <li>Fabrice Bellard’s tcc in combination with GNU libc often fails linking</li>
  <li>Some pcc versions mis-compile with -O enabled</li>
  <li>mksh works on Plan 9, but does not return after executing a non-builtin command</li>
  <li>mksh does not correctly work on Minix 3</li>
  <li>mksh segfaults upon execution on Syllable Desktop</li>
- <li>The status of Syllable Server is unknown</li>
 </ul>
 
 <h2 id="vsn">Recommendations on version numbering</h2>
@@ -786,7 +851,6 @@ mws_content <<'EOF'
 <li>A sensible website</li>
 <li>Build and actually work on more platforms – PW32, Minix 3,
  Plan 9, Syllable – debug these</li>
-<li>Test ourselves on more platforms – OSF/1, Ultrix</li>
 <li>Build with more platforms’ native tools or other compilers
  – ACK, kencc, ICC/UWIN, egcs/UWIN, tcc</li>
 <li>Maybe handle base-0 and base-1 “integers” as octets and unicode
@@ -806,6 +870,25 @@ mws_content <<'EOF'
  <li>Port to <a href="http://www.syllable.org/">Syllable</a> (much
   improved; support now en par with Plan 9’s, thanks to Anthony Morphett
   &lt;awmorp@gmail.com&gt; – maybe the rest is a kernel bug?)</li>
+</ul>
+<p id="r33c">mksh R33c issues fixes for the following issues:</p><ul>
+ <li>Handle Ultrix mmap(2) having a different prototype (returning a
+  <tt>caddr_t</tt> instead of a <tt>void *</tt> and not defining
+  MAP_FAILED; making Ultrix 4.5 a fully supported platform</li>
+ <li>Decrease code size and optimise (using puts-style functions instead
+  of printf-style functions for fixed strings; bool instead of int)</li>
+ <li>Correct behaviour of “export”, “export -p”, “readonly”, “readonly
+  -p”, “typeset”, “typeset -p”, “typeset” and their respective
+  descriptions in the manual page; problem reported by Danijel Tasov</li>
+ <li>Work around dup2(2) problem (preserving the close-on-exec flag)
+  on Ultrix using code from mirbsdksh-1.11, lost in oksh</li>
+ <li>Clean up <tt>Build.sh</tt> a little more</li>
+ <li>Correct quotes and some other stuff in the regression tests;
+  fix for running with old Perl (5.002 or so, Linux 2.0, BSD/OS)</li>
+ <li>Export the new “__progname” and “__perlname” environment variables
+  to the suite run from <tt>check.t</tt> in <tt>check.pl</tt></li>
+ <li>Do not mistake IBM xlC and VisualAge for different things, thanks
+  to Pascal “loki” Bleser from OpenSuSE for information on them</li>
 </ul>
 <p id="r33b">mksh R33b comes with the following minor fixes:</p><ul>
  <li>Fix some minor code issues remarked by MIPSpro</li>

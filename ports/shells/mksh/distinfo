@@ -1,9 +1,9 @@
 $MirOS$
 
-3810798626 255256 mksh-R33b.cpio.gz
-MD5 (mksh-R33b.cpio.gz) = 4a882352ba709130020d940bfaba25ed
-RMD160 (mksh-R33b.cpio.gz) = f4beb8ea2419d1e64dd266db72f4bee103009030
-SHA1 (mksh-R33b.cpio.gz) = 315f64b815a6745c93b2574c86dbef1760fb3d37
-SHA256 (mksh-R33b.cpio.gz) = aacbf028c96a6705daad06d9b5f7625aebff6cb073c3072abb6bbf3b2e9b78fc
-SIZE (mksh-R33b.cpio.gz) = 255256
-TIGER (mksh-R33b.cpio.gz) = c85fed10bbaa65f4c4468b741a6591f3e2e9361747973996
+148695879 255853 mksh-R33c.cpio.gz
+MD5 (mksh-R33c.cpio.gz) = f6c9a62aec8ad195f3db73a2ed2665e2
+RMD160 (mksh-R33c.cpio.gz) = b6f2c1abb5ee4e8bd68a737cc44d2efeb7c59325
+SHA1 (mksh-R33c.cpio.gz) = 400ffb3b577a3c86cafacc9a5f0aea231e55858c
+SHA256 (mksh-R33c.cpio.gz) = 00683e7ea1768345ef40de67497dea4a7ff4566024fc4153379023c8e67d810c
+SIZE (mksh-R33c.cpio.gz) = 255853
+TIGER (mksh-R33c.cpio.gz) = 58d7b5ea8c543ed996ed98e452fe77c116dfa0a11f4768f2
