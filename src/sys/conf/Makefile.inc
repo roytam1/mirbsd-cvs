@@ -1,4 +1,4 @@
-# $MirOS: src/share/misc/licence.template,v 1.4 2005/12/15 02:46:54 tg Rel $
+# $MirOS: src/sys/conf/Makefile.inc,v 1.1 2005/12/18 02:20:39 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@mirbsd.de>
@@ -68,6 +68,8 @@ NORMAL_S=	${CC} ${AFLAGS} ${CPPFLAGS} -c $<
 NORMAL_S_C=	${CC} ${AFLAGS} ${CPPFLAGS} ${PARAM} -c $<
 
 HOSTED_C=	${HOSTCC} ${HOSTED_CFLAGS} ${HOSTED_CPPFLAGS} -c $<
+
+.MAIN: all
 
 # Propolice init
 init_ssp.o: $S/kern/init_ssp.c
