@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.489 2013/01/06 19:00:40 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.490 2013/01/12 02:28:51 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -1132,6 +1132,10 @@ exec /usr/bin/ld "${args[@]}"</pre>
  <li>[RT] Port to Minix-vmd, QNX 4, Watcom C; begin porting to SunOS 4.1.1,
   Xenix, ISC (Interactive) Unix</li>
  <li>[tg] Prefer const-clean <tt>sys_errlist[]</tt> to strerror(3)</li>
+ <li>[tg] Permit <tt>$"…"</tt> and <tt>$'…'</tt> everywhere except in the
+  body of here documents that are not here strings</li>
+ <li>[tg] Use full recursive parser for double-quoted here strings, and
+  reuse code between here strings and here documents</li>
 <li style="list-style:none;">Changes already MFCd into R41-stable branch</li>
  <li>[tg] Fix gettimeofday(2) detection at build time (warning)</li>
  <li>[RT, tg] <tt>Build.sh</tt>: catch non-working dash printf builtin</li>
