@@ -1,5 +1,5 @@
 #!/usr/bin/env mksh
-# $MirOS: src/sys/arch/sparc/stand/bootxx/bxinst.sh,v 1.1 2007/10/16 21:26:22 tg Exp $
+# $MirOS: src/sys/arch/sparc/stand/bootxx/bxinst.sh,v 1.2 2007/10/16 21:40:58 tg Exp $
 #-
 # Copyright (c) 2007
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -32,7 +32,7 @@ function out_int32 {
 	typeset -Uui16 value=$1
 	typeset -Uui8 ba bb bc bd
 
-	print -u2 debug: writing value 0x${value#16#}
+	#print -u2 debug: writing value 0x${value#16#}
 	(( ba = (value >> 24) & 0xFF ))
 	(( bb = (value >> 16) & 0xFF ))
 	(( bc = (value >> 8) & 0xFF ))
@@ -41,9 +41,27 @@ function out_int32 {
 }
 
 integer blktblsz=@@TBLSZ@@
+set -A blktblent
+integer blktblnum=0 blockno numblocks i=0
 
-exit 1
-#XXX TODO
+# zero-initialise the block array
+while (( i < blktblsz )); do
+	integer blktblent[i++]=0
+done
+
+# read in the extents
+while read blockno numblocks; do
+	#print -u2 Recording $numblocks blocks @$blockno ...
+	while (( numblocks )); do
+		let blktblent[blktblnum++]=blockno++
+		#print -u2 \\tblock \#$((blktblnum-1)): ${blktblent[blktblnum-1]}, $((blktblsz-blktblnum)) left
+		let numblocks--
+	done
+	if (( blktblnum > blktblsz )); then
+		print -u2 Error: too many blocks, maximum $blktblsz
+		exit 1
+	fi
+done
 
 # Part 1
 print -n '\01\03\01\07\060\0200\0\07@@PARTONE@@'
@@ -51,12 +69,11 @@ print -n '\01\03\01\07\060\0200\0\07@@PARTONE@@'
 # The Block Table
 # note: currently, MI installboot(8) assumes 512-byte blocks, maybe
 #       do an optimisation similar to the i386 first-stage bootloader
-out_int32 $blktblsz	#XXX
+out_int32 $blktblnum
 out_int32 512
-integer i=0
+let i=0
 while (( i < blktblsz )); do
-	out_int32 0
-	let i++
+	out_int32 ${blktblent[i++]}
 done
 
 # Part 2
