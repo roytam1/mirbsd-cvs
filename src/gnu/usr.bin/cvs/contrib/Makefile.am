@@ -1,4 +1,4 @@
-# $MirOS: src/gnu/usr.bin/cvs/contrib/Makefile.am,v 1.5 2010/09/16 20:55:48 tg Exp $
+# $MirOS: src/gnu/usr.bin/cvs/contrib/Makefile.am,v 1.6 2011/12/04 20:24:43 tg Exp $
 ## Process this file with automake to produce Makefile.in
 # Makefile for GNU CVS contributed sources.
 # Do not use this makefile directly, but only from `../Makefile'.
@@ -34,7 +34,7 @@ contrib_SCRIPTS = \
 
 contrib_DATA = \
 	README \
-	intro.doc \
+	intro.doc
 
 contrib_MANS = \
 	rcs2log.1 \
