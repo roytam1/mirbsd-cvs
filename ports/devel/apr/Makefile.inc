@@ -1,6 +1,6 @@
-# $MirOS: ports/devel/apr/Makefile.inc,v 1.3 2007/12/27 15:33:10 bsiegert Exp $
+# $MirOS: ports/devel/apr/Makefile.inc,v 1.4 2008/10/02 18:54:48 bsiegert Exp $
 
-VERSION?=		0.9.17
+VERSION?=		0.9.18
 CATEGORIES=		devel net
 
 HOMEPAGE=		http://apr.apache.org/

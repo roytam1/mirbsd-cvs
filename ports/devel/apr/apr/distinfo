@@ -1,5 +1,7 @@
-MD5 (apr-0.9.17.tar.bz2) = cbeb635755165c800f7be5e059027318
-RMD160 (apr-0.9.17.tar.bz2) = 1b77fdf285c810f9296029f055360b39e0cb246c
-SHA1 (apr-0.9.17.tar.bz2) = 129921b12ed891567ab33f9811de55846de56be4
-SIZE (apr-0.9.17.tar.bz2) = 868863
-TIGER (apr-0.9.17.tar.bz2) = 05fc917a397759dd66969d7d7090d085408d5f9948871b26
+$MirOS$
+
+MD5 (apr-0.9.18.tar.bz2) = f112885d6b606ecf9cc8c3169bfd777d
+RMD160 (apr-0.9.18.tar.bz2) = 1a74b18aec6630fe7e229356cc4a5c1ef098310c
+SHA1 (apr-0.9.18.tar.bz2) = 35e951ad4fb2f09b7e98dae7b26143f7c0d30544
+SIZE (apr-0.9.18.tar.bz2) = 879483
+TIGER (apr-0.9.18.tar.bz2) = 97a83e3034b016cab2a8e7a93694e5ea10749091413e03ff
