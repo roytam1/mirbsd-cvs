@@ -1,4 +1,4 @@
-# $MirOS: src/Makefile,v 1.123 2008/04/02 18:56:17 tg Exp $
+# $MirOS: src/Makefile,v 1.124 2008/04/11 20:06:10 tg Exp $
 # $OpenBSD: Makefile,v 1.103 2004/05/03 15:18:18 drahn Exp $
 
 .if defined(MAKECONF) && exists(${MAKECONF})
@@ -235,7 +235,7 @@ base-distinstall:
 dist-q:
 	cd ${.CURDIR} && exec /usr/bin/env -i MAKEFLAGS=${MFLAGS:M*:Q} \
 	    HOME=$$(/usr/bin/mktemp -d /var/tmp/buildhome.XXXXXXXXXX) \
-	    PATH=${SAFEPATH} TZ=UTC \
+	    PATH=${_SAFEPATH} TZ=UTC \
 	    ${MAKE} BATCH=1 _do-dist 2>&1 | tee -a ${.CURDIR}/Build.log
 	@date | tee -a ${.CURDIR}/Build.log
 	-[[ -d ${BSDRELDIR}/rel && -s ${.CURDIR}/Build.log ]] && \
@@ -244,7 +244,7 @@ dist-q:
 dist:
 	cd ${.CURDIR} && exec /usr/bin/env -i MAKEFLAGS=${MFLAGS:M*:Q} \
 	    HOME=$$(/usr/bin/mktemp -d /var/tmp/buildhome.XXXXXXXXXX) \
-	    PATH=${SAFEPATH} TZ=UTC \
+	    PATH=${_SAFEPATH} TZ=UTC \
 	    ${MAKE} _do-dist 2>&1 | tee -a ${.CURDIR}/Build.log
 	@date | tee -a ${.CURDIR}/Build.log
 	-[[ -d ${BSDRELDIR}/rel && -s ${.CURDIR}/Build.log ]] && \
