@@ -1,4 +1,4 @@
-@comment $MirOS$
+@comment $MirOS: ports/devel/glib/pkg/PLIST-docs,v 1.2 2005/07/03 18:51:52 tg Exp $
 @comment $OpenBSD: PLIST-docs,v 1.7 2004/09/16 04:13:56 marcm Exp $
 share/gtk-doc/html/glib/file-name-encodings.png
 share/gtk-doc/html/glib/glib-Arrays.html
@@ -54,7 +54,6 @@ share/gtk-doc/html/glib/glib-Trash-Stacks.html
 share/gtk-doc/html/glib/glib-Type-Conversion-Macros.html
 share/gtk-doc/html/glib/glib-Unicode-Manipulation.html
 share/gtk-doc/html/glib/glib-Warnings-and-Assertions.html
-share/gtk-doc/html/glib/glib-Windows-Compatability-Functions.html
 share/gtk-doc/html/glib/glib-building.html
 share/gtk-doc/html/glib/glib-changes.html
 share/gtk-doc/html/glib/glib-compiling.html
