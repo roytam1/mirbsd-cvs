@@ -1,4 +1,4 @@
-# $MirOS: src/usr.sbin/makefs/Makefile,v 1.18 2008/10/31 19:45:30 tg Exp $
+# $MirOS: src/usr.sbin/makefs/Makefile,v 1.19 2009/07/23 19:32:23 tg Exp $
 # $NetBSD: Makefile,v 1.22 2008/08/29 00:02:25 gmcgarry Exp $
 
 .include <bsd.own.mk>
@@ -16,13 +16,12 @@ SRCS=	buf.c \
 	walk.c
 MAN=	makefs.8
 
+OStype?=	unknown
 .if (${OStype} == "MirBSD") || defined(DEBIAN)
-MAKEFS_PORT=	Yes
-.else
-MAKEFS_PORT=	No
+MAKEFS_PORT=	#defined
 .endif
 
-.if ${MAKEFS_PORT:L} == "yes"
+.ifdef MAKEFS_PORT
 HOSTPROG=	#defined, empty
 NETBSDSRCDIR?=	${.CURDIR}/nbsrc
 CDIAGFLAGS+=	-Wmissing-declarations -Wmissing-prototypes
@@ -41,7 +40,7 @@ CPPFLAGS+=	-I${.CURDIR} \
 .PATH:		${.CURDIR}/ffs ${UFSSRC}/ffs \
 		${.CURDIR}/cd9660 ${CD9660SRC} \
 		${MKNODSRC} ${MTREESRC}
-.if ${MAKEFS_PORT:L} == "yes"
+.ifdef MAKEFS_PORT
 CPPFLAGS+=	-I${NETBSDSRCDIR}/sys \
 		-I${BSDSRCDIR}/sbin/mknod -I${BSDSRCDIR}/usr.sbin/mtree \
 		-I${BSDSRCDIR}/sys -I${BSDSRCDIR}/sys/isofs/cd9660
@@ -53,12 +52,12 @@ CPPFLAGS+=	-I${NETBSDSRCDIR}/sys \
 LDADD+=		-lbsd
 .endif
 
-.if (${HOSTPROG:U} == "") && !defined(DEBIAN)
+.if !defined(DEBIAN) && (${HOSTPROG:U} == "")
 DPADD+= ${LIBUTIL}
 LDADD+= -lutil
 .endif
 
-.if ${MAKEFS_PORT:L} != "yes"
+.ifndef MAKEFS_PORT
 WARNS?=	3
 
 .if !defined(HOSTPROGNAME)
