@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/scripts/roff2htm,v 1.35 2007/01/09 17:37:21 tg Exp $
+# $MirOS: src/scripts/roff2htm,v 1.36 2007/01/22 18:03:52 tg Exp $
 # $ekkoBSD: catman2html.sh,v 1.2 2004/03/07 03:02:53 stephen Exp $
 #-
 # Copyright (c) 2004, 2005, 2006, 2007
@@ -139,7 +139,7 @@ output_footer()
 {
 	cat <<-EOF
 		<hr /><p style="font-size:xx-small;">Generated on ${gendate} by
-		 \$MirOS: src/scripts/roff2htm,v 1.35 2007/01/09 17:37:21 tg Exp $</p>
+		 \$MirOS: src/scripts/roff2htm,v 1.36 2007/01/22 18:03:52 tg Exp $</p>
 		<p>These manual pages are copyrighted by their respective writers; their
 		 source can be retrieved from our <a href="http://cvs.mirbsd.de/">CVSweb</a>.
 		 The rest is Copyright &copy; 2002-2007 <a href="http://www.mirbsd.org/">The
@@ -175,16 +175,23 @@ convert_page()
 	print -u2
 }
 
+# output_htaccess >.../.htaccess
+output_htaccess()
+{
+	print DirectoryIndex /dev/null
+}
+
 # convert_all /path/to/share/man /targetpath
 convert_all()
 {
 	tp=${2:-$(pwd)/mbsdman}		# target basepath
 
+	find ${1:-/usr/share/man}/cat{1,2,3,3p,4,5,6,7,8,9} -name \*.0 |&
 	for x in 1 2 3 3p 4 5 6 7 8 9; do
 		mkdir -p $tp/man$x	# one per section
-		print DirectoryIndex /dev/null >$tp/man$x/.htaccess
+		output_htaccess >$tp/man$x/.htaccess
 	done
-	find ${1:-/usr/share/man}/cat* -name \*.0 | while read f; do
+	while read -p f; do
 		convert_page $f $tp	# any subpages
 	done
 }
