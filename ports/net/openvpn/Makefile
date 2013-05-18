@@ -1,10 +1,10 @@
-# $MirOS: ports/net/openvpn/Makefile,v 1.6 2006/02/07 20:17:31 tg Exp $
+# $MirOS: ports/net/openvpn/Makefile,v 1.7 2006/02/09 09:36:10 tg Exp $
 # $OpenBSD: Makefile,v 1.2 2003/12/30 21:29:53 sturm Exp $
 
 COMMENT=		"easy-to-use, robust, highly configurable VPN solution"
 VERSION=		2.0.5
 DISTNAME=		openvpn-${VERSION}
-PKGNAME=		openvpn-${VERSION:S/_//}-1
+PKGNAME=		openvpn-${VERSION:S/_//}-2
 CATEGORIES=		net security
 HOMEPAGE=		http://openvpn.net/
 MASTER_SITES=		${HOMEPAGE}release/
@@ -26,18 +26,18 @@ LDSTATIC=		-static
 LIB_DEPENDS+=		lzo2:lzo->=2.*:archivers/lzo
 .endif
 
-USE_GMAKE=	Yes
-CONFIGURE_STYLE=autoconf
-AUTOCONF_NEW=	Yes
-CONFIGURE_ARGS+=--disable-dependency-tracking
+USE_GMAKE=		Yes
+CONFIGURE_STYLE=	autoconf
+AUTOCONF_NEW=		Yes
+CONFIGURE_ARGS+=	--disable-dependency-tracking
 .if ${FLAVOR:L:Mno_lzo}
-CONFIGURE_ARGS+=--disable-lzo
+CONFIGURE_ARGS+=	--disable-lzo
 .else
-CONFIGURE_ARGS+=--with-lzo-headers=${LOCALBASE}/include \
-		--with-lzo-lib=${LOCALBASE}/lib
+CONFIGURE_ARGS+=	--with-lzo-headers=${LOCALBASE}/include \
+			--with-lzo-lib=${LOCALBASE}/lib
 .endif
 
-SAMPLES_DIR=	${PREFIX}/share/examples/openvpn
+SAMPLES_DIR=		${PREFIX}/share/examples/openvpn
 
 post-build:
 	for a in ${WRKSRC}/easy-rsa/{,2.0/}[!2W]*; do print \
