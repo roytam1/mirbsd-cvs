@@ -1,7 +1,10 @@
-$MirOS$
+$MirOS: ports/archivers/unzip/patches/patch-unix_unix_c,v 1.3 2006/06/23 14:34:36 bsiegert Exp $
 $NetBSD: patch-ac,v 1.1.2.1 2005/08/04 15:22:02 salo Exp $
---- unix/unix.c.orig	2005-02-26 20:43:42.000000000 +0100
-+++ unix/unix.c	2006-06-23 16:26:03.000000000 +0200
+
+	• fixes CAN-2005-2475, among others
+
+--- unix/unix.c.orig	Sat Feb 26 19:43:20 2005
++++ unix/unix.c	Sun Apr 29 19:06:59 2007
 @@ -1042,8 +1042,6 @@ void close_outfile(__G)    /* GRR: chang
      ush z_uidgid[2];
      int have_uidgid_flg;
@@ -50,15 +53,15 @@ $NetBSD: patch-ac,v 1.1.2.1 2005/08/04 15:22:02 salo Exp $
      /* set the file's access and modification times */
      if (utime(G.filename, &(zt.t2))) {
  #ifdef AOS_VS
-@@ -1156,11 +1163,6 @@ void close_outfile(__G)    /* GRR: chang
+@@ -1155,11 +1162,6 @@ void close_outfile(__G)    /* GRR: chang
+     Change the file permissions from default ones to those stored in the
      zipfile.
    ---------------------------------------------------------------------------*/
- 
+-
 -#ifndef NO_CHMOD
 -    if (chmod(G.filename, filtattr(__G__ G.pInfo->file_attr)))
 -        perror("chmod (file attributes) error");
 -#endif
--
+ 
  } /* end function close_outfile() */
  
- #endif /* !MTS */
