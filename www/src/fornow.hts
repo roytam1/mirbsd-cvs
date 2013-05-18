@@ -2,7 +2,7 @@
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname legacy/fornow "MirOS Legacy Content"
-mws_putheader '$MirOS: www/src/fornow.hts,v 1.1 2008/09/17 21:12:24 tg Exp $'
+mws_putheader '$MirOS: www/src/fornow.hts,v 1.2 2008/11/08 22:24:37 tg Exp $'
 mws_content <<'EOF'
 <h1>MirOS Website (for now)</h1>
 
@@ -52,9 +52,9 @@ mws_content <<'EOF'
 <li><a href="@@ABSPATH@@/MirOS/CVS/">CVS Repo</a> 2006-10-04</li>
 <li><a href="@@ABSPATH@@/MirOS/CVS/">CVS root</a> historic</li>
 <li>AnonCVS and AnonRSYNC: <tt>env CVS_RSH=ssh</tt> <ul>
- <li><tt>:ext:anoncvs@anoncvs.mirbsd.org:/cvs</tt></li>
- <li><tt>:ext:anoncvs@anoncvs4.mirbsd.org:/cvs</tt></li>
- <li><tt>:ext:anoncvs@anoncvs6.mirbsd.org:/cvs</tt></li>
+ <li><tt>:ext:_anoncvs@anoncvs.mirbsd.org:/cvs</tt></li>
+ <li><tt>:ext:_anoncvs@anoncvs4.mirbsd.org:/cvs</tt></li>
+ <li><tt>:ext:_anoncvs@anoncvs6.mirbsd.org:/cvs</tt></li>
  <li><tt>:ext:anoncvs@1.anoncvs.mirbsd.org:/cvs</tt></li>
  <li><tt>:ext:anoncvs@1.anoncvs4.mirbsd.org:/cvs</tt></li>
  <li><tt>:ext:anoncvs@1.anoncvs6.mirbsd.org:/cvs</tt></li>
@@ -63,7 +63,7 @@ mws_content <<'EOF'
  <li><tt>:ext:anoncvs@2.anoncvs6.mirbsd.org:/cvs</tt></li>
 </ul></li>
 <li id="pkey">The following SSH key can be used to get access to
- the AnonCVS/AnonRSYNC mirror <tt>anoncvs.mirbsd.org</tt> instead
+ the AnonCVS/AnonRSYNC mirror <tt>1.anoncvs.mirbsd.org</tt> instead
  of typing the password &quot;anoncvs&quot;:<pre>
 	-----BEGIN RSA PRIVATE KEY-----
 	MIICWgIBAAKBgQC2Fa/+nDgQNSeX2z6rlsNBJGzXe1/XOwClot1wlxkkLvmVUdLh

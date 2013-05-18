@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/news.inc,v 1.90 2008/12/04 13:45:35 tg Exp $
+RCSID: $MirOS: www/data/news.inc,v 1.91 2008/12/04 19:10:34 tg Exp $
 Title: Older news from the MirOS Project
 Date: 01.03.2006
 
@@ -907,7 +907,7 @@ Tag: security
  only using DNSSEC is a fix… I wonder if this is truth or advertising
  for a technique without wide-spread use.</p>
 ----
-Title: anoncvs mirror naming scheme changed [updated]
+Title: anoncvs mirror naming scheme changed [updated 2x]
 Date: 09.07.2008 18:20
 
 <p>As mentioned on the <a href="@@RELPATH@@getting.htm">Downloads</a> page,
@@ -918,9 +918,9 @@ Date: 09.07.2008 18:20
   <li><tt>_anoncvs@herc.mirbsd.org</tt> (private, IPv4 + IPv6)</li>
  </ul></li>
  <li>primary mirror, ssh, rsync + cvs, currently the same as 2.anoncvs: <ul>
-  <li><tt>anoncvs@anoncvs.mirbsd.org</tt> (public, IPv4 + IPv6)</li>
-  <li><tt>anoncvs@anoncvs4.mirbsd.org</tt> (public, IPv4 only)</li>
-  <li><tt>anoncvs@anoncvs6.mirbsd.org</tt> (public, IPv6 only)</li>
+  <li><tt>_anoncvs@anoncvs.mirbsd.org</tt> (public, IPv4 + IPv6)</li>
+  <li><tt>_anoncvs@anoncvs4.mirbsd.org</tt> (public, IPv4 only)</li>
+  <li><tt>_anoncvs@anoncvs6.mirbsd.org</tt> (public, IPv6 only)</li>
  </ul></li>
  <li>hephaistos (unixforge.de), Germany, ssh, rsync + cvs: <ul>
   <li>‣ sshd(8) <a href="@@RELPATH@@overview.htm#ssh_host">host keys</a></li>
@@ -932,9 +932,9 @@ Date: 09.07.2008 18:20
  <li>eurynome (VMware instance), Germany, ssh, rsync + cvs: <ul>
   <li>‣ sshd(8) <a href="@@RELPATH@@overview.htm#ssh_host">host key</a></li>
   <li>offering: <tt>/MirOS</tt> <tt>/Pkgs</tt> <tt>/cvs</tt> (<tt>/Distfiles</tt> <tt>/www</tt> not yet)</li>
-  <li><tt>anoncvs@2.anoncvs.mirbsd.org</tt> (public, IPv4 + IPv6)</li>
-  <li><tt>anoncvs@2.anoncvs4.mirbsd.org</tt> (public, IPv4 only)</li>
-  <li><tt>anoncvs@2.anoncvs6.mirbsd.org</tt> (public, IPv6 only)</li>
+  <li><tt>_anoncvs@2.anoncvs.mirbsd.org</tt> (public, IPv4 + IPv6)</li>
+  <li><tt>_anoncvs@2.anoncvs4.mirbsd.org</tt> (public, IPv4 only)</li>
+  <li><tt>_anoncvs@2.anoncvs6.mirbsd.org</tt> (public, IPv6 only)</li>
  </ul></li>
  <li>allbsd.org, Japan, IPv4 + IPv6, rsync only: <ul>
   <li>offering: <tt>/MirOS</tt> <tt>/cvs</tt></li>

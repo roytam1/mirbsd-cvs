@@ -1,4 +1,4 @@
-# $MirOS: src/Makefile,v 1.135 2008/08/19 17:17:30 tg Exp $
+# $MirOS: src/Makefile,v 1.136 2008/08/20 18:26:21 tg Exp $
 # $OpenBSD: Makefile,v 1.103 2004/05/03 15:18:18 drahn Exp $
 
 .if defined(MAKECONF) && exists(${MAKECONF})
@@ -14,7 +14,7 @@ NO_PASCAL?=	Yes
 .endif
 NOMAN?=		no
 CVSROOT?=	/cvs
-ANONCVSROOT?=	anoncvs@anoncvs.mirbsd.org:/cvs
+ANONCVSROOT?=	_anoncvs@anoncvs.mirbsd.org:/cvs
 _SAFEPATH=	/usr/dbin:/bin:/usr/bin:/usr/dsbin:/sbin:/usr/sbin:/usr/X11R6/bin
 BATCH?=		No
 
@@ -82,7 +82,7 @@ distrib-dirs:
 	${SUDO} mtree -p ${DESTDIR}/ -Uqdef ${.CURDIR}/etc/mtree/4.4BSD.dist
 	grep -v -e '^fd' -e dev/fd ${.CURDIR}/etc/mtree/special | \
 	    ${SUDO} mtree -p ${DESTDIR}/ -Uqde
-	cd ${DESTDIR}/var/anoncvs/anoncvs && \
+	cd ${DESTDIR}/var/anoncvs && \
 	    if [[ ! -h var || $$(readlink var) != . ]]; then \
 		${SUDO} rm -f var; \
 		${SUDO} ln -s . var; \

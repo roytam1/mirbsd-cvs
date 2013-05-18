@@ -2,7 +2,7 @@
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname legacy/anoncvs "MirOS Legacy Content"
-mws_putheader '$MirOS$'
+mws_putheader '$MirOS: www/src/anoncvs.hts,v 1.1 2008/09/17 21:12:22 tg Exp $'
 mws_content <<'EOF'
 <h1>Anonymous CVS access to the MirOS repository</h1>
 
@@ -44,11 +44,11 @@ mws_content <<'EOF'
 nice rsync --delete -rxlztpgHK --rsync-path=/bin/rsync \
   anoncvs@2.anoncvs.mirbsd.org:/ocvs/ /var/anoncvs/anoncvs/ocvs
 nice rsync --delete -rxlztpgHK --rsync-path=/bin/rsync \
-  anoncvs@anoncvs.mirbsd.org:/ncvs/ /var/anoncvs/anoncvs/ncvs
+  _anoncvs@anoncvs.mirbsd.org:/ncvs/ /var/anoncvs/anoncvs/ncvs
 nice rsync --delete -rxlztpgHK --rsync-path=/bin/rsync \
-  anoncvs@anoncvs4.mirbsd.org:/MirOS/ /var/www/htdocs/MirOS
+  _anoncvs@anoncvs4.mirbsd.org:/MirOS/ /var/www/htdocs/MirOS
 nice rsync --delete -rxlztpgHK --rsync-path=/bin/rsync \
-  anoncvs@anoncvs6.mirbsd.org:/Pkgs/ /var/www/htdocs/Pkgs
+  _anoncvs@anoncvs6.mirbsd.org:/Pkgs/ /var/www/htdocs/Pkgs
 </pre><p>
  Please be sure to check for problems (the CVS snapshot might contain
  lock files, because our way of mirroring isn't fully optimised yet),

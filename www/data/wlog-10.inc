@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.109 2008/12/04 13:23:16 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.110 2008/12/04 20:33:06 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -699,7 +699,7 @@ Title: MirEwe on MirDarwin?
  people running the current development version, to prevent mishaps like
  the one with the fullwidth characters causing wrong text output. To do
  that, use AnonCVS like this:<br /><tt>% env CVS_RSH=ssh cvs -qz3 -d
- anoncvs@anoncvs.mirbsd.org:/cvs co -PA mksh</tt><br />Then, as usual,
+ _anoncvs@anoncvs.mirbsd.org:/cvs co -PA mksh</tt><br />Then, as usual,
  <tt>cd mksh &amp;&amp; (sh Build.sh &amp;&amp; ./test.sh -v) 2>&amp;1
  | tee log.txt</tt> to build and test it. Then, especially if it fails,
  <a href="http://nopaste.snit.ch:8001/">send</a> the logs to me.</p>
@@ -1106,7 +1106,7 @@ Title: mksh – The iShell [updated 2 times]
 <p style="margin-bottom:0px;">Try this:</p>
 <div style="border:4px ridge blue; margin:0px 24px 0px 24px; padding:12px;">
  <pre>
-	$ cvs -d anoncvs@anoncvs.mirbsd.org:/cvs co -PA mksh
+	$ cvs -d _anoncvs@anoncvs.mirbsd.org:/cvs co -PA mksh
 	$ cd mksh
 	$ cat &gt;iBuild.sh &lt;&lt;-'EOF'
 		DEV=/Developer/Platforms/iPhoneOS.platform/Developer
@@ -1731,7 +1731,7 @@ Tag: mksh
  development version should be tested on as many platforms as
  possible before a new release. This mostly means:</p>
 <pre> $ CVS_RSH=ssh; export CVS_RSH
- $ cvs -d :ext:anoncvs@anoncvs.mirbsd.org:/cvs co -PA mksh
+ $ cvs -d :ext:_anoncvs@anoncvs.mirbsd.org:/cvs co -PA mksh
  $ cd mksh
  $ (sh Build.sh -r &amp;&amp; ./test.sh -v) 2&gt;&amp;1 | tee build.log</pre>
 <p>Afterwards, please mail me (<tt>tg@</tt>) the <tt>build.log</tt>

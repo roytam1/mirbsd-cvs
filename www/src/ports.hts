@@ -3,7 +3,7 @@
 
 mws_setname ports "The MirPorts Framework"
 mws_subdir 0
-mws_putheader '$MirOS: www/src/ports.hts,v 1.6 2008/03/21 22:13:18 tg Exp $'
+mws_putheader '$MirOS: www/src/ports.hts,v 1.7 2008/03/24 20:02:41 tg Exp $'
 mws_content <<'EOF'
 <h1>MirPorts: The MirOS Ports Framework</h1>
 
@@ -65,7 +65,7 @@ mws_content <<'EOF'
 $ cd /usr
 $ sudo mkdir mirports
 $ sudo chown $(id -u) mirports
-$ cvs -d anoncvs@anoncvs.mirbsd.org:/cvs co -d mirports ports
+$ cvs -d _anoncvs@anoncvs.mirbsd.org:/cvs co -d mirports ports
 $ cd mirports
 $ mksh Setup.sh -e
 </pre>
@@ -111,7 +111,7 @@ $ . /usr/mpkg/db/SetEnv.sh		# if you’re using ksh
  not work at all or force you to manually export SUDO=sudo before
  building. That’s the reason for the warning.</p><pre>
 $ cd
-$ cvs -d anoncvs@anoncvs.mirbsd.org:/cvs co -d mirports ports
+$ cvs -d _anoncvs@anoncvs.mirbsd.org:/cvs co -d mirports ports
 $ cd mirports
 $ mksh Setup.sh -uel ~/.mpkg
 </pre>

@@ -1,10 +1,10 @@
-# $MirOS: www/src/getting.hts,v 1.17 2008/09/17 21:12:24 tg Exp $
+# $MirOS: www/src/getting.hts,v 1.18 2008/11/11 01:54:06 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname getting "Get MirOS!"
-mws_putheader '$MirOS: www/src/getting.hts,v 1.17 2008/09/17 21:12:24 tg Exp $'
+mws_putheader '$MirOS: www/src/getting.hts,v 1.18 2008/11/11 01:54:06 tg Exp $'
 mws_content <<'EOF'
 <h1>Get MirOS!</h1>
 
@@ -128,9 +128,9 @@ mws_content <<'EOF'
  or <a href="/cvs.cgi/">local CVSweb</a> or use anonymous CVS with <a
  href="http://openssh.com/">ssh</a> to one of the following mirrors:</p>
 <ul>
- <li><tt>:ext:anoncvs@anoncvs.mirbsd.org:/cvs</tt></li>
- <li><tt>:ext:anoncvs@anoncvs4.mirbsd.org:/cvs</tt></li>
- <li><tt>:ext:anoncvs@anoncvs6.mirbsd.org:/cvs</tt></li>
+ <li><tt>:ext:_anoncvs@anoncvs.mirbsd.org:/cvs</tt></li>
+ <li><tt>:ext:_anoncvs@anoncvs4.mirbsd.org:/cvs</tt></li>
+ <li><tt>:ext:_anoncvs@anoncvs6.mirbsd.org:/cvs</tt></li>
  <li><tt>:ext:anoncvs@1.anoncvs.mirbsd.org:/cvs</tt></li>
  <li><tt>:ext:anoncvs@1.anoncvs4.mirbsd.org:/cvs</tt></li>
  <li><tt>:ext:anoncvs@1.anoncvs6.mirbsd.org:/cvs</tt></li>
@@ -166,7 +166,7 @@ mws_content <<'EOF'
  checkouts, diffs, annotates, etc. which is much faster than remote. <a
  href="@@RELPATH@@anoncvs.htm#rsync">AnonRSYNC mirrors</a> are
  the same as above, a sample call is:<br />
- <tt>$ rsync -rxlztpgavPHK --delete anoncvs@anoncvs.mirbsd.org:/cvs/ /cvs</tt>
+ <tt>$ rsync -rxlztpgavPHK --delete _anoncvs@anoncvs.mirbsd.org:/cvs/ /cvs</tt>
  <br />
  Available modules include <tt>/cvs</tt> (always), the old repositories
  <tt>/ncvs</tt> and <tt>/ocvs</tt> (sometimes), binary MirPorts packages

@@ -1,4 +1,4 @@
-.\" $MirOS: contrib/code/mpczar/mpczar/mpczar.1,v 1.10 2008/05/03 01:09:29 tg Exp $
+.\" $MirOS: contrib/code/mpczar/mpczar/mpczar.1,v 1.11 2008/11/01 21:28:54 tg Exp $
 .\"-
 .\" Copyright (c) 2005, 2006, 2008
 .\"	Thorsten Glaser <tg@mirbsd.de>
@@ -18,7 +18,7 @@
 .\" damage or existence of a defect, except proven that it results out
 .\" of said person's immediate fault when using the work as intended.
 .\"-
-.Dd November 1, 2008
+.Dd December 10, 2008
 .Dt MPCZAR 1
 .Os MirPorts\ Framework
 .Sh NAME
@@ -95,11 +95,11 @@ using
 .El
 .Sh EXAMPLES
 Compress all files of a newly checked-out
-.Xr mksh 1
+.Xr jupp 1
 distribution:
 .Bd -literal
-$ cvs -qz9 -d anoncvs@anoncvs.mirbsd.org:/cvs co -Prmksh-R27 -dmksh src/bin/mksh
-$ mpczar -o mksh27 -I /CVS -r mksh
+$ cvs \-qz9 \-d _anoncvs@anoncvs.mirbsd.org:/cvs co \-Prjoe\-3_1jupp10 \-djupp contrib/code/jupp
+$ mpczar \-o mksh27 \-I /CVS \-r mksh
 .Ed
 .Sh DIAGNOSTICS
 .Nm

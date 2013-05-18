@@ -1,4 +1,4 @@
-$MirOS: src/share/doc/legal/LICENCE-GNU,v 1.8 2008/03/09 18:56:16 tg Exp $
+$MirOS: src/share/doc/legal/LICENCE-GNU,v 1.9 2008/04/22 13:09:28 tg Exp $
 
 Special rules for GNU and similar less free software
 ====================================================
@@ -145,7 +145,11 @@ Mirror list
 -----------
 
 anonymous cvs access with ssh:
-	CVSROOT=anoncvs@anoncvs.mirbsd.org:/cvs
+	CVSROOT=_anoncvs@anoncvs.mirbsd.org:/cvs
+	Port: 22
+	passwordless
+
+	CVSROOT=anoncvs@1.anoncvs.mirbsd.org:/cvs
 	Port: 22
 	password: anoncvs
 
@@ -157,7 +161,7 @@ anonymous rsync access:
 	- via rsync protocol
 	rsync://rsync.allbsd.org/miros-cvs/
 	- via SSH
-	anoncvs@anoncvs.mirbsd.org:/cvs/	(pass: anoncvs)
+	_anoncvs@anoncvs.mirbsd.org:/cvs/
 
 cvsweb access with http:
 	http://cvs.mirbsd.de/	(generic redirection to one of below)

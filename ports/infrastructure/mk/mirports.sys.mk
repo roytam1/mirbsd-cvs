@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/mirports.sys.mk,v 1.52 2008/10/05 16:10:05 tg Exp $
+# $MirOS: ports/infrastructure/mk/mirports.sys.mk,v 1.53 2008/10/13 21:22:54 tg Exp $
 #-
 # Copyright (c) 2005, 2006, 2008
 #	Thorsten “mirabilos” Glaser <tg@mirbsd.de>
@@ -156,9 +156,9 @@ OScompat?=		3.5
 
 SHELL=			${MKSH}		# missing ? not an oversight
 
-# this is supposed to be alphabetically supported.
+# this is supposed to be alphabetically sorted
 _MIRPORTS_ADDRESS=	<miros-discuss@MirBSD.org>
-_MIROS_ANONCVS=		anoncvs@anoncvs.mirbsd.org:/cvs
+_MIROS_ANONCVS=		_anoncvs@anoncvs.mirbsd.org:/cvs
 ARCH?=			${MACHINE_ARCH}
 FETCH_CMD?=		/usr/bin/ftp -EV -m
 HAS_CKSUM?=		No

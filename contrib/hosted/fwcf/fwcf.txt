@@ -372,7 +372,7 @@ are not supported.
 
 Development of FWCF is hosted in the CVS repository of the MirOS
 project. Anonymous read-only CVS access is available at the root
-“:ext:anoncvs@anoncvs.mirbsd.org:/cvs” using password “anoncvs”,
+“:ext:_anoncvs@anoncvs.mirbsd.org:/cvs” by passwordless ext-via-
 SSH on port 22; module “fwcf”. CVSweb is also available, e.g. at
 http://cvs.mirbsd.de/contrib/hosted/fwcf/ or its mirrors.
 
@@ -425,4 +425,4 @@ They are provided as hint only and not part of the specifi-
 cation itself. They may change without notice.
 
 ⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼
-$MirOS: contrib/hosted/fwcf/fwcf.txt,v 1.37 2007/07/02 14:55:44 tg Exp $
+$MirOS: contrib/hosted/fwcf/fwcf.txt,v 1.38 2008/05/03 01:09:30 tg Exp $
