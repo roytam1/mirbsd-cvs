@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/install.sub,v 1.51 2009/08/15 17:35:52 tg Exp $
+# $MirOS: src/distrib/common/install.sub,v 1.52 2009/08/15 17:43:50 tg Exp $
 # $OpenBSD: install.sub,v 1.388 2005/07/02 00:55:48 uwe Exp $
 # $NetBSD: install.sub,v 1.5.2.8 1996/09/02 23:25:02 pk Exp $
 #
@@ -1521,9 +1521,16 @@ donetconfig() {
 			-e '${g;p;}' /tmp/resolv.conf)
 	fi
 
+	# Get/Confirm an IPv4 default route if an IPv4 address was configured.
+	[[ -n $(ifconfig -a | sed -ne '/[ 	]inet .* broadcast /p') ]] && v4_defroute
+
 	# Get & apply fully qualified domain name to hostname.
 	ask "DNS domain name? (e.g. 'bar.com')" "${_dn:=$(get_fqdn)}"
 	hostname "$(hostname -s).$resp"
+
+	# Use a potential IPv4 default route as default nameserver
+	[[ -n $_ns ]] || _ns=$(route -n show -inet | \
+	    sed -ne '/^default */{s///; s/ .*//; p;}')
 
 	# Get/Confirm nameservers, and construct appropriate resolv.conf.
 	ask "DNS nameserver? (IP address or 'none')" "${_ns:=none}"
@@ -1536,9 +1543,6 @@ donetconfig() {
 		ask_yn "Use the nameserver now?" yes
 		[[ $resp = y ]] && cp /tmp/resolv.conf /tmp/resolv.conf.shadow
 	fi
-
-	# Get/Confirm an IPv4 default route if an IPv4 address was configured.
-	[[ -n $(ifconfig -a | sed -ne '/[ 	]inet .* broadcast /p') ]] && v4_defroute
 
 	edit_tmp_file hosts
 	manual_net_cfg
