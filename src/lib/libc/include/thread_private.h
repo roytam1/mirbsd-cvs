@@ -1,4 +1,7 @@
+/* $MirOS$ */
 /* $OpenBSD: thread_private.h,v 1.16 2004/06/07 21:11:23 marc Exp $ */
+
+/* needs <sys/time.h> for some functions */
 
 /* PUBLIC DOMAIN: No Rights Reserved. Marco S Hyman <marc@snafu.org> */
 
@@ -91,7 +94,9 @@ extern void *__THREAD_NAME(serv_mutex);
 #define FD_WRITE	0x2
 #define FD_RDWR		(FD_READ | FD_WRITE)
 
+#ifdef _SYS_TIME_H_
 int	_thread_fd_lock(int, int, struct timespec *);
+#endif
 void	_thread_fd_unlock(int, int);
 
 /*
