@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/dev/rnd.c,v 1.51 2009/02/22 17:06:26 tg Exp $ */
+/**	$MirOS: src/sys/dev/rnd.c,v 1.52 2009/11/09 19:43:45 tg Exp $ */
 /*	$OpenBSD: rnd.c,v 1.78 2005/07/07 00:11:24 djm Exp $	*/
 
 /*
@@ -727,6 +727,8 @@ randomattach(void)
 
 	for (i = 0; i < 256; i++)
 		arc4random_state.s[i] = i;
+	arc4random_state.i = 0;
+	arc4random_state.j = 0;
 	arc4_reinit(NULL);
 	if (!arc4random_seedfreq)
 		arc4random_seedfreq = hz << 9;	/* approx. 8½ minutes */
