@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: ports/infrastructure/install/setup.ksh,v 1.65 2006/10/13 12:50:43 tg Exp $
+# $MirOS: ports/infrastructure/install/setup.ksh,v 1.66 2006/10/13 17:16:31 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -622,9 +622,8 @@ elif [[ $(cd $localbase/db/pkg && echo pkgtools-*) != "pkgtools-*" ]]; then
 	    . $localbase/db/SetEnv.sh; \
 	    mmake repackage reupgrade clean)
 else
-	mkdir $T/pkgtools
-	cd $T/pkgtools
-	lndir $portsdir/infrastructure/pkgtools
+	dependdist pkgtools
+	cd $T/ports/infrastructure/pkgtools
 	export LOCALBASE=$localbase PORTSDIR=$portsdir
 	set -e
 	mmake obj
@@ -639,7 +638,7 @@ else
 	sed -e "s#/usr/mpkg#$localbase#" \
 	    <$portsdir/infrastructure/templates/basepkg.CONTENTS \
 	    >$localbase/db/pkg/pkgtools-$f_ver-0/+CONTENTS
-	print package tools >$localbase/db/pkg/pkgtools-$f_ver-0/+COMMENT
+	print autopackage tools >$localbase/db/pkg/pkgtools-$f_ver-0/+COMMENT
 fi
 
 
