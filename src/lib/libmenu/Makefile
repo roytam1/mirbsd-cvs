@@ -1,6 +1,8 @@
-# $MirOS: src/lib/libmenu/Makefile,v 1.4 2006/10/28 19:07:46 tg Exp $
+# $MirOS: src/lib/libmenu/Makefile,v 1.5 2007/05/17 18:38:32 tg Exp $
 
 LIB=		menu
+DPADD+=		${LIBCURSES}
+LDADD+=		-lcurses
 LIBLINKS=	menuw
 SHLIB_VERSION?=	6.0
 

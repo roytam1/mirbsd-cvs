@@ -1,6 +1,8 @@
-# $MirOS: src/lib/libpanel/Makefile,v 1.4 2006/10/28 19:08:01 tg Exp $
+# $MirOS: src/lib/libpanel/Makefile,v 1.5 2007/05/17 18:38:33 tg Exp $
 
 LIB=		panel
+DPADD+=		${LIBCURSES}
+LDADD+=		-lcurses
 LIBLINKS=	panelw
 SHLIB_VERSION?=	6.0
 

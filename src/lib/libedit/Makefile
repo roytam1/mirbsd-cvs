@@ -1,10 +1,12 @@
-# $MirOS: src/lib/libedit/Makefile,v 1.8 2007/06/21 14:40:21 tg Exp $
+# $MirOS: src/lib/libedit/Makefile,v 1.9 2007/08/07 21:21:26 tg Exp $
 # $NetBSD: Makefile,v 1.29 2003/12/05 13:37:48 lukem Exp $
 # @(#)Makefile	8.1 (Berkeley) 6/4/93
 
 SHLIB_VERSION?=	7.0
 
 LIB=	edit
+DPADD+=	${LIBTERMCAP}
+LDADD+=	-ltermcap
 
 OSRCS=	chared.c common.c el.c emacs.c fcns.c help.c hist.c key.c map.c \
 	parse.c prompt.c read.c refresh.c search.c sig.c term.c tty.c vi.c
