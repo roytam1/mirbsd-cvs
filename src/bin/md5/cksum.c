@@ -29,6 +29,10 @@
  * limited rights to use, publicly perform, distribute, sell, modify,
  * merge, give away, or sublicence.
  *
+ * Advertising materials mentioning features or use of this work must
+ * display the following acknowledgement:
+ *	This product includes material provided by Thorsten Glaser.
+ *
  * This work is provided "AS IS" and WITHOUT WARRANTY of any kind, to
  * the utmost extent permitted by applicable law, neither express nor
  * implied; without malicious intent or gross negligence. In no event
@@ -61,7 +65,7 @@
 #include <tiger.h>
 #include <whirlpool.h>
 
-__RCSID("$MirOS: src/bin/md5/md5.c,v 1.18 2007/05/07 15:21:14 tg Exp $");
+__RCSID("$MirOS: src/bin/md5/cksum.c,v 1.1 2007/05/07 15:46:23 tg Exp $");
 
 #define MAX_DIGEST_LEN			128
 
@@ -1083,6 +1087,13 @@ ADLER32_Init(ADLER32_CTX *ctx)
 		*ctx = 1;
 }
 
+/*-
+ * See also:
+ *	contrib/hosted/fwcf/adler.h
+ *	src/bin/md5/cksum.c
+ *	src/kern/z/adler32s.c
+ *	src/kern/z/adler32_i386.S
+ */
 void
 ADLER32_Update(ADLER32_CTX *ctx, const uint8_t *buf, size_t len)
 {
