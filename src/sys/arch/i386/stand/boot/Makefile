@@ -1,4 +1,4 @@
-# $MirOS: src/sys/arch/i386/stand/boot/Makefile,v 1.15 2008/08/01 15:43:46 tg Exp $
+# $MirOS: src/sys/arch/i386/stand/boot/Makefile,v 1.16 2008/12/31 16:38:36 tg Exp $
 
 .include "${.CURDIR}/../Makefile.inc"
 
@@ -30,7 +30,7 @@ LDFLAGS+=	-nostdlib -Bstatic --no-undefined
 INSTALL_STRIP=
 .PATH:		${S}/stand/boot
 
-LDFLAGS+=	-Ttext $(LINKADDR) -N -x -noinhibit-exec
+LDFLAGS+=	-Ttext $(LINKADDR) -N -noinhibit-exec
 SRCS=		srt0.S
 
 .ifdef BOOTSELECT_HOOK
@@ -38,7 +38,7 @@ SRCS+=		hook.S
 CPPFLAGS+=	-DBOOTSELECT_HOOK
 .endif
 
-CLEANFILES+=	${.CURDIR}/disasm testmkr ${PROG}.nm ld.out
+CLEANFILES+=	${.CURDIR}/disasm testmkr ${PROG}.{elf,nm,tmp} ld.out
 SRCS+=		boot.c bootarg.c cmd.c conf.c vars.c
 LDADD+=		${LLIBSA}
 DPADD+=		${DLIBSA}
@@ -47,12 +47,14 @@ all:		${PROG}
 
 ${PROG}:	$(OBJS) $(DPADD)
 	$(LD) $(LDFLAGS) $(OBJS) --start-group $(LDADD) --end-group \
-	    -o ${PROG} 2>&1 | tee ld.out
+	    -o ${PROG}.elf 2>&1 | tee ld.out
 	@if fgrep 'undefined reference' ld.out; then \
 		echo "*** Attention: undefined references found!"; \
+		rm -f $@; \
 		exit 1; \
-	  else exit 0; fi
-	nm ${PROG} >${PROG}.nm
+	fi
+	objcopy -x ${PROG}.elf ${PROG}.tmp
+	nm ${PROG}.tmp >${PROG}.nm
 	@if [ x"$$(fgrep 'T _rval' ${PROG}.nm)" != \
 	    x"00040170 T _rval" ]; then \
 		echo "ERROR: Value of RL_VAL (${RL_VAL}) must be adjusted!"; \
@@ -62,9 +64,10 @@ ${PROG}:	$(OBJS) $(DPADD)
 		echo "  The problematic sym: $$(fgrep 'T _rval' ${PROG}.nm)"; \
 		exit 1; \
 	fi
-	@$(SIZE) ${PROG}
-	strip --strip-all -R .comment ${PROG}
-	objcopy -O binary ${PROG}
+	@$(SIZE) ${PROG}.elf
+	strip --strip-all -R .comment ${PROG}.tmp
+	objcopy -O binary ${PROG}.tmp ${PROG}
+	@-rm -f ${PROG}.tmp
 
 disasm:	${.CURDIR}/disasm
 
