@@ -1791,3 +1791,45 @@ Title: Happy 5th birthday, MirBSD!
  well, so that we can release as soon as possible (and tested; XTaran took
  it okay and is currently backing up his stuff, thanks).</p>
 ----
+Author: bsiegert@
+Date: 31.08.2007
+
+<p>I had some feedback for my FrOSCon talk from J&ouml;rg&mdash;better
+ known for MirOS users as J?rg&mdash;Schilling, who did not even attend
+ it. Somebody told him I had been mocking his poor excuse for a build
+ system. Since then, mails have been going back and forth. He accused me
+ of spreading lies, being generally misinformed and (that is the part I
+ like best) having made a bad talk. In fact, the latter is also the
+ subject of his mail. Good to know that he can sense what I said from
+ 500&nbsp;km away.</p>
+
+<p>It was impossible for me to get any kind of factual argument across
+ to J&ouml;rg. For instance, every time I said something about his
+ Makefiles, he kept on talking about smake. I am not the slightest bit
+ interested in smake. The really interesting questions were not answered
+ by him: Why are there 325 files in the RULES subdirectory in the
+ cdrtools source (and 48 READMEs)? Why are there two Makefile fragments,
+ <tt>i386-openbsd-cc.rul</tt> and <tt>i386-openbsd-gcc.rul</tt>, which
+ are otherwise completely equal and choose to ignore the user's choice
+ of C compiler? How do you want to achieve platform-independence if all
+ you have is 325 platform-specific files?</p>
+
+<p>The answer is that you should just install smake, and thanks to its
+ magical capabilities (which J.S. calls "automake functions" to further
+ confuse everyone), everything will work. I refuse to look at smake, but
+ for me, this just shifts the problem further: How do the Makefiles of
+ smake work? Should I install smake to build that too? Keep in mind that
+ this is somehow better than automake, which works with the native
+ make(1) or GNU make, and for which no additional software needs to be
+ installed, at least <i>a priori</i>.</p>
+
+<p>So, to conclude, I stand fully behind what I said, and I will not
+ "correct" any statements I made. Regarding the licence issues behind
+ the Schily Makefiles, different people have different opinions. And
+ J&ouml;rg, you should be ashamed of yourself for saying:</p>
+
+<blockquote><p>"Schade, da&szlig; Du die L&uuml;gen der OpenSoure [sic!]
+ Feinde bei Debian unreflektiert wiederholst."</p></blockquote>
+
+<p>I mean, really.</p>
+----
