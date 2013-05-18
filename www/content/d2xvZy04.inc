@@ -1,5 +1,5 @@
 <!-- PageID: wlog-8 -->
-<small class="rcsid">$MirOS: www/content/d2xvZy04.inc,v 1.55 2006/03/29 21:15:32 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy04.inc,v 1.56 2006/03/29 21:50:52 tg Exp $</small>
 <h1>MirBSD &ndash; WTF, We Have a Release!?</h1>
 <p><small><a href="#eof">bottom</a> or <a href="/?older">older</a>
  editions</small></p>
@@ -902,6 +902,35 @@ celebrate this event, rotate the wlog and start a new one.</p>
   what my plans for the "C" locale were. Well, we do export nl_langinfo,
   setlocale etc. as weak symbols for users to override so I suppose I'll
   do the switch. But quietly, so Benny doesn't realise it. (Damn.)</p>
+ <p>Ich bin eben &#252;ber einen Vortrag zu Plan 9 gestolpert,
+   ein System, das selbst einem Unix-Alteingesessenen
+   noch komisch vorkommt. Die meisten Leser hier wird
+   freuen, da&#223; man 'ne Maus benutzen soll.<br />
+
+   Vortrag: <a href="http://ftp.belnet.be/mirror/FOSDEM/FOSDEM2006-plan9.avi">http://ftp.belnet.be/mirror/FOSDEM/FOSDEM2006-plan9.avi</a><br />
+   Plan 9: <a href="http://cm.bell-labs.com/plan9/">http://cm.bell-labs.com/plan9/</a> (oder <a href="http://9fans.net/">http://9fans.net/</a>)<br />
+
+   Es gibt auch p9p (Plan 9 from User Space), um das mal
+   auf Windows (fr&#252;he Alpha) oder Unix auszuprobieren.<br />
+
+   Den C-Compiler h&#228;tte ich gern, um gcc zu ersetzen, aber
+   die Lizenz ist leider auch nicht so wirklich frei.<br />
+
+   Interessant: es ist von Oberon abgeleitet.<br />
+
+   Sehr sch&#246;n auch: <a href="http://www.oberon.ethz.ch/">ETHZ Oberon</a> ist unter einer
+   3-clause BSD-style Lizenz freigegeben, also
+   quasi "freier gehts nicht".<br />
+
+   Und auf der oben genannten Homepage kann man
+   die B&#252;cher "Compilerbau" und "Algorithmen und
+   Datenstrukturen" von Prof. Wirth frei herunterladen,
+   allerdings die Oberon-Variante, klar. Und nat&#252;rlich
+   einen Haufen Oberon-Literatur.<br />
+
+   Ich hatte vor einiger Zeit tats&#228;chlich mal ETHZ Oberon
+   nativ installiert, war ganz lustig, aber ich bin dann doch
+   nicht so der Mausschubser&#8230;</p>
  <p>I still have DNS trouble which bogus cannot reproduce; his dig shows
   tld1 answering, host doesn't, he can't ping www.mirbsd.org. But I just
   got an eMail from someone using www.mirbsd.org so I guess something is
