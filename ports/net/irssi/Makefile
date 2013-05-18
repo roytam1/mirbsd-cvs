@@ -1,4 +1,4 @@
-# $MirOS: ports/net/irssi/Makefile,v 1.5 2007/05/07 19:19:06 bsiegert Exp $
+# $MirOS: ports/net/irssi/Makefile,v 1.6 2008/03/09 17:23:18 tg Exp $
 # $OpenBSD: Makefile,v 1.24 2004/05/13 07:11:56 pvalchev Exp $
 
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
@@ -24,9 +24,9 @@ PERMIT_DISTFILES_FTP=	Yes
 
 LIB_DEPENDS+=		glib.1.2,gmodule::devel/glib1
 
-SUBST_VARS+=		P5ARCH
 CONFIGURE_STYLE=	autoconf
 AUTOCONF_NEW=		yes
+MODULES+=		p5
 CONFIGURE_ARGS+=	--datadir=${PREFIX}/share/doc --enable-perl=yes \
 			--enable-ipv6 --with-included-gettext --with-proxy \
 			--with-glib1

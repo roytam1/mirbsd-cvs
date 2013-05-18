@@ -1,4 +1,4 @@
-# $MirOS: ports/devel/subversion/Makefile,v 1.15 2007/09/17 21:02:05 bsiegert Exp $
+# $MirOS: ports/devel/subversion/Makefile,v 1.16 2008/03/09 17:22:33 tg Exp $
 
 COMMENT=		Subversion revision control system
 VERSION=		1.4.5
@@ -44,11 +44,11 @@ CONFIGURE_ARGS+=	${CONFIGURE_SHARED}
 
 DOCFILES=		svnsync.txt fsfs ssh-tricks
 
+MODULES+=		p5
 # We have to replicate some of the perl.port.mk logic here.
-MODPERL_ARCH!=		/usr/bin/perl -e 'use Config; print $$Config{archname}, "\n";'
-P5MAN3EXT!=	/usr/bin/perl -e 'use Config; print ".".$$Config{man3ext};'
-P5DLEXT!=	/usr/bin/perl -e 'use Config; print ".".$$Config{dlext};'
-SUBST_VARS+=	P5ARCH P5SITE P5MAN3EXT P5DLEXT
+P5MAN3EXT!=		/usr/bin/perl -e 'use Config; print ".".$$Config{man3ext};'
+P5DLEXT!=		/usr/bin/perl -e 'use Config; print ".".$$Config{dlext};'
+SUBST_VARS+=		P5SITE P5MAN3EXT P5DLEXT
 
 post-build:
 	cd ${WRKBUILD} && ${MAKE_PROGRAM} swig-pl
