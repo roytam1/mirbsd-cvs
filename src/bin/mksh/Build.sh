@@ -750,7 +750,7 @@ test 1 = $NEED_MKSH_SIGNAME && if test $HAVE_CPP_DD = yes; then
 	NSIG=`( echo '#include <signal.h>'; echo '#ifndef NSIG'; \
 	    echo '#define NSIG _NSIG'; echo '#endif'; echo mksh_cfg: NSIG ) | \
 	    vq "$CPP $CPPFLAGS" | grep mksh_cfg: | \
-	    sed 's/^mksh_cfg: \([0-9x ()+-]*\).*$/\1/'`
+	    sed 's/^mksh_cfg:[	 ]*\([0-9x ()+-]*\).*$/\1/'`
 	case $NSIG in
 	*[\ +-]*) NSIG=`awk "BEGIN { print $NSIG }"` ;;
 	esac
@@ -763,7 +763,7 @@ test 1 = $NEED_MKSH_SIGNAME && if test $HAVE_CPP_DD = yes; then
 	    sort | while read name; do
 		( echo '#include <signal.h>'; echo mksh_cfg: SIG$name ) | \
 		    vq "$CPP $CPPFLAGS" | grep mksh_cfg: | \
-		    sed 's/^mksh_cfg: \([0-9x]*\).*$/\1:'$name/
+		    sed 's/^mksh_cfg:[	 ]*\([0-9x]*\).*$/\1:'$name/
 	done | grep -v '^:' | while IFS=: read nr name; do
 		nr=`printf %d "$nr" 2>/dev/null`
 		test $nr -gt 0 && test $nr -le $NSIG || continue
