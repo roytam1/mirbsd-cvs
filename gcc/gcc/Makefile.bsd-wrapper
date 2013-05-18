@@ -1,4 +1,4 @@
-# $MirOS: gcc/gcc/Makefile.bsd-wrapper,v 1.39 2006/03/31 16:14:49 tg Exp $
+# $MirOS: gcc/gcc/Makefile.bsd-wrapper,v 1.40 2006/06/11 01:45:19 tg Exp $
 
 .include <bsd.own.mk>
 .include "${GNUSYSTEM_AUX_DIR}/locations.mk"
@@ -65,6 +65,7 @@ XARGS+=		TCFLAGS="${CROSSCFLAGS}"
 .else
 XARGS+=		TCFLAGS="${FSFCFLAGS}"
 .endif
+XARGS+=		CC_FOR_BUILD=${HOSTCC:C/ *$//:Q}
 .if ${GCC_NATIVE:L} == "yes"
 CPPFLAGS+=	-DMIRBSD_NATIVE
 XARGS+=		BUILD_LIBIBERTY="-liberty" LIBIBERTY="-liberty" \
@@ -88,6 +89,10 @@ CFARGS+=	--prefix=${GCC_PREFIX} --libexecdir=${GCC_PREFIX}/lib \
 		--enable-stack-protector --disable-sjlj-exceptions \
 		--with-local-prefix=${GCC_PREFIX} --disable-nls \
 		--with-gxx-include-dir=${GCC_PREFIX}/include/gxx ${__LANGS}
+.ifndef _CROSSBUILD
+# required if build != (host == target), for the chained auto-build.h call
+CFARGS+=	--target=${GCCTARGET}
+.endif
 .if !defined(NO_THREADS) || ${NO_THREADS:L} == "no"
 CFARGS+=	--enable-threads=posix
 .else
