@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.286 2010/02/24 18:59:12 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.287 2010/03/03 11:47:52 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -6303,10 +6303,44 @@ Tag: debian mksh rant
 Title: CLI for the KDE Wallet • 2.02
 Date: 03.03.2010 11:43
 Author: tg@
+Tag: debian news
 
 <p>The <a href="@@RELPATH@@kwalletcli.htm">Command-Line Interface
  for the KDE Wallet</a>, Version 2.02, has been released and dput
  into Debian unstable. (The lenny-backports version will follow.)
  It took me quite a while to reproduce, then track down, the bug;
  having unrelated problems at the same time didn’t help either…</p>
+----
+Title: On ranting...
+Date: 04.03.2010 17:55
+Author: tg@
+Tag: debian
+
+<p>Yes, my rant was more against the things I encountered during
+ keysigning, not keysigning itself. However, I still feel X.509
+ doesn't have these problems, and nothing I can think of will
+ persuade me to think PGP/MIME better than Inline PGP. (Especially
+ when the recipient's key contains a notation that he wants the
+ latter, but not the former.)</p>
+<p>Jonathan does have some good points about the (PGP) Web of Trust.</p>
+<p>Again, that wlog entry of mine was a rant; I had let the topic
+ stew over night, trying to get the anger out, but on the next
+ day it just wanted to get out of me, I merely wanted a good old
+ rant. I think I'll not include Planet Debian next time I <em>do</em>
+ rant, though (it's not the place to do so).</p>
+----
+Title: RCBD #2
+Author: tg@
+Date: 04.03.2010 19:55
+Tag: debian
+
+<p>My ex-AM now sort-of mentor Zack asked for help of an Autoconf/Libtool
+ guru with an RC bug... well, <a href="@@RELPATH@@ports.htm">The MirPorts
+ Framework</a> taught benz and me, under consumption of a bottle of wine,
+ how to deal with that stuff. So I've fixed <a
+ href="http://bugs.debian.org/559822">#559822</a> (CVE-2009-3736, another
+ of them...) and NMU'd.</p>
+<p>Sort of a PITA, considering gettextize runs interactively, and there's
+ a lot of files to remove in debian/rules:clean for a double-build to not
+ add nonsensical files to the .diff.gz; but I did it in the end.</p>
 ----
