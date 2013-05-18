@@ -1,4 +1,4 @@
-/* $MirOS: contrib/code/libhaible/wchar.h,v 1.11 2006/05/30 20:46:32 tg Exp $ */
+/* $MirOS: contrib/code/libhaible/wchar.h,v 1.12 2006/05/30 20:57:53 tg Exp $ */
 
 /*-
  * Copyright (c) 2005, 2006
@@ -80,10 +80,8 @@ size_t	mbrlen(const char *__restrict__, size_t, mbstate_t *__restrict__);
 size_t	mbrtowc(wchar_t *__restrict__, const char *__restrict__, size_t,
 	    mbstate_t *__restrict__);
 int	mbsinit(const mbstate_t *);
-#ifdef notyet
 size_t	mbsrtowcs(wchar_t *__restrict__, const char **__restrict__, size_t,
 	    mbstate_t *__restrict__);
-#endif
 wint_t	putwc(wchar_t, FILE *);
 wint_t	putwchar(wchar_t);
 #ifdef notyet
@@ -127,10 +125,8 @@ int	wcsncmp(const wchar_t *, const wchar_t *, size_t);
 wchar_t	*wcsncpy(wchar_t *__restrict__, const wchar_t *__restrict__, size_t);
 wchar_t	*wcspbrk(const wchar_t *, const wchar_t *);
 wchar_t	*wcsrchr(const wchar_t *, wchar_t);
-#ifdef notyet
 size_t	wcsrtombs(char *__restrict__, const wchar_t **__restrict__, size_t,
 	    mbstate_t *__restrict__);
-#endif
 size_t	wcsspn(const wchar_t *, const wchar_t *);
 wchar_t	*wcsstr(const wchar_t *__restrict__, const wchar_t *__restrict__);
 double	wcstod(const wchar_t *__restrict__, wchar_t **__restrict__);
