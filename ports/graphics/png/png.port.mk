@@ -1,4 +1,4 @@
-# $MirOS: ports/graphics/png/png.port.mk,v 1.1 2006/02/09 11:11:51 tg Exp $
+# $MirOS: ports/graphics/png/png.port.mk,v 1.2 2006/03/06 21:58:36 bsiegert Exp $
 
 LIB_DEPENDS+=		png::graphics/png
-CPPFLAGS+=		-I${LOCALBASE}/libpng
+CPPFLAGS+=		-I${LOCALBASE}/include/libpng
