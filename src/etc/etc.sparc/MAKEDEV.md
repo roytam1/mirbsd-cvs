@@ -1,6 +1,5 @@
 vers(__file__,
-	{-$MirOS: src/etc/etc.sparc/MAKEDEV.md,v 1.5 2005/07/23 15:36:57 tg Exp $-},
-etc.MACHINE)dnl
+	{-$MirOS: src/etc/etc.i386/MAKEDEV.md,v 1.8 2005/10/21 12:54:30 tg Exp $-})dnl
 vers(__file__,
 	{-$OpenBSD: MAKEDEV.md,v 1.28 2005/07/17 12:23:14 miod Exp $-},
 etc.MACHINE)dnl

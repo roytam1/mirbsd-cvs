@@ -1,11 +1,11 @@
 vers(__file__,
-	{-$MirOS: src/etc/etc.i386/MAKEDEV.md,v 1.7 2005/08/02 12:02:06 tg Exp $-})dnl
+	{-$MirOS: src/etc/etc.i386/MAKEDEV.md,v 1.8 2005/10/21 12:54:30 tg Exp $-})dnl
 vers(__file__,
 	{-$OpenBSD: MAKEDEV.md,v 1.32 2005/06/29 18:23:27 todd Exp $-},
 etc.MACHINE)dnl
 dnl
+dnl Copyright (c) 2003-2005 Thorsten Glaser <tg@mirbsd.de>
 dnl Copyright (c) 2001-2004 Todd T. Fries <todd@OpenBSD.org>
-dnl Copyright (c) 2003-2005 Thorsten Glaser <tg@66h.42h.de>
 dnl
 dnl Permission to use, copy, modify, and distribute this software for any
 dnl purpose with or without fee is hereby granted, provided that the above
