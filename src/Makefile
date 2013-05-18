@@ -1,4 +1,4 @@
-# $MirOS: src/Makefile,v 1.109 2007/08/07 18:03:31 tg Exp $
+# $MirOS: src/Makefile,v 1.110 2007/08/07 18:05:10 tg Exp $
 # $OpenBSD: Makefile,v 1.103 2004/05/03 15:18:18 drahn Exp $
 
 .if defined(MAKECONF) && exists(${MAKECONF})
@@ -13,6 +13,9 @@ NO_ADA?=	Yes
 NO_PASCAL?=	Yes
 .endif
 NOMAN?=		no
+.if ${MACHINE_ARCH} == "sparc"
+NO_LIVECD=	ENOCOFFEE
+.endif
 CVSROOT?=	/cvs
 ANONCVSROOT?=	anoncvs@anoncvs.mirbsd.org:/cvs
 
@@ -309,7 +312,7 @@ _do-dist:
 .endif
 	@[[ -x /usr/mpkg/bin/gmake ]] || { \
 		print 'To build gcc you must have GNU make installed!'; \
-		{SUDO} rm -rf ${HOME}; \
+		${SUDO} rm -rf ${HOME}; \
 		exit 1; \
 	}
 .ifndef QUICK_DIST
