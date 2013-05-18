@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/stand/libsa/pxe.c,v 1.12 2009/01/11 14:38:32 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/stand/libsa/pxe.c,v 1.13 2009/01/11 14:40:28 tg Exp $ */
 /*	$OpenBSD: pxe.c,v 1.5 2007/07/27 17:46:56 tom Exp $ */
 /*	$NetBSD: pxe.c,v 1.5 2003/03/11 18:29:00 drochner Exp $	*/
 
@@ -364,6 +364,8 @@ pxe_init(int quiet)
 	if (have_pxe >= 0)
 		return (have_pxe == 0 ? 1 : 0);
 	have_pxe = 0;
+	if (!(i386_biosflags & 4))
+		return (1);	/* not “probably” booted from PXE */
 
 	/*
 	 * Checking for the presence of PXE is a machine-dependent
@@ -388,6 +390,9 @@ pxe_init(int quiet)
 
 	if (pxe_plus == pxe_bang && (!pxe || !pxenv))
 		goto got_one;	/* probably from SYSLINUX */
+
+	if (!(i386_dosdev & 1))
+		return (1);	/* PXE scan disabled */
 
 	for (cp = (char *)0xa0000; cp > (char *)0x10000; cp -= 2) {
 		if (pxenv == NULL)

@@ -1,4 +1,4 @@
-/* $MirOS: src/sys/arch/i386/stand/boot/srt0.S,v 1.55 2009/01/11 14:40:27 tg Exp $ */
+/* $MirOS: src/sys/arch/i386/stand/boot/srt0.S,v 1.56 2009/01/11 14:47:37 tg Exp $ */
 
 /*-
  * Copyright (c) 2003, 2004, 2005, 2006, 2007, 2008, 2009
@@ -34,6 +34,9 @@
 	.globl	_edata
 	.globl	_end
 	.globl	_rtt
+#ifndef SMALL_BOOT
+	.globl	have_pxe
+#endif
 	/* global */
 	.globl	_start
 	.globl	bios_bootpte
@@ -62,6 +65,9 @@ Ldrvi:	.long	0x6A6D4F00	/* drive information */
 		 * xxxxx1xx = probably booted via PXE
 		 */
 	i386_dosdev = Ldrvi + 3
+		/*-
+		 * if PXE: 0 = do not scan, 1 = do scan
+		 */
 	.size	i386_userpt,1
 	.size	i386_biosdev,1
 	.size	i386_biosflags,1
@@ -129,7 +135,7 @@ Linit:	xor	eax,eax
 1:	shl	bx,8
 	cmp	edx,0x00007C00
 	jne	2f
-	or	ebx,0x00040000		/* PXE */
+	or	ebx,0x01040000		/* PXE, do scan */
 2:	mov	bl,cs:[ecx + offset Ldrvi - offset _start]
 	mov	cs:[ecx + offset Ldrvi - offset _start],ebx
 3:
@@ -201,7 +207,7 @@ Lpxelinux:
 	mov	cs:[ecx + offset pxe_bang - offset _start],eax
 	mov	cs:[ecx + offset pxe_plus - offset _start],eax
 	xor	edx,edx
-	mov	dh,4		/* probably PXE :) */
+	mov	dh,4		/* probably PXE :) but do not scan */
 	mov	bx,3		/* clean up but retain PXE and UNDI */
 	jmp	Loklx
 
@@ -382,6 +388,7 @@ Lmb2rm:	mov	esp,0x0003FFFC
 	stosd			/* partition */
 	stosd			/* partition */
 	stosd			/* partition */
+	mov	[have_pxe],eax	/* do not even try */
 
 	lgdt	Gdtr
 	call	prot_to_real
