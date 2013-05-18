@@ -1,4 +1,4 @@
-/* $MirOS$ */
+/* $MirOS: src/usr.sbin/rdate/rdate.h,v 1.1 2007/08/10 23:52:24 tg Exp $ */
 
 /* This macro is not implemented on all operating systems */
 #ifndef	SA_LEN
@@ -19,7 +19,8 @@ extern u_int32_t arc4random(void);
 extern time_t tick2utc(time_t);		/* from ntpleaps.c */
 #endif
 
-void ntp_client(const char *, int, struct timeval *, struct timeval *, int);
+void ntp_client(const char *, int, struct timeval *, struct timeval *,
+    int, int);
 void rfc868time_client (const char *, int, struct timeval *,
     struct timeval *);
 

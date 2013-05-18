@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.sbin/rdate/rdate.c,v 1.10 2007/08/10 23:01:03 tg Exp $ */
+/**	$MirOS: src/usr.sbin/rdate/rdate.c,v 1.11 2007/08/10 23:52:24 tg Exp $ */
 /*	$OpenBSD: rdate.c,v 1.22 2004/02/18 20:10:53 jmc Exp $	*/
 /*	$NetBSD: rdate.c,v 1.4 1996/03/16 12:37:45 pk Exp $	*/
 
@@ -62,7 +62,7 @@
 #define	logwtmp(a,b,c)	/* nothing */
 #endif
 
-__RCSID("$MirOS: src/usr.sbin/rdate/rdate.c,v 1.10 2007/08/10 23:01:03 tg Exp $");
+__RCSID("$MirOS: src/usr.sbin/rdate/rdate.c,v 1.11 2007/08/10 23:52:24 tg Exp $");
 
 static void usage(void) __attribute__((noreturn));
 
@@ -73,8 +73,9 @@ static void
 usage(void)
 {
 	fprintf(stderr,
-	    "Usage: %s [-46acdnpsv] [-P ntpport] host\n"
+	    "Usage: %s [-346acdnpsv] [-P ntpport] host\n"
 #ifndef SMALL
+	    "   -3: set SNTP version field to 3\n"
 	    "	-4: use IPv4 only\n"
 	    "	-6: use IPv6 only\n"
 	    "	-a: use adjtime instead of instant change\n"
@@ -92,7 +93,7 @@ usage(void)
 int
 main(int argc, char **argv)
 {
-	int             pr = 0, silent = 0, ntp = 0, verbose = 0;
+	int             pr = 0, silent = 0, ntp = 0, verbose = 0, ntpver = 0;
 	int		slidetime = 0, showremainder = 0, portno = 0;
 	char           *hname;
 	int             c;
@@ -100,8 +101,12 @@ main(int argc, char **argv)
 
 	struct timeval new, adjust, remainder;
 
-	while ((c = getopt(argc, argv, "46acdnP:prsv")) != -1)
+	while ((c = getopt(argc, argv, "346acdnP:prsv")) != -1)
 		switch (c) {
+		case '3':
+			ntpver = 3;
+			break;
+
 		case '4':
 			family = PF_INET;
 			break;
@@ -157,7 +162,7 @@ main(int argc, char **argv)
 	hname = argv[optind];
 
 	if (ntp)
-		ntp_client(hname, family, &new, &adjust, portno);
+		ntp_client(hname, family, &new, &adjust, portno, ntpver);
 	else
 		rfc868time_client(hname, family, &new, &adjust);
 

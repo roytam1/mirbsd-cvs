@@ -54,7 +54,7 @@
 
 #include "rdate.h"
 
-__RCSID("$MirOS: src/usr.sbin/rdate/ntp.c,v 1.14 2007/08/10 23:52:24 tg Exp $");
+__RCSID("$MirOS: src/usr.sbin/rdate/ntp.c,v 1.15 2007/08/10 23:56:12 tg Exp $");
 
 /*
  * NTP definitions.  Note that these assume 8-bit bytes - sigh.  There
@@ -109,8 +109,8 @@ struct ntp_data {
 	u_char		stratum;
 };
 
-static int sync_ntp(int, const struct sockaddr *, double *, double *);
-static int write_packet(int, struct ntp_data *);
+static int sync_ntp(int, const struct sockaddr *, double *, double *, int);
+static int write_packet(int, struct ntp_data *, int);
 static int read_packet(int, struct ntp_data *, double *, double *);
 static void unpack_ntp(struct ntp_data *, u_char *);
 static double current_time(double);
@@ -119,7 +119,7 @@ static void debug_packet(const struct ntp_data *);
 
 void
 ntp_client(const char *hostname, int family, struct timeval *new,
-    struct timeval *adjust, int sport)
+    struct timeval *adjust, int sport, int nversion)
 {
 	struct addrinfo hints, *res0, *res;
 	double offset, error;
@@ -157,7 +157,7 @@ ntp_client(const char *hostname, int family, struct timeval *new,
 			}
 		}
 
-		ret = sync_ntp(s, res->ai_addr, &offset, &error);
+		ret = sync_ntp(s, res->ai_addr, &offset, &error, nversion);
 		if (ret < 0) {
 			if (debug)
 				fprintf(stderr, "try the next address\n");
@@ -181,7 +181,8 @@ ntp_client(const char *hostname, int family, struct timeval *new,
 }
 
 int
-sync_ntp(int fd, const struct sockaddr *peer, double *offset, double *error)
+sync_ntp(int fd, const struct sockaddr *peer, double *offset, double *error,
+    int nver)
 {
 	int attempts = 0, accepts = 0, rejects = 0;
 	int delay = MAX_DELAY, ret;
@@ -207,7 +208,7 @@ sync_ntp(int fd, const struct sockaddr *peer, double *offset, double *error)
 			return (-1);
 		}
 
-		if (write_packet(fd, &data) < 0)
+		if (write_packet(fd, &data, nver) < 0)
 			return (-1);
 
 		ret = read_packet(fd, &data, &x, &y);
@@ -258,14 +259,14 @@ sync_ntp(int fd, const struct sockaddr *peer, double *offset, double *error)
 
 /* Send out NTP packet. */
 int
-write_packet(int fd, struct ntp_data *data)
+write_packet(int fd, struct ntp_data *data, int nver)
 {
 	u_char	packet[NTP_PACKET_MIN];
 	ssize_t	length;
 
 	memset(packet, 0, sizeof(packet));
 
-	packet[0] = (NTP_VERSION << 3) | (NTP_MODE_CLIENT);
+	packet[0] = ((nver ? nver : NTP_VERSION) << 3) | (NTP_MODE_CLIENT);
 
 	data->xmitck = (u_int64_t)arc4random() << 32 | arc4random();
 
@@ -422,8 +423,7 @@ unpack_ntp(struct ntp_data *data, u_char *packet)
 	data->mode = packet[0] & 0x07;
 	data->stratum = packet[1];
 
-	memcpy(&i, packet + 12, 4);
-	data->refid = ntohl(i);
+	memcpy(&data->refid, packet + 12, 4);
 
 	for (i = 0, d = 0.0; i < 8; ++i)
 	    d = 256.0*d+packet[NTP_RECEIVE+i];
@@ -492,7 +492,8 @@ debug_packet(const struct ntp_data *data)
 	printf("version:     %u\n", data->version);
 	printf("mode:        %u\n", data->mode);
 	printf("stratum:     %u\n", data->stratum);
-	printf("reference:   0x%08X (%d.%d.%d.%d)\n", data->refid,
+	printf("reference:   0x%08X (%d.%d.%d.%d)\n",
+	    ntohl(data->refid),
 	    data->refid >> 24, (data->refid >> 16) & 0xFF,
 	    (data->refid >> 8) & 0xFF, data->refid & 0xFF);
 	printf("originate:   %f\n", data->originate);
