@@ -1,4 +1,4 @@
-/* $MirOS: src/sys/arch/i386/stand/boot/srt0.S,v 1.64 2009/01/12 17:36:03 tg Exp $ */
+/* $MirOS: src/sys/arch/i386/stand/boot/srt0.S,v 1.65 2009/01/12 17:42:51 tg Exp $ */
 
 /*-
  * Copyright (c) 2003, 2004, 2005, 2006, 2007, 2008, 2009
@@ -382,6 +382,85 @@ Lmb2rm:	mov	edi,offset Ldrvi
 	.code16
 	jmp	LisRel
 #endif
+
+#ifdef USE_PXE
+	.code32
+	.globl	pxecall_bang
+pxecall_bang:
+	push	ebp
+	mov	ebp,esp
+	push	ebx
+	push	esi
+	push	edi
+
+	mov	ebx,[ebp+8]
+	mov	ecx,[pxe_bang]
+	mov	ebp,offset pxe_command_buf - offset bounce_buf
+	mov	edx,offset pxecall_bang_rt - offset _start
+
+	cli
+	call	prot_to_real
+	.code16
+	sti
+
+	push	ss
+	push	bp
+	push	bx
+	push	cs
+	push	dx
+	push	ecx
+	lret
+pxecall_bang_rt:
+	add	sp,6
+
+	cli
+	call	real_to_prot
+	.code32
+	sti
+
+	pop	edi
+	pop	esi
+	pop	ebx
+	pop	ebp
+	ret
+
+	.globl	pxecall_plus
+pxecall_plus:
+	push	ebp
+	mov	ebp,esp
+	push	ebx
+	push	esi
+	push	edi
+
+	mov	ebx,[ebp+8]
+	mov	ecx,[pxe_plus]
+	mov	edi,offset pxe_command_buf - offset bounce_buf
+	mov	edx,offset pxecall_plus_rt - offset _start
+
+	cli
+	call	prot_to_real
+	.code16
+	sti
+
+	push	ss
+	pop	es
+	push	cs
+	push	dx
+	push	ecx
+	lret
+pxecall_plus_rt:
+	cli
+	call	real_to_prot
+	.code32
+	sti
+
+	pop	edi
+	pop	esi
+	pop	ebx
+	pop	ebp
+	ret
+#endif
+
 
 	bounce_buf = 0x30000
 	.globl	bounce_buf

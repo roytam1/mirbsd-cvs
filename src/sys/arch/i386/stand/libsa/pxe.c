@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/stand/libsa/pxe.c,v 1.13 2009/01/11 14:40:28 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/stand/libsa/pxe.c,v 1.14 2009/01/11 14:50:27 tg Exp $ */
 /*	$OpenBSD: pxe.c,v 1.5 2007/07/27 17:46:56 tom Exp $ */
 /*	$NetBSD: pxe.c,v 1.5 2003/03/11 18:29:00 drochner Exp $	*/
 
@@ -112,8 +112,8 @@ int have_pxe = -1;
 
 void	(*pxe_call)(u_int16_t);
 
-void	pxecall_bangpxe(u_int16_t);	/* pxe_call.S */
-void	pxecall_pxenv(u_int16_t);	/* pxe_call.S */
+extern void pxecall_bang(u_int16_t);
+extern void pxecall_plus(u_int16_t);
 
 extern char pxe_command_buf[256];
 
@@ -295,12 +295,6 @@ pxesocktodesc(sock)
  * PXE initialization and support routines
  *****************************************************************************/
 
-u_int16_t pxe_command_buf_seg;
-u_int16_t pxe_command_buf_off;
-
-extern u_int16_t bangpxe_off, bangpxe_seg;
-extern u_int16_t pxenv_off, pxenv_seg;
-
 /* static struct btinfo_netif bi_netif; */
 
 void
@@ -439,21 +433,14 @@ pxe_init(int quiet)
 	}
 
 	if (pxenv == NULL) {
-		pxe_call = pxecall_bangpxe;
-		bangpxe_off = pxe->EntryPointSP.offset;
-		bangpxe_seg = pxe->EntryPointSP.segment;
+		pxe_call = pxecall_bang;
+		pxe_bang = pxe->EntryPointSP.segment;
+		pxe_bang = (pxe_bang << 16) | pxe->EntryPointSP.offset;
 	} else {
-		pxe_call = pxecall_pxenv;
-		pxenv_off = pxenv->RMEntry.offset;
-		pxenv_seg = pxenv->RMEntry.segment;
+		pxe_call = pxecall_plus;
+		pxe_plus = pxenv->RMEntry.segment;
+		pxe_plus = (pxe_plus << 16) | pxenv->RMEntry.offset;
 	}
-
-	/*
-	 * Pre-compute the segment/offset of the pxe_command_buf
-	 * to make things nicer in the low-level calling glue.
-	 */
-	pxe_command_buf_seg = VTOPSEG(pxe_command_buf);
-	pxe_command_buf_off = VTOPOFF(pxe_command_buf);
 
 	/*
 	 * Get the cached info from the server's Discovery reply packet.
