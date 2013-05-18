@@ -1,4 +1,4 @@
-# $MirOS: src/etc/Makefile,v 1.44 2009/05/16 14:09:04 tg Exp $
+# $MirOS: src/etc/Makefile,v 1.45 2009/09/06 15:08:00 tg Exp $
 # $OpenBSD: Makefile,v 1.226 2005/05/26 23:06:06 mcbride Exp $
 
 TZDIR=		/usr/share/zoneinfo
@@ -148,7 +148,8 @@ etc-files:
 	${INSTALL} -c -o root -g wheel -m 440 ../usr.bin/sudo/sudoers \
 	    ${DESTDIR}/etc/sudoers
 	cd ${DESTDIR}/etc/ssl/certs && ${SHELL} ${.CURDIR}/ssl.certs.shar && \
-	    chown ${BINOWN}:${CONFGRP} * && chmod 444 *
+	    chown ${BINOWN}:${CONFGRP} * && chmod 444 * && \
+	    pax -rw -l -pe . ${DESTDIR}/var/www/etc/ssl/certs/
 	${INSTALL} -c -o ${BINOWN} -g ${CONFGRP} -m 644 spamd.conf \
 	    ${DESTDIR}/etc/mail/
 	${INSTALL} -c -o ${BINOWN} -g ${CONFGRP} -m 644 ssh_known_hosts \
@@ -229,7 +230,7 @@ install-generated:
 DHSIZE=	1024 1536 2048 3072 4096
 update-moduli:
 	{ \
-		echo '# $$MirOS: src/etc/Makefile,v 1.44 2009/05/16 14:09:04 tg Exp $$'; \
+		echo '# $$MirOS: src/etc/Makefile,v 1.45 2009/09/06 15:08:00 tg Exp $$'; \
 		echo '# Time Type Tests Tries Size Generator Modulus'; \
 		for i in ${DHSIZE}; do \
 			ssh-keygen -b $$i -G /dev/stdout; \

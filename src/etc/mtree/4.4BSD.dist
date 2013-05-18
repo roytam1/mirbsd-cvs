@@ -1,4 +1,4 @@
-# $MirOS: src/etc/mtree/4.4BSD.dist,v 1.30 2008/11/30 16:49:20 tg Exp $
+# $MirOS: src/etc/mtree/4.4BSD.dist,v 1.31 2009/03/29 11:36:25 tg Exp $
 # $OpenBSD: 4.4BSD.dist,v 1.186 2007/05/23 07:28:15 hshoexer Exp $
 
 /set type=dir uname=root gname=wheel mode=0755
@@ -1497,6 +1497,23 @@ modules.sample	uname=root gname=daemon mode=755
 ..
 
 # ./var/www/conf
+..
+
+# ./var/www/etc
+etc		uname=root gname=daemon mode=755
+
+# ./var/www/etc/ssl
+ssl		uname=root gname=daemon mode=755
+
+# ./var/www/etc/ssl/certs
+certs		uname=root gname=daemon mode=755
+# ./var/www/etc/ssl/certs
+..
+
+# ./var/www/etc/ssl
+..
+
+# ./var/www/etc
 ..
 
 # ./var/www/htdocs
