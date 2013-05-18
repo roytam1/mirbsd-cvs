@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/Makefile,v 1.48 2010/01/06 18:52:21 tg Exp $
+# $MirOS: src/distrib/common/Makefile,v 1.49 2010/01/07 20:56:07 tg Exp $
 
 .include <bsd.own.mk>
 
@@ -64,12 +64,11 @@ RAMDISK_PREP?=	@:
 # floppy (set to no to disable)
 FLOPPY?=	floppy${OSrev}.fs
 FLOPPYSIZE?=	2880
-FLOPPYSECS?=	18
-FLOPPYOPTS?=	minfree=0,optimization=space,bsize=4096,fsize=512
-FLOPPYTYPE?=	floppy3
-INSTALLBOOT?=	${DESTDIR}/usr/mdec/installboot -h 2 -s ${FLOPPYSECS}
+FLOPPYFILES?=	boot bsd
 BOOT?=		${DESTDIR}/usr/mdec/boot
+BOOT_TAR?=	${DESTDIR}/usr/mdec/boot.fd
 BOOTXX?=	${DESTDIR}/usr/mdec/bootxx
+BOOTXX_TAR?=	${DESTDIR}/usr/mdec/bootxx.tar
 BOOTSH?=	${DESTDIR}/usr/mdec/bootxx.sh
 
 # compact disc image (set to no to disable)
@@ -171,9 +170,9 @@ bsd.rd: bsd.uc
 	-rm -f $@
 	${BSDRD_COMPR} <$> >$@
 
-bsd.st: bsd.uc
-	cp -f $> $@
-	${STRIP} ${STRIP_KERNEL} $@
+#bsd.st: bsd.uc
+#	cp -f $> $@
+#	${STRIP} ${STRIP_KERNEL} $@
 
 bsd.rd.net: bsd.st
 	-rm -f $@
@@ -182,26 +181,18 @@ bsd.rd.net: bsd.st
 FLOPPY_BOOTCFG?=@:
 ${FLOPPY}: bsd.st
 	test ! -e ${TMPMOUNT} || (cd ${.CURDIR}; ${MAKE} unconfig)
-	${SUDO} rm -rf ${WRKDIR}
+	${SUDO} rm -rf ${WRKDIR} e~
 	mkdir -p ${WRKDIR}
-	cp ${BOOT} ${WRKDIR}/boot
+	cp ${BOOT_TAR} ${WRKDIR}/boot
 	gzip -vn9 <bsd.st >${WRKDIR}/bsd
 	${FLOPPY_BOOTCFG}
-	${SUDO} chown -R 0:0 ${WRKDIR}
-	${SUDO} chmod -R u=rwX,go=rX ${WRKDIR}
-	${SUDO} makefs -s ${FLOPPYSIZE}b -o ${FLOPPYOPTS} ${FLOPPY} ${WRKDIR}
-	mkdir -p ${TMPMOUNT}
-	${SUDO} vnconfig -v -c ${VND} ${FLOPPY}
-	${SUDO} disklabel -w ${RAWLABEL} ${VND} ${FLOPPYTYPE}
-	${SUDO} mount -r ${VND_DEV} ${TMPMOUNT}
-	${SUDO} ${INSTALLBOOT} -v ${TMPMOUNT}/boot ${BOOTXX} ${VND_CRDEV}
-	@echo ""
-	@df -i ${TMPMOUNT}
-	@echo ""
-	${SUDO} umount ${TMPMOUNT}
-	${SUDO} fsck -fy ${VND_RDEV}
-	${SUDO} vnconfig -v -u ${VND}
-	${SUDO} rm -rf ${TMPMOUNT} ${WRKDIR}
+	dd if=/dev/zero of=${FLOPPY}~ count=${FLOPPYSIZE}
+	(tar -b 1 -M dist -cf - -C ${WRKDIR} ${FLOPPYFILES} || touch e~) | \
+	    cat ${BOOTXX_TAR} - | dd of=${FLOPPY}~ conv=notrunc
+	@[[ ! -e e~ ]]
+	(( $$(stat -f %z ${FLOPPY}~) == 512 * ${FLOPPYSIZE} ))
+	mv -f ${FLOPPY}~ ${FLOPPY}
+	rm -rf ${WRKDIR} e~
 
 ${CDROM}: cdrom-prepare cdrom-mdcopy cdrom-generate cdrom-mdboot
 
