@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/Makefile.netboot.me,v 1.2 2010/08/06 15:40:01 tg Exp $
+# $MirOS: src/distrib/common/Makefile.netboot.me,v 1.3 2010/08/07 16:00:05 tg Exp $
 
 CBIN?=		instbin
 IMAGESIZE=	8192
@@ -6,7 +6,7 @@ IMAGETYPE=	ipldisc
 
 KERNEL_BUILD=	no
 #		(17,0) = rd0a
-RAMDISK_PREP=	print 'rootdev 17 0\nquit' | config -ef $@
+RAMDISK_PREP=	print 'rootdev 17 0\nquit' | config -ef $@~
 
 FLOPPY=		no
 .if exists(${REALOBJDIR}/../../../sys/arch/i386/stand/liveboot/.)

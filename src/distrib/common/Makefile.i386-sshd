@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/Makefile.i386-sshd,v 1.2 2010/01/17 00:35:07 tg Exp $
+# $MirOS: src/distrib/common/Makefile.i386-sshd,v 1.3 2010/08/06 15:40:01 tg Exp $
 
 IMAGESIZE=	8192
 IMAGETYPE=	ipldisc
@@ -14,7 +14,7 @@ KERNEL_BUILD=	no
 # uncompressed bsd.rd, so that people can change the rootpw easily
 BSDRD_COMPR=	cat
 #		(17,0) = rd0a
-RAMDISK_PREP=	print 'rootdev 17 0\nquit' | config -ef $@
+RAMDISK_PREP=	print 'rootdev 17 0\nquit' | config -ef $@~
 
 FLOPPY=		no
 CDROM_OPTS+=	bootimage=i386\;eltorito.loo

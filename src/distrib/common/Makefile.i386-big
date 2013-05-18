@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/Makefile.i386-big,v 1.25 2010/01/17 00:35:07 tg Exp $
+# $MirOS: src/distrib/common/Makefile.i386-big,v 1.26 2010/08/06 15:40:01 tg Exp $
 
 IMAGESIZE=	8192
 IMAGETYPE=	ipldisc
@@ -10,7 +10,7 @@ LGRUBCFG=	extra
 
 KERNEL_BUILD=	no
 #		(17,0) = rd0a
-RAMDISK_PREP=	print 'rootdev 17 0\nquit' | config -ef $@
+RAMDISK_PREP=	print 'rootdev 17 0\nquit' | config -ef $@~
 
 FLOPPY=		no
 CDROM_OPTS+=	bootimage=i386\;eltorito.loo

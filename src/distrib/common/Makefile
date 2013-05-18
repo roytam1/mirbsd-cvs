@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/Makefile,v 1.60 2012/09/02 12:34:22 tg Exp $
+# $MirOS: src/distrib/common/Makefile,v 1.61 2012/09/02 15:16:29 tg Exp $
 
 .include <bsd.own.mk>
 
@@ -58,7 +58,7 @@ KERNEL_BUILD?=	Yes
 KERNEL_BSDRD?=	Yes
 BSDRD_COMPR?=	gzip -vn9
 AOUT_BSDRD?=	No
-RAMDISK_PREP?=	config -ef $@ <<<'quit'
+RAMDISK_PREP?=	@:
 
 .if ${KERNEL_BUILD:L} != "no"
 .  include "${TOPDIR}/common/Makefile.kernel"
@@ -115,7 +115,7 @@ unconfig:
 
 cleannobsd: unconfig
 	rm -f *core ${CBIN} ${CBIN}.{cache,conf,mk,unstripped} ${IMAGE} \
-	    ${RDSETROOT} *.c *.o *.lo *.loo *~ bsd.{uc,st} ${_RD_TARGETS} \
+	    ${RDSETROOT} *.c *.o *.lo *.loo *~ bsd.uc ${_RD_TARGETS} \
 	    ${CLEANFILES}
 
 clean cleandir: cleannobsd
@@ -165,30 +165,35 @@ ${IMAGE}: ${CBIN}
 	${SUDO} rm -rf ${TMPMOUNT} ${WRKDIR}
 
 bsd.uc: bsd ${IMAGE} ${RDSETROOT}
-	-rm -f $@
-	gzip -fd <bsd >$@
+	-rm -f $@ $@~
+	gzip -fd <bsd >$@~
 	${RAMDISK_PREP}
-	${REALOBJDIR}/${RDSETROOT} $@ <${IMAGE}
+	${REALOBJDIR}/${RDSETROOT} $@~ <${IMAGE}
+	mv -f $@~ $@
 
 bsd.rd: bsd.uc
-	-rm -f $@
-	config -ef $> <<<'quit'
-	${BSDRD_COMPR} <$> >$@
+	cp -f bsd.uc bsd.uc~
+	config -ef bsd.uc~ <<<"quit"
+	${BSDRD_COMPR} <bsd.uc~ >$@
+	-rm -f bsd.uc~
 
-bsd.st: bsd.uc
-	config -ef $> <<<'quit'
-	cp -f $> $@ && ${STRIP} ${STRIP_KERNEL} $@ || (rm -f $@; exit 1)
-
-bsd.rd.net: bsd.st
-	-rm -f $@
-	elf2aout $> $@ -b
+bsd.rd.net: bsd.uc
+	cp -f bsd.uc bsd.uc~
+	config -ef bsd.uc~ <<<"quit"
+	${STRIP} ${STRIP_KERNEL} bsd.uc~
+	elf2aout bsd.uc~ $@ -b
+	-rm -f bsd.uc~
 
 FLOPPY_BOOTCFG?=@:
-${FLOPPY}: bsd.st
+${FLOPPY}: bsd.uc
 	test ! -e ${TMPMOUNT} || (cd ${.CURDIR}; ${MAKE} unconfig)
 	${SUDO} rm -rf ${WRKDIR} e~
 	mkdir -p ${WRKDIR}
-	gzip -vn9 <bsd.st >${WRKDIR}/bsd
+	cp -f bsd.uc bsd.uc~
+	config -ef bsd.uc~ <<<"quit"
+	${STRIP} ${STRIP_KERNEL} bsd.uc~
+	gzip -vn9 <bsd.uc~ >${WRKDIR}/bsd
+	-rm -f bsd.uc~
 	${FLOPPY_BOOTCFG}
 	dd if=/dev/zero of=${FLOPPY}~ count=${FLOPPYSIZE}
 	(tar -b 1 -M dist -cf - -C ${WRKDIR} ${FLOPPYFILES} || touch e~) | \
@@ -200,7 +205,7 @@ ${FLOPPY}: bsd.st
 
 ${CDROM}: cdrom-prepare cdrom-mdcopy cdrom-generate cdrom-mdboot
 
-cdrom-prepare: bsd.rd
+cdrom-prepare: bsd.uc
 	${SUDO} rm -rf ${WRKDIR}
 	mkdir -p ${WRKDIR}/v${OSrev}/${MACHINE}
 	@if [[ -e ${TOPDIR}/contrib ]]; then \
@@ -217,7 +222,11 @@ cdrom-prepare: bsd.rd
 	mkdir -p ${WRKDIR}/boot/grub
 	cp ${TOPDIR}/common/${LGRUBCFG}/loopback.* ${WRKDIR}/boot/grub/
 .endif
-	cp bsd.rd ${BOOTSH} ${WRKDIR}/v${OSrev}/${MACHINE}/
+	cp ${BOOTSH} ${WRKDIR}/v${OSrev}/${MACHINE}/
+	cp -f bsd.uc bsd.uc~
+	config -ef bsd.uc~ <<<"quit"
+	${BSDRD_COMPR} <bsd.uc~ >${WRKDIR}/v${OSrev}/${MACHINE}/bsd.rd
+	-rm -f bsd.uc~
 	cp ${TOPDIR}/common/00-README ${WRKDIR}/
 	chmod -R u+w ${WRKDIR}
 
