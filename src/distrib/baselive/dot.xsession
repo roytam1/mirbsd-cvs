@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/distrib/baselive/dot.xsession,v 1.8 2007/08/01 21:37:53 tg Exp $
+# $MirOS: src/distrib/baselive/dot.xsession,v 1.9 2008/03/27 13:48:26 tg Exp $
 #-
 # Copyright (c) 2006, 2007, 2008
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -9,10 +9,6 @@
 # is granted to deal in this work without restriction, including un-
 # limited rights to use, publicly perform, distribute, sell, modify,
 # merge, give away, or sublicence.
-#
-# Advertising materials mentioning features or use of this work must
-# display the following acknowledgement:
-#	This product includes material provided by Thorsten Glaser.
 #
 # This work is provided "AS IS" and WITHOUT WARRANTY of any kind, to
 # the utmost extent permitted by applicable law, neither express nor

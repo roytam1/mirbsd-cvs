@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/distrib/baselive/munge_it.sh,v 1.32 2008/05/13 12:14:29 tg Exp $
+# $MirOS: src/distrib/baselive/munge_it.sh,v 1.33 2008/06/11 10:17:43 tg Exp $
 #-
 # Copyright (c) 2006, 2007, 2008
 #	Thorsten “mirabilos” Glaser <tg@mirbsd.de>
@@ -78,7 +78,7 @@ ed -s etc/ntpd.conf <<-'EOMD'
 EOMD
 ed -s etc/rc <<-'EOMD'
 	1i
-		# $MirOS: src/distrib/baselive/munge_it.sh,v 1.32 2008/05/13 12:14:29 tg Exp $
+		# $MirOS: src/distrib/baselive/munge_it.sh,v 1.33 2008/06/11 10:17:43 tg Exp $
 	.
 	/cprng.*pr16/d
 	i
@@ -93,7 +93,7 @@ ed -s etc/rc <<-'EOMD'
 		     rmd160 -a adler32 -b >/dev/wrandom) &)
 		/usr/libexec/cprng -pr32 >/dev/urandom &
 		(cd /dev; ln -s $(sysctl -n kern.root_device) root; rm -f .rs)
-		print \#\\tThis product includes material provided by Thorsten Glaser.
+		print \#\\tMirOS BSD Live-CD/DVD/USB/CF/SD/HDD starting up...
 	.
 	/^raidctl.*all/s/^/#/
 	/^umount/a

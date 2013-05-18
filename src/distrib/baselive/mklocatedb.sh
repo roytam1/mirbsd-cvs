@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/distrib/baselive/mklocatedb.sh,v 1.6 2007/02/20 00:28:42 tg Exp $
+# $MirOS: src/distrib/baselive/mklocatedb.sh,v 1.7 2007/07/11 16:01:07 tg Exp $
 #-
 # Copyright (c) 2006, 2007
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -9,10 +9,6 @@
 # is granted to deal in this work without restriction, including un-
 # limited rights to use, publicly perform, distribute, sell, modify,
 # merge, give away, or sublicence.
-#
-# Advertising materials mentioning features or use of this work must
-# display the following acknowledgement:
-#	This product includes material provided by Thorsten Glaser.
 #
 # This work is provided "AS IS" and WITHOUT WARRANTY of any kind, to
 # the utmost extent permitted by applicable law, neither express nor
