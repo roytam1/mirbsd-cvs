@@ -1,4 +1,4 @@
-.\"	$MirOS: src/share/tmac/mdoc/doc-common,v 1.7 2006/06/11 02:34:02 tg Exp $
+.\"	$MirOS: src/share/tmac/mdoc/doc-common,v 1.8 2006/06/24 09:16:16 tg Exp $
 .\"	$OpenBSD: doc-common,v 1.44 2005/04/02 17:16:03 jmc Exp $
 .\"
 .\" Copyright (c) 2003, 2004
@@ -262,31 +262,19 @@
 .	if "\\$2"1.5"  .as oS \01.5
 .	if "\\$2"1.6"  .as oS \01.6
 .\}
-.if "\\$1"MirBSD" \{\
-.	ds oS MirOS
-.	if "\\$2"1"  .as oS MirOS\ #1
-.	if "\\$2"2"  .as oS MirOS\ #2
-.	if "\\$2"3"  .as oS MirOS\ #3
-.	if "\\$2"4"  .as oS MirOS\ #4
-.	if "\\$2"5"  .as oS MirOS\ #5
-.	if "\\$2"6"  .as oS MirOS\ #6
-.	if "\\$2"7"  .as oS MirOS\ #7
-.	if "\\$2"8"  .as oS MirOS\ #8
-.	if "\\$2"9"  .as oS MirOS\ #9
-.	if "\\$2"10"  .as oS MirOS\ #10
-.\}
-.if "\\$1"MirOS" \{\
-.	ds oS MirOS
-.	if "\\$2"1"  .as oS MirOS\ #1
-.	if "\\$2"2"  .as oS MirOS\ #2
-.	if "\\$2"3"  .as oS MirOS\ #3
-.	if "\\$2"4"  .as oS MirOS\ #4
-.	if "\\$2"5"  .as oS MirOS\ #5
-.	if "\\$2"6"  .as oS MirOS\ #6
-.	if "\\$2"7"  .as oS MirOS\ #7
-.	if "\\$2"8"  .as oS MirOS\ #8
-.	if "\\$2"9"  .as oS MirOS\ #9
-.	if "\\$2"10"  .as oS MirOS\ #10
+.if "\\$1"MirBSD" .ds oS MirOS
+.if "\\$1"MirOS"  .ds oS MirOS
+.if "\\*(oS"MirOS" \{\
+.	if "\\$2"1"   .ds oS MirOS\ #1
+.	if "\\$2"2"   .ds oS MirOS\ #2
+.	if "\\$2"3"   .ds oS MirOS\ #3
+.	if "\\$2"4"   .ds oS MirOS\ #4
+.	if "\\$2"5"   .ds oS MirOS\ #5
+.	if "\\$2"6"   .ds oS MirOS\ #6
+.	if "\\$2"7"   .ds oS MirOS\ #7
+.	if "\\$2"8"   .ds oS MirOS\ #8
+.	if "\\$2"9"   .ds oS MirOS\ #9
+.	if "\\$2"10"  .ds oS MirOS\ #10
 .\}
 .if "\\$1"OpenBSD" \{\
 .	ds oS OpenBSD
