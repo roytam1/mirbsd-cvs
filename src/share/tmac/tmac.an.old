@@ -1,9 +1,9 @@
-.\" $MirOS: src/share/tmac/tmac.an.old,v 1.8 2008/03/10 15:40:57 tg Exp $
+.\" $MirOS: src/share/tmac/tmac.an.old,v 1.9 2008/11/08 22:24:16 tg Exp $
 .\"
 .\" Copyright (c) 1979, 1980, 1981, 1986, 1988, 1990, 1991, 1992
 .\"     The Regents of the University of California.
 .\" Copyright (C) Caldera International Inc.  2001-2002.
-.\" Copyright (c) 2003, 2004
+.\" Copyright (c) 2003, 2004, 2012
 .\"	Thorsten "mirabilos" Glaser <tg@mirbsd.org>
 .\" All rights reserved.
 .\"
@@ -399,6 +399,16 @@
 ..
 .	# end of TP (cf }N below)
 .de }1
+.ie \\n(dnu>1v \{\
+.nr )E 0
+.ll \\n(LLu
+.if !"\\$1"" .nr )I \\$1n
+.in \\n(INu+1n
+.ti \\n(INu
+\\*(]B\\
+.in \\n()Ru+\\n(INu+\\n()Iu
+.\}
+.el \{\
 .ds ]X \&\\*(]B\\
 .nr )E 0
 .if !"\\$1"" .nr )I \\$1n
@@ -409,6 +419,7 @@
 .ie !\\n()Iu+\\n()Ru-\w@\\*(]X@u-3p \{\\*(]X
 .br\}
 .el \\*(]X\h@|\\n()Iu+\\n()Ru@\c
+.\}
 .}f
 ..
 .	# handle end of 1-line features
