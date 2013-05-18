@@ -3,7 +3,7 @@
 
 mws_setname ports "The MirPorts Framework"
 mws_subdir 0
-mws_putheader '$MirOS: www/content/cG9ydHM_.inc,v 1.11 2006/08/10 23:23:29 tg Exp $'
+mws_putheader '$MirOS: www/src/ports.hts,v 1.1 2008/02/28 18:54:09 tg Exp $'
 mws_content <<'EOF'
 <h1>MirPorts: The MirOS Ports Framework</h1>
 
@@ -62,7 +62,7 @@ mws_content <<'EOF'
  <b>m</b>make install clean</tt> (note that you must not place the
  assignment after the <b>m</b>make invocation)</li>
 <li>…</li>
-<ul>
+</ul>
 
 <h2>Writing ports for the framework</h2>
 
