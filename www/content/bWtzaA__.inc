@@ -1,5 +1,5 @@
 <!-- PageID: mksh -->
-<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.91 2007/03/12 22:26:53 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.93 2007/04/03 21:12:02 tg Exp $</small>
 
 <h1>mksh(1) R29</h1>
 <p>This is the MirBSD&trade; Korn Shell, a more or less portable
@@ -99,6 +99,11 @@
  <li>Add zsh workaround to Build.sh (just to be on the safe side; zsh
   isn't bourne sh or posix sh compatible, but I didn't find any severe
   problems with using it to build mksh yet, it's a weird shell though)</li>
+ <li>If execve(2) fails with ENOEXEC, try and parse a shebang line
+  ourselves, in case the kernel can do less than we do</li>
+ <li>Strip off and ignore an UTF-8 Byte Order Mark (U+FEFF, 0xEF 0xBB 0xBF)
+  at the beginning of input (file, -c option, stdin, interactive, eval)
+  and when processing shebang lines and enable utf8 mode if encountered</li>
 </ul>
 <p>Immediately upgrade to mksh R29b please:</p><ul>
  <li>Bugfix: display UTF-8 control characters (U+0080..U+009F, i.e.
