@@ -1,4 +1,4 @@
-# $MirOS: src/kern/c/Makefile.inc,v 1.13 2008/08/03 21:02:00 tg Exp $
+# $MirOS: src/kern/c/Makefile.inc,v 1.14 2008/08/04 19:10:52 tg Exp $
 
 .ifndef _KERNBASE_C_MAKEFILE_INC
 _KERNBASE_C_MAKEFILE_INC=	#defined
@@ -21,7 +21,7 @@ _KERNBASE_C_MAKEFILE_INC=	#defined
 .PATH: ${KERNBASE}/c/${MACHINE_ARCH}
 .PATH: ${KERNBASE}/c
 
-# SRCS, UNIFDEF_SRCS:	kernel, userland, bootloader
+# XSRCS, UNIFDEF_SRCS:	kernel, userland, bootloader
 # KUSRCS, UIF_KUSRCS:	kernel, userland
 # LSRCS, UIF_LSRCS:	lint libraries (userland)
 
@@ -45,13 +45,13 @@ UIF_KUSRCS+=	wcsxfrm.c strlfun.c -DL_strxfrm,-DWIDEC
 UIF_KUSRCS+=	wcscmp.c strcmp.c -DWIDEC
 
 # quad support
-SRCS+=		adddi3.c anddi3.c ashldi3.c ashrdi3.c cmpdi2.c divdi3.c \
+XSRCS+=		adddi3.c anddi3.c ashldi3.c ashrdi3.c cmpdi2.c divdi3.c \
 		iordi3.c lshldi3.c lshrdi3.c moddi3.c muldi3.c negdi2.c \
 		notdi2.c qdivrem.c subdi3.c ucmpdi2.c udivdi3.c umoddi3.c \
 		xordi3.c
 
 .ifndef KERNNOGCC
-SRCS+=		__main.c
+XSRCS+=		__main.c
 .endif
 
 KUSRCS+=	optu16to8.c optu8to16.c
@@ -59,12 +59,12 @@ KUSRCS+=	optu16to8.c optu8to16.c
 # …
 
 .ifndef KERNSTAND
-SRCS+=		${KUSRCS}
+XSRCS+=		${KUSRCS}
 UNIFDEF_SRCS+=	${UIF_KUSRCS}
 .endif
 
 .for _z _q _s in ${UNIFDEF_SRCS}
-SRCS+=		${_z}
+XSRCS+=		${_z}
 .endfor
 .for _z _q _s in ${UIF_LSRCS}
 LSRCS+=		${_z}
@@ -77,5 +77,10 @@ ${_z}: ${_q}
 
 beforedepend: ${_z}
 .endfor
+
+KERNPICKSRCS?=	No
+.if ${KERNPICKSRCS:L} == "no"
+SRCS+=		${XSRCS}
+.endif
 
 .endif
