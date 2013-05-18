@@ -1,4 +1,4 @@
-# $MirOS: src/etc/rc,v 1.21 2006/06/11 23:52:25 tg Exp $
+# $MirOS: src/etc/rc,v 1.22 2006/06/15 19:56:43 tg Exp $
 # $OpenBSD: rc,v 1.277 2006/01/12 21:54:15 deraadt Exp $
 #-
 # System startup script run by init on autoboot or after single-user.
@@ -349,6 +349,8 @@ while (( i < _fstab )); do
 					mount -f -t ffs -o "${_opt[i]}" \
 					    "${_dev[i]}" "${_mp[i]}"
 				fi
+			elif [[ ${_fstype[i]} = nfs ]]; then
+				: # Ignore NFS this early in the boot process
 			else
 				mount -t "${_fstype[i]}" -o "${_opt[i]}" \
 				    "${_dev[i]}" "${_mp[i]}"
