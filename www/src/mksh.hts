@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.337 2010/04/28 14:19:39 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.338 2010/05/24 14:24:03 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -949,7 +949,7 @@ exec /usr/bin/ld "${args[@]}"</pre>
  <li>[tg] Deprecate Build.sh <tt>-longoptions</tt> in favour of short ones:
   <tt>-valgrind</tt> becomes <tt>-g</tt> (like debug), <tt>-combine</tt> and
   <tt>-llvm</tt> become <tt>-c {combine,llvm}</tt> and the LLVM optimiser
-  flags are passed via <tt>-O</tt> = <tt>-o -std-compile-opts</tt></tt>
+  flags are passed via <tt>-O</tt> = <tt>-o -std-compile-opts</tt></li>
  <li>[tg] New Build.sh options <tt>-c dragonegg</tt> (for using the LLVM <a
   href="http://dragonegg.llvm.org/">plugin</a> to GCC 4.5 with inter-module
   optimisation), <tt>-v</tt> (version)</li>
