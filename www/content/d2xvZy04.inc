@@ -1,17 +1,17 @@
 <!-- PageID: wlog-8 -->
-<small class="rcsid">$MirOS: www/content/d2xvZy04.inc,v 1.27 2006/01/31 13:51:09 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy04.inc,v 1.28 2006/01/31 20:06:19 tg Exp $</small>
 <h1>MirBSD &ndash; WTF, We Have a Release!?</h1>
 <p><small><a href="#eof">bottom</a> or <a href="/?older">older</a>
  editions</small></p>
 
 <div class="wlentry">
-<h3>27.12.2005 by bsiegert@</h3>
+<h3 id="e20051227">27.12.2005 by bsiegert@</h3>
 <p>We finally have a new release, over two years after #7! To
 celebrate this event, rotate the wlog and start a new one.</p>
 </div>
 
 <div class="wlentry">
- <h3>27.12.2005 by tg@</h3>
+ <h3 id="e20051227b">27.12.2005 by tg@</h3>
  <p>I've been prodded by bsiegert@ to write here again. Curious, isn't
   it? After the last release I've been the only one to write here. But
   today is somehow unproductive... I can't get myself to do something;
@@ -23,7 +23,7 @@ celebrate this event, rotate the wlog and start a new one.</p>
 </div>
 
 <div class="wlentry">
- <h3>28.12.2005 by tg@</h3>
+ <h3 id="e20051228">28.12.2005 by tg@</h3>
  <p>Another very cold (outside) and hot (inside) day at the 22nd Chaos
   Communication Congress (Berlin, Germany). The &quot;others&quot; are
   out for food (bsiegert@, a friend of his and our booth slave), Thai,
@@ -48,7 +48,7 @@ celebrate this event, rotate the wlog and start a new one.</p>
 </div>
 
 <div class="wlentry">
- <h3>29.12.2005 by bsiegert@</h3>
+ <h3 id="e20051229">29.12.2005 by bsiegert@</h3>
  <p>I am writing this just after midnight, so the second day of 22C3 has
   just ended. Did some updated ports for GNOME 2.12.2, hopefully I will
   have it finished by the time GNOME 2.14 comes out&nbsp;...</p>
@@ -71,7 +71,7 @@ celebrate this event, rotate the wlog and start a new one.</p>
 </div>
 
 <div class="wlentry">
- <h3>30.12.2005 by tg@</h3>
+ <h3 id="e20051230">30.12.2005 by tg@</h3>
  <p>The chaos continues. But some real work is done &ndash; we now can
   support the scenario &quot;some shared library depends on another of
   their kind&quot; (for now, only unofficially, but it will be MFCs by
@@ -96,7 +96,7 @@ celebrate this event, rotate the wlog and start a new one.</p>
 </div>
 
 <div class="wlentry">
- <h3>01.01.2006 by tg@</h3>
+ <h3 id="e20060101">01.01.2006 by tg@</h3>
  <p>I've hacked on an enforcement for ports versioning and drafted the
   "package era" scheme we'll probably be using, pending results of the
   discussion with all other active MirPorts developers (hrhr).</p>
@@ -114,7 +114,7 @@ celebrate this event, rotate the wlog and start a new one.</p>
 </div>
 
 <div class="wlentry">
- <h3>02.01.2006 by tg@</h3>
+ <h3 id="e20060102">02.01.2006 by tg@</h3>
  <p>I've ordered a new dedicated server which will cost me a lot less,
   namely 19.90 &euro; the first 18 months and then 29 &euro; (also per
   month) with the same functionality at the same hoster. I'm compiling
@@ -154,7 +154,7 @@ celebrate this event, rotate the wlog and start a new one.</p>
 </div>
 
 <div class="wlentry">
- <h3>13.01.2006 by tg@</h3>
+ <h3 id="e20060113">13.01.2006 by tg@</h3>
  <p>I've fixed a few things (code cleanliness) and built a snapshot to
   see if it works (another one &ndash; there was one on 03.01. already
   which bsiegert@ has announced today at freshmeat). This one also has
@@ -171,7 +171,7 @@ celebrate this event, rotate the wlog and start a new one.</p>
 </div>
 
 <div class="wlentry">
- <h3>15.01.2006 by tg@</h3>
+ <h3 id="e20060115">15.01.2006 by tg@</h3>
  <p>Things are settling down... installed software on &#39764;&#29579;
   but still not complete. It now does mail (for all domains), OpenVPN,
   a minimalistic www proxy, and of course NTP and its own (non-public)
@@ -182,7 +182,7 @@ celebrate this event, rotate the wlog and start a new one.</p>
 </div>
 
 <div class="wlentry">
- <h3>17.01.2006 by tg@</h3>
+ <h3 id="e20060117">17.01.2006 by tg@</h3>
  <p>Wow, I've been attending university once again. This time for that
   #1 boring thing &ndash; Economics (BWL), held by a female VWL doctor
   with a voice more cruel than should be allowed... at least we do not
@@ -239,7 +239,7 @@ celebrate this event, rotate the wlog and start a new one.</p>
 </div>
 
 <div class="wlentry">
- <h3>20.01.2006 by tg@</h3>
+ <h3 id="e20060120">20.01.2006 by tg@</h3>
  <p>Published a cpio ball of ocvs+ncvs1 and historic. bsiegert@ agreed
   they be closed and sealed now. It's only on herc and maou tho.</p>
  <p>Slowly going on with setting up maou. After all, thor''ll cease to
@@ -258,7 +258,7 @@ celebrate this event, rotate the wlog and start a new one.</p>
 </div>
 
 <div class="wlentry">
- <h3>24.01.2006 by tg@</h3>
+ <h3 id="e20060124">24.01.2006 by tg@</h3>
  <p>Got something decent to eat, drink (beer, cola) and snack. Hacked,
   djbdns-axfr, sirc/ssfe now improved, savecore(8) does gzip(1)d files
   and the zlib API sucks. compress(1)' implementation also sucks.</p>
@@ -267,7 +267,7 @@ celebrate this event, rotate the wlog and start a new one.</p>
 </div>
 
 <div class="wlentry">
- <h3>26.01.2006 by tg@</h3>
+ <h3 id="e20060126">26.01.2006 by tg@</h3>
  <p>Oh, already last day of the semester? (Well, tomorrow. Luckily, so
   I've still a minimal chance to be allowed to take exams this time...
   I better should; on 30th of January, the first one is scheduled). In
@@ -293,7 +293,7 @@ celebrate this event, rotate the wlog and start a new one.</p>
 </div>
 
 <div class="wlentry">
- <h3>29.01.2006 by bsiegert@</h3>
+ <h3 id="e20060129">29.01.2006 by bsiegert@</h3>
  <p>Wow, exactly one month since I have written my last wlog entry.
   After 22C3, I have done very little work on MirOS, owing to two
   factors: my girlfriend and the january exams (seven of them!). The
@@ -318,7 +318,7 @@ celebrate this event, rotate the wlog and start a new one.</p>
 </div>
 
 <div class="wlentry">
- <h3>30.01.2006 by tg@</h3>
+ <h3 id="e20060130">30.01.2006 by tg@</h3>
  <p>Benny, do you still live in 2005? ;-)</p>
  <p>I managed to appear at two exams today, finally: Operating Systems 1
   and Technical Computer Science 1 (basically, Physics and Electronics).
@@ -351,7 +351,7 @@ celebrate this event, rotate the wlog and start a new one.</p>
 </div>
 
 <div class="wlentry">
- <h3>31.01.2006 by tg@</h3>
+ <h3 id="e20060131">31.01.2006 by tg@</h3>
  <p>bsiegert@ will probably kill me, or use some other means of violence
   (who knows), but at least it's done. mgcc(1) now aborts if CFLAGS (and
   COPTS, or rather, _DEFCOPTS) are not honoured, with an optional abort,
