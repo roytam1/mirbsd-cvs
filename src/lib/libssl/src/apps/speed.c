@@ -1,4 +1,4 @@
-/* $MirOS: src/lib/libssl/src/apps/speed.c,v 1.3 2005/04/29 13:52:28 tg Exp $ */
+/* $MirOS: src/lib/libssl/src/apps/speed.c,v 1.4 2006/09/20 20:14:06 tg Exp $ */
 
 /* apps/speed.c -*- mode:C; c-file-style: "eay" -*- */
 /* Copyright (C) 1995-1998 Eric Young (eay@cryptsoft.com)
@@ -1488,7 +1488,7 @@ int MAIN(int argc, char **argv)
 				{
 				ret=RSA_verify(NID_md5_sha1, buf,36, buf2,
 					rsa_num, rsa_key[j]);
-				if (ret == 0)
+				if (ret <= 0)
 					{
 					BIO_printf(bio_err,
 						"RSA verify failure\n");
