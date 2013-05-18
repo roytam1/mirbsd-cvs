@@ -2961,7 +2961,11 @@ loop.
 .Ar level
 defaults to 1.
 .Pp
-.It Ic builtin Ar command Op Ar arg ...
+.It Xo
+.Ic builtin
+.Op Fl \-
+.Ar command Op Ar arg ...
+.Xc
 Execute the built-in command
 .Ar command .
 .Pp
@@ -3657,7 +3661,11 @@ it's also checked for existence and whether it is a directory; otherwise,
 returns 0 if the pathname either exists or can be created immediately,
 i.e. all but the last component exist and are directories.
 .Pp
-.It Ic rename Ar from to
+.It Xo
+.Ic rename
+.Op Fl \-
+.Ar from to
+.Xc
 Renames the file
 .Ar from
 to
