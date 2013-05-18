@@ -104,8 +104,8 @@ cforder(const void *a, const void *b)
 {
 	int n1, n2;
 
-	n1 = (*(struct devi **)a)->i_cfindex;
-	n2 = (*(struct devi **)b)->i_cfindex;
+	n1 = (*(struct devi * const *)a)->i_cfindex;
+	n2 = (*(struct devi * const *)b)->i_cfindex;
 	return (n1 - n2);
 }
 
@@ -192,7 +192,7 @@ int uextraloc = 0;\n") < 0);
 }
 
 static int nlocnames, maxlocnames = 8;
-static char **locnames;
+static const char **locnames;
 
 short
 addlocname(const char *name)
@@ -201,13 +201,14 @@ addlocname(const char *name)
 
 	if (locnames == NULL || nlocnames+1 > maxlocnames) {
 		maxlocnames *= 4;
-		locnames = (char **)erealloc(locnames, maxlocnames * sizeof(char *));
+		locnames = (const char **)erealloc(locnames,
+		     maxlocnames * sizeof(char *));
 	}
 	for (i = 0; i < nlocnames; i++)
 		if (strcmp(name, locnames[i]) == 0)
 			return (i);
 	/*printf("adding %s at %d\n", name, nlocnames);*/
-	locnames[nlocnames++] = (char *)name;
+	locnames[nlocnames++] = name;
 	return (nlocnames - 1);
 }
 
@@ -341,7 +342,7 @@ emitcfdata(FILE *fp)
 	const char *vs, *state, *basename, *attachment;
 	struct nvlist *nv;
 	struct attr *a;
-	char *loc;
+	const char *loc;
 	char locbuf[20];
 
 	if (fprintf(fp, "\n\
@@ -397,7 +398,7 @@ struct cfdata cfdata[] = {\n\
 			    i->i_locoff);
 			loc = locbuf;
 		} else
-			loc = (char *)"loc";
+			loc = "loc";
 		if (fprintf(fp, "\
     {&%s_ca,%s&%s_cd,%s%2d, %s, %7s, %#4x, pv+%2d, %d, %s%d, %4d},\n",
 		    attachment, strlen(attachment) < 6 ? "\t\t" : "\t",

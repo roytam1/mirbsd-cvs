@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.sbin/config/cmd.c,v 1.3 2006/04/06 10:49:09 tg Exp $ */
+/**	$MirOS: src/usr.sbin/config/cmd.c,v 1.4 2006/04/06 10:50:38 tg Exp $ */
 /*	$OpenBSD: cmd.c,v 1.13 2004/06/08 20:59:28 mcbride Exp $ */
 
 /*
@@ -39,7 +39,7 @@
 #include "ukc.h"
 #include "exec.h"
 
-__RCSID("$MirOS: src/usr.sbin/config/cmd.c,v 1.3 2006/04/06 10:49:09 tg Exp $");
+__RCSID("$MirOS: src/usr.sbin/config/cmd.c,v 1.4 2006/04/06 10:50:38 tg Exp $");
 
 extern int ukc_mod_kernel;
 static void int_variable_adjust(const cmd_t *, int, const char *);
@@ -70,13 +70,13 @@ cmd_table_t cmd_table[] = {
 int
 Xhelp(cmd_t *cmd)
 {
-	cmd_table_t *cmd_table = cmd->table;
+	cmd_table_t *cmd_tablep = cmd->table;
 	int i;
 
 	/* Hmm, print out cmd_table here... */
-	for (i = 0; cmd_table[i].cmd != NULL; i++)
-		printf("\t%-12s%-20s%s\n", cmd_table[i].cmd,
-		    cmd_table[i].opt, cmd_table[i].help);
+	for (i = 0; cmd_tablep[i].cmd != NULL; i++)
+		printf("\t%-12s%-20s%s\n", cmd_tablep[i].cmd,
+		    cmd_tablep[i].opt, cmd_tablep[i].help);
 	return (CMD_CONT);
 }
 
@@ -200,7 +200,7 @@ Xlines(cmd_t *cmd)
 }
 
 int
-Xlist(cmd_t *cmd)
+Xlist(cmd_t *cmd __attribute__((unused)))
 {
 	struct cfdata *cd;
 	int	i = 0;
@@ -237,14 +237,14 @@ Xshow(cmd_t *cmd)
 }
 
 int
-Xquit(cmd_t *cmd)
+Xquit(cmd_t *cmd __attribute__((unused)))
 {
 	/* Nothing to do here */
 	return (CMD_SAVE);
 }
 
 int
-Xexit(cmd_t *cmd)
+Xexit(cmd_t *cmd __attribute__((unused)))
 {
 	/* Nothing to do here */
 	return (CMD_EXIT);

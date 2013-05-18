@@ -113,7 +113,7 @@ newnv(const char *name, const char *str, void *ptr, int i, struct nvlist *next)
 	else
 		nvhead = nv->nv_next;
 	nv->nv_next = next;
-	nv->nv_name = (char *)name;
+	nv->nv_name = name;
 	if (ptr == NULL)
 		nv->nv_str = str;
 	else {

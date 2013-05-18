@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.sbin/config/sem.c,v 1.2 2005/03/13 19:16:18 tg Exp $ */
+/**	$MirOS: src/usr.sbin/config/sem.c,v 1.3 2007/02/19 03:03:30 tg Exp $ */
 /*	$OpenBSD: sem.c,v 1.30 2004/01/04 18:30:05 deraadt Exp $	*/
 /*	$NetBSD: sem.c,v 1.10 1996/11/11 23:40:11 gwr Exp $	*/
 
@@ -51,7 +51,7 @@
 #include "config.h"
 #include "sem.h"
 
-__RCSID("$MirOS: src/usr.sbin/config/sem.c,v 1.2 2005/03/13 19:16:18 tg Exp $");
+__RCSID("$MirOS: src/usr.sbin/config/sem.c,v 1.3 2007/02/19 03:03:30 tg Exp $");
 
 /*
  * config semantics.
@@ -298,12 +298,12 @@ bad:
  * i.e., does not end in a digit or contain special characters.
  */
 struct devbase *
-getdevbase(char *name)
+getdevbase(const char *name)
 {
-	u_char *p;
+	const u_char *p;
 	struct devbase *dev;
 
-	p = (u_char *)name;
+	p = (const u_char *)name;
 	if (!isalpha(*p))
 		goto badname;
 	while (*++p) {
@@ -432,10 +432,10 @@ bad:
 struct deva *
 getdevattach(const char *name)
 {
-	u_char *p;
+	const u_char *p;
 	struct deva *deva;
 
-	p = (u_char *)name;
+	p = (const u_char *)name;
 	if (!isalpha(*p))
 		goto badname;
 	while (*++p) {

@@ -1,5 +1,4 @@
 %{
-/**	$MirOS$ */
 /*	$OpenBSD: scan.l,v 1.17 2004/01/04 18:30:05 deraadt Exp $	*/
 /*	$NetBSD: scan.l,v 1.13 1997/02/02 21:12:37 thorpej Exp $	*/
 
@@ -51,6 +50,8 @@
 #include <unistd.h>
 #include "config.h"
 #include "y.tab.h"
+
+__RCSID("$MirOS$");
 
 int	yyline;
 const char *yyfile;
@@ -180,8 +181,7 @@ rmoptions	return RMOPTIONS;
  * Open the "main" file (conffile).
  */
 int
-firstfile(fname)
-	const char *fname;
+firstfile(const char *fname)
 {
 
 	if ((yyin = fopen(fname, "r")) == NULL)
@@ -194,6 +194,7 @@ firstfile(fname)
 /*
  * Return the input stream
  */
+FILE *getfp(void);
 FILE *
 getfp(void)
 {
@@ -208,9 +209,7 @@ getfp(void)
  * If ateof == 0 then nothing is inserted.
  */
 int
-include(fname, ateof)
-	const char *fname;
-	int ateof;
+include(const char *fname, int ateof)
 {
 	FILE *fp;
 	struct incl *in;
@@ -250,7 +249,7 @@ include(fname, ateof)
  * Terminate the most recent inclusion.
  */
 static int
-endinclude()
+endinclude(void)
 {
 	struct incl *in;
 	int ateof;
@@ -276,7 +275,7 @@ endinclude()
  * token lookahead, so we can tell.
  */
 int
-currentline()
+currentline(void)
 {
 	extern int yychar;
 

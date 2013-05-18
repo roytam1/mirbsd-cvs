@@ -1,4 +1,4 @@
-/**	$MirOS$ */
+/**	$MirOS: src/usr.sbin/config/cmd.h,v 1.2 2006/04/06 00:53:48 tg Exp $ */
 /*	$OpenBSD: cmd.h,v 1.7 2003/06/03 00:52:35 weingart Exp $	*/
 
 /*
@@ -43,10 +43,10 @@ typedef struct _cmd_t {
 } cmd_t;
 
 typedef struct _cmd_table_t {
-	char *cmd;
+	const char *cmd;
 	int (*fcn)(cmd_t *);
-	char *opt;
-	char *help;
+	const char *opt;
+	const char *help;
 } cmd_table_t;
 
 

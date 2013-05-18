@@ -42,12 +42,13 @@
 #include "ukc.h"
 #include "exec.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.sbin/config/ukc.c,v 1.2 2007/02/19 03:11:20 tg Exp $");
 
 void	init(void);
 void	usage(void);
 
 int	ukc_mod_kernel = 0;
+int	ukc(char *, char *, int, int);
 
 static void
 check_int(int idx, const char *name)

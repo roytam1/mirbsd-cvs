@@ -390,9 +390,9 @@ findvec(const void *ptr, int hash, int len, vec_cmp_func cmp, int nextplace)
 static int
 samelocs(const void *ptr, int off, int len)
 {
-	const char **p, **q;
+	const char * const *p, * const *q;
 
-	for (p = &locators.vec[off], q = (const char **)ptr; --len >= 0;)
+	for (p = &locators.vec[off], q = (const char * const *)ptr; --len >= 0;)
 		if (*p++ != *q++)
 			return (0);	/* different */
 	return (1);			/* same */
@@ -424,8 +424,8 @@ loclencmp(const void *a, const void *b)
 {
 	int l1, l2;
 
-	l1 = (*(struct devi **)a)->i_atattr->a_loclen;
-	l2 = (*(struct devi **)b)->i_atattr->a_loclen;
+	l1 = (*(struct devi * const *)a)->i_atattr->a_loclen;
+	l2 = (*(struct devi * const *)b)->i_atattr->a_loclen;
 	return (l2 - l1);
 }
 
@@ -435,9 +435,9 @@ loclencmp(const void *a, const void *b)
 static int
 samepv(const void *ptr, int off, int len)
 {
-	short *p, *q;
+	const short *p, *q;
 
-	for (p = &parents.vec[off], q = (short *)ptr; --len >= 0;)
+	for (p = &parents.vec[off], q = (const short *)ptr; --len >= 0;)
 		if (*p++ != *q++)
 			return (0);	/* different */
 	return (1);			/* same */
@@ -482,8 +482,8 @@ pvlencmp(const void *a, const void *b)
 {
 	int l1, l2;
 
-	l1 = (*(struct devi **)a)->i_pvlen;
-	l2 = (*(struct devi **)b)->i_pvlen;
+	l1 = (*(struct devi * const *)a)->i_pvlen;
+	l2 = (*(struct devi * const *)b)->i_pvlen;
 	return (l2 - l1);
 }
 
