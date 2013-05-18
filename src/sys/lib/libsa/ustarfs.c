@@ -26,7 +26,7 @@
 #include <lib/libsa/ustar.h>
 #include <lib/libsa/ustarfs.h>
 
-__RCSID("$MirOS: src/sys/lib/libsa/ustarfs.c,v 1.1 2010/01/10 19:21:38 tg Exp $");
+__RCSID("$MirOS: src/sys/lib/libsa/ustarfs.c,v 1.2 2010/01/16 19:25:22 tg Exp $");
 
 /* This is intentionally simple. We don’t support directories. */
 
@@ -377,7 +377,7 @@ ustarfs_read(struct open_file *f, void *buf, size_t size, size_t *resid)
 		goto out;
 
 	/* copy (part) of the sector */
-	memcpy(buf, hp, n);
+	memcpy(buf, ((char *)hp) + dataofs, n);
 	ff->nodeseekp += n;
 	size -= n;
 	D("success, read %u bytes", n);
