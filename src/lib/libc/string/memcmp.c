@@ -31,12 +31,13 @@
  * SUCH DAMAGE.
  */
 
+#if !defined(_KERNEL) && !defined(_STANDALONE)
 #include <string.h>
 #else
 #include <lib/libkern/libkern.h>
 #endif
 
-__RCSID("$MirOS: src/lib/libc/string/memcmp.c,v 1.4 2005/10/21 10:53:26 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/string/memcmp.c,v 1.5 2006/05/13 14:49:03 tg Exp $");
 
 #ifdef BCMP
 #define	memcmp	bcmp
