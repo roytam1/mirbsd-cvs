@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.293 2010/05/22 14:39:06 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.294 2010/05/23 15:20:23 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -6566,4 +6566,29 @@ tg@blau:~ $ <span class="u">l</span>s
  i it), there are a lot of goodies. I found out about Ctrl-O only a
  year or so ago myself…</p>
 <p>I wonder why schizo didn’t write about how to do it in posh tho ☺</p>
+----
+Title: odem is dead
+Author: tg@
+Date: 17.06.2010 19:58
+
+<p>My laptop <tt>odem</tt> has a somewhat split personality… half of
+ it ended up in the waste bin, the other half will probably end up
+ being sold under price to someone who may then sell the parts separately
+ from each other (I’m not in the mood to do packaging and shipping).
+ Salvaged parts: some PC133 SO-SDRAM (probably 512 and 256 MiB), an
+ Athlon XP 1400+ CPU, an Acer Aspire 1300XC(?) BIOS, floppy drive,
+ DVD-ROM/CD-RW drive, complete display (panel, inverter and chassis),
+ CMOS battery, a lot of screws, the fan, some cables, the upper half
+ of the chassis, the keyboard, and probably other things.</p><!-- RSS stop -->
+<p>In case someone noticed: the <a href="@@RELPATH@@mksh.htm">mksh
+ web page</a> now looks nicer, and it’s even mentioned in some <a
+ href="http://forums.freebsd.org/showthread.php?p=88087">forum
+ thread</a> as the “popular” shell ☺</p>
+<p>Mojito tastes good… we had a soldering social evening at $orkplace
+ followed by an ad-hōc visit to the cocktail bar due to missing the
+ tram (caught the next one). Summer’s gone again though… rain really
+ is imminent now ☹</p>
+<p>This wlog entry is presented you by gecko2@’s nagging… we’re
+ really working though, so don’t expect many… I’m even doing the
+ Debian stuff only at ork at the moment.</p>
 ----
