@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/Makefile,v 1.8 2006/08/19 11:46:07 tg Exp $
+# $MirOS: src/distrib/common/Makefile,v 1.9 2006/08/19 11:59:39 tg Exp $
 
 .include <bsd.own.mk>
 
@@ -201,7 +201,7 @@ cdrom-prepare: bsd.rd
 	cp ${TOPDIR}/common/00-README workdir/
 
 cdrom-generate:
-	mkisofs -r -f -L -d -D -N -v -v \
+	mkisofs -r -f -L -d -D -N -v -v ${CDROM_MDOPTS} \
 	    -P 'The http://mirbsd.de/ team and its contributors' \
 	    -p 'Copyright © 2002-2006 by The MirOS Project' \
 	    -V 'MirOS #${OSrev} BSD/${MACHINE} boot-only CD' \
