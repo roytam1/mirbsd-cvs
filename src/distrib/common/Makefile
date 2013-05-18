@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/Makefile,v 1.50 2010/01/10 21:09:54 tg Exp $
+# $MirOS: src/distrib/common/Makefile,v 1.51 2010/01/11 01:15:54 tg Exp $
 
 .include <bsd.own.mk>
 
@@ -64,11 +64,12 @@ RAMDISK_PREP?=	@:
 # floppy (set to no to disable)
 FLOPPY?=	floppy${OSrev}.fs
 FLOPPYSIZE?=	2880
+FLOPPYGEOM?=	80:2:18
 FLOPPYFILES?=	boot bsd
 BOOT?=		${DESTDIR}/usr/mdec/boot
 BOOT_TAR?=	${DESTDIR}/usr/mdec/boot.fd
 BOOTXX?=	${DESTDIR}/usr/mdec/bootxx
-BOOTXX_TAR?=	${DESTDIR}/usr/mdec/bootxx.tar
+BOOTXX_TAR?=	cat ${DESTDIR}/usr/mdec/bootxx.tar -
 BOOTSH?=	${DESTDIR}/usr/mdec/bootxx.sh
 
 # compact disc image (set to no to disable)
@@ -183,12 +184,11 @@ ${FLOPPY}: bsd.st
 	test ! -e ${TMPMOUNT} || (cd ${.CURDIR}; ${MAKE} unconfig)
 	${SUDO} rm -rf ${WRKDIR} e~
 	mkdir -p ${WRKDIR}
-	cp ${BOOT_TAR} ${WRKDIR}/boot
 	gzip -vn9 <bsd.st >${WRKDIR}/bsd
 	${FLOPPY_BOOTCFG}
 	dd if=/dev/zero of=${FLOPPY}~ count=${FLOPPYSIZE}
 	(tar -b 1 -M dist -cf - -C ${WRKDIR} ${FLOPPYFILES} || touch e~) | \
-	    cat ${BOOTXX_TAR} - | dd of=${FLOPPY}~ conv=notrunc
+	    ${BOOTXX_TAR} | dd of=${FLOPPY}~ conv=notrunc
 	@[[ ! -e e~ ]]
 	(( $$(stat -f %z ${FLOPPY}~) == 512 * ${FLOPPYSIZE} ))
 	mv -f ${FLOPPY}~ ${FLOPPY}
