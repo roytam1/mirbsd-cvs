@@ -1,4 +1,4 @@
-/* $MirOS: contrib/code/libhaible/wcswidth.c,v 1.1 2006/05/30 12:11:49 tg Exp $ */
+/* $MirOS: src/lib/libc/i18n/wcswidth.c,v 1.1 2006/06/01 22:17:21 tg Exp $ */
 
 /*-
  * Copyright (c) 2006
@@ -25,23 +25,25 @@
  * the possibility of such damage or existence of a nontrivial bug.
  */
 
+#include <errno.h>
 #include <wchar.h>
 
-__RCSID("$MirOS: contrib/code/libhaible/wcswidth.c,v 1.1 2006/05/30 12:11:49 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/i18n/wcswidth.c,v 1.1 2006/06/01 22:17:21 tg Exp $");
 
 int
 wcswidth(const wchar_t *s, size_t n)
 {
-	int len = 0, i;
-	wchar_t c;
+	int width = 0, i;
+	wchar_t wc;
 
+	errno = 0;
 	while (n--) {
-		c = *s++;
-		if (c == L'\0')
+		wc = *s++;
+		if (wc == L'\0')
 			break;
-		if ((i = wcwidth(c)) < 0)
+		if ((i = wcwidth(wc)) < 0)
 			return (-1);
-		len += i;
+		width += i;
 	}
-	return (len);
+	return (width);
 }

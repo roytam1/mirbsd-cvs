@@ -1,4 +1,4 @@
-/* $MirOS: src/lib/libc/i18n/mbswidth.c,v 1.1 2006/06/02 12:29:33 tg Exp $ */
+/* $MirOS: src/lib/libc/i18n/mbswidth.c,v 1.2 2006/06/03 22:25:31 tg Exp $ */
 
 /*-
  * Copyright (c) 2006
@@ -25,18 +25,20 @@
  * the possibility of such damage or existence of a nontrivial bug.
  */
 
+#include <errno.h>
 #include <wchar.h>
 
-__RCSID("$MirOS: src/lib/libc/i18n/mbswidth.c,v 1.1 2006/06/02 12:29:33 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/i18n/mbswidth.c,v 1.2 2006/06/03 22:25:31 tg Exp $");
 
 int
 mbswidth(const char *s, size_t n)
 {
-	int width = 0;
-	size_t numb;
+	int width = 0, i;
 	wchar_t wc;
+	size_t numb;
 	mbstate_t ps = { 0, 0 };
 
+	errno = 0;
 	while (n) {
 		numb = mbrtowc(&wc, s, n, &ps);
 		if (__predict_false(numb == (size_t)-1))
@@ -45,9 +47,11 @@ mbswidth(const char *s, size_t n)
 		if ((numb == 0) || (numb == (size_t)-2))
 			/* end of input string */
 			break;
-		width += wcwidth(wc);
 		s += numb;
 		n -= numb;
+		if ((i = wcwidth(wc)) < 0)
+			return (-1);
+		width += i;
 	}
 	return (width);
 }
