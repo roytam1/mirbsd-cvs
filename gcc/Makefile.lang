@@ -1,4 +1,4 @@
-# $MirOS: gcc/Makefile.lang,v 1.9 2007/05/19 01:18:27 tg Exp $
+# $MirOS: gcc/Makefile.lang,v 1.10 2007/06/10 03:19:27 tg Exp $
 
 .ifndef _MODGCC_MAKEFILE_LANG
 _MODGCC_MAKEFILE_LANG=1
@@ -24,6 +24,9 @@ NO_OBJC?=	Yes
 NO_JAVA?=	Yes
 # Pascal is known to work and be in a fairly good shape.
 NO_PASCAL?=	Yes
+.  if ${MACHINE_ARCH} == "sparc"
+NO_ADA:=	Yes	# for now, until the segfaults (in C) go away
+.  endif
 .else
 GCC_NATIVE=	No
 NO_ADA?=	Yes	# helps bootstrapping
