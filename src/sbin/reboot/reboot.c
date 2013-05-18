@@ -2,7 +2,7 @@
 /*	$NetBSD: reboot.c,v 1.8 1995/10/05 05:36:22 mycroft Exp $	*/
 
 /*
- * Copyright (c) 2011
+ * Copyright (c) 2011, 2012
  *	Thorsten Glaser <tg@mirbsd.org>
  * Copyright (c) 1980, 1986, 1993
  *	The Regents of the University of California.  All rights reserved.
@@ -56,7 +56,7 @@
 __COPYRIGHT("@(#) Copyright (c) 1980, 1986, 1993\n\
 	The Regents of the University of California.  All rights reserved.\n");
 __SCCSID("@(#)reboot.c	8.1 (Berkeley) 6/5/93");
-__RCSID("$MirOS: src/sbin/reboot/reboot.c,v 1.2 2007/05/29 08:19:30 tg Exp $");
+__RCSID("$MirOS: src/sbin/reboot/reboot.c,v 1.3 2011/02/19 14:41:39 tg Exp $");
 
 extern const char *__progname;
 
@@ -96,7 +96,12 @@ main(int argc, char *argv[])
 	const char *p, *user;
 	char rnd_buf[512];
 	static const int death_sigs[7] = {
-		SIGHUP, SIGTERM, SIGKILL, SIGKILL, SIGKILL, SIGKILL, SIGKILL
+#ifdef notyet /* weirdly enough, herc crashes hard since we did that */
+		SIGHUP,
+#else
+		SIGTERM,
+#endif
+		SIGTERM, SIGKILL, SIGKILL, SIGKILL, SIGKILL, SIGKILL
 	};
 
 	if (chdir("/"))
