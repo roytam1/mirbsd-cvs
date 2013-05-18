@@ -1,5 +1,5 @@
 <!-- PageID: wlog-8 -->
-<small class="rcsid">$MirOS: www/content/d2xvZy04.inc,v 1.60 2006/03/31 23:41:42 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy04.inc,v 1.61 2006/04/01 01:11:59 tg Exp $</small>
 <h1>MirBSD &ndash; WTF, We Have a Release!?</h1>
 <p><small><a href="#eof">bottom</a> or <a href="/?older">older</a>
  editions</small></p>
@@ -1031,6 +1031,19 @@ celebrate this event, rotate the wlog and start a new one.</p>
   the ELF contains <tt>.section .note.miros.ident,"a",@progbits</tt>, or
   you make an OLF out of it (which binutils and gdb can't use). Speaking
   of suckage. (suckage.netbsd.ch by Tonnerre is down tho.)</p>
+</div>
+
+<div class="wlentry">
+ <h3 id="e20060406">06.04.2006 by tg@</h3>
+ <p>Lately I've been working on a Live CD which is to be built as a part
+  of the normal 'dist-q' process. I'm improving continuously; I unveiled
+  some bugs in the system during that and am currently rebuilding MirBSD
+  at 900 MHz, let's see how long it takes without Ada and GCJ ;)</p>
+ <p>My <a href="http://www.cafe-libertad.de/">coffee provider</a> has an
+  enhanced set of offers and a new website design, check it out. Today I
+  ordered the first time online there, they use "Bankeinzug" and give 2%
+  discount on that, even. Cool. Of course, SSL secured (hi entropy).</p>
+ <p>More later&#8230;</p>
 </div>
 
 <p id="eof">Good luck, have fun, take care etc.pp</p>
