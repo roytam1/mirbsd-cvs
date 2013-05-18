@@ -1,4 +1,4 @@
-# $MirOS: src/usr.bin/Makefile,v 1.14 2007/02/18 03:51:52 tg Exp $
+# $MirOS: src/usr.bin/Makefile,v 1.15 2007/05/07 02:40:06 tg Exp $
 # $OpenBSD: Makefile,v 1.90 2004/05/02 17:55:09 millert Exp $
 
 .include <bsd.own.mk>
@@ -24,6 +24,7 @@
   SUBDIR+= column
   SUBDIR+= comm
   SUBDIR+= compress
+  SUBDIR+= compressutil
   SUBDIR+= crontab
   SUBDIR+= crunchgen
   SUBDIR+= ctags

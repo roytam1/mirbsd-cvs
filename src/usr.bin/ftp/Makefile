@@ -1,4 +1,4 @@
-# $MirOS: src/usr.bin/ftp/Makefile,v 1.6 2007/07/15 20:01:07 tg Exp $
+# $MirOS: src/usr.bin/ftp/Makefile,v 1.7 2008/03/27 13:41:33 tg Exp $
 # $OpenBSD: Makefile,v 1.22 2007/06/13 13:52:26 pyr Exp $
 
 .include <bsd.own.mk>
@@ -11,6 +11,8 @@ LOCALBASE?=	/usr/mpkg
 CPPFLAGS+=	-DSOCKS -I${LOCALBASE}/include
 LDADD+=		-lsocks5
 .endif
+
+BINDIR?=	/usr/dbin
 
 PROG=	ftp
 SRCS=	cmds.c cmdtab.c complete.c domacro.c fetch.c ftp.c main.c ruserpass.c \

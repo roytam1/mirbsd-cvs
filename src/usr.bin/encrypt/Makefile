@@ -1,10 +1,11 @@
-# $MirOS: src/usr.bin/encrypt/Makefile,v 1.3 2005/03/15 19:23:49 tg Exp $
+# $MirOS: src/usr.bin/encrypt/Makefile,v 1.4 2008/03/27 13:41:32 tg Exp $
 # $OpenBSD: Makefile,v 1.7 2002/06/27 19:56:03 art Exp $
 
 PROG=		encrypt
 SRCS=		encrypt.c pwd_gensalt.c
 .PATH: ${.CURDIR}/../passwd
 
+BINDIR?=	/usr/dbin
 LDADD+=		-lutil
 DPADD+=		${LIBUTIL}
 LIBEXEC?=	/usr/libexec
