@@ -1,6 +1,6 @@
 divert(-1)
 #
-# $MirOS: src/gnu/usr.sbin/sendmail/cf/cf/openbsd-localhost.mc,v 1.5 2006/06/15 19:18:47 tg Exp $
+# $MirOS: src/gnu/usr.sbin/sendmail/cf/cf/openbsd-localhost.mc,v 1.6 2007/01/05 16:49:47 tg Exp $
 #
 # Copyright (c) 2004, 2005, 2007
 #	Thorsten "mirabilos" Glaser <tg@MirBSD.de>
@@ -22,7 +22,7 @@ divert(-1)
 #
 
 divert(0)dnl
-VERSIONID(`$MirOS: src/gnu/usr.sbin/sendmail/cf/cf/openbsd-localhost.mc,v 1.5 2006/06/15 19:18:47 tg Exp $')
+VERSIONID(`$MirOS: src/gnu/usr.sbin/sendmail/cf/cf/openbsd-localhost.mc,v 1.6 2007/01/05 16:49:47 tg Exp $')
 OSTYPE(openbsd)dnl
 FEATURE(nouucp, `reject')dnl
 FEATURE(`accept_unresolvable_domains')dnl
@@ -40,6 +40,7 @@ dnl Some broken nameservers will return SERVFAIL (a temporary failure)
 dnl on T_AAAA (IPv6) lookups.
 define(`confBIND_OPTS', `WorkAroundBrokenAAAA')dnl
 define(`confSEVEN_BIT_INPUT', `True')dnl
+define(`confFORWARD_PATH', `$z/.etc/forward.$w:$z/.etc/forward:$z/.forward.$w:$z/.forward')dnl
 dnl
 dnl STARTTLS won't correctly verify peer (i.e. server) certificates
 dnl without both confCACERT_PATH and confCACERT set and valid and
