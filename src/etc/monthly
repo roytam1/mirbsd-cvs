@@ -1,6 +1,6 @@
 #!/bin/mksh
 # $MirSecuCron$
-# $MirOS: src/etc/monthly,v 1.19 2009/07/18 14:09:03 tg Exp $
+# $MirOS: src/etc/monthly,v 1.20 2009/08/01 23:15:31 tg Exp $
 # $OpenBSD: monthly,v 1.5 1998/02/02 23:08:57 millert Exp $
 
 umask 022
@@ -24,10 +24,10 @@ if [[ -e /var/log/wtmp ]]; then
 	ac -p | sort -nr +1
 	for f in /var/log/wtmp.*.gz; do
 		[[ -s $f ]] || continue
-		gzip -d "$f"
+		gzip -df "$f"
 	done
 	install -c -o root -g wheel -m 640 /dev/null /var/log/wtmp.new
-	[[ -e /var/log/wtmp.0 ]] && mv /var/log/wtmp.0 /var/log/wtmp.1
-	mv /var/log/wtmp /var/log/wtmp.0
-	mv /var/log/wtmp.1 /var/log/wtmp
+	[[ -e /var/log/wtmp.0 ]] && mv -f /var/log/wtmp.0 /var/log/wtmp.1
+	mv -f /var/log/wtmp /var/log/wtmp.0
+	mv -f /var/log/wtmp.new /var/log/wtmp
 fi
