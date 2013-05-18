@@ -1,5 +1,5 @@
 <!-- PageID: mksh -->
-<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.24 2006/03/19 21:23:19 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.25 2006/04/10 12:39:11 tg Exp $</small>
 
 <h1>mksh(1) R26c</h1>
 <p>This is the MirBSD&trade; Korn Shell, a more or less portable
@@ -26,8 +26,17 @@
 </ul>
 
 <h2 id="clog">Recent Changes</h2>
-<p>Changes in the current (unreleased) development version:</p><ul>
+<!-- p>Changes in the current (unreleased) development version:</p><ul -->
+<p>Featuring mksh <b>R27</b> with these changes:</p><ul>
  <li>emacs-usemeta now behaves like vi-show8 (be careful with 0x80-0x9F)</li>
+ <li>Portability cleanup and speed-up; refine pr&aelig;processor defns</li>
+ <li>GNU groff compatible manual page</li>
+ <li>Fixes for Solaris 10 (maybe)</li>
+ <li>Add <tt>~/.mkshrc</tt> as $ENV feature (see manual page)</li>
+ <li>Illustrate interactive shell tricks ($PS1) in manual page</li>
+ <li>Enhance testsuite</li>
+ <li>Incorporate some more code cleanup by OpenBSD</li>
+ <li>Reference the O'Reilly books in the manual page</li>
 </ul>
 <p>Changes in the minor version <b>R26c</b>, relative to R26b:</p><ul>
  <li>Code cleanup by OpenBSD</li>
@@ -41,7 +50,7 @@
   can be used instead of having to copy and paste a long line to run
   the regression test suite (still no way to run ifs.sh as we cannot
   distribute it, though).</li>
- <li>Add a few useful shell programming hints to the manual page</li>
+ <li>Add a few programming tricks to the manual page</li>
  <li>Fix abuse of unquoted characters in the manual page</li>
  <li>(no actual source code changes)</li>
 </ul>
