@@ -1,4 +1,4 @@
-# $MirOS: src/etc/changelist,v 1.7 2005/08/21 11:45:38 tg Exp $
+# $MirOS: src/etc/changelist,v 1.8 2006/02/18 16:38:46 tg Exp $
 # $OpenBSD: changelist,v 1.42 2005/02/07 06:45:17 david Exp $
 #
 # List of files which the security script backs up and checks
@@ -13,8 +13,7 @@
 /etc/X11/xdm/Xservers
 /etc/X11/xdm/Xsession
 /etc/X11/xdm/xdm-config
-/etc/adduser.conf
-/etc/adduser.message
+/etc/arp.conf
 /etc/bgpd.conf
 /etc/boot.cfg
 /etc/bootparams
