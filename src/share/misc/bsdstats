@@ -1,4 +1,4 @@
-# $MirOS: src/share/misc/bsdstats,v 1.7 2006/10/03 00:41:10 tg Exp $
+# $MirOS: src/share/misc/bsdstats,v 1.8 2006/10/03 19:09:16 tg Exp $
 # $FreeBSD: /repoman/r/pcvs/ports/sysutils/bsdstats/files/300.statistics,v 1.30 2006/10/02 12:07:30 scrappy Exp $
 
 print -u2 'Error:\tbsdstats.org code is currently disabled'
@@ -6,10 +6,13 @@ print -u2 '\tbecause they fubar'\''d something...'
 exit 0
 
 alias sleep=true
+rm -f /var/db/bsdstats
 
 rpt='http://rpt.bsdstats.org/scripts/'
 # ftp(1) sends HTTP/1.1 but doesn't understand Transfer-Encoding: chunked
-fetch="lynx -useragent 'MirOS ftp(1), http://mirbsd.de/, emulated by Lynx' -source"
+#fetch="lynx -useragent 'MirOS ftp(1), http://mirbsd.de/, emulated by Lynx' -source"
+# fixed in -current
+fetch="ftp -Vo -"
 
 # RFC 2396
 uri_escape () {
@@ -28,6 +31,12 @@ uri_escape () {
         s/ /%20/g
         '
 }
+
+# I like this one
+#function uri_escape
+#{
+#	print -nr -- "$*" | hexdump -ve '1/1 "-%02x"' | sed s/-/%/g
+#}
 
 stats_token=
 integer stats_token_time=0
