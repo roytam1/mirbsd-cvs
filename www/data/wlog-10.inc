@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.116 2008/12/17 23:44:47 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.117 2008/12/17 23:47:30 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -2315,4 +2315,5 @@ Tag: mksh
 <p>In case you didn’t, read cvs(GNU) a.k.a. The Cederqvist! Another source
  of <a href="http://www.stremler.net/Code/cvs_tricks/">CVS tricks</a> is
  courtesy of «ThunderChicken:#cvs» and includes some from myself.</p>
+<p>The 13.rcs(PSD) documentation and rcsintro(1) are online as well!</p>
 ----
