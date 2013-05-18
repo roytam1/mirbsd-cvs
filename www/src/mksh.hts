@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.372 2011/01/21 22:59:23 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.373 2011/01/30 01:41:33 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -1088,7 +1088,7 @@ exec /usr/bin/ld "${args[@]}"</pre>
   href="https://bugzilla.redhat.com/show_bug.cgi?id=496791">$(…)
   parsing bug</a> in the mksh(1) manual page and on the Red Hat Bugzilla</li>
  <li>[tg] Add support for handling a “--” argument to more builtins</li>
- <li>[tg] Correct some error messages</li>
+ <li>[tg] Correct some error messages and typos</li>
  <li>[Jeff Hamilton] Don’t alias stop, suspend on Android (system specific
   conflict for stop; suspend just joined the boat)</li>
  <li>[tg] Add size optimisations, ifdef’d, mostly for Android</li>
@@ -1120,6 +1120,7 @@ exec /usr/bin/ld "${args[@]}"</pre>
  <li>[tg] Introduce MKSH_NOPROSPECTOFWORK which implies MKSH_UNEMPLOYED
   and additionally disables job signals, sigprocmask(2), etc.</li>
  <li>[tg] POSIX: <tt>trap 'echo foo' UNKNOWN</tt> is not a syntax error</li>
+ <li>[tg] Do not use <tt>&lt;sys/file.h&gt;</tt> unless it exists</li>
 </ul>
 <p id="r39c">mksh R39c is an important minor bugfix release:</p><ul>
  <li>[tg] Build system, code, docs and testsuite cleanup, also style(9)</li>
