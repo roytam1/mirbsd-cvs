@@ -1,4 +1,4 @@
-# $MirOS: ports/print/transfig/Makefile,v 1.7 2007/03/31 23:49:35 bsiegert Exp $
+# $MirOS: ports/print/transfig/Makefile,v 1.8 2008/03/09 19:16:07 tg Exp $
 # $OpenBSD: Makefile,v 1.25 2003/04/04 14:28:36 naddy Exp $
 
 ONLY_FOR_PLATFORM=	MirBSD:*:* OpenBSD:*:*
@@ -9,8 +9,7 @@ DISTNAME=	transfig.${VERSION}
 DASH_VER=	0
 PKGNAME=	transfig-${VERSION}-${DASH_VER}
 CATEGORIES=	print
-MASTER_SITES=	ftp://www-epb.lbl.gov/xfig/ \
-		ftp://www-epb.lbl.gov/xfig/previous_versions/
+MASTER_SITES=	http://www.xfig.org/software/xfig/${VERSION}/
 
 LIB_DEPENDS=	jpeg.62::graphics/jpeg \
 		png.2::graphics/png
