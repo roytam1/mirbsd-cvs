@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.251 2009/05/11 12:30:59 bsiegert Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.252 2009/05/24 19:51:40 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -2579,12 +2579,13 @@ _delete-package-links:
 
 clean:
 .if ${_clean:L:Mdepends} && ${_CLEANDEPENDS:L} == "yes"
-	@${MAKE} all-dir-depends | tsort -rq | while read dir; do \
+	@${MAKE} all-dir-depends | tsort -rq | sed '$$d' | \
+	    while read dir; do \
 		unset FLAVOUR SUBPACKAGE || true; \
 		${_flavour_fragment}; \
 		eval $$toset ${MAKE} _CLEANDEPENDS=No clean; \
 	done
-.else
+.endif
 	@${ECHO_MSG} "===>  Cleaning for ${FULLPKGNAME${SUBPACKAGE}}"
 .  if ${_clean:L:Mfake}
 	@if cd ${WRKINST} 2>/dev/null; then ${SUDO} rm -rf ${WRKINST}; fi
@@ -2652,7 +2653,6 @@ clean:
 .  if ${_clean:L:Mbulk}
 	rm -f ${_BULK_COOKIE}
 .  endif
-.endif
 
 # packing list utilities.  This generates a packing list from a recently
 # installed port.  Not perfect, but pretty close.  The generated file
