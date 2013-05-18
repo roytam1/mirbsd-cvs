@@ -1,4 +1,4 @@
-/* $MirOS: contrib/code/jupp/usearch.c,v 1.3 2008/05/13 13:08:29 tg Exp $ */
+/* $MirOS: contrib/code/jupp/usearch.c,v 1.4 2010/01/02 15:41:04 tg Exp $ */
 /*
  *	Search & Replace system
  *	Copyright
@@ -103,7 +103,7 @@ void fcmplt_ins(BW *bw, unsigned char *line)
 	int c;
 
 	if (!piseol(bw->cursor)) {
-		int c = brch(bw->cursor);
+		c = brch(bw->cursor);
 		if (joe_isalnum_(bw->b->o.charmap,c))
 			return;
 	}
@@ -159,7 +159,7 @@ int ufinish(BW *bw)
 	/* Make sure we're not in a word */
 
 	if (!piseol(bw->cursor)) {
-		int c = brch(bw->cursor);
+		c = brch(bw->cursor);
 		if (joe_isalnum_(bw->b->o.charmap,c))
 			return -1;
 	}
