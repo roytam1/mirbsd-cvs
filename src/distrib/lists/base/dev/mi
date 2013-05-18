@@ -5780,6 +5780,7 @@
 ./usr/share/man/cat3/gethostid.0
 ./usr/share/man/cat3/gethostname.0
 ./usr/share/man/cat3/getifaddrs.0
+./usr/share/man/cat3/getline.0
 ./usr/share/man/cat3/getloadavg.0
 ./usr/share/man/cat3/getmaxpartitions.0
 ./usr/share/man/cat3/getmaxyx.0
@@ -6202,6 +6203,7 @@
 ./usr/share/man/cat3/mbrlen.0
 ./usr/share/man/cat3/mbrtowc.0
 ./usr/share/man/cat3/mbsinit.0
+./usr/share/man/cat3/mbskrtowcs.0
 ./usr/share/man/cat3/mbsrtowcs.0
 ./usr/share/man/cat3/mbstowcs.0
 ./usr/share/man/cat3/mbtowc.0
@@ -7151,6 +7153,7 @@
 ./usr/share/man/cat3/wcsncat.0
 ./usr/share/man/cat3/wcsncmp.0
 ./usr/share/man/cat3/wcsncpy.0
+./usr/share/man/cat3/wcsnrtombs.0
 ./usr/share/man/cat3/wcspbrk.0
 ./usr/share/man/cat3/wcsrchr.0
 ./usr/share/man/cat3/wcsrtombs.0

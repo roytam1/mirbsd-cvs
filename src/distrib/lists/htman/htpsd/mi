@@ -2037,6 +2037,7 @@
 ./man3/gethostid.htm
 ./man3/gethostname.htm
 ./man3/getifaddrs.htm
+./man3/getline.htm
 ./man3/getloadavg.htm
 ./man3/getmaxpartitions.htm
 ./man3/getmaxyx.htm
@@ -2699,6 +2700,7 @@
 ./man3/mbrlen.htm
 ./man3/mbrtowc.htm
 ./man3/mbsinit.htm
+./man3/mbsnrtowcs.htm
 ./man3/mbsrtowcs.htm
 ./man3/mbstowcs.htm
 ./man3/mbtowc.htm
@@ -3658,6 +3660,7 @@
 ./man3/wcsncat.htm
 ./man3/wcsncmp.htm
 ./man3/wcsncpy.htm
+./man3/wcsnrtombs.htm
 ./man3/wcspbrk.htm
 ./man3/wcsrchr.htm
 ./man3/wcsrtombs.htm
