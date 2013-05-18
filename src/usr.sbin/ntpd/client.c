@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.sbin/ntpd/client.c,v 1.8 2007/08/17 16:20:01 tg Exp $ */
+/**	$MirOS: src/usr.sbin/ntpd/client.c,v 1.9 2007/09/26 12:38:47 tg Exp $ */
 /*	$OpenBSD: client.c,v 1.66 2005/09/24 00:32:03 dtucker Exp $ */
 
 /*
@@ -28,7 +28,7 @@
 
 #include "ntpd.h"
 
-__RCSID("$MirOS: src/usr.sbin/ntpd/client.c,v 1.8 2007/08/17 16:20:01 tg Exp $");
+__RCSID("$MirOS: src/usr.sbin/ntpd/client.c,v 1.9 2007/09/26 12:38:47 tg Exp $");
 
 #ifdef DDEBUG
 #define log_reply	log_info
@@ -36,7 +36,7 @@ __RCSID("$MirOS: src/usr.sbin/ntpd/client.c,v 1.8 2007/08/17 16:20:01 tg Exp $")
 #define log_reply	log_debug
 #endif
 
-int	client_update(struct ntp_peer *);
+int	client_update(struct ntp_peer *, int);
 void	set_deadline(struct ntp_peer *, time_t);
 
 void
@@ -297,7 +297,7 @@ client_dispatch(struct ntp_peer *p, u_int8_t settime, uint8_t trace)
 	    p->reply[p->shift].offset, p->reply[p->shift].delay,
 	    (int64_t)interval);
 
-	client_update(p);
+	client_update(p, trace);
 	if (settime)
 		priv_settime(p->reply[p->shift].offset);
 
@@ -308,7 +308,7 @@ client_dispatch(struct ntp_peer *p, u_int8_t settime, uint8_t trace)
 }
 
 int
-client_update(struct ntp_peer *p)
+client_update(struct ntp_peer *p, int trace)
 {
 	int	i, best = 0, good = 0;
 
@@ -331,6 +331,10 @@ client_update(struct ntp_peer *p)
 			if (p->reply[i].delay < p->reply[best].delay)
 				best = i;
 		}
+
+	if (trace > 2)
+		log_info("client_update, %d good, best = %f", good,
+		    p->reply[best].delay);
 
 	if (good < 8)
 		return (-1);

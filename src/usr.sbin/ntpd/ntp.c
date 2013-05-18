@@ -1,7 +1,7 @@
 /*	$OpenBSD: ntp.c,v 1.67 2005/08/10 13:48:36 dtucker Exp $ */
 
 /*
- * Copyright (c) 2006 Thorsten Glaser <tg@mirbsd.de>
+ * Copyright (c) 2006, 2007 Thorsten Glaser <tg@mirbsd.de>
  * Copyright (c) 2003, 2004 Henning Brauer <henning@openbsd.org>
  * Copyright (c) 2004 Alexander Guy <alexander.guy@andern.org>
  *
@@ -38,7 +38,7 @@
 #include "ntpd.h"
 #include "ntp.h"
 
-__RCSID("$MirOS: src/usr.sbin/ntpd/ntp.c,v 1.8 2007/08/10 23:33:31 tg Exp $");
+__RCSID("$MirOS: src/usr.sbin/ntpd/ntp.c,v 1.9 2007/09/26 12:38:47 tg Exp $");
 
 #define	PFD_PIPE_MAIN	0
 #define	PFD_MAX		1
@@ -403,6 +403,12 @@ priv_adjtime(void)
 	double		  offset_median;
 
 	TAILQ_FOREACH(p, &conf->ntp_peers, entry) {
+		if (conf->trace > 3)
+			log_info("priv_adjtime, peer trustlevel %d %s, %sgood",
+			    p->trustlevel,
+			    p->trustlevel < TRUSTLEVEL_BADPEER ? "bad" : "ok",
+			    p->update.good ? "" : "not ");
+
 		if (p->trustlevel < TRUSTLEVEL_BADPEER)
 			continue;
 		if (!p->update.good)
@@ -422,6 +428,9 @@ priv_adjtime(void)
 	if (offset_cnt > 2)
 		qsort(peers, offset_cnt, sizeof(struct ntp_peer *),
 		    offset_compare);
+
+	if (conf->trace > 2)
+		log_info("priv_adjtime, %d peers", offset_cnt);
 
 	if (offset_cnt > 0) {
 		double weight_cnt = 0.0;
