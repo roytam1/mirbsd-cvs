@@ -1,11 +1,9 @@
-GnuPG is the GNU project's complete and free implementation of the
-OpenPGP standard as defined by RFC2440. GnuPG allows to encrypt and
-sign your data and communication, features a versatile key managment
-system as well as access modules for all kind of public key
-directories. GnuPG, also known as GPG, is a command line tool with
-features for easy integration with other applications. A wealth of
-frontend applications and libraries are available.
+GnuPG is GNU's tool for secure communication and data storage. It can be
+used to encrypt data and to create digital signatures. It includes an
+advanced key management facility and is compliant with the proposed
+OpenPGP Internet standard as described in RFC 4880 (RFC 2440, RFC 1991).
 
-It has more security bugs than PGP 2.6.* and is only compatible with
-the latter (e.g. in security/pgp+) if you don't use the no_idea
-flavour.
+GnuPG 1.4 is the standalone, non-modularized series. In contrast to the
+version 2 series, shipped with the gnupg2 package, it comes with no
+support for S/MIME and some other tools useful for desktop environments,
+but also with less dependencies.

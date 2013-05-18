@@ -1,19 +1,13 @@
-$MirOS$
---- mpi/mpi-internal.h.orig	Tue Oct 23 08:16:52 2007
-+++ mpi/mpi-internal.h	Tue Apr  1 15:38:18 2008
-@@ -83,9 +83,15 @@ struct gcry_mpi {
+$MirOS: ports/security/gnupg/patches/patch-mpi_mpi-internal_h,v 1.1 2008/04/01 15:47:02 tg Exp $
+--- mpi/mpi-internal.h.orig	Thu Dec 20 17:22:02 2012
++++ mpi/mpi-internal.h	Wed Jan  2 21:23:57 2013
+@@ -83,6 +83,9 @@ struct gcry_mpi {
  typedef mpi_limb_t *mpi_ptr_t; /* pointer to a limb */
  typedef int mpi_size_t;        /* (must be a signed type) */
  
-+#ifndef ABS
++#undef ABS
++#undef MIN
++#undef MAX
  #define ABS(x) (x >= 0 ? x : -x)
-+#endif
-+#ifndef MIN
  #define MIN(l,o) ((l) < (o) ? (l) : (o))
-+#endif
-+#ifndef MAX
  #define MAX(h,i) ((h) > (i) ? (h) : (i))
-+#endif
- #define RESIZE_IF_NEEDED(a,b) \
-     do {			   \
- 	if( (a)->alloced < (b) )   \

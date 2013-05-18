@@ -1,12 +1,7 @@
 $MirOS$
 
-MD5 (gnupg-1.4.9.tar.gz) = 3537dedea45cc09e8d88d1ef4f774246
-MD5 (idea.c.gz) = 9dc3bc086824a8c7a331f35e09a3e57f
-RMD160 (gnupg-1.4.9.tar.gz) = 42df3693033b49f841ef5b3f67c3845b13492114
-RMD160 (idea.c.gz) = e35be5a031d10d52341ac5f029d28f811edd908d
-SHA1 (gnupg-1.4.9.tar.gz) = 52a245d20da70a3f79a2134c8ece3a1d30554ffa
-SHA1 (idea.c.gz) = 82fded4ec31b97b3b2dd22741880b67cfee40f84
-SIZE (gnupg-1.4.9.tar.gz) = 4664291
-SIZE (idea.c.gz) = 5216
-TIGER (gnupg-1.4.9.tar.gz) = 4a62949300b468853df7dee202ffaa787d43977ea4faf9c7
-TIGER (idea.c.gz) = a71069626e154c6d58808dd605f89ea1a381e17579a2bbe3
+MD5 (gnupg-1.4.13.tar.gz) = 33cd35779625310de122d07fc77be2cb
+RMD160 (gnupg-1.4.13.tar.gz) = d69c309936fbf075f583460f3775332208ea33d1
+SHA1 (gnupg-1.4.13.tar.gz) = 9f2696f3b61cb771053db599e884952c80d2a6e7
+SIZE (gnupg-1.4.13.tar.gz) = 5085400
+TIGER (gnupg-1.4.13.tar.gz) = 165296172dcf330e753aa31e318e153aed55f0f0441e5fdd
