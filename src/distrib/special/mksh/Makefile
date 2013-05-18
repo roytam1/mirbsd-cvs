@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/special/mksh/Makefile,v 1.63 2013/03/05 15:41:43 tg Exp $
+# $MirOS: src/distrib/special/mksh/Makefile,v 1.64 2013/03/24 00:56:32 tg Exp $
 #-
 # Copyright (c) 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010,
 #		2011, 2012, 2013
@@ -52,8 +52,7 @@ CPPFLAGS+=	-DMKSH_ASSUME_UTF8 -DMKSH_DISABLE_DEPRECATED -DMKSH_SMALL \
 		-DHAVE_SETGROUPS=1 -DHAVE_STRERROR=0 -DHAVE_STRSIGNAL=0 \
 		-DHAVE_STRLCPY=1 -DHAVE_FLOCK_DECL=1 -DHAVE_REVOKE_DECL=1 \
 		-DHAVE_SYS_ERRLIST_DECL=1 -DHAVE_SYS_SIGLIST_DECL=1 \
-		-DHAVE_PERSISTENT_HISTORY=0 -DHAVE_SILENT_IDIVWRAPV=0 \
-		-DMKSH_BUILD_R=449
+		-DHAVE_PERSISTENT_HISTORY=0 -DMKSH_BUILD_R=449
 CPPFLAGS+=	-D${${PROG:L}_tf:C/(Mir${MAN:E}{0,1}){2}/4/:S/x/mksh_BUILD/:U}
 COPTS+=		-std=c99 -Wall -fno-inline
 
@@ -68,7 +67,7 @@ regress: ${PROG} check.pl check.t
 	echo export FNORD=666 >regress-dir/.mkshrc
 	HOME=$$(realpath regress-dir) perl ${SRCDIR}/check.pl \
 	    -s ${SRCDIR}/check.t -v -p ./${PROG} \
-	    -C shell:legacy-no,int:32,smksh,convfds,nodeprecated,no-histfile,fastbox
+	    -C shell:legacy-no,int:32,smksh,convfds,no-histfile,fastbox
 
 cleandir: clean-extra
 
