@@ -1,4 +1,4 @@
-/* $MirOS: src/sys/arch/i386/stand/mbr/mbr.S,v 1.2 2007/02/26 01:46:49 tg Exp $ */
+/* $MirOS: src/sys/arch/i386/stand/mbr/mbr.S,v 1.3 2007/02/26 01:51:46 tg Exp $ */
 
 /*-
  * Copyright (c) 2004, 2005, 2007
@@ -112,9 +112,9 @@ Lmain:	mov	si,offset Lmsg
 	mov	di,cx		/* save it in edi for later */
 	shl	edi,16
 	mov	di,dx		/* 32-bit result in edi */
-	add	edi,183		/* 10 seconds, rounded up one tick */
-	.type	Ltimeout, @object
 	.size	Ltimeout, 4
+OTYPE(Ltimeout)
+	add	edi,183		/* 10 seconds, rounded up one tick */
 	Ltimeout = . - 4	/* offset of the "183" above */
 Lilp:	mov	ah,1		/* check if key was was pressed */
 	int	0x16
