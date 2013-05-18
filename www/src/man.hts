@@ -3,7 +3,7 @@
 
 mws_setname man "Unix manual pages"
 mws_setheadline "MirBSD manpage search"
-mws_putheader '$MirOS: www/src/wtf.hts,v 1.5 2012/05/15 21:26:27 tg Exp $'
+mws_putheader '$MirOS: www/src/man.hts,v 1.1 2012/05/19 21:40:14 tg Exp $'
 mws_content <<'EOF'
 <h2>Browse all manpages</h2>
 <p>Online manual pages for the <a href="@@RELPATH@@htman/i386/">i386</a>
@@ -18,8 +18,9 @@ mws_content <<'EOF'
  <input type="text" name="q" size="42" maxlength="255" />
  <input type="submit" />
 </p></form>
-<p>All architectures will be searched by default. The first full match,
- if any, is displayed directly. This is not an apropos(1) search.</p>
+<p>All architectures will be searched by default. The first full match
+ of a regular manpage, if any, is displayed directly. This is not an
+ apropos(1) search, only manpage name matches are checked.</p>
 
 <!-- man-result -->
 EOF

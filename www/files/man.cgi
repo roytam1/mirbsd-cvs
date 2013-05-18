@@ -1,5 +1,5 @@
 #!/usr/bin/perl -T
-my $rcsid = '$MirOS: www/files/wtf.cgi,v 1.6 2012/05/15 20:39:33 tg Exp $';
+my $rcsid = '$MirOS: www/files/man.cgi,v 1.1 2012/05/19 21:40:12 tg Exp $';
 #-
 # Copyright © 2012
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -82,7 +82,7 @@ sub tohtml {
 }
 
 if ($query ne "") {
-	@files = <htman/*/man{[1-9],3p}/{,.}*${query}*.htm>;
+	@files = <htman/*/man{[1-9],3p,PSD,SMM,USD,PAPERS}/{,.}*${query}*.htm>;
 }
 
 if (@files > 0) {
@@ -90,7 +90,7 @@ if (@files > 0) {
 
 	foreach my $a (qw( i386 sparc )) {
 		# from MirOS: src/etc/man.conf,v 1.5 2009/07/18 14:09:03 tg Exp $
-		foreach my $o (qw( 1 8 6 2 3 5 7 4 9 3p )) {
+		foreach my $o (qw( 1 8 6 2 3 5 7 4 9 3p PSD SMM USD PAPERS )) {
 			my @filtered = grep /^htman\/\Q$a\E\/man\Q$o\E\//,
 			    @files;
 			if (@filtered > 0) {
@@ -160,7 +160,7 @@ if (@files > 0) {
 	}
 	if (@goodmatches > 0) {
 		$match = $goodmatches[0];
-		$gotmatch = 1;
+		$gotmatch = 1 if $match =~ /\/man([1-9]|3p)\//;
 	}
 }
 
