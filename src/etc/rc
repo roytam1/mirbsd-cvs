@@ -1,4 +1,4 @@
-# $MirOS: src/etc/rc,v 1.13 2005/12/04 14:40:45 tg Exp $
+# $MirOS: src/etc/rc,v 1.14 2006/01/24 21:43:16 tg Exp $
 # $OpenBSD: rc,v 1.276 2005/11/30 16:04:33 tom Exp $
 #-
 # System startup script run by init on autoboot or after single-user.
@@ -629,7 +629,7 @@ if [[ ! -f /etc/ssh/ssh_host_rsa_key ]]; then
 	echo -n "ssh-keygen: installing host RSA key... "
 	ln /etc/ssl/private/default.key /etc/ssh/ssh_host_rsa_key || \
 	    cp /etc/ssl/private/default.key /etc/ssh/ssh_host_rsa_key
-	print $(/usr/bin-ssh-keygen -yf /etc/ssh/ssh_host_rsa_key) \
+	print $(/usr/bin/ssh-keygen -yf /etc/ssh/ssh_host_rsa_key) \
 	    $(hostname) host key >/etc/ssh/ssh_host_rsa_key.pub
 	echo done.
 fi
