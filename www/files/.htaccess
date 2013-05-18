@@ -1,4 +1,4 @@
-# $MirOS: www/files/.htaccess,v 1.7 2008/11/06 21:05:47 tg Exp $
+# $MirOS: www/files/.htaccess,v 1.8 2008/11/19 05:25:16 tg Exp $
 
 Options ExecCGI Indexes FollowSymLinks
 IndexOptions -FancyIndexing
@@ -40,6 +40,7 @@ AddType 'text/plain; charset=cp437' asc
 AddType 'text/plain; charset=utf-8' txt
 AddType 'application/x-x509-ca-cert' cer
 AddType 'application/metalink+xml' metalink
+AddType 'application/rss+xml; charset=utf-8' rss
 
 # serve XHTML stuff as text/html by default, but upgrade
 # to application/xml+xhtml if the client requests it
