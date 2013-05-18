@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.270 2009/12/20 12:34:58 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.271 2009/12/28 14:55:12 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -470,8 +470,15 @@ WRKDIR?=		${.CURDIR}/w-${PKGNAME}${_FLAVOUR_EXT2}
 
 .undef CC
 .undef CXX
-_PASS_CC=		${WRKDIR}/bin/mpcc
-_PASS_CXX=		${WRKDIR}/bin/mpcxx
+#.if _ORIG_CC is a gcc (and _ORIG_CXX is a g++)
+_MPWRAP_CC=		mpgcc
+_MPWRAP_CXX=		mpg++
+#.else
+#_MPWRAP_CC=		mpcc
+#_MPWRAP_CXX=		mpcxx
+#.endif
+_PASS_CC=		${WRKDIR}/bin/${_MPWRAP_CC}
+_PASS_CXX=		${WRKDIR}/bin/${_MPWRAP_CXX}
 .if ${USE_COMPILER:L} == "pcc"
 _PASS_CC=		${_ORIG_CC}
 _PASS_CXX=		${_ORIG_CXX}
@@ -2122,13 +2129,13 @@ ${_WRKDIR_COOKIE}:
 	@rm -rf ${WRKDIR}
 	@mkdir -p ${WRKDIR} ${WRKDIR}/bin
 	@ln -s ${_MIRMAKE_EXE} ${WRKDIR}/bin/make
-	@print '#!'${MKSH:Q}'\nexec' ${_USE_CC:Q} '"$$@"' >${WRKDIR}/bin/mpcc
+	@print '#!'${MKSH:Q}'\nexec' ${_USE_CC:Q} '"$$@"' >${WRKDIR}/bin/${_MPWRAP_CC}
 .if ${NO_CXX:L} != "no"
-	@print '#!'${MKSH:Q}'\nexit 1' >${WRKDIR:Q}/bin/mpcxx
+	@print '#!'${MKSH:Q}'\nexit 1' >${WRKDIR:Q}/bin/${_MPWRAP_CXX}
 .else
-	@print '#!'${MKSH:Q}'\nexec' ${_USE_CXX:Q} '"$$@"' >${WRKDIR}/bin/mpcxx
+	@print '#!'${MKSH:Q}'\nexec' ${_USE_CXX:Q} '"$$@"' >${WRKDIR}/bin/${_MPWRAP_CXX}
 .endif
-	@chmod ${BINMODE} ${WRKDIR}/bin/mp{cc,cxx}
+	@chmod ${BINMODE} ${WRKDIR}/bin/{${_MPWRAP_CC},${_MPWRAP_CXX}}
 	@${_MAKE_COOKIE} $@
 
 ${_EXTRACT_COOKIE}: ${_WRKDIR_COOKIE} ${_SYSTRACE_COOKIE}
@@ -2297,7 +2304,7 @@ ${_CONFIGURE_COOKIE}: ${_PATCH_COOKIE}
 	    <${PORTSDIR}/infrastructure/db/uname.sed >${WRKDIR}/bin/uname
 	chmod ${BINMODE} ${WRKDIR}/bin/uname
 .  endif
-	ln -sf ${WRKDIR}/bin/mpcc ${WRKDIR}/bin/cc
+	ln -sf ${WRKDIR}/bin/${_MPWRAP_CC} ${WRKDIR}/bin/cc
 .  if ${MACHINE} != "i386"
 	ln -sf ${WRKSRC}/RULES/i386-openbsd-cc.rul \
 	    ${WRKSRC:Q}/RULES/${MACHINE:Q}-openbsd-cc.rul
