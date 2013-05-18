@@ -1,5 +1,5 @@
 <!-- PageID: mksh -->
-<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.41 2006/08/01 15:02:58 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.42 2006/08/02 14:14:22 tg Exp $</small>
 
 <h1>mksh(1) R27e</h1>
 <p>This is the MirBSD&trade; Korn Shell, a more or less portable
@@ -72,6 +72,11 @@
   XFree86&reg; (xterm-xfree86) &quot;home&quot;, &quot;end&quot;
   and &quot;delete&quot; keys to ^A, ^E and ^D, respectively, except
   that &quot;delete&quot; does not act as logoff switch</li>
+ <li>Correct <tt>Test.sh</tt> shebang line</li>
+ <li>Make sure ^T is bound to 'transpose' as documented</li>
+ <li>Remove the 'stuff' and 'stuff-reset' editing commands</li>
+ <li>Correct the manual page regarding the 'abort' command, its
+  interaction with 'search-history' and how to exit the latter</li>
 </ul>
 <p>We recommend mksh <b>R27e</b> to be used:</p><ul>
  <li>Allow <tt>Test.sh</tt> to be passed parameters (-v)</li>
