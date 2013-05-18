@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.267 2009/08/08 14:01:20 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.268 2009/08/08 14:24:19 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -656,10 +656,11 @@ mws_content <<'EOF'
  for activating EPEL (RHEL only), then just type <tt>yum install mksh</tt>.</li>
 <li>The <a href="http://en.opensuse.org/Build_Service">OpenSuSE Build
  Service</a> provides an mksh package inside the <a
- href="http://download.opensuse.org/repositories/shells/SLES_9/src/">shells repo</a>,
- thanks to Pascal “loki” Bleser and Marcus “darix” Rückert; the RPMs are
- available as SRPM (source RPM) as well as for <a
- http://download.opensuse.org/repositories/shells/">various distributions</a>.
+ href="http://download.opensuse.org/repositories/shells/SLES_9/src/">shells
+ repo</a>, thanks to Pascal “loki” Bleser and Marcus “darix” Rückert; the
+ RPMs are available as SRPM (source RPM) as well as for <a
+ href="http://download.opensuse.org/repositories/shells/">various
+ distributions</a>.
  The inofficial <em>portable</em> SRPM has been retired; the OBS SRPM
  has been changed to be buildable on Debian and MirBSD as well as include
  the contributed <tt>arc4random.c</tt> file. There are <a
