@@ -1,4 +1,4 @@
-# $MirOS: ports/x11/gnome/gdm/Makefile,v 1.3 2006/09/14 00:15:17 tg Exp $
+# $MirOS: ports/x11/gnome/gdm/Makefile,v 1.4 2007/04/18 20:05:04 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.3 2004/01/30 13:36:51 marcm Exp $
 
 COMMENT=		GNOME display manager
@@ -37,7 +37,8 @@ CONFIGURE_ARGS+=	--localstatedir=/var
 SUBST_VARS=		CONFDIR
 
 post-patch:
-	@ln -s /usr/bin/true ${WRKDIR}/bin/scrollkeeper-update
+	@printf '#!/bin/sh\nexit 0\n' >${WRKDIR:Q}/bin/scrollkeeper-update
+	@chmod +x ${WRKDIR:Q}/bin/scrollkeeper-update
 
 post-install:
 	@${INSTALL_DATA_DIR} ${PREFIX}/share/examples/gdm; \

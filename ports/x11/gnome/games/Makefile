@@ -1,4 +1,4 @@
-# $MirOS: ports/x11/gnome/games/Makefile,v 1.6 2007/03/31 22:02:11 tg Exp $
+# $MirOS: ports/x11/gnome/games/Makefile,v 1.7 2008/05/29 10:03:51 bsiegert Exp $
 
 COMMENT=		GNOME games
 
@@ -42,7 +42,8 @@ CONFIGURE_ARGS+=	--with-scores-user=root
 CONFIGURE_ARGS+=	--with-scores-group=games
 
 post-patch:
-	ln -s /usr/bin/true ${WRKDIR}/bin/scrollkeeper-update
+	@printf '#!/bin/sh\nexit 0\n' >${WRKDIR:Q}/bin/scrollkeeper-update
+	@chmod +x ${WRKDIR:Q}/bin/scrollkeeper-update
 
 post-install:
 	${INSTALL_DATA_DIR} ${PREFIX}/share/examples/gnome-games

@@ -1,4 +1,4 @@
-# $MirOS: ports/x11/gnome/desktop/Makefile,v 1.4 2007/04/18 20:05:04 bsiegert Exp $
+# $MirOS: ports/x11/gnome/desktop/Makefile,v 1.5 2007/06/22 23:06:32 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.11 2004/12/15 13:57:56 alek Exp $
 
 COMMENT=		components for the GNOME desktop
@@ -36,6 +36,7 @@ CONFIGURE_ARGS+=	--with-gnome-distributor="MirPorts"
 USE_GMAKE=		Yes
 
 post-patch:
-	@ln -s /usr/bin/true ${WRKDIR}/bin/scrollkeeper-update
+	@printf '#!/bin/sh\nexit 0\n' >${WRKDIR:Q}/bin/scrollkeeper-update
+	@chmod +x ${WRKDIR:Q}/bin/scrollkeeper-update
 
 .include <bsd.port.mk>

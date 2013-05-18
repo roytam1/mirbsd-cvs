@@ -20,7 +20,7 @@ CONFIGURE_STYLE=	gnu old
 INSTALL_TARGET= install install.man
 
 post-install:
-	@find ${WRKSRC} -name "*.tmp" -delete || /usr/bin/true
+	@find ${WRKSRC} -name "*.tmp" -delete || :
 	${INSTALL_DATA_DIR} \
 		${PREFIX}/share/xspread/{doc,documents,tests}
 	${INSTALL_DATA_DIR} ${PREFIX}/share/examples/xspread

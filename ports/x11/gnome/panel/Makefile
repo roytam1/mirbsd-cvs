@@ -1,4 +1,4 @@
-# $MirOS: ports/x11/gnome/panel/Makefile,v 1.5 2007/04/18 20:05:07 bsiegert Exp $
+# $MirOS: ports/x11/gnome/panel/Makefile,v 1.6 2007/06/26 16:54:49 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.15 2004/12/30 04:25:06 marcm Exp $
 
 COMMENT=		GNOME panel
@@ -38,6 +38,7 @@ CONFIGURE_ARGS+= 	--enable-eds=yes
 CONFIGURE_ARGS+= 	--with-gconf-schema-file-dir=${LOCALBASE}/share/schemas/gnome-panel
 
 post-patch:
-	@ln -s /usr/bin/true ${WRKDIR}/bin/scrollkeeper-update
+	@printf '#!/bin/sh\nexit 0\n' >${WRKDIR:Q}/bin/scrollkeeper-update
+	@chmod +x ${WRKDIR:Q}/bin/scrollkeeper-update
 
 .include <bsd.port.mk>

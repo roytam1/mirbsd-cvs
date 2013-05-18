@@ -1,4 +1,4 @@
-# $MirOS: ports/x11/gnome/eog/Makefile,v 1.4 2007/04/18 20:05:04 bsiegert Exp $
+# $MirOS: ports/x11/gnome/eog/Makefile,v 1.5 2008/03/09 17:23:43 tg Exp $
 # $OpenBSD: Makefile,v 1.6 2005/02/13 18:50:25 alek Exp $
 
 COMMENT=		Eye of GNOME: an image viewing and cataloging program
@@ -44,6 +44,7 @@ CONFIGURE_ARGS+=	--without-libexif
 .endif
 
 post-patch:
-	@ln -s /usr/bin/true ${WRKDIR}/bin/scrollkeeper-update
+	@printf '#!/bin/sh\nexit 0\n' >${WRKDIR:Q}/bin/scrollkeeper-update
+	@chmod +x ${WRKDIR:Q}/bin/scrollkeeper-update
 
 .include <bsd.port.mk>

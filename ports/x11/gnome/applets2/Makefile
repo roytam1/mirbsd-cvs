@@ -1,4 +1,4 @@
-# $MirOS: ports/x11/gnome/applets2/Makefile,v 1.9 2007/07/03 21:50:29 bsiegert Exp $
+# $MirOS: ports/x11/gnome/applets2/Makefile,v 1.10 2008/03/09 17:23:42 tg Exp $
 # $OpenBSD: Makefile,v 1.19 2004/12/25 19:58:21 marcm Exp $
 
 COMMENT=		applets for use with the GNOME panel
@@ -66,7 +66,8 @@ LIB_DEPENDS=		panel-applet-2.0::x11/gnome/panel
 .endif
 
 post-patch:
-	@ln -s /usr/bin/true ${WRKDIR}/bin/scrollkeeper-update
+	@printf '#!/bin/sh\nexit 0\n' >${WRKDIR:Q}/bin/scrollkeeper-update
+	@chmod +x ${WRKDIR:Q}/bin/scrollkeeper-update
 
 post-install:
 	@${INSTALL_DATA_DIR} ${PREFIX}/share/examples/gnome-applets2; \

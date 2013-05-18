@@ -24,6 +24,7 @@ RUN_DEPENDS=		${BUILD_DEPENDS}
 CONFIGURE_STYLE=	gnu
 
 post-patch:
-	@ln -s /usr/bin/true ${WRKDIR}/bin/scrollkeeper-update
+	@printf '#!/bin/sh\nexit 0\n' >${WRKDIR:Q}/bin/scrollkeeper-update
+	@chmod +x ${WRKDIR:Q}/bin/scrollkeeper-update
 
 .include <bsd.port.mk>

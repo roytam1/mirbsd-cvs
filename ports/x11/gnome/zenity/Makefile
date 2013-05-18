@@ -1,4 +1,4 @@
-# $MirOS: ports/x11/gnome/zenity/Makefile,v 1.4 2006/09/14 00:15:24 tg Exp $
+# $MirOS: ports/x11/gnome/zenity/Makefile,v 1.5 2007/04/18 20:05:09 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.1.1.1 2003/10/08 01:25:43 marcm Exp $
 
 COMMENT=		dialogs for Gnome
@@ -31,6 +31,7 @@ CONFIGURE_STYLE=	autoconf
 AUTOCONF_NEW=		Yes
 
 post-patch:
-	@ln -s /usr/bin/true ${WRKDIR}/bin/scrollkeeper-update
+	@printf '#!/bin/sh\nexit 0\n' >${WRKDIR:Q}/bin/scrollkeeper-update
+	@chmod +x ${WRKDIR:Q}/bin/scrollkeeper-update
 
 .include <bsd.port.mk>

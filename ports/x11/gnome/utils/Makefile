@@ -1,4 +1,4 @@
-# $MirOS: ports/x11/gnome/utils/Makefile,v 1.4 2007/04/18 20:05:09 bsiegert Exp $
+# $MirOS: ports/x11/gnome/utils/Makefile,v 1.5 2007/07/31 20:33:38 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.3 2003/12/01 04:13:07 marcm Exp $
 
 COMMENT=		GNOME utility programs
@@ -34,6 +34,7 @@ CONFIGURE_ARGS+=	--disable-hal
 CONFIGURE_ARGS+=	--enable-ipv6=yes
 
 post-patch:
-	@ln -s /usr/bin/true ${WRKDIR}/bin/scrollkeeper-update
+	@printf '#!/bin/sh\nexit 0\n' >${WRKDIR:Q}/bin/scrollkeeper-update
+	@chmod +x ${WRKDIR:Q}/bin/scrollkeeper-update
 
 .include <bsd.port.mk>

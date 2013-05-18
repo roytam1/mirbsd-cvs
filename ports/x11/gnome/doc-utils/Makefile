@@ -1,4 +1,4 @@
-# $MirOS: ports/x11/gnome/doc-utils/Makefile,v 1.3 2008/03/16 17:53:56 bsiegert Exp $
+# $MirOS: ports/x11/gnome/doc-utils/Makefile,v 1.4 2008/08/26 17:17:39 tg Exp $
 
 COMMENT=		GNOME documentation utilities
 
@@ -30,6 +30,7 @@ CONFIGURE_ARGS+=	--disable-gtk-doc
 USE_GMAKE=		Yes
 
 post-patch:
-	@ln -s /usr/bin/true ${WRKDIR}/bin/scrollkeeper-update
+	@printf '#!/bin/sh\nexit 0\n' >${WRKDIR:Q}/bin/scrollkeeper-update
+	@chmod +x ${WRKDIR:Q}/bin/scrollkeeper-update
 
 .include <bsd.port.mk>

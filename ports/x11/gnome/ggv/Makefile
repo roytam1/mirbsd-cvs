@@ -1,4 +1,4 @@
-# $MirOS: ports/x11/gnome/ggv/Makefile,v 1.5 2007/04/18 20:05:05 bsiegert Exp $
+# $MirOS: ports/x11/gnome/ggv/Makefile,v 1.6 2007/07/15 21:26:06 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.6 2005/03/06 10:51:07 alek Exp $
 
 COMMENT=		GNOME frontend for GhostScript
@@ -33,6 +33,7 @@ CONFIGURE_ARGS+=	--with-gconf-schema-file-dir=${LOCALBASE}/share/schemas/ggv \
 			--disable-schemas-install
 
 post-patch:
-	@ln -s /usr/bin/true ${WRKDIR}/bin/scrollkeeper-update
+	@printf '#!/bin/sh\nexit 0\n' >${WRKDIR:Q}/bin/scrollkeeper-update
+	@chmod +x ${WRKDIR:Q}/bin/scrollkeeper-update
 
 .include <bsd.port.mk>

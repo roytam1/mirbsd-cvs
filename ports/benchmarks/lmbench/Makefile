@@ -1,9 +1,9 @@
-# $MirOS$
+# $MirOS: ports/benchmarks/lmbench/Makefile,v 1.4 2010/11/18 11:36:55 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.18 2002/10/24 22:46:16 naddy Exp $
 
 COMMENT=	system performance measurement
 DISTNAME=	lmbench
-PKGNAME=	lmbench-1.1-0
+PKGNAME=	lmbench-1.1-1
 CATEGORIES=	benchmarks
 
 # License: GPL

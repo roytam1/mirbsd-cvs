@@ -1,4 +1,4 @@
-# $MirOS: ports/math/gnumeric/Makefile,v 1.5 2007/08/18 22:32:02 bsiegert Exp $
+# $MirOS: ports/math/gnumeric/Makefile,v 1.6 2009/09/12 16:43:24 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.10 2004/12/22 06:02:26 marcm Exp $
 
 COMMENT=		spreadsheet application for GNOME
@@ -45,6 +45,7 @@ CONFIGURE_ARGS+=	--with-gconf-schema-file-dir=${LOCALBASE}/share/schemas/gnumeri
 SUBST_VARS=		VERSION
 
 post-patch:
-	@ln -s /usr/bin/true ${WRKDIR}/bin/scrollkeeper-update
+	@printf '#!/bin/sh\nexit 0\n' >${WRKDIR:Q}/bin/scrollkeeper-update
+	@chmod +x ${WRKDIR:Q}/bin/scrollkeeper-update
 
 .include <bsd.port.mk>

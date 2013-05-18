@@ -1,4 +1,4 @@
-# $MirOS: ports/x11/gnome/terminal/Makefile,v 1.5 2007/04/18 20:05:08 bsiegert Exp $
+# $MirOS: ports/x11/gnome/terminal/Makefile,v 1.6 2007/06/26 20:34:32 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.14 2004/12/15 13:57:57 alek Exp $
 
 COMMENT=		GNOME terminal
@@ -38,6 +38,7 @@ CONFIGURE_ARGS+=	--disable-schemas-install
 CONFIGURE_ARGS+=	--with-gconf-schema-file-dir=${LOCALBASE}/share/schemas/gnome-terminal
 
 post-patch:
-	@ln -s /usr/bin/true ${WRKDIR}/bin/scrollkeeper-update
+	@printf '#!/bin/sh\nexit 0\n' >${WRKDIR:Q}/bin/scrollkeeper-update
+	@chmod +x ${WRKDIR:Q}/bin/scrollkeeper-update
 
 .include <bsd.port.mk>
