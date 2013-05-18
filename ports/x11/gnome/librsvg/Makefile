@@ -1,16 +1,15 @@
-# $MirOS: ports/x11/gnome/librsvg/Makefile,v 1.7 2006/09/14 00:15:20 tg Exp $
+# $MirOS: ports/x11/gnome/librsvg/Makefile,v 1.8 2007/04/18 20:05:07 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.12 2004/12/23 05:03:09 marcm Exp $
 
 COMMENT=		SAX-based render library for SVG files
 
-VERSION=		2.8.1
+VERSION=		2.16.1
 DISTNAME=		librsvg-${VERSION}
-PKGNAME=		${DISTNAME}-2
 CATEGORIES=		devel x11/gnome
 
 HOMEPAGE=		http://www.gnome.org
 
-MASTER_SITES=		${MASTER_SITE_GNOME:=sources/librsvg/2.8/}
+MASTER_SITES=		${MASTER_SITE_GNOME:=sources/librsvg/2.16/}
 EXTRACT_SUFX=           .tar.bz2
 
 # LGPL
@@ -21,7 +20,7 @@ PERMIT_DISTFILES_FTP=	Yes
 
 LIB_DEPENDS=		art_lgpl_2.5::graphics/libart \
 			bz2::archivers/bzip2 \
-			gdk-x11-2.0.0.0,gdk_pixbuf-2.0.0.0,gtk-x11-2.0.0.0::x11/gtk+ \
+			gdk-x11-2.0.0.0,gdk_pixbuf-2.0.0.0,gtk-x11-2.0.0.0:gtk+2->=2.10.6-1:x11/gtk+ \
 			gnomevfs-2.800.3::x11/gnome/vfs2 \
 			gnomecanvas-2.800.0::x11/gnome/libgnomecanvas \
 			gnomeprint-2-2::x11/gnome/libgnomeprint \
@@ -29,7 +28,7 @@ LIB_DEPENDS=		art_lgpl_2.5::graphics/libart \
 			gsf-1::devel/libgsf \
 			pangoft2-1.0.0.0::devel/pango \
 			popt.0.3::devel/popt \
-			croco-0.6.3.0::textproc/libcroco \
+			croco-0.6.3.0:libcroco->=0.6.1:textproc/libcroco \
 			xml2.2.6::textproc/libxml
 MODULES+=		devel/pkgconfig
 
