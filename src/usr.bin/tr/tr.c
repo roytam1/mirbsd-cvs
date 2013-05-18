@@ -2,7 +2,7 @@
 /*	$NetBSD: tr.c,v 1.5 1995/08/31 22:13:48 jtc Exp $	*/
 
 /*
- * Copyright (c) 2007, 2008
+ * Copyright (c) 2007, 2008, 2009
  *	Thorsten Glaser <tg@mirbsd.org>
  * Copyright (c) 1988, 1993
  *	The Regents of the University of California.  All rights reserved.
@@ -45,7 +45,7 @@
 __COPYRIGHT("@(#) Copyright (c) 1988, 1993\n\
 	The Regents of the University of California.  All rights reserved.\n");
 __SCCSID("@(#)tr.c	8.2 (Berkeley) 5/4/95");
-__RCSID("$MirOS: src/usr.bin/tr/tr.c,v 1.4 2008/11/22 13:51:11 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/tr/tr.c,v 1.5 2009/09/25 23:02:08 tg Exp $");
 
 static wchar_t string1[NCHARS], string2[NCHARS];
 
@@ -81,13 +81,14 @@ static void usage(void) __dead;
 		clearerr(stdin);				\
 		getwcf_c = 0xFFFD;				\
 	}							\
-	(wchar_t)(getwcf_c);					\
+	(getwcf_c);						\
 })
 
 int
 main(int argc, char *argv[])
 {
-	wchar_t ch, cnt, lastch, *p;
+	wint_t ch;
+	wchar_t cnt, lastch, *p;
 	int ich;
 	bool cflag, dflag, sflag, isstring2;
 
