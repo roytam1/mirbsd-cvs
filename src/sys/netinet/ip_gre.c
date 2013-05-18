@@ -170,21 +170,21 @@ gre_input2(m , hlen, proto)
 #ifdef NS
 		case ETHERTYPE_NS:
 			ifq = &nsintrq;
-			schednetisr(NETISR_NS);
+			schednetisr_virtual(NETISR_NS);
 			af = AF_NS;
 			break;
 #endif
 #ifdef NETATALK
 		case ETHERTYPE_AT:
 			ifq = &atintrq1;
-			schednetisr(NETISR_ATALK);
+			schednetisr_virtual(NETISR_ATALK);
 			af = AF_APPLETALK;
 			break;
 #endif
 #ifdef INET6
 		case ETHERTYPE_IPV6:
 		        ifq = &ip6intrq;
-			schednetisr(NETISR_IPV6);
+			schednetisr_virtual(NETISR_IPV6);
 			af = AF_INET6;
 			break;
 #endif /* INET6 */

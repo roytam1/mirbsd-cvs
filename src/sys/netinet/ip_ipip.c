@@ -392,7 +392,7 @@ ipip_input(struct mbuf *m, int iphlen, struct ifnet *gifp)
 	}
 
 	IF_ENQUEUE(ifq, m);
-	schednetisr(isr);
+	schednetisr_virtual(isr);
 	splx(s);
 	return;
 }

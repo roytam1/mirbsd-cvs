@@ -364,7 +364,7 @@ looutput(ifp, m, dst, rt)
 		return (ENOBUFS);
 	}
 	IF_ENQUEUE(ifq, m);
-	schednetisr(isr);
+	schednetisr_virtual(isr);
 	ifp->if_ipackets++;
 	ifp->if_ibytes += m->m_pkthdr.len;
 	splx(s);
@@ -444,7 +444,7 @@ lo_altqstart(ifp)
 			return;
 		}
 		IF_ENQUEUE(ifq, m);
-		schednetisr(isr);
+		schednetisr_virtual(isr);
 		ifp->if_ipackets++;
 		ifp->if_ibytes += m->m_pkthdr.len;
 		splx(s);

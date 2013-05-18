@@ -712,7 +712,7 @@ ah4_input_cb(struct mbuf *m, ...)
 	}
 
 	IF_ENQUEUE(ifq, m);
-	schednetisr(NETISR_IP);
+	schednetisr_virtual(NETISR_IP);
 	splx(s);
 	return 0;
 }
@@ -766,7 +766,7 @@ esp4_input_cb(struct mbuf *m, ...)
 	}
 
 	IF_ENQUEUE(ifq, m);
-	schednetisr(NETISR_IP);
+	schednetisr_virtual(NETISR_IP);
 	splx(s);
 	return 0;
 }
@@ -807,7 +807,7 @@ ipcomp4_input_cb(struct mbuf *m, ...)
 	}
 
 	IF_ENQUEUE(ifq, m);
-	schednetisr(NETISR_IP);
+	schednetisr_virtual(NETISR_IP);
 	splx(s);
 
 	return 0;

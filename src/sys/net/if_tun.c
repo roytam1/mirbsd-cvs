@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/net/if_tun.c,v 1.2 2005/03/06 21:28:16 tg Exp $ */
+/**	$MirOS: src/sys/net/if_tun.c,v 1.3 2005/07/04 00:29:45 tg Exp $ */
 /*	$OpenBSD: if_tun.c,v 1.68 2005/06/08 06:53:32 henning Exp $	*/
 /*	$NetBSD: if_tun.c,v 1.24 1996/05/07 02:40:48 thorpej Exp $	*/
 
@@ -927,7 +927,7 @@ tunwrite(dev_t dev, struct uio *uio, int ioflag)
 		return (ENOBUFS);
 	}
 	IF_ENQUEUE(ifq, top);
-	schednetisr(isr);
+	schednetisr_virtual(isr);
 	ifp->if_ipackets++;
 	ifp->if_ibytes += top->m_pkthdr.len;
 	splx(s);

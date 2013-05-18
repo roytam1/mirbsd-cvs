@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/net/if.c,v 1.6 2005/12/23 11:31:09 tg Exp $ */
+/**	$MirOS: src/sys/net/if.c,v 1.7 2007/05/29 08:42:31 tg Exp $ */
 /*	$OpenBSD: if.c,v 1.136 2005/06/23 14:30:40 mickey Exp $	*/
 /*	$NetBSD: if.c,v 1.35 1996/05/07 05:26:04 thorpej Exp $	*/
 
@@ -1504,4 +1504,5 @@ void
 netrndintr(void)
 {
 	add_net_randomness(netrndintr_v);
+	netrndintr_v = 0;
 }

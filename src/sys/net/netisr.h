@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/net/netisr.h,v 1.2 2005/03/06 21:28:16 tg Exp $ */
+/**	$MirOS: src/sys/net/netisr.h,v 1.3 2007/05/29 08:42:31 tg Exp $ */
 /*	$OpenBSD: netisr.h,v 1.20 2004/11/28 23:39:45 canacar Exp $	*/
 /*	$NetBSD: netisr.h,v 1.12 1995/08/12 23:59:24 mycroft Exp $	*/
 
@@ -53,6 +53,7 @@
  * interrupt used for scheduling the network code to calls
  * on the lowest level routine of each protocol.
  */
+#define	NETISR_NOTRND	0		/* virtual */
 #define	NETISR_RND	1
 #define	NETISR_IP	2		/* same as AF_INET */
 #define	NETISR_IMP	3		/* same as AF_IMPLINK */
@@ -73,7 +74,7 @@
 #ifndef _LOCORE
 #ifdef _KERNEL
 extern int	netisr;			/* scheduling bits for network */
-extern int	netrndintr_v;		/* NETISR_RND anisr value */
+extern int	netrndintr_v;		/* same bits but for entropy */
 
 void	netrndintr(void);
 void	arpintr(void);
@@ -89,11 +90,16 @@ void	ccittintr(void);
 void	bridgeintr(void);
 void	pppoeintr(void);
 
-#define	schednetisr(anisr)	do {		\
-	netisr |= (1<<(anisr) | NETISR_RND);	\
-	netrndintr_v = (anisr);			\
-	setsoftnet();				\
-} while (0)
+#define schednetisr(anisr) do {					\
+	netrndintr_v |= 1 << (anisr);				\
+	netisr |= (1 << (anisr)) | (1 << NETISR_RND);		\
+	setsoftnet();						\
+} while (/* CONSTCOND */ 0)
+#define schednetisr_virtual(anisr) do {				\
+	netrndintr_v |= (1 << (anisr)) | (1 << NETISR_NOTRND);	\
+	netisr |= 1 << (anisr);					\
+	setsoftnet();						\
+} while (/* CONSTCOND */ 0)
 #endif
 #endif
 
