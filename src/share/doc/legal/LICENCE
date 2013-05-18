@@ -1,4 +1,4 @@
-$MirOS: src/share/doc/legal/LICENCE,v 1.17 2007/05/17 22:25:44 tg Rel $
+$MirOS: src/share/doc/legal/LICENCE,v 1.18 2008/03/09 18:56:16 tg Exp $
 
 MirOS base system and BSD - TOU
 -------------------------------
@@ -20,8 +20,9 @@ MirBSD is defined as the content of the MirOS Project's lea-
 der's /usr/src and /usr/ports directories; usually MirOS BSD
 and MirPorts; thus, MirOS is derived from MirBSD™.
 
-# MirOS is Copyright © 2003, 2004, 2005, 2006, 2007, 2008
-#		The MirOS Project <miros-dev@MirBSD.org>
+# MirOS BSD, the MirPorts Framework, and all other project work is
+# Copyright © 2003, 2004, 2005, 2006, 2007, 2008
+#	The MirOS Project <miros-dev@MirBSD.org>
 # and its contributors.
 #
 # Provided that these terms and disclaimer and all copyright notices
@@ -37,11 +38,11 @@ and MirPorts; thus, MirOS is derived from MirBSD™.
 # direct, other damage, loss, or other issues arising in any way out
 # of dealing in the work, even if advised of the possibility of such
 # damage or existence of a defect, except proven that it results out
-# of said person's immediate fault when using the work as intended.
+# of said person’s immediate fault when using the work as intended.
 
 The following persons are MirOS developers:
-* Thorsten Glaser <tg@66h.42h.de>
-* Benny Siegert <bsiegert@gmx.de>
+* Thorsten „mirabilos“ Glaser <tg@66h.42h.de>
+* Benny „benz“ Siegert <bsiegert@gmx.de>
 
 
 For an overview of all other terms and conditions that cover
@@ -98,5 +99,5 @@ VK    \ (  `\
   /___/__/|    possible, the text shown above is to be included.
  /___/__/|/    If you want to mass produce the daemon, for example on CDROM or
  |___|__|/     T-Shirts, you need permission in advance.  Permission to use it
-  MirBSD`TM´   may be obtained from: Marshall Kirk McKusick, 1614 Oxford St,
+  MirBSD™      may be obtained from: Marshall Kirk McKusick, 1614 Oxford St,
                Berkeley, CA 94709-1608, USA  or at <mckusick@mckusick.com>

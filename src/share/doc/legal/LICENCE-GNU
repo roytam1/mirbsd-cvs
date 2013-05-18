@@ -1,4 +1,4 @@
-$MirOS: src/share/doc/legal/LICENCE-GNU,v 1.7 2007/01/25 13:25:50 tg Exp $
+$MirOS: src/share/doc/legal/LICENCE-GNU,v 1.8 2008/03/09 18:56:16 tg Exp $
 
 Special rules for GNU and similar less free software
 ====================================================
@@ -50,10 +50,13 @@ Compromise
 ----------
 
 Currently, we are delivering GNU software bundled with MirOS
-and do not exclude documentation. RMS has assured we can re-
+and, for a few key components (gcc and binutils), do not ex-
+clude documentation (for others, we either base our documen-
+tation on an older non-GFDL version (this worked for cvs) or
+do not install it, e.g. texinfo). RMS has assured we can re-
 distribute the GFDL-licenced parts in our CVS repository and
 on CDs, via SSH, in a non-world-readable or encrypted direc-
-tory. See: http://marc.theaimsgroup.com/?m=113699292525210
+tory, according to http://marc.info/?m=113699292525210
 
 All copyright on the changes is assigned back to the FSF, so
 there is not much we can do about it. In order to fulfil the
