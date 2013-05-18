@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/baselive/Makefile,v 1.30 2008/07/19 22:34:02 tg Exp $
+# $MirOS: src/distrib/baselive/Makefile,v 1.31 2008/07/22 21:31:38 tg Exp $
 
 .include <bsd.own.mk>
 
@@ -161,8 +161,11 @@ cdrom-generate:
 	@print WRKDIR is \"${WRKDIR:Q}\"
 	@print Build coordination: press RETURN to continue...; read dummy
 .endif
-	[[ ! -s ${WRKDIR}/loot ]] || \
-	    perl -pi -e 's/bsd/lsd/g; s/B(SD|(?i)oot)/L$1/g' ${WRKDIR}/loot
+	cd ${WRKDIR}; if [[ -s loot ]]; then \
+		${SUDO} chown $$(id -u) loot; \
+		chmod u+w loot; \
+		perl -pi -e 's/bsd/lsd/g; s/B(SD|(?i)oot)/L$1/g' loot; \
+	fi
 	cd ${WRKDIR}; \
 	    sort -k3 |& exec 3>&p; exec 4<&p; \
 	    sort |& exec 5>&p; exec 6<&p; \
