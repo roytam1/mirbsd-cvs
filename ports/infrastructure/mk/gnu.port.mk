@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/gnu.port.mk,v 1.20 2006/06/30 21:23:45 tg Exp $
+# $MirOS: ports/infrastructure/mk/gnu.port.mk,v 1.21 2006/07/21 18:18:52 tg Exp $
 # $OpenBSD: gnu.port.mk,v 1.19 2004/06/06 11:49:08 espie Exp $
 
 AUTOCONF_NEW?=		No
@@ -70,20 +70,23 @@ MODGNU_MIRLIBTOOL?=	No
 
 .if ${CONFIGURE_STYLE:L:Mgnu}
 .  if ${CONFIGURE_STYLE:L:Mdest}
-CONFIGURE_ARGS+=	--prefix='$${${DESTDIRNAME}}${PREFIX}'
-CONFIGURE_ARGS+=	--infodir='$${${DESTDIRNAME}}${PREFIX}/info'
-CONFIGURE_ARGS+=	--mandir='$${${DESTDIRNAME}}${PREFIX}/man'
+_DESTPFX=		'$${${DESTDIRNAME}}'
 .  else
-CONFIGURE_ARGS+=	--prefix=${PREFIX:Q}
-CONFIGURE_ARGS+=	--infodir=${PREFIX:Q}/info
-CONFIGURE_ARGS+=	--mandir=${PREFIX:Q}/man
+_DESTPFX=
 .  endif
+CONFIGURE_ARGS+=	--prefix=${_DESTPFX}${PREFIX:Q}
 .  if empty(CONFIGURE_STYLE:L:Mold)
-.    if ${CONFIGURE_STYLE:L:Mdest}
-CONFIGURE_ARGS+=	--sysconfdir='$${${DESTDIRNAME}}${SYSCONFDIR}'
-.    else
-CONFIGURE_ARGS+=	--sysconfdir=${SYSCONFDIR:Q}
-.    endif
+CONFIGURE_ARGS+=	--sysconfdir=${_DESTPFX}${SYSCONFDIR:Q}
+.  endif
+.  if ${AUTOCONF_VERSION:E} > 59
+CONFIGURE_ARGS+=	--datarootdir=${_DESTPFX}${PREFIX:Q}/share
+.  endif
+CONFIGURE_ARGS+=	--datadir=${_DESTPFX}${PREFIX:Q}/share
+CONFIGURE_ARGS+=	--infodir=${_DESTPFX}${PREFIX:Q}/info
+CONFIGURE_ARGS+=	--mandir=${_DESTPFX}${PREFIX:Q}/man
+.  if ${AUTOCONF_VERSION:E} > 13
+CONFIGURE_ARGS+=	--localedir=${_DESTPFX}${PREFIX:Q}/share/locale
+CONFIGURE_ARGS+=	--docdir=${_DESTPFX}${PREFIX:Q}/share/doc/\$${PACKAGE}
 .  endif
 .endif
 

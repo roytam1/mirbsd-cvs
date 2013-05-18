@@ -1,4 +1,4 @@
-# $MirOS: ports/misc/screen/Makefile,v 1.7 2005/12/22 01:12:00 tg Exp $
+# $MirOS: ports/misc/screen/Makefile,v 1.8 2006/04/23 09:46:07 tg Exp $
 # $OpenBSD: Makefile,v 1.52 2004/01/17 05:34:28 brad Exp $
 
 NOT_FOR_PLATFORM=	Interix:*:*
@@ -6,7 +6,7 @@ NOT_FOR_PLATFORM=	Interix:*:*
 COMMENT=		"multi-screen window manager"
 VERSION=		4.0.2
 DISTNAME=		screen-${VERSION}
-PKGNAME=		${DISTNAME}-4
+PKGNAME=		${DISTNAME}-5
 CATEGORIES=		misc
 MASTER_SITES=		ftp://ftp.uni-erlangen.de/pub/utilities/screen/
 HOMEPAGE=		http://www.gnu.org/software/screen/
@@ -20,7 +20,7 @@ PERMIT_DISTFILES_FTP=	Yes
 
 CONFIGURE_STYLE=	autoconf no-autoheader
 AUTOCONF_NEW=		Yes
-CONFIGURE_ARGS+=	--with-sys-screenrc="${SYSCONFDIR}/screenrc"
+CONFIGURE_ARGS+=	--with-sys-screenrc=${SYSCONFDIR:Q}/screenrc
 
 FLAVORS=		static shm
 FLAVOR?=
