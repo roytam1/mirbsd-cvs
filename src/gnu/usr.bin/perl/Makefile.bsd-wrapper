@@ -1,4 +1,4 @@
-# $MirOS: src/gnu/usr.bin/perl/Makefile.bsd-wrapper,v 1.9 2005/12/18 16:36:52 tg Exp $
+# $MirOS: src/gnu/usr.bin/perl/Makefile.bsd-wrapper,v 1.10 2006/01/31 13:58:25 tg Exp $
 # $OpenBSD: Makefile.bsd-wrapper,v 1.69 2005/01/15 21:30:17 millert Exp $
 #
 # Build wrapper for Perl 5.8.6
@@ -8,7 +8,6 @@
 .include <bsd.own.mk>
 # Doesn't work too well anyway
 DEBUGLIBS=	No
-DEBUGPROGS=	No
 
 # To build a threaded perl.  Not stable on all platforms...
 THREADED_PERL?=	Yes

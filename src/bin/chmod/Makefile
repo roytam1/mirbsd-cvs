@@ -1,7 +1,5 @@
-# $MirOS: src/bin/chmod/Makefile,v 1.3 2005/11/21 22:34:15 tg Exp $
+# $MirOS: src/bin/chmod/Makefile,v 1.4 2005/11/21 22:36:41 tg Exp $
 # $OpenBSD: Makefile,v 1.7 2001/09/06 18:52:55 mickey Exp $
-#-
-# this is chmod(1), but installs as chgrp first due to DEBUGPROGS weirdness
 
 PROG=	chgrp
 SRCS=	chmod.c

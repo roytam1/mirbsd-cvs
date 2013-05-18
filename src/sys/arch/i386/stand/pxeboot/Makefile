@@ -1,4 +1,4 @@
-# $MirOS: src/sys/arch/i386/stand/pxeboot/Makefile,v 1.2 2005/03/06 21:27:09 tg Exp $
+# $MirOS: src/sys/arch/i386/stand/pxeboot/Makefile,v 1.3 2005/10/20 12:47:54 tg Exp $
 # $OpenBSD: Makefile,v 1.1 2004/03/19 13:48:19 tom Exp $
 
 .include "${.CURDIR}/../Makefile.inc"
@@ -19,7 +19,6 @@ PROG=		pxeboot
 LD?=		ld
 SIZE?=		size
 LDFLAGS+=	-nostdlib -Bstatic
-DEBUGPROGS=	No
 INSTALL_STRIP=
 
 LDFLAGS+=	-Ttext $(LINKADDR) -N -x -noinhibit-exec

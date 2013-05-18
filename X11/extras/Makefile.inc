@@ -1,4 +1,4 @@
-# $MirOS: X11/extras/Makefile.inc,v 1.2 2005/03/30 10:09:48 tg Exp $
+# $MirOS: X11/extras/Makefile.inc,v 1.3 2005/12/05 16:40:14 tg Exp $
 # $OpenBSD: Makefile.inc,v 1.3 2004/06/07 20:37:21 matthieu Exp $
 
 .ifndef _MODX11_EXTRAS_MAKEFILE_INC
@@ -14,6 +14,5 @@ CFLAGS+=	-I${XEXPORTS}/include -I${X11BASE}/include
 LDADD:=		-L${XEXPORTS}/lib ${LDADD}
 MANDIR=		${X11BASE}/man/cat
 X11LIBDIR=	${X11BASE}/lib
-DEBUGPROGS=	No
 
 .endif
