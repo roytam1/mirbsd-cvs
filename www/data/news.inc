@@ -651,3 +651,13 @@ Date: 09.03.2008
  renamed to <tt>FLAVOUR</tt> and <tt>FLAVOURS</tt>, respectively,
  to reflect correct English spelling.</p>
 ----
+Title: New RSS feed: Developers’ Weblog (latest)
+Date: 10.03.2008
+
+<p>There is a new RSS feed which does not encode the OS version
+ after which it started. You must subscribe to it manually, as
+ we have no way to embed it in any header; it is implemented as
+ a symbolic link to the latest respective feed:</p>
+<p><a href="@@RELPATH@@wlog.rss">http://www.mirbsd.org/wlog.rss</a></p>
+<p>Of course, you can instead continue to use the versioned feeds.</p>
+----

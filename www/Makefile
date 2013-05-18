@@ -1,4 +1,4 @@
-# $MirOS: www/Makefile,v 1.20 2008/02/22 22:09:11 tg Exp $
+# $MirOS: www/Makefile,v 1.21 2008/02/28 18:54:07 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -85,6 +85,10 @@ site.tgz: _reinstall
 	    (cd dst && cpio -voC512 -Hustar -Mdist) | gzip -n9 >$@.tmp
 	mv $@.tmp $@
 
+.for _i in ${WLOGS}
+WLOG_LATEST:=${_i}
+.endfor
+
 _reinstall:
 	-rm -rf dst
 	mkdir dst dst/permalinks
@@ -96,7 +100,9 @@ _reinstall:
 	cd ${TOP} && pax -rw -pe -v content ${DST}/dst/		# legacy
 	cd ${TOP}/files && pax -rw -pe -v . ${DST}/dst/
 	cd ${TOP} && pax -rw -pe -v pics ${DST}/dst/
-	cd dst && rm -rf $$(find . -name CVS -o -name .cvsignore)
+	cd dst && \
+	    ln -sf wlog-${WLOG_LATEST}.rss wlog.rss && \
+	    rm -rf $$(find . -name CVS -o -name .cvsignore)
 	chmod -R u=rwX,go=rX dst
 	chmod a+x dst/cvs.cgi
 

@@ -1,4 +1,4 @@
-# $MirOS: www/src/main.hts,v 1.4 2008/02/28 19:12:09 tg Exp $
+# $MirOS: www/src/main.hts,v 1.5 2008/03/02 16:34:36 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -6,7 +6,7 @@
 mws_setname main "Welcome to the MirOS Project"
 mws_setrss "news.rss"
 mws_subdir 0
-mws_putheader '$MirOS: www/src/main.hts,v 1.4 2008/02/28 19:12:09 tg Exp $'
+mws_putheader '$MirOS: www/src/main.hts,v 1.5 2008/03/02 16:34:36 tg Exp $'
 mws_content <<'EOF'
 <h1>Welcome to the MirOS Project!</h1>
 
@@ -35,6 +35,8 @@ mws_content <<'EOF'
  <li style="list-style:none;">– directly from our website –</li>
  <li>Current project news: <a
   href="http://www.mirbsd.org/news.rss">http://www.mirbsd.org/news.rss</a></li>
+ <li>Developers’ weblog (most recent): <a
+  href="http://www.mirbsd.org/wlog.rss">http://www.mirbsd.org/wlog.rss</a></li>
  <li>Developers’ weblog (post MirOS #9): <a
   href="http://www.mirbsd.org/wlog-9.rss">http://www.mirbsd.org/wlog-9.rss</a></li>
  <li style="list-style:none;">– autoconverted mailing list –</li>
