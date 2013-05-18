@@ -54,7 +54,7 @@
 
 #include "rdate.h"
 
-__RCSID("$MirOS: src/usr.sbin/rdate/ntp.c,v 1.15 2007/08/10 23:56:12 tg Exp $");
+__RCSID("$MirOS: src/usr.sbin/rdate/ntp.c,v 1.16 2007/08/16 10:38:29 tg Exp $");
 
 /*
  * NTP definitions.  Note that these assume 8-bit bytes - sigh.  There
@@ -424,6 +424,7 @@ unpack_ntp(struct ntp_data *data, u_char *packet)
 	data->stratum = packet[1];
 
 	memcpy(&data->refid, packet + 12, 4);
+	data->refid = ntohl(data->refid);
 
 	for (i = 0, d = 0.0; i < 8; ++i)
 	    d = 256.0*d+packet[NTP_RECEIVE+i];
@@ -493,7 +494,7 @@ debug_packet(const struct ntp_data *data)
 	printf("mode:        %u\n", data->mode);
 	printf("stratum:     %u\n", data->stratum);
 	printf("reference:   0x%08X (%d.%d.%d.%d)\n",
-	    ntohl(data->refid),
+	    data->refid,
 	    data->refid >> 24, (data->refid >> 16) & 0xFF,
 	    (data->refid >> 8) & 0xFF, data->refid & 0xFF);
 	printf("originate:   %f\n", data->originate);
