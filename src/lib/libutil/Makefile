@@ -1,8 +1,8 @@
-# $MirOS: src/lib/libutil/Makefile,v 1.3 2005/10/21 11:02:57 tg Exp $
+# $MirOS: src/lib/libutil/Makefile,v 1.4 2007/05/17 18:38:35 tg Exp $
 # $OpenBSD: Makefile,v 1.28 2004/07/13 21:09:48 millert Exp $
 # $NetBSD: Makefile,v 1.8 1996/05/16 07:03:28 thorpej Exp $
 
-SHLIB_VERSION?=	13.0
+SHLIB_VERSION?=	14.0
 LIB=		util
 CPPFLAGS+=	-DLIBC_SCCS
 

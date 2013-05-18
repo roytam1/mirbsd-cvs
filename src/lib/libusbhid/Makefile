@@ -1,8 +1,8 @@
-# $MirOS: src/lib/libusbhid/Makefile,v 1.3 2005/10/21 11:02:56 tg Exp $
+# $MirOS: src/lib/libusbhid/Makefile,v 1.4 2007/05/17 18:38:35 tg Exp $
 # $OpenBSD: Makefile,v 1.3 2004/06/04 00:47:32 deraadt Exp $
 # $NetBSD: Makefile,v 1.5 1999/07/23 09:44:38 mrg Exp $
 
-SHLIB_VERSION?=	5.0
+SHLIB_VERSION?=	6.0
 LIB=		usbhid
 MAN=		usbhid.3
 HDRS=		usbhid.h

@@ -33,7 +33,7 @@
 #include <sys/utsname.h>
 #include <string.h>
 
-__RCSID("$MirOS: src/lib/libc/gen/uname.c,v 1.4 2007/05/16 22:03:53 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/gen/uname.c,v 1.5 2007/05/17 14:24:43 tg Exp $");
 
 int
 uname(struct utsname *name)
@@ -42,11 +42,6 @@ uname(struct utsname *name)
 	size_t len;
 
 	rval = 0;
-
-#if MirBSD >= 0x0A16
-	/* remove this on the next libc major bump! */
-	bzero(name, sizeof (struct utsname));	/* and reduce size of struct */
-#endif
 
 	mib[0] = CTL_KERN;
 	mib[1] = KERN_OSTYPE;

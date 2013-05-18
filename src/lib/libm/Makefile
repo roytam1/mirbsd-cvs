@@ -1,4 +1,4 @@
-#  $MirOS$
+#  $MirOS: src/lib/libm/Makefile,v 1.6 2006/11/03 18:10:45 tg Exp $
 #  $NetBSD: Makefile,v 1.77 2006/07/03 16:03:56 drochner Exp $
 #
 #  @(#)Makefile 5.1beta 93/09/24
@@ -64,13 +64,13 @@ ARCH_SRCS = e_acos.S e_asin.S e_atan2.S e_exp.S e_expf.S e_fmod.S e_log.S \
 .PATH:	${.CURDIR}/man
 .PATH:	${.CURDIR}/src
 
-CPPFLAGS+= -D_MULTI_LIBM -D_POSIX_MODE
-CPPFLAGS+=-DLIBM_SCCS
-CPPFLAGS+= -D_USE_WRITE
-CPPFLAGS+= -D_NETBSD_SOURCE	# XXX
+CPPFLAGS+=	-D_MULTI_LIBM -D_POSIX_MODE
+CPPFLAGS+=	-DLIBM_SCCS
+CPPFLAGS+=	-D_USE_WRITE
+CPPFLAGS+=	-D_NETBSD_SOURCE	# XXX
 
-SHLIB_VERSION?=	5.2
-LIB=	m
+SHLIB_VERSION?=	6.0
+LIB=		m
 COMMON_SRCS = e_acos.c e_acosf.c e_acosh.c e_acoshf.c e_asin.c e_asinf.c \
 	e_atan2.c e_atan2f.c e_atanh.c e_atanhf.c e_cosh.c e_coshf.c e_exp.c \
 	e_expf.c e_fmod.c e_fmodf.c e_hypot.c e_hypotf.c e_j0.c e_j0f.c \

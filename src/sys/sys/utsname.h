@@ -46,8 +46,6 @@ struct utsname {
 	char	release[SYS_NMLN];	/* Release level. */
 	char	version[SYS_NMLN];	/* Version level. */
 	char	machine[SYS_NMLN];	/* Hardware type. */
-	/* this is for binary compatibility to MirOS #9 and before */
-	char	__dummy;		/* Must be zero. */
 };
 
 #include <sys/cdefs.h>

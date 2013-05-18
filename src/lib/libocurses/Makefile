@@ -1,10 +1,10 @@
-# $MirOS: src/lib/libocurses/Makefile,v 1.4 2006/10/27 15:52:26 tg Exp $
+# $MirOS: src/lib/libocurses/Makefile,v 1.5 2007/05/17 18:38:33 tg Exp $
 # $OpenBSD: Makefile,v 1.8 2002/06/24 18:03:30 tholo Exp $
 
 #CPPFLAGS+=	-DTFILE=\"/dev/ttyp0\"
 CPPFLAGS+=	-D_CURSES_PRIVATE
 CPPFLAGS+=	-DCM_N -DCM_GT -DCM_B -DCM_D
-SHLIB_VERSION?=	7.0
+SHLIB_VERSION?=	8.0
 LIB=	ocurses
 SRCS=	addbytes.c addch.c addnstr.c box.c clear.c clrtobot.c clrtoeol.c \
 	cr_put.c ctrace.c cur_hash.c curses.c delch.c deleteln.c delwin.c \

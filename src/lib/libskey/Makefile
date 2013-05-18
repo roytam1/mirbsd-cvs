@@ -1,11 +1,11 @@
-# $MirOS: src/lib/libskey/Makefile,v 1.3 2005/10/21 11:02:53 tg Exp $
+# $MirOS: src/lib/libskey/Makefile,v 1.4 2007/05/17 18:38:34 tg Exp $
 # $OpenBSD: Makefile,v 1.8 2004/08/05 13:31:36 millert Exp $
 
-SHLIB_VERSION?=	7.0
-LIB=	skey
-SRCS=	skeylogin.c skeysubr.c put.c
-HDRS=	skey.h
-MAN+=	skey.3 skey.5
+SHLIB_VERSION?=	8.0
+LIB=		skey
+SRCS=		skeylogin.c skeysubr.c put.c
+HDRS=		skey.h
+MAN+=		skey.3 skey.5
 MLINKS+=skey.3 atob8.3 skey.3 backspace.3 skey.3 btoa8.3 skey.3 btoe.3 \
 	skey.3 etob.3 skey.3 f.3 skey.3 htoi.3 skey.3 keycrunch.3 \
 	skey.3 put8.3 skey.3 readpass.3 skey.3 readskey.3 skey.3 rip.3 \
