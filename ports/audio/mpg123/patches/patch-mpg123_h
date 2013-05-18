@@ -1,7 +1,29 @@
+$MirOS$
 $OpenBSD: patch-mpg123_h,v 1.1 2003/07/22 03:24:42 jason Exp $
---- mpg123.h.orig	Fri May 28 10:51:58 1999
-+++ mpg123.h	Mon Jul 21 17:05:15 2003
-@@ -125,26 +125,26 @@ struct frame {
+--- mpg123.h.orig	Fri May 28 14:51:36 1999
++++ mpg123.h	Mon Sep  4 18:38:50 2006
+@@ -21,10 +21,6 @@ typedef unsigned char byte;
+ #endif
+ 
+ #define MPG123_REMOTE
+-#ifdef HPUX
+-#define random rand
+-#define srandom srand
+-#endif
+ 
+ #define FRONTEND_SAJBER 1
+ #define FRONTEND_TK3PLAY 2
+@@ -40,9 +36,6 @@ typedef unsigned char byte;
+ # define REAL_IS_FLOAT
+ # define NEW_DCT9
+ 
+-# define random rand
+-# define srandom srand
+-
+ # undef MPG123_REMOTE           /* Get rid of this stuff for Win32 */
+ #endif
+ 
+@@ -125,26 +118,26 @@ struct frame {
  };
  
  struct parameter {

@@ -1,16 +1,20 @@
-$MirOS$
+$MirOS: ports/audio/mpg123/patches/patch-mpg123_c,v 1.1.7.1 2005/03/18 15:43:03 tg Exp $
 $OpenBSD: patch-mpg123.c,v 1.2 2001/04/24 00:48:12 naddy Exp $
---- mpg123.c.orig	1999-06-15 20:21:14.000000000 +0000
-+++ mpg123.c	2004-05-12 19:31:47.000000000 +0000
-@@ -32,6 +32,7 @@
+--- mpg123.c.orig	Tue Jun 15 20:21:14 1999
++++ mpg123.c	Mon Sep  4 18:41:22 2006
+@@ -32,8 +32,11 @@
  #include "buffer.h"
  #include "term.h"
  
 +#define	INCLUDE_RCSID
  #include "version.h"
  
++__RCSID("$MirOS$");
++
  static void usage(char *dummy);
-@@ -177,6 +178,9 @@ void init_output(void)
+ static void long_usage(char *);
+ static void print_title(void);
+@@ -177,6 +180,9 @@ void init_output(void)
          _exit(0);
        default: /* parent */
          xfermem_init_writer (buffermem);
@@ -20,7 +24,24 @@ $OpenBSD: patch-mpg123.c,v 1.2 2001/04/24 00:48:12 naddy Exp $
          param.outmode = DECODE_BUFFER;
      }
    }
-@@ -306,9 +310,9 @@ char *find_next_file (int argc, char *ar
+@@ -222,7 +228,6 @@ void shuffle_files(int numfiles)
+ {
+     int loop, rannum;
+ 
+-    srand(time(NULL));
+     if(shuffleord)
+       free(shuffleord);
+     shuffleord = (int *) malloc((numfiles + 1) * sizeof(int));
+@@ -238,7 +243,7 @@ void shuffle_files(int numfiles)
+     /* now shuffle them */
+     if(numfiles >= 2) {
+       for (loop = 0; loop < numfiles; loop++) {
+-	rannum = (rand() % (numfiles * 4 - 4)) / 4;
++	rannum = (arc4random() % (numfiles * 4 - 4)) / 4;
+         rannum += (rannum >= loop);
+ 	shuffleord[loop] ^= shuffleord[rannum];
+ 	shuffleord[rannum] ^= shuffleord[loop];
+@@ -306,9 +311,9 @@ char *find_next_file (int argc, char *ar
                  if (line[0]=='\0' || line[0]=='#')
                      continue;
  		if ((listnamedir) && (line[0]!='/') && (line[0]!='\\')){
@@ -33,7 +54,7 @@ $OpenBSD: patch-mpg123.c,v 1.2 2001/04/24 00:48:12 naddy Exp $
                  }
                  return (line);
              }
-@@ -329,6 +333,7 @@ void init_input (int argc, char *argv[])
+@@ -329,6 +334,7 @@ void init_input (int argc, char *argv[])
  {
      int mallocsize = 0;
      char *tempstr;
@@ -41,7 +62,7 @@ $OpenBSD: patch-mpg123.c,v 1.2 2001/04/24 00:48:12 naddy Exp $
  
      shuffle_listsize = 0;
  
-@@ -344,11 +349,11 @@ void init_input (int argc, char *argv[])
+@@ -344,11 +350,11 @@ void init_input (int argc, char *argv[])
  		exit(1);
  	    }
  	}
@@ -55,7 +76,16 @@ $OpenBSD: patch-mpg123.c,v 1.2 2001/04/24 00:48:12 naddy Exp $
  	shuffle_listsize++;
      }
      if (shuffle_listsize) {
-@@ -477,7 +482,7 @@ topt opts[] = {
+@@ -380,7 +386,7 @@ char *get_next_file(int argc, char **arg
+         curfile++;
+     }
+     else {
+-       newfile = shufflist[ rand() % shuffle_listsize ];
++       newfile = shufflist[ arc4random() % shuffle_listsize ];
+     }
+ 
+     return newfile;
+@@ -477,7 +483,7 @@ topt opts[] = {
      {'t', "test",        0,                  0, &param.outmode, DECODE_TEST},
      {'s', "stdout",      0,       SetOutStdout, &param.outmode, DECODE_FILE},
      {'S', "STDOUT",      0,       SetOutStdout1, &param.outmode, DECODE_AUDIOFILE},
@@ -64,7 +94,17 @@ $OpenBSD: patch-mpg123.c,v 1.2 2001/04/24 00:48:12 naddy Exp $
      {'c', "check",       0,                  0, &param.checkrange, TRUE},
      {'v', "verbose",     0,        set_verbose, 0,           0},
      {'q', "quiet",       0,                  0, &param.quiet,      TRUE},
-@@ -913,18 +918,6 @@ int main(int argc, char *argv[])
+@@ -776,6 +782,9 @@ int main(int argc, char *argv[])
+ #endif	
+ 	int init;
+ 
++	/* Initialise early */
++	(void)arc4random();
++
+ #ifdef OS2
+         _wildcard(&argc,&argv);
+ #endif
+@@ -913,18 +922,6 @@ int main(int argc, char *argv[])
  				&dirname, &filename))
  				fprintf(stderr, "\nDirectory: %s", dirname);
  			fprintf(stderr, "\nPlaying MPEG stream from %s ...\n", filename);
@@ -83,17 +123,3 @@ $OpenBSD: patch-mpg123.c,v 1.2 2001/04/24 00:48:12 naddy Exp $
  		}
  
  #if !defined(WIN32) && !defined(GENERIC)
-@@ -1101,6 +1094,7 @@ static void print_title(void)
- {
-     fprintf(stderr,"High Performance MPEG 1.0/2.0/2.5 Audio Player for Layer 1, 2 and 3.\n");
-     fprintf(stderr,"Version %s (%s). Written and copyrights by Michael Hipp.\n", prgVersion, prgDate);
-+    fprintf(stderr,"Patchlevel %s\n", RCSid);
-     fprintf(stderr,"Uses code from various people. See 'README' for more!\n");
-     fprintf(stderr,"THIS SOFTWARE COMES WITH ABSOLUTELY NO WARRANTY! USE AT YOUR OWN RISK!\n");
- }
-@@ -1198,5 +1192,3 @@ static void long_usage(char *d)
-   fprintf(o,"\nSee the manpage %s(1) for more information.\n", prgName);
-   exit(0);
- }
--
--

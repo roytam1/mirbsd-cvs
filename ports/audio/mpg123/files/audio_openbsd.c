@@ -1,3 +1,4 @@
+/* $MirOS$ */
 /* $OpenBSD: audio_openbsd.c,v 1.6 2003/06/12 22:25:59 pvalchev Exp $ */
 /*-
  * Copyright (c) 1999 Marc Espie.
@@ -11,16 +12,16 @@
  *    notice, this list of conditions and the following disclaimer in the
  *    documentation and/or other materials provided with the distribution.
  *
- * THIS SOFTWARE IS PROVIDED BY THE OPENBSD PROJECT AND CONTRIBUTORS 
- * ``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT 
- * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR 
+ * THIS SOFTWARE IS PROVIDED BY THE OPENBSD PROJECT AND CONTRIBUTORS
+ * ``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
  * A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE OPENBSD
- * PROJECT OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, 
- * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT 
- * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, 
- * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY 
- * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT 
- * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE 
+ * PROJECT OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+ * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+ * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
@@ -37,6 +38,8 @@
 #include "mpg123.h"
 
 #include <sys/audioio.h>
+
+__RCSID("$MirOS$");
 
 static void audio_set_format_helper(int fmt, audio_info_t *ainfo);
 
@@ -59,15 +62,15 @@ static void really_open_audio(struct audio_info_struct *ai)
 
     if(!ai->device) {
       if(getenv("AUDIODEV")) {
-	if(param.verbose > 1) 
+	if(param.verbose > 1)
 	   fprintf(stderr,"Using audio-device value from AUDIODEV environment variable!\n");
 	ai->device = getenv("AUDIODEV");
       }
-      else 
+      else
 	ai->device = "/dev/audio";
     }
     if ((audio_fd = open (ai->device, O_WRONLY)) == -1) {
-      fprintf (stderr, "Failed to open %.100s: %s\n", ai->device, 
+      fprintf (stderr, "Failed to open %.100s: %s\n", ai->device,
 	       strerror (errno));
       return;
     }
@@ -102,7 +105,7 @@ static void really_open_audio(struct audio_info_struct *ai)
     atexit(really_close_audio);
   }
 }
-  
+
 int audio_open(struct audio_info_struct *ai)
 {
   really_open_audio(ai);
@@ -152,7 +155,7 @@ int audio_reset_parameters(struct audio_info_struct *ai)
 int audio_rate_best_match(struct audio_info_struct *ai)
 {
   audio_info_t ainfo;
- 
+
   ainfo.play.sample_rate = ai->rate;
   if(ioctl(ai->fn, AUDIO_SETINFO, &ainfo) < 0) {
     ai->rate = 0;
@@ -237,7 +240,7 @@ static int try_format(int fmt, struct audio_info_struct *ai)
   audio_set_format_helper(fmt, &ainfo);
   ainfo.play.sample_rate = ai->rate;
   ainfo.play.channels = ai->channels;
-  if(ioctl(audio_fd, AUDIO_SETINFO, &ainfo) >= 0) 
+  if(ioctl(audio_fd, AUDIO_SETINFO, &ainfo) >= 0)
     return fmt;
   else
     return 0;
@@ -263,7 +266,7 @@ int audio_get_formats(struct audio_info_struct *ai)
     fmts |= try_format(AUDIO_FORMAT_ALAW_8, ai);
   return fmts;
 }
-    
+
 
 int audio_play_samples(struct audio_info_struct *ai,unsigned char *buf,int len)
 {
@@ -271,7 +274,7 @@ int audio_play_samples(struct audio_info_struct *ai,unsigned char *buf,int len)
     uptodate = 1;
     ioctl(ai->fn, AUDIO_SETINFO, &ainfo);
   }
-  
+
   return write(ai->fn,buf,len);
 }
 
