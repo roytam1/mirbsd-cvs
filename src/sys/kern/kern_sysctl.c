@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/kern/kern_sysctl.c,v 1.14 2007/09/24 17:00:16 tg Exp $ */
+/**	$MirOS: src/sys/kern/kern_sysctl.c,v 1.15 2008/06/13 13:07:36 tg Exp $ */
 /*	$NetBSD: kern_sysctl.c,v 1.146 2003/09/28 13:24:48 dsl Exp $	*/
 /*	$OpenBSD: kern_sysctl.c,v 1.126 2005/06/04 05:10:40 tedu Exp $	*/
 /*	$NetBSD: kern_sysctl.c,v 1.17 1996/05/20 17:49:05 mrg Exp $	*/
@@ -115,6 +115,7 @@ static int do_cpu_setperf(int);
 int perflevel = 100;
 
 extern char root_devname[];
+extern int rnd_addpool_allow;
 
 /*
  * Lock to avoid too many processes vslocking a large amount of memory
