@@ -12,7 +12,7 @@ if any are found. We don't think so though.)
 All paths are relative to The MirOS Project's CVS repository.
 
 
-The following files form The MirBSD Korn Shell R40e:
+The following files form The MirBSD Korn Shell R41:
 - build system
   * mksh/Build.sh
 - testsuite driver
@@ -202,4 +202,4 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
 
 _________________________________________________________________
-$MirOS: www/files/TaC-mksh.txt,v 1.6 2011/12/11 18:49:01 tg Exp $
+$MirOS: www/files/TaC-mksh.txt,v 1.7 2012/03/24 23:05:02 tg Exp $
