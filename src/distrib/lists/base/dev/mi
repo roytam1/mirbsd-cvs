@@ -10,8 +10,6 @@
 ./usr/bin/gpc
 ./usr/bin/gpc-run
 ./usr/bin/gpidump
-./usr/bin/gpr2make
-./usr/bin/gprcmd
 ./usr/bin/ld
 ./usr/bin/mcpp
 ./usr/bin/mgcc
@@ -4160,7 +4158,6 @@
 ./usr/share/man/cat1/dlltool.0
 ./usr/share/man/cat1/g++.0
 ./usr/share/man/cat1/gcov.0
-./usr/share/man/cat1/gij.0
 ./usr/share/man/cat1/ld.0
 ./usr/share/man/cat1/mgcc.0
 ./usr/share/man/cat1/nlmconv.0

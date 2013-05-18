@@ -555,7 +555,6 @@
 ./usr/libexec/httpd/include/explain.h
 ./usr/libexec/httpd/include/fdcache.h
 ./usr/libexec/httpd/include/fnmatch.h
-./usr/libexec/httpd/include/hsregex.h
 ./usr/libexec/httpd/include/http_conf_globals.h
 ./usr/libexec/httpd/include/http_config.h
 ./usr/libexec/httpd/include/http_core.h

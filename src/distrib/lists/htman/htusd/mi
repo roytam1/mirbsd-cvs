@@ -127,15 +127,12 @@
 ./man1/ftp.htm
 ./man1/g++.htm
 ./man1/gccmakedep.htm
-./man1/gcj.htm
-./man1/gcjh.htm
 ./man1/gcov.htm
 ./man1/gdb.htm
 ./man1/getcap.htm
 ./man1/getconf.htm
 ./man1/getconfig.htm
 ./man1/getopt.htm
-./man1/gij.htm
 ./man1/glxgears.htm
 ./man1/glxinfo.htm
 ./man1/grep.htm
@@ -173,11 +170,8 @@
 ./man1/intro.htm
 ./man1/ipcrm.htm
 ./man1/ipcs.htm
-./man1/jcf-dump.htm
 ./man1/join.htm
 ./man1/jot.htm
-./man1/jv-convert.htm
-./man1/jv-scan.htm
 ./man1/kbd_mode.htm
 ./man1/kdump.htm
 ./man1/keynote.htm
@@ -425,8 +419,6 @@
 ./man1/rm.htm
 ./man1/rmd160.htm
 ./man1/rmdir.htm
-./man1/rmic.htm
-./man1/rmiregistry.htm
 ./man1/roffbib.htm
 ./man1/rpcgen.htm
 ./man1/rs.htm

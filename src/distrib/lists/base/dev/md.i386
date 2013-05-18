@@ -1,4 +1,3 @@
-./usr/bin/addr2name.awk
 ./usr/bin/i386-ecce-mirbsd8-c++
 ./usr/bin/i386-ecce-mirbsd8-g++
 ./usr/include/i386

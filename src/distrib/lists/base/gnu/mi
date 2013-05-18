@@ -1243,12 +1243,8 @@
 ./usr/share/info/dir
 ./usr/share/info/gcc.info
 ./usr/share/info/gccint.info
-./usr/share/info/gcj.info
 ./usr/share/info/gdb.info
 ./usr/share/info/gdbint.info
-./usr/share/info/gnat-style.info
-./usr/share/info/gnat_rm.info
-./usr/share/info/gnat_ugn_unw.info
 ./usr/share/info/gpc.info
 ./usr/share/info/gpcs-de.info
 ./usr/share/info/gpcs.info
