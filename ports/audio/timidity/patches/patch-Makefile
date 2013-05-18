@@ -1,6 +1,7 @@
+$MirOS$
 $OpenBSD: patch-Makefile,v 1.2 2001/07/06 08:05:29 espie Exp $
---- Makefile.orig	Sun May 26 11:26:46 1996
-+++ Makefile	Fri Jul  6 08:53:41 2001
+--- Makefile.orig	Sun May 26 09:26:26 1996
++++ Makefile	Fri Jul 30 20:38:29 2010
 @@ -24,22 +24,22 @@
  # But where to change without revealing my secret identity?
  
@@ -60,7 +61,12 @@ $OpenBSD: patch-Makefile,v 1.2 2001/07/06 08:05:29 espie Exp $
 -#SYSEXTRAS += slang_c.c
 -#EXTRAINCS += -I/usr/include/slang
 -#EXTRALIBS += -lslang
--
++SYSTEM += -DIA_SLANG
++SYSEXTRAS += slang_c.c
++#EXTRAINCS += -I/usr/local/include
++EXTRALIBS += -lslang -lcurses #-L/usr/local/lib
++.endif
+ 
 -## Select the MOTIF interface
 -#SYSTEM += -DMOTIF
 -#SYSEXTRAS += motif_c.c motif_i.c motif_p.c
@@ -68,17 +74,11 @@ $OpenBSD: patch-Makefile,v 1.2 2001/07/06 08:05:29 espie Exp $
 -#EXTRAINCS += -I/usr/include/X11
 -#EXTRALIBS += -lXm -lXt -lX11
 -## Solaris needs libgen?
-+SYSTEM += -DIA_SLANG
-+SYSEXTRAS += slang_c.c
-+EXTRAINCS += -I/usr/local/include
-+EXTRALIBS += -L/usr/local/lib -lslang -lcurses
-+.endif
-+
 +.if defined(MOTIF)
 +# Select the MOTIF interface
 +SYSTEM += -DMOTIF
 +SYSEXTRAS += motif_c.c motif_i.c motif_p.c
-+EXTRAINCS += -I/usr/local/include -L/usr/local/lib
++#EXTRAINCS += -I/usr/local/include -L/usr/local/lib
 +EXTRAINCS += -I/usr/X11R6/include -L/usr/X11R6/lib
 +EXTRALIBS += -lXm -lXext -lXt -lX11
 +.endif
@@ -105,21 +105,22 @@ $OpenBSD: patch-Makefile,v 1.2 2001/07/06 08:05:29 espie Exp $
  	-DTIMID_VERSION=\"$(VERSION)\" $(SYSTEM) $(EXTRAINCS)
  
  ########### All relevant files.. Anybody know autoconf?
-@@ -228,10 +238,10 @@ bag: bag.c
+@@ -228,11 +238,11 @@ bag: bag.c
  wav2pat: wav2pat.c
  	$(CC) $(CFLAGS) -o wav2pat wav2pat.c
  
 -depends depend dep:
 -	$(CC) $(CFLAGS) -MM $(CSRCS) $(OPTSRCS) $(TOOLSRCS) > depends
--
--include depends
 +#depends depend dep:
 +#        $(CC) $(CFLAGS) -MM $(CSRCS) $(OPTSRCS) $(TOOLSRCS) > depends
 +#
 +#include depends
  
+-include depends
+-
  ########### Installation targets
  
+ install:
 @@ -262,9 +272,9 @@ install.config: $(CONFIGF)
  	mkdir -p $(TIMID_DIR)
  	$(INSTALL) -m 644 $(CONFIGF) $(TIMID_DIR)

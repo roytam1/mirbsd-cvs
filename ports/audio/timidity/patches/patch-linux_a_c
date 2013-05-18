@@ -1,6 +1,6 @@
 $OpenBSD: patch-linux_a_c,v 1.2 2001/07/05 10:50:30 espie Exp $
---- linux_a.c.orig	Mon May 20 15:09:46 1996
-+++ linux_a.c	Thu Jul  5 12:49:08 2001
+--- linux_a.c.orig	Mon May 20 13:09:26 1996
++++ linux_a.c	Fri Jul 30 20:49:11 2010
 @@ -37,6 +37,11 @@
  #include <machine/soundcard.h>
  #endif
@@ -27,7 +27,7 @@ $OpenBSD: patch-linux_a_c,v 1.2 2001/07/05 10:50:30 espie Exp $
     can't handle either, let me know. */
  
 +/* Flag for Luigi Rizzo new sound driver (as opposed to VoxWare) */
-+static luigi_driver = 0;
++static char luigi_driver = 0;
 +
  static int open_output(void)
  {
@@ -55,7 +55,7 @@ $OpenBSD: patch-linux_a_c,v 1.2 2001/07/05 10:50:30 espie Exp $
 +    if (i != -1)
 +      luigi_driver = 1;
 +  }
-+#endif defined (AIOGFMT)
++#endif
 +
 +  ctl->cmsg(CMSG_INFO, VERB_VERBOSE, "Using %s sound driver",
 +	    luigi_driver ? "luigi" : "VoxWare");

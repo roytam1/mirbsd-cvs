@@ -1,6 +1,7 @@
+$MirOS$
 $OpenBSD: patch-config_h,v 1.1 2001/07/05 10:48:21 espie Exp $
---- config.h.orig	Sat Jun  1 14:54:49 1996
-+++ config.h	Fri Apr 27 08:01:39 2001
+--- config.h.orig	Sat Jun  1 12:54:29 1996
++++ config.h	Fri Jul 30 20:44:24 2010
 @@ -121,7 +121,7 @@
  /* Make envelopes twice as fast. Saves ~20% CPU time (notes decay
     faster) and sounds more like a GUS. There is now a command line
@@ -28,7 +29,7 @@ $OpenBSD: patch-config_h,v 1.1 2001/07/05 10:48:21 espie Exp $
  /* You could specify a complete path, e.g. "/etc/timidity.cfg", and
     then specify the library directory in the configuration file. */
 -#define CONFIG_FILE	"timidity.cfg"
-+#define CONFIG_FILE	"/usr/local/lib/timidity/timidity.cfg"
++#define CONFIG_FILE	DEFAULT_PATH "/timidity.cfg"
  
  /* These affect general volume */
  #define GUARD_BITS 3

@@ -1,8 +1,9 @@
-# $MirOS: ports/audio/timidity/Makefile,v 1.4 2007/05/07 22:58:17 tg Exp $
+# $MirOS: ports/audio/timidity/Makefile,v 1.5 2008/03/09 17:22:26 tg Exp $
 # $OpenBSD: Makefile,v 1.25 2003/10/26 23:49:31 naddy Exp $
 
 COMMENT=		MIDI to WAV renderer and player
 DISTNAME=		timidity-0.2i
+DASH_VER=		1
 CATEGORIES=		audio
 
 MASTER_SITES=		http://www.goice.co.jp/member/mo/timidity/dist/
@@ -17,7 +18,7 @@ PERMIT_DISTFILES_CDROM=	"copyrighted patches"
 PERMIT_DISTFILES_FTP=	"copyrighted patches"
 
 FLAVOURS=		motif curses slang
-FLAVOUR?=		motif
+FLAVOUR?=		curses
 
 .if ${FLAVOUR:L:Mcurses}
 MAKE_FLAGS+=		-DCURSES
@@ -43,9 +44,9 @@ post-install:
 	${INSTALL_MAN} ${WRKSRC}/timidity.1 ${PREFIX}/man/man1
 	@cd ${PREFIX}/lib/timidity && \
 	${TAR} zxf ${FULLDISTDIR}/${TIINS} && \
-	cp goemon.cfg goemon.cfg.bak && \
-	sed 's=dir goemon=dir ${TRUEPREFIX}/lib/timidity/goemon=' \
-	   < goemon.cfg.bak > goemon.cfg && \
-	rm -f goemon.cfg.bak
+	print 'g/dir goemon/s==dir '${TRUEPREFIX:Q}'/lib/timidity/goemon=\nwq' | \
+	ed -s goemon.cfg
+	print 'g!/usr/local!s!!'${TRUEPREFIX:Q}'!\nwq' | \
+	    ed -s ${PREFIX:Q}/lib/timidity/timidity.cfg
 
 .include <bsd.port.mk>
