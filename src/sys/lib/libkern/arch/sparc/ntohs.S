@@ -1,6 +1,3 @@
-/*	$OpenBSD: ntohs.S,v 1.3 2003/06/02 23:28:09 millert Exp $	*/
-/*	$NetBSD: ntohs.S,v 1.2 1994/10/26 06:40:05 cgd Exp $	*/
-
 /*
  * Copyright (c) 1992, 1993
  *	The Regents of the University of California.  All rights reserved.
@@ -32,16 +29,12 @@
  * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
- *
- * Header: ntohs.s,v 1.1 92/06/25 12:47:07 torek Exp
  */
 
-#if defined(LIBC_SCCS) && !defined(lint)
-#ifdef notdef
-	.asciz "@(#)ntohs.s	8.1 (Berkeley) 6/4/93"
-#endif
-	.asciz "$OpenBSD: ntohs.S,v 1.3 2003/06/02 23:28:09 millert Exp $"
-#endif /* LIBC_SCCS and not lint */
+#if defined(LIBC_SCCS) 
+	.text
+	.asciz "$OpenBSD: ntohs.S,v 1.3 2003/06/02 20:18:32 millert Exp $"
+#endif /* LIBC_SCCS */
 
 /* hostorder = ntohs(netorder) */
 
@@ -50,4 +43,4 @@
 ENTRY(ntohs)
 	sethi	%hi(0xffff0000), %o1
 	retl
-	 andn	%o0, %o1, %o0
+	andn	%o0, %o1, %o0

@@ -1,4 +1,4 @@
-/*	$OpenBSD: strcat.c,v 1.9 2004/11/28 07:23:41 mickey Exp $	*/
+/*	$OpenBSD: strcat.c,v 1.8 2005/08/08 08:05:37 espie Exp $	*/
 
 /*
  * Copyright (c) 1988 Regents of the University of California.
@@ -29,23 +29,20 @@
  * SUCH DAMAGE.
  */
 
-#if defined(LIBC_SCCS) && !defined(lint)
-static char *rcsid = "$OpenBSD: strcat.c,v 1.9 2004/11/28 07:23:41 mickey Exp $";
-#endif /* LIBC_SCCS and not lint */
-
 #if !defined(_KERNEL) && !defined(_STANDALONE)
 #include <string.h>
 #else
 #include <lib/libkern/libkern.h>
 #endif
 
-#if defined(APIWARN)
-__warn_references(strcat,
-    "warning: strcat() is almost always misused, please use strlcat()");
-#endif
+__RCSID("$MirOS: src/lib/libc/string/strcat.c,v 1.6 2005/10/21 10:53:26 tg Exp $");
+
+__warn_references(strcat, "strcat() is almost always misused, consider using strlcat()");
 
 char *
-strcat(char *s, const char *append)
+strcat(s, append)
+	register char *s;
+	register const char *append;
 {
 	char *save = s;
 

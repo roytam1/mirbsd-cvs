@@ -1,7 +1,7 @@
-/* $MirOS: src/sys/lib/libkern/arch/i386/htonl.S,v 1.2 2005/03/06 21:28:06 tg Exp $ */
+/* $MirOS: src/lib/libc/arch/i386/net/htonl.S,v 1.5 2006/11/01 20:01:17 tg Exp $ */
 
 /*-
- * Copyright (c) 2003
+ * Copyright (c) 2003, 2004
  *	Thorsten "mirabile" Glaser <tg@66h.42h.de>
  *
  * Licensee is hereby permitted to deal in this work without restric-
@@ -18,13 +18,16 @@
  * or other damage, or direct damage except proven a consequence of a
  * direct error of said person and intended use of this work, loss or
  * other issues arising in any way out of its use, even if advised of
- * the possibility of such damage or existence of a nontrivial bug.
+ * the possibility of such damage or existence of a defect.
  */
 
 #include <machine/asm.h>
 
 	.intel_syntax noprefix
+	.section .comment
+	.asciz	"$MirOS: src/lib/libc/arch/i386/net/htonl.S,v 1.5 2006/11/01 20:01:17 tg Exp $"
 	.text
+
 NENTRY(htons)
 ENTRY(ntohs)
 	mov	eax,[esp+4]

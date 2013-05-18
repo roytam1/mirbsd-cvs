@@ -1,11 +1,8 @@
+/*	$OpenBSD: ntohs.c,v 1.8 2005/08/06 20:30:03 espie Exp $ */
 /*
  * Written by J.T. Conklin <jtc@netbsd.org>.
  * Public domain.
  */
-
-#if defined(LIBC_SCCS) && !defined(lint)
-static char *rcsid = "$OpenBSD: ntohs.c,v 1.5 2004/11/28 07:23:41 mickey Exp $";
-#endif /* LIBC_SCCS and not lint */
 
 #include <sys/types.h>
 #include <machine/endian.h>

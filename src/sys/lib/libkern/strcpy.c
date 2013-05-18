@@ -1,4 +1,4 @@
-/*	$OpenBSD: strcpy.c,v 1.9 2004/11/28 07:23:41 mickey Exp $	*/
+/*	$OpenBSD: strcpy.c,v 1.8 2005/08/08 08:05:37 espie Exp $	*/
 
 /*
  * Copyright (c) 1988 Regents of the University of California.
@@ -29,23 +29,20 @@
  * SUCH DAMAGE.
  */
 
-#if defined(LIBC_SCCS) && !defined(lint)
-static char *rcsid = "$OpenBSD: strcpy.c,v 1.9 2004/11/28 07:23:41 mickey Exp $";
-#endif /* LIBC_SCCS and not lint */
-
 #if !defined(_KERNEL) && !defined(_STANDALONE)
 #include <string.h>
 #else
 #include <lib/libkern/libkern.h>
 #endif
 
-#if defined(APIWARN)
-__warn_references(strcpy,
-    "warning: strcpy() is almost always misused, please use strlcpy()");
-#endif
+__RCSID("$MirOS: src/lib/libc/string/strcpy.c,v 1.6 2005/10/21 10:53:27 tg Exp $");
+
+__warn_references(strcpy, "strcpy() is almost always misused, consider using strlcpy()");
 
 char *
-strcpy(char *to, const char *from)
+strcpy(to, from)
+	register char *to;
+	register const char *from;
 {
 	char *save = to;
 

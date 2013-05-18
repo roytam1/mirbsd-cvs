@@ -1,11 +1,12 @@
-/*	$OpenBSD: strcmp.S,v 1.2 1996/09/27 06:47:49 mickey Exp $	*/
-
+/*	$OpenBSD: strcmp.S,v 1.3 2005/08/07 11:30:38 espie Exp $ */
 /*
  * Written by J.T. Conklin <jtc@netbsd.org>.
  * Public domain.
  */
 
 #include <machine/asm.h>
+
+	.text
 
 /*
  * NOTE: I've unrolled the loop eight times: large enough to make a

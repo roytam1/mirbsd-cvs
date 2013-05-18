@@ -1,11 +1,14 @@
-/*	$OpenBSD: bzero.S,v 1.2 1996/09/27 06:47:45 mickey Exp $	*/
-
+/* $MirOS: src/lib/libc/arch/i386/string/bzero.S,v 1.4 2005/09/22 20:06:17 tg Exp $ */
 /*
  * Written by J.T. Conklin <jtc@netbsd.org>.
  * Public domain.
  */
 
 #include <machine/asm.h>
+
+	.section .comment
+	.asciz	"$MirOS: src/lib/libc/arch/i386/string/bzero.S,v 1.4 2005/09/22 20:06:17 tg Exp $"
+	.text
 
 ENTRY(bzero)
 	pushl	%edi

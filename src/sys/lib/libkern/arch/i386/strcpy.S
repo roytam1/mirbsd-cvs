@@ -1,11 +1,21 @@
-/*	$OpenBSD: strcpy.S,v 1.2 1996/09/27 06:47:50 mickey Exp $	*/
-
+/* $MirOS: src/lib/libc/arch/i386/string/strcpy.S,v 1.5 2005/10/21 10:53:23 tg Exp $ */
 /*
  * Written by J.T. Conklin <jtc@netbsd.org>.
  * Public domain.
  */
 
 #include <machine/asm.h>
+
+#APP
+	.section .gnu.warning.strcpy
+	.ascii "strcpy() is almost always misused, consider using strlcpy()"
+	.text
+#NO_APP
+
+	.section .comment
+	.asciz	"$MirOS: src/lib/libc/arch/i386/string/strcpy.S,v 1.5 2005/10/21 10:53:23 tg Exp $"
+
+	.text
 
 /*
  * NOTE: I've unrolled the loop eight times: large enough to make a

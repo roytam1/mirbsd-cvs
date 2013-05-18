@@ -1,6 +1,4 @@
-/*	$OpenBSD: setjmp.S,v 1.3 2003/06/02 23:28:09 millert Exp $	*/
-/*	$NetBSD: setjmp.S,v 1.2 1994/10/26 06:40:08 cgd Exp $	*/
-
+/* $OpenBSD: setjmp.S,v 1.5 2005/08/07 16:40:15 espie Exp $ */
 /*
  * Copyright (c) 1992, 1993
  *	The Regents of the University of California.  All rights reserved.
@@ -32,16 +30,7 @@
  * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
- *
- * Header: setjmp.s,v 1.2 92/06/25 03:18:43 torek Exp
  */
-
-#if defined(LIBC_SCCS) && !defined(lint)
-#ifdef notdef
-	.asciz "@(#)setjmp.s	8.1 (Berkeley) 6/4/93"
-#endif
-	.asciz "$OpenBSD: setjmp.S,v 1.3 2003/06/02 23:28:09 millert Exp $"
-#endif /* LIBC_SCCS and not lint */
 
 /*
  * C library -- setjmp, longjmp
@@ -110,6 +99,6 @@ ENTRY(longjmp)
 
 Lbotch:
 	/* oops, caller botched it */
-	call	_longjmperror
+	call	_C_LABEL(longjmperror)
 	 nop
 	unimp	0

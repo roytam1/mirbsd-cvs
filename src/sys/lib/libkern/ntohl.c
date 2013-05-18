@@ -1,11 +1,8 @@
+/*	$OpenBSD: ntohl.c,v 1.6 2005/08/06 20:30:03 espie Exp $ */
 /*
  * Written by J.T. Conklin <jtc@netbsd.org>.
  * Public domain.
  */
-
-#if defined(LIBC_SCCS) && !defined(lint)
-static char *rcsid = "$OpenBSD: ntohl.c,v 1.5 2004/11/28 07:23:41 mickey Exp $";
-#endif /* LIBC_SCCS and not lint */
 
 #include <sys/types.h>
 #include <machine/endian.h>
@@ -13,8 +10,7 @@ static char *rcsid = "$OpenBSD: ntohl.c,v 1.5 2004/11/28 07:23:41 mickey Exp $";
 #undef ntohl
 
 u_int32_t
-ntohl(x)
-	u_int32_t x;
+ntohl(u_int32_t x)
 {
 #if BYTE_ORDER == LITTLE_ENDIAN
 	u_char *s = (u_char *)&x;

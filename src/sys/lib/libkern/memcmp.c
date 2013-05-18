@@ -1,5 +1,4 @@
-/*	$OpenBSD: memcmp.c,v 1.4 2004/08/07 00:38:32 deraadt Exp $	*/
-
+/*	$OpenBSD: memcmp.c,v 1.5 2005/08/08 08:05:37 espie Exp $ */
 /*-
  * Copyright (c) 1990 The Regents of the University of California.
  * All rights reserved.
@@ -32,23 +31,25 @@
  * SUCH DAMAGE.
  */
 
-#if defined(LIBC_SCCS) && !defined(lint)
-static char *rcsid = "$OpenBSD: memcmp.c,v 1.4 2004/08/07 00:38:32 deraadt Exp $";
-#endif /* LIBC_SCCS and not lint */
-
 #if !defined(_KERNEL) && !defined(_STANDALONE)
 #include <string.h>
 #else
 #include <lib/libkern/libkern.h>
 #endif
 
+__RCSID("$MirOS: src/lib/libc/string/memcmp.c,v 1.6 2006/06/16 16:49:05 tg Exp $");
+
+#ifdef BCMP
+#define	memcmp	bcmp
+#endif
+
 /*
- * Compare memory regions.
+ * Compare memory regions (vax cmpc3 instruction)
  */
 int
 memcmp(const void *s1, const void *s2, size_t n)
 {
-	if (n != 0) {
+	if (__predict_true(n != 0)) {
 		const unsigned char *p1 = s1, *p2 = s2;
 
 		do {
