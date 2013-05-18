@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/Makefile.i386-big,v 1.7 2006/10/13 19:18:02 tg Exp $
+# $MirOS: src/distrib/common/Makefile.i386-big,v 1.8 2007/10/01 20:53:45 tg Exp $
 
 IMAGESIZE=	8192
 IMAGETYPE=	ipldisc
@@ -8,14 +8,14 @@ KERNEL_BUILD=	no
 RAMDISK_PREP=	print 'rootdev 17 0\nquit' | config -ef $@
 
 FLOPPY=		no
-CDROM_MDOPTS=	-b boot.iso -c boot.cat \
+CDROM_MDOPTS=	-b b_${MACHINE}.iso -c boot.cat \
 		-no-emul-boot -boot-load-size 4 -boot-info-table
 
 bsd: ${BSDOBJDIR}/distrib/generic/bsd
 	cp -f $> $@
 
 cdrom-mdcopy:
-	cp ${BOOT} ${WRKDIR}/boot.iso
+	cp ${BOOT} ${WRKDIR}/b_${MACHINE}.iso
 	cp ${DESTDIR}/usr/mdec/pxeboot ${WRKDIR}/v${OSrev}/${MACHINE}/
 
 cdrom-mdboot:
