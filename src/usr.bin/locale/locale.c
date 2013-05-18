@@ -1,4 +1,4 @@
-/**	$MirOS$ */
+/**	$MirOS: src/usr.bin/locale/locale.c,v 1.2 2006/11/01 23:27:02 tg Exp $ */
 /*	$NetBSD: locale.c,v 1.5 2006/02/16 19:19:49 tnozaki Exp $	*/
 
 /*-
@@ -30,7 +30,7 @@
  */
 
 #include <sys/cdefs.h>
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.bin/locale/locale.c,v 1.2 2006/11/01 23:27:02 tg Exp $");
 __RCSID("$NetBSD: locale.c,v 1.5 2006/02/16 19:19:49 tnozaki Exp $");
 
 /*
@@ -336,10 +336,10 @@ showlocale(void)
 	setlocale(LC_ALL, "");
 
 	lang = getenv("LANG");
-	if (lang == NULL) {
-		lang = "";
-	}
-	printf("LANG=\"%s\"\n", lang);
+	if (lang == NULL)
+		printf("LANG=\n");
+	else
+		printf("LANG=\"%s\"\n", lang);
 	/* XXX: if LANG is null, then set it to "C" to get implied values? */
 
 	for (i = 0; i < NLCINFO; i++) {
@@ -350,22 +350,18 @@ showlocale(void)
 			/*
 			 * Appropriate environment variable set, its value
 			 * is valid and not overriden by LC_ALL
-			 *
-			 * XXX: possible side effect: if both LANG and
-			 * overriden environment variable are set into same
-			 * value, then it'll be assumed as 'implied'
 			 */
-			printf("%s=\"%s\"\n", lcinfo[i].name, vval);
+			printf("%s=%s\n", lcinfo[i].name, vval);
 		} else {
 			printf("%s=\"%s\"\n", lcinfo[i].name, vval);
 		}
 	}
 
 	vval = getenv("LC_ALL");
-	if (vval == NULL) {
-		vval = "";
-	}
-	printf("LC_ALL=\"%s\"\n", vval);
+	if (vval == NULL)
+		printf("LC_ALL=\n");
+	else
+		printf("LC_ALL=\"%s\"\n", vval);
 }
 
 /*
