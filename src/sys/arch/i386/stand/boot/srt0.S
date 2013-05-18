@@ -1,4 +1,4 @@
-/* $MirOS: src/sys/arch/i386/stand/boot/srt0.S,v 1.33 2009/01/02 05:45:02 tg Exp $ */
+/* $MirOS: src/sys/arch/i386/stand/boot/srt0.S,v 1.34 2009/01/02 06:37:02 tg Exp $ */
 
 /*-
  * Copyright (c) 2003, 2004, 2005, 2006, 2007, 2008, 2009
@@ -107,9 +107,6 @@ Lstart:	mov	ax,cs
 	call	Linit
 _rval:	.long	0x6A6D4F00	/* _start + 0x50 */
 Linit:	pop	di
-	mov	ax,cs
-	mov	ss,ax
-	lea	sp,[di-8]
 	mov	ax,0xB800
 	mov	gs,ax		/* for UD() */
 	UD(0)			/** @: we're here */
@@ -117,7 +114,7 @@ Linit:	pop	di
 #if 1
 	push	dx
 	mov	ax,cs
-	mov	bx,3040
+	mov	bx,1760
 
 	mov	dl,ah
 	shr	dl,4
@@ -298,37 +295,48 @@ Lirrf:	jnz	Lirrf		/* forever loop */
 	shr	ax,4
 	mov	cx,cs
 	add	ax,cx		/* ax:0000 is now _start+0x50 */
-	mov	cx,ax
-	sub	cx,RL_VAL
-	cld
-	xor	si,si
-	UD(2)			/** B: alignment okay */
-	mov	bx,SA_LOADSEG
-	cmp	cx,bx
-	je	LisRel		/* already relocated */
-	jnb	LdoRel		/* loaded above target address */
-	UD(3)			/** C: below target */
-	std
-	dec	si		/* loaded below target addr, go backwards */
-LdoRel:	UD(4)			/** D: doing reloc */
-	xor	cx,cx
-	dec	cx
-	mov	di,si
-	sub	ax,5		/* make up for stuff above _rval */
+	mov	ecx,offset _rval - SA_LINKADDR
+	shr	ecx,4
+	sub	ax,cx
+	cmp	ax,SA_LINKSEG
+	je	LisRel
+	UD(2)			/** B: relocation needed */
+	mov	bx,SA_LINKSEG + 0x2000
+	cmp	ax,SA_LINKSEG - 0x1000
+	jb	Lrel2		/* below target area, relocate once */
+	mov	bx,SA_LINKSEG - 0x2000
+	cmp	ax,SA_LINKSEG + 0x1000
+	ja	Lrel2		/* above target area, relocate once */
+	/* within target area, relocate twice */
+	UD(3)			/** C: relocate twice */
+	xor	bx,bx
+	mov	ss,bx		/* safe stack */
+	mov	sp,0xFFFC
+	mov	bx,SA_LINKSEG + 0x2000
+	mov	es,bx		/* safe target */
 	mov	ds,ax
-	add	bx,(RL_VAL) - 5	/* dito */
-	mov	es,bx
+	xor	si,si
+	xor	di,di
+	mov	cx,0x4000
+	rep	movsd
+	push	es
+	mov	eax,offset Lrel2 - SA_LINKADDR
+	push	ax
+	mov	ax,es
+	mov	bx,SA_LINKSEG - 0x2000
+	lret
+Lrel2:	mov	ds,ax
+	UD(4)			/** D: relocate once */
+	mov	ax,SA_LINKSEG
+	mov	es,ax
+	mov	ss,bx
+	mov	sp,0xFFFC
+	xor	si,si
+	xor	di,di
+	mov	cx,0x4000
+	rep	movsd
 
-	mov	bp,ax
-	cmp	ax,bx
-	jae	1f
-	mov	bp,bx
-1:	mov	ss,bp
-	mov	sp,0xfffc
-
-	rep	movsb
 LisRel:	UD(5)			/** E: done reloc, or not needed */
-	cld
 	/* relocation truncation workaround */
 	mov	ax,SA_LOADSEG
 	push	ax
@@ -348,6 +356,7 @@ Lmain:	UD(6)			/** F: jump successful */
 	mov	ds,ax
 	mov	es,ax
 	push	dx
+	sti
 
 	/* check if drive is a CD */
 	xor	ax,ax
