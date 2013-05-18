@@ -1,5 +1,5 @@
 #!/usr/bin/env perl
-# $MirOS: ports/net/sirc/dist/dsircp,v 1.20 2008/12/08 16:01:33 tg Exp $
+# $MirOS: ports/net/sirc/dist/dsircp,v 1.21 2008/12/13 14:02:04 tg Exp $
 #-
 # dsircp: dumb-mode small irc client in perl
 # by orabidoo <roger.espel.llima@pobox.com>
@@ -1326,6 +1326,12 @@ sub docommand {
     $args ne '' && &sl($args);
   } elsif ($cmd eq 'UMODE') {
     &sl("MODE $nick $args");
+  } elsif ($cmd eq 'NS') {
+    if ($args =~ /%s/) {
+      &getuserpass("NickServ Password? ", "Passwd: ");
+      $args =~ s/%s/$_/g;
+    }
+    &sl("NS $args");
   } elsif ($cmd eq 'MO' || $cmd eq 'MODE') {
     &dosplat;
     $args=$talkchannel if $args eq '';

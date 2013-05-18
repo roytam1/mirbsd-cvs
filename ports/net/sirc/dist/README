@@ -1,4 +1,4 @@
-$MirOS: ports/net/sirc/dist/README,v 1.3 2007/01/09 01:03:43 tg Exp $
+$MirOS: ports/net/sirc/dist/README,v 1.4 2008/07/15 13:15:28 tg Exp $
 
 Attention: this file is not accurate, please use the manual page.
 
@@ -144,7 +144,7 @@ SIRCPORT, IRCPORT	- port to connect to if not specified in the
 SIRCSSL			- extra arguments to openssl(1)
 			  defaults to -CApath /etc/ssl/certs
 
-SIRCNAME, IRCNAME	- information between ()'s in the /whois,
+SIRCNAME, IRCNAME	- information between ()s in the /whois,
 			  defaults to "sirc user"
 
 SIRCNICK, IRCNICK	- nickname to use, defaults to your username
@@ -220,12 +220,14 @@ commands is here:
 ADMIN, ALIAS, AWAY, BYE, CD, CLEAR, CONNECT, CTCP, DESCRIBE, DIE, EVAL,
 EXIT, HELP, IGNORE, INFO, INVITE, JOIN, KICK, KILL, LEAVE, LINKS, LIST,
 LOAD, LUSERS, MAP, ME, MODE, MOTD, MSG, NAMES, NICK, NOTE, NOTICE, NOTIFY,
-OPER, QUERY, PART, PING, QUERY, QUIT, QUOTE, RANDEX, RPING, SAY, SERVER,
-SET, SIGNOFF, SILENCE, SQUIT, STATS, TIME, TOPIC, TRACE, UPING,
+NS, OPER, QUERY, PART, PING, QUERY, QUIT, QUOTE, RANDEX, RPING, SAY,
+SERVER, SET, SIGNOFF, SILENCE, SQUIT, STATS, TIME, TOPIC, TRACE, UPING,
 USERHOST, USERS, VERSION, WALLOPS, WHO, WHOIS, WHOWAS.
 
 For help on a command, inside sirc, type /help <name of the command>
-(once again, without the <>'s).
+(once again, without the <>s).
+
+The NS command will replace "%s" with a password requested interactively.
 
 Like with ircII, commands preceded with a ^ after the / will be silent,
 and commands preceded with an extra / will not expand aliases or do
@@ -283,10 +285,10 @@ T [#chnnl] [topic]  - short for TOPIC
 
 UMODE		    - short for MODE <nickname>
 
-W [nick]	    - short for WHOIS, defaults to your own nick
+W nick		    - asks for WHOIS info on nick's server, which gives
+		      idle time, but takes longer to reply than /WI
 
-WI nick		    - asks for WHOIS info on nick's server, which gives
-		      idle time, but takes longer to reply than /W
+WI [nick]	    - short for WHOIS, defaults to your own nick
 
 
 Some commands are partly taken from ircII, but work in a different
@@ -378,7 +380,7 @@ CTCP off|none|noreply|noflood|on|all
 		    - toggles the amount of CTCP support in the client.
 		      "none" disables the processing of all CTCPs, even
 		      CTCP action -- they will be shown like messages with
-		      embedded ^A's.  "noreply" and "off" are synonymous,
+		      embedded ^As.  "noreply" and "off" are synonymous,
 		      and disable all automatic CTCP replies.  Incoming
 		      CTCPs are still processed, so you can see actions.
 		      "noflood" and "on" are synonymous; this is the default
@@ -403,7 +405,7 @@ IRCNAME text	    - used as the ircname on the next server connection.
 
 LOADPATH path	    - Sets the path in which sirc looks for scripts to /load;
 		      it is formatted as a list of pathnames separated by
-		      colons, and ~'s are allowed.
+		      colons, and ~s are allowed.
 
 LOCALHOST	    - sets which IP address to use, on machines with
 		      more than one (virtual hosts).
@@ -452,7 +454,7 @@ as if the user had typed them right at the moment of connecting to the
 server.
 
 Commands in a sircrc need not start with an extra /, but they can start
-with a ^ if they are to be silent, or with two /'s if you don't want
+with a ^ if they are to be silent, or with two /s if you don't want
 alias expansion.  Lines starting with a # are ignored.
 
 These files is sourced at the moment of connecting to the server, after

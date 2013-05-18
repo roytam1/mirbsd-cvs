@@ -917,7 +917,7 @@ For the list of n0thing.pl's channel functions, type /nhelp channel
 For the list of n0thing.pl's file functions, type /nhelp files
 For the list of n0thing.pl's settings, type /nhelp settings
 
-Arguments between []'s are always optional.
+Arguments between []s are always optional.
  
 For comments, bug reports, ideas:  email roger.espel.llima\@pobox.com");
 
