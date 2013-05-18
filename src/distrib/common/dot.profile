@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/dot.profile,v 1.50 2009/08/09 10:31:57 tg Exp $
+# $MirOS: src/distrib/common/dot.profile,v 1.51 2009/10/27 16:10:45 tg Exp $
 # $OpenBSD: dot.profile,v 1.4 2002/09/13 21:38:47 deraadt Exp $
 # $NetBSD: dot.profile,v 1.1 1995/12/18 22:54:43 pk Exp $
 #
@@ -110,7 +110,7 @@ This work is provided "AS IS" and WITHOUT WARRANTY of any kind.\n'
 	stty newcrt werase ^W intr ^C kill ^U erase ^? status ^T
 
 	# Extract and save one boot's worth of dmesg
-	dmesg | sed -ne '/^MirBSD /h;/^MirBSD /!H;${g;p;}' >/var/run/dmesg.boot
+	dmesg | sed -ne '/^MirBSD/h;/^MirBSD/!H;${g;p;}' >/var/run/dmesg.boot
 
 	# look if we're DHCP/TFTP enabled
 	if [ -e usr/libexec/tftpd ]; then
