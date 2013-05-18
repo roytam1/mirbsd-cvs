@@ -61,10 +61,10 @@ do-install:
 	perl -i -pe 's!/lib/ld-linux\.so\.2!/dbl/ld-linux.so.2!' ${_i}
 .endfor
 	chmod ${BINMODE} ${PREFIX}/libexec/opera
-#	sed -e 's:@PREFIX@:${TRUEPREFIX}:g' \
-#	    -e 's:@SHELL@:${MKSH}:g' \
-#	    -e 's:@LOCALBASE@:${LOCALBASE}:g' \
-#	    ${FILESDIR}/opera.sh >${PREFIX}/bin/opera
+	sed -e 's:@PREFIX@:${TRUEPREFIX}:g' \
+	    -e 's:@SHELL@:${MKSH}:g' \
+	    -e 's:@LOCALBASE@:${LOCALBASE}:g' \
+	    ${FILESDIR}/opera.sh >${PREFIX}/bin/opera
 	mv ${PREFIX}/share/doc/opera/* ${PREFIX}/share/opera/
 	rmdir ${PREFIX}/share/doc/opera
 	for f in ${PREFIX}/share/opera/ini/pluginpath.ini \
