@@ -1,6 +1,6 @@
-$MirOS: ports/devel/cvs/patches/patch-lib_getdate_c,v 1.2 2007/03/10 23:53:48 tg Exp $
+$MirOS: ports/devel/cvs/patches/patch-lib_getdate_c,v 1.3 2010/09/15 20:56:58 tg Exp $
 --- lib/getdate.c.orig	Mon May 23 17:44:08 2005
-+++ lib/getdate.c	Sat Mar 10 23:20:58 2007
++++ lib/getdate.c	Wed Sep 15 21:29:56 2010
 @@ -1,8 +1,10 @@
 -/* A Bison parser, made by GNU Bison 1.875c.  */
 +/* A Bison parser, made by GNU Bison 2.3.  */
@@ -80,7 +80,18 @@ $MirOS: ports/devel/cvs/patches/patch-lib_getdate_c,v 1.2 2007/03/10 23:53:48 tg
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation; either version 2, or (at your option)
-@@ -166,9 +179,32 @@
+@@ -139,6 +152,10 @@
+ 
+ #include "getdate.h"
+ 
++#ifdef USE_LIBBSD
++#include <bsd/string.h>
++#endif
++
+ /* There's no need to extend the stack, so there's no need to involve
+    alloca.  */
+ #define YYSTACK_USE_ALLOCA 0
+@@ -166,9 +183,32 @@
  #include <stdlib.h>
  #include <string.h>
  
@@ -113,17 +124,17 @@ $MirOS: ports/devel/cvs/patches/patch-lib_getdate_c,v 1.2 2007/03/10 23:53:48 tg
  #if STDC_HEADERS || (! defined isascii && ! HAVE_ISASCII)
  # define IN_CTYPE_DOMAIN(c) 1
  #else
-@@ -196,6 +232,9 @@
+@@ -196,6 +236,9 @@
  # define ATTRIBUTE_UNUSED __attribute__ ((__unused__))
  #endif
  
-+__RCSID("$MirOS: ports/devel/cvs/patches/patch-lib_getdate_c,v 1.2 2007/03/10 23:53:48 tg Exp $");
-+__RCSID("$miros: src/gnu/usr.bin/cvs/lib/getdate.y,v 1.6.2.3 2007/03/10 23:18:15 tg Exp $");
++__RCSID("$MirOS: src/gnu/usr.bin/cvs/lib/getdate.y,v 1.6.2.4 2010/09/15 21:29:21 tg Exp $");
++__RCSID("$miros: src/gnu/usr.bin/cvs/lib/getdate.y,v 1.6.2.4 2010/09/15 21:29:21 tg Exp $");
 +
  /* Shift A right by B bits portably, by dividing A by 2**B and
     truncating towards minus infinity.  A and B should be free of side
     effects, and B should be in the range 0 <= B <= INT_BITS - 2, where
-@@ -310,15 +349,22 @@ static long int time_zone_hhmm (textint,
+@@ -310,15 +353,22 @@ static long int time_zone_hhmm (textint,
  # define YYERROR_VERBOSE 0
  #endif
  
@@ -136,8 +147,8 @@ $MirOS: ports/devel/cvs/patches/patch-lib_getdate_c,v 1.2 2007/03/10 23:53:48 tg
 +#endif
 +
 +#if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
-+typedef union YYSTYPE
-+#line 233 "getdate.y"
++typedef union
++#line 238 "getdate.y"
 +{
    long int intval;
    textint textintval;
@@ -147,19 +158,19 @@ $MirOS: ports/devel/cvs/patches/patch-lib_getdate_c,v 1.2 2007/03/10 23:53:48 tg
 -#line 322 "getdate.c"
 +}
 +/* Line 193 of yacc.c.  */
-+#line 366 "getdate.c"
++#line 371 "getdate.c"
 +	YYSTYPE;
  # define yystype YYSTYPE /* obsolescent; will be withdrawn */
  # define YYSTYPE_IS_DECLARED 1
  # define YYSTYPE_IS_TRIVIAL 1
-@@ -329,56 +375,171 @@ typedef union YYSTYPE {
+@@ -329,56 +379,171 @@ typedef union YYSTYPE {
  /* Copy the second part of user declarations.  */
  
  
 -/* Line 214 of yacc.c.  */
 -#line 334 "getdate.c"
 +/* Line 216 of yacc.c.  */
-+#line 379 "getdate.c"
++#line 384 "getdate.c"
  
 -#if ! defined (yyoverflow) || YYERROR_VERBOSE
 +#ifdef short
@@ -348,7 +359,7 @@ $MirOS: ports/devel/cvs/patches/patch-lib_getdate_c,v 1.2 2007/03/10 23:53:48 tg
    YYSTYPE yyvs;
    };
  
-@@ -388,24 +549,24 @@ union yyalloc
+@@ -388,24 +553,24 @@ union yyalloc
  /* The size of an array large to enough to hold all stacks, each with
     N elements.  */
  # define YYSTACK_BYTES(N) \
@@ -377,7 +388,7 @@ $MirOS: ports/devel/cvs/patches/patch-lib_getdate_c,v 1.2 2007/03/10 23:53:48 tg
  #  endif
  # endif
  
-@@ -423,39 +584,33 @@ union yyalloc
+@@ -423,39 +588,33 @@ union yyalloc
  	yynewbytes = yystacksize * sizeof (*Stack) + YYSTACK_GAP_MAXIMUM; \
  	yyptr += yynewbytes / sizeof (*yyptr);				\
        }									\
@@ -425,7 +436,7 @@ $MirOS: ports/devel/cvs/patches/patch-lib_getdate_c,v 1.2 2007/03/10 23:53:48 tg
  {
         0,     2,     2,     2,     2,     2,     2,     2,     2,     2,
         2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-@@ -490,7 +645,7 @@ static const unsigned char yytranslate[]
+@@ -490,7 +649,7 @@ static const unsigned char yytranslate[]
  #if YYDEBUG
  /* YYPRHS[YYN] -- Index of the first RHS symbol of rule number YYN in
     YYRHS.  */
@@ -434,7 +445,7 @@ $MirOS: ports/devel/cvs/patches/patch-lib_getdate_c,v 1.2 2007/03/10 23:53:48 tg
  {
         0,     0,     3,     5,     7,    10,    11,    14,    16,    18,
        20,    22,    24,    26,    28,    31,    36,    42,    49,    57,
-@@ -502,8 +657,8 @@ static const unsigned char yyprhs[] =
+@@ -502,8 +661,8 @@ static const unsigned char yyprhs[] =
       207,   209,   211,   213,   215,   217,   218,   221,   222
  };
  
@@ -445,7 +456,7 @@ $MirOS: ports/devel/cvs/patches/patch-lib_getdate_c,v 1.2 2007/03/10 23:53:48 tg
  {
        27,     0,    -1,    28,    -1,    29,    -1,    22,    39,    -1,
        -1,    29,    30,    -1,    31,    -1,    32,    -1,    33,    -1,
-@@ -531,22 +686,22 @@ static const yysigned_char yyrhs[] =
+@@ -531,22 +690,22 @@ static const yysigned_char yyrhs[] =
  };
  
  /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
@@ -460,14 +471,14 @@ $MirOS: ports/devel/cvs/patches/patch-lib_getdate_c,v 1.2 2007/03/10 23:53:48 tg
 -     463,   465,   467,   469,   471,   473,   475,   477,   479,   481,
 -     483,   485,   489,   491,   493,   495,   497,   499,   503,   503,
 -     506,   507,   512,   513,   518,   556,   557,   563,   564
-+       0,   254,   254,   255,   259,   266,   268,   272,   274,   276,
-+     278,   280,   282,   284,   288,   296,   304,   314,   321,   333,
-+     338,   346,   348,   350,   352,   354,   359,   364,   369,   374,
-+     382,   387,   407,   414,   422,   430,   435,   441,   446,   455,
-+     465,   469,   471,   473,   475,   477,   479,   481,   483,   485,
-+     487,   489,   491,   493,   495,   497,   499,   501,   503,   505,
-+     507,   509,   513,   515,   517,   519,   521,   523,   527,   527,
-+     530,   531,   536,   537,   542,   580,   581,   587,   588
++       0,   259,   259,   260,   264,   271,   273,   277,   279,   281,
++     283,   285,   287,   289,   293,   301,   309,   319,   326,   338,
++     343,   351,   353,   355,   357,   359,   364,   369,   374,   379,
++     387,   392,   412,   419,   427,   435,   440,   446,   451,   460,
++     470,   474,   476,   478,   480,   482,   484,   486,   488,   490,
++     492,   494,   496,   498,   500,   502,   504,   506,   508,   510,
++     512,   514,   518,   520,   522,   524,   526,   528,   532,   532,
++     535,   536,   541,   542,   547,   585,   586,   592,   593
  };
  #endif
  
@@ -480,7 +491,7 @@ $MirOS: ports/devel/cvs/patches/patch-lib_getdate_c,v 1.2 2007/03/10 23:53:48 tg
  static const char *const yytname[] =
  {
    "$end", "error", "$undefined", "tAGO", "tDST", "tDAY", "tDAY_UNIT",
-@@ -563,7 +718,7 @@ static const char *const yytname[] =
+@@ -563,7 +722,7 @@ static const char *const yytname[] =
  # ifdef YYPRINT
  /* YYTOKNUM[YYLEX-NUM] -- Internal token number corresponding to
     token YYLEX-NUM.  */
@@ -489,7 +500,7 @@ $MirOS: ports/devel/cvs/patches/patch-lib_getdate_c,v 1.2 2007/03/10 23:53:48 tg
  {
         0,   256,   257,   258,   259,   260,   261,   262,   263,   264,
       265,   266,   267,   268,   269,   270,   271,   272,   273,   274,
-@@ -572,7 +727,7 @@ static const unsigned short yytoknum[] =
+@@ -572,7 +731,7 @@ static const unsigned short yytoknum[] =
  # endif
  
  /* YYR1[YYN] -- Symbol number of symbol that rule YYN derives.  */
@@ -498,7 +509,7 @@ $MirOS: ports/devel/cvs/patches/patch-lib_getdate_c,v 1.2 2007/03/10 23:53:48 tg
  {
         0,    26,    27,    27,    28,    29,    29,    30,    30,    30,
        30,    30,    30,    30,    31,    31,    31,    31,    31,    32,
-@@ -585,7 +740,7 @@ static const unsigned char yyr1[] =
+@@ -585,7 +744,7 @@ static const unsigned char yyr1[] =
  };
  
  /* YYR2[YYN] -- Number of symbols composing right hand side of rule YYN.  */
@@ -507,7 +518,7 @@ $MirOS: ports/devel/cvs/patches/patch-lib_getdate_c,v 1.2 2007/03/10 23:53:48 tg
  {
         0,     2,     1,     1,     2,     0,     2,     1,     1,     1,
         1,     1,     1,     1,     2,     4,     5,     6,     7,     1,
-@@ -600,7 +755,7 @@ static const unsigned char yyr2[] =
+@@ -600,7 +759,7 @@ static const unsigned char yyr2[] =
  /* YYDEFACT[STATE-NAME] -- Default rule to reduce with in state
     STATE-NUM when YYTABLE doesn't specify something else to do.  Zero
     means the default is an error.  */
@@ -516,7 +527,7 @@ $MirOS: ports/devel/cvs/patches/patch-lib_getdate_c,v 1.2 2007/03/10 23:53:48 tg
  {
         5,     0,     0,     2,     3,    71,    73,    70,    72,     4,
        68,    69,     1,    26,    49,    24,    52,    19,    55,     0,
-@@ -614,8 +769,8 @@ static const unsigned char yydefact[] =
+@@ -614,8 +773,8 @@ static const unsigned char yydefact[] =
        16,    77,    31,    75,    17,    18
  };
  
@@ -527,7 +538,7 @@ $MirOS: ports/devel/cvs/patches/patch-lib_getdate_c,v 1.2 2007/03/10 23:53:48 tg
  {
        -1,     2,     3,     4,    29,    30,    31,    32,    33,    34,
        35,    36,    37,     9,    10,    11,    38,    77,    88
-@@ -624,7 +779,7 @@ static const yysigned_char yydefgoto[] =
+@@ -624,7 +783,7 @@ static const yysigned_char yydefgoto[] =
  /* YYPACT[STATE-NUM] -- Index in YYTABLE of the portion describing
     STATE-NUM.  */
  #define YYPACT_NINF -43
@@ -536,7 +547,7 @@ $MirOS: ports/devel/cvs/patches/patch-lib_getdate_c,v 1.2 2007/03/10 23:53:48 tg
  {
       -18,    48,     9,   -43,    19,   -43,   -43,   -43,   -43,   -43,
       -43,   -43,   -43,    32,   -43,   -43,   -43,    54,   -43,    28,
-@@ -639,7 +794,7 @@ static const yysigned_char yypact[] =
+@@ -639,7 +798,7 @@ static const yysigned_char yypact[] =
  };
  
  /* YYPGOTO[NTERM-NUM].  */
@@ -545,7 +556,7 @@ $MirOS: ports/devel/cvs/patches/patch-lib_getdate_c,v 1.2 2007/03/10 23:53:48 tg
  {
       -43,   -43,   -43,   -43,   -43,   -43,   -43,   -43,   -43,   -43,
       -43,   -43,    55,   -43,   -43,   -11,   -43,   -42,    -7
-@@ -650,7 +805,7 @@ static const yysigned_char yypgoto[] =
+@@ -650,7 +809,7 @@ static const yysigned_char yypgoto[] =
     number is the opposite.  If zero, do what YYDEFACT says.
     If YYTABLE_NINF, syntax error.  */
  #define YYTABLE_NINF -1
@@ -554,7 +565,7 @@ $MirOS: ports/devel/cvs/patches/patch-lib_getdate_c,v 1.2 2007/03/10 23:53:48 tg
  {
        59,    60,    50,    61,     1,    62,    63,    64,    65,    12,
        66,    67,    53,    68,    54,    85,    51,    55,    69,    56,
-@@ -663,7 +818,7 @@ static const unsigned char yytable[] =
+@@ -663,7 +822,7 @@ static const unsigned char yytable[] =
        81,    82,    83,    84,    94,    92,     0,     0,    76
  };
  
@@ -563,7 +574,7 @@ $MirOS: ports/devel/cvs/patches/patch-lib_getdate_c,v 1.2 2007/03/10 23:53:48 tg
  {
         5,     6,     4,     8,    22,    10,    11,    12,    13,     0,
        15,    16,     6,    18,     8,    10,    18,    11,    23,    13,
-@@ -678,7 +833,7 @@ static const yysigned_char yycheck[] =
+@@ -678,7 +837,7 @@ static const yysigned_char yycheck[] =
  
  /* YYSTOS[STATE-NUM] -- The (internal number of the) accessing
     symbol of state STATE-NUM.  */
@@ -572,7 +583,7 @@ $MirOS: ports/devel/cvs/patches/patch-lib_getdate_c,v 1.2 2007/03/10 23:53:48 tg
  {
         0,    22,    27,    28,    29,    18,    19,    20,    21,    39,
        40,    41,     0,     5,     6,     7,     8,     9,    11,    12,
-@@ -692,22 +847,6 @@ static const unsigned char yystos[] =
+@@ -692,22 +851,6 @@ static const unsigned char yystos[] =
        43,    41,    19,    18,    44,    43
  };
  
@@ -595,7 +606,7 @@ $MirOS: ports/devel/cvs/patches/patch-lib_getdate_c,v 1.2 2007/03/10 23:53:48 tg
  #define yyerrok		(yyerrstatus = 0)
  #define yyclearin	(yychar = YYEMPTY)
  #define YYEMPTY		(-2)
-@@ -733,30 +872,63 @@ do								\
+@@ -733,30 +876,63 @@ do								\
        yychar = (Token);						\
        yylval = (Value);						\
        yytoken = YYTRANSLATE (yychar);				\
@@ -670,7 +681,7 @@ $MirOS: ports/devel/cvs/patches/patch-lib_getdate_c,v 1.2 2007/03/10 23:53:48 tg
  /* YYLEX -- calling `yylex' with the right arguments.  */
  
  #ifdef YYLEX_PARAM
-@@ -777,42 +949,99 @@ while (0)
+@@ -777,42 +953,99 @@ while (0)
  do {						\
    if (yydebug)					\
      YYFPRINTF Args;				\
@@ -791,7 +802,7 @@ $MirOS: ports/devel/cvs/patches/patch-lib_getdate_c,v 1.2 2007/03/10 23:53:48 tg
      YYFPRINTF (stderr, " %d", *bottom);
    YYFPRINTF (stderr, "\n");
  }
-@@ -821,45 +1050,53 @@ yy_stack_print (bottom, top)
+@@ -821,45 +1054,53 @@ yy_stack_print (bottom, top)
  do {								\
    if (yydebug)							\
      yy_stack_print ((Bottom), (Top));				\
@@ -860,7 +871,7 @@ $MirOS: ports/devel/cvs/patches/patch-lib_getdate_c,v 1.2 2007/03/10 23:53:48 tg
  # define YY_STACK_PRINT(Bottom, Top)
  # define YY_REDUCE_PRINT(Rule)
  #endif /* !YYDEBUG */
-@@ -874,13 +1111,9 @@ int yydebug;
+@@ -874,13 +1115,9 @@ int yydebug;
     if the built-in stack extension method is used).
  
     Do not make this value too large; the results are undefined if
@@ -875,7 +886,7 @@ $MirOS: ports/devel/cvs/patches/patch-lib_getdate_c,v 1.2 2007/03/10 23:53:48 tg
  #ifndef YYMAXDEPTH
  # define YYMAXDEPTH 10000
  #endif
-@@ -890,45 +1123,47 @@ int yydebug;
+@@ -890,45 +1127,47 @@ int yydebug;
  #if YYERROR_VERBOSE
  
  # ifndef yystrlen
@@ -941,7 +952,7 @@ $MirOS: ports/devel/cvs/patches/patch-lib_getdate_c,v 1.2 2007/03/10 23:53:48 tg
  
    while ((*yyd++ = *yys++) != '\0')
      continue;
-@@ -938,70 +1173,194 @@ yystpcpy (yydest, yysrc)
+@@ -938,70 +1177,194 @@ yystpcpy (yydest, yysrc)
  #  endif
  # endif
  
@@ -1173,7 +1184,7 @@ $MirOS: ports/devel/cvs/patches/patch-lib_getdate_c,v 1.2 2007/03/10 23:53:48 tg
      }
  }
  
-@@ -1009,14 +1368,14 @@ yydestruct (yytype, yyvaluep)
+@@ -1009,14 +1372,14 @@ yydestruct (yytype, yyvaluep)
  /* Prevent warnings from -Wmissing-prototypes.  */
  
  #ifdef YYPARSE_PARAM
@@ -1193,7 +1204,7 @@ $MirOS: ports/devel/cvs/patches/patch-lib_getdate_c,v 1.2 2007/03/10 23:53:48 tg
  #else
  int yyparse ();
  #endif
-@@ -1032,39 +1391,49 @@ int yyparse ();
+@@ -1032,39 +1395,49 @@ int yyparse ();
  `----------*/
  
  #ifdef YYPARSE_PARAM
@@ -1257,7 +1268,7 @@ $MirOS: ports/devel/cvs/patches/patch-lib_getdate_c,v 1.2 2007/03/10 23:53:48 tg
  
    /* Three stacks and their tools:
       `yyss': related to states,
-@@ -1075,18 +1444,18 @@ int yynerrs;
+@@ -1075,18 +1448,18 @@ int yynerrs;
       to reallocate them elsewhere.  */
  
    /* The state stack.  */
@@ -1281,7 +1292,7 @@ $MirOS: ports/devel/cvs/patches/patch-lib_getdate_c,v 1.2 2007/03/10 23:53:48 tg
  
    YYSIZE_T yystacksize = YYINITDEPTH;
  
-@@ -1095,9 +1464,9 @@ int yynerrs;
+@@ -1095,9 +1468,9 @@ int yynerrs;
    YYSTYPE yyval;
  
  
@@ -1294,7 +1305,7 @@ $MirOS: ports/devel/cvs/patches/patch-lib_getdate_c,v 1.2 2007/03/10 23:53:48 tg
  
    YYDPRINTF ((stderr, "Starting parse\n"));
  
-@@ -1121,8 +1490,7 @@ int yynerrs;
+@@ -1121,8 +1494,7 @@ int yynerrs;
  `------------------------------------------------------------*/
   yynewstate:
    /* In all cases, when you get here, the value and location stacks
@@ -1304,7 +1315,7 @@ $MirOS: ports/devel/cvs/patches/patch-lib_getdate_c,v 1.2 2007/03/10 23:53:48 tg
    yyssp++;
  
   yysetstate:
-@@ -1135,18 +1503,18 @@ int yynerrs;
+@@ -1135,18 +1507,18 @@ int yynerrs;
  
  #ifdef yyoverflow
        {
@@ -1326,7 +1337,7 @@ $MirOS: ports/devel/cvs/patches/patch-lib_getdate_c,v 1.2 2007/03/10 23:53:48 tg
  		    &yyss1, yysize * sizeof (*yyssp),
  		    &yyvs1, yysize * sizeof (*yyvsp),
  
-@@ -1157,21 +1525,21 @@ int yynerrs;
+@@ -1157,21 +1529,21 @@ int yynerrs;
        }
  #else /* no yyoverflow */
  # ifndef YYSTACK_RELOCATE
@@ -1352,7 +1363,7 @@ $MirOS: ports/devel/cvs/patches/patch-lib_getdate_c,v 1.2 2007/03/10 23:53:48 tg
  	YYSTACK_RELOCATE (yyss);
  	YYSTACK_RELOCATE (yyvs);
  
-@@ -1202,19 +1570,17 @@ int yynerrs;
+@@ -1202,19 +1574,17 @@ int yynerrs;
  `-----------*/
  yybackup:
  
@@ -1377,7 +1388,7 @@ $MirOS: ports/devel/cvs/patches/patch-lib_getdate_c,v 1.2 2007/03/10 23:53:48 tg
    if (yychar == YYEMPTY)
      {
        YYDPRINTF ((stderr, "Reading a token: "));
-@@ -1229,7 +1595,7 @@ yybackup:
+@@ -1229,7 +1599,7 @@ yybackup:
    else
      {
        yytoken = YYTRANSLATE (yychar);
@@ -1386,7 +1397,7 @@ $MirOS: ports/devel/cvs/patches/patch-lib_getdate_c,v 1.2 2007/03/10 23:53:48 tg
      }
  
    /* If the proper action on seeing token YYTOKEN is to reduce or to
-@@ -1249,22 +1615,21 @@ yybackup:
+@@ -1249,22 +1619,21 @@ yybackup:
    if (yyn == YYFINAL)
      YYACCEPT;
  
@@ -1418,12 +1429,12 @@ $MirOS: ports/devel/cvs/patches/patch-lib_getdate_c,v 1.2 2007/03/10 23:53:48 tg
    goto yynewstate;
  
  
-@@ -1300,272 +1665,272 @@ yyreduce:
+@@ -1300,272 +1669,272 @@ yyreduce:
    switch (yyn)
      {
          case 4:
 -#line 236 "getdate.y"
-+#line 260 "getdate.y"
++#line 265 "getdate.y"
      {
 -	pc->seconds = yyvsp[0].timespec;
 +	pc->seconds = (yyvsp[(2) - (2)].timespec);
@@ -1435,48 +1446,48 @@ $MirOS: ports/devel/cvs/patches/patch-lib_getdate_c,v 1.2 2007/03/10 23:53:48 tg
    case 7:
 -#line 249 "getdate.y"
 -    { pc->times_seen++; }
-+#line 273 "getdate.y"
++#line 278 "getdate.y"
 +    { pc->times_seen++; ;}
      break;
  
    case 8:
 -#line 251 "getdate.y"
 -    { pc->local_zones_seen++; }
-+#line 275 "getdate.y"
++#line 280 "getdate.y"
 +    { pc->local_zones_seen++; ;}
      break;
  
    case 9:
 -#line 253 "getdate.y"
 -    { pc->zones_seen++; }
-+#line 277 "getdate.y"
++#line 282 "getdate.y"
 +    { pc->zones_seen++; ;}
      break;
  
    case 10:
 -#line 255 "getdate.y"
 -    { pc->dates_seen++; }
-+#line 279 "getdate.y"
++#line 284 "getdate.y"
 +    { pc->dates_seen++; ;}
      break;
  
    case 11:
 -#line 257 "getdate.y"
 -    { pc->days_seen++; }
-+#line 281 "getdate.y"
++#line 286 "getdate.y"
 +    { pc->days_seen++; ;}
      break;
  
    case 12:
 -#line 259 "getdate.y"
 -    { pc->rels_seen = true; }
-+#line 283 "getdate.y"
++#line 288 "getdate.y"
 +    { pc->rels_seen = true; ;}
      break;
  
    case 14:
 -#line 265 "getdate.y"
-+#line 289 "getdate.y"
++#line 294 "getdate.y"
      {
 -	pc->hour = yyvsp[-1].textintval.value;
 +	pc->hour = (yyvsp[(1) - (2)].textintval).value;
@@ -1491,7 +1502,7 @@ $MirOS: ports/devel/cvs/patches/patch-lib_getdate_c,v 1.2 2007/03/10 23:53:48 tg
  
    case 15:
 -#line 273 "getdate.y"
-+#line 297 "getdate.y"
++#line 302 "getdate.y"
      {
 -	pc->hour = yyvsp[-3].textintval.value;
 -	pc->minutes = yyvsp[-1].textintval.value;
@@ -1507,7 +1518,7 @@ $MirOS: ports/devel/cvs/patches/patch-lib_getdate_c,v 1.2 2007/03/10 23:53:48 tg
  
    case 16:
 -#line 281 "getdate.y"
-+#line 305 "getdate.y"
++#line 310 "getdate.y"
      {
 -	pc->hour = yyvsp[-4].textintval.value;
 -	pc->minutes = yyvsp[-2].textintval.value;
@@ -1525,7 +1536,7 @@ $MirOS: ports/devel/cvs/patches/patch-lib_getdate_c,v 1.2 2007/03/10 23:53:48 tg
  
    case 17:
 -#line 291 "getdate.y"
-+#line 315 "getdate.y"
++#line 320 "getdate.y"
      {
 -	pc->hour = yyvsp[-5].textintval.value;
 -	pc->minutes = yyvsp[-3].textintval.value;
@@ -1541,7 +1552,7 @@ $MirOS: ports/devel/cvs/patches/patch-lib_getdate_c,v 1.2 2007/03/10 23:53:48 tg
  
    case 18:
 -#line 298 "getdate.y"
-+#line 322 "getdate.y"
++#line 327 "getdate.y"
      {
 -	pc->hour = yyvsp[-6].textintval.value;
 -	pc->minutes = yyvsp[-4].textintval.value;
@@ -1559,7 +1570,7 @@ $MirOS: ports/devel/cvs/patches/patch-lib_getdate_c,v 1.2 2007/03/10 23:53:48 tg
  
    case 19:
 -#line 310 "getdate.y"
-+#line 334 "getdate.y"
++#line 339 "getdate.y"
      {
 -	pc->local_isdst = yyvsp[0].intval;
 -	pc->dsts_seen += (0 < yyvsp[0].intval);
@@ -1571,7 +1582,7 @@ $MirOS: ports/devel/cvs/patches/patch-lib_getdate_c,v 1.2 2007/03/10 23:53:48 tg
  
    case 20:
 -#line 315 "getdate.y"
-+#line 339 "getdate.y"
++#line 344 "getdate.y"
      {
  	pc->local_isdst = 1;
 -	pc->dsts_seen += (0 < yyvsp[-1].intval) + 1;
@@ -1583,41 +1594,41 @@ $MirOS: ports/devel/cvs/patches/patch-lib_getdate_c,v 1.2 2007/03/10 23:53:48 tg
    case 21:
 -#line 323 "getdate.y"
 -    { pc->time_zone = yyvsp[0].intval; }
-+#line 347 "getdate.y"
++#line 352 "getdate.y"
 +    { pc->time_zone = (yyvsp[(1) - (1)].intval); ;}
      break;
  
    case 22:
 -#line 325 "getdate.y"
 -    { pc->time_zone = yyvsp[-1].intval; pc->rels_seen = true; }
-+#line 349 "getdate.y"
++#line 354 "getdate.y"
 +    { pc->time_zone = (yyvsp[(1) - (2)].intval); pc->rels_seen = true; ;}
      break;
  
    case 23:
 -#line 327 "getdate.y"
 -    { pc->time_zone = yyvsp[-2].intval + time_zone_hhmm (yyvsp[-1].textintval, yyvsp[0].intval); }
-+#line 351 "getdate.y"
++#line 356 "getdate.y"
 +    { pc->time_zone = (yyvsp[(1) - (3)].intval) + time_zone_hhmm ((yyvsp[(2) - (3)].textintval), (yyvsp[(3) - (3)].intval)); ;}
      break;
  
    case 24:
 -#line 329 "getdate.y"
 -    { pc->time_zone = yyvsp[0].intval + 60; }
-+#line 353 "getdate.y"
++#line 358 "getdate.y"
 +    { pc->time_zone = (yyvsp[(1) - (1)].intval) + 60; ;}
      break;
  
    case 25:
 -#line 331 "getdate.y"
 -    { pc->time_zone = yyvsp[-1].intval + 60; }
-+#line 355 "getdate.y"
++#line 360 "getdate.y"
 +    { pc->time_zone = (yyvsp[(1) - (2)].intval) + 60; ;}
      break;
  
    case 26:
 -#line 336 "getdate.y"
-+#line 360 "getdate.y"
++#line 365 "getdate.y"
      {
  	pc->day_ordinal = 1;
 -	pc->day_number = yyvsp[0].intval;
@@ -1628,7 +1639,7 @@ $MirOS: ports/devel/cvs/patches/patch-lib_getdate_c,v 1.2 2007/03/10 23:53:48 tg
  
    case 27:
 -#line 341 "getdate.y"
-+#line 365 "getdate.y"
++#line 370 "getdate.y"
      {
  	pc->day_ordinal = 1;
 -	pc->day_number = yyvsp[-1].intval;
@@ -1639,7 +1650,7 @@ $MirOS: ports/devel/cvs/patches/patch-lib_getdate_c,v 1.2 2007/03/10 23:53:48 tg
  
    case 28:
 -#line 346 "getdate.y"
-+#line 370 "getdate.y"
++#line 375 "getdate.y"
      {
 -	pc->day_ordinal = yyvsp[-1].intval;
 -	pc->day_number = yyvsp[0].intval;
@@ -1651,7 +1662,7 @@ $MirOS: ports/devel/cvs/patches/patch-lib_getdate_c,v 1.2 2007/03/10 23:53:48 tg
  
    case 29:
 -#line 351 "getdate.y"
-+#line 375 "getdate.y"
++#line 380 "getdate.y"
      {
 -	pc->day_ordinal = yyvsp[-1].textintval.value;
 -	pc->day_number = yyvsp[0].intval;
@@ -1663,7 +1674,7 @@ $MirOS: ports/devel/cvs/patches/patch-lib_getdate_c,v 1.2 2007/03/10 23:53:48 tg
  
    case 30:
 -#line 359 "getdate.y"
-+#line 383 "getdate.y"
++#line 388 "getdate.y"
      {
 -	pc->month = yyvsp[-2].textintval.value;
 -	pc->day = yyvsp[0].textintval.value;
@@ -1675,7 +1686,7 @@ $MirOS: ports/devel/cvs/patches/patch-lib_getdate_c,v 1.2 2007/03/10 23:53:48 tg
  
    case 31:
 -#line 364 "getdate.y"
-+#line 388 "getdate.y"
++#line 393 "getdate.y"
      {
  	/* Interpret as YYYY/MM/DD if the first value has 4 or more digits,
  	   otherwise as MM/DD/YY.
@@ -1707,7 +1718,7 @@ $MirOS: ports/devel/cvs/patches/patch-lib_getdate_c,v 1.2 2007/03/10 23:53:48 tg
  
    case 32:
 -#line 384 "getdate.y"
-+#line 408 "getdate.y"
++#line 413 "getdate.y"
      {
  	/* ISO 8601 format.  YYYY-MM-DD.  */
 -	pc->year = yyvsp[-2].textintval;
@@ -1722,7 +1733,7 @@ $MirOS: ports/devel/cvs/patches/patch-lib_getdate_c,v 1.2 2007/03/10 23:53:48 tg
  
    case 33:
 -#line 391 "getdate.y"
-+#line 415 "getdate.y"
++#line 420 "getdate.y"
      {
  	/* e.g. 17-JUN-1992.  */
 -	pc->day = yyvsp[-2].textintval.value;
@@ -1739,7 +1750,7 @@ $MirOS: ports/devel/cvs/patches/patch-lib_getdate_c,v 1.2 2007/03/10 23:53:48 tg
  
    case 34:
 -#line 399 "getdate.y"
-+#line 423 "getdate.y"
++#line 428 "getdate.y"
      {
  	/* e.g. JUN-17-1992.  */
 -	pc->month = yyvsp[-2].intval;
@@ -1756,7 +1767,7 @@ $MirOS: ports/devel/cvs/patches/patch-lib_getdate_c,v 1.2 2007/03/10 23:53:48 tg
  
    case 35:
 -#line 407 "getdate.y"
-+#line 431 "getdate.y"
++#line 436 "getdate.y"
      {
 -	pc->month = yyvsp[-1].intval;
 -	pc->day = yyvsp[0].textintval.value;
@@ -1768,7 +1779,7 @@ $MirOS: ports/devel/cvs/patches/patch-lib_getdate_c,v 1.2 2007/03/10 23:53:48 tg
  
    case 36:
 -#line 412 "getdate.y"
-+#line 436 "getdate.y"
++#line 441 "getdate.y"
      {
 -	pc->month = yyvsp[-3].intval;
 -	pc->day = yyvsp[-2].textintval.value;
@@ -1782,7 +1793,7 @@ $MirOS: ports/devel/cvs/patches/patch-lib_getdate_c,v 1.2 2007/03/10 23:53:48 tg
  
    case 37:
 -#line 418 "getdate.y"
-+#line 442 "getdate.y"
++#line 447 "getdate.y"
      {
 -	pc->day = yyvsp[-1].textintval.value;
 -	pc->month = yyvsp[0].intval;
@@ -1794,7 +1805,7 @@ $MirOS: ports/devel/cvs/patches/patch-lib_getdate_c,v 1.2 2007/03/10 23:53:48 tg
  
    case 38:
 -#line 423 "getdate.y"
-+#line 447 "getdate.y"
++#line 452 "getdate.y"
      {
 -	pc->day = yyvsp[-2].textintval.value;
 -	pc->month = yyvsp[-1].intval;
@@ -1808,11 +1819,11 @@ $MirOS: ports/devel/cvs/patches/patch-lib_getdate_c,v 1.2 2007/03/10 23:53:48 tg
  
    case 39:
 -#line 432 "getdate.y"
-+#line 456 "getdate.y"
++#line 461 "getdate.y"
      {
  	pc->rel_ns = -pc->rel_ns;
  	pc->rel_seconds = -pc->rel_seconds;
-@@ -1574,216 +1939,215 @@ yyreduce:
+@@ -1574,216 +1943,215 @@ yyreduce:
  	pc->rel_day = -pc->rel_day;
  	pc->rel_month = -pc->rel_month;
  	pc->rel_year = -pc->rel_year;
@@ -1823,202 +1834,202 @@ $MirOS: ports/devel/cvs/patches/patch-lib_getdate_c,v 1.2 2007/03/10 23:53:48 tg
    case 41:
 -#line 446 "getdate.y"
 -    { pc->rel_year += yyvsp[-1].intval * yyvsp[0].intval; }
-+#line 470 "getdate.y"
++#line 475 "getdate.y"
 +    { pc->rel_year += (yyvsp[(1) - (2)].intval) * (yyvsp[(2) - (2)].intval); ;}
      break;
  
    case 42:
 -#line 448 "getdate.y"
 -    { pc->rel_year += yyvsp[-1].textintval.value * yyvsp[0].intval; }
-+#line 472 "getdate.y"
++#line 477 "getdate.y"
 +    { pc->rel_year += (yyvsp[(1) - (2)].textintval).value * (yyvsp[(2) - (2)].intval); ;}
      break;
  
    case 43:
 -#line 450 "getdate.y"
 -    { pc->rel_year += yyvsp[0].intval; }
-+#line 474 "getdate.y"
++#line 479 "getdate.y"
 +    { pc->rel_year += (yyvsp[(1) - (1)].intval); ;}
      break;
  
    case 44:
 -#line 452 "getdate.y"
 -    { pc->rel_month += yyvsp[-1].intval * yyvsp[0].intval; }
-+#line 476 "getdate.y"
++#line 481 "getdate.y"
 +    { pc->rel_month += (yyvsp[(1) - (2)].intval) * (yyvsp[(2) - (2)].intval); ;}
      break;
  
    case 45:
 -#line 454 "getdate.y"
 -    { pc->rel_month += yyvsp[-1].textintval.value * yyvsp[0].intval; }
-+#line 478 "getdate.y"
++#line 483 "getdate.y"
 +    { pc->rel_month += (yyvsp[(1) - (2)].textintval).value * (yyvsp[(2) - (2)].intval); ;}
      break;
  
    case 46:
 -#line 456 "getdate.y"
 -    { pc->rel_month += yyvsp[0].intval; }
-+#line 480 "getdate.y"
++#line 485 "getdate.y"
 +    { pc->rel_month += (yyvsp[(1) - (1)].intval); ;}
      break;
  
    case 47:
 -#line 458 "getdate.y"
 -    { pc->rel_day += yyvsp[-1].intval * yyvsp[0].intval; }
-+#line 482 "getdate.y"
++#line 487 "getdate.y"
 +    { pc->rel_day += (yyvsp[(1) - (2)].intval) * (yyvsp[(2) - (2)].intval); ;}
      break;
  
    case 48:
 -#line 460 "getdate.y"
 -    { pc->rel_day += yyvsp[-1].textintval.value * yyvsp[0].intval; }
-+#line 484 "getdate.y"
++#line 489 "getdate.y"
 +    { pc->rel_day += (yyvsp[(1) - (2)].textintval).value * (yyvsp[(2) - (2)].intval); ;}
      break;
  
    case 49:
 -#line 462 "getdate.y"
 -    { pc->rel_day += yyvsp[0].intval; }
-+#line 486 "getdate.y"
++#line 491 "getdate.y"
 +    { pc->rel_day += (yyvsp[(1) - (1)].intval); ;}
      break;
  
    case 50:
 -#line 464 "getdate.y"
 -    { pc->rel_hour += yyvsp[-1].intval * yyvsp[0].intval; }
-+#line 488 "getdate.y"
++#line 493 "getdate.y"
 +    { pc->rel_hour += (yyvsp[(1) - (2)].intval) * (yyvsp[(2) - (2)].intval); ;}
      break;
  
    case 51:
 -#line 466 "getdate.y"
 -    { pc->rel_hour += yyvsp[-1].textintval.value * yyvsp[0].intval; }
-+#line 490 "getdate.y"
++#line 495 "getdate.y"
 +    { pc->rel_hour += (yyvsp[(1) - (2)].textintval).value * (yyvsp[(2) - (2)].intval); ;}
      break;
  
    case 52:
 -#line 468 "getdate.y"
 -    { pc->rel_hour += yyvsp[0].intval; }
-+#line 492 "getdate.y"
++#line 497 "getdate.y"
 +    { pc->rel_hour += (yyvsp[(1) - (1)].intval); ;}
      break;
  
    case 53:
 -#line 470 "getdate.y"
 -    { pc->rel_minutes += yyvsp[-1].intval * yyvsp[0].intval; }
-+#line 494 "getdate.y"
++#line 499 "getdate.y"
 +    { pc->rel_minutes += (yyvsp[(1) - (2)].intval) * (yyvsp[(2) - (2)].intval); ;}
      break;
  
    case 54:
 -#line 472 "getdate.y"
 -    { pc->rel_minutes += yyvsp[-1].textintval.value * yyvsp[0].intval; }
-+#line 496 "getdate.y"
++#line 501 "getdate.y"
 +    { pc->rel_minutes += (yyvsp[(1) - (2)].textintval).value * (yyvsp[(2) - (2)].intval); ;}
      break;
  
    case 55:
 -#line 474 "getdate.y"
 -    { pc->rel_minutes += yyvsp[0].intval; }
-+#line 498 "getdate.y"
++#line 503 "getdate.y"
 +    { pc->rel_minutes += (yyvsp[(1) - (1)].intval); ;}
      break;
  
    case 56:
 -#line 476 "getdate.y"
 -    { pc->rel_seconds += yyvsp[-1].intval * yyvsp[0].intval; }
-+#line 500 "getdate.y"
++#line 505 "getdate.y"
 +    { pc->rel_seconds += (yyvsp[(1) - (2)].intval) * (yyvsp[(2) - (2)].intval); ;}
      break;
  
    case 57:
 -#line 478 "getdate.y"
 -    { pc->rel_seconds += yyvsp[-1].textintval.value * yyvsp[0].intval; }
-+#line 502 "getdate.y"
++#line 507 "getdate.y"
 +    { pc->rel_seconds += (yyvsp[(1) - (2)].textintval).value * (yyvsp[(2) - (2)].intval); ;}
      break;
  
    case 58:
 -#line 480 "getdate.y"
 -    { pc->rel_seconds += yyvsp[-1].timespec.tv_sec * yyvsp[0].intval; pc->rel_ns += yyvsp[-1].timespec.tv_nsec * yyvsp[0].intval; }
-+#line 504 "getdate.y"
++#line 509 "getdate.y"
 +    { pc->rel_seconds += (yyvsp[(1) - (2)].timespec).tv_sec * (yyvsp[(2) - (2)].intval); pc->rel_ns += (yyvsp[(1) - (2)].timespec).tv_nsec * (yyvsp[(2) - (2)].intval); ;}
      break;
  
    case 59:
 -#line 482 "getdate.y"
 -    { pc->rel_seconds += yyvsp[-1].timespec.tv_sec * yyvsp[0].intval; pc->rel_ns += yyvsp[-1].timespec.tv_nsec * yyvsp[0].intval; }
-+#line 506 "getdate.y"
++#line 511 "getdate.y"
 +    { pc->rel_seconds += (yyvsp[(1) - (2)].timespec).tv_sec * (yyvsp[(2) - (2)].intval); pc->rel_ns += (yyvsp[(1) - (2)].timespec).tv_nsec * (yyvsp[(2) - (2)].intval); ;}
      break;
  
    case 60:
 -#line 484 "getdate.y"
 -    { pc->rel_seconds += yyvsp[0].intval; }
-+#line 508 "getdate.y"
++#line 513 "getdate.y"
 +    { pc->rel_seconds += (yyvsp[(1) - (1)].intval); ;}
      break;
  
    case 62:
 -#line 490 "getdate.y"
 -    { pc->rel_year += yyvsp[-1].textintval.value * yyvsp[0].intval; }
-+#line 514 "getdate.y"
++#line 519 "getdate.y"
 +    { pc->rel_year += (yyvsp[(1) - (2)].textintval).value * (yyvsp[(2) - (2)].intval); ;}
      break;
  
    case 63:
 -#line 492 "getdate.y"
 -    { pc->rel_month += yyvsp[-1].textintval.value * yyvsp[0].intval; }
-+#line 516 "getdate.y"
++#line 521 "getdate.y"
 +    { pc->rel_month += (yyvsp[(1) - (2)].textintval).value * (yyvsp[(2) - (2)].intval); ;}
      break;
  
    case 64:
 -#line 494 "getdate.y"
 -    { pc->rel_day += yyvsp[-1].textintval.value * yyvsp[0].intval; }
-+#line 518 "getdate.y"
++#line 523 "getdate.y"
 +    { pc->rel_day += (yyvsp[(1) - (2)].textintval).value * (yyvsp[(2) - (2)].intval); ;}
      break;
  
    case 65:
 -#line 496 "getdate.y"
 -    { pc->rel_hour += yyvsp[-1].textintval.value * yyvsp[0].intval; }
-+#line 520 "getdate.y"
++#line 525 "getdate.y"
 +    { pc->rel_hour += (yyvsp[(1) - (2)].textintval).value * (yyvsp[(2) - (2)].intval); ;}
      break;
  
    case 66:
 -#line 498 "getdate.y"
 -    { pc->rel_minutes += yyvsp[-1].textintval.value * yyvsp[0].intval; }
-+#line 522 "getdate.y"
++#line 527 "getdate.y"
 +    { pc->rel_minutes += (yyvsp[(1) - (2)].textintval).value * (yyvsp[(2) - (2)].intval); ;}
      break;
  
    case 67:
 -#line 500 "getdate.y"
 -    { pc->rel_seconds += yyvsp[-1].textintval.value * yyvsp[0].intval; }
-+#line 524 "getdate.y"
++#line 529 "getdate.y"
 +    { pc->rel_seconds += (yyvsp[(1) - (2)].textintval).value * (yyvsp[(2) - (2)].intval); ;}
      break;
  
    case 71:
 -#line 508 "getdate.y"
 -    { yyval.timespec.tv_sec = yyvsp[0].textintval.value; yyval.timespec.tv_nsec = 0; }
-+#line 532 "getdate.y"
++#line 537 "getdate.y"
 +    { (yyval.timespec).tv_sec = (yyvsp[(1) - (1)].textintval).value; (yyval.timespec).tv_nsec = 0; ;}
      break;
  
    case 73:
 -#line 514 "getdate.y"
 -    { yyval.timespec.tv_sec = yyvsp[0].textintval.value; yyval.timespec.tv_nsec = 0; }
-+#line 538 "getdate.y"
++#line 543 "getdate.y"
 +    { (yyval.timespec).tv_sec = (yyvsp[(1) - (1)].textintval).value; (yyval.timespec).tv_nsec = 0; ;}
      break;
  
    case 74:
 -#line 519 "getdate.y"
-+#line 543 "getdate.y"
++#line 548 "getdate.y"
      {
  	if (pc->dates_seen && ! pc->year.digits
 -	    && ! pc->rels_seen && (pc->times_seen || 2 < yyvsp[0].textintval.digits))
@@ -2069,34 +2080,34 @@ $MirOS: ports/devel/cvs/patches/patch-lib_getdate_c,v 1.2 2007/03/10 23:53:48 tg
    case 75:
 -#line 556 "getdate.y"
 -    { yyval.intval = -1; }
-+#line 580 "getdate.y"
++#line 585 "getdate.y"
 +    { (yyval.intval) = -1; ;}
      break;
  
    case 76:
 -#line 558 "getdate.y"
 -    { yyval.intval = yyvsp[0].textintval.value; }
-+#line 582 "getdate.y"
++#line 587 "getdate.y"
 +    { (yyval.intval) = (yyvsp[(2) - (2)].textintval).value; ;}
      break;
  
    case 77:
 -#line 563 "getdate.y"
 -    { yyval.intval = MER24; }
-+#line 587 "getdate.y"
++#line 592 "getdate.y"
 +    { (yyval.intval) = MER24; ;}
      break;
  
    case 78:
 -#line 565 "getdate.y"
 -    { yyval.intval = yyvsp[0].intval; }
-+#line 589 "getdate.y"
++#line 594 "getdate.y"
 +    { (yyval.intval) = (yyvsp[(1) - (1)].intval); ;}
      break;
  
  
 +/* Line 1267 of yacc.c.  */
-+#line 2144 "getdate.c"
++#line 2149 "getdate.c"
 +      default: break;
      }
 +  YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);
@@ -2113,7 +2124,7 @@ $MirOS: ports/devel/cvs/patches/patch-lib_getdate_c,v 1.2 2007/03/10 23:53:48 tg
    YY_STACK_PRINT (yyss, yyssp);
  
    *++yyvsp = yyval;
-@@ -1812,99 +2176,65 @@ yyerrlab:
+@@ -1812,99 +2180,65 @@ yyerrlab:
    if (!yyerrstatus)
      {
        ++yynerrs;
@@ -2253,7 +2264,7 @@ $MirOS: ports/devel/cvs/patches/patch-lib_getdate_c,v 1.2 2007/03/10 23:53:48 tg
       token.  */
    goto yyerrlab1;
  
-@@ -1914,15 +2244,17 @@ yyerrlab:
+@@ -1914,15 +2248,17 @@ yyerrlab:
  `---------------------------------------------------*/
  yyerrorlab:
  
@@ -2278,7 +2289,7 @@ $MirOS: ports/devel/cvs/patches/patch-lib_getdate_c,v 1.2 2007/03/10 23:53:48 tg
    yystate = *yyssp;
    goto yyerrlab1;
  
-@@ -1951,9 +2283,10 @@ yyerrlab1:
+@@ -1951,9 +2287,10 @@ yyerrlab1:
        if (yyssp == yyss)
  	YYABORT;
  
@@ -2292,7 +2303,7 @@ $MirOS: ports/devel/cvs/patches/patch-lib_getdate_c,v 1.2 2007/03/10 23:53:48 tg
        yystate = *yyssp;
        YY_STACK_PRINT (yyss, yyssp);
      }
-@@ -1961,11 +2294,12 @@ yyerrlab1:
+@@ -1961,11 +2298,12 @@ yyerrlab1:
    if (yyn == YYFINAL)
      YYACCEPT;
  
@@ -2307,7 +2318,7 @@ $MirOS: ports/devel/cvs/patches/patch-lib_getdate_c,v 1.2 2007/03/10 23:53:48 tg
    yystate = yyn;
    goto yynewstate;
  
-@@ -1985,25 +2319,43 @@ yyabortlab:
+@@ -1985,25 +2323,43 @@ yyabortlab:
    goto yyreturn;
  
  #ifndef yyoverflow
@@ -2354,11 +2365,11 @@ $MirOS: ports/devel/cvs/patches/patch-lib_getdate_c,v 1.2 2007/03/10 23:53:48 tg
  
  
 -#line 568 "getdate.y"
-+#line 592 "getdate.y"
++#line 597 "getdate.y"
  
  
  static table const meridian_table[] =
-@@ -2793,7 +3145,8 @@ get_date (struct timespec *result, char 
+@@ -2793,7 +3149,8 @@ get_date (struct timespec *result, char 
  			  + sizeof pc.time_zone * CHAR_BIT / 3];
  	      if (!tz_was_altered)
  		tz0 = get_tz (tz0buf);
@@ -2368,7 +2379,7 @@ $MirOS: ports/devel/cvs/patches/patch-lib_getdate_c,v 1.2 2007/03/10 23:53:48 tg
  		       abs_time_zone_hour, abs_time_zone_min);
  	      if (setenv ("TZ", tz1buf, 1) != 0)
  		goto fail;
-@@ -2891,7 +3244,7 @@ get_date (struct timespec *result, char 
+@@ -2891,7 +3248,7 @@ get_date (struct timespec *result, char 
    ok = false;
   done:
    if (tz_was_altered)
@@ -2377,7 +2388,7 @@ $MirOS: ports/devel/cvs/patches/patch-lib_getdate_c,v 1.2 2007/03/10 23:53:48 tg
    if (tz0 != tz0buf)
      free (tz0);
    return ok;
-@@ -2900,18 +3253,33 @@ get_date (struct timespec *result, char 
+@@ -2900,18 +3257,33 @@ get_date (struct timespec *result, char 
  #if TEST
  
  int
@@ -2414,7 +2425,7 @@ $MirOS: ports/devel/cvs/patches/patch-lib_getdate_c,v 1.2 2007/03/10 23:53:48 tg
        if (! get_date (&d, buff, NULL))
  	printf ("Bad format - couldn't convert.\n");
        else if (! (tm = localtime (&d.tv_sec)))
-@@ -2922,15 +3290,17 @@ main (int ac, char **av)
+@@ -2922,15 +3294,17 @@ main (int ac, char **av)
        else
  	{
  	  int ns = d.tv_nsec;

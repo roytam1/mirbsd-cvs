@@ -1,16 +1,20 @@
-$MirOS$
+$MirOS: ports/devel/cvs/patches/patch-src_main_c,v 1.5 2010/09/15 20:57:01 tg Exp $
 --- src/main.c.orig	Sun Oct  2 15:16:59 2005
-+++ src/main.c	Wed Sep 15 19:36:15 2010
-@@ -24,6 +24,8 @@
++++ src/main.c	Wed Sep 15 21:30:44 2010
+@@ -24,6 +24,12 @@
  #include "strftime.h"
  #include "xgethostname.h"
  
-+__RCSID("$MirOS: ports/devel/cvs/patches/patch-src_main_c,v 1.4 2009/09/06 11:51:01 tg Exp $");
++#ifdef USE_LIBBSD
++#include <bsd/random.h>
++#endif
++
++__RCSID("$MirOS: ports/devel/cvs/patches/patch-src_main_c,v 1.5 2010/09/15 20:57:01 tg Exp $");
 +
  const char *program_name;
  const char *program_path;
  const char *cvs_cmd_name;
-@@ -465,39 +467,7 @@ enum {COMMITID_RAW_SIZE = (sizeof(time_t
+@@ -465,39 +471,7 @@ enum {COMMITID_RAW_SIZE = (sizeof(time_t
  static char const alphabet[62] =
    "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
  
@@ -50,7 +54,7 @@ $MirOS$
  int
  main (int argc, char **argv)
  {
-@@ -511,7 +481,7 @@ main (int argc, char **argv)
+@@ -511,7 +485,7 @@ main (int argc, char **argv)
      int help = 0;		/* Has the user asked for help?  This
  				   lets us support the `cvs -H cmd'
  				   convention to give help for cmd. */
@@ -59,7 +63,7 @@ $MirOS$
      static struct option long_options[] =
      {
          {"help", 0, NULL, 'H'},
-@@ -669,6 +639,9 @@ main (int argc, char **argv)
+@@ -669,6 +643,9 @@ main (int argc, char **argv)
  		noexec = 1;
  		logoff = 1;
  		break;
@@ -69,7 +73,7 @@ $MirOS$
  	    case 'v':
  		(void) fputs ("\n", stdout);
  		version (0, NULL);    
-@@ -676,6 +649,7 @@ main (int argc, char **argv)
+@@ -676,6 +653,7 @@ main (int argc, char **argv)
  		(void) fputs ("\
  Copyright (C) 2005 Free Software Foundation, Inc.\n\
  \n\
@@ -77,7 +81,7 @@ $MirOS$
  Senior active maintainers include Larry Jones, Derek R. Price,\n\
  and Mark D. Baushke.  Please see the AUTHORS and README files from the CVS\n\
  distribution kit for a complete list of contributors and copyrights.\n",
-@@ -764,57 +738,12 @@ distribution kit for a complete list of 
+@@ -764,57 +742,12 @@ distribution kit for a complete list of 
      if (argc < 1)
  	usage (usg);
  
@@ -138,7 +142,7 @@ $MirOS$
      TRACE (TRACE_FUNCTION, "main: Session ID is %s", global_session_id);
  
      /* Look up the command name. */
-@@ -1244,7 +1173,7 @@ parse_tagdate (char **tag, char **date, 
+@@ -1244,7 +1177,7 @@ parse_tagdate (char **tag, char **date, 
  	if (*++p)
  	{
  	    if (*date) free (*date);
@@ -147,7 +151,7 @@ $MirOS$
  	}
      }
      else if (strlen (input))
-@@ -1285,7 +1214,7 @@ date_from_time_t (time_t unixtime)
+@@ -1285,7 +1218,7 @@ date_from_time_t (time_t unixtime)
  	ftm = localtime (&unixtime);
  
      (void) sprintf (date, DATEFORM,
@@ -156,7 +160,7 @@ $MirOS$
  		    ftm->tm_mon + 1, ftm->tm_mday, ftm->tm_hour,
  		    ftm->tm_min, ftm->tm_sec);
      ret = xstrdup (date);
-@@ -1315,8 +1244,9 @@ date_to_internet (char *dest, const char
+@@ -1315,8 +1248,9 @@ date_to_internet (char *dest, const char
  void
  date_to_tm (struct tm *dest, const char *source)
  {
@@ -167,7 +171,7 @@ $MirOS$
  		&dest->tm_hour, &dest->tm_min, &dest->tm_sec)
  	    != 6)
  	/* Is there a better way to handle errors here?  I made this
-@@ -1324,9 +1254,7 @@ date_to_tm (struct tm *dest, const char 
+@@ -1324,9 +1258,7 @@ date_to_tm (struct tm *dest, const char 
  	   deal with fatal errors.  */
  	error (0, 0, "internal error: bad date %s", source);
  
@@ -178,7 +182,7 @@ $MirOS$
      dest->tm_mon -= 1;
  }
  
-@@ -1348,10 +1276,10 @@ tm_to_internet (char *dest, const struct
+@@ -1348,10 +1280,10 @@ tm_to_internet (char *dest, const struct
        {"Jan", "Feb", "Mar", "Apr", "May", "Jun",
  	 "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
      
