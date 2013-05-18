@@ -1,4 +1,4 @@
-# $MirOS: src/gnu/usr.bin/lynx/Makefile.bsd-wrapper,v 1.5 2005/12/21 14:55:52 tg Exp $
+# $MirOS: src/gnu/usr.bin/lynx/Makefile.bsd-wrapper,v 1.6 2006/01/31 19:29:29 tg Exp $
 # $OpenBSD: Makefile.bsd-wrapper,v 1.12 2003/05/01 18:59:36 avsm Exp $
 
 MAN=		lynx.1
@@ -35,7 +35,7 @@ HTMLTESTS=	ALT88592.html ISO_LATIN1_test.html README.txt \
 		TestComment.html c1.html iso-8859-1.html iso-8859-2.html \
 		koi8-r.html quickbrown.html raw8bit.html sgml.html \
 		spaces.html special_urls.html tabtest.html tags.html \
-		unicode.html utf-8-demo.html
+		test-styles.html unicode.html utf-8-demo.html
 
 lynx.1:	${.CURDIR}/lynx.man
 	-cp -p ${.ALLSRC} $@
