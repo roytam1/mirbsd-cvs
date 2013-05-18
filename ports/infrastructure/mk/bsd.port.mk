@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.197 2008/03/14 19:13:03 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.198 2008/03/14 20:19:42 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -2063,7 +2063,7 @@ ${_REGRESS_COOKIE}: ${_BUILD_COOKIE}
 	@cd ${.CURDIR} && exec ${MAKE} do-regress
 .  else
 # What REGRESS normally does:
-	@cd ${WRKBUILD} && exec ${SETENV} ${MAKE_ENV} \
+	@cd ${WRKBUILD} && exec ${SETENV} ${MAKE_ENV} ${REGRESS_ENV} \
 	    ${MAKE_PROGRAM} ${REGRESS_FLAGS} -f ${MAKE_FILE} ${REGRESS_TARGET}
 # End of REGRESS
 .  endif
