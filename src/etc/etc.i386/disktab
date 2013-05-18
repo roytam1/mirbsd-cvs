@@ -1,4 +1,4 @@
-# $MirOS: src/etc/etc.i386/disktab,v 1.6 2007/05/24 22:20:21 tg Exp $
+# $MirOS: src/etc/etc.i386/disktab,v 1.7 2008/07/12 22:41:08 tg Exp $
 # $OpenBSD: disktab,v 1.18 2005/02/07 06:08:10 david Exp $
 # $OpenBSD: disktab,v 1.21 2003/03/01 00:46:24 miod Exp $
 #	@(#)disktab	5.5 (Berkeley) 2/27/91
@@ -30,9 +30,9 @@
 #	t[a-p]	partition types (filesystem, swap, etc)
 
 rdroot|ramdisk miniroot image for boot floppy:\
-	:ty=ramdisk:rm#300:se#512:nc#23:nt#8:ns#16:\
-	:pa#2944:oa#0:ta=4.2BSD:ba#4096:fa#512:\
-	:pc#2944:oc#0:
+	:ty=ramdisk:rm#300:se#512:nc#22:nt#8:ns#16:\
+	:pa#2816:oa#0:ta=4.2BSD:ba#4096:fa#512:\
+	:pc#2816:oc#0:
 
 ipldisc|ramdisk miniroot image for bsd.rd:\
 	:ty=ramdisk:rm#300:se#512:nc#64:nt#8:ns#16:\
