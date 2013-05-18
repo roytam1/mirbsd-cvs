@@ -1097,7 +1097,7 @@ Title: mksh on… platforms
 ----
 Date: 17.07.2008 21:43
 Author: tg@
-Title: mksh – The iShell
+Title: mksh – The iShell [updated]
 
 <h3><a href="@@RELPATH@@mksh.htm">mksh</a> – The iShell</h3>
 <p style="margin-bottom:0px;">Try this:</p>
@@ -1132,4 +1132,7 @@ Title: mksh – The iShell
 <p>Maybe this fact (availability of mksh) strengthens <a
  href="@@RELPATH@@permalinks/wlog-10_e20080714-tg.htm">our point</a>.</p>
 <p>In the meanwhile, gecko2@ has found the geocaches I placed.</p>
+<p><strong>Update 18.07.2008 12:42</strong> – we have a fat binary with
+ five architectures (amd64 arm i386 powerpc ppc64) now. This is the <a
+ href="https://eurynome.mirbsd.org/pub/fat-mksh.gz">iShell</a>, indeed.</p>
 ----
