@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/faq.inc,v 1.4 2009/02/19 15:39:09 tg Exp $
+RCSID: $MirOS: www/data/faq.inc,v 1.5 2010/07/12 20:48:25 tg Exp $
 Title: Why don't I have colours on the console?
 
 <p>The first virtual terminal is the system console, unless the
@@ -24,7 +24,7 @@ Section: Common ssh(1) and sshd(8) problems	XXX do this differently!
  in the MirOS #10 (RELEASE) default ssh <tt>known_hosts</tt> file is
  our old server, which ran on a Debian virtual host and, as such, was
  victim to the “private keys with only 15 bits of entropy” problem.
- A <a href="@@RELPATH@@overview.htm#ssh_host">list of SSH host keys</a>
+ A <i>[old broken link removed]</i> list of SSH host keys
  used by our publicly accessible servers contains the currently valid
  entries; <a href="@@RELPATH@@permalinks/news_e20080515-tg.htm">we
  reported the problem</a> earlier in the news.</p>

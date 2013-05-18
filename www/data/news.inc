@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/news.inc,v 1.140 2011/01/28 22:28:45 tg Exp $
+RCSID: $MirOS: www/data/news.inc,v 1.141 2011/02/08 22:13:28 bsiegert Exp $
 Title: Older news from the MirOS Project
 Date: 01.03.2006
 
@@ -862,7 +862,7 @@ Tag: security
 
 <p>Our anoncvs mirror has changed its ssh host keys due to a Debian-specific
  problem (it's hosted on a machine running Debian GNU/Linux courtesy of
- gecko2@). The new keys are: [Update: <a href="@@RELPATH@@overview.htm">moved</a>]</p>
+ gecko2@). The new keys are: [Update: <i>[old broken link removed]</i> moved]</p>
 <p>Please copy these into <tt>/etc/ssh/ssh_known_hosts</tt> or
  <tt>~/.etc/ssh/known_hosts</tt>, overriding the existing keys for the
  same IPs or host names.</p>
@@ -923,14 +923,14 @@ Date: 09.07.2008 18:20
   <li><tt>_anoncvs@anoncvs6.mirbsd.org</tt> (public, IPv6 only)</li>
  </ul></li>
  <li>hephaistos (unixforge.de), Germany, ssh, rsync + cvs: <ul>
-  <li>‣ sshd(8) <a href="@@RELPATH@@overview.htm#ssh_host">host keys</a></li>
+  <li>‣ sshd(8) <i>[old broken link removed]</i> host keys</li>
   <li>offering: <tt>/MirOS</tt> <tt>/Pkgs</tt> <tt>/cvs</tt></li>
   <li><tt>anoncvs@1.anoncvs.mirbsd.org</tt> (public, IPv4 + IPv6)</li>
   <li><tt>anoncvs@1.anoncvs4.mirbsd.org</tt> (public, IPv4 only)</li>
   <li><tt>anoncvs@1.anoncvs6.mirbsd.org</tt> (public, IPv6 only)</li>
  </ul></li>
  <li>eurynome (VMware instance), Germany, ssh, rsync + cvs: <ul>
-  <li>‣ sshd(8) <a href="@@RELPATH@@overview.htm#ssh_host">host key</a></li>
+  <li>‣ sshd(8) <i>[old broken link removed]</i> host key</li>
   <li>offering: <tt>/MirOS</tt> <tt>/Pkgs</tt> <tt>/cvs</tt> (<tt>/Distfiles</tt> <tt>/www</tt> not yet)</li>
   <li><tt>_anoncvs@2.anoncvs.mirbsd.org</tt> (public, IPv4 + IPv6)</li>
   <li><tt>_anoncvs@2.anoncvs4.mirbsd.org</tt> (public, IPv4 only)</li>
