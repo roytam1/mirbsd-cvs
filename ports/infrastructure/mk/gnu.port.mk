@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/gnu.port.mk,v 1.44 2008/05/07 22:48:01 tg Exp $
+# $MirOS: ports/infrastructure/mk/gnu.port.mk,v 1.45 2008/08/17 01:13:40 tg Exp $
 # $OpenBSD: gnu.port.mk,v 1.19 2004/06/06 11:49:08 espie Exp $
 
 AUTOCONF_NEW?=		No
@@ -153,7 +153,8 @@ _MODGNU_loop+=	echo "Running autoconf-${AUTOCONF_VERSION} in $$d"; \
 .endif
 .if ${CONFIGURE_STYLE:L:Mdetectheader}
 _MODGNU_loop+=	F=configure.ac; test -e $$F || F=configure.in; if \
-		    ! test -e $$F || fgrep -q AC_CONFIG_HEADERS $$F; then \
+		    ! test -e $$F || fgrep -qe AC_CONFIG_HEADERS -e \
+		    AM_CONFIG_HEADER $$F; then \
 		echo "Running autoheader-${AUTOCONF_VERSION} in $$d"; \
 		${_SYSTRACE_CMD} ${SETENV} ${AUTOCONF_ENV} ${AUTOHEADER}; \
 		fi;
