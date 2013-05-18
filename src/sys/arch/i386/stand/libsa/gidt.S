@@ -1,4 +1,4 @@
-/*	$MirOS: src/sys/arch/i386/stand/libsa/gidt.S,v 1.20 2009/01/11 20:16:32 tg Exp $ */
+/*	$MirOS: src/sys/arch/i386/stand/libsa/gidt.S,v 1.21 2009/01/11 20:35:21 tg Exp $ */
 /*	$OpenBSD: gidt.S,v 1.32 2006/12/26 19:30:44 tom Exp $	*/
 
 /*
@@ -454,13 +454,13 @@ Lp2r32:	.code16
 	mov	cr0,eax
 	/* switch to 16 bit data size */
 	data32 ljmp SA_LINKSEG,offset Lp2r16 - SA_LINKADDR
-Lp2r16:	mov	eax,esp
-	rol	eax,16
-	shl	ax,12
+Lp2r16:	/* convert ESP to SS:SP */
+	mov	eax,esp
+	shr	eax,4
+	and	ax,0xF000
 	mov	ss,ax
-	xor	ax,ax
-	rol	eax,16
-	mov	esp,eax
+	and	esp,0x0000FFFF
+	/* load real mode segments */
 	mov	ax,cs
 	mov	ds,ax
 	mov	es,ax
@@ -478,14 +478,16 @@ Lp2r16:	mov	eax,esp
 	.code16
 	.globl	real_to_prot
 real_to_prot:
-	xor	eax,eax
-	mov	ax,ss
-	shl	eax,4
-	add	ax,sp
-	mov	esp,eax
+	/* load GDT via data segment */
 	mov	ax,SA_LINKSEG
 	mov	ds,ax
 	data32 addr32 lgdt (Gdtr - SA_LINKADDR)
+	/* convert SS:SP to ESP */
+	xor	eax,eax
+	mov	ax,ss
+	shl	eax,4
+	and	esp,0x0000FFFF
+	add	esp,eax
 	/* enter protected mode */
 	mov	eax,cr0
 	or	eax,CR0_PE
