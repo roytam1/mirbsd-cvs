@@ -1,7 +1,7 @@
 /* $MirOS: src/share/misc/licence.template,v 1.28 2008/11/14 15:33:44 tg Rel $ */
 
 /*-
- * Copyright (c) 2004, 2005, 2007, 2008, 2009
+ * Copyright (c) 2009
  *	Thorsten Glaser <tg@mirbsd.org>
  *
  * Provided that these terms and disclaimer and all copyright notices
@@ -20,68 +20,53 @@
  * of said person's immediate fault when using the work as intended.
  *-
  * Compile commands:
- *	$ gcc -D_ASM_SOURCE -DBOOTMANAGER -D__BOOT_VER=\"0AA5\" -c mbr.S
- *	$ ld -nostdlib -Ttext 0 -N -Bstatic --oformat binary mbr.o -o mbrmgr
- * __BOOT_VER must be a string of max. 4 bytes (there simply is no more space)
+ *	$ gcc -D_ASM_SOURCE -DBOOTMANAGER -D__BOOT_VER=\"0AA6\" -c mbr.S
+ *	$ ld -nostdlib -Ttext 0 -N -Bstatic -o mbrmgr.elf mbr.o
+ *	$ objcopy -O binary mbrmgr.elf mbrmgr.tmp
+ *	$ dd if=mbrmgr.tmp bs=1 skip=0x0600 of=mbrmgr
  */
 
-/* we somewhat assume ELF binutils with this, others might work... */
-#define _ASM_LABEL(x)	x
-#define FTYPE(x)	.type x,@function
-#define OTYPE(x)	.type x,@object
-
-#define LDENTRY(x)	OTYPE(_ASM_LABEL(x)); _ASM_LABEL(x):
-#define LTENTRY(x)	FTYPE(_ASM_LABEL(x)); _ASM_LABEL(x):
-#define GDENTRY(x)	.globl _ASM_LABEL(x); LDENTRY(x)
-#define GTENTRY(x)	.globl _ASM_LABEL(x); LTENTRY(x)
-
-/* ... as long as they do Intel syntax (since 1999 or earlier) */
 	.intel_syntax noprefix
 	.code16
 	.text
 
-GTENTRY(_start)
-	xor	eax,eax
+	. = 0x0600
+	.globl	_start
+_start:	xor	eax,eax
+	mov	ss,ax
+	mov	sp,offset Lstack
 	push	eax
 	popfd
-	/* set up stack from 07A0:FFFC (0x179FC) down */
-	add	ax,0x07A0
-	mov	ss,ax
-	mov	sp,0xFFFC
-	sti
-	push	ax		/* for retf */
-	push	offset Lmain
-	/* set up code and data at 07A0:0000 (0x07A00) = 0000:7A00 up */
 	mov	ds,ax
 	mov	es,ax
-	/* move ourselves just below 0x07C00 target load address */
-	mov	si,0x0200
-	xor	di,di
-	mov	cx,si
+	mov	si,offset Lbadr
+	mov	di,offset _start
+	mov	cx,0x0200	/* size of one sector */
+	push	si		/* load / return address */
+	push	ax
+	push	offset Lmain
 	rep	movsb
-	/* jump to 'cs:offset Lmain' */
 	lret
 
 	/* entry message */
-LDENTRY(Lmsg)
-	.ascii	"Mir-" __BOOT_VER
+Lemsg:	.ascii	"Mir-" __BOOT_VER
 #ifdef BOOTMANAGER
-	/* Lm<nn> are patch points */
+	/* Lem<nn> are patch points */
 	.ascii	": 0="
-LDENTRY(Lm00)
-	.ascii	"00 1="
-LDENTRY(Lm01)
-	.ascii	"00 2="
-LDENTRY(Lm02)
-	.ascii	"00 3="
-LDENTRY(Lm03)
-	.ascii	"00 4=MBR 5=fdd CR=std\r\n"
+Lem00:	.ascii	"00 1="
+Lem01:	.ascii	"00 2="
+Lem02:	.ascii	"00 3="
+Lem03:	.ascii	"00 4=hd0 5=fd0  Enter=default (timeout)\r\n"
 #endif
 	.asciz	">"
 
-	/* message that we cannot boot correctly */
-LDENTRY(Lmsgf)
-	.asciz	"bad magic\r\n"
+	/* failure message */
+Lfmsg:	.asciz	"bad magic\r\n"
+
+#if 1
+	/* okay boot message */
+Lbmsg:	.asciz	" OK\r"
+#endif
 
 	/* output NUL-terminated string from ds:si */
 Lotxt0:	mov	ah,0x0E
@@ -92,40 +77,53 @@ Lotxt:	lodsb
 	jnz	Lotxt0
 	ret
 
-Lmain:	mov	si,offset Lmsg
+Lmain:	sti
 #ifdef BOOTMANAGER
 	/* patch the partition type values into the message */
-	mov	di,offset Lm00
-	mov	al,ds:[0x01C2]
+	mov	di,offset Lem00
+	mov	al,ds:[Lptab + 0x04]
 	call	LpBY
-	mov	di,offset Lm01
-	mov	al,ds:[0x01D2]
+	mov	di,offset Lem01
+	mov	al,ds:[Lptab + 0x14]
 	call	LpBY
-	mov	di,offset Lm02
-	mov	al,ds:[0x01E2]
+	mov	di,offset Lem02
+	mov	al,ds:[Lptab + 0x24]
 	call	LpBY
-	mov	di,offset Lm03
-	mov	al,ds:[0x01F2]
+	mov	di,offset Lem03
+	mov	al,ds:[Lptab + 0x34]
 	call	LpBY
 #endif
+	mov	si,offset Lemsg
 	call	Lotxt
-#ifndef BOOTMANAGER
-	mov	bx,offset Lptab	/* we boot "this one" */
-#define Lkeyp	Labend
-#else
-	/* selection code */
+
+	/* fake invalid partition entry for MBR/FDD boot */
+	mov	di,offset Lptab + 0x40
+	xor	eax,eax
+	stosw
+	inc	ax
+	stosw
+	dec	ax
+	stosd
+	stosd
+
+	/* force bad magic if sector load fails */
+	mov	ds:[Lbmag],al
+
+#ifdef BOOTMANAGER
+#if 0 /* see above, eax is already zero here */
 	xor	ax,ax		/* read CMOS clock ticks since midnight */
+#endif
 	int	0x1A		/* 32-bit result in cx:dx */
 	mov	di,cx		/* save it in edi for later */
 	shl	edi,16
-	mov	di,dx		/* 32-bit result in edi */
-	.size	Ltimeout,4
-OTYPE(Ltimeout)
+	mov	di,dx
 	add	edi,183		/* 10 seconds, rounded up one tick */
-	Ltimeout = . - 4	/* offset of the "183" above */
-Lilp:	mov	ah,1		/* check if key was was pressed */
-	int	0x16
-	jnz	Lkeyp		/* yep */
+	Lptmo = . - 4		/* offset of the "183" above */
+
+	/* input loop with timeout */
+Lwkey:	mov	ah,1
+	int	0x16		/* check if a key was pressed */
+	jnz	Lgkey		/* yeap */
 	/* delay loop */
 	xor	ax,ax
 	int	0x1A
@@ -135,117 +133,114 @@ Lilp:	mov	ah,1		/* check if key was was pressed */
 	jz	Lsday		/* no */
 	add	ecx,1573040	/* should be 1572480, but according to RBIL… */
 Lsday:	cmp	ecx,edi		/* time is over? */
-	ja	Lscanp		/* yes, fake a return keypress */
-	jmp	Lilp		/* no, jump back to the input */
-	/* below: input loop without timeout */
-Lkeyp:	mov	ah,1		/* check if a key was pressed */
-	int	0x16		/* bizarre hack for Intel Macintosh ― if */
-	jz	Lkeyp		/* none was pressed, loop, else below fails */
-	xor	ah,ah		/* get pressed key */
-	int	0x16
-	mov	bx,offset Lptab	/* we boot "this one" */
-	sub	al,13		/* return */
-	jb	Lkeyp		/* illegal */
-	je	Lscanp
-	sub	al,0x30-13	/* '0' */
-	jb	Lkeyp		/* illegal */
-	xor	ebp,ebp		/* LBA offset '0' */
-	xor	dx,dx		/* CHS values 0/0/1 */
-	xor	cx,cx
-	inc	cx
-	cmp	al,5
-	ja	Lkeyp		/* illegal */
-	je	LbCHS		/* 5: floppy */
-	cmp	al,4
-	je	Lbjmp		/* 4: MBR */
-	shl	al,4
-	add	bl,al
-	jmp	LbLBA		/* 0..3: partition */
-Lscanp:	/* "return" */
-#endif
-	/* scan the partition table for an active partition */
-	mov	al,[apart]	/* first: hard-coded by fdisk(8) 'fdef' */
-	cmp	al,3		/* 0..3 are valid */
-	jbe	Lscan2		/* got one */
-Lscan1:	/* iterate over partition table entries */
-	cmp	byte ptr [bx],0x80
-	je	LbLBA		/* found an active partition */
-	add	bl,0x10
-	cmp	bl,0xFE
-	jb	Lscan1		/* repeat for 4 partitions */
-	jmp	Lkeyp		/* no active partition found */
-Lscan2:	shl	al,4		/* partition table number (0..3) -> offset */
-	add	bl,al
-	/* try to boot (LBA first, then CHS) */
-LbLBA:	mov	dx,[bx]		/* 0x01BE .. 0x01BF -> CHS values, part 1 */
-	mov	cx,[bx+2]	/* 0x01C0 .. 0x01C1 -> CHS values, part 2 */
-	mov	ebp,[bx+8]	/* 0x01C6 .. 0x01C9 -> LBA value "start" */
-Lbjmp:	/* got LBA values in ebp, CHS values in cx:dx */
-	push	bx		/* partition table entry, or junk */
-	mov	dl,0x80
-	xor	si,si
-	xor	di,di		/* LBA parm blk overwrites begin of code */
-	mov	ax,0x0010
-	stosw			/* word: pblk size 0x0010 bytes */
-	mov	al,1
-	stosw			/* word: # of sectors = 0x0001 */
-	mov	ax,0x7C00
-	stosw			/* word: dst offset */
-	xor	ax,ax
-	stosw			/* word: dst segment */
-	mov	eax,ebp
-	stosd
-	xor	ax,ax
-	stosw
-	stosw			/* qword: LBA offset of start sector */
-	/* do we really have LBA functions? */
-	pusha
-	mov	ah,0x41		/* LBA installation check */
-	mov	bx,0x55AA	/* magic */
-	int	0x13
-	jc	LbCHS		/* CF set -> nope, use CHS */
-	cmp	bx,0xAA55	/* magic */
-	jne	LbCHS		/* bad magic -> nope, use CHS */
-	and	cl,1		/* API subset support bitmap */
-	jz	LbCHS		/* extended disc access funcs unsupported */
-	popa
-	/* try to load it using LBA */
-	mov	ah,0x42		/* LBA extended read */
-	call	Ltry		/* try to boot that */
-	/* didn't work, try CHS next */
-LbCHS:	mov	ax,0x0201	/* load 0x01 sector */
-	mov	bx,0x0200	/* to ES:0200 = 0x07C00 */
-	call	Ltry
-Labend:	/* we can't boot, abort */
-	mov	si,offset Lmsgf
-	call	Lotxt
-Lablp:	jmp	Lablp
+	mov	al,13
+	ja	Lfkey		/* yep, fake a return keypress */
+	jmp	Lwkey
 
-Ltry:	mov	bp,4		/* number of tries */
-	mov	ds:[0x3FE],bp	/* place where later should be 0x55 0xAA magic */
-Ltry0:	pusha
+	/* input loop without timeout */
+Lgkey:	mov	ah,1
+	int	0x16		/* check if a key was pressed */
+	jz	Lgkey
+	mov	ah,0
+	int	0x16
+#endif /* BOOTMANAGER */
+Lfkey:	mov	bx,offset Lptab
+	mov	dl,0x80		/* drive to load from */
+#ifndef BOOTMANAGER
+	jmp	Lscan
+#else
+	sub	al,13
+	je	Lscan		/* CR / Return / Enter */
+	jb	Lgkey		/* invalid input */
+	sub	al,('0' - 13)
+	jb	Lgkey		/* invalid input */
+	cmp	al,5		/* floppy */
+	ja	Lgkey		/* invalid input */
+	jb	LdoHD		/* hard disc */
+	mov	dl,0		/* drive to load from */
+	dec	ax		/* 5 -> 4 */
+#endif
+LdoHD:	shl	al,4		/* 0..4 where 4 is virtual partition */
+	add	bl,al		/* we boot this one */
+	jmp	Lboot
+
+	/* scan the partition table for an active partition */
+Lscan:	mov	al,[dpart]	/* try hard-coded by fdisk(8) 'fdef' first */
+	cmp	al,3
+	jbe	LdoHD
+Lspar:	cmp	byte ptr [bx],0x80
+	je	Lboot		/* found an active partition */
+	add	bl,0x10
+	cmp	bl,0xFE		/* BX = 0x07FE = Lptab + 0x40 */
+	jb	Lspar
+	/* boot the virtual partition #4 (MBR) */
+
+Lboot:	/* try to boot, first LBA (we're on a HDD) then CHS */
+	mov	[bx],dl		/* drive (0x80 or 0x00) */
+	mov	si,offset Lpblk	/* LBA parameter block */
+	mov	di,si
+	mov	ax,0x0010
+	stosw			/* size of LBA parameter block */
+	mov	al,1
+	stosw			/* number of sectors to load */
+	pop	ax
+	push	ax
+	push	bx
+	stosw			/* load address offset */
+	xor	ax,ax
+	stosw			/* load address segment */
+	mov	eax,[bx+8]
+	stosd			/* LBA offset of start sector (low 32 bit) */
+	xor	ax,ax
+	stosw			/* high 32 bit */
+	stosw			/* high 32 bit */
+	mov	ah,0x42		/* LBA extended read */
+	call	Lload		/* try to boot that */
+	pop	si		/* edited partition table entry */
+	pop	bx		/* load offset (ES=CS=SS=DS=0000h) */
+	push	bx
+	push	si
+	mov	ax,0x0201	/* CHS read 0x01 sectors */
+	mov	cx,[si+2]	/* cylinder; sector number */
+	mov	dx,[si]		/* head; drive number */
+	call	Lload
+	mov	si,offset Lfmsg
+	call	Lotxt
+#if 0
+Lfail:	jmp	Lfail
+#else
+	xor	ax,ax
+	int	0x16
+	ljmp	0xF000,0xFFF0
+#endif
+
+Lload:	mov	bp,4		/* number of tries */
+Lldlp:	pusha
 	int	0x13
 	popa
-	jc	Ltry9		/* error? again. */
-	cmp	word ptr ds:[0x3FE],0xAA55
-	jne	Ltry9		/* bad magic? again. */
+	jc	Lldre		/* error, try again */
+	cmp	word ptr ds:[Lbmag],0xAA55
+	jne	Lldre		/* bad magic, try again */
+#if 0
 	mov	ax,0x0E0D	/* output a carriage return */
 	xor	bx,bx
-	pop	si		/* return address */
-	pop	si		/* partition table entry */
-	push	bx
-	push	word ptr 0x7C00	/* retf address */
-	push	dx		/* drive we loaded from */
 	int	0x10
-	pop	dx
+#else
+	mov	si,offset Lbmsg
+	call	Lotxt
+#endif
+	pop	si		/* Lload return address */
+	pop	si		/* partition table entry */
+	mov	dl,[si]
+	/* DS:SI point to partition table entry, DL is set */
 	cli			/* be nice :) */
-	lret			/* jump to 0000:7C00 */
-Ltry9:	pusha
+	ret			/* jump to 0000:7C00h */
+Lldre:	pusha
 	xor	ax,ax		/* reset drive */
 	int	0x13
 	popa
-	dec	bp
-	jnz	Ltry0		/* retry */
+	dec	bp		/* another try left? */
+	jnz	Lldlp
 	ret
 
 #ifdef BOOTMANAGER
@@ -263,30 +258,36 @@ LpBY2:	stosw
 	ret
 #endif
 
-	. = 0x01B7
-	.size	apart,1
-LDENTRY(apart)
-	.byte	0xFF		/* default partition [0..3] or none */
+	. = _start + 0x01B7
+	.globl	dpart
+	.size	dpart,1
+dpart:	.byte	0xFF		/* default partition [0..3] or none */
 
-	. = 0x01B8
-	/* Microsoft® NT volume ID, or so I think */
+	. = _start + 0x01B8
+Lntid:	.long	0		/* Microsoft® NT® volume identifier */
+Lpad1:	.byte	0, 0
 
-	. = 0x01BE
-LDENTRY(Lptab)
+	. = _start + 0x01BE
 	/* partition table */
-
-	. = 0x01F8
-	/* this is pre-installation only */
-	.size	L___hint,2
-LDENTRY(L___hint)
-#ifdef	BOOTMANAGER
-	.word	Ltimeout	/* timeout, measured in ticks, for fdisk */
+Lptab:	.long	0, 0, 0, 0	/* partition entry #0 */
+	.long	0, 0, 0, 0	/* partition entry #1 */
+	.long	0, 0, 0, 0	/* partition entry #2 */
+	/* partition entry #3 + pre-installation hint */
+	.word	0, 0, 0, 0, 0
+	. = _start + 0x01F8
+	.size	Lhint,2
+#ifdef BOOTMANAGER
+Lhint:	.word	(Lptmo - _start)
 #else
-	.word	0xFFFF
+Lhint:	.word	0xFFFF
 #endif
-LDENTRY(L___rest)
+Lpad2:	.word	0, 0
 
-	. = 0x01FE
-	.size	L___magic,2
-LDENTRY(L___magic)
-	.word	0xAA55
+	. = _start + 0x01FE
+Lpmag:	.word	0xAA55		/* BIOS boot magic */
+
+	Lstack = 0x4000
+	Lpblk = 0x5000
+
+	Lbadr = 0x7C00
+	Lbmag = Lbadr + 0x01FE
