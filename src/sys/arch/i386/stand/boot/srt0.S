@@ -1,4 +1,4 @@
-/* $MirOS: src/sys/arch/i386/stand/boot/srt0.S,v 1.52 2009/01/10 19:21:26 tg Exp $ */
+/* $MirOS: src/sys/arch/i386/stand/boot/srt0.S,v 1.53 2009/01/10 20:28:27 tg Exp $ */
 
 /*-
  * Copyright (c) 2003, 2004, 2005, 2006, 2007, 2008, 2009
@@ -91,19 +91,18 @@ Lmbhdr:	.long	0x1BADB002		/* magic */
 Linit:	xor	eax,eax
 	push	eax
 	popfd
-	pop	dx
-
+	pop	ax
 #ifndef SMALL_BOOT
 	mov	bp,sp		/* for later (!PXE pointer) */
 #endif
+	push	dx
 
 	/* find out current position in memory */
-	sub	dx,offset Lrval - offset _start
-	movzx	ecx,dx		/* CS:ECX = far ptr of _start noreloc */
-	mov	ax,cs
-	shl	eax,4
-	add	ax,dx
-	mov	edx,eax		/* EDX = linear address of _start noreloc */
+	sub	ax,offset Lrval - offset _start
+	movzx	ecx,ax		/* CS:ECX = far ptr of _start noreloc */
+	mov	dx,cs
+	shl	edx,4
+	add	dx,ax		/* EDX = linear address of _start noreloc */
 
 #ifndef SMALL_BOOT
 	/* store away the partition and two PXE structures */
@@ -113,8 +112,10 @@ Linit:	xor	eax,eax
 	mov	cs:[ecx + offset pxe_plus - offset _start],ebx
 	mov	ebx,ss:[bp+4]
 	mov	cs:[ecx + offset pxe_bang - offset _start],ebx
+	xor	ebx,ebx
+	pop	bx		/* initial DX */
 	cmp	byte ptr cs:[ecx + offset i386_biosflags - offset _start],0x6D
-	je	2f
+	je	1f
 	push	cs
 	pop	es
 	lea	di,[ecx + offset bios_bootpte - offset _start]
@@ -122,17 +123,18 @@ Linit:	xor	eax,eax
 	movsd
 	movsd
 	movsd
-	jmp	2f
-1:	cmp	edx,0x00007C00
+	jmp	3f
+1:	shl	bx,8
+	cmp	edx,0x00007C00
 	jne	2f
-	mov	ebx,0x00040000
-	mov	bl,cs:[ecx + offset Ldrvi - offset _start]
-	mov	cs:cs:[ecx + offset Ldrvi - offset _start],ebx
-2:
+	or	ebx,0x00040000		/* PXE */
+2:	mov	bl,cs:[ecx + offset Ldrvi - offset _start]
+	mov	cs:[ecx + offset Ldrvi - offset _start],ebx
+3:
 #endif
 
 	/* set up initial stack */
-	add	eax,offset cmd_buf + CMD_BUFF_SIZE - 4 - offset _start
+	lea	eax,[edx + offset cmd_buf + CMD_BUFF_SIZE - 4 - offset _start]
 	mov	ebx,eax
 	shr	ebx,4
 	and	bx,0xF000	/* BX:AX = far ptr initial stack */
