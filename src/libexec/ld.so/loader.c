@@ -1,5 +1,5 @@
-/**	$MirOS$ */
-/*	$OpenBSD: loader.c,v 1.103 2006/05/08 20:37:01 deraadt Exp $ */
+/**	$MirOS: src/libexec/ld.so/loader.c,v 1.7 2006/08/30 04:28:24 tg Exp $ */
+/*	$OpenBSD: loader.c,v 1.107 2006/11/15 19:14:21 deraadt Exp $ */
 
 /*
  * Copyright (c) 1998 Per Fogelstrom, Opsycon AB
@@ -45,7 +45,7 @@
 #include "stdlib.h"
 #include "dl_prebind.h"
 
-__RCSID("$MirOS: src/libexec/ld.so/loader.c,v 1.6 2006/06/30 18:11:00 tg Exp $");
+__RCSID("$MirOS: src/libexec/ld.so/loader.c,v 1.7 2006/08/30 04:28:24 tg Exp $");
 
 /*
  * Local decls.
@@ -340,6 +340,9 @@ _dl_load_dep_libs(elf_object_t *object, int flags, int booting)
 }
 
 
+#define PFLAGS(X) ((((X) & PF_R) ? PROT_READ : 0) | \
+		   (((X) & PF_W) ? PROT_WRITE : 0) | \
+		   (((X) & PF_X) ? PROT_EXEC : 0))
 
 /*
  * This is the dynamic loader entrypoint. When entering here, depending
@@ -354,6 +357,7 @@ _dl_boot(const char **argv, char **envp, const long loff, long *dl_data)
 	struct elf_object *dyn_obj;	/* Pointer to executable object */
 	struct r_debug **map_link;	/* Where to put pointer for gdb */
 	struct r_debug *debug_map;
+	struct load_list *next_load, *load_list = NULL;
 	Elf_Dyn *dynp;
 	Elf_Phdr *phdp;
 	char *us = "";
@@ -373,6 +377,7 @@ _dl_boot(const char **argv, char **envp, const long loff, long *dl_data)
 	 * now that GOT and PLT has been relocated, and we know
 	 * page size, protect it from modification
 	 */
+#ifndef  RTLD_NO_WXORX
 	{
 		extern char *__got_start;
 		extern char *__got_end;
@@ -394,6 +399,7 @@ _dl_boot(const char **argv, char **envp, const long loff, long *dl_data)
 		    PROT_READ|PROT_EXEC);
 #endif
 	}
+#endif
 
 	DL_DEB(("rtld loading: '%s'\n", _dl_progname));
 
@@ -414,13 +420,27 @@ _dl_boot(const char **argv, char **envp, const long loff, long *dl_data)
 			_dl_add_object(exe_obj);
 		} else if (phdp->p_type == PT_INTERP) {
 			us = _dl_strdup((char *)phdp->p_vaddr);
-		} else if ((phdp->p_type == PT_LOAD) &&
-		    (phdp->p_flags & 0x08000000)) {
-//			dump_prelink(phdp->p_vaddr, phdp->p_memsz);
-			prebind_load_exe(phdp, exe_obj);
+		} else if (phdp->p_type == PT_LOAD) {
+			int align = _dl_pagesz - 1;
+			int size = (phdp->p_vaddr & align) + phdp->p_filesz;
+
+#define TRUNC_PG(x) ((x) & ~(align))
+
+			next_load = _dl_malloc(sizeof(struct load_list));
+			next_load->next = load_list;
+			load_list = next_load;
+			next_load->start = (char *)TRUNC_PG(phdp->p_vaddr);
+			next_load->size = size;
+			next_load->prot = PFLAGS(phdp->p_flags);
+
+			if (phdp->p_flags & 0x08000000) {
+//				dump_prelink(phdp->p_vaddr, phdp->p_memsz);
+				prebind_load_exe(phdp, exe_obj);
+			}
 		}
 		phdp++;
 	}
+	exe_obj->load_list = load_list;
 	exe_obj->obj_flags |= RTLD_GLOBAL;
 
 	n = _dl_malloc(sizeof *n);
@@ -603,7 +623,7 @@ _dl_boot_bind(const long sp, long *dl_data, Elf_Dyn *dynamicp)
 #if defined(__alpha__)
 	dynp = (Elf_Dyn *)((long)_DYNAMIC);
 #elif defined(__sparc__) || defined(__sparc64__) || defined(__powerpc__) || \
-    defined(__hppa__)
+    defined(__hppa__) || defined(__sh__)
 	dynp = dynamicp;
 #else
 	dynp = (Elf_Dyn *)((long)_DYNAMIC + loff);
@@ -850,8 +870,8 @@ _dl_unsetenv(const char *var, char **env)
 			for (P = env;; ++P)
 				if (!(*P = *(P + 1)))
 					break;
-		}
-		env++;
+		} else
+			env++;
 	}
 }
 

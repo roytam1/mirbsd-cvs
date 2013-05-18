@@ -1,4 +1,4 @@
-/* $OpenBSD: prebind.c,v 1.7 2006/06/26 23:26:12 drahn Exp $ */
+/* $OpenBSD: prebind.c,v 1.8 2006/11/13 13:13:14 drahn Exp $ */
 /*
  * Copyright (c) 2006 Dale Rahn <drahn@dalerahn.com>
  *
@@ -58,6 +58,9 @@ char *shstrtab;
 #endif
 #ifdef __i386__
 #define RELOC_JMP_SLOT	RELOC_JUMP_SLOT
+#endif
+#ifdef __sh__
+#define RELOC_JMP_SLOT	R_SH_JMP_SLOT
 #endif
 #ifdef __mips64__
 #define RELOC_JMP_SLOT	0		/* XXX mips64 doesnt have PLT reloc */
@@ -406,7 +409,7 @@ load_file(const char *filename, int objtype)
 			}
 		}
 		if (note_found == 0)
-			goto done; /* no OpenBSD note found */
+			goto done; /* no MirOS note found */
 	}
 
 	if ((objtype == OBJTYPE_LIB || objtype == OBJTYPE_DLO) &&
@@ -459,7 +462,7 @@ done:
 
 /*
  * check if the given executable header on a ELF executable
- * has the proper OpenBSD note on the file if it is not present
+ * has the proper MirOS note on the file if it is not present
  * binaries will be skipped.
  */
 int
@@ -475,10 +478,10 @@ elf_check_note(void *buf, Elf_Phdr *phdr)
 	pint = (u_int *)((char *)buf + address);
 	osname = (char *)buf + address + sizeof(*pint) * 3;
 
-	if (pint[0] == 8 /* OpenBSD\0 */ &&
-	    pint[1] == 4 /* ??? */ &&
+	if (pint[0] == 0x0A /* MirOS·BSD\0 */ &&
+	    pint[1] == 4 /* desc */ &&
 	    pint[2] == 1 /* type_osversion */ &&
-	    strcmp("OpenBSD", osname) == 0)
+	    strcmp("MirOS BSD", osname) == 0)
 		return 1;
 
 	return 0;

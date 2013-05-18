@@ -1,5 +1,5 @@
-/**	$MirOS$ */
-/*	$OpenBSD: rtld_machine.c,v 1.26 2005/09/22 01:33:08 drahn Exp $ */
+/**	$MirOS: src/libexec/ld.so/sparc/rtld_machine.c,v 1.3 2006/06/30 18:11:02 tg Exp $ */
+/*	$OpenBSD: rtld_machine.c,v 1.27 2006/10/28 16:06:05 drahn Exp $ */
 
 /*
  * Copyright (c) 2006 Thorsten Glaser
@@ -44,7 +44,7 @@
 #include "archdep.h"
 #include "resolve.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/libexec/ld.so/sparc/rtld_machine.c,v 1.3 2006/06/30 18:11:02 tg Exp $");
 
 /*
  * The following table holds for each relocation type:
@@ -196,7 +196,7 @@ _dl_md_reloc(elf_object_t *object, int rel, int relasz)
 	/*
 	 * unprotect some segments if we need it.
 	 */
-	if ((rel == DT_REL || rel == DT_RELA)) {
+	if ((object->dyn.textrel == 1) && (rel == DT_REL || rel == DT_RELA)) {
 		for (llist = object->load_list; llist != NULL; llist = llist->next) {
 			if (!(llist->prot & PROT_WRITE))
 				_dl_mprotect(llist->start, llist->size,
@@ -298,7 +298,7 @@ resolve_failed:
 	}
 
 	/* reprotect the unprotected segments */
-	if ((rel == DT_REL || rel == DT_RELA)) {
+	if ((object->dyn.textrel == 1) && (rel == DT_REL || rel == DT_RELA)) {
 		for (llist = object->load_list; llist != NULL; llist = llist->next) {
 			if (!(llist->prot & PROT_WRITE))
 				_dl_mprotect(llist->start, llist->size,
