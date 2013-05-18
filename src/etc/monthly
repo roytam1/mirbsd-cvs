@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/etc/monthly,v 1.12 2007/06/22 20:11:36 tg Exp $
+# $MirOS: src/etc/monthly,v 1.13 2007/07/11 09:07:31 tg Exp $
 # $OpenBSD: monthly,v 1.5 1998/02/02 23:08:57 millert Exp $
 
 umask 022
@@ -9,11 +9,11 @@ cd /
 print RUNTIME=$(date +%J)
 
 if [ -f /etc/monthly.local ];then
-	echo ""
-	echo "Running monthly.local:"
+	print
+	print "Running monthly.local:"
 	. /etc/monthly.local
 else
-	echo "Nothing to do!"
+	print "Nothing to do!"
 fi
 
 if [[ -e /var/log/wtmp ]]; then
