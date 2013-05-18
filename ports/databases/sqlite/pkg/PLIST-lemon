@@ -1,0 +1,5 @@
+@comment $MirOS$
+bin/lemon
+man/cat1/lemon.0
+share/lemon/lempar.c
+@dirrm share/lemon

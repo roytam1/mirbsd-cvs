@@ -1,10 +1,12 @@
-# $MirOS: ports/databases/sqlite/Makefile,v 1.9 2007/05/06 20:22:30 tg Exp $
+# $MirOS: ports/databases/sqlite/Makefile,v 1.10 2007/05/06 20:44:25 tg Exp $
 
 COMMENT=		Embedded SQL implementation
+COMMENT-lemon=		Lightweight parser
 _V=			3.3.17
-DASH_VER=		1
+DASH_VER=		2
 DISTNAME=		sqlite-${_V}
 PKGNAME=		sqlite3-${_V}-${DASH_VER}
+PKGNAME-lemon=		lemon-${_V}-${DASH_VER}
 CATEGORIES=		databases
 HOMEPAGE=		http://www.sqlite.org/
 MASTER_SITES=		${HOMEPAGE}
@@ -14,6 +16,9 @@ PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 PERMIT_PACKAGE_CDROM=	Yes
 PERMIT_PACKAGE_FTP=	Yes
+
+MULTI_PACKAGES+=	-lemon
+SUBPACKAGE?=
 
 CONFIGURE_STYLE=	autoconf no-autoheader
 AUTOCONF_NEW=		Yes
@@ -25,8 +30,19 @@ NO_REGRESS=		Yes
 
 post-extract:
 	cp ${FILESDIR}/regexp.* ${WRKSRC}/src/
+	cp ${FILESDIR}/{Makefile.lemon,lemon.1} ${WRKSRC}/tool/
+
+post-build:
+	cd ${WRKBUILD}/tool && \
+	    ${MAKE} -f Makefile.lemon obj && \
+	    ${MAKE} -f Makefile.lemon BSD_PREFIX=${TRUEPREFIX:Q} depend && \
+	    ${MAKE} -f Makefile.lemon BSD_PREFIX=${TRUEPREFIX:Q}
 
 post-install:
 	${INSTALL_MAN} ${WRKSRC}/sqlite3.1 ${PREFIX}/man/man1/
+	cd ${WRKBUILD}/tool && \
+	    ${MAKE} -f Makefile.lemon BSD_PREFIX=${TRUEPREFIX:Q} install
+	${INSTALL_DATA_DIR} ${PREFIX}/share/lemon
+	${INSTALL_DATA} ${WRKSRC}/tool/lempar.c ${PREFIX}/share/lemon/
 
 .include <bsd.port.mk>
