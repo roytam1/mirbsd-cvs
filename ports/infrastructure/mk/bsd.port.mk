@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.172 2007/05/07 22:34:11 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.173 2007/05/07 22:34:56 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -2556,7 +2556,9 @@ _EXTRA_DESCRIBE+=	"(broken)"
 .if ${USE_CXX:L} == "yes"
 _EXTRA_DESCRIBE+=	"(uses C++)"
 .endif
-.if ${USE_X11:L} == "yes"
+.if ${USE_MOTIF:L} != "no"
+_EXTRA_DESCRIBE+=	"(uses Motif)"
+.elif ${USE_X11:L} == "yes"
 _EXTRA_DESCRIBE+=	"(uses X11)"
 .endif
 .if (${USE_GMAKE:L} == "yes") || (${USE_SCHILY:L} == "yes")
@@ -2564,9 +2566,6 @@ _EXTRA_DESCRIBE+=	"(uses GNU Make)"
 .endif
 .if ${USE_SCHILY:L} == "yes"
 _EXTRA_DESCRIBE+=	"(uses Schily)"
-.endif
-.if ${USE_MOTIF:L} == "yes"
-_EXTRA_DESCRIBE+=	"(uses Motif)"
 .endif
 .if ${_USE_ZIP:L} == "yes"
 _EXTRA_DESCRIBE+=	"(uses PKZip)"
