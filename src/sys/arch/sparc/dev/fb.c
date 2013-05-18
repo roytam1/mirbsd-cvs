@@ -90,15 +90,6 @@
 #include "wsdisplay.h"
 
 /*
- * Sun specific color indexes.
- * Black is not really 7, but rather ~0; to fit within the 8 ANSI color
- * palette we are using on console, we pick (~0) & 0x07 instead.
- * This essentially swaps WSCOL_BLACK and WSCOL_WHITE.
- */
-#define	WSCOL_SUN_WHITE		0
-#define	WSCOL_SUN_BLACK		7
-
-/*
  * emergency unblank code
  * XXX should be somewhat moved to wscons MI code
  */
@@ -334,22 +325,6 @@ fbwscons_init(struct sunfb *sf, int flags)
 #endif
 
 	rasops_init(ri, rows, cols);
-
-	if (sf->sf_depth == 8) {
-		/*
-		 * If we are running with an indexed palette, compensate
-		 * the swap of black and white through ri_devcmap.
-		 */
-		ri->ri_devcmap[WSCOL_SUN_BLACK] = 0;
-		ri->ri_devcmap[WSCOL_SUN_WHITE] = 0xffffffff;
-	} else if (sf->sf_depth > 8) {
-		/*
-		 * If we are running on a direct color frame buffer,
-		 * make the ``normal'' white the same as the hilighted
-		 * white.
-		 */
-		ri->ri_devcmap[WSCOL_WHITE] = ri->ri_devcmap[WSCOL_WHITE + 8];
-	}
 }
 
 void
@@ -399,7 +374,7 @@ fbwscons_console_init(struct sunfb *sf, int row)
 
 	if (ISSET(ri->ri_caps, WSSCREEN_WSCOLORS))
 		ri->ri_ops.alloc_attr(ri,
-		    WSCOL_BLACK, WSCOL_WHITE, WSATTR_WSCOLORS, &defattr);
+		    WSCOL_WHITE, WSCOL_BLACK, WSATTR_WSCOLORS, &defattr);
 	else
 		ri->ri_ops.alloc_attr(ri, 0, 0, 0, &defattr);
 
@@ -424,16 +399,6 @@ fbwscons_setcolormap(struct sunfb *sf,
 			color = &rasops_cmap[i * 3];
 			setcolor(sf, i, color[0], color[1], color[2]);
 		}
-		/*
-		 * Compensate for BoW default hardware palette: existing
-		 * output (which we do not want to affect) is black on
-		 * white with color index 0 being white and 0xff being
-		 * black.
-		 */
-		setcolor(sf, WSCOL_SUN_WHITE, 0xff, 0xff, 0xff);
-		setcolor(sf, 0xff ^ WSCOL_SUN_WHITE, 0, 0, 0);
-		setcolor(sf, WSCOL_SUN_BLACK, 0, 0, 0);
-		setcolor(sf, 0xff ^ (WSCOL_SUN_BLACK), 0xff, 0xff, 0xff);
 	}
 }
 
@@ -488,7 +453,7 @@ fb_alloc_screen(void *v, const struct wsscreen_descr *type,
 	*curxp = 0;
 	if (ISSET(ri->ri_caps, WSSCREEN_WSCOLORS))
 		ri->ri_ops.alloc_attr(ri,
-		    WSCOL_BLACK, WSCOL_WHITE, WSATTR_WSCOLORS, attrp);
+		    WSCOL_WHITE, WSCOL_BLACK, WSATTR_WSCOLORS, attrp);
 	else
 		ri->ri_ops.alloc_attr(ri, 0, 0, 0, attrp);
 	sf->sf_nscreens++;

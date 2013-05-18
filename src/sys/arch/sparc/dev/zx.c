@@ -622,7 +622,7 @@ void
 zx_do_cursor(struct rasops_info *ri)
 {
 
-	zx_fillrect(ri, ri->ri_ccol, ri->ri_crow, 1, 1, WSCOL_BLACK << 16,
+	zx_fillrect(ri, ri->ri_ccol, ri->ri_crow, 1, 1, WSCOL_WHITE << 16,
 	    ZX_ROP_NEW_XOR_OLD | ZX_ATTR_WE_ENABLE | ZX_ATTR_OE_ENABLE |
 	    ZX_ATTR_FORCE_WID);
 }
