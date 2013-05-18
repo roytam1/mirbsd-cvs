@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.192 2009/05/16 17:48:27 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.193 2009/05/16 23:42:35 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -3957,11 +3957,67 @@ Language: es
 
 <p><a href="http://mononeurona.org/entries/view/asarch/1805">asarch</a>
  ha escrito un artículo acerca de cómo se usa la función isatty(3) de
- <a href="@@RELPATH@@mksh.htm">mksh</a> para verificar si un script tiene
+ para verificar si un script tiene
  datos en stdin, quizas en <tt>"$@"</tt>, o para imprimir su uso.</p>
 <p>Para el soporte oficial del mksh eres bienvenido en su canal (en inglés,
  ya que no todos hablan el castellano) en <tt>#!/bin/mksh</tt> (sí, sí es
  un nombre válido XD) del <a href="@@RELPATH@@irc.htm">Freenode PDPC</a>
  (<tt>irc.freenode.net:6667</tt>).</p>
 <p>Update: asarch ha corregido mi español... ¡gracias!</p>
+----
+Date: 26.05.2009 20:55
+Author: tg@
+Title: grml to use MirOS manifold-boot CD technology
+
+<p><a href="http://grml.org/">grml GNU/Linux</a>, our recently-partner
+ project from Austria (not Australia), will gain ISO images bootable by
+ dd(1)ing to a USB stick (or CF/SD card, hard disc, ...) via the MirOS
+ manifold-boot technology, in use since 10/2007 and developed for the
+ self-installing boot blocks. With only a couple of ifdefs, the MirOS
+ BSD/i386 <tt>bootxx.sh</tt> was made into a <tt>bootgrub.sh</tt> which
+ runs fine on GNU/Linux (with <a href="@@RELPATH@@mksh.htm">mksh</a>,
+ of course!) and produces a first stage boot sector capable of loading
+ a GNU GRUB2 <tt>core.img</tt> image the same as boot(8/i386) has been
+ able to for a while. (GNU GRUB-legacy <tt>stage2</tt> images cannot be
+ loaded that way because <tt>bootxx</tt> is limited to 65280 bytes of
+ second stage loader &ndash; mostly because the bootloader itself is,
+ too, and this enabled me to squeeze out a few more bytes there.)</p>
+<p style="margin-bottom:0px;">To say it with Mika Prokop himself:</p>
+<div style="border:4px ridge blue; margin:0px 24px 0px 24px; padding:12px;">
+ <pre>
+23:22⎜«mikap:#grml» mirabilos: und dein bootloader ist geil :)
+23:29⎜«mikap:#grml» und ich finds saugeil dass ich ein bsd zum booten mit
+     ⎜  grml hab, das muss ich dann gleich mal auf usb-stick installieren
+
+&lt;mika:#grml&gt; mirabilos: because: per default i still want to use isolinux
+   (unless grub2 is working better, and: i'm missing the f2, f3,... splashes
+   from isolunux)
+&lt;mirabilos:#grml&gt; yep, nimm isolinux
+&lt;mirabilos:#grml&gt; mkisofs -b hat damit gar nix zu tun
+&lt;mirabilos:#grml&gt; das ISO bootet grub, wenns von USB gebootet wird, isolinux,
+   wenns von CD gebootet wird
+&lt;mika:#grml&gt; mirabilos: and the *same* ISO boots isolinux by default then but
+   can be 'dd if=grml.iso of=/dev/sdb'-ed?!
+&lt;mirabilos:#grml&gt; yep
+&lt;mirabilos:#grml&gt; MirBSD doing that for a couple of years
+&lt;mika:#grml&gt; mirabilos: awesome, i still don't get it but this sounds awfull
+   rocking
+&lt;mirabilos:#grml&gt; mika: ours can even be booted on i386 via both methods *and*
+   on a sparc
+&lt;mika:#grml&gt; mirabilos: WTF?
+&lt;mirabilos:#grml&gt; yep
+&lt;mirabilos:#grml&gt; before MirGRML was added, our live CDs were already DuaLive?
+&lt;mika:#grml&gt; awesome
+&lt;mirabilos:#grml&gt; i386 boot (from cd, hdd, usb, compactflash, sd) into either
+   live or install mode + sparc boot (voa OpenBOOT) into install mode
+&lt;mika:#grml&gt; mirabilos: pfuh *verbeuge_again* :)
+ </pre>
+</div><p style="margin-top:0px;" xml:lang="de">Ich glaube, Mika mag meinen
+ Bootloader ;)</p>
+<p>For simplicity, getextent_cd9660(1) will also be added to the grml-live
+ ISO build process, as its output is easier to parse than J&#xFFFD;rg's
+ isoinfo. (I definitively should add subdir support there, just haven't
+ gotten around to do it yet...) It uses a UCB and a TNF header file and
+ otherwise available under the <a href="@@ABSPATH@@/MirOS-Licence">MirOS
+ Licence</a> (of course), as are the bootblocks.</p>
 ----
