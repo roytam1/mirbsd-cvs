@@ -1,5 +1,5 @@
 <!-- PageID: fornow -->
-<small class="rcsid">$MirOS: www/content/Zm9ybm93.inc,v 1.8 2006/10/29 22:22:43 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/Zm9ybm93.inc,v 1.9 2007/04/30 20:42:25 tg Exp $</small>
 <h1>MirOS Website (for now)</h1>
 
 <h2>Yeah, we lost</h2>
@@ -47,7 +47,17 @@
 <li><a href="/MirOS/BT/">mirrored torrents</a> (see above)</li>
 <li><a href="/MirOS/CVS/">CVS Repo</a> 2006-10-04</li>
 <li><a href="/MirOS/CVS/">CVS root</a> historic</li>
-<li>AnonCVS and AnonRSYNC: <tt>anoncvs@anoncvs.mirbsd.org:/cvs</tt></li>
+<li>AnonCVS and AnonRSYNC: <tt>env CVS_RSH=ssh</tt> <ul>
+ <li><tt>:ext:anoncvs@anoncvs.mirbsd.org:/cvs</tt></li>
+ <li><tt>:ext:anoncvs@anoncvs4.mirbsd.org:/cvs</tt></li>
+ <li><tt>:ext:anoncvs@anoncvs6.mirbsd.org:/cvs</tt></li>
+ <li><tt>:ext:anoncvs@1.anoncvs.mirbsd.org:/cvs</tt></li>
+ <li><tt>:ext:anoncvs@1.anoncvs4.mirbsd.org:/cvs</tt></li>
+ <li><tt>:ext:anoncvs@1.anoncvs6.mirbsd.org:/cvs</tt></li>
+ <li><tt>:ext:anoncvs@2.anoncvs.mirbsd.org:/cvs</tt></li>
+ <li><tt>:ext:anoncvs@2.anoncvs4.mirbsd.org:/cvs</tt></li>
+ <li><tt>:ext:anoncvs@2.anoncvs6.mirbsd.org:/cvs</tt></li>
+</ul></li>
 <li id="pkey">The following SSH key can be used to get access to
  the AnonCVS/AnonRSYNC mirror <tt>anoncvs.mirbsd.org</tt> instead
  of typing the password &quot;anoncvs&quot;:<pre>
