@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/sys/arch/i386/stand/bootxx/mkbxinst.sh,v 1.5 2008/03/03 13:56:41 tg Exp $
+# $MirOS: src/sys/arch/i386/stand/bootxx/mkbxinst.sh,v 1.6 2008/08/05 17:57:08 tg Exp $
 #-
 # Copyright (c) 2007, 2008
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -27,7 +27,7 @@
 # Arguments: $1 = ELF bootxx, linked
 # Output: shell script to stdout
 
-rcsid='$MirOS: src/sys/arch/i386/stand/bootxx/mkbxinst.sh,v 1.5 2008/03/03 13:56:41 tg Exp $'
+rcsid='$MirOS: src/sys/arch/i386/stand/bootxx/mkbxinst.sh,v 1.6 2008/08/05 17:57:08 tg Exp $'
 
 function die {
 	rv=$1; shift
@@ -60,18 +60,18 @@ cat <<'EOF'
 #
 # Provided that these terms and disclaimer and all copyright notices
 # are retained or reproduced in an accompanying document, permission
-# is granted to deal in this work without restriction, including un-
+# is granted to deal in this work without restriction, including un‐
 # limited rights to use, publicly perform, distribute, sell, modify,
 # merge, give away, or sublicence.
 #
-# This work is provided "AS IS" and WITHOUT WARRANTY of any kind, to
+# This work is provided “AS IS” and WITHOUT WARRANTY of any kind, to
 # the utmost extent permitted by applicable law, neither express nor
 # implied; without malicious intent or gross negligence. In no event
 # may a licensor, author or contributor be held liable for indirect,
 # direct, other damage, loss, or other issues arising in any way out
 # of dealing in the work, even if advised of the possibility of such
 # damage or existence of a defect, except proven that it results out
-# of said person's immediate fault when using the work as intended.
+# of said person’s immediate fault when using the work as intended.
 #-
 # Self-installing i386 boot blocks for MirOS BSD
 # Reads a list of extents (firstblock lastblock) from standard input
@@ -107,11 +107,10 @@ function do_record {
 		    blk < 0x00010000 ? 1 :
 		    blk < 0x01000000 ? 2 : 3 ))
 		(( x = cnt < 33 ? cnt : 32 ))
-		(( thecode[curptr++] = (n << 5) | (x - 1) ))
+		(( thecode[curptr++] = (n++ << 5) | (x - 1) ))
 		(( y = blk ))
 		(( blk += x ))
 		(( cnt -= x ))
-		(( n++ ))
 		while (( n-- )); do
 			(( thecode[curptr++] = y & 0xFF ))
 			(( y >>= 8 ))
@@ -139,7 +138,8 @@ function record_block {
 
 			(( wnum )) && do_record $wofs $wnum
 		fi
-		let wofs=0 wnum=0
+		wofs=0
+		wnum=0
 	fi
 	if (( blk )); then
 		# record some new block into the cache
@@ -180,12 +180,10 @@ while getopts ":0:1B:h:p:S:s:" ch; do
 			print -u2 warning: invalid sector count "'$OPTARG'"
 			numsecs=0
 		fi ;;
-	(*)	cat >&2 <<'EOD'
-Syntax:
+	(*)	print -u2 'Syntax:
 	bxinst [-1] [-h heads] [-p partitiontype] [-S scale]
 	    [-s sectors] <sectorlist | dd of=image conv=notrunc
-Default values: heads=16 sectors=63 partitiontype=0x27 scale=0
-EOD
+Default values: heads=16 sectors=63 partitiontype=0x27 scale=0'
 		exit 1 ;;
 	}
 done
@@ -211,26 +209,22 @@ record_block 0	# just flush
 print -u2 "using $wrec blocks, $((curptr-begptr)) bytes ($((510-curptr)) free)"
 
 # fill the block table
-if (( curptr > 510 )); then
+if (( curptr-- > 510 )); then
 	print -u2 error: too many blocks
 	exit 1
 fi
-while (( curptr < 510 )); do
-	if (( (curptr & 0xFCF) == 0x1C2 )); then
-		(( thecode[curptr++] = 0 ))
-	else
-		(( thecode[curptr++] = RANDOM & 0xFF ))
-	fi
+while (( ++curptr < 510 )); do
+	(( thecode[curptr] = (curptr & 0xFCF) == 0x1C2 ? 0 : RANDOM & 0xFF ))
 done
-(( thecode[curptr++] = 0x55 ))
-(( thecode[curptr++] = 0xAA ))
+thecode[510]=0x55
+thecode[511]=0xAA
 
 # fill in other data
 (( thecode[ofs_blkcnt] = wrec ))
 (( thecode[ofs_numheads] = numheads & 0xFF ))
 (( thecode[ofs_numheads + 1] = numheads >> 8 ))
 (( thecode[ofs_numsecs] = numsecs ))
-(( flag_one )) && (( thecode[ofs_numsecs + 1] = 0x80 ))
+(( flag_one )) && thecode[ofs_numsecs + 1]=0x80
 (( thecode[ofs_partp] = partp ))
 if (( bsz != 5 )); then
 	print -u2 "using sectors of 2^$((bsz + 4)) bytes"
@@ -241,10 +235,9 @@ fi
 # create the output string
 ostr=
 curptr=0
-typeset -Uui8 vo
+typeset -Uui8 thecode
 while (( curptr < 512 )); do
-	(( vo = thecode[curptr++] ))
-	ostr="$ostr\\0${vo#8#}"
+	ostr=$ostr\\0${thecode[curptr++]#8#}
 done
 
 # over and out
