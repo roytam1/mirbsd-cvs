@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.179 2007/05/26 02:41:27 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.180 2007/05/27 14:12:00 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -1768,6 +1768,7 @@ checksum: fetch
 		  esac; \
 		done; \
 		if ! $$OK; then \
+		  rm -f ${WRKDIR}/.sums; \
 		  if ${REFETCH}; then \
 		  	cd ${.CURDIR} && ${MAKE} _refetch _PROBLEMS="$$list"; \
 		  else \
