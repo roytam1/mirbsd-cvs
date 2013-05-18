@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/news.inc,v 1.112 2009/04/23 18:11:36 tg Exp $
+RCSID: $MirOS: www/data/news.inc,v 1.113 2009/05/16 17:48:27 tg Exp $
 Title: Older news from the MirOS Project
 Date: 01.03.2006
 
@@ -1273,7 +1273,7 @@ Tag: security
 Date: 08.01.2009 21:25
 Author: tg@
 Title: New allegiances for mksh &#38; Co.
-Tag: mksh snapshot
+Tag: grml mksh snapshot
 
 <p><a href="@@RELPATH@@mksh.htm">mksh</a> formed new allegiances: the
  <a href="http://beastiebox.sourceforge.net/">Beastiebox Project</a>

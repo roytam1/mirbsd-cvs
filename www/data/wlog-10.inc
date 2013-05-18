@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.193 2009/05/16 23:42:35 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.194 2009/05/26 20:57:29 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -1454,7 +1454,7 @@ Tag: event
 Date: 25.08.2008 13:02
 Author: tg@
 Title: FrOSCon redux
-Tag: event geocache
+Tag: event geocache grml
 
 <p>Hum. This year’s FrOSCon… sucks. At least the catering, which was
  so much better last year (remembering the Chili con Carne, as well
@@ -2529,7 +2529,7 @@ tg@bleu:~ $ print $_
 Date: 01.01.2009 17:26
 Author: tg@
 Title: USB stick boot (mission impossible Ⅱ)
-Tag: hardware bug
+Tag: bug grml hardware
 
 <p>After my earlier escapades, which you might have <a
  href="@@RELPATH@@permalinks/wlog-10_e20081231-tg-g10011.htm">read</a>
@@ -2679,7 +2679,7 @@ Title: bootloader… good so far
 Date: 14.01.2009 07:30
 Author: tg@
 Title: NetBSD® _also_ switches to 64 bit time_t; sendmail and SSL/TLS certificates; danGerOOus uGLy web2.0 Email; random musings [updated]
-Tag: snippet
+Tag: grml snippet
 
 <p>We got reminded that NetBSD® switched to a 64 bit <tt>time_t</tt> by <a
  href="http://www.feyrer.de/NetBSD/bx/blosxom.cgi/nb_20090114_0121.html">Hubert
@@ -2774,6 +2774,7 @@ Title: positive feedback
 ----
 Date: 15.01.2009 21:22
 Author: tg@
+Tag: grml
 
 <p>Whew. A long day at work. FreeWRT, OpenNTPD… and that other NTP dæmon.
  For sarge (first got to create a working <tt>sources.list</tt>…) and UCS
@@ -2817,6 +2818,7 @@ Title: mumble entropy, moving randomness
 Date: 18.01.2009 20:23
 Author: tg@
 Title: So much for a weekend
+Tag: grml snapshot
 
 <p><a href="@@RELPATH@@permalinks/wlog-10_e20090102-tg-g10014.htm">I seem
  to have written</a> about it already. Damn. Cost me nearly the entire of
@@ -2850,7 +2852,7 @@ Title: So much for a weekend
 Date: 20.01.2009 18:03
 Author: tg@
 Title: SCSI-induzierter Rückschlag
-Tag: bug event hardware snapshot
+Tag: bug event grml hardware snapshot
 
 <p>Heute hat mein Rückschlag, wenn man von den leichten Kopfschmerzen und
  der arbeitsinduzierten Müdigkeit absieht, einen Namen: SCSI. Ich wollte,
@@ -3007,7 +3009,7 @@ Author: tg@
 Title: 2009-01-24 snapshot uploaded, pending validation
 ID: e20090125-tg
 Date: 25.01.2009 20:48
-Tag: snapshot
+Tag: grml snapshot
 
 <p>Yesternight, I built an i386 snapshot (including a bsd4grml). This
  is already uploaded on <tt>/MirOS/current/i386/</tt> but beware, it
@@ -3109,7 +3111,7 @@ Tag: bug
 Author: tg@
 Title: more bugs – bootloader and mksh
 Date: 01.02.2009 14:42
-Tag: bug event mksh snapshot
+Tag: bug event grml mksh snapshot
 
 <p>Again. I almost have a MirGRML+bsd4grml ISO ready (exactly 72 MiB),
  just for the fun of it, and so that people can toy with it – and test
@@ -3124,7 +3126,7 @@ Tag: bug event mksh snapshot
 Author: tg@
 Title: MirGRML and FOSDEM DuaLive™ Triforce™ CDs
 Date: 03.02.2009 00:54
-Tag: bug event security snapshot
+Tag: bug event grml security snapshot
 
 <p>Uh-oh, 03.02. already. I <em>think</em>, after the switch to GRUB 2
  and another couple of bootlooter fixes, that we’re there yet. Funnily
@@ -3357,6 +3359,7 @@ Title: History lesson
 Author: tg@
 Date: 23.02.2009 15:40
 Title: one (lonely) day at work
+Tag: bug grml
 
 <p>Today is Rosenmontag, so we were only four people in total today.
  Anyway, we tried to use Mondo to back up and, subsequently, clone a
@@ -3730,7 +3733,7 @@ Tag: bug debian mksh
 Date: 11.04.2009 18:23
 Author: tg@
 Title: Building a snapshot; herc on HGC again
-Tag: hardware snapshot
+Tag: grml hardware snapshot
 
 <p><a href="@@RELPATH@@permalinks/news_e20090411-tg.htm">Today’s snapshot</a>
  has been built cleanly again, after quite some time without one. Also, a
@@ -3968,6 +3971,7 @@ Language: es
 Date: 26.05.2009 20:55
 Author: tg@
 Title: grml to use MirOS manifold-boot CD technology
+Tag: grml
 
 <p><a href="http://grml.org/">grml GNU/Linux</a>, our recently-partner
  project from Austria (not Australia), will gain ISO images bootable by
@@ -4020,4 +4024,25 @@ Title: grml to use MirOS manifold-boot CD technology
  gotten around to do it yet...) It uses a UCB and a TNF header file and
  otherwise available under the <a href="@@ABSPATH@@/MirOS-Licence">MirOS
  Licence</a> (of course), as are the bootblocks.</p>
+----
+Date: 27.05.2009 15:32
+Author: tg@
+Title: GNU GRUB2 and BSD – state of affairs
+
+<p>The “openbsd” option (<tt>bsd.mod</tt>) is unable to boot 4.4OpenBSD,
+ MirOS #10, bsd4grml 2009.05rc1.</p>
+<p>It appears that the kernel gets a page fault trying to access its own
+ <tt>.bss</tt> – but I didn’t really look into it. Any takers?</p>
+<p style="margin-bottom:0px;">This is bad, I wanted to add this…</p>
+<div style="border:4px ridge blue; margin:0px 24px 0px 24px; padding:12px;">
+ <pre>
+menuentry "bsd4grml from harddisk (ISO = grml_2009.05-rc1.iso)" {
+        loopback        loop (hd0,1)/grml/grml_2009.05-rc1.iso
+        openbsd         (loop)/boot/addons/bsd4grml/bsd.rd
+}
+ </pre>
+</div><p style="margin-top:0px;">… to the solution using GRUB2 for <a
+ href="http://michael-prokop.at/blog/2009/05/25/boot-an-iso-via-grub2/">ISO
+ loopback boot</a>, which <a href="http://blog.zugschlus.de/archives/825-grml-als-eigenes-Rescuesystem.html"
+ xml:lang="de">Zugschlus</a> brought into practical use.</p>
 ----
