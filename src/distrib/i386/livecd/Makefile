@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/i386/livecd/Makefile,v 1.36 2006/05/08 19:16:35 tg Exp $
+# $MirOS: src/distrib/i386/livecd/Makefile,v 1.37 2006/05/15 19:54:55 tg Exp $
 
 .include <bsd.own.mk>
 
@@ -10,7 +10,8 @@ all install:
 
 it: ${CDROM}
 
-${CDROM}: unpack gendev addcontrib prepimg nukefiles makeimg
+#${CDROM}: unpack gendev addcontrib prepimg nukefiles makeimg
+${CDROM}: unpack gendev addcontrib prepimg makeimg
 
 unpack:
 	mkdir -p workdir/v${OSrev}
