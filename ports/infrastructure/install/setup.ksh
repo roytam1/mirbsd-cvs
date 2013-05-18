@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/install/setup.ksh,v 1.93 2009/03/29 13:04:05 tg Exp $
+# $MirOS: ports/infrastructure/install/setup.ksh,v 1.94 2009/08/30 18:14:06 tg Exp $
 #-
 # Copyright (c) 2005, 2008
 #	Thorsten “mirabilos” Glaser <tg@mirbsd.de>
@@ -741,9 +741,10 @@ fi
 	mmake fake
 	x=$(mmake show=_FAKE_COOKIE)
 	rm -f $localbase/bin/tar
-	cp ${x%.fake_done}$(mmake show=PREFIX)/bin/tar $localbase/bin/
+	vp=${x%.fake_done}$(mmake show=PREFIX)/bin
+	cp $vp/tar $localbase/bin/
 	mmake package
-	$localbase/sbin/pkg_add -N $(mmake show=_PACKAGE_COOKIE)
+	PATH=$vp:$PATH $localbase/sbin/pkg_add -N $(mmake show=_PACKAGE_COOKIE)
 	set +e
 	mmake clean
 	cd $T
