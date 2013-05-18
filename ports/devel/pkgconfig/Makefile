@@ -1,13 +1,15 @@
-# $MirOS: ports/devel/pkgconfig/Makefile,v 1.5 2007/02/22 22:57:48 tg Exp $
+# $MirOS: ports/devel/pkgconfig/Makefile,v 1.6 2007/05/08 22:43:41 tg Exp $
 # $OpenBSD: Makefile,v 1.14 2004/02/01 07:20:04 marcm Exp $
 
 COMMENT=		tool for managing library compile/link flags
-DISTNAME=		pkgconfig-0.15.0
-DASH_VER=		2
+
+VERSION=		0.23
+DISTNAME=		pkg-config-${VERSION}
+PKGNAME=		pkgconfig-${VERSION}-${DASH_VER}
 CATEGORIES=		devel
-HOMEPAGE=		http://www.freedesktop.org/software/pkgconfig/
+HOMEPAGE=		http://pkg-config.freedesktop.org/
 MASTER_SITES=		${HOMEPAGE}releases/ \
-			${MASTER_SITE_GNOME:=sources/pkgconfig/0.15/}
+			${MASTER_SITE_GNOME:=sources/pkg-config/0.23/}
 
 # GPL
 PERMIT_PACKAGE_CDROM=	Yes
@@ -17,6 +19,7 @@ PERMIT_DISTFILES_FTP=	Yes
 
 LIB_DEPENDS+=		glib.1.2::devel/glib1
 CONFIGURE_STYLE=	autoconf
+AUTOCONF_NEW=		Yes
 CONFIGURE_ENV+=		GLIB_CFLAGS='-I${LOCALBASE}/include/glib-1.2' \
 			GLIB_LIBS='-L${LOCALBASE}/lib -lglib'
 
