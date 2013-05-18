@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/gnu.port.mk,v 1.27 2006/11/24 01:57:47 tg Exp $
+# $MirOS: ports/infrastructure/mk/gnu.port.mk,v 1.28 2007/02/22 21:45:34 bsiegert Exp $
 # $OpenBSD: gnu.port.mk,v 1.19 2004/06/06 11:49:08 espie Exp $
 
 AUTOCONF_NEW?=		No
@@ -105,7 +105,7 @@ MODGNU_NUKES=		${MODGNU_COPIES} libtool ltconfig
 # 1. copy over MirGNUTOOLS into target directories, no matter what
 _MODGNU_loop=	rm -f ${MODGNU_NUKES}; ( cd ${PORTSDIR}/infrastructure/db/; \
 		install -c -m 555 ${MODGNU_COPIES} $$d/ ); F=configure.ac; \
-		test -e $$F || F=configure.in; test -e $$F && ACAUX=$$(grep \
+		test -e $$F || F=configure.in; test -e $$F && ACAUX=$$(grep -a \
 		^AC_CONFIG_AUX_DIR\( $$F | sed -e 's/AC_CONFIG_AUX_DIR(\[*//' \
 		-e 's/\]*).*$$//'); test -z "$$ACAUX" && ACAUX=.; if [ . != \
 		"$$ACAUX" ]; then ( cd $$ACAUX && rm -f ${MODGNU_NUKES} ); \
