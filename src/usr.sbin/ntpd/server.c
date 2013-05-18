@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.sbin/ntpd/server.c,v 1.4 2006/08/18 18:05:49 tg Exp $ */
+/**	$MirOS: src/usr.sbin/ntpd/server.c,v 1.5 2007/08/10 23:33:31 tg Exp $ */
 /*	$OpenBSD: server.c,v 1.26 2005/09/24 00:32:03 dtucker Exp $ */
 
 /*
@@ -30,7 +30,7 @@
 #include "ntpd.h"
 #include "ntp.h"
 
-__RCSID("$MirOS: src/usr.sbin/ntpd/server.c,v 1.4 2006/08/18 18:05:49 tg Exp $");
+__RCSID("$MirOS: src/usr.sbin/ntpd/server.c,v 1.5 2007/08/10 23:33:31 tg Exp $");
 
 int
 setup_listeners(struct servent *se, struct ntpd_conf *conf, u_int *cnt)
@@ -156,7 +156,7 @@ server_dispatch(int fd, struct ntpd_conf *conf)
 	if (version > 3 && reply.stratum > 1)
 		reply.refid = conf->status.refid4;
 	else
-		reply.refid = htonl(conf->status.refid);
+		reply.refid = conf->status.refid;
 
 	reply.xmttime = d_to_lfp(gettime());
 	ntp_sendmsg(fd, (struct sockaddr *)&fsa, &reply, size, 0);

@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.sbin/ntpd/client.c,v 1.6 2007/07/31 20:32:45 tg Exp $ */
+/**	$MirOS: src/usr.sbin/ntpd/client.c,v 1.7 2007/08/10 22:22:02 tg Exp $ */
 /*	$OpenBSD: client.c,v 1.66 2005/09/24 00:32:03 dtucker Exp $ */
 
 /*
@@ -28,7 +28,7 @@
 
 #include "ntpd.h"
 
-__RCSID("$MirOS: src/usr.sbin/ntpd/client.c,v 1.6 2007/07/31 20:32:45 tg Exp $");
+__RCSID("$MirOS: src/usr.sbin/ntpd/client.c,v 1.7 2007/08/10 22:22:02 tg Exp $");
 
 #ifdef DDEBUG
 #define log_reply	log_info
@@ -261,8 +261,8 @@ client_dispatch(struct ntp_peer *p, u_int8_t settime, uint8_t trace)
 	p->reply[p->shift].status.precision = msg.precision;
 	p->reply[p->shift].status.rootdelay = sfp_to_d(msg.rootdelay);
 	p->reply[p->shift].status.rootdispersion = sfp_to_d(msg.dispersion);
-	p->reply[p->shift].status.refid = ntohl(msg.refid);
-	p->reply[p->shift].status.refid4 = msg.xmttime.fractionl;
+	p->reply[p->shift].status.refid = msg.refid;
+	p->reply[p->shift].status.refid4 = htonl(msg.xmttime.fractionl);
 	p->reply[p->shift].status.reftime = lfp_to_d(msg.reftime);
 	p->reply[p->shift].status.poll = msg.ppoll;
 	p->reply[p->shift].status.stratum = msg.stratum - p->stratum_offset;
