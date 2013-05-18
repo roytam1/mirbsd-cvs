@@ -1,4 +1,4 @@
-# $MirOS: src/Makefile,v 1.81 2006/11/17 01:45:33 tg Exp $
+# $MirOS: src/Makefile,v 1.82 2006/11/17 01:47:47 tg Exp $
 # $OpenBSD: Makefile,v 1.103 2004/05/03 15:18:18 drahn Exp $
 
 .if defined(MAKECONF) && exists(${MAKECONF})
@@ -240,33 +240,6 @@ _do-dist:
 	    DESTDIR=${BSDRELDIR}/base
 .ifndef QUICK_DIST
 	@date
-	if [[ ! -e ${BSDRELDIR}/rel/htpsd${OSrev}.ngz || \
-	    ! -e ${BSDRELDIR}/rel/htusd${OSrev}.ngz ]]; then \
-		cd ${.CURDIR} && exec ${MAKE} do-htman; \
-	fi
-.endif
-	@date
-	@echo ============================================================
-	@if [[ -e /var/tmp/.buildnotice ]]; then \
-		${SUDO} cat /var/tmp/.buildnotice; \
-		${SUDO} ${MKSH} /var/tmp/.buildnotice; \
-		${SUDO} rm -f /var/tmp/.buildnotice || true; \
-		echo ============================================================; \
-	fi
-	@echo Checking files:
-	@echo
-.for _set in ${_DISTS}
-	-cd ${BSDSRCDIR}/distrib/lists/${_set} && \
-	    DESTDIR=${BSDRELDIR:Q}/${_set} RELEASEDIR=${BSDRELDIR:Q}/rel \
-	    ${SUDO} ${SHELL} ${BSDSRCDIR}/scripts/tarsets check
-.endfor
-	@echo ============================================================
-.ifndef BATCH
-	@date
-	@read a?'Press Return to continue...'
-.endif
-	@date
-.ifndef QUICK_DIST
 	t=0; cd ${BSDRELDIR}; \
 	if mount 2>&- | fgrep ' on ${BSDRELDIR}/usr ' >&- 2>&-; then \
 		${SUDO} umount ${BSDRELDIR}/usr; \
@@ -304,7 +277,33 @@ _do-dist:
 	fi; \
 	${SUDO} umount ${BSDRELDIR}/usr; \
 	test -e ${BSDRELDIR}/rel/pkgutl${OSrev}.ngz
+	@date
+	if [[ ! -e ${BSDRELDIR}/rel/htpsd${OSrev}.ngz || \
+	    ! -e ${BSDRELDIR}/rel/htusd${OSrev}.ngz ]]; then \
+		cd ${.CURDIR} && exec ${MAKE} do-htman; \
+	fi
 .endif
+	@date
+	@echo ============================================================
+	@if [[ -e /var/tmp/.buildnotice ]]; then \
+		${SUDO} cat /var/tmp/.buildnotice; \
+		${SUDO} ${MKSH} /var/tmp/.buildnotice; \
+		${SUDO} rm -f /var/tmp/.buildnotice || true; \
+		echo ============================================================; \
+	fi
+	@echo Checking files:
+	@echo
+.for _set in ${_DISTS}
+	-cd ${BSDSRCDIR}/distrib/lists/${_set} && \
+	    DESTDIR=${BSDRELDIR:Q}/${_set} RELEASEDIR=${BSDRELDIR:Q}/rel \
+	    ${SUDO} ${SHELL} ${BSDSRCDIR}/scripts/tarsets check
+.endfor
+	@echo ============================================================
+.ifndef BATCH
+	@date
+	@read a?'Press Return to continue...'
+.endif
+	@date
 	cd ${BSDRELDIR}/base/snapshot && ${SUDO} ${INSTALL} -c \
 	    -o root -g wheel -m 444 * ${BSDRELDIR}/rel/
 .for _set in ${_DISTS}
