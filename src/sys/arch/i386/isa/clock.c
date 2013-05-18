@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/isa/clock.c,v 1.13 2011/02/19 13:04:59 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/isa/clock.c,v 1.14 2011/02/19 14:10:24 tg Exp $ */
 /*	$OpenBSD: clock.c,v 1.31 2004/02/27 21:07:49 grange Exp $	*/
 /*	$NetBSD: clock.c,v 1.39 1996/05/12 23:11:54 mycroft Exp $	*/
 
@@ -93,7 +93,6 @@ WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 #include <sys/time.h>
 #include <sys/kernel.h>
 #include <sys/device.h>
-#include <sys/taitime.h>
 #include <sys/timeout.h>
 
 #include <dev/rndvar.h>
@@ -716,7 +715,7 @@ inittodr(time_t base)
 	time.tv_sec = tz.tz_minuteswest * 60;
 	if (tz.tz_dsttime)
 		time.tv_sec -= 3600;
-	time.tv_sec += tai2timet(mjd2tai(tm2mjd(tm)));
+	time.tv_sec += tm2timet(&tm);
 	x.rtctime = time.tv_sec;
 
 	if (base < time.tv_sec - 5*SECYR)
@@ -766,7 +765,7 @@ resettodr(void)
 	diff = tz.tz_minuteswest * 60;
 	if (tz.tz_dsttime)
 		diff -= 3600;
-	tm = mjd2tm(tai2mjd(timet2tai(time.tv_sec - diff)));
+	timet2tm(&tm, time.tv_sec - diff);
 
 	rtclk[MC_SEC] = dectohexdec(tm.tm_sec);
 	rtclk[MC_MIN] = dectohexdec(tm.tm_min);

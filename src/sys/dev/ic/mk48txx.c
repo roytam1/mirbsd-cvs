@@ -1,8 +1,8 @@
-/**	$MirOS: src/sys/dev/ic/mk48txx.c,v 1.3 2005/10/19 18:10:14 tg Exp $ */
+/**	$MirOS: src/sys/dev/ic/mk48txx.c,v 1.4 2007/02/07 20:43:26 tg Exp $ */
 /*	$OpenBSD: mk48txx.c,v 1.4 2002/06/09 00:07:10 nordin Exp $	*/
 /*	$NetBSD: mk48txx.c,v 1.7 2001/04/08 17:05:10 tsutsui Exp $ */
 /*-
- * Copyright (c) 2005 Thorsten Glaser
+ * Copyright (c) 2005, 2011 Thorsten Glaser
  * Copyright (c) 2000 The NetBSD Foundation, Inc.
  * All rights reserved.
  *
@@ -45,7 +45,6 @@
 #include <sys/param.h>
 #include <sys/malloc.h>
 #include <sys/systm.h>
-#include <sys/taitime.h>
 #include <sys/errno.h>
 
 #include <machine/bus.h>
@@ -182,7 +181,7 @@ mk48txx_gettime(handle, tv)
 	    tm.tm_hour >= 24 || tm.tm_min >= 60 || tm.tm_sec >= 61)
 		return (1);
 
-	tv->tv_sec = tai2timet(mjd2tai(tm2mjd(tm)));
+	tv->tv_sec = tm2timet(&tm);
 	tv->tv_usec = 0;
 	return (0);
 }
@@ -205,7 +204,7 @@ mk48txx_settime(handle, tv)
 	int year;
 
 	/* Note: we ignore `tv_usec' */
-	tm = mjd2tm(tai2mjd(timet2tai(tv->tv_sec)));
+	timet2tm(&tm, tv->tv_sec);
 
 	year = tm.tm_year + 1900 - mk->mk_year0;
 	if (year > 99 && mk48txx_auto_century_adjust != 0)

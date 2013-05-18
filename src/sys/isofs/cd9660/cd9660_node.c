@@ -1,4 +1,4 @@
-/**	$MirOS$ */
+/**	$MirOS: src/sys/isofs/cd9660/cd9660_node.c,v 1.2 2008/10/31 16:07:55 tg Exp $ */
 /*	$OpenBSD: cd9660_node.c,v 1.14 2003/06/02 23:28:05 millert Exp $	*/
 /*	$NetBSD: cd9660_node.c,v 1.17 1997/05/05 07:13:57 mycroft Exp $	*/
 
@@ -51,7 +51,6 @@
 #include <sys/kernel.h>
 #include <sys/malloc.h>
 #include <sys/stat.h>
-#include <sys/taitime.h>
 
 #include <isofs/cd9660/iso.h>
 #include <isofs/cd9660/cd9660_extern.h>
@@ -420,7 +419,7 @@ cd9660_tstamp_conv7(u_char *pi, struct timespec *pu)
 	else
 		tm.tm_gmtoff = 0;
 
-	pu->tv_sec = tai2timet(mjd2tai(tm2mjd(tm)));
+	pu->tv_sec = tm2timet(&tm);
 	pu->tv_nsec = 0;
 	return (1);
 }
@@ -470,7 +469,7 @@ cd9660_tstamp_conv17(u_char *pi, struct timespec *pu)
 	else
 		tm.tm_gmtoff = 0;
 	
-	pu->tv_sec = tai2timet(mjd2tai(tm2mjd(tm)));
+	pu->tv_sec = tm2timet(&tm);
 	pu->tv_nsec = 0;
 	return (1);
 }

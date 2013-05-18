@@ -1,4 +1,4 @@
-/* $MirOS: src/gnu/usr.bin/rcs/src/rcstime.c,v 1.2 2005/03/13 15:36:38 tg Exp $ */
+/* $MirOS: src/gnu/usr.bin/rcs/src/rcstime.c,v 1.3 2007/02/08 07:09:55 tg Exp $ */
 
 /* Convert between RCS time format and Posix and/or C formats.  */
 
@@ -30,9 +30,8 @@ Report problems and direct all questions to:
 
 #include "rcsbase.h"
 #include "getdate.h"
-#include <sys/taitime.h>
 
-__RCSID("$MirOS: src/gnu/usr.bin/rcs/src/rcstime.c,v 1.2 2005/03/13 15:36:38 tg Exp $");
+__RCSID("$MirOS: src/gnu/usr.bin/rcs/src/rcstime.c,v 1.3 2007/02/08 07:09:55 tg Exp $");
 
 /*
 * Convert Unix time to RCS format.
@@ -44,7 +43,7 @@ time2date(time_t unixtime, char date[datesize])
 {
 	struct tm tm;
 
-	tm = mjd2tm(tai2mjd(timet2tai(unixtime)));
+	timet2tm(&tm, unixtime);
 	snprintf(date, datesize,
 	    "%.2d.%.2d.%.2d.%.2d.%.2d.%.2d",
 	    (int)(tm.tm_year + ((unsigned)tm.tm_year < 100 ? 0 : 1900)),
