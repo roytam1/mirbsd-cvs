@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.99 2006/02/09 09:35:58 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.100 2006/02/09 12:15:49 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -272,6 +272,9 @@ NO_REGRESS=		Yes
 .  if ${USE_MOTIF:L} == "lesstif"
 LIB_DEPENDS+=		Xm.1::x11/lesstif
 .  elif ${USE_MOTIF:L} == "openmotif"
+.    ifndef BROKEN
+BROKEN=			x11/openmotif is broken
+.    endif
 LIB_DEPENDS+=		Xm.2::x11/openmotif
 .  elif ${USE_MOTIF:L} == "any" || ${USE_MOTIF:L} == "yes"
 FLAVORS+=		lesstif
@@ -281,6 +284,9 @@ ERRORS+=		"Choose motif or lesstif, not both."
 .    if ${FLAVOR:L:Mlesstif}
 LIB_DEPENDS+=		Xm.1::x11/lesstif
 .    else
+.      ifndef BROKEN
+BROKEN=			x11/openmotif is broken
+.      endif
 LIB_DEPENDS+=		Xm.2::x11/openmotif
 .    endif
 .  elif ${USE_MOTIF:L} != "transparent"

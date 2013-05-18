@@ -1,6 +1,8 @@
 # $OpenBSD: Makefile,v 1.16 2004/02/24 22:12:07 naddy Exp $
 # $FreeBSD: ports/archivers/lzop/Makefile,v 1.3 2000/06/22 05:51:49 will Exp $
 
+BROKEN=		archivers/lzo too new
+
 COMMENT=	"fast file compressor similar to gzip"
 
 DISTNAME=	lzop-1.01

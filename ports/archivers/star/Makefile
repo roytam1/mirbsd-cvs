@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/archivers/star/Makefile,v 1.1.7.1 2005/03/18 15:42:44 tg Exp $
 # $OpenBSD: Makefile,v 1.13 2003/02/18 12:59:10 naddy Exp $
 # $FreeBSD: Makefile,v 1.7 1998/12/24 13:15:23 dirk Exp $
 
@@ -25,22 +25,13 @@ RUN_DEPENDS=	:bzip2-*:archivers/bzip2
 
 .include <bsd.own.mk>
 
-USE_GMAKE=	Yes
-MAKE_ENV=	MAKEPROG="${MAKEPROG}" \
-		CCOM="${CC}" COPTX="${CFLAGS}" \
-		SYSCONFDIR="${SYSCONFDIR}"
-
+USE_SCHILY=	Yes
+MAKE_ENV+=	COPTX=${CFLAGS:Q}
 .if ${FLAVOR:L:Mstatic}
 MAKE_ENV+=	LDOPTX=-static
 .endif
 
-.if ${MACHINE} != "i386" || ${CC} != "cc"
-do-configure:
-	@ln -sf ${WRKSRC}/RULES/i386-openbsd-cc.rul \
-		${WRKSRC}/RULES/${MACHINE}-openbsd-${CC}.rul
-.endif
-
-OBJ=	OBJ/${MACHINE}-openbsd-${CC}
+OBJ=	OBJ/${MACHINE}-openbsd-cc
 
 do-install:
 .for prog in star tartest

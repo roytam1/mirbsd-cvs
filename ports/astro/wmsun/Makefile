@@ -1,5 +1,7 @@
 # $OpenBSD: Makefile,v 1.13 2002/09/17 14:46:06 wilfried Exp $
 
+BROKEN=			windowmaker is broken
+
 COMMENT=		'wm-dockapp; shows sunrise/sunset times'
 
 DISTNAME=		wmSun-1.03

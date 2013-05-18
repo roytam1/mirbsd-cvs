@@ -1,4 +1,4 @@
-# $MirOS: ports/archivers/rar-linux/Makefile,v 1.6 2005/11/17 20:37:21 bsiegert Exp $
+# $MirOS: ports/archivers/rar-linux/Makefile,v 1.7 2006/01/01 03:15:06 tg Exp $
 
 ONLY_FOR_PLATFORM=	OpenBSD:*:i386 MirBSD:*:i386
 EMUL=			linux
@@ -7,7 +7,7 @@ CATEGORIES=		archivers
 COMMENT=		"commercial RAR archiver binary"
 V=			3.4.1
 DISTNAME=		rarlinux-${V}
-FULLPKGNAME=		rar-${V}-1-linux
+FULLPKGNAME=		rar-${V}-2-linux
 MASTER_SITES=		http://www.rarlab.com/rar/
 RESPONSIBLE=		Thorsten Glaser <tg@66h.42h.de>
 HOMEPAGE=		http://www.win-rar.com/index.php
@@ -35,10 +35,3 @@ do-install:
 .endfor
 
 .include <bsd.port.mk>
-
-.if ${SYSCONFDIR} != "/etc"
-do-configure:
-	@echo "ERROR: \$$SYSCONFDIR is not set to /etc"
-	@echo "The binary will not be able to find rarfiles.lst!"
-	@exit 1
-.endif

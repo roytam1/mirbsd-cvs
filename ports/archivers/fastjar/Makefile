@@ -1,6 +1,8 @@
 # $OpenBSD: Makefile,v 1.11 2003/05/24 01:05:14 jolan Exp $
 # $FreeBSD: ports/archivers/fastjar/Makefile,v 1.4 2000/04/24 15:51:08 knu Exp $
 
+BROKEN=		label at end of compound statement
+
 COMMENT=	"Sun JDK's jar command written entirely in C"
 
 DISTNAME=	fastjar-0.93

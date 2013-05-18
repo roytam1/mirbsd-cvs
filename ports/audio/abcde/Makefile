@@ -30,7 +30,7 @@ FLAVORS=	lame
 FLAVOR?=	
 
 NO_REGRESS=	Yes
-WRKDIST=	${WRKDIR}/${PKGNAME}
+WRKDIST=	${WRKDIR}/abcde-$V
 
 .if ${FLAVOR:L:Mlame}
 DISTFILES+=	id3_0.12.orig.tar.gz:1

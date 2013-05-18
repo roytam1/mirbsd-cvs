@@ -1,4 +1,4 @@
-# $MirOS: ports/audio/libao/Makefile,v 1.4 2005/12/29 19:49:11 tg Exp $
+# $MirOS: ports/audio/libao/Makefile,v 1.5 2006/02/09 09:35:36 tg Exp $
 # $OpenBSD: Makefile,v 1.23 2003/10/08 16:01:45 naddy Exp $
 
 COMMENT=		"portable audio output library"
@@ -13,7 +13,6 @@ PKGNAME-arts=		libao-arts-${VERSION}-${PL}
 PKGNAME-esd=		libao-esd-${VERSION}-${PL}
 CATEGORIES=    		audio
 HOMEPAGE=		http://www.xiph.org/ao/
-
 
 # GPL
 PERMIT_PACKAGE_CDROM=	Yes
@@ -51,7 +50,7 @@ CONFIGURE_ARGS+=	--disable-esd
 CONFIGURE_ARGS+=	--disable-nas
 
 .if defined(PACKAGING)
-.  if   ${SUBPACKAGE} == "-arts"
+.  if ${SUBPACKAGE} == "-arts"
 LIB_DEPENDS=		ao::audio/libao \
 			artsc::x11/kde/arts3
 .  elif ${SUBPACKAGE} == "-esd"
@@ -59,10 +58,10 @@ LIB_DEPENDS=		ao::audio/libao \
 			esd::audio/esound
 .  endif
 .else
-.  if ${MULTI_PACKAGES:M-arts}
+.  if !${FLAVOR:L:Mno_arts}
 LIB_DEPENDS+=		artsc::x11/kde/arts3
 .  endif
-.  if ${MULTI_PACKAGES:M-esd}
+.  if !${FLAVOR:L:Mno_esd}
 LIB_DEPENDS+=		esd::audio/esound
 .  endif
 .endif

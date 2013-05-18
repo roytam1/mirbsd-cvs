@@ -1,5 +1,7 @@
-# $MirOS: ports/x11/windowmaker/Makefile,v 1.4 2006/02/09 09:36:26 tg Exp $
+# $MirOS: ports/x11/windowmaker/Makefile,v 1.5 2006/02/09 11:15:55 tg Exp $
 # $OpenBSD: Makefile,v 1.57 2003/08/16 19:06:07 tedu Exp $
+
+BROKEN=			error: 'FC_WIDTH' undeclared (first use in this function)
 
 COMMENT=		'window manager that emulates NEXTSTEP(tm)'
 COMMENT-lang=		"language subpackage for Window Maker"
@@ -47,9 +49,9 @@ SUBPACKAGE?=
 RUN_DEPENDS=		:windowmaker->=0.90.0:x11/windowmaker
 .else
 MODULES=		devel/gettext graphics/png
-LIB_DEPENDS=		jpeg.62::graphics/jpeg \
-			tiff.35::graphics/tiff \
-			ungif.5::graphics/libungif
+LIB_DEPENDS=		jpeg::graphics/jpeg \
+			tiff::graphics/tiff \
+			ungif::graphics/libungif
 .endif
 
 post-patch:

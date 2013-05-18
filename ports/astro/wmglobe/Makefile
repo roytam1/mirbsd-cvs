@@ -1,5 +1,7 @@
 # $OpenBSD: Makefile,v 1.14 2002/09/17 15:22:26 wilfried Exp $
 
+BROKEN=			windowmaker is broken
+
 COMMENT=		'wm-dockapp; displays the earth on an icon'
 
 DISTNAME=		wmglobe-1.3
@@ -16,13 +18,12 @@ PERMIT_DISTFILES_FTP=	Yes
 
 MASTER_SITES=		${HOMEPAGE}
 
-LIB_DEPENDS=		jpeg.62::graphics/jpeg \
-			tiff.35::graphics/tiff \
-			png.2::graphics/png \
-			ungif.5::graphics/libungif \
-			wraster.4::x11/windowmaker
+LIB_DEPENDS=		jpeg::graphics/jpeg \
+			tiff::graphics/tiff \
+			png::graphics/png \
+			ungif::graphics/libungif \
+			wraster::x11/windowmaker
 
-MAKE_ENV=		CC="${CC}"
 USE_X11=		Yes
 USE_CXX=		Yes
 NO_REGRESS=		Yes
