@@ -1,4 +1,4 @@
-# $MirOS: www/Makefile,v 1.33 2008/09/19 07:29:48 tg Exp $
+# $MirOS: www/Makefile,v 1.34 2008/10/05 16:26:20 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -115,7 +115,8 @@ _reinstall:
 	    ln -sf wlog-${WLOG_LATEST}.htm wlog.htm && \
 	    ln -sf wlog-${WLOG_LATEST}.rss wlog.rss && \
 	    rm -rf $$(find . -name CVS -o -name .cvsignore)
-	chmod -R u=rwX,go=rX dst
+	chgrp -R miros-cvswww dst
+	chmod -R ug=rwX,o=rX dst
 	chmod a+x dst/cvs.cgi
 
 .SUFFIXES: .htm~ .hts
@@ -132,7 +133,7 @@ _reinstall:
 	fi
 
 .PHONY: clean cleandir depend install deinstall reinstall _reinstall \
-	cp-herc cp-heph rs-heph
+	cp-herc cp-heph rs-heph rs-eurynome
 
 cp-herc: site.tgz
 	ssh hercs 'cd /var/www/oldsite; tar xzvf -' <site.tgz
@@ -143,6 +144,9 @@ cp-heph: site.tgz
 rs-heph:
 	rsync -rxlztpgavPHK dst/ hephaistos:Web/
 
+rs-eurynome:
+	rsync -rxlztpgavPHK --rsh='ssh -4' dst/ eurynome:/var/anoncvs/anoncvs/www/
+
 depend: .depend
 
 .depend: ${TOP}/mk/mkdepend ${DEPSRCS}
@@ -150,6 +154,6 @@ depend: .depend
 
 lazy: .PHONY
 	cd ${.CURDIR} && make obj && make depend && \
-	    make && make _reinstall && exec make rs-heph
+	    make && make _reinstall && exec make rs-heph rs-eurynome
 
 .include <bsd.obj.mk>
