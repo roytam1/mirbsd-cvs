@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.422 2013/04/26 22:25:34 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.423 2013/04/26 23:06:49 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -9232,6 +9232,11 @@ Tag: debian tip work
  href="https://www.tarent.de/">tarent solutions GmbH</a> and the <a
  href="https://evolvis.org/projects/shellsnippets/">Evolvis Project</a>,
  based on <a href="https://fusionforge.org/">FusionForge</a>.</p>
+<hr />
+<p><strong>Update</strong> 17.05.2013 – Absolutely <strong>do not
+ use <tt>RC4-SHA</tt> for SSL/TLS (https)!</strong> It can leak
+ over 200 initial plaintext bytes easily. (arc4random(3) is not
+ affected from this, especially on MirBSD, nor arc4random(9).)</p>
 ----
 Date: 10.08.2012 19:45 +0200
 Author: bsiegert@
