@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.353 2011/08/20 21:01:42 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.354 2011/08/20 21:04:08 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -8398,4 +8398,14 @@ Tag: debian event geocache
  as opposed to, I think, two years ago.) At least dry and not too
  loud. Still, best thing of FrOSCon is the Friday Evening Jugoslawian
  Food Mealtime ;-)</p>
+----
+Date: 26.08.2011 14:44
+Author: tg@
+Title: 14:31⎜*<* Signoff: XTaran (*.net *.split)
+Tag: debian pcli security
+Language: de-DE-1901
+
+<p>16:39⎜&lt;mira|AO&gt; XTaran: n̲i̲e̲ n̲i̲e̲ n̲i̲e̲ n̲i̲e̲ n̲i̲e̲ n̲i̲e̲ n̲i̲e̲ empfiehlt
+ man k̶i̶l̶l̶a̶l̶l̶, i̲m̲m̲e̲r̲ nur p̲k̲i̲l̲l̲!</p>
+<p xml:lang="en">“Now playing: Monzy — kill dash” ⇒ good idea… ☺</p>
 ----
