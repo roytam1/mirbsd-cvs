@@ -1,4 +1,4 @@
-# $MirOS: src/gnu/share/Makefile,v 1.4 2008/05/03 19:16:05 tg Exp $
+# $MirOS: src/gnu/share/Makefile,v 1.5 2008/05/05 22:17:02 tg Exp $
 
 .MAIN: all
 
@@ -14,7 +14,6 @@ all:
 
 IGNORES= \
 	config.libpath \
-	install-reloc \
 	reloc-ldflags \
 
 .  if exists(${GNU_AUX_CONTRIB_DIR}/gnu/aux/update.mk)
