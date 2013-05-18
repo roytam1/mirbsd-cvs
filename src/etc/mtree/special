@@ -1,4 +1,4 @@
-# $MirOS: src/etc/mtree/special,v 1.7 2006/01/01 01:38:48 tg Exp $
+# $MirOS: src/etc/mtree/special,v 1.8 2006/01/12 02:58:13 tg Exp $
 # $OpenBSD: special,v 1.66 2005/06/08 20:11:38 deraadt Exp $
 # $NetBSD: special,v 1.4 1996/05/08 21:30:18 pk Exp $
 # @(#)special	8.2 (Berkeley) 1/23/94
@@ -126,6 +126,9 @@ local		type=dir mode=0755 uname=root gname=wheel
 bin		type=dir mode=0755 uname=root gname=wheel ignore
 ..	#usr/local/bin
 lib		type=dir mode=0755 uname=root gname=wheel ignore
+X11		type=dir mode=0755 uname=root gname=wheel optional
+app-defaults	type=link uname=root gname=wheel
+..	#usr/local/lib/X11
 ..	#usr/local/lib
 ..	#usr/local
 sbin		type=dir mode=0755 uname=root gname=wheel ignore
