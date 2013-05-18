@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: src/usr.sbin/rdate/GNUmakefile,v 1.2 2007/08/16 10:44:43 tg Exp $
 
 SRCS=		ntp.c ntpleaps.c rdate.c rfc868time.c
 ifeq ($(strip ${HAVE_ARC4RANDOM}),)
@@ -9,7 +9,7 @@ BINDIR?=	/usr/sbin
 MANDIR?=	/usr/share/man
 CC?=		gcc
 CFLAGS?=	-O2
-CPPFLAGS+=	-DNO_UTIL -DEXT_A4R
+CPPFLAGS+=	-DNO_UTIL -DEXT_A4R -DHAVE_STDINT_H
 CPPFLAGS+=	-D'__RCSID(x)=static const char __rcsid[] = x'
 
 all: rdate
