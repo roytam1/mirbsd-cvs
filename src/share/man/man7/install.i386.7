@@ -1,6 +1,6 @@
-.\" $MirOS: src/share/man/man7/install.i386.7,v 1.15 2008/06/13 20:04:02 tg Exp $
+.\" $MirOS: src/share/man/man7/install.i386.7,v 1.16 2009/08/01 13:24:30 tg Exp $
 .\"-
-.\" Copyright (c) 2009
+.\" Copyright (c) 2009, 2011
 .\"	Thorsten Glaser <tg@mirbsd.org>
 .\" Copyright (c) 2007
 .\"	Benny Siegert <bsiegert@mirbsd.org>
@@ -24,7 +24,7 @@
 .\" local convention: use .Ql for disk slice names
 .\" MirOS version number
 .nr v 10
-.Dd $Mdocdate: June 13 2008 $
+.Dd $Mdocdate: August 1 2009 $
 .Dt INSTALL.I386 7
 .Os
 .Sh NAME
@@ -60,11 +60,26 @@ the baselive CD-ROM (which can be booted into either a Live CD with
 the base system pre-installed, or into an installer behaving exactly
 like the "big" CD-ROM, which is what you need to install MirOS)
 .It
-the CD mini-ISO
+the CD mini-ISO or midi-ISO (multi-architecture mini-ISO)
 .Pq burned from Pa cdrom\nv.iso
+.It
+one of the serial console preconfigured ISOs
+.Pq burned from Pa cdrom9600.iso , etc.
+.It
+the ssh daemon preconfigured ISO
+.Pq burned from Pa cdsshd\nv.iso
+.It
+one of the aforementioned ISOs, written to a USB stick, CF/SD card,
+HDD, or any other medium bootable by the firmware,
+.Dq raw
+using
+.Xr dd 1
 .It
 a floppy disk
 .Pq created from Pa floppy\nv.fs
+.It
+one of the serial console preconfigured floppies
+.Pq created from Pa floppy9600.fs , etc.
 .It
 .Pa bsd.rd ,
 a kernel that contains a "rescue system". This is the best solution if
@@ -93,7 +108,7 @@ homepage
 .El
 .Pp
 To write the floppy image to a disk, use a command such as:
-.Dl dd if=floppy\nv.fs of=/dev/rfd0c bs=9k
+.Dl dd if=floppy\nv.fs of=/dev/rfd0c bs=9216
 Under GNU/Linux, use
 .Pa /dev/fd0
 as the device name instead.
@@ -110,29 +125,20 @@ Under
 use
 .Cm cdrecord
 for example:
-.Dl cdrecord -v dev=/dev/rcd1c cdrom\nv.iso
+.Dl cdrecord \-v dev=/dev/rcd1c cdrom\nv.iso
 You will need to change the device name above according to your system.
 .Cm cdrecord
 is available within the MirPorts Framework as
 .Pa sysutils/cdrtools .
 On
+.Mx 11 ,
 .Ox 4.0
-and up, you can use
+and up, use
 .Xr cdio 1
-to burn the CD as well.
-Finally, the
-.Pa cdrom\nv.iso
-image can be written to a hard disc, i.e.
-.Pa /dev/rwd0c
-or
-.Pa /dev/rsd0c
-.Pq BSD
-or, respectively,
-.Pa /dev/hda
-or
-.Pa /dev/sda
-.Pq GNU/Linux ,
-depending on which your BIOS is capable of booting from.
+to burn the CD:
+.Dl cdio blank; cdio tao cdsshd\nv.iso
+The ISO images can be written to a hard disc or other bootable medium:
+.Dl dd if=cdrom9600.iso of=/dev/sda bs=262144
 .\" --------------------------------------------------------------------
 .Sh BEFORE YOU START: THOUGHTS ON PARTITIONING
 You should plan the organization of your hard disk now before you start
@@ -622,6 +628,35 @@ running an X11 server.
 The presence of this set switches the default value for the
 X Window System question below to
 .Dq yes .
+.It Pa ada\nv.ngz
+Contains GNAT, the GCC Ada compiler.
+.It Pa unfree\nv.ngz
+Contains FDL licenced documentation for the GNU toolchain.
+.It Pa fixes\nv.ngz
+May contain post-release or post-snapshot should-have fixes.
+.It Pa ports\nv.ngz
+Extracted MirPorts Framework tree.
+It is recommended to check this out from CVS.
+This set takes a very long time to unpack.
+You do not need to install this if you only want to install binary
+packages; choose the next set instead.
+.It Pa pkgutl\nv.ngz
+Precompiled MirPorts Framework package tools, such as
+.Xr pkg_add 1 .
+.It Pa pkgsrc\nv.ngz
+Extracted pkgsrc\(rg source package tree.
+It is recommended to check this out from CVS.
+This set takes a very long time to unpack.
+You do not need to install this if you only want to install binary
+packages; choose the next set instead.
+.It Pa psbsk\nv.ngz
+Precompiled pkgsrc\(rg bootstrap binaries.
+.It Pa site\nv.ngz
+May have been filled with content by your site administrator.
+.It Pa source\nv.ngz
+Extracted source code of MirOS BSD, including GCC.
+.It Pa xfree\nv.ngz
+Extracted source code of XFree86\(rg for MirOS.
 .El
 .Pp
 The installation of the sets is going to take a while.
