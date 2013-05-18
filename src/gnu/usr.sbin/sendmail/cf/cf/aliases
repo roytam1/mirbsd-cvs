@@ -1,9 +1,8 @@
 # $Id$
-# $MirOS: src/gnu/usr.sbin/sendmail/cf/cf/aliases,v 1.4 2007/02/02 16:53:51 tg Exp $
-# $OpenBSD: aliases,v 1.4 2003/12/17 19:42:33 henning Exp $
+# $MirOS: src/gnu/usr.sbin/sendmail/cf/cf/aliases,v 1.5 2007/02/08 22:10:25 tg Exp $
 #
-#  Aliases in this file will NOT be expanded in the header from
-#  Mail, but WILL be visible over networks or from /bin/mail.
+#  Aliases in this file will NOT be expanded in the header from Mail,
+#  but WILL be visible over networks or from /usr/libexec/mail.local.
 #
 #	>>>>>>>>>>	The program "newaliases" must be run after
 #	>> NOTE >>	this file is updated for any changes to
@@ -49,6 +48,9 @@ _ntp:		/dev/null
 _ftp:		/dev/null
 _ospfd:		/dev/null
 _hostapd:	/dev/null
+_dvmrpd:	/dev/null
+_ripd:		/dev/null
+_hoststated:	/dev/null
 _anoncvs:	/dev/null
 _rsync:		/dev/null
 _dnscache:	/dev/null
@@ -144,9 +146,6 @@ _gonzui:	/dev/null
 _tabled:	/dev/null
 nobody:		/dev/null
 
-_isrc:		/dev/null
-_lsrc:		/dev/null
-ftp-bugs:	root
 wheel:		/dev/null
 kmem:		/dev/null
 sys:		/dev/null
@@ -167,6 +166,12 @@ crontab:	/dev/null
 network:	/dev/null
 authpf:		/dev/null
 dialer:		/dev/null
+audio:		/dev/null
+_cvsadmin:	/dev/null
+_isrc:		/dev/null
+_lsrc:		/dev/null
+_postdrop:	/dev/null
+_akpop3d:	/dev/null
 nogroup:	/dev/null
 
 # Well-known aliases -- these should be filled in!
@@ -185,6 +190,7 @@ security:	root
 # news:		usenet
 # webmaster:	root
 # ftp:		root
+ftp-bugs:	root
 
 # uncomment this for msgs:
 # msgs: "|/usr/bin/msgs -s"

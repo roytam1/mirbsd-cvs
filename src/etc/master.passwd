@@ -1,6 +1,6 @@
 root:*:0:0:daemon:0:0:Charlie &:/root:/bin/sh
-daemon:*:1:1::0:0:The devil himself:/root:/sbin/nologin
-operator:*:2:5::0:0:System &:/operator:/sbin/nologin
+daemon:*:1:1::0:0:the devil himself:/root:/sbin/nologin
+operator:*:2:5::0:0:system &:/operator:/sbin/nologin
 bin:*:3:7::0:0:Binaries Commands and Source:/:/sbin/nologin
 smmsp:*:25:25::0:0:Sendmail Message Submission Programme:/nonexistent:/sbin/nologin
 popa3d:*:26:26::0:0:POP3 Daemon:/var/empty:/sbin/nologin
@@ -15,9 +15,9 @@ uucp:*:58:1::0:0:UNIX-to-UNIX Copy:/var/spool/uucppublic:/usr/libexec/uucp/uucic
 _kdc:*:59:59::0:0:Kerberos Server:/var/empty:/sbin/nologin
 _kadmin:*:60:60::0:0:Kerberos Admin Server:/var/empty:/sbin/nologin
 _spamd:*:62:62::0:0:Spam Daemon:/var/empty:/sbin/nologin
-www:*:67:67::0:0:HTTP Server:/var/www:/sbin/nologin
+www:*:67:67::0:0:HTTP Daemon:/var/www:/sbin/nologin
 _isakmpd:*:68:68::0:0:ISAKMP Daemon:/var/empty:/sbin/nologin
-named:*:70:70::0:0:Name Service Daemon:/nonexistent:/sbin/nologin
+named:*:70:70::0:0:BIND Name Service Daemon:/nonexistent:/sbin/nologin
 proxy:*:71:71::0:0:Proxy Services:/nonexistent:/sbin/nologin
 _syslogd:*:73:73::0:0:Syslog Daemon:/var/empty:/sbin/nologin
 _pflogd:*:74:74::0:0:PF Log Daemon:/var/empty:/sbin/nologin
@@ -28,11 +28,14 @@ _mopd:*:78:78::0:0:MOP Daemon:/var/empty:/sbin/nologin
 _tftpd:*:79:79::0:0:TFTP Daemon:/var/empty:/sbin/nologin
 _rbootd:*:80:80::0:0:rboot Daemon:/var/empty:/sbin/nologin
 _afs:*:81:81::0:0:AFS Daemon:/var/empty:/sbin/nologin
-_ppp:*:82:82::0:0:PPP Daemon:/var/empty:/sbin/nologin
-_ntp:*:83:83::0:0:Network Time Daemon:/var/empty:/sbin/nologin
+_ppp:*:82:82::0:0:PPP Utilities:/var/empty:/sbin/nologin
+_ntp:*:83:83::0:0:NTP Daemon:/var/empty:/sbin/nologin
 _ftp:*:84:84::0:0:FTP Daemon:/var/empty:/sbin/nologin
 _ospfd:*:85:85::0:0:OSPF Daemon:/var/empty:/sbin/nologin
 _hostapd:*:86:86::0:0:HostAP Daemon:/var/empty:/sbin/nologin
+_dvmrpd:*:87:87::0:0:DVMRP Daemon:/var/empty:/sbin/nologin
+_ripd:*:88:88::0:0:RIP Daemon:/var/empty:/sbin/nologin
+_hoststated:*:89:89::0:0:host state Daemon:/var/empty:/sbin/nologin
 _anoncvs:*:254:254::0:0:anonymous CVS and RSYNC:/var/anoncvs/anoncvs:/var/anoncvs/anoncvssh
 _rsync:*:255:255::0:0:former rsync server:/var/empty:/sbin/nologin
 _dnscache:*:256:256::0:0:MirPorts -- net/djbdns cache:/nonexistent:/sbin/nologin

@@ -37,6 +37,9 @@ _ntp
 _ftp
 _ospfd
 _hostapd
+_dvmrpd
+_ripd
+_hoststated
 _anoncvs
 _rsync
 _dnscache

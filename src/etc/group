@@ -52,6 +52,9 @@ _ntp:*:83:
 _ftp:*:84:
 _ospfd:*:85:
 _hostapd:*:86:
+_dvmrpd:*:87:
+_ripd:*:88:
+_hoststated:*:89:
 dialer:*:117:
 audio:*:250:
 _cvsadmin:*:251:
