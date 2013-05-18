@@ -9,7 +9,8 @@ Speicherlayout für den neuen Bootloader:
   reits an korrekte Adresse geladen:
   ‣ Herausfinden der eigenen linearen Basisadresse
   ‣ Aufsetzen des Initialstacks
-  ‣ Wenn lineare Basisadresse in [30000,4FFFF]:
+  ‣ Wenn lineare Basisadresse ==  30000: nicht relozieren
+  ‣ Wenn lineare Basisadresse in ]30000,4FFFF]:
     ⇒ Relokation nach 6000:0000
     ⇒ Initialstackrelokation nach 6000:(pxe_command_buf-_start)
   ‣ Relokation nach 4000:0000
@@ -34,4 +35,4 @@ Speicherlayout für den neuen Bootloader:
 • XXX Standardlaufwerk bei PXE?
 
 ─────────────────────────────────────────────────────────────────────────
-$MirOS: src/sys/arch/i386/stand/README,v 1.5 2009/01/10 14:30:43 tg Exp $
+$MirOS: src/sys/arch/i386/stand/README,v 1.6 2009/01/10 14:38:48 tg Exp $

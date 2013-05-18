@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/stand/libsa/biosdev.c,v 1.22 2009/01/03 16:16:08 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/stand/libsa/biosdev.c,v 1.23 2009/01/03 16:21:40 tg Exp $ */
 /*	$OpenBSD: biosdev.c,v 1.74 2008/06/25 15:32:18 reyk Exp $	*/
 
 /*
@@ -55,9 +55,8 @@ extern int debug;
 #ifndef SMALL_BOOT
 extern uint32_t bios_bootpte[4];
 #endif
-int bios_bootdev;
+extern uint8_t i386_userpt;
 int i386_flag_oldbios = 0;
-int userpt = 0;
 
 #if 0
 struct biosdisk {
@@ -143,7 +142,7 @@ bios_getdiskinfo(int dev, bios_diskinfo_t *pdi)
 	 * Future hangs (when reported) can be "fixed"
 	 * with getSYSCONFaddr() and an exceptions list.
 	 */
-	if (dev & 0x80 && (dev == 0x80 || dev == 0x81 || dev == bios_bootdev)) {
+	if (dev & 0x80 && (dev == 0x80 || dev == 0x81 || dev == 0xFF /*bios_bootdev*/)) {
 		int bm;
 
 #ifdef BIOS_DEBUG
@@ -411,9 +410,9 @@ bios_getdisklabel(bios_diskinfo_t *bd, struct disklabel *label)
 			return "bad MBR signature\n";
 
 		/* Search for MirBSD partition */
-		if (userpt) for (i = 0; off == 0 && i < NDOSPART; i++) {
+		if (i386_userpt) for (i = 0; off == 0 && i < NDOSPART; i++) {
 			mbr->dmbr_parts[i].dp_start += mbrofs;
-			if (mbr->dmbr_parts[i].dp_typ == userpt)
+			if (mbr->dmbr_parts[i].dp_typ == i386_userpt)
 				off = i + 1;
 		}
 		if (!off) for (i = 0; off == 0 && i < NDOSPART; i++)
@@ -539,7 +538,7 @@ biosopen(struct open_file *f, ...)
 	case 2:  /* fd */
 		break;
 	case 6:  /* cd */
-		biosdev = bios_bootdev & 0xff;
+		biosdev = 0xFF /*bios_bootdev*/ & 0xff;
 		break;
 	default:
 		return ENXIO;

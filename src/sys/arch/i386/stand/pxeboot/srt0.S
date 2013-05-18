@@ -35,8 +35,8 @@
 	.globl	_C_LABEL(edata)
 	.globl	_C_LABEL(boot)
 	.globl	_C_LABEL(_rtt)
-	.globl	_C_LABEL(bios_bootdev)
 	.globl	_C_LABEL(bios_bootpte)
+	.globl	_C_LABEL(i386_userpt)
 	.globl	idt_init
 	.globl	Gdtr
 
@@ -123,7 +123,6 @@ relocated:
 #endif
 
 	xorl	%edx, %edx
-	movl	%edx, _C_LABEL(bios_bootdev)
 	pushl	%edx			/* boot() takes this as a parameter */
 
 #ifdef DEBUG
@@ -217,6 +216,8 @@ pxe_progname:
 
 _C_LABEL(bios_bootpte):
 	.long	0, 0, 0, 0
+_C_LABEL(i386_userpt):
+	.byte	0
 
 	bounce_buf = 0x30000
 	.globl	bounce_buf

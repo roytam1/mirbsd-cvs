@@ -1,8 +1,8 @@
-/* $MirOS: src/sys/arch/i386/stand/bootxx/bootxx.S,v 1.10 2008/08/05 17:57:08 tg Exp $ */
+/* $MirOS: src/share/misc/licence.template,v 1.28 2008/11/14 15:33:44 tg Rel $ */
 
 /*-
  * Copyright (c) 2003, 2004, 2005, 2007, 2009
- *	Thorsten Glaser <tg@mirbsd.de>
+ *	Thorsten Glaser <tg@mirbsd.org>
  *
  * Provided that these terms and disclaimer and all copyright notices
  * are retained or reproduced in an accompanying document, permission
@@ -20,26 +20,22 @@
  * of said person's immediate fault when using the work as intended.
  */
 
-#include <machine/asm.h>
-
-#define LDENTRY(x)	OTYPE(_ASM_LABEL(x)); _ASM_LABEL(x):
-#define LTENTRY(x)	FTYPE(_ASM_LABEL(x)); _ASM_LABEL(x):
-#define GDENTRY(x)	.globl _ASM_LABEL(x); LDENTRY(x)
-#define GTENTRY(x)	.globl _ASM_LABEL(x); LTENTRY(x)
-
 	.intel_syntax noprefix
 	.code16
 	.text
 
-GTENTRY(_start)
-	xor	eax,eax
-	push	eax
-	popfd
+	.globl	_start
+_start:
+	xor	ax,ax
+	push	ax
+	popf
 	/* set up stack from 07C0:FFFC (0x17BFC) down */
 	add	ax,0x07C0
 	mov	ss,ax
 	mov	sp,0xFFFC
 	sti
+	push	ds
+	push	si
 	push	ax		/* for retf */
 	push	offset Lmain
 	/* set up code and data at 07C0:0000 (0x07C00) = 0000:7C00 up */
@@ -48,46 +44,39 @@ GTENTRY(_start)
 	/* jump to 'cs:offset Lmain' */
 	lret
 
-LDENTRY(Lmsg)
-	.ascii	__BOOT_VER
+Lmsg:	.ascii	__BOOT_VER
 	.asciz	" Loading "
 
-LDENTRY(Lerr)
-	.ascii	"bad magic"
-LDENTRY(Lldf)
-	.ascii	" ERR"
-LDENTRY(Lcrlf)
-	.asciz	"\r\n"
+Lerr:	.ascii	"bad magic"
+Lldf:	.ascii	" ERR"
+Lcrlf:	.asciz	"\r\n"
 
 #define BLKCNT	(blkend - blktbl)
 	.size	blkcnt, 1
-GDENTRY(blkcnt)
-	.byte	BLKCNT
+	.globl	blkcnt
+blkcnt:	.byte	BLKCNT
 
-LDENTRY(Lldp)
-	.word	LsLBA
+Lldp:	.word	LsLBA
 
-LDENTRY(Ldrv)
-	.byte	0x80
 	.size	partp, 1
-GDENTRY(partp)
-	.byte	0		/* must be Ldrv + 1 */
+	.globl	partp
+partp:	.byte	0		/* must be Ldrv - 1 */
+Ldrv:	.byte	0x80
 
 	.size	bpbspt, 2
-GDENTRY(bpbspt)
-	.word	18
+	.globl	bpbspt
+bpbspt:	.word	18
 
 	.size	bpbtpc, 2
-GDENTRY(bpbtpc)
-	.word	2
+	.globl	bpbtpc
+bpbtpc:	.word	2
 
 	/* output NUL-terminated string from ds:si */
-LTENTRY(Lotxt0)
-	mov	ah,0x0E
+	.globl	Lotxt
+Lotxt0:	mov	ah,0x0E
 	mov	bx,7
 	int	0x10
-GTENTRY(Lotxt)
-	lodsb
+Lotxt:	lodsb
 	or	al,al
 	jnz	Lotxt0
 	ret
@@ -104,8 +93,7 @@ Lbarf:	call	Lotxt			/* something went wrong */
 	int	0x16
 	jmp	0xF000,0xFFF0
 
-LTENTRY(Lmain)
-	mov	[Ldrv],dl	/* save boot device */
+Lmain:	mov	[Ldrv],dl	/* save boot device */
 	/* say hello */
 	mov	si,offset Lmsg
 	call	Lotxt
@@ -133,9 +121,10 @@ LTENTRY(Lmain)
 
 LbCHS:	mov	word ptr ds:[Lldp],ax
 LbLBA:	xor	di,di
+	push	di		/* 0 */
 	mov	ax,0x0010
 	stosw
-	push	di
+	push	di		/* 2 */
 	mov	ax,SA_LINKSEG	/* libsa constant */
 	mov	fs,ax		/* for magic check and booting */
 	push	ax		/* running counter, for loading */
@@ -170,6 +159,7 @@ Lmlp1:	/* main load loop */
 				   divided by size of one paragraph */
 	secsizofs = . - 1
 	.globl	secsizofs
+	.size	secsizofs, 1
 	add	bx,ax		/* increment load addr. segment accordingly */
 	push	bx		/* and save for next round */
 	push	cx		/* save blkcnt */
@@ -202,18 +192,24 @@ Lmlp2:	movsb			/* copy over as many bytes as needed */
 	jne	Lmlp1
 
 	/* ok, second-stage boot loader is in memory, starting FS:[0000] */
-	push	fs
-	push	cx
+	xor	eax,eax
+	mov	ax,[partp]
 	/* check some "random" ASCII string, i.e. the boot magic */
-	cmp	dword ptr fs:[0x50],0x6A6D4F00
+	xchg	eax,fs:[4]
+	cmp	eax,0x6A6D4F00
 	mov	si,offset Lerr		/* "bad magic" */
 	jne	Lbarf			/* it isn't correct, barf out */
 	/* new line, for the fine look */
 	mov	si,offset Lcrlf
 	call	Lotxt
 	/* set up and jump into /boot */
-	mov	dx,[Ldrv]
-	mov	fs:[0x50],dh
+	pop	si			/* running counter */
+	pop	si			/* 2 */
+	pop	cx			/* 0 */
+	pop	si			/* original SI */
+	pop	ds			/* original DS */
+	push	fs			/* load segment */
+	push	cx			/* 0 */
 	lret
 
 	/* LBA boot routine */
@@ -286,10 +282,12 @@ LsIN0:	pusha
 	popa
 	jmp	LsIN0
 
-GDENTRY(blktbl)
+	.globl	blktbl
+blktbl:
 	/* free space for block table till end of sector */
 
 	. = 0x1FE
 	.size	blkend, 2
-GDENTRY(blkend)
+	.globl	blkend
+blkend:
 	.word	0xAA55
