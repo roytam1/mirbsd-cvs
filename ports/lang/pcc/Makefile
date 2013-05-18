@@ -1,4 +1,4 @@
-# $MirOS: ports/lang/pcc/Makefile,v 1.5 2008/11/10 01:53:13 tg Exp $
+# $MirOS: ports/lang/pcc/Makefile,v 1.6 2008/12/07 18:58:02 tg Exp $
 
 ONLY_FOR_PLATFORM=	Darwin:*:i386 \
 			Darwin:*:powerpc \
@@ -11,18 +11,16 @@ ONLY_FOR_PLATFORM=	Darwin:*:i386 \
 			OpenBSD:*:vax
 
 # using wrong assembler syntax
+#XXX revisit with 1.0.0
 NOT_FOR_PLATFORM+=	Darwin:*:i386
 
 # linking against wrong libraries; segfault atexit
+#XXX revisit with 1.0.0
 NOT_FOR_PLATFORM+=	Darwin:*:powerpc
 
 COMMENT=		Portable C Compiler
 CATEGORIES=		lang
-MCZ_FETCH=		Yes
-CVS_DISTREPO=		:pserver:anonymous@pcc.ludd.ltu.se:/cvsroot
-CVS_DISTDATE=		2008/10/28
-CVS_DISTMODS=		pcc
-DASH_VER=		1
+DISTNAME=		pcc-1.0.0
 HOMEPAGE=		http://pcc.ludd.ltu.se/
 RESPONSIBLE=		Thorsten Glaser <tg@mirbsd.de>
 
@@ -32,13 +30,14 @@ PERMIT_DISTFILES_FTP=	Yes
 PERMIT_PACKAGE_CDROM=	Yes
 PERMIT_PACKAGE_FTP=	Yes
 
+MASTER_SITES=		http://pcc.ludd.ltu.se/ftp/pub/pcc-releases/
+EXTRACT_SUFX=		.tgz
+
 CONFIGURE_STYLE=	autoconf
 AUTOCONF_NEW=		Yes
 CONFIGURE_ENV+=		MPVERSION=MirPorts:${PKGNAME:Q}
 NO_REGRESS=		Yes
-SUBST_VARS+=		OStriplet
-
-post-extract:
-	cd files && pax -rw os ${WRKSRC}/
+VERSIONSUBDIR=		1.0.0.RELEASE
+SUBST_VARS+=		OStriplet VERSIONSUBDIR
 
 .include <bsd.port.mk>

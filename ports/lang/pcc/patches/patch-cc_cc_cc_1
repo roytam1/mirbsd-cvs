@@ -1,7 +1,7 @@
-$MirOS$
---- cc/cc/cc.1.orig	Thu Jan  1 00:00:00 1970
-+++ cc/cc/cc.1	Mon Nov 10 01:51:02 2008
-@@ -149,6 +149,8 @@ to create debug output.
+$MirOS: ports/lang/pcc/patches/patch-cc_cc_cc_1,v 1.1 2008/11/10 01:53:13 tg Exp $
+--- cc/cc/cc.1.orig	Mon Apr  5 14:23:42 2010
++++ cc/cc/cc.1	Sat Apr  2 13:01:05 2011
+@@ -157,6 +157,8 @@ to create debug output.
  This unsets the
  .Fl O
  option.
@@ -10,7 +10,7 @@ $MirOS$
  .It Fl I Ar path
  Passed to the
  .Xr cpp 1
-@@ -211,6 +213,8 @@ to
+@@ -219,6 +221,8 @@ to
  Note: this is unset if the
  .Fl g
  option is used.
