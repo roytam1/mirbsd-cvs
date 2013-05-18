@@ -13,7 +13,7 @@
 #include <paths.h>
 
 __SCCSID("@(#)cpp.c	1.22 11/7/90");
-__RCSID("$MirOS: src/libexec/cpp/cpp.c,v 1.4 2007/08/24 14:20:04 tg Exp $");
+__RCSID("$MirOS: src/libexec/cpp/cpp.c,v 1.4.4.1 2008/11/20 15:18:24 tg Exp $");
 
 /* C command
 /* written by John F. Reiser
@@ -155,7 +155,7 @@ STATIC	int	fin	= FIRSTOPEN;
 STATIC	FILE	*fout	= stdout;
 STATIC	int	nd	= 1;
 STATIC	int	pflag;	/* don't put out lines "# 12 foo.c" */
-int	passcom;	/* don't delete comments */
+int	passcom;	/* &1=don't delete comments &2=even in macros */
 int	incomment;	/* True if parsing a comment */
 STATIC	int rflag;	/* allow macro recursion */
 STATIC	int mflag;	/* generate makefile dependencies */
@@ -649,7 +649,8 @@ dodef(p) char *p; {/* process '#define' */
 	char formtxt[BUFSIZ]; /* space for formal names */
 	int opt_passcom=passcom;
 
-	passcom=0;	/* don't put comments in macro expansions */
+	if (!(passcom & 2))
+		passcom=0;	/* don't put comments in macro expansions */
 
 	++flslvl; /* prevent macro expansion during 'define' */
 	p=skipbl(p); pin=inp;
@@ -1147,7 +1148,9 @@ main(argc,argv)
 				case 'P': pflag++;
 				case 'E': continue;
 				case 'R': ++rflag; continue;
-				case 'C': passcom++; continue;
+				case 'C':
+					passcom = argv[i][2] == 'C' ? 3 : 1;
+					continue;
 				case 'D':
 					if (predef>prespc+NPREDEF) {
 						pperror("too many -D options, ignoring %s",argv[i]);
