@@ -1,12 +1,12 @@
-$MirOS$
+$MirOS: ports/emulators/zsnes/patches/patch-src_configure_in,v 1.2 2005/10/02 19:25:35 tg Exp $
 --- src/configure.in.orig	Wed Jan 19 22:52:16 2005
-+++ src/configure.in	Sun Oct  2 18:36:57 2005
++++ src/configure.in	Thu Oct 30 19:38:13 2008
 @@ -9,13 +9,12 @@ AC_SUBST(VERSION)
  AC_ARG_WITH(nasm-prefix,[  --with-nasm-prefix=PFX Prefix where nasm is installed (optional)], nasm_prefix="$withval", nasm_prefix="")
  
  dnl -- Where is our compiler, and who are we compiling for?
 -CFLAGS="$CFLAGS -pipe -I. -Wall -I/usr/local/include -I/usr/include"
-+CFLAGS="$CFLAGS -I. -Wall"
++CFLAGS="$CFLAGS $CPPFLAGS -I. -Wall"
  
  dnl -- You might wanna change -I/usr/include if you're trying to do this with
  dnl Mingw, because it doesnt have a standard file tree. Maybe if ming do this

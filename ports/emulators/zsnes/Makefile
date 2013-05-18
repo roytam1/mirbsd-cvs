@@ -1,12 +1,12 @@
-# $MirOS: ports/emulators/zsnes/Makefile,v 1.7 2006/09/14 00:09:15 tg Exp $
+# $MirOS: ports/emulators/zsnes/Makefile,v 1.8 2008/03/09 17:22:41 tg Exp $
 # $OpenBSD: Makefile,v 1.8 2002/12/29 15:06:49 fgsch Exp $
 
-ONLY_FOR_PLATFORM=	OpenBSD:*:i386 MirBSD:*:i386
+ONLY_FOR_PLATFORM=	*BSD:*:i386
 
-COMMENT=			Super Nintendo emulator for x86
+COMMENT=		Super Nintendo emulator for x86
 VERSION=		1.42
 DISTNAME=		zsnes-${VERSION}
-PKGNAME=		${DISTNAME}-1
+DASH_VER=		1
 CATEGORIES=		emulators games
 HOMEPAGE=		http://www.zsnes.com/
 MASTER_SITES=		${MASTER_SITE_SOURCEFORGE:=zsnes/}
@@ -22,8 +22,8 @@ FLAVOURS=		debug
 FLAVOUR?=
 
 BUILD_DEPENDS=		nasm::lang/nasm
-LIB_DEPENDS=		SDL.:sdl-*-!no_x11:devel/sdl \
-			png.2::graphics/png
+LIB_DEPENDS=		SDL.:sdl-*-!no_x11:devel/sdl
+MODULES+=		graphics/png
 
 USE_X11=		Yes
 USE_CXX=		Yes
