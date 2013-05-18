@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.bin/make/main.c,v 1.6 2005/11/24 13:20:33 tg Exp $ */
+/**	$MirOS: src/usr.bin/make/main.c,v 1.7 2007/06/21 14:17:07 tg Exp $ */
 /*	$OpenPackages$ */
 /*	$OpenBSD: main.c,v 1.69 2006/09/26 18:20:50 mk Exp $ */
 /*	$NetBSD: main.c,v 1.34 1997/03/24 20:56:36 gwr Exp $	*/
@@ -85,7 +85,7 @@
 
 #define MAKEFLAGS	".MAKEFLAGS"
 
-__RCSID("$MirOS: src/usr.bin/make/main.c,v 1.6 2005/11/24 13:20:33 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/make/main.c,v 1.7 2007/06/21 14:17:07 tg Exp $");
 
 static LIST		to_create; 	/* Targets to be made */
 Lst create = &to_create;
@@ -844,12 +844,13 @@ static int
 ReadSysMakefile(const void *p, void *q UNUSED)
 {
 	int rv;
-	char *t;
+	char *t, *tp;
 
 	if ((rv = ReadMakefile(p, q)) == true) {
-		if ((t = dirname(p)) == NULL)
+		if (((tp = strdup(p)) == NULL) || ((t = dirname(tp)) == NULL))
 			Fatal("make: cannot dirname(%s).", (const char *)p);
 		Var_Set(".SYSMK", t, VAR_GLOBAL);
+		free(tp);
 	}
 
 	return rv;
