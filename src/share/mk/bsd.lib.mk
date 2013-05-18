@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/bsd.lib.mk,v 1.55 2007/05/17 17:21:44 tg Exp $
+# $MirOS: src/share/mk/bsd.lib.mk,v 1.56 2007/05/17 17:25:28 tg Exp $
 # $OpenBSD: bsd.lib.mk,v 1.43 2004/09/20 18:52:38 espie Exp $
 # $NetBSD: bsd.lib.mk,v 1.67 1996/01/17 20:39:26 mycroft Exp $
 # @(#)bsd.lib.mk	5.26 (Berkeley) 5/2/91
@@ -310,21 +310,39 @@ ${.CURDIR}/tags: ${SRCS}
 	sort -o $@ $@
 .endif
 
-.if defined(HDRS) && !target(includes)
+.if (defined(HDRS) || defined(HDRS2)) && !target(includes)
 HDRSRC?=${.CURDIR}
+HDRDST?=${DESTDIR}/usr/include
 
-includes:
-	@cd ${HDRSRC}; for i in ${HDRS}; do \
-		if cmp -s "$$i" ${DESTDIR:Q}/usr/include/"$$i"; then \
-			print Header ${DESTDIR:Q}/usr/include/"$$i" \
-			    is up to date.; \
+afterincludes:
+includes: _includes afterincludes
+
+.PHONY: _includes afterincludes
+
+_includes:
+.  ifdef HDRS
+	@cd ${HDRSRC:Q}; for i in ${HDRS}; do \
+		j=$${i##*/}; \
+		if cmp -s "$$i" ${HDRDST:Q}/"$$j"; then \
+			print Header ${HDRDST:Q}/"$$j" is up to date.; \
 		else \
-			print Header ${DESTDIR:Q}/usr/include/"$$i" \
-			    "<-- $$i"; \
+			print Header ${HDRDST:Q}/"$$j <-- $$i"; \
 			${INSTALL} ${INSTALL_COPY} -o ${BINOWN} -g ${BINGRP} \
-			    -m ${NONBINMODE} "$$i" ${DESTDIR}/usr/include/; \
+			    -m ${NONBINMODE} "$$i" ${HDRDST:Q}/; \
 		fi; \
 	done
+.  endif
+.  ifdef HDRS2
+.    for _i _j in ${HDRS2}
+	@if cmp -s ${HDRSRC:Q}/${_i:Q} ${HDRDST:Q}/${_j:Q}; then \
+		print Header ${HDRDST:Q}/${_j:Q} is up to date.; \
+	else \
+		print Header ${HDRDST:Q}/${_j:Q} '<--' ${_i:Q}; \
+		${INSTALL} ${INSTALL_COPY} -o ${BINOWN} -g ${BINGRP} \
+		    -m ${NONBINMODE} ${HDRSRC:Q}/${_i:Q} ${HDRDST:Q}/${_j:Q}; \
+	fi
+.    endfor
+.  endif
 .endif
 
 .if ${NOMAN:L} == "no"
