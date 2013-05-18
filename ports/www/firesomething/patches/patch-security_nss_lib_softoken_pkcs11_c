@@ -1,0 +1,12 @@
+$MirOS$
+--- security/nss/lib/softoken/pkcs11.c.orig	Wed Aug 27 02:11:51 2008
++++ security/nss/lib/softoken/pkcs11.c	Wed Aug 27 02:12:09 2008
+@@ -2548,7 +2548,7 @@ loser:
+         sftk_InitFreeLists();
+     }
+ 
+-#if defined(XP_UNIX) && !defined(NO_PTHREADS)
++#if defined(XP_UNIX) && !defined(NO_PTHREADS) && !defined(__MirBSD__)
+     if (CKR_OK == crv) {
+         pthread_atfork(NULL, NULL, ForkedChild);
+     }

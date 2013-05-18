@@ -1,4 +1,4 @@
-# $MirOS: ports/www/firesomething/Makefile,v 1.28 2008/05/26 05:45:51 bsiegert Exp $
+# $MirOS: ports/www/firesomething/Makefile,v 1.28.2.1 2008/08/24 14:52:23 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.41 2005/11/15 09:21:52 wilfried Exp $
 
 ONLY_FOR_PLATFORM=	*:*:alpha *:*:i386 *:*:sparc *:*:sparc64 *:*:amd64 *:*:powerpc
@@ -28,9 +28,10 @@ SO_VERSION=		10.0
 
 MODULES+=		devel/gettext devel/pkgconfig
 RUN_DEPENDS+=		:esound-*:audio/esound
-BUILD_DEPENDS+=		:libIDL-*:devel/libIDL \
-			:zip->=2.3:archivers/zip \
-			:pkgconfig-*:devel/pkgconfig
+BUILD_DEPENDS+=		:libIDL-*:devel/libIDL
+BUILD_DEPENDS+=		:zip->=2.3:archivers/zip
+BUILD_DEPENDS+=		:python->=2.5.2-7:lang/python/2.5
+LIB_DEPENDS+=		cairo:cairo->=1.6:graphics/cairo
 LIB_DEPENDS+=		gdk-x11-2.0.0.0,gdk_pixbuf-2.0.0.0,gtk-x11-2.0.0.0::x11/gtk+
 
 VMEM_WARNING=		Yes
@@ -44,7 +45,7 @@ SUBST_VARS=		LOCALBASE SO_VERSION VER
 PLIST=			${PKGDIR}/PLIST.${OStype}
 .endif
 
-MODGNU_RECURSE_DIRS=	${WRKSRC}/nsprpub ${WRKSRC}/directory/c-sdk ${WRKSRC}
+MODGNU_RECURSE_DIRS=	${WRKSRC}/nsprpub ${WRKSRC}
 CONFIGURE_STYLE=	autoconf no-autoheader
 CONFIGURE_ARGS+=	--with-system-jpeg=${LOCALBASE}	\
 			--with-system-png=${PNG_BASE}	\
@@ -53,12 +54,13 @@ CONFIGURE_ARGS+=	--with-system-jpeg=${LOCALBASE}	\
 			--without-system-nspr		\
 			--enable-xft			\
 			--enable-optimize=-Os		\
-			--enable-default-toolkit=gtk2	\
+			--enable-default-toolkit=cairo-gtk2	\
 			--disable-debug			\
 			--disable-tests			\
 			--disable-pedantic		\
 			--disable-installer		\
 			--disable-updater		\
+			--disable-crashreporter		\
 			--disable-gnomeui		\
 			--disable-gnomevfs		\
 			--enable-xinerama		\
@@ -79,11 +81,9 @@ post-extract:
 	@cp ${FILESDIR}/xptc* ${WRKSRC}/xpcom/reflect/xptcall/src/md/unix/
 
 post-patch:
-.for dir in security/coreconf directory/c-sdk/config
-	cd ${WRKSRC}/${dir} && \
+	cd ${WRKSRC}/security/coreconf && \
 	    ln -sf FreeBSD.mk MidnightBSD.mk && \
 	    ln -sf OpenBSD.mk MirBSD.mk
-.endfor
 
 pre-configure:
 	@perl -pi -e 's|_LOCALBASE_|${LOCALBASE}|g; s|_X11BASE_|${X11BASE}|g' \

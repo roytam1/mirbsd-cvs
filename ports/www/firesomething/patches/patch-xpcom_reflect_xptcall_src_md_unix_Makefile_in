@@ -1,7 +1,7 @@
-$MirOS: ports/www/firesomething/patches/patch-xpcom_reflect_xptcall_src_md_unix_Makefile_in,v 1.8 2008/05/21 13:49:47 tg Exp $
+$MirOS: ports/www/firesomething/patches/patch-xpcom_reflect_xptcall_src_md_unix_Makefile_in,v 1.8.2.1 2008/08/24 14:52:28 bsiegert Exp $
 $OpenBSD: patch-xpcom_reflect_xptcall_src_md_unix_Makefile_in,v 1.4 2004/11/26 18:29:15 pvalchev Exp $
---- xpcom/reflect/xptcall/src/md/unix/Makefile.in.orig	2008-04-09 08:34:20.000000000 +0200
-+++ xpcom/reflect/xptcall/src/md/unix/Makefile.in	2008-08-24 14:52:53.000000000 +0200
+--- xpcom/reflect/xptcall/src/md/unix/Makefile.in.orig	Wed Apr  9 08:33:57 2008
++++ xpcom/reflect/xptcall/src/md/unix/Makefile.in	Tue Aug 26 22:45:21 2008
 @@ -64,7 +64,7 @@ include $(topsrcdir)/config/config.mk
  #
  # Lots of Unixish x86 flavors
@@ -39,17 +39,17 @@ $OpenBSD: patch-xpcom_reflect_xptcall_src_md_unix_Makefile_in,v 1.4 2004/11/26 1
  # Darwin/PPC
  #
  ifeq ($(OS_ARCH),Darwin)
-@@ -382,6 +396,13 @@ endif
+@@ -380,6 +394,13 @@ else
+ ASFILES		:= xptcinvoke_asm_sparc_linux.s xptcstubs_asm_sparc_solaris.s
  endif
  endif
- #
++endif
++#
 +# MirBSD/sparc
 +#
 +ifeq ($(OS_ARCH)$(OS_TEST),MirBSDsparc)
 +CPPSRCS		:= xptcinvoke_sparc_netbsd.cpp xptcstubs_sparc_netbsd.cpp
 +ASFILES		:= xptcinvoke_asm_sparc_netbsd.s xptcstubs_asm_sparc_netbsd.s
-+endif
-+#
- # NetBSD/SPARC
+ endif
  #
- ifeq ($(OS_ARCH)$(OS_TEST),NetBSDsparc)
+ # NetBSD/SPARC
