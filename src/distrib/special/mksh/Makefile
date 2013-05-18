@@ -1,7 +1,7 @@
-# $MirOS: src/distrib/special/mksh/Makefile,v 1.58 2012/11/30 20:49:10 tg Exp $
+# $MirOS: src/distrib/special/mksh/Makefile,v 1.59 2012/12/17 23:46:30 tg Exp $
 #-
 # Copyright (c) 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010,
-#		2011, 2012
+#		2011, 2012, 2013
 #	Thorsten Glaser <tg@mirbsd.org>
 #
 # Provided that these terms and disclaimer and all copyright notices
@@ -53,7 +53,7 @@ CPPFLAGS+=	-DMKSH_ASSUME_UTF8 -DMKSH_DISABLE_DEPRECATED -DMKSH_SMALL \
 		-DHAVE_STRLCPY=1 -DHAVE_FLOCK_DECL=1 -DHAVE_REVOKE_DECL=1 \
 		-DHAVE_SYS_ERRLIST_DECL=1 -DHAVE_SYS_SIGLIST_DECL=1 \
 		-DHAVE_PERSISTENT_HISTORY=0 -DHAVE_SILENT_IDIVWRAPV=0 \
-		-DMKSH_BUILD_R=419
+		-DMKSH_BUILD_R=430
 CPPFLAGS+=	-D${${PROG:L}_tf:C/(Mir${MAN:E}{0,1}){2}/4/:S/x/mksh_BUILD/:U}
 COPTS+=		-std=c99 -Wall -fno-inline
 
