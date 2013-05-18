@@ -1,4 +1,4 @@
-/**	$MirOS: src/lib/libc/crypt/arc4random.c,v 1.16 2008/07/06 15:34:46 tg Exp $ */
+/**	$MirOS: src/lib/libc/crypt/arc4random.c,v 1.17 2008/10/20 10:41:52 tg Exp $ */
 /*	$OpenBSD: arc4random.c,v 1.14 2005/06/06 14:57:59 kjell Exp $	*/
 
 /*
@@ -46,7 +46,7 @@
 #include <string.h>
 #include <unistd.h>
 
-__RCSID("$MirOS: src/lib/libc/crypt/arc4random.c,v 1.16 2008/07/06 15:34:46 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/crypt/arc4random.c,v 1.17 2008/10/20 10:41:52 tg Exp $");
 
 #ifdef __GNUC__
 #define inline __inline
@@ -66,6 +66,28 @@ static pid_t arc4_stir_pid;
 static int arc4_count;
 
 static inline u_int8_t arc4_getbyte(struct arc4_stream *);
+static void arc4_atexit(void);
+
+static void
+arc4_atexit(void)
+{
+	struct {
+		pid_t spid;
+		int cnt;
+		u_int8_t carr[240];
+	} buf;
+	int mib[2];
+
+	mib[0] = 0;
+	while (mib[0] < 240)
+		buf.carr[mib[0]++] = arc4_getbyte(&rs);
+	buf.spid = arc4_stir_pid;
+	buf.cnt = arc4_count;
+
+	mib[0] = CTL_KERN;
+	mib[1] = KERN_ARND;
+	sysctl(mib, 2, NULL, NULL, &buf, sizeof (buf));
+}
 
 static inline void
 arc4_init(struct arc4_stream *as)
@@ -177,6 +199,7 @@ arc4random_stir(void)
 	if (!rs_initialized) {
 		arc4_init(&rs);
 		rs_initialized = 1;
+		atexit(arc4_atexit);
 	}
 	arc4_stir(&rs);
 }
