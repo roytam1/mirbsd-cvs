@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/stand/installboot/installboot.c,v 1.23 2007/02/26 16:47:46 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/stand/installboot/installboot.c,v 1.24 2007/02/26 17:39:10 tg Exp $ */
 /*	$OpenBSD: installboot.c,v 1.47 2004/07/15 21:44:16 tom Exp $	*/
 /*	$NetBSD: installboot.c,v 1.5 1995/11/17 23:23:50 gwr Exp $ */
 
@@ -88,7 +88,7 @@
 #include <unistd.h>
 #include <util.h>
 
-__RCSID("$MirOS: src/sys/arch/i386/stand/installboot/installboot.c,v 1.23 2007/02/26 16:47:46 tg Exp $");
+__RCSID("$MirOS: src/sys/arch/i386/stand/installboot/installboot.c,v 1.24 2007/02/26 17:39:10 tg Exp $");
 
 extern	char *__progname;
 int	verbose, nowrite, nheads, nsectors, userspec = 0;
@@ -439,7 +439,7 @@ main(int argc, char *argv[])
 		fprintf(stderr, "warning: Unable to get BIOS geometry, "
 		    "must/should specify -h and -s\nwarning: the drive "
 		    "may not boot in non-LBA mode\n");
-		if (nheads == -1)
+		if (nheads == -1 && dl.d_nsectors > 0)
 			nheads = dl.d_secpercyl / dl.d_nsectors;
 		if (nsectors == -1)
 			nsectors = dl.d_nsectors;
