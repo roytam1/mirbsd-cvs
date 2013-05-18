@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/kern/tty_pty.c,v 1.2 2005/03/06 21:28:03 tg Exp $ */
+/**	$MirOS: src/sys/kern/tty_pty.c,v 1.3 2005/07/04 00:10:43 tg Exp $ */
 /*	$OpenBSD: tty_pty.c,v 1.29 2005/05/26 00:33:45 pedro Exp $	*/
 /*	$NetBSD: tty_pty.c,v 1.33.4.1 1996/06/02 09:08:11 mrg Exp $	*/
 
@@ -168,7 +168,7 @@ check_pty(int minor)
 {
 	struct pt_softc *pti;
 
-	rw_enter_write(&pt_softc_lock, curproc);
+	rw_enter_write(&pt_softc_lock);
 	if (minor >= npty) {
 		struct pt_softc **newpt;
 		int newnpty;
@@ -959,7 +959,7 @@ sysctl_pty(int *name, u_int namelen, void *oldp, size_t *oldlenp, void *newp,
 	case KERN_TTY_MAXPTYS:
 		if (!newp)
 			return (sysctl_rdint(oldp, oldlenp, newp, maxptys));
-		rw_enter_write(&pt_softc_lock, curproc);
+		rw_enter_write(&pt_softc_lock);
 		oldmax = maxptys;
 		error = sysctl_int(oldp, oldlenp, newp, newlen, &maxptys);
 		/*

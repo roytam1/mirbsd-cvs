@@ -2670,7 +2670,7 @@ bridge_send_icmp_err(struct bridge_softc *sc, struct ifnet *ifp,
 		m_freem(n);
 		return;
 	}
-	m = icmp_do_error(n, type, code, 0, ifp);
+	m = icmp_do_error(n, type, code, 0, ifp->if_mtu);
 	if (m == NULL) {
 		m_freem(n2);
 		return;

@@ -593,11 +593,7 @@ struct m_tag *m_tag_next(struct mbuf *, struct m_tag *);
 #define PACKET_TAG_GIF				8  /* GIF processing done */
 #define PACKET_TAG_GRE				9  /* GRE processing done */
 #define PACKET_TAG_IN_PACKET_CHECKSUM		10 /* NIC checksumming done */
-#define PACKET_TAG_PF_GENERATED			11 /* PF generated, pass always */
-#define PACKET_TAG_PF_ROUTED			12 /* PF routed, no route loops */
-#define PACKET_TAG_PF_FRAGCACHE			13 /* PF fragment cached */
-#define	PACKET_TAG_PF_QID			14 /* PF queue id */
-#define PACKET_TAG_PF_TAG			15 /* PF tags */
+#define PACKET_TAG_PF				11 /* PF */
 #define PACKET_TAG_CARP				16 /* CARP info */
 #define PACKET_TAG_PF_TRANSLATE_LOCALHOST	17 /* translated to localhost */
 

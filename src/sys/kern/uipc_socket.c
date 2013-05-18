@@ -1,4 +1,4 @@
-/**	$MirOS$ */
+/**	$MirOS: src/sys/kern/uipc_socket.c,v 1.2 2005/03/06 21:28:03 tg Exp $ */
 /*	$OpenBSD: uipc_socket.c,v 1.53 2004/04/19 22:39:07 deraadt Exp $	*/
 /*	$NetBSD: uipc_socket.c,v 1.21 1996/02/04 02:17:52 christos Exp $	*/
 
@@ -119,6 +119,7 @@ socreate(dom, aso, type, proto)
 	so->so_euid = p->p_ucred->cr_uid;
 	so->so_rgid = p->p_cred->p_rgid;
 	so->so_egid = p->p_ucred->cr_gid;
+	so->so_cpid = p->p_pid;
 	so->so_proto = prp;
 	error = (*prp->pr_usrreq)(so, PRU_ATTACH, NULL,
 	    (struct mbuf *)(long)proto, NULL);
