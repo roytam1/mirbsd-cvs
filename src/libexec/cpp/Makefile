@@ -1,4 +1,4 @@
-# $MirOS: src/libexec/cpp/Makefile,v 1.4 2007/08/24 14:20:04 tg Exp $
+# $MirOS: src/libexec/cpp/Makefile,v 1.6 2008/11/22 13:06:42 tg Exp $
 # @(#)Makefile	5.2 (Berkeley) 5/12/90
 
 PROG=		cpp
@@ -7,10 +7,10 @@ NOMAN=		yes
 
 .include <bsd.own.mk>
 
-CPPFLAGS+=	-Dunix=1 -DFLEXNAMES
+CPPFLAGS+=	-Dunix -DFLEXNAMES
 COPTS+=		-std=gnu89
-YFLAGS=
 
+#XXX for now
 afterinstall:
 	${INSTALL} ${INSTALL_COPY} -o ${BINOWN} -g ${BINGRP} -m ${BINMODE} \
 	    ${.CURDIR}/xcpp.sh ${DESTDIR}/usr/bin/cpp
