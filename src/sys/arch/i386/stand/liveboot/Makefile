@@ -1,4 +1,4 @@
-# $MirOS: src/sys/arch/i386/stand/liveboot/Makefile,v 1.7 2009/02/01 10:44:17 tg Exp $
+# $MirOS: src/sys/arch/i386/stand/liveboot/Makefile,v 1.8 2009/02/01 10:47:36 tg Exp $
 
 BOOTSELECT_HOOK=yes
 BOOTLDR_PATH=	${.CURDIR}/../boot
@@ -54,3 +54,5 @@ all: ldbsd.txt
 ldbsd.txt: __MANALL
 	col -bx <boot.cat8 >$@ || (rm -f $@; exit 1)
 .endif
+
+CLEANFILES+=	ldbsd.txt
