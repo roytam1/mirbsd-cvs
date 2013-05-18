@@ -1,7 +1,7 @@
 /*	$OpenBSD: ntp.c,v 1.92 2006/10/21 07:30:58 henning Exp $ */
 
 /*
- * Copyright (c) 2006, 2007, 2008, 2009, 2010
+ * Copyright (c) 2006, 2007, 2008, 2009, 2010, 2011
  *	Thorsten Glaser <tg@mirbsd.org>
  * Copyright (c) 2003, 2004 Henning Brauer <henning@openbsd.org>
  * Copyright (c) 2004 Alexander Guy <alexander.guy@andern.org>
@@ -39,12 +39,13 @@
 #include "ntpd.h"
 #include "ntp.h"
 
-__RCSID("$MirOS: src/usr.sbin/ntpd/ntp.c,v 1.26 2010/09/24 22:19:22 tg Exp $");
+__RCSID("$MirOS: src/usr.sbin/ntpd/ntp.c,v 1.27 2010/09/24 22:23:49 tg Exp $");
 
 #define	PFD_PIPE_MAIN	0
 #define	PFD_MAX		1
 
 volatile sig_atomic_t	 ntp_quit = 0;
+volatile sig_atomic_t	 ntp_arc4push = 0;
 struct imsgbuf		*ibuf_main;
 struct ntpd_conf	*conf;
 u_int			 peer_cnt;
@@ -62,6 +63,10 @@ ntp_sighdlr(int sig)
 	case SIGINT:
 	case SIGTERM:
 		ntp_quit = 1;
+		break;
+	case SIGHUP:
+	case SIGUSR1:
+		ntp_arc4push = 1;
 		break;
 	}
 }
@@ -139,8 +144,8 @@ ntp_main(int pipe_prnt[2], struct ntpd_conf *nconf)
 	signal(SIGTERM, ntp_sighdlr);
 	signal(SIGINT, ntp_sighdlr);
 	signal(SIGPIPE, SIG_IGN);
-	signal(SIGUSR1, SIG_IGN);
-	signal(SIGHUP, SIG_IGN);
+	signal(SIGUSR1, ntp_sighdlr);
+	signal(SIGHUP, ntp_sighdlr);
 
 	close(pipe_prnt[0]);
 	if ((ibuf_main = malloc(sizeof(struct imsgbuf))) == NULL)
@@ -166,6 +171,11 @@ ntp_main(int pipe_prnt[2], struct ntpd_conf *nconf)
 		peer_cnt++;
 
 	while (ntp_quit == 0) {
+		if (ntp_arc4push) {
+			nextstir = 0;
+			ntp_arc4push = 0;
+		}
+
 		if (nextstir < (now = time(NULL))) {
 			/* 1.5 hours after start, then every 2 hrs */
 			arc4random_stir();

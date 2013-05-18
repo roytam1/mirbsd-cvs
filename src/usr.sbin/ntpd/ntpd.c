@@ -1,7 +1,7 @@
 /*	$OpenBSD: ntpd.c,v 1.40 2005/09/06 21:27:10 wvdputte Exp $ */
 
 /*-
- * Copyright (c) 2004, 2005, 2007, 2008
+ * Copyright (c) 2004, 2005, 2007, 2008, 2011
  *	Thorsten "mirabilos" Glaser <tg@mirbsd.org>
  * Copyright (c) 2003, 2004 Henning Brauer <henning@openbsd.org>
  *
@@ -35,7 +35,7 @@
 
 #include "ntpd.h"
 
-__RCSID("$MirOS: src/usr.sbin/ntpd/ntpd.c,v 1.18 2008/06/04 18:28:36 tg Exp $");
+__RCSID("$MirOS: src/usr.sbin/ntpd/ntpd.c,v 1.19 2008/11/08 23:04:56 tg Exp $");
 
 void		sighdlr(int);
 __dead void	usage(void);
@@ -50,6 +50,7 @@ volatile sig_atomic_t	 quit = 0;
 volatile sig_atomic_t	 reconfig = 0;
 volatile sig_atomic_t	 sigchld = 0;
 volatile sig_atomic_t	 sigusr1 = 0;
+volatile sig_atomic_t	 arc4push = 0;
 struct imsgbuf		*ibuf;
 
 void
@@ -62,12 +63,15 @@ sighdlr(int sig)
 		break;
 	case SIGCHLD:
 		sigchld = 1;
+		arc4push = 1;
 		break;
 	case SIGHUP:
 		reconfig = 1;
+		arc4push = 1;
 		break;
 	case SIGUSR1:
 		sigusr1 = 1;
+		arc4push = 1;
 		break;
 	}
 }
@@ -200,6 +204,11 @@ main(int argc, char *argv[])
 			nfds--;
 			if (dispatch_imsg(&conf) == -1)
 				quit = 1;
+		}
+
+		if (arc4push) {
+			arc4random_stir();
+			arc4push = 0;
 		}
 
 		if (sigchld) {
