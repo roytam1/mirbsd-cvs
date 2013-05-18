@@ -1,8 +1,9 @@
-# $MirOS: ports/security/gpgme/Makefile,v 1.2 2006/09/13 20:54:59 tg Exp $
+# $MirOS: ports/security/gpgme/Makefile,v 1.3 2006/09/14 00:13:00 tg Exp $
 # $OpenBSD: Makefile,v 1.10 2003/05/27 14:16:48 couderc Exp $
 
-COMMENT=			GnuPG Made Easy
+COMMENT=		GnuPG Made Easy
 DISTNAME=		gpgme-1.0.3
+PKGNAME=		${DISTNAME}-1
 CATEGORIES=     	security devel
 HOMEPAGE=		http://www.gnupg.org/gpgme.html
 
@@ -19,14 +20,17 @@ MASTER_SITES=		ftp://ftp.gnupg.org/gcrypt/gpgme/ \
 			ftp://pgp.iijlab.net/pub/pgp/gpgme/ \
 			ftp://ring.aist.go.jp/pub/net/gnupg/gpgme/
 
-CONFIGURE_STYLE=	autoconf
+CONFIGURE_STYLE=	autogen
 AUTOCONF_NEW=		Yes
+AUTOMAKE_VERSION=	1.9
 CONFIGURE_ARGS+=	${CONFIGURE_SHARED} \
 			--without-gpgsm \
 			--without-pth \
 			--disable-dependency-tracking \
 			--disable-libtool-lock
 CONFIGURE_ENV+=		MAKEINFO="makeinfo --no-split"
+# disable pthread
+CONFIGURE_ENV+=		ac_cv_lib_pthread_pthread_create=no
 
 BUILD_DEPENDS=		:gnupg->=1.2.2:security/gnupg
 RUN_DEPENDS=		${BUILD_DEPENDS}

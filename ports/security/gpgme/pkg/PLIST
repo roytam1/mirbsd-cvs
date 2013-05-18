@@ -1,9 +1,8 @@
-@comment $MirOS$
+@comment $MirOS: ports/security/gpgme/pkg/PLIST,v 1.2 2006/09/13 20:55:00 tg Exp $
 @unexec install-info --delete --info-dir=%D/info %D/info/gpgme.info
 bin/gpgme-config
 include/gpgme.h
 info/gpgme.info
-lib/libgpgme-pthread.la
 lib/libgpgme.la
 share/aclocal/gpgme.m4
 @dirrm share/aclocal
