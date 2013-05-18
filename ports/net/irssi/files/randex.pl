@@ -1,4 +1,4 @@
-# $MirOS: ports/net/irssi/files/randex.pl,v 1.3 2008/07/20 01:43:17 tg Exp $
+# $MirOS: ports/net/irssi/files/randex.pl,v 1.4 2008/07/20 15:32:04 tg Exp $
 #-
 # Copyright (c) 2008
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -70,6 +70,16 @@ cmd_randex
 	chop($s);
 	$recip->send_raw("PRIVMSG ${towho} :\caENTROPY ${s}\ca");
 	Irssi::print("Initiating the RANDEX protocol with ${towho}")
+	    unless Irssi::settings_get_bool("rand_quiet");
+}
+
+sub
+cmd_randstir
+{
+	arc4random_stir();
+	Irssi::timeout_remove($tmo_randfile) if defined($tmo_randfile);
+	randfile_timeout(1);
+	Irssi::print("Entropy pool stirred.")
 	    unless Irssi::settings_get_bool("rand_quiet");
 }
 
@@ -227,6 +237,7 @@ Irssi::settings_add_bool("randex", "rand_quiet", 0);
 
 Irssi::signal_add('gui exit', \&sig_quitting);
 Irssi::command_bind('randex', 'cmd_randex');
+Irssi::command_bind('randstir', 'cmd_randstir');
 Irssi::signal_add('ctcp msg entropy', \&process_entropy_request);
 Irssi::signal_add('ctcp reply random', \&process_random_response);
 Irssi::ctcp_register("ENTROPY");
