@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/sys/arch/sparc/stand/bootxx/mkbxinst.sh,v 1.4 2007/10/20 23:18:03 tg Exp $
+# $MirOS: src/sys/arch/sparc/stand/bootxx/mkbxinst.sh,v 1.5 2007/10/20 23:25:17 tg Exp $
 #-
 # Copyright (c) 2007
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -27,7 +27,7 @@
 # Arguments: $1 = a.out (sparc OpenBoot) bootxx, linked
 # Output: shell script to stdout
 
-rcsid='$MirOS: src/sys/arch/sparc/stand/bootxx/mkbxinst.sh,v 1.4 2007/10/20 23:18:03 tg Exp $'
+rcsid='$MirOS: src/sys/arch/sparc/stand/bootxx/mkbxinst.sh,v 1.5 2007/10/20 23:25:17 tg Exp $'
 
 function die {
 	rv=$1; shift
@@ -142,9 +142,13 @@ cat <<'EOF'
 set -A blktblent
 typeset -i blktblnum=0 firstblock lastblock i=0 sscale=0
 
-while getopts ":0S:" ch; do
+while getopts ":0:S:" ch; do
 	case $ch {
-	(0)	pbs_output 24 ;;
+	(0)	if (( OPTARG < 0 || OPTARG > 62 )); then
+			print -u2 Error: invalid chain sector "'$OPTARG'"
+			exit 1
+		fi
+		pbs_output $OPTARG ;;
 	(S)	if (( (sscale = OPTARG) < 0 || OPTARG > 24 )); then
 			print -u2 Error: invalid sector scale "'$OPTARG'"
 			exit 1
