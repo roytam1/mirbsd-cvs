@@ -41,6 +41,8 @@ CFLAGS+=	-Wall -Wextra -Wunused -Wdeclaration-after-statement -Wundef \
 
 # Set to yes to add CDIAGFLAGS to CFLAGS
 WARNINGS?=		No
+# Set to yes to build debugging versions of shared libraries
+DEBUGLIBS?=		Yes
 # Set to yes for a stricter patent policy (USA and OpenBSD only)
 MKC_USAP?=		No
 # Set to sudo to automatically switch to root and only if needed

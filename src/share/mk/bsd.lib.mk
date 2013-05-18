@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/bsd.lib.mk,v 1.29 2005/12/04 19:32:36 tg Exp $
+# $MirOS: src/share/mk/bsd.lib.mk,v 1.30 2005/12/15 01:28:37 tg Exp $
 # $OpenBSD: bsd.lib.mk,v 1.43 2004/09/20 18:52:38 espie Exp $
 # $NetBSD: bsd.lib.mk,v 1.67 1996/01/17 20:39:26 mycroft Exp $
 # @(#)bsd.lib.mk	5.26 (Berkeley) 5/2/91
@@ -81,21 +81,13 @@ LINK.shlib?=	${LINKER} ${CFLAGS} ${SHLIB_FLAGS} -shared \
 # .so used for PIC object files.  .ln used for lint output files.
 # .m for objective c files.
 .SUFFIXES:
-.SUFFIXES:	.out .o .go .so .S .s .c .m .cc .cxx .y .l .i .ln .m4
+.SUFFIXES:	.out .o .so .S .s .c .m .cc .cxx .y .l .i .ln .m4
 
 .c.o .m.o:
 	@echo "${COMPILE.c} ${CFLAGS_${.TARGET:C/(g|s)o$/.o/}}" \
 	    "${.IMPSRC} -o $@"
 	@${COMPILE.c} ${CFLAGS_${.TARGET:C/\.(g|s)o$/.o/}} \
 	    ${.IMPSRC} -o $@.o
-	@${LD} -x -r $@.o -o $@
-	@rm -f $@.o
-
-.c.go .m.go:
-	@echo "${COMPILE.c} ${CFLAGS_${.TARGET:C/\.(g|s)o$/.o/}}" \
-	    "-g ${.IMPSRC} -o $@"
-	@${COMPILE.c} ${CFLAGS_${.TARGET:C/\.(g|s)o$/.o/}} \
-	    -g ${.IMPSRC} -o $@.o
 	@${LD} -X -r $@.o -o $@
 	@rm -f $@.o
 
@@ -104,7 +96,7 @@ LINK.shlib?=	${LINKER} ${CFLAGS} ${SHLIB_FLAGS} -shared \
 	    "-DPIC ${PICFLAG} ${.IMPSRC} -o $@"
 	@${COMPILE.c} ${CFLAGS_${.TARGET:C/\.(g|s)o$/.o/}} \
 	    -DPIC ${PICFLAG} ${.IMPSRC} -o $@.o
-	@${LD} -x -r $@.o -o $@
+	@${LD} -X -r $@.o -o $@
 	@rm -f $@.o
 
 .c.ln:
@@ -115,14 +107,6 @@ LINK.shlib?=	${LINKER} ${CFLAGS} ${SHLIB_FLAGS} -shared \
 	    "${.IMPSRC} -o $@"
 	@${COMPILE.cc}  ${CXXFLAGS_${.TARGET:C/\.(g|s)o$/.o/}} \
 	    ${.IMPSRC} -o $@.o
-	@${LD} -x -r $@.o -o $@
-	@rm -f $@.o
-
-.cc.go .cxx.go:
-	@echo "${COMPILE.cc} ${CXXFLAGS_${.TARGET:C/\.(g|s)o$/.o/}}" \
-	    "-g ${.IMPSRC} -o $@"
-	@${COMPILE.cc}  ${CXXFLAGS_${.TARGET:C/\.(g|s)o$/.o/}} \
-	    -g ${.IMPSRC} -o $@.o
 	@${LD} -X -r $@.o -o $@
 	@rm -f $@.o
 
@@ -131,18 +115,10 @@ LINK.shlib?=	${LINKER} ${CFLAGS} ${SHLIB_FLAGS} -shared \
 	    "-DPIC ${PICFLAG} ${.IMPSRC} -o $@"
 	@${COMPILE.cc}  ${CXXFLAGS_${.TARGET:C/\.(g|s)o$/.o/}} \
 	    -DPIC ${PICFLAG} ${.IMPSRC} -o $@.o
-	@${LD} -x -r $@.o -o $@
+	@${LD} -X -r $@.o -o $@
 	@rm -f $@.o
 
 .S.o .s.o:
-	@echo "${CPP} ${CPPFLAGS} ${CFLAGS:M-[ID]*} ${AINC} ${.IMPSRC} |" \
-	    "${AS} -o $@"
-	@${CPP} ${CPPFLAGS} ${CFLAGS:M-[ID]*} ${AINC} ${.IMPSRC} | \
-	    ${AS} -o $@.o
-	@${LD} -x -r $@.o -o $@
-	@rm -f $@.o
-
-.S.go .s.go:
 	@echo "${CPP} ${CPPFLAGS} ${CFLAGS:M-[ID]*} ${AINC} ${.IMPSRC} |" \
 	    "${AS} -o $@"
 	@${CPP} ${CPPFLAGS} ${CFLAGS:M-[ID]*} ${AINC} ${.IMPSRC} | \
@@ -155,7 +131,7 @@ LINK.shlib?=	${LINKER} ${CFLAGS} ${SHLIB_FLAGS} -shared \
 	    "${AS} ${ASPICFLAG} -o $@"
 	@${CPP} -DPIC ${CPPFLAGS} ${CFLAGS:M-[ID]*} ${AINC} ${.IMPSRC} | \
 	    ${AS} ${ASPICFLAG} -o $@.o
-	@${LD} -x -r $@.o -o $@
+	@${LD} -X -r $@.o -o $@
 	@rm -f $@.o
 
 .if ${WARNINGS:L} == "yes"
@@ -164,6 +140,10 @@ CXXFLAGS+=	${CXXDIAGFLAGS}
 .endif
 CFLAGS+=	${COPTS}
 CXXFLAGS+=	${CXXOPTS}
+
+.if ${DEBUGLIBS:L} == "yes"
+DEBUG?=		-g1
+.endif
 
 _LIBS=		lib${LIB}.a
 
@@ -187,13 +167,6 @@ lib${LIB}.a:: ${OBJS}
 	@echo building standard ${LIB} library
 	@rm -f lib${LIB}.a
 	@${AR} cq lib${LIB}.a $$(${LORDER} ${OBJS} | tsort -q)
-
-# This is an old-style debugging static library and no longer in use.
-GOBJS+=		${OBJS:.o=.go}
-lib${LIB}_g.a:: ${GOBJS}
-	@echo building debugging ${LIB} library
-	@rm -f lib${LIB}_g.a
-	@${AR} cq lib${LIB}_g.a $$(${LORDER} ${GOBJS} | tsort -q)
 
 # If new-style debugging libraries are in effect, libFOO_pic.a
 # contains debugging information - this is actually wanted.
@@ -227,7 +200,6 @@ llib-l${LIB}.ln: ${LOBJS}
 clean: _SUBDIRUSE
 	rm -f a.out [Ee]rrs mklog core *.core ${CLEANFILES}
 	rm -f lib${LIB}.a ${OBJS}
-	rm -f lib${LIB}_g.a ${GOBJS}
 	rm -f lib${LIB}_pic.a lib${LIB}.so.*.* lib${LIB}{,.*}.dylib ${SOBJS}
 	rm -f llib-l${LIB}.ln ${LOBJS}
 .endif

@@ -3,6 +3,7 @@
 .
 /^SKEY?=/;/^DEFFLAGS?=/-d
 /^CC?=/d
+/^DEBUGLIBS.=/s/Yes/No/
 /^OBJECT_FMT=/s/\(OBJECT_FMT=[	 ]*\).*$/\1@@obfm@@/
 /^RTLD_TYPE=/s/\(RTLD_TYPE=[	 ]*\).*$/\1@@rtld@@/
 /^MKSH?=/s/\(MKSH?=[	 ]*\).*$/\1@@mksh@@/
