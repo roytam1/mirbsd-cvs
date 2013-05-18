@@ -1,5 +1,5 @@
 #!/bin/sh
-# $MirOS: contrib/hosted/fwcf/fwcf.sh,v 1.30 2007/03/31 00:29:56 tg Exp $
+# $MirOS: contrib/hosted/fwcf/fwcf.sh,v 1.31 2007/06/11 12:40:00 tg Exp $
 #-
 # Copyright (c) 2006, 2007
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -43,14 +43,93 @@
 export PATH=/bin:/sbin:/usr/bin:/usr/sbin
 wd=$(pwd)
 cd /
+what='FreeWRT Configuration Filesytem (fwcf), Version 1.03-current
+Copyright (c) 2006, 2007
+	Thorsten Glaser <tg@freewrt.org>
+'
+
+usage()
+{
+	cat >&2 <<EOF
+$what
+Usage:
+	{ halt | poweroff | reboot } [-Ffn] [-d delay]
+	fwcf { commit | erase | setup | status | dump | restore } [flags]
+EOF
+	exit 1
+}
+
+case $0 in
+*fwcf*)		me=fwcf ;;
+*halt*)		me=halt ;;
+*poweroff*)	me=poweroff ;;
+*reboot*)	me=reboot ;;
+*)		usage ;;
+esac
+
+if test $me != fwcf; then
+	dflag=0
+	dval=
+	fflag=0
+	nofwcf=0
+	nflag=0
+	# parse arguments
+	for i
+	do
+		if test 2 = $dflag; then
+			dflag=1
+			dval=$i
+			continue
+		fi
+		ok=0
+		case $i in
+		-)
+			usage ;;
+		-*[!dFfn]*)
+			usage ;;
+		--)
+			ok=2 ;;
+		-*)
+			ok=1 ;;
+		esac
+		test 2 = $ok && break
+		test 1 = $ok || usage
+		case $i in
+		-*d)	dflag=2 ;;
+		-*d*)	usage ;;
+		esac
+		case $i in
+		-*F*)	nofwcf=1 ;;
+		esac
+		case $i in
+		-*f*)	fflag=1 ;;
+		esac
+		case $i in
+		-*n*)	nflag=1 ;;
+		esac
+	done
+	test 2 = $dflag && usage
+
+	if test 0 = $nofwcf && test 0 = $fflag; then
+		if ! fwcf status -q; then
+			echo "error: will not $me: unsaved changes in /etc found!" >&2
+			echo "Either run 'fwcf commit' before trying to $me" >&2
+			echo "or retry with '$me -F${*+ }$*' to force a ${me}." >&2
+			echo "Run 'fwcf status' to see which files are changed." >&2
+			exit 2
+		fi
+	fi
+
+	test 1 = $fflag && me="$me -f"
+	test 1 = $nflag && me="$me -n"
+	test 1 = $dflag && me="$me -d '$dval'"
+	eval exec busybox $me
+fi
 
 case $1 in
 commit|erase|setup|status|dump|restore) ;;
 *)	cat >&2 <<EOF
-FreeWRT Configuration Filesytem (fwcf), Version 1.03-current
-Copyright (c) 2006, 2007
-	Thorsten Glaser <tg@freewrt.org>
-
+$what
 Syntax:
 	$0 commit [-f]
 	$0 erase
