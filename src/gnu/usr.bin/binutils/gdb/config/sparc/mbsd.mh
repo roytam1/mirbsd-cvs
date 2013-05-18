@@ -1,5 +1,0 @@
-# Host: MirOS BSD/sparc ELF
-NATDEPFILES= fork-child.o inf-ptrace.o \
-	sparc-nat.o sparcnbsd-nat.o bsd-kvm.o
-
-LOADLIBES= -lkvm -lz

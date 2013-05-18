@@ -1,8 +1,0 @@
-# $MirOS: src/distrib/baselive/boot.cfg.grml,v 1.2 2009/01/18 19:24:36 tg Exp $
-#-
-# added at the bottom of the MD boot.cfg file from cdromX.iso
-#
-macro grml machine exec grub /boot/grub/core.img
-echo To switch to GNU GRUB 2 for loading into grml MirOS edition
-echo type the command 'grml' below.
-echo

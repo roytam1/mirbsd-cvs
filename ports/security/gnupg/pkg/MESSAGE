@@ -1,5 +1,0 @@
-To enable memory page locking, which is only necessary if you do
-not use swap encryption, a feature enabled by default in recent
-installations of MirOS and OpenBSD, use the following commands:
-$ sudo chown root:bin ${PREFIX}/bin/gpg
-$ sudo chmod 4111 ${PREFIX}/bin/gpg

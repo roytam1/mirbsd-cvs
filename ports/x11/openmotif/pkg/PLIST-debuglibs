@@ -1,5 +1,0 @@
-@comment $MirOS$
-@comment $OpenBSD: PLIST-debuglibs,v 1.1 2001/01/03 00:02:58 matt Exp $
-lib/libMrm_d.a
-lib/libUil_d.a
-lib/libXm_d.a

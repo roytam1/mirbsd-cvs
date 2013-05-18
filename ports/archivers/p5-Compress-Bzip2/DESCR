@@ -1,9 +1,0 @@
-The Compress::Bzip2 module provides a Perl interface to the Bzip2
-compression library. A relevant subset of the functionality provided by
-Bzip2 is available in Compress::Bzip2.
-
-All string parameters can either be a scalar or a scalar reference.
-
-The module can be split into two general areas of functionality, namely
-in-memory compression/decompression and read/write access to bzip2
-files.

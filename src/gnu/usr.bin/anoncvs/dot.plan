@@ -1,5 +1,0 @@
-To use anonymous CVS install the latest version of CVS on your local machine.
-Then set your CVSROOT environment variable to the following value:
-		_anoncvs@anoncvs.mirbsd.org:/cvs
-
-If you are asked for a password, enter "anoncvs" (without the quote marks).
