@@ -1,5 +1,5 @@
 <!-- PageID: wlog-8 -->
-<small class="rcsid">$MirOS: www/content/d2xvZy04.inc,v 1.21 2006/01/27 00:14:32 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy04.inc,v 1.22 2006/01/27 00:29:25 tg Exp $</small>
 <h1>MirBSD &ndash; WTF, We Have a Release!?</h1>
 <p><small><a href="#eof">bottom</a> or <a href="/?older">older</a>
  editions</small></p>
@@ -286,6 +286,10 @@ celebrate this event, rotate the wlog and start a new one.</p>
   peak in productivity, not only yielding a much cooler, artistic, new
   keyboard layout, but to the release of <a href="/?jupp">joe-3.1jupp5
   </a> as well.</p>
+ <p>And because I didn't find this, admittedly older, reference in the
+  bookmark list I keep, I thought I don't want to keep it from you, as
+  it's also my opinion on trends and AJAX: Felix von Leitner speaks on
+  <a href="http://blog.fefe.de/?ts=bda6ce31">hypes</a>.</p>
 </div>
 
 <p id="eof">Good luck, have fun, take care etc.pp</p>
