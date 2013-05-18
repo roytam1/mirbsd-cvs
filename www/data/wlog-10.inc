@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.101 2008/11/17 01:23:33 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.102 2008/11/22 14:30:03 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -2076,7 +2076,7 @@ Title: galloc and OPTU
  sole C Præprocessor now… and have yet to notice failures in operation.
  Now we’ll have to find out what else stuff is there depending on the
  existence of <tt>/usr/bin/cpp</tt>, possibly switching it, like the
- &lt;sys.mk&gt; mir‌make(1) file, to <tt>${CC} -E -</tt> (which is not
+ &lt;sys.mk&gt; mir‍make(1) file, to <tt>${CC} -E -</tt> (which is not
  100% compatible, because cpp can also read from stdin without the
  dash, whereas, with the dash, neither can read from only a file).
  X11 etc. can be switched to <tt>/usr/libexec/cpp</tt> then.</p>
