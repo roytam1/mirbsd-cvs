@@ -1,4 +1,4 @@
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.88 2008/03/05 20:05:07 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.89 2008/03/06 17:37:47 tg Exp $'
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -52,9 +52,9 @@ mws_content <<'EOF'
  Debian GNU/k*BSD and HURD developers were quite helpful in assisting and
  testing as well. Thanks to Thomas E. “TGEN” Spanjaard for access to both a
  NetBSD and a DragonFly system. Thanks to Josef “jupp” / “penpen” Schugt for
- testing mksh on a HP OSF/1 V4.0 system from the Uni Bonn Physik CIP Pool.
- Thanks to DEChengst from #UnixNL for providing access to a HP/Compaq Tru64
- (OSF/1 V5.1B) system. (Did I miss anyone? Mail me if so.)</p>
+ testing mksh on a Digital Unix (OSF/1 V4.0) system from the Uni Bonn Physik
+ CIP Pool. Thanks to DEChengst from #UnixNL for providing access to a HP/Compaq
+ Tru64 (OSF/1 V5.1B) system. (Did I miss anyone? Mail me if so.)</p>
 <p>What is mksh(1)? – Short answer: The MirBSD Korn Shell. Okay, but what
  exactly does it do, or why another shell? These questions will be answered
  <a href="#contrib">below</a> for the people interested. Right now, you only
