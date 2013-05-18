@@ -26,7 +26,7 @@
 # include <wchar.h>
 #endif
 
-__RCSID("$MirOS: ports/devel/cvs/patches/patch-src_subr_c,v 1.3 2010/09/15 20:57:03 tg Exp $");
+__RCSID("$MirOS: src/gnu/usr.bin/cvs/src/subr.c,v 1.5 2010/09/19 19:43:12 tg Exp $");
 
 
 extern char *getlogin (void);
@@ -808,6 +808,8 @@ sleep_past (time_t desttime)
     long s;
     long us;
 
+    if (time (&t) > desttime) return;
+
     while (time (&t) <= desttime)
     {
 #ifdef HAVE_GETTIMEOFDAY
@@ -835,6 +837,14 @@ sleep_past (time_t desttime)
 	    ts.tv_nsec = us * 1000;
 	    (void)nanosleep (&ts, NULL);
 	}
+    }
+
+    /* sleep another 20 ms (2 HZ) to avoid races */
+    {
+        struct timespec ts;
+        ts.tv_sec = 0;
+        ts.tv_nsec = 20 * 1000 * 1000;
+        (void)nanosleep (&ts, NULL);
     }
 }
 

@@ -1652,8 +1652,6 @@ calc_eclosure_iter (re_node_set *new_set, re_dfa_t *dfa, Idx node, bool root)
       && dfa->edests[node].nelem
       && !dfa->nodes[dfa->edests[node].elems[0]].duplicated)
     {
-      Idx org_node, cur_node;
-      org_node = cur_node = node;
       err = duplicate_node_closure (dfa, node, node, node, constraint);
       if (BE (err != REG_NOERROR, 0))
 	return err;
@@ -3777,3 +3775,5 @@ duplicate_tree (const bin_tree_t *root, re_dfa_t *dfa)
 	}
     }
 }
+
+__RCSID("$MirOS$");

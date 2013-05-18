@@ -1,9 +1,9 @@
-# $MirOS: ports/devel/cvs/Makefile,v 1.19 2011/06/11 03:55:34 tg Exp $
+# $MirOS: ports/devel/cvs/Makefile,v 1.20 2011/06/11 04:05:12 tg Exp $
 
 COMMENT=		Concurrent Versions System
 CATEGORIES=		devel essentials
 VSN=			1.12.13
-DASH_VER=		11		# in sync with MirOS-0AAE.2 rev.
+DASH_VER=		12		# in sync with MirOS-0AAF.1 rev.
 HOMEPAGE=		http://www.nongnu.org/cvs/
 RESPONSIBLE=		Thorsten Glaser <tg@mirbsd.org>
 
@@ -35,7 +35,7 @@ CONFIGURE_ARGS+=	--disable-nls \
 			--with-tmpdir=/var/tmp \
 			--with-umask=002 \
 			--with-cvs-admin-group=_cvsadmin
-# cought by systrace, tries to write to ${LOCALBASE}/lib as check
+# caught by systrace, tries to write to ${LOCALBASE}/lib as check
 CONFIGURE_ENV+=		ac_cv_sys_long_file_names=yes
 # hardcoded paths
 CONFIGURE_ENV+=		ac_cv_path_CSH=${LOCALBASE:Q}/bin/csh

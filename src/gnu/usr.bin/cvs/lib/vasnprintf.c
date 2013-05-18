@@ -53,6 +53,8 @@
 /* Checked size_t computations.  */
 #include "xsize.h"
 
+__RCSID("$MirOS$");
+
 /* Some systems, like OSF/1 4.0 and Woe32, don't have EOVERFLOW.  */
 #ifndef EOVERFLOW
 # define EOVERFLOW E2BIG
@@ -598,11 +600,12 @@ VASNPRINTF (CHAR_T *resultbuf, size_t *lengthp, const CHAR_T *format, va_list ar
 		  {
 		    size_t maxlen;
 		    int count;
-		    int retcount;
+#if USE_SNPRINTF
+		    int retcount = 0;
+#endif
 
 		    maxlen = allocated - length;
 		    count = -1;
-		    retcount = 0;
 
 #if USE_SNPRINTF
 # define SNPRINTF_BUF(arg) \
