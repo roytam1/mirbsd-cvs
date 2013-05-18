@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.278 2010/01/31 02:05:07 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.279 2010/02/05 12:37:20 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -6147,6 +6147,11 @@ Tag: debian event
  plus <a href="http://www.ohloh.net/p/evolvis">Evolvis</a> currently
  runs FusionForge 4.5 (aka "Debian GForge") but we're in the process
  of upgrading to a 4.8-plus-backports-and-patches, then 5.0 soon.</p>
+<p>There is a new inter-forge mailing list as well, see the <a
+ href="http://lists.planetforge.org/cgi-bin/mailman/listinfo/discussions">info
+ page</a>. People from Coclico and the various *forges may want to
+ subscribe there (forge developers, not so much users (hosters) or
+ end-users (hosted project developers/users) though).</p>
 <p>At FOSDEM, Benny and I (and maybe gecko2) will be running the <a
  href="@@RELPATH@@main.htm">MirBSD</a> booth, so no Debian staffing
  for me, sorry. But I will be there. Also please do ask me about <a
@@ -6156,6 +6161,15 @@ Tag: debian event
  href="@@ABSPATH@@/MirOS/PR/flyer_en.pdf">English</a> and <a
  href="@@ABSPATH@@/MirOS/PR/flyer_fr.pdf">French</a> too! (One of
  the *forge guys did install mksh(1) after reading it, in fact.)</p>
+<p>Don't you people dare miss the two talks: from Benny about <a
+ href="http://fosdem.org/2010/schedule/events/bsd_autotools">how to
+ package with autotools and libtool correctly</a> and from <a
+ href="http://fsinfo.cs.uni-sb.de/~abe/Links/">XTaran</a> explaining <a
+ href="http://noone.org/blog/English/Computer/Debian/abe%2540debian.org.html">Debian
+ GNU/kFreeBSD</a>. Benny's also famous for his talk about <a
+ href="http://www.slideshare.net/bsiegert/painless-perl-ports-with-cpan2port">Painless
+ Perl Ports</a> with cpan2port; XTaran's famous for a whole bunch
+ of other <a href="http://www.symlink.ch/">things</a>.</p>
 <p>I still have some catching up (wlog entries, keysigning, webpages,
  etc.) to do, please bear with me. I don't really have a proper work
  environment with me.</p>
