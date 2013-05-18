@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/baselive/Makefile,v 1.24 2007/07/18 09:04:11 tg Exp $
+# $MirOS: src/distrib/baselive/Makefile,v 1.25 2008/03/21 04:48:21 tg Exp $
 
 .include <bsd.own.mk>
 
@@ -54,7 +54,7 @@ unpack-mi:
 	test ! -e ${TMPMOUNT} || (cd ${.CURDIR}; ${MAKE} unconfig)
 	${SUDO} rm -rf ${WRKDIR}
 	mkdir -p ${WRKDIR}/v${OSrev}/${MACHINE}
-.for _i in base dev etc gnu xbase xetc
+.for _i in base dev etc gnu xbase xetc xsrv
 	cd ${WRKDIR} && ${SUDO} tar xzphf ${BSDRELDIR}/rel/${_i}${OSrev}.ngz
 .endfor
 	cd ${WRKDIR}/v${OSrev}/${MACHINE} && lndir ${BSDRELDIR}/rel
