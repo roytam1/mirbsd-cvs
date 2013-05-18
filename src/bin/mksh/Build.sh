@@ -1,5 +1,5 @@
 #!/bin/sh
-srcversion='$MirOS: src/bin/mksh/Build.sh,v 1.399 2009/06/07 22:26:00 tg Exp $'
+srcversion='$MirOS: src/bin/mksh/Build.sh,v 1.400 2009/06/08 20:34:37 tg Exp $'
 #-
 # Copyright (c) 2003, 2004, 2005, 2006, 2007, 2008, 2009
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -24,6 +24,7 @@ srcversion='$MirOS: src/bin/mksh/Build.sh,v 1.399 2009/06/07 22:26:00 tg Exp $'
 # CPPFLAGS recognised:	MKSH_SMALL MKSH_ASSUME_UTF8 MKSH_NOPWNAM MKSH_NOVI
 #			MKSH_CLS_STRING MKSH_BINSHREDUCED MKSH_UNEMPLOYED
 #			MKSH_CONSERVATIVE_FDS MKSH_MIDNIGHTBSD01ASH_COMPAT
+#			MKSH_NO_LIMITS
 
 LC_ALL=C
 export LC_ALL
