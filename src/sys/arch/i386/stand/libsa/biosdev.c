@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/stand/libsa/biosdev.c,v 1.11 2008/12/28 18:57:28 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/stand/libsa/biosdev.c,v 1.12 2008/12/28 18:58:32 tg Exp $ */
 /*	$OpenBSD: biosdev.c,v 1.74 2008/06/25 15:32:18 reyk Exp $	*/
 
 /*
@@ -51,6 +51,7 @@ static __inline int CHS_rw (int, int, int, int, int, int, void *);
 static __inline int EDD_rw (int, int, u_int64_t, u_int32_t, void *);
 
 extern int debug;
+extern uint32_t bios_bootpart[2];
 int bios_bootdev;
 int i386_flag_oldbios = 0;
 int userpt = 0;
@@ -775,10 +776,17 @@ disk_trylabel(struct diskinfo *dip)
 		bzero(dip->disklabel.d_partitions,
 		    sizeof (dip->disklabel.d_partitions));
 
-		/* 'a' partition covering the "whole" disk */
-		dip->disklabel.d_partitions[0].p_offset = 0;
-		dip->disklabel.d_partitions[0].p_size = totsiz;
-		dip->disklabel.d_partitions[0].p_fstype = FS_OTHER;
+		if (bios_bootpart[0] || bios_bootpart[1]) {
+			/* 'a' partition passed from SYSLINUX */
+			dip->disklabel.d_partitions[0].p_offset = bios_bootpart[0];
+			dip->disklabel.d_partitions[0].p_size = bios_bootpart[1];
+			dip->disklabel.d_partitions[0].p_fstype = FS_MANUAL;
+		} else {
+			/* 'a' partition covering the "whole" disk */
+			dip->disklabel.d_partitions[0].p_offset = 0;
+			dip->disklabel.d_partitions[0].p_size = totsiz;
+			dip->disklabel.d_partitions[0].p_fstype = FS_OTHER;
+		}
 
 		/* The raw partition is special */
 		dip->disklabel.d_partitions[RAW_PART].p_offset = 0;
