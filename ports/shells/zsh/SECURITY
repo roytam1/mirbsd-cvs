@@ -1,26 +1,4 @@
-$MirOS$
-
-While trying to fix zsh’s multibyte issues (see below), I’ve
-given up looking at its source code when encounterint these
-two functions in string.c: ztrdup and wcs_ztrdup.
-
-Look at them: (simplified form; they do catch s==NULL)
-char *ztrdup(const char *s) {
-	char *t = (char *)zalloc(strlen((char *)s) + 1);
-	strcpy(t, s);
-	return (t);
-}
-wchar_t *wcs_ztrdup(const wchar_t *s) {
-	wchar_t *t = (wchar_t *)zalloc(wcslen((wchar_t *)s) + 1);
-	wcscpy(t, s);
-	return (t);
-}
-
-Explanation: wcslen(s) returns the string length of 「s」 counted
-in wide characters; for mallocing one must multiply this by the
-size of one wide character, i.e. sizeof(wchar_t)… the wcscpy()
-following immediately overruns the freshly allocated buffer.
-
+$MirOS: ports/shells/zsh/SECURITY,v 1.1 2009/09/06 16:31:10 tg Exp $
 
 Multibyte issues: mksh vs zsh; x='mäh'
 echo ${x::1} → ‘m’	echo ${x[0,1]} → ‘m’
@@ -29,6 +7,11 @@ echo ${x::3} → ‘mäh’	echo ${x[0,2]} → ‘mä’
 
 Seems as if zsh tries each octet if it’s a valid multibyte char
 first; since ä=C3,A4 and C3=U+EFC3 (OPTU-16), this fails miserably.
+All calls to mbrtowc with 1 as third argument are broken, at least.
+
+Fixing would involve several man-hours, if not days, of work, since
+the entire multibyte code was written with broken (unportable) as-
+sumptions in mind. The code also reeks of unsafe string functions.
 
 
 For this reason, the zsh MirPort will have multibyte support

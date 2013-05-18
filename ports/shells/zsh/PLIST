@@ -1,4 +1,4 @@
-@comment $MirOS: ports/shells/zsh/PLIST,v 1.1 2009/09/06 16:31:09 tg Exp $
+@comment $MirOS: ports/shells/zsh/PLIST,v 1.2 2009/09/06 16:41:43 tg Exp $
 @comment $OpenBSD: PLIST,v 1.27 2009/06/03 14:35:48 pea Exp $
 @unexec install-info --delete --info-dir=%D/info %D/info/zsh.info
 bin/zsh
@@ -23,6 +23,8 @@ man/man1/zshzftpsys.1
 man/man1/zshzle.1
 share/examples/zsh/zprofile
 @sample ${SYSCONFDIR}/zprofile
+share/zsh/${VSN}/functions/VCS_INFO_hook
+share/zsh/${VSN}/functions/VCS_INFO_quilt
 share/zsh/${VSN}/functions/_a2ps
 share/zsh/${VSN}/functions/_a2utils
 share/zsh/${VSN}/functions/_aap
@@ -58,6 +60,7 @@ share/zsh/${VSN}/functions/_attr
 share/zsh/${VSN}/functions/_auto-apt
 share/zsh/${VSN}/functions/_autocd
 share/zsh/${VSN}/functions/_awk
+share/zsh/${VSN}/functions/_axi-cache
 share/zsh/${VSN}/functions/_bash_completions
 share/zsh/${VSN}/functions/_baz
 share/zsh/${VSN}/functions/_bind_addresses
@@ -84,6 +87,7 @@ share/zsh/${VSN}/functions/_ccal
 share/zsh/${VSN}/functions/_cd
 share/zsh/${VSN}/functions/_cdbs-edit-patch
 share/zsh/${VSN}/functions/_cdcd
+share/zsh/${VSN}/functions/_cdr
 share/zsh/${VSN}/functions/_cdrdao
 share/zsh/${VSN}/functions/_cdrecord
 share/zsh/${VSN}/functions/_chflags
@@ -185,14 +189,17 @@ share/zsh/${VSN}/functions/_enable
 share/zsh/${VSN}/functions/_enscript
 share/zsh/${VSN}/functions/_env
 share/zsh/${VSN}/functions/_equal
+share/zsh/${VSN}/functions/_espeak
 share/zsh/${VSN}/functions/_ethtool
 share/zsh/${VSN}/functions/_expand
 share/zsh/${VSN}/functions/_expand_alias
 share/zsh/${VSN}/functions/_expand_word
 share/zsh/${VSN}/functions/_fakeroot
 share/zsh/${VSN}/functions/_fc
+share/zsh/${VSN}/functions/_feh
 share/zsh/${VSN}/functions/_fetch
 share/zsh/${VSN}/functions/_fetchmail
+share/zsh/${VSN}/functions/_ffmpeg
 share/zsh/${VSN}/functions/_figlet
 share/zsh/${VSN}/functions/_file_descriptors
 share/zsh/${VSN}/functions/_file_systems
@@ -208,6 +215,7 @@ share/zsh/${VSN}/functions/_floppy
 share/zsh/${VSN}/functions/_fortune
 share/zsh/${VSN}/functions/_freebsd-update
 share/zsh/${VSN}/functions/_fsh
+share/zsh/${VSN}/functions/_fstat
 share/zsh/${VSN}/functions/_functions
 share/zsh/${VSN}/functions/_fuse_arguments
 share/zsh/${VSN}/functions/_fuse_values
@@ -224,6 +232,7 @@ share/zsh/${VSN}/functions/_getent
 share/zsh/${VSN}/functions/_getfacl
 share/zsh/${VSN}/functions/_getmail
 share/zsh/${VSN}/functions/_git
+share/zsh/${VSN}/functions/_git-buildpackage
 share/zsh/${VSN}/functions/_global
 share/zsh/${VSN}/functions/_global_tags
 share/zsh/${VSN}/functions/_globflags
@@ -237,6 +246,7 @@ share/zsh/${VSN}/functions/_gpg
 share/zsh/${VSN}/functions/_gphoto2
 share/zsh/${VSN}/functions/_gprof
 share/zsh/${VSN}/functions/_gqview
+share/zsh/${VSN}/functions/_graphicsmagick
 share/zsh/${VSN}/functions/_grep
 share/zsh/${VSN}/functions/_grep-excuses
 share/zsh/${VSN}/functions/_groff
@@ -250,6 +260,7 @@ share/zsh/${VSN}/functions/_gzip
 share/zsh/${VSN}/functions/_hash
 share/zsh/${VSN}/functions/_have_glob_qual
 share/zsh/${VSN}/functions/_hdiutil
+share/zsh/${VSN}/functions/_hg
 share/zsh/${VSN}/functions/_history
 share/zsh/${VSN}/functions/_history_complete_word
 share/zsh/${VSN}/functions/_history_modifiers
@@ -332,7 +343,6 @@ share/zsh/${VSN}/functions/_mdadm
 share/zsh/${VSN}/functions/_members
 share/zsh/${VSN}/functions/_mencal
 share/zsh/${VSN}/functions/_menu
-share/zsh/${VSN}/functions/_mercurial
 share/zsh/${VSN}/functions/_mere
 share/zsh/${VSN}/functions/_mergechanges
 share/zsh/${VSN}/functions/_message
@@ -381,6 +391,7 @@ share/zsh/${VSN}/functions/_open
 share/zsh/${VSN}/functions/_options
 share/zsh/${VSN}/functions/_options_set
 share/zsh/${VSN}/functions/_options_unset
+share/zsh/${VSN}/functions/_osc
 share/zsh/${VSN}/functions/_other_accounts
 share/zsh/${VSN}/functions/_pack
 share/zsh/${VSN}/functions/_parameter
@@ -390,12 +401,14 @@ share/zsh/${VSN}/functions/_path_commands
 share/zsh/${VSN}/functions/_path_files
 share/zsh/${VSN}/functions/_pax
 share/zsh/${VSN}/functions/_pbm
+share/zsh/${VSN}/functions/_pbuilder
 share/zsh/${VSN}/functions/_pdf
 share/zsh/${VSN}/functions/_perforce
 share/zsh/${VSN}/functions/_perl
 share/zsh/${VSN}/functions/_perl_basepods
 share/zsh/${VSN}/functions/_perl_modules
 share/zsh/${VSN}/functions/_perldoc
+share/zsh/${VSN}/functions/_pfctl
 share/zsh/${VSN}/functions/_pfexec
 share/zsh/${VSN}/functions/_php
 share/zsh/${VSN}/functions/_physical_volumes
@@ -413,6 +426,7 @@ share/zsh/${VSN}/functions/_pkgtool
 share/zsh/${VSN}/functions/_pon
 share/zsh/${VSN}/functions/_portaudit
 share/zsh/${VSN}/functions/_portlint
+share/zsh/${VSN}/functions/_portmaster
 share/zsh/${VSN}/functions/_ports
 share/zsh/${VSN}/functions/_portsnap
 share/zsh/${VSN}/functions/_postfix
@@ -423,6 +437,7 @@ share/zsh/${VSN}/functions/_prefix
 share/zsh/${VSN}/functions/_print
 share/zsh/${VSN}/functions/_printenv
 share/zsh/${VSN}/functions/_printers
+share/zsh/${VSN}/functions/_procstat
 share/zsh/${VSN}/functions/_prompt
 share/zsh/${VSN}/functions/_ps
 share/zsh/${VSN}/functions/_pscp
@@ -535,6 +550,7 @@ share/zsh/${VSN}/functions/_tilde_files
 share/zsh/${VSN}/functions/_time_zone
 share/zsh/${VSN}/functions/_tin
 share/zsh/${VSN}/functions/_tla
+share/zsh/${VSN}/functions/_tmux
 share/zsh/${VSN}/functions/_todo.sh
 share/zsh/${VSN}/functions/_toilet
 share/zsh/${VSN}/functions/_toolchain-source
@@ -568,6 +584,7 @@ share/zsh/${VSN}/functions/_user_at_host
 share/zsh/${VSN}/functions/_user_expand
 share/zsh/${VSN}/functions/_users
 share/zsh/${VSN}/functions/_users_on
+share/zsh/${VSN}/functions/_uzbl
 share/zsh/${VSN}/functions/_valgrind
 share/zsh/${VSN}/functions/_value
 share/zsh/${VSN}/functions/_values
@@ -651,7 +668,9 @@ share/zsh/${VSN}/functions/_zmodload
 share/zsh/${VSN}/functions/_zmv
 share/zsh/${VSN}/functions/_zpool
 share/zsh/${VSN}/functions/_zpty
+share/zsh/${VSN}/functions/_zsh-mime-handler
 share/zsh/${VSN}/functions/_zstyle
+share/zsh/${VSN}/functions/_ztodo
 share/zsh/${VSN}/functions/add-zsh-hook
 share/zsh/${VSN}/functions/age
 share/zsh/${VSN}/functions/allopt
@@ -670,7 +689,11 @@ share/zsh/${VSN}/functions/calendar_showdate
 share/zsh/${VSN}/functions/calendar_sort
 share/zsh/${VSN}/functions/capitalize-word-match
 share/zsh/${VSN}/functions/catch
+share/zsh/${VSN}/functions/cdr
 share/zsh/${VSN}/functions/checkmail
+share/zsh/${VSN}/functions/chpwd_recent_add
+share/zsh/${VSN}/functions/chpwd_recent_dirs
+share/zsh/${VSN}/functions/chpwd_recent_filehandler
 share/zsh/${VSN}/functions/colors
 share/zsh/${VSN}/functions/compaudit
 share/zsh/${VSN}/functions/compdump
@@ -728,11 +751,15 @@ share/zsh/${VSN}/functions/promptinit
 share/zsh/${VSN}/functions/promptnl
 share/zsh/${VSN}/functions/quote-and-complete-word
 share/zsh/${VSN}/functions/read-from-minibuffer
+share/zsh/${VSN}/functions/regexp-replace
 share/zsh/${VSN}/functions/relative
 share/zsh/${VSN}/functions/replace-string
 share/zsh/${VSN}/functions/replace-string-again
 share/zsh/${VSN}/functions/run-help
 share/zsh/${VSN}/functions/run-help-git
+share/zsh/${VSN}/functions/run-help-openssl
+share/zsh/${VSN}/functions/run-help-p4
+share/zsh/${VSN}/functions/run-help-sudo
 share/zsh/${VSN}/functions/run-help-svk
 share/zsh/${VSN}/functions/run-help-svn
 share/zsh/${VSN}/functions/select-word-style
@@ -741,6 +768,7 @@ share/zsh/${VSN}/functions/split-shell-arguments
 share/zsh/${VSN}/functions/sticky-note
 share/zsh/${VSN}/functions/tetris
 share/zsh/${VSN}/functions/throw
+share/zsh/${VSN}/functions/transpose-lines
 share/zsh/${VSN}/functions/transpose-words-match
 share/zsh/${VSN}/functions/up-case-word-match
 share/zsh/${VSN}/functions/up-line-or-beginning-search
@@ -762,6 +790,7 @@ share/zsh/${VSN}/functions/zrecompile
 share/zsh/${VSN}/functions/zsh-mime-handler
 share/zsh/${VSN}/functions/zsh-mime-setup
 share/zsh/${VSN}/functions/zstyle+
+share/zsh/${VSN}/functions/ztodo
 %%SHARED%%
 @exec mkdir -p %D/share/zsh/site-functions
 @dirrm share/zsh/site-functions

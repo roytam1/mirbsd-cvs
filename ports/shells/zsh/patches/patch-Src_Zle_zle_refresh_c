@@ -1,21 +1,7 @@
-$MirOS$
---- Src/Zle/zle_refresh.c.orig	Mon May 11 08:44:24 2009
-+++ Src/Zle/zle_refresh.c	Sun Sep  6 15:34:05 2009
-@@ -1353,9 +1353,12 @@ zrefresh(void)
- 	    wchar_t wc;
- 	    int started = 0;
- 
-+#if !defined(__WCHAR_MAX__) || (__WCHAR_MAX__ > 65535U)
- 	    if ((unsigned)*t > 0xffffU) {
- 		sprintf(dispchars, "<%.08x>", (unsigned)*t);
--	    } else {
-+	    } else
-+#endif
-+	      {
- 		sprintf(dispchars, "<%.04x>", (unsigned)*t);
- 	    }
- 	    while (*dispptr) {
-@@ -2455,9 +2458,12 @@ singlerefresh(ZLE_STRING_T tmpline, int 
+$MirOS: ports/shells/zsh/patches/patch-Src_Zle_zle_refresh_c,v 1.1 2009/09/06 16:31:12 tg Exp $
+--- Src/Zle/zle_refresh.c.orig	Mon Dec 20 09:51:20 2010
++++ Src/Zle/zle_refresh.c	Tue Mar  8 17:18:23 2011
+@@ -2508,9 +2508,12 @@ singlerefresh(ZLE_STRING_T tmpline, int 
  	    wchar_t wc;
  	    int started = 0;
  
