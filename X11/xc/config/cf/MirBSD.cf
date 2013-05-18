@@ -1,4 +1,4 @@
-XCOMM platform:	$MirOS: X11/xc/config/cf/MirBSD.cf,v 1.20 2007/08/17 09:50:20 tg Exp $
+XCOMM platform:	$MirOS: X11/xc/config/cf/MirBSD.cf,v 1.21 2007/08/24 14:31:51 tg Exp $
 XCOMM platform:	$OpenBSD: OpenBSD.cf,v 1.140 2004/10/10 14:47:28 matthieu Exp $
 XCOMM platform:	$XFree86: xc/config/cf/OpenBSD.cf,v 3.79 2003/01/12 17:03:23 herrb Exp $
 
@@ -217,8 +217,8 @@ XCOMM operating system:  OSName (OSMajorVersion./**/OSMinorVersion./**/OSTeenyVe
 #define	Build9x18UntruncFont	YES
 #ifdef notyet
 #define	DerivedUCSFonts		NO
-#define	TruncateUCSFonts	NO
 #endif
+#define	TruncateUCSFonts	NO
 #define	GzipFontCompression	YES
 #define	GzipCmd			gzip -n9
 #define	MakeLocalFontDir	YES
