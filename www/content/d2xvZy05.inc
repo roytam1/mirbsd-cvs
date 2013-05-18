@@ -1,5 +1,5 @@
 <!-- PageID: wlog-9 -->
-<small class="rcsid">$MirOS: www/content/d2xvZy05.inc,v 1.49 2006/09/24 17:48:31 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy05.inc,v 1.50 2006/10/04 01:09:24 tg Exp $</small>
 <h1>MirBSD &ndash; WTF is Verpeilungsfaktor?</h1>
 <p><small><a href="#eof">bottom</a> or <a href="/?older">older</a>
  editions</small></p>
@@ -785,6 +785,32 @@
   great ideas for past the snapshot, even. (So that people can upgrade a
   running system to get the security fixes, some of which I incorporated
   before That &#416;ther BSD.) What I didn't spot is Benny.</p>
+</div>
+
+<div class="wlentry">
+ <h3 id="e20061018">18.10.2006 by tg@</h3>
+ <p>High-End: we now run past 2038 as well: in 2100 (32 bit), almost no-
+  thing breaks, except a few library functions and ffs (UFSv1) timestam-
+  ps, in 2200 (33 bit), network and shutdown don't work any more, but we
+  at least don't crash.</p>
+ <p>Weird-End: sysctl(3) ddb.crash now can force a kernel panic.</p>
+ <p>Low-End: I'm helping Vutral (real name known) to install MirOS on an
+  8 MiB RAM 80486DX system. That's fun, but the serial console is a slow
+  UMTS link, which is NOT fun.</p>
+ <p>French-End: Benny apparently is in Germany now and of course, thanks
+  Deutsche Telekom, he doesn't have internet access. *sigh*</p>
+ <p>Data-End: I lost herc:/home and one of two underlying parts of raid0
+  (RAID level 1) alias herc:/ &ndash; and as if that would not be enough
+  I had an rsync accident (missing directory level on destination combi-
+  ned with --delete) losing most of the stuff in my $HOME which was in a
+  directory on /&#8230; note to self: dont keep backups within $HOME but
+  use a dedicated directory tree.</p>
+ <p>GNU End: gcc miscompiles not only C++ but also C code with a certain
+  option <tt>-fomit-frame-pointer</tt> &ndash; cought by my favourite <a
+  href="/?jupp">text editor</a>.</p>
+ <p>Money End: At last, I get some state money (by far not enough), more
+  might come, but I'd prefer a job. OTOH they'll pay for new teeth, more
+  than they had paid if I were employed. But the pain's the same.</p>
 </div>
 
 <p id="eof">Good luck, have fun, take care etc.pp</p>
