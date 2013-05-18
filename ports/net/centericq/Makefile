@@ -1,4 +1,4 @@
-# $MirOS: ports/net/centericq/Makefile,v 1.23 2006/10/06 21:24:18 tg Exp $
+# $MirOS: ports/net/centericq/Makefile,v 1.24 2006/10/29 02:45:11 tg Exp $
 # $OpenBSD: Makefile,v 1.24 2004/02/03 08:37:55 brad Exp $
 
 # bus error on start
@@ -8,7 +8,7 @@ COMMENT=		curses-based multiprotocol IM client implementation
 DISTNAME=		centericq-${V}
 PKGNAME=		${DISTNAME}-${PL}
 V=			4.21.0
-PL=			7
+PL=			8
 CATEGORIES=		net
 PATCHFILES=		centericq-${V}.msn.patch:0
 PATCH_DIST_STRIP=	-p1

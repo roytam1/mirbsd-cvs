@@ -1,15 +1,19 @@
---- centericq-4.21.0/debian/patches/seconds_in_timestamps_cleaner.dpatch.orig	Sat Oct 28 23:13:25 2006
-+++ centericq-4.21.0/debian/patches/seconds_in_timestamps_cleaner.dpatch	Sat Oct 28 23:14:35 2006
-@@ -126,9 +126,9 @@ diff -urNad centericq-4.21.0~/src/icqdia
+$MirOS$
+--- centericq-4.21.0/debian/patches/seconds_in_timestamps_cleaner.dpatch.bak.orig	Tue Jan 23 13:12:05 2007
++++ centericq-4.21.0/debian/patches/seconds_in_timestamps_cleaner.dpatch	Tue Jan 23 13:24:58 2007
+@@ -125,10 +125,11 @@ diff -urNad centericq-4.21.0~/src/icqdia
+  	t.addleaff(i, 0, 10, _(" Online/offile events in the log window : %s "), stryesno(logonline));
   	t.addleaff(i, 0, 18, _(" Detailed IM events log in ~/.centericq/log : %s "), stryesno(makelog));
   
- @@ -1383,8 +1384,10 @@
+-@@ -1383,8 +1384,10 @@
 - 		        tmp = inputstr(_("HTTP browser to use: "), browser);
 - 			if(!tmp.empty()) browser = browser;
 - 		        break;
++@@ -1383,8 +1384,11 @@
 +			break;
 +		    case 30:
 +			cm = (cm == icqconf::cmproto ? icqconf::cmstatus : icqconf::cmproto );
+++ 			break;
  -		}
  -		break;
  + 		    case 48:
