@@ -205,7 +205,6 @@ extern int spbits;
 #endif
 extern int xxx;
 extern char *__progname;
-extern int maybe_groff;
 int stopmesg;
 filep ipl[NSO];
 long offl[NSO];
@@ -222,6 +221,7 @@ int ms[] = {31,28,31,30,31,30,31,31,30,31,30,31};
 #ifndef NROFF
 int acctf;
 #endif
+int groffmode = 0;
 
 main(argc,argv)
 int argc;
@@ -311,6 +311,7 @@ options:
 			dotT++;
 			continue;
 		case 'c':
+			groffmode = 1;
 			continue;
 #endif
 #ifndef NROFF
@@ -626,14 +627,10 @@ g0:
 		case '\n':	/*concealed newline*/
 			goto g0;
 		case 'n':	/*number register*/
-			maybe_groff = 1;
 			setn();
-			maybe_groff = 0;
 			goto g0;
 		case '*':	/*string indicator*/
-			maybe_groff = 1;
 			setstr();
-			maybe_groff = 0;
 			goto g0;
 		case '$':	/*argument indicator*/
 			seta();

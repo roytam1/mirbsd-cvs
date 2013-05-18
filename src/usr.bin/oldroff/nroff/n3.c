@@ -113,9 +113,11 @@ extern int wbfi;
 extern int po;
 extern int *cp;
 extern int xxx;
+extern int groffmode;
+extern char *ibufp;
+extern char *eibuf;
 int pagech = '%';
 int strflg;
-int maybe_groff = 0;
 extern struct contab {
 	int rq;
 	union {
@@ -552,23 +554,9 @@ getsn()
 
 	if ((i = getach()) == 0)
 		return(0);
-	if (maybe_groff && !copyf && (i == '[')) {
-		i = getch0();
-		ch0 = i;
-		if (!((i >= 'a') && (i <= 'z')) &&
-		    !((i >= 'A') && (i <= 'Z')))
-			return ('[');
-		fputs("warning: request for long string [", stderr);
-		while ((i = getach())) {
-			putc(i, stderr);
-			if (i == ']')
-				break;
-		}
-		if (i != ']')
-			fputs("<NUL>]", stderr);
-		fprintf(stderr, " in line %d denied!\n", v.cd+1);
-		return (0);
-	}
+	if (groffmode && !copyf && (i == '['))
+		fprintf(stderr, "warning: request for long string"
+		    " in line %d denied!\n", v.cd+1);
 	if (i == '(')
 		return(getrq());
 	else
