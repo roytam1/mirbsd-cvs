@@ -1,4 +1,4 @@
-/*	$OpenBSD: ntp.c,v 1.67 2005/08/10 13:48:36 dtucker Exp $ */
+/*	$OpenBSD: ntp.c,v 1.92 2006/10/21 07:30:58 henning Exp $ */
 
 /*
  * Copyright (c) 2006, 2007 Thorsten Glaser <tg@mirbsd.de>
@@ -38,7 +38,7 @@
 #include "ntpd.h"
 #include "ntp.h"
 
-__RCSID("$MirOS: src/usr.sbin/ntpd/ntp.c,v 1.9 2007/09/26 12:38:47 tg Exp $");
+__RCSID("$MirOS: src/usr.sbin/ntpd/ntp.c,v 1.10 2007/10/03 20:54:54 tg Exp $");
 
 #define	PFD_PIPE_MAIN	0
 #define	PFD_MAX		1
@@ -225,7 +225,8 @@ ntp_main(int pipe_prnt[2], struct ntpd_conf *nconf)
 				set_next(p, timeout);
 			}
 
-			if (p->state == STATE_QUERY_SENT) {
+			if (p->state == STATE_QUERY_SENT &&
+			    p->query->fd != -1) {
 				pfd[i].fd = p->query->fd;
 				pfd[i].events = POLLIN;
 				idx2peer[i - idx_peers] = p;
@@ -394,7 +395,7 @@ peer_remove(struct ntp_peer *p)
 	peer_cnt--;
 }
 
-void
+int
 priv_adjtime(void)
 {
 	struct ntp_peer	 *p;
@@ -412,8 +413,14 @@ priv_adjtime(void)
 		if (p->trustlevel < TRUSTLEVEL_BADPEER)
 			continue;
 		if (!p->update.good)
-			return;
+			return (1);
 		offset_cnt++;
+	}
+
+	if (offset_cnt == 0) {
+		if (conf->trace > 2)
+			log_info("priv_adjtime, no peers");
+		return (1);
 	}
 
 	if ((peers = calloc(offset_cnt, sizeof(struct ntp_peer *))) == NULL)

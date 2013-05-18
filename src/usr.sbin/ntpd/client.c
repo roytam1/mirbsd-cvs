@@ -1,5 +1,4 @@
-/**	$MirOS: src/usr.sbin/ntpd/client.c,v 1.9 2007/09/26 12:38:47 tg Exp $ */
-/*	$OpenBSD: client.c,v 1.66 2005/09/24 00:32:03 dtucker Exp $ */
+/*	$OpenBSD: client.c,v 1.69 2006/06/04 18:58:13 otto Exp $ */
 
 /*
  * Copyright (c) 2007 Thorsten Glaser <tg@mirbsd.de>
@@ -28,7 +27,7 @@
 
 #include "ntpd.h"
 
-__RCSID("$MirOS: src/usr.sbin/ntpd/client.c,v 1.9 2007/09/26 12:38:47 tg Exp $");
+__RCSID("$MirOS: src/usr.sbin/ntpd/client.c,v 1.10 2007/10/03 20:54:54 tg Exp $");
 
 #ifdef DDEBUG
 #define log_reply	log_info
@@ -248,9 +247,10 @@ client_dispatch(struct ntp_peer *p, u_int8_t settime, uint8_t trace)
 	if (p->reply[p->shift].delay < 0) {
 		interval = error_interval();
 		set_next(p, interval);
-		log_info("reply from %s: negative delay %f",
+		log_info("reply from %s: negative delay %fs, "
+		    "next query %ds",
 		    log_sockaddr((struct sockaddr *)&p->addr->ss),
-		    p->reply[p->shift].delay);
+		    p->reply[p->shift].delay, interval);
 		return (0);
 	}
 	p->reply[p->shift].error = (T2 - T1) - (T3 - T4);
@@ -292,7 +292,7 @@ client_dispatch(struct ntp_peer *p, u_int8_t settime, uint8_t trace)
 		p->trustlevel++;
 	}
 
-	log_reply("reply from %s: offset %f delay %f, "
+	log_reply("reply from %s: offset %fs delay %fs, "
 	    "next query %llds", log_sockaddr((struct sockaddr *)&p->addr->ss),
 	    p->reply[p->shift].offset, p->reply[p->shift].delay,
 	    (int64_t)interval);
@@ -333,19 +333,18 @@ client_update(struct ntp_peer *p, int trace)
 		}
 
 	if (trace > 2)
-		log_info("client_update, %d good, best = %f", good,
-		    p->reply[best].delay);
+		log_info("client_update, %d good, best = %dms", good,
+		    (int)((p->reply[best].delay + .0005) * 1000.));
 
 	if (good < 8)
 		return (-1);
 
 	memcpy(&p->update, &p->reply[best], sizeof(p->update));
-	priv_adjtime();
-
-	for (i = 0; i < OFFSET_ARRAY_SIZE; i++)
-		if (p->reply[i].rcvd <= p->reply[best].rcvd)
-			p->reply[i].good = 0;
-
+	if (priv_adjtime() == 0) {
+		for (i = 0; i < OFFSET_ARRAY_SIZE; i++)
+			if (p->reply[i].rcvd <= p->reply[best].rcvd)
+				p->reply[i].good = 0;
+	}
 	return (0);
 }
 

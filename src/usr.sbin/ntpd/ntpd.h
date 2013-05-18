@@ -1,5 +1,5 @@
-/**	$MirOS: src/usr.sbin/ntpd/ntpd.h,v 1.10 2007/07/31 19:57:02 tg Exp $ */
-/*	$OpenBSD: ntpd.h,v 1.61 2005/09/24 00:32:03 dtucker Exp $ */
+/**	$MirOS: src/usr.sbin/ntpd/ntpd.h,v 1.11 2007/07/31 20:32:47 tg Exp $ */
+/*	$OpenBSD: ntpd.h,v 1.70 2006/06/04 18:58:13 otto Exp $ */
 
 /*
  * Copyright (c) 2007 Thorsten Glaser <tg@mirbsd.org>
@@ -237,7 +237,7 @@ void	 imsg_free(struct imsg *);
 
 /* ntp.c */
 pid_t	 ntp_main(int[2], struct ntpd_conf *);
-void	 priv_adjtime(void);
+int	 priv_adjtime(void);
 void	 priv_settime(double);
 void	 priv_host_dns(char *, u_int32_t);
 
