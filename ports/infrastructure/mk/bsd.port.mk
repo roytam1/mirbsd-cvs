@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.254 2009/06/22 12:07:30 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.255 2009/08/16 16:27:08 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -232,10 +232,6 @@ MAKE_FLAGS?=		CC=${_PASS_CC:T:Q}
 .if !defined(FAKE_FLAGS)
 FAKE_FLAGS=		${DESTDIRNAME}=${WRKINST:Q}
 .endif
-
-EXTRA_XAKE_FLAGS+=	SHELL=${SHELL:Q}
-MAKE_FLAGS+=		${EXTRA_MAKE_FLAGS} ${EXTRA_XAKE_FLAGS}
-FAKE_FLAGS+=		${EXTRA_FAKE_FLAGS} ${EXTRA_XAKE_FLAGS}
 
 CONFIGURE_STYLE?=
 
@@ -544,6 +540,10 @@ MODULES+=		${_i}
 _MODULES_DONE=
 .  include "${PORTSDIR}/infrastructure/mk/modules.port.mk"
 .endif
+
+EXTRA_XAKE_FLAGS+=	SHELL=${SHELL:Q}
+MAKE_FLAGS+=		${EXTRA_MAKE_FLAGS} ${EXTRA_XAKE_FLAGS}
+FAKE_FLAGS+=		${EXTRA_FAKE_FLAGS} ${EXTRA_XAKE_FLAGS}
 
 # Build FLAVOUR_EXT, checking that no flavours are misspelled
 FLAVOUR_EXT:=
