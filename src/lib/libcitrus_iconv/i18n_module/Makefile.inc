@@ -1,4 +1,4 @@
-# $MirOS: src/lib/libcitrus_iconv/i18n_module/Makefile.inc,v 1.5 2006/09/29 21:59:55 tg Exp $
+# $MirOS: src/lib/libcitrus_iconv/i18n_module/Makefile.inc,v 1.6 2009/08/30 18:04:10 tg Exp $
 # $NetBSD: Makefile.inc,v 1.8 2004/05/17 05:49:54 lukem Exp $
 
 .include <bsd.own.mk>
@@ -7,7 +7,8 @@
 # versioned(!) plugins
 .include "shlib_version"
 SHLIB_VERSION?=	${major}.${minor}
-SHLIB_TYPE=	plugin
+LDFLAGS+=	-L${.OBJDIR:C!i18n_module/[^/]*/!!}
+LDADD+=		-liconv
 
 LIBDIR=		/usr/lib/i18n
 CPPFLAGS+=	-I${NBLIBC}/citrus
