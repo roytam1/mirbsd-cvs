@@ -1,8 +1,8 @@
 #!/usr/bin/env sh
-# $MirOS: contrib/code/mirmake/Build.sh,v 1.37 2008/07/11 11:22:15 tg Exp $
+# $MirOS: contrib/code/mirmake/Build.sh,v 1.38 2008/10/05 16:32:50 tg Exp $
 #-
-# Copyright (c) 2004, 2005, 2006
-#	Thorsten Glaser <tg@mirbsd.de>
+# Copyright (c) 2004, 2005, 2006, 2008
+#	Thorsten Glaser <tg@mirbsd.org>
 #
 # Provided that these terms and disclaimer and all copyright notices
 # are retained or reproduced in an accompanying document, permission
@@ -185,4 +185,5 @@ echo "Building MirMake on $MOS/$MAC ($MAR) for $OSN"
 echo "with $ms and ${CC:-gcc} to $PFX/bin/$MKN"
 echo "Documentation goes to $PFX/${MPT}1/ (user ${BIN:-root:bin})"
 
+MKSH=$ms; export MKSH
 exec $ms `dirname $0`/dist/scripts/Build.sh "$OSN" "$PFX" "$MPT" "$MKN" "$MAC" "$MAR" "$MOS" $ms "$BIN"
