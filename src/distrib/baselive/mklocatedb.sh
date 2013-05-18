@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/distrib/i386/livecd/mklocatedb.sh,v 1.1 2006/05/15 19:54:55 tg Exp $
+# $MirOS: src/distrib/i386/livecd/mklocatedb.sh,v 1.2 2006/05/26 21:09:02 tg Exp $
 #-
 # Copyright (c) 2006
 #	Thorsten Glaser <tg@mirbsd.de>

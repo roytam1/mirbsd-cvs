@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/i386/livecd/Makefile,v 1.51 2006/07/28 20:06:47 tg Exp $
+# $MirOS: src/distrib/i386/livecd/Makefile,v 1.52 2006/08/16 18:46:13 tg Exp $
 
 .include <bsd.own.mk>
 

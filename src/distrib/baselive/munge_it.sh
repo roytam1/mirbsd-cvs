@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/distrib/i386/livecd/munge_it.sh,v 1.44 2006/07/28 20:06:47 tg Exp $
+# $MirOS: src/distrib/i386/livecd/munge_it.sh,v 1.45 2006/08/16 18:46:13 tg Exp $
 #-
 # Copyright (c) 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -88,7 +88,7 @@ EOF
 #EOF
 ed -s etc/rc <<-'EOF'
 	1i
-		# $MirOS: src/distrib/i386/livecd/munge_it.sh,v 1.44 2006/07/28 20:06:47 tg Exp $
+		# $MirOS: src/distrib/i386/livecd/munge_it.sh,v 1.45 2006/08/16 18:46:13 tg Exp $
 	.
 	/shutdown request/ka
 	/^fi/a

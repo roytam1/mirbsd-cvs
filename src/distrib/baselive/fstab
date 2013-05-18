@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/i386/livecd/fstab,v 1.8 2006/05/08 18:54:35 tg Exp $
+# $MirOS: src/distrib/i386/livecd/fstab,v 1.9 2006/05/26 21:40:21 tg Exp $
 
 /dev/root  /                   cd9660  ro,noauto,noatime             0  0
 /dev/rd0a  /dev                ffs     rw,noauto                     0  0
