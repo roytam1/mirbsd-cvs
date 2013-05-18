@@ -1,5 +1,5 @@
-# $MirOS: src/etc/rc,v 1.11 2005/09/20 18:37:41 tg Exp $
-# $OpenBSD: rc,v 1.270 2005/06/19 16:55:10 deraadt Exp $
+# $MirOS: src/etc/rc,v 1.12 2005/10/27 12:59:24 tg Exp $
+# $OpenBSD: rc,v 1.276 2005/11/30 16:04:33 tom Exp $
 #-
 # System startup script run by init on autoboot or after single-user.
 # Output and error are redirected to console by init, and the console
@@ -465,7 +465,7 @@ if [[ $isakmpd_flags != NO ]]; then
 	echo starting isakmpd;		isakmpd $isakmpd_flags
 fi
 
-echo -n starting rpc daemons:
+echo -n starting initial daemons:
 
 # $portmap is imported from /etc/rc.conf;
 # if $portmap == YES, the portmapper is started.
@@ -704,7 +704,7 @@ if [[ $rwhod = YES ]]; then
 fi
 
 if [[ $lpd_flags != NO ]]; then
-	echo -n ' printer';		lpd $lpd_flags
+	echo -n ' lpd';			lpd $lpd_flags
 fi
 
 # $sendmail_flags is imported from /etc/rc.conf;
@@ -725,6 +725,10 @@ fi
 
 if [[ $ftpd_flags != NO ]]; then
 	echo -n ' ftpd';		/usr/libexec/ftpd $ftpd_flags
+fi
+
+if [[ $ftpproxy_flags != NO ]]; then
+	echo -n ' ftp-proxy';		/usr/sbin/ftp-proxy $ftpproxy_flags
 fi
 
 if [[ $identd_flags != NO ]]; then
@@ -805,6 +809,10 @@ fi
 
 if [[ $hotplugd_flags != NO && -x /usr/sbin/hotplugd ]]; then
 	echo -n ' hotplugd';	/usr/sbin/hotplugd ${hotplugd_flags}
+fi
+
+if [[ $watchdogd_flags != NO && -x /usr/sbin/watchdogd ]]; then
+	echo -n ' watchdogd';	/usr/sbin/watchdogd ${watchdogd_flags}
 fi
 
 echo -n ' cron';		cron
