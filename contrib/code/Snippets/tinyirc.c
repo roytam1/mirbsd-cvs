@@ -33,7 +33,7 @@
 #define RELEASE_PAPI	"none"
 #endif
 
-#define RELEASE_VER	"TinyIRC 20091129"
+#define RELEASE_VER	"TinyIRC 20091227"
 #define RELEASE_L	RELEASE_VER " (" RELEASE_OS ") MirOS-contrib"
 #define RELEASE_S	RELEASE_VER " MirOS"
 
@@ -95,7 +95,7 @@
 #define	__RCSID(x)	static const char __rcsid[] __attribute__((used)) = (x)
 #endif
 
-__RCSID("$MirOS: contrib/code/Snippets/tinyirc.c,v 1.36 2009/08/02 14:35:00 tg Exp $");
+__RCSID("$MirOS: contrib/code/Snippets/tinyirc.c,v 1.37 2009/11/29 15:21:20 tg Exp $");
 
 #ifndef __dead
 #define __dead
@@ -719,11 +719,22 @@ int serverinput(void)
 
 void parseinput(void)
 {
-    int i, j, outcol = 0, found = 0;
+    int i = 0, j = 0, outcol = 0, found = 0;
 
     arc4hashpush(linein);
-    if (*linein == '\0')
+    while (linein[i] == ' ')
+	++i;
+    if (linein[i] == '\0')
 	return;
+    if (linein[i] == COMMANDCHAR) {
+	++i;
+	if (linein[i] == ' ')
+		j = ++i;
+	while (linein[i] == ' ')
+		++i;
+	if (linein[i] == '\0')
+		return;
+    }
 
     strlcpy(inputbuf, linein, 512);
     tok_out[i = 0] = strtok(inputbuf," ");
@@ -732,15 +743,12 @@ void parseinput(void)
 	tputs_x(tgoto(cap_cm, 0, maxlin - 2));
 	putchar('\n');
     }
+    if (j) {
+	linein += j;
+	j = 1;
+	goto do_say;
+    }
     if (*tok_out[0] == COMMANDCHAR) {
-	if (!tok_out[0][1]) {
-		j = 1;
-		while ((*linein) && (*linein != ' '))
-			++linein;
-		while ((*linein) && (*linein == ' '))
-			++linein;
-		goto do_say;
-	}
 	tok_out[0]++;
 	for (i = 0; (size_t)i < strlen(tok_out[0]) && isalpha(tok_out[0][i]); i++)
 	    tok_out[0][i] = toupper(tok_out[0][i]);
