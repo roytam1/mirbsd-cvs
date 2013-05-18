@@ -1,4 +1,4 @@
-/* $MirOS: src/lib/libc/i18n/wcrtomb.c,v 1.1 2005/09/30 21:45:27 tg Exp $ */
+/* $MirOS: src/lib/libc/i18n/wcrtomb.c,v 1.2 2005/09/30 22:13:56 tg Exp $ */
 
 /*-
  * Copyright (c) 2005
@@ -15,19 +15,20 @@
  * ware must display the following acknowledgement:
  *	This product includes material provided by Thorsten Glaser.
  *
- * Licensor hereby provides this work "AS IS" and WITHOUT WARRANTY of
- * any kind, expressed or implied, to the maximum extent permitted by
- * applicable law, but with the warranty of being written without ma-
- * licious intent or gross negligence; in no event shall licensor, an
- * author or contributor be held liable for any damage, direct, indi-
- * rect or other, however caused, arising in any way out of the usage
- * of this work, even if advised of the possibility of such damage.
+ * Licensor offers the work "AS IS" and WITHOUT WARRANTY of any kind,
+ * express, or implied, to the maximum extent permitted by applicable
+ * law, without malicious intent or gross negligence; in no event may
+ * licensor, an author or contributor be held liable for any indirect
+ * or other damage, or direct damage except proven a consequence of a
+ * direct error of said person and intended use of this work, loss or
+ * other issues arising in any way out of its use, even if advised of
+ * the possibility of such damage or existence of a nontrivial bug.
  */
 
 #include <errno.h>
 #include <wchar.h>
 
-__RCSID("$MirOS: src/lib/libc/i18n/wcrtomb.c,v 1.1 2005/09/30 21:45:27 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/i18n/wcrtomb.c,v 1.2 2005/09/30 22:13:56 tg Exp $");
 
 size_t
 wcrtomb(char *__restrict__ sb, wchar_t wc, mbstate_t *__restrict__ ps)

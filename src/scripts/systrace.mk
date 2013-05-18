@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/scripts/systrace.mk,v 1.2 2005/05/06 16:48:23 tg Exp $
+# $MirOS: src/scripts/systrace.mk,v 1.3 2005/06/05 15:22:55 tg Exp $
 #-
 # Copyright (c) 2004, 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -15,13 +15,14 @@
 # ware must display the following acknowledgement:
 #	This product includes material provided by Thorsten Glaser.
 #
-# Licensor hereby provides this work "AS IS" and WITHOUT WARRANTY of
-# any kind, expressed or implied, to the maximum extent permitted by
-# applicable law, but with the warranty of being written without ma-
-# licious intent or gross negligence; in no event shall licensor, an
-# author or contributor be held liable for any damage, direct, indi-
-# rect or other, however caused, arising in any way out of the usage
-# of this work, even if advised of the possibility of such damage.
+# Licensor offers the work "AS IS" and WITHOUT WARRANTY of any kind,
+# express, or implied, to the maximum extent permitted by applicable
+# law, without malicious intent or gross negligence; in no event may
+# licensor, an author or contributor be held liable for any indirect
+# or other damage, or direct damage except proven a consequence of a
+# direct error of said person and intended use of this work, loss or
+# other issues arising in any way out of its use, even if advised of
+# the possibility of such damage or existence of a nontrivial bug.
 #-
 # Call a programme with an appropriate systrace policy
 # Syntax:

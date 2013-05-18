@@ -1,4 +1,4 @@
-(* $MirOS: gcc/gcc/p/units/md5.pas,v 1.2 2005/03/28 23:33:18 tg Exp $
+(* $MirOS: gcc/gcc/p/units/md5.pas,v 1.3 2005/03/29 00:07:08 tg Exp $
  *-
  * Copyright (c) 2005
  *	Free Software Foundation, Inc. <gpc@gnu.de>
@@ -13,13 +13,14 @@
  * in all redistributions or reproduced in accompanying documentation
  * or other materials provided with binary redistributions.
  *
- * Licensor hereby provides this work "AS IS" and WITHOUT WARRANTY of
- * any kind, expressed or implied, to the maximum extent permitted by
- * applicable law, but with the warranty of being written without ma-
- * licious intent or gross negligence; in no event shall licensor, an
- * author or contributor be held liable for any damage, direct, indi-
- * rect or other, however caused, arising in any way out of the usage
- * of this work, even if advised of the possibility of such damage.
+ * Licensor offers the work "AS IS" and WITHOUT WARRANTY of any kind,
+ * express, or implied, to the maximum extent permitted by applicable
+ * law, without malicious intent or gross negligence; in no event may
+ * licensor, an author or contributor be held liable for any indirect
+ * or other damage, or direct damage except proven a consequence of a
+ * direct error of said person and intended use of this work, loss or
+ * other issues arising in any way out of its use, even if advised of
+ * the possibility of such damage or existence of a nontrivial bug.
  *-
  * Replacement for the GNU md5 unit, which was licenced under the GNU
  * GPL, thus propagating the requirement to be GPL'd to any code that

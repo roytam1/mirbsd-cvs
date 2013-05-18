@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/share/misc/licence.template,v 1.4 2005/12/15 02:46:54 tg Rel $
+# $MirOS: src/gnu/usr.bin/autogen.sh,v 1.7 2005/12/16 16:20:26 tg Exp $
 #-
 # Copyright (c) 2004, 2005
 #	Thorsten "mirabile" Glaser <tg@mirbsd.de>
@@ -23,7 +23,6 @@
 # direct error of said person and intended use of this work, loss or
 # other issues arising in any way out of its use, even if advised of
 # the possibility of such damage or existence of a nontrivial bug.
-#-
 
 if [[ -z $AUTOCONF_VERSION ]]; then
 	AUTOCONF_VERSION=2.59

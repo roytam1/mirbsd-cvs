@@ -1,5 +1,5 @@
 divert(-1)dnl
-# $MirOS: src/share/misc/licence.template,v 1.1 2005/02/11 14:23:55 tg Rel $
+# $MirOS: contrib/gnu/libtool/m4salt.inc,v 1.7 2005/02/11 16:38:36 tg Exp $
 #-
 # Copyright (c) 2004, 2005
 #	Free Software Foundation, Inc.
@@ -13,13 +13,14 @@ divert(-1)dnl
 # in all redistributions or reproduced in accompanying documentation
 # or other materials provided with binary redistributions.
 #
-# Licensor hereby provides this work "AS IS" and WITHOUT WARRANTY of
-# any kind, expressed or implied, to the maximum extent permitted by
-# applicable law, but with the warranty of being written without ma-
-# licious intent or gross negligence; in no event shall licensor, an
-# author or contributor be held liable for any damage, direct, indi-
-# rect or other, however caused, arising in any way out of the usage
-# of this work, even if advised of the possibility of such damage.
+# Licensor offers the work "AS IS" and WITHOUT WARRANTY of any kind,
+# express, or implied, to the maximum extent permitted by applicable
+# law, without malicious intent or gross negligence; in no event may
+# licensor, an author or contributor be held liable for any indirect
+# or other damage, or direct damage except proven a consequence of a
+# direct error of said person and intended use of this work, loss or
+# other issues arising in any way out of its use, even if advised of
+# the possibility of such damage or existence of a nontrivial bug.
 #-
 # m4salt - include m4sugar (from Autoconf 2.52) for Autoconf 2.13 as
 # well as enough magic to make GNU Libtool 1.5 work with Autoconf in
