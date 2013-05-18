@@ -1,7 +1,29 @@
-$MirOS$
+$MirOS: ports/devel/cvs/patches/patch-src_sanity_sh,v 1.1 2010/09/18 22:35:09 tg Exp $
 --- src/sanity.sh.orig	Thu Sep 22 20:33:44 2005
-+++ src/sanity.sh	Sat Sep 18 21:24:28 2010
-@@ -1503,6 +1503,9 @@ run_filter ()
++++ src/sanity.sh	Sat Sep 18 23:48:35 2010
+@@ -1,5 +1,9 @@
+ #! /bin/sh
+ :
++# $MirOS$
++#
++# set DISABLE_ANY_RSH=1 to skip rsh and ssh calls
++#
+ #	sanity.sh -- a growing testsuite for cvs.
+ #
+ # The copyright notice said: "Copyright (C) 1992, 1993 Cygnus Support"
+@@ -1205,6 +1209,11 @@ require_rsync ()
+ # 77.
+ require_rsh ()
+ {
++  if test x"$DISABLE_ANY_RSH" = x"1"; then
++    skipreason="administratively prohibited"
++    return 77
++  fi
++
+   host=${remotehost-"`hostname`"}
+   result=`$1 $host 'echo test'`
+   rc=$?
+@@ -1503,6 +1512,9 @@ run_filter ()
  # lack \|).
  dotest ()
  {
@@ -11,7 +33,7 @@ $MirOS$
    rm -f $TESTDIR/dotest.ex? 2>&1
    eval "$2" >$TESTDIR/dotest.tmp 2>&1
    status=$?
-@@ -1518,6 +1521,9 @@ dotest ()
+@@ -1518,6 +1530,9 @@ dotest ()
  # Like dotest except only 2 args and result must exactly match stdin
  dotest_lit ()
  {
@@ -21,7 +43,7 @@ $MirOS$
    rm -f $TESTDIR/dotest.ex? 2>&1
    eval "$2" >$TESTDIR/dotest.tmp 2>&1
    status=$?
-@@ -1543,6 +1549,9 @@ dotest_lit ()
+@@ -1543,6 +1558,9 @@ dotest_lit ()
  # Like dotest except exitstatus should be nonzero.
  dotest_fail ()
  {
@@ -31,7 +53,7 @@ $MirOS$
    rm -f $TESTDIR/dotest.ex? 2>&1
    eval "$2" >$TESTDIR/dotest.tmp 2>&1
    status=$?
-@@ -1558,6 +1567,9 @@ dotest_fail ()
+@@ -1558,6 +1576,9 @@ dotest_fail ()
  # Like dotest except output is sorted.
  dotest_sort ()
  {
@@ -41,7 +63,7 @@ $MirOS$
    rm -f $TESTDIR/dotest.ex? 2>&1
    eval "$2" >$TESTDIR/dotest.tmp1 2>&1
    status=$?
-@@ -1574,6 +1586,9 @@ dotest_sort ()
+@@ -1574,6 +1595,9 @@ dotest_sort ()
  # Like dotest_fail except output is sorted.
  dotest_fail_sort ()
  {
@@ -51,7 +73,7 @@ $MirOS$
    rm -f $TESTDIR/dotest.ex? 2>&1
    eval "$2" >$TESTDIR/dotest.tmp1 2>&1
    status=$?
-@@ -2600,6 +2615,20 @@ CVSROOT=`newroot $CVSROOT_DIRNAME`; expo
+@@ -2600,6 +2624,20 @@ CVSROOT=`newroot $CVSROOT_DIRNAME`; expo
  ###
  dotest init-1 "$testcvs init"
  
@@ -72,7 +94,7 @@ $MirOS$
  # Now hide the primary root behind a secondary if requested.
  if $proxy; then
      # Save the primary root.
-@@ -2781,6 +2810,19 @@ cp -Rp $CVSROOT_DIRNAME/CVSROOT $TESTDIR
+@@ -2781,6 +2819,19 @@ cp -Rp $CVSROOT_DIRNAME/CVSROOT $TESTDIR
  ###
  dotest init-2 "$testcvs init"
  
@@ -92,7 +114,7 @@ $MirOS$
  
  
  ###
-@@ -2805,6 +2847,7 @@ Concurrent Versions System (CVS) [0-9.]*
+@@ -2805,6 +2856,7 @@ Concurrent Versions System (CVS) [0-9.]*
  
  Copyright (C) [0-9]* Free Software Foundation, Inc.
  
@@ -100,7 +122,7 @@ $MirOS$
  Senior active maintainers include Larry Jones, Derek R. Price,
  and Mark D. Baushke.  Please see the AUTHORS and README files from the CVS
  distribution kit for a complete list of contributors and copyrights.
-@@ -2822,8 +2865,8 @@ Specify the --help option for further in
+@@ -2822,8 +2874,8 @@ Specify the --help option for further in
  #Secondary Server: Concurrent Versions System (CVS) [0-9p.]* (.*server)'
  	  if $remote; then
  		dotest version-2r "${testcvs} version" \
@@ -111,7 +133,7 @@ $MirOS$
  	  else
  		dotest version-2 "${testcvs} version" \
  'Concurrent Versions System (CVS) [0-9.]*.*'
-@@ -3327,10 +3370,11 @@ ${SPROG} \[admin aborted\]: attempt to d
+@@ -3327,10 +3379,11 @@ ${SPROG} \[admin aborted\]: attempt to d
  	  # many other folks are still using the older 'invalid option'
  	  # lib/getopt.c will use POSIX when __posixly_correct
  	  # otherwise the other, so accept both of them. -- mdb
@@ -125,7 +147,7 @@ $MirOS$
  ${CPROG} \[admin aborted\]: specify ${CPROG} -H admin for usage information"
  	  cd ..
  	  rmdir 1
-@@ -4963,7 +5007,7 @@ $SPROG commit: Rebuilding administrative
+@@ -4963,7 +5016,7 @@ $SPROG commit: Rebuilding administrative
  	    CVSROOT=":pserver;proxy=localhost;proxyport=8080:localhost/dev/null"
  	    dotest parseroot-3r "$testcvs -d'$CVSROOT' logout" \
  "Logging out of :pserver:$username@localhost:2401/dev/null
@@ -134,7 +156,7 @@ $MirOS$
  $CPROG logout: Entry not found."
  	    CVSROOT=":pserver;proxyport=8080:localhost/dev/null"
  	    dotest_fail parseroot-4r "$testcvs -d'$CVSROOT' logout" \
-@@ -9757,7 +9801,9 @@ No conflicts created by this import"
+@@ -9757,7 +9810,9 @@ No conflicts created by this import"
  N import-quirks-4/file1
  N import-quirks-4/file2
  N import-quirks-4/file3
@@ -145,7 +167,7 @@ $MirOS$
  
  	  dokeep
  	  cd ..
-@@ -15741,6 +15787,7 @@ description:
+@@ -15741,6 +15796,7 @@ description:
  revision 1\.1
  date: ${ISO8601DATE};  author: ${username};  state: Exp;  commitid: ${commitid};
  branches:  1\.1\.2;
@@ -153,7 +175,7 @@ $MirOS$
  xCVS: ----------------------------------------------------------------------
  xCVS: Enter Log.  Lines beginning with .CVS:. are removed automatically
  xCVS:
-@@ -15752,6 +15799,7 @@ xCVS: ----------------------------------
+@@ -15752,6 +15808,7 @@ xCVS: ----------------------------------
  ----------------------------
  revision 1\.1\.2\.1
  date: ${ISO8601DATE};  author: ${username};  state: Exp;  lines: ${PLUS}1 -0;  commitid: ${commitid};
@@ -161,7 +183,7 @@ $MirOS$
  xCVS: ----------------------------------------------------------------------
  xCVS: Enter Log.  Lines beginning with .CVS:. are removed automatically
  xCVS:
-@@ -15779,6 +15827,7 @@ description:
+@@ -15779,6 +15836,7 @@ description:
  revision 1\.1
  date: ${ISO8601DATE};  author: ${username};  state: Exp;  commitid: ${commitid};
  branches:  1\.1\.2;
@@ -169,7 +191,7 @@ $MirOS$
  xCVS: ----------------------------------------------------------------------
  xCVS: Enter Log.  Lines beginning with .CVS:. are removed automatically
  xCVS:
-@@ -15790,6 +15839,7 @@ xCVS: ----------------------------------
+@@ -15790,6 +15848,7 @@ xCVS: ----------------------------------
  ----------------------------
  revision 1\.1\.2\.1
  date: ${ISO8601DATE};  author: ${username};  state: Exp;  lines: ${PLUS}1 -0;  commitid: ${commitid};
@@ -177,7 +199,7 @@ $MirOS$
  xCVS: ----------------------------------------------------------------------
  xCVS: Enter Log.  Lines beginning with .CVS:. are removed automatically
  xCVS:
-@@ -15811,6 +15861,7 @@ description:
+@@ -15811,6 +15870,7 @@ description:
  revision 1\.1
  date: ${ISO8601DATE};  author: ${username};  state: Exp;  commitid: ${commitid};
  branches:  1\.1\.2;
@@ -185,7 +207,7 @@ $MirOS$
  xCVS: ----------------------------------------------------------------------
  xCVS: Enter Log.  Lines beginning with .CVS:. are removed automatically
  xCVS:
-@@ -15822,6 +15873,7 @@ xCVS: ----------------------------------
+@@ -15822,6 +15882,7 @@ xCVS: ----------------------------------
  ----------------------------
  revision 1\.1\.2\.1
  date: ${ISO8601DATE};  author: ${username};  state: Exp;  lines: ${PLUS}1 -0;  commitid: ${commitid};
@@ -193,7 +215,7 @@ $MirOS$
  xCVS: ----------------------------------------------------------------------
  xCVS: Enter Log.  Lines beginning with .CVS:. are removed automatically
  xCVS:
-@@ -23538,6 +23590,13 @@ C3b235f50|kingdon|<remote>|ccvs/emx|1.3|
+@@ -23538,6 +23599,13 @@ C3b235f50|kingdon|<remote>|ccvs/emx|1.3|
  M3b23af50|kingdon|~/work/*0|ccvs/doc|1.281|cvs.texinfo
  EOF
  
@@ -207,7 +229,7 @@ $MirOS$
  	  dotest history-1 "${testcvs} history -e -a" \
  "O 1997-06-04 19:48 ${PLUS}0000 anonymous ccvs     =ccvs= <remote>/\*
  O 1997-06-05 14:00 ${PLUS}0000 anonymous ccvs     =src=  <remote>/\*
-@@ -23602,6 +23661,12 @@ O 1997-06-06 08:12 ${PLUS}0000 kingdon  
+@@ -23602,6 +23670,12 @@ O 1997-06-06 08:12 ${PLUS}0000 kingdon  
  "O 1997-06-04 19:48 ${PLUS}0000 anonymous ccvs =ccvs= <remote>/\*
  O 1997-06-05 14:00 ${PLUS}0000 anonymous ccvs =src=  <remote>/\*
  O 1997-06-06 08:12 ${PLUS}0000 kingdon   ccvs =ccvs= <remote>/\*"
@@ -220,7 +242,7 @@ $MirOS$
  	  ;;
  
  
-@@ -24852,7 +24917,7 @@ xx Second log line
+@@ -24852,7 +24926,7 @@ xx Second log line
  xx"
  
  	  cd ../CVSROOT
