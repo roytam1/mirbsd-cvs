@@ -1,6 +1,6 @@
-$MirOS: ports/www/lynx/patches/patch-userdefs_h,v 1.4 2006/10/02 23:22:08 tg Exp $
+$MirOS: ports/www/lynx/patches/patch-userdefs_h,v 1.5 2006/10/13 19:45:35 tg Exp $
 --- userdefs.h.orig	Thu Dec 30 12:11:37 2004
-+++ userdefs.h	Fri Oct 13 19:39:43 2006
++++ userdefs.h	Fri Nov 10 19:30:17 2006
 @@ -324,7 +324,7 @@
   * use any default viewers for image types.  Note that open is used as
   * the default for NeXT, instead of the XLOADIMAGE_COMMAND definition.
@@ -55,7 +55,7 @@ $MirOS: ports/www/lynx/patches/patch-userdefs_h,v 1.4 2006/10/02 23:22:08 tg Exp
   * ignore it. - kw */
  /* $Format: "#define LYNX_VERSION \"$ProjectVersion$\""$ */
 +#ifndef LYNX_VERSION
- #define LYNX_VERSION "2.8.7dev.1"
+ #define LYNX_VERSION "2.8.7dev.2"
 +#endif
  #define LYNX_WWW_HOME "http://lynx.isc.org/"
  #define LYNX_WWW_DIST "http://lynx.isc.org/current/"
