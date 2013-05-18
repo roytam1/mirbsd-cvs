@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/stand/boot/cmd.c,v 1.22 2009/01/14 22:22:43 tg Exp $	*/
+/**	$MirOS: src/sys/stand/boot/cmd.c,v 1.23 2009/01/31 22:43:26 tg Exp $	*/
 /*	$OpenBSD: cmd.c,v 1.59 2007/04/27 10:08:34 tom Exp $	*/
 
 /*
@@ -587,6 +587,10 @@ qualify(char *name)
 static int
 Xreboot(void)
 {
+	/* compile-time safeguard, fix cmd.h if this fails */
+	char sizetest[sizeof(struct cmd_state) < CMD_STRUCT_SIZE ? 1 : -1]
+	    __attribute__((unused));
+
 	printf("Rebooting...\n");
 	exit();
 	return 0; /* just in case */

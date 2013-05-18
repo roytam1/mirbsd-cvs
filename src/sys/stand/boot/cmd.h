@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/stand/boot/cmd.h,v 1.11 2009/10/04 16:49:44 tg Exp $ */
+/**	$MirOS: src/sys/stand/boot/cmd.h,v 1.12 2009/10/04 18:13:44 tg Exp $ */
 /*	$OpenBSD: cmd.h,v 1.16 2007/06/13 02:17:32 drahn Exp $	*/
 
 /*
@@ -29,6 +29,9 @@
  */
 
 #define CMD_BUFF_SIZE		256
+/* sizeof(struct cmd_state), approx. 0x8C8 */
+#define CMD_STRUCT_SIZE		0x0900
+
 #ifndef _ASM_SOURCE
 #define BOOTDEVLEN		64 /* 1024 */
 
