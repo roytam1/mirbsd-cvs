@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/include/ansi.h,v 1.9 2008/12/10 21:45:45 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/include/ansi.h,v 1.10 2009/10/16 17:35:56 tg Exp $ */
 /*	$OpenBSD: ansi.h,v 1.9 2004/01/03 14:08:52 espie Exp $	*/
 /*	$NetBSD: ansi.h,v 1.7 1996/11/15 22:38:50 jtc Exp $	*/
 
@@ -56,7 +56,7 @@
 #endif
 #define	_BSD_TIME_T_IS_64_BIT
 #if defined(lint)
-#define _BSD_VA_LIST	char *			/* MI but possibly wrong */
+#define _BSD_VA_LIST_	char *			/* MI but possibly wrong */
 #elif (defined(__GNUC__) && (__GNUC__ >= 3)) || \
     (defined(__PCC__) && ((__PCC__ > 0) || (__PCC_MINOR__ > 9) || \
      ((__PCC_MINOR__ == 9) && (__PCC_MINORMINOR__ > 8)))) || \
