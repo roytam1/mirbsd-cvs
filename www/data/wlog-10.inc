@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.160 2009/02/16 21:27:29 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.161 2009/02/21 14:05:37 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -3322,4 +3322,34 @@ Tag: mksh
 <p>Fixing the PS1 bug, maybe changing the echo builtin to SUSv3 (and
  nothing more), maybe porting, are on the list, besides continuing
  the <a href="http://scan.coverity.com/">Coverity Scan</a> fixes.</p>
+----
+Author: bsiegert@
+Date: 21.02.2009 19:39
+Title: History lesson
+
+<p>Today I read <a
+ href="http://archive.salon.com/tech/feature/2000/05/17/386bsd/">“The
+ unknown hackers”</a>, a piece about Bill and Lynne Jolitz, the creators
+ of the 386BSD operating system.</p>
+
+<p>On exhibitions and conferences, we are often asked by visitors why
+ the hell we forked form OpenBSD. The same argument, namely that we
+ should have been content with submitting patches instead of forking, is
+ sometimes brought forward by OpenBSD devs. But here is the thing: We
+ did this at the beginning but nobody wanted them&mdash;not even a
+ reply to the mail in most cases. What is funny is that according to the
+ article, the situation was very similar in the early 1990s, when
+ FreeBSD and later NetBSD forked from 386BSD:</p>
+
+<blockquote>“The Jolitzes [...] seem to have tried to control quality by
+ doing most of the work themselves. This inevitably made their release
+ cycle slow, but it was also an implied snub to would-be collaborators
+ &ndash; who took their contributions elsewhere. [...] By the time 1.0
+ was released, the x86BSD user community had fragmented. Some developers
+ had moved to the more active and open NetBSD and FreeBSD teams.
+ [The Jolitzes] were criticized for their autocratic style. The
+ strength of their convictions did not endear them to people who wanted
+ to do things differently.”</blockquote>
+
+<p>Funny how history repeats itself, isn't it?</p>
 ----
