@@ -34,7 +34,7 @@
 #include <locale.h>
 #endif
 
-__RCSID("$MirOS: src/bin/mksh/main.c,v 1.210 2012/03/24 22:11:41 tg Exp $");
+__RCSID("$MirOS: src/bin/mksh/main.c,v 1.211 2012/03/25 14:28:14 tg Exp $");
 
 extern char **environ;
 
@@ -1721,7 +1721,7 @@ DF(const char *fmt, ...)
 	va_list args;
 	struct timeval tv;
 
-	(void)flock(shl_dbg_fd, LOCK_EX);
+	mksh_lockfd(shl_dbg_fd);
 	gettimeofday(&tv, NULL);
 	shf_fprintf(shl_dbg, "[%d.%06d:%d] ", (int)tv.tv_sec, (int)tv.tv_usec,
 	    (int)getpid());
@@ -1730,6 +1730,6 @@ DF(const char *fmt, ...)
 	va_end(args);
 	shf_putc('\n', shl_dbg);
 	shf_flush(shl_dbg);
-	(void)flock(shl_dbg_fd, LOCK_UN);
+	mksh_unlkfd(shl_dbg_fd);
 }
 #endif

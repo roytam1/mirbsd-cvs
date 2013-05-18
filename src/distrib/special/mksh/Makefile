@@ -1,6 +1,7 @@
-# $MirOS: src/distrib/special/mksh/Makefile,v 1.49 2011/12/08 22:19:17 tg Exp $
+# $MirOS: src/distrib/special/mksh/Makefile,v 1.50 2011/12/31 02:04:15 tg Exp $
 #-
-# Copyright (c) 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011
+# Copyright (c) 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010,
+#		2011, 2012
 #	Thorsten Glaser <tg@mirbsd.org>
 #
 # Provided that these terms and disclaimer and all copyright notices
@@ -42,7 +43,8 @@ CPPFLAGS+=	-DMKSH_ASSUME_UTF8 -DMKSH_DISABLE_DEPRECATED -DMKSH_SMALL \
 		-DHAVE_CAN_INTTYPES=1 -DHAVE_CAN_UCBINTS=1 \
 		-DHAVE_CAN_INT8TYPE=1 -DHAVE_CAN_UCBINT8=1 -DHAVE_RLIM_T=1 \
 		-DHAVE_SIG_T=1 -DHAVE_SYS_SIGNAME=1 -DHAVE_SYS_SIGLIST=1 \
-		-DHAVE_STRSIGNAL=0 -DHAVE_GETRUSAGE=1 -DHAVE_KILLPG=1 \
+		-DHAVE_STRSIGNAL=0 -DHAVE_FLOCK=1 -DHAVE_LOCK_FCNTL=1 \
+		-DHAVE_MMAP=1 -DHAVE_GETRUSAGE=1 -DHAVE_KILLPG=1 \
 		-DHAVE_MKNOD=1 -DHAVE_MKSTEMP=1 -DHAVE_NICE=0 -DHAVE_REVOKE=1 \
 		-DHAVE_SETLOCALE_CTYPE=0 -DHAVE_LANGINFO_CODESET=0 \
 		-DHAVE_SELECT=1 -DHAVE_SETRESUGID=1 -DHAVE_SETGROUPS=1 \
@@ -51,7 +53,13 @@ CPPFLAGS+=	-DMKSH_ASSUME_UTF8 -DMKSH_DISABLE_DEPRECATED -DMKSH_SMALL \
 		-DHAVE_PERSISTENT_HISTORY=0
 # probably differs between i386 and sparc
 CPPFLAGS+=	-DHAVE_SILENT_IDIVWRAPV=0
-COPTS+=		-std=gnu99 -Wall -fno-inline
+CPPFLAGS+=	-D${${PROG:L}_tf:C/(Mir${MAN:E}{0,1}){2}/4/:S/x/mksh_BUILD/:U}
+COPTS+=		-std=c99 -Wall -fno-inline
+
+DEBUGFILE?=	No
+.if ${DEBUGFILE:L} == "yes"
+CPPFLAGS+=	-DDF=mksh_debugtofile
+.endif
 
 regress: ${PROG} check.pl check.t
 	-rm -rf regress-dir
@@ -66,4 +74,5 @@ cleandir: clean-extra
 clean-extra: .PHONY
 	-rm -rf regress-dir
 
+mksh_tf=xMakefile${OStype:S/${MACHINE_OS}/1/1g}${OSNAME}
 .include <bsd.prog.mk>
