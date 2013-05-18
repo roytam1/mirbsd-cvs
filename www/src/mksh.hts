@@ -3,7 +3,7 @@
 
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.237 2009/05/30 00:41:33 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.238 2009/05/31 17:23:52 tg Exp $'
 mws_content <<'EOF'
 <h1>mksh(1) R38b</h1>
 <p>This is the website of the MirBSD™ Korn Shell, an actively developed free
@@ -1004,6 +1004,7 @@ mws_content <<'EOF'
   waitfor() from &lt;libutil.h&gt; in (while porting to) QNX 6.4</li>
  <li>[tg] Plug memory corruption issue introduced in R38</li>
  <li>[tg] Amend <tt>dot.mkshrc</tt> with a base64 en-/decoder in shell</li>
+ <li>[tg] Import a manpage fix via OpenBSD from Alan R. S. Bueno</li>
 </ul>
 <p id="r38">mksh R38 comes with these changes and fixes applied:</p><ul>
  <li>[tg] Improve regression test output debugging</li>
