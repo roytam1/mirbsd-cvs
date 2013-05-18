@@ -1,7 +1,5 @@
-# $MirOS: ports/www/php/core/Makefile,v 1.17 2007/03/31 21:14:21 tg Exp $
+# $MirOS: ports/www/php/core/Makefile,v 1.18 2008/03/23 13:35:28 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.12 2005/12/29 23:03:29 sturm Exp $
-
-BROKEN=			autoheader dies with error
 
 MULTI_PACKAGES=		-pear
 SUBPACKAGE?=
