@@ -1,4 +1,4 @@
-/* $MirOS: src/share/misc/licence.template,v 1.7 2006/04/09 22:08:49 tg Rel $ */
+/* $MirOS: src/lib/libc/time/taitime.c,v 1.5 2006/06/12 21:41:31 tg Exp $ */
 
 /*-
  * Copyright (c) 2004, 2005, 2006
@@ -31,7 +31,7 @@
 #include "private.h"
 #include "tzfile.h"
 
-__RCSID("$MirOS: src/lib/libc/time/taitime.c,v 1.4 2006/06/02 02:29:56 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/time/taitime.c,v 1.5 2006/06/12 21:41:31 tg Exp $");
 
 /* private interface */
 void _pushleap(time_t);
@@ -70,7 +70,6 @@ taina_time(tai64na_t *t)
 	t->nano = (int32_t)tp.tv_nsec;
 }
 
-
 void
 exporttai(uint8_t *dst, tai64na_t *src)
 {
@@ -105,7 +104,6 @@ importtai(uint8_t *src, tai64na_t *dst)
 	dst->atto = __BOUNDINTU(999999999, betoh32(source->atto));
 }
 
-
 tai64_t
 utc2tai(int64_t u)
 {
@@ -134,7 +132,6 @@ tai2utc(tai64_t t)
 
 	return (u);
 }
-
 
 /* private interface */
 tai64_t _leaps[TZ_MAX_LEAPS + 1] = {0};
