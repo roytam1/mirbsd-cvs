@@ -1,7 +1,8 @@
-@comment $MirOS: ports/essentials/pkgtools/pkg/PLIST,v 1.5 2007/10/03 17:49:17 tg Exp $
+@comment $MirOS: ports/essentials/pkgtools/PLIST,v 1.1 2008/10/13 20:47:34 tg Exp $
 @option base-package
 man/cat1/pkg.0
 man/cat1/pkg_add.0
+man/cat1/pkg_check.0
 man/cat1/pkg_create.0
 man/cat1/pkg_delete.0
 man/cat1/pkg_info.0
@@ -26,6 +27,7 @@ man/cat7/ports.0
 man/cat8/Setup.sh.0
 sbin/pkg
 sbin/pkg_add
+sbin/pkg_check
 sbin/pkg_create
 sbin/pkg_delete
 sbin/pkg_info
