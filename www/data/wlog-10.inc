@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.75 2008/08/30 12:27:13 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.76 2008/09/05 13:22:46 bsiegert Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -1560,4 +1560,38 @@ Title: cairo regressions
 <p>"What's ironic is that this bug had already existed as <a
  href="https://bugs.freedesktop.org/show_bug.cgi?id=3951">bug
  3951</a>. It was fixed in 0.9.3."</p>
+----
+Date: 09.09.2008 18:50
+Author: tg@
+Title: Aus gegebenem Anlaß^Hss
+
+<p>Wir haben jetzt ein Blumenkohl-Icon fürs iPhone, Dank an die RUBIs.</p>
+<p>Google ist definitiv evil. Ich vermeide sie auch so wie es eben geht,
+ aber bei zwei Sachen habe ich keine Alternative, da sie entweder einfach
+ nicht existieren oder saugen: Suchmaschine (ja ich hab sie alle durch)
+ und Karten (bin halt Geocacher).</p>
+<p>Während ich die 2⁶ Caches locker voll habe, siehe die diversen…
+ <img src="https://call.mirbsd.org/sp.cgi?oc" alt="Open, Free, Cool" />
+ <img src="https://call.mirbsd.org/sp.cgi?gc" alt="CommerceFrog Site" />
+ <img src="https://call.mirbsd.org/sp.cgi?tc" alt="Rare Jewels" />
+ <img src="https://call.mirbsd.org/sp.cgi?nc" alt="Broken Webpages²" />
+ …Statistiken, fängt Benny erst an, immerhin 2³ hat er schon:
+ <img src="http://img.geocaching.com/stats/img.aspx?txt=MirPorts+Developer&amp;uid=a1e7bb35-ff5a-48dd-b435-91f822b3f8c1" alt="Required in CH/F" />
+ Kimnotyze macht nicht wirklich weiter…
+ <img src="http://img.geocaching.com/stats/img.aspx?txt=Wilder+Kerl&amp;uid=3d6a47db-c0f0-4c02-b037-e1fe43b1dbce" alt="Lost in Luzern" />
+ … gecko2 kommt selten zum Cachen, aber hatte letztens sein Vélo mit,
+ sodaß er sich mit Kabelaffe und mir auf Tour begeben konnte:
+ <img src="http://img.geocaching.com/stats/img.aspx?txt=Apple+Fanboy&amp;uid=d57c5767-047b-4aff-a00a-784356b94e9e" alt="Janz Weit Draußen" />
+ Und der Dr. Pfeffer findet in Bremen nichts mehr… wär er bloß mal
+ nicht umgezogen, jaja… gibt halt nur in Bonn schön viele Dinger:
+ <img src="http://img.geocaching.com/stats/img.aspx?txt=Lazy+Academic&amp;uid=49c2ffb9-b3cf-4ce9-af7d-b1076dd451f4" alt="Wallapampa" />
+ <br />Aber Benny hat echt fieses Anfängerglück, und ich bin fachblind.
+</p>
+<p>Bruscetta sind superlecker, aber füllen, zusammen mit der warmen Mahlzeit,
+ den Bauch sehr an… und wenn man dann vorher noch einen Mojito hatte, hat man
+ gar keine Lust zu hacken, ist ziemlich platt… erst bsiegert@ dann auch mir
+ aufgefallen. Wir sitzen gerade bei N 47° 31.936′ E 007° 38.043′ im Chaostreff
+ Bāsel… und sind ziemlich platt. Aber irgendwas kommt trotzdem bei rum.</p>
+<p>Kommt wer mit nach <a href="http://marc.info/?m=122098732430813">Baarn</a>
+ und ggf. trifft sich mit uns $sonstwo?</p>
 ----
