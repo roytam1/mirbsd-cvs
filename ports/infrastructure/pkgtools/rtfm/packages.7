@@ -1,4 +1,4 @@
-.\" $MirOS: ports/infrastructure/pkgtools/rtfm/packages.7,v 1.4 2008/03/12 23:17:21 tg Exp $
+.\" $MirOS: ports/infrastructure/pkgtools/rtfm/packages.7,v 1.5 2008/03/14 16:46:01 tg Exp $
 .\" $OpenBSD: packages.7,v 1.18 2003/12/25 18:35:00 espie Exp $
 .\"
 .\" Copyright (c) 2000 Marc Espie
@@ -59,7 +59,7 @@
 .\" .Dd must come before definition of .Mx, because when called
 .\" with -mandoc, it might implement .Mx itself, but we want to
 .\" use our own definition. And .Dd must come *first*, always.
-.Dd $Mdocdate$
+.Dd $Mdocdate: March 14 2008 $
 .\"
 .\" Implement .Mx (MirBSD)
 .de Mx
@@ -132,7 +132,7 @@ These should apply to most packages.
 The actual packing-lists follow that rule, but the shell fragments embedded
 in some packages may break this assumption.
 Such a problem is a bug and should be reported.
-.Ss "Packages install to /usr/local"
+.Ss "Packages install to /usr/mpkg"
 This includes X11 packages, which no longer install under
 .Pa /usr/X11R6 .
 The only exceptions are
@@ -151,7 +151,7 @@ to function correctly (e.g.,
 .Nm squid ,
 or
 .Nm mysql ) .
-On Darwin and Interix, packages use
+Packages use
 .Pa /usr/mpkg
 as the default installation path.
 .Pp
@@ -160,10 +160,11 @@ The current package system has some major limitations.
 And thus, it does not handle that situation well.
 For instance, there is no mechanism to mark some files as being shareable
 on several machines, or even on several architectures.
-Bear in mind that the package database is normally stored in /var/db/pkg,
-which is usually not shared across machines.
+Bear in mind that the package database is normally stored in
+.Pa ${LOCALBASE}/db/pkg .
 .Pp
-Always installing packages on the same machine, and exporting /usr/local
+Always installing packages on the same machine, and exporting
+.Pa /usr/mpkg
 to other machines should mostly work.
 In such a case, always run
 .Xr pkg_add 1
