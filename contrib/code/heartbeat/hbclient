@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: contrib/code/heartbeat/hbclient,v 1.7 2006/06/26 14:14:19 tg Exp $
+# $MirOS: contrib/code/heartbeat/hbclient,v 1.8 2006/07/28 13:14:53 tg Exp $
 #-
 # Copyright (c) 2004, 2006
 #	Thorsten "mirabilos" Glaser <tg@66h.42h.de>
@@ -84,11 +84,11 @@ SERVER="212.224.0.188"
 #-- machine specifics
 
 # where do I get my IP address from?
-EXT_IF="tun0"				# name of external interface
+EXT_IF="pppoe0"				# name of external interface
 #SENDER=1				# use "sender" (DANGEROUS, see below)
 
 # where do I want my tunnel to arrive?
-TUNNEL="gif0"				# name of external interface
+TUNNEL="gif4589"			# name of external interface
 
 # do I have a subnet? (if yes, place a line similar to
 #	rdr on $TUNNEL inet6 from any to $MYUSER -> 2001:x:y:z:a:b:c:d
