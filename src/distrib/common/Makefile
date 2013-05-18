@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/Makefile,v 1.11 2006/08/19 15:00:42 tg Exp $
+# $MirOS: src/distrib/common/Makefile,v 1.12 2006/08/19 15:22:47 tg Exp $
 
 .include <bsd.own.mk>
 
@@ -8,7 +8,7 @@ TOPDIR?=	${.CURDIR}/..
 SYSDIR=		${TOPDIR}/../sys
 MACHCONF?=	${MACHINE}
 
-.if ${TOPDIR}/common/Makefile.${MACHCONF} != "no"
+.if exists(${TOPDIR}/common/Makefile.${MACHCONF})
 .  include "${TOPDIR}/common/Makefile.${MACHCONF}"
 .endif
 
