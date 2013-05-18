@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.260 2009/08/30 18:24:15 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.261 2009/09/12 12:04:42 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -1380,7 +1380,14 @@ _FAKE_SETUP=		TRUEPREFIX=${PREFIX:Q} PREFIX=${WRKINST:Q}${PREFIX:Q} \
 			${DESTDIRNAME}=${WRKINST:Q}
 
 VMEM_WARNING?=		No
+VMEM_AUTOUNLOCK?=	No
 _CLEANDEPENDS?=		Yes
+
+_VMEM_UNLOCK:=
+.if (${VMEM_AUTOUNLOCK:L} == "yes") && (${VMEM_WARNING:L} == "yes")
+_VMEM_UNLOCK+=		ulimit -d $$(ulimit -H -d);
+_VMEM_UNLOCK+=		ulimit -m $$(ulimit -H -m);
+.endif
 
 # mirroring utilities
 .if !empty(DIST_SUBDIR)
@@ -2297,23 +2304,28 @@ ${_BUILD_COOKIE}: ${_CONFIGURE_COOKIE}
 	echo ""
 .  endif
 .  if target(pre-build)
-	@cd ${.CURDIR} && exec ${_SYSTRACE_CMD} ${MAKE} pre-build
+	@${_VMEM_UNLOCK} \
+	cd ${.CURDIR} && exec ${_SYSTRACE_CMD} ${MAKE} pre-build
 .  endif
 .  for _c in ${CONFIGURE_STYLE:L}
 .    if defined(MOD${_c:U}_pre_build)
-	@${MOD${_c:U}_pre_build}
+	@${_VMEM_UNLOCK} \
+	${MOD${_c:U}_pre_build}
 .    endif
 .  endfor
 .  if target(do-build)
-	@cd ${.CURDIR} && exec ${_SYSTRACE_CMD} ${MAKE} do-build
+	@${_VMEM_UNLOCK} \
+	cd ${.CURDIR} && exec ${_SYSTRACE_CMD} ${MAKE} do-build
 .  else
 # What BUILD normally does:
-	@cd ${WRKBUILD} && exec ${_SYSTRACE_CMD} ${SETENV} ${MAKE_ENV} \
+	@${_VMEM_UNLOCK} \
+	cd ${WRKBUILD} && exec ${_SYSTRACE_CMD} ${SETENV} ${MAKE_ENV} \
 	    ${MAKE_PROGRAM} ${MAKE_FLAGS} -f ${MAKE_FILE:Q} ${ALL_TARGET}
 # End of BUILD
 .  endif
 .  if target(post-build)
-	@cd ${.CURDIR} && exec ${_SYSTRACE_CMD} ${MAKE} post-build
+	@${_VMEM_UNLOCK} \
+	cd ${.CURDIR} && exec ${_SYSTRACE_CMD} ${MAKE} post-build
 .  endif
 .endif
 	@${_MAKE_COOKIE} $@

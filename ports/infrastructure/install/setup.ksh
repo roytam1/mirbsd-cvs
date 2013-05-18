@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/install/setup.ksh,v 1.94 2009/08/30 18:14:06 tg Exp $
+# $MirOS: ports/infrastructure/install/setup.ksh,v 1.95 2009/10/04 15:27:19 tg Exp $
 #-
 # Copyright (c) 2005, 2008
 #	Thorsten “mirabilos” Glaser <tg@mirbsd.de>
@@ -677,6 +677,7 @@ if [[ ! -s $localbase/db/mmake.cfg ]]; then
 	cat >>$localbase/db/mmake.cfg <<-EOF
 		#CLEANDEPENDS=		No	# Default to yes
 		#PREFER_SUBPKG_INSTALL=	No	# Default to yes
+		#VMEM_AUTOUNLOCK=	Yes	# Default to no
 	EOF
 fi
 

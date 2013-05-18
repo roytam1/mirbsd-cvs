@@ -1,4 +1,4 @@
-.\" $MirOS: ports/infrastructure/pkgtools/rtfm/ports.7,v 1.9 2008/03/12 23:17:21 tg Exp $
+.\" $MirOS: ports/infrastructure/pkgtools/rtfm/ports.7,v 1.10 2008/03/14 16:46:01 tg Exp $
 .\" $OpenBSD: ports.7,v 1.42 2004/04/16 21:23:08 jmc Exp $
 .\" $FreeBSD: ports.7,v 1.7 1998/06/23 04:38:50 hoek Exp $
 .\"-
@@ -59,7 +59,7 @@
 .\" .Dd must come before definition of .Mx, because when called
 .\" with -mandoc, it might implement .Mx itself, but we want to
 .\" use our own definition. And .Dd must come *first*, always.
-.Dd $Mdocdate$
+.Dd $Mdocdate: March 14 2008 $
 .\"
 .\" Implement .Mx (MirBSD)
 .de Mx
@@ -570,6 +570,14 @@ This way it is ensured that ports do not make any network connections
 during build or write outside some well defined directories.
 The filter list is stored in
 .Pa ${PORTSDIR}/infrastructure/db/systrace.filter .
+.It Ev VMEM_AUTOUNLOCK
+Set to
+.Sq Yes
+to raise the
+.Ic ulimit
+values for datasize and memory automatically for building ports with
+.Ev VMEM_WARNING
+set.
 .El
 .Sh USING A READ-ONLY PORTS TREE
 Select read-write partition(s) that can accommodate working directories, the
