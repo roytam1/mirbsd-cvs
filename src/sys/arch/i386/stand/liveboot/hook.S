@@ -1,4 +1,4 @@
-/* $MirOS: src/sys/arch/i386/stand/liveboot/hook.S,v 1.8 2006/04/10 23:38:05 tg Exp $ */
+/* $MirOS: src/sys/arch/i386/stand/liveboot/hook.S,v 1.9 2006/04/19 11:04:41 tg Exp $ */
 
 /*-
  * Copyright (c) 2006
@@ -125,6 +125,8 @@ Lhook:
 	/* print banner */
 	LOCATE(20,0)
 	OUTS(lbl_widmung,4)
+	GET_XY
+	push	dx
 	LOCATE(0,0)
 	OUTCH(201,15)
 	mov	si,offset lbl_title
@@ -210,7 +212,12 @@ Lmlp5:	sub	al,13		/* return */
 	jae	Lmlp1
 	mov	[Lmenu],al
 Ldone:	/* choice in [Lmenu] */
-	LOCATE(18,0)
+	mov	ah,2
+	mov	bh,0
+	pop	dx
+	int	0x10 
+	OUTCH('\n',0)
+	/* cursor position (after last text output) restored, new line */
 	xor	eax,eax
 	mov	al,[Lmenu]
 	ret
