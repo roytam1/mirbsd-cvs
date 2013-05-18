@@ -1,4 +1,4 @@
-@comment $MirOS: ports/www/opera/pkg/PLIST,v 1.4 2006/06/20 18:20:37 tg Exp $
+@comment $MirOS: ports/www/opera/pkg/PLIST,v 1.5 2006/06/23 14:27:15 tg Exp $
 @comment $OpenBSD: PLIST,v 1.21 2005/07/07 18:30:29 sturm Exp $
 @unexec rm -f %D/share/opera/styles/browser.css
 @unexec rm -f %D/share/opera/styles/user.css
@@ -35,11 +35,13 @@ share/opera/locale/en/default.adr
 share/opera/locale/en/license.txt
 share/opera/locale/en/search.ini
 share/opera/locale/english.lng
+share/opera/locale/lux910final.lng
 share/opera/opera6.adr
 share/opera/plugins/libnpp.so
 share/opera/plugins/operaplugincleaner
 share/opera/plugins/operapluginwrapper
 share/opera/search.ini
+share/opera/skin/Minimalist%20Native.zip
 share/opera/skin/standard_skin.zip
 share/opera/skin/windows_skin.zip
 share/opera/styles/about.css
@@ -56,6 +58,9 @@ share/opera/styles/image.css
 share/opera/styles/images/bar.png
 share/opera/styles/images/center.png
 share/opera/styles/images/opera.png
+share/opera/styles/images/red_center.png
+share/opera/styles/images/red_left.png
+share/opera/styles/images/red_right.png
 share/opera/styles/images/root.png
 share/opera/styles/images/top.png
 share/opera/styles/info.css
@@ -71,6 +76,7 @@ share/opera/styles/user/imageandlinkonly.css
 share/opera/styles/user/nostalgia.css
 share/opera/styles/user/showstructure.css
 share/opera/styles/user/textonly.css
+share/opera/styles/warning.css
 share/opera/styles/wml.css
 share/opera/svg-mo.dat
 share/opera/svg-mobd.dat
