@@ -1,6 +1,6 @@
-$MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2005/03/18 15:50:49 tg Exp $
---- DOCS/man/en/mplayer.1.orig	Thu May 19 20:32:35 2005
-+++ DOCS/man/en/mplayer.1	Thu May 19 20:33:08 2005
+$MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.2 2005/05/19 21:44:56 tg Exp $
+--- DOCS/man/en/mplayer.1.orig	Sat Apr 16 14:32:57 2005
++++ DOCS/man/en/mplayer.1	Sun Mar 23 16:15:03 2008
 @@ -11,20 +11,20 @@
  .\" define indentation for suboptions
  .nr SS 5
@@ -11,28 +11,172 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  ..
  .\" begin of first level suboptions, end with .RE
 -.de RSs
-+.de rS
++.de Rs
  .RS \n(IN+3
  ..
  .\" begin of 2nd level suboptions
 -.de RSss
-+.de rP
++.de Rt
  .PD 0
  .RS \n(SS+3
  ..
  .\" end of 2nd level suboptions
 -.de REss
-+.de rE
++.de rX
  .RE
  .PD 1
  ..
+@@ -53,7 +53,7 @@ mencoder \- movie encoder
+ .br
+ .in
+ .B mplayer
+-'in +\n[.k]u
++'in +\n(.ku
+ [global options]
+ .I file1
+ [specific options] [file2] [specific options]
+@@ -61,7 +61,7 @@ mencoder \- movie encoder
+ .br
+ .in
+ .B mplayer
+-'in +\n[.k]u
++'in +\n(.ku
+ [global options]
+ .RI { "group of files and options" }
+ [group specific options]
+@@ -69,101 +69,101 @@ mencoder \- movie encoder
+ .br
+ .in
+ .B mplayer
+-'in +\n[.k]u
++'in +\n(.ku
+ .I dvd://[title | [start_title]\-end_title ]
+ [options]
+ .
+ .br
+ .in
+ .B mplayer
+-'in +\n[.k]u
++'in +\n(.ku
+ .I vcd://track[/device]
+ .
+ .br
+ .in
+ .B mplayer
+-'in +\n[.k]u
++'in +\n(.ku
+ .I tv://[channel]
+ [options]
+ .
+ .br
+ .in
+ .B mplayer
+-'in +\n[.k]u
++'in +\n(.ku
+ .I dvb://[card_number@]channel
+ [options]
+ .
+ .br
+ .in
+ .B mplayer
+-'in +\n[.k]u
++'in +\n(.ku
+ .I mf://filemask
+ [-mf options] [options]
+ .
+ .br
+ .in
+ .B mplayer
+-'in +\n[.k]u
++'in +\n(.ku
+ .I [cdda|cddb]://track[:speed][/device]
+ [options]
+ .
+ .br
+ .in
+ .B mplayer
+-'in +\n[.k]u
++'in +\n(.ku
+ .I cue://file[:track]
+ [options]
+ .
+ .br
+ .in
+ .B mplayer
+-'in +\n[.k]u
++'in +\n(.ku
+ .RI [ mms[t] | http | http_proxy | rt[s]p | ftp | udp] ://
+ [user:passwd@]\fIURL\fP[:port] [options]
+ .
+ .br
+ .in
+ .B mplayer
+-'in +\n[.k]u
++'in +\n(.ku
+ .I sdp://file
+ [options]
+ .
+ .br
+ .in
+ .B mplayer
+-'in +\n[.k]u
++'in +\n(.ku
+ .I mpst://host[:port]/URL
+ [options]
+ .
+ .br
+ .in
+ .B mplayer
+-'in +\n[.k]u
++'in +\n(.ku
+ .I tivo://host/list
+ [options]
+ .br
+ .in
+ .B mplayer
+-'in +\n[.k]u
++'in +\n(.ku
+ .I tivo://host/llist
+ [options]
+ .br
+ .in
+ .B mplayer
+-'in +\n[.k]u
++'in +\n(.ku
+ .I tivo://host/fsid
+ [options]
+ .br
+ .in
+ .B gmplayer
+-'in +\n[.k]u
++'in +\n(.ku
+ [options]
+ [\-skin\ skin]
+ .
+ .br
+ .in
+ .B mencoder
+-'in +\n[.k]u
++'in +\n(.ku
+ [options]
+ .RI [ \ file\  | \ URL\  | \ \-\  ]
+ [\-o\ file]
+@@ -171,7 +171,7 @@ mencoder \- movie encoder
+ .br
+ .in
+ .B mencoder
+-'in +\n[.k]u
++'in +\n(.ku
+ [global options]
+ .I file1
+ [specific options] [file2] [specific options]
 @@ -241,67 +241,67 @@ See the \-input option for ways to custo
  .TP
  .B general control
  .PD 0
 -.RSs
 -.IPs "<\- and \->"
-+.rS
++.Rs
 +.iP "<\- and \->"
  Seek backward/\:forward 10 seconds.
 -.IPs "up and down"
@@ -129,7 +273,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .PD 0
 -.RSs
 -.IPs "1 and 2"
-+.rS
++.Rs
 +.iP "1 and 2"
  Adjust contrast.
 -.IPs "3 and 4"
@@ -149,7 +293,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .PD 0
 -.RSs
 -.IPs "option + 0"
-+.rS
++.Rs
 +.iP "option + 0"
  Resize movie window to half its original size.
 -.IPs "option + 1"
@@ -175,7 +319,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .PD 0
 -.RSs
 -.IPs ENTER
-+.rS
++.Rs
 +.iP ENTER
  Start playing.
 -.IPs s\ \ \ \ 
@@ -198,7 +342,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .PD 0
 -.RSs
 -.IPs "h and k"
-+.rS
++.Rs
 +.iP "h and k"
  Select previous/\:next channel.
 -.IPs n\ \ \ \ 
@@ -214,7 +358,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  Set process priority for MPlayer according to Windows predefined priorities.
  Possible values of <prio>:
 -.RSs
-+.rS
++.Rs
  idle|belownormal|normal|abovenormal|high|realtime
  .RE
  .sp 1
@@ -224,7 +368,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .PD 0
 -.RSs
 -.IPs 0
-+.rS
++.Rs
 +.iP 0
  only some informational output (default)
 -.IPs 1
@@ -244,7 +388,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .PD 0
 -.RSs
 -.IPs conf=<filename>
-+.rS
++.Rs
 +.iP conf=<filename>
  Specify input configuration file other than the default
  ~/\:.mplayer/\:input.conf.
@@ -275,7 +419,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .PD 0
 -.RSs
 -.IPs "\-skin fittyfene"
-+.rS
++.Rs
 +.iP "\-skin fittyfene"
  Tries /usr/\:local/\:share/\:mplayer/\:Skin/\:fittyfene
  and afterwards ~/.mplayer/\:Skin/\:fittyfene.
@@ -286,7 +430,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .PD 0
 -.RSs
 -.IPs "mplayer dvd://1 \-alang hu,en"
-+.rS
++.Rs
 +.iP "mplayer dvd://1 \-alang hu,en"
  Chooses the Hungarian language track on a DVD and falls back on English if
  Hungarian is not available.
@@ -301,14 +445,14 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  Available options are:
 -.RSs
 -.IPs speed=<value>
-+.rS
++.Rs
 +.iP speed=<value>
  Set CD spin speed.
 -.IPs paranoia=<0\-2>
 +.iP paranoia=<0\-2>
  Set paranoia level.
 -.RSss
-+.rP
++.Rt
  0: disable checking
  .br
  1: overlap checking only (default)
@@ -316,7 +460,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  2: full data correction and verification
 -.REss
 -.IPs generic-dev=<value>
-+.rE
++.rX
 +.iP generic-dev=<value>
  Use specified generic SCSI device.
 -.IPs sector-size=<value>
@@ -345,7 +489,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .PD 0
 -.RSs
 -.IPs 2
-+.rS
++.Rs
 +.iP 2
  stereo
 -.IPs 4
@@ -362,7 +506,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .PD 0
 -.RSs
 -.IPs card=<1\-4>
-+.rS
++.Rs
 +.iP card=<1\-4>
  Specifies using card number 1\-4 (default: 1).
 -.IPs file=<filename>
@@ -376,7 +520,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .PD 0
 -.RSs
 -.IPs w=<value>
-+.rS
++.Rs
 +.iP w=<value>
  output width (default: autodetect)
 -.IPs h=<value>
@@ -396,7 +540,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .PD 0
 -.RSs
 -.IPs on\ \ \ 
-+.rS
++.Rs
 +.iP on\ \ \ 
  Use raw audio demuxer.
 -.IPs channels=<value>
@@ -422,7 +566,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .PD 0
 -.RSs
 -.IPs on\ \ \ 
-+.rS
++.Rs
 +.iP on\ \ \ 
  Use raw video demuxer.
 -.IPs fps=<value>
@@ -454,7 +598,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .PD 0
 -.RSs
 -.IPs "\-ss 56"
-+.rS
++.Rs
 +.iP "\-ss 56"
  Seeks to 56 seconds.
 -.IPs "\-ss 01:10:00"
@@ -468,7 +612,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  Available options are:
 -.RSs
 -.IPs noaudio
-+.rS
++.Rs
 +.iP noaudio
  no sound
 -.IPs driver=<value>
@@ -543,7 +687,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
 +.iP amode=<0\-3>
  Choose an audio mode:
 -.RSss
-+.rP
++.Rt
  0: mono
  .br
  1: stereo
@@ -553,7 +697,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  3: language 2
 -.REss
 -.IPs forcechan=<1\-2>
-+.rE
++.rX
 +.iP forcechan=<1\-2>
  By default, the count of recorded audio channels is determined automatically
  by querying the audio mode from the TV card.
@@ -594,7 +738,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  choose the size of the picture that will be compressed by hardware
  MJPEG compression:
 -.RSss
-+.rP
++.Rt
  1: full size
      704x576    PAL
      704x480    NTSC
@@ -604,7 +748,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
      176x120    NTSC
 -.REss
 -.IPs quality=<0\-100>
-+.rE
++.rX
 +.iP quality=<0\-100>
  Choose the quality of the JPEG compression
  (< 60 recommended for full size).
@@ -615,7 +759,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .PD 0
 -.RSs
 -.IPs 0
-+.rS
++.Rs
 +.iP 0
  plain white fonts
 -.IPs 0.75
@@ -634,7 +778,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .I EXAMPLE:
  .PD 0
 -.RSs
-+.rS
++.Rs
  \-font ~/\:.mplayer/\:arial-14/\:font.desc
  .br
  \-font ~/\:.mplayer/\:arialuni.ttf
@@ -644,7 +788,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .PD 0
 -.RSs
 -.IPs 0
-+.rS
++.Rs
 +.iP 0
  subtitles only
 -.IPs 1
@@ -664,7 +808,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .PD 0
 -.RSs
 -.IPs "mplayer dvd://1 \-slang hu,en"
-+.rS
++.Rs
 +.iP "mplayer dvd://1 \-slang hu,en"
  Chooses the Hungarian subtitle track on a DVD and falls back on English if
  Hungarian is not available.
@@ -679,7 +823,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .PD 0
 -.RSs
 -.IPs 0
-+.rS
++.Rs
 +.iP 0
  none (fastest, very ugly)
 -.IPs 1
@@ -702,7 +846,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .PD 0
 -.RSs
 -.IPs "-1"
-+.rS
++.Rs
 +.iP "-1"
  original position
 -.IPs " 0"
@@ -722,7 +866,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .PD 0
 -.RSs
 -.IPs 0
-+.rS
++.Rs
 +.iP 0
  exact match
 -.IPs 1
@@ -739,7 +883,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .PD 0
 -.RSs
 -.IPs 0
-+.rS
++.Rs
 +.iP 0
  Align at top (original/\:default behavior).
 -.IPs 1
@@ -755,7 +899,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .I EXAMPLE:
  .PD 0
 -.RSs
-+.rS
++.Rs
  \-subcp latin2
  .br
  \-subcp cp1250
@@ -765,7 +909,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .PD 0
 -.RSs
 -.IPs "\-subcp enca:cs:latin2"
-+.rS
++.Rs
 +.iP "\-subcp enca:cs:latin2"
  Guess the encoding, assuming the subtitles are Czech, fall back on
  latin 2, if the detection fails.
@@ -780,7 +924,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .PD 0
 -.RSs
 -.IPs 0
-+.rS
++.Rs
 +.iP 0
  no autoscale
 -.IPs 1
@@ -800,7 +944,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .PD 0
 -.RSs
 -.IPs "\-ao alsa,oss,"
-+.rS
++.Rs
 +.iP "\-ao alsa,oss,"
  Try the ALSA driver, then the OSS driver, then others.
 -.IPs "\-ao alsa:mmap:noblock:device=hw=0.3"
@@ -814,7 +958,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .PD 0
 -.RSs
 -.IPs mmap\ \ \ 
-+.rS
++.Rs
 +.iP mmap\ \ \ 
  Sets experimental mmap-mode (does not work for more than 2 channels).
 -.IPs noblock
@@ -831,7 +975,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .PD 0
 -.RSs
 -.IPs dsp-device
-+.rS
++.Rs
 +.iP dsp-device
  Sets the audio-output device (default: /dev/\:dsp).
  .RE
@@ -842,7 +986,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .PD 0
 -.RSs
 -.IPs <driver>
-+.rS
++.Rs
 +.iP <driver>
  Explicitly choose the SDL audio driver to use (default: let SDL choose).
  .RE
@@ -853,7 +997,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .PD 0
 -.RSs
 -.IPs <server>
-+.rS
++.Rs
 +.iP <server>
  Explicitly choose the ESD server to use (default: localhost).
  .RE
@@ -864,7 +1008,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .PD 0
 -.RSs
 -.IPs <device>
-+.rS
++.Rs
 +.iP <device>
  Explicitly choose the audio device to use (default: /dev/\:audio).
  .RE
@@ -875,7 +1019,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .PD 0
 -.RSs
 -.IPs device=<devicenum>
-+.rS
++.Rs
 +.iP device=<devicenum>
  Sets the device number to use.
  Playing a file with \-v will show a list of available devices.
@@ -886,7 +1030,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .PD 0
 -.RSs
 -.IPs (no)waveheader
-+.rS
++.Rs
 +.iP (no)waveheader
  Include or do not include the wave header (default: included).
  When not included, raw PCM will be generated.
@@ -900,7 +1044,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .I EXAMPLE:
  .PD 0
 -.RSs
-+.rS
++.Rs
  \-display xtest.localdomain:0
  .RE
  .PD 1
@@ -910,7 +1054,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  This option is used to control the dxr2 video output driver.
 -.RSs
 -.IPs ar-mode=<value>
-+.rS
++.Rs
 +.iP ar-mode=<value>
  aspect ratio mode (0 = normal, 1 = pan-and-scan, 2 = letterbox (default))
 -.IPs iec958-encoded
@@ -939,7 +1083,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .RE
 -.RSs
 -.IPs 75ire
-+.rS
++.Rs
 +.iP 75ire
  enable 7.5 IRE output mode
 -.IPs no75ire
@@ -973,7 +1117,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .RE
 -.RSs
 -.IPs cr-left=<0\-500>
-+.rS
++.Rs
 +.iP cr-left=<0\-500>
  Set the left cropping value (default: 50).
 -.IPs cr-right=<0\-500>
@@ -1027,7 +1171,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .PD 0
 -.RSs
 -.IPs above
-+.rS
++.Rs
 +.iP above
  Use the _NETWM_STATE_ABOVE hint if available.
 -.IPs below
@@ -1052,7 +1196,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
 +.iP stays_on_top
  Use _NETWM_STATE_STAYS_ON_TOP hint if available.
 -.REss
-+.rE
++.rX
  .sp 1
  .RS
  .I EXAMPLE:
@@ -1060,7 +1204,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .PD 0
 -.RSs
 -.IPs layer,stays_on_top,above,fullscreen
-+.rS
++.Rs
 +.iP layer,stays_on_top,above,fullscreen
  Default order, will be used as a fallback if incorrect or
  unsupported modes are specified.
@@ -1075,7 +1219,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .PD 0
 -.RSs
 -.IPs 50:40
-+.rS
++.Rs
 +.iP 50:40
  Places the window at x=50, y=40.
 -.IPs 50%:50%
@@ -1094,7 +1238,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .I EXAMPLE:
  .PD 0
 -.RSs
-+.rS
++.Rs
  \-monitoraspect 4:3  or 1.3333
  .br
  \-monitoraspect 16:9 or 1.7777
@@ -1104,7 +1248,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .PD 0
 -.RSs
 -.IPs "\-vo xmga,xv,"
-+.rS
++.Rs
 +.iP "\-vo xmga,xv,"
  Try the Matrox X11 driver, then the Xv driver, then others.
 -.IPs "\-vo directx:noaccel"
@@ -1118,7 +1262,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .PD 0
 -.RSs
 -.IPs port=<number>
-+.rS
++.Rs
 +.iP port=<number>
  Select a specific XVideo port.
 -.IPs ck=<cur|use|set>
@@ -1126,7 +1270,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  Select the source from which the colorkey is taken (default: cur).
 -.RSss
 -.IPs cur
-+.rP
++.Rt
 +.iP cur
  The default takes the colorkey currently set in Xv.
 -.IPs use
@@ -1142,7 +1286,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  Sets the colorkey drawing method (default: man).
 -.RSss
 -.IPs man
-+.rP
++.Rt
 +.iP man
  Draw the colorkey manually (reduces flicker in some cases).
 -.IPs bg
@@ -1159,7 +1303,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .PD 0
 -.RSs
 -.IPs <vo_driver>
-+.rS
++.Rs
 +.iP <vo_driver>
  Select the driver to use as source to overlay on top of X11.
  .RE
@@ -1170,7 +1314,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .PD 0
 -.RSs
 -.IPs port=<number>
-+.rS
++.Rs
 +.iP port=<number>
  Select a specific XVideo port.
 -.IPs (no)benchmark
@@ -1201,7 +1345,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .PD 0
 -.RSs
 -.IPs driver=<driver>
-+.rS
++.Rs
 +.iP driver=<driver>
  Explicitly choose the SDL driver to use.
 -.IPs (no)forcexv
@@ -1218,7 +1362,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .PD 0
 -.RSs
 -.IPs <subdevice>
-+.rS
++.Rs
 +.iP <subdevice>
  Explicitly choose the VIDIX subdevice driver to use.
  Available subdevice drivers are cyberblade_vid, mach64_vid, mga_crtc2_vid,
@@ -1229,7 +1373,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .PD 0
 -.RSs
 -.IPs <subdevice>
-+.rS
++.Rs
 +.iP <subdevice>
  same as vidix
  .RE
@@ -1240,7 +1384,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .PD 0
 -.RSs
 -.IPs <subdevice>
-+.rS
++.Rs
 +.iP <subdevice>
  same as vidix
  .RE
@@ -1251,7 +1395,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .PD 0
 -.RSs
 -.IPs <subdevice>
-+.rS
++.Rs
 +.iP <subdevice>
  same as vidix
  .RE
@@ -1262,7 +1406,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .PD 0
 -.RSs
 -.IPs noaccel
-+.rS
++.Rs
 +.iP noaccel
  Turns off hardware acceleration.
  Try this option if you have display problems.
@@ -1273,7 +1417,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .PD 0
 -.RSs
 -.IPs device_id=<number>
-+.rS
++.Rs
 +.iP device_id=<number>
  Choose the display device to use in fullscreen.
 -.IPs fs_res=<width>:<height>
@@ -1287,7 +1431,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .PD 0
 -.RSs
 -.IPs <device>
-+.rS
++.Rs
 +.iP <device>
  Explicitly choose the fbdev device name to use (e.g.\& /dev/\:fb0) or the
  name of the VIDIX subdevice if the device name starts with 'vidix'
@@ -1298,7 +1442,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .PD 0
 -.RSs
 -.IPs <device>
-+.rS
++.Rs
 +.iP <device>
  Explicitly choose the fbdev device name to use (default: /dev/\:fb0).
  .RE
@@ -1309,7 +1453,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .PD 0
 -.RSs
 -.IPs dga\ \ 
-+.rS
++.Rs
 +.iP dga\ \ 
  Turns on DGA mode.
 -.IPs nodga
@@ -1335,7 +1479,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .PD 0
 -.RSs
 -.IPs "<video mode>"
-+.rS
++.Rs
 +.iP "<video mode>"
  Specify video mode to use.
  The mode can be given in a <width>x<height>x<colors> format,
@@ -1366,7 +1510,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .PD 0
 -.RSs
 -.IPs (no)manyfmts
-+.rS
++.Rs
 +.iP (no)manyfmts
  Enables support for more (RGB and BGR) color formats.
  Needs OpenGL version >= 1.2.
@@ -1397,7 +1541,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .PD 0
 -.RSs
 -.IPs <subdevice>
-+.rS
++.Rs
 +.iP <subdevice>
  Explicitly choose the Blinkenlights subdevice driver to use.
  It's something like arcade:host=localhost:2323 or
@@ -1408,7 +1552,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .PD 0
 -.RSs
 -.IPs <driver>
-+.rS
++.Rs
 +.iP <driver>
  Explicitly choose the GGI driver to use.
  .RE
@@ -1419,7 +1563,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .PD 0
 -.RSs
 -.IPs (no)input
-+.rS
++.Rs
 +.iP (no)input
  Use the DirectFB instead of the MPlayer keyboard code (default: enabled).
 -.IPs buffermode=single|double|triple
@@ -1447,7 +1591,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .PD 0
 -.RSs
 -.IPs (no)bes
-+.rS
++.Rs
 +.iP (no)bes
  Enable the use of the Matrox BES (backend scaler) (default: disabled).
  Gives very good results concerning speed and output quality as interpolated
@@ -1489,7 +1633,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .PD 0
 -.RSs
 -.IPs <device>
-+.rS
++.Rs
 +.iP <device>
  Explicitly choose the Matrox device name to use (default: /dev/\:mga_vid).
  .RE
@@ -1500,7 +1644,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .PD 0
 -.RSs
 -.IPs <device>
-+.rS
++.Rs
 +.iP <device>
  Explicitly choose the Matrox device name to use (default: /dev/\:mga_vid).
  .RE
@@ -1511,7 +1655,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .PD 0
 -.RSs
 -.IPs <device>
-+.rS
++.Rs
 +.iP <device>
  Explicitly choose the fbdev device name to use (default: /dev/\:fb0).
  .RE
@@ -1522,7 +1666,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .PD 0
 -.RSs
 -.IPs <device>
-+.rS
++.Rs
 +.iP <device>
  Explicitly choose the device name to use (default: /dev/\:tdfx_vid).
  .RE
@@ -1533,7 +1677,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .PD 0
 -.RSs
 -.IPs <vo_driver>
-+.rS
++.Rs
 +.iP <vo_driver>
  Output video subdriver to use as overlay (x11, xv).
  .RE
@@ -1544,7 +1688,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .PD 0
 -.RSs
 -.IPs overlay
-+.rS
++.Rs
 +.iP overlay
  Activates the overlay instead of TVOut.
 -.IPs prebuf
@@ -1557,7 +1701,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
 +.iP norm=<norm>
  Specifies the TV norm.
 -.RSss
-+.rP
++.Rt
  0: Does not change current norm (default).
  .br
  1: Auto-adjust using PAL/\:NTSC.
@@ -1567,7 +1711,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  5: NTSC
 -.REss
 -.IPs <0\-3>
-+.rE
++.rX
 +.iP <0\-3>
  Specifies the device number to use if you have more than one em8300 card.
  .RE
@@ -1578,7 +1722,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .PD 0
 -.RSs
 -.IPs card=<1\-4>
-+.rS
++.Rs
 +.iP card=<1\-4>
  Specifies the device number to use if you have more than one DVB output card
  (V3 API only, such as 1.x.y series drivers).
@@ -1593,7 +1737,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .PD 0
 -.RSs
 -.IPs dev=<device>
-+.rS
++.Rs
 +.iP dev=<device>
  Specifies the device to use.
 -.IPs pal\ \ 
@@ -1616,7 +1760,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .PD 0
 -.RSs
 -.IPs outfile=<value>
-+.rS
++.Rs
 +.iP outfile=<value>
  Specify the output filename (default: ./md5sums).
  .RE
@@ -1627,7 +1771,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .PD 0
 -.RSs
 -.IPs interlaced
-+.rS
++.Rs
 +.iP interlaced
  Write the output as interlaced frames, top field first.
 -.IPs interlaced_bf
@@ -1637,7 +1781,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
 +.iP file=<filename>
  Write the output to <filename> instead of the default stream.yuv.
 -.REss
-+.rE
++.rX
  .PD 1
  .RS
  .sp 1
@@ -1647,14 +1791,14 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .PD 0
 -.RSs
 -.IPs <fps>
-+.rS
++.Rs
 +.iP <fps>
  Float value to specify framerate (default: 5.0).
 -.IPs <filename>
 +.iP <filename>
  Specify the output filename (default: ./out.gif).
 -.REss
-+.rE
++.rX
  .PD 1
  .RS
  .sp 1
@@ -1663,7 +1807,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .RE
  .PD 0
 -.RSs
-+.rS
++.Rs
  mplayer video.nut \-vo gif89a:15.0:test.gif
  .RE
  .PD 1
@@ -1673,7 +1817,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .PD 0
 -.RSs
 -.IPs [no]progressive
-+.rS
++.Rs
 +.iP [no]progressive
  Specify standard or progressive JPEG (default: noprogressive).
 -.IPs [no]baseline
@@ -1706,7 +1850,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .PD 0
 -.RSs
 -.IPs ppm\ \ 
-+.rS
++.Rs
 +.iP ppm\ \ 
  Write PPM files (default).
 -.IPs pgm\ \ 
@@ -1741,7 +1885,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .PD 0
 -.RSs
 -.IPs z=<0-9>
-+.rS
++.Rs
 +.iP z=<0-9>
  Specifies the compression level.
  0 is no compression, 9 is maximum compression.
@@ -1751,7 +1895,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .RE
  .PD 0
 -.RSs
-+.rS
++.Rs
  mplayer video.nut \-vf format=bgr15 \-vo tga
  .RE
  .PD 1
@@ -1761,7 +1905,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .PD 0
 -.RSs
 -.IPs "\-ac mp3acm"
-+.rS
++.Rs
 +.iP "\-ac mp3acm"
  Force the l3codeca.acm MP3 codec.
 -.IPs "\-ac mad,"
@@ -1781,11 +1925,11 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  Specify advanced audio filter options:
 -.RSs
 -.IPs force=<0\-7>
-+.rS
++.Rs
 +.iP force=<0\-7>
  Forces the insertion of audio filters to one of the following:
 -.RSss
-+.rP
++.Rt
  0: completely automatic filter insertion (default)
  .br
  1: Optimize for accuracy.
@@ -1795,7 +1939,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  and use floating point processing when possible.
 -.REss
 -.IPs list=<filters>
-+.rE
++.rX
 +.iP list=<filters>
  Same as \-af.
  .RE
@@ -1806,7 +1950,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .PD 0
 -.RSs
 -.IPs "\-afm ffmpeg"
-+.rS
++.Rs
 +.iP "\-afm ffmpeg"
  Try FFmpeg's libavcodec codecs first.
 -.IPs "\-afm acm,dshow"
@@ -1819,7 +1963,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .I EXAMPLE:
  .PD 0
 -.RSs
-+.rS
++.Rs
  \-aspect 4:3  or \-aspect 1.3333
  .br
  \-aspect 16:9 or \-aspect 1.7777
@@ -1828,7 +1972,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .I EXAMPLE:
  .PD 0
 -.RSs
-+.rS
++.Rs
  \-lavdopts bug=1
  .RE
  .PD 1
@@ -1838,11 +1982,11 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .RE
 -.RSs
 -.IPs bug=<value>
-+.rS
++.Rs
 +.iP bug=<value>
  Manually work around encoder bugs.
 -.RSss
-+.rP
++.Rt
  0: nothing
  .br
  1: autodetect bugs (default)
@@ -1852,11 +1996,11 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  1024 (mpeg4): edge padding bug (autodetected per fourcc/\:version)
 -.REss
 -.IPs debug=<value>
-+.rE
++.rX
 +.iP debug=<value>
  Display debugging information.
 -.RSss
-+.rP
++.Rt
  .br
  0: disabled
  .br
@@ -1866,11 +2010,11 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  0x1000: bugs
 -.REss
 -.IPs ec=<value>
-+.rE
++.rX
 +.iP ec=<value>
  Set error concealment strategy.
 -.RSss
-+.rP
++.Rt
  1: Use strong deblock filter for damaged MBs.
  .br
  2: iterative motion vector (MV) search (slow)
@@ -1878,11 +2022,11 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  3: all (default)
 -.REss
 -.IPs er=<value>
-+.rE
++.rX
 +.iP er=<value>
  Set error resilience strategy.
 -.RSss
-+.rP
++.Rt
  .br
  0: disabled
  .br
@@ -1892,7 +2036,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  4: very aggressive
 -.REss
 -.IPs fast\ 
-+.rE
++.rX
 +.iP fast\ 
  Enable optimizations which do not comply to the specification and might
  potentially cause problems, like simpler dequantization, assuming use
@@ -1912,7 +2056,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  often result in ugly artifacts.
  This is not a bug, but a side effect of not decoding at full resolution.
 -.RSss
-+.rP
++.Rt
  .br
  0: disabled
  .br
@@ -1921,7 +2065,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .br
  3: 1/8 resolution
 -.REss
-+.rE
++.rX
  .RS
  If <w> is specified lowres decoding will be used only if the width of the
  video is major than or equal to <w>.
@@ -1936,7 +2080,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
 +.iP vismv=<value>
  Visualize motion vectors.
 -.RSss
-+.rP
++.Rt
  .br
  0: disabled
  .br
@@ -1946,7 +2090,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  4: Visualize backward predicted MVs of B-frames.
 -.REss
 -.IPs vstats
-+.rE
++.rX
 +.iP vstats
  Prints some statistics and stores them in ./vstats_*.log.
  .RE
@@ -1956,14 +2100,14 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .I EXAMPLE:
  .PD 0
 -.RSs
-+.rS
++.Rs
  \-vf scale \-ssf lgb=3.0
  .RE
  .PD 1
  .PD 0
 -.RSs
 -.IPs lgb=<0\-100>
-+.rS
++.Rs
 +.iP lgb=<0\-100>
  gaussian blur filter (luma)
 -.IPs cgb=<0\-100>
@@ -1989,7 +2133,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .PD 0
 -.RSs
 -.IPs 0
-+.rS
++.Rs
 +.iP 0
  stereo
 -.IPs 1
@@ -2006,7 +2150,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .PD 0
 -.RSs
 -.IPs 0
-+.rS
++.Rs
 +.iP 0
  fast bilinear
 -.IPs 1
@@ -2047,7 +2191,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .PD 0
 -.RSs
 -.IPs "\-vc divx"
-+.rS
++.Rs
 +.iP "\-vc divx"
  Force Win32/\:VFW DivX codec, no fallback.
 -.IPs "\-vc divx4,"
@@ -2067,7 +2211,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .PD 0
 -.RSs
 -.IPs "\-vfm ffmpeg,dshow,vfw"
-+.rS
++.Rs
 +.iP "\-vfm ffmpeg,dshow,vfw"
  Try the libavcodec, then Directshow, then VfW codecs and fall back
  on others, if they do not work.
@@ -2082,7 +2226,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .PD 0
 -.RSs
 -.IPs deblock-chroma (also see \-vf pp)
-+.rS
++.Rs
 +.iP deblock-chroma (also see \-vf pp)
  chroma deblock filter
 -.IPs deblock-luma (also see \-vf pp)
@@ -2105,7 +2249,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .PD 0
 -.RSs
 -.IPs dr2\ \ 
-+.rS
++.Rs
 +.iP dr2\ \ 
  Activate direct rendering method 2.
 -.IPs nodr2
@@ -2119,7 +2263,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .PD 0
 -.RSs
 -.IPs value<=8
-+.rS
++.Rs
 +.iP value<=8
  Scale image by factor <value>.
 -.IPs value>8
@@ -2133,7 +2277,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .PD 0
 -.RSs
 -.IPs <srate>
-+.rS
++.Rs
 +.iP <srate>
  output sample frequency in Hz.
  The valid range for this parameter is 8000 to 192000.
@@ -2150,14 +2294,14 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
 +.iP <type>
  Selects which resampling method to use.
 -.RSss
-+.rP
++.Rt
  0: linear interpolation (fast, poor quality especially when upsampling)
  .br
  1: polyphase filterbank and integer processing
  .br
  2: polyphase filterbank and floating point processing (slow, best quality)
 -.REss
-+.rE
++.rX
  .PD 1
  .RE
  .sp 1
@@ -2167,7 +2311,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .PD 0
 -.RSs
 -.IPs "mplayer -af resample=44100:0:0"
-+.rS
++.Rs
 +.iP "mplayer -af resample=44100:0:0"
  would set the output frequency of the resample filter to 44100Hz using
  exact output frequency scaling and linear interpolation.
@@ -2178,7 +2322,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .PD 0
 -.RSs
 -.IPs <srate>
-+.rS
++.Rs
 +.iP <srate>
  the output sample rate
 -.IPs <length>
@@ -2203,7 +2347,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .PD 0
 -.RSs
 -.IPs <0.0\-1.0>
-+.rS
++.Rs
 +.iP <0.0\-1.0>
  Sine function delta, use very low values to hear the sweep.
  .RE
@@ -2258,7 +2402,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .PD 0
 -.RSs
 -.IPs <g1>:<g2>:<g3>:...:<g10>
-+.rS
++.Rs
 +.iP <g1>:<g2>:<g3>:...:<g10>
  floating point numbers representing the gain in dB
  for each frequency band (-12\-12)
@@ -2269,7 +2413,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .RE
 -.RSs
 -.IPs "mplayer \-af equalizer=11:11:10:5:0:-12:0:5:12:12 media.avi"
-+.rS
++.Rs
 +.iP "mplayer \-af equalizer=11:11:10:5:0:-12:0:5:12:12 media.avi"
  Would amplify the sound in the upper and lower frequency region
  while canceling it almost completely around 1kHz.
@@ -2280,7 +2424,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .PD 0
 -.RSs
 -.IPs <nch>
-+.rS
++.Rs
 +.iP <nch>
  number of output channels (1\-6)
 -.IPs <nr>\ 
@@ -2296,7 +2440,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .RE
 -.RSs
 -.IPs "mplayer -af channels=4:4:0:1:1:0:2:2:3:3 media.avi"
-+.rS
++.Rs
 +.iP "mplayer -af channels=4:4:0:1:1:0:2:2:3:3 media.avi"
  Would change the number of channels to 4 and set up 4 routes that
  swap channel 0 and channel 1 and leave channel 2 and 3 intact.
@@ -2313,7 +2457,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .PD 0
 -.RSs
 -.IPs <format>
-+.rS
++.Rs
 +.iP <format>
  Sets the desired format.
  The general form is 'sbe', where 's' denotes the sign (either 's' for signed
@@ -2324,7 +2468,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .PD 0
 -.RSs
 -.IPs <v>\ \ 
-+.rS
++.Rs
 +.iP <v>\ \ 
  Sets the desired gain in dB for all channels in the stream
  from -200dB to +60dB, where -200dB mutes the sound
@@ -2340,7 +2484,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .RE
 -.RSs
 -.IPs "mplayer -af volume=10.1:0 media.avi"
-+.rS
++.Rs
 +.iP "mplayer -af volume=10.1:0 media.avi"
  would amplify the sound by 10.1dB and hard-clip if the
  sound level is too high.
@@ -2351,7 +2495,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .PD 0
 -.RSs
 -.IPs <n>\ \ 
-+.rS
++.Rs
 +.iP <n>\ \ 
  number of input channels (1\-6)
 -.IPs <lij>
@@ -2364,7 +2508,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .RE
 -.RSs
 -.IPs "mplayer -af pan=1:0.5:0.5 -channels 1 media.avi"
-+.rS
++.Rs
 +.iP "mplayer -af pan=1:0.5:0.5 -channels 1 media.avi"
  Would down-mix from stereo to mono.
 -.IPs "mplayer -af pan=3:1:0:1:0.5:0.5 -channels 3 media.avi"
@@ -2378,7 +2522,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .PD 0
 -.RSs
 -.IPs <fc>\ 
-+.rS
++.Rs
 +.iP <fc>\ 
  cutoff frequency in Hz for the low-pass filter (20Hz to 300Hz) (default: 60Hz)
  For the best result try setting the cutoff frequency as low as possible.
@@ -2394,29 +2538,36 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .RE
 -.RSs
 -.IPs "mplayer -af sub=100:4 -channels 5 media.avi"
-+.rS
++.Rs
 +.iP "mplayer -af sub=100:4 -channels 5 media.avi"
  would add a sub-woofer channel with a cutoff frequency of
  100Hz to output channel 4.
  .RE
-@@ -3867,8 +3867,8 @@ May currently be low quality as it does 
+@@ -3867,14 +3867,14 @@ May currently be low quality as it does 
  high-pass filter for proper extraction yet, but averages and
  halves the channels instead.
  .PD 0
 -.RSs
 -.IPs <ch>\ 
-+.rS
++.Rs
 +.iP <ch>\ 
  Determines the channel number in which to insert the center channel.
  Channel number can be between 0 and 5 (default: 5).
  Observe that the number of channels will automatically
+ be increased to <ch> if necessary.
+ .RE
+-.PD1
++.PD 1
+ .
+ .TP
+ .B surround[=delay]
 @@ -3882,8 +3882,8 @@ Decoder for matrix encoded surround soun
  Many files with 2 channel audio actually contain matrixed surround sound.
  Requires a sound card supporting at least 4 channels.
  .PD 0
 -.RSs
 -.IPs <delay>
-+.rS
++.Rs
 +.iP <delay>
  delay time in ms for the rear speakers (0 to 1000) (default: 20)
  This delay should be set as follows: If d1 is the distance
@@ -2427,7 +2578,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .RE
 -.RSs
 -.IPs "mplayer \-af surround=15 \-channels 4 media.avi"
-+.rS
++.Rs
 +.iP "mplayer \-af surround=15 \-channels 4 media.avi"
  Would add surround sound decoding with 15ms delay for the sound to the
  rear speakers.
@@ -2438,7 +2589,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .PD 0
 -.RSs
 -.IPs ch1,ch2,...
-+.rS
++.Rs
 +.iP ch1,ch2,...
  The delay in ms that should be imposed on each channel
  (floating point number between 0 and 1000).
@@ -2449,7 +2600,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .RE
 -.RSs
 -.IPs "mplayer \-af delay=10.5:10.5:0:0:7:0 media.avi"
-+.rS
++.Rs
 +.iP "mplayer \-af delay=10.5:10.5:0:0:7:0 media.avi"
  Would delay front left and right by 10.5ms, the two rear channels
  and the sub by 0ms and the center channel by 7ms.
@@ -2460,7 +2611,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .PD 0
 -.RSs
 -.IPs <mmapped_file>
-+.rS
++.Rs
 +.iP <mmapped_file>
  file to map data to (default: ~/.mplayer/\:mplayer-af_export)
 -.IPs <nsamples>
@@ -2473,7 +2624,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .RE
 -.RSs
 -.IPs "mplayer \-af export=/tmp/mplayer-af_export:1024 media.avi"
-+.rS
++.Rs
 +.iP "mplayer \-af export=/tmp/mplayer-af_export:1024 media.avi"
  Would export 1024 samples per channel to '/tmp/mplayer-af_export'.
  .RE
@@ -2484,7 +2635,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .PD 0
 -.RSs
 -.IPs <mul>
-+.rS
++.Rs
 +.iP <mul>
  Sets the difference coefficient (default: 2.5).
  0.0 means mono sound (average of both channels), with 1.0 sound will be
@@ -2495,7 +2646,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .PD 0
 -.RSs
 -.IPs <file>
-+.rS
++.Rs
 +.iP <file>
  Specifies the LADSPA plugin library file.
  If LADSPA_PATH is set, it searches for the specified file.
@@ -2517,7 +2668,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .PD 0
 -.RSs
 -.IPs <w>,<h>
-+.rS
++.Rs
 +.iP <w>,<h>
  Cropped width and height, defaults to original width and height.
 -.IPs <x>,<y>
@@ -2531,7 +2682,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .PD 0
 -.RSs
 -.IPs <limit>
-+.rS
++.Rs
 +.iP <limit>
  Threshold, which can be optionally specified from nothing (0) to
  everything (255) (default: 24).
@@ -2547,7 +2698,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .PD 0
 -.RSs
 -.IPs <w>,<h>
-+.rS
++.Rs
 +.iP <w>,<h>
  width and height (default: -1, maximum possible width where boundaries
  are still visible.)
@@ -2562,7 +2713,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  Can be used for placing subtitles/\:OSD in the resulting black bands.
 -.RSs
 -.IPs <w>,<h>
-+.rS
++.Rs
 +.iP <w>,<h>
  Expanded width,height (default: original width,height).
  Negative values for w and h are treated as offsets to the original size.
@@ -2570,7 +2721,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .I EXAMPLE:
  .PD 0
 -.RSs
-+.rS
++.Rs
  .IP expand=0:-50:0:0
  Adds a 50 pixel border to the bottom of the picture.
  .RE
@@ -2582,12 +2733,12 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
 +.iP <o>\ 
  OSD/\:subtitle rendering
 -.RSss
-+.rP
++.Rt
  0: disable (default)
  .br
  1: enable
 -.REss
-+.rE
++.rX
  .RE
  .
  .TP
@@ -2597,7 +2748,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  portrait and not landscape.
 -.RSs
 -.IPs 0
-+.rS
++.Rs
 +.iP 0
  Rotate by 90 degrees clockwise and flip (default).
 -.IPs 1
@@ -2617,7 +2768,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  colorspace conversion (also see \-sws).
 -.RSs
 -.IPs <w>,<h>
-+.rS
++.Rs
 +.iP <w>,<h>
  scaled width/\:height (default: original width/\:height)
  .br
@@ -2625,7 +2776,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  If \-zoom is used, and underlying filters (including libvo) are
  incapable of scaling, it defaults to d_width/\:d_height!
 -.RSss
-+.rP
++.Rt
   0:   scaled d_width/\:d_height
  .br
  -1:   original width/\:height
@@ -2635,21 +2786,21 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  -(n+8): Like -n above, but rounding the dimension to the closest multiple of 16.
 -.REss
 -.IPs <interlaced>
-+.rE
++.rX
 +.iP <interlaced>
  Toggle interlaced scaling.
 -.RSss
-+.rP
++.Rt
  0: off (default)
  .br
  1: on
 -.REss
 -.IPs <chr_drop>
-+.rE
++.rX
 +.iP <chr_drop>
  chroma skipping
 -.RSss
-+.rP
++.Rt
  0: Use all available input lines for chroma.
  .br
  1: Use only every 2. input line for chroma.
@@ -2659,12 +2810,12 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  3: Use only every 8. input line for chroma.
 -.REss
 -.IPs "<param>[:<param2>] (also see \-sws)"
-+.rE
++.rX
 +.iP "<param>[:<param2>] (also see \-sws)"
  Set some scaling parameters depending on the type of scaler selected
  with \-sws.
 -.RSss
-+.rP
++.Rt
  \-sws 2 (bicubic):  B (blurring) and C (ringing)
  .br
  0.00:0.60 default
@@ -2674,11 +2825,11 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  \-sws 9 (lanczos):  filter length (1\-10)
 -.REss
 -.IPs <presize>
-+.rE
++.rX
 +.iP <presize>
  Scale to preset sizes.
 -.RSss
-+.rP
++.Rt
  qntsc:   352x240 (NTSC quarter screen)
  .br
  qpal:    352x288 (PAL quarter screen)
@@ -2687,7 +2838,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .br
  spal:    768x576 (square pixel PAL)
 -.REss
-+.rE
++.rX
  .RE
  .
  .TP
@@ -2697,7 +2848,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .PD 0
 -.RSs
 -.IPs swap\ 
-+.rS
++.Rs
 +.iP swap\ 
  Also perform  R <-> B swapping.
  .RE
@@ -2708,7 +2859,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .PD 0
 -.RSs
 -.IPs <fourcc>
-+.rS
++.Rs
 +.iP <fourcc>
  format name like rgb15, bgr24, yv12, etc (default: yuy2)
  .RE
@@ -2719,7 +2870,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .PD 0
 -.RSs
 -.IPs <fourcc>
-+.rS
++.Rs
 +.iP <fourcc>
  format name like rgb15, bgr24, yv12, etc (default: yv12)
  .RE
@@ -2730,7 +2881,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .PD 0
 -.RSs
 -.IPs a/autoq
-+.rS
++.Rs
 +.iP a/autoq
  Automatically switch the subfilter off if the CPU is too slow.
 -.IPs c/chrom
@@ -2750,11 +2901,11 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .RE
 -.RSs
 -.IPs hb/hdeblock[:difference[:flatness]]
-+.rS
++.Rs
 +.iP hb/hdeblock[:difference[:flatness]]
  horizontal deblocking filter
 -.RSss
-+.rP
++.Rt
  <difference>: Difference factor where higher values mean
  more deblocking (default: 32).
  .br
@@ -2762,11 +2913,11 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  more deblocking (default: 39).
 -.REss
 -.IPs vb/vdeblock[:difference[:flatness]]
-+.rE
++.rX
 +.iP vb/vdeblock[:difference[:flatness]]
  vertical deblocking filter
 -.RSss
-+.rP
++.Rt
  <difference>: Difference factor where higher values mean
  more deblocking (default: 32).
  .br
@@ -2774,11 +2925,11 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  more deblocking (default: 39).
 -.REss
 -.IPs ha/hadeblock[:difference[:flatness]]
-+.rE
++.rX
 +.iP ha/hadeblock[:difference[:flatness]]
  accurate horizontal deblocking filter
 -.RSss
-+.rP
++.Rt
  <difference>: Difference factor where higher values mean
  more deblocking (default: 32).
  .br
@@ -2786,18 +2937,18 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  more deblocking (default: 39).
 -.REss
 -.IPs va/vadeblock[:difference[:flatness]]
-+.rE
++.rX
 +.iP va/vadeblock[:difference[:flatness]]
  accurate vertical deblocking filter
 -.RSss
-+.rP
++.Rt
  <difference>: Difference factor where higher values mean
  more deblocking (default: 32).
  .br
  <flatness>: Flatness threshold where lower values mean
  more deblocking (default: 39).
 -.REss
-+.rE
++.rX
  .sp 1
  The horizontal and vertical deblocking filters share the
  difference and flatness values so you cannot set
@@ -2816,7 +2967,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
 +.iP tn/tmpnoise[:threshold1[:threshold2[:threshold3]]]
  temporal noise reducer
 -.RSss
-+.rP
++.Rt
  <threshold1>: larger -> stronger filtering
  .br
  <threshold2>: larger -> stronger filtering
@@ -2824,15 +2975,15 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  <threshold3>: larger -> stronger filtering
 -.REss
 -.IPs al/autolevels[:f/fullyrange]
-+.rE
++.rX
 +.iP al/autolevels[:f/fullyrange]
  automatic brightness / contrast correction
 -.RSss
-+.rP
++.Rt
  f/fullyrange: Stretch luminance to (0\-255).
 -.REss
 -.IPs lb/linblenddeint
-+.rE
++.rX
 +.iP lb/linblenddeint
  Linear blend deinterlacing filter that deinterlaces the given block
  by filtering all lines with a (1 2 1) filter.
@@ -2861,11 +3012,11 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  Overrides the quantizer table from the input with the constant
  quantizer you specify.
 -.RSss
-+.rP
++.Rt
  <quantizer>: quantizer to use
 -.REss
 -.IPs de/default
-+.rE
++.rX
 +.iP de/default
  default pp filter combination (hb:a,vb:a,dr:a)
 -.IPs fa/fast
@@ -2879,7 +3030,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .PD 0
 -.RSs
 -.IPs "\-vf pp=hb/vb/dr/al"
-+.rS
++.Rs
 +.iP "\-vf pp=hb/vb/dr/al"
  horizontal and vertical deblocking, deringing and automatic
  brightness/\:contrast
@@ -2900,7 +3051,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  simple postprocessing filter
 -.RSs
 -.IPs <quality>
-+.rS
++.Rs
 +.iP <quality>
  0\-6 (default: 3)
 -.IPs <qp>\ 
@@ -2917,7 +3068,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  quantization parameter (QP) change filter
 -.RSs
 -.IPs <equation>
-+.rS
++.Rs
 +.iP <equation>
  some equation like "2+2*sin(PI*qp)"
  .RE
@@ -2929,15 +3080,15 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
 -.RSs
 -.IPs <quality>
 -.RSss
-+.rS
++.Rs
 +.iP <quality>
-+.rP
++.Rt
  1\-31: fixed qscale
  .br
  32\-:  fixed bitrate in kBits
 -.REss
 -.IPs <fps>
-+.rE
++.rX
 +.iP <fps>
  force output fps (float value) (default: 0, autodetect based on height)
  .RE
@@ -2948,7 +3099,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  Only useful together with expand and scale.
 -.RSs
 -.IPs <aspect>
-+.rS
++.Rs
 +.iP <aspect>
  Control aspect ratio, calculate as DVB_HEIGHT*ASPECTRATIO (default:
  576*4/\:3=768), set it to 576*(16/\:9)=1024 for a 16:9 TV.
@@ -2959,7 +3110,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .PD 0
 -.RSs
 -.IPs "\-vf dvbscale,scale=-1:0,expand=-1:576:-1:-1:1,lavc"
-+.rS
++.Rs
 +.iP "\-vf dvbscale,scale=-1:0,expand=-1:576:-1:-1:1,lavc"
  FIXME: Explain what this does.
  .RE
@@ -2970,7 +3121,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .PD 0
 -.RSs
 -.IPs <0\-100>
-+.rS
++.Rs
 +.iP <0\-100>
  luma noise
 -.IPs <0\-100>
@@ -2999,7 +3150,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .PD 0
 -.RSs
 -.IPs <luma>
-+.rS
++.Rs
 +.iP <luma>
  spatial luma strength (default: 4)
 -.IPs <chroma>
@@ -3016,7 +3167,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .PD 0
 -.RSs
 -.IPs <-100\-100>
-+.rS
++.Rs
 +.iP <-100\-100>
  initial brightness
 -.IPs <-100\-100>
@@ -3030,7 +3181,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .PD 0
 -.RSs
 -.IPs <0.1\-10>
-+.rS
++.Rs
 +.iP <0.1\-10>
  initial gamma value (default: 1.0)
 -.IPs <-2\-2>
@@ -3063,7 +3214,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .PD 0
 -.RSs
 -.IPs <-180\-180>
-+.rS
++.Rs
 +.iP <-180\-180>
  initial hue (default: 0.0)
 -.IPs <-100\-100>
@@ -3077,17 +3228,17 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .PD 0
 -.RSs
 -.IPs <f>\ \ 
-+.rS
++.Rs
 +.iP <f>\ \ 
  By default, halfpack averages pairs of lines when downsampling.
  Any value different from 0 or 1 gives the default (averaging) behavior.
 -.RSss
-+.rP
++.Rt
  0: Only use even lines when downsampling.
  .br
  1: Only use odd lines when downsampling.
 -.REss
-+.rE
++.rX
  .RE
  .PD 1
  .
@@ -3097,16 +3248,16 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .PD 0
 -.RSs
 -.IPs <mode>
-+.rS
++.Rs
 +.iP <mode>
  Select the sampling mode.
 -.RSss
-+.rP
++.Rt
  0: nearest-neighbor sampling, fast but incorrect
  .br
  1: linear interpolation (default)
 -.REss
-+.rE
++.rX
  .RE
  .PD 1
  .
@@ -3116,7 +3267,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .PD 0
 -.RSs
 -.IPs <max>
-+.rS
++.Rs
 +.iP <max>
  Sets the maximum number of consecutive frames which can be
  dropped (if positive), or the minimum interval between
@@ -3132,7 +3283,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .PD 0
 -.RSs
 -.IPs <0.0\-1.0>
-+.rS
++.Rs
 +.iP <0.0\-1.0>
  relative difference between neighboring pixels (default: 0.1)
 -.IPs <0.0\-1.0>
@@ -3146,45 +3297,45 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .PD 0
 -.RSs
 -.IPs <0\-255>
-+.rS
++.Rs
 +.iP <0\-255>
  threshold (default: 10)
 -.IPs <map>
 -.RSss
 +.iP <map>
-+.rP
++.Rt
  0: Ignore pixels exceeding the threshold (default).
  .br
  1: Paint pixels exceeding the threshold white.
 -.REss
 -.IPs <order>
 -.RSss
-+.rE
++.rX
 +.iP <order>
-+.rP
++.Rt
  0: Leave fields alone (default).
  .br
  1: Swap fields.
 -.REss
 -.IPs <sharp>
 -.RSss
-+.rE
++.rX
 +.iP <sharp>
-+.rP
++.Rt
  0: Disable additional sharpening (default).
  .br
  1: Enable additional sharpening.
 -.REss
 -.IPs <twoway>
 -.RSss
-+.rE
++.rX
 +.iP <twoway>
-+.rP
++.Rt
  0: Disable twoway sharpening (default).
  .br
  1: Enable twoway sharpening.
 -.REss
-+.rE
++.rX
  .RE
  .PD 1
  .
@@ -3193,7 +3344,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  unsharp mask / gaussian blur
 -.RSs
 -.IPs l\ \ \ \ 
-+.rS
++.Rs
 +.iP l\ \ \ \ 
  Apply effect on luma component.
 -.IPs c\ \ \ \ 
@@ -3208,12 +3359,12 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  Relative amount of sharpness/\:blur to add to the image
  (a sane range should be -1.5\-1.5).
 -.RSss
-+.rP
++.Rt
  <0: blur
  .br
  >0: sharpen
 -.REss
-+.rE
++.rX
  .RE
  .
  .TP
@@ -3223,7 +3374,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .PD 0
 -.RSs
 -.IPs d
-+.rS
++.Rs
 +.iP d
  deinterleave (placing one above the other)
 -.IPs i
@@ -3240,7 +3391,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .PD 0
 -.RSs
 -.IPs d
-+.rS
++.Rs
 +.iP d
  Deinterleave fields, placing them side by side.
 -.IPs i
@@ -3254,11 +3405,11 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  detc's behavior:
 -.RSs
 -.IPs <dr>\ 
-+.rS
++.Rs
 +.iP <dr>\ 
  Set the frame dropping mode.
 -.RSss
-+.rP
++.Rt
  0: Do not drop frames to maintain fixed output framerate (default).
  .br
  1: Always drop a frame when there have been no drops or telecine
@@ -3268,17 +3419,17 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  Use mode 1 or 2 with MEncoder.
 -.REss
 -.IPs <am>\ 
-+.rE
++.rX
 +.iP <am>\ 
  Analysis mode.
 -.RSss
-+.rP
++.Rt
  0: Fixed pattern with initial frame number specified by <fr>.
  .br
  1: agressive search for telecine pattern (default)
 -.REss
 -.IPs <fr>\ 
-+.rE
++.rX
 +.iP <fr>\ 
  Set initial frame number in sequence.
  0\-2 are the three clean progressive frames; 3 and 4 are the two
@@ -3297,7 +3448,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  Multiple options can be specified separated by /.
 -.RSs
 -.IPs crop=<w>:<h>:<x>:<y>
-+.rS
++.Rs
 +.iP crop=<w>:<h>:<x>:<y>
  Just like the crop filter, but faster, and works on mixed hard and soft
  telecined content as well as when y is not a multiple of 4.
@@ -3360,7 +3511,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  The options are:
 -.RSs
 -.IPs pass=1|2
-+.rS
++.Rs
 +.iP pass=1|2
  Use two pass mode.
  This produces best results.
@@ -3407,7 +3558,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  The options are:
 -.RSs
 -.IPs t
-+.rS
++.Rs
 +.iP t
  Capture field order top-first, transfer bottom-first.
  Filter will delay the bottom field.
@@ -3460,7 +3611,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .PD 0
 -.RSs
 -.IPs 0
-+.rS
++.Rs
 +.iP 0
  Move odd frames into the upper field, even into the lower field, generating
  a full-height frame at half framerate.
@@ -3481,7 +3632,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .PD 0
 -.RSs
 -.IPs 0
-+.rS
++.Rs
 +.iP 0
  Leave fields unchanged. (This will jump/\:flicker.)
 -.IPs 1
@@ -3501,7 +3652,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .PD 0
 -.RSs
 -.IPs <radius>
-+.rS
++.Rs
 +.iP <radius>
  blur filter strength
 -.IPs <power>
@@ -3515,7 +3666,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .PD 0
 -.RSs
 -.IPs <radius>
-+.rS
++.Rs
 +.iP <radius>
  blur filter strength (~0.1\-4.0) (slower if larger)
 -.IPs <pf>\ 
@@ -3532,7 +3683,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .PD 0
 -.RSs
 -.IPs <radius>
-+.rS
++.Rs
 +.iP <radius>
  blur filter strength (~0.1\-5.0) (slower if larger)
 -.IPs <strength>
@@ -3549,7 +3700,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .PD 0
 -.RSs
 -.IPs <x0>,<y0>,...
-+.rS
++.Rs
 +.iP <x0>,<y0>,...
  coordinates of the top left, top right, bottom left, bottom right corners
 -.IPs <t>\ \ 
@@ -3563,7 +3714,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .PD 0
 -.RSs
 -.IPs <lines>
-+.rS
++.Rs
 +.iP <lines>
  number of lines to select from the middle of the image (default: 12)
  .RE
@@ -3574,7 +3725,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .PD 0
 -.RSs
 -.IPs <hidden>
-+.rS
++.Rs
 +.iP <hidden>
  Set the default value of the 'hidden' flag (0=visible, 1=hidden).
 -.IPs <opaque>
@@ -3591,7 +3742,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .PD 0
 -.RSs
 -.IPs "RGBA32 width height xpos ypos alpha clear"
-+.rS
++.Rs
 +.iP "RGBA32 width height xpos ypos alpha clear"
  followed by width*height*4 Bytes of raw RGBA32 data.
 -.IPs "ABGR32 width height xpos ypos alpha clear"
@@ -3627,7 +3778,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .PD 0
 -.RSs
 -.IPs "<width>, <height>"
-+.rS
++.Rs
 +.iP "<width>, <height>"
  image/area size
 -.IPs "<xpos>, <ypos>"
@@ -3639,7 +3790,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  If you set this to -255 you can then send a sequence of ALPHA-commands to set
  the area to -225, -200, -175 etc for a nice fade-in-effect! ;)
 -.RSss
-+.rP
++.Rt
  0:    same as original
  .br
  255:  Make everything opaque.
@@ -3647,17 +3798,17 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  -255: Make everything transparent.
 -.REss
 -.IPs <clear>
-+.rE
++.rX
 +.iP <clear>
  Clear the framebuffer before blitting.
 -.RSss
-+.rP
++.Rt
  0: The image will just be blitted on top of the old one, so you do not need to
  send 1.8MB of RGBA32 data every time a small part of the screen is updated.
  .br
  1: clear
 -.REss
-+.rE
++.rX
  .RE
  .PD 1
  .
@@ -3667,7 +3818,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .PD 0
 -.RSs
 -.IPs <xtiles>
-+.rS
++.Rs
 +.iP <xtiles>
  number of tiles on the x axis (default: 5)
 -.IPs <ytiles>
@@ -3694,7 +3845,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .PD 0
 -.RSs
 -.IPs <x>,<y>
-+.rS
++.Rs
 +.iP <x>,<y>
  top left corner of the logo
 -.IPs <w>,<h>
@@ -3711,7 +3862,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  output device.
 -.RSs
 -.IPs maxheight=<h>|maxwidth=<w>
-+.rS
++.Rs
 +.iP maxheight=<h>|maxwidth=<w>
  These options set the maximum width and height the zr card
  can handle (the MPlayer filter layer currently cannot query those).
@@ -3745,7 +3896,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .PD 0
 -.RSs
 -.IPs "\-endpos 56"
-+.rS
++.Rs
 +.iP "\-endpos 56"
  Encode only 56 seconds.
 -.IPs "\-endpos 01:10:00"
@@ -3762,7 +3913,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .PD 0
 -.RSs
 -.IPs "\-ffourcc div3"
-+.rS
++.Rs
 +.iP "\-ffourcc div3"
  Will have the output file contain 'div3' as video fourcc.
  .RE
@@ -3773,7 +3924,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  Available options are:
 -.RSs
 -.IPs help\ 
-+.rS
++.Rs
 +.iP help\ 
  Show this description.
 -.IPs name=<value>
@@ -3805,7 +3956,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .PD 0
 -.RSs
 -.IPs "\-oac copy"
-+.rS
++.Rs
 +.iP "\-oac copy"
  no encoding, just streamcopy
 -.IPs "\-oac pcm"
@@ -3825,7 +3976,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .PD 0
 -.RSs
 -.IPs "\-of avi"
-+.rS
++.Rs
 +.iP "\-of avi"
  Encode to AVI.
 -.IPs "\-of mpeg"
@@ -3842,7 +3993,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .PD 0
 -.RSs
 -.IPs "\-ovc copy"
-+.rS
++.Rs
 +.iP "\-ovc copy"
  no encoding, just streamcopy
 -.IPs "\-ovc divx4"
@@ -3862,7 +4013,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  Specify bitrate.
 -.RSs
 -.IPs 4\-16000
-+.rS
++.Rs
 +.iP 4\-16000
  (in kbit)
 -.IPs 16001\-24000000
@@ -3876,7 +4027,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  Available options are:
 -.RSs
 -.IPs 0
-+.rS
++.Rs
 +.iP 0
  one pass encoding (as in not putting pass on the command line)
 -.IPs 1
@@ -3894,7 +4045,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .PD 0
 -.RSs
 -.IPs 0
-+.rS
++.Rs
 +.iP 0
  cbr
 -.IPs 1
@@ -3917,7 +4068,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .PD 0
 -.RSs
 -.IPs 0
-+.rS
++.Rs
 +.iP 0
  stereo
 -.IPs 1
@@ -3937,7 +4088,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .PD 0
 -.RSs
 -.IPs 0
-+.rS
++.Rs
 +.iP 0
  none
 -.IPs 1
@@ -3954,7 +4105,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  preset values
 -.RSs
 -.IPs help\ 
-+.rS
++.Rs
 +.iP help\ 
  Print additional options and information about presets settings.
 -.IPs medium
@@ -3980,7 +4131,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .PD 0
 -.RSs
 -.IPs fast:preset=standard
-+.rS
++.Rs
 +.iP fast:preset=standard
  suitable for most people and most music types and already quite high quality
 -.IPs cbr:preset=192
@@ -4000,7 +4151,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .PD 0
 -.RSs
 -.IPs vcodec=msmpeg4:vbitrate=1800:vhq:keyint=250
-+.rS
++.Rs
 +.iP vcodec=msmpeg4:vbitrate=1800:vhq:keyint=250
  .RE
  .PD 1
@@ -4011,7 +4162,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .PD 0
 -.RSs
 -.IPs mp2\ \ 
-+.rS
++.Rs
 +.iP mp2\ \ 
  MPEG Layer 2
 -.IPs mp3\ \ 
@@ -4031,7 +4182,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .PD 0
 -.RSs
 -.IPs mjpeg
-+.rS
++.Rs
 +.iP mjpeg
  Motion JPEG
 -.IPs ljpeg
@@ -4090,7 +4241,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  minimum quantizer (pass\ 1/\:2)
 -.RSs
 -.IPs 1
-+.rS
++.Rs
 +.iP 1
  Not recommended (much larger file, little quality difference and weird side
  effects: msmpeg4, h263 will be very low quality, ratecontrol will be confused
@@ -4109,7 +4260,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .PD 0
 -.RSs
 -.IPs 0
-+.rS
++.Rs
 +.iP 0
  no B-frames (default)
 -.IPs 0\-2
@@ -4123,7 +4274,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .PD 0
 -.RSs
 -.IPs 0
-+.rS
++.Rs
 +.iP 0
  none (very low quality)
 -.IPs 1
@@ -4150,7 +4301,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .PD 0
 -.RSs
 -.IPs 0
-+.rS
++.Rs
 +.iP 0
  Use mbcmp (default).
 -.IPs 1
@@ -4167,7 +4318,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .PD 0
 -.RSs
 -.IPs 0
-+.rS
++.Rs
 +.iP 0
  Always use the maximum number of B-frames (default).
 -.IPs 1
@@ -4181,7 +4332,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .PD 0
 -.RSs
 -.IPs 1
-+.rS
++.Rs
 +.iP 1
  first pass (also see turbo)
 -.IPs 2
@@ -4198,7 +4349,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .PD 0
 -.RSs
 -.IPs "pass 1"
-+.rS
++.Rs
 +.iP "pass 1"
  Saves statistics.
 -.IPs "pass 2"
@@ -4211,7 +4362,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .I EXAMPLE:
  .RE
 -.RSs
-+.rS
++.Rs
  .PD 0
 -.IPs "aspect=16/\:9 or aspect=1.78"
 +.iP "aspect=16/\:9 or aspect=1.78"
@@ -4224,7 +4375,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .PD 0
 -.RSs
 -.IPs 4\-16000
-+.rS
++.Rs
 +.iP 4\-16000
  (in kbit)
 -.IPs 16001\-24000000
@@ -4238,7 +4389,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .PD 0
 -.RSs
 -.IPs 0.0
-+.rS
++.Rs
 +.iP 0.0
  Quantizer blur disabled.
 -.IPs 1.0
@@ -4252,7 +4403,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .RE
 -.RSs
 -.IPs 1\ \ \ \ 
-+.rS
++.Rs
 +.iP 1\ \ \ \ 
  constant bitrate
 -.IPs tex\ \ 
@@ -4271,7 +4422,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .RE
 -.RSs
 -.IPs +,-,*,/,^
-+.rS
++.Rs
 +.iP +,-,*,/,^
  .RE
  .PP
@@ -4280,7 +4431,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .RE
 -.RSs
 -.IPs tex\ \ 
-+.rS
++.Rs
 +.iP tex\ \ 
  texture complexity
 -.IPs iTex,pTex
@@ -4332,7 +4483,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .RE
 -.RSs
 -.IPs max(a,b),min(a,b)
-+.rS
++.Rs
 +.iP max(a,b),min(a,b)
  maximum / minimum
 -.IPs gt(a,b)
@@ -4355,7 +4506,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .PD 0
 -.RSs
 -.IPs "quality (2\-31)"
-+.rS
++.Rs
 +.iP "quality (2\-31)"
  quantizer
 -.IPs "quality (-500\-0)"
@@ -4369,7 +4520,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .PD 0
 -.RSs
 -.IPs 0
-+.rS
++.Rs
 +.iP 0
  Use clipping.
 -.IPs 1
@@ -4383,7 +4534,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .PD 0
 -.RSs
 -.IPs 0
-+.rS
++.Rs
 +.iP 0
  disabled (default)
 -.IPs -4
@@ -4397,7 +4548,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .PD 0
 -.RSs
 -.IPs 0
-+.rS
++.Rs
 +.iP 0
  disabled (default)
 -.IPs 7
@@ -4411,7 +4562,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .PD 0
 -.RSs
 -.IPs 0
-+.rS
++.Rs
 +.iP 0
  disabled (default)
 -.IPs 1
@@ -4429,7 +4580,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .PD 0
 -.RSs
 -.IPs "1. MVs"
-+.rS
++.Rs
 +.iP "1. MVs"
  movement
 -.IPs "2. DC coefficients"
@@ -4446,7 +4597,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .PD 0
 -.RSs
 -.IPs 0\ \ \ \ 
-+.rS
++.Rs
 +.iP 0\ \ \ \ 
  disabled (default)
 -.IPs 100\-1000
@@ -4460,7 +4611,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .PD 0
 -.RSs
 -.IPs 0
-+.rS
++.Rs
 +.iP 0
  Automatically select a good one (default).
 -.IPs 1
@@ -4489,7 +4640,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .PD 0
 -.RSs
 -.IPs 0
-+.rS
++.Rs
 +.iP 0
  Automatically select a good one (default).
 -.IPs 1
@@ -4527,7 +4678,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .PD 0
 -.RSs
 -.IPs 0.0\ \ 
-+.rS
++.Rs
 +.iP 0.0\ \ 
  disabled (default)
 -.IPs 0.0\-0.3
@@ -4541,7 +4692,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .PD 0
 -.RSs
 -.IPs 0.0\ \ 
-+.rS
++.Rs
 +.iP 0.0\ \ 
  disabled (default)
 -.IPs 0.0\-0.3
@@ -4555,7 +4706,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .PD 0
 -.RSs
 -.IPs 0.0\ \ 
-+.rS
++.Rs
 +.iP 0.0\ \ 
  disabled (default)
 -.IPs 0.0\-0.5
@@ -4569,7 +4720,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .PD 0
 -.RSs
 -.IPs -1
-+.rS
++.Rs
 +.iP -1
  automatic
 -.IPs 0
@@ -4586,7 +4737,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .PD 0
 -.RSs
 -.IPs YV12\ 
-+.rS
++.Rs
 +.iP YV12\ 
  default
 -.IPs 444P\ 
@@ -4609,7 +4760,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .PD 0
 -.RSs
 -.IPs 0
-+.rS
++.Rs
 +.iP 0
  left prediction
 -.IPs 1
@@ -4626,7 +4777,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .PD 0
 -.RSs
 -.IPs 0
-+.rS
++.Rs
 +.iP 0
  left prediction
 -.IPs 1
@@ -4649,7 +4800,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .PD 0
 -.RSs
 -.IPs 0
-+.rS
++.Rs
 +.iP 0
  vlc coding (Golomb-Rice)
 -.IPs 1
@@ -4663,7 +4814,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .PD 0
 -.RSs
 -.IPs 0
-+.rS
++.Rs
 +.iP 0
  small context model
 -.IPs 1
@@ -4677,7 +4828,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .PD 0
 -.RSs
 -.IPs 0
-+.rS
++.Rs
 +.iP 0
  predetermined huffman tables (builtin or two pass)
 -.IPs 1
@@ -4691,7 +4842,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .PD 0
 -.RSs
 -.IPs "0 (SAD)"
-+.rS
++.Rs
 +.iP "0 (SAD)"
  sum of absolute differences, fast (default)
 -.IPs "1 (SSE)"
@@ -4735,7 +4886,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  the same meaning.
 -.RSs
 -.IPs -3
-+.rS
++.Rs
 +.iP -3
  shape adaptive (fast) diamond with size 3
 -.IPs -2
@@ -4764,7 +4915,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .PD 0
 -.RSs
 -.IPs lambda
-+.rS
++.Rs
 +.iP lambda
  quantization parameter (QP) dependent constant
 -.IPs bits\ 
@@ -4781,7 +4932,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .PD 0
 -.RSs
 -.IPs 0
-+.rS
++.Rs
 +.iP 0
  (default)
 -.IPs a
@@ -4795,7 +4946,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .PD 0
 -.RSs
 -.IPs 0
-+.rS
++.Rs
 +.iP 0
  disabled
 -.IPs 1
@@ -4812,7 +4963,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .PD 0
 -.RSs
 -.IPs 0
-+.rS
++.Rs
 +.iP 0
  disabled (default)
 -.IPs 1
@@ -4832,7 +4983,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .PD 0
 -.RSs
 -.IPs 0
-+.rS
++.Rs
 +.iP 0
  off (default)
 -.IPs 1
@@ -4855,7 +5006,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .PD 0
 -.RSs
 -.IPs vga11
-+.rS
++.Rs
 +.iP vga11
  It's the usual PAR for PC content.
  Pixels are a square unit.
@@ -4883,7 +5034,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .PD 0
 -.RSs
 -.IPs 1
-+.rS
++.Rs
 +.iP 1
  first pass
 -.IPs 2
@@ -4899,7 +5050,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  feedback you could give us on good combinations of x264 options that are
  both fast and provide good quality.
 -.REss
-+.rE
++.rX
  .
  .TP
  .B keyint=<value>
@@ -4909,7 +5060,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .PD 0
 -.RSs
 -.IPs 0
-+.rS
++.Rs
 +.iP 0
  None: direct macroblocks are not used.
 -.IPs 1
@@ -4925,7 +5076,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  estimation decision process.
  subq=5 can compress up to 10% better than subq=1.
 -.RSs
-+.rS
++.Rs
  1: Runs fullpixel precision motion estimation on all candidate
  macroblock types.
  Then selects the best type.
@@ -4934,7 +5085,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  candidate macroblock types, before selecting the best type.
  (best, default)
 -.REss
-+.rE
++.rX
  In the above, "all candidates" doesn't exactly mean all enabled types:
  4x4, 4x8, 8x4 are tried only if 8x8 is better than 16x16.
  .
@@ -4943,7 +5094,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .B log=<-1\-3>
  Adjust the amount of logging info printed to the screen.
 -.RSs
-+.rS
++.Rs
  -1: none
  .br
   0: Print errors only.
@@ -4952,7 +5103,7 @@ $MirOS: ports/multimedia/mplayer/patches/patch-DOCS_man_en_mplayer_1,v 1.1.7.1 2
  .br
   3: PSNR, QP, frametype, size, and other stats for every frame
 -.REss
-+.rE
++.rX
  .
  .TP
  .B (no)psnr

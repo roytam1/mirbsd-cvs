@@ -1,4 +1,4 @@
-# $MirOS: ports/multimedia/mplayer/Makefile,v 1.17 2007/04/03 19:45:05 tg Exp $
+# $MirOS: ports/multimedia/mplayer/Makefile,v 1.18 2008/03/09 17:23:14 tg Exp $
 # $OpenBSD: Makefile,v 1.83 2005/05/09 12:24:38 biorn Exp $
 
 # May not be hard to add more.
@@ -8,7 +8,7 @@ ONLY_FOR_PLATFORM=	*:*:i386 *:*:powerpc OpenBSD:*:arm OpenBSD:*:amd64 #XXX
 COMMENT=		Movie player supporting MPEG, DivX, AVI, ASF, MOV & more
 DISTNAME=		MPlayer-1.0pre7
 DIST_SUBDIR=		mplayer
-PKGNAME=		${DISTNAME:L}-3
+PKGNAME=		${DISTNAME:L}-4
 CATEGORIES=		x11 multimedia
 EXTRACT_SUFX=		.tar.bz2
 HOMEPAGE=		http://www.mplayerhq.hu/
