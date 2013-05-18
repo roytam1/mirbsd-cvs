@@ -1,7 +1,7 @@
 #!/usr/bin/env mksh
-# $MirOS: CVSROOT/cvs-genperm,v 1.35 2008/07/03 17:50:17 tg Exp $
+# $MirOS: CVSROOT/cvs-genperm,v 1.36 2008/07/22 20:21:50 tg Exp $
 #-
-# Copyright (c) 2003, 2004, 2005, 2006, 2007
+# Copyright (c) 2003, 2004, 2005, 2006, 2007, 2008
 #	Thorsten Glaser <tg@mirbsd.de>
 #
 # Provided that these terms and disclaimer and all copyright notices
@@ -31,7 +31,7 @@ function fixperm {
 	done
 }
 
-if [[ $(id -u 2>&1) != 0 ]]; then
+if (( USER_ID )); then
 	print -ru2 "Error: $0 must be run as root!"
 	exit 1
 fi
@@ -51,8 +51,7 @@ if [[ -z $CVSROOT ]]; then
 	print -ru2 "Syntax: $0 /cvs"
 	exit 1
 fi
-CVSROOT=$(readlink -fn $CVSROOT)
-if [[ ! -d $CVSROOT ]]; then
+if ! CVSROOT=$(realpath $CVSROOT/.); then
 	print -ru2 "Error: \$CVSROOT (${CVSROOT}) does not exist!"
 	print -ru2 "Syntax: $0 /cvs"
 	exit 1
@@ -74,7 +73,7 @@ touch CVSROOT/{history,val-tags} Logs/{ChangeLog,idcache}
 rm -rf .tmp
 mkdir .tmp
 
-let cnt=42
+typeset -i cnt=42
 find "$CVSROOT"$fr | while IFS= read -r pname; do
 	name=${pname#${CVSROOT}/}
 	[[ -z $name || $name = @(.|..|.tmp) ]] && continue
@@ -113,6 +112,12 @@ find "$CVSROOT"$fr | while IFS= read -r pname; do
 				    M=tg
 				[[ $name = contrib/hosted/libnointl@(|/*) ]] && \
 				    M=miros-cvssrc
+				for committer in bsiegert tg; do
+					[[ $name = contrib/hosted/${committer}@(|/*) ]] || \
+					    continue
+					M=$committer
+					break
+				done
 			elif [[ $name = @(contrib|src|X11)@(|/*) ]]; then
 				M=miros-cvssrc
 			elif [[ $name = @(ports)@(|/*) ]]; then
