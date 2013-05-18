@@ -1,11 +1,13 @@
 #!/bin/mksh
 # $MirSecuCron$
-# $MirOS: src/etc/security,v 1.20 2009/07/18 12:42:10 tg Exp $
+# $MirOS: src/etc/security,v 1.21 2009/07/18 14:09:07 tg Exp $
 # $OpenBSD: security,v 1.71 2005/02/22 10:50:55 otto Exp $
 # from: @(#)security	8.1 (Berkeley) 6/9/93
 
 export TZ=UTC PATH=/bin:/usr/bin:/sbin:/usr/sbin RCSLOCALID='!MirSecuCron'
 cd /
+nl='
+'
 
 umask 077
 
@@ -187,12 +189,24 @@ fi
 
 awk -F: '/^[^\+]/ { print $1 " " $3 }' $MP | sort -n +1 | tee $TMP1 |
 uniq -d -f 1 | awk '{ print $2 }' > $TMP2
+set -A dupusers
 if [ -s $TMP2 ] ; then
 	echo "\n${MP} has duplicate user IDs."
+	duptxt=
 	while read uid; do
-		grep -w $uid $TMP1
-	done < $TMP2 | column
+		grep " ${uid}\$" $TMP1 |&
+		i=0
+		while read -p uline; do
+			duptxt=$duptxt$uline$nl
+			if (( i++ )); then
+				dupusers[${#dupusers[*]}]=-e
+				dupusers[${#dupusers[*]}]='^'${uline%% *}' '
+			fi
+		done
+	done <$TMP2
+	print -nr -- "$duptxt" | column
 fi
+(( ${#dupusers[*]} )) || set -A dupusers -- -e '^$'
 
 if [[ ! -d /var/backups/RCS/. ]]; then
 	mkdir -p /var/backups/RCS
@@ -325,6 +339,7 @@ done
 awk -F: '$1 != "root" && $1 !~ /^[+-]/ && \
 	($3 < 100 || $1 == "ftp" || $1 == "uucp") \
 		{ print $1 " " $6 }' /etc/passwd |
+grep -v "${dupusers[@]}" |
 while read uid homedir; do
 	for j in .rhosts .shosts; do
 		# Root owned .rhosts/.shosts files are ok.
@@ -340,6 +355,7 @@ if [ -s $OUTPUT ] ; then
 fi
 
 awk -F: '/^[^+-]/ { print $1 " " $6 }' /etc/passwd | \
+grep -v "${dupusers[@]}" |
 while read uid homedir; do
 	for j in .rhosts .shosts; do
 		if [ -s ${homedir}/$j ] ; then
@@ -361,6 +377,7 @@ fi
 # Check home directories.  Directories should not be owned by someone else
 # or writeable.
 awk -F: '/^[^+-]/ { print $1 " " $6 }' /etc/passwd | \
+grep -v "${dupusers[@]}" |
 while read uid homedir; do
 	if [ -d ${homedir}/ ] ; then
 		file=$(ls -ldgT ${homedir})
@@ -382,6 +399,7 @@ fi
 list=".netrc .rhosts .gnupg/secring.gpg .gnupg/random_seed \
 	.pgp/secring.pgp .shosts .etc/ssh/identity .etc/ssh/id_dsa .etc/ssh/id_rsa"
 awk -F: '/^[^+-]/ { print $1 " " $6 }' /etc/passwd | \
+grep -v "${dupusers[@]}" |
 while read uid homedir; do
 	for f in $list ; do
 		file=${homedir}/${f}
@@ -409,6 +427,7 @@ list=".bashrc .bash_profile .bash_login .bash_logout .cshrc \
       .etc/ssh/known_hosts .etc/ssh/rc .tcshrc .twmrc .xsession .xinitrc \
       .Xdefaults .Xauthority mail"
 awk -F: '/^[^+-]/ { print $1 " " $6 }' /etc/passwd | \
+grep -v "${dupusers[@]}" |
 while read uid homedir; do
 	for f in $list ; do
 		file=${homedir}/${f}
