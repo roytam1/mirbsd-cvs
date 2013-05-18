@@ -27,7 +27,7 @@
 #include "common.h"
 #include "extern.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.bin/sdiff/sdiff.c,v 1.2 2007/05/07 02:40:07 tg Exp $");
 
 #define WIDTH 130
 /*
@@ -310,7 +310,7 @@ main(int argc, char **argv)
 			} argvec;
 			/* this API sucks */
 			argvec.c = diffargv;
-			execv(diffprog, argvec.uc);
+			execvp(diffprog, argvec.uc);
 		}
 		err(2, "could not execute diff: %s", diffprog);
 	case -1:
