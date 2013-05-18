@@ -1,8 +1,8 @@
-# $MirOS: ports/graphics/png/Makefile,v 1.7 2008/03/23 17:05:29 tg Exp $
+# $MirOS: ports/graphics/png/Makefile,v 1.8 2008/04/07 19:37:24 tg Exp $
 # $OpenBSD: Makefile,v 1.46 2004/07/06 22:17:48 brad Exp $
 
 COMMENT=		library for manipulating PNG images
-DISTNAME=		libpng-1.2.26
+DISTNAME=		libpng-1.2.29
 PKGNAME=		${DISTNAME:S/lib//}-${DASH_VER}
 CATEGORIES=		graphics
 MASTER_SITES=		${MASTER_SITE_SOURCEFORGE:=libpng/}
