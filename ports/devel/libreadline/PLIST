@@ -1,4 +1,5 @@
-@comment $MirOS$
+@comment $MirOS: ports/devel/libreadline/PLIST,v 1.1 2008/08/19 18:07:27 tg Exp $
+@pkgcfl readline-docs-*
 @unexec install-info --delete --info-dir=%D/info %D/info/history.info
 @unexec install-info --delete --info-dir=%D/info %D/info/readline.info
 @unexec install-info --delete --info-dir=%D/info %D/info/rluserman.info
