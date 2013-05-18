@@ -1,8 +1,8 @@
 #!/bin/mksh
-# $MirOS: contrib/code/heartbeat/hbbackend.sample,v 1.2 2005/05/25 23:50:29 tg Exp $
+# $MirOS: src/share/misc/licence.template,v 1.6 2006/01/24 22:24:02 tg Rel $
 #-
-# Copyright (c) 2004
-#	Thorsten "mirabile" Glaser <tg@66h.42h.de>
+# Copyright (c) 2004, 2006
+#	Thorsten Glaser <tg@mirbsd.de>
 #
 # Licensee is hereby permitted to deal in this work without restric-
 # tion, including unlimited rights to use, publicly perform, modify,
@@ -34,6 +34,7 @@ myuser=
 mypass=
 mystat=DOWN
 mydown=
+let thecookie=0
 
 function triggerdown
 {
@@ -128,6 +129,11 @@ while read line; do
 		myuser=${foo[1]}
 		mypass=${foo[2]}
 		print "INIT: user=$myuser pass=$mypass"
+		;;
+	SETCOOKIE*)
+		set -A foo -- $line
+		let thecookie=${foo[1]}
+		print "SETCOOKIE: received $thecookie"
 		;;
 	IP*)
 		do_heartbeat $line

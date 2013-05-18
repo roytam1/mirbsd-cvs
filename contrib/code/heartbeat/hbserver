@@ -1,8 +1,8 @@
 #!/bin/mksh
-# $MirOS: contrib/code/heartbeat/hbserver,v 1.2 2005/05/25 23:50:29 tg Exp $
+# $MirOS: src/share/misc/licence.template,v 1.6 2006/01/24 22:24:02 tg Rel $
 #-
-# Copyright (c) 2004
-#	Thorsten "mirabile" Glaser <tg@66h.42h.de>
+# Copyright (c) 2004, 2006
+#	Thorsten Glaser <tg@mirbsd.de>
 #
 # Licensee is hereby permitted to deal in this work without restric-
 # tion, including unlimited rights to use, publicly perform, modify,
@@ -38,6 +38,8 @@
 # - DISABLE
 #	TUNNEL <user/ip> <ipv4|"sender"> <date> <md5>	-> supported
 #	HOST ...					-> ignored
+# - ACTION
+#	CALL <cookie> [arguments]			-> calling
 #
 # This script is not configurable in the source code.
 
@@ -61,6 +63,10 @@ set -A astat			# status
 set -A afd			# user script input
 let freefd=4			# first free one
 let netin=0			# network sub output
+
+# the action script cookie
+let thecookie="RANDOM * RANDOM + $$"
+let action_fd=0
 
 #=== subroutines ===
 
@@ -88,6 +94,7 @@ function cleanup
 	print finishing up, $anum clients, netio $netin/$netcmd
 	# shut down network coprocess
 	(( netcmd > 0 )) && kill $netcmd
+	(( action_fd )) && tell $action_fd QUIT
 	# shut down user coprocesses
 	let i=anum
 	while (( i > 0 )); do
@@ -246,6 +253,20 @@ while read s; do
 	let anum++
 done <"$conf"
 
+# start the action script manager
+eval "PATH=$PATH:. hbaction >/dev/null 2>&1 |&"
+print -rp "INITCOOKIE $thecookie"
+read -p cookie
+if [[ $cookie = "GOTCOOKIE $thecookie" ]]; then
+	exec 3<&p; exec 3<&-
+	let action_fd=freefd++
+	eval "exec ${action_fd}>&p"
+else
+	exec 3<&p; exec 3<&-
+	exec 3>&p; exec 3>&-
+	let action_fd=0
+fi
+
 # start the subprocesses, one per user
 let i=anum
 while (( i > 0 )); do
@@ -257,6 +278,7 @@ while (( i > 0 )); do
 
 	# initialise backend to DOWN state
 	print -rp "INIT ${auser[i]} ${apass[i]}"
+	print -rp "SETCOOKIE $thecookie"
 	astat[i]=DOWN
 
 	# allocate free filedescriptor and decouple
@@ -294,6 +316,23 @@ while : ; do
 	# read input from the network
 	read -u$netin NETIP NETIN
 	set -A line -- $NETIN
+
+	# 0) check for action
+	(( action_fd )) && if [[ ${line[0]} = ACTION ]]; then
+		case ${line[1]} {
+		CALL)
+			if [[ ${line[2]} = $thecookie ]]; then
+				cookie=
+				let i=3
+				while (( i < ${#line[*]} )); do
+					cookie="$cookie ${line[i++]}"
+				done
+				tell $action_fd CALL ${cookie# }
+			fi
+			;;
+		}
+		continue
+	fi
 
 	# 1) how many tokens do we have?
 	let ln=${#line[*]}-1		# 0 .. n-1
