@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/bsd.own.mk,v 1.42 2006/10/28 19:52:51 tg Exp $
+# $MirOS: src/share/mk/bsd.own.mk,v 1.43 2006/11/01 20:48:58 tg Exp $
 # $OpenBSD: bsd.own.mk,v 1.92 2005/01/18 00:28:42 mickey Exp $
 # $NetBSD: bsd.own.mk,v 1.24 1996/04/13 02:08:09 thorpej Exp $
 
@@ -40,7 +40,7 @@ CFLAGS+=	-Wall -Wextra -Wunused -Wdeclaration-after-statement -Wundef \
 		-Wcast-qual -Wcast-align -Wwrite-strings -Wstrict-prototypes \
 		-Wold-style-definition -Wmissing-prototypes -Winline \
 		-Wmissing-declarations -Wmissing-noreturn -pedantic \
-		-Wmissing-format-attribute -Wredundant-decls -std=c99
+		-Wmissing-format-attribute -Wredundant-decls -std=gnu99
 .endif
 
 # Set to yes to add CDIAGFLAGS to CFLAGS
