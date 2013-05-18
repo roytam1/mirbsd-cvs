@@ -1,142 +1,203 @@
+@comment $MirOS$
 @comment $OpenBSD: PLIST,v 1.9 2004/12/22 06:02:27 marcm Exp $
 bin/gnumeric
 bin/gnumeric-${VERSION}
 bin/ssconvert
-lib/bonobo/
-lib/bonobo/servers/
-lib/bonobo/servers/GNOME_Gnumeric.server
-lib/gnumeric/
-lib/gnumeric/${VERSION}/
-lib/gnumeric/${VERSION}/plugins/
-lib/gnumeric/${VERSION}/plugins/applix/
+bin/ssindex
+include/libspreadsheet-1-7/application.h
+include/libspreadsheet-1-7/auto-format.h
+include/libspreadsheet-1-7/cell-draw.h
+include/libspreadsheet-1-7/cell.h
+include/libspreadsheet-1-7/cellspan.h
+include/libspreadsheet-1-7/clipboard.h
+include/libspreadsheet-1-7/cmd-edit.h
+include/libspreadsheet-1-7/collect.h
+include/libspreadsheet-1-7/colrow.h
+include/libspreadsheet-1-7/command-context-stderr.h
+include/libspreadsheet-1-7/command-context.h
+include/libspreadsheet-1-7/commands.h
+include/libspreadsheet-1-7/complete-sheet.h
+include/libspreadsheet-1-7/complete.h
+include/libspreadsheet-1-7/complex.h
+include/libspreadsheet-1-7/consolidate.h
+include/libspreadsheet-1-7/dependent.h
+include/libspreadsheet-1-7/expr-impl.h
+include/libspreadsheet-1-7/expr-name.h
+include/libspreadsheet-1-7/expr.h
+include/libspreadsheet-1-7/file-autoft.h
+include/libspreadsheet-1-7/format-template.h
+include/libspreadsheet-1-7/func-builtin.h
+include/libspreadsheet-1-7/func.h
+include/libspreadsheet-1-7/gnm-datetime.h
+include/libspreadsheet-1-7/gnm-format.h
+include/libspreadsheet-1-7/gnm-graph-window.h
+include/libspreadsheet-1-7/gnm-pane-impl.h
+include/libspreadsheet-1-7/gnm-pane.h
+include/libspreadsheet-1-7/gnm-plugin.h
+include/libspreadsheet-1-7/gnm-so-filled.h
+include/libspreadsheet-1-7/gnm-so-line.h
+include/libspreadsheet-1-7/gnm-so-polygon.h
+include/libspreadsheet-1-7/gnm-style-impl.h
+include/libspreadsheet-1-7/gnumeric-gconf.h
+include/libspreadsheet-1-7/gnumeric-simple-canvas.h
+include/libspreadsheet-1-7/gnumeric.h
+include/libspreadsheet-1-7/graph.h
+include/libspreadsheet-1-7/gui-clipboard.h
+include/libspreadsheet-1-7/gui-file.h
+include/libspreadsheet-1-7/gui-gnumeric.h
+include/libspreadsheet-1-7/gui-util.h
+include/libspreadsheet-1-7/gutils.h
+include/libspreadsheet-1-7/history.h
+include/libspreadsheet-1-7/hlink-impl.h
+include/libspreadsheet-1-7/hlink.h
+include/libspreadsheet-1-7/input-msg.h
+include/libspreadsheet-1-7/item-acetate.h
+include/libspreadsheet-1-7/item-bar.h
+include/libspreadsheet-1-7/item-cursor.h
+include/libspreadsheet-1-7/item-debug.h
+include/libspreadsheet-1-7/item-edit.h
+include/libspreadsheet-1-7/item-grid.h
+include/libspreadsheet-1-7/libgnumeric.h
+include/libspreadsheet-1-7/mathfunc.h
+include/libspreadsheet-1-7/mstyle.h
+include/libspreadsheet-1-7/number-match.h
+include/libspreadsheet-1-7/numbers.h
+include/libspreadsheet-1-7/parse-util.h
+include/libspreadsheet-1-7/pattern.h
+include/libspreadsheet-1-7/pivottable.h
+include/libspreadsheet-1-7/position.h
+include/libspreadsheet-1-7/preview-grid-impl.h
+include/libspreadsheet-1-7/preview-grid.h
+include/libspreadsheet-1-7/print-cell.h
+include/libspreadsheet-1-7/print-info.h
+include/libspreadsheet-1-7/print.h
+include/libspreadsheet-1-7/rangefunc-strings.h
+include/libspreadsheet-1-7/rangefunc.h
+include/libspreadsheet-1-7/ranges.h
+include/libspreadsheet-1-7/regression.h
+include/libspreadsheet-1-7/rendered-value.h
+include/libspreadsheet-1-7/search.h
+include/libspreadsheet-1-7/selection.h
+include/libspreadsheet-1-7/session.h
+include/libspreadsheet-1-7/sheet-autofill.h
+include/libspreadsheet-1-7/sheet-control-gui-priv.h
+include/libspreadsheet-1-7/sheet-control-gui.h
+include/libspreadsheet-1-7/sheet-control-priv.h
+include/libspreadsheet-1-7/sheet-control.h
+include/libspreadsheet-1-7/sheet-filter-combo.h
+include/libspreadsheet-1-7/sheet-filter.h
+include/libspreadsheet-1-7/sheet-merge.h
+include/libspreadsheet-1-7/sheet-object-cell-comment.h
+include/libspreadsheet-1-7/sheet-object-graph.h
+include/libspreadsheet-1-7/sheet-object-image.h
+include/libspreadsheet-1-7/sheet-object-impl.h
+include/libspreadsheet-1-7/sheet-object-widget.h
+include/libspreadsheet-1-7/sheet-object.h
+include/libspreadsheet-1-7/sheet-private.h
+include/libspreadsheet-1-7/sheet-style.h
+include/libspreadsheet-1-7/sheet-view.h
+include/libspreadsheet-1-7/sheet.h
+include/libspreadsheet-1-7/solver.h
+include/libspreadsheet-1-7/sort.h
+include/libspreadsheet-1-7/stf-export.h
+include/libspreadsheet-1-7/stf-parse.h
+include/libspreadsheet-1-7/stf.h
+include/libspreadsheet-1-7/str.h
+include/libspreadsheet-1-7/style-border.h
+include/libspreadsheet-1-7/style-color.h
+include/libspreadsheet-1-7/style-conditions.h
+include/libspreadsheet-1-7/style-font.h
+include/libspreadsheet-1-7/style.h
+include/libspreadsheet-1-7/symbol.h
+include/libspreadsheet-1-7/validation-combo.h
+include/libspreadsheet-1-7/validation.h
+include/libspreadsheet-1-7/value.h
+include/libspreadsheet-1-7/wbc-gtk.h
+include/libspreadsheet-1-7/workbook-cmd-format.h
+include/libspreadsheet-1-7/workbook-control-gui-priv.h
+include/libspreadsheet-1-7/workbook-control-gui.h
+include/libspreadsheet-1-7/workbook-control-priv.h
+include/libspreadsheet-1-7/workbook-control.h
+include/libspreadsheet-1-7/workbook-edit.h
+include/libspreadsheet-1-7/workbook-priv.h
+include/libspreadsheet-1-7/workbook-view.h
+include/libspreadsheet-1-7/workbook.h
+include/libspreadsheet-1-7/xml-io-version.h
+include/libspreadsheet-1-7/xml-io.h
+include/libspreadsheet-1-7/xml-sax.h
 lib/gnumeric/${VERSION}/plugins/applix/applix.la
 lib/gnumeric/${VERSION}/plugins/applix/plugin.xml
-lib/gnumeric/${VERSION}/plugins/corba/
 lib/gnumeric/${VERSION}/plugins/corba/corba.la
 lib/gnumeric/${VERSION}/plugins/corba/plugin.xml
-lib/gnumeric/${VERSION}/plugins/derivatives/
 lib/gnumeric/${VERSION}/plugins/derivatives/derivatives.la
 lib/gnumeric/${VERSION}/plugins/derivatives/plugin.xml
-lib/gnumeric/${VERSION}/plugins/dif/
 lib/gnumeric/${VERSION}/plugins/dif/dif.la
 lib/gnumeric/${VERSION}/plugins/dif/plugin.xml
-lib/gnumeric/${VERSION}/plugins/excel/
 lib/gnumeric/${VERSION}/plugins/excel/excel.la
 lib/gnumeric/${VERSION}/plugins/excel/plugin.xml
-lib/gnumeric/${VERSION}/plugins/fn-complex/
 lib/gnumeric/${VERSION}/plugins/fn-complex/plugin.la
 lib/gnumeric/${VERSION}/plugins/fn-complex/plugin.xml
-lib/gnumeric/${VERSION}/plugins/fn-database/
 lib/gnumeric/${VERSION}/plugins/fn-database/plugin.la
 lib/gnumeric/${VERSION}/plugins/fn-database/plugin.xml
-lib/gnumeric/${VERSION}/plugins/fn-date/
 lib/gnumeric/${VERSION}/plugins/fn-date/plugin.la
 lib/gnumeric/${VERSION}/plugins/fn-date/plugin.xml
-lib/gnumeric/${VERSION}/plugins/fn-eng/
 lib/gnumeric/${VERSION}/plugins/fn-eng/plugin.la
 lib/gnumeric/${VERSION}/plugins/fn-eng/plugin.xml
-lib/gnumeric/${VERSION}/plugins/fn-erlang/
 lib/gnumeric/${VERSION}/plugins/fn-erlang/erlang.la
 lib/gnumeric/${VERSION}/plugins/fn-erlang/plugin.xml
-lib/gnumeric/${VERSION}/plugins/fn-financial/
 lib/gnumeric/${VERSION}/plugins/fn-financial/plugin.la
 lib/gnumeric/${VERSION}/plugins/fn-financial/plugin.xml
-lib/gnumeric/${VERSION}/plugins/fn-info/
 lib/gnumeric/${VERSION}/plugins/fn-info/plugin.la
 lib/gnumeric/${VERSION}/plugins/fn-info/plugin.xml
-lib/gnumeric/${VERSION}/plugins/fn-logical/
 lib/gnumeric/${VERSION}/plugins/fn-logical/plugin.la
 lib/gnumeric/${VERSION}/plugins/fn-logical/plugin.xml
-lib/gnumeric/${VERSION}/plugins/fn-lookup/
 lib/gnumeric/${VERSION}/plugins/fn-lookup/plugin.la
 lib/gnumeric/${VERSION}/plugins/fn-lookup/plugin.xml
-lib/gnumeric/${VERSION}/plugins/fn-math/
 lib/gnumeric/${VERSION}/plugins/fn-math/plugin.la
 lib/gnumeric/${VERSION}/plugins/fn-math/plugin.xml
-lib/gnumeric/${VERSION}/plugins/fn-random/
+lib/gnumeric/${VERSION}/plugins/fn-r/plugin.xml
+lib/gnumeric/${VERSION}/plugins/fn-r/rstat.la
 lib/gnumeric/${VERSION}/plugins/fn-random/plugin.la
 lib/gnumeric/${VERSION}/plugins/fn-random/plugin.xml
-lib/gnumeric/${VERSION}/plugins/fn-stat/
 lib/gnumeric/${VERSION}/plugins/fn-stat/plugin.la
 lib/gnumeric/${VERSION}/plugins/fn-stat/plugin.xml
-lib/gnumeric/${VERSION}/plugins/fn-string/
 lib/gnumeric/${VERSION}/plugins/fn-string/plugin.la
 lib/gnumeric/${VERSION}/plugins/fn-string/plugin.xml
-lib/gnumeric/${VERSION}/plugins/html/
+lib/gnumeric/${VERSION}/plugins/fn-tsa/plugin.la
+lib/gnumeric/${VERSION}/plugins/fn-tsa/plugin.xml
 lib/gnumeric/${VERSION}/plugins/html/html.la
 lib/gnumeric/${VERSION}/plugins/html/plugin.xml
-lib/gnumeric/${VERSION}/plugins/lotus/
 lib/gnumeric/${VERSION}/plugins/lotus/lotus.la
 lib/gnumeric/${VERSION}/plugins/lotus/plugin.xml
-lib/gnumeric/${VERSION}/plugins/mps/
 lib/gnumeric/${VERSION}/plugins/mps/mps.la
 lib/gnumeric/${VERSION}/plugins/mps/plugin.xml
-lib/gnumeric/${VERSION}/plugins/numtheory/
 lib/gnumeric/${VERSION}/plugins/numtheory/numtheory.la
 lib/gnumeric/${VERSION}/plugins/numtheory/plugin.xml
-lib/gnumeric/${VERSION}/plugins/oleo/
 lib/gnumeric/${VERSION}/plugins/oleo/oleo.la
 lib/gnumeric/${VERSION}/plugins/oleo/plugin.xml
-lib/gnumeric/${VERSION}/plugins/openoffice/
 lib/gnumeric/${VERSION}/plugins/openoffice/openoffice.la
 lib/gnumeric/${VERSION}/plugins/openoffice/plugin.xml
-lib/gnumeric/${VERSION}/plugins/plan_perfect/
 lib/gnumeric/${VERSION}/plugins/plan_perfect/plan_perfect.la
 lib/gnumeric/${VERSION}/plugins/plan_perfect/plugin.xml
-lib/gnumeric/${VERSION}/plugins/plot_barcol/
-lib/gnumeric/${VERSION}/plugins/plot_barcol/barcol.la
-lib/gnumeric/${VERSION}/plugins/plot_barcol/gog-barcol-prefs.glade
-lib/gnumeric/${VERSION}/plugins/plot_barcol/plot-types.xml
-lib/gnumeric/${VERSION}/plugins/plot_barcol/plugin.xml
-lib/gnumeric/${VERSION}/plugins/plot_pie/
-lib/gnumeric/${VERSION}/plugins/plot_pie/gog-pie-prefs.glade
-lib/gnumeric/${VERSION}/plugins/plot_pie/gog-pie-series.glade
-lib/gnumeric/${VERSION}/plugins/plot_pie/gog-ring-prefs.glade
-lib/gnumeric/${VERSION}/plugins/plot_pie/pie.la
-lib/gnumeric/${VERSION}/plugins/plot_pie/plot-types.xml
-lib/gnumeric/${VERSION}/plugins/plot_pie/plugin.xml
-lib/gnumeric/${VERSION}/plugins/plot_radar/
-lib/gnumeric/${VERSION}/plugins/plot_radar/plot-types.xml
-lib/gnumeric/${VERSION}/plugins/plot_radar/plugin.xml
-lib/gnumeric/${VERSION}/plugins/plot_radar/radar.la
-lib/gnumeric/${VERSION}/plugins/plot_surface/
-lib/gnumeric/${VERSION}/plugins/plot_surface/gog-contour-prefs.glade
-lib/gnumeric/${VERSION}/plugins/plot_surface/plot-types.xml
-lib/gnumeric/${VERSION}/plugins/plot_surface/plugin.xml
-lib/gnumeric/${VERSION}/plugins/plot_surface/surface.la
-lib/gnumeric/${VERSION}/plugins/plot_xy/
-lib/gnumeric/${VERSION}/plugins/plot_xy/gog-bubble-prefs.glade
-lib/gnumeric/${VERSION}/plugins/plot_xy/plot-types.xml
-lib/gnumeric/${VERSION}/plugins/plot_xy/plugin.xml
-lib/gnumeric/${VERSION}/plugins/plot_xy/xy.la
-lib/gnumeric/${VERSION}/plugins/qpro/
 lib/gnumeric/${VERSION}/plugins/qpro/plugin.xml
 lib/gnumeric/${VERSION}/plugins/qpro/qpro.la
-lib/gnumeric/${VERSION}/plugins/sample_datasource/
 lib/gnumeric/${VERSION}/plugins/sample_datasource/plugin.xml
 lib/gnumeric/${VERSION}/plugins/sample_datasource/sample_datasource.la
-lib/gnumeric/${VERSION}/plugins/sc/
 lib/gnumeric/${VERSION}/plugins/sc/plugin.xml
 lib/gnumeric/${VERSION}/plugins/sc/sc.la
-lib/gnumeric/${VERSION}/plugins/sylk/
 lib/gnumeric/${VERSION}/plugins/sylk/plugin.xml
 lib/gnumeric/${VERSION}/plugins/sylk/sylk.la
-lib/gnumeric/${VERSION}/plugins/uihello/
 lib/gnumeric/${VERSION}/plugins/uihello/hello.xml
 lib/gnumeric/${VERSION}/plugins/uihello/plugin.la
 lib/gnumeric/${VERSION}/plugins/uihello/plugin.xml
-lib/gnumeric/${VERSION}/plugins/xbase/
 lib/gnumeric/${VERSION}/plugins/xbase/plugin.xml
 lib/gnumeric/${VERSION}/plugins/xbase/xbase.la
-lib/gnumeric/${VERSION}/plugins/xml_sax/
-lib/gnumeric/${VERSION}/plugins/xml_sax/plugin.xml
-lib/gnumeric/${VERSION}/plugins/xml_sax/xml_sax.la
-share/applications/
+lib/libspreadsheet.la
+lib/pkgconfig/libspreadsheet-1.7.pc
+man/man1/gnumeric.1
+man/man1/ssconvert.1
+man/man1/ssindex.1
 share/applications/gnumeric.desktop
-share/gnome/
-share/gnome/help/
-share/gnome/help/gnumeric/
-share/gnome/help/gnumeric/C/
 share/gnome/help/gnumeric/C/about-authors.xml
 share/gnome/help/gnumeric/C/about-history.xml
 share/gnome/help/gnumeric/C/about-license.xml
@@ -161,6 +222,7 @@ share/gnome/help/gnumeric/C/data-delete.xml
 share/gnome/help/gnumeric/C/data-entry-advanced.xml
 share/gnome/help/gnumeric/C/data-entry-external.xml
 share/gnome/help/gnumeric/C/data-entry.xml
+share/gnome/help/gnumeric/C/data-filter.xml
 share/gnome/help/gnumeric/C/data-format.xml
 share/gnome/help/gnumeric/C/data-generate.xml
 share/gnome/help/gnumeric/C/data-insert.xml
@@ -174,7 +236,6 @@ share/gnome/help/gnumeric/C/extending-functions.xml
 share/gnome/help/gnumeric/C/extending-overview.xml
 share/gnome/help/gnumeric/C/extending-plugins.xml
 share/gnome/help/gnumeric/C/extending-python.xml
-share/gnome/help/gnumeric/C/figures/
 share/gnome/help/gnumeric/C/figures/advanced-filter-1.png
 share/gnome/help/gnumeric/C/figures/advanced-filter-2.png
 share/gnome/help/gnumeric/C/figures/analysistools-ANOVA1-ex1.png
@@ -538,46 +599,36 @@ share/gnome/help/gnumeric/C/quick-start.xml
 share/gnome/help/gnumeric/C/welcome.xml
 share/gnome/help/gnumeric/C/workbooks.xml
 share/gnome/help/gnumeric/C/worksheets.xml
-share/gnumeric/
-share/gnumeric/${VERSION}/
 share/gnumeric/${VERSION}/GNOME_Gnumeric-gtk.xml
-share/gnumeric/${VERSION}/autoformat-templates/
-share/gnumeric/${VERSION}/autoformat-templates/3D/
 share/gnumeric/${VERSION}/autoformat-templates/3D/.category
 share/gnumeric/${VERSION}/autoformat-templates/3D/autoformat.3D.button.xml
 share/gnumeric/${VERSION}/autoformat-templates/3D/autoformat.3D.list.xml
-share/gnumeric/${VERSION}/autoformat-templates/Classical/
 share/gnumeric/${VERSION}/autoformat-templates/Classical/.category
 share/gnumeric/${VERSION}/autoformat-templates/Classical/autoformat.Classical.cool.xml
 share/gnumeric/${VERSION}/autoformat-templates/Classical/autoformat.Classical.simple.xml
 share/gnumeric/${VERSION}/autoformat-templates/Classical/autoformat.Classical.trendy.xml
-share/gnumeric/${VERSION}/autoformat-templates/Colourful/
 share/gnumeric/${VERSION}/autoformat-templates/Colourful/.category
 share/gnumeric/${VERSION}/autoformat-templates/Colourful/autoformat.Colourful.banana.xml
 share/gnumeric/${VERSION}/autoformat-templates/Colourful/autoformat.Colourful.black.xml
 share/gnumeric/${VERSION}/autoformat-templates/Colourful/autoformat.Colourful.blue.xml
 share/gnumeric/${VERSION}/autoformat-templates/Colourful/autoformat.Colourful.orange.xml
 share/gnumeric/${VERSION}/autoformat-templates/Colourful/autoformat.Colourful.vanilla.xml
-share/gnumeric/${VERSION}/autoformat-templates/Financial/
 share/gnumeric/${VERSION}/autoformat-templates/Financial/.category
 share/gnumeric/${VERSION}/autoformat-templates/Financial/autoformat.Financial.basic.xml
 share/gnumeric/${VERSION}/autoformat-templates/Financial/autoformat.Financial.desert.xml
 share/gnumeric/${VERSION}/autoformat-templates/Financial/autoformat.Financial.ice.xml
 share/gnumeric/${VERSION}/autoformat-templates/Financial/autoformat.Financial.modern.xml
 share/gnumeric/${VERSION}/autoformat-templates/Financial/autoformat.Financial.purple.xml
-share/gnumeric/${VERSION}/autoformat-templates/General/
 share/gnumeric/${VERSION}/autoformat-templates/General/.category
 share/gnumeric/${VERSION}/autoformat-templates/General/autoformat.General.advanced.xml
 share/gnumeric/${VERSION}/autoformat-templates/General/autoformat.General.basic.xml
 share/gnumeric/${VERSION}/autoformat-templates/General/autoformat.General.empty.xml
 share/gnumeric/${VERSION}/autoformat-templates/General/autoformat.General.table.xml
-share/gnumeric/${VERSION}/autoformat-templates/List/
 share/gnumeric/${VERSION}/autoformat-templates/List/.category
 share/gnumeric/${VERSION}/autoformat-templates/List/autoformat.List.basic.xml
 share/gnumeric/${VERSION}/autoformat-templates/List/autoformat.List.green.xml
 share/gnumeric/${VERSION}/autoformat-templates/List/autoformat.List.lila.xml
 share/gnumeric/${VERSION}/autoformat-templates/List/autoformat.List.simple.xml
-share/gnumeric/${VERSION}/glade/
 share/gnumeric/${VERSION}/glade/advanced-filter.glade
 share/gnumeric/${VERSION}/glade/anova-one.glade
 share/gnumeric/${VERSION}/glade/anova-two.glade
@@ -595,24 +646,21 @@ share/gnumeric/${VERSION}/glade/consolidate.glade
 share/gnumeric/${VERSION}/glade/correlation.glade
 share/gnumeric/${VERSION}/glade/covariance.glade
 share/gnumeric/${VERSION}/glade/dao.glade
+share/gnumeric/${VERSION}/glade/data-table.glade
+share/gnumeric/${VERSION}/glade/define-name.glade
 share/gnumeric/${VERSION}/glade/delete-cells.glade
 share/gnumeric/${VERSION}/glade/descriptive-stats.glade
 share/gnumeric/${VERSION}/glade/dialog-stf-export.glade
 share/gnumeric/${VERSION}/glade/dialog-stf.glade
 share/gnumeric/${VERSION}/glade/dialog-zoom.glade
+share/gnumeric/${VERSION}/glade/doc-meta-data.glade
 share/gnumeric/${VERSION}/glade/exp-smoothing.glade
 share/gnumeric/${VERSION}/glade/fill-series.glade
 share/gnumeric/${VERSION}/glade/font-sel.glade
-share/gnumeric/${VERSION}/glade/format-selector.glade
 share/gnumeric/${VERSION}/glade/formula-guru.glade
 share/gnumeric/${VERSION}/glade/fourier-analysis.glade
 share/gnumeric/${VERSION}/glade/function-select.glade
 share/gnumeric/${VERSION}/glade/goalseek.glade
-share/gnumeric/${VERSION}/glade/gog-axis-prefs.glade
-share/gnumeric/${VERSION}/glade/gog-error-bar-prefs.glade
-share/gnumeric/${VERSION}/glade/gog-guru-type-selector.glade
-share/gnumeric/${VERSION}/glade/gog-guru.glade
-share/gnumeric/${VERSION}/glade/gog-style-prefs.glade
 share/gnumeric/${VERSION}/glade/goto.glade
 share/gnumeric/${VERSION}/glade/hf-config.glade
 share/gnumeric/${VERSION}/glade/histogram.glade
@@ -621,7 +669,7 @@ share/gnumeric/${VERSION}/glade/insert-cells.glade
 share/gnumeric/${VERSION}/glade/mean-tests.glade
 share/gnumeric/${VERSION}/glade/merge.glade
 share/gnumeric/${VERSION}/glade/moving-averages.glade
-share/gnumeric/${VERSION}/glade/names.glade
+share/gnumeric/${VERSION}/glade/paste-names.glade
 share/gnumeric/${VERSION}/glade/pivottable.glade
 share/gnumeric/${VERSION}/glade/plugin-manager.glade
 share/gnumeric/${VERSION}/glade/preferences.glade
@@ -640,169 +688,123 @@ share/gnumeric/${VERSION}/glade/shuffle.glade
 share/gnumeric/${VERSION}/glade/simulation.glade
 share/gnumeric/${VERSION}/glade/so-checkbox.glade
 share/gnumeric/${VERSION}/glade/so-frame.glade
+share/gnumeric/${VERSION}/glade/so-list.glade
 share/gnumeric/${VERSION}/glade/so-scrollbar.glade
 share/gnumeric/${VERSION}/glade/solver.glade
-share/gnumeric/${VERSION}/glade/summary.glade
 share/gnumeric/${VERSION}/glade/tabulate.glade
 share/gnumeric/${VERSION}/glade/variance-tests.glade
 share/gnumeric/${VERSION}/glade/view.glade
 share/gnumeric/${VERSION}/glade/workbook-attr.glade
-share/gnumeric/${VERSION}/idl/
 share/gnumeric/${VERSION}/idl/GNOME_Gnumeric.idl
-share/gnumeric/${VERSION}/templates/
 share/gnumeric/${VERSION}/templates/invoice.gnumeric
 share/gnumeric/${VERSION}/templates/loan.gnumeric
 share/gnumeric/${VERSION}/templates/mileage.gnumeric
 share/gnumeric/${VERSION}/templates/purchase_order.gnumeric
+share/locale/am/LC_MESSAGES/gnumeric-functions.mo
 share/locale/am/LC_MESSAGES/gnumeric.mo
+share/locale/ar/LC_MESSAGES/gnumeric-functions.mo
+share/locale/ar/LC_MESSAGES/gnumeric.mo
+share/locale/az/LC_MESSAGES/gnumeric-functions.mo
 share/locale/az/LC_MESSAGES/gnumeric.mo
+share/locale/bg/LC_MESSAGES/gnumeric-functions.mo
 share/locale/bg/LC_MESSAGES/gnumeric.mo
+share/locale/ca/LC_MESSAGES/gnumeric-functions.mo
 share/locale/ca/LC_MESSAGES/gnumeric.mo
+share/locale/cs/LC_MESSAGES/gnumeric-functions.mo
 share/locale/cs/LC_MESSAGES/gnumeric.mo
+share/locale/da/LC_MESSAGES/gnumeric-functions.mo
 share/locale/da/LC_MESSAGES/gnumeric.mo
+share/locale/de/LC_MESSAGES/gnumeric-functions.mo
 share/locale/de/LC_MESSAGES/gnumeric.mo
+share/locale/dz/LC_MESSAGES/gnumeric-functions.mo
+share/locale/dz/LC_MESSAGES/gnumeric.mo
+share/locale/el/LC_MESSAGES/gnumeric-functions.mo
 share/locale/el/LC_MESSAGES/gnumeric.mo
-share/locale/en_CA/
-share/locale/en_CA/LC_MESSAGES/
+share/locale/en_CA/LC_MESSAGES/gnumeric-functions.mo
 share/locale/en_CA/LC_MESSAGES/gnumeric.mo
-share/locale/en_GB/
-share/locale/en_GB/LC_MESSAGES/
+share/locale/en_GB/LC_MESSAGES/gnumeric-functions.mo
 share/locale/en_GB/LC_MESSAGES/gnumeric.mo
+share/locale/es/LC_MESSAGES/gnumeric-functions.mo
 share/locale/es/LC_MESSAGES/gnumeric.mo
+share/locale/et/LC_MESSAGES/gnumeric-functions.mo
 share/locale/et/LC_MESSAGES/gnumeric.mo
+share/locale/fi/LC_MESSAGES/gnumeric-functions.mo
 share/locale/fi/LC_MESSAGES/gnumeric.mo
+share/locale/fr/LC_MESSAGES/gnumeric-functions.mo
 share/locale/fr/LC_MESSAGES/gnumeric.mo
-share/locale/ga/
-share/locale/ga/LC_MESSAGES/
+share/locale/ga/LC_MESSAGES/gnumeric-functions.mo
 share/locale/ga/LC_MESSAGES/gnumeric.mo
+share/locale/gl/LC_MESSAGES/gnumeric-functions.mo
 share/locale/gl/LC_MESSAGES/gnumeric.mo
+share/locale/he/LC_MESSAGES/gnumeric-functions.mo
 share/locale/he/LC_MESSAGES/gnumeric.mo
+share/locale/hr/LC_MESSAGES/gnumeric-functions.mo
 share/locale/hr/LC_MESSAGES/gnumeric.mo
+share/locale/hu/LC_MESSAGES/gnumeric-functions.mo
 share/locale/hu/LC_MESSAGES/gnumeric.mo
+share/locale/it/LC_MESSAGES/gnumeric-functions.mo
 share/locale/it/LC_MESSAGES/gnumeric.mo
+share/locale/ja/LC_MESSAGES/gnumeric-functions.mo
 share/locale/ja/LC_MESSAGES/gnumeric.mo
+share/locale/ko/LC_MESSAGES/gnumeric-functions.mo
 share/locale/ko/LC_MESSAGES/gnumeric.mo
+share/locale/lt/LC_MESSAGES/gnumeric-functions.mo
+share/locale/lt/LC_MESSAGES/gnumeric.mo
+share/locale/lv/LC_MESSAGES/gnumeric-functions.mo
 share/locale/lv/LC_MESSAGES/gnumeric.mo
-share/locale/ml/
-share/locale/ml/LC_MESSAGES/
+share/locale/ml/LC_MESSAGES/gnumeric-functions.mo
 share/locale/ml/LC_MESSAGES/gnumeric.mo
-share/locale/mr/
-share/locale/mr/LC_MESSAGES/
+share/locale/mr/LC_MESSAGES/gnumeric-functions.mo
 share/locale/mr/LC_MESSAGES/gnumeric.mo
-share/locale/ms/
-share/locale/ms/LC_MESSAGES/
+share/locale/ms/LC_MESSAGES/gnumeric-functions.mo
 share/locale/ms/LC_MESSAGES/gnumeric.mo
+share/locale/nb/LC_MESSAGES/gnumeric-functions.mo
 share/locale/nb/LC_MESSAGES/gnumeric.mo
+share/locale/nl/LC_MESSAGES/gnumeric-functions.mo
 share/locale/nl/LC_MESSAGES/gnumeric.mo
+share/locale/nn/LC_MESSAGES/gnumeric-functions.mo
 share/locale/nn/LC_MESSAGES/gnumeric.mo
+share/locale/no/LC_MESSAGES/gnumeric-functions.mo
 share/locale/no/LC_MESSAGES/gnumeric.mo
+share/locale/pl/LC_MESSAGES/gnumeric-functions.mo
 share/locale/pl/LC_MESSAGES/gnumeric.mo
+share/locale/pt/LC_MESSAGES/gnumeric-functions.mo
 share/locale/pt/LC_MESSAGES/gnumeric.mo
+share/locale/pt_BR/LC_MESSAGES/gnumeric-functions.mo
 share/locale/pt_BR/LC_MESSAGES/gnumeric.mo
+share/locale/ro/LC_MESSAGES/gnumeric-functions.mo
 share/locale/ro/LC_MESSAGES/gnumeric.mo
+share/locale/ru/LC_MESSAGES/gnumeric-functions.mo
 share/locale/ru/LC_MESSAGES/gnumeric.mo
+share/locale/rw/LC_MESSAGES/gnumeric-functions.mo
+share/locale/rw/LC_MESSAGES/gnumeric.mo
+share/locale/sk/LC_MESSAGES/gnumeric-functions.mo
 share/locale/sk/LC_MESSAGES/gnumeric.mo
+share/locale/sr/LC_MESSAGES/gnumeric-functions.mo
 share/locale/sr/LC_MESSAGES/gnumeric.mo
+share/locale/sr@Latn/LC_MESSAGES/gnumeric-functions.mo
 share/locale/sr@Latn/LC_MESSAGES/gnumeric.mo
+share/locale/sv/LC_MESSAGES/gnumeric-functions.mo
 share/locale/sv/LC_MESSAGES/gnumeric.mo
+share/locale/te/LC_MESSAGES/gnumeric-functions.mo
+share/locale/te/LC_MESSAGES/gnumeric.mo
+share/locale/tr/LC_MESSAGES/gnumeric-functions.mo
 share/locale/tr/LC_MESSAGES/gnumeric.mo
+share/locale/uk/LC_MESSAGES/gnumeric-functions.mo
 share/locale/uk/LC_MESSAGES/gnumeric.mo
+share/locale/vi/LC_MESSAGES/gnumeric-functions.mo
 share/locale/vi/LC_MESSAGES/gnumeric.mo
+share/locale/zh_CN/LC_MESSAGES/gnumeric-functions.mo
 share/locale/zh_CN/LC_MESSAGES/gnumeric.mo
+share/locale/zh_TW/LC_MESSAGES/gnumeric-functions.mo
 share/locale/zh_TW/LC_MESSAGES/gnumeric.mo
-share/mc/
-share/mc/templates/
-share/mc/templates/gnumeric.desktop
-share/mime-info/
-share/mime-info/gnumeric.keys
-share/mime-info/gnumeric.mime
-share/omf/gnumeric/
 share/omf/gnumeric/gnumeric-C.omf
-share/pixmaps/
 share/pixmaps/gnome-application-vnd.lotus-1-2-3.png
 share/pixmaps/gnome-application-x-applix-spreadsheet.png
 share/pixmaps/gnome-application-x-generic-spreadsheet.png
 share/pixmaps/gnome-application-x-gnumeric.png
 share/pixmaps/gnome-application-x-xls.png
 share/pixmaps/gnome-gnumeric.png
-share/pixmaps/gnumeric/
-share/pixmaps/gnumeric/area.xpm
-share/pixmaps/gnumeric/bar-hboth.png
-share/pixmaps/gnumeric/bar-hminus.png
-share/pixmaps/gnumeric/bar-hplus.png
-share/pixmaps/gnumeric/bar-none.png
-share/pixmaps/gnumeric/bar-vboth.png
-share/pixmaps/gnumeric/bar-vminus.png
-share/pixmaps/gnumeric/bar-vplus.png
-share/pixmaps/gnumeric/bar.xpm
-share/pixmaps/gnumeric/bubble.xpm
-share/pixmaps/gnumeric/chart_area_1_1.png
-share/pixmaps/gnumeric/chart_area_1_2.png
-share/pixmaps/gnumeric/chart_area_1_3.png
-share/pixmaps/gnumeric/chart_bar_1_1.png
-share/pixmaps/gnumeric/chart_bar_1_2.png
-share/pixmaps/gnumeric/chart_bar_1_3.png
-share/pixmaps/gnumeric/chart_bar_2_1.png
-share/pixmaps/gnumeric/chart_bar_2_2.png
-share/pixmaps/gnumeric/chart_bar_2_3.png
-share/pixmaps/gnumeric/chart_bubble_1_1.png
-share/pixmaps/gnumeric/chart_column_1_1.png
-share/pixmaps/gnumeric/chart_column_1_2.png
-share/pixmaps/gnumeric/chart_column_1_3.png
-share/pixmaps/gnumeric/chart_column_2_1.png
-share/pixmaps/gnumeric/chart_column_2_2.png
-share/pixmaps/gnumeric/chart_column_2_3.png
-share/pixmaps/gnumeric/chart_column_3_1.png
-share/pixmaps/gnumeric/chart_cone_1_1.png
-share/pixmaps/gnumeric/chart_cone_1_2.png
-share/pixmaps/gnumeric/chart_cone_1_3.png
-share/pixmaps/gnumeric/chart_cone_2_1.png
-share/pixmaps/gnumeric/chart_cone_2_2.png
-share/pixmaps/gnumeric/chart_cone_2_3.png
-share/pixmaps/gnumeric/chart_cone_3_1.png
-share/pixmaps/gnumeric/chart_cylinder_1_1.png
-share/pixmaps/gnumeric/chart_cylinder_1_2.png
-share/pixmaps/gnumeric/chart_cylinder_1_3.png
-share/pixmaps/gnumeric/chart_cylinder_2_1.png
-share/pixmaps/gnumeric/chart_cylinder_2_2.png
-share/pixmaps/gnumeric/chart_cylinder_2_3.png
-share/pixmaps/gnumeric/chart_cylinder_3_1.png
-share/pixmaps/gnumeric/chart_line_1_1.png
-share/pixmaps/gnumeric/chart_line_1_2.png
-share/pixmaps/gnumeric/chart_line_1_3.png
-share/pixmaps/gnumeric/chart_line_2_1.png
-share/pixmaps/gnumeric/chart_line_2_2.png
-share/pixmaps/gnumeric/chart_line_2_3.png
-share/pixmaps/gnumeric/chart_line_3_1.png
-share/pixmaps/gnumeric/chart_pie_1_1.png
-share/pixmaps/gnumeric/chart_pie_1_2.png
-share/pixmaps/gnumeric/chart_pie_1_3.png
-share/pixmaps/gnumeric/chart_pie_2_1.png
-share/pixmaps/gnumeric/chart_pie_2_2.png
-share/pixmaps/gnumeric/chart_pie_2_3.png
-share/pixmaps/gnumeric/chart_pyramid_1_1.png
-share/pixmaps/gnumeric/chart_pyramid_1_2.png
-share/pixmaps/gnumeric/chart_pyramid_1_3.png
-share/pixmaps/gnumeric/chart_pyramid_2_1.png
-share/pixmaps/gnumeric/chart_pyramid_2_2.png
-share/pixmaps/gnumeric/chart_pyramid_2_3.png
-share/pixmaps/gnumeric/chart_pyramid_3_1.png
-share/pixmaps/gnumeric/chart_radar_1_1.png
-share/pixmaps/gnumeric/chart_radar_1_2.png
-share/pixmaps/gnumeric/chart_radar_1_3.png
-share/pixmaps/gnumeric/chart_ring_1_1.png
-share/pixmaps/gnumeric/chart_ring_1_2.png
-share/pixmaps/gnumeric/chart_scatter_1_1.png
-share/pixmaps/gnumeric/chart_scatter_2_1.png
-share/pixmaps/gnumeric/chart_scatter_2_2.png
-share/pixmaps/gnumeric/chart_scatter_3_1.png
-share/pixmaps/gnumeric/chart_scatter_3_2.png
-share/pixmaps/gnumeric/chart_stock_1_1.png
-share/pixmaps/gnumeric/chart_stock_1_2.png
-share/pixmaps/gnumeric/chart_stock_2_1.png
-share/pixmaps/gnumeric/chart_stock_2_2.png
-share/pixmaps/gnumeric/column.xpm
-share/pixmaps/gnumeric/doughnut.xpm
 share/pixmaps/gnumeric/down-right.png
 share/pixmaps/gnumeric/gnome-application-vnd.lotus-1-2-3.png
 share/pixmaps/gnumeric/gnome-application-x-applix-spreadsheet.png
@@ -811,24 +813,176 @@ share/pixmaps/gnumeric/gnome-application-x-gnumeric.png
 share/pixmaps/gnumeric/gnome-application-x-xls.png
 share/pixmaps/gnumeric/gnome-gnumeric.png
 share/pixmaps/gnumeric/gnumeric-about.png
-share/pixmaps/gnumeric/linegraph.xpm
 share/pixmaps/gnumeric/orient-horizontal.png
 share/pixmaps/gnumeric/orient-vertical.png
-share/pixmaps/gnumeric/pie.xpm
-share/pixmaps/gnumeric/radar.xpm
 share/pixmaps/gnumeric/right-down.png
-share/pixmaps/gnumeric/scatter.xpm
 share/pixmaps/gnumeric/stf-druid.png
-share/pixmaps/gnumeric/stock.xpm
-share/pixmaps/gnumeric/surface.xpm
 share/pixmaps/gnumeric/win32-gnumeric.ico
 share/pixmaps/win32-gnumeric.ico
-share/schemas/
-share/schemas/gnumeric/
 share/schemas/gnumeric/gnumeric-dialogs.schemas
 share/schemas/gnumeric/gnumeric-general.schemas
 share/schemas/gnumeric/gnumeric-plugins.schemas
 @exec %D/bin/scrollkeeper-update -q
 @unexec %D/bin/scrollkeeper-update -q
 @exec GCONF_CONFIG_SOURCE=`%D/bin/gconftool-2 --get-default-source` %D/bin/gconftool-2 --makefile-install-rule %D/share/schemas/gnumeric/*.schemas > /dev/null
-%%SHARED%%
+@dirrm share/schemas/gnumeric
+@dirrm share/schemas
+@dirrm share/pixmaps/gnumeric
+@dirrm share/pixmaps
+@dirrm share/omf/gnumeric
+@dirrm share/omf
+@dirrm share/locale/zh_TW/LC_MESSAGES
+@dirrm share/locale/zh_TW
+@dirrm share/locale/zh_CN/LC_MESSAGES
+@dirrm share/locale/zh_CN
+@dirrm share/locale/vi/LC_MESSAGES
+@dirrm share/locale/vi
+@dirrm share/locale/uk/LC_MESSAGES
+@dirrm share/locale/uk
+@dirrm share/locale/tr/LC_MESSAGES
+@dirrm share/locale/tr
+@dirrm share/locale/te/LC_MESSAGES
+@dirrm share/locale/te
+@dirrm share/locale/sv/LC_MESSAGES
+@dirrm share/locale/sv
+@dirrm share/locale/sr@Latn/LC_MESSAGES
+@dirrm share/locale/sr@Latn
+@dirrm share/locale/sr/LC_MESSAGES
+@dirrm share/locale/sr
+@dirrm share/locale/sk/LC_MESSAGES
+@dirrm share/locale/sk
+@dirrm share/locale/rw/LC_MESSAGES
+@dirrm share/locale/rw
+@dirrm share/locale/ru/LC_MESSAGES
+@dirrm share/locale/ru
+@dirrm share/locale/ro/LC_MESSAGES
+@dirrm share/locale/ro
+@dirrm share/locale/pt_BR/LC_MESSAGES
+@dirrm share/locale/pt_BR
+@dirrm share/locale/pt/LC_MESSAGES
+@dirrm share/locale/pt
+@dirrm share/locale/pl/LC_MESSAGES
+@dirrm share/locale/pl
+@dirrm share/locale/no/LC_MESSAGES
+@dirrm share/locale/no
+@dirrm share/locale/nn/LC_MESSAGES
+@dirrm share/locale/nn
+@dirrm share/locale/nl/LC_MESSAGES
+@dirrm share/locale/nl
+@dirrm share/locale/nb/LC_MESSAGES
+@dirrm share/locale/nb
+@dirrm share/locale/ms/LC_MESSAGES
+@dirrm share/locale/ms
+@dirrm share/locale/mr/LC_MESSAGES
+@dirrm share/locale/mr
+@dirrm share/locale/ml/LC_MESSAGES
+@dirrm share/locale/ml
+@dirrm share/locale/lv/LC_MESSAGES
+@dirrm share/locale/lv
+@dirrm share/locale/lt/LC_MESSAGES
+@dirrm share/locale/lt
+@dirrm share/locale/ko/LC_MESSAGES
+@dirrm share/locale/ko
+@dirrm share/locale/ja/LC_MESSAGES
+@dirrm share/locale/ja
+@dirrm share/locale/it/LC_MESSAGES
+@dirrm share/locale/it
+@dirrm share/locale/hu/LC_MESSAGES
+@dirrm share/locale/hu
+@dirrm share/locale/hr/LC_MESSAGES
+@dirrm share/locale/hr
+@dirrm share/locale/he/LC_MESSAGES
+@dirrm share/locale/he
+@dirrm share/locale/gl/LC_MESSAGES
+@dirrm share/locale/gl
+@dirrm share/locale/ga/LC_MESSAGES
+@dirrm share/locale/ga
+@dirrm share/locale/fr/LC_MESSAGES
+@dirrm share/locale/fr
+@dirrm share/locale/fi/LC_MESSAGES
+@dirrm share/locale/fi
+@dirrm share/locale/et/LC_MESSAGES
+@dirrm share/locale/et
+@dirrm share/locale/es/LC_MESSAGES
+@dirrm share/locale/es
+@dirrm share/locale/en_GB/LC_MESSAGES
+@dirrm share/locale/en_GB
+@dirrm share/locale/en_CA/LC_MESSAGES
+@dirrm share/locale/en_CA
+@dirrm share/locale/el/LC_MESSAGES
+@dirrm share/locale/el
+@dirrm share/locale/dz/LC_MESSAGES
+@dirrm share/locale/dz
+@dirrm share/locale/de/LC_MESSAGES
+@dirrm share/locale/de
+@dirrm share/locale/da/LC_MESSAGES
+@dirrm share/locale/da
+@dirrm share/locale/cs/LC_MESSAGES
+@dirrm share/locale/cs
+@dirrm share/locale/ca/LC_MESSAGES
+@dirrm share/locale/ca
+@dirrm share/locale/bg/LC_MESSAGES
+@dirrm share/locale/bg
+@dirrm share/locale/az/LC_MESSAGES
+@dirrm share/locale/az
+@dirrm share/locale/ar/LC_MESSAGES
+@dirrm share/locale/ar
+@dirrm share/locale/am/LC_MESSAGES
+@dirrm share/locale/am
+@dirrm share/locale
+@dirrm share/gnumeric/${VERSION}/templates
+@dirrm share/gnumeric/${VERSION}/idl
+@dirrm share/gnumeric/${VERSION}/glade
+@dirrm share/gnumeric/${VERSION}/autoformat-templates/List
+@dirrm share/gnumeric/${VERSION}/autoformat-templates/General
+@dirrm share/gnumeric/${VERSION}/autoformat-templates/Financial
+@dirrm share/gnumeric/${VERSION}/autoformat-templates/Colourful
+@dirrm share/gnumeric/${VERSION}/autoformat-templates/Classical
+@dirrm share/gnumeric/${VERSION}/autoformat-templates/3D
+@dirrm share/gnumeric/${VERSION}/autoformat-templates
+@dirrm share/gnumeric/${VERSION}
+@dirrm share/gnumeric
+@dirrm share/gnome/help/gnumeric/C/figures
+@dirrm share/gnome/help/gnumeric/C
+@dirrm share/gnome/help/gnumeric
+@dirrm share/gnome/help
+@dirrm share/gnome
+@dirrm share/applications
+@dirrm lib/pkgconfig
+@dirrm lib/gnumeric/${VERSION}/plugins/xbase
+@dirrm lib/gnumeric/${VERSION}/plugins/uihello
+@dirrm lib/gnumeric/${VERSION}/plugins/sylk
+@dirrm lib/gnumeric/${VERSION}/plugins/sc
+@dirrm lib/gnumeric/${VERSION}/plugins/sample_datasource
+@dirrm lib/gnumeric/${VERSION}/plugins/qpro
+@dirrm lib/gnumeric/${VERSION}/plugins/plan_perfect
+@dirrm lib/gnumeric/${VERSION}/plugins/openoffice
+@dirrm lib/gnumeric/${VERSION}/plugins/oleo
+@dirrm lib/gnumeric/${VERSION}/plugins/numtheory
+@dirrm lib/gnumeric/${VERSION}/plugins/mps
+@dirrm lib/gnumeric/${VERSION}/plugins/lotus
+@dirrm lib/gnumeric/${VERSION}/plugins/html
+@dirrm lib/gnumeric/${VERSION}/plugins/fn-tsa
+@dirrm lib/gnumeric/${VERSION}/plugins/fn-string
+@dirrm lib/gnumeric/${VERSION}/plugins/fn-stat
+@dirrm lib/gnumeric/${VERSION}/plugins/fn-random
+@dirrm lib/gnumeric/${VERSION}/plugins/fn-r
+@dirrm lib/gnumeric/${VERSION}/plugins/fn-math
+@dirrm lib/gnumeric/${VERSION}/plugins/fn-lookup
+@dirrm lib/gnumeric/${VERSION}/plugins/fn-logical
+@dirrm lib/gnumeric/${VERSION}/plugins/fn-info
+@dirrm lib/gnumeric/${VERSION}/plugins/fn-financial
+@dirrm lib/gnumeric/${VERSION}/plugins/fn-erlang
+@dirrm lib/gnumeric/${VERSION}/plugins/fn-eng
+@dirrm lib/gnumeric/${VERSION}/plugins/fn-date
+@dirrm lib/gnumeric/${VERSION}/plugins/fn-database
+@dirrm lib/gnumeric/${VERSION}/plugins/fn-complex
+@dirrm lib/gnumeric/${VERSION}/plugins/excel
+@dirrm lib/gnumeric/${VERSION}/plugins/dif
+@dirrm lib/gnumeric/${VERSION}/plugins/derivatives
+@dirrm lib/gnumeric/${VERSION}/plugins/corba
+@dirrm lib/gnumeric/${VERSION}/plugins/applix
+@dirrm lib/gnumeric/${VERSION}/plugins
+@dirrm lib/gnumeric/${VERSION}
+@dirrm lib/gnumeric
+@dirrm include/libspreadsheet-1-7

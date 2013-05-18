@@ -1,8 +1,9 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.10 2004/12/22 06:02:26 marcm Exp $
 
-COMMENT=			spreadsheet application for GNOME
+COMMENT=		spreadsheet application for GNOME
 
-VERSION=		1.4.2
+VERSION=		1.7.11
 DISTNAME=		gnumeric-${VERSION}
 CATEGORIES=    		math x11/gnome
 
@@ -15,7 +16,7 @@ PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
-MASTER_SITES=		${MASTER_SITE_GNOME:=sources/gnumeric/1.4/}
+MASTER_SITES=		${MASTER_SITE_GNOME:=sources/gnumeric/1.7/}
 
 MODULES=		devel/gettext devel/pkgconfig
 
@@ -37,6 +38,7 @@ CONFIGURE_ARGS+=	--without-guile
 CONFIGURE_ARGS+=	--without-psiconv
 CONFIGURE_ARGS+=	--without-paradox
 CONFIGURE_ARGS+=	--without-long-double
+CONFIGURE_ARGS+=	--without-perl
 CONFIGURE_ARGS+=	--without-python
 CONFIGURE_ARGS+=	--with-gconf-schema-file-dir=${LOCALBASE}/share/schemas/gnumeric
 SUBST_VARS=		VERSION
