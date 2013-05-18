@@ -1,4 +1,4 @@
-.\" $MirOS: src/lib/libc/hash/sfv.3,v 1.2 2007/05/07 16:15:57 tg Exp $
+.\" $MirOS: src/lib/libc/hash/sfv.3,v 1.3 2007/05/23 17:51:05 tg Exp $
 .\"-
 .\" Copyright (c) 2007
 .\"	Thorsten Glaser <tg@mirbsd.de>
@@ -18,7 +18,7 @@
 .\" damage or existence of a defect, except proven that it results out
 .\" of said person's immediate fault when using the work as intended.
 .\"-
-.Dd May 7, 2007
+.Dd $Mdocdate$
 .Dt SFV 3
 .Os
 .Sh NAME
@@ -52,10 +52,10 @@
 .Fn SFVData "const uint8_t *data" "size_t len" "char *digest"
 .Sh DESCRIPTION
 The SFV functions implement the 32-bit SFV cyclic redundancy checksum.
+It is often vulgarly known as CRC or CRC32.
 They share a similar API to the
 .Xr md5 3
 interface.
-.\"XXX algorithm description - take from cksum(1) or so
 .Pp
 The
 .Fn SFVInit
