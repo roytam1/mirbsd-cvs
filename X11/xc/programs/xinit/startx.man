@@ -46,6 +46,12 @@ The \fIstartx\fP script is a front end to \fIxinit\fP that provides a
 somewhat nicer user interface for running a single session of the X
 Window System.  It is often run with no arguments.
 .PP
+On MirOS, the LC_CTYPE variable is removed from the environment the
+.IR startx (1)
+script inherits from the parent process.
+If the user wants localisation information to be passed, he must
+use the LANG or LC_ALL environment variables instead.
+.PP
 Arguments immediately following the
 .I startx
 command are used to start a client in the same manner as
@@ -152,6 +158,11 @@ This variable gets set to the name of the display to which clients should
 connect.  Note that this gets
 .IR set ,
 not read.
+.TP 25
+LC_CTYPE
+Because it may have been automatically set by
+.IR /etc/profile ,
+this variable is removed from the environment, i.e. ignored, on MirOS.
 .TP 25
 XAUTHORITY
 This variable, if not already defined, gets set to

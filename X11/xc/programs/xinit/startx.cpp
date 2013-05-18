@@ -1,5 +1,10 @@
+#ifdef MirBSDArchitecture
 XCOMM!/bin/mksh
+#else
+XCOMM!/bin/sh
+#endif
 
+XCOMM $MirOS$
 XCOMM $Xorg: startx.cpp,v 1.3 2000/08/17 19:54:29 cpqbld Exp $
 XCOMM
 XCOMM This is just a sample implementation of a slightly less primitive
@@ -12,6 +17,13 @@ XCOMM
 XCOMM Site administrators are STRONGLY urged to write nicer versions.
 XCOMM
 XCOMM $XFree86: xc/programs/xinit/startx.cpp,v 3.18 2003/08/22 19:27:33 eich Exp $
+
+#ifdef MirBSDArchitecture
+XCOMM This might have been inherited from /etc/profile - if the
+XCOMM user wants a value to be passed to the X-Window system,
+XCOMM he must use LANG or LC_ALL instead, on MirOS.
+unset LC_CTYPE
+#endif
 
 #ifdef SCO
 
