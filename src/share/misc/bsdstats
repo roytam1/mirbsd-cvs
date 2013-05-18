@@ -1,4 +1,4 @@
-# $MirOS: src/share/misc/bsdstats,v 1.24 2007/04/22 13:49:48 tg Exp $
+# $MirOS: src/share/misc/bsdstats,v 1.25 2007/05/09 18:30:42 tg Exp $
 # $FreeBSD: ports/sysutils/bsdstats/files/300.statistics,v 1.38 2006/12/05 13:49:45 scrappy Exp $
 #-
 # Copyright (c) 2007
@@ -77,7 +77,7 @@ function report_ports
 	qs="token=$stats_key&key=$stats_token$qs"
 	qs="POST $path HTTP/1.0
 Host: $host
-User-Agent: bsdstats \$MirOS: src/share/misc/bsdstats,v 1.24 2007/04/22 13:49:48 tg Exp $
+User-Agent: bsdstats \$MirOS: src/share/misc/bsdstats,v 1.25 2007/05/09 18:30:42 tg Exp $
 Connection: close
 Content-Type: application/x-www-form-urlencoded
 Content-Length: ${#qs}
@@ -216,8 +216,8 @@ if (( $(date -r $stats_report_time +%Y%m) < $(date -r $now +%Y%m) )); then
 			name=${fn%/*}		# directory
 			name=${name##*/}	# pkgname
 			[[ $name = *@(nb)+([0-9]) ]] || name=${name}nb0
-			eval $(print 'all:\n\t@print -r -- dir=${PKGPATH:Q}' \
-			    'flavours=${PKG_OPTIONS:Q}\n.include "'"$fn\"" | \
+			eval $(print 'all:\n\t@print -r -- "dir=${PKGPATH:Q}' \
+			    'flavours=${PKG_OPTIONS:Q}"\n.include "'"$fn\"" | \
 			    make -f - all)	# subdir, flavours
 			qs="$qs&port[]=$(uri_escape "${dir%%/*}")"
 			for flavour in $flavours; do
