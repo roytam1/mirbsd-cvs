@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/sys.mk,v 1.155 2009/11/22 21:05:35 tg Exp $
+# $MirOS: src/share/mk/sys.mk,v 1.156 2009/12/13 00:32:21 tg Exp $
 # $OpenBSD: sys.mk,v 1.45 2005/03/07 00:06:00 deraadt Exp $
 # $NetBSD: sys.mk,v 1.27 1996/04/10 05:47:19 mycroft Exp $
 # @(#)sys.mk	5.11 (Berkeley) 3/13/91
@@ -30,7 +30,7 @@ OSname=		${OSNAME:L}
 OStriplet?=	${MACHINE_ARCH}-ecce-${OSname}${OSrev}
 OSgccver?=	3.4.6
 _MIRMAKE_EXE=	/usr/bin/make
-_MIRMAKE_VER=	20091212
+_MIRMAKE_VER=	20091220
 
 .SUFFIXES:	.out .a .ln .o .lo .s .S .c .m .cc .C .cxx .cpp .F .f .y .l .i .h .sh .m4
 .LIBS:		.a
@@ -250,6 +250,18 @@ ___display_makevars::
 .  endif
 .  for _i in ${___DISPLAY_MAKEVARS}
 	@print -r -- ${${_i}:Q}
+.  endfor
+.elif defined(___DUMP_MAKEVARS)
+${.TARGETS}: .MADE
+	@:
+.  if empty(.TARGETS)
+.MAIN: ___dump_makevars
+___dump_makevars::
+.  else
+.BEGIN:
+.  endif
+.  for _i in ${___DUMP_MAKEVARS}
+	@print -r -- ${_i:Q:Q}=${${_i}:Q:Q}
 .  endfor
 .endif
 
