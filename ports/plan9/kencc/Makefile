@@ -1,4 +1,4 @@
-# $MirOS: ports/plan9/kencc/Makefile,v 1.2 2006/08/26 23:34:40 tg Exp $
+# $MirOS: ports/plan9/kencc/Makefile,v 1.3 2006/09/14 00:12:34 tg Exp $
 
 # sort of hard to add more...
 ONLY_FOR_PLATFORM=	Darwin:*:powerpc MirBSD:*:i386 OpenBSD:*:i386
@@ -26,7 +26,7 @@ WRKDIST=		${WRKDIR}/install/utils
 .if ${MACHINE_OS} == "Darwin"
 FBSDORMAC=		MacOSX
 PROCESSOR=		power
-.error CPP_DEFINES=		
+BROKEN=			need a CPP_DEFINES line for ${MACHINE_OS}
 .else
 FBSDORMAC=		FreeBSD
 PROCESSOR=		386
