@@ -1,5 +1,5 @@
 #!/bin/sh
-# $MirOS: contrib/hosted/tg/deb/jupp/debian/jupp.postinst,v 1.10 2011/09/06 20:07:39 tg Exp $
+# $MirOS: contrib/hosted/tg/deb/ca-bundle/debian/ca-bundle.postinst,v 1.4 2011/09/06 20:18:40 tg Exp $
 
 set -e
 
@@ -22,6 +22,15 @@ set -e
 #
 # * postinst "triggered" "${triggers[*]}"
 # For trigger-only calls, i.e. if "configure" is not called.
+
+trigger_gcj_keystore() {
+	# sharing a conffile with libgcj-common is impossible,
+	# no matter whether we depend on it or not, so we must
+	# ditch strict Policy here and ship ours, always
+	mkdir -p /etc/java
+	rm -f /etc/java/cacerts-gcj
+	cp /usr/share/ca-bundle/keystore.gcj /etc/java/cacerts-gcj
+}
 
 case $1 in
 configure)
@@ -89,12 +98,17 @@ configure)
 		rm -f /etc/ssl/certs/java/cacerts
 		cp /usr/share/ca-bundle/keystore.jks /etc/ssl/certs/java/cacerts
 	fi
+
+	# handle the GCJ keystore
+	trigger_gcj_keystore
 	;;
 
 abort-upgrade|abort-remove|abort-deconfigure)
 	;;
 
 triggered)
+	# someone upgraded libgcj-common, time to put ours back
+	trigger_gcj_keystore
 	;;
 
 *)

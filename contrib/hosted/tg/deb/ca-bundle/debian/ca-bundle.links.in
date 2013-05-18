@@ -1,5 +1,5 @@
 #!/bin/mksh
-rcsid='$MirOS: contrib/hosted/tg/deb/ca-bundle/debian/ca-bundle.links.in,v 1.1 2011/04/24 17:02:37 tg Exp $'
+rcsid='$MirOS: contrib/hosted/tg/deb/ca-bundle/debian/ca-bundle.links.in,v 1.2 2011/04/24 17:08:16 tg Exp $'
 #-
 # Run this on Debian/sid to generate a list of symlinks
 # for OpenSSL 1.0.0+ compatibility of hashed directory.
@@ -43,6 +43,10 @@ done
 
 cat >>OUT <<'EOF'
 #-
+etc/java/cacerts-gcj usr/lib/jvm/java-1.5.0-gcj-4.2-1.5.0.0/jre/lib/security/cacerts
+etc/java/cacerts-gcj usr/lib/jvm/java-1.5.0-gcj-4.3-1.5.0.0/jre/lib/security/cacerts
+etc/java/cacerts-gcj usr/lib/jvm/java-1.5.0-gcj-4.4/jre/lib/cacerts
+etc/java/cacerts-gcj usr/lib/jvm/java-1.5.0-gcj-4.5/jre/lib/cacerts
 etc/ssl/certs/java/cacerts etc/ia32-java-1.5.0-sun/security/cacerts
 etc/ssl/certs/java/cacerts etc/ia32-java-6-sun/security/cacerts
 etc/ssl/certs/java/cacerts etc/j2se/1.4/security/cacerts
@@ -65,10 +69,7 @@ etc/ssl/certs/java/cacerts usr/lib/jvm/ia32-java-6-sun-1.6.0.12/jre/lib/security
 etc/ssl/certs/java/cacerts usr/lib/jvm/ia32-java-6-sun-1.6.0.13/jre/lib/security/cacerts
 etc/ssl/certs/java/cacerts usr/lib/jvm/ia32-java-6-sun-1.6.0.14/jre/lib/security/cacerts
 etc/ssl/certs/java/cacerts usr/lib/jvm/ia32-java-6-sun-1.6.0.22/jre/lib/security/cacerts
-etc/ssl/certs/java/cacerts usr/lib/jvm/java-1.5.0-gcj-4.2-1.5.0.0/jre/lib/security/cacerts
-etc/ssl/certs/java/cacerts usr/lib/jvm/java-1.5.0-gcj-4.3-1.5.0.0/jre/lib/security/cacerts
-etc/ssl/certs/java/cacerts usr/lib/jvm/java-1.5.0-gcj-4.4/jre/lib/cacerts
-etc/ssl/certs/java/cacerts usr/lib/jvm/java-1.5.0-gcj-4.5/jre/lib/cacerts
+etc/ssl/certs/java/cacerts usr/lib/jvm/j2sdk1.6-oracle/jre/lib/security/cacerts
 etc/ssl/certs/java/cacerts usr/lib/jvm/java-1.5.0-sun-1.5.0.06/jre/lib/security/cacerts
 etc/ssl/certs/java/cacerts usr/lib/jvm/java-1.5.0-sun-1.5.0.14/jre/lib/security/cacerts
 etc/ssl/certs/java/cacerts usr/lib/jvm/java-1.5.0-sun-1.5.0.15/jre/lib/security/cacerts

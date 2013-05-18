@@ -1,5 +1,5 @@
 #!/bin/sh
-# $MirOS: contrib/hosted/tg/deb/jupp/debian/jupp.postrm,v 1.2 2011/09/06 20:07:39 tg Exp $
+# $MirOS: contrib/hosted/tg/deb/ca-bundle/debian/ca-bundle.postrm,v 1.3 2011/09/06 20:18:40 tg Exp $
 
 set -e
 
@@ -30,7 +30,8 @@ remove)
 	;;
 
 purge)
-	rm -rf /etc/ssl/certs/ca-certificates.crt* /etc/ssl/certs/java
+	rm -rf /etc/ca-certificates /etc/java/cacerts-gcj \
+	    /etc/ssl/certs/ca-certificates.crt* /etc/ssl/certs/java
 	test -d /etc/ssl/certs && \
 	    rmdir --ignore-fail-on-non-empty /etc/ssl/certs
 	test -d /etc/ssl && rmdir --ignore-fail-on-non-empty /etc/ssl

@@ -1,5 +1,5 @@
 #!/usr/bin/make -f
-# $MirOS: contrib/hosted/tg/deb/ca-bundle/debian/rules,v 1.6 2011/09/06 20:18:41 tg Exp $
+# $MirOS: contrib/hosted/tg/deb/ca-bundle/debian/rules,v 1.7 2011/11/12 00:11:22 tg Exp $
 
 build-arch:
 build build-indep: generated/.build_stamp
@@ -34,10 +34,16 @@ binary-indep: build-indep
 	dh_install
 	dh_installman
 	dh_link
-	dh_compress -X.jks -X.crt -Xksslcalist -Xcerts
+	dh_compress -X.gcj -X.jks -X.crt -Xksslcalist -Xcerts
 	dh_fixperms
 	dh_installdeb
 	dh_gencontrol
+	# even XB-Multi-Arch in sarge is refused by precise (prolonged pain)
+	printf '/^Architecture: all/a\n%s\n.\nw\nq\n' 'Multi-Arch: foreign' | \
+	    ed -s debian/ca-bundle/DEBIAN/control
+	# do it this way to not rely on trigger-capable debhelper
+	echo interest /usr/share/doc/libgcj-common \
+	    >debian/ca-bundle/DEBIAN/triggers
 	dh_md5sums
 	dh_builddeb
 
