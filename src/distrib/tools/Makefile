@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/tools/Makefile,v 1.29 2009/01/17 12:21:01 tg Exp $
+# $MirOS: src/distrib/tools/Makefile,v 1.30 2009/01/25 20:13:07 tg Exp $
 
 all: sundsklbl
 
@@ -56,19 +56,14 @@ makecdimage: .PHONY
 	done
 	dd if=/dev/arandom bs=2048 count=1 of=eltorito.loo 2>&-	# El Torito
 	# fix path to default kernel file in second-stage boot loader
-	set -A sect_text -- $$(objdump -wh --target=a.out-sunos-big \
-	    cddir/b_sparc.ldr | fgrep .text); \
-	(( fofs_text = 0x$${sect_text[5]} )); \
-	nm --target=a.out-sunos-big cddir/b_sparc.ldr |& \
-	while read -p adr typ sym; do \
-		[[ $$sym = @(___defkernel|_start) ]] || continue; \
-		eval typeset -i10 sym$$sym=0x\$$adr; \
-	done; \
-	typeset -Uui10 ofs; \
-	(( ofs = sym___defkernel - sym_start + fofs_text )); \
+	set -A dump -- $$(dd if=${WRKDIR}/b_sparc.ldr bs=4 count=64 | \
+	    hexdump -ve '1/1 "%02X"' | sed 's/\(........\)/ \1/g'); i=0; \
+	while (( i < 64 )); do [[ $${dump[i++]} = 2035560? ]] && break; done; \
+	if [[ $$i = 64 || $${dump[i-1]} != 20355601 ]]; then \
+		print -u2 found invalid or no patch field version; exit 1; \
+	fi; ofs=$$((0x$${dump[i+1]})); \
 	print -n v${OSrev}/sparc/bsd.rd\\0 | \
 	    dd of=cddir/b_sparc.ldr bs=1 seek=$$ofs conv=notrunc
-	strip --target=a.out-sunos-big cddir/b_sparc.ldr
 	ln cddir/v${OSrev}/sparc/bsd.rd cddir/vmunix		# for kicks
 	cp ${.CURDIR}/../common/00-README cddir/
 .if defined(SERIALSPEED)
