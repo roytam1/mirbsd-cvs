@@ -1,5 +1,7 @@
-# $MirOS: ports/sysutils/gkrellm/gkrellm/Makefile,v 1.7 2006/09/14 00:13:33 tg Exp $
+# $MirOS: ports/sysutils/gkrellm/gkrellm/Makefile,v 1.8 2008/03/09 17:23:33 tg Exp $
 # $OpenBSD: Makefile,v 1.10 2004/05/18 14:49:56 naddy Exp $
+
+BROKEN=		Distfile unavailable
 
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
