@@ -21,7 +21,7 @@
 
 use vars qw($VERSION %IRSSI);
 $VERSION = sprintf "%d.%02d",
-    q$MirOS: ports/net/irssi/files/randex.pl,v 1.10 2009/01/08 19:40:57 tg Exp $
+    q$MirOS: ports/net/irssi/files/randex.pl,v 1.11 2009/01/08 19:48:58 tg Exp $
     =~ m/,v (\d+)\.(\d+) /;
 %IRSSI = (
 	authors		=> 'Thorsten Glaser',
@@ -305,13 +305,20 @@ Irssi::settings_add_int("randex", "arc4stir_interval", 7200);
 	my $randfile = $ENV{'RANDFILE'};
 
 	if (!defined($randfile) || !$randfile) {
-		# IMPORTANT!: do *not* use ~/.gnupg/random_seed,
-		# since it is not just a binary chunk of entropy
-		# but a dumped internal data structure; gpg WILL
-		# NOT LOAD a randseed file we write, pgp-2.6.3in
-		# however is as fine with it as PuTTY and others
-		$randfile = $ENV{'HOME'} . "/.pgp/randseed.bin";
+		# Commonly found on e.g. Debian GNU/HURD (OpenSSL)
+		$randfile = $ENV{'HOME'} . "/.rnd";
+
+		if (! -s $randfile) {
+			$randfile = $ENV{'HOME'} . "/.pgp/randseed.bin";
+		}
 	}
+
+	# IMPORTANT!: do *not* use ~/.gnupg/random_seed,
+	# since it is not just a binary chunk of entropy
+	# but a dumped internal data structure; gpg WILL
+	# NOT LOAD a randseed file we write, pgp-2.6.3in
+	# however is ok with it as are OpenSSL, PuTTY, …
+
 	Irssi::settings_add_str("randex", "randfile", $randfile);
 }
 # do not write to the main window unless something fatal happens
