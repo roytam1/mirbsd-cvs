@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/usr.bin/vgrind/vgrind.sh,v 1.5 2005/05/14 14:52:52 tg Exp $
+# $MirOS: src/usr.bin/vgrind/vgrind.sh,v 1.6 2005/07/07 13:39:59 tg Exp $
 #-
 # Copyright (c) 2005 Thorsten Glaser <tg@mirbsd.org>
 # Copyright (c) 2005 Han Boetes <han@mijncomputer.nl>
@@ -71,7 +71,7 @@ while [ $# -gt 0 ]; do
 	*)
 		files="$files $1"
 		;;
-	esac
+	}
 	shift
 done
 
