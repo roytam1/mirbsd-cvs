@@ -33,7 +33,6 @@ __RCSID("$MirOS: src/kern/c/taitime.c,v 1.2 2007/02/07 21:46:44 tg Exp $");
 
 #ifdef __TAI_CAN_BE_64BIT
 #define TU(x)	((uint64_t)(x))
-#define TT(x)	((int64_t)((uint64_t)(x) - __TAI64_BIAS))
 #else
 #define TU(x)	(x)
 #endif
