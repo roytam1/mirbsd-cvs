@@ -1,11 +1,11 @@
-# $MirOS: ports/devel/libncursesw/Makefile,v 1.1 2006/10/24 11:35:32 tg Exp $
+# $MirOS: ports/devel/libncursesw/Makefile,v 1.2 2006/10/27 15:53:08 tg Exp $
 
 COMMENT=			new curses library (wide character version)
 COMMENT-data=			terminfo database for ncurses (multifile format)
 CATEGORIES=			devel
 V=				5.5
 DISTNAME=			ncurses-$V
-PKGNAME=			libncursesw-$V-0
+PKGNAME=			libncursesw-$V-1
 PKGNAME-data=			terminfo-$V-0-wide
 HOMEPAGE=			http://www.gnu.org/software/ncurses/ncurses.html
 RESPONSIBLE=			Thorsten Glaser <tg@mirbsd.de>
@@ -60,5 +60,17 @@ INSTALL_TARGET=			install.includes \
 				install.man \
 				install.progs \
 				install.data
+
+pre-extract:
+	@if fgrep "no multibyte characters" /usr/include/machine/limits.h \
+	    >/dev/null 2>&1; then \
+		print ERROR: your multibyte support is broken; \
+		print remove the line with \"no multibyte characters\"; \
+		print from /usr/include/machine/limits.h and retry.; \
+		exit 1; \
+	fi
+
+post-extract:
+	cp ${FILESDIR}/read_bsd_terminfo.c ${WRKSRC}/ncurses/tinfo/
 
 .include <bsd.port.mk>

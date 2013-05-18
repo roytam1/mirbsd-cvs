@@ -17,3 +17,8 @@
    a   terminfo  compiler  tic(1),  a  decompiler  infocmp(1),  clear(1),
    tput(1),  tset(1),  and  a  termcap conversion tool captoinfo(1). Full
    manual pages are provided for the library and tools.
+
+This version supports reading /usr/share/misc/termcap{,.db} code
+as fall-back, and /usr/share/misc/terminfo.db as primary source,
+as well as /etc/termcap fallback and ${LOCALBASE}/share/terminfo
+directory structure.
