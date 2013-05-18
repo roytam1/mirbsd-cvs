@@ -1,4 +1,4 @@
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.101 2008/04/02 23:03:48 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.102 2008/04/03 17:03:56 tg Exp $'
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -792,6 +792,24 @@ mws_content <<'EOF'
  <li>Debian GNU/Linux 2.6.8-powerpc-smp (macppc gcc4.3.0-2) <em>by voltaire buildd via Debian’s package</em></li>
  <li>Debian GNU/Linux 2.6.18-5-s390x (S/390 gcc4.3.0-2) <em>by debian-31 buildd via Debian’s package</em></li>
  <li>Debian GNU/Linux 2.6.23.16 (sparc64,V8 gcc4.3.0-2) <em>by lebrun buildd via Debian’s package</em></li>
+ <li>Fedora GNU/Linux Core 7 2.6.18-53.1.6.el5 (macppc64 gcc4.1.2-27 Red Hat) <em>by ppc3 buildd via Koji/EPEL packager</em></li>
+ <li>Fedora GNU/Linux Core 7 2.6.18-53.1.6.el5xen (i386 gcc4.1.2-27 Red Hat) <em>by xenbuilder4 buildd via Koji/EPEL packager</em></li>
+ <li>Fedora GNU/Linux Core 7 2.6.18-53.1.6.el5xen (amd64 gcc4.1.2-27 Red Hat) <em>by xenbuilder2 buildd via Koji/EPEL packager</em></li>
+ <li>Fedora GNU/Linux Core 7 2.6.18-53.1.6.el5 (macppc gcc4.1.2-27 Red Hat) <em>by ppc4 buildd via Koji/EPEL packager</em></li>
+ <li>Fedora GNU/Linux Core 8 2.6.18-53.1.6.el5 (macppc64 gcc4.1.2-33 Red Hat) <em>by ppc2 buildd via Koji/EPEL packager</em></li>
+ <li>Fedora GNU/Linux Core 8 2.6.18-53.1.6.el5xen (i386 gcc4.1.2-33 Red Hat) <em>by xenbuilder4 buildd via Koji/EPEL packager</em></li>
+ <li>Fedora GNU/Linux Core 8 2.6.18-53.1.6.el5xen (amd64 gcc4.1.2-33 Red Hat) <em>by xenbuilder2 buildd via Koji/EPEL packager</em></li>
+ <li>Fedora GNU/Linux Core 8 2.6.18-53.1.6.el5 (macppc gcc4.1.2-33 Red Hat) <em>by ppc4 buildd via Koji/EPEL packager</em></li>
+ <li>Fedora GNU/Linux Core 9 2.6.18-53.1.6.el5 (macppc64 gcc4.3.0-5 Red Hat) <em>by ppc4 buildd via Koji/EPEL packager</em></li>
+ <li>Fedora GNU/Linux Core 9 2.6.18-53.1.6.el5 (i386 gcc4.3.0-5 Red Hat) <em>by hammer2 buildd via Koji/EPEL packager</em></li>
+ <li>Fedora GNU/Linux Core 9 2.6.18-53.1.6.el5xen (amd64 gcc4.3.0-5 Red Hat) <em>by xenbuilder1 buildd via Koji/EPEL packager</em></li>
+ <li>Fedora GNU/Linux Core 9 2.6.18-53.1.6.el5 (macppc gcc4.3.0-5 Red Hat) <em>by ppc1 buildd via Koji/EPEL packager</em></li>
+ <li>Red Hat GNU/Linux RHEL 4 2.6.18-53.1.6.el5 (i386 gcc3.4.6-9 Red Hat) <em>by hammer2 buildd via Koji/EPEL packager</em></li>
+ <li>Red Hat GNU/Linux RHEL 4 2.6.18-53.1.6.el5 (macppc gcc3.4.6-9 Red Hat) <em>by ppc2 buildd via Koji/EPEL packager</em></li>
+ <li>Red Hat GNU/Linux RHEL 4 2.6.18-53.1.6.el5 (amd64 gcc3.4.6-9 Red Hat) <em>by hammer2 buildd via Koji/EPEL packager</em></li>
+ <li>Red Hat GNU/Linux RHEL 5 2.6.18-53.1.6.el5 (i386 gcc4.1.2-14 Red Hat) <em>by hammer2 buildd via Koji/EPEL packager</em></li>
+ <li>Red Hat GNU/Linux RHEL 5 2.6.18-53.1.6.el5 (macppc gcc4.1.2-14 Red Hat) <em>by ppc2 buildd via Koji/EPEL packager</em></li>
+ <li>Red Hat GNU/Linux RHEL 5 2.6.18-53.1.6.el5 (amd64 gcc4.1.2-14 Red Hat) <em>by hammer2 buildd via Koji/EPEL packager</em></li>
  <li>Fedora GNU/Linux Extras 6 2.6.16.46-0.7-xen (i386 gcc4.1.1-30 Red Hat) <em>by build13 buildd via the openSUSE Build Service</em></li>
  <li>OpenSuSE GNU/Linux 10.2 2.6.16.46-0.7-xen (i386 gcc4.1.2-20061115 SuSE) <em>by build18 buildd via the openSUSE Build Service</em></li>
  <li>OpenSuSE GNU/Linux 10.2 2.6.16.46-0.7-xen (amd64 gcc4.1.2-20061115 SuSE) <em>by build15 buildd via the openSUSE Build Service</em></li>
