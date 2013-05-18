@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.243 2009/10/02 17:50:06 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.244 2009/10/10 18:02:55 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -5169,4 +5169,39 @@ Tag: mksh
  perusal if desired. These are the cool guys that let me wreck havo^W^Wfix
  *buntu at work with mksh, MirSirc and Lynx and let CeKay play with Android
  and the student workers with Lego robots.</p>
+----
+Title: more mksh (Android and others), new jupp, …
+Date: 18.10.2009 18:33
+Author: tg@
+Tag: mksh
+
+<p><a href="@@RELPATH@@mksh.htm">mksh</a>’s <tt>Build.sh</tt> can now
+ generate <tt>Makefrag.inc</tt> snippets that reflect its environment
+ and can be used like <tt>Rebuild.sh</tt> or integrated in, for example,
+ the <tt>Android.mk</tt> files.</p>
+<p>mksh(1) also is a great compiler testsuite: it <em>regularily(!)</em>
+ points out bugs in gcc’s <tt>-fwhole-program --combine</tt> and helped
+ to find (and fix) bugs in huge things like SunStudio, old things made
+ modern like <a href="http://pcc.ludd.ltu.se/">pcc</a>, as well as one-man
+ projects such as <a href="http://nwcc.sourceforge.net/">nwcc</a> ☺<br />
+ I wish compiler authors would just use mksh as testsuite regularily.</p>
+<p>I released a new version of <a href="@@RELPATH@@jupp.htm">jupp</a> for
+ Unix® today: joe-3.1jupp12 (including a backported hex editing mode, as
+ a late birthday present for waga (from IRC) who asked for it, a plethora
+ of bug fixes, raw octet support in UTF-8 mode, UTF-8 support in the 8-bit
+ modes, and <a href="@@RELPATH@@jupp.htm#r3_1j12">more changes</a>. If you
+ already use it, update please. If not, give it a try! It’s included in at
+ least <a href="https://www.freewrt.org/">FreeWRT</a> already, and I build
+ Debian packages (link on the jupp website) in my “play repository”, as well
+ as packages for Univention Corporate Server at work (from these packages).
+ I’m also using it on Solaris 8, Solaris 10 and AIX 5.3 ☻ (and many more)</p>
+<p>There are currently quite a lot more things I would like to do but can’t
+ seem to find the time for. I had originally planned a new MirBSD snapshot,
+ including ISO, for mid→end of September – now, end of October seems more
+ likely (if I can get a few days off work and some RAM for the SPARCstation
+ 5). Several things, like the mksh prompt wlog entry and webpages for a few
+ subprojects (BSD::arc4random; arc4random.c; the RANDEX protocol, plugins,
+ implementations, proxies; kwalletcli; keystash) are lacking too, and the <a
+ href="http://grml.org/">Grml</a> project is also expecting code from me.
+ Sorry. I am, after all, human too…</p>
 ----
