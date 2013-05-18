@@ -72,7 +72,7 @@
 #define	__RCSID(x)	static const char __rcsid[] __attribute__((used)) = (x)
 #endif
 
-__RCSID("$MirOS: contrib/code/Snippets/tinyirc.c,v 1.19 2008/12/02 17:12:00 tg Exp $");
+__RCSID("$MirOS: contrib/code/Snippets/tinyirc.c,v 1.20 2008/12/09 18:34:41 tg Exp $");
 
 #ifndef __dead
 #define __dead
@@ -260,8 +260,8 @@ void updatestatus(void)
 	    tputs_x(tgoto(CM, 0, LI - 2));
 	    tputs_x(SO);
 	    n = printf("[%02d:%02d] %s on %s : %s", timenow->tm_hour,
-			timenow->tm_min, IRCNAME, (object->name == NULL ?
-			"*" : object->name), RELEASE_S);
+		timenow->tm_min, IRCNAME, object == NULL ||
+		object->name == NULL ? "*" : object->name, RELEASE_S);
 	    for (; n < CO; n++)
 		putchar(' ');
 	    tputs_x(SE);
@@ -426,7 +426,7 @@ static int doprivmsg(void)
 	} else if (!strcmp(ctcp, "ACTION")) {
 		if (*tok_in[2] != '#')
 			column = printf("[*] %s", tok_in[0]);
-		else if (object != NULL &&
+		else if (object != NULL && object->name != NULL &&
 		    my_stricmp(object->name, tok_in[2]))
 			column = printf("* %s:%s", tok_in[0], tok_in[2]);
 		else
@@ -449,7 +449,8 @@ static int doprivmsg(void)
  noctcp:
     if (*tok_in[2] != '#')
 	column = printf("*%s*", tok_in[0]);
-    else if (object != NULL && my_stricmp(object->name, tok_in[2]))
+    else if (object != NULL && object->name != NULL &&
+      my_stricmp(object->name, tok_in[2]))
 	column = printf("<%s:%s>", tok_in[0], tok_in[2]);
     else
 	column = printf("<%s>", tok_in[0]);
@@ -641,7 +642,7 @@ int serverinput(void)
 
 void parseinput(void)
 {
-    int i, j, outcol, found = 0;
+    int i, j, outcol = 0, found = 0;
 
     if (*linein == '\0')
 	return;
@@ -673,7 +674,7 @@ void parseinput(void)
 	    return;
 	}
 	if (i == DO_ME) {
-		if (object == NULL) {
+		if (object == NULL || object->name == NULL) {
 			printf("*** Nowhere to send");
 			return;
 		}
@@ -700,9 +701,12 @@ void parseinput(void)
 			return;
 		}
 		*linein++ = '\0';
-		if (!strcmp(tmp, "*"))
-			tmp = object->name;
-		if (strcmp(tmp, object->name))
+		if (!strcmp(tmp, "*")) {
+			if (object == NULL || (tmp = object->name) == NULL) {
+				printf("*** Nowhere to send");
+				return;
+			}
+		} else if (object && object->name && strcmp(tmp, object->name))
 			pushlastchan(tmp);
 		snprintf(lineout, LINELEN, "PRIVMSG %s :\001ACTION %s\001\n",
 		    tmp, linein);
@@ -734,9 +738,12 @@ void parseinput(void)
 		tmp2 = linein;
 		while (*tmp2 && *tmp2 != ' ')
 			*tmp2++ = toupper(*tmp2);
-		if (!strcmp(tmp, "*"))
-			tmp = object->name;
-		if (strcmp(tmp, object->name))
+		if (!strcmp(tmp, "*")) {
+			if (object == NULL || (tmp = object->name) == NULL) {
+				printf("*** Nowhere to send");
+				return;
+			}
+		} else if (object && object->name && strcmp(tmp, object->name))
 			pushlastchan(tmp);
 		snprintf(lineout, LINELEN, "PRIVMSG %s :\001%s\001\n",
 		    tmp, linein);
