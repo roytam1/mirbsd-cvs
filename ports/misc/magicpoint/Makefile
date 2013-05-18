@@ -1,9 +1,11 @@
-# $MirOS: ports/misc/magicpoint/Makefile,v 1.3 2006/09/14 00:11:16 tg Exp $
+# $MirOS: ports/misc/magicpoint/Makefile,v 1.4 2007/04/01 21:59:23 tg Exp $
 # $OpenBSD: Makefile,v 1.32 2004/04/09 09:52:09 espie Exp $
+
+BROKEN=			weird, see commit message
 
 COMMENT=		X11-based presentation tool
 DISTNAME=		magicpoint-1.10a
-DASH_VER=		1
+DASH_VER=		2
 CATEGORIES=		misc productivity
 MASTER_SITES=		ftp://sh.wide.ad.jp/WIDE/free-ware/mgp/
 HOMEPAGE=		http://member.wide.ad.jp/wg/mgp/
@@ -17,8 +19,7 @@ PERMIT_DISTFILES_FTP=	Yes
 FLAVORS=		no_gif freetype2
 FLAVOR?=
 
-LIB_DEPENDS+=		ttf.1::print/freetype \
-			png.2::graphics/png \
+LIB_DEPENDS+=		png.2::graphics/png \
 			mng::graphics/libmng
 RUN_DEPENDS+=		pnmscale::graphics/netpbm
 
@@ -30,6 +31,7 @@ CONFIGURE_ARGS+=	--enable-freetype-charset16
 
 .if !${FLAVOR:L:Mfreetype2}
 CONFIGURE_ARGS+=	--disable-xft2
+LIB_DEPENDS+=		ttf.1::print/freetype
 .endif
 
 .if ${FLAVOR:L:Mno_gif}
@@ -53,8 +55,8 @@ post-build:
 	@cd ${WRKSRC}/contrib/xmindpath && ${MAKE_PROGRAM}
 	@cd ${WRKSRC}/contrib/xwintoppm && ${XMKMF}
 
-DOCS=	COPYRIGHT COPYRIGHT.jp FAQ README README.fonts README.fonts.jp \
-	README.lang SYNTAX TODO.jp USAGE USAGE.jp
+DOCS=		COPYRIGHT COPYRIGHT.jp FAQ README README.fonts README.fonts.jp \
+		README.lang SYNTAX TODO.jp USAGE USAGE.jp
 SAMPLES=	README README.jp cloud.jpg dad.eps dad.jpg default.mgp \
 		embed-jp.mgp embed.mgp gradation-jp.mgp \
 		gradation.mgp mgp-old1.jpg mgp-old2.jpg mgp-old3.jpg \
@@ -62,9 +64,11 @@ SAMPLES=	README README.jp cloud.jpg dad.eps dad.jpg default.mgp \
 		multilingual.mgp sample-fr.mgp sample-jp.mgp sample.mgp \
 		sendmail6-jp.mgp sendmail6.mgp tutorial-jp.mgp tutorial.mgp \
 		v6-jp.mgp v6.mgp v6header.eps v6header.jpg
-EMACS=	README mgp.el mgp.sty sample.tex ../mgp-mode.el
+EMACS=		README mgp.el mgp.sty sample.tex ../mgp-mode.el
 
-# NOTE: there are some discussions/twists in gzip'ing xmindpath.1.
+pre-configure:
+	cd ${WRKCONF}/contrib/xmindpath && ${_real_simple_configure_call}
+
 post-install:
 	@cd ${WRKSRC}/contrib/xmindpath && ${MAKE_PROGRAM} install
 	${INSTALL_DATA_DIR} ${PREFIX}/share/doc/mgp/sample

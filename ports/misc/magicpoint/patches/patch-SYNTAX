@@ -1,7 +1,8 @@
-$MirOS$
---- SYNTAX.orig	2004-04-23 20:24:54.000000000 +0000
-+++ SYNTAX	2004-04-23 20:25:05.000000000 +0000
-@@ -2,6 +2,6 @@
+$MirOS: ports/misc/magicpoint/patches/patch-SYNTAX,v 1.1.7.1 2005/03/18 15:50:30 tg Exp $
+--- SYNTAX.orig	Fri Apr 11 22:05:19 2003
++++ SYNTAX	Sat May 12 22:49:37 2007
+@@ -1,7 +1,7 @@
+ $Id$
  
  placement restriction for directives:
 -		.mgprc		preamble	main pages

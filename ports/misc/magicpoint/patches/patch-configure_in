@@ -1,7 +1,7 @@
-$MirOS$
+$MirOS: ports/misc/magicpoint/patches/patch-configure_in,v 1.1.7.1 2005/03/18 15:50:30 tg Exp $
 $OpenBSD: patch-configure_in,v 1.1 2003/04/19 13:30:47 espie Exp $
---- configure.in.orig	2003-05-28 05:34:01.000000000 +0000
-+++ configure.in	2004-04-23 20:07:26.000000000 +0000
+--- configure.in.orig	Wed May 28 05:34:01 2003
++++ configure.in	Sat May 12 22:52:47 2007
 @@ -110,6 +110,8 @@ if test "$mgp_use_freetype" = "yes"; the
   			ac_cv_ft_include="$dir/include"
   		elif test -d $dir/include/freetype -a -f $dir/include/freetype/freetype.h; then
@@ -20,15 +20,6 @@ $OpenBSD: patch-configure_in,v 1.1 2003/04/19 13:30:47 espie Exp $
  		if test -f $dir/X11/Xft/Xft.h; then
  			ac_cv_xft2_hdrdir="$dir"
  		fi
-@@ -190,7 +192,7 @@ if test "$mgp_use_xft2" = "yes"; then
-   	  AC_MSG_CHECKING(for xft2 library..)
- 	  AC_CHECK_LIB(Xft, XftFontOpen, 
- 		[LIBS="$LIBS -lXft -lfontconfig"
--		 AC_DEFINE(USE_XFT2)], [], [-lfontconfig])
-+		 AC_DEFINE(USE_XFT2)], [], [-L/usr/X11R6/lib -lfontconfig])
-         fi
-   fi
- fi
 @@ -311,10 +313,12 @@ if type pkg-config > /dev/null 2>&1; the
       LIBS="$LIBS `pkg-config --libs libpng`"
       OPTFLAGS="$OPTFLAGS `pkg-config --cflags libpng`"
@@ -64,7 +55,7 @@ $OpenBSD: patch-configure_in,v 1.1 2003/04/19 13:30:47 espie Exp $
  		OPTFLAGS="$OPTFLAGS -I$i/include"
  		AC_CHECK_LIB(mng, mng_initialize, 
 -			[LIBS="$LIBS -Wl,-rpath,$i/lib -lmng"
-+			[LIBS="$LIBS -Wl,-rpath,$i/lib -lmng -llcms -ljpeg -lz"
++			[LIBS="$LIBS -lmng -llcms -ljpeg -lz"
  			 AC_DEFINE(MNG)], 
  		[AC_CHECK_LIB(mng, mng_readdisplay,
 -			[LIBS="$LIBS -lmng -ljpeg"
@@ -75,3 +66,24 @@ $OpenBSD: patch-configure_in,v 1.1 2003/04/19 13:30:47 espie Exp $
  		break
  	fi
  done
+@@ -386,20 +393,6 @@ if test $mgp_gif = "yes"; then
+ 		[], [-L$x_libraries -lX11])], [-L$x_libraries -lX11])])])
+ 	if test "x$gif_ok" != "xyes"; then
+ 		echo 'FATAL: You need libungif to use gif images.  pass proper LIBS to configure.'
+-		exit 1
+-	fi
+-	for i in /usr/pkg /usr/local /usr; do
+-		if test -f $i/include/gif_lib.h; then
+-			gif_h_ok=yes
+-			OPTFLAGS="$OPTFLAGS -I$i/include"
+-			break
+-		fi
+-	done
+-	if test -f /usr/include/gif_lib.h; then
+-		gif_h_ok=yes
+-	fi
+-	if test "x$gif_h_ok" != "xyes"; then
+-		echo 'FATAL: can not find gif_lib.h.  pass proper CPPFLAGS to configure.'
+ 		exit 1
+ 	fi
+ fi
