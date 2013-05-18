@@ -4,7 +4,7 @@
 mws_setname pkgsrc "pkgsrc on MirOS"
 mws_subdir 0
 mws_setheadline pkgsrc on MirOS
-mws_putheader '$MirOS: www/src/pkgsrc.hts,v 1.1 2011/02/08 22:13:28 bsiegert Exp $'
+mws_putheader '$MirOS: www/src/pkgsrc.hts,v 1.2 2011/05/14 17:49:12 bsiegert Exp $'
 mws_content <<'EOF'
 <p>pkgsrc is a “ports tree” developed by the NetBSD project and portable
  to several other operating systems. Support for MirOS has existed since
@@ -27,23 +27,35 @@ mws_content <<'EOF'
  the MirPorts directories (normally /usr/mpkg/bin and /usr/mpkg/sbin)
  <b>must not</b> be in your PATH.</p>
 
-<!-- TODO(bsiegert): add full installation instructions -->
+<p>Starting from pkgsrc-2011Q2, you no longer need to apply any
+ MirBSD-specific patches to install pkgsrc.</p>
 
-<h2>Needed patches</h2>
+<h2>Installation instructions</h2>
 
-<p>At the moment, this patch must be manually applied before
- bootstrapping pkgsrc.</p>
+<ol>
+ <li>Make sure there are no mentions of MirPorts in your current
+  environment. Most importantly, remove /usr/mpkg/bin and /usr/mpkg/sbin
+  from your PATH. This is needed when building or installing packages;
+  the reason is that the package tools from MirPorts and pkgsrc have the
+  same name but are incompatible with each other.</li>
+ <li>Check out pkgsrc, for example to /usr/pkgsrc:<br />
+  <tt>cvs -qd anoncvs@anoncvs.netbsd.org:/cvsroot co -P pkgsrc</tt></li>
+ <li>Bootstrap pkgsrc. In this example, we install (using sudo) into
+  /usr/pkg. The dbdir should be inside the prefix to avoid conflicts
+  with MirPorts.<br />
+  <tt>cd bootstrap</tt><br />
+  <tt>./bootstrap --prefix /usr/pkg --pkgdbdir /usr/pkg/db</tt></li>
+ <li>Add /usr/pkg/bin and /usr/pkg/sbin to your path:<br />
+  <tt>export PATH=/usr/pkg/bin:${PATH}:/usr/pkg/sbin</tt></li>
+ <li>pkgsrc can be configured by editing the /usr/pkg/etc/mk.conf file.
+  See the <a href="http://www.netbsd.org/docs/pkgsrc/">pkgsrc Guide</a>
+  for details.</li>
+ <li>To build and install a package, use the bmake command. For example,
+  to install Perl:<br />
+  <tt>cd ../lang/perl5</tt><br />
+  <tt>bmake package-install clean</tt></li>
+</ol>
 
-<ul>
- <li><a
-  href="http://dl.dropbox.com/u/17617299/MirOS/bmake.diff">bmake.diff</a>:
-  this patch fixes the bmake test suite so that bootstrap can
-  succeed.</li>
-</ul>
-
-<p>Since 2011-05-14, MirBSD support for libtool has been integrated into
- pkgsrc, so the libtool patch that used to be here is no longer
- necessary.</p>
 
 EOF
 mws_putfooter
