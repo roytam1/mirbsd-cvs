@@ -1,4 +1,4 @@
-/* $MirOS: contrib/code/mirmake/dist/contrib/mirmake.h,v 1.26 2006/11/07 00:06:58 tg Exp $ */
+/* $MirOS: contrib/code/mirmake/dist/contrib/mirmake.h,v 1.27 2006/12/28 01:30:42 tg Exp $ */
 
 /*-
  * Copyright (c) 2005, 2006
@@ -192,6 +192,7 @@
 #define uint16_t u_int16_t
 #define uint32_t u_int32_t
 #define uint64_t u_int64_t
+#include <libkern/OSByteOrder.h>
 #elif defined(__GLIBC__)
 #include <stdint.h>
 #elif defined(__INTERIX)
