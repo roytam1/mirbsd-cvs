@@ -1,8 +1,8 @@
-/**	$MirOS: src/sys/dev/rndvar.h,v 1.8 2007/07/09 00:05:36 tg Exp $ */
+/**	$MirOS: src/sys/dev/rndvar.h,v 1.9 2008/04/09 05:45:42 tg Exp $ */
 /*	$OpenBSD: rndvar.h,v 1.19 2003/11/03 18:24:28 tedu Exp $	*/
 
 /*
- * Copyright (c) 2004, 2005, 2006
+ * Copyright (c) 2004, 2005, 2006, 2008
  *	Thorsten Glaser <tg@mirbsd.de>
  * Copyright (c) 1996,2000 Michael Shalayeff.
  *
@@ -96,11 +96,10 @@ extern uint32_t rnd_addpool_allow;
 
 extern int rnd_bootpool_done;	/* has it been drained already? */
 #define rnd_bootpool_add(area, len) do {				\
-	if (rnd_bootpool_done) {					\
-		if (rnd_addpool_allow)					\
-			rnd_addpool_add(adler32(arc4random(),		\
-			    (const uint8_t *)(area), (len)));		\
-	} else								\
+	if (rnd_bootpool_done)						\
+		rnd_addpool_add(adler32(arc4random(),			\
+		    (const uint8_t *)(area), (len)));			\
+	else								\
 		rnd_bootpool = adler32(rnd_bootpool,			\
 		    (const uint8_t *)(area), (len));			\
 } while (0)
