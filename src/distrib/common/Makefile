@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/Makefile,v 1.10 2006/08/19 14:57:56 tg Exp $
+# $MirOS: src/distrib/common/Makefile,v 1.11 2006/08/19 15:00:42 tg Exp $
 
 .include <bsd.own.mk>
 
@@ -198,8 +198,10 @@ cdrom-prepare: bsd.rd
 	cp ${TOPDIR}/common/boot.cfg.${MACHINE} ${WRKDIR}/etc/boot.cfg
 	cp bsd.rd ${WRKDIR}/v${OSrev}/${MACHINE}/
 	cp ${TOPDIR}/common/00-README ${WRKDIR}/
+	chmod -R u+w ${WRKDIR}
 
 cdrom-generate:
+	chmod -R u+w ${WRKDIR}
 	mkisofs -r -f -L -d -D -N -v -v ${CDROM_MDOPTS} \
 	    -P 'The http://mirbsd.de/ team and its contributors' \
 	    -p 'Copyright © 2002-2006 by The MirOS Project' \
