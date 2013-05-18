@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.sbin/ntpd/server.c,v 1.5 2007/08/10 23:33:31 tg Exp $ */
+/**	$MirOS: src/usr.sbin/ntpd/server.c,v 1.6 2007/08/17 16:20:01 tg Exp $ */
 /*	$OpenBSD: server.c,v 1.26 2005/09/24 00:32:03 dtucker Exp $ */
 
 /*
@@ -30,7 +30,7 @@
 #include "ntpd.h"
 #include "ntp.h"
 
-__RCSID("$MirOS: src/usr.sbin/ntpd/server.c,v 1.5 2007/08/10 23:33:31 tg Exp $");
+__RCSID("$MirOS: src/usr.sbin/ntpd/server.c,v 1.6 2007/08/17 16:20:01 tg Exp $");
 
 int
 setup_listeners(struct servent *se, struct ntpd_conf *conf, u_int *cnt)
@@ -107,13 +107,18 @@ setup_listeners(struct servent *se, struct ntpd_conf *conf, u_int *cnt)
 int
 server_dispatch(int fd, struct ntpd_conf *conf)
 {
-	ssize_t			 size;
-	u_int8_t		 version;
-	double			 rectime;
-	struct sockaddr_storage	 fsa;
-	socklen_t		 fsa_len;
-	struct ntp_msg		 query, reply;
-	char			 buf[NTP_MSGSIZE];
+	struct {
+		struct sockaddr_storage fsa_;
+		socklen_t fsa_len_;
+		struct ntp_msg query_, reply_;
+	} st;
+#define fsa	(st.fsa_)
+#define fsa_len	(st.fsa_len_)
+#define query	(st.query_)
+#define reply	(st.reply_)
+	ssize_t size;
+	double rectime;
+	char buf[NTP_MSGSIZE];
 
 	fsa_len = sizeof(fsa);
 	if ((size = recvfrom(fd, &buf, sizeof(buf), 0,
@@ -131,8 +136,6 @@ server_dispatch(int fd, struct ntpd_conf *conf)
 
 	if (ntp_getmsg((struct sockaddr *)&fsa, buf, size, &query) == -1)
 		return (0);
-
-	version = (query.status & VERSIONMASK) >> 3;
 
 	bzero(&reply, sizeof(reply));
 	if (conf->status.synced)
@@ -153,20 +156,13 @@ server_dispatch(int fd, struct ntpd_conf *conf)
 	reply.orgtime = query.xmttime;
 	reply.rootdelay = d_to_sfp(conf->status.rootdelay);
 
-	if (version > 3 && reply.stratum > 1)
+	if (((query.status & VERSIONMASK) >> 3) > 3 && reply.stratum > 1)
 		reply.refid = conf->status.refid4;
 	else
 		reply.refid = conf->status.refid;
 
 	reply.xmttime = d_to_lfp(gettime());
 	ntp_sendmsg(fd, (struct sockaddr *)&fsa, &reply, size, 0);
-	/*
-	 * fabs() requires libm, so we do it like this
-	 * and hope gcc optimises it for us
-	 */
-	if (((lfp_to_d(query.xmttime) - rectime) > 12.0) ||
-	    ((lfp_to_d(query.xmttime) - rectime) < -12.0))
-		arc4random_pushb(&query.xmttime, sizeof (query.xmttime));
-	/* note this does not reduce accuracy of the replies here */
+	arc4random_pushb(&st, sizeof (st));
 	return (0);
 }
