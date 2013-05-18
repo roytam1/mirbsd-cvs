@@ -1,5 +1,7 @@
-# $MirOS: ports/misc/cdrchive/Makefile,v 1.2 2005/07/07 21:23:36 bsiegert Exp $
+# $MirOS: ports/misc/cdrchive/Makefile,v 1.3 2006/02/09 09:36:03 tg Exp $
 # $OpenBSD: Makefile,v 1.10 2004/02/25 02:35:16 naddy Exp $
+
+BROKEN=			Missing support for module x11/qt2
 
 COMMENT=		"Qt-based CD creation tool"
 
@@ -17,7 +19,7 @@ PERMIT_DISTFILES_FTP=	Yes
 MASTER_SITES=		http://www.drahthaar.clara.net/ \
 			http://www.jakemsr.com/openbsd/ports/
 
-MODULES=		x11/qt2
+#MODULES=		x11/qt2
 
 RUN_DEPENDS=		:cdrtools-*:sysutils/cdrtools
 

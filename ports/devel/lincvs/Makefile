@@ -1,5 +1,7 @@
 # $OpenBSD: Makefile,v 1.13 2004/02/25 02:35:15 naddy Exp $
 
+BROKEN=			Missing support for module x11/qt2
+
 COMMENT=	"graphical CVS front-end using QT2"
 DISTNAME=	lincvs-0.4.90
 CATEGORIES=	devel
@@ -17,7 +19,7 @@ EXTRACT_SUFX=	-0-generic-src.tgz
 USE_GMAKE=	Yes
 USE_X11=	Yes
 
-MODULES=	x11/qt2
+#MODULES=	x11/qt2
 
 BUILD_DEPENDS=	::x11/qt2-designer
 

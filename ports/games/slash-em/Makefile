@@ -29,6 +29,7 @@ FLAVOR?=
 .if ${FLAVOR:L} == "no_x11"
 NETHACKCONFIG=${FILESDIR}/simple-config
 .elif ${FLAVOR:L} == "qt"
+BROKEN=		no QT2 in tree
 SED_PLIST=|sed -e '/^!%%no_x11%%/d'
 NETHACKCONFIG=${FILESDIR}/qt-config
 PORTPATH=${LOCALBASE}/lib/qt2/bin:/usr/bin:/bin:/usr/sbin:/sbin:${LOCALBASE}/bin

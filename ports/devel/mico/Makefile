@@ -32,6 +32,7 @@ CONFIGURE_ARGS+=	--with-ssl
 .endif
 
 .if ${FLAVOR:L:Mqt}
+BROKEN=			no QT2 in tree
 LIB_DEPENDS+=		qt.2::x11/qt2
 CONFIGURE_ARGS+=	--with-qt
 .endif

@@ -1,5 +1,7 @@
-# $MirOS$
+# $MirOS: ports/sysutils/knutclient/Makefile,v 1.1.7.1 2005/03/18 15:52:12 tg Exp $
 # $OpenBSD: Makefile,v 1.2 2004/03/02 07:57:20 brad Exp $
+
+BROKEN=			Missing support for module x11/kde
 
 COMMENT=		"KDE UPS Monitoring tool"
 
@@ -20,7 +22,7 @@ MASTER_SITES=		ftp://ftp.buzuluk.cz/pub/alo/knutclient/
 EXTRACT_SUFX=		.tar.gz
 
 # Patch Hack
-MODULES=		x11/kde
+#MODULES=		x11/kde
 
 LIB_DEPENDS=		DCOP,kdecore.4,kdefx,kdeui::x11/kde/libs3 \
 			art_lgpl_2::graphics/libart

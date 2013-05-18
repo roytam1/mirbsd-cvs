@@ -1,5 +1,7 @@
 # $OpenBSD: Makefile,v 1.8 2003/02/25 00:23:07 espie Exp $
 
+BROKEN=			Missing support for module x11/kde
+
 COMMENT=	"file monitor"
 
 DISTNAME=	ktail-0.6.1
@@ -18,7 +20,7 @@ EXTRACT_SUFX=	.tar.bz2
 
 LIB_DEPENDS=	kdecore.4,DCOP,kdefx,kdesu,kdeui,kio::x11/kde/libs3
 
-MODULES=	x11/kde
+#MODULES=	x11/kde
 USE_CXX=	Yes
 
 MAKE_ENV=	${CONFIGURE_ENV}

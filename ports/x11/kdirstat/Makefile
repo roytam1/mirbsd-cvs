@@ -1,5 +1,7 @@
 # $OpenBSD: Makefile,v 1.9 2003/10/08 17:13:16 sturm Exp $
 
+BROKEN=			Missing support for module x11/kde
+
 COMMENT=	"graphical disk usage utility for KDE"
 
 DISTNAME=	kdirstat-2.3.7
@@ -19,7 +21,7 @@ EXTRACT_SUFX=	.tar.bz2
 
 LIB_DEPENDS=	kdecore.4,DCOP,kdesu,kdeui,kio,kdefx::x11/kde/libs3
 
-MODULES=	x11/kde
+#MODULES=	x11/kde
 
 # catch $HOME/.kde/share/config
 # that meinproc creates during build.

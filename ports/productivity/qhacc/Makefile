@@ -1,5 +1,7 @@
 # $OpenBSD: Makefile,v 1.7 2004/02/25 02:35:17 naddy Exp $
 
+BROKEN=			Missing support for module x11/qt2
+
 COMMENT=	"qt home accounting program"
 
 DISTNAME=	qhacc-0.6.1a
@@ -8,7 +10,7 @@ HOMEPAGE=	http://www.ostrich-emulators.cx/~ryan/qhacc/
 MASTER_SITES=	${HOMEPAGE} \
 		ftp://ftp.ostrich-emulators.cx/qhacc/
 
-MODULES=	x11/qt2
+#MODULES=	x11/qt2
 
 MAKE_ENV=	QTDIR=${MODQT_LIBDIR} LOCALBASE=${LOCALBASE} X11BASE=${X11BASE}
 MAKE_FLAGS=	QTLIBDIR=${MODQT_LIBDIR} QTINCDIR=${MODQT_INCDIR}

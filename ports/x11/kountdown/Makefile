@@ -1,5 +1,7 @@
 # $OpenBSD: Makefile,v 1.7 2003/06/20 17:20:01 espie Exp $
 
+BROKEN=			Missing support for module x11/kde
+
 COMMENT=	"screen saver that displays a countdown to a selected date"
 
 DISTNAME=	kountdown-0.4.1
@@ -20,7 +22,7 @@ LIB_DEPENDS=	kdecore.4,DCOP,kdefx,kdesu,kdeui,kio,kscreensaver::x11/kde/libs3
 
 AUTOCONF_NEW=	Yes
 MODKDE_VERSION= 3.1
-MODULES=	x11/kde
+#MODULES=	x11/kde
 
 PORTHOME=	${WRKDIR}
 

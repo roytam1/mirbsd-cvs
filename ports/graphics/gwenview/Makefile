@@ -1,5 +1,7 @@
 # $OpenBSD: Makefile,v 1.21 2004/04/14 22:33:07 brad Exp $
 
+BROKEN=			Missing support for module x11/kde
+
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
 COMMENT=	"image viewer for KDE"
@@ -20,7 +22,7 @@ PERMIT_DISTFILES_FTP=	Yes
 
 LIB_DEPENDS=	kdecore.6,DCOP,kdefx,kdeprint,kdesu,kparts,kdeui,kio::x11/kde/libs3
 
-MODULES=	x11/kde
+#MODULES=	x11/kde
 USE_CXX=	Yes
 
 PORTHOME=	${WRKDIR}

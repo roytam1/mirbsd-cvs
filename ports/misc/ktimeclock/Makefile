@@ -19,7 +19,8 @@ MASTER_SITES=	${HOMEPAGE}/downloads/v${VERSION}/tarball/
 
 LIB_DEPENDS=	kdecore.4,DCOP,kdefx,kdesu,kdeui,kio::x11/kde/libs3
 
-MODULES=	x11/qt3 graphics/png
+MODULES=	x11/qt3
+MODULES+=	graphics/png
 MODQT_MT=	Yes
 
 PORTHOME=	${WRKDIR}

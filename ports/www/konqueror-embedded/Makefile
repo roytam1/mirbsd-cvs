@@ -1,10 +1,12 @@
 # $OpenBSD: Makefile,v 1.11 2004/02/25 02:35:17 naddy Exp $
 
+BROKEN=			Missing support for module x11/qt2
+
 COMMENT='stand-alone Qt-based web browser'
 CATEGORIES=www x11
 
 USE_CXX=	Yes
-MODULES=	x11/qt2
+#MODULES=	x11/qt2
 
 DATE=	20030705
 DISTNAME=konqueror-embedded-snapshot-${DATE}

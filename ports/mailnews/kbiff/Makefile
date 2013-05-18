@@ -1,5 +1,7 @@
 # $OpenBSD: Makefile,v 1.14 2004/03/02 23:48:16 brad Exp $
 
+BROKEN=			Missing support for module x11/kde
+
 COMMENT=		"new mail notification utility for KDE"
 
 DISTNAME=		kbiff-3.6.3
@@ -19,7 +21,7 @@ MASTER_SITES=		http://devel-home.kde.org/~granroth/kbiff/
 LIB_DEPENDS=		kdecore.4,kio,kdeui,kdefx,kdesu,DCOP::x11/kde/libs3
 
 MODKDE_VERSION= 	3.1
-MODULES=        	x11/kde
+#MODULES=        	x11/kde
 
 MAKE_ENV=		KDEDIR="${LOCALBASE}"
 MAKE_FLAGS=		${MODKDE_MAKE_FLAGS}

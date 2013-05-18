@@ -1,5 +1,7 @@
 # $OpenBSD: Makefile,v 1.3 2004/03/04 18:48:17 brad Exp $
 
+BROKEN=			Missing support for module x11/kde
+
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
 COMMENT=	"QNX Photon inspired theme for KDE"
@@ -23,7 +25,7 @@ LIB_DEPENDS=	art_lgpl_2::graphics/libart \
 
 AUTOCONF_NEW=	Yes
 MODKDE_VERSION= 3.2
-MODULES=	x11/kde
+#MODULES=	x11/kde
 
 PORTHOME=	${WRKDIR}
 

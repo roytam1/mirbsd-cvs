@@ -1,5 +1,6 @@
 # $OpenBSD: Makefile,v 1.2 2003/10/08 17:13:16 sturm Exp $
 
+BROKEN=			Missing support for module x11/kde
 
 COMMENT='front-end/embeddable kpart for mplayer'
 CATEGORIES=	x11	x11/kde
@@ -12,7 +13,7 @@ WRKDIST=${WRKDIR}/kmplayer
 VERSION=3
 
 MODKDE_VERSION=	3.1
-MODULES=	x11/kde
+#MODULES=	x11/kde
 MODGNU_CONFIG_GUESS_DIRS= ${MODKDE_CONFIG_GUESS_DIRS}
 CONFIGURE_STYLE=	autoconf
 AUTOCONF_NEW=		Yes

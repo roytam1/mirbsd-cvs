@@ -1,5 +1,7 @@
 # $OpenBSD: Makefile,v 1.17 2002/10/27 21:07:54 naddy Exp $
 
+BROKEN=			Missing support for module x11/qt
+
 COMMENT=	"PalmPilot address database editor"
 
 DISTNAME=	pi-address-0.4.0
@@ -16,7 +18,7 @@ PERMIT_DISTFILES_FTP=	yes
 MASTER_SITES=	${HOMEPAGE} \
 		ftp://ftp.belug.org/pub/user/mw/pilot/
 
-MODULES=	x11/qt
+#MODULES=	x11/qt
 USE_CXX=	Yes
 LIB_DEPENDS=	pisock::comms/pilot-link
 

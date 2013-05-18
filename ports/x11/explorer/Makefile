@@ -1,5 +1,7 @@
 # $OpenBSD: Makefile,v 1.20 2002/10/29 19:48:58 naddy Exp $
 
+BROKEN=			Missing support for module x11/qt
+
 COMMENT=	"file manager with same look and feel as Windows95(tm)"
 
 DISTNAME=	explorer-0.72
@@ -12,7 +14,7 @@ PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
-MODULES=	x11/qt
+#MODULES=	x11/qt
 
 CONFIGURE_STYLE=gnu dest
 CONFIGURE_ARGS=	--datadir='$${DESTDIR}${PREFIX}/lib/X11/explorer' \

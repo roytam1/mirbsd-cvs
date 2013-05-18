@@ -1,5 +1,7 @@
 # $OpenBSD: Makefile,v 1.13 2003/06/20 14:22:33 espie Exp $
 
+BROKEN=			Missing support for module x11/kde
+
 COMMENT=	"XML editor for KDE"
 
 DISTNAME=	kxmleditor-0.7.2
@@ -20,7 +22,7 @@ LIB_DEPENDS=	kdecore.4,DCOP,kdefx,kdesu,kdeui,kio,kparts::x11/kde/libs3
 
 AUTOCONF_NEW=	Yes
 MODKDE_VERSION=	3.1
-MODULES=	x11/kde
+#MODULES=	x11/kde
 
 PORTHOME=	${WRKDIR}
 

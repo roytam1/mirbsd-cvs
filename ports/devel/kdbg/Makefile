@@ -1,5 +1,7 @@
 # $OpenBSD: Makefile,v 1.14 2004/04/14 22:33:07 brad Exp $
 
+BROKEN=			Missing support for module x11/kde
+
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
 COMMENT=	"graphical debugger for KDE"
@@ -16,7 +18,7 @@ PERMIT_DISTFILES_FTP=	Yes
 
 MASTER_SITES=	${MASTER_SITE_SOURCEFORGE:=kdbg/}
 
-MODULES=	x11/kde
+#MODULES=	x11/kde
 USE_CXX=	Yes
 
 LIB_DEPENDS=	kdecore.4,DCOP,kdefx,kdesu,kdeui,kio::x11/kde/libs3

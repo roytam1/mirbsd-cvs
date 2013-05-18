@@ -1,5 +1,7 @@
 # $OpenBSD: Makefile,v 1.10 2004/02/25 02:35:18 naddy Exp $
 
+BROKEN=			Missing support for module x11/qt2
+
 COMMENT=	"qt-based window manager"
 
 DISTNAME=	qlwm-1.7
@@ -20,7 +22,7 @@ DOCDIR=${PREFIX}/share/doc/qlwm
 USE_X11=	Yes
 USE_CXX=	Yes
 
-MODULES=	x11/qt2
+#MODULES=	x11/qt2
 
 MAKE_FLAGS=INCPATH='-I${X11BASE}/include -I${MODQT_INCDIR}' \
 	LFLAGS='-L${X11BASE}/lib -L${MODQT_LIBDIR} -L${LOCALBASE}/lib' \
