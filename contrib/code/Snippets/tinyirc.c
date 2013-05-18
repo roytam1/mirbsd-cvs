@@ -77,7 +77,7 @@
 #define	__RCSID(x)	static const char __rcsid[] __attribute__((used)) = (x)
 #endif
 
-__RCSID("$MirOS: contrib/code/Snippets/tinyirc.c,v 1.26 2008/12/20 17:02:04 tg Exp $");
+__RCSID("$MirOS: contrib/code/Snippets/tinyirc.c,v 1.27 2008/12/20 17:29:44 tg Exp $");
 
 #ifndef __dead
 #define __dead
@@ -878,10 +878,19 @@ void userinput(void)
 	parseinput();
 	putchar('\n');
     } else {
-	read(stdinfd, &ch, 1);
+	ssize_t rv;
+
+ again:
+	rv = read(stdinfd, &ch, 1);
 	if (sigwinch) {
 		tcsetup(1);
 		sigwinch = 0;
+	}
+	if (rv == -1 && errno == EINTR)
+		goto again;
+	if (rv < 1 || ch == 3) {
+		beenden = 1;
+		return;
 	}
 	if (ch == '\177')
 	    ch = '\10';
@@ -920,9 +929,6 @@ void userinput(void)
 		printpartial((curx / CO) * CO);
 	    else
 		tputs_x(tgoto(CM, curx % CO, LI - 1));
-	    break;
-	case '\3':		/* C-c */
-	    beenden = 1;
 	    break;
 	case '\5':		/* C-e */
 	    curx = curli;
