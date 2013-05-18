@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.315 2010/01/28 21:20:17 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.316 2010/01/29 10:54:35 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -21,7 +21,7 @@ mws_content <<'EOF'
  <li>information about <a href="mksh_old.htm">old versions</a></li>
 </ul>
 
-<h2>mksh(1) R39</h2>
+<h2>mksh(1) R39b</h2>
 
 <p>This is the website of the MirBSD™ Korn Shell, an actively developed free
  implementation of the Korn Shell programming language and a successor to the
@@ -173,10 +173,10 @@ mws_content <<'EOF'
  <li><a href="http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R39.cpio.gz">http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R39.cpio.gz</a></li>
 </ul>
 <h3 id="hashes">Checksums and Hashes</h3><ul>
- <li>RMD160 (mksh-R39.cpio.gz) = 5a5bcbe288e722f9772e27d2fdc36eee174bbb7b</li>
- <li>TIGER (mksh-R39.cpio.gz) = 2a2c08ccf5e27365aa652663629789ade93b3d30c0d1d51f</li>
- <li>4103085544 278476 /MirOS/dist/mir/mksh/mksh-R39.cpio.gz</li>
- <li>MD5 (mksh-R39.cpio.gz) = b2eeb4fe4ccac2704e1440e53cd2672c</li>
+ <li>RMD160 (mksh-R39b.cpio.gz) = 5f7a5ff75700b229f0886521a069de46001e6a8e</li>
+ <li>TIGER (mksh-R39b.cpio.gz) = 6436c46a99467389966bae3fec5434be21cfd76245e13fa8</li>
+ <li>2720723829 294189 /MirOS/dist/mir/mksh/mksh-R39b.cpio.gz</li>
+ <li>MD5 (mksh-R39b.cpio.gz) = 91274beff2be95260a51234d2c7bb4f7</li>
  <li style="list-style:none;">All official distfiles are gzsig(1)d.</li>
 </ul>
 
@@ -801,6 +801,8 @@ mws_content <<'EOF'
   limits in a single invocation from oksh (thanks millert) -->
  <li>[ahoka] Begin porting to <a href="http://www.haiku-os.org/">Haiku</a>
   and, implicitly, BeOS (not finished yet)</li>
+</ul>
+<p id="r39b">mksh R39b is a major stability and bugfix update:</p><ul>
  <li>[tg] Clean up some more strict *roff or compiler warnings: dashes,
   undefined macros; casting errors (constness, signedness, type width/class)
   and catch possibly unaligned pointer dereferences early; remove code/rodata
@@ -862,7 +864,7 @@ mws_content <<'EOF'
   is now always exported to and imported from (implicit read: no push to kernel
   done) the environment vector on startup and spawning</li>
  <li>[tg] Internal code cleanup, optimisation, moves to different files;
-  dead/commented out code removal</li>
+  dead/commented out code removal; code beautification</li>
  <li>[tg] Document mksh does not exactly use OPTU-8/OPTU-16 in the manpage,
   as well as when characters, octets, or screen columns are used</li>
  <li>[tg] Fix exit 127 on "mksh /tmp/horsies" ipv of 1 on ENOENT, #548744</li>

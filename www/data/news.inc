@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/news.inc,v 1.129 2009/11/08 19:44:02 tg Exp $
+RCSID: $MirOS: www/data/news.inc,v 1.130 2009/12/12 21:06:54 tg Exp $
 Title: Older news from the MirOS Project
 Date: 01.03.2006
 
@@ -1839,4 +1839,16 @@ Date: 12.12.2009 21:04
  so that llvm-gcc4.2 and gcc-4.4.2 can use their own ones exclusively,
  and Clang will get a wrapper asking its <tt>CCLD</tt> which ones it
  prefers.</p>
+----
+Title: mksh R39b released
+Date: 29.01.2010 18:22
+Author: tg@
+Tag: mksh
+
+<p>The <a href="@@RELPATH@@mksh.htm#r39b">MirBSD Korn Shell R39b</a> has
+ been released. This upgrade is strongly recommended for everyone. While
+ being a stable series release there are, due to standards compliance and
+ bug fixes, a number of caveats users should be aware of when upgrading;
+ these shall be documented on the webpage RSN. (In fact I simply do not
+ have the time to do so now, but will do it later.)</p>
 ----
