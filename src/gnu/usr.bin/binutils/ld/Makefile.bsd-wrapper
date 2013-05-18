@@ -1,7 +1,8 @@
-# $MirOS: src/gnu/usr.bin/binutils/ld/Makefile.bsd-wrapper,v 1.4 2005/06/13 23:17:03 tg Exp $
+# $MirOS: src/gnu/usr.bin/binutils/ld/Makefile.bsd-wrapper,v 1.5 2005/06/13 23:52:32 tg Exp $
 
 .include "../Makefile.inc"
 
+FSFISLIB=	No
 FSFSRC=		${GNU_BINUTILS_LD}
 MAN=		ld.1
 CFARGS+=	--target=${GCCTARGET}

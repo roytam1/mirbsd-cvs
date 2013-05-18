@@ -1,4 +1,4 @@
-# $MirOS: gcc/fastjar/Makefile.bsd-wrapper,v 1.1 2005/03/26 10:18:58 tg Exp $
+# $MirOS: gcc/fastjar/Makefile.bsd-wrapper,v 1.2 2005/11/03 22:05:09 tg Exp $
 
 .include <bsd.own.mk>
 .include "${GNUSYSTEM_AUX_DIR}/locations.mk"
@@ -8,6 +8,7 @@ CFARGS+=	--prefix=/usr --libexecdir=/usr/lib --infodir=/usr/share/info \
 		--mandir=/usr/share/man --disable-generated-files-in-srcdir \
 		--disable-dependency-tracking --with-system-zlib
 FSFMAKE=	${XVARS} ${GMAKE} ${FSFMARGS} ${XARGS}
+FSFISLIB=	No
 XARGS+=		LIBIBERTY=-liberty BUILD_LIBIBERTY=
 CPPFLAGS+=	-I${GNU_LIBIBERTY_INC}
 INST_TARGET=	INSTALL_MAN= install

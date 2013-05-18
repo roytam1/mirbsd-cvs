@@ -1,4 +1,4 @@
-# $MirOS: gcc/gcc/Makefile.bsd-wrapper,v 1.52 2008/11/18 19:17:54 tg Exp $
+# $MirOS: gcc/gcc/Makefile.bsd-wrapper,v 1.53 2008/12/26 16:01:19 tg Exp $
 
 .include <bsd.own.mk>
 .include "${GNUSYSTEM_AUX_DIR}/locations.mk"
@@ -38,6 +38,7 @@ INST_TARGET=	INSTALL_TARGET='install-common $$(INSTALL_HEADERS) \
 INST_TARGET=	INSTALL_TARGET='install-common $$(INSTALL_HEADERS) \
 		$$(INSTALL_LIBGCC) lang.install-normal' install
 .endif
+FSFISLIB=	No
 FSFMAKE=	PATH=${FSFOBJDIR}/lbin:$$PATH ${XVARS} \
 		    ${GMAKE} ${FSFMARGS} ${XARGS}
 FSFMARGS+=	MAKE=${GMAKE}

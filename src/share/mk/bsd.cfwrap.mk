@@ -35,6 +35,7 @@ ALL_TARGET?=	all
 INST_TARGET?=	install
 FSFMAKEFILE?=	Makefile
 CLEANFILES+=	config.cache config.log
+FSFISLIB?=	Yes
 FSFMAKE?=	${XVARS} ${MAKE} ${FSFMARGS} ${XARGS}
 FSFSRC?=	${.CURDIR}
 .if !defined(FSFOBJDIR)
@@ -59,7 +60,7 @@ FSFCXXFLAGS+=	-Werror-maybe-reset
 FSFHOSTCFLAGS+=	-Werror-maybe-reset
 .endif
 
-.if ${DEBUGLIBS:L} == "yes"
+.if (${DEBUGLIBS:L} == "yes") && (${FSFISLIB:L} == "yes")
 .  if ${MKC_DEBG:L} == "no"
 FSFCDEBUG=	-g1
 .  else

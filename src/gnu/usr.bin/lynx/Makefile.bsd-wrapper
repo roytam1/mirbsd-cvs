@@ -1,9 +1,10 @@
-# $MirOS: src/gnu/usr.bin/lynx/Makefile.bsd-wrapper,v 1.22 2009/01/18 19:40:48 tg Exp $
+# $MirOS: src/gnu/usr.bin/lynx/Makefile.bsd-wrapper,v 1.23 2009/01/18 20:21:52 tg Exp $
 # $OpenBSD: Makefile.bsd-wrapper,v 1.12 2003/05/01 18:59:36 avsm Exp $
 
 MAN=		lynx.1
 CLEANFILES=	lynx.1
 FSFMAKEFILE=	makefile
+FSFISLIB=	No
 
 .include <bsd.own.mk>
 
