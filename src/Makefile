@@ -1,4 +1,4 @@
-# $MirOS: src/Makefile,v 1.80 2006/11/17 01:43:32 tg Exp $
+# $MirOS: src/Makefile,v 1.81 2006/11/17 01:45:33 tg Exp $
 # $OpenBSD: Makefile,v 1.103 2004/05/03 15:18:18 drahn Exp $
 
 .if defined(MAKECONF) && exists(${MAKECONF})
@@ -218,7 +218,7 @@ _do-dist:
 	@echo ============================================================
 	${SUDO} rm -rf ${BSDOBJDIR} ${BSDRELDIR}
 	cd ${.CURDIR} && exec ${MAKE} distrib-dirs DESTDIR=
-	${SUDO} install -d -o 0 -g 0 -m ${DIRMODE} ${BSDRELDIR}/{base,x11}
+	${SUDO} install -d -o 0 -g 0 -m ${DIRMODE} ${BSDRELDIR}/{base,rel,x11}
 	cd ${.CURDIR} && exec ${MAKE} b-r
 .ifndef QUICK_DIST2
 	@date
@@ -245,15 +245,8 @@ _do-dist:
 		cd ${.CURDIR} && exec ${MAKE} do-htman; \
 	fi
 .endif
-	${SUDO} rm -rf ${BSDRELDIR}/rel
-	mkdir ${BSDRELDIR}/rel
 	@date
 	@echo ============================================================
-	@for f in ${BSDSRCDIR}/*${OSrev}.ngz ${BSDSRCDIR}/*.cgz; do \
-		[[ -e $$f ]] || continue; \
-		${SUDO} ln $$f ${BSDRELDIR}/rel/ || \
-		    ${SUDO} cp $$f ${BSDRELDIR}/rel/; \
-	done
 	@if [[ -e /var/tmp/.buildnotice ]]; then \
 		${SUDO} cat /var/tmp/.buildnotice; \
 		${SUDO} ${MKSH} /var/tmp/.buildnotice; \
