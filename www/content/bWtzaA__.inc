@@ -1,5 +1,5 @@
 <!-- PageID: mksh -->
-<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.51 2006/09/03 12:51:28 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.52 2006/09/03 21:30:45 tg Exp $</small>
 
 <h1>mksh(1) R28</h1>
 <p>This is the MirBSD&trade; Korn Shell, a more or less portable
@@ -10,6 +10,8 @@
  href="http://mirbsd.de/mksh">http://mirbsd.de/mksh</a> and <a
  href="http://mirbsd.de/mksh-fornow">this page</a> is accessible
  even if the main webserver is unreachable again.</p>
+<p>mksh is listed at <a href="http://directory.fsf.org/mksh.html">the
+ FSF/UNESCO directory of Free Software</a>.</p>
 
 <h2>Table of Contents</h2><ul>
  <li><a href="#clog">ChangeLog</a></li>
