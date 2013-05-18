@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/bsd.lib.mk,v 1.49 2006/10/06 22:05:59 tg Exp $
+# $MirOS: src/share/mk/bsd.lib.mk,v 1.50 2006/10/28 19:52:51 tg Exp $
 # $OpenBSD: bsd.lib.mk,v 1.43 2004/09/20 18:52:38 espie Exp $
 # $NetBSD: bsd.lib.mk,v 1.67 1996/01/17 20:39:26 mycroft Exp $
 # @(#)bsd.lib.mk	5.26 (Berkeley) 5/2/91
@@ -127,18 +127,26 @@ LINK.shlib?=	${LINKER} ${CFLAGS:M*} ${SHLIB_FLAGS} -shared \
 	@rm -f $@.o
 
 .S.o .s.o:
-	@echo "${CPP} ${CPPFLAGS} ${CFLAGS:M-[ID]*} ${AINC} ${.IMPSRC} |" \
-	    "${AS} -o $@"
-	@${CPP} ${CPPFLAGS} ${CFLAGS:M-[ID]*} ${AINC} ${.IMPSRC} | \
-	    ${AS} -o $@.o
+	@echo "${CPP} -D_ASM_SOURCE ${AFLAGS:N-Wa,*:M*} ${CPPFLAGS}" \
+	    "${CFLAGS:M-[ID]*} ${AINC} ${AFLAGS_${.TARGET}:N-Wa,*:M*} $< |" \
+	    "${AS} ${AFLAGS:M-Wa,*:S/-Wa//:S/,/ /g}" \
+	    "${AFLAGS_${.TARGET}:M-Wa,*:S/-Wa//:S/,/ /g} -o $@"
+	@${CPP} -D_ASM_SOURCE ${AFLAGS:N-Wa,*:M*} ${CPPFLAGS} \
+	    ${CFLAGS:M-[ID]*} ${AINC} ${AFLAGS_${.TARGET}:N-Wa,*:M*} $< | \
+	    ${AS} ${AFLAGS:M-Wa,*:S/-Wa//:S/,/ /g} \
+	    ${AFLAGS_${.TARGET}:M-Wa,*:S/-Wa//:S/,/ /g} -o $@.o
 	@${LD} ${_DISCARD} -r $@.o -o $@
 	@rm -f $@.o
 
 .S.so .s.so:
-	@echo "${CPP} -DPIC ${CPPFLAGS} ${CFLAGS:M-[ID]*} ${AINC} $< |" \
-	    "${AS} ${ASPICFLAG} -o $@"
-	@${CPP} -DPIC ${CPPFLAGS} ${CFLAGS:M-[ID]*} ${AINC} ${.IMPSRC} | \
-	    ${AS} ${ASPICFLAG} -o $@.o
+	@echo "${CPP} -DPIC -D_ASM_SOURCE ${AFLAGS:N-Wa,*:M*} ${CPPFLAGS}" \
+	    "${CFLAGS:M-[ID]*} ${AINC} ${AFLAGS_${.TARGET}:N-Wa,*:M*} $< |" \
+	    "${AS} ${ASPICFLAG} ${AFLAGS:M-Wa,*:S/-Wa//:S/,/ /g}" \
+	    "${AFLAGS_${.TARGET}:M-Wa,*:S/-Wa//:S/,/ /g} -o $@"
+	@${CPP} -DPIC -D_ASM_SOURCE ${AFLAGS:N-Wa,*:M*} ${CPPFLAGS} \
+	    ${CFLAGS:M-[ID]*} ${AINC} ${AFLAGS_${.TARGET}:N-Wa,*:M*} $< | \
+	    ${AS} ${ASPICFLAG} ${AFLAGS:M-Wa,*:S/-Wa//:S/,/ /g} \
+	    ${AFLAGS_${.TARGET}:M-Wa,*:S/-Wa//:S/,/ /g} -o $@.o
 	@${LD} ${_DISCARD} -r $@.o -o $@
 	@rm -f $@.o
 
