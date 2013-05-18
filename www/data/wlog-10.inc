@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.288 2010/03/04 19:54:58 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.289 2010/03/07 01:01:29 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -6365,4 +6365,49 @@ Tag: debian event news
  as setting the PVD dates (used by GNU GRUB 2 for “UUID”s).</p>
 <p>On MirBSD, cdio(1) can now be used to burn (TAO) and blank (quick) CD-RW
  media (I backported some OpenBSD changes) too.</p>
+----
+Title: Go
+Author: bsiegert@
+Date: 02.04.2010 19:05
+
+<p>Today was a fine day, which I spent at the excellent <a
+ href="http://www.zoo-mulhouse.com/">Zoo de Mulhouse</a>. Alas, most of
+ the plants there are still in “winter mode”.</p>
+
+<p>Recently, i mentioned in a thread on reddit that Limbo (under
+ Inferno) is “my favorite obscure programming language”. Someone else
+ replied that “it is now called Go”. This led me to take a look at the
+ <a href="http://golang.org">Go programming language</a> made by Google.
+ Sure enough, there are big names behind it: Rob Pike and Ken Thompson,
+ of Unix (and Plan9) fame, and also Russ Cox, one of the most prolific
+ Plan 9 fans.</p>
+
+<p>When you compile Go, the first thing that is built is a lib9, which
+ contains Plan 9 code, such as the rune routines for UTF-8. The Go
+ compiler is derived from kencc. For the 386 architecture (the one I
+ tested), you get <tt>8g</tt> (Go), <tt>8c</tt> (C), <tt>8l</tt>
+ (linker) and <tt>8a</tt> (assembler). For the record, there is also a
+ Go compiler using gcc, which is able to call C code.</p>
+
+<p>Leaving obvious syntax differences aside, Go indeed resembles Limbo
+ quite closely. There is no first-class list data type however, and
+ there exists a curious difference between arrays and slices. Slices are
+ some sort of pointer to (part of) an array. Arrays are passed by-value
+ to functions while slices are passed by reference, it seems. There is
+ also an associative array type that maps one data type of your choice
+ to another, for example a string to an int. Other Limbo niceties, such
+ as easy string manipulations, are also present.</p>
+
+<p>The first thing I tried was porting a scientific program I had
+ written in Limbo before. The math module looks almost like its
+ counterpart in Inferno but is missing the gemm() function (generic
+ matrix multiplication) from BLAS3. Thus, I ported it from the Inferno
+ sources, where gemm() is written in C. (By the way, that code looks like
+ it has been ported from Fortran 77.) Porting from C just involves
+ removing a few parentheses (in if and for clauses) and semicolons (just
+ about everywhere).</p>
+
+<p>I have not explored it much further yet. But it does look very
+ interesting for system programming and similar things. The only thing
+ missing now is a MirPort ...</p>
 ----
