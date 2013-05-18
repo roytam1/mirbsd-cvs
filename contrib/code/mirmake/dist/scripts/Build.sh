@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.101 2008/03/09 16:19:49 tg Exp $
+# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.102 2008/03/09 16:20:35 tg Exp $
 #-
 # Copyright (c) 2006, 2008
 #	Thorsten “mirabilos” Glaser <tg@mirbsd.de>
@@ -238,7 +238,7 @@ cat >_t.c <<-'EOF'
 		memmove(d, s, n); return (n);
 	}
 EOF
-$CC -o _t.exe _t.c -Werror || rm -f _t.exe
+$CC $CFLAGS -o _t.exe _t.c -Werror || rm -f _t.exe
 [[ -x _t.exe ]] || perl -pi -e \
     's/__attribute__\s*\(\(\s*_*bounded_*\s*\([^)]*\)\s*\)\)//' \
     $(find . -name \*.[ch])
