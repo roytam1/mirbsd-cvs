@@ -1,4 +1,4 @@
-/* $MirOS: gcc/gcc/protector.c,v 1.4 2006/07/04 00:02:14 tg Exp $ */
+/* $MirOS: gcc/gcc/protector.c,v 1.5 2010/03/06 20:12:05 tg Exp $ */
 
 /* RTL buffer overflow protection function for GNU C compiler
    Copyright (C) 2003, 2005
@@ -52,7 +52,7 @@ Software Foundation, 59 Temple Place - Suite 330, Boston, MA
 #include "reload.h"
 #include "protector.h"
 
-__RCSID("$MirOS: gcc/gcc/protector.c,v 1.4 2006/07/04 00:02:14 tg Exp $");
+__RCSID("$MirOS: gcc/gcc/protector.c,v 1.5 2010/03/06 20:12:05 tg Exp $");
 
 /* Round a value to the lowest integer less than it that is a multiple of
    the required alignment.  Avoid using division in case the value is
@@ -431,16 +431,28 @@ search_string_def (tree type)
     case UNION_TYPE:
     case QUAL_UNION_TYPE:
     case RECORD_TYPE:
-      /* Check if each field has character arrays.  */
-      for (tem = TYPE_FIELDS (type); tem; tem = TREE_CHAIN (tem))
+      if (! TREE_VISITED (type))
 	{
-	  /* Omit here local type decls until we know how to support them. */
-	  if ((TREE_CODE (tem) == TYPE_DECL)
-	      || (TREE_CODE (tem) == VAR_DECL && TREE_STATIC (tem)))
-	    continue;
+	  /* mark the type as having been visited already */
+	  TREE_VISITED (type) = 1;
 
-	  if (search_string_def(TREE_TYPE(tem)))
-	    return TRUE;
+	  /* Check if each field has character arrays.  */
+	  for (tem = TYPE_FIELDS (type); tem; tem = TREE_CHAIN (tem))
+	    {
+	      /* Omit here local type decls until we know how to support
+		 them.  */
+	      if ((TREE_CODE (tem) == TYPE_DECL)
+		  || (TREE_CODE (tem) == VAR_DECL && TREE_STATIC (tem)))
+		continue;
+
+	      if (search_string_def(TREE_TYPE(tem)))
+		{
+		  TREE_VISITED (type) = 0;
+		  return TRUE;
+		}
+	    }
+
+	  TREE_VISITED (type) = 0;
 	}
       break;
 	
@@ -535,15 +547,26 @@ search_pointer_def (tree type)
     case UNION_TYPE:
     case QUAL_UNION_TYPE:
     case RECORD_TYPE:
-      /* Check if each field has a pointer.  */
-      for (tem = TYPE_FIELDS (type); tem; tem = TREE_CHAIN (tem))
+      if (! TREE_VISITED (type))
 	{
-	  if ((TREE_CODE (tem) == TYPE_DECL)
-	      || (TREE_CODE (tem) == VAR_DECL && TREE_STATIC (tem)))
-	    continue;
+	  /* mark the type as having been visited already */
+	  TREE_VISITED (type) = 1;
 
-	  if (search_pointer_def (TREE_TYPE(tem)))
-	    return TRUE;
+	  /* Check if each field has a pointer.  */
+	  for (tem = TYPE_FIELDS (type); tem; tem = TREE_CHAIN (tem))
+	    {
+	      if ((TREE_CODE (tem) == TYPE_DECL)
+		  || (TREE_CODE (tem) == VAR_DECL && TREE_STATIC (tem)))
+		continue;
+
+	      if (search_pointer_def (TREE_TYPE(tem)))
+		{
+		  TREE_VISITED (type) = 0;
+		  return TRUE;
+		}
+	    }
+
+	  TREE_VISITED (type) = 0;
 	}
       break;
 
