@@ -1,10 +1,10 @@
-# $MirOS: www/src/mksh.hts,v 1.19 2007/07/06 02:25:09 tg Exp $
+# $MirOS: www/src/mksh.hts,v 1.20 2007/07/09 19:43:31 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.19 2007/07/06 02:25:09 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.20 2007/07/09 19:43:31 tg Exp $'
 mws_content <<'EOF'
 <h1>mksh(1) R29</h1>
 <p>This is the website of the MirBSD™ Korn Shell, an actively developed free
@@ -516,6 +516,9 @@ LINK.EXE: Microsoft (R) Incremental Linker Version 7.00.9466
   <li>Solaris 10 Generic_125100-04 (sparc,V8+ sun4u SUNcc5.8 121015-04, ld 5.10-1.482)</li>
   <li>Solaris 10 Generic_125100-04 (sparc64,V9 sun4u SUNcc5.8 121015-04, ld 5.10-1.482)</li>
   <li>ecce!GNU/Linux 1.00 2.0.38a (i386 libc5 gcc2.7.2.3)</li>
+  <li>FreeWRT GNU/Linux 1.1/trunk 2.4.34 (mipsel uClibc/brcm gcc3.4.4)</li>
+  <li>FreeWRT GNU/Linux 1.1/trunk 2.6.19.1 (mipsel uClibc/rb gcc3.4.4)</li>
+  <li>FreeWRT GNU/Linux 1.1/trunk 2.6.19.1 (i386 uClibc/WRAP gcc3.4.4)</li>
   <li>Debian GNU/Linux 3.1 sarge 2.6.8-3 (alpha gcc1:3.3.5-13)</li>
   <li>Debian GNU/Linux 4.0 etch 2.6.18-4-686 (i386 gcc4.1.1-21)</li>
   <li>Debian GNU/Linux 4.0 etch 2.6.18-4-686 (i386 icc9.1.042)</li>
@@ -721,11 +724,11 @@ LINK.EXE: Microsoft (R) Incremental Linker Version 7.00.9466
 <li>Adding builtins <tt>realpath</tt>, <tt>fstat</tt>, <tt>lstat</tt>,
  <tt>traverse</tt>.</li>
 <li>for a b in …; do (like make(1) does)</li>
-<li>${foo//bar/baz/g} ${foo:2:3}</li>
+<li>${foo//bar/baz/g}</li>
 <li>${foo:S/bar/baz/g} ${foo:C/bar/baz/x}</li>
 <li>A sensible website</li>
-<li>Build on more platforms</li>
-<li>Build with platforms' native tools</li>
+<li>Build on more platforms – PW32, Minix 3, Plan 9</li>
+<li>Build with platforms' native tools – ACK, kencc, ICC/UWIN, egcs/UWIN</li>
 </ul>
 
 <h2 id="clog">Recent Changes</h2>

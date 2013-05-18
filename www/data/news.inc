@@ -277,3 +277,13 @@ Date: 09.07.2007
  well as researchers, teachers and students from securing systems. (Maybe
  they just want to make us affected by the Federal Trojan?)</p>
 ----
+Title: mksh now the default shell in FreeWRT
+Date: 16.07.2007
+
+<p><a href="https://www.freewrt.org/">FreeWRT</a>, an embedded applicance
+ development kit, has adopted <a href="@@RELPATH@@mksh.htm">mksh</a> as its
+ default shell and <tt>/bin/sh</tt> for the upcoming 1.1 release.</p>
+<p>We would like to thank everyone for their support and feedback, hope that
+ the upcoming mksh R30 will please even more, and suggest other projects,
+ such as NetBSD®, to switch at least their native ksh to mksh.</p>
+----
