@@ -3,7 +3,7 @@
 
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.240 2009/05/31 19:00:35 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.241 2009/06/07 14:51:03 tg Exp $'
 mws_content <<'EOF'
 <h1>mksh(1) R38b</h1>
 <p>This is the website of the MirBSD™ Korn Shell, an actively developed free
@@ -233,6 +233,9 @@ mws_content <<'EOF'
  binary will be compiled with a specific flavour:</p><ul>
 <li><tt>-DMKSH_SMALL</tt> – build a really small mksh(1), e.g. for embedded
  systems</li>
+<li><tt>-DMKSH_ASSUME_UTF8=0</tt> – do not use setlocale(3) or
+ nl_langinfo(CODESET); do not assume the terminal is in UTF-8 mode
+ (mksh R38c and up)</li>
 <li><tt>-DMKSH_ASSUME_UTF8</tt> – do not use setlocale(3) or
  nl_langinfo(CODESET); assume the terminal is always in UTF-8 mode</li>
 <li><tt>-DMKSH_BINSHREDUCED</tt> – include code to automatically “set -o
@@ -580,6 +583,8 @@ mws_content <<'EOF'
  ChangeLog</a>, these are the packager-visible upgrade notes regarding
  changes in the build system (<tt>Build.sh</tt> and friends, compiler
  support, packaging conventions, bad examples, etc).</p>
+<p>mksh R38c adds QNX fixes, build system fixes, and the ability to
+ use <tt>-DMKSH_ASSUME_UTF8=0</tt> to skip the environment checks.</p>
 <p>mksh R38b works on QNX 6.4 out of the box.</p>
 <p>mksh R38 offers <tt>-DMKSH_MIDNIGHTBSD01ASH_COMPAT</tt> and users
  should be warned about the “!string” line and UTF-8 mode changes.</p>
@@ -1001,6 +1006,12 @@ mws_content <<'EOF'
   and, implicitly, BeOS (not finished yet)</li>
  <li>[tg] Fix regression tests on OSes insisting on a shebang (Cygwin)</li>
  <li>[Sean Boudreau] QNX 6.4.2 ed(1) is said to have the bugs fixed</li>
+ <li>[tg] <tt>Build.sh</tt> bugfixes: <tt>-DMKSH_BINSHREDUCED</tt> can also
+  be given without <tt>-DMKSH_SMALL</tt>; allow <tt>HAVE_REALPATH=x</tt> and
+  <tt>HAVE_REVOKE=x</tt> in the environment to re-enable these even if
+  <tt>-DMKSH_SMALL</tt> disables them by default, like mknod already did</li>
+ <li>[tg] <tt>-DMKSH_ASSUME_UTF8=0</tt> skips the environment checks, like
+  <tt>-DMKSH_ASSUME_UTF8=1</tt>, but disables the <tt>utf8-mode</tt></li>
 </ul>
 <p id="r38b">mksh R38b fixes the following problems:</p><ul>
  <li>[André Wösten] Add __NO_EXT_QNX to avoid picking up the wrong
