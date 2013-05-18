@@ -1,13 +1,13 @@
-# $MirOS: ports/x11/gnome/libgnomecups/Makefile,v 1.4 2006/09/14 00:15:19 tg Exp $
+# $MirOS: ports/x11/gnome/libgnomecups/Makefile,v 1.5 2007/04/18 20:05:06 bsiegert Exp $
 
 COMMENT=		CUPS functionality hooks for GNOME
 
-VERSION=		0.1.14
+VERSION=		0.2.2
 DISTNAME=		libgnomecups-${VERSION}
 CATEGORIES=		x11/gnome print
 
 HOMEPAGE=		http://www.gnome.org/
-MASTER_SITES=		${MASTER_SITE_GNOME:=sources/libgnomecups/0.1/}
+MASTER_SITES=		${MASTER_SITE_GNOME:=sources/libgnomecups/0.2/}
 
 RESPONSIBLE=		Benny Siegert <bsiegert@gmx.de>
 
