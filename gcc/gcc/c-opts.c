@@ -1,4 +1,4 @@
-/* $MirOS: gcc/gcc/c-opts.c,v 1.5 2006/01/31 12:35:35 tg Exp $ */
+/* $MirOS: gcc/gcc/c-opts.c,v 1.6 2006/01/31 13:37:25 tg Exp $ */
 
 /* C/ObjC/C++ command line option handling.
    Copyright (C) 2002, 2003, 2004 Free Software Foundation, Inc.
@@ -1246,6 +1246,8 @@ c_common_init (void)
       evv = 1;
     else if (*ev == '2')
       evv = 2;
+    else if (*ev == 's')
+      evv = -1;
     else {
       warning ("unknown GCC_HONOUR_COPTS value, assuming 1");
       evv = 1; /* maybe depend this on something like MIRBSD_NATIVE?  */
@@ -1266,7 +1268,7 @@ c_common_init (void)
 	 honour_copts);
 	return false;
       }
-    } else {
+    } else if (evv == 0) {
       if (honour_copts != 1)
 	inform ("someone does not honour COPTS correctly, passed %d times",
 	 honour_copts);
