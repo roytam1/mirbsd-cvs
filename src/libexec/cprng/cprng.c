@@ -46,7 +46,7 @@
 #include <stdint.h>
 #include <unistd.h>
 
-__RCSID("$MirOS: src/libexec/cprng/cprng.c,v 1.10 2007/09/28 19:47:52 tg Exp $");
+__RCSID("$MirOS: src/libexec/cprng/cprng.c,v 1.11 2007/09/28 19:49:43 tg Exp $");
 
 #ifndef MAYPROF
 #if defined(SIGPROF) && defined(ITIMER_PROF)
@@ -191,7 +191,7 @@ main(int argc, char *argv[])
 	if (setsid() == -1)
 		goto edetach;
 
-	if (chdir("/") || (c = open("dev/arandom", O_RDWR)) < 0) {
+	if (chdir("/") || (c = open("dev/urandom", O_RDWR)) < 0) {
 		write(2, dmsg, sizeof (dmsg) - 1);
 		return (2);
 	}
