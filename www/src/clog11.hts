@@ -1,0 +1,14 @@
+mws_putheader '$MirOS$'
+#-
+# This file is part of the website of The MirOS Project, which is
+# copyrighted material, please read the LICENCE file for details.
+
+mws_setname clog/11 "Changelog for MirOS #11"
+mws_content <<'EOF'
+<h1>Changes in MirOS #10-current</h1><ul>
+
+</ul>
+<p>See also: <a href="wlog-10.htm">Developers’ Weblog</a></p>
+EOF
+mws_putfooter
+exit 0

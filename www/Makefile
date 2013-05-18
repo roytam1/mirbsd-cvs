@@ -1,4 +1,4 @@
-# $MirOS: www/Makefile,v 1.23 2008/03/14 21:13:05 tg Exp $
+# $MirOS: www/Makefile,v 1.24 2008/03/15 23:41:48 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -21,8 +21,10 @@ U_ENV+=		TOP=${TOP:Q} DST=${DST:Q} MKSH=${MKSH:Q} SHELL=${MKSH:Q}
 
 SRCS+=		ann-10.hts
 SRCS+=		bt.hts
+SRCS+=		clog11.hts
 SRCS+=		danke.hts
 SRCS+=		devel.hts
+SRCS+=		errata10.hts
 SRCS+=		getting.hts
 SRCS+=		irc.hts
 SRCS+=		jupp.hts
