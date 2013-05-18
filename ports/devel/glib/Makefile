@@ -1,13 +1,12 @@
-# $MirOS: ports/devel/glib/Makefile,v 1.12 2006/12/20 15:31:14 tg Exp $
+# $MirOS$
 # $OpenBSD: Makefile,v 1.19 2004/12/22 06:31:05 espie Exp $
 
 COMMENT=		general-purpose utility library
 COMMENT-docs=		glib2 documentation
-VERSION=		2.8.1
-DASH_VER=		4
+VERSION=		2.12.6
 DISTNAME=		glib-${VERSION}
 PKGNAME=		glib2-${VERSION}-${DASH_VER}
-PKGNAME-docs=           glib2-docs-${VERSION}-${DASH_VER}
+PKGNAME-docs=		glib2-docs-${VERSION}-${DASH_VER}
 CATEGORIES=		devel
 HOMEPAGE=		http://www.gtk.org
 
@@ -17,10 +16,10 @@ PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
-MASTER_SITES=		ftp://ftp.gtk.org/pub/gtk/v2.8/
-EXTRACT_SUFX=           .tar.bz2
+MASTER_SITES=		ftp://ftp.gtk.org/pub/glib/2.12/
+EXTRACT_SUFX=		.tar.bz2
 
-MULTI_PACKAGES=         -docs
+MULTI_PACKAGES=		-docs
 SUBPACKAGE?=
 
 .if defined(PACKAGING) && ${SUBPACKAGE} == "-docs"
@@ -41,7 +40,7 @@ CONFIGURE_STYLE=	autoconf
 AUTOCONF_NEW=		Yes
 CONFIGURE_ARGS+=	${CONFIGURE_SHARED}
 CONFIGURE_ARGS+=	--enable-static
-CONFIGURE_ARGS+=	--disable-dependency-tracking \
-			--disable-libtool-lock \
+CONFIGURE_ARGS+=	--disable-dependency-tracking
+CONFIGURE_ARGS+=	--disable-libtool-lock
 
 .include <bsd.port.mk>
