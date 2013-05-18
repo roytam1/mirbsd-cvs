@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/bsd.lib.mk,v 1.66 2007/06/26 18:32:42 tg Exp $
+# $MirOS: src/share/mk/bsd.lib.mk,v 1.67 2007/06/26 19:05:51 tg Exp $
 # $OpenBSD: bsd.lib.mk,v 1.43 2004/09/20 18:52:38 espie Exp $
 # $NetBSD: bsd.lib.mk,v 1.67 1996/01/17 20:39:26 mycroft Exp $
 # @(#)bsd.lib.mk	5.26 (Berkeley) 5/2/91
@@ -165,6 +165,7 @@ _LIBS+=		llib-l${LIB}.ln
 all: ${_LIBS} _SUBDIRUSE
 
 OBJS+=		${SRCS:N*.h:R:S/$/.o/g}
+CLEANFILES+=	${SHLIB_LINKS}
 
 lib${LIB}.a:: ${OBJS}
 	@echo building standard ${LIB} library
