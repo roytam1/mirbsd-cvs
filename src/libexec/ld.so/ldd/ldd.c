@@ -1,4 +1,4 @@
-/**	$MirOS$ */
+/**	$MirOS: src/libexec/ld.so/ldd/ldd.c,v 1.2 2006/08/30 03:46:13 tg Exp $ */
 /*	$OpenBSD: ldd.c,v 1.11 2003/07/10 00:04:28 david Exp $	*/
 /*
  * Copyright (c) 2001 Artur Grabowski <art@openbsd.org>
@@ -39,9 +39,9 @@
 #include <string.h>
 #include <unistd.h>
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/libexec/ld.so/ldd/ldd.c,v 1.2 2006/08/30 03:46:13 tg Exp $");
 
-int usage(void);
+__dead int usage(void);
 int doit(char *);
 
 int

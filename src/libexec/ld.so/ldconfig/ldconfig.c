@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: ldconfig.c,v 1.25 2006/06/26 23:26:12 drahn Exp $	*/
 
 /*
@@ -31,9 +32,9 @@
  */
 
 #include <sys/param.h>
+#include <sys/time.h>
 #include <sys/stat.h>
 #include <sys/file.h>
-#include <sys/time.h>
 #include <sys/mman.h>
 #include <sys/resource.h>
 #include <ctype.h>
@@ -53,6 +54,8 @@
 #include "prebind.h"
 
 #include "ld.h"
+
+__RCSID("$MirOS$");
 
 #undef major
 #undef minor
@@ -83,6 +86,7 @@ struct shlib_list {
 static struct shlib_list	*shlib_head = NULL, **shlib_tail = &shlib_head;
 static char			*dir_list;
 
+__dead void	usage(void);
 static void	enter(char *, char *, char *, int *, int);
 static int	dodir(char *, int);
 static int	buildhints(void);
@@ -215,7 +219,7 @@ dodir(char *dir, int silent)
 		size_t n;
 		char *cp;
 
-		/* Check for `lib' prefix */
+		/* Check for 'lib' prefix */
 		if (dp->d_name[0] != 'l' ||
 		    dp->d_name[1] != 'i' ||
 		    dp->d_name[2] != 'b')

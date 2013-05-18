@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: syscall.h,v 1.7 2006/05/03 16:10:52 drahn Exp $ */
 
 /*
@@ -40,7 +41,7 @@
     ((int) __res < 0 && (int) __res >= -_dl_MAX_ERRNO)
 
 int	_dl_close(int);
-int	_dl_exit(int);
+__dead int _dl_exit(int);
 int	_dl_issetugid(void);
 long	_dl__syscall(quad_t, ...);
 int	_dl_mprotect(const void *, int, int);

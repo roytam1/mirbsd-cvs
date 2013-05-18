@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: util.c,v 1.18 2004/06/14 15:07:36 millert Exp $	*/
 
 /*
@@ -26,12 +27,15 @@
  *
  */
 
-#include <sys/types.h>
 #include <sys/param.h>
 #include <sys/mman.h>
 #include <sys/sysctl.h>
 #include <string.h>
 #include "archdep.h"
+
+__RCSID("$MirOS$");
+
+__dead void __stack_smash_handler(char [], int);
 
 /*
  * Stack protector dummies.
@@ -39,8 +43,6 @@
  * this would end up dragging too much code from libc here.
  */
 long __guard[8] = {0, 0, 0, 0, 0, 0, 0, 0};
-
-void __stack_smash_handler(char [], int);
 
 void
 __stack_smash_handler(char func[], int damaged)
@@ -141,5 +143,3 @@ _dl_random(void)
 
 	return (rnd);
 }
-
-
