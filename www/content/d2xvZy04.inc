@@ -1,5 +1,5 @@
 <!-- PageID: wlog-8 -->
-<small class="rcsid">$MirOS: www/content/d2xvZy04.inc,v 1.87 2006/06/17 22:17:54 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy04.inc,v 1.88 2006/06/19 03:13:29 tg Exp $</small>
 <h1>MirBSD &ndash; WTF, We Have a Release!?</h1>
 <p><small><a href="#eof">bottom</a> or <a href="/?older">older</a>
  editions</small></p>
@@ -1511,7 +1511,7 @@ celebrate this event, rotate the wlog and start a new one.</p>
 </div>
 
 <div class="wlentry">
- <h3 id="e20060618"><small>still counts as</small>18.06.2006 by tg@</h3>
+ <h3 id="e20060618"><small>still counts as</small> 18.06.2006 by tg@</h3>
  <p>Today's entry is not a wlog but a blog entry, sorry people, but wbx@
   prodded (provoked too) me after an 18-hour hacking session to write <a
   href="http://www.freewrt.org/index.php?blog/show/3">about FreeWRT been
