@@ -1,4 +1,4 @@
-# $MirOS: ports/lang/python/2.3/Makefile,v 1.9 2008/07/15 19:47:14 bsiegert Exp $
+# $MirOS: ports/lang/python/2.3/Makefile,v 1.10 2008/07/30 15:17:44 tg Exp $
 # $OpenBSD: Makefile,v 1.18 2005/08/27 15:57:31 naddy Exp $
 
 VERSION=		2.3
@@ -22,6 +22,8 @@ FLAVOUR?=		no_bsddb
 .if ${OStype} == "Darwin"
 # no TCL/Tk on Darwin (yet?)
 FLAVOUR+=		no_tkinter
+# gmp is broken on Darwin/i386
+FLAVOUR+=		no_mpz
 .endif
 
 .if ${FLAVOUR:L:Mno_cxx}
