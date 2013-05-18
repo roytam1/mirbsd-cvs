@@ -1307,6 +1307,7 @@ ac_header paths.h
 ac_header stdint.h stdarg.h
 # include strings.h only if compatible with string.h
 ac_header strings.h sys/types.h string.h
+ac_header termios.h
 ac_header ulimit.h sys/types.h
 ac_header values.h
 
