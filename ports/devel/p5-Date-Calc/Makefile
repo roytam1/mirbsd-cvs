@@ -1,4 +1,4 @@
-# $MirOS: ports/devel/p5-Date-Calc/Makefile,v 1.5 2006/03/19 14:22:05 bsiegert Exp $
+# $MirOS: ports/devel/p5-Date-Calc/Makefile,v 1.6 2006/09/14 00:08:35 tg Exp $
 # $OpenBSD: Makefile,v 1.12 2004/01/17 15:58:08 naddy Exp $
 
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
@@ -16,9 +16,8 @@ PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
-RUN_DEPENDS+=	:p5-Carp-Clan-*:devel/p5-Carp-Clan
-RUN_DEPENDS+=	:p5-Bit-Vector->=6.2:math/p5-Bit-Vector
-BUILD_DEPENDS+=	${RUN_DEPENDS}
+B_R_DEPENDS+=	:p5-Carp-Clan-*:devel/p5-Carp-Clan
+B_R_DEPENDS+=	:p5-Bit-Vector->=6.2:math/p5-Bit-Vector
 
 CONFIGURE_STYLE= perl
 

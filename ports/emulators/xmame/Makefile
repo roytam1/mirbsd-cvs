@@ -1,21 +1,21 @@
-# $MirOS: ports/emulators/xmame/Makefile,v 1.6 2006/02/09 11:11:34 tg Exp $
+# $MirOS: ports/emulators/xmame/Makefile,v 1.7 2006/09/14 00:09:15 tg Exp $
 # $OpenBSD: Makefile,v 1.10 2003/10/11 01:37:55 brad Exp $
 
-COMMENT=			emulates arcade machines and old home computers
-COMMENT-mame=			emulates a massive variety of arcade machines
-COMMENT-mess=			emulates game consoles and old home computers
+COMMENT=		emulates arcade machines and old home computers
+COMMENT-mame=		emulates a massive variety of arcade machines
+COMMENT-mess=		emulates game consoles and old home computers
 
-VERSION=	0.56.2
-DISTNAME=	xmame-${VERSION}
+VERSION=		0.56.2
+DISTNAME=		xmame-${VERSION}
 
-CATEGORIES=	emulators games
-MASTER_SITES=	${HOMEPAGE}/download/ \
-		ftp://ftp.kaupp.cx/pub/xmame/
-MASTER_SITES0=	http://www.mame.net/zips/
-MASTER_SITES1=	http://www.sys2064.com/files/mame/
-MASTER_SITES2=	${MASTER_SITE_BACKUP}
+CATEGORIES=		emulators games
+MASTER_SITES=		${HOMEPAGE}/download/ \
+			ftp://ftp.kaupp.cx/pub/xmame/
+MASTER_SITES0=		http://www.mame.net/zips/
+MASTER_SITES1=		http://www.sys2064.com/files/mame/
+MASTER_SITES2=		${MASTER_SITE_BACKUP}
 
-HOMEPAGE=	http://x.mame.net
+HOMEPAGE=		http://x.mame.net
 
 
 HISCORE_FILE=	hsdat7.zip
@@ -47,9 +47,7 @@ PKGNAME-mess=	xmess-${VERSION}-0
 
 VIDEOF=		x11 gl sdl
 
-FLAVORS=	${VIDEOF}
-# FLAVORS+=	arts esd
-
+FLAVORS=	${VIDEOF} esd
 FLAVOR?=	x11 
 
 EXFL?=
@@ -70,11 +68,11 @@ DISPLAY_METHOD=
 .endif
 
 # Default video flavor is X11
-.if empty (EXFI)
+.if empty(EXFI)
 FLAVOR+=	x11
 .endif
 
-.if   ${FLAVOR:L:Msdl}
+.if ${FLAVOR:L:Msdl}
 DISPLAY_METHOD= SDL
 LIB_DEPENDS+=	SDL.:sdl-*-!no_x11:devel/sdl
 .elif ${FLAVOR:L:Mgl}
@@ -84,16 +82,10 @@ LIB_DEPENDS+=	jpeg.::graphics/jpeg
 DISPLAY_METHOD=	x11
 .endif
 
-# XXX coredump
-#.if  ${FLAVOR:L:Marts}
-#MAKE_FLAGS+=	SOUND_ARTS_SMOTEK=1
-#LIB_DEPENDS+=	artsc::x11/kde/libs2
-#.endif
-#
-#.if  ${FLAVOR:L:Mesd}
-#MAKE_FLAGS+=	SOUND_ESOUND=1
-#LIB_DEPENDS+=	esd::audio/esound
-#.endif
+.if ${FLAVOR:L:Mesd}
+MAKE_FLAGS+=	SOUND_ESOUND=1
+LIB_DEPENDS+=	esd::audio/esound
+.endif
 
 MAKE_ENV=	PREFIX="${PREFIX}"
 MAKE_FILE=	Makefile.OpenBSD

@@ -1,4 +1,4 @@
-# $MirOS: ports/devel/sdl/Makefile,v 1.9 2006/11/04 04:24:46 tg Exp $
+# $MirOS: ports/devel/sdl/Makefile,v 1.10 2007/02/22 22:57:49 tg Exp $
 # $OpenBSD: Makefile,v 1.32 2004/04/23 12:09:18 robert Exp $
 # Uses pthreads
 
@@ -35,7 +35,7 @@ CONFIGURE_ARGS+=	${CONFIGURE_SHARED} \
 			--enable-dlopen \
 			--enable-pthread-sem
 
-FLAVORS=		sun esd arts aa no_x11
+FLAVORS=		sun esd aa no_x11
 FLAVOR?=		sun
 
 .if ${MACHINE_ARCH} == "i386"
@@ -58,12 +58,7 @@ CONFIGURE_ARGS+=	--enable-esd
 CONFIGURE_ARGS+=	--disable-esd
 .endif
 
-.if ${FLAVOR:L:Marts}
-LIB_DEPENDS+=		artsc::x11/kde/arts3
-CONFIGURE_ARGS+=	--enable-arts
-.else
 CONFIGURE_ARGS+=	--disable-arts
-.endif
 
 .if ${FLAVOR:L:Maa}
 LIB_DEPENDS+=		aa::graphics/aalib

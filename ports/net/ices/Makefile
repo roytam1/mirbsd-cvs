@@ -1,4 +1,4 @@
-# $MirOS: ports/net/ices/Makefile,v 1.3 2006/06/03 16:02:41 bsiegert Exp $
+# $MirOS: ports/net/ices/Makefile,v 1.4 2006/09/14 00:11:46 tg Exp $
 # $OpenBSD: Makefile,v 1.2 2003/07/26 13:34:40 sturm Exp $
 
 COMMENT=			icecast source for streaming MP3
@@ -33,8 +33,7 @@ FLAVOR?=
 .if ${FLAVOR:L:Mpython}
 PYTHON_VER=	2.2
 CONFIGURE_ARGS+=--with-python=${LOCALBASE}/bin/python${PYTHON_VER}
-BUILD_DEPENDS+=	${RUN_DEPENDS}
-RUN_DEPENDS+=	:python-${PYTHON_VER}*:lang/python/${PYTHON_VER}
+B_R_DEPENDS+=	:python-${PYTHON_VER}*:lang/python/${PYTHON_VER}
 .else
 CONFIGURE_ARGS+=--without-python
 .endif

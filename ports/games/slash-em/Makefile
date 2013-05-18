@@ -1,39 +1,32 @@
 # $OpenBSD: Makefile,v 1.7 2002/10/26 20:44:39 naddy Exp $
 
-COMMENT=			dungeon explorin', hackin', game.  Hard
-DISTNAME=	se006e4f8
-CATEGORIES=	games
+COMMENT=		dungeon explorin', hackin', game.  Hard
+DISTNAME=		se006e4f8
+CATEGORIES=		games
 
-HOMEPAGE=	http://slashem.sourceforge.net
-MASTER_SITES=	http://avrc.city.ac.uk/nethack/slashem/
+HOMEPAGE=		http://slashem.sourceforge.net
+MASTER_SITES=		http://avrc.city.ac.uk/nethack/slashem/
 
 
-#		GPL
+# GPL
 PERMIT_PACKAGE_CDROM=	Yes
 PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
-PKGNAME=slash-em-3.3.1.6e4f8-0
-WRKDIST=${WRKDIR}/slashem-0.0.6E4F8
+PKGNAME=		slash-em-3.3.1.6e4f8-0
+WRKDIST=		${WRKDIR}/slashem-0.0.6E4F8
 
-FAKE_FLAGS=PREFIX=${PREFIX} DESTDIR=${WRKINST}
+FAKE_FLAGS=		PREFIX=${PREFIX} DESTDIR=${WRKINST}
 
 NHDIR=	${PREFIX}/lib/slashemdir
 MAKE_ENV+= NHDIR=${NHDIR} NETHACKCONFIG=${NETHACKCONFIG}
 
-# qt flavor is apparently not working yet
-FLAVORS=no_x11 #qt
+FLAVORS=		no_x11
 FLAVOR?=
 
 .if ${FLAVOR:L} == "no_x11"
 NETHACKCONFIG=${FILESDIR}/simple-config
-.elif ${FLAVOR:L} == "qt"
-BROKEN=		no QT2 in tree
-SED_PLIST=|sed -e '/^!%%no_x11%%/d'
-NETHACKCONFIG=${FILESDIR}/qt-config
-PORTPATH=${LOCALBASE}/lib/qt2/bin:/usr/bin:/bin:/usr/sbin:/sbin:${LOCALBASE}/bin
-LIB_DEPENDS=qt.2.::x11/qt2
 .else
 NETHACKCONFIG=${FILESDIR}/x-config
 USE_X11=	Yes
@@ -55,7 +48,7 @@ post-install:
 	${INSTALL_PROGRAM} ${WRKBUILD}/util/strecover ${PREFIX}/bin
 	@cd ${WRKSRC}/doc && \
 	    ${INSTALL_MAN} slashem.6 strecover.6 ${PREFIX}/man/man6
-.if ${FLAVOR:L} == ""
+.if ${FLAVOR} == ""
 	${INSTALL_DATA_DIR} ${PREFIX}/lib/X11/app-defaults
 	@cd ${WRKSRC}/win/X11 && \
 	    ${INSTALL_DATA} SlashEM.ad ${PREFIX}/lib/X11/app-defaults/SlashEM

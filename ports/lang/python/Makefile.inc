@@ -1,4 +1,4 @@
-# $MirOS: ports/lang/python/Makefile.inc,v 1.7 2005/11/16 19:08:22 tg Exp $
+# $MirOS: ports/lang/python/Makefile.inc,v 1.8 2006/09/14 00:10:26 tg Exp $
 # $OpenBSD: Makefile.inc,v 1.32 2005/06/06 20:47:04 alek Exp $
 
 .include <mirports.sys.mk>
@@ -8,27 +8,27 @@
 # requirement of the PSF license, if it constitutes a change to
 # Python itself.
 
-COMMENT=			interpreted object-oriented programming language
-COMMENT-bsddb=			Berkeley db module for Python
-COMMENT-expat=			expat module for Python
-COMMENT-gdbm=			GNU dbm module for Python
-COMMENT-idle=			IDE for Python
-COMMENT-mpz=			GNU arbitrary magnitude integer module for Python
-COMMENT-tests=			Python test suite
-COMMENT-tkinter=			tk GUI module for Python
-COMMENT-tools=			extra tools for Python
+COMMENT=		interpreted object-oriented programming language
+COMMENT-bsddb=		Berkeley db module for Python
+COMMENT-expat=		expat module for Python
+COMMENT-gdbm=		GNU dbm module for Python
+COMMENT-idle=		IDE for Python
+COMMENT-mpz=		GNU arbitrary magnitude integer module for Python
+COMMENT-tests=		Python test suite
+COMMENT-tkinter=	tk GUI module for Python
+COMMENT-tools=		extra tools for Python
 
-PKGNAME=	python-${VERSION}${PATCHLEVEL}${PKG_PATCHLEVEL}
-DISTNAME=	Python-${VERSION}${PATCHLEVEL}
-CATEGORIES=	lang
-MASTER_SITES=	ftp://ftp.python.org/pub/${PSUBDIR}/ \
-		http://python.mirrors.pair.com/ftp/${PSUBDIR}/ \
-		http://python.mirrors.ilisys.com.au/ftp/${PSUBDIR}/
-PSUBDIR=	python/${VERSION}${PATCHLEVEL}
-EXTRACT_SUFX=	.tgz
+PKGNAME=		python-${VERSION}${PATCHLEVEL}${PKG_PATCHLEVEL}
+DISTNAME=		Python-${VERSION}${PATCHLEVEL}
+CATEGORIES=		lang
+MASTER_SITES=		ftp://ftp.python.org/pub/${PSUBDIR}/ \
+			http://python.mirrors.pair.com/ftp/${PSUBDIR}/ \
+			http://python.mirrors.ilisys.com.au/ftp/${PSUBDIR}/
+PSUBDIR=		python/${VERSION}${PATCHLEVEL}
+EXTRACT_SUFX=		.tgz
 
-HOMEPAGE=	http://www.python.org/
-RESPONSIBLE=	Benny Siegert <bsiegert@gmx.de>
+HOMEPAGE=		http://www.python.org/
+RESPONSIBLE=		Benny Siegert <bsiegert@gmx.de>
 
 # PSF license <http://www.python.org/${VERSION}/license.html>
 # A summary of changes to Python is required to be distributed
@@ -192,7 +192,7 @@ CONFIGURE_ARGS+=	--with-fpectl --with-threads --srcdir=${WRKSRC}
 CONFIGURE_ARGS+=	--enable-ipv6
 
 # THREAD_STACK_SIZE value might be changed by particular python release
-THREAD_STACK_SIZE?=	0x20000
+THREAD_STACK_SIZE?=	0x20000		# increase this for zope
 
 REGRESS_TARGET=		test
 

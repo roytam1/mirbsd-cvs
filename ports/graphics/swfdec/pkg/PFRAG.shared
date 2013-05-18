@@ -1,3 +1,0 @@
-@comment $MirOS$
-@comment $OpenBSD: PFRAG.shared,v 1.1.1.1 2003/06/24 08:11:14 jolan Exp $
-@lib lib/libswfdec.so.0.0

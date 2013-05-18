@@ -1,4 +1,4 @@
-# $MirOS: ports/meta/cups-server/Makefile,v 1.3 2006/11/09 18:37:15 tg Exp $
+# $MirOS: ports/meta/cups-server/Makefile,v 1.4 2006/12/20 15:31:32 tg Exp $
 
 COMMENT=		meta package for a CUPS server
 VERSION=		2.6
@@ -20,11 +20,9 @@ NO_BUILD=		Yes
 PLIST=			/dev/null
 PKG_ARCH=		*
 
-RUN_DEPENDS+=		::print/cups
-RUN_DEPENDS+=		::print/ghostscript/esp,cups
-RUN_DEPENDS+=		::print/foomatic/filters
-
-BUILD_DEPENDS+=		${RUN_DEPENDS}
+B_R_DEPENDS+=		::print/cups
+B_R_DEPENDS+=		::print/ghostscript/esp,cups
+B_R_DEPENDS+=		::print/foomatic/filters
 
 do-install:
 	# Nothing to do

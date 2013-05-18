@@ -1,4 +1,4 @@
-# $MirOS: ports/textproc/groff/Makefile,v 1.3 2006/10/06 14:51:13 tg Exp $
+# $MirOS: ports/textproc/groff/Makefile,v 1.4 2006/10/27 15:52:27 tg Exp $
 
 # probably easy to add others, but packing list is different
 ONLY_FOR_PLATFORM=		MirBSD:*:* Interix:*:*
@@ -32,8 +32,7 @@ SUBPACKAGE?=
 PERMIT_PACKAGE_CDROM=		"GNU FDL 1.2"
 PERMIT_PACKAGE_FTP=		"GNU FDL 1.2"
 .else
-BUILD_DEPENDS+=			${GROFF_DEPENDS}
-RUN_DEPENDS+=			${GROFF_DEPENDS}
+B_R_DEPENDS+=			${GROFF_DEPENDS}
 .endif
 
 .if !${FLAVOR:L:Mconsole}

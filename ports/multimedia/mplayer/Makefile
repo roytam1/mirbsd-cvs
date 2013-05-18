@@ -1,11 +1,11 @@
-# $MirOS: ports/multimedia/mplayer/Makefile,v 1.15 2006/09/14 00:11:28 tg Exp $
+# $MirOS: ports/multimedia/mplayer/Makefile,v 1.16 2007/03/31 22:02:05 tg Exp $
 # $OpenBSD: Makefile,v 1.83 2005/05/09 12:24:38 biorn Exp $
 
 # May not be hard to add more.
 # <mira> waldi: in mplayer sind mehr LP64 bugs pro KB source drin als in pine
 ONLY_FOR_PLATFORM=	*:*:i386 *:*:powerpc OpenBSD:*:arm OpenBSD:*:amd64 #XXX
 
-COMMENT=			Movie player supporting MPEG, DivX, AVI, ASF, MOV & more
+COMMENT=		Movie player supporting MPEG, DivX, AVI, ASF, MOV & more
 DISTNAME=		MPlayer-1.0pre7
 DIST_SUBDIR=		mplayer
 PKGNAME=		${DISTNAME:L}-3
@@ -75,7 +75,7 @@ CONFIGURE_ARGS+=--disable-altivec
 .endif
 
 FLAVORS=	esd sdl ggi debug mad no_x11 aa \
-		no_live no_ungif no_lzo caca	# arts
+		no_live no_ungif no_lzo caca
 FLAVOR?=
 
 .if ${MACHINE_ARCH:Marm}
@@ -108,12 +108,7 @@ LIB_DEPENDS+=	ungif,gif::graphics/libungif
 # don't --enable-gif here!
 .endif
 
-.if ${FLAVOR:L:Marts}
-CONFIGURE_ARGS+=--enable-arts
-LIB_DEPENDS+=	artsc::x11/kde/arts
-.else
 CONFIGURE_ARGS+=--disable-arts
-.endif
 
 .if ${FLAVOR:L:Mesd}
 CONFIGURE_ARGS+=--enable-esd

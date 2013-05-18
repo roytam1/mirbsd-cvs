@@ -1,9 +1,7 @@
-# $MirOS: ports/astro/wmglobe/Makefile,v 1.4 2006/03/23 21:42:25 tg Exp $
+# $MirOS: ports/astro/wmglobe/Makefile,v 1.5 2006/09/14 00:06:55 tg Exp $
 # $OpenBSD: Makefile,v 1.14 2002/09/17 15:22:26 wilfried Exp $
 
-BROKEN=			dependency x11/windowmaker is marked BROKEN
-
-COMMENT=			wm-dockapp; displays the earth on an icon
+COMMENT=		wm-dockapp; displays the earth on an icon
 DISTNAME=		wmglobe-1.3
 CATEGORIES=		astro x11 x11/windowmaker
 HOMEPAGE=		http://perso.linuxfr.org/jdumont/wmg/

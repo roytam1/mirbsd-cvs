@@ -1,4 +1,4 @@
-# $MirOS: ports/meta/gnome2/Makefile,v 1.5 2006/11/09 18:37:16 tg Exp $
+# $MirOS: ports/meta/gnome2/Makefile,v 1.6 2006/12/20 15:31:30 tg Exp $
 
 COMMENT=		meta-package to install all of GNOME 2
 VERSION=		2.8.1
@@ -20,43 +20,41 @@ NO_BUILD=		Yes
 PLIST=			/dev/null
 PKG_ARCH=		*
 
-RUN_DEPENDS+=		::devel/gconf
-RUN_DEPENDS+=		::devel/desktop-file-utils
-RUN_DEPENDS+=		::x11/gnome/mime-data
-RUN_DEPENDS+=		::x11/gnome/vfs2
-RUN_DEPENDS+=		::devel/libaudiofile
-RUN_DEPENDS+=		::audio/esound
-RUN_DEPENDS+=		::x11/gnome/libgnome
-RUN_DEPENDS+=		::graphics/libart
-RUN_DEPENDS+=		::devel/libglade
-RUN_DEPENDS+=		::x11/gnome/libgnomecanvas
-RUN_DEPENDS+=		::x11/gnome/libbonoboui
-RUN_DEPENDS+=		::x11/hicolor-icon-theme
-RUN_DEPENDS+=		::x11/gnome/icon-theme
-RUN_DEPENDS+=		::x11/gnome/keyring
-RUN_DEPENDS+=		::x11/gnome/libgnomeui
-RUN_DEPENDS+=		::devel/startup-notification
-RUN_DEPENDS+=		::x11/gtk-engines
-RUN_DEPENDS+=		::textproc/scrollkeeper
-RUN_DEPENDS+=		::x11/gnome/desktop
-RUN_DEPENDS+=		::devel/libwnck
-RUN_DEPENDS+=		::devel/libsoup
-RUN_DEPENDS+=		::x11/gnome/evolution-data-server
-RUN_DEPENDS+=		::x11/gnome/panel
-RUN_DEPENDS+=		::x11/gnome/session
-RUN_DEPENDS+=		::devel/vte
-RUN_DEPENDS+=		::x11/gnome/terminal
-RUN_DEPENDS+=		::devel/libgtop
-RUN_DEPENDS+=		::x11/gnome/gail
-RUN_DEPENDS+=		::x11/libxklavier1
-RUN_DEPENDS+=		::x11/gnome/applets2
-RUN_DEPENDS+=		::x11/gnome/metacity
-RUN_DEPENDS+=		::x11/gnome/librsvg
-RUN_DEPENDS+=		::x11/gnome/nautilus
-RUN_DEPENDS+=		::x11/gnome/controlcenter2
-RUN_DEPENDS+=		::x11/gnome/eog
-
-BUILD_DEPENDS+=		${RUN_DEPENDS}
+B_R_DEPENDS+=		::devel/gconf
+B_R_DEPENDS+=		::devel/desktop-file-utils
+B_R_DEPENDS+=		::x11/gnome/mime-data
+B_R_DEPENDS+=		::x11/gnome/vfs2
+B_R_DEPENDS+=		::devel/libaudiofile
+B_R_DEPENDS+=		::audio/esound
+B_R_DEPENDS+=		::x11/gnome/libgnome
+B_R_DEPENDS+=		::graphics/libart
+B_R_DEPENDS+=		::devel/libglade
+B_R_DEPENDS+=		::x11/gnome/libgnomecanvas
+B_R_DEPENDS+=		::x11/gnome/libbonoboui
+B_R_DEPENDS+=		::x11/hicolor-icon-theme
+B_R_DEPENDS+=		::x11/gnome/icon-theme
+B_R_DEPENDS+=		::x11/gnome/keyring
+B_R_DEPENDS+=		::x11/gnome/libgnomeui
+B_R_DEPENDS+=		::devel/startup-notification
+B_R_DEPENDS+=		::x11/gtk-engines
+B_R_DEPENDS+=		::textproc/scrollkeeper
+B_R_DEPENDS+=		::x11/gnome/desktop
+B_R_DEPENDS+=		::devel/libwnck
+B_R_DEPENDS+=		::devel/libsoup
+B_R_DEPENDS+=		::x11/gnome/evolution-data-server
+B_R_DEPENDS+=		::x11/gnome/panel
+B_R_DEPENDS+=		::x11/gnome/session
+B_R_DEPENDS+=		::devel/vte
+B_R_DEPENDS+=		::x11/gnome/terminal
+B_R_DEPENDS+=		::devel/libgtop
+B_R_DEPENDS+=		::x11/gnome/gail
+B_R_DEPENDS+=		::x11/libxklavier1
+B_R_DEPENDS+=		::x11/gnome/applets2
+B_R_DEPENDS+=		::x11/gnome/metacity
+B_R_DEPENDS+=		::x11/gnome/librsvg
+B_R_DEPENDS+=		::x11/gnome/nautilus
+B_R_DEPENDS+=		::x11/gnome/controlcenter2
+B_R_DEPENDS+=		::x11/gnome/eog
 
 do-install:
 	# Nothing to do

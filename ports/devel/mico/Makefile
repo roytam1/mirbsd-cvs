@@ -1,13 +1,10 @@
 # $OpenBSD: Makefile,v 1.4 2002/10/25 22:37:52 naddy Exp $
 
-COMMENT=			free and complete CORBA-compliant implementation
-
-DISTNAME=	mico-2.3.6
-CATEGORIES=	devel
-
-HOMEPAGE=	http://www.mico.org/
-MASTER_SITES=	${HOMEPAGE}
-
+COMMENT=		free and complete CORBA-compliant implementation
+DISTNAME=		mico-2.3.6
+CATEGORIES=		devel
+HOMEPAGE=		http://www.mico.org/
+MASTER_SITES=		${HOMEPAGE}
 
 PERMIT_PACKAGE_CDROM=	Yes
 PERMIT_PACKAGE_FTP=	Yes
@@ -24,27 +21,23 @@ FAKE_FLAGS=		prefix="${WRKINST}${PREFIX}"
 WRKDIST=        	${WRKDIR}/mico
 NO_REGRESS=		Yes
 
-FLAVORS=ssl qt gtk tcl
+FLAVORS=		ssl gtk tcl
 FLAVOR?=
 
 .if ${FLAVOR:L:Mssl}
 CONFIGURE_ARGS+=	--with-ssl
 .endif
 
-.if ${FLAVOR:L:Mqt}
-BROKEN=			no QT2 in tree
-LIB_DEPENDS+=		qt.2::x11/qt2
-CONFIGURE_ARGS+=	--with-qt
-.endif
-
 .if ${FLAVOR:L:Mgtk}
 LIB_DEPENDS+=		gtk.1.2::x11/gtk+
 CONFIGURE_ARGS+=	--with-gtk
+USE_X11=		Yes
 .endif
 
 .if ${FLAVOR:L:Mtcl}
 LIB_DEPENDS+=		tcl.8::lang/tcl
 CONFIGURE_ARGS+=	--with-tcl
+USE_X11=		Yes
 .endif
 
 .include <bsd.port.mk>

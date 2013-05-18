@@ -1,13 +1,13 @@
-# $MirOS: ports/x11/windowmaker/Makefile,v 1.10 2006/09/14 00:15:41 tg Exp $
+# $MirOS: ports/x11/windowmaker/Makefile,v 1.11 2007/02/22 22:57:59 tg Exp $
 # $OpenBSD: Makefile,v 1.57 2003/08/16 19:06:07 tedu Exp $
 
-COMMENT=			window manager that emulates NEXTSTEP(tm)
-COMMENT-lang=			language subpackage for Window Maker
+COMMENT=		window manager that emulates NeXTSTEP(tm)
+COMMENT-lang=		language subpackage for Window Maker
 
 V=			0.92.0
-PL=			1
+DASH_VER=		2
 DISTNAME=		WindowMaker-${V}
-PKGNAME=		${DISTNAME:L}-${PL}
+PKGNAME=		${DISTNAME:L}-${DASH_VER}
 CATEGORIES=		x11 x11/windowmaker
 HOMEPAGE=		http://www.windowmaker.org/
 
@@ -27,16 +27,16 @@ AUTOMAKE_VERSION=	1.4
 AUTOCONF_NEW=		Yes
 CONFIGURE_ARGS+=	${CONFIGURE_SHARED} \
 			--enable-static \
-			--with-pixmapdir="${PREFIX}/share/WindowMaker/Pixmaps" \
-			--with-nlsdir="${LOCALBASE}/share/locale" \
-			--enable-gnome \
-			--enable-kde
+			--enable-xinerama \
+			--with-pixmapdir=${PREFIX:Q}/share/WindowMaker/Pixmaps \
+			--with-nlsdir=${LOCALBASE:Q}/share/locale \
+			--enable-usermenu
 CONFIGURE_ENV=		LINGUAS='bg cs da de el es et fi fr gl hr hu it ja ko ms nl no pl pt ro ru sk sv tr zh_CN zh_TW'
 
 MULTI_PACKAGES= 	-lang
 
 .for i in ${MULTI_PACKAGES}
-PKGNAME$i=      	windowmaker${i}-${V}-${PL}
+PKGNAME$i=      	windowmaker${i}-${V}-${DASH_VER}
 .endfor
 
 SUBPACKAGE?=
