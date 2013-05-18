@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.314 2010/11/06 15:10:04 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.315 2010/11/07 14:18:15 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -7212,4 +7212,27 @@ Tag: debian
 <p>(How are the rules for sponsored uploads? I get conflicting info
  on these, and indeed, the one I sponsored never showed up on my QA
  DDPO page…)</p>
+----
+Title: pkgsrc on MirOS
+Author: bsiegert@
+Date: 11.12.2010 14:10
+
+<p>Like we decided on FrOSCon this august, I restarted work on getting
+ pkgsrc working again and then, on adding support for MirOS BSD to
+ pkgsrc upstream. The thing is, while our MirPorts infrastructure is,
+ in my opinion, outstanding, many of the ports themselves are highly
+ out of date. Having pkgsrc would free us from the burden of maintaining
+ thousands of ports ourselves. Many of the technical arguments that
+ had originally been brought up against pkgsrc (such as missing support
+ for "faking") have been addressed in the last few years.</p>
+
+<p>As a first step, I applied Thorsten's old diff against the
+ pkgsrc-2006Q4 stable branch, which was created shortly after the diff
+ had been made. Next, I am porting these changes to a current pkgsrc
+ branch in order to get them integrated. However, this will involve
+ porting libtool 2 to MirOS, as newer pkgsrc versions only use this
+ version. Wish me luck :).</p>
+
+<p>I will be on 27C3 in Berlin from December 27 to 30, even though tg@
+ will not.</p>
 ----
