@@ -1,4 +1,4 @@
-/* $MirOS: gcc/gcc/opts.c,v 1.5 2005/03/26 00:56:23 tg Exp $ */
+/* $MirOS: gcc/gcc/opts.c,v 1.6 2005/04/29 16:18:32 tg Exp $ */
 
 /* Command line option handling.
    Copyright (C) 2002, 2003, 2004, 2005
@@ -1064,6 +1064,9 @@ common_handle_option (size_t scode, const char *arg,
 
     case OPT_fguess_branch_probability:
       flag_guess_branch_prob = value;
+      break;
+
+    case OPT_fhonour_copts:
       break;
 
     case OPT_fident:

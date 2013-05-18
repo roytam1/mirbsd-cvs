@@ -1,4 +1,4 @@
-/* $MirOS: gcc/gcc/c-opts.c,v 1.6 2006/01/31 13:37:25 tg Exp $ */
+/* $MirOS: gcc/gcc/c-opts.c,v 1.7 2006/01/31 22:32:43 tg Exp $ */
 
 /* C/ObjC/C++ command line option handling.
    Copyright (C) 2002, 2003, 2004 Free Software Foundation, Inc.
@@ -1257,7 +1257,8 @@ c_common_init (void)
 	error ("someone does not honour COPTS at all in lenient mode");
 	return false;
       } else if (honour_copts != 1) {
-	warning ("someone does not honour COPTS correctly");
+	warning ("someone does not honour COPTS correctly, passed %d times",
+	 honour_copts);
       }
     } else if (evv == 2) {
       if (honour_copts == 0) {
