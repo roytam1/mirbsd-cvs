@@ -1,4 +1,4 @@
-/* $MirOS: contrib/code/libhaible/mbsrtowcs.c,v 1.5 2006/05/30 21:40:38 tg Exp $ */
+/* $MirOS: contrib/code/libhaible/mbsrtowcs.c,v 1.6 2006/05/30 21:44:03 tg Exp $ */
 
 /*-
  * Copyright (c) 2006
@@ -25,89 +25,85 @@
 
 #include "mir18n.h"
 
-__RCSID("$MirOS: contrib/code/libhaible/mbsrtowcs.c,v 1.5 2006/05/30 21:40:38 tg Exp $");
+__RCSID("$MirOS: contrib/code/libhaible/mbsrtowcs.c,v 1.6 2006/05/30 21:44:03 tg Exp $");
 
 size_t
-mbsrtowcs(wchar_t *__restrict__ dest, const char **__restrict__ srcps,
-    size_t len, mbstate_t *__restrict__ ps)
+mbsrtowcs(wchar_t *__restrict__ pwcs, const char **__restrict__ s,
+    size_t n, mbstate_t *__restrict__ ps)
 {
-	const unsigned char **__restrict__ srcp =
-	    (const unsigned char **__restrict__) srcps;
-	static mbstate_t internal;
-	const unsigned char *src;
-	size_t cnt = 0, count;
-	unsigned char c;
-	wchar_t wc;
+	static mbstate_t internal = { 0, 0 };
+	const unsigned char *src = (const unsigned char *)(*s);
+	wint_t c, w;
+	size_t num, rv = 0;
 
 	if (ps == NULL)
 		ps = &internal;
 
-	src = *srcp;
 	if (!__locale_is_utf8) {
-		while (((dest == NULL) ? 1 : len--) > 0) {
+		while (((pwcs == NULL) ? 1 : n--) > 0) {
 			c = *src++;
-			if (dest != NULL)
-				dest[cnt] = (wchar_t)c;
+			if (pwcs != NULL)
+				pwcs[rv] = (wchar_t)c;
 			if (c == '\0') {
 				src = NULL;
 				break;
 			}
-			cnt++;
+			rv++;
 		}
 	} else {
-		while (((dest == NULL) ? 1 : len--) > 0) {
+		while (((pwcs == NULL) ? 1 : n--) > 0) {
 			const unsigned char *s2 = src;
 			if (ps->count == 0) {
 				c = *src;
 				if (c < 0x80) {
-					if (dest != NULL)
-						dest[cnt] = (wchar_t)c;
+					if (pwcs != NULL)
+						pwcs[rv] = (wchar_t)c;
 					if (c == '\0') {
 						src = NULL;
 						break;
 					}
 					src++;
-					cnt++;
+					rv++;
 					continue;
 				} else if (c < 0xC2)
 					goto bad_input;
 				if (c < 0xE0) {
-					wc = (wchar_t)(c & 0x1F) << 6;
-					count = 1;
+					w = (wchar_t)(c & 0x1F) << 6;
+					num = 1;
 				} else if (c < 0xF0) {
-					wc = (wchar_t)(c & 0x0F) << 12;
-					count = 2;
+					w = (wchar_t)(c & 0x0F) << 12;
+					num = 2;
 				} else
 					goto bad_input;
 				src++;
 			} else {
-				wc = ps->value << 6;
-				count = ps->count;
+				w = ps->value << 6;
+				num = ps->count;
 			}
 			for (;;) {
 				c = *src++ ^ 0x80;
 				if (!(c < 0x40))
 					goto bad_input_backup;
-				wc |= (wchar_t)c << (6 * --count);
-				if (count == 0)
+				w |= (wchar_t)c << (6 * --num);
+				if (num == 0)
 					break;
-				if (wc < (1 << (5 * count + 6)))
+				if (w < (1 << (5 * num + 6)))
 					goto bad_input_backup;
 			}
-			if (dest != NULL)
-				dest[cnt] = wc;
+			if (pwcs != NULL)
+				pwcs[rv] = w;
 			ps->count = 0;
-			cnt++;
+			rv++;
 			continue;
  bad_input_backup:
 			src = s2;
 			goto bad_input;
 		}
 	}
-	*srcp = src;
-	return (cnt);
+	*s = src;
+	return (rv);
  bad_input:
-	*srcp = src;
+	*s = src;
 	errno = EILSEQ;
 	return ((size_t)(-1));
 }
