@@ -1,4 +1,4 @@
-# $MirOS: src/etc/mtree/special,v 1.10 2006/10/05 12:46:46 tg Exp $
+# $MirOS: src/etc/mtree/special,v 1.11 2006/10/15 00:39:16 tg Exp $
 # $OpenBSD: special,v 1.66 2005/06/08 20:11:38 deraadt Exp $
 # $NetBSD: special,v 1.4 1996/05/08 21:30:18 pk Exp $
 # @(#)special	8.2 (Berkeley) 1/23/94
@@ -6,6 +6,7 @@
 # Hand-crafted mtree specification for the dangerous files.
 
 .		type=dir mode=0755 uname=root gname=wheel
+.profile	type=file mode=0600 uname=root gname=wheel
 
 dev		type=dir mode=0755 uname=root gname=wheel
 drum		type=char mode=0640 uname=root gname=kmem
