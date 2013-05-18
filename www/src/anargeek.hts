@@ -2,28 +2,31 @@
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname anargeek "The Anargeek Manifesto"
-mws_putheader '$MirOS: www/src/anargeek.hts,v 1.1 2008/09/17 21:12:20 tg Exp $'
+mws_putheader '$MirOS: www/src/anargeek.hts,v 1.2 2008/11/06 21:31:37 tg Exp $'
 mws_content <<'EOF'
 <h1><a href="http://anargeek.net/">Anargeek</a></h1>
 <p>Go <a href="#manifest">directly to the manifesto</a>, or read the <a
  href="#koffie">unrelated side note</a> about coffee.</p>
 <h2>Why this page?</h2>
 <p>On <a href="http://www.fosdem.org/">FOSDEM</a> 2005 some guy walked past
- me and gave me a paper containing the “anargeek manifesto” since
- he saw my laptop being full of BSD, <a href="http://koeln.ccc.de/">CCC</a>
- and <a href="http://fau.netzladen.org/">FAU-IAA</a> stickers.</p>
+ me and gave me a paper containing, in several languages, the “<a
+ href="http://anargeek.net/">anargeek manifesto</a>” since he saw my laptop
+ being full of <a href="http://www.allbsd.de/">BSD</a>, <a
+ href="http://koeln.ccc.de/">CCC</a> and <a
+ href="http://fau.netzladen.org/">FAU</a> stickers.</p>
 <p>I consider the <a href="http://www.netzladen.org/">Netzladen</a> members
  all to be Anargeeks, and even the <tt>HolaBSDng</tt> gang (i.e. the public
  relationship “common exterior frontier” of Holarse (not the game
  project), MirOS and BOSng) which is how we call ourselves at exhibitions,
  consists mainly of anargeeks of more or less strong flavour.</p>
-<p>I've translated the English language version of the "Anargeek Manifesto"
+<p>I’ve translated the English language version of the “Anargeek Manifesto”
  into German, and bsiegert@ compared it with the original, French language,
- version afterwards. I've created a logo to proudly show you're an anargeek
- (that is licenced, for formal reasons, under <a href="@@ABSPATH@@/MirOS-Licence">the MirOS
- Licence</a>), whose design idea got approved by various Netzladen members,
+ version afterwards. I’ve created a logo to proudly show you’re an anargeek
+ (that is licenced, for formal reasons, under <a
+ href="@@ABSPATH@@/MirOS-Licence">the MirOS Licence</a>), whose design idea
+ got approved by various Netzladen members,
  hackers and anarcho-syndicalists.</p>
-<p>The anargeek manifesto itself is covered by a "Creative Commons" Licence
+<p>The anargeek manifesto itself is covered by a “Creative Commons” Licence
  (<a href="http://creativecommons.org/licenses/by-nc-sa/2.0/">BY-NC-SA</a>)
  and so is the text below.</p>
 <address><small>Thorsten Glaser – Benny Siegert</small></address>
@@ -39,7 +42,7 @@ mws_content <<'EOF'
  type="image/svg+xml" width="120" height="120"><img alt="Anargeek Emblem"
  src="@@RELPATH@@pics/anargeek.png" /></object></td></tr></table>
 <p>Ich bin ein Anargeek. Ein Anarchist und Geek, und mehr.</p>
-<p><tt>· · ·</tt></p>
+<p style="font-family:monospace;">· · ·</p>
 <p>Ich bin ein Geek, weil man mich zu denen zählen kann, die es
  mögen, diese seltsamen Geräte, die wir Computer nennen,
  zu nutzen, verstehen und verändern.</p>
@@ -63,17 +66,17 @@ mws_content <<'EOF'
  von denen, die es betrifft, für sich eingefordert, ins Gute
  gewandelt und hat die Wurzeln für eine Gemeinschaft gesetzt,
  genau wie es einige andere kulturelle Minderheiten taten.</p>
-<p><tt>· · ·</tt></p>
-<p>Ich bin ein Anarchist, weil ich eine Gesellschaft, die auf Dominanz Weniger
- über die Anderen basiert, zurückweise. Es ist meine
+<p style="font-family:monospace;">· · ·</p>
+<p>Ich bin ein Anarchist, weil ich eine Gesellschaft, die auf Dominanz
+ Weniger über die Anderen basiert, zurückweise. Es ist meine
  Überzeugung, daß es möglich ist, sich mit Respekt vor jedem
  Einzelnen sowie durch Praktizieren von Gleichberechtigung, Solidarität
  und Eigenverantwortung selbst zu verwirklichen.</p>
 <p>Auch bin ich ein Anarchist, weil mich die sozialen Strukturen, die
  Massenausnutzung, tägliches Leiden und Tod verursachen, in
  Rage versetzen. Ich möchte dazu beitragen, dieses System
- niederzuschlagen, indem ich mich in gesellschaftlichen Bewegungen und an
- Strömungen für den radikalen Wandel des Systems beteilige.</p>
+ niederzuschlagen, indem ich mich in gesellschaftlichen Bewegungen und
+ an Strömungen für den radikalen Wandel des Systems beteilige.</p>
 <p>Ich bin ein Anarchist, weil ich mein tägliches Leben als eine
  Gelegenheit sehe, meine Prinzipien zu testen. Ich bin bereit, mit sozialen
  Normen zu brechen, zum Beispiel durch Verweigerung der Aufrufe zu Konsum
@@ -87,14 +90,14 @@ mws_content <<'EOF'
  Selbstausgesprochene Objektivität zurückweisend suche ich nach
  anderen und neuen Wegen, mich selbst zu informieren und zu bilden, nach
  alternativen Mitteln, Nachrichten zu verfassen und zu verbreiten.</p>
-<p>Schließlich bin ich ein Anarchist, weil ich gegen die Paranoia,
- die die Gesellschaft durch die Manipulation der Furcht der Leute in Beschlag
+<p>Schließlich bin ich ein Anarchist, weil ich gegen die Paranoia, die
+ die Gesellschaft durch die Manipulation der Furcht der Leute in Beschlag
  nimmt, stehe. Ich bin entschieden gegen die Kriminalisierung, Sammlung
  personenbezogener Daten und Unterdrückungsprozesse, die durch die
  Obrigkeit gegen die Armen, das gemeine Volk und die Aktivisten geführt
  werden. Unnötig zu erwähnen, daß wir Widerstand leisten
  müssen.</p>
-<p><tt>· · ·</tt></p>
+<p style="font-family:monospace;">· · ·</p>
 <p>Ich bin ein Anargeek, weil ich bereit bin, Neugierde und Fachwissen
  mit ethischen Überlegungen und politischen Methoden zu vereinen.
  Während der Gedanke den Weg bereitet durch Deutung und Lenkung,
@@ -118,12 +121,12 @@ mws_content <<'EOF'
  Werkzeuge, die ich nutze, zu verstehen, modifizieren oder zu erzeugen.</p>
 <p>Ich bin außerdem ein Anargeek, weil ich dem nie enden wollenden
  Konsumzwang, den der Kapitalismus, der immer und immer wieder Güter
- erzeugt, wegschmeißt und Ressourcen verschwendet, während er
- den Verstand der Leute manipuliert, erzwingt, widerstehen möchte.
- Ich verwende Hardware, die andere als veraltet ansehen, weiter, belebe sie
- mit unbenutzten Komponenten sowie befreie sie mit offener Software. Ich mag
- es, die Grenzen aus der Mode gekommener Maschinen zu erforschen; statt
- verbrauchend schöpferisch Kreativität im Umgang mit dem System,
+ erzeugt, wegschmeißt und Ressourcen verschwendet, während er den
+ Verstand der Leute manipuliert, erzwingt, widerstehen möchte. Ich
+ verwende Hardware, die andere als veraltet ansehen, weiter, belebe sie
+ mit unbenutzten Komponenten sowie befreie sie mit offener Software. Ich
+ mag es, die Grenzen aus der Mode gekommener Maschinen zu erforschen;
+ statt verbrauchend schöpferisch Kreativität im Umgang mit dem System,
  Vorstellungskraft und Experimentierfreude bei meinen elektronischen
  Basteleien anwenden.</p>
 <p>Ich bin ein Anargeek, weil ich es notwendig finde, einige der
@@ -166,7 +169,7 @@ mws_content <<'EOF'
  nichtkommerzielle Werkzeuge und Dienste – autonome Server, freie
  Internetzugänge, Webseiten oder ohne Gegenleistung nutzbare
  Hardware – zur Verfügung.</p>
-<p><tt>· · ·</tt></p>
+<p style="font-family:monospace;">· · ·</p>
 <p>Diese Grundsatzerklärung nimmt keineswegs in Anspruch, für Dich
  zu sprechen. Es ist Dir vollkommen freigestellt, es teilweise anzunehmen,
  völlig dahinterzustehen oder es total zurückzuweisen. Und weil es
@@ -178,13 +181,13 @@ mws_content <<'EOF'
 <p>Dezember 2002,<br /><a
  href="mailto:darkveggy@anargeek.net">darkveggy</a>.</p>
 <p>Deutsche Übersetzung, März 2005,<br />von <a
- href="mailto:tg@mirbsd.org">mirabile</a>.</p>
+ href="mailto:tg@mirbsd.org">mirabilos</a>.</p>
 <hr />
 <h2 id="koffie">Official MirBSD™ coffee provider</h2>
 <p>Thorsten Glaser drinks fairly traded anarcho-syndicalistic zapatist coffee
- (Café Libertad and others, e.g. Café Soñador, Flores
- Magón, Espresso Rebeldía, Met (honey wine) with or without few
- espresso beans, etc.) from <a href="http://www.cafe-libertad.de/">Café
+ (Café Libertad and others, e.g. Café Soñador, Flores Magón, Espresso
+ RebelDía, Met (mead / honey wine) with or without few espresso beans,
+ cocoa, etc.) from <a href="http://www.cafe-libertad.de/">Café
  Libertad – Kaffeekooperative</a> (they also have a polyglot (multilingual)
  ordering page).</p>
 EOF
