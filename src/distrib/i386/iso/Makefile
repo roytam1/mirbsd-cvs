@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/i386/iso/Makefile,v 1.12 2006/04/05 23:20:01 tg Exp $
+# $MirOS: src/distrib/i386/iso/Makefile,v 1.13 2006/04/06 21:59:22 tg Exp $
 # $OpenBSD: Makefile,v 1.3 2003/03/04 20:24:49 deraadt Exp $
 
 .include <bsd.own.mk>
@@ -61,7 +61,7 @@ burn-cdrw-clean:
 burn-cdr: ${CDROM}
 	cdrecord dev=/dev/rcd0c:0,0,0 gracetime=2 ${CDOPTS} -pad ${CDROM}
 
-.PHONY: prepare-workdir generate-image burn-cdr burn-cdrw-clean burn-cdrw
+.PHONY: burn-cdr burn-cdrw burn-cdrw-clean generate-image prepare-workdir
 
 .include <bsd.obj.mk>
 .include <bsd.subdir.mk>
