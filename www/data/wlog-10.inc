@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.338 2011/07/11 20:59:34 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.339 2011/07/11 21:12:40 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -7858,7 +7858,7 @@ Tag: debian mksh
 ----
 Date: 11.07.2011 20:42
 Author: tg@
-Title: “Big Brother”, or: Help wanted – arguments against monitoring employees
+Title: [Update] “Big Brother”, or: Help wanted – arguments against monitoring employees
 Tag: debian rant
 
 <p style="font-size:small;">English version of this posting • lese
@@ -7889,10 +7889,20 @@ Tag: debian rant
  a 24-hour total blacklist of your IPv4 address – I’ve yet to get
  enough spam via IPv6 to say filtering it is worth the cost).</p>
 <p>Thanks in advance!</p>
+<hr />
+<p><strong>Update</strong> 2011-07-12: We talked, and it was agreed to
+ not force a shell history; instead I will now put problem solutions
+ into smallish scripts and commit them into the sysadmin SCM. It was
+ not solved using legal arguments, as many people commented would have
+ been difficult; instead, they acknowledged that I was concerned with
+ this, and we searched for a different solution to the head sysadmin’s
+ original concerns (apparently, to figure out how to fix things without
+ reinventing the fix every time, and to find out what was changed on a
+ server in case it breaks).</p>
 ----
 Date: 11.07.2011 20:49
 Author: tg@
-Title: Hilfe gesucht: Mitarbeiterüberwachung
+Title: [Update] Hilfe gesucht: Mitarbeiterüberwachung
 Tag: debian rant
 Language: de_DE-1901
 
@@ -7930,4 +7940,13 @@ Language: de_DE-1901
  da nicht <tt>junk@mirbsd.org</tt> lautet, sondern mit einem „tg“ vor
  dem Klammeraffen (dies dient der Abwehr unerwünschter Werbemails).</p>
 <p>Vielen Dank bereits im Voraus!</p>
+<p><strong>Update</strong> 12.07.2011: Wir haben geredet, und – wie
+ viele kommentierten – keine Lösung auf rechtlicher Ebene gefunden,
+ sondern stattdessen, nachdem wir festgestellt hatten, daß mir dieses
+ Problem sehr am Herzen liegt, nach anderen Lösungen für das eigentliche
+ Ziel des Chefadmins gesucht; dies zählt als ein Entgegenkommen auf
+ Seiten der Firma. Ich habe zugestimmt, meine Lösungen in kleine Skripte
+ zu verpacken und ins VCS zu committen – für das Herausfinden, wann was
+ auf einem Server geändert wurde, im Fehlerfall, denken wir uns gerade
+ ohnehin was aus. Danke an alle, die kommentiert haben!</p>
 ----
