@@ -1,4 +1,4 @@
-/* $MirOS: contrib/code/libhaible/mbsrtowcs.c,v 1.4 2006/05/30 21:38:38 tg Exp $ */
+/* $MirOS: contrib/code/libhaible/mbsrtowcs.c,v 1.5 2006/05/30 21:40:38 tg Exp $ */
 
 /*-
  * Copyright (c) 2006
@@ -25,7 +25,7 @@
 
 #include "mir18n.h"
 
-__RCSID("$MirOS: contrib/code/libhaible/mbsrtowcs.c,v 1.4 2006/05/30 21:38:38 tg Exp $");
+__RCSID("$MirOS: contrib/code/libhaible/mbsrtowcs.c,v 1.5 2006/05/30 21:40:38 tg Exp $");
 
 size_t
 mbsrtowcs(wchar_t *__restrict__ dest, const char **__restrict__ srcps,
@@ -54,16 +54,14 @@ mbsrtowcs(wchar_t *__restrict__ dest, const char **__restrict__ srcps,
 			}
 			cnt++;
 		}
-		*srcp = src;
-		return (cnt);
-	}
-	if (dest != NULL) {
-		while (len-- > 0) {
+	} else {
+		while (((dest == NULL) ? 1 : len--) > 0) {
 			const unsigned char *s2 = src;
 			if (ps->count == 0) {
 				c = *src;
 				if (c < 0x80) {
-					dest[cnt] = (wchar_t)c;
+					if (dest != NULL)
+						dest[cnt] = (wchar_t)c;
 					if (c == '\0') {
 						src = NULL;
 						break;
@@ -96,57 +94,12 @@ mbsrtowcs(wchar_t *__restrict__ dest, const char **__restrict__ srcps,
 				if (wc < (1 << (5 * count + 6)))
 					goto bad_input_backup;
 			}
-			dest[cnt] = wc;
+			if (dest != NULL)
+				dest[cnt] = wc;
 			ps->count = 0;
 			cnt++;
 			continue;
  bad_input_backup:
-			src = s2;
-			goto bad_input;
-		}
-	} else {
-		/* ignore dest and len */
-		while (1) {
-			const unsigned char *s2 = src;
-			if (ps->count == 0) {
-				c = *src;
-				if (c < 0x80) {
-					if (c == '\0') {
-						src = NULL;
-						break;
-					}
-					src++;
-					cnt++;
-					continue;
-				} else if (c < 0xC2)
-					goto bad_input;
-				if (c < 0xE0) {
-					wc = (wchar_t)(c & 0x1F) << 6;
-					count = 1;
-				} else if (c < 0xF0) {
-					wc = (wchar_t)(c & 0x0F) << 12;
-					count = 2;
-				} else
-					goto bad_input;
-				src++;
-			} else {
-				wc = ps->value << 6;
-				count = ps->count;
-			}
-			for (;;) {
-				c = *src++ ^ 0x80;
-				if (!(c < 0x40))
-					goto bad_input_backup2;
-				wc |= (wchar_t)c << (6 * --count);
-				if (count == 0)
-					break;
-				if (wc < (1 << (5 * count + 6)))
-					goto bad_input_backup2;
-			}
-			ps->count = 0;
-			cnt++;
-			continue;
- bad_input_backup2:
 			src = s2;
 			goto bad_input;
 		}
