@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.152 2009/02/01 14:48:43 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.153 2009/02/03 00:59:34 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -3140,4 +3140,56 @@ Tag: bug event security snapshot
 <p>GNU grub-legacy cannot access ISO 9660 on devices with sector sizes
  other than 2048 bytes… and, according to mika, has other quirks, with
  recent mke2fs’ inode defaults making it hiccup. Heh.</p>
+----
+Author: tg@
+Title: kubuntu cheats (remember cheaterinterview.mp3? think Shuttleworth)
+Date: 04.02.2009 13:20
+
+<p>kdm starts while (Ctrl-Alt-F8) the system is still booting. I only
+ noticed it because we log in against LDAP (UCS), and since I have two
+ NICs in there now (due to FreeWRT stuff), the Network Manager takes
+ more time in bringing the network up. Gah. I do not even <em>want</em>
+ to log in before <tt>/etc/rc.local</tt> has run, because it contains
+ calls to rdate and starts an egd (entropy gathering dæmon), among other
+ things… these cheaters are worse than Microsoft®!</p>
+<p>Oh, and when I wanted to unlock it to write about it, it hung (as if
+ it didn’t like me). Alt-SysRq to the rescue (we need it in MirBSD too).
+ Crapware.</p>
+----
+Author: tg@
+Date: 04.02.2009 19:36
+Title: Deutsche Bahn verschenkt BahnCard 25
+
+<p>Leute, kauft euer Nahverkehrsfahrkartenabonnement bei der Deutschen
+ Bahn. Nicht nur nerven sie täglich weniger, sind ihre Züge in der
+ Regel pünktlicher, sondern sie überfahren einen auch nicht fast… wie
+ bei gewissen Stadtwerken vorkommt. Und in der Regel halten sie sogar
+ da, wo sie sollen.</p>
+<p>Auf jeden Fall habe ich meine innerstädtische Monatskarte bei der
+ DB gekauft und hatte heute einen Gutschein für ein Jahr BahnCard 25
+ im Briefkasten. Nett…</p>
+----
+Author: tg@
+Date: 04.02.2009 19:38
+Title: MirOS heartbeat protocol implementation: abuse as NTP monitoring
+
+<p>I’ve started trying to use the mircvs://contrib/code/heartbeat/
+ stuff to monitor NTP timedeltas between my boxen and a reference box
+ (some random Stratum 2 pool server I do not use as server in any of
+ the boxen, otherwise I might have used the PTB servers). Add rrdtool
+ and rrdgraph output. Maybe mail when the boxen are down, until we
+ have company monitoring set up?</p>
+<p>I wonder if I should do it the “right” way instead of the “little
+ effort” way, then commit it? Including cleaning up the age-old code.
+ Is there any interest?</p>
+<p>On a side note, we need a monitoring and management system, either
+ one tool or integrating a few. It should have a command line interface
+ and a WUI, different web pages for admins and (read-only) users who
+ can look there for the general system state before complaining. Also,
+ we need configuration management. A few keywords: nagios, cacti, puppet,
+ cfengine. These were thrown into the room. Does anyone have a complete
+ solution, possibly with VM management (how much does OpenCRM do?), for
+ which we currently use a homegrown Jabber bot (don’t ask…) which does
+ the template cloning (zfs, iSCSI) and other setup. Other suggestions,
+ tools to avoid, success stories, links, documentation welcome.</p>
 ----
