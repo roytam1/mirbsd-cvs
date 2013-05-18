@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: kern_clock.c,v 1.42 2003/06/02 23:28:05 millert Exp $	*/
 /*	$NetBSD: kern_clock.c,v 1.34 1996/06/09 04:51:03 briggs Exp $	*/
 
@@ -50,7 +51,12 @@
 #include <sys/sysctl.h>
 #include <sys/sched.h>
 
+#include <dev/rndvar.h>
 #include <machine/cpu.h>
+
+#ifdef CPU_HARDCLOCKENT_DECL
+CPU_HARDCLOCKENT_DECL;
+#endif
 
 /*
  * Clock handling routines.
@@ -162,6 +168,10 @@ hardclock(frame)
 	register int delta;
 	extern int tickdelta;
 	extern long timedelta;
+
+#ifdef CPU_HARDCLOCKENT
+	CPU_HARDCLOCKENT();
+#endif
 
 	p = curproc;
 	if (p) {

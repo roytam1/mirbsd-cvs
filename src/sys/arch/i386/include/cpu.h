@@ -1,9 +1,9 @@
-/**	$MirOS: src/sys/arch/i386/include/cpu.h,v 1.5 2006/02/26 01:17:27 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/include/cpu.h,v 1.6 2006/10/17 23:16:44 tg Exp $ */
 /*	$OpenBSD: cpu.h,v 1.59 2004/04/02 22:28:41 tedu Exp $	*/
 /*	$NetBSD: cpu.h,v 1.35 1996/05/05 19:29:26 christos Exp $	*/
 
 /*-
- * Copyright (c) 2006
+ * Copyright (c) 2006, 2008
  *	Thorsten Glaser <tg@mirbsd.de>
  * Copyright (c) 1990 The Regents of the University of California.
  * All rights reserved.
@@ -110,6 +110,30 @@ extern u_quad_t pentium_base_tsc;
 					 : );				\
 		}							\
 	} while (0)
+#define CPU_HARDCLOCKENT_DECL						\
+	static u_quad_t cpu_hce_tsc
+#define CPU_HARDCLOCKENT() do {						\
+	if (pentium_mhz && rnd_addpool_allow) {				\
+		u_quad_t cpu_hce_val = cpu_hce_tsc, cpu_hce_ent = 0;	\
+		u_quad_t cpu_hce_mask = 0x8000000000000000ULL;		\
+									\
+		__asm __volatile("cli\n"				\
+				 "rdtsc\n"				\
+				 "sti\n"				\
+				 : "=A" (cpu_hce_tsc) : );		\
+		cpu_hce_val = cpu_hce_tsc - cpu_hce_val;		\
+		while (cpu_hce_mask) {					\
+			if (cpu_hce_val & cpu_hce_mask) {		\
+				cpu_hce_ent <<= 1;			\
+				if (cpu_hce_tsc & cpu_hce_mask)		\
+					cpu_hce_ent++;			\
+			}						\
+			cpu_hce_mask >>= 1;				\
+		}							\
+		rnd_addpool_add(cpu_hce_ent & 0xFFFFFFFF);		\
+		rnd_addpool_add(cpu_hce_ent >> 32);			\
+	}								\
+} while (0)
 #endif
 #define	__do_calibrate_cyclecounter(rvptr)				\
 	do {								\
