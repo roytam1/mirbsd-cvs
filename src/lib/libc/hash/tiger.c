@@ -1,4 +1,4 @@
-/* $MirOS: src/share/misc/licence.template,v 1.20 2006/12/11 21:04:56 tg Rel $ */
+/* $MirOS: src/lib/libc/hash/tiger.c,v 1.3 2006/12/28 02:14:05 tg Exp $ */
 
 /*-
  * Copyright (c) 2006
@@ -28,7 +28,7 @@
 #include <string.h>
 #include <tiger.h>
 
-__RCSID("$MirOS: src/lib/libc/hash/tiger.c,v 1.2 2006/11/07 00:08:28 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/hash/tiger.c,v 1.3 2006/12/28 02:14:05 tg Exp $");
 
 void
 TIGERInit(TIGER_CTX *ctx)
@@ -78,7 +78,7 @@ TIGERPad(TIGER_CTX *ctx)
 	}
 	while (i < 56)
 		ctx->buffer[i++] = 0;
-	*((uint64_t *)(&(ctx->buffer[56]))) = ctx->count << 3;
+	*((uint64_t *)(&(ctx->buffer[56]))) = htole64(ctx->count << 3);
 	TIGERTransform(ctx->digest, ctx->buffer);
 }
 
@@ -88,9 +88,9 @@ TIGERFinal(uint8_t *out, TIGER_CTX *ctx)
 	TIGERPad(ctx);
 	if (out != NULL) {
 		uint64_t *dst = (uint64_t *)out;
-		dst[0] = letoh64(ctx->digest[0]);
-		dst[1] = letoh64(ctx->digest[1]);
-		dst[2] = letoh64(ctx->digest[2]);
+		dst[0] = htole64(ctx->digest[0]);
+		dst[1] = htole64(ctx->digest[1]);
+		dst[2] = htole64(ctx->digest[2]);
 	}
 	bzero(ctx, sizeof (TIGER_CTX));
 }
@@ -637,14 +637,14 @@ TIGERTransform(uint64_t *state, const uint8_t *data)
 	b = state[1];
 	c = state[2];
 
-	x0 = htole64(((const uint64_t *)data)[0]);
-	x1 = htole64(((const uint64_t *)data)[1]);
-	x2 = htole64(((const uint64_t *)data)[2]);
-	x3 = htole64(((const uint64_t *)data)[3]);
-	x4 = htole64(((const uint64_t *)data)[4]);
-	x5 = htole64(((const uint64_t *)data)[5]);
-	x6 = htole64(((const uint64_t *)data)[6]);
-	x7 = htole64(((const uint64_t *)data)[7]);
+	x0 = letoh64(((const uint64_t *)data)[0]);
+	x1 = letoh64(((const uint64_t *)data)[1]);
+	x2 = letoh64(((const uint64_t *)data)[2]);
+	x3 = letoh64(((const uint64_t *)data)[3]);
+	x4 = letoh64(((const uint64_t *)data)[4]);
+	x5 = letoh64(((const uint64_t *)data)[5]);
+	x6 = letoh64(((const uint64_t *)data)[6]);
+	x7 = letoh64(((const uint64_t *)data)[7]);
 
 	for (i = 0; i < 3; ++i) {
 		uint64_t tmpa;
