@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.358 2010/08/28 20:31:24 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.359 2010/09/05 20:09:23 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -1088,6 +1088,12 @@ exec /usr/bin/ld "${args[@]}"</pre>
   parsing bug</a> in the mksh(1) manual page and on the Red Hat Bugzilla</li>
  <li>[tg] Add support for handling a “--” argument to more builtins</li>
  <li>[tg] Correct some error messages</li>
+ <li>[Jeff Hamilton] Don’t alias stop on Android (system specific conflict)</li>
+ <li>[tg] Add size optimisations, ifdef’d, mostly for Android</li>
+ <li>[tg] Address what few concerns Chris Palmer (Android security team) had:
+  check all multiplications and some additions for integer overflows, mostly
+  in allocation context, and check setres{u,g}id/setuid for EAGAIN iff the
+  target OS is known to be returning it (Linux only, right now)</li>
 </ul>
 <p id="r39c">mksh R39c is an important minor bugfix release:</p><ul>
  <li>[tg] Build system, code, docs and testsuite cleanup, also style(9)</li>
