@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.188 2009/04/22 18:42:17 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.189 2009/04/23 18:19:26 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -3919,4 +3919,17 @@ Tag: snapshot
  or especially create a DuaLive&trade; CD again, mostly due to real life
  jumping in or immense (more than usual) headaches, I wonder if I should
  build another one with the changes done afterwards in it. Comments?</p>
+----
+Date: 26.04.2009 18:09
+Author: tg@
+Title: MirOS-current Triforce snapshot on BT
+Tag: snapshot
+
+<p>The <a href="@@RELPATH@@bt.htm#s90425">Ostara 2009</a> snapshot of
+ MirOS BSD #10-current (DuaLive™ technology and MirGRML 2009.01 making
+ a Triforce™ CD) is available on a couple of BitTorrent trackers, <a
+ href="http://f.scarywater.net/miros/">our usual tracker</a> and a few
+ others for diversity (and so that they do have some legal content).</p>
+<p>It's also available for <a href="@@ABSPATH@@/MirOS/current/">NetInstall</a> on both
+ architectures.</p>
 ----
