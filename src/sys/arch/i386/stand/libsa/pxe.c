@@ -1,4 +1,4 @@
-/*	$MirOS: src/sys/arch/i386/stand/libsa/pxe.c,v 1.6 2009/01/10 13:03:40 tg Exp $ */
+/*	$MirOS: src/sys/arch/i386/stand/libsa/pxe.c,v 1.7 2009/01/10 20:28:28 tg Exp $ */
 /*	$OpenBSD: pxe.c,v 1.5 2007/07/27 17:46:56 tom Exp $ */
 /*	$NetBSD: pxe.c,v 1.5 2003/03/11 18:29:00 drochner Exp $	*/
 
@@ -94,12 +94,11 @@
 #include <netinet/udp.h>
 #include <netinet/udp_var.h>
 
-#include <lib/libsa/stand.h>
+#include <libsa.h>
 #include <lib/libsa/net.h>
 #include <lib/libsa/bootp.h>
 
 #include <stand/boot/bootarg.h>
-#include <machine/biosvar.h>
 
 #include "pxeboot.h"
 #include "pxe.h"
