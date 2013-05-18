@@ -1,8 +1,8 @@
-/* $MirOS: contrib/code/mirmake/dist/contrib/mirmake.h,v 1.27 2006/12/28 01:30:42 tg Exp $ */
+/* $MirOS: contrib/code/mirmake/dist/contrib/mirmake.h,v 1.28 2008/02/12 20:35:23 bsiegert Exp $ */
 
 /*-
- * Copyright (c) 2005, 2006
- *	Thorsten Glaser <tg@mirbsd.de>
+ * Copyright (c) 2005, 2006, 2008
+ *	Thorsten “mirabilos” Glaser <tg@mirbsd.de>
  * Based upon some code
  * Copyright (c) 1991, 1993
  *	The Regents of the University of California.
@@ -46,6 +46,12 @@
 #ifdef __INTERIX
 /* stock Interix/SFU needs this, MirInterix not */
 #define _ALL_SOURCE
+#endif
+
+#if defined(__APPLE__)
+/* stock Mac OSX Leopard needs this, due to symbol mangling conflicts */
+#undef __DARWIN_UNIX03
+#define __DARWIN_UNIX03 0
 #endif
 
 #include <sys/cdefs.h>
