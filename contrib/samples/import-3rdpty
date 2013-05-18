@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: contrib/samples/import-3rdpty,v 1.35 2010/12/19 17:17:47 tg Exp $
+# $MirOS: contrib/samples/import-3rdpty,v 1.36 2010/12/19 17:54:10 tg Exp $
 #-
 # Copyright (c) 2004, 2005, 2006, 2007, 2008, 2009, 2010
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -19,7 +19,7 @@
 # damage or existence of a defect, except proven that it results out
 # of said person's immediate fault when using the work as intended.
 
-print -ru2 -- '========= $MirOS: contrib/samples/import-3rdpty,v 1.35 2010/12/19 17:17:47 tg Exp $ ========='
+print -ru2 -- '========= $MirOS: contrib/samples/import-3rdpty,v 1.36 2010/12/19 17:54:10 tg Exp $ ========='
 
 ignlist=0
 force=0
@@ -421,45 +421,26 @@ case $module {
 	IGNORELIST="\
 		*.com \
 		ABOUT-NLS \
-		AUTHORS \
 		BUILD \
-		CHANGES \
 		COPYHEADER* \
 		COPYING* \
-		INSTALLATION \
 		PACKAGE \
 		PROBLEMS \
-		README \
-		VMSPrint.com \
 		WWW/FreeofCharge.html \
-		WWW/Library/Implementation/HTDOS.c \
-		WWW/Library/Implementation/HTDOS.h \
-		WWW/Library/Implementation/HTVMSUtils.c \
-		WWW/Library/Implementation/HTVMSUtils.h \
-		WWW/Library/Implementation/HTVMS_WaisProt.c \
-		WWW/Library/Implementation/HTVMS_WaisProt.h \
-		WWW/Library/Implementation/HTVMS_WaisUI.c \
-		WWW/Library/Implementation/HTVMS_WaisUI.h \
-		WWW/Library/Implementation/index.html \
+		WWW/Library/Implementation/HTDOS* \
+		WWW/Library/Implementation/HTVMS*
 		WWW/Library/Implementation/tidy_tls.h \
-		WWW/Library/VMS \
 		WWW/Library/djgpp \
-		WWW/Library/index.html \
 		WWW/Library/vms \
-		WWW/index.html \
 		config.guess \
 		config.sub \
 		configure \
 		descrip.mms \
 		docs \
-		fixed512.com \
 		install-sh \
-		install.sh \
 		lib \
 		lynx.hlp \
 		lynx.rsp \
-		lynx_help/index.html \
-		lynx_help/keystrokes/index.html \
 		make-msc.bat \
 		makefile.bcb \
 		makefile.msc \
@@ -468,14 +449,12 @@ case $module {
 		mkdirs.sh \
 		po \
 		samples/*VMS* \
-		samples/index.html \
 		samples/lynx-demo.cfg \
 		samples/lynx.bat \
 		samples/lynx.com \
 		samples/lynx.ico \
-		scripts/config.djgpp.sh \
 		scripts/conf.mingw.sh \
-		scripts/index.html \
+		scripts/config.djgpp.sh \
 		scripts/man2hlp.sh \
 		scripts/tbl2html.pl \
 		src/*.opt \
@@ -483,19 +462,16 @@ case $module {
 		src/LYVMSdef.h \
 		src/Xsystem.c \
 		src/chrtrans/*.com \
-		src/chrtrans/index.html \
 		src/chrtrans/make-msc.bat \
 		src/chrtrans/makefile.{bcb,dos,msc} \
 		src/chrtrans/makehdrs.bat \
 		src/chrtrans/makew32.bat \
 		src/descrip.mms \
-		src/index.html \
 		src/makefile.{dos,dsl,wsl} \
 		src/mktime.c \
 		src/parsdate.c \
 		src/strstr.c \
 		src/tidy_tls.c \
-		test/index.html \
 	"
 	vendor=lynx
 	vpath=src/gnu/usr.bin/lynx
