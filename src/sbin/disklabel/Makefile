@@ -1,29 +1,20 @@
-# $MirOS: src/sbin/disklabel/Makefile,v 1.7 2006/06/30 23:18:04 tg Exp $
+# $MirOS: src/sbin/disklabel/Makefile,v 1.8 2006/09/22 15:44:31 tg Exp $
 # $OpenBSD: Makefile,v 1.38 2005/04/01 16:00:09 deraadt Exp $
 
 .include <bsd.own.mk>
 
 PROG=		disklabel
-SRCS=		disklabel.c dkcksum.c editor.c manpage.c
-CLEANFILES+=	manpage.c
+SRCS=		disklabel.c dkcksum.c editor.c manpage.S
 DPADD+=		${LIBUTIL}
 LDADD+=		-lutil
 MAN=		disklabel.8 disklabel.5
-CFLAGS+=	-Wall
+COPTS+=		-Wall
 
 .if !defined(NOMAN) || ${NOMAN:L} == "no"
-manpage.c: disklabel.cat8
-.endif
-
-manpage.c:
-	print 'const unsigned char manpage[] = ' >$@
-.if defined(NOMAN) && ${NOMAN:L} != "no"
-	print -r '"no manual\n"' >>$@
+manpage.o: disklabel.cat8
 .else
-	col -b <disklabel.cat8 | sed -e 's/[\\"]/\\&/g' \
-	    -e 's/^/"/' -e 's/$$/\\n"/' >>$@
+AFLAGS_manpage.o+= -DNOMAN
 .endif
-	print ';' >>$@
 
 .if ${MACHINE_ARCH} == "i386"
 CPPFLAGS+=	-DNUMBOOT=2 -DDOSLABEL
