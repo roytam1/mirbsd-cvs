@@ -1,6 +1,7 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.15 2003/10/08 17:13:18 sturm Exp $
 
-COMMENT=			minimal window manager
+COMMENT=	minimal window manager
 
 DISTNAME=	wmx-6
 CATEGORIES=	x11
@@ -15,6 +16,7 @@ PERMIT_DISTFILES_CDROM=	"no license"
 PERMIT_DISTFILES_FTP=	"no license"
 
 USE_X11=	Yes
+USE_CXX=	Yes
 CONFIGURE_STYLE=	gnu
 
 NO_REGRESS=	Yes

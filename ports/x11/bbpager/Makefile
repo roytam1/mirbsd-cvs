@@ -1,6 +1,7 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.5 2002/11/26 23:28:22 margarida Exp $
 
-COMMENT=			pager for the Blackbox window manager.
+COMMENT=	pager for the Blackbox window manager
 
 DISTNAME=	bbpager-0.3.1
 CATEGORIES=	x11
@@ -17,6 +18,7 @@ PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
 USE_X11=	Yes
+USE_CXX=	Yes
 
 CONFIGURE_STYLE= gnu
 

@@ -1,6 +1,7 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.4 2003/08/22 16:04:03 pvalchev Exp $
 
-COMMENT=			convert Intel assembly language (nasm) to AT&T syntax (gas)
+COMMENT=	convert Intel assembly language (nasm) to AT&T syntax (gas)
 
 VERSION=	1.3.3
 DISTNAME=	intel2gas-${VERSION}
@@ -16,6 +17,7 @@ PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
 NO_REGRESS=	Yes
+USE_CXX=	Yes
 CONFIGURE_STYLE=gnu
 
 DATAPREFIX=	${PREFIX}/share/intel2gas

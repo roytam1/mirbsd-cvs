@@ -1,7 +1,8 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.17 2003/06/17 15:28:55 avsm Exp $
 # $FreeBSD: ports/net/pchar/Makefile,v 1.1.1.1 1999/11/04 08:33:26 obrien Exp $
 
-COMMENT=			Sandia Internet path characterization tool
+COMMENT=		Sandia Internet path characterization tool
 
 VSN=			1.4
 DASH_VER=		1
@@ -21,6 +22,7 @@ HOMEPAGE=	http://www.employees.org/~bmah/Software/pchar/
 CONFIGURE_STYLE=gnu
 CONFIGURE_ARGS=	--with-ipv6 --with-pcap
 
+USE_CXX=	Yes
 NO_REGRESS=	Yes
 
 do-install:
