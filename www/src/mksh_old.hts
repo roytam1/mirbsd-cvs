@@ -1,11 +1,11 @@
-# $MirOS: www/src/mksh_old.hts,v 1.35 2010/10/24 16:05:39 tg Exp $
+# $MirOS: www/src/mksh_old.hts,v 1.36 2011/01/21 22:49:25 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/mksh/old "mksh – old versions"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh_old.hts,v 1.35 2010/10/24 16:05:39 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh_old.hts,v 1.36 2011/01/21 22:49:25 tg Exp $'
 mws_content <<'EOF'
 <h2><a href="mksh.htm">mksh</a> – old versions</h2>
 
@@ -79,7 +79,7 @@ mws_content <<'EOF'
  the user interface is slightly different especially for ksh88; many editing
  commands work (only slightly) differently as well. mksh implements many, but
  by far not all, ksh93 features, but most ksh88 features. No floating point.
- The last command of a pipeline is executed in a subshell.</p>
+ All commands of a pipeline are executed in a subshell.</p>
 <p>mksh can do many things GNU bash can’t, for example better arrays, the
  ksh Co-processes, etc. but is much faster and smaller. In contrast to bash,
  mksh is still being actively developed (bash almost only receives small
@@ -1027,7 +1027,7 @@ mws_content <<'EOF'
   simplify CPPFLAGS and reduce size of generated table</li>
  <li>Run the signal name generator only if needed</li>
  <li>Use the -c option to GNU nroff, always</li>
- <li>Make the &quot;last command of a pipeline is executed in a
+ <li>Make the &quot;all commands of a pipeline are executed in a
   subshell&quot; issue a dependable mksh feature</li>
  <li>Improve regression test comments and a few tests</li>
  <li>If $RANDOM is generated from arc4random(3), display at

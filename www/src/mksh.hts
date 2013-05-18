@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.379 2011/02/11 01:23:06 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.380 2011/02/13 21:18:53 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -1133,10 +1133,13 @@ exec /usr/bin/ld "${args[@]}"</pre>
   by LC_ALL/LC_CTYPE/LANG environment variables in that case</li>
  <li>[tg] If the interactive shell uses setlocale(3)/nl_langinfo(3) to divine
   <tt>utf8-mode</tt>, fall back to environment variables unless success</li>
- <li>[tg] When called as a builtin, echo(1) behaves POSIXish</li>
+ <li>[tg] From a direct builtin call, echo(1) behaves POSIXish</li>
  <li>[tg] Replace some MirBSD utilities with links to mksh(1) and ensure
   some integration to keep compatibility</li>
  <li>[tg] Add a microsecond capable sleep(1) builtin [updated 20110213]</li>
+ <li>[tg] If the built-in cat is invoked from a direct builtin call, it
+  now properly handles the POSIXly demanded ‘-u’ option (as a no-op)</li>
+ <li>[tg] Support the <tt>PIPESTATUS</tt> array (like GNU bash)</li>
 </ul>
 <p id="r39c">mksh R39c is an important minor bugfix release:</p><ul>
  <li>[tg] Build system, code, docs and testsuite cleanup, also style(9)</li>
