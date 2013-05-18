@@ -28,7 +28,7 @@
  excessive use of the rsync command, since it imposes a lot of traffic.
 <br />
  Please consider using a <a
- href="/MirOS/CVS/cvsrepo-20070311.cgz">recent (2007-03-11) snapshot</a>
+ href="/MirOS/CVS/cvsrepo-20080316.cgz">recent (2008-03-16) snapshot</a>
  tarball (gzsig(1)d)
  of the CVS Repository (or for the old CVSROOT, the final snapshot from <a
  href="/MirOS/CVS/cvsroot-historic.cgz">2006-01-20</a>)

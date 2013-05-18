@@ -10,11 +10,11 @@
  content of the website is copyrighted.</p>
 
 <h2>Status</h2><p>
- <a href="/?ann-9">MirOS #9</a> is the latest release.
- The <a href="http://f.scarywater.net/miros/">BitTorrent tracker</a> contains a snapshot from 2006-10-29.
- The <a href="/current/i386/">latest snapshot</a> of the current development version (i386) is from 2006-10-16.
- MirPorts infrastructure and new installer (<a href="/?ports">docs</a>) are stable and working on MirOS, OpenBSD and Darwin. Interix does not work.
- We expect quite a percentage of individual ports to be broken or out of date due to lack of manpower.
+ <a href="/ann-10.htm">MirOS #10</a> is the latest release.
+ The <a href="http://f.scarywater.net/miros/">BitTorrent tracker</a> contains it.
+ The <a href="/current/i386/">latest snapshot</a> of the current development version (i386) is older.
+ MirPorts infrastructure and new installer (<a href="/ports.htm">docs</a>) are stable and working on Darwin, MidnightBSD, MirOS, and OpenBSD. Interix does not work.
+ We expect a small percentage of individual ports to be broken or (more) out of date due to lack of manpower.
 </p>
 
 <h2>Mailing lists</h2><ul>
@@ -38,9 +38,13 @@
  <li>CVSweb<ul>
   <li><a href="http://cvsweb.allbsd.org/cvsweb.cgi/?cvsroot=mirbsd">http://cvsweb.allbsd.org/cvsweb.cgi/?cvsroot=mirbsd</a></li>
   <li><a href="http://cvs.mirbsd.de/">http://cvs.mirbsd.de/</a> (should always work)</li>
+  <li><a href="http://www.mirbsd.org/cvs.cgi/">http://www.mirbsd.org/cvs.cgi/</a></li>
   <!-- li><a href="https://mirbsd.mirsolutions.de:445/cvs.cgi/">http://mirbsd.mirsolutions.de/cvs.cgi/</a></li -->
  </ul></li>
  <li>Release<ul>
+  <li><a href="http://f.scarywater.net/miros/">MirOS #10</a> (BitTorrent, ISO)</li>
+  <li><a href="http://www.mirbsd.org/MirOS/v10/">MirOS #10</a> (NetInstall)</li>
+  <li><a href="http://www.mirbsd.org/MirOS/ISOs/MIR80316.ISO">MirOS #10</a> (HTTP, ISO)</li>
   <li><a href="http://f.scarywater.net/miros/BSD-8semel-full--i386-source.ISO.torrent">ISO (BitTorrent)</a> #8semel (i386)</li>
   <li><a href="http://www.mirbsd.org/MirOS/v8.1/i386/">Direct Download</a> #8semel (i386)</li>
   <li>(no #8semel/sparc released, please use MirOS #7 instead)</li>
@@ -50,7 +54,7 @@
  </ul></li>
  <li>Snapshots<ul>
   <li><a href="http://f.scarywater.net/miros/">Please use our BitTorrent tracker</a> to download if available</li>
-  <li><a href="http://www.mirbsd.org/MirOS/current/i386-20060420/">MirOS BSD #8-current/i386, 2006-04-20</a> (binary only)</li>
+<!--  <li><a href="http://www.mirbsd.org/MirOS/current/i386-20060420/">MirOS BSD #8-current/i386, 2006-04-20</a> (binary only)</li> -->
  </ul></li>
  <li>Website<ul>
   <li><a href="http://www.mirbsd.org/">http://www.mirbsd.org/</a></li>
@@ -58,7 +62,7 @@
   <li><a href="http://mirbsd.de/fornow">http://mirbsd.de/fornow</a></li>
  </ul></li>
  <li>CVS Repositories<ul>
-  <li><a href="/MirOS/CVS/cvsrepo-20070311.cgz">/cvs</a> (4th, current)</li>
+  <li><a href="/MirOS/CVS/cvsrepo-20080316.cgz">/cvs</a> (4th, current)</li>
   <li><a href="/MirOS/CVS/cvsroot-historic.cgz">/ncvs /ocvs /lcvs</a> (1st, 2nd, 3rd combined, historic, final)</li>
  </ul></li>
 </ul>
