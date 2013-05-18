@@ -423,9 +423,19 @@ char *ucstrstr(char *, const char *);
 /*
  * simple grouping allocator
  */
-typedef struct lalloc {
+
+/* 1. internal structure */
+struct lalloc {
 	struct lalloc *next;
-} Area;
+};
+
+/* 2. sizes */
+#define ALLOC_ITEM	struct lalloc
+#define ALLOC_SIZE	(sizeof (ALLOC_ITEM))
+
+/* 3. group structure (only the same for lalloc.c) */
+typedef struct lalloc Area;
+
 
 EXTERN Area aperm;		/* permanent object space */
 #define APERM	&aperm
