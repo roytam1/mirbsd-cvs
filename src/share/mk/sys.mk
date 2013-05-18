@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/sys.mk,v 1.91 2007/02/26 02:37:50 tg Exp $
+# $MirOS: src/share/mk/sys.mk,v 1.92 2007/03/08 09:01:58 tg Exp $
 # $OpenBSD: sys.mk,v 1.45 2005/03/07 00:06:00 deraadt Exp $
 # $NetBSD: sys.mk,v 1.27 1996/04/10 05:47:19 mycroft Exp $
 # @(#)sys.mk	5.11 (Berkeley) 3/13/91
@@ -91,9 +91,9 @@ CTAGS?=		/usr/bin/ctags
 .c.o:
 	${COMPILE.c} ${CFLAGS_${.TARGET}:M*} ${.IMPSRC}
 .c.i:
-	${COMPILE.c} -o ${.TARGET} -E ${.IMPSRC}
+	${COMPILE.c} ${CFLAGS_${.TARGET}:M*} -o ${.TARGET} -E ${.IMPSRC}
 .c.a:
-	${COMPILE.c} ${.IMPSRC}
+	${COMPILE.c} ${CFLAGS_${.TARGET:S/.a$/.o/}:M*} ${.IMPSRC}
 	${AR} ${ARFLAGS} $@ $*.o
 	rm -f $*.o
 .c.ln:
@@ -106,9 +106,9 @@ CTAGS?=		/usr/bin/ctags
 .m.o:
 	${COMPILE.c} ${CFLAGS_${.TARGET}:M*} ${.IMPSRC}
 .m.i:
-	${COMPILE.c} -o ${.TARGET} -E ${.IMPSRC}
+	${COMPILE.c} ${CFLAGS_${.TARGET}:M*} -o ${.TARGET} -E ${.IMPSRC}
 .m.a:
-	${COMPILE.c} ${.IMPSRC}
+	${COMPILE.c} ${CFLAGS_${.TARGET:S/.a$/.o/}:M*} ${.IMPSRC}
 	${AR} ${ARFLAGS} $@ $*.o
 	rm -f $*.o
 .m.ln:
@@ -121,9 +121,9 @@ CTAGS?=		/usr/bin/ctags
 .cc.o:
 	${COMPILE.cc} ${CXXFLAGS_${.TARGET}:M*} ${.IMPSRC}
 .cc.i:
-	${COMPILE.cc} -o ${.TARGET} -E ${.IMPSRC}
+	${COMPILE.cc} ${CXXFLAGS_${.TARGET}:M*} -o ${.TARGET} -E ${.IMPSRC}
 .cc.a:
-	${COMPILE.cc} ${.IMPSRC}
+	${COMPILE.cc} ${CXXFLAGS_${.TARGET:S/.a$/.o/}:M*} ${.IMPSRC}
 	${AR} ${ARFLAGS} $@ $*.o
 	rm -f $*.o
 
@@ -132,9 +132,9 @@ CTAGS?=		/usr/bin/ctags
 .cxx.o:
 	${COMPILE.cc} ${CXXFLAGS_${.TARGET}:M*} ${.IMPSRC}
 .cxx.i:
-	${COMPILE.cc} -o ${.TARGET} -E ${.IMPSRC}
+	${COMPILE.cc} ${CXXFLAGS_${.TARGET}:M*} -o ${.TARGET} -E ${.IMPSRC}
 .cxx.a:
-	${COMPILE.cc} ${.IMPSRC}
+	${COMPILE.cc} ${CXXFLAGS_${.TARGET:S/.a$/.o/}:M*} ${.IMPSRC}
 	${AR} ${ARFLAGS} $@ $*.o
 	rm -f $*.o
 
@@ -144,7 +144,7 @@ CTAGS?=		/usr/bin/ctags
 .s.o:
 	${COMPILE.s} ${AFLAGS_${.TARGET}:M*} ${.IMPSRC}
 .s.a:
-	${COMPILE.s} ${.IMPSRC}
+	${COMPILE.s} ${AFLAGS_${.TARGET:S/.a$/.o/}:M*} ${.IMPSRC}
 	${AR} ${ARFLAGS} $@ $*.o
 	rm -f $*.o
 
@@ -153,9 +153,9 @@ CTAGS?=		/usr/bin/ctags
 .S.o:
 	${COMPILE.S} ${AFLAGS_${.TARGET}:M*} ${.IMPSRC}
 .S.i:
-	${COMPILE.S} -o ${.TARGET} -E ${.IMPSRC}
+	${COMPILE.S} ${AFLAGS_${.TARGET}:M*} -o ${.TARGET} -E ${.IMPSRC}
 .S.a:
-	${COMPILE.S} ${.IMPSRC}
+	${COMPILE.S} ${AFLAGS_${.TARGET:S/.a$/.o/}:M*} ${.IMPSRC}
 	${AR} ${ARFLAGS} $@ $*.o
 	rm -f $*.o
 

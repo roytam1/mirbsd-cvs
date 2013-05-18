@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/bsd.sys.mk,v 1.7 2006/06/11 00:08:57 tg Exp $
+# $MirOS: src/share/mk/bsd.sys.mk,v 1.8 2006/11/02 00:50:29 tg Exp $
 # $OpenBSD: bsd.sys.mk,v 1.8 2000/07/06 23:12:41 millert Exp $
 # $NetBSD: bsd.sys.mk,v 1.2 1995/12/13 01:25:07 cgd Exp $
 
@@ -32,7 +32,7 @@ CXXFLAGS+=	-isystem ${DESTDIR}/usr/include/gxx \
 	${LEX.l} -o${.TARGET} ${.IMPSRC}
 .l.o:
 	${LEX.l} -o${.TARGET:R}.yy.c ${.IMPSRC}
-	${COMPILE.c} -o ${.TARGET} ${.TARGET:R}.yy.c
+	${COMPILE.c} ${CFLAGS_${.TARGET}:M*} -o ${.TARGET} ${.TARGET:R}.yy.c
 	rm -f ${.TARGET:R}.yy.c
 
 # Yacc
@@ -45,7 +45,7 @@ CXXFLAGS+=	-isystem ${DESTDIR}/usr/include/gxx \
 	mv ${.TARGET:R}.tab.c ${.TARGET}
 .y.o:
 	${YACC.y} -b ${.TARGET:R} ${.IMPSRC}
-	${COMPILE.c} -o ${.TARGET} ${.TARGET:R}.tab.c
+	${COMPILE.c} ${CFLAGS_${.TARGET}:M*} -o ${.TARGET} ${.TARGET:R}.tab.c
 	rm -f ${.TARGET:R}.tab.c
 .  endif
 

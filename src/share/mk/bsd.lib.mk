@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/bsd.lib.mk,v 1.50 2006/10/28 19:52:51 tg Exp $
+# $MirOS: src/share/mk/bsd.lib.mk,v 1.51 2007/03/02 02:58:57 tg Exp $
 # $OpenBSD: bsd.lib.mk,v 1.43 2004/09/20 18:52:38 espie Exp $
 # $NetBSD: bsd.lib.mk,v 1.67 1996/01/17 20:39:26 mycroft Exp $
 # @(#)bsd.lib.mk	5.26 (Berkeley) 5/2/91
@@ -92,8 +92,8 @@ LINK.shlib?=	${LINKER} ${CFLAGS:M*} ${SHLIB_FLAGS} -shared \
 .SUFFIXES:	.out .o .so .S .s .c .m .cc .cxx .y .l .i .ln .m4
 
 .c.o .m.o:
-	@echo ${COMPILE.c:Q} ${CFLAGS_${.TARGET:C/(g|s)o$/.o/}:M*:Q} \
-	    "${.IMPSRC} -o $@"
+	@echo ${COMPILE.c:Q} ${CFLAGS_${.TARGET:C/\.(g|s)o$/.o/}:M*:Q} \
+	    '${.IMPSRC} -o $@'
 	@${COMPILE.c} ${CFLAGS_${.TARGET:C/\.(g|s)o$/.o/}:M*} \
 	    ${.IMPSRC} -o $@.o
 	@${LD} ${_DISCARD} -r $@.o -o $@
@@ -101,7 +101,7 @@ LINK.shlib?=	${LINKER} ${CFLAGS:M*} ${SHLIB_FLAGS} -shared \
 
 .c.so .m.so:
 	@echo ${COMPILE.c:Q} ${CFLAGS_${.TARGET:C/\.(g|s)o$/.o/}:M*:Q} \
-	    -DPIC ${PICFLAG} "${.IMPSRC} -o $@"
+	    '-DPIC ${PICFLAG} ${.IMPSRC} -o $@'
 	@${COMPILE.c} ${CFLAGS_${.TARGET:C/\.(g|s)o$/.o/}:M*} \
 	    -DPIC ${PICFLAG} ${.IMPSRC} -o $@.o
 	@${LD} ${_DISCARD} -r $@.o -o $@
@@ -112,7 +112,7 @@ LINK.shlib?=	${LINKER} ${CFLAGS:M*} ${SHLIB_FLAGS} -shared \
 
 .cc.o .cxx.o:
 	@echo ${COMPILE.cc:Q} ${CXXFLAGS_${.TARGET:C/\.(g|s)o$/.o/}:M*:Q} \
-	    "${.IMPSRC} -o $@"
+	    '${.IMPSRC} -o $@'
 	@${COMPILE.cc} ${CXXFLAGS_${.TARGET:C/\.(g|s)o$/.o/}:M*} \
 	    ${.IMPSRC} -o $@.o
 	@${LD} ${_DISCARD} -r $@.o -o $@
@@ -120,17 +120,20 @@ LINK.shlib?=	${LINKER} ${CFLAGS:M*} ${SHLIB_FLAGS} -shared \
 
 .cc.so .cxx.so:
 	@echo ${COMPILE.cc:Q} ${CXXFLAGS_${.TARGET:C/\.(g|s)o$/.o/}:M*:Q} \
-	    -DPIC ${PICFLAG} "${.IMPSRC} -o $@"
+	    '-DPIC ${PICFLAG} ${.IMPSRC} -o $@'
 	@${COMPILE.cc} ${CXXFLAGS_${.TARGET:C/\.(g|s)o$/.o/}:M*} \
 	    -DPIC ${PICFLAG} ${.IMPSRC} -o $@.o
 	@${LD} ${_DISCARD} -r $@.o -o $@
 	@rm -f $@.o
 
 .S.o .s.o:
-	@echo "${CPP} -D_ASM_SOURCE ${AFLAGS:N-Wa,*:M*} ${CPPFLAGS}" \
-	    "${CFLAGS:M-[ID]*} ${AINC} ${AFLAGS_${.TARGET}:N-Wa,*:M*} $< |" \
-	    "${AS} ${AFLAGS:M-Wa,*:S/-Wa//:S/,/ /g}" \
-	    "${AFLAGS_${.TARGET}:M-Wa,*:S/-Wa//:S/,/ /g} -o $@"
+	@echo ${COMPILE.S:Q} ${AFLAGS_${.TARGET:C/\.(g|s)o$/.o/}:M*:Q} \
+	    '${CFLAGS:M-[ID]*} ${AINC} ${.IMPSRC} -o $@'
+	@${COMPILE.S} ${AFLAGS_${.TARGET:C/\.(g|s)o$/.o/}:M*} \
+	    ${CFLAGS:M-[ID]*} ${AINC} ${.IMPSRC} -o $@.o
+	@${LD} ${_DISCARD} -r $@.o -o $@
+	@rm -f $@.o
+
 	@${CPP} -D_ASM_SOURCE ${AFLAGS:N-Wa,*:M*} ${CPPFLAGS} \
 	    ${CFLAGS:M-[ID]*} ${AINC} ${AFLAGS_${.TARGET}:N-Wa,*:M*} $< | \
 	    ${AS} ${AFLAGS:M-Wa,*:S/-Wa//:S/,/ /g} \
@@ -139,14 +142,10 @@ LINK.shlib?=	${LINKER} ${CFLAGS:M*} ${SHLIB_FLAGS} -shared \
 	@rm -f $@.o
 
 .S.so .s.so:
-	@echo "${CPP} -DPIC -D_ASM_SOURCE ${AFLAGS:N-Wa,*:M*} ${CPPFLAGS}" \
-	    "${CFLAGS:M-[ID]*} ${AINC} ${AFLAGS_${.TARGET}:N-Wa,*:M*} $< |" \
-	    "${AS} ${ASPICFLAG} ${AFLAGS:M-Wa,*:S/-Wa//:S/,/ /g}" \
-	    "${AFLAGS_${.TARGET}:M-Wa,*:S/-Wa//:S/,/ /g} -o $@"
-	@${CPP} -DPIC -D_ASM_SOURCE ${AFLAGS:N-Wa,*:M*} ${CPPFLAGS} \
-	    ${CFLAGS:M-[ID]*} ${AINC} ${AFLAGS_${.TARGET}:N-Wa,*:M*} $< | \
-	    ${AS} ${ASPICFLAG} ${AFLAGS:M-Wa,*:S/-Wa//:S/,/ /g} \
-	    ${AFLAGS_${.TARGET}:M-Wa,*:S/-Wa//:S/,/ /g} -o $@.o
+	@echo ${COMPILE.S:Q} ${AFLAGS_${.TARGET:C/\.(g|s)o$/.o/}:M*:Q} -DPIC \
+	    '${ASPICFLAG:S/^/-Wa,/} ${CFLAGS:M-[ID]*} ${AINC} ${.IMPSRC} -o $@'
+	@${COMPILE.S} ${AFLAGS_${.TARGET:C/\.(g|s)o$/.o/}:M*} -DPIC \
+	    ${ASPICFLAG:S/^/-Wa,/} ${CFLAGS:M-[ID]*} ${AINC} ${.IMPSRC} -o $@.o
 	@${LD} ${_DISCARD} -r $@.o -o $@
 	@rm -f $@.o
 
