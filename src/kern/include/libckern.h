@@ -1,4 +1,4 @@
-/* $MirOS: src/kern/include/libckern.h,v 1.17 2008/12/27 20:10:06 tg Exp $ */
+/* $MirOS: src/kern/include/libckern.h,v 1.18 2008/12/27 21:43:23 tg Exp $ */
 
 /*-
  * Copyright (c) 2008
@@ -96,6 +96,7 @@ int memcmp(const void *, const void *, size_t)
 void *memcpy(void *, const void *, size_t)
     __attribute__((bounded (buffer, 1, 3)))
     __attribute__((bounded (buffer, 2, 3)));
+void memhexdump(const void *, size_t, size_t);
 void *memmove(void *, const void *, size_t)
     __attribute__((bounded (buffer, 1, 3)))
     __attribute__((bounded (buffer, 2, 3)));
