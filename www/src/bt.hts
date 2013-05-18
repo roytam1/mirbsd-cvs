@@ -1,4 +1,4 @@
-mws_putheader '$MirOS: www/content/YnQ_.inc,v 1.8 2007/04/30 20:42:24 tg Exp $'
+mws_putheader '$MirOS: www/src/bt.hts,v 1.1 2008/03/15 23:41:49 tg Exp $'
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -43,7 +43,8 @@ mws_content <<'EOF'
 <h4 id="r8semel">MirOS #8</h4>
 <h4 id="r7quater">#7quater</h4>
 <h3>Snapshots</h3>
-<p>None yet.</p>
+<h4 id="s80514">2008-05-14</h4>
+<p>MirOS BSD/i386 #10-current baselive ISO 9660 image, build log.</p>
 EOF
 mws_putfooter
 exit 0

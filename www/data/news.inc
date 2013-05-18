@@ -814,3 +814,20 @@ Author: tg@
  <li>RMD160 (mirsort-20050912.cpio.gz) = 69a1a632c7343c09ca7bab39f6359667bb461c1c</li>
 </ul>
 ----
+Title: MirOS-current snapshot on BT
+Date: 14.05.2008 21:37
+Author: tg@
+
+<p>The <a href="@@RELPATH@@bt.htm#s80514">2008-05-14</a> snapshot of
+ MirOS BSD/i386 #10-current has been released as a simple baselive CD
+ image (Live + Install CD, build logs, but nothing fancy) on the <a
+ href="http://f.scarywater.net/miros/">usual BitTorrent tracker</a>,
+ multi-tracked with a major BT site for these who pick it up there.</p>
+<p>It's also available for <a href="/MirOS/current/i386/">NetInstall</a>,
+ although you shouldn't pick up the perl CVS fix in that directory, as
+ it applies to <a href="@@RELPATH@@permalinks/news_e20071126-nn.htm">a
+ much older #10-beta snapshot</a>.</p>
+<p>The <a href="/MirOS/Pkgs/v10/i386/">#10/i386 binary packages</a>
+ should all be installable on this snapshot, although it does come with
+ more recent MirPorts Framework.</p>
+----
