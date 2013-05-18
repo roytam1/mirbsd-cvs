@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/baselive/Makefile,v 1.36 2008/10/21 21:03:32 tg Exp $
+# $MirOS: src/distrib/baselive/Makefile,v 1.37 2008/10/21 21:05:12 tg Exp $
 
 .include <bsd.own.mk>
 
@@ -179,7 +179,6 @@ cdrom-prepare: bsd.gz
 .endif
 	cd ${WRKDIR}; \
 	    ${SUDO} cp ${BOOT} b_i386.ldr; \
-	    ${SUDO} dd if=/dev/arandom bs=2048 count=1 of=b_torito.ldr; \
 	    ${SUDO} rm -f CKSUM*; \
 	    while IFS= read -r line; do \
 		if [[ $$line = *" = "+([0-9a-fA-F]) ]]; then \
@@ -198,7 +197,10 @@ cdrom-generate:
 	@print WRKDIR is \"${WRKDIR:Q}\"
 	@print Build coordination: press RETURN to continue...; read dummy
 .endif
+	${SUDO} chown $$(id -u) ${WRKDIR}
+	chmod 755 ${WRKDIR}
 	cd ${WRKDIR}; \
+	    [[ -e CKSUM && ! -e CKSUM.gz ]] || ${SUDO} gzip -d CKSUM; \
 	    sort -k3 |& exec 3>&p; exec 4<&p; \
 	    sort |& exec 5>&p; exec 6<&p; \
 	    while IFS= read -r line; do \
@@ -207,18 +209,21 @@ cdrom-generate:
 		else \
 			print -ru3 "$$line"; \
 		fi; \
-	    done <CKSUM; rm -f CKSUM; \
+	    done <CKSUM; ${SUDO} rm -f CKSUM*; \
 	    exec 3>&-; exec 5>&-; \
 	    (cat <&4; cat <&6) | gzip -n9 >CKSUM.gz; \
 	    dd if=/dev/zero bs=256 count=5 >>CKSUM.gz; \
-	    ${SUDO} chown 0:0 0?-* NONFREE.TXT CKSUM.gz ?oot* ?sd*; \
-	    ${SUDO} chmod 444 0?-* NONFREE.TXT CKSUM.gz ?oot* ?sd*; \
+	    ${SUDO} chown 0:0 0?-* $$([[ ! -e NONFREE.TXT ]] || \
+	    print NONFREE.TXT) CKSUM.gz b_* ?oot* ?sd*; \
+	    ${SUDO} chmod 444 0?-* $$([[ ! -e NONFREE.TXT ]] || \
+	    print NONFREE.TXT) CKSUM.gz b_* ?oot* ?sd*; \
 	    ${SUDO} chown 0:0 .; ${SUDO} chmod 555 .; \
 	    ${SUDO} ${MKSH} ${.CURDIR}/mklocatedb.sh ${REALOBJDIR}/${IMAGE}
+	dd if=/dev/arandom bs=2048 count=1 of=b_torito.ldr
 	${SUDO} makefs -t cd9660 -o "$$(print -r -- ${CDROM_OPTS} | \
 	    tr ' ~' ', ')" ${CDROM}~ ${WRKDIR}
 	${SUDO} chown $$(id -u) ${CDROM}~ ${WRKDIR}
-	${SUDO} chmod 755 ${WRKDIR}
+	chmod 755 ${WRKDIR}
 .if ${CDROM_PAD} == 1
 	mv ${CDROM}~ ${CDROM}
 .else
