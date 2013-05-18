@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: gcc/Makefile.lang,v 1.1 2005/12/18 16:36:50 tg Exp $
 
 .ifndef _MODGCC_MAKEFILE_LANG
 _MODGCC_MAKEFILE_LANG=1
@@ -7,19 +7,12 @@ _MODGCC_MAKEFILE_LANG=1
 
 .if ${OStype} == "MirBSD"
 .  if ${MACHINE} == "i386"
-NO_ADA?=	No
+NO_ADA?=	Yes #No
 NO_CXX?=	No
 NO_OBJC?=	No
-NO_JAVA?=	No
+NO_JAVA?=	Yes #No
 NO_PASCAL?=	No
 NO_THREADS?=	No	# mainly needed for gcj
-.  elif ${MACHINE} == "macppc"
-NO_ADA?=	Yes
-NO_CXX?=	Yes
-NO_OBJC?=	Yes
-NO_JAVA?=	Yes
-NO_PASCAL?=	Yes
-NO_THREADS?=	Yes
 .  else
 NO_ADA?=	Yes
 NO_CXX?=	Yes
