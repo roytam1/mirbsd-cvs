@@ -1,4 +1,4 @@
-/* $MirOS: src/sys/arch/i386/stand/boot/srt0.S,v 1.82 2009/10/27 14:34:49 tg Exp $ */
+/* $MirOS: src/sys/arch/i386/stand/boot/srt0.S,v 1.83 2009/10/27 15:38:32 tg Exp $ */
 
 /*-
  * Copyright (c) 2003, 2004, 2005, 2006, 2007, 2008, 2009
@@ -116,13 +116,15 @@ Largp:	.long	0
 
 Linit:	/* qemu sucks, int3 doesn’t work */
 	push	ds
-	push	ax
-	mov	ax,0x7000
-	mov	ds,ax
-	mov	byte ptr ds:[0],0xCB
-	/* set a “b *0x70000” to stop at this point */
-	lcall	0x7000,0x0000
-	pop	ax
+	push	si
+	xor	si,si
+	mov	ds,si
+	mov	cl,0xCB
+	xchg	ds:[si],cl
+	/* set a “b *0” to stop at this point */
+	lcall	0x0000,0x0000
+	xchg	ds:[si],cl
+	pop	si
 	pop	ds
 
 #ifndef SMALL_BOOT
@@ -474,6 +476,13 @@ Lmbrun:	mov	esp,0x0003FF7C
 	xor	eax,eax
 	push	eax
 	popfd
+
+	/* set a “b *0” to stop at this point */
+	push	[eax]
+	mov	byte ptr [eax],0xC3
+	call	eax
+	pop	[eax]
+
 	mov	esi,0x00100000
 	mov	edi,SA_LINKADDR
 	mov	ecx,0x4000

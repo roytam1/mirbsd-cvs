@@ -1,4 +1,4 @@
-.\" $MirOS: src/sys/arch/i386/stand/boot/boot.8,v 1.20 2009/10/24 16:25:36 tg Exp $
+.\" $MirOS: src/sys/arch/i386/stand/boot/boot.8,v 1.21 2009/10/27 13:54:27 tg Exp $
 .\"-
 .\" Copyright (c) 2009
 .\"	Thorsten Glaser <tg@mirbsd.org>
@@ -18,7 +18,7 @@
 .\" damage or existence of a defect, except proven that it results out
 .\" of said person's immediate fault when using the work as intended.
 .\"-
-.Dd $Mdocdate: October 24 2009 $
+.Dd $Mdocdate: October 27 2009 $
 .Dt BOOT 8 i386
 .Os
 .Sh NAME
@@ -73,6 +73,11 @@ Basic operation procedure is as follows:
 .Bl -enum
 .It
 Be loaded.
+However this is done, as the first thing we write a RETF instruction
+to 0000:0000 and CALL FAR it (from 16-bit code), or write a RET instruction
+to 0x00000000 and CALL it (from 32-bit code), backing up the previous
+content of course, so that qemu+gdb users can intercept via
+.Dq b *0 .
 .Pp
 .Bl -tag -width Multiboot
 .It BIOS
