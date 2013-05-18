@@ -1,4 +1,4 @@
-/* $MirOS: src/share/misc/licence.template,v 1.20 2006/12/11 21:04:56 tg Rel $ */
+/* $MirOS: src/libexec/cprng/cprng.c,v 1.1 2007/07/07 20:32:06 tg Exp $ */
 
 /*-
  * Copyright (c) 2007
@@ -36,11 +36,12 @@
 
 #include <sys/types.h>
 #include <sys/time.h>
+#include <sys/ioctl.h>
 #include <fcntl.h>
 #include <signal.h>
 #include <unistd.h>
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/libexec/cprng/cprng.c,v 1.1 2007/07/07 20:32:06 tg Exp $");
 
 volatile sig_atomic_t glocke;
 useconds_t littlesleep = 20000;
@@ -128,6 +129,11 @@ main(int argc, char *argv[])
 	if (argc > 1) {
 		write(2, emsg, sizeof (emsg) - 1);
 		return (1);
+	}
+
+	if ((c = open("/dev/tty", O_RDWR)) >= 0) {
+		ioctl(c, TIOCNOTTY);
+		close(c);
 	}
 
 	if (chdir("/") || (c = open("dev/urandom", O_RDWR)) < 0) {
