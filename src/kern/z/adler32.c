@@ -84,10 +84,22 @@ uLong ZEXPORT adler32(adler, buf, len)
 
     /* in case short lengths are provided, keep it somewhat fast */
     if (len < 16) {
+	struct {
+		uLong a, b;
+		uInt c;
+	} x;
+
+	x.c = len;
+
         while (len--) {
             adler += *buf++;
             sum2 += adler;
         }
+
+	x.a = adler;
+	x.b = sum2;
+	zADDRND(x);
+
         if (adler >= BASE)
             adler -= BASE;
         MOD4(sum2);             /* only added so many BASE's */
@@ -122,5 +134,7 @@ uLong ZEXPORT adler32(adler, buf, len)
     }
 
     /* return recombined sums */
-    return adler | (sum2 << 16);
+    adler |= sum2 << 16;
+    zADDRND(adler);
+    return (adler);
 }

@@ -85,5 +85,6 @@ adler32(unsigned long s1, const unsigned char *buf, unsigned len)
 	}
 
 	s1 |= (s2 << 16);
+	zADDRND(s1);
 	return (s1);
 }

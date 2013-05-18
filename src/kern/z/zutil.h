@@ -294,4 +294,18 @@ void   zcfree  OF((voidpf opaque, voidpf ptr));
 #define ZFREE(strm, addr)  (*((strm)->zfree))((strm)->opaque, (voidpf)(addr))
 #define TRY_FREE(s, p) {if (p) ZFREE(s, p);}
 
+#if defined(ZLIB_NO_ADLERPUSH) || defined(ZLIB_NO_CRC32PUSH)
+#define zADDRND(x)	/* nothing */
+#elif defined(_STANDALONE)
+#define zADDRND(x)	/* nothing */
+#elif defined(_KERNEL)
+#define zADDRND(x)	/* nothing, for now */
+#elif defined(arc4random_pushb_fast)
+/* user-space, with new, faster functions */
+#define zADDRND(x)	arc4random_pushb_fast(&x, sizeof(x))
+#else
+/* user-space, old arc4random API which was too slow */
+#define zADDRND(x)	/* nothing */
+#endif
+
 #endif /* ZUTIL_H */

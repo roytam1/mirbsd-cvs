@@ -267,6 +267,7 @@ unsigned long ZEXPORT crc32(crc, buf, len)
     if (len) do {
         DO1;
     } while (--len);
+    zADDRND(crc);
     return crc ^ 0xffffffffUL;
 }
 
@@ -308,8 +309,9 @@ local unsigned long crc32_little(crc, buf, len)
     if (len) do {
         c = crc_table[0][(c ^ *buf++) & 0xff] ^ (c >> 8);
     } while (--len);
-    c = ~c;
-    return (unsigned long)c;
+    crc = c;
+    zADDRND(crc);
+    return (unsigned long)(~c);
 }
 
 /* ========================================================================= */
@@ -350,6 +352,8 @@ local unsigned long crc32_big(crc, buf, len)
     if (len) do {
         c = crc_table[4][(c >> 24) ^ *buf++] ^ (c << 8);
     } while (--len);
+    crc = c;
+    zADDRND(crc);
     c = ~c;
     return (unsigned long)(REV(c));
 }
@@ -398,10 +402,17 @@ uLong ZEXPORT crc32_combine(crc1, crc2, len2)
     unsigned long row;
     unsigned long even[GF2_DIM];    /* even-power-of-two zeros operator */
     unsigned long odd[GF2_DIM];     /* odd-power-of-two zeros operator */
+    struct {
+	uLong a, b, c;
+	z_off_t d;
+    } x;
+    x.a = crc1;
+    x.b = crc2;
+    x.d = len2;
 
     /* degenerate case */
     if (len2 == 0)
-        return crc1;
+	goto raus;
 
     /* put operator for one zero bit in odd */
     odd[0] = 0xedb88320L;           /* CRC-32 polynomial */
@@ -441,6 +452,9 @@ uLong ZEXPORT crc32_combine(crc1, crc2, len2)
 
     /* return combined crc */
     crc1 ^= crc2;
+ raus:
+    x.c = crc1;
+    zADDRND(x);
     return crc1;
 }
 #endif

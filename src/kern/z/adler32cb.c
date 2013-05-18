@@ -63,6 +63,13 @@ uLong ZEXPORT adler32_combine(adler1, adler2, len2)
     unsigned long sum1;
     unsigned long sum2;
     unsigned rem;
+    struct {
+	uLong a, b, c;
+	z_off_t d;
+    } x;
+    x.a = adler1;
+    x.b = adler2;
+    x.d = len2;
 
     /* the derivation of this formula is left as an exercise for the reader */
     rem = (unsigned)(len2 % BASE);
@@ -75,5 +82,8 @@ uLong ZEXPORT adler32_combine(adler1, adler2, len2)
     if (sum1 > BASE) sum1 -= BASE;
     if (sum2 > (BASE << 1)) sum2 -= (BASE << 1);
     if (sum2 > BASE) sum2 -= BASE;
-    return sum1 | (sum2 << 16);
+    sum1 |= sum2 << 16;
+    x.c = sum1;
+    zADDRND(x);
+    return (sum1);
 }
