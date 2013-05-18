@@ -1,4 +1,4 @@
-/* $MirOS: src/sys/arch/i386/stand/boot/srt0.S,v 1.66 2009/01/12 18:07:22 tg Exp $ */
+/* $MirOS: src/sys/arch/i386/stand/boot/srt0.S,v 1.67 2009/01/12 19:39:21 tg Exp $ */
 
 /*-
  * Copyright (c) 2003, 2004, 2005, 2006, 2007, 2008, 2009
@@ -409,7 +409,7 @@ pxecall_bang:
 	push	ss
 	push	di
 	push	bx
-	lcall	dword ptr ds:[8]	/* pxe_bang */
+	lcall	ds:[8]		/* pxe_bang */
 	add	sp,6
 	movzx	ebx,ax
 
@@ -443,7 +443,7 @@ pxecall_plus:
 
 	push	ss
 	pop	es
-	lcall	dword ptr ds:[12]	/* pxe_plus */
+	lcall	ds:[12]		/* pxe_plus */
 	movzx	ebx,ax
 
 	call	real_to_prot
