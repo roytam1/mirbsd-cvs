@@ -1,4 +1,4 @@
-# $MirOS: src/etc/Makefile,v 1.30 2006/11/17 13:58:12 tg Exp $
+# $MirOS: src/etc/Makefile,v 1.31 2007/03/09 13:05:10 tg Exp $
 # $OpenBSD: Makefile,v 1.226 2005/05/26 23:06:06 mcbride Exp $
 
 TZDIR=		/usr/share/zoneinfo
@@ -41,6 +41,7 @@ GZIP=		cat
 GZIPFLAGS=
 GZIPEXT=
 .endif
+SKIPDIR?=	# empty
 
 all clean cleandir depend etc install lint:
 
@@ -145,29 +146,23 @@ etc-files:
 		${DESTDIR}/var/msgs/bounds
 	${INSTALL} -c -o ${BINOWN} -g utmp -m 664 /dev/null \
 		${DESTDIR}/var/run/utmp
-.  if defined(SKIPDIR) && ${SKIPDIR:Mgnu/usr.sbin/sendmail}
+.  if ${SKIPDIR:Mgnu/usr.sbin/sendmail}
 	@echo "Warning: skipping sendmail"
 .  else
 	cd ../gnu/usr.sbin/sendmail/cf/cf && exec ${MAKE} distribution
 .  endif
-	cd ../usr.bin/ssh && exec ${MAKE} distribution
-	cd ../lib/libssl && exec ${MAKE} distribution
+.  for _i in lib/libssl usr.bin/mail usr.bin/ssh
+	cd ../${_i} && exec ${MAKE} distribution
+.  endfor
 .  if ${CROSS_MODE:L} != "yes"
-.    for _i in usr.sbin/httpd gnu/usr.bin/lynx
-.      if defined(SKIPDIR) && ${SKIPDIR:M${_i}}
+.    for _i in usr.sbin/httpd gnu/usr.bin/anoncvs gnu/usr.bin/lynx
+.      if ${SKIPDIR:M${_i}}
 	@echo "Warning: skipping ${_i}"
 .      else
-	cd ../${_i} && exec ${MAKE} -f Makefile.bsd-wrapper distribution
+	cd ../${_i}; f=Makefile.bsd-wrapper; [[ -e $$f ]] || f=Makefile; \
+	    exec ${MAKE} -f $$f distribution
 .      endif
 .    endfor
-.  endif
-	cd ../usr.bin/mail && exec ${MAKE} distribution
-.  if ${CROSS_MODE:L} != "yes"
-.    if defined(SKIPDIR) && ${SKIPDIR:Mgnu/usr.bin/anoncvs}
-	@echo "Warning: skipping anoncvs"
-.    else
-	cd ../gnu/usr.bin/anoncvs && exec ${MAKE} distribution
-.    endif
 .  endif
 	${INSTALL} -c -o root -g wheel -m 440 ../usr.bin/sudo/sudoers \
 	    ${DESTDIR}/etc/sudoers
@@ -254,7 +249,7 @@ install-generated:
 DHSIZE=	1024 1536 2048 3072 4096
 update-moduli:
 	{ \
-		echo '# $$MirOS: src/etc/Makefile,v 1.30 2006/11/17 13:58:12 tg Exp $$'; \
+		echo '# $$MirOS: src/etc/Makefile,v 1.31 2007/03/09 13:05:10 tg Exp $$'; \
 		echo '# Time Type Tests Tries Size Generator Modulus'; \
 		for i in ${DHSIZE}; do \
 			ssh-keygen -b $$i -G /dev/stdout; \
