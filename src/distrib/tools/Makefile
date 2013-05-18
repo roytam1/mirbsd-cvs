@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/tools/Makefile,v 1.34 2009/06/29 17:08:29 tg Exp $
+# $MirOS: src/distrib/tools/Makefile,v 1.35 2009/06/29 19:43:34 tg Exp $
 
 all: sundsklbl
 
@@ -46,6 +46,7 @@ CDROM_OPTS+=	volumeid=$$(uname -sl | tr -- '- \#' :_):i386\;sparc:Setup
 
 makecdimage: .PHONY
 	-rm -rf cddir ${CDROM}*
+	dd if=/dev/arandom bs=2048 count=1 of=eltorito.loo 2>&-	# El Torito
 	mkdir -p cddir/v${OSrev}/{i386,sparc}
 	for arch in i386 sparc; do \
 		for file in ${DSTTOPDIR}/$$arch/{*boot*,bsd.rd,*mbr*}; do \
@@ -54,7 +55,7 @@ makecdimage: .PHONY
 		done; \
 		mv cddir/v${OSrev}/$$arch/boot cddir/b_$$arch.ldr; \
 	done
-	dd if=/dev/arandom bs=2048 count=1 of=eltorito.loo 2>&-	# El Torito
+	cp cddir/b_sparc.ldr cddir/v${OSrev}/sparc/boot.net
 	# fix path to default kernel file in second-stage boot loader
 	set -A dump -- $$(dd if=cddir/b_sparc.ldr bs=4 count=64 | \
 	    hexdump -ve '1/1 "%02X"' | sed 's/\(........\)/ \1/g'); i=0; \
