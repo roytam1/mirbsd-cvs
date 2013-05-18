@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/install.sub,v 1.28 2008/03/09 19:43:44 tg Exp $
+# $MirOS: src/distrib/common/install.sub,v 1.28.2.1 2008/04/02 18:56:17 tg Exp $
 # $OpenBSD: install.sub,v 1.388 2005/07/02 00:55:48 uwe Exp $
 # $NetBSD: install.sub,v 1.5.2.8 1996/09/02 23:25:02 pk Exp $
 #
@@ -434,6 +434,8 @@ edit_tmp_file() {
 # Offer to shell out for manual network configuration, and do so if
 # the user accepts the offer.
 manual_net_cfg() {
+	typeset _x
+
 	ask_yn "Do you want to do any manual network configuration?"
 
 	[[ $resp = y ]] && { echo "Type 'exit' to return to $MODE."; sh; }
@@ -453,9 +455,15 @@ manual_net_cfg() {
 	    kern.ospatchlevel)_$(sysctl -n kern.osversion),seed=$RANDOM"
 	  date
 	) &
+	if [[ -x /usr/sbin/rdate ]]; then
+		print -n Adjusting the clock...
+		_x=$(rdate -nv ntp.mirbsd.org 2>&1)
+		print -r -- "$x" >/dev/wrandom
+		print -r " $x"
+	fi
 	if [[ -x /usr/sbin/ntpd ]]; then
 		print -n Starting ntpd, this may take up to a minute...
-		/usr/sbin/ntpd -s
+		/usr/sbin/ntpd
 		print done
 	fi
 }
@@ -1552,8 +1560,9 @@ questions() {
 
 	ask_yn "Start ntpd(8) by default?" yes
 	if [[ $resp = y ]]; then
-		echo "ntpd_flags=-s		# enabled during install" \
+		echo "ntpd_flags=		# enabled during install" \
 		    >>/mnt/etc/rc.conf.local
+		echo "rdate_flags='-nv ntp.mirbsd.org'" >>/mnt/etc/rc.conf.local
 	fi
 
 	echo 'To keep an estimate of the installed user base and to support'
@@ -1573,7 +1582,12 @@ questions() {
 		echo 'This setting affects the machdep.allowaperture sysctl.'
 		echo 'If you respond negatively, you must enable it later in'
 		echo '/etc/sysctl.conf in order to be able to run XFree86(R).'
-		ask_yn "Do you expect to run the X Window System?"
+		if [[ -e /mnt/usr/X11R6/bin/X ]]; then
+			resp=yes
+		else
+			resp=no
+		fi
+		ask_yn "Do you expect to run the X Window System?" $resp
 		if [[ $resp = y ]]; then
 			sed -e "/^#\(machdep\.allowaperture=${MDXAPERTURE}\)/s//\1	/" \
 			    /mnt/etc/sysctl.conf >/tmp/sysctl.conf
@@ -1689,6 +1703,8 @@ __EOT
 # code here rather than at the top of the file.
 #
 # #######################################################################
+
+ulimit -c 0
 
 ROOTDISK=
 ROOTDEV=
