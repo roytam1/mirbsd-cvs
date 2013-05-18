@@ -1,4 +1,4 @@
-# $MirOS: ports/sysutils/vesautils/Makefile,v 1.1 2006/12/30 23:12:21 tg Exp $
+# $MirOS: ports/sysutils/vesautils/Makefile,v 1.2 2008/11/01 22:57:47 tg Exp $
 
 BROKEN=			uses ioperm, iopl, ipv libarch functions
 
@@ -6,6 +6,7 @@ ONLY_FOR_PLATFORM=	*BSD:*:* Linux:*:*
 
 COMMENT=		VESA video mode utilities
 CATEGORIES=		devel multimedia sysutils
+MCZ_FETCH=		Yes
 SVN_DISTFILE=		vesautils
 SVN_DISTPATH=		svn://svn.mplayerhq.hu/vesautils/trunk
 SVN_DISTREV=		12

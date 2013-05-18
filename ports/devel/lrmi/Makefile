@@ -1,10 +1,11 @@
-# $MirOS: ports/devel/lrmi/Makefile,v 1.1 2006/12/30 21:48:48 tg Exp $
+# $MirOS: ports/devel/lrmi/Makefile,v 1.2 2008/11/01 22:57:46 tg Exp $
 
 ONLY_FOR_PLATFORM=	*BSD:*:* Linux:*:*
 
 COMMENT=		*nix real mode interface library
 CATEGORIES=		devel sysutils
 DASH_VER=		1
+MCZ_FETCH=		Yes
 CVS_DISTREPO=		:pserver:anonymous@lrmi.cvs.sourceforge.net:/cvsroot/lrmi
 CVS_DISTDATE=		2006/12/30
 CVS_DISTMODS=		lrmi

@@ -1,7 +1,8 @@
-# $MirOS: ports/devel/libffi/Makefile,v 1.1.1.1 2008/08/08 15:53:57 tg Exp $
+# $MirOS: ports/devel/libffi/Makefile,v 1.2 2008/12/06 13:48:26 tg Exp $
 
 COMMENT=		foreign function calling interface library
 CATEGORIES=		devel
+MCZ_FETCH=		Yes
 CVS_DISTREPO=		${_MIROS_ANONCVS}
 CVS_DISTDATE=		2008/08/08
 CVS_DISTMODS=		gcc/libffi gcc/config/accross.m4

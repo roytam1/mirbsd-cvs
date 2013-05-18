@@ -1,7 +1,8 @@
-# $MirOS: ports/essentials/ca-certificates/Makefile,v 1.3 2008/08/26 19:16:43 tg Exp $
+# $MirOS: ports/essentials/ca-certificates/Makefile,v 1.4 2008/11/14 11:25:11 tg Exp $
 
 COMMENT=		X.509 CA certificate collection
 CATEGORIES=		essentials security
+MCZ_FETCH=		Yes
 CVS_DISTREPO=		${_MIROS_ANONCVS}
 CVS_DISTDATE=		2008/11/14
 CVS_DISTMODS=		src/etc/ssl.certs.shar

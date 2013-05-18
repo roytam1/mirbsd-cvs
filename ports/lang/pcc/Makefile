@@ -1,4 +1,4 @@
-# $MirOS: ports/lang/pcc/Makefile,v 1.4 2008/10/28 12:00:45 tg Exp $
+# $MirOS: ports/lang/pcc/Makefile,v 1.5 2008/11/10 01:53:13 tg Exp $
 
 ONLY_FOR_PLATFORM=	Darwin:*:i386 \
 			Darwin:*:powerpc \
@@ -18,6 +18,7 @@ NOT_FOR_PLATFORM+=	Darwin:*:powerpc
 
 COMMENT=		Portable C Compiler
 CATEGORIES=		lang
+MCZ_FETCH=		Yes
 CVS_DISTREPO=		:pserver:anonymous@pcc.ludd.ltu.se:/cvsroot
 CVS_DISTDATE=		2008/10/28
 CVS_DISTMODS=		pcc

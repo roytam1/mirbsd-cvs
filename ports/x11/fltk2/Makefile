@@ -1,4 +1,4 @@
-# $MirOS: ports/x11/fltk2/Makefile,v 1.1 2008/11/04 21:00:08 bsiegert Exp $
+# $MirOS: ports/x11/fltk2/Makefile,v 1.2 2008/11/07 18:04:12 bsiegert Exp $
 
 COMMENT=		fast, lightweight toolkit, version 2
 
@@ -9,6 +9,7 @@ CATEGORIES=		x11 x11/gnome
 
 HOMEPAGE=		http://www.fltk.org/
 
+MCZ_FETCH=		Yes
 SVN_DISTPATH=		http://svn.easysw.com/public/fltk/fltk/trunk/
 SVN_DISTDIR=		fltk
 SVN_DISTREV=		6496

@@ -1,4 +1,4 @@
-# $MirOS: ports/x11/evilwm/Makefile,v 1.8 2008/05/25 20:56:39 tg Exp $
+# $MirOS: ports/x11/evilwm/Makefile,v 1.9 2008/11/08 23:04:11 tg Exp $
 
 COMMENT=		minimalist window manager for keyboard or mouse
 CATEGORIES=		x11
@@ -18,6 +18,7 @@ FLAVOUR?=		miros
 
 .if ${FLAVOUR:Mmiros}
 FLAVOUR=		miros
+MCZ_FETCH=		Yes
 CVS_DISTREPO=		${_MIROS_ANONCVS}
 CVS_DISTDATE=		2006/10/27
 CVS_DISTMODS=		X11/extras/evilwm
