@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/dot.profile,v 1.46 2009/01/18 15:52:58 tg Exp $
+# $MirOS: src/distrib/common/dot.profile,v 1.47 2009/01/26 09:03:18 tg Exp $
 # $OpenBSD: dot.profile,v 1.4 2002/09/13 21:38:47 deraadt Exp $
 # $NetBSD: dot.profile,v 1.1 1995/12/18 22:54:43 pk Exp $
 #
@@ -128,14 +128,14 @@ This work is provided "AS IS" and WITHOUT WARRANTY of any kind.\n'
 
 	# Installing or upgrading?
 	_forceloop=
-	while [[ $_forceloop != [Ss]* ]]; do
+	while [[ $_forceloop != [IiUuSs]* ]]; do
 		print -n '(I)nstall'
 		[ -f upgrade ] && print -n ', (U)pgrade'
 		print -n ' or (S)hell? '
 		read _forceloop
 		case $_forceloop {
-		([Ii]*)	/install; break ;;
-		([Uu]*)	/upgrade; break ;;
+		([Ii]*)	/install ;;
+		([Uu]*)	/upgrade ;;
 		}
 	done
 	unset _forceloop
