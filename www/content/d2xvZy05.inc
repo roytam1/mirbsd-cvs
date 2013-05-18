@@ -1,5 +1,5 @@
 <!-- PageID: wlog-9 -->
-<small class="rcsid">$MirOS: www/content/d2xvZy05.inc,v 1.3 2006/06/28 00:49:59 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy05.inc,v 1.4 2006/06/29 23:20:15 tg Exp $</small>
 <h1>MirBSD &ndash; WTF is Verpeilungsfaktor?</h1>
 <p><small><a href="#eof">bottom</a> or <a href="/?older">older</a>
  editions</small></p>
@@ -49,6 +49,32 @@
  <p>Finally, I must make sure that distrib/ works on sparc and release a
   first snapshot &ndash; optimally as live-cd :) but I'm not going there
   yet.</p>
+</div>
+
+<div class="wlentry">
+ <h3 id="e20060630">30.06.2006 by tg@</h3>
+ <p>My sparc has just gone NOPIC=no, i.e. builds ld.so(1) and shared lib
+  stuff just fine. bsiegert@ isn't (sadly) reachable by phone though, so
+  I continued to hack on autoconf/libtool, regenerated all the stuff and
+  then threw in the new perl. Now I've got to, after refining a few more
+  code pieces, check if everything (including X11) builds on i386 again.
+  On sparc, I've got to take what I've got, build the distrib/ stuff and
+  a snapshot in order to install that on another hard disc.</p>
+ <p>I think -rHEAD is in pretty good shape, I'll upgrade as much as I'll
+  be able to do in the next days, try to get a stable sparc development,
+  build and test environment, and fix everything outstanding in the base
+  system. Regarding ports, I won't do much but leave that to Benny, I'll
+  do base system in the meanwhile and hope he fixes these ports which do
+  need it. (autoconf 2.60 is in, but I don't think there's any fallout.)
+  Thus, we can (tentatively) release #9bis in two or three weeks.</p>
+ <p>It's family weekend for me, don't expect too many commits. Also, I'm
+  in that "computers suck" mood again but the weather (too hot) keeps me
+  from giving in to it.</p>
+ <p>On the other hand, the <a href="http://www.netzladen.org/">Netzladen
+  (usual place)</a> has got me back&#8230; at least for drinking some <a
+  href="http://www.cafe-libertad.de/">fine Met (honey wine)</a>.</p>
+ <p>Benny, when are you going to commit that full-japanese wlog entry of
+  yours?</p>
 </div>
 
 <p id="eof">Good luck, have fun, take care etc.pp</p>
