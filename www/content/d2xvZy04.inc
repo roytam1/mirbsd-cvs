@@ -1,5 +1,5 @@
 <!-- PageID: wlog-8 -->
-<small class="rcsid">$MirOS: www/content/d2xvZy04.inc,v 1.28 2006/01/31 20:06:19 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy04.inc,v 1.29 2006/01/31 20:34:05 tg Exp $</small>
 <h1>MirBSD &ndash; WTF, We Have a Release!?</h1>
 <p><small><a href="#eof">bottom</a> or <a href="/?older">older</a>
  editions</small></p>
@@ -365,6 +365,9 @@ celebrate this event, rotate the wlog and start a new one.</p>
   he just can't kill me ;) Also did some major www updates to keep track
   of source changes (still commented out though).</p>
  <p>More later... if I'm still living by then ;)</p>
+ <p>Seems as if Benny is sleeping... weird, he said his exams perios was
+  over... fixed build of base system, so I could do a snapshot again, if
+  I wanted (and ports were ready - damn pkgtools bug).</p>
 </div>
 
 <p id="eof">Good luck, have fun, take care etc.pp</p>
