@@ -1,10 +1,10 @@
-# $MirOS: ports/devel/p5-SDL/Makefile,v 1.8 2006/11/03 23:14:15 tg Exp $
+# $MirOS: ports/devel/p5-SDL/Makefile,v 1.9 2006/11/04 01:22:18 tg Exp $
 # $NetBSD: Makefile,v 1.26 2005/04/11 21:45:34 tv Exp $
 
 COMMENT=		Perl module for SDL
 V=			1.20.0
 DISTNAME=		SDL_perl-$V
-PKGNAME=		p5-SDL-$V-1
+PKGNAME=		p5-SDL-$V-2
 CATEGORIES=		devel perl5
 HOMEPAGE=		http://sdlperl.org/
 MASTER_SITES=		http://zarb.org/~gc/t/
@@ -17,7 +17,8 @@ PERMIT_DISTFILES_FTP=	Yes
 LIB_DEPENDS+=		jpeg.62::graphics/jpeg
 LIB_DEPENDS+=		SDL.::devel/sdl
 B_R_DEPENDS+=		:sdl-*-!no_x11:devel/sdl
-B_R_DEPENDS=		::devel/sdl-image \
+B_R_DEPENDS+=		:sdl->=1.2.9-4:devel/sdl
+B_R_DEPENDS+=		::devel/sdl-image \
 			::devel/sdl-mixer \
 			::devel/sdl-ttf
 BUILD_DEPENDS+=		${B_R_DEPENDS}
