@@ -1,4 +1,4 @@
-# $MirOS: src/etc/profile,v 1.41 2007/01/18 19:41:29 tg Exp $
+# $MirOS: src/etc/profile,v 1.42 2007/02/02 01:54:01 tg Exp $
 #-
 umask 022
 [ -z "$KSH_VERSION" ] && alias print='echo -e'
@@ -47,11 +47,11 @@ export PATH
 CVSUMASK=002
 EDITOR=/bin/ed
 unset HISTFILE
-HOSTNAME=$(ulimit -c 0; hostname -s 2>/dev/null)
+[ -z "$HOSTNAME" ] && HOSTNAME=$(ulimit -c 0; hostname -s 2>/dev/null)
 IRCNAME="MirOS packages a kernel, userland and the attitude"
 IRCSERVER=irc4.mirbsd.org	# irc.mirbsd.org = IPv4+IPv6; irc6.* = v6 only
 IRCPORT=6667			# use ircs.mirbsd.org:6668 for SSL encryption
-OSNAME=$(ulimit -c 0; uname -s 2>/dev/null)
+[ -z "$OSNAME" ] && OSNAME=$(ulimit -c 0; uname -s 2>/dev/null)
 OSNAME=${OSNAME:-unknown}
 PAGER=/usr/bin/less
 PS1=$PSX
@@ -70,6 +70,7 @@ if [ -n "$KSH_VERSION" ]; then
 			fi
 		done
 		print -r -- "$pfx$wd")'" $PSX"
+	alias which='whence -p'
 	_shellok=1
 elif [ -n "$BASH_VERSION" ]; then
 	set -o emacs
@@ -135,8 +136,6 @@ function Lstripcom	# strip comments (and whitespace) from file(s)
 }
 
 [[ $BROWSER = lynx* ]] && unset BROWSER
-# [[ $(locale charmap) = UTF-8 ]]	# locale charmap = non-SUSv3 extension
-# but below saves us a fork, only works due to LC_CTYPE=${...:-${... above tho
 if [[ $LC_CTYPE = *@(UTF|utf)?(-)8 ]]; then
 	: ${BROWSER:=lynx -display_charset utf8}
 else
