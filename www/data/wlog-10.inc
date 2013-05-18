@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.210 2009/07/08 16:01:09 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.211 2009/07/09 17:18:11 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -4344,7 +4344,7 @@ Author: tg@
  KDE Wallet, for <a href="http://www.tarent.com/">tarent GmbH</a>, and
  would like public feedback, before releasing an 1.00 version, both on <a
  href="@@ABSPATH@@/cvs.cgi/contrib/hosted/tg/code/kwalletcli/">the source
- code</a> and <a href="https://eurynome.mirbsd.org/debs/dists/hardy/wtf/pkgs/kwalletcli/kwalletcli_0.90.dsc">an
+ code</a> and <a href="https://eurynome.mirbsd.org/debs/dists/hardy/wtf/pkgs/kwalletcli/kwalletcli_0.91-1.dsc">an
  experimental Debian package</a> of it.</p>
 <p>Nice things it can do:</p><ul>
  <li>get and set password stanzas in the KWallet via CLI</li>
@@ -4369,4 +4369,5 @@ Author: tg@
   href="@@ABSPATH@@/MirOS-Licence">licence</a></li>
 </ul>
 <p>Any <a href="mailto:t.glaser@tarent.de">feedback</a> welcome!</p>
+<p><strong>Update</strong> 09.07. – version 0.90 -> 0.91-1</p>
 ----
