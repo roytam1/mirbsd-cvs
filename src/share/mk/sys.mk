@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/sys.mk,v 1.129 2008/08/25 19:01:04 tg Exp $
+# $MirOS: src/share/mk/sys.mk,v 1.130 2008/10/05 20:14:31 tg Exp $
 # $OpenBSD: sys.mk,v 1.45 2005/03/07 00:06:00 deraadt Exp $
 # $NetBSD: sys.mk,v 1.27 1996/04/10 05:47:19 mycroft Exp $
 # @(#)sys.mk	5.11 (Berkeley) 3/13/91
@@ -86,13 +86,13 @@ CTAGS?=		/usr/bin/ctags
 
 # C
 .c:
-	${LINK.c} -o ${.TARGET} ${.IMPSRC} ${LDLIBS}
+	${LINK.c} -o $@ ${.IMPSRC} ${LDLIBS}
 .c.o:
 	${COMPILE.c} ${CFLAGS_${.TARGET}:M*} ${.IMPSRC}
 .c.i:
-	${COMPILE.c} ${CFLAGS_${.TARGET}:M*} -o ${.TARGET} -E ${.IMPSRC}
+	${COMPILE.c} ${CFLAGS_${.TARGET:.i=.o}:M*} -o $@ -E ${.IMPSRC}
 .c.a:
-	${COMPILE.c} ${CFLAGS_${.TARGET:S/.a$/.o/}:M*} ${.IMPSRC}
+	${COMPILE.c} ${CFLAGS_${.TARGET:.a=.o}:M*} ${.IMPSRC}
 	${AR} ${ARFLAGS} $@ $*.o
 	rm -f $*.o
 .c.ln:
@@ -101,13 +101,13 @@ CTAGS?=		/usr/bin/ctags
 
 # Objective-C
 .m:
-	${LINK.c} -o ${.TARGET} ${.IMPSRC} ${LDLIBS}
+	${LINK.c} -o $@ ${.IMPSRC} ${LDLIBS}
 .m.o:
 	${COMPILE.c} ${CFLAGS_${.TARGET}:M*} ${.IMPSRC}
 .m.i:
-	${COMPILE.c} ${CFLAGS_${.TARGET}:M*} -o ${.TARGET} -E ${.IMPSRC}
+	${COMPILE.c} ${CFLAGS_${.TARGET:.i=.o}:M*} -o $@ -E ${.IMPSRC}
 .m.a:
-	${COMPILE.c} ${CFLAGS_${.TARGET:S/.a$/.o/}:M*} ${.IMPSRC}
+	${COMPILE.c} ${CFLAGS_${.TARGET:.a=.o}:M*} ${.IMPSRC}
 	${AR} ${ARFLAGS} $@ $*.o
 	rm -f $*.o
 .m.ln:
@@ -116,44 +116,44 @@ CTAGS?=		/usr/bin/ctags
 
 # C++
 .cc:
-	${LINK.cc} -o ${.TARGET} ${.IMPSRC} ${LDLIBS}
+	${LINK.cc} -o $@ ${.IMPSRC} ${LDLIBS}
 .cc.o:
 	${COMPILE.cc} ${CXXFLAGS_${.TARGET}:M*} ${.IMPSRC}
 .cc.i:
-	${COMPILE.cc} ${CXXFLAGS_${.TARGET}:M*} -o ${.TARGET} -E ${.IMPSRC}
+	${COMPILE.cc} ${CXXFLAGS_${.TARGET:.i=.o}:M*} -o $@ -E ${.IMPSRC}
 .cc.a:
-	${COMPILE.cc} ${CXXFLAGS_${.TARGET:S/.a$/.o/}:M*} ${.IMPSRC}
+	${COMPILE.cc} ${CXXFLAGS_${.TARGET:.a=.o}:M*} ${.IMPSRC}
 	${AR} ${ARFLAGS} $@ $*.o
 	rm -f $*.o
 
 .C:
-	${LINK.cc} -o ${.TARGET} ${.IMPSRC} ${LDLIBS}
+	${LINK.cc} -o $@ ${.IMPSRC} ${LDLIBS}
 .C.o:
 	${COMPILE.cc} ${CXXFLAGS_${.TARGET}:M*} ${.IMPSRC}
 .C.i:
-	${COMPILE.cc} ${CXXFLAGS_${.TARGET}:M*} -o ${.TARGET} -E ${.IMPSRC}
+	${COMPILE.cc} ${CXXFLAGS_${.TARGET:.i=.o}:M*} -o $@ -E ${.IMPSRC}
 .C.a:
-	${COMPILE.cc} ${CXXFLAGS_${.TARGET:S/.a$/.o/}:M*} ${.IMPSRC}
+	${COMPILE.cc} ${CXXFLAGS_${.TARGET:.a=.o}:M*} ${.IMPSRC}
 	${AR} ${ARFLAGS} $@ $*.o
 	rm -f $*.o
 
 .cxx:
-	${LINK.cc} -o ${.TARGET} ${.IMPSRC} ${LDLIBS}
+	${LINK.cc} -o $@ ${.IMPSRC} ${LDLIBS}
 .cxx.o:
 	${COMPILE.cc} ${CXXFLAGS_${.TARGET}:M*} ${.IMPSRC}
 .cxx.i:
-	${COMPILE.cc} ${CXXFLAGS_${.TARGET}:M*} -o ${.TARGET} -E ${.IMPSRC}
+	${COMPILE.cc} ${CXXFLAGS_${.TARGET:.i=.o}:M*} -o $@ -E ${.IMPSRC}
 .cxx.a:
-	${COMPILE.cc} ${CXXFLAGS_${.TARGET:S/.a$/.o/}:M*} ${.IMPSRC}
+	${COMPILE.cc} ${CXXFLAGS_${.TARGET:.a=.o}:M*} ${.IMPSRC}
 	${AR} ${ARFLAGS} $@ $*.o
 	rm -f $*.o
 
 .cpp:
-	${LINK.cc} -o ${.TARGET} ${.IMPSRC} ${LDLIBS}
+	${LINK.cc} -o $@ ${.IMPSRC} ${LDLIBS}
 .cpp.o:
-	${COMPILE.cc} ${CXXFLAGS_${.TARGET}:M*} ${.IMPSRC}
+	${COMPILE.cc} ${CXXFLAGS_${.TARGET:.i=.o}:M*} -o $@ -E ${.IMPSRC}
 .cpp.i:
-	${COMPILE.cc} ${CXXFLAGS_${.TARGET}:M*} -o ${.TARGET} -E ${.IMPSRC}
+	${COMPILE.cc} ${CXXFLAGS_${.TARGET:.a=.o}:M*} ${.IMPSRC}
 .cpp.a:
 	${COMPILE.cc} ${CXXFLAGS_${.TARGET:S/.a$/.o/}:M*} ${.IMPSRC}
 	${AR} ${ARFLAGS} $@ $*.o
@@ -161,53 +161,53 @@ CTAGS?=		/usr/bin/ctags
 
 # Assembly
 .s:
-	${LINK.s} -o ${.TARGET} ${.IMPSRC} ${LDLIBS}
+	${LINK.s} -o $@ ${.IMPSRC} ${LDLIBS}
 .s.o:
 	${COMPILE.s} ${AFLAGS_${.TARGET}:M*} ${.IMPSRC}
 .s.a:
-	${COMPILE.s} ${AFLAGS_${.TARGET:S/.a$/.o/}:M*} ${.IMPSRC}
+	${COMPILE.s} ${AFLAGS_${.TARGET:.a=.o}:M*} ${.IMPSRC}
 	${AR} ${ARFLAGS} $@ $*.o
 	rm -f $*.o
 
 .S:
-	${LINK.S} -o ${.TARGET} ${.IMPSRC} ${LDLIBS}
+	${LINK.S} -o $@ ${.IMPSRC} ${LDLIBS}
 .S.o:
 	${COMPILE.S} ${AFLAGS_${.TARGET}:M*} ${.IMPSRC}
 .S.i:
-	${COMPILE.S} ${AFLAGS_${.TARGET}:M*} -o ${.TARGET} -E ${.IMPSRC}
+	${COMPILE.S} ${AFLAGS_${.TARGET:.i=.o}:M*} -o $@ -E ${.IMPSRC}
 .S.a:
-	${COMPILE.S} ${AFLAGS_${.TARGET:S/.a$/.o/}:M*} ${.IMPSRC}
+	${COMPILE.S} ${AFLAGS_${.TARGET:.a=.o}:M*} ${.IMPSRC}
 	${AR} ${ARFLAGS} $@ $*.o
 	rm -f $*.o
 
 # Lex
 .l:
 	${LEX.l} -o${.TARGET:R}.yy.c ${.IMPSRC}
-	${LINK.c} -o ${.TARGET} ${.TARGET:R}.yy.c ${LDLIBS} -ll
+	${LINK.c} -o $@ ${.TARGET:R}.yy.c ${LDLIBS} -ll
 	rm -f ${.TARGET:R}.yy.c
 .l.c:
-	${LEX.l} -o${.TARGET} ${.IMPSRC}
+	${LEX.l} -o$@ ${.IMPSRC}
 .l.o:
 	${LEX.l} -o${.TARGET:R}.yy.c ${.IMPSRC}
-	${COMPILE.c} ${CFLAGS_${.TARGET}:M*} -o ${.TARGET} ${.TARGET:R}.yy.c
+	${COMPILE.c} ${CFLAGS_${.TARGET}:M*} -o $@ ${.TARGET:R}.yy.c
 	rm -f ${.TARGET:R}.yy.c
 
 # Yacc
 .y:
 	${YACC.y} -o ${.TARGET:R}.tab.c ${.IMPSRC}
-	${LINK.c} -o ${.TARGET} ${.TARGET:R}.tab.c ${LDLIBS}
+	${LINK.c} -o $@ ${.TARGET:R}.tab.c ${LDLIBS}
 	rm -f ${.TARGET:R}.tab.c
 .y.c:
-	${YACC.y} -o ${.TARGET} ${.IMPSRC}
+	${YACC.y} -o $@ ${.IMPSRC}
 .y.o:
 	${YACC.y} -o ${.TARGET:R}.tab.c ${.IMPSRC}
-	${COMPILE.c} ${CFLAGS_${.TARGET}:M*} -o ${.TARGET} ${.TARGET:R}.tab.c
+	${COMPILE.c} ${CFLAGS_${.TARGET}:M*} -o $@ ${.TARGET:R}.tab.c
 	rm -f ${.TARGET:R}.tab.c
 
 # Shell
 .sh:
-	rm -f ${.TARGET}
-	cp ${.IMPSRC} ${.TARGET}
+	rm -f $@
+	cp ${.IMPSRC} $@
 
 # Debugging output
 .if defined(___DISPLAY_MAKEVARS)
