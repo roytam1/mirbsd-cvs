@@ -1,5 +1,5 @@
 #!/usr/bin/perl
-# $MirOS: ports/net/sirc/dist/dsircp,v 1.9 2006/02/05 14:37:58 tg Exp $
+# $MirOS: ports/net/sirc/dist/dsircp,v 1.9.2.1 2007/01/08 22:49:06 tg Exp $
 #-
 # dsircp: dumb-mode small irc client in perl
 # by orabidoo <roger.espel.llima@pobox.com>
@@ -216,19 +216,18 @@ sub connect {
   }
   $ssl_pid = 0;
   if ($use_ssl) {
-    my $spfh, $scfh, $pid;
+    my $spfh = $fh, $scfh = &newfh, $pid;
 
-    if (!socketpair($scfh, $spfh, AF_UNIX, SOCK_STREAM, PF_LOCAL)) {
+    if (!socketpair($scfh, $spfh, &AF_UNIX, &SOCK_STREAM, &PF_UNSPEC)) {
       &tell("*\cbE\cb* Cannot create a socket pair: $!");
       return 0;
     }
     if ($pid = fork) {
       close($spfh);
-      open(STDIN, ">&", fileno($scfh));
+      open(STDIN, "<&", fileno($scfh));
       open(STDOUT, ">&", fileno($scfh));
-      open(STDERR, ">/dev/null");
       select(STDOUT); $| = 1;
-      exec "openssl s_client -quiet -connect ${host}:${port}";
+      exec "openssl s_client  -connect ${host}:${port} 2>/dev/null";
     }
     if (!defined $pid) {
       close($scfh);
@@ -237,7 +236,6 @@ sub connect {
       return 0;
     }
     close($scfh);
-    $fh = $spfh;
     $ssl_pid = $pid;
   } else {
     local($adr, $otherend)=&resolve($host);
