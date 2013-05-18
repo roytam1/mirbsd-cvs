@@ -54,8 +54,7 @@
 __COPYRIGHT("@(#) Copyright (c) 1988, 1990, 1993\n\
 	The Regents of the University of California.  All rights reserved.\n");
 __SCCSID("@(#)shutdown.c	8.2 (Berkeley) 2/16/94");
-__RCSID("$OpenBSD: shutdown.c,v 1.32 2005/05/19 09:28:24 jmc Exp $");
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/sbin/shutdown/shutdown.c,v 1.2 2007/05/29 08:19:30 tg Exp $");
 
 #include "pathnames.h"
 
@@ -121,7 +120,7 @@ main(int argc, char *argv[])
 	if (geteuid())
 		errx(1, "NOT super-user");
 #endif
-	while ((ch = getopt(argc, argv, "dfhknpr-")) != -1)
+	while ((ch = getopt(argc, argv, "dfhknPpr-")) != -1)
 		switch (ch) {
 		case '-':
 			readstdin = 1;
@@ -141,6 +140,10 @@ main(int argc, char *argv[])
 		case 'n':
 			nosync = 1;
 			break;
+		case 'P':
+			/* Linux compatibility */
+			dohalt = 1;
+			/* FALLTHROUGH */
 		case 'p':
 			dopower = 1;
 			break;
