@@ -1,4 +1,4 @@
-rcsid_htsconv='$MirOS: www/mk/htsconv,v 1.52 2010/08/05 21:53:16 tg Exp $'
+rcsid_htsconv='$MirOS: www/mk/htsconv,v 1.53 2010/08/28 20:29:25 tg Exp $'
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -141,7 +141,8 @@ function mws_putheader {
 		<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
 		 "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 		<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"><head>
-		 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		 <meta http-equiv="Content-Style-Type" content="text/css" />
 		 <meta name="MSSmartTagsPreventParsing" content="TRUE" />
 		 <link rel="stylesheet" type="text/css" href="@@RELPATH@@vstyle.css" />
 		 <link rel="apple-touch-icon" href="@@RELPATH@@pics/blumenkohl.png" />
