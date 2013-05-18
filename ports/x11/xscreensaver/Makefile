@@ -1,10 +1,11 @@
-# $MirOS: ports/x11/xscreensaver/Makefile,v 1.2 2005/04/19 12:32:49 bsiegert Exp $
+# $MirOS: ports/x11/xscreensaver/Makefile,v 1.3 2006/02/09 11:15:59 tg Exp $
 # $OpenBSD: Makefile,v 1.23 2004/04/02 19:07:05 sturm Exp $
 
 COMMENT=		"screen saver and locker for the X Window System"
 
 VERSION=		4.06
 DISTNAME=		xscreensaver-${VERSION}
+PKGNAME=		${DISTNAME}-1
 CATEGORIES=     	x11
 
 HOMEPAGE=		http://www.jwz.org/xscreensaver/
@@ -20,7 +21,7 @@ MASTER_SITES=		http://www.jwz.org/xscreensaver/
 
 MODULES=		devel/gettext
 
-LIB_DEPENDS+=		xml2.6::textproc/libxml
+LIB_DEPENDS+=		xml2.2.6::textproc/libxml
 
 MAKE_ENV+=		${CONFIGURE_ENV}
 
