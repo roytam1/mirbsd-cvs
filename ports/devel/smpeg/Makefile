@@ -1,9 +1,9 @@
-# $MirOS: ports/devel/smpeg/Makefile,v 1.6 2005/12/28 16:37:59 tg Exp $
+# $MirOS: ports/devel/smpeg/Makefile,v 1.7 2006/02/09 09:35:50 tg Exp $
 # $OpenBSD: Makefile,v 1.16 2003/12/29 13:45:30 espie Exp $
 
 COMMENT=		"mpeg video player library with sound support"
 DISTNAME=		smpeg-0.4.4
-PKGNAME=		${DISTNAME}-1
+PKGNAME=		${DISTNAME}-2
 CATEGORIES=		devel graphics
 HOMEPAGE=       	http://www.lokigames.com/development/smpeg.php3
 
@@ -21,7 +21,7 @@ LIB_DEPENDS=		gtk,gdk::x11/gtk+1 \
 USE_X11=		Yes
 USE_CXX=		Yes
 
-CONFIGURE_STYLE=	autoconf no-autoheader
+CONFIGURE_STYLE=	autogen no-autoheader
 CONFIGURE_ARGS+=	${CONFIGURE_SHARED} \
 			--disable-opengl-player
 
