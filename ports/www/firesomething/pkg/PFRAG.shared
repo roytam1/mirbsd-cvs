@@ -1,4 +1,4 @@
-@comment $MirOS: ports/www/firesomething/pkg/PFRAG.shared,v 1.2 2006/05/11 20:55:47 bsiegert Exp $
+@comment $MirOS: ports/www/firesomething/pkg/PFRAG.shared,v 1.3 2007/08/15 20:31:21 bsiegert Exp $
 @comment $OpenBSD: PFRAG.shared,v 1.7 2005/09/08 12:48:39 kurt Exp $
 @lib firesomething/components/libaccessibility.so.${SO_VERSION}
 @lib firesomething/components/libappcomps.so.${SO_VERSION}
@@ -54,6 +54,7 @@
 @lib firesomething/components/libxpconnect.so.${SO_VERSION}
 @lib firesomething/components/libxpinstall.so.${SO_VERSION}
 @lib firesomething/extensions/inspector@mozilla.org/components/libinspector.so.${SO_VERSION}
+@lib firesomething/libfreebl3.so.${SO_VERSION}
 @lib firesomething/libgfxpsshar.so.${SO_VERSION}
 @lib firesomething/libgkgfx.so.${SO_VERSION}
 @lib firesomething/libgtkembedmoz.so.${SO_VERSION}
