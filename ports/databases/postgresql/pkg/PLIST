@@ -1,4 +1,4 @@
-@comment $MirOS$
+@comment $MirOS: ports/databases/postgresql/pkg/PLIST,v 1.2 2005/03/27 22:55:05 bsiegert Exp $
 @comment $OpenBSD: PLIST-clients,v 1.8 2003/02/12 17:09:03 naddy Exp $
 @pkgcfl pgsql-[0-9]*
 @pkgcfl pgsql-clients-[0-9]*
@@ -14,7 +14,9 @@ bin/pg_dump
 bin/pg_dumpall
 bin/pg_restore
 bin/psql
+bin/reindexdb
 bin/vacuumdb
+include/postgresql/ecpg_config.h
 include/postgresql/ecpg_informix.h
 include/postgresql/ecpgerrno.h
 include/postgresql/ecpglib.h
@@ -43,21 +45,21 @@ include/postgresql/postgres_ext.h
 include/postgresql/server/access/attnum.h
 include/postgresql/server/access/clog.h
 include/postgresql/server/access/genam.h
+include/postgresql/server/access/gin.h
 include/postgresql/server/access/gist.h
+include/postgresql/server/access/gist_private.h
 include/postgresql/server/access/gistscan.h
 include/postgresql/server/access/hash.h
 include/postgresql/server/access/heapam.h
 include/postgresql/server/access/hio.h
 include/postgresql/server/access/htup.h
-include/postgresql/server/access/ibit.h
-include/postgresql/server/access/iqual.h
 include/postgresql/server/access/itup.h
+include/postgresql/server/access/multixact.h
 include/postgresql/server/access/nbtree.h
 include/postgresql/server/access/printtup.h
+include/postgresql/server/access/reloptions.h
 include/postgresql/server/access/relscan.h
 include/postgresql/server/access/rmgr.h
-include/postgresql/server/access/rtree.h
-include/postgresql/server/access/rtscan.h
 include/postgresql/server/access/sdir.h
 include/postgresql/server/access/skey.h
 include/postgresql/server/access/slru.h
@@ -66,6 +68,8 @@ include/postgresql/server/access/transam.h
 include/postgresql/server/access/tupdesc.h
 include/postgresql/server/access/tupmacs.h
 include/postgresql/server/access/tuptoaster.h
+include/postgresql/server/access/twophase.h
+include/postgresql/server/access/twophase_rmgr.h
 include/postgresql/server/access/valid.h
 include/postgresql/server/access/xact.h
 include/postgresql/server/access/xlog.h
@@ -75,7 +79,6 @@ include/postgresql/server/access/xlogutils.h
 include/postgresql/server/bootstrap/bootstrap.h
 include/postgresql/server/c.h
 include/postgresql/server/catalog/catalog.h
-include/postgresql/server/catalog/catname.h
 include/postgresql/server/catalog/catversion.h
 include/postgresql/server/catalog/dependency.h
 include/postgresql/server/catalog/heap.h
@@ -88,6 +91,9 @@ include/postgresql/server/catalog/pg_amop.h
 include/postgresql/server/catalog/pg_amproc.h
 include/postgresql/server/catalog/pg_attrdef.h
 include/postgresql/server/catalog/pg_attribute.h
+include/postgresql/server/catalog/pg_auth_members.h
+include/postgresql/server/catalog/pg_authid.h
+include/postgresql/server/catalog/pg_autovacuum.h
 include/postgresql/server/catalog/pg_cast.h
 include/postgresql/server/catalog/pg_class.h
 include/postgresql/server/catalog/pg_constraint.h
@@ -96,7 +102,6 @@ include/postgresql/server/catalog/pg_conversion.h
 include/postgresql/server/catalog/pg_database.h
 include/postgresql/server/catalog/pg_depend.h
 include/postgresql/server/catalog/pg_description.h
-include/postgresql/server/catalog/pg_group.h
 include/postgresql/server/catalog/pg_index.h
 include/postgresql/server/catalog/pg_inherits.h
 include/postgresql/server/catalog/pg_language.h
@@ -105,14 +110,16 @@ include/postgresql/server/catalog/pg_listener.h
 include/postgresql/server/catalog/pg_namespace.h
 include/postgresql/server/catalog/pg_opclass.h
 include/postgresql/server/catalog/pg_operator.h
+include/postgresql/server/catalog/pg_pltemplate.h
 include/postgresql/server/catalog/pg_proc.h
 include/postgresql/server/catalog/pg_rewrite.h
-include/postgresql/server/catalog/pg_shadow.h
+include/postgresql/server/catalog/pg_shdepend.h
+include/postgresql/server/catalog/pg_shdescription.h
 include/postgresql/server/catalog/pg_statistic.h
 include/postgresql/server/catalog/pg_tablespace.h
 include/postgresql/server/catalog/pg_trigger.h
 include/postgresql/server/catalog/pg_type.h
-include/postgresql/server/catalog/pg_version.h
+include/postgresql/server/catalog/toasting.h
 include/postgresql/server/commands/alter.h
 include/postgresql/server/commands/async.h
 include/postgresql/server/commands/cluster.h
@@ -147,6 +154,10 @@ include/postgresql/server/executor/hashjoin.h
 include/postgresql/server/executor/instrument.h
 include/postgresql/server/executor/nodeAgg.h
 include/postgresql/server/executor/nodeAppend.h
+include/postgresql/server/executor/nodeBitmapAnd.h
+include/postgresql/server/executor/nodeBitmapHeapscan.h
+include/postgresql/server/executor/nodeBitmapIndexscan.h
+include/postgresql/server/executor/nodeBitmapOr.h
 include/postgresql/server/executor/nodeFunctionscan.h
 include/postgresql/server/executor/nodeGroup.h
 include/postgresql/server/executor/nodeHash.h
@@ -164,6 +175,7 @@ include/postgresql/server/executor/nodeSubplan.h
 include/postgresql/server/executor/nodeSubqueryscan.h
 include/postgresql/server/executor/nodeTidscan.h
 include/postgresql/server/executor/nodeUnique.h
+include/postgresql/server/executor/nodeValuesscan.h
 include/postgresql/server/executor/spi.h
 include/postgresql/server/executor/spi_priv.h
 include/postgresql/server/executor/tstoreReceiver.h
@@ -182,6 +194,7 @@ include/postgresql/server/libpq/ip.h
 include/postgresql/server/libpq/libpq-be.h
 include/postgresql/server/libpq/libpq-fs.h
 include/postgresql/server/libpq/libpq.h
+include/postgresql/server/libpq/md5.h
 include/postgresql/server/libpq/pqcomm.h
 include/postgresql/server/libpq/pqformat.h
 include/postgresql/server/libpq/pqsignal.h
@@ -201,6 +214,7 @@ include/postgresql/server/nodes/primnodes.h
 include/postgresql/server/nodes/print.h
 include/postgresql/server/nodes/readfuncs.h
 include/postgresql/server/nodes/relation.h
+include/postgresql/server/nodes/tidbitmap.h
 include/postgresql/server/nodes/value.h
 include/postgresql/server/optimizer/clauses.h
 include/postgresql/server/optimizer/cost.h
@@ -219,6 +233,7 @@ include/postgresql/server/optimizer/paths.h
 include/postgresql/server/optimizer/plancat.h
 include/postgresql/server/optimizer/planmain.h
 include/postgresql/server/optimizer/planner.h
+include/postgresql/server/optimizer/predtest.h
 include/postgresql/server/optimizer/prep.h
 include/postgresql/server/optimizer/restrictinfo.h
 include/postgresql/server/optimizer/subselect.h
@@ -244,11 +259,11 @@ include/postgresql/server/parser/scansup.h
 include/postgresql/server/pg_config.h
 include/postgresql/server/pg_config_manual.h
 include/postgresql/server/pg_config_os.h
+include/postgresql/server/pg_trace.h
 include/postgresql/server/pgstat.h
 include/postgresql/server/pgtime.h
 include/postgresql/server/port.h
 include/postgresql/server/port/aix.h
-include/postgresql/server/port/beos.h
 include/postgresql/server/port/bsdi.h
 include/postgresql/server/port/cygwin.h
 include/postgresql/server/port/darwin.h
@@ -261,7 +276,6 @@ include/postgresql/server/port/netbsd.h
 include/postgresql/server/port/nextstep.h
 include/postgresql/server/port/openbsd.h
 include/postgresql/server/port/osf.h
-include/postgresql/server/port/qnx4.h
 include/postgresql/server/port/sco.h
 include/postgresql/server/port/solaris.h
 include/postgresql/server/port/sunos4.h
@@ -316,6 +330,7 @@ include/postgresql/server/storage/pg_shmem.h
 include/postgresql/server/storage/pmsignal.h
 include/postgresql/server/storage/pos.h
 include/postgresql/server/storage/proc.h
+include/postgresql/server/storage/procarray.h
 include/postgresql/server/storage/relfilenode.h
 include/postgresql/server/storage/s_lock.h
 include/postgresql/server/storage/shmem.h
@@ -323,7 +338,6 @@ include/postgresql/server/storage/sinval.h
 include/postgresql/server/storage/sinvaladt.h
 include/postgresql/server/storage/smgr.h
 include/postgresql/server/storage/spin.h
-include/postgresql/server/strdup.h
 include/postgresql/server/tcop/dest.h
 include/postgresql/server/tcop/fastpath.h
 include/postgresql/server/tcop/pquery.h
@@ -343,6 +357,7 @@ include/postgresql/server/utils/dynahash.h
 include/postgresql/server/utils/dynamic_loader.h
 include/postgresql/server/utils/elog.h
 include/postgresql/server/utils/errcodes.h
+include/postgresql/server/utils/flatfiles.h
 include/postgresql/server/utils/fmgroids.h
 include/postgresql/server/utils/fmgrtab.h
 include/postgresql/server/utils/formatting.h
@@ -363,6 +378,7 @@ include/postgresql/server/utils/palloc.h
 include/postgresql/server/utils/pg_crc.h
 include/postgresql/server/utils/pg_locale.h
 include/postgresql/server/utils/pg_lzcompress.h
+include/postgresql/server/utils/pg_rusage.h
 include/postgresql/server/utils/portal.h
 include/postgresql/server/utils/ps_status.h
 include/postgresql/server/utils/rel.h
@@ -375,6 +391,7 @@ include/postgresql/server/utils/tqual.h
 include/postgresql/server/utils/tuplesort.h
 include/postgresql/server/utils/tuplestore.h
 include/postgresql/server/utils/typcache.h
+include/postgresql/server/utils/tzparser.h
 include/postgresql/server/utils/varbit.h
 include/postgresql/sql3types.h
 include/postgresql/sqlca.h
@@ -395,6 +412,7 @@ man/man1/pg_dump.1
 man/man1/pg_dumpall.1
 man/man1/pg_restore.1
 man/man1/psql.1
+man/man1/reindexdb.1
 man/man1/vacuumdb.1
 man/man7/abort.7
 man/man7/alter_aggregate.7
@@ -407,6 +425,7 @@ man/man7/alter_index.7
 man/man7/alter_language.7
 man/man7/alter_operator.7
 man/man7/alter_operator_class.7
+man/man7/alter_role.7
 man/man7/alter_schema.7
 man/man7/alter_sequence.7
 man/man7/alter_table.7
@@ -421,6 +440,7 @@ man/man7/close.7
 man/man7/cluster.7
 man/man7/comment.7
 man/man7/commit.7
+man/man7/commit_prepared.7
 man/man7/copy.7
 man/man7/create_aggregate.7
 man/man7/create_cast.7
@@ -434,6 +454,7 @@ man/man7/create_index.7
 man/man7/create_language.7
 man/man7/create_operator.7
 man/man7/create_operator_class.7
+man/man7/create_role.7
 man/man7/create_rule.7
 man/man7/create_schema.7
 man/man7/create_sequence.7
@@ -458,6 +479,8 @@ man/man7/drop_index.7
 man/man7/drop_language.7
 man/man7/drop_operator.7
 man/man7/drop_operator_class.7
+man/man7/drop_owned.7
+man/man7/drop_role.7
 man/man7/drop_rule.7
 man/man7/drop_schema.7
 man/man7/drop_sequence.7
@@ -479,63 +502,35 @@ man/man7/lock.7
 man/man7/move.7
 man/man7/notify.7
 man/man7/prepare.7
+man/man7/prepare_transaction.7
+man/man7/reassign_owned.7
 man/man7/reindex.7
 man/man7/release_savepoint.7
 man/man7/reset.7
 man/man7/revoke.7
 man/man7/rollback.7
+man/man7/rollback_prepared.7
 man/man7/rollback_to_savepoint.7
 man/man7/savepoint.7
 man/man7/select.7
 man/man7/select_into.7
 man/man7/set.7
 man/man7/set_constraints.7
+man/man7/set_role.7
 man/man7/set_session_authorization.7
 man/man7/set_transaction.7
 man/man7/show.7
-man/man7/spi_connect.7
-man/man7/spi_copytuple.7
-man/man7/spi_cursor_close.7
-man/man7/spi_cursor_fetch.7
-man/man7/spi_cursor_find.7
-man/man7/spi_cursor_move.7
-man/man7/spi_cursor_open.7
-man/man7/spi_exec.7
-man/man7/spi_execp.7
-man/man7/spi_execute.7
-man/man7/spi_execute_plan.7
-man/man7/spi_finish.7
-man/man7/spi_fname.7
-man/man7/spi_fnumber.7
-man/man7/spi_freeplan.7
-man/man7/spi_freetuple.7
-man/man7/spi_freetuptable.7
-man/man7/spi_getargcount.7
-man/man7/spi_getargtypeid.7
-man/man7/spi_getbinval.7
-man/man7/spi_getrelname.7
-man/man7/spi_gettype.7
-man/man7/spi_gettypeid.7
-man/man7/spi_getvalue.7
-man/man7/spi_is_cursor_plan.7
-man/man7/spi_modifytuple.7
-man/man7/spi_palloc.7
-man/man7/spi_pfree.7
-man/man7/spi_pop.7
-man/man7/spi_prepare.7
-man/man7/spi_push.7
-man/man7/spi_repalloc.7
-man/man7/spi_returntuple.7
-man/man7/spi_saveplan.7
 man/man7/start_transaction.7
 man/man7/truncate.7
 man/man7/unlisten.7
 man/man7/update.7
 man/man7/vacuum.7
+man/man7/values.7
 share/doc/postgresql/COPYRIGHT
 share/doc/postgresql/FAQ
 share/doc/postgresql/FAQ_DEV
 share/doc/postgresql/FAQ_brazilian
+share/doc/postgresql/FAQ_chinese
 share/doc/postgresql/FAQ_czech
 share/doc/postgresql/FAQ_farsi
 share/doc/postgresql/FAQ_french

@@ -1,4 +1,4 @@
-# $MirOS: ports/databases/postgresql/Makefile,v 1.5 2006/09/14 00:07:57 tg Exp $
+# $MirOS: ports/databases/postgresql/Makefile,v 1.6 2006/12/20 15:31:10 tg Exp $
 # $OpenBSD: Makefile,v 1.68 2004/02/04 07:39:18 sturm Exp $
 
 COMMENT=		PostgreSQL RDBMS clients and utilities
@@ -6,8 +6,7 @@ COMMENT-tcl=		PostgreSQL RDBMS tcl libraries and utilities
 COMMENT-server=		PostgreSQL RDBMS server software
 COMMENT-docs=		PostgreSQL RDBMS documentation
 
-VERSION=		8.0.1
-DASH_VER=		1
+VERSION=		8.2.3
 DISTNAME=		postgresql-${VERSION}
 PKGNAME-server=		postgresql-server-${VERSION}-${DASH_VER}
 PKGNAME-docs=		postgresql-docs-${VERSION}-${DASH_VER}
@@ -103,37 +102,42 @@ MASTER_SITES=	\
 	ftp://ftp22.us.postgresql.org/mirrors/ftp.postgresql.org/source/v${VERSION}/ \
 	ftp://ftp24.us.postgresql.org/postgresql/source/v${VERSION}/
 
-PSEUDO_FLAVORS=	tcl
+PSEUDO_FLAVORS+=	tcl
 .if ${OStype} == "OpenBSD"
-FLAVORS=	kerberos
-FLAVOR?=	kerberos
+FLAVORS+=		kerberos
+FLAVOR?=		kerberos
 .else
 FLAVOR?=
 .endif
 
 .if ${OStype} != "MirBSD"
-LIB_DEPENDS+=	readline::devel/libreadline
+LIB_DEPENDS+=		readline::devel/libreadline
+.else
+CONFIGURE_ARGS+=	--with-libedit-preferred
 .endif
 
-MULTI_PACKAGES=	-server -docs
+MULTI_PACKAGES=		-server -docs
 SUBPACKAGE?=
 
-SUBST_VARS=	VERSION
-
-MAKE_FILE=	GNUmakefile
-USE_GMAKE=	Yes
-CONFIGURE_STYLE=autoconf no-autoheader
-AUTOCONF_NEW=	yes
-CONFIGURE_ENV=	LIBS=-lcurses
-CONFIGURE_ARGS=	--disable-rpath \
-		--enable-integer-datetimes \
-		--includedir="${PREFIX}/include/postgresql" \
-		--datadir="${PREFIX}/share/postgresql" \
-		--with-docdir="${PREFIX}/share/doc/postgresql" \
-		--with-perl \
-		--without-python \
-		--with-openssl \
-		${CONFIGURE_SHARED}
+SUBST_VARS=		VERSION
+MAKE_FILE=		GNUmakefile
+USE_GMAKE=		Yes
+CONFIGURE_STYLE=	autoconf no-autoheader
+AUTOCONF_NEW=		yes
+CONFIGURE_ENV+=		LIBS=-lcurses \
+			ac_cv_path_TAR=tar \
+			lt_cv_path_SED=sed
+CONFIGURE_ARGS+=	--enable-integer-datetimes \
+			--includedir=${PREFIX:Q}/include/postgresql \
+			--datadir=${PREFIX:Q}/share/postgresql \
+			--with-docdir=${PREFIX:Q}/share/doc/postgresql \
+			--without-perl \
+			--without-python \
+			--without-pam \
+			--without-ldap \
+			--without-bonjour \
+			--with-openssl \
+			${CONFIGURE_SHARED}
 
 # Regression tests must be done manually and not as root. Successful
 # runs have been achieved on the i386 using the following:
@@ -144,47 +148,46 @@ CONFIGURE_ARGS=	--disable-rpath \
 #
 # Note, you may also need to change a variety of SYSV IPC parameters.
 # See files/README.MirPorts for more details
-NO_REGRESS=	Yes
+NO_REGRESS=		Yes
 
-DOCS=	${WRKSRC}/COPYRIGHT ${WRKSRC}/HISTORY \
-	${WRKSRC}/INSTALL ${WRKSRC}/README \
-	${WRKSRC}/doc/README.mb.big5 ${WRKSRC}/doc/README.mb.jp \
-	${WRKSRC}/doc/FAQ{,_DEV,_[a-z]*} ${WRKSRC}/doc/TODO
-
-.if defined(PACKAGING)
-. if ${SUBPACKAGE} == "-server"
-RUN_DEPENDS=	::databases/postgresql
-. endif
-.endif
+DOCS=			${WRKSRC}/COPYRIGHT ${WRKSRC}/HISTORY \
+			${WRKSRC}/INSTALL ${WRKSRC}/README \
+			${WRKSRC}/doc/README.mb.big5 \
+			${WRKSRC}/doc/README.mb.jp \
+			${WRKSRC}/doc/FAQ{,_DEV,_[a-z]*} ${WRKSRC}/doc/TODO
 
 # For tcl
 .if ${FLAVOR:L:Mtcl}
-MULTI_PACKAGES+= -tcl
+MULTI_PACKAGES+=	-tcl
 
-TCL_INCDIR=     ${LOCALBASE}/include/tcl8.3
-TK_INCDIR=      ${LOCALBASE}/include/tk8.3
-CONFIGURE_ENV+= WISH="${LOCALBASE}/bin/wish8.3"
-CONFIGURE_ARGS+= --with-tcl \
-        --with-tclconfig="${LOCALBASE}/lib/tcl8.3 ${LOCALBASE}/lib/tk8.3" \
-        --with-includes="${TCL_INCDIR} ${TK_INCDIR} ${LOCALBASE}/include"
-BUILD_DEPENDS+=   tk83::x11/tk/8.3
-
-.  if defined(PACKAGING)
-.    if ${SUBPACKAGE} == "-tcl"
-RUN_DEPENDS=	::databases/postgresql
-LIB_DEPENDS+=   tk83::x11/tk/8.3
-.    endif
-.  endif
+TCL_INCDIR=		${LOCALBASE}/include/tcl8.3
+TK_INCDIR=		${LOCALBASE}/include/tk8.3
+CONFIGURE_ENV+=		WISH=${LOCALBASE:Q}/bin/wish8.3
+CONFIGURE_ARGS+=	--with-tcl \
+			--with-tclconfig='${LOCALBASE}/lib/tcl8.3 ${LOCALBASE}/lib/tk8.3' \
+			--with-includes='${TCL_INCDIR} ${TK_INCDIR} ${LOCALBASE}/include'
+BUILD_DEPENDS+=		tk83::x11/tk/8.3
 .else
-CONFIGURE_ARGS+= --without-tcl
+CONFIGURE_ARGS+=	--without-tcl
 .endif
-.if defined(PACKAGING) && ${SUBPACKAGE} == "-docs"
-PKG_ARCH=	*
+.if defined(PACKAGING)
+.  if ${SUBPACKAGE} == "-tcl"
+RUN_DEPENDS+=		::databases/postgresql
+LIB_DEPENDS+=		tk83::x11/tk/8.3
+.  endif
+.  if ${SUBPACKAGE} == "-docs"
+PKG_ARCH=		*
+.  endif
+.  if ${SUBPACKAGE} == "-server"
+RUN_DEPENDS+=		::databases/postgresql
+.  endif
 .endif
 
 .if ${FLAVOR:L:Mkerberos}
 CONFIGURE_ARGS+=	--with-includes=/usr/include/kerberosV
 CONFIGURE_ARGS+=	--with-krb5=/usr/lib
+.else
+CONFIGURE_ARGS+=	--without-krb5
 .endif
 
 post-install:

@@ -1,56 +1,53 @@
-Requirements
-------------
+Using PostgreSQL in an MirPorts/BSD environment
 
-Please note that OpenBSD port of PostgreSQL requires a kernel
-compiled with SYSVSEM and SYSVSHM options for proper operation.
-The GENERIC kernel has these settings.
+At least two different accounts are involved when working with PostgreSQL:
+One is a system userid, '_posgresql', which is used as the userid of files
+that are part of PostgreSQL.  The other, usually named 'postgres', is not a
+system userid, i.e. you will not find it in /etc/passwd, but an account
+internal to the database system.  The 'postgres' account is called the dba
+account (database administrator) and is created when a new database is
+initialised using the initdb command.
 
-Using PostgreSQL in an OpenBSD environment
-------------------------------------------
+If you are installing PostgreSQL for the first time, you have to create
+a default database first.  In the following example we install a database
+in /var/postgresql/data with a dba account 'postgres' and md5 authentication.
+We will be prompted for a password to protect the dba account:
 
-If you are installing PostgreSQL for the first time, the following
-steps are required:
+       $ sudo -u _postgresql mkdir /var/postgresql/data
+       $ sudo -u _postgresql initdb -D /var/postgresql/data \
+             -U postgres -A md5 -W
 
-- su to the postgresql account and initialise the database:
+It is strongly advised that you do not work with the postgres dba account
+other than creating more users and/or databases or for administrative task.
+Use the PostgreSQL permission system to make sure that a database is only
+accessed by programs/users that have the right to do so.
 
-       # su - _postgresql
-       $ mkdir /var/postgresql/data
-       $ initdb -D /var/postgresql/data
-
-If you are upgrading PostgreSQL then you may have a 'pgsql' or 'postgresql'
-user. It is suggested that you follow the steps in
-
-	!!PREFIX!!/share/doc/postgresql/INSTALL
-
-for more information on how to upgrade your existing databases. See
-also 'Special notes for OpenBSD port' below. Replace references to
-the 'postgresql' user below with 'pgsql' or whatever other user you
-have selected to be the database administration account.
+Please consult the PostgreSQL website for more information, especially when
+you are upgrading an existing database installation.
 
 Auto Start and Stop
--------------------
 
-If you wish to start PostgreSQL automatically during system startup,
-add the following lines to /etc/rc.local:
+To start PostgreSQL at boot and shut it down when the system shuts down,
+add the following lines to /etc/rc.local and /etc/rc.shutdown, respectively:
+
+/etc/rc.local:
 
 if [ -x !!PREFIX!!/bin/pg_ctl ]; then
-	su -l _postgresql -c "!!PREFIX!!/bin/pg_ctl start \
-		-D /var/postgresql/data -l /var/postgresql/logfile \
-		-o '-D /var/postgresql/data'"
 	echo -n ' postgresql'
+	su -l _postgresql -c "nohup !!PREFIX!!/bin/pg_ctl start \
+	    -D /var/postgresql/data -l /var/postgresql/logfile \
+	    -o '-D /var/postgresql/data'"
 fi
 
-To automatically shutdown the database as part of the system shutdown,
-add the following lines to /etc/rc.shutdown:
+/etc/rc.shutdown:
 
 if [ -f /var/postgresql/data/postmaster.pid ]; then
 	su -l _postgresql -c "!!PREFIX!!/bin/pg_ctl stop -m fast \
-		-D /var/postgresql/data"
+	     -D /var/postgresql/data"
 	rm -f /var/postgresql/data/postmaster.pid
 fi
 
 Network Connections and Tuning
-------------------------------
 
 To allow connections over TCP (and other options) edit the file:
 
@@ -62,34 +59,62 @@ appropriate changes to allow connection from your network.
 The default sizes in the GENERIC kernel for SysV semaphores
 are not really large enough for a database with more than a
 handful of connections. A server running such a database should
-have at least the following:
+have at least the following in /etc/sysctl.conf:
 
-option          SEMMNI=256
-option          SEMMNS=2048
+	kern.seminfo.semmni=256
+	kern.seminfo.semmns=2048
 
 To serve a large number of connections (>250), you may also need
 to increase the maximum shared memory segment size, on the i386
 try:
 
-option		SHMMAXPGS=4096		# default on i386 is 2048 = 8Mb
-					# other archs may vary
+	kern.shminfo.shmmax=50331648	# this is 48MB.
+					# default on i386 is 32MB
+					# other archs will vary
 
-These numbers should be tweaked depending on system use. See
-options(4) and release(8) manual pages and the FAQ at
-http://www.openbsd.org/faq/faq5.html describe how to compile
-a new custom kernel.
+These numbers should be tuned depending on system use. You will also
+need to tune the values in the postgresql.conf file to increase the
+number of connections to the backend.
 
-The ulimit settings can also be a problem.  The following can be
-added for the postgresql user in the /etc/login.conf file:
+By default, the _postgresql user, and so the postmaster and backend
+processes run in the default login(1) class. On a busy server,
+it may be advisable to put the _postgresql user and processes in
+their own login(1) class with tuned resources, such as more open
+file descriptors etc.
+
+For example, add this to the login.conf(5) file:
 
 	postgresql:\
-		:maxproc-max=256:\
-		:maxproc-cur=256:\
 		:openfiles-cur=768:\
-		:datasize-max=256M:\
-		:datasize-cur=64M:\
-		:stacksize-cur=4M:
+		:tc=daemon:
+
+Rebuild the login.conf.db file if necessary:
+
+	# cap_mkdb /etc/login.conf
+
+Change the login class with either vipw(8) or chsh(8).
 
 For more than about 250 connections, these numbers should be
 increased. Please report any changes and experiences to the package
 maintainers so that we can update this file for future versions.
+
+Kerberos authentication (MirPorts on OpenBSD only)
+
+By default the postgresql server requires it's own krb5.keytab file.  It
+should be readable only by the _postgresql user.  The default location of
+the file is '/etc/postgresql/krb5.keytab' but is tunable by setting the
+krb_server_keyfile line in postgresql.conf.
+
+To generate the keytab:
+
+	# mkdir /etc/postgresql
+	# ktutil -k /etc/postgresql/krb5.keytab get postgres/server.domain
+	# chown _postgresql:_postgresql /etc/postgresql/krb5.keytab
+
+Clients/Frontends
+
+Many applications can use the PostgreSQL database right away.  To faciliate
+administration of a PostgreSQL database, two clients are notable:
+
+www/phppgadmin		A web based user interface that uses PHP5
+databases/pgadmin3	A graphical user interface that uses wxWidgets

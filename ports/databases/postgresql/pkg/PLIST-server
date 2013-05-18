@@ -1,4 +1,4 @@
-@comment $MirOS$
+@comment $MirOS: ports/databases/postgresql/pkg/PLIST-server,v 1.1 2005/03/27 22:55:06 bsiegert Exp $
 @comment $OpenBSD: PLIST,v 1.23 2003/02/12 17:09:03 naddy Exp $
 @pkgcfl pgsql-[0-9]*
 @pkgcfl pgsql-clients-[0-9]*
@@ -10,14 +10,6 @@ bin/pg_ctl
 bin/pg_resetxlog
 bin/postgres
 bin/postmaster
-@comment lib/libecpg.so
-@comment lib/libecpg.so.4
-@comment lib/libecpg_compat.so
-@comment lib/libecpg_compat.so.1
-@comment lib/libpgtypes.so
-@comment lib/libpgtypes.so.1
-@comment lib/libpq.so
-@comment lib/libpq.so.3
 lib/postgresql/ascii_and_mic.so
 lib/postgresql/cyrillic_and_mic.so
 lib/postgresql/euc_cn_and_mic.so
@@ -33,6 +25,7 @@ lib/postgresql/pgxs/src/Makefile.port
 lib/postgresql/pgxs/src/Makefile.shlib
 lib/postgresql/pgxs/src/makefiles/pgxs.mk
 lib/postgresql/pgxs/src/nls-global.mk
+lib/postgresql/pgxs/src/test/regress/pg_regress
 lib/postgresql/plpgsql.so
 lib/postgresql/utf8_and_ascii.so
 lib/postgresql/utf8_and_big5.so
@@ -47,11 +40,8 @@ lib/postgresql/utf8_and_iso8859.so
 lib/postgresql/utf8_and_iso8859_1.so
 lib/postgresql/utf8_and_johab.so
 lib/postgresql/utf8_and_sjis.so
-lib/postgresql/utf8_and_tcvn.so
 lib/postgresql/utf8_and_uhc.so
-lib/postgresql/utf8_and_win1250.so
-lib/postgresql/utf8_and_win1256.so
-lib/postgresql/utf8_and_win874.so
+lib/postgresql/utf8_and_win.so
 man/man1/clusterdb.1
 man/man1/initdb.1
 man/man1/ipcclean.1
@@ -67,6 +57,7 @@ share/postgresql/pg_ident.conf.sample
 share/postgresql/pg_service.conf.sample
 share/postgresql/postgres.bki
 share/postgresql/postgres.description
+share/postgresql/postgres.shdescription
 share/postgresql/postgresql.conf.sample
 share/postgresql/psqlrc.sample
 share/postgresql/recovery.conf.sample
@@ -142,11 +133,13 @@ share/postgresql/timezone/America/Argentina/Tucuman
 share/postgresql/timezone/America/Argentina/Ushuaia
 share/postgresql/timezone/America/Aruba
 share/postgresql/timezone/America/Asuncion
+share/postgresql/timezone/America/Atikokan
 share/postgresql/timezone/America/Atka
 share/postgresql/timezone/America/Bahia
 share/postgresql/timezone/America/Barbados
 share/postgresql/timezone/America/Belem
 share/postgresql/timezone/America/Belize
+share/postgresql/timezone/America/Blanc-Sablon
 share/postgresql/timezone/America/Boa_Vista
 share/postgresql/timezone/America/Bogota
 share/postgresql/timezone/America/Boise
@@ -160,6 +153,7 @@ share/postgresql/timezone/America/Cayenne
 share/postgresql/timezone/America/Cayman
 share/postgresql/timezone/America/Chicago
 share/postgresql/timezone/America/Chihuahua
+share/postgresql/timezone/America/Coral_Harbour
 share/postgresql/timezone/America/Cordoba
 share/postgresql/timezone/America/Costa_Rica
 share/postgresql/timezone/America/Cuiaba
@@ -191,7 +185,9 @@ share/postgresql/timezone/America/Hermosillo
 share/postgresql/timezone/America/Indiana/Indianapolis
 share/postgresql/timezone/America/Indiana/Knox
 share/postgresql/timezone/America/Indiana/Marengo
+share/postgresql/timezone/America/Indiana/Petersburg
 share/postgresql/timezone/America/Indiana/Vevay
+share/postgresql/timezone/America/Indiana/Vincennes
 share/postgresql/timezone/America/Indianapolis
 share/postgresql/timezone/America/Inuvik
 share/postgresql/timezone/America/Iqaluit
@@ -215,6 +211,7 @@ share/postgresql/timezone/America/Menominee
 share/postgresql/timezone/America/Merida
 share/postgresql/timezone/America/Mexico_City
 share/postgresql/timezone/America/Miquelon
+share/postgresql/timezone/America/Moncton
 share/postgresql/timezone/America/Monterrey
 share/postgresql/timezone/America/Montevideo
 share/postgresql/timezone/America/Montreal
@@ -225,6 +222,7 @@ share/postgresql/timezone/America/Nipigon
 share/postgresql/timezone/America/Nome
 share/postgresql/timezone/America/Noronha
 share/postgresql/timezone/America/North_Dakota/Center
+share/postgresql/timezone/America/North_Dakota/New_Salem
 share/postgresql/timezone/America/Panama
 share/postgresql/timezone/America/Pangnirtung
 share/postgresql/timezone/America/Paramaribo
@@ -377,6 +375,7 @@ share/postgresql/timezone/Australia/Adelaide
 share/postgresql/timezone/Australia/Brisbane
 share/postgresql/timezone/Australia/Broken_Hill
 share/postgresql/timezone/Australia/Canberra
+share/postgresql/timezone/Australia/Currie
 share/postgresql/timezone/Australia/Darwin
 share/postgresql/timezone/Australia/Hobart
 share/postgresql/timezone/Australia/LHI
@@ -465,8 +464,11 @@ share/postgresql/timezone/Europe/Chisinau
 share/postgresql/timezone/Europe/Copenhagen
 share/postgresql/timezone/Europe/Dublin
 share/postgresql/timezone/Europe/Gibraltar
+share/postgresql/timezone/Europe/Guernsey
 share/postgresql/timezone/Europe/Helsinki
+share/postgresql/timezone/Europe/Isle_of_Man
 share/postgresql/timezone/Europe/Istanbul
+share/postgresql/timezone/Europe/Jersey
 share/postgresql/timezone/Europe/Kaliningrad
 share/postgresql/timezone/Europe/Kiev
 share/postgresql/timezone/Europe/Lisbon
@@ -482,6 +484,7 @@ share/postgresql/timezone/Europe/Moscow
 share/postgresql/timezone/Europe/Nicosia
 share/postgresql/timezone/Europe/Oslo
 share/postgresql/timezone/Europe/Paris
+share/postgresql/timezone/Europe/Podgorica
 share/postgresql/timezone/Europe/Prague
 share/postgresql/timezone/Europe/Riga
 share/postgresql/timezone/Europe/Rome
@@ -500,6 +503,7 @@ share/postgresql/timezone/Europe/Vaduz
 share/postgresql/timezone/Europe/Vatican
 share/postgresql/timezone/Europe/Vienna
 share/postgresql/timezone/Europe/Vilnius
+share/postgresql/timezone/Europe/Volgograd
 share/postgresql/timezone/Europe/Warsaw
 share/postgresql/timezone/Europe/Zagreb
 share/postgresql/timezone/Europe/Zaporozhye
@@ -591,19 +595,6 @@ share/postgresql/timezone/Portugal
 share/postgresql/timezone/ROC
 share/postgresql/timezone/ROK
 share/postgresql/timezone/Singapore
-share/postgresql/timezone/SystemV/AST4
-share/postgresql/timezone/SystemV/AST4ADT
-share/postgresql/timezone/SystemV/CST6
-share/postgresql/timezone/SystemV/CST6CDT
-share/postgresql/timezone/SystemV/EST5
-share/postgresql/timezone/SystemV/EST5EDT
-share/postgresql/timezone/SystemV/HST10
-share/postgresql/timezone/SystemV/MST7
-share/postgresql/timezone/SystemV/MST7MDT
-share/postgresql/timezone/SystemV/PST8
-share/postgresql/timezone/SystemV/PST8PDT
-share/postgresql/timezone/SystemV/YST9
-share/postgresql/timezone/SystemV/YST9YDT
 share/postgresql/timezone/Turkey
 share/postgresql/timezone/UCT
 share/postgresql/timezone/US/Alaska
@@ -624,8 +615,21 @@ share/postgresql/timezone/Universal
 share/postgresql/timezone/W-SU
 share/postgresql/timezone/WET
 share/postgresql/timezone/Zulu
+share/postgresql/timezonesets/Africa.txt
+share/postgresql/timezonesets/America.txt
+share/postgresql/timezonesets/Antarctica.txt
+share/postgresql/timezonesets/Asia.txt
+share/postgresql/timezonesets/Atlantic.txt
+share/postgresql/timezonesets/Australia
+share/postgresql/timezonesets/Australia.txt
+share/postgresql/timezonesets/Default
+share/postgresql/timezonesets/Etc.txt
+share/postgresql/timezonesets/Europe.txt
+share/postgresql/timezonesets/India
+share/postgresql/timezonesets/Indian.txt
+share/postgresql/timezonesets/Pacific.txt
+@dirrm share/postgresql/timezonesets
 @dirrm share/postgresql/timezone/US
-@dirrm share/postgresql/timezone/SystemV
 @dirrm share/postgresql/timezone/Pacific
 @dirrm share/postgresql/timezone/Mideast
 @dirrm share/postgresql/timezone/Mexico
@@ -648,6 +652,8 @@ share/postgresql/timezone/Zulu
 @dirrm share/postgresql/timezone/Africa
 @dirrm share/postgresql/timezone
 @dirrm share/postgresql
+@dirrm lib/postgresql/pgxs/src/test/regress
+@dirrm lib/postgresql/pgxs/src/test
 @dirrm lib/postgresql/pgxs/src/makefiles
 @dirrm lib/postgresql/pgxs/src
 @dirrm lib/postgresql/pgxs/config

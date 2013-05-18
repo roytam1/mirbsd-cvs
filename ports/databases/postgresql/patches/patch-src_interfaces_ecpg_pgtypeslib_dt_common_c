@@ -1,7 +1,7 @@
-$MirOS$
---- src/interfaces/ecpg/pgtypeslib/dt_common.c.orig	Thu Dec 23 10:45:47 2004
-+++ src/interfaces/ecpg/pgtypeslib/dt_common.c	Mon Feb 14 20:04:49 2005
-@@ -611,12 +611,12 @@ date2j(int y, int m, int d)
+$MirOS: ports/databases/postgresql/patches/patch-src_interfaces_ecpg_pgtypeslib_dt_common_c,v 1.1.7.1 2005/03/18 15:44:16 tg Exp $
+--- src/interfaces/ecpg/pgtypeslib/dt_common.c.orig	Tue Sep 26 09:56:33 2006
++++ src/interfaces/ecpg/pgtypeslib/dt_common.c	Thu Feb 22 22:05:49 2007
+@@ -612,12 +612,12 @@ date2j(int y, int m, int d)
  }	/* date2j() */
  
  void
@@ -24,8 +24,8 @@ $MirOS$
 +						(int)tm->tm_year, tm->tm_mon, tm->tm_mday);
  			else
  				sprintf(str, "%04d-%02d-%02d %s",
--					  -(tm->tm_year - 1), tm->tm_mon, tm->tm_mday, "BC");
-+					  -((int)tm->tm_year - 1), tm->tm_mon, tm->tm_mday, "BC");
+-						-(tm->tm_year - 1), tm->tm_mon, tm->tm_mday, "BC");
++						(int)(-(tm->tm_year - 1)), tm->tm_mon, tm->tm_mday, "BC");
  			break;
  
  		case USE_SQL_DATES:
@@ -33,22 +33,22 @@ $MirOS$
  			else
  				sprintf(str, "%02d/%02d", tm->tm_mon, tm->tm_mday);
  			if (tm->tm_year > 0)
--				sprintf((str + 5), "/%04d", tm->tm_year);
-+				sprintf((str + 5), "/%04d", (int)tm->tm_year);
+-				sprintf(str + 5, "/%04d", tm->tm_year);
++				sprintf(str + 5, "/%04d", (int)tm->tm_year);
  			else
--				sprintf((str + 5), "/%04d %s", -(tm->tm_year - 1), "BC");
-+				sprintf((str + 5), "/%04d %s", -((int)tm->tm_year - 1), "BC");
+-				sprintf(str + 5, "/%04d %s", -(tm->tm_year - 1), "BC");
++				sprintf(str + 5, "/%04d %s", (int)(-(tm->tm_year - 1)), "BC");
  			break;
  
  		case USE_GERMAN_DATES:
  			/* German-style date format */
  			sprintf(str, "%02d.%02d", tm->tm_mday, tm->tm_mon);
  			if (tm->tm_year > 0)
--				sprintf((str + 5), ".%04d", tm->tm_year);
-+				sprintf((str + 5), ".%04d", (int)tm->tm_year);
+-				sprintf(str + 5, ".%04d", tm->tm_year);
++				sprintf(str + 5, ".%04d", (int)tm->tm_year);
  			else
--				sprintf((str + 5), ".%04d %s", -(tm->tm_year - 1), "BC");
-+				sprintf((str + 5), ".%04d %s", -((int)tm->tm_year - 1), "BC");
+-				sprintf(str + 5, ".%04d %s", -(tm->tm_year - 1), "BC");
++				sprintf(str + 5, ".%04d %s", (int)(-(tm->tm_year - 1)), "BC");
  			break;
  
  		case USE_POSTGRES_DATES:
@@ -56,11 +56,11 @@ $MirOS$
  			else
  				sprintf(str, "%02d-%02d", tm->tm_mon, tm->tm_mday);
  			if (tm->tm_year > 0)
--				sprintf((str + 5), "-%04d", tm->tm_year);
-+				sprintf((str + 5), "-%04d", (int)tm->tm_year);
+-				sprintf(str + 5, "-%04d", tm->tm_year);
++				sprintf(str + 5, "-%04d", (int)(tm->tm_year));
  			else
--				sprintf((str + 5), "-%04d %s", -(tm->tm_year - 1), "BC");
-+				sprintf((str + 5), "-%04d %s", -((int)tm->tm_year - 1), "BC");
+-				sprintf(str + 5, "-%04d %s", -(tm->tm_year - 1), "BC");
++				sprintf(str + 5, "-%04d %s", (int)(-(tm->tm_year - 1)), "BC");
  			break;
  	}
  
@@ -68,35 +68,35 @@ $MirOS$
  			/* Compatible with ISO-8601 date formats */
  
  			sprintf(str, "%04d-%02d-%02d %02d:%02d",
--				  ((tm->tm_year > 0) ? tm->tm_year : -(tm->tm_year - 1)),
-+				  (int)((tm->tm_year > 0) ? tm->tm_year : -(tm->tm_year - 1)),
+-					(tm->tm_year > 0) ? tm->tm_year : -(tm->tm_year - 1),
++					(int)((tm->tm_year > 0) ? tm->tm_year : -(tm->tm_year - 1)),
  					tm->tm_mon, tm->tm_mday, tm->tm_hour, tm->tm_min);
  
  			/*
 @@ -829,7 +829,7 @@ EncodeDateTime(struct tm * tm, fsec_t fs
  				sprintf(str, "%02d/%02d", tm->tm_mon, tm->tm_mday);
  
- 			sprintf((str + 5), "/%04d %02d:%02d",
--				  ((tm->tm_year > 0) ? tm->tm_year : -(tm->tm_year - 1)),
-+				  (int)((tm->tm_year > 0) ? tm->tm_year : -(tm->tm_year - 1)),
+ 			sprintf(str + 5, "/%04d %02d:%02d",
+-					(tm->tm_year > 0) ? tm->tm_year : -(tm->tm_year - 1),
++					(int)((tm->tm_year > 0) ? tm->tm_year : -(tm->tm_year - 1)),
  					tm->tm_hour, tm->tm_min);
  
  			/*
 @@ -875,7 +875,7 @@ EncodeDateTime(struct tm * tm, fsec_t fs
  			sprintf(str, "%02d.%02d", tm->tm_mday, tm->tm_mon);
  
- 			sprintf((str + 5), ".%04d %02d:%02d",
--				  ((tm->tm_year > 0) ? tm->tm_year : -(tm->tm_year - 1)),
-+				  (int)((tm->tm_year > 0) ? tm->tm_year : -(tm->tm_year - 1)),
+ 			sprintf(str + 5, ".%04d %02d:%02d",
+-					(tm->tm_year > 0) ? tm->tm_year : -(tm->tm_year - 1),
++					(int)((tm->tm_year > 0) ? tm->tm_year : -(tm->tm_year - 1)),
  					tm->tm_hour, tm->tm_min);
  
  			/*
 @@ -954,7 +954,7 @@ EncodeDateTime(struct tm * tm, fsec_t fs
- 				sprintf((str + strlen(str)), ":%02d", tm->tm_sec);
+ 				sprintf(str + strlen(str), ":%02d", tm->tm_sec);
  
- 			sprintf((str + strlen(str)), " %04d",
--				 ((tm->tm_year > 0) ? tm->tm_year : -(tm->tm_year - 1)));
-+				 (int)((tm->tm_year > 0) ? tm->tm_year : -(tm->tm_year - 1)));
+ 			sprintf(str + strlen(str), " %04d",
+-					(tm->tm_year > 0) ? tm->tm_year : -(tm->tm_year - 1));
++					(int)((tm->tm_year > 0) ? tm->tm_year : -(tm->tm_year - 1)));
  			if (tm->tm_year <= 0)
- 				sprintf((str + strlen(str)), " BC");
+ 				sprintf(str + strlen(str), " BC");
  
