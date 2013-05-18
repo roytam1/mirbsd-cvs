@@ -1,4 +1,4 @@
-# $MirOS: src/sbin/Makefile,v 1.8 2005/11/23 18:11:57 tg Exp $
+# $MirOS: src/sbin/Makefile,v 1.9 2006/06/09 00:46:29 tg Exp $
 
 .include <bsd.own.mk>
 
@@ -16,7 +16,9 @@
   SUBDIR+= dmesg
   SUBDIR+= dump
   SUBDIR+= dumpfs
+.if (${MACHINE} == "amd64") || (${MACHINE} == "i386")
   SUBDIR+= fdisk
+.endif
   SUBDIR+= ffsinfo
   SUBDIR+= fsck
   SUBDIR+= fsck_ext2fs
