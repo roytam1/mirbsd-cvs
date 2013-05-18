@@ -1,4 +1,4 @@
-# $MirOS: ports/meta/cups-server/Makefile,v 1.4 2006/12/20 15:31:32 tg Exp $
+# $MirOS: ports/meta/cups-server/Makefile,v 1.5 2007/04/03 19:44:57 tg Exp $
 
 COMMENT=		meta package for a CUPS server
 VERSION=		2.6
@@ -19,6 +19,7 @@ NO_CHECKSUM=		Yes
 NO_BUILD=		Yes
 PLIST=			/dev/null
 PKG_ARCH=		*
+USE_CXX=		Yes # depends on cups, which uses CXX
 
 B_R_DEPENDS+=		::print/cups
 B_R_DEPENDS+=		::print/ghostscript/esp,cups

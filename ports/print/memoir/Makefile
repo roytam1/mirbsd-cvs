@@ -1,6 +1,7 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.2 2004/05/27 18:21:00 sturm Exp $
 
-COMMENT=			typeset fiction, non-fiction and mathematical books
+COMMENT=	typeset fiction, non-fiction and mathematical books
 
 DISTNAME=	memoir-1.61p0
 CATEGORIES=	print
@@ -25,6 +26,9 @@ BUILD_DEPENDS=	${RUN_DEPENDS}
 
 CLS_DIR=	${PREFIX}/share/texmf-local/tex/latex/memoir
 DOC_DIR=	${PREFIX}/share/texmf-local/doc/latex/memoir
+
+USE_X11=		Yes # depends on t1lib, which needs X11
+USE_CXX=		Yes # depends on teTeX, which uses CXX
 
 pre-extract:
 		@mkdir -p ${WRKDIST}

@@ -1,4 +1,4 @@
-# $MirOS: ports/meta/gnome2/Makefile,v 1.6 2006/12/20 15:31:30 tg Exp $
+# $MirOS: ports/meta/gnome2/Makefile,v 1.7 2007/04/03 19:44:57 tg Exp $
 
 COMMENT=		meta-package to install all of GNOME 2
 VERSION=		2.8.1
@@ -19,6 +19,8 @@ NO_CHECKSUM=		Yes
 NO_BUILD=		Yes
 PLIST=			/dev/null
 PKG_ARCH=		*
+USE_X11=		Yes # GNOME needs X11
+USE_CXX=		Yes # multiple dependencies use CXX
 
 B_R_DEPENDS+=		::devel/gconf
 B_R_DEPENDS+=		::devel/desktop-file-utils

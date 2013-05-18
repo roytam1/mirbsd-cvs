@@ -1,8 +1,9 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.11 2004/02/18 08:31:50 xsa Exp $
 
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
-COMMENT=		libpcap bindings for Python
+COMMENT=	libpcap bindings for Python
 
 DISTNAME=	pylibpcap-0.3.1
 PKGNAME=	${DISTNAME:S/py/py-/}-0
@@ -19,6 +20,8 @@ MASTER_SITES=	${MASTER_SITE_SOURCEFORGE:=pylibpcap/}
 MODULES=	lang/python
 
 BUILD_DEPENDS=	:swig-*:devel/swig
+USE_CXX=	Yes # depends on swig, which uses CXX
+USE_X11=	Yes # depends on swig, which needs X11
 
 NO_REGRESS=	Yes
 
