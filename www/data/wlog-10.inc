@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.255 2009/11/12 19:21:01 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.256 2009/11/15 01:49:24 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -5404,6 +5404,7 @@ Tag: bug event snapshot
 Title: I am happy with my eKey
 Author: tg@
 Date: 12.11.2009 19:16
+Tag: debian
 
 <p><a href="http://blog.halon.org.uk/2009/11/12#ekey-02">Neil</a>, I am
  happy with my <a href="http://www.entropykey.co.uk/">eKey</a>, and I
@@ -5442,4 +5443,37 @@ Date: 15.11.2009 01:49
  doesn’t output anything, and nobody knows what arguments to ekey-ulusbd
  are needed to make it find the eKey.</p>
 <p>ObInfo: new CA bundles are out too, and more binary packages.</p>
+----
+Title: New MirBSD/i386 snapshots
+Author: tg@
+Date: 15.11.2009 14:54
+Tag: news security snapshot
+
+<p>I have compiled a new snapshot (i386 only) and uploaded the following
+ flavours: <a href="http://git.grml.org/?p=grml-live.git;a=commit;h=6efcb236c9b1df3bc4323e0e6c625ea25115e26a">MirOS
+ bsd4grml</a>, <a href="http://www.netboot.me/2038">MirOS bsd4me</a>-current
+ (Live OS), <a href="http://www.netboot.me/17001">MirBSD-current</a> netboot
+ (<a href="@@ABSPATH@@/MirOS/current/i386/">NetInstall for i386</a>), the <a
+ href="@@ABSPATH@@/MirOS/current/cdrom10.iso">Midi-ISO</a> (bi-arch manifold
+ NetInstall), and the checksums.</p>
+<p>The <tt>/MirOS/current/older/</tt> subdirectory containing partial and
+ incremental upgrades for older MirBSD-current snapshots is gone for now.
+ The 20091115 (i386) snapshot is a security upgrade (contains the OpenSSL
+ panic patch in its second version), bugfix (all errata mentioned in the <a
+ href="@@RELPATH@@permalinks/news_e20091031-tg.htm">“wtf ist hallowe’en”</a>
+ announcement are fixed if applicable), and feature upgrade: the installer
+ and first boot recognise a <a href="http://www.entropykey.co.uk/">Simtec
+ Entropy Key</a> if plugged in (for the installer, break into a shell and
+ run <tt>/usr/libexec/ekeyrng</tt> if plugging it in later) for increased
+ entropy generation; after first-time installation and reboot, the user is
+ supposed to install <tt>ports/security/ekeyd</tt> and use that (for which
+ there are <a href="@@ABSPATH@@/MirOS/Pkgs/current/i386/">binary packages</a>
+ as well).</p>
+<p>The MirOS Project’s servers are or will be upgraded as well; please bear
+ in mind this implies short outages of service. Furthermore, due to the <a
+ href="http://extendedsubset.com/?p=8">TLS protocol design error</a>, some
+ things may not work any more, since we applied the OpenSSL “panic patch”,
+ which disables all renegotiation, but allows applications to re-enable it,
+ if they knew about that possibility at compile time, by setting a run-time
+ flag before initiating the connection. (None we know of does, though.)</p>
 ----
