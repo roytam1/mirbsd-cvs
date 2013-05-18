@@ -1,4 +1,4 @@
-# $MirOS: src/etc/rc,v 1.81 2008/03/27 13:49:53 tg Exp $
+# $MirOS: src/etc/rc,v 1.82 2008/03/27 14:03:31 tg Exp $
 # $OpenBSD: rc,v 1.277 2006/01/12 21:54:15 deraadt Exp $
 #-
 # System startup script run by init on autoboot or after single-user.
@@ -145,7 +145,8 @@ if [[ $1 = shutdown ]]; then
 	[[ -x /usr/sbin/wsconfig ]] && /usr/sbin/wsconfig -s 1
 	echo Received shutdown request.
 	(
-		(dd if=/dev/arandom count=2; dd if=/dev/urandom count=8) | \
+		dd if=/var/db/host.random of=/dev/urandom
+		(dd if=/dev/arandom count=3; dd if=/dev/urandom count=8) | \
 		    dd of=/var/db/host.random && \
 		    chmod 600 /var/db/host.random
 	) >/dev/wrandom 2>&1 && if [[ -f /etc/rc.shutdown ]]; then
@@ -162,6 +163,12 @@ if [[ $1 = shutdown ]]; then
 			[[ " $(ifconfig -l) " = *@( $if )* ]] && \
 			    ifconfig $if down
 		done
+
+		{
+			dd if=/dev/urandom of=/dev/arandom bs=4 count=1
+			sleep 1
+			dd if=/dev/arandom count=1 >>/var/db/host.random
+		} >/dev/null 2>&1
 
 		[[ $powerdown = YES ]] && exit 2
 	else
