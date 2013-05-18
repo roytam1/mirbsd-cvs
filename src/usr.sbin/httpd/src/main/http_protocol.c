@@ -1,6 +1,5 @@
-/**	$MirOS: src/usr.sbin/httpd/src/main/http_protocol.c,v 1.5 2006/04/03 20:54:41 tg Exp $ */
-/*	$OpenBSD: http_protocol.c,v 1.29 2005/11/11 15:09:54 cloder Exp $ */
-
+/**	$MirOS: src/usr.sbin/httpd/src/main/http_protocol.c,v 1.6 2006/09/20 17:55:01 tg Exp $ */
+/*	$OpenBSD: http_protocol.c,v 1.30 2006/02/11 19:15:57 otto Exp $ */
 /* ====================================================================
  * The Apache Software License, Version 1.1
  *

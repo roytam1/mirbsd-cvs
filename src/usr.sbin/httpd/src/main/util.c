@@ -1,4 +1,4 @@
-/* $MirOS: src/usr.sbin/httpd/src/main/util.c,v 1.4 2005/05/04 18:31:07 tg Exp $ */
+/* $MirOS: src/usr.sbin/httpd/src/main/util.c,v 1.5 2006/04/03 20:54:42 tg Exp $ */
 
 /* ====================================================================
  * The Apache Software License, Version 1.1
@@ -84,7 +84,7 @@
 #ifndef __RCSID
 #define	__RCSID(x)	static const char __rcsid[] = (x)
 #endif
-__RCSID("$MirOS: src/usr.sbin/httpd/src/main/util.c,v 1.4 2005/05/04 18:31:07 tg Exp $");
+__RCSID("$MirOS: src/usr.sbin/httpd/src/main/util.c,v 1.5 2006/04/03 20:54:42 tg Exp $");
 
 /* we assume the folks using this ensure 0 <= c < 256... which means
  * you need a cast to (unsigned char) first, you can't just plug a
@@ -1698,6 +1698,8 @@ API_EXPORT(char *) ap_escape_html(pool *p, const char *s)
 	    j += 3;
 	else if (s[i] == '&')
 	    j += 4;
+	else if (s[i] == '"')
+	    j += 5; 
 
     if (j == 0)
 	return ap_pstrndup(p, s, i);
@@ -1715,6 +1717,10 @@ API_EXPORT(char *) ap_escape_html(pool *p, const char *s)
 	else if (s[i] == '&') {
 	    memcpy(&x[j], "&amp;", 5);
 	    j += 4;
+	}
+	else if (s[i] == '"') {
+	    memcpy(&x[j], "&quot;", 6);
+	    j += 5;
 	}
 	else
 	    x[j] = s[i];

@@ -1,5 +1,5 @@
-/**	$MirOS: src/usr.sbin/httpd/src/include/ap_config.h,v 1.3 2005/04/17 04:38:32 tg Exp $ */
-/*	$OpenBSD: ap_config.h,v 1.20 2005/02/09 12:13:09 henning Exp $ */
+/**	$MirOS: src/usr.sbin/httpd/src/include/ap_config.h,v 1.4 2006/04/03 20:54:40 tg Exp $ */
+/*	$OpenBSD: ap_config.h,v 1.21 2006/04/04 11:39:28 henning Exp $ */
 
 /* ====================================================================
  * The Apache Software License, Version 1.1

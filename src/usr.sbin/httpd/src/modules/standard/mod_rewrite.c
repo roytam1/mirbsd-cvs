@@ -1,5 +1,5 @@
-/**	$MirOS: src/usr.sbin/httpd/src/modules/standard/mod_rewrite.c,v 1.5 2006/04/03 20:54:48 tg Exp $ */
-/*	$OpenBSD: mod_rewrite.c,v 1.24 2005/02/09 12:13:10 henning Exp $ */
+/**	$MirOS: src/usr.sbin/httpd/src/modules/standard/mod_rewrite.c,v 1.6 2006/07/28 16:31:12 tg Exp $ */
+/*	$OpenBSD: mod_rewrite.c,v 1.25 2006/07/28 13:52:30 henning Exp $ */
 
 /* ====================================================================
  * The Apache Software License, Version 1.1
@@ -103,7 +103,7 @@
 #ifndef __RCSID
 #define	__RCSID(x)	static const char __rcsid[] = (x)
 #endif
-__RCSID("$MirOS: src/usr.sbin/httpd/src/modules/standard/mod_rewrite.c,v 1.5 2006/04/03 20:54:48 tg Exp $");
+__RCSID("$MirOS: src/usr.sbin/httpd/src/modules/standard/mod_rewrite.c,v 1.6 2006/07/28 16:31:12 tg Exp $");
 
 /*
 ** +-------------------------------------------------------+

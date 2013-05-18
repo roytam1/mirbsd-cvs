@@ -1,5 +1,5 @@
-/* $MirOS: src/usr.sbin/httpd/src/include/httpd.h,v 1.6 2005/07/07 13:40:02 tg Exp $ */
-/* $OpenBSD: httpd.h,v 1.26 2005/06/15 00:00:16 niallo Exp $ */
+/* $MirOS: src/usr.sbin/httpd/src/include/httpd.h,v 1.7 2005/12/04 15:33:01 tg Exp $ */
+/* $OpenBSD: httpd.h,v 1.27 2006/02/22 15:07:12 henning Exp $ */
 
 /* ====================================================================
  * The Apache Software License, Version 1.1
@@ -361,6 +361,23 @@ extern "C" {
 #endif
 #ifndef DEFAULT_EXCESS_REQUESTS_PER_CHILD
 #define DEFAULT_EXCESS_REQUESTS_PER_CHILD 0
+#endif
+
+/* Constrain the rlimits of the child processes */
+#ifndef DEFAULT_MAX_CPU_PER_CHILD
+#define DEFAULT_MAX_CPU_PER_CHILD 0
+#endif
+#ifndef DEFAULT_MAX_DATA_PER_CHILD
+#define DEFAULT_MAX_DATA_PER_CHILD 0
+#endif
+#ifndef DEFAULT_MAX_NOFILE_PER_CHILD
+#define DEFAULT_MAX_NOFILE_PER_CHILD 0
+#endif
+#ifndef DEFAULT_MAX_RSS_PER_CHILD
+#define DEFAULT_MAX_RSS_PER_CHILD 0
+#endif
+#ifndef DEFAULT_MAX_STACK_PER_CHILD
+#define DEFAULT_MAX_STACK_PER_CHILD 0
 #endif
 
 /* The maximum length of the queue of pending connections, as defined

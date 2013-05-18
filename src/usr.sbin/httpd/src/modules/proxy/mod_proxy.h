@@ -1,4 +1,4 @@
-/* $MirOS$ */
+/* $MirOS: src/usr.sbin/httpd/src/modules/proxy/mod_proxy.h,v 1.2 2005/03/13 19:16:51 tg Exp $ */
 
 /* ====================================================================
  * The Apache Software License, Version 1.1
@@ -205,6 +205,8 @@ typedef struct {
     char recv_buffer_size_set;
     size_t io_buffer_size;
     char io_buffer_size_set;
+    int preserve_host;
+    int preserve_host_set;
 } proxy_server_conf;
 
 struct hdr_entry {

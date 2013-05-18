@@ -1,4 +1,4 @@
-/* $MirOS$ */
+/* $MirOS: src/usr.sbin/httpd/src/modules/ssl/mod_ssl.h,v 1.2 2005/03/13 19:16:54 tg Exp $ */
 
 /*                      _             _
 **  _ __ ___   ___   __| |    ___ ___| |  mod_ssl
@@ -285,9 +285,6 @@ union ssl_ipc_semun {
  */
 #define SSL_DBM_FILE_MODE ( S_IRUSR|S_IWUSR )
 
-#ifdef SSL_USE_SDBM
-#error No SDBM!
-#else /* !SSL_USE_SDBM */
 #include <ndbm.h>
 #define ssl_dbm_open     dbm_open
 #define ssl_dbm_close    dbm_close
@@ -308,7 +305,6 @@ union ssl_ipc_semun {
 #define SSL_DBM_FILE_SUFFIX_PAG ".pag"
 #endif
 #endif
-#endif /* !SSL_USE_SDBM */
 
 /*
  * Check for OpenSSL version

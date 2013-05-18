@@ -1,4 +1,4 @@
-/* $MirOS: src/usr.sbin/httpd/src/modules/experimental/mod_auth_digest.c,v 1.2 2005/03/13 19:16:49 tg Exp $ */
+/* $MirOS: src/usr.sbin/httpd/src/modules/experimental/mod_auth_digest.c,v 1.3 2005/04/17 04:38:36 tg Exp $ */
 
 /* ====================================================================
  * The Apache Software License, Version 1.1
@@ -920,7 +920,7 @@ static int check_nonce(request_rec *r, digest_header_rec *resp,
 
     if (strlen(resp->nonce) != NONCE_LEN) {
 	ap_log_rerror(APLOG_MARK, APLOG_NOERRNO|APLOG_ERR, r,
-		      "Digest: invalid nonce %s received - length is not %d",
+		      "Digest: invalid nonce %s received - length is not %ld",
 		      resp->nonce, NONCE_LEN);
 	note_digest_auth_failure(r, conf, resp, 1);
 	return AUTH_REQUIRED;

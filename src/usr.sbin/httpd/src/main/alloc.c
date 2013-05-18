@@ -547,7 +547,6 @@ API_EXPORT(pool *) ap_init_alloc(void)
     alloc_mutex = ap_create_mutex(NULL);
     spawn_mutex = ap_create_mutex(NULL);
     permanent_pool = ap_make_sub_pool(NULL);
-
     return permanent_pool;
 }
 

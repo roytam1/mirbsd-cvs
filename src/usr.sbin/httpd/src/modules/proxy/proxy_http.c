@@ -1,4 +1,4 @@
-/* $MirOS: src/usr.sbin/httpd/src/modules/proxy/proxy_http.c,v 1.5 2005/05/04 18:31:07 tg Exp $ */
+/* $MirOS: src/usr.sbin/httpd/src/modules/proxy/proxy_http.c,v 1.6 2006/04/03 20:54:44 tg Exp $ */
 
 /* ====================================================================
  * The Apache Software License, Version 1.1
@@ -69,7 +69,7 @@
 #ifndef __RCSID
 #define	__RCSID(x)	static const char __rcsid[] = (x)
 #endif
-__RCSID("$MirOS: src/usr.sbin/httpd/src/modules/proxy/proxy_http.c,v 1.5 2005/05/04 18:31:07 tg Exp $");
+__RCSID("$MirOS: src/usr.sbin/httpd/src/modules/proxy/proxy_http.c,v 1.6 2006/04/03 20:54:44 tg Exp $");
 
 /*
  * Canonicalise http-like URLs.
@@ -158,7 +158,7 @@ int ap_proxy_http_handler(request_rec *r, cache_req *c, char *url,
 {
     const char *strp;
     char *strp2;
-    const char *err, *desthost;
+    const char *err, *desthost, *hostname;
     int i, j, sock,/* len,*/ backasswards;
     table *req_hdrs, *resp_hdrs;
     array_header *reqhdrs_arr;
@@ -197,8 +197,8 @@ int ap_proxy_http_handler(request_rec *r, cache_req *c, char *url,
     destport = DEFAULT_HTTP_PORT;
     snprintf(portstr, sizeof(portstr), "%d", DEFAULT_HTTP_PORT);
     destportstr = portstr;
-    ap_hook_use("ap::mod_proxy::http::handler::set_destport", 
-                AP_HOOK_SIG2(int,ptr), 
+    ap_hook_use("ap::mod_proxy::http::handler::set_destport",
+                AP_HOOK_SIG2(int,ptr),
                 AP_HOOK_TOPMOST,
                 &destport, r);
     strp = strchr(urlptr, '/');
@@ -292,7 +292,7 @@ int ap_proxy_http_handler(request_rec *r, cache_req *c, char *url,
 	error = getaddrinfo(proxyhost, pbuf, &hints, &res0);
 	if (error)
             return DECLINED;    /* try another */
-	peer = ap_psprintf(p, "%s:%u", proxyhost, proxyport);  
+	peer = ap_psprintf(p, "%s:%u", proxyhost, proxyport);
     }
 
 
@@ -362,17 +362,39 @@ int ap_proxy_http_handler(request_rec *r, cache_req *c, char *url,
     ap_hard_timeout("proxy send", r);
     ap_bvputs(f, r->method, " ", proxyhost ? url : urlptr, " HTTP/1.1" CRLF,
               NULL);
+
+    if (conf->preserve_host) {
+        hostname = ap_table_get(r->headers_in, "Host");
+        if (!hostname) {
+            hostname = r->server->server_hostname;
+            ap_log_rerror(APLOG_MARK, APLOG_WARNING, r,
+                          "proxy: No host line on incoming request "
+                          "and preserve host set forcing hostname to "
+                          "be %s for uri %s", hostname, r->uri);
+        }
+        strp2 = strchr(hostname, ':');
+        if (strp2 != NULL) {
+            *(strp2++) = '\0';
+            if (ap_isdigit(*strp2)) {
+                destport = atoi(strp2);
+                destportstr = strp2;
+            }
+        }
+    }
+    else
+        hostname = desthost;
+
     {
 	int rc = DECLINED;
 	ap_hook_use("ap::mod_proxy::http::handler::write_host_header",
 		    AP_HOOK_SIG6(int,ptr,ptr,ptr,int,ptr),
 		    AP_HOOK_DECLINE(DECLINED),
-		    &rc, r, f, desthost, destport, destportstr);
+		    &rc, r, f, hostname, destport, destportstr);
         if (rc == DECLINED) {
 	    if (destportstr != NULL && destport != DEFAULT_HTTP_PORT)
-		ap_bvputs(f, "Host: ", desthost, ":", destportstr, CRLF, NULL);
+		ap_bvputs(f, "Host: ", hostname, ":", destportstr, CRLF, NULL);
 	    else
-		ap_bvputs(f, "Host: ", desthost, CRLF, NULL);
+		ap_bvputs(f, "Host: ", hostname, CRLF, NULL);
         }
     }
 
@@ -619,7 +641,7 @@ int ap_proxy_http_handler(request_rec *r, cache_req *c, char *url,
     if ((urlstr = ap_table_get(resp_hdrs, "Content-Location")) != NULL)
         ap_table_set(resp_hdrs, "Content-Location", proxy_location_reverse_map(r, urlstr));
 
-/* check if NoCache directive on this host */
+    /* check if NoCache directive on this host */
   {
     struct sockaddr_in *sin;
 #ifdef INET6
