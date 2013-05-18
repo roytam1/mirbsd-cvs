@@ -1,9 +1,0 @@
-@comment $MirOS$
-${P5SITE}/Package/Constants.pm
-@comment ${P5ARCH}/auto/Package/Constants/.packlist
-man/man3/Package::Constants${P5MAN3EXT}
-@comment @dirrm ${P5ARCH}/auto/Package/Constants
-@comment @dirrm ${P5ARCH}/auto/Package
-@comment @dirrm ${P5ARCH}/auto
-@comment @dirrm ${P5ARCH}
-@dirrm ${P5SITE}/Package
