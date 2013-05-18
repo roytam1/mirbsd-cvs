@@ -1,4 +1,4 @@
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.111 2008/05/02 22:46:28 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.112 2008/05/04 02:08:58 tg Exp $'
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -706,7 +706,7 @@ mws_content <<'EOF'
  <li>MidnightBSD 0.2-CURRENT (i386 gcc3.4.6-20060305)</li>
  <li>MidnightBSD 0.1.1-RELEASE (sparc64 gcc3.4.4-20050518)</li>
  <li>NetBSD 3.0_STABLE (i386 gcc3.3.3_nb3_20040520)</li>
- <li>OpenBSD 4.3-beta GENERIC#201 (zaurus gcc3.3.5)</li>
+ <li>OpenBSD 4.3 GENERIC#207 (zaurus gcc3.3.5)</li>
  <li>Debian GNU/kFreeBSD 4.0 sid 6.2-1-686 (i386 gcc1:3.3.6-15)</li>
  <li>Debian GNU/kFreeBSD 4.0 sid 6.2-1-686 (i386 gcc3.4.6-6)</li>
  <li>Debian GNU/kFreeBSD 4.0 sid 6.2-1-686 (i386 gcc4.0.3-7)</li>
@@ -936,6 +936,8 @@ mws_content <<'EOF'
  <li>If <tt>setlocale(LC_CTYPE, "")</tt> is not available, look at the
   environment variables ourselves – brings UTF-8 support to poor OSes</li>
  <li>Remove some now-dead code; speed up configuration process; shrink</li>
+ <li>Default to no setlocale(3) on OpenBSD in <tt>Build.sh</tt></li>
+ <li>Fix for testsuite unexpected failure if running as root in one case</li>
 </ul>
 <p id="r33d">mksh R33d is a quick security-update with these changes:</p><ul>
  <li>Move a portability define from <tt>sh.h</tt> to the <tt>setmode.c</tt>
