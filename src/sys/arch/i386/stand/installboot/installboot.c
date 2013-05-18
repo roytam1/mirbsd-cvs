@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/stand/installboot/installboot.c,v 1.13 2006/04/07 23:57:47 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/stand/installboot/installboot.c,v 1.14 2006/04/08 00:00:09 tg Exp $ */
 /*	$OpenBSD: installboot.c,v 1.47 2004/07/15 21:44:16 tom Exp $	*/
 /*	$NetBSD: installboot.c,v 1.5 1995/11/17 23:23:50 gwr Exp $ */
 
@@ -88,7 +88,7 @@
 #include <unistd.h>
 #include <util.h>
 
-__RCSID("$MirOS: src/sys/arch/i386/stand/installboot/installboot.c,v 1.13 2006/04/07 23:57:47 tg Exp $");
+__RCSID("$MirOS: src/sys/arch/i386/stand/installboot/installboot.c,v 1.14 2006/04/08 00:00:09 tg Exp $");
 
 extern	char *__progname;
 int	verbose, nowrite, nheads, nsectors, userspec = 0;
@@ -430,8 +430,7 @@ main(int argc, char *argv[])
  do_write:
 	fprintf(stderr, "writing bootblock to sector %ld (0x%lX)\n",
 	    (long) startoff, (unsigned long)startoff);
-	if (!imaofs)
-		startoff *= dl.d_secsize;
+	startoff *= imaofs ? 512 : dl.d_secsize;
 
 	*num_heads_p = nheads;
 	*num_secs_p = nsectors;
