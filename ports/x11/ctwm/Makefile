@@ -1,5 +1,7 @@
 # $OpenBSD: Makefile,v 1.15 2003/10/08 17:13:15 sturm Exp $
 
+ONLY_FOR_PLATFORM=	MirBSD:*:* OpenBSD:*:*
+
 COMMENT=			twm, plus support for multiple virtual screens, etc
 
 DISTNAME=	ctwm-3.6

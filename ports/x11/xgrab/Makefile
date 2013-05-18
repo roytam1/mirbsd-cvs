@@ -1,5 +1,7 @@
 # $OpenBSD: Makefile,v 1.19 2003/10/08 17:13:18 sturm Exp $
 
+ONLY_FOR_PLATFORM=	MirBSD:*:* OpenBSD:*:*
+
 COMMENT=			X11 image grabber
 
 DISTNAME=	xgrabsc.2_41

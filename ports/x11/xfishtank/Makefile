@@ -1,5 +1,7 @@
 # $OpenBSD: Makefile,v 1.15 2003/10/08 17:13:18 sturm Exp $
 
+ONLY_FOR_PLATFORM=	MirBSD:*:* OpenBSD:*:*
+
 COMMENT=			fish swim in the background of your screen
 
 DISTNAME=	xfishtank-2.2

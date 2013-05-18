@@ -1,5 +1,7 @@
 # $OpenBSD: Makefile,v 1.12 2003/10/08 17:13:19 sturm Exp $
 
+ONLY_FOR_PLATFORM=	MirBSD:*:* OpenBSD:*:*
+
 COMMENT=			changing xterm attributes
 
 DISTNAME=	xtattr-1.0

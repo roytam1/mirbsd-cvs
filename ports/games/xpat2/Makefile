@@ -1,5 +1,7 @@
 # $OpenBSD: Makefile,v 1.19 2002/12/23 00:37:50 pvalchev Exp $
 
+ONLY_FOR_PLATFORM=	MirBSD:*:* OpenBSD:*:*
+
 COMMENT=			X11 solitaire with 14 variations
 
 DISTNAME=	xpat2-1.04

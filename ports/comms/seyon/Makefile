@@ -1,5 +1,7 @@
-# $MirOS$
+# $MirOS: ports/comms/seyon/Makefile,v 1.4 2007/04/11 17:05:29 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.17 2002/10/25 11:34:24 naddy Exp $
+
+ONLY_FOR_PLATFORM=	MirBSD:*:* OpenBSD:*:*
 
 COMMENT=	communication package for X11
 

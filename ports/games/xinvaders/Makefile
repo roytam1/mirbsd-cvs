@@ -1,5 +1,7 @@
-# $MirOS: ports/games/xinvaders/Makefile,v 1.3 2005/07/07 21:21:24 bsiegert Exp $
+# $MirOS: ports/games/xinvaders/Makefile,v 1.4 2006/09/14 00:09:40 tg Exp $
 # $OpenBSD: Makefile,v 1.19 2004/05/16 23:37:58 pvalchev Exp $
+
+ONLY_FOR_PLATFORM=	MirBSD:*:* OpenBSD:*:*
 
 NOT_FOR_PLATFORM=	${LP64_PLATFORMS}
 

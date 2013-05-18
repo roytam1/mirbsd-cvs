@@ -1,5 +1,7 @@
-# $MirOS$
+# $MirOS: ports/audio/libworkman/Makefile,v 1.4 2007/05/12 22:19:32 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.9 2002/09/17 14:35:03 wilfried Exp $
+
+ONLY_FOR_PLATFORM=	MirBSD:*:* OpenBSD:*:*
 
 COMMENT=		multi-platform CD-Player library
 

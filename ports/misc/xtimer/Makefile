@@ -1,5 +1,7 @@
-# $MirOS$
+# $MirOS: ports/misc/xtimer/Makefile,v 1.4 2007/04/18 18:33:30 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.13 2002/10/27 21:07:54 naddy Exp $
+
+ONLY_FOR_PLATFORM=	MirBSD:*:* OpenBSD:*:*
 
 COMMENT=	super simple digital timer for X11
 

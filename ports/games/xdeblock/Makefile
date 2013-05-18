@@ -1,5 +1,7 @@
 # $OpenBSD: Makefile,v 1.20 2004/01/09 21:16:48 sturm Exp $
 
+ONLY_FOR_PLATFORM=	MirBSD:*:* OpenBSD:*:*
+
 COMMENT=			block action game
 
 DISTNAME=	xdeblock

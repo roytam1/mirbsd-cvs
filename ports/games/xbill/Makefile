@@ -1,5 +1,7 @@
-# $MirOS$
+# $MirOS: ports/games/xbill/Makefile,v 1.3 2006/12/30 22:56:56 tg Exp $
 # $OpenBSD: Makefile,v 1.15 2002/10/26 20:44:39 naddy Exp $
+
+ONLY_FOR_PLATFORM=	MirBSD:*:* OpenBSD:*:*
 
 COMMENT=		save your computers from the evil clutches of Bill
 DISTNAME=		xbill-2.0

@@ -1,5 +1,7 @@
-# $MirOS: ports/print/gv/Makefile,v 1.4 2006/09/14 00:12:42 tg Exp $
+# $MirOS: ports/print/gv/Makefile,v 1.5 2007/02/26 19:27:21 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.23 2004/01/04 21:32:18 espie Exp $
+
+ONLY_FOR_PLATFORM=	MirBSD:*:* OpenBSD:*:*
 
 COMMENT=	PostScript and PDF previewer
 

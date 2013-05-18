@@ -1,5 +1,7 @@
 # $OpenBSD: Makefile,v 1.13 2004/05/25 10:21:30 xsa Exp $
 
+ONLY_FOR_PLATFORM=	MirBSD:*:* OpenBSD:*:*
+
 COMMENT=			afterstep clock with some language extensions
 
 DISTNAME=	asclock-2.0.12

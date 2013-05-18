@@ -1,5 +1,7 @@
-# $MirOS: ports/x11/Xaw3d/Makefile,v 1.3 2006/09/14 00:15:06 tg Exp $
+# $MirOS: ports/x11/Xaw3d/Makefile,v 1.4 2007/02/26 17:09:47 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.20 2003/10/08 17:13:14 sturm Exp $
+
+ONLY_FOR_PLATFORM=	MirBSD:*:* OpenBSD:*:*
 
 COMMENT=			3D Athena Widget set that looks like Motif
 

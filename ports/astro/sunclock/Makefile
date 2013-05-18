@@ -1,5 +1,7 @@
 # $OpenBSD: Makefile,v 1.3 2004/02/04 07:39:18 sturm Exp $
 
+ONLY_FOR_PLATFORM=	MirBSD:*:* OpenBSD:*:*
+
 COMMENT=			display the phase of the Sun on a map of the Earth
 COMMENT-maps=			additional maps of the Earth for sunclock
 

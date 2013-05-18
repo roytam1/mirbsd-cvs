@@ -1,5 +1,7 @@
-# $MirOS$
+# $MirOS: ports/graphics/tgif/Makefile,v 1.4 2007/04/07 14:32:28 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.20 2004/04/09 09:47:10 sturm Exp $
+
+ONLY_FOR_PLATFORM=	MirBSD:*:* OpenBSD:*:*
 
 COMMENT=	two-dimensional drawing tool and hyper-object browser
 

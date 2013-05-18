@@ -1,5 +1,7 @@
 # $OpenBSD: Makefile,v 1.14 2003/10/08 17:13:15 sturm Exp $
 
+ONLY_FOR_PLATFORM=	MirBSD:*:* OpenBSD:*:*
+
 COMMENT=			hyper-animated face analog clock for X11
 
 DISTNAME=	emiclock-2.0.2

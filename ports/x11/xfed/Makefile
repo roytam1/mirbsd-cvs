@@ -1,5 +1,7 @@
-# $MirOS: ports/x11/xfed/Makefile,v 1.3 2006/09/14 00:15:57 tg Exp $
+# $MirOS: ports/x11/xfed/Makefile,v 1.4 2008/03/09 17:23:45 tg Exp $
 # $OpenBSD: Makefile,v 1.19 2002/10/29 19:48:59 naddy Exp $
+
+ONLY_FOR_PLATFORM=	MirBSD:*:* OpenBSD:*:*
 
 COMMENT=			X11 fonts (.bdf files) editor
 DISTNAME=	xfed

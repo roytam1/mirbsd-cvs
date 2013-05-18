@@ -1,5 +1,7 @@
-# $MirOS$
+# $MirOS: ports/graphics/mpeg_play/Makefile,v 1.3 2007/04/07 14:32:28 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.14 2002/10/27 00:03:16 naddy Exp $
+
+ONLY_FOR_PLATFORM=	MirBSD:*:* OpenBSD:*:*
 
 COMMENT=	play mpeg movies on X11
 

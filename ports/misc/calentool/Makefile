@@ -1,5 +1,7 @@
-# $MirOS$
+# $MirOS: ports/misc/calentool/Makefile,v 1.3 2007/04/13 19:35:08 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.16 2002/10/27 21:07:53 naddy Exp $
+
+ONLY_FOR_PLATFORM=	MirBSD:*:* OpenBSD:*:*
 
 COMMENT=	nice X11-based calendar/scheduling tool (using XView)
 

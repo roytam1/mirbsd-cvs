@@ -1,5 +1,7 @@
 # $OpenBSD: Makefile,v 1.13 2002/10/26 20:44:39 naddy Exp $
 
+ONLY_FOR_PLATFORM=	MirBSD:*:* OpenBSD:*:*
+
 COMMENT=			challenging double decked solitaire game
 
 DISTNAME=	spider

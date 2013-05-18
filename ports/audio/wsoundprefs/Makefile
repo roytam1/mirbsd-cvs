@@ -1,5 +1,7 @@
 # $OpenBSD: Makefile,v 1.17 2002/09/17 14:35:03 wilfried Exp $
 
+ONLY_FOR_PLATFORM=	MirBSD:*:* OpenBSD:*:*
+
 COMMENT=			preferences program for wsoundserver
 
 DISTNAME=		WSoundPrefs-1.1.1

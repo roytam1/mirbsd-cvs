@@ -1,5 +1,7 @@
-# $MirOS$
+# $MirOS: ports/astro/xephem/Makefile,v 1.3 2007/04/04 17:46:36 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.26 2003/08/27 19:13:06 naddy Exp $
+
+ONLY_FOR_PLATFORM=	MirBSD:*:* OpenBSD:*:*
 
 COMMENT=	interactive astronomical ephemeris
 DISTNAME=	xephem-3.2.3

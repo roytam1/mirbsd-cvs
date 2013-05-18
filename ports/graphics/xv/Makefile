@@ -1,5 +1,7 @@
-# $MirOS$
+# $MirOS: ports/graphics/xv/Makefile,v 1.3 2007/04/01 11:43:48 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.23 2002/10/27 00:03:17 naddy Exp $
+
+ONLY_FOR_PLATFORM=	MirBSD:*:* OpenBSD:*:*
 
 COMMENT=	X11 image display and modification tool
 

@@ -1,5 +1,7 @@
 # $OpenBSD: Makefile,v 1.15 2002/10/26 20:44:40 naddy Exp $
 
+ONLY_FOR_PLATFORM=	MirBSD:*:* OpenBSD:*:*
+
 COMMENT=		skat card game
 DISTNAME=		xskat-3.4
 CATEGORIES=		games

@@ -1,5 +1,7 @@
-# $MirOS$
+# $MirOS: ports/misc/xless/Makefile,v 1.3 2007/04/18 18:33:30 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.15 2002/10/27 21:07:54 naddy Exp $
+
+ONLY_FOR_PLATFORM=	MirBSD:*:* OpenBSD:*:*
 
 COMMENT=	X11 viewer for text files
 

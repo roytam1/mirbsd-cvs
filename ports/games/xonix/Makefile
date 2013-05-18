@@ -1,5 +1,7 @@
 # $OpenBSD: Makefile,v 1.17 2004/05/06 10:26:21 robert Exp $
 
+ONLY_FOR_PLATFORM=	MirBSD:*:* OpenBSD:*:*
+
 COMMENT=			win land without colliding with 'flyers' and 'eaters'
 
 DISTNAME=	xonix-1.4

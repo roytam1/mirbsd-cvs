@@ -1,5 +1,7 @@
 # $OpenBSD: Makefile,v 1.12 2003/10/08 17:13:20 sturm Exp $
 
+ONLY_FOR_PLATFORM=	MirBSD:*:* OpenBSD:*:*
+
 COMMENT=			magnify, rotate, mirror the image on the X11 screen
 
 DISTNAME=	xzoom-0.3

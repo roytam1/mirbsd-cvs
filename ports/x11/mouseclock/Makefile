@@ -1,5 +1,7 @@
 # $OpenBSD: Makefile,v 1.17 2002/10/29 19:48:58 naddy Exp $
 
+ONLY_FOR_PLATFORM=	MirBSD:*:* OpenBSD:*:*
+
 COMMENT=			display the current time using the X11 root cursor
 
 DISTNAME=	mouseclock-1.0

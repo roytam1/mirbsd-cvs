@@ -1,5 +1,7 @@
-# $MirOS: ports/plan9/9wm/Makefile,v 1.4 2006/09/14 00:12:34 tg Exp $
+# $MirOS: ports/plan9/9wm/Makefile,v 1.5 2007/04/13 19:27:53 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.19 2002/10/28 02:13:21 naddy Exp $
+
+ONLY_FOR_PLATFORM=	MirBSD:*:* OpenBSD:*:*
 
 COMMENT=	8 1/2-like Window Manager for X11
 

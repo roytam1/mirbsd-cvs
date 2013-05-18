@@ -1,5 +1,7 @@
 # $OpenBSD: Makefile,v 1.20 2002/10/24 22:20:04 naddy Exp $
 
+ONLY_FOR_PLATFORM=	MirBSD:*:* OpenBSD:*:*
+
 COMMENT=		Motif-based audio mixer
 DISTNAME=		xmmix-1.2.2
 CATEGORIES=		audio

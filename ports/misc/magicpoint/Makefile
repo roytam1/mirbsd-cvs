@@ -1,5 +1,7 @@
-# $MirOS: ports/misc/magicpoint/Makefile,v 1.7 2007/05/14 04:13:20 tg Exp $
+# $MirOS: ports/misc/magicpoint/Makefile,v 1.8 2008/03/09 17:23:12 tg Exp $
 # $OpenBSD: Makefile,v 1.32 2004/04/09 09:52:09 espie Exp $
+
+ONLY_FOR_PLATFORM=	MirBSD:*:* OpenBSD:*:*
 
 COMMENT=		X11-based presentation tool
 DISTNAME=		magicpoint-1.10a

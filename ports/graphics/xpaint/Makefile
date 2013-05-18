@@ -1,5 +1,7 @@
-# $MirOS$
+# $MirOS: ports/graphics/xpaint/Makefile,v 1.3 2007/04/01 11:43:48 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.31 2002/11/22 02:37:37 margarida Exp $
+
+ONLY_FOR_PLATFORM=	MirBSD:*:* OpenBSD:*:*
 
 COMMENT=		simple paint program
 

@@ -1,5 +1,7 @@
 # $OpenBSD: Makefile,v 1.5 2002/12/29 15:10:08 fgsch Exp $
 
+ONLY_FOR_PLATFORM=	MirBSD:*:* OpenBSD:*:*
+
 DISTNAME=	xscavenger-143
 EXTRACT_SUFX=	.tgz
 CATEGORIES=	games

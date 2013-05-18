@@ -1,5 +1,7 @@
-# $MirOS: ports/japanese/kterm/Makefile,v 1.4 2007/02/11 00:33:02 tg Exp $
+# $MirOS: ports/japanese/kterm/Makefile,v 1.5 2008/03/09 17:22:59 tg Exp $
 # $OpenBSD: Makefile,v 1.19 2002/11/21 05:48:41 pvalchev Exp $
+
+ONLY_FOR_PLATFORM=	MirBSD:*:* OpenBSD:*:*
 
 COMMENT=		Japanese-capable xterm
 VERSION=		6.2.0

@@ -1,5 +1,7 @@
 # $OpenBSD: Makefile,v 1.16 2003/11/15 15:12:53 sturm Exp $
 
+ONLY_FOR_PLATFORM=	MirBSD:*:* OpenBSD:*:*
+
 COMMENT=			graphical front end to Unix diff
 
 DISTNAME=	mgdiff

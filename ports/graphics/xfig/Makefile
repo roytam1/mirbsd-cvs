@@ -1,5 +1,7 @@
-# $MirOS: ports/graphics/xfig/Makefile,v 1.2 2005/07/07 21:22:08 bsiegert Exp $
+# $MirOS: ports/graphics/xfig/Makefile,v 1.3 2006/09/14 00:10:10 tg Exp $
 # $OpenBSD: Makefile,v 1.27 2004/02/25 02:35:16 naddy Exp $
+
+ONLY_FOR_PLATFORM=	MirBSD:*:* OpenBSD:*:*
 
 COMMENT=			CAD drawing program for X11
 VERSION=	3.2.4

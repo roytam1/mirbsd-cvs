@@ -1,5 +1,7 @@
 # $OpenBSD: Makefile,v 1.18 2002/10/26 20:44:40 naddy Exp $
 
+ONLY_FOR_PLATFORM=	MirBSD:*:* OpenBSD:*:*
+
 COMMENT=			Mr Do video arcade game for X11
 
 DISTNAME=	xmris.4.04

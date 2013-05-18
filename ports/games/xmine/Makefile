@@ -1,5 +1,7 @@
 # $OpenBSD: Makefile,v 1.17 2002/10/26 20:44:39 naddy Exp $
 
+ONLY_FOR_PLATFORM=	MirBSD:*:* OpenBSD:*:*
+
 COMMENT=			Athena port of xminesweeper
 
 DISTNAME=	xmine-1.0.3-Xaw

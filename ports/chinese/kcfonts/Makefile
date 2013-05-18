@@ -1,5 +1,7 @@
-# $MirOS$
+# $MirOS: ports/chinese/kcfonts/Makefile,v 1.3 2007/04/11 17:05:29 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.9 2004/02/03 07:28:12 sturm Exp $
+
+ONLY_FOR_PLATFORM=	MirBSD:*:* OpenBSD:*:*
 
 COMMENT=	extra chinese fonts
 

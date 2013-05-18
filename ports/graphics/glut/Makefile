@@ -1,5 +1,7 @@
 # $OpenBSD: Makefile,v 1.6 2004/02/21 01:18:08 pvalchev Exp $
 
+ONLY_FOR_PLATFORM=	MirBSD:*:* OpenBSD:*:*
+
 COMMENT=			OpenGL Utility Toolkit
 
 DISTNAME=	glut-3.7

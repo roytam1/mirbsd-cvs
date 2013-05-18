@@ -1,5 +1,7 @@
 # $OpenBSD: Makefile,v 1.15 2004/05/24 08:31:13 xsa Exp $
 
+ONLY_FOR_PLATFORM=	MirBSD:*:* OpenBSD:*:*
+
 COMMENT=			mold spreading over your X11 screen
 
 DISTNAME=	xmold

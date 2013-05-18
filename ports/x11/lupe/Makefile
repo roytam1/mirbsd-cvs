@@ -1,5 +1,7 @@
 # $OpenBSD: Makefile,v 1.17 2002/10/29 19:48:58 naddy Exp $
 
+ONLY_FOR_PLATFORM=	MirBSD:*:* OpenBSD:*:*
+
 COMMENT=			real-time magnifying glass for X11
 
 DISTNAME=	lupe008c

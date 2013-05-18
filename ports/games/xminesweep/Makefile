@@ -1,5 +1,7 @@
 # $OpenBSD: Makefile,v 1.14 2002/10/26 20:44:40 naddy Exp $
 
+ONLY_FOR_PLATFORM=	MirBSD:*:* OpenBSD:*:*
+
 COMMENT=			Windows minesweeper
 
 DISTNAME=	xminesweep3.0

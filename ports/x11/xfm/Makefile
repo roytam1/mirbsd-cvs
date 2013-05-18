@@ -1,5 +1,7 @@
 # $OpenBSD: Makefile,v 1.16 2003/10/08 17:13:18 sturm Exp $
 
+ONLY_FOR_PLATFORM=	MirBSD:*:* OpenBSD:*:*
+
 COMMENT=			X11 File Manager
 
 DISTNAME=	xfm-1.4.3

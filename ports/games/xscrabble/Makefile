@@ -1,5 +1,7 @@
 # $OpenBSD: Makefile,v 1.15 2003/04/15 12:42:31 wilfried Exp $
 
+ONLY_FOR_PLATFORM=	MirBSD:*:* OpenBSD:*:*
+
 COMMENT=			X11 version of the popular board game
 
 DISTNAME=	xscrabble

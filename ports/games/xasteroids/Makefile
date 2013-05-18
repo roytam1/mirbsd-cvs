@@ -1,5 +1,7 @@
 # $OpenBSD: Makefile,v 1.22 2004/05/18 08:45:33 xsa Exp $
 
+ONLY_FOR_PLATFORM=	MirBSD:*:* OpenBSD:*:*
+
 COMMENT=			X11-based asteroids-style arcade
 
 DISTNAME=	xasteroids

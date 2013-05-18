@@ -1,5 +1,7 @@
 # $OpenBSD: Makefile,v 1.7 2003/10/08 17:13:18 sturm Exp $
 
+ONLY_FOR_PLATFORM=	MirBSD:*:* OpenBSD:*:*
+
 COMMENT=			keymap editor for the X window system
 
 DISTNAME=	xkeycaps-2.46

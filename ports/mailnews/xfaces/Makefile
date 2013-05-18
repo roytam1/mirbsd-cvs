@@ -1,5 +1,7 @@
-# $MirOS: ports/mailnews/xfaces/Makefile,v 1.2 2006/09/14 00:10:53 tg Exp $
+# $MirOS: ports/mailnews/xfaces/Makefile,v 1.3 2007/04/12 20:20:04 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.21 2002/10/27 17:21:40 naddy Exp $
+
+ONLY_FOR_PLATFORM=	MirBSD:*:* OpenBSD:*:*
 
 COMMENT=	mail image display for X11
 DISTNAME=	xfaces-3.3

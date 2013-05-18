@@ -1,5 +1,7 @@
 # $OpenBSD: Makefile,v 1.10 2002/10/29 19:48:59 naddy Exp $
 
+ONLY_FOR_PLATFORM=	MirBSD:*:* OpenBSD:*:*
+
 COMMENT=			one keyboard/mouse to multiple X displays
 DISTNAME=		x2x-1.27
 CATEGORIES=     	x11

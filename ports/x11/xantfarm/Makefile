@@ -1,5 +1,7 @@
 # $OpenBSD: Makefile,v 1.14 2003/10/08 17:13:18 sturm Exp $
 
+ONLY_FOR_PLATFORM=	MirBSD:*:* OpenBSD:*:*
+
 COMMENT=			ant hill simulation on X11 root window
 
 DISTNAME=	xantfarm

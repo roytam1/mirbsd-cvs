@@ -1,5 +1,7 @@
-# $MirOS$
+# $MirOS: ports/audio/workman/Makefile,v 1.4 2007/04/04 18:00:26 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.24 2002/10/24 22:20:04 naddy Exp $
+
+ONLY_FOR_PLATFORM=	MirBSD:*:* OpenBSD:*:*
 
 COMMENT=	OpenLook-based CD player
 DISTNAME=	WorkMan-1.3a

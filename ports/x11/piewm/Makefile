@@ -1,5 +1,7 @@
 # $OpenBSD: Makefile,v 1.16 2003/10/08 17:13:17 sturm Exp $
 
+ONLY_FOR_PLATFORM=	MirBSD:*:* OpenBSD:*:*
+
 COMMENT=			tvtwm with pie (circular) menus
 
 DISTNAME=	piewm-1.03

@@ -1,5 +1,7 @@
-# $MirOS$
+# $MirOS: ports/japanese/funetfonts/Makefile,v 1.4 2007/04/12 20:20:03 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.8 2002/10/27 00:52:43 naddy Exp $
+
+ONLY_FOR_PLATFORM=	MirBSD:*:* OpenBSD:*:*
 
 COMMENT=	extra japanese fonts, marumoji
 

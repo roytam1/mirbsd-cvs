@@ -1,5 +1,7 @@
-# $MirOS$
+# $MirOS: ports/sysutils/contool/Makefile,v 1.3 2007/04/16 18:36:50 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.21 2002/10/28 19:53:44 naddy Exp $
+
+ONLY_FOR_PLATFORM=	MirBSD:*:* OpenBSD:*:*
 
 COMMENT=	console tool for openlook
 

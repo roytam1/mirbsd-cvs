@@ -1,5 +1,7 @@
 # $OpenBSD: Makefile,v 1.18 2004/05/18 08:45:33 xsa Exp $
 
+ONLY_FOR_PLATFORM=	MirBSD:*:* OpenBSD:*:*
+
 COMMENT=			CD player for X11
 DISTNAME=	xcdplayer-2.2
 CATEGORIES=	audio

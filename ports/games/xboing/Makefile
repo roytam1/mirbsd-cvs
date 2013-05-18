@@ -1,5 +1,7 @@
 # $OpenBSD: Makefile,v 1.18 2004/03/06 02:41:00 naddy Exp $
 
+ONLY_FOR_PLATFORM=	MirBSD:*:* OpenBSD:*:*
+
 COMMENT=			blockout style game for X11
 
 DISTNAME=	xboing2.4

@@ -1,5 +1,7 @@
 # $OpenBSD: Makefile,v 1.14 2002/10/26 20:44:39 naddy Exp $
 
+ONLY_FOR_PLATFORM=	MirBSD:*:* OpenBSD:*:*
+
 COMMENT=			concurrent multi-player battle strategy game
 
 DISTNAME=	xbattle-5.4.1

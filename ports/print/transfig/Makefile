@@ -1,5 +1,7 @@
-# $MirOS: ports/print/transfig/Makefile,v 1.6 2007/03/31 21:48:39 bsiegert Exp $
+# $MirOS: ports/print/transfig/Makefile,v 1.7 2007/03/31 23:49:35 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.25 2003/04/04 14:28:36 naddy Exp $
+
+ONLY_FOR_PLATFORM=	MirBSD:*:* OpenBSD:*:*
 
 COMMENT=	tools to convert Xfig's .fig files
 VERSION=	3.2.5

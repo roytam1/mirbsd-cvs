@@ -1,5 +1,6 @@
 # $OpenBSD: Makefile,v 1.15 2002/10/26 20:44:39 naddy Exp $
-#
+
+ONLY_FOR_PLATFORM=	MirBSD:*:* OpenBSD:*:*
 
 COMMENT=			watch what you are doing -- are you hostile
 

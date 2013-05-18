@@ -1,5 +1,6 @@
 # $OpenBSD: Makefile,v 1.16 2002/10/26 20:44:39 naddy Exp $
-#
+
+ONLY_FOR_PLATFORM=	MirBSD:*:* OpenBSD:*:*
 
 COMMENT=			dino puzzle game for X11
 

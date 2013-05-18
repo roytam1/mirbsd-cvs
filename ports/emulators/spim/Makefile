@@ -1,5 +1,7 @@
-# $MirOS$
+# $MirOS: ports/emulators/spim/Makefile,v 1.4 2007/04/11 17:05:31 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.4 2003/07/03 06:16:22 sturm Exp $
+
+ONLY_FOR_PLATFORM=	MirBSD:*:* OpenBSD:*:*
 
 COMMENT=	MIPS R2000/R3000 simulator
 

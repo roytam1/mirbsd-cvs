@@ -1,5 +1,7 @@
-# $MirOS: ports/plan9/w9wm/Makefile,v 1.4 2006/09/14 00:12:36 tg Exp $
+# $MirOS: ports/plan9/w9wm/Makefile,v 1.5 2006/12/20 15:31:37 tg Exp $
 # $OpenBSD: Makefile,v 1.10 2004/02/25 03:49:29 naddy Exp $
+
+ONLY_FOR_PLATFORM=	MirBSD:*:* OpenBSD:*:*
 
 COMMENT=		hacked 9wm with support for virtual screens
 

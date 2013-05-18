@@ -1,5 +1,7 @@
 # $OpenBSD: Makefile,v 1.14 2003/10/08 17:13:19 sturm Exp $
 
+ONLY_FOR_PLATFORM=	MirBSD:*:* OpenBSD:*:*
+
 COMMENT=			OpenLook Toolkit libs, includes, and man pages
 
 PKGNAME=	xview-lib-${XVIEW_VERSION}-0

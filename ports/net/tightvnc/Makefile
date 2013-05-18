@@ -1,5 +1,7 @@
-# $MirOS$
+# $MirOS: ports/net/tightvnc/Makefile,v 1.4 2007/01/29 01:24:51 tg Exp $
 # $OpenBSD: Makefile,v 1.12 2004/04/21 12:56:30 wilfried Exp $
+
+ONLY_FOR_PLATFORM=	MirBSD:*:* OpenBSD:*:*
 
 # Xvnc is broken
 VIEWER_ONLY=		#defined

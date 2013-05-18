@@ -1,5 +1,7 @@
 # $OpenBSD: Makefile,v 1.15 2003/11/04 23:31:05 fgsch Exp $
 
+ONLY_FOR_PLATFORM=	MirBSD:*:* OpenBSD:*:*
+
 COMMENT=			PostIt (R) messages onto your X11 screen
 
 DISTNAME=	XPostitPlus-2.3

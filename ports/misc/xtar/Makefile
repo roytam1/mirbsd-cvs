@@ -1,5 +1,7 @@
-# $MirOS$
+# $MirOS: ports/misc/xtar/Makefile,v 1.3 2007/04/18 18:33:30 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.22 2002/10/27 21:07:54 naddy Exp $
+
+ONLY_FOR_PLATFORM=	MirBSD:*:* OpenBSD:*:*
 
 COMMENT=	view and manipulate contents of a tar file
 

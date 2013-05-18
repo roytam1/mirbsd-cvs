@@ -1,5 +1,7 @@
 # $OpenBSD: Makefile,v 1.16 2002/10/26 20:44:39 naddy Exp $
 
+ONLY_FOR_PLATFORM=	MirBSD:*:* OpenBSD:*:*
+
 COMMENT=			John Horton Conway's Game of Life
 
 DISTNAME=	xlife-5.3

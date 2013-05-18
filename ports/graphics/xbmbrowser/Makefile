@@ -1,6 +1,8 @@
-# $MirOS$
+# $MirOS: ports/graphics/xbmbrowser/Makefile,v 1.4 2007/04/01 11:43:48 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.13 2002/10/27 00:03:17 naddy Exp $
 # $FreeBSD: Makefile,v 1.3 1997/08/26 07:12:20 tg Exp $
+
+ONLY_FOR_PLATFORM=	MirBSD:*:* OpenBSD:*:*
 
 COMMENT=	view complete directories of X bitmaps and X pixmaps
 

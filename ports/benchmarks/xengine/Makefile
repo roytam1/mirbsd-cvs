@@ -1,5 +1,7 @@
 # $OpenBSD: Makefile,v 1.22 2002/10/24 22:46:16 naddy Exp $
 
+ONLY_FOR_PLATFORM=	MirBSD:*:* OpenBSD:*:*
+
 COMMENT=	reciprocating engine for X11
 PKGNAME=	xengine-1.0.1-0
 CATEGORIES=	benchmarks x11

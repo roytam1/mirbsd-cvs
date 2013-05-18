@@ -1,5 +1,7 @@
 # $OpenBSD: Makefile,v 1.1.1.1 2004/04/18 23:24:01 jolan Exp $
 
+ONLY_FOR_PLATFORM=	MirBSD:*:* OpenBSD:*:*
+
 COMMENT=			command line interface to X selections
 DISTNAME=		xclip-0.08
 CATEGORIES=		x11

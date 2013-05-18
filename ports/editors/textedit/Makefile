@@ -1,5 +1,7 @@
-# $MirOS$
+# $MirOS: ports/editors/textedit/Makefile,v 1.4 2007/04/11 17:05:31 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.18 2002/10/26 00:39:15 naddy Exp $
+
+ONLY_FOR_PLATFORM=	MirBSD:*:* OpenBSD:*:*
 
 COMMENT=	standard OpenLook text editor for X11
 

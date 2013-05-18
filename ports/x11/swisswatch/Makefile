@@ -1,5 +1,7 @@
 # $OpenBSD: Makefile,v 1.12 2004/05/18 08:45:33 xsa Exp $
 
+ONLY_FOR_PLATFORM=	MirBSD:*:* OpenBSD:*:*
+
 COMMENT=			Swiss railway clock emulation
 
 DISTNAME=	swisswatch-0.06

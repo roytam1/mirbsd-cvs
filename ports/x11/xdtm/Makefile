@@ -1,5 +1,7 @@
 # $OpenBSD: Makefile,v 1.20 2003/10/08 17:13:18 sturm Exp $
 
+ONLY_FOR_PLATFORM=	MirBSD:*:* OpenBSD:*:*
+
 COMMENT=			Desktop Manager: a graphical shell for X11
 
 DISTNAME=		xdtm-2.5.8

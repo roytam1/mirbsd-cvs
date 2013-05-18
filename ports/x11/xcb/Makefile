@@ -1,5 +1,7 @@
 # $OpenBSD: Makefile,v 1.16 2003/10/08 17:13:18 sturm Exp $
 
+ONLY_FOR_PLATFORM=	MirBSD:*:* OpenBSD:*:*
+
 COMMENT=			tool for managing X11 cut-buffers
 
 DISTNAME=	xcb-2.4

@@ -1,5 +1,7 @@
-# $MirOS$
+# $MirOS: ports/mailnews/xlbiff/Makefile,v 1.3 2007/04/12 20:20:04 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.14 2004/05/18 08:45:33 xsa Exp $
+
+ONLY_FOR_PLATFORM=	MirBSD:*:* OpenBSD:*:*
 
 COMMENT=	display from/subject from incoming mails using X11
 

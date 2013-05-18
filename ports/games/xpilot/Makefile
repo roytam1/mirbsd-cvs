@@ -1,5 +1,7 @@
 # $OpenBSD: Makefile,v 1.15 2002/08/19 17:23:34 pvalchev Exp $
 
+ONLY_FOR_PLATFORM=	MirBSD:*:* OpenBSD:*:*
+
 COMMENT=			multiplayer 2d space battles game
 
 DISTNAME=	xpilot-4.5.4

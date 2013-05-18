@@ -1,5 +1,7 @@
-# $MirOS$
+# $MirOS: ports/graphics/xanim/Makefile,v 1.4 2007/04/01 11:43:47 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.19 2003/04/23 08:30:05 sturm Exp $
+
+ONLY_FOR_PLATFORM=	MirBSD:*:* OpenBSD:*:*
 
 COMMENT=	X11 animation player with support for lots of formats
 

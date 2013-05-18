@@ -1,5 +1,7 @@
 # $OpenBSD: Makefile,v 1.16 2002/10/30 13:48:48 naddy Exp $
 
+ONLY_FOR_PLATFORM=	MirBSD:*:* OpenBSD:*:*
+
 COMMENT=			9wm with automatic window tiling and virtual desktops
 
 DISTNAME=	larswm-7.2.8

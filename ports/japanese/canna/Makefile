@@ -1,5 +1,7 @@
-# $MirOS: ports/japanese/canna/Makefile,v 1.3 2006/09/14 00:10:13 tg Exp $
+# $MirOS: ports/japanese/canna/Makefile,v 1.4 2007/04/12 20:20:03 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.18 2003/03/12 21:21:54 brad Exp $
+
+ONLY_FOR_PLATFORM=	MirBSD:*:* OpenBSD:*:*
 
 COMMENT=			canna (kana-kanji converter) libraries
 COMMENT-dict=			canna (kana-kanji converter) dictionaries

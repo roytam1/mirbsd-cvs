@@ -1,5 +1,7 @@
 # $OpenBSD: Makefile,v 1.15 2002/10/29 19:48:59 naddy Exp $
 
+ONLY_FOR_PLATFORM=	MirBSD:*:* OpenBSD:*:*
+
 COMMENT=			animate your root-cursor
 
 DISTNAME=	xaniroc

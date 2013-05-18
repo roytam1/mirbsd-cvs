@@ -1,5 +1,7 @@
-# $MirOS$
+# $MirOS: ports/emulators/x48/Makefile,v 1.3 2007/04/11 17:05:31 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.14 2002/10/26 12:52:48 naddy Exp $
+
+ONLY_FOR_PLATFORM=	MirBSD:*:* OpenBSD:*:*
 
 COMMENT=			HP48sx emulator
 

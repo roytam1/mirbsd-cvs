@@ -1,5 +1,7 @@
-# $MirOS$
+# $MirOS: ports/astro/xphoon/Makefile,v 1.4 2007/04/04 17:46:36 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.14 2004/05/18 08:45:33 xsa Exp $
+
+ONLY_FOR_PLATFORM=	MirBSD:*:* OpenBSD:*:*
 
 COMMENT=	set the root window to the moon in its current phase
 DISTNAME=	xphoon

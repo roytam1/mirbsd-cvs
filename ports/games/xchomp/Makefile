@@ -1,5 +1,7 @@
-# $MirOS: ports/games/xchomp/Makefile,v 1.3 2005/07/07 21:21:22 bsiegert Exp $
+# $MirOS: ports/games/xchomp/Makefile,v 1.4 2006/09/14 00:09:39 tg Exp $
 # $OpenBSD: Makefile,v 1.18 2004/05/19 12:19:14 xsa Exp $
+
+ONLY_FOR_PLATFORM=	MirBSD:*:* OpenBSD:*:*
 
 COMMENT=			Pac-man-like game under X11
 DISTNAME=	xchomp-pl1

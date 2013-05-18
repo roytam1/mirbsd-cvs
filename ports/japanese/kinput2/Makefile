@@ -1,5 +1,7 @@
-# $MirOS: ports/japanese/kinput2/Makefile,v 1.4 2007/04/12 20:20:03 bsiegert Exp $
+# $MirOS: ports/japanese/kinput2/Makefile,v 1.5 2008/03/09 17:22:59 tg Exp $
 # $OpenBSD: Makefile,v 1.14 2003/08/04 13:11:48 espie Exp $
+
+ONLY_FOR_PLATFORM=	MirBSD:*:* OpenBSD:*:*
 
 COMMENT-canna=			X input method for Japanese, canna support
 COMMENT-canna-wnn=		X input method for Japanese, canna and wnn support
