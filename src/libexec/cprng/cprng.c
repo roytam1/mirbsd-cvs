@@ -30,6 +30,8 @@
  * if 1024 bytes of raw output are run through ports/math/ent, that's
  * why I chose to let random(9) care about post-processing instead of
  * adding arcfour output compression to this programme.
+ *
+ * See stathz(9) for more information on the -p flag's timer choice.
  */
 
 #include <sys/types.h>
@@ -41,7 +43,7 @@
 #include <stdint.h>
 #include <unistd.h>
 
-__RCSID("$MirOS: src/libexec/cprng/cprng.c,v 1.6 2007/07/10 15:12:43 tg Exp $");
+__RCSID("$MirOS: src/libexec/cprng/cprng.c,v 1.7 2007/07/18 21:47:12 tg Exp $");
 
 #if defined(SIGPROF) && defined(ITIMER_PROF)
 #define MAYPROF
@@ -131,6 +133,7 @@ getent(uint8_t *buf, size_t n)
 
 static const char dmsg[] = "Cannot open random device!\n";
 static const char emsg[] = "Syntax error!\n";
+static const char fmsg[] = "Cannot daemonise!\n";
 
 int
 main(int argc, char *argv[])
@@ -167,10 +170,19 @@ main(int argc, char *argv[])
 		return (1);
 	}
 
-	if ((c = open("/dev/tty", O_RDWR)) >= 0) {
-		ioctl(c, TIOCNOTTY);
-		close(c);
+	switch (fork()) {
+	case -1:
+ edetach:
+		write(2, fmsg, sizeof (fmsg) - 1);
+		return (3);
+	case 0:
+		break;
+	default:
+		return(0);
 	}
+
+	if (setsid() == -1)
+		goto edetach;
 
 	if (chdir("/") || (c = open("dev/arandom", O_RDWR)) < 0) {
 		write(2, dmsg, sizeof (dmsg) - 1);
