@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/dev/rnd.c,v 1.20 2006/05/28 13:24:54 tg Exp $ */
+/**	$MirOS: src/sys/dev/rnd.c,v 1.21 2006/05/28 23:35:20 tg Exp $ */
 /*	$OpenBSD: rnd.c,v 1.78 2005/07/07 00:11:24 djm Exp $	*/
 
 /*
@@ -324,7 +324,7 @@ int	rnd_debug = 0x0000;
 
 /*
  * For the purposes of better mixing, we use the CRC-32 polynomial as
- * well to make a twisted Generalized Feedback Shift Register
+ * well to make a twisted Generalised Feedback Shift Register
  *
  * (See M. Matsumoto & Y. Kurita, 1992.  Twisted GFSR generators.  ACM
  * Transactions on Modeling and Computer Simulation 2(3):179-194.
@@ -426,8 +426,8 @@ struct filterops rndwrite_filtops =
 
 uint32_t rnd_addpool_buf[rnd_addpool_size], rnd_bootpool = 1 /* adler32 */;
 uint32_t rnd_addpool_num, rnd_addpool_allow = 1;
-int rnd_attached;
-int arc4random_initialized;
+static int rnd_attached;
+static int arc4random_initialised;
 struct rndstats rndstats;
 
 void srandom(u_long);
@@ -581,14 +581,14 @@ arc4maybeinit(void)
 {
 	extern int hz;
 
-	if (!arc4random_initialized) {
+	if (!arc4random_initialised) {
 		/* 10 minutes, per dm@'s suggestion */
 		timeout_add(&arc4_timeout, 10 * 60 * hz);
 #ifdef DIAGNOSTIC
 		if (!rnd_attached)
 			panic("arc4maybeinit: premature");
 #endif
-		arc4random_initialized++;
+		arc4random_initialised++;
 		arc4_stir();
 	}
 }
@@ -600,7 +600,7 @@ arc4maybeinit(void)
 void
 arc4_reinit(void *v)
 {
-	arc4random_initialized = 0;
+	arc4random_initialised = 0;
 }
 
 u_int32_t
@@ -1163,9 +1163,7 @@ randomwrite(dev_t dev, struct uio *uio, int flags)
 	}
 
 	if (minor(dev) == RND_ARND && !ret)
-		arc4random_initialized = 0;
-	if (minor(dev) == RND_PRND && !ret)
-		srandom(arc4random());
+		arc4random_initialised = 0;
 
 	add_timer_randomness((u_long)dev ^ (u_long)uio ^ (u_long)buf);
 	FREE(buf, M_TEMP);
@@ -1222,7 +1220,7 @@ randomioctl(dev_t dev, u_long cmd, caddr_t data, int flag, struct proc *p)
 			ret = EAGAIN;
 		else {
 			s = splhigh();
-			arc4random_initialized = 0;
+			arc4random_initialised = 0;
 			splx(s);
 		}
 		break;
