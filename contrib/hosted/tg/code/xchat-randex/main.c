@@ -33,15 +33,16 @@
  * Additional features over other implementations:
  *	- /RANDOM (output a random number, like /eval print $RANDOM in sirc)
  *	- /RANDEX * (send to the current channel/query, like in sirc)
+ *	- /RANDFILE fn (read content from "fn", add to pool, save some to it)
  *
  * Missing features over other implementations:
  *	- no persistent seed file, no periodic stir (unlike irssi/randex.pl)
- *	- no support for contributing to the pool directly, getting entropy
- *	  from the pool other than /RANDOM, or using EGD or similar methods
+ *	- no support for EGD or other methods other than /RANDFILE
+ *	- no support for accessing the pool in an automated fashion
  */
 
 static const char __rcsid[] =
-    "$MirOS: contrib/hosted/tg/code/xchat-randex/main.c,v 1.5 2009/08/02 14:35:00 tg Exp $";
+    "$MirOS: contrib/hosted/tg/code/xchat-randex/main.c,v 1.4 2009/06/06 13:43:04 tg Stab $";
 
 #include <sys/types.h>
 #if defined(HAVE_STDINT_H) && HAVE_STDINT_H
@@ -87,7 +88,7 @@ static char buf[128];
 /* The XChat Plugin API 2.0 is not const clean */
 static char randex_name[] = "randex";
 static char randex_desc[] = "MirOS RANDomness EXchange protocol support";
-static char randex_vers[] = "1.07";
+static char randex_vers[] = "1.10";
 static char null[] = "";
 
 int xchat_plugin_init(xchat_plugin *, char **, char **, char **, char *);
@@ -96,6 +97,7 @@ void xchat_plugin_get_info(char **, char **, char **, void **);
 
 static int hookfn_rawirc(char *[], char *[], void *);
 static int cmdfn_randex(char *[], char *[], void *);
+static int cmdfn_randfile(char *[], char *[], void *);
 static int cmdfn_randstir(char *[], char *[], void *);
 static int cmdfn_random(char *[], char *[], void *);
 
@@ -128,6 +130,8 @@ xchat_plugin_init(xchat_plugin *handle, char **name, char **desc,
 	    hookfn_rawirc, NULL);
 	xchat_hook_command(ph, "RANDEX", XCHAT_PRI_NORM,
 	    cmdfn_randex, "Initiate RANDEX protocol with argument", NULL);
+	xchat_hook_command(ph, "RANDFILE", XCHAT_PRI_NORM,
+	    cmdfn_randfile, "Exchange between pool and file", NULL);
 	xchat_hook_command(ph, "RANDSTIR", XCHAT_PRI_NORM,
 	    cmdfn_randstir, "Stir the entropy pool", NULL);
 	xchat_hook_command(ph, "RANDOM", XCHAT_PRI_NORM,
@@ -352,4 +356,45 @@ do_randex(int is_req, char *rsrc, char *dst, char *line)
 
 	memset(buf, 0, sizeof(buf));
 	return (XCHAT_EAT_ALL);
+}
+
+static int
+cmdfn_randfile(char *word[], char *word_eol[], void *user_data)
+{
+	const char *fn;
+	FILE *f;
+	size_t n;
+	char pb[256];
+
+	fn = word[2];
+	if (!fn || !fn[0]) {
+		/* goes to the current tab */
+		xchat_print(ph, "You must specify a filename!\n");
+		return (XCHAT_EAT_XCHAT);
+	}
+
+	if ((f = fopen(fn, "rb")) != NULL) {
+		do {
+			if ((n = fread(pb, 1, sizeof(pb), f)))
+				arc4random_addrandom((void *)pb, n);
+		} while (n);
+		fclose(f);
+	}
+
+	if ((f = fopen(fn, "wb")) != NULL) {
+		uint32_t tv;
+
+		for (n = 0; n < sizeof(pb); n += sizeof(tv)) {
+			tv = arc4random();
+			memcpy(pb + n, &tv, sizeof(tv));
+		}
+		if ((n = fwrite(pb, 1, sizeof(pb), f)) != sizeof(pb))
+			xchat_printf(ph, "Write error: %u/%u to %s\n",
+			    (unsigned)n, (unsigned)sizeof(pb), fn);
+		fclose(f);
+	} else
+		xchat_printf(ph, "Could not open %s for writing!\n", fn);
+
+	memset(pb, 0, sizeof(pb));
+	return (XCHAT_EAT_XCHAT);
 }
