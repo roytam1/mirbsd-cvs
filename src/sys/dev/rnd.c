@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/dev/rnd.c,v 1.36 2008/03/22 22:54:17 tg Exp $ */
+/**	$MirOS: src/sys/dev/rnd.c,v 1.37 2008/03/22 22:58:41 tg Exp $ */
 /*	$OpenBSD: rnd.c,v 1.78 2005/07/07 00:11:24 djm Exp $	*/
 
 /*
@@ -431,7 +431,7 @@ uint32_t rnd_addpool_num = 0, rnd_addpool_allow = 1;
 static int rnd_attached;
 static int arc4random_initialised;
 struct rndstats rndstats;
-int arc4random_seedfreq = 0;
+int arc4random_seedfreq = 0, rnd_bootpool_done = 0;
 
 /* from sys/conf/newvers.sh */
 extern unsigned char initial_entropy[16];

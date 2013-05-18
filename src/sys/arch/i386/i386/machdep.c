@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/i386/machdep.c,v 1.18 2007/10/01 18:29:55 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/i386/machdep.c,v 1.19 2008/03/10 18:54:48 tg Exp $ */
 /*	$OpenBSD: machdep.c,v 1.310 2004/11/02 21:20:59 miod Exp $	*/
 /*	$NetBSD: machdep.c,v 1.214 1996/11/10 03:16:17 thorpej Exp $	*/
 
@@ -1421,12 +1421,15 @@ intel686_cpu_setup(const char *cpu_device, int model, int step)
 	 */
 	if ((model == 7) && (cpu_feature & CPUID_SER)) {
 		uint32_t ser_regs[8];
+		int i = 0;
 
 		/* but hash it into the entropy pool first */
 		cpuid(1, &(ser_regs[0]));
-		cpuid(1, &(ser_regs[4]));
-		rnd_bootpool = adler32(rnd_bootpool, (uint8_t *)ser_regs,
-		    sizeof (ser_regs)) + /* privacy */ (random() & 0x0F);
+		cpuid(3, &(ser_regs[4]));
+		/* privacy */
+		while (i < 8)
+			ser_regs[i] += random();
+		rnd_bootpool_add(ser_regs, sizeof (ser_regs));
 
 		/* make it so they can't read it again before reset */
 		msr119 = rdmsr(MSR_BBL_CR_CTL);

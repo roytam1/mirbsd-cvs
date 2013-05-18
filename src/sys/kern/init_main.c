@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/kern/init_main.c,v 1.18 2007/09/28 18:44:00 tg Exp $ */
+/**	$MirOS: src/sys/kern/init_main.c,v 1.19 2008/02/24 12:47:19 tg Exp $ */
 /*	$OpenBSD: init_main.c,v 1.120 2004/11/23 19:08:55 miod Exp $	*/
 /*	$NetBSD: init_main.c,v 1.84.4.1 1996/06/02 09:08:06 mrg Exp $	*/
 /*	$OpenBSD: kern_xxx.c,v 1.9 2003/08/15 20:32:18 tedu Exp $	*/
@@ -488,12 +488,12 @@ main(/* XXX should go away */ void *framep)
 	if (pentium_mhz) {
 		unsigned long long tmptsc;
 		__asm __volatile("rdtsc" : "=A" (tmptsc));
-		rnd_bootpool = adler32(rnd_bootpool, (uint8_t *)&tmptsc,
-		    sizeof (tmptsc));
+		rnd_bootpool_add(&tmptsc, sizeof (tmptsc));
 	}
 #endif
 
 	add_true_randomness(rnd_bootpool);
+	rnd_bootpool = rnd_bootpool_done = 1;
 	srandom(arc4random());
 	randompid = 1;
 
