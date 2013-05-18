@@ -1,10 +1,10 @@
-# $MirOS: ports/net/djbdns/Makefile,v 1.33 2008/03/17 02:10:49 tg Exp $
+# $MirOS: ports/net/djbdns/Makefile,v 1.34 2008/05/01 00:52:34 tg Exp $
 
 COMMENT=		collection of Domain Name System server and tools
 VERSION=		1.05
 CATEGORIES=		net
 DISTNAME=		djbdns-${VERSION}
-DASH_VER=		33
+DASH_VER=		34
 MANVER=			20031023
 HOMEPAGE=		http://cr.yp.to/djbdns.html
 RESPONSIBLE=		Thorsten Glaser <tg@66h.42h.de>
@@ -15,9 +15,6 @@ PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
-FLAVOURS=		eorsn icann opennic
-FLAVOUR?=		eorsn
-
 DISTFILES=		${DISTNAME}${EXTRACT_SUFX} \
 			${DISTNAME}-man-${MANVER}${EXTRACT_SUFX}:0
 MASTER_SITES=		http://cr.yp.to/djbdns/ \
@@ -26,37 +23,6 @@ MASTER_SITES0=		http://smarden.org/pape/djb/manpages/
 
 RUN_DEPENDS=		::sysutils/daemontools
 NO_REGRESS=		Yes
-
-.undef DNSROOT
-DNSROOT6=		eorsn6
-
-.if ${FLAVOUR:L:Mopennic}
-.  ifdef DNSROOT
-BROKEN=			Multiple DNS Roots chosen; invalid combination
-.  else
-DNSROOT=		opennic
-.  endif
-.endif
-
-.if ${FLAVOUR:L:Micann}
-.  ifdef DNSROOT
-BROKEN=			Multiple DNS Roots chosen; invalid combination
-.  else
-DNSROOT=		icann
-.  endif
-.endif
-
-.if ${FLAVOUR:L:Meorsn}
-.  ifdef DNSROOT
-BROKEN=			Multiple DNS Roots chosen; invalid combination
-.  else
-DNSROOT=		eorsn
-.  endif
-.endif
-
-.if !defined(DNSROOT) || ${DNSROOT} == ""
-BROKEN=			choose a DNS Root flavour (default: eorsn)
-.endif
 
 WRKDIST=		${WRKDIR}
 WRKSRC=			${WRKDIR}/build
@@ -73,9 +39,9 @@ post-extract:
 
 post-install:
 	${INSTALL_DATA_DIR} ${PREFIX}/share/djbdns
-	${INSTALL_DATA} ${FILESDIR}/data/dnsroots.${DNSROOT} \
+	${INSTALL_DATA} ${FILESDIR}/data/dnsroots.icann \
 	    ${PREFIX}/share/djbdns/dnsroots.global
-	${INSTALL_DATA} ${FILESDIR}/data/dnsroots.${DNSROOT6} \
+	${INSTALL_DATA} ${FILESDIR}/data/dnsroots.icann6 \
 	    ${PREFIX}/share/djbdns/dnsroots.global.v6
 
 .include <bsd.port.mk>
