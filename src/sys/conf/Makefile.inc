@@ -1,6 +1,6 @@
-# $MirOS: src/sys/conf/Makefile.inc,v 1.29 2007/06/11 21:23:13 tg Exp $
+# $MirOS: src/sys/conf/Makefile.inc,v 1.30 2008/03/21 00:00:13 tg Exp $
 #-
-# Copyright (c) 2005, 2006, 2007
+# Copyright (c) 2005, 2006, 2007, 2008
 #	Thorsten "mirabilos" Glaser <tg@mirbsd.de>
 #
 # Provided that these terms and disclaimer and all copyright notices
@@ -8,10 +8,6 @@
 # is granted to deal in this work without restriction, including un-
 # limited rights to use, publicly perform, distribute, sell, modify,
 # merge, give away, or sublicence.
-#
-# Advertising materials mentioning features or use of this work must
-# display the following acknowledgement:
-#	This product includes material provided by Thorsten Glaser.
 #
 # This work is provided "AS IS" and WITHOUT WARRANTY of any kind, to
 # the utmost extent permitted by applicable law, neither express nor
@@ -49,6 +45,9 @@ CFLAGS=		${DEBUG} ${CDIAGFLAGS} ${CMACHFLAGS} \
 		${COPTS:S/-g//:C/-g[0-9]//} ${PIPE} ${CSYS}
 AFLAGS=		-x assembler-with-cpp -traditional-cpp -D_LOCORE
 STRIPFLAGS=	-g -X -x -R .comment
+
+.include "${KERNBASE}/z/Makefile.inc"
+CPPFLAGS+=	-DZCONST=const
 
 # load lines for config "xxx" will be emitted as:
 # xxx: ${SYSTEM_DEP} swapxxx.o
@@ -155,16 +154,12 @@ config.gz: config.txt
 	-@rm -f $@
 	gzip -n9 <$> >$@
 
-HOSTCPPFLAGS+=	-I${BSDSRCDIR}/lib/libz -DZCONST=const
-.PATH: ${BSDSRCDIR}/lib/libz
-.include "${BSDSRCDIR}/lib/libz/Makefile.gen"
-
 clean::
 	rm -f eddep *bsd *.unstripped tags *.[io] [a-z]*.s config.gz \
 	    [Ee]rrs linterrs makelinks genassym genassym.o assym.h
 
 depend:: .depend
-.depend: ${SRCS} assym.h param.c ${APMINC} crc32.h inffixed.h trees.h
+.depend: ${SRCS} assym.h param.c ${APMINC} ${ZLIB_GENHDRS}
 	CC=${CC:Q} ${MKDEP} -D_ASM_SOURCE ${AFLAGS} ${CPPFLAGS} \
 	    ${_MDINC}/locore.s
 	CC=${CC:Q} ${MKDEP} -a ${CFLAGS} ${CPPFLAGS} param.c ioconf.c ${CFILES}

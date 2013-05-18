@@ -1,4 +1,4 @@
-# $MirOS: src/sys/conf/files,v 1.12 2006/10/07 21:36:21 tg Exp $
+# $MirOS: src/sys/conf/files,v 1.13 2007/03/02 03:13:27 tg Exp $
 # $OpenBSD: files,v 1.339 2005/05/26 00:33:45 pedro Exp $
 # $NetBSD: files,v 1.634 2003/09/25 15:58:14 pooka Exp $
 # @(#)files.newconf	7.5 (Berkeley) 5/10/93
@@ -649,14 +649,14 @@ file net/if_ppp.c			ppp			needs-count
 file net/ppp_tty.c			ppp
 file net/bsd-comp.c			ppp_bsdcomp
 file net/ppp-deflate.c			ppp_deflate
-file ../lib/libz/compress.c		ppp_deflate | ipsec | crypto
-file ../lib/libz/crc32.c		ppp_deflate | ipsec | crypto
-file ../lib/libz/deflate.c		ppp_deflate | ipsec | crypto
-file ../lib/libz/inffast.c		ppp_deflate | ipsec | crypto
-file ../lib/libz/inflate.c		ppp_deflate | ipsec | crypto
-file ../lib/libz/inftrees.c		ppp_deflate | ipsec | crypto
-file ../lib/libz/trees.c		ppp_deflate | ipsec | crypto
-file ../lib/libz/zutil.c		ppp_deflate | ipsec | crypto
+file ../kern/z/compress.c		ppp_deflate | ipsec | crypto
+file ../kern/z/crc32.c			ppp_deflate | ipsec | crypto
+file ../kern/z/deflate.c		ppp_deflate | ipsec | crypto
+file ../kern/z/inffast.c		ppp_deflate | ipsec | crypto
+file ../kern/z/inflate.c		ppp_deflate | ipsec | crypto
+file ../kern/z/inftrees.c		ppp_deflate | ipsec | crypto
+file ../kern/z/trees.c			ppp_deflate | ipsec | crypto
+file ../kern/z/zutil.c			ppp_deflate | ipsec | crypto
 file net/if_tokensubr.c			token			needs-flag
 file net/if_tun.c			tun			needs-count
 file net/if_bridge.c			bridge			needs-count
