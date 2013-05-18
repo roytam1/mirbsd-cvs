@@ -1,5 +1,5 @@
 <!-- PageID: mksh -->
-<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.53 2006/09/04 00:41:58 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.54 2006/09/07 14:31:13 tg Exp $</small>
 
 <h1>mksh(1) R28</h1>
 <p>This is the MirBSD&trade; Korn Shell, a more or less portable
@@ -449,6 +449,8 @@
   <li>Debian GNU/Linux 3.1-testing 2.6.17-2-vserver-s390x (s390x)</li>
   <li>Debian GNU/Linux 3.1-stable 2.4.27-2-k7 (i386)</li>
   <li>Darwin 8.7.0 Mac OSX 10.4 (powerpc)</li>
+  <li>Debian GNU/Linux 3.1-unstable (all architectures) &ndash; debianised</li>
+  <li>OpenBSD 3.9 (sparc64) &ndash; via <a href="http://www.mirbsd.org/GBG/mksh-obsdport.tgz">contributed port</a></li>
   <li>CYGWIN_NT-5.0 1.5.19(0.150/4/2) 2006-01-20 13:28 (i386) &ndash; testsuite not run</li>
   <li>Interix SFU 3.5 (Windows&reg; 2000 Pro) SP-8.0.1969.1 (i386) &ndash; testsuite not run</li>
   <li>NetBSD 3.0 (mac68k) &ndash; tested by Jonathan "ciruZ" Schleifer</li>
@@ -462,11 +464,9 @@
   <li>NetBSD 1.6.1 (pmax)</li>
    <!-- missing:
   <li>MirOS BSD #9-stable (sparc)</li>
-  <li>Debian GNU/Linux 3.1-testing (i386, S/390) &ndash; debianised</li>
   <li>CRUX GNU/Linux (i386) &ndash; not tested, via Han Boetes</li>
   <li>Solaris 10 (?) &ndash; tested by Tonnerre Lombard</li>
   <li>pkgsrc</li>
-  <li>OpenBSD</li>
   <li>Mac OSX Panther (powerpc) &ndash; not tested, via Fink</li>
   <li>Plan 9 POSIX Environment</li>
    -->
