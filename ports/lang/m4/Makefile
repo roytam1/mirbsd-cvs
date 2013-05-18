@@ -1,4 +1,4 @@
-# $MirOS: ports/lang/m4/Makefile,v 1.10 2009/08/10 17:12:38 tg Exp $
+# $MirOS: ports/lang/m4/Makefile,v 1.11 2009/11/18 20:50:05 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.18 2002/12/29 20:19:11 fgsch Exp $
 # $FreeBSD: Makefile,v 1.7 1997/06/16 08:22:35 max Exp $
 #-
@@ -6,7 +6,7 @@
 # On MirBSD and OpenBSD, this port cannot depend on autoconf 2.62 or up.
 
 COMMENT=		GNU m4
-DISTNAME=		m4-1.4.13
+DISTNAME=		m4-1.4.9
 CATEGORIES=		devel lang
 MASTER_SITES=		${MASTER_SITE_GNU:=m4/}
 HOMEPAGE=		http://www.gnu.org/software/m4/
@@ -23,6 +23,7 @@ PERMIT_DISTFILES_FTP=	Yes
 BUILD_DEPENDS+=		::essentials/texinfo
 .endif
 CONFIGURE_STYLE=	gnu
+AUTOCONF_NEW=		Yes
 CONFIGURE_ARGS=		--program-prefix="g"
 
 post-extract:
