@@ -1,4 +1,4 @@
-/**	$MirOS: ports/infrastructure/pkgtools/lib/str.c,v 1.11 2008/03/09 17:22:57 tg Exp $ */
+/**	$MirOS: ports/infrastructure/pkgtools/lib/str.c,v 1.12 2009/11/15 15:53:33 bsiegert Exp $ */
 /*	$OpenBSD: str.c,v 1.11 2003/07/04 17:31:19 avsm Exp $	*/
 
 /*
@@ -24,7 +24,7 @@
 #include <fnmatch.h>
 #include "lib.h"
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/str.c,v 1.11 2008/03/09 17:22:57 tg Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/str.c,v 1.12 2009/11/15 15:53:33 bsiegert Exp $");
 
 /* Convert a filename (which can be relative to the current directory) to
  * an absolute one. Returns a pointer to a static internal buffer.
@@ -201,7 +201,7 @@ flavourcmp(char *pkg_flavour, char *pattern)
 			cp++;
 		/* check against all flavours of pkg */
 		if (pkg_flavour)
-			snprintf(tmp, sizeof(tmp), pkg_flavour);
+			strlcpy(tmp, pkg_flavour, sizeof(tmp));
 		else
 			*tmp = '\0';
 		pkg_token = pkg_flavour;
@@ -373,7 +373,7 @@ multiversion_match(const char *pattern, const char *pkg)
 		return 0;
 
 	ver++; /* jump over '-' */
-	snprintf(name, sizeof(name), cp + 1);
+	strlcpy(name, cp + 1, sizeof(name));
 	token = name;
 
 	/* Does the match have a flavour part? */
