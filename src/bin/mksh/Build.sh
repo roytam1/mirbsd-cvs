@@ -28,6 +28,9 @@ srcversion='$MirOS: src/bin/mksh/Build.sh,v 1.631 2013/05/05 13:38:00 tg Exp $'
 LC_ALL=C
 export LC_ALL
 
+echo "For the build logs, demonstrate that /dev/null and /dev/tty exist:"
+ls -l /dev/null /dev/tty
+
 case $ZSH_VERSION:$VERSION in
 :zsh*) ZSH_VERSION=2 ;;
 esac
@@ -1753,7 +1756,7 @@ EOF
 ac_test setresugid <<-'EOF'
 	#include <sys/types.h>
 	#include <unistd.h>
-	int main(void) { setresuid(0,0,0); return (setresgid(0,0,0)); }
+	int main(void) { return (setresuid(0,0,0) + setresgid(0,0,0)); }
 EOF
 
 ac_test setgroups setresugid 0 <<-'EOF'
