@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.215 2008/10/04 18:37:31 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.216 2008/10/05 14:50:37 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -406,7 +406,7 @@ _USE_CXX:=		false
 .endif
 
 .if ${USE_CCACHE:L} == "yes"
-CCACHE_DEPENDS?=	::devel/ccache
+CCACHE_DEPENDS?=	:ccache->=2.4-3:devel/ccache
 BUILD_DEPENDS+=		${CCACHE_DEPENDS}
 CCACHE_DIR?=		${HOME}/.etc/ccache
 .  if !empty(CCACHE_DEPENDS)
