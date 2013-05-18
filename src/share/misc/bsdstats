@@ -1,4 +1,4 @@
-# $MirOS: src/share/misc/bsdstats,v 1.14 2006/10/07 21:55:40 tg Exp $
+# $MirOS: src/share/misc/bsdstats,v 1.15 2006/10/07 22:20:47 tg Exp $
 # $FreeBSD: /usr/local/www/cvsroot/FreeBSD/ports/sysutils/bsdstats/files/300.statistics,v 1.33 2006/10/04 04:51:41 scrappy Exp $
 
 rpt='http://rpt.bsdstats.org/scripts/'
@@ -47,13 +47,8 @@ if [[ -z $stats_token || -z $stats_key ]]; then
 	stats_token_time=$(date +%s)
 fi
 integer now=$(date +%s)
-if (( (now - 69) < stats_token_time )); then
-	let sleeptime='69 - (now - stats_token_time)'
-	print -nr "initial delay of $sleeptime seconds... "
-	sleep $sleeptime
-	print finished sleeping
-fi
-if (( stats_report_time <= (now - (14 * 86400) + 7200) )); then
+let now-=86400	# account for time zone differences
+if (( $(date -r $stats_report_time +%Y%m) < $(date -r $now +%Y%m) )); then
 	if [[ -n $stats_sysadd ]]; then
 		version=$(uname -r)$stats_sysadd
 	else
