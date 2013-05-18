@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: dlfcn.h,v 1.9 2004/08/11 19:14:56 drahn Exp $	*/
 /*	$NetBSD: dlfcn.h,v 1.2 1995/06/05 19:38:00 pk Exp $	*/
 
@@ -63,7 +64,8 @@ __END_DECLS
 #define RTLD_NOW	2
 #define RTLD_GLOBAL	0x100
 #define RTLD_LOCAL	0x000
-#define	DL_LAZY		RTLD_LAZY	/* Compat */
+#define RTLD_TRACE	0x200
+#define DL_LAZY		RTLD_LAZY	/* Compat */
 
 /*
  * Special handle arguments for dlsym().

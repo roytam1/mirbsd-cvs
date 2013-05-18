@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: ldd.c,v 1.11 2003/07/10 00:04:28 david Exp $	*/
 /*
  * Copyright (c) 2001 Artur Grabowski <art@openbsd.org>
@@ -24,17 +25,21 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#include <sys/param.h>
+#include <sys/stat.h>
+#include <sys/mman.h>
+#include <sys/wait.h>
+
 #include <stdio.h>
 #include <stdlib.h>
+#include <dlfcn.h>
 #include <elf_abi.h>
 #include <err.h>
 #include <fcntl.h>
 #include <string.h>
 #include <unistd.h>
 
-#include <sys/stat.h>
-#include <sys/mman.h>
-#include <sys/wait.h>
+__RCSID("$MirOS$");
 
 int usage(void);
 int doit(char *);
@@ -93,8 +98,8 @@ doit(char *name)
 	Elf_Ehdr ehdr;
 	Elf_Phdr *phdr;
 	int fd, i, size, status;
-
-	printf("%s:\n", name);
+	char buf[MAXPATHLEN];
+	void *dlhandle;
 
 	if ((fd = open(name, O_RDONLY)) < 0) {
 		warn("%s", name);
@@ -112,6 +117,21 @@ doit(char *name)
 		warnx("%s: not an ELF executable", name);
 		close(fd);
 		return 1;
+	}
+
+	if (ehdr.e_type == ET_DYN) {
+		printf("%s:\n", name);
+		if (realpath(name, buf) == NULL) {
+			warn("realpath(%s)", name);
+			return (1);
+		}
+		fflush(stdout);
+		if ((dlhandle = dlopen(buf, RTLD_TRACE)) == NULL) {
+			printf("%s\n", dlerror());
+			return (1);
+		}
+		close(fd);
+		return (0);
 	}
 
 	size = ehdr.e_phnum * sizeof(Elf_Phdr);
@@ -135,6 +155,7 @@ doit(char *name)
 		return 1;
 	}
 
+	printf("%s:\n", name);
 	fflush(stdout);
 	switch (fork()) {
 	case -1:

@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: dlfcn.c,v 1.73 2006/05/08 20:34:36 deraadt Exp $ */
 
 /*
@@ -38,6 +39,8 @@
 #include "archdep.h"
 #include "resolve.h"
 
+__RCSID("$MirOS$");
+
 int _dl_errno;
 
 int _dl_real_close(void *handle);
@@ -52,6 +55,9 @@ dlopen(const char *libname, int flags)
 
 	if (libname == NULL)
 		return RTLD_DEFAULT;
+
+	if ((flags & RTLD_TRACE) == RTLD_TRACE)
+		_dl_traceld = "true";
 
 	DL_DEB(("dlopen: loading: %s\n", libname));
 
@@ -95,6 +101,11 @@ dlopen(const char *libname, int flags)
 	} else {
 		int err;
 		DL_DEB(("tail %s\n", object->load_name ));
+		if (_dl_traceld) {
+			_dl_show_objects();
+			_dl_unload_shlib(object);
+			_dl_exit(0);
+		}
 		err = _dl_rtld(object);
 		if (err != 0) {
 			_dl_real_close(object);
@@ -365,12 +376,16 @@ _dl_show_objects(void)
 			objtypename = "rtld";
 			break;
 		case OBJTYPE_EXE:
+			if (!_dl_debug)
+				goto _dl_show_objects_skip;
 			objtypename = "exe ";
 			break;
 		case OBJTYPE_LIB:
 			objtypename = "rlib";
 			break;
 		case OBJTYPE_DLO:
+			if (!_dl_debug)
+				goto _dl_show_objects_skip;
 			objtypename = "dlib";
 			break;
 		default:
@@ -382,6 +397,7 @@ _dl_show_objects(void)
 		    (void *)(object->load_addr + object->load_size),
 		    objtypename, object->opencount, object->refcount,
 		    object->grprefcount, object->load_name);
+ _dl_show_objects_skip:
 		object = object->next;
 	}
 
