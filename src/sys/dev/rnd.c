@@ -1,9 +1,10 @@
-/* $MirOS: src/sys/dev/rnd.c,v 1.70 2010/12/23 19:25:32 tg Exp $ */
+/* $MirOS: src/sys/dev/rnd.c,v 1.71 2010/12/24 00:11:00 tg Exp $ */
 
 /*-
  * rnd.c -- A strong random number generator
  *
- * Copyright (c) 2000, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010
+ * Copyright (c) 2000, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009,
+ *		 2010
  *	Thorsten Glaser <tg@mirbsd.org>
  * Copyright (c) 1996, 1997, 2000-2002 Michael Shalayeff.
  *
@@ -1104,7 +1105,10 @@ randomioctl(dev_t dev, u_long cmd, caddr_t data, int flag, struct proc *p)
 		break;
 
 	case RNDSTIRARC4:
-		if (random_state.entropy_count < 80)
+		if (p->p_pid == 1) {
+			RNDEBUG(RD_ALWAYS, "rnd: init called, ");
+			rnd_flush();
+		} else if (random_state.entropy_count < 80)
 			rv = EAGAIN;
 		else
 			arc4random_reinit(NULL);

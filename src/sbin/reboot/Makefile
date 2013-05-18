@@ -6,5 +6,6 @@ LDADD=	-lutil
 MAN=	reboot.8
 MLINKS=	reboot.8 halt.8
 LINKS=	${BINDIR}/reboot ${BINDIR}/halt
+CPPFLAGS+=	-I${.CURDIR}/../init
 
 .include <bsd.prog.mk>

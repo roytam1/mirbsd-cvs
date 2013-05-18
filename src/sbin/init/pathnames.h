@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: pathnames.h,v 1.4 2003/06/02 20:06:15 millert Exp $	*/
 /*	$NetBSD: pathnames.h,v 1.5 1995/03/18 14:56:35 cgd Exp $	*/
 
@@ -37,4 +38,6 @@
 
 #include <paths.h>
 
-#define	_PATH_RUNCOM	"/etc/rc"
+#define _PATH_RUNCOM		"/etc/rc"
+#define _PATH_ARANDOMDEV	"/dev/arandom"
+#define _PATH_HOSTRANDOM	"/var/db/host.random"

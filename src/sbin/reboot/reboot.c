@@ -2,6 +2,8 @@
 /*	$NetBSD: reboot.c,v 1.8 1995/10/05 05:36:22 mycroft Exp $	*/
 
 /*
+ * Copyright (c) 2011
+ *	Thorsten Glaser <tg@mirbsd.org>
  * Copyright (c) 1980, 1986, 1993
  *	The Regents of the University of California.  All rights reserved.
  *
@@ -33,7 +35,9 @@
 #include <sys/types.h>
 #include <sys/reboot.h>
 #include <sys/fcntl.h>
+#include <sys/ioctl.h>
 #include <sys/wait.h>
+#include <dev/rndioctl.h>
 #include <signal.h>
 #include <pwd.h>
 #include <errno.h>
@@ -42,32 +46,58 @@
 #include <termios.h>
 #include <syslog.h>
 #include <unistd.h>
+#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <paths.h>
 #include <util.h>
+#include "pathnames.h"
 
 __COPYRIGHT("@(#) Copyright (c) 1980, 1986, 1993\n\
 	The Regents of the University of California.  All rights reserved.\n");
 __SCCSID("@(#)reboot.c	8.1 (Berkeley) 6/5/93");
-__RCSID("$OpenBSD: reboot.c,v 1.26 2004/07/09 18:49:57 deraadt Exp $");
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/sbin/reboot/reboot.c,v 1.2 2007/05/29 08:19:30 tg Exp $");
 
-void usage(void) __dead;
 extern const char *__progname;
 
-int	dohalt;
+static void
+pull_console(bool do_setsid)
+{
+	int fd;
+	struct termios t;
 
-#define _PATH_RC	"/etc/rc"
+	if (revoke(_PATH_CONSOLE) == -1)
+		warn("revoke");
+	if (do_setsid) {
+		if (setsid() == -1)
+			warn("setsid");
+	}
+	fd = open(_PATH_CONSOLE, O_RDWR);
+	if (fd == -1)
+		warn("open");
+	dup2(fd, 0);
+	dup2(fd, 1);
+	dup2(fd, 2);
+	if (fd > 2)
+		close(fd);
+
+	/* At a minimum... */
+	tcgetattr(0, &t);
+	t.c_oflag |= (ONLCR | OPOST);
+	tcsetattr(0, TCSANOW, &t);
+}
 
 int
 main(int argc, char *argv[])
 {
-	int i;
+	int i, ch, howto, rnd_fd, arnd_fd;
 	struct passwd *pw;
-	int ch, howto, lflag, nflag, pflag, qflag;
+	bool dohalt, lflag, nflag, pflag, qflag;
 	const char *p, *user;
+	char rnd_buf[512];
+	static const int death_sigs[7] = {
+		SIGHUP, SIGTERM, SIGKILL, SIGKILL, SIGKILL, SIGKILL, SIGKILL
+	};
 
 	if (chdir("/"))
 		warn("chdir(\"/\")");
@@ -78,9 +108,10 @@ main(int argc, char *argv[])
 	if (*p == '-')
 		p++;
 
-	howto = dohalt = lflag = nflag = pflag = qflag = 0;
+	howto = 0;
+	dohalt = lflag = nflag = pflag = qflag = false;
 	if (!strcmp(p, "halt")) {
-		dohalt = 1;
+		dohalt = true;
 		howto = RB_HALT;
 	}
 
@@ -90,30 +121,30 @@ main(int argc, char *argv[])
 			howto |= RB_DUMP;
 			break;
 		case 'l':	/* Undocumented; used by shutdown. */
-			lflag = 1;
+			lflag = true;
 			break;
 		case 'n':
-			nflag = 1;
+			nflag = true;
 			howto |= RB_NOSYNC;
 			break;
 		case 'p':
 			/* Only works if we're called as halt. */
 			if (dohalt) {
-				pflag = 1;
+				pflag = true;
 				howto |= RB_POWERDOWN;
 			}
 			break;
 		case 'q':
-			qflag = 1;
+			qflag = true;
 			break;
 		default:
-			usage();
+			goto usage;
 		}
 	argc -= optind;
 	argv += optind;
 
 	if (argc)
-		usage();
+		goto usage;
 
 	if (geteuid())
 		errx(1, "%s", strerror(EPERM));
@@ -164,88 +195,96 @@ main(int argc, char *argv[])
 	 */
 	(void)signal(SIGPIPE, SIG_IGN);
 
-	if (access(_PATH_RC, R_OK) != -1) {
+	if (access(_PATH_RUNCOM, R_OK) != -1) {
 		pid_t pid;
-		struct termios t;
-		int fd;
 
 		switch ((pid = fork())) {
 		case -1:
 			break;
 		case 0:
-			if (revoke(_PATH_CONSOLE) == -1)
-				warn("revoke");
-			if (setsid() == -1)
-				warn("setsid");
-			fd = open(_PATH_CONSOLE, O_RDWR);
-			if (fd == -1)
-				warn("open");
-			dup2(fd, 0);
-			dup2(fd, 1);
-			dup2(fd, 2);
-			if (fd > 2)
-				close(fd);
-
-			/* At a minimum... */
-			tcgetattr(0, &t);
-			t.c_oflag |= (ONLCR | OPOST);
-			tcsetattr(0, TCSANOW, &t);
-
-			execl(_PATH_BSHELL, "sh", _PATH_RC, "shutdown", (char *)NULL);
+			pull_console(true);
+			execl(_PATH_BSHELL, "sh", _PATH_RUNCOM, "shutdown", (char *)NULL);
 			_exit(1);
 		default:
 			waitpid(pid, NULL, 0);
 		}
 	}
 
-	/* Send a SIGTERM first, a chance to save the buffers. */
-	if (kill(-1, SIGTERM) == -1) {
-		/*
-		 * If ESRCH, everything's OK: we're the only non-system
-		 * process!  That can happen e.g. via 'exec reboot' in
-		 * single-user mode.
-		 */
-		if (errno != ESRCH) {
-			warn("SIGTERM processes");
-			goto restart;
+	pull_console(false);
+	arnd_fd = open(_PATH_ARANDOMDEV, O_RDWR);
+	rnd_fd = open(_PATH_HOSTRANDOM, O_WRONLY | O_APPEND | O_SYNC);
+	ch = 3;
+
+	for (i = 0; i < 7; ++i) {
+		warnx("Sending SIG%s to all processes...",
+		    sys_signame[death_sigs[i]]);
+
+		if (kill(-1, death_sigs[i]) == -1) {
+			if (errno != ESRCH) {
+				warn("signalling processes");
+				goto restart;
+			}
+			if (i > 1)
+				/* terminate loop after SIGKILL */
+				i = 10;
+		}
+
+		if (i == 0) {
+			sleep(2);
+			if (!nflag)
+				sync();
+		} else if (i == 1) {
+			sleep(3);
+		} else if (i == 10) {
+			sleep(1);
+		} else {
+			sleep(2 * (i - 2));
+		}
+
+		if (!ch)
+			/* three writes already done */
+			continue;
+
+		if (arnd_fd != -1)
+			/* reset lopool, arandom */
+			ioctl(arnd_fd, RNDSTIRARC4);
+		if (rnd_fd != -1) {
+			if (arnd_fd != -1)
+				read(arnd_fd, rnd_buf, sizeof(rnd_buf));
+			else
+				arc4random_buf(rnd_buf, sizeof(rnd_buf));
+			write(rnd_fd, rnd_buf, sizeof(rnd_buf));
+			--ch;
 		}
 	}
+	/* we need four writes in total, though */
+	++ch;
 
-	/*
-	 * After the processes receive the signal, start the rest of the
-	 * buffers on their way.  Wait 5 seconds between the SIGTERM and
-	 * the SIGKILL to give everybody a chance.
-	 */
-	sleep(2);
-	if (!nflag)
-		sync();
-	sleep(3);
+	if (i == 7)
+		warnx("WARNING: some process(es) wouldn't die");
 
-	for (i = 1;; ++i) {
-		if (kill(-1, SIGKILL) == -1) {
-			if (errno == ESRCH)
-				break;
-			goto restart;
+	if (arnd_fd != -1) {
+		ioctl(arnd_fd, RNDSTIRARC4);
+		close(arnd_fd);
+	}
+	if (rnd_fd != -1) {
+		arc4random_stir();
+		while (ch--) {
+			arc4random_buf(rnd_buf, sizeof(rnd_buf));
+			write(rnd_fd, rnd_buf, sizeof(rnd_buf));
 		}
-		if (i > 5) {
-			warnx("WARNING: some process(es) wouldn't die");
-			break;
-		}
-		(void)sleep(2 * i);
+		close(rnd_fd);
 	}
 
 	reboot(howto);
 	/* FALLTHROUGH */
 
-restart:
+ restart:
 	errx(1, kill(1, SIGHUP) == -1 ? "(can't restart init): " : "");
 	/* NOTREACHED */
-}
 
-void
-usage(void)
-{
+ usage:
 	fprintf(stderr, "usage: %s [-dn%sq]\n", __progname,
 	    dohalt ? "p" : "");
-	exit(1);
+	return (1);
 }

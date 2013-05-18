@@ -37,11 +37,14 @@
 __COPYRIGHT("@(#) Copyright (c) 1991, 1993\n\
 	The Regents of the University of California.  All rights reserved.\n");
 __SCCSID("@(#)init.c	8.2 (Berkeley) 4/28/95");
-__RCSID("$MirOS: src/sbin/init/init.c,v 1.4 2011/02/19 02:55:53 tg Exp $");
+__RCSID("$MirOS: src/sbin/init/init.c,v 1.5 2011/02/19 12:02:53 tg Exp $");
 
 #include <sys/sysctl.h>
+#include <sys/ioctl.h>
 #include <sys/wait.h>
 #include <sys/reboot.h>
+
+#include <dev/rndioctl.h>
 
 #include <db.h>
 #include <errno.h>
@@ -1266,7 +1269,23 @@ clean_ttys(void)
 state_func_t
 catatonia(void)
 {
+	int arnd_fd;
 	session_t *sp;
+	char rnd_buf[16];
+
+	arnd_fd = open(_PATH_ARANDOMDEV, O_RDWR);
+	if (arnd_fd != -1) {
+		/* also shove some of our state into the kernel */
+		arc4random_buf(rnd_buf, 12);
+	}
+	arc4random_stir();
+	if (arnd_fd != -1) {
+		arc4random_buf(rnd_buf + 12, 4);
+		/* trigger a reset of all kernel entropy pools */
+		write(arnd_fd, rnd_buf, 16);
+		ioctl(arnd_fd, RNDSTIRARC4);
+		close(arnd_fd);
+	}
 
 	for (sp = sessions; sp; sp = sp->se_next)
 		sp->se_flags |= SE_SHUTDOWN;
@@ -1294,13 +1313,14 @@ nice_death(void)
 	pid_t pid;
 	static const int death_sigs[3] = { SIGHUP, SIGTERM, SIGKILL };
 	int howto = RB_HALT;
-	int status;
-	char rnd_buf[128];
+	int status, needwrites = 4;
+	char rnd_buf[512];
 
-	arnd_fd = open("/dev/arandom", O_RDWR);
-	/* trigger a reset of arandom(4), arc4random(9) */
+	arnd_fd = open(_PATH_ARANDOMDEV, O_RDWR);
 	if (arnd_fd != -1) {
+		/* also shove some of our state into the kernel */
 		arc4random_buf(rnd_buf, 16);
+		/* trigger a reset of arandom(4), arc4random(9) */
 		write(arnd_fd, rnd_buf, 16);
 	}
 
@@ -1350,14 +1370,14 @@ nice_death(void)
 
 	arc4random_stir();
 
-	rnd_fd = open("/var/db/host.random", O_WRONLY | O_APPEND | O_SYNC);
+	rnd_fd = open(_PATH_HOSTRANDOM, O_WRONLY | O_APPEND | O_SYNC);
 
 	for (i = 0; i < 3; ++i) {
+		warning("Sending SIG%s to all processes...",
+		    sys_signame[death_sigs[i]]);
+
 		if (kill(-1, death_sigs[i]) == -1 && errno == ESRCH)
 			goto die;
-		/* lopool_reinit runs every 1-3 seconds, so sleep */
-		if (rnd_fd != -1)
-			sleep(1);
 
 		clang = 0;
 		alarm(DEATH_WATCH);
@@ -1367,16 +1387,16 @@ nice_death(void)
 		} while (clang == 0 && errno != ECHILD);
 		status = errno;
 
-		if (arnd_fd != -1) {
-			arc4random_buf(rnd_buf, 16);
-			write(arnd_fd, rnd_buf, 16);
-		}
+		if (arnd_fd != -1)
+			/* reset lopool, arandom */
+			ioctl(arnd_fd, RNDSTIRARC4);
 		if (rnd_fd != -1) {
 			if (arnd_fd != -1)
 				read(arnd_fd, rnd_buf, sizeof(rnd_buf));
 			else
 				arc4random_buf(rnd_buf, sizeof(rnd_buf));
 			write(rnd_fd, rnd_buf, sizeof(rnd_buf));
+			--needwrites;
 		}
 
 		if (status == ECHILD)
@@ -1387,15 +1407,15 @@ nice_death(void)
 
  die:
 	if (arnd_fd != -1) {
-		arc4random_buf(rnd_buf, 16);
-		write(arnd_fd, rnd_buf, 16);
+		ioctl(arnd_fd, RNDSTIRARC4);
 		close(arnd_fd);
 	}
 	if (rnd_fd != -1) {
-		sleep(3);
 		arc4random_stir();
-		arc4random_buf(rnd_buf, sizeof(rnd_buf));
-		write(rnd_fd, rnd_buf, sizeof(rnd_buf));
+		while (needwrites--) {
+			arc4random_buf(rnd_buf, sizeof(rnd_buf));
+			write(rnd_fd, rnd_buf, sizeof(rnd_buf));
+		}
 		close(rnd_fd);
 	}
 	reboot(howto);

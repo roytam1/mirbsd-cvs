@@ -1,4 +1,4 @@
-/* $MirOS: src/sys/crypto/randcore.c,v 1.4 2010/09/24 20:35:13 tg Exp $ */
+/* $MirOS: src/sys/crypto/randcore.c,v 1.5 2010/09/25 11:33:17 tg Exp $ */
 
 /*-
  * Copyright © 2010
@@ -52,7 +52,6 @@ struct rnd_pooladd {
 };
 
 void rnd_lopool_dequeue(void *);
-void rnd_flush(void);
 
 /*
  * This variable secures the following things: rndpool (tytso code) is

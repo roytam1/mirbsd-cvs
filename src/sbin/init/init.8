@@ -1,3 +1,4 @@
+.\"	$MirOS$
 .\"	$OpenBSD: init.8,v 1.33 2004/02/24 13:14:29 jmc Exp $
 .\"	$NetBSD: init.8,v 1.6 1995/03/18 14:56:31 cgd Exp $
 .\"
@@ -33,12 +34,12 @@
 .\"
 .\"     @(#)init.8	8.6 (Berkeley) 5/26/95
 .\"
-.Dd May 26, 1995
+.Dd $Mdocdate$
 .Dt INIT 8
 .Os
 .Sh NAME
 .Nm init
-.Nd process control initialization
+.Nd process control initialisation
 .Sh SYNOPSIS
 .Nm init
 .Op Fl fs
@@ -113,7 +114,7 @@ reads this file, and executes the command found in the second field.
 This command is usually
 .Xr getty 8 ;
 .Em getty
-opens and initializes the tty line
+opens and initialises the tty line
 and
 executes the
 .Em login
@@ -147,7 +148,7 @@ file without a reboot by sending the signal
 to
 .Nm
 with the command
-.Dq Li "kill \-s HUP 1" .
+.Dq Li "kill \-HUP 1" .
 On receipt of this signal,
 .Nm
 re-reads the
@@ -189,7 +190,7 @@ will terminate multi-user operations and resume single-user mode
 if sent a terminate
 .Pq Dv TERM
 signal, for example,
-.Dq Li "kill \-s TERM 1" .
+.Dq Li "kill \-TERM 1" .
 If there are processes outstanding that are deadlocked (because of
 hardware or software failure),
 .Nm
@@ -198,11 +199,11 @@ will time out after 30 seconds and print a warning message.
 .Pp
 .Nm
 will cease creating new
-.Xr getty Ns 's
+.Xr getty Ns s
 and allow the system to slowly die away, if it is sent a terminal stop
 .Pq Dv TSTP
 signal, i.e.,
-.Dq Li "kill \-s TSTP 1" .
+.Dq Li "kill \-TSTP 1" .
 A later hangup will resume full
 multi-user operations, or a terminate will start a single-user shell.
 This hook is used by
@@ -212,12 +213,13 @@ and
 .Pp
 .Nm
 will terminate multi-user operations, kill all
-.Xr getty Ns 's ,
+.Xr getty Ns s ,
 run
-.Pa /etc/rc.shutdown ,
+.Pa /etc/rc Ic shutdown ,
 and halt the machine if user-defined signal 1
 .Pq Dv USR1
-is received.
+is received, e.g. by
+.Dq Li "kill \-USR1 1" .
 .Pp
 The role of
 .Nm
@@ -256,13 +258,17 @@ record of users currently logged in
 .It Pa /var/log/wtmp
 record of all logins and logouts
 .It Pa /etc/ttys
-terminal initialization information file
+terminal initialisation information file
 .It Pa /etc/rc
 system startup commands
 .It Pa /etc/rc.securelevel
 commands that run before the security level changes
 .It Pa /etc/rc.shutdown
-script run at shutdown time
+script run at shutdown time via
+.Pa /etc/rc
+.It Pa /var/db/host.random
+where 2 KiB entropy are stored on
+.Dv SIGUSR1
 .El
 .Sh DIAGNOSTICS
 .Bl -diag

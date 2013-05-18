@@ -1,11 +1,11 @@
-/**	$MirOS: src/sys/kern/init_main.c,v 1.28 2010/09/19 18:55:39 tg Exp $ */
+/**	$MirOS: src/sys/kern/init_main.c,v 1.29 2011/01/03 17:49:35 tg Exp $ */
 /*	$OpenBSD: init_main.c,v 1.120 2004/11/23 19:08:55 miod Exp $	*/
 /*	$NetBSD: init_main.c,v 1.84.4.1 1996/06/02 09:08:06 mrg Exp $	*/
 /*	$OpenBSD: kern_xxx.c,v 1.9 2003/08/15 20:32:18 tedu Exp $	*/
 /*	$NetBSD: kern_xxx.c,v 1.32 1996/04/22 01:38:41 christos Exp $	*/
 
 /*
- * Copyright (c) 1990-2002, 2003, 2004, 2005, 2006
+ * Copyright (c) 1990-2002, 2003, 2004, 2005, 2006, 2011
  *	Thorsten "mirabilos" Glaser <tg@mirbsd.org>
  * Copyright (c) 1995 Christopher G. Demetriou.  All rights reserved.
  * Copyright (c) 1982, 1986, 1989, 1991, 1992, 1993
@@ -97,12 +97,11 @@
 #include <crypto/cryptodev.h>
 #include <crypto/cryptosoft.h>
 #endif
+#include <crypto/randimpl.h>
 
 #if defined(NFSSERVER) || defined(NFSCLIENT)
 extern void nfs_init(void);
 #endif
-
-extern void rnd_flush(void);
 
 /* used by kernfs */
 const char	copyright[] =
