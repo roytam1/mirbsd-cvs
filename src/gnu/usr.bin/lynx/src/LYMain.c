@@ -1,4 +1,4 @@
-/* $MirOS$ */
+/* $MirOS: src/gnu/usr.bin/lynx/src/LYMain.c,v 1.2 2005/03/27 22:42:37 tg Exp $ */
 
 #include <HTUtils.h>
 #include <HTTP.h>
@@ -1186,7 +1186,17 @@ int main(int argc,
 #ifndef __NO_MIRBSD_EXTENSION
     StrAllocCat(LYUserAgent, " Revision/MirOS:");
 #if defined(__MirBSD__) || defined(__MirLinux__) || defined(__MirInterix__)
+#if defined(MACHINE_OS)
     StrAllocCat(LYUserAgent, MACHINE_OS);
+#elif defined(__Linux__)
+    StrAllocCat(LYUserAgent, "Linux");
+#elif defined(__APPLE__) && defined(__MACH__)
+    StrAllocCat(LYUserAgent, "Darwin");
+#elif defined(BSD)
+    StrAllocCat(LYUserAgent, "BSD");
+#else
+    StrAllocCat(LYUserAgent, "unknown");
+#endif
     StrAllocCat(LYUserAgent,
 	" (http://MirBSD.org/)");
 #else
