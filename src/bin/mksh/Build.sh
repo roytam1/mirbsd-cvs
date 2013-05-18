@@ -567,8 +567,7 @@ ct=unknown
 #endif
 EOF
 ct=unknown
-vv ']' "$CPP $CFLAGS $CPPFLAGS $LDFLAGS $NOWARN conftest.c $LIBS | \
-    grep ct= | tr -d \\\\015 >x"
+vv ']' "$CPP $CFLAGS $CPPFLAGS $NOWARN conftest.c | grep ct= | tr -d \\\\015 >x"
 sed 's/^/[ /' x
 eval `cat x`
 rmf x vv.out
