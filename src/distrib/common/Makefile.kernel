@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/Makefile.kernel,v 1.1 2006/08/17 14:09:20 tg Exp $
+# $MirOS: src/distrib/common/Makefile.kernel,v 1.2 2006/10/29 17:09:31 tg Exp $
 
 SYSDIR?=	${BSDSRCDIR}/sys
 SYSSUBDIR?=	${SYSDIR}/arch/${MACHINE}
@@ -11,8 +11,11 @@ KMAKE?=		${MAKE} COPTS=${CFLAGS:Q}
 
 bsd:
 	mkdir -p build/${RAMDISK}
-	[[ -f build/${RAMDISK}/version || ! -f ${KERNDIR}/version ]] \
-	    || cat ${KERNDIR}/version >build/${RAMDISK}/version
+	if [[ -s ${KERNDIR}/version ]]; then \
+		[[ ! -s build/${RAMDISK}/version || \
+		    ${KERNDIR}/version -nt build/${RAMDISK}/version ]] && \
+		    cat ${KERNDIR}/version >build/${RAMDISK}/version; \
+	fi
 	( cd build/${RAMDISK}; ${KCONFIG} && ${KMAKE_CLEAN} && \
 	    ${KMAKE_DEPEND} && exec ${KMAKE} bsd )
 	mv build/${RAMDISK}/bsd .
