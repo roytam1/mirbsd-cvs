@@ -1,4 +1,4 @@
-/* $MirOS: ports/sysutils/chkuterm/dist/chkuterm.c,v 1.3 2007/01/10 00:02:36 tg Exp $ */
+/* $MirOS: ports/sysutils/chkuterm/dist/chkuterm.c,v 1.4 2007/01/10 00:03:24 tg Exp $ */
 
 /*-
  * Copyright (c) 2006, 2007
@@ -33,12 +33,12 @@
 
 #ifdef __RCSID
 __RCSID("$miros: src/usr.sbin/wsconfig/wsconfig.c,v 1.8 2007/01/10 00:01:06 tg Exp $");
-__RCSID("$MirOS: ports/sysutils/chkuterm/dist/chkuterm.c,v 1.3 2007/01/10 00:02:36 tg Exp $");
+__RCSID("$MirOS: ports/sysutils/chkuterm/dist/chkuterm.c,v 1.4 2007/01/10 00:03:24 tg Exp $");
 #endif
 
 /* query string sent to the terminal for LC_CTYPE detection */
-/* XXX is U+00A0 ok or some other char better? Think EUC, SJIS, etc. */
-const char ctype_qstr[] = "\030\032\r\xC2\xA0\033[6n";
+/* XXX is U+20AC U+002E ok or some other char better? Think EUC, SJIS, etc. */
+const char ctype_qstr[] = "\030\032\r\xE2\x82\xAC.\033[6n";
 
 /*
  * -U			return true and print (unless -q) if VT is UTF-8
@@ -79,7 +79,7 @@ main(int argc, char **argv)
 	cfmakeraw(&tio);
 	if (tcflush(wsfd, TCIOFLUSH))
 		warn("tcflush");
-	rv = 3;
+	rv = /* error */ 3;
 	if (tcsetattr(wsfd, TCSANOW, &tio)) {
 		warn("tcsetattr\r");
 		goto tios_err;
@@ -90,15 +90,16 @@ main(int argc, char **argv)
 		goto tios_err;
 	}
 	nr = read(wsfd, buf, sizeof (buf));
-	rv = 1;
+	rv = /* unknown */ 1;
 	if (nr > 5 && buf[0] == 033 && buf[1] == '[') {
 		c = 2;
 		while (c < (nr - 2))
 			if (buf[c++] == ';')
 				break;
-		if (buf[c - 1] == ';' && buf[c] == '2' &&
+		if (buf[c - 1] == ';' &&
+		    (buf[c] == '3' || buf[c] == '4') &&
 		    !isdigit(buf[c + 1]))
-			rv = 0;
+			rv = buf[c] == '4' ? /* latin1 */ 2 : /* utf-8 */ 0;
 	}
 	write(wsfd, "\r   \r", 5);
  tios_err:
@@ -107,7 +108,7 @@ main(int argc, char **argv)
 	if (!q)
 		printf("LC_CTYPE=%s; export LC_CTYPE\n",
 		    rv == 0 ? "en_US.UTF-8" : "C");
-	if (!q && rv > 1)
+	if (!q && rv > 2)
 		puts("# warning: problems occured!\n");
 
 	close(wsfd);

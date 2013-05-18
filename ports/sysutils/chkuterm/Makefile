@@ -1,11 +1,10 @@
-# $MirOS: ports/comms/ssfe/Makefile,v 1.8 2006/09/14 00:07:37 tg Exp $
+# $MirOS: ports/sysutils/chkuterm/Makefile,v 1.1 2006/12/28 04:38:20 tg Exp $
 
 COMMENT=		check current terminal for utf-8 mode
 CATEGORIES=		comms sysutils
 DIST_NAME=		chkuterm
-DIST_DATE=		20061228
+DIST_DATE=		20070210
 DIST_SOURCE=		port
-PKGNAME=		${DIST_NAME}-${DIST_DATE}-0
 RESPONSIBLE=		Thorsten Glaser <tg@66h.42h.de>
 
 # MirOS

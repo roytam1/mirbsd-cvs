@@ -1,4 +1,4 @@
-/* $MirOS: src/share/misc/licence.template,v 1.20 2006/12/11 21:04:56 tg Rel $ */
+/* $MirOS: src/usr.sbin/wsconfig/wsconfig.c,v 1.8 2007/01/10 00:01:06 tg Exp $ */
 
 /*-
  * Copyright (c) 2006, 2007
@@ -35,13 +35,13 @@
 #include <termios.h>
 #include <unistd.h>
 
-__RCSID("$MirOS: src/usr.sbin/wsconfig/wsconfig.c,v 1.7 2006/11/16 21:34:37 tg Exp $");
+__RCSID("$MirOS: src/usr.sbin/wsconfig/wsconfig.c,v 1.8 2007/01/10 00:01:06 tg Exp $");
 
 #define DEFDEV	"/dev/ttyCcfg"
 
 /* query string sent to the terminal for LC_CTYPE detection */
-/* XXX is U+00A0 ok or some other char better? Think EUC, SJIS, etc. */
-const char ctype_qstr[] = "\030\032\r\xC2\xA0\033[6n";
+/* XXX is U+20AC U+002E ok or some other char better? Think EUC, SJIS, etc. */
+const char ctype_qstr[] = "\030\032\r\xE2\x82\xAC.\033[6n";
 
 __dead void usage(void);
 
@@ -213,7 +213,7 @@ main(int argc, char **argv)
 		cfmakeraw(&tio);
 		if (tcflush(wsfd, TCIOFLUSH))
 			warn("tcflush");
-		rv = 3;
+		rv = /* error */ 3;
 		if (tcsetattr(wsfd, TCSANOW, &tio)) {
 			warn("tcsetattr\r");
 			goto tios_err;
@@ -224,15 +224,16 @@ main(int argc, char **argv)
 			goto tios_err;
 		}
 		nr = read(wsfd, buf, sizeof (buf));
-		rv = 1;
+		rv = /* unknown */ 1;
 		if (nr > 5 && buf[0] == 033 && buf[1] == '[') {
 			c = 2;
 			while (c < (nr - 2))
 				if (buf[c++] == ';')
 					break;
-			if (buf[c - 1] == ';' && buf[c] == '2' &&
-			    !isdigit(buf[c + 1]))
-				rv = 0;
+		if (buf[c - 1] == ';' &&
+		    (buf[c] == '3' || buf[c] == '4') &&
+		    !isdigit(buf[c + 1]))
+			rv = buf[c] == '4' ? /* latin1 */ 2 : /* utf-8 */ 0;
 		}
 		write(wsfd, "\r   \r", 5);
  tios_err:
@@ -241,7 +242,7 @@ main(int argc, char **argv)
 		if (!q)
 			printf("LC_CTYPE=%s; export LC_CTYPE\n",
 			    rv == 0 ? "en_US.UTF-8" : "C");
-		if (!q && rv > 1)
+		if (!q && rv > 2)
 			puts("# warning: problems occured!\n");
 		break;
 	default:
