@@ -341,7 +341,7 @@ extern int __cdecl seteuid(uid_t);
 extern int __cdecl setegid(gid_t);
 #endif
 
-/* remove redundances */
+/* remove redundancies */
 
 #if defined(MirBSD) && (MirBSD >= 0x08A8) && !defined(MKSH_OPTSTATIC)
 #define MKSH_mirbsd_wcwidth
