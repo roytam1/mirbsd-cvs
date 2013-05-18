@@ -22,11 +22,11 @@
 #include <sys/sysctl.h>
 #include "archdep.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/libexec/ld.so/ssp.c,v 1.1 2008/10/16 14:19:01 tg Exp $");
 
 #if (defined(__SSP__) || defined(__SSP_ALL__)) && \
     !defined(__IN_MKDEP) && !defined(lint)
-#error "You must compile this file with -fno-stack-protector -fno-stack-protector-all"
+#error "You must compile this file with -fno-stack-protector"
 #endif
 
 extern long __guard[8];

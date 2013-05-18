@@ -1,4 +1,4 @@
-# $MirOS: src/libexec/ld.so/Makefile,v 1.10 2008/10/16 14:19:01 tg Exp $
+# $MirOS: src/libexec/ld.so/Makefile,v 1.11 2008/10/16 14:32:16 tg Exp $
 # $OpenBSD: Makefile,v 1.34 2006/05/11 22:03:22 deraadt Exp $
 
 SUBDIR=		ldconfig ldd
@@ -15,7 +15,7 @@ SRCS+=	library.c
 .endif
 
 SRCS+=		ssp.c
-CFLAGS_ssp.o=	-fno-stack-protector -fno-stack-protector-all
+CFLAGS_ssp.o=	-fno-stack-protector
 
 PROG=		ld.so
 DPADD+=		${LIBMDSUP}
@@ -36,7 +36,5 @@ ${PROG}:
 	${LD} -r -o ${PROG}~ ${OBJS}
 	objcopy --redefine-sym memcpy=_dl_memcpy ${PROG}~
 	${LD} -x -e _dl_start ${ELF_LDFLAGS} -o ${PROG} ${PROG}~ ${LDADD}
-#$(PROG):
-#	$(LD) -x -e _dl_start $(ELF_LDFLAGS) -o $(PROG) $(OBJS) $(LDADD)
 
 .include <bsd.prog.mk>
