@@ -1,4 +1,4 @@
-# $MirOS: ports/net/rsync/Makefile,v 1.9 2006/09/14 00:12:15 tg Exp $
+# $MirOS: ports/net/rsync/Makefile,v 1.10 2007/02/17 20:49:06 tg Exp $
 # $OpenBSD: Makefile,v 1.41 2004/05/11 13:39:17 naddy Exp $
 
 COMMENT=		mirroring/synchronisation over low bandwidth links
@@ -6,6 +6,9 @@ DISTNAME=		rsync-2.6.9
 CATEGORIES=		net
 HOMEPAGE=		http://rsync.samba.org/
 RESPONSIBLE=		Thorsten Glaser <tg@66h.42h.de>
+
+PATCH_LIST=		patch-* *.diff
+DASH_VER=		1
 
 FLAVORS=		static
 FLAVOR?=
