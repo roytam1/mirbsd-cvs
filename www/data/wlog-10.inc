@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.399 2012/10/12 14:14:38 bsiegert Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.400 2012/12/01 20:31:28 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -9387,4 +9387,13 @@ Title: Proposed extensions to the JSON specification
  a JSON extension to permit that in order to not endanger compatibility
  any (no comment needed, it’s just not worth it), but I’d like my above
  proposals to be followed by implementators (and I’m one of them).</p>
+<p style="font-size:small;">Some more on the U+007F‥U+009F issue: might
+ want to always escape them. ECMA says to never escape them; an idea is
+ to escape them only if indenting (so <tt>{"foo":"bar"}</tt> gets those
+ C1 control characters as-is, <tt>{↵  "foo": "bar"↵}</tt> escapes them)
+ but we might pass the condensed (nōn-indented) form to e.g. a database
+ which may or may not like them. This isn’t about binary (as JSON isn’t
+ binary-safe anyway; probably best to just use base64 and let the outer
+ layers worry about compression) but C1 control characters – C0 already
+ are always escaped.</p>
 ----
