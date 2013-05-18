@@ -1,4 +1,4 @@
-# $MirOS: src/etc/profile,v 1.36 2006/11/17 03:34:52 tg Exp $
+# $MirOS: src/etc/profile,v 1.37 2006/11/17 17:48:36 tg Exp $
 #-
 umask 022
 [ -z "$KSH_VERSION" ] && alias print='echo -e'
@@ -130,7 +130,9 @@ function Lstripcom	# strip comments (and whitespace) from file(s)
 }
 
 [[ $BROWSER = lynx* ]] && unset BROWSER
-if [[ $LC_CTYPE = en_US.UTF-8 ]]; then
+# [[ $(locale charmap) = UTF-8 ]]	# locale charmap = non-SUSv3 extension
+# but below saves us a fork, only works due to LC_CTYPE=${...:-${... above tho
+if [[ $LC_CTYPE = *@(UTF|utf)?(-)8 ]]; then
 	: ${BROWSER:=lynx -display_charset utf8}
 else
 	: ${BROWSER:=lynx}
