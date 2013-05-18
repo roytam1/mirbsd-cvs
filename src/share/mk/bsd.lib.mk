@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/bsd.lib.mk,v 1.69 2007/07/02 14:43:53 tg Exp $
+# $MirOS: src/share/mk/bsd.lib.mk,v 1.70 2007/08/28 19:21:17 tg Exp $
 # $OpenBSD: bsd.lib.mk,v 1.43 2004/09/20 18:52:38 espie Exp $
 # $NetBSD: bsd.lib.mk,v 1.67 1996/01/17 20:39:26 mycroft Exp $
 # @(#)bsd.lib.mk	5.26 (Berkeley) 5/2/91
@@ -50,7 +50,8 @@ SHLIB_FLAGS+=	-Wl,-rpath,${LIBDIR} -Wl,-rpath-link,${DESTDIR}${LIBDIR}
 .endif
 SHLIB_LINKS?=
 
-.if !empty(SRCS:M*.C) || !empty(SRCS:M*.cc) || !empty(SRCS:M*.cxx)
+.if !empty(SRCS:M*.cc) || !empty(SRCS:M*.C) || \
+    !empty(SRCS:M*.cxx) || !empty(SRCS:M*.cpp)
 LINKER?=	${CXX}
 .else
 LINKER?=	${CC}
@@ -89,7 +90,7 @@ LINK.shlib?=	${LINKER} ${CFLAGS:M*} ${SHLIB_FLAGS} -shared \
 # .so used for PIC object files.  .ln used for lint output files.
 # .m for objective c files.
 .SUFFIXES:
-.SUFFIXES:	.out .o .so .S .s .c .m .cc .cxx .y .l .i .ln .m4
+.SUFFIXES:	.out .o .so .S .s .c .m .cc .C .cxx .cpp .y .l .i .ln .m4
 
 .c.o .m.o:
 	@echo ${COMPILE.c:Q} ${CFLAGS_${.TARGET:C/\.(g|s)o$/.o/}:M*:Q} \
@@ -105,7 +106,7 @@ LINK.shlib?=	${LINKER} ${CFLAGS:M*} ${SHLIB_FLAGS} -shared \
 .c.ln:
 	${LINT} ${LINTFLAGS} ${CFLAGS:M-[IDU]*} ${CPPFLAGS:M-[IDU]*} -i ${.IMPSRC}
 
-.cc.o .cxx.o:
+.cc.o .C.o .cxx.o .cpp.o:
 	@echo ${COMPILE.cc:Q} ${CXXFLAGS_${.TARGET:C/\.(g|s)o$/.o/}:M*:Q} \
 	    '${.IMPSRC} -o $@'
 	@${COMPILE.cc} ${CXXFLAGS_${.TARGET:C/\.(g|s)o$/.o/}:M*} \
@@ -113,7 +114,7 @@ LINK.shlib?=	${LINKER} ${CFLAGS:M*} ${SHLIB_FLAGS} -shared \
 	@${LD} ${_DISCARD} -r $@.o -o $@
 	@rm -f $@.o
 
-.cc.so .cxx.so:
+.cc.so .C.so .cxx.so .cpp.so:
 	${COMPILE.cc} ${CXXFLAGS_${.TARGET:.so=.o}:M*} -DPIC ${PICFLAG} -o $@ $<
 
 .S.o .s.o:

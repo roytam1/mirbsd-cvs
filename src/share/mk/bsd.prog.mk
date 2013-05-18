@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/bsd.prog.mk,v 1.25 2006/10/06 22:05:59 tg Exp $
+# $MirOS: src/share/mk/bsd.prog.mk,v 1.26 2007/04/28 00:12:46 tg Exp $
 # $OpenBSD: bsd.prog.mk,v 1.44 2005/04/15 17:18:57 espie Exp $
 # $NetBSD: bsd.prog.mk,v 1.55 1996/04/08 21:19:26 jtc Exp $
 # @(#)bsd.prog.mk	5.26 (Berkeley) 6/25/91
@@ -14,7 +14,7 @@ BSD_PROG_MK=1
 .  include <bsd.own.mk>
 .endif
 
-.SUFFIXES:	.out .o .s .S .c .m .cc .cxx .y .l .9 .8 .7 .6 .5 .4 .3 .2 .1 .0
+.SUFFIXES:	.out .o .s .S .c .m .cc .C .cxx .cpp .y .l .9 .8 .7 .6 .5 .4 .3 .2 .1 .0
 
 .if ${WARNINGS:L} == "yes"
 CFLAGS+=	${CDIAGFLAGS}
@@ -42,7 +42,8 @@ CLEANFILES+=	${_i:R}.h
 .    endif
 .  endif
 
-.  if !empty(SRCS:M*.C) || !empty(SRCS:M*.cc) || !empty(SRCS:M*.cxx)
+.  if !empty(SRCS:M*.cc) || !empty(SRCS:M*.C) || \
+    !empty(SRCS:M*.cxx) || !empty(SRCS:M*.cpp)
 LINKER?=	${CXX}
 .  else
 LINKER?=	${CC}
