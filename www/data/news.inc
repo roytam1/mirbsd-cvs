@@ -473,3 +473,11 @@ Date: 09.09.2007
 <p>Update 2: Everyone should upgrade to mksh R31b or later, due to the bug
  fixes and their relevance.</p>
 ----
+Title: mksh R31d released
+Date: 14.10.2007
+
+<p><a href="@@RELPATH@@mksh.htm">mksh R31d</a> has been released; read the
+ <a href="@@RELPATH@@mksh.htm#clog">ChangeLog</a> for details. Basically,
+ another busy loop spinning bug was fixed and everyone should upgrade.
+ This release features <a href="http://pcc.ludd.ltu.se/">PCC</a> support.</p>
+----

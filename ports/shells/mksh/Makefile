@@ -1,10 +1,8 @@
-# $MirOS: ports/shells/mksh/Makefile,v 1.30 2007/09/11 14:42:32 tg Exp $
+# $MirOS: ports/shells/mksh/Makefile,v 1.31 2007/09/13 14:22:01 tg Exp $
 
 COMMENT=		MirBSD Korn Shell
-DISTNAME=		mksh-R31c
-PKGNAME=		mksh-31.3-${DASH_VER}
-#DISTNAME=		mksh_28.9.20070218
-#PKGNAME=		${DISTNAME:S/_/-/}-${DASH_VER}
+DISTNAME=		mksh-R31d
+PKGNAME=		mksh-31.4-${DASH_VER}
 CATEGORIES=		shells
 HOMEPAGE=		http://mirbsd.de/mksh
 
@@ -17,8 +15,6 @@ PERMIT_PACKAGE_FTP=	Yes
 MASTER_SITES=		${_MASTER_SITE_MIRBSD:distfiles/=dist/mir/mksh/}
 EXTRACT_SUFX=		.cpio.gz
 WRKDIST=		${WRKDIR}/mksh
-#MASTER_SITES=		http://users.unixforge.de/~tglaser/
-#WRKDIST=		${WRKDIR}/${DISTNAME:S/_/-/}
 
 BSH?=			/bin/sh
 

@@ -2241,7 +2241,9 @@ Author: tg@
  overuse its bandwidth…</p>
 <p>I did another <img src="http://www.opencaching.de/statpics/106521.jpg"
  alt="stats fun" />two geocaches with Dr. Pfeffer, who doesn’t have any
- internet access nor a statpic yet though.</p>
+ internet access nor a statpic yet though. <em>Update:</em> He has now,
+ <img src="http://www.opencaching.de/images/statpics/statpic106523.jpg"
+ alt="only 26/24 caches?" />it looks like I’ve almost got him there.</p>
 <p><a href="@@RELPATH@@mksh.htm">mksh</a> R31d is released, I just didn’t
  have any time to prepare a distfile yet. Please see the list of changes,
  <strong>everybody</strong> is strongly advised to upgrade.</p>
@@ -2250,4 +2252,38 @@ Author: tg@
  little box at my workplace. Maybe a VM. And the other equipment I wanted
  (flashlights for geocacheing, for instance) only has been brought to the
  packet service now, let’s see how long it takes… I wish I had a beer.</p>
+----
+Date: 15.10.2007
+Author: tg@
+
+<p>Today morning, I showed our website to a colleague. She told me she
+ quite likes the design, the colours don’t hurt the eye. This has to be
+ said (she allowed me to quote her here), in the face of all the critique
+ on the current theme. (That said, the theme is not going to stay in an
+ unmodified form though. I recognise there are problems.) She suggested
+ we put the gothic ASCII-Art text into a graphic, together with the two
+ logos. And “IEs for Linux” shows that a certain graphical browser has
+ quite big issues with CSS in general.</p>
+<p>My SCA adapters still haven’t arrived. I guess someone cries for a
+ bad review at ePray.</p>
+<p><a href="@@RELPATH@@mksh.htm#clog">mksh R31d</a> is there, finally.
+ Well, at least the distfile. Since I’m at work right now, I cannot
+ really do a proper release commit series (www, ports, etc).<br />This
+ release is dedicated to spaetzle@freewrt.org who kept bugging me to
+ look for another busy-loop spinning bug, and to a certain BSD-licenced
+ <a href="http://pcc.ludd.ltu.se/">compiler</a> whose optimiser bug has
+ yet to be fixed, still. (I’m running with /bin/mksh compiled with pcc
+ without -O but with -xdeljumps o MirBSD right now.) Ah, and the distfiles
+ are there now, finally, too.</p>
+<p>Dr. Pfeffer now has a statpic (we had a meal (Döner Kebap) together,
+ and I “persuaded” him to configure it) at OpenCaching now, see above,
+ but the cache we wanted to do during lunch break, with my colleague,
+ was unavailable. Closed during the winter, and the cache owner neither
+ knew about it nor believed me at first (though she later fixed the
+ information and thanked me or so, but at first… nah nevermind).</p>
+<p>Benny’s back and in France again (ok he’ll travel to Dresden tomorrow,
+ I guess he’s more on the train line than on the internet line ☺).
+ Just good to know he still cares ☻</p>
+<p>Waldemar wants me to produce SPARC CDs… *sigh* guess I really have to
+ work harder on the MI installboot(8) stuff. Damn. But o-okay.</p>
 ----
