@@ -1505,3 +1505,22 @@ Author: tg@
  act as simple NTP server (to use with <tt>serverloop</tt> in ntpd.conf(5)
  and bound on a different port), and display position data to stdout.</p>
 ----
+Date: 11.08.2007
+Author: tg@
+
+<p>I didn't get to hack today, plus I slept too much (06:00 ‥ 18:00), thus
+ missed some of the day (did not expect it to be sunny tho) and was tired.
+ To add insult to injury, when having diner in the city some freak thought
+ it would be nice to flatten my bike tyre. I had to walk back, and arrived
+ home at about midnight. I guess it's reading idly for tonight, maybe that
+ hacking mood will get back some other day. I've discussed nmeadecode – or
+ rather the idea for it – with some friends now and like it more and more,
+ as most of them do. Still have to discuss it with Pfeffer.</p>
+<p>I just built gcj on odem (still works, yay), took much over an hour, at
+ 1 GHz even, and will try to build CacheWolf with it (can become developer
+ then) to create a jar (for sunjdk or so, just to verify) or compile a jar
+ (official one, or one built myself if possible) to a native executable to
+ use instead of ewe with compat_linux(8). If that works, I'll build gcj on
+ wbx@'s Zaurus, even if it takes a week or so. Cross fingers for me.</p>
+<p>Seems as if ciruZ likes the geocacheing concept. Oh wonder…</p>
+----
