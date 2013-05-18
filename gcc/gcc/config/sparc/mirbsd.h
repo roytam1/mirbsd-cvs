@@ -1,4 +1,4 @@
-/* $MirOS: gcc/gcc/config/sparc/mirbsd.h,v 1.1 2006/06/11 00:15:13 tg Exp $ */
+/* $MirOS: gcc/gcc/config/sparc/mirbsd.h,v 1.2 2006/06/12 21:59:36 tg Exp $ */
 
 /* Definitions of target machine for GCC,
    for sparc/ELF MirOS BSD systems.
@@ -33,14 +33,6 @@ Boston, MA 02111-1307, USA.  */
     }						\
   while (0)
 
-
-/* Make gcc agree with <machine/ansi.h> */
-
-#undef SIZE_TYPE
-#define SIZE_TYPE "unsigned int"
-
-#undef PTRDIFF_TYPE
-#define PTRDIFF_TYPE "int"
 
 /* We always use gas here, so we don't worry about ECOFF assembler
    problems.  */

@@ -1,4 +1,4 @@
-/* $MirOS: gcc/gcc/config/i386/mirbsd.h,v 1.3 2005/07/22 02:09:01 tg Exp $ */
+/* $MirOS: gcc/gcc/config/i386/mirbsd.h,v 1.4 2006/06/12 21:59:36 tg Exp $ */
 
 /* Definitions of target machine for GCC,
    for i386/ELF MirOS BSD systems.
@@ -31,14 +31,6 @@ Boston, MA 02111-1307, USA.  */
     }						\
   while (0)
 
-
-/* Make gcc agree with <machine/ansi.h> */
-
-#undef SIZE_TYPE
-#define SIZE_TYPE "unsigned int"
-
-#undef PTRDIFF_TYPE
-#define PTRDIFF_TYPE "int"
 
 #undef ASM_APP_ON
 #define ASM_APP_ON "#APP\n"

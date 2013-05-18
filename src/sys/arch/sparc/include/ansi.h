@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/sparc/include/ansi.h,v 1.6 2005/11/21 19:31:58 tg Exp $ */
+/**	$MirOS: src/sys/arch/sparc/include/ansi.h,v 1.7 2005/11/23 20:16:10 tg Exp $ */
 /*	$OpenBSD: ansi.h,v 1.9 2004/01/03 14:08:53 espie Exp $	*/
 /*	$NetBSD: ansi.h,v 1.6 1996/11/15 22:38:59 jtc Exp $ */
 
@@ -67,9 +67,9 @@
 #endif	/* ! def __BIT_TYPES_DEFINED__ */
 
 #ifndef __SIZE_TYPE__
-#define	__SIZE_TYPE__		unsigned int
-#define	__PTRDIFF_TYPE__	int
-#define	__WCHAR_TYPE__		unsigned short
+#define	__SIZE_TYPE__		long unsigned int
+#define	__PTRDIFF_TYPE__	long int
+#define	__WCHAR_TYPE__		short unsigned int
 #define	__WINT_TYPE__		unsigned int
 #endif
 
