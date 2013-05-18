@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.bin/kdump/kdump.c,v 1.2 2005/03/13 18:33:04 tg Exp $ */
+/**	$MirOS: src/usr.bin/kdump/kdump.c,v 1.3 2005/11/23 17:36:17 tg Exp $ */
 /*	$OpenBSD: kdump.c,v 1.27 2005/06/02 17:32:02 mickey Exp $	*/
 
 /*-
@@ -30,12 +30,6 @@
  * SUCH DAMAGE.
  */
 
-#ifndef lint
-static char copyright[] =
-"@(#) Copyright (c) 1988, 1993\n\
-	The Regents of the University of California.  All rights reserved.\n";
-#endif /* not lint */
-
 #include <sys/param.h>
 #include <sys/time.h>
 #include <sys/uio.h>
@@ -58,8 +52,10 @@ static char copyright[] =
 #include "kdump.h"
 #include "extern.h"
 
+__COPYRIGHT("@(#) Copyright (c) 1988, 1993\n\
+	The Regents of the University of California.  All rights reserved.\n");
 __SCCSID("@(#)kdump.c	8.4 (Berkeley) 4/28/95");
-__RCSID("$MirOS: src/usr.bin/kdump/kdump.c,v 1.2 2005/03/13 18:33:04 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/kdump/kdump.c,v 1.3 2005/11/23 17:36:17 tg Exp $");
 
 int timestamp, decimal, fancy = 1, tail, maxdata;
 char *tracefile = DEF_TRACEFILE;

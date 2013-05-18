@@ -1,10 +1,10 @@
-/**	$MirOS: src/sys/sys/errno.h,v 1.6 2006/01/31 20:47:13 tg Exp $ */
+/**	$MirOS: src/sys/sys/errno.h,v 1.7 2008/11/08 23:04:24 tg Exp $ */
 /*	$OpenBSD: errno.h,v 1.14 2005/06/17 21:48:03 espie Exp $	*/
 /*	$NetBSD: errno.h,v 1.10 1996/01/20 01:33:53 jtc Exp $	*/
 
 /*
- * Copyright (c) 2003, 2005
- *	Thorsten "mirabilos" Glaser <tg@mirbsd.de>.  All rights reserved.
+ * Copyright (c) 2003, 2005, 2008
+ *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>.  All rights reserved.
  * Copyright (c) 1982, 1986, 1989, 1993
  *	The Regents of the University of California.  All rights reserved.
  * (c) UNIX System Laboratories, Inc.
@@ -62,6 +62,8 @@ __END_DECLS
 #define errno (*__errno())
 #endif /* errno */
 
+#else
+#define _SYS_ERRNO_H_KERNEL
 #endif /* _KERNEL */
 
 #define	EPERM		1		/* Operation not permitted */
