@@ -214,17 +214,18 @@ yylex(int cf)
 	backslash_skip = 0;
 	ignore_backslash_newline = 0;
 
-	if (cf&ONEWORD)
+	if (cf & ONEWORD)
 		state = SWORD;
-	else if (cf&LETEXPR) {
+	else if (cf & LETEXPR) {
 		/* enclose arguments in (double) quotes */
 		*wp++ = OQUOTE;
 		state = SLETPAREN;
 		statep->nparen = 0;
 #ifndef MKSH_SMALL
-	} else if (cf&LETARRAY) {
+	} else if (cf & LETARRAY) {
 		state = SLETARRAY;
 		statep->nparen = 0;
+		PUSH_SRETRACE();
 #endif
 	} else {
 		/* normal lexing */
@@ -789,13 +790,20 @@ yylex(int cf)
 				++statep->nparen;
 			else if (c == /*(*/')') {
 				if (statep->nparen-- == 0) {
-					c = 0;
+					POP_SRETRACE();
+					/* drop trailing paren */
+					c = strlen(dp = sp) - 1;
+					XcheckN(ws, wp, c * 2);
+					while (c--) {
+						*wp++ = CHAR;
+						*wp++ = *dp++;
+					}
+					afree(sp, ATEMP);
+					/* assert: c == 0 */
 					goto Done;
 				}
 			}
-			*wp++ = CHAR;
-			*wp++ = c;
-			break;
+			goto Sbase2;
 #endif
 
 		/* <<< delimiter */
@@ -1064,7 +1072,7 @@ yylex(int cf)
 		/* word is not unquoted */
 		*ident = '\0';
 
-	if (*ident != '\0' && (cf&(KEYWORD|ALIAS))) {
+	if (*ident != '\0' && (cf & (KEYWORD | ALIAS))) {
 		struct tbl *p;
 		uint32_t h = hash(ident);
 
