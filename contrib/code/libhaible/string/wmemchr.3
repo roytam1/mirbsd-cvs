@@ -1,4 +1,4 @@
-.\"	$MirOS$
+.\"	$MirOS: contrib/code/libhaible/string/wmemchr.3,v 1.2 2006/05/30 18:41:22 tg Exp $
 .\"	$OpenBSD: wmemchr.3,v 1.2 2005/04/13 20:42:48 jmc Exp $
 .\"
 .\"	$NetBSD: wmemchr.3,v 1.9 2003/09/08 17:54:33 wiz Exp $
@@ -60,6 +60,13 @@
 .Nm wcsrchr ,
 .Nm wcsspn ,
 .Nm wcsstr ,
+.Nm wcstod ,
+.Nm wcstof ,
+.Nm wcstol ,
+.Nm wcstold ,
+.Nm wcstoll ,
+.Nm wcstoul ,
+.Nm wcstoull ,
 .Nm wcswcs ,
 .Nm wcsxfrm ,
 .Nm wmemchr ,
@@ -110,6 +117,20 @@
 .Fn wcsspn "const wchar_t *s1" "const wchar_t *s2"
 .Ft wchar_t *
 .Fn wcsstr "const wchar_t *s1" "const wchar_t *s2"
+.Ft double
+.Fn wcstod "const wchar_t *__restrict__" "wchar_t **__restrict__"
+.Ft float
+.Fn wcstof "const wchar_t *__restrict__" "wchar_t **__restrict__"
+.Ft long
+.Fn wcstol "const wchar_t *__restrict__" "wchar_t **__restrict__" "int"
+.Ft long double
+.Fn wcstold "const wchar_t *__restrict__" "wchar_t **__restrict__"
+.Ft long long
+.Fn wcstoll "const wchar_t *__restrict__" "wchar_t **__restrict__" "int"
+.Ft unsigned long
+.Fn wcstoul "const wchar_t *__restrict__" "wchar_t **__restrict__" "int"
+.Ft unsigned long long
+.Fn wcstoull "const wchar_t *__restrict__" "wchar_t **__restrict__" "int"
 .Ft wchar_t *
 .Fn wcswcs "const wchar_t *" "const wchar_t *"
 .Ft size_t
@@ -156,6 +177,11 @@ counterpart, such as
 .Xr strrchr 3 ,
 .Xr strspn 3 ,
 .Xr strstr 3 ,
+.Xr strtod 3 ,
+.Xr strtol 3 ,
+.Xr strtoll 3 ,
+.Xr strtoul 3 ,
+.Xr strtoull 3 ,
 .Xr strxfrm 3
 .Sh STANDARDS
 These functions conform to
@@ -172,3 +198,10 @@ which are extensions.
 is a historic name for
 .Fn wcsstr ,
 programmers are urged to not use it in new code.
+.Pp
+.Fn wcstof
+and
+.Fn wcstold
+are less- and more-precise versions of
+.Fn wcstod ,
+respectively.

@@ -1,4 +1,4 @@
-# $MirOS: contrib/code/libhaible/Makefile,v 1.25 2006/05/30 23:25:39 tg Exp $
+# $MirOS: contrib/code/libhaible/Makefile,v 1.26 2006/05/31 00:25:51 tg Exp $
 
 LIB=	haible
 NOPIC=	Yes	# for now
@@ -79,6 +79,9 @@ beforedepend: ${GENERATED}
 MAN+=		catgets.3
 MLINKS+=	catgets.3 catopen.3
 MLINKS+=	catgets.3 catclose.3
+
+MAN+=		MB_CUR_MAX.3 wcswidth.3 wcwidth.3
+MLINKS+=	MB_CUR_MAX.3 MB_LEN_MAX.3
 
 # reachover for libc
 .PATH: ${LIBCSRCDIR}/locale

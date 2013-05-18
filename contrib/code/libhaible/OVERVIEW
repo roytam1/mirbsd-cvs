@@ -1,9 +1,9 @@
-$MirOS: contrib/code/libhaible/OVERVIEW,v 1.17 2006/05/30 23:25:39 tg Exp $
+$MirOS: contrib/code/libhaible/OVERVIEW,v 1.18 2006/05/31 00:25:52 tg Exp $
 $function name		header		manpage		source location
 $ 
 $ Info: # = commented out
 $  
-__mb_cur_max		 stdlib.h	-		i18n/isutf8.c
+__mb_cur_max		 stdlib.h	H:__MB_CUR_MAX	i18n/isutf8.c
 btowc			 wchar.h	C:btowc		i18n/btowc.c
 catclose		 nl_types.h	H:catgets	i18n/catalogues.c
 catgets			 nl_types.h	H:catgets	i18n/catalogues.c
@@ -76,23 +76,23 @@ wcsrchr			 wchar.h	C:wmemchr	string/wcsrchr.c
 wcsrtombs		 wchar.h	H:wcsrtombs	libhaible/wcsrtombs.c
 wcsspn			 wchar.h	C:wmemchr	string/wcsspn.c
 wcsstr			 wchar.h	C:wmemchr	string/wcsstr.c
-wcstod			 wchar.h	-		locale/wcstod.c
-wcstof			 wchar.h	-		locale/wcstod.c
+wcstod			 wchar.h	H:wmemchr	locale/wcstod.c
+wcstof			 wchar.h	H:wmemchr	locale/wcstod.c
 wcstok			 wchar.h	C:wcstok	libhaible/wcstok.c
-wcstol			 wchar.h	-		locale/wcstol.c
-wcstold			 wchar.h	-		locale/wcstod.c
-wcstoll			 wchar.h	-		locale/wcstoll.c
+wcstol			 wchar.h	H:wmemchr	locale/wcstol.c
+wcstold			 wchar.h	H:wmemchr	locale/wcstod.c
+wcstoll			 wchar.h	H:wmemchr	locale/wcstoll.c
 wcstombs		 stdlib.h	C:wcstombs	libhaible/wcstombs.c
-wcstoul			 wchar.h	-		locale/wcstoul.c
-wcstoull		 wchar.h	-		locale/wcstoull.c
+wcstoul			 wchar.h	H:wmemchr	locale/wcstoul.c
+wcstoull		 wchar.h	H:wmemchr	locale/wcstoull.c
 wcswcs			 wchar.h	H:wmemchr	string/wcsstr.c
-wcswidth		 wchar.h	-		libhaible/wcswidth.c
+wcswidth		 wchar.h	H:wcswidth	libhaible/wcswidth.c
 wcsxfrm			 wchar.h	H:wmemchr	libhaible/wcsxfrm.c
 wctob			 wchar.h	C:wctob		i18n/wctob.c
 wctomb			 stdlib.h	C:wctomb	libhaible/wctomb.c
 wctrans			 wctype.h	H:wctrans	libhaible/wctrans.c
 wctype			 wchar.h	H:wctype	libhaible/wctype.c
-wcwidth			 wchar.h	-		libhaible/wcwidth.c
+wcwidth			 wchar.h	H:wcwidth	libhaible/wcwidth.c
 wmemchr			 wchar.h	C:wmemchr	string/wmemchr.c
 wmemcmp			 wchar.h	C:wmemchr	string/wmemcmp.c
 wmemcpy			 wchar.h	C:wmemchr	string/wmemcpy.c
