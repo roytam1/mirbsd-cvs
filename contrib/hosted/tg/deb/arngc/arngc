@@ -1,7 +1,7 @@
 #!/bin/mksh
-# $MirOS: contrib/hosted/tg/deb/arngc/arngc,v 1.1 2011/08/04 20:39:03 tg Exp $
+# $MirOS: contrib/hosted/tg/deb/arngc/arngc,v 1.2 2012/05/09 11:10:52 tg Exp $
 #-
-# Copyright © 2011
+# Copyright © 2011, 2013
 #	Thorsten Glaser <tg@mirbsd.org>
 # Copyright © 2012
 #	Thorsten Glaser <t.glaser@tarent.de>
@@ -135,6 +135,7 @@ function doscript {
 		    -r /proc/self/fd/0 -H 0.99 -B 2 -s 32 \
 		    -W "$threshold" -t 300 -T 60 2>&1 | \
 		    logger -t arngc &
+		sleep 60
 		rm -rf "$T"
 	EOF
 }
