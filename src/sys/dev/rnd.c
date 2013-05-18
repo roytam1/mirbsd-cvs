@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/dev/rnd.c,v 1.7 2006/02/23 01:29:32 tg Exp $ */
+/**	$MirOS: src/sys/dev/rnd.c,v 1.8 2006/02/27 20:45:30 tg Exp $ */
 /*	$OpenBSD: rnd.c,v 1.78 2005/07/07 00:11:24 djm Exp $	*/
 
 /*
@@ -425,8 +425,7 @@ struct filterops rndwrite_filtops =
 	{ 1, NULL, filt_rndwdetach, filt_rndwrite};
 
 uint32_t rnd_addpool_buf[rnd_addpool_size];
-size_t rnd_addpool_num;
-int rnd_addpool_allow = 1;
+uint32_t rnd_addpool_num, rnd_addpool_allow = 1;
 int rnd_attached;
 int arc4random_initialized;
 struct rndstats rndstats;

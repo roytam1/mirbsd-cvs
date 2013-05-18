@@ -1,4 +1,4 @@
-/**	$MirOS$ */
+/**	$MirOS: src/sys/dev/rndvar.h,v 1.2 2005/03/06 21:27:35 tg Exp $ */
 /*	$OpenBSD: rndvar.h,v 1.19 2003/11/03 18:24:28 tedu Exp $	*/
 
 /*
@@ -81,8 +81,8 @@ struct rndstats {
 extern struct rndstats rndstats;
 
 extern uint32_t rnd_addpool_buf[];
-extern size_t rnd_addpool_num;
-extern int rnd_addpool_allow;
+extern uint32_t rnd_addpool_num;
+extern uint32_t rnd_addpool_allow;
 #define	rnd_addpool_add(x)						\
 	do {								\
 		if (rnd_addpool_allow) {				\
