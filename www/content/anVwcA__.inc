@@ -1,8 +1,8 @@
 <!-- PageID: jupp -->
-<small class="rcsid">$MirOS: www/content/anVwcA__.inc,v 1.13 2006/11/05 21:38:22 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/anVwcA__.inc,v 1.14 2006/11/11 02:29:56 tg Exp $</small>
 <h1>jupp &ndash; the Editor</h1>
 <p>
- The current version is <em>joe-3.1jupp7</em>.
+ The current version is <em>joe-3.1jupp8</em>.
  This page is accessible under <a href="http://mirbsd.de/jupp">http://mirbsd.de/jupp</a> usually.
 </p>
 
@@ -18,6 +18,20 @@
 </p>
 
 <h3>ChangeLog</h3>
+
+<p>Changes for joe-3.1jupp8:</p><ul>
+ <li>Bugfix (maybe) for backspace deleting more than it should
+  when smart backspaces or auto-indent are off</li>
+ <li>In UTF-8 mode, display illegal characters as reversed (inverse)
+  underlined U+FFFD REPLACEMENT CHARACTER, one per octet (if these
+  form a valid part of an invalid multibyte sequence, the first
+  valid octets are not necessarily individually selectable)</li>
+ <li>In UTF-8 mode, don't display the decimal ASCII value of a wide
+  character; display the correct UCS-2 hex value (or &lt;-2&gt; for an
+  invalid sequence or the 8-bit hex value of the octet for an
+  invalid octet or invalid one-octet multibyte sequence) instead</li>
+ <li>Upgrade to latest MirOS licence template</li>
+</ul>
 
 <p>Changes for joe-3.1jupp7:</p><ul>
 <li>Bugfix in bundled strlcat() implementation</li>
@@ -94,10 +108,10 @@
 <ul>
  <li>Please use gzsig(1) to verify
   the integrity of the distfile instead!</li>
- <li>RMD160 (joe-3.1jupp7.cpio.gz) = 6b1e329f177a84769afe9e2b2812eebd770d4b52</li>
- <li>3005792967 400544 /MirOS/dist/jupp/joe-3.1jupp7.cpio.gz</li>
- <li>MD5 (joe-3.1jupp7.cpio.gz) = cc5c01fd701978bd582a33f84b4f49dc</li>
- <li>TIGER (joe-3.1jupp7.cpio.gz) = f3bca5cf6572e214b68dd9382af4290a977f6d374582e27d</li>
+ <li>RMD160 (joe-3.1jupp8.cpio.gz) = bbcc42ff82fd7a47feb51579864a487f31ca3a91</li>
+ <li>2092687563 401340 /MirOS/dist/jupp/joe-3.1jupp8.cpio.gz</li>
+ <li>MD5 (joe-3.1jupp8.cpio.gz) = 8b1871c80ba09f170fd08b58121d2f41</li>
+ <li>TIGER (joe-3.1jupp8.cpio.gz) = aa62ad98c2af49d76a26569c07e98a2039b83202cec32d49</li>
 </ul>
 
 <h3>Unpacking</h3>
@@ -110,7 +124,8 @@
 <p>
  This is just another GNU autotools programme, so doing
 </p><ul>
- <li>CFLAGS='-O2 yourcflagshere -fno-omit-frame-pointer' $SHELL ./configure</li>
+ <li>CFLAGS='-O2 yourcflagshere -fno-omit-frame-pointer -fwrapv
+  -fno-strict-aliasing' $SHELL ./configure</li>
  <li>make</li>
  <li>$SUDO make install</li>
 </ul><p>
@@ -127,7 +142,7 @@
   LHarc archive, copy jupp.exe and jupprc to your DOS directory (<a
   href="http://mira.66h.42h.de/pub/jdos16.exe.asc">OpenPGP
   signature</a>)</li>
- <li><a href="http://mira.66h.42h.de/pub/jupp-w32.exe">JUPP 3.1.6
+ <li><a href="http://mira.66h.42h.de/pub/jupp-w32.exe">JOE 3.1jupp6
   for Windows&reg;</a> (cygwin stand-alone compiled, comes with its
   own copy of cygwin1.dll and a .inf file for easy installation),
   self-extracting LHarc archive, right-click on <tt>setup.inf</tt>,

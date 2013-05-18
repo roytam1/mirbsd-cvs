@@ -1,5 +1,5 @@
 <!-- PageID: mksh -->
-<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.81 2007/01/18 22:09:25 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.82 2007/02/16 20:55:18 tg Exp $</small>
 
 <h1>mksh(1) R28</h1>
 <p>This is the MirBSD&trade; Korn Shell, a more or less portable
@@ -147,6 +147,9 @@
   instead of backslash+newline which is eaten; thanks to
   Thomas E. "TGEN" Spanjaard for noticing</li>
  <li>remove shebang line from check.pl which isn't +x anyway</li>
+ <li>fix 'hd' alias in dot.mkshrc example to not run off
+  an ANSI standard 80 column screen; simplify</li>
+ <li>integrate MKSH_NEED_MKNOD and MKSH_ASSUME_UTF8 with Build.sh</li>
 </ul>
 <p>Upgrading to mksh R28 with these changes is highly recommended:</p><ul>
  <li>For these who build software as root, the regression testsuite
@@ -436,10 +439,10 @@
  <li>MD5 (mksh-R28.cpio.gz) = 1869f79961c365c65116974706a56c67</li>
 </ul>
 
-<p>There is a <a href="http://users.unixforge.de/~tglaser/mksh_28.9.20070216.dsc">Debian
- experimental source package</a> (<b>dget</b>table) of mksh-current as of 2007/02/16,
- not GnuPG-signed <em>yet</em> due to hardware issues. (Just in case, cksum is
- 2354761071 270 and tiger is 6d17450c9735ec370bf5af0c80a3265175fc71082a14bcb7.)
+<p>There is a <a href="http://users.unixforge.de/~tglaser/mksh_28.9.20070218.dsc">Debian
+ experimental source package</a> (<b>dget</b>table) of mksh-current as of 2007/02/18,
+ GnuPG-signed as the Debian guys want. (Just in case, cksum is
+ 1182209055 972 and tiger is b4b9f01a495e98b038464df3b777ba95f2bfd6d5848544bc.)
  The .tar.gz is gzsig(1)d, though.</p>
 
 <h2>Installation</h2>
@@ -590,6 +593,14 @@
 <p>The MirOS Project has tested mksh on the following operating systems,
  asked people to test, and hunted mksh down in these packaging systems:</p>
 <ul>
+ <li>mksh-2007-02-18<ul>
+  <li>MirOS #9uAC (i386), as part of base system, as part of installer,
+   run with stand-alone Build.sh</li>
+  <li>Debian 4.0-experimental (i386), autobuilder via Debian rules</li>
+  <li>Debian 4.0-testing (i386, 2.6.16-2-686), manually via Debian rules)</li>
+  <li>Solaris 8 (sun4u), both -m32 and -m64 via Build.sh</li>
+  <li>FreeWRT GNU/Linux trunk (mipsel), via ADK</li>
+ </ul></li>
  <li>mksh-current<ul>
   <li>OpenSolaris Build 47</li>
   <li>Linux td156 2.6.8-3-mckinley-smp #1 SMP Sat Jul 15 11:48:36 UTC 2006 ia64 GNU/Linux</li>
