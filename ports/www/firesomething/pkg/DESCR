@@ -7,7 +7,5 @@ This version looks for plugins in:
 • ${LOCALBASE}/firesomething/plugins
 • ${LOCALBASE}/lib/mozilla-plugins
 
-It has been extended with the MirOS ca-certificates bundle.
-
 To disable anti-aliasing (xft) altogether set GDK_USE_XFT=0 in the
 environment.

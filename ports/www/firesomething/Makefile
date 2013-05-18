@@ -1,4 +1,4 @@
-# $MirOS: ports/www/firesomething/Makefile,v 1.46 2009/07/06 19:28:41 bsiegert Exp $
+# $MirOS: ports/www/firesomething/Makefile,v 1.47 2009/07/09 18:03:05 tg Exp $
 # $OpenBSD: Makefile,v 1.41 2005/11/15 09:21:52 wilfried Exp $
 
 # mnbsd/amd64, mnbsd/sparc64 missing
@@ -9,10 +9,11 @@ ONLY_FOR_PLATFORM=	MidnightBSD:*:i386 \
 			OpenBSD:*:powerpc OpenBSD:*:sparc OpenBSD:*:sparc64
 
 COMMENT=		one of the successors to the Netscape browser engine
-VER=			3.0.11
-DASH_VER=		1
+COMMENT-nssckbi=	CA certificate bundle for NSS (Mirzilla Firetapir)
+VER=			3.0.13
 DISTNAME=		mozilla
 PKGNAME=		firesomething-${VER}-${DASH_VER}
+FULLPKGNAME-nssckbi=	nssckbi-1.75-1
 CATEGORIES=		www
 HOMEPAGE=		http://www.mozilla.org/projects/firefox/
 
@@ -30,6 +31,10 @@ MASTER_SITES=		ftp://releases.mozilla.org/pub/mozilla.org/firefox/releases/${VER
 			http://ftp.mozilla.org/pub/mozilla.org/firefox/releases/${VER}/source/
 DISTFILES=		firefox-${VER}-source.tar.bz2
 SO_VERSION=		10.0
+
+MULTI_PACKAGES=		-nssckbi #-nspr
+SUBPACKAGE?=
+PREFER_SUBPKG_INSTALL=	No	# firesomething depends on nssckbi already
 
 MODULES+=		devel/gettext devel/pkgconfig
 RUN_DEPENDS+=		:esound-*:audio/esound
@@ -52,6 +57,17 @@ SUBST_VARS=		LOCALBASE SO_EXTENSION SO_VERSION VER
 SO_EXTENSION=
 .else
 SO_EXTENSION=		.${SO_VERSION}
+.endif
+
+.if defined(PACKAGING)
+.  if ${SUBPACKAGE} == "-nssckbi"
+MODULES:=
+LIB_DEPENDS:=
+B_R_DEPENDS:=
+RUN_DEPENDS:=
+.  else
+RUN_DEPENDS+=		:nssckbi-*:www/firesomething,-nssckbi
+.  endif
 .endif
 
 MODGNU_RECURSE_DIRS=	${WRKSRC}/nsprpub ${WRKSRC}

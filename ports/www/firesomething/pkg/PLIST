@@ -1,4 +1,4 @@
-@comment $MirOS: ports/www/firesomething/pkg/PLIST,v 1.16 2009/05/17 17:00:33 tg Exp $
+@comment $MirOS: ports/www/firesomething/pkg/PLIST,v 1.17 2009/07/06 19:28:41 bsiegert Exp $
 @comment $OpenBSD: PLIST,v 1.13 2005/09/24 16:19:29 bernd Exp $
 @pkgcfl mozilla-firebird-*
 @pkgcfl mozilla-firefox-*
@@ -112,7 +112,6 @@ firesomething/libfreebl3.so${SO_EXTENSION}
 firesomething/libmozjs.so${SO_EXTENSION}
 firesomething/libnspr4.so${SO_EXTENSION}
 firesomething/libnss3.so${SO_EXTENSION}
-firesomething/libnssckbi.so${SO_EXTENSION}
 firesomething/libnssdbm3.so${SO_EXTENSION}
 firesomething/libnssutil3.so${SO_EXTENSION}
 firesomething/libplc4.so${SO_EXTENSION}
