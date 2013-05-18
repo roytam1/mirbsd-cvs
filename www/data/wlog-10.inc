@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.126 2008/12/31 16:56:54 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.127 2008/12/31 18:00:58 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -2454,12 +2454,17 @@ Tag: event
 ----
 Date: 31.12.2008 16:56
 Author: tg@
-Title: IBM X40 – USB stick boot (mission impossible)
+Title: IBM X40 – USB stick boot (mission impossible) [updated]
 Tag: hardware bug
 
 <p>It’s simply amazing. I wanted to show gecko2@ a USB stick with both
  grml(-small) and MirBSD on it, using SYSLINUX, but this fscking laptop
  does not boot from USB stick. So, the ALIX.1c it is, or the VIA C7.</p>
+<p>Update: the VIA C7 doesn’t, either. Phoenix/Award BIOS v6.00PG it is,
+ <tt>09/26/2006-ID-PCM7E-6A7L6EIIC-00</tt> apparently (I learned today
+ from gecko2@ that you can indeed use the “Pause” key on the IBM PS/2
+ keyboard to hold the output during BIOS POST). And I suspect the X40
+ just has USB Legacy support disabled, but won’t reboot now.</p>
 ----
 Date: 31.12.2008 17:51
 Author: tg@
