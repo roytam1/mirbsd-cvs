@@ -1,4 +1,4 @@
-# $MirOS: src/usr.bin/make/Makefile,v 1.13 2006/06/16 20:25:01 tg Exp $
+# $MirOS: src/usr.bin/make/Makefile,v 1.14 2006/08/26 21:29:00 tg Exp $
 # $OpenBSD: Makefile,v 1.38 2004/01/28 02:50:28 espie Exp $
 
 .include <bsd.own.mk>
@@ -27,7 +27,6 @@ OHASH_SRCS=	ohash_create_entry.c ohash_delete.c ohash_do.c \
 		ohash_qlookup.c ohash_qlookupi.c
 .PATH:		${.CURDIR}/ohash
 SRCS+=		${OHASH_SRCS}
-LDADD+=		${LIBS}
 .else
 MKFEATURES?=	-DUSE_TIMESPEC
 .endif
