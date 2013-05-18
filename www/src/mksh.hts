@@ -1,10 +1,10 @@
-# $MirOS: www/src/mksh.hts,v 1.37 2007/07/26 22:48:11 tg Exp $
+# $MirOS: www/src/mksh.hts,v 1.38 2007/07/29 13:29:39 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.37 2007/07/26 22:48:11 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.38 2007/07/29 13:29:39 tg Exp $'
 mws_content <<'EOF'
 <h1>mksh(1) R30</h1>
 <p>This is the website of the MirBSD™ Korn Shell, an actively developed free
@@ -462,7 +462,7 @@ mws_content <<'EOF'
  the problem is on their side.</li>
 <li>There are probably many more, please drop us a note!</li>
 <li><a href="http://linux.softpedia.com/get/System/Shells/MirBSD-Korn-Shell-24602.shtml">Softpedia</a>
- lists mksh, but with wrong licencing information.</li>
+ lists mksh, just like the FSF/UNESCO directory.</li>
 </ul>
 <p>These packages are not official and have not always been tested by mksh
  developers; please keep this in mind.</p>
