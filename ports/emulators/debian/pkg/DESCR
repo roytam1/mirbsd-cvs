@@ -1,3 +1,0 @@
-This port contains the Debian GNU/Linux 3.1 dynamic linker
-and some of the most used shared libraries for executing
-programmes within compat_linux(8).

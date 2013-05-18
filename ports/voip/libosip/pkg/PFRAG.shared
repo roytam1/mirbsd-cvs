@@ -1,4 +1,0 @@
-@comment $MirOS: ports/comms/libosip/pkg/PFRAG.shared,v 1.1.7.1 2005/03/18 15:43:50 tg Exp $
-@comment $MirOS: ports/comms/libosip/pkg/PFRAG.shared,v 1.1.7.1 2005/03/18 15:43:50 tg Exp $
-@lib lib/libfsmtl.so.9.7
-@lib lib/libosip.so.9.7
