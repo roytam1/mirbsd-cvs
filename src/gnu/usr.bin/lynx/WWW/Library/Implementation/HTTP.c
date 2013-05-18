@@ -79,6 +79,13 @@ static int HTSSLCallback(int preverify_ok, X509_STORE_CTX * x509_ctx GCC_UNUSED)
     char *msg = NULL;
     int result = 1;
 
+    HTSprintf0(&msg,
+	       gettext("SSL callback:%s, preverify_ok=%d, ssl_okay=%d"),
+	       X509_verify_cert_error_string(X509_STORE_CTX_get_error(x509_ctx)),
+	       preverify_ok, ssl_okay);
+    _HTProgress(msg);
+    FREE(msg);
+
     if (!(preverify_ok || ssl_okay || ssl_noprompt)) {
 #ifdef USE_X509_SUPPORT
 	HTSprintf0(&msg, SSL_FORCED_PROMPT,
