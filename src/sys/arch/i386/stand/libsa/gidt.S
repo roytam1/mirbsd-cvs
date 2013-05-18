@@ -1,4 +1,4 @@
-/*	$MirOS: src/sys/arch/i386/stand/libsa/gidt.S,v 1.25 2009/01/12 19:37:17 tg Exp $ */
+/*	$MirOS: src/sys/arch/i386/stand/libsa/gidt.S,v 1.26 2009/01/12 20:13:13 tg Exp $ */
 /*	$OpenBSD: gidt.S,v 1.32 2006/12/26 19:30:44 tom Exp $	*/
 
 /*
@@ -289,8 +289,10 @@ EMUh:
 	sti
 	int	0
 	LemuNR = . - 1
+	cli
 
-	pushfd
+	push	eax
+	lahf
 	push	eax
 	xor	eax,eax
 	mov	ax,es
@@ -307,9 +309,11 @@ EMUh:
 	mov	[BIOS_regs + BIOSR_DI],edi
 	pop	eax
 	mov	[BIOS_regs + BIOSR_ES],eax
+	pop	ebx
 	pop	eax
 	mov	[BIOS_regs + BIOSR_AX],eax
 
+	pushfd
 	pop	ebp
 	and	ebp,0xFFFFBFFF		/* clear NT flag */
 	push	ebp
@@ -322,12 +326,8 @@ EMUh:
 	pop	edi
 	pop	esi
 	pop	ebp
+	mov	[esp+12],bh
 	pop	ebx
-
-	push	eax
-	lahf
-	mov	[esp+12],ah
-	pop	eax
 	iret
 
 #ifndef SMALL_BOOT
