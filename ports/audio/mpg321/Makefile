@@ -1,3 +1,4 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.14 2004/04/05 20:26:25 naddy Exp $
 
 # not very useful with static libao
@@ -5,6 +6,7 @@ NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
 COMMENT=	"free clone of mpg123, a command-line mp3 player"
 DISTNAME=	mpg321-0.2.10
+PKGNAME=	${DISTNAME}-1
 CATEGORIES=	audio
 HOMEPAGE=	http://mpg321.sourceforge.net/
 
@@ -16,9 +18,9 @@ PERMIT_DISTFILES_FTP=	Yes
 
 MASTER_SITES=		${MASTER_SITE_SOURCEFORGE:=mpg321/}
 
-LIB_DEPENDS=	ao.3::audio/libao \
-		id3tag.2::audio/libid3tag \
-		mad.2::audio/libmad
+LIB_DEPENDS=	ao::audio/libao \
+		id3tag::audio/libid3tag \
+		mad::audio/libmad
 USE_CXX=	Yes
 
 CONFIGURE_STYLE=gnu
