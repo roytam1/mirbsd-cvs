@@ -1,11 +1,13 @@
 <!-- PageID: mksh -->
-<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.19 2006/01/27 00:53:26 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.20 2006/01/27 00:54:10 tg Exp $</small>
 
-<h1>mksh R26</h1>
+<h1>mksh(1) R26b</h1>
 <p>This is the MirBSD&trade; Korn Shell, a more or less portable
  version of the pdksh derivate which comes, as an alternative to
  the default (and not used by anyone sane) C Shell, or (ancient)
  Bourne shell, with MirOS.</p>
+<p>This website is always accessible via a redirection at <a
+ href="http://mirbsd.de/mksh">http://mirbsd.de/mksh</a></p>
 
 <h2>Table of Contents</h2><ul>
  <li><a href="#clog">ChangeLog</a></li>
@@ -24,13 +26,19 @@
 </ul>
 
 <h2 id="clog">Recent Changes</h2>
+<!--
 <p>Changes in the current (unreleased) development version:</p><ul>
+-->
+<p>Changes in the minor version <b>R26b</b>, relative to R26:</p><ul>
  <li>Makeup changes to copyright file (change comment leader)</li>
  <li>Sync licence with MirOS template (disclaimer changed a little)</li>
  <li>When building, generate a <tt>./Test.sh</tt> on the fly which
   can be used instead of having to copy and paste a long line to run
   the regression test suite (still no way to run ifs.sh as we cannot
   distribute it, though).</li>
+ <li>Add a few useful shell programming hints to the manual page</li>
+ <li>Fix abuse of unquoted characters in the manual page</li>
+ <li>(no actual source code changes)</li>
 </ul>
 <p>New major version <b>R26</b> changed this, relative to R25b:</p><ul>
  <li>Change the behaviour of <tt>\"</tt> in here documents to
@@ -152,16 +160,18 @@
  signed (any takers?). This includes 2^64-1 (not 2^31-1) as
  maximum valid array index; typeset -i&lt;number&gt; is unsigned.</p>
 <p>Adding <tt>goto</tt> and <tt>label</tt> keywords/commands.</p>
+<p>Adding builtins <tt>realpath</tt>, <tt>fstat</tt>, <tt>lstat</tt>,
+ <tt>traverse</tt>.</p>
 
 <h2 id="fetch">Getting The Source</h2>
 
 <p>The current version is <a
- href="http://www.66h.42h.de/MirOS/dist/mir/mksh/mksh-R26.cpio.gz">http://www.66h.42h.de/MirOS/dist/mir/mksh/mksh-R26.cpio.gz</a></p>
+ href="http://www.66h.42h.de/MirOS/dist/mir/mksh/mksh-R26b.cpio.gz">http://www.66h.42h.de/MirOS/dist/mir/mksh/mksh-R26b.cpio.gz</a></p>
 <ul>
  <li>Please use gzsig(1) to verify the integrity of the distfile instead!</li>
- <li>RMD160 (mksh-R26.cpio.gz) = dddd3535971afab51ea11cc5276d1c4fbba7b9a4</li>
- <li>2644744404 228407 /MirOS/dist/mir/mksh/mksh-R26.cpio.gz</li>
- <li>MD5 (mksh-R26.cpio.gz) = 5493dce94a914f6ecc5b797c617b603f</li>
+ <li>RMD160 (mksh-R26b.cpio.gz) = 7fd3974d82b49beb96faff90e484d03f57c5d064</li>
+ <li>3211318474 228695 /MirOS/dist/mir/mksh/mksh-R26b.cpio.gz</li>
+ <li>MD5 (mksh-R26b.cpio.gz) = 2c61f346b5d8561a45e382a3ebbbf3a8</li>
 </ul>
 
 <h2>Installation</h2>
@@ -176,20 +186,20 @@
  please note that most of them, seen on Mozilla&reg; and
  its derivates as well as Microsoft Internet Explorer,
  have a bug where the file is saved correctly
- as <em>mksh-R26.cpio.gz</em> but already decompressed.</p>
+ as <em>mksh-R26b.cpio.gz</em> but already decompressed.</p>
 
 <h3 id="extract">Unpacking</h3>
-<p>On decent systems, you can just use <tt>tar xzf mksh-R26.cpio.gz</tt>
+<p>On decent systems, you can just use <tt>tar xzf mksh-R26b.cpio.gz</tt>
  to extract the file. On quite damaged systems such as everything which
  is not MirOS or anything else with <a href="/?MirCpio">MirCpio</a>
- (paxmirabilis), use <tt>gzip -dc mksh-R26.cpio.gz | cpio -mid</tt></p>
+ (paxmirabilis), use <tt>gzip -dc mksh-R26b.cpio.gz | cpio -mid</tt></p>
 <p>Of course, skip the gzip stage (use cat) or the 'z' flag
  if your browser already decompressed the file.</p>
 
 <h3 id="build">Building</h3>
 <p>You might have to take advantage of the AT&amp;T ksh, pdksh or GNU
  bash which comes with the operating system. With hard effort,
- Solaris /bin/sh could be made to suffice.</p>
+ Solaris <tt>/bin/sh</tt> could be made to suffice.</p>
 <p>Different operating systems used to require different flags,
  but the syntax shown below should work on every system supported.</p>
 <p>Manpage generation fails on systems which are not mdoc aware,
@@ -199,9 +209,13 @@
  Stripping is done via the host's install(1)
  command's -s flag; if stripping during installation fails just use the
  <em>mksh</em> binary. On Solaris, use /usr/ucb/install instead.</p>
+<p>The testsuite can be run by the dynamically generated <tt>Test.sh</tt>
+ shell script which executes the first perl(1) found in your path to run
+ the testsuite on the just built executable. Note that it is built in the
+ current directory, not the source directory, if these are different.</p>
 <h3 id="buildbsd">Most operating systems (BSD)</h3>
 <ul>
- <li>cd mksh; sh Build.sh</li>
+ <li>cd mksh; sh Build.sh &amp;&amp; ./Test.sh</li>
  <li>install -c -s -o root -g bin -m 555 mksh /bin/mksh</li>
  <li>echo /bin/mksh &gt;&gt;/etc/shells</li>
  <li>install -c -o root -g bin -m 444 mksh.cat1 /usr/share/man/cat1/mksh.0</li>
@@ -216,7 +230,7 @@
 
 <h3 id="buildsol">Solaris</h3>
 <ul>
- <li>cd mksh; sh Build.sh -r</li>
+ <li>cd mksh; sh Build.sh -r &amp;&amp; ./Test.sh</li>
  <li>/usr/ucb/install -c -s -o root -g bin -m 555 mksh ~/.bin/mksh</li>
 </ul>
 <p>If you get a <em>mksh</em> binary, install it to a place of your likes.
@@ -224,7 +238,7 @@
 
 <h3 id="buildgnu">Mac OSX, GNU/Linux (and possibly others)</h3>
 <ul>
- <li>cd mksh; sh Build.sh -r</li>
+ <li>cd mksh; sh Build.sh -r &amp;&amp; ./Test.sh</li>
  <li>install -c -s -o root -g bin -m 555 mksh /bin/mksh</li>
  <li>echo /bin/mksh &gt;&gt;/etc/shells</li>
  <li><em>and one of</em> (usually the first one on non-GNU/Linux)</li>
@@ -255,6 +269,7 @@
  <li>% mv /bin/ksh /bin/msksh</li>
  <li>% cd mksh</li>
  <li>% env SHELL=/bin/msksh /bin/msksh Build.sh -r</li>
+ <li>% /bin/msksh Test.sh</li>
  <li>% install -c -s -m 555 mksh /bin/mksh</li>
  <li><em>(optionally)</em></li>
  <li>% cd /bin</li>
@@ -265,13 +280,14 @@
 </ul>
 <p>You might want to get a preformatted man page from a
  different operating system. Interix does not come with
- a manual page formatter (but using <a href="/?MirMake">MirMake</a>
- you can build MirOS nroff(1)).</p>
+ a manual page formatter (but using <a href="/?MirMake">MirMake</a>,
+ the portable make(1), you can build MirOS nroff(1)).</p>
 
 <h2 id="regress">Official Testing</h2>
 
 <p>The MirOS Project has tested mksh on the following operating systems:</p>
 <ul>
+ <li>mksh R26b contains no code changes relative to mksh R26</li>
  <li>mksh R26<ul>
   <li>MirOS #8: Obviously works, as part of the base install.</li>
   <li>MirOS #8: The portable mksh also works through its test suite and
@@ -322,7 +338,7 @@
  so you need not to rely on <em>chsh -s</em> and root to add mksh to
  <tt>/etc/shells</tt>. Define DONTWANTMKSH=1 in ${HOME}/.profile.preinit
  to disable this behaviour.</p>
-<p>(Note these files are outdated.)</p>
+<p>(Note that <em>etc_profile</em> is outdated and no longer maintained.)</p>
 
 <h2>The history file</h2>
 <p>If you don't want mksh to overwrite your other shell's history file

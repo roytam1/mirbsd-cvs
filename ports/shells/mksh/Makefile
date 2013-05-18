@@ -1,10 +1,10 @@
-# $MirOS: ports/shells/mksh/Makefile,v 1.8 2006/01/01 02:56:00 tg Exp $
+# $MirOS: ports/shells/mksh/Makefile,v 1.9 2006/01/13 03:49:27 tg Exp $
 
 COMMENT=		"MirBSD Korn Shell"
-DISTNAME=		mksh-R26
-PKGNAME=		${DISTNAME:S/-R/-/}-0
+DISTNAME=		mksh-R26b
+PKGNAME=		mksh-26.1-0
 CATEGORIES=		shells
-HOMEPAGE=		http://www.66h.42h.de/?mksh
+HOMEPAGE=		http://mirbsd.de/mksh
 
 # MirOS licence; 2-clause UCB-style licence
 PERMIT_DISTFILES_CDROM=	Yes
@@ -25,16 +25,17 @@ SEPARATE_BUILD=		flavored
 BF+=			-d
 .endif
 
+BSH?=			/bin/sh
+
 do-build:
-	cd ${WRKBUILD} && ${SETENV} CC="${CC}" CFLAGS="${CFLAGS:C/ *$//}" \
-	    LDFLAGS="${LDFLAGS}" NROFF="${NROFF}" SHELL="${SH}" \
-	    ${SH} ${WRKSRC}/Build.sh ${BF}
+	cd ${WRKBUILD} && ${SETENV} ${MAKE_ENV} NROFF=${NROFF:C/ *$//:Q} \
+	    SHELL=${BSH:Q} ${BSH} ${WRKSRC}/Build.sh ${BF}
 
 do-install:
 	${INSTALL_PROGRAM} ${WRKBUILD}/mksh ${PREFIX}/bin/
 	${INSTALL_MAN} ${WRKBUILD}/mksh.cat1 ${PREFIX}/man/cat1/mksh.0
 
 do-regress:
-	cd ${WRKSRC} && perl check.pl -s check.t -p ${WRKBUILD}/mksh -C pdksh
+	${BSH} ${WRKBUILD}/Test.sh
 
 .include <bsd.port.mk>
