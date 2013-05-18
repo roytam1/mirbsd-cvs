@@ -1,5 +1,5 @@
 <!-- PageID: wlog-8 -->
-<small class="rcsid">$MirOS: www/content/d2xvZy04.inc,v 1.80 2006/06/12 20:38:55 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy04.inc,v 1.81 2006/06/12 23:39:44 tg Exp $</small>
 <h1>MirBSD &ndash; WTF, We Have a Release!?</h1>
 <p><small><a href="#eof">bottom</a> or <a href="/?older">older</a>
  editions</small></p>
@@ -1406,6 +1406,32 @@ celebrate this event, rotate the wlog and start a new one.</p>
  <p>Not much success with &quot;real life&quot; either and it's just too
   hot for real FreeWRT work. Also, I ought to add .gz read/write support
   to config(8) -e&#8230;</p>
+</div>
+
+<div class="wlentry">
+ <h3 id="e20060615">15.06.2006 by tg@</h3>
+ <p>Yay! My laptop works again. Did cost me 50 &euro; and lots of sweat,
+  though.</p>
+ <p>As we have had a sendm&uuml;ll update, I am to issue a first #9-beta
+  snapshot (i386) to the people. It already comes with brk malloc, non-g
+  libs, etc. as it's resembling the upcoming release. There is still few
+  stuff missing:</p>
+ <ul>
+  <li>Send out an eMail &quot;status report&quot;</li>
+  <li>Update ports: rsync, unzip, zip, mplayer, gmake, bison, maybe bind
+   (assigned to bsiegert@)</li>
+  <li>Update SSH and similar stuff</li>
+  <li>Have a look at if there's a newer GNU Pascal (probably not)</li>
+  <li>Fix sparc</li>
+  <li>Add gzio support to config(8) -e</li>
+  <li>&#8230;</li>
+ </ul>
+ <p>Markus Rosellen is sponsoring us a show-case Compaq Proliant 800 for
+  the <a href="http://www.froscon.org/">FROSCON</a>, which to install is
+  bsiegert@'s task, again. Thanks!</p>
+ <p>pkgsrc&reg; on Interix sounds funny, MirPorts is easier or better in
+  some regards, but lacks others. It's not used at the moment anyway.</p>
+ <p>Why must it always be so hot even while raining?</p>
 </div>
 
 <p id="eof">Good luck, have fun, take care etc.pp</p>
