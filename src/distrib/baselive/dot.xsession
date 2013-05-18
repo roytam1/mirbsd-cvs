@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/distrib/baselive/dot.xsession,v 1.15 2009/10/31 22:14:07 tg Exp $
+# $MirOS: src/distrib/baselive/dot.xsession,v 1.16 2010/01/31 16:10:18 tg Exp $
 #-
 # Copyright (c) 2006, 2007, 2008, 2009, 2010
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -62,7 +62,8 @@ number=$?
 
 WINDOWMANAGER=${wm[number]:-$failsafe}
 
-test -f /Desktop.png && xsetbg /Desktop.png >/dev/null 2>&1
+test -f /Desktop.png && \
+    xsetbg -border black -fullscreen /Desktop.png >/dev/null 2>&1
 
 eval exec $WINDOWMANAGER
 # can't happen
