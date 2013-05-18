@@ -1,5 +1,5 @@
 #!/usr/bin/env mksh
-# $MirOS: CVSROOT/mklogtag,v 1.20 2008/08/05 06:07:33 tg Exp $
+# $MirOS: CVSROOT/mklogtag,v 1.21 2008/08/05 06:10:33 tg Exp $
 #-
 # Copyright (c) 2005, 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -21,7 +21,6 @@
 #-
 # Log cvs 1.12 tagging operations in the same manner mklogci does it
 # for regular file operations.
-# XXX seems to not delete its temporary files sometimes, but works.
 
 export LC_ALL=C
 unset LANGUAGE
@@ -91,7 +90,7 @@ function getdirs {
 
 
 rcpt=
-logf=NO
+logf=
 op=
 branch=
 tag=$3
@@ -104,6 +103,8 @@ set -A fold
 set -A fnew
 opt_done=0
 let i=0
+nl='
+'
 
 [[ -d $repo/.tmp/. ]] || die temporary directory "($repo/.tmp)" does not exist
 
@@ -204,25 +205,27 @@ cat >$T <<-EOF
 
 EOF
 
-sendmail -t |&
-print -pr -- To: $rcpt
-print -pr -- Subject: CVS: $hn: $module
-if [[ $replyto != NO ]]; then
-	print -pr -- Mail-Followup-To: $replyto
-	print -pr -- Reply-To: $replyto
+if [[ -n $rcpt ]]; then
+	sendmail -t |&
+	print -pr -- To: $rcpt
+	print -pr -- Subject: CVS: $hn: $module
+	if [[ $replyto != NO ]]; then
+		print -pr -- Mail-Followup-To: $replyto
+		print -pr -- Reply-To: $replyto
+	fi
+	print -p
+	exec 3>&p
+	cat $T >&3
+	if [[ $cloguri = NO ]]; then
+		cat $F >&3
+	else
+		print -u3 various files\; if you want to know more, go read
+		print -ru3 -- $cloguri
+	fi
+	exec 3>&-
 fi
-print -p
-exec 3>&p
-cat $T >&3
-if [[ $cloguri = NO ]]; then
-	cat $F >&3
-else
-	print -u3 various files\; if you want to know more, go read
-	print -ru3 -- $cloguri
-fi
-exec 3>&-
 
-if [[ -e $logf ]]; then
+if [[ -n $logf && -e $logf ]]; then
 	cat $F >>$T
 	print ________________________________________________________________________ >>$T
 	print >>$T
