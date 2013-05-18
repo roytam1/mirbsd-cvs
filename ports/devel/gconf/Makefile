@@ -1,13 +1,13 @@
-# $MirOS: ports/devel/gconf/Makefile,v 1.7 2006/06/03 16:02:38 bsiegert Exp $
+# $MirOS: ports/devel/gconf/Makefile,v 1.8 2006/09/14 00:08:11 tg Exp $
 # $OpenBSD: Makefile,v 1.9 2004/12/30 04:30:12 marcm Exp $
 
-COMMENT=			configuration database system for GNOME
-VERSION=		2.12.1
+COMMENT=		configuration database system for GNOME
+VERSION=		2.18.0.1
 DISTNAME=		GConf-${VERSION}
-PKGNAME=		gconf2-${VERSION}-1
-CATEGORIES=		devel
+PKGNAME=		gconf2-${VERSION}-${DASH_VER}
+CATEGORIES=		devel x11/gnome
 HOMEPAGE=		http://www.gnome.org/projects/gconf/
-MASTER_SITES=		${MASTER_SITE_GNOME:=sources/GConf/2.12/}
+MASTER_SITES=		${MASTER_SITE_GNOME:=sources/GConf/2.18/}
 EXTRACT_SUFX=           .tar.bz2
 
 MODULES=		devel/gettext devel/pkgconfig
@@ -23,7 +23,7 @@ PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
 
-DEFAULT_GCONF_SOURCE=	xml::/var/db/gconf/gconf.xml.defaults
+DEFAULT_GCONF_SOURCE=	xml:readwrite:/var/db/gconf/gconf.xml.defaults
 
 USE_X11=		Yes
 USE_GMAKE=		Yes
@@ -31,10 +31,11 @@ CONFIGURE_STYLE= 	autoconf
 AUTOCONF_NEW=		Yes
 CONFIGURE_ARGS+= 	${CONFIGURE_SHARED}
 CONFIGURE_ARGS+=	--disable-gtk-conf
-CONFIGURE_ARGS+=	--enable-gconf-source=${DEFAULT_GCONF_SOURCE}
 
 post-install:
 	@${INSTALL_DATA_DIR} ${PREFIX}/share/examples/gconf2; \
 	cp -Rp ${WRKINST}/${SYSCONFDIR}/* ${PREFIX}/share/examples/gconf2; \
+	${INSTALL_DATA_DIR} ${PREFIX}/db/gconf/gconf.xml.defaults
+	${INSTALL_DATA_DIR} ${PREFIX}/db/gconf/gconf.xml.mandatory
 
 .include <bsd.port.mk>

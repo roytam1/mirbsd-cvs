@@ -1,11 +1,10 @@
-# $MirOS: ports/x11/gnome/libbonobo/Makefile,v 1.5 2006/06/03 16:02:42 bsiegert Exp $
+# $MirOS: ports/x11/gnome/libbonobo/Makefile,v 1.6 2006/09/14 00:15:18 tg Exp $
 # $OpenBSD: Makefile,v 1.11 2004/12/15 13:57:56 alek Exp $
 
-COMMENT=			GNOME component and compound document system
+COMMENT=		GNOME component and compound document system
 
-DISTNAME=		libbonobo-2.10.1
-PKGNAME=		${DISTNAME}-1
-CATEGORIES=		devel
+DISTNAME=		libbonobo-2.18.0
+CATEGORIES=		x11/gnome devel
 
 HOMEPAGE=		http://www.gnome.org/
 
@@ -16,7 +15,7 @@ PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
-MASTER_SITES=		${MASTER_SITE_GNOME:=sources/libbonobo/2.10/}
+MASTER_SITES=		${MASTER_SITE_GNOME:=sources/libbonobo/2.18/}
 EXTRACT_SUFX=		.tar.bz2
 
 MODULES=		devel/gettext devel/pkgconfig
