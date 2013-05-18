@@ -1,4 +1,4 @@
-.\" $MirOS: src/share/misc/licence.template,v 1.20 2006/12/11 21:04:56 tg Rel $
+.\" $MirOS: src/libexec/cprng/cprng.8,v 1.1 2007/08/25 10:53:10 tg Exp $
 .\"-
 .\" Copyright (c) 2007
 .\"	Thorsten Glaser <tg@mirbsd.de>
@@ -18,7 +18,7 @@
 .\" damage or existence of a defect, except proven that it results out
 .\" of said person's immediate fault when using the work as intended.
 .\"-
-.Dd $Mdocdate$
+.Dd $Mdocdate: August 25 2007 $
 .Dt CPRNG 8
 .Os
 .Sh NAME
@@ -36,8 +36,10 @@ generates random numbers by taking the difference between the
 cyclic clock of the mainboard and the CPU.
 This algorithm is often known as
 .Dq truerand
-and only works if CPU and timer interrupt are driven by
-separate stroke sources.
+and only works if the CPU and timer interrupt are driven by
+separate stroke sources, and works better the more idle
+the system is, because otherwise basically the scheduler
+is measured.
 .Pp
 Normal mode of operation is to run in the background and
 periodically feed some bytes into the kernel
@@ -47,7 +49,7 @@ subsystem by writes to
 If you have better entropy sources, like a hardware RNG
 on some chipsets, or a combination of much disc, network
 and interactive I/O, or if your interrupt and CPU clocks
-are not driven by separate ticks, disable
+are not driven by separate ticks, you might want to disable
 .Nm
 in
 .Pa /etc/rc.conf .
@@ -73,11 +75,9 @@ The
 .Ar number
 argument must be decimal and between 1 and 1024, inclusive.
 This is the preferred mode of operation on other operating systems.
-Output quality can be measured using this option and the
-.Nm ent
-utility from MirPorts
-.Pa ports/math/ent .
-This is best done when the system is otherwise completely idle.
+Output quality can be measured with MirPorts
+.Pa ports/math/ent
+and this option.
 .El
 .Sh SEE ALSO
 .Xr arc4random 3 ,
@@ -101,7 +101,7 @@ utility was written by
 .Sh CAVEATS
 The output produced by the
 .Fl r
-option is debiased using the Van Jacobsen algorithm,
+option is debiased using the von Neumann compressor (whitener) algorithm,
 but still not yet suitable for direct use.
 It can be fed into the kernel
 .Xr random 9
