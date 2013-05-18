@@ -1,5 +1,5 @@
 <!-- PageID: fornow -->
-<small class="rcsid">$MirOS: www/content/Zm9ybm93.inc,v 1.2 2006/05/08 20:59:09 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/Zm9ybm93.inc,v 1.3 2006/05/09 09:25:37 tg Exp $</small>
 <h1>MirOS Website (for now)</h1>
 
 <h2>About this page</h2>
@@ -32,7 +32,7 @@
   <li><a href="/MirOS/v7.4/bsd/sparc/">direct download</a> MirOS #7quater</li>
  </ul></li>
 <li>MirOS CURRENT<ul>
-  <li><a href="http://f.scarywater.net/miros/">BitTorrent</a> Linuxtag 2006 (2006-04-20)</li>
+  <li><a href="http://f.scarywater.net/miros/">BitTorrent</a> 2006-05-29</li>
   <li><a href="/MirOS/current/i386/">direct download (i386)</a> 2006-04-20</li>
   <li><a href="/MirOS/ISOs/">ISO (i386)</a> 2006-04-20</li>
   <li>(nothing yet for sparc)</li>
