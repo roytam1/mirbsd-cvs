@@ -28,7 +28,7 @@
 
 #include "zutil.h"      /* for STDC and FAR definitions */
 
-zRCSID("$MirOS: src/kern/z/crc32.c,v 1.4 2008/08/01 15:12:13 tg Exp $")
+zRCSID("$MirOS: src/kern/z/crc32.c,v 1.5 2009/01/03 16:12:23 tg Exp $")
 
 #ifndef L_crc32_combine
 
@@ -86,7 +86,12 @@ local void gf2_matrix_square OF((unsigned long *square, unsigned long *mat));
 #ifdef DYNAMIC_CRC_TABLE
 
 local volatile int crc_table_empty = 1;
-local unsigned long FAR crc_table[TBLS][256];
+#ifdef SA_CRC_TABLE
+#define sa_extern extern
+#else
+#define sa_extern local
+#endif
+sa_extern unsigned long FAR crc_table[TBLS][256];
 local void make_crc_table OF((void));
 #ifdef MAKECRCH
    local void write_table OF((FILE *, const unsigned long FAR *));
