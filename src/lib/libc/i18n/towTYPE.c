@@ -1,14 +1,15 @@
-/* $MirOS: contrib/code/libhaible/towlower.c,v 1.9 2006/06/01 21:39:01 tg Exp $ */
+/* $MirOS: src/share/misc/licence.template,v 1.7 2006/04/09 22:08:49 tg Rel $ */
 
 /*-
  * Copyright (c) 2006
  *	Thorsten Glaser <tg@mirbsd.de>
- * Based upon code written by Bruno Haible for GNU libutf8:
- * Copyright (c) 1999, 2000, 2001
- *	Free Software Foundation, Inc.
  *
- * This work is licenced under the terms of the GNU Library General
- * Public License, Version 2, as in /usr/share/doc/legal/COPYING.LIB-2
+ * Licensee is hereby permitted to deal in this work without restric-
+ * tion, including unlimited rights to use, publicly perform, modify,
+ * merge, distribute, sell, give away or sublicence, provided all co-
+ * pyright notices above, these terms and the disclaimer are retained
+ * in all redistributions or reproduced in accompanying documentation
+ * or other materials provided with binary redistributions.
  *
  * Licensor offers the work "AS IS" and WITHOUT WARRANTY of any kind,
  * express, or implied, to the maximum extent permitted by applicable
@@ -25,14 +26,10 @@
 #define mir18n_caseconv
 #include "mir18n.h"
 
-__RCSID("$MirOS: contrib/code/libhaible/towlower.c,v 1.9 2006/06/01 21:39:01 tg Exp $");
+__RCSID("$MirOS$ expanded to tow@@TYPE@@.c");
 
 wint_t
-towlower(wint_t x)
+tow@@TYPE@@(wint_t wc)
 {
-	if (!__locale_is_utf8)
-		return ((x <= MIR18N_SB_MAX) ? (wint_t)tolower(x) : x);
-	else
-		return ((x <= MIR18N_MB_MAX) ?
-		    (x + tolower_table[x >> 8][x & 0xff]) : x);
+	return (towctrans(wc, to@@TYPE@@_table));
 }

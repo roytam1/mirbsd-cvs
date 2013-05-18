@@ -1,4 +1,4 @@
-# $MirOS: src/lib/libc/i18n/Makefile.inc,v 1.14 2006/06/01 22:30:09 tg Exp $
+# $MirOS: src/lib/libc/i18n/Makefile.inc,v 1.15 2006/06/01 22:42:37 tg Exp $
 
 .PATH: ${LIBCSRCDIR}/i18n
 .PATH: ${LIBCSRCDIR}/locale
@@ -42,6 +42,13 @@ SRCS+=	multibyte.c
 MIRI18N_GEND+=	isw${_i}.c
 
 isw${_i}.c: iswTYPE.c
+	sed 's!@@TYPE@@!${_i}!g' <$> >$@
+.endfor
+
+.for _i in lower upper
+MIRI18N_GEND+=	tow${_i}.c
+
+tow${_i}.c: towTYPE.c
 	sed 's!@@TYPE@@!${_i}!g' <$> >$@
 .endfor
 

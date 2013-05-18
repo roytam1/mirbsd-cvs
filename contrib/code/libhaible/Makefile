@@ -1,10 +1,8 @@
-# $MirOS: contrib/code/libhaible/Makefile,v 1.34 2006/06/01 22:30:12 tg Exp $
+# $MirOS: contrib/code/libhaible/Makefile,v 1.35 2006/06/01 22:42:39 tg Exp $
 
 LIB=	haible
 NOPIC=	Yes	# for now
 SRCS+=	towctrans.c
-SRCS+=	towlower.c
-SRCS+=	towupper.c
 
 .PATH: ${.CURDIR}/string
 SRCS+=	wcstok.c
