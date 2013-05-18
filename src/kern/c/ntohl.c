@@ -1,4 +1,4 @@
-/* $MirOS: src/share/misc/licence.template,v 1.20 2006/12/11 21:04:56 tg Rel $ */
+/* $MirOS: src/kern/c/ntohl.c,v 1.1 2007/02/05 20:16:04 tg Exp $ */
 
 /*-
  * Copyright (c) 2007
@@ -24,6 +24,8 @@
 #include <machine/endian.h>
 
 #undef ntohl
+uint32_t ntohl(uint32_t);
+
 uint32_t
 ntohl(uint32_t x)
 {
