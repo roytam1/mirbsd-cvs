@@ -1,10 +1,10 @@
-# $MirOS: ports/devel/automake/1.9/Makefile,v 1.9 2006/09/14 00:08:04 tg Exp $
+# $MirOS: ports/devel/automake/1.9/Makefile,v 1.10 2007/02/22 22:57:44 tg Exp $
 # $OpenBSD: Makefile,v 1.27 2002/11/27 07:50:28 ish Exp $
 
-COMMENT=			experimental GNU automatic Makefile generator
-DISTNAME=		automake-1.9.6
-MPVERSION=		1.9.6-MirPorts-3
-PKGNAME=		automake-${MPVERSION:S/-MirPorts-/-/}
+COMMENT=		experimental GNU automatic Makefile generator
+VERSION=		1.9.6
+DASH_VER=		4
+DISTNAME=		automake-${VERSION}
 SUFFIX=			-1.9
 CATEGORIES=		devel
 MASTER_SITES=		${MASTER_SITE_GNU:=automake/}
@@ -17,8 +17,8 @@ PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
 CONFIGURE_STYLE=	gnu
-CONFIGURE_ARGS+=	--infodir=${LOCALBASE}/info
-EXTRA_FAKE_FLAGS=	${DESTDIRNAME}="${WRKINST}"
+EXTRA_FAKE_FLAGS=	${DESTDIRNAME}=${WRKINST:Q}
+MPVERSION=		${VERSION}-MirPorts-${DASH_VER}
 SUBST_VARS+=		SUFFIX
 
 RUN_DEPENDS=		:metaauto->=0.2:devel/metaauto
@@ -30,7 +30,7 @@ do-regress:
 
 post-build:
 	chmod u+w ${WRKSRC}/lib/Automake/Config.pm
-	print '%g/@MPVERSION@/s//${MPVERSION}/g\nwq' \
+	print ',g/@MPVERSION@/s//${MPVERSION}/g\nwq' \
 	    | ed -s ${WRKSRC}/lib/Automake/Config.pm
 	chmod u-w ${WRKSRC}/lib/Automake/Config.pm
 
