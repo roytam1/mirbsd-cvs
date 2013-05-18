@@ -1,4 +1,4 @@
-@comment $MirOS: ports/www/firesomething/pkg/PLIST,v 1.15 2008/12/18 21:01:57 bsiegert Exp $
+@comment $MirOS: ports/www/firesomething/pkg/PLIST,v 1.16 2009/05/17 17:00:33 tg Exp $
 @comment $OpenBSD: PLIST,v 1.13 2005/09/24 16:19:29 bernd Exp $
 @pkgcfl mozilla-firebird-*
 @pkgcfl mozilla-firefox-*
@@ -134,7 +134,6 @@ firesomething/modules/debug.js
 firesomething/modules/distribution.js
 firesomething/modules/utils.js
 firesomething/mozilla-xremote-client
-firesomething/old-homepage-default.properties
 firesomething/platform.ini
 firesomething/plugins/libnullplugin.so${SO_EXTENSION}
 firesomething/removed-files
