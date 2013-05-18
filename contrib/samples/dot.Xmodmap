@@ -1,4 +1,4 @@
-! $MirOS: contrib/samples/dot.Xmodmap,v 1.18 2008/08/26 19:15:09 tg Exp $
+! $MirOS: contrib/samples/dot.Xmodmap,v 1.19 2008/08/28 20:49:17 tg Exp $
 !-
 ! Copyright © 2004, 2007, 2008
 !	Thorsten “mirabilos” Glaser <tg@mirbsd.de>
@@ -183,8 +183,8 @@ keycode	0x6D =	Control_R	Control_R
 keycode	0x64 =	Left		Left		U2190		U21D0
 keycode	0x68 =	Down		Down		U2193		U21D3
 keycode	0x66 =	Right		Right		U2192		U21D2
-keycode	0x5A =	KP_Insert
-keycode	0x5B =	KP_Delete
+keycode	0x5A =	KP_Insert	KP_0
+keycode	0x5B =	KP_Delete	KP_Decimal
 
 keycode	0x5C =
 keycode	0x5D =
