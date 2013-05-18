@@ -3,7 +3,7 @@
 
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.233 2009/05/21 14:28:31 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.234 2009/05/27 21:30:35 tg Exp $'
 mws_content <<'EOF'
 <h1>mksh(1) R38</h1>
 <p>This is the website of the MirBSD™ Korn Shell, an actively developed free
@@ -993,6 +993,8 @@ mws_content <<'EOF'
   limits in a single invocation from oksh (thanks millert) -->
  <li>[ahoka] Begin porting to <a href="http://www.haiku-os.org/">Haiku</a>
   and, implicitly, BeOS (not finished yet)</li>
+ <li>[André Wösten] Add __NO_EXT_QNX to avoid picking up the wrong
+  waitfor() from &lt;libutil.h&gt; in (while porting to) QNX 6.4</li>
 </ul>
 <p id="r38">mksh R38 comes with these changes and fixes applies:</p><ul>
  <li>[tg] Improve regression test output debugging</li>
