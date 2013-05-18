@@ -22,7 +22,7 @@
 #include <utf.h>
 #include <wchar.h>
 
-__RCSID("$MirOS: src/lib/libc/i18n/runestuff.c,v 1.1 2008/11/22 12:56:21 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/i18n/runestuff.c,v 1.2 2008/11/22 13:51:10 tg Exp $");
 
 #define DECL_PS		mbstate_t ps = { 0, 0 }
 
@@ -77,14 +77,11 @@ isspacerune(Rune r)
 #endif
 
 #ifdef L_istitlerune
-#include <err.h>
-#include <errno.h>
+#include <wctype.h>
 int
 istitlerune(Rune r)
 {
-	errno = ENOCOFFEE;
-	warn("istitlerune(%04X)", r);
-	return (-1);
+	return (iswtitle(r));
 }
 #endif
 
@@ -246,14 +243,15 @@ tolowerrune(Rune r)
 #endif
 
 #ifdef L_totitlerune
-#include <err.h>
-#include <errno.h>
+#include <wctype.h>
 Rune
 totitlerune(Rune r)
 {
-	errno = ENOCOFFEE;
-	warn("totitlerune(%04X)", r);
-	return (-1);
+	Rune ur, tr;
+
+	ur = towctrans(r, mir18n_caseconv_toupper);
+	tr = towctrans(ur, mir18n_caseconv_totitle);
+	return (ur == tr ? r : tr);
 }
 #endif
 
