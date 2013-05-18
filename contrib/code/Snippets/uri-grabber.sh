@@ -1,7 +1,7 @@
 #!/usr/bin/env mksh
-# $MirOS: src/share/misc/licence.template,v 1.24 2008/04/22 11:43:31 tg Rel $
+# $MirOS: contrib/code/Snippets/uri-grabber.sh,v 1.2 2008/05/03 01:09:24 tg Exp $
 #-
-# Copyright (c) 2007
+# Copyright (c) 2007, 2011
 #	Thorsten Glaser <tg@mirbsd.de>
 #
 # Provided that these terms and disclaimer and all copyright notices
@@ -21,7 +21,7 @@
 #-
 # Grab URIs (RFC 2396) from stdin and output them, one per line. May
 # contain false positives / negatives but has been tested. Requested
-# to code by Vutral.
+# to code by Vutral. No support for mailto: at the moment.
 
 while read line; do
 	while [[ $line = *@(http|https|ftp)://* ]]; do
@@ -33,7 +33,7 @@ while read line; do
 		(*)	 continue ;;
 		}
 		line=${line#*://}
-		p2=${line%%@([!#0-9a-zA-Z;/?:@&=+$._!~*\'()%-])*}
+		p2=${line%%@([!#0-9a-zA-Z;/?:@&=+$,_.!~*\'()%-])*}
 		line=${line#${p2}?}
 		print "$beg://$p2"
 	done
