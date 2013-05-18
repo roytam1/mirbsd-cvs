@@ -1,4 +1,4 @@
-/* $MirOS: src/share/misc/licence.template,v 1.14 2006/08/09 19:35:23 tg Rel $ */
+/* $MirOS: src/lib/libc/string/strcmp.c,v 1.2 2006/11/21 01:04:10 tg Exp $ */
 
 /*-
  * Copyright (c) 2006
@@ -31,7 +31,7 @@
 #include <string.h>
 #endif
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/lib/libc/string/strcmp.c,v 1.2 2006/11/21 01:04:10 tg Exp $");
 
 #ifdef STRCOLL
 #define strcmp strcoll
@@ -41,7 +41,7 @@ int
 strcmp(const char *s1, const char *s2)
 {
 	while (*s1 == *s2++)
-		if (*s1++ == L'\0')
+		if (*s1++ == '\0')
 			return (0);
 	return (*(const unsigned char *)s1 - *(const unsigned char *)--s2);
 }
