@@ -1,4 +1,4 @@
-$MirOS: ports/README,v 1.3 2006/01/02 03:29:12 tg Exp $
+$MirOS: ports/README,v 1.4 2006/08/08 21:31:10 tg Exp $
 
 The MirPorts Framework
 ----------------------
@@ -18,6 +18,7 @@ MirPorts currently works on:
  * MirOS BSD #8 (and up)
  * Mac OSX 10.3
  * Mac OSX 10.4
+ * Interix/SFU 3.5
 XXX this is out of date
 
 For installation, change to the MirPorts directory
@@ -41,4 +42,4 @@ stributed freely.
 
 The MirOS base licence is available at /usr/share/doc/legal/LICENCE
 on an installed MirOS system, or at src/share/doc/legal/LICENCE via
-anonymous CVS or CVSweb for public display.
+anonymous CVS or CVSweb for public display. See also: ./Makefile
