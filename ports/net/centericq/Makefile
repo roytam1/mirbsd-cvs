@@ -1,4 +1,4 @@
-# $MirOS: ports/net/centericq/Makefile,v 1.24 2006/10/29 02:45:11 tg Exp $
+# $MirOS: ports/net/centericq/Makefile,v 1.25 2007/01/23 13:28:23 tg Exp $
 # $OpenBSD: Makefile,v 1.24 2004/02/03 08:37:55 brad Exp $
 
 # bus error on start
@@ -8,7 +8,7 @@ COMMENT=		curses-based multiprotocol IM client implementation
 DISTNAME=		centericq-${V}
 PKGNAME=		${DISTNAME}-${PL}
 V=			4.21.0
-PL=			8
+PL=			9
 CATEGORIES=		net
 PATCHFILES=		centericq-${V}.msn.patch:0
 PATCH_DIST_STRIP=	-p1
@@ -85,6 +85,7 @@ post-install:
 	${INSTALL_DATA_DIR} ${PREFIX}/share/doc/centericq
 	cd ${WRKSRC} && ${INSTALL_DATA} ${DOCS} ${PREFIX}/share/doc/centericq/
 	${INSTALL_DATA} ${WRKSRC}/centericq.1 ${PREFIX}/man/man1/
+	${INSTALL_SCRIPT} ${FILESDIR}/cicq2log.sh ${PREFIX}/bin/cicq2log
 
 .include <bsd.port.mk>
 
