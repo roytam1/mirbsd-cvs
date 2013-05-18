@@ -5504,7 +5504,6 @@
 ./usr/share/man/cat3/confstr.0
 ./usr/share/man/cat3/copysign.0
 ./usr/share/man/cat3/copysignf.0
-./usr/share/man/cat3/copysignl.0
 ./usr/share/man/cat3/copywin.0
 ./usr/share/man/cat3/cos.0
 ./usr/share/man/cat3/cosf.0
@@ -5824,7 +5823,6 @@
 ./usr/share/man/cat3/fcvt.0
 ./usr/share/man/cat3/fdim.0
 ./usr/share/man/cat3/fdimf.0
-./usr/share/man/cat3/fdiml.0
 ./usr/share/man/cat3/fdopen.0
 ./usr/share/man/cat3/feof.0
 ./usr/share/man/cat3/ferror.0
@@ -5867,10 +5865,8 @@
 ./usr/share/man/cat3/flushinp.0
 ./usr/share/man/cat3/fmax.0
 ./usr/share/man/cat3/fmaxf.0
-./usr/share/man/cat3/fmaxl.0
 ./usr/share/man/cat3/fmin.0
 ./usr/share/man/cat3/fminf.0
-./usr/share/man/cat3/fminl.0
 ./usr/share/man/cat3/fmod.0
 ./usr/share/man/cat3/fmodf.0
 ./usr/share/man/cat3/fmt_scaled.0
@@ -6163,7 +6159,6 @@
 ./usr/share/man/cat3/if_nametoindex.0
 ./usr/share/man/cat3/ilogb.0
 ./usr/share/man/cat3/ilogbf.0
-./usr/share/man/cat3/ilogbl.0
 ./usr/share/man/cat3/immedok.0
 ./usr/share/man/cat3/in_wch.0
 ./usr/share/man/cat3/in_wchnstr.0
@@ -6407,7 +6402,6 @@
 ./usr/share/man/cat3/log2f.0
 ./usr/share/man/cat3/logb.0
 ./usr/share/man/cat3/logbf.0
-./usr/share/man/cat3/logbl.0
 ./usr/share/man/cat3/logf.0
 ./usr/share/man/cat3/login.0
 ./usr/share/man/cat3/login_cap.0
@@ -6606,7 +6600,6 @@
 ./usr/share/man/cat3/mvwvline_set.0
 ./usr/share/man/cat3/nan.0
 ./usr/share/man/cat3/nanf.0
-./usr/share/man/cat3/nanl.0
 ./usr/share/man/cat3/napms.0
 ./usr/share/man/cat3/ncurses.0
 ./usr/share/man/cat3/ndbm.0
@@ -6624,7 +6617,6 @@
 ./usr/share/man/cat3/newwin.0
 ./usr/share/man/cat3/nextafter.0
 ./usr/share/man/cat3/nextafterf.0
-./usr/share/man/cat3/nextafterl.0
 ./usr/share/man/cat3/nextkey.0
 ./usr/share/man/cat3/nexttoward.0
 ./usr/share/man/cat3/nftw.0
@@ -6928,7 +6920,6 @@
 ./usr/share/man/cat3/scalbf.0
 ./usr/share/man/cat3/scalbn.0
 ./usr/share/man/cat3/scalbnf.0
-./usr/share/man/cat3/scalbnl.0
 ./usr/share/man/cat3/scale_form.0
 ./usr/share/man/cat3/scale_menu.0
 ./usr/share/man/cat3/scan_scaled.0

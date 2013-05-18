@@ -3247,7 +3247,6 @@
 ./man3/confstr.htm
 ./man3/copysign.htm
 ./man3/copysignf.htm
-./man3/copysignl.htm
 ./man3/copywin.htm
 ./man3/cos.htm
 ./man3/cosf.htm
@@ -3567,7 +3566,6 @@
 ./man3/fcvt.htm
 ./man3/fdim.htm
 ./man3/fdimf.htm
-./man3/fdiml.htm
 ./man3/fdopen.htm
 ./man3/feof.htm
 ./man3/ferror.htm
@@ -3610,10 +3608,8 @@
 ./man3/flushinp.htm
 ./man3/fmax.htm
 ./man3/fmaxf.htm
-./man3/fmaxl.htm
 ./man3/fmin.htm
 ./man3/fminf.htm
-./man3/fminl.htm
 ./man3/fmod.htm
 ./man3/fmodf.htm
 ./man3/fmt_scaled.htm
@@ -4426,7 +4422,6 @@
 ./man3/if_nametoindex.htm
 ./man3/ilogb.htm
 ./man3/ilogbf.htm
-./man3/ilogbl.htm
 ./man3/immedok.htm
 ./man3/in_wch.htm
 ./man3/in_wchnstr.htm
@@ -4670,7 +4665,6 @@
 ./man3/log2f.htm
 ./man3/logb.htm
 ./man3/logbf.htm
-./man3/logbl.htm
 ./man3/logf.htm
 ./man3/login.htm
 ./man3/login_cap.htm
@@ -4869,7 +4863,6 @@
 ./man3/mvwvline_set.htm
 ./man3/nan.htm
 ./man3/nanf.htm
-./man3/nanl.htm
 ./man3/napms.htm
 ./man3/ncurses.htm
 ./man3/ndbm.htm
@@ -4887,7 +4880,6 @@
 ./man3/newwin.htm
 ./man3/nextafter.htm
 ./man3/nextafterf.htm
-./man3/nextafterl.htm
 ./man3/nextkey.htm
 ./man3/nexttoward.htm
 ./man3/nftw.htm
@@ -5201,7 +5193,6 @@
 ./man3/scalbf.htm
 ./man3/scalbn.htm
 ./man3/scalbnf.htm
-./man3/scalbnl.htm
 ./man3/scale_form.htm
 ./man3/scale_menu.htm
 ./man3/scan_scaled.htm
