@@ -1,8 +1,8 @@
 #!/bin/sh
-# $MirOS: contrib/code/mirmake/Build.sh,v 1.17 2006/01/13 03:49:29 tg Exp $
+# $MirOS: src/share/misc/licence.template,v 1.6 2006/01/24 22:24:02 tg Rel $
 #-
-# Copyright (c) 2004, 2005
-#	Thorsten "mirabile" Glaser <tg@66h.42h.de>
+# Copyright (c) 2004, 2005, 2006
+#	Thorsten Glaser <tg@mirbsd.de>
 #
 # Licensee is hereby permitted to deal in this work without restric-
 # tion, including unlimited rights to use, publicly perform, modify,
@@ -141,9 +141,9 @@ if [ -n "$OVERRIDE_MKSH" ]; then
 fi
 
 if [ x"$ms" = x"NONE" ]; then
-	echo "Error: could not find mirbsdksh compatible shell."
-	echo "Please go to: http://mirbsd.de/mksh and install it before"
-	echo "continuing. At the moment, mksh R26 or higher is requited."
+	echo "Error: could not find a mirbsdksh compatible shell."
+	echo "Please go to <http://mirbsd.de/mksh> and install it before"
+	echo "continuing. At the moment, mksh R26 or higher is required."
 	exit 1
 fi
 
