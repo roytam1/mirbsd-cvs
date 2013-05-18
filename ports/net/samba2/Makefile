@@ -1,9 +1,9 @@
-# $MirOS: ports/net/samba2/Makefile,v 1.7 2006/12/28 19:21:11 tg Exp $
+# $MirOS: ports/net/samba2/Makefile,v 1.9 2006/12/28 21:14:42 tg Exp $
 # $OpenBSD: Makefile,v 1.21 2003/10/26 09:33:23 sturm Exp $
 
 COMMENT=		SMB and CIFS client and server for UNIX
 DISTNAME=		samba-2.2.12
-DASH_VER=		2
+DASH_VER=		3
 CATEGORIES=		net
 MASTER_SITES=		http://us1.samba.org/samba/ftp/old-versions/ \
 			http://ca.samba.org/samba/ftp/old-versions/ \
@@ -34,8 +34,8 @@ SAMBA_SPOOL=		/var/spool/samba
 SAMBA_LOGDIR=		/var/log
 SUBST_VARS+=		SAMBA_SPOOL CONFDIR
 
-LIB_DEPENDS+=		popt::devel/popt \
-			readline::devel/libreadline
+LIB_DEPENDS+=		popt::devel/popt
+MODULES+=		devel/libreadline
 CONFIGURE_STYLE=	autoconf
 CONFIGURE_ARGS+=	--libdir=${PREFIX:Q}/lib/samba \
 			--localstatedir=/var \

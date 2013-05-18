@@ -1,30 +1,18 @@
-# $MirOS: ports/devel/libreadline/Makefile,v 1.6 2006/11/20 21:24:52 tg Exp $
+# $MirOS: ports/devel/libreadline/Makefile,v 1.7 2008/04/22 17:24:18 bsiegert Exp $
 
 COMMENT=		history and line editing library similar to libedit
-COMMENT-docs=		documentation for libreadline
 CATEGORIES=		devel
-V=			5.2
-DASH_VER=		1
-DISTNAME=		readline-${V}
-PKGNAME-docs=		readline-docs-${V}-${DASH_VER}
+DASH_VER=		2
+DISTNAME=		readline-5.2
 MASTER_SITES=		${MASTER_SITE_GNU:=readline/}
 HOMEPAGE=		http://cnswww.cns.cwru.edu/php/chet/readline/rltop.html
-
-MULTI_PACKAGES=		-docs
-SUBPACKAGE?=
 
 # Code: GNU GPLv2 or later
 # Docs: GNU FDL
 PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
-
-.if ${SUBPACKAGE} == "-docs"
-PERMIT_PACKAGE_CDROM=	"GNU FDL"
-PERMIT_PACKAGE_FTP=	"texinfo output is considered opaque by GNU FDL"
-.else
 PERMIT_PACKAGE_CDROM=	Yes
 PERMIT_PACKAGE_FTP=	Yes
-.endif
 
 CONFIGURE_STYLE=	autoconf no-autoheader
 AUTOCONF_NEW=		Yes
@@ -33,5 +21,9 @@ CONFIGURE_ARGS+=	${CONFIGURE_SHARED} \
 			--enable-static
 EXTRA_XAKE_FLAGS+=	MAKE_SHELL=${MKSH:Q}
 NO_REGRESS=		Yes
+
+# To avoid clashing with native libreadline (Darwin), libedit
+CONFIGURE_ARGS+=	--libdir=${PREFIX}/pkgview/libreadline/lib \
+			--includedir=${PREFIX}/pkgview/libreadline/include
 
 .include <bsd.port.mk>

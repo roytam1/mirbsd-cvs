@@ -1,9 +1,10 @@
-# $MirOS: ports/lang/guile/Makefile,v 1.7 2008/05/07 22:48:29 tg Exp $
+# $MirOS: ports/lang/guile/Makefile,v 1.8 2008/05/29 09:47:38 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.20 2002/12/29 20:41:07 fgsch Exp $
 
 COMMENT=		GNU Ubiquitous Intelligent Language for Extension
 
 VERSION=		1.8.2
+DASH_VER=		1
 DISTNAME=		guile-${VERSION}
 CATEGORIES=		lang
 MASTER_SITES=		${MASTER_SITE_GNU:=guile/}
@@ -17,7 +18,7 @@ PERMIT_DISTFILES_FTP=	Yes
 
 LIB_DEPENDS+=		ltdl::devel/libtool
 LIB_DEPENDS+=		gmp::devel/gmp
-LIB_DEPENDS+=		readline::devel/libreadline
+MODULES+=		devel/libreadline
 MODULES+=		devel/gettext
 
 CONFIGURE_STYLE=	autoconf # no-autoheader

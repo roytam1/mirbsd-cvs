@@ -1,11 +1,11 @@
-# $MirOS: ports/lang/python/2.3/Makefile,v 1.11 2008/07/30 15:22:32 tg Exp $
+# $MirOS: ports/lang/python/2.3/Makefile,v 1.12 2008/07/30 15:25:54 tg Exp $
 # $OpenBSD: Makefile,v 1.18 2005/08/27 15:57:31 naddy Exp $
 
 NOT_FOR_PLATFORM+=	Darwin:*:*
 
 VERSION=		2.3
 PATCHLEVEL=		.7
-DASH_VER=		0
+DASH_VER=		1
 
 COMMENT-bsddb=		Berkeley db module for Python
 COMMENT-expat=		expat module for Python

@@ -1,10 +1,11 @@
-# $MirOS: ports/lang/opal/Makefile,v 1.3 2006/12/29 01:16:20 tg Exp $
+# $MirOS: ports/lang/opal/Makefile,v 1.4 2006/12/29 01:27:39 tg Exp $
 
 ONLY_FOR_PLATFORM=		MirBSD:*:* OpenBSD:*:*
 
 COMMENT=			functional programming language
 CATEGORIES=			devel lang
 VERSION=			2.3k
+DASH_VER=			1
 DISTNAME=			ocs-${VERSION}-src
 PKGNAME=			opal-${VERSION}-0
 HOMEPAGE=			http://uebb.cs.tu-berlin.de/~opal/
@@ -24,7 +25,7 @@ WRKDIST=			${WRKDIR}/ocs
 USE_GMAKE=			Yes
 USE_X11=			Yes
 NO_REGRESS=			Yes
-LIB_DEPENDS+=			readline::devel/libreadline
+MODULES+=			devel/libreadline
 # XXX can use any tcl/tk; should use module?
 B_R_DEPENDS+=			:tk->=8.4:x11/tk/8.4
 B_R_DEPENDS+=			:bzip2-*:archivers/bzip2

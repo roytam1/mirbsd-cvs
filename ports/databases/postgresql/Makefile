@@ -1,4 +1,4 @@
-# $MirOS: ports/databases/postgresql/Makefile,v 1.7 2007/02/22 20:51:00 tg Exp $
+# $MirOS: ports/databases/postgresql/Makefile,v 1.8 2008/03/09 17:22:29 tg Exp $
 # $OpenBSD: Makefile,v 1.68 2004/02/04 07:39:18 sturm Exp $
 
 COMMENT=		PostgreSQL RDBMS clients and utilities
@@ -7,6 +7,7 @@ COMMENT-server=		PostgreSQL RDBMS server software
 COMMENT-docs=		PostgreSQL RDBMS documentation
 
 VERSION=		8.2.3
+DASH_VER=		1
 DISTNAME=		postgresql-${VERSION}
 PKGNAME-server=		postgresql-server-${VERSION}-${DASH_VER}
 PKGNAME-docs=		postgresql-docs-${VERSION}-${DASH_VER}
@@ -111,7 +112,7 @@ FLAVOUR?=
 .endif
 
 .if ${OStype} != "MirBSD"
-LIB_DEPENDS+=		readline::devel/libreadline
+MODULES+=		devel/libreadline
 .else
 CONFIGURE_ARGS+=	--with-libedit-preferred
 .endif
