@@ -1,4 +1,4 @@
-/* $MirOS: src/sys/arch/i386/stand/liveboot/hook.S,v 1.10 2006/04/19 17:00:18 tg Exp $ */
+/* $MirOS: src/share/misc/licence.template,v 1.14 2006/08/09 19:35:23 tg Rel $ */
 
 /*-
  * Copyright (c) 2006
@@ -11,8 +11,8 @@
  * in all redistributions or reproduced in accompanying documentation
  * or other materials provided with binary redistributions.
  *
- * All advertising materials mentioning features or use of this soft-
- * ware must display the following acknowledgement:
+ * Advertising materials mentioning features or use of this work must
+ * display the following acknowledgement:
  *	This product includes material provided by Thorsten Glaser.
  *
  * Licensor offers the work "AS IS" and WITHOUT WARRANTY of any kind,
@@ -22,13 +22,16 @@
  * or other damage, or direct damage except proven a consequence of a
  * direct error of said person and intended use of this work, loss or
  * other issues arising in any way out of its use, even if advised of
- * the possibility of such damage or existence of a nontrivial bug.
+ * the possibility of such damage or existence of a defect.
  */
 
 	.intel_syntax noprefix
 	.code16
 
 	.data
+lbl_mayskip:
+	.ascii	"\n\rHold down SHIFT to skip the coloured menu"
+	.asciz	" and go directly to the bootloader..."
 lbl_title:
 	.asciz	"MirOS #9-current Setup/Live CD"
 lbl_menus:
@@ -54,7 +57,15 @@ lbl_widmung:
 	.asciz	"Thorsten Glaser and Benny Siegert, and their contributors."
 
 Ltick:	.long	0	/* end tick for timeout */
-Lmenu:	.word	0	/* which menu point has been chosen */
+Lmenu:	.word	0	/* which menu point has been chosen (MBZ) */
+
+#define GETTICK(a) \
+	xor	ax,ax; \
+	int	0x1A; \
+	add	dx,(a); \
+	adc	cl,0; \
+	shl	ecx,16; \
+	mov	cx,dx
 
 	.text
 	.globl	Lhook
@@ -116,8 +127,25 @@ Lsget:
 	XXX ...
 #endif
 
-Lhook:
-	/* clear screen */
+Lhook:	/* if any shift key pressed, skip all of this, return 0 */
+	mov	si,offset lbl_mayskip
+	lodsb
+Lhookp:	mov	ah,0x0E
+	mov	bx,7
+	int	0x10
+	lodsb
+	or	al,al
+	jnz	Lhookp
+	GETTICK(32)
+	mov	ebp,ecx
+Lhooks:	mov	ah,2
+	int	0x16
+	and	al,3
+	jnz	Lquit
+	GETTICK(0)
+	cmp	ecx,ebp
+	jbe	Lhooks
+Lhook0:	/* clear screen */
 	mov	ax,7
 	int	0x10
 	mov	ax,3
@@ -151,15 +179,7 @@ Lhook2:	OUTCH(205,15)
 	dec	cx
 	jne	Lhook2
 	OUTCH(188,15)
-#define GETTICK(a) \
-	xor	ax,ax; \
-	int	0x1A; \
-	add	dx,(a); \
-	adc	cl,0; \
-	shl	ecx,16; \
-	mov	cx,dx
 
-	.text
 	GETTICK(219 /* 12 * 18.2 */)
 	mov	[Ltick],ecx
 Lmlp0:	/* display the menu */
@@ -215,9 +235,15 @@ Ldone:	/* choice in [Lmenu] */
 	mov	ah,2
 	mov	bh,0
 	pop	dx
+	/* restore cursor position (after last text output) */
 	int	0x10 
-	OUTCH('\n',0)
-	/* cursor position (after last text output) restored, new line */
+Lquit:	/* issue a newline (colour 7, because it's the final one) */
+	mov	ax,0x0E0D
+	mov	bx,7
+	int	0x10
+	mov	ax,0x0E0A
+	int	0x10
+	/* return choice */
 	xor	eax,eax
 	mov	al,[Lmenu]
 	ret
