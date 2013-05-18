@@ -152,3 +152,31 @@ Date: 09.06.2007
 <p>On unrelated news, work on the 32-bit sparc port has started again –
  mostly due to request from users (quite reassuring). Thanks, guys!</p>
 ----
+Title: FrOSCon talk approved
+Date: 18.06.2007
+
+<p>bsiegert@ will hold a talk about GNU autotools, libtool, and how to use
+ it right at the second <a href="http://www.froscon.org/">FrOSCon</a> in
+ St. Augustin near Bonn, Germany.</p>
+<p>Of course, there will be a BSD booth with all the usual suspects and
+ goodies, so feel free to come over and talk to your favourite BSD's
+ developers in person.</p>
+----
+Title: Fedora GNU/Linux now officially ships mksh
+Date: 19.06.2007
+
+<p>Thanks to a contributor who wishes to remain anonymous, mksh is now
+ officially shipped for Red Hat's GNU/Linux variants:</p><ul>
+ <li>Fedora 7 (i386, amd64, ppc, ppc64 using gcc 4.1.2 and glibc 2.6
+  at Linux 2.6.21)</li>
+ <li>Fedora Core 6 (i386, amd64, ppc using gcc 4.1.1 and glibc 2.5
+  at Linux 2.6.20)</li>
+ <li>Red Hat Enterprise Linux 5 (i386, amd64, ppc using gcc 4.1.1 and
+  glibc 2.5 at Linux 2.6.18)</li>
+ <li>Red Hat Enterprise Linux 4 (i386, amd64, ppc using gcc 3.4.3 and
+  glibc 2.3.4 at Linux 2.6.9)</li>
+</ul><p>We were informed that the all of these pass the testsuite. Fedora 7
+ quality assurance is being run on it until approximately this weekend; to
+ install mksh, simply type <tt>yum install mksh</tt> (for RHEL, you'll have
+ to enable the EPEL repository first).</p>
+----

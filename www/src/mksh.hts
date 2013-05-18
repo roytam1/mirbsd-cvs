@@ -1,10 +1,10 @@
-# $MirOS: www/src/mksh.hts,v 1.1 2007/06/09 23:29:56 tg Exp $
+# $MirOS: www/src/mksh.hts,v 1.2 2007/06/15 22:24:02 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.1 2007/06/09 23:29:56 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.2 2007/06/15 22:24:02 tg Exp $'
 mws_content <<'EOF'
 <h1>mksh(1) R29</h1>
 <p>This is the website of the MirBSD™ Korn Shell, an actively developed free
@@ -306,6 +306,11 @@ mws_content <<'EOF'
 <li><a href="http://www.gentoo.org/">Gentoo GNU/Linux</a> has an mksh <a
  href="http://sources.gentoo.org/viewcvs.py/gentoo-x86/app-shells/mksh/">ebuild</a>
  created by Hanno Böck.</li>
+<li><a href="http://fedoraproject.org/">Fedora</a> GNU/Linux 7 and Fedora
+ Core 6, as well as <a href="http://www.redhat.com/rhel/">RHEL</a> 4 and 5
+ (via EPEL) now officially contain mksh. There are some <a
+ href="http://fedoraproject.org/wiki/EPEL/FAQ#head-fc43191402d7242da15ebb282c1a7dc948f6c852">Instructions</a>
+ for activating EPEL (RHEL only), then just type <tt>yum install mksh</tt>.</li>
 <li><a href="http://finkproject.org/">Fink</a> delivers an <a
  href="http://pdb.finkproject.org/pdb/package.php/mirbsdksh">package called
  “mirbsdksh”</a> from Andreas “gecko2” Gockel; the latest version shall be
@@ -655,7 +660,7 @@ mws_content <<'EOF'
   directory at mirtoconf time, scan for <tt>&lt;sys/sysctl.h&gt;</tt> and
   use the file if arc4random(3) isn't found otherwise. From Debian.</li>
  <li>If the basename of argv[0] starts with “sh”, activate FPOSIX.</li>
- <li>If FPOSIX, don't pre-define any aliases (like integer) to benefit
+ <li>If FPOSIX, don't pre-define aliases (except integer and local) to benefit
   operating environments that never heard of the great Korn Shell…</li>
  <li>#if defined(MKSH_SMALL) || defined(MKSH_NOVI) disable the vi
   editing mode.</li>
