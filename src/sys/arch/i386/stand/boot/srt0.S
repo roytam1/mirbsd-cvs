@@ -1,4 +1,4 @@
-/* $MirOS: src/sys/arch/i386/stand/boot/srt0.S,v 1.71 2009/01/12 21:25:23 tg Exp $ */
+/* $MirOS: src/sys/arch/i386/stand/boot/srt0.S,v 1.72 2009/01/31 18:51:18 tg Exp $ */
 
 /*-
  * Copyright (c) 2003, 2004, 2005, 2006, 2007, 2008, 2009
@@ -393,6 +393,12 @@ Lmb2rm:	mov	edi,offset Ldrvi
 
 #ifdef USE_PXE
 	.code32
+
+	.p2align 2
+	.globl	pxecall_addr
+pxecall_addr:
+	.long	0
+
 	.globl	pxecall_bang
 pxecall_bang:
 	push	ebp
@@ -412,7 +418,7 @@ pxecall_bang:
 	push	ss
 	push	di
 	push	bx
-	lcall	ds:[8]		/* pxe_bang */
+	lcall	ds:[pxecall_addr]
 	add	sp,6
 	movzx	ebx,ax
 
@@ -445,7 +451,7 @@ pxecall_plus:
 
 	push	ss
 	pop	es
-	lcall	ds:[12]		/* pxe_plus */
+	lcall	ds:[pxecall_addr]
 	movzx	ebx,ax
 
 	call	real_to_prot

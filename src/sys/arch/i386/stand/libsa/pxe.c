@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/stand/libsa/pxe.c,v 1.16 2009/01/12 19:04:12 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/stand/libsa/pxe.c,v 1.18 2009/01/12 19:39:22 tg Exp $ */
 /*	$OpenBSD: pxe.c,v 1.5 2007/07/27 17:46:56 tom Exp $ */
 /*	$NetBSD: pxe.c,v 1.5 2003/03/11 18:29:00 drochner Exp $	*/
 
@@ -107,6 +107,7 @@
 
 extern uint32_t pxe_bang;
 extern uint32_t pxe_plus;
+extern uint32_t pxecall_addr;
 
 int have_pxe = -1;
 
@@ -404,6 +405,13 @@ pxe_init(int quiet)
 	}
 
  got_one:
+	if (pxenv && (pxenv != PTOV(pxe_plus >> 16, pxe_plus & 0xFFFF)))
+		pxe_plus = (((uint32_t)pxenv & 0xFFFF0) << 12) |
+		    ((uint32_t)pxenv & 0x0000F);
+	if (pxe && (pxe != PTOV(pxe_bang >> 16, pxe_bang & 0xFFFF)))
+		pxe_bang = (((uint32_t)pxe & 0xFFFF0) << 12) |
+		    ((uint32_t)pxe & 0x0000F);
+
 	if (pxenv == NULL) {
 		/* assert(pxe != NULL); */
 
@@ -434,12 +442,12 @@ pxe_init(int quiet)
 
 	if (pxenv == NULL) {
 		pxe_call = pxecall_bang;
-		pxe_bang = pxe->EntryPointSP.segment;
-		pxe_bang = (pxe_bang << 16) | pxe->EntryPointSP.offset;
+		pxecall_addr = ((uint32_t)pxe->EntryPointSP.segment << 16) |
+		    pxe->EntryPointSP.offset;
 	} else {
 		pxe_call = pxecall_plus;
-		pxe_plus = pxenv->RMEntry.segment;
-		pxe_plus = (pxe_plus << 16) | pxenv->RMEntry.offset;
+		pxecall_addr = ((uint32_t)pxenv->RMEntry.segment << 16) |
+		    pxenv->RMEntry.offset;
 	}
 
 	/*
