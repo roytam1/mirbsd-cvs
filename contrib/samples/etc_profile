@@ -1,4 +1,4 @@
-# $MirOS: contrib/samples/etc_profile,v 1.3 2005/12/17 05:46:11 tg Exp $
+# $MirOS: contrib/samples/etc_profile,v 1.4 2006/07/07 22:11:11 tg Exp $
 # _MirBSD: src/etc/profile,v 1.51 2004/08/23 21:23:03 tg Stab $
 #-
 # Copyright (c) 1999, 2000, 2003, 2004, 2005
@@ -92,9 +92,8 @@ fi
 export PS1='SINGLE:${PWD} # '
 CVS_RSH="$(whence -p ssh 2>/dev/null)" || CVS_RSH=/usr/bin/ssh; export CVS_RSH
 export CVSUMASK=002
-export IRCSERVER=irc.holarse.de
-export SIRCSERVER=irc6.oftc.net
-export SIRCNAME="MirOS packages a kernel, userland and the attitude"
+export IRCSERVER=irc.mirbsd.org
+export IRCPORT=6666
 HOSTNAME="$(ulimit -c 0; hostname -s 2>/dev/null)"
 OSNAME="$(ulimit -c 0; uname -s 2>/dev/null)"
 export HOSTNAME="${HOSTNAME:-noFQDN}" OSNAME="${OSNAME:-unknown}"
@@ -184,11 +183,6 @@ alias la='ls -a'
 alias ll='l -l'
 alias lo='ll -o'
 alias cls='echo -ne \\033c'
-# Should read:
-#[ -x /usr/bin/hd ] || eval alias hd=\''hexdump -e '\''\'\'''\''"%08.8_aX' \
-#	'  " 8/1 "%02X " " - " 8/1 "%02X "'\''\'\'''\'' -e '\''\'\'''\'\" \
-#	'  |" "%_p"'\''\'\'''\'' -e '\''\'\'''\''"|\n"'\''\'\'''\'' '\'
-# ... but foreign hexdump(1) not have %_aX
 [ -x /usr/bin/hd ] || eval alias hd=\''hexdump -e '\''\'\'''\''"%08.8_ax' \
 	'  " 8/1 "%02X " " - " 8/1 "%02X "'\''\'\'''\'' -e '\''\'\'''\'\" \
 	'  |" "%_p"'\''\'\'''\'' -e '\''\'\'''\''"|\n"'\''\'\'''\'' '\'

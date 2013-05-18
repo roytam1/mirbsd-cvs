@@ -1,4 +1,4 @@
-# $MirOS: src/etc/profile,v 1.26 2006/07/08 19:59:57 tg Exp $
+# $MirOS: src/etc/profile,v 1.27 2006/07/21 16:44:21 tg Exp $
 #-
 umask 022
 [ -z "$KSH_VERSION" ] && alias print='echo -e'
@@ -63,8 +63,7 @@ if [ -n "$KSH_VERSION" ]; then
 				wd="${wd#?????}"
 			fi
 		done
-		print -r -- "$pfx$wd")'" $(if (( $(id -u) )); then
-			print \$; else print \#; fi) "
+		print -r -- "$pfx$wd")'" $PSX"
 	_shellok=1
 elif [ -n "$BASH_VERSION" ]; then
 	set -o emacs
