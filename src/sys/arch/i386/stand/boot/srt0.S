@@ -1,4 +1,4 @@
-/* $MirOS: src/sys/arch/i386/stand/boot/srt0.S,v 1.32 2009/01/02 05:40:56 tg Exp $ */
+/* $MirOS: src/sys/arch/i386/stand/boot/srt0.S,v 1.33 2009/01/02 05:45:02 tg Exp $ */
 
 /*-
  * Copyright (c) 2003, 2004, 2005, 2006, 2007, 2008, 2009
@@ -100,17 +100,123 @@ _C_LABEL(bios_bootpte):
 	.p2align 4
 Ltblk:	.long	0x13,0,0,0	/* El Torito parameter block */
 	.byte	0,0,0
-	. = _start + 0x41
-Lstart:	mov	bx,SA_LOADSEG
-	mov	ss,bx
-	mov	esp,0xC0
-	sti
+	. = _start + 0x43
+Lstart:	mov	ax,cs
+	mov	ss,ax
+	mov	esp,0xFFFC	/* cross fingers */
 	call	Linit
 _rval:	.long	0x6A6D4F00	/* _start + 0x50 */
 Linit:	pop	di
+	mov	ax,cs
+	mov	ss,ax
+	lea	sp,[di-8]
 	mov	ax,0xB800
 	mov	gs,ax		/* for UD() */
 	UD(0)			/** @: we're here */
+
+#if 1
+	push	dx
+	mov	ax,cs
+	mov	bx,3040
+
+	mov	dl,ah
+	shr	dl,4
+	mov	dh,0x20
+	add	dl,0x30
+	cmp	dl,0x39
+	jbe	1f
+	add	dl,7
+1:	gs mov	[bx],dx
+	add	bx,2
+	shl	ax,4
+
+	mov	dl,ah
+	shr	dl,4
+	mov	dh,0x20
+	add	dl,0x30
+	cmp	dl,0x39
+	jbe	1f
+	add	dl,7
+1:	gs mov	[bx],dx
+	add	bx,2
+	shl	ax,4
+
+	mov	dl,ah
+	shr	dl,4
+	mov	dh,0x20
+	add	dl,0x30
+	cmp	dl,0x39
+	jbe	1f
+	add	dl,7
+1:	gs mov	[bx],dx
+	add	bx,2
+	shl	ax,4
+
+	mov	dl,ah
+	shr	dl,4
+	mov	dh,0x20
+	add	dl,0x30
+	cmp	dl,0x39
+	jbe	1f
+	add	dl,7
+1:	gs mov	[bx],dx
+	add	bx,2
+	shl	ax,4
+
+	mov	dl,0x3a
+	mov	dh,0x20
+	gs mov	[bx],dx
+	add	bx,2
+
+	mov	ax,di
+
+	mov	dl,ah
+	shr	dl,4
+	mov	dh,0x20
+	add	dl,0x30
+	cmp	dl,0x39
+	jbe	1f
+	add	dl,7
+1:	gs mov	[bx],dx
+	add	bx,2
+	shl	ax,4
+
+	mov	dl,ah
+	shr	dl,4
+	mov	dh,0x20
+	add	dl,0x30
+	cmp	dl,0x39
+	jbe	1f
+	add	dl,7
+1:	gs mov	[bx],dx
+	add	bx,2
+	shl	ax,4
+
+	mov	dl,ah
+	shr	dl,4
+	mov	dh,0x20
+	add	dl,0x30
+	cmp	dl,0x39
+	jbe	1f
+	add	dl,7
+1:	gs mov	[bx],dx
+	add	bx,2
+	shl	ax,4
+
+	mov	dl,ah
+	shr	dl,4
+	mov	dh,0x20
+	add	dl,0x30
+	cmp	dl,0x39
+	jbe	1f
+	add	dl,7
+1:	gs mov	[bx],dx
+	add	bx,2
+	shl	ax,4
+
+	pop	dx
+#endif
+
 #ifndef SMALL_BOOT
 	cmp	di,0x0150	/* test for .COM offset */
 	jne	Ldxok
@@ -118,7 +224,6 @@ Linit:	pop	di
 	/* begin SYSLINUX tests */
 	cmp	word ptr cs:[0],0x20CD
 	jne	Ldxok		/* no DOS PSP */
-	push	bx
 	push	gs
 	push	di
 	push	dx
@@ -181,16 +286,9 @@ Llxok:	push	di
 Lnolx:	pop	dx
 	pop	di
 	pop	gs
-	pop	bx
 	/* end SYSLINUX tests */
 #endif
-Ldxok:	push	dx
-	mov	ax,bx
-	add	ah,0x10		/* add 64K (apparent max. code size) */
-	push	ax		/* future SS */
-	add	ah,0x10		/* add that 64K for a safe buffer */
-	mov	fs,ax		/* for buffer I/O */
-	xor	eax,eax
+Ldxok:	xor	eax,eax
 	push	eax
 	popfd
 	UD(1)			/** A: flags set */
@@ -205,7 +303,8 @@ Lirrf:	jnz	Lirrf		/* forever loop */
 	cld
 	xor	si,si
 	UD(2)			/** B: alignment okay */
-	cmp	cx,bx		/* bx is still SA_LOADSEG */
+	mov	bx,SA_LOADSEG
+	cmp	cx,bx
 	je	LisRel		/* already relocated */
 	jnb	LdoRel		/* loaded above target address */
 	UD(3)			/** C: below target */
@@ -219,6 +318,14 @@ LdoRel:	UD(4)			/** D: doing reloc */
 	mov	ds,ax
 	add	bx,(RL_VAL) - 5	/* dito */
 	mov	es,bx
+
+	mov	bp,ax
+	cmp	ax,bx
+	jae	1f
+	mov	bp,bx
+1:	mov	ss,bp
+	mov	sp,0xfffc
+
 	rep	movsb
 LisRel:	UD(5)			/** E: done reloc, or not needed */
 	cld
@@ -234,8 +341,7 @@ LisRel:	UD(5)			/** E: done reloc, or not needed */
  */
 
 Lmain:	UD(6)			/** F: jump successful */
-	pop	ax		/* saved future stack base */
-	pop	dx		/* saved BIOS drive */
+	mov	ax,SA_LOADSEG + 0x1000
 	mov	ss,ax
 	mov	sp,0xFFFC	/* another nearly-64K for stack */
 	mov	ax,cs
