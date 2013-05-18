@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.466 2012/08/03 18:45:27 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.467 2012/08/17 18:34:16 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -1148,12 +1148,12 @@ exec /usr/bin/ld "${args[@]}"</pre>
  <li>[tg] make alias definitions in mksh -c work (Closes: #517009), hack</li>
  <li>[tg] Apply speed improvements and add <tt>MKSH_SMALL_BUT_FAST</tt></li>
  <li>[tg] Fix <tt>CONSERVATIVE_FDS</tt> use-before-definition bug</li>
- <li>[tg] Correct a regression when tab-completing (LP#1025843) and fix bugs
-  in the same code wrt. completion display and other expansions</li>
+ <li>[tg] Correct two regressions when tab-completing (LP: #1025843) and fix
+  bugs in the same code wrt. completion display and other expansions</li>
  <li>[tg] Make quoted output of “typeset -p” AT&amp;T ksh93 compatible</li>
  <li>[tg] Implement <tt>${foo@Q}</tt> like <tt>${foo:Q}</tt> in make(1)</li>
  <li>[tg] Remove some unused code; more int → bool conversion</li>
- <li>[tg] Fix using here documents in COMSUB etc. (LP#1030581)</li>
+ <li>[tg] Fix using here documents in COMSUB etc. (LP: #1030581)</li>
  <li>[tg] Implement ksh93 feature <tt>${ foo;}</tt>, then remove it again,
   because jilles found issues with large-ish output and running into pipe
   buffer limits because there’s no concurrent reading process; this feature
@@ -1161,6 +1161,7 @@ exec /usr/bin/ld "${args[@]}"</pre>
   it could (no parallel programming possible, and doing it from signal(3)
   handlers is a recipe for disasters)…</li><!-- nuke on upload -->
  <li>[tg] Fix ulimit builtin usage to match what limits we actually know</li>
+ <li>[tg] Allow overriding /etc location, experts only (LP: #1039713)</li>
 </ul>
 <p>Changes in the current (unreleased) stable branch:</p><ul>
  <li>[tg] Fix a bug in the manual page</li>

@@ -2774,7 +2774,7 @@ do_complete(
 			 */
 			char *cp;
 
-			cp = ucstrchr(unescaped + 1, '/');
+			cp = strchr(unescaped + 1, '/');
 			*cp++ = 0;
 			cp = shf_smprintf("%s/%s", tilde(unescaped + 1), cp);
 			afree(unescaped, ATEMP);
