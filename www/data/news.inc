@@ -400,11 +400,20 @@ wq</pre>
 Title: FrOSCon 2007
 Date: 24.08.2007
 
+<p>This weekend, the project will be present at the <a
+ href="http://www.froscon.org/">FrOSCon 2007</a> at the FH
+ Bonn-Rhein-Sieg near Bonn, Germany. There is going to be a booth where
+ you can meet the developers, and bsiegert@ will hold a talk about
+ <i>autoconf, automake, and libtool&mdash;an introduction to the GNU
+ build system</i> on Sunday at 16:30, room 5.</p>
+
 <p>Note the <a href="@@RELPATH@@permalinks/wlog-9_e20070824-tg.htm">wlog
  entry</a> about FrOSCon – more entries will follow, stay tuned.</p>
+
 <p>The CDs to distribute are <em>still</em> not done, sorry… it’ll be an
  adjusted LinuxTag edition, no more, not even more recent dist sets, due
  to all the trouble we had.</p>
+
 <p>tg@ and bsiegert@ are appearing at the FH site later this evening and
  are open for food’n’beer suggestions from donators ☻</p>
 ----
