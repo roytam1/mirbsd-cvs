@@ -38,7 +38,7 @@
 #include "ntpd.h"
 #include "ntp.h"
 
-__RCSID("$MirOS: src/usr.sbin/ntpd/ntp.c,v 1.7 2007/07/31 20:32:46 tg Exp $");
+__RCSID("$MirOS: src/usr.sbin/ntpd/ntp.c,v 1.8 2007/08/10 23:33:31 tg Exp $");
 
 #define	PFD_PIPE_MAIN	0
 #define	PFD_MAX		1
@@ -451,9 +451,10 @@ priv_adjtime(void)
 			    peers[offset_cnt / 2 - 1]->update.status.stratum,
 			    peers[offset_cnt / 2]->update.status.stratum);
 			if (conf->trace)
-				log_info("adj%c strat-c %d dst %f peer %s", '1',
+				log_info("adj%c stc %d dst %3d ofs %6.1f srv %s", '1',
 				    peers[offset_cnt / 2 - 1]->update.status.stratum,
-				    peers[offset_cnt / 2 - 1]->update.delay,
+				    (int)((peers[offset_cnt / 2 - 1]->update.delay + .0005) * 1000.),
+				    peers[offset_cnt / 2 - 1]->update.offset * 1000.,
 				    log_sockaddr((struct sockaddr *)&peers[offset_cnt / 2 - 1]->addr->ss));
 		} else {
 			conf->status.rootdelay =
@@ -462,10 +463,11 @@ priv_adjtime(void)
 			    peers[offset_cnt / 2]->update.status.stratum;
 		}
 		if (conf->trace)
-			log_info("adj%c strat-c %d dst %f peer %s",
+			log_info("adj%c stc %d dst %3d ofs %6.1f srv %s",
 			    (offset_cnt > 1 && offset_cnt % 2 == 0) ? '2' : 'x',
 			    peers[offset_cnt / 2]->update.status.stratum,
-			    peers[offset_cnt / 2]->update.delay,
+			    (int)((peers[offset_cnt / 2]->update.delay + .0005) * 1000.),
+			    peers[offset_cnt / 2]->update.offset * 1000.,
 			    log_sockaddr((struct sockaddr *)&peers[offset_cnt / 2]->addr->ss));
 		conf->status.leap = peers[offset_cnt / 2]->update.status.leap;
 
