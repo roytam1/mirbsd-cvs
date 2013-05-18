@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/netinet/tcp_input.c,v 1.7 2005/12/20 19:41:48 tg Exp $ */
+/**	$MirOS: src/sys/netinet/tcp_input.c,v 1.8 2006/01/31 10:09:43 tg Exp $ */
 /*	$OpenBSD: tcp_input.c,v 1.168 2004/05/21 11:36:23 markus Exp $	*/
 /*	$OpenBSD: tcp_input.c,v 1.158.2.3 2005/01/11 04:40:29 brad Exp $	*/
 /*	$OpenBSD: tcp_input.c,v 1.178 2004/11/25 15:32:08 markus Exp $	*/
@@ -617,7 +617,7 @@ tcp_input(struct mbuf *m, ...)
 		     (optlen > TCPOLEN_TSTAMP_APPA &&
 			optp[TCPOLEN_TSTAMP_APPA] == TCPOPT_EOL)) &&
 		    *((u_int16_t *)optp + 1) == htons(TCPOPT_TIMESTAMP << 8 |
-			| TCPOLEN_TIMESTAMP) &&
+			TCPOLEN_TIMESTAMP) &&
 		     (th->th_flags & TH_SYN) == 0) {
 			opti.ts_present = 1;
 			opti.ts_val = ntohl(*(u_int32_t *)(optp + 4));
@@ -4317,14 +4317,18 @@ syn_cache_respond(sc, m)
 	/* Include SACK_PERMIT_HDR option if peer has already done so.
 	 * do here only if sackOK can't be packed in timestamp block */
 	if (sc->sc_flags & SCF_SACK_PERMIT &&
-	    (stdbsdtcp || !(sc->sc_flags & SCF_TIMESTAMP)))
-		*(((u_int32_t *)optp)++) = htonl(TCPOPT_SACK_PERMIT_HDR);
+	    (stdbsdtcp || !(sc->sc_flags & SCF_TIMESTAMP))) {
+		*((u_int32_t *)optp) = htonl(TCPOPT_SACK_PERMIT_HDR);
+		optp += 4;
+	}
 #endif
 
-	if (sc->sc_request_r_scale != 15)
-		*(((u_int32_t *)optp)++) = htonl(TCPOPT_NOP << 24 |
+	if (sc->sc_request_r_scale != 15) {
+		*((u_int32_t *)optp) = htonl(TCPOPT_NOP << 24 |
 		    TCPOPT_WINDOW << 16 | TCPOLEN_WINDOW << 8 |
 		    sc->sc_request_r_scale);
+		optp += 4;
+	}
 
 	if (sc->sc_flags & SCF_TIMESTAMP) {
 		u_int32_t *lp = (u_int32_t *)optp;
