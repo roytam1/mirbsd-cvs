@@ -1,4 +1,4 @@
-/**	$MirOS: ports/infrastructure/pkgtools/lib/lib.h,v 1.21 2008/11/02 19:02:00 tg Exp $ */
+/**	$MirOS: ports/infrastructure/pkgtools/lib/lib.h,v 1.22 2008/11/02 19:05:49 tg Exp $ */
 /*	$OpenBSD: lib.h,v 1.14 2003/08/21 20:24:57 espie Exp $	*/
 
 /*
@@ -244,7 +244,8 @@ extern bool	Force;
 /* mem.c */
 void *xcalloc(size_t, size_t);
 void *xrealloc(void *, size_t, size_t);
-void xfree(void *);
+#define xfree(p) xfree_((void **)&(p))
+void xfree_(void **);
 int xasprintf(char **, const char *, ...)
     __attribute__((nonnull (1)))
     __attribute__((format (printf, 2, 3)));

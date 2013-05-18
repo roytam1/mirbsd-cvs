@@ -21,7 +21,7 @@
 #include <err.h>
 #include "lib.h"
 
-__RCSID("$MirOS: src/share/misc/licence.template,v 1.24 2008/04/22 11:43:31 tg Rel $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/mem.c,v 1.1 2008/11/02 18:56:30 tg Exp $");
 
 void *
 xcalloc(size_t nmemb, size_t membsz)
@@ -56,12 +56,15 @@ xrealloc(void *ptr, size_t nmemb, size_t membsz)
 }
 
 void
-xfree(void *ptr)
+xfree_(void **ptr)
 {
 	if (ptr == NULL)
+		errx(1, "xfree: NULL pointer given");
+	else if (*ptr == NULL)
 		warnx("xfree: NULL pointer given");
 	else
-		free(ptr);
+		free(*ptr);
+	*ptr = NULL;
 }
 
 int
