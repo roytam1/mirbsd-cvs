@@ -72,7 +72,7 @@
 #define	__RCSID(x)	static const char __rcsid[] __attribute__((used)) = (x)
 #endif
 
-__RCSID("$MirOS: contrib/code/Snippets/tinyirc.c,v 1.20 2008/12/09 18:34:41 tg Exp $");
+__RCSID("$MirOS: contrib/code/Snippets/tinyirc.c,v 1.21 2008/12/09 19:48:35 tg Exp $");
 
 #ifndef __dead
 #define __dead
@@ -398,7 +398,7 @@ static int doprivmsg(void)
 		sendline();
 	} else if (!strcmp(ctcp, "VERSION")) {
 		snprintf(lineout, LINELEN,
-		    "NOTICE %s :\001VERSION %s (RANDOM=%d)\001\n",
+		    "NOTICE %s :\001VERSION %s (RANDOM=%u)\001\n",
 		    tok_in[0], RELEASE_L, arc4random());
 		sendline();
 	} else if (!strcmp(ctcp, "CLIENTINFO")) {
