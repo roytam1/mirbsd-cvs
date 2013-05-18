@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.sbin/makefs/cd9660/iso9660_rrip.c,v 1.19 2009/01/18 18:47:06 tg Exp $ */
+/**	$MirOS: src/usr.sbin/makefs/cd9660/iso9660_rrip.c,v 1.20 2009/06/29 18:49:28 tg Exp $ */
 /*	$NetBSD: iso9660_rrip.c,v 1.4 2006/12/18 21:03:29 christos Exp $	*/
 
 /*
@@ -45,7 +45,7 @@
 #include <sys/cdefs.h>
 #if defined(__RCSID) && !defined(__lint)
 __RCSID("$NetBSD: iso9660_rrip.c,v 1.4 2006/12/18 21:03:29 christos Exp $");
-__IDSTRING(mbsdid, "$MirOS: src/usr.sbin/makefs/cd9660/iso9660_rrip.c,v 1.19 2009/01/18 18:47:06 tg Exp $");
+__IDSTRING(mbsdid, "$MirOS: src/usr.sbin/makefs/cd9660/iso9660_rrip.c,v 1.20 2009/06/29 18:49:28 tg Exp $");
 #endif  /* !__lint */
 
 static void cd9660_rrip_initialize_inode(cd9660node *);
@@ -654,13 +654,17 @@ cd9660node_rrip_px(struct ISO_SUSP_ATTRIBUTES *v, fsnode *pxinfo)
 {
 	v->attr.rr_entry.PX.h.length[0] = 44;
 	v->attr.rr_entry.PX.h.version[0] = 1;
-	cd9660_bothendian_dword(pxinfo->inode->st.st_mode,
+	cd9660_bothendian_dword(rrip_squash ?
+	    /* turn on all R bits, and all X bits if one X bit is set */
+	    (((pxinfo->inode->st.st_mode & 0111) ? 0555 : 0444) |
+	    /* preserve original mode bits, except W, setugid, sticky */
+	    pxinfo->inode->st.st_mode) & ~07222 : pxinfo->inode->st.st_mode,
 	    v->attr.rr_entry.PX.mode);
 	cd9660_bothendian_dword(pxinfo->inode->st.st_nlink,
 	    v->attr.rr_entry.PX.links);
-	cd9660_bothendian_dword(rrip_squash_ugid ? 0 : pxinfo->inode->st.st_uid,
+	cd9660_bothendian_dword(rrip_squash ? 0 : pxinfo->inode->st.st_uid,
 	    v->attr.rr_entry.PX.uid);
-	cd9660_bothendian_dword(rrip_squash_ugid ? 0 : pxinfo->inode->st.st_gid,
+	cd9660_bothendian_dword(rrip_squash ? 0 : pxinfo->inode->st.st_gid,
 	    v->attr.rr_entry.PX.gid);
 	cd9660_bothendian_dword(pxinfo->inode->serno,
 	    v->attr.rr_entry.PX.serial);
