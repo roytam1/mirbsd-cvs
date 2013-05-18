@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.493 2013/02/11 00:46:16 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.494 2013/02/11 17:18:02 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -24,7 +24,7 @@ mws_content <<'EOF'
  <li>information about <a href="mksh_old.htm">old versions</a></li>
 </ul>
 
-<h2>mksh(1) R41</h2>
+<h2>mksh(1) R42</h2>
 
 <p>This is the website of the MirBSD™ Korn Shell, an actively developed free
  implementation of the Korn Shell programming language and a successor to the
@@ -45,8 +45,9 @@ mws_content <<'EOF'
  href="@@ABSPATH@@/TaC-mksh.txt">full licence terms</a> overview.</p>
 
 <h2 class="cr" id="prefetch">Introduction</h2>
-<p>The current version of mksh is <strong>mksh R41</strong> from
- <em>30 November 2012</em>.</p>
+<p>The current version of mksh is <strong>mksh R42</strong> from
+ <em>11 February 2013</em>.<br />In the stable bugfixing-only series, the
+ current version is <em>mksh R41b</em> from <em>10 February 2013</em>.</p>
 <p>Thanks to “Der Verein <a href="http://www.trash.net/verein/">trash.net</a>”
  for sponsoring access to a Solaris 8 box. Thanks to Julian “yofuh” Wiesener
  for just another account on a Sun E420 on Solaris 11β. Thanks to someone who
@@ -178,21 +179,27 @@ mws_content <<'EOF'
  <em>as well as</em> the hashes and/or checksums below, so you’re sure the
  content is intact and the version number on the archive is correct.</p>
 <h3 id="mirrors">Known Mirrors</h3><ul>
- <li><a href="https://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R41.tgz">https://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R41.tgz</a></li>
- <li><a href="http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R41.tgz">http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R41.tgz</a></li>
+ <li><a href="https://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R42.tgz">https://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R42.tgz</a></li>
+ <li><a href="http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R42.tgz">http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R42.tgz</a></li>
+ <li><a href="https://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R41b;.tgz">https://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R41b.tgz</a></li>
+ <li><a href="http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R41b.tgz">http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R41b.tgz</a></li>
 </ul>
 <h3 id="hashes">Checksums and Hashes</h3><ul>
- <li>RMD160 (mksh-R41.tgz) = 68823b689b7c8a6ddd38034a72282e9f50b78565</li>
- <li>TIGER (mksh-R41.tgz) = 71c320511c9ac277aba7a3dfa69998ea3ea83dd3ef034e69</li>
- <li>1055458593 341489 /MirOS/dist/mir/mksh/mksh-R41.tgz</li>
- <li>MD5 (mksh-R41.tgz) = 70eca50d9340412714ef09b7060ebde9</li>
+ <li>RMD160 (mksh-R42.tgz) = 1ec6462ca208922ecf48762d4144701983345fe7</li>
+ <li>TIGER (mksh-R42.tgz) = 853e322026b0ecd80ffc0e744bcf8ce1eabfa491a559c255</li>
+ <li>3587716028 345721 /MirOS/dist/mir/mksh/mksh-R42.tgz</li>
+ <li>MD5 (mksh-R42.tgz) = f1ad261f79f6ac45e8d5cc5bea191090</li>
+ <li>RMD160 (mksh-R41b.tgz) = 93ebfcae5f2211d0bd677e8482fff94fae648c16</li>
+ <li>TIGER (mksh-R41b.tgz) = 3ba0cec16a4e918f4fd19867358e365b55b41491ce686291</li>
+ <li>1308214248 343553 /MirOS/dist/mir/mksh/mksh-R41b.tgz</li>
+ <li>MD5 (mksh-R41b.tgz) = d9f6fc6669079faa88dcf7c8c2442c18</li>
  <li style="list-style:none;">All official distfiles are gzsig(1)d. with our
   <a href="/gzsigkey.cer">current signature key</a>.</li>
 </ul>
 
 <h3 id="decomp">Decompression</h3>
 <p>We’re using gzip(1)-compressed POSIX us<!-- -->tar(1) distfiles nowadays,
- so a simple <tt>tar xzf mksh-R41.tgz</tt> will work.</p>
+ so a simple <tt>tar xzf mksh-R42.tgz</tt> will work.</p>
 
 <h3 id="vendorpatching">Patching</h3>
 <p>If you’re a packager/vendor and need to patch mksh and deviate from the
@@ -468,9 +475,7 @@ exec /usr/bin/ld "${args[@]}"</pre>
 
 <h5 class="cr" id="oe_klcc">Toolchain: klibc</h5>
 <p>klibc needs <tt>-DMKSH_NO_LIMITS</tt> and can then use stock klcc as
- compiler wrapper (CC=klcc). On some platforms, it’s already usable by
- now; most have a broken sigsuspend(2) wrapper (patch to fix it sent in)
- and thus need <tt>-DMKSH_NO_SIGSUSPEND</tt> (R41 experimental option).</p>
+ compiler wrapper (CC=klcc).</p>
 
 <h5 class="cr" id="oe_musl">Toolchain: musl</h5>
 <p>Appears to work just fine in R41b and up.</p>
@@ -802,6 +807,15 @@ exec /usr/bin/ld "${args[@]}"</pre>
 <!--
 <p id="pcur"><i>current</i>: <i>(unfinished…)</i></p>
 -->
+<p id="p42">R42: <tt>MKSH_DISABLE_EXPERIMENTAL</tt> was made a no-op again
+ for this release, like <tt>MKSH_DISABLE_DEPRECATED</tt> was for R41. There
+ is a new option <tt>DEBUG_LEAKS</tt> which is implied by <tt>DEBUG</tt>,
+ which, in turn, you should never enable in production. Handling of time.h
+ vs. sys/time.h and sys_errlist[] changed. The default <tt>dot.mkshrc</tt>
+ now uses <tt>${ foo;}</tt> constructs ipv <tt>$(foo)</tt> to save a fork(2)
+ at the cost of using a file in $TMPDIR; adjust if you really need.</p>
+<p id="p41b">R41b: Some bugfixes in Build.sh and the code; GCC now adds
+ <tt>-fno-asynchronous-unwind-tables</tt>.</p>
 <p id="p41">R41: We’re using POSIX ustar archives now. Honours
  <tt>LDSTATIC</tt> (which is appended to <tt>LDFLAGS</tt> and, if not empty
  (e.g. consists of whitespace), adds more mksh-local code to to the build to
@@ -875,13 +889,11 @@ exec /usr/bin/ld "${args[@]}"</pre>
  src="@@RELPATH@@pics/logos/debian.png" /><a
  href="http://www.debian.org/">Debian</a> GNU/Linux, GNU/Hurd and
  GNU/kFreeBSD have an <a href="http://packages.debian.org/mksh">mksh package</a>
- maintained by the MirOS Project and uploaded (sponsored) by Bastian “waldi”
- Blank, Otavio Salvador, and Patrick Schönfeld; the debconf questions were taken
- from dash. We do not provide an inofficial source package any longer.</li>
+ maintained us.</li>
 <li class="cr"><img class="fr" width="61" height="64" alt="[Gentoo logo]"
  src="@@RELPATH@@pics/logos/gentoo.png" /><a
  href="http://www.gentoo.org/">Gentoo GNU/Linux</a> has an mksh <a
- href="http://sources.gentoo.org/viewcvs.py/gentoo-x86/app-shells/mksh/">ebuild</a>
+ href="http://sources.gentoo.org/cgi-bin/viewvc.cgi/gentoo-x86/app-shells/mksh/">ebuild</a>
  created by <a href="http://www.hboeck.de/">Hanno Böck</a> and kept up
  to date by bonsaikitten.</li>
 <li class="cr"><img class="fr" width="64" height="64" alt="[Fedora logo]"
@@ -890,8 +902,8 @@ exec /usr/bin/ld "${args[@]}"</pre>
  and <a href="http://www.redhat.com/rhel/">RHEL</a> 4, 5 and 6 (via EPEL) now
  officially contain <a
  href="http://fedoraproject.org/wiki/Packages/mksh">an mksh package</a> (<a
- href="http://pkgs.fedoraproject.org/gitweb/?p=mksh.git;a=summary">git pkg
- repo</a>). There are some <a
+ href="http://pkgs.fedoraproject.org/cgit/mksh.git/"><!-- I hate cgit, can't
+ you just use gitweb? -->git pkg repo</a>). There are some <a
  href="http://fedoraproject.org/wiki/EPEL/FAQ#How_can_I_install_the_packages_from_the_EPEL_software_repository.3F">Instructions</a>
  for activating EPEL (RHEL only), then just type <tt>yum install mksh</tt>.</li>
 <li>Red Hat Enterprise Linux (RHEL 6) will ship mksh for their customers
@@ -900,7 +912,7 @@ exec /usr/bin/ld "${args[@]}"</pre>
  src="@@RELPATH@@pics/logos/suse.png" />The <a
  href="http://en.opensuse.org/Build_Service">OpenSuSE Build
  Service</a> provides an mksh package inside the <a
- href="http://download.opensuse.org/repositories/shells/SLE_11/src/">shells
+ href="http://download.opensuse.org/repositories/shells/SLE_11_SP2/src/">shells
  repo</a>, thanks to Pascal “loki” Bleser and Marcus “darix” Rückert; the
  RPMs are available as SRPM (source RPM) as well as for <a
  href="http://download.opensuse.org/repositories/shells/">various
@@ -956,7 +968,7 @@ exec /usr/bin/ld "${args[@]}"</pre>
 <li class="cr"><img class="fr" width="68" height="64" alt="[Arch logo]"
  src="@@RELPATH@@pics/logos/arch.png" /><a
  href="http://www.archlinux.org/">Arch GNU/Linux</a> users can install
- an <a href="http://www.archlinux.org/packages/?q=mksh">mksh
+ an <a href="https://www.archlinux.org/packages/?q=mksh">mksh
  package</a> by Daniel “homsn” Hommel, promoted by Thorsten “Atsutane”
  Töpper, since the Arch Hurd guys were faster.</li>
 <li class="cr"><img class="fr" width="58" height="48" alt="[T2 logo]"
@@ -968,7 +980,7 @@ exec /usr/bin/ld "${args[@]}"</pre>
  href="http://www.freebsd.org/">FreeBSD®</a> Ports (for FreeBSD, very old
  <a href="http://www.dragonflybsd.org/">DragonFly BSD</a> versions and <a
  href="http://www.desktopbsd.net/">DesktopBSD</a>) also have a <a
- href="http://cvsweb.freebsd.org/ports/shells/mksh/">port</a> created by
+ href="http://svnweb.freebsd.org/ports/head/shells/mksh/">port</a> created by
  Andreas “ankon” Kohn and kept up to date by Martin “miwi” Wilke and
  Olivier Duchateau. It is
  unknown if this applies to <a href="http://www.pcbsd.org/">PC-BSD</a> too,
@@ -976,11 +988,11 @@ exec /usr/bin/ld "${args[@]}"</pre>
 <li class="cr"><img class="fr" width="64" height="64" alt="[MidnightBSD logo]"
  src="@@RELPATH@@pics/logos/mnbsd.png" /><a
  href="http://www.midnightbsd.org/">MidnightBSD</a> uses <a
- href="http://cvsweb.midnightbsd.org/mports/shells/mksh/">mports</a>, a
+ href="http://www.midnightbsd.org/cgi-bin/cvsweb.cgi/mports/shells/mksh/">mports</a>, a
  derivate of FreeBSD® ports. Naturally, they deliver mksh as well.
  MidnightBSD 0.2-CURRENT from 18th August 2007 onwards has mksh as both <a
- href="http://cvsweb.midnightbsd.org/src/contrib/mksh/"><tt>/bin/mksh</tt></a>
- and <a href="http://cvsweb.midnightbsd.org/src/bin/mksh/"><tt>/bin/ksh</tt></a>,
+ href="http://www.midnightbsd.org/cgi-bin/cvsweb.cgi/src/contrib/mksh/"><tt>/bin/mksh</tt></a>
+ and <a href="http://www.midnightbsd.org/cgi-bin/cvsweb.cgi/src/bin/mksh/"><tt>/bin/ksh</tt></a>,
  i.e. it is the default MidnightBSD Korn shell. From 29 March 2009 onwards, <a
  href="http://www.midnightbsd.org/pipermail/midnightbsd-cvs/2009-March/008099.html">it
  is also the default</a> <tt>/bin/sh</tt> (since MidnightBSD 0.3).</li>
@@ -1033,7 +1045,7 @@ exec /usr/bin/ld "${args[@]}"</pre>
 <li class="cr">Dag Wieërs had an RPMforge package, based on Fedora’s</li>
 <li class="cr"><img class="fr" width="96" height="64" alt="[PLD Linux logo]"
  src="@@RELPATH@@pics/logos/pld.png" />The <a
- href="http://cvs.pld-linux.org/cgi-bin/cvsweb.cgi/packages/mksh/">PLD
+ href="http://cvs.pld-linux.org/cgi-bin/viewvc.cgi/cvs/packages/mksh/">PLD
  Linux Distribution</a> also has a very actively maintained one by
  Kacper “draenog” Kornet and Arkadiusz “arekm” Miśkiewicz</li>
 <li class="cr"><a href="http://sisyphus.ru/en/srpm/mksh">Alt Linux Sisyphus</a>
@@ -1063,6 +1075,13 @@ exec /usr/bin/ld "${args[@]}"</pre>
 <!--
 <p id="ccur"><i>current</i>: … <i>(unfinished…)</i></p>
 -->
+<p id="c42">R42: <tt>${ foo;}</tt> constructs now handle <tt>local</tt>,
+ <tt>return</tt> and <tt>exit</tt> like functions do; <tt>dot.mksh</tt>
+ makes use of them to avoid fork(2)s. <tt>$'…'</tt> works in more places;
+ here strings now use the full recursive parser.</p>
+<p id="c41b">R41b: The ERR and EXIT traps are called correctly; in “set -e”
+ mode, functions correctly cause the shell to exit if they return nonzero,
+ even if they contain a list.</p>
 <p id="c41">R41: Deprecated features (set ±o arc4random; beginning an input
  line with ‘!’ instead of ‘r’+space) are gone. Numbers beginning with 0 are
  no longer interpreted as octal (except in lksh). Several fixes may have
@@ -1120,13 +1139,16 @@ exec /usr/bin/ld "${args[@]}"</pre>
 <p><a href="mksh_old.htm#caveat">older entries</a></p>
 
 <h2 id="clog">Recent Changes</h2>
+<!--
 <p>Changes in the current (unreleased) development version:</p><ul>
+-->
  <!-- li>Begin porting mksh to the <a href="http://9fans.net/">Plan 9</a>
   ANSI’n’POSIX Environment (not finished)</li -->
  <!-- li>Port to <a href="http://www.syllable.org/">Syllable Desktop</a>
   (not finished, but maybe the rest is a kernel bug?)</li -->
  <!-- li>Import the GNU bash- and zsh-style ability to get and set multiple
   limits in a single invocation from oksh (thanks millert) -->
+<p id="r42">mksh R42 brings back the release\ {early,often} scheme:</p><ul>
  <li>[tg] Make <tt>-DMKSH_DISABLE_EXPERIMENTAL</tt> a nop again</li>
  <li>[tg] Quell some LLVM+Clang warnings; overhaul scan-build assert(3)s</li>
  <li>[tg, RT] Bunch of portability and build system fixes</li>
@@ -1146,7 +1168,8 @@ exec /usr/bin/ld "${args[@]}"</pre>
   <tt>return</tt> DWIW; use it for the big chunk in $PS1 to avoid fork(2)ing
   (at cost of tempfiles; dot.mkshrc is a sample, adjust to your needs)</li>
  <li>[tg] Document invalid ${a/b/c} patterns in manpage (Debian #698678)</li>
-<li style="list-style:none;">Changes already MFCd into R41-stable branch</li>
+</ul>
+<p id="r41b">mksh R41b is a bugfix-only release off a stable branch:</p><ul>
  <li>[tg] Fix gettimeofday(2) detection at build time (warning)</li>
  <li>[RT, tg] <tt>Build.sh</tt>: catch non-working dash printf builtin</li>
  <li>[chris2, dalias, tg] Remove musl libc workaround and use _GNU_SOURCE
@@ -1579,6 +1602,9 @@ exec /usr/bin/ld "${args[@]}"</pre>
 <li>Allow trimming arrays (e.g. <tt>${foo[*]@Q}</tt>)</li>
 <li><a href="mksh_old.htm#plans">older/unrealistic plans</a></li>
 <li>… such as a better website, more clearly arranged, etc…</li>
+<li>Although there is <em>definite</em> need, eventually, to have
+ 64-bit arithmetics, possibly using a long typeset flag and something
+ similar to <tt>$((#x))</tt> for unsigned arithmetics</li>
 </ul>
 EOF
 mws_putfooter
