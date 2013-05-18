@@ -1,4 +1,4 @@
-/* $MirOS: src/sys/arch/i386/stand/boot/srt0.S,v 1.31 2009/01/02 05:30:54 tg Exp $ */
+/* $MirOS: src/sys/arch/i386/stand/boot/srt0.S,v 1.32 2009/01/02 05:40:56 tg Exp $ */
 
 /*-
  * Copyright (c) 2003, 2004, 2005, 2006, 2007, 2008, 2009
@@ -262,9 +262,13 @@ Lmain:	UD(6)			/** F: jump successful */
 1:	/* this may be a CD */
 	mov	esi,offset Ltblk - SA_LOADADDR
 	mov	byte ptr [si],0x13
+	push	dx
 	mov	ax,0x4B01
 	int	0x13
+	pop	dx
 	jc	LnoCD
+	cmp	byte ptr [si+2],dl
+	jne	LnoCD
 	test	byte ptr [si+1],0x0F
 	jnz	LnoCD
 	/* we have a CD in no emulation mode */
