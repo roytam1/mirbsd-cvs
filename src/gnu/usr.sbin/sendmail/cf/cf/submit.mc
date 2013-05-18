@@ -1,6 +1,6 @@
 divert(-1)
 #
-# $MirOS: src/gnu/usr.sbin/sendmail/cf/cf/submit.mc,v 1.5 2006/09/12 19:29:36 tg Exp $
+# $MirOS: src/gnu/usr.sbin/sendmail/cf/cf/submit.mc,v 1.6 2006/11/17 02:48:51 tg Exp $
 #
 # Copyright (c) 2004, 2005, 2006
 #	Thorsten "mirabilos" Glaser <tg@MirBSD.de>
@@ -19,7 +19,7 @@ divert(-1)
 #
 
 divert(0)dnl
-VERSIONID(`$MirOS: src/gnu/usr.sbin/sendmail/cf/cf/submit.mc,v 1.5 2006/09/12 19:29:36 tg Exp $')
+VERSIONID(`$MirOS: src/gnu/usr.sbin/sendmail/cf/cf/submit.mc,v 1.6 2006/11/17 02:48:51 tg Exp $')
 VERSIONID(`$Sendmail: submit.mc,v 8.14 2006/04/05 05:54:41 ca Exp $')
 define(`confCF_VERSION', `Submit')dnl
 define(`__OSTYPE__',`')dnl dirty hack to keep proto.m4 from complaining
@@ -33,3 +33,9 @@ define(`_DEF_SMTP_MAILER_FLAGS', `LmDFMuX')dnl
 define(`SMTP_MAILER_FLAGS', `67E')dnl
 FEATURE(`accept_unresolvable_domains')dnl
 FEATURE(`msp', `[IPv6:::1]')dnl
+dnl
+LOCAL_CONFIG
+dnl
+dnl Parts of these Content-type are never base64-encoded, only QP
+dnl
+Cqtext/plain
