@@ -1,4 +1,4 @@
-# $MirOS: src/sys/conf/Makefile.inc,v 1.10 2006/03/27 09:27:26 tg Exp $
+# $MirOS: src/sys/conf/Makefile.inc,v 1.11 2006/03/27 09:40:16 tg Exp $
 #-
 # Copyright (c) 2005, 2006
 #	Thorsten "mirabilos" Glaser <tg@mirbsd.de>
@@ -74,8 +74,8 @@ CPPFLAGS+=	-DMSDOSFS_NO_LFN
 .endif
 
 HOSTCC=		${CC}
-HOSTED_CPPFLAGS=${CPPFLAGS:N-nostdinc:N-D_KERNEL}
-HOSTED_CFLAGS=	${CFLAGS}
+HOSTCPPFLAGS=	${CPPFLAGS:N-nostdinc:N-D_KERNEL}
+HOSTCFLAGS?=	${CFLAGS}
 
 ### find out what to use for libkern
 .include "$S/lib/libkern/Makefile.inc"
@@ -99,7 +99,7 @@ DRIVER_C_C=	${CC} ${CFLAGS} ${CPPFLAGS} ${PARAM} -c $<
 NORMAL_S=	${CC} -D_ASM_SOURCE ${AFLAGS} ${CPPFLAGS} -c $<
 NORMAL_S_C=	${CC} -D_ASM_SOURCE ${AFLAGS} ${CPPFLAGS} ${PARAM} -c $<
 
-HOSTED_C=	${HOSTCC} ${HOSTED_CFLAGS} ${HOSTED_CPPFLAGS} -c $<
+HOSTED_C=	${HOSTCC} ${HOSTCFLAGS} ${HOSTCPPFLAGS} -c $<
 
 .MAIN: all
 
@@ -136,7 +136,7 @@ tai_leaps.c: tai_make
 	./tai_make >$@ || (rm -f $@; false)
 
 tai_make: tai_make.o
-	${HOSTCC} ${HOSTED_CFLAGS} -o $@ $>
+	${HOSTCC} ${HOSTCFLAGS} -o $@ $>
 
 tai_make.o: $S/lib/libkern/tai_make.c
 	${HOSTED_C}

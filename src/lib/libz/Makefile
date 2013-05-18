@@ -1,4 +1,4 @@
-# $MirOS: src/lib/libz/Makefile,v 1.17 2006/01/24 13:13:01 tg Exp $
+# $MirOS: src/lib/libz/Makefile,v 1.18 2006/01/24 19:42:52 tg Exp $
 # $OpenBSD: Makefile,v 1.13 2005/07/20 21:29:00 jmc Exp $
 
 SHLIB_VERSION?=	5.3
@@ -57,9 +57,9 @@ includes:
 	    -m ${NONBINMODE} ${_i} ${DESTDIR}/usr/include/
 .endfor
 
-HOSTED_CFLAGS?=	${CFLAGS}
-HOSTED_LDFLAGS?=${LDFLAGS}
-HOSTED_CFLAGS+=	${CPPFLAGS} -I${.CURDIR}
+HOSTCFLAGS?=	${CFLAGS}
+HOSTLDFLAGS?=	${LDFLAGS}
+HOSTCFLAGS+=	${CPPFLAGS} -I${.CURDIR}
 
 beforedepend: ${GENHDRS}
 

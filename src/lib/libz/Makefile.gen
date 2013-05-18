@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: src/lib/libz/Makefile.gen,v 1.1 2005/12/06 00:46:17 tg Exp $
 
 crc32.h: mk_crc32
 	./mk_crc32
@@ -19,8 +19,8 @@ mk_crc32.c:
 	print '}' >>$@
 
 mk_crc32: mk_crc32.c crc32.c
-	${HOSTCC} ${LDSTATIC} ${HOSTED_CFLAGS} ${HOSTED_CPPFLAGS} \
-	    ${HOSTED_LDFLAGS} -DMAKECRCH $> -o $@
+	${HOSTCC} ${LDSTATIC} ${HOSTCFLAGS} ${HOSTCPPFLAGS} \
+	    ${HOSTLDFLAGS} -DMAKECRCH $> -o $@
 
 mk_inffixed.c: crc32.h
 	print 'void makefixed(void);' >$@
@@ -33,8 +33,8 @@ mk_inffixed.c: crc32.h
 
 mk_inffixed: mk_inffixed.c inflate.c \
     adler32.c crc32.c inffast.c inftrees.c zutil.c
-	${HOSTCC} ${LDSTATIC} ${HOSTED_CFLAGS} ${HOSTED_CPPFLAGS} \
-	    ${HOSTED_LDFLAGS} -DMAKEFIXED $> -o $@
+	${HOSTCC} ${LDSTATIC} ${HOSTCFLAGS} ${HOSTCPPFLAGS} \
+	    ${HOSTLDFLAGS} -DMAKEFIXED $> -o $@
 
 mk_trees.c:
 	print '#include "deflate.h"' >$@
@@ -51,5 +51,5 @@ mk_trees.c:
 	print '}' >>$@
 
 mk_trees: mk_trees.c trees.c
-	${HOSTCC} ${LDSTATIC} ${HOSTED_CFLAGS} ${HOSTED_CPPFLAGS} \
-	    ${HOSTED_LDFLAGS} -DGEN_TREES_H $> -o $@
+	${HOSTCC} ${LDSTATIC} ${HOSTCFLAGS} ${HOSTCPPFLAGS} \
+	    ${HOSTLDFLAGS} -DGEN_TREES_H $> -o $@
