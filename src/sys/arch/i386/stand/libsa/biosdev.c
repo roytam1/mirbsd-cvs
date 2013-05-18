@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/stand/libsa/biosdev.c,v 1.7 2008/11/08 23:04:07 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/stand/libsa/biosdev.c,v 1.8 2008/12/28 03:40:15 tg Exp $ */
 /*	$OpenBSD: biosdev.c,v 1.74 2008/06/25 15:32:18 reyk Exp $	*/
 
 /*
@@ -379,7 +379,7 @@ biosd_io(int rw, bios_diskinfo_t *bd, daddr_t off, int nsect, void *buf)
 const char *
 bios_getdisklabel(bios_diskinfo_t *bd, struct disklabel *label)
 {
-	daddr_t off = LABELSECTOR;
+	daddr_t off = 0;
 	char *buf;
 	struct dos_mbr mbr;
 	int error, i;
@@ -402,7 +402,6 @@ loop:		error = biosd_io(F_READ, bd, mbrofs, 1, &mbr);
 			return "bad MBR signature\n";
 
 		/* Search for MirBSD partition */
-		off = 0;
 		if (userpt) for (i = 0; off == 0 && i < NDOSPART; i++) {
 			mbr.dmbr_parts[i].dp_start += mbrofs;
 			if (mbr.dmbr_parts[i].dp_typ == userpt)
@@ -440,9 +439,8 @@ loop:		error = biosd_io(F_READ, bd, mbrofs, 1, &mbr);
 				goto loop;
 			}
 		}
-		if (!off)
-			return("no BSD partition\n");
-
+	}
+	if (off) {
 		off = mbr.dmbr_parts[off - 1].dp_start + LABELSECTOR;
 	} else
 		off = LABELSECTOR;
