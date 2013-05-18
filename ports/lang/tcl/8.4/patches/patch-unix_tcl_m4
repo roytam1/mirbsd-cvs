@@ -1,6 +1,6 @@
-$MirOS: ports/lang/tcl/8.4/patches/patch-unix_tcl_m4,v 1.1 2006/11/20 21:08:11 tg Exp $
---- unix/tcl.m4.orig	Wed Feb  6 16:38:03 2008
-+++ unix/tcl.m4	Mon Feb 25 11:52:51 2008
+$MirOS: ports/lang/tcl/8.4/patches/patch-unix_tcl_m4,v 1.2 2008/02/25 11:15:50 bsiegert Exp $
+--- unix/tcl.m4.orig	2008-02-06 16:38:26.000000000 +0100
++++ unix/tcl.m4	2010-01-12 23:07:31.000000000 +0100
 @@ -1486,7 +1486,7 @@ dnl AC_CHECK_TOOL(AR, ar)
  	    UNSHARED_LIB_SUFFIX='${TCL_TRIM_DOTS}\$\{DBGX\}.a'
  	    TCL_LIB_VERSIONS_OK=nodots
@@ -10,7 +10,17 @@ $MirOS: ports/lang/tcl/8.4/patches/patch-unix_tcl_m4,v 1.1 2006/11/20 21:08:11 t
  	    case `arch -s` in
  	    m88k|vax)
  		SHLIB_CFLAGS=""
-@@ -2091,7 +2091,7 @@ dnl # preprocessing tests use only CPPFL
+@@ -1561,6 +1561,9 @@ dnl AC_CHECK_TOOL(AR, ar)
+ 	    esac
+ 	    ;;
+ 	Darwin-*)
++	    UNSHARED_LIB_SUFFIX='${TCL_TRIM_DOTS}\$\{DBGX\}.a'
++	    TCL_LIB_VERSIONS_OK=nodots
++	    TCL_LIB_VERSIONS_OK=nodots
+ 	    CFLAGS_OPTIMIZE="-Os"
+ 	    SHLIB_CFLAGS="-fno-common"
+ 	    # To avoid discrepancies between what headers configure sees during
+@@ -2091,7 +2094,7 @@ dnl # preprocessing tests use only CPPFL
  		    ;;
  		IRIX*)
  		    ;;
