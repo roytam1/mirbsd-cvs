@@ -1,4 +1,4 @@
-/* $MirOS: src/sys/arch/i386/stand/boot/srt0.S,v 1.80 2009/10/24 16:12:01 tg Exp $ */
+/* $MirOS: src/sys/arch/i386/stand/boot/srt0.S,v 1.81 2009/10/27 13:23:38 tg Exp $ */
 
 /*-
  * Copyright (c) 2003, 2004, 2005, 2006, 2007, 2008, 2009
@@ -238,7 +238,7 @@ Lpxelinux:
 	mov	ds:[ecx + offset pxe_bang - offset _start],eax
 	mov	ds:[ecx + offset pxe_plus - offset _start],eax
 	xor	edx,edx
-	mov	ah,4		/* probably PXE :) but do not scan */
+	mov	dh,4		/* probably PXE :) but do not scan */
 	mov	bx,3		/* clean up but retain PXE and UNDI */
 	jmp	Lislx
 
