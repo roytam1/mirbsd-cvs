@@ -1,4 +1,4 @@
-/* $MirOS: contrib/code/libhaible/mbsrtowcs.c,v 1.10 2006/05/30 22:01:50 tg Exp $ */
+/* $MirOS: contrib/code/libhaible/mbsrtowcs.c,v 1.11 2006/05/30 22:02:55 tg Exp $ */
 
 /*-
  * Copyright (c) 2006
@@ -25,7 +25,7 @@
 
 #include "mir18n.h"
 
-__RCSID("$MirOS: contrib/code/libhaible/mbsrtowcs.c,v 1.10 2006/05/30 22:01:50 tg Exp $");
+__RCSID("$MirOS: contrib/code/libhaible/mbsrtowcs.c,v 1.11 2006/05/30 22:02:55 tg Exp $");
 
 size_t
 mbsrtowcs(wchar_t *__restrict__ pwcs, const char **__restrict__ s,
@@ -34,7 +34,7 @@ mbsrtowcs(wchar_t *__restrict__ pwcs, const char **__restrict__ s,
 	static mbstate_t internal = { 0, 0 };
 	const unsigned char *src = (const unsigned char *)(*s);
 	wint_t c, w;
-	size_t num, count = 0;
+	size_t num, numb = 0;
 
 	if (ps == NULL)
 		ps = &internal;
@@ -48,12 +48,12 @@ mbsrtowcs(wchar_t *__restrict__ pwcs, const char **__restrict__ s,
 				return ((size_t)(-1));
 			}
 			if (pwcs != NULL)
-				pwcs[count] = (wchar_t)c;
+				pwcs[numb] = (wchar_t)c;
 			if (c == '\0') {
 				src = NULL;
 				break;
 			}
-			count++;
+			numb++;
 		}
 	} else {
 		while (((pwcs == NULL) ? 1 : n--) > 0) {
@@ -61,13 +61,13 @@ mbsrtowcs(wchar_t *__restrict__ pwcs, const char **__restrict__ s,
 				c = *src;
 				if (c < 0x80) {
 					if (pwcs != NULL)
-						pwcs[count] = (wchar_t)c;
+						pwcs[numb] = (wchar_t)c;
 					if (c == '\0') {
 						src = NULL;
 						break;
 					}
 					src++;
-					count++;
+					numb++;
 					continue;
 				} else if (c < 0xC2)
 					goto ilseq;
@@ -95,13 +95,13 @@ mbsrtowcs(wchar_t *__restrict__ pwcs, const char **__restrict__ s,
 					goto ilseq;
 			}
 			if (pwcs != NULL) {
-				pwcs[count] = w;
+				pwcs[numb] = w;
 				ps->count = 0;
 			}
-			count++;
+			numb++;
 		}
 	}
 	if (pwcs != NULL)
 		*s = (const char *)src;
-	return (count);
+	return (numb);
 }
