@@ -39,6 +39,7 @@
 #include <string.h>
 #include <ctype.h>
 #include <limits.h>
+#include <stdint.h>
 #include <stdlib.h>
 #include <regex.h>
 
@@ -48,7 +49,7 @@
 #include "cclass.h"
 #include "cname.h"
 
-__RCSID("$MirOS: src/lib/libc/regex/regcomp.c,v 1.2 2007/02/12 05:37:50 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/regex/regcomp.c,v 1.3 2007/02/12 05:51:52 tg Exp $");
 
 /*
  * parse structure, passed up and down to avoid global variables and

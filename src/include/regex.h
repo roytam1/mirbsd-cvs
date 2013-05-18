@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: regex.h,v 1.6 2003/06/02 19:34:12 millert Exp $	*/
 /*	$NetBSD: regex.h,v 1.4.6.1 1996/06/10 18:57:07 explorer Exp $	*/
 
@@ -39,8 +40,20 @@
 #ifndef _REGEX_H_
 #define	_REGEX_H_
 
-#include <sys/cdefs.h>
 #include <sys/types.h>
+
+#ifndef __BEGIN_DECLS
+#define __BEGIN_DECLS
+#define __END_DECLS
+#endif
+
+#ifndef _POSIX2_RE_DUP_MAX
+#ifdef _POSIX_RE_DUP_MAX
+#define _POSIX2_RE_DUP_MAX	_POSIX_RE_DUP_MAX
+#else
+#define _POSIX2_RE_DUP_MAX	255
+#endif
+#endif
 
 /* types */
 typedef off_t regoff_t;

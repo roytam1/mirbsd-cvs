@@ -35,9 +35,13 @@
  *	@(#)cclass.h	8.3 (Berkeley) 3/20/94
  */
 
-__RCSID("$MirOS: src/lib/libc/regex/cclass.h,v 1.2 2007/02/12 05:37:50 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/regex/cclass.h,v 1.3 2010/01/07 22:34:53 tg Exp $");
 
+#ifdef __MirBSD__
 extern const uint8_t mbsd_digits_dec[11];
+#else
+static const uint8_t mbsd_digits_dec[11] = "0123456789";
+#endif
 
 /* character-class table */
 static struct cclass {
