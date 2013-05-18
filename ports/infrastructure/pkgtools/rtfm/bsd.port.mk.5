@@ -1,8 +1,8 @@
-.\" $MirOS: ports/infrastructure/pkgtools/rtfm/bsd.port.mk.5,v 1.28 2008/11/11 02:50:09 tg Exp $
+.\" $MirOS: ports/infrastructure/pkgtools/rtfm/bsd.port.mk.5,v 1.29 2008/11/16 23:07:19 tg Exp $
 .\" $OpenBSD: bsd.port.mk.5,v 1.134 2004/02/18 13:39:02 xsa Exp $
 .\"
 .\" Copyright (c) 2007, 2008 Thorsten Glaser
-.\" Copyright (c) 2006 Benny Siegert
+.\" Copyright (c) 2006, 2009 Benny Siegert
 .\" Copyright (c) 2000 Marc Espie
 .\"
 .\" All rights reserved.
@@ -63,7 +63,7 @@
 .\" with -mandoc, it might implement .Mx itself, but we want to
 .\" use our own definition. And .Dd must come *first*, always.
 .\"
-.Dd $Mdocdate: November 11 2008 $
+.Dd $Mdocdate: November 16 2008 $
 .\"
 .\" Implement .Mx (MirBSD)
 .\"
@@ -1609,6 +1609,12 @@ which default to
 and
 .Sq check
 respectively.
+.It Ev REPORT_PROBLEM
+User settings.
+A command which is run when a port build fails during a recursive run,
+i.e. when running
+.Cm mmake
+in a subdirectory or for a whole category.
 .It Ev RESPONSIBLE
 The name and e-mail address of the person maintaining the port for MirPorts.
 The default is the miros-discuss list.
