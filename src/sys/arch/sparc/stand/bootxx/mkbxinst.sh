@@ -1,5 +1,5 @@
 #!/bin/mksh
-rcsid='$MirOS: src/sys/arch/sparc/stand/bootxx/mkbxinst.sh,v 1.8 2008/10/21 00:12:26 tg Exp $'
+rcsid='$MirOS: src/sys/arch/sparc/stand/bootxx/mkbxinst.sh,v 1.9 2008/10/21 01:18:14 tg Exp $'
 #-
 # Copyright (c) 2007, 2008
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -45,8 +45,11 @@ while read -p adr typ sym; do
 	eval typeset -i10 sym$sym=0x\$adr
 done
 
+set -A sect_text -- $(objdump -wh --target=a.out-sunos-big $1 | fgrep .text)
+(( fofs_text = 0x${sect_text[5]} ))
+
 typeset -Uui10 ofs tblsz
-(( ofs = sym_block_start - sym_start + 32 ))
+(( ofs = sym_block_start - sym_start + fofs_text ))
 strip -F a.out-sunos-big -s -o $T $1
 tblsz=$(dd if=$T bs=1 skip=$ofs count=4 2>/dev/null | \
     hexdump -ve '"0x" 4/1 "%02X"')
