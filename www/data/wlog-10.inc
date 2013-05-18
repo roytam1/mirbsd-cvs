@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.369 2011/10/06 22:59:50 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.370 2011/10/16 01:15:19 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -8710,4 +8710,26 @@ Tag: debian pcli rant tip
  while we are on my wishlist.</p>
 <p>It's a sad day when the percentage of correctly encoded eMail
  messages in my INBOX is smaller than that of my Spambox...</p>
+----
+Date: 24.10.2011 20:18
+Author: tg@
+Title: benz’ wedding, fun before
+Tag: debian event fun
+
+<p>My dear MirBSD co-developer Benny did not only get his Doctor title
+ but also recently married. There will be another post detailing this,
+ including better photos of the two Doctors and the cake (with a Dæmon
+ she made herself) on the wlog, but this is some fun beforehand:</p>
+<p><a href="@@RELPATH@@pics/wlog/NoGPLcar.jpg"><img alt="No GPL cars!"
+ src="@@RELPATH@@pics/wlog/NoGPLcar.png" /></a></p>
+<p>Apparently, it is forbidden in France to drive GPL cars. (Without
+ safety valve – but you have to admit the picture was fun. And we were
+ like ＷＴＦ？ since the thing actually meant is LPG in German. Just
+ like UTC is CUT (Coordinated Universal Time) in English, TUC (Temps
+ Universel Coordonné) in French…)</p><!-- RSS stop -->
+<p>I’m also working on improving our xterm(1) and GNU screen config,
+ and other things. Explaining acronyms on our webpages is also coming
+ some time. Benny is importing weird stuff from TNF for better pkgsrc®
+ support, so there <em>is</em> activity. Just we’ve got dayjobs and a
+ life… and mksh(1) still rocks (pdksh got orphaned in Debian today).</p>
 ----
