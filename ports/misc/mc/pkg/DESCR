@@ -21,3 +21,6 @@ It is feature packed:
 	o User files are saved in ~/.etc/mc/ instead of ~/.mc/ now.
 
 	o Someone should really do some security auditing.
+
+Due to I18N issues, any use of the 8th bit has been disabled
+by default, but can be re-enabled using the setup screens.

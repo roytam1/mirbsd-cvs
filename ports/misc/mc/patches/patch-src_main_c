@@ -1,6 +1,15 @@
-$MirOS: ports/misc/mc/patches/patch-src_main_c,v 1.2 2006/02/20 20:23:23 tg Exp $
+$MirOS: ports/misc/mc/patches/patch-src_main_c,v 1.5 2006/02/21 15:12:13 tg Exp $
 --- src/main.c.orig	Sat Jul 23 16:51:40 2005
-+++ src/main.c	Mon Feb 20 18:32:46 2006
++++ src/main.c	Sat Oct 28 22:22:36 2006
+@@ -150,7 +150,7 @@ int auto_save_setup = 1;
+ 
+ #ifndef HAVE_CHARSET
+ /* If true, allow characters in the range 160-255 */
+-int eight_bit_clean = 1;
++int eight_bit_clean = 0;
+ 
+ /*
+  * If true, also allow characters in the range 128-159.
 @@ -2087,11 +2087,11 @@ handle_args (int argc, char *argv[])
  
  /*
