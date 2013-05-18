@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/install.sub,v 1.54 2009/08/15 18:00:54 tg Exp $
+# $MirOS: src/distrib/common/install.sub,v 1.55 2009/08/15 19:00:24 tg Exp $
 # $OpenBSD: install.sub,v 1.388 2005/07/02 00:55:48 uwe Exp $
 # $NetBSD: install.sub,v 1.5.2.8 1996/09/02 23:25:02 pk Exp $
 #
@@ -746,7 +746,7 @@ v4_defroute() {
 		[[ $resp = @(none|dhcp) ]] && break
 		route -n delete -inet default >/dev/null 2>&1
 		route -n add -inet default "$resp" && {
-			set -A _fls __ /tmp/hostname.*
+			set -A _fls -- /tmp/hostname.*
 			(( ${#foo[*]} == 1 )) || _fls=/tmp/hostname.local
 			echo "route add -inet default $resp" >>$_fls
 			break
