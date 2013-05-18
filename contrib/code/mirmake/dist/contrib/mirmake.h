@@ -1,4 +1,4 @@
-/* $MirOS: src/share/misc/licence.template,v 1.8 2006/06/16 23:03:39 tg Rel $ */
+/* $MirOS: contrib/code/mirmake/dist/contrib/mirmake.h,v 1.21 2006/06/25 05:39:09 tg Exp $ */
 
 /*-
  * Copyright (c) 2005
@@ -185,11 +185,13 @@
 #endif
 #endif
 
-#ifdef __APPLE__
+#if defined(__APPLE__)
 #define uint8_t u_int8_t
 #define uint16_t u_int16_t
 #define uint32_t u_int32_t
 #define uint64_t u_int64_t
+#elif defined(__GLIBC__)
+#include <stdint.h>
 #endif
 
 #ifdef _MIRMAKE_DEFNS
