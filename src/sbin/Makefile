@@ -1,4 +1,4 @@
-# $MirOS: src/sbin/Makefile,v 1.6 2005/07/01 12:05:17 tg Exp $
+# $MirOS: src/sbin/Makefile,v 1.8 2005/11/23 18:11:57 tg Exp $
 
 .include <bsd.own.mk>
 
@@ -29,8 +29,7 @@
 .if (${MACHINE} == "amd64") || (${MACHINE} == "i386")
   SUBDIR+= iopctl
 .endif
-  SUBDIR+= ipsecadm
-  SUBDIR+= ipsecctl
+# SUBDIR+= ipsecctl
 .if ${CROSS_MODE:L} != "yes"
   SUBDIR+= isakmpd
 .endif
