@@ -1,4 +1,4 @@
-# $MirOS: src/sys/arch/i386/conf/FLOPPY,v 1.14 2006/06/25 00:44:36 tg Exp $
+# $MirOS: src/sys/arch/i386/conf/FLOPPY,v 1.15 2006/07/06 13:33:16 tg Exp $
 # _MirOS: src/sys/arch/i386/conf/GENERIC,v 1.29 2006/07/06 13:32:07 tg Exp $
 
 machine		i386			# arch, used by config; REQUIRED
