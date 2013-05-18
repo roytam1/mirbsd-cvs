@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.224 2009/08/02 19:13:42 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.225 2009/08/10 15:49:20 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -4675,4 +4675,12 @@ Tag: bug
 <p>Thusly no new sparc binary packages for -current will be built.</p>
 <p>Even if I did get the hardware issues solved (or move from <tt>demo</tt>
  to <tt>ss20</tt>, I <em>now</em> couldn't get things done in time.</p>
+----
+Title: finally, a new snapshot
+Date: 11.08.2009 21:17
+Author: tg@
+Tag: bug snapshot
+
+<p>Woohoo, MirOS #10-current (20090811) i386;sparc is out, and with
+ only a glurpzillion problems that arose during its compilation…</p>
 ----
