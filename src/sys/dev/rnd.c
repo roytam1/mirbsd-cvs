@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/dev/rnd.c,v 1.41 2008/07/08 13:20:04 tg Exp $ */
+/**	$MirOS: src/sys/dev/rnd.c,v 1.42 2008/07/08 13:25:28 tg Exp $ */
 /*	$OpenBSD: rnd.c,v 1.78 2005/07/07 00:11:24 djm Exp $	*/
 
 /*
@@ -492,7 +492,9 @@ rnd_qlen(void)
 void dequeue_randomness(void *);
 
 static void add_entropy_words(const u_int32_t *, u_int n);
-void extract_entropy(register u_int8_t *, int);
+    /* XXX no bounded attribute: size is in ints, not in chars */
+void extract_entropy(register u_int8_t *, int)
+    __attribute__((bounded (string, 1, 2)));
 
 static u_int8_t arc4_getbyte(void);
 void arc4_stir(void);

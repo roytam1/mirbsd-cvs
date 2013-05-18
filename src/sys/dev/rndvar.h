@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/dev/rndvar.h,v 1.12 2008/06/13 14:00:05 tg Exp $ */
+/**	$MirOS: src/sys/dev/rndvar.h,v 1.13 2008/07/08 13:35:38 tg Exp $ */
 /*	$OpenBSD: rndvar.h,v 1.19 2003/11/03 18:24:28 tedu Exp $	*/
 
 /*
@@ -104,8 +104,10 @@ extern int rnd_addpool_num;	/* ring buffer write pointer */
 #define	add_video_randomness(d)	enqueue_randomness(RND_SRC_VIDEO, (int)(d))
 
 void enqueue_randomness(int, int);
-void get_random_bytes(void *, size_t);
-void arc4random_bytes(void *, size_t);
+void get_random_bytes(void *, size_t)
+    __attribute__((bounded (string, 1, 2)));
+void arc4random_bytes(void *, size_t)
+    __attribute__((bounded (string, 1, 2)));
 u_int32_t arc4random(void);
 
 #endif /* _KERNEL */
