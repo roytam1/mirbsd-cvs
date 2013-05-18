@@ -33,7 +33,7 @@
 __COPYRIGHT("@(#) Copyright (c) 1980, 1987, 1991, 1993\n\
 	The Regents of the University of California.  All rights reserved.\n");
 __SCCSID("@(#)wc.c	8.2 (Berkeley) 5/2/95");
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.bin/wc/wc.c,v 1.2 2007/07/05 23:09:45 tg Exp $");
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -214,7 +214,7 @@ cnt(char *file)
 		}
 	}
 
-	print_counts(linect, wordct, charct, file ? file : "");
+	print_counts(linect, wordct, charct, file);
 
 	/*
 	 * Don't bother checking doline, doword, or dochar -- speeds
@@ -241,5 +241,8 @@ print_counts(int64_t lines, int64_t words, int64_t chars, char *name)
 	if (dochar)
 		(void)printf(" %7lld", (long long)chars);
 
-	(void)printf(" %s\n", name);
+	if (name)
+		printf(" %s\n", name);
+	else
+		printf("\n");
 }
