@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/stand/boot/boot.c,v 1.14 2008/08/01 12:39:09 tg Exp $	*/
+/**	$MirOS: src/sys/stand/boot/boot.c,v 1.15 2008/12/31 16:38:34 tg Exp $	*/
 /*	$OpenBSD: boot.c,v 1.36 2007/06/26 10:34:41 tom Exp $	*/
 
 /*
@@ -38,6 +38,7 @@
 #ifdef IN_PXEBOOT
 #include <pxe.h>
 
+extern int have_pxe;
 extern BOOTPLAYER bootplayer;
 #endif
 
@@ -93,15 +94,18 @@ boot(dev_t bootdev)
 	 * if that fails, do no boot.cfg at all.
 	 * Pim van Pelt / Paul de Weerd 20040328
 	 */
-	cmd.boothowto = 0;
-	snprintf(myconf, sizeof(myconf), "/%d.%d.%d.%d/boot.cfg",
-	    ip & 0xff, (ip >> 8) & 0xff, (ip >> 16) & 0xff, (ip >> 24) & 0xff);
-	cmd.conf = myconf;
-	cmd.addr = (void *)DEFAULT_KERNEL_ADDRESS;
-	cmd.timeout = 5;
+	if (have_pxe > 0) {
+		cmd.boothowto = 0;
+		snprintf(myconf, sizeof(myconf), "/%d.%d.%d.%d/boot.cfg",
+		    ip & 0xff, (ip >> 8) & 0xff, (ip >> 16) & 0xff, ip >> 24);
+		cmd.conf = myconf;
+		cmd.addr = (void *)DEFAULT_KERNEL_ADDRESS;
+		cmd.timeout = 5;
 
-	st = read_conf();
-#elif !defined(SMALL_BOOT)
+		st = read_conf();
+	} else
+#endif
+#if !defined(SMALL_BOOT)
 	if (hook_value) {
 		cmd.boothowto = 0;
 		snprintf(myconf, sizeof (myconf), "/boot.%d",
