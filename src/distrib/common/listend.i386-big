@@ -1,4 +1,7 @@
-# $MirOS: src/distrib/common/listend.i386-big,v 1.40 2010/03/14 21:09:01 tg Exp $
+# $MirOS: src/distrib/common/listend.i386-big,v 1.41 2010/09/25 12:01:48 tg Exp $
+
+# missing from mksh here
+LINK	instbin					sbin/mknod
 
 # extra programmes
 LINK	instbin					bin/mt
