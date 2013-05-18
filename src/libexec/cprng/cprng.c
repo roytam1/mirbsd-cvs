@@ -39,7 +39,7 @@
 #include <signal.h>
 #include <unistd.h>
 
-__RCSID("$MirOS: src/libexec/cprng/cprng.c,v 1.1 2007/07/07 20:32:06 tg Exp $");
+__RCSID("$MirOS: src/libexec/cprng/cprng.c,v 1.3 2007/07/09 00:13:37 tg Exp $");
 
 volatile sig_atomic_t glocke;
 useconds_t littlesleep = 2000;
@@ -134,7 +134,7 @@ main(int argc, char *argv[])
 		close(c);
 	}
 
-	if (chdir("/") || (c = open("dev/urandom", O_RDWR)) < 0) {
+	if (chdir("/") || (c = open("dev/arandom", O_RDWR)) < 0) {
 		write(2, dmsg, sizeof (dmsg) - 1);
 		return (2);
 	}
