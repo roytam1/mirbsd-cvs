@@ -1380,7 +1380,7 @@ pr_menu(const char * const *ap)
 		i = strlen(*pp);
 		if (i > aocts)
 			aocts = i;
-		i = utf_mbswidth(*pp, true);
+		i = utf_mbswidth(*pp);
 		if (i > acols)
 			acols = i;
 	}
@@ -1420,7 +1420,7 @@ pr_list(char * const *ap)
 		i = strlen(*pp);
 		if (i > aocts)
 			aocts = i;
-		i = utf_mbswidth(*pp, true);
+		i = utf_mbswidth(*pp);
 		if (i > acols)
 			acols = i;
 	}

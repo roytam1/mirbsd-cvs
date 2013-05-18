@@ -574,7 +574,7 @@ formatstr(struct tbl *vp, const char *s)
 	char *p, *q;
 	size_t psiz;
 
-	olen = utf_mbswidth(s, true);
+	olen = utf_mbswidth(s);
 
 	if (vp->flag & (RJUST|LJUST)) {
 		if (!vp->u2.field)	/* default field width */

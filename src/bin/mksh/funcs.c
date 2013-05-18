@@ -1551,7 +1551,7 @@ c_kill(const char **wp)
 				w = strlen(sigtraps[j].mess);
 				if (w > mess_octs)
 					mess_octs = w;
-				w = utf_mbswidth(sigtraps[j].mess, true);
+				w = utf_mbswidth(sigtraps[j].mess);
 				if (w > mess_cols)
 					mess_cols = w;
 			}

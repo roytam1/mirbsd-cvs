@@ -1361,7 +1361,7 @@ int v_evaluate(struct tbl *, const char *, volatile int, bool);
 size_t utf_mbtowc(unsigned int *, const char *);
 size_t utf_wctomb(char *, unsigned int);
 int utf_widthadj(const char *, const char **);
-int utf_mbswidth(const char *, bool);
+int utf_mbswidth(const char *);
 const char *utf_skipcols(const char *, int);
 size_t utf_ptradj(const char *);
 int utf_wcwidth(unsigned int);

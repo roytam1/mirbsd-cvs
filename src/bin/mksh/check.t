@@ -6699,12 +6699,8 @@ description:
 	Check some corner cases
 stdin:
 	print % $% .
-	set -U
-	x='a	b'
-	print c ${%x} .
 expected-stdout:
 	% $% .
-	c -1 .
 ---
 name: wcswidth-3
 description:

@@ -154,7 +154,7 @@ printoptions(bool verbose)
 				len = strlen(options[i].name);
 				if (len > octs)
 					octs = len;
-				len = utf_mbswidth(options[i].name, true);
+				len = utf_mbswidth(options[i].name);
 				if (len > oi.opt_width)
 					oi.opt_width = len;
 			}
