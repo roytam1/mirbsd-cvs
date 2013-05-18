@@ -609,7 +609,7 @@ zx_fillrect(struct rasops_info *ri, int x, int y, int w, int h, long attr,
 	zc = sc->sc_zc;
 	zd = sc->sc_zd_ss0;
 
-	rasops_unpack_attr(attr, &fg, &bg, NULL);
+	rasops_unpack_attr(NULL, attr, &fg, &bg, NULL);
 	x = x * ri->ri_font->fontwidth + ri->ri_xorigin;
 	y = y * ri->ri_font->fontheight + ri->ri_yorigin;
 	w = ri->ri_font->fontwidth * w - 1;
@@ -697,7 +697,7 @@ zx_eraserows(void *cookie, int row, int num, long attr)
 		zc = sc->sc_zc;
 		zd = sc->sc_zd_ss0;
 
-		rasops_unpack_attr(attr, &fg, &bg, NULL);
+		rasops_unpack_attr(NULL, attr, &fg, &bg, NULL);
 
 		while ((zc->zc_csr & ZX_CSR_BLT_BUSY) != 0)
 			;
@@ -760,7 +760,7 @@ zx_putchar(void *cookie, int row, int col, u_int uc, long attr)
 	fb = (u_int8_t *)font->data + (uc - font->firstchar) *
 	    ri->ri_fontscale;
 	fs = font->stride;
-	rasops_unpack_attr(attr, &fg, &bg, &ulflag);
+	rasops_unpack_attr(NULL, attr, &fg, &bg, &ulflag);
 
 	while ((zc->zc_csr & ZX_CSR_BLT_BUSY) != 0)
 		;
