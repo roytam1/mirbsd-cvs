@@ -1,4 +1,4 @@
-@comment $MirOS$
+@comment $MirOS: ports/lang/llvm/PLIST,v 1.2 2009/12/05 00:36:43 tg Exp $
 bin/bugpoint
 bin/clang
 bin/clang++
@@ -19,7 +19,6 @@ bin/llvm-ranlib
 bin/llvm-stub
 bin/llvmc
 bin/opt
-bin/scan-build
 bin/tblgen
 include/clang-c/Index.h
 include/clang/AST/APValue.h
@@ -964,6 +963,7 @@ share/doc/llvm/ps/llvmgxx.ps
 share/doc/llvm/ps/opt.ps
 share/doc/llvm/ps/tblgen.ps
 share/llvm/clang/scan-build/ccc-analyzer
+share/llvm/clang/scan-build/scan-build
 share/llvm/clang/scan-build/scanview.css
 share/llvm/clang/scan-build/sorttable.js
 share/llvm/clang/scan-view/Reporter.py

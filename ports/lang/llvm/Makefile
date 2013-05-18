@@ -1,4 +1,4 @@
-# $MirOS: ports/lang/llvm/Makefile,v 1.8 2008/11/10 02:11:03 tg Exp $
+# $MirOS: ports/lang/llvm/Makefile,v 1.9 2009/12/05 00:36:43 tg Exp $
 
 COMMENT=		Low Level Virtual Machine compiler infrastructure
 SVN_DISTREV=		90573
@@ -79,7 +79,6 @@ post-install:
 	${INSTALL_DATA_DIR} ${PREFIX}/share/llvm/clang
 	cd ${WRKSRC}/tools/clang/tools && \
 	    pax -rw scan-{build,view} ${PREFIX}/share/llvm/clang/
-	mv ${PREFIX}/share/llvm/clang/scan-build/scan-build ${PREFIX}/bin/
 	cd ${WRKSRC}/tools/clang && \
 	    pax -rw utils ${PREFIX}/share/llvm/clang/
 	${INSTALL_DATA_DIR} ${PREFIX}/share/doc/llvm/clang-www
