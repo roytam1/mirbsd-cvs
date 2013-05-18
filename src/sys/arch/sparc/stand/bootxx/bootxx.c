@@ -45,7 +45,7 @@ int netif_debug;
 /*
  * Boot device is derived from ROM provided information.
  */
-char		progname[] = "bootxx";
+char progname[] = "bootxx";
 struct open_file	io;
 
 /* these are set by installboot, defined in btable.S */

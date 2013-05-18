@@ -1,4 +1,4 @@
-# $MirOS: src/sys/arch/sparc/stand/boot/Makefile,v 1.9 2008/08/01 18:46:31 tg Exp $
+# $MirOS: src/sys/arch/sparc/stand/boot/Makefile,v 1.10 2008/10/21 18:51:00 tg Exp $
 # $OpenBSD: Makefile,v 1.12 2003/08/11 06:35:45 deraadt Exp $
 # $NetBSD: Makefile,v 1.2 1995/09/30 21:43:38 pk Exp $
 
@@ -11,7 +11,7 @@ INSTALL_STRIP=	#empty
 SMALL_BOOT?=	No
 CLEANFILES+=	${PROG}~
 
-SRCS=		srt0.S boot.c conf.c dvma.c promdev.c version.c
+SRCS=		srt0.S boot.c conf.c dvma.c promdev.c
 .if ${SMALL_BOOT:L} == "no"
 SRCS+=		net.c netif_sun.c
 .endif

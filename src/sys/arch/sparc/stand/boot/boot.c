@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/sparc/stand/boot/boot.c,v 1.4 2008/10/05 01:51:00 tg Exp $ */
+/**	$MirOS: src/sys/arch/sparc/stand/boot/boot.c,v 1.5 2008/10/16 15:09:12 tg Exp $ */
 /*	$OpenBSD: boot.c,v 1.6 2003/08/14 17:13:57 deraadt Exp $	*/
 /*	$NetBSD: boot.c,v 1.2 1997/09/14 19:27:21 pk Exp $	*/
 
@@ -50,9 +50,9 @@ int netif_debug;
  */
 const char __defkernel[] = "bsd\0PADDING.....................................";
 
-extern char	*version;
 extern vaddr_t	esym;
 char		fbuf[80], dbuf[128];
+char progname[] = "boot";
 
 typedef void (*entry_t)(caddr_t, int, int, int, long, long);
 int loadfile(int, vaddr_t *);
@@ -65,8 +65,6 @@ main(int argc, char *argv[])
 	entry_t entry;
 
 	prom_init();
-
-	printf(">> MirBSD BOOT %s\n", version);
 
 	file = prom_bootfile;
 	if (file == 0 || *file == 0)

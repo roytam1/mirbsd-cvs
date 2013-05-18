@@ -1,4 +1,4 @@
-/**	$MirOS$ */
+/**	$MirOS: src/sys/arch/sparc/stand/common/promdev.c,v 1.3 2008/07/13 19:42:40 tg Exp $ */
 /*	$OpenBSD: promdev.c,v 1.9 2003/08/14 17:13:57 deraadt Exp $	*/
 /*	$NetBSD: promdev.c,v 1.16 1995/11/14 15:04:01 pk Exp $ */
 
@@ -109,6 +109,8 @@ int	prom_boothow;
 struct	promvec	*promvec;
 static int	saveecho;
 
+extern const char progname[];
+
 void
 prom_init()
 {
@@ -174,6 +176,8 @@ prom_init()
 		}
 	}
 #endif
+
+	printf(">> MirBSD %s " __BOOT_VER "\n", progname);
 }
 
 int
