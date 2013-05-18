@@ -1,4 +1,4 @@
-# $MirOS: contrib/gnu/aux/update.mk,v 1.6 2008/05/03 19:16:09 tg Exp $
+# $MirOS: contrib/gnu/aux/update.mk,v 1.7 2008/05/03 19:28:15 tg Exp $
 
 ONLY?=
 SOURCES=
@@ -30,7 +30,6 @@ POSSIBLE_SOURCES+=					\
 	automake/lib/missing				\
 	automake/lib/ylwrap				\
 	aux/config.libpath				\
-	aux/install-reloc				\
 	aux/install-sh					\
 	aux/mkinstalldirs				\
 	aux/move-if-change				\
