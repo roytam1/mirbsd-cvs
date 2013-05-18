@@ -123,6 +123,7 @@ nfs_getrootfh(struct iodesc *d, char *path, u_char *fhp)
 		struct repl d;
 	} rdata;
 	size_t cc;
+	int rv = -1;
 
 #ifdef NFS_DEBUG
 	if (debug)
@@ -144,18 +145,20 @@ nfs_getrootfh(struct iodesc *d, char *path, u_char *fhp)
 	    args, len, repl, sizeof(*repl));
 	if (cc == -1) {
 		/* errno was set by rpc_call */
-		return (-1);
+		goto out;
 	}
 	if (cc < 4) {
 		errno = EBADRPC;
-		return (-1);
+		goto out;
 	}
 	if (repl->errno) {
 		errno = ntohl(repl->errno);
-		return (-1);
+		goto out;
 	}
 	bcopy(repl->fh, fhp, sizeof(repl->fh));
-	return (0);
+	rv = 0;
+ out:
+	return (rv);
 }
 
 /*
@@ -185,6 +188,7 @@ nfs_lookupfh(struct nfs_iodesc *d, char *name, struct nfs_iodesc *newfd)
 		struct repl d;
 	} rdata;
 	ssize_t cc;
+	int rv;
 
 #ifdef NFS_DEBUG
 	if (debug)
@@ -208,17 +212,24 @@ nfs_lookupfh(struct nfs_iodesc *d, char *name, struct nfs_iodesc *newfd)
 
 	cc = rpc_call(d->iodesc, NFS_PROG, NFS_VER2, NFSPROC_LOOKUP,
 	    args, len, repl, rlen);
-	if (cc == -1)
-		return (errno);		/* XXX - from rpc_call */
-	if (cc < 4)
-		return (EIO);
+	if (cc == -1) {
+		rv = errno;		/* XXX - from rpc_call */
+		goto out;
+	}
+	if (cc < 4) {
+		rv = EIO;
+		goto out;
+	}
 	if (repl->errno) {
 		/* saerrno.h now matches NFS error numbers. */
-		return (ntohl(repl->errno));
+		rv = ntohl(repl->errno);
+		goto out;
 	}
 	bcopy( repl->fh, &newfd->fh, sizeof(newfd->fh));
 	bcopy(&repl->fa, &newfd->fa, sizeof(newfd->fa));
-	return (0);
+	rv = 0;
+ out:
+	return (rv);
 }
 
 /*
@@ -236,6 +247,7 @@ nfs_readlink(struct nfs_iodesc *d, char *buf)
 		struct nfs_readlnk_repl d;
 	} rdata;
 	ssize_t cc;
+	int rv;
 
 #ifdef NFS_DEBUG
 	if (debug)
@@ -246,22 +258,31 @@ nfs_readlink(struct nfs_iodesc *d, char *buf)
 	cc = rpc_call(d->iodesc, NFS_PROG, NFS_VER2, NFSPROC_READLINK,
 	    sdata.fh, NFS_FHSIZE,
 	    &rdata.d, sizeof(rdata.d));
-	if (cc == -1)
-		return (errno);
+	if (cc == -1) {
+		rv = errno;
+		goto out;
+	}
+	if (cc < 4) {
+		rv = EIO;
+		goto out;
+	}
 
-	if (cc < 4)
-		return (EIO);
-
-	if (rdata.d.errno)
-		return (ntohl(rdata.d.errno));
+	if (rdata.d.errno) {
+		rv = ntohl(rdata.d.errno);
+		goto out;
+	}
 
 	rdata.d.len = ntohl(rdata.d.len);
-	if (rdata.d.len > NFS_MAXPATHLEN)
-		return (ENAMETOOLONG);
+	if (rdata.d.len > NFS_MAXPATHLEN) {
+		rv = ENAMETOOLONG;
+		goto out;
+	}
 
 	bcopy(rdata.d.path, buf, rdata.d.len);
 	buf[rdata.d.len] = 0;
-	return (0);
+	rv = 0;
+ out:
+	return (rv);
 }
 
 /*
@@ -284,6 +305,7 @@ nfs_readdata(struct nfs_iodesc *d, off_t off, void *addr, size_t len)
 	size_t cc;
 	long x;
 	int hlen, rlen;
+	ssize_t rv = -1;
 
 	args = &sdata.d;
 	repl = &rdata.d;
@@ -301,25 +323,27 @@ nfs_readdata(struct nfs_iodesc *d, off_t off, void *addr, size_t len)
 	    repl, sizeof(*repl));
 	if (cc == -1) {
 		/* errno was already set by rpc_call */
-		return (-1);
+		goto out;
 	}
 	if (cc < hlen) {
 		errno = EBADRPC;
-		return (-1);
+		goto out;
 	}
 	if (repl->errno) {
 		errno = ntohl(repl->errno);
-		return (-1);
+		goto out;
 	}
 	rlen = cc - hlen;
 	x = ntohl(repl->count);
 	if (rlen < x) {
 		printf("nfsread: short packet, %d < %ld\n", rlen, x);
 		errno = EBADRPC;
-		return(-1);
+		goto out;
 	}
 	bcopy(repl->data, addr, x);
-	return (x);
+	rv = x;
+ out:
+	return (rv);
 }
 
 /*
