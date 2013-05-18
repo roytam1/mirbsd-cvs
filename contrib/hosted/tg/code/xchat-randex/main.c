@@ -42,7 +42,7 @@
  */
 
 static const char __rcsid[] =
-    "$MirOS: contrib/hosted/tg/code/xchat-randex/main.c,v 1.12 2011/12/16 20:23:29 tg Exp $";
+    "$MirOS: contrib/hosted/tg/code/xchat-randex/main.c,v 1.14 2011/12/16 20:49:29 tg Exp $";
 
 #include <sys/types.h>
 #if defined(HAVE_STDINT_H) && HAVE_STDINT_H
@@ -116,6 +116,12 @@ static int cmdfn_random(char *[], char *[], void *);
 
 static int do_randex(int, char *, char *, char *);
 static void entropyio(void *, size_t);
+static void gstring(const void *);
+static void msg_condestruct(int);
+
+/* in lieu of -Bsymbolic */
+static void xchat_plugin_get_info_(char **, char **, char **);
+
 
 
 #define NZATInit(h) do {					\
@@ -156,12 +162,18 @@ static void entropyio(void *, size_t);
 } while (/* CONSTCOND */ 0)
 
 
-void
-xchat_plugin_get_info(char **name, char **desc, char **vers, void **resv)
+static void
+xchat_plugin_get_info_(char **name, char **desc, char **vers)
 {
 	*name = randex_name;
 	*desc = randex_desc;
 	*vers = randex_vers;
+}
+
+void
+xchat_plugin_get_info(char **name, char **desc, char **vers, void **resv)
+{
+	xchat_plugin_get_info_(name, desc, vers);
 	if (resv)
 		*resv = NULL;
 }
@@ -193,7 +205,7 @@ xchat_plugin_init(xchat_plugin *handle, char **name, char **desc,
     char **version, char *arg)
 {
 	ph = handle;
-	xchat_plugin_get_info(name, desc, version, NULL);
+	xchat_plugin_get_info_(name, desc, version);
 
 	gstring(__rcsid);
 	dopush((void *)&g, sizeof(g));
