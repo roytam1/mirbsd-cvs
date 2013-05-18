@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/news.inc,v 1.114 2009/05/27 13:37:19 tg Exp $
+RCSID: $MirOS: www/data/news.inc,v 1.115 2009/05/27 21:30:34 tg Exp $
 Title: Older news from the MirOS Project
 Date: 01.03.2006
 
@@ -1598,4 +1598,15 @@ Tag: mksh
  suggested to allow for expansion of “!string” style lines, and several
  things (string lengths, substring expansion) have been made more aware
  of UTF-8. Grab it as long as it’s hot!</p>
+----
+Title: mksh R38c released
+Date: 10.06.2009 20:20
+Author: tg@
+Tag: mksh
+
+<p>The <a href="@@RELPATH@@mksh.htm">MirBSD Korn Shell R38c</a> has been
+ released. This is one of the everyone-should-upgrade versions because
+ of the <a href="@@RELPATH@@mksh.htm#r38c">fixes</a> for crashes and the
+ likes. Read the online manual page in HTML – mksh(1) – or as <a
+ href="@@ABSPATH@@/MirOS/dist/mir/mksh/mksh.pdf">PDF</a> for printing.</p>
 ----
