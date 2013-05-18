@@ -1,4 +1,4 @@
-/* $MirOS: src/kern/include/libckern.h,v 1.18 2008/12/27 21:43:23 tg Exp $ */
+/* $MirOS: src/kern/include/libckern.h,v 1.19 2008/12/28 05:10:31 tg Exp $ */
 
 /*-
  * Copyright (c) 2008
@@ -24,6 +24,8 @@
 #define __LIBCKERN_H_
 
 #include <sys/types.h>
+
+#ifdef __MirBSD__
 
 #ifndef NULL
 #ifdef __GNUG__
@@ -73,6 +75,8 @@ typedef struct {
 #ifndef EOF
 #define EOF		(-1)
 #endif
+
+#endif /* __MirBSD__ */
 
 __BEGIN_DECLS
 void __main(void);
@@ -138,16 +142,19 @@ __END_DECLS
 #define iswoctet(wc)	(((wchar_t)(wc) & 0xFF80) == 0xEF80)
 #endif
 
+#ifdef __MirBSD__
 /* initialise/set/reset a mbstate_t to empty */
 #define mbsreset(ps) do {				\
 	mbstate_t *__WC_s = (ps);			\
 	if (ps != NULL)					\
 		ps->count = 0;				\
 } while (0)
+#endif /* __MirBSD__ */
 
 /* XXX what about other compilers? */
 #ifdef __GNUC__
 
+#ifdef __MirBSD__
 /* roll back the middle char of a mis-done 3-byte mb->wc conversion */
 #define mbrtowc_rollback(ps) __extension__({		\
 	const mbstate_t *__WC_s = (ps);			\
@@ -158,6 +165,7 @@ __END_DECLS
 		    (__WC_s->value & 0x3F);		\
 	(__WC_rv);					\
 })
+#endif /* __MirBSD__ */
 
 #define imax(a,b) __extension__({			\
 	int imax_a = (a), imax_b = (b);			\
