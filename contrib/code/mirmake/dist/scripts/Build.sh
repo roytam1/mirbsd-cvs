@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.111 2008/04/06 22:40:22 tg Exp $
+# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.112 2008/04/06 22:41:52 tg Exp $
 #-
 # Copyright (c) 2006, 2008
 #	Thorsten “mirabilos” Glaser <tg@mirbsd.de>
@@ -388,7 +388,7 @@ if testfunc 'uint32_t arc4random_pushb(const void *, size_t)' \
 fi
 add_libohash=
 if testfunc 'u_int32_t ohash_interval(const char *, const char **)' \
-    'return ohash_interval(NULL, NULL);'; then
+    'return ohash_interval((void *)0, (void *)0);'; then
 	add_libohash=$d_build/ohash/libohash.a
 fi
 
