@@ -1663,6 +1663,21 @@ Author: tg@
  are constantly updated (maybe, we’re lazy slackers after all).</p>
 <p>*sigh* Benny updated the index but didn't commit the other migrated HTML
  files. This website just became <em>more</em> broken in a sudden.</p>
+<p>Interesting: geocacheing now works, but CacheWolf cannot handle 4800 bps
+ – but <tt>cu -l /dev/cuaU0 -s 4800 &lt;&gt;/dev/ptyp5 &gt;&amp;0</tt> plus
+ using <tt>/dev/ttyp5</tt> as “serial” device helped…</p>
 <p>We just ate a little and now are going home. FrOSCon looks superb, but a
  Live CD Image is still not there. It's closing time...</p>
+----
+Title: FrOSCon 2007, Day 1
+Date: 25.08.2007
+Author: tg@
+
+<p>Where’s my MirOS flag, I wonder? Anyway, we finally got ISOs, I am fully
+ under strain, and the food is good and the net working.</p>
+<p>ciruZ did me a mcabber port, now I need to learn how to use it. Dropping
+ all non-Jabber connections was fun. (He tells me to write “js” as name, as
+ he doesn’t use that nick any longer. I guess you call it “Richtigstellung”
+ in German press law.)</p>
+<p>Benny is constantly annoying me too… I’d better go and eat something.</p>
 ----
