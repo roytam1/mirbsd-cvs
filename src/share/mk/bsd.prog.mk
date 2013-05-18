@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/bsd.prog.mk,v 1.29 2008/10/05 20:14:30 tg Exp $
+# $MirOS: src/share/mk/bsd.prog.mk,v 1.30 2008/11/10 21:10:22 tg Exp $
 # $OpenBSD: bsd.prog.mk,v 1.44 2005/04/15 17:18:57 espie Exp $
 # $NetBSD: bsd.prog.mk,v 1.55 1996/04/08 21:19:26 jtc Exp $
 # @(#)bsd.prog.mk	5.26 (Berkeley) 6/25/91
@@ -151,7 +151,8 @@ LINTFLAGS+=	-lstdc
 .  endif
 lint: ${LOBJS}
 .  if defined(LOBJS) && !empty(LOBJS)
-	@${LINT} ${LINTFLAGS} ${LDFLAGS:M-L*} ${LOBJS} ${LDADD:N-W*}
+	@env CC=${_ORIG_CC:Q} ${LINT} ${LINTFLAGS} ${LDFLAGS:M-L*} \
+	    ${LOBJS} ${LDADD:N-W*}
 .  endif
 .endif
 

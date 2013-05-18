@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/bsd.lkm.mk,v 1.9 2008/04/10 14:07:45 tg Exp $
+# $MirOS: src/share/mk/bsd.lkm.mk,v 1.10 2008/09/06 22:32:01 tg Exp $
 # $OpenBSD: bsd.lkm.mk,v 1.19 2003/05/20 22:49:13 millert Exp $
 
 .if exists(${.CURDIR}/../Makefile.inc)
@@ -140,7 +140,8 @@ realinstall: beforeinstall
 .if !target(lint)
 lint: ${LOBJS}
 .  if defined(LOBJS) && !empty(LOBJS)
-	@${LINT} ${LINTFLAGS} ${LDFLAGS:M-L*} ${LOBJS} ${LDADD}
+	@env CC=${_ORIG_CC:Q} ${LINT} ${LINTFLAGS} ${LDFLAGS:M-L*} \
+	    ${LOBJS} ${LDADD}
 .  endif
 .endif
 

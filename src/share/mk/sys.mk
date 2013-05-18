@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/sys.mk,v 1.140 2008/11/30 17:30:03 tg Exp $
+# $MirOS: src/share/mk/sys.mk,v 1.141 2008/12/10 21:38:57 tg Exp $
 # $OpenBSD: sys.mk,v 1.45 2005/03/07 00:06:00 deraadt Exp $
 # $NetBSD: sys.mk,v 1.27 1996/04/10 05:47:19 mycroft Exp $
 # @(#)sys.mk	5.11 (Berkeley) 3/13/91
@@ -103,8 +103,8 @@ CTAGS?=		/usr/bin/ctags
 	${AR} ${ARFLAGS} $@ $*.o
 	rm -f $*.o
 .c.ln:
-	${LINT} ${LINTFLAGS} ${CFLAGS:M-[IDU]*} ${CPPFLAGS:M-[IDU]*} \
-	    -i ${.IMPSRC}
+	env CC=${_ORIG_CC:Q} ${LINT} ${LINTFLAGS} ${CFLAGS:M-[IDU]*} \
+	    ${CPPFLAGS:M-[IDU]*} -i ${.IMPSRC}
 
 # Objective-C
 .m:
@@ -118,8 +118,8 @@ CTAGS?=		/usr/bin/ctags
 	${AR} ${ARFLAGS} $@ $*.o
 	rm -f $*.o
 .m.ln:
-	${LINT} ${LINTFLAGS} ${CFLAGS:M-[IDU]*} ${CPPFLAGS:M-[IDU]*} \
-	    -i ${.IMPSRC}
+	env CC=${_ORIG_CC:Q} ${LINT} ${LINTFLAGS} ${CFLAGS:M-[IDU]*} \
+	    ${CPPFLAGS:M-[IDU]*} -i ${.IMPSRC}
 
 # C++
 .cc:

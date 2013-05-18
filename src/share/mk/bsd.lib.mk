@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/bsd.lib.mk,v 1.77 2008/10/27 21:12:19 tg Exp $
+# $MirOS: src/share/mk/bsd.lib.mk,v 1.78 2008/11/10 21:10:22 tg Exp $
 # $OpenBSD: bsd.lib.mk,v 1.43 2004/09/20 18:52:38 espie Exp $
 # $NetBSD: bsd.lib.mk,v 1.67 1996/01/17 20:39:26 mycroft Exp $
 # @(#)bsd.lib.mk	5.26 (Berkeley) 5/2/91
@@ -145,7 +145,8 @@ LINK.shlib?=	${LINKER} ${CFLAGS:M*} ${SHLIB_FLAGS} -shared \
 	${COMPILE.c} ${CFLAGS_${.TARGET:.so=.o}:M*} -DPIC ${PICFLAG} -o $@ $<
 
 .c.ln:
-	${LINT} ${LINTFLAGS} ${CFLAGS:M-[IDU]*} ${CPPFLAGS:M-[IDU]*} -i ${.IMPSRC}
+	env CC=${_ORIG_CC:Q} ${LINT} ${LINTFLAGS} ${CFLAGS:M-[IDU]*} \
+	    ${CPPFLAGS:M-[IDU]*} -i ${.IMPSRC}
 
 .cc.o .C.o .cxx.o .cpp.o:
 	@print -r -- ${COMPILE.cc:Q} \
@@ -272,7 +273,7 @@ LLIBS?=		-lc
 llib-l${LIB}.ln: ${LOBJS}
 	@print -r building llib-l${LIB}.ln
 	@rm -f llib-l${LIB}.ln
-	@${LINT} -C${LIB} ${LOBJS} ${LLIBS}
+	@env CC=${_ORIG_CC:Q} ${LINT} -C${LIB} ${LOBJS} ${LLIBS}
 
 .for _i in ${SRCS:M*.l} ${SRCS:M*.y}
 CLEANFILES+=	${_i:R}.c
