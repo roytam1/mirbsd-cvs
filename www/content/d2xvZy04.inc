@@ -1,5 +1,5 @@
 <!-- PageID: wlog-8 -->
-<small class="rcsid">$MirOS: www/content/d2xvZy04.inc,v 1.85 2006/06/16 23:56:36 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy04.inc,v 1.86 2006/06/17 16:35:39 tg Exp $</small>
 <h1>MirBSD &ndash; WTF, We Have a Release!?</h1>
 <p><small><a href="#eof">bottom</a> or <a href="/?older">older</a>
  editions</small></p>
@@ -1503,6 +1503,11 @@ celebrate this event, rotate the wlog and start a new one.</p>
   helps people with slow internet connections&#8230;</p>
  <p>Now trying to get sparc going, and tomorrow there's a hacking + Jugo
   session with wbx@ again.</p>
+ <p>Except for a little TRAP 04 (fp instr while fp disabled) I've got my
+  sparc running multiuser and starting to build ld.so, shared libraries,
+  perl, all the stuff you can't cross-build, and ports.</p>
+ <p>I also gave up on the amd64, macppc and pmax ports. We're restricted
+  to i386 and sparc for now, due to lack of resources.</p>
 </div>
 
 <p id="eof">Good luck, have fun, take care etc.pp</p>
