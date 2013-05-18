@@ -23,10 +23,10 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "sqlite3.h"
+#include "sqliteInt.h"
 #include "regexp.h"
 
-__RCSID("$MirOS: ports/databases/sqlite/files/regexp.c,v 1.4 2007/05/06 20:22:30 tg Exp $");
+__RCSID("$MirOS: ports/databases/sqlite/files/regexp.c,v 1.5 2008/05/01 00:52:30 tg Exp $");
 
 #define ERRSTR_TEXT	"REGEXP error: "
 #define ERRSTR_SIZE	14			/* strlen(ERRSTR_TEXT) */

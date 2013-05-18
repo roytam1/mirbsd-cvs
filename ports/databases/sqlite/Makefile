@@ -1,9 +1,8 @@
-# $MirOS: ports/databases/sqlite/Makefile,v 1.11 2008/02/28 18:27:21 tg Exp $
+# $MirOS: ports/databases/sqlite/Makefile,v 1.12 2008/08/12 09:35:45 tg Exp $
 
 COMMENT=		Embedded SQL implementation
 COMMENT-lemon=		Lightweight parser
-_V=			3.3.17
-DASH_VER=		2
+_V=			3.6.1
 DISTNAME=		sqlite-${_V}
 PKGNAME=		sqlite3-${_V}-${DASH_VER}
 PKGNAME-lemon=		lemon-${_V}-${DASH_VER}
@@ -20,17 +19,23 @@ PERMIT_PACKAGE_FTP=	Yes
 MULTI_PACKAGES+=	-lemon
 SUBPACKAGE?=
 
-CONFIGURE_STYLE=	autoconf no-autoheader
+CONFIGURE_STYLE=	autoconf detectheader
 AUTOCONF_NEW=		Yes
 CONFIGURE_ARGS=		${CONFIGURE_SHARED} \
 			--enable-static \
-			--disable-tcl
+			--enable-threadsafe \
+			--enable-cross-thread-connections \
+			--enable-threads-override-locks \
+			--enable-tempstore \
+			--disable-tcl \
+			--enable-load-extension
 
 NO_REGRESS=		Yes
 
 UMAKE=			${SETENV} ${MAKE_ENV} ${MAKE}
 
 post-extract:
+	rm -f ${WRKSRC}/aclocal.m4; touch ${WRKSRC}/aclocal.m4	# too new
 	cp ${FILESDIR}/regexp.* ${WRKSRC}/src/
 	cp ${FILESDIR}/{Makefile.lemon,lemon.1} ${WRKSRC}/tool/
 

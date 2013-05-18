@@ -1,7 +1,7 @@
-$MirOS: ports/databases/sqlite/patches/patch-configure_ac,v 1.4 2006/10/06 21:01:22 tg Exp $
---- configure.ac.orig	Thu Mar 29 18:39:07 2007
-+++ configure.ac	Sun May  6 20:17:01 2007
-@@ -293,7 +293,10 @@ else
+$MirOS: ports/databases/sqlite/patches/patch-configure_ac,v 1.5 2007/05/06 20:22:31 tg Exp $
+--- configure.ac.orig	Tue Aug  5 19:58:25 2008
++++ configure.ac	Tue Aug 26 12:17:08 2008
+@@ -326,7 +326,10 @@ else
    AC_MSG_RESULT(unknown)
  fi
  if test "$CYGWIN" != "yes"; then
@@ -13,7 +13,7 @@ $MirOS: ports/databases/sqlite/patches/patch-configure_ac,v 1.4 2006/10/06 21:01
  fi
  if test "$CYGWIN" = "yes"; then
    BUILD_EXEEXT=.exe
-@@ -500,8 +503,10 @@ if test x"$with_readline" != xno; then
+@@ -531,8 +534,10 @@ if test x"$with_readline" != xno; then
  	if test "x$with_readline_lib" = xauto; then
  		save_LIBS="$LIBS"
  		LIBS=""
