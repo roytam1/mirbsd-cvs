@@ -1,6 +1,7 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.26 2003/08/27 19:13:06 naddy Exp $
 
-COMMENT=			interactive astronomical ephemeris
+COMMENT=	interactive astronomical ephemeris
 DISTNAME=	xephem-3.2.3
 CATEGORIES=	astro
 MASTER_SITES=	ftp://iraf.noao.edu/contrib/xephem/
@@ -14,6 +15,7 @@ PERMIT_DISTFILES_FTP=   Yes
 
 USE_MOTIF=	any
 CONFIGURE_STYLE= imake
+USE_X11=	Yes
 
 do-configure:
 	@cd ${WRKSRC}/libastro && ${SETENV} ${XMKMF}
