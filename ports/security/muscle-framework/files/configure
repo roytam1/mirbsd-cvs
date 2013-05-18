@@ -1,7 +1,0 @@
-#!/bin/ksh
-# $MirOS$
-
-for dir in CFlexPlugin MCardPlugin libmusclepkcs11; do
-	print "===> Configuring in subdir: $dir"
-	( cd $dir && ksh ./configure "$@" )
-done
