@@ -1,5 +1,5 @@
 #!/bin/mksh
-rcsid='$MirOS: src/sys/arch/sparc/stand/bootxx/mkbxinst.sh,v 1.9 2008/10/21 01:18:14 tg Exp $'
+rcsid='$MirOS: src/sys/arch/sparc/stand/bootxx/mkbxinst.sh,v 1.10 2008/10/21 19:01:01 tg Exp $'
 #-
 # Copyright (c) 2007, 2008
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -125,6 +125,8 @@ function pbs_output {
 	(( pbs_thecode[439] = g_code[2] & 0xFF ))
 	# partitions
 	(( psz = g_code[0] * g_code[1] * g_code[2] ))
+	print -u2 geometry is $psz sectors in ${g_code[0]} cylinders, \
+	    ${g_code[1]} heads, ${g_code[2]} sectors per track
 	(( pbs_thecode[448] = pbs_thecode[456] = pbs_thecode[464] = \
 	    pbs_thecode[472] = (psz >> 24) & 0xFF ))
 	(( pbs_thecode[449] = pbs_thecode[457] = pbs_thecode[465] = \
