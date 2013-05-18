@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.449 2012/04/07 00:10:10 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.450 2012/04/07 01:12:54 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -784,12 +784,12 @@ exec /usr/bin/ld "${args[@]}"</pre>
 <p id="p40f">R40f: Honours <tt>AWK</tt>. Is a lot more anal wrt. using
  cached Makefile includes. Persistent history support may show up.</p>
 <p id="p40e">R40e: No longer tries to use GCC and C99 extensions. It has
- a run-time check in Build.sh which may trigger a core dump; preseed with
- HAVE_SILENT_IDIVWRAPV=0 in the environment to skip the check and always
- compile in the safety code; the check is for removing the safety code if
- it is not needed on the target machine (which obviously cannot be checked
- when cross-compiling) and segfaults if it is needed (by design). Support
- for various OSes has improved.</p>
+ a run-time check in Build.sh which may trigger a core dump; <strong>when
+ cross-compiling, preseed with HAVE_SILENT_IDIVWRAPV=0 in the environment
+ to skip the check and always compile in the safety code</strong>; the check
+ is for removing the safety code if it is not needed on the target machine
+ (which obviously cannot be checked when cross-compiling) and segfaults if
+ it is needed (by design). Support for various OSes has improved.</p>
 <p id="p40d">mksh R40d has several new options: <tt>test.sh</tt> ‘-f’ to
  enable running tests that need a fast machine; the preprocessor flag
  <tt>MKSH_DISABLE_DEPRECATED</tt> to disable code that is deprecated and
@@ -860,7 +860,7 @@ exec /usr/bin/ld "${args[@]}"</pre>
  src="@@RELPATH@@pics/logos/suse.png" />The <a
  href="http://en.opensuse.org/Build_Service">OpenSuSE Build
  Service</a> provides an mksh package inside the <a
- href="http://download.opensuse.org/repositories/shells/SLES_9/src/">shells
+ href="http://download.opensuse.org/repositories/shells/SLE_11/src/">shells
  repo</a>, thanks to Pascal “loki” Bleser and Marcus “darix” Rückert; the
  RPMs are available as SRPM (source RPM) as well as for <a
  href="http://download.opensuse.org/repositories/shells/">various
