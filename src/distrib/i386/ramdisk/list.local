@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/i386/ramdisk/list.local,v 1.13 2006/02/25 03:12:24 tg Exp $
+# $MirOS: src/distrib/i386/ramdisk/list.local,v 1.14 2006/04/06 11:13:21 tg Exp $
 
 # extra
 
@@ -11,7 +11,7 @@ SPECIAL	chmod 755 upgrade
 COPY	${DESTDIR}/usr/share/man/cat1/ed.0	ed.hlp
 SPECIAL	chmod 444 ed.hlp
 
-SPECIAL	cd dev; ./MAKEDEV rambig
+SPECIAL	cd dev; ./MAKEDEV rambig ttyC1
 
 COPY	${DESTDIR}/etc/ppp/ppp.conf.sample	etc/ppp/ppp.conf
 

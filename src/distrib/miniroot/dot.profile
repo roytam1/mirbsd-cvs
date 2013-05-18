@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/miniroot/dot.profile,v 1.5 2006/04/06 11:20:25 tg Exp $
+# $MirOS: src/distrib/miniroot/dot.profile,v 1.6 2006/04/09 08:54:57 tg Exp $
 # $OpenBSD: dot.profile,v 1.4 2002/09/13 21:38:47 deraadt Exp $
 # $NetBSD: dot.profile,v 1.1 1995/12/18 22:54:43 pk Exp $
 #
@@ -99,6 +99,9 @@ This work is provided "AS IS" and WITHOUT WARRANTY of any kind.\n'
 
 	# don't run this twice
 	echo -n >/.profile.done
+
+	# spawn a second shell if desired
+	[[ -e /dev/ttyC1 ]] && mksh -lT1 >/dev/null 2>&1
 
 	# Installing or upgrading?
 	_forceloop=
