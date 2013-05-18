@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.363 2011/09/03 17:34:11 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.364 2011/09/04 11:44:19 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -8564,4 +8564,23 @@ Tag: debian fun
 <p>The car’s owner arrived when I closed the door behind that cat,
  and not only did the little guy jump off… but also did the third
  cat… get out from <em>under</em> the car. Huh…</p>
+----
+Date: 14.09.2011 20:54
+Author: tg@
+Title: MirBSD online manpages major facelift
+Tag: debian news pcli snapshot
+
+<p>Our <a href="@@RELPATH@@htman/i386/">MirBSD online manual pages and
+ other assorted BSD documentation</a> (except of course the merely copied
+ ncurses, lynx etc. documentation and the texinfo generated HTML pages)
+ has just gained a major facelift. They look alike in lynx(1) – best web
+ browser ever – and less(1)/man(1) now, and remind of a DEC VT420 on a
+ CSS capable Buntbrause.</p>
+<p>Thanks to our contributor XTaran for aid with the colour scheme!</p>
+<p>Since these are generated from catmanpages, heuristics are used for
+ things like where should bold/underline begin/end (since nroff(1) is
+ not always the brightest… but working on that), and hyperlinks can only
+ be generated for other manpage references (whose targets may or may not
+ exist, for example if they aren’t part of MirOS base/XFree86®). But on
+ the other hand, Valid XHTML/1.1 and CSS speaks for itself ☻☺</p>
 ----
