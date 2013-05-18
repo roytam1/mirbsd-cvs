@@ -1,11 +1,11 @@
-# $MirOS: ports/essentials/cksum/Makefile,v 1.23 2008/03/13 00:31:02 tg Exp $
+# $MirOS: ports/essentials/cksum/Makefile,v 1.24 2008/03/14 17:17:26 tg Exp $
 
 COMMENT=		MirOS cksum(1) with multiple hash algorithms
 CATEGORIES=		essentials
-DISTNAME=		cksum-20080314
+DISTNAME=		cksum-20090629
 EXTRACT_SUFX=		.cgz
 #HOMEPAGE=		http://www.mirbsd.org/mircksum.htm
-RESPONSIBLE=		Thorsten Glaser <tg@mirbsd.de>
+RESPONSIBLE=		Thorsten Glaser <tg@mirbsd.org>
 MASTER_SITES=		${_MASTER_SITE_MIRBSD:distfiles/=dist/mir/cksum/}
 
 # BSD, ISC, MirOS
@@ -19,6 +19,9 @@ PERMIT_PACKAGE_FTP=	Yes
 WRKDIST=		${WRKDIR}/cksum
 
 BUILD_DEPENDS+=		:mirmake->=20080309:devel/mirmake
+
+post-install:
+	cd ${PREFIX}/bin && ${MAKE} -f ${WRKSRC}/Makefile algos
 
 .include <bsd.port.mk>
 
