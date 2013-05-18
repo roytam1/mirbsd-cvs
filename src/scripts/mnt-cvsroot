@@ -1,8 +1,8 @@
 #!/bin/mksh
-# $MirOS: src/scripts/mnt-cvsroot,v 1.11 2005/12/17 05:46:22 tg Exp $
+# $MirOS: src/scripts/mnt-cvsroot,v 1.12 2006/09/20 22:24:51 tg Exp $
 #-
 # Copyright (c) 2005
-#	Thorsten "mirabile" Glaser <tg@66h.42h.de>
+#	Thorsten "mirabilos" Glaser <tg@66h.42h.de>
 #
 # Licensee is hereby permitted to deal in this work without restric-
 # tion, including unlimited rights to use, publicly perform, modify,
