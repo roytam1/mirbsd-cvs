@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/i386/livecd/Makefile,v 1.40 2006/05/26 17:34:52 tg Exp $
+# $MirOS: src/distrib/i386/livecd/Makefile,v 1.41 2006/05/26 20:05:01 tg Exp $
 
 .include <bsd.own.mk>
 
@@ -117,7 +117,8 @@ makeimg: bsd.gz mr.fs
 	# pad for gzsig(1) application later on
 	dd if=/dev/zero count=2 >>workdir/RMD160.gz
 	-rm -f ${CDROM}
-	cd workdir && ${SUDO} ${MKSH} ${.CURDIR}/mklocatedb.sh ${.CURDIR}/mr.fs
+	cd workdir && ${SUDO} ${MKSH} ${.CURDIR}/mklocatedb.sh \
+	    ${REALOBJDIR}/mr.fs
 	touch ${CDROM}
 	${SUDO} mkisofs -R -L -d -D -N -v -v -f \
 	    -b v${OSrev}/i386/boot.iso -c boot.cat -p "Thorsten Glaser" \

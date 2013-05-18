@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/share/misc/licence.template,v 1.7 2006/04/09 22:08:49 tg Rel $
+# $MirOS: src/distrib/i386/livecd/mklocatedb.sh,v 1.1 2006/05/15 19:54:55 tg Exp $
 #-
 # Copyright (c) 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -29,12 +29,12 @@ function cleanup
 	set -x
 	cd $root
 	set +e
-	umount var
-	umount usr/X11R6/lib/X11
-	umount tmp
-	umount home
-	umount etc
-	umount dev
+	umount $root/var
+	umount $root/usr/X11R6/lib/X11
+	umount $root/tmp
+	umount $root/home
+	umount $root/etc
+	umount $root/dev
 	vnconfig -u svnd0
 	rm -f $root/../locatedb.tmp $root/../locatedb.vnd
 	exit ${1:-1}
@@ -53,11 +53,11 @@ cd $root
 mount /dev/svnd0a dev || cleanup
 rm -f dev/.rs
 ln -s rd0a dev/root
-mount_mfs -s 20480 swap etc || cleanup
-mount_mfs -s 300000 swap home || cleanup
-mount_mfs -s 600000 swap tmp || cleanup
-mount_mfs -s 20480 swap usr/X11R6/lib/X11 || cleanup
-mount_mfs -s 300000 swap var || cleanup
+mount_mfs -s 20480 swap $root/etc || cleanup
+mount_mfs -s 300000 swap $root/home || cleanup
+mount_mfs -s 600000 swap $root/tmp || cleanup
+mount_mfs -s 20480 swap $root/usr/X11R6/lib/X11 || cleanup
+mount_mfs -s 300000 swap $root/var || cleanup
 cpio -mid <stand/fsrw.cpio || cleanup
 cp -r etc/skel home/live || cleanup
 chown -R 32762:32762 home/live || cleanup
