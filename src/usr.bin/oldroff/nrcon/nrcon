@@ -1,8 +1,8 @@
 #!/bin/mksh
-# $MirOS: src/usr.bin/oldroff/nrcon/nrcon,v 1.2 2005/04/16 03:22:01 tg Exp $
+# $MirOS: src/share/misc/licence.template,v 1.4 2005/12/15 02:46:54 tg Rel $
 #-
 # Copyright (c) 2003, 2004, 2005
-#	Thorsten "mirabile" Glaser <tg@66h.42h.de>
+#	Thorsten "mirabile" Glaser <tg@mirbsd.de>
 #
 # Licensee is hereby permitted to deal in this work without restric-
 # tion, including unlimited rights to use, publicly perform, modify,
@@ -15,13 +15,14 @@
 # ware must display the following acknowledgement:
 #	This product includes material provided by Thorsten Glaser.
 #
-# Licensor hereby provides this work "AS IS" and WITHOUT WARRANTY of
-# any kind, expressed or implied, to the maximum extent permitted by
-# applicable law, but with the warranty of being written without ma-
-# licious intent or gross negligence; in no event shall licensor, an
-# author or contributor be held liable for any damage, direct, indi-
-# rect or other, however caused, arising in any way out of the usage
-# of this work, even if advised of the possibility of such damage.
+# Licensor offers the work "AS IS" and WITHOUT WARRANTY of any kind,
+# express, or implied, to the maximum extent permitted by applicable
+# law, without malicious intent or gross negligence; in no event may
+# licensor, an author or contributor be held liable for any indirect
+# or other damage, or direct damage except proven a consequence of a
+# direct error of said person and intended use of this work, loss or
+# other issues arising in any way out of its use, even if advised of
+# the possibility of such damage or existence of a nontrivial bug.
 #-
 # Feed everything (stdin, parametres) to nroff -Tcol (though that could
 # be overridden...) and its output to col(1).
@@ -46,8 +47,8 @@ if [[ $1 = -8 || $1 = -e ]]; then
 	# no useless use of cat!
 	cat $F \
 	    | /usr/libexec/nr8pre $c \
-	    | /usr/bin/nroff -Tcol $P | /usr/bin/col \
+	    | /usr/bin/nroff -B -Tcol $P | /usr/bin/col \
 	    | /usr/libexec/nr8post
 else
-	/usr/bin/nroff -Tcol "$@" | /usr/bin/col
+	/usr/bin/nroff -B -Tcol "$@" | /usr/bin/col
 fi
