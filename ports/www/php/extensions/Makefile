@@ -1,4 +1,4 @@
-# $MirOS: ports/www/php/extensions/Makefile,v 1.24 2008/05/02 19:44:32 tg Exp $
+# $MirOS: ports/www/php/extensions/Makefile,v 1.25 2009/06/18 20:56:16 tg Exp $
 # $OpenBSD: Makefile,v 1.17 2005/12/29 23:06:28 sturm Exp $
 
 FULLPKGNAME=		php-extensions-${V}-${DASH_VER}
@@ -110,10 +110,10 @@ CONFIGURE_ARGS+=	--without-gd --without-xpm-dir --without-ttf \
 MULTI_PACKAGES+=	-gd
 COMMENT-gd=		image manipulation extensions for php
 GD_DEPENDS=		${GRAPHIC_DEPENDS} \
-			gd::graphics/gd \
 			t1:t1lib->=5.1.2:devel/t1lib
 USE_X11=		yes
-CONFIGURE_ARGS+=	--with-gd=shared,${LOCALBASE:Q} \
+# uses the bundled libgd2, we only have libgd1 in ports
+CONFIGURE_ARGS+=	--with-gd=shared \
 			${GRAPHIC_CONFIG} \
 			--with-freetype-dir=${X11BASE:Q} \
 			--enable-gd-native-ttf \
@@ -293,7 +293,8 @@ XSL_DEPENDS=		xslt,exslt::textproc/libxslt
 
 .for i in ${MULTI_PACKAGES}
 .  if !defined(FULLPKGNAME${i})
-FULLPKGNAME${i}=	php${i}-${V}-${DASH_VER}
+DASH_VER${i}?=		${DASH_VER}
+FULLPKGNAME${i}=	php${i}-${V}-${DASH_VER${i}}
 .  endif
 .endfor
 

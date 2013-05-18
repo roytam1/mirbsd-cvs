@@ -1,4 +1,4 @@
-# $MirOS: ports/www/php/Makefile.inc,v 1.16 2007/03/31 21:14:20 tg Exp $
+# $MirOS: ports/www/php/Makefile.inc,v 1.17 2008/05/02 15:43:05 tg Exp $
 # $OpenBSD: Makefile.inc,v 1.1.1.1 2004/10/02 11:32:35 robert Exp $
 
 .include <mirports.sys.mk>
@@ -10,6 +10,7 @@ NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 V=			5.0.5
 HV=			0.4.8
 DASH_VER=		4
+DASH_VER-gd=		5
 DISTNAME=		php-${V}
 CATEGORIES=		www lang
 RESPONSIBLE=		Thorsten Glaser <tg@mirbsd.de>
