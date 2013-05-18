@@ -1,5 +1,5 @@
 #!/bin/sh
-# $MirOS: contrib/code/mirmake/Build.sh,v 1.34 2008/05/03 01:28:59 tg Exp $
+# $MirOS: contrib/code/mirmake/Build.sh,v 1.35 2008/05/07 13:34:37 tg Exp $
 #-
 # Copyright (c) 2004, 2005, 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -41,6 +41,18 @@ export OLDMAKE		# for bootstrapping
 case $OSN in
 -*)	OSN= ;;
 esac
+
+if [ x"$MAC" = x"" ]; then
+	x=`printf 'all:\n\t@echo unknown' | \
+	    $OLDMAKE -V MACHINE -f - all 2>/dev/null || echo unknown`
+	[ x"$x" != x"" ] && [ x"$x" != x"unknown" ] && MAC=$x
+fi
+
+if [ x"$MAR" = x"" ]; then
+	x=`printf 'all:\n\t@echo unknown' | \
+	    $OLDMAKE -V MACHINE_ARCH -f - all 2>/dev/null || echo unknown`
+	[ x"$x" != x"" ] && [ x"$x" != x"unknown" ] && MAR=$x
+fi
 
 if [ x"$MAC" = x"" ]; then
 	MAC=`machine 2>/dev/null || uname -m 2>/dev/null || echo unknown`
