@@ -1,4 +1,4 @@
-rcsid_htsconv='$MirOS: www/mk/htsconv,v 1.48 2010/04/09 19:29:16 tg Exp $'
+rcsid_htsconv='$MirOS: www/mk/htsconv,v 1.49 2010/07/13 13:36:12 tg Exp $'
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -9,7 +9,7 @@ rcsid_htsconv='$MirOS: www/mk/htsconv,v 1.48 2010/04/09 19:29:16 tg Exp $'
 mws__pagename=
 mws__header=
 mws__rss=
-mws__difftag=MBSD_HTSCONV_GENDATE_TAG_25705
+mws__difftag=MBSD_HTSCONV_GENDATE_TAG_20138
 unset mws__srcfile
 unset mws__abspath
 unset mws__relpath
@@ -144,7 +144,6 @@ function mws_putheader {
 		 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 		 <meta name="MSSmartTagsPreventParsing" content="TRUE" />
 		 <link rel="stylesheet" type="text/css" href="@@RELPATH@@vstyle.css" />
-		 <!--[if IE]><style>.index { margin-top:132px; }</style><![endif]-->
 		 <link rel="apple-touch-icon" href="@@RELPATH@@pics/blumenkohl.png" />
 		 <link rel="canonical" href="$mws__canonpath" />
 		 <meta name="author" content="Thorsten Glaser" />
@@ -160,6 +159,7 @@ function mws_putheader {
 		  mismatching) licence, such as the GNU Free Documentation License.
 		 -->
 		</head><body>$mws__headline
+		<div class="trailing">
 		<div class="index">
 		 <ul class="lv1">
 		<li><a href="@@RELPATH@@main.htm">Main</a><ul class="lv2">
@@ -236,10 +236,6 @@ function mws_moveifchange {
 function mws_putfooter {
 	mws_content <<-'EOF'
 		</div>
-		<div class="heading">
-		 <a href="@@RELPATH@@main.htm"><img class="hdrlnks"
-		  src="@@RELPATH@@pics/logo-grey.png" alt="MirOS Logo" /></a>
-		</div>
 		<div class="footer">
 		<p style="display: none;">Do <em>not</em> send any eMail to <a
 		 href="mailto:junk@mirbsd.de">junk@mirbsd.de</a>, <a
@@ -252,6 +248,10 @@ function mws_putfooter {
 		 href="http://validator.w3.org/check/referer">Valid HTML</a>! •
 		</p>
 		@@HEADER@@
+		</div></div>
+		<div class="heading">
+		 <a href="@@RELPATH@@main.htm"><img class="hdrlnks"
+		  src="@@RELPATH@@pics/logo-grey.png" alt="MirOS Logo" /></a>
 		</div>
 		</body></html>
 	EOF

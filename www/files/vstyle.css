@@ -1,4 +1,4 @@
-/* $MirOS: www/files/vstyle.css,v 1.28 2010/06/17 20:08:06 tg Exp $ */
+/* $MirOS: www/files/vstyle.css,v 1.29 2010/07/13 13:36:11 tg Exp $ */
 
 /*-
  * The MirOS Project - Webpages
@@ -71,23 +71,64 @@
  * Styles
  */
 
+/* body, generics */
+
 body {
 	max-width:100%;
 	min-width:42em;
 	background-color:#DDDDDD;
+	margin:0px;
 	padding:0px;
 }
 
-body,p,.content {
+body,p,.cont;ent {
 	color:#333333;
 	font-family:"Gentium", Helvetica, sans-serif;
 	line-height:130%;
 }
 
+.note {
+	font-size:9pt;
+	color:#333333;
+}
+
+img {
+	border:none;
+}
+
+table {
+	border-collapse:collapse;
+}
+
+th {
+	border-top:2px solid #FFFFFF;
+	border-bottom:2px solid #FFFFFF;
+}
+
+td {
+	border-bottom:2px solid #FFFFFF;
+}
+
+tt {
+	white-space:nowrap;
+}
+
+/* bolding: set Gentium Basic Bold except for pre/tt (hack) */
+
 b,strong {
 	font-family:"Gentium Basic", "Gentium", Helvetica, sans-serif;
 	font-weight:bold;
 }
+
+pre b {
+	font-family:inherit;
+}
+
+tt b {
+	font-family:inherit;
+}
+
+/* links */
 
 a {
 	color:#990000;
@@ -103,52 +144,23 @@ a:visited {
 	border-bottom:1px dashed #990000;
 }
 
-.footer {
-	clear:both;
-	padding:2px 2px 0px 2px;
-	margin:14px 0px 0px 0px;
-	font-size:10pt;
-	border-top:2px solid #333333;
-}
+/* encasing div blocks */
 
 .heading {
 	position:absolute;
 		top:0px; left:0px;
 		right:0px; height:125px;
-	width:100%;
-	padding:0px;
 	font-size:12px;
 	background:#242424;
 	border-bottom:5px solid #FFB92A;
 }
 
-.note {
-	font-size:9pt;
-	color:#333333;
-}
-
-img {
-	border:none;
-}
-
-.index {
-	float:left;
-	padding:0px;
-	width:184px;
-}
-
-.content {
-	margin:135px 0px 0px 170px;
-	padding:2px 2px 2px 12px;
-	border-left:5px solid #FFFFFF;
-}
-
-.hdrlnks {
+.trailing {
 	position:absolute;
-		top:0px; left:27px;
-	z-index:1;
+		top:130px;
 }
 
+/* stuff outside of encasing div blocks */
 
 h1 {
 	position:absolute;
@@ -157,6 +169,41 @@ h1 {
 	color:#FFFFFF;
 	z-index:2;
 }
+
+/* stuff in .heading */
+
+.hdrlnks {
+	position:absolute;
+		top:0px; left:27px;
+	z-index:1;
+}
+
+/* encasing blocks inside .trailing */
+
+.index {
+	float:left;
+	width:170px;
+	border-right:5px solid #FFFFFF;
+}
+
+.content {
+	margin-left:170px;
+	padding:0px 6px 6px 12px;
+	border-left:5px solid #FFFFFF;
+}
+
+.footer {
+	clear:both;
+	padding:0px 4px 0px 4px;
+	font-size:10pt;
+	border-top:2px solid #333333;
+}
+
+.footer p {
+	line-height:100%;
+}
+
+/* lists */
 
 ul.lv1 {
 	position:relative; left:-20px; width:95%;
@@ -168,12 +215,10 @@ ul.lv2 {
 	list-style:square;
 }
 
+/* design elements */
+
 .spacer {
 	margin-bottom:1em;
-}
-
-.greyed {
-	color:#666666;
 }
 
 .rcsdiv {
@@ -187,6 +232,8 @@ ul.lv2 {
 .admin {
 	display:none;
 }
+
+/* styles for the wlog, news, … */
 
 div.wlentry {
 	padding-top:9px;
@@ -235,27 +282,11 @@ h5 {
 }
 
 .linkbot {
-	padding-top:18px;
-	border-top:2px solid #666;
-	margin:0px;
+	padding:18px 0px 14px 0px;
+	border-top:2px solid #666666;
 }
 
-table {
-	border-collapse:collapse;
-}
-
-th {
-	border-top:2px solid #FFFFFF;
-	border-bottom:2px solid #FFFFFF;
-}
-
-td {
-	border-bottom:2px solid #FFFFFF;
-}
-
-tt {
-	white-space:nowrap;
-}
+/* put stuff into nice boxes */
 
 .boxhead {
 	margin-bottom:0px;
@@ -271,11 +302,15 @@ tt {
 	margin-top:0px;
 }
 
+/* put text into a white-on-black rectangle */
+
 .revbox {
 	background:#242424;
 	color:#FFFFFF;
 	padding:7px;
 }
+
+/* float and clear to the right (for in-text logos) */
 
 .fr {
 	float:right;
@@ -285,6 +320,12 @@ tt {
 
 .cr {
 	clear:right;
+}
+
+/* colours and other styles */
+
+.greyed {
+	color:#666666;
 }
 
 .b {
