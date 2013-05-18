@@ -1,7 +1,7 @@
-/* $MirOS: src/usr.bin/host/host.c,v 1.3 2006/09/21 03:46:52 tg Exp $ */
+/* $MirOS: src/usr.bin/host/host.c,v 1.4 2007/08/08 19:09:47 tg Exp $ */
 
 /*-
- * Copyright (c) 2001, 2002, 2003, 2004, 2006
+ * Copyright (c) 2001, 2002, 2003, 2004, 2006, 2010
  *	Thorsten Glaser <tg@mirbsd.de>
  *
  * Licensee is hereby permitted to deal in this work without restric-
@@ -127,8 +127,30 @@ char *version = "961113-MirOS";
 #include <time.h>
 #include <unistd.h>
 
+#ifdef USE_LIBBSD
+#include <bsd/string.h>
+
+#undef __IDSTRING
+#undef __IDSTRING_CONCAT
+#undef __IDSTRING_EXPAND
+#undef __COPYRIGHT
+#undef __RCSID
+#undef __SCCSID
+#define __IDSTRING_CONCAT(l,p)		__LINTED__ ## l ## _ ## p
+#define __IDSTRING_EXPAND(l,p)		__IDSTRING_CONCAT(l,p)
+#define __IDSTRING(prefix, string)				\
+	static const char __IDSTRING_EXPAND(__LINE__,prefix) []	\
+	    __attribute__((used)) = "@(""#)" #prefix ": " string
+#define __COPYRIGHT(x)		__IDSTRING(copyright,x)
+#define __RCSID(x)		__IDSTRING(rcsid,x)
+#define __SCCSID(x)		__IDSTRING(sccsid,x)
+
+extern  u_int16_t       _getshort(const unsigned char *);
+extern  u_int32_t       _getlong(const unsigned char *);
+#endif
+
 __SCCSID("@(#)host.c	e07@nikhef.nl (Eric Wassenaar) 961013");
-__RCSID("$MirOS: src/usr.bin/host/host.c,v 1.3 2006/09/21 03:46:52 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/host/host.c,v 1.4 2007/08/08 19:09:47 tg Exp $");
 
 #ifndef NO_DATA
 #define NO_DATA	NO_ADDRESS	/* used here only in case authoritative */
