@@ -1,4 +1,4 @@
-# $MirOS: ports/databases/openldap/Makefile,v 1.10 2009/05/20 14:45:24 tg Exp $
+# $MirOS: ports/databases/openldap/Makefile,v 1.11 2009/05/20 19:39:11 tg Exp $
 # $OpenBSD: Makefile,v 1.40 2004/04/04 21:53:37 jakob Exp $
 
 COMMENT=		Open source LDAP software (client)
@@ -31,6 +31,7 @@ EXTRACT_SUFX=		.tgz
 
 CONFIGURE_STYLE=	autoconf
 
+__MAKEFLAGS_HACKERY=	no
 .include <mirports.sys.mk>
 .if ${__SYSTEM_PORTS:L} == "yes"
 LOCALSTATEDIR=		/var

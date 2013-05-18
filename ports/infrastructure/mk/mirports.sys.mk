@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/mirports.sys.mk,v 1.56 2009/12/28 14:55:13 tg Exp $
+# $MirOS: ports/infrastructure/mk/mirports.sys.mk,v 1.57 2012/08/04 18:13:20 tg Exp $
 #-
 # Copyright (c) 2005, 2006, 2008, 2012
 #	Thorsten “mirabilos” Glaser <tg@mirbsd.de>
@@ -20,14 +20,20 @@
 
 .ifndef	MIRPORTS_SYS_MK
 
+__MAKEFLAGS_HACKERY?=	Yes
+
 # Basic defaults.
 .if !defined(OSNAME) || empty(OSNAME)
 OSNAME!=		uname -s
+.  if ${__MAKEFLAGS_HACKERY:L} == "yes"
 .MAKEFLAGS:=		${.MAKEFLAGS} OSNAME=${OSNAME:Q}
+.  endif
 .endif
 .if !defined(OSname) || empty(OSname)
 OSname=			${OSNAME:L}
+.  if ${__MAKEFLAGS_HACKERY:L} == "yes"
 .MAKEFLAGS:=		${.MAKEFLAGS} OSname=${OSname:Q}
+.  endif
 .endif
 
 # Determine version number. OSREV is uname -r, OSver is major.minor
@@ -54,11 +60,15 @@ OSver=	${OSREV:C/^([0-9]*\.[0-9]*)\..*$/\1/}
 .  else
 .    error Unknown OStype '${OStype}'!
 .  endif
+.  if ${__MAKEFLAGS_HACKERY:L} == "yes"
 .MAKEFLAGS:=	${.MAKEFLAGS} OSver=${OSver:Q} OSREV=${OSREV:Q}
+.  endif
 .endif
 .ifndef OSrev
 OSrev=		${OSREV:S/.//}
+.  if ${__MAKEFLAGS_HACKERY:L} == "yes"
 .MAKEFLAGS:=	${.MAKEFLAGS} OSrev=${OSrev:Q}
+.  endif
 .endif
 
 #--- Check for ulimit
@@ -72,7 +82,9 @@ _VMEM_UNLOCK_CMDS_h${_i}!=ulimit -H ${_i}
 _VMEM_UNLOCK_CMDS+=	ulimit ${_i} ${_VMEM_UNLOCK_CMDS_h${_i}};
 .    endif
 .  endfor
+.  if ${__MAKEFLAGS_HACKERY:L} == "yes"
 .MAKEFLAGS:=		${.MAKEFLAGS} _VMEM_UNLOCK_CMDS=${_VMEM_UNLOCK_CMDS:Q}
+.  endif
 .endif
 
 #--- Specific OS Dependencies
@@ -230,7 +242,9 @@ USE_X11?=		No
 .ifndef	PKGPATH
 .  ifndef _PORTSDIR
 _PORTSDIR!=		realpath ${PORTSDIR}
+.    if ${__MAKEFLAGS_HACKERY:L} == "yes"
 .MAKEFLAGS:=		${.MAKEFLAGS} _PORTSDIR=${_PORTSDIR:Q}
+.    endif
 .  endif
 _CURDIR!=		realpath ${.CURDIR}
 PKGPATH=		${_CURDIR:S,${_PORTSDIR}/,,}
