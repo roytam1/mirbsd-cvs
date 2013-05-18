@@ -1,4 +1,4 @@
-# $MirOS: src/etc/rc,v 1.23 2006/06/17 19:24:44 tg Exp $
+# $MirOS: src/etc/rc,v 1.24 2006/07/21 16:30:35 tg Exp $
 # $OpenBSD: rc,v 1.277 2006/01/12 21:54:15 deraadt Exp $
 #-
 # System startup script run by init on autoboot or after single-user.
@@ -511,11 +511,6 @@ echo .
 mount -a -t nfs
 
 swapctl -A -t noblk
-# Only if it exists and is an unused ram disc array.
-# Compare approximately like the kernel does, except
-# we checksum the first sector instead of memcmping.
-dev=$(dd if=/dev/rrd0c count=1 2>/dev/null | cksum -a adler32)
-[[ $dev = A261098C ]] && swapctl -ap0 /dev/rd0c
 
 # /var/crash should be a directory or a symbolic link
 # to the crash directory if core dumps are to be saved.
@@ -778,6 +773,14 @@ echo .
 
 mixerctl_conf
 
+[[ -f /etc/rc.local ]] && . /etc/rc.local
+
+# Only if it exists and is an unused ram disc array.
+# Compare approximately like the kernel does, except
+# we checksum the first 2 pages instead of a memcmp.
+dev=$(dd if=/dev/rrd0c count=16 2>/dev/null | cksum -a adler32)
+[[ $dev = 1B32098C ]] && swapctl -ap0 /dev/rd0c
+
 if [[ $sshagent_autostart != NO ]]; then
 	echo Setting up ssh-agent directories...
 	mkdir -m 0755 /tmp/.ssh-agent
@@ -788,8 +791,6 @@ if [[ $sshagent_autostart != NO ]]; then
 		rm -f /tmp/.ssh-agent/$luser/agent
 	done
 fi
-
-[[ -f /etc/rc.local ]] && . /etc/rc.local
 
 echo -n standard daemons:
 # don't run daemon if $food_flags == NO or /usr/sbin/food doesn't exist
