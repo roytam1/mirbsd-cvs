@@ -1,14 +1,11 @@
 <?php
-/* $MirOS: www/files/index.php,v 1.4 2008/05/03 01:41:45 tg Exp $ */
+/* $MirOS: www/files/index.php,v 1.5 2008/05/03 01:44:05 tg Exp $ */
 /*-
  * The MirOS Project - Webpages
  * Copyrighted material; read LICENCE for terms of use.
  *-
  * This is the "master" CMS manager file. It streams content.
  */
-
-$has_vfuncs = 1;
-$is_admin = 0;
 
 /*
  * base64 encoding, file system safe
@@ -21,41 +18,6 @@ function mybase64($arg)
 	$bneu = array(".", "_", "-");
 	$tmp2 = str_replace($balt, $bneu, $tmp1);
 	return $tmp2;
-}
-
-/*
- * read cookie telling which CSS to use
- */
-function getcsscookie()
-{
-	global $is_admin;
-
-	$tmp = "nonexistent";
-	if (!empty($_COOKIE['usecss'])) {
-		$tmp = "vs".$_COOKIE['usecss'].".css";
-	}
-	if (!is_readable($tmp)) {
-		$tmp = "vstyle.css";
-	}
-
-	if ($tmp === "vsroot.css") {
-		$is_admin = 1;
-	} else {
-		$is_admin = 2;
-	}
-	return $tmp;
-}
-
-/*
- * Is admin?
- */
-function isadm()
-{
-	global $is_admin;
-
-	if ($is_admin == 0)
-		getcsscookie();
-	return ($is_admin === 1) ? true : false;
 }
 
 /*
@@ -150,10 +112,6 @@ function get_include_contents($filename) {
  unset($tg_htlv);
  unset($tg_realm);
 
- if (empty($has_vfuncs)) {
-	require("vfuncs.php");
- }
-
  // get server environment
  $tg_svr = strtolower($_SERVER["HTTP_HOST"]);
  if (strpos($tg_svr, ":")) {
@@ -236,9 +194,6 @@ function get_include_contents($filename) {
 	exit;
  }
 
- // Style Sheet
- $tg_ucss = getcsscookie();
-
  // Unset locals
  unset($i);
  unset($sl);
@@ -259,27 +214,7 @@ function get_include_contents($filename) {
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"<?php
 	if ($tg_htlv < 2) echo ' lang="en"';	?>><head>
  <meta name="MSSmartTagsPreventParsing" content="TRUE" />
-<?php
- // Stylesheet link
- if ($tg_realm == 2) {
-	if (!isset($tg_noss)) {
-?> <link rel="stylesheet" type="text/css" href="<?php
-		echo "${tg_pfad}${tg_ucss}"; ?>" />
-<?php
-	}
- } else if ($tg_realm != 3) {
-?> <link rel="stylesheet" type="text/css" href="<?php
-	echo "${tg_pfad}"; ?>rstil.css" />
-<?php
- }
-
- // Stylesheet MS Internet Exploder Crash Service ;-)
- if (empty($tg_noie) && (strstr($tg_bws, "MSIE "))) {
-?> <style type="text/css"> <!--
-  p { cssText:font-weight:bold; } --></style>
-<?php
- }
-?>
+ <link rel="stylesheet" type="text/css" href="vstyle.css" />
  <meta name="author" content="Thorsten Glaser" />
  <meta name="copyright" content="All rights reserved. Redistribution except for scientific and educational uses strictly prohibited." />
  <meta name="owner" content="The MirOS Project and The MirPorts Framework" />
