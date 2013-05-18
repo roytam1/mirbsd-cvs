@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: contrib/samples/import-3rdpty,v 1.6 2006/09/12 19:29:35 tg Exp $
+# $MirOS: contrib/samples/import-3rdpty,v 1.7 2006/09/13 20:07:30 tg Exp $
 #-
 # Copyright (c) 2004, 2005, 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -24,7 +24,7 @@
 # other issues arising in any way out of its use, even if advised of
 # the possibility of such damage or existence of a defect.
 
-print -ru2 -- '========= $MirOS: contrib/samples/import-3rdpty,v 1.6 2006/09/12 19:29:35 tg Exp $ ========='
+print -ru2 -- '========= $MirOS: contrib/samples/import-3rdpty,v 1.7 2006/09/13 20:07:30 tg Exp $ ========='
 
 ignlist=0
 force=0
@@ -692,6 +692,7 @@ openbsd)
 		lib/librpcsvc/yppasswd.x \
 		lib/libssl/cert.pem \
 		lib/libssl/crypto/arch/alpha \
+		lib/libssl/crypto/arch/amd64 \
 		lib/libssl/crypto/arch/arm \
 		lib/libssl/crypto/arch/hppa \
 		lib/libssl/crypto/arch/m68k \
@@ -766,6 +767,7 @@ openbsd)
 		lib/libssl/src/crypto/threads/pthreads-vms.com \
 		lib/libssl/src/crypto/threads/win32.bat \
 		lib/libssl/src/demos \
+		lib/libssl/src/fips* \
 		lib/libssl/src/install.com \
 		lib/libssl/src/makevms.com \
 		lib/libssl/src/ms \
