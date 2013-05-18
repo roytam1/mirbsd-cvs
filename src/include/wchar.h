@@ -1,4 +1,4 @@
-/* $MirOS: src/include/wchar.h,v 1.10 2006/10/28 18:53:35 tg Exp $ */
+/* $MirOS: src/include/wchar.h,v 1.11 2006/11/20 23:50:47 tg Exp $ */
 
 #ifndef	_WCHAR_H_
 #define	_WCHAR_H_
@@ -26,7 +26,7 @@ typedef	__WINT_TYPE__	wint_t;
 #error GCC __WCHAR_MAX__ does not indicate UCS-2
 #endif
 
-typedef unsigned long int wctype_t;
+typedef unsigned int wctype_t;
 typedef struct {
 	unsigned int count:2;
 	unsigned int value:12;	/* 10 for mbstowcs, 12 for wcstombs */
