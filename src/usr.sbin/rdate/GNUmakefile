@@ -1,4 +1,4 @@
-# $MirOS: src/usr.sbin/rdate/GNUmakefile,v 1.4 2009/08/01 18:30:30 tg Exp $
+# $MirOS: src/usr.sbin/rdate/GNUmakefile,v 1.5 2010/07/03 18:33:56 tg Exp $
 #-
 # You may need: https://www.mirbsd.org/MirOS/dist/hosted/other/arc4random.c
 
@@ -14,11 +14,15 @@ CFLAGS?=	-O2
 CPPFLAGS+=	-DNO_UTIL -DEXT_A4R -DHAVE_STDINT_H -DIN_RDATE
 CPPFLAGS+=	-D'__RCSID(x)=static const char __rcsid[] = x'
 
+INSTALL_STRIP?=	-s
+BINMODE?=	555
+MANMODE?=	444
+
 all: rdate
 
 install:
-	install -c -s -m 555 rdate ${DESTDIR}${BINDIR}/
-	install -c -m 444 rdate.8 ${DESTDIR}${MANDIR}/man8/
+	install -c ${INSTALL_STRIP} -m ${BINMODE} rdate ${DESTDIR}${BINDIR}/
+	install -c -m ${MANMODE} rdate.8 ${DESTDIR}${MANDIR}/man8/
 
 clean:
 	-rm -f rdate *.o
