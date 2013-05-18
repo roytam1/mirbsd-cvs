@@ -2710,3 +2710,17 @@ Title: FOSDEM Zwischenbericht
  a long ‘i’… I need more practice, but this part of Bruxelles is mostly french
  only.</p>
 ----
+Date: 26.02.2008
+Author: tg@
+
+<p>Dang, it’s much too late again, but I hacked some cool things into mksh,
+ which were planned for some time; now I need someone to test this. Also,
+ here strings (<tt>hd &lt;&lt;&lt;$str</tt>) are now documented (and do NOT
+ work like in GNU bash unless <tt>$str</tt> is double-quoted), whereas the
+ replacement substitution – <tt>${foo/b+(a)@(r|R)?(\/*)/baz}</tt> – isn’t.
+ This should, however, further improve people coming from other shells.</p>
+<p>Benny is still working on security updates – now: X11. I should better
+ get my ports and ssh etc. upgraded too. If I just knew what was important
+ now… we need actual user feedback for this, I think.</p>
+<p>I wish OpenBSD’d update their sendmail(8), so we can do that too ☻</p>
+----
