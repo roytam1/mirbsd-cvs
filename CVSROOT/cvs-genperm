@@ -1,5 +1,5 @@
 #!/usr/bin/env mksh
-# $MirOS: CVSROOT/cvs-genperm,v 1.44 2011/07/05 20:24:46 tg Exp $
+# $MirOS: CVSROOT/cvs-genperm,v 1.45 2012/02/07 20:15:56 tg Exp $
 #-
 # Copyright © 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2011, 2012
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -30,7 +30,7 @@ function fixperm {
 	m=$1
 	shift
 	for pname in "$@"; do
-		[[ -e $pname ]] && chmod $m "$pname"
+		[[ -e $pname && ! -h $pname ]] && chmod $m "$pname"
 	done
 }
 
@@ -96,7 +96,9 @@ find "$CVSROOT"$fr | while IFS= read -r pname; do
 		rm -rf "$pname"
 	elif [[ $name = +([-_+,./:=@0-9A-Za-z%]) ]]; then
 		M=0
-		if [[ -d $pname ]]; then
+		if [[ -h $pname ]]; then
+			M=-
+		elif [[ -d $pname ]]; then
 			M=775
 		elif [[ -f $pname ]]; then
 			M=444
@@ -106,7 +108,7 @@ find "$CVSROOT"$fr | while IFS= read -r pname; do
 			print -r "Found non-file/dir '$name'"
 			rm -rf "$pname"
 		else
-			chmod $M "$pname"
+			[[ $M = - ]] || chmod $M "$pname"
 			if [[ $name = @(contrib/gnu|gcc|src/gnu)@(|/*) ]]; then
 				M=miros-cvsgnu
 				[[ $name = src/gnu/usr.sbin/* || \
@@ -140,7 +142,7 @@ find "$CVSROOT"$fr | while IFS= read -r pname; do
 			else
 				M=miros-cvsall
 			fi
-			chown 0:$M "$pname"
+			chown -h 0:$M "$pname"
 		fi
 	else
 		print -r "Found weird '$name'"
@@ -152,10 +154,11 @@ done 2>&1 | tee -i "$N"
 	print "fixing special files..."
 	rm -rf .tmp
 	mkdir .tmp
-	[[ -e CVSROOT/modules.db ]] && chown 0:miros-cvsall CVSROOT/modules.db
-	chown 0:miros-cvsall .tmp CVSROOT CVSROOT/history \
+	[[ -e CVSROOT/modules.db ]] && \
+	    chown -h 0:miros-cvsall CVSROOT/modules.db
+	chown -h 0:miros-cvsall .tmp CVSROOT CVSROOT/history \
 	    Logs Logs/{ChangeLog,idcache}
-	chown 0:miros-cvsadm . README* UP*
+	chown -h 0:miros-cvsadm . README* UP*
 	fixperm 664 CVSROOT/{modules.db,history} Logs/{ChangeLog,idcache}
 	fixperm 666 CVSROOT/val-tags{,.db}
 	fixperm 555 CVSROOT/{genlog,mklogci,mklogtag,tracker}{,\,v} UP{,\,v} \
@@ -163,7 +166,7 @@ done 2>&1 | tee -i "$N"
 	fixperm 1775 .tmp
 	chmod 775 .
 	for committer in ${committers[*]}; do
-		chown 0:$committer Logs/.cpr.${committer}*
+		chown -h 0:$committer Logs/.cpr.${committer}*
 		fixperm 664 Logs/.cpr.${committer}
 	done
 } 2>&1 | tee -ai "$N"
