@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/sys/types.h,v 1.3 2005/07/07 14:39:28 tg Exp $ */
+/**	$MirOS: src/sys/sys/types.h,v 1.4 2005/11/21 19:31:55 tg Exp $ */
 /*	$OpenBSD: types.h,v 1.26 2004/07/13 21:04:29 millert Exp $	*/
 /*	$NetBSD: types.h,v 1.29 1996/11/15 22:48:25 jtc Exp $	*/
 
@@ -107,12 +107,10 @@ typedef	__SIZE_TYPE__	size_t;
 
 #if !defined(_GCC_SSIZE_T)
 #define	_GCC_SIZE_T
-#if __SIZE_TYPE__ == unsigned int
-typedef	int		ssize_t;
-#elif __SIZE_TYPE__ == unsigned long
+#ifdef __LP64__
 typedef	long		ssize_t;
 #else
-#error Don't know GCC __SIZE_TYPE__
+typedef	int		ssize_t;
 #endif
 #endif
 
