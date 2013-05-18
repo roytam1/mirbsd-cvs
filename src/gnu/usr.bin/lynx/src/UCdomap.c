@@ -2498,7 +2498,7 @@ BOOL UCScanCode(UCode_t *target, const char *source, BOOL isHex)
 
     errno = 0;
     *target = 0;
-    lcode = strtol(source, &endptr, isHex ? 12 : 10);
+    lcode = strtol(source, &endptr, isHex ? 16 : 10);
     if (lcode >= 0
 	&& (endptr > source)
 #if defined(ERANGE) && defined(LONG_MAX) && defined(LONG_MIN)
