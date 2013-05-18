@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/i386/common/Makefile.inc,v 1.21 2006/07/03 23:17:49 tg Exp $
+# $MirOS: src/distrib/i386/common/Makefile.inc,v 1.22 2006/07/05 20:36:34 tg Exp $
 # $OpenBSD: Makefile.inc,v 1.15 2004/11/25 22:02:08 deraadt Exp $
 
 .ifndef _MODSRC_DISTRIB_I386_COMMON_MAKEFILE_INC
@@ -55,7 +55,9 @@ all:	${FS}
 all:	${DO_BSDRD_NAME}
 .endif
 
-${FS}:	bsd.gz
+${FS}:	bsd.gz do-floppy
+
+do-floppy:
 .ifdef USE_MAKEFS
 	mkdir -p ${MOUNT_POINT}
 	cp ${BOOT} ${MOUNT_POINT}/boot
