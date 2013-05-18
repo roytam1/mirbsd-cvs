@@ -1,10 +1,7 @@
-/*
- * $LynxId: LYPrettySrc.c,v 1.28 2013/05/06 00:53:30 tom Exp $
- *
- * HTML source syntax highlighting
- * by Vlad Harchev <hvv@hippo.ru>
- * March 1999
- */
+/* HTML source syntax highlighting
+   by Vlad Harchev <hvv@hippo.ru>
+   March 1999
+*/
 #include <HTUtils.h>
 #include <LYHash.h>
 #include <LYPrettySrc.h>
@@ -20,7 +17,7 @@ BOOL psrc_convert_string = FALSE;
 BOOL psrc_view = FALSE;		/* this is read by SGML_put_character - TRUE
 
 				   when viewing pretty source */
-BOOLEAN LYpsrc = FALSE;		/* this tells what will be shown on '\':
+BOOL LYpsrc = FALSE;		/* this tells what will be shown on '\':
 
 				   if TRUE, then pretty source, normal source view otherwise. Toggled by
 				   -prettysrc commandline option.  */
@@ -32,7 +29,7 @@ BOOL mark_htext_as_source = FALSE;
   /* tagspecs from lynx.cfg are read here. After .lss file is read (is with lss
      support), the style cache and markup are created before entering the
      mainloop. */
-BOOLEAN psrcview_no_anchor_numbering = FALSE;
+BOOL psrcview_no_anchor_numbering = FALSE;
 static const char *HTL_tagspecs_defaults[HTL_num_lexemes] =
 {
  /* these values are defaults. They are also listed in comments of distibution's
@@ -80,7 +77,7 @@ static int html_src_tag_index(char *tagname)
 {
     HTTag *tag = SGMLFindTag(&HTML_dtd, tagname);
 
-    return (tag && tag != &HTTag_unrecognized) ? (int) (tag - HTML_dtd.tags) : -1;
+    return (tag && tag != &HTTag_unrecognized) ? tag - HTML_dtd.tags : -1;
 }
 
 typedef enum {
@@ -109,20 +106,9 @@ static void append_close_tag(char *tagname,
     }
 
     subj = typecalloc(HT_tagspec);
-    if (subj == 0)
-	outofmem(__FILE__, "append_close_tag");
-
     subj->element = (HTMLElement) idx;
-
-    subj->present = typecallocn(BOOL, (unsigned) nattr);
-
-    if (subj->present == 0)
-	outofmem(__FILE__, "append_close_tag");
-
-    subj->value = typecallocn(char *, (unsigned) nattr);
-
-    if (subj->value == 0)
-	outofmem(__FILE__, "append_close_tag");
+    subj->present = typecallocn(BOOL, nattr);
+    subj->value = typecallocn(char *, nattr);
 
     subj->start = FALSE;
 #ifdef USE_COLOR_STYLE
@@ -146,6 +132,7 @@ static void append_open_tag(char *tagname,
 			    HT_tagspec ** tail)
 {
     HT_tagspec *subj;
+    HTTag *tag;
 
 #ifdef USE_COLOR_STYLE
     int hcode;
@@ -154,6 +141,8 @@ static void append_open_tag(char *tagname,
     append_close_tag(tagname, head, tail);	/* initialize common members */
     subj = *tail;
     subj->start = TRUE;
+
+    tag = HTML_dtd.tags + subj->element;
 
 #ifdef USE_COLOR_STYLE
     hcode = hash_code_lowercase_on_fly(tagname);
@@ -165,13 +154,11 @@ static void append_open_tag(char *tagname,
 	 * plain formatting tags they are not used directly for anything except
 	 * style - and we provide style value directly.
 	 */
-	HTTag *tag = HTML_dtd.tags + subj->element;
 	int class_attr_idx = 0;
 	int n = tag->number_of_attributes;
 	attr *attrs = tag->attributes;
 
-/*.... */
-/* this is not implemented though it's easy */
+/*.... *//* this is not implemented though it's easy */
 #  endif
 
 	hcode = hash_code_aggregate_char('.', hcode);
@@ -187,14 +174,14 @@ static void append_open_tag(char *tagname,
 #define isLeadP(p) ((isalpha(UCH(*p)) || *p == '_'))
 #define isNextP(p) ((isalnum(UCH(*p)) || *p == '_'))
 
-#define FMT_AT " at column %d:\n\t%s\n"
-#define TXT_AT (int) (1 + p - ts), ts
+#define FMT_AT " at column %ld:\n\t%s\n"
+#define TXT_AT (1 + p - ts), ts
 
 /* returns FALSE if incorrect */
 int html_src_parse_tagspec(char *ts,
 			   HTlexeme lexeme,
-			   int checkonly,
-			   int isstart)
+			   BOOL checkonly,
+			   BOOL isstart)
 {
     BOOL stop = FALSE;
     BOOL code = FALSE;
@@ -405,17 +392,16 @@ static void failed_init(const char *tag, int lexeme)
     exit_immediately(EXIT_FAILURE);
 }
 
-void HTMLSRC_init_caches(int dont_exit)
+void HTMLSRC_init_caches(BOOL dont_exit)
 {
     int i;
     char *p;
     char buf[1000];
-    static char empty[] = "";
 
     CTRACE2(TRACE_CFG, (tfp, "HTMLSRC_init_caches(%d tagspecs)\n", HTL_num_lexemes));
     for (i = 0; i < HTL_num_lexemes; ++i) {
 	/*we assume that HT_tagspecs was NULLs at when program started */
-	LYStrNCpy(buf,
+	LYstrncpy(buf,
 		  HTL_tagspecs[i]
 		  ? HTL_tagspecs[i]
 		  : HTL_tagspecs_defaults[i],
@@ -432,7 +418,7 @@ void HTMLSRC_init_caches(int dont_exit)
 				    TRUE) && !dont_exit) {
 	    failed_init("1st", i);
 	}
-	if (!html_src_parse_tagspec(p ? p + 1 : empty,
+	if (!html_src_parse_tagspec(p ? p + 1 : NULL,
 				    (HTlexeme) i,
 				    FALSE,
 				    FALSE) && !dont_exit) {

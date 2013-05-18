@@ -529,7 +529,7 @@ extern int WWW_TraceMask;
 #endif
 
 #if defined(LY_TRACELINE)
-#define LY_SHOWWHERE fprintf(tfp, "%s: %d: ", __FILE__, (int)(LY_TRACELINE)),
+#define LY_SHOWWHERE fprintf( tfp, "%s: %d: ", __FILE__, LY_TRACELINE ),
 #else
 #define LY_SHOWWHERE		/* nothing */
 #endif
