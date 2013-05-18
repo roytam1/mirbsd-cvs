@@ -1,7 +1,5 @@
-# $MirOS: src/distrib/special/Makefile,v 1.2 2005/03/06 18:58:08 tg Exp $
-# $OpenBSD: Makefile,v 1.12 2004/12/25 11:22:18 deraadt Exp $
+# $MirOS: src/distrib/special/Makefile,v 1.3 2005/07/24 16:44:17 tg Exp $
 
-SUBDIR=	chat dhclient dmesg ftp grep init \
-	isdnd less more ppp pppd sshd
+SUBDIR=	chat dmesg ftp grep init isdnd less more ppp pppd sshd
 
 .include <bsd.subdir.mk>
