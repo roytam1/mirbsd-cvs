@@ -1,4 +1,4 @@
-/* $MirOS: contrib/code/Snippets/tinyirc.c,v 1.11 2007/07/17 19:23:04 tg Exp $ */
+/* $MirOS: contrib/code/Snippets/tinyirc.c,v 1.12 2007/07/17 20:08:16 tg Exp $ */
 
 /* Configuration options */
 /* please change the default server to one near you. */
@@ -7,7 +7,7 @@
 #define COMMANDCHAR	'/'
 /* each line of history adds 512 bytes to resident size */
 #define HISTLEN		8
-#define RELEASE_L	"TinyIRC 20070717 MirOS-contrib"
+#define RELEASE_L	"TinyIRC 20070718 MirOS-contrib"
 #define RELEASE_S	"TinyIRC MirOS"
 /* tinyirc 1.0
 
@@ -77,7 +77,7 @@
 #define	__RCSID(x)	static const char __rcsid[] __attribute__((used)) = (x)
 #endif
 
-__RCSID("$MirOS: contrib/code/Snippets/tinyirc.c,v 1.11 2007/07/17 19:23:04 tg Exp $");
+__RCSID("$MirOS: contrib/code/Snippets/tinyirc.c,v 1.12 2007/07/17 20:08:16 tg Exp $");
 
 struct dlist {
     char name[64];
@@ -666,9 +666,10 @@ void userinput(void)
 	    else
 		tputs_x(tgoto(CM, curx = 0, LI - 1));
 	    break;
-	case '\4':		/* C-d */
 	case '\10':		/* C-h */
-	    if (curx) {
+	    if (curx)
+	case '\4':		/* C-d */
+	    {
 		if ((ch == '\4') && (curx < curli))
 		    curx++;
 		if (curli == curx)
@@ -737,6 +738,9 @@ void userinput(void)
 		object = objlist;
 	    wasdate = 0;
 	    break;
+	case '\26':		/* ^V */
+	    read(stdinfd, &ch, 1);
+	    /* FALLTHROUGH */
 	default:
 	    if (curli < 499) {
 		if (curli == curx) {	/* append character */
