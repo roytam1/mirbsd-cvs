@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/sparc/Makefile,v 1.4 2006/06/11 01:08:30 tg Exp $
+# $MirOS: src/distrib/sparc/Makefile,v 1.5 2006/07/03 22:08:05 tg Exp $
 
 .include <bsd.own.mk>
 
@@ -38,7 +38,7 @@ SUBDIR+=	../ramdisk
 .endif
 
 .if ${_DESCEND} == "yes" || ${REL_NO_MINIROOT:L} != "yes"
-SUBDIR+=	../miniroot
+#SUBDIR+=	../miniroot
 .endif
 
 .if ${_DESCEND} == "yes" || ${REL_NO_AUTOISO:L} != "yes"

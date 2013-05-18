@@ -1,54 +1,63 @@
-#	$MirOS: src/distrib/sparc/cdfs/Makefile,v 1.2 2005/03/06 18:58:06 tg Exp $
-#	$OpenBSD: Makefile,v 1.5 2005/03/11 15:40:59 deraadt Exp $
+# $MirOS: src/distrib/sparc/cdfs/Makefile,v 1.3 2005/07/24 16:44:15 tg Exp $
+# $OpenBSD: Makefile,v 1.5 2005/03/11 15:40:59 deraadt Exp $
 
-TOP=	${.CURDIR}/..
-
-CDROM=	cd${OSrev}.iso
+CDROM?=		cdrom${OSrev}.iso
+REALOBJDIR!=	readlink -nf ${.OBJDIR} || ( cd ${.OBJDIR} && pwd )
 
 all: ${CDROM}
 
-${CDROM}:
-	-rm -rf ${.OBJDIR}/cd-dir
-	mkdir -p ${.OBJDIR}/cd-dir/${OSREV}/sparc
-	ln -s ${.CURDIR}/supplement ${.OBJDIR}/cd-dir/contrib
-	cp ${DESTDIR}/usr/share/man/COPYRIGHT ${.CURDIR}/supplement
-	cp ${.OBJDIR}/../../ramdisk/bsd.rd ${.OBJDIR}/cd-dir/${OSREV}/sparc
-	ln ${.OBJDIR}/cd-dir/${OSREV}/sparc/bsd.rd ${.OBJDIR}/cd-dir/bsd.rd
-	ln ${.OBJDIR}/cd-dir/bsd.rd ${.OBJDIR}/cd-dir/bsd
-	ln ${.OBJDIR}/cd-dir/bsd.rd ${.OBJDIR}/cd-dir/vmunix # for kicks
-	cp ${DESTDIR}/usr/mdec/boot ${.OBJDIR}/cd-dir/${OSREV}/sparc
-	cp ${DESTDIR}/usr/mdec/bootxx ${.OBJDIR}/cd-dir/${OSREV}/sparc
-	(mkhybrid -a -r -f -v -v -T -L -d -D -N -o ${.OBJDIR}/${CDROM} \
-	(mkhybrid -a -R -v -v -T -L -d -D -N -o ${.OBJDIR}/${CDROM} \
-	    -A "MirOS #${OSrev} ${MACHINE} Boot-CD; http://mirbsd.de/" \
-	    -P "© 2002, 2003, 2004  The MirOS Project" \
-	    -p "The http://mirbsd.de/ team and its contributors" \
+${CDROM}: prepare-workdir generate-image
+
+prepare-workdir:
+	@if [[ -e Makefile ]]; then \
+		echo Error: do a make obj first; \
+		exit 1; \
+	fi
+.ifndef NOPRUNE
+	-rm -rf workdir
+.endif
+	mkdir -p workdir/{etc,v${OSrev}/sparc}
+	@if [[ -e ${.CURDIR}/contrib ]]; then \
+		echo Integrating contrib dir; \
+		mkdir workdir/contrib; \
+		cd workdir/contrib; \
+		lndir ${.CURDIR}/contrib; \
+	fi
+	cp ${DESTDIR}/usr/mdec/boot ${DESTDIR}/usr/mdec/bootxx \
+	    workdir/v${OSrev}/sparc/
+	cp ${REALOBJDIR}/../../ramdisk/bsd.rd workdir/v${OSrev}/sparc/
+	ln workdir/v${OSrev}/sparc/bsd.rd workdir/bsd.rd
+	ln workdir/v${OSrev}/sparc/bsd.rd workdir/bsd
+	ln workdir/v${OSrev}/sparc/bsd.rd workdir/vmunix	# for kicks
+
+generate-image:
+	mkisofs -r -f -L -d -D -N -v -v \
+	    -P "The http://MirBSD.de/ team and its contributors" \
+	    -p "Copyright © 2002-2006 by The MirOS Project" \
 	    -V "MirOS #${OSrev} BSD/${MACHINE} boot-only CD" \
-	    -volset "$$(uname -Ml)" ${.OBJDIR}/cd-dir 2>&1) | tee log
-	vnconfig -v -c svnd0 ${.OBJDIR}/${CDROM}
-	mount -t cd9660 /dev/svnd0a /mnt
-	/usr/mdec/installboot -v \
-	    -s $$(cat log | grep -v 'Name' | egrep "/cd-dir/${OSREV}/sparc/boot$$" | cut -d' ' -f1) \
-	    -e $$(cat log | grep -v 'Name' | egrep "/cd-dir/${OSREV}/sparc/boot$$" | cut -d' ' -f2) \
-	    /mnt/${OSREV}/sparc/boot /usr/mdec/bootxx /dev/rsvnd0c
-	disklabel -w svnd0 fakecdrom "OpenBSD/sparc   "
-	umount /mnt
-	vnconfig -u svnd0
-	# XXX Some sparc machines fail to load the kernel correctly if the
-	# XXX cd image is truncated.  It is not yet known why this happens.
-	# XXX For now we pad the image.
-	dd if=/dev/zero bs=2k count=200 >> ${.OBJDIR}/${CDROM}
+	    -volset "$$(uname -slm) Setup" -sysid "MirOSBSD" \
+	    -pad -o ${CDROM} workdir 2>&1 | tee mkisofs.log
+	${SUDO} vnconfig -v -c svnd0 ${CDROM}
+	mkdir -p tmpmnt
+	${SUDO} mount -t cd9660 /dev/svnd0a ${REALOBJDIR}/tmpmnt
+	${SUDO} /usr/mdec/installboot -v \
+	    -s $$(fgrep -v Name mkisofs.log | egrep 'v${OSrev}/sparc/boot$$'  | cut -d' ' -f1) \
+	    -e $$(fgrep -v Name mkisofs.log | egrep 'v${OSrev}/sparc/boot$$'  | cut -d' ' -f2) \
+	    ${REALOBJDIR}/tmpmnt/v${OSrev}/sparc/boot \
+	    ${DESTDIR}/usr/mdec/bootxx /dev/rsvnd0c
+	${SUDO} disklabel -w svnd0 fakecdrom "MirOS BSD/sparc "
+	${SUDO} umount ${REALOBJDIR}/tmpmnt
+	${SUDO} vnconfig -u svnd0
 
 install:
-	cp ${CDROM} ${DESTDIR}/snapshot
+	cp ${CDROM} ${DESTDIR}/snapshot/
 
-clean cleandir:
-	/bin/rm -f ${CDROM}
-	rm -rf cd-dir log
+clean cleandir cleannobsd:
+	-rm -rf ${CDROM} mkisofs.log workdir tmpmnt
 
 unconfig:
-	-umount /mnt
-	-vnconfig -u svnd0
+	-${SUDO} umount -f ${REALOBJDIR}/tmpmnt
+	-${SUDO} vnconfig -u svnd0
 
 .include <bsd.obj.mk>
 .include <bsd.subdir.mk>
