@@ -1,4 +1,4 @@
-# $MirOS: ports/textproc/expat/expat.port.mk,v 1.4 2008/04/07 19:46:56 tg Exp $
+# $MirOS: ports/textproc/expat/expat.port.mk,v 1.5 2008/04/12 20:22:14 tg Exp $
 # $OpenBSD: iconv.port.mk,v 1.4 2001/11/27 17:44:04 brad Exp $
 
 # This is equivalent to USE_MOTIF.
@@ -15,7 +15,11 @@ USE_EXPAT=	base
 USE_EXPAT=	base
 .    endif
 .  elif ${OStype} == "Darwin"
+.    if ${OSrev:R} < 9
 USE_EXPAT=	X11
+.    else
+USE_EXPAT=	base
+.    endif
 .  elif ${OStype} == "OpenBSD"
 USE_EXPAT=	X11
 .  else
