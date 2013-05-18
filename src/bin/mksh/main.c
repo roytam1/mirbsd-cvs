@@ -1,4 +1,3 @@
-#include <err.h>
 /*	$OpenBSD: main.c,v 1.44 2008/07/05 07:25:18 djm Exp $	*/
 /*	$OpenBSD: tty.c,v 1.9 2006/03/14 22:08:01 deraadt Exp $	*/
 /*	$OpenBSD: io.c,v 1.22 2006/03/17 16:30:13 millert Exp $	*/
