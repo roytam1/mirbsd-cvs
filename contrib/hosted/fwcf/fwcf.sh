@@ -1,5 +1,5 @@
 #!/bin/sh
-# $MirOS: contrib/hosted/fwcf/fwcf.sh,v 1.18 2007/02/20 21:06:02 tg Exp $
+# $MirOS: contrib/hosted/fwcf/fwcf.sh,v 1.19 2007/02/20 21:16:27 tg Exp $
 #-
 # Copyright (c) 2006, 2007
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -40,17 +40,17 @@ export PATH=/bin:/sbin:/usr/bin:/usr/sbin
 case $1 in
 commit|erase|setup|status) ;;
 *)	cat >&2 <<EOF
-FreeWRT Configuration Filesytem (fwcf), Version 1.02
+FreeWRT Configuration Filesytem (fwcf), Version 1.02-beta
 Copyright (c) 2006, 2007
 	Thorsten Glaser <tg@freewrt.org>
 
 Syntax:
-	$0 [commit | erase | setup | status [-rq]]
+	$0 [commit [-f] | erase | setup [-N] | status [-rq]]
 EOF
 	exit 1 ;;
 esac
 
-part=/dev/mtd/$(fgrep '"fwcf"' /proc/mtd 2>&- | sed 's/^mtd\([^:]*\):.*$/\1/')ro
+part=/dev/mtd/$(fgrep '"fwcf"' /proc/mtd 2>/dev/null | sed 's/^mtd\([^:]*\):.*$/\1/')ro
 if ! test -e "$part"; then
 	echo 'fwcf: fatal error: no "fwcf" mtd partition found!' >&2
 	exit 1
@@ -78,20 +78,26 @@ if test $1 = setup; then
 	mkdir /tmp/.fwcf/temp
 	mount -t tmpfs fwcf /tmp/.fwcf/temp
 	(cd /tmp/.fwcf/root; tar cf - .) | (cd /tmp/.fwcf/temp; tar xpf -)
-	x=$(dd if="$part" bs=4 count=1 2>&-)
-	test x"$x" = x"FWCF" || fwcf.helper -Me | mtd -F write - fwcf
-	if ! fwcf.helper -U /tmp/.fwcf/temp <"$part"; then
-		echo 'fwcf: error: cannot extract' >&2
-		echo -n >/tmp/.fwcf/temp/.fwcf_unclean
-		echo unclean startup | logger -t 'fwcf setup'
+	unclean=0
+	if test x"$1" = x"-N"; then
+		unclean=2
+	else
+		x=$(dd if="$part" bs=4 count=1 2>/dev/null)
+		test x"$x" = x"FWCF" || fwcf.helper -Me | mtd -F write - fwcf
+		if ! fwcf.helper -U /tmp/.fwcf/temp <"$part"; then
+			unclean=1
+			echo 'fwcf: error: cannot extract' >&2
+			echo unclean startup | logger -t 'fwcf setup'
+		fi
+		if test -e /tmp/.fwcf/temp/.fwcf_deleted; then
+			# this is safe even in ash (I hope)
+			while IFS= read -r file; do
+				rm -f "/tmp/.fwcf/temp/$file"
+			done </tmp/.fwcf/temp/.fwcf_deleted
+			rm -f /tmp/.fwcf/temp/.fwcf_deleted
+		fi
 	fi
-	if test -e /tmp/.fwcf/temp/.fwcf_deleted; then
-		# this is safe even in ash (I hope)
-		while IFS= read -r file; do
-			rm -f "/tmp/.fwcf/temp/$file"
-		done </tmp/.fwcf/temp/.fwcf_deleted
-		rm -f /tmp/.fwcf/temp/.fwcf_deleted
-	fi
+	test $unclean = 0 || echo -n >/tmp/.fwcf/temp/.fwcf_unclean
 	rm -f /tmp/.fwcf/temp/.fwcf_done
 	if test -e /tmp/.fwcf/temp/.fwcf_done; then
 		echo 'fwcf: fatal: this is not Kansas any more' >&2
@@ -112,16 +118,16 @@ if test $1 = setup; then
 	if test ! -e /etc/.fwcf_done; then
 		umount /etc
 		echo 'fwcf: fatal: binding to /etc failed' >&2
-		if test -e /tmp/.fwcf/temp/.fwcf_unclean; then
-			umount /tmp/.fwcf/temp
-		else
+		if test $unclean = 0; then
 			echo 'fwcf: configuration is preserved' \
 			    'in /tmp/.fwcf/temp' >&2
+		else
+			umount /tmp/.fwcf/temp
 		fi
 		exit 5
 	fi
 	umount /tmp/.fwcf/temp
-	echo complete | logger -t 'fwcf setup'
+	echo complete, unclean=$unclean | logger -t 'fwcf setup'
 	cd /etc
 	find . -type f | grep -v -e '^./.fwcf' -e '^./.rnd$' | sort | \
 	    xargs md5sum | sed 's!  ./! !' | gzip -9 >/tmp/.fwcf/status.gz
@@ -129,16 +135,16 @@ if test $1 = setup; then
 fi
 
 if test $1 = commit; then
-	umount /tmp/.fwcf/temp >&- 2>&-
+	umount /tmp/.fwcf/temp >/dev/null 2>&1
 	if test -e /etc/.fwcf_unclean; then
 		cat >&2 <<-EOF
-			fwcf: error: unclean startup!
+			fwcf: error: unclean startup (or setup run with -N)!
 			explanation: during boot, the FWCF filesystem could not
 			    be extracted; saving the current /etc to flash will
 			    result in data loss; to override this check, remove
 			    the file /etc/.fwcf_unclean and try again.
 		EOF
-		exit 7
+		test x"$1" = x"-f" || exit 7
 	fi
 	mount -t tmpfs swap /tmp/.fwcf/temp
 	(cd /etc; tar cf - .) | (cd /tmp/.fwcf/temp; tar xpf -)
@@ -146,15 +152,15 @@ if test $1 = commit; then
 	find . -type f | grep -v -e '^./.fwcf' -e '^./.rnd$' | sort | \
 	    xargs md5sum | sed 's!  ./! !' | gzip -9 >/tmp/.fwcf/status.gz
 	cd /tmp/.fwcf/root
-	rm -f /tmp/.fwcf/temp/.fwcf_deleted
+	rm -f /tmp/.fwcf/temp/.fwcf_*
 	find . -type f | while read f; do
 		f=${f#./}
 		if ! test -e "/tmp/.fwcf/temp/$f"; then
 			printf '%s\n' "$f" >>/tmp/.fwcf/temp/.fwcf_deleted
 			continue
 		fi
-		x=$(md5sum "$f" 2>&-)
-		y=$(cd ../temp; md5sum "$f" 2>&-)
+		x=$(md5sum "$f" 2>/dev/null)
+		y=$(cd ../temp; md5sum "$f" 2>/dev/null)
 		test x"$x" = x"$y" && rm "../temp/$f"
 	done
 	rv=0

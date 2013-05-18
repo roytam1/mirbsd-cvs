@@ -1,9 +1,9 @@
-                 FreeWRT Configuration Filesystem
-                 ================================
+﻿                 FreeWRT Configuration Filesystem
+                 ════════════════════════════════
 
                       Specification Document
 
-                                   Version 1.02 - 12 February 2007
+                                  Version 1.02β - 28 February 2007
 
 
 Copyright © 2006, 2007
@@ -31,7 +31,7 @@ of said person's immediate fault when using the work as intended.
 
 
 1. Abstract
------------
+―――――――――――
 
 FreeWRT is an operating system for embedded devices. At the moment,
 it provides a uClibc/GNU/Linux-based operating environment for mips-
@@ -58,7 +58,7 @@ a userland programme to be run manually.
 
 
 2. Implementation details
--------------------------
+―――――――――――――――――――――――――
 
 The size of the flash partition has been set by the FreeWRT project
 to 128 KiB (usually two flash blocks). A custom flash map driver has
@@ -66,23 +66,23 @@ been added to the FreeWRT kernel before the import of fwcf.
 
 The command-line utility will support three operations:
 * fwcf setup		to be run by the rc bootup script early
-* fwcf commit		similar to Cisco 'write'
-* fwcf erase		similar to Cisco 'erase startup-config'
+* fwcf commit		similar to Cisco ‘write’
+* fwcf erase		similar to Cisco ‘erase startup-config’
 * fwcf status		NEW IN 1.02: check if commit is needed
 
 This utility is implemented as rapid prototype as a shell script in
 ash, using one C helper programme. Later versions will be pure C.
 
 
-2.1. Operation of 'fwcf setup'
-------------------------------
+2.1. Operation of ‘fwcf setup’
+――――――――――――――――――――――――――――――
 
-This command will first remap the existing /etc (via mount --bind)
+This command will first remap the existing /etc (via ‘mount --bind’)
 to /tmp/.fwcf/root. Then, it will create a memory filesystem (tmpfs)
 at /tmp/.fwcf/temp and populate it with all files from /tmp/.fwcf/root.
 Now, the fwcf flash partition will be read, the format and checksum
 verified and data extracted to /tmp/.fwcf/temp, possibly overwriting
-pre-existing files(*). Then, the /tmp/.fwcf/temp filesystem will be re-
+pre-existing files†. Then, the /tmp/.fwcf/temp filesystem will be re-
 bound to /etc and, finally, the mountpoint at /tmp/.fwcf/temp unloaded.
 
 NEW IN 1.02: If /etc/.fwcf_deleted exists, the files listed in it,
@@ -96,19 +96,22 @@ to /dev/urandom.
 NEW IN 1.02: Afterwards, a sorted list of all files is given to the
 busybox md5sum applet, the output is stored as /tmp/.fwcf/status.gz
 
-If the "fwcf" mtd partition does not start with the four letters
-FWCF on invoking 'fwcf setup', it is erased (i.e. populated with
+If the “fwcf” mtd partition does not start with the four letters
+FWCF on invoking ‘fwcf setup’, it is erased (i.e. populated with
 an empty FWCF filesystem).
 
-(*) NEW IN 1.02: If this fails, but the "fwcf" mtd partition starts
+NEW IN 1.02: If run with ‘-N’, it will not read out the data from
+flash and force an “unclean startup”, as described below.
+
+†) NEW IN 1.02: If this fails, but the “fwcf” mtd partition starts
 with FWCF, i.e. we cannot read the flash filesystem, possibly because
 it's from an incompatible format or unknown compressor, a flag file
 is created as /etc/.fwcf_unclean to prevent a following commit which
 would lead to data loss. The user must remove this file to override.
 
 
-2.2. Operation of 'fwcf commit'
--------------------------------
+2.2. Operation of ‘fwcf commit’
+―――――――――――――――――――――――――――――――
 
 A new memory filesystem (tmpfs) will be createt at /tmp/.fwcf/temp
 and populated with the data currently in /etc. Now, NEW IN 1.02,
@@ -120,15 +123,19 @@ from /tmp/.fwcf/temp. Any remaining files will be packed into the
 fwcf format documented below and written to the flash partition,
 padded to a multiple of 64 KiB with data read from /dev/urandom.
 
+Unclean setups, NEW IN 1.02, will prevent a commit, unless the
+file /etc/.fwcf_unclean is removed manually, or the ‘-f’ option
+is given.
+
 The first public release does only support directories, files
 and symbolic links, for simplicity. Stored hard links and other
 file types will be skipped, because their storage format is al-
-ready specified (as "reserved for future use"), and ignored. No
+ready specified (as “reserved for future use”), and ignored. No
 inode or file-sequential-number information is read or written.
 
 
-2.3. Operation of 'fwcf erase'
-------------------------------
+2.3. Operation of ‘fwcf erase’
+――――――――――――――――――――――――――――――
 
 In theory, just writing a NUL byte to the beginning of the flash
 partition would suffice. However, this requires an mtd erase and
@@ -138,33 +145,33 @@ will be written instead, for the added benefit of improving the
 quality of the kernel PRNG even over total reconfigurations.
 
 
-2.4. Operation of 'fwcf status' (NEW IN 1.02)
-------------------------------- ┄┄┄┄┄┄┄┄┄┄┄┄┄
+2.4. Operation of ‘fwcf status’ (NEW IN 1.02)
+――――――――――――――――――――――――――――――― ┄┄┄┄┄┄┄┄┄┄┄┄┄
 
-For all files in /etc, the md5sum busybox applet is run, output
+For all files in /etc, the ‘md5sum’ busybox applet is run, output
 stored in a temporary file and compared against the saved values
-from 'fwcf setup'. If the -q flag is not given, the differences
-are shown as <oldmd5><space><newmd5><space><file>, where the md5 is
-expressed as shown by the busybox applet, or as padded '<NULL>' if
-the file does not exist on either side, where "old" is the status
-at fwcf setup time (or the /etc from the root fs, if -r is given),
-and "new" is the status of the current (tmpfs) /etc. If there are
+from ‘fwcf setup’. If the ‘-q’ flag is not given, the differences
+are shown as “<oldmd5><space><newmd5><space><file>”, where the md5
+is expressed as shown by the busybox applet, or as padded “<NULL>”
+if the file does not exist on either side, where “old” is the status
+at fwcf setup time (or the /etc from the root fs, if ‘-r’ is given),
+and “new” is the status of the current (tmpfs) /etc. If there are
 no differences, the exit status is 0, non-0 otherwise.
 
-If the -r flag is given, operation is done against the data that
-is stored in the ROM, without considering the contents of the
-FWCF filesystem, instead.
+If the ‘-r’ flag is given, operation is done against the data that
+is stored in the ROM, without considering the contents of the FWCF
+filesystem, instead.
 
 
 3. Structure of the fwcf data
------------------------------
+―――――――――――――――――――――――――――――
 
 All data is written in little-endian format.
 
 The fwcf data begins at offset 0 in the flash partition, with the
-magic bytes "FWCF" (0x46435746).
+magic bytes “FWCF” (0x46435746).
 
-The next doubleword (four bytes) is the "outer length" of the fwcf
+The next doubleword (four bytes) is the “outer length” of the fwcf
 data, including the header (including the magic bytes and the length
 information itself) and the trailer (checksum), but not the padding;
 the length takes up the lower 24 bits of this doubleword. The upper
@@ -178,11 +185,11 @@ the random data used for the padding should be written to /dev/urandom.
 The following information is dependent on the version of the speci-
 fication.
 
-The next doubleword (starting at offset 8) is the "inner length" of
+The next doubleword (starting at offset 8) is the “inner length” of
 the compressed fwcf data (lower 24 bit), or'd with the identification
 number of the compression algorithm used (upper 8 bit). Note this ef-
 fectively limits both the uncompressed and the compressed size of an
-fwcf filesystem to 2^24 bytes = 16 MiB. Since the filesystem is de-
+fwcf filesystem to 2²⁴ bytes = 16 MiB. Since the filesystem is de-
 signed for /etc, this limitation is not expected to be troublesome.
 
 After this, at offset 12, the compressed data starts. It is padded
@@ -198,7 +205,7 @@ selves. The next major version of the specification may change that.
 
 
 4. Compression algorithm allocation
------------------------------------
+―――――――――――――――――――――――――――――――――――
 
 An implementation is only required to be able to use exactly one of
 the compression algorithms defined below, but it is not required to
@@ -217,7 +224,7 @@ Algorithm codes from 0xE0 to 0xFF are available for private use.
 
 
 5. Structure of the fwcf filesystem
------------------------------------
+―――――――――――――――――――――――――――――――――――
 
 The compressed/inner data consists of a byte stream without padding
 applied, in the following format:
@@ -229,7 +236,7 @@ file-entry ::= pathname NUL-byte attributes NUL-byte data
 attributes ::= attribute ( attribute )*
 
 The pathname is a POSIX pathname, i.e. can contain any character
-except NUL. Directories are separated with '/' and automatically
+except NUL. Directories are separated with ‘/’ and automatically
 created by the extraction tool if required. If the first octet
 of the pathname is a NUL byte (i.e. it is of zero length), the
 end of the filesystem has been reached. Any data read afterwards
@@ -245,27 +252,27 @@ tribute. Alternate streams / forks are not supported.
 
 
 6. Currently defined attributes
--------------------------------
+―――――――――――――――――――――――――――――――
 
-0x01	this file is a block special device (*1)
+0x01	this file is a block special device ①
 	no payload
 	reserved for future use
 
-0x02	this file is a character special device (*1)
+0x02	this file is a character special device ①
 	no payload
 	reserved for future use
 
-0x03	this file is a symbolic link (*2)
+0x03	this file is a symbolic link ②
 	no payload
 
-0x04	this file is a hard link to another file (*1) (*4)
+0x04	this file is a hard link to another file ① ④
 	no payload
 	reserved for future use
 
-0x05	this file is a directory (*4)
+0x05	this file is a directory ④
 	no payload
 
-0x0D	this file is deleted (*1)
+0x0D	this file is deleted ①
 	reserved for future use
 
 0x10	modification time of the entry
@@ -277,13 +284,13 @@ g/G	group of the file (numeric GID)
 	optional
 	payload length: lowercase = 8 bit, uppercase = 32 bit
 
-i/I	"inode" of the file (*1) (*4)
+i/I	“inode” of the file ① ④
 	required if this file is a hard link source or target
 	optional (ignored) otherwise
 	payload length: lowercase = 8 bit, uppercase = 16 bit
 	reserved for future use
 
-m/M	mode_t / permissions of the file (*3)
+m/M	mode_t / permissions of the file ③
 	optional
 	ignored for symbolic links
 	payload length: lowercase = 16 bit, uppercase = 32 bit
@@ -297,22 +304,22 @@ s/S	size of the file
 	for directories, device nodes and hard links: forbidden
 	payload length: lowercase = 8 bit, uppercase = 24 bit
 
-*1) These identifiers are defined in this specification for future
-    use; implementations do not need to support them at this time.
+① These identifiers are defined in this specification for future
+  use; implementations do not need to support them at this time.
 
-*2) The name of the target is the data, thus, size is required.
+② The name of the target is the data, thus, size is required.
 
-*3) Defaults to 0 if not used (for security reasons), so labelling
-    it as "optional" is probably a farce ;)
+③ Defaults to 0 if not used (for security reasons), so labelling
+  it as “optional” is probably a farce ☺
 
-*4) Implementing hard links and directories is, of course, optional
-    for the writer.
+④ Implementing hard links and directories is, of course, optional
+  for the writer.
 
 
 7. Miscellaneous
-----------------
+――――――――――――――――
 
-The initial idea for a "configuration filesystem" based upon the
+The initial idea for a “configuration filesystem” based upon the
 Linux FUSE kernel module has been communicated to me by Waldemar
 Brodkorb, FreeWRT Project Founder. After a discussion with him I
 decided on the archive/userland tool layout outlined in sections
@@ -323,8 +330,8 @@ are not supported.
 
 Development of FWCF is hosted in the CVS repository of the MirOS
 project. Anonymous read-only CVS access is available at the root
-":ext:anoncvs@anoncvs.mirbsd.org:/cvs" using password "anoncvs",
-SSH on port 22; module "fwcf". CVSweb is also available, e.g. at
+“:ext:anoncvs@anoncvs.mirbsd.org:/cvs” using password “anoncvs”,
+SSH on port 22; module “fwcf”. CVSweb is also available, e.g. at
 http://cvs.mirbsd.de/contrib/hosted/fwcf/ or its mirrors.
 
 FWCF code is released under the same licence terms as the speci-
@@ -335,7 +342,7 @@ tory of the original source.
 
 
 8. Future directions
---------------------
+――――――――――――――――――――
 
 The next major version of the FWCF filesystem specification is
 likely to contain the following changes:
@@ -348,20 +355,20 @@ likely to contain the following changes:
   the same input data. (This is not guaranteed because fts()
   may traverse the directory hierarchy differently.)
 * Revisit the current size limits and file types.
-* Implement a _real_ file type "deleted", replacing the hack
+* Implement a r̲e̲a̲l̲ file type “deleted”, replacing the hack
   with the .fwcf_deleted file.
-* Some kind of "reboot hook": check if the filesystem has
-  been changed after the last 'fwcf commit' operation. (What
+* Some kind of “reboot hook”: check if the filesystem has
+  been changed after the last ‘fwcf commit’ operation. (What
   exactly is a change? Do we take care of mtimes? Currently,
   we're tending to a list of MD5 hashes for the files in the
   filesystem, ignoring all non-regular files. This will be
-  implemented as "fwcf status" operation.)
-* "fwcf dump", "fwcf restore" (even for 1.x)
+  implemented as “fwcf status” operation.)
+* “fwcf dump”, “fwcf restore” (even for 1.x)
 
 These future directions have come up during or after the
 fwcf 1.00 release process, and from the discussion thereafter.
 They are provided as hint only and not part of the specifi-
 cation itself. They may change without notice.
 
-________________________________________________________________________
-$MirOS: contrib/hosted/fwcf/fwcf.txt,v 1.26 2007/02/20 21:00:31 tg Exp $
+⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼
+$MirOS: contrib/hosted/fwcf/fwcf.txt,v 1.27 2007/02/20 21:06:02 tg Exp $
