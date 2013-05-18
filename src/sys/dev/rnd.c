@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/dev/rnd.c,v 1.18 2006/05/28 02:55:16 tg Exp $ */
+/**	$MirOS: src/sys/dev/rnd.c,v 1.19 2006/05/28 13:19:11 tg Exp $ */
 /*	$OpenBSD: rnd.c,v 1.78 2005/07/07 00:11:24 djm Exp $	*/
 
 /*
@@ -822,7 +822,7 @@ enqueue_randomness(int state, int val)
 		p->last_delta  = delta3;
 		p->last_delta2 = delta2;
 	} else if (p->max_entropy)
-		nbits = 8 * sizeof (val) - 1;
+		nbits = 8 * sizeof (val);
 
 	s = splhigh();
 	if ((rep = rnd_put()) == NULL) {
@@ -1247,7 +1247,8 @@ static void
 rnd_addpool_reinit(void *v)
 {
 	extern int hz;
-	register int i = rnd_addpool_num;
+	register int i;
+	register uint32_t j;
 
 	if (!rnd_addpool_allow || !rnd_attached) {
 		/* reschedule in about eight minutes, it's disabled anyway */
@@ -1256,17 +1257,11 @@ rnd_addpool_reinit(void *v)
 	}
 
 	/* add this user-space and untrusted bucket to random pool */
-	if (!i)
-		i = rnd_addpool_size;
-	while ((--i != rnd_addpool_num) && (rnd_addpool_buf[i])) {
-		if (--rnd_addpool_buf[i])
-			add_true_randomness(rnd_addpool_buf[i] +
-			     (random() & 1));
-		rnd_addpool_buf[i] = 0;
-		if (!i)
-			i = rnd_addpool_size;
-	}
-	rnd_addpool_num = i;
+	for (i = 0; i < rnd_addpool_size; ++i)
+		if ((j = rnd_addpool_buf[i]))	/* don't add all zeroes */
+			if (++j)		/* don't add all ones */
+				add_true_randomness(j - (random() & 1));
+	bzero(rnd_addpool_buf, sizeof (rnd_addpool_buf));
 
 	/* re-schedule this routine in about 32..40 seconds (randomised) */
 	timeout_add(&rnd_addpool_timeout, (hz << 5) + (random() % (hz << 3)));
