@@ -1,4 +1,4 @@
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.102 2008/04/03 17:03:56 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.103 2008/04/03 22:37:20 tg Exp $'
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -892,6 +892,12 @@ mws_content <<'EOF'
  <li>Port to <a href="http://www.syllable.org/">Syllable</a> (much
   improved; support now en par with Plan 9’s, thanks to Anthony Morphett
   &lt;awmorp@gmail.com&gt; – maybe the rest is a kernel bug?)</li>
+ <li>Move a portability define from <tt>sh.h</tt> to the <tt>setmode.c</tt>
+  helper, as it’s <em>only</em> needed there, and we want to use the latter
+  from MirMake as well</li>
+ <li>SECURITY: when spawning mksh on a new terminal, for example with
+  <tt>sudo mksh -lT/dev/ttyC7</tt>, flush all of that tty’s I/O first</li>
+ <li><tt>dot.mkshrc</tt>: ensure “ls” is no alias, don’t hardcode its path</li>
 </ul>
 <p id="r33c">mksh R33c issues fixes for the following issues:</p><ul>
  <li>Handle Ultrix mmap(2) having a different prototype (returning a
