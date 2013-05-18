@@ -21,7 +21,7 @@
 #define _GNU_SOURCE
 #include <string.h>
 
-__RCSID("$MirOS: src/lib/libc/string/stpcpy.c,v 1.1 2008/12/27 21:43:23 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/string/stpcpy.c,v 1.2 2009/04/17 17:16:10 tg Exp $");
 
 char *
 stpcpy(char *dst, const char *src)
@@ -29,5 +29,5 @@ stpcpy(char *dst, const char *src)
 	size_t n;
 
 	n = strlen(src);
-	return (memcpy(dst, src, n + 1) + n);
+	return ((char *)memcpy(dst, src, n + 1) + n);
 }

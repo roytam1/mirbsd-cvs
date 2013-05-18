@@ -26,6 +26,8 @@
 #include <errno.h>
 #include <stdio.h>
 
+__RCSID("$MirOS$");
+
 /*
  * WARNING: Don't even consider trying to compile this on a system where
  * sizeof(int) < 4.  sizeof(int) > 4 is fine; all the world's not a VAX.
@@ -73,10 +75,10 @@ inet_ntop4(const u_char *src, char *dst, size_t size)
 {
 	static const char fmt[] = "%u.%u.%u.%u";
 	char tmp[sizeof "255.255.255.255"];
-	int l;
+	ssize_t l;
 
 	l = snprintf(tmp, size, fmt, src[0], src[1], src[2], src[3]);
-	if (l <= 0 || l >= size) {
+	if (l <= 0 || (size_t)l >= size) {
 		errno = ENOSPC;
 		return (NULL);
 	}

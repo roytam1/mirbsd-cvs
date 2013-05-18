@@ -41,6 +41,9 @@
 #include <rpc/rpc.h>
 #include <rpc/xdr.h>
 #include <rpc/auth.h>
+
+__RCSID("$MirOS$");
+
 #define MAX_MARSHEL_SIZE 20
 
 /*
@@ -95,7 +98,7 @@ authnone_create(void)
 
 /*ARGSUSED*/
 static bool_t
-authnone_marshal(AUTH *client, XDR *xdrs)
+authnone_marshal(AUTH *client __unused, XDR *xdrs)
 {
 	struct authnone_private *ap = authnone_private;
 
@@ -106,25 +109,25 @@ authnone_marshal(AUTH *client, XDR *xdrs)
 }
 
 static void 
-authnone_verf(struct __rpc_auth *none)
+authnone_verf(struct __rpc_auth *none __unused)
 {
 }
 
 static bool_t
-authnone_validate(struct __rpc_auth *none, struct opaque_auth *noauth)
+authnone_validate(struct __rpc_auth *none __unused, struct opaque_auth *noauth __unused)
 {
 
 	return (TRUE);
 }
 
 static bool_t
-authnone_refresh(struct __rpc_auth *none)
+authnone_refresh(struct __rpc_auth *none __unused)
 {
 
 	return (FALSE);
 }
 
 static void
-authnone_destroy(struct __rpc_auth *none)
+authnone_destroy(struct __rpc_auth *none __unused)
 {
 }

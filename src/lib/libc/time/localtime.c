@@ -1,5 +1,3 @@
-/* $MirOS: src/lib/libc/time/localtime.c,v 1.14 2008/04/05 21:26:17 tg Exp $ */
-
 /*-
  * Copyright (c) 2004, 2005, 2007
  *	Thorsten Glaser <tg@mirbsd.de>
@@ -28,7 +26,9 @@
 
 #include <sys/param.h>
 __SCCSID("@(#)localtime.c	7.80");
-__RCSID("$MirOS: src/lib/libc/time/localtime.c,v 1.14 2008/04/05 21:26:17 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/time/localtime.c,v 1.15 2008/04/05 21:53:57 tg Exp $");
+
+struct tm *offtime(const time_t * const, const long);
 
 /*
 ** Leap second handling from Bradley White (bww@k.gp.cs.cmu.edu).
@@ -1088,10 +1088,8 @@ tzset(void)
 
 /*ARGSUSED*/
 static struct tm *
-localsub(timep, offset, tmp)
-const time_t * const	timep;
-const long		offset;
-struct tm * const	tmp;
+localsub(const time_t * const timep, const long offset __unused,
+    struct tm * const tmp)
 {
 	register struct state *		sp;
 	register const struct ttinfo *	ttisp;
@@ -1218,9 +1216,7 @@ gmtime(timep)
 }
 
 struct tm *
-offtime(timep, offset)
-	const time_t *const timep;
-	const long offset;
+offtime(const time_t * const timep, const long offset)
 {
 	return gmtsub(timep, offset, &tm);
 }
@@ -1462,9 +1458,9 @@ const int		do_norm_secs;
 	}
 	while (yourtm.tm_mday > DAYSPERLYEAR) {
 		if (long_increment_overflow(&y, (time_t)1))
+			return WRONG;
 		li = y + (1 < yourtm.tm_mon);
 		yourtm.tm_mday -= year_lengths[isleap(li)];
-			return WRONG;
 	}
 	for ( ; ; ) {
 		i = mon_lengths[isleap((y < 0) ? y+1 : y)][yourtm.tm_mon];

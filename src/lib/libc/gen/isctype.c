@@ -22,7 +22,7 @@
 #include <ctype.h>
 #include <stdio.h>
 
-__RCSID("$MirOS: src/lib/libc/gen/isctype.c,v 1.9 2007/03/22 03:57:49 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/gen/isctype.c,v 1.10 2008/11/30 13:20:37 tg Exp $");
 
 #undef isalnum
 #undef isalpha
@@ -64,7 +64,7 @@ __CTYPE_IMPL2(upper)
 __CTYPE_IMPL2(xdigit)
 
 int
-istitle(int c)
+istitle(int c __unused)
 {
 	return (0);
 }

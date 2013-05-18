@@ -1,4 +1,4 @@
-# $MirOS: src/lib/libc/net/Makefile.inc,v 1.4 2005/09/22 20:40:02 tg Exp $
+# $MirOS: src/lib/libc/net/Makefile.inc,v 1.5 2007/02/05 20:16:12 tg Exp $
 # $OpenBSD: Makefile.inc,v 1.41 2005/08/06 20:30:03 espie Exp $
 
 # net sources
@@ -21,6 +21,25 @@ SRCS+=	base64.c freeaddrinfo.c gai_strerror.c getaddrinfo.c gethostnamadr.c \
 
 # IPv6
 SRCS+=	ip6opt.c rthdr.c vars6.c
+
+# for now...
+.ifdef __CRAZY
+CFLAGS_getaddrinfo.o+= -Wno-error
+CFLAGS_gethostnamadr.o+= -Wno-error
+CFLAGS_getnameinfo.o+= -Wno-error
+CFLAGS_herror.o+= -Wno-cast-qual
+CFLAGS_linkaddr.o+= -Wno-cast-qual
+CFLAGS_rcmd.o+= -Wno-cast-qual
+CFLAGS_res_debug.o+= -Wno-error
+CFLAGS_res_debug_syms.o+= -Wno-error
+CFLAGS_res_init.o+= -Wno-error
+CFLAGS_res_mkquery.o+= -Wno-error
+CFLAGS_res_query.o+= -Wno-error
+CFLAGS_res_send.o+= -Wno-error
+CFLAGS_rcmdsh.o+= -Wno-error
+CFLAGS_rthdr.o+= -Wno-error
+CFLAGS_ip6opt.o+= -Wno-error
+.endif
 
 MAN+=	byteorder.3 ethers.3 gai_strerror.3 getaddrinfo.3 gethostbyname.3 \
 	getifaddrs.3 getnameinfo.3 getnetent.3 getprotoent.3 \

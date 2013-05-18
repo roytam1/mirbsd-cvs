@@ -1,4 +1,3 @@
-/* $MirOS: src/lib/libc/net/rcmd.c,v 1.3 2005/07/09 13:23:32 tg Exp $ */
 /*
  * Copyright (c) 1995, 1996, 1998 Theo de Raadt.  All rights reserved.
  * Copyright (c) 1983, 1993, 1994
@@ -49,7 +48,7 @@
 #include <stdlib.h>
 #include <netgroup.h>
 
-__RCSID("$MirOS: src/lib/libc/net/rcmd.c,v 1.3 2005/07/09 13:23:32 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/net/rcmd.c,v 1.4 2005/09/22 20:40:03 tg Exp $");
 
 int	__ivaliduser(FILE *, in_addr_t, const char *, const char *);
 int	__ivaliduser_sa(FILE *, struct sockaddr *, socklen_t,
@@ -115,8 +114,8 @@ rcmd_af(char **ahost, int porta, const char *locuser, const char *remuser,
 	if (res->ai_canonname) {
 		strlcpy(hbuf, res->ai_canonname, sizeof(hbuf));
 		*ahost = hbuf;
-	} else
-		; /*XXX*/
+	} /*XXX else
+		; XXX*/
 
 	r = res;
 	refused = 0;
@@ -153,22 +152,22 @@ rcmd_af(char **ahost, int porta, const char *locuser, const char *remuser,
 			refused++;
 		if (r->ai_next) {
 			int oerrno = errno;
-			char hbuf[NI_MAXHOST];
+			char hbuf_[NI_MAXHOST];
 			const int niflags = NI_NUMERICHOST;
 
-			hbuf[0] = '\0';
+			hbuf_[0] = '\0';
 			if (getnameinfo(r->ai_addr, r->ai_addrlen,
-			    hbuf, sizeof(hbuf), NULL, 0, niflags) != 0)
-				strlcpy(hbuf, "(invalid)", sizeof hbuf);
-			(void)fprintf(stderr, "connect to address %s: ", hbuf);
+			    hbuf_, sizeof(hbuf_), NULL, 0, niflags) != 0)
+				strlcpy(hbuf_, "(invalid)", sizeof hbuf_);
+			(void)fprintf(stderr, "connect to address %s: ", hbuf_);
 			errno = oerrno;
 			perror(0);
 			r = r->ai_next;
-			hbuf[0] = '\0';
+			hbuf_[0] = '\0';
 			if (getnameinfo(r->ai_addr, r->ai_addrlen,
-			    hbuf, sizeof(hbuf), NULL, 0, niflags) != 0)
-				strlcpy(hbuf, "(invalid)", sizeof hbuf);
-			(void)fprintf(stderr, "Trying %s...\n", hbuf);
+			    hbuf_, sizeof(hbuf_), NULL, 0, niflags) != 0)
+				strlcpy(hbuf_, "(invalid)", sizeof hbuf_);
+			(void)fprintf(stderr, "Trying %s...\n", hbuf_);
 			continue;
 		}
 		if (refused && timo <= 16) {
@@ -212,7 +211,7 @@ rcmd_af(char **ahost, int porta, const char *locuser, const char *remuser,
 		}
 		listen(s2, 1);
 		(void)snprintf(num, sizeof(num), "%d", lport);
-		if (write(s, num, strlen(num)+1) != strlen(num)+1) {
+		if ((size_t)write(s, num, strlen(num)+1) != strlen(num)+1) {
 			(void)fprintf(stderr,
 			    "rcmd: write (setting up stderr): %s\n",
 			    strerror(errno));
@@ -312,7 +311,7 @@ bad:
 }
 
 int	__check_rhosts_file = 1;
-char	*__rcmd_errstr;
+const char *__rcmd_errstr;
 
 int
 ruserok(const char *rhost, int superuser, const char *ruser, const char *luser)
@@ -365,7 +364,7 @@ iruserok_sa(const void *raddr, int rlen, int superuser, const char *ruser,
     const char *luser)
 {
 	struct sockaddr *sa;
-	char *cp;
+	const char *cp;
 	struct stat sbuf;
 	struct passwd *pwd;
 	FILE *hostf;

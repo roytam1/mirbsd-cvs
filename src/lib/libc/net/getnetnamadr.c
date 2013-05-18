@@ -1,4 +1,3 @@
-/**	$MirOS: src/lib/libc/net/getnetnamadr.c,v 1.3 2005/07/09 13:23:31 tg Exp $	*/
 /*	$OpenBSD: getnetnamadr.c,v 1.26 2005/08/06 20:30:03 espie Exp $	*/
 
 /*
@@ -77,9 +76,7 @@
 
 #include "thread_private.h"
 
-__RCSID("$MirOS: src/lib/libc/net/getnetnamadr.c,v 1.3 2005/07/09 13:23:31 tg Exp $");
-
-extern int h_errno;
+__RCSID("$MirOS: src/lib/libc/net/getnetnamadr.c,v 1.4 2005/09/22 20:40:02 tg Exp $");
 
 struct netent *_getnetbyaddr(in_addr_t net, int type);
 struct netent *_getnetbyname(const char *name);

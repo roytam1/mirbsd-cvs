@@ -37,6 +37,8 @@
 #include <string.h>
 #include <stdlib.h>
 
+__RCSID("$MirOS$");
+
 void
 setservent_r(int f, struct servent_data *sd)
 {
@@ -97,7 +99,7 @@ again:
 		goto again;
 	*cp++ = '\0';
 	l = strtol(p, &endp, 10);
-	if (endp == p || *endp != '\0' || l < 0 || l > USHRT_MAX)
+	if (endp == p || *endp != '\0' || l < 0 || l > (long)USHRT_MAX)
 		goto again;
 	se->s_port = htons((in_port_t)l);
 	se->s_proto = cp;

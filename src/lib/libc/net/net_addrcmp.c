@@ -29,7 +29,10 @@
 #include <sys/socket.h>
 #include <sys/un.h>
 #include <netinet/in.h>
+#include <netdb.h>
 #include <string.h>
+
+__RCSID("$MirOS$");
 
 int
 net_addrcmp(struct sockaddr *sa1, struct sockaddr *sa2)

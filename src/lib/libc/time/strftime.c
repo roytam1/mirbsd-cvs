@@ -36,7 +36,7 @@
 
 #include <sys/cdefs.h>
 __SCCSID("@(#)strftime.c	5.4 (Berkeley) 3/14/89");
-__RCSID("$MirOS: src/lib/libc/time/strftime.c,v 1.2 2007/06/16 21:57:08 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/time/strftime.c,v 1.3 2008/11/04 01:43:16 tg Exp $");
 
 #include "tzfile.h"
 #include "fcntl.h"
@@ -118,8 +118,6 @@ static char *	_conv P((int, const char *, char *, const char *));
 static char *	_fmt P((const char *, const struct tm *, char *, const char *,
 			int *));
 static char *	_yconv P((int, int, int, int, char *, const char *));
-
-extern char *	tzname[];
 
 #ifndef YEAR_2000_NAME
 #define YEAR_2000_NAME	"CHECK_STRFTIME_FORMATS_FOR_TWO_DIGIT_YEARS"

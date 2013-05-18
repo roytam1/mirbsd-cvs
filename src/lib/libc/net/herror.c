@@ -58,6 +58,8 @@
 #include <unistd.h>
 #include <string.h>
 
+__RCSID("$MirOS$");
+
 const char * const h_errlist[] = {
 	"Resolver Error 0 (no error)",
 	"Unknown host",				/* 1 HOST_NOT_FOUND */
@@ -66,8 +68,6 @@ const char * const h_errlist[] = {
 	"No address associated with name",	/* 4 NO_ADDRESS */
 };
 const int	h_nerr = { sizeof h_errlist / sizeof h_errlist[0] };
-
-extern int	h_errno;
 
 /*
  * herror --
@@ -83,14 +83,14 @@ herror(const char *s)
 		v->iov_base = (char *)s;
 		v->iov_len = strlen(s);
 		v++;
-		v->iov_base = ": ";
+		v->iov_base = (char *)": ";
 		v->iov_len = 2;
 		v++;
 	}
 	v->iov_base = (char *)hstrerror(h_errno);
 	v->iov_len = strlen(v->iov_base);
 	v++;
-	v->iov_base = "\n";
+	v->iov_base = (char *)"\n";
 	v->iov_len = 1;
 	writev(STDERR_FILENO, iov, (v - iov) + 1);
 }

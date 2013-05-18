@@ -33,6 +33,8 @@
 #include <arpa/inet.h>
 #include <ctype.h>
 
+__RCSID("$MirOS$");
+
 /*
  * Internet network address interpretation routine.
  * The library routines call this routine to interpret
@@ -44,7 +46,7 @@ inet_network(const char *cp)
 	in_addr_t val, base, n;
 	char c;
 	in_addr_t parts[4], *pp = parts;
-	int i;
+	unsigned int i;
 
 again:
 	val = 0; base = 10;

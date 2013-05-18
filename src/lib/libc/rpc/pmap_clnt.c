@@ -41,6 +41,8 @@
 #include <rpc/pmap_prot.h>
 #include <rpc/pmap_clnt.h>
 
+__RCSID("$MirOS$");
+
 static struct timeval timeout = { 5, 0 };
 static struct timeval tottimeout = { 60, 0 };
 
@@ -73,7 +75,7 @@ pmap_set(u_long program, u_long version, u_int protocol, int iport)
 	    tottimeout) != RPC_SUCCESS) {
 		int save_errno = errno;
 
-		clnt_perror(client, "Cannot register service");
+		clnt_perror(client, (char *)"Cannot register service");
 		errno = save_errno;
 		return (FALSE);
 	}

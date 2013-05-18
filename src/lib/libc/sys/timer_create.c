@@ -4,11 +4,16 @@
 #include <time.h>
 #include <errno.h>
 
+__RCSID("$MirOS$");
+
 struct sigevent;
+
+int timer_create(clockid_t, struct sigevent *, timer_t *);
 
 /* ARGSUSED */
 int
-timer_create(clockid_t clock_id, struct sigevent *evp, timer_t *timerid)
+timer_create(clockid_t clock_id __unused, struct sigevent *evp __unused,
+    timer_t *timerid __unused)
 {
 	errno = ENOSYS;
 	return -1;

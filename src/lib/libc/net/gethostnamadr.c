@@ -63,7 +63,7 @@
 #include <stdlib.h>
 #include "thread_private.h"
 
-__RCSID("$MirOS: src/lib/libc/net/gethostnamadr.c,v 1.6 2005/09/22 20:40:02 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/net/gethostnamadr.c,v 1.7 2005/10/21 10:53:25 tg Exp $");
 
 #define MULTI_PTRS_ARE_ALIASES 1	/* XXX - experimental */
 
@@ -108,8 +108,6 @@ typedef union {
 } align;
 
 static struct hostent *getanswer(const querybuf *, int, const char *, int);
-
-extern int h_errno;
 
 int
 _hokchar(const char *p)

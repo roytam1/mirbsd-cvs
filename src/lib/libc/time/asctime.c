@@ -17,7 +17,7 @@
 #include "thread_private.h"
 
 __SCCSID("@(#)asctime.c	7.22");
-__RCSID("$MirOS: src/lib/libc/time/asctime.c,v 1.5 2005/09/22 20:50:40 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/time/asctime.c,v 1.6 2008/09/17 19:54:37 tg Exp $");
 
 /*
 ** Some systems only handle "%.2d"; others only handle "%02d";
@@ -59,10 +59,7 @@ __RCSID("$MirOS: src/lib/libc/time/asctime.c,v 1.5 2005/09/22 20:50:40 tg Exp $"
 #define MAX_ASCTIME_BUF_SIZE	(2*3+5*INT_STRLEN_MAXIMUM(time_t)+7+2+1+1)
 
 static char *
-asctime3(timeptr, buf, bufsize)
-register const struct tm *	timeptr;
-char *				buf;
-int				bufsize;
+asctime3(register const struct tm *timeptr, char *buf, int bufsize)
 {
 	static const char	wday_name[][4] = {
 		"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"
@@ -112,9 +109,7 @@ int				bufsize;
 */
 
 char *
-asctime_r(timeptr, buf)
-register const struct tm *	timeptr;
-char *				buf;
+asctime_r(register const struct tm *timeptr, char *buf)
 {
 	/*
 	** P1003 8.3.5.2 says that asctime_r() can only assume at most
@@ -128,8 +123,7 @@ char *				buf;
 */
 
 char *
-asctime(timeptr)
-const struct tm *	timeptr;
+asctime(const struct tm *timeptr)
 {
 	static char result[MAX_ASCTIME_BUF_SIZE];
 	_THREAD_PRIVATE_KEY(asctime);

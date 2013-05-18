@@ -40,6 +40,8 @@
 #include <string.h>
 #include <unistd.h>
 
+__RCSID("$MirOS$");
+
 #define	SALIGN	(sizeof(long) - 1)
 #define	SA_RLEN(sa)	((sa)->sa_len ? (((sa)->sa_len + SALIGN) & ~SALIGN) : (SALIGN + 1))
 
@@ -60,7 +62,7 @@ getifaddrs(struct ifaddrs **pif)
 	struct ifa_msghdr *ifam;
 	struct sockaddr_dl *dl;
 	struct sockaddr *sa;
-	u_short index = 0;
+	u_short index_ = 0;
 	size_t len, alen;
 	struct ifaddrs *ifa, *ift;
 	int i;
@@ -90,7 +92,7 @@ getifaddrs(struct ifaddrs **pif)
 		case RTM_IFINFO:
 			ifm = (struct if_msghdr *)rtm;
 			if (ifm->ifm_addrs & RTA_IFP) {
-				index = ifm->ifm_index;
+				index_ = ifm->ifm_index;
 				++icnt;
 				dl = (struct sockaddr_dl *)(ifm + 1);
 				dcnt += SA_RLEN((struct sockaddr *)dl) +
@@ -98,16 +100,16 @@ getifaddrs(struct ifaddrs **pif)
 				dcnt += sizeof(ifm->ifm_data);
 				ncnt += dl->sdl_nlen + 1;
 			} else
-				index = 0;
+				index_ = 0;
 			break;
 
 		case RTM_NEWADDR:
 			ifam = (struct ifa_msghdr *)rtm;
-			if (index && ifam->ifam_index != index)
+			if (index_ && ifam->ifam_index != index_)
 				abort();	/* XXX abort illegal in library */
 
 #define	RTA_MASKS	(RTA_NETMASK | RTA_IFA | RTA_BRD)
-			if (index == 0 || (ifam->ifam_addrs & RTA_MASKS) == 0)
+			if (index_ == 0 || (ifam->ifam_addrs & RTA_MASKS) == 0)
 				break;
 			p = (char *)(ifam + 1);
 			++icnt;
@@ -159,7 +161,7 @@ getifaddrs(struct ifaddrs **pif)
 	memset(ifa, 0, sizeof(struct ifaddrs) * icnt);
 	ift = ifa;
 
-	index = 0;
+	index_ = 0;
 	for (next = buf; next < buf + needed; next += rtm->rtm_msglen) {
 		rtm = (struct rt_msghdr *)next;
 		if (rtm->rtm_version != RTM_VERSION)
@@ -168,7 +170,7 @@ getifaddrs(struct ifaddrs **pif)
 		case RTM_IFINFO:
 			ifm = (struct if_msghdr *)rtm;
 			if (ifm->ifm_addrs & RTA_IFP) {
-				index = ifm->ifm_index;
+				index_ = ifm->ifm_index;
 				dl = (struct sockaddr_dl *)(ifm + 1);
 
 				cif = ift;
@@ -190,15 +192,15 @@ getifaddrs(struct ifaddrs **pif)
 
 				ift = (ift->ifa_next = ift + 1);
 			} else
-				index = 0;
+				index_ = 0;
 			break;
 
 		case RTM_NEWADDR:
 			ifam = (struct ifa_msghdr *)rtm;
-			if (index && ifam->ifam_index != index)
+			if (index_ && ifam->ifam_index != index_)
 				abort();	/* XXX abort illegal in library */
 
-			if (index == 0 || (ifam->ifam_addrs & RTA_MASKS) == 0)
+			if (index_ == 0 || (ifam->ifam_addrs & RTA_MASKS) == 0)
 				break;
 			ift->ifa_name = cif->ifa_name;
 			ift->ifa_flags = cif->ifa_flags;

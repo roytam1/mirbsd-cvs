@@ -31,7 +31,11 @@
 #include <netdb.h>
 #include <string.h>
 
+__RCSID("$MirOS$");
+
 extern int _net_stayopen;
+
+struct netent *_getnetbyname(const char *);
 
 struct netent *
 _getnetbyname(const char *name)

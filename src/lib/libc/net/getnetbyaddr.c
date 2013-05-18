@@ -30,7 +30,11 @@
 
 #include <netdb.h>
 
+__RCSID("$MirOS$");
+
 extern int _net_stayopen;
+
+struct netent *_getnetbyaddr(in_addr_t, int);
 
 struct netent *
 _getnetbyaddr(in_addr_t net, int type)

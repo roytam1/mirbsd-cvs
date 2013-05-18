@@ -63,6 +63,8 @@
 #include <stdlib.h>
 #include <string.h>
 
+__RCSID("$MirOS$");
+
 #define RU_OUT  180             /* Time after wich will be reseeded */
 #define RU_MAX	30000		/* Uniq cycle, avoid blackjack prediction */
 #define RU_GEN	2		/* Starting generator */
@@ -71,7 +73,7 @@
 #define RU_M	31104           /* RU_M = 2^7*3^5 - don't change */
 
 #define PFAC_N 3
-const static u_int16_t pfacts[PFAC_N] = {
+static const u_int16_t pfacts[PFAC_N] = {
 	2, 
 	3,
 	2729

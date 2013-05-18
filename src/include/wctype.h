@@ -1,4 +1,4 @@
-/* $MirOS: src/include/wctype.h,v 1.6 2007/02/02 21:06:17 tg Exp $ */
+/* $MirOS: src/include/wctype.h,v 1.7 2008/11/30 13:08:49 tg Exp $ */
 
 #ifndef	_WCTYPE_H_
 #define	_WCTYPE_H_
@@ -24,6 +24,7 @@ int	iswxdigit(wint_t);
 int	iswctype(wint_t, wctype_t);
 wint_t	towctrans(wint_t, wctrans_t);
 wint_t	towlower(wint_t);
+wint_t	towtitle(wint_t);
 wint_t	towupper(wint_t);
 wctrans_t wctrans(const char *);
 

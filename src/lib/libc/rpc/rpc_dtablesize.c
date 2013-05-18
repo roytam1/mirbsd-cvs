@@ -31,6 +31,10 @@
 #include <unistd.h>
 #include <sys/types.h>
 
+__RCSID("$MirOS$");
+
+int _rpc_dtablesize(void);
+
 /*
  * Cache the result of getdtablesize(), so we don't have to do an
  * expensive system call every time.

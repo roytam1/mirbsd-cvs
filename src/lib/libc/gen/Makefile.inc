@@ -1,4 +1,4 @@
-# $MirOS: src/lib/libc/gen/Makefile.inc,v 1.11 2007/03/22 03:06:49 tg Exp $
+# $MirOS: src/lib/libc/gen/Makefile.inc,v 1.12 2007/05/07 02:26:12 tg Exp $
 # $OpenBSD: Makefile.inc,v 1.37 2005/02/01 15:12:28 millert Exp $
 
 # gen sources
@@ -39,12 +39,10 @@ CFLAGS_disklabel.o+= -Wno-error
 CFLAGS_exec.o+= -Wno-cast-qual
 CFLAGS_fstab.o+= -Wno-error
 CFLAGS_fts.o+= -Wno-error
-CFLAGS_ftw.o+= -Wno-cast-qual
 CFLAGS_getcap.o+= -Wno-cast-qual
 CFLAGS_getnetgrent.o+= -Wno-error
 CFLAGS_getusershell.o+= -Wno-cast-qual
 CFLAGS_login_cap.o+= -Wno-error
-CFLAGS_nftw.o+= -Wno-error
 CFLAGS_psignal.o+= -Wno-cast-qual
 CFLAGS_sethostname.o+= -Wno-cast-qual
 CFLAGS_syslog.o+= -Wno-missing-format-attribute		# gcc problem

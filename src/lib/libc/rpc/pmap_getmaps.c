@@ -46,6 +46,9 @@
 #include <unistd.h>
 #include <net/if.h>
 #include <sys/ioctl.h>
+
+__RCSID("$MirOS$");
+
 #define NAMELEN 255
 #define MAX_BROADCAST_SIZE 1400
 
@@ -69,7 +72,7 @@ pmap_getmaps(struct sockaddr_in *address)
 	if (client != NULL) {
 		if (CLNT_CALL(client, PMAPPROC_DUMP, xdr_void, NULL, xdr_pmaplist,
 		    &head, minutetimeout) != RPC_SUCCESS) {
-			clnt_perror(client, "pmap_getmaps rpc problem");
+			clnt_perror(client, (char *)"pmap_getmaps rpc problem");
 		}
 		CLNT_DESTROY(client);
 	}

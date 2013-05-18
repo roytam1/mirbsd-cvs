@@ -45,6 +45,8 @@
 #include <errno.h>
 #include <rpc/pmap_clnt.h>
 
+__RCSID("$MirOS$");
+
 /*
  * UDP bases client side rpc operations
  */
@@ -385,7 +387,7 @@ clntudp_freeres(CLIENT *cl, xdrproc_t xdr_res, caddr_t res_ptr)
 }
 
 static void 
-clntudp_abort(CLIENT *clnt)
+clntudp_abort(CLIENT *clnt __unused)
 {
 }
 

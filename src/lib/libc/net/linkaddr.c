@@ -1,4 +1,3 @@
-/**	$MirOS: src/lib/libc/net/linkaddr.c,v 1.3 2005/07/09 13:23:32 tg Exp $ */
 /*	$OpenBSD: linkaddr.c,v 1.5 2005/08/06 20:30:03 espie Exp $ */
 /*-
  * Copyright (c) 1990, 1993
@@ -34,7 +33,7 @@
 #include <net/if_dl.h>
 #include <string.h>
 
-__RCSID("$MirOS: src/lib/libc/net/linkaddr.c,v 1.3 2005/07/09 13:23:32 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/net/linkaddr.c,v 1.4 2005/09/22 20:40:03 tg Exp $");
 
 /* States*/
 #define NAMING	0
@@ -52,7 +51,8 @@ link_addr(const char *addr, struct sockaddr_dl *sdl)
 {
 	char *cp = sdl->sdl_data;
 	char *cplim = sdl->sdl_len + (char *)sdl;
-	int byte = 0, state = NAMING, new = 0;
+	int byte = 0, state = NAMING;
+	size_t new = 0;
 
 	memset((char *)&sdl->sdl_family, 0, sdl->sdl_len - 1);
 	sdl->sdl_family = AF_LINK;

@@ -1,4 +1,4 @@
-# $MirOS: src/lib/libc/sys/Makefile.inc,v 1.8 2008/11/30 17:30:03 tg Exp $
+# $MirOS: src/lib/libc/sys/Makefile.inc,v 1.9 2008/12/27 21:17:55 tg Exp $
 # $OpenBSD: Makefile.inc,v 1.73 2005/06/17 20:37:31 drahn Exp $
 # $NetBSD: Makefile.inc,v 1.35 1995/10/16 23:49:07 jtc Exp $
 # @(#)Makefile.inc	8.1 (Berkeley) 6/17/93
@@ -28,6 +28,11 @@ DPSRCS+=Lint_Ovfork.c Lint_brk.c Lint_exect.c Lint_fork.c \
 SRCS+=	ftruncate.c lseek.c mquery.c mmap.c ptrace.c semctl.c truncate.c \
 	timer_create.c timer_delete.c timer_getoverrun.c timer_gettime.c \
 	timer_settime.c pread.c preadv.c pwrite.c pwritev.c statvfs.c
+
+.ifdef __CRAZY
+CFLAGS_mquery.o+=	-Wno-error
+CFLAGS_mmap.o+=		-Wno-error
+.endif
 
 # stack protector helper functions
 SRCS+=	stack_protector.c

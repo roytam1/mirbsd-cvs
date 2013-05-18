@@ -4,9 +4,13 @@
 #include <time.h>
 #include <errno.h>
 
+__RCSID("$MirOS$");
+
+int timer_getoverrun(timer_t);
+
 /* ARGSUSED */
 int
-timer_getoverrun(timer_t timerid)
+timer_getoverrun(timer_t timerid __unused)
 {
 	errno = ENOSYS;
 	return -1;

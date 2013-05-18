@@ -51,6 +51,8 @@
 #include <rpc/auth.h>
 #include <rpc/auth_unix.h>
 
+__RCSID("$MirOS$");
+
 /*
  * Unix authenticator operations vector
  */
@@ -191,7 +193,7 @@ authunix_create_default(void)
  */
 /* ARGSUSED */
 static void
-authunix_nextverf(AUTH *auth)
+authunix_nextverf(AUTH *auth __unused)
 {
 	/* no action necessary */
 }

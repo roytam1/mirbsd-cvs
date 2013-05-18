@@ -26,6 +26,8 @@
 #include <stdio.h>
 #include <string.h>
 
+__RCSID("$MirOS$");
+
 /*
  * char *
  * inet_neta(src, dst, size)
@@ -58,7 +60,7 @@ inet_neta(in_addr_t src, char *dst, size_t size)
 
 		src <<= 8;
 		if (b || src) {
-			if (ep - dst < sizeof "255.")
+			if ((size_t)(ep - dst) < sizeof("255."))
 				goto emsgsize;
 			advance = snprintf(dst, ep - dst, "%u", b);
 			if (advance <= 0 || advance >= ep - dst)

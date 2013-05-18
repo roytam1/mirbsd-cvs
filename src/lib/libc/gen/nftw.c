@@ -26,22 +26,29 @@
 #include <fts.h>
 #include <ftw.h>
 #include <limits.h>
+#include <string.h>
+#include <stdlib.h>
+
+__RCSID("$MirOS$");
 
 int
 nftw(const char *path, int (*fn)(const char *, const struct stat *, int,
      struct FTW *), int nfds, int ftwflags)
 {
-	char * const paths[2] = { (char *)path, NULL };
-	struct FTW ftw;
+	struct FTW ftw_;
 	FTSENT *cur;
 	FTS *ftsp;
 	int error = 0, ftsflags, fnflag, postorder, sverrno;
+	char *paths[2], *allocd;
 
 	/* XXX - nfds is currently unused */
 	if (nfds < 1 || nfds > OPEN_MAX) {
 		errno = EINVAL;
 		return (-1);
 	}
+
+	paths[0] = allocd = strdup(path);
+	paths[1] = NULL;
 
 	ftsflags = FTS_COMFOLLOW;
 	if (!(ftwflags & FTW_CHDIR))
@@ -54,8 +61,10 @@ nftw(const char *path, int (*fn)(const char *, const struct stat *, int,
 		ftsflags |= FTS_LOGICAL;
 	postorder = (ftwflags & FTW_DEPTH) != 0;
 	ftsp = fts_open(paths, ftsflags, NULL);
-	if (ftsp == NULL)
+	if (ftsp == NULL) {
+		free(allocd);
 		return (-1);
+	}
 	while ((cur = fts_read(ftsp)) != NULL) {
 		switch (cur->fts_info) {
 		case FTS_D:
@@ -92,17 +101,18 @@ nftw(const char *path, int (*fn)(const char *, const struct stat *, int,
 			error = -1;
 			goto done;
 		}
-		ftw.base = cur->fts_pathlen - cur->fts_namelen;
-		ftw.level = cur->fts_level;
-		error = fn(cur->fts_path, cur->fts_statp, fnflag, &ftw);
+		ftw_.base = cur->fts_pathlen - cur->fts_namelen;
+		ftw_.level = cur->fts_level;
+		error = fn(cur->fts_path, cur->fts_statp, fnflag, &ftw_);
 		if (error != 0)
 			break;
 	}
-done:
+ done:
 	sverrno = errno;
 	if (fts_close(ftsp) != 0 && error == 0)
 		error = -1;
 	else
 		errno = sverrno;
+	free(allocd);
 	return (error);
 }

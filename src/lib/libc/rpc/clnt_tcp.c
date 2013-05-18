@@ -57,6 +57,8 @@
 #include <errno.h>
 #include <rpc/pmap_clnt.h>
 
+__RCSID("$MirOS$");
+
 #define MCALL_MSG_SIZE 24
 
 static enum clnt_stat	clnttcp_call(CLIENT *, u_long, xdrproc_t, caddr_t,
@@ -328,7 +330,7 @@ clnttcp_freeres(CLIENT *cl, xdrproc_t xdr_res, caddr_t res_ptr)
 }
 
 static void
-clnttcp_abort(CLIENT *clnt)
+clnttcp_abort(CLIENT *clnt __unused)
 {
 }
 

@@ -38,6 +38,8 @@
 #include <stdio.h>
 #include <string.h>
 
+__RCSID("$MirOS$");
+
 static struct ipx_addr addr, zero_addr;
 
 static void Field(char *, u_char *, int);
@@ -94,7 +96,7 @@ Field(char *buf, u_char *out, int len)
 	char *bp = buf;
 	int i, ibase, base16 = 0, base10 = 0, clen = 0;
 	int hb[6], *hp;
-	char *fmt;
+	const char *fmt;
 
 	/*
 	 * first try 2-273#2-852-151-014#socket

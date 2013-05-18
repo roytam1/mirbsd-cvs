@@ -1,4 +1,5 @@
-#	$OpenBSD: Makefile.inc,v 1.12 2003/12/31 03:27:23 millert Exp $
+# $MirOS$
+# $OpenBSD: Makefile.inc,v 1.12 2003/12/31 03:27:23 millert Exp $
 
 # librpc sources
 .PATH:	${LIBCSRCDIR}/arch/${MACHINE}/rpc ${LIBCSRCDIR}/rpc
@@ -11,6 +12,31 @@ SRCS+=	auth_none.c auth_unix.c  authunix_prot.c bindresvport.c \
 	svc.c svc_auth.c svc_auth_unix.c svc_raw.c svc_run.c svc_simple.c \
 	svc_tcp.c svc_udp.c xdr.c xdr_array.c xdr_float.c xdr_mem.c \
 	xdr_rec.c xdr_reference.c xdr_stdio.c
+
+# for now...
+.ifdef __CRAZY
+CFLAGS_clnt_perror.o+= -Wno-error
+CFLAGS_clnt_raw.o+= -Wno-unused
+CFLAGS_pmap_clnt.o+= -Wno-cast-qual
+CFLAGS_pmap_getmaps.o+= -Wno-cast-qual
+CFLAGS_pmap_rmt.o+= -Wno-error
+CFLAGS_rpc_prot.o+= -Wno-error
+CFLAGS_svc.o+= -Wno-error
+CFLAGS_svc_auth.o+= -Wno-error
+CFLAGS_svc_auth_unix.o+= -Wno-error
+CFLAGS_svc_raw.o+= -Wno-error
+CFLAGS_svc_run.o+= -Wno-error
+CFLAGS_svc_simple.o+= -Wno-error
+CFLAGS_svc_tcp.o+= -Wno-error
+CFLAGS_svc_udp.o+= -Wno-error
+CFLAGS_xdr.o+= -Wno-error
+CFLAGS_xdr_array.o+= -Wno-error
+CFLAGS_xdr_float.o+= -Wno-error
+CFLAGS_xdr_mem.o+= -Wno-error
+CFLAGS_xdr_rec.o+= -Wno-error
+CFLAGS_xdr_reference.o+= -Wno-error
+CFLAGS_xdr_stdio.o+= -Wno-error
+.endif
 
 MAN+=	bindresvport.3 getrpcent.3 getrpcport.3 rpc.3 xdr.3 rpcauth.3
 MLINKS+=	bindresvport.3 bindresvport_sa.3 \
