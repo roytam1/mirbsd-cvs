@@ -29,8 +29,6 @@ CONFIGURE_ARGS+=	--with-libtool \
 			${CONFIGURE_SHARED} \
 			--with-randomdev=/dev/arandom
 
-MODGNU_CONFIG_GUESS_DIRS= ${WRKSRC}
-
 FLAVOURS=		threads
 FLAVOUR?=
 

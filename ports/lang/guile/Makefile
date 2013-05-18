@@ -1,4 +1,4 @@
-# $MirOS: ports/lang/guile/Makefile,v 1.5 2006/09/14 00:10:20 tg Exp $
+# $MirOS: ports/lang/guile/Makefile,v 1.6 2007/07/18 21:55:08 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.20 2002/12/29 20:41:07 fgsch Exp $
 
 COMMENT=		GNU Ubiquitous Intelligent Language for Extension
@@ -22,7 +22,7 @@ MODULES+=		devel/gettext
 
 CONFIGURE_STYLE=	autoconf # no-autoheader
 AUTOCONF_NEW=		Yes
-MODGNU_CONFIG_GUESS_DIRS= ${WRKSRC} ${WRKSRC}/guile-readline
+MODGNU_RECURSE_DIRS=	${WRKSRC}/guile-readline ${WRKSRC}
 CONFIGURE_ARGS+=	${CONFIGURE_SHARED}
 CONFIGURE_ARGS+=	--enable-static
 

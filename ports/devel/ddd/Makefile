@@ -28,8 +28,7 @@ AUTOCONF_NEW=	Yes
 
 SUBST_VARS+=	DISTNAME
 
-MODGNU_CONFIG_GUESS_DIRS= ${WRKSRC} ${WRKSRC}/libiberty \
-				${WRKSRC}/readline/support
+MODGNU_RECURSE_DIRS=	${WRKSRC}/libiberty ${WRKSRC}/readline/support ${WRKSRC}
 CONFIGURE_ARGS=	--with-readline-libraries=/usr/lib
 
 

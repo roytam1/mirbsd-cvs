@@ -1,4 +1,4 @@
-# $MirOS: ports/devel/opencm/Makefile,v 1.6 2008/03/09 17:22:31 tg Exp $
+# $MirOS: ports/devel/opencm/Makefile,v 1.7 2008/03/23 15:03:49 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.18 2004/02/04 07:39:18 sturm Exp $
 
 COMMENT=		OpenCM change management system
@@ -28,7 +28,6 @@ EXTRACT_SUFX=		.tgz
 
 USE_GMAKE=		Yes
 USE_CXX=		Yes
-MODGNU_CONFIG_GUESS_DIRS= ${WRKSRC}
 CONFIGURE_STYLE=	autoconf
 CPPFLAGS+=		-DUSE_SYSTEM_ZLIB
 CONFIGURE_ENV=		vl_cv_lib_kerberos=1

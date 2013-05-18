@@ -1,4 +1,4 @@
-# $MirOS: ports/misc/rpm/Makefile,v 1.4 2006/02/09 11:12:07 tg Exp $
+# $MirOS: ports/misc/rpm/Makefile,v 1.5 2006/09/14 00:11:20 tg Exp $
 # $OpenBSD: Makefile,v 1.11 2002/12/29 19:49:40 fgsch Exp $
 
 COMMENT=			redhat package manager
@@ -18,7 +18,7 @@ LIB_DEPENDS+=	bz2.::archivers/bzip2 \
 		popt.0.::devel/popt
 
 CONFIGURE_STYLE=	autoconf
-MODGNU_CONFIG_GUESS_DIRS= ${WRKSRC} ${WRKSRC}/popt
+MODGNU_RECURSE_DIRS=	${WRKSRC}/popt ${WRKSRC}
 
 # Enforce check for pgp, so no build-time depend is needed
 CONFIGURE_ENV=		PGPBIN=$(LOCALBASE)/bin/pgp

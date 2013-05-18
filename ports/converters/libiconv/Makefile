@@ -1,4 +1,4 @@
-# $MirOS: ports/converters/libiconv/Makefile,v 1.11 2008/03/14 19:41:43 tg Exp $
+# $MirOS: ports/converters/libiconv/Makefile,v 1.12 2008/04/07 18:42:23 tg Exp $
 # $OpenBSD: Makefile,v 1.16 2003/12/24 00:08:02 brad Exp $
 
 COMMENT=		character set conversion library
@@ -16,7 +16,7 @@ PERMIT_DISTFILES_FTP=	Yes
 
 CONFIGURE_STYLE=	autoconf
 AUTOCONF_NEW=		Yes
-MODGNU_CONFIG_GUESS_DIRS= ${WRKSRC} ${WRKSRC}/libcharset
+MODGNU_RECURSE_DIRS=	${WRKSRC}/libcharset ${WRKSRC}
 CONFIGURE_ARGS+=	${CONFIGURE_SHARED}
 CONFIGURE_ARGS+=	--enable-static \
 			--enable-extra-encodings \

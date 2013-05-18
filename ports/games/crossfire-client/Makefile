@@ -1,4 +1,4 @@
-# $MirOS: ports/games/crossfire-client/Makefile,v 1.3 2006/02/09 11:11:36 tg Exp $
+# $MirOS: ports/games/crossfire-client/Makefile,v 1.4 2006/09/14 00:09:22 tg Exp $
 # $OpenBSD: Makefile,v 1.12 2003/08/19 09:40:32 espie Exp $
 
 COMMENT=			graphical networked AD&D style game
@@ -31,7 +31,7 @@ NO_REGRESS=	Yes
 
 USE_X11=		Yes
 USE_CXX=		Yes
-MODGNU_CONFIG_GUESS_DIRS= ${WRKSRC} ${WRKSRC}/utils
+MODGNU_RECURSE_DIRS=	${WRKSRC}/utils ${WRKSRC}
 CONFIGURE_STYLE=	gnu
 
 IMG=	bmaps.client crossfire.base crossfire.clsc

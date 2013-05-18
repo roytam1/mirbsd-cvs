@@ -1,4 +1,4 @@
-# $MirOS: ports/print/lyx/Makefile,v 1.3 2007/04/13 19:27:21 bsiegert Exp $
+# $MirOS: ports/print/lyx/Makefile,v 1.4 2008/03/09 17:23:27 tg Exp $
 # $OpenBSD: Makefile,v 1.32 2004/04/25 15:34:08 sturm Exp $
 
 COMMENT=	graphical frontend for LaTeX (nearly WYSIWYG)
@@ -46,8 +46,8 @@ LIB_DEPENDS+=	forms.1::x11/xforms
 ERRORS+= "Fatal: Conflicting flavour: ${FLAVOUR}"
 .endif
 
-CONFIGURE_STYLE=		gnu
-MODGNU_CONFIG_GUESS_DIRS= ${WRKSRC}/config
+CONFIGURE_STYLE=	gnu
+MODGNU_RECURSE_DIRS=	${WRKSRC}/config
 
 CONFIGURE_ARGS+=--with-extra-lib=${LOCALBASE}/lib \
 		--with-extra-inc="${LOCALBASE}/include \

@@ -1,4 +1,4 @@
-# $MirOS: ports/audio/xmms/Makefile,v 1.9 2007/04/22 20:55:16 bsiegert Exp $
+# $MirOS: ports/audio/xmms/Makefile,v 1.10 2008/03/09 17:22:26 tg Exp $
 # $OpenBSD: Makefile,v 1.33 2004/05/24 13:17:40 robert Exp $
 
 COMMENT=		Multimedia player for the X Window System
@@ -56,7 +56,7 @@ LIB_DEPENDS=		gtk.1.2,gdk.1.2::x11/gtk+1 \
 USE_X11=		Yes
 CONFIGURE_STYLE=	autoconf
 AUTOCONF_NEW=		Yes
-MODGNU_CONFIG_GUESS_DIRS= ${WRKSRC} ${WRKSRC}/libxmms
+MODGNU_RECURSE_DIRS=	${WRKSRC}/libxmms ${WRKSRC}
 CONFIGURE_ARGS=		${CONFIGURE_SHARED} \
 			--without-gnome \
 			--enable-ipv6

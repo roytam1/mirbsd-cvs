@@ -1,4 +1,4 @@
-# $MirOS: ports/devel/vte/Makefile,v 1.5 2007/04/07 14:32:27 bsiegert Exp $
+# $MirOS: ports/devel/vte/Makefile,v 1.6 2007/06/25 21:37:17 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.6 2004/11/24 00:11:04 espie Exp $
 
 COMMENT=		terminal emulatation library
@@ -19,7 +19,7 @@ LIB_DEPENDS+=		pangocairo-1.0.0.0::devel/pango
 LIB_DEPENDS+=		gdk-x11-2.0.0.8,gdk_pixbuf-2.0.0.8,gtk-x11-2.0.0.8::x11/gtk+
 MODULES+=		devel/pkgconfig
 
-MODGNU_CONFIG_GUESS_DIRS=${WRKSRC} ${WRKSRC}/gnome-pty-helper
+MODGNU_RECURSE_DIRS=	${WRKSRC}/gnome-pty-helper ${WRKSRC}
 
 USE_X11=		Yes
 USE_GMAKE=		Yes

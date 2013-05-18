@@ -1,4 +1,4 @@
-# $MirOS: ports/net/nmap/Makefile,v 1.3 2006/09/14 00:11:58 tg Exp $
+# $MirOS: ports/net/nmap/Makefile,v 1.4 2008/03/09 17:23:19 tg Exp $
 # $OpenBSD: Makefile,v 1.49 2004/05/16 08:38:12 jolan Exp $
 
 COMMENT=			scan ports and fingerprint stack of network hosts
@@ -16,9 +16,8 @@ PERMIT_DISTFILES_FTP=	Yes
 
 CONFIGURE_STYLE= 	gnu dest
 CONFIGURE_ARGS=		--with-libpcap=/usr --with-libpcre=${LOCALBASE}
-MODGNU_CONFIG_GUESS_DIRS= ${WRKSRC} ${WRKSRC}/nbase \
-				${WRKSRC}/nsock/src \
-				${WRKSRC}/libpcap-possiblymodified
+MODGNU_RECURSE_DIRS=	${WRKSRC}/nbase ${WRKSRC}/nsock/src \
+			${WRKSRC}/libpcap-possiblymodified ${WRKSRC}
 
 # XXX workaround linking issue on hppa
 .if ${MACHINE_ARCH:Mhppa}

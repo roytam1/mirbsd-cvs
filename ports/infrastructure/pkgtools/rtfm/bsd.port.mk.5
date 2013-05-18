@@ -1,4 +1,4 @@
-.\" $MirOS: ports/infrastructure/pkgtools/rtfm/bsd.port.mk.5,v 1.18 2008/04/05 18:24:33 tg Exp $
+.\" $MirOS: ports/infrastructure/pkgtools/rtfm/bsd.port.mk.5,v 1.19 2008/04/05 18:27:28 tg Exp $
 .\" $OpenBSD: bsd.port.mk.5,v 1.134 2004/02/18 13:39:02 xsa Exp $
 .\"
 .\" Copyright (c) 2007, 2008 Thorsten Glaser
@@ -822,7 +822,7 @@ The port has no man pages the Imakefile should try installing.
 There is a configure script, but it does not fit the normal gnu configure
 conventions.
 .El
-.It Ev MODGNU_CONFIG_GUESS_DIRS , MODGNU_TWIDDLE_DIRS
+.It Ev MODGNU_RECURSE_DIRS
 If a port uses more than one
 .Cm configure
 script, set this to all other directories that contain one.

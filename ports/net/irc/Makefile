@@ -1,4 +1,4 @@
-# $MirOS: ports/net/irc/Makefile,v 1.4 2006/09/14 00:11:49 tg Exp $
+# $MirOS: ports/net/irc/Makefile,v 1.5 2008/03/09 17:23:18 tg Exp $
 # $OpenBSD: Makefile,v 1.24 2003/11/11 15:17:34 margarida Exp $
 # $FreeBSD: Makefile,v 1.19 1998/12/09 20:15:29 billf Exp $
 
@@ -19,7 +19,7 @@ PERMIT_DISTFILES_FTP=	Yes
 
 CONFDIR=	${SYSCONFDIR}/ircd
 CONFIGURE_STYLE=gnu old
-MODGNU_CONFIG_GUESS_DIRS= ${WRKSRC} ${WRKSRC}/support
+MODGNU_RECURSE_DIRS=	${WRKSRC}/support ${WRKSRC}
 CONFIGURE_ARGS=	--logdir="/var/log/ircd" \
 		--localstatedir="/var/run" \
 		--sysconfdir=${CONFDIR}

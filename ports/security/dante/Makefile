@@ -18,8 +18,6 @@ CONFIGURE_STYLE= gnu
 CONFIGURE_ARGS+= ${CONFIGURE_SHARED}
 CONFIGURE_ARGS+= --enable-static
 
-MODGNU_CONFIG_GUESS_DIRS+= ${WRKSRC}
-
 post-install:
 	${INSTALL_DATA_DIR} ${PREFIX}/share/doc/dante
 	${INSTALL_DATA} ${WRKSRC}/doc/README.* ${PREFIX}/share/doc/dante

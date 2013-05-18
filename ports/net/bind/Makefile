@@ -1,4 +1,4 @@
-# $MirOS: ports/net/bind/Makefile,v 1.6 2007/07/25 20:15:35 bsiegert Exp $
+# $MirOS: ports/net/bind/Makefile,v 1.7 2008/03/09 17:23:15 tg Exp $
 # $OpenBSD: Makefile,v 1.42 2003/04/10 18:08:56 jsyn Exp $
 
 COMMENT=		ISC BIND 9 libraries, audited OpenBSD version
@@ -62,7 +62,6 @@ RND_DEVICE=		/dev/urandom
 NO_REGRESS=		Yes
 CONFIGURE_STYLE=	autoconf no-autoheader
 AUTOCONF_NEW=		Yes
-MODGNU_CONFIG_GUESS_DIRS= ${WRKSRC}
 
 CONFIGURE_ARGS+=	--with-libtool ${CONFIGURE_SHARED}
 CONFIGURE_ARGS+=	--localstatedir=/var

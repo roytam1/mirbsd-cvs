@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/textproc/sablotron/Makefile,v 1.5 2008/04/07 19:20:06 tg Exp $
 # $OpenBSD: Makefile,v 1.17 2004/02/29 00:18:19 avsm Exp $
 
 COMMENT=		fast, compact and portable XSL/XSLT processor
@@ -22,7 +22,7 @@ BUILD_DEPENDS+=		:p5-XML-Parser-*:textproc/p5-XML-Parser
 
 USE_GMAKE=		Yes
 AUTOCONF_NEW=		Yes
-MODGNU_CONFIG_GUESS_DIRS=${WRKSRC} ${WRKSRC}/tools
+MODGNU_RECURSE_DIRS=	${WRKSRC}/tools ${WRKSRC}
 
 CONFIGURE_STYLE=	gnu
 CONFIGURE_ENV+=		SABLOT_GPL=1

@@ -1,4 +1,4 @@
-# $MirOS: ports/net/silc-server/Makefile,v 1.3 2007/04/13 19:38:45 bsiegert Exp $
+# $MirOS: ports/net/silc-server/Makefile,v 1.4 2008/03/09 17:23:22 tg Exp $
 # $OpenBSD: Makefile,v 1.15 2004/03/03 18:17:13 brad Exp $
 
 .if ${MACHINE_ARCH} == "powerpc"
@@ -42,7 +42,7 @@ SUBST_VARS=	CONFDIR
 
 CONFIGURE_STYLE= autoconf
 AUTOCONF_NEW=	 Yes
-MODGNU_CONFIG_GUESS_DIRS= ${WRKSRC} ${WRKSRC}/lib/silcmath/mpi
+MODGNU_RECURSE_DIRS=	${WRKSRC}/lib/silcmath/mpi ${WRKSRC}
 CONFIGURE_ARGS+= --enable-ipv6 \
 		 --without-irssi \
 		 --with-docdir=${PREFIX}/share/doc/silcd \

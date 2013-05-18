@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/gnu.port.mk,v 1.42 2008/05/02 11:37:24 tg Exp $
+# $MirOS: ports/infrastructure/mk/gnu.port.mk,v 1.43 2008/05/07 21:19:26 tg Exp $
 # $OpenBSD: gnu.port.mk,v 1.19 2004/06/06 11:49:08 espie Exp $
 
 AUTOCONF_NEW?=		No
@@ -9,7 +9,7 @@ AUTOCONF_VERSION?=	2.13
 .endif
 AUTOMAKE_VERSION?=	1.4
 
-MODGNU_CONFIG_GUESS_DIRS?= ${WRKSRC}
+MODGNU_RECURSE_DIRS?=	${WRKSRC}
 AUTOGEN?=		${SHELL} ${PORTSDIR}/infrastructure/scripts/autogen.sh
 MODGNU_COPIES?=		compile config-ml.in config.guess \
 			config.libpath config.rpath config.sub depcomp \
@@ -162,7 +162,7 @@ _MODGNU_loop+=	echo "Running autoheader-${AUTOCONF_VERSION} in $$d"; \
 
 # finally: everything run after patch
 .if ${PATCH_CHECK_ONLY:L} != "yes"
-MODGNU_post-patch+=	for d in ${MODGNU_CONFIG_GUESS_DIRS}; do \
+MODGNU_post-patch+=	for d in ${MODGNU_RECURSE_DIRS}; do \
 				( cd $$d; ${_MODGNU_loop} ); done;
 
 # autogen is an exception, it is run only once in the toplevel directory.

@@ -28,7 +28,7 @@ LIB_DEPENDS=	bz2.10::archivers/bzip2 \
 		pcre.0::devel/pcre
 
 CONFIGURE_STYLE=gnu dest
-MODGNU_CONFIG_GUESS_DIRS= ${WRKSRC}/tools
+MODGNU_RECURSE_DIRS=${WRKSRC}/tools
 CONFIGURE_ARGS=	${CONFIGURE_SHARED} \
 		--with-readline --without-tcltk \
 		--with-zlib --with-bzlib --with-pcre

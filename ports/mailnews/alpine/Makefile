@@ -1,4 +1,4 @@
-# $MirOS: ports/mailnews/alpine/Makefile,v 1.3 2008/05/07 22:28:39 tg Exp $
+# $MirOS: ports/mailnews/alpine/Makefile,v 1.4 2008/05/07 22:34:00 tg Exp $
 
 ONLY_FOR_PLATFORM=	Darwin:*:*
 
@@ -90,7 +90,7 @@ USE_CA_CERTIFICATES=	Yes
 
 CONFIGURE_STYLE=	autoconf detectheader
 AUTOCONF_NEW=		Yes
-#MODGNU_CONFIG_GUESS_DIRS= ${WRKSRC}/web/src/cgi.tcl-1.10 ${WRKSRC}
+#MODGNU_RECURSE_DIRS=	${WRKSRC}/web/src/cgi.tcl-1.10 ${WRKSRC}
 CONFIGURE_ARGS+=	${CONFIGURE_SHARED} \
 			--enable-static \
 			--with-system-pinerc=${SYSCONFDIR:Q}/pine.conf \

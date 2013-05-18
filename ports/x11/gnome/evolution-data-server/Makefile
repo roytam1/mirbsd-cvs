@@ -1,4 +1,4 @@
-# $MirOS: ports/x11/gnome/evolution-data-server/Makefile,v 1.4 2007/04/13 20:28:17 bsiegert Exp $
+# $MirOS: ports/x11/gnome/evolution-data-server/Makefile,v 1.5 2007/06/25 21:45:06 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.4 2004/12/11 06:03:08 marcm Exp $
 
 COMMENT=		data backends for the Evolution mail/PIM suite
@@ -32,7 +32,7 @@ YACC=			bison
 CONFIGURE_STYLE= 	autogen
 AUTOGEN=		${SHELL} ${FILESDIR}/autogen.sh
 AUTOCONF_NEW=		Yes
-MODGNU_CONFIG_GUESS_DIRS= ${WRKSRC} ${WRKSRC}/libdb/dist ${WRKSRC}/calendar/libical
+MODGNU_RECURSE_DIRS=	${WRKSRC}/libdb/dist ${WRKSRC}/calendar/libical ${WRKSRC}
 CONFIGURE_ARGS+= 	--disable-gtk-doc
 CONFIGURE_ARGS+=	--with-gconf-schema-file-dir=${LOCALBASE}/share/schemas/evolution-data-server
 CONFIGURE_ARGS+= 	--with-openldap=${LOCALBASE}

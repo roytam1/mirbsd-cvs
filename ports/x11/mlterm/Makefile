@@ -1,4 +1,4 @@
-# $MirOS: ports/x11/mlterm/Makefile,v 1.4 2005/04/11 15:57:36 tg Exp $
+# $MirOS: ports/x11/mlterm/Makefile,v 1.5 2006/09/14 00:15:29 tg Exp $
 # $OpenBSD: Makefile,v 1.1.1.1 2004/06/04 17:13:26 naddy Exp $
 
 NOT_FOR_PLATFORM=	*:*:vax
@@ -22,7 +22,7 @@ USE_X11=	Yes
 
 LIB_DEPENDS=	gtk.1.2::x11/gtk+1
 
-MODGNU_CONFIG_GUESS_DIRS= ${WRKSRC} ${WRKSRC}/kiklib ${WRKSRC}/mkf
+MODGNU_RECURSE_DIRS=	${WRKSRC}/kiklib ${WRKSRC}/mkf ${WRKSRC}
 CONFIGURE_STYLE=autoconf no-autoheader
 CONFIGURE_ARGS=	${CONFIGURE_SHARED} --enable-anti-alias --enable-utmp
 CONFIGURE_ARGS+=--disable-nls

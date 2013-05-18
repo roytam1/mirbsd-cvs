@@ -1,4 +1,4 @@
-# $MirOS: ports/databases/db/Makefile,v 1.12 2007/08/16 20:46:23 bsiegert Exp $
+# $MirOS: ports/databases/db/Makefile,v 1.13 2008/03/09 17:22:27 tg Exp $
 
 COMMENT=		Berkeley DB, revision 4
 COMMENT-doc=		Berkeley DB documentation, revision 4
@@ -47,9 +47,9 @@ CONFIGURE_ARGS+=	--enable-static
 CONFIGURE_ARGS+=	--includedir=$$\{prefix}/include/db4
 CONFIGURE_ARGS+=	${CONFIGURE_SHARED}
 
-MODGNU_CONFIG_GUESS_DIRS= ${WRKSRC}/dist
+MODGNU_RECURSE_DIRS=	${WRKSRC}/dist
 
-PSEUDO_FLAVOURS=		no_tcl no_cxx
+PSEUDO_FLAVOURS=	no_tcl no_cxx
 FLAVOUR?=
 SUBPACKAGE?=
 

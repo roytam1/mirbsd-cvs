@@ -1,4 +1,4 @@
-# $MirOS: ports/print/teTeX/base/Makefile,v 1.8 2007/03/08 10:15:10 tg Exp $
+# $MirOS: ports/print/teTeX/base/Makefile,v 1.9 2008/03/09 17:23:28 tg Exp $
 # $OpenBSD: Makefile,v 1.25 2003/04/04 21:19:23 sturm Exp $
 
 COMMENT=		TeX distribution, executables
@@ -17,7 +17,7 @@ CONFIGURE_STYLE=	dest autogen no-autoheader
 AUTOGEN=		${SHELL} ${WRKSRC}/reautoconf
 USE_CXX=		yes
 
-MODGNU_CONFIG_GUESS_DIRS= \
+MODGNU_RECURSE_DIRS=	\
 			${WRKSRC} \
 			${WRKSRC}/libs \
 			${WRKSRC}/libs/libwww \

@@ -21,7 +21,7 @@ HOMEPAGE=		http://www.lam-mpi.org/
 
 USE_CXX=		Yes
 CONFIGURE_STYLE=	gnu
-MODGNU_CONFIG_GUESS_DIRS= ${WRKSRC}/config ${WRKSRC}/mpi2c++
+MODGNU_RECURSE_DIRS=	${WRKSRC}/config ${WRKSRC}/mpi2c++
 CONFIGURE_ARGS+=	--with-rsh="ssh -x"
 
 .include <bsd.port.mk>

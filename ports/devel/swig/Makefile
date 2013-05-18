@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/devel/swig/Makefile,v 1.5 2007/04/11 17:05:28 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.27 2003/12/27 23:23:21 jose Exp $
 
 COMMENT=		simplified wrapper and interface generator
@@ -36,7 +36,7 @@ CONFIGURE_ARGS+= --with-tclincl=${LOCALBASE}/include/tcl8.4 \
 		 --with-tcllib==${LOCALBASE}/lib/tcl8.4 \
 		 --with-guilelib=${LOCALBASE}/lib \
 		 --with-python=${LOCALBASE}/bin/python${PYTHON_VER}
-MODGNU_CONFIG_GUESS_DIRS= ${WRKSRC}/Tools
+MODGNU_RECURSE_DIRS=	${WRKSRC}/Tools
 
 ALL_TARGET=	swig runtime
 

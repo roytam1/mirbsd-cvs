@@ -17,7 +17,7 @@ EXTRACT_SUFX=		.base.tar.gz
 
 USE_GMAKE=		Yes
 CONFIGURE_STYLE=	autoconf
-MODGNU_CONFIG_GUESS_DIRS= ${WRKSRC}/erts-${VERSION}/autoconf
+MODGNU_RECURSE_DIRS=	${WRKSRC}/erts-${VERSION}/autoconf
 
 NO_REGRESS=		Yes
 

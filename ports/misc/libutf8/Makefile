@@ -16,6 +16,6 @@ PERMIT_DISTFILES_FTP=	Yes
 
 CONFIGURE_STYLE= gnu dest
 CONFIGURE_ARGS=	${CONFIGURE_SHARED} --enable-static
-MODGNU_CONFIG_GUESS_DIRS= ${WRKSRC} ${WRKSRC}/autoconf
+MODGNU_RECURSE_DIRS=	${WRKSRC}/autoconf ${WRKSRC}
 
 .include <bsd.port.mk>

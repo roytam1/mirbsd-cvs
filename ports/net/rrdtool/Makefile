@@ -1,4 +1,4 @@
-# $MirOS: ports/net/rrdtool/Makefile,v 1.4 2006/09/14 00:12:15 tg Exp $
+# $MirOS: ports/net/rrdtool/Makefile,v 1.5 2008/03/09 17:23:22 tg Exp $
 # $OpenBSD: Makefile,v 1.24 2004/02/15 20:59:58 sturm Exp $
 
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
@@ -27,7 +27,7 @@ CONFIGURE_STYLE= autoconf
 CONFIGURE_ARGS+= ${CONFIGURE_SHARED} --enable-static \
 		--enable-local-libpng \
 		--enable-local-zlib
-MODGNU_CONFIG_GUESS_DIRS= ${WRKSRC} ${WRKSRC}/config ${WRKSRC}/contrib/php4
+MODGNU_RECURSE_DIRS=	${WRKSRC}/config ${WRKSRC}/contrib/php4 ${WRKSRC}
 
 .if ${FLAVOUR:L:Mtcl}
 LIB_DEPENDS+=	tcl84::lang/tcl/8.4

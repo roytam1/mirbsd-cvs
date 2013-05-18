@@ -1,4 +1,4 @@
-# $MirOS: ports/www/squid/Makefile,v 1.6 2006/09/14 00:14:59 tg Exp $
+# $MirOS: ports/www/squid/Makefile,v 1.7 2008/03/09 17:23:39 tg Exp $
 # $OpenBSD: Makefile,v 1.61 2004/04/21 11:11:19 brad Exp $
 
 COMMENT=			WWW and FTP proxy cache and accelerator
@@ -54,7 +54,7 @@ FLAVOURS=	transparent
 FLAVOUR?=
 
 CONFIGURE_STYLE= autoconf no-autoheader
-MODGNU_CONFIG_GUESS_DIRS= ${WRKSRC} ${WRKSRC}/cfgaux
+MODGNU_RECURSE_DIRS=	${WRKSRC}/cfgaux ${WRKSRC}
 CONFIGURE_ARGS=	--enable-removal-policies="lru heap" \
 		--enable-storeio="ufs diskd" \
 		--enable-ssl \

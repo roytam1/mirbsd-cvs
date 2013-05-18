@@ -1,4 +1,4 @@
-# $MirOS: ports/devel/t1lib/Makefile,v 1.5 2007/12/05 20:03:05 bsiegert Exp $
+# $MirOS: ports/devel/t1lib/Makefile,v 1.6 2008/05/02 14:42:36 tg Exp $
 # $OpenBSD: Makefile,v 1.17 2004/04/14 18:26:38 brad Exp $
 
 COMMENT=		Type 1 rasterizer library for UNIX/X11
@@ -17,7 +17,7 @@ USE_X11=		Yes
 USE_CXX=		Yes
 CONFIGURE_STYLE=	autoconf no-autoheader
 AUTOCONF_NEW=		Yes
-MODGNU_CONFIG_GUESS_DIRS=${WRKSRC}/ac-tools ${WRKSRC}
+MODGNU_RECURSE_DIRS=	${WRKSRC}/ac-tools ${WRKSRC}
 CONFIGURE_ARGS+=	${CONFIGURE_SHARED}
 ALL_TARGET=		without_doc
 NO_REGRESS=		Yes

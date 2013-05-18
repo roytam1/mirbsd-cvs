@@ -1,4 +1,4 @@
-# $MirOS: ports/voip/linphone/Makefile,v 1.3 2006/09/14 00:14:30 tg Exp $
+# $MirOS: ports/voip/linphone/Makefile,v 1.4 2008/03/09 17:23:36 tg Exp $
 
 COMMENT=			SIP telephony (VoIP) client
 CATEGORIES=		comms net voip
@@ -32,8 +32,7 @@ LIB_DEPENDS+=		ogg.5::audio/libogg \
 
 CONFIGURE_STYLE=	autoconf no-autoheader
 AUTOCONF_NEW=		Yes
-MODGNU_CONFIG_GUESS_DIRS= ${WRKSRC} ${WRKSRC}/speex \
-			  ${WRKSRC}/oRTP ${WRKSRC}/osipua
+MODGNU_RECURSE_DIRS=	${WRKSRC}/speex ${WRKSRC}/oRTP ${WRKSRC}/osipua ${WRKSRC}
 CONFIGURE_ARGS+=	--enable-glib \
 			--disable-gnome_ui \
 			--disable-alsa \

@@ -17,7 +17,7 @@ PERMIT_DISTFILES_FTP=	Yes
 MASTER_SITES=		http://www.sys-security.com/archive/tools/X/
 
 CONFIGURE_STYLE=	gnu
-MODGNU_CONFIG_GUESS_DIRS= ${WRKSRC}/cfg-scripts
+MODGNU_RECURSE_DIRS=	${WRKSRC}/cfg-scripts
 
 NO_REGRESS=		Yes
 

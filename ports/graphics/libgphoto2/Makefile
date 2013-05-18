@@ -1,4 +1,4 @@
-# $MirOS: ports/graphics/libgphoto2/Makefile,v 1.7 2007/02/22 22:57:51 tg Exp $
+# $MirOS: ports/graphics/libgphoto2/Makefile,v 1.8 2007/04/07 14:38:37 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.4 2004/04/14 18:39:57 brad Exp $
 
 COMMENT=		digital camera library
@@ -17,7 +17,7 @@ PERMIT_DISTFILES_CDROM=	Yes
 
 CONFIGURE_STYLE=	autoconf
 AUTOCONF_NEW=		Yes
-MODGNU_CONFIG_GUESS_DIRS= ${WRKSRC} ${WRKSRC}/libgphoto2_port
+MODGNU_RECURSE_DIRS=	${WRKSRC}/libgphoto2_port ${WRKSRC}
 CONFIGURE_ARGS+=	--disable-nls
 
 USE_CXX=		Yes # depends on libusb, which uses C++

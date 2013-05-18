@@ -1,4 +1,4 @@
-# $MirOS: ports/net/centericq/Makefile,v 1.32 2008/03/09 17:23:15 tg Exp $
+# $MirOS: ports/net/centericq/Makefile,v 1.33 2008/05/01 00:52:33 tg Exp $
 # $OpenBSD: Makefile,v 1.24 2004/02/03 08:37:55 brad Exp $
 
 # bus error on start
@@ -59,12 +59,11 @@ LIB_DEPENDS+=		gpgme::security/gpgme
 CONFIGURE_ARGS+=	--without-gpgme
 .endif
 
-MODGNU_CONFIG_GUESS_DIRS= ${WRKSRC} ${WRKSRC}/connwrap-0.1 \
-			${WRKSRC}/firetalk-0.1 ${WRKSRC}/kkconsui-0.1 \
-			${WRKSRC}/kkstrtext-0.1 ${WRKSRC}/kksystr-0.1 \
-			${WRKSRC}/libgadu-0.1 ${WRKSRC}/libicq2000-0.1 \
-			${WRKSRC}/libjabber-0.1 ${WRKSRC}/libmsn-3.2 \
-			${WRKSRC}/libyahoo2-0.1
+MODGNU_RECURSE_DIRS=	${WRKSRC}/connwrap-0.1 ${WRKSRC}/firetalk-0.1 \
+			${WRKSRC}/kkconsui-0.1 ${WRKSRC}/kkstrtext-0.1 \
+			${WRKSRC}/kksystr-0.1 ${WRKSRC}/libgadu-0.1 \
+			${WRKSRC}/libicq2000-0.1 ${WRKSRC}/libjabber-0.1 \
+			${WRKSRC}/libmsn-3.2 ${WRKSRC}/libyahoo2-0.1 ${WRKSRC}
 
 DOCS=			ChangeLog FAQ README
 

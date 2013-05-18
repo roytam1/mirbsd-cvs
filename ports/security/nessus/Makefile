@@ -1,4 +1,4 @@
-# $MirOS: ports/security/nessus/Makefile,v 1.4 2006/09/14 00:13:05 tg Exp $
+# $MirOS: ports/security/nessus/Makefile,v 1.5 2008/03/09 17:23:30 tg Exp $
 # $OpenBSD: Makefile,v 1.35 2004/04/08 16:32:39 sturm Exp $
 
 IGNORE=		"might be broken, used to use Libtool"
@@ -44,8 +44,9 @@ FLAVOUR?=
 # Can't do CONFIGURE_STYLE=autoconf because of configure wrapper
 # that builds each tarball in succession.
 CONFIGURE_STYLE=gnu
-MODGNU_CONFIG_GUESS_DIRS= ${WRKSRC} ${WRKSRC}/nessus-core \
-    ${WRKSRC}/nessus-plugins ${WRKSRC}/libnasl ${WRKSRC}/nessus-libraries
+MODGNU_RECURSE_DIRS=	${WRKSRC}/nessus-core ${WRKSRC}/nessus-plugins \
+			${WRKSRC}/libnasl ${WRKSRC}/nessus-libraries \
+			${WRKSRC}
 CONFIGURE_ARGS+=--localstatedir=/var --disable-nessuspcap \
 		--sharedstatedir=/var --enable-shared --enable-bpf-sharing
 

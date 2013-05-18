@@ -1,4 +1,4 @@
-# $MirOS: ports/x11/sawfish/Makefile,v 1.5 2006/09/14 00:15:37 tg Exp $
+# $MirOS: ports/x11/sawfish/Makefile,v 1.6 2007/05/07 19:48:40 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.13 2003/05/15 04:39:16 margarida Exp $
 
 COMMENT=	extensible window manager
@@ -30,7 +30,7 @@ USE_X11=	Yes
 USE_CXX=	Yes # depends on libungif, which uses CXX
 USE_GMAKE=      Yes
 CONFIGURE_STYLE= gnu
-MODGNU_CONFIG_GUESS_DIRS= ${WRKSRC}/etc
+MODGNU_RECURSE_DIRS=	${WRKSRC}/etc
 CONFIGURE_ARGS+= ${CONFIGURE_SHARED}
 CONFIGURE_ARGS+= --without-audiofile --without-esd \
 		 --disable-capplet --disable-themer \

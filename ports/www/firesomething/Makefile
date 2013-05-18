@@ -1,4 +1,4 @@
-# $MirOS: ports/www/firesomething/Makefile,v 1.22 2008/03/31 21:33:55 bsiegert Exp $
+# $MirOS: ports/www/firesomething/Makefile,v 1.23 2008/04/02 00:35:17 tg Exp $
 # $OpenBSD: Makefile,v 1.41 2005/11/15 09:21:52 wilfried Exp $
 
 ONLY_FOR_PLATFORM=	*:*:alpha *:*:i386 *:*:sparc *:*:sparc64 *:*:amd64 *:*:powerpc
@@ -39,8 +39,7 @@ USE_GMAKE=		Yes
 NO_REGRESS=		Yes
 SUBST_VARS=		LOCALBASE SO_VERSION VER
 
-MODGNU_CONFIG_GUESS_DIRS=	${WRKSRC} \
-				${WRKSRC}/nsprpub
+MODGNU_RECURSE_DIRS=	${WRKSRC}/nsprpub ${WRKSRC}
 
 CONFIGURE_STYLE=	autoconf no-autoheader
 CONFIGURE_ARGS=		--with-system-jpeg=${LOCALBASE}	\

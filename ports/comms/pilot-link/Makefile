@@ -1,4 +1,4 @@
-# $MirOS: ports/comms/pilot-link/Makefile,v 1.3 2006/09/14 00:07:36 tg Exp $
+# $MirOS: ports/comms/pilot-link/Makefile,v 1.4 2008/03/09 17:22:27 tg Exp $
 # $OpenBSD: Makefile,v 1.31 2003/10/07 17:17:31 fgsch Exp $
 
 COMMENT=			PalmPilot communication utilities
@@ -37,7 +37,7 @@ LIB_DEPENDS=	tk83::x11/tk/8.3
 CONFIGURE_ARGS+= --without-tk
 .endif
 
-MODGNU_CONFIG_GUESS_DIRS= ${WRKSRC} ${WRKSRC}/scripts
+MODGNU_RECURSE_DIRS=	${WRKSRC}/scripts ${WRKSRC}
 
 MODULES=	converters/libiconv
 

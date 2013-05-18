@@ -41,7 +41,7 @@ MULTI_PACKAGES=	-client
 USE_GMAKE=	Yes
 
 CONFIGURE_STYLE=gnu
-MODGNU_CONFIG_GUESS_DIRS= ${WRKSRC} ${WRKSRC}/config
+MODGNU_RECURSE_DIRS=${WRKSRC}/config ${WRKSRC}
 
 # Because Amanda does not conform to shared library naming standards,
 # and knowing that no software outside of Amanda attempts to use the

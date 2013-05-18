@@ -1,4 +1,4 @@
-# $MirOS: ports/x11/paragui/Makefile,v 1.3 2006/09/14 00:15:33 tg Exp $
+# $MirOS: ports/x11/paragui/Makefile,v 1.4 2007/05/07 19:48:40 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.13 2004/02/25 02:35:18 naddy Exp $
 
 COMMENT=	cross-platform high-level application framework
@@ -22,7 +22,7 @@ USE_X11=	Yes
 USE_CXX=	Yes # depends on sdl-ttf and sdl-image, which uses CXX
 USE_GMAKE=	Yes
 CONFIGURE_STYLE=autoconf
-MODGNU_CONFIG_GUESS_DIRS= ${WRKSRC} ${WRKSRC}/test
+MODGNU_RECURSE_DIRS=	${WRKSRC}/test ${WRKSRC}
 CONFIGURE_ENV=		LIBS=-pthread
 
 .include <bsd.port.mk>

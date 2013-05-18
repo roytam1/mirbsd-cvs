@@ -21,7 +21,8 @@ REGRESS_DEPENDS=::devel/dejagnu
 USE_GMAKE=	Yes
 
 CONFIGURE_STYLE=	gnu dest
-MODGNU_CONFIG_GUESS_DIRS= ${WRKSRC} ${WRKSRC}/kpathsea ${WRKSRC}/readline ${WRKSRC}/readline/support
+MODGNU_RECURSE_DIRS=	${WRKSRC}/kpathsea ${WRKSRC}/readline \
+			${WRKSRC}/readline/support ${WRKSRC}
 CONFIGURE_ARGS=		${CONFIGURE_SHARED} ${GCCARCH}
 CONFIGURE_ENV= 		FFLAGS="${FFLAGS}" SOREV="${SHLIB_VER}"
 

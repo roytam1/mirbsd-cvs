@@ -1,4 +1,4 @@
-# $MirOS: ports/shells/bash/Makefile,v 1.6 2006/09/14 00:13:25 tg Exp $
+# $MirOS: ports/shells/bash/Makefile,v 1.7 2008/03/09 17:23:31 tg Exp $
 # $OpenBSD: Makefile,v 1.27 2004/01/13 20:09:39 naddy Exp $
 
 COMMENT=			GNU Bourne Again Shell
@@ -25,7 +25,7 @@ FLAVOURS=	static
 FLAVOUR?=
 
 CONFIGURE_STYLE= gnu
-MODGNU_CONFIG_GUESS_DIRS= ${WRKSRC} ${WRKSRC}/support
+MODGNU_RECURSE_DIRS=	${WRKSRC}/support ${WRKSRC}
 CONFIGURE_ENV+=	ac_cv_lib_intl=no
 CONFIGURE_ENV+=	ac_cv_lib_intl_bindtextdomain=no
 

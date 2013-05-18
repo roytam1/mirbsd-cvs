@@ -61,7 +61,7 @@ CONFIGURE_ARGS+= --without-ggi
 .endif
 
 CONFIGURE_STYLE= gnu
-MODGNU_CONFIG_GUESS_DIRS= ${WRKSRC}/tools
+MODGNU_RECURSE_DIRS=	${WRKSRC}/tools
 LDFLAGS+=		-lm -lintl
 CONFIGURE_ARGS+= --disable-optimizations \
 		 --disable-debug \

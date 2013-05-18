@@ -1,4 +1,4 @@
-# $MirOS: ports/math/grace/Makefile,v 1.3 2006/09/14 00:10:56 tg Exp $
+# $MirOS: ports/math/grace/Makefile,v 1.4 2008/03/09 17:23:11 tg Exp $
 # $OpenBSD: Makefile,v 1.17 2004/01/11 11:12:52 sturm Exp $
 # $FreeBSD: ports/math/grace/Makefile,v 1.18 2001/04/25 05:59:19 lkoeller Exp $
 
@@ -20,7 +20,7 @@ GRACE_SITES=	ftp://plasma-gate.weizmann.ac.il/pub/grace/src/ \
 MASTER_SITES=	${GRACE_SITES} ${GRACE_SITES:S/\/$/\/old\//g}
 
 CONFIGURE_STYLE=	gnu
-MODGNU_CONFIG_GUESS_DIRS= ${WRKSRC}/ac-tools
+MODGNU_RECURSE_DIRS=	${WRKSRC}/ac-tools
 CONFIGURE_ARGS+=	--with-bundled-xbae \
 			--with-extra-incpath=${LOCALBASE}/include:${LOCALBASE}/include/libpng \
 			--with-extra-ldpath=${LOCALBASE}/lib \

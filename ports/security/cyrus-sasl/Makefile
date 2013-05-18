@@ -1,4 +1,4 @@
-# $MirOS: ports/security/cyrus-sasl/Makefile,v 1.4 2006/09/14 00:12:56 tg Exp $
+# $MirOS: ports/security/cyrus-sasl/Makefile,v 1.5 2008/03/09 17:23:29 tg Exp $
 # $OpenBSD: Makefile,v 1.12 2004/02/17 03:26:02 kevlo Exp $
 
 BROKEN=		-I/usr/local/include/db4
@@ -16,7 +16,7 @@ PERMIT_DISTFILES_CDROM=	yes
 PERMIT_DISTFILES_FTP=	yes
 
 
-MODGNU_CONFIG_GUESS_DIRS= ${WRKSRC}/config ${WRKSRC}/saslauthd/config
+MODGNU_RECURSE_DIRS=	${WRKSRC}/config ${WRKSRC}/saslauthd/config
 
 CPPFLAGS+=		-I/usr/local/include/db4
 CONFIGURE_STYLE=	gnu

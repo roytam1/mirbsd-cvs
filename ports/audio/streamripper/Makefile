@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/audio/streamripper/Makefile,v 1.3 2006/12/19 13:58:55 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.5 2002/12/22 01:49:19 margarida Exp $
 
 COMMENT=		rip audio streams to local files
@@ -21,7 +21,7 @@ LIB_DEPENDS+=		vorbis,vorbisfile::audio/libvorbis
 
 CONFIGURE_STYLE=	autoconf
 AUTOCONF_NEW=		Yes
-MODGNU_CONFIG_GUESS_DIRS= ${WRKSRC} ${WRKSRC}/tre-0.7.2
+MODGNU_RECURSE_DIRS=	${WRKSRC}/tre-0.7.2 ${WRKSRC}
 MODULES+=		converters/libiconv
 
 CONFIGURE_ARGS+=	

@@ -1,4 +1,4 @@
-# $MirOS: ports/devel/ffcall/Makefile,v 1.1.7.1 2005/03/18 15:44:33 tg Exp $
+# $MirOS: ports/devel/ffcall/Makefile,v 1.2 2006/09/14 00:08:10 tg Exp $
 # $OpenBSD: Makefile,v 1.5 2003/07/06 22:46:14 pvalchev Exp $
 # $FreeBSD: ports/devel/ffcall/Makefile,v 1.2 2001/08/31 14:20:18 sobomax Exp $
 # Original From:                jagapen@home.com
@@ -17,8 +17,8 @@ PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
-CONFIGURE_STYLE= gnu
-MODGNU_CONFIG_GUESS_DIRS= ${WRKSRC}/autoconf
+CONFIGURE_STYLE=	gnu
+MODGNU_RECURSE_DIRS=	${WRKSRC}/autoconf
 
 FAKE_FLAGS=	${DESTDIRNAME}=${WRKINST} \
 		LIBTOOL="${LIBTOOL} ${LIBTOOL_FLAGS}" \

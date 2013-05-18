@@ -25,7 +25,7 @@ SUBPACKAGE?=
 
 USE_X11=		Yes
 CONFIGURE_STYLE= 	gnu
-MODGNU_CONFIG_GUESS_DIRS= ${WRKSRC}/autoconf
+MODGNU_RECURSE_DIRS=	${WRKSRC}/autoconf
 CONFIGURE_ARGS=		--enable-utmp \
 			--enable-wtmp \
 			--with-xpm \

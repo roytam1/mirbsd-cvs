@@ -1,4 +1,4 @@
-# $MirOS: ports/net/silc-client/Makefile,v 1.4 2006/02/01 16:28:03 tg Exp $
+# $MirOS: ports/net/silc-client/Makefile,v 1.5 2006/09/14 00:12:17 tg Exp $
 # $OpenBSD: Makefile,v 1.29 2004/02/19 23:07:27 brad Exp $
 
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
@@ -33,7 +33,7 @@ SUBST_VARS=	CONFDIR
 
 CONFIGURE_STYLE=autoconf
 AUTOCONF_NEW=	Yes
-MODGNU_CONFIG_GUESS_DIRS= ${WRKSRC} ${WRKSRC}/irssi ${WRKSRC}/lib/silcmath/mpi
+MODGNU_RECURSE_DIRS=	${WRKSRC}/irssi ${WRKSRC}/lib/silcmath/mpi ${WRKSRC}
 CONFIGURE_ARGS+=--enable-ipv6 \
 		--with-helpdir=${PREFIX}/share/silc/help \
 		--with-docdir=${PREFIX}/share/doc/silc \

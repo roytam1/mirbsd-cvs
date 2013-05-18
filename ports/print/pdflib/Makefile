@@ -19,7 +19,7 @@ LIB_DEPENDS=		tiff.35::graphics/tiff
 MODULES+=		graphics/png
 
 CONFIGURE_STYLE=	autoconf dest
-MODGNU_CONFIG_GUESS_DIRS= ${WRKSRC} ${WRKSRC}/config
+MODGNU_RECURSE_DIRS=	${WRKSRC}/config ${WRKSRC}
 CONFIGURE_ARGS=		${CONFIGURE_SHARED} \
 			--with-tifflib \
 			--with-pnglib \

@@ -1,4 +1,4 @@
-# $MirOS: ports/devel/libdsk/Makefile,v 1.2 2006/02/09 11:11:23 tg Exp $
+# $MirOS: ports/devel/libdsk/Makefile,v 1.3 2006/09/14 00:08:20 tg Exp $
 # $OpenBSD: Makefile,v 1.3 2003/10/17 06:23:44 grange Exp $
 
 COMMENT=			library for accessing disks and disk image files
@@ -22,7 +22,7 @@ USE_GMAKE=		Yes
 
 CONFIGURE_STYLE=	autoconf
 CONFIGURE_ARGS=		${CONFIGURE_SHARED}
-MODGNU_CONFIG_GUESS_DIRS= ${WRKSRC} ${WRKSRC}/config
+MODGNU_RECURSE_DIRS=	${WRKSRC}/config ${WRKSRC}
 
 post-install:
 	${INSTALL_DATA_DIR} ${PREFIX}/share/doc/libdsk

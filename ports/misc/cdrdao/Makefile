@@ -1,4 +1,4 @@
-# $MirOS: ports/misc/cdrdao/Makefile,v 1.1.7.1 2005/03/18 15:50:25 tg Exp $
+# $MirOS: ports/misc/cdrdao/Makefile,v 1.2 2006/09/14 00:11:09 tg Exp $
 # $OpenBSD: Makefile,v 1.18 2002/11/08 15:35:19 fgsch Exp $
 
 COMMENT=			write audio/data CD-Rs in disk-at-once mode
@@ -16,7 +16,7 @@ PERMIT_DISTFILES_FTP=	Yes
 USE_SCHILY=		Yes
 USE_CXX=		Yes
 CONFIGURE_STYLE=	gnu dest
-MODGNU_CONFIG_GUESS_DIRS= ${WRKSRC} ${WRKSRC}/paranoia ${WRKSRC}/scsilib
+MODGNU_RECURSE_DIRS=	${WRKSRC}/paranoia ${WRKSRC}/scsilib ${WRKSRC}
 CONFIGURE_ARGS+=	--with-posix-threads=no --without-lame \
 			--with-gtkmm-prefix=/nonexistent --disable-gtkmmtest
 
