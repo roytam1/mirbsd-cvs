@@ -1,5 +1,5 @@
 <!-- PageID: wlog-8 -->
-<small class="rcsid">$MirOS: www/content/d2xvZy04.inc,v 1.42 2006/02/24 01:49:42 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy04.inc,v 1.43 2006/02/24 18:21:39 tg Exp $</small>
 <h1>MirBSD &ndash; WTF, We Have a Release!?</h1>
 <p><small><a href="#eof">bottom</a> or <a href="/?older">older</a>
  editions</small></p>
@@ -539,6 +539,16 @@ celebrate this event, rotate the wlog and start a new one.</p>
   more spare time to prepare.</p>
  <p>This also gives me time to make a FOSDEM snapshot... dating the 25th
   then, probably.</p>
+</div>
+
+<div class="wlentry">
+ <h3 id="e20060224b">somewhen VERY EARLY before FOSDEM 2006, by tg@</h3>
+ <p>Yataa! I did it! We have got an apparently working CD9660 image of a
+  new snapshot, to be released at FOSDEM. I'm burning a CD-R, just to be
+  sure, now, that nothing goes wrong AGAIN even in the very case of this
+  laptop not working any more (but it does WELL, thanks Acer!).</p>
+ <p>Now it's 05:15 CET and we should be driving in the very direction of
+  Bruxelles already for a &frac14; hour. Going.</p>
 </div>
 
 <p id="eof">Good luck, have fun, take care etc.pp</p>
