@@ -1,4 +1,4 @@
-# $MirOS: ports/net/curl/Makefile,v 1.10 2007/05/12 22:36:11 tg Exp $
+# $MirOS: ports/net/curl/Makefile,v 1.11 2008/04/05 21:54:37 tg Exp $
 # $OpenBSD: Makefile,v 1.44 2004/05/18 23:30:45 brad Exp $
 
 COMMENT=		get files from FTP, Gopher, HTTP or HTTPS servers
@@ -77,8 +77,7 @@ CONFIGURE_ARGS+=	--with-ca-path=${LOCALBASE}/share/ca-certificates
 RUN_DEPENDS+=		:ca-certificates->=20080406:essentials/ca-certificates
 .endif
 
-#XXX what about MidnightBSD?
-.if ${OStype} == "OpenBSD"
+.if (${OStype} == "OpenBSD") || (${OStype} == "MidnightBSD")
 CONFIGURE_ARGS+=	--with-gssapi
 .endif
 
