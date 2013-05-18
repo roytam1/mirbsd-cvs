@@ -1,5 +1,5 @@
 <!-- PageID: wlog-7 -->
-<small class="rcsid">$MirOS: www/content/d2xvZy03.inc,v 1.76 2006/01/13 03:49:36 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy03.inc,v 1.77 2006/01/27 00:14:30 tg Exp $</small>
 <h1>MirBSD &ndash; RELEASE TIME!!! Stable Services for Commercial Customers</h1>
 <h3>News <small><a href="#eof">bottom</a></small></h3>
 <h6>Note: all these entries are from tg@ up to November 3rd, when the
@@ -185,7 +185,7 @@
  default configuration with a good shot of reality drugs. Speed up the MirOS
  homepage's PHP processing. (At least according to www.php.net information.)
  Move a lot of the old homepages' content into the "new CMS" of MirOS.
- Prepare for the (unsupported by MirBSD) "new" OpenBSD pkgtools, which might
+ Prepare for the (unsupported by MirBSD) "new" OpenBSD pkgtools which might
  get imported later. Re-run autoconf on the tree and fix breakage occured
  in GNU as (once again, *sigh*). Continue working on the CD boot loader (which
  is almost that ready that it can boot a kernel from CD; though neither /boot
@@ -265,7 +265,7 @@
  finished. Renumber my IPv6 space (argh, why?).</p>
 <p>29.11.2003 by tg@<br />Catch-Up entry again, I had no time this week.
  Nuke bcopy(), bcmp() and bzero() from boot code and memcpy() -&gt;
- memmove(), which I inlined &mdash; and take that inlining back, since
+ memmove() which I inlined &mdash; and take that inlining back, since
  increasing the size broke cdboot again. Remove the b*() functions from
  src/lib/ and make it compile with -Werror, as well as clean much of the
  code for -Wall (but not everything yet!). Make tree build and release
@@ -286,7 +286,7 @@
  to MIRBSD_7_DEV, one bug have to be fixed later.
  Today I have began with an MirBSD port for alpha architecture.</p>
 <p>01.12.2003 by bsiegert@<br />(Catch-up entry) Add db4 port and run
- the regression suite, which took almost two days to complete. FWIW, the
+ the regression suite which took almost two days to complete. FWIW, the
  log is <a href="http://benz.mine.nu/files/regress-db4.out">here</a>. Work on
  apr and apr-util (still unfinished). Re-install <tt>frankie</tt> alias
  <tt>benz.mine.nu</tt> with MirBSD #7ter and give wbx@ an account.
@@ -497,7 +497,7 @@
  and CDROM for i386. Fix INSTALL.i386 a little bit. Fix ports infrastructure
  for #7 on sparc. Enable moving disklabel partition into an extended BIOS
  partition. Rotate ChangeLog, write new wlog entry (hrhr).</p>
-<p>06.01.2004 by wbx@<br />Tested the new ipv6 capable installer, which
+<p>06.01.2004 by wbx@<br />Tested the new ipv6 capable installer which
  actually works fine. (configuration could be made permanent after reboot,
  by adding rtsol to hostname.if and modifying sysctl) Doing some kind of
  simple work for tg@, search for bcopy/bzero and change it to memmove/memset.
@@ -554,7 +554,7 @@
  two people who can do that, since base keeps me busy enough). Install
  new HDD into HERC and mop up; backup and set up cleanly ODEM. Some stuff
  which I noticed while my system was making a release and I were in the
- bed, on the toilet or in the train, which I just can't remember now.
+ bed, on the toilet or in the train which I just can't remember now.
  Get more sleep. Write a website describing my services (setting up and
  maintaining MirOS based communication servers); set up my printer (not
  the MP3 one, the Epson FX-80 :). Et cetera.</p>
@@ -717,7 +717,7 @@
  man pages where the newer ones are GFDL'd. Fix a huge bunch of ports and
  patch around like crazy in the infrastructure. Add files there: autogen.sh,
  config.rpath, mkinstalldirs, move-if-change, missing, install-sh. Switch to
- new-style bootsystem MBR, which now displays the types of the partitions to
+ new-style bootsystem MBR which now displays the types of the partitions to
  choose from. Get mad on Schily ports again and cope for some breakage of
  theirs. Change arch(1) to output MirBSD. Merge ports import from OpenBSD
  with bsiegert@ (surely he's done more work than me, who was busy with his
@@ -733,7 +733,7 @@
  of USTAR archives by default; change extension to .cgz appropriately(sic!)
  and cope for .cgz etc. distfiles. Fix CPIO and LHArc support in misc/mc.
  Enable USE_SYSTRACE by default.<br />27.02.2004, rotate ChangeLog.<br />
- Move some stuff around in GCC configuration, which might help cross builds.
+ Move some stuff around in GCC configuration which might help cross builds.
  Improve operating system checks in MirPorts infrastructure; OpenBSD 3.5
  will be added soon. Large cleanup in MirPkgtools, including enable pkg_sign
  to build (untested). MFC back latest pkgtools to #7-stable. Convert GNAT
@@ -743,7 +743,7 @@
  and Fortran 77 front-ends in addition to C and C++ ones. Track down Pascal
  until getting to a dead point. Support installing specially generated ports
  and source tarballs as sets during the installation process. Enable UTF-8
- locale support in X-Window, which might somewhat help. Break irssi because
+ locale support in X-Window which might somewhat help. Break irssi because
  it's unfixable on #7. Initiate building a nonpublic snapshot.<br />Yes, I do
  know that XFree86 4.4 is out. Please give me some time before merging it,
  and handle src/X-Window/ as broken in the meanwhile. Arigatou Gosaimasu.</p>
@@ -785,7 +785,7 @@
  looks nice on MSIE 5.00/Win2k as well (wow!). As for the rest, I'm busy with
  my dayjob, but fond of attention we get (even on the mailing list). The
  weather is nice outside, so I'll recover there a bit. I don't have internet
- at work now, only proxied IPV4/TCP/www, which isn't enough. Sad.</p>
+ at work now, only proxied IPV4/TCP/www which isn't enough. Sad.</p>
 <p>19.03.2004 by tg@<br />After work, where I learned more about ksh again,
  I've started discussing the licence template, and the ekkoBSD people, albeit
  still unsure about to use the OpenBSD ports tree, the MirPorts Framework or
@@ -842,7 +842,7 @@
  Souvatzis): it might reduce entropy level, thus disablable with a sysctl.
  Fix the installer. Add support to MBR and fdisk(8) to force loading an entry
  which is not 0x80 by default (application sample: NT chokes to load if it's
- not 0x80, and there's another primary, DOS, partition, which comes before the
+ not 0x80, and there's another primary, DOS, partition which comes before the
  NT partition in the partition table <b>-&gt;</b> set NT to 0x80 and fdef the
  BSD partition which I want booted by Return or the 10-second delay). Optimize
  generation and installation of the GPC RTS and split out the utils into
@@ -916,7 +916,7 @@
  Okay, I have been writing nothing here for several months, but there are
  some Organic Chemistry courses which are keeping me incredibly busy. I
  work on MirOS when I have some free time. Right now, I am merging all
- the non-security MFCs from OpenBSD 3.4-stable for #7quater, which should
+ the non-security MFCs from OpenBSD 3.4-stable for #7quater which should
  be released RSN. I have also done some work on MirPorts: import some
  updated ports from OpenBSD (all security-related stuff), add a
  <tt>chemistry</tt> category with only one port (chemtool), fix some
@@ -934,12 +934,12 @@
  (I've got to do it anyways, but now's the time, because if I didn't, I
  had to do major changes in the existing code anyways). We've discovered
  that libtool 1.5 doesn't work without a C++ preprocessor/compiler on
- board, which plainly sucks. I've allowed admins and editors to upload
+ board which plainly sucks. I've allowed admins and editors to upload
  files to the MirWiki, so we can present some small screenshots &ndash; there
  are some of my evilwm environment already. Merging was done in regress,
  usr.sbin, games and distrib; the OpenBSD Perl package tools left the
  tree as well as makefs(8) which I never got working (for the same reason
- as the old SPARCstation 20 with the 50 MHz CPU I was having, which we
+ as the old SPARCstation 20 with the 50 MHz CPU I was having which we
  couldn't debug otherwise than to get a different, 75 MHz CPU for it).
  The usr.sbin/pkg directory left and went into pkg_install/pkg (I'd
  rather have it done the other way round, but CVS doesn't allow to move
@@ -995,7 +995,7 @@
 <p>05.06.2004 by tg@<br />As for Interix &ndash; I've discovered one can
  build shared libraries, and they use OpenBSD's ld.so... now I just need
  to prod them into giving the sources to us (maybe even under a non-OSD
- compliant licence, which would still qualify it living in contrib/ for
+ compliant licence which would still qualify it living in contrib/ for
  the sake of porting MirOS to the Interix/NT kernel duo). But that's
  just dreams for a future far away.<br />In the current, we (bsiegert@
  and yours truly) are just building MirOS #7quater, whose source was
@@ -1125,7 +1125,7 @@
  same length and thus
  <a href="http://sourceforge.net/tracker/index.php?func=detail&amp;aid=986805&amp;group_id=35398&amp;atid=413960">fails
  miserably</a>. I won't work on GNOME until the next
- import, which is when we will have 2.6. teTeX ships with broken autoconf
+ import which is when we will have 2.6. teTeX ships with broken autoconf
  stuff, so it is broken too, alas.<br />
  I will be on vacation from tomorrow to next Tuesday, so be patient when
  contacting me.</p>
@@ -1245,7 +1245,7 @@
  should get him to lend me a GNU screen session on that box, to debug, but he's
  always asleep or at classes/work when I'm awake, and vice versa... now what
  was next? Oh, gcc 3.4. Won't be the renamed-to-4.0 tree-ssa beast soon.<br />
- I could need some sponsoring &ndash; I've got a Strato server (again), which costs
+ I could need some sponsoring &ndash; I've got a Strato server (again) which costs
  39 &euro; per month, and I'll be using it 95% for MirOS and 4% to give out
  shell accounts to friends or BSD developers. You might be able to send money
  to me via Paypal (I didn't test that yet) or just German bank transfer. Just
@@ -1289,7 +1289,7 @@
  have to do a fresh checkout, though) and MirOS #8-Beta. &mdash; That should
  be enough for today, have a nice weekend!</p>
 <p>wbx@ still doesn't admit publically that he's a MirOS developer.</p>
-<p>08.10.2004 by tg@<br />I'm recovering from an influenza, which keeps me
+<p>08.10.2004 by tg@<br />I'm recovering from an influenza which keeps me
  from having to go to work this week (but also from concentrating on anything,
  which is not so good). We should have basic support for i386, sparc and ppc
  in our in-tree binutils &ndash; thus cross-compiling might be possible at
@@ -1307,7 +1307,7 @@
 <p>08.10.2004 by bsiegert@<br />
  Okay, I haven't really done any MirOS work this week, as I was challenged with
  ... <i>the real life</i>. Thus, I am going to tell you about the WEI
- (<i>week-end d'int&eacute;gration</i>), which took place last weekend. After
+ (<i>week-end d'int&eacute;gration</i>) which took place last weekend. After
  a "fake" inorganic chemistry lecture (a mean trick they play at the
  first-years) we headed for a camp in the <i>Vosges</i> mountains on Friday.
  The two slogans for the weekend were <i>"dormir, c'est mourir"</i> (to sleep
@@ -1322,7 +1322,7 @@
  using only your mouth, then doing the same in a bowl with flour (but I didn't
  have to do <i>that</i>). On Sunday morning, there was a very nice
  <i>randonn&eacute;e</i> (hike) into the mountains. Most of the rest of Sunday
- was spent waiting for the bus, which didn't arrive until late afternoon.<br />
+ was spent waiting for the bus which didn't arrive until late afternoon.<br />
  So, in summary, we spent a happy, drunk weekend with less than four hours of
  sleep per night. I also discovered that I don't like the French <i>Pastis</i>,
  which is some sort of anis-flavoured liquor mixed with water.</p>
@@ -1389,7 +1389,7 @@
  I've seen only one GNU/Linux post). <a
  href="http://mzbworks.home.att.net/">Marion Zimmer Bradley</a>, the deceased
  Fiction author, has brought out a new, final sequel (well, it tells about the
- time <b>before</b> the happenings) to the Avalon saga, which I've been
+ time <b>before</b> the happenings) to the Avalon saga which I've been
  literally eating up, chapter-wise, yesterday. <a
  href="http://www.levenez.com/unix/history.html#17">&Eacute;ric
  L&eacute;v&eacute;nez</a> has noticed, probably by OSnews, that
@@ -1401,7 +1401,7 @@
  I'll be reachable at <a href="http://www.netzladen.org/">Netzladen</a> as
  usual, since our <a href="http://bosng.de/">group</a>'s merry meet evening
  happens to be, interflicting with a CCC presentation about $otherOS. Wonder
- where I'll go? The day after, there's a StarCraft LAN party planned, which
+ where I'll go? The day after, there's a StarCraft LAN party planned which
  I attend, although with a bit of bad faith, because Blizzard/Vivendi/Microsoft
  paid a USA court to rule bnetd illegal. (I was going to link to the bnetd
  homepage, but looks like they even got that domain! Shame on the land of the
@@ -1470,7 +1470,7 @@
 <p>03.11.2004 by tg@<br />I'm totally confused by UTC&lt;-&gt;CEST&lt;-&gt;CET transitions
  and went off from work 1 hour early today. Oops. My cow-orker didn't say
  anything so I guess it was okay. I discovered that OpenBSD has started to
- use "x.org" as well, which has no reason to exist <em>at all</em> IMHO.
+ use "x.org" as well which has no reason to exist <em>at all</em> IMHO.
  Well, synch'd their latest sane code, that's it. I also added some diffs
  from tech@openbsd.org which show a disc I/O speedup on odem, in the hope
  they don't break, and looked at OpenBSD's binutils-2.15 merger shortly (tho
@@ -1482,7 +1482,7 @@
  others will benefit from that as well - bsiegert@ already needs not fix all
  the dependencies of php4 but must read my diffs &ndash; having different
  paths between MirOS httpd and OpenBSD Apache&trade; is a PITA. I also hacked
- support into indent(1) to <em>not</em> touch comments at all, which is kinda
+ support into indent(1) to <em>not</em> touch comments at all which is kinda
  cool when converting old code to KNF (someone reads mksh here?). Finally, I
  did a port of <a href="http://www.f-prot.com/">F-Prot</a> (the personal-use
  freeware BSD version) and wrote some wlog entry, discovering I'm up too long
@@ -1711,7 +1711,7 @@
  href="http://www.opencvs.org/">OpenCVS</a> (by OpenBSD) in yesterday's CVS
  commit mails the first time publicly. This sucks. And no, I'm not going to
  take over the OpenBSD way, since I had to update the Netzladen-Router to
- kernel PPPoE yesterday, which is <b>so</b> unusable I can only recommend to
+ kernel PPPoE yesterday which is <b>so</b> unusable I can only recommend to
  not use it if possible. I also thought of mksh-ifying log_accum2 and
  commit_prep2.<br />cvs 1.11 in #7-stable and cvs 1.12 are now quite
  interoperable: they behave almost the same and seem to be able to talk to
@@ -1745,7 +1745,7 @@
  here, especially in www/ &mdash; at least we'll soon have another redirector
  for our websites, a permanent cvs[web].mirbsd.de (I hope).<br />Now I'm
  waiting for somebody to donate some beer, wine, Met or equipment...<br />
- Update: I removed some features from pf now, which I always rant about.</p>
+ Update: I removed some features from pf now which I always rant about.</p>
 <p>07.12.2004 by sap@<br />Not much news, but tg@ wants some company in
  the wlog.  I'll apologize in advance for any html mistakes on my part.
  My schedule has gotten a bit quieter lately, though my programming time is
@@ -1759,7 +1759,7 @@
  how you study there, visiting some of the readings/presentations (pretty
  bad compared to what you learn during my apprenticeship, but overall on a
  much higher technical niveau) and talked to students (they use the verb
- "Studierende" instead of "Studenten", which sounds to me like they are
+ "Studierende" instead of "Studenten" which sounds to me like they are
  "studying people" which cannot be because "lazy student" is a tautology).
  Looks like I'll kill my time there for the next three years, 2005-2008.
  Maybe I'll take a Master (<i>magister</i>) after the first exam, the
@@ -1812,7 +1812,7 @@
  now correctly inserts <tt>@lib</tt> statements. Thus, when updating a port,
  remember to update the PLIST. The <tt>@lib</tt> thing will be really important
  once we get package updates. What remains as a showstopper now is the
- <tt>dir/</tt> implementation, which needs to be redone with support for
+ <tt>dir/</tt> implementation which needs to be redone with support for
  <tt>@sample dir/</tt> and owner&nbsp;/&nbsp;mode changes. Oh, and I have
  begun to write a bit of Objective-C for what will become the new PLIST
  handling. But there is still nothing to show.</p>
@@ -1871,7 +1871,7 @@
  for the PPC 7450 (aka G4), so I get lots of <i>Illegal instruction</i>
  errors on my 750FX (G3). But I will try again with a new userland to
  manage to build a snapshot natively. This one will be all static without
- support for shared libraries, which will come at a later date.<br />
+ support for shared libraries which will come at a later date.<br />
  CVS is a mess right now. All PowerPC development takes place in the
  <tt>MIROS_X</tt> branch of ocvs. #7-stable resides in the <tt>MIRBSD_7</tt>
  branch. thor is ocvs master. Some parts of the system have already been
@@ -1991,7 +1991,7 @@
  had to reboot quite often (may be kernel bugs, see the mail to the list),
  glad to have softupdates, thank you, I eventually discovered that &ndash;
  no matter if the kernel was compiled with gcc 3.2.3 or 3.4.4 &ndash; ntpd
- started with a 50 second offset, which led to a mathematical algorithm as
+ started with a 50 second offset which led to a mathematical algorithm as
  well as empirical code redesign for some stuff, discovering some apparent
  shortcomings in gcc which I couldn't even track down, how bad. Today I've
  finished this kernel work &ndash; it seems like the time is correct after
@@ -2002,7 +2002,7 @@
  and from gas back to bfd, playing with autotools, ld and finally binutils
  themselfes. I've left out gdb, it's too major effort, and the new patches
  weren't applied either yet. During that, I've also thrown in a good bunch
- of OpenBSD fixes, which I already had stacked in various mailboxes. After
+ of OpenBSD fixes which I already had stacked in various mailboxes. After
  that all, I started a make build (not a release, it's still intentionally
  broken) and walked that through, finally discovering the #pragma pack(1).
  D'oh! And it seems to work.<br />All in all, gcc 3.4 leads to better, yet
@@ -2244,7 +2244,7 @@
  there was my superb sendmail involved, too ;)<br />Anyway. I've hacked at
  MirLibtool again, discovering that &quot;we don't have relink issues, and
  we don't relink anyway&quot; (huh?) and fixed some C++ problems. (Rather,
- some no-C++ problems.) MirPorts' infrastructure received an update, which
+ some no-C++ problems.) MirPorts' infrastructure received an update which
  also will cause some spurious rm(1) errors to go away. I should really do
  the ncvs2 merger now, I wish I could have a week off (and somebody caring
  for me, like cooking, making the dishes etc :) I haven't had any holidays
@@ -2345,7 +2345,7 @@
  problem because the GNU folks deliberately changed the spelling of function
  names in their libobjc. The OS X version however is a "real" NeXTstep
  implementation with proper spelling. Sigh.<br />
- I also bought a <a href="http://www.bwct.de/">CF-to-IDE adapter</a>, which
+ I also bought a <a href="http://www.bwct.de/">CF-to-IDE adapter</a> which
  works fine. The goal is to install MirOS-stable to the CF card (256 MiB) and
  use it instead of a hard disk in frankie. I imported flashdist (which is for
  OpenBSD) to <tt>contrib/code/flashdist</tt> in cvs and began playing with it.
@@ -2490,11 +2490,11 @@
  uncommitted changes, so I committed (some of) them. The GNOME 2.8 migration
  in MirPorts continued smoothly. I did some stuff that OpenBSD does not have
  myself: libgnomecups (CUPS hooks), libxklavier and libxklavier1 (high-level
- xkb API), libcroco (for CSS support in librsvg, which is required by the SVG
+ xkb API), libcroco (for CSS support in librsvg which is required by the SVG
  spec) and CUPS support for GNOME-Print. I could not test this yet, but GNOME
  apps should show for example all the CUPS printers in the printer list. OTOH,
  I actually had to downgrade some of these because the new versions are already
- incompatible.  They are for GNOME 2.10, which is going to be out soon
+ incompatible.  They are for GNOME 2.10 which is going to be out soon
  *sigh*.<br />
  Anyway, with gnome-session, metacity, and nautilus running, you could already
  try to use it. However, I still do not consider the upgrade finished. Not
@@ -2574,7 +2574,7 @@
  doesn't send me Kriek he owes me for their last pun).</p>
 <p>13.03.2005 by tg@<br />I've finished merging src (except gcc) over from
  ncvs1 to ncvs2, except for lynx, where I'm waiting for the new version at
- upstream, which is due RSN. I haven't looked at XFree86&trade; yet. Now I
+ upstream which is due RSN. I haven't looked at XFree86&trade; yet. Now I
  will try to throw in some goodies from OpenBSD-HEAD, then build what I've
  got right now. After that, I'll peek at gcc, build what we have and after
  that look at libstdc++ (hi tyler) and lynx. If a new XFree86&trade; comes
@@ -2699,7 +2699,7 @@
  The ports transition to ncvs still causes some dependency breakage, but I hope
  that most of those cases are really fixed now. I am porting
  <tt>bsd.lib.mk</tt> from MirMake to work with the Darwin shared library model.
- My testbed is graphics/jpeg, which builds libjpeg itself and assorted tools. 
+ My testbed is graphics/jpeg which builds libjpeg itself and assorted tools. 
  The problem is that on Darwin, you don't have s shared library cache that is
  updated with ldconfig. When you build a shared library, you have to pass the
  install name along with the path, like this:<br />
@@ -2716,7 +2716,7 @@
  such as "dyld: rdjpgcom can't open library: libjpeg.62.0.dylib  (No such file
  or directory, errno = 2)". tg@ has offered to rewrite the Makefiles to use
  libtool instead, but I don't think I want that. Another portability problem is
- the <tt>_gplwarn.c</tt> file from the infrastructure, which is ELF-specific
+ the <tt>_gplwarn.c</tt> file from the infrastructure which is ELF-specific
  and gives syntax error with the Darwin linker *sigh*.</p>
 <p>02.04.2005 by tg@<br />Just in case anyone wonders where I have been at
  all the time, yesterday, today. I was outside and enjoyed sun and nature.
@@ -2871,14 +2871,14 @@
  the release candidates&mdash;RC2 or RC3, I don't know. It meets at least
  the goals I had for a release: both gdb and g++ work now, and even Java
  seems to be unbroken, both native (gcj) and the Java VM. I have started
- writing an installation manual in troff (mdoc), which will be the
+ writing an installation manual in troff (mdoc) which will be the
  install.i386(7) manpage. It contains some theoretical chapters about
  partitioning etc. and a walkthrough through the MirOS install. While
  writing, I had a qemu session with the installation in parallel. However,
  I couldn't figure out how to change CDs while the emulation is running.
  Thus, I did not get to installing the sets, having booted from the
  Mini-ISO :(.<br />
- Some things in MirPorts were fixed as well, e.g. devel/pcre, which
+ Some things in MirPorts were fixed as well, e.g. devel/pcre which
  actually contained a pre-MirLibtool patch that broke the build. tg@ found
  a bug in the pkgtools (introduced by me) that made them generate wrong
  library dependencies. <tt>@sample</tt> now tells you both filenames when

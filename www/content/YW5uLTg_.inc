@@ -1,5 +1,5 @@
 <!-- PageID: ann-8 -->
-<small class="rcsid">$MirOS: www/content/YW5uLTg_.inc,v 1.7 2006/01/15 22:42:37 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/YW5uLTg_.inc,v 1.8 2006/01/27 00:14:27 tg Exp $</small>
 
 <p style="font-size:smaller; text-align:right;">Codename: WTF we have a release?</p>
 
@@ -50,7 +50,7 @@
  href="http://cvs.mirbsd.de/src/share/doc/legal/?only_with_tag=MIRBSD_8">the
  CVSweb</a> for the release as well prior to installation. The required
  advertising clauses are reprinted below as well. All trademarks belong
- to their respective owners, which are not listed here because they change
+ to their respective owners which are not listed here because they change
  often and we do not want to mis-represent them.</p>
 
 
@@ -257,7 +257,7 @@
  enabled (default in the MirOS installer) in <tt>/etc/fstab</tt>.
  Includes automatic sorting of the fstab file implemented in korn shell.</li>
 <li>Highly improved set of shell script infrastructure using security
- features of the Korn shell, which is <tt>/bin/sh</tt> in MirOS. Automatic
+ features of the Korn shell which is <tt>/bin/sh</tt> in MirOS. Automatic
  discovery of IDE hard disc drives which need their write cache disabled.</li>
 <li>mksh(1) is the Korn shell, highly improved</li>
 <li>CTM, growfs(8), ffsinfo, wtf(1)</li>

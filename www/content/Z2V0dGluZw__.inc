@@ -1,5 +1,5 @@
 <!-- PageID: getting -->
-<small class="rcsid">$MirOS: www/content/Z2V0dGluZw__.inc,v 1.8 2006/01/20 13:08:09 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/Z2V0dGluZw__.inc,v 1.9 2006/01/27 00:14:27 tg Exp $</small>
 <h1>How to get MirOS</h1>
 
 <h3>Introduction</h3>
@@ -85,7 +85,7 @@
  <a href="http://www.66h.42h.de/MirOS/current/">&quot;current&quot;
  directory</a>; beware these might be older than the latest release
  or not work at all. The BitTorrent snapshots however are usually newer
- than the latest release, which is also made available via BT, usually
+ than the latest release which is also made available via BT, usually
  a few weeks after the release.</p>
 <h5><tt style="color:#FF0033;">NEW:</tt> BitTorrent</h5>
 <p>The greatest Anime tracker found has enabled the MirOS project to host

@@ -1,5 +1,5 @@
 <!-- PageID: older -->
-<small class="rcsid">$MirOS: www/content/b2xkZXI_.inc,v 1.19 2006/01/20 13:08:09 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/b2xkZXI_.inc,v 1.20 2006/01/27 00:14:28 tg Exp $</small>
 <h1>Older News and Weblogs</h1>
 <h3>Old News</h3>
 <p><a href="#newsend">Skip to News bottom</a></p><ul>
@@ -202,7 +202,7 @@
 <li>19.04.2005<br />
 	The current development version of MirOS has received numerous bug
 	fixes in gcc, XFree86&reg; and others over the last few days. Also
-	the in-tree CVS has been updated to fix a security issue, which <a
+	the in-tree CVS has been updated to fix a security issue which <a
 	href="https://ccvs.cvshome.org/servlets/NewsItemView?newsItemID=142">is
 	described at the CVS homepage</a> and has got new features able to
 	improve our infrastructure. Furthermore, after a long period of no
@@ -211,7 +211,7 @@
 	from January 2005). Only CLI for now, the TUI requires, as of now,
 	linking against GNU libreadline which does not come with MirOS any
 	more. Fixes for libedit are probably easy.<br />The fixes are made
-	available via a new development snapshot, which is currently being
+	available via a new development snapshot which is currently being
 	built and expected to hit the mirrors within the next 2 days.</li>
 
 <li>12.04.2005<br />
@@ -313,7 +313,7 @@
 	We're almost through with the new directory structure, CVS and GCC
 	versions and various stages of merging and fixing. SSH still dumps
 	core after exiting (forced by ProPolice), but there will be a peek
-	into the new technology available for download later, which closes
+	into the new technology available for download later which closes
 	our work on ncvs I and leads to opening ncvs II back at herc.</li>
 
 <li>07.01.2005<br />
@@ -502,7 +502,7 @@
 	The Perl manual pages are not online due to their uselessness, and
 	search and apropos functions will probably be implemented later.<br />
 	Some time ago, a user has written an <a href="/?isdn">ISDN 4 MirOS
-	Howto</a>, which was not yet linked.</li>
+	Howto</a> which was not yet linked.</li>
 
 <li>09.08.2004<br />
 	HEAD still does not build, but the situation gets better: libobjc
@@ -618,7 +618,7 @@
 	(detached PGP signature available) after installation.<br />
 	Soon, a BitTorrent Download will be
 	A BitTorrent Download is
-	available for a snapshot dated 03.05.2004, which fixes the issues
+	available for a snapshot dated 03.05.2004 which fixes the issues
 	above and updates some other components. This is the first time we
 	distribute a snapshot via BitTorrent, so please <a
 	href="mailto:miros-discuss@66h.42h.de">join us to discuss</a> and

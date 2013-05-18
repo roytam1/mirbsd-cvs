@@ -1,5 +1,5 @@
 <!-- PageID: wlog-6 -->
-<small class="rcsid">$MirOS: www/content/d2xvZy02.inc,v 1.2 2005/02/05 22:43:40 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy02.inc,v 1.3 2006/01/27 00:14:30 tg Exp $</small>
 <p><img src="/pics/logo-mirbsd.png" width="240" height="60" alt="Logo" /></p>
 <h1>MirBSD - Enjoying Social Events</h1>
 <p>This is an archived weblog of the development leading to <a
@@ -265,7 +265,7 @@
  them now, kinda). - I ought to get some sleep now.</p>
 <p>24.09.2003<br />Seems as if this patent thingy ends in me being able to
  release MirBSD #7 - though I need more time than planned. In the meantime,
- stress-test new binutils (rebuild base and kernel), which succeeds. Fix
+ stress-test new binutils (rebuild base and kernel) which succeeds. Fix
  some prototypes; ssh-keygen for RSA v1 keys. Benny imported cups and
  cups-pstoraster. I pull in glib2/gtk+2 updates from OpenBSD ports, and
  suggest to build as root whenever the "make configure" stage ends with

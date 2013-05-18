@@ -1,5 +1,5 @@
 <!-- PageID: mksh -->
-<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.18 2006/01/27 00:14:29 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.19 2006/01/27 00:53:26 tg Exp $</small>
 
 <h1>mksh R26</h1>
 <p>This is the MirBSD&trade; Korn Shell, a more or less portable
@@ -316,7 +316,7 @@
  (or its origin <a href="http://cvs.mirbsd.de/src/etc/profile">http://cvs.mirbsd.de/src/etc/profile</a>)
  for an even better pre-configured mksh environment.</p>
 <p>This especially comes handy for people used to the
- GNU bash, which want their CWD, user/hostname etc.
+ GNU bash which want their CWD, user/hostname etc.
  in their $PS1 prompt.</p>
 <p><em>etc_profile</em> from above now also switches to mksh by default,
  so you need not to rely on <em>chsh -s</em> and root to add mksh to

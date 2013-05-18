@@ -1,5 +1,5 @@
 <!-- PageID: jupp -->
-<small class="rcsid">$MirOS: www/content/anVwcA__.inc,v 1.6 2006/01/27 00:14:28 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/anVwcA__.inc,v 1.7 2006/01/27 00:23:33 tg Exp $</small>
 <h1>jupp &ndash; the Editor</h1>
 <p>
  The current version is <em>joe-3.1jupp5</em>.
@@ -10,7 +10,7 @@
 <h2>About</h2>
 <p>
  This is the portable, GNU automake/autoconf using, GPL (version 1)
- licenced, MirOS Special version of JOE's Own Editor, which is
+ licenced, MirOS Special version of JOE's Own Editor which is
  currently developed at <a href="http://joe-editor.sf.net/">http://joe-editor.sf.net/</a>
 </p>
 <p>

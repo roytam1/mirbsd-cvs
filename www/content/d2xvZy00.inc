@@ -1,5 +1,5 @@
 <!-- PageID: wlog-4 -->
-<small class="rcsid">$MirOS: www/content/d2xvZy00.inc,v 1.2 2005/02/05 22:43:39 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy00.inc,v 1.3 2006/01/27 00:14:30 tg Exp $</small>
 <p><img src="/pics/logo-mirbsd.png" width="240" height="60" alt="Logo" /></p>
 <h1>MirBSD - More connectivity than ever</h1>
 <p>This is an archived weblog of the development leading to <a
@@ -100,7 +100,7 @@
  got rid of the last bit C++ code in MirBSD, GNU groff. I imported the 4.4BSD
  nroff instead, with all its tools - nroff was encumbered with AT&amp;T code,
  but Caldera International has been so kind to release UNIX&reg; 32V under a
- UCB-style 4-clause licence, which allows us to include it absolutely freely.
+ UCB-style 4-clause licence which allows us to include it absolutely freely.
  Switch temporarily back to gcc 2.95, ELF, no W^X, in order to go through
  flag day again - failsafe this time (I hope). After that, upgrade to gcc
  3.2.3 and not 3.2.2 again.</p>
@@ -128,12 +128,12 @@
  <tt>/etc/rc.conf</tt>. Install MirBSD-current at a friends' over NFS.
  And set him up an ISDN router - works flawless, like a charm.</p>
 <p>19.05.2003<br />Add an option to auto-start isdnd to /etc/rc{,.conf}.
- Add a 'make obj' to X-Window, which does the lndir unless it's already
+ Add a 'make obj' to X-Window which does the lndir unless it's already
  linked. Break X-Window, because it needs C++ to build. DRM breaks the
  X-Window tree, as well as a removal of code I did in error some days
- ago, which I fixed manually. Unify joe-2.8 and joe-2.9 ports, install
+ ago which I fixed manually. Unify joe-2.8 and joe-2.9 ports, install
  all rc files in both ports. Work hard on the ramdisks, especially
- the RAMDISK_CD, which is better documented, synched with GENERIC in
+ the RAMDISK_CD which is better documented, synched with GENERIC in
  layout, has all possible options in its Makefile. The size of the
  integrated rdroot was increased to 5 Mebibytes; bsd.rd is now nearly
  7 Mebibytes in size (it still fits on the 2880 Kibibytes floppies!).
@@ -179,7 +179,7 @@
  command to fdisk; if you want the SIMPLE mbr code, call fdisk like:
  <br /><tt># fdisk -ef FILENAME_THAT_DOES_NOT_EXIST wd0</tt><br />
  and it will complain about being unable to open the MBR code file and
- use its own, which I synched with the !BOOTMANAGER one.</p>
+ use its own which I synched with the !BOOTMANAGER one.</p>
 <p>26.05.2003<br />Due to <a href="http://marc.theaimsgroup.com/?m=105396955009013"
  id="issues">certain recent issues</a> I <strong>restrain
  from trying to help people by back-porting my changes to OpenBSD</strong>,

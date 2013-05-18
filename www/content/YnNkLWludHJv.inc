@@ -1,5 +1,5 @@
 <!-- PageID: bsd-intro -->
-<small class="rcsid">$MirOS: www/content/YnNkLWludHJv.inc,v 1.3 2005/08/03 00:07:05 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/YnNkLWludHJv.inc,v 1.4 2006/01/27 00:14:27 tg Exp $</small>
 <h1>What is BSD? What is OpenBSD?</h1>
 
 <h2>Introduction</h2>
@@ -110,7 +110,7 @@
  the hardware in his kernel and donate it to him.<br />
  The latter situation makes 99% of the users happy, since they have got
  driver support for their kernel. Unluckily, the Linux kernel is licensed
- under the GNU GPL, which does not allow the BSD people to get the code
+ under the GNU GPL which does not allow the BSD people to get the code
  and put it into their kernel, unless BSD will become GPL, too. The
  developers do not want it though, because they do not want to force the
  customers to GPL their code, too. On the other hand, BSD drivers can be

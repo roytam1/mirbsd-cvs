@@ -1,9 +1,9 @@
 <!-- PageID: cvsweb -->
-<small class="rcsid">$MirOS: www/content/Y3Zzd2Vi.inc,v 1.10 2006/01/24 22:31:44 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/Y3Zzd2Vi.inc,v 1.11 2006/01/27 00:14:27 tg Exp $</small>
 <h1>Accessing the MirOS source by CVSweb</h1>
 
 <h3>Short introduction into CVSweb</h3>
-<p>CVSweb is a front-end for the CVS and RCS utilities, which allows
+<p>CVSweb is a front-end for the CVS and RCS utilities which allows
  for easy read-only access to a CVS repository tree by means of any
  web browser. You can browse directories, retrieve content and log
  messages of any files, even deleted ones; skim through the history

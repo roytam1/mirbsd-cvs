@@ -1,12 +1,12 @@
 <!-- PageID: about -->
-<small class="rcsid">$MirOS: www/content/YWJvdXQ_.inc,v 1.8 2005/12/07 00:58:36 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/YWJvdXQ_.inc,v 1.9 2006/01/27 00:14:27 tg Exp $</small>
 <h1>About MirOS, MirBSD, MirPorts</h1>
 
 <p>The MirOS project presents a Europe-based open source operating
  system with goals similar to these of the other BSD projects to
  the skilled system administrator.</p>
 
-<p>MirOS currently is available as a BSD flavour, which originated
+<p>MirOS currently is available as a BSD flavour which originated
  as an OpenBSD patchkit, but has grown very much on its own, though
  still being synchronized with the ongoing development of OpenBSD,
  thus inheriting most of its good security history. This variant is
@@ -14,7 +14,7 @@
  MirOS BSD is highly deprecated.</p>
 
 <p>MirOS will provide the same look and feel, the same userland, just
- with a Linux 2.6 kernel, by means of &quot;MirLinux&quot;, which is
+ with a Linux 2.6 kernel, by means of &quot;MirLinux&quot; which is
  due not earlier (but most likely much later) than summer of 2005.</p>
 <p>In addition to that, we might start a port of MirOS to the <a
  href="http://www.microsoft.com/windows/sfu/">platform we call Interix</a>

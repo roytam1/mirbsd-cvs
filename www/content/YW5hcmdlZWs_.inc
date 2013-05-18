@@ -1,5 +1,5 @@
 <!-- PageID: anargeek -->
-<small class="rcsid">$MirOS: www/content/YW5hcmdlZWs_.inc,v 1.9 2005/12/06 18:39:02 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/YW5hcmdlZWs_.inc,v 1.10 2006/01/27 00:14:27 tg Exp $</small>
 <h1><a href="http://anargeek.net/">Anargeek</a></h1>
 <p>Go <a href="#manifest">directly to the manifesto</a>, or read the <a
  href="#koffie">unrelated side note</a> about coffee.</p>
@@ -11,7 +11,7 @@
 <p>I consider the <a href="http://www.netzladen.org/">Netzladen</a> members
  all to be Anargeeks, and even the <tt>HolaBSDng</tt> gang (i.e. the public
  relationship &quot;common exterior frontier&quot; of Holarse (not the game
- project), MirOS and BOSng), which is how we call ourselves at exhibitions,
+ project), MirOS and BOSng) which is how we call ourselves at exhibitions,
  consists mainly of anargeeks of more or less strong flavour.</p>
 <p>I've translated the English language version of the "Anargeek Manifesto"
  into German, and bsiegert@ compared it with the original, French language,

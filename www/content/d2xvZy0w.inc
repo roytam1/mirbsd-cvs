@@ -1,5 +1,5 @@
 <!-- PageID: wlog-0 -->
-<small class="rcsid">$MirOS: www/content/d2xvZy0w.inc,v 1.2 2005/02/05 22:43:41 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy0w.inc,v 1.3 2006/01/27 00:14:32 tg Exp $</small>
 <h1>BSD-mirabile</h1>
 <p>This is an archived weblog of the development from OpenBSD-current-mirabile
  to <a href="/?main">MirOS</a>. All entries are courtesy of the developer
@@ -7,7 +7,7 @@
 <h3>News <small><a href="#eof">bottom</a></small></h3>
 <p>11.10.2002<br />After having uploaded the first binary snapshot ever over
  a full night (80 MiB), I've now trying to integrate stuff like ndat, dict.pl,
- tinyirc, the sirc and pine patches, which I had on my web site, into the
+ tinyirc, the sirc and pine patches which I had on my web site, into the
  diffs. I'll probably be going to add joe-2.8 too, when I start KNFifying it,
  but for now, a port/package is, bandwidth-wise, the better solution.<br />
  Also, I've found a better solution to the LDFLAGS problem, plus I found a
@@ -43,17 +43,17 @@
  yet.<br />
  In the future, such marks will be at the _end_ of <tt>obsd.diff</tt> file.</p>
 <p>01.11.2002<br />After further synching, the obsd.diff file will even further
- be split up into smaller chunks, which allows for better diffs in rewritten
+ be split up into smaller chunks which allows for better diffs in rewritten
  files wrt licence. Do not use anything yet, this is work in progress.</p>
 <p>02.11.2002<br />Split process is not done yet, but since the new jdk is
  imported (native OpenBSD one), I'll try and make build RSN.<br />
  Well, I was quite stupid and ran out of space, but I got, under NDA, the ELF
- patch, which a) was incomplete and b) screwed up my comp toolchain.</p>
+ patch which a) was incomplete and b) screwed up my comp toolchain.</p>
 <p>03.11.2002<br />Sold my Pentium-90 laptop, bought a WLAN card, backed out
  the ELF diff and made my patches public again. Well, now I at least have ELF
  exec support in the kernel, inspired by NetBSD and code by drahn@ - to ease
  the next try to switch. I'll have to re-get my base32.tgz and comp32.tgz
- though, which means, another make build...<br />Added code to colourize the
+ though which means, another make build...<br />Added code to colourize the
  background of a root xterm, and a <tt>brainfuck</tt> interpreter.</p>
 <p>04.11.2002<br />Added fork bomb defusion code, fixed previous .tygs</p>
 <p>05.11.2002<br />Sync, move pfctl to tygs. make build started. Apache does

@@ -1,10 +1,10 @@
 <!-- PageID: danke -->
-<small class="rcsid">$MirOS: www/content/ZGFua2U_.inc,v 1.5 2006/01/19 01:23:56 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/ZGFua2U_.inc,v 1.6 2006/01/27 00:14:28 tg Exp $</small>
 <h1>Donating to the MirOS Project</h1>
 <h2>Considering to donate?</h2>
 <p>Thanks for considering to donate. You can contact the individual
  developers and send them money, preferably by wiring (for Germans:
- Bank&uuml;berweisung). An alternative is using Paypal, which is not
+ Bank&uuml;berweisung). An alternative is using Paypal which is not
  throughoutly tested, and &ndash; as usual, if a third party gets
  involved &ndash; may lead to problems, such as your donation being
  lost.</p>

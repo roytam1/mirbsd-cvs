@@ -1,5 +1,5 @@
 <!-- PageID: clog-2005 -->
-<small class="rcsid">$MirOS: www/content/Y2xvZy0yMDA1.inc,v 1.7 2006/01/20 13:08:09 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/Y2xvZy0yMDA1.inc,v 1.8 2006/01/27 00:14:26 tg Exp $</small>
 <h1>2005 snapshots of MirOS-current</h1>
 <h3>Infos &ndash; <a href="#eof">bottom</a></h3>
 
@@ -180,7 +180,7 @@
  <li>Fixed bug in evilwm, making QWER work as documented</li>
 </ul><p>This feature release focuses on reducing diffs to upstream in
  places where we have upstream releases (the BSDs, FSF, XF86) and
- modernising the upstream versions we use (except OpenBSD core, which
+ modernising the upstream versions we use (except OpenBSD core which
  is still at May 2004 state). There was also a huge number of removals
  for code cleanliness, and bug fixes for gcc 3.4.4 compatibility. This
  snapshot is a feature preview, but the first one worthy to be considered

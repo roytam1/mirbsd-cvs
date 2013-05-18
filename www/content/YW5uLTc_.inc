@@ -88,7 +88,7 @@ project.</p>
  rebuild their base system with SENDMAIL SASL or without sendmail, apache, the
  documentation, games, perl, ...</li>
 <li>Several GNU utilities have been replaced by their BSD UNIX&reg;
- counterparts from AT&amp;T UNIX&reg; up to 32V, which was released by Caldera
+ counterparts from AT&amp;T UNIX&reg; up to 32V which was released by Caldera
  International, Inc. (now known as The SCO group) in 1999 under a four-clause
  UCB-style open source certified licence, in order to enable the customer to
  do with MirOS what he wants. Among these are: Groff, BC/DC, GZip, Diff.</li>
@@ -159,7 +159,7 @@ project.</p>
  Includes automatic sorting of the fstab file implemented in korn shell.</li>
 <li>Regular synchronization of the base system and MirPorts with OpenBSD.</li>
 <li>Highly improved set of shell script infrastructure using security
- features of the Korn shell, which is <tt>/bin/sh</tt> in MirOS. Automatic
+ features of the Korn shell which is <tt>/bin/sh</tt> in MirOS. Automatic
  discovery of IDE hard disc drives which need their write cache disabled.</li>
 
 <li>Import of enhancements from NetBSD, FreeBSD and MicroBSD:</li>
@@ -200,7 +200,7 @@ project.</p>
  pictures. Acknowledgement to use the BSD d&aelig;mon for the project from
  Marshall Kirk McKusick. Install GNU licenses by default, too.</li>
 <li>Infrastructure for supporting more than one underlying kernel/libc
- (base OS) combination, which will eventually lead to MirLinux.</li>
+ (base OS) combination which will eventually lead to MirLinux.</li>
 <li>Manpage fixes and enhancements, date display fixed and unified between
  tmac.an.old and tmac.mdoc; Makefile enhancements (make foo.E generates a
  preprocessed source file); what is now MirOS/MirPorts and started as
@@ -282,7 +282,7 @@ to <tt>ksh</tt> - using tcsh or GNU bash is not officially supported.</p>
 <p>Please read the full stuff at <a href="/?about">About MirOS</a>.</p>
 
 <pre>
-# $MirOS: www/content/YW5uLTc_.inc,v 1.8 2006/01/13 03:49:35 tg Exp $
+# $MirOS: www/content/YW5uLTc_.inc,v 1.9 2006/01/27 00:14:27 tg Exp $
 # $OpenBSD: COPYRIGHT,v 1.2 2001/01/29 02:11:07 niklas Exp $
 # @(#)COPYRIGHT	5.1 (Berkeley) 7/1/91
 
@@ -352,11 +352,11 @@ BSD and ekkoBSD.
 Thus, the MirPorts Framework Team consists of developers from MirOS
 project, as well as independent contributors to the infrastructure,
 and the people contributing their own ports. Many ports of MirPorts
-are derived from the OpenBSD ports tree, which has been made freely
+are derived from the OpenBSD ports tree which has been made freely
 available without a special licence; the MirPorts Framework instead
 is covered by a licence similar to the above - the individual ports
 however remain freely available. The patch files provided with some
-ports are usually unified diffs against third-party software, which
+ports are usually unified diffs against third-party software which
 thus share their licence. If such a diff cannot be freely provided,
 a forward ed(1) diff is to be included in MirPorts instead.
 
