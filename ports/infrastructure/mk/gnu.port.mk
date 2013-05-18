@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/gnu.port.mk,v 1.19 2006/06/29 21:56:01 tg Exp $
+# $MirOS: ports/infrastructure/mk/gnu.port.mk,v 1.20 2006/06/30 21:23:45 tg Exp $
 # $OpenBSD: gnu.port.mk,v 1.19 2004/06/06 11:49:08 espie Exp $
 
 AUTOCONF_NEW?=		No
@@ -71,8 +71,12 @@ MODGNU_MIRLIBTOOL?=	No
 .if ${CONFIGURE_STYLE:L:Mgnu}
 .  if ${CONFIGURE_STYLE:L:Mdest}
 CONFIGURE_ARGS+=	--prefix='$${${DESTDIRNAME}}${PREFIX}'
+CONFIGURE_ARGS+=	--infodir='$${${DESTDIRNAME}}${PREFIX}/info'
+CONFIGURE_ARGS+=	--mandir='$${${DESTDIRNAME}}${PREFIX}/man'
 .  else
 CONFIGURE_ARGS+=	--prefix=${PREFIX:Q}
+CONFIGURE_ARGS+=	--infodir=${PREFIX:Q}/info
+CONFIGURE_ARGS+=	--mandir=${PREFIX:Q}/man
 .  endif
 .  if empty(CONFIGURE_STYLE:L:Mold)
 .    if ${CONFIGURE_STYLE:L:Mdest}
@@ -82,8 +86,6 @@ CONFIGURE_ARGS+=	--sysconfdir=${SYSCONFDIR:Q}
 .    endif
 .  endif
 .endif
-CONFIGURE_ARGS+=	--infodir=${PREFIX:Q}/info
-CONFIGURE_ARGS+=	--mandir=${PREFIX:Q}/man
 
 # Files
 .if ${MODGNU_MIRLIBTOOL:L} == "yes"
