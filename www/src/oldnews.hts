@@ -3,7 +3,7 @@
 
 mws_setname oldnews "Old News and Weblog"
 mws_subdir 0
-mws_putheader '$MirOS$'
+mws_putheader '$MirOS: www/src/oldnews.hts,v 1.1 2008/03/14 21:13:10 tg Exp $'
 mws_content <<'EOF'
 <h1>Older News and Weblogs</h1>
 
@@ -33,7 +33,7 @@ mws_content <<'EOF'
 <li><a href="/?wlog-8">Starting at 22C3 to FrOSCon 2006</a>, the life
  of MirOS #8 ended exactly half a year (plus two days to recover) after
  its surprising, impressive, release.</li>
-<li><a href="@@RELPATH@@wlog-9.htm">Starting at FrOSCon 2006 to mid of
+<li><a href="wlog-9.htm">Starting at FrOSCon 2006 to mid of
  March 2008</a>, MirOS #9-current revived the sparc architecture, thus
  making MirOS one of the best supported operating systems for the 32-bit
  sparc machines, since other operating systems dropped support for them,
@@ -43,13 +43,13 @@ mws_content <<'EOF'
  overall system became more stable and reliable, less surprising, lacking
  only in synchronisation with more recent device driver support.</li>
 </ul><p>For the current developers' weblog, please refer to the <a
- href="@@RELPATH@@wlog-10.htm">weblog past MirOS BSD #10</a> starting
+ href="wlog-10.htm">weblog past MirOS BSD #10</a> starting
  mid-March 2008.</p>
 
 <h2>Old News</h2>
 <p><a href="#newsend">Skip to News bottom</a></p><ul>
 
-<li>More <a href="@@RELPATH@@news.htm">recent MirOS oldnews</a></li>
+<li>More <a href="news.htm">recent MirOS oldnews</a></li>
 
 <li>06.04.2006<br />The Ada and GCJ compilers are no longer delivered with
 	MirOS-current. Users who require them must now build these drivers
@@ -940,7 +940,7 @@ mws_content <<'EOF'
 	into the HEAD branch where applicable.</li>
 
 </ul><p id="newsend">For current news, please refer to the <a
- href="@@RELPATH@@news_all.htm">main news page</a>.</p>
+ href="news_all.htm">main news page</a>.</p>
 
 <h2>Old ChangeLog</h2><ul>
 <li><a href="/?clog-2004">Snapshots released 2004</a></li>

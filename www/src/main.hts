@@ -1,4 +1,4 @@
-# $MirOS: www/src/main.hts,v 1.5 2008/03/02 16:34:36 tg Exp $
+# $MirOS: www/src/main.hts,v 1.7 2008/03/14 21:13:10 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -6,7 +6,7 @@
 mws_setname main "Welcome to the MirOS Project"
 mws_setrss "news.rss"
 mws_subdir 0
-mws_putheader '$MirOS: www/src/main.hts,v 1.5 2008/03/02 16:34:36 tg Exp $'
+mws_putheader '$MirOS: www/src/main.hts,v 1.7 2008/03/14 21:13:10 tg Exp $'
 mws_content <<'EOF'
 <h1>Welcome to the MirOS Project!</h1>
 
@@ -14,7 +14,7 @@ mws_content <<'EOF'
 
 <p>MirOS BSD is a secure operating system from the BSD family for 32-bit
  i386 and sparc systems. It is based on 4.4BSD-Lite (mostly OpenBSD, some
- NetBSD®). The <a href="@@RELPATH@@ports.htm">MirPorts Framework</a> is a
+ NetBSD®). The <a href="ports.htm">MirPorts Framework</a> is a
  portable ports
  tree to facilitate the installation of additional software. The project
  also releases some portable software: mksh, a pdksh-based shell;

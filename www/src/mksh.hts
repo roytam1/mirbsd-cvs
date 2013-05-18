@@ -1,4 +1,4 @@
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.95 2008/03/23 22:12:38 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.96 2008/03/24 04:42:21 tg Exp $'
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -688,7 +688,7 @@ mws_content <<'EOF'
  <li>Solaris 10 Generic_125100-04 (sparc sun4u SUNcc5.9 124867-01, ld 5.10-1.486)</li>
  <li>Debian GNU 4.0 sid GNU-Mach 1.3.99/Hurd-0.3 i686-AT386 (i386 gcc4.2.2-4)</li>
  <li style="list-style:none;">– older mksh versions –</li>
- <li>See <a href="@@RELPATH@@mksh_old.htm#regress">the old-mksh site</a></li>
+ <li>See <a href="mksh_old.htm#regress">the old-mksh site</a></li>
  <li style="list-style:none;">– tests by third parties (Build.sh) –</li>
  <li>HP OSF/1 V4.0 1229 (alpha DEC C V5.9-005 Rev. 1229) <em>by Jupp Schugt</em></li>
  <li>HP OSF/1 V4.0 1229 (alpha gcc2.8.1 alpha-dec-osf4.0d) <em>by Jupp Schugt</em></li>

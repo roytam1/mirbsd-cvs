@@ -3,7 +3,7 @@
 
 mws_setname ports "The MirPorts Framework"
 mws_subdir 0
-mws_putheader '$MirOS: www/src/ports.hts,v 1.5 2008/03/16 23:12:38 tg Exp $'
+mws_putheader '$MirOS: www/src/ports.hts,v 1.6 2008/03/21 22:13:18 tg Exp $'
 mws_content <<'EOF'
 <h1>MirPorts: The MirOS Ports Framework</h1>
 
@@ -17,7 +17,7 @@ mws_content <<'EOF'
 
 <h4>General</h4>
 
-<p>Please refer to the <a href="@@RELPATH@@man8/Setup.sh.htm">installer’s
+<p>Please refer to the <a href="man8/Setup.sh.htm">installer’s
  manual page</a> for an invocation reference.</p>
 
 <h4 id="mbsd">Special case: MirOS system-wide installation</h4>
