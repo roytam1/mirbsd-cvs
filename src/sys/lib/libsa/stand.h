@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/lib/libsa/stand.h,v 1.13 2009/01/03 13:43:31 tg Exp $	*/
+/**	$MirOS: src/sys/lib/libsa/stand.h,v 1.14 2009/08/11 13:24:01 tg Exp $	*/
 /*	$OpenBSD: stand.h,v 1.46 2007/05/04 21:44:07 reyk Exp $	*/
 /*	$NetBSD: stand.h,v 1.18 1996/11/30 04:35:51 gwr Exp $	*/
 
@@ -146,8 +146,6 @@ int	close(int);
 void	closeall(void);
 ssize_t	read(int, void *, size_t);
 ssize_t	write(int, void *, size_t);
-int	stat(const char *path, struct stat *sb);
-int	fstat(int fd, struct stat *sb);
 int	opendir(char *);
 int	readdir(int, char *);
 void	closedir(int);

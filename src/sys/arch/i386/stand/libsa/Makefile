@@ -1,4 +1,4 @@
-# $MirOS: src/sys/arch/i386/stand/libsa/Makefile,v 1.29 2009/01/12 18:07:23 tg Exp $
+# $MirOS: src/sys/arch/i386/stand/libsa/Makefile,v 1.30 2009/08/09 18:51:42 tg Exp $
 # $OpenBSD: Makefile,v 1.47 2007/05/30 01:25:43 tom Exp $
 
 .include "${.CURDIR}/../Makefile.inc"
@@ -64,6 +64,8 @@ SRCS+=	ufs.c nfs.c tftp.c cd9660.c fat.c lmbmfs.c
 SRCS+=	debug.c
 
 NOPIC=	yes
+
+CFLAGS_dev_i386.o+=	-Wno-cast-qual
 
 .PATH:  ${DIR_SA} ${DIR_KERN}
 

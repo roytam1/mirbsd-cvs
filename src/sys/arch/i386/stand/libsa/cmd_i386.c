@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/stand/libsa/cmd_i386.c,v 1.23 2009/01/11 00:32:40 tg Exp $	*/
+/**	$MirOS: src/sys/arch/i386/stand/libsa/cmd_i386.c,v 1.24 2009/01/11 13:36:05 tg Exp $	*/
 /*	$OpenBSD: cmd_i386.c,v 1.29 2006/09/18 21:14:15 mpf Exp $	*/
 
 /*
@@ -73,7 +73,7 @@ const struct cmd_table cmd_machine[] = {
 #endif
 #endif
 	{ "oldbios",	CMDT_CMD, Xoldbios },
-	{ NULL, 0 }
+	{ NULL, 0, NULL }
 };
 
 #ifndef SMALL_BOOT
@@ -278,8 +278,6 @@ Xoldbios(void)
 }
 
 #ifndef SMALL_BOOT
-extern uint8_t i386_biosdev;
-
 int
 Xmdexec(void)
 {

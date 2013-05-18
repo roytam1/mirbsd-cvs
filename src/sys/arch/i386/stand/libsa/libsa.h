@@ -1,4 +1,4 @@
-/*	$MirOS: src/sys/arch/i386/stand/libsa/libsa.h,v 1.7 2009/01/11 13:36:05 tg Exp $ */
+/*	$MirOS: src/sys/arch/i386/stand/libsa/libsa.h,v 1.8 2009/08/11 13:23:59 tg Exp $ */
 /*	$OpenBSD: libsa.h,v 1.44 2007/04/27 10:08:34 tom Exp $	*/
 
 /*
@@ -114,5 +114,6 @@ extern u_int32_t bios_cksumlen;
 #define MACHINE_CMD	cmd_machine /* we have i386-specific commands */
 
 #define CHECK_SKIP_CONF	check_skip_conf	/* we can skip boot.conf with Ctrl */
+extern int check_skip_conf(void);
 
 #endif

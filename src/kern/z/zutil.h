@@ -1,4 +1,4 @@
-/* $MirOS: src/kern/z/zutil.h,v 1.2 2008/04/10 20:57:03 tg Exp $ */
+/* $MirOS: src/kern/z/zutil.h,v 1.3 2008/08/01 15:12:13 tg Exp $ */
 
 /* zutil.h -- internal interface and configuration of the compression library
  * Copyright (C) 1995-2005 Jean-loup Gailly.
@@ -46,7 +46,9 @@
        */
 #     define errno z_errno
 #   endif
+# ifndef _SYS_ERRNO_H_
     extern int errno;
+# endif
 #else
 #  ifndef _WIN32_WCE
 #    include <errno.h>

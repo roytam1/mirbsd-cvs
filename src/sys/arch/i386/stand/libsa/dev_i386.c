@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/stand/libsa/dev_i386.c,v 1.14 2009/01/11 00:32:40 tg Exp $	*/
+/**	$MirOS: src/sys/arch/i386/stand/libsa/dev_i386.c,v 1.17 2009/08/11 13:23:59 tg Exp $	*/
 /*	$OpenBSD: dev_i386.c,v 1.30 2007/06/27 20:29:37 mk Exp $	*/
 
 /*
@@ -154,7 +154,7 @@ devopen(struct open_file *f, const char *fname, char **file)
 }
 
 void
-devboot(dev_t bootdev, char *p)
+devboot(dev_t bootdev __unused, char *p)
 {
 	char *cp;
 	if (start_dip) {
@@ -218,7 +218,7 @@ getchar(void)
 char ttyname_buf[8];
 
 char *
-ttyname(int fd)
+ttyname(int fd __unused)
 {
 	snprintf(ttyname_buf, sizeof ttyname_buf, "%s%d",
 	    cdevs[major(cn_tab->cn_dev)], minor(cn_tab->cn_dev));

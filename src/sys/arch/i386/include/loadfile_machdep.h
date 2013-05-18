@@ -1,4 +1,4 @@
-/**	$MirOS$	*/
+/**	$MirOS: src/sys/arch/i386/include/loadfile_machdep.h,v 1.2 2005/03/06 21:26:59 tg Exp $	*/
 /*	$OpenBSD: loadfile_machdep.h,v 1.1 2003/04/17 03:42:14 drahn Exp $	*/
 /*	$NetBSD: loadfile_machdep.h,v 1.1 1999/04/29 03:17:12 tsubai Exp $	*/
 
@@ -60,6 +60,6 @@
 #define FREE(a, b)		free(a, b)
 #define OKMAGIC(a)		((a) == OMAGIC)
 
-void run_loadfile(u_long *, int);
+void run_loadfile(u_long *, int) __dead;
 
 #endif
