@@ -1,5 +1,5 @@
 <!-- PageID: wlog-9 -->
-<small class="rcsid">$MirOS: www/content/d2xvZy05.inc,v 1.5 2006/06/30 23:30:05 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy05.inc,v 1.6 2006/07/02 22:23:37 tg Exp $</small>
 <h1>MirBSD &ndash; WTF is Verpeilungsfaktor?</h1>
 <p><small><a href="#eof">bottom</a> or <a href="/?older">older</a>
  editions</small></p>
@@ -103,6 +103,20 @@
   on VT420 on serial console. Also, it is slow. So spare me. (I offer to
   still do it if users request it. Don't forget releases are <em>no</em>
   live CDs.</p>
+ <p>Very late edition, a.k.a. WTF is date(1)?<br />I'm through with i386
+  and committed the distrib/lists changes, where I also shuffled some of
+  the things I know won't run on sparc away into md.i386 files. Some has
+  been disabled, even though it builds on sparc, like iopctl(8), because
+  the hardware just doesn't exist. I then screwed around a little in gcc
+  and found out we're still building a threaded gcc even though that's a
+  java only thing, and optimised Makefile.lang (not yet tested). Note, a
+  threaded gcc probably doesn't work on sparc. I decided against keeping
+  the libobjc_gc wrappers unless manually (NO_BOEHMGC=no) or via depends
+  (NO_JAVA=no) enabled, and for keeping c++, Objective-C, and GNU Pascal
+  available on sparc, because there's no reason (except size which is no
+  issue with gcc bloat, er gcc 3, anyway) to differ between platforms at
+  all. They're small enough to not slow down by more than a few hours or
+  so of build time ;-)</p>
 </div>
 
 <p id="eof">Good luck, have fun, take care etc.pp</p>
