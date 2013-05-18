@@ -1,10 +1,10 @@
-/**	$MirOS: src/sys/dev/rnd.c,v 1.47 2008/11/13 00:19:00 tg Exp $ */
+/**	$MirOS: src/sys/dev/rnd.c,v 1.48 2008/12/26 19:58:06 tg Exp $ */
 /*	$OpenBSD: rnd.c,v 1.78 2005/07/07 00:11:24 djm Exp $	*/
 
 /*
  * rnd.c -- A strong random number generator
  *
- * Copyright (c) 2000, 2002, 2003, 2004, 2005, 2006, 2007, 2008
+ * Copyright (c) 2000, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009
  *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
  * Copyright (c) 1996, 1997, 2000-2002 Michael Shalayeff.
  * Copyright Theodore Ts'o, 1994, 1995, 1996, 1997, 1998, 1999.
@@ -547,9 +547,11 @@ void
 arc4_stir(void)
 {
 	u_int8_t buf[256];
-	register u_int8_t si;
+	register u_int8_t si, cf;
 	register int n, s;
 	int len;
+
+	cf = arc4_getbyte() & 0xFF;
 
 	microtime((struct timeval *)buf);
 	len = random_state.entropy_count / 8; /* XXX maybe a half? */
@@ -601,11 +603,9 @@ arc4_stir(void)
 	 * paper "Weaknesses in the Key Scheduling Algorithm of RC4"
 	 * by Fluher, Mantin, and Shamir.  (N = 256 in our case.)
 	 */
-	for (n = 0; n < 256 * 4; n++)
-		arc4_getbyte();
-
 	/* Additionally, throw away a pseudo-random number of bytes. */
-	for (n = (random() & 7) + (arc4_getbyte() & 7); n; --n)
+	n = 256 * 4 + (random() & 7) + (arc4_getbyte() & 7) + cf;
+	while (n--)
 		arc4_getbyte();
 }
 
@@ -633,6 +633,8 @@ u_int32_t
 arc4random(void)
 {
 	arc4maybeinit();
+	if (arc4_getbyte() & 1)
+		(void)arc4_getbyte();
 	return ((arc4_getbyte() << 24) | (arc4_getbyte() << 16)
 		| (arc4_getbyte() << 8) | arc4_getbyte());
 }
@@ -645,10 +647,10 @@ arc4random_bytes(void *buf, size_t n)
 
 	arc4maybeinit();
 	n = arc4_getbyte() % 3;
-	while (cp < end)
-		*cp++ = arc4_getbyte();
 	while (n--)
 		(void)arc4_getbyte();
+	while (cp < end)
+		*cp++ = arc4_getbyte();
 }
 
 /*
