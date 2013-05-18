@@ -1,4 +1,4 @@
-/* $MirOS: src/include/wchar.h,v 1.8 2006/06/02 12:58:52 tg Exp $ */
+/* $MirOS: src/include/wchar.h,v 1.9 2006/07/03 16:14:41 tg Exp $ */
 
 #ifndef	_WCHAR_H_
 #define	_WCHAR_H_
@@ -21,7 +21,8 @@ typedef	__WCHAR_TYPE__	wchar_t;
 typedef	__WINT_TYPE__	wint_t;
 #endif
 
-#if __WCHAR_MAX__ != 65535U
+/* makedepend may not define __WCHAR_MAX__ */
+#if defined(__WCHAR_MAX__) && (__WCHAR_MAX__ != 65535U)
 #error GCC __WCHAR_MAX__ does not indicate UCS-2
 #endif
 
