@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.77 2006/08/26 22:50:50 tg Exp $
+# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.78 2006/08/26 22:57:01 tg Exp $
 #-
 # Copyright (c) 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -50,7 +50,7 @@ function scnfunc
 		eval HAVE_$nameu=0
 	fi
 	rm -f scn.c scn.o scn
-	print "==> $name... $res"
+	print "==> ${5:-$name}... $res"
 }
 
 # Get parameters
@@ -76,14 +76,15 @@ export SHELL=$new_mirksh MKSH=$new_mirksh
 
 # Directories
 top=$(cd $(dirname $0)/../..; pwd)
-mkdir $top/tmpx
-export PATH=$top/tmpx:$PATH
 d_script=$top/dist/scripts
 d_src=$top/dist/src
 d_build=$top/build
 dt_bin=$new_prefix/bin
 dt_man=$new_prefix/${new_manpth}1
 dt_mk=$new_prefix/share/${new_exenam}
+rm -rf $top/tmpx $d_build
+mkdir -p $top/tmpx $d_build/{F,mk,libmirmake}
+export PATH=$top/tmpx:$PATH
 
 if [[ $new_manpth = *@(cat)* ]]; then
 	is_catman=1
@@ -206,8 +207,6 @@ sed_exp="-e 's#@@machine@@#${new_machin}#g' \
 	 -e 's#@@bmake@@#${new_exenam}#g'"
 
 # Copy sources
-rm -rf $d_build
-mkdir -p $d_build/{F,mk,libmirmake}
 (cd $d_src/usr.bin/make; find . | cpio -pdlu $d_build)
 (cd $d_src/lib/libc; find ohash | cpio -pdlu $d_build)
 (cd $d_src/usr.bin; find readlink tsort xinstall | cpio -pdlu $d_build)
@@ -228,7 +227,7 @@ for lc in md4 md5 rmd160 sha1; do
 done
 for lc in sha256 sha384 sha512; do
 	typeset -u uc=$lc
-	sed -e "s/hashinc/sha2.h/g" -e "s/HASH_\{0,1\}/$uc_/g" \
+	sed -e "s/hashinc/sha2.h/g" -e 's/HASH_\{0,1\}/'"$uc"_/g \
 	    <$d_src/lib/libc/hash/helper.c >$d_build/libmirmake/${lc}hl.c
 done
 cp $d_script/Makefile.lib $d_build/libmirmake/Makefile
