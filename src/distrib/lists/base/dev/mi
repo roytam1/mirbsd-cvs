@@ -3761,6 +3761,9 @@
 ./usr/libdata/ldscripts/z8002.xn
 ./usr/libdata/ldscripts/z8002.xr
 ./usr/libdata/ldscripts/z8002.xu
+./usr/libdata/pkgconfig
+./usr/libdata/pkgconfig/libpng.pc
+./usr/libdata/pkgconfig/openssl.pc
 ./usr/share/doc/html/milter
 ./usr/share/doc/html/milter/api.html
 ./usr/share/doc/html/milter/design.html
@@ -7900,6 +7903,3 @@
 ./usr/share/man/cat9/vwaitforio.0
 ./usr/share/man/cat9/wakeup.0
 ./usr/share/man/cat9/writedisklabel.0
-./usr/share/pkgconfig
-./usr/share/pkgconfig/libpng.pc
-./usr/share/pkgconfig/openssl.pc

@@ -1,4 +1,4 @@
-# $MirOS: src/lib/libpng/Makefile,v 1.7 2007/05/17 18:38:34 tg Exp $
+# $MirOS: src/lib/libpng/Makefile,v 1.8 2007/05/22 20:16:55 tg Exp $
 
 SHLIB_VERSION?= 7.1
 LIB=		png
@@ -16,6 +16,6 @@ CPPFLAGS+=	-DPNG_NO_ASSEMBLER_CODE -DZCONST=const
 
 afterinstall:
 	${INSTALL} ${INSTALL_COPY} -o ${BINOWN} -g ${BINGRP} -m ${NONBINMODE} \
-	    ${.CURDIR}/libpng.pc ${DESTDIR}/usr/share/pkgconfig/
+	    ${.CURDIR}/libpng.pc ${DESTDIR}/usr/libdata/pkgconfig/
 
 .include <bsd.lib.mk>
