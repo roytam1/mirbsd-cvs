@@ -1,6 +1,6 @@
-.\" $MirOS: src/sys/arch/i386/stand/boot/boot.8,v 1.22 2009/10/27 16:00:05 tg Exp $
+.\" $MirOS: src/sys/arch/i386/stand/boot/boot.8,v 1.23 2009/10/27 17:06:33 tg Exp $
 .\"-
-.\" Copyright (c) 2009
+.\" Copyright (c) 2009, 2010
 .\"	Thorsten Glaser <tg@mirbsd.org>
 .\"
 .\" Provided that these terms and disclaimer and all copyright notices
@@ -712,5 +712,7 @@ For now, gPXE can load
 .Nm
 using Multiboot, and any passed modules are handled via lmbmfs.
 .It ustarfs
-This filesystem will be implemented soon.
+This filesystem is currently only usable with the boot floppy
+and assumes that the entire floppy disc (except, on sparc, the
+MD disklabel) is a valid ustar archive.
 .El
