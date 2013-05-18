@@ -1,4 +1,4 @@
-/*	$OpenBSD: dns.c,v 1.16 2005/10/17 14:13:35 stevesk Exp $	*/
+/* $OpenBSD: dns.c,v 1.19 2006/03/25 22:22:43 djm Exp $ */
 
 /*
  * Copyright (c) 2003 Wesley Griffin. All rights reserved.
@@ -26,7 +26,7 @@
  */
 
 #include "includes.h"
-RCSID("$MirOS: dns.c,v 1.16 2005/10/17 14:13:35 stevesk Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/dns.c,v 1.2 2006/02/22 02:16:45 tg Exp $");
 
 #include <netdb.h>
 
@@ -122,7 +122,7 @@ dns_read_rdata(u_int8_t *algorithm, u_int8_t *digest_type,
 			*digest = (u_char *) xmalloc(*digest_len);
 			memcpy(*digest, rdata + 2, *digest_len);
 		} else {
-			*digest = (u_char *) xstrdup("");
+			*digest = (u_char *)xstrdup("");
 		}
 
 		success = 1;

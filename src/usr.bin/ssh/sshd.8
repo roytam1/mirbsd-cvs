@@ -34,8 +34,8 @@
 .\" (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
 .\" THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .\"
-.\" $MirOS: src/usr.bin/ssh/sshd.8,v 1.6 2005/12/20 19:57:39 tg Exp $
-.\" $OpenBSD: sshd.8,v 1.228 2006/02/19 20:05:00 jmc Exp $
+.\" $MirOS: src/usr.bin/ssh/sshd.8,v 1.7 2006/02/22 01:23:53 tg Exp $
+.\" $OpenBSD: sshd.8,v 1.230 2006/02/24 20:31:31 jmc Exp $
 .Dd September 25, 1999
 .Dt SSHD 8
 .Os
@@ -82,7 +82,7 @@ configuration file.
 .Nm
 rereads its configuration file when it receives a hangup signal,
 .Dv SIGHUP ,
-by executing itself with the name and options it was started with, e.g.,
+by executing itself with the name and options it was started with, e.g.\&
 .Pa /usr/sbin/sshd .
 .Pp
 The options are as follows:
@@ -156,7 +156,7 @@ is normally not run
 from inetd because it needs to generate the server key before it can
 respond to the client, and this may take tens of seconds.
 Clients would have to wait too long if the key was regenerated every time.
-However, with small key sizes (e.g., 512) using
+However, with small key sizes (e.g. 512) using
 .Nm
 from inetd may
 be feasible.
@@ -480,15 +480,7 @@ is enabled.
 .It Cm from="pattern-list"
 Specifies that in addition to public key authentication, the canonical name
 of the remote host must be present in the comma-separated list of
-patterns
-.Pf ( Ql *
-and
-.Ql \&?
-serve as wildcards).
-The list may also contain
-patterns negated by prefixing them with
-.Ql \&! ;
-if the canonical host name matches a negated pattern, the key is not accepted.
+patterns.
 The purpose
 of this option is to optionally increase security: public key authentication
 by itself does not trust the network or name servers or anything (but
@@ -497,13 +489,19 @@ permits an intruder to log in from anywhere in the world.
 This additional option makes using a stolen key more difficult (name
 servers and/or routers would have to be compromised in addition to
 just the key).
+.Pp
+See
+.Sx PATTERNS
+in
+.Xr ssh_config 5
+for more information on patterns.
 .It Cm no-agent-forwarding
 Forbids authentication agent forwarding when this key is used for
 authentication.
 .It Cm no-port-forwarding
 Forbids TCP forwarding when this key is used for authentication.
 Any port forward requests by the client will return an error.
-This might be used, e.g., in connection with the
+This might be used, e.g. in connection with the
 .Cm command
 option.
 .It Cm no-pty

@@ -1,5 +1,5 @@
-/**	$MirOS$ */
-/*	$OpenBSD: compat.h,v 1.39 2005/03/01 10:09:52 djm Exp $	*/
+/* $MirOS$ */
+/* $OpenBSD: compat.h,v 1.40 2006/03/25 22:22:43 djm Exp $ */
 
 /*
  * Copyright (c) 1999, 2000, 2001 Markus Friedl.  All rights reserved.

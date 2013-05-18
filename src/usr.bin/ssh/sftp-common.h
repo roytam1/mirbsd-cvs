@@ -1,3 +1,4 @@
+/* $MirOS$ */
 /* $OpenBSD: sftp-common.h,v 1.8 2006/03/25 22:22:43 djm Exp $ */
 
 /*
@@ -25,7 +26,6 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include <sys/types.h>
 #include <sys/stat.h>
 
 /* Maximum packet that we are willing to send/accept */

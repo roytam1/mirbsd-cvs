@@ -1,3 +1,4 @@
+/* $OpenBSD: cipher-ctr.c,v 1.8 2006/03/25 13:17:01 djm Exp $ */
 /*
  * Copyright (c) 2003 Markus Friedl <markus@openbsd.org>
  *
@@ -15,7 +16,7 @@
  */
 
 #include "includes.h"
-RCSID("$MirOS: cipher-ctr.c,v 1.6 2005/07/17 07:17:55 djm Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/cipher-ctr.c,v 1.2 2006/02/22 02:16:45 tg Exp $");
 
 #include <openssl/evp.h>
 #include <openssl/aes.h>

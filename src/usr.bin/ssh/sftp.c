@@ -1,3 +1,4 @@
+/* $OpenBSD: sftp.c,v 1.80 2006/03/27 23:15:46 djm Exp $ */
 /*
  * Copyright (c) 2001-2004 Damien Miller <djm@openbsd.org>
  *
@@ -15,7 +16,7 @@
  */
 
 #include "includes.h"
-RCSID("$MirOS: src/usr.bin/ssh/sftp.c,v 1.7 2005/12/20 19:57:35 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/sftp.c,v 1.8 2006/02/22 01:23:51 tg Exp $");
 
 #include <sys/ioctl.h>
 #include <sys/wait.h>
@@ -235,7 +236,7 @@ local_do_shell(const char *args)
 		if (errno != EINTR)
 			fatal("Couldn't wait for child: %s", strerror(errno));
 	if (!WIFEXITED(status))
-		error("Shell exited abormally");
+		error("Shell exited abnormally");
 	else if (WEXITSTATUS(status))
 		error("Shell exited with status %d", WEXITSTATUS(status));
 }
@@ -1276,6 +1277,7 @@ interactive_loop(int fd_in, int fd_out, char *file1, char *file2)
 			if (parse_dispatch_command(conn, cmd, &pwd, 1) != 0) {
 				xfree(dir);
 				xfree(pwd);
+				xfree(conn);
 				return (-1);
 			}
 		} else {
@@ -1288,6 +1290,7 @@ interactive_loop(int fd_in, int fd_out, char *file1, char *file2)
 			err = parse_dispatch_command(conn, cmd, &pwd, 1);
 			xfree(dir);
 			xfree(pwd);
+			xfree(conn);
 			return (err);
 		}
 		xfree(dir);
@@ -1344,6 +1347,7 @@ interactive_loop(int fd_in, int fd_out, char *file1, char *file2)
 			break;
 	}
 	xfree(pwd);
+	xfree(conn);
 
 	if (el != NULL)
 		el_end(el);
@@ -1440,7 +1444,7 @@ main(int argc, char **argv)
 
 	memset(&args, '\0', sizeof(args));
 	args.list = NULL;
-	addargs(&args, ssh_program);
+	addargs(&args, "%s", ssh_program);
 	addargs(&args, "-h");		/* disable tcp lowdelay */
 	addargs(&args, "-oForwardX11 no");
 	addargs(&args, "-oForwardAgent no");

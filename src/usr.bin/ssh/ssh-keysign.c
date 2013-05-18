@@ -1,3 +1,4 @@
+/* $OpenBSD: ssh-keysign.c,v 1.23 2006/04/02 08:34:52 dtucker Exp $ */
 /*
  * Copyright (c) 2002 Markus Friedl.  All rights reserved.
  *
@@ -23,7 +24,7 @@
  */
 
 #include "includes.h"
-RCSID("$MirOS: ssh-keysign.c,v 1.20 2006/02/08 12:15:27 stevesk Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/ssh-keysign.c,v 1.2 2006/02/22 02:16:49 tg Exp $");
 
 #include <paths.h>
 
@@ -65,9 +66,9 @@ valid_request(struct passwd *pw, char *host, Key **ret, u_char *data,
 	buffer_init(&b);
 	buffer_append(&b, data, datalen);
 
-	/* session id, currently limited to SHA1 (20 bytes) */
+	/* session id, currently limited to SHA1 (20 bytes) or SHA256 (32) */
 	p = buffer_get_string(&b, &len);
-	if (len != 20)
+	if (len != 20 && len != 32)
 		fail++;
 	xfree(p);
 

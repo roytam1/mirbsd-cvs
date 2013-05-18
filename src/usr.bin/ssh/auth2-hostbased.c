@@ -1,3 +1,4 @@
+/* $OpenBSD: auth2-hostbased.c,v 1.8 2006/03/25 13:17:01 djm Exp $ */
 /*
  * Copyright (c) 2000 Markus Friedl.  All rights reserved.
  *
@@ -23,7 +24,7 @@
  */
 
 #include "includes.h"
-RCSID("$MirOS: auth2-hostbased.c,v 1.6 2004/01/19 21:25:15 markus Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/auth2-hostbased.c,v 1.2 2006/02/22 02:16:44 tg Exp $");
 
 #include "ssh2.h"
 #include "xmalloc.h"

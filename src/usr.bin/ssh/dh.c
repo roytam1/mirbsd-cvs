@@ -1,3 +1,4 @@
+/* $OpenBSD: dh.c,v 1.35 2006/03/27 13:03:54 deraadt Exp $ */
 /*
  * Copyright (c) 2000 Niels Provos.  All rights reserved.
  *
@@ -23,7 +24,7 @@
  */
 
 #include "includes.h"
-RCSID("$MirOS: dh.c,v 1.31 2004/08/04 10:37:52 djm Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/dh.c,v 1.2 2006/02/22 02:16:45 tg Exp $");
 
 #include "xmalloc.h"
 
@@ -44,9 +45,11 @@ parse_prime(int linenum, char *line, struct dhgroup *dhg)
 {
 	char *cp, *arg;
 	char *strsize, *gen, *prime;
+	const char *errstr = NULL;
 
 	cp = line;
-	arg = strdelim(&cp);
+	if ((arg = strdelim(&cp)) == NULL)
+		return 0;
 	/* Ignore leading whitespace */
 	if (*arg == '\0')
 		arg = strdelim(&cp);
@@ -67,7 +70,8 @@ parse_prime(int linenum, char *line, struct dhgroup *dhg)
 		goto fail;
 	strsize = strsep(&cp, " "); /* size */
 	if (cp == NULL || *strsize == '\0' ||
-	    (dhg->size = atoi(strsize)) == 0)
+	    (dhg->size = (u_int)strtonum(strsize, 0, 64*1024, &errstr)) == 0 ||
+	    errstr)
 		goto fail;
 	/* The whole group is one bit larger */
 	dhg->size++;

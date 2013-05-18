@@ -1,3 +1,4 @@
+/* $OpenBSD: servconf.c,v 1.150 2006/03/25 13:17:02 djm Exp $ */
 /*
  * Copyright (c) 1995 Tatu Ylonen <ylo@cs.hut.fi>, Espoo, Finland
  *                    All rights reserved
@@ -10,7 +11,7 @@
  */
 
 #include "includes.h"
-RCSID("$MirOS: src/usr.bin/ssh/servconf.c,v 1.6 2005/12/20 19:57:34 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/servconf.c,v 1.7 2006/02/22 02:16:48 tg Exp $");
 
 #include "ssh.h"
 #include "log.h"
@@ -381,7 +382,8 @@ process_server_config_line(ServerOptions *options, char *line,
 	u_int i;
 
 	cp = line;
-	arg = strdelim(&cp);
+	if ((arg = strdelim(&cp)) == NULL)
+		return 0;
 	/* Ignore leading whitespace */
 	if (*arg == '\0')
 		arg = strdelim(&cp);

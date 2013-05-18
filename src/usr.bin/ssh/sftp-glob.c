@@ -1,3 +1,4 @@
+/* $OpenBSD: sftp-glob.c,v 1.19 2006/03/25 13:17:02 djm Exp $ */
 /*
  * Copyright (c) 2001-2004 Damien Miller <djm@openbsd.org>
  *
@@ -15,7 +16,6 @@
  */
 
 #include "includes.h"
-RCSID("$OpenBSD: sftp-glob.c,v 1.17 2006/02/20 17:19:54 stevesk Exp $");
 
 #include <sys/stat.h>
 

@@ -1,3 +1,4 @@
+/* $OpenBSD: readconf.c,v 1.151 2006/03/25 13:17:02 djm Exp $ */
 /*
  * Author: Tatu Ylonen <ylo@cs.hut.fi>
  * Copyright (c) 1995 Tatu Ylonen <ylo@cs.hut.fi>, Espoo, Finland
@@ -12,9 +13,11 @@
  */
 
 #include "includes.h"
-RCSID("$MirOS: src/usr.bin/ssh/readconf.c,v 1.8 2006/02/22 01:23:49 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/readconf.c,v 1.9 2006/02/22 02:16:47 tg Exp $");
 
 #include <sys/stat.h>
+
+#include <ctype.h>
 
 #include "ssh.h"
 #include "xmalloc.h"
@@ -315,7 +318,8 @@ process_config_line(Options *options, const char *host,
 
 	s = line;
 	/* Get the keyword. (Each line is supposed to begin with a keyword). */
-	keyword = strdelim(&s);
+	if ((keyword = strdelim(&s)) == NULL)
+		return 0;
 	/* Ignore leading whitespace. */
 	if (*keyword == '\0')
 		keyword = strdelim(&s);

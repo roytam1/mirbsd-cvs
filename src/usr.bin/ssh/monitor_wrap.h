@@ -1,5 +1,5 @@
-/**	$MirOS$ */
-/*	$OpenBSD: monitor_wrap.h,v 1.14 2004/06/21 17:36:31 avsm Exp $	*/
+/* $MirOS$ */
+/* $OpenBSD: monitor_wrap.h,v 1.16 2006/03/25 22:22:43 djm Exp $ */
 
 /*
  * Copyright 2002 Niels Provos <provos@citi.umich.edu>
@@ -59,7 +59,7 @@ BIGNUM *mm_auth_rsa_generate_challenge(Key *);
 
 struct Session;
 void mm_terminate(void);
-int mm_pty_allocate(int *, int *, char *, int);
+int mm_pty_allocate(int *, int *, char *, size_t);
 void mm_session_pty_cleanup2(struct Session *);
 
 /* SSHv1 interfaces */

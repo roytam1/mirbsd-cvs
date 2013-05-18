@@ -1,3 +1,4 @@
+/* $OpenBSD: channels.c,v 1.250 2006/04/16 00:48:52 djm Exp $ */
 /*
  * Author: Tatu Ylonen <ylo@cs.hut.fi>
  * Copyright (c) 1995 Tatu Ylonen <ylo@cs.hut.fi>, Espoo, Finland
@@ -39,7 +40,6 @@
  */
 
 #include "includes.h"
-RCSID("$OpenBSD: channels.c,v 1.235 2006/02/20 16:36:14 stevesk Exp $");
 
 #include <sys/ioctl.h>
 #include <sys/un.h>
@@ -128,7 +128,7 @@ static u_int x11_saved_data_len = 0;
  * Fake X11 authentication data.  This is what the server will be sending us;
  * we should replace any occurrences of this by the real data.
  */
-static char *x11_fake_data = NULL;
+static u_char *x11_fake_data = NULL;
 static u_int x11_fake_data_len;
 
 
@@ -173,7 +173,7 @@ channel_lookup(int id)
 	if ((c = channel_by_id(id)) == NULL)
 		return (NULL);
 
-	switch(c->type) {
+	switch (c->type) {
 	case SSH_CHANNEL_X11_OPEN:
 	case SSH_CHANNEL_LARVAL:
 	case SSH_CHANNEL_CONNECTING:
@@ -183,7 +183,6 @@ channel_lookup(int id)
 	case SSH_CHANNEL_INPUT_DRAINING:
 	case SSH_CHANNEL_OUTPUT_DRAINING:
 		return (c);
-		break;
 	}
 	logit("Non-public channel %d, type %d.", id, c->type);
 	return (NULL);
@@ -193,7 +192,6 @@ channel_lookup(int id)
  * Register filedescriptors for a channel, used when allocating a channel or
  * when the channel consumer/producer is ready, e.g. shell exec'd
  */
-
 static void
 channel_register_fds(Channel *c, int rfd, int wfd, int efd,
     int extusage, int nonblock)
@@ -239,7 +237,6 @@ channel_register_fds(Channel *c, int rfd, int wfd, int efd,
  * Allocate a new channel object and set its type and socket. This will cause
  * remote_name to be freed.
  */
-
 Channel *
 channel_new(char *ctype, int type, int rfd, int wfd, int efd,
     u_int window, u_int maxpack, int extusage, char *remote_name, int nonblock)
@@ -251,7 +248,7 @@ channel_new(char *ctype, int type, int rfd, int wfd, int efd,
 	/* Do initial allocation if this is the first call. */
 	if (channels_alloc == 0) {
 		channels_alloc = 10;
-		channels = xmalloc(channels_alloc * sizeof(Channel *));
+		channels = xcalloc(channels_alloc, sizeof(Channel *));
 		for (i = 0; i < channels_alloc; i++)
 			channels[i] = NULL;
 	}
@@ -268,16 +265,15 @@ channel_new(char *ctype, int type, int rfd, int wfd, int efd,
 		if (channels_alloc > 10000)
 			fatal("channel_new: internal error: channels_alloc %d "
 			    "too big.", channels_alloc);
-		channels = xrealloc(channels,
-		    (channels_alloc + 10) * sizeof(Channel *));
+		channels = xrealloc(channels, channels_alloc + 10,
+		    sizeof(Channel *));
 		channels_alloc += 10;
 		debug2("channel: expanding %d", channels_alloc);
 		for (i = found; i < channels_alloc; i++)
 			channels[i] = NULL;
 	}
 	/* Initialize and return new channel. */
-	c = channels[found] = xmalloc(sizeof(Channel));
-	memset(c, 0, sizeof(Channel));
+	c = channels[found] = xcalloc(1, sizeof(Channel));
 	buffer_init(&c->input);
 	buffer_init(&c->output);
 	buffer_init(&c->extended);
@@ -341,7 +337,6 @@ channel_close_fd(int *fdp)
 }
 
 /* Close all channel fd/socket. */
-
 static void
 channel_close_fds(Channel *c)
 {
@@ -356,7 +351,6 @@ channel_close_fds(Channel *c)
 }
 
 /* Free the channel and close its fd/socket. */
-
 void
 channel_free(Channel *c)
 {
@@ -403,7 +397,6 @@ channel_free_all(void)
  * Closes the sockets/fds of all channels.  This is used to close extra file
  * descriptors after a fork.
  */
-
 void
 channel_close_all(void)
 {
@@ -417,7 +410,6 @@ channel_close_all(void)
 /*
  * Stop listening to channels.
  */
-
 void
 channel_stop_listening(void)
 {
@@ -444,7 +436,6 @@ channel_stop_listening(void)
  * Returns true if no channel has too much buffered data, and false if one or
  * more channel is overfull.
  */
-
 int
 channel_not_very_much_buffered_data(void)
 {
@@ -474,7 +465,6 @@ channel_not_very_much_buffered_data(void)
 }
 
 /* Returns true if any channel is still open. */
-
 int
 channel_still_open(void)
 {
@@ -517,7 +507,6 @@ channel_still_open(void)
 }
 
 /* Returns the id of an open channel suitable for keepaliving */
-
 int
 channel_find_open(void)
 {
@@ -562,7 +551,6 @@ channel_find_open(void)
  * suitable for sending to the client.  The message contains crlf pairs for
  * newlines.
  */
-
 char *
 channel_open_message(void)
 {
@@ -647,6 +635,7 @@ channel_request_start(int id, char *service, int wantconfirm)
 	packet_put_cstring(service);
 	packet_put_char(wantconfirm);
 }
+
 void
 channel_register_confirm(int id, channel_callback_fn *fn, void *ctx)
 {
@@ -659,6 +648,7 @@ channel_register_confirm(int id, channel_callback_fn *fn, void *ctx)
 	c->confirm = fn;
 	c->confirm_ctx = ctx;
 }
+
 void
 channel_register_cleanup(int id, channel_callback_fn *fn, int do_close)
 {
@@ -671,6 +661,7 @@ channel_register_cleanup(int id, channel_callback_fn *fn, int do_close)
 	c->detach_user = fn;
 	c->detach_close = do_close;
 }
+
 void
 channel_cancel_cleanup(int id)
 {
@@ -683,6 +674,7 @@ channel_cancel_cleanup(int id)
 	c->detach_user = NULL;
 	c->detach_close = 0;
 }
+
 void
 channel_register_filter(int id, channel_infilter_fn *ifn,
     channel_outfilter_fn *ofn)
@@ -722,25 +714,25 @@ channel_set_fds(int id, int rfd, int wfd, int efd,
  * 'channel_post*': perform any appropriate operations for channels which
  * have events pending.
  */
-typedef void chan_fn(Channel *c, fd_set * readset, fd_set * writeset);
+typedef void chan_fn(Channel *c, fd_set *readset, fd_set *writeset);
 chan_fn *channel_pre[SSH_CHANNEL_MAX_TYPE];
 chan_fn *channel_post[SSH_CHANNEL_MAX_TYPE];
 
 static void
-channel_pre_listener(Channel *c, fd_set * readset, fd_set * writeset)
+channel_pre_listener(Channel *c, fd_set *readset, fd_set *writeset)
 {
 	FD_SET(c->sock, readset);
 }
 
 static void
-channel_pre_connecting(Channel *c, fd_set * readset, fd_set * writeset)
+channel_pre_connecting(Channel *c, fd_set *readset, fd_set *writeset)
 {
 	debug3("channel %d: waiting for connection", c->self);
 	FD_SET(c->sock, writeset);
 }
 
 static void
-channel_pre_open_13(Channel *c, fd_set * readset, fd_set * writeset)
+channel_pre_open_13(Channel *c, fd_set *readset, fd_set *writeset)
 {
 	if (buffer_len(&c->input) < packet_get_maxsize())
 		FD_SET(c->sock, readset);
@@ -749,16 +741,14 @@ channel_pre_open_13(Channel *c, fd_set * readset, fd_set * writeset)
 }
 
 static void
-channel_pre_open(Channel *c, fd_set * readset, fd_set * writeset)
+channel_pre_open(Channel *c, fd_set *readset, fd_set *writeset)
 {
 	u_int limit = compat20 ? c->remote_window : packet_get_maxsize();
 
-	/* check buffer limits */
-	limit = MIN(limit, (BUFFER_MAX_LEN - BUFFER_MAX_CHUNK - CHAN_RBUF));
-
 	if (c->istate == CHAN_INPUT_OPEN &&
 	    limit > 0 &&
-	    buffer_len(&c->input) < limit)
+	    buffer_len(&c->input) < limit &&
+	    buffer_check_alloc(&c->input, CHAN_RBUF))
 		FD_SET(c->rfd, readset);
 	if (c->ostate == CHAN_OUTPUT_OPEN ||
 	    c->ostate == CHAN_OUTPUT_WAIT_DRAIN) {
@@ -789,7 +779,7 @@ channel_pre_open(Channel *c, fd_set * readset, fd_set * writeset)
 }
 
 static void
-channel_pre_input_draining(Channel *c, fd_set * readset, fd_set * writeset)
+channel_pre_input_draining(Channel *c, fd_set *readset, fd_set *writeset)
 {
 	if (buffer_len(&c->input) == 0) {
 		packet_start(SSH_MSG_CHANNEL_CLOSE);
@@ -801,7 +791,7 @@ channel_pre_input_draining(Channel *c, fd_set * readset, fd_set * writeset)
 }
 
 static void
-channel_pre_output_draining(Channel *c, fd_set * readset, fd_set * writeset)
+channel_pre_output_draining(Channel *c, fd_set *readset, fd_set *writeset)
 {
 	if (buffer_len(&c->output) == 0)
 		chan_mark_dead(c);
@@ -877,7 +867,7 @@ x11_open_helper(Buffer *b)
 }
 
 static void
-channel_pre_x11_open_13(Channel *c, fd_set * readset, fd_set * writeset)
+channel_pre_x11_open_13(Channel *c, fd_set *readset, fd_set *writeset)
 {
 	int ret = x11_open_helper(&c->output);
 
@@ -903,7 +893,7 @@ channel_pre_x11_open_13(Channel *c, fd_set * readset, fd_set * writeset)
 }
 
 static void
-channel_pre_x11_open(Channel *c, fd_set * readset, fd_set * writeset)
+channel_pre_x11_open(Channel *c, fd_set *readset, fd_set *writeset)
 {
 	int ret = x11_open_helper(&c->output);
 
@@ -930,7 +920,7 @@ channel_pre_x11_open(Channel *c, fd_set * readset, fd_set * writeset)
 
 /* try to decode a socks4 header */
 static int
-channel_decode_socks4(Channel *c, fd_set * readset, fd_set * writeset)
+channel_decode_socks4(Channel *c, fd_set *readset, fd_set *writeset)
 {
 	char *p, *host;
 	u_int len, have, i, found;
@@ -994,7 +984,7 @@ channel_decode_socks4(Channel *c, fd_set * readset, fd_set * writeset)
 	s4_rsp.command = 90;			/* cd: req granted */
 	s4_rsp.dest_port = 0;			/* ignored */
 	s4_rsp.dest_addr.s_addr = INADDR_ANY;	/* ignored */
-	buffer_append(&c->output, (char *)&s4_rsp, sizeof(s4_rsp));
+	buffer_append(&c->output, &s4_rsp, sizeof(s4_rsp));
 	return 1;
 }
 
@@ -1008,7 +998,7 @@ channel_decode_socks4(Channel *c, fd_set * readset, fd_set * writeset)
 #define SSH_SOCKS5_SUCCESS	0x00
 
 static int
-channel_decode_socks5(Channel *c, fd_set * readset, fd_set * writeset)
+channel_decode_socks5(Channel *c, fd_set *readset, fd_set *writeset)
 {
 	struct {
 		u_int8_t version;
@@ -1055,7 +1045,7 @@ channel_decode_socks5(Channel *c, fd_set * readset, fd_set * writeset)
 	debug2("channel %d: socks5 post auth", c->self);
 	if (have < sizeof(s5_req)+1)
 		return 0;			/* need more */
-	memcpy((char *)&s5_req, p, sizeof(s5_req));
+	memcpy(&s5_req, p, sizeof(s5_req));
 	if (s5_req.version != 0x05 ||
 	    s5_req.command != SSH_SOCKS5_CONNECT ||
 	    s5_req.reserved != 0x00) {
@@ -1103,15 +1093,15 @@ channel_decode_socks5(Channel *c, fd_set * readset, fd_set * writeset)
 	((struct in_addr *)&dest_addr)->s_addr = INADDR_ANY;
 	dest_port = 0;				/* ignored */
 
-	buffer_append(&c->output, (char *)&s5_rsp, sizeof(s5_rsp));
-	buffer_append(&c->output, (char *)&dest_addr, sizeof(struct in_addr));
-	buffer_append(&c->output, (char *)&dest_port, sizeof(dest_port));
+	buffer_append(&c->output, &s5_rsp, sizeof(s5_rsp));
+	buffer_append(&c->output, &dest_addr, sizeof(struct in_addr));
+	buffer_append(&c->output, &dest_port, sizeof(dest_port));
 	return 1;
 }
 
 /* dynamic port forwarding */
 static void
-channel_pre_dynamic(Channel *c, fd_set * readset, fd_set * writeset)
+channel_pre_dynamic(Channel *c, fd_set *readset, fd_set *writeset)
 {
 	u_char *p;
 	u_int have;
@@ -1155,7 +1145,7 @@ channel_pre_dynamic(Channel *c, fd_set * readset, fd_set * writeset)
 
 /* This is our fake X11 server socket. */
 static void
-channel_post_x11_listener(Channel *c, fd_set * readset, fd_set * writeset)
+channel_post_x11_listener(Channel *c, fd_set *readset, fd_set *writeset)
 {
 	Channel *nc;
 	struct sockaddr addr;
@@ -1280,7 +1270,7 @@ channel_set_reuseaddr(int fd)
  * This socket is listening for connections to a forwarded TCP/IP port.
  */
 static void
-channel_post_port_listener(Channel *c, fd_set * readset, fd_set * writeset)
+channel_post_port_listener(Channel *c, fd_set *readset, fd_set *writeset)
 {
 	Channel *nc;
 	struct sockaddr addr;
@@ -1337,7 +1327,7 @@ channel_post_port_listener(Channel *c, fd_set * readset, fd_set * writeset)
  * clients.
  */
 static void
-channel_post_auth_listener(Channel *c, fd_set * readset, fd_set * writeset)
+channel_post_auth_listener(Channel *c, fd_set *readset, fd_set *writeset)
 {
 	Channel *nc;
 	int newsock;
@@ -1370,7 +1360,7 @@ channel_post_auth_listener(Channel *c, fd_set * readset, fd_set * writeset)
 }
 
 static void
-channel_post_connecting(Channel *c, fd_set * readset, fd_set * writeset)
+channel_post_connecting(Channel *c, fd_set *readset, fd_set *writeset)
 {
 	int err = 0;
 	socklen_t sz = sizeof(err);
@@ -1416,7 +1406,7 @@ channel_post_connecting(Channel *c, fd_set * readset, fd_set * writeset)
 }
 
 static int
-channel_handle_rfd(Channel *c, fd_set * readset, fd_set * writeset)
+channel_handle_rfd(Channel *c, fd_set *readset, fd_set *writeset)
 {
 	char buf[CHAN_RBUF];
 	int len;
@@ -1455,8 +1445,9 @@ channel_handle_rfd(Channel *c, fd_set * readset, fd_set * writeset)
 	}
 	return 1;
 }
+
 static int
-channel_handle_wfd(Channel *c, fd_set * readset, fd_set * writeset)
+channel_handle_wfd(Channel *c, fd_set *readset, fd_set *writeset)
 {
 	struct termios tio;
 	u_char *data = NULL, *buf;
@@ -1537,8 +1528,9 @@ channel_handle_wfd(Channel *c, fd_set * readset, fd_set * writeset)
 	}
 	return 1;
 }
+
 static int
-channel_handle_efd(Channel *c, fd_set * readset, fd_set * writeset)
+channel_handle_efd(Channel *c, fd_set *readset, fd_set *writeset)
 {
 	char buf[CHAN_RBUF];
 	int len;
@@ -1580,8 +1572,9 @@ channel_handle_efd(Channel *c, fd_set * readset, fd_set * writeset)
 	}
 	return 1;
 }
+
 static int
-channel_handle_ctl(Channel *c, fd_set * readset, fd_set * writeset)
+channel_handle_ctl(Channel *c, fd_set *readset, fd_set *writeset)
 {
 	char buf[16];
 	int len;
@@ -1607,6 +1600,7 @@ channel_handle_ctl(Channel *c, fd_set * readset, fd_set * writeset)
 	}
 	return 1;
 }
+
 static int
 channel_check_window(Channel *c)
 {
@@ -1628,7 +1622,7 @@ channel_check_window(Channel *c)
 }
 
 static void
-channel_post_open(Channel *c, fd_set * readset, fd_set * writeset)
+channel_post_open(Channel *c, fd_set *readset, fd_set *writeset)
 {
 	if (c->delayed)
 		return;
@@ -1642,7 +1636,7 @@ channel_post_open(Channel *c, fd_set * readset, fd_set * writeset)
 }
 
 static void
-channel_post_output_drain_13(Channel *c, fd_set * readset, fd_set * writeset)
+channel_post_output_drain_13(Channel *c, fd_set *readset, fd_set *writeset)
 {
 	int len;
 
@@ -1759,7 +1753,7 @@ channel_garbage_collect(Channel *c)
 }
 
 static void
-channel_handler(chan_fn *ftab[], fd_set * readset, fd_set * writeset)
+channel_handler(chan_fn *ftab[], fd_set *readset, fd_set *writeset)
 {
 	static int did_init = 0;
 	u_int i;
@@ -1787,15 +1781,20 @@ void
 channel_prepare_select(fd_set **readsetp, fd_set **writesetp, int *maxfdp,
     u_int *nallocp, int rekeying)
 {
-	u_int n, sz;
+	u_int n, sz, nfdset;
 
 	n = MAX(*maxfdp, channel_max_fd);
 
-	sz = howmany(n+1, NFDBITS) * sizeof(fd_mask);
+	nfdset = howmany(n+1, NFDBITS);
+	/* Explicitly test here, because xrealloc isn't always called */
+	if (nfdset && SIZE_T_MAX / nfdset < sizeof(fd_mask))
+		fatal("channel_prepare_select: max_fd (%d) is too large", n);
+	sz = nfdset * sizeof(fd_mask);
+
 	/* perhaps check sz < nalloc/2 and shrink? */
 	if (*readsetp == NULL || sz > *nallocp) {
-		*readsetp = xrealloc(*readsetp, sz);
-		*writesetp = xrealloc(*writesetp, sz);
+		*readsetp = xrealloc(*readsetp, nfdset, sizeof(fd_mask));
+		*writesetp = xrealloc(*writesetp, nfdset, sizeof(fd_mask));
 		*nallocp = sz;
 	}
 	*maxfdp = n;
@@ -1811,14 +1810,13 @@ channel_prepare_select(fd_set **readsetp, fd_set **writesetp, int *maxfdp,
  * events pending.
  */
 void
-channel_after_select(fd_set * readset, fd_set * writeset)
+channel_after_select(fd_set *readset, fd_set *writeset)
 {
 	channel_handler(channel_post, readset, writeset);
 }
 
 
 /* If there is data to send to the connection, enqueue some of it now. */
-
 void
 channel_output_poll(void)
 {
@@ -1939,6 +1937,7 @@ channel_output_poll(void)
 
 /* -- protocol input */
 
+/* ARGSUSED */
 void
 channel_input_data(int type, u_int32_t seq, void *ctxt)
 {
@@ -1998,6 +1997,7 @@ channel_input_data(int type, u_int32_t seq, void *ctxt)
 	xfree(data);
 }
 
+/* ARGSUSED */
 void
 channel_input_extended_data(int type, u_int32_t seq, void *ctxt)
 {
@@ -2044,6 +2044,7 @@ channel_input_extended_data(int type, u_int32_t seq, void *ctxt)
 	xfree(data);
 }
 
+/* ARGSUSED */
 void
 channel_input_ieof(int type, u_int32_t seq, void *ctxt)
 {
@@ -2067,6 +2068,7 @@ channel_input_ieof(int type, u_int32_t seq, void *ctxt)
 
 }
 
+/* ARGSUSED */
 void
 channel_input_close(int type, u_int32_t seq, void *ctxt)
 {
@@ -2105,6 +2107,7 @@ channel_input_close(int type, u_int32_t seq, void *ctxt)
 }
 
 /* proto version 1.5 overloads CLOSE_CONFIRMATION with OCLOSE */
+/* ARGSUSED */
 void
 channel_input_oclose(int type, u_int32_t seq, void *ctxt)
 {
@@ -2117,6 +2120,7 @@ channel_input_oclose(int type, u_int32_t seq, void *ctxt)
 	chan_rcvd_oclose(c);
 }
 
+/* ARGSUSED */
 void
 channel_input_close_confirmation(int type, u_int32_t seq, void *ctxt)
 {
@@ -2133,6 +2137,7 @@ channel_input_close_confirmation(int type, u_int32_t seq, void *ctxt)
 	channel_free(c);
 }
 
+/* ARGSUSED */
 void
 channel_input_open_confirmation(int type, u_int32_t seq, void *ctxt)
 {
@@ -2180,6 +2185,7 @@ reason2txt(int reason)
 	return "unknown reason";
 }
 
+/* ARGSUSED */
 void
 channel_input_open_failure(int type, u_int32_t seq, void *ctxt)
 {
@@ -2211,6 +2217,7 @@ channel_input_open_failure(int type, u_int32_t seq, void *ctxt)
 	channel_free(c);
 }
 
+/* ARGSUSED */
 void
 channel_input_window_adjust(int type, u_int32_t seq, void *ctxt)
 {
@@ -2235,6 +2242,7 @@ channel_input_window_adjust(int type, u_int32_t seq, void *ctxt)
 	c->remote_window += adjust;
 }
 
+/* ARGSUSED */
 void
 channel_input_port_open(int type, u_int32_t seq, void *ctxt)
 {
@@ -2548,7 +2556,6 @@ channel_request_rforward_cancel(const char *host, u_short port)
  * listening for the port, and sends back a success reply (or disconnect
  * message if there was an error).  This never returns if there was an error.
  */
-
 void
 channel_input_port_forward_request(int is_root, int gateway_ports)
 {
@@ -2616,7 +2623,6 @@ channel_clear_permitted_opens(void)
 	num_permitted_opens = 0;
 
 }
-
 
 /* return socket to remote host, port */
 static int
@@ -2726,10 +2732,10 @@ channel_send_window_changes(void)
 		if (ioctl(channels[i]->rfd, TIOCGWINSZ, &ws) < 0)
 			continue;
 		channel_request_start(i, "window-change", 0);
-		packet_put_int(ws.ws_col);
-		packet_put_int(ws.ws_row);
-		packet_put_int(ws.ws_xpixel);
-		packet_put_int(ws.ws_ypixel);
+		packet_put_int((u_int)ws.ws_col);
+		packet_put_int((u_int)ws.ws_row);
+		packet_put_int((u_int)ws.ws_xpixel);
+		packet_put_int((u_int)ws.ws_ypixel);
 		packet_send();
 	}
 }
@@ -2815,7 +2821,7 @@ x11_create_display_inet(int x11_display_offset, int x11_use_localhost,
 	}
 
 	/* Allocate a channel for each socket. */
-	*chanids = xmalloc(sizeof(**chanids) * (num_socks + 1));
+	*chanids = xcalloc(num_socks + 1, sizeof(**chanids));
 	for (n = 0; n < num_socks; n++) {
 		sock = socks[n];
 		nc = channel_new("x11 listener",
@@ -2844,7 +2850,7 @@ connect_local_xsocket(u_int dnr)
 	memset(&addr, 0, sizeof(addr));
 	addr.sun_family = AF_UNIX;
 	snprintf(addr.sun_path, sizeof addr.sun_path, _PATH_UNIX_X, dnr);
-	if (connect(sock, (struct sockaddr *) & addr, sizeof(addr)) == 0)
+	if (connect(sock, (struct sockaddr *)&addr, sizeof(addr)) == 0)
 		return sock;
 	close(sock);
 	error("connect %.100s: %.100s", addr.sun_path, strerror(errno));
@@ -2854,12 +2860,12 @@ connect_local_xsocket(u_int dnr)
 int
 x11_connect_display(void)
 {
-	int display_number, sock = 0;
+	u_int display_number;
 	const char *display;
 	char buf[1024], *cp;
 	struct addrinfo hints, *ai, *aitop;
 	char strport[NI_MAXSERV];
-	int gaierr;
+	int gaierr, sock = 0;
 
 	/* Try to open a socket for the local X server. */
 	display = getenv("DISPLAY");
@@ -2879,7 +2885,7 @@ x11_connect_display(void)
 	if (strncmp(display, "unix:", 5) == 0 ||
 	    display[0] == ':') {
 		/* Connect to the unix domain socket. */
-		if (sscanf(strrchr(display, ':') + 1, "%d", &display_number) != 1) {
+		if (sscanf(strrchr(display, ':') + 1, "%u", &display_number) != 1) {
 			error("Could not parse display number from DISPLAY: %.100s",
 			    display);
 			return -1;
@@ -2904,7 +2910,7 @@ x11_connect_display(void)
 	}
 	*cp = 0;
 	/* buf now contains the host name.  But first we parse the display number. */
-	if (sscanf(cp + 1, "%d", &display_number) != 1) {
+	if (sscanf(cp + 1, "%u", &display_number) != 1) {
 		error("Could not parse display number from DISPLAY: %.100s",
 		    display);
 		return -1;
@@ -2914,7 +2920,7 @@ x11_connect_display(void)
 	memset(&hints, 0, sizeof(hints));
 	hints.ai_family = IPv4or6;
 	hints.ai_socktype = SOCK_STREAM;
-	snprintf(strport, sizeof strport, "%d", 6000 + display_number);
+	snprintf(strport, sizeof strport, "%u", 6000 + display_number);
 	if ((gaierr = getaddrinfo(buf, strport, &hints, &aitop)) != 0) {
 		error("%.100s: unknown host. (%s)", buf, gai_strerror(gaierr));
 		return -1;
@@ -2928,7 +2934,7 @@ x11_connect_display(void)
 		}
 		/* Connect it to the display. */
 		if (connect(sock, ai->ai_addr, ai->ai_addrlen) < 0) {
-			debug2("connect %.100s port %d: %.100s", buf,
+			debug2("connect %.100s port %u: %.100s", buf,
 			    6000 + display_number, strerror(errno));
 			close(sock);
 			continue;
@@ -2938,7 +2944,7 @@ x11_connect_display(void)
 	}
 	freeaddrinfo(aitop);
 	if (!ai) {
-		error("connect %.100s port %d: %.100s", buf, 6000 + display_number,
+		error("connect %.100s port %u: %.100s", buf, 6000 + display_number,
 		    strerror(errno));
 		return -1;
 	}
@@ -3047,7 +3053,7 @@ x11_request_forwarding_with_spoofing(int client_session_id, const char *disp,
 	if (cp)
 		cp = strchr(cp, '.');
 	if (cp)
-		screen_number = atoi(cp + 1);
+		screen_number = (u_int)strtonum(cp + 1, 0, 400, NULL);
 	else
 		screen_number = 0;
 

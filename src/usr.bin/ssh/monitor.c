@@ -1,3 +1,4 @@
+/* $OpenBSD: monitor.c,v 1.77 2006/03/30 11:40:21 dtucker Exp $ */
 /*
  * Copyright 2002 Niels Provos <provos@citi.umich.edu>
  * Copyright 2002 Markus Friedl <markus@openbsd.org>
@@ -25,7 +26,7 @@
  */
 
 #include "includes.h"
-RCSID("$MirOS: src/usr.bin/ssh/monitor.c,v 1.3 2005/04/14 19:49:33 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/monitor.c,v 1.4 2006/02/22 01:23:49 tg Exp $");
 
 #include <sys/wait.h>
 
@@ -144,6 +145,7 @@ struct mon_table {
 #define MON_ISAUTH	0x0004	/* Required for Authentication */
 #define MON_AUTHDECIDE	0x0008	/* Decides Authentication */
 #define MON_ONCE	0x0010	/* Disable after calling */
+#define MON_ALOG	0x0020	/* Log auth attempt without authenticating */
 
 #define MON_AUTH	(MON_ISAUTH|MON_AUTHDECIDE)
 
@@ -183,8 +185,8 @@ struct mon_table mon_dispatch_proto15[] = {
     {MONITOR_REQ_SESSKEY, MON_ONCE, mm_answer_sesskey},
     {MONITOR_REQ_SESSID, MON_ONCE, mm_answer_sessid},
     {MONITOR_REQ_AUTHPASSWORD, MON_AUTH, mm_answer_authpassword},
-    {MONITOR_REQ_RSAKEYALLOWED, MON_ISAUTH, mm_answer_rsa_keyallowed},
-    {MONITOR_REQ_KEYALLOWED, MON_ISAUTH, mm_answer_keyallowed},
+    {MONITOR_REQ_RSAKEYALLOWED, MON_ISAUTH|MON_ALOG, mm_answer_rsa_keyallowed},
+    {MONITOR_REQ_KEYALLOWED, MON_ISAUTH|MON_ALOG, mm_answer_keyallowed},
     {MONITOR_REQ_RSACHALLENGE, MON_ONCE, mm_answer_rsa_challenge},
     {MONITOR_REQ_RSARESPONSE, MON_ONCE|MON_AUTHDECIDE, mm_answer_rsa_response},
 #ifdef BSD_AUTH
@@ -261,6 +263,7 @@ monitor_child_preauth(Authctxt *_authctxt, struct monitor *pmonitor)
 
 	/* The first few requests do not require asynchronous access */
 	while (!authenticated) {
+		auth_method = "unknown";
 		authenticated = monitor_read(pmonitor, mon_dispatch, &ent);
 		if (authenticated) {
 			if (!(ent->flags & MON_AUTHDECIDE))
@@ -271,7 +274,7 @@ monitor_child_preauth(Authctxt *_authctxt, struct monitor *pmonitor)
 				authenticated = 0;
 		}
 
-		if (ent->flags & MON_AUTHDECIDE) {
+		if (ent->flags & (MON_AUTHDECIDE|MON_ALOG)) {
 			auth_log(authctxt, authenticated, auth_method,
 			    compat20 ? " ssh2" : "");
 			if (!authenticated)
@@ -281,6 +284,8 @@ monitor_child_preauth(Authctxt *_authctxt, struct monitor *pmonitor)
 
 	if (!authctxt->valid)
 		fatal("%s: authenticated invalid user", __func__);
+	if (strcmp(auth_method, "unknown") == 0)
+		fatal("%s: authentication method name unknown", __func__);
 
 	debug("%s: %s has been authenticated by privileged process",
 	    __func__, authctxt->user);
@@ -460,7 +465,11 @@ mm_answer_sign(int sock, Buffer *m)
 	keyid = buffer_get_int(m);
 	p = buffer_get_string(m, &datlen);
 
-	if (datlen != 20)
+	/*
+	 * Supported KEX types will only return SHA1 (20 byte) or
+	 * SHA256 (32 byte) hashes
+	 */
+	if (datlen != 20 && datlen != 32)
 		fatal("%s: data length incorrect: %u", __func__, datlen);
 
 	/* save session id, it will be passed on the first call */
@@ -763,17 +772,20 @@ mm_answer_keyallowed(int sock, Buffer *m)
 		case MM_USERKEY:
 			allowed = options.pubkey_authentication &&
 			    user_key_allowed(authctxt->pw, key);
+			auth_method = "publickey";
 			break;
 		case MM_HOSTKEY:
 			allowed = options.hostbased_authentication &&
 			    hostbased_key_allowed(authctxt->pw,
 			    cuser, chost, key);
+			auth_method = "hostbased";
 			break;
 		case MM_RSAHOSTKEY:
 			key->type = KEY_RSA1; /* XXX */
 			allowed = options.rhosts_rsa_authentication &&
 			    auth_rhosts_rsa_key_allowed(authctxt->pw,
 			    cuser, chost, key);
+			auth_method = "rsa";
 			break;
 		default:
 			fatal("%s: unknown key type %d", __func__, type);
@@ -793,6 +805,12 @@ mm_answer_keyallowed(int sock, Buffer *m)
 		key_blobtype = type;
 		hostbased_cuser = cuser;
 		hostbased_chost = chost;
+	} else {
+		/* Log failed attempt */
+		auth_log(authctxt, 0, auth_method, compat20 ? " ssh2" : "");
+		xfree(blob);
+		xfree(cuser);
+		xfree(chost);
 	}
 
 	debug3("%s: key %p is %s",
@@ -994,7 +1012,7 @@ mm_record_login(Session *s, struct passwd *pw)
 	fromlen = sizeof(from);
 	if (packet_connection_is_on_socket()) {
 		if (getpeername(packet_get_connection_in(),
-			(struct sockaddr *) & from, &fromlen) < 0) {
+		    (struct sockaddr *)&from, &fromlen) < 0) {
 			debug("getpeername: %.100s", strerror(errno));
 			cleanup_exit(255);
 		}
@@ -1157,6 +1175,7 @@ mm_answer_rsa_keyallowed(int sock, Buffer *m)
 
 	debug3("%s entering", __func__);
 
+	auth_method = "rsa";
 	if (options.rsa_authentication && authctxt->valid) {
 		if ((client_n = BN_new()) == NULL)
 			fatal("%s: BN_new", __func__);
@@ -1351,8 +1370,7 @@ mm_get_kex(Buffer *m)
 	void *blob;
 	u_int bloblen;
 
-	kex = xmalloc(sizeof(*kex));
-	memset(kex, 0, sizeof(*kex));
+	kex = xcalloc(1, sizeof(*kex));
 	kex->session_id = buffer_get_string(m, &kex->session_id_len);
 	if ((session_id2 == NULL) ||
 	    (kex->session_id_len != session_id2_len) ||
@@ -1362,6 +1380,7 @@ mm_get_kex(Buffer *m)
 	kex->kex[KEX_DH_GRP1_SHA1] = kexdh_server;
 	kex->kex[KEX_DH_GRP14_SHA1] = kexdh_server;
 	kex->kex[KEX_DH_GEX_SHA1] = kexgex_server;
+	kex->kex[KEX_DH_GEX_SHA256] = kexgex_server;
 	kex->server = 1;
 	kex->hostkey_type = buffer_get_int(m);
 	kex->kex_type = buffer_get_int(m);
@@ -1516,9 +1535,8 @@ monitor_init(void)
 	struct monitor *mon;
 	int pair[2];
 
-	mon = xmalloc(sizeof(*mon));
+	mon = xcalloc(1, sizeof(*mon));
 
-	mon->m_pid = 0;
 	monitor_socketpair(pair);
 
 	mon->m_recvfd = pair[0];

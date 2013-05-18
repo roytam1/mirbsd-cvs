@@ -1,3 +1,4 @@
+/* $OpenBSD: authfd.c,v 1.74 2006/03/30 09:58:15 djm Exp $ */
 /*
  * Author: Tatu Ylonen <ylo@cs.hut.fi>
  * Copyright (c) 1995 Tatu Ylonen <ylo@cs.hut.fi>, Espoo, Finland
@@ -35,7 +36,7 @@
  */
 
 #include "includes.h"
-RCSID("$MirOS: authfd.c,v 1.67 2006/02/20 16:36:14 stevesk Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/authfd.c,v 1.3 2006/02/22 02:16:44 tg Exp $");
 
 #include <sys/un.h>
 
@@ -46,7 +47,6 @@ RCSID("$MirOS: authfd.c,v 1.67 2006/02/20 16:36:14 stevesk Exp $");
 #include "buffer.h"
 #include "bufaux.h"
 #include "xmalloc.h"
-#include "getput.h"
 #include "key.h"
 #include "authfd.h"
 #include "cipher.h"
@@ -54,6 +54,7 @@ RCSID("$MirOS: authfd.c,v 1.67 2006/02/20 16:36:14 stevesk Exp $");
 #include "compat.h"
 #include "log.h"
 #include "atomicio.h"
+#include "misc.h"
 
 static int agent_present = 0;
 
@@ -105,7 +106,7 @@ ssh_get_authentication_socket(void)
 		close(sock);
 		return -1;
 	}
-	if (connect(sock, (struct sockaddr *) &sunaddr, sizeof sunaddr) < 0) {
+	if (connect(sock, (struct sockaddr *)&sunaddr, sizeof sunaddr) < 0) {
 		close(sock);
 		return -1;
 	}
@@ -121,7 +122,7 @@ ssh_request_reply(AuthenticationConnection *auth, Buffer *request, Buffer *reply
 
 	/* Get the length of the message, and format it in the buffer. */
 	len = buffer_len(request);
-	PUT_32BIT(buf, len);
+	put_u32(buf, len);
 
 	/* Send the length and then the packet to the agent. */
 	if (atomicio(vwrite, auth->fd, buf, 4) != 4 ||
@@ -140,7 +141,7 @@ ssh_request_reply(AuthenticationConnection *auth, Buffer *request, Buffer *reply
 	}
 
 	/* Extract the length, and check it for sanity. */
-	len = GET_32BIT(buf);
+	len = get_u32(buf);
 	if (len > 256 * 1024)
 		fatal("Authentication response too long: %u", len);
 
@@ -337,7 +338,6 @@ ssh_get_next_identity(AuthenticationConnection *auth, char **comment, int versio
 		break;
 	default:
 		return NULL;
-		break;
 	}
 	/* Decrement the number of remaining entries. */
 	auth->howmany--;
@@ -396,7 +396,7 @@ ssh_decrypt_challenge(AuthenticationConnection *auth,
 		 * fatal error if the packet is corrupt.
 		 */
 		for (i = 0; i < 16; i++)
-			response[i] = buffer_get_char(&buffer);
+			response[i] = (u_char)buffer_get_char(&buffer);
 	}
 	buffer_free(&buffer);
 	return success;
@@ -518,7 +518,6 @@ ssh_add_identity_constrained(AuthenticationConnection *auth, Key *key,
 	default:
 		buffer_free(&msg);
 		return 0;
-		break;
 	}
 	if (constrained) {
 		if (life != 0) {

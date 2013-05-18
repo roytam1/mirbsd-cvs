@@ -1,3 +1,4 @@
+/* $OpenBSD: auth2.c,v 1.110 2006/03/25 13:17:01 djm Exp $ */
 /*
  * Copyright (c) 2000 Markus Friedl.  All rights reserved.
  *
@@ -23,7 +24,7 @@
  */
 
 #include "includes.h"
-RCSID("$MirOS: src/usr.bin/ssh/auth2.c,v 1.2 2005/03/13 18:33:30 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/auth2.c,v 1.3 2006/02/22 02:16:44 tg Exp $");
 
 #include "ssh2.h"
 #include "xmalloc.h"
@@ -83,6 +84,7 @@ do_authentication2(Authctxt *authctxt)
 	dispatch_run(DISPATCH_BLOCK, &authctxt->success, authctxt);
 }
 
+/*ARGSUSED*/
 static void
 input_service_request(int type, u_int32_t seq, void *ctxt)
 {
@@ -116,6 +118,7 @@ input_service_request(int type, u_int32_t seq, void *ctxt)
 	xfree(service);
 }
 
+/*ARGSUSED*/
 static void
 input_userauth_request(int type, u_int32_t seq, void *ctxt)
 {

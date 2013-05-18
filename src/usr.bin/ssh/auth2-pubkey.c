@@ -1,3 +1,4 @@
+/* $OpenBSD: auth2-pubkey.c,v 1.12 2006/03/25 13:17:01 djm Exp $ */
 /*
  * Copyright (c) 2000 Markus Friedl.  All rights reserved.
  *
@@ -23,7 +24,7 @@
  */
 
 #include "includes.h"
-RCSID("$MirOS: src/usr.bin/ssh/auth2-pubkey.c,v 1.2 2005/03/13 18:33:30 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/auth2-pubkey.c,v 1.3 2006/02/22 01:23:48 tg Exp $");
 
 #include <sys/stat.h>
 

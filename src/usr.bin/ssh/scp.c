@@ -1,5 +1,4 @@
-/* $MirOS: src/usr.bin/ssh/scp.c,v 1.6 2005/12/20 19:57:33 tg Exp $ */
-
+/* $OpenBSD: scp.c,v 1.141 2006/04/01 05:50:29 djm Exp $ */
 /*
  * scp - secure remote copy.  This is basically patched BSD rcp which
  * uses ssh to do the data transfer (instead of using rcmd).
@@ -73,11 +72,12 @@
  */
 
 #include "includes.h"
-RCSID("$MirOS: src/usr.bin/ssh/scp.c,v 1.6 2005/12/20 19:57:33 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/scp.c,v 1.7 2006/02/22 01:23:50 tg Exp $");
 
 #include <sys/wait.h>
 #include <sys/stat.h>
 
+#include <ctype.h>
 #include <dirent.h>
 #include <signal.h>
 
@@ -88,7 +88,7 @@ RCSID("$MirOS: src/usr.bin/ssh/scp.c,v 1.6 2005/12/20 19:57:33 tg Exp $");
 #include "misc.h"
 #include "progressmeter.h"
 
-int do_cmd(char *host, char *remuser, char *cmd, int *fdin, int *fdout, int argc);
+int do_cmd(char *host, char *remuser, char *cmd, int *fdin, int *fdout);
 
 void bwlimit(int);
 
@@ -175,7 +175,7 @@ do_local_cmd(arglist *a)
  */
 
 int
-do_cmd(char *host, char *remuser, char *cmd, int *fdin, int *fdout, int argc)
+do_cmd(char *host, char *remuser, char *cmd, int *fdin, int *fdout)
 {
 	int pin[2], pout[2], reserved[2];
 
@@ -242,7 +242,6 @@ typedef struct {
 
 BUF *allocbuf(BUF *, int, int);
 void lostconn(int);
-void nospace(void);
 int okname(char *);
 void run_err(const char *,...);
 void verifydir(char *);
@@ -413,9 +412,9 @@ main(int argc, char **argv)
 void
 toremote(char *targ, int argc, char **argv)
 {
-	int i, len;
 	char *bp, *host, *src, *suser, *thost, *tuser, *arg;
 	arglist alist;
+	int i;
 
 	memset(&alist, '\0', sizeof(alist));
 	alist.list = NULL;
@@ -480,12 +479,10 @@ toremote(char *targ, int argc, char **argv)
 				errs = 1;
 		} else {	/* local to remote */
 			if (remin == -1) {
-				len = strlen(targ) + CMDNEEDS + 20;
-				bp = xmalloc(len);
-				(void) snprintf(bp, len, "%s -t %s", cmd, targ);
+				xasprintf(&bp, "%s -t %s", cmd, targ);
 				host = cleanhostname(thost);
 				if (do_cmd(host, tuser, bp, &remin,
-				    &remout, argc) < 0)
+				    &remout) < 0)
 					exit(1);
 				if (response() < 0)
 					exit(1);
@@ -499,9 +496,9 @@ toremote(char *targ, int argc, char **argv)
 void
 tolocal(int argc, char **argv)
 {
-	int i, len;
 	char *bp, *host, *src, *suser;
 	arglist alist;
+	int i;
 
 	memset(&alist, '\0', sizeof(alist));
 	alist.list = NULL;
@@ -533,10 +530,8 @@ tolocal(int argc, char **argv)
 				suser = pwd->pw_name;
 		}
 		host = cleanhostname(host);
-		len = strlen(src) + CMDNEEDS + 20;
-		bp = xmalloc(len);
-		(void) snprintf(bp, len, "%s -f %s", cmd, src);
-		if (do_cmd(host, suser, bp, &remin, &remout, argc) < 0) {
+		xasprintf(&bp, "%s -f %s", cmd, src);
+		if (do_cmd(host, suser, bp, &remin, &remout) < 0) {
 			(void) xfree(bp);
 			++errs;
 			continue;
@@ -781,7 +776,8 @@ sink(int argc, char **argv)
 	BUF *bp;
 	off_t i;
 	size_t j, count;
-	int amt, exists, first, mask, mode, ofd, omode;
+	int amt, exists, first, ofd;
+	mode_t mode, omode, mask;
 	off_t size, statbytes;
 	int setimes, targisdir, wrerrno = 0;
 	char ch, *cp, *np, *targ, *why, *vect[1], buf[2048];
@@ -1093,15 +1089,15 @@ run_err(const char *fmt,...)
 	va_list ap;
 
 	++errs;
-	if (fp == NULL && !(fp = fdopen(remout, "w")))
-		return;
-	(void) fprintf(fp, "%c", 0x01);
-	(void) fprintf(fp, "scp: ");
-	va_start(ap, fmt);
-	(void) vfprintf(fp, fmt, ap);
-	va_end(ap);
-	(void) fprintf(fp, "\n");
-	(void) fflush(fp);
+	if (fp != NULL || (remout != -1 && (fp = fdopen(remout, "w")))) {
+		(void) fprintf(fp, "%c", 0x01);
+		(void) fprintf(fp, "scp: ");
+		va_start(ap, fmt);
+		(void) vfprintf(fp, fmt, ap);
+		va_end(ap);
+		(void) fprintf(fp, "\n");
+		(void) fflush(fp);
+	}
 
 	if (!iamremote) {
 		va_start(ap, fmt);
@@ -1173,7 +1169,7 @@ allocbuf(BUF *bp, int fd, int blksize)
 	if (bp->buf == NULL)
 		bp->buf = xmalloc(size);
 	else
-		bp->buf = xrealloc(bp->buf, size);
+		bp->buf = xrealloc(bp->buf, 1, size);
 	memset(bp->buf, 0, size);
 	bp->cnt = size;
 	return (bp);

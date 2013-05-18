@@ -1,5 +1,5 @@
-/**	$MirOS: src/usr.bin/ssh/myproposal.h,v 1.6 2006/02/22 02:16:47 tg Exp $ */
-/*	$OpenBSD: myproposal.h,v 1.18 2005/07/25 11:59:39 markus Exp $	*/
+/* $MirOS$ */
+/* $OpenBSD: myproposal.h,v 1.21 2006/03/25 22:22:43 djm Exp $ */
 
 /*
  * Copyright (c) 2000 Markus Friedl.  All rights reserved.
@@ -25,7 +25,9 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#define KEX_DEFAULT_KEX		"diffie-hellman-group-exchange-sha1," \
+#define KEX_DEFAULT_KEX		\
+	"diffie-hellman-group-exchange-sha256," \
+	"diffie-hellman-group-exchange-sha1," \
 	"diffie-hellman-group14-sha1," \
 	"diffie-hellman-group1-sha1"
 #define	KEX_DEFAULT_PK_ALG	"ssh-rsa,ssh-dss"

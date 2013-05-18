@@ -1,3 +1,4 @@
+/* $OpenBSD: cipher-3des1.c,v 1.4 2006/03/25 13:17:01 djm Exp $ */
 /*
  * Copyright (c) 2003 Markus Friedl.  All rights reserved.
  *
@@ -23,7 +24,7 @@
  */
 
 #include "includes.h"
-RCSID("$MirOS: cipher-3des1.c,v 1.2 2003/12/22 20:29:55 markus Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/cipher-3des1.c,v 1.2 2006/02/22 02:16:45 tg Exp $");
 
 #include <openssl/evp.h>
 #include "xmalloc.h"

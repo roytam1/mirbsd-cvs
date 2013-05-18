@@ -1,3 +1,4 @@
+/* $OpenBSD: session.c,v 1.202 2006/03/25 13:17:02 djm Exp $ */
 /*
  * Copyright (c) 1995 Tatu Ylonen <ylo@cs.hut.fi>, Espoo, Finland
  *                    All rights reserved
@@ -33,7 +34,7 @@
  */
 
 #include "includes.h"
-RCSID("$MirOS: src/usr.bin/ssh/session.c,v 1.7 2006/02/22 01:23:50 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/session.c,v 1.8 2006/02/22 02:16:48 tg Exp $");
 
 #include <sys/wait.h>
 #include <sys/un.h>
@@ -171,7 +172,7 @@ auth_input_request_forwarding(struct passwd * pw)
 	sunaddr.sun_family = AF_UNIX;
 	strlcpy(sunaddr.sun_path, auth_sock_name, sizeof(sunaddr.sun_path));
 
-	if (bind(sock, (struct sockaddr *) & sunaddr, sizeof(sunaddr)) < 0)
+	if (bind(sock, (struct sockaddr *)&sunaddr, sizeof(sunaddr)) < 0)
 		packet_disconnect("bind: %.100s", strerror(errno));
 
 	/* Restore the privileged uid. */
@@ -610,7 +611,7 @@ do_login(Session *s, const char *command)
 	fromlen = sizeof(from);
 	if (packet_connection_is_on_socket()) {
 		if (getpeername(packet_get_connection_in(),
-		    (struct sockaddr *) & from, &fromlen) < 0) {
+		    (struct sockaddr *)&from, &fromlen) < 0) {
 			debug("getpeername: %.100s", strerror(errno));
 			cleanup_exit(255);
 		}
@@ -712,7 +713,7 @@ child_set_env(char ***envp, u_int *envsizep, const char *name,
 			if (envsize >= 1000)
 				fatal("child_set_env: too many env vars");
 			envsize += 50;
-			env = (*envp) = xrealloc(env, envsize * sizeof(char *));
+			env = (*envp) = xrealloc(env, envsize, sizeof(char *));
 			*envsizep = envsize;
 		}
 		/* Need to set the NULL pointer at end of array beyond the new slot. */
@@ -1519,8 +1520,8 @@ session_env_req(Session *s)
 	for (i = 0; i < options.num_accept_env; i++) {
 		if (match_pattern(name, options.accept_env[i])) {
 			debug2("Setting env %d: %s=%s", s->num_env, name, val);
-			s->env = xrealloc(s->env, sizeof(*s->env) *
-			    (s->num_env + 1));
+			s->env = xrealloc(s->env, s->num_env + 1,
+			    sizeof(*s->env));
 			s->env[s->num_env].name = name;
 			s->env[s->num_env].val = val;
 			s->num_env++;
@@ -1761,11 +1762,10 @@ session_exit_message(Session *s, int status)
 
 	/* disconnect channel */
 	debug("session_exit_message: release channel %d", s->chanid);
-	s->pid = 0;
 
 	/*
 	 * Adjust cleanup callback attachment to send close messages when
-	 * the channel gets EOF. The session will be then be closed 
+	 * the channel gets EOF. The session will be then be closed
 	 * by session_close_by_channel when the childs close their fds.
 	 */
 	channel_register_cleanup(c->self, session_close_by_channel, 1);
@@ -1823,6 +1823,7 @@ session_close_by_pid(pid_t pid, int status)
 		session_exit_message(s, status);
 	if (s->ttyfd != -1)
 		session_pty_cleanup(s);
+	s->pid = 0;
 }
 
 /*

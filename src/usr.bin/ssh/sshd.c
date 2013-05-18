@@ -1,3 +1,4 @@
+/* $OpenBSD: sshd.c,v 1.330 2006/03/25 13:17:02 djm Exp $ */
 /*
  * Author: Tatu Ylonen <ylo@cs.hut.fi>
  * Copyright (c) 1995 Tatu Ylonen <ylo@cs.hut.fi>, Espoo, Finland
@@ -42,7 +43,7 @@
  */
 
 #include "includes.h"
-RCSID("$MirOS: src/usr.bin/ssh/sshd.c,v 1.5 2006/02/22 01:23:53 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/sshd.c,v 1.6 2006/02/22 02:16:50 tg Exp $");
 
 #include <sys/ioctl.h>
 #include <sys/wait.h>
@@ -248,6 +249,8 @@ close_startup_pipes(void)
  * the effect is to reread the configuration file (and to regenerate
  * the server key).
  */
+
+/*ARGSUSED*/
 static void
 sighup_handler(int sig)
 {
@@ -277,6 +280,7 @@ sighup_restart(void)
 /*
  * Generic signal handler for terminating signals in the master daemon.
  */
+/*ARGSUSED*/
 static void
 sigterm_handler(int sig)
 {
@@ -287,6 +291,7 @@ sigterm_handler(int sig)
  * SIGCHLD handler.  This is called whenever a child dies.  This will then
  * reap any zombies left by exited children.
  */
+/*ARGSUSED*/
 static void
 main_sigchld_handler(int sig)
 {
@@ -305,6 +310,7 @@ main_sigchld_handler(int sig)
 /*
  * Signal handler for the alarm after the login grace period has expired.
  */
+/*ARGSUSED*/
 static __dead void
 grace_alarm_handler(int sig)
 {
@@ -347,6 +353,7 @@ generate_ephemeral_server_key(void)
 	arc4random_stir();
 }
 
+/*ARGSUSED*/
 static void
 key_regeneration_alarm(int sig)
 {
@@ -861,7 +868,7 @@ recv_rexec_state(int fd, Buffer *conf)
 int
 main(int ac, char **av)
 {
-	int opt, j, i, fdsetsz, on = 1;
+	int opt, j, i, on = 1;
 	int sock_in = -1, sock_out = -1, newsock = -1;
 	pid_t pid;
 	socklen_t fromlen;
@@ -933,7 +940,8 @@ main(int ac, char **av)
 			options.log_level = SYSLOG_LEVEL_QUIET;
 			break;
 		case 'b':
-			options.server_key_bits = atoi(optarg);
+			options.server_key_bits = (int)strtonum(optarg, 256,
+			    32768, NULL);
 			break;
 		case 'p':
 			options.ports_from_cmdline = 1;
@@ -970,7 +978,7 @@ main(int ac, char **av)
 			test_flag = 1;
 			break;
 		case 'u':
-			utmp_len = atoi(optarg);
+			utmp_len = (u_int)strtonum(optarg, 0, MAXHOSTNAMELEN+1, NULL);
 			if (utmp_len > MAXHOSTNAMELEN) {
 				fprintf(stderr, "Invalid utmp length.\n");
 				exit(1);
@@ -1044,7 +1052,7 @@ main(int ac, char **av)
 	debug("sshd version %.100s", SSH_VERSION);
 
 	/* load private host keys */
-	sensitive_data.host_keys = xmalloc(options.num_host_key_files *
+	sensitive_data.host_keys = xcalloc(options.num_host_key_files,
 	    sizeof(Key *));
 	for (i = 0; i < options.num_host_key_files; i++)
 		sensitive_data.host_keys[i] = NULL;
@@ -1110,10 +1118,9 @@ main(int ac, char **av)
 	}
 
 	if (use_privsep) {
-		struct passwd *pw;
 		struct stat st;
 
-		if ((pw = getpwnam(SSH_PRIVSEP_USER)) == NULL)
+		if (getpwnam(SSH_PRIVSEP_USER) == NULL)
 			fatal("Privilege separation user %s does not exist",
 			    SSH_PRIVSEP_USER);
 		if ((stat(_PATH_PRIVSEP_CHROOT_DIR, &st) == -1) ||
@@ -1130,7 +1137,7 @@ main(int ac, char **av)
 		exit(0);
 
 	if (rexec_flag) {
-		rexec_argv = xmalloc(sizeof(char *) * (rexec_argc + 2));
+		rexec_argv = xcalloc(rexec_argc + 2, sizeof(char *));
 		for (i = 0; i < rexec_argc; i++) {
 			debug("rexec_argv[%d]='%s'", i, saved_argv[i]);
 			rexec_argv[i] = saved_argv[i];
@@ -1257,10 +1264,10 @@ main(int ac, char **av)
 			num_listen_socks++;
 
 			/* Start listening on the port. */
-			logit("Server listening on %s port %s.", ntop, strport);
 			if (listen(listen_sock, SSH_LISTEN_BACKLOG) < 0)
-				fatal("listen: %.100s", strerror(errno));
-
+				fatal("listen on [%s]:%s: %.100s",
+				    ntop, strport, strerror(errno));
+			logit("Server listening on %s port %s.", ntop, strport);
 		}
 		freeaddrinfo(options.listen_addrs);
 
@@ -1308,7 +1315,7 @@ main(int ac, char **av)
 			if (listen_socks[i] > maxfd)
 				maxfd = listen_socks[i];
 		/* pipes connected to unauthenticated childs */
-		startup_pipes = xmalloc(options.max_startups * sizeof(int));
+		startup_pipes = xcalloc(options.max_startups, sizeof(int));
 		for (i = 0; i < options.max_startups; i++)
 			startup_pipes[i] = -1;
 
@@ -1321,9 +1328,8 @@ main(int ac, char **av)
 				sighup_restart();
 			if (fdset != NULL)
 				xfree(fdset);
-			fdsetsz = howmany(maxfd+1, NFDBITS) * sizeof(fd_mask);
-			fdset = (fd_set *)xmalloc(fdsetsz);
-			memset(fdset, 0, fdsetsz);
+			fdset = (fd_set *)xcalloc(howmany(maxfd + 1, NFDBITS),
+			    sizeof(fd_mask));
 
 			for (i = 0; i < num_listen_socks; i++)
 				FD_SET(listen_socks[i], fdset);
@@ -1367,8 +1373,8 @@ main(int ac, char **av)
 				if (!FD_ISSET(listen_socks[i], fdset))
 					continue;
 				fromlen = sizeof(from);
-				newsock = accept(listen_socks[i], (struct sockaddr *)&from,
-				    &fromlen);
+				newsock = accept(listen_socks[i],
+				    (struct sockaddr *)&from, &fromlen);
 				if (newsock < 0) {
 					if (errno != EINTR && errno != EWOULDBLOCK)
 						error("accept: %.100s", strerror(errno));
@@ -1439,10 +1445,11 @@ main(int ac, char **av)
 					 */
 					if ((pid = fork()) == 0) {
 						/*
-						 * Child.  Close the listening and max_startup
-						 * sockets.  Start using the accepted socket.
-						 * Reinitialize logging (since our pid has
-						 * changed).  We break out of the loop to handle
+						 * Child.  Close the listening and
+						 * max_startup sockets.  Start using
+						 * the accepted socket. Reinitialize
+						 * logging (since our pid has changed).
+						 * We break out of the loop to handle
 						 * the connection.
 						 */
 						startup_pipe = startup_p[1];
@@ -1450,7 +1457,10 @@ main(int ac, char **av)
 						close_listen_socks();
 						sock_in = newsock;
 						sock_out = newsock;
-						log_init(__progname, options.log_level, options.log_facility, log_stderr);
+						log_init(__progname,
+						    options.log_level,
+						    options.log_facility,
+						    log_stderr);
 						if (rexec_flag)
 							close(config_s[0]);
 						break;
@@ -1471,7 +1481,10 @@ main(int ac, char **av)
 					close(config_s[1]);
 				}
 
-				/* Mark that the key has been used (it was "given" to the child). */
+				/*
+				 * Mark that the key has been used (it
+				 * was "given" to the child).
+				 */
 				if ((options.protocol & SSH_PROTO_1) &&
 				    key_used == 0) {
 					/* Schedule server key regeneration alarm. */
@@ -1481,8 +1494,6 @@ main(int ac, char **av)
 				}
 
 				arc4random_stir();
-
-				/* Close the new socket (the child is now taking care of it). */
 				close(newsock);
 			}
 			/* child process check (or debug mode) */
@@ -1614,8 +1625,7 @@ main(int ac, char **av)
 	packet_set_nonblocking();
 
 	/* allocate authentication context */
-	authctxt = xmalloc(sizeof(*authctxt));
-	memset(authctxt, 0, sizeof(*authctxt));
+	authctxt = xcalloc(1, sizeof(*authctxt));
 
 	/* XXX global for cleanup, access from other modules */
 	the_authctxt = authctxt;
@@ -1690,11 +1700,14 @@ ssh1_session_key(BIGNUM *session_key_int)
 {
 	int rsafail = 0;
 
-	if (BN_cmp(sensitive_data.server_key->rsa->n, sensitive_data.ssh1_host_key->rsa->n) > 0) {
+	if (BN_cmp(sensitive_data.server_key->rsa->n,
+	    sensitive_data.ssh1_host_key->rsa->n) > 0) {
 		/* Server key has bigger modulus. */
 		if (BN_num_bits(sensitive_data.server_key->rsa->n) <
-		    BN_num_bits(sensitive_data.ssh1_host_key->rsa->n) + SSH_KEY_BITS_RESERVED) {
-			fatal("do_connection: %s: server_key %d < host_key %d + SSH_KEY_BITS_RESERVED %d",
+		    BN_num_bits(sensitive_data.ssh1_host_key->rsa->n) +
+		    SSH_KEY_BITS_RESERVED) {
+			fatal("do_connection: %s: "
+			    "server_key %d < host_key %d + SSH_KEY_BITS_RESERVED %d",
 			    get_remote_ipaddr(),
 			    BN_num_bits(sensitive_data.server_key->rsa->n),
 			    BN_num_bits(sensitive_data.ssh1_host_key->rsa->n),
@@ -1709,8 +1722,10 @@ ssh1_session_key(BIGNUM *session_key_int)
 	} else {
 		/* Host key has bigger modulus (or they are equal). */
 		if (BN_num_bits(sensitive_data.ssh1_host_key->rsa->n) <
-		    BN_num_bits(sensitive_data.server_key->rsa->n) + SSH_KEY_BITS_RESERVED) {
-			fatal("do_connection: %s: host_key %d < server_key %d + SSH_KEY_BITS_RESERVED %d",
+		    BN_num_bits(sensitive_data.server_key->rsa->n) +
+		    SSH_KEY_BITS_RESERVED) {
+			fatal("do_connection: %s: "
+			    "host_key %d < server_key %d + SSH_KEY_BITS_RESERVED %d",
 			    get_remote_ipaddr(),
 			    BN_num_bits(sensitive_data.ssh1_host_key->rsa->n),
 			    BN_num_bits(sensitive_data.server_key->rsa->n),
@@ -1931,7 +1946,7 @@ do_ssh2_kex(void)
 		myproposal[PROPOSAL_COMP_ALGS_CTOS] =
 		myproposal[PROPOSAL_COMP_ALGS_STOC] = "none,zlib@openssh.com";
 	}
-	
+
 	myproposal[PROPOSAL_SERVER_HOST_KEY_ALGS] = list_hostkey_types();
 
 	/* start key exchange */
@@ -1939,6 +1954,7 @@ do_ssh2_kex(void)
 	kex->kex[KEX_DH_GRP1_SHA1] = kexdh_server;
 	kex->kex[KEX_DH_GRP14_SHA1] = kexdh_server;
 	kex->kex[KEX_DH_GEX_SHA1] = kexgex_server;
+	kex->kex[KEX_DH_GEX_SHA256] = kexgex_server;
 	kex->server = 1;
 	kex->client_version_string=client_version_string;
 	kex->server_version_string=server_version_string;

@@ -1,5 +1,5 @@
-/**	$MirOS: src/usr.bin/ssh/readconf.h,v 1.5 2005/12/20 19:57:33 tg Exp $ */
-/*	$OpenBSD: readconf.h,v 1.68 2005/12/06 22:38:27 reyk Exp $	*/
+/* $MirOS$ */
+/* $OpenBSD: readconf.h,v 1.69 2006/03/25 22:22:43 djm Exp $ */
 
 /*
  * Author: Tatu Ylonen <ylo@cs.hut.fi>

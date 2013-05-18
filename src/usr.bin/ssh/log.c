@@ -1,3 +1,4 @@
+/* $OpenBSD: log.c,v 1.31 2006/03/25 13:17:02 djm Exp $ */
 /*
  * Author: Tatu Ylonen <ylo@cs.hut.fi>
  * Copyright (c) 1995 Tatu Ylonen <ylo@cs.hut.fi>, Espoo, Finland
@@ -34,7 +35,7 @@
  */
 
 #include "includes.h"
-RCSID("$MirOS: log.c,v 1.29 2003/09/23 20:17:11 markus Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/log.c,v 1.2 2006/02/22 02:16:46 tg Exp $");
 
 #include "log.h"
 #include "xmalloc.h"

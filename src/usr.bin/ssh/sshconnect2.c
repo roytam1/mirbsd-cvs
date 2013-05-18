@@ -1,3 +1,4 @@
+/* $OpenBSD: sshconnect2.c,v 1.151 2006/03/25 13:17:02 djm Exp $ */
 /*
  * Copyright (c) 2000 Markus Friedl.  All rights reserved.
  *
@@ -23,7 +24,7 @@
  */
 
 #include "includes.h"
-RCSID("$MirOS: src/usr.bin/ssh/sshconnect2.c,v 1.4 2005/11/23 19:45:16 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/sshconnect2.c,v 1.5 2006/02/22 01:23:53 tg Exp $");
 
 #include <sys/wait.h>
 #include <sys/queue.h>
@@ -120,6 +121,7 @@ ssh_kex2(char *host, struct sockaddr *hostaddr)
 	kex->kex[KEX_DH_GRP1_SHA1] = kexdh_client;
 	kex->kex[KEX_DH_GRP14_SHA1] = kexdh_client;
 	kex->kex[KEX_DH_GEX_SHA1] = kexgex_client;
+	kex->kex[KEX_DH_GEX_SHA256] = kexgex_client;
 	kex->client_version_string=client_version_string;
 	kex->server_version_string=server_version_string;
 	kex->verify_host_key=&verify_host_key_callback;
@@ -772,8 +774,7 @@ pubkey_prepare(Authctxt *authctxt)
 		if (key && key->type == KEY_RSA1)
 			continue;
 		options.identity_keys[i] = NULL;
-		id = xmalloc(sizeof(*id));
-		memset(id, 0, sizeof(*id));
+		id = xcalloc(1, sizeof(*id));
 		id->key = key;
 		id->filename = xstrdup(options.identity_files[i]);
 		TAILQ_INSERT_TAIL(&files, id, next);
@@ -797,8 +798,7 @@ pubkey_prepare(Authctxt *authctxt)
 				}
 			}
 			if (!found && !options.identities_only) {
-				id = xmalloc(sizeof(*id));
-				memset(id, 0, sizeof(*id));
+				id = xcalloc(1, sizeof(*id));
 				id->key = key;
 				id->filename = comment;
 				id->ac = ac;
@@ -1075,12 +1075,11 @@ userauth_hostbased(Authctxt *authctxt)
 	if (p == NULL) {
 		error("userauth_hostbased: cannot get local ipaddr/name");
 		key_free(private);
+		xfree(blob);
 		return 0;
 	}
 	len = strlen(p) + 2;
-	chost = xmalloc(len);
-	strlcpy(chost, p, len);
-	strlcat(chost, ".", len);
+	xasprintf(&chost, "%s.", p);
 	debug2("userauth_hostbased: chost %s", chost);
 	xfree(p);
 
@@ -1113,6 +1112,7 @@ userauth_hostbased(Authctxt *authctxt)
 		error("key_sign failed");
 		xfree(chost);
 		xfree(pkalg);
+		xfree(blob);
 		return 0;
 	}
 	packet_start(SSH2_MSG_USERAUTH_REQUEST);
@@ -1128,6 +1128,7 @@ userauth_hostbased(Authctxt *authctxt)
 	xfree(signature);
 	xfree(chost);
 	xfree(pkalg);
+	xfree(blob);
 
 	packet_send();
 	return 1;

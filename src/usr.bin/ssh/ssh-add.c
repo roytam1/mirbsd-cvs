@@ -1,3 +1,4 @@
+/* $OpenBSD: ssh-add.c,v 1.79 2006/03/25 13:17:02 djm Exp $ */
 /*
  * Author: Tatu Ylonen <ylo@cs.hut.fi>
  * Copyright (c) 1995 Tatu Ylonen <ylo@cs.hut.fi>, Espoo, Finland
@@ -35,7 +36,7 @@
  */
 
 #include "includes.h"
-RCSID("$MirOS: ssh-add.c,v 1.75 2006/02/20 17:19:54 stevesk Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/ssh-add.c,v 1.3 2006/02/22 02:16:49 tg Exp $");
 
 #include <sys/stat.h>
 
@@ -126,16 +127,25 @@ delete_all(AuthenticationConnection *ac)
 static int
 add_file(AuthenticationConnection *ac, const char *filename)
 {
-	struct stat st;
 	Key *private;
 	char *comment = NULL;
 	char msg[1024];
-	int ret = -1;
+	int fd, perms_ok, ret = -1;
 
-	if (stat(filename, &st) < 0) {
+	if ((fd = open(filename, 0)) < 0) {
 		perror(filename);
 		return -1;
 	}
+
+	/*
+	 * Since we'll try to load a keyfile multiple times, permission errors
+	 * will occur multiple times, so check perms first and bail if wrong.
+	 */
+	perms_ok = key_perm_ok(fd, filename);
+	close(fd);
+	if (!perms_ok)
+		return -1;
+
 	/* At first, try empty passphrase */
 	private = key_load_private(filename, "", &comment);
 	if (comment == NULL)
@@ -331,13 +341,11 @@ main(int argc, char **argv)
 			if (list_identities(ac, ch == 'l' ? 1 : 0) == -1)
 				ret = 1;
 			goto done;
-			break;
 		case 'x':
 		case 'X':
 			if (lock_agent(ac, ch == 'x' ? 1 : 0) == -1)
 				ret = 1;
 			goto done;
-			break;
 		case 'c':
 			confirm = 1;
 			break;
@@ -348,7 +356,6 @@ main(int argc, char **argv)
 			if (delete_all(ac) == -1)
 				ret = 1;
 			goto done;
-			break;
 		case 's':
 			sc_reader_id = optarg;
 			break;

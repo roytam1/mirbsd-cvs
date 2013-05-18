@@ -1,3 +1,4 @@
+/* $OpenBSD: sshconnect1.c,v 1.64 2006/03/25 13:17:02 djm Exp $ */
 /*
  * Author: Tatu Ylonen <ylo@cs.hut.fi>
  * Copyright (c) 1995 Tatu Ylonen <ylo@cs.hut.fi>, Espoo, Finland
@@ -13,7 +14,7 @@
  */
 
 #include "includes.h"
-RCSID("$MirOS: src/usr.bin/ssh/sshconnect1.c,v 1.4 2005/11/23 19:45:16 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/sshconnect1.c,v 1.5 2006/02/21 02:12:25 tg Exp $");
 
 #include <openssl/bn.h>
 #include <md5.h>

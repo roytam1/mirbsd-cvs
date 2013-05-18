@@ -1,3 +1,4 @@
+/* $OpenBSD: ssh.c,v 1.275 2006/03/30 10:41:25 djm Exp $ */
 /*
  * Author: Tatu Ylonen <ylo@cs.hut.fi>
  * Copyright (c) 1995 Tatu Ylonen <ylo@cs.hut.fi>, Espoo, Finland
@@ -40,13 +41,14 @@
  */
 
 #include "includes.h"
-RCSID("$MirOS: src/usr.bin/ssh/ssh.c,v 1.9 2006/02/22 01:23:52 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/ssh.c,v 1.10 2006/02/22 02:16:49 tg Exp $");
 
 #include <sys/resource.h>
 #include <sys/ioctl.h>
 #include <sys/un.h>
 #include <sys/stat.h>
 
+#include <ctype.h>
 #include <paths.h>
 #include <signal.h>
 
@@ -243,7 +245,7 @@ main(int ac, char **av)
 	/* Parse command-line arguments. */
 	host = NULL;
 
-again:
+ again:
 	while ((opt = getopt(ac, av,
 	    "1246ab:c:e:fghi:kl:m:no:p:qstvxACD:F:I:L:MNO:PR:S:TVw:XY")) != -1) {
 		switch (opt) {
@@ -617,7 +619,7 @@ again:
 	if (options.host_key_alias != NULL) {
 		for (p = options.host_key_alias; *p; p++)
 			if (isupper(*p))
-				*p = tolower(*p);
+				*p = (char)tolower(*p);
 	}
 
 	/* Get default port if port has not been set. */
@@ -634,15 +636,15 @@ again:
 		options.control_path = NULL;
 
 	if (options.control_path != NULL) {
-		char me[NI_MAXHOST];
+		char thishost[NI_MAXHOST];
 
-		if (gethostname(me, sizeof(me)) == -1)
+		if (gethostname(thishost, sizeof(thishost)) == -1)
 			fatal("gethostname: %s", strerror(errno));
 		snprintf(buf, sizeof(buf), "%d", options.port);
 		cp = tilde_expand_filename(options.control_path,
 		    original_real_uid);
 		options.control_path = percent_expand(cp, "p", buf, "h", host,
-		    "r", options.user, "l", me, (char *)NULL);
+		    "r", options.user, "l", thishost, (char *)NULL);
 		xfree(cp);
 	}
 	if (mux_command != 0 && options.control_path == NULL)
@@ -671,7 +673,7 @@ again:
 	if (options.rhosts_rsa_authentication ||
 	    options.hostbased_authentication) {
 		sensitive_data.nkeys = 3;
-		sensitive_data.keys = xmalloc(sensitive_data.nkeys *
+		sensitive_data.keys = xcalloc(sensitive_data.nkeys,
 		    sizeof(Key));
 
 		PRIV_START;
@@ -874,10 +876,10 @@ ssh_session(void)
 		/* Store window size in the packet. */
 		if (ioctl(fileno(stdin), TIOCGWINSZ, &ws) < 0)
 			memset(&ws, 0, sizeof(ws));
-		packet_put_int(ws.ws_row);
-		packet_put_int(ws.ws_col);
-		packet_put_int(ws.ws_xpixel);
-		packet_put_int(ws.ws_ypixel);
+		packet_put_int((u_int)ws.ws_row);
+		packet_put_int((u_int)ws.ws_col);
+		packet_put_int((u_int)ws.ws_xpixel);
+		packet_put_int((u_int)ws.ws_ypixel);
 
 		/* Store tty modes in the packet. */
 		tty_make_modes(fileno(stdin), NULL);
@@ -1026,7 +1028,7 @@ ssh_control_listener(void)
 		fatal("%s socket(): %s", __func__, strerror(errno));
 
 	old_umask = umask(0177);
-	if (bind(control_fd, (struct sockaddr*)&addr, addr.sun_len) == -1) {
+	if (bind(control_fd, (struct sockaddr *)&addr, addr.sun_len) == -1) {
 		control_fd = -1;
 		if (errno == EINVAL || errno == EADDRINUSE)
 			fatal("ControlSocket %s already exists",
@@ -1174,9 +1176,10 @@ ssh_session2(void)
 static void
 load_public_identity_files(void)
 {
-	char *filename;
+	char *filename, *cp, thishost[NI_MAXHOST];
 	int i = 0;
 	Key *public;
+	struct passwd *pw;
 #ifdef SMARTCARD
 	Key **keys;
 
@@ -1200,9 +1203,18 @@ load_public_identity_files(void)
 		xfree(keys);
 	}
 #endif /* SMARTCARD */
+	if ((pw = getpwuid(original_real_uid)) == NULL)
+		fatal("load_public_identity_files: getpwuid failed");
+	if (gethostname(thishost, sizeof(thishost)) == -1)
+		fatal("load_public_identity_files: gethostname: %s",
+		    strerror(errno));
 	for (; i < options.num_identity_files; i++) {
-		filename = tilde_expand_filename(options.identity_files[i],
+		cp = tilde_expand_filename(options.identity_files[i],
 		    original_real_uid);
+		filename = percent_expand(cp, "d", pw->pw_dir,
+		    "u", pw->pw_name, "l", thishost, "h", host, 
+		    "r", options.user, (char *)NULL);
+		xfree(cp);
 		public = key_load_public(filename, NULL);
 		debug("identity file %s type %d", filename,
 		    public ? public->type : -1);
@@ -1231,7 +1243,8 @@ env_permitted(char *env)
 	int i;
 	char name[1024], *cp;
 
-	strlcpy(name, env, sizeof(name));
+	if (strlcpy(name, env, sizeof(name)) >= sizeof(name))
+		fatal("env_permitted: name too long");
 	if ((cp = strchr(name, '=')) == NULL)
 		return (0);
 
@@ -1280,29 +1293,29 @@ control_client(const char *path)
 	if ((sock = socket(PF_UNIX, SOCK_STREAM, 0)) < 0)
 		fatal("%s socket(): %s", __func__, strerror(errno));
 
-	if (connect(sock, (struct sockaddr*)&addr, addr.sun_len) == -1) {
+	if (connect(sock, (struct sockaddr *)&addr, addr.sun_len) == -1) {
 		if (mux_command != SSHMUX_COMMAND_OPEN) {
 			fatal("Control socket connect(%.100s): %s", path,
 			    strerror(errno));
 		}
 		if (errno == ENOENT)
-	 		debug("Control socket \"%.100s\" does not exist", path);
+			debug("Control socket \"%.100s\" does not exist", path);
 		else {
-	 		error("Control socket connect(%.100s): %s", path,
+			error("Control socket connect(%.100s): %s", path,
 			    strerror(errno));
 		}
- 		close(sock);
- 		return;
- 	}
+		close(sock);
+		return;
+	}
 
- 	if (stdin_null_flag) {
- 		if ((fd = open(_PATH_DEVNULL, O_RDONLY)) == -1)
- 			fatal("open(/dev/null): %s", strerror(errno));
- 		if (dup2(fd, STDIN_FILENO) == -1)
- 			fatal("dup2: %s", strerror(errno));
- 		if (fd > STDERR_FILENO)
- 			close(fd);
- 	}
+	if (stdin_null_flag) {
+		if ((fd = open(_PATH_DEVNULL, O_RDONLY)) == -1)
+			fatal("open(/dev/null): %s", strerror(errno));
+		if (dup2(fd, STDIN_FILENO) == -1)
+			fatal("dup2: %s", strerror(errno));
+		if (fd > STDERR_FILENO)
+			close(fd);
+	}
 
 	term = getenv("TERM");
 

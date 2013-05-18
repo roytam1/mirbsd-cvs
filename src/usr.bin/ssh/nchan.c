@@ -1,3 +1,4 @@
+/* $OpenBSD: nchan.c,v 1.53 2006/03/25 13:17:02 djm Exp $ */
 /*
  * Copyright (c) 1999, 2000, 2001, 2002 Markus Friedl.  All rights reserved.
  *
@@ -23,7 +24,7 @@
  */
 
 #include "includes.h"
-RCSID("$MirOS: nchan.c,v 1.51 2004/07/11 17:48:47 deraadt Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/nchan.c,v 1.2 2006/02/22 02:16:47 tg Exp $");
 
 #include "ssh1.h"
 #include "ssh2.h"

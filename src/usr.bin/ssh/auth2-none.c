@@ -1,3 +1,4 @@
+/* $OpenBSD: auth2-none.c,v 1.10 2006/03/25 13:17:01 djm Exp $ */
 /*
  * Copyright (c) 2000 Markus Friedl.  All rights reserved.
  *
@@ -23,7 +24,7 @@
  */
 
 #include "includes.h"
-RCSID("$MirOS: auth2-none.c,v 1.8 2006/02/20 17:19:54 stevesk Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/auth2-none.c,v 1.3 2006/02/22 02:16:44 tg Exp $");
 
 #include <sys/stat.h>
 

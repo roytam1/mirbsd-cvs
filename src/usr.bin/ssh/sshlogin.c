@@ -1,3 +1,4 @@
+/* $OpenBSD: sshlogin.c,v 1.17 2006/03/25 18:36:15 deraadt Exp $ */
 /*
  * Author: Tatu Ylonen <ylo@cs.hut.fi>
  * Copyright (c) 1995 Tatu Ylonen <ylo@cs.hut.fi>, Espoo, Finland
@@ -39,7 +40,7 @@
  */
 
 #include "includes.h"
-RCSID("$MirOS: sshlogin.c,v 1.13 2004/08/12 09:18:24 djm Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/sshlogin.c,v 1.2 2006/02/22 02:16:50 tg Exp $");
 
 #include <util.h>
 #include <utmp.h>
@@ -56,9 +57,9 @@ extern ServerOptions options;
  * information is not available.  This must be called before record_login.
  * The host the user logged in from will be returned in buf.
  */
-u_long
+time_t
 get_last_login_time(uid_t uid, const char *logname __attribute__((unused)),
-    char *buf, u_int bufsize)
+    char *buf, size_t bufsize)
 {
 	struct lastlog ll;
 	const char *lastlog;
@@ -91,7 +92,7 @@ get_last_login_time(uid_t uid, const char *logname __attribute__((unused)),
 		bufsize = sizeof(ll.ll_host) + 1;
 	strncpy(buf, ll.ll_host, bufsize - 1);
 	buf[bufsize - 1] = '\0';
-	return ll.ll_time;
+	return (time_t)ll.ll_time;
 }
 
 /*
@@ -131,7 +132,7 @@ store_lastlog_message(const char *user, uid_t uid)
 void
 record_login(pid_t pid __attribute__((unused)), const char *tty,
     const char *user, uid_t uid, const char *host,
-    struct sockaddr * addr __attribute__((unused)),
+    struct sockaddr *addr __attribute__((unused)),
     socklen_t addrlen __attribute__((unused)))
 {
 	int fd;

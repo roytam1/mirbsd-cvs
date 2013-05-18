@@ -1,3 +1,4 @@
+/* $OpenBSD: dispatch.c,v 1.18 2006/03/25 13:17:01 djm Exp $ */
 /*
  * Copyright (c) 2000 Markus Friedl.  All rights reserved.
  *
@@ -23,7 +24,7 @@
  */
 
 #include "includes.h"
-RCSID("$MirOS: dispatch.c,v 1.16 2003/04/08 20:21:28 itojun Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/dispatch.c,v 1.2 2006/02/22 02:16:45 tg Exp $");
 
 #include "ssh1.h"
 #include "ssh2.h"

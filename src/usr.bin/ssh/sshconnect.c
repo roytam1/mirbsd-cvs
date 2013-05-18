@@ -1,3 +1,4 @@
+/* $OpenBSD: sshconnect.c,v 1.180 2006/03/25 13:17:02 djm Exp $ */
 /*
  * Author: Tatu Ylonen <ylo@cs.hut.fi>
  * Copyright (c) 1995 Tatu Ylonen <ylo@cs.hut.fi>, Espoo, Finland
@@ -13,11 +14,12 @@
  */
 
 #include "includes.h"
-RCSID("$MirOS: src/usr.bin/ssh/sshconnect.c,v 1.3 2006/02/21 02:08:42 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/sshconnect.c,v 1.4 2006/02/22 01:23:52 tg Exp $");
 
 #include <sys/wait.h>
 #include <sys/stat.h>
 
+#include <ctype.h>
 #include <paths.h>
 
 #include "ssh.h"
@@ -61,7 +63,6 @@ ssh_proxy_connect(const char *host, u_short port, const char *proxy_command)
 	int pin[2], pout[2];
 	pid_t pid;
 	char strport[NI_MAXSERV];
-	size_t len;
 
 	/* Convert the port number into a string. */
 	snprintf(strport, sizeof strport, "%hu", port);
@@ -73,10 +74,7 @@ ssh_proxy_connect(const char *host, u_short port, const char *proxy_command)
 	 * Use "exec" to avoid "sh -c" processes on some platforms
 	 * (e.g. Solaris)
 	 */
-	len = strlen(proxy_command) + 6;
-	tmp = xmalloc(len);
-	strlcpy(tmp, "exec ", len);
-	strlcat(tmp, proxy_command, len);
+	xasprintf(&tmp, "exec %s", proxy_command);
 	command_string = percent_expand(tmp, "h", host,
 	    "p", strport, (char *)NULL);
 	xfree(tmp);
@@ -204,7 +202,7 @@ timeout_connect(int sockfd, const struct sockaddr *serv_addr,
 	fd_set *fdset;
 	struct timeval tv;
 	socklen_t optlen;
-	int fdsetsz, optval, rc, result = -1;
+	int optval, rc, result = -1;
 
 	if (timeout <= 0)
 		return (connect(sockfd, serv_addr, addrlen));
@@ -218,10 +216,8 @@ timeout_connect(int sockfd, const struct sockaddr *serv_addr,
 	if (errno != EINPROGRESS)
 		return (-1);
 
-	fdsetsz = howmany(sockfd + 1, NFDBITS) * sizeof(fd_mask);
-	fdset = (fd_set *)xmalloc(fdsetsz);
-
-	memset(fdset, 0, fdsetsz);
+	fdset = (fd_set *)xcalloc(howmany(sockfd + 1, NFDBITS),
+	    sizeof(fd_mask));
 	FD_SET(sockfd, fdset);
 	tv.tv_sec = timeout;
 	tv.tv_usec = 0;
@@ -916,7 +912,7 @@ ssh_login(Sensitive *sensitive, const char *orighost,
 	host = xstrdup(orighost);
 	for (cp = host; *cp; cp++)
 		if (isupper(*cp))
-			*cp = tolower(*cp);
+			*cp = (char)tolower(*cp);
 
 	/* Exchange protocol version identification strings with the server. */
 	ssh_exchange_identification();
@@ -946,8 +942,7 @@ ssh_put_password(char *password)
 		return;
 	}
 	size = roundup(strlen(password) + 1, 32);
-	padded = xmalloc(size);
-	memset(padded, 0, size);
+	padded = xcalloc(1, size);
 	strlcpy(padded, password, size);
 	packet_put_string(padded, size);
 	memset(padded, 0, size);

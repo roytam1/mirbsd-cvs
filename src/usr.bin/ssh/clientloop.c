@@ -1,3 +1,4 @@
+/* $OpenBSD: clientloop.c,v 1.161 2006/03/25 18:30:55 deraadt Exp $ */
 /*
  * Author: Tatu Ylonen <ylo@cs.hut.fi>
  * Copyright (c) 1995 Tatu Ylonen <ylo@cs.hut.fi>, Espoo, Finland
@@ -59,11 +60,11 @@
  */
 
 #include "includes.h"
-RCSID("$OpenBSD: clientloop.c,v 1.154 2006/02/20 17:19:54 stevesk Exp $");
 
 #include <sys/ioctl.h>
 #include <sys/stat.h>
 
+#include <ctype.h>
 #include <paths.h>
 #include <signal.h>
 #include <termios.h>
@@ -185,7 +186,7 @@ enter_non_blocking(void)
  * Signal handler for the window change signal (SIGWINCH).  This just sets a
  * flag indicating that the window has changed.
  */
-
+/*ARGSUSED */
 static void
 window_change_handler(int sig)
 {
@@ -197,7 +198,7 @@ window_change_handler(int sig)
  * Signal handler for signals that cause the program to terminate.  These
  * signals must be trapped to restore terminal modes.
  */
-
+/*ARGSUSED */
 static void
 signal_handler(int sig)
 {
@@ -429,10 +430,10 @@ client_check_window_change(void)
 		if (ioctl(fileno(stdin), TIOCGWINSZ, &ws) < 0)
 			return;
 		packet_start(SSH_CMSG_WINDOW_SIZE);
-		packet_put_int(ws.ws_row);
-		packet_put_int(ws.ws_col);
-		packet_put_int(ws.ws_xpixel);
-		packet_put_int(ws.ws_ypixel);
+		packet_put_int((u_int)ws.ws_row);
+		packet_put_int((u_int)ws.ws_col);
+		packet_put_int((u_int)ws.ws_xpixel);
+		packet_put_int((u_int)ws.ws_ypixel);
 		packet_send();
 	}
 }
@@ -576,7 +577,7 @@ client_suspend_self(Buffer *bin, Buffer *bout, Buffer *berr)
 }
 
 static void
-client_process_net_input(fd_set * readset)
+client_process_net_input(fd_set *readset)
 {
 	int len;
 	char buf[8192];
@@ -684,7 +685,7 @@ client_extra_session2_setup(int id, void *arg)
 }
 
 static void
-client_process_control(fd_set * readset)
+client_process_control(fd_set *readset)
 {
 	Buffer m;
 	Channel *c;
@@ -815,8 +816,7 @@ client_process_control(fd_set * readset)
 		return;
 	}
 
-	cctx = xmalloc(sizeof(*cctx));
-	memset(cctx, 0, sizeof(*cctx));
+	cctx = xcalloc(1, sizeof(*cctx));
 	cctx->want_tty = (flags & SSHMUX_FLAG_TTY) != 0;
 	cctx->want_subsys = (flags & SSHMUX_FLAG_SUBSYS) != 0;
 	cctx->want_x_fwd = (flags & SSHMUX_FLAG_X11_FWD) != 0;
@@ -831,7 +831,7 @@ client_process_control(fd_set * readset)
 	env_len = MIN(env_len, 4096);
 	debug3("%s: receiving %d env vars", __func__, env_len);
 	if (env_len != 0) {
-		cctx->env = xmalloc(sizeof(*cctx->env) * (env_len + 1));
+		cctx->env = xcalloc(env_len + 1, sizeof(*cctx->env));
 		for (i = 0; i < env_len; i++)
 			cctx->env[i] = buffer_get_string(&m, &len);
 		cctx->env[i] = NULL;
@@ -1179,7 +1179,7 @@ Supported escape sequences:\r\n\
 }
 
 static void
-client_process_input(fd_set * readset)
+client_process_input(fd_set *readset)
 {
 	int len;
 	char buf[8192];
@@ -1232,7 +1232,7 @@ client_process_input(fd_set * readset)
 }
 
 static void
-client_process_output(fd_set * writeset)
+client_process_output(fd_set *writeset)
 {
 	int len;
 	char buf[100];
@@ -1876,10 +1876,10 @@ client_session2_setup(int id, int want_tty, int want_subsystem,
 
 		channel_request_start(id, "pty-req", 0);
 		packet_put_cstring(term != NULL ? term : "");
-		packet_put_int(ws.ws_col);
-		packet_put_int(ws.ws_row);
-		packet_put_int(ws.ws_xpixel);
-		packet_put_int(ws.ws_ypixel);
+		packet_put_int((u_int)ws.ws_col);
+		packet_put_int((u_int)ws.ws_row);
+		packet_put_int((u_int)ws.ws_xpixel);
+		packet_put_int((u_int)ws.ws_ypixel);
 		tio = get_saved_tio();
 		tty_make_modes(-1, tiop != NULL ? tiop : &tio);
 		packet_send();

@@ -1,3 +1,4 @@
+/* $OpenBSD: readpass.c,v 1.37 2006/03/25 13:17:02 djm Exp $ */
 /*
  * Copyright (c) 2001 Markus Friedl.  All rights reserved.
  *
@@ -23,7 +24,7 @@
  */
 
 #include "includes.h"
-RCSID("$MirOS: readpass.c,v 1.35 2006/02/10 01:44:26 stevesk Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/readpass.c,v 1.3 2006/02/22 02:16:47 tg Exp $");
 
 #include <sys/wait.h>
 

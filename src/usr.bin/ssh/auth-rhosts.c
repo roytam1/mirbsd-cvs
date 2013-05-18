@@ -1,3 +1,4 @@
+/* $OpenBSD: auth-rhosts.c,v 1.37 2006/03/25 13:17:01 djm Exp $ */
 /*
  * Author: Tatu Ylonen <ylo@cs.hut.fi>
  * Copyright (c) 1995 Tatu Ylonen <ylo@cs.hut.fi>, Espoo, Finland
@@ -14,7 +15,6 @@
  */
 
 #include "includes.h"
-RCSID("$OpenBSD: auth-rhosts.c,v 1.35 2006/02/20 17:19:53 stevesk Exp $");
 
 #include <sys/stat.h>
 

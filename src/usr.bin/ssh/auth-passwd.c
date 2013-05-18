@@ -1,3 +1,4 @@
+/* $OpenBSD: auth-passwd.c,v 1.36 2006/03/25 13:17:01 djm Exp $ */
 /*
  * Author: Tatu Ylonen <ylo@cs.hut.fi>
  * Copyright (c) 1995 Tatu Ylonen <ylo@cs.hut.fi>, Espoo, Finland
@@ -36,7 +37,7 @@
  */
 
 #include "includes.h"
-RCSID("$MirOS: src/usr.bin/ssh/auth-passwd.c,v 1.3 2005/11/23 18:04:18 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/auth-passwd.c,v 1.4 2006/02/22 02:16:43 tg Exp $");
 
 #include "packet.h"
 #include "buffer.h"

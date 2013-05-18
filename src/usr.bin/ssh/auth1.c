@@ -1,3 +1,4 @@
+/* $OpenBSD: auth1.c,v 1.66 2006/03/25 13:17:01 djm Exp $ */
 /*
  * Copyright (c) 1995 Tatu Ylonen <ylo@cs.hut.fi>, Espoo, Finland
  *                    All rights reserved
@@ -10,7 +11,7 @@
  */
 
 #include "includes.h"
-RCSID("$MirOS: src/usr.bin/ssh/auth1.c,v 1.4 2005/11/23 18:04:19 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/auth1.c,v 1.5 2006/02/22 02:16:44 tg Exp $");
 
 #include "xmalloc.h"
 #include "rsa.h"
@@ -73,7 +74,7 @@ static const struct AuthMethod1
 {
 	int i;
 
-	for(i = 0; auth1_methods[i].name != NULL; i++)
+	for (i = 0; auth1_methods[i].name != NULL; i++)
 		if (auth1_methods[i].type == type)
 			return (&(auth1_methods[i]));
 
@@ -92,6 +93,7 @@ get_authname(int type)
 	return (buf);
 }
 
+/*ARGSUSED*/
 static int
 auth1_process_password(Authctxt *authctxt, char *info, size_t infolen)
 {
@@ -116,6 +118,7 @@ auth1_process_password(Authctxt *authctxt, char *info, size_t infolen)
 	return (authenticated);
 }
 
+/*ARGSUSED*/
 static int
 auth1_process_rsa(Authctxt *authctxt, char *info, size_t infolen)
 {
@@ -133,6 +136,7 @@ auth1_process_rsa(Authctxt *authctxt, char *info, size_t infolen)
 	return (authenticated);
 }
 
+/*ARGSUSED*/
 static int
 auth1_process_rhosts_rsa(Authctxt *authctxt, char *info, size_t infolen)
 {
@@ -173,6 +177,7 @@ auth1_process_rhosts_rsa(Authctxt *authctxt, char *info, size_t infolen)
 	return (authenticated);
 }
 
+/*ARGSUSED*/
 static int
 auth1_process_tis_challenge(Authctxt *authctxt, char *info, size_t infolen)
 {
@@ -191,6 +196,7 @@ auth1_process_tis_challenge(Authctxt *authctxt, char *info, size_t infolen)
 	return (-1);
 }
 
+/*ARGSUSED*/
 static int
 auth1_process_tis_response(Authctxt *authctxt, char *info, size_t infolen)
 {

@@ -1,3 +1,4 @@
+/* $OpenBSD: cipher.c,v 1.79 2006/03/25 13:17:01 djm Exp $ */
 /*
  * Author: Tatu Ylonen <ylo@cs.hut.fi>
  * Copyright (c) 1995 Tatu Ylonen <ylo@cs.hut.fi>, Espoo, Finland
@@ -35,7 +36,7 @@
  */
 
 #include "includes.h"
-RCSID("$MirOS: src/usr.bin/ssh/cipher.c,v 1.3 2006/02/21 02:08:41 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/cipher.c,v 1.4 2006/02/22 02:16:45 tg Exp $");
 
 #include "xmalloc.h"
 #include "log.h"

@@ -1,3 +1,4 @@
+/* $OpenBSD: hostfile.c,v 1.40 2006/03/25 13:17:02 djm Exp $ */
 /*
  * Author: Tatu Ylonen <ylo@cs.hut.fi>
  * Copyright (c) 1995 Tatu Ylonen <ylo@cs.hut.fi>, Espoo, Finland
@@ -36,7 +37,7 @@
  */
 
 #include "includes.h"
-RCSID("$MirOS: hostfile.c,v 1.37 2006/02/07 03:47:05 stevesk Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/hostfile.c,v 1.2 2006/02/22 02:16:46 tg Exp $");
 
 #include <resolv.h>
 
@@ -254,8 +255,10 @@ check_host_in_hostfile_by_key_or_type(const char *filename,
 
 		if (key == NULL) {
 			/* we found a key of the requested type */
-			if (found->type == keytype)
+			if (found->type == keytype) {
+				fclose(f);
 				return HOST_FOUND;
+			}
 			continue;
 		}
 

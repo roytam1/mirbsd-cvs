@@ -1,5 +1,5 @@
-# $MirOS$
-# $OpenBSD: Makefile,v 1.9 2004/11/05 12:19:56 djm Exp $
+# $MirOS: src/usr.bin/ssh/sftp/Makefile,v 1.2 2005/03/13 18:33:35 tg Exp $
+# $OpenBSD: Makefile,v 1.10 2006/04/18 10:44:28 dtucker Exp $
 
 .PATH:		${.CURDIR}/..
 
@@ -15,5 +15,5 @@ SRCS=	sftp.c sftp-client.c sftp-common.c sftp-glob.c
 
 .include <bsd.prog.mk>
 
-LDADD+=	-lcrypto -ledit -ltermcap
-DPADD+=	${LIBCRYPTO} ${LIBEDIT} ${LIBTERMCAP}
+LDADD+=	-ledit -ltermcap
+DPADD+=	${LIBEDIT} ${LIBTERMCAP}

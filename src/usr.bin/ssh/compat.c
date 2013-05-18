@@ -1,3 +1,4 @@
+/* $OpenBSD: compat.c,v 1.73 2006/03/25 13:17:01 djm Exp $ */
 /*
  * Copyright (c) 1999, 2000, 2001, 2002 Markus Friedl.  All rights reserved.
  *
@@ -23,7 +24,7 @@
  */
 
 #include "includes.h"
-RCSID("$MirOS: compat.c,v 1.71 2005/03/01 10:09:52 djm Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/compat.c,v 1.2 2006/02/22 02:16:45 tg Exp $");
 
 #include "buffer.h"
 #include "packet.h"

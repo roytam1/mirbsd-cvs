@@ -1,5 +1,5 @@
-/**	$MirOS: src/usr.bin/ssh/includes.h,v 1.5 2005/12/20 19:57:32 tg Exp $ */
-/*	$OpenBSD: includes.h,v 1.36 2006/02/20 17:19:53 stevesk Exp $	*/
+/* $MirOS$ */
+/* $OpenBSD: includes.h,v 1.39 2006/03/25 22:22:43 djm Exp $ */
 
 /*
  * Author: Tatu Ylonen <ylo@cs.hut.fi>
@@ -27,7 +27,6 @@
 
 #include <stddef.h>
 #include <stdio.h>
-#include <ctype.h>
 #include <errno.h>
 #include <fcntl.h>
 #include <stdlib.h>
@@ -37,8 +36,6 @@
 #include <grp.h>
 #include <unistd.h>
 #include <time.h>
-
-#define	RCSID(x)	__RCSID(x)
 
 #include "version.h"
 

@@ -1,5 +1,5 @@
-/**	$MirOS: src/usr.bin/ssh/auth.h,v 1.3 2005/06/22 16:11:39 tg Exp $ */
-/*	$OpenBSD: auth.h,v 1.51 2005/06/06 11:20:36 djm Exp $	*/
+/* $MirOS$ */
+/* $OpenBSD: auth.h,v 1.52 2006/03/25 22:22:42 djm Exp $ */
 
 /*
  * Copyright (c) 2000 Markus Friedl.  All rights reserved.

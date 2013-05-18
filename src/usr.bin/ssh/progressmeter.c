@@ -1,3 +1,4 @@
+/* $OpenBSD: progressmeter.c,v 1.29 2006/03/25 13:17:02 djm Exp $ */
 /*
  * Copyright (c) 2003 Nils Nordman.  All rights reserved.
  *
@@ -23,7 +24,7 @@
  */
 
 #include "includes.h"
-RCSID("$MirOS: progressmeter.c,v 1.26 2006/02/20 17:02:44 stevesk Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/progressmeter.c,v 1.2 2006/02/22 02:16:47 tg Exp $");
 
 #include <sys/ioctl.h>
 
@@ -272,6 +273,7 @@ stop_progress_meter(void)
 	atomicio(vwrite, STDOUT_FILENO, (char *)"\n", 1);
 }
 
+/*ARGSUSED*/
 static void
 sig_winch(int sig __attribute__((unused)))
 {
