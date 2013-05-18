@@ -1,4 +1,4 @@
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.92 2008/03/09 19:02:57 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.93 2008/03/14 21:34:55 tg Exp $'
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -55,6 +55,7 @@ mws_content <<'EOF'
  testing mksh on a Digital Unix (OSF/1 V4.0) system from the Uni Bonn Physik
  CIP Pool. Thanks to DEChengst from #UnixNL for providing access to a HP/Compaq
  Tru64 (OSF/1 V5.1B) system, an OSF/1 V2.0 system and an Ultrix 4.5 system.
+ Thanks to Adam “replaced” Hoka for a BSDi BSD/OS 3.1 ISO9660 image.
  (Did I miss anyone? Mail me if so.)</p>
 <p>What is mksh(1)? – Short answer: The MirBSD Korn Shell. Okay, but what
  exactly does it do, or why another shell? These questions will be answered
@@ -627,6 +628,8 @@ mws_content <<'EOF'
  <li>MirOS #10 RC8 (i386 gcc3.4.6)</li>
  <li>MirOS #10 RC8 (i386 SUNcc5.9 Linux_i386 2007/05/03, GNU ld 2.13.90.0.2 20020802)</li>
  <li>MirOS #7-stable (sparc gcc2.95.3-078E)</li>
+ <li>BSDi BSD/OS 3.1 #4 M300-043 (i386 gcc2.7.2.1)</li>
+ <li>BSDi BSD/OS 3.1 #4 M300-043 (i386 gcc1.42)</li>
  <li>DragonFly 1.9-DEVELOPMENT Feb 17, 2007 (i386 gcc3.4.6)</li>
  <li>FreeBSD 6.2-RELEASE (i386 gcc3.4.6-20060305)</li>
  <li>MidnightBSD 0.2-CURRENT (i386 gcc3.4.6-20060305)</li>
