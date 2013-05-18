@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/i386/locore.s,v 1.5 2006/05/26 12:04:59 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/i386/locore.s,v 1.6 2006/12/11 23:54:59 tg Exp $ */
 /*	$OpenBSD: locore.s,v 1.77.2.1 2005/02/27 00:39:58 brad Exp $	*/
 /*	$NetBSD: locore.s,v 1.145 1996/05/03 19:41:19 christos Exp $	*/
 
@@ -1902,9 +1902,9 @@ IDTVEC(osyscall)
 	/* Set eflags in trap frame. */
 	pushfl
 	popl	8(%esp)
-	/* Turn off trace flag and nested task. */
+	/* Turn off direction flag, trace flag and nested task. */
 	pushfl
-	andb	$~((PSL_T|PSL_NT)>>8),1(%esp)
+	andb	$~((PSL_T|PSL_NT|PSL_D)>>8),1(%esp)
 	popfl
 	pushl	$7		# size of instruction for restart
 	jmp	syscall1
