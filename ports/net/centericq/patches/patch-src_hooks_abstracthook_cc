@@ -1,7 +1,7 @@
-$MirOS$
---- src/hooks/abstracthook.cc.orig	Tue Nov  9 23:49:37 2004
-+++ src/hooks/abstracthook.cc	Sun Oct 29 02:44:06 2006
-@@ -44,7 +44,9 @@ time_t timer_current = time(0);
+$MirOS: ports/net/centericq/patches/patch-src_hooks_abstracthook_cc,v 1.1 2006/10/29 02:45:12 tg Exp $
+--- src/hooks/abstracthook.cc.orig	Sun Dec 23 21:49:27 2007
++++ src/hooks/abstracthook.cc	Sun Dec 23 21:49:33 2007
+@@ -46,7 +46,9 @@ time_t timer_current = time(0);
  
  abstracthook::abstracthook(protocolname aproto)
      : proto(aproto), searchdest(0)
@@ -12,7 +12,7 @@ $MirOS$
  
  void abstracthook::init() {
  }
-@@ -231,6 +233,18 @@ string abstracthook::ruscrlfconv(const s
+@@ -233,6 +235,18 @@ string abstracthook::ruscrlfconv(const s
  
  string abstracthook::rusconv(const string &tdir, const string &text) {
      string r;
