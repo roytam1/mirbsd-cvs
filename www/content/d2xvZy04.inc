@@ -1,5 +1,5 @@
 <!-- PageID: wlog-8 -->
-<small class="rcsid">$MirOS: www/content/d2xvZy04.inc,v 1.61 2006/04/01 01:11:59 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy04.inc,v 1.62 2006/04/06 12:01:00 tg Exp $</small>
 <h1>MirBSD &ndash; WTF, We Have a Release!?</h1>
 <p><small><a href="#eof">bottom</a> or <a href="/?older">older</a>
  editions</small></p>
@@ -1044,6 +1044,11 @@ celebrate this event, rotate the wlog and start a new one.</p>
   ordered the first time online there, they use "Bankeinzug" and give 2%
   discount on that, even. Cool. Of course, SSL secured (hi entropy).</p>
  <p>More later&#8230;</p>
+ <p>&#8230; oops&#8230; it's already this late. TODO: fix kernel msgs (a
+  la "swapconf: blah not found"), use rd0a for devices (XXX howto, can I
+  preload it into the kernel? I even think so), get rid of the huge time
+  consuming MAKEDEV stage in /etc/rc (and don't swapon rd0c *g*), make a
+  liveboot (with sercons by high order bits), last bring back X.</p>
 </div>
 
 <p id="eof">Good luck, have fun, take care etc.pp</p>
