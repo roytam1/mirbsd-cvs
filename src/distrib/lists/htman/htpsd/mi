@@ -4575,6 +4575,7 @@
 ./man3/strncat.htm
 ./man3/strncmp.htm
 ./man3/strncpy.htm
+./man3/strndup.htm
 ./man3/strnsvis.htm
 ./man3/strnvis.htm
 ./man3/strpbrk.htm

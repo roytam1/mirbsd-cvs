@@ -29,16 +29,22 @@
 .\"
 .\"     @(#)strdup.3	8.1 (Berkeley) 6/9/93
 .\"
-.Dd June 9, 1993
+.Dd $Mdocdate$
 .Dt STRDUP 3
 .Os
 .Sh NAME
-.Nm strdup
+.Nm strdup ,
+.Nm strndup
 .Nd save a copy of a string
 .Sh SYNOPSIS
 .Fd #include <string.h>
 .Ft char *
 .Fn strdup "const char *s"
+.Pp
+.Fd #define _GNU_SOURCE
+.Fd #include <string.h>
+.Ft char *
+.Fn strndup "const char *s" "size_t n"
 .Sh DESCRIPTION
 The
 .Fn strdup
@@ -47,6 +53,13 @@ function allocates sufficient memory for a copy of the string
 does the copy, and returns a pointer to it.
 The pointer may subsequently be used as an argument to the function
 .Xr free 3 .
+The
+.Fn strndup
+function copies at most
+.Fa n
+octets from the source string before appending a
+.Dv NUL
+byte.
 .Pp
 If insufficient memory is available,
 .Dv NULL
@@ -82,3 +95,9 @@ The
 .Fn strdup
 function first appeared in
 .Bx 4.4 .
+The
+.Fn strndup
+function is a
+.Dv GNU
+extension and first appeared in
+.Mx 10 .

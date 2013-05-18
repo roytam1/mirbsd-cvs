@@ -7035,6 +7035,7 @@
 ./usr/share/man/cat3/strncat.0
 ./usr/share/man/cat3/strncmp.0
 ./usr/share/man/cat3/strncpy.0
+./usr/share/man/cat3/strndup.0
 ./usr/share/man/cat3/strnsvis.0
 ./usr/share/man/cat3/strnvis.0
 ./usr/share/man/cat3/strpbrk.0

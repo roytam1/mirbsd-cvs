@@ -1,10 +1,10 @@
-# $MirOS: src/lib/libc/string/Makefile.inc,v 1.17 2007/02/06 15:52:00 tg Exp $
+# $MirOS: src/lib/libc/string/Makefile.inc,v 1.18 2007/02/06 16:24:41 tg Exp $
 # $OpenBSD: Makefile.inc,v 1.17 2005/05/26 12:56:01 otto Exp $
 
 # string sources
 .PATH: ${LIBCSRCDIR}/arch/${MACHINE_ARCH}/string ${LIBCSRCDIR}/string
 
-SRCS+=	bm.c memccpy.c strcasestr.c strdup.c \
+SRCS+=	bm.c memccpy.c strcasestr.c strdup.c strndup.c \
 	strerror.c strerror_r.c strmode.c strsignal.c strtok.c \
 	wcscat.c wcschr.c wcscmp.c wcscpy.c wcscspn.c \
 	wcsncat.c wcsncmp.c wcsncpy.c wcspbrk.c wcsrchr.c wcsspn.c \
@@ -120,6 +120,7 @@ MAN+=	bm.3 bcmp.3 bcopy.3 bstring.3 bzero.3 ffs.3 memccpy.3 memchr.3 \
 
 MLINKS+=bm.3 bm_comp.3 bm.3 bm_exec.3 bm.3 bm_free.3
 MLINKS+=strchr.3 index.3
+MLINKS+=strdup.3 strndup.3
 MLINKS+=strrchr.3 rindex.3
 MLINKS+=strcasecmp.3 strncasecmp.3
 MLINKS+=strcat.3 strncat.3
