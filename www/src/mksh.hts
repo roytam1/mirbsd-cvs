@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.441 2012/02/06 17:50:05 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.442 2012/02/11 15:25:24 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -567,10 +567,19 @@ exec /usr/bin/ld "${args[@]}"</pre>
 <p>MidnightBSD 0.3 uses mksh as <tt>/bin/sh</tt> indeed.</p>
 
 <h5 class="cr" id="oe_minix"><img width="71" height="64" alt="[Minix logo]"
- class="fr" src="@@RELPATH@@pics/logos/minix.png" />OS: Minix</h5>
+ class="fr" src="@@RELPATH@@pics/logos/minix.png" />OS: Minix 3</h5>
 <p>Minix 3 is supported starting mksh R37b (gcc), R37c (ACK/adk cc).
  Minix 1 and Minix 2 will never be supported due to size constraints on
- 16-bit platforms, unless a user contributes code.</p>
+ 16-bit platforms, unless a user contributes code. You will need:</p>
+<pre># chmem =1048576 /usr/lib/em_cemcom.ansi
+# chmem =262144 /usr/lib/i386/as</pre>
+<p>Append the following line to main.c on Minix 3.1.2a or older:</p>
+<pre>void _longjmp(jmp_buf env, int val) { longjmp(env, val); }</pre>
+<h5>OS: Ninix 3</h5>
+<p>Ninix 3 (Minix 3 with NetBSD® code) has first been working starting
+ with mksh R40e (clang). More porting and tests are needed. <strong>This
+ is different from “regular” Minix 3.</strong> Do be sure to set your
+ <tt>TARGET_OS</tt> environment variable correctly.</p>
 
 <h5 class="cr" id="oe_mnt">OS: MiNT / FreeMiNT</h5>
 <p>Support appeared in mksh R40. Depending on the distribution you use,
@@ -635,6 +644,10 @@ exec /usr/bin/ld "${args[@]}"</pre>
 <p>The QNX ed(1) used to fail the regression tests due to being broken;
  compile the MirBSD ed and place it in <tt>/bin/</tt> to fix this, or
  get an updated ed from vendor.</p>
+
+<h5 class="cr" id="oe_skyos">OS: SkyOS</h5>
+<p>RT managed to build mksh on SkyOS. It somewhat works, and the testsuite
+ failures are probably all bugs in their POSIX layer.</p>
 
 <h5 class="cr" id="oe_solaris"><img width="68" height="64" alt="[OpenSolaris logo]"
  class="fr" src="@@RELPATH@@pics/logos/sunos.png" />OS: Solaris</h5>
@@ -1013,7 +1026,9 @@ exec /usr/bin/ld "${args[@]}"</pre>
  <li>[tg] Use sane spelling of “read-only” consistently</li>
  <li>[tg] Improve tree <tt>-DDEBUG</tt> functions (internal/developer use)</li>
  <li>[tg] Fix regression in re-entry printing single-char strings</li><!-- nuke that on release/upload -->
- <li>[tg] Reduce stack usage a bit</li>
+ <li>[tg] Reduce stack usage a bit; speed up hash tables at size cost</li>
+ <li>[tg] <tt>MKSH_SMALL</tt> no longer implies <tt>-fno-inline</tt></li>
+ <li>[tg] Drop some Android-specific unused code (lsmod builtin)</li>
 </ul>
 <p>Changes in the current (unreleased) stable branch:</p><ul>
  <li>[tg, Jilles Tjoelker] skip readonly check in unevaluated ternary twig</li>
@@ -1036,6 +1051,10 @@ exec /usr/bin/ld "${args[@]}"</pre>
   patch where TTIME trashed a non-TCOM string argument (e.g. in TFOR)</li>
  <li>[tg] Better support for tcc; fix GCCism that accidentally crept in</li>
  <li>[tg] Deal with UTF-8 when reporting jobs’ commands</li>
+ <li>[RT] Add SkyOS to known OS list</li>
+ <li>[tg] Fix regression in mirtoconf output wrt. cached values (introduced
+  with divmod-needed check)</li><!-- nuke that on release/upload -->
+ <li>[tg, RT] Support Minix in its variants Minix 3 and Ninix 3 better</li>
 </ul>
 <p id="r40d">mksh R40d is a must-have bugfix update:</p><ul>
  <li>[tg] New <tt>test.sh</tt> ‘-f’ option (same as ‘-C fastbox’)</li>

@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.383 2012/01/22 12:08:50 bsiegert Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.384 2012/02/06 13:53:04 bsiegert Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -8399,6 +8399,13 @@ Tag: debian
 <p>In the meanwhile, apt-extracttemplates can deal with SYSV style
  filenames in DEB files – on Debian sid, but not on Kubuntu hardy,
  which some people are using as Desktop OS still…</p>
+<p><strong>Update</strong> 03.03.2012 – Jonathan Nieder replied
+ quickly with a suggestion to instead take over the “pax” package
+ in Debian. Eventually, I uploaded pax (1:20120211-1) from the
+ former “mircpio” package to Debian, after I managed to talk to
+ its previous maintainer Bdale Garbee (thanks for handing over).
+ It is now present in Debian wheezy and Zubuntu precise as /bin/pax
+ with /bin/paxcpio and /bin/paxtar offering the other interfaces.</p>
 ----
 Date: 18.08.2011 22:00
 Author: tg@
