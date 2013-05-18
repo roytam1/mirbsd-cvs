@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.156 2006/12/23 04:07:56 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.157 2006/12/30 21:13:45 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -2185,6 +2185,11 @@ install-binpkg:
 # The real package
 
 _package: ${_PKG_PREREQ}
+	@[[ -d ${PKGREPOSITORY} ]] || mkdir -p ${PKGREPOSITORY}
+	@if [[ ! -w ${PKGREPOSITORY} ]]; then \
+		print -u2 'Error: ${PKGREPOSITORY} is not writable for you!'; \
+		exit 1; \
+	fi
 .if target(pre-package)
 	@cd ${.CURDIR} && exec ${MAKE} pre-package
 .endif
@@ -2193,12 +2198,6 @@ _package: ${_PKG_PREREQ}
 .else
 # What PACKAGE normally does:
 	@${ECHO_MSG} "===>  Building package for ${FULLPKGNAME${SUBPACKAGE}}"
-	@if [ ! -d ${PKGREPOSITORY} ]; then \
-	   if ! mkdir -p ${PKGREPOSITORY}; then \
-	      echo ">> Can't create directory ${PKGREPOSITORY}."; \
-		  exit 1; \
-	   fi; \
-	fi
 # PLIST should normally hold no duplicates.
 # This is left as a warning, because stuff such as @exec %F/%D
 # completion may cause legitimate dups.
@@ -2234,6 +2233,11 @@ fetch-all:
 .for _i in - 0 1 2 3 4 5 6 7 8 9
 .  if defined(_CVS_FETCH${_i:S/-//})
 ${FULLDISTDIR}/${_CVS_DISTF${_i:S/-//}}:
+	@if [[ ! -w ${FULLDISTDIR} ]]; then \
+		print -u2 'Error: some subdirectory of ${DISTDIR}' \
+		    'is not writable for you!'; \
+		exit 1; \
+	fi
 	@[[ -e ${FULLDISTDIR}/${_CVS_DISTF${_i:S/-//}} ]] || { \
 		cd ${.CURDIR}; ${MAKE} fetch-depends; \
 		PATH=${_PORTPATH} ${_CVS_FETCH${_i:S/-//}}; \
@@ -2261,7 +2265,12 @@ ${_F}:
 .      endfor
 	@exit 1
 .    else
-	@mkdir -p ${_F:H}; \
+	@mkdir -p ${_F:H}
+	@if [[ ! -w ${_F:H} ]]; then \
+		print -u2 'Error: some subdirectory of ${DISTDIR}' \
+		    'is not writable for you!'; \
+		exit 1; \
+	fi
 	cd ${_F:H}; \
 	select=${_EVERYTHING:M*${_F:S@^${FULLDISTDIR}/@@}\:[0-9]}; \
 	f=${_F:S@^${FULLDISTDIR}/@@}; \
