@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/gnu.port.mk,v 1.47 2008/08/24 13:48:19 tg Exp $
+# $MirOS: ports/infrastructure/mk/gnu.port.mk,v 1.48 2008/08/27 10:25:16 tg Exp $
 # $OpenBSD: gnu.port.mk,v 1.19 2004/06/06 11:49:08 espie Exp $
 
 AUTOCONF_NEW?=		No
@@ -194,4 +194,11 @@ CONFIGURE_ENV+=		ac_cv_sys_long_file_names=yes
 
 .if defined(LDADD) && !empty(LDADD)
 CONFIGURE_ENV+=		LIBS=${LDADD:Q}
+.endif
+
+# Mac OSX “Leopard” inlining bug workaround
+.if "${OStype}:${OSREV}:${MACHINE_ARCH}" == "Darwin:9.5.0:i386"
+CONFIGURE_ENV+=		glib_cv_has__inline=no \
+			glib_cv_has__inline__=no \
+			glib_cv_hasinline=no
 .endif
