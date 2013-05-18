@@ -1,8 +1,8 @@
 #!/bin/mksh
-# $MirOS: ports/infrastructure/db/autogen.sh,v 1.4 2005/10/02 18:19:26 tg Exp $
+# $MirOS: src/share/misc/licence.template,v 1.6 2006/01/24 22:24:02 tg Rel $
 #-
-# Copyright (c) 2004, 2005
-#	Thorsten "mirabile" Glaser <tg@66h.42h.de>
+# Copyright (c) 2004, 2005, 2006
+#	Thorsten Glaser <tg@mirbsd.de>
 #
 # Licensee is hereby permitted to deal in this work without restric-
 # tion, including unlimited rights to use, publicly perform, modify,
@@ -29,6 +29,11 @@ if [[ -z $AUTOCONF_VERSION ]]; then
 	print Warning: AUTOCONF_VERSION unset!
 fi
 
+if [[ -z $AUTOMAKE_VERSION ]]; then
+	export AUTOMAKE_VERSION=1.9
+	print Warning: AUTOMAKE_VERSION unset!
+fi
+
 todel=
 for f in libtool.m4 m4salt.inc m4sugar.inc; do
 	[[ -e $f ]] || todel="$todel $f"
@@ -38,8 +43,12 @@ done
 
 set -e
 set -x
-aclocal -I .
-[[ -n $NO_AUTOHEADER ]] || autoheader
+aclocal ${ACLOCAL_FLAGS:--I .}
+f=configure.ac
+[[ ! -e $f ]] && f=configure.in
+if fgrep -q -e AC_CONFIG_HEADER -e AM_CONFIG_HEADER $f; then
+	[[ -n $NO_AUTOHEADER ]] || autoheader
+fi
 set +e
 [[ ! -e Makefile.am ]] || automake --foreign -i
 autoconf && chmod 664 configure

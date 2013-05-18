@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/gnu.port.mk,v 1.10 2005/12/16 01:25:31 tg Exp $
+# $MirOS: ports/infrastructure/mk/gnu.port.mk,v 1.11 2005/12/29 20:38:24 tg Exp $
 # $OpenBSD: gnu.port.mk,v 1.19 2004/06/06 11:49:08 espie Exp $
 
 AUTOCONF_NEW?=		No
@@ -10,7 +10,7 @@ AUTOCONF_VERSION?=	2.13
 AUTOMAKE_VERSION?=	1.4
 
 MODGNU_CONFIG_GUESS_DIRS?= ${WRKSRC}
-AUTOGEN?=		${SHELL} ${PORTSDIR}/infrastructure/db/autogen.sh
+AUTOGEN?=		${SHELL} ${PORTSDIR}/infrastructure/scripts/autogen.sh
 MODGNU_COPIES?=		_gplwarn.c compile config-ml.in config.guess \
 			config.libpath config.rpath config.sub depcomp \
 			install-reloc install-sh m4salt.inc m4sugar.inc \
