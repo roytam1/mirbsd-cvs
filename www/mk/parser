@@ -1,4 +1,4 @@
-rcsid_parser='$MirOS: www/mk/parser,v 1.7 2008/09/17 21:52:07 tg Exp $'
+rcsid_parser='$MirOS: www/mk/parser,v 1.8 2008/11/08 16:28:45 tg Exp $'
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -67,6 +67,19 @@ while IFS= read -r line; do
 			# make sure there are no leading zeroes
 			e_time[entry]="$((e_tmpy)) $((e_tmpm)) $((e_tmpd)) \
 			    $((10#0${e_tmp[3]})) $((10#0${e_tmp[4]})) $((10#0${e_tmp[5]}))"
+		elif [[ $parser_lctmp = tag ]]; then
+			parser_lctmp=${e_tag[entry]}
+			e_tag[entry]=
+			sp=
+			for x in $parser_lctmp; do
+				if [[ $x != +([0-9a-z_]) ]]; then
+					print -u2 "Invalid tag '$x' in" \
+					    "data/$name.inc: $line"
+					continue
+				fi
+				e_tag[entry]=${e_tag[entry]}$sp$x
+				sp=' '
+			done
 		fi
 	else
 		e_body[entry]=${e_body[entry]}${e_body[entry]+$nl}$line
