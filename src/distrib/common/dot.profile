@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/dot.profile,v 1.36 2008/11/02 14:17:33 tg Exp $
+# $MirOS: src/distrib/common/dot.profile,v 1.37 2008/11/08 22:23:51 tg Exp $
 # $OpenBSD: dot.profile,v 1.4 2002/09/13 21:38:47 deraadt Exp $
 # $NetBSD: dot.profile,v 1.1 1995/12/18 22:54:43 pk Exp $
 #
@@ -41,7 +41,7 @@ ulimit -c 0
 
 _getrnd() {
 	(ulimit -T 60; exec ftp -mvo /dev/arandom \
-	    https://call.mirbsd.org/rn.cgi?bsdrdskg,$(dd \
+	    https://call.mirbsd.org/rn.cgi?bsdrd${1:-manuell},$(dd \
 	    if=/dev/arandom bs=57 count=1 | \
 	    b64encode -r - | tr '+=/' '._-')) >/dev/wrandom 2>&1
 }
@@ -52,7 +52,7 @@ sshd() {
 		return 1
 	fi
 	if [[ ! -f /etc/ssh/ssh_host_rsa_key ]]; then
-		_getrnd
+		_getrnd skg
 		print -n "ssh-keygen: generating new RSA host key... "
 		sleep 3
 		if ssh-keygen -qt rsa -f /etc/ssh/ssh_host_rsa_key -N ''; then
