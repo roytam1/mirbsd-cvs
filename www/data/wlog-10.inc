@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.289 2010/03/07 01:01:29 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.290 2010/04/03 16:27:39 bsiegert Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -6410,4 +6410,63 @@ Date: 02.04.2010 19:05
 <p>I have not explored it much further yet. But it does look very
  interesting for system programming and similar things. The only thing
  missing now is a MirPort ...</p>
+----
+Title: Upcoming migrations
+Author: tg@
+Date: 03.04.2010 17:27
+
+<p>I finally managed to move my arse and buy a new Socket 7 CPU fan
+ for <tt>herc</tt>, two new 160 GB IDE HDDs for <tt>tear</tt>, and
+ plan a number of other migrations. Within the next time, the SSL
+ certificates will be renewed (changed away from CAcert to some as
+ of yet undefined CA for the main (web)server and to ca.mirbsd.org
+ for the secondary services), <tt>www</tt> will possible move to a
+ dedicated box, <tt>cvs</tt> from <tt>herc</tt> to <tt>tear</tt>
+ for sure though. I’m at gecko2@’s place right now though, so it’ll
+ take a while more (obviously). I’ll take the chance to re-design
+ a number of things during the process and clean up old, no longer
+ used things, as well.</p>
+<p>I know I should probably have written something about CLT (it
+ was great, except for the social event, which confused everyone
+ about the who where etc. and I had a headache and the sounds they
+ provided (no music…) didn’t help either, but it was planned and
+ exercised very well and much cleaner than ULB too ☺) and that I
+ managed to do two geocaches in East Germany… and a plethora of
+ other things (I did staff the Debian booth, there were neither a
+ MirBSD nor FreeWRT booth after all; there is interest in makefs(8)
+ but the 31/32-bit limit must go; etc). I’ve had a demanding three
+ weeks at work though, and I’ll probably not write much content for
+ the website anyway any more, but I’ll try to get more hacking done.
+ <a href="@@RELPATH@@mksh.htm">mksh</a> got more POSIX compliance,
+ and we’re discussing about the things on the Austin Group mailing
+ list. I’ll be writing a bootloaderloader for mika and Grml, with
+ special consideration for a blind user. I need to get screws, RAM,
+ a hard disc and a PSU for my new Cobalt Qube2 and put Debian on it
+ to debug things. I plan to buy the upgrade kit (to 20 MiB RAM) and
+ a new battery for <tt>nwt</tt> (and use glue to put the broken-off
+ edge back there) just like I started renovating my hardware pool.
+ OpenSSH needs an import, others may need work. So, I’ve got a TODO
+ longer than a lifetime, so I get to pick my things ;-)</p>
+<p>There will not be a MirBSD booth at LinuxTag in Berlin. If I’m
+ going (even that’s not sure), I join a shared AllBSD booth, which
+ seems to not happen, or I’ll distribute CDs at the tarent booth,
+ if I am allowed to… bsiegert@ will be at some conference for his
+ Chemistry stuff again, and it’s too far for gecko2@ to attend, so
+ I would’ve been alone anyway. At FrOSCon, though, we’ll be sure to
+ happen (I’m even trying to cobble together a FreeWRT booth again,
+ but there are not enough volunteers coming who aren’t expected as
+ another booths’ staff).</p>
+<p>gecko2@ upgraded ports/editors/nano and desired documentation,
+ possibly in the form of a tutorial, on how to do it. And I hope
+ bsiegert@ will remember that Google’s “Go” is the second one of
+ that name and use something like ports/lang/google-go (on second
+ thought, a company name in a directory is bad too). And there’s
+ kencc in ports already so I’d like an Inferno port first.</p>
+<p>ciruZ said that Syllable is pretty much dead… sad, since mksh
+ now works on <a href="http://www.haiku-os.org/">Haiku</a> and
+ both Syllable and Plan 9 had similar issues with it, so I was
+ hoping we could get them fixed… (bsiegert@ is our resident Plan 9
+ expert, so I need to push him into looking at it.) Speaking of
+ MirWorldDomination, <tt>/system/bin/sh</tt> on Android-x86 is an
+ mksh(1) already ☺</p>
 ----
