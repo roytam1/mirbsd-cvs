@@ -1,7 +1,7 @@
-$MirOS$
---- fortune/datfiles/Makefile.orig	Fri Sep 26 03:08:44 2003
-+++ fortune/datfiles/Makefile	Tue Feb 15 16:27:27 2005
-@@ -3,20 +3,28 @@
+$MirOS: ports/games/bsdgames/patches/patch-fortune_datfiles_Makefile,v 1.1.7.1 2005/03/18 15:46:07 tg Exp $
+--- fortune/datfiles/Makefile.orig	Thu Jan  1 00:00:00 1970
++++ fortune/datfiles/Makefile	Thu Mar  2 01:38:10 2006
+@@ -3,20 +3,26 @@
  #	@(#)Makefile	8.2 (Berkeley) 4/19/94
  
  SRCS=	fortunes fortunes2 startrek zippy recipes
@@ -10,14 +10,12 @@ $MirOS$
 +BLDS=
  
 -# TO INSTALL THE POTENTIALLY OFFENSIVE FORTUNES, UNCOMMENT THE THREE
-+# TO INSTALL THE POTENTIALLY OFFENSIVE FORTUNES, UNCOMMENT THE TWO
- # LINES AND COMMENT OUT THE FOURTH LINE.
- 
+-# LINES AND COMMENT OUT THE FOURTH LINE.
+-
 -# THE THREE LINES
 -SRCS+=	fortunes2-o limerick
 -BLDS+=	fortunes2-o.dat limerick.dat
-+# THE TWO LINES
-+SRCS+=	${.OBJDIR}/fortunes-o fortunes2-o limerick
++SRCS+=	fortunes-o fortunes2-o limerick
  TYPE=	real
  
  # THE FOURTH LINE
@@ -26,6 +24,8 @@ $MirOS$
 +# fortune-mod-fvl 20030120
 +SRCS+=	at.linux fvl fvl_vendor martin.piskernig
 +SRCS+=	norbert.tretkowski rss thomas.ogrisegg
++# fortune-fh-brs 20060301
++SRCS+=	fh-brs
 +
 +#----
 +
@@ -36,22 +36,29 @@ $MirOS$
  CLEANFILES+=${BLDS}
  
  STRFILE!=cd $(.CURDIR)/../strfile; \
-@@ -34,10 +42,16 @@ install: ${SRCS} ${BLDS}
- fortunes.dat fortunes2.dat fortunes2-o.dat limerick.dat startrek.dat zippy.dat recipes.dat:
- 	${STRFILE} -rs ${.CURDIR}/${.TARGET:R} ${.TARGET}
+@@ -26,18 +32,15 @@ STRFILE!=cd $(.CURDIR)/../strfile; \
+ all: ${BLDS}
+ 
+ install: ${SRCS} ${BLDS}
+-	(cd ${.CURDIR} && ${INSTALL} ${INSTALL_COPY} -o ${BINOWN} -g ${BINGRP} -m 444 \
+-	    ${SRCS} ${DESTDIR}/usr/share/games/fortune)
+-	${INSTALL} ${INSTALL_COPY} -o ${BINOWN} -g ${BINGRP} -m 444 ${BLDS} \
+-	    ${DESTDIR}/usr/share/games/fortune
++	${INSTALL} ${INSTALL_COPY} -o ${BINOWN} -g ${BINGRP} -m ${SHAREMODE} \
++	    $> ${DESTDIR}/usr/share/games/fortune/
+ 
+-fortunes.dat fortunes2.dat fortunes2-o.dat limerick.dat startrek.dat zippy.dat recipes.dat:
+-	${STRFILE} -rs ${.CURDIR}/${.TARGET:R} ${.TARGET}
++.for _i in ${SRCS}
++${_i}.dat: ${_i}
++	${STRFILE} -rs $> $@
++.endfor
  
 -fortunes-o.dat: fortunes-o
-+at.linux.dat fvl.dat fvl_vendor.dat martin.piskernig.dat:
-+	${STRFILE} -rs ${.CURDIR}/${.TARGET:R} ${.TARGET}
-+
-+norbert.tretkowski.dat rss.dat thomas.ogrisegg.dat:
-+	${STRFILE} -rs ${.CURDIR}/${.TARGET:R} ${.TARGET}
-+
-+${.OBJDIR}/fortunes-o.dat: ${.OBJDIR}/fortunes-o
- 	${STRFILE} -rsx fortunes-o ${.TARGET}
- 
--fortunes-o: fortunes-o.${TYPE}
-+${.OBJDIR}/fortunes-o: ${.CURDIR}/fortunes-o.${TYPE}
- 	tr [a-zA-Z] [n-za-mN-ZA-M] < ${.ALLSRC} > ${.TARGET}
+-	${STRFILE} -rsx fortunes-o ${.TARGET}
+-
+ fortunes-o: fortunes-o.${TYPE}
+-	tr [a-zA-Z] [n-za-mN-ZA-M] < ${.ALLSRC} > ${.TARGET}
++	cp $> $@
  
  .include <bsd.prog.mk>

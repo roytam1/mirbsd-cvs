@@ -1,4 +1,4 @@
-@comment $MirOS: ports/games/bsdgames/pkg/PLIST,v 1.1.7.1 2005/03/18 15:46:07 tg Exp $
+@comment $MirOS: ports/games/bsdgames/pkg/PLIST,v 1.2 2005/11/19 22:51:39 tg Exp $
 games/adventure
 games/arithmetic
 games/atc
@@ -74,6 +74,8 @@ share/games/cribbage.instr
 share/games/fish.instr
 share/games/fortune/at.linux
 share/games/fortune/at.linux.dat
+share/games/fortune/fh-brs
+share/games/fortune/fh-brs.dat
 share/games/fortune/fortunes
 share/games/fortune/fortunes-o
 share/games/fortune/fortunes-o.dat
@@ -181,8 +183,8 @@ share/man/cat6/trek.0
 share/man/cat6/worm.0
 share/man/cat6/worms.0
 share/man/cat6/wump.0
-@dirrm share/man/cat6
-@dirrm share/man
+@comment @dirrm share/man/cat6
+@comment @dirrm share/man
 @dirrm share/games/quiz.db
 @dirrm share/games/fortune
 @dirrm share/games/boggle
@@ -190,7 +192,4 @@ share/man/cat6/wump.0
 @dirrm share/games
 @dirrm share/doc/usd/31.trek
 @dirrm share/doc/usd/30.rogue
-@comment @dirrm share/doc/usd
-@comment @dirrm share/doc
-@comment @dirrm share
 @dirrm games
