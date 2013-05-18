@@ -1,4 +1,4 @@
-# $MirOS: X11/Makefile,v 1.24 2006/07/01 00:35:00 tg Exp $
+# $MirOS: X11/Makefile,v 1.25 2006/07/01 20:18:13 tg Exp $
 
 .include <bsd.own.mk>
 .include "${BSDSRCDIR}/Makefile.inc"
@@ -66,6 +66,7 @@ install:
 	sleep 1; rm ${_STFILE_DEST}
 
 do-install:
+	cd ${.CURDIR}/depends && exec ${MAKE} install
 	cd xc && ${MAKE} install CC="${CC}" && exec ${MAKE} install.man
 	cd xc/programs/rstart && ${MAKE} install CC="${CC}" \
 	    && exec ${MAKE} install.man
