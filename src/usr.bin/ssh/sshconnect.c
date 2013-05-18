@@ -50,7 +50,7 @@
 #include "roaming.h"
 #include "version.h"
 
-__RCSID("$MirOS: src/usr.bin/ssh/sshconnect.c,v 1.15 2008/12/27 21:17:59 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/sshconnect.c,v 1.16 2009/10/04 14:29:11 tg Exp $");
 
 char *client_version_string = NULL;
 char *server_version_string = NULL;
@@ -589,6 +589,7 @@ check_host_key(char *hostname, struct sockaddr *hostaddr, u_short port,
 	char msg[1024];
 	int len, host_line, ip_line, cancelled_forwarding = 0;
 	const char *host_file = NULL, *ip_file = NULL;
+	struct sockaddr_storage ss;
 
 	/*
 	 * Force accepting of the host key for loopback/localhost. The
@@ -601,12 +602,14 @@ check_host_key(char *hostname, struct sockaddr *hostaddr, u_short port,
 	/**  hostaddr == 0! */
 	switch (hostaddr->sa_family) {
 	case AF_INET:
-		local = (ntohl(((struct sockaddr_in *)hostaddr)->
+		memcpy(&ss, hostaddr, sizeof(struct sockaddr_in));
+		local = (ntohl(((struct sockaddr_in *)&ss)->
 		    sin_addr.s_addr) >> 24) == IN_LOOPBACKNET;
 		break;
 	case AF_INET6:
+		memcpy(&ss, hostaddr, sizeof(struct sockaddr_in6));
 		local = IN6_IS_ADDR_LOOPBACK(
-		    &(((struct sockaddr_in6 *)hostaddr)->sin6_addr));
+		    &(((struct sockaddr_in6 *)&ss)->sin6_addr));
 		break;
 	default:
 		local = 0;

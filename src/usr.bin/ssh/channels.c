@@ -51,6 +51,7 @@
 
 #include <errno.h>
 #include <netdb.h>
+#include <stddef.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -73,7 +74,7 @@
 #include "authfd.h"
 #include "pathnames.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.bin/ssh/channels.c,v 1.14 2009/10/04 14:29:02 tg Exp $");
 
 /* -- channel core */
 
@@ -1198,7 +1199,12 @@ channel_decode_socks5(Channel *c, fd_set *readset, fd_set *writeset)
 	s5_rsp.command = SSH_SOCKS5_SUCCESS;
 	s5_rsp.reserved = 0;			/* ignored */
 	s5_rsp.atyp = SSH_SOCKS5_IPV4;
-	((struct in_addr *)&dest_addr)->s_addr = INADDR_ANY;
+	{
+		u_int32_t s_addr = INADDR_ANY;
+
+		memcpy(dest_addr + offsetof(struct in_addr, s_addr),
+		    &s_addr, sizeof(s_addr));
+	}
 	dest_port = 0;				/* ignored */
 
 	buffer_append(&c->output, &s5_rsp, sizeof(s5_rsp));
@@ -2449,6 +2455,7 @@ channel_setup_fwd_listener(int type, const char *listen_addr,
 	struct addrinfo hints, *ai, *aitop;
 	const char *host, *addr;
 	char ntop[NI_MAXHOST], strport[NI_MAXSERV];
+	struct sockaddr_storage ss;
 	in_port_t *lport_p;
 
 	host = (type == SSH_CHANNEL_RPORT_LISTENER) ?
@@ -2521,14 +2528,14 @@ channel_setup_fwd_listener(int type, const char *listen_addr,
 	if (allocated_listen_port != NULL)
 		*allocated_listen_port = 0;
 	for (ai = aitop; ai; ai = ai->ai_next) {
+		memcpy(&ss, ai->ai_addr, ai->ai_addrlen);
+
 		switch (ai->ai_family) {
 		case AF_INET:
-			lport_p = &((struct sockaddr_in *)ai->ai_addr)->
-			    sin_port;
+			lport_p = &((struct sockaddr_in *)&ss)->sin_port;
 			break;
 		case AF_INET6:
-			lport_p = &((struct sockaddr_in6 *)ai->ai_addr)->
-			    sin6_port;
+			lport_p = &((struct sockaddr_in6 *)&ss)->sin6_port;
 			break;
 		default:
 			continue;
@@ -2541,7 +2548,7 @@ channel_setup_fwd_listener(int type, const char *listen_addr,
 		    allocated_listen_port != NULL && *allocated_listen_port > 0)
 			*lport_p = htons(*allocated_listen_port);
 
-		if (getnameinfo(ai->ai_addr, ai->ai_addrlen, ntop, sizeof(ntop),
+		if (getnameinfo((struct sockaddr *)&ss, ai->ai_addrlen, ntop, sizeof(ntop),
 		    strport, sizeof(strport), NI_NUMERICHOST|NI_NUMERICSERV) != 0) {
 			error("channel_setup_fwd_listener: getnameinfo failed");
 			continue;
@@ -2560,7 +2567,7 @@ channel_setup_fwd_listener(int type, const char *listen_addr,
 		    ntop, strport);
 
 		/* Bind the socket to the address. */
-		if (bind(sock, ai->ai_addr, ai->ai_addrlen) < 0) {
+		if (bind(sock, (struct sockaddr *)&ss, ai->ai_addrlen) < 0) {
 			/* address can be in use ipv6 address is already bound */
 			verbose("bind: %.100s", strerror(errno));
 			close(sock);

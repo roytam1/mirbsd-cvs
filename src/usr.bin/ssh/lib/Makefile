@@ -1,4 +1,4 @@
-# $MirOS: src/usr.bin/ssh/lib/Makefile,v 1.9 2008/12/27 21:18:01 tg Exp $
+# $MirOS: src/usr.bin/ssh/lib/Makefile,v 1.10 2009/10/04 14:29:13 tg Exp $
 # $OpenBSD: Makefile,v 1.58 2008/11/04 08:22:13 djm Exp $
 
 .PATH:		${.CURDIR}/..
@@ -18,6 +18,7 @@ SRCS+=	md-sha256.c
 NOPIC=		yes
 
 CFLAGS_channels.o+=	-Wno-unused
+CFLAGS_umac.o+=		-Wno-cast-align		#XXX dangerous!
 
 install:
 

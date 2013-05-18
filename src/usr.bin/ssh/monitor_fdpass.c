@@ -35,7 +35,7 @@
 #include "log.h"
 #include "monitor_fdpass.h"
 
-__RCSID("$MirOS: src/usr.bin/ssh/monitor_fdpass.c,v 1.2 2008/07/13 16:03:56 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/monitor_fdpass.c,v 1.3 2008/12/16 20:55:24 tg Exp $");
 
 int
 mm_send_fd(int sock, int fd)
@@ -57,7 +57,7 @@ mm_send_fd(int sock, int fd)
 	cmsg->cmsg_len = CMSG_LEN(sizeof(int));
 	cmsg->cmsg_level = SOL_SOCKET;
 	cmsg->cmsg_type = SCM_RIGHTS;
-	*(int *)CMSG_DATA(cmsg) = fd;
+	memcpy(CMSG_DATA(cmsg), &fd, sizeof(fd));
 
 	vec.iov_base = &ch;
 	vec.iov_len = 1;
@@ -128,6 +128,6 @@ mm_receive_fd(int sock)
 		    SCM_RIGHTS, cmsg->cmsg_type);
 		return -1;
 	}
-	fd = (*(int *)CMSG_DATA(cmsg));
+	memcpy(&fd, CMSG_DATA(cmsg), sizeof(fd));
 	return fd;
 }

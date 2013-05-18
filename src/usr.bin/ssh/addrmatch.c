@@ -23,6 +23,7 @@
 
 #include <netdb.h>
 #include <string.h>
+#include <stddef.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdarg.h>
@@ -79,24 +80,24 @@ masklen_valid(int af, u_int masklen)
 static int
 addr_sa_to_xaddr(struct sockaddr *sa, socklen_t slen, struct xaddr *xa)
 {
-	struct sockaddr_in *in4 = (struct sockaddr_in *)sa;
-	struct sockaddr_in6 *in6 = (struct sockaddr_in6 *)sa;
-
 	memset(xa, '\0', sizeof(*xa));
 
 	switch (sa->sa_family) {
 	case AF_INET:
-		if (slen < sizeof(*in4))
+		if (slen < sizeof(struct sockaddr_in))
 			return -1;
 		xa->af = AF_INET;
-		memcpy(&xa->v4, &in4->sin_addr, sizeof(xa->v4));
+		memcpy(&xa->v4, (char *)sa + offsetof(struct sockaddr_in,
+		    sin_addr), sizeof(xa->v4));
 		break;
 	case AF_INET6:
-		if (slen < sizeof(*in6))
+		if (slen < sizeof(struct sockaddr_in6))
 			return -1;
 		xa->af = AF_INET6;
-		memcpy(&xa->v6, &in6->sin6_addr, sizeof(xa->v6));
-		xa->scope_id = in6->sin6_scope_id;
+		memcpy(&xa->v6, (char *)sa + offsetof(struct sockaddr_in6,
+		    sin6_addr), sizeof(xa->v6));
+		memcpy(&xa->scope_id, (char *)sa + offsetof(struct sockaddr_in6,
+		    sin6_scope_id), sizeof(xa->scope_id));
 		break;
 	default:
 		return -1;
