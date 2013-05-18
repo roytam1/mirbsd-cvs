@@ -1,5 +1,5 @@
 <!-- PageID: clog-2006 -->
-<small class="rcsid">$MirOS: www/content/Y2xvZy0yMDA2.inc,v 1.7 2006/01/31 20:06:19 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/Y2xvZy0yMDA2.inc,v 1.8 2006/02/15 13:20:35 tg Exp $</small>
 <!--
  Full list of release focuses in freshmeat.net-compatible format:
 	N/A
@@ -15,6 +15,39 @@
  -->
 <h1>2006 snapshots of MirOS-current</h1>
 <h3>Infos &ndash; <a href="#eof">bottom</a></h3>
+
+<p id="snap0225">25.02.2006<br />Changes relative to the <a
+ href="#snap0215">2006-02-15 snapshot</a> below:</p><ul>
+ <li>base: /etc: fix and update some files</li>
+ <li>base: httpd(8) change default log format to include ssl</li>
+ <li>base: mksh(1) allow japanese kanji on command line ;)</li>
+ <li>base: ssh(1) code cleanup</li>
+ <li>base: ssh(1) update</li>
+ <li>base: vnconfig(8) keyfile support</li>
+ <li>build: crunchgen(1) improvements</li>
+ <li>build: fix &lt;bsd.prog.mk&gt; -Wl,--start-group use</li>
+ <li>build: remove obsolete files</li>
+ <li>build: use mksh(1) not sh(1) for runlist on crunch instbins</li>
+ <li>coolness: ssh(1), sshd(8), net/openvpn add entropy to kernel pool</li>
+ <li>docs: style(9) enhancements</li>
+ <li>install: fix vnconfig(8) on floppy</li>
+ <li>install: remove anconfig(8) from floppy</li>
+ <li>kernel: fix arc4random_push(3), sysctl -w kern.arandom</li>
+ <li>kernel: reseed PRNG on writes to <tt>/dev/prandom</tt></li>
+ <li>lynx(1): work around cacert.org problem, real fix come later</li>
+ <li>ports: djb ports use lynx(1) ipv fto(1) to fetch</li>
+ <li>ports: djbdns fix opennic and e-orsn root zones</li>
+ <li>ports: emulators/linux*: fix</li>
+ <li>ports: force USE_CXX=yes to be used for C++ ports</li>
+ <li>ports: libiconv module add iconv.m4 to ports using iconv module</li>
+ <li>ports: mc update and improve</li>
+ <li>ports: php fix use of iconv</li>
+ <li>ports: php integrate sqlite2 in core</li>
+ <li>ports: pkg_upgrade fix</li>
+ <li>ports: some more improvements</li>
+</ul><p>This snapshot has been published as ISO9660 image on FOSDEM 2006
+ and via BitTorrent. It primarily updates OpenSSH for security reasons
+ and also fixes a few other bugs and cleans up the code.</p>
 
 <p id="snap0215">15.02.2006<br />Changes relative to the <a
  href="#snap0113">2006-01-13 snapshot</a> below:</p><ul>

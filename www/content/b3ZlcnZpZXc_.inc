@@ -1,11 +1,12 @@
 <!-- PageID: overview -->
-<small class="rcsid">$MirOS: www/content/b3ZlcnZpZXc_.inc,v 1.15 2006/01/27 00:14:29 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/b3ZlcnZpZXc_.inc,v 1.16 2006/02/15 13:20:35 tg Exp $</small>
 <h1>Quick Overview &ndash; All in one page</h1>
 
 <h2>Status</h2><p>
  <a href="/?ann-8">MirOS #8</a> is the latest release.
  MirOS #8-stable has been opened, but there have not been any updates released yet.
  The <a href="/MirOS/current/i386/">latest snapshot</a> of the current development version (i386) is from 2006-02-15.
+ The <a href="http://f.scarywater.net/miros/">BitTorrent tracker</a> contains a snapshot from 2006-02-25.
  MirPorts infrastructure and new installer (<a href="/?ports">docs</a>) are stable (note to use <tt>mmake</tt> as make(1) binary).
  We expect quite a percentage of individual ports to be broken or out of date due to lack of manpower.
 </p>
@@ -90,10 +91,10 @@
 
 <p>We used to have RFC1991 compatible PGP keys with which releases and
  snapshots were signed. These are the keys used (most recent first):</p><ul>
- <li>tg@ <a href="http://blackhole.pca.dfn.de:11371/pks/lookup?op=vindex&amp;fingerprint=on&amp;search=0x5CE51C3D">0x5CE51C3D</a> (deprecated)</li>
+ <li>tg@ <a href="http://blackhole.pca.dfn.de:11371/pks/lookup?op=vindex&amp;fingerprint=on&amp;search=0x5CE51C3D">0x5CE51C3D</a> (no longer in use)</li>
  <li>bsiegert@ <a href="http://blackhole.pca.dfn.de:11371/pks/lookup?op=vindex&amp;fingerprint=on&amp;search=0xC246B025">0xC246B025</a></li>
- <li>tg@ <a href="http://blackhole.pca.dfn.de:11371/pks/lookup?op=vindex&amp;fingerprint=on&amp;search=0x68ED2381">0x68ED2381 (on server)</a> (deprecated)</li>
- <li>tg@ <a href="http://blackhole.pca.dfn.de:11371/pks/lookup?op=vindex&amp;fingerprint=on&amp;search=0xD7967B31">0xD7967B31</a> (revoked)</li>
- <li>tg@ <a href="http://blackhole.pca.dfn.de:11371/pks/lookup?op=vindex&amp;fingerprint=on&amp;search=0x8F1F22ED">0x8F1F22ED (well known)</a> (revoked)</li>
+ <li>tg@ <a href="http://blackhole.pca.dfn.de:11371/pks/lookup?op=vindex&amp;fingerprint=on&amp;search=0x68ED2381">0x68ED2381 (no longer in use)</li>
+ <li>tg@ <a href="http://blackhole.pca.dfn.de:11371/pks/lookup?op=vindex&amp;fingerprint=on&amp;search=0xD7967B31">0xD7967B31 (no longer in use)</li>
+ <li>tg@ <a href="http://blackhole.pca.dfn.de:11371/pks/lookup?op=vindex&amp;fingerprint=on&amp;search=0x8F1F22ED">0x8F1F22ED (no longer in use)</li>
 </ul>
 <p>Note that <tt>tg@</tt> does not use PGP at all any more.</p>
