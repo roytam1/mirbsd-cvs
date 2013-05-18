@@ -1,7 +1,7 @@
-/* $MirOS: src/share/misc/licence.template,v 1.20 2006/12/11 21:04:56 tg Rel $ */
+/* $MirOS: src/sys/arch/i386/stand/liveboot/hook.S,v 1.13 2006/12/11 23:55:02 tg Exp $ */
 
 /*-
- * Copyright (c) 2006
+ * Copyright (c) 2006, 2007
  *	Thorsten Glaser <tg@mirbsd.de>
  *
  * Provided that these terms and disclaimer and all copyright notices
@@ -154,6 +154,7 @@ Lhook0:	/* clear screen */
 	OUTS(lbl_widmung,4)
 	GET_XY
 	push	dx
+	OUTCH(32,7)		/* -> newline at Lquit has this colour */
 	LOCATE(0,0)
 	OUTCH(201,15)
 	mov	si,offset lbl_title
