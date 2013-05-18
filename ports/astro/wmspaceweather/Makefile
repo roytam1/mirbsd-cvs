@@ -1,15 +1,11 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.14 2002/09/17 14:46:06 wilfried Exp $
 
-BROKEN=			windowmaker is broken
-
 COMMENT=		'wm-dockapp; space weather monitor'
-
 DISTNAME=		wmSpaceWeather-1.04
 PKGNAME=		${DISTNAME:L}-0
 CATEGORIES=		astro x11 x11/windowmaker
-
 HOMEPAGE=		http://nis-www.lanl.gov/~mgh/WindowMaker/DockApps.shtml
-
 
 PERMIT_PACKAGE_CDROM=	Yes
 PERMIT_PACKAGE_FTP=	Yes
