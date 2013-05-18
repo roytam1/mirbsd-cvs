@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/dot.profile,v 1.8 2007/02/18 01:56:44 tg Exp $
+# $MirOS: src/distrib/common/dot.profile,v 1.9 2007/02/18 18:23:29 tg Exp $
 # $OpenBSD: dot.profile,v 1.4 2002/09/13 21:38:47 deraadt Exp $
 # $NetBSD: dot.profile,v 1.1 1995/12/18 22:54:43 pk Exp $
 #
@@ -86,7 +86,7 @@ if [ ! -f /.profile.done ]; then
 
 	# say hello and legalese
 	echo '
-Welcome to MirOS #9-current!
+Welcome to MirOS #10-beta!
 This is the old installer, expect it to be replaced really soon.
 
 Welcome to the MirOS BSD operating system installer.  This work is
