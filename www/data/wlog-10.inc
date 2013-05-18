@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.292 2010/05/13 17:05:02 bsiegert Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.293 2010/05/22 14:39:06 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -6544,4 +6544,26 @@ Tag: mksh
  <a href="http://www.golem.de/0703/50844.html">are worsening</a>.
  I suppose, if we’ll be able to continue MirBSD at all, I need to
  disable FAT LFN support. Sucks.</p>
+----
+Title: Cancelling bash, retrieving a command, mksh rules :þ
+Author: tg@
+Date: 23.05.2010 15:08
+Tag: debian mksh
+
+<p>In response to a <a href="http://planet.debian.org/">planet.d.o</a>
+ series (mentioned in <tt>#grml</tt> on IRC) of <a
+ href="http://womble.decadent.org.uk/blog/cancelling-a-command-in-bash">posting</a>s:
+ In a sensible shell, <tt>Esc+#</tt> not only pushes it back but also
+ re-enables the command. Try it out: <tt>l</tt> <tt>s</tt> <tt>Esc</tt>
+ <tt>#</tt> <tt>Cursor-Up</tt> <tt>Esc</tt> <tt>#</tt></p>
+<pre>
+tg@blau:~ $ #ls
+tg@blau:~ $ <span class="u">l</span>s
+</pre>
+<p>The command sticks in the history, and is not immediately shown in
+ the next interactive input line, which I consider a plus in most use
+ cases. Anyway, try <a href="@@RELPATH@@mksh.htm">mksh</a> (just a-g
+ i it), there are a lot of goodies. I found out about Ctrl-O only a
+ year or so ago myself…</p>
+<p>I wonder why schizo didn’t write about how to do it in posh tho ☺</p>
 ----
