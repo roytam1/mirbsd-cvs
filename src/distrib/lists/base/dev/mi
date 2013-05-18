@@ -7895,3 +7895,6 @@
 ./usr/share/man/cat9/vwaitforio.0
 ./usr/share/man/cat9/wakeup.0
 ./usr/share/man/cat9/writedisklabel.0
+./usr/share/pkgconfig
+./usr/share/pkgconfig/libpng.pc
+./usr/share/pkgconfig/openssl.pc

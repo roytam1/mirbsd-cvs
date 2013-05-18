@@ -2600,8 +2600,6 @@
 ./usr/share/mk/bsd.subdir.mk
 ./usr/share/mk/bsd.sys.mk
 ./usr/share/mk/sys.mk
-./usr/share/pkgconfig
-./usr/share/pkgconfig/openssl.pc
 ./usr/share/sendmail
 ./usr/share/sendmail/cf
 ./usr/share/sendmail/domain
