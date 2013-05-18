@@ -1951,3 +1951,35 @@ Title: My new laptop – company owned
  for tomorrow, I’ll be driving to Berlin. I left that craptop at work.
  I’ve got better things to do in the evenings.</p>
 ----
+Date: 07.09.2007
+Author: tg@
+
+<p>I have been in Berlin for some kind of business trip, and I finally
+ could get a hold of a beer called “Krusovice”, it’s a black beer, and
+ I really like it. Benny does, too. I drank it in a restaurant called
+ “Ranke 2”, which was recommended to me by Przemysław, thanks a lot!
+ We managed to buy some bottles in a beverage store (alongside with a
+ lot of bottles of “Berliner Faßbrause” – the local speciality, some
+ kind of herb lemonad – as well as a few interesting beers, such as
+ <span style="font-family:Fraktur;">Neuzeller Kloster-Bräu Kirsch
+ Bier</span>, <span style="font-family:cursive;">Kirsch Porter</span>
+ <span style="font-variant:small-caps;">Das fruchtige Schwarze</span>,
+ <span style="font-family:Fraktur;">Neuzeller Kloster-Bräu Schwarzer
+ Abt</span> <span style="font-variant:small-caps;">Schwarzbier</span>,
+ Duckstein (Rotblondes Original – Auf Buchenholz gereift). Beats my
+ usual Schlösser Alt with Cola and optionally cherry juice ☺<br />At
+ Ranke 2, I also drank a “Danziger Goldwasser” to close the stomach
+ after the good diner, which was something new for me as well; I must
+ admit I liked it, but not as much as croatian Julishka.</p>
+<p><a href="@@RELPATH@@mksh.htm">mksh R31</a> is out, grab it while
+ it’s hot ☻</p>
+<p>The SPARCstation is almost done building just another snapshot,
+ with the bootloader vs bsd.rd bug fixed. I suppose this means that
+ the release is imminent, despite XFree86® (4.5 → 4.7), ncurses (5.5
+ → 5.6 or even CVS version) and maybe more waiting for updates. Ce
+ la vieh. We’ll do that afterwards, and of course we ensure that #10
+ users can use later MirPorts snapshots.</p>
+<p>Oeps. I had to re-roll the mksh-R31.cpio.gz distfile. Damn. But
+ the Debian upgrade was already done. On the other hand, lintian did
+ bitch a little, so Debian accumulates two “nice to have” fixes now.</p>
+----

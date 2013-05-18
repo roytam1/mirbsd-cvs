@@ -442,3 +442,10 @@ Date: 30.08.2007
  by putting back the cropped and charset-reduced font sets; we will look
  into this issue after the release sometime.</p>
 ----
+Title: mksh R31 released
+Date: 07.09.2007
+
+<p><a href="@@RELPATH@@mksh.htm">mksh R31</a> has been released; read the
+ <a href="@@RELPATH@@mksh.htm#clog">ChangeLog</a> for details.</p>
+<p>This release is dedicated to Bob “maradong” Hentges, Symlink Lëtzebuerg.</p>
+----
