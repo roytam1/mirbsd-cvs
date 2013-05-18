@@ -1,4 +1,4 @@
-/* $MirOS: src/kern/c/i386/strlen.S,v 1.1 2007/02/07 02:29:33 tg Exp $ */
+/* $MirOS: src/kern/c/i386/strlen.S,v 1.2 2007/02/07 02:57:21 tg Exp $ */
 
 /*-
  * Copyright (c) 2007
@@ -22,9 +22,9 @@
 
 #include <machine/asm.h>
 
+RCSID("$MirOS$")
+
 	.intel_syntax noprefix
-	.section .comment
-	.asciz	"$MirOS: src/kern/c/i386/strlen.S,v 1.1 2007/02/07 02:29:33 tg Exp $"
 	.text
 
 #ifdef WIDEC

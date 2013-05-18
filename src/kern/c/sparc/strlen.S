@@ -1,4 +1,3 @@
-/**	$MirOS$ */
 /*	$OpenBSD: strlen.S,v 1.4 2005/08/07 16:40:15 espie Exp $ */
 /*
  * Copyright (c) 1992, 1993
@@ -34,6 +33,10 @@
  */
 
 #include <machine/asm.h>
+
+RCSID("$MirOS$")
+
+	.text
 
 ENTRY(strlen)
 	add	%o0, 1, %o1	! save starting point + 1

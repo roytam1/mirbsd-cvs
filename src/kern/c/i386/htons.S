@@ -1,4 +1,4 @@
-/* $MirOS: src/share/misc/licence.template,v 1.20 2006/12/11 21:04:56 tg Rel $ */
+/* $MirOS: src/kern/c/i386/htons.S,v 1.1 2007/02/05 18:30:18 tg Exp $ */
 
 /*-
  * Copyright (c) 2007
@@ -22,13 +22,13 @@
 
 #include <machine/asm.h>
 
+RCSID("$MirOS$")
+
 	.intel_syntax noprefix
-	.section .comment
-	.asciz	"$MirOS$"
 	.text
 
 NENTRY(htons)
-ENTRY(ntohs)
+ALTENTRY(ntohs)
 	mov	eax,[esp+4]
 	xchg	al,ah
 	ret

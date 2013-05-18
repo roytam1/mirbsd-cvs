@@ -1,4 +1,4 @@
-/* $MirOS: src/share/misc/licence.template,v 1.20 2006/12/11 21:04:56 tg Rel $ */
+/* $MirOS: src/kern/z/adler32_i386.S,v 1.1 2007/02/12 20:59:47 tg Exp $ */
 
 /*-
  * Copyright (c) 2006
@@ -31,24 +31,19 @@
  *	kern/z/adler32_i386.S
  */
 
-#ifdef UNDERSCORES
-#define	_C(x)	_ ## x
-#else
-#define	_C(x)	x
-#endif
+#include <machine/asm.h>
+
+RCSID("$MirOS$")
 
 #define BASE	65521	/* largest prime smaller than 65536 */
 #define NMAX	5552	/* largest n: 255n(n+1)/2 + (n+1)(BASE-1) <= 2^32-1 */
 
 	.intel_syntax noprefix
-	.section .comment
-	.asciz	"$MirOS: src/sys/arch/i386/stand/libz/adler32.S,v 1.3 2006/12/11 23:55:01 tg Exp $"
 	.text
 
 /* void ADLER32_Update(ADLER32_CTX *ctx, const uint8_t *buf, size_t len) */
 /* u_long adler32(u_long adler, const uint8_t *buf, unsigned len) */
-	.globl	_C(adler32)
-_C(adler32):
+ENTRY(adler32)
 	push	ebp
 	mov	ebp,esp
 	push	ebx
