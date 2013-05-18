@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/net/if.c,v 1.4 2005/12/19 22:22:09 tg Exp $ */
+/**	$MirOS: src/sys/net/if.c,v 1.5 2005/12/20 19:41:24 tg Exp $ */
 /*	$OpenBSD: if.c,v 1.136 2005/06/23 14:30:40 mickey Exp $	*/
 /*	$NetBSD: if.c,v 1.35 1996/05/07 05:26:04 thorpej Exp $	*/
 
@@ -496,9 +496,7 @@ if_detach(struct ifnet *ifp)
 #endif
 
 #if NBPFILTER > 0
-	/* If there is a bpf device attached, detach from it.  */
-	if (ifp->if_bpf)
-		bpfdetach(ifp);
+	bpfdetach(ifp);
 #endif
 #ifdef ALTQ
 	if (ALTQ_IS_ENABLED(&ifp->if_snd))
