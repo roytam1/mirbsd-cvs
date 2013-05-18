@@ -1,7 +1,7 @@
-/* $MirOS: src/share/misc/licence.template,v 1.28 2008/11/14 15:33:44 tg Rel $ */
+/* $MirOS: src/lib/libmbfun/mbfun.h,v 1.1 2010/08/14 20:53:06 tg Exp $ */
 
 /*-
- * Copyright (c) 2010
+ * Copyright (c) 2010, 2011
  *	Thorsten Glaser <tg@mirbsd.org>
  *
  * Provided that these terms and disclaimer and all copyright notices
@@ -25,12 +25,12 @@
 #ifndef _MBFUN_H
 #define _MBFUN_H
 
-#include <sys/types.h>
+#include <syskern/libckern.h>
 
 __BEGIN_DECLS
 /* support routine for lseek+read to make 2048-byte aligned I/O */
 ssize_t cdblockedread(int, void *, size_t, off_t)
-    __attribute__((bounded (buffer, 2, 3)));
+    __attribute__((__bounded__ (__buffer__, 2, 3)));
 __END_DECLS
 
 #endif
