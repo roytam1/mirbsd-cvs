@@ -1,5 +1,5 @@
 #!/bin/mksh
-rcsid='$MirOS: src/sys/arch/i386/stand/bootxx/mkbxinst.sh,v 1.23 2009/06/29 20:10:26 tg Exp $'
+rcsid='$MirOS: src/sys/arch/i386/stand/bootxx/mkbxinst.sh,v 1.24 2009/06/29 20:51:00 tg Exp $'
 #-
 # Copyright (c) 2007, 2008, 2009
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -191,7 +191,7 @@ while getopts ":0:1AB:g:h:M:p:S:s:" ch; do
 			numsecs=0
 		fi ;;
 	(*)	print -u2 'Syntax:
-	bxinst [-1A] [-B blocksize] [-g C:H:S] [-h heads] [-M partno(1..4)]
+	bxinst [-1A] [-B blocksize] [-g C:H:S] [-h heads] [-M pno(1..4)[:typ]]
 	    [-p partitiontype] [-S scale] [-s sectors] <sectorlist | \\
 	    dd of=image conv=notrunc
 Default values: blocksize=9 heads=16 sectors=63 partitiontype=0x27 scale=0
