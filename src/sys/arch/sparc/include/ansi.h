@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/sparc/include/ansi.h,v 1.7 2005/11/23 20:16:10 tg Exp $ */
+/**	$MirOS: src/sys/arch/sparc/include/ansi.h,v 1.8 2006/09/20 17:45:31 tg Exp $ */
 /*	$OpenBSD: ansi.h,v 1.9 2004/01/03 14:08:53 espie Exp $	*/
 /*	$NetBSD: ansi.h,v 1.6 1996/11/15 22:38:59 jtc Exp $ */
 
@@ -48,7 +48,7 @@
 #define	_BSD_CLOCK_T_	unsigned long		/* clock() */
 #define	_BSD_TIME_T_	int			/* time() */
 #define	_BSD_TIME_T_IS_INT
-#if defined(__GNUC__) && __GNUC__ >= 3
+#if !defined(lint) && defined(__GNUC__) && __GNUC__ >= 3
 #define _BSD_VA_LIST_	__builtin_va_list
 #else
 #define	_BSD_VA_LIST_	char *			/* va_list */
