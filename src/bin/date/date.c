@@ -1,4 +1,4 @@
-/**	$MirOS: src/bin/date/date.c,v 1.2 2006/09/21 01:56:10 tg Exp $ */
+/**	$MirOS: src/bin/date/date.c,v 1.3 2006/10/17 18:44:08 tg Exp $ */
 /*	$OpenBSD: date.c,v 1.26 2003/10/15 15:58:22 mpech Exp $	*/
 /*	$NetBSD: date.c,v 1.11 1995/09/07 06:21:05 jtc Exp $	*/
 
@@ -52,7 +52,7 @@
 __IDSTRING(copyright, "@(#) Copyright (c) 1985, 1987, 1988, 1993\n\
 	The Regents of the University of California.  All rights reserved.\n");
 __SCCSID("@(#)date.c	8.2 (Berkeley) 4/28/95");
-__RCSID("$MirOS: src/bin/date/date.c,v 1.2 2006/09/21 01:56:10 tg Exp $");
+__RCSID("$MirOS: src/bin/date/date.c,v 1.3 2006/10/17 18:44:08 tg Exp $");
 
 extern	char *__progname;
 
@@ -60,6 +60,7 @@ time_t tval;
 int retval, nflag;
 int slidetime;
 
+static void dumptime(void);
 static void setthetime(char *);
 static __dead void badformat(void);
 static __dead void usage(void);
@@ -68,21 +69,25 @@ int
 main(int argc, char *argv[])
 {
 	struct timezone tz;
-	int ch, rflag;
+	int ch, rflag, Dflag;
 	const char *format;
 	char buf[1024];
 
 	setlocale(LC_ALL, "");
 
 	tz.tz_dsttime = tz.tz_minuteswest = 0;
-	rflag = 0;
-	while ((ch = getopt(argc, argv, "ad:nr:ut:")) != -1)
+	rflag = Dflag = 0;
+	while ((ch = getopt(argc, argv, "aDd:nr:ut:")) != -1)
 		switch((char)ch) {
-		case 'd':		/* daylight saving time */
-			tz.tz_dsttime = atoi(optarg) ? 1 : 0;
-			break;
 		case 'a':
 			slidetime++;
+			break;
+		case 'D':
+			Dflag++;
+			dumptime();
+			break;
+		case 'd':		/* daylight saving time */
+			tz.tz_dsttime = atoi(optarg) ? 1 : 0;
 			break;
 		case 'n':		/* don't set network */
 			nflag = 1;
@@ -123,8 +128,10 @@ main(int argc, char *argv[])
 
 	/* allow the operands in any order */
 	if (*argv && **argv == '+') {
-		format = *argv + 1;
+		if (*(*argv + 1))
+			format = *argv + 1;
 		++argv;
+		Dflag = 0;
 	}
 
 	if (*argv) {
@@ -135,8 +142,10 @@ main(int argc, char *argv[])
 	if (*argv && **argv == '+')
 		format = *argv + 1;
 
-	(void)strftime(buf, sizeof(buf), format, localtime(&tval));
-	(void)printf("%s\n", buf);
+	if (!Dflag) {
+		strftime(buf, sizeof (buf), format, localtime(&tval));
+		printf("%s\n", buf);
+	}
 	exit(retval);
 }
 
@@ -263,4 +272,42 @@ usage(void)
 	     __progname);
 	fprintf(stderr, "\t    [[[[[[cc]yy]mm]dd]HH]MM[.SS]]\n");
 	exit(1);
+}
+
+static void
+dumptime(void)
+{
+	static const char	wday_name[][3] = {
+		"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"
+	};
+	static const char	mon_name[][3] = {
+		"Jan", "Feb", "Mar", "Apr", "May", "Jun",
+		"Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+	};
+
+	struct tm Dtm;
+	tai64na_t Dta;
+	const char *wn, *mn;
+
+	taina_time(&Dta);
+	Dtm = mjd2tm(tai2mjd(Dta.secs));
+
+	if (Dtm.tm_wday < 0 || Dtm.tm_wday >=
+	    (int)(sizeof (wday_name) / sizeof (wday_name[0])))
+		wn = "???";
+	else
+		wn = wday_name[Dtm.tm_wday];
+	if (Dtm.tm_mon < 0 || Dtm.tm_mon >=
+		(int)(sizeof (mon_name) / sizeof (mon_name[0])))
+		mn = "???";
+	else
+		mn = mon_name[Dtm.tm_mon];
+
+	printf("%.3s %.3s%3d (%d) %lld %.2d:%.2d:%.2d = %lld.%06u ->Z %lld\n",
+	    wn, mn, Dtm.tm_mday, Dtm.tm_yday,
+	    (int64_t)Dtm.tm_year + 1900LL,
+	    Dtm.tm_hour, Dtm.tm_min, Dtm.tm_sec,
+	    (int64_t)(tai2timet(Dta.secs)),
+	    (Dta.nano + 500) / 1000,
+	    (int64_t)(tai2utc(Dta.secs)));
 }

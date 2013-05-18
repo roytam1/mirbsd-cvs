@@ -41,7 +41,7 @@
 .Nd display or set date and time
 .Sh SYNOPSIS
 .Nm date
-.Op Fl anu
+.Op Fl aDnu
 .Op Fl d Ar dst
 .Op Fl r Ar seconds
 .Op Fl t Ar minutes_west
@@ -72,6 +72,8 @@ Use the
 .Xr adjtime 2
 call to gradually skew the local time to the
 remote time rather than just hopping.
+.It Fl D
+Dump the time (struct tm, TAI with usecs, and UTC) to stdout.
 .It Fl d Ar dst
 Set the system's value for Daylight Saving Time.
 If
@@ -237,3 +239,9 @@ A
 .Nm
 command appeared in
 .At v1 .
+.Pp
+The
+.Fl D
+option is a
+.Mx 10
+extension.

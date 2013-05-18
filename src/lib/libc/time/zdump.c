@@ -1,4 +1,4 @@
-/**	$MirOS: src/lib/libc/time/zdump.c,v 1.3 2005/09/22 20:33:02 tg Exp $ */
+/**	$MirOS: src/lib/libc/time/zdump.c,v 1.4 2005/12/17 05:46:16 tg Exp $ */
 /*	$OpenBSD: zdump.c,v 1.17 2005/08/08 08:05:38 espie Exp $ */
 
 /*-
@@ -46,7 +46,7 @@
 #define ZDUMP_HI_YEAR	2500
 #endif /* !defined ZDUMP_HI_YEAR */
 
-__RCSID("$MirOS: src/lib/libc/time/zdump.c,v 1.3 2005/09/22 20:33:02 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/time/zdump.c,v 1.4 2005/12/17 05:46:16 tg Exp $");
 
 #ifndef MAX_STRING_LENGTH
 #define MAX_STRING_LENGTH	1024
@@ -673,7 +673,7 @@ register const struct tm *	timeptr;
 	    "%.3s %.3s%3d %.2d:%.2d:%.2d %lld",
 	    wn, mn, timeptr->tm_mday,
 #else
-	    "%.3s %.3s%3d (%d) %lld %.2d:%.2d:%.2d %s (%d%s)",
+	    "%.3s %.3s%3d (%d) %lld %.2d:%.2d:%.2d %s (%ld%s)",
 	    wn, mn, timeptr->tm_mday, timeptr->tm_yday,
 	    (int64_t)timeptr->tm_year + (long long) TM_YEAR_BASE,
 #endif
