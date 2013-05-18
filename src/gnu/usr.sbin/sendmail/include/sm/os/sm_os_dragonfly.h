@@ -6,7 +6,7 @@
  * forth in the LICENSE file which can be found at the top level of
  * the sendmail distribution.
  *
- *	$Sendmail: sm_os_dragonfly.h,v 1.1 2004/08/06 03:54:07 gshapiro Exp $
+ *	$Id$
  */
 
 /*

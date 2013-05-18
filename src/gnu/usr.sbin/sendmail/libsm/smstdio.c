@@ -8,7 +8,7 @@
  */
 
 #include <sm/gen.h>
-SM_IDSTR(id, "@(#)$Sendmail: smstdio.c,v 1.34 2004/08/03 20:46:34 ca Exp $")
+SM_IDSTR(id, "@(#)$Id$")
 #include <unistd.h>
 #include <stdio.h>
 #include <fcntl.h>

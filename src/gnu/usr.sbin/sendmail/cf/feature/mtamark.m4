@@ -11,7 +11,7 @@ divert(-1)
 
 divert(0)
 ifdef(`_MTAMARK_R',`dnl',`dnl
-VERSIONID(`$Sendmail: mtamark.m4,v 1.2 2005/07/25 20:56:53 ca Exp $')
+VERSIONID(`$Id$')
 LOCAL_CONFIG
 define(`_MTAMARK_R',`')dnl
 # map for MTA mark

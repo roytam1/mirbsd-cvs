@@ -9,7 +9,7 @@ divert(-1)
 #
 
 divert(0)
-VERSIONID(`$Sendmail: local_no_masquerade.m4,v 1.2 2000/08/03 15:54:59 ca Exp $')
+VERSIONID(`$Id$')
 divert(-1)
 
 ifdef(`_MAILER_local_',

@@ -10,7 +10,7 @@ divert(-1)
 #
 
 divert(0)
-VERSIONID(`$Sendmail: preserve_local_plus_detail.m4,v 8.1 2000/04/10 05:48:05 gshapiro Exp $')
+VERSIONID(`$Id$')
 divert(-1)
 
 define(`_PRESERVE_LOCAL_PLUS_DETAIL_', `1')

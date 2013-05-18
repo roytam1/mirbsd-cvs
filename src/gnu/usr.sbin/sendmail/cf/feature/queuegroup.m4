@@ -10,7 +10,7 @@ divert(-1)
 #
 
 divert(0)
-VERSIONID(`$Sendmail: queuegroup.m4,v 1.4 2001/03/28 00:39:39 ca Exp $')
+VERSIONID(`$Id$')
 divert(-1)
 
 ifdef(`_ACCESS_TABLE_', `',

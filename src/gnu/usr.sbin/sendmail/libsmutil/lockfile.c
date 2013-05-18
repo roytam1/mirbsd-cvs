@@ -13,7 +13,7 @@
 
 #include <sendmail.h>
 
-SM_RCSID("@(#)$Sendmail: lockfile.c,v 8.21 2003/11/10 22:57:38 ca Exp $")
+SM_RCSID("@(#)$Id$")
 
 
 /*

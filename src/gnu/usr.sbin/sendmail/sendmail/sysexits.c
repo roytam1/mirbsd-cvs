@@ -13,7 +13,7 @@
 
 #include <sendmail.h>
 
-SM_RCSID("@(#)$Sendmail: sysexits.c,v 8.34 2002/09/09 02:43:00 gshapiro Exp $")
+SM_RCSID("@(#)$Id$")
 
 /*
 **  DSNTOEXITSTAT -- convert DSN-style error code to EX_ style.

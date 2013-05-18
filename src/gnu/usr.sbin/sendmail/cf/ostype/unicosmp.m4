@@ -17,7 +17,7 @@ divert(-1)
 #
 
 divert(0)
-VERSIONID(`$Sendmail: unicosmp.m4,v 1.1 2003/04/21 17:03:51 ca Exp $')
+VERSIONID(`$Id$')
 _DEFIFNOT(`LOCAL_MAILER_FLAGS', `Ehm9')dnl
 ifdef(`LOCAL_MAILER_ARGS',, `define(`LOCAL_MAILER_ARGS', `mail -s -d $u')')dnl
 ifdef(`QUEUE_DIR',, `define(`QUEUE_DIR', /var/spool/mqueue)')dnl

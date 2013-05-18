@@ -1,4 +1,4 @@
-/* $MirOS: src/gnu/usr.sbin/sendmail/include/sm/cdefs.h,v 1.2 2009/11/18 08:44:25 tg Exp $ */
+/* $MirOS: src/gnu/usr.sbin/sendmail/include/sm/cdefs.h,v 1.3 2010/12/19 17:18:05 tg Exp $ */
 /*
  * Copyright (c) 2000-2002 Sendmail, Inc. and its suppliers.
  *	All rights reserved.
@@ -7,7 +7,7 @@
  * forth in the LICENSE file which can be found at the top level of
  * the sendmail distribution.
  *
- *	$Sendmail: cdefs.h,v 1.16 2003/12/05 22:45:25 ca Exp $
+ *	$Id$
  */
 
 /*

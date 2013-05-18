@@ -13,7 +13,7 @@
 
 #include <sendmail.h>
 
-SM_RCSID("@(#)$Sendmail: snprintf.c,v 8.44 2001/09/11 04:04:56 gshapiro Exp $")
+SM_RCSID("@(#)$Id$")
 
 /*
 **  SHORTENSTRING -- return short version of a string

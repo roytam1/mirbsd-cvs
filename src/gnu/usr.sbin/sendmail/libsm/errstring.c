@@ -11,7 +11,7 @@
  */
 
 #include <sm/gen.h>
-SM_RCSID("@(#)$Sendmail: errstring.c,v 1.19 2003/12/10 03:53:05 gshapiro Exp $")
+SM_RCSID("@(#)$Id$")
 
 #include <errno.h>
 #include <stdio.h>	/* sys_errlist, on some platforms */

@@ -10,7 +10,7 @@
 
 #include <sm/gen.h>
 
-SM_RCSID("@(#)$Sendmail: util.c,v 1.9 2006/08/30 18:35:51 ca Exp $")
+SM_RCSID("@(#)$Id$")
 #include <sm/setjmp.h>
 #include <sm/conf.h>
 #include <sm/assert.h>

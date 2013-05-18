@@ -10,7 +10,7 @@ divert(-1)
 #
 
 divert(0)
-VERSIONID(`$Sendmail: access_db.m4,v 8.27 2006/07/06 21:10:10 ca Exp $')
+VERSIONID(`$Id$')
 divert(-1)
 
 define(`_ACCESS_TABLE_', `')

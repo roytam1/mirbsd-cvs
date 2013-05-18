@@ -13,7 +13,7 @@
  */
 
 #include <sm/gen.h>
-SM_RCSID("@(#)$Sendmail: makebuf.c,v 1.26 2001/10/31 16:04:08 ca Exp $")
+SM_RCSID("@(#)$Id$")
 #include <stdlib.h>
 #include <unistd.h>
 #include <sys/types.h>

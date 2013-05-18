@@ -13,7 +13,7 @@
 
 #include <sendmail.h>
 
-SM_RCSID("@(#)$Sendmail: stab.c,v 8.89 2006/08/15 23:24:58 ca Exp $")
+SM_RCSID("@(#)$Id$")
 
 /*
 **  STAB -- manage the symbol table

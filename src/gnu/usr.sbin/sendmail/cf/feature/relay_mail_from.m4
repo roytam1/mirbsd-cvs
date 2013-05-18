@@ -10,7 +10,7 @@ divert(-1)
 #
 
 divert(0)
-VERSIONID(`$Sendmail: relay_mail_from.m4,v 8.3 2001/02/06 16:07:12 ca Exp $')
+VERSIONID(`$Id$')
 divert(-1)
 
 ifdef(`_ACCESS_TABLE_',

@@ -10,7 +10,7 @@ divert(-1)
 #
 
 divert(0)
-VERSIONID(`$Sendmail: conncontrol.m4,v 1.4 2004/02/19 21:31:47 ca Exp $')
+VERSIONID(`$Id$')
 
 divert(-1)
 ifdef(`_ACCESS_TABLE_', `

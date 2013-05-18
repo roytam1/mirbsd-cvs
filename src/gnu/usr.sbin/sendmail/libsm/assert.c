@@ -9,7 +9,7 @@
  */
 
 #include <sm/gen.h>
-SM_RCSID("@(#)$Sendmail: assert.c,v 1.26 2003/12/05 22:45:24 ca Exp $")
+SM_RCSID("@(#)$Id$")
 
 /*
 **  Abnormal program termination and assertion checking.

@@ -12,6 +12,6 @@ divert(-1)
 #
 #
 divert(0)
-VERSIONID(`$Sendmail: EECS.Berkeley.EDU.m4,v 8.10 1999/02/07 07:26:06 gshapiro Exp $')
+VERSIONID(`$Id$')
 DOMAIN(Berkeley.EDU)dnl
 MASQUERADE_AS(EECS.Berkeley.EDU)dnl

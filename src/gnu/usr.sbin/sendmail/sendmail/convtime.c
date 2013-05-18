@@ -13,7 +13,7 @@
 
 #include <sendmail.h>
 
-SM_RCSID("@(#)$Sendmail: convtime.c,v 8.39 2001/09/11 04:05:13 gshapiro Exp $")
+SM_RCSID("@(#)$Id$")
 
 /*
 **  CONVTIME -- convert time

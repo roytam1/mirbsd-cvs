@@ -21,7 +21,7 @@ SM_COPYRIGHT(
 	The Regents of the University of California.  All rights reserved.\n"
 )
 
-SM_RCSID("@(#)$Sendmail: editmap.c,v 1.25 2007/05/11 18:50:35 ca Exp $")
+SM_RCSID("@(#)$Id$")
 
 #include <sys/types.h>
 #ifndef ISC_UNIX

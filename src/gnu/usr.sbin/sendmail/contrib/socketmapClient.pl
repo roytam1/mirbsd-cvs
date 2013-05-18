@@ -1,7 +1,7 @@
 #!/usr/bin/perl -w
 #
 # Contributed by Bastiaan Bakker for SOCKETMAP
-# $Sendmail: socketmapClient.pl,v 1.1 2003/05/21 15:36:33 ca Exp $
+# $Id$
 
 use strict;
 use IO::Socket;

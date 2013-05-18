@@ -6,7 +6,7 @@
  * forth in the LICENSE file which can be found at the top level of
  * the sendmail distribution.
  *
- *	$Sendmail: assert.h,v 1.10 2001/06/07 20:04:53 ca Exp $
+ *	$Id$
  */
 
 /*

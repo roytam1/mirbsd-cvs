@@ -6,7 +6,7 @@
  * forth in the LICENSE file which can be found at the top level of
  * the sendmail distribution.
  *
- *	$Sendmail: xtrap.h,v 1.7 2001/04/03 01:53:01 gshapiro Exp $
+ *	$Id$
  */
 
 /*

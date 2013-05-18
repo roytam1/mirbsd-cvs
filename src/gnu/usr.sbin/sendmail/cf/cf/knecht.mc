@@ -19,7 +19,7 @@ divert(-1)
 #
 
 divert(0)
-VERSIONID(`$Sendmail: knecht.mc,v 8.62 2006/09/27 19:48:59 eric Exp $')
+VERSIONID(`$Id$')
 OSTYPE(bsd4.4)
 DOMAIN(generic)
 

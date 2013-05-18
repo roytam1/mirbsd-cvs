@@ -6,7 +6,7 @@
  * forth in the LICENSE file which can be found at the top level of
  * the sendmail distribution.
  *
- *	$Sendmail: errstring.h,v 1.10 2007/03/21 23:56:19 ca Exp $
+ *	$Id$
  */
 
 /*

@@ -10,7 +10,7 @@ divert(-1)
 #
 
 divert(0)
-VERSIONID(`$Sendmail: greet_pause.m4,v 1.4 2004/07/06 20:49:51 ca Exp $')
+VERSIONID(`$Id$')
 divert(-1)
 
 ifelse(len(X`'_ARG_),`1',`ifdef(`_ACCESS_TABLE_', `',

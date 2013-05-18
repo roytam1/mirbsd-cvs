@@ -31,7 +31,7 @@ POPDIVERT
 ###   SMTP Mailer specification   ###
 #####################################
 
-VERSIONID(`$Sendmail: smtp.m4,v 8.65 2006/07/12 21:08:10 ca Exp $')
+VERSIONID(`$Id$')
 
 #
 #  common sender and masquerading recipient rewriting
