@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.354 2011/08/20 21:04:08 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.355 2011/08/26 14:44:33 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -8401,7 +8401,7 @@ Tag: debian event geocache
 ----
 Date: 26.08.2011 14:44
 Author: tg@
-Title: 14:31⎜*<* Signoff: XTaran (*.net *.split)
+Title: 14:31⎜*<b>&lt;</b>* Signoff: XTaran (*.net *.split)
 Tag: debian pcli security
 Language: de-DE-1901
 
