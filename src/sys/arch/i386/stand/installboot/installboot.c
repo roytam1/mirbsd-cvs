@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/stand/installboot/installboot.c,v 1.28 2007/06/12 21:58:25 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/stand/installboot/installboot.c,v 1.29 2007/07/05 09:26:34 tg Exp $ */
 /*	$OpenBSD: installboot.c,v 1.47 2004/07/15 21:44:16 tom Exp $	*/
 /*	$NetBSD: installboot.c,v 1.5 1995/11/17 23:23:50 gwr Exp $ */
 
@@ -82,13 +82,15 @@
 #include <fcntl.h>
 #include <nlist.h>
 #include <stdbool.h>
+#include <stddef.h>
 #include <stdlib.h>
+#include <stdint.h>
 #include <stdio.h>
 #include <string.h>
 #include <unistd.h>
 #include <util.h>
 
-__RCSID("$MirOS: src/sys/arch/i386/stand/installboot/installboot.c,v 1.28 2007/06/12 21:58:25 tg Exp $");
+__RCSID("$MirOS: src/sys/arch/i386/stand/installboot/installboot.c,v 1.29 2007/07/05 09:26:34 tg Exp $");
 
 extern const char *__progname;
 int	verbose, nowrite, nheads, nsectors, userspec = 0;
@@ -104,6 +106,8 @@ struct nlist nl[] = {
 	{{"_bpbtpc"}},
 #define	X_PARTP		4
 	{{"_partp"}},
+#define X_START		5
+	{{"__start"}},
 	{{NULL}}
 };
 
@@ -112,6 +116,7 @@ u_int8_t *block_table_p;	/* block number array in prototype image */
 u_int8_t *num_heads_p;		/* number of tracks per cylinder */
 u_int8_t *num_secs_p;		/* number of sectors per track */
 uint8_t  *partp_p;		/* user defined partition type */
+uint8_t  *start_p;		/* begin (0000:7C00) of PBR */
 u_int8_t *bblkend;		/* end of boot block table (+1) */
 int	maxblocklen;		/* size of this array */
 int	curblocklen = 0;	/* actually used up bytes */
@@ -437,7 +442,10 @@ main(int argc, char *argv[])
 
  do_write:
 	while (bblkend < (block_table_p + maxblocklen))
-		*bblkend++ = arc4random() & 0xFF;
+		if (((ptrdiff_t)(bblkend - start_p) & 0xFFCF) == 0x01C2)
+			*bblkend++ = 0;
+		else
+			*bblkend++ = arc4random() & 0xFF;
 
 	if (nheads == -1 || nsectors == -1) {
 		fprintf(stderr, "warning: Unable to get BIOS geometry, "
@@ -573,6 +581,7 @@ loadprotoblocks(char *fname, long *size)
 	num_heads_p = (u_int8_t *) (bp + nl[X_NUM_HEADS].n_value);
 	num_secs_p = (u_int8_t *) (bp + nl[X_NUM_SECS].n_value);
 	partp_p = (uint8_t *) (bp + nl[X_PARTP].n_value);
+	start_p = (uint8_t *) (bp + nl[X_START].n_value);
 	maxblocklen = *block_count_p;
 	if (force_mbr) maxblocklen -= 64;
 
