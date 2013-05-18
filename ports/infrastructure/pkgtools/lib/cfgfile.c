@@ -1,4 +1,4 @@
-/* $MirOS: ports/infrastructure/pkgtools/lib/cfgfile.c,v 1.1.2.12 2010/03/04 18:03:37 bsiegert Exp $ */
+/* $MirOS: ports/infrastructure/pkgtools/lib/cfgfile.c,v 1.1.2.13 2010/03/06 15:25:23 bsiegert Exp $ */
 
 /*-
  * Copyright (c) 2009, 2010
@@ -31,7 +31,7 @@
 #include <err.h>
 #include "lib.h"
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/cfgfile.c,v 1.1.2.12 2010/03/04 18:03:37 bsiegert Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/cfgfile.c,v 1.1.2.13 2010/03/06 15:25:23 bsiegert Exp $");
 
 SLIST_HEAD(cfg_varlist, cfg_var);
 struct cfg_var {
@@ -51,7 +51,7 @@ static char *Pager = NULL;
 static void
 parse_var(char *line, size_t i, size_t len)
 {
-	struct cfg_var *var;
+	struct cfg_var *var = NULL;
 	char *key, *val;
 
 	assert(i < len);
