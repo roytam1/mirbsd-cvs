@@ -1,4 +1,4 @@
-/* $MirOS: src/usr.bin/readlink/readlink.c,v 1.3 2005/05/21 15:03:11 tg Exp $ */
+/* $MirOS: src/usr.bin/readlink/readlink.c,v 1.4 2005/12/17 05:46:29 tg Exp $ */
 
 /*-
  * Copyright (c) 2005
@@ -30,7 +30,7 @@
 #include <string.h>
 #include <unistd.h>
 
-__RCSID("$MirOS: src/usr.bin/readlink/readlink.c,v 1.3 2005/05/21 15:03:11 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/readlink/readlink.c,v 1.4 2005/12/17 05:46:29 tg Exp $");
 
 int main(int, char **);
 __dead void usage(void);
@@ -62,16 +62,17 @@ main(int argc, char *argv[])
 	if ((i = strlen(argv[0])) > (PATH_MAX - 1))
 		errx(1, "filename too long, max %d", PATH_MAX - 1);
 
-	if (fflag)
-		realpath(argv[0], buf);
-	else {
+	if (fflag) {
+		if (realpath(argv[0], buf) == NULL)
+			err(1, "realpath");
+	} else {
 		i = readlink(argv[0], buf, sizeof (buf) - 1);
 		if ((ssize_t)i < 0)
-			return (1);
+			err(1, "readlink");
 		buf[i] = '\0';
 	}
 
-	printf("%s%s", buf, nflag ? "\n" : "");
+	printf("%s%s", buf, nflag ? "" : "\n");
 	return (0);
 }
 
