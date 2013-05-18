@@ -1,5 +1,5 @@
-/**	$MirOS: src/usr.sbin/makefs/nbsrc/usr.sbin/mtree/extern.h,v 1.6 2008/10/31 21:24:26 tg Exp $ */
-/*	$NetBSD: extern.h,v 1.30 2006/12/14 20:09:36 he Exp $	*/
+/**	$MirOS: src/usr.sbin/makefs/nbsrc/usr.sbin/mtree/extern.h,v 1.7 2009/07/23 19:32:26 tg Exp $ */
+/*	$NetBSD: extern.h,v 1.31 2009/04/08 19:03:13 apb Exp $	*/
 
 /*-
  * Copyright (c) 2009
@@ -77,7 +77,7 @@ const char *rlink(const char *);
 int	 verify(void);
 
 extern int	dflag, eflag, iflag, lflag, mflag, rflag, sflag, tflag, uflag;
-extern int	mtree_Mflag, mtree_Wflag;
+extern int	mtree_Mflag, mtree_Sflag, mtree_Wflag;
 extern size_t	mtree_lineno;
 extern u_int32_t crc_total;
 extern int	ftsoptions, keys;
