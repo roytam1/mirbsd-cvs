@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/dev/rnd.c,v 1.66 2010/09/24 21:31:19 tg Exp $ */
+/**	$MirOS: src/sys/dev/rnd.c,v 1.67 2010/09/24 21:37:34 tg Exp $ */
 /*	$OpenBSD: rnd.c,v 1.78 2005/07/07 00:11:24 djm Exp $	*/
 
 /*
@@ -565,27 +565,37 @@ add_entropy_words(buf, n)
  *
  */
 void
-enqueue_randomness(int ustate, int val)
+enqueue_randomness(int state, int val)
 {
 	register struct timer_rand_state *p;
 	register struct rand_event *rep;
-	struct timeval	tv;
-	u_int	time_, nbits;
-	int s, state;
+	int s;
+	struct {
+		struct timeval tv;
+		int val, state, delta2, delta3;
+		u_int d_time_, d_nbits;
+#define time_ drop.d_time_
+#define nbits drop.d_nbits
+		struct timer_rand_state p;
+		char why;
+	} drop;
 
-	state = ustate == RND_SRC_LPC ? RND_SRC_TRUE : ustate;
+	drop.val = val;
+	if ((drop.state = state) == RND_SRC_LPC)
+		state = RND_SRC_TRUE;
 
 	/* XXX on i386 and maybe sparc we get here before randomattach() */
 	if (!rnd_attached) {
 #if 1
 		/* since we get a *lot* of information here, early */
-		rnd_lopool_addv(val + (state << 29));
+		drop.why = 1;
+		rnd_lopool_add(&drop, sizeof(drop));
 #else
 		RNDEBUG(RD_ALWAYS, "rnd: premature enqueue_randomness\n");
 #endif
 		return;
 	}
-#define rndebugtmp(x) state == RND_SRC_ ## x ? #x :
+#define rndebugtmp(x) drop.state == RND_SRC_ ## x ? #x :
 	RNDEBUG(RD_ENQUEUE, "rnd: enqueue(%s, %u)\n",
 	    rndebugtmp(TRUE)
 	    rndebugtmp(TIMER)
@@ -595,6 +605,7 @@ enqueue_randomness(int ustate, int val)
 	    rndebugtmp(NET)
 	    rndebugtmp(AUVIS)
 	    rndebugtmp(IMACS)
+	    rndebugtmp(LPC)
 	    "unknown", val);
 #undef rndebugtmp
 
@@ -606,8 +617,8 @@ enqueue_randomness(int ustate, int val)
 	p = &rnd_states[state];
 	val += state << 13;
 
-	microtime(&tv);
-	time_ = tv.tv_usec ^ tv.tv_sec;
+	microtime(&drop.tv);
+	time_ = drop.tv.tv_usec ^ drop.tv.tv_sec;
 	nbits = 0;
 
 	/*
@@ -661,18 +672,26 @@ enqueue_randomness(int ustate, int val)
 		 */
 		if (rnd_qlen() > QEVSLOW && nbits < QEVSBITS) {
 			rndstats.rnd_drople++;
-			return;
+			drop.why = 2;
+			drop.delta2 = delta2;
+			drop.delta3 = delta3;
+			goto do_a_drop;
 		}
 		p->last_time = time_;
 		p->last_delta  = delta3;
 		p->last_delta2 = delta2;
 	} else if (p->max_entropy)
-		nbits = (ustate == RND_SRC_LPC) ? 24 : (8 * sizeof(val) - 1);
+		nbits = drop.state == RND_SRC_LPC ? 24 : 8 * sizeof(val) - 1;
 
 	s = splhigh();
 	if ((rep = rnd_put()) == NULL) {
 		rndstats.rnd_drops++;
 		splx(s);
+		drop.why = 3;
+ do_a_drop:
+		/* if we have a drop, put the randomfull[sic!]ness to use */
+		drop.p = *p;
+		rnd_lopool_add(&drop, sizeof(drop));
 		return;
 	}
 
@@ -691,6 +710,8 @@ enqueue_randomness(int ustate, int val)
 		timeout_add(&rnd_timeout, 1);
 	}
 	splx(s);
+#undef time_
+#undef nbits
 }
 
 void
