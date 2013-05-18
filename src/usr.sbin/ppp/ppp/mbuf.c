@@ -45,7 +45,7 @@
 #include "prompt.h"
 #include "main.h"
 
-__RCSID("$MirOS: src/usr.sbin/ppp/ppp/mbuf.c,v 1.2 2005/03/13 19:17:16 tg Exp $");
+__RCSID("$MirOS: src/usr.sbin/ppp/ppp/mbuf.c,v 1.3 2005/12/04 15:02:27 tg Exp $");
 
 #define BUCKET_CHUNK	20
 #define BUCKET_HASH	256
@@ -248,13 +248,16 @@ m_prepend(struct mbuf *bp, const void *ptr, size_t len, size_t extra)
 {
   struct mbuf *head;
   u_char *tmp;
+  void *tmb;
 
   if (bp && bp->m_offset) {
     if (bp->m_offset >= len) {
       bp->m_offset -= len;
       bp->m_len += len;
-      if (ptr)
-        memcpy(MBUF_CTOP(bp), ptr, len);
+      if (ptr) {
+	tmb = MBUF_CTOP(bp);
+        memcpy(tmb, ptr, len);
+      }
       return bp;
     }
     len -= bp->m_offset;

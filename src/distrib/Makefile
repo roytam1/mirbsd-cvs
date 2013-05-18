@@ -1,5 +1,8 @@
-# $MirOS: src/distrib/Makefile,v 1.5 2005/11/21 19:49:50 tg Exp $
+# $MirOS: src/distrib/Makefile,v 1.6 2005/12/04 17:24:41 tg Exp $
 # $OpenBSD: Makefile,v 1.27 2005/01/13 22:27:13 deraadt Exp $
+
+.include <bsd.own.mk>
+REL_NO_KERNEL?= No
 
 .if	make(obj)
 SUBDIR+= special i386 sparc
