@@ -2,7 +2,7 @@
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.163 2008/08/16 22:03:12 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.164 2008/09/14 20:36:53 tg Exp $'
 mws_content <<'EOF'
 <h1>mksh(1) R35b</h1>
 <p>This is the website of the MirBSD™ Korn Shell, an actively developed free
@@ -218,7 +218,7 @@ mws_content <<'EOF'
 <li><tt>-DMKSH_NOPWNAM</tt> – if MKSH_SMALL is not set, still omit getpwnam(3)
  calls in order to not pull in the nsswitch or PAM libraries</li>
 <li><tt>-DMKSH_NOVI</tt> – if this or MKSH_SMALL is set, the vi command line
- editing mode is omitted</li>
+ editing mode (which is orphaned anyway, yet functional) is omitted</li>
 </ul>
 <p>You can override certain mirtoconf checks by setting environment variables
  like <tt>HAVE_REVOKE=0</tt> (default for Linux) – if these are set to 0 or 1,
@@ -993,7 +993,7 @@ mws_content <<'EOF'
   “vi” command-line editing mode (regression; reported by asarch via IRC)</li>
  <li>Fix multi-line <tt>$PS1</tt> where the last line is too long for the edit
   area to fit on the screen, genuine (pdksh, probably) bug, while here</li>
- <li>Plug a memory leak; patch from jaredy taken from oksh</li>
+ <li>Plug a memory leak; patch from jaredy taken via oksh</li>
 </ul>
 <p id="r35b">mksh R35b comes with the following bug fixes:</p><ul>
  <li>IRIX also has no UTF-8 locale at all, confirmed by Elias Pipping</li>
