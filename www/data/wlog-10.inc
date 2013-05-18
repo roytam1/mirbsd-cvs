@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.331 2011/03/24 18:42:39 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.332 2011/03/26 10:58:04 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -7659,8 +7659,9 @@ Tag: debian
  MirBSD on a P-233MMX box with Hercules graphics card and a 9″ monitor
  with no comment other than considering its age (and that it usually
  runs 24/7) as partial cause for the bug. Thanks, Netcologne!</p>
-<p>Things we don’t want to see:<br
- /><tt>Mar 26 10:40:02 blau /bsd: signal 11 received by (screen:16857) UID(2999) EUID(2999), parent (screen:19111) UID(2999) EUID(2999)</tt><br
+<p>Things we don’t want to see:<br /><tt style="white-space:normal;">Mar
+ 26 10:40:02 blau /bsd: signal 11 received by (screen:16857) UID(2999)
+ EUID(2999), parent (screen:19111) UID(2999) EUID(2999)</tt><br
  />“Suddenly the Dungeon collapses!! - You die...” (luckily, I get it
  about once a year only)</p>
 <p>ObCoffeeSpices: Marrakech (Cumin, Allspice, Cumin Aroma) – though,
