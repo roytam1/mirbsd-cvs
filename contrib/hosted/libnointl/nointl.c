@@ -18,6 +18,7 @@
  * of said person's immediate fault when using the work as intended.
  */
 
+#undef __unused		/* just in case this is built on GNU/Linux */
 #include <sys/types.h>
 #include <langinfo.h>
 #include <limits.h>
@@ -27,8 +28,9 @@
 #include "libintl.h"
 
 static const char __rcsid_intl[] __attribute__((used)) =
-    "$MirOS: contrib/hosted/libnointl/nointl.c,v 1.6 2007/07/14 19:51:02 tg Exp $";
+    "$MirOS: contrib/hosted/libnointl/nointl.c,v 1.7 2008/05/03 01:09:30 tg Exp $";
 
+#undef __unused
 #define __unused	__attribute__((unused))
 
 /* hidden data symbols */
