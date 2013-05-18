@@ -2,7 +2,7 @@
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.213 2009/03/26 11:26:15 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.214 2009/03/29 15:10:27 tg Exp $'
 mws_content <<'EOF'
 <h1>mksh(1) R36b</h1>
 <p>This is the website of the MirBSD™ Korn Shell, an actively developed free
@@ -1061,12 +1061,10 @@ mws_content <<'EOF'
   limits in a single invocation from oksh (thanks millert) -->
  <li>[ahoka] Begin porting to <a href="http://www.haiku-os.org/">Haiku</a>
   and, implicitly, BeOS (not finished yet)</li>
+</ul>
+<p id="r37">mksh R37 has major standards compliance improvements:</p><ul>
  <li>[tg] Rename <tt>-o utf8-hack</tt> to <tt>-o utf8-mode</tt></li>
  <li>[tg] Fix spacing mode error (pasto) in the mdoc(7) format manpage</li>
- <li>[tg] Document that, currently, shell integer variables are limited
-  to the size of the compiler <tt>long</tt> type in most places, and to
-  32 bit in some (few) places, so that reliable results are only obtained
-  on a platform with 32-bit longs for now</li>
  <li>[tg] Implement <tt>$((#…))</tt> unsigned arithmetic calculation,
   needed for arc4random_uniform(3)-in-korn-shell implementation</li>
  <li>[tg] Really preserve LD_LIBRARY_PATH in <tt>check.pl</tt></li>
@@ -1085,7 +1083,8 @@ mws_content <<'EOF'
  <li>[tg] Introduce <tt>mksh_ari_t</tt> and <tt>mksh_uari_t</tt>
   internal types to limit arithmetics to 32 bit on all systems;
   currently depending on the already-used standard <tt>int32_t</tt>
-  and <tt>uint32_t</tt> types. Future expansion to 64 bit possible</li>
+  and <tt>uint32_t</tt> types. Future expansion to 64 bit possible.
+  Document that shell integer variables use this type.</li>
  <li>[tg] The variables PGRP, PPID, RANDOM and USER_ID are now unsigned</li>
  <li>[tg] Fix two off-by-ones breaking PS1 ending with a newline; bug
   reported by Matthias Diener</li>
