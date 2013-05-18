@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/distrib/baselive/munge_it.sh,v 1.4 2006/08/19 01:29:15 tg Exp $
+# $MirOS: src/distrib/baselive/munge_it.sh,v 1.5 2006/08/19 01:37:50 tg Exp $
 #-
 # Copyright (c) 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -72,7 +72,7 @@ ed -s etc/ntpd.conf <<-'EOF'
 EOF
 ed -s etc/rc <<-'EOF'
 	1i
-		# $MirOS: src/distrib/baselive/munge_it.sh,v 1.4 2006/08/19 01:29:15 tg Exp $
+		# $MirOS: src/distrib/baselive/munge_it.sh,v 1.5 2006/08/19 01:37:50 tg Exp $
 	.
 	/shutdown request/ka
 	/^fi/a
@@ -112,6 +112,8 @@ ed -s etc/rc <<-'EOF'
 	.
 	/openssl genrsa/s/4096/1024/
 	%g!/etc/ttys\.gen!s!!/etc/ttys!g
+	/^#	print -n adjusting/s/^#//
+	/for now/d
 	wq
 EOF
 ed -s etc/rc.securelevel <<-'EOF'

@@ -1,4 +1,4 @@
-# $MirOS: src/etc/rc,v 1.47 2006/08/19 15:42:19 tg Exp $
+# $MirOS: src/etc/rc,v 1.48 2006/08/19 15:51:45 tg Exp $
 # $OpenBSD: rc,v 1.277 2006/01/12 21:54:15 deraadt Exp $
 #-
 # System startup script run by init on autoboot or after single-user.
@@ -197,23 +197,10 @@ raidctl -P all
 swapctl -A -t blk
 
 # Try to find out what is our console device (no grep yet...)
-x=
-dmesg |&
-while read -p line; do
-	[[ $line = consdev=* ]] && x=${line#consdev=}
-done
-consinfo="$(stty -f /dev/console speed) ${x:-NONE}"
+x=$(sysctl machdep.console_device); consdev=${x#machdep.console_device=}
+consinfo="$(stty -f /dev/console speed) $consdev"
 print -u2 console information: $consinfo
-[[ $x = NULL ]] && x=
-consdev=nochg
-[[ -n $x ]] && if [[ $x = INTERNAL* ]]; then
-	# wscons, for all we know
-	consdev=ttyC0
-elif [[ $x = REMOTE* || $x = NORMAL* ]]; then
-	# remote: serial console
-	# normal: shouldn't happen, serial console too
-	consdev=${x##* }
-fi
+[[ -e /dev/$consdev ]] || consdev=nochg		# XXX correct?
 
 # pick up configuration options
 . /etc/rc.conf
@@ -573,12 +560,13 @@ if [[ -x /usr/libexec/vi.recover && -d /var/tmp/vi.recover ]]; then
 	echo preserving editor files;	/usr/libexec/vi.recover
 fi
 
-print "dev $consdev ($consinfo)" | logger -t 'console information'
-if [[ $consdev != nochg ]]; then
+print "at $consinfo" | logger -t 'console information'
+[[ -e /etc/ttys ]] && if [[ $consdev != nochg ]]; then
 #	print -n adjusting /etc/ttys ...
 	print -n 'adjusting /etc/ttys.gen (for now)...'
 	[[ -e /etc/ttys.gen ]] || cp /etc/ttys /etc/ttys.gen
 	x=$(uname -m)
+	local speed=${consinfo%% *}
 	if [[ $x = i386 ]]; then
 		# clean up if we don't match
 		if ! grep "^#AUTOCONS:$consdev,$speed." /etc/ttys.gen >&- 2>&-; then
@@ -604,9 +592,8 @@ if [[ $consdev != nochg ]]; then
 				wq
 			EOF
 		fi
-	elif [[ $consdev = *,* ]]; then
+	else
 		# serial console, disable wscons
-		speed=${consinfo%% *}
 		print -n " serial ($speed bps)"
 		if [[ $x = sparc ]]; then
 			# we just use /dev/console for both
@@ -620,29 +607,19 @@ if [[ $consdev != nochg ]]; then
 			EOF
 		fi
 		if [[ $x = i386 ]]; then
-			# keep wscons but scan for the correct tty dev
+			# keep wscons but enable tty0X dev
 			print -n ' (i386)'
-			td=
-			for tc in /dev/tty*; do
-				if [[ $(stat -f %Hr,%Lr $tc) = $consdev ]]; then
-					td=${tc#/dev/}
-					break
-				fi
-			done
-			if [[ -n $td ]]; then
-				print -n " @/dev/$td"
-				if ! grep "^$td	.*std.$speed\".*	on" \
-				    /etc/ttys.gen >&- 2>&-; then
-					print -n ' -> adding'
-					ed -s /etc/ttys.gen <<-EOF
-						%g/^$td	/s/^.*\$/#&	#AUTODEL/
-						wq
-					EOF
-					cat >>/etc/ttys.gen <<-EOF
-						$td	"/usr/libexec/getty std.$speed"	vt100	on  secure	#AUTOADD
-						#AUTOCONS:$consdev,$speed.
-					EOF
-				fi
+			if ! grep "^$consdev	.*std.$speed\".*	on" \
+			    /etc/ttys.gen >&- 2>&-; then
+				print -n ' -> adding'
+				ed -s /etc/ttys.gen <<-EOF
+					%g/^$consdev	/s/^.*\$/#&	#AUTODEL/
+					wq
+				EOF
+				cat >>/etc/ttys.gen <<-EOF
+					$consdev	"/usr/libexec/getty std.$speed"	vt100	on  secure	#AUTOADD
+					#AUTOCONS:$consdev,$speed.
+				EOF
 			fi
 		fi
 	fi
