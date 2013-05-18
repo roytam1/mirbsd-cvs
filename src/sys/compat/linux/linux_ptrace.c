@@ -1,4 +1,4 @@
-/**	$MirOS$ */
+/**	$MirOS: src/sys/compat/linux/linux_ptrace.c,v 1.1 2005/12/28 22:24:54 tg Exp $ */
 /*	$NetBSD: linux_ptrace.c,v 1.13 2005/12/11 12:20:14 christos Exp $	*/
 
 /*-
@@ -60,7 +60,7 @@ __KERNEL_RCSID(0, "$NetBSD: linux_ptrace.c,v 1.13 2005/12/11 12:20:14 christos E
 
 #include <compat/linux/linux_syscallargs.h>
 
-#include <lib/libkern/libkern.h>	/* for offsetof() */
+#include <sys/slibkern.h>	/* for offsetof() */
 
 extern struct emul emul_linux_aout, emul_linux_elf;
 

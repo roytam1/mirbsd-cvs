@@ -82,7 +82,7 @@
 #include <dev/isa/mcdreg.h>
 #include <dev/isa/opti.h>
 
-#include <lib/libkern/libkern.h>
+#include <sys/slibkern.h>
 
 #ifndef MCDDEBUG
 #define MCD_TRACE(fmt,a,b,c,d)

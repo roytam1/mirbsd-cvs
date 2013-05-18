@@ -78,7 +78,7 @@
 #include <sys/socket.h>
 
 #ifdef _STANDALONE
-#include <lib/libkern/libkern.h>
+#include <sys/slibkern.h>
 #else
 #include <string.h>
 #endif

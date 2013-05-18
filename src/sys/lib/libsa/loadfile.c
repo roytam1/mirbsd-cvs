@@ -66,7 +66,7 @@
  */
 
 #ifdef _STANDALONE
-#include <lib/libkern/libkern.h>
+#include <sys/slibkern.h>
 #include <lib/libsa/stand.h>
 #else
 #include <stdio.h>

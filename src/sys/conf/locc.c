@@ -33,7 +33,7 @@
  */
 
 #include <sys/types.h>
-#include <lib/libkern/libkern.h>
+#include <sys/slibkern.h>
 
 int
 locc(int mask, char *cp, u_int size)

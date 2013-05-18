@@ -40,8 +40,7 @@
  */
 #include <sys/param.h>
 #include <sys/stat.h>
-
-#include <lib/libkern/libkern.h>
+#include <sys/slibkern.h>
 
 /* THIS IS AN UGLY HACK!!!			XXX */
 struct fid;

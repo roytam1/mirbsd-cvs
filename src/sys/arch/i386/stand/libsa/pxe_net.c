@@ -49,7 +49,7 @@
 #include <netinet/in.h>
 #include <netinet/in_systm.h>
 
-#include <lib/libkern/libkern.h>
+#include <sys/slibkern.h>
 
 #include <lib/libsa/stand.h>
 #include <lib/libsa/net.h>

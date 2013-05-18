@@ -33,8 +33,7 @@
  */
 
 #include <sys/types.h>
-
-#include <lib/libkern/libkern.h>
+#include <sys/slibkern.h>
 
 /*
  * Pseudo-random number generator for randomizing the profiling clock,

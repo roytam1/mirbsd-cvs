@@ -1,4 +1,4 @@
-/* $MirOS: src/sys/lib/libsa/fat.c,v 1.2 2005/08/07 15:50:46 tg Exp $ */
+/* $MirOS: src/sys/lib/libsa/fat.c,v 1.3 2005/12/17 05:46:26 tg Exp $ */
 
 /*-
  * Copyright (c) 2005
@@ -28,7 +28,7 @@
 #include <sys/param.h>
 #include <sys/time.h>
 #include <sys/stat.h>
-#include <lib/libkern/libkern.h>
+#include <sys/slibkern.h>
 #include <lib/libsa/stand.h>
 #include <lib/libsa/fat.h>
 

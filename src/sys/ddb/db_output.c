@@ -48,7 +48,7 @@
 #include <ddb/db_var.h>
 #include <ddb/db_extern.h>
 
-#include <lib/libkern/libkern.h>
+#include <sys/slibkern.h>
 
 /*
  *	Character output - tracks position in line.

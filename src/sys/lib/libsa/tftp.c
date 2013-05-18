@@ -49,10 +49,10 @@
 
 #include <sys/types.h>
 #include <sys/stat.h>
+#include <sys/slibkern.h>
 #include <netinet/in.h>
 #include <netinet/udp.h>
 #include <netinet/in_systm.h>
-#include <lib/libkern/libkern.h>
 
 #include "stand.h"
 #include "net.h"

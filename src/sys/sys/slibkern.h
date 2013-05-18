@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/lib/libkern/libkern.h,v 1.7 2008/08/03 21:02:04 tg Exp $ */
+/**	$MirOS: src/sys/lib/libkern/libkern.h,v 1.8 2008/08/04 19:10:54 tg Exp $ */
 /*	$OpenBSD: libkern.h,v 1.22 2004/08/07 00:38:32 deraadt Exp $	*/
 /*	$NetBSD: libkern.h,v 1.7 1996/03/14 18:52:08 christos Exp $	*/
 

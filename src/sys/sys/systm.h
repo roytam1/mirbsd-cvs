@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/sys/systm.h,v 1.6 2008/06/13 14:00:05 tg Exp $ */
+/**	$MirOS: src/sys/sys/systm.h,v 1.7 2008/08/03 21:02:06 tg Exp $ */
 /*	$OpenBSD: systm.h,v 1.60 2004/01/05 00:16:56 espie Exp $	*/
 /*	$NetBSD: systm.h,v 1.50 1996/06/09 04:55:09 briggs Exp $	*/
 
@@ -41,8 +41,8 @@
 #ifndef __SYSTM_H__
 #define __SYSTM_H__
 
-#include <lib/libkern/libkern.h>
 #include <sys/queue.h>
+#include <sys/slibkern.h>
 #include <sys/stdarg.h>
 
 /*

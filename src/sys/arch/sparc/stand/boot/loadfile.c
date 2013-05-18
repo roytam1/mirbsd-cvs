@@ -37,7 +37,7 @@
 
 #define	ELFSIZE		32
 
-#include <lib/libkern/libkern.h>
+#include <sys/slibkern.h>
 #include <lib/libsa/stand.h>
 #include <sparc/stand/common/promdev.h>
 

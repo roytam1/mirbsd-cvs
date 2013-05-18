@@ -1,4 +1,4 @@
-/* $MirOS: src/sys/lib/libkern/srandom.c,v 1.6 2007/03/13 00:35:59 tg Exp $ */
+/* $MirOS: src/sys/lib/libkern/srandom.c,v 1.7 2007/09/28 18:44:00 tg Exp $ */
 
 /*-
  * Copyright (c) 2007
@@ -20,7 +20,7 @@
  * of said person's immediate fault when using the work as intended.
  */
 
-#include <lib/libkern/libkern.h>
+#include <sys/slibkern.h>
 
 extern uint32_t _randseed;
 

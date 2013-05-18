@@ -66,10 +66,10 @@
 #include <sys/param.h>
 #include <sys/time.h>
 #include <sys/stat.h>
+#include <sys/slibkern.h>
 #include <ufs/ffs/fs.h>
 #include <ufs/ufs/dinode.h>
 #include <ufs/ufs/dir.h>
-#include <lib/libkern/libkern.h>
 
 #include "stand.h"
 #include "ufs.h"

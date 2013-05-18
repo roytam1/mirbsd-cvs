@@ -1,4 +1,4 @@
-/* $MirOS: src/sys/lib/libkern/strncasecmp.c,v 1.4 2006/11/21 02:38:33 tg Exp $ */
+/* $MirOS: src/sys/lib/libkern/strncasecmp.c,v 1.5 2006/11/21 02:40:39 tg Exp $ */
 
 /*-
  * Copyright (c) 2006
@@ -25,7 +25,7 @@
  * the possibility of such damage or existence of a defect.
  */
 
-#include <lib/libkern/libkern.h>
+#include <sys/slibkern.h>
 
 #define x_tolower(c)	(((c) >= 'A') && ((c) <= 'Z') ? (c) - 'A' + 'a' : (c))
 

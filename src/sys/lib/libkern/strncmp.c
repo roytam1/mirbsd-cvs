@@ -32,7 +32,7 @@
 #if !defined(_KERNEL) && !defined(_STANDALONE)
 #include <string.h>
 #else
-#include <lib/libkern/libkern.h>
+#include <sys/slibkern.h>
 #endif
 
 int

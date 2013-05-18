@@ -33,7 +33,7 @@
  */
 
 #include <sys/types.h>
-#include <lib/libkern/libkern.h>
+#include <sys/slibkern.h>
 
 int
 scanc(u_int size, const u_char *cp, const u_char table[], int mask)

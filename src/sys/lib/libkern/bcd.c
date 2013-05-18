@@ -4,7 +4,7 @@
  * from FreeBSD
  */
 
-#include <lib/libkern/libkern.h>
+#include <sys/slibkern.h>
 
 u_int8_t const __bcd2bin[] = {
 	 0,  1,  2,  3,  4,  5,  6,  7,  8,  9, 0, 0, 0, 0, 0, 0,

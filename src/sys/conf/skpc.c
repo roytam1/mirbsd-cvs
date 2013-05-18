@@ -33,7 +33,7 @@
  */
 
 #include <sys/types.h>
-#include <lib/libkern/libkern.h>
+#include <sys/slibkern.h>
 
 int
 skpc(int mask, size_t size, u_char *cp)
