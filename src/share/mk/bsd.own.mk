@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/bsd.own.mk,v 1.48 2007/06/07 02:39:16 tg Exp $
+# $MirOS: src/share/mk/bsd.own.mk,v 1.49 2007/06/07 17:22:38 tg Exp $
 # $OpenBSD: bsd.own.mk,v 1.92 2005/01/18 00:28:42 mickey Exp $
 # $NetBSD: bsd.own.mk,v 1.24 1996/04/13 02:08:09 thorpej Exp $
 
@@ -205,6 +205,9 @@ LIBARCH?=	${DESTDIR}/usr/lib/lib${MACHINE_ARCH}.a
 .else
 LIBARCH?=
 .endif
+
+# old stuff
+LIBOSSAUDIO?=	${DESTDIR}/usr/lib/libossaudio.a
 
 .PHONY: spell clean cleandir obj manpages print all \
 	depend beforedepend afterdepend cleandepend \
