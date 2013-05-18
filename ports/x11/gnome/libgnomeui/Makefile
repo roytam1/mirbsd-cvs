@@ -1,9 +1,9 @@
-# $MirOS: ports/x11/gnome/libgnomeui/Makefile,v 1.4 2006/09/14 00:15:19 tg Exp $
+# $MirOS: ports/x11/gnome/libgnomeui/Makefile,v 1.5 2007/04/18 20:05:06 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.8 2004/12/15 13:57:56 alek Exp $
 
 COMMENT=		user interface components for GNOME
 
-DISTNAME=		libgnomeui-2.12.0
+DISTNAME=		libgnomeui-2.18.1
 CATEGORIES=		x11/gnome
 
 HOMEPAGE=		http://www.gnome.org/
@@ -15,7 +15,7 @@ PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
-MASTER_SITES=		${MASTER_SITE_GNOME:=sources/libgnomeui/2.12/}
+MASTER_SITES=		${MASTER_SITE_GNOME:=sources/libgnomeui/2.18/}
 EXTRACT_SUFX=		.tar.bz2
 
 MODULES=		devel/gettext devel/pkgconfig
@@ -27,9 +27,9 @@ LIB_DEPENDS=		bonoboui-2::x11/gnome/libbonoboui \
 USE_X11=		Yes
 USE_CXX=		Yes # fam, shared-mime-info
 USE_GMAKE=		Yes
-CONFIGURE_STYLE=	autogen
+CONFIGURE_STYLE=	autoconf
 AUTOCONF_NEW=		yes
-AUTOMAKE_VERSION=	1.9
+#AUTOMAKE_VERSION=	1.9
 CONFIGURE_ARGS+=	${CONFIGURE_SHARED}
 CONFIGURE_ARGS+=	--disable-gtk-doc
 
