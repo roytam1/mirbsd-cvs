@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/news.inc,v 1.126 2009/10/31 22:28:05 tg Exp $
+RCSID: $MirOS: www/data/news.inc,v 1.127 2009/11/01 16:48:22 tg Exp $
 Title: Older news from the MirOS Project
 Date: 01.03.2006
 
@@ -1748,7 +1748,7 @@ Tag: bug mksh
 Title: New MirOS snapshots (BSD, CVS, grml, ISO)
 Date: 31.10.2009 22:09
 Author: tg@
-Tag: event grml release security snapshot
+Tag: bug event grml release security snapshot
 Pictures: 0 1:20 2:20 3:20
 Picture0: wtf ist hallowe’en
 Picture1: MirGRML “Hello, Wien!” 2009.10
@@ -1775,7 +1775,7 @@ Picture3: Allerheiligen 2009-11-01
  by default, having <a href="@@RELPATH@@mksh.htm">mksh</a> as login
  shell, etc.<br />This time, all (required) source code is available
  either from our CVS or from <tt>sources.grml.org</tt>.</p>
-<p>The Steffl-and-Pumpkin background comes from Christoph Prokop, and
+<p>The Squash-and-Steffl background comes from Christoph Prokop, and
  was used in our desktop wallpaper with permission from Mika.</p>
 <p><strong>Update</strong> 01.11. – The GRUB2 「memtest86+」 bootmenu
  option does not work because nobody told the Grml team that it must
@@ -1810,6 +1810,11 @@ Picture3: Allerheiligen 2009-11-01
 <p>This Live CD comes with IceWM, Dillo 2 and a couple of other tools
  installed and partially preconfigured (you can even run MirBSD inside
  MirBSD, as qemu is shipped). Enjoy!</p>
+<p><strong>Update</strong> 02.11. – The <tt>/etc/rc</tt> shipped breaks
+ pflogd(8) and hence spamlogd(8) – part of the spamd(8) suite – please
+ update this file from the <tt>etc10.ngz</tt> set manually to cvs(1) <a
+ href="@@ABSPATH@@/cvs.cgi/src/etc/rc.diff?r1=1.105;r2=1.107">revision
+ 1.107</a> if you are running a spamfilter scenario. Our apologies.</p>
 <h3 class="revbox">@!PICTURE3!@</h3>
 <p>Once this release is done, I will create a cpio-with-crc-ball of the
  CVS repository again, for initial extraction purposes, to speed up an
