@@ -35,18 +35,19 @@ add the following lines to /etc/rc.local and /etc/rc.shutdown, respectively:
 
 /etc/rc.local:
 
-if [[ $postgresql = YES && -x !!PREFIX!!/bin/pg_ctl ]]; then
+if [ -x !!PREFIX!!/bin/pg_ctl ]; then
 	echo -n ' postgresql'
-	su -l _postgresql -c "nohup !!PREFIX!!/bin/pg_ctl start \
-	    -D /var/postgresql/data -l /var/postgresql/logfile \
-	    -o '-D /var/postgresql/data'"
+	sudo -u _postgresql mksh -c "cd /var/postgresql; exec nohup \
+	    !!PREFIX!!/bin/pg_ctl start -D /var/postgresql/data -l \
+	    /var/postgresql/logfile -o '-D /var/postgresql/data'" >/dev/null
 fi
 
 /etc/rc.shutdown:
 
 if [ -f /var/postgresql/data/postmaster.pid ]; then
-	su -l _postgresql -c "!!PREFIX!!/bin/pg_ctl stop -m fast \
-	    -D /var/postgresql/data"
+	echo -n 'postgresql: '
+	sudo -u _postgresql mksh -c "cd /var/postgresql; exec \
+	    !!PREFIX!!/bin/pg_ctl stop -m fast -D /var/postgresql/data"
 	rm -f /var/postgresql/data/postmaster.pid
 fi
 
