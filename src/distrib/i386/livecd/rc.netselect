@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/i386/livecd/rc.netselect,v 1.3 2006/04/07 13:04:05 tg Exp $
+# $MirOS: src/distrib/i386/livecd/rc.netselect,v 1.4 2006/04/10 20:57:32 tg Exp $
 #-
 # Copyright (c) 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -49,6 +49,8 @@ function set_hostname
 	print livecd.$rndpfx.invalid.mirbsd.org >/etc/myname
 	print ::1 livecd livecd.$rndpfx.invalid.mirbsd.org >/etc/hosts
 	print 127.0.0.1 livecd livecd.$rndpfx.invalid.mirbsd.org >>/etc/hosts
+	print 81.169.176.177 mirbsd.org www.mirbsd.org anoncvs.66h.42h.de \
+	    tg.mirsolutions.de mirbsd.mirsolutions.de >>/etc/hosts
 }
 
 function get_net_ifnames
@@ -95,6 +97,7 @@ function do_netconf
 	else
 		print dhcp >/etc/hostname.$1
 		print rdate_flags=\"-ncv 81.169.176.177\" >>/etc/rc.conf.local
+		print -n >/tmp/try_rnd
 	fi
 }
 

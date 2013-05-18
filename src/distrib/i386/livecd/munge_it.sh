@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/distrib/i386/livecd/munge_it.sh,v 1.16 2006/04/08 01:29:58 tg Exp $
+# $MirOS: src/distrib/i386/livecd/munge_it.sh,v 1.17 2006/04/10 20:47:48 tg Exp $
 #-
 # Copyright (c) 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -64,7 +64,7 @@ ed -s etc/ntpd.conf <<-'EOF'
 EOF
 ed -s etc/rc <<-'EOF'
 	1i
-		# $MirOS: src/distrib/i386/livecd/munge_it.sh,v 1.16 2006/04/08 01:29:58 tg Exp $
+		# $MirOS: src/distrib/i386/livecd/munge_it.sh,v 1.17 2006/04/10 20:47:48 tg Exp $
 	.
 	/shutdown request/ka
 	/^fi/a
@@ -93,6 +93,12 @@ ed -s etc/rc <<-'EOF'
 		print '... done'
 		cp -r etc/skel home/live
 		chown -R 32762:32762 home/live
+	.
+	/load arp tables/i
+		if [[ -e /tmp/try_rnd ]]; then
+			( /usr/bin/ftp -r 120 -Vo - http://tg.mirsolutions.de/rnd_bin.cgi 2>&1 | /bin/cksum -ba sha512 >/dev/prandom ) &
+		fi
+
 	.
 	/rd0c/d
 	/openssl genrsa/s/4096/1024/
