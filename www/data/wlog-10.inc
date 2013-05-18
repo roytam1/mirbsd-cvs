@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.156 2009/02/08 14:58:16 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.157 2009/02/09 11:38:25 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -3263,7 +3263,8 @@ Tag: event
 
 <p><a href="https://bilder.bsdgroup.de/images/FOSDEM2009/big/853.jpg"><img
  src="@@RELPATH@@pics/FOSDEM_2009.jpg" alt="CDs and the “m” at FOSDEM 2009"
- /><br />FOSDEM 2009 is over, we are all sober again, any spotted <a
+ /></a><br />(picture courtesy of Christian “taleon” Ruesch from #pcc)</p>
+<p>FOSDEM 2009 is over, we are all sober again (I hope), any spotted <a
  href="@@RELPATH@@permalinks/news_e20090208-tg.htm">bugs</a> are getting
  fixed. I tended to the disklabel sector size issue, although that has yet
  to be tested, and we might want to see what upstream does about it. <a
