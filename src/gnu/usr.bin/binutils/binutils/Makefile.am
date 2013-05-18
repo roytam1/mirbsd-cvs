@@ -1,4 +1,4 @@
-# $MirOS: src/gnu/usr.bin/binutils/binutils/Makefile.am,v 1.4 2005/06/05 21:24:02 tg Exp $
+# $MirOS: src/gnu/usr.bin/binutils/binutils/Makefile.am,v 1.5 2005/07/07 16:22:44 tg Exp $
 
 ## Process this file with automake to generate Makefile.in
 
@@ -162,20 +162,20 @@ sysroff.h: sysinfo$(EXEEXT_FOR_BUILD) sysroff.info
 	./sysinfo$(EXEEXT_FOR_BUILD) -d <$(srcdir)/sysroff.info >sysroff.h
 
 sysinfo$(EXEEXT_FOR_BUILD): sysinfo.o syslex.o
-	$(CC_FOR_BUILD) $(CFLAGS) $(LDFLAGS) -o $@ sysinfo.o syslex.o
+	$(CC_FOR_BUILD) $(HOSTCFLAGS) $(HOSTLDFLAGS) -o $@ sysinfo.o syslex.o
 
 syslex.o:
 	if [ -r syslex.c ]; then \
-	  $(CC_FOR_BUILD) -c -I. $(AM_CFLAGS) $(CFLAGS) syslex.c -Wno-error ; \
+	  $(CC_FOR_BUILD) -c -I. $(AM_CFLAGS) $(HOSTCFLAGS) syslex.c -Wno-error ; \
 	else \
-	  $(CC_FOR_BUILD) -c -I. -I$(srcdir) $(AM_CFLAGS) $(CFLAGS) $(srcdir)/syslex.c -Wno-error ;\
+	  $(CC_FOR_BUILD) -c -I. -I$(srcdir) $(AM_CFLAGS) $(HOSTCFLAGS) $(srcdir)/syslex.c -Wno-error ;\
 	fi
 
 sysinfo.o:
 	if [ -r sysinfo.c ]; then \
-	  $(CC_FOR_BUILD) -c -I. $(AM_CFLAGS) $(CFLAGS) sysinfo.c -Wno-error ; \
+	  $(CC_FOR_BUILD) -c -I. $(AM_CFLAGS) $(HOSTCFLAGS) sysinfo.c -Wno-error ; \
 	else \
-	  $(CC_FOR_BUILD) -c -I. $(AM_CFLAGS) $(CFLAGS) $(srcdir)/sysinfo.c -Wno-error ; \
+	  $(CC_FOR_BUILD) -c -I. $(AM_CFLAGS) $(HOSTCFLAGS) $(srcdir)/sysinfo.c -Wno-error ; \
 	fi
 
 # We need these for parallel make.
