@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.252 2009/11/06 19:24:55 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.253 2009/11/08 19:44:03 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -5377,7 +5377,7 @@ Tag: bug event snapshot
 <p>I came back from <a href="http://www.openrheinruhr.de/">OpenRheinRuhr</a>,
  and (apparently in contrast to many others) liked it, save for the (a)social
  event, which some organisers admit hasn't been what was promised to them. My
- hotel was actually some kind of <span xml:lang="de_DE-1901">Vereinshaus</a>
+ hotel was actually some kind of <span xml:lang="de_DE-1901">Vereinshaus</span>
  and Billard club, so I had to eat supper (after fleeing the Casino, I had
  wanted to eat with some others deciding to split/fork, but formorer couldn't
  decide, so I walked the 3km, but didn't find anything appealing on the way,
