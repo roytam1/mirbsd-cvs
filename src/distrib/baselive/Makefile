@@ -1,10 +1,10 @@
-# $MirOS: src/distrib/baselive/Makefile,v 1.1 2006/08/17 19:58:00 tg Exp $
+# $MirOS: src/distrib/baselive/Makefile,v 1.2 2006/08/18 22:18:24 tg Exp $
 
 .include <bsd.own.mk>
 
+TOPDIR?=	${.CURDIR}/..
 CDROM?=		livecd${OSrev}.iso
 REALOBJDIR!=	readlink -nf ${.OBJDIR}
-HOSTCFLAGS?=	${CFLAGS} ${COPTS}
 
 ANONCVSROOT=	anoncvs@anoncvs.mirbsd.org:/cvs
 
@@ -19,7 +19,7 @@ unpack:
 .for _i in base dev etc gnu xbase xetc
 	cd workdir && ${SUDO} tar xzphf ${BSDRELDIR}/rel/${_i}${OSrev}.ngz
 .endfor
-	cd workdir && ln -s ${.CURDIR}/../../ramdisk/00-README
+	cd workdir && ln -sf ${TOPDIR}/common/00-README
 	cd workdir/v${OSrev} && ln -s ${BSDRELDIR}/rel i386
 	${SUDO} cp ${.CURDIR}/boot.* workdir/etc/
 
@@ -33,66 +33,44 @@ mr.fs:
 	mkdir -p tmpmnt
 	${SUDO} mount /dev/svnd0a tmpmnt
 	${SUDO} cp workdir/dev/MAKEDEV tmpmnt/
-	cd tmpmnt && ${SUDO} ${MKSH} ./MAKEDEV all
-	@${SUDO} dd if=/dev/arandom bs=512 count=8 of=tmpmnt/.rs
+	cd tmpmnt && ${SUDO} ${MKSH} MAKEDEV all
+	@${SUDO} dd if=/dev/arandom bs=512 count=4 of=tmpmnt/.rs
 	@df -i tmpmnt
 	-${SUDO} umount tmpmnt
 	-${SUDO} vnconfig -u svnd0
 
-addcontrib: addjupp addtinyirc
-
-addjupp:
-	mkdir -p tempdir/jupp
-	@if [[ -s ${BSDSRCDIR}/contrib/code/jupp/jupprc ]]; then \
-		cd tempdir/jupp; \
-		lndir ${BSDSRCDIR}/contrib/code/jupp; \
-	else \
-		cd tempdir; \
-		cvs -Rqz3 -d ${ANONCVSROOT} co \
-		    -PAdjupp contrib/code/jupp || rm -rf jupp; \
+addcontrib:
+	if [[ ! -s ${BSDSRCDIR}/contrib/code/jupp/jupprc ]]; then \
+		print -u2 Aborted: your checkout not complete; \
+		exit 1; \
 	fi
-	@if [[ -d tempdir/jupp ]]; then \
-		targpath=$$(readlink -nf workdir); \
-		cd tempdir/jupp; \
-		CC=${CC:Q} CFLAGS=${CFLAGS:Q}\ ${COPTS:Q} ${MKSH} \
-		    ./configure --prefix=/usr --sysconfdir=/etc; \
-		make; \
-		${SUDO} make install DESTDIR="$$targpath"; \
+	if [[ ! -s ${BSDSRCDIR}/contrib/code/Snippets/tinyirc.c ]]; then \
+		print -u2 Aborted: your checkout not complete; \
+		exit 1; \
 	fi
-
-addtinyirc:
-	mkdir -p tempdir/tinyirc
-	@if [[ -s ${BSDSRCDIR}/contrib/code/Snippets/tinyirc.c ]]; then \
-		cd tempdir/tinyirc; \
-		lndir ${BSDSRCDIR}/contrib/code/Snippets; \
-	else \
-		cd tempdir; \
-		cvs -Rqz3 -d ${ANONCVSROOT} co \
-		    -PAdtinyirc contrib/code/Snippets/tinyirc.c \
-		    || rm -rf tinyirc; \
-	fi
-	@if [[ -s tempdir/tinyirc/tinyirc.c ]]; then \
-		targpath=$$(readlink -nf workdir); \
-		cd tempdir/tinyirc; \
-		${CC} ${CFLAGS} ${COPTS} ${CPPFLAGS} ${LDFLAGS} \
-		    ${LDSTATIC} tinyirc.c -ltermcap; \
-		${SUDO} install -c -s -o root -g bin -m 555 a.out \
-		    $$targpath/usr/bin/tinyirc; \
-	fi
+	mkdir -p tempdir
+	targpath=$$(readlink -nf workdir); cd tempdir; \
+	    CC=${CC:Q} CFLAGS=${CFLAGS:Q}\ ${COPTS:Q} \
+	    ${MKSH} ${BSDSRCDIR}/contrib/code/jupp/configure \
+	    --prefix=/usr --sysconfdir=/etc && \
+	    make && ${SUDO} make install DESTDIR="$$targpath"
+	cd tempdir; cp ${BSDSRCDIR}/contrib/code/Snippets/tinyirc.c . && \
+	    print 'PROG=tinyirc\nLDADD=-ltermcap\nNOMAN=yes\n.include' \
+	    '<bsd.prog.mk>' >mkirc && make -f mkirc && \
+	    ${SUDO} make -f mkirc install BINDIR=../workdir/usr/bin
 
 prepimg:
-	cd workdir && ${SUDO} mksh ${.CURDIR}/munge_it.sh
+	cd workdir && MACHINE=${MACHINE} \
+	    ${SUDO} ${MKSH} ${.CURDIR}/munge_it.sh
 
-bsd.gz: ${REALOBJDIR}/../generic/bsd mr.fs rdsetroot
+bsd.gz: ${REALOBJDIR}/../generic/bsd mr.fs
 	-rm -f bsd bsd.gz
 	gzip -d <${REALOBJDIR}/../generic/bsd >bsd
 	print 'rootdev 6 0\nquit' | config -ef bsd	# (6,0) = cd0a
-	./rdsetroot bsd <mr.fs
+	${REALOBJDIR}/../common/elfrdsetroot bsd <mr.fs
 	gzip -n9 bsd
 
 nukefiles:
-#	cd workdir && ${SUDO} rm -rf etc/X11 usr/{local/lib/X11,releng} \
-#	    usr/{,X11R6/,share/}{doc,info,man} usr/X11R6/lib/X11/doc
 	cd workdir && ${SUDO} rm -rf etc/X11 usr/{local/lib/X11,releng} \
 	    usr/{,X11R6/}{doc,info,man} usr/X11R6/lib/X11/doc
 	-for name in workdir/usr/lib/*@(.so.*|.a); do \
@@ -135,14 +113,14 @@ makeimg: bsd.gz mr.fs
 		while read start end rest; do print $$start $$end; done) \
 	    workdir/usr/mdec/bootxx ${CDROM}
 
-rdsetroot:	${.CURDIR}/../../common/elfrdsetroot.c
+rdsetroot: ${TOPDIR}/common/elfrdsetroot.c
 	${HOSTCC} ${HOSTCFLAGS} -DDEBUG -o $@ ${.ALLSRC}
 
 unconfig:
 	-${SUDO} umount -f /dev/svnd0a
 	-${SUDO} vnconfig -u svnd0
 
-.PHONY:	addcontrib addjupp addtinyirc clean cleandir cleannobsd cleanworkdir \
+.PHONY:	addcontrib clean cleandir cleannobsd cleanworkdir \
 	gendev it makeimg nukefiles prepimg tstmnt tstumnt unconfig unpack
 
 clean cleandir cleannobsd: cleanworkdir
