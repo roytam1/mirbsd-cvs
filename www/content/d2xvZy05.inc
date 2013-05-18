@@ -1,5 +1,5 @@
 <!-- PageID: wlog-9 -->
-<small class="rcsid">$MirOS: www/content/d2xvZy05.inc,v 1.36 2006/08/19 23:18:26 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy05.inc,v 1.37 2006/08/24 22:27:20 tg Exp $</small>
 <h1>MirBSD &ndash; WTF is Verpeilungsfaktor?</h1>
 <p><small><a href="#eof">bottom</a> or <a href="/?older">older</a>
  editions</small></p>
@@ -518,6 +518,68 @@
   our lynx port is the best one available for the Mac and I'm submitting
   offsprings (e.g. mksh, mirmake) to the FSF directory.</p>
  <p>bsiegert@ and tyler@ started hacking on the new website.</p>
+</div>
+
+<div class="wlentry">
+ <h3 id="e20060826">26.08.2006 by tg@</h3>
+ <p>Tonight I must write down my thoughts again, as to sort them and may
+  bsiegert@ help me with some, as it touches MirPorts and the Macintosh.
+  First off I found that ranlib(1) is needed on Darwin and added it back
+  to &lt;bsd.lib.mk&gt; in an if clause. Now, we're already building the
+  standard mirmake library in ${LOCALBASE}/share/mmake/libmirmake.a (the
+  default location is different, but I'm focusing on MirPorts, willingly
+  forgetting MirMake works on GNU/Linux too for now). I intend on adding
+  a lot of functions to libmirmake &ndash; already added arc4random_push
+  for systems which don't have it (i.e. everything other than MirOS), an
+  arc4random(3) suite for systems which don't have <em>that</em> (Darwin
+  didn't have it in older versions (I now scan with autoconf-style tests
+  instead of using hardcoded #ifdefs) and the one of Interix sucks, and,
+  it can be replaced by one spawning an EGD later), libohash, fgetln(3),
+  i.e. everything which is required for MirMake anyway and more. Now, an
+  enhanced libmirmake is not a problem. but not a benefit either, unless
+  it gets used, which it doesn't, yet. Adding "-L${.SYSMK} -lmirmake" to
+  LDFLAGS is a way to easily do that, but then we're entering the libgcc
+  hell: what if we link libfoo, update libmirmake, and link progbar with
+  libfoo? Suddenly, we have two different versions of libmirmake's code.
+  Clash. That's why we need libgcc_s.so and libmirmake.dylib. Now that's
+  not the problem either (I started versioning it already), but where to
+  place the library? Can we use rpaths etc. so that on all systems, when
+  we link against libmirmake, its location is added to the binary built,
+  or library, of course, so that it can be found even if it's outside of
+  any normal shared library paths and LD_LIBRARY_PATH variables? Or must
+  I go the way to place it in ${LOCALBASE}/lib like any other shlibs? In
+  the latter case, we could probably do a two-stage build of everything,
+  leaving the Interix bootstrap (NOMAN) case up to the caller; that's an
+  interesting yet slower (in compile times) outcome. Or did I overlook a
+  totally different thing?</p>
+ <p>Maybe we should call libmirmake libshouldbeinlibc &ndash; oh wait, a
+  library of that name already exists in GNU OS. (On that matter, Debian
+  currently investigates the case of libast, which exists twice as well,
+  once as &quot;assorted spiffy things&quot; and once in e.g. ksh93 (the
+  shell), where the latter definitively has age precedence. I wonder how
+  MirPorts is going to handle this and who's going to do it. Fact is, we
+  can't have two libraries with the same name, and the devel/libast port
+  is probably going to have to change its name.</p>
+ <p>While tinkering with the mirmake build system, I also added autoconf
+  style scans to mksh's. And mirmake's build should definitively stop if
+  errors are encountered. PS: Solaris /bin/sh is&#8230; weird.</p>
+ <p>Developing on Windows&reg; 2000 is different. Not that productive if
+  you ask me, you're much more limited if you are used to terminal-based
+  operations. At least, the combination of PuTTY, Cygwin (ssh, scp, cvs,
+  working text editor whose poll loop doesn't, like 16-bit DOS jupp, get
+  my laptop to turn itself off due to heat), and Interix provides a work
+  environment which is slightly suitable, but I still don't have perl5.8
+  for the mksh testsuite or stuff like that, and my fan is spinning. The
+  hardware support of MirOS is so much better.</p>
+ <p>bsiegert@ might also want to convert ports/Hints into something more
+  usable to the end user, and we had a request for MirPort howtos on the
+  mailing list today too. <a href="http://sysjail.bsd.lv/">Sysjail</a> 1
+  was released today, and I like the benchmarks, which show MirOS easily
+  outperforming OpenBSD and even NetBSD&reg; in most things.</p>
+ <p>Angelo (the MacWorm hacker) is currently in town. I got quite drunk,
+  last night, I must admit. I had an interesting hangover today. Hacking
+  helped me to overcome it though, as did much sleep (too much). This is
+  not improving my bank account's or my work situation though.</p>
 </div>
 
 <p id="eof">Good luck, have fun, take care etc.pp</p>
