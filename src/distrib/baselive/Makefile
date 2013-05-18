@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/baselive/Makefile,v 1.55 2009/06/29 17:35:01 tg Exp $
+# $MirOS: src/distrib/baselive/Makefile,v 1.56 2009/06/29 19:43:32 tg Exp $
 
 .include <bsd.own.mk>
 
@@ -110,7 +110,7 @@ unpack:
 .if ${GRML:L} != "no"
 	mkdir -p ${WRKDIR}/boot/grml
 .endif
-.for _i in base dev etc gnu xbase xetc xsrv
+.for _i in base dev etc gnu xbase xetc xfont xserv
 	cd ${WRKDIR} && ${SUDO} tar xzphf ${STUFFDIR}/${_i}${OSrev}.ngz
 .endfor
 	cd ${STUFFDIR} && pax -rw . ${WRKDIR}/v${OSrev}/i386/

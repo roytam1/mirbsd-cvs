@@ -1,5 +1,7 @@
-.\" $MirOS: src/share/man/man7/install.i386.7,v 1.14 2007/10/21 16:48:10 tg Exp $
+.\" $MirOS: src/share/man/man7/install.i386.7,v 1.15 2008/06/13 20:04:02 tg Exp $
 .\"-
+.\" Copyright (c) 2009
+.\"	Thorsten Glaser <tg@mirbsd.org>
 .\" Copyright (c) 2007
 .\"	Benny Siegert <bsiegert@mirbsd.org>
 .\"
@@ -22,7 +24,7 @@
 .\" local convention: use .Ql for disk slice names
 .\" MirOS version number
 .nr v 10
-.Dd $Mdocdate: October 21 2007 $
+.Dd $Mdocdate: June 13 2008 $
 .Dt INSTALL.I386 7
 .Os
 .Sh NAME
@@ -611,8 +613,10 @@ not really be functional without.
 Most of the files needed for XFree86\(rg, the graphical user interface.
 .It Pa xetc\nv.ngz
 Configuration files for XFree86\(rg, not offered during an upgrade either.
-.It Pa xsrv\nv.ngz
-XFree86\(rg servers and fonts.
+.It Pa xfont\nv.ngz
+Fonts for XFree86\(rg, Freetype2, and other applications.
+.It Pa xserv\nv.ngz
+XFree86\(rg regular (including DMX), nested and print servers.
 Do not install these on headless servers or if you do not plan on
 running an X11 server.
 The presence of this set switches the default value for the
