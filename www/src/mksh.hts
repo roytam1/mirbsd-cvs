@@ -1,10 +1,10 @@
-# $MirOS: www/src/mksh.hts,v 1.79 2008/03/01 03:30:55 tg Exp $
+# $MirOS: www/src/mksh.hts,v 1.80 2008/03/01 03:48:52 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.79 2008/03/01 03:30:55 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.80 2008/03/01 03:48:52 tg Exp $'
 mws_content <<'EOF'
 <h1>mksh(1) R32</h1>
 <p>This is the website of the MirBSD™ Korn Shell, an actively developed free
@@ -32,16 +32,26 @@ mws_content <<'EOF'
 </ul>
 
 <h2 id="prefetch">Introduction</h2>
-<p>The current version of mksh is <strong>mksh R32</strong> from
- <em>25 October 2007</em>.</p>
+<p>The current version of mksh is <strong>mksh R33</strong> from
+ <em>1 March 2008</em>.</p>
 <p>Thanks to “Der Verein <a href="http://www.trash.net/verein/">trash.net</a>”
  for sponsoring access to a Solaris 8 box. Thanks to HP TestDrive, which helps
  in keeping mksh portable to several Unixes and compilers, and track down some
  architecture- or glibc-specific bugs. Thanks to Julian “yofuh” Wiesener for
  just another account on a Sun E420 on Solaris 11β. Thanks to someone who
  prefers to stay anonymous due to tons of red tape for providing access to an
- AIX 5.3 system with gcc and xlC installed. Thanks to gnubber’s admin (Samuel
- “youpi” Thibault) for providing shell access to a Debian GNU/HURD system.</p>
+ AIX 5.3 system with gcc and xlC installed. Thanks to gnubber’s admin (Barry
+ “bddebian” deFreese), as well as Samuel “youpi” Thibault, for providing shell
+ access to a Debian GNU/HURD system. Thanks to Lucas “laffer1” Holt for ssh
+ access to the MidnightBSD server. Thanks to Waldemar “wbx” Brodkorb for
+ dropping his unused Zaurus SL-C3200 to someone who can actually make use of
+ it to test mksh on OpenBSD. Thanks to Andreas “gecko2” Gockel for access to
+ a couple of Debian and Macintosh boxen. Thanks to Martin Zobel-Helas for an
+ account on an Alpha system. Thanks to Bastian “waldi” Blank for access to an
+ S/390 system and uploading mksh packages to Debian for quite some time. The
+ Debian GNU/k*BSD and HURD developers were quite helpful in assisting and
+ testing as well. Thanks to Thomas E. “TGEN” Spanjaard for access to both a
+ NetBSD and a DragonFly system. (Did I miss anyone? Mail me if so.)</p>
 <p>What is mksh(1)? – Short answer: The MirBSD Korn Shell. Okay, but what
  exactly does it do, or why another shell? These questions will be answered
  <a href="#contrib">below</a> for the people interested. Right now, you only
@@ -76,14 +86,14 @@ mws_content <<'EOF'
  library header files and the standard C runtime. You will also need a set of
  standard UNIX® tools on a supported operating system: any recent BSD; Darwin,
  Apple Mac OSX; Interix (Microsoft® Services for Unix 3.5, maybe Subsystem for
- Unix Applications); GNU/Cygwin; GNU/Linux (libc5, glibc, and uClibc systems
- are tested), Debian GNU/kFreeBSD or GNU/HURD; Sun Solaris (8, 9, 10, 11),
- OpenSolaris; some AIX; HP-UX 11i; OSF/1<br />To run the regression test
- suite, you will need a recent Perl with POSIX.pm as well as <tt><a
- href="#editor">/bin</a>/ed</tt> (whose installation is strongly suggested
- anyway, because it’s the standard <tt>FCEDIT</tt> history editor), as well
- as a controlling terminal (usually <tt>/dev/tty</tt> or provided from
- script(1) or GNU screen).</p>
+ Unix Applications); GNU/Cygwin; UWIN; GNU/Linux (libc5, glibc, and uClibc
+ systems are tested), Debian GNU/kFreeBSD, GNU/HURD or GNU/Linux; Sun Solaris
+ (8, 9, 10, 11), OpenSolaris; some AIX; HP-UX 11i; OSF/1<br />To run the
+ regression test suite, you will need a not too antiquated Perl with POSIX.pm
+ as well as <tt><a href="#editor">/bin</a>/ed</tt> (whose installation is
+ strongly suggested anyway, because it’s the standard <tt>FCEDIT</tt> history
+ editor and standard UNIX® text editor), as well as a controlling terminal,
+ usually <tt>/dev/tty</tt> or provided from script(1) or GNU screen.</p>
 <p>To use mksh, you only need the C runtime (and any supplemental libraries
  the binary was linked against) and, optionally, <tt>/bin/ed</tt> – for
  interactive use, a controlling terminal is highly recommended because job
@@ -251,7 +261,7 @@ mws_content <<'EOF'
 
 <h5 id="oe_xlc">Compiler: IBM XL C/C++</h5>
 <p>IBM xlC 9.0 on AIX is supported in mksh R30 and above.</p>
-<p>IBM xlC 8.0 on Linux/POWER and IBM xlC 6.0β on MacOS X are on my TODO.</p>
+<p>IBM xlC 8.0 on Linux/POWER and IBM xlC 6.0β on MacOS X are on the TODO.</p>
 
 <h5 id="oe_icc">Compiler: Intel C/C++/Fortran</h5>
 <p>ICC emulates GCC quite well (too well for my taste), is fully supported in
@@ -285,7 +295,8 @@ mws_content <<'EOF'
  environment option of <tt>HAVE_CAN_OTWO=0 HAVE_CAN_OPTIMISE=0</tt> (disable
  optimisation) because otherwise the “continue” command is broken and thusly
  the regression test suite does not pass. This has been confirmed to be a bug
- in pcc (at least), probably due to sigsetjmp(3)/siglongjmp(3) interaction.</p>
+ in pcc (at least), probably due to sigsetjmp(3)/siglongjmp(3) interaction.
+ More recent versions of pcc seem to fail to build even simple executables.</p>
 
 <h5 id="oe_sun">Compiler: SUNpro</h5>
 <p>Support for the <a href="http://developer.sun.com/sunstudio">SUN Studio
@@ -318,6 +329,8 @@ mws_content <<'EOF'
  not already done. Manual page installation paths are not standardised in
  older distributions either.</p>
 <p>We didn’t test dietlibc yet, but uClibc works; libc5 on 2.0.36 too.</p>
+<p>mksh can be used as /bin/sh on Debian and similarly strict distributions,
+ which allow to use e.g. ash/dash there as well.</p>
 
 <h5 id="oe_hpux">OS: HP-UX</h5>
 <p>Support for HP-UX with GCC appeared in mksh R29 and works with HP’s C
@@ -331,7 +344,11 @@ mws_content <<'EOF'
  to gcc, calling Microsoft C. Do not use the c89(1) wrapper.</p>
 <p>If passing custom LIBS, don’t forget to add <tt>-lcrypt</tt> or any other
  library providing arc4random(3).</p>
-<p>mksh can replace /bin/ksh without any problems.</p>
+<p>mksh can replace /bin/ksh and /bin/sh without any problems.</p>
+
+<h5 id="oe_mnbsd">OS: MidnightBSD</h5>
+<p>mksh is part of MidnightBSD 0.3 and above and used as native /bin/ksh;
+ it almost certainly can be used as /bin/sh as well.</p>
 
 <h5 id="oe_minix">OS: Minix</h5>
 <p>Minix 3 is not supported yet – we were able to create an executable, but
@@ -359,7 +376,7 @@ mws_content <<'EOF'
  use a different setlocale library function like <a
  href="/cvs.cgi/contrib/code/Snippets/setlocale.c?rev=HEAD">this one</a>
  and pass its filename as $LIBS to <tt>Build.sh</tt>.</p>
-<p>mksh can replace /bin/ksh without any problems.</p>
+<p>mksh can replace /bin/ksh and /bin/sh without any problems.</p>
 
 <h5 id="oe_osf1">OS: OSF/1</h5>
 <p>Digital Unix is somewhat supported using gcc as of mksh R31b.</p>
@@ -408,6 +425,11 @@ mws_content <<'EOF'
  formatting time.</p>
 
 <h2 id="upgrade">For packagers: Upgrades</h2>
+<p>No surprises in mksh R33 either, but the build system now gives more
+ detailed output on the version actually built, to aid tracking down
+ FTBFSen (build errors) with access to only the build logs. Regression
+ tests now work with Intel’s compiler on SLES too, which requires a
+ custom <tt>LD_LIBRARY_PATH</tt> formerly stripped by the script.</p>
 <p>No surprises in mksh R32, but some ancient systems (AIX, Solaris 11,
  OSF/1, UWIN) are now better supported.</p>
 <p>In mksh R31d, parallel make with ‘-j’ was added (no limitation on number
@@ -536,6 +558,9 @@ mws_content <<'EOF'
  an actively developed, current, and portable product; one with
  developers that listen to their users’ requests and implement them
  if they actually make sense.</p>
+<p>mksh aims to replace pdksh in all but very rare use cases (such as
+ support for checking the Unix mbox) and in all operating environments
+ (thus including patches from pdksh on e.g. Debian).</p>
 
 <h3 id="co-diffs">Differences</h3>
 <p>mksh is a direct descendant from the OpenBSD <tt>/bin/ksh</tt> and
@@ -550,7 +575,7 @@ mws_content <<'EOF'
  emacs editing mode has been changed for Unicode/UTF-8 mode, which adds a
  new <tt>set -o utf8-hack</tt> mode. The <tt>set -o sh</tt> command has
  been completely removed, <tt>set -o posix</tt> merely turns off brace
- expansion and some aliases as side effect. There is no limit (well, 2³¹ probably) on
+ expansion as side effect. There is no limit (well, 2³¹ probably) on
  array sizes any more. Many bugs and security holes have been closed in
  mksh and are still in oksh and OpenBSD ksh. The user interface has much
  less bugs and surprises; emacs editing mode is enabled by default.
@@ -579,25 +604,33 @@ mws_content <<'EOF'
  Some constructs are not supported, for example<br />
  <tt>((foo; bar) 2>&amp;1 || baz)</tt><br />which has to be rewritten as<br />
  <tt>( (foo; bar) 2>&amp;1 || baz)</tt><br />because ((…)) is shell arithmetics;
- you cannot define a <tt>stop()</tt> function without unaliasing “stop”
- first¹ (which is a predefined alias in all Korn shells), and brace expansion
- is turned on by default; etc.</p>
-<p>¹) This might be fixed by importing a Debian patch in mksh R33.</p>
+ brace expansion is turned on by default; etc.</p>
+<p>mksh R33 supports even more bash/ksh93/zsh constructs than its
+ predecessors; sometimes, not all cases (e.g. applying string trimming
+ on arrays) are supported, but you probably will not notice that.</p>
 
 <h2 id="regress">Official Testing</h2>
 <p>The MirOS Project has tested mksh on the following operating systems,
  asked people to test, and hunted mksh down in these packaging systems:</p>
 <ul>
+ <li style="list-style:none;">– tests by the project, using Makefile –</li>
+ <li>MirOS #10 RC8 (i386 gcc3.4.6)</li>
+ <li>MirOS #10 RC8 (sparc gcc3.4.6)</li>
+ <li style="list-style:none;">– tests by the project, using Build.sh –</li>
  <li>MirOS #10 RC8 (i386 gcc3.4.6)</li>
  <li>MirOS #10 RC8 (i386 SUNcc5.9 Linux_i386 2007/05/03, GNU ld 2.13.90.0.2 20020802)</li>
- <li>MirOS #10 RC8 (sparc gcc3.4.6)</li>
  <li>MirOS #7-stable (sparc gcc2.95.3-078E)</li>
  <li>DragonFly 1.9-DEVELOPMENT Feb 17, 2007 (i386 gcc3.4.6)</li>
  <li>FreeBSD 6.2-RELEASE (i386 gcc3.4.6-20060305)</li>
  <li>MidnightBSD 0.2-CURRENT (i386 gcc3.4.6-20060305)</li>
  <li>NetBSD 3.0_STABLE (i386 gcc3.3.3_nb3_20040520)</li>
-<!-- <li>OpenBSD -->
-<!-- <li>Debian GNU/kFreeBSD 4.0 sid 6.2-1-686 (i386 gcc4.2.1-5)</li> -->
+ <li>OpenBSD 4.3-beta (zaurus gcc3.3.5)</li>
+ <li>Debian GNU/kFreeBSD 4.0 sid 6.2-1-686 (i386 gcc1:3.3.6-15)</li>
+ <li>Debian GNU/kFreeBSD 4.0 sid 6.2-1-686 (i386 gcc3.4.6-6)</li>
+ <li>Debian GNU/kFreeBSD 4.0 sid 6.2-1-686 (i386 gcc4.0.3-7)</li>
+ <li>Debian GNU/kFreeBSD 4.0 sid 6.2-1-686 (i386 gcc4.1.2-19)</li>
+ <li>Debian GNU/kFreeBSD 4.0 sid 6.2-1-686 (i386 gcc4.2.3-2)</li>
+ <li>Debian GNU/kFreeBSD 4.0 sid 6.2-1-686 (i386 gcc4.3-20080227-1)</li>
  <li>AIX 5.3 (powerpc gcc4.0.0_powerpc-ibm-aix5.1.0.0, LD 1.65 04/06/2005)</li>
  <li>AIX 5.3 32-bit (powerpc xlC9.0 070428, LD 1.65 04/06/2005)</li>
  <li>AIX 5.3 64-bit (powerpc xlC9.0 070428, LD 1.65 04/06/2005)</li>
@@ -636,10 +669,18 @@ mws_content <<'EOF'
  <li>ecce!GNU/Linux 1.00 2.0.38a (i386 libc5 gcc2.7.2.3)</li>
  <li>SuSE GNU/Linux SLES10 2.6.16.27-0.9-default (IA64 gcc4.1.0)</li>
  <li>SuSE GNU/Linux SLES10 2.6.16.27-0.9-default (IA64 icc9.1.046-20070111)</li>
+ <li style="list-style:none;">– with arc4random.c add-on –</li>
+ <li>Debian GNU/kFreeBSD 4.0 sid 6.2-1-686 (i386 gcc4.3-20080227-1)</li>
+ <li>Solaris 10 Generic_125100-04 (sparc sun4u gcc3.4.6)</li>
+ <li>Solaris 10 Generic_125100-04 (sparc sun4u SUNcc5.9 124867-01, ld 5.10-1.486)</li>
+ <li>Debian GNU 4.0 sid GNU-Mach 1.3.99/Hurd-0.3 i686-AT386 (i386 gcc4.2.2-4)</li>
  <li style="list-style:none;">– older mksh versions –</li>
- <li>See <a href="@@RELPATH@@mksh_old.htm#regress">the old-mksh site</a><br />
-  e.g. OpenBSD, Mac OSX Panther and Tiger, OSF/1, UWIN-NT, several GNU/Linux</li>
-<!-- <li style="list-style:none;">– tests by third parties –</li> -->
+ <li>See <a href="@@RELPATH@@mksh_old.htm#regress">the old-mksh site</a></li>
+ <li style="list-style:none;">– tests by third parties –</li>
+ <li>Jupp Schugt (the IceWM coffee pot maintainer) sometimes tests mksh with
+  gcc on OSF/1 (Digital UNIX®); this has been done last for mksh R31c</li>
+ <li style="list-style:none;">– other build system integration –</li>
+ <li>See the <a href="#otheros">Inclusion</a> page for general information</li>
  <li style="list-style:none;">– known to <strong>FAIL</strong> building</li>
  <li>Mac OSX Leopard Server 10.5.2 Darwin 9.2.0 (macppc gcc3.3 20030304 Apple Computer, Inc. build 1823, ld64-77)</li>
  <li>Fabrice Bellard’s tcc in combination with GNU libc often fails linking</li>
@@ -683,11 +724,11 @@ mws_content <<'EOF'
 <li>Adding builtins <tt>realpath</tt>, <tt>fstat</tt>, <tt>lstat</tt>,
  <tt>traverse</tt></li>
 <li>for a b in …; do (like make(1) does)</li>
-<li>${foo/bar/baz} ${foo//bar/baz}</li>
 <li>${foo:S/bar/baz/g} ${foo:C/bar/baz/x}</li>
 <li>A sensible website</li>
 <li>Build and actually work on more platforms – PW32, Minix 3,
- Plan 9, Syllable</li>
+ Plan 9, Syllable – debug these</li>
+<li>Test ourselves on more platforms – OSF/1, Tru64, Ultrix</li>
 <li>Build with more platforms’ native tools or other compilers
  – ACK, kencc, ICC/UWIN, egcs/UWIN, tcc</li>
 </ul>
@@ -698,6 +739,66 @@ mws_content <<'EOF'
   ANSI’n’POSIX Environment (not finished)</li>
  <li>Plan porting mksh to <a href="http://www.minix3.org/">Minix 3</a>
   (not finished yet)</li>
+ <li>Port to Syllable (segfaults on startup)</li>
+</ul>
+<p>A release with many new features is mksh R33, look yourself:</p><ul>
+ <li>Sync with OpenBSD ksh (no real functional changes)</li>
+ <li>Enhance the <tt>print</tt> builtin with two new escape sequences:
+  <tt>\x<b>AB</b></tt> parses the next up to two hexadecimal digits <b>AB</b>
+  and outputs a raw octet (byte) whose ordinary value is <b>AB</b>;
+  <tt>\u<b>ABCD</b></tt> parses up to four hexadecimal digits and outputs
+  the UTF-8 (CESU-8) representation of the unicode codepoint U+<b>ABCD</b>
+  from the BMP (Basic Multilingual Plane), not depending on the locale</li>
+ <li>The <tt>.</tt> (“dot”) command (and its counterpart <tt>source</tt>)
+  needs an argument (the script to source); from Debian pdksh package</li>
+ <li>In the lexer, do not expand aliases if there is an opening parenthesis
+  just after the token (from Debian pdksh). This fixes the namespace issue
+  that caused a POSIX function definition <tt>stop() { … }</tt> to fail due
+  to “stop” being a built-in Korn shell alias. Now, aliases are removed when
+  a POSIX function with the same name is defined; Korn functions are still
+  different: their definition does not fail, but the alias retains its
+  precendence (unchanged behaviour)</li>
+ <li>Accordingly, do not disable built-in aliases in POSIX mode any more</li>
+ <li>Since POSIX mode now only turns off braceexpand mode (which can then
+  be turned back on), do not handle being called as <tt>-sh</tt> or <tt>sh</tt>
+  specially any longer</li>
+ <li>Clean up the source code: make some constants private to the only file
+  using it; optimise; comment some code; improve portability with regards to
+  stupid tools in /usr/bin (or /usr/xpg4/bin) and foreign compilers</li>
+ <li>Implement “here strings” (like ksh93 or zsh; GNU bash collapses white
+  space if the string is not double-quoted): you can now replace <tt>print
+  -r -- "$foo" | command</tt> with <tt>command &lt;&lt;&lt;"$foo"</tt> with
+  the very same semantics as <tt>command &lt;&lt;EOF<br />$foo<br />EOF</tt>
+  (stripping initial tabs is not possible)</li>
+ <li>Implement string replacement <tt>${var/pattern/string}</tt> (where
+  <em>pattern</em> is an extended glob pattern), like GNU bash; like with
+  the substring accessor (<tt>${var: x: y}</tt>) mksh implements almost all
+  corner cases (and double slash), but do not handle trimming arrays yet</li>
+ <li><em>Side note:</em> You can now, as a consequence of the two items
+  above, write, for instance, <tt>x=${x//foo*bar/baz}</tt> instead of the
+  more complicated <tt>x=$(sed -e 's/foo.*bar/baz/g' &lt;&lt;&lt;"$x")</tt>
+  or the mksh R32 and before idiom <tt>x=$(print -r -- "$x" | sed -e
+  's/foo.*bar/baz/g')</tt> – be sure to check $KSH_VERSION first though</li>
+ <li>Use the new <tt>$Mdocdate$</tt> RCS keyword in the manual page mksh(1)
+  as well; since this is not portable in tmac.doc especially to GNU groff,
+  prepend a seven-liner implementing it to the <tt>.Dd</tt> macro</li>
+ <li>Fix a mistake in using the <tt>.Nm</tt> macro in the manual page</li>
+ <li>Make <tt>Build.sh</tt> and the generated <tt>test.sh</tt> more chatty
+  about what they’re doing and what versions (aids debugging build logs)</li>
+ <li>Update the <tt>dot.mkshrc</tt> sample and make it more portable; it
+ requires mksh R33 or above now though due to use of special functions</li>
+ <li>Enhance the website, especially the section about official testing:
+  now, the tests are split into tests done by us via Makefile (MirOS only),
+  Build.sh (portably), porting frameworks, with arc4random.c added, tests by
+  others via Build.sh, via packaging frameworks, failed tests; more links</li>
+ <li>Note: the “vi” editing mode is code of historical value and, at the
+  moment, unmaintained. It does not benefit from the fixes to the “emacs”
+  editing mode (horizontal scrolling) or new features (bind keys that end
+  their sequence with a tilde; UTF-8 support). Neither is it supported in
+  either editing mode to bind keys that generate a sequence consisting of
+  more than just a prefix (ESC, ^X, or ESC [), another octet and (“emacs”
+  only) an optional tilde (but this might come in the future). This is
+  explicitly mentioned here due to a user inquiry.</li>
 </ul>
 <p>Sported by mksh R32 are these changes:</p><ul>
  <li>Make checks for symbol declarations compile checks instead of link
@@ -707,6 +808,7 @@ mws_content <<'EOF'
   being mapped into the high-bit31 range for simplicity</li>
  <li>Fix the pipeline-as-coprocess internal error</li>
  <li>Do not require certain integer types to be defined any more</li>
+ <li>Optimise the code and reduce its RAM usage</li>
 </ul>
 <p>Everyone should upgrade to mksh R31d with fixes for…</p><ul>
  <li>Support pcc (the ragge version of the Portable C Compiler)</li>

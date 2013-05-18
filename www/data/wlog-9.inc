@@ -2777,4 +2777,6 @@ Author: tg@
  a CF card reader only works on the Asus box, so I must use that for data
  transfer (and cannot use ntpd(8), which sucks) with smallish 16 MiB and 32
  MiB CF cards from my digital camera…</p>
+<p>And why do some bugs found past the last minute need so lengthy attempts
+ at fixing because it cannot be done inside the current implementation?</p>
 ----
