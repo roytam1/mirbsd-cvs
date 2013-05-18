@@ -1,4 +1,4 @@
-.\" $MirOS: src/share/man/man7/install.sparc.7,v 1.1 2007/10/21 16:48:10 tg Exp $
+.\" $MirOS: src/share/man/man7/install.sparc.7,v 1.2 2008/03/03 18:39:57 tg Exp $
 .\"-
 .\" Copyright (c) 2007, 2008
 .\"	Thorsten Glaser <tg@mirbsd.de>
@@ -23,11 +23,11 @@
 .\" local convention: use .Ql for disk slice names
 .\" MirOS version number
 .nr v 10
-.Dd $Mdocdate: October 21 2007 $
+.Dd $Mdocdate: March 3 2008 $
 .Dt INSTALL.SPARC 7
 .Os
 .Sh NAME
-.Nm instal.sparc
+.Nm install.sparc
 .Nd stub installation instructions for the sparc architecture
 .Sh SYNOPSIS
 .Nm /install
@@ -51,8 +51,9 @@ For more information, refer to the
 .Xr install.i386 7
 manual page for now.
 .Pp
-There is no floppy image for the sparc architecture, boot from a
-CD-ROM image (either the full CD or the minimal
+You can either boot from a pretty minimal floppy image
+.Pa floppy\nv.fs ,
+from a CD-ROM image (either the full CD or the minimal
 .Pa cdrom\nv.iso
 image), or netboot a
 .Pa bsd.rd
@@ -75,9 +76,19 @@ You can usually replace the
 line with
 .Dl server$ sudo ln -s bsd.rd.net 8273900B.$KARCH
 to make use of our netbootable kernels.
+Note that
+.Dq 8273900B
+is the hexadecimal, big-endian representation of the IPv4 address.
 .Sh PARTITIONING
 The sparc architecture does not use MBR partitioning, so that you
 can skip reading about the fdisk utility in the i386 instructions.
+On the contrary, rather than storing a native BSD disklabel in
+sector #1 inside the
+.Mx
+partition, a Sun disklabel is stored in sector #0 of the medium.
+It is important that the
+.Ql a
+slice begin at sector #0 as well.
 .Sh INSTALLATION INSTRUCTIONS
 Please see the
 .Xr install.i386 7
@@ -95,4 +106,6 @@ Support for the sparc architecture first appeared in
 .Mx 7ter .
 It re-appeared in
 .Mx 10 ,
+although the floppy image came back only with
+.Mx 11 ,
 promoted to a fully supported architecture.
