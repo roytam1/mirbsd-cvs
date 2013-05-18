@@ -1,4 +1,4 @@
-/* $MirOS: src/sys/arch/i386/stand/boot/srt0.S,v 1.15 2008/12/28 16:12:10 tg Exp $ */
+/* $MirOS: src/sys/arch/i386/stand/boot/srt0.S,v 1.16 2008/12/28 16:18:08 tg Exp $ */
 
 /*-
  * Copyright (c) 2003, 2004, 2005, 2006, 2007, 2008
@@ -105,6 +105,11 @@ Lbdev:	.byte	0		/* local copy of BIOS boot device */
 _C_LABEL(tori_bootflag):
 	.long	0
 #endif
+#ifndef SMALL_BOOT
+	.p2align 4
+Ltblk:	.long	0x13,0,0,0	/* El Torito parameter block */
+	.byte	0,0,0
+#endif
 	. = _start + 0x41
 _star2:	mov	bx,SA_LOADSEG
 	mov	ss,bx
@@ -116,9 +121,68 @@ Linit:	pop	di
 	mov	ax,0xB800
 	mov	gs,ax		/* for UD() */
 	UD(0)			/** @: we're here */
+#ifndef SMALL_BOOT
 	cmp	di,0x0150	/* test for .COM offset */
 	jne	Ldxok
 	mov	dl,0x80		/* fake HDD boot on DOS */
+	/* begin SYSLINUX tests */
+	cmp	word ptr cs:[0],0x20CD
+	jne	Ldxok		/* no DOS PSP */
+	push	bx
+	push	gs
+	push	di
+	push	dx
+	mov	eax,0x00003000	/* AH=30h: get DOS version */
+	int	0x21
+	cmp	eax,0x59530000
+	jne	Lnolx
+	cmp	ecx,0x4E490000
+	jne	Lnolx
+	cmp	edx,0x58550000
+	jne	Lnolx
+	cmp	ebx,0x4C530000
+	jne	Lnolx
+	mov	ax,0x0005	/* SYSLINUX: force text mode */
+	int	0x22
+	mov	ax,0x000A	/* SYSLINUX: get information */
+	xor	cx,cx		/* ISOLINUX >= 3.73: emulation */
+	int	0x22
+	xor	di,di		/* for later: 0=HD 1=CD 2=emul */
+	cmp	al,0x31		/* 31h: SYSLINUX */
+	jb	Llxok
+	je	Llxdx
+	cmp	al,0x34		/* 34h: EXTLINUX */
+	ja	Llxok
+	je	Llxdx
+	cmp	al,0x33		/* 33h: ISOLINUX */
+	jb	Llxok		/* 32h: PXELINUX (no drive in DL) */
+	inc	di
+	or	ch,ch
+	jz	Llxdx		/* no HDD emulation */
+	inc	di
+Llxdx:	pop	ax		/* we have a drive in DL */
+	push	dx
+Llxok:	push	di
+	mov	ax,0x000C	/* SYSLINUX: final cleanup */
+	xor	dx,dx		/* clean up everything */
+	int	0x22
+	pop	cx
+	jcxz	Lnolx		/* HDD */
+	push	cs
+	pop	ds
+	inc	byte ptr [_rval + 1]
+	dec	cx
+	jcxz	Lnolx		/* CD, no emulation mode */
+	mov	ax,0x4B00	/* BIOS: terminate emulation */
+	mov	dl,0x7F		/* ... on all drives */
+	mov	si,offset Ltblk
+	int	0x13
+Lnolx:	pop	dx
+	pop	di
+	pop	gs
+	pop	bx
+	/* end SYSLINUX tests */
+#endif
 Ldxok:	push	dx
 	mov	ax,bx
 	add	ah,0x10		/* add 64K (apparent max. code size) */
