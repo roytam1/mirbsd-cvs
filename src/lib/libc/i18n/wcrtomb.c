@@ -1,4 +1,4 @@
-/* $MirOS: src/lib/libc/i18n/wcrtomb.c,v 1.7 2006/05/30 10:45:58 tg Exp $ */
+/* $MirOS: src/lib/libc/i18n/wcrtomb.c,v 1.8 2006/05/30 23:40:25 tg Exp $ */
 
 /*-
  * Copyright (c) 2005, 2006
@@ -30,7 +30,7 @@
 
 #include "mir18n.h"
 
-__RCSID("$MirOS: src/lib/libc/i18n/wcrtomb.c,v 1.7 2006/05/30 10:45:58 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/i18n/wcrtomb.c,v 1.8 2006/05/30 23:40:25 tg Exp $");
 
 size_t __weak_wcrtomb(char *__restrict__, wchar_t, mbstate_t *__restrict__);
 
@@ -76,8 +76,7 @@ __weak_wcrtomb(char *__restrict__ sb, wchar_t wc, mbstate_t *__restrict__ ps)
 		*s++ = (wc >> 12) | 0xE0;
 	}
 
- do_conv:
-	while (ps->count) {
+	while (__predict_false(ps->count)) {
 		*s++ = ((wc >> (6 * --ps->count)) & 0x3F) | 0x80;
 	}
 	return (s - (unsigned char *)sb + 1);
