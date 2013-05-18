@@ -1,4 +1,4 @@
-# Copyright (c) 2008
+# Copyright (c) 2008, 2009
 #	Thorsten Glaser <tg@mirbsd.org>
 #
 # Provided that these terms and disclaimer and all copyright notices
@@ -21,7 +21,7 @@
 
 use vars qw($VERSION %IRSSI);
 $VERSION = sprintf "%d.%02d",
-    q$MirOS: ports/net/irssi/files/randex.pl,v 1.8 2008/12/02 20:44:29 tg Exp $
+    q$MirOS: ports/net/irssi/files/randex.pl,v 1.9 2008/12/20 18:15:20 tg Exp $
     =~ m/,v (\d+)\.(\d+) /;
 %IRSSI = (
 	authors		=> 'Thorsten Glaser',
@@ -41,6 +41,31 @@ use File::Path qw(mkpath);
 use File::Basename qw(dirname);
 
 our $irssi_ctcp_version_reply = '';
+my $running_sum;
+
+sub
+adler32
+{
+	my ($n, $buf) = @_;
+	my ($s1, $s2);
+
+	$s1 = $n & 0xFFFF;
+	$s2 = ($n >> 16) & 0xFFFF;
+
+	$n = 0;
+	foreach my $ch (unpack("C*", $buf)) {
+		$s1 += $ch;
+		$s2 += $s1;
+		if ($n == 5552) {
+			$s1 %= 65521;
+			$s2 %= 65521;
+			$n = 0;
+		}
+	}
+
+	$n = ($s1 % 65521) | (($s2 % 65521) << 16);
+	return ($n);
+}
 
 sub
 cmd_randex
@@ -104,7 +129,7 @@ process_random_response
 	my $t = (BSD::arc4random::have_kintf() ? "" : "not ") .
 	    "pushing to kernel";
 
-	arc4random_pushb("by $nick $args $address $target");
+	$running_sum = arc4random_pushb("by $nick $args $address $target");
 	Irssi::print("RANDEX protocol reply from $nick to $target, $t")
 	    unless Irssi::settings_get_bool("rand_quiet");
 }
@@ -257,6 +282,19 @@ sig_quitting
 	randfile_loadstore();
 }
 
+sub
+sig_rawlog
+{
+	my ($rlrec, $data) = @_;
+	my $s;
+
+	$running_sum = adler32($running_sum, $rlrec);
+	$s = pack("w", time) . pack("L", $running_sum);
+	$running_sum = adler32($running_sum, $data);
+	$s .= pack("L", $running_sum);
+	arc4random_addrandom($s);
+}
+
 # interval in which to re-read and re-write the randseed.bin file (seconds)
 Irssi::settings_add_int("randex", "rand_interval", 900);
 # interval in which to request new entropy from the kernel into the libc
@@ -293,5 +331,7 @@ Irssi::print("randex.pl ${VERSION} loaded, entropy is " .
 randfile_timeout(1);
 randstir_timeout(1);
 Irssi::signal_add('setup changed', \&sig_setup_changed);
+$running_sum = arc4random() | 1;
+Irssi::signal_add('rawlog', \&sig_rawlog);
 
 1;
