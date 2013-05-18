@@ -688,7 +688,7 @@ fdstrategy(bp)
 #ifdef FD_DEBUG
 	if (fdc_debug > 1)
 	    printf("fdstrategy: b_blkno %d b_bcount %ld blkno %d cylin %ld\n",
-		    bp->b_blkno, bp->b_bcount, fd->sc_blkno, bp->b_cylin);
+		    bp->b_blkno, bp->b_bcount, fd->sc_blkno, (long)bp->b_cylin);
 #endif
 
 	/* Queue transfer on drive, activate drive and controller if idle. */

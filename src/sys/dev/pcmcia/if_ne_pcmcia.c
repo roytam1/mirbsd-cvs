@@ -690,7 +690,7 @@ ne_pcmcia_attach(parent, self, aux)
 		goto fail_4;
 	}
 
-	printf(" port 0x%lx/%d", psc->sc_pcioh.addr, NE2000_NPORTS);
+	printf(" port 0x%lx/%d", (unsigned long)psc->sc_pcioh.addr, NE2000_NPORTS);
 
 	/*
 	 * Read the station address from the board.

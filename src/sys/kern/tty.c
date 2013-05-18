@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/kern/tty.c,v 1.2 2005/03/06 21:28:03 tg Exp $ */
+/**	$MirOS: src/sys/kern/tty.c,v 1.3 2005/07/07 15:08:36 tg Exp $ */
 /*	$OpenBSD: tty.c,v 1.68 2004/12/26 21:22:13 miod Exp $	*/
 /*	$NetBSD: tty.c,v 1.68.4.2 1996/06/06 16:04:52 thorpej Exp $	*/
 
@@ -2127,8 +2127,8 @@ ttyinfo(tp)
 		tmp = (pick->p_pctcpu * 10000 + FSCALE / 2) >> FSHIFT;
 		ttyprintf(tp, "%d%% %ldk\n",
 		    tmp / 100,
-		    pick->p_stat == SIDL || P_ZOMBIE(pick) ? 0 :
-			vm_resident_count(pick->p_vmspace));
+		    (long)(pick->p_stat == SIDL || P_ZOMBIE(pick) ? 0 :
+			vm_resident_count(pick->p_vmspace)));
 	}
 	tp->t_rocount = 0;	/* so pending input will be retyped if BS */
 }

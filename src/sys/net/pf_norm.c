@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/net/pf_norm.c,v 1.4 2005/12/19 22:22:11 tg Exp $ */
+/**	$MirOS: src/sys/net/pf_norm.c,v 1.5 2005/12/20 19:41:36 tg Exp $ */
 /*	$OpenBSD: pf_norm.c,v 1.87 2004/05/11 07:34:11 dhartmei Exp $ */
 
 /*
@@ -1668,7 +1668,7 @@ pf_normalize_tcp_stateful(struct mbuf *m, int off, struct pf_pdesc *pd,
 			    SEQ_LT(tsecr, dst->scrub->pfss_tsval0)? '3' : ' '));
 			DPFPRINTF((" tsval: %lu  tsecr: %lu  +ticks: %lu  idle: %llus %lums\n",
 			    (unsigned long)tsval, (unsigned long)tsecr,
-			    (unsigned long)tsval_from_last, delta_ts.tv_sec,
+			    (unsigned long)tsval_from_last, (int64_t)delta_ts.tv_sec,
 			    delta_ts.tv_usec / 1000));
 			DPFPRINTF((" src->tsval: %lu  tsecr: %lu\n",
 			    (unsigned long)src->scrub->pfss_tsval,

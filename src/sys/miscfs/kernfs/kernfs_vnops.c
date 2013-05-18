@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/miscfs/kernfs/kernfs_vnops.c,v 1.3 2005/07/04 00:10:44 tg Exp $ */
+/**	$MirOS: src/sys/miscfs/kernfs/kernfs_vnops.c,v 1.4 2005/12/19 23:14:47 tg Exp $ */
 /*	$OpenBSD: kernfs_vnops.c,v 1.42 2004/11/18 17:12:33 millert Exp $	*/
 /*	$NetBSD: kernfs_vnops.c,v 1.43 1996/03/16 23:52:47 christos Exp $	*/
 
@@ -318,7 +318,7 @@ kernfs_xread(kt, off, bufp, len)
 		struct timeval tv;
 
 		microtime(&tv);
-		snprintf(*bufp, len, "%lld %ld\n", tv.tv_sec, tv.tv_usec);
+		snprintf(*bufp, len, "%lld %ld\n", (int64_t)tv.tv_sec, tv.tv_usec);
 		break;
 	}
 
