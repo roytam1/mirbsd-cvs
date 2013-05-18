@@ -1,4 +1,4 @@
-/* $MirOS: ports/infrastructure/pkgtools/lib/file.c,v 1.25.2.3 2010/03/04 18:03:38 bsiegert Exp $ */
+/* $MirOS: ports/infrastructure/pkgtools/lib/file.c,v 1.25.2.4 2010/05/11 19:08:07 bsiegert Exp $ */
 /* $OpenBSD: file.c,v 1.26 2003/08/21 20:24:57 espie Exp $	*/
 
 /*
@@ -33,7 +33,7 @@
 #include <libgen.h>
 #include <unistd.h>
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/file.c,v 1.25.2.3 2010/03/04 18:03:38 bsiegert Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/file.c,v 1.25.2.4 2010/05/11 19:08:07 bsiegert Exp $");
 
 /* block size for file copying */
 #define BLOCKSIZE 1024
@@ -527,6 +527,16 @@ fileFindByPath(char *base, char *fname)
 
 
 	matches = findmatchingname_srcs(srcs, fname);
+	if (TAILQ_EMPTY(matches)) {
+		matchlist_destroy(matches);
+		/* XXX need to check all extensions in order */
+		matches = findmatchingname_srcs(srcs, ensure_tgz(fname));
+	}
+	if (TAILQ_EMPTY(matches)) {
+		matchlist_destroy(matches);
+		snprintf(tmp, sizeof(tmp), "%s->=0", fname);
+		matches = findmatchingname_srcs(srcs, tmp);
+	}
 	if (!TAILQ_EMPTY(matches)) {
 		if (TAILQ_FIRST(matches) == TAILQ_LAST(matches, matchlist)) {
 			/* one match */

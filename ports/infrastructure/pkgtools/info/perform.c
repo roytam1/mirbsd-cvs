@@ -1,4 +1,4 @@
-/**	$MirOS: ports/infrastructure/pkgtools/info/perform.c,v 1.6 2009/11/29 17:39:43 bsiegert Exp $ */
+/**	$MirOS: ports/infrastructure/pkgtools/info/perform.c,v 1.6.2.1 2010/03/07 15:56:02 bsiegert Exp $ */
 /*	$OpenBSD: perform.c,v 1.16 2003/08/23 09:14:43 tedu Exp $	*/
 
 /* This is MirPorts pkg_install, based on:
@@ -33,7 +33,7 @@
 #include <ctype.h>
 #include <libgen.h>
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/info/perform.c,v 1.6 2009/11/29 17:39:43 bsiegert Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/info/perform.c,v 1.6.2.1 2010/03/07 15:56:02 bsiegert Exp $");
 
 static char    *Home;
 
@@ -52,20 +52,24 @@ pkg_do(char *pkg)
 	int             code = 0;
 	int             len;
 	int		isurl = 0;
+	bool		isInstalled = false;
 
 	set_pkg(pkg);
 
-	if (AllInstalled)
-		goto installed;
-
-	if (isURL(pkg)) {
+	if (glob_package(log_dir, sizeof(log_dir), pkg) >= 1) {
+		if (chdir(log_dir) == -1) {
+			pwarnx("can't change directory to '%s'!", log_dir);
+			return 1;
+		}
+		pkg = strdup(basename(log_dir));
+		isInstalled = true;
+	} else if (isURL(pkg)) {
 		if ((cp = fileGetURL(NULL, pkg)) != NULL) {
 			strlcpy(fname, cp, sizeof(fname));
 			isTMP = true;
 		}
 		isurl = 1;
 	} else if (fexists(pkg) && isfile(pkg)) {
-
 		if (*pkg != '/') {
 			if (!getcwd(fname, sizeof(fname))) {
 			    cleanup(0);
@@ -76,26 +80,29 @@ pkg_do(char *pkg)
 		} else
 			strlcpy(fname, pkg, sizeof(fname));
 		cp = fname;
-	} else {
-		if ((cp = fileFindByPath(NULL, pkg)) != NULL) {
+	} else if ((cp = fileFindByPath(NULL, pkg)) != NULL) {
+		strlcpy(fname, cp, sizeof(fname));
+		if (isURL(fname) && (cp = fileGetURL(NULL, fname))
+		    != NULL) {
 			strlcpy(fname, cp, sizeof(fname));
-			if (isURL(fname) && (cp = fileGetURL(NULL, fname))
-			    != NULL) {
-				strlcpy(fname, cp, sizeof(fname));
-				isTMP = true;
-				isurl = 1;
-			} else if (cp && *cp != '/') {
-				if (!getcwd(fname, sizeof(fname))) {
-				    	cleanup(0);
-					err(1, "fatal error during execution: "
-					    "getcwd");
-				}
-				len = strlen(fname);
-				snprintf(&fname[len], sizeof(fname) - len,
-				    "/%s", cp);
+			isTMP = true;
+			isurl = 1;
+		} else if (cp && *cp != '/') {
+			if (!getcwd(fname, sizeof(fname))) {
+				cleanup(0);
+				err(1, "fatal error during execution: "
+				    "getcwd");
 			}
+			len = strlen(fname);
+			snprintf(&fname[len], sizeof(fname) - len,
+			    "/%s", cp);
 		}
+		pkg = fname;
+	} else {
+		pwarnx("cannot find package '%s' installed or in a file!", pkg);
+		return 1;
 	}
+
 	if (cp) {
 		if (isurl) {
 			/* file is already unpacked by fileGetURL() */
@@ -120,23 +127,6 @@ pkg_do(char *pkg)
 			}
 		}
 	}
-	/*
-	 * It's not an uninstalled package, try and find it among the
-	 * installed
-	 */
-	else
-installed:
-	{
-		if (glob_package(log_dir, sizeof(log_dir), pkg) < 1) {
-			pwarnx("can't find package '%s' installed or in a file!", pkg);
-			return 1;
-		}
-		if (chdir(log_dir) == -1) {
-			pwarnx("can't change directory to '%s'!", log_dir);
-			return 1;
-		}
-		pkg = strdup(basename(log_dir));
-	}
 
 	/*
          * Index is special info type that has to override all others to make
@@ -150,8 +140,6 @@ installed:
 		fp = fopen(CONTENTS_FNAME, "r");
 		if (!fp) {
 			pwarnx("unable to open %s file", CONTENTS_FNAME);
-			if (isurl) /* file not on server, check installed */
-				goto installed;
 			code = 1;
 			goto bail;
 		}
@@ -161,7 +149,8 @@ installed:
 
 		/* Start showing the package contents */
 		if (!Quiet)
-			printf("%sInformation for %s:\n\n", InfoPrefix, pkg);
+			printf("%sInformation for %s%s:\n\n", InfoPrefix, pkg,
+					isInstalled ? " (installed)" : "");
 		if (Flags & SHOW_COMMENT)
 			show_file("Comment:\n", COMMENT_FNAME);
 		if ((Flags & SHOW_REQBY) && !isemptyfile(REQUIRED_BY_FNAME))
