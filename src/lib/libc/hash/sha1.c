@@ -49,12 +49,12 @@ void
 SHA1Transform(u_int32_t state[5], const u_int8_t buffer[SHA1_BLOCK_LENGTH])
 {
 	u_int32_t a, b, c, d, e;
-	u_int8_t workspace[SHA1_BLOCK_LENGTH];
 	typedef union {
 		u_int8_t c[64];
 		u_int32_t l[16];
 	} CHAR64LONG16;
-	CHAR64LONG16 *block = (CHAR64LONG16 *)workspace;
+	CHAR64LONG16 workspace[SHA1_BLOCK_LENGTH / sizeof (CHAR64LONG16)];
+	CHAR64LONG16 *block = workspace;
 
 	(void)memcpy(block, buffer, SHA1_BLOCK_LENGTH);
 

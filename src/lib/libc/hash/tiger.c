@@ -1,4 +1,4 @@
-/* $MirOS: src/lib/libc/hash/tiger.c,v 1.3 2006/12/28 02:14:05 tg Exp $ */
+/* $MirOS: src/lib/libc/hash/tiger.c,v 1.4 2006/12/28 04:06:03 tg Exp $ */
 
 /*-
  * Copyright (c) 2006
@@ -28,7 +28,7 @@
 #include <string.h>
 #include <tiger.h>
 
-__RCSID("$MirOS: src/lib/libc/hash/tiger.c,v 1.3 2006/12/28 02:14:05 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/hash/tiger.c,v 1.4 2006/12/28 04:06:03 tg Exp $");
 
 void
 TIGERInit(TIGER_CTX *ctx)
@@ -66,6 +66,7 @@ void
 TIGERPad(TIGER_CTX *ctx)
 {
 	size_t i = ctx->count & 63;
+	uint64_t tmp;
 
 	ctx->buffer[i++] = 0x01;
 	while (i & 7)
@@ -78,19 +79,26 @@ TIGERPad(TIGER_CTX *ctx)
 	}
 	while (i < 56)
 		ctx->buffer[i++] = 0;
-	*((uint64_t *)(&(ctx->buffer[56]))) = htole64(ctx->count << 3);
+	tmp = htole64(ctx->count << 3);
+	memcpy(&(ctx->buffer[56]), &tmp, 8);
 	TIGERTransform(ctx->digest, ctx->buffer);
 }
 
 void
 TIGERFinal(uint8_t *out, TIGER_CTX *ctx)
 {
+	uint64_t tmp;
+
 	TIGERPad(ctx);
 	if (out != NULL) {
-		uint64_t *dst = (uint64_t *)out;
-		dst[0] = htole64(ctx->digest[0]);
-		dst[1] = htole64(ctx->digest[1]);
-		dst[2] = htole64(ctx->digest[2]);
+		tmp = htole64(ctx->digest[0]);
+		memcpy(out, &tmp, 8);
+		out += 8;
+		tmp = htole64(ctx->digest[1]);
+		memcpy(out, &tmp, 8);
+		out += 8;
+		tmp = htole64(ctx->digest[2]);
+		memcpy(out, &tmp, 8);
 	}
 	bzero(ctx, sizeof (TIGER_CTX));
 }
@@ -613,38 +621,42 @@ static const uint64_t tiger_sboxen[4 * 256] = {
 void
 TIGERTransform(uint64_t *state, const uint8_t *data)
 {
-	uint64_t a, b, c, x0, x1, x2, x3, x4, x5, x6, x7;
+	uint64_t a, b, c, x0, x1, x2, x3, x4, x5, x6, x7, tmp;
 	uint32_t i;
 
 #define t1	(tiger_sboxen)
 #define t2	(tiger_sboxen + 256)
 #define t3	(tiger_sboxen + 512)
 #define t4	(tiger_sboxen + 768)
-#define round(a, b, c, x, mul)	do {		\
-		c ^= x;				\
-		a -= t1[((c)>>(0*8)) & 0xFF] ^	\
-		     t2[((c)>>(2*8)) & 0xFF] ^	\
-		     t3[((c)>>(4*8)) & 0xFF] ^	\
-		     t4[((c)>>(6*8)) & 0xFF];	\
-		b += t4[((c)>>(1*8)) & 0xFF] ^	\
-		     t3[((c)>>(3*8)) & 0xFF] ^	\
-		     t2[((c)>>(5*8)) & 0xFF] ^	\
-		     t1[((c)>>(7*8)) & 0xFF];	\
-		b *= mul;			\
-	} while (0)
+#define round(a, b, c, x, mul)	do {	\
+	c ^= x;				\
+	a -= t1[((c)>>(0*8)) & 0xFF] ^	\
+	     t2[((c)>>(2*8)) & 0xFF] ^	\
+	     t3[((c)>>(4*8)) & 0xFF] ^	\
+	     t4[((c)>>(6*8)) & 0xFF];	\
+	b += t4[((c)>>(1*8)) & 0xFF] ^	\
+	     t3[((c)>>(3*8)) & 0xFF] ^	\
+	     t2[((c)>>(5*8)) & 0xFF] ^	\
+	     t1[((c)>>(7*8)) & 0xFF];	\
+	b *= mul;			\
+} while (0)
+#define letoh64u(dst, src) do {		\
+	memcpy(&tmp, (src), 8);		\
+	(dst) = letoh64(tmp);		\
+} while (0)
 
 	a = state[0];
 	b = state[1];
 	c = state[2];
 
-	x0 = letoh64(((const uint64_t *)data)[0]);
-	x1 = letoh64(((const uint64_t *)data)[1]);
-	x2 = letoh64(((const uint64_t *)data)[2]);
-	x3 = letoh64(((const uint64_t *)data)[3]);
-	x4 = letoh64(((const uint64_t *)data)[4]);
-	x5 = letoh64(((const uint64_t *)data)[5]);
-	x6 = letoh64(((const uint64_t *)data)[6]);
-	x7 = letoh64(((const uint64_t *)data)[7]);
+	letoh64u(x0, data + 0);
+	letoh64u(x1, data + 1);
+	letoh64u(x2, data + 2);
+	letoh64u(x3, data + 3);
+	letoh64u(x4, data + 4);
+	letoh64u(x5, data + 5);
+	letoh64u(x6, data + 6);
+	letoh64u(x7, data + 7);
 
 	for (i = 0; i < 3; ++i) {
 		uint64_t tmpa;

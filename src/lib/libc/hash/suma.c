@@ -24,9 +24,10 @@
 
 #include <sys/types.h>
 #include <stdlib.h>
+#include <string.h>
 #include <suma.h>
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/lib/libc/hash/suma.c,v 1.2 2007/05/07 15:55:27 tg Exp $");
 
 void
 SUMAInit(SUMA_CTX *ctx)
@@ -102,8 +103,12 @@ SUMAPad(SUMA_CTX *ctx)
 void
 SUMAFinal(uint8_t *dst, SUMA_CTX *ctx)
 {
-	SUMAPad(ctx);
-	if (dst)
-		*((uint32_t *)dst) = htobe32(*ctx);
+	uint32_t tmp;
+
+	if (dst) {
+		SUMAPad(ctx);
+		tmp = htobe32(*ctx);
+		memcpy(dst, &tmp, 4);
+	}
 	*ctx = 0;
 }

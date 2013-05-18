@@ -27,8 +27,9 @@
 #include <sys/param.h>
 #include <adler32.h>
 #include <stdlib.h>
+#include <string.h>
 
-__RCSID("$MirOS: src/lib/libc/hash/suma.c,v 1.2 2007/05/07 15:55:27 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/hash/adh32.c,v 1.1 2007/05/07 16:15:56 tg Exp $");
 
 void
 ADLER32Init(ADLER32_CTX *ctx)
@@ -73,7 +74,9 @@ ADLER32Update(ADLER32_CTX *ctx, const uint8_t *buf, size_t len)
 void
 ADLER32Final(uint8_t *dst, ADLER32_CTX *ctx)
 {
+	uint32_t tmp = htobe32(*ctx);
+
 	if (dst)
-		*((uint32_t *)dst) = htobe32(*ctx);
+		memcpy(dst, &tmp, 4);
 	*ctx = 0;
 }

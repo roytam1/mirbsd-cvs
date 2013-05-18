@@ -22,7 +22,7 @@
 #include <string.h>
 #include <sfv.h>
 
-__RCSID("$MirOS: src/bin/md5/sfv.c,v 1.1 2006/09/17 19:28:57 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/hash/sfv.c,v 1.1 2007/05/07 15:21:18 tg Exp $");
 
 static const uint32_t tab[256] = {
 	0x00000000U, 0x77073096U, 0xee0e612cU, 0x990951baU,
@@ -115,8 +115,12 @@ SFVPad(SFV_CTX *ctx)
 void
 SFVFinal(uint8_t *dst, SFV_CTX *ctx)
 {
-	SFVPad(ctx);
-	if (dst)
-		*((uint32_t *)dst) = htobe32(ctx->crc);
+	uint32_t tmp;
+
+	if (dst) {
+		SFVPad(ctx);
+		tmp = htobe32(ctx->crc);
+		memcpy(dst, &tmp, 4);
+	}
 	bzero(ctx, sizeof (SFV_CTX));
 }
