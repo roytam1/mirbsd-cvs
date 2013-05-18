@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/usr.bin/oldroff/nrcon/nrcon,v 1.4 2005/12/17 00:40:02 tg Exp $
+# $MirOS: src/usr.bin/oldroff/nrcon/nrcon,v 1.5 2007/01/22 06:28:59 tg Exp $
 #-
 # Copyright (c) 2003, 2004, 2005, 2007
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -45,8 +45,9 @@ if [[ $1 = -8 || $1 = -e ]]; then
 	done
 	soelim $F \
 	    | /usr/libexec/nr8pre $c \
-	    | /usr/bin/nroff -B -Tcol $P | /usr/bin/col \
-	    | /usr/libexec/nr8post
+	    | /usr/bin/nroff -B -Tcol $P \
+	    | /usr/libexec/nr8post \
+	    | /usr/bin/col
 else
 	/usr/bin/nroff -B -Tcol "$@" | /usr/bin/col
 fi
