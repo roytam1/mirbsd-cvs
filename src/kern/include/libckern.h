@@ -1,4 +1,4 @@
-/* $MirOS: src/kern/include/libckern.h,v 1.1 2007/02/06 18:58:06 tg Exp $ */
+/* $MirOS: src/kern/include/libckern.h,v 1.2 2007/02/06 22:09:44 tg Exp $ */
 
 #ifndef __LIBCKERN_H_
 #define __LIBCKERN_H_
@@ -31,7 +31,9 @@ size_t strlen(const char *);
 __END_DECLS
 
 #if !defined(_STANDALONE) && !defined(_WCHAR_H_)
+__BEGIN_DECLS
 size_t wcslen(const wchar_t *);
+__END_DECLS
 #endif
 
 #endif
