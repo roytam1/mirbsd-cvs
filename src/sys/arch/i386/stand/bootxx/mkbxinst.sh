@@ -1,7 +1,7 @@
 #!/bin/mksh
-# $MirOS: src/sys/arch/i386/stand/bootxx/mkbxinst.sh,v 1.3 2007/10/20 22:40:18 tg Exp $
+# $MirOS: src/sys/arch/i386/stand/bootxx/mkbxinst.sh,v 1.4 2007/10/20 23:28:11 tg Exp $
 #-
-# Copyright (c) 2007
+# Copyright (c) 2007, 2008
 #	Thorsten Glaser <tg@mirbsd.de>
 #
 # Provided that these terms and disclaimer and all copyright notices
@@ -27,7 +27,7 @@
 # Arguments: $1 = ELF bootxx, linked
 # Output: shell script to stdout
 
-rcsid='$MirOS: src/sys/arch/i386/stand/bootxx/mkbxinst.sh,v 1.3 2007/10/20 22:40:18 tg Exp $'
+rcsid='$MirOS: src/sys/arch/i386/stand/bootxx/mkbxinst.sh,v 1.4 2007/10/20 23:28:11 tg Exp $'
 
 function die {
 	rv=$1; shift
@@ -43,9 +43,12 @@ while read -p adr typ sym; do
 	eval typeset -i10 sym_$sym=0x\$adr
 done
 
-thecode=$(objcopy -O binary $1 /dev/stdout | \
-    dd bs=1 skip=$sym__start count=$((sym_blktbl - sym__start)) 2>/dev/null | \
+T=$(mktemp /tmp/tmp.XXXXXXXXXX) || die 255 Cannot create temporary file
+objcopy -O binary $1 $T
+thecode=$(dd if=$T bs=1\
+    skip=$sym__start count=$((sym_blktbl - sym__start)) 2>/dev/null | \
     hexdump -ve '1/1 "0x%02X "')
+rm -f $T
 
 print '#!/usr/bin/env mksh'
 print "# $rcsid"
