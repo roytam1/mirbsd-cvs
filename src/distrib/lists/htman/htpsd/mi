@@ -1,3 +1,5 @@
+./man1/pkg.htm
+./man1/pkg_create.htm
 ./man2/.htaccess
 ./man2/WCOREDUMP.htm
 ./man2/WIFCONTINUED.htm
@@ -3088,6 +3090,16 @@
 ./man3/rand_r.htm
 ./man3/random.htm
 ./man3/raw.htm
+./man3/rcdb.htm
+./man3/rcdb_close.htm
+./man3/rcdb_delete.htm
+./man3/rcdb_lookup.htm
+./man3/rcdb_modify.htm
+./man3/rcdb_open.htm
+./man3/rcdb_read.htm
+./man3/rcdb_retrieve.htm
+./man3/rcdb_store.htm
+./man3/rcdb_write.htm
 ./man3/rcmd.htm
 ./man3/rcmd_af.htm
 ./man3/rcmdsh.htm
@@ -4127,6 +4139,12 @@
 ./man3p/vmsish.htm
 ./man3p/warnings.htm
 ./man3p/warnings::register.htm
+./man5/bsd.port.mk.htm
+./man7/mirror-maker.htm
+./man7/mirroring-ports.htm
+./man7/packages-specs.htm
+./man7/packages.htm
+./man7/ports.htm
 ./man9/.htaccess
 ./man9/FREE.htm
 ./man9/FREF.htm

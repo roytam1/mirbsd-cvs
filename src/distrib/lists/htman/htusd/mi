@@ -375,6 +375,10 @@
 ./man1/perlxstut.htm
 ./man1/pgrep.htm
 ./man1/piconv.htm
+./man1/pkg_add.htm
+./man1/pkg_delete.htm
+./man1/pkg_info.htm
+./man1/pkg_upgrade.htm
 ./man1/pkill.htm
 ./man1/pl2pm.htm
 ./man1/pmdb.htm
@@ -1111,6 +1115,7 @@
 ./man7/term.htm
 ./man8/.htaccess
 ./man8/MAKEDEV.htm
+./man8/Setup.sh.htm
 ./man8/UKC.htm
 ./man8/ac.htm
 ./man8/accton.htm
