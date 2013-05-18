@@ -89,8 +89,8 @@ Read the LICENCE file mentioned above, as well as the other files in
 that directory, to find out about other strings attached with MirOS.
 
 Some of the supplied software is covered by GNU licences. The source
-code is available at http://www.66h.42h.de/ and its mirrors; further
+code is available at http://www.mirbsd.org/ and its mirrors; further
 information can be found at /usr/share/doc/legal/ as well.
 
 _________________________________________________________________________
-$MirOS: src/distrib/i386/iso/00-README,v 1.5 2006/01/13 03:01:30 tg Exp $
+$MirOS: src/distrib/i386/iso/00-README,v 1.6 2006/01/13 03:49:30 tg Exp $

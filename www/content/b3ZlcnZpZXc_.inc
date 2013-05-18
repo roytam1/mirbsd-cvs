@@ -1,5 +1,5 @@
 <!-- PageID: overview -->
-<small class="rcsid">$MirOS: www/content/b3ZlcnZpZXc_.inc,v 1.17 2006/02/26 12:22:24 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/b3ZlcnZpZXc_.inc,v 1.18 2006/03/19 11:26:03 tg Exp $</small>
 <h1>Quick Overview &ndash; All in one page</h1>
 
 <h2>Status</h2><p>
@@ -43,18 +43,18 @@
  </ul></li>
  <li>Release<ul>
   <li><a href="http://f.scarywater.net/miros/BSD-8semel-full--i386-source.ISO.torrent">ISO (BitTorrent)</a> #8semel (i386)</li>
-  <li><a href="http://www.66h.42h.de/MirOS/v8.1/i386/">Direct Download</a> #8semel (i386)</li>
+  <li><a href="http://www.mirbsd.org/MirOS/v8.1/i386/">Direct Download</a> #8semel (i386)</li>
   <li>(no #8semel/sparc released, please use MirOS #7 instead)</li>
   <li><a href="http://f.scarywater.net/miros/BSD-7quater-full.iso.torrent">ISO (BitTorrent)</a> #7quater (i386, sparc)</li>
-  <li><a href="http://www.66h.42h.de/MirOS/v7.5/bsd/i386/">Direct Download</a> #7quinquies (i386)</li>
-  <li><a href="http://www.66h.42h.de/MirOS/v7.4/bsd/sparc/">Direct Download</a> #7quater (sparc) + updates</li>
+  <li><a href="http://www.mirbsd.org/MirOS/v7.5/bsd/i386/">Direct Download</a> #7quinquies (i386)</li>
+  <li><a href="http://www.mirbsd.org/MirOS/v7.4/bsd/sparc/">Direct Download</a> #7quater (sparc) + updates</li>
  </ul></li>
  <li>Snapshots<ul>
   <li><a href="http://f.scarywater.net/miros/">Please use our BitTorrent tracker</a> to download if available</li>
-  <li><a href="http://www.66h.42h.de/MirOS/current/i386-20060215/">MirOS BSD #8-current/i386, 2006-02-15</a> (binary only)</li>
+  <li><a href="http://www.mirbsd.org/MirOS/current/i386-20060215/">MirOS BSD #8-current/i386, 2006-02-15</a> (binary only)</li>
  </ul></li>
  <li>Website<ul>
-  <li><a href="http://www.66h.42h.de/">http://www.66h.42h.de/</a></li>
+  <li><a href="http://www.mirbsd.org/">http://www.mirbsd.org/</a></li>
  </ul></li>
  <li>CVS Repositories<ul>
   <li><a href="/MirOS/CVS/cvsrepo-20060215.cgz">/cvs</a> (4th, current)</li>

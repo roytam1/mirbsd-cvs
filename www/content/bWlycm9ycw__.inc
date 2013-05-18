@@ -1,5 +1,5 @@
 <!-- PageID: mirrors -->
-<small class="rcsid">$MirOS: www/content/bWlycm9ycw__.inc,v 1.9 2006/01/27 00:14:29 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bWlycm9ycw__.inc,v 1.10 2006/01/27 10:37:15 tg Exp $</small>
 <h1>MirOS mirrors</h1>
 
 <h2>Kinds of mirrors</h2>
@@ -14,7 +14,7 @@
 
 <h3>Website</h3>
 <p><a href="http://mirbsd.de/">Another list</a>.</p><ul>
-<li><a href="http://www.66h.42h.de/">mirbsd.mirsolutions.de</a>
+<li><a href="http://www.mirbsd.org/">mirbsd.mirsolutions.de</a>
  (www and distfiles, updated frequently)</li>
 </ul>
 <p>Note: distfiles is <tt>/MirOS/distfiles/</tt> &ndash; where you can
@@ -27,7 +27,7 @@
  href="/?cvsweb">information</a> about CVSweb and the special
  properties of MirOS CVSweb is available.</p><ul>
 <li><a href="http://cvs.mirbsd.de/">cvs.mirbsd.de</a> (GENERIC redirection)</li>
-<li><a href="https://mirbsd.mirsolutions.de:445/cvs.cgi/">mirbsd.mirsolutions.de</a>
+<li><a href="http://mirbsd.mirsolutions.de/cvs.cgi/">mirbsd.mirsolutions.de</a>
  (updated frequently)</li>
 </ul>
 

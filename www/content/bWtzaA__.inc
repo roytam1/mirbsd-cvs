@@ -1,5 +1,5 @@
 <!-- PageID: mksh -->
-<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.22 2006/01/30 12:37:20 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.23 2006/02/16 11:53:07 tg Exp $</small>
 
 <h1>mksh(1) R26c</h1>
 <p>This is the MirBSD&trade; Korn Shell, a more or less portable
@@ -171,7 +171,7 @@
 <h2 id="fetch">Getting The Source</h2>
 
 <p>The current version is <a
- href="http://www.66h.42h.de/MirOS/dist/mir/mksh/mksh-R26c.cpio.gz">http://www.66h.42h.de/MirOS/dist/mir/mksh/mksh-R26c.cpio.gz</a></p>
+ href="http://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R26c.cpio.gz">http://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R26c.cpio.gz</a></p>
 <ul>
  <li>Please use gzsig(1) to verify the integrity of the distfile instead!</li>
  <li>RMD160 (mksh-R26c.cpio.gz) = a8b079639328528a7f0e19d643ea6002026fe8fd</li>

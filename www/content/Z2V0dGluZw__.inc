@@ -1,5 +1,5 @@
 <!-- PageID: getting -->
-<small class="rcsid">$MirOS: www/content/Z2V0dGluZw__.inc,v 1.9 2006/01/27 00:14:27 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/Z2V0dGluZw__.inc,v 1.10 2006/01/27 00:54:10 tg Exp $</small>
 <h1>How to get MirOS</h1>
 
 <h3>Introduction</h3>
@@ -43,7 +43,7 @@
 
 <h4>Doing an online installation</h4>
 <p>Currently, you must set the installation method to <tt>HTTP</tt>, the
- server to <tt>www.66h.42h.de</tt> and the path to
+ server to <tt>www.mirbsd.org</tt> and the path to
  <tt>MirOS/v8/i386</tt> <!-- (or <tt>MirOS/v7/bsd/sparc</tt>) -->,
  with neither a slash before nor after the pathname.</p>
 
@@ -60,16 +60,16 @@
  errata. Users <strong>must</strong> now use current MirPorts for this
  system and install the egcs (gcc3) from packages on i386 if they need it.
  Additionally, it is available for the <a
- href="http://www.66h.42h.de/MirOS/v7/bsd/i386/">i386</a>
+ href="http://www.mirbsd.org/MirOS/v7/bsd/i386/">i386</a>
  architecture only; for <a
- href="http://www.66h.42h.de/MirOS/v7.4/bsd/sparc/">sparc</a>
+ href="http://www.mirbsd.org/MirOS/v7.4/bsd/sparc/">sparc</a>
  support you must start with #7quater and compile yourself.
  You may also want to get the <a
- href="http://www.66h.42h.de/MirOS/v7.3/source.tgz">*OLD* source code</a>
+ href="http://www.mirbsd.org/MirOS/v7.3/source.tgz">*OLD* source code</a>
  (this time excluding the MirPorts Framework), or <a
  href="http://benz.mine.nu/MirBSD/packages/">binary packages for MirOS at
  Benny Siegert's site</a> for both architectures; some are <a
- href="http://www.66h.42h.de/MirOS/v7.3/bsd/Pkgs/">available here</a>
+ href="http://www.mirbsd.org/MirOS/v7.3/bsd/Pkgs/">available here</a>
  as well.</p -->
 <p>You can retrieve the source code for MirOS #8semel
  by using anonCVS with the tag <tt>MIRBSD_8_BASE</tt>.</p>
@@ -82,7 +82,7 @@
 
 <h4>Snapshots of current development</h4>
 <p>You can usually find some more or less recent snapshots in the
- <a href="http://www.66h.42h.de/MirOS/current/">&quot;current&quot;
+ <a href="http://www.mirbsd.org/MirOS/current/">&quot;current&quot;
  directory</a>; beware these might be older than the latest release
  or not work at all. The BitTorrent snapshots however are usually newer
  than the latest release which is also made available via BT, usually

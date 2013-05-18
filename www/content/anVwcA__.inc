@@ -1,5 +1,5 @@
 <!-- PageID: jupp -->
-<small class="rcsid">$MirOS: www/content/anVwcA__.inc,v 1.8 2006/01/27 00:54:10 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/anVwcA__.inc,v 1.9 2006/01/27 10:35:23 tg Exp $</small>
 <h1>jupp &ndash; the Editor</h1>
 <p>
  The current version is <em>joe-3.1jupp5</em>.
@@ -60,7 +60,7 @@
 
 <h3>Download</h3>
 <ul>
- <li><a href="http://www.66h.42h.de/MirOS/dist/jupp/joe-3.1jupp5.cpio.gz">http://www.66h.42h.de/MirOS/dist/jupp/joe-3.1jupp5.cpio.gz</a></li>
+ <li><a href="http://www.mirbsd.org/MirOS/dist/jupp/joe-3.1jupp5.cpio.gz">http://www.mirbsd.org/MirOS/dist/jupp/joe-3.1jupp5.cpio.gz</a></li>
 </ul>
 
 <p>Check the sums!</p>

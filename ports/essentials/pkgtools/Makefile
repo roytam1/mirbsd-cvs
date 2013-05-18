@@ -1,4 +1,4 @@
-# $MirOS: ports/essentials/pkgtools/Makefile,v 1.14 2006/02/21 03:16:58 tg Exp $
+# $MirOS: ports/essentials/pkgtools/Makefile,v 1.16 2006/03/19 20:13:02 tg Exp $
 
 COMMENT=		"MirPorts Framework package tools"
 CATEGORIES=		essentials infrastructure
@@ -10,7 +10,7 @@ CVS_DISTMODS=		ports/infrastructure/pkgtools
 CVS_DISTFILE=		pkgtools
 PKGNAME=		${_CVS_DISTF:R}-0
 RESPONSIBLE=		Benny Siegert <bsiegert@mirbsd.org>
-HOMEPAGE=		http://www.66h.42h.de/?ports
+HOMEPAGE=		http://mirbsd.de/ports
 
 # 2-clause UCB-style
 # 3-clause UCB BSD
