@@ -1148,7 +1148,8 @@ description:
 need-pass: no
 # the mv command fails on Cygwin
 # Hurd aborts the testsuite (permission denied)
-category: !os:cygwin,!os:gnu,!os:msys,!nosymlink
+# QNX does not find subdir to cd into
+category: !os:cygwin,!os:gnu,!os:msys,!os:nto,!nosymlink
 file-setup: file 644 "x"
 	mkdir noread noread/target noread/target/subdir
 	ln -s noread link
