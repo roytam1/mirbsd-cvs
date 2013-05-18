@@ -25,7 +25,7 @@
 #include <lib/libsa/stand.h>
 #include <lib/libsa/fat.h>
 
-__RCSID("$MirOS: src/sys/lib/libsa/fat.c,v 1.18 2011/01/03 17:42:01 tg Exp $");
+__RCSID("$MirOS: src/sys/lib/libsa/fat.c,v 1.19 2011/01/03 18:38:00 tg Exp $");
 
 #if BYTE_ORDER != LITTLE_ENDIAN
 #define getlew(ofs) (buf[(ofs)] + ((unsigned)buf[(ofs) + 1] << 8))
@@ -276,11 +276,12 @@ fat_close(struct open_file *f)
 }
 
 int
-fat_read(struct open_file *f, void *buf, size_t size, size_t *resid)
+fat_read(struct open_file *f, void *buf_, size_t size, size_t *resid)
 {
 	struct fat_file *ff = f->f_fsdata;
 	int rv = 0, otmp, isroot = 0, blksiz = ff->bpc;
 	size_t stmp;
+	char *buf = buf_;
 
 	if (!ff->databuf) {
 		ff->databuf = alloc(ff->bpc);
@@ -360,7 +361,8 @@ fat_read(struct open_file *f, void *buf, size_t size, size_t *resid)
 }
 
 int
-fat_write(struct open_file *f, void *buf, size_t size, size_t *resid)
+fat_write(struct open_file *f __unused, void *buf __unused,
+    size_t size __unused, size_t *resid __unused)
 {
 	return (EROFS);
 }
