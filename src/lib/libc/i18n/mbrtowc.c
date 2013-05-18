@@ -1,4 +1,4 @@
-/* $MirOS: src/lib/libc/i18n/mbrtowc.c,v 1.4 2006/05/21 12:12:29 tg Exp $ */
+/* $MirOS: src/lib/libc/i18n/mbrtowc.c,v 1.5 2006/05/21 12:30:47 tg Exp $ */
 
 /*-
  * Copyright (c) 2005, 2006
@@ -30,10 +30,12 @@
 
 #include "mir18n.h"
 
-__RCSID("$MirOS: src/lib/libc/i18n/mbrtowc.c,v 1.4 2006/05/21 12:12:29 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/i18n/mbrtowc.c,v 1.5 2006/05/21 12:30:47 tg Exp $");
 
+size_t __weak_mbrtowc(wchar_t *__restrict__, const char *__restrict__, size_t,
+	    mbstate_t *__restrict__);
 size_t
-mbrtowc(wchar_t *__restrict__ pwc, const char *__restrict__ sb,
+__weak_mbrtowc(wchar_t *__restrict__ pwc, const char *__restrict__ sb,
     size_t n, mbstate_t *__restrict__ ps)
 {
 	static mbstate_t internal_mbstate = { 0, 0 };
@@ -117,3 +119,5 @@ mbrtowc(wchar_t *__restrict__ pwc, const char *__restrict__ sb,
 	else
 		goto conv_byte;
 }
+
+__weak_alias(mbrtowc, __weak_mbrtowc);
