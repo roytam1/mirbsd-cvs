@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.sbin/httpd/src/main/http_protocol.c,v 1.6 2006/09/20 17:55:01 tg Exp $ */
+/**	$MirOS: src/usr.sbin/httpd/src/main/http_protocol.c,v 1.7 2006/09/20 23:45:07 tg Exp $ */
 /*	$OpenBSD: http_protocol.c,v 1.30 2006/02/11 19:15:57 otto Exp $ */
 /* ====================================================================
  * The Apache Software License, Version 1.1
@@ -2923,8 +2923,8 @@ API_EXPORT(void) ap_send_error_response(request_rec *r, int recursive_error)
 	    ap_rvputs(r, "The expectation given in the Expect request-header"
 	              "\nfield could not be met by this server.<P>\n"
 	              "The client sent<PRE>\n    Expect: ",
-		      ap_escape_html(r->pool, ap_table_get(r->headers_in,
-			  "Expect")), "\n</PRE>\n"
+	              ap_escape_html(r->pool, ap_table_get(r->headers_in,
+		      "Expect")), "\n</PRE>\n"
 	              "but we only allow the 100-continue expectation.\n",
 	              NULL);
 	    break;
