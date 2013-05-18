@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/scripts/xbuild-binutils.sh,v 1.11 2006/06/11 22:35:01 tg Exp $
+# $MirOS: src/share/misc/licence.template,v 1.14 2006/08/09 19:35:23 tg Rel $
 #-
 # Copyright (c) 2004, 2005, 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -11,8 +11,8 @@
 # in all redistributions or reproduced in accompanying documentation
 # or other materials provided with binary redistributions.
 #
-# All advertising materials mentioning features or use of this soft-
-# ware must display the following acknowledgement:
+# Advertising materials mentioning features or use of this work must
+# display the following acknowledgement:
 #	This product includes material provided by Thorsten Glaser.
 #
 # Licensor offers the work "AS IS" and WITHOUT WARRANTY of any kind,
@@ -22,7 +22,7 @@
 # or other damage, or direct damage except proven a consequence of a
 # direct error of said person and intended use of this work, loss or
 # other issues arising in any way out of its use, even if advised of
-# the possibility of such damage or existence of a nontrivial bug.
+# the possibility of such damage or existence of a defect.
 #-
 # call this with the canonical target name as parameter
 
@@ -105,7 +105,9 @@ $cp /usr/lib/libopcodes.la \
     CFARGS="--with-sysroot=$CROSSDIR" \
     make -f Makefile.bsd-wrapper )
 
-install -c -s -o $BINOWN -g $BINGRP -m 555 \
+[[ -n $MKC_DEBG ]] || : ${INSTALL_STRIP=-s}
+
+install -c $INSTALL_STRIP -o $BINOWN -g $BINGRP -m 555 \
     $BSDSRCDIR/gnu/usr.bin/binutils/gas/obj.$MACHINE/as-new \
     $CROSSDIR/host-tools/bin/as
 
