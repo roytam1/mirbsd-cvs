@@ -1,5 +1,5 @@
 #!/bin/sh
-# $MirOS: src/usr.bin/lorder/lorder.sh,v 1.4 2005/09/19 19:24:49 tg Exp $
+# $MirOS: src/usr.bin/lorder/lorder.sh,v 1.5 2006/09/20 22:24:51 tg Exp $
 # $OpenBSD: lorder.sh,v 1.14 2003/07/02 00:21:16 avsm Exp $
 # $NetBSD: lorder.sh.gnm,v 1.3 1995/12/20 04:45:11 cgd Exp $
 #-
@@ -78,8 +78,10 @@ ${NM:-nm} -go "$@" | sed "
 
 # sort symbols and references on the first field (the symbol)
 # join on that field, and print out the file names (dependencies).
-sort +1 $R -o $R
-sort +1 $S -o $S
+#sort +1 $R -o $R			# historic sort
+#sort +1 $S -o $S
+sort -k 2 $R -o $R			# modern sort
+sort -k 2 $S -o $S
 #join -j 2 -o 1.1 2.1 $R $S		# historic join
 join -1 2 -2 2 -o 1.1 -o 2.1 $R $S	# modern join
 rm -f $R $S
