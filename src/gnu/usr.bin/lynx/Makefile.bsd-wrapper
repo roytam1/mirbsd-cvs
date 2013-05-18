@@ -1,4 +1,4 @@
-# $MirOS: src/gnu/usr.bin/lynx/Makefile.bsd-wrapper,v 1.26 2009/09/06 14:17:01 tg Exp $
+# $MirOS: src/gnu/usr.bin/lynx/Makefile.bsd-wrapper,v 1.27 2009/09/27 12:14:18 tg Exp $
 # $OpenBSD: Makefile.bsd-wrapper,v 1.12 2003/05/01 18:59:36 avsm Exp $
 
 MAN=		lynx.1
@@ -8,7 +8,7 @@ FSFISLIB=	No
 
 .include <bsd.own.mk>
 
-# MirOS patchlevel – in sync with MirPorts-2 rev.
+# MirOS patchlevel – in sync with MirPorts-3 rev.
 CPPFLAGS+=	-DZCONST=const -DLYNX_VERSION=\"2.8.7rel.1-MirOS-0AAA\"
 
 CFARGS+=	--prefix=/usr \
