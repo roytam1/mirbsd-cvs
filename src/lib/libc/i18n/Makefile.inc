@@ -1,4 +1,4 @@
-# $MirOS: src/lib/libc/i18n/Makefile.inc,v 1.27 2008/08/01 22:04:56 tg Exp $
+# $MirOS: src/lib/libc/i18n/Makefile.inc,v 1.28 2008/08/01 23:24:02 tg Exp $
 
 .PATH: ${LIBCSRCDIR}/i18n
 .PATH: ${LIBCSRCDIR}/locale
@@ -27,6 +27,7 @@ SRCS+=	mbslen.c
 SRCS+=	mbsrtowcs.c
 SRCS+=	mbstowcs.c
 SRCS+=	mbtowc.c
+SRCS+=	optu8to16vis.c
 SRCS+=	towctrans.c
 SRCS+=	wcsftime.c
 SRCS+=	wcsrtombs.c
@@ -39,6 +40,7 @@ SRCS+=	wctype.c
 SRCS+=	wcwidth.c
 
 UNIFDEF_SRCS+=	mbsnrtowcs.c mbsrtowcs.c -DMBSNRTOWCS
+UNIFDEF_SRCS+=	mbsnrtowcsvis.c mbsrtowcs.c -DMBSNRTOWCSVIS
 UNIFDEF_SRCS+=	wcsnrtombs.c wcsrtombs.c -DWCSNRTOMBS
 
 .for _i in alnum alpha blank cntrl digit graph lower print punct space upper \
@@ -113,6 +115,8 @@ MLINKS+=iswalnum.3 iswxdigit.3
 MLINKS+=setlocale.3 localeconv.3
 MLINKS+=towlower.3 towupper.3
 MLINKS+=mbsrtowcs.3 mbsnrtowcs.3
+MLINKS+=mbsrtowcs.3 mbsnrtowcsvis.3
+MLINKS+=optu8to16.3 optu8to16vis.3
 MLINKS+=wcrtomb.3 optu16to8.3
 MLINKS+=wcsrtombs.3 wcsnrtombs.3
 
