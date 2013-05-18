@@ -1,4 +1,4 @@
-/* $MirOS: contrib/code/libhaible/wchar.h,v 1.2 2006/05/23 10:39:45 tg Exp $ */
+/* $MirOS: src/include/wchar.h,v 1.5 2006/05/26 13:52:02 tg Exp $ */
 
 /*-
  * Copyright (c) 2005, 2006
@@ -131,8 +131,8 @@ size_t	wcsrtombs(char *__restrict__, const wchar_t **__restrict__, size_t,
 	    mbstate_t *__restrict__);
 #endif
 size_t	wcsspn(const wchar_t *, const wchar_t *);
-#ifdef notyet
 wchar_t	*wcsstr(const wchar_t *__restrict__, const wchar_t *__restrict__);
+#ifdef notyet
 double	wcstod(const wchar_t *__restrict__, wchar_t **__restrict__);
 float	wcstof(const wchar_t *__restrict__, wchar_t **__restrict__);
 wchar_t	*wcstok(wchar_t *__restrict__, const wchar_t *__restrict__,
@@ -145,8 +145,6 @@ long double wcstold(const wchar_t *__restrict__, wchar_t **__restrict__);
 #ifdef notyet
 /* LONGLONG */
 long long wcstoll(const wchar_t *__restrict__, wchar_t **__restrict__, int);
-#ifdef notyet
-#endif /* notyet */
 #endif /* notyet */
 #endif
 #ifdef notyet
@@ -161,8 +159,8 @@ unsigned long long wcstoull(const wchar_t *__restrict__,
 	    wchar_t **__restrict__, int);
 #endif /* notyet */
 #endif
-#ifdef notyet
 wchar_t	*wcswcs(const wchar_t *, const wchar_t *);
+#ifdef notyet
 int	wcswidth(const wchar_t *, size_t);
 size_t	wcsxfrm(wchar_t *__restrict__, const wchar_t *__restrict__, size_t);
 #endif
