@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/baselive/Makefile,v 1.18 2007/05/25 23:08:56 tg Exp $
+# $MirOS: src/distrib/baselive/Makefile,v 1.19 2007/06/07 02:40:36 tg Exp $
 
 .include <bsd.own.mk>
 
@@ -57,9 +57,7 @@ unpack-mi:
 .for _i in base dev etc gnu xbase xetc
 	cd ${WRKDIR} && ${SUDO} tar xzphf ${BSDRELDIR}/rel/${_i}${OSrev}.ngz
 .endfor
-	cd ${WRKDIR}/v${OSrev}/${MACHINE} && for f in ${BSDRELDIR}/rel/*; do \
-		ln -s $$f; \
-	done
+	cd ${WRKDIR}/v${OSrev}/${MACHINE} && lndir ${BSDRELDIR}/rel
 	${SUDO} chown -R 0:0 ${WRKDIR}/v${OSrev}
 	cp ${TOPDIR}/common/{00-README,01-3RDPTY} ${WRKDIR}/
 	cat ${TOPDIR}/common/boot.cfg.${MACHINE} ${.CURDIR}/boot.cfg.tail | \
