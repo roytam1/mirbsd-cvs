@@ -1,11 +1,11 @@
-$MirOS$
+$MirOS: ports/devel/cvs/patches/patch-src_logmsg_c,v 1.5 2010/09/15 20:57:01 tg Exp $
 --- src/logmsg.c.orig	Sun Sep  4 00:27:22 2005
-+++ src/logmsg.c	Wed Sep 15 19:36:15 2010
++++ src/logmsg.c	Thu Sep 16 00:12:16 2010
 @@ -15,6 +15,8 @@
  #include "cvs.h"
  #include "getline.h"
  
-+__RCSID("$MirOS: ports/devel/cvs/patches/patch-src_logmsg_c,v 1.4 2008/10/04 23:13:23 tg Exp $");
++__RCSID("$MirOS: ports/devel/cvs/patches/patch-src_logmsg_c,v 1.5 2010/09/15 20:57:01 tg Exp $");
 +
  static int find_type (Node * p, void *closure);
  static int fmt_proc (Node * p, void *closure);
@@ -150,7 +150,7 @@ $MirOS$
  		    error (1, 0, "aborted by user");
  		}
  	    if (*line == 'e' || *line == 'E')
-@@ -387,9 +417,8 @@ do_editor (const char *dir, char **messa
+@@ -387,15 +417,14 @@ do_editor (const char *dir, char **messa
      }
      if (line)
  	free (line);
@@ -162,6 +162,13 @@ $MirOS$
  }
  
  /* Runs the user-defined verification script as part of the commit or import 
+    process.  This verification is meant to be run whether or not the user 
+    included the -m attribute.  unlike the do_editor function, this is 
+-   independant of the running of an editor for getting a message.
++   independent of the running of an editor for getting a message.
+  */
+ void
+ do_verify (char **messagep, const char *repository, List *changes)
 @@ -785,6 +814,7 @@ logfile_write (const char *repository, c
         `%s' is left as an exercise for the reader. */
  

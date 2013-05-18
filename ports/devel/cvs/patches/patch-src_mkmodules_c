@@ -1,11 +1,11 @@
-$MirOS$
+$MirOS: ports/devel/cvs/patches/patch-src_mkmodules_c,v 1.4 2010/09/15 20:57:01 tg Exp $
 --- src/mkmodules.c.orig	Tue May 24 20:58:39 2005
-+++ src/mkmodules.c	Wed Sep 15 19:36:15 2010
++++ src/mkmodules.c	Thu Sep 16 00:12:19 2010
 @@ -15,6 +15,8 @@
  #include "history.h"
  #include "save-cwd.h"
  
-+__RCSID("$MirOS: ports/devel/cvs/patches/patch-src_mkmodules_c,v 1.3 2007/06/06 13:46:44 tg Exp $");
++__RCSID("$MirOS: ports/devel/cvs/patches/patch-src_mkmodules_c,v 1.4 2010/09/15 20:57:01 tg Exp $");
 +
  #ifndef DBLKSIZ
  #define	DBLKSIZ	4096			/* since GNU ndbm doesn't define it */
@@ -18,7 +18,24 @@ $MirOS$
  #ifdef PROXY_SUPPORT
      "#    %R = the name of the referrer, if any, otherwise the value NONE\n",
  #endif
-@@ -131,6 +134,7 @@ static const char *const verifymsg_conte
+@@ -82,7 +85,7 @@ static const char *const loginfo_content
+     "# Thus %{sv} is a legal format string, but will only be replaced with\n",
+     "# file name and new revision.\n",
+     "# It also generates multiple arguments for each file being operated upon.\n",
+-    "# That is, if two files, file1 & file2, are being commited from 1.1 to\n",
++    "# That is, if two files, file1 & file2, are being committed from 1.1 to\n",
+     "# version 1.1.2.1 and from 1.1.2.2 to 1.1.2.3, respectively, %{sVv} will\n",
+     "# generate the following six arguments in this order:\n",
+     "# file1, 1.1, 1.1.2.1, file2, 1.1.2.2, 1.1.2.3.\n",
+@@ -124,13 +127,14 @@ static const char *const verifymsg_conte
+     "#\n",
+     "#   Making sure that the entered bug-id number is correct.\n",
+     "#   Validating that the code that was reviewed is indeed the code being\n",
+-    "#       checked in (using the bug-id number or a seperate review\n",
++    "#       checked in (using the bug-id number or a separate review\n",
+     "#       number to identify this particular code set.).\n",
+     "#\n",
+     "# If any of the above test failed, then the commit would be aborted.\n",
      "#\n",
      "# Format strings present in the filter will be replaced as follows:\n",
      "#    %c = canonical name of the command being executed\n",
@@ -207,8 +224,9 @@ $MirOS$
 +    "# Set 'MaxCommentLeaderLength' to the maximum length permitted for the\n",
      "# automagically determined comment leader used when expanding the Log\n",
      "# keyword, in bytes.  CVS's behavior when the automagically determined\n",
-     "# comment leader exceeds this length is dependant on the value of\n",
+-    "# comment leader exceeds this length is dependant on the value of\n",
 -    "# `UseArchiveCommentLeader' set in this file.  `unlimited' is a valid\n",
++    "# comment leader exceeds this length is dependent on the value of\n",
 +    "# 'UseArchiveCommentLeader' set in this file.  'unlimited' is a valid\n",
      "# setting for this value.  Defaults to 20 bytes.\n",
      "#\n",
