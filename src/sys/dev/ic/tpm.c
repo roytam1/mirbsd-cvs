@@ -1,4 +1,4 @@
-/* $MirOS$ */
+/* $MirOS: src/sys/dev/ic/tpm.c,v 1.1 2009/02/16 21:21:00 tg Exp $ */
 
 /*-
  * Copyright (c) 2009 Thorsten Glaser <tg@mirbsd.org>
@@ -58,11 +58,6 @@
 #define TPM_TIMEOUT			((2*2*60*60) / TPM_DELAY)
 #define TPM_TSLEEP_TIMEOUT		(2*60*hz)
 #define TPM_CALLOUT_TIMEOUT		TPM_DELAY
-
-int tpmopen(dev_t dev, int flag, int mode, struct proc *p);
-int tpmclose(dev_t dev, int flag, int mode, struct proc *p);
-int tpmwrite(dev_t dev, struct uio *uio, int flags);
-int tpmread(dev_t dev, struct uio *uio, int flags);
 
 int tpm_init(struct tpm_softc *sc, pci_chipset_tag_t pa_pc, pcitag_t pa_tag);
 int tpm_recv(struct tpm_softc *sc, int count);
@@ -196,6 +191,12 @@ tpmread(dev_t dev, struct uio *uio, int flags)
 	tpm_sc->state = TPM_STATE_READY;
 
 	return (rv);
+}
+
+int
+tpmioctl(dev_t dev, u_long cmd, caddr_t data, int flag, struct proc *p)
+{
+	return (ENODEV);
 }
 
 

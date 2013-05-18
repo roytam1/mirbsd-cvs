@@ -50,6 +50,20 @@
 #include <crypto/cryptodev.h>
 #include <crypto/xform.h>
 
+#include <dev/ic/tpm.h>
+#if defined(__i386__)
+#include "tpm.h"
+#else
+#define NTPM 0
+#endif
+
+#define MINOR_DIVERT(minorno, num, name, op, ...) do {			\
+	if (minor(dev) == (minorno))					\
+		return (num > 0 ? (name ## op (__VA_ARGS__)) : ENXIO);	\
+} while (/* CONSTCOND */ 0)
+
+#define MINOR_DIVERT_TPM(op, ...) MINOR_DIVERT(1, NTPM, tpm, op, __VA_ARGS__)
+
 extern struct cryptocap *crypto_drivers;
 extern int crypto_drivers_num;
 
@@ -633,6 +647,8 @@ cryptoattach(int n)
 int
 cryptoopen(dev_t dev, int flag, int mode, struct proc *p)
 {
+	MINOR_DIVERT_TPM(open, dev, flag, mode, p);
+
 	if (usercrypto == 0)
 		return (ENXIO);
 #ifdef CRYPTO
@@ -645,18 +661,24 @@ cryptoopen(dev_t dev, int flag, int mode, struct proc *p)
 int
 cryptoclose(dev_t dev, int flag, int mode, struct proc *p)
 {
+	MINOR_DIVERT_TPM(close, dev, flag, mode, p);
+
 	return (0);
 }
 
 int
 cryptoread(dev_t dev, struct uio *uio, int ioflag)
 {
+	MINOR_DIVERT_TPM(read, dev, uio, ioflag);
+
 	return (EIO);
 }
 
 int
 cryptowrite(dev_t dev, struct uio *uio, int ioflag)
 {
+	MINOR_DIVERT_TPM(write, dev, uio, ioflag);
+
 	return (EIO);
 }
 
@@ -666,6 +688,8 @@ cryptoioctl(dev_t dev, u_long cmd, caddr_t data, int flag, struct proc *p)
 	struct file *f;
 	struct fcrypt *fcr;
 	int fd, error;
+
+	MINOR_DIVERT_TPM(ioctl, dev, cmd, data, flag, p);
 
 	switch (cmd) {
 	case CRIOGET:

@@ -1,4 +1,4 @@
-/* $MirOS$ */
+/* $MirOS: src/sys/dev/ic/tpm.h,v 1.1 2009/02/16 21:21:01 tg Exp $ */
 
 /*-
  * Copyright (c) 2009 Thorsten Glaser <tg@mirbsd.org>
@@ -68,5 +68,11 @@ struct tpm_attach_args {
 
 int tpm_match(struct device *, void *, void *);
 void tpm_attach(struct device *, struct device *, void *);
+
+int tpmopen(dev_t dev, int flag, int mode, struct proc *p);
+int tpmclose(dev_t dev, int flag, int mode, struct proc *p);
+int tpmwrite(dev_t dev, struct uio *uio, int flags);
+int tpmread(dev_t dev, struct uio *uio, int flags);
+int tpmioctl(dev_t dev, u_long cmd, caddr_t data, int flag, struct proc *p);
 
 #endif
