@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/ksh-chan.inc,v 1.1 2009/12/12 18:30:54 tg Exp $
+RCSID: $MirOS: www/data/ksh-chan.inc,v 1.2 2010/08/11 17:28:52 tg Exp $
 Title: Homepage of the original Korn Shell
 Link: http://www.kornshell.com/
 
@@ -177,4 +177,12 @@ Part of the GNU Autoconf manual dealing with how to make shell
 scripts portable (if desirable to not target one specific shell,
 such as ksh93 or mksh, and making that one portable). Interesting
 for archæologists as well.
+----
+Title: GreyCat on processes, environments and inheritance
+Link: http://mywiki.wooledge.org/ProcessManagement
+
+Greg Wooledge’s Wiki ⇒ Notes on process management, such as,
+how to properly kill one. Read also other pages from the
+CategoryShell, although his KornShell page is somewhat out
+of date and doesn’t apply to mksh often.
 ----
