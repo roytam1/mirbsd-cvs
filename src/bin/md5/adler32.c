@@ -1,4 +1,4 @@
-/* $MirOS: src/bin/md5/adler32.c,v 1.1 2006/05/26 11:55:16 tg Exp $ */
+/* $MirOS: src/bin/md5/adler32.c,v 1.2 2006/06/08 19:03:00 tg Exp $ */
 
 /*-
  * Copyright (c) 2006
@@ -59,9 +59,14 @@ ADLER32_End(ADLER32_CTX *ctx, char *res)
 }
 
 void
-cksum_addpool(const char *x __attribute__((unused)))
+cksum_addpool(const char *s __attribute__((unused)))
 {
-#ifdef ZLIB_HAS_ADLERPUSH
-	adler32(arc4random(), (const uint8_t *)x, strlen(x));
+#if defined(USE_ASM)
+	uint32_t x = arc4random();
+
+	ADLER32_Update(&x, (const uint8_t *)s, strlen(s));
+	arc4random_push((int)x);
+#elif defined(ZLIB_HAS_ADLERPUSH)
+	adler32(arc4random(), (const uint8_t *)s, strlen(s));
 #endif
 }
