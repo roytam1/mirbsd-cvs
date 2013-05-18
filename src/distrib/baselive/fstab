@@ -1,12 +1,11 @@
-# $MirOS: src/distrib/i386/livecd/fstab,v 1.9 2006/05/26 21:40:21 tg Exp $
+# $MirOS: src/distrib/baselive/fstab,v 1.1 2006/08/17 19:58:00 tg Exp $
 
-/dev/root  /                   cd9660  ro,noauto,noatime             0  0
-/dev/rd0a  /dev                ffs     rw,noauto                     0  0
-swap       /etc                mfs     rw,noauto,noatime,-s=20480    0  0
-swap       /home               mfs     rw,noauto,noatime,-s=300000   0  0
-kern       /kern               kernfs  rw,noauto                     0  0
-proc       /proc               procfs  rw,linux                      0  0
-swap       /tmp                mfs     rw,noauto,noatime,-s=600000   0  0
-swap       /usr/X11R6/lib/X11  mfs     rw,noauto,noatime,-s=20480    0  0
-swap       /usr/mpkg           mfs     rw,noauto,noatime,-s=1200000  0  0
-swap       /var                mfs     rw,noauto,noatime,-s=300000   0  0
+/dev/root  /                   cd9660  ro,noauto,noatime            0  0
+/dev/rd0a  /dev                ffs     rw,noauto                    0  0
+swap       /etc                mfs     rw,noauto,noatime,-s=20480   0  0
+swap       /home               mfs     rw,noauto,noatime,-s=300000  0  0
+kern       /kern               kernfs  rw,noauto                    0  0
+proc       /proc               procfs  rw,linux                     0  0
+swap       /tmp                mfs     rw,noauto,noatime,-s=600000  0  0
+swap       /usr/X11R6/lib/X11  mfs     rw,noauto,noatime,-s=20480   0  0
+swap       /var                mfs     rw,noauto,noatime,-s=300000  0  0

@@ -122,11 +122,11 @@ rm -f /etc/hosts
 
 # The menu
 print
-print Select the MirOS/i386 Live CD \'modus operandi\'
-print ==============================================
+print Select the MirOS/sparc Live CD \'modus operandi\'
+print ===============================================
 print 1\) manual/no network, no graphics
 print 2\) automatic network \(dhcp\), no graphics
-print 3\) automatic network, XFree86 \(vesa 1024x768@16bpp\) xdm/twm
+print 3\) automatic network, XFree86 \(wsfb\) xdm/twm
 print 9\) temporarily escape into a shell \(type \"exit\" to return\)
 print
 print If you need to plug in any network devices, do it now.

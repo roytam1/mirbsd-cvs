@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/i386/livecd/Makefile,v 1.52 2006/08/16 18:46:13 tg Exp $
+# $MirOS: src/distrib/baselive/Makefile,v 1.1 2006/08/17 19:58:00 tg Exp $
 
 .include <bsd.own.mk>
 
@@ -17,14 +17,11 @@ ${CDROM}: unpack gendev addcontrib prepimg nukefiles makeimg
 unpack:
 	mkdir -p workdir/v${OSrev}
 .for _i in base dev etc gnu xbase xetc
-#.for _i in base dev etc gnu ports xbase xetc
 	cd workdir && ${SUDO} tar xzphf ${BSDRELDIR}/rel/${_i}${OSrev}.ngz
 .endfor
 	cd workdir && ln -s ${.CURDIR}/../../ramdisk/00-README
 	cd workdir/v${OSrev} && ln -s ${BSDRELDIR}/rel i386
 	${SUDO} cp ${.CURDIR}/boot.* workdir/etc/
-#	# create mount points
-#	${SUDO} mkdir workdir/usr/{mpkg,ports/{Distfiles,Packages}}
 
 gendev: mr.fs
 
