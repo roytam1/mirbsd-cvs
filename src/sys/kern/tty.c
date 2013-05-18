@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/kern/tty.c,v 1.3 2005/07/07 15:08:36 tg Exp $ */
+/**	$MirOS: src/sys/kern/tty.c,v 1.4 2006/06/12 20:19:15 tg Exp $ */
 /*	$OpenBSD: tty.c,v 1.68 2004/12/26 21:22:13 miod Exp $	*/
 /*	$NetBSD: tty.c,v 1.68.4.2 1996/06/06 16:04:52 thorpej Exp $	*/
 
@@ -1847,7 +1847,7 @@ ovhiwat:
 	if (flag & IO_NDELAY) {
 		splx(s);
 		uio->uio_resid += cc;
-		return (uio->uio_resid == cnt ? EWOULDBLOCK : 0);
+		return (EWOULDBLOCK);
 	}
 	SET(tp->t_state, TS_ASLEEP);
 	error = ttysleep(tp, &tp->t_outq, TTOPRI | PCATCH, ttyout, 0);
