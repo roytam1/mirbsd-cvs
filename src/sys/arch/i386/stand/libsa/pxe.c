@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/stand/libsa/pxe.c,v 1.21 2009/10/27 13:30:05 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/stand/libsa/pxe.c,v 1.22 2009/10/27 13:54:28 tg Exp $ */
 /*	$OpenBSD: pxe.c,v 1.5 2007/07/27 17:46:56 tom Exp $ */
 /*	$NetBSD: pxe.c,v 1.5 2003/03/11 18:29:00 drochner Exp $	*/
 
@@ -119,7 +119,7 @@ int Xpxe(void);
 extern int pxecall_bang(u_int16_t);
 extern int pxecall_plus(u_int16_t);
 
-extern char pxe_command_buf[256];
+char pxe_command_buf[256];
 
 BOOTPLAYER bootplayer;
 

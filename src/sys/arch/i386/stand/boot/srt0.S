@@ -1,4 +1,4 @@
-/* $MirOS: src/sys/arch/i386/stand/boot/srt0.S,v 1.81 2009/10/27 13:23:38 tg Exp $ */
+/* $MirOS: src/sys/arch/i386/stand/boot/srt0.S,v 1.82 2009/10/27 14:34:49 tg Exp $ */
 
 /*-
  * Copyright (c) 2003, 2004, 2005, 2006, 2007, 2008, 2009
@@ -27,14 +27,15 @@
 	.code16
 
 	/* extern */
-	.globl	real_to_prot
-	.globl	prot_to_real
-	.globl	boot
-	.globl	_edata
-	.globl	_end
+	.globl	__bss_end
+	.globl	__bss_start
 	.globl	_rtt
+	.globl	boot
+	.globl	prot_to_real
+	.globl	real_to_prot
 #ifdef USE_PXE
 	.globl	have_pxe
+	.globl	pxe_command_buf
 #endif
 	/* global */
 	.globl	_start
@@ -436,15 +437,11 @@ Lsta32:	.code32
 	xor	eax,eax
 	push	eax
 	popfd
-	mov	ecx,offset _end
-	mov	edi,offset _edata
+	mov	ecx,offset __bss_end
+	mov	edi,offset __bss_start
 	sub	ecx,edi
-	rep	stosb
-
-	/* zero out stack segment lower parts */
-	mov	edi,offset ssbss_beg
-	mov	ecx,offset ssbss_end - offset ssbss_beg
-	rep	stosb
+	shr	ecx,2
+	rep	stosd
 
 #ifdef BOOTSELECT_HOOK
 	/* store user choice */
@@ -577,7 +574,8 @@ pxecall_bang:
 	push	edi
 
 	mov	ebx,[ebp+8]
-	mov	edi,offset pxe_command_buf - offset bounce_buf
+	/* truncated by __bss_start = 3000:0000 */
+	mov	edi,offset pxe_command_buf
 
 	call	prot_to_real
 	.code16
@@ -611,7 +609,8 @@ pxecall_plus:
 	push	edi
 
 	mov	ebx,[ebp+8]
-	mov	edi,offset pxe_command_buf - offset bounce_buf
+	/* truncated by __bss_start = 3000:0000 */
+	mov	edi,offset pxe_command_buf
 
 	call	prot_to_real
 	.code16
@@ -633,36 +632,3 @@ pxecall_plus:
 	pop	ebp
 	ret
 #endif
-
-
-	bounce_buf = 0x30000
-	.globl	bounce_buf
-	.size	bounce_buf, 4096
-
-	crc_table = bounce_buf + 4096
-	.globl	crc_table
-	.size	crc_table, 1024
-
-	pxe_command_buf = crc_table + 1024
-	.globl	pxe_command_buf
-	.size	pxe_command_buf, 256
-
-	sa_fixed_table = pxe_command_buf + 256
-	.globl	sa_fixed_table
-	.size	sa_fixed_table, 2176
-
-	biosdev_lba_buf = sa_fixed_table + 2176
-	.globl	biosdev_lba_buf
-	.size	biosdev_lba_buf, 16
-
-	cmd_buf = biosdev_lba_buf + 16
-	.globl	cmd_buf
-	.size	cmd_buf, CMD_BUFF_SIZE
-
-	/* last; size unknown (<0x1000) */
-	cmd = cmd_buf + CMD_BUFF_SIZE
-	.globl	cmd
-	.size	cmd, CMD_STRUCT_SIZE
-
-	ssbss_beg = bounce_buf
-	ssbss_end = cmd + 0x0900

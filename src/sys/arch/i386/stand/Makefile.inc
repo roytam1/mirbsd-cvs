@@ -1,4 +1,4 @@
-# $MirOS: src/sys/arch/i386/stand/Makefile.inc,v 1.23 2009/01/10 13:41:17 tg Exp $
+# $MirOS: src/sys/arch/i386/stand/Makefile.inc,v 1.24 2009/01/12 17:39:42 tg Exp $
 # $OpenBSD: Makefile.inc,v 1.40 2007/11/26 10:26:02 deraadt Exp $
 
 .ifndef MODSRC_SYS_ARCH_I386_STAND_MAKEFILE_INC
@@ -31,9 +31,8 @@ DEBUGFLAGS=
 # DEBUGFLAGS+=-DNFS_DEBUG -DRPC_DEBUG -DRARP_DEBUG
 CPPFLAGS+=	-DSA_LINKADDR=0x40000 -DSA_LINKSEG=0x4000
 BOOTLDFLAGS=	-nostdlib -Bstatic --no-undefined \
-		-Ttext 0x40000 -N -noinhibit-exec
+		-T ${S}/arch/${MACHINE_ARCH}/stand/boot/loader.ld
 HEAP_LIMIT=	0x90000
-BOOTREL=	0x60000
 
 CLEANFILES+=	machine
 

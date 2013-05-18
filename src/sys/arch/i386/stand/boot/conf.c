@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/stand/boot/conf.c,v 1.20 2009/10/27 13:37:28 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/stand/boot/conf.c,v 1.21 2009/10/27 13:54:27 tg Exp $ */
 /*	$OpenBSD: conf.c,v 1.39 2008/04/19 23:20:22 weingart Exp $	*/
 
 /*
@@ -69,6 +69,11 @@ static void lmbmfs_check(void);
 
 const char version[] = __BOOT_VER;
 int debug = 1;
+
+/* bss */
+uint8_t bounce_buf[4096];
+uint8_t crc_table[1024], sa_fixed_table[2176];
+uint8_t biosdev_lba_buf[16];
 
 void (*sa_cleanup)(void) = NULL;
 

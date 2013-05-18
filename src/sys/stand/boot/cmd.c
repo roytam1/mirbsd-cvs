@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/stand/boot/cmd.c,v 1.24 2009/10/24 14:16:52 tg Exp $	*/
+/**	$MirOS: src/sys/stand/boot/cmd.c,v 1.25 2009/10/24 14:19:37 tg Exp $	*/
 /*	$OpenBSD: cmd.c,v 1.59 2007/04/27 10:08:34 tom Exp $	*/
 
 /*
@@ -65,6 +65,10 @@ extern int Xenv(void);
 #ifdef CHECK_SKIP_CONF
 extern int CHECK_SKIP_CONF(void);
 #endif
+
+/* bss */
+struct cmd_state cmd;
+char cmd_buf[CMD_BUFF_SIZE];
 
 extern const struct cmd_table cmd_set[];
 struct cmd_table cmd_table[] = {
