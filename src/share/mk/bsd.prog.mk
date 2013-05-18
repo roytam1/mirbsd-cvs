@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/bsd.prog.mk,v 1.11 2005/08/28 19:39:01 tg Exp $
+# $MirOS: src/share/mk/bsd.prog.mk,v 1.12 2005/10/06 21:47:56 tg Exp $
 # $OpenBSD: bsd.prog.mk,v 1.44 2005/04/15 17:18:57 espie Exp $
 # $NetBSD: bsd.prog.mk,v 1.55 1996/04/08 21:19:26 jtc Exp $
 # @(#)bsd.prog.mk	5.26 (Berkeley) 6/25/91
@@ -85,6 +85,7 @@ realinstall:
 	${INSTALL} ${INSTALL_COPY} ${INSTALL_STRIP} -o ${BINOWN} -g ${BINGRP} \
 	    -m ${BINMODE} ${PROG} ${DESTDIR}${BINDIR}/
 .      if ${DEBUGPROGS:L} == "yes"
+	-rm -f ${DESTDIR}${BINDIR}/${PROG}.dbg
 	objcopy --only-keep-debug ${PROG} ${DESTDIR}${BINDIR}/${PROG}.dbg && \
 	    cd ${DESTDIR}${BINDIR} && \
 	    objcopy --strip-debug --add-gnu-debuglink=${PROG}.dbg ${PROG} && \
