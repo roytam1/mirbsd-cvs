@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.367 2011/09/30 22:16:14 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.368 2011/10/06 22:51:53 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -8690,12 +8690,13 @@ Comment: the mtime of this item is not by accident…
 Date: 06.10.2011 22:42
 Author: tg@
 Title: eMail
-Tag: debian rant
+Tag: debian pcli rant tip
 
 <p>Would MTAs <strong>please</strong> stop sending hi-bit7 messages
  to other MTAs which do not advertise <tt>8BITMIME</tt>! Recode it
  to QP or BASE64, damnit! The receiving MTA is entitled to strip the
- set bit7, which kinda makes things hard to read (while I know how
+ set bit7, which kinda makes things hard to read (while I <a
+ href="http://fsinfo.noone.org/~abe/typing-8bit.html">know</a> how
  to deal with <tt>blvde Stra_e</tt>, the advent of UTF-8 makes that
  <tt>blC6de StraC?e</tt>, introduces C0 control characters and makes
  typographic quotation marks into NUL-containing octet sequences (as
@@ -8707,4 +8708,6 @@ Tag: debian rant
  to benefit greylisting. Or at least publish a list of outgoing IPv4
  addresses they use for sending. Or use IPv6. Oh, and <tt>STARTTLS</tt>,
  while we are on my wishlist.</p>
+<p>It's a sad day when the percentage of correctly encoded eMail
+ messages in my INBOX is smaller than that of my Spambox...</p>
 ----
