@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/sys/arch/sparc/stand/bootxx/bxinst.sh,v 1.10 2007/10/20 20:05:55 tg Exp $
+# $MirOS: src/sys/arch/sparc/stand/bootxx/mkbxinst.sh,v 1.1 2007/10/20 20:24:41 tg Exp $
 #-
 # Copyright (c) 2007
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -27,7 +27,7 @@
 # Arguments: $1 = a.out (sparc OpenBoot) bootxx, linked
 # Output: shell script to stdout
 
-rcsid='$MirOS$'
+rcsid='$MirOS: src/sys/arch/sparc/stand/bootxx/mkbxinst.sh,v 1.1 2007/10/20 20:24:41 tg Exp $'
 
 function die {
 	rv=$1; shift
@@ -120,7 +120,7 @@ shift $((OPTIND - 1))
 
 # zero-initialise the block array
 while (( i < blktblsz )); do
-	integer blktblent[i++]=0
+	typeset -i blktblent[i++]=0
 done
 
 # read in the extents
