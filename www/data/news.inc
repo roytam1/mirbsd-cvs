@@ -536,3 +536,11 @@ Date: 26.10.2007
  (fixed in 1.2.11-1), <tt>devel/pcre</tt> (fixed in 7.4-0). Please
  upgrade those if you have them installed.</p>
 ----
+Title: MirOS at 24C3
+Date: 26.12.2007
+
+<p>The project will be present (albeit without tg@) at the 24th Chaos
+ Communication Congress at Berlin, Germany. We will have (maybe) a table
+ in the hackcenter. There will be many interesting talks about hacking,
+ society and similar topics.</p>
+----

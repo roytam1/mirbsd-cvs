@@ -2531,3 +2531,17 @@ Author: bsiegert@
  Please update those two. A binary package to replace perl in base will
  be available RSN.</p>
 ----
+Author: bsiegert@
+Date: 26.12.2007
+
+<p>I fixed a very annoying bug (for me) in the build system for the
+ website. It turns out that <tt>unset</tt> returns 1 in mksh (but not in
+ bash) when the variable was unset before. However, make breaks as soon
+ as one command fails. Adding a simple <tt>||&nbsp;true</tt> helps.</p>
+
+<p>As seen in the news section, I will be in Berlin for 24C3. You should
+ come, too. The talks and the atmosphere are great. The train journey
+ was a bit more cumbersome than usual though: our ICE train was replaced
+ by an InterCity. No reservations, not enough space and worst of all: no
+ coffee.</p>
+----

@@ -1,11 +1,11 @@
-# $MirOS: www/mk/htsconv,v 1.9 2007/10/21 00:44:30 tg Exp $
+# $MirOS: www/mk/htsconv,v 1.10 2007/10/21 00:52:36 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
 
 mws__pagename=
 mws__difftag=MBSD_HTSCONV_GENDATE_TAG_21151
-unset mws__relpath
+unset mws__relpath || true
 
 function mws_setname {
 	mws__pagename=$2
@@ -26,7 +26,7 @@ function mws_putheader {
 	mws_content <"$TOP"/mk/tmpl.pre
 	print -nr "<small class=\"rcsdiv\">Generated <!-- $mws__difftag --> on"
 	print -nr " <span class=\"rcsid\">$(TZ=UTC date +'%F %T')</span>"
-	print -nr ' by <span class="rcsid">$MirOS: www/mk/htsconv,v 1.9 2007/10/21 00:44:30 tg Exp $</span>'
+	print -nr ' by <span class="rcsid">$MirOS: www/mk/htsconv,v 1.10 2007/10/21 00:52:36 tg Exp $</span>'
 	[[ -n $rcsid ]] && print -nr " from <span class=\"rcsid\">$rcsid</span>"
 	print '</small>\n'
 }
