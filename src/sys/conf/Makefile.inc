@@ -1,4 +1,4 @@
-# $MirOS: src/sys/conf/Makefile.inc,v 1.25 2007/02/07 20:43:23 tg Exp $
+# $MirOS: src/sys/conf/Makefile.inc,v 1.26 2007/02/19 03:03:30 tg Exp $
 #-
 # Copyright (c) 2005, 2006, 2007
 #	Thorsten "mirabilos" Glaser <tg@mirbsd.de>
@@ -37,6 +37,7 @@ CDIAGFLAGS=	-Werror -Wall -Wstrict-prototypes -Wmissing-prototypes \
 .if ${IDENT:M-DNO_PROPOLICE}
 CDIAGFLAGS+=	-fno-stack-protector
 .endif
+CPPFLAGS+=	-DZCONST=const
 COPTS?=		-Os
 .if ${COPTS:M-O*:N-Os}
 COPTS+=		-Os
@@ -152,7 +153,7 @@ config.gz: config.txt
 	-@rm -f $@
 	gzip -n9 <$> >$@
 
-HOSTCPPFLAGS+=	-I${BSDSRCDIR}/lib/libz
+HOSTCPPFLAGS+=	-I${BSDSRCDIR}/lib/libz -DZCONST=const
 .PATH: ${BSDSRCDIR}/lib/libz
 .include "${BSDSRCDIR}/lib/libz/Makefile.gen"
 

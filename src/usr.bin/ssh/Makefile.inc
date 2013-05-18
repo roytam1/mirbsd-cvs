@@ -1,10 +1,11 @@
-# $MirOS: src/usr.bin/ssh/Makefile.inc,v 1.4 2005/06/22 16:11:38 tg Exp $
+# $MirOS: src/usr.bin/ssh/Makefile.inc,v 1.5 2006/02/22 02:16:43 tg Exp $
 # $OpenBSD: Makefile.inc,v 1.30 2005/06/17 02:45:19 djm Exp $
 
 .ifndef _MODSRC_USR_BIN_SSH_MAKEFILE_INC
 _MODSRC_USR_BIN_SSH_MAKEFILE_INC=1
 
 CPPFLAGS+=	-I${.CURDIR}/..
+CPPFLAGS+=	-DZCONST=const
 
 CFLAGS+=	-Wall
 CFLAGS+=	-Wpointer-arith

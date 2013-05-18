@@ -1,4 +1,4 @@
-# $MirOS: src/gnu/usr.bin/cvs/Makefile.bsd-wrapper,v 1.8 2007/02/17 03:22:32 tg Exp $
+# $MirOS: src/gnu/usr.bin/cvs/Makefile.bsd-wrapper,v 1.9 2007/03/10 23:53:34 tg Exp $
 # $OpenBSD: Makefile.bsd-wrapper,v 1.44 2004/01/02 09:01:24 millert Exp $
 
 # MirOS patchlevel – in sync with MirPorts-2 rev.
@@ -21,7 +21,8 @@ CFVARS+=ac_cv_sys_long_file_names=yes
 XARGS=	ZLIB_LIBS=-lz
 
 .include <bsd.own.mk>
-COPTS+=	-Wall -Wno-unused
+COPTS+=		-Wall -Wno-unused
+CPPFLAGS+=	-DZCONST=const
 
 .if make(install)
 SUBDIR+=	doc/paper

@@ -48,6 +48,7 @@
 #endif
 #undef HAVE_LIBZ
 #ifdef HAVE_LIBZ
+#define ZCONST const
 #include <zlib.h>
 #endif
 

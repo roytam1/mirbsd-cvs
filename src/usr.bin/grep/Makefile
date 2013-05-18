@@ -1,4 +1,4 @@
-# $MirOS: src/usr.bin/grep/Makefile,v 1.2 2005/03/13 18:33:01 tg Exp $
+# $MirOS: src/usr.bin/grep/Makefile,v 1.3 2005/03/15 19:23:50 tg Exp $
 # $OpenBSD: Makefile,v 1.6 2003/06/25 15:00:04 millert Exp $
 
 PROG=	grep
@@ -16,6 +16,7 @@ MLINKS= grep.1 egrep.1 \
 	grep.1 zfgrep.1
 
 CFLAGS+= -Wall
+CPPFLAGS+= -DZCONST=const
 
 LDADD=	-lz
 DPADD=	${LIBZ}

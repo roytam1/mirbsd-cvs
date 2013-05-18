@@ -1,4 +1,4 @@
-# $MirOS: src/usr.sbin/ppp/ppp/Makefile,v 1.2 2005/03/13 19:17:13 tg Exp $
+# $MirOS: src/usr.sbin/ppp/ppp/Makefile,v 1.3 2005/04/23 21:57:47 tg Exp $
 # $OpenBSD: Makefile,v 1.26 2004/01/24 18:43:22 deraadt Exp $
 
 PROG=	ppp
@@ -13,7 +13,7 @@ SRCS=	alias.c alias_cuseeme.c alias_db.c alias_ftp.c alias_irc.c \
 	timer.c tty.c tun.c udp.c vjcomp.c i4b.c atm.c
 
 CFLAGS+=	-Wall
-CPPFLAGS+=	-DNO_FW_PUNCH -DNONETGRAPH -DLOCALNAT -DLOCALRAD
+CPPFLAGS+=	-DNO_FW_PUNCH -DNONETGRAPH -DLOCALNAT -DLOCALRAD -DZCONST=const
 M4FLAGS=	-DLOCALNAT -DLOCALRAD
 LDADD+=		-lcrypto -ldes -lutil -lz
 DPADD+=		${LIBDES} ${LIBUTIL} ${LIBZ} ${LIBCRYPTO}
