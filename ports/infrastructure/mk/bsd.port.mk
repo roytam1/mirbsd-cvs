@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.129 2006/09/13 23:34:01 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.130 2006/09/17 20:17:33 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -415,7 +415,7 @@ GMAKE?=			gmake
 CHECKSUM_FILE?=		${.CURDIR}/distinfo
 
 # Don't touch!!! Used for generating checksums.
-.ifdef CKSUM_HAS_SIZE
+.ifdef _CKSUM_SIZE
 _CIPHERS=		rmd160 tiger sha1 md5
 .else
 _CIPHERS=		rmd160 sha1 md5
@@ -1282,7 +1282,7 @@ README_NAME?=		${TEMPLATES}/README.port
 
 REORDER_DEPENDENCIES?=
 
-.ifdef CKSUM_HAS_SIZE
+.ifdef _CKSUM_SIZE
 _size_fragment=		stat -f 'SIZE (%N) = %z'
 .else
 _size_fragment=		print "SIZE ($$file) =" $$(wc -c <"$$file")
@@ -1434,7 +1434,7 @@ ${WRKPKG}/MESSAGE${SUBPACKAGE}: ${MESSAGE}
 makesum: fetch-all
 .if !defined(NO_CHECKSUM)
 	@rm -f ${CHECKSUM_FILE}
-.ifdef CKSUM_HAS_SIZE
+.ifdef _CKSUM_SIZE
 	@cd ${DISTDIR} && cksum ${_CIPHERS:S/^/-a /} -a size \
 	    ${_CKSUMFILES} >>${CHECKSUM_FILE}
 .else
@@ -1457,7 +1457,7 @@ makesum: fetch-all
 addsum: fetch-all
 .if !defined(NO_CHECKSUM)
 	@touch ${CHECKSUM_FILE}
-.ifdef CKSUM_HAS_SIZE
+.ifdef _CKSUM_SIZE
 	@cd ${DISTDIR} && cksum ${_CIPHERS:S/^/-a /} -a size \
 	    ${_CKSUMFILES} >>${CHECKSUM_FILE}
 .else
