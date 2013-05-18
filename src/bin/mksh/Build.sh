@@ -1234,6 +1234,7 @@ cat >>test.sh <<-EOF
 	print 'test.sh built for mksh $dstversion'
 	perl=perl5
 	\$perl -e print >/dev/null 2>&1 || perl=perl
+	\$perl -e print >/dev/null 2>&1 || exit 1
 	exec \$perl '$srcdir/check.pl' -s '$srcdir/check.t' \\
 	    -p '$curdir/mksh' -C $check_categories \$*$tsts
 EOF
