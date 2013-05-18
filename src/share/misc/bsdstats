@@ -1,4 +1,4 @@
-# $MirOS: src/share/misc/bsdstats,v 1.25 2007/05/09 18:30:42 tg Exp $
+# $MirOS: src/share/misc/bsdstats,v 1.26 2007/05/09 19:03:48 tg Exp $
 # $FreeBSD: ports/sysutils/bsdstats/files/300.statistics,v 1.38 2006/12/05 13:49:45 scrappy Exp $
 #-
 # Copyright (c) 2007
@@ -24,6 +24,30 @@
 rpt='http://rpt.bsdstats.org/scripts/'
 
 export TZ=UTC PATH=/bin:/usr/bin:/sbin:/usr/sbin
+
+if [[ -x /usr/bin/ftp ]]; then
+	fetch='/usr/bin/ftp -Vo -'
+elif [[ -x /usr/bin/wget ]]; then
+	fetch='/usr/bin/wget -qO -'
+else
+	print -u2 Error: select a HTTP fetch programme!
+	exit 1
+fi
+
+if date --help >/dev/null 2>&1; then
+	datetype=gnu
+else
+	datetype=bsd
+fi
+
+function timet2date
+{
+	if [[ $datetype = gnu ]]; then
+		date -d @$*
+	else
+		date -r $*
+	fi
+}
 
 # RFC 2396
 function uri_escape
@@ -77,7 +101,7 @@ function report_ports
 	qs="token=$stats_key&key=$stats_token$qs"
 	qs="POST $path HTTP/1.0
 Host: $host
-User-Agent: bsdstats \$MirOS: src/share/misc/bsdstats,v 1.25 2007/05/09 18:30:42 tg Exp $
+User-Agent: bsdstats \$MirOS: src/share/misc/bsdstats,v 1.26 2007/05/09 19:03:48 tg Exp $
 Connection: close
 Content-Type: application/x-www-form-urlencoded
 Content-Length: ${#qs}
@@ -93,7 +117,7 @@ $qs"
 host=${rpt#http://}
 host=${host%%/*}
 # do it twice in case DNS is slow
-if [[ $host = *bsdstats.org ]]; then
+[[ -x /usr/bin/host ]] && if [[ $host = *bsdstats.org ]]; then
 	res=$(host -t txt bsdstats.org 2>/dev/null; sleep 3; \
 	    host -t txt bsdstats.org 2>/dev/null)
 	if [[ $res != *UP* ]]; then
@@ -111,9 +135,9 @@ stats_token=
 integer stats_token_time=0
 integer stats_report_time=0
 [[ -s /var/db/bsdstats ]] && . /var/db/bsdstats
-print "last report time was: $stats_report_time ($(date -r $stats_report_time))"
+print "last report time was: $stats_report_time ($(timet2date $stats_report_time))"
 bsdstats_flags=$(. /etc/rc.conf; echo "$bsdstats_flags")
-uname_code=$(uname -a | b64encode -r | tr -d '\012\015')$stats_sysadd
+uname_code=$(uname -a | uuencode -m - | tr -d '\012\015 ')$stats_sysadd
 (( stats_report_time < 1136073623 )) && stats_report_time=0
 [[ $stats_uname_code = $uname_code ]] || stats_report_time=0
 (( stats_token_time < 1136073623 )) && stats_token_time=0
@@ -124,20 +148,28 @@ if [[ -z $stats_token || -z $stats_key ]]; then
 	stats_key=$(uri_escape $(openssl rand -base64 32))
 	uri="getid.php?key=$stats_key"
 	res=$(sleep $((RANDOM % 99 + 21)); \
-	    /usr/bin/ftp -Vo - "$rpt$uri" 2>/dev/null)
+	    $fetch "$rpt$uri" 2>/dev/null)
 	print -r "firstrun $uri -> ${res:-ERROR}" | logger -t bsdstats
 	stats_token=$(uri_escape $(eval $res; print -nr -- "$KEY"))
 	stats_token_time=$(date +%s)
 fi
 integer now=$(date +%s)
 let now-=86400	# account for time zone differences
-if (( $(date -r $stats_report_time +%Y%m) < $(date -r $now +%Y%m) )); then
-	if [[ -n $stats_sysadd ]]; then
-		version=$(uname -r)$stats_sysadd
+if (( $(timet2date $stats_report_time +%Y%m) < $(timet2date $now +%Y%m) )); then
+	opsys=$(uname -s)
+	uname -M 2>&1 | fgrep MirBSD >/dev/null 2>&1 && opsys=MirBSD
+	version=$(uname -r)
+	[[ -n $stats_sysadd ]] && version=$version$stats_sysadd
+	arch=$(uname -m)
+	if [[ $opsys = GNU* ]]; then
+		arch=$(uname -p)
+		[[ -z $stats_sysadd && -s /etc/debian_version ]] && \
+		    version=$version.Debian-$(tr / _ </etc/debian_version)
+	elif [[ $opsys = MirBSD && -n $stats_sysadd ]]; then
 		uname -M 2>&1 | fgrep MirBSD >/dev/null 2>&1 && \
 		    version=$(uname -M | sed 's/^.*BSD #\([0-9]\).*/\1/' \
 		    )$stats_sysadd
-	else
+	elif [[ $opsys = MirBSD ]]; then
 		version=$(uname -l)
 		version=${version#\#}
 		version=${version%%-*}
@@ -163,22 +195,20 @@ if (( $(date -r $stats_report_time +%Y%m) < $(date -r $now +%Y%m) )); then
 			}
 		fi
 	fi
-	opsys=$(uname -s)
-	uname -M 2>&1 | fgrep MirBSD >/dev/null 2>&1 && opsys=MirBSD
 	uri="enable_token.php?key=$stats_key&token=$stats_token"
 	res=$(sleep $((RANDOM % 99 + 21)); \
-	    /usr/bin/ftp -Vo - "$rpt$uri" 2>/dev/null)
+	    $fetch "$rpt$uri" 2>/dev/null)
 	print -r "init $uri -> ${res:-ERROR}" | logger -t bsdstats
-	uri="report_system.php?token=$stats_key&key=$stats_token&rel=$(uri_escape $version)&arch=$(uname -m)&opsys=$opsys"
+	uri="report_system.php?token=$stats_key&key=$stats_token&rel=$(uri_escape $version)&arch=$arch&opsys=$opsys"
 	res=$(sleep $((RANDOM % 99 + 21)); \
-	    /usr/bin/ftp -Vo - "$rpt$uri" 2>/dev/null)
+	    $fetch "$rpt$uri" 2>/dev/null)
 	print -r "system report $uri -> ${res:-ERROR}" | logger -t bsdstats
 	[[ $res = *OK* ]] || ok=0
 	if [[ $bsdstats_flags = YES ]]; then
 		cpu=$(sysctl -n hw.model)
 		uri="report_cpu.php?token=$stats_key&key=$stats_token&cpus=1&vendor=$(print -r -- "$cpu" | cut -d' ' -f1)&cpu_type=$(uri_escape $(print -r -- "$cpu" | cut -d' ' -f2-))"
 		res=$(sleep $((RANDOM % 99 + 21)); \
-		    /usr/bin/ftp -Vo - "$rpt$uri" 2>/dev/null)
+		    $fetch "$rpt$uri" 2>/dev/null)
 		print -r "cpu report $uri -> ${res:-ERROR}" | logger -t bsdstats
 		[[ $res = *OK* ]] || ok=0
 		# report MirPorts Framework installed binary packages
@@ -230,7 +260,7 @@ if (( $(date -r $stats_report_time +%Y%m) < $(date -r $now +%Y%m) )); then
 	fi
 	uri="disable_token.php?key=$stats_key&token=$stats_token"
 	res=$(sleep $((RANDOM % 99 + 21)); \
-	    /usr/bin/ftp -Vo - "$rpt$uri" 2>/dev/null)
+	    $fetch "$rpt$uri" 2>/dev/null)
 	print -r "done $uri -> ${res:-ERROR}" | logger -t bsdstats
 	(( ok )) && stats_report_time=$(date +%s)
 	(( ok )) && print "Reported successfully on $(date)"
@@ -245,4 +275,4 @@ print "stats_report_time=$stats_report_time" >>/var/db/bsdstats.new
 print "stats_uname_code=$uname_code" >>/var/db/bsdstats.new
 mv -f /var/db/bsdstats.new /var/db/bsdstats
 (( ok )) || print some failures occured, check /var/log/messages, tag bsdstats
-print "done, used token from $stats_token_time ($(date -r $stats_token_time))"
+print "done, used token from $stats_token_time ($(timet2date $stats_token_time))"
