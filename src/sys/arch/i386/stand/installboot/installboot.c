@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/stand/installboot/installboot.c,v 1.18 2006/07/23 23:41:28 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/stand/installboot/installboot.c,v 1.19 2007/02/26 02:52:47 tg Exp $ */
 /*	$OpenBSD: installboot.c,v 1.47 2004/07/15 21:44:16 tom Exp $	*/
 /*	$NetBSD: installboot.c,v 1.5 1995/11/17 23:23:50 gwr Exp $ */
 
@@ -88,7 +88,7 @@
 #include <unistd.h>
 #include <util.h>
 
-__RCSID("$MirOS: src/sys/arch/i386/stand/installboot/installboot.c,v 1.18 2006/07/23 23:41:28 tg Exp $");
+__RCSID("$MirOS: src/sys/arch/i386/stand/installboot/installboot.c,v 1.19 2007/02/26 02:52:47 tg Exp $");
 
 extern	char *__progname;
 int	verbose, nowrite, nheads, nsectors, userspec = 0;
@@ -483,7 +483,7 @@ loadprotoblocks(char *fname, long *size)
 	}
 	/* Validate symbol types (global data). */
 	for (nlp = nl; nlp->n_un.n_name; nlp++) {
-		if (nlp->n_type != (N_TEXT)) {
+		if (nlp->n_type != (N_TEXT) && nlp->n_type != (N_DATA)) {
 			warnx("nlist: %s: wrong type %x", nlp->n_un.n_name,
 			nlp->n_type);
 			return NULL;
