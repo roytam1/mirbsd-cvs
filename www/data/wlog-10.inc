@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.155 2009/02/07 15:48:23 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.156 2009/02/08 14:58:16 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -3255,4 +3255,28 @@ Tag: event
  gestern Abend gabs Couscous Merguez + Lamm in einer verdammt
  kleinen aber gemütlichen Bude (mit Couch!), wo wir frischen
  Minztee getrunken haben (fünf Kannen; ich alleine zwei oder so).</p>
+----
+Author: tg@
+Date: 09.02.2009 11:32
+Title: FOSDEM is over
+Tag: event
+
+<p><a href="https://bilder.bsdgroup.de/images/FOSDEM2009/big/853.jpg"><img
+ src="@@RELPATH@@pics/FOSDEM_2009.jpg" alt="CDs and the “m” at FOSDEM 2009"
+ /><br />FOSDEM 2009 is over, we are all sober again, any spotted <a
+ href="@@RELPATH@@permalinks/news_e20090208-tg.htm">bugs</a> are getting
+ fixed. I tended to the disklabel sector size issue, although that has yet
+ to be tested, and we might want to see what upstream does about it. <a
+ href="@@RELPATH@@mksh.htm">mksh</a> changes will be coded when I get to
+ it, and we’re looking forward towards the next event(s).</p>
+<p>Is there anyone interested in making a Virtual Appliance (for qemu,
+ VMware, Parallels, you name it) out of MirOS? I could, of course, do a
+ standard install one, maybe add some packages, like with the live CDs,
+ but I’m not good for desktop style ones. Maybe we want a server and a
+ desktop appliance. Benny could bake a GNOME version, just to show off
+ (note that I still quite dislike it… and expressed it with one of these
+ yellow stickers at the “GNOME HATE” side at FOSDEM ☺).</p>
+<p>MirOS/sparc users, show yourselves, if you want snapshots to be built
+ and provided more often. Talk to us, so we see the effort to support a
+ second platform is not in vain.</p>
 ----
