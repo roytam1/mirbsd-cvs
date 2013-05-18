@@ -14,7 +14,9 @@
  */
 
 #include "includes.h"
-RCSID("$MirOS: src/usr.bin/ssh/auth-rsa.c,v 1.3 2005/06/22 16:11:39 tg Exp $");
+RCSID("$MirOS: src/usr.bin/ssh/auth-rsa.c,v 1.4 2006/02/21 02:12:25 tg Exp $");
+
+#include <sys/stat.h>
 
 #include <openssl/rsa.h>
 #include <md5.h>

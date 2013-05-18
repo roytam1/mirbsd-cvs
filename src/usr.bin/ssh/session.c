@@ -33,7 +33,14 @@
  */
 
 #include "includes.h"
-RCSID("$MirOS: src/usr.bin/ssh/session.c,v 1.5 2005/11/23 19:45:14 tg Exp $");
+RCSID("$MirOS: src/usr.bin/ssh/session.c,v 1.6 2005/12/20 19:57:34 tg Exp $");
+
+#include <sys/wait.h>
+#include <sys/un.h>
+#include <sys/stat.h>
+
+#include <paths.h>
+#include <signal.h>
 
 #include "ssh.h"
 #include "ssh1.h"
@@ -198,15 +205,6 @@ do_authenticated(Authctxt *authctxt)
 {
 	setproctitle("%s", authctxt->pw->pw_name);
 
-	/*
-	 * Cancel the alarm we set to limit the time taken for
-	 * authentication.
-	 */
-	alarm(0);
-	if (startup_pipe != -1) {
-		close(startup_pipe);
-		startup_pipe = -1;
-	}
 	/* setup the channel layer */
 	if (!no_port_forwarding_flag && options.allow_tcp_forwarding)
 		channel_permit_all_opens();

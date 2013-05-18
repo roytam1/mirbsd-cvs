@@ -1,5 +1,5 @@
-/**	$MirOS: src/usr.bin/ssh/includes.h,v 1.4 2005/11/23 19:45:14 tg Exp $ */
-/*	$OpenBSD: includes.h,v 1.21 2005/12/08 18:34:11 reyk Exp $	*/
+/**	$MirOS: src/usr.bin/ssh/includes.h,v 1.5 2005/12/20 19:57:32 tg Exp $ */
+/*	$OpenBSD: includes.h,v 1.36 2006/02/20 17:19:53 stevesk Exp $	*/
 
 /*
  * Author: Tatu Ylonen <ylo@cs.hut.fi>
@@ -17,35 +17,19 @@
 #ifndef INCLUDES_H
 #define INCLUDES_H
 
-#include <sys/types.h>
-#include <sys/socket.h>
-#include <sys/queue.h>
 #include <sys/param.h>
-#include <sys/ioctl.h>
-#include <sys/endian.h>
-#include <sys/stat.h>
-#include <sys/wait.h>
+#include <sys/socket.h>
 #include <sys/time.h>
-#include <sys/un.h>
-#include <sys/resource.h>
 
 #include <netinet/in.h>
-#include <netinet/in_systm.h>
-#include <netinet/tcp.h>
-#include <netinet/ip.h>
 #include <arpa/inet.h>
 #include <netdb.h>
 
-#include <net/if.h>
-
 #include <stddef.h>
-#include <netgroup.h>
 #include <stdio.h>
 #include <ctype.h>
 #include <errno.h>
 #include <fcntl.h>
-#include <signal.h>
-#include <termios.h>
 #include <stdlib.h>
 #include <string.h>
 #include <stdarg.h>
@@ -53,8 +37,6 @@
 #include <grp.h>
 #include <unistd.h>
 #include <time.h>
-#include <paths.h>
-#include <dirent.h>
 
 #define	RCSID(x)	__RCSID(x)
 

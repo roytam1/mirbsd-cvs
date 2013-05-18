@@ -62,7 +62,6 @@
 RCSID("$OpenBSD: clientloop.c,v 1.154 2006/02/20 17:19:54 stevesk Exp $");
 
 #include <sys/ioctl.h>
-#include <sys/types.h>
 #include <sys/stat.h>
 
 #include <paths.h>

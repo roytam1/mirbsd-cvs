@@ -25,7 +25,6 @@
 #include "includes.h"
 RCSID("$OpenBSD: auth.c,v 1.62 2006/02/20 17:19:53 stevesk Exp $");
 
-#include <sys/types.h>
 #include <sys/stat.h>
 
 #include <libgen.h>

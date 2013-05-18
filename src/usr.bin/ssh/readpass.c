@@ -25,7 +25,6 @@
 #include "includes.h"
 RCSID("$OpenBSD: readpass.c,v 1.35 2006/02/10 01:44:26 stevesk Exp $");
 
-#include <sys/types.h>
 #include <sys/wait.h>
 
 #include <paths.h>

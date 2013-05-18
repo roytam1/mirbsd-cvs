@@ -25,13 +25,18 @@
  */
 
 #include "includes.h"
-RCSID("$MirOS: src/usr.bin/ssh/monitor.c,v 1.2 2005/03/13 18:33:30 tg Exp $");
+RCSID("$MirOS: src/usr.bin/ssh/monitor.c,v 1.3 2005/04/14 19:49:33 tg Exp $");
 
-#include <openssl/dh.h>
+#include <sys/wait.h>
+
+#include <paths.h>
+#include <signal.h>
 
 #ifdef SKEY
 #include <skey.h>
 #endif
+
+#include <openssl/dh.h>
 
 #include "ssh.h"
 #include "auth.h"
@@ -153,7 +158,7 @@ struct mon_table mon_dispatch_proto20[] = {
     {MONITOR_REQ_AUTHPASSWORD, MON_AUTH, mm_answer_authpassword},
 #ifdef BSD_AUTH
     {MONITOR_REQ_BSDAUTHQUERY, MON_ISAUTH, mm_answer_bsdauthquery},
-    {MONITOR_REQ_BSDAUTHRESPOND, MON_AUTH,mm_answer_bsdauthrespond},
+    {MONITOR_REQ_BSDAUTHRESPOND, MON_AUTH, mm_answer_bsdauthrespond},
 #endif
 #ifdef SKEY
     {MONITOR_REQ_SKEYQUERY, MON_ISAUTH, mm_answer_skeyquery},
@@ -184,7 +189,7 @@ struct mon_table mon_dispatch_proto15[] = {
     {MONITOR_REQ_RSARESPONSE, MON_ONCE|MON_AUTHDECIDE, mm_answer_rsa_response},
 #ifdef BSD_AUTH
     {MONITOR_REQ_BSDAUTHQUERY, MON_ISAUTH, mm_answer_bsdauthquery},
-    {MONITOR_REQ_BSDAUTHRESPOND, MON_AUTH,mm_answer_bsdauthrespond},
+    {MONITOR_REQ_BSDAUTHRESPOND, MON_AUTH, mm_answer_bsdauthrespond},
 #endif
 #ifdef SKEY
     {MONITOR_REQ_SKEYQUERY, MON_ISAUTH, mm_answer_skeyquery},

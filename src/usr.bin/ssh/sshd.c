@@ -42,7 +42,14 @@
  */
 
 #include "includes.h"
-RCSID("$MirOS: src/usr.bin/ssh/sshd.c,v 1.3 2006/02/21 02:08:42 tg Exp $");
+RCSID("$MirOS: src/usr.bin/ssh/sshd.c,v 1.4 2006/02/21 02:12:25 tg Exp $");
+
+#include <sys/ioctl.h>
+#include <sys/wait.h>
+#include <sys/stat.h>
+
+#include <paths.h>
+#include <signal.h>
 
 #include <openssl/dh.h>
 #include <openssl/bn.h>
@@ -627,13 +634,6 @@ privsep_postauth(Authctxt *authctxt)
 		/* File descriptor passing is broken or root login */
 		use_privsep = 0;
 		goto skip;
-	}
-
-	/* Authentication complete */
-	alarm(0);
-	if (startup_pipe != -1) {
-		close(startup_pipe);
-		startup_pipe = -1;
 	}
 
 	/* New socket pair */
@@ -1648,6 +1648,17 @@ main(int ac, char **av)
 	}
 
  authenticated:
+	/*
+	 * Cancel the alarm we set to limit the time taken for
+	 * authentication.
+	 */
+	alarm(0);
+	signal(SIGALRM, SIG_DFL);
+	if (startup_pipe != -1) {
+		close(startup_pipe);
+		startup_pipe = -1;
+	}
+
 	/*
 	 * In privilege separation, we fork another child and prepare
 	 * file descriptor passing.

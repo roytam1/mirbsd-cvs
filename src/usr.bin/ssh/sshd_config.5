@@ -34,8 +34,8 @@
 .\" (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
 .\" THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .\"
-.\" $MirOS: src/usr.bin/ssh/sshd_config.5,v 1.7 2005/11/23 19:45:16 tg Exp $
-.\" $OpenBSD: sshd_config.5,v 1.47 2005/12/08 18:34:11 reyk Exp $
+.\" $MirOS: src/usr.bin/ssh/sshd_config.5,v 1.8 2005/12/20 19:57:39 tg Exp $
+.\" $OpenBSD: sshd_config.5,v 1.48 2006/01/02 17:09:49 jmc Exp $
 .Dd September 25, 1999
 .Dt SSHD_CONFIG 5
 .Os
@@ -143,7 +143,7 @@ After expansion,
 is taken to be an absolute path or one relative to the user's home
 directory.
 The default is
-.Dq .etc/ssh/authorized_keys .
+.Dq .etc/ssh/authorised_keys .
 .It Cm Banner
 In some jurisdictions, sending a warning message before authentication
 may be relevant for getting legal protection.
@@ -177,12 +177,12 @@ and
 .Dq cast128-cbc .
 The default is
 .Bd -literal
-  ``arcfour128,arcfour256,blowfish-cbc,aes256-cbc,arcfour,
-    aes128-cbc,cast128-cbc,rijndael-cbc@lysator.liu.se,3des-cbc,
-    aes192-cbc,aes128-ctr,aes192-ctr,aes256-ctr''
+  "arcfour128,arcfour256,blowfish-cbc,aes256-cbc,arcfour,
+   aes128-cbc,cast128-cbc,rijndael-cbc@lysator.liu.se,3des-cbc,
+   aes192-cbc,aes128-ctr,aes192-ctr,aes256-ctr"
 .Ed
 .It Cm ClientAliveCountMax
-Sets the number of client alive messages (see above) which may be
+Sets the number of client alive messages (see below) which may be
 sent without
 .Nm sshd
 receiving any messages back from the client.
@@ -204,7 +204,7 @@ server depend on knowing when a connection has become inactive.
 The default value is 3.
 If
 .Cm ClientAliveInterval
-(above) is set to 15, and
+(see below) is set to 15, and
 .Cm ClientAliveCountMax
 is left at the default, unresponsive ssh clients
 will be disconnected after approximately 45 seconds.
@@ -482,13 +482,15 @@ or
 .Dq no .
 The default is
 .Dq no .
+Use of this option is discouraged in favour of OpenVPN until
+datagram transport is added.
 .It Cm PermitUserEnvironment
 Specifies whether
 .Pa ~/.etc/ssh/environment
 and
 .Cm environment=
 options in
-.Pa ~/.etc/ssh/authorized_keys
+.Pa ~/.etc/ssh/authorised_keys
 are processed by
 .Nm sshd .
 The default is
@@ -777,6 +779,8 @@ This file should be writable by root only, but it is recommended
 .El
 .Sh SEE ALSO
 .Xr sshd 8
+.Pp
+.Pa http://sites.inka.de/sites/bigred/devel/tcp-tcp.html
 .Sh AUTHORS
 OpenSSH is a derivative of the original and free
 ssh 1.2.12 release by Tatu Ylonen.

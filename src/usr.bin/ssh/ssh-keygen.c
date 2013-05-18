@@ -12,7 +12,9 @@
  */
 
 #include "includes.h"
-RCSID("$MirOS: src/usr.bin/ssh/ssh-keygen.c,v 1.8 2006/01/30 15:21:47 tg Exp $");
+RCSID("$MirOS: src/usr.bin/ssh/ssh-keygen.c,v 1.9 2006/01/30 15:47:04 tg Exp $");
+
+#include <sys/stat.h>
 
 #include <openssl/evp.h>
 #include <openssl/pem.h>

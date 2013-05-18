@@ -34,8 +34,8 @@
 .\" (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
 .\" THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .\"
-.\" $MirOS: src/usr.bin/ssh/ssh_config.5,v 1.8 2005/11/23 19:45:16 tg Exp $
-.\" $OpenBSD: ssh_config.5,v 1.71 2005/12/17 21:36:42 stevesk Exp $
+.\" $MirOS: src/usr.bin/ssh/ssh_config.5,v 1.9 2005/12/20 19:57:38 tg Exp $
+.\" $OpenBSD: ssh_config.5,v 1.79 2006/02/19 20:12:25 jmc Exp $
 .Dd September 25, 1999
 .Dt SSH_CONFIG 5
 .Os
@@ -51,6 +51,7 @@
 .Nm ssh
 obtains configuration data from the following sources in
 the following order:
+.Pp
 .Bl -enum -offset indent -compact
 .It
 command-line options
@@ -203,9 +204,9 @@ and
 .Dq cast128-cbc .
 The default is
 .Bd -literal
-  ``arcfour128,arcfour256,blowfish-cbc,aes256-cbc,arcfour,
-    aes128-cbc,cast128-cbc,rijndael-cbc@lysator.liu.se,3des-cbc,
-    aes192-cbc,aes128-ctr,aes192-ctr,aes256-ctr''
+  "arcfour128,arcfour256,blowfish-cbc,aes256-cbc,arcfour,
+   aes128-cbc,cast128-cbc,rijndael-cbc@lysator.liu.se,3des-cbc,
+   aes192-cbc,aes128-ctr,aes192-ctr,aes256-ctr"
 .Ed
 .It Cm ClearAllForwardings
 Specifies that all local, remote and dynamic port forwardings
@@ -307,6 +308,8 @@ section above or the string
 .Dq none
 to disable connection sharing.
 In the path,
+.Ql %l
+will be substituted by the local host name,
 .Ql %h
 will be substituted by the target host name,
 .Ql %p
@@ -316,10 +319,10 @@ by the remote login username.
 It is recommended that any
 .Cm ControlPath
 used for opportunistic connection sharing include
-all three of these escape sequences.
+at least %h, %p, and %r.
 This ensures that shared connections are uniquely identified.
 .It Cm DynamicForward
-Specifies that a TCP/IP port on the local machine be forwarded
+Specifies that a TCP port on the local machine be forwarded
 over the secure channel, and the application
 protocol is then used to determine where to connect to from the
 remote machine.
@@ -556,7 +559,7 @@ This directive is ignored unless
 .Cm PermitLocalCommand
 has been enabled.
 .It Cm LocalForward
-Specifies that a TCP/IP port on the local machine be forwarded over
+Specifies that a TCP port on the local machine be forwarded over
 the secure channel to the specified host and port from the remote machine.
 The first argument must be
 .Sm off
@@ -709,8 +712,23 @@ or
 The default is
 .Dq yes .
 This option applies to protocol version 2 only.
+.It Cm RekeyLimit
+Specifies the maximum amount of data that may be transmitted before the
+session key is renegotiated.
+The argument is the number of bytes, with an optional suffix of
+.Sq K ,
+.Sq M ,
+or
+.Sq G
+to indicate Kibibytes, Mebibytes, or Gibibytes, respectively.
+The default is between
+.Dq 1G
+and
+.Dq 4G ,
+depending on the cipher.
+This option applies to protocol version 2 only.
 .It Cm RemoteForward
-Specifies that a TCP/IP port on the remote machine be forwarded over
+Specifies that a TCP port on the remote machine be forwarded over
 the secure channel to the specified host and port from the local machine.
 The first argument must be
 .Sm off
@@ -788,7 +806,7 @@ across multiple
 directives.
 The default is not to send any environment variables.
 .It Cm ServerAliveCountMax
-Sets the number of server alive messages (see above) which may be
+Sets the number of server alive messages (see below) which may be
 sent without
 .Nm ssh
 receiving any messages back from the server.
@@ -810,7 +828,7 @@ server depend on knowing when a connection has become inactive.
 The default value is 3.
 If, for example,
 .Cm ServerAliveInterval
-(above) is set to 15, and
+(see below) is set to 15, and
 .Cm ServerAliveCountMax
 is left at the default, if the server becomes unresponsive ssh
 will disconnect after approximately 45 seconds.
@@ -882,23 +900,6 @@ This is important in scripts, and many users want it too.
 .Pp
 To disable TCP keepalive messages, the value should be set to
 .Dq no .
-.It Cm UsePrivilegedPort
-Specifies whether to use a privileged port for outgoing connections.
-The argument must be
-.Dq yes
-or
-.Dq no .
-The default is
-.Dq no .
-If set to
-.Dq yes
-.Nm ssh
-must be setuid root.
-Note that this option must be set to
-.Dq yes
-for
-.Cm RhostsRSAAuthentication
-with older servers.
 .It Cm Tunnel
 Request starting
 .Xr tun 4
@@ -918,6 +919,23 @@ Force a specified
 .Xr tun 4
 device on the client.
 Without this option, the next available device will be used.
+.It Cm UsePrivilegedPort
+Specifies whether to use a privileged port for outgoing connections.
+The argument must be
+.Dq yes
+or
+.Dq no .
+The default is
+.Dq no .
+If set to
+.Dq yes
+.Nm ssh
+must be setuid root.
+Note that this option must be set to
+.Dq yes
+for
+.Cm RhostsRSAAuthentication
+with older servers.
 .It Cm User
 Specifies the user to log in as.
 This can be useful when a different user name is used on different machines.

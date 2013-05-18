@@ -15,11 +15,16 @@
  */
 
 #include "includes.h"
+RCSID("$MirOS: src/usr.bin/ssh/sftp.c,v 1.7 2005/12/20 19:57:35 tg Exp $");
 
-RCSID("$MirOS: src/usr.bin/ssh/sftp.c,v 1.6 2005/11/23 19:45:15 tg Exp $");
+#include <sys/ioctl.h>
+#include <sys/wait.h>
+#include <sys/stat.h>
 
 #include <glob.h>
 #include <histedit.h>
+#include <paths.h>
+#include <signal.h>
 
 #include "buffer.h"
 #include "xmalloc.h"
@@ -1433,8 +1438,9 @@ main(int argc, char **argv)
 	/* Ensure that fds 0, 1 and 2 are open or directed to /dev/null */
 	sanitise_stdfd();
 
+	memset(&args, '\0', sizeof(args));
 	args.list = NULL;
-	addargs(&args, "ssh");		/* overwritten with ssh_program */
+	addargs(&args, ssh_program);
 	addargs(&args, "-h");		/* disable tcp lowdelay */
 	addargs(&args, "-oForwardX11 no");
 	addargs(&args, "-oForwardAgent no");
@@ -1470,6 +1476,7 @@ main(int argc, char **argv)
 			break;
 		case 'S':
 			ssh_program = optarg;
+			replacearg(&args, 0, "%s", ssh_program);
 			break;
 		case 'b':
 			if (batchmode)
@@ -1546,7 +1553,6 @@ main(int argc, char **argv)
 		addargs(&args, "%s", host);
 		addargs(&args, "%s", (sftp_server != NULL ?
 		    sftp_server : "sftp"));
-		args.list[0] = ssh_program;
 
 		if (!batchmode)
 			fprintf(stderr, "Connecting to %s...\n", host);
@@ -1559,6 +1565,7 @@ main(int argc, char **argv)
 			fprintf(stderr, "Attaching to %s...\n", sftp_direct);
 		connect_to_server(sftp_direct, args.list, &in, &out);
 	}
+	freeargs(&args);
 
 	err = interactive_loop(in, out, file1, file2);
 

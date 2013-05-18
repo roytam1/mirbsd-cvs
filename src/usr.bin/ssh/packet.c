@@ -37,9 +37,12 @@
  */
 
 #include "includes.h"
-RCSID("$MirOS: packet.c,v 1.120 2005/10/30 08:52:17 djm Exp $");
+RCSID("$MirOS: src/usr.bin/ssh/packet.c,v 1.3 2006/02/21 02:08:42 tg Exp $");
 
 #include <sys/queue.h>
+
+#include <netinet/in_systm.h>
+#include <netinet/ip.h>
 
 #include "xmalloc.h"
 #include "buffer.h"

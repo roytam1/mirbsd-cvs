@@ -23,7 +23,11 @@
  */
 
 #include "includes.h"
-RCSID("$MirOS: src/usr.bin/ssh/sshconnect2.c,v 1.3 2005/11/23 18:04:21 tg Exp $");
+RCSID("$MirOS: src/usr.bin/ssh/sshconnect2.c,v 1.4 2005/11/23 19:45:16 tg Exp $");
+
+#include <sys/wait.h>
+#include <sys/queue.h>
+#include <sys/stat.h>
 
 #include "ssh.h"
 #include "ssh2.h"

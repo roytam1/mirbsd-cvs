@@ -34,8 +34,14 @@
  */
 
 #include "includes.h"
+RCSID("$MirOS: src/usr.bin/ssh/ssh-agent.c,v 1.2 2006/02/21 02:12:25 tg Exp $");
+
 #include <sys/queue.h>
-RCSID("$MirOS: ssh-agent.c,v 1.124 2005/10/30 08:52:18 djm Exp $");
+#include <sys/resource.h>
+#include <sys/un.h>
+
+#include <paths.h>
+#include <signal.h>
 
 #include <openssl/evp.h>
 #include <md5.h>

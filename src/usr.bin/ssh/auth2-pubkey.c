@@ -23,7 +23,9 @@
  */
 
 #include "includes.h"
-RCSID("$MirOS$");
+RCSID("$MirOS: src/usr.bin/ssh/auth2-pubkey.c,v 1.2 2005/03/13 18:33:30 tg Exp $");
+
+#include <sys/stat.h>
 
 #include "ssh.h"
 #include "ssh2.h"

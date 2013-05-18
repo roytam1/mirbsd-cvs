@@ -40,7 +40,15 @@
  */
 
 #include "includes.h"
-RCSID("$MirOS: src/usr.bin/ssh/ssh.c,v 1.7 2005/11/23 19:45:15 tg Exp $");
+RCSID("$MirOS: src/usr.bin/ssh/ssh.c,v 1.8 2005/12/20 19:57:37 tg Exp $");
+
+#include <sys/resource.h>
+#include <sys/ioctl.h>
+#include <sys/un.h>
+#include <sys/stat.h>
+
+#include <paths.h>
+#include <signal.h>
 
 #include <openssl/evp.h>
 #include <openssl/err.h>
@@ -628,11 +636,15 @@ again:
 		options.control_path = NULL;
 
 	if (options.control_path != NULL) {
+		char me[NI_MAXHOST];
+
+		if (gethostname(me, sizeof(me)) == -1)
+			fatal("gethostname: %s", strerror(errno));
 		snprintf(buf, sizeof(buf), "%d", options.port);
 		cp = tilde_expand_filename(options.control_path,
 		    original_real_uid);
 		options.control_path = percent_expand(cp, "p", buf, "h", host,
-		    "r", options.user, (char *)NULL);
+		    "r", options.user, "l", me, (char *)NULL);
 		xfree(cp);
 	}
 	if (mux_command != 0 && options.control_path == NULL)

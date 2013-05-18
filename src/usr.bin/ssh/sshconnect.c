@@ -13,9 +13,12 @@
  */
 
 #include "includes.h"
-RCSID("$MirOS: sshconnect.c,v 1.171 2005/12/06 22:38:27 reyk Exp $");
+RCSID("$MirOS: src/usr.bin/ssh/sshconnect.c,v 1.3 2006/02/21 02:08:42 tg Exp $");
 
-#include <openssl/bn.h>
+#include <sys/wait.h>
+#include <sys/stat.h>
+
+#include <paths.h>
 
 #include "ssh.h"
 #include "xmalloc.h"
