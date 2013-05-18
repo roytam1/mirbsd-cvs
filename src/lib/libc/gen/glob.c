@@ -1,5 +1,7 @@
-/*	$OpenBSD: glob.c,v 1.25 2005/08/08 08:05:34 espie Exp $ */
+/*	$OpenBSD: glob.c,v 1.33 2010/09/26 22:15:39 djm Exp $ */
 /*
+ * Copyright (c) 2006, 2010
+ *	Thorsten Glaser <tg@mirbsd.org>
  * Copyright (c) 1989, 1993
  *	The Regents of the University of California.  All rights reserved.
  *
@@ -69,6 +71,8 @@
 #include <string.h>
 #include <unistd.h>
 
+__RCSID("$MirOS$");
+
 #define	DOLLAR		'$'
 #define	DOT		'.'
 #define	EOS		'\0'
@@ -129,13 +133,13 @@ static int	 glob0(const Char *, glob_t *);
 static int	 glob1(Char *, Char *, glob_t *, size_t *);
 static int	 glob2(Char *, Char *, Char *, Char *, Char *, Char *,
 		    glob_t *, size_t *);
-static int	 glob3(Char *, Char *, Char *, Char *, Char *, Char *,
+static int	 glob3(Char *, Char *, Char *, Char *, Char *,
 		    Char *, Char *, glob_t *, size_t *);
-static int	 globextend(const Char *, glob_t *, size_t *);
+static int	 globextend(const Char *, glob_t *, size_t *, struct stat *);
 static const Char *
 		 globtilde(const Char *, Char *, size_t, glob_t *);
 static int	 globexp1(const Char *, glob_t *);
-static int	 globexp2(const Char *, const Char *, glob_t *, int *);
+static int	 globexp2(const Char *, const Char *, glob_t *);
 static int	 match(Char *, Char *, Char *);
 #ifdef DEBUG
 static void	 qprintf(const char *, Char *);
@@ -153,6 +157,7 @@ glob(const char *pattern, int flags, int (*errfunc)(const char *, int),
 	if (!(flags & GLOB_APPEND)) {
 		pglob->gl_pathc = 0;
 		pglob->gl_pathv = NULL;
+		pglob->gl_statv = NULL;
 		if (!(flags & GLOB_DOOFFS))
 			pglob->gl_offs = 0;
 	}
@@ -194,15 +199,13 @@ static int
 globexp1(const Char *pattern, glob_t *pglob)
 {
 	const Char* ptr = pattern;
-	int rv;
 
 	/* Protect a single {}, for find(1), like csh */
 	if (pattern[0] == LBRACE && pattern[1] == RBRACE && pattern[2] == EOS)
 		return glob0(pattern, pglob);
 
-	while ((ptr = g_strchr(ptr, LBRACE)) != NULL)
-		if (!globexp2(ptr, pattern, pglob, &rv))
-			return rv;
+	if ((ptr = (const Char *) g_strchr(ptr, LBRACE)) != NULL)
+		return globexp2(ptr, pattern, pglob);
 
 	return glob0(pattern, pglob);
 }
@@ -214,9 +217,9 @@ globexp1(const Char *pattern, glob_t *pglob)
  * If it fails then it tries to glob the rest of the pattern and returns.
  */
 static int
-globexp2(const Char *ptr, const Char *pattern, glob_t *pglob, int *rv)
+globexp2(const Char *ptr, const Char *pattern, glob_t *pglob)
 {
-	int     i;
+	int     i, rv;
 	Char   *lm, *ls;
 	const Char *pe, *pm, *pl;
 	Char    patbuf[MAXPATHLEN];
@@ -249,10 +252,8 @@ globexp2(const Char *ptr, const Char *pattern, glob_t *pglob, int *rv)
 		}
 
 	/* Non matching braces; just glob the pattern */
-	if (i != 0 || *pe == EOS) {
-		*rv = glob0(patbuf, pglob);
-		return 0;
-	}
+	if (i != 0 || *pe == EOS)
+		return glob0(patbuf, pglob);
 
 	for (i = 0, pl = pm = ptr; pm <= pe; pm++) {
 		switch (*pm) {
@@ -298,7 +299,9 @@ globexp2(const Char *ptr, const Char *pattern, glob_t *pglob, int *rv)
 #ifdef DEBUG
 				qprintf("globexp2:", patbuf);
 #endif
-				*rv = globexp1(patbuf, pglob);
+				rv = globexp1(patbuf, pglob);
+				if (rv && rv != GLOB_NOMATCH)
+					return rv;
 
 				/* move after the comma, to the next string */
 				pl = pm + 1;
@@ -309,7 +312,6 @@ globexp2(const Char *ptr, const Char *pattern, glob_t *pglob, int *rv)
 			break;
 		}
 	}
-	*rv = 0;
 	return 0;
 }
 
@@ -460,7 +462,7 @@ glob0(const Char *pattern, glob_t *pglob)
 		if ((pglob->gl_flags & GLOB_NOCHECK) ||
 		    ((pglob->gl_flags & GLOB_NOMAGIC) &&
 		    !(pglob->gl_flags & GLOB_MAGCHAR)))
-			return(globextend(pattern, pglob, &limit));
+			return(globextend(pattern, pglob, &limit, NULL));
 		else
 			return(GLOB_NOMATCH);
 	}
@@ -523,7 +525,7 @@ glob2(Char *pathbuf, Char *pathbuf_last, Char *pathend, Char *pathend_last,
 				*pathend = EOS;
 			}
 			++pglob->gl_matchc;
-			return(globextend(pathbuf, pglob, limitp));
+			return(globextend(pathbuf, pglob, limitp, &sb));
 		}
 
 		/* Find end of next segment, copy tentatively to pathend. */
@@ -548,16 +550,16 @@ glob2(Char *pathbuf, Char *pathbuf_last, Char *pathend, Char *pathend_last,
 		} else
 			/* Need expansion, recurse. */
 			return(glob3(pathbuf, pathbuf_last, pathend,
-			    pathend_last, pattern, pattern_last,
-			    p, pattern_last, pglob, limitp));
+			    pathend_last, pattern, p, pattern_last,
+			    pglob, limitp));
 	}
 	/* NOTREACHED */
 }
 
 static int
 glob3(Char *pathbuf, Char *pathbuf_last, Char *pathend, Char *pathend_last,
-    Char *pattern, Char *pattern_last __attribute__((unused)), Char *restpattern,
-    Char *restpattern_last, glob_t *pglob, size_t *limitp)
+    Char *pattern, Char *restpattern, Char *restpattern_last, glob_t *pglob,
+    size_t *limitp)
 {
 	struct dirent *dp;
 	DIR *dirp;
@@ -646,25 +648,40 @@ glob3(Char *pathbuf, Char *pathbuf_last, Char *pathend, Char *pathend_last,
  *	gl_pathv points to (gl_offs + gl_pathc + 1) items.
  */
 static int
-globextend(const Char *path, glob_t *pglob, size_t *limitp)
+globextend(const Char *path, glob_t *pglob, size_t *limitp, struct stat *sb)
 {
 	char **pathv;
-	int i;
-	u_int newsize, len;
-	char *copy;
+	ssize_t i;
+	size_t newn, len;
+	char *copy = NULL;
 	const Char *p;
+	struct stat **statv;
 
-	newsize = sizeof(*pathv) * (2 + pglob->gl_pathc + pglob->gl_offs);
-	pathv = pglob->gl_pathv ? realloc((char *)pglob->gl_pathv, newsize) :
-	    malloc(newsize);
-	if (pathv == NULL) {
+	newn = 2 + pglob->gl_pathc + pglob->gl_offs;
+	if (SIZE_MAX / sizeof(*pathv) <= newn ||
+	    SIZE_MAX / sizeof(*statv) <= newn) {
+ nospace:
+		for (i = pglob->gl_offs; (size_t)i < newn - 2; i++) {
+			if (pglob->gl_pathv && pglob->gl_pathv[i])
+				free(pglob->gl_pathv[i]);
+			if ((pglob->gl_flags & GLOB_KEEPSTAT) != 0 &&
+			    pglob->gl_pathv && pglob->gl_pathv[i])
+				free(pglob->gl_statv[i]);
+		}
 		if (pglob->gl_pathv) {
 			free(pglob->gl_pathv);
 			pglob->gl_pathv = NULL;
 		}
+		if (pglob->gl_statv) {
+			free(pglob->gl_statv);
+			pglob->gl_statv = NULL;
+		}
 		return(GLOB_NOSPACE);
 	}
 
+	pathv = realloc(pglob->gl_pathv, newn * sizeof(*pathv));
+	if (pathv == NULL)
+		goto nospace;
 	if (pglob->gl_pathv == NULL && pglob->gl_offs > 0) {
 		/* first time around -- clear initial gl_offs items */
 		pathv += pglob->gl_offs;
@@ -672,6 +689,29 @@ globextend(const Char *path, glob_t *pglob, size_t *limitp)
 			*--pathv = NULL;
 	}
 	pglob->gl_pathv = pathv;
+
+	if ((pglob->gl_flags & GLOB_KEEPSTAT) != 0) {
+		statv = realloc(pglob->gl_statv, newn * sizeof(*statv));
+		if (statv == NULL)
+			goto nospace;
+		if (pglob->gl_statv == NULL && pglob->gl_offs > 0) {
+			/* first time around -- clear initial gl_offs items */
+			statv += pglob->gl_offs;
+			for (i = pglob->gl_offs; --i >= 0; )
+				*--statv = NULL;
+		}
+		pglob->gl_statv = statv;
+		if (sb == NULL)
+			statv[pglob->gl_offs + pglob->gl_pathc] = NULL;
+		else {
+			if ((statv[pglob->gl_offs + pglob->gl_pathc] =
+			    malloc(sizeof(**statv))) == NULL)
+				goto copy_error;
+			memcpy(statv[pglob->gl_offs + pglob->gl_pathc], sb,
+			    sizeof(*sb));
+		}
+		statv[pglob->gl_offs + pglob->gl_pathc + 1] = NULL;
+	}
 
 	for (p = path; *p++;)
 		;
@@ -687,11 +727,11 @@ globextend(const Char *path, glob_t *pglob, size_t *limitp)
 	pathv[pglob->gl_offs + pglob->gl_pathc] = NULL;
 
 	if ((pglob->gl_flags & GLOB_LIMIT) &&
-	    newsize + *limitp >= ARG_MAX) {
+	    (newn * sizeof(*pathv)) + *limitp >= ARG_MAX) {
 		errno = 0;
 		return(GLOB_NOSPACE);
 	}
-
+ copy_error:
 	return(copy == NULL ? GLOB_NOSPACE : 0);
 }
 
@@ -727,13 +767,14 @@ match(Char *name, Char *pat, Char *patend)
 				return(0);
 			if ((negate_range = ((*pat & M_MASK) == M_NOT)) != EOS)
 				++pat;
-			while (((c = *pat++) & M_MASK) != M_END)
+			while (((c = *pat++) & M_MASK) != M_END) {
 				if ((*pat & M_MASK) == M_RNG) {
 					if (c <= k && k <= pat[1])
 						ok = 1;
 					pat += 2;
 				} else if (c == k)
 					ok = 1;
+			}
 			if (ok == negate_range)
 				return(0);
 			break;
@@ -760,6 +801,14 @@ globfree(glob_t *pglob)
 				free(*pp);
 		free(pglob->gl_pathv);
 		pglob->gl_pathv = NULL;
+	}
+	if (pglob->gl_statv != NULL) {
+		for (i = 0; i < pglob->gl_pathc; i++) {
+			if (pglob->gl_statv[i] != NULL)
+				free(pglob->gl_statv[i]);
+		}
+		free(pglob->gl_statv);
+		pglob->gl_statv = NULL;
 	}
 }
 
