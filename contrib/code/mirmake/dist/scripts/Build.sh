@@ -1,5 +1,5 @@
 #!/usr/bin/env mksh
-# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.123 2008/10/12 18:10:15 tg Exp $
+# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.124 2008/10/12 18:45:21 tg Exp $
 #-
 # Copyright (c) 2006, 2008
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -214,8 +214,9 @@ cp $d_src/include/{getopt,adler32,md4,md5,rmd160,sfv,sha1,sha2,suma,tiger,whirlp
 ed -s $d_build/F/libckern.h <<-'EOF'
 	/defined.*_WCHAR_H_/,/endif.*_WCHAR_H_/d
 	i
-		#include <wchar.h>
+		#ifndef restrict
 		#define restrict /* nothing */
+		#endif
 	.
 	wq
 EOF
@@ -223,8 +224,13 @@ ed -s $d_build/strlfun.c <<-'EOF'
 	0a
 		#define L_strlcpy
 		#define L_strlcat
+		#include <wchar.h>
+		#ifndef __predict_true
 		#define __predict_true(exp)	((exp) != 0)
+		#endif
+		#ifndef __predict_false
 		#define __predict_false(exp)	((exp) != 0)
+		#endif
 	.
 	wq
 EOF
