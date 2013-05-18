@@ -1,4 +1,4 @@
-$MirOS: contrib/code/libhaible/OVERVIEW,v 1.15 2006/05/30 20:57:53 tg Exp $
+$MirOS: contrib/code/libhaible/OVERVIEW,v 1.16 2006/05/30 23:14:19 tg Exp $
 $function name		header		manpage		source location
 $ 
 $ Info: # = commented out
@@ -59,7 +59,7 @@ wcscasecmp		 wchar.h	H:wmemchr	libhaible/wcscasecmp.c
 wcscat			 wchar.h	C:wmemchr	string/wcscat.c
 wcschr			 wchar.h	C:wmemchr	string/wcschr.c
 wcscmp			 wchar.h	C:wmemchr	string/wcscmp.c
-wcscoll			#wchar.h	H:wmemchr
+wcscoll			 wchar.h	H:wmemchr	libhaible/wcscoll.c
 wcscpy			 wchar.h	C:wmemchr	string/wcscpy.c
 wcscspn			 wchar.h	C:wmemchr	string/wcscspn.c
 wcsdup			 wchar.h	H:wmemchr	libhaible/wcsdup.c

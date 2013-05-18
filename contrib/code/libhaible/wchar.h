@@ -1,4 +1,4 @@
-/* $MirOS: contrib/code/libhaible/wchar.h,v 1.12 2006/05/30 20:57:53 tg Exp $ */
+/* $MirOS: contrib/code/libhaible/wchar.h,v 1.13 2006/05/30 21:29:48 tg Exp $ */
 
 /*-
  * Copyright (c) 2005, 2006
@@ -106,9 +106,7 @@ int	wcscasecmp(const wchar_t *, const wchar_t *);
 wchar_t	*wcscat(wchar_t *__restrict__, const wchar_t *__restrict__);
 wchar_t	*wcschr(const wchar_t *, wchar_t);
 int	wcscmp(const wchar_t *, const wchar_t *);
-#ifdef notyet
 int	wcscoll(const wchar_t *, const wchar_t *);
-#endif
 wchar_t	*wcscpy(wchar_t *__restrict__, const wchar_t *__restrict__);
 size_t	wcscspn(const wchar_t *, const wchar_t *);
 wchar_t *wcsdup(const wchar_t *);

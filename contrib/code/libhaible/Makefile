@@ -1,4 +1,4 @@
-# $MirOS: contrib/code/libhaible/Makefile,v 1.23 2006/05/30 20:57:53 tg Exp $
+# $MirOS: contrib/code/libhaible/Makefile,v 1.24 2006/05/30 23:14:19 tg Exp $
 
 LIB=	haible
 NOPIC=	Yes	# for now
@@ -23,6 +23,7 @@ SRCS+=	wctype.c
 SRCS+=	wcwidth.c
 
 .PATH: ${.CURDIR}/string
+SRCS+=	wcscoll.c
 SRCS+=	wcsdup.c
 SRCS+=	wcstok.c
 
@@ -55,7 +56,6 @@ CFLAGS_wcstoull.o+=	-Wno-cast-qual
 #SRCS+=	vswscanf.c
 #SRCS+=	vwprintf.c
 #SRCS+=	vwscanf.c
-#SRCS+=	wcscoll.c
 #SRCS+=	wcsftime.c
 #SRCS+=	wprintf.c
 #SRCS+=	wscanf.c
