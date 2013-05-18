@@ -1,4 +1,4 @@
-# $MirOS: src/Makefile,v 1.87 2006/12/20 15:49:32 tg Exp $
+# $MirOS: src/Makefile,v 1.88 2006/12/20 15:56:46 tg Exp $
 # $OpenBSD: Makefile,v 1.103 2004/05/03 15:18:18 drahn Exp $
 
 .if defined(MAKECONF) && exists(${MAKECONF})
@@ -307,7 +307,7 @@ _do-dist:
 		${SUDO} mkdir -m 0775 ${BSDRELDIR}/base/usr/ports; \
 		${SUDO} chown root:wsrc ${BSDRELDIR}/base/usr/ports; \
 	fi; \
-	${SUDO} umount ${BSDRELDIR}/usr; \
+	cd ${BSDRELDIR}; ${SUDO} umount ${BSDRELDIR}/usr; \
 	test -e ${BSDRELDIR}/rel/pkgutl${OSrev}.ngz
 	@date
 	if [[ ! -e ${BSDRELDIR}/rel/htpsd${OSrev}.ngz || \
