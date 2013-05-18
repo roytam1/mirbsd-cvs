@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.402 2011/06/04 16:47:31 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.403 2011/06/05 20:18:46 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -1231,6 +1231,9 @@ exec /usr/bin/ld "${args[@]}"</pre>
   with automatic fallback to <tt>-c combine</tt> if unavailable</li>
  <li>[tg] Improvements for <tt>-c dragonegg</tt>, <tt>-c llvm</tt> (with
   gcc+dragonegg, or llvm-gcc and clang, respectively), and TenDRA</li>
+ <li>[tg] Let code samples in <tt>check.t</tt> and <tt>dot.mkshrc</tt>
+  take care of the new features; fix some longstanding bugs in them</li>
+ <li>[tg] Add missing flush in rewritten read builtin for prompting</li>
 </ul>
 <p id="r39c">mksh R39c is an important minor bugfix release:</p><ul>
  <li>[tg] Build system, code, docs and testsuite cleanup, also style(9)</li>
