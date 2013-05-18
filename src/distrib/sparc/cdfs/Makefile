@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/sparc/cdfs/Makefile,v 1.3 2005/07/24 16:44:15 tg Exp $
+# $MirOS: src/distrib/sparc/cdfs/Makefile,v 1.4 2006/07/05 04:47:34 tg Exp $
 # $OpenBSD: Makefile,v 1.5 2005/03/11 15:40:59 deraadt Exp $
 
 CDROM?=		cdrom${OSrev}.iso
@@ -29,6 +29,8 @@ prepare-workdir:
 	ln workdir/v${OSrev}/sparc/bsd.rd workdir/bsd.rd
 	ln workdir/v${OSrev}/sparc/bsd.rd workdir/bsd
 	ln workdir/v${OSrev}/sparc/bsd.rd workdir/vmunix	# for kicks
+	cp ${.CURDIR}/boot.cfg workdir/etc/
+	cp ${.CURDIR}/00-README workdir/
 
 generate-image:
 	mkisofs -r -f -L -d -D -N -v -v \
