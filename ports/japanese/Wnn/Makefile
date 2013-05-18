@@ -1,7 +1,6 @@
-# From FreeBSD:		Satoshi Taoka <taoka@infonets.hiroshima-u.ac.jp>
-#
-# $FreeBSD: Makefile,v 1.19 1997/09/23 02:17:58 max Exp $
+# $MirOS$
 # $OpenBSD: Makefile,v 1.46 2004/01/02 22:03:36 espie Exp $
+# $FreeBSD: Makefile,v 1.19 1997/09/23 02:17:58 max Exp $
 
 COMMENT=			Japanese input method
 COMMENT-dict=			dictionaries for Japanese Wnn
@@ -66,7 +65,7 @@ MASTER_SITES=	ftp://ftp.u-tokyo.ac.jp/pub/Japanese/Wnn/ \
 DISTFILES=	Wnn4.2.tar.gz Wnn4.2.patch.tar.gz
 
 
-#		BSD
+# BSD
 PERMIT_PACKAGE_CDROM=	Yes
 PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_CDROM=	Yes
@@ -88,6 +87,7 @@ BUILD_DEPENDS=	:ja-groff-*:japanese/groff
 # Run depends ensure this does not turn into infinite recursion, since
 # this is not needed before package build time.
 
+USE_CXX=	Yes # depends on groff, which uses CXX
 USE_X11=	Yes
 
 do-distpatch:

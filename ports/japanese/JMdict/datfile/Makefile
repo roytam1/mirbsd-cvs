@@ -1,4 +1,4 @@
-# $MirOS: ports/japanese/jmdict/datfile/Makefile,v 1.1 2006/10/07 00:12:57 tg Exp $
+# $MirOS: ports/japanese/jmdict/datfile/Makefile,v 1.2 2007/02/22 15:12:30 tg Exp $
 
 .include <mirports.sys.mk>
 
@@ -21,6 +21,7 @@ WRKDIST=		${WRKDIR}
 NO_DISTFILES=		Yes
 NO_CHECKSUM=		Yes
 NO_REGRESS=		Yes
+USE_CXX=		Yes # depends on jmdict_import, which uses CXX
 PKG_ARCH=		*
 
 do-build:
