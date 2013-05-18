@@ -1,13 +1,13 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.8 2003/04/10 18:08:57 jsyn Exp $
 
-COMMENT=			cisco NetFlow utilities
+COMMENT=	cisco NetFlow utilities
 
 DISTNAME=	flow-tools-0.64
+DASH_VER=	1
 CATEGORIES=	net
 
-
 HOME_PAGE=	http://www.splintered.net/sw/flow-tools/
-
 MASTER_SITES=	ftp://ftp.eng.oar.net/pub/flow-tools/
 
 PERMIT_PACKAGE_CDROM=	Yes

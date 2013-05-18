@@ -1,11 +1,13 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.7 2004/02/21 01:18:08 pvalchev Exp $
 # $NetBSD: Makefile,v 1.2 2000/01/15 18:46:28 jlam Exp $
 # Original from: Stefan Jokisch
 
-COMMENT=			Curses-based interpreter for Infocom-compatible games
+COMMENT=		curses-based interpreter for Infocom-compatible games
 
 DISTNAME=		UnixFrotz232R2Std10
-PKGNAME=		frotz-2.32-0
+DASH_VER=		1
+PKGNAME=		frotz-2.32-${DASH_VER}
 CATEGORIES=     	games
 
 HOMEPAGE=		http://www.cs.csubak.edu/~dgriffi/proj/frotz/

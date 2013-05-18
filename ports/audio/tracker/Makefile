@@ -1,7 +1,9 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.21 2003/05/12 18:02:44 sturm Exp $
 
-COMMENT=			MOD player
+COMMENT=	MOD player
 DISTNAME=	tracker-5.3
+DASH_VER=	1
 CATEGORIES=	audio
 
 MASTER_SITES=	ftp://ftp.uni-trier.de/pub/unix/audio/tracker/

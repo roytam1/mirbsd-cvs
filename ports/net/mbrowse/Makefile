@@ -1,9 +1,10 @@
-# $MirOS: ports/net/mbrowse/Makefile,v 1.4 2006/09/14 00:11:53 tg Exp $
+# $MirOS: ports/net/mbrowse/Makefile,v 1.5 2007/04/13 19:27:52 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.1.1.1 2003/06/22 22:34:57 jcs Exp $
 
 COMMENT=	graphical MIB browser
 
 DISTNAME=	mbrowse-0.3.1
+DASH_VER=	1
 CATEGORIES=	net
 HOMEPAGE=	http://www.kill-9.org/mbrowse/
 

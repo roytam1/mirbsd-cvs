@@ -1,10 +1,11 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.20 2003/02/02 04:02:08 pvalchev Exp $
 
-COMMENT=			gnu curses-based napster client
+COMMENT=	gnu curses-based napster client
 
 VERSION=	1.5.1
 DISTNAME=	nap-${VERSION}
-PKGNAME=	${DISTNAME}-1
+PKGNAME=	${DISTNAME}-2
 CATEGORIES=    	audio
 
 HOMEPAGE=	http://nap.sourceforge.net/
