@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.154 2006/12/23 01:15:12 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.155 2006/12/23 04:02:22 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -1236,11 +1236,6 @@ _FAKE_SETUP=		TRUEPREFIX=${PREFIX:Q} PREFIX=${WRKINST:Q}${PREFIX:Q} \
 VMEM_WARNING?=		No
 _CLEANDEPENDS?=		Yes
 
-_tmpvars:=
-.  for _v in ${SUBST_VARS}
-_tmpvars+=		${_v}=${${_v}:Q}
-.  endfor
-
 # mirroring utilities
 .if !empty(DIST_SUBDIR)
 _ALLFILES=		${ALLFILES:S/^/${DIST_SUBDIR}\//}
@@ -2394,6 +2389,11 @@ clean:
 # when port is installed or package created.
 #
 .if ${FAKE:L} == "yes"
+_tmpvars:=
+.  for _v in ${SUBST_VARS:NHOMEPAGE:NSYSCONFDIR:NRESPONSIBLE}
+_tmpvars+=		${_v}=${${_v}:Q}
+.  endfor
+
 plist update-plist: fake
 	@mkdir -p ${PKGDIR}
 	@DESTDIR=${WRKINST} PREFIX=${WRKINST}${PREFIX} LDCONFIG=${LDCONFIG:Q} \
