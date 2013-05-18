@@ -1,5 +1,5 @@
 #!/bin/sh
-# $MirOS: contrib/hosted/fwcf/fwcf.sh,v 1.26 2007/03/07 00:23:06 tg Exp $
+# $MirOS: contrib/hosted/fwcf/fwcf.sh,v 1.27 2007/03/08 08:02:46 tg Exp $
 #-
 # Copyright (c) 2006, 2007
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -141,7 +141,8 @@ if test $1 = setup; then
 	cd /etc
 	rm -f .rnd
 	find . -type f | grep -v -e '^./.fwcf' -e '^./.rnd$' | sort | \
-	    xargs md5sum | sed 's!  ./! !' | gzip -9 >/tmp/.fwcf/status.gz
+	    xargs md5sum | sed 's!  ./! !' | \
+	    fwcf.helper -Z - /tmp/.fwcf/status.asz
 	exit 0
 fi
 
@@ -168,7 +169,8 @@ if test $1 = commit; then
 	(cd /etc; tar cf - .) | (cd /tmp/.fwcf/temp; tar xpf -)
 	cd /tmp/.fwcf/temp
 	find . -type f | grep -v -e '^./.fwcf' -e '^./.rnd$' | sort | \
-	    xargs md5sum | sed 's!  ./! !' | gzip -9 >/tmp/.fwcf/status.gz
+	    xargs md5sum | sed 's!  ./! !' | \
+	    fwcf.helper -Z - /tmp/.fwcf/status.asz
 	cd /tmp/.fwcf/root
 	rm -f /tmp/.fwcf/temp/.fwcf_* /tmp/.fwcf/temp/.rnd
 	find . -type f | while read f; do
@@ -219,7 +221,7 @@ if test $1 = status; then
 		    xargs md5sum | sed 's!  ./! !' >$f
 	else
 		f=/tmp/.fwcf/status
-		gzip -d <$f.gz >$f || rm -f $f
+		fwcf.helper -Zd $f.asz $f || rm -f $f
 	fi
 	if ! test -e $f; then
 		echo 'fwcf: error: old status file not found' >&2
@@ -270,7 +272,7 @@ if test $1 = dump; then
 		exit 10
 	fi
 	dd if=/dev/urandom of=seed bs=256 count=1 >/dev/null 2>&1
-	tar -czf "$fn" dump seed
+	tar -cf - dump seed | fwcf.helper -Z - $fn
 	cd /
 	rm -rf /tmp/.fwcf.dump
 	case $fn in
@@ -295,7 +297,7 @@ if test $1 = restore; then
 	rm -rf /tmp/.fwcf.restore
 	mkdir -m 0700 /tmp/.fwcf.restore
 	cd /tmp/.fwcf.restore
-	if ! tar -xzf "$fn"; then
+	if ! fwcf.helper -Zd "$fn" | tar -xf -; then
 		cd /
 		rm -rf /tmp/.fwcf.restore
 		exit 12

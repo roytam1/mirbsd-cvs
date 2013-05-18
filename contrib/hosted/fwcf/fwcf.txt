@@ -175,7 +175,7 @@ A dump of the data currently stored in flash (commit first if you
 have changed anything!) is dumped to the filename argument, or to
 standard output, if none is present.
 
-Note: dumps are a LZO-1X compressed tarball of a 256-byte entropy
+Note: dumps are a LZO1X compressed tarball of a 256-byte entropy
 seed (“seed”) and the contents of the “inner filesystem” in “asz”
 format (“dump”), which is stored as .tar.asz itself. There is no
 version information, and this is by design.
@@ -186,7 +186,7 @@ the algorithm used is determined with the -C option on a build
 system, and at compile time (i.e. the only one compiled in) on
 the target system. That's a compromise relative to using gzip,
 because it makes dumps depend on the compression algorithms in
-use, but it's always LZO-1X in FreeWRT 1.03 and up, and no de-
+use, but it's always LZO1X-1 in FreeWRT 1.03 and up, and no de-
 pendency on a 50+ KiB gzip binary is added; the .tar.asz enco-
 ded dump can be recompressed with the tool on the build system.
 
@@ -392,7 +392,7 @@ The “asz” format is intended for storing small arbitrary 8-bit
 data, and used in the “fwcf dump” and “fwcf restore” formats –
 the dump itself is a raw uncompressed “inner fwcf filesystem”,
 stored as “asz”, and the storage used by the dump/restore com-
-mands is a tarball, compressed with LZO-1X (in the current im-
+mands is a tarball, compressed with lzo1X1 (in the current im-
 plementation), the result stored, again, as “asz”.
 
 It almost looks like the “outer fwcf” format, except the start
@@ -434,4 +434,4 @@ They are provided as hint only and not part of the specifi-
 cation itself. They may change without notice.
 
 ⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼
-$MirOS: contrib/hosted/fwcf/fwcf.txt,v 1.33 2007/03/09 21:10:28 tg Exp $
+$MirOS: contrib/hosted/fwcf/fwcf.txt,v 1.34 2007/03/09 21:34:55 tg Exp $
