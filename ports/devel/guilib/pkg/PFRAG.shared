@@ -1,3 +1,0 @@
-@comment $MirOS$
-@comment $OpenBSD: PFRAG.shared,v 1.2 2002/09/03 04:20:28 mark Exp $
-@lib lib/libGUI.so.0.1

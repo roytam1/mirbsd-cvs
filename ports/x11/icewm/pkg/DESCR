@@ -1,8 +1,0 @@
-A lightweight window manager for the X Window System. Optimized for
-"feel" and speed, not looks. Features multiple workspaces, opaque
-move/resize, task bar, window list, clock, mailbox, CPU, Network,
-APM status.
-
-This is the new, more modular IceWM. Feels a bit more difficult
-to install and handle, and looks different from classic IceWM.
-Also, I miss a lot of icons.

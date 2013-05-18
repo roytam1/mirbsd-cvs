@@ -1,5 +1,0 @@
-# $MirOS$
-#
-echo To install MirOS/sparc, insert the CD-ROM and type the
-echo command 'boot cdrom' at the Sun OpenBOOT prompt.
-echo

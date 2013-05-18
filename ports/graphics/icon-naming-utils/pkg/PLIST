@@ -1,8 +1,0 @@
-@comment $MirOS: ports/graphics/icon-naming-utils/pkg/PLIST,v 1.1 2007/06/21 17:47:11 bsiegert Exp $
-lib/pkgconfig/icon-naming-utils.pc
-libexec/icon-name-mapping
-share/dtds/legacy-icon-mapping.dtd
-share/icon-naming-utils/legacy-icon-mapping.xml
-@dirrm share/icon-naming-utils
-@dirrm share/dtds
-@dirrm lib/pkgconfig
