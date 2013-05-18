@@ -1,4 +1,4 @@
-# $MirOS: ports/misc/hfsplus/Makefile,v 1.6 2006/09/14 00:11:15 tg Exp $
+# $MirOS: ports/misc/hfsplus/Makefile,v 1.7 2008/05/07 22:48:31 tg Exp $
 # $OpenBSD: Makefile,v 1.6 2003/02/15 14:37:19 espie Exp $
 
 # use NO_IGNORE=Yes to build this on OpenBSD with OpenBSD ports framework
@@ -23,7 +23,7 @@ PERMIT_PACKAGE_CDROM=	Yes
 
 BUILD_DEPENDS=	::devel/autoconf/${AUTOCONF_VERSION} \
 		::devel/metaauto \
-		::devel/automake
+		::devel/automake/1.4
 LIB_DEPENDS=	utf8::misc/libutf8
 
 USE_LIBTOOL=	Yes

@@ -1,10 +1,10 @@
-# $MirOS: ports/math/graphviz/Makefile,v 1.4 2006/09/14 00:10:56 tg Exp $
+# $MirOS: ports/math/graphviz/Makefile,v 1.5 2007/03/31 22:02:03 tg Exp $
 # $OpenBSD: Makefile,v 1.10 2004/03/04 01:48:02 naddy Exp $
 
 IGNORE=		"might be broken, used to use Libtool"
 
 CATEGORIES=	math devel graphics
-COMMENT=			graph drawing software
+COMMENT=	graph drawing software
 PKGNAME=	graphviz-1.7.6-0
 DISTFILES=	gviz176.tgz
 DISTNAME=	gv1.7.6
@@ -48,7 +48,7 @@ MODULES+=		graphics/png
 
 BUILD_DEPENDS=	::devel/autoconf/${AUTOCONF_VERSION} \
 		::devel/metaauto \
-		::devel/automake
+		::devel/automake/1.4
 
 post-install:
 	${INSTALL_DATA_DIR} ${PREFIX}/share/doc/graphviz
