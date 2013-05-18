@@ -1,5 +1,5 @@
 #!/bin/mksh
-rcsid='$MirOS$'
+rcsid='$MirOS: contrib/hosted/tg/deb/ca-bundle/debian/ca-bundle.links.in,v 1.1 2011/04/24 17:02:37 tg Exp $'
 #-
 # Run this on Debian/sid to generate a list of symlinks
 # for OpenSSL 1.0.0+ compatibility of hashed directory.
@@ -13,9 +13,11 @@ cd ca-bundle.links.in.tmp
 mksh ../../bsd/ssl.certs.shar || exit 1
 set -A files -- *.*
 
-print -r -- "# $rcsid" >OUT
-print -r -- "# generated on $(TZ=UTC date)" >>OUT
-print -r -- "#-"
+cat >OUT <<EOF
+# generated on $(TZ=UTC date) by
+# $rcsid
+#-
+EOF
 
 for file in "${files[@]}"; do
 	if [[ $file != [0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f].+([0-9]) ]]; then
@@ -29,6 +31,7 @@ for file in "${files[@]}"; do
 		print -ru2 "Invalid hash $file expected $hash0"
 		exit 1
 	fi
+	print -ru2 "Processing $file → $hash1"
 	num=0
 	while [[ -e $hash1.$num ]]; do
 		let num++
