@@ -26,7 +26,7 @@
 #include <string.h>
 #include <unistd.h>
 
-__RCSID("$MirOS: src/share/misc/licence.template,v 1.28 2008/11/14 15:33:44 tg Rel $");
+__RCSID("$MirOS: src/lib/libmbfun/cdblockedread.c,v 1.1 2010/08/14 20:53:06 tg Exp $");
 
 /* returns len if ok, 0 if ok but lseek to ofs+len failed, -1 otherwise */
 ssize_t
@@ -53,7 +53,19 @@ cdblockedread(int fd, void *dst, size_t len, off_t ofs)
 		goto err;
 	if ((res = read(fd, buf, n)) == -1)
 		goto err;
-	if (n != (size_t)res) {
+	if ((size_t)res != n) {
+		/* short read; try again in case this is a short file */
+		if (lseek(fd, ofs, SEEK_SET) == ofs) {
+			if ((res = read(fd, dst, len)) == -1)
+				/* hard error, pass on errno */
+				goto err;
+			if ((size_t)res == len) {
+				/* success, clean up and out */
+				free(buf);
+				return ((ssize_t)len);
+			}
+			/* soft error, short read */
+		} /* else, soft error, lseek failed */
 		errno = EIO;			/* short read */
 		goto err;
 	}
