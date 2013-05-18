@@ -1,5 +1,5 @@
 <!-- PageID: mksh -->
-<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.50 2006/08/18 22:51:07 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.51 2006/09/03 12:51:28 tg Exp $</small>
 
 <h1>mksh(1) R28</h1>
 <p>This is the MirBSD&trade; Korn Shell, a more or less portable
@@ -443,7 +443,8 @@
   <li>DragonFly BSD 1.3-Preview (i386)</li>
   <li>Debian GNU/Linux 3.1-testing 2.6.16-2-686 (i386)</li>
   <li>Debian GNU/Linux 3.1-testing 2.6.17-2-vserver-s390x (s390x)</li>
-  <li>NetBSD ? (mac68k) &ndash; tested by Jonathan "ciruZ" Schleifer</li>
+  <li>Darwin Mac OSX 8.7.0 (powerpc)</li>
+  <li>NetBSD 3.0 (mac68k) &ndash; tested by Jonathan "ciruZ" Schleifer</li>
   <li>FreeWRT GNU/Linux SVN 2.4-BRCM (mipsel) &ndash; part of FreeWRT:
    builds, not tested</li>
  </ul></li>
