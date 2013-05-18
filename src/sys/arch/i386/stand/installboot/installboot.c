@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/stand/installboot/installboot.c,v 1.7 2006/04/06 11:07:31 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/stand/installboot/installboot.c,v 1.8 2006/04/07 22:45:48 tg Exp $ */
 /*	$OpenBSD: installboot.c,v 1.47 2004/07/15 21:44:16 tom Exp $	*/
 /*	$NetBSD: installboot.c,v 1.5 1995/11/17 23:23:50 gwr Exp $ */
 
@@ -84,7 +84,7 @@
 #include <unistd.h>
 #include <util.h>
 
-__RCSID("$MirOS: src/sys/arch/i386/stand/installboot/installboot.c,v 1.7 2006/04/06 11:07:31 tg Exp $");
+__RCSID("$MirOS: src/sys/arch/i386/stand/installboot/installboot.c,v 1.8 2006/04/07 22:45:48 tg Exp $");
 
 extern	char *__progname;
 int	verbose, nowrite, nheads, nsectors, userspec = 0;
@@ -119,11 +119,8 @@ char		*loadprotoblocks(char *, long *);
 int		loadblocknums(char *, int, struct disklabel *);
 static void	devread(int, void *, daddr_t, size_t, char *);
 static void	usage(void);
-static int	record_block(u_int8_t *, daddr_t, u_int, struct disklabel *);
-
-static int record_block(u_int8_t *bt, daddr_t blk, u_int bs,
-	struct disklabel *dl);
-static int do_record(u_int8_t *bt, daddr_t blk, u_int bs);
+static int	record_block(u_int8_t *, daddr_t, u_int);
+static int	do_record(u_int8_t *, daddr_t, u_int);
 
 
 static void
@@ -619,7 +616,7 @@ loadblocknums(char *boot, int devfd, struct disklabel *dl)
 	bt = block_table_p;
 	for (i = 0; i < NDADDR && *ap && ndb; i++, ap++, ndb--)
 		bt += record_block(bt, pl->p_offset + fsbtodb(fs, *ap),
-					    fs->fs_bsize / 512, dl);
+					    fs->fs_bsize / 512);
 	if (ndb != 0) {
 
 		/*
@@ -632,10 +629,10 @@ loadblocknums(char *boot, int devfd, struct disklabel *dl)
 		ap = (daddr_t *)buf;
 		for (; i < NINDIR(fs) && *ap && ndb; i++, ap++, ndb--)
 			bt += record_block(bt, pl->p_offset + fsbtodb(fs, *ap),
-					   fs->fs_bsize / 512, dl);
+					   fs->fs_bsize / 512);
 	}
 
-	bt += record_block(bt, 0, 0, dl);
+	bt += record_block(bt, 0, 0);
 
 	if (bt > (block_table_p + maxblocklen))
 		errx(1, "Too many blocks");
@@ -648,7 +645,7 @@ loadblocknums(char *boot, int devfd, struct disklabel *dl)
 }
 
 static int
-record_block(u_int8_t *bt, daddr_t blk, u_int bs, struct disklabel *dl)
+record_block(u_int8_t *bt, daddr_t blk, u_int bs)
 {
 	static u_int W_num = 0;
 	static daddr_t W_ofs = 0;
