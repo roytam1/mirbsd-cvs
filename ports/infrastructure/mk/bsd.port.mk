@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.175 2007/05/07 22:51:06 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.176 2007/05/12 23:12:28 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -1196,22 +1196,26 @@ _upgrade-${_i}:
 .  endfor
 .endif
 
-MODSIMPLE_configure= \
-	cd ${WRKCONF} && ${_SYSTRACE_CMD} ${_real_simple_configure_call}
-_real_simple_configure_call= \
-	${SETENV} REALOS=${OStype:Q} \
-	    ac_cv_path_CC=${CC:Q} LDFLAGS=${LDFLAGS:Q} MKSH=${MKSH:Q} \
-	    ac_cv_path_CXX=${CXX:Q} CPPFLAGS=${CPPFLAGS:Q} \
-	    CC=${CC:Q} CFLAGS="$$(print -nr -- '${CFLAGS}' | \
-		sed -e 's${CPPFLAGS:S\\\\\\g}g' -e 's/[ 	]*$$//')" \
-	    CXX=${CXX:Q} CXXFLAGS="$$(print -nr -- '${CXXFLAGS}' | \
-		sed -e 's${CPPFLAGS:S\\\\\\g}g' -e 's/[ 	]*$$//')" \
-	    INSTALL="/usr/bin/install -c -o ${BINOWN} -g ${BINGRP}" \
-	    ac_given_INSTALL="/usr/bin/install -c -o ${BINOWN} -g ${BINGRP}" \
-	    INSTALL_PROGRAM=${INSTALL_PROGRAM:Q} YACC=${YACC:Q} \
-	    INSTALL_MAN=${INSTALL_MAN:Q} INSTALL_DATA=${INSTALL_DATA:Q} \
-	    INSTALL_SCRIPT=${INSTALL_SCRIPT:Q} LD=${LD:Q} GCC_NO_WERROR=1 \
-	    ${CONFIGURE_ENV} ${SH} ${_CONFIGURE_SCRIPT} ${CONFIGURE_ARGS}
+MODSIMPLE_configure=	cd ${WRKCONF} && \
+			    ${_SYSTRACE_CMD} ${SETENV} \
+			    ${MODSIMPLE_configure_env} \
+			    ${SH} ${_CONFIGURE_SCRIPT} ${CONFIGURE_ARGS}
+
+MODSIMPLE_configure_env=REALOS=${OStype:Q} MKSH=${MKSH:Q} \
+			ac_cv_path_CC=${CC:Q} ac_cv_path_CXX=${CXX:Q} \
+			CC=${CC:Q} CFLAGS="$$(print -nr -- '${CFLAGS}' | \
+			    sed -e 's${CPPFLAGS:S\\\\\\g}g' \
+			    -e 's/[ 	]*$$//')" \
+			CXX=${CXX:Q} CXXFLAGS="$$(print -nr -- '${CXXFLAGS}' | \
+			    sed -e 's${CPPFLAGS:S\\\\\\g}g' \
+			    -e 's/[ 	]*$$//')" \
+			LD=${LD:Q} LDFLAGS=${LDFLAGS:Q} CPPFLAGS=${CPPFLAGS:Q} \
+			INSTALL='/usr/bin/install -c -o ${BINOWN} -g ${BINGRP}' \
+			ac_given_INSTALL='/usr/bin/install -c -o ${BINOWN} \
+			    -g ${BINGRP}' INSTALL_SCRIPT=${INSTALL_SCRIPT:Q} \
+			INSTALL_PROGRAM=${INSTALL_PROGRAM:Q} YACC=${YACC:Q} \
+			INSTALL_MAN=${INSTALL_MAN:Q} GCC_NO_WERROR=1 \
+			INSTALL_DATA=${INSTALL_DATA:Q} ${CONFIGURE_ENV}
 
 _FAKE_SETUP=		TRUEPREFIX=${PREFIX:Q} PREFIX=${WRKINST:Q}${PREFIX:Q} \
 			${DESTDIRNAME}=${WRKINST:Q}
