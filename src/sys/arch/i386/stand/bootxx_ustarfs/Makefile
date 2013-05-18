@@ -1,6 +1,6 @@
-# $MirOS: src/sys/arch/i386/stand/bootxx/Makefile,v 1.16 2009/06/29 20:50:59 tg Exp $
+# $MirOS: src/sys/arch/i386/stand/bootxx_ustarfs/Makefile,v 1.2 2010/01/10 02:02:51 tg Exp $
 
-PROG=		bootxx_ustarfs
+PROG=		bootxx.tar
 SRCS+=		bootxx.S
 NOMAN=		Yes
 INSTALL_STRIP=	# empty
