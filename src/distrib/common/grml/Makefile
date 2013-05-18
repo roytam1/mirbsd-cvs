@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/grml/Makefile,v 1.3 2009/06/07 13:13:18 tg Exp $
+# $MirOS: src/distrib/common/grml/Makefile,v 1.4 2009/06/29 16:47:10 tg Exp $
 
 .include <bsd.own.mk>
 
@@ -13,9 +13,15 @@ KERNEL_BUILD=	no
 RAMDISK_PREP=	print 'rootdev 17 0\nquit' | config -ef $@
 
 FLOPPY=		no
-CDROM=		no
+.if exists(${REALOBJDIR}/../../../sys/arch/i386/stand/liveboot/.)
+BOOT=		ldbsd.iso
+DO_LIVEBOOT=	#defined
+.endif
+CDROM=		bsd4grml.iso
 CDROM_OPTS+=	bootimage=i386\;eltorito.loo
 CDROM_OPTS+=	no-emul-boot
+
+CLEANFILES+=	ldbsd.* LICENCE.TXT gpl_srcs.tgz
 
 bsd: ${BSDOBJDIR}/distrib/generic/bsd
 	cp -f $> $@
@@ -30,13 +36,54 @@ gnustuff: .PHONY
 	for dir in ${.CURDIR}/tinyirc ${TOPDIR}/../contrib/gnu/e3; do \
 		(cd $$dir && ${MAKE} obj && ${MAKE} depend && ${MAKE}); \
 	done
+	cd ${TOPDIR}/../share/doc/legal && ${MAKE} grml
+	cp ${REALOBJDIR}/../../../share/doc/legal/grml LICENCE.TXT
+	rm -rf gplsrcs
+	mkdir -p gplsrcs/{e3,tinyirc}
+	cp ${TOPDIR}/../contrib/gnu/e3/{Makefile,README,e3.*} gplsrcs/e3/
+	cp ${TOPDIR}/../contrib/code/Snippets/tinyirc.c gplsrcs/tinyirc/
+	(cd gplsrcs && find * -type f | sort | cpio -oC512 -Hustar -Mdist | \
+	    gzip -n9) >gpl_srcs.tgz
+
+cleandir: clean_gplsrcs
+
+clean_gplsrcs:
+	-rm -rf gplsrcs
 
 .include "../Makefile"
 
-# for testing this in stand-alone mode
+cdrom-prepare: ldbsd.stamp
+
+ldbsd.stamp:
+.ifdef DO_LIVEBOOT
+	cd ${.CURDIR}/../../../sys/arch/i386/stand/liveboot; \
+	    ${MAKE} BSD4GRML=iso cleandir && \
+	    ${MAKE} BSD4GRML=iso depend && \
+	    exec ${MAKE} BSD4GRML=iso NOMAN=Yes
+	cp ${REALOBJDIR}/../../../sys/arch/i386/stand/liveboot/boot ldbsd.iso
+	cd ${.CURDIR}/../../../sys/arch/i386/stand/liveboot; \
+	    ${MAKE} BSD4GRML=Yes cleandir && \
+	    ${MAKE} BSD4GRML=Yes depend && \
+	    exec ${MAKE} BSD4GRML=Yes
+	cp ${REALOBJDIR}/../../../sys/arch/i386/stand/liveboot/boot ldbsd.com
+	cp ${REALOBJDIR}/../../../sys/arch/i386/stand/liveboot/ldbsd.txt .
+	@:>$@
+.else
+	@echo 'need [[ -d ${REALOBJDIR}/../../../sys/arch/i386/stand/liveboot/. ]]'
+	@exit 1
+.endif
 
 cdrom-mdcopy:
 	dd if=/dev/arandom bs=2048 count=1 of=eltorito.loo
+	cd ${WRKDIR} && \
+	    mkdir -p boot/addons/bsd4grml && \
+	    mv v${OSrev}/${MACHINE}/bsd.rd boot/addons/bsd4grml/ && \
+	    rm -rf contrib v${OSrev} 00-README boot.cfg
+	cp ${.CURDIR}/boot.* ${WRKDIR}/boot/addons/bsd4grml/
+	cp LICENCE.TXT gpl_srcs.tgz ldbsd.{com,txt} \
+	    ${WRKDIR}/boot/addons/bsd4grml/
+	ln ${WRKDIR}/b_${MACHINE}.ldr ${WRKDIR}/boot/addons/bsd4grml/ldbsd.iso
+	chmod 0644 ${WRKDIR}/boot/addons/bsd4grml/*
 
 cdrom-mdboot:
 	getextent_cd9660 -f ${CDROM} b_${MACHINE}.ldr | \
@@ -48,6 +95,3 @@ cdrom-mdboot:
 	    ${MKSH} ${BOOTSH} -B 11 | \
 	    dd of=${CDROM} conv=notrunc bs=2048 seek=$$(getextent_cd9660 \
 	    -f ${CDROM} -b '$$BootImage$$') 2>/dev/null
-
-cdrom-test: .PHONY
-	cd ${.CURDIR} && exec ${MAKE} CDROM=cdrom${OSrev}.iso
