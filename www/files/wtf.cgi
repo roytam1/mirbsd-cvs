@@ -1,5 +1,5 @@
 #!/usr/bin/perl -T
-my $rcsid = '$MirOS: src/share/misc/licence.template,v 1.28 2008/11/14 15:33:44 tg Rel $';
+my $rcsid = '$MirOS: www/files/wtf.cgi,v 1.1 2012/05/15 20:10:10 tg Exp $';
 #-
 # Copyright © 2012
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -96,7 +96,7 @@ if ($query ne "") {
 		    tohtml($query) . "” means…</p>\n";
 	}
 
-	$output .= "<form action=\"https://duckduckgo.com/?kp=-1&#38;kl=wt-wt&#38;kb=t&#38;kh=1&#38;kj=g2&#38;km=l&#38;ka=monospace&#38;ku=1&#38;ko=s&#38;k1=-1&#38;kv=1&#38;t=debian\" method=\"get\">" .
+	$output .= "<form action=\"https://duckduckgo.com/?kp=-1&#38;kl=wt-wt&#38;kb=t&#38;kh=1&#38;kj=g2&#38;km=l&#38;ka=monospace&#38;ku=1&#38;ko=s&#38;k1=-1&#38;kv=1&#38;t=debian\" method=\"post\">" .
 	    "<p><input type=\"hidden\" name=\"q\" value=\"" . $enc .
 	    "\" /><input type=\"submit\" value=\"Search the web for: " .
 	    $enc . "\" /></p></form>\n";
