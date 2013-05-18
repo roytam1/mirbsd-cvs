@@ -1,4 +1,4 @@
-dnl $MirOS: src/gnu/usr.bin/lynx/configure.in,v 1.5 2005/12/19 23:56:59 tg Exp $
+dnl $MirOS: src/gnu/usr.bin/lynx/configure.in,v 1.6 2006/01/31 19:18:15 tg Exp $
 dnl
 dnl Process this file with autoconf to produce a configure script.
 dnl written jan/1997
@@ -690,7 +690,7 @@ CF_ARG_ENABLE(japanese-utf8,
 AC_MSG_RESULT($use_ja_utf8)
 if test $use_ja_utf8 != no ; then
 	AC_DEFINE(EXP_JAPANESEUTF8_SUPPORT)
-	AC_CHECK_LIB(citrus_iconv,libiconv_open,,
+	AC_CHECK_LIB(citrus_iconv,iconv_open,,
 	AC_CHECK_LIB(iconv,libiconv_open)
 	)
 fi
