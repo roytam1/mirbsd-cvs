@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.221 2009/07/27 09:20:40 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.222 2009/07/30 19:57:12 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -4518,6 +4518,7 @@ Tag: news
 Title: Deutſcher, kauf nicht bei Apple!
 Date: 30.07.2009 19:56
 Author: tg@
+Tag: rant
 
 <p>My <a href="https://eurynome.mirbsd.org/debs/debidx.htm">play <tt>*.deb</tt>
  repository</a> no longer carries binaries for <tt>iPhoneOS 2.2</tt>, or any
