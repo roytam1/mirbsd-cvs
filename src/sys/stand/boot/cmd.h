@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/stand/boot/cmd.h,v 1.10 2009/01/14 22:17:04 tg Exp $ */
+/**	$MirOS: src/sys/stand/boot/cmd.h,v 1.11 2009/10/04 16:49:44 tg Exp $ */
 /*	$OpenBSD: cmd.h,v 1.16 2007/06/13 02:17:32 drahn Exp $	*/
 
 /*
@@ -33,7 +33,7 @@
 #define BOOTDEVLEN		64 /* 1024 */
 
 struct cmd_table {
-	const char *cmd_name;
+	char *cmd_name;
 	char cmd_type;
 #define CMDT_CMD 0
 #define CMDT_VAR 1
