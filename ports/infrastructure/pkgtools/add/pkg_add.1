@@ -1,4 +1,4 @@
-.\"	$MirOS: ports/infrastructure/pkgtools/add/pkg_add.1,v 1.4 2005/09/19 18:07:56 tg Exp $
+.\"	$MirOS: ports/infrastructure/pkgtools/add/pkg_add.1,v 1.5 2005/12/16 12:12:52 tg Exp $
 .\"	$OpenBSD: pkg_add.1,v 1.32 2003/07/14 13:38:24 jmc Exp $
 .\"
 .\" FreeBSD install - a package for the installation and maintenance
@@ -18,7 +18,63 @@
 .\"
 .\"     @(#)pkg_add.1
 .\"
-.Dd November 25, 1994
+.\"-
+.\" Try to make GNU groff and AT&T nroff more compatible
+.\" * ` generates ‘ in groff, so use \`
+.\" * ' generates ’ in groff, \' generates ´, so use \*(aq
+.\" * - generates ‐ in groff, \- generates −, fixed in tmac/mdoc/doc-groff
+.\"   thus use - for hyphens and \- for minus signs and option dashes
+.\" * ~ is size-reduced and placed atop in groff, so use \*(TI
+.\" * ^ is size-reduced and placed atop in groff, so use \*(ha
+.\" * \(en does not work in nroff, so use \*(en
+.ie \n(.g \{\
+.	ds aq \(aq
+.	ds TI \(ti
+.	ds ha \(ha
+.	ds en \(en
+.\}
+.el \{\
+.	ds aq '
+.	ds TI ~
+.	ds ha ^
+.	ds en \(em
+.\}
+.\"
+.\" Implement .Dd with the Mdocdate RCS keyword
+.rn Dd xD
+.de Dd
+.ie \\$1$Mdocdate: \{\
+.	xD \\$2 \\$3, \\$4
+.\}
+.el .xD \\$1 \\$2 \\$3 \\$4 \\$5 \\$6 \\$7 \\$8
+..
+.\"
+.\" Implement .Mx (MirBSD)
+.de Mx
+.nr cF \\n(.f
+.nr cZ \\n(.s
+.ds aa \&\f\\n(cF\s\\n(cZ
+.if \\n(aC==0 \{\
+.	ie \\n(.$==0 \&MirOS\\*(aa
+.	el .aV \\$1 \\$2 \\$3 \\$4 \\$5 \\$6 \\$7 \\$8 \\$9
+.\}
+.if \\n(aC>\\n(aP \{\
+.	nr aP \\n(aP+1
+.	ie \\n(C\\n(aP==2 \{\
+.		as b1 \&MirOS\ #\&\\*(A\\n(aP\\*(aa
+.		ie \\n(aC>\\n(aP \{\
+.			nr aP \\n(aP+1
+.			nR
+.		\}
+.		el .aZ
+.	\}
+.	el \{\
+.		as b1 \&MirOS\\*(aa
+.		nR
+.	\}
+.\}
+..
+.Dd $Mdocdate$
 .Dt PKG_ADD 1
 .Os
 .Sh NAME
