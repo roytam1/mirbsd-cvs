@@ -1,5 +1,5 @@
 <!-- PageID: mksh -->
-<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.80 2007/01/18 21:02:33 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.81 2007/01/18 22:09:25 tg Exp $</small>
 
 <h1>mksh(1) R28</h1>
 <p>This is the MirBSD&trade; Korn Shell, a more or less portable
@@ -131,6 +131,22 @@
  <li>fix manpage (.Nm macro) glitch with GNU nroff 1.15</li>
  <li>improve auto-detection of which regression tests are valid</li>
  <li>mention failure to revoke(2) is possibly insecure</li>
+ <li>if MKSH_SMALL, don't include -T support and don't scan
+  for revoke() function</li>
+ <li>new #ifdef MKSH_NEED_MKNOD to embed mknod(1) even if
+  MKSH_SMALL is enabled (<b>XXX</b> to be integrated with Build.sh)</li>
+ <li>do not scan for revoke() on GNU/Linux since it always fails</li>
+ <li>simplify GNU/Linux CPPFLAGS and use them for GNU/HURD and
+  GNU/kFreeBSD (tested on Debian experimental, thanks to the
+  ftbfs.de autobuilder and Michael "azeem" Banck)</li>
+ <li>fix the 'bind' (no args) builtin output</li>
+ <li>new #ifdef MKSH_ASSUME_UTF8 to not check setlocale() and
+  nl_langinfo(CODESET) if we want to always enable the utf-8
+  command line editing mode (<b>XXX</b> integrate with Build.sh)</li>
+ <li>tabcomplete a newline to singlequote+newline+singlequote
+  instead of backslash+newline which is eaten; thanks to
+  Thomas E. "TGEN" Spanjaard for noticing</li>
+ <li>remove shebang line from check.pl which isn't +x anyway</li>
 </ul>
 <p>Upgrading to mksh R28 with these changes is highly recommended:</p><ul>
  <li>For these who build software as root, the regression testsuite
@@ -420,18 +436,11 @@
  <li>MD5 (mksh-R28.cpio.gz) = 1869f79961c365c65116974706a56c67</li>
 </ul>
 
-<p>There is a <a href="http://users.unixforge.de/~tglaser/mksh_28.9.20070118.dsc">Debian
- experimental source package</a> (<b>dget</b>table) of mksh-current as of 2007/01/18,
+<p>There is a <a href="http://users.unixforge.de/~tglaser/mksh_28.9.20070216.dsc">Debian
+ experimental source package</a> (<b>dget</b>table) of mksh-current as of 2007/02/16,
  not GnuPG-signed <em>yet</em> due to hardware issues. (Just in case, cksum is
- 567803576 262 and tiger is 4ac95268c34b3ee4775adc96b17a28330d642ea4275e3bb7.)
+ 2354761071 270 and tiger is 6d17450c9735ec370bf5af0c80a3265175fc71082a14bcb7.)
  The .tar.gz is gzsig(1)d, though.</p>
-
-<p>Find older versions below:</p>
-
-<p>There is a <a href="http://users.unixforge.de/~tglaser/mksh_28.9.20061121.dsc">Debian
- experimental source package</a> (<b>dget</b>table) of mksh-current as of 2006/11/21,
- GnuPG-signed as the Debian guys want. (Just in case, cksum is 2671742341 964
- and tiger is 04d3816011e17ab6ea8e2ba455bacd47503e8008ef944109.)</p>
 
 <h2>Installation</h2>
 <p>If you ever sit in front of an unfriendly operating
