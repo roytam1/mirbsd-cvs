@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.290 2009/10/15 18:16:03 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.291 2009/10/16 18:58:54 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -1013,10 +1013,11 @@ mws_content <<'EOF'
  <li>[tg] Make undef/def MKSH_NOVI into 0/1 MKSH_S_NOVI build flag</li>
  <li>[tg] Get rid of "U getenv" in nm(1) output, we already import environ</li>
  <li>[tg] Simplify $RANDOM handling: reads are now either arc4random(3) (if
-  available: set +o arc4random is no longer possible) or rand(3); writes are
+  available: set +o arc4random is no longer possible) or an LCG; writes are
   arc4random_pushb(3) if available for explicit writes, arc4random_addrandom(3)
-  otherwise, or srand(3); furthermore, RANDOM is now always exported to and
-  imported from (implicit read: no push) the environment</li>
+  otherwise, or another one-at-a-time hash feeding the LCG; furthermore, RANDOM
+  is now always exported to and imported from (implicit read: no push to kernel
+  done) the environment vector on startup and spawning</li>
  <li>[tg] Internal code cleanup, optimisation, moves to different files</li>
  <li>[tg] manpage: document mksh does not exactly use OPTU-8/OPTU-16</li>
  <li>[tg] Fix exit 127 on "mksh /tmp/horsies" ipv of 1 on ENOENT, #548744</li>
@@ -1042,6 +1043,8 @@ mws_content <<'EOF'
   Android NDK, or built with make(1) – BSD make and GNU make have been tested,
   but almost all makes should work if the source and build directories are the
   same or VPATH is supported at least (use of this option is discouraged)</li>
+ <li>[tg] Overhaul and simplify handling of (special) variables</li>
+ <li>[tg] Further reduce memory (code/data) and import footprint</li>
 </ul>
 <p id="r39">mksh R39 evolved into these through various means:</p><ul>
  <li>[tg] Shut up a bogus gcc warning during configuration process</li>
