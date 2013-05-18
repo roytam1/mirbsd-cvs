@@ -1,4 +1,4 @@
-# $MirOS: src/usr.bin/ssh/ssh_config,v 1.12 2007/09/13 13:52:56 tg Exp $
+# $MirOS: src/usr.bin/ssh/ssh_config,v 1.13 2008/03/10 22:20:36 tg Exp $
 # $OpenBSD: ssh_config,v 1.23 2007/06/08 04:40:40 pvalchev Exp $
 
 # This is the ssh client system-wide configuration file.  See
@@ -63,7 +63,7 @@
 # Use a dual config like this for session multiplexing
 # in your ~/.etc/ssh/config file:
 
-# Host targets
+# Host target
 #   Hostname target.domain
 #   User me
 #   ControlMaster auto
