@@ -1,3 +1,0 @@
-@comment $MirOS$
-@comment hand-crafted, no @lib please
-lib/libgiconv.so.2.2

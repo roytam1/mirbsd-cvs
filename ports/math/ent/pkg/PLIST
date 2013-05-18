@@ -1,5 +1,0 @@
-@comment $MirOS$
-bin/ent
-share/doc/ent/ent.html
-share/doc/ent/entitle.gif
-@dirrm share/doc/ent
