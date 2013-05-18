@@ -1,4 +1,4 @@
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.113 2008/05/10 03:16:10 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.114 2008/05/11 14:47:07 tg Exp $'
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -937,7 +937,9 @@ mws_content <<'EOF'
   environment variables ourselves – brings UTF-8 support to poor OSes</li>
  <li>Remove some now-dead code; speed up configuration process; shrink</li>
  <li>Default to no setlocale(3) due to stubbed or missing locale support
-  on OpenBSD, GNU/Cygwin in <tt>Build.sh</tt></li>
+  on OpenBSD, GNU/Cygwin in <tt>Build.sh</tt>; a few more that are quite
+  unlikely to have a UTF-8 locale: BSD/OS, Interix, Minix, PW32, Ultrix,
+  AT&amp;T UWIN; default to always UTF-8 on Plan 9 (XXX check these)</li>
  <li>Fix for testsuite unexpected failure if running as root in one case</li>
 </ul>
 <p id="r33d">mksh R33d is a quick security-update with these changes:</p><ul>
