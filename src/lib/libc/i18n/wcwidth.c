@@ -1,8 +1,4 @@
-/* $MirOS: src/lib/libc/i18n/wcwidth.c,v 1.6 2007/02/02 21:06:23 tg Exp $ */
-/* $XTermId: wcwidth.c,v 1.21 2007/06/13 00:14:29 tom Exp $ */
-/* $XFree86: xc/programs/xterm/wcwidth.c,v 1.9 2006/06/19 00:36:52 dickey Exp $ */
-
-/*
+/*-
  * Adapted for MirBSD libc
  *
  * This work is provided "AS IS" and WITHOUT WARRANTY of any kind, to
@@ -19,8 +15,8 @@
 #error This code assumes that wchar_t is UCS
 #endif
 
-/*
- * Markus Kuhn -- 2007-05-25 (Unicode 5.0)
+/*-
+ * Markus Kuhn -- 2007-05-26 (Unicode 5.0)
  *
  * Permission to use, copy, modify, and distribute this software
  * for any purpose and without fee is hereby granted. The author
@@ -29,7 +25,7 @@
 
 #include <wchar.h>
 
-__RCSID("$MirOS: src/lib/libc/i18n/wcwidth.c,v 1.6 2007/02/02 21:06:23 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/i18n/wcwidth.c,v 1.7 2007/07/31 23:52:23 tg Exp $");
 
 struct interval {
 	wchar_t first;
@@ -127,6 +123,7 @@ wcwidth(wchar_t c)
 	    (c >= 0x2e80 && c <= 0xa4cf && c != 0x303f) || /* CJK ... Yi */
 	    (c >= 0xac00 && c <= 0xd7a3) || /* Hangul Syllables */
 	    (c >= 0xf900 && c <= 0xfaff) || /* CJK Compatibility Ideographs */
+	    (c >= 0xfe10 && c <= 0xfe19) || /* Vertical forms */
 	    (c >= 0xfe30 && c <= 0xfe6f) || /* CJK Compatibility Forms */
 	    (c >= 0xff00 && c <= 0xff60) || /* Fullwidth Forms */
 	    (c >= 0xffe0 && c <= 0xffe6))) ? 2 : 1);
