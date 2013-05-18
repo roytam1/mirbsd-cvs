@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: src/distrib/ramdisk/listend.sparc,v 1.1 2006/08/17 13:49:43 tg Exp $
 
 # extra programmes
 LINK	instbin					bin/mt
@@ -11,7 +11,7 @@ SPECIAL	cd dev; ./MAKEDEV ramdisk
 TERMCAP	vt100,vt220,wsvt25,dumb,sun		usr/share/misc/termcap
 
 # install stuff
-SCRIPT	${TOPDIR}/sparc/install.md		install.md
+SCRIPT	${TOPDIR}/common/install.sparc		install.md
 #SCRIPT	${TOPDIR}/miniroot/upgrade.sh		upgrade
 SPECIAL	chmod 755 install.md #upgrade
 

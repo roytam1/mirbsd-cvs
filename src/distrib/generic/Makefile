@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/generic/Makefile,v 1.1 2006/07/03 22:08:06 tg Exp $
+# $MirOS: src/distrib/generic/Makefile,v 1.2 2006/07/03 22:12:00 tg Exp $
 
 .include <bsd.own.mk>
 CFLAGS+=	${CDIAGFLAGS} ${COPTS}
@@ -48,7 +48,7 @@ clean:
 cleannobsd:
 	-rm -rf ${CLEANFILES}
 
-.include "../Makefile.kernel"
+.include "../common/Makefile.kernel"
 .include <bsd.obj.mk>
 .include <bsd.subdir.mk>
 

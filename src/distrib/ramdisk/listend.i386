@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/ramdisk/listend.i386,v 1.2 2006/08/17 13:50:33 tg Exp $
+# $MirOS: src/distrib/ramdisk/listend.i386,v 1.3 2006/08/17 13:53:26 tg Exp $
 
 # extra programmes
 LINK	instbin					sbin/fdisk
@@ -12,7 +12,7 @@ SPECIAL	cd dev; ./MAKEDEV ramdisk
 TERMCAP	vt100,vt220,wsvt25,dumb,wsvtg		usr/share/misc/termcap
 
 # install stuff
-SCRIPT	${TOPDIR}/i386/install.md		install.md
+SCRIPT	${TOPDIR}/common/install.i386		install.md
 #SCRIPT	${TOPDIR}/miniroot/upgrade.sh		upgrade
 SPECIAL	chmod 755 install.md #upgrade
 

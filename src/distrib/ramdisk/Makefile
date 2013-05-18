@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/ramdisk/Makefile,v 1.14 2006/07/26 22:44:41 tg Exp $
+# $MirOS: src/distrib/ramdisk/Makefile,v 1.15 2006/08/17 13:49:42 tg Exp $
 
 .include <bsd.own.mk>
 
@@ -51,7 +51,7 @@ AOUT_BSDRD?=	No
 RAMDISK_PREP?=	@:
 
 .if ${KERNEL_BUILD:L} != "no"
-.  include "${TOPDIR}/Makefile.kernel"
+.  include "${TOPDIR}/common/Makefile.kernel"
 .endif
 
 # floppy (set to no to disable)
