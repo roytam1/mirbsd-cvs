@@ -7,7 +7,7 @@ umask 077
 MYTMP=$TMPDIR/mytmp$$
 mkdir $MYTMP || exit 1
 trap 'cd /; rm -rf $MYTMP' 0 1 2 5 15
-if test $HOME/.etc/lynxrc ; then
+if test -f $HOME/.etc/lynxrc ; then
   cp $HOME/.etc/lynxrc $MYTMP/.etc/lynxrc
 fi
 echo 'keypad_mode=NUMBERS_AS_ARROWS' >>$MYTMP/.etc/lynxrc

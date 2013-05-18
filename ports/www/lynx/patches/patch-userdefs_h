@@ -1,11 +1,11 @@
-$MirOS: ports/www/lynx/patches/patch-userdefs_h,v 1.9 2007/08/03 12:14:24 tg Exp $
+$MirOS: ports/www/lynx/patches/patch-userdefs_h,v 1.10 2008/03/09 18:19:43 tg Exp $
 
 	Upstream (Lynx) should at least enable KANJI_CODE_OVERRIDE by
 	default and incorporate the #ifndef LYNX_VERSION part.
 	Setting PREFERRED_LANGUAGE to "" is a sensible thing to do too.
 
 --- userdefs.h.orig	Sun Feb 17 22:00:35 2008
-+++ userdefs.h	Sun Mar  9 17:50:39 2008
++++ userdefs.h	Wed Dec 17 00:14:05 2008
 @@ -333,7 +333,7 @@
   * use any default viewers for image types.  Note that open is used as
   * the default for NeXT, instead of the XLOADIMAGE_COMMAND definition.
@@ -65,8 +65,9 @@ $MirOS: ports/www/lynx/patches/patch-userdefs_h,v 1.9 2007/08/03 12:14:24 tg Exp
   * the version definition with the Project Version on checkout.  Just
   * ignore it. - kw */
  /* $Format: "#define LYNX_VERSION \"$ProjectVersion$\""$ */
+-#define LYNX_VERSION "2.8.7dev.11"
 +#ifndef LYNX_VERSION
- #define LYNX_VERSION "2.8.7dev.8"
++#define LYNX_VERSION "2.8.7dev.11a"
 +#endif
  #define LYNX_WWW_HOME "http://lynx.isc.org/"
  #define LYNX_WWW_DIST "http://lynx.isc.org/current/"
