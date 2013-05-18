@@ -1,7 +1,8 @@
-/**	$MirOS: src/sys/stand/boot/cmd.c,v 1.12 2009/01/01 23:27:46 tg Exp $	*/
+/**	$MirOS: src/sys/stand/boot/cmd.c,v 1.13 2009/01/10 14:02:41 tg Exp $	*/
 /*	$OpenBSD: cmd.c,v 1.59 2007/04/27 10:08:34 tom Exp $	*/
 
 /*
+ * Copyright (c) 2008-2009 Thorsten Glaser
  * Copyright (c) 1997-1999 Michael Shalayeff
  * All rights reserved.
  *
@@ -569,8 +570,8 @@ Xreboot(void)
 static int
 Xcat(void)
 {
-	int fd, rc = 0;
-	char abuf[80];
+	int fd, rc = 0, i, nlin = 0;
+	char abuf[80], *cp;
 
 	if (!cmd.argv[1])
 		return (0);
@@ -581,8 +582,23 @@ Xcat(void)
 
 	while ((rc = read(fd, abuf, 79)) > 0) {
 		abuf[rc] = 0;
-		printf("%s", abuf);
+		cp = abuf;
+		for (i = 0; i < rc; ++i) {
+			if (abuf[i] != '\n')
+				continue;
+			if (++nlin < 23)
+				continue;
+			abuf[i] = 0;
+			printf("%s\n-- more --", cp);
+			if (getchar() | 0x20 == 'q')
+				goto out;
+			putchar('\n');
+			cp = abuf + i + 1;
+			nlin = 0;
+		}
+		printf("%s", cp);
 	}
+ out:
 	putchar('\n');
 
 	close(fd);
