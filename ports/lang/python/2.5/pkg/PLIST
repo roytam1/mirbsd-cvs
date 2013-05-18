@@ -1,4 +1,4 @@
-@comment $MirOS: ports/lang/python/2.5/pkg/PLIST,v 1.9 2008/08/12 12:00:01 tg Exp $
+@comment $MirOS: ports/lang/python/2.5/pkg/PLIST,v 1.10 2008/10/05 00:21:32 tg Exp $
 @option no-default-conflict
 @pkgcfl python-2.5*
 bin/pydoc${VERSION}
@@ -1757,7 +1757,7 @@ lib/python${VERSION}/inspect.pyo
 lib/python${VERSION}/keyword.py
 lib/python${VERSION}/keyword.pyc
 lib/python${VERSION}/keyword.pyo
-lib/python${VERSION}/lib-dynload/Python-${VERSION}.2-py${VERSION}.egg-info
+lib/python${VERSION}/lib-dynload/Python-${VERSION}${PATCHLEVEL}-py${VERSION}.egg-info
 lib/python${VERSION}/lib-dynload/_bisect.so
 lib/python${VERSION}/lib-dynload/_codecs_cn.so
 lib/python${VERSION}/lib-dynload/_codecs_hk.so
@@ -1786,7 +1786,6 @@ lib/python${VERSION}/lib-dynload/_sqlite3.so
 lib/python${VERSION}/lib-dynload/_ssl.so
 lib/python${VERSION}/lib-dynload/_struct.so
 lib/python${VERSION}/lib-dynload/_testcapi.so
-@comment lib/python${VERSION}/lib-dynload/_tkinter.so
 lib/python${VERSION}/lib-dynload/_weakref.so
 lib/python${VERSION}/lib-dynload/array.so
 lib/python${VERSION}/lib-dynload/audioop.so
@@ -2383,7 +2382,6 @@ lib/python${VERSION}/test/output/test_profile
 lib/python${VERSION}/test/output/test_pty
 lib/python${VERSION}/test/output/test_pyexpat
 lib/python${VERSION}/test/output/test_regex
-lib/python${VERSION}/test/output/test_resource
 lib/python${VERSION}/test/output/test_rgbimg
 lib/python${VERSION}/test/output/test_scope
 lib/python${VERSION}/test/output/test_signal

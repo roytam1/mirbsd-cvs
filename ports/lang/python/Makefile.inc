@@ -1,4 +1,4 @@
-# $MirOS: ports/lang/python/Makefile.inc,v 1.19 2008/11/08 23:03:46 tg Exp $
+# $MirOS: ports/lang/python/Makefile.inc,v 1.20 2009/03/02 17:45:54 bsiegert Exp $
 # $OpenBSD: Makefile.inc,v 1.32 2005/06/06 20:47:04 alek Exp $
 
 .include <mirports.sys.mk>
@@ -30,14 +30,16 @@ LIB_DEPENDS+=		bz2::archivers/bzip2
 
 # Python wants GNU libreadline so badly.
 MODULES+=		devel/libreadline
-CPPFLAGS+=		-I${WRKDIR}/include	# XXX hack, see below
+CPPFLAGS+=		-I${WRKDIR:Q}/include	# XXX hack, see below
 
 CONFIGURE_STYLE=	autoconf
 AUTOCONF_NEW=		Yes
 CONFIGURE_ARGS+=	${CONFIGURE_SHARED}
 # --srcdir is needed for systrace to work correctly
-CONFIGURE_ARGS+=	--with-fpectl --with-threads --srcdir=${WRKSRC}
+CONFIGURE_ARGS+=	--with-fpectl --with-threads --srcdir=${WRKSRC:Q}
+.if ${OStype} != "Interix"
 CONFIGURE_ARGS+=	--enable-ipv6
+.endif
 
 # THREAD_STACK_SIZE value might be changed by particular python release
 THREAD_STACK_SIZE?=	0x20000		# increase this for zope
@@ -67,7 +69,7 @@ SED_PLIST+=	| sed -e '/^IFNIS:/s///'
 _MD_SYSTEM!=	uname -s | tr -d '[/ ]' | tr '[[A-Z]]' '[[a-z]]'
 _MD_RELEASE!=	uname -r | tr -d '[/ ]' | sed 's/^[[A-Z]]\.//' | sed 's/\..*//'
 MACHDEP=	${_MD_SYSTEM}${_MD_RELEASE}
-SUBST_VARS+=	MACHDEP
+SUBST_VARS+=	MACHDEP PATCHLEVEL
 
 post-extract:
 	mkdir -p ${WRKDIR}/include

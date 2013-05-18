@@ -1,7 +1,7 @@
-$MirOS: ports/lang/python/2.5/patches/patch-setup_py,v 1.1 2008/07/15 19:18:54 bsiegert Exp $
+$MirOS: ports/lang/python/2.5/patches/patch-setup_py,v 1.2 2008/12/06 16:03:08 tg Exp $
 $OpenBSD: patch-setup_py,v 1.1.1.1 2003/12/31 17:38:33 sturm Exp $
---- setup.py.orig	Mon Feb  4 23:41:02 2008
-+++ setup.py	Sat Dec  6 15:51:11 2008
+--- setup.py.orig	Thu Oct 16 18:57:56 2008
++++ setup.py	Sat May 30 19:02:27 2009
 @@ -243,10 +243,6 @@ class PyBuildExt(build_ext):
          return sys.platform
  
@@ -13,7 +13,7 @@ $OpenBSD: patch-setup_py,v 1.1.1.1 2003/12/31 17:38:33 sturm Exp $
          # Add paths specified in the environment variables LDFLAGS and
          # CPPFLAGS for header and library files.
          # We must get the values from the Makefile and not the environment
-@@ -600,159 +596,10 @@ class PyBuildExt(build_ext):
+@@ -601,160 +597,11 @@ class PyBuildExt(build_ext):
          # implementation independent wrapper for these; dumbdbm.py provides
          # similar functionality (but slower of course) implemented in Python.
  
@@ -24,7 +24,11 @@ $OpenBSD: patch-setup_py,v 1.1.1.1 2003/12/31 17:38:33 sturm Exp $
 -        # are set below.  Visit the URL above to download
 -        # a release.  Most open source OSes come with one or more
 -        # versions of BerkeleyDB already installed.
--
++        # Disable DB3/DB4 so that DB1.85 is built (MirPorts)
++        db_incs = None
++        dblibs = []
++        dblib_dir = None
+ 
 -        max_db_ver = (4, 5)
 -        # NOTE: while the _bsddb.c code links against BerkeleyDB 4.6.x
 -        # we leave that version disabled by default as it has proven to be
@@ -170,14 +174,11 @@ $OpenBSD: patch-setup_py,v 1.1.1.1 2003/12/31 17:38:33 sturm Exp $
 -            db_incs = None
 -            dblibs = []
 -            dblib_dir = None
-+        # Disable DB3/DB4 so that DB1.85 is built (MirPorts)
-+        db_incs = None
-+        dblibs = []
-+        dblib_dir = None
- 
+-
          # The sqlite interface
          sqlite_setup_debug = False # verbose debug prints from this script?
-@@ -763,9 +610,6 @@ class PyBuildExt(build_ext):
+ 
+@@ -764,9 +611,6 @@ class PyBuildExt(build_ext):
          sqlite_inc_paths = [ '/usr/include',
                               '/usr/include/sqlite',
                               '/usr/include/sqlite3',
@@ -187,7 +188,7 @@ $OpenBSD: patch-setup_py,v 1.1.1.1 2003/12/31 17:38:33 sturm Exp $
                             ]
          MIN_SQLITE_VERSION_NUMBER = (3, 0, 8)
          MIN_SQLITE_VERSION = ".".join([str(x)
-@@ -911,7 +755,7 @@ class PyBuildExt(build_ext):
+@@ -912,7 +756,7 @@ class PyBuildExt(build_ext):
                  exts.append( Extension('resource', ['resource.c']) )
  
              # Sun yellow pages. Some systems have the functions in libc.
@@ -196,7 +197,7 @@ $OpenBSD: patch-setup_py,v 1.1.1.1 2003/12/31 17:38:33 sturm Exp $
                  if (self.compiler.find_library_file(lib_dirs, 'nsl')):
                      libs = ['nsl']
                  else:
-@@ -1535,8 +1379,7 @@ def main():
+@@ -1536,8 +1380,7 @@ def main():
            ext_modules=[Extension('_struct', ['_struct.c'])],
  
            # Scripts to install

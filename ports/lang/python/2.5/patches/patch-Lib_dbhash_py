@@ -1,0 +1,20 @@
+$MirOS$
+--- Lib/dbhash.py.orig	Mon May  5 14:16:19 2003
++++ Lib/dbhash.py	Sat May 30 19:08:10 2009
+@@ -4,9 +4,13 @@ import sys
+ try:
+     import bsddb
+ except ImportError:
+-    # prevent a second import of this module from spuriously succeeding
+-    del sys.modules[__name__]
+-    raise
++    try:
++        # $Id$
++        import bsddb185 as bsddb
++    except ImportError:
++        # prevent a second import of this module from spuriously succeeding
++        del sys.modules[__name__]
++        raise
+ 
+ __all__ = ["error","open"]
+ 
