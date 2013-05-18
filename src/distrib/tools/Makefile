@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/tools/Makefile,v 1.9 2007/10/02 00:48:12 tg Exp $
+# $MirOS: src/distrib/tools/Makefile,v 1.10 2007/10/02 18:34:47 tg Exp $
 
 all: sundsklbl
 
@@ -64,10 +64,8 @@ makebootcd_i386: .PHONY
 	done) ${DSTTOPDIR}/i386/bootxx ${CDROM}
 
 makebootcd_sparc: .PHONY
-	/usr/mdec/installboot -v $$(fgrep \
-	    b_sparc.ldr mkisofs.log | \
-	    while read start end rest; do \
-		print -- -s $$start -e $$end; \
-	done) dummy ${DSTTOPDIR}/sparc/bootxx ${CDROM}
+	fgrep b_sparc.ldr mkisofs.log | \
+	    ${MKSH} ${BSDSRCDIR}/usr.sbin/installboot/bxinst.sparc | \
+	    dd of=${CDROM} bs=512 seek=1 conv=notrunc
 
 .include <bsd.obj.mk>
