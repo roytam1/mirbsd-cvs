@@ -2,7 +2,7 @@
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.196 2008/12/29 21:34:17 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.197 2008/12/30 20:16:10 tg Exp $'
 mws_content <<'EOF'
 <h1>mksh(1) R36b</h1>
 <p>This is the website of the MirBSD™ Korn Shell, an actively developed free
@@ -1042,7 +1042,7 @@ mws_content <<'EOF'
   needed for arc4random_uniform(3)-in-korn-shell implementation</li>
  <li>[tg] Really preserve LD_LIBRARY_PATH in <tt>check.pl</tt></li>
  <li>[tg] New <tt>Build.sh</tt> option ‘-combine’ for building mksh(1) at
-  once with “-fwhole-program --combine” (gcc4, llvm-gcc4)</li>
+  once with “-fwhole-program --combine” (gcc4, llvm-gcc4) if available</li>
  <li>[tg] Always set <tt>COLUMNS</tt> and <tt>LINES</tt> trying as hard
   as we can, using <tt>TIOCGWINSZ</tt> even if used without FTALKING,
   and with the sane 80x24 default if the ioctl(2) fails</li>
