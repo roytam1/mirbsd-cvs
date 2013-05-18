@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/dot.profile,v 1.12 2007/05/23 19:58:03 tg Exp $
+# $MirOS: src/distrib/common/dot.profile,v 1.14 2007/05/24 20:32:19 tg Exp $
 # $OpenBSD: dot.profile,v 1.4 2002/09/13 21:38:47 deraadt Exp $
 # $NetBSD: dot.profile,v 1.1 1995/12/18 22:54:43 pk Exp $
 #
@@ -52,7 +52,7 @@ sshd() {
 	fi
 }
 
-export PATH=/sbin:/bin:/usr/bin:/usr/sbin:/
+export PATH=/sbin:/bin:/usr/bin:/usr/sbin:/ PS1='$PWD # '
 umask 022
 
 if [[ -z $NEED_UNICODE ]]; then
@@ -64,11 +64,10 @@ if [[ -z $NEED_UNICODE ]]; then
 fi
 unset NEED_UNICODE
 
-alias ls='/bin/ls -F'
-alias la='ls -a '
-alias l=la
-alias ll='l -l '
-alias lo='ll -o '
+alias l='/bin/ls -F'
+alias la='l -a'
+alias ll='l -l'
+alias lo='la -lo'
 
 rootdisk=$(sysctl -n kern.root_device)
 rootdisk=/dev/${rootdisk:-rd0a}
@@ -112,10 +111,10 @@ This work is provided "AS IS" and WITHOUT WARRANTY of any kind.\n'
 	fi
 
 	# don't run this twice
-	echo -n >/.profile.done
+	print -n >/.profile.done
 
-	# spawn a second shell if desired
-	[[ -e /dev/ttyC1 ]] && mksh -lT1 >/dev/null 2>&1
+	# try to spawn a second shell
+	mksh -lT1 >/dev/null 2>&1
 
 	# Installing or upgrading?
 	_forceloop=
@@ -136,6 +135,6 @@ This work is provided "AS IS" and WITHOUT WARRANTY of any kind.\n'
 	done
 fi
 export TERM=vt220
-echo -n \\nAvailable editor: ed
-[ -s /ed.hlp ] && echo -n ' - help with # less /ed.hlp'
-echo \\n
+print -n '\nAvailable editor: ed'
+[ -s /ed.hlp ] && print -n ' - help with # less /ed.hlp'
+print; print
