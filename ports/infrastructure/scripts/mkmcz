@@ -1,5 +1,5 @@
 #!/usr/bin/env mksh
-# $MirOS: ports/infrastructure/scripts/mkmcz,v 1.13 2008/11/01 22:57:23 tg Exp $
+# $MirOS: ports/infrastructure/scripts/mkmcz,v 1.14 2008/11/01 23:00:55 tg Exp $
 #-
 # Copyright (c) 2005, 2006, 2008
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -39,13 +39,13 @@ CVSARGS="-qd $repo co -PA"
 [[ $CVS = cvs && $repo != :* ]] && export CVSREADONLYFS=1
 
 if [[ $CVS = svn ]]; then
-	CVSARGS="co --non-interactive -q $repo"
 	if [[ -n $4 ]]; then
 		tag=$4
 	else
 		tag=${repo##*/}
 	fi
 	[[ -n $3 ]] && repo=$repo@$3
+	CVSARGS="co --non-interactive -q $repo"
 elif [[ -n $3 && -n $4 ]]; then
 	tag="-r$4:$3"
 elif [[ -z $3 ]]; then
