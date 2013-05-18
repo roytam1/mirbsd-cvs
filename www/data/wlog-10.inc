@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.165 2009/02/24 20:43:26 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.166 2009/02/24 20:57:24 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -3442,4 +3442,27 @@ Title: Compiling for MirBSD™ on Debian
  compile OpenJDK?</p>
 <p>Dr. Pfeffer (happy birthday btw) thinks it’s cool. Comrad is also
  interested.</p>
+----
+Author: tg@
+Date: 02.03.2009 18:00
+Title: getting closer, slowly
+
+<p>We’re slowly getting closer to spring! It was about 12°C even in
+ the late afternoon of the weekend, and I took out my bike on Sunday
+ (helped a friend with cleaning up after moving on Saturday). Sadly,
+ three DNFs (one search aborted due to the law enforcement approaching,
+ one not even attempted due to too many muggles – although I already
+ had logged another cache with almost the same name in exactly the same
+ location –, and the third one not done because a certain institution’s
+ garden has different opening times during winter period and I didn’t
+ quite want to risk using the fire fighters’ entrance, like some other
+ logger. Not even for a coin.</p>
+<p>Anyway, the tpm driver bugs me a little (it’s possible to hang it
+ from user space), and I can’t make <tt>-fwrapv</tt> default because
+ <tt>-ftrapv</tt> wouldn’t disable it then. Unless I look more into
+ gcc’s source again. But I hereby <strong>officially announce</strong>
+ that code on MirBSD® can assume wrapping semantics and 8/16/32/64 bit
+ wide integral types, big or little endian. No 9 bit bytes, 36 bit PDP
+ endian integers, saturation arithmetics. Ever. It’s a promise.</p>
+<p>More… some other time. Still wish humans would hibernate too…</p>
 ----
