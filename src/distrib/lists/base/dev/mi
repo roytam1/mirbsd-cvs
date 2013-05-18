@@ -776,6 +776,7 @@
 ./usr/include/machine
 ./usr/include/malloc.h
 ./usr/include/math.h
+./usr/include/mbfun.h
 ./usr/include/md4.h
 ./usr/include/md5.h
 ./usr/include/memory.h
@@ -1378,6 +1379,8 @@
 ./usr/lib/libkvm.a
 ./usr/lib/libl.a
 ./usr/lib/libm.a
+./usr/lib/libmbfun.a
+./usr/lib/libmbfun_pic.a
 ./usr/lib/libmdsup.a
 ./usr/lib/libmdsup_pic.a
 ./usr/lib/libmenu.a

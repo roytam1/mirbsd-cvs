@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/bsd.own.mk,v 1.60 2009/03/29 13:04:21 tg Exp $
+# $MirOS: src/share/mk/bsd.own.mk,v 1.61 2010/01/06 19:07:38 tg Exp $
 # $OpenBSD: bsd.own.mk,v 1.92 2005/01/18 00:28:42 mickey Exp $
 # $NetBSD: bsd.own.mk,v 1.24 1996/04/13 02:08:09 thorpej Exp $
 
@@ -184,6 +184,7 @@ LIBKEYNOTE?=	${DESTDIR}/usr/lib/libkeynote.a
 LIBKVM?=	${DESTDIR}/usr/lib/libkvm.a
 LIBL?=		${DESTDIR}/usr/lib/libl.a
 LIBM?=		${DESTDIR}/usr/lib/libm.a
+LIBMBFUN?=	${DESTDIR}/usr/lib/libmbfun.a
 LIBMDSUP?=	${DESTDIR}/usr/lib/libmdsup.a
 LIBMENU?=	${DESTDIR}/usr/lib/libmenu.a
 LIBMILTER?=	${DESTDIR}/usr/lib/libmilter.a

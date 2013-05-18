@@ -1,4 +1,4 @@
-# $MirOS: src/include/Makefile,v 1.23 2008/09/06 22:32:00 tg Exp $
+# $MirOS: src/include/Makefile,v 1.24 2008/12/06 18:21:52 tg Exp $
 # $OpenBSD: Makefile,v 1.135 2005/07/10 06:53:44 grange Exp $
 # $NetBSD: Makefile,v 1.59 1996/05/15 21:36:43 jtc Exp $
 # @(#)Makefile	5.45.1.1 (Berkeley) 5/6/91
@@ -32,11 +32,12 @@ LDIRS=	altq crypto ddb dev isofs miscfs net netatalk netinet netinet6 \
 
 # Directories with an includes target
 RDIRS=	../lib/libcompat ../lib/libedit ../lib/libevent ../lib/libexpat \
-	../lib/libform ../lib/libkeynote ../lib/libmenu ../lib/libncurses \
-	../lib/libocurses ../lib/libossaudio ../lib/libpanel ../lib/libpcap \
-	../lib/libpng ../lib/libpthread ../lib/librpcsvc ../lib/libsectok \
-	../lib/libskey ../lib/libssl ../lib/libusbhid ../lib/libutil \
-	../lib/libz ../kern/include ../usr.bin/lex ../gnu/usr.sbin/sendmail
+	../lib/libform ../lib/libkeynote ../lib/libmbfun ../lib/libmenu \
+	../lib/libncurses ../lib/libocurses ../lib/libossaudio \
+	../lib/libpanel ../lib/libpcap ../lib/libpng ../lib/libpthread \
+	../lib/librpcsvc ../lib/libsectok ../lib/libskey ../lib/libssl \
+	../lib/libusbhid ../lib/libutil ../lib/libz ../kern/include \
+	../usr.bin/lex ../gnu/usr.sbin/sendmail
 
 # Places using Makefile that needs a prerequisite target met before includes
 PRDIRS=	../lib/libncurses ../lib/librpcsvc ../lib/libssl/crypto

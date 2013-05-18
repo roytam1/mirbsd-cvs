@@ -1,12 +1,12 @@
-# $MirOS: src/sbin/disklabel/Makefile,v 1.8 2006/09/22 15:44:31 tg Exp $
+# $MirOS: src/sbin/disklabel/Makefile,v 1.9 2007/09/18 20:31:56 tg Exp $
 # $OpenBSD: Makefile,v 1.38 2005/04/01 16:00:09 deraadt Exp $
 
 .include <bsd.own.mk>
 
 PROG=		disklabel
 SRCS=		disklabel.c dkcksum.c editor.c manpage.S
-DPADD+=		${LIBUTIL}
-LDADD+=		-lutil
+DPADD+=		${LIBMBFUN} ${LIBUTIL}
+LDADD+=		-lmbfun -lutil
 MAN=		disklabel.8 disklabel.5
 COPTS+=		-Wall
 

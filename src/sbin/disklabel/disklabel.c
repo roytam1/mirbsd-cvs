@@ -1,4 +1,4 @@
-/**	$MirOS: src/sbin/disklabel/disklabel.c,v 1.6 2008/11/08 23:03:58 tg Exp $ */
+/**	$MirOS: src/sbin/disklabel/disklabel.c,v 1.7 2010/08/14 19:43:56 tg Exp $ */
 /*	$OpenBSD: disklabel.c,v 1.95 2005/04/30 07:09:37 deraadt Exp $	*/
 
 /*
@@ -49,6 +49,7 @@
 #include <errno.h>
 #include <fcntl.h>
 #include <limits.h>
+#include <mbfun.h>
 #include <signal.h>
 #include <string.h>
 #include <stdio.h>
@@ -60,7 +61,7 @@
 
 __COPYRIGHT("@(#) Copyright (c) 1987, 1993\n\
 	The Regents of the University of California.  All rights reserved.\n");
-__RCSID("$MirOS: src/sbin/disklabel/disklabel.c,v 1.6 2008/11/08 23:03:58 tg Exp $");
+__RCSID("$MirOS: src/sbin/disklabel/disklabel.c,v 1.7 2010/08/14 19:43:56 tg Exp $");
 
 /*
  * Disklabel: read and write disklabels.
@@ -126,7 +127,6 @@ int	cmplabel(struct disklabel *, struct disklabel *);
 void	setbootflag(struct disklabel *);
 void	usage(void);
 u_int32_t getnum(char *, u_int32_t, u_int32_t, const char **);
-ssize_t cdblockedread(int, void *, size_t, off_t);
 
 int
 main(int argc, char *argv[])
@@ -446,8 +446,8 @@ writelabel(int f, char *boot, struct disklabel *lp)
 			struct disklabel tlab;
 
 			tlab = *lp;
-			if (cdblockedread(f, boot, tlab.d_bbsize, sectoffset) !=
-			    tlab.d_bbsize) {
+			if (cdblockedread(f, boot, tlab.d_bbsize,
+			    sectoffset) == -1) {
 				perror("lseek+read");
 				return (1);
 			}
@@ -564,8 +564,7 @@ l_perror(char *s)
 int
 read_pt(int f, long offs, int *target)
 {
-	if (cdblockedread(f, target, DEV_BSIZE, (off_t)offs * DEV_BSIZE) !=
-	    DEV_BSIZE)
+	if (cdblockedread(f, target, DEV_BSIZE, (off_t)offs * DEV_BSIZE) == -1)
 		return (-1);
 	return (0);
 }
@@ -706,7 +705,7 @@ readlabel(int f)
 			    (long long)sectoffset/DEV_BSIZE,
 			    sectoffset/DEV_BSIZE +
 			    (LABELSECTOR * DEV_BSIZE) + LABELOFFSET);
-		if (cdblockedread(f, bootarea, BBSIZE, sectoffset) != BBSIZE)
+		if (cdblockedread(f, bootarea, BBSIZE, sectoffset) == -1)
 			err(4, "%s", specname);
 
 		lp = (struct disklabel *)(bootarea +
@@ -1802,45 +1801,4 @@ usage(void)
 	    "For procedures specific to this architecture see: %s\n", SEEALSO);
 #endif
 	exit(1);
-}
-
-/* support routine for lseek+read to make 2048-byte aligned I/O */
-ssize_t
-cdblockedread(int fd, void *dst, size_t len, off_t ofs)
-{
-	off_t begsec, nlong;
-	size_t begsecofs, n;
-	ssize_t res;
-	char *buf;
-
-	begsec = ofs & ~2047;			/* start cdsector */
-	nlong = (ofs + len + 2047) & ~2047;	/* end+1 cdsector */
-	nlong -= begsec;			/* num. bytes to read */
-	begsecofs = (size_t)(ofs & 2047);	/* start in sector */
-	n = (size_t)nlong;
-	if (nlong != (off_t)n) {
-		errno = EINVAL;			/* truncation */
-		return (-1);
-	}
-	if ((buf = malloc(n)) == NULL)
-		return (-1);
-	nlong = lseek(fd, begsec, SEEK_SET);
-	if (nlong != begsec)
-		goto err;
-	if ((res = read(fd, buf, n)) == -1)
-		goto err;
-	if (n != (size_t)res) {
-		errno = EIO;			/* short read */
-		goto err;
-	}
-	memcpy(dst, buf + begsecofs, len);
-	free(buf);
-	/* correctly position seek pointer */
-	ofs += len;
-	nlong = lseek(fd, ofs, SEEK_SET);
-	return (nlong == ofs ? (ssize_t)len : -1);
-
-err:
-	free(buf);
-	return (-1);
 }
