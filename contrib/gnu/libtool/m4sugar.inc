@@ -1,6 +1,6 @@
 divert(-1)#                                                  -*- Autoconf -*-
 # This file is part of Autoconf.
-# $MirOS: contrib/gnu/libtool/m4sugar.inc,v 1.3 2005/02/28 22:36:19 tg Exp $
+# $MirOS: contrib/gnu/libtool/m4sugar.inc,v 1.4 2006/06/12 19:04:30 tg Exp $
 # Base M4 layer.
 # Hacked for MirOS m4.
 #
@@ -114,7 +114,7 @@ m4_define([m4_rename_m4],
 # ---------------------------
 # Copy m4_MACRO-NAME as MACRO-NAME.
 m4_define([m4_copy_unm4],
-[m4_copy([$1], m4_patsubst([$1], [^m4_\(.*\)], [[\1]]))])
+[m4_copy([$1], m4_bpatsubst([$1], [^m4_\(.*\)], [[\1]]))])
 
 
 # Some m4 internals have names colliding with tokens we might use.
@@ -436,6 +436,7 @@ m4_define([m4_bmatch],
        [$#], 2, [$2],
        [m4_if(m4_bregexp([$1], [$2]), -1, [$0([$1], m4_shiftn(3, $@))],
 	      [$3])])])
+m4_copy([m4_bmatch], [m4_match])
 
 
 # m4_car(LIST)
