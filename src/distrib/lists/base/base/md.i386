@@ -7,6 +7,8 @@
 ./usr/dsbin/fdisk
 ./usr/dsbin/iopctl
 ./usr/dsbin/mount_ntfs
+./usr/lib/gcc/i386-ecce-mirbsd10
+./usr/lib/gcc/i386-ecce-mirbsd10/3.4.6
 ./usr/mdec/mbrldr
 ./usr/mdec/mbrmgr
 ./usr/mdec/pxeboot

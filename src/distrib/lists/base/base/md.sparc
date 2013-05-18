@@ -1,3 +1,5 @@
+./usr/lib/gcc/sparc-ecce-mirbsd10
+./usr/lib/gcc/sparc-ecce-mirbsd10/3.4.6
 ./usr/sbin/eeprom
 ./usr/share/man/cat4/agten.0
 ./usr/share/man/cat4/audioamd.0

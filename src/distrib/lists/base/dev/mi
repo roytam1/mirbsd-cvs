@@ -1580,9 +1580,7 @@
 ./usr/lib/libfl.a
 ./usr/lib/libform.a
 ./usr/lib/libformw.a
-./usr/lib/libgcc_s.so.1.1
 ./usr/lib/libgpc.a
-./usr/lib/libgpc.so.2.1
 ./usr/lib/libiberty.a
 ./usr/lib/libiconv.a
 ./usr/lib/libiconv.la
@@ -1599,7 +1597,6 @@
 ./usr/lib/libncursesw.a
 ./usr/lib/libobjc.a
 ./usr/lib/libobjc.la
-./usr/lib/libobjc.so.3.1
 ./usr/lib/libocurses.a
 ./usr/lib/libopcodes.a
 ./usr/lib/libopcodes.la
@@ -1609,6 +1606,7 @@
 ./usr/lib/libpanelw.a
 ./usr/lib/libpcap.a
 ./usr/lib/libperl.a
+./usr/lib/libperl_pic.a
 ./usr/lib/libpng.a
 ./usr/lib/libpthread.a
 ./usr/lib/libresolv.a
@@ -1618,7 +1616,6 @@
 ./usr/lib/libssl.a
 ./usr/lib/libstdc++.a
 ./usr/lib/libstdc++.la
-./usr/lib/libstdc++.so.39.0
 ./usr/lib/libsupc++.a
 ./usr/lib/libsupc++.la
 ./usr/lib/libtermcap.a
