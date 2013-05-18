@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.140 2009/01/18 20:37:34 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.141 2009/01/18 20:49:52 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -2783,6 +2783,27 @@ Author: tg@
  a few hours of Friday and all of Monday (as a weekend shift is scheduled
  soonish anyway). Just gecko2@ can’t get off early ☹ Daniel says we could
  go for DVDs, but I estimate we won’t make it in time this time.</p>
+----
+Date: 17.01.2009 23:42
+Author: tg@
+Title: mumble entropy, moving randomness
+
+<p>I seem to recall that IBM Thinkpads have a movement sensor. We may use
+ it as entropy source – not for normal on-the-desk use cases, but still –
+ every bit counts. This is probably a Vutral-worthy idea. Someone should,
+ really, look into that. Kabelaffe says it has few states, but both level
+ and edge (timing) values.</p>
+<p>Another thing <a href="http://mumble.sourceforge.net/Main_Page">Mumble
+ and Murmur</a>, which he showed me, could do is to collect entropy too –
+ Mumble (the client) continuously records anyway (to intelligently try to
+ find out when we talk loudly – it works surprisingly well), which hashed
+ can contribute entropy (even with hardware mute it’ll get electric noise
+ or somesuch); it could also hash the current channel conversation a.k.a.
+ input from the network. Now I need to persuade gecko2@ to set up Murmur,
+ the server, on thetis, and get bsiegert@ to port qt4-x11, as well as all
+ the other prerequisites of Mumble, the client, to MirBSD. May as well be
+ he ports both Mumble and Murmur, that latter I could set up on eurynome.
+ At least it has more bandwidth than Kabelaffe’s home ADSL.</p>
 ----
 Date: 18.01.2009 20:23
 Author: tg@
