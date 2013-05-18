@@ -1,4 +1,4 @@
-.\" $MirOS: src/share/man/man9/style.9,v 1.17 2011/05/05 00:00:27 tg Exp $
+.\" $MirOS: src/share/man/man9/style.9,v 1.18 2011/05/05 00:06:42 tg Exp $
 .\"-
 .\" Copyright (c) 2002-2011 The MirOS Project.
 .\" Copyright (c) ? OpenBSD
@@ -1003,6 +1003,11 @@ function declarations are all on one line; use Korn syntax throughoutly;
 never use the \` character; it is okay to use reasonably recent
 .Xr mksh 1
 extensions.
+Do not use the
+.Ic typeset
+built-in command, always write
+.Ic local
+instead.
 .Bd -literal -offset indent
 function bla {
 	(( x )) && foo=abcdefghijklmnopqrstuvwxyz$(fnord \e
