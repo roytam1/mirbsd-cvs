@@ -26,7 +26,7 @@
 #include <string.h>
 #endif
 
-__RCSID("$MirOS: src/lib/libc/string/strndup.c,v 1.3 2007/06/16 21:05:15 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/string/strndup.c,v 1.4 2011/06/30 22:11:37 tg Exp $");
 
 #ifdef WIDEC
 #define strndup	wcsndup
@@ -46,8 +46,9 @@ strndup(const char_t *s, size_t max)
 
 	n = strlen(s);
 	n = MIN(n, max);
-	if ((cp = calloc(n + 1, sizeof (char_t))) != NULL)
-		memcpy(cp, s, n * sizeof (char_t));
-	cp[n] = NUL;
+	if ((cp = calloc(n + 1, sizeof(char_t))) != NULL) {
+		memcpy(cp, s, n * sizeof(char_t));
+		cp[n] = NUL;
+	}
 	return (cp);
 }
