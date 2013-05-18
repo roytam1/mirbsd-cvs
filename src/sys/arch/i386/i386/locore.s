@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/i386/locore.s,v 1.12 2011/07/06 22:22:10 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/i386/locore.s,v 1.14 2011/07/18 00:39:44 tg Exp $ */
 /*	$OpenBSD: locore.s,v 1.77.2.1 2005/02/27 00:39:58 brad Exp $	*/
 /*	$NetBSD: locore.s,v 1.145 1996/05/03 19:41:19 christos Exp $	*/
 
@@ -240,8 +240,8 @@ start:	movw	$0x1234,0x472			# warm boot
 	shr	ebx,11
 	xor	eax,ebx
 	mov	ebx,eax
-	shl	ebx,15
-	add	eax,ebx
+	shl	eax,15
+	add	ebx,eax
 
 	/* Store the result. */
 	mov	eax,[RELOC(_C_LABEL(initial_entropy))]
