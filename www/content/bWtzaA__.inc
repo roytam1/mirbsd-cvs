@@ -1,5 +1,5 @@
 <!-- PageID: mksh -->
-<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.61 2006/09/30 02:26:03 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.62 2006/09/30 02:41:51 tg Exp $</small>
 
 <h1>mksh(1) R28</h1>
 <p>This is the MirBSD&trade; Korn Shell, a more or less portable
@@ -428,7 +428,11 @@
  now part of Debian unstable and Debian testing. A Gentoo ebuild
  is available, written by Hanno Boeck, just "emerge mksh" to
  install it. mksh is also part of Fink thanks to Andreas "gecko2"
- Gockel, but called "mirbsdksh" (not mksh) there.</p>
+ Gockel, but called "mirbsdksh" (not mksh) there. Thanks to morfic
+ (Daniel Goller), Sourcemage (SMGL) has an mksh spell, originally
+ crafted by yours truly, debugged and fixed together. FreeWRT also
+ comes with mksh. Ubuntu, Nexenta OS, and other Debian derivates
+ probably have it as well.</p>
 
 <h3 id="buildsfu">Microsoft Services for Unix</h3>
 <p>It is recommended to use the C shell instead of the
@@ -490,7 +494,8 @@
   <li>FreeBSD (unknown) &ndash; part of FreeBSD Ports: not tried</li>
   <li>Gentoo GNU/Linux (i386 powerpc) &ndash; part of Portage: not tried</li>
   <li>CRUX GNU/Linux (i386) &ndash; via Han Boetes' repository: not tested</li>
-  <li>Sourcemage GNU/Linux (amd64) &ndash; via test grimoire: not tried</li>
+  <li>Sourcemage GNU/Linux (amd64) &ndash; <a href="http://distro.ibiblio.org/pub/linux/distributions/sourcemage/codex/test/shell-term-fm/mksh/">via
+   test grimoire</a>: not tried</li>
   <li>generic pkgsrc&reg; &ndash; not tested; ONLY_FOR_PLATFORMS not honoured</li>
  </ul></li>
  <li>mksh R28&szlig;<ul>
