@@ -757,3 +757,16 @@ Author: tg@
  and <tt>setenv output-device ttya</tt> instead; OpenBOOT can handle a
  serial console just fine out of the box and provides the speed as well.</p>
 ----
+Title: mksh R33b released
+Date: 28.03.2008
+Author: tg@
+
+<p>The <a href="@@RELPATH@@mksh.htm">MirBSD Korn Shell R33b</a> has just
+ been released; as per the <a href="@@RELPATH@@mksh.htm#r33b">Changelog</a>
+ this is a minor update: portability fixes, support for dæmonising scripts,
+ and manual page improvements.</p>
+<p>Online manual: <a href="@@RELPATH@@htman/i386/man1/mksh.htm">HTML</a>,
+ <a href="/MirOS/dist/mir/mksh/mksh.pdf">PDF</a> (<a
+ href="http://www.cl.cam.ac.uk/~mgk25/iso-paper.html">ISO A4 paper</a>, we
+ don’t support Imperial units, as even the USA has converted to Metric)</p>
+----

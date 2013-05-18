@@ -1,7 +1,7 @@
-# $MirOS: ports/shells/mksh/Makefile,v 1.34 2008/03/02 15:41:16 tg Exp $
+# $MirOS: ports/shells/mksh/Makefile,v 1.35 2008/03/02 16:16:13 tg Exp $
 
 COMMENT=		MirBSD Korn Shell
-DISTNAME=		mksh-R33
+DISTNAME=		mksh-R33b
 PKGNAME=		${DISTNAME:S/-R/-/}-${DASH_VER}
 CATEGORIES=		shells
 HOMEPAGE=		http://mirbsd.de/mksh
@@ -19,7 +19,6 @@ WRKDIST=		${WRKDIR}/mksh
 BSH?=			/bin/sh
 
 do-build:
-	-uname -a; ${CC} -v
 	cd ${WRKBUILD} && ${SETENV} ${MAKE_ENV} NROFF=${NROFF:C/ *$//:Q} \
 	    SHELL=${BSH:Q} ${BSH} ${WRKSRC}/Build.sh -Q
 
@@ -35,4 +34,4 @@ do-regress:
 .include <bsd.port.mk>
 
 # this port's distinfo is shared with OpenBSD ports and NetBSD® pkgsrc®
-_CIPHERS+=		sha256
+_CIPHERS+=		cksum sha256

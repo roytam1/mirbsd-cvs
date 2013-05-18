@@ -1,11 +1,11 @@
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.98 2008/03/27 13:08:38 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.99 2008/03/27 23:43:41 tg Exp $'
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_content <<'EOF'
-<h1>mksh(1) R33</h1>
+<h1>mksh(1) R33b</h1>
 <p>This is the website of the MirBSD™ Korn Shell, an actively developed free
  implementation of the Korn Shell programming language and a successor to the
  Public Domain Korn Shell (pdksh).</p>
@@ -31,8 +31,8 @@ mws_content <<'EOF'
 </ul>
 
 <h2 id="prefetch">Introduction</h2>
-<p>The current version of mksh is <strong>mksh R33</strong> from
- <em>1 March 2008</em>.</p>
+<p>The current version of mksh is <strong>mksh R33b</strong> from
+ <em>28 March 2008</em>.</p>
 <p>Thanks to “Der Verein <a href="http://www.trash.net/verein/">trash.net</a>”
  for sponsoring access to a Solaris 8 box. Thanks to HP TestDrive, which helps
  in keeping mksh portable to several Unixes and compilers, and track down some
@@ -145,14 +145,14 @@ mws_content <<'EOF'
  extract from the CPIO distfile and is available even on a stock Microsoft®
  Windows® installation.</p>
 <h3 id="mirrors">Known Mirrors</h3><ul>
- <li><a href="http://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R33.cpio.gz">http://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R33.cpio.gz</a></li>
- <li><a href="http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R33.cpio.gz">http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R33.cpio.gz</a></li>
+ <li><a href="http://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R33b.cpio.gz">http://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R33b.cpio.gz</a></li>
+ <li><a href="http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R33b.cpio.gz">http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R33b.cpio.gz</a></li>
 </ul>
 <h3 id="hashes">Checksums and Hashes</h3><ul>
- <li>RMD160 (mksh-R33.cpio.gz) = 1a66dde28a077a7372c980d8da674eca34695431</li>
- <li>TIGER (mksh-R33.cpio.gz) = 36cb4470c77a51cef82e1d6ac94331a35729419798192370</li>
- <li>507273168 252600 /MirOS/dist/mir/mksh/mksh-R33.cpio.gz</li>
- <li>MD5 (mksh-R33.cpio.gz) = dbe6561bf94c4a85f92aecc22fe2c8b9</li>
+ <li>RMD160 (mksh-R33b.cpio.gz) = f4beb8ea2419d1e64dd266db72f4bee103009030</li>
+ <li>TIGER (mksh-R33b.cpio.gz) = c85fed10bbaa65f4c4468b741a6591f3e2e9361747973996</li>
+ <li>3810798626 255256 /MirOS/dist/mir/mksh/mksh-R33b.cpio.gz</li>
+ <li>MD5 (mksh-R33b.cpio.gz) = 4a882352ba709130020d940bfaba25ed</li>
  <li style="list-style:none;">All official distfiles are gzsig(1)d.</li>
 </ul>
 
@@ -165,11 +165,11 @@ mws_content <<'EOF'
 <p>The first example is using BSD paxtar (MirOS BSD, OpenBSD, NetBSD®), or
  “bsdtar” (DragonFly); the second and third use cpio(1) or pax(1) and are
  for most operating systems; the fourth is for Debian.</p><ul>
-<li>$ tar xzf mksh-R33.cpio.gz &amp;&amp; cd mksh</li>
-<li>$ gzip -dc mksh-R33.cpio.gz | cpio -mid &amp;&amp; cd mksh</li>
-<li>$ gzip -dc mksh-R33.cpio.gz | pax -r &amp;&amp; cd mksh</li>
+<li>$ tar xzf mksh-R33b.cpio.gz &amp;&amp; cd mksh</li>
+<li>$ gzip -dc mksh-R33b.cpio.gz | cpio -mid &amp;&amp; cd mksh</li>
+<li>$ gzip -dc mksh-R33b.cpio.gz | pax -r &amp;&amp; cd mksh</li>
 <li style="list-style:none;">and, in exceptional cases</li>
-<li>$ tar xzf mksh_33.1.orig.tar.gz &amp;&amp; cd mksh-33.1</li>
+<li>$ tar xzf mksh_33.2.orig.tar.gz &amp;&amp; cd mksh-33.2</li>
 </ul>
 
 <h3 id="compile">Compilation</h3>
@@ -431,6 +431,16 @@ mws_content <<'EOF'
  formatting time.</p>
 
 <h2 id="upgrade">For packagers: Upgrades</h2>
+<p>In mksh R33b, much more compilers are detected, even if not all of
+ them are supported. The OE (OS and CC/LD) versions are now dumped too.
+ Instead of <tt>#error</tt>, forced link failures are now used as the
+ mechanism to auto-detect some things in the target environment. Features
+ are now much better detected, and some annoying warnings don’t show up
+ any longer due to this. Less tools are required to build.</p>
+<p id="tty">Please be reminded that you should run <tt>./test.sh -v</tt>
+ inside an environment with <tt>/dev/tty</tt> available (as device node)
+ and usable (e.g. use script(1) or GNU screen if you’re doing auto-builds
+ detached from controlling terminal). Use <tt>-v</tt> to see failures.</p>
 <p>No surprises in mksh R33 either, but the build system now gives more
  detailed output on the version actually built, to aid tracking down
  FTBFSen (build errors) with access to only the build logs. Regression
@@ -468,7 +478,7 @@ mws_content <<'EOF'
  GNU/kFreeBSD have an <a href="http://packages.debian.org/mksh">mksh package</a>
  maintained by the MirOS Project and uploaded (sponsored) by Bastian “waldi”
  Blank and Otavio Salvador; the debconf questions were taken from dash. The <a
- href="http://www.mirbsd.org/MirOS/dist/mir/mksh/ports/mksh_33.1-2.dsc">mksh
+ href="http://www.mirbsd.org/MirOS/dist/mir/mksh/ports/mksh_33.2-1.dsc">mksh
  Debian source package</a> is available, too.</li>
 <li><a href="http://www.gentoo.org/">Gentoo GNU/Linux</a> has an mksh <a
  href="http://sources.gentoo.org/viewcvs.py/gentoo-x86/app-shells/mksh/">ebuild</a>
@@ -490,7 +500,7 @@ mws_content <<'EOF'
  as well as as SRPM (source RPM). There used to be a repository by <a
  href="http://ftp.skynet.be/pub/suser-guru/rpm/packages/System/mksh/">loki</a>
  in the past.</li>
-<li>An <a href="http://www.mirbsd.org/MirOS/dist/mir/mksh/ports/mksh-33-1.src.rpm">inofficial
+<li>An <a href="http://www.mirbsd.org/MirOS/dist/mir/mksh/ports/mksh-33b-1.src.rpm">inofficial
  <em>portable</em> SRPM</a> (created on Debian GNU/kFreeBSD) is available
  as well. This one contains the <tt>arc4random.c</tt> support routines for
  operating systems from clueless vendors (GNU, Sun, etc).</li>
@@ -622,10 +632,10 @@ mws_content <<'EOF'
  asked people to test, and hunted mksh down in these packaging systems:</p>
 <ul>
  <li style="list-style:none;">– tests by the project, using Makefile –</li>
- <li>MirOS #10 RC8 (i386 gcc3.4.6)</li>
- <li>MirOS #10 RC8 (sparc gcc3.4.6)</li>
+ <li>MirOS #10-current (i386 gcc3.4.6)</li>
+ <li>MirOS #10-current (sparc gcc3.4.6)</li>
  <li style="list-style:none;">– tests by the project, using Build.sh –</li>
- <li>MirOS #10 RC8 (i386 gcc3.4.6)</li>
+ <li>MirOS #10-current (i386 gcc3.4.6)</li>
  <li>MirOS #10 RC8 (i386 SUNcc5.9 Linux_i386 2007/05/03, GNU ld 2.13.90.0.2 20020802)</li>
  <li>MirOS #7-stable (sparc gcc2.95.3-078E)</li>
  <li>BSDi BSD/OS 3.1 #4 M300-043 (i386 gcc2.7.2.1)</li>
@@ -693,12 +703,13 @@ mws_content <<'EOF'
  <li>HP OSF/1 V4.0F 1229 (alpha DEC C V5.9-005) <em>by Jupp Schugt</em></li>
  <li>HP OSF/1 V4.0F 1229 (alpha gcc2.8.1 alpha-dec-osf4.0d) <em>by Jupp Schugt</em></li>
  <li>SGI IRIX64 (mips gcc3.4.1 mips-sgi-irix6.5) <em>by Elias Pipping</em></li>
+ <li>SGI IRIX64 6.5 (mips:R10k mipspro7.4.4m) <em>by Elias Pipping</em></li>
  <li style="list-style:none;">– other build system integration –</li>
  <li>See the <a href="#otheros">Inclusion</a> section for general information</li>
  <li>MirOS #10 RC8 (i386 gcc3.4.6) <em>via MirPorts Framework</em></li>
  <li>OpenBSD 4.3-beta GENERIC#201 (zaurus gcc3.3.5) <em>via MirOS provided OpenBSD port</em></li>
- <li>Debian GNU/kFreeBSD 4.0 sid 6.2-1-686 (i386 gcc4.2.3-2) <em>via MirOS provided Debian package</em></li>
- <li>Debian GNU/kFreeBSD 4.0 sid 6.2-1-686 (i386 gcc4.2.3-2) <em>via MirOS provided SRPM package</em></li>
+ <li>Debian GNU/kFreeBSD 4.0 sid 7.0-1-586 (i386 gcc4.3.0-2) <em>via MirOS provided Debian package</em></li>
+ <li>Debian GNU/kFreeBSD 4.0 sid 7.0-1-586 (i386 gcc4.3.0-2) <em>via MirOS provided SRPM package</em></li>
  <li>Interix 3.5 SP-8.0.1969.1 (i386 gcc3.3 win2k) <em>via MirOS provided pkgsrc® source package</em></li>
  <li>Debian GNU/Linux 4.0 etch 2.6.18-4-k7 (i386 gcc4.1.1-21) <em>via MirOS provided Debian package</em></li>
  <li>Debian GNU/Linux 4.0 etch 2.6.18-4-k7 (i386 gcc4.1.1-21) <em>via MirOS provided SRPM package</em></li>
@@ -795,7 +806,10 @@ mws_content <<'EOF'
  <li>Port to <a href="http://www.syllable.org/">Syllable</a> (much
   improved; support now en par with Plan 9’s, thanks to Anthony Morphett
   &lt;awmorp@gmail.com&gt; – maybe the rest is a kernel bug?)</li>
- <li>Port to SGI IRIX 6.5 (uname: IRIX64) using gcc</li>
+</ul>
+<p id="r33b">mksh R33b comes with the following minor fixes:</p><ul>
+ <li>Fix some minor code issues remarked by MIPSpro</li>
+ <li>Port to SGI IRIX 6.5 (uname: IRIX64) using gcc and MIPSpro</li>
  <li>Scan for a lot more compilers; add support for MIPSpro</li>
  <li>Ignore if the OS doesn’t define <tt>MAP_FILE</tt> for mmap(2)</li>
  <li>Use <tt>sys/types.h</tt> as <tt>sys/mkdev.h</tt> dependency</li>
@@ -826,11 +840,11 @@ mws_content <<'EOF'
   instead of <tt>NSIG</tt>; OSF/1 V4.0 and Tru64 (OSF/1 V5.1) are supported
   with both gcc and HP/Compaq/DEC C in various versions</li>
  <li>Generalise the workaround for incompatible <tt>sig_t</tt> across the
-  platforms that need it (currently, OSF/1 ad PW32)</li>
+  platforms that need it (currently, OSF/1 and PW32)</li>
  <li>Shut up annoying warning about gcc 2.7.2.3, 2.8.1, 2.95.x not knowing the
   “-std=gnu99” and “-std=c99” options without setting proper errorlevel</li>
 </ul>
-<p>A release with many new features is mksh R33, look yourself:</p><ul>
+<p id="r33">A release with many new features is mksh R33, look yourself:</p><ul>
  <li>Sync with OpenBSD ksh (no real functional changes)</li>
  <li>Enhance the <tt>print</tt> builtin with two new escape sequences:
   <tt>\x<b>AB</b></tt> parses the next up to two hexadecimal digits <b>AB</b>
@@ -889,7 +903,7 @@ mws_content <<'EOF'
   only) an optional tilde (but this might come in the future). This is
   explicitly mentioned here due to a user inquiry.</li>
 </ul>
-<p>Sported by mksh R32 are these changes:</p><ul>
+<p id="r32">Sported by mksh R32 are these changes:</p><ul>
  <li>Make checks for symbol declarations compile checks instead of link
   checks, as the binding may not succeed due to different symbol types,
   for instance on AIX, if the declaration does not match</li>
@@ -899,7 +913,7 @@ mws_content <<'EOF'
  <li>Do not require certain integer types to be defined any more</li>
  <li>Optimise the code and reduce its RAM usage</li>
 </ul>
-<p>Everyone should upgrade to mksh R31d with fixes for…</p><ul>
+<p id="r31d">Everyone should upgrade to mksh R31d with fixes for…</p><ul>
  <li>Support pcc (the ragge version of the Portable C Compiler)</li>
  <li>Add pushd/popd/dirs functions (csh) and precmd/chpwd hooks (zsh) to
   <tt>dot.mkshrc</tt> which now requires readlink(1) with <tt>-f</tt>;
@@ -915,7 +929,7 @@ mws_content <<'EOF'
  <li>Improve standard integer type detection in <tt>Build.sh</tt></li>
  <li>Cleanups in code, build script and manual page</li>
 </ul>
-<p>The mksh R31c (Solaris-only) upgrade for cnuke@ was caused by:</p><ul>
+<p id="r31c">The mksh R31c (Solaris-only) upgrade for cnuke@ was caused by:</p><ul>
  <li>Clean up <tt>Build.sh</tt> and “test … -o …” doesn’t exist in Bourne</li>
  <li>Detect if the non-standard <tt>u_int32_t</tt> type, which was
   unfortunately used by the OpenBSD project in designing the standard
@@ -927,7 +941,7 @@ mws_content <<'EOF'
   arc4random.c contribution</a> to not use these non-standard types</li>
  <li>Remove unused types from the faked &lt;stdint.h&gt; file</li>
 </ul>
-<p>A quick upgrade, mksh R31b with major bug fixes:</p><ul>
+<p id="r31b">A quick upgrade, mksh R31b with major bug fixes:</p><ul>
  <li>Fix typo (blsk → bksl) in <tt>check.t</tt> test naming</li>
  <li>Autoscan for <tt>uint32_t</tt>, <tt>u_int</tt> etc. presence</li>
  <li>Fix some memory leaks, mostly by NetBSD® via OpenBSD</li>
@@ -942,7 +956,7 @@ mws_content <<'EOF'
  <li>Support OSF/1 with gcc2.8, thanks to Jupp Schugt</li>
  <li>Fix gcc4 detection of __attribute__() on non-SSP targets</li>
 </ul>
-<p>mksh R31 was released as part of MirOS #10 with these news:</p><ul>
+<p id="r31">mksh R31 was released as part of MirOS #10 with these news:</p><ul>
  <li>Support the TenDRA compiler (possibly also Ten15, not tried)</li>
  <li>Begin supporting Fabrice Bellard’s Tiny C Compiler (tcc on Debian
   cannot link due to duplicate symbols in GNU libc, thus unfinished)</li>
@@ -959,7 +973,7 @@ mws_content <<'EOF'
   <tt>dot.mkshrc</tt> file; mention other things in <tt>etc_profile</tt></li>
  <li>Fix a syntax error in Build.sh checking for TenDRA</li>
 </ul>
-<p>A milestone in development: mksh R30 can do this:</p><ul>
+<p id="r30">A milestone in development: mksh R30 can do this:</p><ul>
  <li>Build on and for Solaris, Linux and MirBSD with Sun’s C compiler</li>
  <li>No longer build a statically linked shell by default; do not try,
   do not provide any means; user has to use LDFLAGS instead</li>
