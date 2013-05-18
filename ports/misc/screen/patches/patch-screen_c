@@ -1,4 +1,4 @@
-$MirOS: ports/misc/screen/patches/patch-screen_c,v 1.1.7.1 2005/03/18 15:50:35 tg Exp $
+$MirOS: ports/misc/screen/patches/patch-screen_c,v 1.2 2007/02/11 01:33:46 tg Exp $
 --- screen.c.orig	Mon Sep  8 14:26:19 2003
 +++ screen.c	Sun Feb 11 01:15:30 2007
 @@ -152,6 +152,9 @@ static char *pad_expand __P((char *, cha
@@ -44,7 +44,7 @@ $MirOS: ports/misc/screen/patches/patch-screen_c,v 1.1.7.1 2005/03/18 15:50:35 t
 +#if defined(ENCODINGS) && defined(UTF8) && defined(POSIX)
 +static const char sfe_qs[] = "\030\032\r\xE2\x82\xAC.\033[6n";
 +__RCSID("$miros: src/usr.sbin/wsconfig/wsconfig.c,v 1.10 2007/02/11 00:59:00 tg Exp $");
-+__RCSID("$MirOS: ports/sysutils/chkuterm/dist/chkuterm.c,v 1.7 2007/02/11 00:58:58 tg Exp $");
++__RCSID("$MirOS: ports/misc/screen/patches/patch-screen_c,v 1.2 2007/02/11 01:33:46 tg Exp $");
 +
 +static int
 +scan_for_encoding(fd)
@@ -70,10 +70,10 @@ $MirOS: ports/misc/screen/patches/patch-screen_c,v 1.1.7.1 2005/03/18 15:50:35 t
 +			if (sbuf[j++] == ';')
 +				break;
 +		if (sbuf[j - 1] == ';')
-+			debug1("scan_for_encoding: at column %c%c\n",
++			debug2("scan_for_encoding: at column %c%c\n",
 +			    sbuf[j], sbuf[j + 1]);
 +		else
-+			debug1("scan_for_encoding: invalid response\n");
++			debug("scan_for_encoding: invalid response\n");
 +		if (sbuf[j - 1] == ';' &&
 +		    (sbuf[j] == '3' || sbuf[j] == '4') &&
 +		    (sbuf[j + 1] < '0' || sbuf[j + 1] > '9'))
