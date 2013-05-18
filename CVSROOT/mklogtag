@@ -1,5 +1,5 @@
 #!/usr/bin/env mksh
-# $MirOS: CVSROOT/mklogtag,v 1.15 2008/07/03 17:24:31 tg Exp $
+# $MirOS: CVSROOT/mklogtag,v 1.16 2008/07/03 17:32:16 tg Exp $
 #-
 # Copyright (c) 2005, 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -41,6 +41,45 @@ function die {
 	exit 1
 }
 
+function getdirs {
+	local dir=$1
+	integer i
+
+	[[ -s $repo/.tmp/cl.dirs.$id ]] || return 0
+	set -A dirnames
+	set -A dircounts
+	integer dircounts
+	. $repo/.tmp/cl.dirs.$id
+	i=0
+	while (( i < ${#dirnames[*]} )); do
+		[[ ${dirnames[i]} = $dir ]] && break
+		let i++
+	done
+	(( i < ${#dirnames[*]} )) || return 0	# not found
+	(( dircounts[i] )) || return 0		# count zero
+
+	let dircounts[i]--
+	if (( !dircounts[i] )); then
+		unset dircounts[i]
+		unset dirnames[i]
+	fi
+	set -A dirnames -- "${dirnames[@]}"
+	set -A dircounts -- "${dircounts[@]}"
+
+	(( ${#dirnames[*]} )) || return 0	# none left
+	ln="set -A dirnames --"
+	lc="set -A dircounts"
+	i=0
+	while (( i < ${#dirnames[*]} )); do
+		ln="$ln '${dirnames[i]}'"
+		lc="$lc ${dircounts[i]}"
+		let i++
+	done
+	print -r -- "$ln$nl$lc" >$repo/.tmp/cl.dirs.$id
+	return 1				# some left
+}
+
+
 rcpt=
 logf=NO
 op=
@@ -71,8 +110,7 @@ let i=0
 F=$repo/.tmp/cl.tag.$id
 T=$repo/.tmp/cl.tagend.$id
 
-[[ "$(<$repo/.tmp/cl.lastdir.$id)" = $repo/$dir ]]
-leave=$?
+leave=$(getdirs "$repo/$dir")
 
 case $1 {
 (add)	op=Adding	;;

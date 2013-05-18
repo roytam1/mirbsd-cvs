@@ -1,7 +1,7 @@
 #!/usr/bin/env mksh
-# $MirOS: CVSROOT/tracker,v 1.9 2008/07/03 17:24:31 tg Exp $
+# $MirOS: CVSROOT/tracker,v 1.10 2008/07/03 17:32:16 tg Exp $
 #-
-# Copyright (c) 2005
+# Copyright (c) 2005, 2008
 #	Thorsten Glaser <tg@mirbsd.de>
 #
 # Provided that these terms and disclaimer and all copyright notices
@@ -48,4 +48,30 @@ fi
 	print "END calling information (no stdin)"
 } | logger -t "CVS:dump"
 
-print -r -- "$dir" >$repo/.tmp/cl.lastdir.$id
+set -A dirnames
+set -A dircounts
+integer dircounts
+
+[[ -s $repo/.tmp/cl.dirs.$id ]] && . $repo/.tmp/cl.dirs.$id
+
+nl='
+'
+
+integer i=0
+while (( i < ${#dirnames[*]} )); do
+	[[ ${dirnames[i]} = $dir ]] && break
+	let i++
+done
+dirnames[i]=$dir
+let dircounts[i]++
+
+ln="set -A dirnames --"
+lc="set -A dircounts"
+i=0
+while (( i < ${#dirnames[*]} )); do
+	ln="$ln '${dirnames[i]}'"
+	lc="$lc ${dircounts[i]}"
+	let i++
+done
+
+print -r -- "$ln$nl$lc" >$repo/.tmp/cl.dirs.$id
