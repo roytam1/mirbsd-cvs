@@ -25,7 +25,7 @@ CONFIGURE_ARGS+=	--with-gtk=${LOCALBASE}
 # I'm too lazy to write a proper imlib autoconf test.
 LIB_DEPENDS+=		gdk_imlib.19::graphics/imlib
 
-.elif ${FLAVOR:L} == "motif"
+.elif ${FLAVOR:Mmotif}
 
 USE_MOTIF=		any
 LIB_DEPENDS+=		jpeg.62::graphics/jpeg
