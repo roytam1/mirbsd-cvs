@@ -1,4 +1,4 @@
-.\" $MirOS: ports/infrastructure/pkgtools/rtfm/bsd.port.mk.5,v 1.25 2008/11/02 04:32:24 tg Exp $
+.\" $MirOS: ports/infrastructure/pkgtools/rtfm/bsd.port.mk.5,v 1.26 2008/11/02 17:26:06 tg Exp $
 .\" $OpenBSD: bsd.port.mk.5,v 1.134 2004/02/18 13:39:02 xsa Exp $
 .\"
 .\" Copyright (c) 2007, 2008 Thorsten Glaser
@@ -2147,10 +2147,55 @@ instead.
 The framework will automatically detect the presence of
 .Pa .tar.bz2
 files to extract.
+.It Ev USE_COMPILER
+Choose which compiler to use for the system.
+Possible values are:
+.Bl -tag -width system
+.It Ar system
+Default: use the system compiler
+.Nm mgcc ,
+.Nm pgcc ,
+or
+.Nm cc ,
+and pull
+.Ev _DEFCOPTS
+into the default
+.Ev CFLAGS .
+.It Ar pcc
+Override
+.Ev CC
+to
+.Nm pcc
+and
+.Ev CXX
+to
+.Nm false
+and pull
+.Ev _DEFCOPTS_pcc
+into the default
+.Ev CFLAGS .
+.It Ar llvm
+Override
+.Ev CC
+to
+.Nm llvm-gcc
+and
+.Ev CXX
+to
+.Nm llvm-g++
+and pull
+.Ev _DEFCOPTS_llvm
+into the default
+.Ev CFLAGS .
+.El
 .It Ev USE_IMAKE
 Use
 .Ev CONFIGURE_STYLE
 instead.
+.It Ev USE_LZMA
+The framework will automatically detect the presence of
+.Pa .tar.lzma
+files to extract.
 .It Ev USE_ZIP
 The framework will automatically detect the presence of
 .Pa .zip
