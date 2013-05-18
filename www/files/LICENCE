@@ -94,6 +94,9 @@ Anargeek manifesto or the HTML versions of the manual pa‐
 ges and BSD documentation – are covered by different, si‐
 milarily free licences. Refer there for details.
 
+The files under pics/logos/ may be non-free and are not a
+part of our content.
+
 Relicencing of any parts of this work under the GNU “Free
 Documentation License”, or a similar non-free licence, is
 hereby explicitly prohibited.
@@ -102,4 +105,4 @@ hereby explicitly prohibited.
 Do not send any eMail to <junk@mirbsd.org> ☺
 
 ⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼
-$MirOS: www/files/LICENCE,v 1.6 2011/01/01 23:59:02 tg Exp $
+$MirOS: www/files/LICENCE,v 1.7 2011/01/03 17:49:34 tg Exp $
