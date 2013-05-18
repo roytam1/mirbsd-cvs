@@ -1,4 +1,4 @@
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.115 2008/05/13 00:08:25 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.116 2008/05/15 15:24:08 tg Exp $'
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -945,7 +945,9 @@ mws_content <<'EOF'
   <tt>RANDOM</tt>, <tt>SECONDS</tt>, <tt>TMOUT</tt>) to base 10</li>
  <li>Reintroduce from mksh pre-R24 shell integer variable <tt>PGRP</tt> set
   to the PID of the process group leader via getpgrp(2)</li>
- <li>New shell integer variable <tt>USER_ID</tt> set to the geteuid(2)</li>
+ <li>New shell integer variable <tt>USER_ID</tt> set to the geteuid(2) and
+  used by <tt>dot.mkshrc</tt> to speed up logins, saves a spawn of id(1),
+  mentioned by and realisation planned with Andreas "gecko2" Gockel</li>
 </ul>
 <p id="r33d">mksh R33d is a quick security-update with these changes:</p><ul>
  <li>Move a portability define from <tt>sh.h</tt> to the <tt>setmode.c</tt>
