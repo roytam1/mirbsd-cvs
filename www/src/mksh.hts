@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.285 2009/10/04 14:40:25 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.286 2009/10/10 18:02:59 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -771,12 +771,13 @@ mws_content <<'EOF'
 <h3 id="regress_dev">Development Versions post release</h3>
 <ul>
 <li style="list-style:none;">– tests by the project, using Build.sh –</li>
- <li>Android-3 GNU/Linux 1.5 (emulator) ARMv5TE Thumb (arm-eabi gcc4.2.1 +bionic) <em>without</em> testsuite check</li>
- <li>Debian GNU/Linux sid 2.6.18-6-686 (i386 gcc4.5.0-r150388 gcc-snapshot_20090803-1) <em>but <tt>-combine</tt> is _still_ broken again *sigh…*</em></li>
  <li>Solaris 10 Generic_137111-08 sun4u (sparc gcc3.4.6)</li>
  <li>Solaris 10 Generic_137111-08 sun4u (sparc64 gcc3.4.6)</li>
  <li>Solaris 10 Generic_137111-08 sun4u (sparc:V8+ SUNWcc5.9 124867-08 2008/10/07, ld 5.10-1.489)</li>
  <li>Solaris 10 Generic_137111-08 sun4u (sparc64 SUNWcc5.9 124867-08 2008/10/07, ld 5.10-1.489)</li>
+ <li>Cygwin_NT-5.0 1.5.25(0.156/4/2) 2008-06-11 19:34 i586 win2kSP2 (i386 gcc3.4.4)</li>
+ <li>Android-3 GNU/Linux 1.5 (emulator) ARMv5TE Thumb (arm-eabi gcc4.2.1 +bionic) <em>without</em> testsuite check</li>
+ <li>Debian GNU/Linux sid 2.6.18-6-686 (i386 gcc4.5.0-r150388 gcc-snapshot_20090803-1) <em>but <tt>-combine</tt> is _still_ broken again *sigh…*</em></li>
 <!--
 <li style="list-style:none;">– other build system integration –</li>
 -->
@@ -792,7 +793,6 @@ mws_content <<'EOF'
  <li>DEC OSF/1 X2.0-8 (Rev. 155) (mips cc3.0 ucode ld3.0) <em>without</em> testsuite check</li>
  <li>DEC ULTRIX 4.5 0 RISC (mips cc3.0 ucode ld3.0)</li>
  <li>HP Tru64 OSF/1 V5.1B 2650 (alpha Compaq C V6.5-011 Rev. 2650)</li>
- <li>Cygwin_NT-5.0 1.5.25(0.156/4/2) 2008-04-17 12:11 i586 win2kSP2 (i386 gcc3.4.4)</li>
  <li>Debian GNU/Linux sid 2.6.18-6-686 (i386 gcc4.4.1-1)</li>
  <li>Debian GNU/Linux sid 2.6.18-6-686 (i386 nwcc0.7.9)</li>
  <li>Debian GNU/Linux sid 2.6.18-6-686 (i386 TenDRA-4.1.2-18)</li>
