@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.bin/xinstall/xinstall.c,v 1.9 2008/04/06 22:53:11 tg Exp $ */
+/**	$MirOS: src/usr.bin/xinstall/xinstall.c,v 1.10 2008/04/06 22:55:46 tg Exp $ */
 /*	$OpenBSD: xinstall.c,v 1.42 2004/10/04 05:21:27 jsg Exp $	*/
 /*	$NetBSD: xinstall.c,v 1.9 1995/12/20 10:25:17 jonathan Exp $	*/
 
@@ -58,7 +58,7 @@
 __COPYRIGHT("@(#) Copyright (c) 1987, 1993\n\
 	The Regents of the University of California.  All rights reserved.\n");
 __SCCSID("@(#)xinstall.c	8.1 (Berkeley) 7/21/93");
-__RCSID("$MirOS: src/usr.bin/xinstall/xinstall.c,v 1.9 2008/04/06 22:53:11 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/xinstall/xinstall.c,v 1.10 2008/04/06 22:55:46 tg Exp $");
 
 #define	DIRECTORY	0x01		/* Tell install it's a directory. */
 #define	SETFLAGS	0x02		/* Tell install to set flags. */
@@ -88,6 +88,12 @@ __RCSID("$MirOS: src/usr.bin/xinstall/xinstall.c,v 1.9 2008/04/06 22:53:11 tg Ex
 #else
 #define EFTYPE		EINVAL
 #endif
+#endif
+
+#ifdef MAXBSIZE
+#define IOBUFSZ		MAXBSIZE
+#else
+#define IOBUFSZ		4096
 #endif
 
 struct passwd *pp;
@@ -458,7 +464,7 @@ copy(int from_fd, char *from_name, int to_fd, char *to_name, off_t size,
 {
 	ssize_t nr, nw;
 	int serrno;
-	char *p, buf[MAXBSIZE];
+	char *p, buf[IOBUFSZ];
 
 	/* Rewind file descriptors. */
 	if (lseek(from_fd, (off_t)0, SEEK_SET) == (off_t)-1)
