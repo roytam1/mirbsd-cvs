@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.293 2009/10/27 17:03:45 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.294 2009/10/27 17:09:12 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -1049,6 +1049,7 @@ mws_content <<'EOF'
  <li>[tg] Overhaul and simplify handling of (special) variables</li>
  <li>[tg] Further reduce memory (code/data) and import footprint</li>
  <li>[tg] Use functions without <tt>PATH_MAX</tt> limit on GNU/Hurd</li>
+ <li>[tg] Fix tab completing pathnames containing ‘:’, ‘=’, ‘$’ or ‘`’</li>
 </ul>
 <p id="r39">mksh R39 evolved into these through various means:</p><ul>
  <li>[tg] Shut up a bogus gcc warning during configuration process</li>
