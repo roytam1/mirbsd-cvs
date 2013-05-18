@@ -51,7 +51,7 @@
 #include "fsutil.h"
 
 __SCCSID("@(#)setup.c	8.5 (Berkeley) 11/23/94");
-__RCSID("$MirOS: src/sbin/fsck_ffs/setup.c,v 1.3 2006/08/18 18:05:48 tg Exp $");
+__RCSID("$MirOS: src/sbin/fsck_ffs/setup.c,v 1.4 2007/03/18 04:14:56 tg Exp $");
 
 #define altsblock (*asblk.b_un.b_fs)
 #define POWEROF2(num)	(((num) & ((num) - 1)) == 0)
@@ -161,9 +161,8 @@ setup(char *dev)
 	/*
 	 * Check and potentially fix certain fields in the super block.
 	 */
-	arc4random_pushb(&(sblock.fs_firstfield),
+	sblock.fs_firstfield = arc4random_pushb(&(sblock.fs_firstfield),
 	    sizeof (sblock.fs_firstfield) + sizeof (sblock.fs_unused_1));
-	sblock.fs_firstfield = arc4random();
 	sblock.fs_unused_1 = arc4random();
 	sbdirty();
 	if (sblock.fs_optim != FS_OPTTIME && sblock.fs_optim != FS_OPTSPACE) {
