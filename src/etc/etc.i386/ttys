@@ -1,5 +1,5 @@
 # $Id$
-# $MirOS: src/etc/etc.i386/ttys,v 1.5 2007/06/30 02:40:52 tg Exp $
+# $MirOS: src/etc/etc.i386/ttys,v 1.6 2007/06/30 02:53:32 tg Exp $
 # $OpenBSD: ttys,v 1.17 2002/06/09 06:15:14 todd Exp $
 #
 # Please note that the word “secure” on the line below starting with
@@ -25,11 +25,11 @@ ttyC8	"/usr/libexec/getty Pc"		wsvt25	off secure
 ttyC9	"/usr/libexec/getty Pc"		wsvt25	off secure
 ttyCa	"/usr/libexec/getty Pc"		wsvt25	off secure
 ttyCb	"/usr/libexec/getty Pc"		wsvt25	off secure
-tty00	"/usr/libexec/getty std.9600"	unknown off
-tty01	"/usr/libexec/getty std.9600"	unknown off
-tty02	"/usr/libexec/getty std.9600"	unknown off
-tty03	"/usr/libexec/getty std.9600"	unknown off
-tty04	"/usr/libexec/getty std.9600"	unknown off
-tty05	"/usr/libexec/getty std.9600"	unknown off
-tty06	"/usr/libexec/getty std.9600"	unknown off
-tty07	"/usr/libexec/getty std.9600"	unknown off
+tty00	"/usr/libexec/getty std.9600"	unknown	off
+tty01	"/usr/libexec/getty std.9600"	unknown	off
+tty02	"/usr/libexec/getty std.9600"	unknown	off
+tty03	"/usr/libexec/getty std.9600"	unknown	off
+tty04	"/usr/libexec/getty std.9600"	unknown	off
+tty05	"/usr/libexec/getty std.9600"	unknown	off
+tty06	"/usr/libexec/getty std.9600"	unknown	off
+tty07	"/usr/libexec/getty std.9600"	unknown	off
