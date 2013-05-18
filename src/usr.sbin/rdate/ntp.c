@@ -50,7 +50,7 @@
 #include <time.h>
 #include <unistd.h>
 
-__RCSID("$MirOS: src/usr.sbin/rdate/ntp.c,v 1.10 2007/07/05 22:32:25 tg Exp $");
+__RCSID("$MirOS: src/usr.sbin/rdate/ntp.c,v 1.11 2007/08/10 23:01:02 tg Exp $");
 
 /* This macro is not implemented on all operating systems */
 #ifndef	SA_LEN
@@ -306,7 +306,7 @@ write_packet(int fd, struct ntp_data *data)
 	 * the transmit field intelligible.
 	 */
 
-	*(u_int64_t *)(packet + NTP_TRANSMIT) = data->xmitck;
+	memcpy(packet + NTP_TRANSMIT, &data->xmitck, sizeof (u_int64_t));
 
 	data->originate = current_time(JAN_1970);
 
@@ -454,7 +454,7 @@ unpack_ntp(struct ntp_data *data, u_char *packet)
 	data->transmit = d / NTP_SCALE;
 
 	/* See write_packet for why this isn't an endian problem. */
-	data->recvck = *(u_int64_t *)(packet + NTP_ORIGINATE);
+	memcpy(&data->recvck, packet + NTP_ORIGINATE, sizeof (u_int64_t));
 }
 
 /*
