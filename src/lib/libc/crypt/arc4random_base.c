@@ -1,5 +1,5 @@
 /*-
- * Copyright (c) 2010, 2011
+ * Copyright (c) 2010, 2011, 2012
  *	Thorsten Glaser <tg@mirbsd.org>
  *
  * Provided that these terms and disclaimer and all copyright notices
@@ -34,7 +34,7 @@
 #include "arc4random.h"
 #include "thread_private.h"
 
-__RCSID("$MirOS: src/lib/libc/crypt/arc4random_base.c,v 1.3 2011/04/27 21:46:05 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/crypt/arc4random_base.c,v 1.4 2011/07/06 22:22:09 tg Exp $");
 
 struct arc4random_status a4state;
 
@@ -165,7 +165,7 @@ arc4random_stir_locked(pid_t mypid)
 	bzero(sbuf.charbuf, sizeof(sbuf));
 
 	/* discard early keystream */
-	carry += 256 * 4 + (arcfour_byte(&a4state.cipher) & 0x1F);
+	carry += 256 * 12 + (arcfour_byte(&a4state.cipher) & 0x1F);
 	while (carry--)
 		(void)arcfour_byte(&a4state.cipher);
 

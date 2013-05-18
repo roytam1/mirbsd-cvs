@@ -1,7 +1,7 @@
 #!/bin/mksh
-# $MirOS: src/sys/conf/newvers.sh,v 1.19 2010/09/12 18:31:36 tg Exp $
+# $MirOS: src/sys/conf/newvers.sh,v 1.20 2010/09/19 10:55:48 tg Exp $
 #-
-# Copyright (c) 2003, 2004, 2005, 2006, 2008, 2010
+# Copyright (c) 2003, 2004, 2005, 2006, 2008, 2010, 2012
 #	Thorsten Glaser <tg@mirbsd.de>
 #
 # Provided that these terms and disclaimer and all copyright notices
@@ -83,8 +83,8 @@ wu="$(id -un 2>/dev/null)" || wu=root
 myname="$(cd $(dirname "$0"); print -r "$(pwd)/$(basename "$0")")"
 
 
-# arc4random in Pure mksh
-set -A hostent -- $(dd if=/dev/arandom bs=277 count=1 2>&- | \
+# arc4random(3) in Pure mksh™
+set -A seedbuf -- $(dd if=/dev/arandom bs=277 count=1 2>&- | \
     hexdump -ve '1/1 "0x%02X "')
 set -A rs_S
 typeset -i rs_S rs_i=-1 rs_j=0 n
@@ -94,7 +94,7 @@ done
 rs_i=-1
 while (( ++rs_i < 256 )); do
 	(( n = rs_S[rs_i] ))
-	(( rs_j = (rs_j + n + hostent[rs_i]) & 0xFF ))
+	(( rs_j = (rs_j + n + seedbuf[rs_i]) & 0xFF ))
 	(( rs_S[rs_i] = rs_S[rs_j] ))
 	(( rs_S[rs_j] = n ))
 done
@@ -112,7 +112,7 @@ function arcfour_byte {
 	(( rs_S[rs_j] = si ))
 	(( rs_out = rs_S[(si + sj) & 0xFF] ))
 }
-(( n = 1024 + hostent[276] + (RANDOM & 0xFF) ))
+(( n = 256 * 12 + seedbuf[256] + (RANDOM & 0xFF) ))
 while (( n-- )); do
 	arcfour_byte
 done
@@ -122,8 +122,8 @@ while (( n-- )); do
 done
 
 (( irandseed = ((rs_out + (
-    (hostent[256] << 24) | (hostent[257] << 16) |
-    (hostent[258] << 8) | hostent[259])) | 1) & 0x7FFFFFFF ))
+    (seedbuf[257] << 24) | (seedbuf[258] << 16) |
+    (seedbuf[259] << 8) | seedbuf[260])) | 1) & 0x7FFFFFFF ))
 
 
 (cat <<EOF
@@ -144,12 +144,12 @@ const char version[]=
 uint32_t _randseed = ${irandseed};
 unsigned char initial_entropy[16] = {
 EOF
-typeset -Uui16 -Z5 hostent rs_S rs_i rs_j
-n=259
+typeset -Uui16 -Z5 seedbuf rs_S rs_i rs_j
+n=260
 print -n '\t'
-while (( ++n < 276 )); do
-	print -n 0x${hostent[n]#16#}
-	(( n == 275 )) || print -n ', '
+while (( ++n < 277 )); do
+	print -n 0x${seedbuf[n]#16#}
+	(( n == 276 )) || print -n ', '
 done
 print '\n};'
 print -n 'struct arcfour_status initial_arc4random = {\n\t{'

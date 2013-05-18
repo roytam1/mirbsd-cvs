@@ -1,4 +1,4 @@
-/* $MirOS: src/sys/crypto/arc4random.c,v 1.3 2010/10/01 16:21:16 tg Exp $ */
+/* $MirOS: src/sys/crypto/arc4random.c,v 1.4 2010/12/23 19:25:31 tg Exp $ */
 
 /*-
  * Copyright © 2010
@@ -163,7 +163,7 @@ arc4random_reinit(void *arg __unused)
 	 * skip early keystream for security,
 	 * plus a random amount for whitening
 	 */
-	n += 256 * 4 + (random() & 7) +
+	n += 256 * 12 + (random() & 7) +
 	    (arcfour_byte(&lopool_collapse) & 7) +
 	    (arcfour_byte(&initial_arc4random) & 7);
 	while (n--)

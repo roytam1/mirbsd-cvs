@@ -1,5 +1,5 @@
 static const char __vcsid[] = "@(#) MirOS contributed arc4random.c (old)"
-    "\n	@(#)rcsid_master: $MirOS: contrib/code/Snippets/arc4random.c,v 1.27 2010/01/28 16:48:12 tg Exp $"
+    "\n	@(#)rcsid_master: $MirOS: contrib/code/Snippets/arc4random.c,v 1.28 2010/09/12 12:24:27 tg Exp $"
     ;
 
 /*-
@@ -32,7 +32,7 @@ static const char __vcsid[] = "@(#) MirOS contributed arc4random.c (old)"
  */
 
 /*-
- * Copyright (c) 2008, 2009, 2010
+ * Copyright (c) 2008, 2009, 2010, 2012
  *	Thorsten Glaser <tg@mirbsd.org>
  * This is arc4random(3) made more portable,
  * as well as arc4random_pushb(3) for Cygwin.
@@ -271,10 +271,11 @@ stir_finish(uint8_t av)
 	/*
 	 * Discard early keystream, as per recommendations in:
 	 * http://www.wisdom.weizmann.ac.il/~itsik/RC4/Papers/Rc4_ksa.ps
-	 * We discard 256 words. A long word is 4 bytes.
+	 * "(Not So) Random Shuffles of RC4" by Ilya Mironov says to
+	 * drop at least 256 * 2 bytes, with 256 * 12 being suggested.
 	 * We also discard a randomly fuzzed amount.
 	 */
-	n = 256 * 4 + (arc4_getbyte() & 0x0FU) + (av & 0xF0U);
+	n = 256 * 12 + (arc4_getbyte() & 0x0FU) + (av & 0xF0U);
 	av &= 0x0FU;
 	while (n--)
 		arc4_getbyte();
