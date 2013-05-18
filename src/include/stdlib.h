@@ -1,4 +1,4 @@
-/**	$MirOS: src/include/stdlib.h,v 1.26 2010/09/21 21:24:06 tg Exp $ */
+/**	$MirOS: src/include/stdlib.h,v 1.27 2010/12/23 18:33:32 tg Exp $ */
 /*	$OpenBSD: stdlib.h,v 1.34 2005/05/27 17:45:56 millert Exp $	*/
 /*	$NetBSD: stdlib.h,v 1.25 1995/12/27 21:19:08 jtc Exp $	*/
 
@@ -101,6 +101,7 @@ typedef struct {
 
 #include <sys/cdefs.h>
 
+#ifndef _STDLIB_H_abs_DEFINED
 /*
  * Some header files may define an abs macro.
  * If defined, undef it to prevent a syntax error and issue a warning.
@@ -109,10 +110,18 @@ typedef struct {
 #undef abs
 #warning abs macro collides with abs() prototype, undefining
 #endif
+__BEGIN_DECLS
+int abs(int);
+__END_DECLS
+#define _STDLIB_H_abs_DEFINED
+#define abs(j) __extension__({				\
+	int abs_j = (j);				\
+	(abs_j < 0 ? -abs_j : abs_j);			\
+})
+#endif
 
 __BEGIN_DECLS
 __dead void	 abort(void);
-int	 abs(int);
 int	 atexit(void (*)(void));
 double	 atof(const char *);
 int	 atoi(const char *);
