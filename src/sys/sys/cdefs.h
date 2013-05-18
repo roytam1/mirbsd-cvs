@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/sys/cdefs.h,v 1.15 2007/02/02 21:05:30 tg Exp $ */
+/**	$MirOS: src/sys/sys/cdefs.h,v 1.16 2007/05/18 00:47:58 tg Exp $ */
 /*	$OpenBSD: cdefs.h,v 1.18 2005/05/27 21:28:12 millert Exp $	*/
 /*	$NetBSD: cdefs.h,v 1.16 1996/04/03 20:46:39 christos Exp $	*/
 
@@ -83,8 +83,8 @@
 #define	__const		const		/* define reserved names to standard */
 #define	__signed	signed
 #define	__volatile	volatile
-#if defined(__cplusplus)
-#define	__inline	inline		/* convert to C++ keyword */
+#if defined(__cplusplus) || defined(__PCC__)
+#define	__inline	inline		/* convert to C++/C99 keyword */
 #elif !defined(__GNUC__) && !defined(lint)
 #define	__inline			/* delete GCC keyword */
 #endif
@@ -188,7 +188,7 @@
 #define	__packed		__attribute__((packed))
 #elif __GNUC_PREREQ__(2, 7)
 #define	__packed		__attribute__((__packed__))
-#elif defined(lint)
+#elif defined(lint) || /* for now */ defined(__PCC__)
 #define	__packed
 #endif
 
