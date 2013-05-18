@@ -1200,7 +1200,6 @@
 ./man8/fsck_ffs.htm
 ./man8/fsck_msdos.htm
 ./man8/fsdb.htm
-./man8/ftp-proxy.htm
 ./man8/ftpd.htm
 ./man8/genassym.sh.htm
 ./man8/getty.htm

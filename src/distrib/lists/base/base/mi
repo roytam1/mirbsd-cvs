@@ -669,7 +669,6 @@
 ./usr/sbin/edquota
 ./usr/sbin/faithd
 ./usr/sbin/fdformat
-./usr/sbin/ftp-proxy
 ./usr/sbin/group
 ./usr/sbin/groupadd
 ./usr/sbin/groupdel
@@ -1988,7 +1987,6 @@
 ./usr/share/man/cat8/fsck_ffs.0
 ./usr/share/man/cat8/fsck_msdos.0
 ./usr/share/man/cat8/fsdb.0
-./usr/share/man/cat8/ftp-proxy.0
 ./usr/share/man/cat8/ftpd.0
 ./usr/share/man/cat8/genassym.sh.0
 ./usr/share/man/cat8/getty.0

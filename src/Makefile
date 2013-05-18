@@ -1,4 +1,4 @@
-# $MirOS: src/Makefile,v 1.23 2005/12/05 16:06:01 tg Exp $
+# $MirOS: src/Makefile,v 1.24 2005/12/18 16:36:47 tg Exp $
 # $OpenBSD: Makefile,v 1.103 2004/05/03 15:18:18 drahn Exp $
 
 .include <bsd.own.mk>
@@ -119,12 +119,14 @@ do-htman:
 	${SUDO} chmod -R a=rX ${BSDRELDIR}/htman/*
 
 dist-q:
-	cd ${.CURDIR} && exec ${MAKE} BATCH=defined \
-	    do-dist 2>&1 | tee -a ${.CURDIR}/Build.log
+	cd ${.CURDIR} && exec /usr/bin/env -i HOME=/ \
+	    PATH=/bin:/usr/bin:/sbin:/usr/sbin:/usr/X11R6/bin \
+	    ${MAKE} BATCH=1 _do-dist 2>&1 | tee -a ${.CURDIR}/Build.log
 
 dist:
-	cd ${.CURDIR} && exec ${MAKE} \
-	    do-dist 2>&1 | tee -a ${.CURDIR}/Build.log
+	cd ${.CURDIR} && exec /usr/bin/env -i HOME=/ \
+	    PATH=/bin:/usr/bin:/sbin:/usr/sbin:/usr/X11R6/bin \
+	    ${MAKE} _do-dist 2>&1 | tee -a ${.CURDIR}/Build.log
 
 .ifdef QUICK_DIST
 _DISTS=	base
@@ -136,7 +138,7 @@ _DISTS=	base x11 htman
 .  include "gcc/Makefile.lang"
 .endif
 
-do-dist:
+_do-dist:
 .ifdef QUICK_DIST
 .  if ${NO_JAVA:L} == "no"
 	@[[ -e /usr/X11R6/include/X11/X.h && -e /usr/X11R6/lib/libX11.a ]] \
@@ -214,7 +216,7 @@ cvsup:
 
 .PHONY:	includes beforeinstall afterinstall mksystrace mksystrace-obj \
 	mksystrace-dest build contbuild distrib-dirs b-r contrelease \
-	cont-b-r cvsup do-htman dist dist-q do-dist
+	cont-b-r cvsup do-htman dist dist-q _do-dist
 
 .include <bsd.subdir.mk>
 
