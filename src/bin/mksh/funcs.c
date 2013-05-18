@@ -5,7 +5,7 @@
 
 #include "sh.h"
 
-__RCSID("$MirOS: src/bin/mksh/funcs.c,v 1.36 2006/11/10 07:52:02 tg Exp $");
+__RCSID("$MirOS: src/bin/mksh/funcs.c,v 1.37 2006/11/12 14:58:14 tg Exp $");
 
 int
 c_cd(char **wp)
@@ -583,7 +583,7 @@ c_typeset(char **wp)
 			 * here for compatibility with ksh93.
 			 */
 			pflag = 1;
-			break;
+			continue;
 		case 'r':
 			flag = RDONLY;
 			break;
@@ -768,9 +768,7 @@ c_typeset(char **wp)
 						break;
 					} else {
 						if (pflag)
-							shprintf("%s ",
-							    (flag & EXPORT) ?
-							    "export" : "readonly");
+							shprintf("typeset ");
 						if ((vp->flag&ARRAY) && any_set)
 							shprintf("%s[%d]",
 							    vp->name, vp->index);
