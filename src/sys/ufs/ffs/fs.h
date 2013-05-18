@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/ufs/ffs/fs.h,v 1.4 2006/08/18 18:05:48 tg Exp $	*/
+/**	$MirOS: src/sys/ufs/ffs/fs.h,v 1.5 2007/03/18 04:06:25 tg Exp $	*/
 /*	$OpenBSD: fs.h,v 1.17 2005/03/01 13:30:50 aaron Exp $	*/
 /*	$NetBSD: fs.h,v 1.6 1995/04/12 21:21:02 mycroft Exp $	*/
 
@@ -271,6 +271,8 @@ struct fs {
 	u_int8_t fs_space[1];		/* list of blocks for each rotation */
 /* actually longer */
 };
+
+#define	fs_opostbl_start	fs_opostbl[0][0]
 
 /*
  * Filesystem identification
