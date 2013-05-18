@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.103 2008/03/09 16:32:04 tg Exp $
+# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.104 2008/03/09 16:38:28 tg Exp $
 #-
 # Copyright (c) 2006, 2008
 #	Thorsten “mirabilos” Glaser <tg@mirbsd.de>
@@ -446,35 +446,36 @@ else
 EOF
 fi
 
-if [[ $new_machos = Interix ]]; then
-	# build xinstall
-	rm -rf $d_build/xinstall
-	cd $d_src/usr.bin; find xinstall | cpio -pdlu $d_build
+# build binstall
+rm -rf $d_build/xinstall
+cd $d_src/usr.bin; find xinstall | cpio -pdlu $d_build
+cd $d_build/xinstall
+ed -s install.1 <<-'EOF'
+	/Nm install/s//Nm binstall/
+	wq
+EOF
+CPPFLAGS="$CPPFLAGS -I$d_src/include" \
+    ${d_build}/bmake -m ${d_build}/mk NOMAN=yes NOOBJ=yes || exit 1
+cd $top
+cat >>Install.sh <<EOF
+\$i -c -s \$ug -m 555 ${d_build}/xinstall/install \$DESTDIR${dt_bin}/binstall
+EOF
+if [[ $is_catman = 1 ]]; then
 	cd $d_build/xinstall
-	CPPFLAGS="$CPPFLAGS -I$d_src/include" \
-	    ${d_build}/bmake -m ${d_build}/mk NOMAN=yes NOOBJ=yes || exit 1
+	if ! $NROFF -mandoc install.1 >install.cat1; then
+		echo "Warning: manpage build failure." >&2
+		is_catman=0
+	fi
 	cd $top
+fi
+if [[ $is_catman = 0 ]]; then
 	cat >>Install.sh <<EOF
-\$i -c -s \$ug -m 555 ${d_build}/xinstall/xinstall \$DESTDIR${dt_bin}/
-mv \$DESTDIR${dt_bin}/xinstall \$DESTDIR${dt_bin}/install
+\$i -c \$ug -m 444 ${d_build}/xinstall/install.1 \$DESTDIR${dt_man}/binstall.1
 EOF
-	if [[ $is_catman = 1 ]]; then
-		cd $d_build/xinstall
-		if ! $NROFF -mandoc install.1 >install.cat1; then
-			echo "Warning: manpage build failure." >&2
-			is_catman=0
-		fi
-		cd $top
-	fi
-	if [[ $is_catman = 0 ]]; then
-		cat >>Install.sh <<EOF
-\$i -c \$ug -m 444 ${d_build}/xinstall/install.1 \$DESTDIR${dt_man}/install.1
+else
+	cat >>Install.sh <<EOF
+\$i -c \$ug -m 444 ${d_build}/xinstall/install.cat1 \$DESTDIR${dt_man}/binstall.0
 EOF
-	else
-		cat >>Install.sh <<EOF
-\$i -c \$ug -m 444 ${d_build}/xinstall/install.cat1 \$DESTDIR${dt_man}/install.0
-EOF
-	fi
 fi
 
 # build libmirmake (hash stuff and necessities)
