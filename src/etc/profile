@@ -1,4 +1,4 @@
-# $MirOS: src/etc/profile,v 1.9 2005/09/23 09:26:09 tg Exp $
+# $MirOS: src/etc/profile,v 1.10 2005/12/18 03:39:16 tg Exp $
 
 umask 022
 [ -z "$KSH_VERSION" ] && alias print='echo -e'
@@ -44,8 +44,7 @@ unset HISTFILE
 HOSTNAME="$(ulimit -c 0; hostname -s 2>/dev/null)"
 HOSTNAME="${HOSTNAME:-noFQDN}"
 IRCNAME="MirOS packages a kernel, userland and the attitude"
-#IRCSERVER=irc.66h.42h.de
-IRCSERVER=irc.holarse.de		# IPv4 only XXX bugbug
+IRCSERVER=irc4.66h.42h.de	# irc.66h.42h.de supports IPv4 and IPv6 though
 OSNAME="$(ulimit -c 0; uname -s 2>/dev/null)"
 OSNAME="${OSNAME:-unknown}"
 PAGER=/usr/bin/less
