@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/stand/libsa/pxe.c,v 1.10 2009/01/10 22:21:24 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/stand/libsa/pxe.c,v 1.11 2009/01/11 14:38:04 tg Exp $ */
 /*	$OpenBSD: pxe.c,v 1.5 2007/07/27 17:46:56 tom Exp $ */
 /*	$NetBSD: pxe.c,v 1.5 2003/03/11 18:29:00 drochner Exp $	*/
 
@@ -107,8 +107,6 @@
 
 extern uint32_t pxe_bang;
 extern uint32_t pxe_plus;
-
-extern uint8_t _start, _end;
 
 int have_pxe = -1;
 
@@ -392,9 +390,6 @@ pxe_init(int quiet)
 		goto got_one;	/* probably from SYSLINUX */
 
 	for (cp = (char *)0xa0000; cp > (char *)0x10000; cp -= 2) {
-		if (cp == (void *)&_end)
-			cp = (void *)&_start;
-
 		if (pxenv == NULL)
 			try_pxenv(cp);
 		if (pxe == NULL)
