@@ -1,10 +1,10 @@
-# $MirOS: www/src/mksh.hts,v 1.57 2007/09/11 14:42:31 tg Exp $
+# $MirOS: www/src/mksh.hts,v 1.58 2007/09/11 14:58:15 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.57 2007/09/11 14:42:31 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.58 2007/09/11 14:58:15 tg Exp $'
 mws_content <<'EOF'
 <h1>mksh(1) R31b</h1>
 <p>This is the website of the MirBSD™ Korn Shell, an actively developed free
@@ -675,6 +675,18 @@ mws_content <<'EOF'
   ANSI’n’POSIX Environment (not finished)</li>
  <li>Plan porting mksh to <a href="http://www.minix3.org/">Minix 3</a>
   (not finished yet)</li>
+</ul>
+<p>The mksh R31c (Solaris-only) upgrade for cnuke@ was caused by:</p><ul>
+ <li>Clean up <tt>Build.sh</tt> and “test … -o …” doesn’t exist in Bourne</li>
+ <li>Detect if the non-standard <tt>u_int32_t</tt> type, which was
+  unfortunately used by the OpenBSD project in designing the standard
+  arc4random(3) API, is present (which it isn’t on Solaris), and, if
+  not, emulate it using the standard <tt>uint32_t</tt> (ISO C99) from
+  &lt;stdint.h&gt;, which we fake as needed (if the standard integer
+  types are not present, e.g. on PW32 and OSF/1); change mksh as well
+  as <a href="http://cvs.mirbsd.de/contrib/code/Snippets/arc4random.c">the
+  arc4random.c contribution</a> to not use these non-standard types</li>
+ <li>Remove unused types from the faked &lt;stdint.h&gt; file</li>
 </ul>
 <p>A quick upgrade, mksh R31b with major bug fixes:</p><ul>
  <li>Fix typo (blsk → bksl) in <tt>check.t</tt> test naming</li>
