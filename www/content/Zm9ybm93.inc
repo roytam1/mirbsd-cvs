@@ -1,5 +1,5 @@
 <!-- PageID: fornow -->
-<small class="rcsid">$MirOS: www/content/Zm9ybm93.inc,v 1.7 2006/08/12 19:33:19 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/Zm9ybm93.inc,v 1.8 2006/10/29 22:22:43 tg Exp $</small>
 <h1>MirOS Website (for now)</h1>
 
 <h2>Yeah, we lost</h2>
@@ -29,21 +29,21 @@
  work (linking to a directory containing all versions; you might
  want to adjust the mirror though), and the current version.</p><ul>
 <li>MirOS RELEASE<ul>
-  <li><a href="/MirOS/ISOs/">ISO (i386)</a> 2006-06-25 (MIR60625.ISO)</li>
+  <li><a href="/MirOS/ISOs/">ISO (i386)</a> 2006-06-11 (MIR60625.ISO)</li>
   <li><a href="/MirOS/v9/">direct download</a> 2005-12-23 (MirOS #9)</li>
   <li><a href="/MirOS/ISOs/">ISO (sparc)</a> 2004-06-05 (mbsd7quater.iso)</li>
   <li><a href="/MirOS/v7.4/bsd/sparc/">direct download</a> MirOS #7quater</li>
  </ul></li>
 <li>MirOS CURRENT<ul>
-  <li><a href="http://f.scarywater.net/miros/">BitTorrent</a> 2006-10-29</li>
-  <li><a href="/current/i386/">direct download (i386)</a> 2006-10-16</li>
-  <li><a href="/MirOS/ISOs/">ISO (i386)</a> 2006-10-15</li>
+  <li><a href="http://f.scarywater.net/miros/">BitTorrent</a> 2007-04-30</li>
+  <li><a href="/current/i386/">direct download (i386)</a> 2007-04-30</li>
+  <li><a href="/MirOS/ISOs/">ISO (i386)</a> 2006-11-11</li>
   <li>(nothing yet for sparc)</li>
  </ul></li>
-<li><a href="/current/i386/ports9.ngz">MirPorts Framework</a> 2006-10-16</li>
-<li><a href="/MirOS/dist/mir/mksh/">mksh</a> R28</li>
-<li><a href="/MirOS/dist/mir/make/">MirMake</a> 2006-10-13</li>
-<li><a href="/MirOS/dist/jupp/">jupp</a> joe-3.1jupp6</li>
+<li><a href="/current/ports10.ngz">MirPorts Framework</a></li>
+<li><a href="/MirOS/dist/mir/mksh/">mksh</a> R29d</li>
+<li><a href="/MirOS/dist/mir/make/">MirMake</a> 2007-04-30</li>
+<li><a href="/MirOS/dist/jupp/">jupp</a> joe-3.1jupp8</li>
 <li><a href="/MirOS/BT/">mirrored torrents</a> (see above)</li>
 <li><a href="/MirOS/CVS/">CVS Repo</a> 2006-10-04</li>
 <li><a href="/MirOS/CVS/">CVS root</a> historic</li>

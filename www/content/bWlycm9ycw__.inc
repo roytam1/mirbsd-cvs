@@ -1,5 +1,5 @@
 <!-- PageID: mirrors -->
-<small class="rcsid">$MirOS: www/content/bWlycm9ycw__.inc,v 1.10 2006/01/27 10:37:15 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bWlycm9ycw__.inc,v 1.11 2006/03/19 21:23:19 tg Exp $</small>
 <h1>MirOS mirrors</h1>
 
 <h2>Kinds of mirrors</h2>
@@ -53,6 +53,7 @@
  use or advocate FTP. It's a bad, ancient protocol and barely deserves
  to die peacefully. Use https, http or rsync instead, or participiate
  in BitTorrent file swarming.</p><ul>
+<li>http://pub.allbsd.org/MirOS/</li>
 <li>ftp.gwdg.de (?)</li>
 <li>...?</li>
 </ul>
