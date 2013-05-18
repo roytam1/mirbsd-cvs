@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.67 2008/08/08 20:29:16 bsiegert Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.68 2008/08/08 21:16:27 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -1359,7 +1359,7 @@ Author: tg@
 Title: Cats, Rivella, other nice things, and… yuck
 
 <p>Still <a href="@@RELPATH@@permalinks/wlog-10_e20080725-tg.htm">cats
- have less sorrows</p>. Now it’s proven that feline specimen <a
+ have less sorrows</a>. Now it’s proven that feline specimen <a
  href="http://incredimazing.com/static/media/2007/12/09/915d7ec0e067ac2/i_question.jpg">can
  actually spell</a>. Poor “lolcats” who are abused by many.</p>
 <p>Discovering <a href="http://www.rivella.ch/">Rivella</a> and Tonnerre
