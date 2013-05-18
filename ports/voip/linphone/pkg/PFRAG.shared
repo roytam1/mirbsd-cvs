@@ -1,9 +1,0 @@
-@comment $MirOS: ports/comms/linphone/pkg/PFRAG.shared,v 1.1.7.1 2005/03/18 15:43:50 tg Exp $
-@lib lib/liblinphone.so.0.0
-@lib lib/liblinphonegnome.so.0.0
-@lib lib/libmediastreamer.so.0.0
-@lib lib/libmsspeex.so.0.0
-@lib lib/libortp.so.0.0
-@lib lib/libosipalloc.so.0.0
-@lib lib/libosipua.so.2.0
-@lib lib/libspeex.so.2.0
