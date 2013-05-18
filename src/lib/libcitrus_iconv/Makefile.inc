@@ -1,4 +1,4 @@
-# $MirOS: src/lib/libcitrus_iconv/Makefile.inc,v 1.2 2006/01/31 17:27:29 tg Exp $
+# $MirOS: src/lib/libcitrus_iconv/Makefile.inc,v 1.3 2006/01/31 19:13:42 tg Exp $
 
 .ifndef _MODSRC_LIB_LIBCITRUS_ICONV_MAKEFILE_INC
 _MODSRC_LIB_LIBCITRUS_ICONV_MAKEFILE_INC=1
@@ -19,6 +19,7 @@ CPPFLAGS+=	-D'_C_LABEL_STRING(x)="_"x'
 .error Unknown OBJECT_FMT
 .endif
 CPPFLAGS+=	-D'__uint8_t=uint8_t'
+CPPFLAGS+=	-D'wchar_t=uint32_t' -D_GCC_WCHAR_T	# XXX nice hack, eh?
 
 CPPFLAGS+=	-I${NBLIBC}/citrus -I${NBLIBC}/citrus/modules \
 		-I${BSDSRCDIR}/lib/libc/include -I${NBLIBC}

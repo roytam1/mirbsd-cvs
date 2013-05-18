@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: src/lib/libcitrus_iconv/iconv.exp,v 1.1 2006/02/01 14:40:14 tg Exp $
 #-
 # This is a version script for the GNU linker ld(1) to assign
 # global visibility only to specific exported symbols. Symbol
@@ -10,6 +10,17 @@
 # The __iconv{,_{get,free}_list} API is, however, exported in
 # the hope it will not clash with any future version of other
 # iconv libraries. GNU libiconv 1.9.1 doesn't.
+
+# API/ABI warnings:
+# revision 4.4:
+#	- initial revision, for NetBSD(R) compatibility
+#	- plug-in compatible to GNU libiconv, except for
+#	  a few internal symbols (e.g. _libiconv_version)
+# revision 5.0:
+#	- new module API+ABI, uses uint32_t instead of
+#	  wchar_t via cpp(1) define
+#	- libiconv.so bumped to 5.0, but its exported
+#	  interface did not change from 4.4
 
 {
   # First, define all global symbols
