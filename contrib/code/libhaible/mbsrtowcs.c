@@ -1,4 +1,4 @@
-/* $MirOS: contrib/code/libhaible/mbsrtowcs.c,v 1.11 2006/05/30 22:02:55 tg Exp $ */
+/* $MirOS: contrib/code/libhaible/mbsrtowcs.c,v 1.12 2006/05/30 22:05:00 tg Exp $ */
 
 /*-
  * Copyright (c) 2006
@@ -25,7 +25,7 @@
 
 #include "mir18n.h"
 
-__RCSID("$MirOS: contrib/code/libhaible/mbsrtowcs.c,v 1.11 2006/05/30 22:02:55 tg Exp $");
+__RCSID("$MirOS: contrib/code/libhaible/mbsrtowcs.c,v 1.12 2006/05/30 22:05:00 tg Exp $");
 
 size_t
 mbsrtowcs(wchar_t *__restrict__ pwcs, const char **__restrict__ s,
@@ -56,8 +56,9 @@ mbsrtowcs(wchar_t *__restrict__ pwcs, const char **__restrict__ s,
 			numb++;
 		}
 	} else {
+		num = ps->count;
 		while (((pwcs == NULL) ? 1 : n--) > 0) {
-			if (ps->count == 0) {
+			if (num == 0) {
 				c = *src;
 				if (c < 0x80) {
 					if (pwcs != NULL)
@@ -80,10 +81,8 @@ mbsrtowcs(wchar_t *__restrict__ pwcs, const char **__restrict__ s,
 				} else
 					goto ilseq;
 				src++;
-			} else {
+			} else
 				w = ps->value << 6;
-				num = ps->count;
-			}
 			for (;;) {
 				c = *src++ ^ 0x80;
 				if (!(c < 0x40))
@@ -94,14 +93,14 @@ mbsrtowcs(wchar_t *__restrict__ pwcs, const char **__restrict__ s,
 				if (w < (1 << (5 * num + 6)))
 					goto ilseq;
 			}
-			if (pwcs != NULL) {
+			if (pwcs != NULL)
 				pwcs[numb] = w;
-				ps->count = 0;
-			}
 			numb++;
 		}
 	}
-	if (pwcs != NULL)
+	if (pwcs != NULL) {
 		*s = (const char *)src;
+		ps->count = 0;
+	}
 	return (numb);
 }
