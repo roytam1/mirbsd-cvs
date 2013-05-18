@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.397 2012/08/13 20:36:01 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.398 2012/08/27 06:55:47 bsiegert Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -9294,4 +9294,40 @@ Tag: news pkgsrc
  have been built for MirBSD-current on i386. This time, there is notably
  a much larger selection of software for X11, due to a successful build
  of gtk+2. All in all, there are about 6300 packages available.</p>
+----
+Date: 12.10.2012 15:56 +0200
+Author: bsiegert@
+Title: Source Code Pro
+
+<p>There are a lot of monospaced fonts or “programmer’s fonts” available
+ these days. Personally, I like neither the default “sans” that is
+ generally used in Gtk applications nor the default monospace font in
+ Mac&nbsp;OS&nbsp;X, Menlo. Both fonts are very similar, as Menlo is
+ based on Bitstream Vera Sans.</p>
+
+<p>Now, Adobe has just released an excellent monospaced OpenType font,
+ called
+ <a href="http://blogs.adobe.com/typblography/2012/09/source-code-pro.html"><i>Source
+ Code Pro</i></a>,
+ as open source. The fonts can be directly downloaded from
+ <a href="http://sourceforge.net/projects/sourcecodepro.adobe/">their
+ SourceForge page</a>.</p>
+
+<p>(Of course, if you are into non-antialiased fonts, nothing beats the
+ “fixed” font included with X.)</p>
+----
+Date: 12.10.2012 16:04 +0200
+Author: bsiegert@
+Title: Go on NetBSD
+Tag: golang
+
+<p>Starting today, I am running continuous builders for Go on NetBSD/386
+ and NetBSD/amd64. Both are running fine, so Go is now (semi-officially)
+ supported on NetBSD. You need at least version 5.99.51 or, even better,
+ a NetBSD-6.0 release candidate. In addition, the latest Go release
+ (1.0.3) does not have the NetBSD support, so you must build from source
+ on tip.</p>
+
+<p>Go 1.1, which is expected for January 2013, will support NetBSD on
+ x86 officially.</p>
 ----
