@@ -1,4 +1,4 @@
-# $MirOS: src/bin/mksh/Makefile,v 1.29 2007/01/18 16:05:05 tg Exp $
+# $MirOS: src/distrib/special/mksh/Makefile,v 1.1 2007/01/26 18:39:49 tg Exp $
 # $miros: src/bin/mksh/Makefile,v 1.29 2007/01/18 16:05:05 tg Exp $
 
 .include <bsd.own.mk>
@@ -7,7 +7,8 @@ PROG=		mksh
 SRCS=		alloc.c edit.c eval.c exec.c expr.c funcs.c histrap.c \
 		jobs.c lex.c main.c misc.c shf.c syn.c tree.c var.c
 .PATH:		${BSDSRCDIR}/bin/mksh
-CPPFLAGS+=	-DHAVE_ATTRIBUTE=1 -DHAVE_ATTRIBUTE_BOUNDED=1 \
+CPPFLAGS+=	-DMKSH_SMALL -DMKSH_ASSUME_UTF8 -DMKSH_NEED_MKNOD \
+		-DHAVE_ATTRIBUTE=1 -DHAVE_ATTRIBUTE_BOUNDED=1 \
 		-DHAVE_ATTRIBUTE_USED=1 -DHAVE_SYS_PARAM_H=1 \
 		-DHAVE_SYS_MKDEV_H=0 -DHAVE_SYS_SYSMACROS_H=0 \
 		-DHAVE_LIBGEN_H=1 -DHAVE_PATHS_H=1 -DHAVE_STDBOOL_H=1 \
@@ -19,8 +20,8 @@ CPPFLAGS+=	-DHAVE_ATTRIBUTE=1 -DHAVE_ATTRIBUTE_BOUNDED=1 \
 		-DHAVE_SETLOCALE_CTYPE=0 -DHAVE_LANGINFO_CODESET=0 \
 		-DHAVE_REVOKE=0 -DHAVE_SETMODE=1 -DHAVE_SETRESUGID=1 \
 		-DHAVE_SETGROUPS=1 -DHAVE_STRCASESTR=1 -DHAVE_STRLCPY=1 \
-		-DHAVE_MULTI_IDSTRING=1 -DMKSH_SMALL -DMKSH_NEED_MKNOD
+		-DHAVE_MULTI_IDSTRING=1
+COPTS+=		-std=gnu99 -Wall -fno-inline
 CDIAGFLAGS+=	-Wno-cast-qual
-COPTS+=		-fno-inline
 
 .include <bsd.prog.mk>
