@@ -1,6 +1,6 @@
-# $MirOS: ports/infrastructure/mk/mirports.sys.mk,v 1.55 2009/12/04 22:55:02 tg Exp $
+# $MirOS: ports/infrastructure/mk/mirports.sys.mk,v 1.56 2009/12/28 14:55:13 tg Exp $
 #-
-# Copyright (c) 2005, 2006, 2008
+# Copyright (c) 2005, 2006, 2008, 2012
 #	Thorsten “mirabilos” Glaser <tg@mirbsd.de>
 #
 # Provided that these terms and disclaimer and all copyright notices
@@ -59,6 +59,20 @@ OSver=	${OSREV:C/^([0-9]*\.[0-9]*)\..*$/\1/}
 .ifndef OSrev
 OSrev=		${OSREV:S/.//}
 .MAKEFLAGS:=	${.MAKEFLAGS} OSrev=${OSrev:Q}
+.endif
+
+#--- Check for ulimit
+
+.ifndef _VMEM_UNLOCK_CMDS
+#XXX more?
+.  for _i in -d -m -v
+_VMEM_UNLOCK_CMDS_t${_i}!=ulimit ${_i} >/dev/null 2>&1; echo $$?
+.    if ${_VMEM_UNLOCK_CMDS_t${_i}} == 0
+_VMEM_UNLOCK_CMDS_h${_i}!=ulimit -H ${_i}
+_VMEM_UNLOCK_CMDS+=	ulimit ${_i} ${_VMEM_UNLOCK_CMDS_h${_i}};
+.    endif
+.  endfor
+.MAKEFLAGS:=		${.MAKEFLAGS} _VMEM_UNLOCK_CMDS=${_VMEM_UNLOCK_CMDS:Q}
 .endif
 
 #--- Specific OS Dependencies

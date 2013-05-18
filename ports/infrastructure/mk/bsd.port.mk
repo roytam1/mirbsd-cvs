@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.273 2010/01/09 19:40:06 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.275 2010/03/06 20:01:41 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -1433,8 +1433,7 @@ _CLEANDEPENDS?=		Yes
 
 _VMEM_UNLOCK:=
 .if (${VMEM_AUTOUNLOCK:L} == "yes") && (${VMEM_WARNING:L} == "yes")
-_VMEM_UNLOCK+=		ulimit -d $$(ulimit -H -d);
-_VMEM_UNLOCK+=		ulimit -m $$(ulimit -H -m);
+_VMEM_UNLOCK+=		${_VMEM_UNLOCK_CMDS}
 .endif
 
 # mirroring utilities
@@ -2520,7 +2519,7 @@ _package: ${_PKG_PREREQ}
 	case "$${duplicates}" in "");; \
 	*)	echo "\n*** WARNING *** Duplicates in PLIST:\n$$duplicates\n";; \
 	esac
-	@ulimit -d $$(ulimit -H -d); ulimit -m $$(ulimit -H -m); \
+	@${_VMEM_UNLOCK_CMDS} \
 	cd ${.CURDIR} && if ${SUDO} ${SETENV} PATH=${PKG_CMDDIR:Q}:$$PATH \
 	    ${PKG_CMD_CREATE} ${PKG_ARGS} ${PKGFILE${SUBPACKAGE}}; then \
 		mode=$$(id -u):$$(id -g); \
