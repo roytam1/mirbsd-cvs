@@ -1,4 +1,4 @@
-/* $MirOS: src/sys/arch/i386/stand/liveboot/hook.S,v 1.5 2006/04/10 20:53:54 tg Exp $ */
+/* $MirOS: src/sys/arch/i386/stand/liveboot/hook.S,v 1.6 2006/04/10 21:05:20 tg Exp $ */
 
 /*-
  * Copyright (c) 2006
@@ -266,11 +266,11 @@ outchc:
 	add	dx,ax	/* dx := offset in video memory */
 	pop	ax
 	push	es
-	mov	bx,0xb000
+	mov	bx,0xb800
 	mov	es,bx
 	mov	di,dx
 	stosw
-	mov	bh,0xb8
+	mov	bh,0xb0
 	mov	es,bx
 	mov	di,dx
 	stosw
