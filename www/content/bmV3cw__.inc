@@ -1,6 +1,13 @@
-<small class="rcsid">$MirOS: www/content/bmV3cw__.inc,v 1.49 2006/01/20 13:08:10 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bmV3cw__.inc,v 1.50 2006/01/24 22:31:44 tg Exp $</small>
 
 <h1>Current MirOS News</h1><ul>
+
+<li>26.01.2006<br />There are new, working, permanent homepages of both <a
+	href="http://mirbsd.de/jupp">jupp</a> and the MirBSD korn shell <a
+	href="http://mirbsd.de/mksh">mksh</a> these are redirections which
+	are hosted in waldi's Zope and (usually) point to a working mirror
+	just like for <a href="http://mirbsd.de/">MirOS itself</a> and the
+	<a href="http://cvs.mirbsd.de/">MirOS CVSweb</a> redirection.</li>
 
 <li>24.01.2006<br />Progress is being made both in ports as in base. A new
 	snapshot is scheduled to be uploaded in a few days also fixing the
