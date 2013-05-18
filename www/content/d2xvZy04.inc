@@ -1,5 +1,5 @@
 <!-- PageID: wlog-8 -->
-<small class="rcsid">$MirOS: www/content/d2xvZy04.inc,v 1.75 2006/06/02 20:47:09 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy04.inc,v 1.76 2006/06/04 00:14:38 tg Exp $</small>
 <h1>MirBSD &ndash; WTF, We Have a Release!?</h1>
 <p><small><a href="#eof">bottom</a> or <a href="/?older">older</a>
  editions</small></p>
@@ -1350,6 +1350,20 @@ celebrate this event, rotate the wlog and start a new one.</p>
   if everything goes well.</p>
  <p>TGEN and Tonnerre are interesting people. Sad they're usually quiet,
   in <a href="/?irc">IRC</a> (#bsd).</p>
+</div>
+
+<div class="wlentry">
+ <h3 id="e20060609">09.06.2006 by tg@</h3>
+ <p>I finally got maou rebooted, I'm currently backing it up via serial,
+  yes, 56kbps, console ;) and have already found a person who'll take it
+  over so I'll be relieved of the payment soon. I'll just rent space, at
+  gecko2s box for now.</p>
+ <p>gdb doesn't work with the J or Z malloc.conf(5) options&#8230;</p>
+ <p>Found some more annoying bugs in libc/i18n, should be all fixed now.
+  Also, I removed a few unused programmes and libraries; no need for the
+  year-old unmaintained and unaudited stuff to linger around.</p>
+ <p>The tries to update libncurses failed&#8230; see the commit message,
+  if you really want to know more.</p>
 </div>
 
 <p id="eof">Good luck, have fun, take care etc.pp</p>
