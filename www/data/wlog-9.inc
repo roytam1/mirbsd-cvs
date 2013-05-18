@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-9.inc,v 1.98 2008/12/04 19:10:34 tg Exp $
+RCSID: $MirOS: www/data/wlog-9.inc,v 1.99 2009/09/25 18:23:34 tg Exp $
 Date: 25.06.2006
 Author: tg@
 
@@ -1768,8 +1768,8 @@ Author: tg@
  nuggets, because it’s easier (also for Ewe and Jewel) to have the classes
  from external libraries unpacked in the tree.</p>
 <p>GNU ed sucks – it is less BSD ed(1) compatible in more recent versions…
- I bet they’ll be using GPLv3 next – and GFDL for the <span class="texts">man</span>
- er… <span class="texts">texinfo</span> pages (now what, GNU software doesn’t use manual
+ I bet they’ll be using GPLv3 next – and GFDL for the <span class="s">man</span>
+ er… <span class="s">texinfo</span> pages (now what, GNU software doesn’t use manual
  pages any more, and almost no GNU/Linux distribution has texinfo).</p>
 <p>I would have listened to the grml talk at MoeLUG tonight, but nobody of
  my mates with cars wanted to go. Too bad, I really liked the Altbier.</p>

@@ -1,4 +1,4 @@
-/* $MirOS: www/files/vstyle.css,v 1.21 2009/09/25 19:51:06 tg Exp $ */
+/* $MirOS: www/files/vstyle.css,v 1.22 2009/09/25 19:52:06 tg Exp $ */
 
 /*-
  * The MirOS Project - Webpages
@@ -257,14 +257,6 @@ tt {
 	white-space:nowrap;
 }
 
-.texts {
-	text-decoration:line-through;
-}
-
-.textu {
-	text-decoration:underline;
-}
-
 .boxhead {
 	margin-bottom:0px;
 }
@@ -277,4 +269,27 @@ tt {
 
 .boxfoot {
 	margin-top:0px;
+}
+
+.revbox {
+	background:#000000;
+	color:#FFFFFF;
+	padding:3px;
+}
+
+.b {
+	font-family:"Gentium Basic", "Gentium", Helvetica, sans-serif;
+	font-weight:bold;
+}
+
+.i {
+	font-style:italic;
+}
+
+.s {
+	text-decoration:line-through;
+}
+
+.u {
+	text-decoration:underline;
 }

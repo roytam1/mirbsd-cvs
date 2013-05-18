@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/news.inc,v 1.123 2009/09/25 18:23:32 tg Exp $
+RCSID: $MirOS: www/data/news.inc,v 1.124 2009/10/20 21:36:58 tg Exp $
 Title: Older news from the MirOS Project
 Date: 01.03.2006
 
@@ -1555,7 +1555,7 @@ Tag: bug
  reverted (backed out) due to regressions wrt. 128 byte inode
  filesystems.</p>
 <p><strong>MirOS #8, #9, #10, #10-current:</strong> It is advised
- to <span class="textu">refrain from using the
+ to <span class="u">refrain from using the
  <tt>ext2fs</tt> filesystem</span>, especially in read-write mode,
  because symlink code is broken. The filesystem, and all processes
  accessing it, become unresponsive (hang in D state) upon creation
