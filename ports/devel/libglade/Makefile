@@ -1,7 +1,7 @@
-# $MirOS: ports/devel/libglade/Makefile,v 1.5 2006/02/09 09:35:46 tg Exp $
+# $MirOS: ports/devel/libglade/Makefile,v 1.6 2006/09/14 00:08:21 tg Exp $
 # $OpenBSD: Makefile,v 1.7 2004/12/22 06:31:05 espie Exp $
 
-COMMENT=			library for loading GLADE interface files at runtime
+COMMENT=		library for loading GLADE interface files at runtime
 V=			2.5.1
 DISTNAME=		libglade-${V}
 PKGNAME=		libglade2-${V}-0
@@ -18,7 +18,7 @@ PERMIT_DISTFILES_FTP=	Yes
 
 MODULES=		devel/gettext devel/pkgconfig
 LIB_DEPENDS=		gdk-x11-2.0.0.0,gdk_pixbuf-2.0.0.0,gtk-x11-2.0.0.0::x11/gtk+ \
-			xml:textproc/libxml
+			xml::textproc/libxml
 
 USE_X11=		Yes
 CONFIGURE_STYLE= 	autoconf
