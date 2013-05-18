@@ -1,0 +1,15 @@
+# $MirOS: src/distrib/common/Makefile.sparc,v 1.9 2007/10/02 00:48:12 tg Exp $
+# $OpenBSD: Makefile.inc,v 1.14 2002/05/01 19:21:28 mickey Exp $
+
+#INSTALLBOOT?=	${DESTDIR}/usr/mdec/installboot
+RAWLABEL=
+IMAGESIZE=	3712
+AOUT_BSDRD=	Yes
+
+# for now, since it's quite too big
+# makefs: '/usr/obj/distrib/common/tmpdata' size of 1798144 is larger than the maxsize of 1474560.
+FLOPPY=		no
+
+cdrom-mdcopy:
+	ln ${WRKDIR}/v${OSrev}/${MACHINE}/bsd.rd ${WRKDIR}/vmunix # for kicks
+	ln ${WRKDIR}/v${OSrev}/${MACHINE}/bsd.rd ${WRKDIR}/bsd	# no comment…
