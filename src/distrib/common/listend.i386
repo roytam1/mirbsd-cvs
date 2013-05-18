@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/listend.i386,v 1.11 2007/05/24 23:04:05 tg Exp $
+# $MirOS: src/distrib/common/listend.i386,v 1.12 2007/05/26 23:03:07 tg Exp $
 
 # we want the disklabel without manual page
 CRUNCHSPECIAL disklabel	srcdir distrib/special/dl-noman
@@ -7,7 +7,6 @@ CRUNCHSPECIAL disklabel	srcdir distrib/special/dl-noman
 LINK	instbin					sbin/fdisk
 LINK	instbin					sbin/mount_ext2fs
 LINK	instbin					sbin/mount_msdos
-LINK	instbin					sbin/wicontrol
 LINK	instbin					usr/bin/more usr/bin/less
 
 # these don't fit
