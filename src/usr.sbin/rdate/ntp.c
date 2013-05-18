@@ -1,7 +1,7 @@
 /*	$OpenBSD: ntp.c,v 1.27 2004/10/26 09:48:59 henning Exp $	*/
 
 /*
- * Copyright (c) 2002, 2004, 2005, 2006 by Thorsten Glaser.
+ * Copyright (c) 2002, 2004, 2005, 2006, 2007 by Thorsten Glaser.
  * Copyright (c) 1996, 1997 by N.M. Maclaren. All rights reserved.
  * Copyright (c) 1996, 1997 by University of Cambridge. All rights reserved.
  *
@@ -49,9 +49,7 @@
 #include <time.h>
 #include <unistd.h>
 
-#include "ntpleaps.h"
-
-__RCSID("$MirOS: src/usr.sbin/rdate/ntp.c,v 1.7 2006/06/09 20:58:09 tg Exp $");
+__RCSID("$MirOS: src/usr.sbin/rdate/ntp.c,v 1.8 2006/08/28 13:15:43 tg Exp $");
 
 /* This macro is not implemented on all operating systems */
 #ifndef	SA_LEN
@@ -61,6 +59,13 @@ __RCSID("$MirOS: src/usr.sbin/rdate/ntp.c,v 1.7 2006/06/09 20:58:09 tg Exp $");
 				sizeof(struct sockaddr_in) : \
 				sizeof(struct sockaddr)))
 #endif
+
+#ifdef EXT_A4R
+extern u_int32_t arc4random(void);
+#endif
+
+/* from ntpleaps.c */
+extern time_t tick2utc(time_t);
 
 /*
  * NTP definitions.  Note that these assume 8-bit bytes - sigh.  There

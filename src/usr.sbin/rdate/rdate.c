@@ -1,9 +1,9 @@
-/**	$MirOS: src/usr.sbin/rdate/rdate.c,v 1.5 2006/06/04 01:06:19 tg Exp $ */
+/**	$MirOS: src/usr.sbin/rdate/rdate.c,v 1.6 2006/08/28 13:15:44 tg Exp $ */
 /*	$OpenBSD: rdate.c,v 1.22 2004/02/18 20:10:53 jmc Exp $	*/
 /*	$NetBSD: rdate.c,v 1.4 1996/03/16 12:37:45 pk Exp $	*/
 
 /*
- * Copyright (c) 2005 Thorsten Glaser
+ * Copyright (c) 2005, 2007 Thorsten Glaser
  * Copyright (c) 1994 Christos Zoulas
  * All rights reserved.
  *
@@ -60,11 +60,11 @@
 #define	logwtmp(a,b,c)
 #endif
 
-__RCSID("$MirOS: src/usr.sbin/rdate/rdate.c,v 1.5 2006/06/04 01:06:19 tg Exp $");
+__RCSID("$MirOS: src/usr.sbin/rdate/rdate.c,v 1.6 2006/08/28 13:15:44 tg Exp $");
 
 void rfc868time_client(const char *, int, struct timeval *, struct timeval *);
 void ntp_client(const char *, int, struct timeval *, struct timeval *);
-static __dead void usage(void);
+static void usage(void) __attribute__((noreturn));
 
 extern char *__progname;
 int debug = 0;
