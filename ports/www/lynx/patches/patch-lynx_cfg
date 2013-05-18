@@ -1,23 +1,19 @@
-$MirOS: ports/www/lynx/patches/patch-lynx_cfg,v 1.8 2008/03/09 18:19:42 tg Exp $
+$MirOS: ports/www/lynx/patches/patch-lynx_cfg,v 1.9 2008/12/17 00:24:42 tg Exp $
 
 	mostly site policy and compatibility, usability
 
---- lynx.cfg.orig	Mon Dec 15 00:24:33 2008
-+++ lynx.cfg	Wed Dec 17 00:14:05 2008
-@@ -1,10 +1,10 @@
-+# $MirOS: src/gnu/usr.bin/lynx/lynx.cfg,v 1.23 2008/12/16 23:27:06 tg Exp $
- # $LynxId: lynx.cfg,v 1.165 2008/12/07 21:05:49 tom Exp $
+--- lynx.cfg.orig	Thu Jan  1 01:22:02 2009
++++ lynx.cfg	Sun Jan 18 19:50:15 2009
+@@ -1,7 +1,7 @@
++# $MirOS: src/gnu/usr.bin/lynx/lynx.cfg,v 1.24 2009/01/18 19:40:51 tg Exp $
+ # $LynxId: lynx.cfg,v 1.169 2009/01/01 01:10:31 tom Exp $
  # lynx.cfg file.
 -# The default placement for this file is /usr/local/lib/lynx.cfg (Unix)
 -#                                     or Lynx_Dir:lynx.cfg (VMS)
 +# The default placement for this file is /etc/lynx.cfg
  #
  # $Format: "#PRCS LYNX_VERSION \"$ProjectVersion$\""$
--#PRCS LYNX_VERSION "2.8.7dev.11"
-+#PRCS LYNX_VERSION "2.8.7dev.11a"
- #
- # $Format: "#PRCS LYNX_DATE \"$ProjectDate$\""$
- #PRCS LYNX_DATE "Sun, 14 Dec 2008 16:24:56 -0800"
+ #PRCS LYNX_VERSION "2.8.7dev.12"
 @@ -12,7 +12,7 @@
  # Definition pairs are of the form  VARIABLE:DEFINITION
  # NO spaces are allowed between the pair items.

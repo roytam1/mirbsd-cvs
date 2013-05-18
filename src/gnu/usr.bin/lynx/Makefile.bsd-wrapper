@@ -1,7 +1,4 @@
-+[  --enable-ascii-ctypes   use experimental ascii case-conversion],
--[  --enable-justify-elts   use element-justification logic],
-+[  --disable-justify-elts  use element-justification logic],
-# $MirOS: src/gnu/usr.bin/lynx/Makefile.bsd-wrapper,v 1.21 2008/12/17 17:01:58 tg Exp $
+# $MirOS: src/gnu/usr.bin/lynx/Makefile.bsd-wrapper,v 1.22 2009/01/18 19:40:48 tg Exp $
 # $OpenBSD: Makefile.bsd-wrapper,v 1.12 2003/05/01 18:59:36 avsm Exp $
 
 MAN=		lynx.1
@@ -10,7 +7,7 @@ FSFMAKEFILE=	makefile
 
 .include <bsd.own.mk>
 
-CPPFLAGS+=	-DZCONST=const -DLYNX_VERSION=\"2.8.7dev.11a-MirOS\"
+CPPFLAGS+=	-DZCONST=const -DLYNX_VERSION=\"2.8.7dev.12-MirOS\"
 
 CFARGS+=	--prefix=/usr \
 		--sysconfdir=/etc \
@@ -22,12 +19,14 @@ CFARGS+=	--prefix=/usr \
 		--without-gnutls \
 		--without-socks \
 		--without-socks5 \
+		--without-pkg-config \
 		--enable-ipv6 \
 		--with-screen=ncursesw \
 		--enable-widec \
 		--disable-htmlized-cfg \
 		--enable-locale-charset \
 		--enable-addrlist-page \
+		--disable-ascii-ctypes \
 		--enable-charset-choice \
 		--enable-cjk \
 		--enable-japanese-utf8 \
@@ -68,6 +67,7 @@ CFVARS+=	ac_cv_path_TELNET=telnet \
 		ac_cv_path_ZCAT=zcat \
 		ac_cv_path_ZIP=zip \
 		ac_cv_path_PKG_CONFIG=none
+CFVARS+=	YACC=yacc
 
 HTMLDIR=	/usr/share/doc/html
 HTMLFILES=	Lynx_users_guide.html about_lynx.html help_files.txt \

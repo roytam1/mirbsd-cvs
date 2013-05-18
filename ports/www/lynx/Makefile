@@ -1,14 +1,11 @@
-# $MirOS: ports/www/lynx/Makefile,v 1.24 2008/12/17 17:01:58 tg Exp $
+# $MirOS: ports/www/lynx/Makefile,v 1.25 2008/12/26 13:46:03 tg Exp $
 
 COMMENT=		standard text-mode world wide web browser
 CATEGORIES=		www essentials
-VERSION=		2.8.7dev.11a
-DASH_VER=		2
+VERSION=		2.8.7dev.12
 DISTNAME=		lynx${VERSION:C/[a-z]$//}
 .if ${VERSION} != ${VERSION:C/[a-z]$//}
-.  ifdef notdef		# no patchfile exists for 2.8.7dev.11a
 PATCHFILES=		lynx${VERSION}.patch.gz:0
-.  endif
 .endif
 PKGNAME=		lynx-${VERSION}-${DASH_VER}
 HOMEPAGE=		http://lynx.isc.org/
@@ -44,12 +41,14 @@ CONFIGURE_ARGS+=	--enable-vertrace \
 			--without-gnutls \
 			--without-socks \
 			--without-socks5 \
+			--without-pkg-config \
 			--enable-ipv6 \
 			--with-screen=ncursesw \
 			--enable-widec \
 			--disable-htmlized-cfg \
 			--enable-locale-charset \
 			--enable-addrlist-page \
+			--disable-ascii-ctypes \
 			--enable-charset-choice \
 			--enable-cjk \
 			--enable-japanese-utf8 \
@@ -84,6 +83,7 @@ CONFIGURE_ENV+=		ac_cv_path_TELNET=telnet \
 			ac_cv_path_ZCAT=zcat \
 			ac_cv_path_ZIP=zip \
 			ac_cv_path_PKG_CONFIG=none
+CONFIGURE_ENV+=		YACC=yacc
 
 .if ${MACHINE_OS} == "Interix"
 CONFIGURE_ARGS+=	--disable-ipv6

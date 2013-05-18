@@ -1,9 +1,9 @@
-$MirOS: ports/www/lynx/patches/patch-lynx_man,v 1.1 2008/03/09 18:19:43 tg Exp $
+$MirOS: ports/www/lynx/patches/patch-lynx_man,v 1.2 2008/12/17 00:24:42 tg Exp $
 
 	site policy
 
---- lynx.man.orig	Mon Dec 15 00:24:33 2008
-+++ lynx.man	Wed Dec 17 00:14:05 2008
+--- lynx.man.orig	Thu Jan  1 01:22:02 2009
++++ lynx.man	Sun Jan 18 19:50:15 2009
 @@ -207,16 +207,16 @@ it is equivalent to setting the \fBCOLOR
  library like \fBncurses\fR, Lynx relies completely on the terminal
  description to determine whether color mode is possible, and
@@ -42,7 +42,7 @@ $MirOS: ports/www/lynx/patches/patch-lynx_man,v 1.1 2008/03/09 18:19:43 tg Exp $
  
  .I outside_ftp
  - disallow ftps for people coming from outside your
-@@ -780,7 +780,7 @@ Logically OR the values to combine optio
+@@ -783,7 +783,7 @@ Logically OR the values to combine optio
  .br
  4=TRST (table layout)
  .br
