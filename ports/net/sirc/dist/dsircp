@@ -1,5 +1,5 @@
 #!/usr/bin/env perl
-# $MirOS: ports/net/sirc/dist/dsircp,v 1.28 2011/12/16 15:50:24 tg Exp $
+# $MirOS: ports/net/sirc/dist/dsircp,v 1.29 2011/12/16 17:12:05 tg Exp $
 #-
 # dsircp: dumb-mode small irc client in perl
 # by orabidoo <roger.espel.llima@pobox.com>
@@ -457,6 +457,7 @@ sub bindtoserver {
   &sl("NICK $nick");
   @channels=(); $talkchannel=''; %mode=(); $umode=''; %limit=();
   %haveops=(); %chankey=();
+  %awaymsgs=(); %awaytimes=();
 }
 
 sub gl {
@@ -1894,7 +1895,16 @@ sub donumeric {
   } elsif ($cmd eq '301') {
     &yetonearg;
     &yetonearg;
-    &tell("*** $newarg is away: $args");
+    my $skipawaytell = 0;
+    my $awaytime = time;
+    if (($awaytimes{$newarg}) &&
+	(($awaytime - $awaytimes{$newarg}) < 300) &&
+	($awaymsgs{$newarg} eq $args)) {
+      $skipawaytell = 1;
+    }
+    $awaytimes{$newarg} = $awaytime;
+    $awaymsgs{$newarg} = $args;
+    &tell("*** $newarg is away: $args") unless $skipawaytell;
   } elsif ($cmd eq '302') {
     &yetonearg;
     &yetonearg;
@@ -2290,6 +2300,8 @@ while (1) {
       } else {
 	&dohooks("nick", $newarg);
 	&tell("*\cbN\cb* $who$puh2 is now known as $newarg");
+	delete $awaytimes{$who};
+	delete $awaymsgs{$who};
       }
     } elsif ($cmd eq 'MODE') {
       &yetonearg;
@@ -2311,6 +2323,8 @@ while (1) {
       local($n)=$newarg;
       $args || ($args=$who);
       &tell("*\cb<\cb* $n got killed by $who$puh1 ($args)");
+      delete $awaytimes{$n};
+      delete $awaymsgs{$n};
     } elsif ($cmd eq 'INVITE') {
       &yetonearg;
       &yetonearg;
@@ -2328,6 +2342,8 @@ while (1) {
       &dohooks("signoff", $args);
       &tell("*\cb<\cb* Signoff: $who$puh2 ($args)");
       &disappeared($who);
+      delete $awaytimes{$who};
+      delete $awaymsgs{$who};
     } elsif ($cmd eq 'WALLOPS') {
       &tell("!$who$puh2! ".$args);
     } elsif ($cmd eq 'RPONG') {
