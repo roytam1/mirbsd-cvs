@@ -1,9 +1,9 @@
-# $MirOS: ports/x11/py-gtk/Makefile,v 1.6 2006/02/09 11:15:54 tg Exp $
+# $MirOS: ports/x11/py-gtk/Makefile,v 1.7 2006/09/14 00:15:35 tg Exp $
 # $OpenBSD: Makefile,v 1.1.1.1 2004/02/16 21:12:50 xsa Exp $
 
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
-COMMENT=			gtk+2 Python bindings
+COMMENT=	gtk+2 Python bindings
 
 V=		2.0.0
 DISTNAME=	pygtk-${V}
@@ -29,6 +29,7 @@ LIB_DEPENDS=	gthread-2.0.0.0::devel/glib \
 		glade-2.0.0.0::devel/libglade \
 		gdk-x11-2.0.0.0,gdk_pixbuf-2.0.0.0,gtk-x11-2.0.0.0::x11/gtk+
 
+USE_X11=	Yes
 CONFIGURE_STYLE=gnu
 CONFIGURE_ARGS=	${CONFIGURE_SHARED} --enable-thread
 CONFIGURE_ENV=	PYTHON=${MODPY_BIN}

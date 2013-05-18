@@ -1,7 +1,7 @@
-# $MirOS: ports/x11/wxgtk/Makefile,v 1.6 2006/02/09 11:15:56 tg Exp $
+# $MirOS: ports/x11/wxgtk/Makefile,v 1.7 2006/09/14 00:15:45 tg Exp $
 # $OpenBSD: Makefile,v 1.5 2003/10/08 17:13:18 sturm Exp $
 
-COMMENT=			C++ cross-platform GUI toolkit
+COMMENT=		C++ cross-platform GUI toolkit
 DISTNAME=		wxGTK-2.6.1
 PKGNAME=		${DISTNAME:L}-0
 CATEGORIES=		x11
@@ -124,6 +124,7 @@ CONFIGURE_ARGS+=	--disable-gtk2 \
 
 #USE_GMAKE=		Yes
 USE_CXX=		Yes
+USE_X11=		Yes
 
 # LGPL
 PERMIT_PACKAGE_CDROM=	Yes
