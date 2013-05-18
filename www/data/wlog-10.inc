@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.214 2009/07/10 10:59:11 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.215 2009/07/13 18:37:21 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -4400,4 +4400,34 @@ Language: de
  (siehe letztes Posting) oder so.</p>
 <p>Gestern mußte ich noch einen Fipptehler bei kwalletcli fixen ☹ dafür
  sollte™ heute auf Arbeit alles gut gelaufen sein.</p>
+----
+Title: Bremsen nerven!
+Date: 14.07.2009 16:29
+Author: tg@
+Language: de
+Tag: geocache
+
+<p>Irgendwie… ist’s warm, ich bin müde, satt, und hab grad <em>keine</em>
+ Lust, an mksh(1), BSD::arc4random, oder gar vnd(4) zu arbeiten ☺</p>
+<p>Ist aber denk ich mal erlaubt. Dafür waren wir heute beim Einkaufen
+ wieder geocachen (Statistiken siehe unten, <em>irgendwann</em> einmal
+ „inventarisiere“ ich die aber mal richtig, Duplikate und so, denn das
+ erste Hundert sollte ich vollhaben bald). Nervig ist, wenn man wegen
+ Bremsen (der Viecher, die ich eigentlich so nur vom Bodansee kenne)
+ die Suche abbricht, bevor sie richtig begonnen hat. Immerhin, einige
+ haben wir gefunden, mit Lust auf mehr.</p>
+<p>Fahrradmitnahme bei der DB ist auch so ’ne Sache, sicher, es ginge,
+ irgendwie. Aber spontan wars mir dann doch zu aufwendig. Auch wenn ich
+ es jetzt gerne hier hätte ☻</p>
+<p>Ich hab <tt>nocd</tt> bei mir, und eine ganze Pixelreihe (horizontal)
+ ist kaputt. Noch einer. Das nervt, nur <tt>nwt</tt> bleibt seinem Nutzer
+ seit 1993 treu ☹
+<p>gecko2@ hat lustige Musik da, ganz gut, mal was Anderes. Wie die aber
+ alle heißen muß er selber ins wlog schreiben :þ</p><!-- RSS stop -->
+<p>Hier nun (nicht im RSS) die Statpix (:<br />
+ <img src="https://call.mirbsd.org/sp.cgi?oc" alt="OpenCaching.de" />
+ <img src="https://call.mirbsd.org/sp.cgi?gc" alt="The Frog Site" />
+ <img src="https://call.mirbsd.org/sp.cgi?tc" alt="Rare Jewels" />
+ <img src="https://call.mirbsd.org/sp.cgi?nc" alt="Broken Webpages²" />
+ <br />Leider fast keine OCs hier in der Gegend.</p>
 ----
