@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.112 2008/12/10 18:58:59 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.113 2008/12/14 00:09:05 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -2279,4 +2279,21 @@ Tag: mksh
 <p>MirOS-current has mksh R36b plus some changes from mksh-current, mostly
  renaming <tt>set -o utf8-hack</tt> to <tt>set -o utf8-mode</tt> denoting
  said technology is solid after ages of testing. MirOS-stable has R36b.</p>
+----
+Date: 17.12.2008 00:25
+Author: tg@
+Title: Updates
+
+<p>Today I updated a couple of things (Perl, OpenSSL, OpenSSH, libpng,
+ Lynx, Sendmail) in MirOS-current. Should be pretty much all needed,
+ and stuff should still be working.</p>
+<p>XFree86® 4.8.0 is out, we’ll update once we have human resources
+ to do it.</p>
+<p>The next snapshot may not contain the newer X11 unless stable. If
+ imported <em>and</em> stable before the #11 release (whose criteria
+ include OpenBSD merge), it’ll be used there.</p><!-- RSS stop -->
+<p>Today I’ve got an interview at a potential new employer. *crosses
+ fingers* Wish me luck. Or employ me. (Donations to be used for travel
+ and accomodation for “events” are still desired for all of us
+ developers.)</p>
 ----
