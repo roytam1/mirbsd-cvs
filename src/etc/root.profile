@@ -1,4 +1,4 @@
-# $MirOS: src/etc/root.profile,v 1.8 2008/05/07 12:16:12 tg Exp $
+# $MirOS: src/etc/root.profile,v 1.9 2008/05/15 14:29:35 tg Exp $
 #-
 # initialisation for bourne shell (worst case)
 
@@ -41,3 +41,12 @@ Lretrocfg() {		# retrieve kernel config file
 	fi
 	rm -f $Tin $Tout
 }
+
+/bin/cat <<-'EOF'
+
+	**********************************
+	Do not login as root, use sudo(8)!
+	**********************************
+
+EOF
+:
