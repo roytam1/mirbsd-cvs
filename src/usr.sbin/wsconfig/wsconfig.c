@@ -1,4 +1,4 @@
-/* $MirOS: src/usr.sbin/wsconfig/wsconfig.c,v 1.9 2007/02/11 00:48:24 tg Exp $ */
+/* $MirOS: src/usr.sbin/wsconfig/wsconfig.c,v 1.10 2007/02/11 00:59:00 tg Exp $ */
 
 /*-
  * Copyright (c) 2006, 2007
@@ -35,7 +35,7 @@
 #include <termios.h>
 #include <unistd.h>
 
-__RCSID("$MirOS: src/usr.sbin/wsconfig/wsconfig.c,v 1.9 2007/02/11 00:48:24 tg Exp $");
+__RCSID("$MirOS: src/usr.sbin/wsconfig/wsconfig.c,v 1.10 2007/02/11 00:59:00 tg Exp $");
 
 #define DEFDEV	"/dev/ttyCcfg"
 
@@ -43,7 +43,9 @@ __RCSID("$MirOS: src/usr.sbin/wsconfig/wsconfig.c,v 1.9 2007/02/11 00:48:24 tg E
 /* XXX is U+20AC U+002E ok or some other char better? Think EUC, SJIS, etc. */
 const char ctype_qstr[] = "\030\032\r\xE2\x82\xAC.\033[6n";
 
+#ifndef SMALL
 __dead void usage(void);
+#endif
 
 /*
  * common options:
@@ -65,18 +67,22 @@ __dead void usage(void);
  */
 
 int
+#ifdef SMALL
+main(void)		/* like -U -q */
+#else
 main(int argc, char **argv)
+#endif
 {
 	const char *wsdev, *est;
 	char buf[64];
 	int wsfd, c, rv = 0;
-	int action, nr = 0, q = 0;
+	int action = 0, nr = 0;
 	struct termios tio, otio;
+#ifndef SMALL
 	struct wsdisplay_font f;
+	int q = 0;
 
 	wsdev = DEFDEV;
-	action = 0;
-
 	while ((c = getopt(argc, argv, "f:I:o:qSs:U")) != -1)
 		switch (c) {
 		case 'f':
@@ -121,7 +127,9 @@ main(int argc, char **argv)
 			if (action)
 				usage();
 			else
+#endif
 				action = 6;
+#ifndef SMALL
 			break;
 		default:
 			usage();
@@ -133,6 +141,7 @@ main(int argc, char **argv)
 		usage();
 
 	if (wsdev == DEFDEV && (action == 4 || action == 6))
+#endif
 		if ((wsdev = ttyname(STDIN_FILENO)) == NULL)
 			wsdev = "/dev/tty";
 
@@ -145,6 +154,7 @@ main(int argc, char **argv)
 		if ((wsfd = open(wsdev, O_RDWR, 0)) < 0)
 			err(2, "open %s", wsdev);
 
+#ifndef SMALL
 	switch (action) {
 	case 1:
 		if (argc)
@@ -207,6 +217,7 @@ main(int argc, char **argv)
 		}
 		break;
 	case 6:
+#endif
 		if (tcgetattr(wsfd, &otio))
 			err(3, "tcgetattr");
 		tio = otio;
@@ -239,6 +250,7 @@ main(int argc, char **argv)
  tios_err:
 		if (tcsetattr(wsfd, TCSAFLUSH, &otio))
 			err(3, "tcsetattr");
+#ifndef SMALL
 		if (!q)
 			printf("LC_CTYPE=%s; export LC_CTYPE\n",
 			    rv == 0 ? "en_US.UTF-8" : "C");
@@ -248,11 +260,13 @@ main(int argc, char **argv)
 	default:
 		usage();
 	}
+#endif
 
 	close(wsfd);
 	return (rv);
 }
 
+#ifndef SMALL
 void
 usage(void)
 {
@@ -264,3 +278,4 @@ usage(void)
 	    __progname, __progname, __progname);
 	exit(1);
 }
+#endif
