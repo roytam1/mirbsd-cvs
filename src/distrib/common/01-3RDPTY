@@ -65,5 +65,11 @@ distribute the CD ourselves (e.g. at FOSDEM in Bruxelles, Belgi-
 um, in which case use and distribution in Germany and Belgium is
 a required criterium).
 
+
+Mirrors
+-------
+
+See /usr/share/doc/legal/LICENCE-GNU for details.
+
 _______________________________________________________________________
-$MirOS: src/distrib/common/01-3RDPTY,v 1.1 2006/12/20 17:58:29 tg Exp $
+$MirOS: src/distrib/common/01-3RDPTY,v 1.2 2006/12/21 00:23:50 tg Exp $
