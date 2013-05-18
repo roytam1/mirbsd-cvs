@@ -1,7 +1,9 @@
-# $MirOS: src/share/misc/bsdstats,v 1.12 2006/10/07 03:23:23 tg Exp $
-# $FreeBSD: /repoman/r/pcvs/ports/sysutils/bsdstats/files/300.statistics,v 1.30 2006/10/02 12:07:30 scrappy Exp $
+# $MirOS: src/share/misc/bsdstats,v 1.13 2006/10/07 21:47:36 tg Exp $
+# $FreeBSD: /usr/local/www/cvsroot/FreeBSD/ports/sysutils/bsdstats/files/300.statistics,v 1.33 2006/10/04 04:51:41 scrappy Exp $
 
 rpt='http://rpt.bsdstats.org/scripts/'
+
+export TZ=UTC PATH=/bin:/usr/bin:/sbin:/usr/sbin:/usr/local/bin:/usr/mpkg/bin
 
 function uri_escape
 {
@@ -11,12 +13,20 @@ function uri_escape
 host=${rpt#http://}
 host=${host%%/*}
 # do it twice in case DNS is slow
-res=$(host -t a $host 2>&-; sleep 3; host -t a $host 2>&-)
-if [[ $res != *$host* ]]; then
-	print not connecting to $host: cannot resolve
-	return 0
+if [[ $host = *bsdstats.org ]]; then
+	res=$(host -t txt bsdstats.org 2>&-; sleep 3; \
+	    host -t txt bsdstats.org 2>&-)
+	if [[ $res != *UP* ]]; then
+		print not connecting to $host: bsdstats.org not up
+		return 0
+	fi
+else
+	res=$(host -t a $host 2>&-; sleep 3; host -t a $host 2>&-)
+	if [[ $res != *$host* ]]; then
+		print not connecting to $host: cannot resolve
+		return 0
+	fi
 fi
-
 stats_token=
 integer stats_token_time=0
 integer stats_report_time=0

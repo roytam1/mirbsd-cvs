@@ -1,10 +1,9 @@
 #!/bin/mksh
-# $MirOS: src/etc/daily,v 1.10 2006/09/13 01:08:20 tg Exp $
+# $MirOS: src/etc/daily,v 1.11 2006/09/19 03:21:23 tg Exp $
 # $OpenBSD: daily,v 1.50 2005/03/17 18:16:52 millert Exp $
 # From: @(#)daily	8.2 (Berkeley) 1/25/94
 
-export TZ=UTC
-PATH=/bin:/usr/bin:/sbin:/usr/sbin:/usr/local/bin:/usr/mpkg/bin
+export TZ=UTC PATH=/bin:/usr/bin:/sbin:/usr/sbin:/usr/local/bin:/usr/mpkg/bin
 bak=/var/backups
 cd /
 
