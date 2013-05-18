@@ -1,4 +1,0 @@
-@comment $OpenBSD: PFRAG.gnome,v 1.2 2003/12/16 21:04:53 naddy Exp $
-share/gnome/apps/Multimedia/soundtracker.desktop
-@dirrm share/gnome/apps/Multimedia
-@dirrm share/gnome/apps

@@ -1,3 +1,0 @@
-@comment $MirOS$
-@comment $OpenBSD: PFRAG.shared,v 1.1 2000/07/20 05:25:09 brad Exp $
-@lib lib/libgtkgl.so.1.2

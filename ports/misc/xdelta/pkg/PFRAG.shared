@@ -1,4 +1,0 @@
-@comment $MirOS$
-@comment $OpenBSD: PFRAG.shared,v 1.1 2000/08/21 04:55:14 kevlo Exp $
-@lib lib/libedsio.so.0.0
-@lib lib/libxdelta.so.11.1

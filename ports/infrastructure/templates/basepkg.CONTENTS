@@ -1,5 +1,0 @@
-@name faked-basepackage
-@cwd /usr/mpkg
-@comment subdir=@subdir@ cdrom=yes ftp=yes
-@comment $MirOS: ports/infrastructure/templates/basepkg.CONTENTS,v 1.1 2005/12/20 20:01:14 tg Exp $
-@option base-package
