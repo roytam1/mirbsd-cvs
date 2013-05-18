@@ -1,4 +1,4 @@
-# $MirOS: www/Makefile,v 1.3 2007/06/10 00:02:35 tg Exp $
+# $MirOS: www/Makefile,v 1.4 2007/06/21 16:13:50 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -113,6 +113,7 @@ depend: .depend
 	${U_ENV} ${MKSH} ${TOP}/mk/mkdepend ${DEPSRCS}
 
 lazy: .PHONY
-	make obj && make depend && make && make reinstall && exec make cp-heph
+	cd ${.CURDIR} && make obj && make depend && \
+	    make && make reinstall && exec make cp-heph
 
 .include <bsd.obj.mk>
