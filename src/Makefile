@@ -1,4 +1,4 @@
-# $MirOS: src/Makefile,v 1.69 2006/09/24 19:00:50 tg Exp $
+# $MirOS: src/Makefile,v 1.70 2006/10/02 07:38:39 tg Exp $
 # $OpenBSD: Makefile,v 1.103 2004/05/03 15:18:18 drahn Exp $
 
 .if defined(MAKECONF) && exists(${MAKECONF})
@@ -162,8 +162,6 @@ _DISTS=	base
 _DISTS=	base x11 htman
 .endif
 
-_INDEX_FILES=	CKSUM RMD160 RMD160.gz source${OSrev}.ngz xfree${OSrev}.ngz
-
 .ifdef QUICK_DIST
 .  include "gcc/Makefile.lang"
 .endif
@@ -269,15 +267,17 @@ _do-dist:
 	    DESTDIR=${BSDRELDIR:Q}/${_set} RELEASEDIR=${BSDRELDIR:Q}/rel \
 	    ${SUDO} ${SHELL} ${BSDSRCDIR}/scripts/tarmk ${OSrev}
 .endfor
-	-cd ${BSDRELDIR}/rel && ${SUDO} touch ${_INDEX_FILES} index.txt
-	-cd ${BSDRELDIR}/rel && /bin/ls -1 | ${SUDO} sort -uo index.txt
-	-cd ${BSDRELDIR}/rel && ${SUDO} rm -f ${_INDEX_FILES}
-.for _i in ${_INDEX_FILES:M*.ngz}
+.for _i in source${OSrev}.ngz xfree${OSrev}.ngz
 	test ! -e ${BSDSRCDIR}/${_i} || \
 	    ${SUDO} ln -s ${BSDSRCDIR}/${_i} ${BSDRELDIR}/rel/
 .endfor
-	-cd ${BSDRELDIR}/rel && cksum * | ${SUDO} sort -k3 -uo CKSUM
-	-cd ${BSDRELDIR}/rel && rmd160 !(CKSUM) | ${SUDO} sort -uo RMD160
+	-cd ${BSDRELDIR}/rel; \
+	    ${SUDO} rm -f index.txt; \
+	    ${SUDO} touch CKSUM RMD160 RMD160.gz index.txt; \
+	    /bin/ls -1 | ${SUDO} sort -uo index.txt; \
+	    ${SUDO} rm -f CKSUM RMD160 RMD160.gz; \
+	    cksum !(@(source|xfree)${OSrev}.ngz) | ${SUDO} sort -k3 -uo CKSUM; \
+	    rmd160 !(CKSUM) | ${SUDO} sort -uo RMD160
 	@echo ============================================================
 	@echo Done with MirOS Build.
 	@date
