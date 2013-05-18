@@ -1,9 +1,11 @@
-# $MirOS: ports/audio/faad/Makefile,v 1.4 2006/09/14 00:07:00 tg Exp $
+# $MirOS: ports/audio/faad/Makefile,v 1.5 2008/10/14 19:05:41 tg Exp $
 # $OpenBSD: Makefile,v 1.12 2004/04/28 13:05:01 jolan Exp $
 
 COMMENT=		MPEG2 and MPEG-4 AAC decoder
-DISTNAME=		faad2-2.0
-PKGNAME=		faad-2.0-1
+VERSION=		2.0
+DASH_VER=		2
+DISTNAME=		faad2-${VERSION}
+PKGNAME=		faad-${VERSION}-${DASH_VER}
 CATEGORIES=    		audio
 #MASTER_SITES=		http://users.codefusionis.com/~jolan/
 HOMEPAGE=		http://faac.sourceforge.net/
