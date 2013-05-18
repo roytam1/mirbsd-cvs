@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/Makefile.sparc-big,v 1.9 2008/10/30 17:47:33 tg Exp $
+# $MirOS: src/distrib/common/Makefile.sparc-big,v 1.10 2009/04/16 13:20:23 tg Exp $
 # $OpenBSD: Makefile.inc,v 1.14 2002/05/01 19:21:28 mickey Exp $
 
 RAWLABEL=
@@ -6,8 +6,6 @@ IMAGESIZE=	3712
 IMAGETYPE=	ipldisc
 AOUT_BSDRD=	Yes
 FLOPPY=		no
-# no need as long as it's < 300 KiB and makefs -o no-trailing-padding isn't used
-#CDROM_PAD=	16 * 32
 
 cdrom-mdcopy:
 	# fix path to default kernel file in second-stage boot loader

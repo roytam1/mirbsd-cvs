@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/tools/Makefile,v 1.32 2009/04/26 10:22:09 tg Exp $
+# $MirOS: src/distrib/tools/Makefile,v 1.33 2009/06/07 13:13:18 tg Exp $
 
 all: sundsklbl
 
@@ -33,11 +33,11 @@ sundsklbl: sundsklbl.c
 	cd ${.CURDIR} && ${MAKE} -f ${.SYSMK}/bsd.prog.mk \
 	    PROG=$@ NOMAN=Yes EXPERIMENTAL=Yes
 
-# do *not* use no-trailing-padding
 CDROM_OPTS+=	applicationid=NetBSD_makefs
 CDROM_OPTS+=	bootimage=i386\;eltorito.loo
 CDROM_OPTS+=	no-emul-boot
 CDROM_OPTS+=	label=MirOS~v${OSrev}~BSD~manifold-boot~CD
+CDROM_OPTS+=	no-trailing-padding
 CDROM_OPTS+=	preparer=MirBSD_and_its_contributors
 CDROM_OPTS+=	publisher=Copyright_\<c\>_2002=2009_The_MirOS_Project
 CDROM_OPTS+=	rockridge
@@ -75,11 +75,11 @@ makecdimage: .PHONY
 	@print === press RETURN; read x
 .endif
 	makefs -t cd9660 -o "$$(print -r -- ${CDROM_OPTS} | tr ' ~' ', ')" \
-	    ${CDROM}~ cddir
-	# pad for a geometry of 16 heads, 32 sectors per track
-	mv ${CDROM}~ ${CDROM}
-	#XXX not needed
-	#dd if=${CDROM}~ of=${CDROM} obs=$$((16 * 32 * 512)) conv=osync
+	    ${CDROM} cddir
+	# pad the ISO with ]0;256K] NUL bytes, ie. for
+	# a geometry of 16 heads, 32 sectors per track
+	dd if=/dev/zero count=1 bs=$$(( (512 * 32 * 16) - \
+	    ($$(stat -f %z ${CDROM}) % (512 * 32 * 16)) )) 2>&- >>${CDROM}
 	getextent_cd9660 -f ${CDROM} b_i386.ldr | \
 	    ${MKSH} ${BSDSRCDIR}/usr.sbin/installboot/bxinst.i386 -B 11 | \
 	    dd of=${CDROM} conv=notrunc bs=2048 seek=$$(getextent_cd9660 \

@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/Makefile,v 1.40 2008/10/30 17:47:33 tg Exp $
+# $MirOS: src/distrib/common/Makefile,v 1.41 2009/01/17 12:21:01 tg Exp $
 
 .include <bsd.own.mk>
 
@@ -73,10 +73,9 @@ BOOTSH?=	${DESTDIR}/usr/mdec/bootxx.sh
 
 # compact disc image (set to no to disable)
 CDROM?=		cdrom${OSrev}.iso
-CDROM_PAD?=	1
-# do *not* use no-trailing-padding
 CDROM_OPTS+=	applicationid=NetBSD_makefs
 CDROM_OPTS+=	label=MirOS~v${OSrev}~BSD/${MACHINE}~boot-only~CD
+CDROM_OPTS+=	no-trailing-padding
 CDROM_OPTS+=	preparer=MirBSD_and_its_contributors
 CDROM_OPTS+=	publisher=Copyright_\<c\>_2002=2009_The_MirOS_Project
 CDROM_OPTS+=	rockridge
@@ -221,13 +220,11 @@ cdrom-prepare: bsd.rd
 cdrom-generate:
 	chmod -R u+w ${WRKDIR}
 	makefs -t cd9660 -o "$$(print -r -- ${CDROM_OPTS} | tr ' ~' ', ')" \
-	    ${CDROM}~ ${WRKDIR}
-.if ${CDROM_PAD} == 1
-	mv ${CDROM}~ ${CDROM}
-.else
-	dd if=${CDROM}~ of=${CDROM} obs=$$((${CDROM_PAD} * 512)) conv=osync
-.endif
-	-rm -rf ${WRKDIR} ${CDROM}~
+	    ${CDROM} ${WRKDIR}
+	# pad the ISO with ]0;256K] NUL bytes, ie. for
+	# a geometry of 16 heads, 32 sectors per track
+	dd if=/dev/zero count=1 bs=$$(( (512 * 32 * 16) - \
+	    ($$(stat -f %z ${CDROM}) % (512 * 32 * 16)) )) 2>&- >>${CDROM}
 
 .include <bsd.obj.mk>
 .include <bsd.subdir.mk>

@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/baselive/Makefile,v 1.52 2009/06/07 13:13:17 tg Exp $
+# $MirOS: src/distrib/baselive/Makefile,v 1.53 2009/06/29 16:46:36 tg Exp $
 
 .include <bsd.own.mk>
 
@@ -53,11 +53,6 @@ KERNEL_PREP?=	@:
 BOOT?=		${WRKDIR}/v${OSrev}/i386/boot
 
 CDROM?=		livecd${OSrev}.iso
-.if ${DUALIVE:L} != "no"
-# no need as long as it's < 300 KiB and makefs -o no-trailing-padding isn't used
-#CDROM_PAD?=	16 * 32
-.endif
-CDROM_PAD?=	1
 CDROM_OPTS+=	applicationid=NetBSD_makefs
 CDROM_OPTS+=	hide-rr-moved
 .if ${DUALIVE:L} != "no"
@@ -65,6 +60,7 @@ CDROM_OPTS+=	label=MirOS~v${OSrev}~BSD~DuaLive~CD
 .else
 CDROM_OPTS+=	label=MirOS~v${OSrev}~BSD/i386~Live~CD
 .endif
+CDROM_OPTS+=	no-trailing-padding
 CDROM_OPTS+=	preparer=MirBSD_and_its_contributors
 CDROM_OPTS+=	publisher=Copyright_\<c\>_2002=2009_The_MirOS_Project
 CDROM_OPTS+=	rockridge
@@ -321,15 +317,13 @@ cdrom-generate:
 	    ${SUDO} dd of=CKSUM.gz
 	dd if=/dev/arandom bs=2048 count=1 of=b_torito.ldr
 	${SUDO} makefs -t cd9660 -o "$$(print -r -- ${CDROM_OPTS} | \
-	    tr ' ~' ', ')" ${CDROM}~ ${WRKDIR}
-	${SUDO} chown $$(id -u) ${CDROM}~ ${WRKDIR}
+	    tr ' ~' ', ')" ${CDROM} ${WRKDIR}
+	${SUDO} chown $$(id -u) ${CDROM} ${WRKDIR}
 	chmod 755 ${WRKDIR}
-.if ${CDROM_PAD} == 1
-	mv ${CDROM}~ ${CDROM}
-.else
-	dd if=${CDROM}~ of=${CDROM} obs=$$((${CDROM_PAD} * 512)) conv=osync
-	${SUDO} rm -f ${CDROM}~
-.endif
+	# pad the ISO with ]0;256K] NUL bytes, ie. for
+	# a geometry of 16 heads, 32 sectors per track
+	dd if=/dev/zero count=1 bs=$$(( (512 * 32 * 16) - \
+	    ($$(stat -f %z ${CDROM}) % (512 * 32 * 16)) )) 2>&- >>${CDROM}
 	getextent_cd9660 -f ${CDROM} b_i386.ldr | \
 	    ${MKSH} ${WRKDIR}/v${OSrev}/i386/bootxx.sh -B 11 | \
 	    dd of=${CDROM} conv=notrunc bs=2048 seek=$$(getextent_cd9660 \
