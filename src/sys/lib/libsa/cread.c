@@ -421,7 +421,7 @@ lseek(int fd, off_t offset, int where)
 			off_t toskip = offset - s->stream.total_out;
 
 			while(toskip > 0) {
-#define DUMMYBUFSIZE 256
+#define DUMMYBUFSIZE 128
 				char dummybuf[DUMMYBUFSIZE];
 				off_t len = toskip;
 
