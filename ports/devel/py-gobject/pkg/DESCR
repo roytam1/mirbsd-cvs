@@ -1,4 +1,0 @@
-This package contains Python bindings for GObject.  It is a fairly
-complete set of bindings, it's already rather useful, and is usable to
-write moderately complex programs (see the examples directory for some
-examples of the simpler programs you could write).

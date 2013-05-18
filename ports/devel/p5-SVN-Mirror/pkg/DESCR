@@ -1,5 +1,0 @@
-SVN::Mirror allows you to mirror remote repositories to your local
-subversion repository. A command line client called svm is included.
-
-In this port revision, only remote Subversion repositories are
-supported, not CVS or Perforce.

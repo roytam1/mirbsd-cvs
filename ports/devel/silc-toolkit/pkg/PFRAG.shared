@@ -1,6 +1,0 @@
-@comment $MirOS$
-@comment $OpenBSD: PFRAG.shared,v 1.1.1.1 2004/04/11 21:25:15 jolan Exp $
-@lib lib/libsilc-1.0.so.3.0
-@lib lib/libsilc.so.3.0
-@lib lib/libsilcclient-1.0.so.3.0
-@lib lib/libsilcclient.so.3.0

@@ -1,5 +1,0 @@
-# $MirOS$
-
-LINK	instbin					usr/sbin/ppp
-
-COPY	${DESTDIR}/etc/ppp/ppp.conf.sample	etc/ppp/ppp.conf
