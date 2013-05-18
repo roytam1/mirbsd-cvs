@@ -659,7 +659,8 @@ Other requests:
   labels, instead of fdefault; add UI to apply an ftype, including
   fdefault, to the current buffer
 • regex needs groups
-• bracketed paste mode should disable autoindent, wordwrap, …(?)
+• bracketed paste mode should disable autoindent, wordwrap,
+  updating the status line, …(?)
 • …
 
 __________________________________________________________________
