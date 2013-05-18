@@ -1,3 +1,0 @@
-@comment $OpenBSD: PLIST,v 1.2 2001/11/15 19:25:52 jsyn Exp $
-bin/balance
-man/man1/balance.1
