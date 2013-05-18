@@ -1,6 +1,4 @@
-# $MirOS: ports/databases/db/Makefile,v 1.10 2006/09/14 00:07:48 tg Exp $
-
-BROKEN=			ask tg@ to re-add SEPARATE_BUILD
+# $MirOS: ports/databases/db/Makefile,v 1.11 2006/12/20 15:31:06 tg Exp $
 
 COMMENT=		Berkeley DB, revision 4
 COMMENT-doc=		Berkeley DB documentation, revision 4
@@ -10,18 +8,17 @@ DESCR=			${PKGDIR}/DESCR
 
 RESPONSIBLE=		Benny Siegert <bsiegert@gmx.de>
 
-VERSION=		4.2.52.4
-DASH_VER=		2
+VERSION=		4.2.52.5
+DASH_VER=		0
 DISTNAME=		db-${VERSION:R}
 PKGNAME=		db-${VERSION}-${DASH_VER}
 PKGNAME-doc=		db-doc-${VERSION}-${DASH_VER}
 PKGNAME-tcl=		db-tcl-${VERSION}-${DASH_VER}
 PKGNAME-cxx=		db-cxx-${VERSION}-${DASH_VER}
 CATEGORIES=		databases
-HOMEPAGE=		http://www.sleepycat.com/
-MASTER_SITES=		ftp://sleepycat1.inetu.net/releases/ \
-			${HOMEPAGE}/update/snapshot/
-MASTER_SITES0=		${HOMEPAGE}/update/${VERSION:R}/
+HOMEPAGE=		http://www.oracle.com/technology/software/products/berkeley-db/
+MASTER_SITES=		http://download.oracle.com/berkeley-db/
+MASTER_SITES0=		http://www.oracle.com/technology/products/berkeley-db/db/update/${VERSION:R}/
 DIST_SUBDIR=		db4
 
 TCL_VERSION=		8.4
@@ -35,9 +32,11 @@ PERMIT_DISTFILES_FTP=	Yes
 
 PATCHFILES=		patch.4.2.52.1:0 patch.4.2.52.2:0
 PATCHFILES+=		patch.4.2.52.3:0 patch.4.2.52.4:0
+PATCHFILES+=		patch.4.2.52.5:0
 
 MULTI_PACKAGES=		-doc
 
+WRKBUILD=		${WRKSRC}/build_unix
 CONFIGURE_STYLE=	autogen
 AUTOCONF_NEW=		Yes
 AUTOGEN=		${SHELL} -c 'cd dist && . ./s_config'
@@ -49,7 +48,6 @@ CONFIGURE_ARGS+=	--includedir=$$\{prefix}/include/db4
 CONFIGURE_ARGS+=	${CONFIGURE_SHARED}
 
 MODGNU_CONFIG_GUESS_DIRS= ${WRKSRC}/dist
-WRKBUILD=		${WRKDIR}/build
 
 PSEUDO_FLAVORS=		no_tcl no_cxx
 FLAVOR?=
