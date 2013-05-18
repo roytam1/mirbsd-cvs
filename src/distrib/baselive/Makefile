@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: src/distrib/baselive/Makefile,v 1.5 2006/08/19 19:06:04 tg Exp $
 
 .include <bsd.own.mk>
 
@@ -137,13 +137,13 @@ cdrom-prepare: bsd.gz
 	    <v${OSrev}/${MACHINE}/RMD160 >RMD160; ${SUDO} touch etc/boot.cat
 	cd ${WRKDIR}; rmd160 00-README bsd etc/boot.* stand/* >>RMD160
 	-${SUDO} rm -f ${WRKDIR}/etc/boot.cat ${CDROM}
+
+cdrom-generate:
 	cd ${WRKDIR}; sort -uo RMD160 RMD160; gzip -n9 RMD160
 	# pad for gzsig(1) application later on
 	dd if=/dev/zero count=2 >>${WRKDIR}/RMD160.gz
 	cd ${WRKDIR} && ${SUDO} ${MKSH} ${.CURDIR}/mklocatedb.sh \
 	    ${REALOBJDIR}/${IMAGE}
-
-cdrom-generate:
 	${SUDO} mkisofs -R -f -L -d -D -N -v -v ${CDROM_MDOPTS} \
 	    -P 'The MirOS Project and its contributors' \
 	    -p 'Copyright © 2006 Thorsten Glaser' \
@@ -152,28 +152,22 @@ cdrom-generate:
 	    -pad -o ${CDROM} ${WRKDIR} 2>&1 | tee mkisofs.log
 	${SUDO} chown $$(id -u) ${CDROM}
 
-
-
-
-
-
-
-
-
-
+cdrom-finish:
 
 clean cleandir cleannobsd: cleanworkdir
-	-rm -f ${CDROM} bsd{,.gz} mkisofs.log mr.fs rdsetroot
-	-rm -rf tempdir tmpmnt
+	-rm -f ${CDROM} bsd{,.gz,.tmp} mkisofs.log ${IMAGE}
+	-rm -rf tempdir ${TMPMOUNT}
 
 cleanworkdir:
-	-test ! -e workdir || ${SUDO} rm -rf workdir
+	-test ! -e ${WRKDIR} || ${SUDO} rm -rf ${WRKDIR}
 
 tstmnt:
+	${SUDO} mkdir -p ${TMPMOUNT}
 	${SUDO} vnconfig svnd0 ${CDROM}
-	${SUDO} mount_cd9660 /dev/svnd0a tmpmnt
+	${SUDO} mount_cd9660 /dev/svnd0a ${TMPMOUNT}
 
-tstumnt: unconfig
+tstumnt:
+	test ! -e ${TMPMOUNT} || (cd ${TOPDIR}/common; ${MAKE} unconfig)
 
 .include <bsd.obj.mk>
 .include <bsd.subdir.mk>

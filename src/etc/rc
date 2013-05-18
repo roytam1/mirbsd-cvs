@@ -1,4 +1,4 @@
-# $MirOS: src/etc/rc,v 1.50 2006/08/24 12:54:58 tg Exp $
+# $MirOS: src/etc/rc,v 1.51 2006/09/13 01:23:28 tg Exp $
 # $OpenBSD: rc,v 1.277 2006/01/12 21:54:15 deraadt Exp $
 #-
 # System startup script run by init on autoboot or after single-user.
@@ -196,11 +196,8 @@ raidctl -P all
 
 swapctl -A -t blk
 
-# Try to find out what is our console device
-x=$(sysctl machdep.console_device); consdev=${x#machdep.console_device=}
-consinfo="$(stty -f /dev/console speed) $consdev"
-#print -u2 console information: $consinfo
-[[ -e /dev/$consdev || $consdev = console ]] || consdev=nochg
+consspeed=$(stty -f /dev/console speed)
+print -u2 "console at $consspeed bps"
 
 # pick up configuration options
 . /etc/rc.conf
@@ -560,8 +557,11 @@ if [[ -x /usr/libexec/vi.recover && -d /var/tmp/vi.recover ]]; then
 	echo preserving editor files;	/usr/libexec/vi.recover
 fi
 
-# for debugging purposes, this code is even in #9-stable
-print "at $consinfo" | logger -t 'console information'
+consdev=$(sysctl machdep.console_device 2>&-)
+consdev=${consdev#machdep.console_device=}
+print -- "$consdev at $consspeed" | logger -t 'console information'
+[[ -e /dev/$consdev || $consdev = console ]] || consdev=nochg
+print -u2 "parsed console information: $consspeed $consdev"
 
 # Copy over /dev/{null,zero} into anoncvs chroot, it needs it
 [[ -d /var/anoncvs/anoncvs && -s /var/anoncvs/anoncvssh \

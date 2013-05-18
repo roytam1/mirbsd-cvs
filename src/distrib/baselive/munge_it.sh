@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/distrib/baselive/munge_it.sh,v 1.8 2006/09/30 20:59:00 tg Exp $
+# $MirOS: src/distrib/baselive/munge_it.sh,v 1.9 2006/09/30 21:02:24 tg Exp $
 #-
 # Copyright (c) 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -30,15 +30,15 @@
 set -ex
 myplace=$(readlink -nf $(dirname "$0"))
 
-ed -s etc/X11/xdm/Xresources <<-'EOF'
+ed -s etc/X11/xdm/Xresources <<-'EOMD'
 	/^xlogin.greeting:/s/CLIENTHOST/the MirOS BSD Live CD/
 	/^Chooser.label.label:/s/CLIENTHOST/Live-CD/
 	wq
-EOF
-cat >>etc/exports <<-'EOF'
+EOMD
+cat >>etc/exports <<-'EOMD'
 	/ -ro -maproot=root
-EOF
-ed -s etc/group <<-'EOF'
+EOMD
+ed -s etc/group <<-'EOMD'
 	/^wheel:/s/$/,live/
 	/^operator:/s/$/,live/
 	/^wsrc:/s/$/live/
@@ -50,29 +50,29 @@ ed -s etc/group <<-'EOF'
 		live:*:32762:
 	.
 	wq
-EOF
-ed -s etc/inetd.conf <<-'EOF'
+EOMD
+ed -s etc/inetd.conf <<-'EOMD'
 	%g/^.tftp/s/^.//
 	%g!/tftpboot!s!!/var&!
 	wq
-EOF
-ed -s etc/master.passwd <<-'EOF'
+EOMD
+ed -s etc/master.passwd <<-'EOMD'
 	/^root:/s!/root!/dev/.root!
 	/^nobody:/i
 		live:$2a$04$NCMhVFfIg3afYRXLCDGjcOPYJxem4lxSLcthQT5AaejUaAAvIWdCW:32762:32762:staff:0:0:MirOS BSD Live CD User:/home/live:/bin/mksh
 	.
 	wq
-EOF
-ed -s etc/ntpd.conf <<-'EOF'
+EOMD
+ed -s etc/ntpd.conf <<-'EOMD'
 	/^.server /d
 	i
 		server ntp.mirbsd.org
 	.
 	wq
-EOF
-ed -s etc/rc <<-'EOF'
+EOMD
+ed -s etc/rc <<-'EOMD'
 	1i
-		# $MirOS: src/distrib/baselive/munge_it.sh,v 1.8 2006/09/30 20:59:00 tg Exp $
+		# $MirOS: src/distrib/baselive/munge_it.sh,v 1.9 2006/09/30 21:02:24 tg Exp $
 	.
 	/shutdown request/ka
 	/^fi/a
@@ -110,26 +110,86 @@ ed -s etc/rc <<-'EOF'
 		[[ -s /stand/locate.database ]] && \
 		    cp /stand/locate.database /var/db/locate.database
 	.
+	/parsed console/a
+		[[ -e /etc/ttys ]] && if [[ $consdev != nochg ]]; then
+			print -n adjusting /etc/ttys ...
+			x=$(uname -m)
+			if [[ $x = i386 ]]; then
+				# clean up if we don't match
+				if ! grep "^#AUTOCONS:$consdev,$consspeed." /etc/ttys >&- 2>&-; then
+					print -n ' cleanup (i386)'
+					ed -s /etc/ttys <<-EOF
+						%g/^#AUTOCONS/d
+						%g/	#AUTOADD\$/d
+						%g/	#AUTODEL\$/s/^#*//
+						%g/	#AUTODEL\$/s///
+						wq
+					EOF
+				fi
+			fi
+			# if consdev=ttyC0: wscons, no change needed
+			if [[ $consdev = ttyC0 ]]; then
+				print -n ' wscons'
+				# wscons, reset to default on sparc, no action on i386
+				if [[ $x = sparc ]]; then
+					print -n ' (sparc)'
+					ed -s /etc/ttys <<-EOF
+						/console.*suncons/s/^#*//
+						/console.*std/s/^#*/#/
+						wq
+					EOF
+				fi
+			else
+				# serial console, disable wscons
+				print -n " serial ($consspeed bps)"
+				if [[ $x = sparc ]]; then
+					# we just use /dev/console for both
+					# XXX what is this ttyC0 entry?
+					print -n ' (sparc)'
+					ed -s /etc/ttys <<-EOF
+						/console.*suncons/s/^#*/#/
+						/console.*std/s/^#*//
+						/console.*std/s/std.[0-9]*/std.$consspeed/
+						wq
+					EOF
+				fi
+				if [[ $x = i386 ]]; then
+					# keep wscons but enable tty0X dev
+					print -n ' (i386)'
+					if ! grep "^$consdev	.*std.$consspeed\".*	on" \
+					    /etc/ttys >&- 2>&-; then
+						print -n ' -> adding'
+						ed -s /etc/ttys <<-EOF
+							%g/^$consdev	/s/^.*\$/#&	#AUTODEL/
+							wq
+						EOF
+						cat >>/etc/ttys <<-EOF
+							$consdev	"/usr/libexec/getty std.$consspeed"	vt100	on  secure	#AUTOADD
+							#AUTOCONS:$consdev,$consspeed.
+						EOF
+					fi
+				fi
+			fi
+			print ' done.'
+		fi
+	.
 	/openssl genrsa/s/4096/1024/
-	%g!/etc/ttys\.gen!s!!/etc/ttys!g
-	/^#	print -n adjusting/s/^#//
-	/for now/d
 	/xdm may be started/i
 		(stats_sysadd=-livecd mksh \
 		    /usr/share/misc/bsdstats <&- 2>&1 | logger -t BSDstats) &
 
 	.
 	wq
-EOF
-ed -s etc/rc.securelevel <<-'EOF'
+EOMD
+ed -s etc/rc.securelevel <<-'EOMD'
 	/^securelevel/s/1/-1/
 	wq
-EOF
-ed -s etc/sudoers <<-'EOF'
+EOMD
+ed -s etc/sudoers <<-'EOMD'
 	%g/@ROOT@/s//live/
 	wq
-EOF
-ed -s etc/sysctl.conf <<-'EOF'
+EOMD
+ed -s etc/sysctl.conf <<-'EOMD'
 	/accept_rtadv/s/^.//
 	/^.ddb.console/s/^.//
 	/^.kern.seminfo.semmni/s/^.//
@@ -137,19 +197,19 @@ ed -s etc/sysctl.conf <<-'EOF'
 	/^.kern.seminfo.semmnu/s/^.//
 	/^.kern.shminfo.shmall/s/^.//
 	wq
-EOF
-[[ $MACHINE = i386 ]] && ed -s etc/sysctl.conf <<-'EOF'
+EOMD
+[[ $MACHINE = i386 ]] && ed -s etc/sysctl.conf <<-'EOMD'
 	/^.machdep.allowaperture/s/^.//
 	/^.machdep.kbdreset/s/^.//
 	/^.kern.emul.linux/s/^.//
 	/^.kern.emul.openbsd/s/^.//
 	wq
-EOF
-ed -s usr/bin/ftp <<-'EOF'
+EOMD
+ed -s usr/bin/ftp <<-'EOMD'
 	%g/MirOS ftp(1)/s//MirOS LiveCD/
 	wq
-EOF
-ed -s var/cron/tabs/root <<-'EOF'
+EOMD
+ed -s var/cron/tabs/root <<-'EOMD'
 	/daily/s/^/#/
 	/weekly/s/^/#/
 	/monthly/s/^/#/
@@ -157,7 +217,7 @@ ed -s var/cron/tabs/root <<-'EOF'
 	/randomnumbers.info/s/^.//
 	/fourmilab.ch/s/^.//
 	wq
-EOF
+EOMD
 
 install -c -o root -g staff -m 644 \
     $myplace/$MACHINE/XF86Config etc/X11/XF86Config
