@@ -1,3 +1,4 @@
+.\"	$MirOS$
 .\"	$OpenBSD: date.1,v 1.41 2004/07/21 08:59:30 jmc Exp $
 .\"	$NetBSD: date.1,v 1.12 1996/03/12 04:32:37 phil Exp $
 .\"
@@ -33,7 +34,7 @@
 .\"
 .\"     @(#)date.1	8.3 (Berkeley) 4/28/95
 .\"
-.Dd April 28, 1995
+.Dd $Mdocdate$
 .Dt DATE 1
 .Os
 .Sh NAME
@@ -41,7 +42,7 @@
 .Nd display or set date and time
 .Sh SYNOPSIS
 .Nm date
-.Op Fl aDnu
+.Op Fl aDnRu
 .Op Fl d Ar dst
 .Op Fl r Ar seconds
 .Op Fl t Ar minutes_west
@@ -94,6 +95,8 @@ The
 .Fl n
 option suppresses this behavior and causes the time to be set only on the
 current machine.
+.It Fl R
+Select RFC 2822 format.
 .It Fl r Ar seconds
 Print out (in specified format) the date and time represented by
 .Ar seconds
@@ -245,3 +248,7 @@ The
 option is a
 .Mx 10
 extension.
+The
+.Fl R
+option is a GNU extension and supported since
+.Mx 11 .

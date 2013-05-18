@@ -1,4 +1,4 @@
-/**	$MirOS: src/bin/date/date.c,v 1.5 2007/02/08 00:12:16 tg Exp $ */
+/**	$MirOS: src/bin/date/date.c,v 1.6 2007/07/05 23:09:32 tg Exp $ */
 /*	$OpenBSD: date.c,v 1.26 2003/10/15 15:58:22 mpech Exp $	*/
 /*	$NetBSD: date.c,v 1.11 1995/09/07 06:21:05 jtc Exp $	*/
 
@@ -52,7 +52,7 @@
 __COPYRIGHT("@(#) Copyright (c) 1985, 1987, 1988, 1993\n\
 	The Regents of the University of California.  All rights reserved.\n");
 __SCCSID("@(#)date.c	8.2 (Berkeley) 4/28/95");
-__RCSID("$MirOS: src/bin/date/date.c,v 1.5 2007/02/08 00:12:16 tg Exp $");
+__RCSID("$MirOS: src/bin/date/date.c,v 1.6 2007/07/05 23:09:32 tg Exp $");
 
 extern const char *__progname;
 
@@ -70,8 +70,9 @@ main(int argc, char *argv[])
 {
 	struct timezone tz;
 	int ch, rflag, Dflag;
-	const char *format;
+	const char *format = NULL;
 	char buf[1024];
+	int whatformat = 0;
 
 #ifndef __MirBSD__
 	setlocale(LC_ALL, "");
@@ -79,7 +80,7 @@ main(int argc, char *argv[])
 
 	tz.tz_dsttime = tz.tz_minuteswest = 0;
 	rflag = Dflag = 0;
-	while ((ch = getopt(argc, argv, "aDd:nr:ut:")) != -1)
+	while ((ch = getopt(argc, argv, "aDd:nRr:ut:")) != -1)
 		switch((char)ch) {
 		case 'a':
 			slidetime++;
@@ -93,6 +94,9 @@ main(int argc, char *argv[])
 			break;
 		case 'n':		/* don't set network */
 			nflag = 1;
+			break;
+		case 'R':		/* RFC 2822 format */
+			whatformat |= 1;
 			break;
 		case 'r':		/* user specified seconds */
 			rflag = 1;
@@ -126,12 +130,12 @@ main(int argc, char *argv[])
 	if (!rflag && time(&tval) == -1)
 		err(1, "time");
 
-	format = "%a %b %e %H:%M:%S %Z %Y";
-
 	/* allow the operands in any order */
 	if (*argv && **argv == '+') {
-		if (*(*argv + 1))
+		if (*(*argv + 1)) {
+			whatformat |= 2;
 			format = *argv + 1;
+		}
 		++argv;
 		Dflag = 0;
 	}
@@ -141,8 +145,20 @@ main(int argc, char *argv[])
 		++argv;
 	}
 
-	if (*argv && **argv == '+')
+	if (*argv && **argv == '+') {
+		whatformat |= 4;
 		format = *argv + 1;
+	}
+
+	if (whatformat == 0)
+		format = "%a %b %e %H:%M:%S %Z %Y";
+	else if (whatformat == 1) {
+		format = "%a, %d %b %Y %H:%M:%S %z";
+#ifndef __MirBSD__
+		setlocale(LC_TIME, "C");
+#endif
+	} else if (whatformat != 2 && whatformat != 4)
+		errx(1, "more than one format specified");
 
 	if (!Dflag) {
 		strftime(buf, sizeof (buf), format, localtime(&tval));
