@@ -1,4 +1,4 @@
-RCSID: $MirOS$
+RCSID: $MirOS: www/data/faq.inc,v 1.3 2009/02/19 15:36:10 tg Exp $
 Title: Why don't I have colours on the console?
 
 <p>The first virtual terminal is the system console, unless the
@@ -28,4 +28,8 @@ Section: Common ssh(1) and sshd(8) problems	XXX do this differently!
  used by our publicly accessible servers contains the currently valid
  entries; <a href="@@RELPATH@@permalinks/news_e20080515-tg.htm">we
  reported the problem</a> earlier in the news.</p>
+----
+Title: How do I upgrade my system to latest -stable or -current?
+
+<p>[… maybe write mircvs://www/src/uptodate.hts]</p>
 ----
