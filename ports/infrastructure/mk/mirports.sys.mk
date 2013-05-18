@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/mirports.sys.mk,v 1.40 2006/12/21 20:38:39 tg Exp $
+# $MirOS: ports/infrastructure/mk/mirports.sys.mk,v 1.41 2006/12/28 03:34:27 tg Exp $
 #-
 # Copyright (c) 2005, 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -53,6 +53,7 @@ OSver=	${OSREV:C/^([0-9]*\.[0-9]*)\..*$/\1/}
 .else
 .  error Unknown OStype '${OStype}'!
 .endif
+OSrev=	${OSREV:S/.//}
 
 #--- Specific OS Dependencies
 
@@ -112,8 +113,6 @@ PKG_ARGS_ADD+=		-Z
 PKG_SUFX=		.tgz
 HAS_TIMET64=		No
 FETCH_CMD=		/usr/bin/ftp -V -m
-
-OSrev=			${OSREV:S/.//}
 
 .  if ${OSrev} < 35
 MODPERL_DESTDIR=	$${${DESTDIRNAME}}
