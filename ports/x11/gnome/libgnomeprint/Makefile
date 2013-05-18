@@ -1,11 +1,10 @@
-# $MirOS: ports/x11/gnome/libgnomeprint/Makefile,v 1.9 2006/12/20 15:32:43 tg Exp $
+# $MirOS: ports/x11/gnome/libgnomeprint/Makefile,v 1.10 2007/04/18 20:05:06 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.9 2004/12/15 13:57:56 alek Exp $
 
 COMMENT=		printing framework for GNOME
 COMMENT-cups=		CUPS module for printing framework for GNOME
 
-VERSION=		2.8.1
-DASH_VER=		1
+VERSION=		2.18.0
 DISTNAME=		libgnomeprint-${VERSION}
 PKGNAME-cups=		libgnomeprint-cups-${VERSION}-${DASH_VER}
 CATEGORIES=		x11/gnome devel
@@ -18,7 +17,7 @@ PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
-MASTER_SITES=		${MASTER_SITE_GNOME:=sources/libgnomeprint/2.8/}
+MASTER_SITES=		${MASTER_SITE_GNOME:=sources/libgnomeprint/2.18/}
 EXTRACT_SUFX=		.tar.bz2
 
 MODULES=		devel/gettext devel/pkgconfig
@@ -54,7 +53,7 @@ SUBST_VARS=		VERSION
 .if defined(PACKAGING)
 . if defined(SUBPACKAGE) && !empty(SUBPACKAGE) && ${SUBPACKAGE} == "-cups"
 LIB_DEPENDS=		gnomeprint-2-2::x11/gnome/libgnomeprint \
-			gnomecups-1.0::x11/gnome/libgnomecups \
+			gnomecups-1.0.0.0::x11/gnome/libgnomecups \
 			cups.2::print/cups
 . endif
 .endif
