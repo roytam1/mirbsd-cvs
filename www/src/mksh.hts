@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.311 2010/01/25 19:10:22 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.312 2010/01/28 15:34:29 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -342,7 +342,10 @@ mws_content <<'EOF'
  recommend to build mksh with <tt>CC=cc</tt> (gcc1) instead of <tt>CC=gcc</tt>
  or <tt>CC=gcc2</tt> there instead.</p>
 <p>Since mksh uses ProPolice, the Stack-Smashing Protector, some GCC versions’
- compilates require additional shared libaraies.</p>
+ compilates require additional shared libraries.</p>
+<p>GCC and Valgrind do not always play well together, hence the build option
+ <tt>-valgrind</tt> adding <tt>-fno-builtin</tt> to avoid gcc producing code
+ that can access memory past the end of the allocation.</p>
 
 <h5 id="oe_hpc">Compiler: HP C/aC++</h5>
 <p>HP’s C compiler (/usr/bin/cc on HP-UX) is supported in mksh R30 and above;
@@ -997,12 +1000,8 @@ mws_content <<'EOF'
   where “foo” can be “xtrace” or “-x” or “+x” (these three are equivalent)</li>
  <li>[tg] Support “$'…'” backslash-expanding single-quoted strings, as
   requested by David G. Korn, with almost the same syntax and semantics</li>
- <li>[tg] Make printf(1) use “$'…'” mode if used as builtin, like ksh93</li>
  <li>[tg] Unify backslash expansion code (C style vs. print builtin mode)</li>
  <li>[tg] Support “function stop () {” bashism</li>
- <li>[tg] Fix buffer overflows in the Win32 codepath of the contributed
-  <tt>arc4random.c</tt> file and limit the rate of expensive CryptGenRandom
-  calls if we have other (seed in registry key) entropy pools</li>
  <li>[tg] For several items in the source code that require order to be
   kept, provide it from multiply-included header files; sort correctly</li>
  <li>[tg] Get rid of unneeded FMONITOR (-m) for shells without job control;
@@ -1098,6 +1097,17 @@ mws_content <<'EOF'
     the errorlevel of <tt>getopt</tt> (used to be the other way round)</li>
   </ul></li>
  <li>[tg] Document some more shortcomings in the mksh(1) manual page</li>
+ <li>Contributed <tt>printf.c</tt> fixes:<ul>
+   <li>[tg] Make printf(1) builtin use “$'…'” mode, like ksh93</li>
+   <li>[tg] Fix const-cleanliness</li>
+  </ul></li>
+ <li>Contributed <tt>arc4random.c</tt> fixes:<ul>
+   <li>[tg] Fix buffer overflows in the Win32 codepath of the contributed
+    <tt>arc4random.c</tt> file and limit the rate of expensive CryptGenRandom
+    calls if we have other (seed in registry key) entropy pools</li>
+   <li>[tg] Fix uninitialised memory access caught by Valgrind</li>
+  </ul></li>
+ <li>[tg] New <tt>Build.sh</tt> flag <tt>-valgrind</tt> since I’m lazy</li>
 </ul>
 <p id="r39">mksh R39 evolved into these through various means:</p><ul>
  <li>[tg] Shut up a bogus gcc warning during configuration process</li>
