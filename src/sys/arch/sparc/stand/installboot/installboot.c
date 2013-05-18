@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: installboot.c,v 1.4 2003/08/25 23:36:46 tedu Exp $	*/
 /*	$NetBSD: installboot.c,v 1.1 1997/06/01 03:39:45 mrg Exp $	*/
 
@@ -48,6 +49,8 @@
 #include <string.h>
 #include <unistd.h>
 
+__RCSID("$MirOS$");
+
 int	verbose, nowrite, hflag;
 char	*boot, *proto, *dev;
 
@@ -74,7 +77,7 @@ int	isofseblk = 0;
 char		*loadprotoblocks(char *, long *);
 int		loadblocknums(char *, int);
 static void	devread(int, void *, daddr_t, size_t, char *);
-static void	usage(void);
+__dead static void usage(void);
 int 		main(int, char *[]);
 
 
@@ -82,7 +85,9 @@ static void
 usage()
 {
 	fprintf(stderr,
-		"usage: installboot [-n] [-v] [-h] [-s isofsblk -e isofseblk] [-a <karch>] <boot> <proto> <device>\n");
+	    "usage:\tinstallboot [-nvh] [-a <karch>] <boot> <proto> <device>\n"
+	    "\tinstallboot [-nvh] [-a <karch>] -s isofsblk -e isofseblk \\\n
+	    \t    <boot (ignored, can be /dev/null)> <proto> <device>\n");
 	exit(1);
 }
 
@@ -141,7 +146,7 @@ main(argc, argv)
 		if (sysctl(mib, 2, cpumodel, &size, NULL, 0) == -1)
 			err(1, "sysctl");
 
-		if (size < 5 || strncmp(cpumodel, "SUN-4", 5) != 0) /*XXX*/ 
+		if (size < 5 || strncmp(cpumodel, "SUN-4", 5) != 0) /*XXX*/
 			/* Assume a sun4c/sun4m */
 			karch = "sun4c";
 		else
@@ -351,25 +356,13 @@ int	devfd;
 	struct ufs1_dinode	*ip;
 	int		ndb;
 
-	/*
-	 * Open 2nd-level boot program and record the block numbers
-	 * it occupies on the filesystem represented by `devfd'.
-	 */
-	if ((fd = open(boot, O_RDONLY)) < 0)
-		err(1, "open: %s", boot);
-
-	if (fstatfs(fd, &statfsbuf) != 0)
-		err(1, "statfs: %s", boot);
-
 	if (isofsblk) {
-		int i;
-
 		*block_size_p = 512;
 		*block_count_p = (isofseblk - isofsblk + 1) * (2048/512);
 		if (*block_count_p > max_block_count)
-			errx(1, "%s: Too many blocks", boot);
+			errx(1, "CD9660: Too many blocks");
 		if (verbose)
-			printf("%s: %d block numbers: ", boot, *block_count_p);
+			printf("CD9660: %d block numbers: ", *block_count_p);
 		for (i = 0; i < *block_count_p; i++) {
 			blk = (isofsblk * (2048/512)) + i;
 			block_table[i] = blk;
@@ -380,6 +373,16 @@ int	devfd;
 			printf("\n");
 		return 0;
 	}
+
+	/*
+	 * Open 2nd-level boot program and record the block numbers
+	 * it occupies on the filesystem represented by `devfd'.
+	 */
+	if ((fd = open(boot, O_RDONLY)) < 0)
+		err(1, "open: %s", boot);
+
+	if (fstatfs(fd, &statfsbuf) != 0)
+		err(1, "statfs: %s", boot);
 
 	if (strncmp(statfsbuf.f_fstypename, "ffs", MFSNAMELEN) &&
 	    strncmp(statfsbuf.f_fstypename, "ufs", MFSNAMELEN)) {
