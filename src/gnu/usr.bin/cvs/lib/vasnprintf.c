@@ -102,7 +102,12 @@ local_wcslen (const wchar_t *s)
 # define DIRECTIVE char_directive
 # define DIRECTIVES char_directives
 # define PRINTF_PARSE printf_parse
+#if 0
+/* disabled for security reasons, to avoid having %n in writable memory */
 # define USE_SNPRINTF (HAVE_DECL__SNPRINTF || HAVE_SNPRINTF)
+#else
+# define USE_SNPRINTF 0
+#endif
 # if HAVE_DECL__SNPRINTF
    /* Windows.  */
 #  define SNPRINTF _snprintf
