@@ -38,6 +38,8 @@ MAN+=	fclose.3 ferror.3 fflush.3 fgetln.3 fgets.3 fopen.3 fputs.3 \
 	remove.3 scanf.3 setbuf.3 stdio.3 tmpnam.3 ungetc.3 \
 	fgetws.3 fputws.3 fwide.3 getwc.3 putwc.3 ungetwc.3
 
+MAN+=	getline.3
+
 MLINKS+=ferror.3 clearerr.3 ferror.3 feof.3 ferror.3 fileno.3
 MLINKS+=fflush.3 fpurge.3
 MLINKS+=fgets.3 gets.3

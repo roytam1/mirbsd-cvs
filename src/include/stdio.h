@@ -1,4 +1,4 @@
-/**	$MirOS: src/include/stdio.h,v 1.4 2005/11/21 19:31:54 tg Exp $ */
+/**	$MirOS: src/include/stdio.h,v 1.5 2006/10/02 02:56:58 tg Exp $ */
 /*	$OpenBSD: stdio.h,v 1.32 2005/05/11 18:39:19 espie Exp $	*/
 /*	$NetBSD: stdio.h,v 1.18 1996/04/25 18:29:21 jtc Exp $	*/
 
@@ -423,7 +423,7 @@ static __inline int __sputc(int _c, FILE *_p) {
 #define getchar_unlocked()	getc_unlocked(stdin)
 #define putchar_unlocked(c)	putc_unlocked(c, stdout)
 
-#ifdef _GNU_SOURCE
+#if defined(_GNU_SOURCE) && !defined(__STRICT_ANSI__)
 __BEGIN_DECLS
 ssize_t getline(char **, size_t *, FILE *);
 __END_DECLS
