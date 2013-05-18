@@ -1,5 +1,5 @@
-#!/bin/ksh -
-#
+#!/bin/mksh
+# $MirOS$
 # $OpenBSD: znew,v 1.2 2003/08/05 18:22:17 deraadt Exp $
 #
 # Copyright (c) 2003 Otto Moerbeek <otto@drijf.net>

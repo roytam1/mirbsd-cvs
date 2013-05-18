@@ -1,5 +1,5 @@
-#!/bin/sh -
-#
+#!/bin/mksh
+# $MirOS$
 # $OpenBSD: gzexe,v 1.3 2003/08/05 18:22:17 deraadt Exp $
 #
 #  Copyright (c) 2003 Otto Moerbeek <otto@drijf.net>
@@ -28,7 +28,7 @@ header () {
 	typeset prog tmp
 	# first section needs variable expansion, second not
 	cat <<- EOF
-		#!/bin/sh -
+		#!/bin/mksh
 		$magic
 		lines=$lines
 	EOF

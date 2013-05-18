@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: ifstated.c,v 1.17 2004/04/27 11:55:27 jmc Exp $	*/
 
 /*
@@ -39,6 +40,7 @@
 #include <signal.h>
 #include <err.h>
 #include <event.h>
+#include <paths.h>
 #include <util.h>
 #include <unistd.h>
 #include <syslog.h>
@@ -46,6 +48,8 @@
 #include <ifaddrs.h>
 
 #include "ifstated.h"
+
+__RCSID("$MirOS$");
 
 struct	 ifsd_config *conf = NULL, *newconf = NULL;
 
@@ -279,7 +283,8 @@ external_async_exec(struct ifsd_external *external)
 	if (pid < 0) {
 		logit(IFSD_LOG_QUIET, "fork error");
 	} else if (pid == 0) {
-		execv("/bin/sh", argp);
+		execv("/bin/mksh", argp);
+		execv(_PATH_BSHELL, argp);
 		_exit(1);
 		/* NOTREACHED */
 	} else {

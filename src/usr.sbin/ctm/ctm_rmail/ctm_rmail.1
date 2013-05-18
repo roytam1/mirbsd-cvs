@@ -362,10 +362,8 @@ together with the
 shell script
 .Pa ~/bin/ctm_incoming :
 .Bd -literal -offset indent
-#! /bin/sh
-PATH="$HOME/bin:/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin"
-export PATH
-
+#!/bin/mksh
+export PATH="$HOME/bin:/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin"
 cd $HOME/ctm && ctm_rmail -f -p pieces -d deltas -l log -b /ctm
 .Ed
 .Pp

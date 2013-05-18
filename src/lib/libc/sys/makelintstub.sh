@@ -1,7 +1,7 @@
-#!/bin/ksh
-#	$MirOS$
-#	$OpenBSD: makelintstub.sh,v 1.4 2004/07/17 07:02:29 deraadt Exp $
-#	$NetBSD: makelintstub,v 1.2 1997/11/05 05:46:18 thorpej Exp $
+#!/bin/mksh
+# $MirOS: src/lib/libc/sys/makelintstub.sh,v 1.2 2005/03/06 20:28:49 tg Exp $
+# $OpenBSD: makelintstub.sh,v 1.4 2004/07/17 07:02:29 deraadt Exp $
+# $NetBSD: makelintstub,v 1.2 1997/11/05 05:46:18 thorpej Exp $
 #
 # Copyright (c) 1996, 1997 Christopher G. Demetriou.  All rights reserved.
 #

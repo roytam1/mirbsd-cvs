@@ -923,7 +923,7 @@ can be put into the file named by
 Here is a sample \fIXsetup\fP script:
 .nf
 
-\&	#!/bin/sh
+\&	#!/bin/mksh
 \&	# Xsetup_0 \- setup script for one workstation
 	xcmsdb < __projectroot__/lib/monitors/alex.0
 	xconsole\0\-geometry\0480x130\-0\-0\0\-notify\0\-verbose\0\-exitOnFail &
@@ -1112,7 +1112,7 @@ Here is a sample \fIXstartup\fP script:
 .nf
 .ta .5i 1i
 
-\&	#!/bin/sh
+\&	#!/bin/mksh
 \&	#
 \&	# Xstartup
 \&	#
@@ -1173,7 +1173,7 @@ be executable so we don't have to guess what shell it wants to use.
 .nf
 .ta .5i 1i 1.5i
 
-\&	#!/bin/sh
+\&	#!/bin/mksh
 \&	#
 \&	# Xsession
 \&	#
@@ -1230,7 +1230,7 @@ passed to \fIXreset\fP.
 A sample \fIXreset\fP script:
 .nf
 .ta .5i 1i
-\&	#!/bin/sh
+\&	#!/bin/mksh
 \&	#
 \&	# Xreset
 \&	#

@@ -1,5 +1,6 @@
-#!/bin/sh -
-#	$OpenBSD: mkioctls,v 1.15 2004/01/09 17:10:07 brad Exp $
+#!/bin/mksh
+# $MirOS$
+# $OpenBSD: mkioctls,v 1.15 2004/01/09 17:10:07 brad Exp $
 
 #
 # Copyright (c) 1994

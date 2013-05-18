@@ -1,4 +1,4 @@
-XCOMM!/bin/sh
+XCOMM!/bin/mksh
 XCOMM $Xorg: xinitrc.cpp,v 1.3 2000/08/17 19:54:30 cpqbld Exp $
 
 userresources=$HOME/.Xresources

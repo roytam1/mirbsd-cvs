@@ -1,4 +1,4 @@
-/**	$MirOS$ */
+/**	$MirOS: src/usr.bin/make/cmd_exec.c,v 1.2 2005/02/23 20:36:53 tg Exp $ */
 /*	$OpenPackages$ */
 /*	$OpenBSD: cmd_exec.c,v 1.5 2004/04/07 13:11:35 espie Exp $ */
 /*
@@ -38,7 +38,7 @@
 #include "memory.h"
 #include "pathnames.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.bin/make/cmd_exec.c,v 1.2 2005/02/23 20:36:53 tg Exp $");
 
 char *
 Cmd_Exec(const char *cmd, char **err)
@@ -58,7 +58,7 @@ Cmd_Exec(const char *cmd, char **err)
     *err = NULL;
 
     /* Set up arguments for the shell. */
-    args[0] = "ksh";
+    args[0] = "mksh";
     args[1] = "-c";
     args[2] = (char *)cmd;
     args[3] = NULL;
@@ -78,7 +78,7 @@ Cmd_Exec(const char *cmd, char **err)
 	/* Duplicate the output stream to the shell's output, then
 	 * shut the extra thing down. Note we don't fetch the error
 	 * stream: user can use redirection to grab it as this goes
-	 * through /bin/ksh.
+	 * through /bin/mksh.
 	 */
 	if (fds[1] != 1) {
 	    (void)dup2(fds[1], 1);

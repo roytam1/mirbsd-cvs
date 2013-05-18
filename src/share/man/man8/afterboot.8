@@ -1,4 +1,4 @@
-.\"	$MirOS$
+.\"	$MirOS: src/share/man/man8/afterboot.8,v 1.2 2005/03/06 19:38:45 tg Exp $
 .\"	$OpenBSD: afterboot.8,v 1.89 2004/04/20 06:39:04 tedu Exp $
 .\"
 .\" Copyright (c) 1997 Marshall M. Midden
@@ -699,9 +699,9 @@ the security scripts that are mailed internally, you can type
 .Ic crontab -e
 and change some of the lines to read:
 .Bd -literal -offset indent
-30  1  *  *  *   /bin/sh /etc/daily 2>&1 > /var/log/daily.out
-30  3  *  *  6   /bin/sh /etc/weekly 2>&1 > /var/log/weekly.out
-30  5  1  *  *   /bin/sh /etc/monthly 2>&1 > /var/log/monthly.out
+30  1  *  *  *   /bin/mksh /etc/daily >/var/log/daily.out 2>&1
+30  3  *  *  6   /bin/mksh /etc/weekly >/var/log/weekly.out 2>&1
+30  5  1  *  *   /bin/mksh /etc/monthly >/var/log/monthly.out 2>&1
 .Ed
 .Pp
 See

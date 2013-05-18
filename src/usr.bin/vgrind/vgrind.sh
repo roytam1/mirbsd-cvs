@@ -1,5 +1,5 @@
-#!/bin/ksh
-# $MirOS$
+#!/bin/mksh
+# $MirOS: src/usr.bin/vgrind/vgrind.sh,v 1.5 2005/05/14 14:52:52 tg Exp $
 #-
 # Copyright (c) 2005 Thorsten Glaser <tg@mirbsd.org>
 # Copyright (c) 2005 Han Boetes <han@mijncomputer.nl>

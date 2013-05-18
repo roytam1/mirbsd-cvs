@@ -23,6 +23,8 @@ SM_RCSID("@(#)$Sendmail: conf.c,v 8.1061 2005/03/07 17:18:44 ca Exp $")
 # include <sys/ioctl.h>
 # include <sys/param.h>
 
+__RCSID("$MirOS$");
+
 #include <limits.h>
 #if NETINET || NETINET6
 # include <arpa/inet.h>
@@ -3083,6 +3085,7 @@ getopt(nargc,nargv,ostr)
 static char	*DefaultUserShells[] =
 {
 	"/bin/sh",		/* standard shell */
+	"/bin/mksh",		/* MirBSD Korn shell */
 # ifdef MPE
 	"/SYS/PUB/CI",
 # else /* MPE */

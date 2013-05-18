@@ -1,6 +1,6 @@
-#!/bin/ksh
+#!/bin/mksh
 # $Id$
-# $MirOS: src/etc/security,v 1.5 2005/04/29 18:58:15 tg Exp $
+# $MirOS: src/etc/security,v 1.6 2005/07/04 12:43:41 tg Exp $
 # $OpenBSD: security,v 1.71 2005/02/22 10:50:55 otto Exp $
 # from: @(#)security	8.1 (Berkeley) 6/9/93
 
@@ -148,7 +148,7 @@ for i in $list; do
 		SAVE_PATH=$PATH
 		SAVE_ENV=$ENV
 		unset PATH ENV
-		/bin/ksh << end-of-sh > /dev/null 2>&1
+		/bin/mksh << end-of-sh > /dev/null 2>&1
 			. $i
 			if [ X"\$PATH" != "X" ]; then
 				list=\`echo \$PATH | /usr/bin/sed -e 's/:/ /g'\`

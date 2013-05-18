@@ -1,5 +1,5 @@
-#!/bin/sh
-# $MirOS$
+#!/bin/mksh
+# $MirOS: src/sys/kern/makesyscalls.sh,v 1.2 2005/03/06 21:28:02 tg Exp $
 # $OpenBSD: makesyscalls.sh,v 1.10 2002/03/14 23:44:37 millert Exp $
 # $NetBSD: makesyscalls.sh,v 1.26 1998/01/09 06:17:51 thorpej Exp $
 #

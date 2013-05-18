@@ -1155,7 +1155,7 @@ view them directly:
 .Pp
 lessopen.sh:
 .Bd -literal -offset indent
-#! /bin/sh
+#!/bin/mksh
 case "$1" in
 *.Z)	uncompress -c $1  >/tmp/less.$$  2>/dev/null
 	if [ -s /tmp/less.$$ ]; then
@@ -1169,7 +1169,7 @@ esac
 .Pp
 lessclose.sh:
 .Bd -literal -offset indent
-#! /bin/sh
+#!/bin/mksh
 rm $2
 .Ed
 .Pp
@@ -1200,7 +1200,7 @@ For example, this script will work like the previous example scripts:
 .Pp
 lesspipe.sh:
 .Bd -literal -offset indent
-#! /bin/sh
+#!/bin/mksh
 case "$1" in
 *.Z)	uncompress -c $1  2>/dev/null
 	;;

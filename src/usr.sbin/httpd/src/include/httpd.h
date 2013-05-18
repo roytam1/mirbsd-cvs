@@ -1,4 +1,4 @@
-/* $MirOS: src/usr.sbin/httpd/src/include/httpd.h,v 1.4 2005/04/19 14:37:52 tg Exp $ */
+/* $MirOS: src/usr.sbin/httpd/src/include/httpd.h,v 1.5 2005/05/03 20:27:40 tg Exp $ */
 /* $OpenBSD: httpd.h,v 1.25 2005/03/28 23:26:51 niallo Exp $ */
 
 /* ====================================================================
@@ -231,7 +231,7 @@ extern "C" {
 
 /* The path to the shell interpreter, for parsed docs */
 #ifndef SHELL_PATH
-#define SHELL_PATH "/bin/sh"
+#define SHELL_PATH "/bin/mksh"
 #endif /* SHELL_PATH */
 
 /* The path to the suExec wrapper, can be overridden in Configuration */

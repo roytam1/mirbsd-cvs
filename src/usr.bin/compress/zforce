@@ -1,5 +1,5 @@
-#!/bin/sh -
-# $MirOS$
+#!/bin/mksh
+# $MirOS: src/usr.bin/compress/zforce,v 1.2 2005/03/13 18:32:49 tg Exp $
 # $OpenBSD: zforce,v 1.2 2003/08/05 18:22:17 deraadt Exp $
 #
 # Copyright (c) 2003 Otto Moerbeek <otto@drijf.net>

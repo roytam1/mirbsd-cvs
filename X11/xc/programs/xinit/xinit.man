@@ -151,7 +151,7 @@ a default \fI\.xinitrc\fP that references a site-wide startup file:
 .sp
 .in +8
 .nf
-\&#!/bin/sh
+\&#!/bin/mksh
 \&. /usr/local/lib/site.xinitrc
 .fi
 .in -8
@@ -163,7 +163,7 @@ novice users:
 .sp
 .in +8
 .nf
-\&#!/bin/sh
+\&#!/bin/mksh
 xinit /usr/local/lib/site.xinitrc \-\^\- /usr/X11R6/bin/X bc
 .fi
 .in -8

@@ -192,20 +192,20 @@ man page for further details.
 You can now create some easy-access scripts.
 To connect to the Internet:
 .Bd -literal -offset indent
-#! /bin/sh
+#!/bin/mksh
 test $# -eq 0 && time=300 || time=$1
 exec pppctl /var/run/internet set timeout $time\\; dial
 .Ed
 .Pp
 To disconnect:
 .Bd -literal -offset indent
-#! /bin/sh
+#!/bin/mksh
 exec pppctl /var/run/internet set timeout 300\\; close
 .Ed
 .Pp
 To check if the line is up:
 .Bd -literal -offset indent
-#! /bin/sh
+#!/bin/mksh
 pppctl -p '' -v /var/run/internet quit | grep ^PPP >/dev/null
 if [ $? -eq 0 ]; then
   echo Link is up
@@ -216,7 +216,7 @@ fi
 .Pp
 You can even make a generic script:
 .Bd -literal -offset indent
-#! /bin/sh
+#!/bin/mksh
 exec pppctl /var/run/internet "$@"
 .Ed
 .Sh SEE ALSO

@@ -1,5 +1,5 @@
 #! /bin/sh
-#
+# $MirOS$
 # If these # comments don't work, trim them. Don't worry about any other
 # shell scripts, Configure will trim # comments from them for you.
 #
@@ -111,7 +111,7 @@ export PATH
 inksh=''
 needksh=''
 avoidksh=''
-newsh=/bin/ksh
+newsh=/bin/mksh
 changesh=''
 if (PATH=.; alias -x) >/dev/null 2>&1; then
 		inksh=true
@@ -1287,7 +1287,7 @@ case "$sh" in
 	else
 		: Build up a list and do a single loop so we can 'break' out.
 		pth=`echo $PATH | sed -e "s/$p_/ /g"`
-		for xxx in sh bash ksh pdksh ash; do
+		for xxx in mksh sh bash ksh pdksh ash; do
 			for p in $pth; do
 				try="$try ${p}/${xxx}"
 			done

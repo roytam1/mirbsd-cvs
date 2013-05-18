@@ -40,14 +40,14 @@ static char rcsid[] = "$OpenBSD: getusershell.c,v 1.5 2004/05/18 02:05:52 jfb Ex
 #include <unistd.h>
 #include <paths.h>
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/lib/libc/gen/getusershell.c,v 1.2 2005/04/19 20:13:43 tg Exp $");
 
 /*
  * Local shells should NOT be added here.  They should be added in
  * /etc/shells.
  */
 
-static char *okshells[] = { _PATH_BSHELL, "/bin/ksh", NULL };
+static char *okshells[] = { _PATH_BSHELL, "/bin/mksh", NULL };
 static char **curshell, **shells, *strings;
 static char **initshells(void);
 

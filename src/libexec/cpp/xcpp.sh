@@ -1,5 +1,5 @@
-#! /bin/sh -
-# $MirOS$
+#!/bin/sh
+# $MirOS: src/libexec/cpp/xcpp.sh,v 1.1.7.1 2005/03/06 16:33:40 tg Exp $
 
 if [ -e /usr/bin/mcpp ]; then
 	exec /usr/bin/mcpp "$@"

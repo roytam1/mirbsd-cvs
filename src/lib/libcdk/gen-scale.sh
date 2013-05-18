@@ -1,4 +1,5 @@
-#! /bin/sh
+#!/bin/mksh
+# $MirOS$
 # $Id$
 #
 # This script generates source variations from scale.c for different datatypes.

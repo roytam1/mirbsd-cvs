@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/mksh
 #	$OpenBSD: upgrade.sh,v 1.57 2004/04/06 04:18:41 krw Exp $
 #	$NetBSD: upgrade.sh,v 1.2.4.5 1996/08/27 18:15:08 gwr Exp $
 #

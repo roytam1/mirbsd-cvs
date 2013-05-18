@@ -174,7 +174,7 @@ to your xauth list before.
 You might find the following script useful:
 .RS -2C
 .nf
-#!/bin/ksh
+#!/bin/mksh
 typeset -i dispnr=${1:-1}
 COOKIE=$(dd if=/dev/arandom bs=16 count=1 | hexdump -e '16/1 "%02X"')
 

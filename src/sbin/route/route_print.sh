@@ -1,5 +1,5 @@
-#!/bin/ksh
-# $MirOS$
+#!/bin/mksh
+# $MirOS: src/sbin/route/route_print.sh,v 1.1.7.1 2005/03/06 16:33:40 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>

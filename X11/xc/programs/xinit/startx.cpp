@@ -1,4 +1,4 @@
-XCOMM!/bin/sh
+XCOMM!/bin/mksh
 
 XCOMM $Xorg: startx.cpp,v 1.3 2000/08/17 19:54:29 cpqbld Exp $
 XCOMM

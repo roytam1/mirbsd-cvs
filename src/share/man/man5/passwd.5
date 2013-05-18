@@ -124,7 +124,7 @@ without appropriate privileges.
 Which type of cipher is used to encrypt the password information
 depends on the configuration in
 .Xr login.conf 5 .
-It can be different for local and YP passwords.
+It can be different for local passwords.
 .Pp
 The
 .Ar group
@@ -194,67 +194,6 @@ If there is nothing in the
 field, the Bourne shell
 .Pq Pa /bin/sh
 is assumed.
-.Sh YP SUPPORT
-If YP is active, the
-.Nm passwd
-file also supports standard YP exclusions and inclusions, based on user
-names and netgroups.
-.Pp
-Lines beginning with a
-.Ql \&-
-(minus sign) are entries marked as being excluded
-from any following inclusions, which are marked with a
-.Ql +
-(plus sign).
-.Pp
-If the second character of the line is a
-.Ql @
-(at sign), the operation involves the user fields of all entries in the
-netgroup specified by the remaining characters of the
-.Ar name
-field.
-Otherwise, the remainder of the
-.Ar name
-field is assumed to be a specific user name.
-.Pp
-The
-.Ql +
-token may also be alone in the
-.Ar name
-field, which causes all users from the
-.Pa passwd.byname
-and
-.Pa passwd.byuid
-YP maps to be included.
-.Pp
-If the entry contains non-empty
-.Ar uid
-or
-.Ar gid
-fields, the specified numbers will override the information retrieved
-from the YP maps.
-Additionally, if the
-.Ar gecos ,
-.Ar dir ,
-or
-.Ar shell
-entries contain text, it will override the information included via YP.
-On some systems, the
-.Ar passwd
-field may also be overridden.
-It is recommended that the standard way to enable YP passwd support in
-.Pa /etc/master.passwd
-is:
-.Pp
-+:*::::::::
-.Pp
-which after
-.Xr pwd_mkdb 8
-will result in
-.Pa /etc/passwd
-containing:
-.Pp
-+:*:0:0:::
 .Sh SEE ALSO
 .Xr chpass 1 ,
 .Xr login 1 ,
@@ -297,10 +236,5 @@ A
 .Nm passwd
 file format appeared in
 .At v3 .
-.Pp
-The YP file format first appeared in SunOS.
 .Sh BUGS
 User information should (and eventually will) be stored elsewhere.
-.Pp
-Placing YP exclusions in the file after any inclusions will have
-unexpected results.

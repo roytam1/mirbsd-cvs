@@ -1,6 +1,6 @@
-#!/bin/ksh
-#	$MirOS: src/etc/monthly,v 1.2 2005/03/06 19:05:54 tg Exp $
-#	$OpenBSD: monthly,v 1.5 1998/02/02 23:08:57 millert Exp $
+#!/bin/mksh
+# $MirOS: src/etc/monthly,v 1.3 2005/04/29 18:58:14 tg Exp $
+# $OpenBSD: monthly,v 1.5 1998/02/02 23:08:57 millert Exp $
 
 export TZ=UTC
 

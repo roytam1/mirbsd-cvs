@@ -1,4 +1,4 @@
-/* $MirOS$ */
+/* $MirOS: src/gnu/usr.bin/rcs/conf.h,v 1.1.7.1 2005/03/06 17:00:10 tg Exp $ */
 
 /* RCS compile-time configuration */
 /* *NOT* automatically generated. */
@@ -74,7 +74,7 @@
 #define has_fork 1 /* Does fork() work?  */
 #define has_waitpid 1 /* Does waitpid() work?  */
 #define bad_wait_if_SIGCHLD_ignored 1 /* Does ignoring SIGCHLD break wait()?  */
-#define RCS_SHELL "/bin/ksh" /* shell to run RCS subprograms */
+#define RCS_SHELL "/bin/mksh" /* shell to run RCS subprogrammes */
 #define has_vfprintf 1 /* Does vfprintf() work?  */
 #define large_memory 1 /* Can main memory hold entire RCS files?  */
 /* Do struct stat s and t describe the same file?  Answer d if unknown.  */

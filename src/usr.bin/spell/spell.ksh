@@ -1,5 +1,5 @@
-#!/bin/ksh -
-#
+#!/bin/mksh
+# $MirOS$
 # $OpenBSD: spell.ksh,v 1.8 2004/02/02 22:36:50 fgsch Exp $
 #
 # Copyright (c) 2001, 2003 Todd C. Miller <Todd.Miller@courtesan.com>

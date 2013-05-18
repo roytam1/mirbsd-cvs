@@ -171,7 +171,7 @@ menu "Hosts_menu"
 "Homer"		!"rsh -n Homer exec /usr/bin/X11/xterm -ls -display $DISPLAY -T Homer&"
 "Lupine"	!"TERM=xterms xterm -fn 10x20 -T lupine -e rlogin lupine&"
 "Ramona"	!"rsh -n ramona exec /usr/bin/X11/xterm -ls -display $DISPLAY -T Ramona&"
-"Pagemill"	!"rsh pagemill -n /usr/bin/X11/xterm -display $DISPLAY -T Pagemill -e /bin/ksh&"
+"Pagemill"	!"rsh pagemill -n /usr/bin/X11/xterm -display $DISPLAY -T Pagemill -e /bin/mksh&"
 "Sheridan"	!"rsh -n sheridan exec /usr/bin/X11/xterm -ls -display $DISPLAY -T Sheridan&"
 }
 

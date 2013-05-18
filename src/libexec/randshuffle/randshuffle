@@ -1,5 +1,5 @@
-#!/bin/ksh
-# $MirOS: src/share/misc/licence.template,v 1.2 2005/03/03 19:43:30 tg Rel $
+#!/bin/mksh
+# $MirOS: src/libexec/randshuffle/randshuffle,v 1.2 2005/03/15 00:23:06 tg Exp $
 #-
 # Copyright (c) 2003, 2004, 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -29,10 +29,10 @@ exec 2>&1
 
 export PATH=/bin:/usr/bin:/sbin:/usr/sbin
 
-R=$(mktemp) || exit 1
-S=$(mktemp) || { rm -f $R; exit 1; }
-trap 'rm -f $R $S ; exit 0' 0
-trap 'rm -f $R $S ; exit 1' 1 2 3 13 15
+R=$(mktemp /tmp/.randshuffle.XXXXXXXXXX) || exit 1
+S=$(mktemp /tmp/.randshuffle.XXXXXXXXXX) || { rm -f $R; exit 1; }
+trap 'rm -f $R $S; exit 0' 0
+trap 'rm -f $R $S; trap - EXIT; exit 1' 1 2 3 13 15
 
 dd if=/dev/prandom of=$R bs=160 count=1 >/dev/null 2>&1 || exit 1
 dd if=/dev/arandom of=$S bs=160 count=96 >/dev/null 2>&1 || exit 1

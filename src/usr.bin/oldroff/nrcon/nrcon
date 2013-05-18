@@ -1,5 +1,5 @@
-#!/bin/ksh
-# $MirOS: src/share/misc/licence.template,v 1.2 2005/03/03 19:43:30 tg Rel $
+#!/bin/mksh
+# $MirOS: src/usr.bin/oldroff/nrcon/nrcon,v 1.2 2005/04/16 03:22:01 tg Exp $
 #-
 # Copyright (c) 2003, 2004, 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>

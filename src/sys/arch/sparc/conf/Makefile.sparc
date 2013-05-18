@@ -1,4 +1,4 @@
-# $MirOS: src/sys/arch/sparc/conf/Makefile.sparc,v 1.4 2005/05/04 21:58:37 tg Exp $
+# $MirOS: src/sys/arch/sparc/conf/Makefile.sparc,v 1.5 2005/05/04 22:01:08 tg Exp $
 # $OpenBSD: Makefile.sparc,v 1.33 2003/11/20 08:38:52 espie Exp $
 # $NetBSD: Makefile.sparc,v 1.32.4.1 1996/06/12 20:26:32 pk Exp $
 
@@ -104,7 +104,7 @@ SYSTEM_DEP=	Makefile ${SYSTEM_OBJ}
 SYSTEM_LD_HEAD=	@rm -f $@
 SYSTEM_LD=	@echo ${LD} ${LINKFLAGS} -o $@ '$${SYSTEM_OBJ}' vers.o; \
 		${LD} ${LINKFLAGS} -o $@ ${SYSTEM_OBJ} vers.o
-SYSTEM_LD_TAIL=	@${SIZE} $@; chmod 755 $@; /bin/ksh -c \
+SYSTEM_LD_TAIL=	@${SIZE} $@; chmod 755 $@; ${SHELL} -c \
 		' typeset -i10 "relocval=16\#${RELOC2:S/^0x//}"; \
 		  set -A kstmp -- $$(/bin/ls -l $@); \
 		  typeset -i10 "ksize=16384+$${kstmp[4]}"; \

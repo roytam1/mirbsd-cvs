@@ -1,4 +1,4 @@
 # $Id$
 
 MYADDR:
- !bg /bin/ksh /etc/ppp/ip-down tun0 vtty sync MYADDR HISADDR
+ !bg /bin/mksh /etc/ppp/ip-down tun0 vtty sync MYADDR HISADDR

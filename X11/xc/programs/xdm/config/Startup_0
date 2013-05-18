@@ -1,6 +1,6 @@
-#!/bin/ksh
+#!/bin/mksh
 # $Id$
-# $MirOS$
+# $MirOS: X11/xc/programs/xdm/config/Startup_0,v 1.1 2005/03/19 15:42:02 tg Exp $
 # $OpenBSD: Startup_0,v 1.2 2004/02/13 22:57:39 matthieu Exp $
 #
 # Xstartup

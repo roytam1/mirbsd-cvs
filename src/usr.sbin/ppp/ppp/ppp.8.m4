@@ -25,7 +25,7 @@ changecom(,)dnl
 .\" OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 .\" SUCH DAMAGE.
 .\"
-.\" $MirOS: src/usr.sbin/ppp/ppp/ppp.8.m4,v 1.2 2005/03/13 19:17:16 tg Exp $
+.\" $MirOS: src/usr.sbin/ppp/ppp/ppp.8.m4,v 1.3 2005/04/17 04:24:16 tg Exp $
 .\" $OpenBSD: ppp.8.m4,v 1.23 2005/03/29 20:23:48 jmc Exp $
 .\"
 .Dd September 20, 1995
@@ -1234,7 +1234,7 @@ Create a
 .Pa /usr/local/bin/ppplogin
 file with the following contents:
 .Bd -literal -offset indent
-#! /bin/sh
+#!/bin/mksh
 exec /usr/sbin/ppp -direct incoming
 .Ed
 .Pp
