@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.198 2009/05/31 19:00:34 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.199 2009/06/06 14:17:06 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -4153,6 +4153,10 @@ Author: tg@
  the <a href="@@ABSPATH@@/MirOS/dist/hosted/tg/xchat-randex_1.05.orig.tar.gz">source
  code</a>. It is, of course, <a href="@@ABSPATH@@/MirOS-Licence">MirOS
  licenced</a>.</p>
+<p><a href="@@ABSPATH@@/cvs.cgi/ports/net/irssi/files/randex.pl">irssi
+ plugin</a> is available from CVSweb or AnonCVS; the MirPorts versions
+ of sirc and tinyirc, as well as tinyirc on bsd4grml and the Live CDs,
+ also support the RANDEX protocol.</p><!-- RSS stop -->
 <p>While it does not feed back entropy to the kernel on e.g. Mac OSX –
  due to a hypothetical arc4random_pushk(3) function needing root privs
  – it can still be used to access the pool by typing <tt>/RANDOM</tt>,
