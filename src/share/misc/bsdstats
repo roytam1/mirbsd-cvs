@@ -1,12 +1,15 @@
-# $MirOS: src/share/misc/bsdstats,v 1.6 2006/10/03 00:34:55 tg Exp $
+# $MirOS: src/share/misc/bsdstats,v 1.7 2006/10/03 00:41:10 tg Exp $
 # $FreeBSD: /repoman/r/pcvs/ports/sysutils/bsdstats/files/300.statistics,v 1.30 2006/10/02 12:07:30 scrappy Exp $
 
 print -u2 'Error:\tbsdstats.org code is currently disabled'
 print -u2 '\tbecause they fubar'\''d something...'
 exit 0
 
-unset HTTP_USER_AGENT
+alias sleep=true
+
 rpt='http://rpt.bsdstats.org/scripts/'
+# ftp(1) sends HTTP/1.1 but doesn't understand Transfer-Encoding: chunked
+fetch="lynx -useragent 'MirOS ftp(1), http://mirbsd.de/, emulated by Lynx' -source"
 
 # RFC 2396
 uri_escape () {
@@ -26,12 +29,6 @@ uri_escape () {
         '
 }
 
-# I like this one
-#function uri_escape
-#{
-#	print -nr -- "$*" | hexdump -ve '1/1 "-%02x"' | sed s/-/%/g
-#}
-
 stats_token=
 integer stats_token_time=0
 integer stats_report_time=0
@@ -45,7 +42,7 @@ if [[ -z $stats_token || -z $stats_key ]]; then
 	stats_key=$(uri_escape $(openssl rand -base64 32))
 	sleep $((RANDOM % 120))
 	uri="${rpt}getid.php?key=$stats_key"
-	res=$(ftp -V -o - "$uri" 2>&-)
+	res=$(eval $fetch \"\$uri\" 2>&-)
 	print -r "firstrun $uri -> ${res:-ERROR}"
 	stats_token=$(uri_escape $(eval $res; print -nr -- "$KEY"))
 	stats_token_time=$(date +%s)
@@ -86,24 +83,24 @@ if (( stats_report_time <= (now - (14 * 86400) + 7200) )); then
 			}
 		fi
 	fi
-	uri="${rpt}enable_token.php?token=$stats_key&key=$stats_token"
+	uri="${rpt}enable_token.php?key=$stats_token&token=$stats_key"
 	sleep $((RANDOM % 120))
-	res=$(ftp -V -o - "$uri" 2>&-)
+	res=$(eval $fetch \"\$uri\" 2>&-)
 	print -r "init $uri -> ${res:-ERROR}"
-	uri="${rpt}report_system.php?token=$stats_key&key=$stats_token&rel=$(uri_escape $version)&arch=$(uname -m)&opsys=$(uname -s)"
+	uri="${rpt}report_system.php?token=$stats_token&key=$stats_key&rel=$(uri_escape $version)&arch=$(uname -m)&opsys=$(uname -s)"
 	sleep $((RANDOM % 120))
-	res=$(ftp -V -o - "$uri" 2>&-)
+	res=$(eval $fetch \"\$uri\" 2>&-)
 	print -r "system report $uri -> ${res:-ERROR}"
 	[[ $res = OK ]] || ok=0
 	cpu=$(sysctl -n hw.model)
-	uri="${rpt}report_cpu.php?token=$stats_key&key=$stats_token&vendor=$(print -r -- "$cpu" | cut -d' ' -f1)&cpu_type=$(uri_escape $(print -r -- "$cpu" | cut -d' ' -f2-))&cpus=1"
+	uri="${rpt}report_cpu.php?token=$stats_token&key=$stats_key&cpus=1&vendor=$(print -r -- "$cpu" | cut -d' ' -f1)&cpu_type=$(uri_escape $(print -r -- "$cpu" | cut -d' ' -f2-))"
 	sleep $((RANDOM % 120))
-	res=$(ftp -V -o - "$uri" 2>&-)
+	res=$(eval $fetch \"\$uri\" 2>&-)
 	print -r "cpu report $uri -> ${res:-ERROR}"
 	[[ $res = OK ]] || ok=0
-	uri="${rpt}disable_token.php?token=$stats_key&key=$stats_token"
+	uri="${rpt}disable_token.php?key=$stats_token&token=$stats_key"
 	sleep $((RANDOM % 120))
-	res=$(ftp -V -o - "$uri" 2>&-)
+	res=$(eval $fetch \"\$uri\" 2>&-)
 	print -r "done $uri -> ${res:-ERROR}"
 	(( ok )) && stats_report_time=$(date +%s)
 fi
