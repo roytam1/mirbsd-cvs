@@ -84,6 +84,7 @@ if [[ $mode = e ]]; then
 		IFS=:
 		set -A bmp -- ${f[3]}
 		IFS=$' \t\n'
+		f[0]=e
 		f[3]=${#bmp[*]}
 		print -r -- "${f[*]}"
 		chl=0
@@ -308,6 +309,203 @@ function parse_bdfc {
 	done
 	print -ru2 "E: internal error (at line $lno), shouldn't happen"
 	exit 255
+}
+
+function parse_bdf {
+	while IFS= read -r line; do
+		(( ++lno ))
+		case $line {
+		(COMMENT)
+			Fhead+=("'")
+			;;
+		(COMMENT@([	 ])*)
+			Fhead+=("' ${line#COMMENT[	 ]}")
+			;;
+		(STARTPROPERTIES\ +([0-9]))
+			break
+			;;
+		(*)
+			Fhead+=("h$line")
+			;;
+		}
+	done
+	set -A f -- $line
+	numprop=${f[1]}
+	while IFS= read -r line; do
+		(( ++lno ))
+		case $line {
+		(COMMENT)
+			Fprop+=("'")
+			;;
+		(COMMENT@([	 ])*)
+			Fprop+=("' ${line#COMMENT[	 ]}")
+			;;
+		(ENDPROPERTIES)
+			break
+			;;
+		(*)
+			Fprop+=("p$line")
+			let --numprop
+			;;
+		}
+	done
+	if (( numprop )); then
+		print -ru2 "E: expected ${f[1]} properties, got" \
+		    "$((f[1] - numprop)) in line $lno"
+		exit 2
+	fi
+	while IFS= read -r line; do
+		(( ++lno ))
+		case $line {
+		(COMMENT)
+			Fprop+=("'")
+			;;
+		(COMMENT@([	 ])*)
+			Fprop+=("' ${line#COMMENT[	 ]}")
+			;;
+		(CHARS\ +([0-9]))
+			break
+			;;
+		(*)
+			print -ru2 "E: expected CHARS not '$line' in line $lno"
+			exit 2
+			;;
+		}
+	done
+	numchar=${f[1]}
+	set -A cc
+	set -A cn
+	set -A ce
+	set -A cs
+	set -A cd
+	set -A cb
+	while IFS= read -r line; do
+		(( ++lno ))
+		case $line {
+		(COMMENT)
+			cc+=("'")
+			;;
+		(COMMENT@([	 ])*)
+			cc+=("' ${line#COMMENT[	 ]}")
+			;;
+		(STARTCHAR\ *)
+			set -A cn -- $line
+			;;
+		(ENCODING\ +([0-9]))
+			set -A ce -- $line
+			;;
+		(SWIDTH\ +([0-9-])\ +([0-9-]))
+			set -A cs -- $line
+			;;
+		(DWIDTH\ +([0-9-])\ +([0-9-]))
+			set -A cd -- $line
+			;;
+		(BBX\ +([0-9])\ +([0-9])\ +([0-9-])\ +([0-9-]))
+			set -A cb -- $line
+			;;
+		(BITMAP)
+			if [[ -z $cn ]]; then
+				print -ru2 "E: missing STARTCHAR in line $lno"
+				exit 2
+			fi
+			if [[ -z $ce ]]; then
+				print -ru2 "E: missing ENCODING in line $lno"
+				exit 2
+			fi
+			if [[ -z $cs ]]; then
+				print -ru2 "E: missing SWIDTH in line $lno"
+				exit 2
+			fi
+			if [[ -z $cd ]]; then
+				print -ru2 "E: missing DWIDTH in line $lno"
+				exit 2
+			fi
+			if [[ -z $cb ]]; then
+				print -ru2 "E: missing BBX in line $lno"
+				exit 2
+			fi
+			typeset -Uui16 -Z7 ch=10#${ce[1]}
+			if (( ch < 0 || ch > 0xFFFF )); then
+				print -ru2 "E: encoding ${ce[1]} out of" \
+				    "bounds in line $lno"
+				exit 2
+			fi
+			Gprop[ch]="d ${cs[1]} ${cs[2]} ${cd[1]} ${cd[2]} ${cb[3]} ${cb[4]}"
+			set -A f c ${ch#16#} ${cb[1]} - ${cn[1]}
+			[[ ${f[4]} = "uni${ch#16#}" ]] && unset f[4]
+			if (( f[2] <= 8 )); then
+				ck='[0-9A-F][0-9A-F]'
+			elif (( f[2] <= 16 )); then
+				ck='[0-9A-F][0-9A-F][0-9A-F][0-9A-F]'
+			elif (( f[2] <= 24 )); then
+				ck='[0-9A-F][0-9A-F][0-9A-F][0-9A-F][0-9A-F][0-9A-F]'
+			else
+				ck='[0-9A-F][0-9A-F][0-9A-F][0-9A-F][0-9A-F][0-9A-F][0-9A-F][0-9A-F]'
+			fi
+			bmps=
+			numlines=${cb[2]}
+			while IFS= read -r line; do
+				(( ++lno ))
+				if eval [[ '$line' != "$ck" ]]; then
+					print -ru2 "E: invalid hex encoding" \
+					    "for U+${ch#16#} (dec. $((ch)))" \
+					    "on line $lno: '$line'"
+					exit 2
+				fi
+				bmps+=$line:
+				(( --numlines )) || break
+			done
+			f[3]=${bmps%:}
+			if ! IFS= read -r line || [[ $line != ENDCHAR ]]; then
+				print -ru2 "E: expected ENDCHAR in line $lno"
+				exit 2
+			fi
+			Gdata[ch]="${f[*]}"
+			[[ -n $cc ]] && for line in "${cc[@]}"; do
+				Gcomm[ch]+=$line$'\n'
+			done
+			set -A cc
+			set -A cn
+			set -A ce
+			set -A cs
+			set -A cd
+			set -A cb
+			;;
+		(ENDFONT)
+			break
+			;;
+		(*)
+			print -ru2 "E: unexpected '$line' in line $lno"
+			exit 2
+			;;
+		}
+	done
+	Fcomm+=("${cc[@]}")
+	for line in "${cn[*]}" "${ce[*]}" "${cs[*]}" "${cd[*]}" "${cb[*]}"; do
+		[[ -n $line ]] || continue
+		print -ru2 "E: unexpected '$line' between last char and ENDFONT"
+		exit 2
+	done
+	if (( numchar != ${#Gdata[*]} )); then
+		print -ru2 "E: expected $numchar glyphs, got ${#Gdata[*]}"
+		exit 2
+	fi
+	while IFS= read -r line; do
+		(( ++lno ))
+		case $line {
+		(COMMENT)
+			Fcomm+=("'")
+			;;
+		(COMMENT@([	 ])*)
+			Fcomm+=("' ${line#COMMENT[	 ]}")
+			;;
+		(*)
+			print -ru2 "E: unexpected '$line' past ENDFONT" \
+			    "in line $lno"
+			exit 2
+			;;
+		}
+	done
 }
 
 if [[ $mode = c ]]; then

@@ -4,6 +4,7 @@
 ./usr/X11R6/bin/Xmark
 ./usr/X11R6/bin/appres
 ./usr/X11R6/bin/atobm
+./usr/X11R6/bin/bdfctool
 ./usr/X11R6/bin/bdftopcf
 ./usr/X11R6/bin/bdftruncate
 ./usr/X11R6/bin/beforelight
@@ -1240,6 +1241,7 @@
 ./usr/X11R6/man/cat1/Xmark.0
 ./usr/X11R6/man/cat1/appres.0
 ./usr/X11R6/man/cat1/atobm.0
+./usr/X11R6/man/cat1/bdfctool.0
 ./usr/X11R6/man/cat1/bdftopcf.0
 ./usr/X11R6/man/cat1/bdftruncate.0
 ./usr/X11R6/man/cat1/beforelight.0
