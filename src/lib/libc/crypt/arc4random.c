@@ -1,4 +1,4 @@
-/**	$MirOS: src/lib/libc/crypt/arc4random.c,v 1.3 2005/09/22 20:06:58 tg Exp $ */
+/**	$MirOS: src/lib/libc/crypt/arc4random.c,v 1.4 2006/06/02 02:29:45 tg Exp $ */
 /*	$OpenBSD: arc4random.c,v 1.14 2005/06/06 14:57:59 kjell Exp $	*/
 
 /*
@@ -35,13 +35,13 @@
  */
 
 #include <sys/param.h>
-#include <sys/time.h>
 #include <sys/sysctl.h>
 #include <fcntl.h>
 #include <stdlib.h>
+#include <time.h>
 #include <unistd.h>
 
-__RCSID("$MirOS: src/lib/libc/crypt/arc4random.c,v 1.3 2005/09/22 20:06:58 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/crypt/arc4random.c,v 1.4 2006/06/02 02:29:45 tg Exp $");
 
 #ifdef __GNUC__
 #define inline __inline
@@ -96,6 +96,10 @@ arc4_stir(struct arc4_stream *as)
 	int     mib[2];
 	size_t	i, len;
 	u_char rnd[128];
+	tai64na_t tm;
+
+	taina_time(&tm);
+	arc4_addrandom(as, (void *)&tm, sizeof (tm));
 
 	mib[0] = CTL_KERN;
 	mib[1] = KERN_ARND;
