@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/news.inc,v 1.80 2008/10/25 18:26:54 tg Exp $
+RCSID: $MirOS: www/data/news.inc,v 1.81 2008/10/29 18:35:22 tg Exp $
 Title: Older news from the MirOS Project
 Date: 01.03.2006
 
@@ -1054,4 +1054,34 @@ Tag: cpio
  now be given multiple times to the cpio and pax, not only tar, frontend.</p>
 <p>paxmirabilis is used, among others, in MirOS BSD, the MirPorts Framework,
  FreeWRT Embedded GNU/Linux ADK.</p>
+----
+Title: MirOS #10-current (i386, sparc) 2008-10-30 snapshot published
+Date: 30.10.2008 18:42
+Author: tg@
+
+<p>Today, a new snapshot of MirOS-current has been uploaded into the <a
+ href="@RELPATH@@MirOS/current/">NetInstall</a> area. The <tt>cdrom10.iso</tt>
+ image is, as usually, a manifold-boot ISO 9660 filesystem which starts
+ on i386 via El Torito, on i386 via MBR (if dd(1)’d onto a hard disc,
+ USB stick, CompactFlash card, etc.), and on sparc via OpenBOOT. It also
+ contains floppy images for i386 (one normal and three for serial console
+ at COM1/tty00 at 9600, 38400 and 115200 bps, 8N1) and sparc. There are
+ also CD images for serial console boot with the same parametres.</p>
+<p>The MirPorts Framework snapshot, <tt>ports10.ngz</tt>, has also been
+ updated. Note that we are still seeking port maintainers (our current
+ policy is to update ports we use, which are often used, or we notice,
+ or these someone asks us to, because we are understaffed), as well as
+ people who use the MirPorts Framework on MidnightBSD and OpenBSD (and,
+ to a lesser extend, Mac OSX). Furthermore, the <tt>pkgsrc10.ngz</tt>
+ snapshot has been untouched since July 2007; if someone would like to
+ improve the situation, for example by talking to the pkgsrc® developers
+ responsible for stalling the integration, talk to ahoka@ (replaced in
+ <a href="@@RELPATH@@irc.htm">IRC</a>).</p>
+<p>This snapshot does not come as a DuaLive CD due to issues with both
+ J�rg Schilling’s mkisofs(‌8), which has since been removed from
+ the base system source tree, and NetBSD® makefs(8). However, we are
+ trying to solve these and will produce one as soon as possible.</p>
+<p>As of now, there are no binary packages compiled specifically for
+ this snapshot; however, binary packages for older snapshots and even
+ MirOS #10 RELEASE generally work.</p>
 ----
