@@ -1,5 +1,5 @@
 <?php
-/* $MirOS: www/files/index.php,v 1.6 2008/05/03 01:47:26 tg Exp $ */
+/* $MirOS: www/files/index.php,v 1.7 2008/05/03 02:05:26 tg Exp $ */
 /*-
  * The MirOS Project - Webpages
  * Copyrighted material; read LICENCE for terms of use.
@@ -78,7 +78,7 @@ function get_include_contents($filename) {
 			$fn = $svr . "/" . $rq . ".htm";
 		else {
 			$rq = "content/".mybase64($rq).".inc";
-			if (is_readable("content/".mybase64($rq).".inc"))
+			if (is_readable($rq))
 				$fn = false;
 		}
 		if ($fn !== false) {
