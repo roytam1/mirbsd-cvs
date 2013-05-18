@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/install.sub,v 1.21 2007/08/24 14:38:38 tg Exp $
+# $MirOS: src/distrib/common/install.sub,v 1.22 2007/08/24 14:40:34 tg Exp $
 # $OpenBSD: install.sub,v 1.388 2005/07/02 00:55:48 uwe Exp $
 # $NetBSD: install.sub,v 1.5.2.8 1996/09/02 23:25:02 pk Exp $
 #
@@ -72,7 +72,6 @@
 #
 # The following variables can be provided if required:
 #	MDSETS	    - list of files to add to THESETS
-#	MDTERM      - 'vt220' assumed if not provided
 #	MDFSTYPE    - nothing assumed if not provided
 #	MDFSOPTS    - nothing assumed if not provided
 #	MDDKDEVS    - '/^r*a*[swi]d[0-9][0-9]* /s/ .*//p' assumed if not provided
@@ -82,9 +81,9 @@
 . install.md
 
 set_term() {
-	typeset TERMS=vt100,vt220,wsvt25,dumb,$MDTERM
-	echo "Possible types: ${MDTERMS:-${TERMS%,}}"
-	ask "Terminal type?" ${TERM:-${MDTERM:-vt220}}
+	typeset TERMS=vt100,vt220,wsvtg,wsvt25,dumb
+	echo "Possible types: $TERMS"
+	ask "Terminal type?" ${TERM:-vt220}
 	TERM=$resp
 	export TERM
 

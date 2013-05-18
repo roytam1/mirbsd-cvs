@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/listend.sparc,v 1.14 2007/08/12 14:02:37 tg Exp $
+# $MirOS: src/distrib/common/listend.sparc,v 1.15 2007/08/12 21:17:58 tg Exp $
 
 # extra programmes
 LINK	instbin					bin/mt
@@ -11,7 +11,6 @@ LINK	instbin					usr/sbin/eeprom
 # devices stuff
 SPECIAL	cd dev; ./MAKEDEV ptm pty0; rm ?typ[a-zA-Z]
 SPECIAL	cd dev; ./MAKEDEV ramdisk
-TERMCAP	vt100,vt220,wsvt25,dumb,sun		usr/share/misc/termcap
 
 # install stuff
 SCRIPT	${TOPDIR}/common/install.sparc		install.md

@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/list,v 1.19 2007/07/19 10:56:53 tg Exp $
+# $MirOS: src/distrib/common/list,v 1.20 2007/07/19 16:35:58 tg Exp $
 
 # standard tools in the crunched binary
 COPY	${OBJDIR}/instbin			instbin
@@ -78,6 +78,7 @@ SYMLINK	/tmp/resolv.conf.shadow			etc/resolv.conf
 COPY	${TOPDIR}/common/services		etc/services
 COPY	${TOPDIR}/common/shells			etc/shells
 COPY	${DESTDIR}/etc/spwd.db			etc/spwd.db
+TERMCAP	vt100,vt220,wsvtg,wsvt25,dumb		usr/share/misc/termcap
 
 # install stuff
 SCRIPT	${TOPDIR}/common/dot.profile		.profile

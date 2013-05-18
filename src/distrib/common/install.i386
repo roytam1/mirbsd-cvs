@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/install.i386,v 1.4 2007/06/30 02:40:53 tg Exp $
+# $MirOS: src/distrib/common/install.i386,v 1.5 2007/08/24 14:40:34 tg Exp $
 # $OpenBSD: install.md,v 1.28 2005/04/02 14:34:46 krw Exp $
 #
 #
@@ -42,7 +42,6 @@
 
 MDFSTYPE=ntfs
 MDFSOPTS=ro
-MDTERM=wsvtg
 MDXAPERTURE=2
 MDSERIAL="pccom com"
 ARCH=ARCH
