@@ -1,5 +1,5 @@
-# $MirOS$
-# $OpenBSD: services,v 1.55 2003/12/16 13:46:34 jakob Exp $
+# $MirOS: src/etc/services,v 1.2 2005/03/06 19:05:54 tg Exp $
+# $OpenBSD: services,v 1.58 2004/12/27 11:02:31 jmc Exp $
 # $FreeBSD: services,v 1.96 2003/09/18 09:21:09 dougb Exp $
 #
 # Network services, Internet style
@@ -1903,8 +1903,8 @@ unicall		4343/tcp
 unicall		4343/udp
 krb524		4444/tcp	# Kerberos 5->4
 krb524		4444/udp
-sae-urn		4500/tcp
-sae-urn		4500/udp
+ipsec-nat-t	4500/tcp	ipsec-msft	# IPsec NAT-Traversal
+ipsec-nat-t	4500/udp	ipsec-msft
 fax		4557/tcp	# FAX transmission service
 hylafax		4559/tcp	# HylaFAX client-server
 rfa		4672/tcp	# remote file access server
