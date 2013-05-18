@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/Makefile.i386-big,v 1.20 2009/06/29 19:43:33 tg Exp $
+# $MirOS: src/distrib/common/Makefile.i386-big,v 1.21 2009/08/15 18:21:12 tg Exp $
 
 IMAGESIZE=	8192
 IMAGETYPE=	ipldisc
@@ -23,7 +23,7 @@ cdrom-mdcopy:
 	sed \
 	    -e 's!^boot .*$!boot /v${OSrev}/i386/bsd.rd!' \
 	    -e 's/@/${SERIALSPEED}/g' \
-	    ${.CURDIR}/../tools/boot.cfg.serial >${WRKDIR}/boot.cfg
+	    ${TOPDIR}/tools/boot.cfg.serial >${WRKDIR}/boot.cfg
 .endif
 	dd if=/dev/arandom bs=2048 count=1 of=eltorito.loo
 
