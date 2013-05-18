@@ -1,4 +1,4 @@
-# $MirOS: ports/misc/figlet/Makefile,v 1.5 2006/02/09 11:12:06 tg Exp $
+# $MirOS: ports/misc/figlet/Makefile,v 1.6 2006/02/27 22:22:20 tg Exp $
 # $OpenBSD: Makefile,v 1.14 2002/10/27 21:07:53 naddy Exp $
 
 BROKEN=			rewrite in BSD make
@@ -15,15 +15,15 @@ PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
-#MASTER_SITES+=	ftp://ftp.figlet.org/pub/figlet/program/unix/
-MASTER_SITES+=	http://public.enst.fr/pkgsrc/distfiles/
+#MASTER_SITES+=		ftp://ftp.figlet.org/pub/figlet/program/unix/
+MASTER_SITES+=		http://public.enst.fr/pkgsrc/distfiles/
 
-DISTFILES=	${DISTNAME}${EXTRACT_SUFX} \
-		figlet-fonts-20021023/contributed.tar.gz \
-		figlet-fonts-20021023/international.tar.gz \
-		figlet-fonts-20021023/ms-dos.tar.gz
-MAKE_FLAGS+=	DEFAULTFONTDIR=${PREFIX}/share/figlet
-NO_REGRESS=	Yes
+DISTFILES=		${DISTNAME}${EXTRACT_SUFX} \
+			figlet-fonts-20021023/contributed.tar.gz \
+			figlet-fonts-20021023/international.tar.gz \
+			figlet-fonts-20021023/ms-dos.tar.gz
+EXTRA_MAKE_FLAGS+=	DEFAULTFONTDIR=${PREFIX}/share/figlet
+NO_REGRESS=		Yes
 
 post-patch:
 	@perl -pi -e 's|%%OPENBSDFIGLET%%|${LOCALBASE}/share/figlet|g' \
