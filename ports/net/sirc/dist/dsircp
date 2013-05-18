@@ -1,5 +1,5 @@
 #!/usr/bin/perl
-# $MirOS: ports/net/sirc/dist/dsircp,v 1.12 2007/05/20 23:01:27 tg Exp $
+# $MirOS: ports/net/sirc/dist/dsircp,v 1.13 2008/07/15 12:25:19 tg Exp $
 #-
 # dsircp: dumb-mode small irc client in perl
 # by orabidoo <roger.espel.llima@pobox.com>
@@ -89,6 +89,7 @@ couldn't be found. Have you even bothered to run 'install'?\n";
 }
 use Encode;
 use POSIX ":sys_wait_h";
+use BSD::arc4random qw(arc4random_pushb arc4random_bytes);
 
 &Getopts('n:s:p:u:i:l:L:H:rqQR78UC:XT');
 
@@ -693,7 +694,7 @@ sub ctcp {
   $a && ($a=' '.$a);
   $to = (&eq($towho, $nick) ? "you" : $towho);
   &tell("*** $who$puh1 did a CTCP $what$a to $to")
-    unless $what =~ /^(ACTION|PING)$/;
+    unless $what =~ /^(ACTION|ENTROPY|PING)$/;
   if ($what eq 'ACTION') {
     &dohooks("action", $towho, $args);
     if (&eq($towho, $nick)) {
@@ -712,7 +713,7 @@ sub ctcp {
   } elsif ($what eq 'TIME') {
     &reply("TIME ".&date(time));
   } elsif ($what eq 'CLIENTINFO') {
-    &reply("CLIENTINFO ACTION, CLIENTINFO, ECHO, ERRMSG, FINGER, PING, TIME, USERINFO, VERSION");
+    &reply("CLIENTINFO ACTION, CLIENTINFO, ECHO, ENTROPY, ERRMSG, FINGER, PING, TIME, USERINFO, VERSION");
   } elsif ($what eq 'FINGER') {
     &reply("FINGER ".$set{"FINGER"});
   } elsif ($what eq 'USERINFO') {
@@ -722,12 +723,17 @@ sub ctcp {
     $u =~ s/^\+//;
     $u =~ s/\+/ + /g;
     $u=" -- using $u" if $u;
-    &reply("VERSION sirc $version, a \cbperl\cb client$u");
+    &reply("VERSION sirc $version (RANDOM=${BSD::arc4random::RANDOM}), a \cbperl\cb client$u");
   } elsif ($what eq 'PING') {
     &reply("PING $args");
     &tell("*** $who$puh1 did a CTCP PING to $to");
   } elsif ($what eq 'ECHO' || $what eq 'ERRMSG') {
     &reply("$what $args");
+  } elsif ($what eq 'ENTROPY') {
+    my $evalue = pack("u", arc4random_bytes(32, "$who$puh1$towho$args"));
+    chop($evalue);
+    &tell("*** $who$puh1 initiated the RANDEX protocol with $to");
+    &reply("RANDOM $evalue");
   }
 }
 
@@ -810,16 +816,23 @@ sub doset {
 
 sub ctcpreply {
   local($ctcp, $rest)=split(/ +/, $_[1], 2);
+  local $vis = 1;
+  local $towho = $_[0];
   $ctcp =~ tr/a-z/A-Z/;
-  &dohooks("ctcp_reply", $_[0], $ctcp, $rest);
+  &dohooks("ctcp_reply", $towho, $ctcp, $rest);
   if ($ctcp eq 'PING') {
     $rest = (time-$rest);
     $rest .= ($rest == 1) ? " second" : " seconds";
+  } elsif ($ctcp eq 'RANDOM') {
+    arc4random_pushb("$who$puh1$towho$rest");
+    &tell("*** RANDEX protocol reply from $who$puh1 to $towho");
+    $vis = 0;
   }
-  if (&eq($_[0], $nick)) {
+  return unless $vis;
+  if (&eq($towho, $nick)) {
     &tell("*** CTCP $ctcp reply from $who$puh1: $rest");
   } else {
-    &tell("*** CTCP $ctcp reply to $_[0] from $who$puh2: $rest");
+    &tell("*** CTCP $ctcp reply to $towho from $who$puh2: $rest");
   }
 }
 
@@ -1034,7 +1047,7 @@ sub docommand {
     &tell("*\cbE\cb* Yeah, but what?"), return if $newarg eq '';
     &load($newarg);
   } elsif ($cmd eq 'VERSION') {
-    &tell("*** \cbsirc\cb version $version, written in \cbperl\cb by \cborabidoo\cb");
+    &tell("*** \cbsirc\cb version $version (RANDOM=${BSD::arc4random::RANDOM}), written in \cbperl\cb by \cborabidoo\cb");
     $_=$add_ons;
     s/^\+//;
     s/\+/, /g;
@@ -1054,7 +1067,7 @@ sub docommand {
     system($args);
   } elsif ($cmd eq 'BYE' || $cmd eq 'QUIT' || $cmd eq 'EXIT' ||
 		$cmd eq 'SIGNOFF') {
-    $args || ($args="using \cbsirc\cb version $version$add_ons");
+    $args || ($args="using \cbsirc\cb version $version$add_ons (RANDOM=${BSD::arc4random::RANDOM})");
     &sl("QUIT :$args") if $connected;
     &exit;
   } elsif ($cmd eq 'SERVER') {
@@ -1181,6 +1194,17 @@ sub docommand {
       &sl("PRIVMSG $newarg :\caPING $t\ca");
       &dohooks("send_ctcp", $newarg, "PING $t");
       &tell("*** Sending a CTCP PING to $newarg");
+    } else {
+      &tell("*\cbE\cb* You must specify a nick or channel!");
+    }
+  } elsif ($cmd eq 'RANDEX') {
+    &dosplat;
+    if ($args) {
+      local($t) = pack("u", arc4random_bytes(32, "send to $args"));
+      chop($t);
+      &getarg;
+      &sl("PRIVMSG $newarg :\caENTROPY $t\ca");
+      &tell("*** Initiating the RANDEX protocol with $newarg");
     } else {
       &tell("*\cbE\cb* You must specify a nick or channel!");
     }
@@ -1934,7 +1958,7 @@ sub donumeric {
 # main prog
 
 print "`#ssfe#i\n" unless (-t STDOUT);
-&tell("*** Welcome to \cbsirc\cb version $version; type /help for help");
+&tell("*** Welcome to \cbsirc\cb version $version (RANDOM=${BSD::arc4random::RANDOM}); type /help for help");
 
 &load($sysinit) if $sysinit ne '' && -f $sysinit;
 &load($initfile) if !$restrict && $initfile ne '' && -f $initfile;
