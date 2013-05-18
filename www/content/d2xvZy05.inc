@@ -1,5 +1,5 @@
 <!-- PageID: wlog-9 -->
-<small class="rcsid">$MirOS: www/content/d2xvZy05.inc,v 1.26 2006/07/29 01:32:08 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy05.inc,v 1.27 2006/07/30 21:19:49 tg Exp $</small>
 <h1>MirBSD &ndash; WTF is Verpeilungsfaktor?</h1>
 <p><small><a href="#eof">bottom</a> or <a href="/?older">older</a>
  editions</small></p>
@@ -431,6 +431,10 @@
 <div class="wlentry">
  <h3 id="e20060730">30.07.2006 by tg@</h3>
  <p>Benny has started fixing the website, finally (thanks!)</p>
+ <p>He also committed a www/firesomething security update.</p>
+ <p>Yay for bsiegert!</p>
+ <hr />
+ <p>I've played around and fixed a little too, not too much.</p>
 </div>
 
 <p id="eof">Good luck, have fun, take care etc.pp</p>
