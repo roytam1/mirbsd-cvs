@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.125 2006/08/26 19:35:57 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.126 2006/08/26 23:34:16 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -1332,7 +1332,7 @@ ${_SYSTRACE_COOKIE}:
 
 # create the packing stuff from source
 ${WRKPKG}/COMMENT${SUBPACKAGE}:
-	@echo ${_COMMENT} >$@
+	@echo ${_COMMENT:Q} >$@
 
 ${WRKPKG}/PLIST${SUBPACKAGE}: ${PLIST} ${WRKPKG}/depends${SUBPACKAGE}
 	echo "@comment subdir=${FULLPKGPATH}" \
@@ -2559,7 +2559,7 @@ readmes:
 
 
 ${FULLPKGNAME${SUBPACKAGE}}.html:
-	@echo ${_COMMENT} | ${HTMLIFY} >$@.tmp-comment
+	@echo ${_COMMENT:Q} | ${HTMLIFY} >$@.tmp-comment
 	@echo ${FULLPKGNAME${SUBPACKAGE}} | ${HTMLIFY} >$@.tmp3
 .if defined(HOMEPAGE)
 	@echo 'See <a href="${HOMEPAGE}">${HOMEPAGE}</a> for details.' >$@.tmp4
