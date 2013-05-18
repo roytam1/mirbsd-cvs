@@ -194,10 +194,10 @@ Date: 22.06.2007
 <p>Some hours of continuous cursing later, it's done. The current development
  version of <a href="@@RELPATH@@mksh.htm">mksh</a> R30β now supports GNU bash
  style array initialisations – and better than they, I might add:</p><ul>
- <li>OpenBSD ksh:<pre>
+ <li>OpenBSD ksh (from OpenBSD 4.1-current, 17 May 2007):<pre>
 	$ x=(a b c)
 	/bin/ksh: syntax error: `(' unexpected</pre></li>
- <li>GNU bash:<pre>
+ <li>GNU bash (from MirPorts Framework, 2.05b-1):<pre>
 	$ v="d e"; x=('$a' "$v" c "(d)"); echo "${#x[*]}/${x[0]}/${x[1]}/${x[2]}/${x[3]}/"
 	4/$a/d e/c/(d)/
 	$ v="d e"; x=('$a' "$v" c (d)); echo "${#x[*]}/${x[0]}/${x[1]}/${x[2]}/${x[3]}/"
@@ -213,7 +213,7 @@ Date: 22.06.2007
 	bash: -c: line 1: syntax error near unexpected token `;'
 	bash: -c: line 1: `v="d e"; x=('$a' "$v" c "(d)"; echo "${#x[*]}/${x[0]}/${x[1]}/${x[2]}/${x[3]}/"'
 	Segmentation fault</pre></li>
- <li>mksh:<pre>
+ <li>mksh (-current as of tonight):<pre>
 	$ v="d e"; x=('$a' "$v" c "(d)"); echo "${#x[*]}/${x[0]}/${x[1]}/${x[2]}/${x[3]}/"
 	4/$a/d e/c/(d)/
 	$ v="d e"; x=('$a' "$v" c (d)); echo "${#x[*]}/${x[0]}/${x[1]}/${x[2]}/${x[3]}/"
