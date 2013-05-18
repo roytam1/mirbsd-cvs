@@ -1,14 +1,16 @@
+# $MirBSD$
 # $OpenBSD: Makefile,v 1.2 2003/04/23 22:46:13 jason Exp $
 
-COMMENT=			text to speech utility
+BROKEN=		errors during compile
+
+COMMENT=	text to speech utility
 
 VERSION=	1.2
 DISTNAME=	flite-${VERSION}-release
 PKGNAME=	flite-${VERSION}-0
-DISTNAME=	${PKGNAME}-release
 CATEGORIES=	audio
 
-HOMEPAGE=	http://www.cmuflite.org/
+HOMEPAGE=	http://www.speech.cs.cmu.edu/flite/
 
 
 PERMIT_PACKAGE_CDROM=   No, mods have to be clearly marked
