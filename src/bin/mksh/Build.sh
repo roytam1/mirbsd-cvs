@@ -1779,6 +1779,12 @@ ac_test strerror <<-'EOF'
 	int main(int ac, char *av[]) { return (*strerror(*av[ac])); }
 EOF
 
+ac_test sys_errlist '!' strerror 0 "the sys_signame[] array and sys_nerr" <<-'EOF'
+	extern int sys_nerr;
+	extern char *sys_errlist[];
+	int main(void) { return (*sys_errlist[sys_nerr - 1]); }
+EOF
+
 ac_test strlcpy <<-'EOF'
 	#include <string.h>
 	int main(int ac, char *av[]) { return (strlcpy(*av, av[1],
@@ -1805,11 +1811,15 @@ ac_test '!' revoke_decl revoke 1 'if revoke() does not need to be declared' <<-'
 	long revoke(void);		/* this clashes if defined before */
 	int main(void) { return ((int)revoke()); }
 EOF
-ac_test '!' sys_siglist_decl sys_siglist 1 'if sys_siglist[] does not need to be declared' <<-'EOF'
+ac_test sys_errlist_decl sys_errlist 0 "for declaration of sys_errlist[] and sys_nerr" <<-'EOF'
 	#define MKSH_INCLUDES_ONLY
 	#include "sh.h"
-	extern int sys_siglist[5][5][5][5][5];	/* this clashes happily */
-	int main(void) { return (sys_siglist[0][0][0][0][0]); }
+	int main(void) { return (*sys_errlist[sys_nerr - 1]); }
+EOF
+ac_test sys_siglist_decl sys_siglist 1 'for declaration of sys_siglist[]' <<-'EOF'
+	#define MKSH_INCLUDES_ONLY
+	#include "sh.h"
+	int main(void) { return (sys_siglist[0][0]); }
 EOF
 CC=$save_CC; LDFLAGS=$save_LDFLAGS; LIBS=$save_LIBS
 
