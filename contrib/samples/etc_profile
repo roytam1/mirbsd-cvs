@@ -1,4 +1,4 @@
-# $MirOS: contrib/samples/etc_profile,v 1.11 2009/10/03 17:38:10 tg Exp $
+# $MirOS: contrib/samples/etc_profile,v 1.12 2010/01/25 19:18:09 tg Exp $
 #-
 # Initialisation file for MirOS ksh (pdksh, sh), (s)ash and GNU bash
 # Fallback mode only for non-Korn-shells, though.
@@ -28,14 +28,14 @@ else
 fi
 export RUNLEVEL=2
 case "$TERM" in
-    xterm*)
+xterm*)
 	export RUNLEVEL=3
 	export COLORTERM=1
 	;;
-    wsvt*)
+wsvt*)
 	export COLORTERM=1
 	;;
-    screen)
+screen)
 	export COLORTERM=1
 	if [ -n "$MIROS_BWTERM" -a x"$MIROS_BWTERM" != x"1" ]; then
 		unset COLORTERM
@@ -44,11 +44,11 @@ case "$TERM" in
 		NOCOLOURPROMPT=1
 	fi
 	;;
-    interix)
+interix)
 	export COLORTERM=1
 	NOCOLOURPROMPT=1
 	;;
-    *)
+*)
 	if [ x"$COLORTERM" != x"1" ]; then
 		unset COLORTERM
 		NOCOLOURPROMPT=1
@@ -139,7 +139,7 @@ if [ -n "$KSH_VERSION" ]; then
 	export PS1 MIROS=ksh$MIROS
 elif [ -n "$BASH_VERSION" ]; then
 	[ x"$TERM" = x"screen" ] && \
-		export X_COLOUR="${X_COLOUR}"'[5;34;40m\]screen:\[[0m'
+	    export X_COLOUR="${X_COLOUR}"'[5;34;40m\]screen:\[[0m'
 	if [ "$OSTYPE" = "linux-gnu" -o "$OSTYPE" = "Linux" ]; then
 		PS1='\['"${X_COLOUR}"'[1;31m\]Linux!\[[0m\]\u@\h:\w \$ '
 		export RUNLEVEL=4
@@ -154,8 +154,7 @@ else
 	export MIROS=ash$MIROS
 fi
 alias cls='echo -ne \\033c'
-function bye		# cu ;-)
-{
+function bye {		# cu ;-)
 	[ "$1" = k ] && ssh-agent -k
 	M='\033c'
 	[ $? -ne 0 ] && M='\033c Warning: ssh-agent returned error!\n'
@@ -163,8 +162,7 @@ function bye		# cu ;-)
 	exit
 	logout
 }
-function rcsedit	# check out, edit, commit
-{
+function rcsedit {	# check out, edit, commit
 	t_cwd="$(pwd)"
 	for file in "$@"; do
 		cd "$(dirname "$file")"
@@ -178,37 +176,29 @@ function rcsedit	# check out, edit, commit
 	done
 	cd "$t_cwd"
 }
-function ggs		# Google Search
-{
+function ggs {		# Google Search
 	${BROWSER:-lynx} "http://www.google.com/search?hl=la&num=100&safe=off&q=$*"
 }
-function ggr		# Google GRoups
-{
+function ggr {		# Google GRoups
 	${BROWSER:-lynx} "http://groups.google.com/groups?hl=la&num=100&safe=off&as_umsgid=$*"
 }
-function ge		# German English
-{
+function ge {		# German English
 	${BROWSER:-lynx} "http://dict.leo.org/?search=$*"
 }
-function ges		# German Spanish
-{
+function ges {		# German Spanish
 	${BROWSER:-lynx} "http://dict.leo.org/esde?search=$*"
 }
-function espanol	# explica en español
-{
+function espanol {	# explica en español
 	lynx -dump --nolist "http://buscon.rae.es/draeI/SrvltGUIBusUsual?TIPO_HTML=2&LEMA=$*"
 }
-function ulynx		# uxterm lynx (UTF-8)
-{
+function ulynx {	# uxterm lynx (UTF-8)
 	lynx -display_charset utf8 "$@"
 }
-function klynx		# kterm lynx (EUC-JP)
-{
+function klynx {	# kterm lynx (EUC-JP)
 	( sleep 1; cls; print -n 'Press Ctrl-L!' ) 2>/dev/null &
 	lynx -display_charset euc-jp "$@"
 }
-function loadimage	# call xloadimage by URI
-{
+function loadimage {	# call xloadimage by URI
 	for fi in "$@"; do
 		if [ -e "$fi" ]; then
 			xloadimage "$fi"
@@ -217,24 +207,21 @@ function loadimage	# call xloadimage by URI
 		fi
 	done
 }
-function Lfirstcol	# only the first column (useful for regen-obsdp)
-{
+function Lfirstcol {	# only the first column (useful for regen-obsdp)
 	set -o noglob
 	cat "$@" | while read a b; do
 		echo "$a"
 	done
 	set +o noglob
 }
-function Lseccol	# only the second column (useful for cvs output)
-{
+function Lseccol {	# only the second column (useful for cvs output)
 	set -o noglob
 	cat "$@" | while read a b; do
 		echo "$b"
 	done
 	set +o noglob
 }
-function Lretrocfg	# retrieve kernel config file
-{
+function Lretrocfg {	# retrieve kernel config file
 	strings -n4 ${1:-/bsd} | sed -n 's/^=CF=//p'
 }
 [ -x /emul/linux/bin/bash ] && alias lx='/emul/linux/bin/bash --login'
@@ -244,8 +231,8 @@ USER_NAME=_nonexistent
 [ -x /usr/bin/id ] && USER_NAME=$(id -un 2>/dev/null)
 if [ -O /tmp/.ssh-agent/$USER_NAME ]; then
 	# If the agent is not running, remove stale files
-	[ ! -e /tmp/.ssh-agent/$USER_NAME/socket ] \
-	    && rm -f /tmp/.ssh-agent/$USER_NAME/{agent,keyread}
+	[ ! -e /tmp/.ssh-agent/$USER_NAME/socket ] && \
+	    rm -f /tmp/.ssh-agent/$USER_NAME/{agent,keyread}
 	# Start ssh-agent if it is not already started
 	if [ ! -e /tmp/.ssh-agent/$USER_NAME/agent ]; then
 		ssh-agent -s -a /tmp/.ssh-agent/$USER_NAME/socket \
@@ -254,8 +241,8 @@ if [ -O /tmp/.ssh-agent/$USER_NAME ]; then
 	# Do the following only if ssh-agent is running
 	if [ -e /tmp/.ssh-agent/$USER_NAME/socket ]; then
 		# Read configuration file if it exists
-		[ -e /tmp/.ssh-agent/$USER_NAME/agent ] \
-		    && . /tmp/.ssh-agent/$USER_NAME/agent >&2
+		[ -e /tmp/.ssh-agent/$USER_NAME/agent ] && \
+		    . /tmp/.ssh-agent/$USER_NAME/agent >&2
 		# Read in the keys, if not already done
 		if [ ! -e /tmp/.ssh-agent/$USER_NAME/keyread ]; then
 			ssh-add
