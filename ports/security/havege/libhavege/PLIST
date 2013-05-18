@@ -1,6 +1,0 @@
-@comment $MirOS$
-include/havege.h
-lib/libhavege.la
-share/doc/libhavege/INSTALL
-share/doc/libhavege/README
-@dirrm share/doc/libhavege

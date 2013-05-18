@@ -1,3 +1,0 @@
-@comment $OpenBSD: PLIST,v 1.1 2004/01/25 18:19:30 dhartmei Exp $
-bin/kissd
-man/man8/kissd.8

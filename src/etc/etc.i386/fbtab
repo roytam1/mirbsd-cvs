@@ -1,3 +1,0 @@
-# $MirOS: src/etc/etc.i386/fbtab,v 1.2 2008/12/04 14:28:52 tg Exp $
-/dev/console	0600	/dev/ttyC0:/dev/wskbd:/dev/wskbd0:/dev/wskbd1:/dev/wskbd2:/dev/wskbd3:/dev/wsmouse:/dev/wsmouse0:/dev/wsmouse1:/dev/wsmouse2:/dev/wsmouse3:/dev/ttyCcfg
-/dev/X0		0600	/dev/wsmouse:/dev/wsmouse0:/dev/wsmouse1:/dev/wsmouse2:/dev/wsmouse3

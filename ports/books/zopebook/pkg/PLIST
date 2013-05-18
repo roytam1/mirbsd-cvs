@@ -1,3 +1,0 @@
-@comment $OpenBSD: PLIST,v 1.2 2003/12/16 18:54:01 sturm Exp $
-share/doc/zopebook/ZopeBook-2_6.pdf
-@dirrm share/doc/zopebook
