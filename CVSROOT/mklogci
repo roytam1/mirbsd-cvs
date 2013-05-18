@@ -1,8 +1,8 @@
 #!/usr/bin/env mksh
-# $MirOS: CVSROOT/mklogci,v 1.42 2008/08/05 06:07:33 tg Exp $
+# $MirOS: CVSROOT/mklogci,v 1.43 2008/08/05 06:10:32 tg Exp $
 #-
-# Copyright (c) 2005, 2006, 2007
-#	Thorsten Glaser <tg@mirbsd.de>
+# Copyright (c) 2005, 2006, 2007, 2011
+#	Thorsten Glaser <tg@mirbsd.org>
 #
 # Provided that these terms and disclaimer and all copyright notices
 # are retained or reproduced in an accompanying document, permission
@@ -25,7 +25,7 @@
 # for MirBSD, later The MirOS Project.
 #-
 # Usage: mklogci commitid [-D] [-C root] [-f file] [-I uri] [-M module]
-#		 [-m mailto] -p pathr [-R replyto] file ...
+#		 [-m mailto] [-P debpkg] -p pathr [-R replyto] file ...
 #	commitid	= GNU CVS 1.12.12 + MirOS mode %I, PGRP else
 #	-C root		= CVSROOT (the %r argument)
 #	-D		= mail: append diffs themselves not commands
@@ -33,6 +33,7 @@
 #	-I loguri	= reduce size of import mails, refer to URI
 #	-M module	= set module name
 #	-m mailto	= send commit messages to mailto
+#	-P debpkg	= send mails to PTS for debpkg with cvs tag
 #	-p pathr	= the %p argument
 #	-R replyto	= set Reply-To: replyto header
 
@@ -67,7 +68,8 @@ function writelog {
 
 function writemail {
 	sendmail -t |&
-	print -pr -- To: $mailto
+	print -pr -- To: $(set -A x $mailto; IFS=,; print -r -- "${x[*]}")
+	(( opt_pts )) && print -pr -- X-PTS-Approved: 1
 	print -pr -- Subject: CVS: $hn: $module
 	if [[ -n $replyto ]]; then
 		print -pr -- Mail-Followup-To: $replyto
@@ -188,15 +190,19 @@ mailto=
 pathr=
 replyto=
 integer do_diff=0
+integer opt_pts=0
 
-while getopts "C:Df:I:M:m:p:R: :" flag; do
+while getopts "C:Df:I:M:m:P:p:R: :" flag; do
 	case $flag {
 	(C)	repo=$OPTARG ;;
 	(D)	do_diff=1 ;;
 	(f)	logfile=$OPTARG ;;
 	(I)	loguri=$OPTARG ;;
 	(M)	module=$OPTARG ;;
-	(m)	mailto=$OPTARG ;;
+	(m)	mailto="$mailto $OPTARG" ;;
+	(P)	opt_pts=1
+		mailto="$mailto ${OPTARG}_cvs@packages.qa.debian.org"
+		;;
 	(p)	pathr=$OPTARG ;;
 	(R)	replyto=$OPTARG ;;
 	(\ )	let 'OPTIND -= 2'

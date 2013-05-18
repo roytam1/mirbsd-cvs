@@ -1,8 +1,8 @@
 #!/usr/bin/env mksh
-# $MirOS: CVSROOT/mklogtag,v 1.21 2008/08/05 06:10:33 tg Exp $
+# $MirOS: CVSROOT/mklogtag,v 1.22 2008/08/06 06:29:34 tg Exp $
 #-
-# Copyright (c) 2005, 2006
-#	Thorsten Glaser <tg@mirbsd.de>
+# Copyright (c) 2005, 2006, 2011
+#	Thorsten Glaser <tg@mirbsd.org>
 #
 # Provided that these terms and disclaimer and all copyright notices
 # are retained or reproduced in an accompanying document, permission
@@ -102,6 +102,7 @@ set -A files
 set -A fold
 set -A fnew
 opt_done=0
+opt_pts=0
 let i=0
 nl='
 '
@@ -152,6 +153,10 @@ fi
 while (( $# > 0 )); do
 	if [[ $1 = -m && $opt_done = 0 ]]; then
 		rcpt="$rcpt $2"
+		shift; shift
+	elif [[ $1 = -P && $opt_done = 0 ]]; then
+		opt_pts=1
+		rcpt="$rcpt ${2}_cvs@packages.qa.debian.org"
 		shift; shift
 	elif [[ $1 = -f && $opt_done = 0 ]]; then
 		logf=$2
@@ -207,7 +212,8 @@ EOF
 
 if [[ -n $rcpt ]]; then
 	sendmail -t |&
-	print -pr -- To: $rcpt
+	print -pr -- To: $(set -A x $rcpt; IFS=,; print -r -- "${x[*]}")
+	(( opt_pts )) && print -pr -- X-PTS-Approved: 1
 	print -pr -- Subject: CVS: $hn: $module
 	if [[ $replyto != NO ]]; then
 		print -pr -- Mail-Followup-To: $replyto
