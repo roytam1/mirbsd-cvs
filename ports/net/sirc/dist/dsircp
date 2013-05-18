@@ -1,5 +1,5 @@
 #!/usr/bin/env perl
-# $MirOS: ports/net/sirc/dist/dsircp,v 1.21 2008/12/13 14:02:04 tg Exp $
+# $MirOS: ports/net/sirc/dist/dsircp,v 1.22 2008/12/20 17:57:28 tg Exp $
 #-
 # dsircp: dumb-mode small irc client in perl
 # by orabidoo <roger.espel.llima@pobox.com>
@@ -7,7 +7,7 @@
 # Copyright (C) 1995-1997 Roger Espel Llima
 # Copyright (c) 2002-2003 Hubert Feyrer
 # Copyright (c) Phil Stracchino
-# Copyright (c) 2001-2008 Thorsten Glaser
+# Copyright (c) 2001-2009 Thorsten Glaser
 #
 # This work is provided "AS IS" and WITHOUT WARRANTY of any kind, to
 # the utmost extent permitted by applicable law, neither express nor
@@ -415,7 +415,7 @@ sub gl {
       $buf =~ s/\ca([<>])\ca/\cb$1\cb/g;
       $buf =~ s/\cc((1[0-5]|0?[0-9])(,(1[0-5]|0?[0-9]))?)?//g;
       $buf2 .= Encode::decode("utf8", $buf, Encode::FB_QUIET);
-      $buf2 .= Encode::decode("iso-8859-1", $buf, Encode::FB_QUIET);
+      $buf2 .= Encode::decode("windows-1252", $buf, Encode::FB_QUIET);
       $buffer{$_[0]} .= Encode::encode($set{"CHARSET"}, $buf2, 0);
     } else {
       $buffer{$_[0]} .= $buf;
@@ -437,12 +437,11 @@ sub sl {
   local($buf3)='';
   $buf2 .= Encode::decode($set{"CHARSET"}, $buf, Encode::FB_QUIET);
   $buf2 .= Encode::decode("utf8", $buf, Encode::FB_QUIET);
-  $buf2 .= Encode::decode("iso-8859-1", $buf, Encode::FB_QUIET);
   $buf2 .= Encode::decode("windows-1252", $buf, 0);
   if ($set{"UTF"} ne 'off') {
     $buf3 = Encode::encode("utf8", $buf2, 0);
   } else {
-    $buf3 = Encode::encode("iso-8859-1", $buf2, 0);
+    $buf3 = Encode::encode("windows-1252", $buf2, 0);
   }
   &print("*\cbE\cb* Error writing to server: $!") unless print $S $buf3."\n";
 }
