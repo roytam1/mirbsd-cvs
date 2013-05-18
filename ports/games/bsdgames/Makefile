@@ -1,4 +1,4 @@
-# $MirOS: ports/games/bsdgames/Makefile,v 1.5 2005/12/16 11:46:39 tg Exp $
+# $MirOS: ports/games/bsdgames/Makefile,v 1.6 2005/12/28 01:04:55 tg Exp $
 
 COMMENT=		"BSD base system games"
 CATEGORIES=		games
@@ -38,6 +38,7 @@ pre-build:
 	    ${MAKE_PROGRAM} ${MAKE_FLAGS} -f ${MAKE_FILE} depend
 
 pre-install:
+	${SUDO} rm -rf ${WRKINST}/usr{,/share}/{man,info}
 	${SUDO} /usr/sbin/mtree -U -e -d -n -p ${WRKINST} \
 	    -f ${FILESDIR}/BSD.games.dist >/dev/null
 
