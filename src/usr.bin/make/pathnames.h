@@ -1,5 +1,4 @@
-/**	$MirOS: src/usr.bin/make/pathnames.h,v 1.2 2005/02/23 20:36:54 tg Exp $ */
-/*	$OpenPackages$ */
+/**	$MirOS: src/usr.bin/make/pathnames.h,v 1.3 2005/11/24 12:37:44 tg Exp $ */
 /*	$OpenBSD: pathnames.h,v 1.10 2003/06/03 02:56:12 millert Exp $	*/
 /*	$NetBSD: pathnames.h,v 1.6 1996/11/06 17:59:21 christos Exp $	*/
 

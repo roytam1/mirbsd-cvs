@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.bin/make/compat.c,v 1.3 2005/09/03 18:18:17 tg Exp $ */
+/**	$MirOS: src/usr.bin/make/compat.c,v 1.4 2005/11/24 12:37:43 tg Exp $ */
 /*	$OpenBSD: compat.c,v 1.50 2004/04/07 13:11:35 espie Exp $	*/
 /*	$NetBSD: compat.c,v 1.14 1996/11/06 17:59:01 christos Exp $	*/
 
@@ -67,7 +67,7 @@
 #include "lst.h"
 #include "pathnames.h"
 
-__RCSID("$MirOS: src/usr.bin/make/compat.c,v 1.3 2005/09/03 18:18:17 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/make/compat.c,v 1.4 2005/11/24 12:37:43 tg Exp $");
 
 /* The following array is used to make a fast determination of which
  * characters are interpreted specially by the shell.  If a command
@@ -78,7 +78,7 @@ static char	    meta[256];
 
 static GNode	    *ENDNode;
 static void CompatInterrupt(int);
-static int CompatRunCommand(void *, void *);
+static int CompatRunCommand(const void *, void *);
 static void CompatMake(void *, void *);
 static int shellneed(char **);
 
@@ -157,8 +157,8 @@ shellneed(char **av)
  *-----------------------------------------------------------------------
  */
 static int
-CompatRunCommand(void *cmdp,	/* Command to execute */
-    void *gnp)			/* Node from which the command came */
+CompatRunCommand(const void *cmdp,	/* Command to execute */
+    void *gnp)				/* Node from which the command came */
 {
     char	  *cmdStart;	/* Start of expanded command */
     char *cp, *bp = NULL;

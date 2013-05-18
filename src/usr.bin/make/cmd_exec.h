@@ -1,6 +1,7 @@
 #ifndef CMD_EXEC_H
 #define CMD_EXEC_H
-/*	$OpenPackages$ */
+
+/**	$MirOS$ */
 /*	$OpenBSD: cmd_exec.h,v 1.1 2001/05/23 12:34:40 espie Exp $ */
 
 /*
@@ -29,7 +30,7 @@
  */
 
 /* output = Cmd_Exec(cmd, &err);
- *	execute the command in cmd, return the output of that command as 
+ *	execute the command in cmd, return the output of that command as
  *	a string. If an error occurs, Cmd_Exec returns an empty string,
  *	and err is filled with the reason for the command failure.
  *	The output result should always be freed by the caller.  */

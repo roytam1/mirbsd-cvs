@@ -1,6 +1,6 @@
-/**	$MirOS: src/usr.bin/make/cmd_exec.c,v 1.3 2005/07/07 13:39:52 tg Exp $ */
-/*	$OpenPackages$ */
+/**	$MirOS: src/usr.bin/make/cmd_exec.c,v 1.4 2005/11/24 12:37:43 tg Exp $ */
 /*	$OpenBSD: cmd_exec.c,v 1.5 2004/04/07 13:11:35 espie Exp $ */
+
 /*
  * Copyright (c) 2001 Marc Espie.
  *
@@ -38,7 +38,7 @@
 #include "memory.h"
 #include "pathnames.h"
 
-__RCSID("$MirOS: src/usr.bin/make/cmd_exec.c,v 1.3 2005/07/07 13:39:52 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/make/cmd_exec.c,v 1.4 2005/11/24 12:37:43 tg Exp $");
 
 char *
 Cmd_Exec(const char *cmd, const char **err)

@@ -1,5 +1,4 @@
-/**	$MirOS: src/usr.bin/make/varmodifiers.c,v 1.3 2005/02/26 13:35:27 tg Exp $ */
-/*	$OpenPackages$ */
+/**	$MirOS: src/usr.bin/make/varmodifiers.c,v 1.4 2005/08/20 12:54:50 tg Exp $ */
 /*	$OpenBSD: varmodifiers.c,v 1.14 2005/07/15 20:43:23 espie Exp $	*/
 /*	$NetBSD: var.c,v 1.18 1997/03/18 19:24:46 christos Exp $	*/
 
@@ -66,7 +65,6 @@
 /* VarModifiers_Apply is mostly a constituent function of Var_Parse, it
  * is also called directly by Var_SubstVar.  */
 
-
 #include <ctype.h>
 #include <sys/types.h>
 #ifndef NO_REGEX
@@ -89,8 +87,7 @@
 #include "memory.h"
 #include "gnode.h"
 
-
-__RCSID("$MirOS: src/usr.bin/make/varmodifiers.c,v 1.3 2005/02/26 13:35:27 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/make/varmodifiers.c,v 1.4 2005/08/20 12:54:50 tg Exp $");
 
 /* Var*Pattern flags */
 #define VAR_SUB_GLOBAL	0x01	/* Apply substitution globally */
@@ -181,8 +178,8 @@ static void *get_sysvpattern(const char **, SymTable *, bool, int);
 static void *get_loop(const char **, SymTable *, bool, int);
 static char *LoopGrab(const char **);
 
-static struct Name dummy;
-static struct Name *dummy_arg = &dummy;
+static struct Name dummy_;
+static struct Name *dummy_arg = &dummy_;
 
 static struct modifier {
 	bool atstart;
@@ -218,7 +215,7 @@ static struct modifier {
 ;
 
 void
-VarModifiers_Init()
+VarModifiers_Init(void)
 {
     choose_mod['M'] = &match_mod;
     choose_mod['N'] = &nomatch_mod;
@@ -493,7 +490,7 @@ do_sort(const char *s, const struct Name *dummy UNUSED, void *arg UNUSED)
 	return Buf_Retrieve(&buf);
     } else {
     	free(t);
-    	return "";
+    	return (char *)"";
     }
 }
 
@@ -541,7 +538,7 @@ static char *
 do_assign(const char *s, const struct Name *n, void *arg)
 {
     VarPattern *v = (VarPattern *)arg;
-    char *msg;
+    const char *msg;
     char *result;
 
     switch (v->flags) {
@@ -575,7 +572,7 @@ static char *
 do_exec(const char *s UNUSED, const struct Name *n UNUSED, void *arg)
 {
     VarPattern *v = (VarPattern *)arg;
-    char *msg;
+    const char *msg;
     char *result;
 
     result = Cmd_Exec(v->lbuffer, &msg);
@@ -1083,7 +1080,7 @@ check_shcmd(const char **p, SymTable *ctxt UNUSED, bool b UNUSED, int endc)
 static char *
 do_shcmd(const char *s, const struct Name *n UNUSED, void *arg UNUSED)
 {
-    char	*err;
+    const char	*err;
     char	*t;
 
     t = Cmd_Exec(s, &err);

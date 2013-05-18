@@ -1,4 +1,4 @@
-/*	$OpenPackages$ */
+/**	$MirOS$ */
 /*	$OpenBSD: suff.c,v 1.54 2004/11/29 06:20:03 jsg Exp $ */
 /*	$NetBSD: suff.c,v 1.13 1996/11/06 17:59:25 christos Exp $	*/
 
@@ -106,6 +106,8 @@
 #include "make.h"
 #include "stats.h"
 
+__RCSID("$MirOS$");
+
 static LIST	 sufflist;	/* Lst of suffixes */
 #ifdef CLEANUP
 static LIST	 suffClean;	/* Lst of suffixes to be cleaned */
@@ -164,11 +166,11 @@ static Suff	    *emptySuff; /* The empty suffix required for POSIX
 
 
 static char *SuffStrIsPrefix(const char *, const char *);
-static char *SuffSuffIsSuffix(Suff *, const char *);
-static int SuffSuffIsSuffixP(void *, const void *);
-static int SuffSuffIsPrefix(void *, const void *);
-static int SuffHasNameP(void *, const void *);
-static int GNodeHasNameP(void *, const void *);
+static char *SuffSuffIsSuffix(const Suff *, const char *);
+static int SuffSuffIsSuffixP(const void *, const void *);
+static int SuffSuffIsPrefix(const void *, const void *);
+static int SuffHasNameP(const void *, const void *);
+static int GNodeHasNameP(const void *, const void *);
 static void SuffUnRef(Lst, Suff *);
 #ifdef CLEANUP
 static void SuffFree(void *);
@@ -231,7 +233,7 @@ SuffStrIsPrefix(const char *prefix, const char *str)
  *-----------------------------------------------------------------------
  */
 static char *
-SuffSuffIsSuffix(Suff *s, const char *str)
+SuffSuffIsSuffix(const Suff *s, const char *str)
 {
     const char	   *p1; 	/* Pointer into suffix name */
     const char	   *p2; 	/* Pointer into string being examined */
@@ -260,13 +262,13 @@ SuffSuffIsSuffix(Suff *s, const char *str)
  *-----------------------------------------------------------------------
  */
 static int
-SuffSuffIsSuffixP(void *s, const void *str)
+SuffSuffIsSuffixP(const void *s, const void *str)
 {
-    return !SuffSuffIsSuffix((Suff *)s, (const char *)str);
+    return !SuffSuffIsSuffix((const Suff *)s, (const char *)str);
 }
 
 static int
-SuffHasNameP(void *s, const void *sname)
+SuffHasNameP(const void *s, const void *sname)
 {
     return strcmp((const char *)sname, ((Suff *)s)->name);
 }
@@ -281,7 +283,7 @@ suff_find_by_name(const char *name)
 }
 
 static int
-GNodeHasNameP(void *gn, const void *name)
+GNodeHasNameP(const void *gn, const void *name)
 {
     return strcmp((const char *)name, ((GNode *)gn)->name);
 }
@@ -307,7 +309,7 @@ transform_find_by_name(const char *name)
  *-----------------------------------------------------------------------
  */
 static int
-SuffSuffIsPrefix(void *s, const void *str)
+SuffSuffIsPrefix(const void *s, const void *str)
 {
     return SuffStrIsPrefix(((Suff *)s)->name, (const char *)str) == NULL ? 1 : 0;
 }
@@ -1573,31 +1575,31 @@ SuffFindNormalDeps(
 
 	if (ln != NULL) {
 	    int     prefLen;	    /* Length of the prefix */
-	    Src     *targ;
+	    Src     *targ2;
 
 	    /* Allocate a Src structure to which things can be transformed.  */
-	    targ = emalloc(sizeof(Src));
-	    targ->file = estrdup(gn->name);
-	    targ->suff = (Suff *)Lst_Datum(ln);
-	    targ->node = gn;
-	    targ->parent = NULL;
-	    targ->children = 0;
+	    targ2 = emalloc(sizeof(Src));
+	    targ2->file = estrdup(gn->name);
+	    targ2->suff = (Suff *)Lst_Datum(ln);
+	    targ2->node = gn;
+	    targ2->parent = NULL;
+	    targ2->children = 0;
 #ifdef DEBUG_SRC
-	    Lst_Init(&targ->cp);
+	    Lst_Init(&targ2->cp);
 #endif
 
 	    /* Allocate room for the prefix, whose end is found by subtracting
 	     * the length of the suffix from the end of the name.  */
-	    prefLen = (eoname - targ->suff->nameLen) - sopref;
-	    targ->pref = emalloc(prefLen + 1);
-	    memcpy(targ->pref, sopref, prefLen);
-	    targ->pref[prefLen] = '\0';
+	    prefLen = (eoname - targ2->suff->nameLen) - sopref;
+	    targ2->pref = emalloc(prefLen + 1);
+	    memcpy(targ2->pref, sopref, prefLen);
+	    targ2->pref[prefLen] = '\0';
 
-	    /* Add nodes from which the target can be made.  */
-	    SuffAddLevel(&srcs, targ);
+	    /* Add nodes from which the targ2et can be made.  */
+	    SuffAddLevel(&srcs, targ2);
 
-	    /* Record the target so we can nuke it.  */
-	    Lst_AtEnd(&targs, targ);
+	    /* Record the targ2et so we can nuke it.  */
+	    Lst_AtEnd(&targs, targ2);
 
 	    /* Search from this suffix's successor...  */
 	    ln = Lst_Succ(ln);

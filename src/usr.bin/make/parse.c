@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.bin/make/parse.c,v 1.3 2005/09/01 23:42:13 tg Exp $ */
+/**	$MirOS: src/usr.bin/make/parse.c,v 1.4 2005/11/17 20:58:18 tg Exp $ */
 /*	$OpenBSD: parse.c,v 1.69 2004/04/07 13:11:36 espie Exp $	*/
 /*	$NetBSD: parse.c,v 1.29 1997/03/10 21:20:04 christos Exp $	*/
 
@@ -92,6 +92,7 @@
 #include "stats.h"
 #include "garray.h"
 
+__RCSID("$MirOS$");
 
 static struct growableArray gsources, gtargets;
 #define SOURCES_SIZE	128
@@ -161,7 +162,7 @@ static GNode	*predecessor;
  * keyword is used as a source ("0" if the keyword isn't special as a source)
  */
 static struct {
-    char	  *name;	/* Name of keyword */
+    const char	  *name;	/* Name of keyword */
     ParseSpecial  spec; 	/* Type when used as a target */
     int 	  op;		/* Operator when used as a source */
 } parseKeywords[] = {
@@ -968,11 +969,11 @@ ParseDoDependency(char *line)	/* the line to parse */
 	     * If it was .NULL, the source is the suffix to use when a file
 	     * has no valid suffix.
 	     */
-	    char  savec;
+	    char  saveci;
 	    while (*cp && !isspace(*cp)) {
 		cp++;
 	    }
-	    savec = *cp;
+	    saveci = *cp;
 	    *cp = '\0';
 	    switch (specType) {
 		case Suffixes:
@@ -993,8 +994,8 @@ ParseDoDependency(char *line)	/* the line to parse */
 		default:
 		    break;
 	    }
-	    *cp = savec;
-	    if (savec != '\0') {
+	    *cp = saveci;
+	    if (saveci != '\0') {
 		cp++;
 	    }
 	    while (*cp && isspace(*cp)) {
@@ -1025,7 +1026,7 @@ ParseDoDependency(char *line)	/* the line to parse */
 	    }
 
 	    if (*cp == '(') {
-		GNode	  *gn;
+		GNode	  *gn2;
 		LIST	  sources; /* list of archive source names after
 				    * expansion */
 
@@ -1036,8 +1037,8 @@ ParseDoDependency(char *line)	/* the line to parse */
 		    return;
 		}
 
-		while ((gn = (GNode *)Lst_DeQueue(&sources)) != NULL)
-		    ParseDoSrc(tOp, gn->name);
+		while ((gn2 = (GNode *)Lst_DeQueue(&sources)) != NULL)
+		    ParseDoSrc(tOp, gn2->name);
 		cp = line;
 	    } else {
 		if (*cp) {

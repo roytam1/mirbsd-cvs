@@ -1,7 +1,7 @@
 #ifndef _JOB_H_
 #define _JOB_H_
 
-/*	$OpenPackages$ */
+/**	$MirOS$ */
 /*	$OpenBSD: job.h,v 1.15 2004/04/07 13:11:36 espie Exp $	*/
 /*	$NetBSD: job.h,v 1.5 1996/11/06 17:59:10 christos Exp $ */
 

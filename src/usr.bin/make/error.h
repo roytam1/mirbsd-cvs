@@ -1,6 +1,7 @@
 #ifndef ERROR_H
 #define ERROR_H
-/*	$OpenPackages$ */
+
+/**	$MirOS$ */
 /*	$OpenBSD: error.h,v 1.7 2001/09/19 10:58:07 mpech Exp $ */
 
 /*
@@ -27,6 +28,7 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+
 /*	Error			Print a tagged error message. The global
  *				MAKE variable must have been defined. This
  *				takes a format string and two optional
@@ -42,6 +44,7 @@
  *				errors which occurred, as passed to it, and
  *				exiting.
  */
+
 extern void Error(const char *, ...)
     __attribute__((__format__ (printf, 1, 2)));
 extern void Fatal(const char *, ...)
@@ -60,9 +63,11 @@ extern void Finish(int)
  * once the makefile has been parsed. PARSE_WARNING means it can. Passed
  * as the first argument to Parse_Error.
  */
+
 #define PARSE_WARNING	2
 #define PARSE_FATAL	1
 extern void Parse_Error(int, const char *, ...)
     __attribute__((__format__ (printf, 2, 3)));
 extern int fatal_errors;
+
 #endif

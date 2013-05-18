@@ -60,8 +60,8 @@ struct ListNode_ {
 #endif
 
 typedef void (*SimpleProc)(void *);
-typedef int (*FindProc)(void *, void *);
-typedef int (*FindProcConst)(void *, const void *);
+typedef int (*FindProc)(const void *, void *);
+typedef int (*FindProcConst)(const void *, const void *);
 typedef void (*ForEachProc)(void *, void *);
 typedef void *(*DuplicateProc)(void *);
 

@@ -1,5 +1,4 @@
-/**	$MirOS: src/usr.bin/make/main.c,v 1.4 2005/04/12 20:29:21 tg Exp $ */
-/*	$OpenPackages$ */
+/**	$MirOS: src/usr.bin/make/main.c,v 1.5 2005/08/20 12:54:50 tg Exp $ */
 /*	$OpenBSD: main.c,v 1.66 2005/02/17 02:37:21 jolan Exp $ */
 /*	$NetBSD: main.c,v 1.34 1997/03/24 20:56:36 gwr Exp $	*/
 
@@ -85,7 +84,7 @@
 
 #define MAKEFLAGS	".MAKEFLAGS"
 
-__RCSID("$MirOS: src/usr.bin/make/main.c,v 1.4 2005/04/12 20:29:21 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/make/main.c,v 1.5 2005/08/20 12:54:50 tg Exp $");
 
 static LIST		to_create; 	/* Targets to be made */
 Lst create = &to_create;
@@ -111,10 +110,10 @@ bool 		checkEnvFirst;	/* -e flag */
 
 static void		MainParseArgs(int, char **);
 static char *		chdir_verify_path(const char *);
-static bool		ReadMakefile(void *, void *);
-static bool		ReadSysMakefile(void *, void *);
+static int		ReadMakefile(const void *, void *);
+static int		ReadSysMakefile(const void *, void *);
 static void		add_dirpath(Lst, const char *);
-static void		usage(void);
+static void		usage(void) __attribute__((noreturn));
 static void		posixParseOptLetter(int);
 static void		record_option(int, const char *);
 
@@ -450,11 +449,12 @@ main(int argc, char **argv)
 	static LIST targs;	/* target nodes to create */
 	bool outOfDate = true;	/* false if all targets up to date */
 	struct stat sb, sa;
-	char *p, *path, *pathp, *pwd;
+	char *p, *pwd;
+	const char *path, *pathp;
 	char *mdpath;
-	char *machine = getenv("MACHINE");
-	char *machine_arch = getenv("MACHINE_ARCH");
-	char *machine_os = getenv("MACHINE_OS");
+	const char *machine = getenv("MACHINE");
+	const char *machine_arch = getenv("MACHINE_ARCH");
+	const char *machine_os = getenv("MACHINE_OS");
 	const char *syspath = _PATH_DEFSYSPATH;
 
 #ifdef RLIMIT_NOFILE
@@ -791,15 +791,15 @@ main(int argc, char **argv)
  *	Open and parse the given makefile.
  *
  * Results:
- *	true if ok. false if couldn't open file.
+ *	1 if ok. 0 if couldn't open file.
  *
  * Side Effects:
  *	lots
  */
-static bool
-ReadMakefile(void *p, void *q UNUSED)
+static int
+ReadMakefile(const void *p, void *q UNUSED)
 {
-	char *fname = (char *)p;	/* makefile to read */
+	const char *fname = p;	/* makefile to read */
 	FILE *stream;
 	char *name;
 
@@ -826,7 +826,7 @@ ReadMakefile(void *p, void *q UNUSED)
 		if (!name)
 			name = Dir_FindFile(fname, sysIncPath);
 		if (!name || !(stream = fopen(name, "r")))
-			return false;
+			return (0);
 		fname = name;
 		/*
 		 * set the MAKEFILE variable desired by System V fans -- the
@@ -836,18 +836,18 @@ ReadMakefile(void *p, void *q UNUSED)
 found:		Var_Set("MAKEFILE", fname, VAR_GLOBAL);
 		Parse_File(fname, stream);
 	}
-	return true;
+	return (1);
 }
 
-static bool
-ReadSysMakefile(void *p, void *q UNUSED)
+static int
+ReadSysMakefile(const void *p, void *q UNUSED)
 {
-	bool rv;
+	int rv;
 	char *t;
 
 	if ((rv = ReadMakefile(p, q)) == true) {
 		if ((t = dirname(p)) == NULL)
-			Fatal("make: cannot dirname(%s).", p);
+			Fatal("make: cannot dirname(%s).", (const char *)p);
 		Var_Set(".SYSMK", t, VAR_GLOBAL);
 	}
 
@@ -860,7 +860,7 @@ ReadSysMakefile(void *p, void *q UNUSED)
  *	exit with usage message
  */
 static void
-usage()
+usage(void)
 {
 	(void)fprintf(stderr,
 	    "usage: make [-BeiknPqrSst] [-D variable] [-d flags] [-f makefile]\n"

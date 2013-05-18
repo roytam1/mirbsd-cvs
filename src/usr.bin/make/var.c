@@ -1,5 +1,4 @@
-/**	$MirOS$ */
-/*	$OpenPackages$ */
+/**	$MirOS: src/usr.bin/make/var.c,v 1.2 2005/02/23 20:36:54 tg Exp $ */
 /*	$OpenBSD: var.c,v 1.59 2004/04/07 13:11:36 espie Exp $	*/
 /*	$NetBSD: var.c,v 1.18 1997/03/18 19:24:46 christos Exp $	*/
 
@@ -85,7 +84,7 @@
 #include "symtable.h"
 #include "gnode.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.bin/make/var.c,v 1.2 2005/02/23 20:36:54 tg Exp $");
 
 /* extended indices for System V stuff */
 #define FTARGET_INDEX	7
@@ -137,7 +136,7 @@ GSymT		*VAR_CMD;	/* variables defined on the command-line */
 static SymTable *CTXT_GLOBAL, *CTXT_CMD;
 
 
-static char *varnames[] = {
+static const char *varnames[] = {
     TARGET,
     PREFIX,
     ARCHIVE,

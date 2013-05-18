@@ -1,8 +1,7 @@
 #ifndef DEFINES_H
 #define DEFINES_H
 
-/**	$MirOS: src/usr.bin/make/defines.h,v 1.2 2005/02/23 20:36:53 tg Exp $ */
-/*	$OpenPackages$ */
+/**	$MirOS: src/usr.bin/make/defines.h,v 1.3 2005/11/24 12:37:43 tg Exp $ */
 /*	$OpenBSD: defines.h,v 1.2 2002/02/19 19:39:38 millert Exp $ */
 
 /*

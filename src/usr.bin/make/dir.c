@@ -1,4 +1,4 @@
-/*	$OpenPackages$ */
+/**	$MirOS$ */
 /*	$OpenBSD: dir.c,v 1.43 2005/06/26 15:19:12 mickey Exp $ */
 /*	$NetBSD: dir.c,v 1.14 1997/03/29 16:51:26 christos Exp $	*/
 
@@ -85,6 +85,7 @@
 #include "str.h"
 #include "timestamp.h"
 
+__RCSID("$MirOS$");
 
 typedef struct Path_ {
     int 	  refCount;	/* Number of paths with this directory */
@@ -189,7 +190,7 @@ static struct ohash   openDirectories;	/* cache all open directories */
  * possibility a caller might update the file and invalidate the cache
  * entry, and we don't look up in this cache except as a last resort.
  */
-static struct ohash mtimes;  
+static struct ohash mtimes;
 
 
 /* There are three distinct hash structures:
@@ -539,7 +540,7 @@ DirExpandCurlyi(const char *word, const char *eword, Lst path, Lst expansions)
 				 * the right brace with bracelevel == 0,
 				 * this is the end of the clause. */
 	size_t		endLen;
-				/* The length of the ending non-curlied 
+				/* The length of the ending non-curlied
 				 * part of the current expansion */
 
 	/* End case: no curly left to expand */
@@ -551,7 +552,7 @@ DirExpandCurlyi(const char *word, const char *eword, Lst path, Lst expansions)
 	    } else
 		Lst_AtEnd(expansions, toexpand);
 	    continue;
-	} 
+	}
 
 	start = brace+1;
 
@@ -572,9 +573,9 @@ DirExpandCurlyi(const char *word, const char *eword, Lst path, Lst expansions)
 	for (;;) {
 	    char	*file;	/* To hold current expansion */
 	    const char	*cp;	/* Current position in brace clause */
-	
+
 	    /* Find the end of the current expansion */
-	    for (bracelevel = 0, cp = start; 
+	    for (bracelevel = 0, cp = start;
 	    	bracelevel != 0 || (*cp != '}' && *cp != ','); cp++) {
 		if (*cp == '{')
 		    bracelevel++;
@@ -631,7 +632,7 @@ Dir_Expandi(const char *word, const char *eword, Lst path, Lst expansions)
  *	[ dir1/.../dirn/file ] which exists below one of the directories
  *	already on the search path), its directory is added to the end
  *	of the path on the assumption that there will be more files in
- *	that directory later on. 
+ *	that directory later on.
  */
 char *
 Dir_FindFilei(const char *name, const char *ename, Lst path)
@@ -665,7 +666,7 @@ Dir_FindFilei(const char *name, const char *ename, Lst path)
     if (DEBUG(DIR))
 	printf("Searching for %s...", name);
     /* No matter what, we always look for the file in the current directory
-     * before anywhere else and we always return exactly what the caller 
+     * before anywhere else and we always return exactly what the caller
      * specified. */
     if ((!hasSlash || (cp - name == 2 && *name == '.')) &&
 	find_file_hashi(dot, cp, ename, hv) != NULL) {
@@ -678,10 +679,10 @@ Dir_FindFilei(const char *name, const char *ename, Lst path)
 	    return Str_dupi(name, ename);
     }
 
-    /* Then, we look through all the directories on path, seeking one 
+    /* Then, we look through all the directories on path, seeking one
      * containing the final component of name and whose final
-     * component(s) match name's initial component(s). 
-     * If found, we concatenate the directory name and the 
+     * component(s) match name's initial component(s).
+     * If found, we concatenate the directory name and the
      * final component and return the resulting string.  */
     for (ln = Lst_First(path); ln != NULL; ln = Lst_Adv(ln)) {
 	p = (Path *)Lst_Datum(ln);
@@ -733,15 +734,15 @@ Dir_FindFilei(const char *name, const char *ename, Lst path)
 
     /* We didn't find the file on any existing member of the path.
      * If the name doesn't contain a slash, end of story.
-     * If it does contain a slash, however, it could be in a subdirectory 
-     * of one of the members of the search path. (eg., for path=/usr/include 
-     * and name=sys/types.h, the above search fails to turn up types.h 
+     * If it does contain a slash, however, it could be in a subdirectory
+     * of one of the members of the search path. (eg., for path=/usr/include
+     * and name=sys/types.h, the above search fails to turn up types.h
      * in /usr/include, even though /usr/include/sys/types.h exists).
      *
      * We only perform this look-up for non-absolute file names.
      *
      * Whenever we score a hit, we assume there will be more matches from
-     * that directory, and append all but the last component of the 
+     * that directory, and append all but the last component of the
      * resulting name onto the search path. */
     if (!hasSlash) {
 	if (DEBUG(DIR))
@@ -778,10 +779,10 @@ Dir_FindFilei(const char *name, const char *ename, Lst path)
 
 		/* We've found another directory to search. We know there
 		 * is a slash in 'file'. We call Dir_AddDiri to add the
-		 * new directory onto the existing search path. Once 
-		 * that's done, we return the file name, knowing that 
-		 * should a file in this directory ever be referenced again 
-		 * in such a manner, we will find it without having to do 
+		 * new directory onto the existing search path. Once
+		 * that's done, we return the file name, knowing that
+		 * should a file in this directory ever be referenced again
+		 * in such a manner, we will find it without having to do
 		 * numerous access calls.  */
 		temp = strrchr(file, '/');
 		Dir_AddDiri(path, file, temp);
@@ -883,8 +884,8 @@ DirReaddiri(const char *name, const char *ename)
 	return NULL;
 
     while ((dp = readdir(d)) != NULL) {
-	if (dp->d_name[0] == '.' && 
-	    (dp->d_name[1] == '\0' || 
+	if (dp->d_name[0] == '.' &&
+	    (dp->d_name[1] == '\0' ||
 	    	(dp->d_name[1] == '.' && dp->d_name[2] == '\0')))
 		continue;
 	add_file(p, dp->d_name);
@@ -1101,4 +1102,3 @@ Dir_MTime(GNode *gn)
     gn->mtime = mtime;
     return gn->mtime;
 }
-
