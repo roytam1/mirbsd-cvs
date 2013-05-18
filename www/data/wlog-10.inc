@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.305 2010/08/06 14:43:05 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.306 2010/08/15 13:00:13 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -6949,4 +6949,30 @@ Tag: debian event grml
  like the timekeeping stuff (and possibly more hardware support), and
  writing a pivot_root like thing (explained on some mailing list already)
  so we can use ramdisc root to do loopback root.</p>
+----
+Title: New snapshot 2010-08-15 (i386), sparc reloaded
+Author: tg@
+Date: 15.08.2010 12:59
+Tag: snapshot
+
+<p>I’m currently putting the finishing touches on a new MirBSD snapshot
+ for i386, targetting FrOSCon. Due to German patent 69429378 (EP0618540)
+ I had to update the sparc kernel (GENERIC and RAMDISK) as well though.
+ For now, mount_msdos(8) LFN support is <em>disabled entirely</em>, but
+ a code rewrite to support LFNs in FAT in a non-infringing way (although
+ for a file with LFN, no SFN will be generated any more then) is planned
+ already (just not done before FrOSCon). This situation, in general, <a
+ href="@@RELPATH@@permalinks/wlog-10_e20100522-tg.htm">sucks</a>.</p>
+<p>The HTML manpages have also been updated, and the <a
+ href="@@ABSPATH@@/MirOS/dist/mir/mksh/mksh.pdf">PDF</a> manpage for <a
+ href="@@RELPATH@@mksh.htm">mksh</a> is now PDF 1.4 – something closely
+ resembling, if not, PDF/A actually.</p>
+<p>The snapshot will, as usual, end up on the mirrors, i.e.</p><ul>
+ <li><a href="https://dl.mirbsd.org/MirOS/current/">Germany main</a>
+  (Strato) secure HTTP</li>
+ <li><a href="http://pub.allbsd.org/MirOS/current/">Japan</a>
+  (AllBSD.org) insecure HTTP</li>
+ <li><a href="http://mirror.bsdprison.com/MirOS/current/">USA</a> insecure
+  HTTP and <a href="ftp://ftp.bsdprison.com/pub/MirOS/current/">FTP</a></li>
+</ul>
 ----
