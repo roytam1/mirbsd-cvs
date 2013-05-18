@@ -2,7 +2,7 @@
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.200 2009/02/01 13:22:49 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.201 2009/02/01 13:31:15 tg Exp $'
 mws_content <<'EOF'
 <h1>mksh(1) R36b</h1>
 <p>This is the website of the MirBSD™ Korn Shell, an actively developed free
@@ -548,7 +548,9 @@ mws_content <<'EOF'
  ChangeLog</a>, these are the packager-visible upgrade notes regarding
  changes in the build system (<tt>Build.sh</tt> and friends, compiler
  support, packaging conventions, bad examples, etc).</p>
-<p>mksh R37 has a new ‘-combine’ <tt>Build.sh</tt> option.</p>
+<p>mksh R37 has a new ‘-combine’ <tt>Build.sh</tt> option and supports
+ additional <tt>CPPFLAGS</tt>: <tt>-DMKSH_UNEMPLOYED</tt> (for Plan 9,
+ Minix 3, mostly) and <tt>-DMKSH_VILE</tt> (for the atrocious)</p>
 <p>mksh R36b stays compatible, no surprises there. The ‘-llvm’ option
  to <tt>Build.sh</tt>, however, is new.</p>
 <p>mksh R36’s <tt>Build.sh</tt> script ‘-q’ option is gone. Furthermore,
