@@ -15,7 +15,7 @@ keys) whether you want to proceed to the traditional bootloader, run the
 Live CD or directly start the Setup programme.
 
 For further information on how to set up MirOS, please go to our website
-at http://MirBSD.org/ and read the installation documents.
+at http://MirBSD.de/ and read the installation documents.
 
 
 Hardware notes
@@ -63,7 +63,7 @@ This edition of the MirBSD Live/Install CD is an early beta issue. There
 most likely be bugs, so beware.
 
 As a new feature, you can 'cat' or 'dd' either the whole CD-ROM, or just
-the 5MB Mini-ISO (./v8/i386/cdrom8.iso), on your hard disc (/dev/hda, on
+the 5MB Mini-ISO (./v9/i386/cdrom8.iso), on your hard disc (/dev/hda, on
 GNU/Linux, or /dev/rwd0c, on MirOS) and run it from there. Note this de-
 stroys your partition table and any other installed operating systems. A
 specific hack for serial console users will be added later.
@@ -122,4 +122,4 @@ code is available at http://www.mirbsd.org/ and its mirrors; further
 information can be found at /usr/share/doc/legal/ as well.
 
 _________________________________________________________________________
-$MirOS: src/distrib/i386/iso/00-README,v 1.9 2006/05/12 21:29:40 tg Exp $
+$MirOS: src/distrib/i386/iso/00-README,v 1.10 2006/06/08 23:58:33 tg Exp $
