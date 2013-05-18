@@ -1,4 +1,5 @@
-.\"	$OpenBSD: autoconf.4,v 1.6 2002/09/26 22:11:49 miod Exp $
+.\"	$MirOS$
+.\"	$OpenBSD: autoconf.4,v 1.2 2002/09/26 22:11:49 miod Exp $
 .\"
 .\" Copyright (c) 1994 Christopher G. Demetriou
 .\" All rights reserved.
@@ -28,15 +29,15 @@
 .\" (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
 .\" THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .\"
-.Dd July 12, 1998
-.Dt AUTOCONF 4 i386
+.Dd $Mdocdate$
+.Dt AUTOCONF 4
 .Os
 .Sh NAME
 .Nm autoconf
 .Nd diagnostics from the autoconfiguration code
 .Sh DESCRIPTION
 When
-.Ox
+.Mx
 bootstraps it probes the innards of the machine
 on which it is running
 and locates controllers, drives, and other devices, printing out
@@ -49,4 +50,5 @@ kernel are usually not detected.
 .Sh SEE ALSO
 .Xr intro 4 ,
 .Xr boot_i386 8 ,
+.Xr boot_sparc 8 ,
 .Xr config 8

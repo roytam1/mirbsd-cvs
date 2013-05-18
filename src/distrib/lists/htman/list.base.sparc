@@ -51,6 +51,5 @@ cat4/zskbd.0
 cat4/zstty.0
 cat4/zx.0
 cat8/MAKEDEV.0
-cat8/boot_sparc.0
 cat8/eeprom.0
 cat8/installboot.0

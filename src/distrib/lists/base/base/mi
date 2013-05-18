@@ -2308,6 +2308,8 @@
 ./usr/share/man/cat8/bad144.0
 ./usr/share/man/cat8/badsect.0
 ./usr/share/man/cat8/boot_config.0
+./usr/share/man/cat8/boot_i386.0
+./usr/share/man/cat8/boot_sparc.0
 ./usr/share/man/cat8/bootparamd.0
 ./usr/share/man/cat8/brconfig.0
 ./usr/share/man/cat8/ccdconfig.0

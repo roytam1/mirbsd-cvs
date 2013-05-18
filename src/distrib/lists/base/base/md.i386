@@ -61,7 +61,6 @@
 ./usr/share/man/cat8/apmd.0
 ./usr/share/man/cat8/boot.0
 ./usr/share/man/cat8/boot.cfg.0
-./usr/share/man/cat8/boot_i386.0
 ./usr/share/man/cat8/fdisk.0
 ./usr/share/man/cat8/iopctl.0
 ./usr/share/man/cat8/isdnd.0

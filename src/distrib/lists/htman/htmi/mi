@@ -6393,6 +6393,8 @@
 ./man8/bad144.htm
 ./man8/badsect.htm
 ./man8/boot_config.htm
+./man8/boot_i386.htm
+./man8/boot_sparc.htm
 ./man8/bootparamd.htm
 ./man8/brconfig.htm
 ./man8/ccdconfig.htm
