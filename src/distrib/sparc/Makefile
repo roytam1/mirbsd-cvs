@@ -1,7 +1,6 @@
-# $MirOS$
+# $MirOS: src/distrib/sparc/Makefile,v 1.2 2005/03/06 18:58:05 tg Exp $
 
 .include <bsd.own.mk>
-.include "../Makefile.inc"
 
 REL_NO_KERNEL?=	No
 .if ${REL_NO_KERNEL:L} != "yes"

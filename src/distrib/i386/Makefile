@@ -1,7 +1,6 @@
-# $MirOS: src/distrib/i386/Makefile,v 1.2 2005/03/06 18:58:02 tg Exp $
+# $MirOS: src/distrib/i386/Makefile,v 1.3 2005/05/01 23:29:48 tg Exp $
 
 .include <bsd.own.mk>
-.include "../Makefile.inc"
 
 REL_NO_KERNEL?=	No
 .if ${REL_NO_KERNEL:L} != "yes"
@@ -41,7 +40,7 @@ SUBDIR+=	ramdisk
 .endif
 
 .if ${_DESCEND} == "yes" || ${REL_NO_FLOPPY:L} != "yes"
-SUBDIR+=	floppy
+#SUBDIR+=	floppy
 .endif
 
 .if ${_DESCEND} == "yes" || ${REL_NO_AUTOISO:L} != "yes"

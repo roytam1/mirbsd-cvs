@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/i386/common/list,v 1.4 2005/07/24 16:44:13 tg Exp $
+# $MirOS: src/distrib/i386/common/list,v 1.5 2005/08/23 10:58:45 tg Exp $
 # $OpenBSD: list,v 1.15 2005/05/04 17:08:07 miod Exp $
 
 SRCDIRS distrib/special
@@ -56,7 +56,6 @@ LINK	instbin					usr/bin/sed
 LINK	instbin					usr/mdec/installboot
 LINK	instbin					usr/sbin/sysctl
 LINK	instbin					usr/sbin/vnconfig
-ARGVLINK mksh					-ksh
 ARGVLINK mksh					-mksh
 ARGVLINK mksh					-sh
 
