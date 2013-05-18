@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/distrib/baselive/munge_it.sh,v 1.18 2007/02/20 01:09:34 tg Exp $
+# $MirOS: src/distrib/baselive/munge_it.sh,v 1.19 2007/02/20 01:38:20 tg Exp $
 #-
 # Copyright (c) 2006, 2007
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -72,15 +72,20 @@ ed -s etc/ntpd.conf <<-'EOMD'
 EOMD
 ed -s etc/rc <<-'EOMD'
 	1i
-		# $MirOS: src/distrib/baselive/munge_it.sh,v 1.18 2007/02/20 01:09:34 tg Exp $
+		# $MirOS: src/distrib/baselive/munge_it.sh,v 1.19 2007/02/20 01:38:20 tg Exp $
 	.
 	/shutdown request/ka
 	/^fi/a
 
 		mount -fwo async,noatime /dev/rd0a /dev
 		cat /dev/.rs >/dev/arandom 2>&-
-		( (dd if=/dev/rwd0c count=126; dd if=/dev/rsd0c count=126) \
-		    2>&1 | cksum -ba sha512 >/dev/arandom ) &
+		# on sparc, use the nvram to provide some additional entropy
+		# also read some stuff from the HDD etc. (doesn't matter if it breaks)
+		( ( (dd if=/dev/rwd0c count=126; dd if=/dev/rsd0c count=126; \
+		     dd if=/dev/rcwd0c count=96; eeprom; dmesg; sysctl -a; \
+		     dd if=/var/db/host.random of=/dev/arandom) 2>&1 | \
+		    cksum -a cksum -a sha512 -a suma -a tiger -a rmd160 -a adler32 \
+		    -b >/dev/wrandom) &)
 		(cd /dev; ln -s $(sysctl -n kern.root_device) root; rm -f .rs)
 		print \#\\tThis product includes material provided by Thorsten Glaser.
 	.

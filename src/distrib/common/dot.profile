@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/dot.profile,v 1.9 2007/02/18 18:23:29 tg Exp $
+# $MirOS: src/distrib/common/dot.profile,v 1.10 2007/03/08 09:01:59 tg Exp $
 # $OpenBSD: dot.profile,v 1.4 2002/09/13 21:38:47 deraadt Exp $
 # $NetBSD: dot.profile,v 1.1 1995/12/18 22:54:43 pk Exp $
 #
@@ -80,9 +80,10 @@ if [ ! -f /.profile.done ]; then
 	# on sparc, use the nvram to provide some additional entropy
 	# also read some stuff from the HDD etc. (doesn't matter if it breaks)
 	( ( (dd if=/dev/rwd0c count=126; dd if=/dev/rsd0c count=126; \
-	     dd if=/var/db/host.random of=/dev/arandom; eeprom; dmesg) \
-	   2>&1 | cksum -a cksum -a sha512 -a suma -a tiger -a rmd160 \
-	                -a adler32 -b >/dev/wrandom) &)
+	     dd if=/dev/rcwd0c count=96; eeprom; dmesg; sysctl -a; \
+	     dd if=/var/db/host.random of=/dev/arandom) 2>&1 | \
+	    cksum -a cksum -a sha512 -a suma -a tiger -a rmd160 -a adler32 \
+	    -b >/dev/wrandom) &)
 
 	# say hello and legalese
 	echo '
