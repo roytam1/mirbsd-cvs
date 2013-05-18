@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/Makefile,v 1.23 2007/07/07 22:02:41 tg Exp $
+# $MirOS: src/distrib/common/Makefile,v 1.24 2007/07/18 09:04:10 tg Exp $
 
 .include <bsd.own.mk>
 
@@ -194,7 +194,7 @@ ${CDROM}: cdrom-prepare cdrom-mdcopy cdrom-generate cdrom-mdboot cdrom-finish
 
 cdrom-prepare: bsd.rd
 	${SUDO} rm -rf ${WRKDIR}
-	mkdir -p ${WRKDIR}/{etc,v${OSrev}/${MACHINE}}
+	mkdir -p ${WRKDIR}/v${OSrev}/${MACHINE}
 	@if [[ -e ${TOPDIR}/contrib ]]; then \
 		echo Integrating contrib dir; \
 		mkdir ${WRKDIR}/contrib; \
