@@ -1,7 +1,7 @@
 /*	$OpenBSD: jobs.c,v 1.38 2009/12/12 04:28:44 deraadt Exp $	*/
 
 /*-
- * Copyright (c) 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2011
+ * Copyright (c) 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2011, 2012
  *	Thorsten Glaser <tg@mirbsd.org>
  *
  * Provided that these terms and disclaimer and all copyright notices
@@ -22,7 +22,7 @@
 
 #include "sh.h"
 
-__RCSID("$MirOS: src/bin/mksh/jobs.c,v 1.81 2011/08/27 18:06:46 tg Exp $");
+__RCSID("$MirOS: src/bin/mksh/jobs.c,v 1.82 2011/12/31 00:52:22 tg Exp $");
 
 #if HAVE_KILLPG
 #define mksh_killpg		killpg
@@ -43,7 +43,7 @@ struct proc {
 	pid_t pid;		/* process id */
 	int state;
 	int status;		/* wait status */
-	char command[48];	/* process command string */
+	char command[44];	/* process command string */
 };
 
 /* Notify/print flag - j_print() argument */
