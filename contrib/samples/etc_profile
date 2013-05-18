@@ -1,4 +1,4 @@
-# $MirOS: contrib/samples/etc_profile,v 1.15 2011/06/21 11:42:09 tg Exp $
+# $MirOS: contrib/samples/etc_profile,v 1.16 2011/06/21 18:37:09 tg Exp $
 #-
 # Initialisation file for MirOS ksh (pdksh, sh), (s)ash and GNU bash
 # Fallback mode only for non-Korn-shells, though.
@@ -180,10 +180,10 @@ function ddg {		# DuckDuckGo Search
 	${BROWSER:-lynx} "https://duckduckgo.com/?kp=-1&kl=wt-wt&kb=t&kh=1&kj=g2&km=l&ka=monospace&ku=1&ko=s&k1=-1&kv=1&q=$*"
 }
 function ggs {		# Google Search
-	${BROWSER:-lynx} "http://www.google.com/search?hl=la&num=100&safe=off&q=$*"
+	${BROWSER:-lynx} "http://www.google.com/search?hl=la&pws=0&num=100&safe=off&q=$*"
 }
 function ggr {		# Google GRoups
-	${BROWSER:-lynx} "http://groups.google.com/groups?hl=la&num=100&safe=off&as_umsgid=$*"
+	${BROWSER:-lynx} "http://groups.google.com/groups?hl=la&pws=0&num=100&safe=off&as_umsgid=$*"
 }
 function ge {		# German English
 	${BROWSER:-lynx} "http://dict.leo.org/?search=$*"
