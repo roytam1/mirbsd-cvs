@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: ports/infrastructure/install/setup.ksh,v 1.45 2005/12/23 20:18:11 tg Exp $
+# $MirOS: ports/infrastructure/install/setup.ksh,v 1.46 2005/12/28 00:28:24 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -451,6 +451,7 @@ cat >$localbase/db/SetEnv.sh <<-EOF
 	MANPATH='$newmanpath'
 	INFOPATH='$INFOPATH'
 	PERL5LIB='$PERL5LIB'
+	XAPPLRESDIR='$localbase/lib/X11/app-defaults'
 EOF
 [[ $need_llp = yes ]] && \
     cat >>$localbase/db/SetEnv.sh <<-EOF
@@ -463,7 +464,7 @@ EOF
 cat >>$localbase/db/SetEnv.sh <<-EOF
 	export LOCALBASE PORTSDIR SYSCONFDIR X11BASE MAKECONF
 	export BINOWN BINGRP PATH LD_LIBRARY_PATH MKSH
-	export MANPATH INFOPATH PERL5LIB
+	export MANPATH INFOPATH PERL5LIB XAPPLRESDIR
 EOF
 [[ $isinterix = yes ]] && cat >>$localbase/db/SetEnv.sh <<-EOF
 	unset INCLUDE LIB
@@ -481,6 +482,7 @@ cat >$localbase/db/SetEnv.csh <<-EOF
 	setenv MANPATH '$newmanpath'
 	setenv INFOPATH '$INFOPATH'
 	setenv PERL5LIB '$PERL5LIB'
+	setenv XAPPLRESDIR '$localbase/lib/X11/app-defaults'
 EOF
 [[ $need_llp = yes ]] && \
     cat >>$localbase/db/SetEnv.csh <<-EOF

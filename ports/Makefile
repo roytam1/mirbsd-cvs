@@ -1,4 +1,4 @@
-# $MirOS: ports/Makefile,v 1.11 2005/12/17 05:46:17 tg Exp $
+# $MirOS: ports/Makefile,v 1.12 2005/12/20 00:35:24 tg Exp $
 # $OpenBSD: Makefile,v 1.43 2003/12/15 17:56:40 espie Exp $
 # $FreeBSD: Makefile,v 1.36 1997/10/04 15:54:31 jkh Exp $
 #-
@@ -136,6 +136,12 @@ setup: Setup.sh
 	if [[ ! -e ${.CURDIR}/Packages ]]; then \
 		${SUDO} mkdir -m 0775 Packages; \
 	fi
+	if [[ -d /usr/mpkg/lib/X11/app-defaults ]]; then \
+		${SUDO} mv /usr/mpkg/lib/X11/app-defaults/* \
+		    /etc/X11/app-defaults/; \
+		${SUDO} rmdir /usr/mpkg/lib/X11/app-defaults; \
+	fi
+	${SUDO} ln -sf /etc/X11/app-defaults /usr/mpkg/lib/X11/app-defaults
 	env CC='${CC}' SHELL=${SHELL} MKSH=${MKSH} \
 	    ${SUDO} /bin/sh ${.CURDIR}/Setup.sh
 
