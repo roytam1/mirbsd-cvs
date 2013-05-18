@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/scripts/roff2htm,v 1.15 2005/11/15 20:54:00 tg Exp $
+# $MirOS: src/scripts/roff2htm,v 1.16 2005/11/15 20:59:00 tg Exp $
 # $ekkoBSD: catman2html.sh,v 1.2 2004/03/07 03:02:53 stephen Exp $
 #-
 # Copyright (c) 2004, 2005
@@ -115,7 +115,7 @@ s/\([0-9A-z][-.,0-9A-z]*\)-\n\(  *\)\([0-9A-z][-.,0-9A-z]*([1-9][A-z]*)\)\([^ ]*
 			print
 			let isblank++
 		fi
-	done
+	done | unexpand -a
 }
 
 output_header()
@@ -131,7 +131,7 @@ output_header()
 		</head><body>
 		<h1>MirOS Manual: <a href="../man${2}/${1}.htm"><tt>${1}(${2})</tt></a></h1>
 		<p style="font-size:xx-small;">Generated on ${gendate} by
-		 \$MirOS: src/scripts/roff2htm,v 1.15 2005/11/15 20:54:00 tg Exp $</p>
+		 \$MirOS: src/scripts/roff2htm,v 1.16 2005/11/15 20:59:00 tg Exp $</p>
 		<hr />
 	EOF
 }
