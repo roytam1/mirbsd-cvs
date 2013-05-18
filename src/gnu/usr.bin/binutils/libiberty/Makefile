@@ -1,4 +1,4 @@
-# $MirOS: src/gnu/usr.bin/binutils/libiberty/Makefile,v 1.7 2008/12/26 16:38:28 tg Exp $
+# $MirOS: src/gnu/usr.bin/binutils/libiberty/Makefile,v 1.8 2008/12/26 17:36:26 tg Exp $
 
 .include "../Makefile.inc"
 
@@ -9,10 +9,10 @@ SRCS=		argv.c concat.c cp-demangle.c \
 		cp-demint.c cplus-dem.c dyn-string.c fdmatch.c fibheap.c \
 		floatformat.c fopen_unlocked.c getpwd.c getruntime.c \
 		hashtab.c hex.c htab_old.c lbasename.c lrealpath.c \
-		make-relative-prefix.c make-temp-file.c mempcpy.c objalloc.c \
+		make-relative-prefix.c make-temp-file.c objalloc.c \
 		obstack.c partition.c pex-common.c pex-one.c pex-unix.c \
 		pexecute.c physmem.c safe-ctype.c sort.c spaces.c \
-		splay-tree.c stpcpy.c stpncpy.c strerror.c \
+		splay-tree.c strerror.c \
 		strsignal.c strverscmp.c ternary.c unlink-if-ordinary.c \
 		xatexit.c xexit.c xmalloc.c xmemdup.c xstrdup.c xstrerror.c \
 		xstrndup.c
