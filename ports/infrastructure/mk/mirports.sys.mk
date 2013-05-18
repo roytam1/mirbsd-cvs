@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/mirports.sys.mk,v 1.26 2005/12/16 22:04:17 tg Exp $
+# $MirOS: ports/infrastructure/mk/mirports.sys.mk,v 1.27 2005/12/17 05:46:19 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -24,10 +24,6 @@
 # the possibility of such damage or existence of a nontrivial bug.
 
 .ifndef	MIRPORTS_SYS_MK
-
-# Provide consistent MirPorts behaviour. (Sync with mirports.bsd.mk)
-DEBUGLIBS=		No
-DEBUGPROGS=		No
 
 # Basic defaults.
 .if !defined(OSNAME) || empty(OSNAME)
