@@ -1,6 +1,6 @@
-$MirOS$
---- glib/gslice.c.orig	Sat Sep 30 14:21:15 2006
-+++ glib/gslice.c	Thu Mar  6 21:22:01 2008
+$MirOS: ports/devel/glib/patches/patch-glib_gslice_c,v 1.1 2008/03/06 22:08:24 tg Exp $
+--- glib/gslice.c.orig	2007-07-16 20:57:12.000000000 +0200
++++ glib/gslice.c	2009-07-07 19:49:26.000000000 +0200
 @@ -101,6 +101,7 @@
  /* --- macros and constants --- */
  #define LARGEALIGNMENT          (256)
@@ -9,14 +9,15 @@ $MirOS$
  #define ALIGN(size, base)       ((base) * (gsize) (((size) + (base) - 1) / (base)))
  #define NATIVE_MALLOC_PADDING   P2ALIGNMENT                                     /* per-page padding left for native malloc(3) see [1] */
  #define SLAB_INFO_SIZE          P2ALIGN (sizeof (SlabInfo) + NATIVE_MALLOC_PADDING)
-@@ -1039,8 +1040,10 @@ slab_allocator_free_chunk (gsize    chun
+@@ -1039,9 +1040,11 @@ slab_allocator_free_chunk (gsize    chun
  }
  
  /* --- memalign implementation --- */
 +#if HAVE_MEMALIGN
  #ifdef HAVE_MALLOC_H
  #include <malloc.h>             /* memalign() */
-+#endif
  #endif
++#endif
  
  /* from config.h:
+  * define HAVE_POSIX_MEMALIGN           1 // if free(posix_memalign(3)) works, <stdlib.h>
