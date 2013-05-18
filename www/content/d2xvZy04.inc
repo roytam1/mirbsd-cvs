@@ -1,5 +1,5 @@
 <!-- PageID: wlog-8 -->
-<small class="rcsid">$MirOS: www/content/d2xvZy04.inc,v 1.26 2006/01/31 12:11:39 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy04.inc,v 1.27 2006/01/31 13:51:09 tg Exp $</small>
 <h1>MirBSD &ndash; WTF, We Have a Release!?</h1>
 <p><small><a href="#eof">bottom</a> or <a href="/?older">older</a>
  editions</small></p>
@@ -361,6 +361,9 @@ celebrate this event, rotate the wlog and start a new one.</p>
  <p>We now have mmap(2) malloc(3), TCP tuning diffs (SYN packets 4 bytes
   smaller), and my libc is still working. I am amazed. I will rebuild my
   entire system then.</p>
+ <p>nl_langinfo(CODESET), citrus iconv(3), security-fixed perl(1)... now
+  he just can't kill me ;) Also did some major www updates to keep track
+  of source changes (still commented out though).</p>
  <p>More later... if I'm still living by then ;)</p>
 </div>
 

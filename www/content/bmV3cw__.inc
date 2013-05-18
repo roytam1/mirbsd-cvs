@@ -1,7 +1,15 @@
 <!-- PageID: news -->
-<small class="rcsid">$MirOS: www/content/bmV3cw__.inc,v 1.52 2006/01/27 00:14:29 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bmV3cw__.inc,v 1.53 2006/01/27 00:29:25 tg Exp $</small>
 
 <h1>Current MirOS News</h1><ul>
+
+<li>30.01.2006<br />We now have an iconv(3) implementation by Citrus (from
+	NetBSD&reg;) in the base system, used by lynx(1). There is also an
+	nl_langinfo(CODESET) now which works.<br />Switched to use mmap(2)
+	malloc(2), enjoy the breakage in third-party applications ;)<br />
+	Security updates for perl(1) and the kernel. Updated mksh(1) also.
+	We do not deliver precompiled perl header files any more.<br />gcc
+	now complains if CFLAGS are not honoured.</li>
 
 <li>26.01.2006<br />There are new, working, permanent homepages of both <a
 	href="http://mirbsd.de/jupp">jupp</a> and the MirBSD korn shell <a

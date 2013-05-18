@@ -1,5 +1,5 @@
 <!-- PageID: clog-2006 -->
-<small class="rcsid">$MirOS: www/content/Y2xvZy0yMDA2.inc,v 1.5 2006/01/24 22:31:43 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/Y2xvZy0yMDA2.inc,v 1.6 2006/01/27 00:14:27 tg Exp $</small>
 <!--
  Full list of release focuses in freshmeat.net-compatible format:
 	N/A
@@ -17,20 +17,40 @@
 <h3>Infos &ndash; <a href="#eof">bottom</a></h3>
 
 <!--
- <li>base: do not generate isakmpd(8) keys any more</li>
- <li>base: sample ssh/known_hosts aliases sync with reality</li>
+ <li>base: /etc/ppp/ip-up: don't flush all states, only ppp</li>
+ <li>base: /etc/rc: do not generate isakmpd(8) keys any more</li>
+ <li>base: /etc/rc: use the same RSA private key for httpd(8), sendmail(8), sshd(8), increase its size to 4 Kibit</li>
+ <li>base: /etc/skel/ssh/known_hosts aliases sync with reality</li>
+ <li>base: add Citrus iconv(3) implementation, from NetBSD&reg;</li>
+ <li>base: libc: don't build libc.tags any more</li>
+ <li>base: libc: implement (weak but working) nl_langinfo(CODESET), requires the user to use our (weak) setlocale(3)</li>
+ <li>base: libc: mmap(2) malloc(3), enjoy and complain about breakage ;)</li>
+ <li>base: mksh(1) update to R26c</li>
  <li>base: savecore(8) handles gzip(1)d kernels</li>
- <li>base: use the same RSA private key for httpd(8), sendmail(8), sshd(8), increase its size to 4 Kibit</li>
+ <li>base: ssh-keygen(1) and gzsig(1) now read more formats</li>
  <li>build: roff2man now generates correct manual pages again</li>
  <li>cvs: correct handling of backslash escapes in log messages</li>
  <li>cvs: save space in commit messages with unexpand(1)</li>
+ <li>gcc: complain if ${_DEFCOPTS}/${COPTS}/${CFLAGS} are not honoured</li>
+ <li>kernel: build fixes</li>
  <li>kernel: disallow mount(2), umount(2) at secureleven 2+</li>
  <li>kernel: documentation fixes</li>
+ <li>kernel: experimential TCP/IP improvements (MunARi)</li>
+ <li>kernel: fix OpenBSD 3.8 Errata 002, 004_i386</li>
+ <li>lynx: display japanese (SJIS and EUC) on uxterm via iconv(3)</li>
  <li>lynx: do not add .com .org etc. to failing URIs any more</li>
+ <li>perl: don't h2ph(1) any more</li>
+ <li>perl: import fixed perl(1) from OpenBSD</li>
  <li>ports: display fixes for sirc/ssfe</li>
+ <li>ports: infrastructure fixes</li>
  <li>ports: make axfrdns in djbdns work with inetd(8)</li>
+ <li>samples: fixes for the heartbeat client implementation</li>
+ <li>samples: new keymap which contains Meta emulation for Opera/M*zilla</li>
+ <li>samples: new multi-server heartbeat client</li>
+ <li>samples: update developer key information</li>
  <li>www: remove ads</li>
  <li>x11: do not ssh-agent in xinitrc, we do it in /etc/profile</li>
+ <li>zlib: add new gzfopen(3) API</li>
 -->
 
 <p id="snap0113">13.01.2006<br />Changes relative to the <a
