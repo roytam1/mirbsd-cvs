@@ -1,5 +1,5 @@
 <!-- PageID: news -->
-<small class="rcsid">$MirOS: www/content/bmV3cw__.inc,v 1.60 2006/03/01 21:40:10 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bmV3cw__.inc,v 1.61 2006/03/19 11:26:03 tg Exp $</small>
 
 <h1>Current MirOS News</h1><ul>
 
@@ -9,6 +9,9 @@
 	<tt>irc.66h.42h.de</tt> (or <tt>irc4.66h.42h.de</tt> for IPv4-only
 	connections). We sit on channel <tt>#mirbsd</tt> and <tt>#bsd</tt>
 	like before.</li>
+
+<li>gzsig(1) keys have switched; the new one can be found in CAcert-signed
+	<a href="/MirOS/gzsigkey.cer">PEM format</a> as well.</li>
 
 <li>01.03.2006<br />Again success building a cross-compiler to i386 Debian
 	GNU/Linux from MirOS (tested with printf(1) because GNU libc is an
