@@ -1,14 +1,12 @@
-# $MirOS: src/etc/root.profile,v 1.9 2008/05/15 14:29:35 tg Exp $
-#-
-# initialisation for bourne shell (worst case)
+PATH=/sbin:/usr/sbin:/bin:/usr/bin
+HOME=/
+LC_CTYPE=en_US.UTF-8
+PS1='# '
+export PATH HOME LC_CTYPE PS1
+umask 022
 
 # this is only run if /etc/profile has not been executed
 if test -z "$OSNAME"; then
-	PATH=/sbin:/usr/sbin:/bin:/usr/bin:/usr/dbin:/usr/dsbin
-	HOME=/
-	PS1='# '
-	export PATH HOME PS1
-	umask 022
 	i=TERM=vt100
 	if test -x /usr/bin/tset; then
 		i=$(ulimit -c 0; /usr/bin/tset -sQ \?$TERM)
@@ -19,7 +17,7 @@ if test -z "$OSNAME"; then
 	EDITOR=/bin/ed
 	USER=root
 	USER_ID=0
-	export EDITOR TERM USER USER_ID
+	export EDITOR TERM USER
 fi
 
 Lretrocfg() {		# retrieve kernel config file
@@ -49,4 +47,4 @@ Lretrocfg() {		# retrieve kernel config file
 	**********************************
 
 EOF
-:
+: $MirOS$
