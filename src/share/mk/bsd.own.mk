@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/bsd.own.mk,v 1.53 2007/08/24 14:25:34 tg Exp $
+# $MirOS: src/share/mk/bsd.own.mk,v 1.54 2008/03/22 20:42:22 tg Exp $
 # $OpenBSD: bsd.own.mk,v 1.92 2005/01/18 00:28:42 mickey Exp $
 # $NetBSD: bsd.own.mk,v 1.24 1996/04/13 02:08:09 thorpej Exp $
 
@@ -103,18 +103,14 @@ STRIP?=		strip
 INSTALL_STRIP?=
 STRIP?=		:
 
-# This may be changed for _single filesystem_ configurations (such as
-# routers and other embedded systems); normal systems should leave it alone!
-STATIC?=	-static
-
 NOLINT?=	yes
 NOMAN?=		no
 NOOBJ?=		no
 NOPIC?=		no
 
 LDFLAGS?=
-.if ${NOPIC:L} != "no" && !${LDFLAGS:M-static}
-LDFLAGS+=	${STATIC}
+.if ${NOPIC:L} != "no"
+LDSTATIC=	-static
 .endif
 
 OBJECT_FMT=	ELF		# ELF a.out COFF Mach-O PE
