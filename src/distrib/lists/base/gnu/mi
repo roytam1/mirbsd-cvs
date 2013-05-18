@@ -52,7 +52,6 @@
 ./usr/bin/strings
 ./usr/bin/texindex
 ./usr/bin/xsubpp
-./usr/lib/libperl.so.12.1
 ./usr/libdata/perl5/AnyDBM_File.pm
 ./usr/libdata/perl5/Attribute
 ./usr/libdata/perl5/Attribute/Handlers.pm

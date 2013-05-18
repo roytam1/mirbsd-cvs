@@ -1,4 +1,4 @@
-# $MirOS: src/gnu/usr.bin/perl/Makefile.bsd-wrapper,v 1.14 2006/09/21 21:40:04 tg Exp $
+# $MirOS: src/gnu/usr.bin/perl/Makefile.bsd-wrapper,v 1.15 2006/09/21 23:22:40 tg Exp $
 # $OpenBSD: Makefile.bsd-wrapper,v 1.70 2006/03/28 19:22:56 millert Exp $
 #
 # Build wrapper for Perl 5.8.8
@@ -551,12 +551,7 @@ mansrc.build:
 .  endif
 .endfor
 
-.if exists(${.CURDIR}/shlib_version)
-.  include "${.CURDIR}/shlib_version"
-SHLIB_VERSION?=	${major}.${minor}
-.endif
 LIB=	perl
-
 SRCS=	perl.c gv.c toke.c perly.c op.c pad.c regcomp.c dump.c util.c mg.c \
 	reentr.c hv.c av.c run.c pp_hot.c sv.c pp.c scope.c pp_ctl.c pp_sys.c \
 	doop.c doio.c regexec.c utf8.c taint.c deb.c universal.c xsutils.c \
@@ -680,12 +675,5 @@ perl.lib:	${GENERATED} ${_LIBS}
 install.lib:
 	${INSTALL} ${INSTALL_COPY} -o ${LIBOWN} -g ${LIBGRP} -m ${LIBMODE} \
 	    lib${LIB}.a ${DESTDIR}${LIBDIR}/
-.  ifdef SHLIB_SONAME
-	${INSTALL} ${INSTALL_COPY} -o ${LIBOWN} -g ${LIBGRP} -m ${LIBMODE} \
-	    ${SHLIB_SONAME} ${DESTDIR}${LIBDIR}/
-.  elif ${NOPIC:L} == "no"
-	${INSTALL} ${INSTALL_COPY} -o ${LIBOWN} -g ${LIBGRP} -m ${LIBMODE} \
-	    lib${LIB}_pic.a ${DESTDIR}${LIBDIR}/
-.  endif
 
 .PHONY: perl.lib install.lib perl.build install.perl man.build mansrc.build
