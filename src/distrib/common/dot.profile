@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/dot.profile,v 1.52 2009/11/05 21:38:36 tg Exp $
+# $MirOS: src/distrib/common/dot.profile,v 1.53 2009/11/05 22:48:00 tg Exp $
 # $OpenBSD: dot.profile,v 1.4 2002/09/13 21:38:47 deraadt Exp $
 # $NetBSD: dot.profile,v 1.1 1995/12/18 22:54:43 pk Exp $
 #
@@ -144,7 +144,7 @@ This work is provided "AS IS" and WITHOUT WARRANTY of any kind.\n'
 else
 	stty newcrt werase ^W intr ^C kill ^U erase ^? status ^T
 fi
-export TERM=vt220 IRCUSER=MirBSD IRCNICK=guest$RANDOM
+export TERM=vt220 IRCUSER=MirBSD IRCNICK=MirBSD$RANDOM
 print -n '\nAvailable editor: ed'
 [ -x /usr/bin/vi ] && print -n ' (n)vi'
 [ -x /usr/bin/e3 ] && print -n ' e3*'
