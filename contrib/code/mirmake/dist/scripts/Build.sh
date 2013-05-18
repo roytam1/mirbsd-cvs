@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.81 2006/08/27 00:32:46 tg Exp $
+# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.82 2006/08/27 00:39:32 tg Exp $
 #-
 # Copyright (c) 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -169,8 +169,8 @@ Linux)
 esac
 
 : ${CC:=gcc} ${NROFF:=nroff}
-CPPFLAGS="${CPPFLAGS##*( )} -D_MIRMAKE_DEFNS -isystem $d_build/F\
- -include $d_build/F/mirmake.h"
+CPPFLAGS="${CPPFLAGS##*( )} -D_MIRMAKE_DEFNS"
+CPPFLAGS="$CPPFLAGS -I$d_build/F -include $d_build/F/mirmake.h"
 CFLAGS="$COPTS $CPPFLAGS"
 echo | $NROFF -v 2>&1 | grep GNU >&- 2>&- && NROFF="$NROFF -c"
 export CC COPTS CPPFLAGS CFLAGS LDFLAGS NROFF NOMAN=yes NOOBJ=yes
