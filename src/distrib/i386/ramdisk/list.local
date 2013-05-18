@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/i386/ramdisk/list.local,v 1.21 2006/05/26 18:29:49 tg Exp $
+# $MirOS: src/distrib/i386/ramdisk/list.local,v 1.22 2006/05/26 19:34:44 tg Exp $
 
 # extra
 
@@ -71,6 +71,7 @@ LINK	instbin					sbin/raidctl
 LINK	instbin					sbin/restore
 LINK	instbin					sbin/rtsol
 LINK	instbin					sbin/scsi
+LINK	instbin					usr/bin/awk
 LINK	instbin					usr/bin/find
 LINK	instbin					usr/bin/gzsig
 LINK	instbin					usr/bin/less usr/bin/more
