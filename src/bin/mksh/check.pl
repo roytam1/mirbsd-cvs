@@ -1,5 +1,4 @@
-#!/usr/bin/perl
-# $MirOS: src/bin/mksh/check.pl,v 1.8 2006/05/08 11:59:41 tg Exp $
+# $MirOS: src/bin/mksh/check.pl,v 1.9 2007/01/12 10:18:19 tg Exp $
 # $OpenBSD: th,v 1.12 2005/05/28 04:53:47 millert Exp $
 #-
 # Example test:
