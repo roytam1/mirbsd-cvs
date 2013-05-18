@@ -1,10 +1,10 @@
-# $MirOS: ports/x11/tk/8.4/Makefile,v 1.5 2006/11/20 22:50:49 tg Exp $
+# $MirOS: ports/x11/tk/8.4/Makefile,v 1.6 2006/12/11 22:59:14 tg Exp $
 # $OpenBSD: Makefile,v 1.6 2004/05/07 15:28:32 naddy Exp $
 
 ONLY_FOR_PLATFORM=	MirBSD:*:* OpenBSD:*:*
 
 COMMENT=		graphical toolkit for Tcl
-VERSION=		8.4.14
+VERSION=		8.4.18
 DISTNAME=		tk${VERSION}-src
 PKGNAME=		tk-${VERSION}-0
 CATEGORIES=		x11 x11/tk

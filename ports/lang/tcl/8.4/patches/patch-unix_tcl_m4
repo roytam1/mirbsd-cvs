@@ -1,7 +1,7 @@
-$MirOS: ports/lang/tcl/8.4/patches/patch-tcl_m4,v 1.2 2005/04/11 18:48:40 tg Exp $
---- unix/tcl.m4.orig	Thu Oct 19 17:25:52 2006
-+++ unix/tcl.m4	Mon Nov 20 21:05:13 2006
-@@ -1470,7 +1470,7 @@ dnl AC_CHECK_TOOL(AR, ar)
+$MirOS: ports/lang/tcl/8.4/patches/patch-unix_tcl_m4,v 1.1 2006/11/20 21:08:11 tg Exp $
+--- unix/tcl.m4.orig	Wed Feb  6 16:38:03 2008
++++ unix/tcl.m4	Mon Feb 25 11:52:51 2008
+@@ -1486,7 +1486,7 @@ dnl AC_CHECK_TOOL(AR, ar)
  	    UNSHARED_LIB_SUFFIX='${TCL_TRIM_DOTS}\$\{DBGX\}.a'
  	    TCL_LIB_VERSIONS_OK=nodots
  	    ;;
@@ -10,7 +10,7 @@ $MirOS: ports/lang/tcl/8.4/patches/patch-tcl_m4,v 1.2 2005/04/11 18:48:40 tg Exp
  	    case `arch -s` in
  	    m88k|vax)
  		SHLIB_CFLAGS=""
-@@ -2032,7 +2032,7 @@ dnl AC_CHECK_TOOL(AR, ar)
+@@ -2091,7 +2091,7 @@ dnl # preprocessing tests use only CPPFL
  		    ;;
  		IRIX*)
  		    ;;

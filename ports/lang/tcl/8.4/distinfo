@@ -1,5 +1,7 @@
-MD5 (tcl8.4.14-src.tar.gz) = 51c6bf74d3ffdb0bd866ecdac6ff6460
-RMD160 (tcl8.4.14-src.tar.gz) = 392a4f4617ee77cfdae10b24e9ccbe84afed0a40
-SHA1 (tcl8.4.14-src.tar.gz) = d7af7e0c7ed563e2344dda04bbe49961589244dd
-SIZE (tcl8.4.14-src.tar.gz) = 3544609
-TIGER (tcl8.4.14-src.tar.gz) = 3f41851d3a83a865b0d8fa17249578cc31b36cbb965472a8
+$MirOS$
+
+MD5 (tcl8.4.18-src.tar.gz) = 7d8bc95036f797b1a2b62a5a382d2cc1
+RMD160 (tcl8.4.18-src.tar.gz) = 735a9cc0575585de70cbd3cb2ff5c97d46c1dfbd
+SHA1 (tcl8.4.18-src.tar.gz) = 83b04c3ad092c22507869dec3a5c7ba821f109b0
+SIZE (tcl8.4.18-src.tar.gz) = 3653369
+TIGER (tcl8.4.18-src.tar.gz) = 50712fc483627c125ba23df9f4507b1588bb5cfc74cc0e96
