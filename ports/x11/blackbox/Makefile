@@ -1,5 +1,7 @@
-# $MirOS: ports/x11/blackbox/Makefile,v 1.3 2006/09/14 00:15:09 tg Exp $
+# $MirOS: ports/x11/blackbox/Makefile,v 1.4 2006/12/20 15:32:12 tg Exp $
 # $OpenBSD: Makefile,v 1.34 2004/02/25 02:35:17 naddy Exp $
+
+BROKEN=			C++ syntax errors
 
 COMMENT=		small & pretty window manager for 8 and more bits displays
 
