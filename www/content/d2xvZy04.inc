@@ -1,5 +1,5 @@
 <!-- PageID: wlog-8 -->
-<small class="rcsid">$MirOS: www/content/d2xvZy04.inc,v 1.49 2006/03/02 00:41:10 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy04.inc,v 1.50 2006/03/19 11:35:06 tg Exp $</small>
 <h1>MirBSD &ndash; WTF, We Have a Release!?</h1>
 <p><small><a href="#eof">bottom</a> or <a href="/?older">older</a>
  editions</small></p>
@@ -727,6 +727,30 @@ celebrate this event, rotate the wlog and start a new one.</p>
   have the leather bag though... doesn't help me much.</p>
  <p>Seems like spring is coming. Still cold but good bearable in the sun
   which is shining quite well the last few days.</p>
+</div>
+
+<div class="wlentry">
+ <h3 id="e20060323">23.03.2006 by tg@</h3>
+ <p>thor's gone, maou's running... sort of. There is still trouble, with
+  the MirDNS #3 code for example, but I got it sort of running (like the
+  old server, without some of the improvements) for now.</p>
+ <p>maou's making trouble with the hardware, though approximately thirty
+  passes of <a href="http://www.memtest86.com/">memtest86</a> don't show
+  any error at all. Maybe heat? CPU issues? It just freezes, no panic or
+  any serial console output or syslog at all.</p>
+ <p>I've written a <a href="/content/utf2html.sh">helper</a>, converting
+  UTF-8 to SGML entities, for Benny to write a larger wlog entry. It can
+  convert basically any UTF-8 because it's a simple (slow) shell script,
+  making use of iconv(1) and hexdump(1); output is decimal entities (not
+  sedecimal/hexadecadic) for better portability, and ASCII is passed and
+  not converted to &amp;amp;, &amp;lt;, and &amp;gt;, so he can use HTML
+  already in the input.</p>
+ <p>Caught a flu, not bad after still recovering from stomach stuff.</p>
+ <p>Trying to figure out my timetable for the summer semester. Really it
+  is not trivial at all. Though after all I'll probably won't study (for
+  real) anyway.</p>
+ <p>Please do not forget to update your sendmail.</p>
+ <p>I should probably write much more here, but... nah, unfunny.</p>
 </div>
 
 <p id="eof">Good luck, have fun, take care etc.pp</p>
