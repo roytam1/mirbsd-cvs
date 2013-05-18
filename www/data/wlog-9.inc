@@ -3014,4 +3014,8 @@ Author: tg@
 <p>Ha! Giving support in <tt>#cvs</tt> in IRC and being called life saviour,
  master, etc. is really giving me the chills, in a good way.</p>
 <p>I’m exhausted, will continue hacking on the release tomorrow.</p>
+<p>I’m trying to hand-bake a floppy for the sparc though. It won’t contain
+ an installer, but enough to download an installer onto a HDD. Ports have
+ aborted (gnupg can’t import keys, but decrypt them just fine – weird), but
+ I’ve got enough for tomorrow.</p>
 ----

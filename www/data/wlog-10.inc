@@ -73,4 +73,7 @@ Author: tg@
  want to report the bug in lingcc’s umoddi3 implementation upstream.
  This shall be my TODO, someone please remember me to do it (check how
  to reproduce on $common_os, with $latest_gcc, etc).</p>
+<p>miod@openbsd is helping me with the tvtwo(4) card – unluckily, I’m
+ unable to test diffs because my monitor is too small… Doesn’t anyone
+ happen to want to give away a TFT that can do 1152x900 for free? ☺</p>
 ----
