@@ -1,4 +1,4 @@
-/* $OpenBSD: servconf.c,v 1.170 2007/03/01 10:28:02 dtucker Exp $ */
+/* $OpenBSD: servconf.c,v 1.171 2007/03/09 05:20:06 dtucker Exp $ */
 /*
  * Copyright (c) 1995 Tatu Ylonen <ylo@cs.hut.fi>, Espoo, Finland
  *                    All rights reserved
@@ -38,7 +38,7 @@
 #include "channels.h"
 #include "groupaccess.h"
 
-__RCSID("$MirOS: src/usr.bin/ssh/servconf.c,v 1.15 2007/01/25 16:18:37 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/servconf.c,v 1.16 2007/03/08 10:09:32 tg Exp $");
 
 static void add_listen_addr(ServerOptions *, char *, u_short);
 static void add_one_listen_addr(ServerOptions *, char *, u_short);
@@ -1291,8 +1291,4 @@ parse_server_config(ServerOptions *options, const char *filename, Buffer *conf,
 	if (bad_options > 0)
 		fatal("%s: terminating, %d bad configuration options",
 		    filename, bad_options);
-
-	/* challenge-response is implemented via keyboard interactive */
-	if (options->challenge_response_authentication == 1)
-		options->kbd_interactive_authentication = 1;
 }
