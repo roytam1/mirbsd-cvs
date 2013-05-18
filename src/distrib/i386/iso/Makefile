@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/i386/iso/Makefile,v 1.18 2006/04/11 05:06:56 tg Exp $
+# $MirOS: src/distrib/i386/iso/Makefile,v 1.19 2006/04/19 21:28:27 tg Exp $
 # $OpenBSD: Makefile,v 1.3 2003/03/04 20:24:49 deraadt Exp $
 
 .include <bsd.own.mk>
@@ -41,7 +41,7 @@ prepare-workdir: ${DESTDIR}/usr/mdec/boot ${REALOBJDIR}/../ramdisk/bsd.rd \
 generate-image:
 	mkisofs -r -f -L -d -D -N -v -v \
 	    -b v${OSrev}/i386/boot.iso -c boot.cat \
-	    -P "The http://MirBSD.org/ team and its contributors" \
+	    -P "The http://MirBSD.de/ team and its contributors" \
 	    -p "Copyright © 2002-2006 by The MirOS Project" \
 	    -V "MirOS #${OSrev} BSD/${MACHINE} boot-only CD" \
 	    -volset "$$(uname -slm) Setup" -sysid "MirOSBSD" \

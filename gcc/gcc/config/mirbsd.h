@@ -1,9 +1,9 @@
-/* $MirOS: gcc/gcc/config/mirbsd.h,v 1.9 2005/08/29 19:41:13 tg Exp $ */
+/* $MirOS: gcc/gcc/config/mirbsd.h,v 1.10 2005/09/22 19:45:25 tg Exp $ */
 
 /* Base configuration file for all MirOS BSD targets.
    Copyright (C) 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2005
    Free Software Foundation, Inc.
-   Hacked by Thorsten Glaser <tg@MirBSD.org>
+   Hacked by Thorsten Glaser <tg@MirBSD.de>
 
 This file is part of GCC.
 

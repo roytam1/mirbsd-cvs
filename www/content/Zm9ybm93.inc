@@ -1,6 +1,9 @@
 <!-- PageID: fornow -->
-<small class="rcsid">$MirOS: www/content/Zm9ybm93.inc,v 1.4 2006/05/29 18:42:39 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/Zm9ybm93.inc,v 1.5 2006/06/04 21:01:26 tg Exp $</small>
 <h1>MirOS Website (for now)</h1>
+
+<h2>Yeah, we lost</h2>
+<p>No, even this page is not up to date.</p>
 
 <h2>About this page</h2>
 <p>This page tries to clean up the mess which is called a pathetic
@@ -44,8 +47,8 @@
 <li><a href="/MirOS/BT/">mirrored torrents</a> (see above)</li>
 <li><a href="/MirOS/CVS/">CVS Repo</a> 2006-04-12</li>
 <li><a href="/MirOS/CVS/">CVS root</a> historic</li>
-<li>AnonCVS: <tt>_anoncvs@mirbsd.org:/cvs</tt></li>
-<li>AnonRSYNC: <tt>_anoncvs@mirbsd.org:/cvs</tt></li>
+<li>AnonCVS: <tt>anoncvs@anoncvs.mirbsd.org:/cvs</tt></li>
+<li>AnonRSYNC: <tt>anoncvs@anoncvs.mirbsd.org:/cvs</tt></li>
 <li><a href="http://www.mirbsd.org/cvs.cgi/">CVSweb</a></li>
 <li>(more cvs mirrors can be found <a href="/?overview">externally</a>)</li>
 </ul>

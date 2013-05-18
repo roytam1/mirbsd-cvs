@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/i386/livecd/Makefile,v 1.45 2006/05/28 21:19:18 tg Exp $
+# $MirOS: src/distrib/i386/livecd/Makefile,v 1.46 2006/05/29 17:30:20 tg Exp $
 
 .include <bsd.own.mk>
 
@@ -6,8 +6,7 @@ CDROM?=		livecd${OSrev}.iso
 REALOBJDIR!=	readlink -nf ${.OBJDIR}
 HOSTCFLAGS?=	${CFLAGS} ${COPTS}
 
-#ANONCVSROOT=	_anoncvs@anoncvs.66h.42h.de:/cvs
-ANONCVSROOT=	anoncvs@unixforge.de:/cvs
+ANONCVSROOT=	anoncvs@anoncvs.mirbsd.org:/cvs
 
 all install:
 
@@ -131,7 +130,7 @@ makeimg: bsd.gz mr.fs
 	touch ${CDROM}
 	${SUDO} mkisofs -R -L -d -D -N -v -v -f \
 	    -b v${OSrev}/i386/boot.iso -c boot.cat -p "Thorsten Glaser" \
-	    -P "The http://MirBSD.org/ team and its contributors" \
+	    -P "The http://MirBSD.de/ team and its contributors" \
 	    -V "MirOS #${OSrev} BSD/${MACHINE} Live CD" \
 	    -volset "$$(uname -slm) Live" -sysid "MirOSBSD" \
 	    -no-emul-boot -boot-load-size 4 -boot-info-table \

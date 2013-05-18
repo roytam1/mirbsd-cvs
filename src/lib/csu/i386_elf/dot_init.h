@@ -1,9 +1,9 @@
-/* $MirOS: src/lib/csu/i386_elf/dot_init.h,v 1.2 2005/03/06 20:28:22 tg Exp $ */
+/* $MirOS: src/lib/csu/i386_elf/dot_init.h,v 1.3 2005/04/25 23:11:38 tg Exp $ */
 /* $NetBSD: dot_init.h,v 1.3 2002/11/22 06:45:00 thorpej Exp $ */
 
 /*-
  * Copyright (c) 2004, 2005
- *	Thorsten "mirabile" Glaser <tg@MirBSD.org>
+ *	Thorsten "mirabile" Glaser <tg@MirBSD.de>
  * Copyright (c) 2001 Ross Harvey
  * All rights reserved.
  *
@@ -74,4 +74,4 @@
 	"\n	call " __STRING(func)		\
 	"\n	.previous");
 
-__RCSID("$MirOS: src/lib/csu/i386_elf/dot_init.h,v 1.2 2005/03/06 20:28:22 tg Exp $");
+__RCSID("$MirOS: src/lib/csu/i386_elf/dot_init.h,v 1.3 2005/04/25 23:11:38 tg Exp $");

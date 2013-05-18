@@ -1,4 +1,4 @@
-/* $MirOS: src/sys/arch/i386/i386/powernow-k7.c,v 1.7 2005/06/29 17:05:18 tg Exp $ */
+/* $MirOS: src/sys/arch/i386/i386/powernow-k7.c,v 1.8 2006/02/26 01:17:26 tg Exp $ */
 /* $OpenBSD: powernow-k7.c,v 1.3 2004/08/05 04:56:05 tedu Exp $ */
 
 #ifndef SMALL_KERNEL
@@ -6,7 +6,7 @@
 /* #define K7PN_DEBUG */
 
 /*-
- * Copyright (c) 2005 Thorsten "mirabile" Glaser <tg@MirBSD.org>
+ * Copyright (c) 2005 Thorsten "mirabile" Glaser <tg@MirBSD.de>
  * Copyright (c) 2004 Martin "deadbug" Végiard <deadbug@gmail.com>
  * All rights reserved.
  *

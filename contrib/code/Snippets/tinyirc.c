@@ -1,4 +1,4 @@
-/* $MirOS: contrib/code/Snippets/tinyirc.c,v 1.7 2006/05/29 18:43:18 tg Exp $ */
+/* $MirOS: contrib/code/Snippets/tinyirc.c,v 1.8 2006/06/09 20:36:37 tg Exp $ */
 
 /* Configuration options */
 static const char DEFAULTSERVER[] = "irc.mirbsd.org";
@@ -43,7 +43,7 @@ static const char DEFAULTSERVER[] = "irc.mirbsd.org";
 
 
    Please visit the MirBSD project pages
-   at http://mirbsd.de/ or http://mirbsd.org/
+   at http://mirbsd.de/ or http://www.mirbsd.org/
 
    Missing features:
     * KNF - man 9 style
@@ -77,7 +77,7 @@ static const char DEFAULTSERVER[] = "irc.mirbsd.org";
 #define	__RCSID(x)	static const char __rcsid[] __attribute__((used)) = (x)
 #endif
 
-__RCSID("$MirOS: contrib/code/Snippets/tinyirc.c,v 1.7 2006/05/29 18:43:18 tg Exp $");
+__RCSID("$MirOS: contrib/code/Snippets/tinyirc.c,v 1.8 2006/06/09 20:36:37 tg Exp $");
 
 struct dlist {
     char name[64];

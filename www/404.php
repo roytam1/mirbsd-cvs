@@ -1,5 +1,5 @@
 <?php
-/* $MirOS: www/404.php,v 1.8 2005/12/20 08:58:45 tg Exp $ */
+/* $MirOS: www/404.php,v 1.9 2006/01/19 01:23:57 tg Exp $ */
 /*-
  * The MirOS Project - Webpages
  * Copyrighted material; read LICENCE for terms of use.
@@ -19,7 +19,7 @@
 	$rq = mybase64($rq).".inc";
 ?>
  <title>404 - N&uuml;s jefonde!</title>
- <meta name="RCSId" content="$MirOS: www/404.php,v 1.8 2005/12/20 08:58:45 tg Exp $" />
+ <meta name="RCSId" content="$MirOS: www/404.php,v 1.9 2006/01/19 01:23:57 tg Exp $" />
  <meta name="robots" content="index, follow" />
  <style type="text/css"><!--
 a.wmd {
@@ -65,7 +65,7 @@ body {
 ?>
 <table width="400" cellpadding="3" cellspacing="5">
 <tr style="height:40px;"><td valign="middle" align="left">
-  <a class="wmd" href="https://MirBSD.MirSolutions.de:445/"><img
+  <a class="wmd" href="http://mirbsd.de/"><img
   src="/pics/404-info.png" style="border:0px;" width="25" height="33"
   alt="[Info]" /></a>
  </td><td align="left" valign="middle" style="width:360px;">

@@ -1,11 +1,11 @@
-/* $MirOS: src/lib/csu/common_elf/common.h,v 1.2 2005/03/06 20:28:21 tg Exp $
+/* $MirOS: src/lib/csu/common_elf/common.h,v 1.3 2005/04/25 23:11:38 tg Exp $
  * derived from the following files:
  * $NetBSD: common.h,v 1.10 2004/08/26 20:57:47 thorpej Exp $
  */
 
 /*
  * Copyright (c) 2003, 2004, 2005
- *	Thorsten "mirabile" Glaser <tg@MirBSD.org>
+ *	Thorsten "mirabile" Glaser <tg@MirBSD.de>
  * Copyright (c) 1995 Christopher G. Demetriou
  * All rights reserved.
  *

@@ -1,30 +1,11 @@
 /**	$XFree86$ */
-/**	$MirOS: X11/xc/lib/font/fontfile/decompress.c,v 1.2 2005/04/14 18:06:24 tg Exp $ */
-/*	$OpenBSD: zopen.c,v 1.14 2003/08/03 01:26:46 deraadt Exp $	*/
+/**	$MirOS: src/usr.bin/compress/zopen.c,v 1.7 2006/06/15 19:13:07 tg Exp $ */
+/*	$OpenBSD: zopen.c,v 1.16 2005/06/26 18:20:26 otto Exp $	*/
 /*	$NetBSD: zopen.c,v 1.5 1995/03/26 09:44:53 glass Exp $	*/
 
 /*-
- * Copyright (c) 2005
- *	Thorsten "mirabile" Glaser <tg@MirBSD.org>
- *
- * Licensee is hereby permitted to deal in this work without restric-
- * tion, including unlimited rights to use, publicly perform, modify,
- * merge, distribute, sell, give away or sublicence, provided all co-
- * pyright notices above, these terms and the disclaimer are retained
- * in all redistributions or reproduced in accompanying documentation
- * or other materials provided with binary redistributions.
- *
- * Licensor offers the work "AS IS" and WITHOUT WARRANTY of any kind,
- * express, or implied, to the maximum extent permitted by applicable
- * law, without malicious intent or gross negligence; in no event may
- * licensor, an author or contributor be held liable for any indirect
- * or other damage, or direct damage except proven a consequence of a
- * direct error of said person and intended use of this work, loss or
- * other issues arising in any way out of its use, even if advised of
- * the possibility of such damage or existence of a nontrivial bug.
- */
-
-/*-
+ * Copyright (c) 2005, 2006
+ *	Thorsten Glaser <tg@mirbsd.de>
  * Copyright (c) 1985, 1986, 1992, 1993
  *	The Regents of the University of California.  All rights reserved.
  *
@@ -55,6 +36,17 @@
  * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
+ *
+ * Licensor offers the work "AS IS" and WITHOUT WARRANTY of any kind,
+ * express, or implied, to the maximum extent permitted by applicable
+ * law, without malicious intent or gross negligence; in no event may
+ * licensor, an author or contributor be held liable for any indirect
+ * or other damage, or direct damage except proven a consequence of a
+ * direct error of said person and intended use of this work, loss or
+ * other issues arising in any way out of its use, even if advised of
+ * the possibility of such damage or existence of a nontrivial bug.
+ *
+ *	From: @(#)zopen.c	8.1 (Berkeley) 6/27/93
  */
 
 /*-
@@ -87,7 +79,7 @@
 #endif
 
 static const char __sccsid[] = "@(#)zopen.c	8.1 (Berkeley) 6/27/93";
-static const char __rcsid[] = "$MirOS: X11/xc/lib/font/fontfile/decompress.c,v 1.2 2005/04/14 18:06:24 tg Exp $";
+static const char __rcsid[] = "$MirOS: X11/xc/lib/font/fontfile/decompress.c,v 1.3 2005/12/17 05:46:05 tg Exp $";
 
 #define	BITS		16		/* Default bits. */
 #define	HSIZE		69001		/* 95% occupancy */
@@ -215,18 +207,18 @@ zclose(BufFilePtr zsf, int doClose)
 	BufFilePtr f;
 
 	if (zsf == NULL)
-		return 0;
+		return (0);
 
 	zs = (struct s_zstate *)zsf->private;
 
 	if (zs == NULL)
-		return 0;
+		return (0);
 
 	f = zs->zs_file;
 	xfree(zs);
 
 	BufFileClose(f, doClose);
-	return 1;
+	return (1);
 }
 
 static int
@@ -236,8 +228,8 @@ zskip(BufFilePtr zsf, int len)
 
 	while (len--)
 		if ((gcode = BufFileGet(zsf)) == BUFFILEEOF)
-			return BUFFILEEOF;
-	return 0;
+			return (BUFFILEEOF);
+	return (0);
 }
 
 static const u_char rmask[9] =
@@ -256,11 +248,11 @@ zread(BufFilePtr zsf)
 	u_char *bp;
 
 	if (zsf == NULL)
-		return BUFFILEEOF;
+		return (BUFFILEEOF);
 	bp = zsf->buffer;
 	zs = (struct s_zstate *)zsf->private;
 	if ((zs == NULL) || (bp == NULL))
-		return BUFFILEEOF;
+		return (BUFFILEEOF);
 
 	switch (zs->zs_state) {
 	case S_START:
@@ -321,7 +313,7 @@ middle:		do {
 				zs->zs_bytes_out += BUFFILESIZE;
 				zsf->left = BUFFILESIZE - 1;
 				zsf->bufp = zsf->buffer + 1;
-				return zsf->buffer[0];
+				return (zsf->buffer[0]);
 			}
 			*bp++ = *--zs->zs_stackp;
 		} while (zs->zs_stackp > de_stack);
@@ -342,10 +334,10 @@ eof:
 	if (BUFFILESIZE - count) {
 		zsf->left = (BUFFILESIZE - count) - 1;
 		zsf->bufp = zsf->buffer + 1;
-		return zsf->buffer[0];
+		return (zsf->buffer[0]);
 	}
 	zsf->left = 0;
-	return BUFFILEEOF;
+	return (BUFFILEEOF);
 }
 
 /*-
@@ -402,7 +394,7 @@ getcode(struct s_zstate *zs)
 		zs->zs_offset = 0;
 		zs->zs_size = MIN(zs->zs_n_bits, zs->zs_ebp - zs->zs_bp);
 		if (zs->zs_size == 0)
-			return -1;
+			return (-1);
 		/* Round size down to integral number of codes. */
 		zs->zs_size = (zs->zs_size << 3) - (zs->zs_n_bits - 1);
 	}
@@ -441,19 +433,19 @@ BufFilePushCompressed(BufFilePtr f)
 	code_int gcode;
 
 	if ((gcode = BufFileGet(f)) != z_magic[0])
-		return 0;
+		return (0);
 	if ((gcode = BufFileGet(f)) != z_magic[1])
-		return 0;
+		return (0);
 	if ((gcode = BufFileGet(f)) == BUFFILEEOF)
-		return 0;
+		return (0);
 
-	if ((zs = xalloc(sizeof(struct s_zstate))) == NULL)
+	if ((zs = xalloc(sizeof (struct s_zstate))) == NULL)
 		return (NULL);
 
 	/* max # bits/code. */
 	zs->zs_maxbits = gcode & BIT_MASK;
 	if (zs->zs_maxbits > BITS)
-		return 0;
+		return (0);
 	/* Should NEVER generate this code. */
 	zs->zs_maxmaxcode = 1L << zs->zs_maxbits;
 	zs->zs_hsize = HSIZE;		/* For dynamic table sizing. */
@@ -470,5 +462,5 @@ BufFilePushCompressed(BufFilePtr f)
 	zs->zs_bp = zs->zs_ebp = zs->zs_buf;
 	zs->zs_file = f;
 
-	return BufFileCreate((char *)zs, zread, NULL, zskip, zclose);
+	return (BufFileCreate((char *)zs, zread, NULL, zskip, zclose));
 }

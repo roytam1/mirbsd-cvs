@@ -1,5 +1,5 @@
 /* evilwm - Minimalist Window Manager for X
- * Copyright (c) 2004-2005 Thorsten Glaser <tg@MirBSD.org>
+ * Copyright (c) 2004-2005 Thorsten Glaser <tg@MirBSD.de>
  * Copyright (C) 1999-2005 Ciaran Anscomb <evilwm@6809.org.uk>
  * see README for license and other details. */
 

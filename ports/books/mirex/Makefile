@@ -1,4 +1,4 @@
-# $MirOS: ports/books/mirex/Makefile,v 1.8 2006/05/27 21:12:00 tg Exp $
+# $MirOS: ports/books/mirex/Makefile,v 1.9 2006/05/28 19:33:17 tg Exp $
 
 COMMENT=		"MirOS sample files, keys and information"
 CATEGORIES=		books
@@ -8,7 +8,7 @@ CVS_DISTMODS=		contrib/samples src/share/doc/README
 CVS_DISTFILE=		mirex
 PKGNAME=		${_CVS_DISTF:R}-0
 RESPONSIBLE=		Thorsten Glaser <tg@mirbsd.de>
-HOMEPAGE=		http://MirBSD.org/
+HOMEPAGE=		http://MirBSD.de/
 
 # MirOS licence
 PERMIT_DISTFILES_CDROM=	Yes

@@ -1,4 +1,4 @@
-$MirOS: src/share/doc/legal/LICENCE-GNU,v 1.4 2006/01/13 03:49:33 tg Exp $
+$MirOS: src/share/doc/legal/LICENCE-GNU,v 1.5 2006/03/19 21:23:18 tg Exp $
 
 Readme for GNU software on MirOS
 ================================
@@ -84,8 +84,8 @@ Our changelogs are CVS, and the old ones from GNU
 are retrievable via CVS:
 
 anoncvs access with ssh:
-	CVSROOT=_anoncvs@anoncvs.66h.42h.de:/cvs
-	CVSROOT=_anoncvs@anoncvs.66h.42h.de:/ocvs
+	CVSROOT=anoncvs@anoncvs.mirbsd.org:/cvs
+	password: anoncvs
 
 	CVSROOT=anoncvs-mirbsd@anoncvs.allbsd.org:/???
 	Port: 2022
@@ -96,8 +96,7 @@ anonymous rsync access:
 	rsync://rsync.allbsd.org/mirbsd-cvs/
 	rsync://rsync.allbsd.org/mirbsd-old-cvs/
 	- via SSH
-	_anoncvs@anoncvs.66h.42h.de:/cvs/
-	_anoncvs@anoncvs.66h.42h.de:/ocvs/
+	anoncvs@anoncvs.mirbsd.org:/cvs/
 
 cvsweb access with http:
 	http://cvs.mirbsd.de/	(general)

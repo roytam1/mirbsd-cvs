@@ -1,10 +1,10 @@
-/* $MirOS: gcc/gcc/config/rs6000/mirbsd.h,v 1.1 2005/03/25 18:49:30 tg Exp $ */
+/* $MirOS: gcc/gcc/config/rs6000/mirbsd.h,v 1.2 2005/04/29 16:41:50 tg Exp $ */
 
 /* Definitions of target machine for GNU compiler,
    for PowerPC NetBSD systems.
    Copyright 2002, 2003, 2005 Free Software Foundation, Inc.
    Contributed by Wasabi Systems, Inc.
-   Hacked by Thorsten Glaser <tg@MirBSD.org>
+   Hacked by Thorsten Glaser <tg@MirBSD.de>
 
    This file is part of GCC.
 

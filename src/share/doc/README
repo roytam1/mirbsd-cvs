@@ -1,7 +1,7 @@
-# $MirOS: src/share/doc/README,v 1.6 2006/02/21 02:38:49 tg Exp $
+# $MirOS: src/share/doc/README,v 1.7 2006/03/19 21:36:16 tg Exp $
 # $OpenBSD: README,v 1.4 2004/07/29 10:50:02 jmc Exp $
 #-
-#  Copyright (c) 2005 Thorsten Glaser <tg@MirBSD.org>
+#  Copyright (c) 2005 Thorsten Glaser <tg@MirBSD.de>
 #  Copyright (c) 2004 Jason McIntyre <jmc@openbsd.org>
 #
 #  Permission to use, copy, modify, and distribute this software for any

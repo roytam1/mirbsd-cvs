@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/scripts/tarports,v 1.1 2006/04/10 21:18:24 tg Exp $
+# $MirOS: src/scripts/tarports,v 1.2 2006/05/28 21:19:19 tg Exp $
 #-
 # Copyright (c) 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -20,8 +20,7 @@
 # other issues arising in any way out of its use, even if advised of
 # the possibility of such damage or existence of a nontrivial bug.
 
-#anoncvsroot=_anoncvs@anoncvs.66h.42h.de:/cvs
-anoncvsroot=anoncvs@unixforge.de:/cvs
+anoncvsroot=anoncvs@anoncvs.mirbsd.org:/cvs
 
 mydir=$(readlink -nf $(dirname $0))
 cd $BSDRELDIR

@@ -1,4 +1,4 @@
-/* $MirOS: gcc/gcc/version.c,v 1.29 2006/06/11 10:23:32 tg Exp $ */
+/* $MirOS: gcc/gcc/version.c,v 1.30 2006/06/15 18:19:49 tg Exp $ */
 
 #include "version.h"
 
@@ -19,5 +19,5 @@ const char version_string[] = "3.4.6 (propolice; gpc; MirOS 0911)";
 #ifdef GPC
 const char bug_report_url[] = "<URL:http://www.gnu-pascal.de/todo.html>";
 #else
-const char bug_report_url[] = "<URL:http://mirbsd.org/>";
+const char bug_report_url[] = "<URL:http://mirbsd.de/>";
 #endif

@@ -1,9 +1,9 @@
 divert(-1)dnl
 #
-# $MirOS: src/gnu/usr.sbin/sendmail/cf/cf/openbsd-proto.mc,v 1.3 2005/04/26 21:04:38 tg Exp $
+# $MirOS: src/gnu/usr.sbin/sendmail/cf/cf/openbsd-proto.mc,v 1.4 2006/03/23 13:20:21 tg Exp $
 #
 # Copyright (c) 2002, 2003, 2004, 2005
-#	Thorsten "mirabile" Glaser <tg@MirBSD.org>
+#	Thorsten "mirabile" Glaser <tg@MirBSD.de>
 # Copyright (c) 1998 Sendmail, Inc.  All rights reserved.
 # Copyright (c) 1983 Eric P. Allman.  All rights reserved.
 # Copyright (c) 1988, 1993
@@ -19,7 +19,7 @@ divert(-1)dnl
 #
 
 divert(0)dnl
-VERSIONID(`$MirOS: src/gnu/usr.sbin/sendmail/cf/cf/openbsd-proto.mc,v 1.3 2005/04/26 21:04:38 tg Exp $')dnl
+VERSIONID(`$MirOS: src/gnu/usr.sbin/sendmail/cf/cf/openbsd-proto.mc,v 1.4 2006/03/23 13:20:21 tg Exp $')dnl
 dnl VERSIONID(`@(#)openbsd-proto.mc $Revision$')dnl
 OSTYPE(openbsd)dnl
 dnl
