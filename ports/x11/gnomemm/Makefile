@@ -26,8 +26,8 @@ MULTI_PACKAGES=		-docs
 SUBPACKAGE?=
 
 .if ${SUBPACKAGE} != "-docs"
-LIB_DEPENDS=		gdkmm.2,gtkmm.2::x11/gtkmm \
-			art_lgpl.4,gnome.36,gnomesupport.0,gnomeui.46::x11/gnome/libs
+#LIB_DEPENDS=		gdkmm.2,gtkmm.2::x11/gtkmm \
+#			art_lgpl.4,gnome.36,gnomesupport.0,gnomeui.46::x11/gnome/libs
 .endif
 .if defined(PACKAGING) && ${SUBPACKAGE} == "-docs"
 PKG_ARCH=		*
