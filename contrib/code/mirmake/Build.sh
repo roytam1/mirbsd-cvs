@@ -1,5 +1,5 @@
 #!/bin/sh
-# $MirOS: contrib/code/mirmake/Build.sh,v 1.29 2007/10/26 22:35:18 tg Exp $
+# $MirOS: contrib/code/mirmake/Build.sh,v 1.30 2007/10/27 00:17:19 tg Exp $
 #-
 # Copyright (c) 2004, 2005, 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -35,6 +35,11 @@ MAR=$6			# machine_arch (i386, powerpc) (optional)
 MOS=$7			# machine_os (BSD, Linux) (optional)
 MKS=$8			# mirbsdksh path (optional)
 BIN=$9			# binown:bingrp (optional)
+
+# help
+case $OSN in
+-*)	OSN= ;;
+esac
 
 if [ x"$MAC" = x"" ]; then
 	MAC=`machine 2>/dev/null || uname -m 2>/dev/null || echo unknown`
