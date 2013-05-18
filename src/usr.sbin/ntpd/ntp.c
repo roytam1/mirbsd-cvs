@@ -38,7 +38,7 @@
 #include "ntpd.h"
 #include "ntp.h"
 
-__RCSID("$MirOS: src/usr.sbin/ntpd/ntp.c,v 1.14 2007/10/03 21:41:46 tg Exp $");
+__RCSID("$MirOS: src/usr.sbin/ntpd/ntp.c,v 1.15 2007/10/03 21:51:08 tg Exp $");
 
 #define	PFD_PIPE_MAIN	0
 #define	PFD_MAX		1
@@ -451,7 +451,7 @@ priv_adjtime(void)
 
 	if (conf->trace > 2)
 		log_info("priv_adjtime, %d peers", offset_cnt);
-	if (conf->trace > 4)
+	if (conf->trace > 4 || (conf->trace && conf->debug))
 		for (i = 0; i < offset_cnt; ++i)
 			log_info("peer %2d: %s, trust %d "
 			    " st %2d dst %3dms ofs %6.1fms addr %s", i,
