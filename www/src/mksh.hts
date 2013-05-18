@@ -3,7 +3,7 @@
 
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.230 2009/05/16 21:00:49 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.231 2009/05/17 18:33:59 tg Exp $'
 mws_content <<'EOF'
 <h1>mksh(1) R37c</h1>
 <p>This is the website of the MirBSD™ Korn Shell, an actively developed free
@@ -1012,6 +1012,8 @@ mws_content <<'EOF'
  <li>[tg] Expose new MKSH_MIDNIGHTBSD01ASH_COMPAT ifdef; change it to
   only trigger if FPOSIX (or MKSH_BINSHREDUCED and <tt>/bin/sh</tt>)</li>
  <li>[tg] Remove already-dead “#if 0” style debugging code</li>
+ <li>[tg] Change some code into a more portable fashion, optimise</li>
+ <li>[tg] Improve the Syllable Desktop situation some (still half broken)</li>
 </ul>
 <p id="r37c">mksh R37c provides these follow-up fixes:</p><ul>
  <li>[tg] Improve præprocessor detection/work in <tt>Build.sh</tt></li>
