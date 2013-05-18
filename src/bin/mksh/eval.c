@@ -2,7 +2,7 @@
 
 #include "sh.h"
 
-__RCSID("$MirOS: src/bin/mksh/eval.c,v 1.14 2006/11/09 23:55:51 tg Exp $");
+__RCSID("$MirOS: src/bin/mksh/eval.c,v 1.15 2006/11/10 00:09:27 tg Exp $");
 
 /*
  * string expansion
@@ -929,8 +929,8 @@ glob(char *cp, XPtrV *wp, int markdirs)
 	if (glob_str(cp, wp, markdirs) == 0)
 		XPput(*wp, debunk(cp, cp, strlen(cp) + 1));
 	else
-		qsortp(XPptrv(*wp) + oldsize, (size_t)(XPsize(*wp) - oldsize),
-			xstrcmp);
+		qsort(XPptrv(*wp) + oldsize, XPsize(*wp) - oldsize,
+		    sizeof (void *), xstrcmp);
 }
 
 #define GF_NONE		0
