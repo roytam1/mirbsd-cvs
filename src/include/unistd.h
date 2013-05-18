@@ -1,4 +1,4 @@
-/**	$MirOS: src/include/unistd.h,v 1.4 2005/11/21 19:31:54 tg Exp $ */
+/**	$MirOS: src/include/unistd.h,v 1.5 2005/11/21 19:42:08 tg Exp $ */
 /*	$OpenBSD: unistd.h,v 1.53 2005/05/27 17:45:56 millert Exp $ */
 /*	$NetBSD: unistd.h,v 1.26.4.1 1996/05/28 02:31:51 mrg Exp $	*/
 
@@ -190,7 +190,7 @@ int	 rresvport(int *);
 int	 rresvport_af(int *, int);
 int	 ruserok(const char *, int, const char *, const char *);
 int	 quotactl(const char *, int, int, char *);
-void	 sbrk(intptr_t);
+void	*sbrk(intptr_t);
 
 #if !defined(_XOPEN_SOURCE)
 int	 select(int, fd_set *, fd_set *, fd_set *, struct timeval *);

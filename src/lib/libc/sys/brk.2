@@ -1,3 +1,4 @@
+.\"	$MirOS$
 .\"	$OpenBSD: brk.2,v 1.15 2005/08/10 01:06:13 jaredy Exp $
 .\"	$NetBSD: brk.2,v 1.7 1995/02/27 12:31:57 cgd Exp $
 .\"
@@ -39,10 +40,10 @@
 .Nd change data segment size
 .Sh SYNOPSIS
 .Fd #include <unistd.h>
-.Ft char *
-.Fn brk "const char *addr"
-.Ft char *
-.Fn sbrk "int incr"
+.Ft int
+.Fn brk "void *addr"
+.Ft void *
+.Fn sbrk "intptr_t incr"
 .Sh DESCRIPTION
 .Bf -symbolic
 The
@@ -137,6 +138,15 @@ to support the expansion.
 .Xr mmap 2 ,
 .Xr end 3 ,
 .Xr malloc 3
+.Sh STANDARDS
+The
+.Fn brk
+and
+.Fn sbrk
+function calls disappeared in
+.St -susv3 ,
+and this implementation honours
+.St -susv2 .
 .Sh HISTORY
 A
 .Fn brk
