@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.73 2006/08/26 15:47:46 tg Exp $
+# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.74 2006/08/26 16:45:27 tg Exp $
 #-
 # Copyright (c) 2004, 2005, 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -79,6 +79,7 @@ export SHELL=$new_mirksh
 top=$(cd $(dirname $0)/../..; pwd)
 mkdir $top/tmpx
 export PATH=$top/tmpx:$PATH
+export LDFLAGS="$LDFLAGS -L$top/tmpx -lmirmake"
 d_script=$top/dist/scripts
 d_src=$top/dist/src
 d_build=$top/build
@@ -161,6 +162,8 @@ CFLAGS="$COPTS $CPPFLAGS"
 echo | $NROFF -v 2>&1 | grep GNU >&- 2>&- && NROFF="$NROFF -c"
 export CC COPTS CPPFLAGS CFLAGS NROFF
 
+echo 'void dummy(void) { }' >$top/tmpx/dummy.c
+
 . $d_script/Version.sh
 
 if [[ -z $new_binids ]]; then
@@ -232,6 +235,14 @@ fi
 print "/^BINOWN/s/root/$binown/p\n/^BINGRP/s/bin/$bingrp/p\nwq" \
     | ed -s $d_build/mk/bsd.own.mk
 
+# Build dummy libmirmake
+export LDFLAGS="$LDFLAGS -L$top/tmpx -lmirmake"
+cd $top/tmpx
+echo 'void dummy(void) { }' >dummy.c
+$CC -c dummy.c
+rm -f libmirmake.a
+ar rcs libmirmake.a dummy.o
+
 # Build bmake
 cd $d_build
 if ! $OLDMAKE -f Makefile.boot bmake CC="$CC" MACHINE="${new_machin}" \
@@ -240,6 +251,8 @@ if ! $OLDMAKE -f Makefile.boot bmake CC="$CC" MACHINE="${new_machin}" \
 	echo "Error: build failure" >&2
 	exit 1
 fi
+
+# Build libmirmake
 
 # Build the paper
 cd $d_build
