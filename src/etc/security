@@ -1,6 +1,6 @@
 #!/usr/bin/env mksh
 # $Id$
-# $MirOS: src/etc/security,v 1.14 2008/11/30 16:49:20 tg Exp $
+# $MirOS: src/etc/security,v 1.15 2008/12/10 18:06:07 tg Exp $
 # $OpenBSD: security,v 1.71 2005/02/22 10:50:55 otto Exp $
 # from: @(#)security	8.1 (Berkeley) 6/9/93
 
@@ -638,6 +638,17 @@ if [ -d /etc/mtree ] ; then
 	fi
 else
 	echo /etc/mtree is missing
+fi
+
+# Record a list of installed packages too; be sure to record
+# the change to emptiness if previously recorded, but to not
+# complain if no MirPorts Framework package tools installed.
+if [[ -s /var/backups/pkglist || -x /usr/mpkg/sbin/pkg_info ]]; then
+	if [[ -x /usr/mpkg/sbin/pkg_info ]]; then
+		/usr/mpkg/sbin/pkg_info | sort
+	else
+		:
+	fi >/var/backups/pkglist
 fi
 
 # List of files that get backed up and checked for any modifications.
