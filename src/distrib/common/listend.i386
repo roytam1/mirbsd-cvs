@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/listend.i386,v 1.3 2006/08/19 11:49:05 tg Exp $
+# $MirOS: src/distrib/common/listend.i386,v 1.4 2006/09/29 22:25:36 tg Exp $
 
 # we want the disklabel without manual page
 CRUNCHSPECIAL disklabel	srcdir distrib/special/dl-noman
@@ -19,10 +19,10 @@ SCRIPT	${TOPDIR}/common/install.i386		install.md
 SPECIAL	chmod 755 install.md
 
 # kernel PPPD
-LINK	instbin					usr/sbin/chat
-LINK	instbin					usr/sbin/pppd
-COPY	${DESTDIR}/etc/ppp/options.sample	etc/ppp/options
-COPY	${DESTDIR}/etc/ppp/pap-secrets		etc/ppp/pap-secrets
-COPY	${DESTDIR}/etc/ppp/peers/isp.sample	etc/ppp/peers/isp
-COPY	${DESTDIR}/etc/ppp/peers/isp.chat.sample etc/ppp/peers/isp.chat
-SPECIAL	ln -sf etc/ppp/pap-secrets etc/ppp/chap-secrets
+#LINK	instbin					usr/sbin/chat
+#LINK	instbin					usr/sbin/pppd
+#COPY	${DESTDIR}/etc/ppp/options.sample	etc/ppp/options
+#COPY	${DESTDIR}/etc/ppp/pap-secrets		etc/ppp/pap-secrets
+#COPY	${DESTDIR}/etc/ppp/peers/isp.sample	etc/ppp/peers/isp
+#COPY	${DESTDIR}/etc/ppp/peers/isp.chat.sample etc/ppp/peers/isp.chat
+#SPECIAL	ln -sf etc/ppp/pap-secrets etc/ppp/chap-secrets
