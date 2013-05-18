@@ -1,3 +1,0 @@
-@comment $MirOS$
-@comment $OpenBSD: PFRAG.shared,v 1.2 2001/10/25 04:09:14 brad Exp $
-@lib lib/librecode.so.0.0
