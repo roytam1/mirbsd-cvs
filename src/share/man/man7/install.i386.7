@@ -1,8 +1,8 @@
-.\" $MirOS: src/share/man/man7/install.i386.7,v 1.11 2007/01/26 19:20:19 tg Exp $
+.\" $MirOS: src/share/man/man7/install.i386.7,v 1.12 2007/01/26 19:25:21 tg Exp $
 .\" :vim:se tw=72:
 .\" local convention: use .Ql for disk slice names
 .\" MirOS version number
-.nr v 9
+.nr v 10
 .Dd January 26, 2007
 .Dt INSTALL.I386 7
 .Os
@@ -536,17 +536,23 @@ to load.
 You will be able to repeat this step until all of your sets
 have been successfully loaded.
 Sets can be located on a mounted filesystem; a cdrom, disk or
-tape device; or a ftp, nfs or http server.
+tape device; or a ftp, nfs, http or https server.
 .Bd -ragged -offset indent
 Let's install the sets!
 
-Location of sets? (cd disk ftp http nfs or 'done') [cd]
+Location of sets? (cd disk ftp http shttp nfs or 'done') [cd]
 .Ed
 If you have the "big" CD-ROM, just enter
 .Ic cd
 here and accept the defaults for the next questions.
 For an installation via internet, enter
 .Ic http
+or
+.Ic shttp
+(actually, this means https, but since the first character of the
+response is enough, it can be shortened to
+.Sq s
+this way)
 and also accept the defaults.
 .Pp
 In any case, you will be dropped into the install set selector.

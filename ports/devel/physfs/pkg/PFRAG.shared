@@ -1,3 +1,0 @@
-@comment $MirOS$
-@comment $OpenBSD: PFRAG.shared,v 1.2 2004/03/31 03:48:37 jolan Exp $
-@lib lib/libphysfs.so.0.0

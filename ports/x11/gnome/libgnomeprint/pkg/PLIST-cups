@@ -1,3 +1,0 @@
-@comment $MirOS$
-lib/libgnomeprint/${VERSION}/modules/libgnomeprintcups.a
-lib/libgnomeprint/${VERSION}/modules/libgnomeprintcups.la
