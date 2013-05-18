@@ -1,5 +1,5 @@
 <!-- PageID: wlog-8 -->
-<small class="rcsid">$MirOS: www/content/d2xvZy04.inc,v 1.23 2006/01/27 00:32:09 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy04.inc,v 1.24 2006/01/29 19:07:37 bsiegert Exp $</small>
 <h1>MirBSD &ndash; WTF, We Have a Release!?</h1>
 <p><small><a href="#eof">bottom</a> or <a href="/?older">older</a>
  editions</small></p>
@@ -293,7 +293,7 @@ celebrate this event, rotate the wlog and start a new one.</p>
 </div>
 
 <div class="wlentry">
- <h3>29.01.2005 by bsiegert@</h3>
+ <h3>29.01.2006 by bsiegert@</h3>
  <p>Wow, exactly one month since I have written my last wlog entry.
   After 22C3, I have done very little work on MirOS, owing to two
   factors: my girlfriend and the january exams (seven of them!). The
@@ -316,4 +316,38 @@ celebrate this event, rotate the wlog and start a new one.</p>
   He has lost any recollection of that day. What has happened? Did he
   really install the virus? Are <i>they</i> after him?</p>
 </div>
+
+<div class="wlentry">
+ <h3>30.01.2006 by tg@</h3>
+ <p>Benny, do you still live in 2005? ;-)</p>
+ <p>I managed to appear at two exams today, finally: Operating Systems 1
+  and Technical Computer Science 1 (basically, Physics and Electronics).
+  I hope I've passed both but actually I am not sure. Weird stuff.</p>
+ <p>There's an mksh R26c with a few updates, and this one is about to be
+  submitted to Debian again. I wonder when Gentoo will update.</p>
+ <p>I'm pondering to update Lynx but I'd like to have a libiconv to link
+  with so I can enable japanese-utf8 support. On other news, I still got
+  no answer from Bruno Haible, maybe I should mail him again. We need to
+  have that libutf8 code.</p>
+ <p>I'd make a snapshot and install &#39764;&#29579; for the second time
+  but there's still an infrastructure bug pending in ports, some samples
+  checks by Benny, and a few other port fixes, so I'll probably postpone
+  it another while. This sucks but we can bear with it; thor is still up
+  and running stable enough for a while (yet can't test new ports, sigh)
+  and the redirection is working for now; no abundant traffic. The state
+  of the base system is quite well, it's only ports which need more work
+  (much more). Of course there are a few bugs, but that's normal, you'll
+  have to live with them as usual. We try to fix them, though.</p>
+ <p>Dang! Hubert Feyrer has changed his "blog software" so I must update
+  the hyperlinks. (Scripts around vi(1)? What were you thinking? To do a
+  thing like that... you script ed(1)!) I've sent him some more material
+  for his fun pages &ndash; reading symlink is still worth it sometimes,
+  but rarely.</p>
+ <p>I at <a href="http://chemnitzer.linux-tage.de/2006/info/">Chemnitzer
+  Linuxtage</a>? Possible, if someone sponsors me. I must get there (and
+  back) safely &ndash; by train or, preferred, car sharing with somebody
+  from the Bonn region, and live there somewhere (a place to sleep). Any
+  offers? <a href="mailto:tg@mirbsd.de">Mail</a> me.</p>
+</div>
+
 <p id="eof">Good luck, have fun, take care etc.pp</p>

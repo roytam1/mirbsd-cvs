@@ -1,7 +1,7 @@
 <!-- PageID: mksh -->
-<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.20 2006/01/27 00:54:10 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.21 2006/01/27 11:32:45 tg Exp $</small>
 
-<h1>mksh(1) R26b</h1>
+<h1>mksh(1) R26c</h1>
 <p>This is the MirBSD&trade; Korn Shell, a more or less portable
  version of the pdksh derivate which comes, as an alternative to
  the default (and not used by anyone sane) C Shell, or (ancient)
@@ -29,6 +29,11 @@
 <!--
 <p>Changes in the current (unreleased) development version:</p><ul>
 -->
+<p>Changes in the minor version <b>R26c</b>, relative to R26b:</p><ul>
+ <li>Code cleanup by OpenBSD</li>
+ <li>Documentation enhancements</li>
+ <li>Fix gcc4 warnings in portable mksh</li>
+</ul>
 <p>Changes in the minor version <b>R26b</b>, relative to R26:</p><ul>
  <li>Makeup changes to copyright file (change comment leader)</li>
  <li>Sync licence with MirOS template (disclaimer changed a little)</li>
@@ -166,12 +171,12 @@
 <h2 id="fetch">Getting The Source</h2>
 
 <p>The current version is <a
- href="http://www.66h.42h.de/MirOS/dist/mir/mksh/mksh-R26b.cpio.gz">http://www.66h.42h.de/MirOS/dist/mir/mksh/mksh-R26b.cpio.gz</a></p>
+ href="http://www.66h.42h.de/MirOS/dist/mir/mksh/mksh-R26c.cpio.gz">http://www.66h.42h.de/MirOS/dist/mir/mksh/mksh-R26c.cpio.gz</a></p>
 <ul>
  <li>Please use gzsig(1) to verify the integrity of the distfile instead!</li>
- <li>RMD160 (mksh-R26b.cpio.gz) = 7fd3974d82b49beb96faff90e484d03f57c5d064</li>
- <li>3211318474 228695 /MirOS/dist/mir/mksh/mksh-R26b.cpio.gz</li>
- <li>MD5 (mksh-R26b.cpio.gz) = 2c61f346b5d8561a45e382a3ebbbf3a8</li>
+ <li>RMD160 (mksh-R26c.cpio.gz) = a8b079639328528a7f0e19d643ea6002026fe8fd</li>
+ <li>549554166 228360 /MirOS/dist/mir/mksh/mksh-R26c.cpio.gz</li>
+ <li>MD5 (mksh-R26c.cpio.gz) = b2fcc52314b07b31d4b4452da5f6ffc8</li>
 </ul>
 
 <h2>Installation</h2>
@@ -186,13 +191,13 @@
  please note that most of them, seen on Mozilla&reg; and
  its derivates as well as Microsoft Internet Explorer,
  have a bug where the file is saved correctly
- as <em>mksh-R26b.cpio.gz</em> but already decompressed.</p>
+ as <em>mksh-R26c.cpio.gz</em> but already decompressed.</p>
 
 <h3 id="extract">Unpacking</h3>
-<p>On decent systems, you can just use <tt>tar xzf mksh-R26b.cpio.gz</tt>
+<p>On decent systems, you can just use <tt>tar xzf mksh-R26c.cpio.gz</tt>
  to extract the file. On quite damaged systems such as everything which
  is not MirOS or anything else with <a href="/?MirCpio">MirCpio</a>
- (paxmirabilis), use <tt>gzip -dc mksh-R26b.cpio.gz | cpio -mid</tt></p>
+ (paxmirabilis), use <tt>gzip -dc mksh-R26c.cpio.gz | cpio -mid</tt></p>
 <p>Of course, skip the gzip stage (use cat) or the 'z' flag
  if your browser already decompressed the file.</p>
 
@@ -249,10 +254,10 @@
  available at <a
  href="http://www.xs4all.nl/~hanb/software/crux/han/mksh/">http://www.xs4all.nl/~hanb/software/crux/han/mksh/</a> (thanks
  Han Boetes), and a Debian source package has been made by me
- and uploaded by Bastian "waldi" Blank as a sponsor; it was
- finally accepted into Debian unstable, soon to be in Debian
- testing. A Gentoo ebuild is available, written by Hanno Boeck,
- just "emerge mksh" to install it.</p>
+ and uploaded by Bastian "waldi" Blank as a sponsor; it is
+ now part of Debian unstable and Debian testing. A Gentoo ebuild
+ is available, written by Hanno Boeck, just "emerge mksh" to
+ install it.</p>
 
 <h3 id="buildsfu">Microsoft Services for Unix</h3>
 <p>It is recommended to use the C shell instead of the
@@ -287,6 +292,12 @@
 
 <p>The MirOS Project has tested mksh on the following operating systems:</p>
 <ul>
+ <li>mksh R26c<ul>
+  <li>Debian GNU/Linux: works (debianised)</li>
+  <li>MirOS #8/i386: both as part of base installation and via ports</li>
+  <li>Solaris 8/sparc64: works</li>
+  <li>Windows&reg; 2000 / Interix: works, no testsuite (perl too old)</li>
+ </ul></li>
  <li>mksh R26b contains no code changes relative to mksh R26</li>
  <li>mksh R26<ul>
   <li>MirOS #8: Obviously works, as part of the base install.</li>
