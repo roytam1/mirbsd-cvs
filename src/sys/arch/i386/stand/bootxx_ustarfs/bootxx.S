@@ -34,10 +34,10 @@ LHD_USTAR_name:
 	.globl	_start
 	.type	_start,@function
 _start:	/* bootxx entry point 07C00 */
-	.byte	0x34, 0x00	/* XOR AL,00h ; this is a NOP */
+	.byte	0x34, 0x00		/* XOR AL,00h ; this is a NOP */
 	/* end of string (filename) for ustar */
 
-	/* code to load the rest of the bootsector */
+	/* the rest of the bootsector… */
 	xor	ecx,ecx
 	mov	ss,cx
 	mov	sp,0x7BFC
@@ -49,107 +49,142 @@ _start:	/* bootxx entry point 07C00 */
 	 * disabled. We are loaded at 0x07C00 absolute (so much, we
 	 * can assume, but not segment:offset). We ignore a possib-
 	 * ly loaded partition table (ustarfs is intended for flop-
-	 * pies), load sector #1 (assuming the bootsector is indeed
-	 * sector #0) and jump there. It fits nice with ustar.
+	 * pies), relocate ourselves, and jump to the main code. It
+	 * fits nice with ustar.
 	 */
 
 	mov	ds,cx
 	mov	si,0x7C00 + offset LHD_USTAR_magic - offset _start
-	call	4f
+	call	Lotxt
 	mov	ax,0x0E20
 	int	0x10
 
 	mov	ax,SA_LINKSEG
-	mov	ds,ax
 	mov	es,ax
 	push	ax
 	push	offset Lmain
-	mov	bx,0xFE00
-	/* we assume CHS loading works here */
-	mov	ax,0x0201
-	mov	cx,2
-	mov	dh,0
-1:	pusha
-	stc
-	int	0x13
-	popa
-	jnc	2f
-	pusha
-	xor	ax,ax
-	int	0x13
-	popa
-	jmp	1b
-2:	lret
+	push	ax
+	mov	si,0x7C00
+	mov	di,offset _start
+	mov	cx,0x0200
+	rep	movsb
+	pop	ds
+	lret
 
-3:	mov	ah,0x0E
+	/* subroutine for the actual BIOS disc I/O call */
+LldCY:	dec	bp
+	pusha
+	pushf
+	xor	ax,ax			/* reset drive */
+	int	0x13
+	popf
+	mov	si,offset Lfmsg
+	jz	Lbarf
+	mov	ax,0x0E30		/* number as fail meter */
+	add	ax,bp
 	mov	bx,7
 	int	0x10
-4:	lodsb
-	or	al,al
-	jnz	3b
+	popa
+Lldlp:	pusha
+	stc
+	int	0x13
+	pushf
+	mov	ax,0x0E2E		/* "dot" as progress meter */
+	mov	bx,7
+	int	0x10
+	popf
+	sti
+	popa
+	jc	LldCY
+	pop	bx
+	pop	ebp
 	ret
 
+Lload:	.word	LsLBA
+
 	/* ustar padding */
-	. = LHD_USTAR_name + 98
-	.byte	0x90, 0
+	.org	LHD_USTAR_name + 100, 0x90
+
 LHD_USTAR_mode:
-	.asciz	"0100600"
+Lpblk:
+	.asciz	"0100000"
 LHD_USTAR_uid:
 	.asciz	"0000000"
+/* end of Lpblk */
 LHD_USTAR_gid:
 	.asciz	"0000003"
 LHD_USTAR_size:
-	.asciz	"00000001000"		/* 512 in octal */
+	.asciz	"00000000000"
 LHD_USTAR_mtime:
-	.asciz	"11322205736"		/* time_t */
+	.asciz	"11322231406"		/* (print obase=8; date +%s) | bc */
 LHD_USTAR_chksum:
 	.asciz	"cheksum"		/* filled in post-build */
 LHD_USTAR_typeflag:
-	.byte	0x30
+	.byte	0x32
 LHD_USTAR_linkname:
-	. = LHD_USTAR_linkname + 100
+	.asciz	"boot"
+
+	Lname = LHD_USTAR_linkname
+	Lnamend = .
+
+Lmain:	sti
+	/**
+	 * Sane environment, flags cleared, interrupts enabled. We
+	 * have been loaded at SA_LINKSEG:FE00h (from _start up to
+	 * Lmagic). CS=DS=ES=SA_LINKSEG (=4000h)  SS:SP=0000:7BFCh
+	 * DL=drive.  The rest of the machine state is undefined.
+	 */
+	mov	[Ldrv],dl
+	mov	si,offset Lemsg
+	cmp	dl,0x80
+	jb	Lbarf			/* floppy: only try CHS */
+	call	Lotxt
+	/* FALLTHROUGH */
+
+Lretr:	xor	bx,bx			/* load offset (begin) */
+	push	bx			/* return address */
+	xor	ebp,ebp
+	inc	bp			/* load sector (begin) */
+
+Lscan:	call	Lread			/* load first/next sector */
+	inc	ebp
+	cmp	byte ptr [LHD_USTAR_typeflag - _start],0x30
+	jne	Lscan
+	mov	si,offset LHD_USTAR_magic - offset _start
+	mov	di,offset LHD_USTAR_magic
+	mov	cx,offset LHD_USTAR_uname - offset LHD_USTAR_magic
+	repe	cmpsb
+	jne	Lscan
+	xor	si,si
+	mov	di,offset Lname		/* "boot\0" */
+	mov	cx,offset Lnamend - offset Lname
+	repe	cmpsb
+	jne	Lscan
+	/* found, now load FE00h bytes of second-stage bootloader */
+
+	/* note: BX is still 0000h here… */
+Lloop:	call	Lread			/* load next sector */
+	inc	ebp
+	add	bh,2
+	cmp	bh,0xFE
+	jb	Lloop
+	/* loaded 0000..FDFFh into memory */
+
+	/* check bootloader magic */
+	mov	eax,ds:[4]		/* location of magic in /boot */
+	cmp	eax,0x696D4F00
+	mov	si,offset Lmmsg
+	jne	Lbarf
+	mov	si,offset Lbmsg
+	jmp	Lotxt
+
+	.org	LHD_USTAR_linkname + 100, 0x90
 LHD_USTAR_magic:
 	.asciz	"ustar"
 LHD_USTAR_version:
 	.ascii	"00"
 LHD_USTAR_uname:
 	.asciz	"root"
-	. = LHD_USTAR_uname + 32
-LHD_USTAR_gname:
-	.asciz	"sys"
-	. = LHD_USTAR_gname + 32
-LHD_USTAR_devmajor:
-	.long	0, 0
-LHD_USTAR_devminor:
-	.long	0, 0
-LHD_USTAR_prefix:
-	. = LHD_USTAR_prefix + 155
-	/* ustar header ends here */
-L_ustar_padding:
-	.long	0, 0, 0xDEADBEEF
-
-	. = _start + 512
-L_code_start:
-
-	/* LBA parameter block */
-Lpblk:	.word	0x10		/* size */
-	.word	0		/* number of sectors */
-	.long	0		/* seg:ofs xfer buffer */
-	.long	0, 0		/* LBA address */
-
-	/* disc access data */
-geomh:	.word	0		/* tracks per cylinder */
-geoms:	.word	0		/* sectors per track */
-Lload:	.word	LsLBA
-Ldrv:	.byte	0		/* BIOS drive number */
-
-Lemsg:	.ascii	__BOOT_VER
-	.asciz	" Loading "
-Lmmsg:	.ascii	"bad magic"
-Lfmsg:	.ascii	" error"
-Lbmsg:	.asciz	"\r\n"
-Lname:	.asciz	"boot"
-	Lnmsz = . - Lname
 
 	/* output NUL-terminated string from ds:si */
 Lotxt0:	mov	ah,0x0E
@@ -160,53 +195,29 @@ Lotxt:	lodsb
 	jnz	Lotxt0
 	ret
 
-Lmain:	sti
-	/**
-	 * Sane environment, flags cleared, interrupts enabled. We
-	 * have been loaded at SA_LINKSEG:FE00h (from L_code_start
-	 * to L_code_end) by the code placed in the ustar filename
-	 * buffer past the NUL. CS = DS = ES = SA_LINKSEG = 4000h;
-	 * SS:SP = 0000:7BFCh; DL = drive.
-	 * The rest of the state is pretty much undefined.
-	 */
-	mov	[Ldrv],dl
-	mov	si,offset Lemsg
-	cmp	dl,0x80
-	jb	Lbarf		/* floppy: only try CHS */
-	call	Lotxt
-	/* FALLTHROUGH */
+Lemsg:	.ascii	__BOOT_VER
+	.asciz	" Loading "
+	.org	LHD_USTAR_uname + 32, 0x90
+LHD_USTAR_gname:
+	.asciz	"sys"
+Lmmsg:	.ascii	"bad magic"
+Lfmsg:	.ascii	" error"
+Lbmsg:	.asciz	"\r\n"
 
-Lretr:	xor	bx,bx			/* load offset (begin) */
-	push	bx			/* return address */
-	mov	ebp,2			/* load sector (begin) */
-
-Lscan:	/* load first/next sector */
-	call	Lread
-	inc	ebp
-	xor	si,si
-	mov	di,offset Lname		/* "boot\0" */
-	mov	cx,5
-	repe	cmpsb
-	jne	Lscan
-	/* found, now load FE00h bytes of second-stage bootloader */
-	/* note: BX is 0000h here... */
-Lloop:	/* load next sector */
-	call	Lread
-	inc	ebp
-	add	bh,2
-	cmp	bh,0xFE
-	jb	Lloop
-	/* loaded 0000..FDFFh into memory */
-
-	/* check bootloader magic */
-	mov	eax,ds:[4]	/* location of magic in /boot */
-	cmp	eax,0x696D4F00
-	mov	si,offset Lmmsg
-	jne	Lbarf
-	mov	si,offset Lbmsg
-	call	Lotxt
-	mov	si,offset _start
+LsLBA:	mov	ah,0x42
 	ret
+
+	.org	LHD_USTAR_gname + 32, 0x90
+LHD_USTAR_devmajor:
+	.long	0
+geomh:	.word	0		/* tracks per cylinder */
+geoms:	.word	0		/* sectors per track */
+LHD_USTAR_devminor:
+	.long	0
+Ldrv:	.byte	0		/* BIOS drive number */
+	.byte	0, 0, 0
+LHD_USTAR_prefix:
+	.byte	0
 
 Lbarf:	call	Lotxt
 	mov	ax,offset LsCHS
@@ -216,57 +227,6 @@ Lbarf:	call	Lotxt
 	xor	ax,ax
 	int	0x16
 	jmp	0xF000,0xFFF0
-
-Lread:	/* load sector [EBP] to CS:BX */
-	push	ebp
-	push	bx
-	/* create LBA parameter block */
-	mov	di,offset Lpblk
-	mov	ax,0x0010
-	stosw
-	mov	al,1
-	stosw
-	mov	ax,bx
-	stosw
-	mov	ax,cs
-	stosw
-	mov	eax,ebp
-	stosd
-	xor	eax,eax
-	stosd
-
-	mov	si,offset Lpblk
-	call	[Lload]
-	mov	bp,4		/* number of retries */
-	mov	dl,[Ldrv]
-Lldlp:	pusha
-	stc
-	int	0x13
-	pushf
-	mov	ax,0x0E2E	/* "dot" as progress meter */
-	mov	bx,7
-	int	0x10
-	popf
-	sti
-	popa
-	jnc	Lldok
-	dec	bp
-	pusha
-	pushf
-	xor	ax,ax		/* reset drive */
-	int	0x13
-	popf
-	mov	si,offset Lfmsg
-	jz	Lbarf
-	mov	ax,0x0E30	/* number as fail meter */
-	add	ax,bp
-	mov	bx,7
-	int	0x10
-	popa
-	jmp	Lldlp
-Lldok:	pop	bx
-	pop	ebp
-	ret
 
 	/* obtain drive geometry */
 Lgeom:	pusha
@@ -312,9 +272,35 @@ LsCHS:	mov	cx,[geoms]
 	mov	ax,0x0201
 	ret
 
-LsLBA:	mov	ah,0x42
-	ret
+Lread:	/* load sector [EBP] to CS:BX */
+	push	ebp
+	push	bx
+	/* create LBA parameter block */
+	mov	di,offset Lpblk
+	mov	ax,0x0010
+	stosw
+	mov	al,1
+	stosw
+	mov	ax,bx
+	stosw
+	mov	ax,cs
+	stosw
+	mov	eax,ebp
+	stosd
+	xor	eax,eax
+	stosd
 
-	. = L_code_start + 508
-	.long	0x20355604	/* just so I know */
-L_code_end:
+	mov	si,offset Lpblk
+	call	[Lload]
+	mov	bp,4		/* number of retries */
+	mov	dl,[Ldrv]
+	jmp	Lldlp
+
+	.org	LHD_USTAR_prefix + 155, 0x90
+	/* ustar header ends here */
+L_ustar_padding:
+	.word	0
+	.long	0xDEADBEEF
+	.word	0xCAFE
+	. = _start + 510
+Lmagic:	.byte	0x55, 0xAA

@@ -1,10 +1,11 @@
-# $MirOS: src/sys/arch/i386/stand/Makefile,v 1.15 2009/01/11 14:40:26 tg Exp $
+# $MirOS: src/sys/arch/i386/stand/Makefile,v 1.16 2009/01/17 11:50:48 tg Exp $
 # $OpenBSD: Makefile,v 1.15 2007/11/25 18:25:31 deraadt Exp $
 
 .if ${MACHINE_ARCH} == "i386"
   SUBDIR+=	etc
   SUBDIR+=	libsa
   SUBDIR+=	bootxx
+  SUBDIR+=	bootxx_ustarfs
   SUBDIR+=	mbr
   SUBDIR+=	fdboot
 .endif

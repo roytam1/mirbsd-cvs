@@ -4,7 +4,7 @@ PROG=		bootxx_ustarfs
 SRCS+=		bootxx.S
 NOMAN=		Yes
 INSTALL_STRIP=	# empty
-LDFLAGS=	-nostdlib -Ttext 0xFC00 -N -Bstatic -e _start
+LDFLAGS=	-nostdlib -Ttext 0xFE00 -N -Bstatic -e _start
 CPPFLAGS+=	${DEBUGFLAGS}
 CLEANFILES+=	${PROG}.elf ${PROG}.tmp ${.CURDIR}/disasm
 
@@ -21,7 +21,7 @@ ${PROG}: ${OBJS} ${DPADD}
 disasm: ${.CURDIR}/disasm
 
 ${.CURDIR}/disasm: ${PROG}
-	-(cat ${PROG}; dd if=/dev/zero count=3 2>&-) | tar -tvvf -
+	(cat ${PROG}; dd if=/dev/zero count=2 2>&-) | tar -tvvf -
 	objdump -dS -Mintel,i8086 ${PROG}.elf >$@
 
 .include <bsd.prog.mk>
