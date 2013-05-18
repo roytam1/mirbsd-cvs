@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/bsd.own.mk,v 1.43 2006/11/01 20:48:58 tg Exp $
+# $MirOS: src/share/mk/bsd.own.mk,v 1.44 2007/02/18 03:24:07 tg Exp $
 # $OpenBSD: bsd.own.mk,v 1.92 2005/01/18 00:28:42 mickey Exp $
 # $NetBSD: bsd.own.mk,v 1.24 1996/04/13 02:08:09 thorpej Exp $
 
@@ -17,10 +17,7 @@ DEBUGLIBS?=	Yes	# yes (snapshots), no (releases), removed (mirmake)
 MALLOC_TYPE?=	mmap	# default: mmap, other: brk
 
 CROSS_MODE?=	No
-.if make(obj)
-CROSS_MODE:=	No
-.endif
-.if ${CROSS_MODE:L} == "yes"
+.if !make(obj) && (${CROSS_MODE:L} == "yes")
 DEFFLAGS=	No
 EXPERIMENTAL=	Yes
 .endif

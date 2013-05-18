@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/sys.mk,v 1.92 2007/03/08 09:01:58 tg Exp $
+# $MirOS: src/share/mk/sys.mk,v 1.93 2007/03/08 10:07:02 tg Exp $
 # $OpenBSD: sys.mk,v 1.45 2005/03/07 00:06:00 deraadt Exp $
 # $NetBSD: sys.mk,v 1.27 1996/04/10 05:47:19 mycroft Exp $
 # @(#)sys.mk	5.11 (Berkeley) 3/13/91
@@ -192,11 +192,17 @@ CTAGS?=		/usr/bin/ctags
 
 # Debugging output
 .if defined(___DISPLAY_MAKEVARS)
+${.TARGETS}: .MADE
+	@:
+.  if empty(.TARGETS)
 .MAIN: ___display_makevars
-.endif
-___display_makevars: .PHONY .NOTMAIN
-.for _i in ${___DISPLAY_MAKEVARS}
+___display_makevars::
+.  else
+.BEGIN:
+.  endif
+.  for _i in ${___DISPLAY_MAKEVARS}
 	@print -r -- ${${_i}:Q}
-.endfor
+.  endfor
+.endif
 
 .endif
