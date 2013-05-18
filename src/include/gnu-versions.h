@@ -1,0 +1,4 @@
+/* $MirOS$ */
+
+#undef _GNU_GLOB_INTERFACE_VERSION
+#define _GNU_GLOB_INTERFACE_VERSION 1

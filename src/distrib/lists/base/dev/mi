@@ -745,6 +745,7 @@
 ./usr/include/ftw.h
 ./usr/include/getopt.h
 ./usr/include/glob.h
+./usr/include/gnu-versions.h
 ./usr/include/gpc-in-c.h
 ./usr/include/grp.h
 ./usr/include/histedit.h
