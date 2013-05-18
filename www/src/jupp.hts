@@ -1,14 +1,14 @@
-# $MirOS: www/src/jupp.hts,v 1.40 2012/12/20 22:55:07 tg Exp $
+# $MirOS: www/src/jupp.hts,v 1.41 2012/12/22 00:06:17 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/juppp "jupp – Programmer’s Editor"
 mws_setheadline jupp – the Editor which sucks less
-mws_putheader '$MirOS: www/src/jupp.hts,v 1.40 2012/12/20 22:55:07 tg Exp $'
+mws_putheader '$MirOS: www/src/jupp.hts,v 1.41 2012/12/22 00:06:17 tg Exp $'
 mws_content <<'EOF'
 <p>The current version is <em>joe-2.8jupp2</em> for MS-DOS® compatible systems,
- and <em>joe-3.1jupp22</em> for Unix/GNU compatible systems. This page is
+ and <em>joe-3.1jupp23</em> for Unix/GNU compatible systems. This page is
  accessible under <a href="http://mirbsd.de/jupp">http://mirbsd.de/jupp</a>
  canonically.</p>
 
@@ -82,8 +82,15 @@ mws_content <<'EOF'
   <tt>jupp -mold 'ffirst,"\\&lt;rtn\\&gt;",rtn,"i",rtn' /etc/joe/*rc</tt></li>
  <li>Remove whitespace from EOL: ^K ]</li>
  <li>Hex Editor: ^O g</li>
+ <li>Jump to file offset: ^Q O</li>
  <li>Syntax highlighting: on/off ^O h – set syntax ^O y</li>
  <li>xterm: hold the Shift key pressed while moving to easily select text</li>
+ <li>Hit Esc+p to enter the bracketed paste mode (automatic if your terminal
+  is a recent <tt>xterm-xfree86</tt>)</li>
+ <li>Math mode now supports <tt>0x</tt> præfix for hexadecimal numbers;
+  Esc+# inserts the last equation, Esc+= its result</li>
+ <li>^Q P after ^K R jumps to the end of the just inserted file</li>
+ <li>^K - opens a scratch buffer (ignores modifications upon exit)</li>
 </ul>
 
 <h2 id="docs">Documentation</h2>
@@ -102,8 +109,8 @@ mws_content <<'EOF'
 <h2 id="fetch">Retrieval</h2>
 <h3>Direct download</h3>
 <p>You can download jupp at least from one of the following mirrors:</p><ul>
- <li><a href="https://www.mirbsd.org/MirOS/dist/jupp/joe-3.1jupp22.tgz">https://www.mirbsd.org/MirOS/dist/jupp/joe-3.1jupp22.tgz</a></li>
- <li><a href="http://pub.allbsd.org/MirOS/dist/jupp/joe-3.1jupp22.tgz">http://pub.allbsd.org/MirOS/dist/jupp/joe-3.1jupp22.tgz</a></li>
+ <li><a href="https://www.mirbsd.org/MirOS/dist/jupp/joe-3.1jupp23.tgz">https://www.mirbsd.org/MirOS/dist/jupp/joe-3.1jupp23.tgz</a></li>
+ <li><a href="http://pub.allbsd.org/MirOS/dist/jupp/joe-3.1jupp23.tgz">http://pub.allbsd.org/MirOS/dist/jupp/joe-3.1jupp23.tgz</a></li>
  <li style="list-style:none;">↑ Unix │ DOS ↓</li>
  <li><a href="https://www.mirbsd.org/MirOS/dist/jupp/joe-2.8jupp2.cpio.gz">https://www.mirbsd.org/MirOS/dist/jupp/joe-2.8jupp2.cpio.gz</a></li>
  <li><a href="http://pub.allbsd.org/MirOS/dist/jupp/joe-2.8jupp2.cpio.gz">http://pub.allbsd.org/MirOS/dist/jupp/joe-2.8jupp2.cpio.gz</a></li>
@@ -111,10 +118,10 @@ mws_content <<'EOF'
 </ul>
 <p>Please do not forget to check the received file’s integry using both
  gzsig(1) and one of the hashes below:</p><ul>
- <li>RMD160 (joe-3.1jupp22.tgz) = 39111bef7a3757f26ae753879f235170a6b029fe</li>
- <li>TIGER (joe-3.1jupp22.tgz) = 0968090ed157c07d0daafa05fd3beb5d13c182bc192c818c</li>
- <li>2807637504 441340 /MirOS/dist/jupp/joe-3.1jupp22.tgz</li>
- <li>MD5 (joe-3.1jupp22.tgz) = 509757c586cecdf7a686b2d27b02fcf6</li>
+ <li>RMD160 (joe-3.1jupp23.tgz) = d3d89330de3b4dc037b97b7f5652f6e57cd695cb</li>
+ <li>TIGER (joe-3.1jupp23.tgz) = e34d0a17215be8ef95931ea25e781cdc16c6fc2a7ab245f4</li>
+ <li>666812604 446234 /MirOS/dist/jupp/joe-3.1jupp23.tgz</li>
+ <li>MD5 (joe-3.1jupp23.tgz) = 96bcaaa4d17c0a99a76d287a0237e1fa</li>
  <li style="list-style:none;">↑ Unix │ DOS ↓</li>
  <li>RMD160 (joe-2.8jupp2.cpio.gz) = a4e8b49faae7dcda377479311092d9868207fe41</li>
  <li>TIGER (joe-2.8jupp2.cpio.gz) = c3a234efde9365e3b3d28094ce6133babc9c7325d8613555</li>
@@ -124,9 +131,9 @@ mws_content <<'EOF'
 
 <h3>Unpacking</h3>
 <p>Use a command like<br />
- <tt>$ tar xzf joe-3.1jupp22.tgz</tt> # paxtar, bsdtar, GNU tar, …<br />
- <tt>$ gzip -dc joe-3.1jupp22.tgz | cpio -idm</tt> # any cpio<br />
- <tt>$ pax -r -z &lt;joe-3.1jupp22.tgz</tt> # any POSIX® archiver<br />
+ <tt>$ tar xzf joe-3.1jupp23.tgz</tt> # paxtar, bsdtar, GNU tar, …<br />
+ <tt>$ gzip -dc joe-3.1jupp23.tgz | cpio -idm</tt> # any cpio<br />
+ <tt>$ pax -r -z &lt;joe-3.1jupp23.tgz</tt> # any POSIX® archiver<br />
  to extract the distfile. The DOS version requires similar commands,
  although GNU tar will not be able to extract the <tt>.cpio.gz</tt> archive.
  Both extract into a sub-directory <tt>jupp/</tt> (not versioned).</p>
@@ -287,26 +294,38 @@ $ $SUDO make install</pre>
 </ul>
 
 <h2 id="clog">ChangeLog for Unix</h2>
+<!--
 <p>[2012-12-21] Changes in the current development version:</p><ul>
+-->
+<p id="r3_1j23">[2012-12-30] Changes for joe-3.1jupp23:</p><ul>
+ <li>Overhaul and harmonise syntax detection and editor defaults
+  across all six <tt>*rc</tt> files (except jupp continues having no
+  wordwrap by default and now disables guess_indent except in
+  <tt>*.txt</tt> files); improve shell/mail wildcards; recognise a lot
+  more diff files by pathname or content patterns</li>
  <li>Recognise more Python keywords in syntax highlighting
   (patch contributed by Eike Jesinghaus)</li>
  <li>Allow building against bionic libc (for Android)</li>
- <li>Overhaul and harmonise syntax detection and editor defaults
-  across all six *rc files (except jupp continues having no
-  wordwrap by default and now disables guess_indent except in
-  *.txt files); improve shell/mail wildcards; recognise a lot
-  more diff files by pathname or content patterns</li>
  <li>Securely make backup files using mkstemp(3) to avoid /tmp
   being exploited (security issue reported by Han Boetes)</li>
  <li>Print math results more precisely; if possible, as integer</li>
  <li>Permit hexadecimal input in math expressions (which include
   goto columns, lines and offsets, repeat counts, numeric options)</li>
- <li>Hook up GOTO “byte” offset command as ^QO, “col”umn as ^Q-
-  and scratch (with præfix) as ^K- in jupprc</li>
- <li>^KE no longer trashes buffers cloned by ^KO (therefore, ^K; does
-  not need to split the screen before ctags(1) search any more)</li>
+ <li>Hook up GOTO “byte” offset command as <tt>^QO</tt>, “col”umn as
+  <tt>^Q-</tt> and scratch (with præfix) as <tt>^K-</tt> in jupprc</li>
+ <li><tt>^KE</tt> no longer trashes buffers cloned by <tt>^KO</tt>
+  (therefore, <tt>^K;</tt> does not need to split the screen before
+  ctags(1) search any more)</li>
  <li>Address a clang-3.2 found bug and most scan-build warnings,
   though those mostly with pointless workarounds (and ignore some)</li>
+ <li>Hook up new functionality in jupprc: <tt>^[#</tt> inserts last math
+  equation; <tt>^[=</tt> its result</li>
+ <li>Use <tt>${SHELL:-${EXECSHELL:-/bin/sh}}</tt> for all commands using
+  a shell, checking access to the binary with fallback to the next</li>
+ <li>After <tt>^KR</tt>, the current position is before the insertion,
+  and <tt>^QP</tt> jumps to after the insertion</li>
+ <li><tt>^[p</tt> enters new bracketed paste mode in jupprc; enable
+  <tt>xterm-xfree86</tt> automatic paste mode in all <tt>rc</tt>s</li>
 </ul>
 <p id="r3_1j22">[2012-09-02] Changes for joe-3.1jupp22:</p><ul>
  <li>Fix ternary operator PHP syntax highlighting hiccup</li>

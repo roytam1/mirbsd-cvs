@@ -1,8 +1,8 @@
-# $MirOS: ports/editors/joe/Makefile,v 1.25 2012/07/18 17:38:59 tg Exp $
+# $MirOS: ports/editors/joe/Makefile,v 1.26 2012/09/02 15:07:24 tg Exp $
 
 COMMENT=		Joe's Own Editor (jupp)
 CATEGORIES=		editors
-DISTNAME=		joe-3.1jupp22
+DISTNAME=		joe-3.1jupp23
 HOMEPAGE=		http://mirbsd.de/jupp
 RESPONSIBLE=		Thorsten Glaser <tg@mirbsd.org>
 
@@ -31,7 +31,7 @@ CFLAGS+=		-Wno-unused-parameter -Wno-missing-field-initializers \
 
 post-install:
 	${INSTALL_DATA_DIR} ${PREFIX:Q}/share/doc/joe
-	cd ${WRKSRC:Q} && ${INSTALL_DATA} HINTS INFO LIST NEWS README TODO \
-	    docs/help-system.html ${PREFIX:Q}/share/doc/joe/
+	cd ${WRKSRC:Q} && ${INSTALL_DATA} HINTS INFO LIST NEWS README \
+	    ${PREFIX:Q}/share/doc/joe/
 
 .include <bsd.port.mk>

@@ -1,4 +1,4 @@
-@comment $MirOS: ports/editors/joe/PLIST,v 1.1 2008/08/25 14:02:30 tg Exp $
+@comment $MirOS: ports/editors/joe/PLIST,v 1.2 2009/08/02 16:12:09 tg Exp $
 bin/jmacs
 bin/joe
 bin/jpico
@@ -16,8 +16,6 @@ share/doc/joe/INFO
 share/doc/joe/LIST
 share/doc/joe/NEWS
 share/doc/joe/README
-share/doc/joe/TODO
-share/doc/joe/help-system.html
 @sample ${SYSCONFDIR}/joe/
 @sample ${SYSCONFDIR}/joe/charmaps/
 share/examples/joe/charmaps/klingon

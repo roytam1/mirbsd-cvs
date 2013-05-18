@@ -39,10 +39,11 @@ over eight years. The MirOS fork has added UTF-8 Support for
 non-LOCALE-aware operating systems (such as OpenBSD and older
 versions of MirOS), the “jupp” flavour, not doing tab comple‐
 tion in the search and replace dialogues, as well as -Wall
--Werror fixes, numerous bug and security fixes. It also con‐
-tains an extension to visibly display tabs and spaces, and
-has a cleaned up, extended and beautified options menu, and
-more CUA style keybindings.
+-Werror fixes, numerous bug, portability and security fixes.
+It also contains an extension to visibly display tabs and
+spaces, has a cleaned up, extended and beautified options
+menu, more CUA style keybindings, improved math functionality
+and a bracketed paste mode automatically used with XTerm.
 
 Unix integration features: a marked block of text can be
 filtered through a UNIX command, and wherever jupp accepts
