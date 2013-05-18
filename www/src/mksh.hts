@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.498 2013/02/17 07:06:17 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.499 2013/02/18 23:19:39 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -24,7 +24,7 @@ mws_content <<'EOF'
  <li>information about <a href="mksh_old.htm">old versions</a></li>
 </ul>
 
-<h2>mksh(1) R42b</h2>
+<h2>mksh(1) R43</h2>
 
 <p>This is the website of the MirBSD™ Korn Shell, an actively developed free
  implementation of the Korn Shell programming language and a successor to the
@@ -45,8 +45,8 @@ mws_content <<'EOF'
  href="@@ABSPATH@@/TaC-mksh.txt">full licence terms</a> overview.</p>
 
 <h2 class="cr" id="prefetch">Introduction</h2>
-<p>The current version of mksh is <strong>mksh R42b</strong> from
- <em>15 February 2013</em>.<br />In the stable bugfixing-only series, the
+<p>The current version of mksh is <strong>mksh R43</strong> from
+ <em>19 February 2013</em>.<br />In the stable bugfixing-only series, the
  current version is <em>mksh R41c</em> from <em>15 February 2013</em>.</p>
 <p>Thanks to “Der Verein <a href="http://www.trash.net/verein/">trash.net</a>”
  for sponsoring access to a Solaris 8 box. Thanks to Julian “yofuh” Wiesener
@@ -179,16 +179,17 @@ mws_content <<'EOF'
  <em>as well as</em> the hashes and/or checksums below, so you’re sure the
  content is intact and the version number on the archive is correct.</p>
 <h3 id="mirrors">Known Mirrors</h3><ul>
- <li><a href="https://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R42b.tgz">https://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R42b.tgz</a></li>
- <li><a href="http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R42b.tgz">http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R42b.tgz</a></li>
+ <li><a href="https://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R43.tgz">https://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R43.tgz</a></li>
+ <li><a href="http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R43.tgz">http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R43.tgz</a></li>
  <li><a href="https://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R41c;.tgz">https://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R41c.tgz</a></li>
  <li><a href="http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R41c.tgz">http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R41c.tgz</a></li>
 </ul>
 <h3 id="hashes">Checksums and Hashes</h3><ul>
-  <li>RMD160 (mksh-R42b.tgz) = af4359c9d724666ad7a46c67c176a4409354bb38</li>
-  <li>TIGER (mksh-R42b.tgz) = e5479a4b3c0753cadccf4fc0e8939059583700db28daf4e9</li>
-  <li>1020788271 345790 /MirOS/dist/mir/mksh/mksh-R42b.tgz</li>
-  <li>MD5 (mksh-R42b.tgz) = 8b4b9182eb63b47390f164246959b661</li>
+<!-- cd /MirOS/dist/mir/mksh; ls; read x; cksum -a rmd160 -a tiger $x; cksum $PWD/$x; md5 $x -->
+  <li>RMD160 (mksh-R43.tgz) = 14acad71f87ea56710510fe2433e0145c347474b</li>
+  <li>TIGER (mksh-R43.tgz) = a33234836c4a4e4283a3f8bd6c74aa8d9f99f920d319c0d3</li>
+  <li>4208350226 346192 /MirOS/dist/mir/mksh/mksh-R43.tgz</li>
+  <li>MD5 (mksh-R43.tgz) = d57433d86d860b351ee0572800038fe9</li>
  <li style="list-style:none;">↑ formal release │ stable bugfix series ↓</li>
   <li>RMD160 (mksh-R41c.tgz) = a7622e1e6dbacf9aaa601cbba2903ef256c2b3b0</li>
   <li>TIGER (mksh-R41c.tgz) = 153e3c992d74c66219e95f579e9f7ca6926f33639e3768d7</li>
@@ -200,7 +201,7 @@ mws_content <<'EOF'
 
 <h3 id="decomp">Decompression</h3>
 <p>We’re using gzip(1)-compressed POSIX us<!-- -->tar(1) distfiles nowadays,
- so a simple <tt>tar xzf mksh-R42b.tgz</tt> will work.</p>
+ so a simple <tt>tar xzf mksh-R43.tgz</tt> will work.</p>
 
 <h3 id="vendorpatching">Patching</h3>
 <p>If you’re a packager/vendor and need to patch mksh and deviate from the
@@ -808,8 +809,11 @@ exec /usr/bin/ld "${args[@]}"</pre>
 <!--
 <p id="pcur"><i>current</i>: <i>(unfinished…)</i></p>
 -->
+<p id="p43">R43: Unbreaks detection of <tt>sys_siglist[]</tt> and friends’
+ definitions. The Makefrag.inc generation shows the check categories.</p>
 <p id="p42b">R42b: Dear packagers, please consider subscribing to our <a
- href="@@RELPATH@@rss.htm">miros-mksh mailing list</a> or use the RSS feed.</p>
+ href="@@RELPATH@@rss.htm">miros-mksh mailing list</a> or use the RSS feed.
+ The testsuite is now run verbosely by default; use ‘-Q’ to quieten it.</p>
 <p id="p42">R42: <tt>MKSH_DISABLE_EXPERIMENTAL</tt> was made a no-op again
  for this release, like <tt>MKSH_DISABLE_DEPRECATED</tt> was for R41. There
  is a new option <tt>DEBUG_LEAKS</tt> which is implied by <tt>DEBUG</tt>,
@@ -1080,6 +1084,7 @@ exec /usr/bin/ld "${args[@]}"</pre>
 <!--
 <p id="ccur"><i>current</i>: … <i>(unfinished…)</i></p>
 -->
+<p id="c43">R43: <tt>$'…'</tt> is only allowed where strings are.</p>
 <p id="c42b">R42b: Sorry for the “set -e” breakage.</p>
 <p id="c42">R42: <tt>${ foo;}</tt> constructs now handle <tt>local</tt>,
  <tt>return</tt> and <tt>exit</tt> like functions do; <tt>dot.mksh</tt>
@@ -1153,6 +1158,9 @@ exec /usr/bin/ld "${args[@]}"</pre>
   (not finished, but maybe the rest is a kernel bug?)</li -->
  <!-- li>Import the GNU bash- and zsh-style ability to get and set multiple
   limits in a single invocation from oksh (thanks millert) -->
+ <li>…</li>
+</ul>
+<p id="r43">Please upgrade to mksh R43 (or stick on R41c) because of…</p><ul>
  <li>[tg] Do not permit <tt>$'…'</tt> and <tt>$"…"</tt> in anything that
   looks like a string, as old scripts, like ncurses’, depend on behaviour
   not guaranteed by POSIX regarding unescaped dollar signs there</li>
@@ -1161,6 +1169,7 @@ exec /usr/bin/ld "${args[@]}"</pre>
  <li>[tg] Validate parameter names for typeset, export, etc.</li>
  <li>[tg] Provide a classic BSD echo builtin for /bin/sh on MidnightBSD</li>
  <li>[tg] When generating Makefrag.inc put list of check_categories inside</li>
+ <li>[tg] Actually test all echo(1) flavours and MidnightBSD /bin/sh hacks</li>
 </ul>
 <p id="r42b">mksh R42b and <span id="r41c">R41c</span> fix regressions:</p><ul>
  <li>[tg] Correctly initialise memory (Debian #700604)</li>
