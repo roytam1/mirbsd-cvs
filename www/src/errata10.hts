@@ -1,4 +1,4 @@
-mws_putheader '$MirOS: www/src/errata10.hts,v 1.1 2008/03/22 20:38:16 tg Exp $'
+mws_putheader '$MirOS: www/src/errata10.hts,v 1.2 2008/03/22 20:41:27 tg Exp $'
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -26,7 +26,7 @@ mws_content <<'EOF'
 </li><li>
  Buffer overflow in ppp(8) command prompt parsing
  (already included in #10semel)
-</li>
+</li></ul>
 
 <h2 id="binup">Binary updates</h2>
 <p>None yet.</p>
