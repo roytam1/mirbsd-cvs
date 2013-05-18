@@ -50,8 +50,10 @@
 #include "config.h"
 
 static void nomem(void) __dead;
+#ifndef IN_MODLOAD
 static void vxerror(const char *, int, const char *, va_list)
     __attribute__((format (printf, 3, 0)));
+#endif
 
 /*
  * Malloc, with abort on error.
@@ -67,6 +69,7 @@ emalloc(size_t size)
 	return (p);
 }
 
+#ifndef IN_MODLOAD
 /*
  * Realloc, with abort on error.
  */
@@ -78,15 +81,16 @@ erealloc(void *p, size_t size)
 		nomem();
 	return (p);
 }
+#endif
 
 static void
 nomem(void)
 {
-
 	(void)fprintf(stderr, "config: out of memory\n");
 	exit(1);
 }
 
+#ifndef IN_MODLOAD
 /*
  * Prepend the source path to a file name.
  */
@@ -208,3 +212,4 @@ panic(const char *fmt, ...)
 	va_end(ap);
 	exit(2);
 }
+#endif

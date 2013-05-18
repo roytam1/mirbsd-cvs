@@ -38,7 +38,7 @@
 #include "config.h"
 #include "ukc.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.sbin/config/exec_ecoff.c,v 1.2 2007/02/19 03:11:19 tg Exp $");
 
 caddr_t		ecoff_p, ecoff_r, ecoff_b;
 int		ecoff_psz = 0, ecoff_rsz = 0, ecoff_bsz = 0;
@@ -85,7 +85,7 @@ ecoff_check(char *file)
 }
 
 void
-ecoff_loadkernel(char *file)
+ecoff_loadkernel(const char *file)
 {
 	int fd;
 	off_t beg, cur, end;
@@ -128,7 +128,7 @@ ecoff_loadkernel(char *file)
 }
 
 void
-ecoff_savekernel(char *outfile)
+ecoff_savekernel(const char *outfile)
 {
 	int fd;
 

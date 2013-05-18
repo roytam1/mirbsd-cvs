@@ -38,7 +38,7 @@
 #include "ukc.h"
 #include "config.h"
 
-__RCSID("$MirOS: src/usr.sbin/config/exec_elf.c,v 1.2 2007/02/19 03:11:20 tg Exp $");
+__RCSID("$MirOS: src/usr.sbin/config/exec_elf.c,v 1.3 2008/06/13 15:12:33 tg Exp $");
 
 caddr_t		ptr, rest, pre;
 Elf_Ehdr	elf_ex;
@@ -50,9 +50,9 @@ off_t		elf_size;
 
 caddr_t		elf_adjust(caddr_t);
 caddr_t		elf_readjust(caddr_t);
-int		elf_check(char *);
-void		elf_loadkernel(char *);
-void		elf_savekernel(char *);
+int		elf_check(const char *);
+void		elf_loadkernel(const char *);
+void		elf_savekernel(const char *);
 
 caddr_t
 elf_adjust(caddr_t x)
@@ -99,7 +99,7 @@ elf_readjust(caddr_t x)
 }
 
 int
-elf_check(char *file)
+elf_check(const char *file)
 {
 	int fd, ret = 1;
 
@@ -119,7 +119,7 @@ elf_check(char *file)
 }
 
 void
-elf_loadkernel(char *file)
+elf_loadkernel(const char *file)
 {
 	int fd;
 
@@ -148,7 +148,7 @@ elf_loadkernel(char *file)
 }
 
 void
-elf_savekernel(char *outfile)
+elf_savekernel(const char *outfile)
 {
 	int fd;
 

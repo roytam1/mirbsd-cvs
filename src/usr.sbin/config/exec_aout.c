@@ -37,7 +37,7 @@
 #include "config.h"
 #include "ukc.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.sbin/config/exec_aout.c,v 1.2 2007/02/19 03:11:19 tg Exp $");
 
 caddr_t		aout_p, aout_r;
 unsigned long	aout_psz = 0, aout_rsz = 0;
@@ -120,7 +120,7 @@ aout_check(file)
 }
 
 void
-aout_loadkernel(char *file)
+aout_loadkernel(const char *file)
 {
 	int fd;
 	off_t cur, end;
@@ -159,7 +159,7 @@ aout_loadkernel(char *file)
 }
 
 void
-aout_savekernel(char *outfile)
+aout_savekernel(const char *outfile)
 {
 	int fd;
 

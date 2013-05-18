@@ -27,8 +27,8 @@
 #ifndef _EXEC_H
 #define _EXEC_H
 
-void	loadkernel(char *);
-void	savekernel(char *);
+void	loadkernel(const char *);
+void	savekernel(const char *);
 caddr_t	adjust(caddr_t);
 caddr_t	readjust(caddr_t);
 

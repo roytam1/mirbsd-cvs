@@ -1,8 +1,10 @@
-/**	$MirOS$ */
+/**	$MirOS: src/sbin/modload/modload.c,v 1.2 2005/11/17 12:07:57 tg Exp $ */
 /* 	$OpenBSD: modload.c,v 1.41 2003/08/06 20:37:25 millert Exp $	*/
 /*	$NetBSD: modload.c,v 1.30 2001/11/08 15:33:15 christos Exp $	*/
 
 /*
+ * Copyright (c) 2010
+ *	Thorsten Glaser <tg@mirbsd.org>
  * Copyright (c) 1993 Terrence R. Lambert.
  * All rights reserved.
  *
@@ -41,6 +43,7 @@
 #include <sys/lkm.h>
 #include <sys/stat.h>
 #include <sys/file.h>
+#include <sys/sysctl.h>
 
 #include <err.h>
 #include <errno.h>
@@ -54,7 +57,7 @@
 #include "modload.h"
 #include "pathnames.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/sbin/modload/modload.c,v 1.2 2005/11/17 12:07:57 tg Exp $");
 
 #ifndef DFLT_ENTRY
 #define	DFLT_ENTRY	"xxxinit"
@@ -77,6 +80,7 @@ int Sflag;
 
 static void cleanup(void);
 static void usage(void) __attribute__((noreturn));
+static int verify_kernel(const char *);
 
 /* prelink the module */
 static int
@@ -337,6 +341,9 @@ main(int argc, char *argv[])
 			    entry, modobj);
 	}
 
+	if (verify_kernel(kname))
+		errx(1, "kernel version mismatch");
+
 	/*
 	 * Prelink to get file size
 	 */
@@ -479,4 +486,52 @@ main(int argc, char *argv[])
 	}
 
 	exit (0);
+}
+
+/* from usr.sbin/config/exec.c */
+extern void loadkernel(const char *);
+extern caddr_t adjust(caddr_t);
+
+static int
+verify_kernel(const char *filename)
+{
+	struct nlist names[2];
+	int n, mib[2];
+	size_t sz;
+	char *s;
+	const char *k;
+
+	memset(names, '\0', sizeof(names));
+	if (asprintf(&s, ENTRY_FMT, "version") == -1)
+		err(1, "malloc");
+#ifdef	_AOUT_INCLUDE_
+	names[0].n_un.n_name = s;
+#else
+	names[0].n_name = s;
+#endif
+
+	n = nlist(filename, names);
+	if (n == -1)
+		err(1, "nlist %s", filename);
+	free(s);
+	if (n)
+		return (n);
+
+	loadkernel(filename);
+	k = (const char *)adjust((caddr_t)names[0].n_value);
+
+	mib[0] = CTL_KERN;
+	mib[1] = KERN_VERSION;
+	if (sysctl(mib, 2, NULL, &sz, NULL, 0) == -1)
+		err(1, "sysctl");
+	if ((s = malloc(sz)) == NULL)
+		err(1, "malloc");
+	if (sysctl(mib, 2, s, &sz, NULL, 0) == -1)
+		err(1, "sysctl");
+
+	n = strcmp(s, k);
+	if (n)
+		printf("kernel image booted {\n  %s}\n"
+		    "kernel file '%s' {\n  %s}\n", s, filename, k);
+	return (n);
 }

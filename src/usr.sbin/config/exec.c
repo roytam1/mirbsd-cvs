@@ -29,28 +29,28 @@
 #include <stdio.h>
 #include "exec.h"
 
-__RCSID("$MirOS: src/usr.sbin/config/exec.c,v 1.2 2007/02/19 03:11:19 tg Exp $");
+__RCSID("$MirOS: src/usr.sbin/config/exec.c,v 1.3 2008/06/13 15:12:32 tg Exp $");
 
 #ifdef AOUT_SUPPORT
 int	aout_check(char *);
-void	aout_loadkernel(char *);
-void	aout_savekernel(char *);
+void	aout_loadkernel(const char *);
+void	aout_savekernel(const char *);
 caddr_t	aout_adjust(caddr_t);
 caddr_t	aout_readjust(caddr_t);
 #endif
 
 #ifdef ECOFF_SUPPORT
 int	ecoff_check(char *);
-void	ecoff_loadkernel(char *);
-void	ecoff_savekernel(char *);
+void	ecoff_loadkernel(const char *);
+void	ecoff_savekernel(const char *);
 caddr_t	ecoff_adjust(caddr_t);
 caddr_t	ecoff_readjust(caddr_t);
 #endif
 
 #ifdef ELF_SUPPORT
-int	elf_check(char *);
-void	elf_loadkernel(char *);
-void	elf_savekernel(char *);
+int	elf_check(const char *);
+void	elf_loadkernel(const char *);
+void	elf_savekernel(const char *);
 caddr_t	elf_adjust(caddr_t);
 caddr_t	elf_readjust(caddr_t);
 #endif
@@ -110,7 +110,7 @@ readjust(caddr_t x)
 }
 
 void
-loadkernel(char *file)
+loadkernel(const char *file)
 {
 	current_exec = -1;
 
@@ -154,7 +154,7 @@ loadkernel(char *file)
 }
 
 void
-savekernel(char *outfile)
+savekernel(const char *outfile)
 {
 	switch (current_exec) {
 #ifdef AOUT_SUPPORT
