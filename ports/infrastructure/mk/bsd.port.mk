@@ -2906,6 +2906,9 @@ _EXTRA_DESCRIBE+=	"(uses GNU Make)"
 .endif
 .if ${USE_SCHILY:L} == "yes"
 _EXTRA_DESCRIBE+=	"(uses Schily)"
+# we don’t distribute such filth from hostile upstreams
+PERMIT_PACKAGE_CDROM:=	No
+PERMIT_PACKAGE_FTP:=	No
 .endif
 .if ${_USE_ZIP:L} == "yes"
 _EXTRA_DESCRIBE+=	"(uses PKZip)"
