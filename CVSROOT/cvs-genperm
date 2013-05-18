@@ -1,23 +1,23 @@
 #!/usr/bin/env mksh
-# $MirOS: CVSROOT/cvs-genperm,v 1.41 2009/04/10 17:53:17 tg Exp $
+# $MirOS: src/share/misc/licence.template,v 1.28 2008/11/14 15:33:44 tg Rel $
 #-
-# Copyright (c) 2003, 2004, 2005, 2006, 2007, 2008, 2009
+# Copyright © 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2011
 #	Thorsten Glaser <tg@mirbsd.org>
 #
 # Provided that these terms and disclaimer and all copyright notices
 # are retained or reproduced in an accompanying document, permission
-# is granted to deal in this work without restriction, including un-
+# is granted to deal in this work without restriction, including un‐
 # limited rights to use, publicly perform, distribute, sell, modify,
 # merge, give away, or sublicence.
 #
-# This work is provided "AS IS" and WITHOUT WARRANTY of any kind, to
+# This work is provided “AS IS” and WITHOUT WARRANTY of any kind, to
 # the utmost extent permitted by applicable law, neither express nor
 # implied; without malicious intent or gross negligence. In no event
 # may a licensor, author or contributor be held liable for indirect,
 # direct, other damage, loss, or other issues arising in any way out
 # of dealing in the work, even if advised of the possibility of such
 # damage or existence of a defect, except proven that it results out
-# of said person's immediate fault when using the work as intended.
+# of said person’s immediate fault when using the work as intended.
 #-
 # This script fixes up permissions in a CVS Repository mirror of the
 # MirOS Project's CVSROOT (or the MirBSD[tm] CVS Rep, for which this
@@ -158,7 +158,8 @@ done 2>&1 | tee -i "$N"
 	fixperm 1775 .tmp
 	chgrp miros-cvsall CVSROOT CVSROOT/{modules.db,history} \
 	    Logs Logs/{ChangeLog,idcache}
-	chown root:miros-cvsadm README* UP*
+	chown root:miros-cvsadm . README* UP*
+	chmod 775 .
 	for committer in ${committers[*]}; do
 		fixperm 664 Logs/.cpr.${committer}
 		chown 0:$committer Logs/.cpr.${committer}*
