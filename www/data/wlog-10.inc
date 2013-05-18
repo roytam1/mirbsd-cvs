@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.381 2012/01/07 17:18:03 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.382 2012/01/22 12:05:31 bsiegert Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -7450,7 +7450,7 @@ Tag: debian mksh news
 ----
 Title: I am now a NetBSD developer!
 Date: 11.03.2011 18:40
-Tags: pkgsrc
+Tag: pkgsrc
 Author: bsiegert@
 
 <p>Since 2011-03-09, I am now a NetBSD developer. My allocated work area
@@ -7465,7 +7465,7 @@ Author: bsiegert@
 ----
 Title: Impressions of the Go programming language
 Date: 12.03.2011 15:10
-Tags: go
+Tag: golang
 Author: bsiegert@
 
 <p><em>A few days ago, somebody sent me an e-mail with a few questions
@@ -8880,7 +8880,7 @@ Tag: news snapshot
 Date: 04.01.2012 14:23
 Author: bsiegert@
 Title: Quick! A webserver!
-Tag: google_go tip
+Tag: golang tip
 
 <p class="boxhead">If, like me, you occasionally want to transfer some
  files via
