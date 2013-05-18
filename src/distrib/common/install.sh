@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/distrib/common/install.sh,v 1.13 2007/08/24 14:40:34 tg Exp $
+# $MirOS: src/distrib/common/install.sh,v 1.14 2008/03/27 13:48:26 tg Exp $
 # $OpenBSD: install.sh,v 1.152 2005/04/21 21:41:33 krw Exp $
 # $NetBSD: install.sh,v 1.5.2.8 1996/08/27 18:15:05 gwr Exp $
 #
@@ -342,8 +342,8 @@ fi
 
 # Always create new hosts file.
 cat >/tmp/hosts <<__EOT
-::1 localhost
-127.0.0.1 localhost
+::1 localhost ip6-localhost
+127.0.0.1 localhost ip4-localhost
 ::1 $(hostname -s)
 127.0.0.1 $(hostname -s)
 __EOT
