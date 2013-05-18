@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.432 2011/11/26 01:23:22 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.433 2011/11/26 18:37:01 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -952,8 +952,9 @@ exec /usr/bin/ld "${args[@]}"</pre>
  MidnightBSD 0.2-CURRENT from 18th August 2007 onwards has mksh as both <a
  href="http://cvsweb.midnightbsd.org/src/contrib/mksh/"><tt>/bin/mksh</tt></a>
  and <a href="http://cvsweb.midnightbsd.org/src/bin/mksh/"><tt>/bin/ksh</tt></a>,
- i.e. it is the default MidnightBSD Korn shell. From 29 March 2009 onwards, it
- is also the default <tt>/bin/sh</tt> (since MidnightBSD 0.3).</li>
+ i.e. it is the default MidnightBSD Korn shell. From 29 March 2009 onwards, <a
+ href="http://www.midnightbsd.org/pipermail/midnightbsd-cvs/2009-March/008099.html">it
+ is also the default</a> <tt>/bin/sh</tt> (since MidnightBSD 0.3).</li>
 <li class="cr"><img class="fr" width="211" height="64" alt="[pkgsrc logo]"
  src="@@RELPATH@@pics/logos/pkgsrc.png" /><a
  href="http://www.pkgsrc.org/">NetBSD® pkgsrc®</a> (native also on recent
@@ -1085,6 +1086,9 @@ exec /usr/bin/ld "${args[@]}"</pre>
  <li>[tg] Correct interworking between <tt>local</tt> and <tt>set -A</tt></li>
  <li>[tg] Fix out-of-bounds memory access on strings of 32 KiB length</li>
  <li>[tg] <tt>MKSH_DISABLE_DEPRECATED</tt> (for integrators)</li>
+ <li>[tg, Jilles Tjoelker] test(1) built-in behaves exactly as POSIX says</li>
+ <li>[tg] Move compile-time assertions to Build.sh from misc.c#ifdef DEBUG</li>
+ <li>[tg] Invocation documentation is at the bottom of Build.sh</li>
 </ul>
 <p id="r40c">mksh R40c collects stable development, mostly fixes:</p><ul>
  <li>[tg, Wouter Verhelst] Fix <tt>${foo%\?}</tt> in <tt>-o sh</tt></li>
