@@ -13,40 +13,40 @@ Svrha GNU Pascal projekta je da proizvede jedan Pascal prevodilac
 (zvan GNU Pascal ili GPC) koji
 
 @itemize @bullet
-@item kombinira jasnoæu Pascala s moænim alatima pogodnim za programiranje
-iz realnog ¾ivota,
+@item kombinira jasnoÄ‡u Pascala s moÄ‡nim alatima pogodnim za programiranje
+iz realnog Å¾ivota,
 
-@item podr¾ava jednako Pascal standard i Extended Pascal standard standard
+@item podrÅ¾ava jednako Pascal standard i Extended Pascal standard standard
 kao definiran od ISO, ANSI i IEEE (ISO 7185:1990, ISO/IEC 10206:1991,
 ANSI/IEEE 770X3.160-1989),
 
-@item podr¾ava druge Pascal standarde (UCSD Pascal, Borland Pascal,
-dijelove Borland Delphija i Pascal-SC) toliko dok to slu¾i jasnoæi i
+@item podrÅ¾ava druge Pascal standarde (UCSD Pascal, Borland Pascal,
+dijelove Borland Delphija i Pascal-SC) toliko dok to sluÅ¾i jasnoÄ‡i i
 korisnosti,
 
-@item mo¾e biti distribuiran pod GNU licencnim uvjetima, i
+@item moÅ¾e biti distribuiran pod GNU licencnim uvjetima, i
 
-@item mo¾e generirati kod i izvr¹avati se na svakom raèunalu za koje
-GNU C prevodilac mo¾e generirati kod i vrtiti se na njemu.
+@item moÅ¾e generirati kod i izvrÅ¡avati se na svakom raÄunalu za koje
+GNU C prevodilac moÅ¾e generirati kod i vrtiti se na njemu.
 @end itemize
 
-Pascal je originalno dizajniran za uèenje. GNU Pascal donosi pogodan
-naèin da se prijeğe na izazovne programerske zadatke bez uèenja
+Pascal je originalno dizajniran za uÄenje. GNU Pascal donosi pogodan
+naÄin da se prijeÄ‘e na izazovne programerske zadatke bez uÄenja
 potpuno novog jezika.
 
 Trenutno izdanje implementira Standard Pascal (ISO 7185, razine 0 i 1),
-veæinu Extended Pascala (ISO 10206, te¾eæi potpunom ispunjavanju
+veÄ‡inu Extended Pascala (ISO 10206, teÅ¾eÄ‡i potpunom ispunjavanju
 standarda), visoko je kompatibilan sa Borland Pascalom (verzija 7.0),
 te ima neka pogodnosti za kompatibilnost sa drugim prevodiocima
-(kao ¹to je VAX Pascal, Sun Pascal, Mac Pascal, Borland Delphi i Pascal-SC).
+(kao Å¡to je VAX Pascal, Sun Pascal, Mac Pascal, Borland Delphi i Pascal-SC).
 
-Trenutno izdanje takoğer pru¾a mnogo korisnih GNU ekstenzija koje se
-ne nalaze u ostalim Pascal prevodiocima, npr. da se olak¹a povezivanje
-sa suèeljima u C i drugim jezicima na prenosiv naèin, zatim da se radi
-sa datotekama, direktorijima, datumima i jo¹ toga, uglavnom bez
+Trenutno izdanje takoÄ‘er pruÅ¾a mnogo korisnih GNU ekstenzija koje se
+ne nalaze u ostalim Pascal prevodiocima, npr. da se olakÅ¡a povezivanje
+sa suÄeljima u C i drugim jezicima na prenosiv naÄin, zatim da se radi
+sa datotekama, direktorijima, datumima i joÅ¡ toga, uglavnom bez
 ovisnosti o operacijskom sustavu u podlozi.
 
-Ukljuèene jedinice pru¾aju podr¹ku za regularne izraze, cjelobrojnu
-aritmetiku, racionalne i realne brojeve neogranièene velièine,
-za internacionalizaciju, za meğuprocesnu komunikaciju, sa tzv.
-message-digest i jo¹ mnoge dodatne znaèajke prevodioca.
+UkljuÄene jedinice pruÅ¾aju podrÅ¡ku za regularne izraze, cjelobrojnu
+aritmetiku, racionalne i realne brojeve neograniÄene veliÄine,
+za internacionalizaciju, za meÄ‘uprocesnu komunikaciju, sa tzv.
+message-digest i joÅ¡ mnoge dodatne znaÄajke prevodioca.

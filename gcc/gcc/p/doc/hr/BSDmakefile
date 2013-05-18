@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: gcc/gcc/p/doc/hr/BSDmakefile,v 1.1 2009/12/27 16:33:09 tg Exp $
 #-
 # Use this if you want to manually compile the croatian gpc(1)
 # manual page into a Unicode catman page on MirOS BSD.
@@ -7,6 +7,6 @@ MAN=		gpc-hr.1
 NROFF=		nrcon -u ${MACROS} ${PAGES}
 
 gpc-hr.1: gpc.1
-	iconv -f iso-8859-2 <$> >$@
+	cp $> $@
 
 .include <bsd.prog.mk>

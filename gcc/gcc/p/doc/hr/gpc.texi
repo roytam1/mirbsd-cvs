@@ -1,9 +1,6 @@
 \input texinfo
 @setfilename gpc-hr.info
-@settitle GNU Pascal priruËnik.
-@c We use Latin 2 charset for hr_HR language.
-@set charset iso-8859-2
-@documentencoding iso-8859-2
+@settitle GNU Pascal priruƒçnik.
 
 @c Copyright (C) 1996-2006 Free Software Foundation, Inc.
 @c This file is part of the GPC Manual.
@@ -109,7 +106,7 @@ instead of in the original English.
 @image{GnuPascal,,12cm}
 @sp 2
 @end iftex
-@center @titlefont{GNU Pascal priruËnik}
+@center @titlefont{GNU Pascal priruƒçnik}
 @sp 2
 @center Jan-Jaap van der Heijden,
 @sp 1
@@ -168,8 +165,8 @@ instead of in the original English.
 @node Top
 @top GNU Pascal
 
-Ovaj priruËnik dokumentira kako se pokreÊe, instalira i odræava GNU Pascal
-Compiler (GPC), kao i njegove nove znaËajke i eventualne nekompatibilnosti,
+Ovaj priruƒçnik dokumentira kako se pokreƒáe, instalira i odr≈æava GNU Pascal
+Compiler (GPC), kao i njegove nove znaƒçajke i eventualne nekompatibilnosti,
 te kako prijavljivati bugove.  Odgovara GPC-u @value{GPCVersion}
 (GCC @value{GCCVersion}).
 
@@ -177,54 +174,54 @@ te kako prijavljivati bugove.  Odgovara GPC-u @value{GPCVersion}
 @menu
 Uvod:
 
-* Dobrodoπli::        Dobrodoπli na GNU Pascal @dots{}
-* Naglasci::          Neke od GPC-ovih interesantnih znaËajki.
+* Dobrodo≈°li::        Dobrodo≈°li na GNU Pascal @dots{}
+* Naglasci::          Neke od GPC-ovih interesantnih znaƒçajki.
 * News::              Novosti - Nova svojstva GNU Pascala (engleski).
-* FAQ::               Lista Ëesto postavljanih pitanja o GNU Pascalu.
+* FAQ::               Lista ƒçesto postavljanih pitanja o GNU Pascalu.
 
 Instalacija:
 
 * Installation::      Instalacija - kako obaviti download, prevesti i
                       instalirati GNU Pascal (engleski).
 
-Koriπtenje GNU Pascala:
+Kori≈°tenje GNU Pascala:
 
-* Invoking GPC::      Pozivanje GPC-a (opcije komandne linije podræane od GNU
+* Invoking GPC::      Pozivanje GPC-a (opcije komandne linije podr≈æane od GNU
                       Pascala).
-* Programming::       Programerov vodiË u GPC (engleski).
-* Borland Pascal::    Brzi vodiË za prelaz sa Borland Pascala na GNU Pascal.
-* Reference::         Abecedni GPC jeziËni referentni priruËnik (engleski).
-* Keywords::          Pascalove kljuËne rijeËi i operatori podræani u GPC-u.
-* Support::           Gdje dobiti podrπku za GNU Pascal; kako prijaviti bug.
+* Programming::       Programerov vodiƒç u GPC (engleski).
+* Borland Pascal::    Brzi vodiƒç za prelaz sa Borland Pascala na GNU Pascal.
+* Reference::         Abecedni GPC jeziƒçni referentni priruƒçnik (engleski).
+* Keywords::          Pascalove kljuƒçne rijeƒçi i operatori podr≈æani u GPC-u.
+* Support::           Gdje dobiti podr≈°ku za GNU Pascal; kako prijaviti bug.
 
 Razvoj:
 
 * To Do::             GNU Pascalova "za napraviti" lista (engleski).
-* Internals::         Interne strukture - kako dobiti viπe informacija o samom
+* Internals::         Interne strukture - kako dobiti vi≈°e informacija o samom
                       GPC-ovom kodu (engleski).
 
 Licence:
 
 * Copying::           Kopiranje -- GNU General Public License -- licenca,
-                      vaπa prava i obaveze kad koristite GPC (engl.).
+                      va≈°a prava i obaveze kad koristite GPC (engl.).
 * Library Copying::   Kopiranje biblioteka -- GNU Lesser General Public
-                      License -- licenca, vaπa prava i obaveze kod
-                      koriπtenja pojedinih biblioteka (engl.).
-* Demo Copying::      GPL uz iznimku -- vaπa prava i obaveze kod koriπtenja
+                      License -- licenca, va≈°a prava i obaveze kod
+                      kori≈°tenja pojedinih biblioteka (engl.).
+* Demo Copying::      GPL uz iznimku -- va≈°a prava i obaveze kod kori≈°tenja
                       ili modifikacije demo programa.
 
 Dodatak:
 
 * Acknowledgments::   Suradnici na GNU Pascal projektu.
-* Resursi::           resursi za koriπtenje s GPC-om.
+* Resursi::           resursi za kori≈°tenje s GPC-om.
 * GNU::               GNU projekt.
-* Indeks::            Indeks koncepta i imena simbola (nedovrπeno).
+* Indeks::            Indeks koncepta i imena simbola (nedovr≈°eno).
 
 @end menu
 
 (Napomena: naslovi nekih poglavlja nisu prevedeni zbog unakrsnih referenci iz
-           neprevedenih poglavlja priruËnika i prema njima. Ponegdje u
-           izborniku bi se mogao pojaviti problem oko `Ë' i sl. zbog buga
+           neprevedenih poglavlja priruƒçnika i prema njima. Ponegdje u
+           izborniku bi se mogao pojaviti problem oko `ƒç' i sl. zbog buga
            u starijim verzijama - <= 4.0f - GNU `info' programa.)
 
 @include welcome.texi

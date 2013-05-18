@@ -27,7 +27,7 @@
 #include "node.h"
 #include "sectioning.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/gnu/usr.bin/texinfo/makeinfo/html.c,v 1.5 2009/12/27 17:35:14 tg Exp $");
 
 /* Append CHAR to BUFFER, (re)allocating as necessary.  We don't handle
    null characters.  */
@@ -192,6 +192,8 @@ HSTACK *htmlstack = NULL;
 int html_output_head_p = 0;
 int html_title_written = 0;
 
+static char utf8_encoding[] = "utf-8";
+
 void
 html_output_head (void)
 {
@@ -203,6 +205,10 @@ html_output_head (void)
   html_output_head_p = 1;
 
   encoding = current_document_encoding ();
+  if (!encoding || !*encoding)
+    encoding = utf8_encoding;
+  if (strcasecmp(encoding, "utf-8") && strcasecmp(encoding, "utf8"))
+    warning("encoding \"%s\" not UTF-8, this WILL lead to problems", encoding);
 
   /* The <title> should not have markup, so use text_expansion.  */
   if (!html_title)
@@ -227,7 +233,7 @@ html_output_head (void)
 
   add_word_args ("<meta http-equiv=\"Content-Type\" content=\"text/html;"
     " charset=%s\">\n",
-    (encoding && *encoding) ? encoding : "utf-8");
+    encoding);
 
   if (!document_description)
     document_description = html_title;
@@ -336,7 +342,8 @@ rel=\"generator-home\" title=\"Texinfo Homepage\">\n");
       html_title_written = 1;
     }
 
-  free (encoding);
+  if (encoding != utf8_encoding)
+    free (encoding);
 }
 
 /* Escape HTML special characters in the string if necessary,

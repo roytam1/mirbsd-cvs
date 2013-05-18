@@ -4760,7 +4760,7 @@ msgstr ""
 "Last-Translator: Eike Lange <eike@@g-n-u.de>\n"
 "Language-Team: de <de@@li.org>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=ISO-8859-1\n"
+"Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
 #hello2.pas:10

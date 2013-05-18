@@ -7,25 +7,25 @@
 # Full title
 structure=\
 'index     index.html.in      Home       GNU Pascal
-about      @Highlights        About      Über GNU Pascal
+about      @Highlights        About      Ãœber GNU Pascal
 news       @News              News       Neue Features in GNU Pascal
-faq        @FAQ               FAQ        Häufig gestellte Fragen
+faq        @FAQ               FAQ        HÃ¤ufig gestellte Fragen
 install    @Installation      Install    GNU Pascal installieren
-libraries  @Libraries         Libraries  Bilbiotheken für GPC
-support    @Support           Support    Wie Sie Unterstützung für Pascal bekommen
+libraries  @Libraries         Libraries  Bilbiotheken fÃ¼r GPC
+support    @Support           Support    Wie Sie UnterstÃ¼tzung fÃ¼r Pascal bekommen
 team       @Acknowledgments   Team       Das GNU Pascal Entwickler-Team
 gnu        @GNU               GNU        Das GNU-Projekt
 todo       @To\ Do            To\ Do     Was an GNU Pascal noch zu tun ist
-resources  @Resources         Resources  Sonstige Ressourcen für GPC.'
+resources  @Resources         Resources  Sonstige Ressourcen fÃ¼r GPC.'
 
-charset='iso-8859-1'
+charset='utf-8'
 
 manualref='Diese Seite entstammt direkt dem GPC-Handbuch.
-Wenn Sie das Handbuch lesen möchten, können Sie bei der
+Wenn Sie das Handbuch lesen mÃ¶chten, kÃ¶nnen Sie bei der
 <a href="index.html#Top">Hauptseite</a> oder dem
-<a href="@REF@">Gegenstück dieser Seite im Handbuch</a> beginnen.'
+<a href="@REF@">GegenstÃ¼ck dieser Seite im Handbuch</a> beginnen.'
 
-returntomainpage='Zurück zur Hauptseite'
+returntomainpage='ZurÃ¼ck zur Hauptseite'
 
 todownloadarea='Download'
 mailinglistarchives='Mailinglisten-Archiv'
@@ -46,12 +46,12 @@ of this information.</small></p>
 by this site.</small></p>
 <hr>
 <p><small>Copyright &copy; 1996-2005 GNU Pascal development team</small></p>
-<p><small>Kopieren und Verbreitung in unveränderter Form in beliebigen Medien
+<p><small>Kopieren und Verbreitung in unverÃ¤nderter Form in beliebigen Medien
 ist erlaubt, vorausgesetzt, dieser Hinweis und der Haftungsausschluss unten
 bleiben erhalten.</small></p>
-<p><small>Diese Informationen werden in der Hoffnung, dass sie nützlich sind,
-verbreitet, aber ohne jede Gewährleistung. Wir schließen jede Haftung für die
-Zuverlässigkeit dieser Informationen aus.</small></p>
-<p><small>Wir sind nicht verantwortlich für den Inhalt angelinkter Webseiten.
+<p><small>Diese Informationen werden in der Hoffnung, dass sie nÃ¼tzlich sind,
+verbreitet, aber ohne jede GewÃ¤hrleistung. Wir schlieÃŸen jede Haftung fÃ¼r die
+ZuverlÃ¤ssigkeit dieser Informationen aus.</small></p>
+<p><small>Wir sind nicht verantwortlich fÃ¼r den Inhalt angelinkter Webseiten.
 </small></p>
 '

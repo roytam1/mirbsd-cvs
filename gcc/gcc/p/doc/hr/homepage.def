@@ -8,22 +8,22 @@
 structure=\
 'index     index.html.in      Home       GNU Pascal
 about      @Naglasci          About      O GNU Pascalu
-news       @News              News       Nove moguænosti u GNU Pascalu
-faq        @FAQ               FAQ        Èesto postavljana pitanja
+news       @News              News       Nove moguÄ‡nosti u GNU Pascalu
+faq        @FAQ               FAQ        ÄŒesto postavljana pitanja
 install    @Installation      Install    Kako instalirati GNU Pascal
-libraries  @Libraries         Libraries  Biblioteke koje mo¾ete koristiti uz GPC
-support    @Support           Podr\¹ka   Kako dobiti podr¹ku za GNU Pascal
+libraries  @Libraries         Libraries  Biblioteke koje moÅ¾ete koristiti uz GPC
+support    @Support           Podr\Å¡ka   Kako dobiti podrÅ¡ku za GNU Pascal
 team       @Acknowledgments   Tim        GNU Pascal razvojni tim
 gnu        @GNU               GNU        GNU projekt
 todo       @To\ Do            To\ Do     Stvari preostale za napraviti u GNU Pascalu
-resources  @Resursi           Resursi    Resursi za kori¹tenje s GPC-om.'
+resources  @Resursi           Resursi    Resursi za koriÅ¡tenje s GPC-om.'
 
-charset='iso-8859-2'
+charset='utf-8'
 
-manualref='Ova stranica je direktan izvadak iz GPC priruènika.
-Ako ¾elite pregledavati priruènik mo¾ete poèeti na
-<a href="index.html#Top">vrhu priruènika</a> ili na
-<a href="@REF@">odgovarajuæoj stranici u priruèniku</a>.'
+manualref='Ova stranica je direktan izvadak iz GPC priruÄnika.
+Ako Å¾elite pregledavati priruÄnik moÅ¾ete poÄeti na
+<a href="index.html#Top">vrhu priruÄnika</a> ili na
+<a href="@REF@">odgovarajuÄ‡oj stranici u priruÄniku</a>.'
 
 returntomainpage='Povratak na vrh'
 
@@ -47,9 +47,9 @@ by this site.</small></p>
 <hr>
 <p><small>Copyright &copy; 1996-2006 GNU Pascal development team</small></p>
 <p><small>Kopiranje bez izmjena i distribucija je dozvoljena na svakom mediju,
-uz uvjet da je ova obavijest i ograda ni¾e saèuvana.</small></p>
-<p><small>Ova informacija je pru¾ena u nadi da æe biti korisna, ali bez
-ikakve garancije. Negiramo svaku pravnu odgovornost za toènost ove
+uz uvjet da je ova obavijest i ograda niÅ¾e saÄuvana.</small></p>
+<p><small>Ova informacija je pruÅ¾ena u nadi da Ä‡e biti korisna, ali bez
+ikakve garancije. Negiramo svaku pravnu odgovornost za toÄnost ove
 informacije.</small></p>
-<p><small>Nismo odgovorni za sadr¾aj web stranica referenciranih s na¹eg
+<p><small>Nismo odgovorni za sadrÅ¾aj web stranica referenciranih s naÅ¡eg
 sitea.</small></p>'

@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/scripts/genhtman.sh,v 1.15 2007/10/21 15:43:49 tg Exp $
+# $MirOS: src/scripts/genhtman.sh,v 1.16 2011/12/03 18:21:12 tg Exp $
 #-
 # Build the HTML format manual pages. This is part of the MirOS con-
 # tribuional and base system release process.
@@ -67,7 +67,7 @@ else
 	output_htaccess >$hr/manDOCS/.htaccess
 	{
 		output_htaccess
-		print "AddType 'text/html; charset=iso-8859-1' html"
+		print "AddType 'text/html; charset=utf-8' html"
 	} >$hr/manINFO/.htaccess
 fi
 

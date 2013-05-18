@@ -11,12 +11,12 @@
 @include macros.texi
 
 @node Resursi
-@appendix Resursi za koriπtenje s GPC-om
+@appendix Resursi za kori≈°tenje s GPC-om
 @cindex Resursi
-@cindex Priloæeni sadræaji
+@cindex Prilo≈æeni sadr≈æaji
 
 Mnogi od programa spomenutih ovdje, plus neki dodatni, mogu se
-naÊi na
+naƒái na
 @smallexample
 @uref{http://www.gnu-pascal.de/contrib/}
 @end smallexample
@@ -34,8 +34,8 @@ naÊi na
 </td></tr></table>
 @end html
 @end ifhtml
-@subheading GNU Pascal crteæ
-@cindex Crteæ
+@subheading GNU Pascal crte≈æ
+@cindex Crte≈æ
 @cindex Blaise Pascal
 @cindex Pascal, Blaise
 
@@ -46,9 +46,9 @@ naÊi na
 Here is
 @end ifhtml
 @ifnothtml
-Na webu moæete naÊi
+Na webu mo≈æete naƒái
 @end ifnothtml
-naπ GNU Pascal crteæ kao
+na≈° GNU Pascal crte≈æ kao
 @localuref{images/GnuPascal-small.png,mali PNG slika (1 KB)} i kao jedna
 @localuref{images/GnuPascal.png,velika PNG slika (10 KB)} i kao jedna
 @localuref{images/GnuPascal.eps,EPS datoteka (45 KB)} i kao jedna
@@ -56,15 +56,15 @@ naπ GNU Pascal crteæ kao
 
 Zbog
 @uref{http://www.gnu.org/philosophy/gif.html,patentnih problema}
-ne koristimo GIF datoteke. SreÊom
+ne koristimo GIF datoteke. Sreƒáom
 @uref{http://www.libpng.org,PNG format}, nasljednik GIF-a, nema ovaj
-problem -- i ionako uvodi bolju kompresiju i viπe naprednih
-moguÊnosti.
+problem -- i ionako uvodi bolju kompresiju i vi≈°e naprednih
+moguƒánosti.
 
 @c DEMO-START
 @anch{gradient}@c
-InaËe, @localuref{images/gradient.png,kolor gradijent} sa
-pozadine naπe web stranice je PNG datoteka od samo 632 bajtova.
+Inaƒçe, @localuref{images/gradient.png,kolor gradijent} sa
+pozadine na≈°e web stranice je PNG datoteka od samo 632 bajtova.
 Generirana je Pascal programom prevedenim s GPC-om i @samp{pnmtopng}.
 @hrefexample{gradient.pas}
 @c DEMO-END
@@ -91,8 +91,8 @@ Generirana je Pascal programom prevedenim s GPC-om i @samp{pnmtopng}.
 @cindex Tekst editor
 
 PENG je integrirana razvojna okolina (IDE) za GNU prevodioce
-i ostale svrhe na svakoj platformi koju podræava GPC, koju je
-napisao Frank Heckenbach. MatiËna stranica za PENG je
+i ostale svrhe na svakoj platformi koju podr≈æava GPC, koju je
+napisao Frank Heckenbach. Matiƒçna stranica za PENG je
 @smallexample
 @uref{http://fjf.gnu.de/peng/}.
 @end smallexample
@@ -119,8 +119,8 @@ napisao Frank Heckenbach. MatiËna stranica za PENG je
 @cindex Tekst editor
 
 RHIDE je integrirana razvojna okolina (IDE) za GNU prevodioce
-na DOS-u (DJGPP) ili Linuxu, napisao ju je Robert Hˆhne.
-MatiËna stranica RHIDE je
+na DOS-u (DJGPP) ili Linuxu, napisao ju je Robert H√∂hne.
+Matiƒçna stranica RHIDE je
 @smallexample
 @uref{http://www.rhide.com}.
 @end smallexample
@@ -137,7 +137,7 @@ MatiËna stranica RHIDE je
 @cindex Tekst editor
 
 DevPascal je integrirana razvojna okolina (IDE) za GNU Pascal na mingw32
-platformi. MatiËna stranica Devpascal-a je
+platformi. Matiƒçna stranica Devpascal-a je
 
 @smallexample
 @uref{http://www.bloodshed.net/devpascal.html}.
@@ -162,8 +162,8 @@ platformi. MatiËna stranica Devpascal-a je
 @cindex GRX
 @cindex Grafika
 
-GRX je grafiËka biblioteka za C i GNU Pascal, koja ukljuËuje i uglavnom
-BP kompatibilnu @samp{Graph} jedinicu (unit). Raspoloæiva je na
+GRX je grafiƒçka biblioteka za C i GNU Pascal, koja ukljuƒçuje i uglavnom
+BP kompatibilnu @samp{Graph} jedinicu (unit). Raspolo≈æiva je na
 @smallexample
 @uref{http://www.gnu.de/software/grx/}
 @end smallexample
@@ -197,7 +197,7 @@ Jedinice i alati za internacionalizaciju su na raspolaganju na
 @cindex GDBM
 @cindex PostgreSQL
 GNU Pascal jedinice (units) za pristup MySQL, GNU DBM i PostgreSQL
-bazama podataka se mogu naÊi na
+bazama podataka se mogu naƒái na
 @smallexample
 @uref{http://www.gnu-pascal.de/contrib/eike/}
 @end smallexample
@@ -209,7 +209,7 @@ bazama podataka se mogu naÊi na
 @cindex GTK
 @cindex GUI
 
-GNU Pascal jedinice za GTK+ i GTK+ GL biblioteke se mogu naÊi na
+GNU Pascal jedinice za GTK+ i GTK+ GL biblioteke se mogu naƒái na
 @smallexample
 @uref{http://www.gnu-pascal.de/contrib/nicola/}
 @end smallexample
@@ -220,21 +220,21 @@ GNU Pascal jedinice za GTK+ i GTK+ GL biblioteke se mogu naÊi na
 @subheading SysUtils unit
 @cindex SysUtils
 Prof.@: Abimola A.@: Olowofoyeku (``The African Chief'') je napisao
-Delphi-kompatibilnu (iako neke znaËajke joπ uvijek nedostaju)
+Delphi-kompatibilnu (iako neke znaƒçajke jo≈° uvijek nedostaju)
 @samp{SysUtils} jedinicu. Bila je testirana pod Cygwin, mingw, Linux
-(Mandrake 7.0) i Solaris 7 platformama. Moæe se naÊi na
+(Mandrake 7.0) i Solaris 7 platformama. Mo≈æe se naƒái na
 @uref{http://www.gnu-pascal.de/contrib/chief/}.
 
 @htmlhrule
 
 @anch{Crystal}@c
-@subheading Crystal, program za voenje arhive mailing listi
+@subheading Crystal, program za voƒëenje arhive mailing listi
 @cindex Crystal
 @cindex Arhive mailing listi
 
 Crystal je arhiva za mailing liste bazirana na webu, napisana za
-GNU Pascal i koriπtena za arhive GPC mailing listi (@pxref{Arhive
-mailing listi}). Izvorni kod moæe se naÊi na
+GNU Pascal i kori≈°tena za arhive GPC mailing listi (@pxref{Arhive
+mailing listi}). Izvorni kod mo≈æe se naƒái na
 @uref{http://fjf.gnu.de/crystal/}
 
 @htmlhrule
@@ -250,7 +250,7 @@ mailing listi}). Izvorni kod moæe se naÊi na
 @cindex Standardi
 @cindex Pascal standardi
 
-Specifikacije Pascal standarda su raspoloæive u PostScript
+Specifikacije Pascal standarda su raspolo≈æive u PostScript
 formatu na
 @smallexample
 @uref{http://ftp.digital.com/pub/Digital/Pascal/}
@@ -264,7 +264,7 @@ Alternativne adrese su
 @uref{ftp://ftp.digital.com/pub/DEC/Pascal/}
 @end smallexample
 
-Postoje takoer i kopije na
+Postoje takoƒëer i kopije na
 @smallexample
 @uref{http://www.moorecad.com/standardpascal/iso7185.ps}
 (ISO 7185 Pascal)
@@ -274,44 +274,44 @@ Postoje takoer i kopije na
 (ISO 10206 Extended Pascal)
 @end smallexample
 
-PRIMJEDBA: Ovi dokumenti su poneπto teæi za pregledavanje (npr.
+PRIMJEDBA: Ovi dokumenti su pone≈°to te≈æi za pregledavanje (npr.
 u ghostview-u), jer im nedostaju tzv. ``document structuring
-comments'' (DSC). GPC distribucija izvornog koda sadræi malu
-skriptu @file{ps2dsc} koja dodaje DSC ponovno i Ëini dokumente
-lakπim za pregledavanje i navigaciju. Primijetite da zbog
-copyright problema Êete vjerojatno to moÊi uËiniti samo za sebe
-i neÊete moÊi distribuirati modificirane datoteke.
+comments'' (DSC). GPC distribucija izvornog koda sadr≈æi malu
+skriptu @file{ps2dsc} koja dodaje DSC ponovno i ƒçini dokumente
+lak≈°im za pregledavanje i navigaciju. Primijetite da zbog
+copyright problema ƒáete vjerojatno to moƒái uƒçiniti samo za sebe
+i neƒáete moƒái distribuirati modificirane datoteke.
 
-Moæete naÊi lak za Ëitanje uvod u Extended Pascal od Prospero
+Mo≈æete naƒái lak za ƒçitanje uvod u Extended Pascal od Prospero
 Software-a na
 @smallexample
 @uref{http://www.prosperosoftware.com/epintro.html}
 @end smallexample
 
-Molimo vas primijetite da Standard Pascal @strong{nije} isto πto i
+Molimo vas primijetite da Standard Pascal @strong{nije} isto ≈°to i
 Borland Pascal niti njegov podskup. Pogledati poglavlje @ref{Naglasci} za
-primjere moguÊnosti Standard Pascala koje nedostaju u Borland Pascalu.
+primjere moguƒánosti Standard Pascala koje nedostaju u Borland Pascalu.
 
 @uref{http://www.moorecad.com/standardpascal/ansiiso.faq,ANSI-ISO Pascal FAQ (132 KB)}
-od Scott A. Moore-a objaπnjava razlike izmeu dva dijalekta u
+od Scott A. Moore-a obja≈°njava razlike izmeƒëu dva dijalekta u
 detalje.
 
-Draft standard ``Objektno-orijentirana proπirenja Pascala'' mogu se naÊi na
+Draft standard ``Objektno-orijentirana pro≈°irenja Pascala'' mogu se naƒái na
 @smallexample
 @uref{http://pascal-central.com/OOE-stds.html}
 @end smallexample
 
 @htmlhrule
 
-@subheading Zaπtitite svoju slobodu!
+@subheading Za≈°titite svoju slobodu!
 @cindex Sloboda
 
-Programerske aktivnosti malih kompanija i pojedinaca su ugroæene
+Programerske aktivnosti malih kompanija i pojedinaca su ugro≈æene
 software-skim patentima. Ako ste programer, vi ste u opasnosti,
-takoer! Vaπ poslodavac ili vi moæete biti tuæeni od strane velike
-kompanije koja dræi patent na neke @emph{ideje} koje vi koristite
-u svojim programima. (Nije potrebno da koristite tui kod da biste
-postali podloæni tim tuæbama.)
+takoƒëer! Va≈° poslodavac ili vi mo≈æete biti tu≈æeni od strane velike
+kompanije koja dr≈æi patent na neke @emph{ideje} koje vi koristite
+u svojim programima. (Nije potrebno da koristite tuƒëi kod da biste
+postali podlo≈æni tim tu≈æbama.)
 
 Za daljnje informacije pogledajte
 @smallexample

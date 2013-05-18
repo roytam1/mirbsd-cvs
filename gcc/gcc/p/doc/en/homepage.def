@@ -18,7 +18,7 @@ gnu        @GNU               GNU        The GNU project
 todo       @To\ Do            To\ Do     Things still to do for GNU Pascal
 resources  @Resources         Resources  Other resources for use with GPC.'
 
-charset='iso-8859-1'
+charset='utf-8'
 
 manualref='This page is a direct extract from the GPC Manual.
 If you want to browse the manual, you can start at the

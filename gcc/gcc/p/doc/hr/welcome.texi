@@ -10,8 +10,8 @@
 
 @ifclear READMEONLY
 @ifclear NEWSONLY
-@node Dobrodoπli
-@unnumbered Dobrodoπli na GNU Pascal @dots{}
+@node Dobrodo≈°li
+@unnumbered Dobrodo≈°li na GNU Pascal @dots{}
 @dots{}
 @end ifclear
 @end ifclear
@@ -20,23 +20,23 @@
 @c Note: The following line gets inserted into the destination file,
 @c       it does not apply to this Texinfo file!
 Ova datoteka se generira automatski iz welcome.texi.@*
-@sc{NE MIJENJAJTE OVU DATOTEKU RU»NO!}
+@sc{NE MIJENJAJTE OVU DATOTEKU RUƒåNO!}
 
 @settitle README
 @node Top
 @paragraphindent 0
-@center Dobrodoπli na GNU Pascal,
+@center Dobrodo≈°li na GNU Pascal,
 @end ifset
 @ifset NEWSONLY
-Dobrodoπli na GNU Pascal,
+Dobrodo≈°li na GNU Pascal,
 @end ifset
 slobodni 32/64-bitni Pascal prevodilac (engl. compiler) iz
 kolekcije GNU prevodilaca (GNU CC ili GCC), koji kombinira
 Pascal "front-end" s dokazanim GCC "back-end"-om za generiranje
-koda i optimizaciju. Osim njega kolekcija trenutno ukljuËuje
+koda i optimizaciju. Osim njega kolekcija trenutno ukljuƒçuje
 prevodioce za Adu, C, C++, Objective C, Chill, FORTRAN, i Javu.
-Za razliku od konvertera koda kao πto je p2c, ovo je istinski
-prevodilac, ne samo konverter (u drugi jezik, najËeπÊe C).
+Za razliku od konvertera koda kao ≈°to je p2c, ovo je istinski
+prevodilac, ne samo konverter (u drugi jezik, najƒçe≈°ƒáe C).
 
 Ova verzija GPC-a odgovara GCC verziji @value{GCCVersion}.
 
@@ -44,7 +44,7 @@ Ova verzija GPC-a odgovara GCC verziji @value{GCCVersion}.
 
 @ifclear READMEONLY
 @ifclear NEWSONLY
-Ovaj priruËnik sadræi
+Ovaj priruƒçnik sadr≈æi
 
 @itemize @bullet
 @item
@@ -52,51 +52,51 @@ pregled nekih od GPC-ovih najinteresantnijih svojstava, vidi @ref{Naglasci},
 @item
 listu novih svojstava od zadnjeg izdanja, vidi @ref{News},
 @item
-GNU Pascal Ëesto postavljana pitanja, vidi @ref{FAQ},
+GNU Pascal ƒçesto postavljana pitanja, vidi @ref{FAQ},
 @item
 instrukcije za instaliranje, vidi @ref{Installation},
 @item
-QuickStart Guide - brzi vodiË za programere viËne Turbo Pascal/Borland
+QuickStart Guide - brzi vodiƒç za programere viƒçne Turbo Pascal/Borland
 Pascal prevodiocima, vidi @ref{Borland Pascal},
 @item
 listu opcija komandne linije za pozivanje prevodioca, vidi "Pozivanje GPC-a"
 (@ref{Invoking GPC}),
 @item
-Programerski vodiË u GPC, koji opisuje Pascal programski jezik opÊenito
-i GPC specifiËne aspekte. Vidi @ref{Programming},
+Programerski vodiƒç u GPC, koji opisuje Pascal programski jezik opƒáenito
+i GPC specifiƒçne aspekte. Vidi @ref{Programming},
 @item
 abecednu referencu GPC jezika, vidi @ref{Reference},
 @item
-listu kljuËnih rijeËi i operatora podræanih od GNU Pascala, vidi
-KljuËne rijeËi @ref{Keywords},
+listu kljuƒçnih rijeƒçi i operatora podr≈æanih od GNU Pascala, vidi
+Kljuƒçne rijeƒçi @ref{Keywords},
 @item
 informacije o tome kako prijavljivati bugove u GNU Pascalu i kako dobiti
-podrπku, vidi @ref{Support},
+podr≈°ku, vidi @ref{Support},
 @item
-listu poznatih bugova i stvari za napraviti, takoer listu ispravljenih
+listu poznatih bugova i stvari za napraviti, takoƒëer listu ispravljenih
 bugova i nedavno implementiranih svojstava, see @ref{To Do},
 @item
 neke informacije za one koji su zainteresirani kako GNU Pascal
 radi iznutra, see @ref{Internals},
 @item
-listu ljudi koji su doprinijeli koja kaæe tko je razvijao i tko
-odræava GNU Pascal, vidi @ref{Acknowledgments},
+listu ljudi koji su doprinijeli koja ka≈æe tko je razvijao i tko
+odr≈æava GNU Pascal, vidi @ref{Acknowledgments},
 @item
-GNU General Public License - GNU OpÊu javnu licencu, koja vas informira
-o vaπim pravima i odgovornostima za koriπtenja, modificiranja i
+GNU General Public License - GNU Opƒáu javnu licencu, koja vas informira
+o va≈°im pravima i odgovornostima za kori≈°tenja, modificiranja i
 distribucije GNU Pascala, vidi @ref{Copying},
 @item
 ostale tekstove o Free Softwareu i GNU Projektu kojima se namjeravalo
-odgovoriti na pitanja kao ``πto je GNU?'' koja bi sada mogli imati
+odgovoriti na pitanja kao ``≈°to je GNU?'' koja bi sada mogli imati
 u umu, vidi @ref{GNU}.
 @end itemize
 
 @c !!!! how to translate more precisely "structured value initializers"
 
 Ako ste upoznati s programiranjem u Standard Pascalu (ISO 7185),
-vjerojatno Êete moÊi jednostavno poËeti i prevesti svoje programe.
-Takoer, veÊina ISO Extended Pascal standarda (ISO 10206) je
-ugraena u GNU Pascal. Extended Pascal svojstva koja joπ uvijek
+vjerojatno ƒáete moƒái jednostavno poƒçeti i prevesti svoje programe.
+Takoƒëer, veƒáina ISO Extended Pascal standarda (ISO 10206) je
+ugraƒëena u GNU Pascal. Extended Pascal svojstva koja jo≈° uvijek
 nedostaju iz GPC-a su @code{qualified} module import, @code{protected}
 module export, skupovni tipovi s promjenljivim granicama,
 inicijalizatori strukturiranih vrijednosti (engl. structured value
@@ -107,20 +107,20 @@ bounds).
 @c lower bound must now be an identifier, a constant or a
 @c variable name.
 
-Ako ste Borland Pascal programer, vjerojatno biste trebali poËeti
-Ëitati QuickStart vodiË od BP do GNU Pascala,
-vidi @ref{Borland Pascal}. Ako ste radoznali o novim moguÊnostima
-koje GPC nudi, moæete dobiti ideju iz pregleda GPC naglasaka
-(@pxref{Naglasci}), i Ëitati viπe detalja o njima u Programmer's
+Ako ste Borland Pascal programer, vjerojatno biste trebali poƒçeti
+ƒçitati QuickStart vodiƒç od BP do GNU Pascala,
+vidi @ref{Borland Pascal}. Ako ste radoznali o novim moguƒánostima
+koje GPC nudi, mo≈æete dobiti ideju iz pregleda GPC naglasaka
+(@pxref{Naglasci}), i ƒçitati vi≈°e detalja o njima u Programmer's
 Guide to GPC (@pxref{Programming}) i u abecednom GPC referentnom
-priruËniku (@pxref{Reference}).
+priruƒçniku (@pxref{Reference}).
 
-I, molimo vas, razmislite takoer kako biste doprinijeli GNU Pascal
-projektu. Molimo podræite naπ rad doprinoseÊi GNU Pascalu programskim
-primjerima, prijavama bugova, dokumentiranjem, ali Ëak i vlastitim
-poboljπanjima prevodioca.
+I, molimo vas, razmislite takoƒëer kako biste doprinijeli GNU Pascal
+projektu. Molimo podr≈æite na≈° rad doprinoseƒái GNU Pascalu programskim
+primjerima, prijavama bugova, dokumentiranjem, ali ƒçak i vlastitim
+pobolj≈°anjima prevodioca.
 
-Sva registrirana imena koriπtena u ovom priruËniku pripadaju njihovim
+Sva registrirana imena kori≈°tena u ovom priruƒçniku pripadaju njihovim
 respektivnim vlasnicima.
 @end ifclear
 @end ifclear
@@ -132,37 +132,37 @@ GNU Pascal ima home site na World Wide Webu,
 @uref{http://www.gnu-pascal.de}
 @end smallexample
 
-GNU Pascal distribucije se tamo uvijek mogu naÊi.
+GNU Pascal distribucije se tamo uvijek mogu naƒái.
 
 Preferiramo distribuiranje GNU Pascala u source obliku jer vam to
-daje moguÊnost da prilagoavate, poboljπavate, i odræavate prevodilac
-sami (ili da unajmite programera da to uËini za vas). Meutim, mi
-pruæamo binarne distribucije za neke platforme radi vaπeg komfora,
+daje moguƒánost da prilagoƒëavate, pobolj≈°avate, i odr≈æavate prevodilac
+sami (ili da unajmite programera da to uƒçini za vas). Meƒëutim, mi
+pru≈æamo binarne distribucije za neke platforme radi va≈°eg komfora,
 u poddirektoriju @file{binary}.
 
-Prevoenje GNU Pascala traæi GCC izvorne datoteke, ne samo instaliranu
+Prevoƒëenje GNU Pascala tra≈æi GCC izvorne datoteke, ne samo instaliranu
 kopiju GCC-a.
 
-Instaliranje GPC-a (iz izvornih ili binarnih datoteka) Êe kreirati
+Instaliranje GPC-a (iz izvornih ili binarnih datoteka) ƒáe kreirati
 razne datoteke u podstablima do @file{/usr/local/lib}, koje koristi
-prevodilac. Takoer Êe kreirati datoteku @file{/usr/local/bin/gpc},
-koji je korisniËka naredba za pokretanje kompilacije.
+prevodilac. Takoƒëer ƒáe kreirati datoteku @file{/usr/local/bin/gpc},
+koji je korisniƒçka naredba za pokretanje kompilacije.
 
-Molimo πaljite komentare, sugestije, i izvjeπtaje o bugovima na GNU
+Molimo ≈°aljite komentare, sugestije, i izvje≈°taje o bugovima na GNU
 Pascal mailing listu, @email{gpc@@gnu.de}. Pogledajte FAQ za detalje.
 
-GNU Pascal priruËnik koji sadræi detaljnu dokumentaciju o GPC-u je
-sadræan u datotekama gpc.info* (GNU info format) u source i binarnim
-distribucijama. Moæete ih Ëitati s bilo kojim info readerom, npr.
-tipkajuÊi @samp{info -f gpc}. Izvornik priruËnika je priloæen
-u Texinfo formatu u GPC source distribucijama. Iz njega moæete
-regenerirati info verziju, i takoer moæete kreirati HTML i
-PostScript verzije. HTML i PostScript verzije su takoer priloæene
+GNU Pascal priruƒçnik koji sadr≈æi detaljnu dokumentaciju o GPC-u je
+sadr≈æan u datotekama gpc.info* (GNU info format) u source i binarnim
+distribucijama. Mo≈æete ih ƒçitati s bilo kojim info readerom, npr.
+tipkajuƒái @samp{info -f gpc}. Izvornik priruƒçnika je prilo≈æen
+u Texinfo formatu u GPC source distribucijama. Iz njega mo≈æete
+regenerirati info verziju, i takoƒëer mo≈æete kreirati HTML i
+PostScript verzije. HTML i PostScript verzije su takoƒëer prilo≈æene
 na GPC-ovim web stranicama.
 
-Datoteka @file{FAQ} sadræi GNU Pascal FAQ (Frequently Asked Questions
--- uËestalo postavljana pitanja) listu. Ona bi trebala odgovoriti
-na veÊinu pitanja koja imate o GNU Pascalu.
+Datoteka @file{FAQ} sadr≈æi GNU Pascal FAQ (Frequently Asked Questions
+-- uƒçestalo postavljana pitanja) listu. Ona bi trebala odgovoriti
+na veƒáinu pitanja koja imate o GNU Pascalu.
 
 Datoteka @file{NEWS} popisuje promjene u  GNU Pascalu od zadnjeg
 izdanja.
@@ -170,50 +170,50 @@ izdanja.
 Datoteka @file{AUTHORS} popisuje autore i one koji su doprinijeli
 GNU Pascalu.
 
-Datoteka @file{COPYING} sadræi GNU General Public License - GNU opÊu
+Datoteka @file{COPYING} sadr≈æi GNU General Public License - GNU opƒáu
 javnu licencu, pod kojom je GNU Pascal distribuiran.
 
-Datoteka @file{COPYING.LIB} sadræi GNU Lesser General Public License,
+Datoteka @file{COPYING.LIB} sadr≈æi GNU Lesser General Public License,
 pod kojom su distribuirane pojedince biblioteke (vidjeti individualne
 primjedbe o licenciranju).
 
-Datoteka @file{INSTALL} sadræi instalacijske instrukcije.
+Datoteka @file{INSTALL} sadr≈æi instalacijske instrukcije.
 
-Datoteka @file{BUGS} objaπnjava kako pokrenuti GPC test kolekciju
-i kako prijaviti bugove (pogreπke u programu).
+Datoteka @file{BUGS} obja≈°njava kako pokrenuti GPC test kolekciju
+i kako prijaviti bugove (pogre≈°ke u programu).
 
-Datoteke spomenute niæe su sastavni dio distribucija izvornog koda
+Datoteke spomenute ni≈æe su sastavni dio distribucija izvornog koda
 GNU Pascala.
 
-Datoteka @file{ChangeLog} sadræi povijest izmjena.
+Datoteka @file{ChangeLog} sadr≈æi povijest izmjena.
 
-Direktorij @file{rts} sadræi izvorni kod GNU Pascalovog Run Time
-Systema. Njegovo suËelje (engl. interface) prema Pascal programima
-je sadræano u datoteci @file{gpc.pas}.
+Direktorij @file{rts} sadr≈æi izvorni kod GNU Pascalovog Run Time
+Systema. Njegovo suƒçelje (engl. interface) prema Pascal programima
+je sadr≈æano u datoteci @file{gpc.pas}.
 
-Direktorij @file{script} sadræi neke skripte koriπtene od GPC
-odræavatelja i neke skripte koriπtene tijekom procesa izgradnje GPC-a.
+Direktorij @file{script} sadr≈æi neke skripte kori≈°tene od GPC
+odr≈æavatelja i neke skripte kori≈°tene tijekom procesa izgradnje GPC-a.
 
-U direktoriju @file{doc} moæete naÊi GNU Pascal dokumentaciju u
-GNU Texinfo formatu. Vidi @file{doc/README} za viπe o tome.
+U direktoriju @file{doc} mo≈æete naƒái GNU Pascal dokumentaciju u
+GNU Texinfo formatu. Vidi @file{doc/README} za vi≈°e o tome.
 
-Direktorij @file{units} sadræi GNU Pascalove standardne jedinice
+Direktorij @file{units} sadr≈æi GNU Pascalove standardne jedinice
 (unit) neke od kojih su prenosive zamjene za Borland Pascal jedinice
 istog imena.
 
-Direktorij @file{utils} koristi neke korisne programËiÊe koriπtene
+Direktorij @file{utils} koristi neke korisne programƒçiƒáe kori≈°tene
 od ili u vezi s GNU Pascalom.
 
-Direktorij @file{demos} sadræi demo programe koji ilustriraju neke
+Direktorij @file{demos} sadr≈æi demo programe koji ilustriraju neke
 od sposobnosti GNU Pascala.
 
-Direktorij @file{test} sadræi programe koji testiraju prevodilac
+Direktorij @file{test} sadr≈æi programe koji testiraju prevodilac
 za vrijeme razvoja i instalacije.
 
 Sve ostalo pripada izvornom kodu GNU Pascala.
 
-Slijedi izvorni engleski "disclaimer", zatim nesluæbeni prijevod.
-Gdje god dolazi do nejasnoÊa ili razlika, engleski izvornik je
+Slijedi izvorni engleski "disclaimer", zatim neslu≈æbeni prijevod.
+Gdje god dolazi do nejasnoƒáa ili razlika, engleski izvornik je
 mjerodavan.
 
 All parts of the compiler are copyrighted (C) 1987-2005
@@ -239,22 +239,22 @@ Free Software Foundation, 59 Temple Place -- Suite 330, Boston, MA
 Svi dijelovi prevodioca su copyright (C) 1987, 1989, 1992-2000
 by the Free Software Foundation, Inc.@: (FSF).
 
-GNU Pascal je slobodan softver; moæete ga redistribuirati i/ili
-modificirati pod terminima GNU General Public License kao πto je
+GNU Pascal je slobodan softver; mo≈æete ga redistribuirati i/ili
+modificirati pod terminima GNU General Public License kao ≈°to je
 objavljena od Free Software Foundation; ili verzija 2, ili (po
-vaπoj æelji) novija verzija.
+va≈°oj ≈æelji) novija verzija.
 
-GNU Pascal se distribuira u nadi da Êe biti koristan, ali BEZ
-IKAKVE GARANCIJE; bez Ëak i implicirane garancije TRÆI©NE KORISNOSTI
-ili POGODNOSTI ZA BILO KOJU POJEDINA»NU SVRHU. Vidi GNU General
+GNU Pascal se distribuira u nadi da ƒáe biti koristan, ali BEZ
+IKAKVE GARANCIJE; bez ƒçak i implicirane garancije TR≈ΩI≈†NE KORISNOSTI
+ili POGODNOSTI ZA BILO KOJU POJEDINAƒåNU SVRHU. Vidi GNU General
 Public License za detalje.
 
 Trebali ste dobiti kopiju licence GNU General Public License
-zajedno s GNU Pascalom; pogledajte datoteku COPYING. Ako ne, piπite
+zajedno s GNU Pascalom; pogledajte datoteku COPYING. Ako ne, pi≈°ite
 na Free Software Foundation, 59 Temple Place -- Suite 330, Boston, MA
 02111-1307, USA.
 
-Uæivajte,
+U≈æivajte,
 
 GNU Pascal razvojni tim
 @end ifset
