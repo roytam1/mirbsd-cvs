@@ -1,3 +1,0 @@
-@comment $MirOS$
-${P5SITE}/News/NNTPClient.pm
-man/man3/News::NNTPClient.3p

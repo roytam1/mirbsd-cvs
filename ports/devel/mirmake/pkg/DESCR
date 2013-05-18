@@ -1,5 +1,0 @@
-This is the portable MirMake version of MirOS make(1).
-
-It runs on any BSD, and is supposed to run on GNU/Linux,
-Apple Mac OSX, and Microsoft Interix 3.5 as well. There
-is a "BSD compatibility" library, libmirmake.

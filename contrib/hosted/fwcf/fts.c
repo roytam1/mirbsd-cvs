@@ -27,8 +27,7 @@
  * SUCH DAMAGE.
  */
 
-#if !defined(__OpenBSD__) && !defined(__NetBSD__) && !defined(__APPLE__)
-
+#ifndef __OpenBSD__
 #if defined(LIBC_SCCS) && !defined(lint)
 static char sccsid[] = "@(#)fts.c	8.6 (Berkeley) 8/14/94";
 #endif /* LIBC_SCCS and not lint */
@@ -52,7 +51,7 @@ static char sccsid[] = "@(#)fts.c	8.6 (Berkeley) 8/14/94";
 
 #include "defs.h"
 
-__RCSID("$MirOS: contrib/hosted/fwcf/fts.c,v 1.2 2006/09/24 20:34:59 tg Exp $");
+__RCSID("$MirOS: contrib/hosted/fwcf/fts.c,v 1.1 2006/09/24 00:28:32 tg Exp $");
 
 #define internal_function
 
@@ -1114,5 +1113,4 @@ bail:
 	errno = oerrno;
 	return (ret);
 }
-
-#endif /* !OpenBSD/NetBSD/APPLE */
+#endif /* !__OpenBSD__ */
