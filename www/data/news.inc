@@ -606,4 +606,8 @@ Date: 24.02.2008
  one with OpenBSD, NetBSD and MirOS in the AW building, near the shared
  PostgreSQL/BSD developer room. Meet us at the latter! CDs are out though
  (MirOS, FreeSBIE, etc. – only some of the other BSDs left).</p>
+<p>Despite the crappy WLAN and no LAN availability even for booths, Benny
+ and I managed to hack on stuff (e.g., mksh). We also made plans for a
+ very short-term follow-up #10semel release; mostly, security updates for
+ XFree86® and a lot of ports.</p>
 ----
