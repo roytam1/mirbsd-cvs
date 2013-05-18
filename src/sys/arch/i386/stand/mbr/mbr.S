@@ -1,4 +1,4 @@
-/* $MirOS: src/sys/arch/i386/stand/mbr/mbr.S,v 1.5 2007/02/26 17:07:19 tg Exp $ */
+/* $MirOS: src/sys/arch/i386/stand/mbr/mbr.S,v 1.6 2007/03/18 02:29:58 tg Exp $ */
 
 /*-
  * Copyright (c) 2004, 2005, 2007
@@ -70,7 +70,7 @@ LDENTRY(Lm01)
 LDENTRY(Lm02)
 	.ascii	"00 3="
 LDENTRY(Lm03)
-	.ascii	"00 4=MBR 5=fdd Ret=deflt\r\n"
+	.ascii	"00 4=MBR 5=fdd CR=std\r\n"
 #endif
 	.asciz	">"
 
@@ -104,8 +104,10 @@ Lmain:	mov	si,offset Lmsg
 	call	LpBY
 #endif
 	call	Lotxt
+#ifndef BOOTMANAGER
 	mov	bx,offset Lptab	/* we boot "this one" */
-#ifdef BOOTMANAGER
+#define Lkeyp	Labend
+#else
 	/* selection code */
 	xor	ax,ax		/* read CMOS clock ticks since midnight */
 	int	0x1A		/* 32-bit result in cx:dx */
@@ -136,6 +138,7 @@ Lkeyp:	mov	ah,1		/* check if a key was pressed */
 	jz	Lkeyp		/* none was pressed, loop, else below fails */
 	xor	ah,ah		/* get pressed key */
 	int	0x16
+	mov	bx,offset Lptab	/* we boot "this one" */
 	sub	al,13		/* return */
 	jb	Lkeyp		/* illegal */
 	je	Lscanp
@@ -154,8 +157,6 @@ Lkeyp:	mov	ah,1		/* check if a key was pressed */
 	add	bl,al
 	jmp	LbLBA		/* 0..3: partition */
 Lscanp:	/* "return" */
-#else
-#define Lkeyp	Labend
 #endif
 	/* scan the partition table for an active partition */
 	mov	al,[apart]	/* first: hard-coded by fdisk(8) 'fdef' */
@@ -175,6 +176,7 @@ LbLBA:	mov	dx,[bx]		/* 0x01BE .. 0x01BF -> CHS values, part 1 */
 	mov	cx,[bx+2]	/* 0x01C0 .. 0x01C1 -> CHS values, part 2 */
 	mov	ebp,[bx+8]	/* 0x01C6 .. 0x01C9 -> LBA value "start" */
 Lbjmp:	/* got LBA values in ebp, CHS values in cx:dx */
+	push	bx		/* partition table entry, or junk */
 	mov	dl,0x80
 	xor	si,si
 	xor	di,di		/* LBA parm blk overwrites begin of code */
@@ -224,6 +226,8 @@ Ltry0:	pusha
 	jne	Ltry9		/* bad magic? again. */
 	mov	ax,0x0E0D	/* output a carriage return */
 	xor	bx,bx
+	pop	si		/* return address */
+	pop	si		/* partition table entry */
 	push	bx
 	push	word ptr 0x7C00	/* retf address */
 	push	dx		/* drive we loaded from */
