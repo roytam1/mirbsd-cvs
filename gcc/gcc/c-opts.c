@@ -1,7 +1,7 @@
-/* $MirOS: gcc/gcc/c-opts.c,v 1.7 2006/01/31 22:32:43 tg Exp $ */
+/* $MirOS: gcc/gcc/c-opts.c,v 1.8 2006/02/01 01:28:39 tg Exp $ */
 
 /* C/ObjC/C++ command line option handling.
-   Copyright (C) 2002, 2003, 2004 Free Software Foundation, Inc.
+   Copyright (C) 2002, 2003, 2004, 2006 Free Software Foundation, Inc.
    Contributed by Neil Booth.
 
 This file is part of GCC.

@@ -1,4 +1,4 @@
-; $MirOS: gcc/gcc/c.opt,v 1.4 2006/01/31 12:02:28 tg Exp $
+; $MirOS: gcc/gcc/c.opt,v 1.5 2006/02/01 00:34:56 tg Exp $
 ;
 ; Options for the C, ObjC, C++ and ObjC++ front ends.
 ; Copyright (C) 2003, 2005, 2006
@@ -161,7 +161,7 @@ Warn about casting functions to incompatible types
 
 Wbounded
 C ObjC C++ ObjC++
-Warn about exceeding bounds (unimplemented)
+Warn about exceeding bounds
 
 Wcast-qual
 C ObjC C++ ObjC++

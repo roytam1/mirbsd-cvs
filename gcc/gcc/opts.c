@@ -1,7 +1,7 @@
-/* $MirOS: gcc/gcc/opts.c,v 1.6 2005/04/29 16:18:32 tg Exp $ */
+/* $MirOS: gcc/gcc/opts.c,v 1.7 2006/02/01 01:28:39 tg Exp $ */
 
 /* Command line option handling.
-   Copyright (C) 2002, 2003, 2004, 2005
+   Copyright (C) 2002, 2003, 2004, 2005, 2006
    Free Software Foundation, Inc.
    Contributed by Neil Booth.
 
@@ -558,6 +558,7 @@ decode_options (unsigned int argc, const char **argv)
       flag_cse_skip_blocks = 1;
       flag_gcse = 1;
       flag_expensive_optimizations = 1;
+      flag_strength_reduce = 1;
       flag_rerun_cse_after_loop = 1;
       flag_rerun_loop_opt = 1;
       flag_caller_saves = 1;
@@ -575,7 +576,6 @@ decode_options (unsigned int argc, const char **argv)
 
   if (optimize >= 3)
     {
-      flag_strength_reduce = 1;
       flag_strict_aliasing = 1;
       flag_delete_null_pointer_checks = 1;
 
