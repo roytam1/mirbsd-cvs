@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.347 2011/07/27 20:29:33 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.348 2011/08/18 16:53:24 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -7987,7 +7987,7 @@ Tag: debian news
 Date: 11.04.2011
 Author: tg@
 Title: in-target: E: Kaputte Pakete
-Tag: debian
+Tag: bug debian rant
 Language: de-DE-1901
 
 <p><a href="https://bugs.launchpad.net/ubuntu/+bug/757338">*buntu Hardy</a>
@@ -8009,7 +8009,7 @@ Language: de-DE-1901
 Date: 18.08.2011 16:53:01
 Author: tg@
 Title: 「??? ???」 • or • mira meets d-i
-Tag: debian
+Tag: bug debian fun
 
 <p style="font-size:small;">(originally published on 2011-01-26, but
  reposting so the people on Plänet Debian can have some fun)</p>
@@ -8017,7 +8017,7 @@ Tag: debian
  (basically, putting <tt>/</tt> and <i>swap</i> into LVM inside
  cryptsetup, and <tt>/boot</tt> outside), <tt>mirabilos</tt> managed
  to discover an entirely new side of Kubuntu 10.10 on his voyage…</p>
-<p><img src="@@RELPATH@@pics/wlog/cryptsetup.jpg" alt="Warped" />
+<p><img src="@@RELPATH@@pics/wlog/cryptsetup.jpg" alt="Warped" /><br />
  <span xml:lang="de-DE-1901">… wo noch nie ein Debian Developer zuvor
  gewesen ist… oder?</span></p>
 <p>(Only a reboot helped at that point. Earlier, the dialogue box was
@@ -8029,7 +8029,7 @@ Tag: debian
 Date: 25.01.2011
 Author: tg@
 Title: On SecureAPT
-Tag: debian
+Tag: debian rant
 
 <p>Dear Opera Software A.S.A.</p>
 <p>It’s nice that you employ SecureAPT for your <a
@@ -8047,7 +8047,7 @@ Tag: debian
 Date: 09.05.2010
 Author: tg@
 Title: How to upgrade SKS Berkeley DB (bdb) etch→lenny
-Tag: debian
+Tag: debian pcli
 
 <p>Some things are ugly.</p><!-- The HTML of this entry too, I copy-pasted it from Wordpress… -->
 <p>Waldi’s suggestion fails.</p>
@@ -8124,7 +8124,7 @@ Tag: debian fun
 Date: 18.08.2011 16:53:03
 Author: tg@
 Title: FrOSCon 2011
-Tag: debian event
+Tag: debian event grml news
 
 <p>This year without our friends from Grml, but The MirOS Project
  (all two active developers and our Booth Babe gecko2@) will of
@@ -8149,7 +8149,7 @@ Tag: debian event
 Date: 09.06.2010
 Author: tg@
 Title: SPARCstation 20 (75 MHz)
-Tag: debian
+Tag: debian rant
 Language: de-DE-1901
 
 <p>Wenn Du denkst, MirBSD wäre langsam und sein Installer in irgendeiner
@@ -8170,17 +8170,17 @@ Tag: debian
  was about exactly 18 years ago. We don’t talk about the 0.939000
  format any more, but they eventually settled on:</p><div class="boxtext">
  <pre>
-	tg@frozenfish:~/X $ ar rc pkg_1.0_all.deb debian-binary control.tar.gz data.tar.gz
-	tg@frozenfish:~/X $ hexdump -C pkg_1.0_all.deb | head
+	<b>$</b> ar rc pkg_1.0_all.deb debian-binary control.tar.gz data.tar.gz
+	<b>$</b> hexdump -C pkg_1.0_all.deb | head
 	00000000  21 3c 61 72 63 68 3e 0a  64 65 62 69 61 6e 2d 62  |!&lt;arch&gt;.debian-b|
 	00000010  69 6e 61 72 79 20 20 20  31 33 31 33 36 38 33 35  |inary   13136835|
 	00000020  32 39 20 20 31 30 30 36  20 20 32 30 30 20 20 20  |29  1006  200   |
 	00000030  31 30 30 36 34 34 20 20  34 20 20 20 20 20 20 20  |100644  4       |
-	00000040  20 20 60 0a 32 2e 30 0a  63 6f 6e 74 72 6f 6c 2e  |  .2.0.control.|
+	00000040  20 20 60 0a 32 2e 30 0a  63 6f 6e 74 72 6f 6c 2e  |  `.2.0.control.|
 	00000050  74 61 72 2e 67 7a 20 20  31 33 31 33 36 38 33 35  |tar.gz  13136835|
 	00000060  32 39 20 20 31 30 30 36  20 20 32 30 30 20 20 20  |29  1006  200   |
 	00000070  31 30 30 36 34 34 20 20  31 33 39 31 20 20 20 20  |100644  1391    |
-	00000080  20 20 60 0a 1f 8b 08 00  00 00 00 00 00 03 ed 59  |  ............Y|
+	00000080  20 20 60 0a 1f 8b 08 00  00 00 00 00 00 03 ed 59  |  `............Y|
 	00000090  eb 6f db 36 10 f7 d7 f0  af b8 3a 5e 9b 74 b1 f5  |.o.6......:^.t..|
  </pre>
 </div><p class="boxfoot">By then, systems were a.out(5), and everything
@@ -8191,17 +8191,17 @@ Tag: debian
  friend, switched from using BSD style “Unix Archiver” libraries in
  ar(1) to SYSV style libraries on elf(5) systems:</p><div class="boxtext">
  <pre>
-	tg@frozenfish:~/X $ ar rc on-elf debian-binary control.tar.gz data.tar.gz
-	tg@frozenfish:~/X $ hexdump -C on-elf | head
+	<b>$</b> ar rc on-elf debian-binary control.tar.gz data.tar.gz
+	<b>$</b> hexdump -C on-elf | head
 	00000000  21 3c 61 72 63 68 3e 0a  64 65 62 69 61 6e 2d 62  |!&lt;arch&gt;.debian-b|
 	00000010  69 6e 61 72 79 2f 20 20  31 33 31 33 36 38 33 35  |inary/  13136835|
 	00000020  32 39 20 20 31 30 30 36  20 20 32 30 30 20 20 20  |29  1006  200   |
 	00000030  31 30 30 36 34 34 20 20  34 20 20 20 20 20 20 20  |100644  4       |
-	00000040  20 20 60 0a 32 2e 30 0a  63 6f 6e 74 72 6f 6c 2e  |  .2.0.control.|
+	00000040  20 20 60 0a 32 2e 30 0a  63 6f 6e 74 72 6f 6c 2e  |  `.2.0.control.|
 	00000050  74 61 72 2e 67 7a 2f 20  31 33 31 33 36 38 33 35  |tar.gz/ 13136835|
 	00000060  32 39 20 20 31 30 30 36  20 20 32 30 30 20 20 20  |29  1006  200   |
 	00000070  31 30 30 36 34 34 20 20  31 33 39 31 20 20 20 20  |100644  1391    |
-	00000080  20 20 60 0a 1f 8b 08 00  00 00 00 00 00 03 ed 59  |  ............Y|
+	00000080  20 20 60 0a 1f 8b 08 00  00 00 00 00 00 03 ed 59  |  `............Y|
 	00000090  eb 6f db 36 10 f7 d7 f0  af b8 3a 5e 9b 74 b1 f5  |.o.6......:^.t..|
  </pre>
 </div><p class="boxfoot">Can you spot the difference?</p>
@@ -8210,7 +8210,8 @@ Tag: debian
  no format has ever been normed, but DEB files use it as format…
  so what is one to do?</p><div class="boxtext">
  <pre>
-	<b>$</b> GNUTARGET=a.out-i386-linux ar rc with-aout debian-binary control.tar.gz data.tar.gz
+	<b>$</b> GNUTARGET=a.out-i386-linux ar rc with-aout \
+	&gt; debian-binary control.tar.gz data.tar.gz
 	<b>$</b> md5sum pkg_1.0_all.deb with-aout on-elf
 	248f78d42f8ca8f2a3560f9800b2bf01  pkg_1.0_all.deb
 	248f78d42f8ca8f2a3560f9800b2bf01  with-aout
@@ -8219,16 +8220,16 @@ Tag: debian
 </div><p class="boxfoot">“OK, and what do I do on my Debian/m68k system?”</p>
 <p class="boxhead">ar(1) uses bfd, and GNU binutils can not only forcibly
  set the target emulation but also show them:</p><div class="boxtext">
- <tt>
-	<b>debian_m68k$</b> ar -h 2&gt;&amp;1 | grep '^ar: supported targets'<br />
+ <code>
+	<tt style="font-weight:bold;">debian_m68k$</tt> ar -h 2&gt;&amp;1 | grep '^ar: supported targets'<br />
 	ar: supported targets: elf32-m68k a.out-m68k-linux elf32-little elf32-big plugin srec symbolsrec verilog tekhex binary ihex trad-core<br />
-	<b>debian_i386$</b> ar -h 2&gt;&amp;1 | grep '^ar: supported targets'<br />
+	<tt style="font-weight:bold;">debian_i386$</tt> ar -h 2&gt;&amp;1 | grep '^ar: supported targets'<br />
 	ar: supported targets: elf32-i386 a.out-i386-linux pei-i386 elf32-little elf32-big elf64-x86-64 elf32-x86-64 pei-x86-64 elf64-l1om elf64-k1om elf64-little elf64-big plugin srec symbolsrec verilog tekhex binary ihex trad-core<br />
-	<b>debian_i386$</b> ar -h 2&gt;&amp;1 | grep '^ar: supported targets' # binutils-multiarch<br />
+	<tt style="font-weight:bold;">debian_i386$</tt> ar -h 2&gt;&amp;1 | grep '^ar: supported targets' # binutils-multiarch<br />
 	ar: supported targets: elf32-i386 a.out-i386-linux pei-i386 elf32-little elf32-big elf64-alpha ecoff-littlealpha elf64-little elf64-big elf32-littlearm elf32-bigarm elf32-hppa-linux elf32-hppa elf64-x86-64 elf32-x86-64 elf64-l1om elf64-k1om elf64-ia64-little elf64-ia64-big pei-ia64 elf32-m68k a.out-m68k-linux coff-m68k versados ieee a.out-zero-big elf32-tradbigmips elf32-tradlittlemips ecoff-bigmips ecoff-littlemips elf32-ntradbigmips elf64-tradbigmips elf32-ntradlittlemips elf64-tradlittlemips elf32-powerpc aixcoff-rs6000 elf32-powerpcle ppcboot elf64-powerpc elf64-powerpcle aixcoff64-rs6000 aix5coff64-rs6000 elf32-s390 elf64-s390 elf32-shbig-linux elf32-sh-linux elf32-sh64-linux elf32-sh64big-linux elf64-sh64-linux elf64-sh64big-linux elf32-sparc a.out-sparc-linux elf64-sparc a.out-sunos-big pei-x86-64 elf32-m32r-linux elf32-m32rle-linux elf32-spu plugin srec symbolsrec verilog tekhex binary ihex trad-core<br />
-	<b>mirbsd_i386$</b> ar -h 2&gt;&amp;1 | grep '^ar: supported targets'<br />
+	<tt style="font-weight:bold;">mirbsd_i386$</tt> ar -h 2&gt;&amp;1 | grep '^ar: supported targets'<br />
 	ar: supported targets: elf32-i386 coff-a29k-big a.out.adobe aix5coff64-rs6000 a.out-zero-big a.out-mips-little epoc-pe-arm-big epoc-pe-arm-little epoc-pei-arm-big epoc-pei-arm-little coff-arm-big coff-arm-little a.out-arm-netbsd pe-arm-big pe-arm-little pei-arm-big pei-arm-little b.out.big b.out.little efi-app-ia32 efi-app-ia64 elf32-avr elf32-big elf32-bigarc elf32-bigarm elf32-bigarm-symbian elf32-bigarm-vxworks elf32-bigmips elf32-cr16c elf32-cris elf32-crx elf32-d10v elf32-d30v elf32-dlx elf32-fr30 elf32-frv elf32-frvfdpic elf32-h8300 elf32-hppa-linux elf32-hppa-netbsd elf32-hppa elf32-i370 elf32-i386-freebsd elf32-i386-vxworks elf32-i860-little elf32-i860 elf32-i960 elf32-ia64-hpux-big elf32-ip2k elf32-iq2000 elf32-little elf32-littlearc elf32-littlearm elf32-littlearm-symbian elf32-littlearm-vxworks elf32-littlemips elf32-m32r elf32-m32rle elf32-m32r-linux elf32-m32rle-linux elf32-m68hc11 elf32-m68hc12 elf32-m68k elf32-m88k elf32-mcore-big elf32-mcore-little elf32-mn10200 elf32-mn10300 elf32-msp430 elf32-nbigmips elf32-nlittlemips elf32-ntradbigmips elf32-ntradlittlemips elf32-openrisc elf32-or32 elf32-pj elf32-pjl elf32-powerpc elf32-powerpc-vxworks elf32-powerpcle elf32-s390 elf32-sh elf32-shbig-linux elf32-shl elf32-shl-symbian elf32-sh-linux elf32-shl-nbsd elf32-sh-nbsd elf32-sh64 elf32-sh64l elf32-sh64l-nbsd elf32-sh64-nbsd elf32-sh64-linux elf32-sh64big-linux elf32-sparc elf32-tradbigmips elf32-tradlittlemips elf32-us-cris elf32-v850 elf32-vax elf32-xstormy16 elf32-xtensa-be elf32-xtensa-le elf64-alpha-freebsd elf64-alpha elf64-big elf64-bigmips elf64-hppa-linux elf64-hppa elf64-ia64-big elf64-ia64-hpux-big elf64-ia64-little elf64-little elf64-littlemips elf64-mmix elf64-powerpc elf64-powerpcle elf64-s390 elf64-sh64 elf64-sh64l elf64-sh64l-nbsd elf64-sh64-nbsd elf64-sh64-linux elf64-sh64big-linux elf64-sparc elf64-tradbigmips elf64-tradlittlemips elf64-x86-64 mmo pe-powerpc pei-powerpc pe-powerpcle pei-powerpcle a.out-cris demo64 ecoff-bigmips ecoff-biglittlemips ecoff-littlemips ecoff-littlealpha coff-go32 coff-go32-exe coff-h8300 coff-h8500 a.out-hp300hpux a.out-i386 a.out-i386-bsd coff-i386 a.out-i386-freebsd a.out-i386-lynx coff-i386-lynx msdos a.out-i386-netbsd i386os9k pe-i386 pei-i386 coff-i860 coff-Intel-big coff-Intel-little ieee coff-m68k coff-m68k-un a.out-m68k-lynx coff-m68k-lynx a.out-m68k-netbsd coff-m68k-sysv coff-m88kbcs a.out-m88k-mach3 a.out-m88k-openbsd mach-o-be mach-o-le mach-o-fat coff-maxq pe-mcore-big pe-mcore-little pei-mcore-big pei-mcore-little pe-mips pei-mips a.out-newsos3 nlm32-alpha nlm32-i386 nlm32-powerpc nlm32-sparc coff-or32-big a.out-pc532-mach a.out-ns32k-netbsd a.out-pdp11 pef pef-xlib ppcboot aixcoff64-rs6000 aixcoff-rs6000 coff-sh-small coff-sh coff-shl-small coff-shl pe-shl pei-shl coff-sparc a.out-sparc-little a.out-sparc-linux a.out-sparc-lynx coff-sparc-lynx a.out-sparc-netbsd a.out-sunos-big sym a.out-tic30 coff-tic30 coff0-beh-c54x coff0-c54x coff1-beh-c54x coff1-c54x coff2-beh-c54x coff2-c54x coff-tic80 a.out-vax-bsd a.out-vax-netbsd a.out-vax1k-netbsd versados vms-alpha vms-vax coff-w65 coff-we32k coff-z8k elf32-am33lin elf32-ms1 srec symbolsrec tekhex binary ihex netbsd-core<br />
- </tt>
+ </code>
 </div><p class="boxfoot">Wow. While binutils share no single supported
  <em>working</em> target, they can be built multiarch, or (on MirBSD)
  with <tt>--enable-targets=all --enable-64-bit-bfd</tt>. Doesn’t help
@@ -8255,8 +8256,10 @@ Tag: debian
  <pre>
 	<b>$</b> find debian-binary control.tar.gz data.tar.gz | \
 	&gt; mircpio -oHar -Mdist &gt;with-mircpio
-	<b>$</b> mirpax -w -M dist -f with-mirpax -x ar debian-binary control.tar.gz data.tar.gz
-	<b>$</b> mirtar -M dist -A -cf with-mirtar debian-binary control.tar.gz data.tar.gz
+	<b>$</b> mirpax -w -M dist -f with-mirpax -x ar \
+	&gt; debian-binary control.tar.gz data.tar.gz
+	<b>$</b> mirtar -M dist -A -cf with-mirtar \
+	&gt; debian-binary control.tar.gz data.tar.gz
 	<b>$</b> GNUTARGET=a.out-i386-linux fakeroot ar rc with-aout-ar \
 	&gt; debian-binary control.tar.gz data.tar.gz
 	<b>$</b> md5sum with-*
@@ -8327,10 +8330,10 @@ Tag: debian
 	[…]
 	dh_builddeb
 	# create fusionforge-plugin-extratabs binary package
-	mksh -c 'toplev=$$(pwd); cd plugins/fusionforge-plugin-extratabs; \
-	p=$$(print -r -- $$(sed -n '\''/^Package: /s///p'\'' control/control | head -1)); \
-	v=$$(print -r -- $$(sed -n '\''/^Version: /s///p'\'' control/control | head -1)); \
-	a=$$(print -r -- $$(sed -n '\''/^Architecture: /s///p'\'' control/control | head -1)); \
+	toplev=$$(pwd); cd plugins/fusionforge-plugin-extratabs; \
+	p=$$(print -r -- $$(sed -n '/^Package: /s///p' C/control | head -1)); \
+	v=$$(print -r -- $$(sed -n '/^Version: /s///p' C/control | head -1)); \
+	a=$$(print -r -- $$(sed -n '/^Architecture: /s///p' C/control | head -1)); \
 	d=$${p}_$${v}_$${a}.deb; \
 	rm -f $$toplev/../$$d control.tar.gz data.tar.gz; \
 	(cd control; find . | fgrep -v /.svn | sort | \
@@ -8339,14 +8342,14 @@ Tag: debian
 	    mircpio -oC512 -Hustar -M0x0B -Mgslash) | gzip -n9 &gt;data.tar.gz; \
 	mirtar -A -M dist -cf $$toplev/../$$d debian-binary control.tar.gz data.tar.gz; \
 	rm -f control.tar.gz data.tar.gz; \
-	cd $$toplev; dpkg-distaddfile $$d non-free/devel optional'
+	cd $$toplev; dpkg-distaddfile $$d non-free/devel optional
  </pre>
 </div><p class="boxfoot">The hardest part of extending debian/rules
  with that was to get the autobuild and dpkg-distaddfile call right.
  This works, even though I’d call it a temporary kludge. (No need to
  tell me I should have used &amp;&amp; – I know. And I only shell out
  to mksh(1) because the “inner” part was already there from before,
- when I still used ar(1).)</p>
+ when I still used ar(1). This was slightly edited for the wlog.)</p>
 <p>In the meanwhile, apt-extracttemplates can deal with SYSV style
  filenames in DEB files – on Debian sid, but not on Kubuntu hardy,
  which some people are using as Desktop OS still…</p>
