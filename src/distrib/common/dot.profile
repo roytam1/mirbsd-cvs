@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/dot.profile,v 1.24 2008/03/04 23:48:58 tg Exp $
+# $MirOS: src/distrib/common/dot.profile,v 1.25 2008/03/10 15:40:57 tg Exp $
 # $OpenBSD: dot.profile,v 1.4 2002/09/13 21:38:47 deraadt Exp $
 # $NetBSD: dot.profile,v 1.1 1995/12/18 22:54:43 pk Exp $
 #
@@ -59,6 +59,7 @@ sshd() {
 
 export PATH=/sbin:/bin:/usr/bin:/usr/sbin:/ PS1='$PWD # '
 umask 022
+ulimit -c 0
 
 if [[ -z $NEED_UNICODE ]]; then
 	chkuterm; NEED_UNICODE=$?	# 0 = UTF-8; >0 = ISO-8859-1
