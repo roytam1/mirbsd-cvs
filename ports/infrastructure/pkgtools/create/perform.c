@@ -1,4 +1,4 @@
-/* $MirOS: ports/infrastructure/pkgtools/create/perform.c,v 1.12 2008/11/02 19:05:48 tg Exp $ */
+/* $MirOS: ports/infrastructure/pkgtools/create/perform.c,v 1.13 2008/11/02 19:08:42 tg Exp $ */
 /* $OpenBSD: perform.c,v 1.17 2003/08/27 06:51:26 jolan Exp $	*/
 
 /*
@@ -32,7 +32,7 @@
 #include <signal.h>
 #include <unistd.h>
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/create/perform.c,v 1.12 2008/11/02 19:05:48 tg Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/create/perform.c,v 1.13 2008/11/02 19:08:42 tg Exp $");
 
 static void sanity_check(void);
 static void make_dist(char *, char *, const char *, package_t *);
@@ -267,41 +267,37 @@ make_dist(char *homepath, char *pkg, const char *fsuffix, package_t *plist)
     FILE *flist = 0;
     int nargs = 0;
     int i, compression;
-    char *lztmp, *cp;
+    char *cp, *cp2;
 
-    args[nargs++] = strdup("tar");	/* argv[0] */
+    args[nargs++] = xstrdup("tar");	/* argv[0] */
 
     if (*pkg == '/')
 	snprintf(tball, FILENAME_MAX, "%s.%s", pkg, fsuffix);
     else
 	snprintf(tball, FILENAME_MAX, "%s/%s.%s", homepath, pkg, fsuffix);
 
-    if (((lztmp = strrchr(tball, '.')) != NULL) &&
-      (!strcmp(lztmp, ".clz"))) {
+    if (((cp = strrchr(tball, '.')) != NULL) &&
+      (!strcmp(cp, ".clz")))
 	/* LZMA compression */
 	compression = 2;
-	lztmp = strdup(tball);
-	lztmp[strlen(lztmp) - 1] = '~';
-    } else if (strchr(fsuffix, 'z'))
+    else if (strchr(fsuffix, 'z'))
 	/* gzip compression */
 	compression = 1;
     else
 	compression = 0;
 
-    args[nargs++] = strdup("-c");
+    args[nargs++] = xstrdup("-c");
     if (!WantUSTAR)
-	args[nargs++] = strdup("-S");
-    args[nargs++] = strdup("-f");
-    args[nargs++] = compression == 2 ? lztmp : tball;
-    if (compression == 1)
-	args[nargs++] = strdup("-z");
+	args[nargs++] = xstrdup("-S");
+    args[nargs++] = xstrdup("-f");
+    args[nargs++] = compression == 2 ? xstrdup("-") : tball;
     if (Dereference)
-	args[nargs++] = strdup("-h");
+	args[nargs++] = xstrdup("-h");
     if (ExcludeFrom) {
       /* XXX this won't work until someone adds the gtar -X option
 	 (--exclude-from-file) to paxtar - so long it is disabled
 	 here and a warning is printed in main.c
-	args[nargs++] = strdup("-X");
+	args[nargs++] = xstrdup("-X");
 	args[nargs++] = ExcludeFrom;
 	*/
     }
@@ -310,19 +306,19 @@ make_dist(char *homepath, char *pkg, const char *fsuffix, package_t *plist)
 	printf("Creating %star ball in '%s'\n",
 	    compression == 2 ? "LZMA compressed " :
 	    compression == 1 ? "gzip'd " : "", tball);
-    args[nargs++] = strdup(CONTENTS_FNAME);
-    args[nargs++] = strdup(COMMENT_FNAME);
-    args[nargs++] = strdup(DESC_FNAME);
+    args[nargs++] = xstrdup(CONTENTS_FNAME);
+    args[nargs++] = xstrdup(COMMENT_FNAME);
+    args[nargs++] = xstrdup(DESC_FNAME);
     if (Install)
-        args[nargs++] = strdup(INSTALL_FNAME);
+        args[nargs++] = xstrdup(INSTALL_FNAME);
     if (DeInstall)
-	args[nargs++] = strdup(DEINSTALL_FNAME);
+	args[nargs++] = xstrdup(DEINSTALL_FNAME);
     if (Require)
-	args[nargs++] = strdup(REQUIRE_FNAME);
+	args[nargs++] = xstrdup(REQUIRE_FNAME);
     if (Display)
-	args[nargs++] = strdup(DISPLAY_FNAME);
+	args[nargs++] = xstrdup(DISPLAY_FNAME);
     if (Mtree)
-	args[nargs++] = strdup(MTREE_FNAME);
+	args[nargs++] = xstrdup(MTREE_FNAME);
 
     for (p = plist->head; p; p = p->next) {
 	if (nargs > (DIST_MAX_ARGS - 2))
@@ -332,7 +328,7 @@ make_dist(char *homepath, char *pkg, const char *fsuffix, package_t *plist)
 	case PLIST_FILE:
 	    if (!flist) {
 	    	int fd;
-		if ((tempfile[current] = strdup("/tmp/tpkg.XXXXXXXXXX")) == NULL)
+		if ((tempfile[current] = xstrdup("/tmp/tpkg.XXXXXXXXXX")) == NULL)
 		    err(2, NULL);
 		if ((fd = mkstemp(tempfile[current])) == -1)
 		    errx(2, "can't make temp file");
@@ -340,7 +336,7 @@ make_dist(char *homepath, char *pkg, const char *fsuffix, package_t *plist)
 		    errx(2, "can't write to temp file");
 		if (strcmp(args[nargs], "-C") == 0)
 		    nargs+= 2;
-		args[nargs++] = strdup("-I");
+		args[nargs++] = xstrdup("-I");
 		args[nargs++] = tempfile[current++];
 	    }
 	    fprintf(flist, "%s\n", p->name);
@@ -354,16 +350,10 @@ make_dist(char *homepath, char *pkg, const char *fsuffix, package_t *plist)
 	    if (flist)
 		fclose(flist);
 	    flist = 0;
-	    args[nargs] = strdup("-C");
-	    if (BaseDir) {
-		size_t size = strlen(BaseDir)+2+strlen(p->name);
-		args[nargs+1] = malloc(size);
-		if (args[nargs+1] == NULL) {
-		    cleanup(0);
-		    errx(2, "can't get Cwd space");
-		}
-		snprintf(args[nargs+1], size, "%s/%s", BaseDir, p->name);
-	    } else
+	    args[nargs] = xstrdup("-C");
+	    if (BaseDir)
+		xasprintf(&args[nargs+1], "%s/%s", BaseDir, p->name);
+	    else
 		args[nargs+1] = p->name;
 	    break;
 	case PLIST_IGNORE:
@@ -380,15 +370,23 @@ make_dist(char *homepath, char *pkg, const char *fsuffix, package_t *plist)
 
     /* fork/exec tar to create the package */
 
-    cp = format_comm(args);
-    if ((ret = sxsystem(false, cp)) == -1) {
+    cp = format_comm(cargs);
+    if (compression) {
+	char *tf;
+
+	xasprintf(&cp2, "%s | %s >%s", cp, compression == 1 ?
+	  "gzip -n9fc" : "lzma -z9fc", (tf = format_arg(tball)));
+	xfree(tf);
+	xfree(cp);
+    } else
+	cp2 = cp;
+
+    if ((ret = sxsystem(compression == 2, cp2)) == -1) {
 	for (i = 0; i < current; i++)
 	    unlink(tempfile[i]);
-	if (compression == 2)
-	    unlink(lztmp);
 	exit(2);
     }
-    xfree(cp);
+    xfree(cp2);
     for (i = 0; i < current; i++)
 	unlink(tempfile[i]);
     if (BaseDir) {
@@ -399,31 +397,9 @@ make_dist(char *homepath, char *pkg, const char *fsuffix, package_t *plist)
     }
     /* assume either signal or bad exit is enough for us */
     if (ret) {
-	if (compression == 2)
-	    unlink(lztmp);
 	cleanup(0);
-	errx(2, "%s command failed with code %d", "tar", ret);
+	errx(2, "tar command failed with code %d", ret);
     }
-
-    if (compression != 2)
-	return;
-    /* apply LZMA compression */
-
-    nargs = 0;
-    cargs[nargs++] = "lzma";
-    cargs[nargs++] = "-z9fc";
-    cargs[nargs++] = lztmp;
-    cargs[nargs] = NULL;
-    cp = format_comm(cargs);
-    if ((ret = sxsystem(true, cp))) {
-	unlink(lztmp);
-	unlink(tball);
-	cleanup(0);
-	errx(2, "%s command failed with code %d", "lzma", ret);
-    }
-    unlink(lztmp);
-    free(lztmp);
-    xfree(cp);
 }
 
 static void
