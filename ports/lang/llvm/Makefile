@@ -1,4 +1,4 @@
-# $MirOS: ports/lang/llvm/Makefile,v 1.4 2008/11/09 19:40:03 tg Exp $
+# $MirOS: ports/lang/llvm/Makefile,v 1.5 2008/11/09 23:16:27 tg Exp $
 
 COMMENT=		Low Level Virtual Machine compiler infrastructure
 SVN_DISTREV=		58935
@@ -10,6 +10,18 @@ PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 PERMIT_PACKAGE_CDROM=	Yes
 PERMIT_PACKAGE_FTP=	Yes
+
+.include <mirports.sys.mk>
+
+.if ${OStype} == "MirBSD"
+.  if ${OSver:R} < 10
+IGNORE+=		"cannot be built: Operating System too old and unsupported"
+.  elif ${OSver:R} == 10
+.    if ${OSver:E} < 163
+IGNORE+=		"is not for you: You're not fit enough for that much disgusting C++ junk. Go away"
+.    endif
+.  endif
+.endif
 
 SVN_DISTDIR=		llvm
 SVN_DISTPATH=		http://llvm.org/svn/llvm-project/llvm/trunk
