@@ -1,4 +1,4 @@
-# $MirOS: src/gnu/usr.bin/binutils/opcodes/Makefile.am,v 1.5 2005/07/07 16:23:17 tg Exp $
+# $MirOS: src/gnu/usr.bin/binutils/opcodes/Makefile.am,v 1.6 2006/01/31 23:10:28 tg Exp $
 
 ## Process this file with automake to generate Makefile.in
 
@@ -13,6 +13,10 @@ MKDEP = gcc -MM
 WARN_CFLAGS = @WARN_CFLAGS@
 NO_WERROR = @NO_WERROR@
 AM_CFLAGS = $(WARN_CFLAGS)
+
+HOST_COMPILE = $(HOSTCC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
+	$(CPPFLAGS) $(AM_CFLAGS) $(HOSTCFLAGS)
+HOST_LINK = $(LIBTOOL) --tag=CC --mode=link $(HOSTCC) $(HOSTCFLAGS) $(HOSTLDFLAGS) -o $@
 
 bfdlibdir = @bfdlibdir@
 bfdincludedir = @bfdincludedir@
@@ -457,18 +461,20 @@ stamp-xstormy16: $(CGENDEPS) $(CPUDIR)/xstormy16.cpu $(CPUDIR)/xstormy16.opc
 		archfile=$(CPUDIR)/xstormy16.cpu opcfile=$(CPUDIR)/xstormy16.opc extrafiles=
 
 ia64-gen: ia64-gen.o
-	$(LINK) ia64-gen.o -liberty
+	$(HOST_LINK) ia64-gen.o -liberty
 
 ia64-gen.o: ia64-gen.c ia64-opc.c ia64-opc-a.c ia64-opc-b.c ia64-opc-f.c \
   ia64-opc-i.c ia64-opc-m.c ia64-opc-d.c ia64-opc.h
+	$(HOST_COMPILE) -c $<
 
 ia64-asmtab.c: ia64-gen ia64-ic.tbl ia64-raw.tbl ia64-waw.tbl ia64-war.tbl
 	./ia64-gen --srcdir $(srcdir) >$@
 
 s390-mkopc: s390-mkopc.o
-	$(LINK) s390-mkopc.o -liberty
+	$(HOST_LINK) s390-mkopc.o -liberty
 
 s390-mkopc.o: s390-mkopc.c
+	$(HOST_COMPILE) -c $<
 
 s390-opc.tab: s390-mkopc s390-opc.txt
 	./s390-mkopc < $(srcdir)/s390-opc.txt > s390-opc.tab

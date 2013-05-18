@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/bsd.cfwrap.mk,v 1.9 2006/01/31 13:24:17 tg Exp $
+# $MirOS: src/share/mk/bsd.cfwrap.mk,v 1.10 2006/06/09 17:23:17 tg Exp $
 
 .if !defined(BSD_CFWRAP_MK)
 BSD_CFWRAP_MK=1
@@ -47,17 +47,22 @@ FSFOBJDIR!=	readlink -nf ${.OBJDIR}
 FSFMARGS+=	-f ${FSFMAKEFILE}
 .endif
 
+HOSTCFLAGS?=	${CFLAGS} ${COPTS}
+
 .if ${DEBUGLIBS:L} == "yes"
 FSFCFLAGS+=	-g1
 FSFCXXFLAGS+=	-g1
+FSFHOSTCFLAGS+=	-g1
 .endif
 
 FSFCFLAGS+=	${CFLAGS} ${COPTS}
 FSFCXXFLAGS+=	${CXXFLAGS} ${CXXOPTS}
+FSFHOSTCFLAGS+=	${HOSTCFLAGS}
 
 .if ${FSFCFLAGS:M*Werror*} || ${FSFCXXFLAGS:M*Werror*}
 FSFCFLAGS+=	-Werror-maybe-reset
 FSFCXXFLAGS+=	-Werror-maybe-reset
+FSFHOSTCFLAGS+=	-Werror-maybe-reset
 .endif
 
 .if !defined(CFWRAP_NO_CCOM)
@@ -65,6 +70,7 @@ XVARS+=	CC=${CC:C/ *$//:Q} CFLAGS=${FSFCFLAGS:C/ *$//:Q} CPP=${CPP:Q}
 .  if !defined(CFWRAP_NO_CXXCOM)
 XVARS+=	CXX=${CXX:C/ *$//:Q} CXXFLAGS=${FSFCXXFLAGS:C/ *$//:Q}
 .  endif
+XVARS+=	HOSTCFLAGS=${FSFHOSTCFLAGS:C/ *$//:Q}
 .endif
 
 XARGS+=	INSTALL_PROGRAM=${INSTALL_PROGRAM:Q} INSTALL_DATA=${INSTALL_DATA:Q} \

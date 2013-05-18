@@ -14,7 +14,7 @@
 
 @SET_MAKE@
 
-# $MirOS: src/gnu/usr.bin/binutils/opcodes/Makefile.in,v 1.6 2005/12/20 22:20:12 tg Exp $
+# $MirOS: src/gnu/usr.bin/binutils/opcodes/Makefile.in,v 1.7 2006/01/31 22:41:13 tg Exp $
 
 
 srcdir = @srcdir@
@@ -84,12 +84,15 @@ depcomp =
 am__depfiles_maybe =
 COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
 	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
+HOST_COMPILE = $(HOSTCC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
+	$(CPPFLAGS) $(AM_CFLAGS) $(HOSTCFLAGS)
 LTCOMPILE = $(LIBTOOL) --tag=CC --mode=compile $(CC) $(DEFS) \
 	$(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) \
 	$(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
 LINK = $(LIBTOOL) --tag=CC --mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) \
 	$(AM_LDFLAGS) $(LDFLAGS) -o $@
+HOST_LINK = $(LIBTOOL) --tag=CC --mode=link $(HOSTCC) $(HOSTCFLAGS) $(HOSTLDFLAGS) -o $@
 SOURCES = libopcodes.c $(libopcodes_la_SOURCES)
 RECURSIVE_TARGETS = all-recursive check-recursive dvi-recursive \
 	html-recursive info-recursive install-data-recursive \
@@ -987,18 +990,20 @@ stamp-xstormy16: $(CGENDEPS) $(CPUDIR)/xstormy16.cpu $(CPUDIR)/xstormy16.opc
 		archfile=$(CPUDIR)/xstormy16.cpu opcfile=$(CPUDIR)/xstormy16.opc extrafiles=
 
 ia64-gen: ia64-gen.o
-	$(LINK) ia64-gen.o -liberty
+	$(HOST_LINK) ia64-gen.o -liberty
 
 ia64-gen.o: ia64-gen.c ia64-opc.c ia64-opc-a.c ia64-opc-b.c ia64-opc-f.c \
   ia64-opc-i.c ia64-opc-m.c ia64-opc-d.c ia64-opc.h
+	$(HOST_COMPILE) -c $<
 
 ia64-asmtab.c: ia64-gen ia64-ic.tbl ia64-raw.tbl ia64-waw.tbl ia64-war.tbl
 	./ia64-gen --srcdir $(srcdir) >$@
 
 s390-mkopc: s390-mkopc.o
-	$(LINK) s390-mkopc.o -liberty
+	$(HOST_LINK) s390-mkopc.o -liberty
 
 s390-mkopc.o: s390-mkopc.c
+	$(HOST_COMPILE) -c $<
 
 s390-opc.tab: s390-mkopc s390-opc.txt
 	./s390-mkopc < $(srcdir)/s390-opc.txt > s390-opc.tab
