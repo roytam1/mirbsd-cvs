@@ -1,4 +1,4 @@
-@comment $MirOS: ports/devel/mico/PLIST,v 1.1 2008/08/12 15:23:52 tg Exp $
+@comment $MirOS: ports/devel/mico/PLIST,v 1.2 2008/08/20 18:15:33 tg Exp $
 @comment $OpenBSD: PLIST,v 1.3 2003/03/31 00:53:58 margarida Exp $
 bin/eventd
 bin/idl
@@ -669,7 +669,6 @@ share/doc/mico/manual.ps
 @dirrm share/doc/mico/examples/bench
 @dirrm share/doc/mico/examples
 @dirrm share/doc/mico
-@dirrm share/doc
 @dirrm include/ministl
 @dirrm include/mico/transport
 @dirrm include/mico/security
