@@ -1,5 +1,5 @@
 <!-- PageID: wlog-9 -->
-<small class="rcsid">$MirOS: www/content/d2xvZy05.inc,v 1.63 2006/11/04 05:54:47 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy05.inc,v 1.64 2006/11/05 21:34:20 tg Exp $</small>
 <h1>MirBSD &ndash; WTF is Verpeilungsfaktor?</h1>
 <p><small><a href="#eof">bottom</a> or <a href="/?older">older</a>
  editions</small></p>
@@ -1066,6 +1066,35 @@ plot [150:200] 	"bs06.4Kmin.txt" using 1:3 with lines title "exc{\350}s en chlor
   IP addresses must not be paid for, they say. <b>And</b> I don't get to
   set my reverse DNS. Now, funnily, even their own MTA won't accept mail
   from me, which it did before, from the dial-up pool addresses.</p>
+</div>
+
+<div class="wlentry">
+ <h3 id="e20061112">12.11.2006 by tg@</h3>
+ <p>Not commenting on most things here, just that I've planned more over
+  the last few days regarding our next porting system, talked with Benny
+  about several things; fixed, enhanced, and shrunk mksh(1); improved <a
+  href="http://mirbsd.de/jupp">jupp</a>; read about Unicode.</p>
+ <p style="margin-bottom:0px;">TODO: Release another jupp with an option
+  to scan for *rc in the directory where the executable resides (DOS/Win
+  based systems require this), and maybe build a static libcygwin1.a. Do
+  something with the following idea:</p>
+ <div style="border:4px ridge blue; margin:0px 24px 0px 24px; padding:12px;">
+  <pre>
+	latin1:
+
+	tg@odem:~ $ printf '\033[6n\xc3\xa4\b\033[6n';hd
+	A^[[24;1R^[[24;2R
+	00000000  1B 5B 32 34 3B 31 52 1B - 5B 32 34 3B 32 52 0A     |.[24;1R.[24;2R.|
+
+	utf-8:
+
+	tg@odem:~ $ printf '\033[6n\xc3\xa4\b\033[6n';hd
+	^[[24;1R^[[24;1R
+	00000000  1B 5B 32 34 3B 31 52 1B - 5B 32 34 3B 31 52 0A     |.[24;1R.[24;1R.|
+  </pre>
+ </div><p style="margin-top:0px;">Idea is originally from Ricardas Cepas
+  &lt;rch@pub.osf.lt&gt; (mail currently down, due to a misconfiguration
+  on their side).</p>
 </div>
 
 <p id="eof">Good luck, have fun, take care etc.pp</p>
