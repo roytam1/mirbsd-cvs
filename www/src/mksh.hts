@@ -1,10 +1,10 @@
-# $MirOS: www/src/mksh.hts,v 1.41 2007/07/31 15:36:20 tg Exp $
+# $MirOS: www/src/mksh.hts,v 1.42 2007/08/03 00:02:31 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.41 2007/07/31 15:36:20 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.42 2007/08/03 00:02:31 tg Exp $'
 mws_content <<'EOF'
 <h1>mksh(1) R30</h1>
 <p>This is the website of the MirBSD™ Korn Shell, an actively developed free
@@ -561,9 +561,10 @@ mws_content <<'EOF'
  <li>Solaris 10 Generic_125100-04 (sparc,V8+ sun4u SUNcc5.8 121015-04, ld 5.10-1.482)</li>
  <li>Solaris 10 Generic_125100-04 (sparc64,V9 sun4u SUNcc5.8 121015-04, ld 5.10-1.482)</li>
  <li>ecce!GNU/Linux 1.00 2.0.38a (i386 libc5 gcc2.7.2.3)</li>
- <li>FreeWRT GNU/Linux 1.1/trunk 2.4.34 (mipsel uClibc/brcm gcc3.4.4)</li>
- <li>FreeWRT GNU/Linux 1.1/trunk 2.6.19.1 (mipsel uClibc/rb gcc3.4.4)</li>
- <li>FreeWRT GNU/Linux 1.1/trunk 2.6.19.1 (i386 uClibc/WRAP gcc3.4.4)</li>
+ <li>FreeWRT GNU/Linux 1.1/trunk 2.4.34 (mipsel uClibc/brcm gcc3.4.4) <em>cross-compiled</em></li>
+ <li>FreeWRT GNU/Linux 1.1/trunk 2.6.19.1 (mipsel uClibc/rb gcc3.4.4) <em>cross-compiled</em></li>
+ <li>FreeWRT GNU/Linux 1.1/trunk 2.6.19.1 (i386 uClibc/WRAP gcc3.4.4) <em>cross-compiled</em></li>
+ <li>Ångström GNU/Linux spitz 2.6.20.6 PREEMPT (armv5tel glibc2.5 gcc4.1.2) <em>compiled natively, not cross</em></li>
  <li>Debian GNU/Linux 3.1 sarge 2.6.8-3 (alpha gcc1:3.3.5-13)</li>
  <li>Debian GNU/Linux 4.0 etch 2.6.18-4-686 (i386 gcc4.1.1-21)</li>
  <li>Debian GNU/Linux 4.0 etch 2.6.18-4-686 (i386 icc9.1.042)</li>
