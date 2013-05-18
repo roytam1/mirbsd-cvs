@@ -2,6 +2,7 @@ Speicherlayout für den neuen Bootloader:
 
 • Linken nach 0x00040000 (4000:0000h)
 • Stack bei   0x0003FFFC (3000:FFFCh) nach Relokation
+• bounce_buf @0x00030000 (3000:0000h) Größe 4096 Bytes, dito
 • initialer Stack 160 Bytes in cmd_buf in srt0.S(.text)
 • maximale Code- und Datengröße (also ohne .bss) 64 KiB (minus 1 bißchen)
 • initiale Relokation erfolgt durch srt0.S, sofern nicht durch bootxx be-
@@ -33,4 +34,4 @@ Speicherlayout für den neuen Bootloader:
 • XXX Standardlaufwerk bei PXE?
 
 ─────────────────────────────────────────────────────────────────────────
-$MirOS: src/sys/arch/i386/stand/README,v 1.4 2009/01/10 12:38:21 tg Exp $
+$MirOS: src/sys/arch/i386/stand/README,v 1.5 2009/01/10 14:30:43 tg Exp $

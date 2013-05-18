@@ -218,11 +218,6 @@ pxe_progname:
 _C_LABEL(bios_bootpte):
 	.long	0, 0, 0, 0
 
-	.bss
-	.globl	_C_LABEL(bounce_buf)
+	bounce_buf = 0x30000
+	.globl	bounce_buf
 	.size	bounce_buf, 4096
-	.p2align 4
-_C_LABEL(bounce_buf):
-	.skip	4096
-
-	.end
