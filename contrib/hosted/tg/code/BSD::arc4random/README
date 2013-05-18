@@ -1,4 +1,4 @@
-BSD::arc4random version 1.43
+BSD::arc4random version 1.50
 ============================
 
 This module provides a Perl API for the BSDs' arc4random(3) suite
@@ -64,11 +64,12 @@ these functions.
 
 COPYRIGHT AND LICENCE
 
-Copyright (c) 2008, 2009
+Copyright (c) 2008, 2009, 2010, 2011
 	Thorsten "mirabilos" Glaser, MirOS Project
 Copyright (c) 2009
 	Benny Siegert, MirOS Project
 Uploaded to CPAN by: Sebastian "Vutral" Schwarz (PAUSE ID: SJSZ)
+Credits to him for input, ideas and a lot of help.
 The arc4random(9) PRNG has been invented by the OpenBSD Project.
 The arc4random_uniform algorithm is derived from the code in the
 OpenBSD kernel, published by Damien Miller under the ISC licence
@@ -77,4 +78,4 @@ OpenBSD kernel, published by Damien Miller under the ISC licence
 This module is covered by the MirOS Licence: http://mirbsd.de/MirOS-Licence
 
 ________________________________________________________________________________________
-$MirOS: contrib/hosted/tg/code/BSD::arc4random/README,v 1.4 2009/11/22 20:04:07 tg Exp $
+$MirOS: contrib/hosted/tg/code/BSD::arc4random/README,v 1.5 2009/11/29 15:52:54 tg Exp $

@@ -1,6 +1,6 @@
-# $MirOS: contrib/hosted/tg/code/BSD::arc4random/lib/BSD/arc4random.pm,v 1.8 2009/11/29 15:52:55 tg Exp $
+# $MirOS: contrib/hosted/tg/code/BSD::arc4random/lib/BSD/arc4random.pm,v 1.9 2010/01/06 19:11:55 tg Exp $
 #-
-# Copyright (c) 2008, 2009, 2010
+# Copyright (c) 2008, 2009, 2010, 2011
 #	Thorsten Glaser <tg@mirbsd.org>
 # Copyright (c) 2009
 #	Benny Siegert <bsiegert@mirbsd.org>
@@ -29,7 +29,7 @@ BEGIN {
 	require Exporter;
 	require DynaLoader;
 	use vars qw($VERSION @ISA @EXPORT @EXPORT_OK %EXPORT_TAGS);
-	$VERSION = "1.43";
+	$VERSION = "1.50";
 	@ISA = qw(Exporter DynaLoader);
 	@EXPORT = qw();
 	@EXPORT_OK = qw(
@@ -160,13 +160,14 @@ arc4random_uniform($)
 	my $min;
 
 	return 0 unless defined($upper_bound);
-	$upper_bound &= ~0;	# convert to UV (unsigned integer value)
+	# convert upper_bound to 32-bit UV (unsigned integer value)
+	$upper_bound &= 0xFFFFFFFF;
 	return 0 if $upper_bound < 2 || $upper_bound > 0xFFFFFFFF;
 
 	# Calculate (2**32 % upper_bound) avoiding 64-bit math
 	if ($upper_bound > 0x80000000) {
 		# 2**32 - upper_bound (only one "value area")
-		$min = 1 + ~$upper_bound;
+		$min = 1 + (~$upper_bound & 0xFFFFFFFF);
 	} else {
 		# (2**32 - x) % x == 2**32 % x when x <= 2**31
 		$min = (0xFFFFFFFF - $upper_bound + 1) % $upper_bound;
@@ -352,8 +353,9 @@ L<https://www.mirbsd.org/a4rp5bsd.htm> when it's done being written.
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright (c) 2008, 2009 Thorsten "mirabilos" Glaser
+Copyright (c) 2008, 2009, 2010, 2011 Thorsten "mirabilos" Glaser
 Copyright (c) 2009 Benny Siegert
+Credits to Sebastian "Vutral" Schwarz
 
 This module is covered by the MirOS Licence:
 L<http://mirbsd.de/MirOS-Licence>
