@@ -1,4 +1,4 @@
-							     MirOS BSD #10
+						     MirOS BSD #10-current
 
 Setup CD for MirOS (i386 and sparc)
 ===================================
@@ -121,7 +121,7 @@ MirBSD is
 Copyright (c) 2002, 2003
 	Thorsten "mirabilos" Glaser <tg@66h.42h.de>
 MirOS is
-Copyright (c) 2003, 2004, 2005, 2006, 2007
+Copyright (c) 2003, 2004, 2005, 2006, 2007, 2008
 	The MirOS Project Team (see /usr/share/doc/legal/LICENCE)
 
 Provided that these terms and disclaimer and all copyright notices
@@ -168,5 +168,5 @@ Some of the supplied software is covered by GNU licences. The source
 code is available at http://www.mirbsd.org/ and its mirrors; further
 information can be found at /usr/share/doc/legal/ as well.
 
-_______________________________________________________________________
-$MirOS: src/distrib/common/00-README,v 1.8 2007/06/04 09:05:40 tg Exp $
+________________________________________________________________________
+$MirOS: src/distrib/common/00-README,v 1.10 2007/06/30 02:47:41 tg Exp $

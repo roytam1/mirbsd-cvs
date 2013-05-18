@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/install.sub,v 1.27 2008/03/05 01:01:29 tg Exp $
+# $MirOS: src/distrib/common/install.sub,v 1.28 2008/03/09 19:43:44 tg Exp $
 # $OpenBSD: install.sub,v 1.388 2005/07/02 00:55:48 uwe Exp $
 # $NetBSD: install.sub,v 1.5.2.8 1996/09/02 23:25:02 pk Exp $
 #
@@ -114,7 +114,7 @@ welcome() {
 
 	cat <<__EOT
 
-Welcome to the ${OBSD} $MODE program.
+Welcome to the ${OBSD} $MODE program (old, rewrite in progress).
 
 This program will help you $MODE MirOS. At any prompt except password prompts
 you can run a shell command by typing '!foo', or escape to a shell by typing
