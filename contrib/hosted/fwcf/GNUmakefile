@@ -1,10 +1,10 @@
-# $MirOS: contrib/hosted/fwcf/GNUmakefile,v 1.6 2007/02/16 19:58:09 tg Exp $
+# $MirOS: contrib/hosted/fwcf/GNUmakefile,v 1.7 2007/03/09 21:10:28 tg Exp $
 #-
 # This file is part of the FreeWRT project. FreeWRT is copyrighted
 # material, please see the LICENCE file in the top-level directory
 # or at http://www.freewrt.org/licence for details.
 
-SRCS=		tool.c
+SRCS+=		tool.c
 SRCS+=		sys_linux.c
 SRCS+=		compress.c
 SRCS+=		cpr_get.c
@@ -21,7 +21,7 @@ SRCS+=		wraps.c
 
 # the compressor
 SRCS+=		c_lzo1x1.c
-CFLAGS+=	-Ibundled
+CPPFLAGS+=	-Ibundled
 
 OBJS=		${SRCS:.c=.o}
 
