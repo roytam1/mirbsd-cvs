@@ -1,4 +1,4 @@
-/* $MirOS: contrib/code/libhaible/mbsrtowcs.c,v 1.1 2006/05/30 21:29:48 tg Exp $ */
+/* $MirOS: contrib/code/libhaible/mbsrtowcs.c,v 1.2 2006/05/30 21:35:56 tg Exp $ */
 
 /*-
  * Copyright (c) 2006
@@ -22,7 +22,7 @@
 
 #include <wchar.h>
 
-__RCSID("$MirOS: contrib/code/libhaible/mbsrtowcs.c,v 1.1 2006/05/30 21:29:48 tg Exp $");
+__RCSID("$MirOS: contrib/code/libhaible/mbsrtowcs.c,v 1.2 2006/05/30 21:35:56 tg Exp $");
 
 size_t
 mbsrtowcs(wchar_t *__restrict__ dest, const char **__restrict__ srcp,
@@ -60,7 +60,7 @@ mbsrtowcs(wchar_t *__restrict__ dest, const char **__restrict__ srcp,
 		return (cnt);
 	}
 	if (dest != NULL) {
-		for ( ; len > 0; len--) {
+		while (len-- > 0) {
 			const unsigned char *s2 = src;
 			if (ps->count == 0) {
 				c = *src;
