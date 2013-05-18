@@ -1,4 +1,4 @@
-# $MirOS: ports/www/php/Makefile.inc,v 1.15 2007/02/22 23:11:48 tg Exp $
+# $MirOS: ports/www/php/Makefile.inc,v 1.16 2007/03/31 21:14:20 tg Exp $
 # $OpenBSD: Makefile.inc,v 1.1.1.1 2004/10/02 11:32:35 robert Exp $
 
 .include <mirports.sys.mk>
@@ -9,7 +9,7 @@ NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
 V=			5.0.5
 HV=			0.4.8
-PV=			3
+DASH_VER=		4
 DISTNAME=		php-${V}
 CATEGORIES=		www lang
 RESPONSIBLE=		Thorsten Glaser <tg@mirbsd.de>
@@ -88,7 +88,7 @@ CONFIGURE_ARGS+=	--enable-yp
 .endif
 
 MODULES+=		converters/libiconv
-CORE_DEPENDENCY=	:php-core-${V}-${PV}:www/php/core
+CORE_DEPENDENCY=	:php-core-${V}-${DASH_VER}:www/php/core
 CORE_LIB_DEPENDS+=	xml2::textproc/libxml \
 			sqlite::databases/sqlite2
 

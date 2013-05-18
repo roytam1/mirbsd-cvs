@@ -1,7 +1,7 @@
-# $MirOS: ports/www/php/extensions/Makefile,v 1.21 2008/05/02 15:39:45 tg Exp $
+# $MirOS: ports/www/php/extensions/Makefile,v 1.22 2008/05/02 15:41:38 tg Exp $
 # $OpenBSD: Makefile,v 1.17 2005/12/29 23:06:28 sturm Exp $
 
-FULLPKGNAME=		php-extensions-${V}-${PV}
+FULLPKGNAME=		php-extensions-${V}-${DASH_VER}
 COMMENT=		informational package about PHP5 extensions
 
 MULTI_PACKAGES=
@@ -292,7 +292,7 @@ XSL_DEPENDS=		xslt,exslt::textproc/libxslt
 
 .for i in ${MULTI_PACKAGES}
 .  if !defined(FULLPKGNAME${i})
-FULLPKGNAME${i}=	php${i}-${V}-${PV}
+FULLPKGNAME${i}=	php${i}-${V}-${DASH_VER}
 .  endif
 .endfor
 

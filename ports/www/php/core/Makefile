@@ -1,4 +1,4 @@
-# $MirOS: ports/www/php/core/Makefile,v 1.18 2008/03/23 13:35:28 bsiegert Exp $
+# $MirOS: ports/www/php/core/Makefile,v 1.19 2008/05/02 12:09:21 tg Exp $
 # $OpenBSD: Makefile,v 1.12 2005/12/29 23:03:29 sturm Exp $
 
 MULTI_PACKAGES=		-pear
@@ -6,8 +6,8 @@ SUBPACKAGE?=
 
 COMMENT=		server-side HTML-embedded scripting language
 COMMENT-pear=		base classes for common PHP tasks
-PKGNAME=		php-core-${V}-${PV}
-FULLPKGNAME-pear=	php-pear-${V}-${PV}
+PKGNAME=		php-core-${V}-${DASH_VER}
+FULLPKGNAME-pear=	php-pear-${V}-${DASH_VER}
 
 # some variables to substitute
 SUBST_VARS+=		PHP_CONFIG_FILE PHP_CONFIG_PATH WWW_PREFIX
