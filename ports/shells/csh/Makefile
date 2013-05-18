@@ -1,8 +1,8 @@
-# $MirOS$
+# $MirOS: ports/shells/csh/Makefile,v 1.1 2007/04/04 22:13:20 tg Exp $
 
 COMMENT=		BSD ‘C’ Shell
 CATEGORIES=		shells devel
-CVS_DISTREPO=		anoncvs@anoncvs.ca.openbsd.org:/cvs
+CVS_DISTREPO=		:ext:anoncvs@anoncvs.ca.openbsd.org:/cvs
 CVS_DISTDATE=		2007/04/04
 CVS_DISTMODS=		src/bin/csh
 CVS_DISTFILE=		csh

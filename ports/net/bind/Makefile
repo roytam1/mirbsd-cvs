@@ -1,4 +1,4 @@
-# $MirOS: ports/net/bind/Makefile,v 1.7 2008/03/09 17:23:15 tg Exp $
+# $MirOS: ports/net/bind/Makefile,v 1.8 2008/05/07 22:48:32 tg Exp $
 # $OpenBSD: Makefile,v 1.42 2003/04/10 18:08:56 jsyn Exp $
 
 COMMENT=		ISC BIND 9 libraries, audited OpenBSD version
@@ -6,7 +6,7 @@ COMMENT-server=		ISC BIND 9 server, audited OpenBSD version
 COMMENT-client=		ISC BIND 9 client tools, audited OpenBSD version
 
 VERSION=		9.3.4.1
-CVS_DISTREPO=		anoncvs@anoncvs.ca.openbsd.org:/cvs
+CVS_DISTREPO=		:ext:anoncvs@anoncvs.ca.openbsd.org:/cvs
 CVS_DISTDATE=		2007/07/25
 CVS_DISTMODS=		src/usr.sbin/bind src/etc/bind
 CVS_DISTFILE=		bind

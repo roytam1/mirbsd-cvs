@@ -1,4 +1,4 @@
-.\" $MirOS: ports/infrastructure/pkgtools/rtfm/bsd.port.mk.5,v 1.20 2008/05/07 22:47:53 tg Exp $
+.\" $MirOS: ports/infrastructure/pkgtools/rtfm/bsd.port.mk.5,v 1.21 2008/05/07 22:50:06 tg Exp $
 .\" $OpenBSD: bsd.port.mk.5,v 1.134 2004/02/18 13:39:02 xsa Exp $
 .\"
 .\" Copyright (c) 2007, 2008 Thorsten Glaser
@@ -862,6 +862,11 @@ Module(s) to check out, separated by whitespace.
 Repository to check out from, i.e. the value of the
 .Fl d
 option to cvs.
+If it does not start with a colon,
+.Ev CVSREADONLYFS
+is set automatically, which is not compatible with the
+.Ox
+version of anoncvssh.
 .It Ev CVS_DISTTAGS
 The value of the
 .Fl r

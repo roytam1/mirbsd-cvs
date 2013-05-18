@@ -1,8 +1,8 @@
-# $MirOS$
+# $MirOS: ports/editors/mg/Makefile,v 1.1 2007/03/09 23:36:13 tg Exp $
 
 COMMENT=		small and secure emacs-like editor
 CATEGORIES=		editors
-CVS_DISTREPO=		anoncvs@anoncvs.ca.openbsd.org:/cvs
+CVS_DISTREPO=		:ext:anoncvs@anoncvs.ca.openbsd.org:/cvs
 CVS_DISTDATE=		2007/03/09
 CVS_DISTMODS=		src/usr.bin/mg
 CVS_DISTFILE=		mg

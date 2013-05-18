@@ -1,11 +1,11 @@
-# $MirOS: ports/sysutils/pcvtfonts/Makefile,v 1.1 2006/07/22 17:23:39 tg Exp $
+# $MirOS: ports/sysutils/pcvtfonts/Makefile,v 1.2 2006/09/14 00:13:41 tg Exp $
 
-COMMENT=			OpenBSD wscons/pcvt text console fonts
+COMMENT=		OpenBSD wscons/pcvt text console fonts
 CATEGORIES=		sysutils
 CVS_DISTFILE=		pcvtfonts
 V=			3.9
 PKGNAME=		${CVS_DISTFILE}-${V}-0
-CVS_DISTREPO=		anoncvs@anoncvs.ca.openbsd.org:/cvs
+CVS_DISTREPO=		:ext:anoncvs@anoncvs.ca.openbsd.org:/cvs
 CVS_DISTTAGS=		OPENBSD_${V:S/./_/}_BASE
 CVS_DISTMODS=		src/share/misc/pcvtfonts src/share/Makefile.inc
 WRKSRC=			${WRKDIR}/src/share/misc/pcvtfonts

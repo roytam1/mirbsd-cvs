@@ -1,6 +1,6 @@
-.\" $MirOS: ports/infrastructure/pkgtools/rtfm/cvs-distfiles.7,v 1.1 2007/09/23 20:56:29 bsiegert Exp $
+.\" $MirOS: ports/infrastructure/pkgtools/rtfm/cvs-distfiles.7,v 1.2 2008/04/05 18:24:33 tg Exp $
 .\"-
-.\" Copyright (c) 2007 Thorsten Glaser
+.\" Copyright (c) 2007, 2008 Thorsten Glaser
 .\" Copyright (c) 2007 Benny Siegert
 .\"
 .\" All rights reserved.
@@ -61,8 +61,7 @@
 .\" with -mandoc, it might implement .Mx itself, but we want to
 .\" use our own definition. And .Dd must come *first*, always.
 .\"
-.\".Dd $Mdocdate: March 14 2008 $
-.Dd September 22, 2007
+.Dd $Mdocdate: April 5 2008 $
 .\"
 .\" Implement .Mx (MirBSD)
 .\"
@@ -97,7 +96,7 @@
 .Nm cvs-distfiles
 .Nd fetch distfiles for MirPorts via CVS
 .Sh SYNOPSIS
-.Fd CVS_DISTREPO=cvs.example.com:/cvs
+.Fd CVS_DISTREPO=:ext:cvs.example.com:/cvs
 .Fd CVS_DISTDATE=2007-09-22
 .Fd CVS_DISTTAGS=1_0_release
 .Fd CVS_DISTMODS=src
@@ -136,6 +135,14 @@ module(s) to check out, separated by space
 .Pq optional
 file name prefix
 .El
+.Pp
+Note that if
+.Ev CVS_DISTREPO
+does not start with a colon,
+.Ev CVSREADONLYFS
+is set automatically, which is not compatible with the
+.Ox
+version of anoncvssh.
 .Pp
 Note: while both CVS_DISTDATE and CVS_DISTTAGS are optional,
 it is required to set one of them because HEAD checkouts are

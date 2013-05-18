@@ -1,8 +1,8 @@
-# $MirOS: ports/devel/pkgconfig-bsd/Makefile,v 1.2 2007/05/08 22:50:28 tg Exp $
+# $MirOS: ports/devel/pkgconfig-bsd/Makefile,v 1.3 2008/03/14 20:56:52 tg Exp $
 
 COMMENT=		pkg-config clone in Perl
 CATEGORIES=		devel
-CVS_DISTREPO=		anoncvs@anoncvs.ca.openbsd.org:/cvs
+CVS_DISTREPO=		:ext:anoncvs@anoncvs.ca.openbsd.org:/cvs
 CVS_DISTDATE=		2007/02/23
 CVS_DISTMODS=		src/usr.bin/pkg-config src/usr.sbin/pkg_add/OpenBSD
 CVS_DISTFILE=		pkgconfig-bsd
