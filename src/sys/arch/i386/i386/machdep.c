@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/i386/machdep.c,v 1.16 2007/05/16 20:07:48 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/i386/machdep.c,v 1.17 2007/09/24 17:55:24 tg Exp $ */
 /*	$OpenBSD: machdep.c,v 1.310 2004/11/02 21:20:59 miod Exp $	*/
 /*	$NetBSD: machdep.c,v 1.214 1996/11/10 03:16:17 thorpej Exp $	*/
 
@@ -407,7 +407,7 @@ cpu_startup()
 	startrtclock();
 
 	identifycpu();
-	printf("real mem  = %u (%uK)\n", ctob(physmem), ctob(physmem)/1024);
+	printf("real mem  = %u (%uK)\n", ctob(physmem), ctob(physmem)/1024U);
 
 	/*
 	 * Find out how much space we need, allocate it,
@@ -439,9 +439,9 @@ cpu_startup()
 				   VM_PHYS_SIZE, 0, FALSE, NULL);
 
 	printf("avail mem = %lu (%luK)\n", ptoa(uvmexp.free),
-	    ptoa(uvmexp.free)/1024);
+	    ptoa(uvmexp.free)/1024U);
 	printf("using %d buffers containing %u bytes (%uK) of memory\n",
-		nbuf, bufpages * PAGE_SIZE, bufpages * PAGE_SIZE / 1024);
+		nbuf, bufpages * PAGE_SIZE, bufpages * PAGE_SIZE / 1024U);
 
 	/*
 	 * Set up buffers, so they can be used to read disk labels.
@@ -2821,8 +2821,8 @@ init386(paddr_t first_avail)
 	 * is what puts us over 16M.
 	 */
 	if (extmem > (15*1024) && extmem < (16*1024)) {
-		printf("Warning: ignoring %dk of remapped memory\n",
-		    extmem - (15*1024));
+		printf("Warning: ignoring %uK of remapped memory\n",
+		    extmem - (15*1024U));
 		extmem = (15*1024);
 	}
 #endif
