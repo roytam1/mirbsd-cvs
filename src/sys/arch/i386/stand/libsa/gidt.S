@@ -1,4 +1,4 @@
-/*	$MirOS: src/sys/arch/i386/stand/libsa/gidt.S,v 1.29 2009/03/15 18:16:13 tg Exp $ */
+/*	$MirOS: src/sys/arch/i386/stand/libsa/gidt.S,v 1.30 2009/08/09 19:39:41 tg Exp $ */
 /*	$OpenBSD: gidt.S,v 1.32 2006/12/26 19:30:44 tom Exp $	*/
 
 /*
@@ -316,6 +316,14 @@ EMUh:
 	iret
 
 #ifndef SMALL_BOOT
+/* Return to DOS or SYSLINUX */
+ENTRY(rtdos)
+	call	prot_to_real
+	.code16
+	mov	ax,0x4C00
+	int	0x21
+1:	jmp	1b
+	.code32
 /* Call buffer at 07c0:0000 in real mode to simulate a BIOS boot */
 ENTRY(bootbuf)
 	pop	eax		/* Don't need return address */

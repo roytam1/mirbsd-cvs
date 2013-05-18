@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/stand/libsa/cmd_i386.c,v 1.24 2009/01/11 13:36:05 tg Exp $	*/
+/**	$MirOS: src/sys/arch/i386/stand/libsa/cmd_i386.c,v 1.25 2009/10/04 16:49:43 tg Exp $	*/
 /*	$OpenBSD: cmd_i386.c,v 1.29 2006/09/18 21:14:15 mpf Exp $	*/
 
 /*
@@ -58,6 +58,7 @@ int Xoldbios(void);
 /* From gidt.S */
 __dead void bootbuf(void *codebuf, uint32_t codesize, uint32_t code_esdi,
     int dl, uint32_t initial_csip);
+__dead void rtdos(void);
 
 const struct cmd_table cmd_machine[] = {
 #ifndef SMALL_BOOT
@@ -286,8 +287,14 @@ Xmdexec(void)
 	uint32_t baddr, jaddr = 0xF000FFF0;
 	struct stat sb;
 
+	if (cmd.argc == 2 && !strcmp(cmd.argv[1], "dos")) {
+		gateA20(0);
+		rtdos();
+	}
+
 	if (cmd.argc != 3) {
  synerr:
+		printf("machine exec dos\n");
 		printf("machine exec <type> <file>\n");
 		printf("	types: grub sector\n");
 		return (0);
