@@ -43,11 +43,12 @@
 #include <stdlib.h>
 #include <errno.h>
 #include <regex.h>
+#include <time.h>
 #include "pax.h"
 #include "pat_rep.h"
 #include "extern.h"
 
-__RCSID("$MirOS: src/bin/pax/pat_rep.c,v 1.3 2012/02/12 00:27:17 tg Exp $");
+__RCSID("$MirOS: src/bin/pax/pat_rep.c,v 1.4 2012/02/12 00:44:57 tg Exp $");
 
 /*
  * routines to handle pattern matching, name modification (regular expression

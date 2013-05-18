@@ -14,11 +14,12 @@
 #include <sys/stat.h>
 #include <stdio.h>
 #include <string.h>
+#include <time.h>
 #include <unistd.h>
 #include "pax.h"
 #include "extern.h"
 
-__RCSID("$MirOS: src/bin/pax/getoldopt.c,v 1.3 2011/08/16 13:57:14 tg Exp $");
+__RCSID("$MirOS: src/bin/pax/getoldopt.c,v 1.4 2012/02/12 00:27:16 tg Exp $");
 
 int
 getoldopt(int argc, char **argv, const char *optstring)

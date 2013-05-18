@@ -47,6 +47,7 @@
 #include <stdlib.h>
 #include <limits.h>
 #include <paths.h>
+#include <time.h>
 #include "pax.h"
 #include "options.h"
 #include "cpio.h"
@@ -58,7 +59,7 @@
 #include <sys/mtio.h>
 #endif
 
-__RCSID("$MirOS: src/bin/pax/options.c,v 1.45 2012/02/27 22:24:55 tg Exp $");
+__RCSID("$MirOS: src/bin/pax/options.c,v 1.46 2012/02/27 22:31:01 tg Exp $");
 
 #ifndef _PATH_DEFTAPE
 #define _PATH_DEFTAPE "/dev/rmt0"

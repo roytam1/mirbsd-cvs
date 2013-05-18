@@ -49,10 +49,11 @@
 #include <err.h>
 #include <fcntl.h>
 #include <paths.h>
+#include <time.h>
 #include "pax.h"
 #include "extern.h"
 
-__RCSID("$MirOS: src/bin/pax/pax.c,v 1.15 2012/02/16 17:27:32 tg Exp $");
+__RCSID("$MirOS: src/bin/pax/pax.c,v 1.16 2012/02/16 17:34:35 tg Exp $");
 
 static int gen_init(void);
 static void sig_cleanup(int) __attribute__((__noreturn__));

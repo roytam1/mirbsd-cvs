@@ -43,11 +43,12 @@
 #include <errno.h>
 #include <stdlib.h>
 #include <fts.h>
+#include <time.h>
 #include "pax.h"
 #include "ftree.h"
 #include "extern.h"
 
-__RCSID("$MirOS: src/bin/pax/ftree.c,v 1.4 2012/02/12 00:27:16 tg Exp $");
+__RCSID("$MirOS: src/bin/pax/ftree.c,v 1.5 2012/02/12 00:44:57 tg Exp $");
 
 /*
  * routines to interface with the fts library function.

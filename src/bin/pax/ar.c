@@ -35,12 +35,13 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <stdlib.h>
+#include <time.h>
 #include "pax.h"
 #include "extern.h"
 #include "options.h"
 #include "ar.h"
 
-__RCSID("$MirOS: src/bin/pax/ar.c,v 1.5 2011/08/17 10:44:08 tg Exp $");
+__RCSID("$MirOS: src/bin/pax/ar.c,v 1.6 2012/02/16 17:41:40 tg Exp $");
 
 /*
  * Routines for reading and writing Unix Archiver format libraries

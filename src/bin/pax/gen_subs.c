@@ -48,13 +48,14 @@
 #include <unistd.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 #ifndef __GLIBC__
 #include <vis.h>
 #endif
 #include "pax.h"
 #include "extern.h"
 
-__RCSID("$MirOS: src/bin/pax/gen_subs.c,v 1.10 2012/02/12 00:27:16 tg Exp $");
+__RCSID("$MirOS: src/bin/pax/gen_subs.c,v 1.11 2012/02/16 17:11:45 tg Exp $");
 
 #ifdef __GLIBC__
 void strmode(mode_t, char *);
