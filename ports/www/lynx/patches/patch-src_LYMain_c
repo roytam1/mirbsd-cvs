@@ -1,10 +1,9 @@
-$MirOS$
+$MirOS: ports/www/lynx/patches/patch-src_LYMain_c,v 1.6 2007/05/20 12:06:19 tg Exp $
 
 	cookies/bookmarks: site policy
-	user agent: usability (controverse)
 
---- src/LYMain.c.orig	Thu May 17 22:52:59 2007
-+++ src/LYMain.c	Sun May 20 11:17:22 2007
+--- src/LYMain.c.orig	Thu Aug  2 23:24:04 2007
++++ src/LYMain.c	Thu Oct 18 21:31:08 2007
 @@ -65,7 +65,7 @@
  #define COOKIE_FILE "cookies"
  #define TRACE_FILE "LY-TRACE.LOG"
@@ -14,19 +13,22 @@ $MirOS$
  #define TRACE_FILE "Lynx.trace"
  #endif /* FNAMES_8_3 */
  
-@@ -1145,6 +1145,11 @@ int main(int argc,
+@@ -1145,6 +1145,14 @@ int main(int argc,
      StrAllocCopy(LYUserAgent, LYNX_NAME);
      StrAllocCat(LYUserAgent, "/");
      StrAllocCat(LYUserAgent, LYNX_VERSION);
++#ifdef __MirBSD__
 +    /*
-+     * rationale: certain web backends only give Mozilla or Internet
-+     * Explorer users the "real" web page by checking the user agent
++     * We used to add MSIE, since certain websites do not offer any
++     * functionality to Lynx users; this is bad for eg. AWStats, so
++     * a user now has to do it himself if desired; plug us instead.
 +     */
-+    StrAllocCat(LYUserAgent, " (compatible; MSIE 6.0; UNIX)");
++    StrAllocCat(LYUserAgent, " (compatible; MirBSD; UNIX)");
++#endif
      if (HTLibraryVersion) {
  	StrAllocCat(LYUserAgent, " libwww-FM/");
  	StrAllocCat(LYUserAgent, HTLibraryVersion);
-@@ -2076,10 +2081,7 @@ int main(int argc,
+@@ -2076,10 +2084,7 @@ int main(int argc,
       * synchronized.  - FM
       */
      if (!bookmark_page || *bookmark_page == '\0') {

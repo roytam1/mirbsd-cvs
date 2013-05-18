@@ -1,4 +1,4 @@
-/* $MirOS: src/gnu/usr.bin/lynx/src/LYMain.c,v 1.13 2007/05/20 09:43:27 tg Exp $ */
+/* $MirOS: src/gnu/usr.bin/lynx/src/LYMain.c,v 1.14 2007/08/03 15:20:34 tg Exp $ */
 /* $LynxId: LYMain.c,v 1.174 2007/07/02 00:07:27 tom Exp $ */
 #include <HTUtils.h>
 #include <HTTP.h>
@@ -1146,11 +1146,14 @@ int main(int argc,
     StrAllocCopy(LYUserAgent, LYNX_NAME);
     StrAllocCat(LYUserAgent, "/");
     StrAllocCat(LYUserAgent, LYNX_VERSION);
+#ifdef __MirBSD__
     /*
-     * rationale: certain web backends only give Mozilla or Internet
-     * Explorer users the "real" web page by checking the user agent
+     * We used to add MSIE, since certain websites do not offer any
+     * functionality to Lynx users; this is bad for eg. AWStats, so
+     * a user now has to do it himself if desired; plug us instead.
      */
-    StrAllocCat(LYUserAgent, " (compatible; MSIE 6.0; UNIX)");
+    StrAllocCat(LYUserAgent, " (compatible; MirBSD; UNIX)");
+#endif
     if (HTLibraryVersion) {
 	StrAllocCat(LYUserAgent, " libwww-FM/");
 	StrAllocCat(LYUserAgent, HTLibraryVersion);

@@ -1,9 +1,9 @@
-# $MirOS: ports/www/lynx/Makefile,v 1.17 2007/08/13 14:22:44 tg Exp $
+# $MirOS: ports/www/lynx/Makefile,v 1.18 2007/08/13 14:35:38 tg Exp $
 
 COMMENT=		standard text-mode world wide web browser
 CATEGORIES=		www essentials
 VERSION=		2.8.7dev.7
-DASH_VER=		2
+DASH_VER=		3
 DISTNAME=		lynx${VERSION:C/[a-z]$//}
 .if ${VERSION} != ${VERSION:C/[a-z]$//}
 PATCHFILES=		lynx${VERSION}.patch.gz:0
