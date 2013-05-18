@@ -1,4 +1,4 @@
-# $MirOS: src/usr.bin/ssh/sshd_config,v 1.14 2007/07/07 23:01:52 tg Exp $
+# $MirOS: src/usr.bin/ssh/sshd_config,v 1.15 2007/09/02 18:53:13 tg Exp $
 # $OpenBSD: sshd_config,v 1.76 2007/08/23 03:22:16 djm Exp $
 
 # This is the sshd server system-wide configuration file.  See
@@ -15,7 +15,7 @@
 #ListenAddress ::
 #Cipher blowfish
 #Ciphers aes128-cbc,blowfish-cbc,arcfour256,cast128-cbc,aes256-cbc,rijndael-cbc@lysator.liu.se,aes256-ctr,aes192-cbc,aes192-ctr,arcfour128,arcfour,aes128-ctr,3des-cbc
-#MACs hmac-ripemd160,hmac-ripemd160@openssh.com,hmac-sha1,hmac-md5,hmac-sha1-96,hmac-md5-96
+#MACs umac-64@openssh.com,hmac-ripemd160,hmac-ripemd160@openssh.com,hmac-sha1,hmac-md5,hmac-sha1-96,hmac-md5-96
 
 # Disable legacy (protocol version 1) support in the server for new
 # installations. In future the default will change to require explicit

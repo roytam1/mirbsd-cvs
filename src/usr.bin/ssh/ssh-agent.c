@@ -1,4 +1,4 @@
-/* $OpenBSD: ssh-agent.c,v 1.155 2007/03/19 12:16:42 dtucker Exp $ */
+/* $OpenBSD: ssh-agent.c,v 1.156 2007/09/09 11:38:01 sobrado Exp $ */
 /*
  * Author: Tatu Ylonen <ylo@cs.hut.fi>
  * Copyright (c) 1995 Tatu Ylonen <ylo@cs.hut.fi>, Espoo, Finland
@@ -64,7 +64,7 @@
 #include "log.h"
 #include "misc.h"
 
-__RCSID("$MirOS: src/usr.bin/ssh/ssh-agent.c,v 1.10 2007/03/08 10:09:33 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/ssh-agent.c,v 1.11 2007/04/29 20:23:14 tg Exp $");
 
 #ifdef SMARTCARD
 #include "scard.h"
@@ -1002,7 +1002,7 @@ check_parent_exists(void)
 static __dead void
 usage(void)
 {
-	fprintf(stderr, "Usage: %s [options] [command [args ...]]\n",
+	fprintf(stderr, "usage: %s [options] [command [arg ...]]\n",
 	    __progname);
 	fprintf(stderr, "Options:\n");
 	fprintf(stderr, "  -c          Generate C-shell commands on stdout.\n");

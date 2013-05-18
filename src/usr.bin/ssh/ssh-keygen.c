@@ -1,4 +1,4 @@
-/* $OpenBSD: ssh-keygen.c,v 1.160 2007/01/21 01:41:54 stevesk Exp $ */
+/* $OpenBSD: ssh-keygen.c,v 1.162 2007/09/11 15:47:17 gilles Exp $ */
 /*
  * Author: Tatu Ylonen <ylo@cs.hut.fi>
  * Copyright (c) 1994 Tatu Ylonen <ylo@cs.hut.fi>, Espoo, Finland
@@ -45,7 +45,7 @@
 #include "scard.h"
 #endif
 
-__RCSID("$MirOS: src/usr.bin/ssh/ssh-keygen.c,v 1.16 2006/12/11 20:22:09 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/ssh-keygen.c,v 1.17 2007/01/25 16:18:38 tg Exp $");
 
 /* Number of bits in the RSA/DSA key.  This value can be set on the command line. */
 #define DEFAULT_BITS		2048
@@ -140,8 +140,7 @@ ask_filename(struct passwd *pw, const char *prompt)
 	fprintf(stderr, "%s (%s): ", prompt, identity_file);
 	if (fgets(buf, sizeof(buf), stdin) == NULL)
 		exit(1);
-	if (strchr(buf, '\n'))
-		*strchr(buf, '\n') = 0;
+	buf[strcspn(buf, "\n")] = '\0';
 	if (strcmp(buf, "") != 0)
 		strlcpy(identity_file, buf, sizeof(identity_file));
 	have_identity = 1;
@@ -1042,8 +1041,7 @@ do_change_comment(struct passwd *pw)
 			key_free(private);
 			exit(1);
 		}
-		if (strchr(new_comment, '\n'))
-			*strchr(new_comment, '\n') = 0;
+		new_comment[strcspn(new_comment, "\n")] = '\0';
 	}
 
 	/* Save the file using the new passphrase. */
@@ -1086,7 +1084,7 @@ do_change_comment(struct passwd *pw)
 static __dead void
 usage(void)
 {
-	fprintf(stderr, "Usage: %s [options]\n", __progname);
+	fprintf(stderr, "usage: %s [options]\n", __progname);
 	fprintf(stderr, "Options:\n");
 	fprintf(stderr, "  -a trials   Number of trials for screening DH-GEX moduli.\n");
 	fprintf(stderr, "  -B          Show bubblebabble digest of key file.\n");

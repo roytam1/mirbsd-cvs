@@ -1,4 +1,4 @@
-# $MirOS: src/usr.bin/ssh/ssh_config,v 1.10 2007/07/14 20:16:18 tg Exp $
+# $MirOS: src/usr.bin/ssh/ssh_config,v 1.11 2007/07/14 20:26:37 tg Exp $
 # $OpenBSD: ssh_config,v 1.23 2007/06/08 04:40:40 pvalchev Exp $
 
 # This is the ssh client system-wide configuration file.  See
@@ -55,7 +55,7 @@
 #   PermitLocalCommand no
 #   Cipher blowfish
 #   Ciphers aes128-cbc,blowfish-cbc,arcfour256,cast128-cbc,aes256-cbc,rijndael-cbc@lysator.liu.se,aes256-ctr,aes192-cbc,aes192-ctr,arcfour128,arcfour,aes128-ctr,3des-cbc
-#   MACs hmac-ripemd160,umac-64@openssh.com,hmac-ripemd160@openssh.com,hmac-sha1,hmac-md5,hmac-sha1-96,hmac-md5-96
+#   MACs umac-64@openssh.com,hmac-ripemd160,hmac-ripemd160@openssh.com,hmac-sha1,hmac-md5,hmac-sha1-96,hmac-md5-96
 #   Compression no
 #   CompressionLevel 6
 

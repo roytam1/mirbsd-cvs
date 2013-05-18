@@ -34,7 +34,7 @@
 .\" (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
 .\" THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .\"
-.\" $MirOS: src/usr.bin/ssh/sshd_config.5,v 1.20 2007/07/07 23:01:52 tg Exp $
+.\" $MirOS: src/usr.bin/ssh/sshd_config.5,v 1.21 2007/09/02 18:53:14 tg Exp $
 .\" $OpenBSD: sshd_config.5,v 1.78 2007/08/23 03:22:16 djm Exp $
 .Dd $Mdocdate: September 2 2007 $
 .Dt SSHD_CONFIG 5
@@ -469,7 +469,7 @@ for data integrity protection.
 Multiple algorithms must be comma-separated.
 The default is:
 .Bd -literal -offset indent
-hmac-ripemd160,umac-64@openssh.com,hmac-ripemd160@openssh.com,
+umac-64@openssh.com,hmac-ripemd160,hmac-ripemd160@openssh.com,
 hmac-sha1,hmac-md5,hmac-sha1-96,hmac-md5-96
 .Ed
 .It Cm Match

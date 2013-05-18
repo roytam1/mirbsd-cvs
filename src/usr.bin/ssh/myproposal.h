@@ -1,4 +1,4 @@
-/* $MirOS: src/usr.bin/ssh/myproposal.h,v 1.9 2007/06/16 15:41:50 tg Exp $ */
+/* $MirOS: src/usr.bin/ssh/myproposal.h,v 1.10 2007/07/07 23:01:51 tg Exp $ */
 /* $OpenBSD: myproposal.h,v 1.22 2007/06/07 19:37:34 pvalchev Exp $ */
 
 /*
@@ -36,9 +36,8 @@
 	"aes256-cbc,rijndael-cbc@lysator.liu.se,aes256-ctr,aes192-cbc," \
 	"aes192-ctr,arcfour128,aes128-cbc,arcfour,3des-cbc"
 #define	KEX_DEFAULT_MAC \
-	"hmac-ripemd160,umac-64@openssh.com,hmac-ripemd160@openssh.com," \
-	"hmac-sha1,hmac-md5," \
-	"hmac-sha1-96,hmac-md5-96"
+	"umac-64@openssh.com,hmac-ripemd160,hmac-ripemd160@openssh.com," \
+	"hmac-sha1,hmac-md5,hmac-sha1-96,hmac-md5-96"
 #define	KEX_DEFAULT_COMP	"none,zlib@openssh.com,zlib"
 #define	KEX_DEFAULT_LANG	""
 
