@@ -1,4 +1,4 @@
-# $MirOS: ports/devel/libncursesw/Makefile,v 1.5 2007/02/22 22:57:48 tg Exp $
+# $MirOS: ports/devel/libncursesw/Makefile,v 1.6 2008/05/08 20:23:33 tg Exp $
 
 COMMENT=			new curses library (wide character version)
 COMMENT-data=			terminfo database for ncurses (multifile format)
@@ -43,6 +43,7 @@ CONFIGURE_ARGS+=		--program-transform-name='s,$$,w,' \
 				--enable-lp64 \
 				--enable-bsdpad \
 				--with-rcs-ids \
+				--with-manpage-format=normal \
 				--with-manpage-renames=${FILESDIR}/man_db.mirports \
 				--enable-const \
 				--enable-hard-tabs \
