@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/share/misc/licence.template,v 1.6 2006/01/24 22:24:02 tg Rel $
+# $MirOS: contrib/code/heartbeat/hbbackend.sample,v 1.4 2006/03/20 00:16:53 tg Exp $
 #-
 # Copyright (c) 2004, 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -130,11 +130,6 @@ while read line; do
 		mypass=${foo[2]}
 		print "INIT: user=$myuser pass=$mypass"
 		;;
-	SETCOOKIE*)
-		set -A foo -- $line
-		let thecookie=${foo[1]}
-		print "SETCOOKIE: received $thecookie"
-		;;
 	IP*)
 		do_heartbeat $line
 		;;
@@ -142,6 +137,11 @@ while read line; do
 		set -A foo -- $line
 		mypass=${foo[1]}
 		print "PASS: user=$myuser pass=$mypass"
+		;;
+	SETCOOKIE*)
+		set -A foo -- $line
+		let thecookie=${foo[1]}
+		print "SETCOOKIE: received $thecookie"
 		;;
 	QUIT)
 		do_quit
