@@ -1,6 +1,0 @@
-@comment $MirOS$
-bin/mg
-man/cat1/mg.0
-share/doc/mg/README
-share/doc/mg/tutorial
-@dirrm share/doc/mg
