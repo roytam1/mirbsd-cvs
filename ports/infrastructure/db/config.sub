@@ -1,12 +1,13 @@
 #! /bin/sh
-# $MirOS: contrib/gnu/config/config.sub,v 1.10 2008/03/12 22:39:12 tg Exp $
-# $miros: contrib/gnu/config/config.sub,v 1.10 2008/03/12 22:39:12 tg Exp $
+# $MirOS: contrib/gnu/config/config.sub,v 1.11 2008/05/02 23:37:48 tg Exp $
+# $miros: contrib/gnu/config/config.sub,v 1.11 2008/05/02 23:37:48 tg Exp $
+#-
 # Configuration validation subroutine script.
 #   Copyright (C) 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999,
 #   2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008
 #   Free Software Foundation, Inc.
 
-timestamp='2008-03-08 (MirOS)'
+timestamp='2008-04-14 (MirOS)'
 
 # This file is (in principle) common to ALL GNU software.
 # The presence of a machine in this file suggests that SOME GNU software
@@ -252,7 +253,7 @@ case $basic_machine in
 	| i370 | i860 | i960 | ia64 \
 	| ip2k | iq2000 \
 	| m32c | m32r | m32rle | m68000 | m68k | m88k \
-	| maxq | mb | microblaze | mcore | mep \
+	| maxq | mb | microblaze | mcore | mep | metag \
 	| mips | mipsbe | mipseb | mipsel | mipsle \
 	| mips16 \
 	| mips64 | mips64el \
@@ -335,7 +336,7 @@ case $basic_machine in
 	| ip2k-* | iq2000-* \
 	| m32c-* | m32r-* | m32rle-* \
 	| m68000-* | m680[012346]0-* | m68360-* | m683?2-* | m68k-* \
-	| m88110-* | m88k-* | maxq-* | mcore-* \
+	| m88110-* | m88k-* | maxq-* | mcore-* | metag-* \
 	| mips-* | mipsbe-* | mipseb-* | mipsel-* | mipsle-* \
 	| mips16-* \
 	| mips64-* | mips64el-* \
@@ -531,6 +532,10 @@ case $basic_machine in
 	delta88)
 		basic_machine=m88k-motorola
 		os=-sysv3
+		;;
+	dicos)
+		basic_machine=i686-pc
+		os=-dicos
 		;;
 	djgpp)
 		basic_machine=i586-pc
@@ -1393,6 +1398,9 @@ case $os in
 		;;
 	-zvmoe)
 		os=-zvmoe
+		;;
+	-dicos*)
+		os=-dicos
 		;;
 	-none)
 		;;

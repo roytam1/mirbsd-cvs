@@ -7,5 +7,6 @@ your Makefile, Makefile.in, or Makefile.am. See the documentation
 for details.
 
 This version already contains the patches needed for supporting
-MirOS, OpenBSD, Darwin / Mac OSX, and Interix / Microsoft
-Services for Unix(R) under the MirPorts Framework or standalone.
+Darwin / Mac OSX (upstream), MidnightBSD, MirOS, OpenBSD, and
+Interix / Microsoft Services for Unix(R) under the MirPorts
+Framework or standalone.
