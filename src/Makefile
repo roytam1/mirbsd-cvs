@@ -1,4 +1,4 @@
-# $MirOS: src/Makefile,v 1.45 2006/05/25 21:34:41 tg Exp $
+# $MirOS: src/Makefile,v 1.46 2006/05/26 17:09:20 tg Exp $
 # $OpenBSD: Makefile,v 1.103 2004/05/03 15:18:18 drahn Exp $
 
 .if defined(MAKECONF) && exists(${MAKECONF})
@@ -192,15 +192,19 @@ _do-dist:
 .endif
 	@echo Initialising sudo as ${SUDO:Q}
 	${SUDO} true
+.ifndef OVERRIDE_CONTINUE
 	@if [[ -e /var/tmp/.buildnotice ]]; then \
 		echo Error: /var/tmp/.buildnotice existed.; \
 		${SUDO} cat /var/tmp/.buildnotice; \
 		${SUDO} rm -rf ${HOME}; \
 		exit 1; \
 	fi
+.endif
 	@echo "============================================================"
 	@echo Initiating MirOS Build...
+.ifndef OVERRIDE_CONTINUE
 	${SUDO} install -c -o 0 -g 0 -m 600 /dev/null /var/tmp/.buildnotice
+.endif
 	${SUDO} mksh -c 'echo rm -rf ${HOME} >>/var/tmp/.buildnotice'
 	@date
 .ifdef BATCH
