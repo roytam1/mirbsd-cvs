@@ -1,4 +1,4 @@
-/* $MirOS: src/lib/libc/i18n/isutf8.c,v 1.5 2005/12/17 05:46:14 tg Exp $ */
+/* $MirOS: src/lib/libc/i18n/isutf8.c,v 1.6 2006/05/21 12:12:28 tg Exp $ */
 
 /*-
  * Copyright (c) 2005, 2006
@@ -27,16 +27,12 @@
 
 #include "mir18n.h"
 
-__RCSID("$MirOS: src/lib/libc/i18n/isutf8.c,v 1.5 2005/12/17 05:46:14 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/i18n/isutf8.c,v 1.6 2006/05/21 12:12:28 tg Exp $");
 
 bool __locale_is_utf8 = false;
 
-int __weak___mb_cur_max(void);
-
 int
-__weak___mb_cur_max(void)
+__mb_cur_max(void)
 {
 	return (__locale_is_utf8 ? 3 : 1);
 }
-
-__weak_alias(__mb_cur_max, __weak___mb_cur_max);
