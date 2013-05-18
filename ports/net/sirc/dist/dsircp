@@ -1,5 +1,5 @@
 #!/usr/bin/perl
-# $MirOS: ports/net/sirc/dist/dsircp,v 1.9 2006/02/05 14:37:58 tg Exp $
+# $MirOS: ports/net/sirc/dist/dsircp,v 1.10 2007/01/09 00:51:17 tg Exp $
 #-
 # dsircp: dumb-mode small irc client in perl
 # by orabidoo <roger.espel.llima@pobox.com>
@@ -416,7 +416,9 @@ sub dostatus {
   local($t, $s)=($talkchannel, " [sirc]  ");
   $t =~ tr/A-Z/a-z/;
   $s.="*" if $umode =~ /o/;
-  $s.="\@" if $t && $haveops{$t};
+  if ($t) {
+    $s .= $haveops{$t} if $haveops{$t};
+  }
   $s.=$nick;
   $s.=" (+$umode)" if $umode;
   $s.=" [query: ${query}]" if $query;
@@ -1875,7 +1877,9 @@ sub modestripper {
     } elsif ($m eq 'l') {
       $how eq '+' ? ($limit{$chnl}=shift(@args)) : delete $limit{$chnl};
     } elsif ($m eq 'o') {
-      $haveops{$chnl}=($how eq '+') if (&eq(shift(@args), $nick));
+      $haveops{$chnl}=($how eq '+') ? "@" : "" if (&eq(shift(@args), $nick));
+    } elsif ($m eq 'h') {
+      $haveops{$chnl}=($how eq '+') ? "%" : "" if (&eq(shift(@args), $nick));
     } else {
       $mode{$chnl} =~ s/$m//g;
       $mode{$chnl}.=$m if $how eq '+';
@@ -2198,7 +2202,7 @@ sub donumeric {
     $r =~ s/^://;
     &tell("*\cb#\cb* Users on $c: $r");
     $c =~ tr/A-Z/a-z/;
-    $haveops{$c}=1 if ($r =~ /\@${n}( |$)/i);
+    $haveops{$c}="@" if ($r =~ /\@${n}( |$)/i);
     &dostatus if &eq($c, $talkchannel);
   } elsif ($cmd eq '221') {
     &yetonearg;
