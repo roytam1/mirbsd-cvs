@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.465 2012/07/30 21:44:23 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.466 2012/08/03 18:45:27 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -1154,7 +1154,12 @@ exec /usr/bin/ld "${args[@]}"</pre>
  <li>[tg] Implement <tt>${foo@Q}</tt> like <tt>${foo:Q}</tt> in make(1)</li>
  <li>[tg] Remove some unused code; more int → bool conversion</li>
  <li>[tg] Fix using here documents in COMSUB etc. (LP#1030581)</li>
- <li>[tg] Implement ksh93 feature <tt>${ foo;}</tt>, see mksh(1) RTFM ☺</li>
+ <li>[tg] Implement ksh93 feature <tt>${ foo;}</tt>, then remove it again,
+  because jilles found issues with large-ish output and running into pipe
+  buffer limits because there’s no concurrent reading process; this feature
+  will (can) not come back until that is solved, and tg does not know how
+  it could (no parallel programming possible, and doing it from signal(3)
+  handlers is a recipe for disasters)…</li><!-- nuke on upload -->
  <li>[tg] Fix ulimit builtin usage to match what limits we actually know</li>
 </ul>
 <p>Changes in the current (unreleased) stable branch:</p><ul>
