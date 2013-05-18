@@ -1,4 +1,4 @@
-rcsid_inc2rss='$MirOS: www/mk/inc2rss,v 1.20 2008/12/04 14:14:16 tg Exp $'
+rcsid_inc2rss='$MirOS: www/mk/inc2rss,v 1.21 2008/12/04 14:19:51 tg Exp $'
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -75,7 +75,7 @@ function rss_output {
 	if [[ -n ${e_title[ent]} ]]; then
 		title="${e_title[ent]}"
 	else
-		title="${e_date[ent]}${e_author[ent]+ by }${e_author[ent]}"
+		title="${e_date[ent]% *}${e_author[ent]+ by }${e_author[ent]}"
 	fi
 	if [[ ${e_language[ent]} = +([A-Za-z0-9-]) ]]; then
 		xmllang=" xml:lang=\"${e_language[ent]}\""
