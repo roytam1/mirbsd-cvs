@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.323 2011/03/03 16:24:29 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.324 2011/03/06 02:06:15 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -7261,8 +7261,9 @@ Date: 31.12.2010 12:50
   <tt>cvs -qd anoncvs@anoncvs.netbsd.org:/cvsroot co -P pkgsrc</tt></li>
  <li>To be sure that the patches will apply, downgrade the patched
   directories:<br />
-  <tt>cd pkgsrc ; cvs -q up -Pd -D 2010-12-27 bootstrap devel/bmake
-  devel/libtool* lang/perl5 mk</tt></li>
+  <tt>cd pkgsrc</tt><br />
+  <tt>cvs -q up -Pd -D2010-12-27 bootstrap devel/{bmake,libtool*}
+   lang/perl5 mk</tt></li>
  <li>Apply <a
   href="http://dl.dropbox.com/u/17617299/MirOS/pkgsrc-bootstrap.diff">pkgsrc-bootstrap.diff</a>,
   then <a
@@ -7275,13 +7276,14 @@ Date: 31.12.2010 12:50
  <li>Bootstrap pkgsrc. In this example, we install (using sudo) into
   /usr/pkg. The dbdir should be inside the prefix to avoid conflicts
   with MirPorts.<br />
-  <tt>cd bootstrap ; ./bootstrap --prefix /usr/pkg --pkgdbdir
-  /usr/pkg/db</tt></li>
+  <tt>cd bootstrap</tt><br />
+  <tt>./bootstrap --prefix /usr/pkg --pkgdbdir /usr/pkg/db</tt></li>
  <li>Add /usr/pkg/bin and /usr/pkg/sbin to your path:<br />
   <tt>export PATH=/usr/pkg/bin:${PATH}:/usr/pkg/sbin</tt></li>
  <li>I recommend to install perl first because it is needed by many
   other packages and because it needs a workaround at the moment:<br />
-  <tt>cd ../lang/perl5 ; bmake install &amp;&amp; cd /usr/pkg/lib
+  <tt>cd ../lang/perl5</tt><br />
+  <tt>bmake install &amp;&amp; cd /usr/pkg/lib
   &amp;&amp; ln perl5/5.12.0/*/CORE/libperl.so.* .</tt></li>
 </ol>
 
