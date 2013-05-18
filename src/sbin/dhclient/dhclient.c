@@ -56,11 +56,12 @@
 #include <ctype.h>
 #include <poll.h>
 #include <pwd.h>
+#include <stdbool.h>
 
 #include "dhcpd.h"
 #include "privsep.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/sbin/dhclient/dhclient.c,v 1.7 2007/02/17 03:23:43 tg Exp $");
 
 #define	CLIENT_PATH "PATH=/usr/bin:/usr/sbin:/bin:/sbin"
 
@@ -1975,10 +1976,30 @@ check_option(struct client_lease *l, int option)
 	case DHO_DOMAIN_NAME:
 	case DHO_NIS_DOMAIN:
 		if (!res_hnok(sbuf)) {
-			warning("Bogus Host Name option %d: %s (%s)", option,
-			    sbuf, opbuf);
-			l->options[option].len = 0;
-			free(l->options[option].data);
+			bool ignoring_error = false;
+
+			if (option == DHO_DOMAIN_NAME) {
+				unsigned char *cp = l->options[option].data;
+
+				while (cp < l->options[option].data +
+				    l->options[option].len)
+					if (*cp == ' ' || *cp == '\t') {
+						l->options[option].len = cp -
+						    l->options[option].data;
+						if (l->options[option].len)
+							ignoring_error = true;
+						break;
+					} else
+						++cp;
+			}
+
+			warning("Bogus Host Name option %d: %s (%s)%s",
+			    option, sbuf, opbuf,
+			    ignoring_error ? ", using anyway" : "");
+			if (!ignoring_error) {
+				l->options[option].len = 0;
+				free(l->options[option].data);
+			}
 		}
 		return (1);
 	case DHO_PAD:
