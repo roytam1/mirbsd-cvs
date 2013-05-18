@@ -1,4 +1,4 @@
-# $MirOS: src/sys/arch/i386/stand/Makefile,v 1.13 2008/08/01 11:24:57 tg Exp $
+# $MirOS: src/sys/arch/i386/stand/Makefile,v 1.14 2008/08/01 15:43:45 tg Exp $
 # $OpenBSD: Makefile,v 1.15 2007/11/25 18:25:31 deraadt Exp $
 
 .if ${MACHINE_ARCH} == "i386"
@@ -6,7 +6,7 @@
   SUBDIR+=	bootxx mbr
   SUBDIR+=	fdboot liveboot
 .endif
-  SUBDIR+=	boot installboot pxeboot
+  SUBDIR+=	boot installboot #pxeboot
 
 TEST_DEVS= fd0 svnd0 svnd1
 

@@ -1,4 +1,4 @@
-/* $MirOS: src/sys/arch/i386/stand/boot/srt0.S,v 1.53 2009/01/10 20:28:27 tg Exp $ */
+/* $MirOS: src/sys/arch/i386/stand/boot/srt0.S,v 1.54 2009/01/11 14:11:27 tg Exp $ */
 
 /*-
  * Copyright (c) 2003, 2004, 2005, 2006, 2007, 2008, 2009
@@ -397,3 +397,7 @@ cmd_buf:
 	bounce_buf = 0x30000
 	.globl	bounce_buf
 	.size	bounce_buf, 4096
+
+	pxe_command_buf = bounce_buf + 4096
+	.globl	pxe_command_buf
+	.size	pxe_command_buf, 256
