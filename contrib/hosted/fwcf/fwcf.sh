@@ -1,5 +1,5 @@
 #!/bin/sh
-# $MirOS: contrib/hosted/fwcf/fwcf.sh,v 1.15 2007/02/12 21:49:08 tg Exp $
+# $MirOS: contrib/hosted/fwcf/fwcf.sh,v 1.16 2007/02/20 20:02:13 tg Exp $
 #-
 # Copyright (c) 2006, 2007
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -41,10 +41,11 @@ case $1 in
 commit|erase|setup|status) ;;
 *)	cat >&2 <<EOF
 FreeWRT Configuration Filesytem (fwcf), Version 1.02
-Copyright © 2006 by Thorsten Glaser <tg@freewrt.org>
+Copyright (c) 2006, 2007
+	Thorsten Glaser <tg@freewrt.org>
 
 Syntax:
-	$0 [commit | erase | setup | status]
+	$0 [commit | erase | setup | status [-rq]]
 EOF
 	exit 1 ;;
 esac
@@ -160,6 +161,66 @@ if test $1 = commit; then
 	fi
 	umount /tmp/.fwcf/temp
 	exit $rv
+fi
+
+if test $1 = status; then
+	rm -f /tmp/.fwcf/*_{status,files}
+	rflag=0
+	q=printf	# or : (true) if -q
+	# XXX if we had mksh 'getopts' this would look nicer
+	shift
+	for arg in "$@"; do
+		case $arg in
+		-*r*)	rflag=1 ;;
+		esac
+		case $arg in
+		-*q*)	q=: ;;
+		esac
+	done
+	if test $rflag = 1; then
+		f=/tmp/.fwcf/rom_status
+		cd /tmp/.fwcf/root
+		find . -type f | grep -v -e '^./.fwcf' -e '^./.rnd$' | sort | \
+		    xargs md5sum | sed 's!  ./! !' >$f
+	else
+		f=/tmp/.fwcf/status
+		gzip -d <$f.gz >$f || rm -f $f
+	fi
+	if ! test -e $f; then
+		echo 'fwcf: error: old status file not found' >&2
+		exit 9
+	fi
+	cd /etc
+	find . -type f | grep -v -e '^./.fwcf' -e '^./.rnd$' | sort | \
+	    xargs md5sum | sed 's!  ./! !' >/tmp/.fwcf/cur_status || exit 255
+	cd /tmp/.fwcf
+	sed 's/^[0-9a-f]* //' <$f >old_files
+	sed 's/^[0-9a-f]* //' <cur_status >cur_files
+	# make *_status be of exactly the same length, for benefit of the
+	# while ... read <old, read <new loop below, and sort it
+	comm -23 old_files cur_files | while read name; do
+		echo "<NULL> $name" >>cur_status
+	done
+	comm -13 old_files cur_files | while read name; do
+		echo "<NULL> $name" >>$f
+	done
+	# this implementation of sort -o sucks: doesn't do in-place edits
+	sort -k2 -o sold_status $f
+	sort -k2 -o snew_status cur_status
+	gotany=0
+	while :; do
+		IFS=' ' read oldsum oldname <&3 || break
+		IFS=' ' read newsum newname <&4 || exit 255
+		test x"$oldname" = x"$newname" || exit 255
+		test x"$oldsum" = x"$newsum" && continue
+		test $gotany = 0 && $q '%32s %32s %s\n' \
+		    'MD5 hash of old file' 'MD5 hash of new file' 'filename'
+		gotany=8
+		test $q = : && break
+		$q '%32s %32s %s\n' "$oldsum" "$newsum" "$oldname"
+	done 3<sold_status 4<snew_status
+	rm -f /tmp/.fwcf/*_{status,files}
+	exit $gotany
 fi
 
 echo 'fwcf: cannot be reached...' >&2

@@ -143,8 +143,8 @@ quality of the kernel PRNG even over total reconfigurations.
 For all files in /etc, the md5sum busybox applet is run, output
 stored in a temporary file and compared against the saved values
 from 'fwcf setup'. If the -q flag is not given, the differences
-are shown as <oldmd5><space><newmd5><space><file>, where the md5
-is expressed as shown by the busybox applet, or as '<NULL>' if
+are shown as <oldmd5><space><newmd5><space><file>, where the md5 is
+expressed as shown by the busybox applet, or as padded '<NULL>' if
 the file does not exist on either side, where "old" is the status
 at fwcf setup time (or the /etc from the root fs, if -r is given),
 and "new" is the status of the current (tmpfs) /etc. If there are
@@ -363,4 +363,4 @@ They are provided as hint only and not part of the specifi-
 cation itself. They may change without notice.
 
 ________________________________________________________________________
-$MirOS: contrib/hosted/fwcf/fwcf.txt,v 1.24 2007/02/12 22:19:37 tg Exp $
+$MirOS: contrib/hosted/fwcf/fwcf.txt,v 1.25 2007/02/20 20:02:13 tg Exp $
