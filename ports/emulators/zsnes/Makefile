@@ -1,12 +1,12 @@
-# $MirOS: ports/emulators/zsnes/Makefile,v 1.8 2008/03/09 17:22:41 tg Exp $
+# $MirOS: ports/emulators/zsnes/Makefile,v 1.9 2008/10/30 19:42:06 tg Exp $
 # $OpenBSD: Makefile,v 1.8 2002/12/29 15:06:49 fgsch Exp $
 
 ONLY_FOR_PLATFORM=	*BSD:*:i386
 
 COMMENT=		Super Nintendo emulator for x86
 VERSION=		1.42
+DASH_VER=		2
 DISTNAME=		zsnes-${VERSION}
-DASH_VER=		1
 CATEGORIES=		emulators games
 HOMEPAGE=		http://www.zsnes.com/
 MASTER_SITES=		${MASTER_SITE_SOURCEFORGE:=zsnes/}
@@ -38,6 +38,7 @@ CONFIGURE_ARGS+=	--with-sdl-prefix=${LOCALBASE} \
 			--with-opengl \
 			--with-png
 ALL_TARGET=		ALL
+CPPFLAGS+=		-D__GZIP__
 
 .if ${FLAVOUR:L:Mdebug}
 CONFIGURE_ARGS+=	--enable-debug
@@ -47,6 +48,7 @@ NO_REGRESS=		Yes
 
 post-extract:
 	rm -fr ${WRKSRC}/obj
+	cp ${.CURDIR}/zsnes.1 ${WRKSRC}/linux/
 
 post-install:
 .if ${FLAVOUR:L:Mdebug}
@@ -54,7 +56,6 @@ post-install:
 	mv ${PREFIX}/bin/zsnesd ${PREFIX}/bin/zsnes
 .endif
 	${INSTALL_DATA_DIR} ${PREFIX}/share/doc/zsnes
-	cd ${WRKDIST}/docs && \
-	    find . -type f | cpio -pdlu ${PREFIX}/share/doc/zsnes/
+	cd ${WRKDIST}/docs && pax -rw . ${PREFIX}/share/doc/zsnes/
 
 .include <bsd.port.mk>

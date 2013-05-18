@@ -1,6 +1,7 @@
+$MirOS$
 $OpenBSD: patch-src_linux_sdllink_c,v 1.1 2002/08/31 04:19:14 wcobb Exp $
 --- src/linux/sdllink.c.orig	Fri Jan 14 13:10:56 2005
-+++ src/linux/sdllink.c	Sun Oct  2 17:37:37 2005
++++ src/linux/sdllink.c	Mon Nov  3 17:08:37 2008
 @@ -391,14 +391,24 @@ int Main_Proc(void)
  				if(cvidmode != 17) {
  				    surface = SDL_SetVideoMode(WindowWidth, WindowHeight,
@@ -82,3 +83,13 @@ $OpenBSD: patch-src_linux_sdllink_c,v 1.1 2002/08/31 04:19:14 wcobb Exp $
  
  	if (UseOpenGL)
  	{
+@@ -1039,6 +1060,9 @@ void UpdateVFrame(void)
+ {
+ 	const int SPCSize = 256;
+ 	int i;
++
++	//Quick fix for GUI CPU usage
++	if (GUIOn2) usleep(6000);
+ 
+ 	CheckTimers();
+ 	Main_Proc();
