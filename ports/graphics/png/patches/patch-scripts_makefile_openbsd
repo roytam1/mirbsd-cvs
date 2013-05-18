@@ -1,25 +1,24 @@
-$MirOS: ports/graphics/png/patches/patch-scripts_makefile_openbsd,v 1.2 2005/04/23 13:47:42 bsiegert Exp $
+$MirOS: ports/graphics/png/patches/patch-scripts_makefile_openbsd,v 1.3 2006/08/26 23:34:14 tg Exp $
 $OpenBSD: patch-scripts_makefile_openbsd,v 1.9 2004/07/06 21:53:16 brad Exp $
---- scripts/makefile.openbsd.orig	Fri Dec  3 01:14:31 2004
-+++ scripts/makefile.openbsd	Sat Apr 23 15:31:38 2005
+--- scripts/makefile.openbsd.orig	Tue Jun 27 20:22:17 2006
++++ scripts/makefile.openbsd	Fri Oct  6 15:13:07 2006
 @@ -1,13 +1,16 @@
 -# makefile for libpng
-+# makefile for libpng under OpenBSD
++# makefile for libpng under MirPorts
  # Copyright (C) 1995 Guy Eric Schalnat, Group 42, Inc.
  # For conditions of distribution and use, see copyright notice in png.h
  
  PREFIX?= /usr/local
 +BINDIR=	${PREFIX}/bin
  LIBDIR=	${PREFIX}/lib
--MANDIR= ${PREFIX}/man/cat
-+MANDIR=	${PREFIX}/man/cat
+ MANDIR= ${PREFIX}/man/cat
 +INCDIR=	${PREFIX}/include/libpng
 +DOCDIR=	${PREFIX}/share/doc/png
  
 -SHLIB_MAJOR=	0
--SHLIB_MINOR=	1.2.8
+-SHLIB_MINOR=	1.2.12
 +SHLIB_MAJOR=	7
-+SHLIB_MINOR=	0
++SHLIB_MINOR=	1
  
  LIB=	png
  SRCS=	png.c pngerror.c pnggccrd.c pngget.c pngmem.c pngpread.c \
@@ -41,16 +40,10 @@ $OpenBSD: patch-scripts_makefile_openbsd,v 1.9 2004/07/06 21:53:16 brad Exp $
 +CLEANFILES+= pngtest.o pngtest libpng-config
  
  MAN=	libpng.3 libpngpf.3 png.5
--DOCS=	ANNOUNCE CHANGES LICENSE README libpng.txt
-+DOCS=	README libpng.txt
+ DOCS = ANNOUNCE CHANGES INSTALL KNOWNBUG LICENSE README TODO Y2KINFO libpng.txt
  
--pngtest.o:	pngtest.c
 +all: ${_LIBS} libpng-config
 +
-+pngtest.o: pngtest.c
- 	${CC} ${CPPFLAGS} ${CFLAGS} -c ${.ALLSRC} -o ${.TARGET}
- 
--pngtest:	pngtest.o
 +libpng-config:
 +.if ${MACHINE_OS} == "Darwin"
 +	( cat scripts/libpng-config-head.in; \
@@ -70,11 +63,14 @@ $OpenBSD: patch-scripts_makefile_openbsd,v 1.9 2004/07/06 21:53:16 brad Exp $
 +.endif
 +	chmod +x libpng-config
 +
-+pngtest: pngtest.o
+ pngtest.o:	pngtest.c
+ 	${CC} ${CPPFLAGS} ${CFLAGS} -c ${.ALLSRC} -o ${.TARGET}
+ 
+ pngtest:	pngtest.o
  	${CC} ${LDFLAGS} ${.ALLSRC} -o ${.TARGET} -L${.OBJDIR} -lpng -lz -lm
  
 -test:	pngtest
-+test regress: pngtest
++test regress:	pngtest
  	cd ${.OBJDIR} && env \
  		LD_LIBRARY_PATH="${.OBJDIR}" ${.OBJDIR}/pngtest
  
@@ -106,10 +102,10 @@ $OpenBSD: patch-scripts_makefile_openbsd,v 1.9 2004/07/06 21:53:16 brad Exp $
 +		-m ${BINMODE} libpng-config ${DESTDIR}${BINDIR}
  	${INSTALL} ${INSTALL_COPY} -o ${SHAREOWN} -g ${SHAREGRP} \
 -		-m ${NONBINMODE} ${HDRS} ${DESTDIR}${PREFIX}/include/libpng
--	${INSTALL} ${INSTALL_COPY} -o ${SHAREOWN} -g ${SHAREGRP} \
--		-m ${NONBINMODE} ${HDRS} ${DESTDIR}${PREFIX}/include
 +		-m ${NONBINMODE} ${HDRS} ${DESTDIR}${INCDIR}
  	${INSTALL} ${INSTALL_COPY} -o ${SHAREOWN} -g ${SHAREGRP} \
+-		-m ${NONBINMODE} ${HDRS} ${DESTDIR}${PREFIX}/include
+-	${INSTALL} ${INSTALL_COPY} -o ${SHAREOWN} -g ${SHAREGRP} \
 -		-m ${NONBINMODE} ${DOCS} ${DESTDIR}${PREFIX}/share/doc/png
 +		-m ${NONBINMODE} ${DOCS} ${DESTDIR}${DOCDIR}
  
