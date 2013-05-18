@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.355 2011/08/26 14:44:33 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.356 2011/08/26 18:16:52 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -2166,7 +2166,7 @@ Tag: pcc snippet unicode
 ----
 Date: 26.11.2008 17:40
 Author: tg@
-Title: Laptops &ndash; IBM X40 vs MiTAC 4023
+Title: Laptops – IBM X40 vs MiTAC 4023
 Tag: hardware bug
 
 <p>Today, I intended to do some hacking too, maybe on that new allocator
@@ -8401,11 +8401,13 @@ Tag: debian event geocache
 ----
 Date: 26.08.2011 14:44
 Author: tg@
-Title: 14:31⎜*<b>&lt;</b>* Signoff: XTaran (*.net *.split)
+Title: Netsplit – so let’s answer in the wlog
 Tag: debian pcli security
 Language: de-DE-1901
 
-<p>16:39⎜&lt;mira|AO&gt; XTaran: n̲i̲e̲ n̲i̲e̲ n̲i̲e̲ n̲i̲e̲ n̲i̲e̲ n̲i̲e̲ n̲i̲e̲ empfiehlt
- man k̶i̶l̶l̶a̶l̶l̶, i̲m̲m̲e̲r̲ nur p̲k̲i̲l̲l̲!</p>
+<pre>14:31⎜*<b>&lt;</b>* Signoff: XTaran (*.net *.split)</pre>
+<p>… doesn’t prevent me from…</p>
+<p><tt>16:39⎜&lt;mira|AO&gt; XTaran: n̲i̲e̲ n̲i̲e̲ n̲i̲e̲ n̲i̲e̲</tt>
+ <tt>n̲i̲e̲ n̲i̲e̲ n̲i̲e̲ empfiehlt man k̶i̶l̶l̶a̶l̶l̶, i̲m̲m̲e̲r̲ nur p̲k̲i̲l̲l̲!</tt></p>
 <p xml:lang="en">“Now playing: Monzy — kill dash” ⇒ good idea… ☺</p>
 ----

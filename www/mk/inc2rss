@@ -1,4 +1,4 @@
-rcsid_inc2rss='$MirOS: www/mk/inc2rss,v 1.31 2011/07/25 09:33:53 tg Exp $'
+rcsid_inc2rss='$MirOS: www/mk/inc2rss,v 1.32 2011/07/25 10:16:07 tg Exp $'
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -78,6 +78,12 @@ function rss_output {
 	else
 		xmllang=
 		rss3lang=
+	fi
+	if [[ $title = *'<'* || $title = *'>'* ||
+	    ${title//'&#'+([0-9]);} = *'&'* ]]; then
+		print -u2 Error: RSS title cannot contain HTML \
+		    and only numeric entities!
+		exit 1
 	fi
 	# we use $xmllang: RSS 2.0 doesn’t allow the language tag inside
 	# items, just as channel tag (and Benny’s template doesn’t even

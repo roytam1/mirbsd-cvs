@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/ksh-chan.inc,v 1.4 2011/07/17 00:40:15 tg Exp $
+RCSID: $MirOS: www/data/ksh-chan.inc,v 1.5 2011/08/13 22:16:51 tg Exp $
 Title: Homepage of the original Korn Shell
 Link: http://www.kornshell.com/
 
@@ -94,7 +94,7 @@ ISBN: 978-1-55937-255-8 (1-55937-255-9)
 
 IEEE Press, Part 2: Shell and Utilities, xvii + 1195 pages, 1993.
 ----
-Title: The Open Group Base Specifications Issue 7 – IEEE Std 1003.1-2008 – Shell &amp; Utilities
+Title: The Open Group Base Specifications Issue 7 – IEEE Std 1003.1-2008 – Shell &#38; Utilities
 Link: http://www.opengroup.org/onlinepubs/9699919799/utilities/toc.html
 
 Online version of the POSIX/SUSv4 standard on shells.
