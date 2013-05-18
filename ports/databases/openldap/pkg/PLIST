@@ -1,4 +1,4 @@
-@comment $MirOS: ports/databases/openldap/pkg/PLIST,v 1.2 2005/05/04 12:06:06 tg Exp $
+@comment $MirOS: ports/databases/openldap/pkg/PLIST,v 1.3 2005/10/13 23:25:33 tg Exp $
 @comment $OpenBSD: PLIST,v 1.8 2003/12/26 10:44:10 jakob Exp $
 bin/ldapadd
 bin/ldapcompare
@@ -183,10 +183,6 @@ man/man5/ldif.5
 man/man5/slapd-hdb.5
 man/man5/slapd-monitor.5
 man/man5/slapd.plugin.5
-man/man8/slapdn.8
-man/man8/slaptest.8
-sbin/slapdn
-sbin/slaptest
 share/examples/openldap/ldap.conf
 @comment share/examples/openldap/ldap.conf.default
 share/openldap/LICENSE

@@ -1,4 +1,4 @@
-@comment $MirOS$
+@comment $MirOS: ports/databases/openldap/pkg/PLIST-server,v 1.1.7.1 2005/03/18 15:44:10 tg Exp $
 @comment $OpenBSD: PLIST-server,v 1.4 2003/12/26 10:44:10 jakob Exp $
 libexec/slapd
 libexec/slurpd
@@ -19,13 +19,17 @@ man/man5/slapd.replog.5
 man/man8/slapadd.8
 man/man8/slapcat.8
 man/man8/slapd.8
+man/man8/slapdn.8
 man/man8/slapindex.8
 man/man8/slappasswd.8
+man/man8/slaptest.8
 man/man8/slurpd.8
 sbin/slapadd
 sbin/slapcat
+sbin/slapdn
 sbin/slapindex
 sbin/slappasswd
+sbin/slaptest
 share/examples/openldap/schema/README
 share/examples/openldap/schema/corba.schema
 @comment share/examples/openldap/schema/corba.schema.default
