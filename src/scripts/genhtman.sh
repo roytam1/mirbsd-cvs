@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/scripts/genhtman.sh,v 1.14 2007/01/25 11:06:17 tg Exp $
+# $MirOS: src/scripts/genhtman.sh,v 1.15 2007/10/21 15:43:49 tg Exp $
 #-
 # Build the HTML format manual pages. This is part of the MirOS con-
 # tribuional and base system release process.
@@ -39,6 +39,7 @@ else
 	make do-htinfopapers
 	cp $BSDOBJDIR/share/doc/legal/LICENCE-BSD.0 $hm/man/cat7/BSD-Licence.0
 
+	set_conversion_paper
 	for s in papers psd smm usd; do
 		typeset -u u=$s
 		mkdir -p $hm/htm/man$u
@@ -71,6 +72,7 @@ else
 fi
 
 cd $hm/htm
+set_conversion_man
 convert_all $hm/man $hm/htm
 find * -type f -o -type l | cpio -pdlu $hr
 exit 0
