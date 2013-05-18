@@ -46,7 +46,7 @@
 #include <unistd.h>
 #include "thread_private.h"
 
-__RCSID("$MirOS: src/lib/libc/crypt/arc4random.c,v 1.19 2008/12/27 21:17:54 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/crypt/arc4random.c,v 1.20 2009/01/21 19:33:24 tg Exp $");
 
 #ifdef __GNUC__
 #define inline __inline
@@ -170,7 +170,7 @@ arc4_stir(void)
 	arc4_count = 1600000;
 }
 
-static inline u_int8_t
+static u_int8_t
 arc4_getbyte(void)
 {
 	u_int8_t si, sj;
@@ -222,6 +222,8 @@ arc4random(void)
 	if (arc4_count <= 0 || !rs_initialized || arc4_stir_pid != getpid())
 		arc4_stir();
 	val = arc4_getword();
+	if (arc4_getbyte() & 1)
+		(void)arc4_getbyte();
 	_ARC4_UNLOCK();
 	return val;
 }
@@ -238,6 +240,9 @@ arc4random_buf(void *_buf, size_t n)
 			arc4_stir();
 		buf[n] = arc4_getbyte();
 	}
+	n = arc4_getbyte() % 3;
+	while (n--)
+		(void)arc4_getbyte();
 	_ARC4_UNLOCK();
 }
 
@@ -277,11 +282,20 @@ arc4random_uniform(u_int32_t upper_bound)
 	 * number inside the range we need, so it should rarely need
 	 * to re-roll.
 	 */
+	_ARC4_LOCK();
+	if (!rs_initialized || arc4_stir_pid != getpid())
+		arc4_stir();
 	for (;;) {
-		r = arc4random();
+		arc4_count -= 4;
+		if (arc4_count <= 0)
+			arc4_stir();
+		r = arc4_getword();
 		if (r >= min)
 			break;
 	}
+	if (arc4_getbyte() & 1)
+		(void)arc4_getbyte();
+	_ARC4_UNLOCK();
 
 	return r % upper_bound;
 }
