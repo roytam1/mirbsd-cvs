@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/install.sub,v 1.13 2007/05/24 07:53:01 tg Exp $
+# $MirOS: src/distrib/common/install.sub,v 1.14 2007/05/24 08:09:36 tg Exp $
 # $OpenBSD: install.sub,v 1.388 2005/07/02 00:55:48 uwe Exp $
 # $NetBSD: install.sub,v 1.5.2.8 1996/09/02 23:25:02 pk Exp $
 #
@@ -68,7 +68,6 @@
 #
 # The following functions must be provided:
 #	md_congrats()		  - display friendly message
-#	md_installboot()	  - install boot-blocks on disk
 #	md_prep_disklabel()	  - put an OpenBSD disklabel on the disk
 #
 # The following variables can be provided if required:
@@ -1621,7 +1620,33 @@ finish_up() {
 	echo "done."
 	cd /
 
-	md_installboot $ROOTDISK
+	if [[ -e $ROOTDISK ]]; then
+		_dev=$ROOTDISK
+	else
+		_dev=/dev/r${ROOTDISK}c
+	fi
+	# use extracted mdec if it exists (may be newer)
+	if [ -e /mnt/usr/mdec/boot ]; then
+		_prefix=/mnt/usr/mdec
+	elif [ -e /usr/mdec/boot ]; then
+		_prefix=/usr/mdec
+	else
+		_prefix=
+	fi
+	if [[ ! -e $_dev ]]; then
+		print Cannot install bootblocks to "'$ROOTDISK'".
+		print You must run installboot manually.
+	elif [[ -z $_prefix ]]; then
+		print No boot block prototypes found.
+		print You must run installboot manually.
+	else
+		print Installing boot block...
+		cat ${_prefix}/boot >/mnt/boot
+		chmod 0 /mnt/boot
+		sync; sync; sync
+		${_prefix}/installboot -v /mnt/boot ${_prefix}/bootxx $_dev
+		print done.
+	fi
 
 	[ -x /mnt/$MODE.site ] && /mnt/usr/sbin/chroot /mnt /$MODE.site
 

@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/i386/install.md,v 1.1 2006/08/17 13:50:33 tg Exp $
+# $MirOS: src/distrib/common/install.i386,v 1.1 2006/08/17 14:09:21 tg Exp $
 # $OpenBSD: install.md,v 1.28 2005/04/02 14:34:46 krw Exp $
 #
 #
@@ -46,13 +46,6 @@ MDTERM=wsvtg
 MDXAPERTURE=2
 MDSERIAL="pccom com tty0"
 ARCH=ARCH
-
-md_installboot() {
-	echo Installing boot block...
-	cat /usr/mdec/boot >/mnt/boot
-	/usr/mdec/installboot -v /mnt/boot /usr/mdec/bootxx ${1}
-	echo "done."
-}
 
 # $1 is the disk to check
 md_checkfordisklabel() {

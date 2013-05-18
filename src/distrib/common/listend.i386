@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/listend.i386,v 1.9 2007/02/19 22:19:04 tg Exp $
+# $MirOS: src/distrib/common/listend.i386,v 1.10 2007/05/10 13:09:22 tg Exp $
 
 # we want the disklabel without manual page
 CRUNCHSPECIAL disklabel	srcdir distrib/special/dl-noman
@@ -12,6 +12,10 @@ LINK	instbin					usr/bin/more usr/bin/less
 
 # these don't fit
 SPECIAL	rmdir etc/isdn etc/ssh
+
+# replace bigger normal boot by fdboot
+SPECIAL	rm usr/mdec/boot
+SPECIAL	install -c -o 0 -g 0 -m 555 ${BSDOBJDIR}/sys/arch/i386/stand/fdboot/boot usr/mdec/boot
 
 # devices stuff
 SPECIAL	cd dev; ./MAKEDEV ptm pty0; rm ?typ[a-zA-Z]
