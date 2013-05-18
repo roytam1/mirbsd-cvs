@@ -1,4 +1,4 @@
-.\"	$MirOS: src/bin/md5/cksum.1,v 1.8 2006/05/25 12:33:08 tg Exp $
+.\"	$MirOS: src/bin/md5/cksum.1,v 1.9 2006/05/26 11:55:16 tg Exp $
 .\"	$OpenBSD: cksum.1,v 1.5 2005/03/07 23:41:53 jmc Exp $
 .\"
 .\" Copyright (c) 2006
@@ -103,6 +103,7 @@ the cryptographic hash is output.
 The output is a 33-bit
 .Tn CRC
 over the file, expressed as eight sedecimal numbers, in the above format.
+Both input processing and binary output are in little-endian convention.
 .El
 .Pp
 The

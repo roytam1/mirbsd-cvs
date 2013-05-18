@@ -1,4 +1,4 @@
-/**	$MirOS: src/bin/md5/md5.c,v 1.10 2006/05/26 11:55:16 tg Exp $ */
+/**	$MirOS: src/bin/md5/md5.c,v 1.11 2006/05/26 12:34:37 tg Exp $ */
 /*	$OpenBSD: md5.c,v 1.32 2004/12/29 17:32:44 millert Exp $	*/
 
 /*
@@ -41,7 +41,7 @@
 #include "adler32.h"
 #include "suma.h"
 
-__RCSID("$MirOS: src/bin/md5/md5.c,v 1.10 2006/05/26 11:55:16 tg Exp $");
+__RCSID("$MirOS: src/bin/md5/md5.c,v 1.11 2006/05/26 12:34:37 tg Exp $");
 
 #define MAX_DIGEST_LEN	128
 
@@ -65,6 +65,7 @@ void digest_print_short(const char *, const char *, const char *);
 void digest_print_string(const char *, const char *, const char *);
 void digest_printbin_pad(const char *);
 void digest_printbin_string(const char *);
+void digest_printbin_stringle(const char *);
 
 #define NHASHES	12
 struct hash_functions {
@@ -125,7 +126,7 @@ struct hash_functions {
 		(void (*)(void *))SUMA_Init,
 		(void (*)(void *, const unsigned char *, unsigned int))SUMA_Update,
 		(char *(*)(void *, char *))SUMA_End,
-		digest_printbin_string,
+		digest_printbin_stringle,
 		digest_print,
 		digest_print_string
 	}, {
@@ -696,4 +697,19 @@ digest_printbin_string(const char *digest)
 			break;
 		putchar((j << 4) | k);
 	}
+}
+
+void
+digest_printbin_stringle(const char *digest)
+{
+	uint32_t dgst;
+	char *c;
+
+	dgst = strtoul(digest, NULL, 16);
+	if (asprintf(&c, "%02X%02X%02X%02X",
+	    dgst & 0xff, (dgst >> 8) & 0xff,
+	    (dgst >> 16) & 0xff, dgst >> 24) == -1)
+		return;
+	digest_printbin_string(c);
+	free(c);
 }
