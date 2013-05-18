@@ -1,4 +1,4 @@
-# $MirOS: src/usr.bin/ftp/Makefile,v 1.5 2006/10/03 19:22:16 tg Exp $
+# $MirOS: src/usr.bin/ftp/Makefile,v 1.6 2007/07/15 20:01:07 tg Exp $
 # $OpenBSD: Makefile,v 1.22 2007/06/13 13:52:26 pyr Exp $
 
 .include <bsd.own.mk>
@@ -30,6 +30,5 @@ LDADD+=		-lcurses -lutil
 DPADD+=		${LIBCURSES} ${LIBUTIL}
 
 CFLAGS+=	-Wall
-LDSTATIC=	${STATIC}
 
 .include <bsd.prog.mk>

@@ -1,7 +1,6 @@
-# $MirOS: src/usr.bin/kdump/Makefile,v 1.3 2005/11/23 17:36:17 tg Exp $
+# $MirOS: src/usr.bin/kdump/Makefile,v 1.4 2005/11/23 20:38:20 tg Exp $
 # $OpenBSD: Makefile,v 1.8 2003/07/02 20:54:17 deraadt Exp $
 
-LDSTATIC=	${STATIC}
 PROG=		kdump
 CPPFLAGS+=	-I${.CURDIR}/../ktrace -I${.CURDIR}/../../sys
 SRCS=		kdump.c ioctl.c subr.c

@@ -1,4 +1,4 @@
-# $MirOS: src/usr.bin/compress/Makefile,v 1.4 2007/05/08 21:52:55 tg Exp $
+# $MirOS: src/usr.bin/compress/Makefile,v 1.5 2008/03/19 18:34:47 tg Exp $
 # $OpenBSD: Makefile,v 1.20 2007/01/24 10:53:43 jmc Exp $
 
 PROG=	compress
@@ -20,7 +20,6 @@ MLINKS+=zmore.1 zless.1
 
 LDADD=		-lz
 DPADD=		${LIBZ}
-LDSTATIC?=	${STATIC}
 CPPFLAGS+=	-DZCONST=const
 
 afterinstall:
