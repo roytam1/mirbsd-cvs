@@ -30,11 +30,12 @@
  */
 
 #include <errno.h>
+#include <stdbool.h>
 #include <stdio.h>
 #include <wchar.h>
 #include "local.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/lib/libc/stdio/fgetwc.c,v 1.3 2007/01/22 16:44:25 tg Exp $");
 
 wint_t __fgetwc_unlock(FILE *);
 
@@ -45,6 +46,7 @@ __fgetwc_unlock(FILE *fp)
 	mbstate_t *st;
 	wchar_t wc;
 	size_t size;
+	bool firstc = true;
 
 	_SET_ORIENTATION(fp, 1);
 	wcio = WCIO_GET(fp);
@@ -73,10 +75,14 @@ __fgetwc_unlock(FILE *fp)
 		c = ch;
 		size = mbrtowc(&wc, &c, 1, st);
 		if (size == (size_t)-1) {
+			if (!firstc)
+				ungetc(ch, fp);
+			memset(st, 0, sizeof (mbstate_t));
 			fp->_flags |= __SERR;
 			errno = EILSEQ;
 			return WEOF;
 		}
+		firstc = false;
 	} while (size == (size_t)-2);
 
 	return wc;

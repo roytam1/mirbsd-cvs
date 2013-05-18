@@ -1,3 +1,4 @@
+.\"	$MirOS$
 .\"	$OpenBSD: getwc.3,v 1.2 2005/06/17 22:03:18 jmc Exp $
 .\"
 .\"	$NetBSD: getwc.3,v 1.7 2003/09/08 17:54:32 wiz Exp $
@@ -110,3 +111,16 @@ and
 functions
 conform to
 .St -isoC-99 .
+.Pp
+In addition to the standard, the
+.Mx
+implementation allows continuation after an illegal input
+sequence (when
+.Dv WEOF
+is returned,
+.Xr ferror 3
+returns non-zero, and
+.Va errno
+is set to
+.Dv EILSEQ ) .
+Also, mixing wide-oriented and byte-oriented I/O functions is possible.
