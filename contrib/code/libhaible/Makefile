@@ -1,4 +1,4 @@
-# $MirOS: contrib/code/libhaible/Makefile,v 1.15 2006/05/30 18:26:47 tg Exp $
+# $MirOS: contrib/code/libhaible/Makefile,v 1.16 2006/05/30 18:28:38 tg Exp $
 
 LIB=	haible
 NOPIC=	Yes	# for now
@@ -101,5 +101,12 @@ MLINKS+=wmemchr.3 wcsrchr.3
 MLINKS+=wmemchr.3 wcsspn.3
 MLINKS+=wmemchr.3 wcsstr.3
 # added:
+MLINKS+=wmemchr.3 wcscasecmp
+MLINKS+=wmemchr.3 wcscoll
+MLINKS+=wmemchr.3 wcsdup
+MLINKS+=wmemchr.3 wcsftime
+MLINKS+=wmemchr.3 wcsncasecmp
+MLINKS+=wmemchr.3 wcswcs
+MLINKS+=wmemchr.3 wcsxfrm
 
 .include <bsd.lib.mk>

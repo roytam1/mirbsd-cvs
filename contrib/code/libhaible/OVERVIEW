@@ -1,4 +1,4 @@
-$MirOS: contrib/code/libhaible/OVERVIEW,v 1.5 2006/05/30 18:21:35 tg Exp $
+$MirOS: contrib/code/libhaible/OVERVIEW,v 1.6 2006/05/30 18:26:47 tg Exp $
 $function name		header		manpage		source location
 $ 
 $ Info: # = commented out
@@ -55,19 +55,19 @@ vswscanf		#wchar.h	-
 vwprintf		#wchar.h	-
 vwscanf			#wchar.h	-
 wcrtomb			 wchar.h	C:wcrtomb
-wcscasecmp		 wchar.h	-
+wcscasecmp		 wchar.h	H:wmemchr
 wcscat			 wchar.h	C:wmemchr
 wcschr			 wchar.h	C:wmemchr
 wcscmp			 wchar.h	C:wmemchr
-wcscoll			#wchar.h	-
+wcscoll			#wchar.h	H:wmemchr
 wcscpy			 wchar.h	C:wmemchr
 wcscspn			 wchar.h	C:wmemchr
-wcsdup			 wchar.h	- XXX wmemchr
-wcsftime		#wchar.h	-
+wcsdup			 wchar.h	H:wmemchr
+wcsftime		#wchar.h	H:wmemchr
 wcslcat			 wchar.h	C:wmemchr
 wcslcpy			 wchar.h	C:wmemchr
 wcslen			 wchar.h	C:wmemchr
-wcsncasecmp		 wchar.h	-
+wcsncasecmp		 wchar.h	H:wmemchr
 wcsncat			 wchar.h	C:wmemchr
 wcsncmp			 wchar.h	C:wmemchr
 wcsncpy			 wchar.h	C:wmemchr
@@ -85,9 +85,9 @@ wcstoll			#wchar.h	-
 wcstombs		 stdlib.h	C:wcstombs
 wcstoul			#wchar.h	-
 wcstoull		#wchar.h	-
-wcswcs			 wchar.h	- XXX wmemchr
+wcswcs			 wchar.h	H:wmemchr
 wcswidth		 wchar.h	-
-wcsxfrm			#wchar.h	-
+wcsxfrm			#wchar.h	H:wmemchr
 wctob			 wchar.h	C:wctob
 wctomb			 stdlib.h	C:wctomb
 wctrans			 wctype.h	H:wctrans
