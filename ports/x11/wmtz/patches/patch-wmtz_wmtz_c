@@ -1,6 +1,7 @@
+$MirOS$
 $OpenBSD: patch-wmtz_wmtz_c,v 1.2 2004/01/14 22:42:52 wilfried Exp $
---- wmtz/wmtz.c.orig	2001-04-16 21:26:34.000000000 +0200
-+++ wmtz/wmtz.c	2004-01-14 23:39:10.000000000 +0100
+--- wmtz/wmtz.c.orig	Mon Apr 16 21:26:12 2001
++++ wmtz/wmtz.c	Wed Apr  8 00:33:10 2009
 @@ -51,8 +51,7 @@
  #define STRSIZE 10
  #define LMST 1
@@ -20,3 +21,28 @@ $OpenBSD: patch-wmtz_wmtz_c,v 1.2 2004/01/14 22:42:52 wilfried Exp $
    
    week_day[0] = "SUNDAY   ";
    week_day[1] = "MONDAY   ";
+@@ -324,7 +323,7 @@ void wmtz_routine(int argc, char **argv)
+ 	      clk = localtime(&curtime);
+ 	      while(clk->tm_year>99) clk->tm_year-=100;
+ 	      snprintf(blitstr, STRSIZE,"%s %02d.%02d",
+-                       month[clk->tm_mon],clk->tm_mday,clk->tm_year);
++                       month[clk->tm_mon],clk->tm_mday,(int)clk->tm_year);
+               BlitString(blitstr, 5, (11*(j-1)) + 5);  
+ 	    }
+ 
+@@ -479,6 +478,7 @@ void wmtz_routine(int argc, char **argv)
+ 		   but_stat = -1;
+                    break;
+ 	    default:
++		   break;
+ 	  }
+         }  
+ 
+@@ -529,6 +529,7 @@ void handleTheMenu(int but_stat)
+ 	    exit(0);
+ 	    break;
+ 	default:
++	    break;
+       }
+     return;
+ }
