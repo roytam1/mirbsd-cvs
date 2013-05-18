@@ -1,7 +1,7 @@
 ! $MirSecuCron$
-! $MirOS: contrib/samples/dot.Xresources,v 1.19 2011/10/22 21:03:34 tg Exp $
+! $MirOS: contrib/samples/dot.Xresources,v 1.20 2011/10/24 20:03:05 tg Exp $
 !-
-! Copyright © 2003, 2004, 2005, 2006, 2007, 2009, 2010, 2011
+! Copyright © 2003, 2004, 2005, 2006, 2007, 2009, 2010, 2011, 2012
 !	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
 !
 ! Provided that these terms and disclaimer and all copyright notices
@@ -35,6 +35,7 @@
 !--- generic XTerm settings ---
 XTerm*VT100*loginShell:		true
 XTerm*ScrollBar:		false
+XTerm*pointerMode:		0
 XTerm*SaveLines:		4096
 XTerm*eightBitInput:		true
 XTerm*eightBitOutput:		true
@@ -89,6 +90,7 @@ XTerm*visualBell:		true
 !--- generic amber/black UXTerm settings ---
 AXTerm*VT100*loginShell:	true
 AXTerm*ScrollBar:		false
+AXTerm*pointerMode:		0
 AXTerm*SaveLines:		4096
 AXTerm*eightBitInput:		true
 AXTerm*eightBitOutput:		true
@@ -145,6 +147,7 @@ AXTerm*visualBell:		true
 !--- generic black/white XTerm settings ---
 BXTerm*VT100*loginShell:	true
 BXTerm*ScrollBar:		false
+BXTerm*pointerMode:		0
 BXTerm*SaveLines:		4096
 BXTerm*eightBitInput:		true
 BXTerm*eightBitOutput:		true
@@ -180,6 +183,7 @@ BXTerm*visualBell:		true
 !--- Terminus font modifications ---
 TXTerm*VT100*loginShell:	true
 TXTerm*ScrollBar:		false
+TXTerm*pointerMode:		0
 TXTerm*SaveLines:		4096
 TXTerm*eightBitInput:		true
 TXTerm*eightBitOutput:		true
@@ -237,6 +241,7 @@ TXTerm*visualBell:		true
 !--- an XTerm with vga font ---
 VXTerm*VT100*loginShell:	true
 VXTerm*ScrollBar:		false
+VXTerm*pointerMode:		0
 VXTerm*SaveLines:		4096
 VXTerm*eightBitInput:		true
 VXTerm*eightBitOutput:		true
@@ -295,6 +300,7 @@ VXTerm*VT100*geometry:		80x25
 !--- generic utf-8 XTerm settings ---
 UXTerm*VT100*loginShell:	true
 UXTerm*ScrollBar:		false
+UXTerm*pointerMode:		0
 UXTerm*SaveLines:		4096
 UXTerm*eightBitInput:		true
 UXTerm*eightBitOutput:		true
@@ -354,6 +360,7 @@ UXTerm*visualBell:		true
 !--- euc-jp kterm settings ---
 KTerm*VT100*loginShell:		true
 KTerm*ScrollBar:		false
+KTerm*pointerMode:		0
 KTerm*SaveLines:		4096
 KTerm*eightBitInput:		true
 KTerm*eightBitOutput:		true
