@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/bsd.sys.mk,v 1.17 2007/05/17 18:38:36 tg Exp $
+# $MirOS: src/share/mk/bsd.sys.mk,v 1.18 2007/05/21 18:29:19 tg Exp $
 # $OpenBSD: bsd.sys.mk,v 1.8 2000/07/06 23:12:41 millert Exp $
 # $NetBSD: bsd.sys.mk,v 1.2 1995/12/13 01:25:07 cgd Exp $
 
@@ -36,6 +36,7 @@ CPPFLAGS+=	-nostdinc -isystem ${DESTDIR}/usr/include
 CXXFLAGS+=	-isystem ${DESTDIR}/usr/include/gxx \
 		-isystem ${DESTDIR}/usr/include/gxx/${OStriplet} \
 		-isystem ${DESTDIR}/usr/include/gxx/backward
+LDFLAGS+=	-Wl,-rpath-link -Wl,${DESTDIR}/usr/lib
 .  endif
 
 .endif
