@@ -1,8 +1,8 @@
-# $MirOS: src/etc/profile,v 1.12 2005/12/18 05:40:49 tg Exp $
+# $MirOS: src/etc/profile,v 1.13 2006/01/03 02:15:24 tg Exp $
 
 umask 022
 [ -z "$KSH_VERSION" ] && alias print='echo -e'
-[ -s "${HOME}/.profile.preinit" ] && . ${HOME}/.profile.preinit
+[ -s "$HOME/.profile.preinit" ] && . $HOME/.profile.preinit
 
 [ -z "$TERM" -o x"$TERM" = x"unknown" ] && if [ -x /usr/bin/tset ]; then
 	x=$(ulimit -c 0; /usr/bin/tset -sQ \?vt220)
@@ -11,7 +11,7 @@ umask 022
 else
 	TERM=vt220
 fi
-case "${TERM}:${COLORTERM}" in
+case "${TERM}:$COLORTERM" in
 *:NO|ansi-nt*|vt*)
 	unset COLORTERM
 	;;
@@ -28,7 +28,7 @@ USER_ID=
 [ -z "$USER_ID" ] && USER_ID=0
 if [ -z "$USER" ]; then
 	PATH=/sbin:/bin:/usr/sbin:/usr/bin:/root/.etc/bin:/usr/local/bin:/usr/mpkg/bin
-	PS1='SINGLE:${PWD} # '
+	PS1='SINGLE:$PWD # '
 	unset COLORTERM
 elif [ $USER_ID -eq 0 ]; then
 	PATH=/root/.etc/bin:/usr/sbin:/sbin:/usr/bin:/bin:/usr/X11R6/bin:/usr/local/bin:/usr/mpkg/bin
@@ -60,14 +60,14 @@ elif [ -n "$BASH_VERSION" ]; then
 	set -o emacs
 	shopt -s extglob
 	[[ $TERM = screen ]] && \
-		X_COLOUR="${X_COLOUR}"'[5;34;40m\]screen:\[[0m'
+		X_COLOUR=$X_COLOUR'[5;34;40m\]screen:\[[0m'
 	if [[ $OSTYPE = linux-gnu || $OSTYPE = Linux ]]; then
 		# compat_linux(8)
-		PS1='\['"${X_COLOUR}"'[1;31m\]Linux!\[[0m\]\u@\h:\w \$ '
+		PS1='\['$X_COLOUR'[1;31m\]Linux!\[[0m\]\u@\h:\w \$ '
 		alias ls='/bin/ls --color'
 	else
 		# native via ports
-		PS1='\['"${X_COLOUR}"'[34m\]bash!\[[0m\]\u@\h:\w \$ '
+		PS1='\['$X_COLOUR'[34m\]bash!\[[0m\]\u@\h:\w \$ '
 	fi
 	[[ -n $NOCOLOURPROMPT || -z $COLORTERM ]] && PS1='bash:\u@\h:\w \$ '
 	_shellok=1
