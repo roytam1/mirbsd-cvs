@@ -58,7 +58,7 @@ KERNEL_BUILD?=	Yes
 KERNEL_BSDRD?=	Yes
 BSDRD_COMPR?=	gzip -vn9
 AOUT_BSDRD?=	No
-RAMDISK_PREP?=	@:
+RAMDISK_PREP?=	config -ef $@ <<<'quit'
 
 .if ${KERNEL_BUILD:L} != "no"
 .  include "${TOPDIR}/common/Makefile.kernel"
@@ -172,13 +172,16 @@ bsd.uc: bsd ${IMAGE} ${RDSETROOT}
 
 bsd.rd: bsd.uc
 	-rm -f $@
+	config -ef $> <<<'quit'
 	${BSDRD_COMPR} <$> >$@
 
 bsd.st: bsd.uc
+	config -ef $> <<<'quit'
 	cp -f $> $@ && ${STRIP} ${STRIP_KERNEL} $@ || (rm -f $@; exit 1)
 
 bsd.rd.net: bsd.st
 	-rm -f $@
+	config -ef $> <<<'quit'
 	elf2aout $> $@ -b
 
 FLOPPY_BOOTCFG?=@:
@@ -186,6 +189,7 @@ ${FLOPPY}: bsd.st
 	test ! -e ${TMPMOUNT} || (cd ${.CURDIR}; ${MAKE} unconfig)
 	${SUDO} rm -rf ${WRKDIR} e~
 	mkdir -p ${WRKDIR}
+	config -ef bsd.st <<<'quit'
 	gzip -vn9 <bsd.st >${WRKDIR}/bsd
 	${FLOPPY_BOOTCFG}
 	dd if=/dev/zero of=${FLOPPY}~ count=${FLOPPYSIZE}
