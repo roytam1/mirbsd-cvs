@@ -1,5 +1,5 @@
 <!-- PageID: mksh -->
-<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.31 2006/07/04 21:17:58 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.32 2006/07/04 21:18:49 tg Exp $</small>
 
 <h1>mksh(1) R27e</h1>
 <p>This is the MirBSD&trade; Korn Shell, a more or less portable
@@ -14,6 +14,7 @@
 <h2>Table of Contents</h2><ul>
  <li><a href="#clog">ChangeLog</a></li>
  <li><a href="#plans">future plans</a></li>
+ <li><a href="#prefetch">Requirements</a></li>
  <li><a href="#fetch">Downloading</a></li>
  <li><a href="#extract">Unpacking</a></li>
  <li><a href="#build">Building</a>...</li>
@@ -194,6 +195,25 @@
 <p>Adding <tt>goto</tt> and <tt>label</tt> keywords/commands.</p>
 <p>Adding builtins <tt>realpath</tt>, <tt>fstat</tt>, <tt>lstat</tt>,
  <tt>traverse</tt>.</p>
+
+<h2 id="prefetch">Requirements</h2>
+
+<p>Of course, your system must be operational for compiling
+ programmes. You will need some sort of bourne compatible
+ shell, compiler, assembler, linker (has not been tested with
+ anything other than GCC), and associated tools.</p>
+
+<p>ed(1) is the standard <tt>FCEDIT</tt> history editor and
+ as such must be located in <tt>/bin/ed</tt> &ndash; note that
+ if your GNU/Linux distribution (which usually don't include
+ ed(1) in the standard installation, sadly) installs ed someplace
+ else ask them to change it to the <tt>/bin/ed</tt> location <a
+ href="http://www.pathname.com/fhs/pub/fhs-2.3.html#SPECIFICOPTIONS2">standardised
+ by the FHS Guidelines</a> instead.</p>
+
+<p>For running the regression test, you also need a suitably
+ up-to-date perl(1) installation. We don't know how recent
+ is up-to-date enough.</p>
 
 <h2 id="fetch">Getting The Source</h2>
 
