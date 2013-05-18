@@ -48,17 +48,10 @@ int netif_debug;
 char		progname[] = "bootxx";
 struct open_file	io;
 
-/*
- * The contents of the block_* variables below is set by installboot(8)
- * to hold the filesystem data of the second-stage boot program
- * (typically `/boot'): filesystem block size, # of filesystem blocks and
- * the block numbers themselves.
- */
-#define MAXBLOCKNUM	256	/* enough for a 2MB boot program (bs 8K) */
-int32_t			block_size = 0;
-int32_t			block_count = MAXBLOCKNUM;
-daddr_t			block_table[MAXBLOCKNUM] = { 0 };
-
+/* these are set by installboot, defined in btable.S */
+extern int32_t block_size;
+extern int32_t block_table[];
+extern int32_t block_count;
 
 void	loadboot(struct open_file *, caddr_t);
 

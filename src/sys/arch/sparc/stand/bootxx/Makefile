@@ -1,4 +1,4 @@
-# $MirOS: src/sys/arch/sparc/stand/bootxx/Makefile,v 1.4 2006/06/17 20:50:37 tg Exp $
+# $MirOS: src/sys/arch/sparc/stand/bootxx/Makefile,v 1.5 2007/06/11 21:12:58 tg Exp $
 # $OpenBSD: Makefile,v 1.7 2003/08/11 06:35:45 deraadt Exp $
 # $NetBSD: Makefile,v 1.2 1995/09/30 21:43:38 pk Exp $
 
@@ -10,7 +10,7 @@ PROG=	bootxx
 NOMAN=	yes
 INSTALL_STRIP=
 
-SRCS=	srt0.S bootxx.c closeall.c dvma.c promdev.c
+SRCS=	srt0.S bootxx.c btable.S closeall.c dvma.c promdev.c
 
 # pre-built bits of libkern
 KOBJS=	__main.o bzero.o urem.o udiv.o

@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/sparc/stand/installboot/installboot.c,v 1.4 2006/08/17 12:37:51 tg Exp $ */
+/**	$MirOS: src/sys/arch/sparc/stand/installboot/installboot.c,v 1.5 2007/06/12 21:58:26 tg Exp $ */
 /*	$OpenBSD: installboot.c,v 1.4 2003/08/25 23:36:46 tedu Exp $	*/
 /*	$NetBSD: installboot.c,v 1.1 1997/06/01 03:39:45 mrg Exp $	*/
 
@@ -49,7 +49,7 @@
 #include <string.h>
 #include <unistd.h>
 
-__RCSID("$MirOS: src/sys/arch/sparc/stand/installboot/installboot.c,v 1.4 2006/08/17 12:37:51 tg Exp $");
+__RCSID("$MirOS: src/sys/arch/sparc/stand/installboot/installboot.c,v 1.5 2007/06/12 21:58:26 tg Exp $");
 
 extern const char *__progname;
 
@@ -65,7 +65,7 @@ struct nlist nl[] = {
 	{{"_block_size"}},
 	{{NULL}}
 };
-daddr_t	*block_table;		/* block number array in prototype image */
+int32_t	*block_table;		/* block number array in prototype image */
 int32_t	*block_count_p;		/* size of this array */
 int32_t	*block_size_p;		/* filesystem block size */
 int32_t	max_block_count;
