@@ -1,4 +1,4 @@
-/* $MirOS: src/sys/arch/i386/stand/boot/srt0.S,v 1.74 2009/03/15 17:27:44 tg Exp $ */
+/* $MirOS: src/sys/arch/i386/stand/boot/srt0.S,v 1.75 2009/08/09 18:51:41 tg Exp $ */
 
 /*-
  * Copyright (c) 2003, 2004, 2005, 2006, 2007, 2008, 2009
@@ -27,7 +27,6 @@
 	.code16
 
 	/* extern */
-	.globl	idt_init
 	.globl	real_to_prot
 	.globl	prot_to_real
 	.globl	boot
@@ -331,7 +330,7 @@ LisRel:	mov	ax,SA_LINKSEG
 	lret
 
 	/* whew, we're relocated */
-Lstart:	call	idt_init
+Lstart:
 #ifdef BOOTSELECT_HOOK
 	sti
 	.globl	Lhook

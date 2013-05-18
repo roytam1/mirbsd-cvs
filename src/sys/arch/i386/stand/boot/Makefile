@@ -1,6 +1,7 @@
-# $MirOS: src/sys/arch/i386/stand/boot/Makefile,v 1.29 2009/02/01 10:31:14 tg Exp $
+# $MirOS: src/sys/arch/i386/stand/boot/Makefile,v 1.30 2009/02/01 16:16:30 tg Exp $
 
 SMALL_BOOT?=	No
+BOOTLDR_PATH?=	${.CURDIR}
 
 .include "${.CURDIR}/../Makefile.inc"
 
@@ -63,11 +64,10 @@ ${PROG}:	$(OBJS) $(DPADD)
 		rm -f $@; \
 		exit 1; \
 	fi
-	objcopy -x ${PROG}.elf ${PROG}.tmp
-	nm ${PROG}.tmp >${PROG}.nm
 	@$(SIZE) ${PROG}.elf
-	strip --strip-all -R .comment ${PROG}.tmp
-	objcopy -O binary ${PROG}.tmp ${PROG}
+	objcopy -x -R .comment ${PROG}.elf ${PROG}.tmp
+	nm ${PROG}.tmp >${PROG}.nm
+	${MKSH} ${BOOTLDR_PATH}/idt_fixup.sh ${PROG}.tmp ${PROG}
 	@-rm -f ${PROG}.tmp
 
 TESTMBR?=	mbrldr

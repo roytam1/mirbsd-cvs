@@ -1,4 +1,4 @@
-/*	$MirOS: src/sys/arch/i386/stand/libsa/gidt.S,v 1.28 2009/02/02 15:59:55 tg Exp $ */
+/*	$MirOS: src/sys/arch/i386/stand/libsa/gidt.S,v 1.29 2009/03/15 18:16:13 tg Exp $ */
 /*	$OpenBSD: gidt.S,v 1.32 2006/12/26 19:30:44 tom Exp $	*/
 
 /*
@@ -83,19 +83,8 @@ ENTRY(_rtt)
 	ret
 
 	/*
-	 * set up the protected mode Interrupt Descriptor Table:
-	 * first, reserve space for 80 entries, 8 bytes each,
-	 * then the IDT descriptor.
+	 * set up the protected mode Interrupt Descriptor Table
 	 */
-	.p2align 4
-idt:
-	. = idt + (80 * 8)
-	.globl Idtr
-Idtr:	.word	. - idt - 1
-	.long	idt
-	.word	0		/* XXX what for? */
-
-	.intel_syntax noprefix
 
 #ifdef __STDC__
 #define IPROC(n)	X##n
@@ -107,19 +96,12 @@ Idtr:	.word	. - idt - 1
 #define idtb(b)		idte(emu/**/b)
 #endif
 
-#define idte(e)						\
-	mov	ebx,offset IPROC(e);			\
-	mov	ax,bx; stosw;				\
-	mov	ax,S32TEXT; stosw;			\
-	mov	eax,ebx;				\
-	mov	ax,(0x80 | SDT_SYS386TGT)<<8; stosd	\
+#define idte(e) \
+	.long	IPROC(e), ((S32TEXT) << 16) | ((0x80 | SDT_SYS386TGT) << 8)
 
-	.globl	idt_init
-	.code16
-idt_init:
-	mov	edi,offset idt - SA_LINKADDR
-	cld
-		/* internal / CPU (0-31) */
+	.p2align 4
+	.globl	idt_for_fixup
+idt_for_fixup:
 	idte(de); idte(db); idte(nmi); idte(bp); idte(of); idte(br)
 	idte(ud); idte(nm); idte(df);  idte(fo); idte(ts); idte(np)
 	idte(ss); idte(gp); idte(pf);  idte(xx); idte(mf); idte(ac)
@@ -138,22 +120,25 @@ idt_init:
 	idtb(30); idtb(31); idtb(32); idtb(33); idtb(34); idtb(35)
 	idtb(36); idtb(37); idtb(38); idtb(39); idtb(40); idtb(41)
 	idtb(42); idtb(43); idtb(44); idtb(45); idtb(46); idtb(47)
+	.globl	idt_fixup_end
+idt_fixup_end:
 
-	ret
-	.code32
+	.balign 8
+	.globl	Idtr
+Idtr:	.word	idt_fixup_end - idt_for_fixup - 1
+	.long	idt_for_fixup
+	.word	0
 
-	.att_syntax
-
-	.align	8
+	.balign	8
 	.globl	Idtr_real
 Idtr_real:	.word	1023
 		.long	0
 		.word	0
 
-	.align	8
+	.balign	8
 Idtr_reset:	.long	0, 0
 
-	.align	8
+	.balign	8
 gdt:
 		/* 0x00 : null */
 	.space	8
