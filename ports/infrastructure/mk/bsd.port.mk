@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.74 2005/12/16 11:46:39 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.75 2005/12/16 14:58:14 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -80,6 +80,7 @@ PKG_CMD_CREATE?=	${PKG_CMDDIR}/pkg_create
 PKG_CMD_DELETE?=	${PKG_CMDDIR}/pkg_delete
 PKG_CMD_INFO?=		${PKG_CMDDIR}/pkg_info
 PKG_CMD_PKG?=		${PKG_CMDDIR}/pkg
+PKG_CMD_UPGRADE?=	${PKG_CMDDIR}/pkg_upgrade
 
 .if ${MACHINE_ARCH} != ${ARCH}
 PKG_ARCH?=		${MACHINE_ARCH},${ARCH}
@@ -1169,15 +1170,22 @@ _INSTALL_DEPS+=		${_PACKAGE_COOKIES}
 _INSTALL_DEPS+=		${_BULK_COOKIE}
 _PACKAGE_DEPS+=		${_BULK_COOKIE}
 .endif
+_UPGRADE_DEPS=
+_UPGRADE_PKGS=
 
 PREFER_SUBPKG_INSTALL?=	yes
 .if empty(SUBPACKAGE) && defined(MULTI_PACKAGES) \
     && !empty(MULTI_PACKAGES) && (${PREFER_SUBPKG_INSTALL:L} == "yes")
 .  for _i in ${MULTI_PACKAGES}
 _INSTALL_DEPS+=		${PKG_DBDIR}/${FULLPKGNAME${_i}}/+CONTENTS
+_UPGRADE_DEPS+=		_upgrade-${_i}
+_UPGRADE_PKGS+=		${PKGFILE${_i}}
 
 ${PKG_DBDIR}/${FULLPKGNAME${_i}}/+CONTENTS: ${PKG_DBDIR}/${FULLPKGNAME}/+CONTENTS
 	@env SUBPACKAGE=${_i:Q} ${MAKE} install-binpkg
+
+_upgrade-${_i}:
+	@env SUBPACKAGE=${_i:Q} ${MAKE} _upgrade
 .  endfor
 .endif
 
@@ -2914,6 +2922,16 @@ uninstall deinstall:
 	@${SUDO} ${SETENV} PATH=${PKG_CMDDIR:Q}:$$PATH \
 	    ${PKG_CMD_DELETE} ${FULLPKGNAME${SUBPACKAGE}}
 
+upgrade: _upgrade_pkgs .WAIT _upgrade ${_UPGRADE_DEPS}
+
+_upgrade_pkgs:
+	@i=0; for f in ${PKGFILE} ${_UPGRADE_PKGS}; do \
+		[[ -s $$f ]] || i=1; \
+	done; [[ $$i = 0 ]] || exec ${MAKE} ${_PACKAGE_COOKIES}
+
+_upgrade:
+	${PKG_CMD_UPGRADE} -a ${PKGFILE${SUBPACKAGE}}
+
 .if defined(ERRORS)
 .BEGIN:
 .  for _m in ${ERRORS}
@@ -2957,6 +2975,6 @@ uninstall deinstall:
 	regress regress-depends \
 	reinstall repackage run-depends \
 	run-depends-list run-dir-depends show \
-	uninstall unlink-categories update-patches \
-	update-plist unconfigure \
+	uninstall unlink-categories update-patches update-plist \
+	upgrade _upgrade _upgrade_pkgs unconfigure \
 	relevant-checks _relevant-checks

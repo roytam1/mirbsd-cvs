@@ -1,5 +1,5 @@
 #!/usr/bin/env mksh
-# $MirOS: ports/infrastructure/pkgtools/upgrade/pkg_upgrade.sh,v 1.6 2005/12/16 15:14:16 tg Exp $
+# $MirOS: ports/infrastructure/pkgtools/upgrade/pkg_upgrade.sh,v 1.7 2005/12/16 16:34:35 tg Exp $
 #-
 # Copyright (c) 2005
 #	Benny Siegert <bsiegert@66h.42h.de>
@@ -24,17 +24,26 @@
 # be as a part of pkg_add.
 
 me=${0##*/}
-if [[ -z $1 || $1 = -h ]]; then
-	echo "Usage:"
-	echo " $me [pkgname]"
+
+function usage
+{
+	print -u2 Usage:
+	print -u2 "\t$me [-af] pkgname.cgz"
 	exit 1
-fi
+}
 
 auto=0
-if [[ $1 = -a ]]; then	# XXX convert to getopt
-	auto=1
-	shift
-fi
+force=0
+while getopts "afh" option; do
+	case $option {
+	(a)	auto=1 ;;
+	(f)	force=1 ;;
+	(h)	usage ;;
+	(*)	usage ;;
+	}
+done
+shift $((OPTIND - 1))
+[[ -n $1 ]] || usage
 
 PKG_DBDIR=@@dbdir@@/pkg
 if [[ ! -d $PKG_DBDIR ]] ; then
@@ -78,6 +87,10 @@ if echo $OLDPKGS | grep -q ' ' ; then
 	echo "$OLDPKGS"
 	exit 1
 fi
+
+# Check if we try to re-install same-version packages
+NEWPKG=${1##*/}
+[[ $OLDPKGS = ${NEWPKG%.+([a-zA-Z])} && $force = 0 ]] && exit 0
 
 echo "pkg_upgrade: will remove $OLDPKGS in favour of $1"
 
