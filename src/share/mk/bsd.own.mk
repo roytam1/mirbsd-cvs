@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/bsd.own.mk,v 1.41 2006/09/29 22:10:09 tg Exp $
+# $MirOS: src/share/mk/bsd.own.mk,v 1.42 2006/10/28 19:52:51 tg Exp $
 # $OpenBSD: bsd.own.mk,v 1.92 2005/01/18 00:28:42 mickey Exp $
 # $NetBSD: bsd.own.mk,v 1.24 1996/04/13 02:08:09 thorpej Exp $
 
@@ -187,19 +187,19 @@ LIBEVENT?=	${DESTDIR}/usr/lib/libevent.a
 LIBEXPAT?=	${DESTDIR}/usr/lib/libexpat.a
 LIBFL?=		${DESTDIR}/usr/lib/libfl.a
 LIBFORM?=	${DESTDIR}/usr/lib/libform.a
-LIBGPC?=	${DESTDIR}/usr/lib/libgpc.a
+LIBICONV?=	${DESTDIR}/usr/lib/libiconv.a
 LIBKEYNOTE?=	${DESTDIR}/usr/lib/libkeynote.a
 LIBKVM?=	${DESTDIR}/usr/lib/libkvm.a
 LIBL?=		${DESTDIR}/usr/lib/libl.a
 LIBM?=		${DESTDIR}/usr/lib/libm.a
 LIBMENU?=	${DESTDIR}/usr/lib/libmenu.a
 LIBMILTER?=	${DESTDIR}/usr/lib/libmilter.a
-LIBOBJC?=	${DESTDIR}/usr/lib/libobjc.a
 LIBOLDCURSES?=	${DESTDIR}/usr/lib/libocurses.a
 LIBPANEL?=	${DESTDIR}/usr/lib/libpanel.a
 LIBPCAP?=	${DESTDIR}/usr/lib/libpcap.a
 LIBPERL?=	${DESTDIR}/usr/lib/libperl.a
 LIBPNG?=	${DESTDIR}/usr/lib/libpng.a
+LIBPTHREAD?=	${DESTDIR}/usr/lib/libpthread.a
 LIBRPCSVC?=	${DESTDIR}/usr/lib/librpcsvc.a
 LIBSECTOK?=	${DESTDIR}/usr/lib/libsectok.a
 LIBSKEY?=	${DESTDIR}/usr/lib/libskey.a
