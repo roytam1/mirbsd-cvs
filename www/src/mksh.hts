@@ -1,10 +1,10 @@
-# $MirOS: www/src/mksh.hts,v 1.56 2007/09/09 19:24:56 tg Exp $
+# $MirOS: www/src/mksh.hts,v 1.57 2007/09/11 14:42:31 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.56 2007/09/09 19:24:56 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.57 2007/09/11 14:42:31 tg Exp $'
 mws_content <<'EOF'
 <h1>mksh(1) R31b</h1>
 <p>This is the website of the MirBSD™ Korn Shell, an actively developed free
@@ -576,7 +576,6 @@ mws_content <<'EOF'
  <li>HP-UX 11i B.11.23 (IA64 gcc3.4.3)</li>
  <li>HP-UX 11i B.11.31 (PA-RISC hpC B.11.X.36086-36089-36092.GP, ld B.11.60 070209)</li>
  <li>HP-UX 11i B.11.31 (IA64 hpC B3910B A.06.14 [Feb 22 2007], ld B.12.43 92453-07)</li>
- <li>OSF/1 V4.0 1229 (alpha gcc2.8.1)</li>
  <li>Interix 3.5 (i386 gcc3.3 win2k) <em>with Perl from pkgsrc®</em></li>
  <li>Interix 3.5 (i386 msc CL.EXE 13.00.9466 (standard), LINK.EXE 7.00.9466)</li>
  <li>Interix 3.5 (i386 msc CL.EXE 14.00.50727.42 (optimising), LINK.EXE 8.00.50727.42)</li>
@@ -616,6 +615,7 @@ mws_content <<'EOF'
  <li>Mac OSX Tiger 10.4.10 (build 8R2232) Darwin 8.10.1 (i386 gcc4.0.1 Apple build 5367)</li>
  <li style="list-style:none;">– tests by third parties –</li>
  <li>MidnightBSD 0.2-CURRENT (i386 gcc3.4.4 20050518)</li>
+ <li>OSF/1 V4.0 1229 (alpha gcc2.8.1)</li>
  <li style="list-style:none;">– older mksh versions –</li>
  <li>UWIN-NT 2006-02-14 (i386 bcpp BCC32.EXE 5.5.1, ILINK32.EXE 5.00) <em>result doesn’t pass regress</em></li>
  <li>UWIN-NT 2006-02-14 (i386 dmc DMC.EXE 8.42n, LINK.EXE OPTLINK 7.50B1) <em>with kludges</em></li>
