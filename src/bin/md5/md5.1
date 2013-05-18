@@ -1,4 +1,4 @@
-.\"	$MirOS: src/bin/md5/md5.1,v 1.4 2006/05/09 22:50:31 tg Exp $
+.\"	$MirOS$
 .\"	$OpenBSD: md5.1,v 1.20 2004/08/24 21:22:25 tom Exp $
 .\"
 .\" Copyright (c) 2003, 2004 Todd C. Miller <Todd.Miller@courtesan.com>
@@ -28,11 +28,9 @@
 .Sh SYNOPSIS
 .Nm md5
 .Oo
-.Oo Fl b Oc
 .Fl p | t | x |
 .Fl c Oo Ar checklist ... Oc |
 .Fl s Ar string |
-.Oo Fl b Oc
 .Ar file ...
 .Oc
 .Sh DESCRIPTION
@@ -44,7 +42,9 @@ two messages having the same message digest (a collision), or to produce any
 message having a given prespecified target message digest.
 However, collisions have now been produced for
 .Em MD5 ,
-so the use of other message digest functions is now preferred.
+so the use of other message digest functions, such as
+.Xr sha1 1 ,
+is now preferred.
 .Pp
 The
 .Em MD5
@@ -56,8 +56,6 @@ such as
 .Pp
 The options are as follows:
 .Bl -tag -width Ds
-.It Fl b
-Print the checksum as binary to stdout.
 .It Xo
 .Fl c
 .Op Ar checklist ...

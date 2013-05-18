@@ -1,4 +1,4 @@
-# $MirOS: src/etc/mtree/special,v 1.7 2006/01/01 01:38:48 tg Exp $
+# $MirOS: src/etc/mtree/special,v 1.5 2005/09/18 18:55:07 tg Exp $
 # $OpenBSD: special,v 1.66 2005/06/08 20:11:38 deraadt Exp $
 # $NetBSD: special,v 1.4 1996/05/08 21:30:18 pk Exp $
 # @(#)special	8.2 (Berkeley) 1/23/94
@@ -221,6 +221,7 @@ resolv.conf	type=file mode=0444 uname=root gname=wheel
 services	type=file mode=0444 uname=root gname=wheel
 ttys		type=file mode=0444 uname=root gname=wheel
 ..	#./var/anoncvs/anoncvs/etc
+usr		type=link uname=root gname=wheel
 var		type=link uname=root gname=wheel
 ..	#./var/anoncvs/anoncvs
 ..	#./var/anoncvs

@@ -1,6 +1,4 @@
-/*	$MirOS$ */
 /*	$OpenBSD: kern_exec.c,v 1.92 2005/04/11 20:05:51 deraadt Exp $	*/
-/* Contains changes from 1.95.2.1 */
 /*	$NetBSD: kern_exec.c,v 1.75 1996/02/09 18:59:28 christos Exp $	*/
 
 /*-
@@ -636,10 +634,6 @@ sys_execve(p, v, retval)
 	if (p->p_emul && p->p_emul->e_proc_exit &&
 	    p->p_emul != pack.ep_emul)
 		(*p->p_emul->e_proc_exit)(p);
-
-	p->p_descfd = 255;
-	if ((pack.ep_flags & EXEC_HASFD) && pack.ep_fd < 255)
-		p->p_descfd = pack.ep_fd;
 
 	/*
 	 * Call exec hook. Emulation code may NOT store reference to anything

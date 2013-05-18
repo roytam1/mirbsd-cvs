@@ -1,6 +1,5 @@
-/**	$MirOS: src/sys/kern/kern_descrip.c,v 1.2 2005/03/06 21:28:00 tg Exp $ */
+/**	$MirOS$ */
 /*	$OpenBSD: kern_descrip.c,v 1.68 2004/01/12 18:06:51 tedu Exp $	*/
-/* Contains changes from 1.70.2.1 */
 /*	$NetBSD: kern_descrip.c,v 1.42 1996/03/30 22:24:38 christos Exp $	*/
 
 /*
@@ -1222,17 +1221,6 @@ dupfdopen(fdp, indx, dfd, mode, error)
 	int error;
 {
 	struct file *wfp;
-
-	/*
-	 * Assume that the filename was user-specified; applications do
-	 * not tend to opens of /dev/fd/# when they can just call dup()
-	 */
-	if ((curproc->p_flag & (P_SUGIDEXEC | P_SUGID))) {
-		if (curproc->p_descfd == 255)
-			return (EPERM);
-		if (curproc->p_descfd != curproc->p_dupfd)
-			return (EPERM);
-	}
 
 	/*
 	 * If the to-be-dup'd fd number is greater than the allowed number
