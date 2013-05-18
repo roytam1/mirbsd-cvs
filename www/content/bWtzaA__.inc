@@ -1,5 +1,5 @@
 <!-- PageID: mksh -->
-<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.99 2007/04/24 21:08:57 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.100 2007/04/30 20:02:10 tg Exp $</small>
 
 <h1>mksh(1) R29</h1>
 <p>This is the MirBSD&trade; Korn Shell, a more or less portable
@@ -697,7 +697,7 @@
  RPM-based GNU/Linux distributions within a subtree of <a
  href="http://software.opensuse.org/download/shells/">the shells repo</a>.
  Arch GNU/Linux <a href="http://aur.archlinux.org/packages.php?do_Details=1&amp;ID=3431">also
- packages mksh. <strong>NOTE:</strong> These packages usually have
+ packages mksh</a>. <strong>NOTE:</strong> These packages usually have
  <em>not</em> been provided and/or tested by the mksh developers and are not
  guaranteed to work properly; also, they might deliver an older version.
 </p>
