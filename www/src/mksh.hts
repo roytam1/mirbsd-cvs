@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.439 2011/12/31 02:25:19 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.440 2012/01/04 22:49:26 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -1013,6 +1013,7 @@ exec /usr/bin/ld "${args[@]}"</pre>
  <li>[tg] Use sane spelling of “read-only” consistently</li>
  <li>[tg] Improve tree <tt>-DDEBUG</tt> functions (internal/developer use)</li>
  <li>[tg] Fix regression in re-entry printing single-char strings</li><!-- nuke that on release/upload -->
+ <li>[tg] Reduce stack usage a bit</li>
 </ul>
 <p>Changes in the current (unreleased) stable branch:</p><ul>
  <li>[tg, Jilles Tjoelker] skip readonly check in unevaluated ternary twig</li>
@@ -1029,11 +1030,13 @@ exec /usr/bin/ld "${args[@]}"</pre>
 <li style="list-style:none;">not yet MFC’d but will be:</li>
  <li>[tg, RT] Move mirtoconf checks and <tt>INCLUDES_ONLY</tt> parts of
   <tt>sh.h</tt> around to ensure prerequisites are always available</li>
- <li>[tg, RT] Pass mksh.exe to testsuite, if such thing is generated</li>
+ <li>[tg, RT, ir0nh34d] Pass mksh.exe to testsuite, if such thing is generated,
+  and deal with Cygwin passing just “mksh” in argv[0] in such cases</li>
  <li>[tg] Imply -DMKSH_ASSUME_UTF8=0 on MSYS; optimise checks</li>
  <li>[tg, Jb_boin] Fix regression introduced in R35b by jaredy’s security
   patch where TTIME trashed a non-TCOM string argument (e.g. in TFOR)</li>
  <li>[tg] Better support for tcc; fix GCCism that accidentally crept in</li>
+ <li>[tg] Deal with UTF-8 when reporting jobs’ commands</li>
 </ul>
 <p id="r40d">mksh R40d is a must-have bugfix update:</p><ul>
  <li>[tg] New <tt>test.sh</tt> ‘-f’ option (same as ‘-C fastbox’)</li>
