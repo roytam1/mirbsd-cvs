@@ -1,4 +1,4 @@
-# $MirOS: ports/devel/git/Makefile,v 1.1 2009/05/31 18:05:51 tg Exp $
+# $MirOS: ports/devel/git/Makefile,v 1.2 2009/08/16 17:16:51 tg Exp $
 
 ONLY_FOR_PLATFORM+=	Darwin:*:*	# not tested
 ONLY_FOR_PLATFORM+=	MirBSD:*:* OpenBSD:*:*
@@ -7,6 +7,7 @@ COMMENT=		Git - Tree History Storage Tool
 COMMENT-svn=		Git - Subversion interoperability tools
 
 VSN=			1.6.3.1
+DASH_VER=		1
 DISTNAME=		git-${VSN}
 PKGNAME-svn=		git-svn-${VSN}-${DASH_VER}
 CATEGORIES=		devel
@@ -111,8 +112,10 @@ post-install:
 	${INSTALL_DATA} ${WRKBUILD}/contrib/hooks/post-receive-email \
 	    ${PREFIX}/share/git-core/templates/hooks/post-receive-email.sample
 	chown -R ${BINOWN}:${BINGRP} ${PREFIX}/libexec/git
-	cd ${WRKSRC}/gitweb && \
-	    ${INSTALL_DATA} INSTALL README git-favicon.png git-logo.png \
-	    gitweb.cgi gitweb.css ${PREFIX}/share/gitweb/
+	cd ${WRKSRC:Q}/gitweb && ${INSTALL_DATA} \
+	    INSTALL README git-favicon.png git-logo.png gitweb.css \
+	    ${PREFIX:Q}/share/gitweb/
+	cd ${WRKSRC:Q}/gitweb && ${INSTALL_SCRIPT} \
+	    gitweb.cgi ${PREFIX:Q}/share/gitweb/
 
 .include <bsd.port.mk>
