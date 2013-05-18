@@ -2293,3 +2293,55 @@ Author: tg@
  deliberately wrong ones to make the compile clash – these clash at link
  time when the declaration actually was not existent). Oh well. Fixed.</p>
 ----
+Date: 18.10.2007
+Author: tg@
+
+<p>Okay, what has happened the last few days in MirWRT-Land? I’m sort of
+ feeling ill, sneezing a lot, coughing some, having to depollute quite
+ often. I wonder… I <em>am</em> taking some vitamins…</p>
+<p>My SCA adapters arrived on Tuesday. Almost in the night. Okay. That
+ was a bad review at ePray. Or so I thought. It did not accept that from
+ me without me passing some kind of driving licence-alike test… weirdos.
+ Then I got a “function not available”, went back in the browser history,
+ had to edit the line again because € was changed to &amp;#8634; which was,
+ in total, too long… submitted… rejoiced… or so I thought. They accepted
+ it – finally – but then asked me if I want to add that guy to the list of
+ my preferred sellers. Yeaaah, of course…</p>
+<p>Then I worked on MI installboot(8), got done with the sparc part at a
+ <a href="http://netzladen.org/">Netzladen</a> hacking session (well, more
+ of a hacking-alone session, fukami just chilled and occasionally smoked
+ (grr…) and Dr. Pfeffer came late – although he hacked on CacheWolf and I
+ helped him test some diffs). I think I can now do what wbx@ prodded me for
+ quite strongly on the phone: create a sparc bootable CD on i386 (or even
+ non-MirBSD, for that matter). After bootxx/i386 is converted, I think I’m
+ going to stop working on this until past the release, but it’s good to see
+ that it works and can probably be easy to finish.</p>
+<p>On Wednesday, I managed to add the SCSI discs (all five of them, after
+ stealing jumpers from old boxen) to tear. They work quite nice, except the
+ chassis is now humming. Well, 10kRPM drives. Okay. I low-level-formatted
+ them of course, neither do I need or want the data which was on them before
+ nor do I desire bad blocks if I have the chance to scan for them (Benny asks
+ me “why” every time I do low-level formats, but I still believe in them,
+ even though these aren’t MFM or RLL discs any more). And they’re really
+ <strong>fast</strong>, I was amazed. I think I won’t need to RAID 1 the CVS
+ repository into memory for speed, even if I could now.</p>
+<p>Well, next on the agenda would be migrating to tear while releasing and
+ already coding some post-release stuff. Damn, hen-egg problem. I wonder,
+ but not about how I’m going to solve it but when I get my lazy arse moved ☺
+ We’re making good progress nevertheless.</p>
+<p>Benny agreed (via the phone) to speed up the build by several hours (on a
+ P2-350 – probably much more on the sparc) by just linking HTML manual pages
+ if the catman page is only a link too. I implemented it, but since these
+ generated from &lt;bsd.man.mk&gt;’s MLINKS are hardlinked, I needed inode
+ tracking and cacheing, <tt>ino_t</tt> is unsigned 32-bit, so mksh’s arrays
+ need to be able to use 32, not 31, bit as index. Done now, and it pleased
+ me to shock my packagers, doing as if mksh R32 were impending ☻</p>
+<p>Ah yes, Opera got a security upgrade, and while playing with AWStats at
+ work, I realised our Lynx didn’t get counted as Lynx but MSIE… sucks though
+ it helps with certain sites, so I changed that. Can’t have enough people
+ noticing the small ones (Lynx as well as MirBSD). Really.</p>
+<p>I <em>am</em> going to have to write an install.sparc(7) page – talking
+ with the MidnightBSD people I realised few people know how to netboot a
+ sparc, and since all of our manual pages are online, I just could have
+ pointed him there. But the mnbsd people are all quite nice.</p>
+----
