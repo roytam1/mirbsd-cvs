@@ -593,7 +593,7 @@ Author: bsiegert@
 <p>I am trying to port ttftot42, a nifty utility for converting
  TrueType fonts to PostScript Type 42 (which seems to be
  straightforward) and, more interesting for me, can create AFM files
- for them. Using those fonts in TeX is only an <tt>afm2tfm</tt> away
+ for them. Using those fonts in Teχ is only an <tt>afm2tfm</tt> away
  then. The last version is from 1999 and needs freetype 1. The
  author&mdash;very responsive indeed!&mdash;says this is not yet fixed
  but promised to send me a hg snapshot. While here, we now have a
@@ -627,4 +627,30 @@ Title: more creative uses for ttftot42
  is able to return valid results to some projects (although some of these
  which work require setting the primary platform to Lunox, but I’m trying to
  get that bug on their server-side fixed.</p>
+----
+Date: 22.04.2008 12:39:14
+Author: tg@
+Title: sometimes, ranting doesn’t help…
+
+<p>… but calling does. The bad part is that the internet support number starts
+ with <tt>0900…</tt>, which means it cost me 1.69 €/min (and the call took me
+ about 3‥4 minutes), but on the other hand, they quickly fixed the issue, sent
+ me an SMS that they did it (just, sadly, not what it was), and since then, I
+ haven’t been forcefully disconnected any more. This is good.</p>
+<p>Now I’ve just got to look if this is stable, then re-measure my bandwidth.
+ And in May, I’ll get even better upload (736 kbps instead of 608 kbps).</p>
+<p>Verpeilungsfaktor stories: in our weblog source, we use RFC822 style header
+ lines: “Date”, “Author”, and… “Title”. Not “Subject”. And I wondered why the
+ posting headline wasn’t shown… Since we’re on Planet Symlink now, I try hard
+ to find a matching one for each posting, because it looks stupid there with
+ just the date.</p>
+<p>Another one: we use four dashes on a line by themselves for separating log
+ entries; the <a href="@@RELPATH@@mksh.htm">mksh</a> regression test uses <a
+ href="http://cvs.mirbsd.de/src/bin/mksh/check.t?rev=HEAD">only three</a>, as
+ you can see. And yes, I fell for it (gave me a nice Perl error message over
+ there, and a nice shell script induced error over here).</p>
+<p>A last question (rhetorical: no answer needed, just nudging your brain):
+ what do you do with your spare time, if everyone who’d to something together
+ with you either moved away, is working or ill? And: if you were to move away
+ yourself, would the situation improve, worsen or stay the same?</p>
 ----
