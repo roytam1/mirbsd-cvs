@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/sys/cdefs.h,v 1.16 2007/05/18 00:47:58 tg Exp $ */
+/**	$MirOS: src/sys/sys/cdefs.h,v 1.17 2007/09/21 08:32:07 tg Exp $ */
 /*	$OpenBSD: cdefs.h,v 1.18 2005/05/27 21:28:12 millert Exp $	*/
 /*	$NetBSD: cdefs.h,v 1.16 1996/04/03 20:46:39 christos Exp $	*/
 
@@ -221,6 +221,7 @@
 #define __KERNEL_RCSID(n,x)	__IDSTRING(rcsid_ ## n,x)
 #define __RCSID(x)		__IDSTRING(rcsid,x)
 #define __SCCSID(x)		__IDSTRING(sccsid,x)
+#define __FBSDID(x)		__IDSTRING(fbsdid,x)
 
 #ifndef _DIAGASSERT
 #define _DIAGASSERT(x)		/* nothing */
