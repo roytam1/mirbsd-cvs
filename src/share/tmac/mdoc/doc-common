@@ -1,4 +1,4 @@
-.\"	$MirOS: src/share/tmac/mdoc/doc-common,v 1.8 2006/06/24 09:16:16 tg Exp $
+.\"	$MirOS: src/share/tmac/mdoc/doc-common,v 1.9 2006/06/25 02:23:40 tg Exp $
 .\"	$OpenBSD: doc-common,v 1.44 2005/04/02 17:16:03 jmc Exp $
 .\"
 .\" Copyright (c) 2003, 2004
@@ -125,7 +125,7 @@
 .ds z( z)
 .ds z[ z]
 .ds z< z>
-.\" This is disgusting, troff not parse "if" stmt properly
+.\" This is disgusting, troff does not parse "if" stmt properly
 .nr z0 0
 .nr z1 0
 .nr z2 0
@@ -148,7 +148,7 @@
 .\" .	if "\\$3"" \{\
 .		if \\$2>=1 .if \\$2<=9 \{\
 .			ds vT BSD Reference Manual
-.			if \\$2>1 .if \\$2<6 .ds vT BSD Programmer's Manual
+.			if \\$2>1 .if \\$2<5 .ds vT BSD Programmer's Manual
 .			if "\\$2"8" .ds vT BSD System Manager's Manual
 .			if "\\$2"9" .ds vT BSD Kernel Manual
 .			nr sN \\$2
@@ -160,11 +160,11 @@
 .\}
 .if !"\\$3"" \{\
 .	if "\\$3"USD"   .ds vT BSD User's Supplementary Documents
-.	if "\\$3"PS1"   .ds vT BSD Programmers' Supplementary Documents
+.	if "\\$3"PS1"   .ds vT BSD Programmer's Supplementary Documents
 .	if "\\$3"AMD"   .ds vT BSD Ancestral Manual Documents
 .	if "\\$3"SMM"   .ds vT BSD System Manager's Manual
-.	if "\\$3"URM"   .ds vT BSD Reference Manual
-.	if "\\$3"PRM"   .ds vT BSD Programmers's Manual
+.	if "\\$3"URM"   .ds vT BSD User Reference Manual
+.	if "\\$3"PRM"   .ds vT BSD Programmer's Manual
 .	if "\\$3"KM"    .ds vT BSD Kernel Manual
 .	if "\\$3"IND"   .ds vT BSD Manual Master Index
 .	if "\\$3"CON"   .ds vT BSD Contributed Software Manual
@@ -299,6 +299,8 @@
 .	if "\\$2"3.7"  .as oS \03.7
 .	if "\\$2"3.8"  .as oS \03.8
 .	if "\\$2"3.9"  .as oS \03.9
+.	if "\\$2"4.0"  .as oS \04.0
+.	if "\\$2"4.1"  .as oS \04.1
 .\}
 .if "\\*(oS"Null" .ds oS \0\\$1
 .if "\\*(aa"Non-Null" .as oS \0\\$2
