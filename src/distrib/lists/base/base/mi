@@ -654,6 +654,7 @@
 ./usr/sbin/lptest
 ./usr/sbin/mailwrapper
 ./usr/sbin/makefs
+./usr/sbin/makemap
 ./usr/sbin/map-mbone
 ./usr/sbin/memconfig
 ./usr/sbin/mrinfo

@@ -1154,11 +1154,11 @@
 ./usr/libexec/cvs/contrib/sandbox_status
 ./usr/libexec/cvs/contrib/sccs2rcs
 ./usr/libexec/cvs/contrib/validate_repo
+./usr/libexec/sendmail/makemap
 ./usr/libexec/sendmail/sendmail
 ./usr/libexec/smrsh
 ./usr/sbin/editmap
 ./usr/sbin/mailstats
-./usr/sbin/makemap
 ./usr/sbin/praliases
 ./usr/share/doc/html/lynx_help
 ./usr/share/doc/html/lynx_help/Lynx_users_guide.html

@@ -1,5 +1,5 @@
-# $MirOS: src/gnu/usr.sbin/sendmail/Makefile,v 1.3 2008/05/07 13:15:14 tg Exp $
-# $OpenBSD: Makefile,v 1.9 2004/06/29 04:07:49 millert Exp $
+# $MirOS: src/gnu/usr.sbin/sendmail/Makefile,v 1.4 2010/12/19 17:17:48 tg Exp $
+# $OpenBSD: Makefile,v 1.10 2010/10/17 22:54:37 schwarze Exp $
 
 # We only use these libs internally
 .if !make(install)
