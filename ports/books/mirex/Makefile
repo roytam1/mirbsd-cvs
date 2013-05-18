@@ -1,12 +1,11 @@
-# $MirOS: ports/books/mirex/Makefile,v 1.11 2006/09/14 00:07:29 tg Exp $
+# $MirOS: ports/books/mirex/Makefile,v 1.12 2006/10/17 21:42:30 tg Exp $
 
 COMMENT=		MirOS sample files, keys and information
 CATEGORIES=		books
 CVS_DISTREPO=		${_MIROS_ANONCVS}
-CVS_DISTDATE=		2006/10/17 21:42
+CVS_DISTDATE=		2007/02/19 06:00
 CVS_DISTMODS=		contrib/samples src/share/doc/README src/share/misc
 CVS_DISTFILE=		mirex
-PKGNAME=		${_CVS_DISTF:R}-0
 RESPONSIBLE=		Thorsten Glaser <tg@mirbsd.de>
 HOMEPAGE=		http://MirBSD.de/
 
@@ -20,10 +19,10 @@ WRKDIST=		${WRKDIR}/contrib/samples
 DATA_DIR=		${PREFIX}/share/examples/mirex
 KEYS=			1 2
 
-# sync with src/distrib/i386/ramdisk/list.local
+# sync with src/distrib/common/listend.i386-big
 post-build:
-	tail -3 <${WRKDIR}/src/share/doc/README | grep '^key ' \
-	    | while IFS="	" read keynr keyfile; do \
+	tail -3 <${WRKDIR}/src/share/doc/README | grep '^key ' | \
+	    while IFS="	" read keynr keyfile; do \
 		IFS=" :"; set -A keyno $$keynr; IFS=; \
 		print $$keyfile >${WRKBUILD}/gzsigkey.$${keyno[1]}; \
 	done

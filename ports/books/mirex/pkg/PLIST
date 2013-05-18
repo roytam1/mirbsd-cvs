@@ -1,10 +1,8 @@
-@comment $MirOS: ports/books/mirex/pkg/PLIST,v 1.4 2006/05/28 19:33:19 tg Exp $
+@comment $MirOS: ports/books/mirex/pkg/PLIST,v 1.5 2006/10/17 21:42:31 tg Exp $
 share/examples/mirex/acronyms
 share/examples/mirex/daemon.png
 share/examples/mirex/devel-keys
-share/examples/mirex/dot.Xmodmap.light
-share/examples/mirex/dot.Xmodmap.us_jp
-share/examples/mirex/dot.Xmodmap.xapps
+share/examples/mirex/dot.Xmodmap
 share/examples/mirex/dot.Xresources
 share/examples/mirex/dot.xinitrc
 share/examples/mirex/etc_profile
@@ -20,6 +18,7 @@ share/examples/mirex/man.template
 share/examples/mirex/mdoc.template
 share/examples/mirex/myXenvironment
 share/examples/mirex/openssl.cnf
+share/examples/mirex/ucs2utf8
 share/examples/mirex/unidata.htm
 share/examples/mirex/unidata.txt
 share/examples/mirex/unitable.htm
