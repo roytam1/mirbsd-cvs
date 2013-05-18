@@ -8,7 +8,7 @@
 /*	$OpenBSD: c_test.h,v 1.4 2004/12/20 11:34:26 otto Exp $	*/
 /*	$OpenBSD: tty.h,v 1.5 2004/12/20 11:34:26 otto Exp $	*/
 
-#define MKSH_SH_H_ID "$MirOS: src/bin/mksh/sh.h,v 1.96.2.2 2007/03/03 22:38:25 tg Exp $"
+#define MKSH_SH_H_ID "$MirOS: src/bin/mksh/sh.h,v 1.96.2.3 2007/03/03 22:51:18 tg Exp $"
 #define MKSH_VERSION "R29 2007/02/16"
 
 #if HAVE_SYS_PARAM_H
@@ -956,7 +956,7 @@ typedef char *XStringP;
 #define Xsavepos(xs, xp) ((xp) - (xs).beg)
 #define Xrestpos(xs, xp, n) ((xs).beg + (n))
 
-char *Xcheck_grow_(XString *, char *, unsigned);
+char *Xcheck_grow_(XString *, const char *, unsigned);
 
 /*
  * expandable vector of generic pointers
@@ -1001,10 +1001,10 @@ struct source {
 	int	type;		/* input type */
 	const char *start;	/* start of current buffer */
 	union {
-		char **strv;	/* string [] */
-		struct shf *shf; /* shell file */
-		struct tbl *tblp; /* alias (SALIAS) */
-		char *freeme;	/* also for SREREAD */
+		const char **strv; /* string [] */
+		struct shf *shf;   /* shell file */
+		struct tbl *tblp;  /* alias (SALIAS) */
+		char *freeme;	   /* also for SREREAD */
 	} u;
 	char	ugbuf[2];	/* buffer for ungetsc() (SREREAD) and
 				 * alias (SALIAS) */
@@ -1120,6 +1120,14 @@ void afreeall(Area *);
 void *alloc(size_t, Area *);
 void *aresize(void *, size_t, Area *);
 void afree(void *, Area *);
+#define afreechk(s)	do {		\
+	if (s)				\
+		afree(s, ATEMP);	\
+} while (0)
+#define afreechv(v,s)	do {		\
+	if (v)				\
+		afree(s, ATEMP);	\
+} while (0)
 /* edit.c */
 void x_init(void);
 int x_read(char *, size_t);
@@ -1137,7 +1145,7 @@ void expand(const char *, XPtrV *, int);
 int glob_str(char *, XPtrV *, int);
 /* exec.c */
 int execute(struct op * volatile, volatile int);
-int shcomexec(char **);
+int shcomexec(const char **);
 struct tbl *findfunc(const char *, unsigned int, int);
 int define(const char *, struct op *);
 void builtin(const char *, int (*)(const char **));
@@ -1182,7 +1190,7 @@ int c_unset(const char **);
 int c_ulimit(const char **);
 int c_times(const char **);
 int timex(struct op *, int);
-void timex_hook(struct op *, const char ** volatile *);
+void timex_hook(struct op *, char ** volatile *);
 int c_exec(const char **);
 int c_builtin(const char **);
 int c_test(const char **);
@@ -1214,7 +1222,7 @@ void runtraps(int intr);
 void runtrap(Trap *);
 void cleartraps(void);
 void restoresigs(void);
-void settrap(Trap *, char *);
+void settrap(Trap *, const char *);
 int block_pipe(void);
 void restore_pipe(int);
 int setsig(Trap *, sig_t, int);
@@ -1244,7 +1252,7 @@ void set_prompt(int, Source *);
 void pprompt(const char *, int);
 int promptlen(const char *);
 /* main.c */
-int include(const char *, int, char **, int);
+int include(const char *, int, const char **, int);
 int command(const char *);
 int shell(Source *volatile, int volatile);
 void unwind(int)
@@ -1274,7 +1282,7 @@ int savefd(int);
 void restfd(int, int);
 void openpipe(int *);
 void closepipe(int *);
-int check_fd(char *, int, const char **);
+int check_fd(const char *, int, const char **);
 void coproc_init(void);
 void coproc_read_close(int);
 void coproc_readw_close(int);
