@@ -1,7 +1,16 @@
 $MirOS: ports/misc/mc/patches/patch-lib_mc_ext_in,v 1.2 2005/11/17 23:37:14 tg Exp $
---- lib/mc.ext.in.orig	Sat Jul 23 16:50:53 2005
-+++ lib/mc.ext.in	Mon Feb 20 18:32:46 2006
-@@ -106,6 +106,42 @@
+--- lib/mc.ext.in.orig	Thu Jan 30 15:48:11 2003
++++ lib/mc.ext.in	Thu Nov 17 23:36:10 2005
+@@ -300,7 +300,7 @@ type/^PDF
+ 
+ # html
+ regex/\.([Hh]tml?|HTML?)$
+-	Open=if test -n "@X11_WWW@" && test -n "$DISPLAY"; then (@X11_WWW@ file://%d/%p &) >/dev/null 2>&1; else links %f 2>/dev/null || lynx -force_html %f; fi
++	Open=if test -n "@X11_WWW@" && test -n "$DISPLAY"; then (@X11_WWW@ file://%d/%p &) >/dev/null 2>&1; else lynx -force_html %f; fi
+ 	View=%view{ascii} lynx -dump -force_html %f
+ 
+ # StarOffice 5.2
+@@ -379,6 +379,42 @@ regex/\.(rexx|rex|cmd)$
  
  ### Archives ###
  
@@ -15,7 +24,7 @@ $MirOS: ports/misc/mc/patches/patch-lib_mc_ext_in,v 1.2 2005/11/17 23:37:14 tg E
 +# .cbz
 +shell/.cbz
 +	Open=%cd %p#ucpio
-+	View=%view{ascii} bzip2 -dc %f 2>/dev/null | tar tvvf -
++	View=%view{ascii} bgzip2 -dc %f 2>/dev/null | tar tvvf -
 +
 +## CPIO (newc) - MirOS extension
 +
@@ -27,7 +36,7 @@ $MirOS: ports/misc/mc/patches/patch-lib_mc_ext_in,v 1.2 2005/11/17 23:37:14 tg E
 +# .nbz
 +shell/.nbz
 +	Open=%cd %p#ucpio
-+	View=%view{ascii} bzip2 -dc %f 2>/dev/null | tar tvvf -
++	View=%view{ascii} bgzip2 -dc %f 2>/dev/null | tar tvvf -
 +
 +# .mcz
 +shell/.mcz
@@ -39,14 +48,23 @@ $MirOS: ports/misc/mc/patches/patch-lib_mc_ext_in,v 1.2 2005/11/17 23:37:14 tg E
 +# .tbz
 +shell/.tbz
 +	Open=%cd %p#utar
-+	View=%view{ascii} bzip2 -dc %f 2>/dev/null | tar tvvf -
++	View=%view{ascii} bgzip2 -dc %f 2>/dev/null | tar tvvf -
 +
  # .tgz, .tpz, .tar.gz, .tar.z, .tar.Z
  regex/\.t([gp]?z|ar\.g?[zZ])$
  	Open=%cd %p#utar
-@@ -135,6 +171,10 @@ regex/\.(tar|TAR)$
+@@ -402,6 +438,8 @@ regex/\.(tar|TAR)$
+ 	Open=%cd %p#utar
  	View=%view{ascii} tar tvvf %f
  
++## others
++
+ # zip
+ type/^Zip\ archive
+ 	Open=%cd %p#uzip
+@@ -413,6 +451,10 @@ regex/\.(zoo|ZOO)$
+ 	View=%view{ascii} zoo l %f
+ 	
  # lha
 +regex/\.(lzh|LZH|lha|LHA)$
 +	Open=%cd %p#ulha
@@ -55,21 +73,3 @@ $MirOS: ports/misc/mc/patches/patch-lib_mc_ext_in,v 1.2 2005/11/17 23:37:14 tg E
  type/^LHa\ .*archive
  	Open=%cd %p#ulha
  	View=%view{ascii} lha l %f
-@@ -417,7 +457,7 @@ type/^PDF
- 
- # html
- regex/\.([hH][tT][mM][lL]?)$
--	Open=(if test -n "@X11_WWW@" && test -n "$DISPLAY"; then (@X11_WWW@ file://%d/%p &) 1>&2; else links %f || lynx -force_html %f || ${PAGER:-more} %f; fi) 2>/dev/null
-+	Open=(lynx -force_html %f) 2>/dev/null
- 	View=%view{ascii} lynx -dump -force_html %f
- 
- # StarOffice 5.2
-@@ -496,6 +536,8 @@ regex/\.(rexx?|cmd)$
- 
- 
- ### Plain compressed files ###
-+
-+## others
- 
- # zip
- type/^([Zz][Ii][Pp])\ archive

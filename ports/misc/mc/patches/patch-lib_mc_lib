@@ -1,11 +1,11 @@
 $MirOS: ports/misc/mc/patches/patch-lib_mc_lib,v 1.3 2005/12/17 05:46:20 tg Exp $
---- lib/mc.lib.orig	Fri Sep 10 09:23:22 2004
-+++ lib/mc.lib	Mon Feb 20 20:22:51 2006
+--- lib/mc.lib.orig	Sat Aug 17 01:16:03 2002
++++ lib/mc.lib	Tue Jun  7 08:10:17 2005
 @@ -1,8 +1,28 @@
-+# $MirOS: src/share/misc/licence.template,v 1.6 2006/01/24 22:24:02 tg Rel $
++# $MirOS: ports/misc/mc/patches/patch-lib_mc_lib,v 1.3 2005/12/17 05:46:20 tg Exp $
 +#-
-+# Copyright (c) 2003, 2004, 2005, 2006
-+#	Thorsten Glaser <tg@mirbsd.de>
++# Copyright (c) 2003, 2004, 2005
++#	Thorsten "mirabile" Glaser <tg@66h.42h.de>
 +#
 +# Licensee is hereby permitted to deal in this work without restric-
 +# tion, including unlimited rights to use, publicly perform, modify,
@@ -31,7 +31,7 @@ $MirOS: ports/misc/mc/patches/patch-lib_mc_lib,v 1.3 2005/12/17 05:46:20 tg Exp 
  f11=\e[23~
  f12=\e[24~
  f13=\e[25~
-@@ -13,25 +33,25 @@ f17=\e[31~
+@@ -13,25 +32,25 @@ f17=\e[31~
  f18=\e[32~
  f19=\e[33~
  f20=\e[34~
@@ -69,7 +69,7 @@ $MirOS: ports/misc/mc/patches/patch-lib_mc_lib,v 1.3 2005/12/17 05:46:20 tg Exp 
  f11=\e[23~
  f12=\e[24~
  f13=\e[25~
-@@ -42,25 +62,31 @@ f17=\e[31~
+@@ -42,25 +61,30 @@ f17=\e[31~
  f18=\e[32~
  f19=\e[33~
  f20=\e[34~
@@ -109,11 +109,10 @@ $MirOS: ports/misc/mc/patches/patch-lib_mc_lib,v 1.3 2005/12/17 05:46:20 tg Exp 
 +end=\eOF
 +end=\e[4~
 +end=\e[8~
-+end=\e[F
  f11=\e[23~
  f12=\e[24~
  f13=\e[25~
-@@ -71,27 +97,22 @@ f17=\e[31~
+@@ -71,25 +95,21 @@ f17=\e[31~
  f18=\e[32~
  f19=\e[33~
  f20=\e[34~
@@ -123,7 +122,6 @@ $MirOS: ports/misc/mc/patches/patch-lib_mc_lib,v 1.3 2005/12/17 05:46:20 tg Exp 
 +home=\eOH
 +home=\e[1~
 +home=\e[7~
-+home=\e[H
 +insert=\e[2~
 +kpasterix=\eOj
  kpdown=\eOr
@@ -142,40 +140,17 @@ $MirOS: ports/misc/mc/patches/patch-lib_mc_lib,v 1.3 2005/12/17 05:46:20 tg Exp 
 -home=\e[1~
 -home=\e[7~
 -end=\eOF
--end=\e[F
 -end=\e[4~
 -end=\e[8~
 -home=\eOH
--home=\e[H
 +kpppage=\eOy
 +kpright=\eOv
 +kpup=\eOx
  pgdn=\e[6~
  pgup=\e[5~
  
-@@ -108,14 +129,14 @@ f19=\e[20;2~
+@@ -106,7 +126,11 @@ f19=\e[20;2~
  f20=\e[21;2~
- 
- # Arrows for both keypad modes (application and normal).
--up=\e[A
--up=\eOA
--down=\e[B
- down=\eOB
--right=\e[C
--right=\eOC
--left=\e[D
-+down=\e[B
- left=\eOD
-+left=\e[D
-+right=\eOC
-+right=\e[C
-+up=\eOA
-+up=\e[A
- 
- [terminal:gnome]
- copy=xterm
-@@ -127,7 +148,11 @@ copy=xterm
- copy=xterm
  
  [terminal:xterm-color]
 -insert=\e[2~
@@ -187,7 +162,7 @@ $MirOS: ports/misc/mc/patches/patch-lib_mc_lib,v 1.3 2005/12/17 05:46:20 tg Exp 
  f11=\e[23~
  f12=\e[24~
  f13=\e[25~
-@@ -138,29 +163,27 @@ f17=\e[31~
+@@ -117,29 +141,27 @@ f17=\e[31~
  f18=\e[32~
  f19=\e[33~
  f20=\e[34~
@@ -230,7 +205,7 @@ $MirOS: ports/misc/mc/patches/patch-lib_mc_lib,v 1.3 2005/12/17 05:46:20 tg Exp 
  f11=\e[Y
  f12=\e[Z
  f13=\e[a
-@@ -171,11 +194,9 @@ f17=\e[e
+@@ -150,8 +172,140 @@ f17=\e[e
  f18=\e[f
  f19=\e[g
  f20=\e[h
@@ -241,13 +216,6 @@ $MirOS: ports/misc/mc/patches/patch-lib_mc_lib,v 1.3 2005/12/17 05:46:20 tg Exp 
  kpasterix=\e[*
 +kpminus=\e[-
 +kpplus=\e[+
- 
- [terminal:cons25]
- f11=\e[Y
-@@ -188,3 +209,135 @@ f17=\e[e
- f18=\e[f
- f19=\e[g
- f20=\e[h
 +
 +# Sequences below are used in OpenBSD wscons, also via remote login
 +
@@ -340,6 +308,8 @@ $MirOS: ports/misc/mc/patches/patch-lib_mc_lib,v 1.3 2005/12/17 05:46:20 tg Exp 
 +f3=\e[13~
 +f4=\e[14~
 +f5=\e[15~
++# GNU screen says F6 is F5, but still...
++# maybe the bug will be fixed some time
 +f6=\e[16~
 +f7=\e[17~
 +f8=\e[18~

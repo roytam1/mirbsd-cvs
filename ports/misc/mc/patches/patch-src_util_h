@@ -1,7 +1,7 @@
-$MirOS: ports/misc/mc/patches/patch-src_util_h,v 1.1.7.1 2005/03/18 15:50:29 tg Exp $
---- src/util.h.orig	Thu Jan 13 19:20:25 2005
-+++ src/util.h	Mon Feb 20 18:32:48 2006
-@@ -193,9 +193,9 @@ GList *list_append_unique (GList *list, 
+$MirOS: ports/misc/mc/patches/patch-src_util_h,v 1.1 2005/03/18 15:50:29 tg Exp $
+--- src/util.h.orig	2003-09-01 17:58:01.000000000 +0000
++++ src/util.h	2003-09-01 17:58:06.000000000 +0000
+@@ -129,9 +129,9 @@ int hook_present (Hook *hook_list, void 
  /* Position saving and restoring */
  
  /* file where positions are stored */
