@@ -1,5 +1,5 @@
 <!-- PageID: news -->
-<small class="rcsid">$MirOS: www/content/bmV3cw__.inc,v 1.56 2006/02/15 20:41:51 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bmV3cw__.inc,v 1.57 2006/02/22 02:35:09 tg Exp $</small>
 
 <h1>Current MirOS News</h1><ul>
 
@@ -8,7 +8,9 @@
 	SQLite2; Midnight Commander has been updated after 3 years. ssh(1)
 	was updated to OpenSSH-current and the code was cleaned up. Compat
 	ports were fixed as well as bugs in the package upgrader. Keys for
-	vnconfig(8) can now be stored in an external file.</li>
+	vnconfig(8) can now be stored in an external file. Access logs for
+	httpd(8) are now stored in a different format displaying SSL infos
+	(whether SSL was used and which crypto suite chosen).</li>
 
 <li>15.02.2006<br />There is a <a href="/MirOS/current/i386-20060215/">new
 	snapshot</a> with all the features below (attention: ssh/scp(1) is
