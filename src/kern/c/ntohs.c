@@ -1,4 +1,4 @@
-/* $MirOS: src/kern/c/ntohs.c,v 1.1 2007/02/05 20:16:04 tg Exp $ */
+/* $MirOS: src/kern/c/ntohs.c,v 1.2 2007/06/11 01:10:51 tg Exp $ */
 
 /*-
  * Copyright (c) 2007
@@ -23,7 +23,7 @@
 #include <sys/types.h>
 #include <machine/endian.h>
 
-#undef htonl
+#undef ntohs
 uint16_t ntohs(uint16_t);
 
 uint16_t
