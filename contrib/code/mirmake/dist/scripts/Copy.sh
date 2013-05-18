@@ -1,5 +1,5 @@
 #!/bin/sh
-# $MirOS: contrib/code/mirmake/dist/scripts/Copy.sh,v 1.30 2008/10/12 17:43:50 tg Exp $
+# $MirOS: contrib/code/mirmake/dist/scripts/Copy.sh,v 1.31 2008/10/12 17:56:25 tg Exp $
 
 wd=$(realpath $(dirname $0))
 version=$(date +%Y%m%d)
@@ -18,7 +18,7 @@ cvs -Rqd ${CVSROOT:-/cvs} co -PA \
     src/include/adler32.h src/include/md4.h src/include/md5.h \
     src/include/rmd160.h src/include/sfv.h src/include/sha1.h \
     src/include/sha2.h src/include/suma.h src/include/tiger.h \
-    src/include/whirlpool.h \
+    src/include/whirlpool.h src/kern/include/libckern.h \
     src/kern/c/strlfun.c \
     src/lib/libc/hash src/lib/libc/ohash \
     src/lib/libc/stdio/asprintf.c src/lib/libc/stdio/vasprintf.c \
