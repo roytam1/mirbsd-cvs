@@ -1,4 +1,4 @@
-# $MirOS: contrib/hosted/fwcf/Makefile.inc,v 1.7 2007/03/13 18:14:30 tg Exp $
+# $MirOS: contrib/hosted/fwcf/Makefile.inc,v 1.8 2007/03/13 18:17:58 tg Exp $
 #-
 # This file is part of the FreeWRT project. FreeWRT is copyrighted
 # material, please see the LICENCE file in the top-level directory
@@ -38,7 +38,6 @@ _CFLADD+=		sys_bsd.o
 .endif
 
 .if ${UNAME_S} == "OpenBSD"
-CPPFLAGS+=		-D'__RCSID(x)=static const char __rcsid[] = (x)'
 .  for _i in ${_CFLADD}
 CFLAGS+=		${CFLAGS_${_i}}
 .  endfor
