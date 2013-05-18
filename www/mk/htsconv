@@ -1,4 +1,4 @@
-rcsid_htsconv='$MirOS: www/mk/htsconv,v 1.45 2009/10/31 19:55:49 bsiegert Exp $'
+rcsid_htsconv='$MirOS: www/mk/htsconv,v 1.46 2009/12/12 17:14:29 tg Exp $'
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -185,6 +185,7 @@ function mws_putheader {
 		<li>Subprojects<ul class="lv2">
 		<li><a href="@@RELPATH@@jupp.htm">jupp</a> Editor</li>
 		<li><a href="@@RELPATH@@kwalletcli.htm">KWalletCLI</a></li>
+		<li><a href="@@RELPATH@@makefs.htm">makefs</a></li>
 		<li><a href="@@RELPATH@@mksh.htm">mksh</a> Shell</li>
 		</ul></li>
 		<li><a href="@@RELPATH@@ca.htm">Infrastructure CA</a></li>
