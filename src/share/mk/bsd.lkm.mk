@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/bsd.lkm.mk,v 1.8 2008/03/20 21:18:56 tg Exp $
+# $MirOS: src/share/mk/bsd.lkm.mk,v 1.9 2008/04/10 14:07:45 tg Exp $
 # $OpenBSD: bsd.lkm.mk,v 1.19 2003/05/20 22:49:13 millert Exp $
 
 .if exists(${.CURDIR}/../Makefile.inc)
@@ -18,7 +18,7 @@ KERNBASE?=	${BSDSRCDIR}/kern
 .if !${CPPFLAGS:M-D_LKM}
 CFLAGS+=	-ffreestanding
 CPPFLAGS+=	-D_KERNEL -D_LKM -I${BSDSRCDIR}/sys -I${BSDSRCDIR}/sys/arch \
-		-I${KERNBASE}/include
+		-I/usr/include/syskern -I${KERNBASE}/include
 .endif
 .if ${WARNINGS:L} == "yes"
 CFLAGS+=	${CDIAGFLAGS}

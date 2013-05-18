@@ -1,4 +1,4 @@
-# $MirOS: src/include/Makefile,v 1.21 2007/05/07 15:21:17 tg Exp $
+# $MirOS: src/include/Makefile,v 1.22 2007/05/07 16:15:58 tg Exp $
 # $OpenBSD: Makefile,v 1.135 2005/07/10 06:53:44 grange Exp $
 # $NetBSD: Makefile,v 1.59 1996/05/15 21:36:43 jtc Exp $
 # @(#)Makefile	5.45.1.1 (Berkeley) 5/6/91
@@ -36,7 +36,7 @@ RDIRS=	../lib/libcompat ../lib/libedit ../lib/libevent ../lib/libexpat \
 	../lib/libocurses ../lib/libossaudio ../lib/libpanel ../lib/libpcap \
 	../lib/libpng ../lib/libpthread ../lib/librpcsvc ../lib/libsectok \
 	../lib/libskey ../lib/libssl ../lib/libusbhid ../lib/libutil \
-	../lib/libz ../usr.bin/lex ../gnu/usr.sbin/sendmail
+	../lib/libz ../kern/include ../usr.bin/lex ../gnu/usr.sbin/sendmail
 
 # Places using Makefile that needs a prerequisite target met before includes
 PRDIRS=	../lib/libncurses ../lib/librpcsvc ../lib/libssl/crypto
