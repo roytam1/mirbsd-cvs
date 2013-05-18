@@ -2060,6 +2060,8 @@ if test 0 = $HAVE_SYS_SIGNAME; then
 #define NSIG _NSIG
 #elif defined(SIGMAX)
 #define NSIG (SIGMAX+1)
+#elif defined(_SIGMAX)
+#define NSIG (_SIGMAX+1)
 #endif
 #endif
 int

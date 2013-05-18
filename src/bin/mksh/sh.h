@@ -335,6 +335,8 @@ struct rusage {
 #define NSIG		_NSIG
 #elif defined(SIGMAX)
 #define NSIG		(SIGMAX+1)
+#elif defined(_SIGMAX)
+#define NSIG		(_SIGMAX+1)
 #endif
 #endif
 
