@@ -1,4 +1,4 @@
-# $MirOS: src/etc/rc,v 1.17 2006/03/27 09:49:58 tg Exp $
+# $MirOS: src/etc/rc,v 1.18 2006/04/05 23:56:05 tg Exp $
 # $OpenBSD: rc,v 1.277 2006/01/12 21:54:15 deraadt Exp $
 #-
 # System startup script run by init on autoboot or after single-user.
@@ -6,7 +6,7 @@
 # is the controlling terminal. This is called with _PATH_BSHELL.
 
 # Force a mirbsd korn shell
-case "x$KSH_VERSION" in
+case x$KSH_VERSION in
 *MIRBSD?KSH*)
 	unset KSH_TRY
 	;;
@@ -60,7 +60,7 @@ update_limit() {
 		    daemon 2>/dev/null)
 		if [[ -n $_new ]]; then
 			[[ $_new = infinity ]] && _new=unlimited
-			case "$_suf" {
+			case $_suf {
 			-cur)
 				ulimit -S $_fl $_new
 				;;
@@ -254,7 +254,7 @@ if [[ -n $softdrives_ide ]]; then
 	_flags=""
 	set -o noglob
 	for drv in $softdrives_ide; do
-		case "$_flags" {
+		case $_flags {
 		*${drv}*)
 			;;	# Already done
 		*)
@@ -316,7 +316,7 @@ while (( i < _fstab )); do
 	if [[ ${_mp[i]} = / && ${_opt[i]} != ro* ]]; then
 		mount -uwo "${_opt[i]}" "${_dev[i]}" / >/dev/null 2>&1
 		if [[ $? -ne 0 ]]; then
-			case "${_opt[i]}" {
+			case ${_opt[i]} {
 			*softdep*)	;;
 			*)	echo -n 'WARNING: Your root filesystem failed'
 				echo -n ' to remount read-write! <forcing...>'
@@ -326,7 +326,7 @@ while (( i < _fstab )); do
 			mount -ufwo "${_opt[i]}" "${_dev[i]}" /
 		fi
 	else
-		case "${_opt[i]}" {
+		case ${_opt[i]} {
 		*noauto*)
 			;;
 		sw*)
@@ -338,7 +338,7 @@ while (( i < _fstab )); do
 				mount -t ffs -o "${_opt[i]}" "${_dev[i]}" \
 					"${_mp[i]}" >/dev/null 2>&1
 				if [[ $? -ne 0 ]]; then
-					case "${_opt[i]}" {
+					case ${_opt[i]} {
 					*softdep*)	;;
 					*)	echo -n "Warning: force-mounti"
 						echo -n "ng unchecked ffs file"
