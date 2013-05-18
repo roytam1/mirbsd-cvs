@@ -18,7 +18,7 @@ MASTER_SITES=			ftp://mirror.nucba.ac.jp/mirror/povray/Old-Versions/Official-3.1
 
 DISTFILES=			povuni_s.tgz povuni_d.tgz
 EXTRACT_SUFX=			.tgz
-DIST_SUBDIR=			${PKGNAME}
+DIST_SUBDIR=			povray-3.1g
 
 LIB_DEPENDS=			png.2.::graphics/png
 
