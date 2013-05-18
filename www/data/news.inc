@@ -132,3 +132,18 @@ Date: 05.06.2007
  <tt>$</tt><tt>Mdocdate$</tt>, we will not use it, so that the mksh(1) manual
  page remains usable on other operating systems.</p>
 ----
+Title: First MirOS #10 Release Candidate published
+Date: 09.06.2007
+
+<p>The MirOS Project is proud to announce the availability of the first
+ release candidate of the upcoming eleventh release of MirBSD, together
+ with a stable release of the MirPorts Framework. This snapshot already
+ advertises itself as MirOS #10 except for the OS patchlevel number and
+ is available for download for the i386 architecture only.</p>
+<p>Download, as usual, on the <a href="http://f.scarywater.net/miros/">
+ BitTorrent tracker</a> (Live CD), or via a networked installation from
+ various mirrors (<a href="http://www.mirbsd.org/MirOS/current/">DE</a>
+ <a href="http://pub.allbsd.org/MirOS/current/">JP</a>).</p>
+<p>On unrelated news, work on the 32-bit sparc port has started again –
+ mostly due to request from users (quite reassuring). Thanks, guys!</p>
+----
