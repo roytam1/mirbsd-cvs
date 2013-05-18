@@ -1,4 +1,4 @@
-# $MirOS: ports/shells/mksh/Makefile,v 1.43 2009/04/05 15:55:14 tg Exp $
+# $MirOS: ports/shells/mksh/Makefile,v 1.44 2009/04/07 22:37:54 tg Exp $
 
 COMMENT=		MirBSD Korn Shell
 DISTNAME=		mksh-R37c
@@ -6,7 +6,7 @@ PKGNAME=		${DISTNAME:S/-R/-/}-${DASH_VER}
 CATEGORIES=		shells
 HOMEPAGE=		http://mirbsd.de/mksh
 
-# MirOS licence; 2-clause UCB-style licence
+# MirOS licence
 PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 PERMIT_PACKAGE_CDROM=	Yes
