@@ -1,4 +1,4 @@
-.\" $MirOS: src/share/man/man7/install.i386.7,v 1.13 2007/05/24 08:09:37 tg Exp $
+.\" $MirOS: src/share/man/man7/install.i386.7,v 1.14 2007/10/21 16:48:10 tg Exp $
 .\"-
 .\" Copyright (c) 2007
 .\"	Benny Siegert <bsiegert@mirbsd.org>
@@ -22,7 +22,7 @@
 .\" local convention: use .Ql for disk slice names
 .\" MirOS version number
 .nr v 10
-.Dd $Mdocdate$
+.Dd $Mdocdate: October 21 2007 $
 .Dt INSTALL.I386 7
 .Os
 .Sh NAME
@@ -611,6 +611,13 @@ not really be functional without.
 Most of the files needed for XFree86\(rg, the graphical user interface.
 .It Pa xetc\nv.ngz
 Configuration files for XFree86\(rg, not offered during an upgrade either.
+.It Pa xsrv\nv.ngz
+XFree86\(rg servers and fonts.
+Do not install these on headless servers or if you do not plan on
+running an X11 server.
+The presence of this set switches the default value for the
+X Window System question below to
+.Dq yes .
 .El
 .Pp
 The installation of the sets is going to take a while.
@@ -641,6 +648,11 @@ If you ever want to run the X Window System (the graphical user
 interface), answer
 .Ic yes
 to this question.
+Please note that this is a
+.Em huge security hole
+as long as the X server is not yet running, cf.
+.Xr xf86 4 .
+.Pp
 Finally, you must select your local timezone, for example
 .Ic Europe/Berlin
 in Germany.
@@ -687,6 +699,7 @@ Have fun with your new
 installation!
 .\" --------------------------------------------------------------------
 .Sh SEE ALSO
+.Xr afterboot 8 ,
 .Xr boot_i386 8 ,
 .Xr disklabel 8 ,
 .Xr fdisk 8
@@ -696,7 +709,6 @@ The MirOS homepage:
 .Pp
 The MirOS IRC channel:
 .Pa irc://irc.eu.freenode.org/%23MirBSD
-.Pa http://cvs.mirbsd.de/contrib/code/Snippets/NTRawrite.exe
 .Pp
 rawrite for Microsoft\(rg Windows\(rg:
 .Pa http://uranus.it.swin.edu.au/~jn/linux/rawwrite.htm
