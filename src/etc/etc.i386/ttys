@@ -1,18 +1,18 @@
 # $Id$
-# $MirOS: src/etc/etc.i386/ttys,v 1.4 2006/08/09 21:29:53 tg Exp $
+# $MirOS: src/etc/etc.i386/ttys,v 1.5 2007/06/30 02:40:52 tg Exp $
 # $OpenBSD: ttys,v 1.17 2002/06/09 06:15:14 todd Exp $
 #
-# Please note that *not* removing the word "secure" from the line
-# starting with "console" will leave your system open for attackers
-# in single-user mode. (If they boot a ramdisk kernel, they'll have
-# access anyway, but hey!) Similarly, if removing it you should set
-# a root password first, because otherwise, you will not be able to
-# enter single user mode at all...
+# Please note that the word “secure” on the line below starting with
+# “console” will leave your system open for attackers in single-user
+# mode.  (If they boot a ramdisk kernel, they'll have access anyway,
+# but hey!) Similarly, if removing it you should set a root password
+# first in order to enter single user mode at all…
 #
 # name	getty				type	status		comments
 #
+# main console device – the speed is automatically set from /etc/rc
 console	"/usr/libexec/getty std.9600"	vt220	on  secure
-# enable ttyC0 if using serial console and wsdisplay in parallel
+# wsdisplay console – enable if main console is on a serial line
 ttyC0	"/usr/libexec/getty Pc"		wsvt25	off secure
 ttyC1	"/usr/libexec/getty Pc"		wsvt25	on  secure
 ttyC2	"/usr/libexec/getty Pc"		wsvt25	on  secure
