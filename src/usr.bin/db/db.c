@@ -37,6 +37,7 @@
  */
 
 #include <sys/cdefs.h>
+__RCSID("$MirOS$");
 #ifndef lint
 #ifdef __RCSID
 __RCSID("$NetBSD: db.c,v 1.15 2007/04/03 04:52:32 lukem Exp $");
@@ -84,11 +85,11 @@ int	encode_data(size_t, char *, char **);
 int	decode_data(char *, char **);
 void	parse_encode_decode_arg(const char *, int);
 int	parse_encode_option(char **);
-void	usage(void);
+void	usage(void) __dead;
 
 flags_t	 flags = 0;
 DB	*db;
-char	*outputsep = "\t";
+const char *outputsep = "\t";
 int	encflags = 0;
 char	*extra_echars = NULL;
 
@@ -372,7 +373,7 @@ db_print(DBT *key, DBT *val)
 		printf("%.*s", len, data);
 	}
 	if ((flags & F_SHOW_KEY) && (flags & F_SHOW_VALUE))
-		printf("%s", outputsep);
+		fputs(outputsep, stdout);
 	if (flags & F_SHOW_VALUE) {
 		if (flags & F_ENCODE_VAL) {
 			len = encode_data(MINUSNUL(val->size),
