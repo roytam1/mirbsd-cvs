@@ -1,11 +1,11 @@
-# $MirOS: www/src/mksh_old.hts,v 1.31 2010/10/08 20:46:20 tg Exp $
+# $MirOS: www/src/mksh_old.hts,v 1.32 2010/10/16 18:45:12 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/mksh/old "mksh – old versions"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh_old.hts,v 1.31 2010/10/08 20:46:20 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh_old.hts,v 1.32 2010/10/16 18:45:12 tg Exp $'
 mws_content <<'EOF'
 <h2><a href="mksh.htm">mksh</a> – old versions</h2>
 
@@ -1230,6 +1230,8 @@ mws_content <<'EOF'
  Consider changing <tt>=(…)</tt>, and maybe <tt>set -A</tt> (if ksh93
  matches), to not unset the array, but merely empty it (<tt>unset A[*]</tt>),
  to protect its locality (typeset).</li>
+<li>Consider <tt>read -n</tt> and <tt>read -N</tt> from ksh93, especially
+ in combination with <tt>-a</tt>.</li>
 <li>Implement <tt>read -A</tt> (from ksh93), <tt>read -a</tt> (dump octets
  or wide characters, depending on <tt>set ±U</tt>, into an array which is
  its (only) argument, from stdin as if using hd(1), <tt>read -d</tt> (with
