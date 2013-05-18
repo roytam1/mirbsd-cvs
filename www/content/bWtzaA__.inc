@@ -1,5 +1,5 @@
 <!-- PageID: mksh -->
-<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.37 2006/07/24 01:25:36 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.38 2006/07/25 14:57:40 tg Exp $</small>
 
 <h1>mksh(1) R27e</h1>
 <p>This is the MirBSD&trade; Korn Shell, a more or less portable
@@ -376,9 +376,10 @@
    but the place to install them is not unified.</li>
   <li>CRUX GNU/Linux (i386): works (package by Han Boetes who even uses mksh
    as /bin/sh and tells everyone to ditch bash)</li>
+  <li>Available under FreeBSD as ports/shells/mksh</li>
  </ul></li>
  <li>mksh R27d<ul>
-  <li>There are both a FreeBSD port and a DragonFly pkgsrc in
+  <li>There is a DragonFly pkgsrc in
    preparation, I wonder why they haven't been committed yet.</li>
   <li>Has been verified to build on NetBSD/alpha.</li>
  </ul></li>
