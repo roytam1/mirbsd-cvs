@@ -1,16 +1,15 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.1.1.1 2004/05/07 08:57:15 xsa Exp $
 
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
-COMMENT=			Python tools for computational molecular biology
+COMMENT=	Python tools for computational molecular biology
 
 DISTNAME=	biopython-1.24
 PKGNAME=	py-${DISTNAME:L}-0
 CATEGORIES=	biology
 
 HOMEPAGE=	http://www.biopython.org/
-
-MAINTAINER=	Xavier Santolaria <xsa@openbsd.org>
 
 # BSD-like 
 PERMIT_PACKAGE_CDROM=	Yes
