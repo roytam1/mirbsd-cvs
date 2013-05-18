@@ -1,7 +1,7 @@
 $MirOS$
 
-MD5 (pixman-0.11.8.tar.gz) = 7b5db768c51337b5e5e954fc9c961cd3
-RMD160 (pixman-0.11.8.tar.gz) = ad7dd12f372353fb199130c96ff7fe09e9bd4760
-SHA1 (pixman-0.11.8.tar.gz) = 9117a904c81673c728e4f78f18600602d0b77adc
-SIZE (pixman-0.11.8.tar.gz) = 451489
-TIGER (pixman-0.11.8.tar.gz) = 1a9a9892e8ff9359f9c14af76ee2cec15f80b05aff331062
+MD5 (pixman-0.15.16.tar.gz) = 831b846d23e7b90abd56b4f614101542
+RMD160 (pixman-0.15.16.tar.gz) = 9c53039d638dc32f4295982d563edba4949ebe73
+SHA1 (pixman-0.15.16.tar.gz) = 217bffcd7461dd54bb47a4083cbc0e5309da60d0
+SIZE (pixman-0.15.16.tar.gz) = 474924
+TIGER (pixman-0.15.16.tar.gz) = 686ed91bdb3a6f5ec57c3ad6fb39ede9b76e2b74ca978e05
