@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/i386/machdep.c,v 1.15 2007/03/02 03:13:25 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/i386/machdep.c,v 1.16 2007/05/16 20:07:48 tg Exp $ */
 /*	$OpenBSD: machdep.c,v 1.310 2004/11/02 21:20:59 miod Exp $	*/
 /*	$NetBSD: machdep.c,v 1.214 1996/11/10 03:16:17 thorpej Exp $	*/
 
@@ -725,8 +725,9 @@ const struct cpu_cpuid_nameclass i386_cpuid_cpus[] = {
 				"Pentium III",
 				"Pentium M",
 				"Pentium III Xeon",
-				"Pentium III", 0, 0,
-				0, 0,
+				"Pentium III", 0,
+				"Pentium M",
+				"Core Duo/Solo", 0,
 				"Pentium Pro, II or III"	/* Default */
 			},
 			intel686_cpu_setup
@@ -932,7 +933,7 @@ const struct cpu_cpuid_nameclass i386_cpuid_cpus[] = {
 				"C3 Samuel",
 				"C3 Samuel 2/Ezra",
 				"C3 Ezra-T",
-				"C3 Nehemiah", 0, 0, 0, 0, 0, 0,
+				"C3 Nehemiah", "C3 Esther", 0, 0, 0, 0, 0,
 				"C3"		/* Default */
 			},
 			cyrix3_cpu_setup
@@ -1126,6 +1127,7 @@ cyrix3_cpu_setup(cpu_device, model, step)
 	int model, step;
 {
 #if defined(I686_CPU)
+	u_int64_t msreg;
 	u_int32_t regs[4];
 	unsigned int val;
 #if !defined(SMALL_KERNEL)
@@ -1154,7 +1156,11 @@ cyrix3_cpu_setup(cpu_device, model, step)
 			break;
 
 		/*
-		 * C3 Nehemiah:
+		 * C3 Nehemiah: fall through.
+		 */
+	case 10:
+		/*
+		 * C3 Nehemiah/Esther:
 		 * First we check for extended feature flags, and then
 		 * (if present) retrieve the ones at 0xC0000001.  In this
 		 * bit 2 tells us if the RNG is present.  Bit 3 tells us
@@ -1169,17 +1175,17 @@ cyrix3_cpu_setup(cpu_device, model, step)
 		if (val >= 0xC0000001) {
 			cpuid(0xC0000001, regs);
 			val = regs[3];
-		}
+		} else
+			val = 0;
+
+		if (val & (C3_CPUID_HAS_RNG | C3_CPUID_HAS_ACE))
+			printf("%s:", cpu_device);
 
 		/* Enable RNG if present and disabled */
-		if (val & 0x44)
-			printf("%s:", cpu_device);
-		if (val & 0x4) {
+		if (val & C3_CPUID_HAS_RNG) {
 			extern int viac3_rnd_present;
 
-			if (!(val & 0x8)) {
-				u_int64_t msreg;
-
+			if (!(val & C3_CPUID_DO_RNG)) {
 				msreg = rdmsr(0x110B);
 				msreg |= 0x40;
 				wrmsr(0x110B, msreg);
@@ -1189,13 +1195,11 @@ cyrix3_cpu_setup(cpu_device, model, step)
 		}
 
 		/* Enable AES engine if present and disabled */
-		if (val & 0x40) {
+		if (val & C3_CPUID_HAS_ACE) {
 #ifdef CRYPTO
 			extern int viac3_crypto_present;
 
-			if (!(val & 0x80)) {
-				u_int64_t msreg;
-
+			if (!(val & C3_CPUID_DO_ACE)) {
 				msreg = rdmsr(0x1107);
 				msreg |= (0x01 << 28);
 				wrmsr(0x1107, msreg);
