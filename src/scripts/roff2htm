@@ -1,4 +1,4 @@
-# $MirOS: src/scripts/roff2htm,v 1.53 2007/10/21 13:20:16 tg Exp $
+# $MirOS: src/scripts/roff2htm,v 1.54 2007/10/21 14:31:15 tg Exp $
 # $ekkoBSD: catman2html.sh,v 1.2 2004/03/07 03:02:53 stephen Exp $
 #-
 # Copyright (c) 2004, 2005, 2006, 2007
@@ -141,7 +141,7 @@ function output_header {
 function output_footer {
 	print '<hr /><p style="font-size:xx-small;">Generated on' \
 	    $roff2htm_gendate 'by
- <tt>$MirOS: src/scripts/roff2htm,v 1.53 2007/10/21 13:20:16 tg Exp $</tt></p>
+ <tt>$MirOS: src/scripts/roff2htm,v 1.54 2007/10/21 14:31:15 tg Exp $</tt></p>
 <p>These manual pages are <a href="../man7/BSD-Licence.htm">copyrighted</a>
  by their respective writers; their source is available at our <a
  href="http://cvs.mirbsd.de/">CVSweb</a>, AnonCVS, and other mirrors.
@@ -169,50 +169,29 @@ function do_conversion_verbose {
 
 # convert_page /path/to/man.cat1 /targetpath
 function convert_page {
-	typeset fn=$1				# filename
-	typeset bn=${fn##*/}			# basename
-	typeset page=${bn%.0}			# manual page name
-	typeset dn=${fn%/*}			# dirname
-	typeset as=${dn##*/cat}			# archsection
-	typeset sect=${as%%/*}			# section
-	typeset tn=$2/man${sect}/${page}.htm	# target file
-	typeset -i linkonly=0
+	typeset fn=$1 page sect tn
+	typeset -Uui ino=$(stat -Lf %i $fn 2>/dev/null)
+	page=${fn##*/}			# basename
+	page=${page%.0}			# manual page name
+	sect=${fn%/*}			# dirname
+	sect=${sect##*/cat}		# archsection
+	sect=${sect%%/*}		# section
+	tn=man${sect}/${page}.htm	# target file
 
-	if [[ -h $fn ]]; then
-		# source file is a symbolic link
-		fn=$(readlink -f $fn)		# symlink-target filename
-		linkonly=1
-	else
-		typeset -i ino=$(stat -f %i $fn 2>/dev/null)
-
-		(( ino )) && if [[ -n ${roff2htm_inodecache[ino]} ]]; then
-			# source file is hardlinked to a file we know
-			fn=${roff2htm_inodecache[ino]}
-			linkonly=1
-		else
-			# store this source filename in the inode cache
-			roff2htm_inodecache[ino]=$fn
-		fi
-	fi
-
-	if (( linkonly )); then
-		typeset newpage=$page newsect=$sect
-		# just link the target too, since the source is linked
-		bn=${fn##*/}			# basename
-		page=${bn%.0}			# manual page name
-		dn=${fn%/*}			# dirname
-		as=${dn##*/cat}			# archsection
-		sect=${as%%/*}			# section
-		print -ru2 -- $tn ← man${sect}/${page}.htm
-		ln -f $2/man${sect}/${page}.htm $tn
+	if (( ino )) && [[ -n ${roff2htm_inodecache[ino]} ]]; then
+		# source file is linked to a file we know
+		print -ru2 -- $tn ← ${roff2htm_inodecache[ino]}
+		ln -f $2/${roff2htm_inodecache[ino]} $2/$tn
 		# patch in the additional name(s)
-		ed -s $tn <<-EOF
-			/<title>/s#</title>#, $newpage($newsect)&#
-			/<h1>/s#</h1>#, <a href="../man$newsect/$newpage.htm">$newpage($newsect)</a>&#
+		ed -s $2/$tn <<-EOF
+			/<title>/s#</title>#, $page($sect)&#
+			/<h1>/s#</h1>#, <a href="../$tn">$page($sect)</a>&#
 			wq
 		EOF
 	else
-		do_conversion_verbose $page $sect $fn $tn
+		# store target filename in the inode cache
+		roff2htm_inodecache[ino]=$tn
+		do_conversion_verbose $page $sect $fn $2/$tn
 	fi
 }
 
@@ -227,7 +206,7 @@ function convert_all {
 	typeset tp=${2:-$(pwd)/mbsdman}		# target basepath
 	typeset x f
 
-	(find ${1:-/usr/share/man}/cat{[1-9],3p} -name \*.0 | sort -f) |&
+	(find ${1:-/usr/share/man}/cat{[1-9],3p} -name \*.0 2>&- | sort -f) |&
 	for x in 1 2 3 3p 4 5 6 7 8 9; do
 		mkdir -p $tp/man$x	# one per section
 		output_htaccess >$tp/man$x/.htaccess
