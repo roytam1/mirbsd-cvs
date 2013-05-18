@@ -1,5 +1,0 @@
-This package includes everything you need to start using
-smartcards on a variety of platforms, including PKCS#11 support,
-smartcard authentication with PAM, and card administration. Start
-signing, encrypting, and authenticating with your smartcard with
-this easy to use package.

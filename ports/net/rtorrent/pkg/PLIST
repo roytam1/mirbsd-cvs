@@ -1,5 +1,0 @@
-@comment $MirOS$
-bin/rtorrent
-man/man1/rtorrent.1
-share/examples/rtorrent/rtorrent.rc
-@dirrm share/examples/rtorrent

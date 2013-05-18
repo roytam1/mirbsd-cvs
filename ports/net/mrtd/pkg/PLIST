@@ -1,7 +1,0 @@
-@comment $OpenBSD: PLIST,v 1.2 2001/04/16 12:15:28 lebel Exp $
-man/man8/mrtd.8
-sbin/bgpsim
-sbin/mrtd
-sbin/route_atob
-sbin/route_btoa
-sbin/sbgp
