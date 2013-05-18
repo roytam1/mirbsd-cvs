@@ -574,7 +574,7 @@ disk_trylabel(struct diskinfo *dip)
 		totsiz = 2880;
 
 		if (!(bd->bios_number & 0x80) || bd->flags & BDI_EL_TORITO ||
-		    (bios_bootpte.active & 0x7F) || /* !bios_bootpte.partyp */)
+		    (bios_bootpte.active & 0x7F) /* || !bios_bootpte.partyp */)
 			bios_bootpte.partyp = 0;
 		if (bd->bios_number & 0x80) {
 			/* read MBR */
