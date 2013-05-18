@@ -2,7 +2,7 @@
 
 #include "sh.h"
 
-__RCSID("$MirOS: src/bin/mksh/expr.c,v 1.9 2007/03/03 21:12:51 tg Exp $");
+__RCSID("$MirOS: src/bin/mksh/expr.c,v 1.10 2007/03/04 03:04:25 tg Exp $");
 
 /* The order of these enums is constrained by the order of opinfo[] */
 enum token {
@@ -178,7 +178,7 @@ v_evaluate(struct tbl *vp, const char *expr, volatile int error_ok,
 		if (i == LAEXPR) {
 			if (error_ok == KSH_RETURN_ERROR)
 				return (0);
-			errorf(null);
+			errorf("");
 		}
 		unwind(i);
 		/* NOTREACHED */
