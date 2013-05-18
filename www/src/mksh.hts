@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.405 2011/06/12 18:12:05 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.406 2011/06/12 18:59:37 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -989,16 +989,18 @@ exec /usr/bin/ld "${args[@]}"</pre>
 <p><a href="mksh_old.htm#caveat">older entries</a></p>
 
 <h2 id="clog">Recent Changes</h2>
-<!--
 <p>Changes in the current (unreleased) development version:</p><ul>
--->
-<p id="r40">mksh R40 is a major everything release:</p><ul>
  <li>Begin porting mksh to the <a href="http://9fans.net/">Plan 9</a>
   ANSI’n’POSIX Environment (not finished)</li>
  <li>Port to <a href="http://www.syllable.org/">Syllable Desktop</a>
   (not finished, but maybe the rest is a kernel bug?)</li>
  <!-- li>Import the GNU bash- and zsh-style ability to get and set multiple
   limits in a single invocation from oksh (thanks millert) -->
+ <li>[tg] Drop “set ±o arc4random” (deprecated in R40)</li>
+ <li>[tg] Drop old <tt>Build.sh</tt> -long-options (deprecated in R40)</li>
+ <li>[tg] Don’t busy-loop on <tt>nameref ARY=ARY</tt> (LHS = RHS)</li>
+</ul>
+<p id="r40">mksh R40 is a major everything release:</p><ul>
  <li>[tg] Correct small mistakes in manpage and build script</li>
  <li>[ahoka, tg, stippi, bonefish, cnuke] Port to <a
   href="http://www.haiku-os.org/">Haiku</a> (and probably, implicitly,
