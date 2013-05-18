@@ -23,7 +23,7 @@
 #include <sys/param.h>
 
 __SCCSID("@(#)localtime.c	7.80");
-__RCSID("$MirOS: src/lib/libc/time/localtime.c,v 1.16 2009/11/09 21:30:56 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/time/localtime.c,v 1.17 2011/11/20 04:57:12 tg Exp $");
 
 struct tm *offtime(const time_t * const, const long);
 
@@ -1225,7 +1225,7 @@ timesub(timep, offset, sp, tmp)
 	time_t days;
 	long rem, corr;
 	int i, hit;	/* hit: leap second bit */
-	mjd_t tmjd;
+	mirtime_mjd tmjd;
 
 	corr = 0;
 	hit = 0;
@@ -1273,7 +1273,7 @@ timesub(timep, offset, sp, tmp)
 
 	tmjd.mjd = days + 40587;
 	tmjd.sec = (int32_t)rem;
-	*tmp = mjd2tm(tmjd);
+	mjd_explode(tmp, &tmjd);
 	tmp->tm_gmtoff = offset;
 	tmp->tm_sec += hit;
 	return (tmp);
