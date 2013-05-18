@@ -1,4 +1,4 @@
-# $MirOS: src/etc/rc,v 1.28 2006/08/09 14:08:29 tg Exp $
+# $MirOS: src/etc/rc,v 1.29 2006/08/09 14:11:56 tg Exp $
 # $OpenBSD: rc,v 1.277 2006/01/12 21:54:15 deraadt Exp $
 #-
 # System startup script run by init on autoboot or after single-user.
@@ -66,7 +66,6 @@ update_limit() {
 sysctl_conf() {
 	test -s /etc/sysctl.conf || return
 
-	# delete comments and blank lines
 	set -- $(stripcom /etc/sysctl.conf)
 	while [ $# -ge 1 ]; do
 		sysctl $1
@@ -87,10 +86,9 @@ mixerctl_conf()
 {
 	test -s /etc/mixerctl.conf || return
 
-	# delete comments and blank lines
 	set -- $(stripcom /etc/mixerctl.conf)
 	while [ $# -ge 1 ]; do
-		mixerctl -q $1 >&- 2>&-
+		mixerctl $1
 		shift
 	done
 }
@@ -100,7 +98,6 @@ wsconsctl_conf()
 	local save_IFS=$IFS
 
 	test -x /sbin/wsconsctl -a -s /etc/wsconsctl.conf || return
-	# delete comments and blank lines
 	IFS="
 "
 	set -- $(stripcom /etc/wsconsctl.conf)
