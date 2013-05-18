@@ -1,4 +1,4 @@
-/* $MirOS: src/usr.sbin/wsconfig/wsconfig.c,v 1.8 2007/01/10 00:01:06 tg Exp $ */
+/* $MirOS: src/usr.sbin/wsconfig/wsconfig.c,v 1.9 2007/02/11 00:48:24 tg Exp $ */
 
 /*-
  * Copyright (c) 2006, 2007
@@ -35,7 +35,7 @@
 #include <termios.h>
 #include <unistd.h>
 
-__RCSID("$MirOS: src/usr.sbin/wsconfig/wsconfig.c,v 1.8 2007/01/10 00:01:06 tg Exp $");
+__RCSID("$MirOS: src/usr.sbin/wsconfig/wsconfig.c,v 1.9 2007/02/11 00:48:24 tg Exp $");
 
 #define DEFDEV	"/dev/ttyCcfg"
 
@@ -235,7 +235,7 @@ main(int argc, char **argv)
 		    !isdigit(buf[c + 1]))
 			rv = buf[c] == '4' ? /* latin1 */ 2 : /* utf-8 */ 0;
 		}
-		write(wsfd, "\r   \r", 5);
+		write(wsfd, "\r      \r", 8);
  tios_err:
 		if (tcsetattr(wsfd, TCSAFLUSH, &otio))
 			err(3, "tcsetattr");

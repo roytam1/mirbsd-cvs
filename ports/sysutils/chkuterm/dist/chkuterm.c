@@ -1,4 +1,4 @@
-/* $MirOS: ports/sysutils/chkuterm/dist/chkuterm.c,v 1.4 2007/01/10 00:03:24 tg Exp $ */
+/* $MirOS: ports/sysutils/chkuterm/dist/chkuterm.c,v 1.6 2007/02/11 00:49:44 tg Exp $ */
 
 /*-
  * Copyright (c) 2006, 2007
@@ -32,8 +32,8 @@
 #include <unistd.h>
 
 #ifdef __RCSID
-__RCSID("$miros: src/usr.sbin/wsconfig/wsconfig.c,v 1.9 2007/02/11 00:48:24 tg Exp $");
-__RCSID("$MirOS: ports/sysutils/chkuterm/dist/chkuterm.c,v 1.4 2007/01/10 00:03:24 tg Exp $");
+__RCSID("$miros: src/usr.sbin/wsconfig/wsconfig.c,v 1.10 2007/02/11 00:59:00 tg Exp $");
+__RCSID("$MirOS: ports/sysutils/chkuterm/dist/chkuterm.c,v 1.6 2007/02/11 00:49:44 tg Exp $");
 #endif
 
 /* query string sent to the terminal for LC_CTYPE detection */
@@ -101,7 +101,7 @@ main(int argc, char **argv)
 		    !isdigit(buf[c + 1]))
 			rv = buf[c] == '4' ? /* latin1 */ 2 : /* utf-8 */ 0;
 	}
-	write(wsfd, "\r   \r", 5);
+	write(wsfd, "\r      \r", 8);
  tios_err:
 	if (tcsetattr(wsfd, TCSAFLUSH, &otio))
 		err(3, "tcsetattr");
