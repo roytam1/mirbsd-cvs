@@ -1,4 +1,4 @@
-# $MirOS: src/etc/rc,v 1.52 2006/10/02 07:03:16 tg Exp $
+# $MirOS: src/etc/rc,v 1.53 2006/10/02 22:31:19 tg Exp $
 # $OpenBSD: rc,v 1.277 2006/01/12 21:54:15 deraadt Exp $
 #-
 # System startup script run by init on autoboot or after single-user.
@@ -378,6 +378,9 @@ while (( i < ${#_mp[*]} )); do
 	fi
 	let i++
 done
+
+# on sparc, use the nvram to provide some additional entropy
+[[ -x /usr/sbin/eeprom ]] && eeprom 2>&1 | cksum -ba sha512 >/dev/prandom
 
 # read old random seed; if there's no /var/db/host.random, make
 # one through /dev/arandom; else reset seed file anyway so that

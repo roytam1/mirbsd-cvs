@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/dot.profile,v 1.1 2006/08/17 19:34:14 tg Exp $
+# $MirOS: src/distrib/common/dot.profile,v 1.2 2006/08/18 20:48:46 tg Exp $
 # $OpenBSD: dot.profile,v 1.4 2002/09/13 21:38:47 deraadt Exp $
 # $NetBSD: dot.profile,v 1.1 1995/12/18 22:54:43 pk Exp $
 #
@@ -66,6 +66,8 @@ if [ ! -f /.profile.done ]; then
 	# first of all, we need a /tmp - use all memory minus 4 MiB
 	mount_mfs -s $(($(sysctl -n hw.usermem)/512-8192)) swap /tmp
 
+	# on sparc, use the nvram to provide some additional entropy
+	[ -x /usr/sbin/eeprom ] && eeprom 2>&1 | cksum -ba sha512 >/dev/prandom
 	# basic HD randomness reads (doesn't matter if they break)
 	( ( (dd if=/dev/rwd0c count=126; dd if=/dev/rsd0c count=126; dd \
 	    if=/var/db/host.random) 2>&1 | cksum -ba sha512 >/dev/arandom) &)

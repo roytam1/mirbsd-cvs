@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/listend.sparc,v 1.3 2006/08/19 11:49:05 tg Exp $
+# $MirOS: src/distrib/common/listend.sparc,v 1.4 2006/08/19 14:35:59 tg Exp $
 
 # extra programmes
 LINK	instbin					bin/mt
@@ -7,6 +7,7 @@ LINK	instbin					sbin/ping6
 LINK	instbin					sbin/restore
 LINK	instbin					sbin/scsi
 LINK	instbin					usr/bin/more usr/bin/less
+LINK	instbin					usr/sbin/eeprom
 
 # devices stuff
 SPECIAL	cd dev; ./MAKEDEV ramdisk
