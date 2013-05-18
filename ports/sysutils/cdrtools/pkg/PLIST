@@ -1,4 +1,4 @@
-@comment $MirOS$
+@comment $MirOS: ports/sysutils/cdrtools/pkg/PLIST,v 1.1.7.1 2005/03/18 15:52:03 tg Exp $
 @comment $OpenBSD: PLIST,v 1.4 2004/02/13 17:25:51 sturm Exp $
 @pkgcfl cdrecord-*
 bin/cdda2wav
@@ -8,8 +8,8 @@ bin/isodebug
 bin/isodump
 bin/isoinfo
 bin/isovfy
-@comment bin/mkhybrid
-@comment bin/mkisofs
+bin/mkhybrid
+bin/mkisofs
 bin/readcd
 @comment bin/scgcheck
 @comment include/align.h
@@ -29,12 +29,8 @@ man/man1/cdrecord.1
 man/man1/devdump.1
 man/man1/isoinfo.1
 man/man1/isovfy.1
-@comment man/man1/mkhybrid.1
-@comment man/man1/mkisofs.1
+man/man1/mkhybrid.1
+man/man1/mkisofs.1
 man/man1/readcd.1
 @comment man/man1/scgcheck.1
 @comment sbin/rscsi
-share/doc/cdrtools/README.MirPorts
-@dirrm share/doc/cdrtools
-@dirrm share/doc
-@dirrm share
