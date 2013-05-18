@@ -1641,6 +1641,10 @@ Author: tg@
  but still not really tested. Both on the mirrors. After reïnstalling that
  SPARCstation and fixing some SIGBUS, I’m now trying to get a final candid
  for sparc out before actually releasing #10 into the wild.</p>
+<p>*sighs* I guess I’ve got to add <tt>-Wcast-align</tt> to COPTS globally
+ on my sparc, do a full build’n’fix round. Developers just aren’t aware of
+ these issues, and gcc on i386 can’t even reproduce these warnings with an
+ extra option (say <tt>-fstrict-align</tt>, that’d be great).</p>
 <p>Benny (who seems to be much too lazy to do any wlogging) has to cut off
  way too much content from his talk. He said he needed 1:06 hrs and didn’t
  even mention everything… too bad, it really was great stuff.</p>
