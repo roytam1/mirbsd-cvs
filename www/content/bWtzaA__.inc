@@ -85,6 +85,20 @@
  <li>Plan porting mksh to <a href="http://www.minix3.org/">Minix 3</a>
   (not finished yet)</li>
  <li>Plan porting to other UNIX&reg;-like systems via HP Testdrive</li>
+ <li>Regression fix: mksh has some kind of “encoded string” format;
+  use wdcopy() not str_save() to duplicate this; affects formatting of
+  an error message (and below item) only though</li>
+ <li>Bugfix: pdksh has an out-of-bounds memory access; the area of code
+  has been touched by OpenBSD developers but the problem not fixed by
+  them; some optimisations turned this (for the error message formatting
+  of the above item) into a memory corruption bug that was <em>only</em>
+  triggering an actual issue on Debian GNU/Linux experimental on IA-64
+  with some beta version of GNU glibc; add an appropriate bounds check</li>
+ <li>Add mirtoconf check for “large file support” needed on some obscure
+  platforms; requested by bsiegert@, idea from GNU autoconf (thanks)</li>
+ <li>Add zsh workaround to Build.sh (just to be on the safe side; zsh
+  isn't bourne sh or posix sh compatible, but I didn't find any severe
+  problems with using it to build mksh yet, it's a weird shell though)</li>
 </ul>
 <p>Immediately upgrade to mksh R29b please:</p><ul>
  <li>Bugfix: display UTF-8 control characters (U+0080..U+009F, i.e.
