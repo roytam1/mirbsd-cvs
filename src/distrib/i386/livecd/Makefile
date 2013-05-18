@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/i386/livecd/Makefile,v 1.39 2006/05/25 21:32:05 tg Exp $
+# $MirOS: src/distrib/i386/livecd/Makefile,v 1.40 2006/05/26 17:34:52 tg Exp $
 
 .include <bsd.own.mk>
 
@@ -25,7 +25,7 @@ unpack:
 		${SUDO} cp $$a .; \
 	done
 	# create mount points
-	mkdir workdir/usr/{mpkg,ports/{Distfiles,Packages}}
+	${SUDO} mkdir workdir/usr/{mpkg,ports/{Distfiles,Packages}}
 
 gendev: mr.fs
 
