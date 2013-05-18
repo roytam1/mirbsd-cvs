@@ -1,4 +1,0 @@
-/* $MirOS$ */
-
-#undef _calendar_allcharsets
-#include <calendar.all>

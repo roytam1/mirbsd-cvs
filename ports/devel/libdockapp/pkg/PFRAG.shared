@@ -1,3 +1,0 @@
-@comment $MirOS$
-@comment $OpenBSD: PFRAG.shared,v 1.1.1.1 2001/01/04 00:52:35 naddy Exp $
-@lib lib/libdockapp.so.1.0
