@@ -1,4 +1,4 @@
-@comment $MirOS: ports/books/mirex/pkg/PLIST,v 1.5 2006/10/17 21:42:31 tg Exp $
+@comment $MirOS: ports/books/mirex/pkg/PLIST,v 1.6 2007/02/19 05:24:21 tg Exp $
 share/examples/mirex/acronyms
 share/examples/mirex/daemon.png
 share/examples/mirex/devel-keys
@@ -11,8 +11,6 @@ share/examples/mirex/gzsigkey.1
 share/examples/mirex/gzsigkey.2
 share/examples/mirex/kana
 share/examples/mirex/kbd-layout
-share/examples/mirex/kbd-layout.80c
-share/examples/mirex/kbd-layout.euc-jp
 share/examples/mirex/licence.template
 share/examples/mirex/man.template
 share/examples/mirex/mdoc.template
