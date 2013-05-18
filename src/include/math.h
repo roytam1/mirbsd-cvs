@@ -1,4 +1,4 @@
-/**	$MirOS: src/include/math.h,v 1.5 2006/11/03 01:41:38 tg Exp $ */
+/**	$MirOS: src/include/math.h,v 1.7 2006/11/03 18:10:40 tg Exp $ */
 /*	$OpenBSD: math.h,v 1.14 2006/07/12 07:26:07 brad Exp $	*/
 /*	$NetBSD: math.h,v 1.44 2006/03/25 16:41:11 xtraeme Exp $	*/
 
@@ -18,7 +18,7 @@
  */
 
 #ifndef _MATH_H_
-#define _MATH_H_ "$MirOS$"
+#define _MATH_H_ "$MirOS: src/include/math.h,v 1.7 2006/11/03 18:10:40 tg Exp $"
 
 #include <sys/cdefs.h>
 #ifdef __NetBSD__
@@ -353,6 +353,7 @@ float	remainderf(float, float);
 /* 7.2.11 manipulation */
 
 float	copysignf(float, float);
+long double copysignl(long double, long double);
 double	nan(const char *);
 float	nanf(const char *);
 long double	nanl(const char *);

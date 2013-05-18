@@ -1,4 +1,4 @@
-#  $MirOS: src/lib/libm/Makefile,v 1.6 2006/11/03 18:10:45 tg Exp $
+#  $MirOS: src/lib/libm/Makefile,v 1.7 2007/06/21 14:40:21 tg Exp $
 #  $NetBSD: Makefile,v 1.77 2006/07/03 16:03:56 drochner Exp $
 #
 #  @(#)Makefile 5.1beta 93/09/24
@@ -69,7 +69,7 @@ CPPFLAGS+=	-DLIBM_SCCS
 CPPFLAGS+=	-D_USE_WRITE
 CPPFLAGS+=	-D_NETBSD_SOURCE	# XXX
 
-SHLIB_VERSION?=	6.0
+SHLIB_VERSION?=	6.1
 LIB=		m
 COMMON_SRCS = e_acos.c e_acosf.c e_acosh.c e_acoshf.c e_asin.c e_asinf.c \
 	e_atan2.c e_atan2f.c e_atanh.c e_atanhf.c e_cosh.c e_coshf.c e_exp.c \
@@ -98,6 +98,7 @@ COMMON_SRCS = e_acos.c e_acosf.c e_acosh.c e_acoshf.c e_asin.c e_asinf.c \
 	w_log2f.c w_logf.c \
 	w_pow.c w_powf.c w_remainder.c w_remainderf.c w_scalb.c w_scalbf.c \
 	w_sinh.c w_sinhf.c w_sqrt.c w_sqrtf.c \
+	s_copysignl.c \
 	lrint.c lrintf.c llrint.c llrintf.c lround.c lroundf.c llround.c \
 	llroundf.c
 
