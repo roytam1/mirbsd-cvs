@@ -1,4 +1,4 @@
-# $MirOS: src/etc/profile,v 1.24 2006/07/04 01:16:33 tg Exp $
+# $MirOS: src/etc/profile,v 1.25 2006/07/06 00:43:27 tg Exp $
 #-
 umask 022
 [ -z "$KSH_VERSION" ] && alias print='echo -e'
@@ -50,7 +50,7 @@ PAGER=/usr/bin/less
 PS1=$PSX
 if [ -n "$KSH_VERSION" ]; then
 	PS1='$(((rv=$?)) && print $rv\|)${USER:=$(id -un)}@${HOSTNAME:=nil}:$(
-		typeset pfx=~ wd=${PWD:-$(pwd)}
+		local pfx=~ wd=${PWD:-$(pwd)}
 		[[ ${wd#$pfx} = $wd || $pfx = ?(/) ]] || wd=\~${wd#$pfx}
 		pfx=; let n="( (n = ${COLUMNS:-80} / 3) < 7 ? 7 : n)"
 		while (( (${#pfx} + ${#wd}) > n )); do
@@ -95,7 +95,7 @@ unset _shellok
 function bye
 {
 	[[ $1 = k ]] && ssh-agent -k
-	typeset M='\033c'
+	local M='\033c'
 	[ $? -ne 0 ] && M='\033c Warning: ssh-agent returned error!\n'
 	print -n -- "$M"
 	exit
@@ -116,7 +116,7 @@ function klynx		# kterm lynx (EUC-JP)
 }
 function Lstripcom	# strip comments from file
 {
-	typeset _line
+	local _line
 	set -o noglob
 	cat "$@" | while read _line; do
 		_line=${_line%%#*}

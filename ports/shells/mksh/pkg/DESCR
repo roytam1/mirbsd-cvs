@@ -7,7 +7,7 @@ shell good for interactive and especially script use.
 You might want to amend ~/.mkshrc with the following snippet:
 |	: ${HOSTNAME:=$(hostname -s 2>/dev/null || hostname)}
 |	PS1='$(((rv=$?)) && print $rv\|)${USER:=$(id -un)}@${HOSTNAME:=nil}:$(
-|		typeset pfx=~ wd=${PWD:-$(pwd)}
+|		local pfx=~ wd=${PWD:-$(pwd)}
 |		[[ ${wd#$pfx} = $wd || $pfx = ?(/) ]] || wd=\~${wd#$pfx}
 |		pfx=; let n="( (n = ${COLUMNS:-80} / 3) < 7 ? 7 : n)"
 |		while (( (${#pfx} + ${#wd}) > n )); do
