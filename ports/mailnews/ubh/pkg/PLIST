@@ -1,7 +1,0 @@
-@comment $OpenBSD: PLIST,v 1.2 2001/08/11 15:56:36 kevlo Exp $
-bin/ubh
-share/doc/ubh/ubh.html
-share/examples/ubh/newsrc
-share/examples/ubh/ubhrc
-@dirrm share/examples/ubh
-@dirrm share/doc/ubh

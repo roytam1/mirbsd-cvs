@@ -1,5 +1,0 @@
-@comment $MirOS: ports/databases/sqlite/pkg/PLIST-lemon,v 1.1 2008/02/28 18:27:22 tg Exp $
-bin/lemon
-man/cat1/lemon.0
-share/lemon/lempar.c
-@dirrm share/lemon
