@@ -1,4 +1,4 @@
-# $MirOS: src/sys/conf/Makefile.inc,v 1.18 2006/12/13 00:28:35 tg Exp $
+# $MirOS: src/sys/conf/Makefile.inc,v 1.19 2007/01/26 19:33:12 tg Exp $
 #-
 # Copyright (c) 2005, 2006
 #	Thorsten "mirabilos" Glaser <tg@mirbsd.de>
@@ -25,11 +25,14 @@
 # This file includes most kernel compile rules commonly used, by all
 # architectures' kernel Makefiles.
 
-MKDEP?=	mkdep
-SIZE?=	size
-STRIP?=	strip
+MKDEP?=		mkdep
+SIZE?=		size
+STRIP?=		strip
 
-INCLUDES=	-nostdinc -I. -I$S/arch -I$S -I${BSDSRCDIR}/lib/libz
+KERNBASE?=	$S/../kern
+
+INCLUDES=	-nostdinc -I. -I$S/arch -I$S -I${BSDSRCDIR}/lib/libz \
+		-I${KERNBASE}/include
 CDIAGFLAGS=	-Werror -Wall -Wstrict-prototypes -Wmissing-prototypes \
 		-Wno-uninitialized -Wno-format -Wno-main -ffreestanding
 .if ${IDENT:M-DNO_PROPOLICE}
