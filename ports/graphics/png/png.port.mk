@@ -1,4 +1,4 @@
-# $MirOS: ports/graphics/png/png.port.mk,v 1.4 2006/11/03 22:06:15 tg Exp $
+# $MirOS: ports/graphics/png/png.port.mk,v 1.5 2008/03/23 17:04:36 tg Exp $
 
 # Valid choices: any, base, port
 USE_PNG?=		any
@@ -6,7 +6,7 @@ USE_PNG?=		any
 .if ${USE_PNG:L:Many}
 .  if ${OStype} != "MirBSD"
 USE_PNG=		port
-.  elif exists(/usr/lib/libncursesw.a)
+.  elif exists(/usr/lib/libpng.a)
 USE_PNG=		base
 .  else
 USE_PNG=		port
