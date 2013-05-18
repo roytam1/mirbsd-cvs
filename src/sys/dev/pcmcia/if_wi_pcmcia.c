@@ -1,8 +1,10 @@
-/* $MirOS: src/sys/dev/pcmcia/if_wi_pcmcia.c,v 1.4 2005/07/04 03:36:29 tg Exp $ */
+/* $MirOS: src/sys/dev/pcmcia/if_wi_pcmcia.c,v 1.5 2006/06/12 20:19:14 tg Exp $ */
 /* $OpenBSD: if_wi_pcmcia.c,v 1.62 2005/03/13 04:34:43 dlg Exp $ */
 /* $NetBSD: if_wi_pcmcia.c,v 1.14 2001/11/26 04:34:56 ichiro Exp $ */
 
 /*
+ * Copyright (c) 2013
+ *	Thorsten Glaser <tg@mirbsd.org>
  * Copyright (c) 1997, 1998, 1999
  *	Bill Paul <wpaul@ctr.columbia.edu>.  All rights reserved.
  *
@@ -366,10 +368,21 @@ wi_pcmcia_match(parent, match, aux)
 	void *match, *aux;
 {
 	struct pcmcia_attach_args *pa = aux;
+	struct pcmcia_function	*pf = pa->pf;
+	struct pcmcia_config_entry *cfe = SIMPLEQ_FIRST(&pf->cfe_head);
 
-	if (wi_lookup(pa) != NULL)
-		return (1);
-	return (0);
+	if (wi_lookup(pa) == NULL)
+		return (0);
+
+	/* catch broken cards early */
+	if (cfe == NULL) {
+#ifdef PCMCIADEBUG
+		printf("Ignoring wi(4) card with no CCR/CFE\n");
+#endif
+		return (0);
+	}
+
+	return (1);
 }
 
 void
