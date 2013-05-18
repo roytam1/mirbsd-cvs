@@ -1,5 +1,5 @@
 <!-- PageID: wlog-8 -->
-<small class="rcsid">$MirOS: www/content/d2xvZy04.inc,v 1.67 2006/04/11 19:08:24 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy04.inc,v 1.68 2006/04/13 01:33:53 tg Exp $</small>
 <h1>MirBSD &ndash; WTF, We Have a Release!?</h1>
 <p><small><a href="#eof">bottom</a> or <a href="/?older">older</a>
  editions</small></p>
@@ -1195,6 +1195,16 @@ celebrate this event, rotate the wlog and start a new one.</p>
   which root device the kernel to use).</p>
  <p>Yay! Freeforge is growing. Even though &#39764;&#29579; froze today,
   again (BitTorrent was running, but the crash was during an rsync).</p>
+</div>
+
+<div class="wlentry">
+ <h3 id="e20060419">19.04.2006 by tg@</h3>
+ <p>Just came back from a great trip to Bruxelles. In the meantime, that
+  damned dedicated server froze again &ndash; without any BitTorrent and
+  rtorrent involved. gecko2 now has the licence to reboot.</p>
+ <p>I've prepared today what will be the Setup/Live CD tomorrow (the one
+  which will be distributed at LinuxTag).</p>
+ <p>Benny has been alive today!</p>
 </div>
 
 <p id="eof">Good luck, have fun, take care etc.pp</p>

@@ -1,5 +1,5 @@
 <!-- PageID: devel -->
-<small class="rcsid">$MirOS: www/content/ZGV2ZWw_.inc,v 1.13 2006/04/10 12:42:45 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/ZGV2ZWw_.inc,v 1.14 2006/04/10 12:44:46 tg Exp $</small>
 <h1>MirOS Project Members</h1>
 <p>The links below show details about every MirOS Project
  team member - developer or contributor. The content is whatever
@@ -32,6 +32,7 @@
 <li>Hiroki Sato and the guys at allbsd.org</li>
 </ul><h3>services</h3><ul>
 <li>Der Verein <a href="http://www.trash.net/verein/">trash.net</a></li>
+<li>The people at <a href="http://www.allbsd.de/">AllBSD.de</a></li>
 </ul><h3>donations</h3><ul>
 <li>See the <a href="/?danke#donators">donations</a> page</li>
 </ul>

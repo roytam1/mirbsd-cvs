@@ -1,5 +1,5 @@
 <!-- PageID: overview -->
-<small class="rcsid">$MirOS: www/content/b3ZlcnZpZXc_.inc,v 1.18 2006/03/19 11:26:03 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/b3ZlcnZpZXc_.inc,v 1.19 2006/03/19 21:23:19 tg Exp $</small>
 <h1>Quick Overview &ndash; All in one page</h1>
 
 <h2>Status</h2><p>
@@ -25,8 +25,8 @@
    (rsyncd only)</li>
   <li>_anoncvs@anoncvs.66h.42h.de:/cvs (empty pw) <!-- (IPv6 enabled) -->
    (anoncvs and anonrsync)</li>
-  <!-- li>_anoncvs@mirbsd.org:/cvs (empty pw)
-   (anoncvs and anonrsync)</li -->
+  <li>_anoncvs@mirbsd.org:/cvs (empty pw)
+   (anoncvs and anonrsync)</li>
   <li>_anoncvs@herc.66h.42h.de:/cvs (port 57; private) (IPv6 enabled)
    (anoncvs and anonrsync)</li>
   <li>rsync://rsync.allbsd.org/mirbsd-old-cvs/ (empty pw) (IPv6 enabled)

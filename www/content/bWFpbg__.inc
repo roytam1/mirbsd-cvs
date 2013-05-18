@@ -1,5 +1,5 @@
 <!-- PageID: main -->
-<small class="rcsid">$MirOS: www/content/bWFpbg__.inc,v 1.48 2006/04/12 12:01:16 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bWFpbg__.inc,v 1.49 2006/04/12 18:02:11 tg Exp $</small>
 <h1>MirBSD &nbsp; MirLinux &nbsp; MirPorts &nbsp; &mdash; &nbsp; Main Page</h1>
 <h2>Welcome to the MirOS Project!</h2>
 <p>This project is driven by a small number of people, that's why this
@@ -23,6 +23,8 @@
  in order to prevent abuse of our name and provide integrity of distfiles.</p>
 <p>Go to <a href="/?news">the main news page</a>.</p>
 <h3 style="color:red;">Latest Releases</h3>
+<p>MERCHANDISING: April 20th, 2006: The AllBSD.de project will be offering
+ combined MirOS Setup/Live CDs at Linuxtag 2006.</p>
 <p>CURRENT: April 12th, 2006: #8-current snapshot available via our <a
  href="http://f.scarywater.net/miros/">BitTorrent</a> tracker (ISO 9660,
  combined Live- and Installation CD).</p>

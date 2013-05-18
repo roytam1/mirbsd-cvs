@@ -1,12 +1,12 @@
 <!-- PageID: licence -->
-<small class="rcsid">$MirOS: www/content/bGljZW5jZQ__.inc,v 1.5 2006/01/24 22:31:44 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bGljZW5jZQ__.inc,v 1.6 2006/01/27 00:14:29 tg Exp $</small>
 <h1>The MirOS Licence Template</h1>
 
-<pre>/* &#36;MirOS: src/share/misc/licence.template,v 1.6 2006/01/24 22:24:02 tg Rel $ */
+<pre>/* &#36;MirOS: src/share/misc/licence.template,v 1.7 2006/04/09 22:08:49 tg Rel $ */
 
 /*-
  * Copyright (c) year, year, year...
- *	First M. Last &lt;user@host.domain&gt;
+ *      First M. Last &lt;user@host.domain&gt;
  *
  * Licensee is hereby permitted to deal in this work without restric-
  * tion, including unlimited rights to use, publicly perform, modify,
@@ -41,9 +41,9 @@
  *
  * All advertising materials mentioning features or use of this soft-
  * ware must display the following acknowledgement:
- *	This product includes (material|software) (provided by|devel-
- *	oped (at|?(or owned )by|under|for?( use (in|with)))) &lt;NAME&gt;?(
- *	?, and (its|their|by other) contributors)?( (for|by) &lt;NAME&gt;).
+ *      This product includes (material|software) (provided by|devel-
+ *      oped (at|?(or owned )by|under|for?( use (in|with)))) &lt;NAME&gt;?(
+ *      ?, and (its|their|by other) contributors)?( (for|by) &lt;NAME&gt;).
  *
  * RATIONALE:
  * This template contains the preferred licence for any work (such as
@@ -66,8 +66,8 @@
  *
  * We believe you are not liable for code inserted which is intellec-
  * tual property of third parties, if you were not aware of the fact,
- * and act appropriately as soon as you become aware of this problem,
- * and seek a an amicable solution for all parties.
+ * act appropriately as soon as you become aware of this problem, and
+ * seek a an amicable solution for all parties.
  *
  * REFERENCES:
  * <a href="#rf1" id="fn1">[1]</a> http://www.opensource.org/docs/definition_plain.php

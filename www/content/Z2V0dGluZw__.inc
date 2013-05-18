@@ -1,5 +1,5 @@
 <!-- PageID: getting -->
-<small class="rcsid">$MirOS: www/content/Z2V0dGluZw__.inc,v 1.10 2006/01/27 00:54:10 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/Z2V0dGluZw__.inc,v 1.11 2006/03/19 21:23:19 tg Exp $</small>
 <h1>How to get MirOS</h1>
 
 <h3>Introduction</h3>
@@ -44,7 +44,7 @@
 <h4>Doing an online installation</h4>
 <p>Currently, you must set the installation method to <tt>HTTP</tt>, the
  server to <tt>www.mirbsd.org</tt> and the path to
- <tt>MirOS/v8/i386</tt> <!-- (or <tt>MirOS/v7/bsd/sparc</tt>) -->,
+ <tt>MirOS/v8/i386</tt> (or <tt>MirOS/v7/bsd/sparc</tt>),
  with neither a slash before nor after the pathname.</p>
 
 <p>All files which belong to a release of MirOS are
@@ -99,6 +99,16 @@
  accumulated power of 1-4 KiB/sec upstream entities already gives our
  users a decent downstream. <strong>Please leave your downloaders open
  for another 2-3 weeks after downloading MirOS.</strong> Thanks.</p>
+
+<h4>Live CD</h4>
+<p>Starting April 21th, all snapshots will be published in the form
+ of combined Installation / Live CDs (these are automatically built
+ during the normal distribution / release generation process). The
+ CDs contain the development snapshot in /v8/i386/ as usual and are
+ bootable from CD-R(W) or after dd(1)ing them onto /dev/rwd0c (or
+ /dev/hda under GNU/Linux) &ndash; this applies to the &quot;Mini-ISO&quot;
+ <tt>cdrom8.iso</tt> as well. (Sadly we cannot (yet) do this with
+ a CD which is dual-bootable with MirOS/sparc.)</p>
 
 <h1>Other ways to retrieve MirOS</h1>
 <p>You might want to check out our AnonCVS and CVSweb pages listed in the
