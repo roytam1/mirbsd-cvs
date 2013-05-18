@@ -1,9 +1,8 @@
-mws_putheader '$MirOS: www/src/clog11.hts,v 1.5 2008/05/17 12:01:51 tg Exp $'
-#-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname clog/11 "Changelog for MirOS #11"
+mws_putheader '$MirOS: www/src/clog11.hts,v 1.6 2008/05/17 19:13:40 tg Exp $'
 mws_content <<'EOF'
 <h1>Changes in MirOS #10-current</h1>
 <p>Only changes to the base system, gcc, X11, and infrastructure for MirPorts

@@ -1,9 +1,8 @@
-mws_putheader '$MirOS: www/src/ann-10.hts,v 1.8 2008/03/24 19:59:49 tg Exp $'
-#-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname announcements/10 "MirOS #10 Release Announcement"
+mws_putheader '$MirOS: www/src/ann-10.hts,v 1.9 2008/04/30 18:02:51 tg Exp $'
 mws_content <<'EOF'
 <h1>MirOS BSD #10 (MirOS &#958;) Release Notes</h1>
 

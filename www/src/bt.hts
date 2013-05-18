@@ -1,9 +1,8 @@
-mws_putheader '$MirOS: www/src/bt.hts,v 1.1 2008/03/15 23:41:49 tg Exp $'
-#-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname bt 'BitTorrent information'
+mws_putheader '$MirOS: www/src/bt.hts,v 1.2 2008/05/14 21:43:32 tg Exp $'
 mws_content <<'EOF'
 <!-- http://www.mirbsd.org/bt.htm#id -->
 <h1>BitTorrent information</h1>
