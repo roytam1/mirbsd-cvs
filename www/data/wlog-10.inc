@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.370 2011/10/16 01:15:19 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.371 2011/10/24 20:26:10 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -8732,4 +8732,43 @@ Tag: debian event fun
  some time. Benny is importing weird stuff from TNF for better pkgsrc®
  support, so there <em>is</em> activity. Just we’ve got dayjobs and a
  life… and mksh(1) still rocks (pdksh got orphaned in Debian today).</p>
+----
+Date: 29.10.2011 20:57
+Author: tg@
+Title: Geocaching-Literaturverlosung in Franken
+Tag: geocache
+Language: de-DE-1901
+
+<p>Es gibt eine Literaturverlosung im Themengebiet Geocaching auf <a
+ href="http://www.geocaching-franken.de/twitter-news/verlosung-es-gibt-was-zu-gewinnen-2x-outlife-geocaching-2x-geocaching-fachbuch/">dieser
+ Geocaching Franken Seite</a>. Man kann dort zwei Fachbücher „Geocaching –
+ GPS-Freizeitspaß für Abenteurer” und zwei Exemplare der Zeitschrift
+ „Out<i>life</i>“ zu ebendiesem Thema gewinnen.</p>
+<p>Nun hoffe ich natürlich, einen Gewinn zu reißen, gerade weil ich der
+ Meinung bin, dies als <strong>stolzer Opencacher</strong> (und damit
+ meine ich das <a href="http://opencaching.eu/">echte OpenCaching-Netzwerk</a>
+ und nicht den billigen, ungepflegten Garmin-Ripoff (OC.COM alias OXnnnnn),
+ der vor einiger Zeit eine feindliche Übernahme des guten Namens versucht
+ hat. Stets im Kampf gegen diese, die unseren Sport zu kommerzialisieren
+ versuchen mit Premiummitgliedschaften bei GC.COM; gekauften Anwendungen für
+ Windows®, um ihr Profi-Navi besser bedienen zu können; und dergleichen.
+ Außerdem hoffe ich, hierduch einen besseren Einstieg in die Rätselcaches,
+ die mir bisher, durch Mangel an Kontakten in der Geocacher-Stammtischrunde
+ (fühle mich dort ein wenig wie ein Windows®-Nutzer beim Linuxstammtisch…),
+ sich nicht erschlossen.</p>
+<p>Außerdem bin ich gerade, auf Basis der OC.de-Karte, an einer „MirKarte“
+ am basteln, die einfach nur eine Google-und-OSM-Karte, die auch in älteren
+ Browsern wie Opera 9 funktioniert, ist (relativ statisch, aber mit einigen
+ Features wie der supergenialen Anzeige der Koordinaten unterm Mauszeiger).
+ Bin noch nicht fertig, da ich mein ECMAscript erst auffrischen muß und auch
+ die Maps-API-Dokumentation nochmal lesen will, aber immerhin. (Außerdem mag
+ ich minimalen Code, und was ich bisher habe ist bloated. Und buggy.)</p>
+<p>Vielleicht weiß man auch meine Beiträge zu den ganzen Open Source Projekten
+ zu schätzen?</p>
+<p>(<tt>maps.geocaching.de</tt> scheint down zu sein, und weder die neue neue
+ noch die neue alte GC.COM-Karte tun im Opera… somit <em>kann</em> ich im
+ Moment sowieso, von <a href="http://www.cachewolf.de/">CacheWolf</a> und
+ Umkreissuche mal abgesehen, nur nach OC-Caches Ausschau halten.)</p>
+<p>So, dann mal Gruß nach Franken aus der Eifel. Ich werde auch den Franken,
+ die ich kenne, den GAV-Button nahelegen.</p>
 ----
