@@ -1,5 +1,5 @@
 <!-- PageID: licence -->
-<small class="rcsid">$MirOS: www/content/bGljZW5jZQ__.inc,v 1.8 2006/08/11 00:46:07 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bGljZW5jZQ__.inc,v 1.9 2006/08/11 00:57:59 tg Exp $</small>
 <h1>The MirOS Licence Template</h1>
 
 <h2>Normative</h2>
@@ -9,27 +9,26 @@
  of the file denotes its release status (Rel = adapted by MirOS team).</p>
 
 <h2>Informative, with clickable links</h2>
-<pre>/* &#36;MirOS: src/share/misc/licence.template,v 1.14 2006/08/09 19:35:23 tg Rel $ */
+<pre>/* &#36;MirOS: src/share/misc/licence.template,v 1.20 2006/12/11 21:04:56 tg Rel $ */
 
 /*-
  * Copyright (c) year, year, year, ...
  *      First M. Last &lt;user@host.domain&gt;
  *
- * Licensee is hereby permitted to deal in this work without restric-
- * tion, including unlimited rights to use, publicly perform, modify,
- * merge, distribute, sell, give away or sublicence, provided all co-
- * pyright notices above, these terms and the disclaimer are retained
- * in all redistributions or reproduced in accompanying documentation
- * or other materials provided with binary redistributions.
+ * Provided that these terms and disclaimer and all copyright notices
+ * are retained or reproduced in an accompanying document, permission
+ * is granted to deal in this work without restriction, including un-
+ * limited rights to use, publicly perform, distribute, sell, modify,
+ * merge, give away, or sublicence.
  *
- * Licensor offers the work "AS IS" and WITHOUT WARRANTY of any kind,
- * express, or implied, to the maximum extent permitted by applicable
- * law, without malicious intent or gross negligence; in no event may
- * licensor, an author or contributor be held liable for any indirect
- * or other damage, or direct damage except proven a consequence of a
- * direct error of said person and intended use of this work, loss or
- * other issues arising in any way out of its use, even if advised of
- * the possibility of such damage or existence of a defect.
+ * This work is provided "AS IS" and WITHOUT WARRANTY of any kind, to
+ * the utmost extent permitted by applicable law, neither express nor
+ * implied; without malicious intent or gross negligence. In no event
+ * may a licensor, author or contributor be held liable for indirect,
+ * direct, other damage, loss, or other issues arising in any way out
+ * of dealing in the work, even if advised of the possibility of such
+ * damage or existence of a defect, except proven that it results out
+ * of said person's immediate fault when using the work as intended.
  *-
  * <span id="manual">INSTRUCTIONS</span>:
  * To apply the template<a id="rf1" href="#fn1">[1]</a> specify the years of copyright (separated
@@ -52,14 +51,14 @@
  *      )?( and (its|their|by other) contributors)?( (for|by) $name).
  *
  * RATIONALE:
- * This template contains the preferred licence for any work (such as
- * source code, documentation, fonts, graphics, sound, etc.) added to
- * MirOS and is OSD<a id="rf2" href="#fn2">[2]</a> 1.9 and DFSG<a id="rf3" href="#fn3">[3]</a> 1.1 compliant. It's drafted as
- * equivalent of the "historic permission notice"<a id="rf4" href="#fn4">[4]</a> adapted to Euro-
- * pean law because in some (droit d'auteur) countries one can't dis-
- * claim all liability. There is no implied choice of law (MirOS uses
- * extra provision for that); the licence is GPL-compatible if adver-
- * tising clauses are not used.
+ * This licence is apt for any kind of work (such as source code, do-
+ * cumentation, fonts, graphics, sound, etc.) and the preferred terms
+ * for works added to MirOS. It has been drafted as universally usab-
+ * le equivalent of the "historic permission notice"<a id="rf2" href="#fn2">[2]</a> adapted to EU
+ * law, because in some (droit d'auteur) countries one can't disclaim
+ * all liabilities. Compliance to OSD<a id="rf3" href="#fn3">[3]</a> 1.9 and DFSG<a id="rf4" href="#fn4">[4]</a> 1.1 is safe,
+ * and GPLv2 compatibility is asserted unless advertising clauses are
+ * used or other (restrictive) text is added.
  *
  * We believe you are not liable for code inserted which is intellec-
  * tual property of third parties, if you were not aware of the fact,
@@ -68,7 +67,7 @@
  *
  * REFERENCES:
  * <a href="#rf1" id="fn1">[1]</a> also at <a href="http://mirbsd.de/MirOS-Licence">http://mirbsd.de/MirOS-Licence</a>
- * <a href="#rf2" id="fn2">[2]</a> <a href="http://www.opensource.org/docs/definition_plain.php">http://www.opensource.org/docs/definition_plain.php</a>
- * <a href="#rf3" id="fn3">[3]</a> <a href="http://www.debian.org/social_contract#guidelines">http://www.debian.org/social_contract#guidelines</a>
- * <a href="#rf4" id="fn4">[4]</a> <a href="http://www.opensource.org/licenses/historical.php">http://www.opensource.org/licenses/historical.php</a>
+ * <a href="#rf2" id="fn2">[2]</a> <a href="http://www.opensource.org/licenses/historical.php">http://www.opensource.org/licenses/historical.php</a>
+ * <a href="#rf3" id="fn3">[3]</a> <a href="http://www.opensource.org/docs/definition_plain.php">http://www.opensource.org/docs/definition_plain.php</a>
+ * <a href="#rf4" id="fn4">[4]</a> <a href="http://www.debian.org/social_contract#guidelines">http://www.debian.org/social_contract#guidelines</a>
  */</pre>
