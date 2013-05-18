@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/distrib/baselive/munge_it.sh,v 1.5 2006/08/19 01:37:50 tg Exp $
+# $MirOS: src/distrib/baselive/munge_it.sh,v 1.6 2006/08/22 21:51:40 tg Exp $
 #-
 # Copyright (c) 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -72,7 +72,7 @@ ed -s etc/ntpd.conf <<-'EOF'
 EOF
 ed -s etc/rc <<-'EOF'
 	1i
-		# $MirOS: src/distrib/baselive/munge_it.sh,v 1.5 2006/08/19 01:37:50 tg Exp $
+		# $MirOS: src/distrib/baselive/munge_it.sh,v 1.6 2006/08/22 21:51:40 tg Exp $
 	.
 	/shutdown request/ka
 	/^fi/a
@@ -114,6 +114,11 @@ ed -s etc/rc <<-'EOF'
 	%g!/etc/ttys\.gen!s!!/etc/ttys!g
 	/^#	print -n adjusting/s/^#//
 	/for now/d
+	/xdm may be started/i
+		(stats_sysadd=-livecd mksh \
+		    /usr/share/misc/bsdstats <&- 2>&1 | logger -t BSDstats) &
+
+	.
 	wq
 EOF
 ed -s etc/rc.securelevel <<-'EOF'

@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/etc/daily,v 1.8 2005/11/18 21:21:23 tg Exp $
+# $MirOS: src/etc/daily,v 1.9 2006/05/15 12:13:56 tg Exp $
 # $OpenBSD: daily,v 1.50 2005/03/17 18:16:52 millert Exp $
 # From: @(#)daily	8.2 (Berkeley) 1/25/94
 
@@ -186,4 +186,13 @@ fi
 /bin/mksh /etc/security >$OUT 2>&1
 if [[ -s $OUT ]]; then
     mail -s "$(hostname) daily insecurity output" root <$OUT
+fi
+
+# bsdstats.org stuff
+if [[ -s /usr/share/misc/bsdstats ]]; then
+	integer 'jitter=RANDOM % 600'
+	print
+	print Running BSDstats.org code... initial delay of $jitter
+	sleep $jitter
+	stats_sysadd= mksh /usr/share/misc/bsdstats
 fi

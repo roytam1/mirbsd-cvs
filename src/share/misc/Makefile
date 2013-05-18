@@ -1,4 +1,4 @@
-# $MirOS: src/share/misc/Makefile,v 1.5 2005/10/29 07:26:16 tg Exp $
+# $MirOS: src/share/misc/Makefile,v 1.6 2006/06/09 00:44:17 tg Exp $
 # $OpenBSD: Makefile,v 1.10 2004/11/19 18:18:53 deraadt Exp $
 # from: @(#)Makefile	5.13 (Berkeley) 5/7/91
 
@@ -8,6 +8,7 @@ FILES+=	acronyms
 FILES+=	airport
 FILES+=	ascii
 FILES+=	birthtoken
+FILES+=	bsdstats
 FILES+=	countrycodes
 FILES+=	eqnchar
 FILES+=	getopt
