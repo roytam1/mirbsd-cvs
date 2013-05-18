@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/stand/boot/boot.c,v 1.20 2009/02/01 10:31:13 tg Exp $	*/
+/**	$MirOS: src/sys/stand/boot/boot.c,v 1.21 2009/10/24 15:39:40 tg Exp $	*/
 /*	$OpenBSD: boot.c,v 1.36 2007/06/26 10:34:41 tom Exp $	*/
 
 /*
@@ -77,9 +77,6 @@ boot(dev_t bootdev)
 	char myconf[64];
 #endif
 
-	printf("cmd_buf (%X) on entry: size=%d len=%d content='%s'\n\n\n", (unsigned)cmd_buf, sizeof(cmd_buf), strlen(cmd_buf), cmd_buf);
-	memhexdump(cmd_buf, 0, strlen(cmd_buf) + 1);
-
 	machdep();
 
 	snprintf(prog_ident, sizeof(prog_ident),
@@ -92,6 +89,17 @@ boot(dev_t bootdev)
 	memcpy(cmd.image, bootfile, strlen(bootfile) + 1);
 
 	cmd.conf = NULL;
+	if (strlen(cmd_buf)) {
+		/* command line was passed from previous loader */
+		cmd.cmd = NULL;
+		cmd.timeout = 0;
+		doboot = 0;
+		if (docmd())
+			goto try_boot;
+		st = 0;
+		bootprompt = 1;
+		goto try_cmd;
+	}
 #ifdef IN_PXEBOOT
 	ip = bootplayer.yip;
 
@@ -142,12 +150,14 @@ boot(dev_t bootdev)
 		snprintf(cmd.path, sizeof cmd.path, "%s:%s",
 		    cmd.bootdev, cmd.image);
 
+ try_cmd:
 	while (1) {
 		/* no boot.cfg, or no boot cmd in there */
 		if (bootprompt && st <= 0)
 			do {
 				printf("boot> ");
 			} while(!getcmd());
+ try_boot:
 		st = 0;
 		bootprompt = 1;	/* allow reselect should we fail */
 
