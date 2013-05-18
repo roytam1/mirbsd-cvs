@@ -1,8 +1,8 @@
-# $MirOS: ports/graphics/gdk-pixbuf/Makefile,v 1.4 2006/02/09 09:35:53 tg Exp $
+# $MirOS: ports/graphics/gdk-pixbuf/Makefile,v 1.5 2006/02/09 11:11:45 tg Exp $
 # $OpenBSD: Makefile,v 1.30 2004/03/02 07:57:21 brad Exp $
 
-COMMENT=	"GdkPixbuf graphics library"
-COMMENT-gnome=	"GdkPixbuf graphics library (GNOME Canvas)"
+COMMENT=			GdkPixbuf graphics library
+COMMENT-gnome=			GdkPixbuf graphics library (GNOME Canvas)
 VERSION=	0.22.0
 DISTNAME=	gdk-pixbuf-${VERSION}
 PKGNAME-gnome=	gdk-pixbuf-gnome-${VERSION}-0

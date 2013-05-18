@@ -1,8 +1,8 @@
-# $MirOS: ports/security/amavisd-new/Makefile,v 1.1.7.1 2005/03/18 15:51:16 tg Exp $
+# $MirOS: ports/security/amavisd-new/Makefile,v 1.2 2006/01/01 05:25:30 tg Exp $
 
 BROKEN=			this one uses _foo users but mailnews/amavisd-news is newer - why 2 ports?
 
-COMMENT=		"interface between mailer and content checkers"
+COMMENT=			interface between mailer and content checkers
 VERSION=		20030616-p6
 DISTNAME=		amavisd-new-${VERSION}
 PKGNAME=		amavisd-new-${VERSION:S/-/./}-0

@@ -1,7 +1,7 @@
 # $OpenBSD: Makefile,v 1.29 2002/07/14 02:07:53 brad Exp $
 # $FreeBSD: Makefile,v 1.3 1999/04/29 15:32:56 rse Exp $
 
-COMMENT=	"GNU Portable Shell Tool"
+COMMENT=			GNU Portable Shell Tool
 
 DISTNAME=	shtool-1.6.1
 CATEGORIES=	devel

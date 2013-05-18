@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.12 2002/10/28 01:38:46 naddy Exp $ 
 
-COMMENT=	"client program to help playing muds"
+COMMENT=			client program to help playing muds
 
 DISTNAME=       tintin++v1.5pl6
 PKGNAME=	tintin-1.5.6-0

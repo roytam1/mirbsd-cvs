@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.5 2004/04/09 06:42:42 jolan Exp $
 
-COMMENT=	"spell checker designed to eventually replace Ispell"
+COMMENT=			spell checker designed to eventually replace Ispell
 DISTNAME=	aspell-0.50.5
 DICT=		en-0.51-1
 DIST_SUBDIR=	aspell

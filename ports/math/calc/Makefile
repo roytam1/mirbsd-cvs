@@ -1,7 +1,7 @@
 # $OpenBSD: Makefile,v 1.14 2004/02/25 01:35:49 naddy Exp $
 #
 
-COMMENT=	"C-style arbitrary precision calculator"
+COMMENT=			C-style arbitrary precision calculator
 
 DISTNAME=	calc-2.11.7
 CATEGORIES=	math

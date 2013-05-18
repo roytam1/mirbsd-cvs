@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.18 2003/12/08 04:05:28 margarida Exp $
 
-COMMENT=	"simple WATCHdog log filtering program"
+COMMENT=			simple WATCHdog log filtering program
 
 DISTNAME=	swatch-3.0.8
 CATEGORIES=	security sysutils

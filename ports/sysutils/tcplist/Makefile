@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.17 2002/10/28 19:53:44 naddy Exp $
 
-COMMENT=	"list tcp connections to/from the local machine"
+COMMENT=			list tcp connections to/from the local machine
 
 DISTNAME=	tcplist-2.2
 CATEGORIES=	sysutils net

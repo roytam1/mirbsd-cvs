@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.22 2002/08/26 02:58:36 pvalchev Exp $
 
-COMMENT=	"GNU utility to indent C source files"
+COMMENT=			GNU utility to indent C source files
 
 DISTNAME=	indent-2.2.8
 PKGNAME=	g${DISTNAME}-0

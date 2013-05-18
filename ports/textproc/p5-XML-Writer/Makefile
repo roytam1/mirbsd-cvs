@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.9 2004/04/11 15:19:08 brad Exp $
 
-COMMENT=	"perl extension for writing XML documents"
+COMMENT=			perl extension for writing XML documents
 
 DISTNAME=	XML-Writer-0.500
 PKGNAME=	p5-${DISTNAME}-0

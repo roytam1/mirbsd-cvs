@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.1.1.1 2004/05/19 09:23:30 sturm Exp $
 
-COMMENT=	"base class to treat unhandled method calls as errors"
+COMMENT=			base class to treat unhandled method calls as errors
 
 DISTNAME=	Class-WhiteHole-0.04
 PKGNAME=	p5-${DISTNAME}-0

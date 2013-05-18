@@ -1,6 +1,6 @@
-# $MirOS$
+# $MirOS: ports/net/sendfile/Makefile,v 1.1.7.1 2005/03/18 15:49:04 tg Exp $
 
-COMMENT=		"tool for asynchronous sending of files"
+COMMENT=			tool for asynchronous sending of files
 VER=			20010424
 DISTNAME=		sendfile-${VER}
 WRKDIST=        	${WRKDIR}/sendfile-2.1a

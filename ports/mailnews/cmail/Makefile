@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.4 2002/10/30 04:13:36 pvalchev Exp $
 
-COMMENT=	"simple mail counter"
+COMMENT=			simple mail counter
 
 DISTNAME=	cmail-3.1
 CATEGORIES=	mail

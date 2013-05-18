@@ -1,7 +1,7 @@
 # $OpenBSD: Makefile,v 1.12 2002/12/29 20:19:10 fgsch Exp $
 # Original from: Ejovi Nuwere <ejovi@ejovi.net>
 
-COMMENT=	"print inode contents"
+COMMENT=			print inode contents
 
 DISTNAME=	stat-1.3
 CATEGORIES=	sysutils

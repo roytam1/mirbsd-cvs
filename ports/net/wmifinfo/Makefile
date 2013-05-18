@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.2 2002/12/29 21:14:12 fgsch Exp $
 
-COMMENT=		"wm-dockapp; shows basic network info"
+COMMENT=			wm-dockapp; shows basic network info
 
 DISTNAME=		wmifinfo-0.06
 CATEGORIES=		net x11 x11/windowmaker

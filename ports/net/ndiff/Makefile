@@ -1,6 +1,6 @@
 #   $OpenBSD: Makefile,v 1.5 2002/12/29 21:14:11 fgsch Exp $
 
-COMMENT=	"compare two nmap scans and outputs the differences"
+COMMENT=			compare two nmap scans and outputs the differences
 
 DISTNAME=	NDiff-0.04
 PKGNAME=	${DISTNAME:L}-0

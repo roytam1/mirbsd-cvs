@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.12 2003/10/08 17:13:19 sturm Exp $
 
-COMMENT=	"snowy and Santa-y desktop"
+COMMENT=			snowy and Santa-y desktop
 
 DISTNAME=	xsnow-1.40
 CATEGORIES=	x11

@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.6 2004/01/30 08:39:49 xsa Exp $
 
-COMMENT=	"content management system built on top of Zope"
+COMMENT=			content management system built on top of Zope
 
 VERSION=	1.0.5
 DISTNAME=	CMFPlone${VERSION}

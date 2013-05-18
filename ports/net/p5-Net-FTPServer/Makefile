@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.1.1.1 2004/01/15 14:21:00 avsm Exp $
 
-COMMENT=	"secure, extensible and configurable Perl FTPd"
+COMMENT=			secure, extensible and configurable Perl FTPd
 
 V=		1.119
 DISTNAME=	Net-FTPServer-${V}

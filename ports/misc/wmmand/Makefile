@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.7 2003/03/31 14:27:18 sturm Exp $
 
-COMMENT=		'wm-dockapp; mandelbrot explorer'
+COMMENT=			wm-dockapp; mandelbrot explorer
 
 DISTNAME=		wmMand-1.0
 PKGNAME=		${DISTNAME:L}-0

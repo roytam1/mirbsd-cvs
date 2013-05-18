@@ -1,7 +1,7 @@
-# $MirOS: ports/net/tcpdpriv/Makefile,v 1.1.7.1 2005/03/18 15:49:07 tg Exp $
+# $MirOS: ports/net/tcpdpriv/Makefile,v 1.2 2006/02/09 11:15:09 tg Exp $
 # $OpenBSD: Makefile,v 1.1.1.1 2003/04/13 10:00:41 sturm Exp $
 
-COMMENT=	"removes sensitive information from a tcpdump -w file"
+COMMENT=			removes sensitive information from a tcpdump -w file
 
 DISTNAME=	tcpdpriv-1.1.10
 CATEGORIES=	net security

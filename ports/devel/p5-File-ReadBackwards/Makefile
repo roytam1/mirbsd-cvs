@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.3 2004/02/11 18:15:20 sturm Exp $
 
-COMMENT=	"module to read a file starting at the end"
+COMMENT=			module to read a file starting at the end
 
 DISTNAME=	File-ReadBackwards-1.02
 PKGNAME=	p5-${DISTNAME}-0

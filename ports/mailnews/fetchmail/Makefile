@@ -1,7 +1,7 @@
-# $MirOS: ports/mailnews/fetchmail/Makefile,v 1.2 2005/12/15 18:50:23 tg Exp $
+# $MirOS: ports/mailnews/fetchmail/Makefile,v 1.3 2006/02/09 09:36:01 tg Exp $
 # $OpenBSD: Makefile,v 1.104 2005/10/27 21:58:51 bernd Exp $
 
-COMMENT=		"mail retrieval utility for POP2, POP3, IMAP, and more"
+COMMENT=			mail retrieval utility for POP2, POP3, IMAP, and more
 
 DISTNAME=		fetchmail-6.2.5.2
 CATEGORIES=		mail

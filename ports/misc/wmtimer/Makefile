@@ -1,7 +1,7 @@
-# $MirOS$
+# $MirOS: ports/misc/wmtimer/Makefile,v 1.2 2005/03/30 18:13:37 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.18 2003/12/19 12:22:41 wilfried Exp $
 
-COMMENT=		'wm-dockapp; alarm clock'
+COMMENT=			wm-dockapp; alarm clock
 
 DISTNAME=		wmtimer-2.9
 CATEGORIES=		misc x11 x11/windowmaker

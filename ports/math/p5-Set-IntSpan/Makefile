@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.5 2002/12/29 19:43:50 fgsch Exp $
 
-COMMENT=	"manage sets of integers"
+COMMENT=			manage sets of integers
 
 DISTNAME=	Set-IntSpan-1.07
 PKGNAME=	p5-${DISTNAME}-0

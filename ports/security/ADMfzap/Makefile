@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.9 2003/12/31 02:42:39 brad Exp $
 
-COMMENT=		"connect() and bind() wrapper to evade packet filtering"
+COMMENT=			connect() and bind() wrapper to evade packet filtering
 
 # uses LD_PRELOAD
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}

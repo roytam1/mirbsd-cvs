@@ -2,7 +2,7 @@
 
 ONLY_FOR_PLATFORM=	OpenBSD:*:i386 MirBSD:*:i386
 
-COMMENT=	"Creative Labs NOMAD II MG IO"
+COMMENT=			Creative Labs NOMAD II MG IO
 DISTNAME=	nomadio-0.7
 CATEGORIES=	audio
 

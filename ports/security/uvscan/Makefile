@@ -1,11 +1,11 @@
-# $MirOS: ports/security/uvscan/Makefile,v 1.2 2005/04/10 21:51:10 tg Exp $
+# $MirOS: ports/security/uvscan/Makefile,v 1.4 2005/07/07 21:26:27 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.14 2004/01/14 19:20:39 jakob Exp $
 # $NetBSD: Makefile,v 1.1.1.1 2000/06/05 12:01:24 rh Exp $
 
 ONLY_FOR_PLATFORM=	OpenBSD:*:i386 MirBSD:*:i386
 EMUL=			linux
 
-COMMENT=	"evaluation version of a DOS/Windows file virus scanner"
+COMMENT=			evaluation version of a DOS/Windows file virus scanner
 VERSION=	4.16.0
 DISTNAME=	vlnx416e
 PKGNAME=	uvscan-${VERSION}-0

@@ -1,6 +1,6 @@
-# $MirOS: ports/www/gtk-webcore/nrcit/Makefile,v 1.1 2005/06/14 16:49:29 bsiegert Exp $
+# $MirOS: ports/www/gtk-webcore/nrcit/Makefile,v 1.2 2006/02/09 11:15:34 tg Exp $
 
-COMMENT=		"Gtk-Webcore: embeddable web component"
+COMMENT=			Gtk-Webcore: embeddable web component
 DISTNAME=		osb-nrcit-${VERSION}
 
 LIB_DEPENDS+=		glib-2.0.400.0::devel/glib

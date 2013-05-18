@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.10 2002/10/30 04:46:31 pvalchev Exp $
 
-COMMENT=	"cryptographic cipher block chaining mode"
+COMMENT=			cryptographic cipher block chaining mode
 
 VERSION=	2.08
 DISTNAME=	Crypt-CBC-${VERSION}

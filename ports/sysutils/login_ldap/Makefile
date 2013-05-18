@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.4 2003/09/23 15:29:41 sturm Exp $
 
-COMMENT=	"provide ldap authentication type"
+COMMENT=			provide ldap authentication type
 
 DISTNAME=	login_ldap-3.3
 CATEGORIES=    	sysutils	

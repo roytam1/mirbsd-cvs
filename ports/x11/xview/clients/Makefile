@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.18 2003/10/08 17:13:19 sturm Exp $
 
-COMMENT=	"OpenLook applications and man pages"
+COMMENT=			OpenLook applications and man pages
 
 PKGNAME=	xview-clients-${XVIEW_VERSION}-0
 MASTER_SITES=	${MASTER_SITE_LOCAL}

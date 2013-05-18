@@ -1,8 +1,8 @@
-# $MirOS$
+# $MirOS: ports/net/pptp/Makefile,v 1.2 2005/07/07 21:24:51 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.8 2003/01/24 13:12:38 reinhard Exp $
 # $NetBSD: Makefile,v 1.1.1.1 2000/04/10 01:14:01 jtk Exp $
 
-COMMENT=		'PPTP client package for Microsoft VPN servers'
+COMMENT=			PPTP client package for Microsoft VPN servers
 VERSION=		1.5.0
 DISTNAME=		pptp-linux-${VERSION}
 PKGNAME=		pptp-${VERSION}-0

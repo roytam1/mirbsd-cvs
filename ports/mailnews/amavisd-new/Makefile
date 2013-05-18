@@ -1,9 +1,9 @@
-# $MirOS$
+# $MirOS: ports/mailnews/amavisd-new/Makefile,v 1.2 2005/07/07 21:22:39 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.1.1.1 2004/04/23 15:24:54 robert Exp $
 
 BROKEN=			security/amavisd is older but has _foo users - why do we have 2 ports?
 
-COMMENT=		"interface between mailer MTA and content checkers"
+COMMENT=			interface between mailer MTA and content checkers
 V=			20030616
 VPATCH=			p9
 DISTNAME=		amavisd-new-${V}-${VPATCH}

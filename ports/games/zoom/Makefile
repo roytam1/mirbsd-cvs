@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.7 2004/05/07 15:28:31 naddy Exp $
 
-COMMENT=		"Z-code interpreter for X11"
+COMMENT=			Z-code interpreter for X11
 
 DISTNAME=		zoom-1.0.1
 CATEGORIES=     	games

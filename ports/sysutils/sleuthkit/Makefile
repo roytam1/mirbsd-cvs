@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.2 2003/12/08 04:45:53 margarida Exp $
 
-COMMENT=		"forensic toolkit based on TCT"
+COMMENT=			forensic toolkit based on TCT
 
 VERSION=		1.66
 DISTNAME=		sleuthkit-${VERSION}

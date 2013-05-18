@@ -1,7 +1,7 @@
 # $OpenBSD: Makefile,v 1.16 2002/12/29 21:14:11 fgsch Exp $
 # Original from: Ejovi Nuwere <ejovi@ejovi.net>
 
-COMMENT=	"routing protocol daemon"
+COMMENT=			routing protocol daemon
 
 DISTNAME=	gated-3-6
 PKGNAME=	gated-3.6-0

@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.13 2002/10/27 21:07:54 naddy Exp $
 
-COMMENT=	"super simple digital timer for X11"
+COMMENT=			super simple digital timer for X11
 
 DISTNAME=	xtimer-8089
 PKGNAME=	xtimer-0.8089-0

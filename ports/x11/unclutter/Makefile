@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.7 2003/10/08 17:13:18 sturm Exp $
 
-COMMENT=	"hides idle X11 cursor"
+COMMENT=			hides idle X11 cursor
 
 DISTNAME=	unclutter-8
 CATEGORIES=	x11

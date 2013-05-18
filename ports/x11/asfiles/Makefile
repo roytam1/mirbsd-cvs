@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.7 2003/10/08 17:13:15 sturm Exp $
 
-COMMENT=		'X11 file manager. Dockable in Window Maker'
+COMMENT=			X11 file manager. Dockable in Window Maker
 
 DISTNAME=		ASFiles-1.0
 PKGNAME=		${DISTNAME:L}-0

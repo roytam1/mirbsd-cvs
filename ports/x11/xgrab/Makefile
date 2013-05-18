@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.19 2003/10/08 17:13:18 sturm Exp $
 
-COMMENT=	"X11 image grabber"
+COMMENT=			X11 image grabber
 
 DISTNAME=	xgrabsc.2_41
 PKGNAME=	xgrab-2.41-0

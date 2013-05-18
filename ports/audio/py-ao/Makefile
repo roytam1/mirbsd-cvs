@@ -1,7 +1,7 @@
 # $OpenBSD: Makefile,v 1.1.1.1 2004/02/03 22:07:40 xsa Exp $
 
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
-COMMENT=	"Python wrapper module for the ao library"
+COMMENT=			Python wrapper module for the ao library
 DISTNAME=	pyao-0.82
 PKGNAME=	${DISTNAME:S/py/py-/}-0
 CATEGORIES=	audio

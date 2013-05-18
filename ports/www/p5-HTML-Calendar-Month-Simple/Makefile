@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.1.1.1 2004/04/11 12:07:22 sturm Exp $
 
-COMMENT=	"Simple HTML Calendars"
+COMMENT=			Simple HTML Calendars
 
 DISTNAME=	HTML-CalendarMonthSimple-1.22
 PKGNAME=	p5-${DISTNAME}-0

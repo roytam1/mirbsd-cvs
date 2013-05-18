@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.6 2003/11/15 15:12:54 sturm Exp $
 
-COMMENT=	"perl module for validating XML"
+COMMENT=			perl module for validating XML
 
 DISTNAME=	XML-Checker-0.13
 PKGNAME=	p5-${DISTNAME}-0

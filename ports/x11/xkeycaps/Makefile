@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.7 2003/10/08 17:13:18 sturm Exp $
 
-COMMENT=	"keymap editor for the X window system"
+COMMENT=			keymap editor for the X window system
 
 DISTNAME=	xkeycaps-2.46
 CATEGORIES=	x11 sysutils

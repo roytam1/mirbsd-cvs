@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.2 2003/08/17 14:25:28 sturm Exp $
 
-COMMENT=		"flexible and small GTK+ editor"
+COMMENT=			flexible and small GTK+ editor
 
 VERSION=		1.54
 DISTNAME=		scite${VERSION:S/.//}

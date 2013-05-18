@@ -1,7 +1,7 @@
-# $MirOS$
+# $MirOS: ports/net/mbrowse/Makefile,v 1.3 2005/03/30 18:13:40 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.1.1.1 2003/06/22 22:34:57 jcs Exp $
 
-COMMENT=	"graphical MIB browser"
+COMMENT=			graphical MIB browser
 
 DISTNAME=	mbrowse-0.3.1
 CATEGORIES=	net

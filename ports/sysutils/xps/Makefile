@@ -10,7 +10,7 @@ PERMIT_PACKAGE_FTP=     Yes
 PERMIT_DISTFILES_CDROM= Yes
 PERMIT_DISTFILES_FTP=   Yes
 
-COMMENT=	"graphically display and update dynamically the process tree"
+COMMENT=			graphically display and update dynamically the process tree
 
 HOMEPAGE=       http://www.netwinder.org/~rocky/xps-home/
 

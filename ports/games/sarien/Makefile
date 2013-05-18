@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.5 2003/03/31 13:07:46 sturm Exp $
 
-COMMENT=		"interpreter for old Sierra AGI games"
+COMMENT=			interpreter for old Sierra AGI games
 
 DISTNAME=		sarien-0.7.0
 CATEGORIES=		games emulators

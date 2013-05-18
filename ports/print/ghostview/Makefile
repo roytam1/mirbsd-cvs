@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.15 2003/06/04 01:17:50 margarida Exp $
 
-COMMENT=	"X11 front-end for ghostscript"
+COMMENT=			X11 front-end for ghostscript
 
 DISTNAME=	ghostview-1.5
 PKGNAME=	${DISTNAME}-1

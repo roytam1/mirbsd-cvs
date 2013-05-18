@@ -1,7 +1,7 @@
-# $MirOS: ports/net/bitlbee/Makefile,v 1.3 2005/07/06 18:06:10 bsiegert Exp $
+# $MirOS: ports/net/bitlbee/Makefile,v 1.4 2005/12/27 23:43:44 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.10 2004/02/01 07:12:39 pvalchev Exp $
 
-COMMENT=		"IRC proxy to connect to ICQ, AOL, MSN and Jabber"
+COMMENT=			IRC proxy to connect to ICQ, AOL, MSN and Jabber
 DISTNAME=		bitlbee-1.0
 CATEGORIES=		net
 HOMEPAGE=		http://bitlbee.org

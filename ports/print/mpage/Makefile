@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.21 2004/05/04 04:49:51 jolan Exp $
 
-COMMENT=	"print multiple pages per sheet on PostScript printer"
+COMMENT=			print multiple pages per sheet on PostScript printer
 
 DISTNAME=	mpage-2.5.3
 CATEGORIES=	print

@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.5 2003/06/22 17:08:08 sturm Exp $
 
-COMMENT=	"Cisco AAA protocol daemon"
+COMMENT=			Cisco AAA protocol daemon
 
 DISTNAME=	tac_plus.F4.0.4.alpha
 PKGNAME=	tacacs+-4.0.4a-1

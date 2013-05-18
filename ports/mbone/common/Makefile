@@ -1,7 +1,7 @@
-# $MirOS$
+# $MirOS: ports/mbone/common/Makefile,v 1.1.7.1 2005/03/18 15:50:14 tg Exp $
 # $OpenBSD: Makefile,v 1.20 2002/12/23 00:37:51 pvalchev Exp $
 
-COMMENT=	"common library functions used by the UCL multicast utils"
+COMMENT=			common library functions used by the UCL multicast utils
 
 DISTNAME=	common-1.0.6
 CATEGORIES=	mbone

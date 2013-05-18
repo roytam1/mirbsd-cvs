@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.21 2004/05/07 15:28:32 naddy Exp $
 
-COMMENT=	"scan C/C++ source code for security problems"
+COMMENT=			scan C/C++ source code for security problems
 
 DISTNAME=	its4-1.1.1
 CATEGORIES=	security

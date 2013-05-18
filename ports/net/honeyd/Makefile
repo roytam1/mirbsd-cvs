@@ -1,8 +1,8 @@
-# $MirOS: ports/net/honeyd/Makefile,v 1.1.7.1 2005/03/18 15:48:19 tg Exp $
+# $MirOS: ports/net/honeyd/Makefile,v 1.2 2005/04/10 21:50:38 tg Exp $
 # $OpenBSD: Makefile,v 1.6 2003/12/31 08:44:49 pvalchev Exp $
 
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
-COMMENT=	"utility to create virtual hosts on a network"
+COMMENT=			utility to create virtual hosts on a network
 DISTNAME=	honeyd-0.7a
 CATEGORIES=	net
 MASTER_SITES=	${HOMEPAGE} \

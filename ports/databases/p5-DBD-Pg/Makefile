@@ -2,7 +2,7 @@
 
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
-COMMENT=	"access to PostgreSQL databases through the DBI"
+COMMENT=			access to PostgreSQL databases through the DBI
 
 VERSION=	1.32
 DISTNAME=	DBD-Pg-${VERSION}

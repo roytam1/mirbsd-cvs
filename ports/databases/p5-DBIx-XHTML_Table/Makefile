@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.16 2003/06/14 10:08:57 shell Exp $
 
-COMMENT=	"create HTML table from sql queries"
+COMMENT=			create HTML table from sql queries
 
 VERSION=	1.22
 DISTNAME=	DBIx-XHTML_Table-${VERSION}

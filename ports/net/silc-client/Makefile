@@ -1,9 +1,9 @@
-# $MirOS: ports/net/silc-client/Makefile,v 1.3 2005/04/10 21:50:49 tg Exp $
+# $MirOS: ports/net/silc-client/Makefile,v 1.4 2006/02/01 16:28:03 tg Exp $
 # $OpenBSD: Makefile,v 1.29 2004/02/19 23:07:27 brad Exp $
 
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
-COMMENT=	"Secure Internet Live Conferencing (SILC) client"
+COMMENT=			Secure Internet Live Conferencing (SILC) client
 DISTNAME=	silc-client-1.0.1
 CATEGORIES=	net
 

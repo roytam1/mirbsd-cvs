@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.14 2002/12/23 00:37:50 pvalchev Exp $
 
-COMMENT=	"encode/decode binary to printable ASCII"
+COMMENT=			encode/decode binary to printable ASCII
 
 DISTNAME=	btoa-5.2
 PKGNAME=	btoa-5.2.1-0

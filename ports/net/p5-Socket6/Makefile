@@ -1,7 +1,7 @@
-# $MirOS: ports/net/p5-Socket6/Makefile,v 1.2 2005/07/07 21:24:46 bsiegert Exp $
+# $MirOS: ports/net/p5-Socket6/Makefile,v 1.3 2005/08/21 11:49:47 tg Exp $
 # $NetBSD: Makefile,v 1.12 2003/07/21 17:11:05 martti Exp $
 
-COMMENT=		"module to support getaddrinfo() and getnameinfo()"
+COMMENT=			module to support getaddrinfo() and getnameinfo()
 DISTNAME=		Socket6-0.17
 PKGNAME=		p5-${DISTNAME}-0
 CATEGORIES=		net perl5

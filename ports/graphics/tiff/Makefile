@@ -1,8 +1,8 @@
-# $MirOS: ports/graphics/tiff/Makefile,v 1.9 2005/09/22 12:51:47 bsiegert Exp $
+# $MirOS: ports/graphics/tiff/Makefile,v 1.10 2006/02/09 09:35:57 tg Exp $
 # $OpenBSD: Makefile,v 1.29 2004/05/18 23:35:35 brad Exp $
 
-COMMENT=		"library routines for working with TIFF images"
-COMMENT-cxx=		"library routines for working with TIFF images, C++ API"
+COMMENT=			library routines for working with TIFF images
+COMMENT-cxx=			library routines for working with TIFF images, C++ API
 DESCR=			${PKGDIR}/DESCR
 V=			3.7.4
 _V=			${V:R:S/.//}.${V:E}

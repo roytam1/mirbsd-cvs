@@ -1,7 +1,7 @@
-# $MirOS$
+# $MirOS: ports/plan9/9wm/Makefile,v 1.3 2006/08/12 13:54:45 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.19 2002/10/28 02:13:21 naddy Exp $
 
-COMMENT=	"8 1/2-like Window Manager for X11"
+COMMENT=			8 1/2-like Window Manager for X11
 
 PKGNAME=	9wm-1.2pre-1
 DISTNAME=	pre-9wm-1.2

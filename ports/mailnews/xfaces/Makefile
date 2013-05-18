@@ -1,7 +1,7 @@
-# $MirOS$
+# $MirOS: ports/mailnews/xfaces/Makefile,v 1.1.7.1 2005/03/18 15:49:59 tg Exp $
 # $OpenBSD: Makefile,v 1.21 2002/10/27 17:21:40 naddy Exp $
 
-COMMENT=	"mail image display for X11"
+COMMENT=			mail image display for X11
 DISTNAME=	xfaces-3.3
 CATEGORIES=	mail
 

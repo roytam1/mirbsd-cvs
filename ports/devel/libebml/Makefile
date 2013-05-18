@@ -1,6 +1,6 @@
-# $MirOS: ports/devel/libebml/Makefile,v 1.1.7.1 2005/03/18 15:44:50 tg Exp $
+# $MirOS: ports/devel/libebml/Makefile,v 1.2 2005/08/21 11:48:33 tg Exp $
 
-COMMENT=		"access library for the EBML format"
+COMMENT=			access library for the EBML format
 CATEGORIES=		devel graphics
 DISTNAME=		libebml-0.7.0
 RESPONSIBLE=		Thorsten Glaser <tg@66h.42h.de>

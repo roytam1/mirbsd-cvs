@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.6 2004/05/27 18:36:34 sturm Exp $
 
-COMMENT=	"sql parsing and processing"
+COMMENT=			sql parsing and processing
 
 DISTNAME=	SQL-Statement-1.09
 PKGNAME=	p5-${DISTNAME}-0

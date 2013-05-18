@@ -1,7 +1,7 @@
-# $MirOS$
+# $MirOS: ports/mailnews/metamail/Makefile,v 1.2 2005/07/07 21:22:50 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.19 2004/02/28 20:19:48 naddy Exp $
 
-COMMENT=	"MIME implementation"
+COMMENT=			MIME implementation
 
 DISTNAME=	mm2.7
 PKGNAME=	metamail-2.7-1

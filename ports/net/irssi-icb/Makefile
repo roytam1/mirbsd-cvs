@@ -2,7 +2,7 @@
 
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
-COMMENT=	"ICB plugin for irssi"
+COMMENT=			ICB plugin for irssi
 
 DISTNAME=	irssi-icb-0.14
 MASTER_SITES=   http://www.irssi.org/files/plugins/icb/ \

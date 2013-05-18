@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.10 2004/02/25 02:35:16 naddy Exp $
 
-COMMENT=	"provides UTF-8 locale support"
+COMMENT=			provides UTF-8 locale support
 
 DISTNAME=	libutf8-0.7.3
 CATEGORIES=     misc devel

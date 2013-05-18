@@ -2,7 +2,7 @@
 # $FreeBSD: Makefile,v 1.2 1998/08/19 11:28:23 jseger Exp $
 #
 
-COMMENT=	"GNU system administration tool for networks"
+COMMENT=			GNU system administration tool for networks
 
 DISTNAME=       cfengine-1.4.12
 CATEGORIES=	sysutils

@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.19 2004/01/13 21:23:37 wilfried Exp $
 
-COMMENT=	"visual mail, user and print face server"
+COMMENT=			visual mail, user and print face server
 
 DISTNAME=	faces-1.6.1
 CATEGORIES=	mail

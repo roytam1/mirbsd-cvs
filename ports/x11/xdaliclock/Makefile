@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.15 2002/10/29 19:48:59 naddy Exp $
 
-COMMENT=	"rather neat animated clock"
+COMMENT=			rather neat animated clock
 
 DISTNAME=	xdaliclock-2.18
 CATEGORIES=	x11

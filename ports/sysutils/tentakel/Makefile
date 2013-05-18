@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.4 2004/04/18 19:14:38 xsa Exp $
 
-COMMENT=	"distributed command execution"
+COMMENT=			distributed command execution
 
 DISTNAME=	tentakel-2.1.2
 CATEGORIES=	sysutils

@@ -2,7 +2,7 @@
 
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
-COMMENT=	"module to interface with the GD graphics library"
+COMMENT=			module to interface with the GD graphics library
 
 DISTNAME=	GD-1.41
 PKGNAME=	p5-${DISTNAME}-1

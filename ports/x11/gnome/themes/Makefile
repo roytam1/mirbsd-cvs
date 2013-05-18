@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.11 2004/12/15 13:57:57 alek Exp $
 
-COMMENT=		"themes collection for GNOME"
+COMMENT=			themes collection for GNOME
 
 DISTNAME=		gnome-themes-2.8.2
 CATEGORIES=		x11 x11/gnome

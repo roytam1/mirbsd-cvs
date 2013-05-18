@@ -1,7 +1,7 @@
-# $MirOS$
+# $MirOS: ports/www/nscache/Makefile,v 1.2 2005/03/30 18:13:53 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.12 2004/01/25 21:10:51 pvalchev Exp $
 
-COMMENT=	"Netscape cache browser"
+COMMENT=			Netscape cache browser
 
 DISTNAME=	nscache-0.6
 CATEGORIES=	www

@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.14 2002/12/29 20:19:10 fgsch Exp $
 
-COMMENT=	"perfect hash functions, to help write parsers"
+COMMENT=			perfect hash functions, to help write parsers
 
 DISTNAME=	gperf-2.7.2
 CATEGORIES=   	devel

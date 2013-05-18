@@ -1,7 +1,7 @@
 # $OpenBSD: Makefile,v 1.3 2004/02/04 07:39:18 sturm Exp $
 
-COMMENT=		"display the phase of the Sun on a map of the Earth"
-COMMENT-maps=		"additional maps of the Earth for sunclock"
+COMMENT=			display the phase of the Sun on a map of the Earth
+COMMENT-maps=			additional maps of the Earth for sunclock
 
 VERSION=		3.50pre1
 DISTNAME=		sunclock-${VERSION}

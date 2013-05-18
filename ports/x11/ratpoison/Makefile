@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.6 2004/02/27 17:01:53 jcs Exp $
 
-COMMENT=	"minimal wm based on GNU screen"
+COMMENT=			minimal wm based on GNU screen
 
 DISTNAME=	ratpoison-1.3.0-rc1
 PKGNAME=	ratpoison-1.3.0rc1-0

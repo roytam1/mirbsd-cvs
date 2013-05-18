@@ -1,7 +1,7 @@
-# $MirOS: ports/games/crossfire-client/Makefile,v 1.2 2005/03/30 18:13:27 bsiegert Exp $
+# $MirOS: ports/games/crossfire-client/Makefile,v 1.3 2006/02/09 11:11:36 tg Exp $
 # $OpenBSD: Makefile,v 1.12 2003/08/19 09:40:32 espie Exp $
 
-COMMENT=	"graphical networked AD&D style game"
+COMMENT=			graphical networked AD&D style game
 
 VERSION=	1.4.0
 DISTNAME=	crossfire-client-${VERSION}

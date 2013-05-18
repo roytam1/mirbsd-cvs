@@ -1,10 +1,10 @@
-# $MirOS: ports/math/graphviz/Makefile,v 1.2 2005/07/07 21:23:17 bsiegert Exp $
+# $MirOS: ports/math/graphviz/Makefile,v 1.3 2006/02/09 11:12:04 tg Exp $
 # $OpenBSD: Makefile,v 1.10 2004/03/04 01:48:02 naddy Exp $
 
 IGNORE=		"might be broken, used to use Libtool"
 
 CATEGORIES=	math devel graphics
-COMMENT=	'graph drawing software'
+COMMENT=			graph drawing software
 PKGNAME=	graphviz-1.7.6-0
 DISTFILES=	gviz176.tgz
 DISTNAME=	gv1.7.6

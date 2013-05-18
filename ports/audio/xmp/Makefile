@@ -1,7 +1,7 @@
 # $OpenBSD: Makefile,v 1.19 2003/05/18 07:40:55 naddy Exp $
 
-COMMENT=	"extended module player"
-COMMENT-xmms=	"extended module player plugin for XMMS"
+COMMENT=			extended module player
+COMMENT-xmms=			extended module player plugin for XMMS
 DISTNAME=	xmp-2.0.4
 PKGNAME-xmms=	xmms-${DISTNAME}-0
 CATEGORIES=	audio

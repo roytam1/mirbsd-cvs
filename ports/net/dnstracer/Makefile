@@ -8,7 +8,7 @@ PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
-COMMENT=	"domain name system resolution tracer"
+COMMENT=			domain name system resolution tracer
 HOMEPAGE=	http://www.mavetju.org/unix/dnstracer.php
 MASTER_SITES=	http://www.mavetju.org/download/
 

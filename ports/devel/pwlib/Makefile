@@ -1,6 +1,6 @@
-# $MirOS: ports/devel/pwlib/Makefile,v 1.1.7.1 2005/03/18 15:45:24 tg Exp $
+# $MirOS: ports/devel/pwlib/Makefile,v 1.2 2006/02/09 11:11:27 tg Exp $
 
-COMMENT=		"cross platform C++ socket and stuff library"
+COMMENT=			cross platform C++ socket and stuff library
 VERSION=		1.6.3
 DISTNAME=		pwlib-${VERSION}
 CATEGORIES=		net

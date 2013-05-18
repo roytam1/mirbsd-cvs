@@ -1,7 +1,7 @@
-# $MirOS: ports/math/galculator/Makefile,v 1.3 2006/02/09 09:36:03 tg Exp $
+# $MirOS: ports/math/galculator/Makefile,v 1.4 2006/02/09 11:12:03 tg Exp $
 # $OpenBSD: Makefile,v 1.6 2004/05/27 20:10:19 naddy Exp $
 
-COMMENT=	"GTK2-based scientific calculator"
+COMMENT=			GTK2-based scientific calculator
 
 DISTNAME=	galculator-1.2.3
 CATEGORIES=	math

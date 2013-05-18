@@ -4,10 +4,10 @@ BROKEN=			"security issues"
 
 ONLY_FOR_PLATFORM=	OpenBSD:*:i386 MirBSD:*:i386
 
-COMMENT=		"Darwin Streaming Server"
-COMMENT-admin=		"Darwin Streaming Server, Admin Interface"
-COMMENT-examples=	"Darwin Streaming Server, Example Movies"
-COMMENT-proxy=		"Darwin Streaming Proxy"
+COMMENT=			Darwin Streaming Server
+COMMENT-admin=			Darwin Streaming Server, Admin Interface
+COMMENT-examples=			Darwin Streaming Server, Example Movies
+COMMENT-proxy=			Darwin Streaming Proxy
 
 VERSION=	4.1.3
 DISTNAME=	DSS-4_1_3.src

@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.1.1.1 2002/11/07 18:02:16 jakob Exp $
 
-COMMENT=	"SSLv3/TLS and SSLv2 sniffer"
+COMMENT=			SSLv3/TLS and SSLv2 sniffer
 
 DISTNAME=	sslsniffer-1.21
 CATEGORIES=	net security

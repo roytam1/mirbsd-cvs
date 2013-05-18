@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.6 2004/02/21 01:18:08 pvalchev Exp $
 
-COMMENT=	"OpenGL Utility Toolkit"
+COMMENT=			OpenGL Utility Toolkit
 
 DISTNAME=	glut-3.7
 CATEGORIES=	graphics devel

@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.15 2002/10/27 21:07:54 naddy Exp $
 
-COMMENT=	"X11 viewer for text files"
+COMMENT=			X11 viewer for text files
 
 DISTNAME=	xless-1.7
 CATEGORIES=	misc	

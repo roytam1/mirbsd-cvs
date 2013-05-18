@@ -1,7 +1,7 @@
-# $MirOS$
+# $MirOS: ports/www/mhonarc/Makefile,v 1.3 2005/07/07 21:27:40 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.20 2003/12/08 00:43:45 margarida Exp $
 
-COMMENT=		"highly customizable e-mail to HTML converter"
+COMMENT=			highly customizable e-mail to HTML converter
 VERSION=		2.6.11
 DISTNAME=		MHonArc-${VERSION}
 PKGNAME=		${DISTNAME:L}-0

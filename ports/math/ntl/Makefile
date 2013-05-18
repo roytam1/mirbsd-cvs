@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.9 2002/12/19 19:10:56 naddy Exp $
 
-COMMENT=	"Victor Shoup's Number Theory Library"
+COMMENT=			Victor Shoup's Number Theory Library
 
 DISTNAME=	ntl-5.3.1
 CATEGORIES=	math

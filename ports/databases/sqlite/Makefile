@@ -1,6 +1,6 @@
-# $MirOS: ports/databases/sqlite/Makefile,v 1.4 2006/05/04 10:59:10 tg Exp $
+# $MirOS: ports/databases/sqlite/Makefile,v 1.5 2006/05/04 11:41:24 tg Exp $
 
-COMMENT=		"Embedded SQL implementation"
+COMMENT=			Embedded SQL implementation
 _V=			3.3.5
 DISTNAME=		sqlite-${_V}
 PKGNAME=		sqlite3-${_V}-1

@@ -1,7 +1,7 @@
-# $MirOS: ports/devel/sdl-net/Makefile,v 1.3 2006/02/09 09:35:50 tg Exp $
+# $MirOS: ports/devel/sdl-net/Makefile,v 1.4 2006/02/09 11:11:28 tg Exp $
 # $OpenBSD: Makefile,v 1.13 2003/05/12 08:23:46 jolan Exp $
 
-COMMENT=	"SDL cross-platform networking library"
+COMMENT=			SDL cross-platform networking library
 DISTNAME=	SDL_net-1.2.5
 PKGNAME=	${DISTNAME:L:S/_/-/}-0
 CATEGORIES=	devel net

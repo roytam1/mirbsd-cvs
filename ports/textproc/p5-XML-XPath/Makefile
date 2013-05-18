@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.14 2003/11/15 15:12:54 sturm Exp $
 
-COMMENT=	"modules for parsing and evaluating XPath statements"
+COMMENT=			modules for parsing and evaluating XPath statements
 
 DISTNAME=	XML-XPath-1.13
 PKGNAME=	p5-${DISTNAME}-0

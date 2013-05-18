@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.18 2003/11/15 15:12:55 sturm Exp $
 
-COMMENT=	"reverse compile man pages from formatted form"
+COMMENT=			reverse compile man pages from formatted form
 
 DISTNAME=	rman-3.2
 CATEGORIES=	textproc

@@ -1,7 +1,7 @@
-# $MirOS$
+# $MirOS: ports/misc/plan/Makefile,v 1.2 2005/07/07 21:23:48 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.13 2002/12/23 01:34:13 pvalchev Exp $
 
-COMMENT=	"X11/Motif schedule planner with calendar"
+COMMENT=			X11/Motif schedule planner with calendar
 
 DISTNAME=	plan-1.6.1
 PKGNAME=	${DISTNAME}-1

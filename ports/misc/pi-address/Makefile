@@ -2,7 +2,7 @@
 
 BROKEN=			Missing support for module x11/qt
 
-COMMENT=	"PalmPilot address database editor"
+COMMENT=			PalmPilot address database editor
 
 DISTNAME=	pi-address-0.4.0
 CATEGORIES=	misc x11 palm

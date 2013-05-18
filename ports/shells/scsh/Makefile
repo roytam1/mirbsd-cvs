@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.19 2002/07/07 05:59:35 pvalchev Exp $
 
-COMMENT=		"Unix shell embedded in Scheme"
+COMMENT=			Unix shell embedded in Scheme
 
 DISTNAME=		scsh-0.6.2
 CATEGORIES=		lang shells

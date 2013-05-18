@@ -1,9 +1,9 @@
-# $MirOS: ports/net/bind/Makefile,v 1.2 2005/07/07 21:24:01 bsiegert Exp $
+# $MirOS: ports/net/bind/Makefile,v 1.3 2006/02/09 09:36:07 tg Exp $
 # $OpenBSD: Makefile,v 1.42 2003/04/10 18:08:56 jsyn Exp $
 
-COMMENT=		"ISC BIND 9 libraries, audited OpenBSD version"
-COMMENT-server=		"ISC BIND 9 server, audited OpenBSD version"
-COMMENT-client=		"ISC BIND 9 client tools, audited OpenBSD version"
+COMMENT=			ISC BIND 9 libraries, audited OpenBSD version
+COMMENT-server=			ISC BIND 9 server, audited OpenBSD version
+COMMENT-client=			ISC BIND 9 client tools, audited OpenBSD version
 
 VERSION=		9.2.3p1
 DASHVER=		20031222

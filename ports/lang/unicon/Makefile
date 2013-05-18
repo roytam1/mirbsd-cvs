@@ -3,7 +3,7 @@
 # XXX crashes & hangs, to be dealt with
 NOT_FOR_PLATFORM=	*:*:powerpc *:*:m68k *:*:hppa
 
-COMMENT=	"programming language with generators, X11 graphics and more"
+COMMENT=			programming language with generators, X11 graphics and more
 
 CATEGORIES=	lang
 DISTNAME=	unicon-10.0beta

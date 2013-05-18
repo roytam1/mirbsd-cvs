@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.5 2002/11/23 12:15:20 reinhard Exp $
 
-COMMENT=	"tty recorder"
+COMMENT=			tty recorder
 
 DISTNAME=	ttyrec-1.0.6
 CATEGORIES=	misc

@@ -1,8 +1,8 @@
-# $MirOS: ports/lang/tcl/8.4/Makefile,v 1.4 2006/02/09 09:36:01 tg Exp $
+# $MirOS: ports/lang/tcl/8.4/Makefile,v 1.5 2006/02/09 11:11:57 tg Exp $
 # $OpenBSD: Makefile,v 1.7 2004/05/20 21:25:44 miod Exp $
 # Uses pthreads (can but does not at the moment)
 
-COMMENT=	"Tool Command Language"
+COMMENT=			Tool Command Language
 VERSION=	8.4.9
 DISTNAME=	tcl${VERSION}-src
 PKGNAME=	tcl-${VERSION}-0

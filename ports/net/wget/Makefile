@@ -1,7 +1,7 @@
-# $MirOS: ports/net/wget/Makefile,v 1.5 2005/11/10 23:45:16 tg Exp $
+# $MirOS: ports/net/wget/Makefile,v 1.6 2006/08/26 23:34:38 tg Exp $
 # $OpenBSD: Makefile,v 1.35 2003/05/14 15:03:51 brad Exp $
 
-COMMENT=		"retrieve files via HTTP and FTP"
+COMMENT=			retrieve files via HTTP and FTP
 V=			1.10.2
 P=			1
 DISTNAME=		wget-${V}

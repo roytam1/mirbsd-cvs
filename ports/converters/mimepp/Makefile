@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.14 2002/12/23 00:37:50 pvalchev Exp $
 
-COMMENT=	"C++ class library for MIME messages"
+COMMENT=			C++ class library for MIME messages
 
 DISTNAME=		mimepp-1.0
 CATEGORIES=		converters

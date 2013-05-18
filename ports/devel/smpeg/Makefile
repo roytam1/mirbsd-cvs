@@ -1,7 +1,7 @@
-# $MirOS: ports/devel/smpeg/Makefile,v 1.7 2006/02/09 09:35:50 tg Exp $
+# $MirOS: ports/devel/smpeg/Makefile,v 1.8 2006/03/23 23:09:40 tg Exp $
 # $OpenBSD: Makefile,v 1.16 2003/12/29 13:45:30 espie Exp $
 
-COMMENT=		"mpeg video player library with sound support"
+COMMENT=			mpeg video player library with sound support
 DISTNAME=		smpeg-0.4.4
 PKGNAME=		${DISTNAME}-2
 CATEGORIES=		devel graphics

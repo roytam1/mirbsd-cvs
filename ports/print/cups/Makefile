@@ -1,6 +1,6 @@
-# $MirOS: ports/print/cups/Makefile,v 1.6 2006/07/07 16:31:02 bsiegert Exp $
+# $MirOS: ports/print/cups/Makefile,v 1.8 2006/07/26 19:56:00 bsiegert Exp $
 
-COMMENT=		"Common Unix Printing System"
+COMMENT=			Common Unix Printing System
 
 VERSION=		1.2.1
 DASH_VER=		-1

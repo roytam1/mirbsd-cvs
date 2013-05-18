@@ -1,7 +1,7 @@
 # $OpenBSD: Makefile,v 1.31 2003/02/25 00:15:02 espie Exp $
 # $FreeBSD: Makefile,v 1.13 1997/12/25 22:29:17 asami Exp $
 
-COMMENT=	"dungeon explorin', hackin', game.  Piece of cake"
+COMMENT=			dungeon explorin', hackin', game.  Piece of cake
 DISTNAME=	nethack-3.4.1
 CATEGORIES=	games
 

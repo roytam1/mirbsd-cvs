@@ -1,7 +1,7 @@
-# $MirOS: ports/devel/libproplist/Makefile,v 1.2 2005/07/07 21:19:13 bsiegert Exp $
+# $MirOS: ports/devel/libproplist/Makefile,v 1.3 2006/02/09 09:35:46 tg Exp $
 # $OpenBSD: Makefile,v 1.21 2002/12/29 20:19:11 fgsch Exp $
 
-COMMENT=	"GNUstep/OPENSTEP property lists compatibility library"
+COMMENT=			GNUstep/OPENSTEP property lists compatibility library
 DISTNAME=	libPropList-0.10.1
 PKGNAME=	libproplist-0.10.1-0
 CATEGORIES=	devel

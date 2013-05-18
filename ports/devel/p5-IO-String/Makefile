@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.7 2004/04/27 13:08:37 kevlo Exp $
 
-COMMENT=		"emulate IO::File interface for in-core strings"
+COMMENT=			emulate IO::File interface for in-core strings
 
 DISTNAME=		IO-String-1.05
 PKGNAME=		p5-${DISTNAME}-0

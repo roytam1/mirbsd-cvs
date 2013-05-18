@@ -1,10 +1,10 @@
-# $MirOS: ports/lang/jdk/1.3-linux/Makefile,v 1.2 2005/04/10 21:50:13 tg Exp $
+# $MirOS: ports/lang/jdk/1.3-linux/Makefile,v 1.4 2005/07/07 21:22:28 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.23 2004/05/01 14:29:17 sturm Exp $
 
 ONLY_FOR_PLATFORM=	OpenBSD:*:i386 MirBSD:*:i386
 EMUL=			linux
 
-COMMENT=	"Java(TM) Development Kit for Java(TM) 2 Standard Edition 1.3"
+COMMENT=			Java(TM) Development Kit for Java(TM) 2 Standard Edition 1.3
 VERSION=	1.3.1_13
 
 DISTNAME=	jdk${VERSION}

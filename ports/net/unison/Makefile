@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.2 2002/12/27 22:13:56 sturm Exp $
 
-COMMENT=	"multi-platform file synchronization tool"
+COMMENT=			multi-platform file synchronization tool
 
 DISTNAME=	unison-2.9.1
 CATEGORIES=	net

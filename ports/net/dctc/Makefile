@@ -1,7 +1,7 @@
-# $MirOS: ports/net/dctc/Makefile,v 1.3 2006/02/09 09:36:07 tg Exp $
+# $MirOS: ports/net/dctc/Makefile,v 1.4 2006/02/09 11:12:13 tg Exp $
 # $OpenBSD: Makefile,v 1.4 2004/04/18 17:38:37 naddy Exp $
 
-COMMENT=		"Direct Connect clone"
+COMMENT=			Direct Connect clone
 
 DISTNAME=		dctc-0.68.0
 CATEGORIES=		net

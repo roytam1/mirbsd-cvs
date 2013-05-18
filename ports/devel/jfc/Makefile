@@ -1,9 +1,9 @@
-# $MirOS: ports/devel/jfc/Makefile,v 1.3 2005/04/10 21:49:28 tg Exp $
+# $MirOS: ports/devel/jfc/Makefile,v 1.5 2005/07/07 21:19:08 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.12 2002/10/25 22:37:52 naddy Exp $
 
 ONLY_FOR_PLATFORM=	OpenBSD:*:i386 MirBSD:*:i386
 
-COMMENT=	"java foundation classes (jfc)/swing"
+COMMENT=			java foundation classes (jfc)/swing
 JDK_VERSION=    1.1.8
 DISTNAME=	swing1_1_1
 PKGNAME=	jfc-1.1.1-0

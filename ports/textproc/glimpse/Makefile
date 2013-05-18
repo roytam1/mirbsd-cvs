@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.14 2004/01/04 18:42:42 espie Exp $
 
-COMMENT=	"text search engine"
+COMMENT=			text search engine
 
 DISTNAME=	glimpse-4.1
 CATEGORIES=	textproc databases

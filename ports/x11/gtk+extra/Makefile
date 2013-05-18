@@ -1,7 +1,7 @@
-# $MirOS$
+# $MirOS: ports/x11/gtk+extra/Makefile,v 1.2 2005/03/30 18:13:56 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.1.1.1 2003/01/22 17:10:59 margarida Exp $
 
-COMMENT=	"GTK Extra Widget Set"
+COMMENT=			GTK Extra Widget Set
 
 DISTNAME=	gtk+extra-0.99.17
 CATEGORIES=	x11 devel

@@ -1,7 +1,7 @@
-# $MirOS: ports/net/rtorrent/Makefile,v 1.1 2006/02/07 15:42:52 tg Exp $
+# $MirOS: ports/net/rtorrent/Makefile,v 1.2 2006/03/18 18:26:37 tg Exp $
 
 CATEGORIES=		net
-COMMENT=		"BitTorrent ncurses client"
+COMMENT=			BitTorrent ncurses client
 DISTNAME=		rtorrent-0.4.5
 HOMEPAGE=		http://libtorrent.rakshasa.no/
 MASTER_SITES=		${HOMEPAGE}downloads/

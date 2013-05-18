@@ -1,6 +1,6 @@
-# $MirOS: ports/games/bnetd/Makefile,v 1.2 2005/04/22 21:32:35 tg Exp $
+# $MirOS: ports/games/bnetd/Makefile,v 1.3 2005/04/22 21:37:49 tg Exp $
 
-COMMENT=		"Battle.net(R) server emulator"
+COMMENT=			Battle.net(R) server emulator
 DISTNAME=		bnetd-20050215
 CATEGORIES=		net games
 MASTER_SITES=		${_MASTER_SITE_MIRBSD}

@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.19 2003/10/26 23:49:31 naddy Exp $	
 
-COMMENT=	"translate GB/Big5 encoding to tone pinyin"
+COMMENT=			translate GB/Big5 encoding to tone pinyin
 
 DISTNAME=	zh-c2t-1.0
 CATEGORIES=	chinese

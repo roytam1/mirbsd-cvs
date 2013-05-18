@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.1.1.2 2004/04/11 11:58:18 sturm Exp $
 
-COMMENT=	"Compare Dates"
+COMMENT=			Compare Dates
 
 DISTNAME=	Number-Compare-Date-0.02
 PKGNAME=	p5-${DISTNAME}-0

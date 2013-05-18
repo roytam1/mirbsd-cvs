@@ -1,6 +1,6 @@
-# $MirOS$
+# $MirOS: ports/devel/p5-Time-modules/Makefile,v 1.2 2005/07/07 21:20:08 bsiegert Exp $
 
-COMMENT=		"perl modules for a diversaty of time-conversions"
+COMMENT=			perl modules for a diversaty of time-conversions
 DISTNAME=		Time-modules-2003.1126
 PKGNAME=		p5-${DISTNAME}-0
 CATEGORIES=		devel

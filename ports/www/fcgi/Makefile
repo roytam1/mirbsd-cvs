@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.2 2004/02/14 22:57:41 sturm Exp $
 
-COMMENT=		"FastCGI Development Kit"
+COMMENT=			FastCGI Development Kit
 
 DISTNAME=		fcgi-2.4.0
 CATEGORIES=		www

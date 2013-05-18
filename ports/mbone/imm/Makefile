@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.19 2002/12/23 00:37:51 pvalchev Exp $
 
-COMMENT=	"Internet Image (or other data) Multicaster (and receiver)"
+COMMENT=			Internet Image (or other data) Multicaster (and receiver)
 
 DISTNAME=	imm.source
 PKGNAME=	imm-3.5a1-0

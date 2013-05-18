@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.31 2004/02/25 13:59:07 naddy Exp $
 
-COMMENT=	"Pretty Good Privacy 5.0i (world wide use)"
+COMMENT=			Pretty Good Privacy 5.0i (world wide use)
 
 DISTNAME=	pgp50i-unix-src
 PKGNAME=	pgp-5.0i-0

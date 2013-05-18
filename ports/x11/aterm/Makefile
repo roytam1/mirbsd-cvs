@@ -9,7 +9,7 @@ PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
-COMMENT=	"color vt102 terminal emulator with transparency support"
+COMMENT=			color vt102 terminal emulator with transparency support
 HOMEPAGE=	http://aterm.sourceforge.net/
 MASTER_SITES=	${MASTER_SITE_SOURCEFORGE:=aterm/}
 

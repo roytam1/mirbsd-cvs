@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.2 2003/10/18 19:44:42 sturm Exp $
 
-COMMENT=	"web log rotation program"
+COMMENT=			web log rotation program
 
 DISTNAME=	cronolog-1.6.2
 CATEGORIES=	www

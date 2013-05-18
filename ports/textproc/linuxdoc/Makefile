@@ -1,7 +1,7 @@
 # $OpenBSD: Makefile,v 1.16 2004/02/01 20:25:35 sturm Exp $
 # $FreeBSD: Makefile,v 1.4 1998/01/17 17:25:46 jfieber Exp $
 
-COMMENT=	"Linuxdoc SGML DTD"
+COMMENT=			Linuxdoc SGML DTD
 
 DISTNAME=	linuxdoc-1.1
 CATEGORIES=	textproc

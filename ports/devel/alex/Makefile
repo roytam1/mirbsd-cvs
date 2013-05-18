@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.2 2004/04/23 02:17:49 dons Exp $
 
-COMMENT=	"lexical analyser generator for Haskell"
+COMMENT=			lexical analyser generator for Haskell
 
 V=		2.0
 DISTNAME=	alex-${V}

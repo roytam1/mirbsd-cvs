@@ -1,7 +1,7 @@
-# $MirOS: ports/devel/pango/Makefile,v 1.5 2005/09/25 15:42:14 bsiegert Exp $
+# $MirOS: ports/devel/pango/Makefile,v 1.6 2006/02/09 11:11:26 tg Exp $
 # $OpenBSD: Makefile,v 1.7 2003/09/23 06:12:41 marcm Exp $
 
-COMMENT=		"library for layout and rendering of text"
+COMMENT=			library for layout and rendering of text
 DISTNAME=		pango-1.10.0
 PKGNAME=		${DISTNAME}-1
 CATEGORIES=		devel x11

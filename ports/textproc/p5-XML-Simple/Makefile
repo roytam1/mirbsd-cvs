@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.12 2004/04/11 15:16:07 brad Exp $
 
-COMMENT=	"trivial perl API for reading/writing XML"
+COMMENT=			trivial perl API for reading/writing XML
 
 DISTNAME=	XML-Simple-2.12
 PKGNAME=	p5-${DISTNAME}-0

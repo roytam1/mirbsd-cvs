@@ -1,7 +1,7 @@
 # $OpenBSD: Makefile,v 1.16 2002/12/29 15:12:31 fgsch Exp $
 # Whom:           Ejovi Nuwere <ejovi@ejovi.net>
 
-COMMENT=	"client for pop2, pop3, apop, rpop"
+COMMENT=			client for pop2, pop3, apop, rpop
 
 DISTNAME=	popclient-3.0b6
 CATEGORIES=	mail

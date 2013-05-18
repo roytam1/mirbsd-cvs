@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.1.1.1 2004/04/11 11:52:43 sturm Exp $
 
-COMMENT=	"Abstract class wrapper for Autoloader"
+COMMENT=			Abstract class wrapper for Autoloader
 
 DISTNAME=	Class-MethodMapper-1.0
 PKGNAME=	p5-${DISTNAME}-0

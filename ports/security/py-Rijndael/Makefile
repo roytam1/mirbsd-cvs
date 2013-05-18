@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.9 2004/05/15 09:25:17 xsa Exp $
 
-COMMENT=	"Python implementation of the Rijndael encryption algorithm"
+COMMENT=			Python implementation of the Rijndael encryption algorithm
 
 VERSION=	1.3
 DISTNAME=	pyrijndael-${VERSION}-src

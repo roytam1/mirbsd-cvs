@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.4 2002/10/28 01:38:46 naddy Exp $
 
-COMMENT=	"tool for extracting and gluing pcap (tcpdump) files"
+COMMENT=			tool for extracting and gluing pcap (tcpdump) files
 
 DISTNAME=	tcpslice-1.1a3
 CATEGORIES=	net

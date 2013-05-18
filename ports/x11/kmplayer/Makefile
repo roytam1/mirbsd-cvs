@@ -2,7 +2,7 @@
 
 BROKEN=			Missing support for module x11/kde
 
-COMMENT='front-end/embeddable kpart for mplayer'
+COMMENT=			front-end/embeddable kpart for mplayer
 CATEGORIES=	x11	x11/kde
 DISTNAME=	kmplayer-0.6.4
 EXTRACT_SUFX=	.tar.bz2

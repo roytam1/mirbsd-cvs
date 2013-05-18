@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.21 2003/07/07 22:27:46 pvalchev Exp $
 
-COMMENT=	"C library to parse CGI Forms"
+COMMENT=			C library to parse CGI Forms
 
 DISTNAME=	cgiparse-0.9b
 CATEGORIES=	www

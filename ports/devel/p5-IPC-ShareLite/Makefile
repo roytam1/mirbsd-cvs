@@ -2,7 +2,7 @@
 
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
-COMMENT=	"simple interface to access shared memory"
+COMMENT=			simple interface to access shared memory
 
 DISTNAME=	IPC-ShareLite-0.09
 PKGNAME=	p5-${DISTNAME}-0

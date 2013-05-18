@@ -1,9 +1,9 @@
-# $MirOS$
+# $MirOS: ports/www/p5-HTML-Parser/Makefile,v 1.4 2006/03/24 16:55:56 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.24 2004/04/11 14:59:53 brad Exp $
 
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
-COMMENT=	"modules to parse and extract information from HTML"
+COMMENT=			modules to parse and extract information from HTML
  
 DISTNAME=	HTML-Parser-3.51
 PKGNAME=	p5-${DISTNAME}-0

@@ -1,7 +1,7 @@
-# $MirOS: ports/devel/atk/Makefile,v 1.3 2005/09/22 19:47:31 bsiegert Exp $
+# $MirOS: ports/devel/atk/Makefile,v 1.4 2006/02/09 11:11:17 tg Exp $
 # $OpenBSD: Makefile,v 1.10 2004/12/10 20:33:59 marcm Exp $
 
-COMMENT=		"accessibility toolkit used by gtk+"
+COMMENT=			accessibility toolkit used by gtk+
 DISTNAME=		atk-1.10.1
 CATEGORIES=		devel
 HOMEPAGE=		http://www.gtk.org

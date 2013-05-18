@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.3 2003/04/20 17:36:40 sturm Exp $
 
-COMMENT=	"logfile auditing tool"
+COMMENT=			logfile auditing tool
 
 DISTNAME=	logsentry-1.1.1
 PKGNAME=	${DISTNAME}-1

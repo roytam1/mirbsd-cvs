@@ -1,8 +1,8 @@
-# $MirOS: ports/archivers/unarj/Makefile,v 1.2 2005/07/07 21:17:03 bsiegert Exp $
+# $MirOS: ports/archivers/unarj/Makefile,v 1.3 2006/02/09 11:11:00 tg Exp $
 # $OpenBSD: Makefile,v 1.17 2003/05/24 02:40:42 jolan Exp $
 # $FreeBSD: Makefile,v 1.12 1999/02/17 22:25:36 ache Exp $
 
-COMMENT=	"extract files from ARJ archives"
+COMMENT=			extract files from ARJ archives
 
 DISTNAME=	unarj-2.43
 PKGNAME=	unarj-2.43-1

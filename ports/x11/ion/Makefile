@@ -1,10 +1,10 @@
-# $MirOS$
+# $MirOS: ports/x11/ion/Makefile,v 1.2 2005/07/07 21:28:54 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.13 2003/10/08 17:13:16 sturm Exp $
 
 BROKEN=		actually _needs_ libltdl, huh
 
 # hah, friendly? not to porters, at least.
-COMMENT=	"light, keyboard friendly window manager"
+COMMENT=			light, keyboard friendly window manager
 V=		20040316
 DV=		-1
 DISTNAME=	ion-3ds-${V}${DV}

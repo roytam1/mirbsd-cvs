@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.23 2003/02/12 00:35:20 brad Exp $
 
-COMMENT=	"high-quality MP3 encoder"
+COMMENT=			high-quality MP3 encoder
 
 VERSION=	0.94.2
 DISTNAME=	bladeenc-${VERSION}-src-stable

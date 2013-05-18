@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.9 2002/09/17 14:46:06 wilfried Exp $
 
-COMMENT=		'wm-dockapp; xeyes clone using South Park characters'
+COMMENT=			wm-dockapp; xeyes clone using South Park characters
 
 DISTNAME=		speyes-1.2.0
 CATEGORIES=		games x11 x11/windowmaker

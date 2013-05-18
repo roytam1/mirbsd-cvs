@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.15 2003/04/15 12:42:31 wilfried Exp $
 
-COMMENT=	"X11 version of the popular board game"
+COMMENT=			X11 version of the popular board game
 
 DISTNAME=	xscrabble
 PKGNAME=	xscrabble-1.0-0

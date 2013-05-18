@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.7 2002/12/29 19:49:41 fgsch Exp $
 
-COMMENT=		"GNU command line utilities"
+COMMENT=			GNU command line utilities
 
 DISTNAME=		sh-utils-2.0
 CATEGORIES=		misc

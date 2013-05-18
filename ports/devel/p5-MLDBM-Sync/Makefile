@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.6 2002/11/21 01:11:15 naddy Exp $
 
-COMMENT=	"safe concurrent access to MLDBM databases"
+COMMENT=			safe concurrent access to MLDBM databases
 
 VERSION=	0.30
 DISTNAME=	MLDBM-Sync-${VERSION}

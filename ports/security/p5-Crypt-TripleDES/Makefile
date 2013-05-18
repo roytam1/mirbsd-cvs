@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.2 2002/11/22 02:37:37 margarida Exp $
 
-COMMENT=		"implementation of 3DES encryption on ECB mode"
+COMMENT=			implementation of 3DES encryption on ECB mode
 
 DISTNAME=		Crypt-TripleDES-0.24
 PKGNAME=		p5-${DISTNAME}-0

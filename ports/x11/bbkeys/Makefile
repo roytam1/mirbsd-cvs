@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.11 2003/10/08 17:13:15 sturm Exp $
 
-COMMENT=	"X keygrabber for blackbox"
+COMMENT=			X keygrabber for blackbox
 
 DISTNAME=	bbkeys-0.8.4
 CATEGORIES=	x11

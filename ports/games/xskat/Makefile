@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.15 2002/10/26 20:44:40 naddy Exp $
 
-COMMENT=	"skat card game"
+COMMENT=			skat card game
 
 DISTNAME=	xskat-3.4
 CATEGORIES=	games

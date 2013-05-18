@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.7 2004/03/31 02:49:36 jolan Exp $
 
-COMMENT=	"play games built around LucasArts' SCUMM"
+COMMENT=			play games built around LucasArts' SCUMM
 DISTNAME=	scummvm-0.6.0
 EXTRACT_SUFX=	.tar.bz2
 CATEGORIES=	games x11 emulators

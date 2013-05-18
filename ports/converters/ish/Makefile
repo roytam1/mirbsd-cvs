@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.16 2002/12/23 07:58:13 pvalchev Exp $
 
-COMMENT=	"binary-to-text file converter"
+COMMENT=			binary-to-text file converter
 
 DISTNAME=	ish-1.11
 CATEGORIES=	converters

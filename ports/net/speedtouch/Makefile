@@ -1,6 +1,6 @@
-# $MirOS$
+# $MirOS: ports/net/speedtouch/Makefile,v 1.1.7.1 2005/03/18 15:49:07 tg Exp $
 
-COMMENT=	"Driver for Alcatel Speedtouch modem"
+COMMENT=			Driver for Alcatel Speedtouch modem
 CATEGORIES=	net sysutils
 DISTNAME=	speedtouch-1.3
 HOMEPAGE=	http://speedtouch.sourceforge.net/

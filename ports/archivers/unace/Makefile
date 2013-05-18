@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.25 2003/06/04 22:16:22 jolan Exp $
 
-COMMENT=	"extract, view & test ACE archives"
+COMMENT=			extract, view & test ACE archives
 
 DISTNAME=	unace-1.2b
 CATEGORIES=	archivers

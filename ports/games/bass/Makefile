@@ -2,7 +2,7 @@
 
 PKG_ARCH=	*
 
-COMMENT=	"Beneath A Steel Sky"
+COMMENT=			Beneath A Steel Sky
 DISTNAME=	BASS-CD
 PKGNAME=	bass-20060101-0	# Unversioned
 DIST_SUBDIR=	${PKGNAME}

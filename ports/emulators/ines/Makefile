@@ -1,10 +1,10 @@
-# $MirOS: ports/emulators/ines/Makefile,v 1.2 2005/04/10 21:49:45 tg Exp $
+# $MirOS: ports/emulators/ines/Makefile,v 1.4 2005/07/07 21:20:45 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.6 2003/04/10 18:08:56 jsyn Exp $
 
 ONLY_FOR_PLATFORM=	OpenBSD:*:i386 MirBSD:*:i386
 EMUL=			linux
 
-COMMENT=	"emulates the Nintendo Entertainment System"
+COMMENT=			emulates the Nintendo Entertainment System
 PKGNAME=	ines-1.2-1
 DISTNAME=	iNES12-Linux-80x86-bin
 

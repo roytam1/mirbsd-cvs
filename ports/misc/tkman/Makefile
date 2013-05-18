@@ -1,7 +1,7 @@
-# $MirOS$
+# $MirOS: ports/misc/tkman/Makefile,v 1.1.7.1 2005/03/18 15:50:35 tg Exp $
 # $OpenBSD: Makefile,v 1.17 2003/12/27 23:38:02 jose Exp $
 
-COMMENT=	"Tcl/Tk-based manual browser"
+COMMENT=			Tcl/Tk-based manual browser
 DISTNAME=	tkman-2.1
 CATEGORIES=	misc 
 HOMEPAGE=	http://tkman.sourceforge.net/

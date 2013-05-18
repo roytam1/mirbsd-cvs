@@ -1,8 +1,8 @@
-# $MirOS: ports/devel/libgsf/Makefile,v 1.4 2006/02/09 11:11:24 tg Exp $
+# $MirOS: ports/devel/libgsf/Makefile,v 1.5 2006/06/03 16:02:39 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.7 2004/12/10 20:33:59 marcm Exp $
 
-COMMENT=		"GNOME Structured File library"
-COMMENT-gnome=		"GNOME specific extensions to libgsf"
+COMMENT=			GNOME Structured File library
+COMMENT-gnome=			GNOME specific extensions to libgsf
 
 VERSION=		1.11.1
 DISTNAME=		libgsf-${VERSION}

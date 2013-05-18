@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.25 2003/10/26 23:49:31 naddy Exp $
 
-COMMENT=	"MIDI to WAV renderer and player"
+COMMENT=			MIDI to WAV renderer and player
 DISTNAME=	timidity-0.2i
 CATEGORIES=	audio
 

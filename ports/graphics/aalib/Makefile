@@ -1,7 +1,7 @@
-# $MirOS: ports/graphics/aalib/Makefile,v 1.1.7.1 2005/03/18 15:46:43 tg Exp $
+# $MirOS: ports/graphics/aalib/Makefile,v 1.2 2005/12/30 01:16:40 tg Exp $
 # $OpenBSD: Makefile,v 1.18 2003/04/06 01:15:10 margarida Exp $
 
-COMMENT=		"ascii art library"
+COMMENT=			ascii art library
 DISTNAME=		aalib-1.4rc4
 CATEGORIES=		graphics
 MASTER_SITES=		${MASTER_SITE_SOURCEFORGE:=aa-project/}

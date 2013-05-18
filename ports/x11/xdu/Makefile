@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.15 2003/10/08 17:13:18 sturm Exp $
 
-COMMENT=	"graphic disk usage viewer"
+COMMENT=			graphic disk usage viewer
 
 DISTNAME=		xdu-3.0
 CATEGORIES=     	x11

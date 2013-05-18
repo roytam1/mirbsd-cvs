@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.8 2004/04/12 10:17:00 xsa Exp $
 
-COMMENT=	"perl interface to tar archives"
+COMMENT=			perl interface to tar archives
 VERSION=	1.08
 DISTNAME=	Archive-Tar-${VERSION}
 PKGNAME=	p5-${DISTNAME}-0

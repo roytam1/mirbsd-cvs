@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.21 2004/02/03 07:28:12 sturm Exp $
 
-COMMENT=	"extra chinese fonts"
+COMMENT=			extra chinese fonts
 
 DISTNAME=       zh-fonts-taipei-1.01
 CATEGORIES=     chinese x11

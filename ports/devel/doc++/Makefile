@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.12 2003/07/14 07:16:32 kevlo Exp $
 
-COMMENT=	"documentation system for C, C++, IDL and Java"
+COMMENT=			documentation system for C, C++, IDL and Java
 
 DISTNAME=	doc++-3.4.10
 CATEGORIES=	devel

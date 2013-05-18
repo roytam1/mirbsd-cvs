@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.15 2004/05/07 15:28:31 naddy Exp $
 
-COMMENT=	"DNS ping"
+COMMENT=			DNS ping
 
 DISTNAME=	nsping
 PKGNAME=	nsping-0.8-0

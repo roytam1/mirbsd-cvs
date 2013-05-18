@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.5 2003/02/15 14:28:25 espie Exp $
 
-COMMENT=	"Zangband (Zelazny Angband) with color, X11 support"
+COMMENT=			Zangband (Zelazny Angband) with color, X11 support
 
 VERSION=	2.6.2
 DISTNAME=	zangband-${VERSION}

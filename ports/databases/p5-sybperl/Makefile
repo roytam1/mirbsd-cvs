@@ -11,7 +11,7 @@ PERMIT_DISTFILES_FTP=	Yes
 
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
-COMMENT=	"Sybase database access in Perl"
+COMMENT=			Sybase database access in Perl
 HOMEPAGE=	http://www.mbay.net/~mpeppler/
 MASTER_SITES=	http://www.peppler.org/downloads/
 

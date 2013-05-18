@@ -1,7 +1,7 @@
-# $MirOS$
+# $MirOS: ports/graphics/xmedcon/Makefile,v 1.2 2005/03/30 18:13:32 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.5 2003/01/18 22:37:41 brad Exp $
 
-COMMENT=	"medical image conversion"
+COMMENT=			medical image conversion
 DISTNAME=	xmedcon-0.5.2
 CATEGORIES=	graphics
 MASTER_SITES=	${MASTER_SITE_SOURCEFORGE:=xmedcon/}

@@ -1,7 +1,7 @@
-# $MirOS: ports/audio/libid3tag/Makefile,v 1.1.7.1 2005/03/18 15:42:56 tg Exp $
+# $MirOS: ports/audio/libid3tag/Makefile,v 1.2 2006/06/23 22:08:07 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.3 2004/02/21 02:32:20 naddy Exp $
 
-COMMENT=	"library for reading ID3 tags"
+COMMENT=			library for reading ID3 tags
 
 DISTNAME=	libid3tag-0.15.1b
 PKGNAME=	${DISTNAME}-1

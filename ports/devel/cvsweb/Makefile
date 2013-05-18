@@ -1,8 +1,8 @@
-# $MirOS: ports/devel/cvsweb/Makefile,v 1.1.7.1 2005/03/18 15:44:31 tg Exp $
+# $MirOS: ports/devel/cvsweb/Makefile,v 1.2 2005/09/11 02:33:50 tg Exp $
 # $OpenBSD: Makefile,v 1.30 2004/02/01 19:47:27 naddy Exp $
 # $FreeBSD: ports/devel/cvsweb/Makefile,v 1.28 2000/09/23 20:48:45 knu Exp $
 
-COMMENT=	"WWW CGI script to browse CVS repository trees"
+COMMENT=			WWW CGI script to browse CVS repository trees
 DISTNAME=	cvsweb-3.0.5
 CATEGORIES=	devel www
 HOMEPAGE=	http://www.freebsd.org/projects/cvsweb.html

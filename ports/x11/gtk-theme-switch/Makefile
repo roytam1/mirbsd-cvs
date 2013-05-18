@@ -1,7 +1,7 @@
-# $MirOS$
+# $MirOS: ports/x11/gtk-theme-switch/Makefile,v 1.2 2005/03/30 18:13:57 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.1.1.1 2003/01/14 01:01:19 naddy Exp $
 
-COMMENT=		"switch GTK+ themes quickly"
+COMMENT=			switch GTK+ themes quickly
 
 DISTNAME=		gtk-theme-switch-1.0.1
 CATEGORIES=		x11 graphics

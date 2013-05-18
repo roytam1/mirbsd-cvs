@@ -3,7 +3,7 @@
 DISTNAME=	scanlogd-2.2
 PKGNAME=	${DISTNAME}-1
 CATEGORIES=	security
-COMMENT=	"TCP port scan detection tool"
+COMMENT=			TCP port scan detection tool
 HOMEPAGE=	http://www.openwall.com/scanlogd/
 
 

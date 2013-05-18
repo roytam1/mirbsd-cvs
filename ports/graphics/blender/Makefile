@@ -1,10 +1,10 @@
-# $MirOS: ports/graphics/blender/Makefile,v 1.2 2005/04/10 21:49:57 tg Exp $
+# $MirOS: ports/graphics/blender/Makefile,v 1.4 2005/07/07 21:21:35 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.9 2002/12/29 20:08:46 fgsch Exp $
 
 ONLY_FOR_PLATFORM=	OpenBSD:*:i386 MirBSD:*:i386
 EMUL=			linux
 
-COMMENT=	"3D creation software"
+COMMENT=			3D creation software
 V=		2.23
 PKGNAME=	blender-${V}-1
 DISTNAME=	blender-creator-${V}-linux-glibc2.1.2-i386-static

@@ -1,10 +1,10 @@
-# $MirOS: ports/net/ethereal/Makefile,v 1.6 2006/02/09 09:36:08 tg Exp $
+# $MirOS: ports/net/ethereal/Makefile,v 1.7 2006/02/09 11:12:14 tg Exp $
 # $OpenBSD: Makefile,v 1.90 2004/05/10 06:14:43 jakob Exp $
 
 BROKEN=		"many security problems"
 
-COMMENT=	"network protocol analyzer"
-COMMENT-x11=	"network protocol analyzer (X11 GUI)"
+COMMENT=			network protocol analyzer
+COMMENT-x11=			network protocol analyzer (X11 GUI)
 VERSION=	0.10.3
 DISTNAME=	ethereal-${VERSION}
 CATEGORIES=	net x11

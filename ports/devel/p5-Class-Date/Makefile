@@ -2,7 +2,7 @@
 
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
-COMMENT=	"module for easy date and time manipulation"
+COMMENT=			module for easy date and time manipulation
 
 DISTNAME=	Class-Date-1.1.7
 PKGNAME=	p5-${DISTNAME}-0

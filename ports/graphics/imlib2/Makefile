@@ -1,7 +1,7 @@
-# $MirOS: ports/graphics/imlib2/Makefile,v 1.5 2006/02/09 09:35:54 tg Exp $
+# $MirOS: ports/graphics/imlib2/Makefile,v 1.6 2006/02/09 11:11:49 tg Exp $
 # $OpenBSD: Makefile,v 1.1.1.1 2004/04/18 02:01:25 jolan Exp $
 
-COMMENT=		"image manipulation library"
+COMMENT=			image manipulation library
 DISTNAME=		imlib2-1.2.1
 CATEGORIES=		graphics
 HOMEPAGE=		http://www.enlightenment.org/Libraries/Imlib2/

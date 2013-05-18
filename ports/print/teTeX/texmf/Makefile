@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.19 2004/02/01 20:40:46 sturm Exp $
 
-COMMENT=	"TeX distribution, common support files"
+COMMENT=			TeX distribution, common support files
 
 DISTNAME=	tetex-texmf-2.0.2
 PKGNAME=	${DISTNAME:S/tetex-/teTeX_/}-1

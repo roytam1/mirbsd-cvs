@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.3 2004/01/09 01:27:42 jolan Exp $
 
-COMMENT=	"settings manager for xfce4"
+COMMENT=			settings manager for xfce4
 DISTNAME=	xfce-mcs-manager-${V}
 
 LIB_DEPENDS=	${GTK2} \

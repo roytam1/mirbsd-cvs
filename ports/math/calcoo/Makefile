@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.17 2003/07/31 18:53:00 naddy Exp $
 
-COMMENT=	"Gtk-based scientific calculator"
+COMMENT=			Gtk-based scientific calculator
 
 DISTNAME=	calcoo-1.3.15
 CATEGORIES=	math

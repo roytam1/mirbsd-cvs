@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.1.1.1 2002/09/21 22:57:41 naddy Exp $
 
-COMMENT=	"full screen FTP client"
+COMMENT=			full screen FTP client
 
 DISTNAME=	cftp-0.12
 CATEGORIES=	net

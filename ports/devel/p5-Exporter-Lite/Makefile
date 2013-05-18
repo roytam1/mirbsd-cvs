@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.1 2004/04/24 16:09:30 peter Exp $
 
-COMMENT=		"Lightwieght Exporting of variables"
+COMMENT=			Lightwieght Exporting of variables
 
 VERSION=		0.01
 DISTNAME=		Exporter-Lite-${VERSION}

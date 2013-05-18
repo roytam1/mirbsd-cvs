@@ -1,7 +1,7 @@
-# $MirOS$
+# $MirOS: ports/misc/ccze/Makefile,v 1.2 2005/07/07 21:23:35 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.4 2004/04/18 06:41:11 robert Exp $
 
-COMMENT=		"log colorizer"
+COMMENT=			log colorizer
 
 DISTNAME=		ccze-0.2.1	
 PKGNAME=		${DISTNAME}-1

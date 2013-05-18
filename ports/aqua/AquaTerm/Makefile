@@ -1,7 +1,7 @@
-# $MirOS$
+# $MirOS: ports/aqua/AquaTerm/Makefile,v 1.1 2006/07/16 12:01:06 bsiegert Exp $
 
 ONLY_FOR_PLATFORM=	Darwin:*:*
-COMMENT=		"Mac OS X graphics terminal"
+COMMENT=			Mac OS X graphics terminal
 
 VERSION=		1.0.0
 DASH_VER=		0

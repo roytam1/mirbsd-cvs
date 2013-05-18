@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.13 2004/05/22 19:54:10 jolan Exp $
 
-COMMENT=	"opensource Napster(tm) server"
+COMMENT=			opensource Napster(tm) server
 
 DISTNAME=	opennap-0.44
 PKGNAME=	${DISTNAME}-1

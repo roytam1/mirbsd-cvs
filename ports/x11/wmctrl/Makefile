@@ -3,7 +3,7 @@
 # 64-bit/endian issue?
 NOT_FOR_PLATFORM=	*:*:sparc64
 
-COMMENT=	"command line tool to interact with an EWMH/NetWM windowmanager"
+COMMENT=			command line tool to interact with an EWMH/NetWM windowmanager
 DISTNAME=	wmctrl-1.05
 CATEGORIES=	x11
 MASTER_SITES=	${HOMEPAGE}dist/

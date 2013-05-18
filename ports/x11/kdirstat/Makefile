@@ -2,7 +2,7 @@
 
 BROKEN=			Missing support for module x11/kde
 
-COMMENT=	"graphical disk usage utility for KDE"
+COMMENT=			graphical disk usage utility for KDE
 
 DISTNAME=	kdirstat-2.3.7
 CATEGORIES=	x11

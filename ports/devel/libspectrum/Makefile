@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.3 2004/05/08 06:46:10 sturm Exp $
 
-COMMENT=		"ZX Spectrum emulator file format library"
+COMMENT=			ZX Spectrum emulator file format library
 
 DISTNAME=		libspectrum-0.2.1
 CATEGORIES=		devel

@@ -1,7 +1,7 @@
-# $MirOS$
+# $MirOS: ports/www/netscape/navigator/Makefile,v 1.2 2005/07/07 21:27:50 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.14 2004/01/15 22:07:28 sturm Exp $
 
-COMMENT=	"Netscape Navigator (bsdi)"
+COMMENT=			Netscape Navigator (bsdi)
 
 PROGRAM_V=	4.75
 V2:=		${PROGRAM_V:S/.//}

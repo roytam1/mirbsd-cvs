@@ -1,9 +1,9 @@
-# $MirOS: ports/x11/ogle_gui/Makefile,v 1.2 2005/03/25 23:13:53 bsiegert Exp $
+# $MirOS: ports/x11/ogle_gui/Makefile,v 1.3 2006/02/09 11:15:53 tg Exp $
 # $OpenBSD: Makefile,v 1.8 2004/04/02 19:07:05 sturm Exp $
 
 CATEGORIES=	x11
 
-COMMENT=	"GUI for ogle"
+COMMENT=			GUI for ogle
 DISTNAME=	ogle_gui-0.9.2
 HOMEPAGE=	http://www.dtek.chalmers.se/groups/dvd/
 # Authors can be reached at dvd@dtek.chalmers.se

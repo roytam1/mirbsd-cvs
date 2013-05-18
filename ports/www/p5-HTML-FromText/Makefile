@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.8 2004/04/24 08:20:44 peter Exp $
 
-COMMENT=	"convert text to HTML with controlling options"
+COMMENT=			convert text to HTML with controlling options
 
 VERSION=	2.05
 DISTNAME=	HTML-FromText-${VERSION}

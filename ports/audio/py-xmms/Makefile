@@ -1,7 +1,7 @@
 # $OpenBSD: Makefile,v 1.4 2004/01/30 08:39:48 xsa Exp $
 
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
-COMMENT=	"Python interface to XMMS"
+COMMENT=			Python interface to XMMS
 DISTNAME=	pyxmms-1.06
 PKGNAME=	${DISTNAME:S/py/py-/}-0
 CATEGORIES=	audio

@@ -1,7 +1,7 @@
-# $MirOS: ports/www/squid/Makefile,v 1.4 2005/09/06 17:43:04 bsiegert Exp $
+# $MirOS: ports/www/squid/Makefile,v 1.5 2006/02/09 09:36:20 tg Exp $
 # $OpenBSD: Makefile,v 1.61 2004/04/21 11:11:19 brad Exp $
 
-COMMENT=	"WWW and FTP proxy cache and accelerator"
+COMMENT=			WWW and FTP proxy cache and accelerator
 DISTNAME=	squid-2.5.STABLE10
 PKGNAME=	${DISTNAME}-1
 CATEGORIES=	www

@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.21 2004/05/07 15:28:32 naddy Exp $
 
-COMMENT=	"tool for testing network IDS implementations"
+COMMENT=			tool for testing network IDS implementations
 
 DISTNAME=	fragrouter-1.6
 CATEGORIES=	security

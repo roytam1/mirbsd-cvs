@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.13 2004/05/06 23:22:54 pvalchev Exp $
 
-COMMENT=	"full screen visualization of network traffic"
+COMMENT=			full screen visualization of network traffic
 
 DISTNAME=	trafshow-3.1
 CATEGORIES=	net

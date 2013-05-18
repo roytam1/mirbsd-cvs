@@ -1,7 +1,7 @@
-# $MirOS$
+# $MirOS: ports/audio/id3lib/Makefile,v 1.1.7.1 2005/03/18 15:42:54 tg Exp $
 # $OpenBSD: Makefile,v 1.6 2004/01/10 03:15:19 brad Exp $
 
-COMMENT=		"library for manipulating ID3v1 and ID3v2 tags"
+COMMENT=			library for manipulating ID3v1 and ID3v2 tags
 
 VERSION=		3.8
 DISTNAME=		id3lib-${VERSION}.3

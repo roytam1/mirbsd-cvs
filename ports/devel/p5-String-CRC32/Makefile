@@ -2,7 +2,7 @@
 
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
-COMMENT=	"interface for cyclic redundancy check generation"
+COMMENT=			interface for cyclic redundancy check generation
 
 DISTNAME=	String-CRC32-1.2
 PKGNAME=	p5-${DISTNAME}-0

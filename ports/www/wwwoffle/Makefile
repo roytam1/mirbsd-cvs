@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.7 2003/06/23 10:50:21 naddy Exp $
 
-COMMENT=		"WWW OFFLine Explorer"
+COMMENT=			WWW OFFLine Explorer
 
 DISTNAME=		wwwoffle-2.5e
 CATEGORIES=		www

@@ -1,7 +1,7 @@
-# $MirOS: ports/net/rsync/Makefile,v 1.7 2006/02/09 09:36:11 tg Exp $
+# $MirOS: ports/net/rsync/Makefile,v 1.8 2006/06/21 21:21:06 tg Exp $
 # $OpenBSD: Makefile,v 1.41 2004/05/11 13:39:17 naddy Exp $
 
-COMMENT=		"mirroring/synchronisation over low bandwidth links"
+COMMENT=			mirroring/synchronisation over low bandwidth links
 DISTNAME=		rsync-2.6.8
 CATEGORIES=		net
 HOMEPAGE=		http://rsync.samba.org/

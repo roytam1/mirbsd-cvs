@@ -1,7 +1,7 @@
 # Icon library port
 # $OpenBSD: Makefile,v 1.18 2002/10/27 14:12:48 naddy Exp $
 
-COMMENT=	"useful and interesting programs for Icon"
+COMMENT=			useful and interesting programs for Icon
 
 VERSION=9.4
 DISTNAME=	icon.v940src

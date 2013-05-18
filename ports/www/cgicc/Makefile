@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.8 2004/02/25 02:35:17 naddy Exp $
 
-COMMENT=	"c++ compliant CGI applications libraries"
+COMMENT=			c++ compliant CGI applications libraries
 
 DISTNAME=	cgicc-3.2.1
 CATEGORIES=     www devel

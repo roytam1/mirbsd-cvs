@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.10 2003/10/08 17:13:15 sturm Exp $
 
-COMMENT=	"Advanced Power Management monitor utility for X"
+COMMENT=			Advanced Power Management monitor utility for X
 
 DISTNAME=	asapm-2.11
 HOMEPAGE=	http://www.tigr.net/afterstep/

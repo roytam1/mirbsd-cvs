@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.4 2004/02/02 17:35:01 sturm Exp $
 
-COMMENT=		"Dynamic DNS service update client"
+COMMENT=			Dynamic DNS service update client
 
 DISTNAME=		ddclient-3.6.3
 CATEGORIES=		net

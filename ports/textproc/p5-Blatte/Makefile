@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.8 2003/11/15 15:12:53 sturm Exp $
 
-COMMENT=	"text macro/markup/template language"
+COMMENT=			text macro/markup/template language
 
 DISTNAME=	Blatte-0.9.4
 PKGNAME=	p5-${DISTNAME}-0

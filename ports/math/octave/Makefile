@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.6 2002/12/29 19:43:50 fgsch Exp $
 
-COMMENT=	"High-level language for numerical computations"
+COMMENT=			High-level language for numerical computations
 VERSION=	2.0.16
 DISTNAME=	octave-${VERSION}
 CATEGORIES=    	math

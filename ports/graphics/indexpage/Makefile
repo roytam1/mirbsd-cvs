@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.5 2004/02/02 18:02:22 sturm Exp $
 
-COMMENT=	"generate index pages for displaying images"
+COMMENT=			generate index pages for displaying images
 
 DISTNAME=	indexpage-1.0.3
 CATEGORIES=	graphics

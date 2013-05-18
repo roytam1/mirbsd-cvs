@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.8 2003/10/18 19:44:47 sturm Exp $
 
-COMMENT=	"transparently compress Apache output"
+COMMENT=			transparently compress Apache output
 
 # This port currently only works with archs supporting dynamic loading
 # and has Apache that supports DSO's.

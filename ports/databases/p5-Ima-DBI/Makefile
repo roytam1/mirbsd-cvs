@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.1.1.1 2004/05/26 13:36:07 sturm Exp $
 
-COMMENT=	"database connection caching and organization"
+COMMENT=			database connection caching and organization
 
 DISTNAME=	Ima-DBI-0.33
 PKGNAME=	p5-${DISTNAME}-0

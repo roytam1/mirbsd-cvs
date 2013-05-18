@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.8 2003/04/10 18:08:57 jsyn Exp $
 
-COMMENT=	"generates or checks digests or mac"
+COMMENT=			generates or checks digests or mac
 
 DISTNAME=	shash-0.2.4
 CATEGORIES=     security

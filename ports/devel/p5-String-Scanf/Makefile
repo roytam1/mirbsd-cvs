@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.1.1.1 2002/12/01 21:14:49 margarida Exp $
 
-COMMENT=	"Emulates the sscanf() of the C stdio library"
+COMMENT=			Emulates the sscanf() of the C stdio library
 
 VERSION=	2.0
 DISTNAME=	String-Scanf-${VERSION}

@@ -2,7 +2,7 @@
 
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
-COMMENT=	"libpcap bindings for Python"
+COMMENT=			libpcap bindings for Python
 
 DISTNAME=	pylibpcap-0.3.1
 PKGNAME=	${DISTNAME:S/py/py-/}-0

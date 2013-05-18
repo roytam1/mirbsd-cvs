@@ -1,9 +1,9 @@
-# $MirOS: ports/net/gaim/Makefile,v 1.4 2005/10/16 11:44:07 bsiegert Exp $
+# $MirOS: ports/net/gaim/Makefile,v 1.5 2006/02/09 11:12:14 tg Exp $
 # $OpenBSD: Makefile,v 1.73 2005/01/28 16:33:28 fgsch Exp $
 
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
-COMMENT=		"Gtk AIM, ICQ, IRC, Jabber, MSN, Yahoo and Zephyr client"
+COMMENT=			Gtk AIM, ICQ, IRC, Jabber, MSN, Yahoo and Zephyr client
 
 DISTNAME=		gaim-1.5.0
 CATEGORIES=		net

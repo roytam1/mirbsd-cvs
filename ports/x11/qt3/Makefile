@@ -1,12 +1,12 @@
-# $MirOS: ports/x11/qt3/Makefile,v 1.10 2006/01/11 20:09:54 tg Exp $
+# $MirOS: ports/x11/qt3/Makefile,v 1.11 2006/02/09 11:15:54 tg Exp $
 # $OpenBSD: Makefile,v 1.58 2006/01/02 16:59:37 espie Exp $
 # $FreeBSD: Makefile,v 1.33 1999/02/27 03:09:57 andreas Exp $
 
-COMMENT=		"C++ X11 GUI toolkit"
-COMMENT-examples=	"examples and tutorial for qt3"
-COMMENT-html=		"off-line html documentation for qt3"
-COMMENT-postgresql=	"PostgresSQL plugin for qt3"
-COMMENT-mysql=		"MySQL plugin for qt3"
+COMMENT=			C++ X11 GUI toolkit
+COMMENT-examples=			examples and tutorial for qt3
+COMMENT-html=			off-line html documentation for qt3
+COMMENT-postgresql=			PostgresSQL plugin for qt3
+COMMENT-mysql=			MySQL plugin for qt3
 
 PKGNAME=		qt3-${VERSION}-${PL}
 PKGNAME-mysql=		qt3-mysql-${VERSION}-${PL}

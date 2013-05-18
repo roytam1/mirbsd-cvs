@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.7 2003/03/27 17:38:22 pvalchev Exp $
 
-COMMENT=		"visual sound representation"
+COMMENT=			visual sound representation
 
 DISTNAME=		synaesthesia-2.1
 CATEGORIES=     	graphics x11

@@ -1,7 +1,7 @@
-# $MirOS$
+# $MirOS: ports/net/ices/Makefile,v 1.3 2006/06/03 16:02:41 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.2 2003/07/26 13:34:40 sturm Exp $
 
-COMMENT=	"icecast source for streaming MP3"
+COMMENT=			icecast source for streaming MP3
 
 DISTNAME=	ices-0.3
 PKGNAME=	${DISTNAME}-1

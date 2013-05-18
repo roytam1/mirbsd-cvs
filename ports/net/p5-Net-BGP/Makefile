@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.1.1.1 2004/05/28 00:47:31 msf Exp $
 
-COMMENT= 	"Border Gateway Protocol version 4 speaker/listener library"
+COMMENT=			Border Gateway Protocol version 4 speaker/listener library
 
 DISTNAME=	Net-BGP-0.07
 PKGNAME=	p5-${DISTNAME}-0

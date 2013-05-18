@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.1.1.1 2004/05/26 13:58:44 sturm Exp $
 
-COMMENT=	"track sessions and, optionally, users"
+COMMENT=			track sessions and, optionally, users
 
 DISTNAME=	Maypole-Authentication-UserSessionCookie-1.1
 PKGNAME=	p5-${DISTNAME}-0

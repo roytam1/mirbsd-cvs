@@ -1,7 +1,7 @@
 # $OpenBSD: Makefile,v 1.4 2004/01/30 08:39:48 xsa Exp $
 
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
-COMMENT=	"Python interface to the Sybase relational database system"
+COMMENT=			Python interface to the Sybase relational database system
 DISTNAME=	sybase-0.36
 PKGNAME=	py-${DISTNAME}-0
 CATEGORIES=	databases

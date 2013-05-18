@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.12 2004/12/20 07:28:00 alek Exp $
 
-COMMENT=		"MIME and Application database for GNOME"
+COMMENT=			MIME and Application database for GNOME
 
 DISTNAME=		gnome-mime-data-2.4.2
 CATEGORIES=		x11 x11/gnome

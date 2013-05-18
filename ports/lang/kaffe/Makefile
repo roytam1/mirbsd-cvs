@@ -12,7 +12,7 @@
 # nullpointerexceptions everywhere).
 ONLY_FOR_PLATFORM=	OpenBSD:*:i386 MirBSD:*:i386 # *:*:sparc *:*:m68k
 
-COMMENT=	"Transvirtual's Java JDK1.1 compiler, runtime and libs"
+COMMENT=			Transvirtual's Java JDK1.1 compiler, runtime and libs
 
 DISTNAME=	kaffe-1.0.6
 CATEGORIES=	lang

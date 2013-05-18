@@ -1,7 +1,7 @@
-# $MirOS$
+# $MirOS: ports/chinese/py-zhCodecs/Makefile,v 1.2 2005/07/07 21:17:55 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.5 2003/10/13 16:24:27 sturm Exp $
 
-COMMENT=	"Python Unicode codecs for Chinese charsets"
+COMMENT=			Python Unicode codecs for Chinese charsets
 
 VERSION=	1.2.0
 DISTNAME=	ChineseCodecs${VERSION}

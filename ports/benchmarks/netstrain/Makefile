@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.2 2004/05/22 19:54:10 jolan Exp $
 
-COMMENT=	"tool to measure TCP throughput"
+COMMENT=			tool to measure TCP throughput
 DISTNAME=	netstrain-3.0
 CATEGORIES=	benchmarks net
 MASTER_SITES=	${MASTER_SITE_SOURCEFORGE:=netstrain/}

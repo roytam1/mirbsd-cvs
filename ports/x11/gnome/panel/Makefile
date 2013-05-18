@@ -1,7 +1,7 @@
-# $MirOS: ports/x11/gnome/panel/Makefile,v 1.2 2005/07/07 21:28:49 bsiegert Exp $
+# $MirOS: ports/x11/gnome/panel/Makefile,v 1.3 2006/02/09 11:15:46 tg Exp $
 # $OpenBSD: Makefile,v 1.15 2004/12/30 04:25:06 marcm Exp $
 
-COMMENT=		"GNOME panel"
+COMMENT=			GNOME panel
 
 VERSION=		2.8.2
 DISTNAME=		gnome-panel-${VERSION}

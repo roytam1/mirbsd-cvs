@@ -1,6 +1,6 @@
-# $MirOS$
+# $MirOS: ports/mailnews/p5-News-NNTPClient/Makefile,v 1.2 2005/07/07 21:23:03 bsiegert Exp $
 
-COMMENT=	"NNTP client in perl"
+COMMENT=			NNTP client in perl
 DISTNAME=	NNTPClient-0.37
 PKGNAME=	p5-News-${DISTNAME}-0
 CATEGORIES=	news perl5

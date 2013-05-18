@@ -1,7 +1,7 @@
-# $MirOS: ports/audio/libogg/Makefile,v 1.3 2005/12/28 16:37:51 tg Exp $
+# $MirOS: ports/audio/libogg/Makefile,v 1.4 2006/02/09 09:35:37 tg Exp $
 # $OpenBSD: Makefile,v 1.13 2003/12/14 00:52:21 naddy Exp $
 
-COMMENT=		"Ogg bitstream library"
+COMMENT=			Ogg bitstream library
 DISTNAME=		libogg-1.1.3
 CATEGORIES=    		audio
 HOMEPAGE=		http://www.xiph.org/ogg/

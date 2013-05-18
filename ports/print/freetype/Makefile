@@ -1,9 +1,9 @@
-# $MirOS: ports/print/freetype/Makefile,v 1.2 2005/07/07 21:25:29 bsiegert Exp $
+# $MirOS: ports/print/freetype/Makefile,v 1.3 2006/02/09 09:36:15 tg Exp $
 # $OpenBSD: Makefile,v 1.31 2004/02/04 07:39:18 sturm Exp $
 # $FreeBSD: Makefile,v 1.6 1998/06/21 02:42:33 jseger Exp $
 
-COMMENT=	"free and portable TrueType font rendering engine"
-COMMENT-doc=	"documentation for FreeType"
+COMMENT=			free and portable TrueType font rendering engine
+COMMENT-doc=			documentation for FreeType
 VERSION=	1.3.1
 DISTNAME=	freetype-${VERSION}
 PKGNAME=	${DISTNAME}p1-0

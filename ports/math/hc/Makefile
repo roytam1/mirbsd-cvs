@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.5 2002/12/22 01:32:43 margarida Exp $
 
-COMMENT=	"multi-radix integer desk calculator"
+COMMENT=			multi-radix integer desk calculator
 
 DISTNAME=	hc
 PKGNAME=	hc-1.1-0

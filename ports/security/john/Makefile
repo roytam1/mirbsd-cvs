@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.26 2004/04/16 17:26:16 naddy Exp $
 
-COMMENT=		"extremely fast password cracker"
+COMMENT=			extremely fast password cracker
 
 DISTNAME=		john-1.6.37
 CATEGORIES=     	security

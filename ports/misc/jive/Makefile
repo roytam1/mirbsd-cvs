@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.17 2002/12/23 00:37:51 pvalchev Exp $
 
-COMMENT=	"convert English text to Jive"
+COMMENT=			convert English text to Jive
 
 DISTNAME=	jive-1.1
 CATEGORIES=	misc

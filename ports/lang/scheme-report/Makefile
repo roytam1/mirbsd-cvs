@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.7 2003/08/22 18:03:44 espie Exp $
 
-COMMENT=	"revised^5 report on scheme"
+COMMENT=			revised^5 report on scheme
 
 CATEGORIES=	lang books
 

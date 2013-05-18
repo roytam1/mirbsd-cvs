@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.6 2003/04/08 00:59:33 jsyn Exp $
 
-COMMENT=	"portable low-level networking library"
+COMMENT=			portable low-level networking library
 
 DISTNAME=	libdnet-1.7
 CATEGORIES=	net

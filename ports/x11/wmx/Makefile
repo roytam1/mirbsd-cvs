@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.15 2003/10/08 17:13:18 sturm Exp $
 
-COMMENT=	"minimal window manager"
+COMMENT=			minimal window manager
 
 DISTNAME=	wmx-6
 CATEGORIES=	x11

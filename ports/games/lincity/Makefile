@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.5 2002/09/28 21:25:05 naddy Exp $
 
-COMMENT=		"Rich city simulation game for X"
+COMMENT=			Rich city simulation game for X
 
 DISTNAME=		lincity-1.11
 CATEGORIES=		games

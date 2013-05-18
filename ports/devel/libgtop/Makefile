@@ -1,7 +1,7 @@
-# $MirOS: ports/devel/libgtop/Makefile,v 1.3 2005/07/07 21:19:12 bsiegert Exp $
+# $MirOS: ports/devel/libgtop/Makefile,v 1.4 2006/02/09 11:11:24 tg Exp $
 # $OpenBSD: Makefile,v 1.14 2004/12/11 17:41:52 marcm Exp $
 
-COMMENT=		"portable library for obtaining system information"
+COMMENT=			portable library for obtaining system information
 
 V=			2.8.2
 DISTNAME=		libgtop-${V}

@@ -1,7 +1,7 @@
-# $MirOS: ports/lang/guile/Makefile,v 1.3 2005/12/16 15:42:11 tg Exp $
+# $MirOS: ports/lang/guile/Makefile,v 1.4 2006/02/09 09:36:00 tg Exp $
 # $OpenBSD: Makefile,v 1.20 2002/12/29 20:41:07 fgsch Exp $
 
-COMMENT=		"GNU's Ubiquitous Intelligent Language for Extension"
+COMMENT=			GNU's Ubiquitous Intelligent Language for Extension
 
 VERSION=		1.4
 DISTNAME=		guile-${VERSION}

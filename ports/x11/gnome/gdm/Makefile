@@ -1,8 +1,8 @@
-# $MirOS: ports/x11/gnome/gdm/Makefile,v 1.1.7.1 2005/03/18 16:00:23 tg Exp $
+# $MirOS: ports/x11/gnome/gdm/Makefile,v 1.2 2006/02/09 11:15:43 tg Exp $
 # $OpenBSD: Makefile,v 1.3 2004/01/30 13:36:51 marcm Exp $
 
 
-COMMENT=		"GNOME display manager"
+COMMENT=			GNOME display manager
 
 DISTNAME=		gdm-2.4.4.7
 CATEGORIES=		x11/gnome

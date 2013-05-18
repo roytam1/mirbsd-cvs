@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.3 2002/10/19 08:38:49 pvalchev Exp $
 
-COMMENT=	"configuration system for the STAGE server"
+COMMENT=			configuration system for the STAGE server
 
 VERSION=	0.5.4
 DISTNAME=	varconf-${VERSION}

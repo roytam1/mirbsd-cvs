@@ -1,8 +1,8 @@
-# $MirOS$
+# $MirOS: ports/devel/mysql++/Makefile,v 1.2 2005/07/07 21:19:16 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.15 2004/02/04 07:39:18 sturm Exp $
 
-COMMENT=		"C++ API for MySQL"
-COMMENT-docs=		"C++ API for MySQL documentation"
+COMMENT=			C++ API for MySQL
+COMMENT-docs=			C++ API for MySQL documentation
 VERSION=		1.7.9
 DISTNAME=		mysql++-${VERSION}
 PKGNAME-docs=		mysql++-docs-${VERSION}-0

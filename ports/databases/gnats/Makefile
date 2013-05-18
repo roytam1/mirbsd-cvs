@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.15 2003/09/01 05:13:17 fgsch Exp $
 
-COMMENT=	"GNU Problem Report Management System"
+COMMENT=			GNU Problem Report Management System
 
 DISTNAME=	gnats-3.113.1
 PKGNAME=	${DISTNAME}-2

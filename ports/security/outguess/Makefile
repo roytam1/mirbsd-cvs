@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.15 2003/09/25 06:25:13 jolan Exp $
 
-COMMENT=	"universal steganography tool"
+COMMENT=			universal steganography tool
 
 DISTNAME=	outguess-0.2
 CATEGORIES=	security

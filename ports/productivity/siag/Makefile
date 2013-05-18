@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.3 2003/05/04 17:59:35 margarida Exp $
 
-COMMENT=		"office suite"
+COMMENT=			office suite
 
 VERSION=		3.5.6
 DISTNAME=		siag-${VERSION}

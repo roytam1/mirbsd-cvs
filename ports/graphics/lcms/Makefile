@@ -1,7 +1,7 @@
-# $MirOS: ports/graphics/lcms/Makefile,v 1.2 2005/04/28 20:24:18 tg Exp $
+# $MirOS: ports/graphics/lcms/Makefile,v 1.3 2006/01/11 17:19:46 tg Exp $
 # $OpenBSD: Makefile,v 1.6 2004/02/03 05:15:16 brad Exp $
 
-COMMENT=		"color management library"
+COMMENT=			color management library
 DISTNAME=		lcms-1.15
 CATEGORIES=		graphics
 MASTER_SITES=		${MASTER_SITE_SOURCEFORGE:=lcms/}

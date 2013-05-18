@@ -1,6 +1,6 @@
-# $MirOS: ports/x11/libxklavier/Makefile,v 1.1.7.1 2005/03/18 16:00:42 tg Exp $
+# $MirOS: ports/sysutils/fam/Makefile,v 1.1 2005/10/12 21:00:26 bsiegert Exp $
 
-COMMENT=		"file alteration monitor"
+COMMENT=			file alteration monitor
 
 VERSION=		2.7.0
 DISTNAME=		fam-${VERSION}

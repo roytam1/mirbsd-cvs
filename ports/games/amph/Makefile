@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.10 2004/01/11 21:44:26 biorn Exp $
 
-COMMENT=	"jump'n run game with unique video effects"
+COMMENT=			jump'n run game with unique video effects
 
 VERSION=	0.8.10
 DVERSION=	0.8.6

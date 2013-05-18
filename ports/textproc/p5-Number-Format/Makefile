@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.2 2003/11/15 15:12:54 sturm Exp $
 
-COMMENT=	"Perl extension for formatting numbers"
+COMMENT=			Perl extension for formatting numbers
 
 VERSION=	1.45
 DISTNAME=	Number-Format-${VERSION}

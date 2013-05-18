@@ -14,7 +14,7 @@ CATEGORIES=     	editors
 
 HOMEPAGE=		http://www.xemacs.org/
 
-COMMENT=		"complete set of supported XEmacs packages"
+COMMENT=			complete set of supported XEmacs packages
 # where to send bitches about this port
 #
 

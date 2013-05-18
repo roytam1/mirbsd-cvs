@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.10 2003/11/12 06:27:05 kevlo Exp $
 
-COMMENT=	"extension for portable daemons"
+COMMENT=			extension for portable daemons
 
 DISTNAME=	Net-Daemon-0.38
 PKGNAME=	p5-${DISTNAME}-0

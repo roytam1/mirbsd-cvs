@@ -4,7 +4,7 @@
 # and has Apache that supports DSO's.
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
-COMMENT=	"Apache LDAP authentication module"
+COMMENT=			Apache LDAP authentication module
 
 VERSION=	1.6.0
 DISTNAME=	auth_ldap-${VERSION}

@@ -1,7 +1,7 @@
 # $OpenBSD: Makefile,v 1.16 2002/10/26 20:44:39 naddy Exp $
 #
 
-COMMENT=	"graphical multi-player real-time strategy game for X11"
+COMMENT=			graphical multi-player real-time strategy game for X11
 
 DISTNAME=       xblast-2.6.beta
 PKGNAME=	xblast-2.6b-0

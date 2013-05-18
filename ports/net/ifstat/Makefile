@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.3 2004/05/15 15:19:20 sturm Exp $
 
-COMMENT=		"tool to monitor interface bandwidth usage"
+COMMENT=			tool to monitor interface bandwidth usage
 
 DISTNAME=		ifstat-1.1
 CATEGORIES=		net

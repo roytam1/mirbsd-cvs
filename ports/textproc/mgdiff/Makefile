@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.16 2003/11/15 15:12:53 sturm Exp $
 
-COMMENT=	"graphical front end to Unix diff"
+COMMENT=			graphical front end to Unix diff
 
 DISTNAME=	mgdiff
 PKGNAME=	mgdiff-1.0-0

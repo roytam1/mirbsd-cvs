@@ -2,7 +2,7 @@
 
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
-COMMENT=	"unified perl interface for database access"
+COMMENT=			unified perl interface for database access
 
 DISTNAME=	DBI-1.42
 PKGNAME=	p5-${DISTNAME}-0

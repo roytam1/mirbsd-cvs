@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.1.1.1 2002/10/16 12:50:40 wilfried Exp $
 
-COMMENT=	"inheritable, overridable class data"
+COMMENT=			inheritable, overridable class data
 
 DISTNAME=	Class-Data-Inheritable-0.02
 PKGNAME=	p5-${DISTNAME}-0

@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.12 2003/04/27 06:54:26 wilfried Exp $
 
-COMMENT=		'wm-dockapp; simple four-function calculator'
+COMMENT=			wm-dockapp; simple four-function calculator
 
 DISTNAME=		wmcalc-0.3
 CATEGORIES=		math x11 x11/windowmaker

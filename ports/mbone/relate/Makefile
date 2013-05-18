@@ -1,7 +1,7 @@
-# $MirOS$
+# $MirOS: ports/mbone/relate/Makefile,v 1.1.7.1 2005/03/18 15:50:15 tg Exp $
 # $OpenBSD: Makefile,v 1.20 2002/12/23 00:37:51 pvalchev Exp $
 
-COMMENT=	"ReLaTe integrated conferencing tool from UCL"
+COMMENT=			ReLaTe integrated conferencing tool from UCL
 
 DISTNAME=	relate-2.0
 CATEGORIES=	mbone

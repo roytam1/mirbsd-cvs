@@ -1,10 +1,10 @@
-# $MirOS: ports/lang/jdk/1.2-blackdown/Makefile,v 1.2 2005/04/10 21:50:13 tg Exp $
+# $MirOS: ports/lang/jdk/1.2-blackdown/Makefile,v 1.4 2005/07/07 21:22:28 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.13 2004/01/15 22:38:02 sturm Exp $
 
 ONLY_FOR_PLATFORM=	OpenBSD:*:i386 MirBSD:*:i386
 EMUL=			linux
 
-COMMENT=	"Blackdown Java Development Kit for Java 2 platform"
+COMMENT=			Blackdown Java Development Kit for Java 2 platform
 DISTNAME=	jdk-blackdown-1.2pre2
 PKGNAME=	${DISTNAME}-1
 CATEGORIES=	devel lang

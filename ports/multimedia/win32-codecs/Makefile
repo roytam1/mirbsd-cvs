@@ -1,9 +1,9 @@
-# $MirOS: ports/multimedia/win32-codecs/Makefile,v 1.9 2006/03/02 02:16:08 tg Exp $
+# $MirOS: ports/multimedia/win32-codecs/Makefile,v 1.10 2006/03/02 02:27:06 tg Exp $
 # $OpenBSD: Makefile,v 1.9 2003/11/13 09:10:19 kevlo Exp $
 
 ONLY_FOR_PLATFORM=	OpenBSD:*:i386 MirBSD:*:i386
 
-COMMENT=	"Huge compilation of mostly Win32 binary codecs for MPlayer"
+COMMENT=			Huge compilation of mostly Win32 binary codecs for MPlayer
 RESPONSIBLE=	Thorsten Glaser <tg@66h.42h.de>
 _V=		20050412
 DISTNAME=	all-${_V}

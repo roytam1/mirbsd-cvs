@@ -1,12 +1,12 @@
-# $MirOS: ports/multimedia/transcode/Makefile,v 1.4 2005/07/07 21:23:57 bsiegert Exp $
+# $MirOS: ports/multimedia/transcode/Makefile,v 1.5 2006/06/03 16:02:40 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.2 2004/06/24 19:27:00 sturm Exp $
 
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
-COMMENT=		"video stream processing tools"
-COMMENT-dv=		"transcode plugins utilizing libdv"
-COMMENT-mjpegtools=	"transcode plugins utilizing mjpegtools"
-COMMENT-xvidcore=	"transcode plugins utilizing xvidcore"
+COMMENT=			video stream processing tools
+COMMENT-dv=			transcode plugins utilizing libdv
+COMMENT-mjpegtools=			transcode plugins utilizing mjpegtools
+COMMENT-xvidcore=			transcode plugins utilizing xvidcore
 
 VERSION=		0.6.12
 DASH_VER=		-1

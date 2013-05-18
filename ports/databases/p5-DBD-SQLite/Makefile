@@ -2,7 +2,7 @@
 
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
-COMMENT=		'SQLite drivers for the Perl DBI'
+COMMENT=			SQLite drivers for the Perl DBI
 
 DISTNAME=		DBD-SQLite-0.31
 PKGNAME=		p5-${DISTNAME}-0

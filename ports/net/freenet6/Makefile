@@ -1,6 +1,6 @@
-# $MirOS: ports/net/freenet6/Makefile,v 1.2 2005/09/01 20:50:33 tg Exp $
+# $MirOS: ports/net/freenet6/Makefile,v 1.3 2006/02/09 11:12:14 tg Exp $
 
-COMMENT=	"Freenet6 IPv6 Tunnel Broker Client"
+COMMENT=			Freenet6 IPv6 Tunnel Broker Client
 NO_REGRESS=	Yes
 
 CATEGORIES=	net

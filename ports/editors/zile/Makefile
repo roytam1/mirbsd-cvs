@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.2 2004/01/30 17:04:48 lebel Exp $
 
-COMMENT=		"zile is lossy emacs"
+COMMENT=			zile is lossy emacs
 
 DISTNAME=		zile-1.6.2
 CATEGORIES=		editors

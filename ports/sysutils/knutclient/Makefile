@@ -1,9 +1,9 @@
-# $MirOS: ports/sysutils/knutclient/Makefile,v 1.1.7.1 2005/03/18 15:52:12 tg Exp $
+# $MirOS: ports/sysutils/knutclient/Makefile,v 1.2 2006/02/09 13:25:15 tg Exp $
 # $OpenBSD: Makefile,v 1.2 2004/03/02 07:57:20 brad Exp $
 
 BROKEN=			Missing support for module x11/kde
 
-COMMENT=		"KDE UPS Monitoring tool"
+COMMENT=			KDE UPS Monitoring tool
 
 RELEASE=		0.6.0
 DISTNAME=		knutclient-${RELEASE}

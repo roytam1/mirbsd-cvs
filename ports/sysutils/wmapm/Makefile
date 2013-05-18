@@ -2,7 +2,7 @@
 
 ONLY_FOR_PLATFORM=	OpenBSD:*:i386 MirBSD:*:i386
 
-COMMENT=		'wm-dockapp; APM/battery monitor'
+COMMENT=			wm-dockapp; APM/battery monitor
 DISTNAME=		wmapm-3.1
 CATEGORIES=		sysutils x11 x11/windowmaker
 HOMEPAGE=		http://nis-www.lanl.gov/~mgh/WindowMaker/DockApps.shtml

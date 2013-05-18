@@ -1,7 +1,7 @@
-# $MirOS: ports/x11/gnome/eog/Makefile,v 1.1.7.1 2005/03/18 16:00:23 tg Exp $
+# $MirOS: ports/x11/gnome/eog/Makefile,v 1.2 2006/02/09 11:15:42 tg Exp $
 # $OpenBSD: Makefile,v 1.6 2005/02/13 18:50:25 alek Exp $
 
-COMMENT=		"Eye of GNOME: an image viewing and cataloging program"
+COMMENT=			Eye of GNOME: an image viewing and cataloging program
 DISTNAME=		eog-2.8.2
 CATEGORIES=		graphics x11/gnome
 

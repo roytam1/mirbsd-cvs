@@ -1,7 +1,7 @@
-# $MirOS: ports/archivers/bzip2/Makefile,v 1.2 2005/05/21 12:54:56 bsiegert Exp $
+# $MirOS: ports/archivers/bzip2/Makefile,v 1.4 2005/07/07 21:16:52 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.47 2004/04/06 06:33:29 brad Exp $
 
-COMMENT=		"block-sorting file compressor, unencumbered"
+COMMENT=			block-sorting file compressor, unencumbered
 
 VERSION=		1.0.3
 DISTNAME=		bzip2-${VERSION}

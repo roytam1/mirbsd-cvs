@@ -6,7 +6,7 @@
 # $OpenBSD: Makefile,v 1.13 2002/08/05 02:25:28 kevlo Exp $
 #
 
-COMMENT=	"APC Smart UPS Monitoring Daemon"
+COMMENT=			APC Smart UPS Monitoring Daemon
 
 DISTNAME=	upsd-2.0.1.6
 PKGNAME=	upsd-2.0-0

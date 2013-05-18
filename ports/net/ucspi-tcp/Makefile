@@ -1,6 +1,6 @@
-# $MirOS$
+# $MirOS: ports/net/ucspi-tcp/Makefile,v 1.2 2005/07/07 21:25:10 bsiegert Exp $
 
-COMMENT=	"tools for building TCP client-server applications"
+COMMENT=			tools for building TCP client-server applications
 NO_REGRESS=	Yes
 
 CATEGORIES=	net

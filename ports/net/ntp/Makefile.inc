@@ -1,7 +1,7 @@
 # $OpenBSD: Makefile.inc,v 1.5 2004/02/04 07:39:18 sturm Exp $
 
-COMMENT=	"network time protocol implementation"
-COMMENT-doc=	"network time protocol documentation"
+COMMENT=			network time protocol implementation
+COMMENT-doc=			network time protocol documentation
 
 DISTNAME=	ntp-${NTP_VERSION}
 PKGNAME=	ntp-${NTP_VERSION:C/-rc.*//}-0

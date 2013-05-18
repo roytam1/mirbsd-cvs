@@ -1,8 +1,8 @@
-# $MirOS: ports/net/irc/Makefile,v 1.2 2005/07/07 21:24:13 bsiegert Exp $
+# $MirOS: ports/net/irc/Makefile,v 1.3 2006/01/01 05:25:30 tg Exp $
 # $OpenBSD: Makefile,v 1.24 2003/11/11 15:17:34 margarida Exp $
 # $FreeBSD: Makefile,v 1.19 1998/12/09 20:15:29 billf Exp $
 
-COMMENT=	"internet relay chat (irc) server"
+COMMENT=			internet relay chat (irc) server
 DISTNAME=       irc2.10.3p1
 PKGNAME=        irc-2.10.3p1-1
 CATEGORIES=	net

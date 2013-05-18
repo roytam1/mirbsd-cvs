@@ -1,10 +1,10 @@
-# $MirOS: ports/devel/prc-tools/Makefile,v 1.2 2005/04/10 21:49:41 tg Exp $
+# $MirOS: ports/devel/prc-tools/Makefile,v 1.4 2005/07/07 21:20:18 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.31 2003/06/05 19:17:06 pvalchev Exp $
 
 ONLY_FOR_PLATFORM=	OpenBSD:*:i386 MirBSD:*:i386
 
 BROKEN=		attempts to install during build
-COMMENT=	"PalmPilot(tm) development environment"
+COMMENT=			PalmPilot(tm) development environment
 VERSION=	0.5.0
 DISTNAME=       prc-tools.${VERSION}
 PKGNAME=	prc-tools-${VERSION}-0

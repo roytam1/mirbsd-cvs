@@ -1,6 +1,6 @@
-# $MirOS: ports/voip/libosip/Makefile,v 1.1.1.1 2005/09/01 20:55:24 tg Exp $
+# $MirOS: ports/voip/libosip/Makefile,v 1.2 2005/09/01 20:59:16 tg Exp $
 
-COMMENT=		"SIP telephony (VoIP) library"
+COMMENT=			SIP telephony (VoIP) library
 CATEGORIES=		comms net voip
 DISTNAME=		libosip-0.9.7
 HOMEPAGE=		http://www.linphone.org/?lang=us

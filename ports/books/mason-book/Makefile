@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.3 2004/02/01 20:07:41 sturm Exp $
 
-COMMENT=	"book on embedding Perl in HTML with Mason"
+COMMENT=			book on embedding Perl in HTML with Mason
 CATEGORIES=	books 
 
 # unversioned, so impose a version on it

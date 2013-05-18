@@ -1,7 +1,7 @@
-# $MirOS$
+# $MirOS: ports/x11/gtk-engines0/Makefile,v 1.1.7.1 2005/03/18 16:00:44 tg Exp $
 # $OpenBSD: Makefile,v 1.10 2003/12/09 22:06:23 marcm Exp $
 
-COMMENT=		"sample theme engines for GTK+ provided with GNOME"
+COMMENT=			sample theme engines for GTK+ provided with GNOME
 DISTNAME=		gtk-engines-0.12
 CATEGORIES=		x11
 HOMEPAGE=		http://www.gnome.org

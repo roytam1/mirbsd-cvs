@@ -1,7 +1,7 @@
-# $MirOS: ports/audio/mp3info/Makefile,v 1.1.7.1 2005/03/18 15:43:03 tg Exp $
+# $MirOS: ports/audio/mp3info/Makefile,v 1.2 2006/02/09 11:11:06 tg Exp $
 # $OpenBSD: Makefile,v 1.17 2003/12/13 01:17:52 margarida Exp $
 
-COMMENT=	"MP3 information tool"
+COMMENT=			MP3 information tool
 DISTNAME=	mp3info-0.8.4
 CATEGORIES=	audio
 HOMEPAGE=	http://www.ibiblio.org/mp3info/

@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.8 2003/10/06 09:27:59 dhartmei Exp $
 
-COMMENT=	"packet filter statistics visualization"
+COMMENT=			packet filter statistics visualization
 
 DISTNAME=	pfstat-1.7
 CATEGORIES=	net

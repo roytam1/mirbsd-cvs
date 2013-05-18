@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.12 2004/05/18 08:45:33 xsa Exp $
 
-COMMENT=	"Swiss railway clock emulation"
+COMMENT=			Swiss railway clock emulation
 
 DISTNAME=	swisswatch-0.06
 CATEGORIES=	x11

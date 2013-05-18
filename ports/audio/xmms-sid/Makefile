@@ -2,7 +2,7 @@
 
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
-COMMENT=	"XMMS input plugin for playing SID files"
+COMMENT=			XMMS input plugin for playing SID files
 
 DISTNAME=	xmms-sid-0.7.4
 CATEGORIES=	audio

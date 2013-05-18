@@ -2,7 +2,7 @@
 
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
-COMMENT=	"access to PostgreSQL databases perl"
+COMMENT=			access to PostgreSQL databases perl
 
 VERSION=	1.9.0
 DISTNAME=	pgsql_perl5-${VERSION}

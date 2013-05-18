@@ -1,7 +1,7 @@
 # $OpenBSD: Makefile,v 1.12 2002/09/19 22:38:03 naddy Exp $
 # $FreeBSD: Makefile,v 1.5 2000/05/30 23:19:09 jasone Exp $
 
-COMMENT=	"like make(1), but more powerful and clean"
+COMMENT=			like make(1), but more powerful and clean
 
 DISTNAME=	cook-2.21
 CATEGORIES=	devel

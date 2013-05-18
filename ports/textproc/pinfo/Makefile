@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.1.1.1 2003/07/08 16:23:47 espie Exp $
 
-COMMENT="info viewer"
+COMMENT=			info viewer
 DISTNAME=pinfo-0.6.7
 CATEGORIES=textproc devel
 

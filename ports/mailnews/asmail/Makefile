@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.20 2003/06/17 00:27:46 avsm Exp $
 
-COMMENT=	"biff-type program, designed to match AfterStep"
+COMMENT=			biff-type program, designed to match AfterStep
 
 DISTNAME=	asmail-0.56
 PKGNAME=	asmail-0.56-1

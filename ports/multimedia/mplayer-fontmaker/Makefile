@@ -5,7 +5,7 @@ ONLY_FOR_PLATFORM=	*:*:i386 *:*:macppc
 
 DISTNAME=mplayer-fontmaker-0.90
 CATEGORIES=x11 multimedia
-COMMENT='subtitle fonts generator for mplayer'
+COMMENT=			subtitle fonts generator for mplayer
 
 MODULES=	converters/libiconv
 BUILD_DEPENDS=	::x11/mplayer:configure

@@ -1,7 +1,7 @@
-# $MirOS$
+# $MirOS: ports/japanese/groff/Makefile,v 1.2 2005/07/07 21:22:10 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.7 2003/06/22 21:18:53 naddy Exp $
 
-COMMENT=	"japanese groff"
+COMMENT=			japanese groff
 CATEGORIES=	japanese textproc print
 PKGNAME=	ja-groff-1.10_0.99-0
 DISTNAME=	groff-1.10

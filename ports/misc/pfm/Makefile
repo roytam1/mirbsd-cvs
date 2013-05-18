@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.5 2004/02/02 17:45:22 sturm Exp $
 
-COMMENT=		"personal file manager"
+COMMENT=			personal file manager
 
 DISTNAME=		pfm-1.92.2
 CATEGORIES=		misc

@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.5 2002/12/29 21:14:10 fgsch Exp $
 
-COMMENT=	"console Yahoo! messenger client"
+COMMENT=			console Yahoo! messenger client
 
 DISTNAME=	ari-yahoo-1.7
 CATEGORIES= 	net

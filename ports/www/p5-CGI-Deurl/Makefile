@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.2 2003/10/18 19:44:51 sturm Exp $
 
-COMMENT=	"Lightweight URL parser"
+COMMENT=			Lightweight URL parser
 
 DISTNAME=	CGI-Deurl-1.08
 PKGNAME=	p5-${DISTNAME}-0

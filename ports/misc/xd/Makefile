@@ -5,7 +5,7 @@
 # $OpenBSD: Makefile,v 1.10 2003/06/20 08:18:58 kevlo Exp $
 #
 
-COMMENT=	"yet another dump utility"
+COMMENT=			yet another dump utility
 
 DISTNAME=	xd-8087
 CATEGORIES=	misc

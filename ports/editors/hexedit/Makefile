@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.18 2002/12/29 19:43:49 fgsch Exp $
 
-COMMENT=	"view and edit files in hexadecimal or ASCII"
+COMMENT=			view and edit files in hexadecimal or ASCII
 
 DISTNAME=	hexedit-1.2.2
 CATEGORIES=	editors

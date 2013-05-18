@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.4 2003/05/12 20:11:28 naddy Exp $
 
-COMMENT=	"alternative xdm-invoked chooser"
+COMMENT=			alternative xdm-invoked chooser
 
 DISTNAME=	xdmchoose-1.2.1
 CATEGORIES=	x11

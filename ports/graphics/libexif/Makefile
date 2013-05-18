@@ -1,7 +1,7 @@
-# $MirOS: ports/graphics/libexif/Makefile,v 1.6 2005/12/29 20:52:22 tg Exp $
+# $MirOS: ports/graphics/libexif/Makefile,v 1.7 2005/12/29 21:40:20 tg Exp $
 # $OpenBSD: Makefile,v 1.3 2003/01/21 02:21:59 naddy Exp $
 
-COMMENT=		"extract digital camera info tags from JPEG images"
+COMMENT=			extract digital camera info tags from JPEG images
 DISTNAME=		libexif-0.6.13
 PKGNAME=		${DISTNAME}-1
 CATEGORIES=		graphics

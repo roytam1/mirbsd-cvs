@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.1.1.1 2003/06/01 10:36:38 jolan Exp $
 
-COMMENT=	"clone of the commodore 64 game paradroids"
+COMMENT=			clone of the commodore 64 game paradroids
 DISTNAME=	freedroid-1.0.1
 CATEGORIES=	games x11
 MASTER_SITES=	${MASTER_SITE_SOURCEFORGE:=freedroid/}

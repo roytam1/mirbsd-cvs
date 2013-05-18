@@ -2,7 +2,7 @@
 
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
-COMMENT=	"interface to the uulib library"
+COMMENT=			interface to the uulib library
 
 DISTNAME=	Convert-UUlib-0.31
 PKGNAME=	p5-${DISTNAME}-0

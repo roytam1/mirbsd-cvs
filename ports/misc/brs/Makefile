@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.8 2002/10/27 21:07:53 naddy Exp $
 
-COMMENT=	"bible reader"
+COMMENT=			bible reader
 
 DISTNAME=	brs.4.00.l1
 

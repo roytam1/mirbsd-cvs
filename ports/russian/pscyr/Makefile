@@ -1,7 +1,7 @@
-# $MirOS$
+# $MirOS: ports/russian/pscyr/Makefile,v 1.1.7.1 2005/03/18 15:51:12 tg Exp $
 # $OpenBSD: Makefile,v 1.2 2004/02/01 20:38:36 sturm Exp $
 
-COMMENT=		"cyrillic PostScript Type1 fonts to use with TeX"
+COMMENT=			cyrillic PostScript Type1 fonts to use with TeX
 
 DISTNAME=		pscyr-0.4c_patch2
 CATEGORIES=		russian print

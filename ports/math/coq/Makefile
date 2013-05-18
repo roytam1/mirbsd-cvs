@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.7 2003/12/31 17:07:26 sturm Exp $
 
-COMMENT=		"proof assistant based on a typed lambda calculus"
+COMMENT=			proof assistant based on a typed lambda calculus
 
 DISTNAME=		coq-7.3.1
 PKGNAME=		${DISTNAME}-1

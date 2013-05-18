@@ -10,7 +10,7 @@ PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
-COMMENT=	"Lode Runner clone"
+COMMENT=			Lode Runner clone
 HOMEPAGE=	http://www.xdr.com/dash/scavenger.html
 MASTER_SITES=	http://www.xdr.com/dash/
 

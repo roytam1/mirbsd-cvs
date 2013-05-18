@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.12 2002/10/28 19:53:44 naddy Exp $
 
-COMMENT=	"signal or reprioritize specified processes"
+COMMENT=			signal or reprioritize specified processes
 
 VERSION=		4.1
 DISTNAME=		skill-${VERSION}

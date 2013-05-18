@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.21 2002/10/28 19:53:44 naddy Exp $
 
-COMMENT=	"console tool for openlook"
+COMMENT=			console tool for openlook
 
 DISTNAME=	contool-3.3a
 CATEGORIES=	sysutils

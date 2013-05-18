@@ -1,7 +1,7 @@
 # $OpenBSD: Makefile,v 1.13 2003/05/03 00:02:26 avsm Exp $
 
-COMMENT=	"local mail delivery agent with filtering abilities"
-COMMENT-utils=	"userdb and quota tools for the Courier mail suite"
+COMMENT=			local mail delivery agent with filtering abilities
+COMMENT-utils=			userdb and quota tools for the Courier mail suite
 
 V=		1.5.3
 DISTNAME=	maildrop-${V}

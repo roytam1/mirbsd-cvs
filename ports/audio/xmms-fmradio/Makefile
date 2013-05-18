@@ -2,7 +2,7 @@
 
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
-COMMENT=	"FM radio input plug-in for XMMS"
+COMMENT=			FM radio input plug-in for XMMS
 
 DISTNAME=	xmms-FMRadio-1.5
 PKGNAME=	${DISTNAME:L}-0

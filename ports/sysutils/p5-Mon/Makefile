@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.1.1.1 2002/11/24 13:55:23 margarida Exp $
 
-COMMENT=		"module for interfacing with Mon"
+COMMENT=			module for interfacing with Mon
 
 DISTNAME=		Mon-0.11
 PKGNAME=		p5-${DISTNAME}-0

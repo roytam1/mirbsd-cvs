@@ -6,7 +6,7 @@
 # $OpenBSD: Makefile,v 1.12 2002/12/29 19:32:37 fgsch Exp $
 #
 
-COMMENT=	"pager utility that speaks Chinese"
+COMMENT=			pager utility that speaks Chinese
 
 DISTNAME=       cless-290
 PKGNAME=        zh-${DISTNAME}-0

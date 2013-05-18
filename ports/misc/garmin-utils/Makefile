@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.7 2003/10/06 19:35:46 marc Exp $
 
-COMMENT=	"Garmin GPS upload/download utilities"
+COMMENT=			Garmin GPS upload/download utilities
 
 DISTNAME=	garmin-utils-2.0
 CATEGORIES=	misc

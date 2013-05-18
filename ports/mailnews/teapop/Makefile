@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.3 2002/10/27 17:21:40 naddy Exp $
 
-COMMENT=		"POP3-server virtual domain support"
+COMMENT=			POP3-server virtual domain support
 
 VERSION=		0.3.5
 DISTNAME=		teapop-${VERSION}

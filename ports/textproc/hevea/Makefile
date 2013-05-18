@@ -1,7 +1,7 @@
-# $MirOS$
+# $MirOS: ports/textproc/hevea/Makefile,v 1.1.7.1 2005/03/18 15:52:42 tg Exp $
 # $OpenBSD: Makefile,v 1.9 2003/08/22 18:12:24 espie Exp $
 
-COMMENT=	"LaTeX to html translator"
+COMMENT=			LaTeX to html translator
 
 CATEGORIES=	textproc print
 

@@ -1,7 +1,7 @@
-# $MirOS$
+# $MirOS: ports/mailnews/exmh/Makefile,v 1.1.7.1 2005/03/18 15:49:34 tg Exp $
 # $OpenBSD: Makefile,v 1.22 2003/12/27 23:30:05 jose Exp $
 
-COMMENT=		"Tcl/Tk interface to the MH mail system"
+COMMENT=			Tcl/Tk interface to the MH mail system
 DISTNAME=		exmh-2.6.3
 CATEGORIES=     	mail
 HOMEPAGE=		http://www.beedub.com/exmh/

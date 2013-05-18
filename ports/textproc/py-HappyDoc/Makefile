@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.7 2003/11/15 15:12:55 sturm Exp $
 
-COMMENT=	"python tool for generate Python API documents"
+COMMENT=			python tool for generate Python API documents
 
 DISTNAME=	HappyDoc_r2_1
 PKGNAME=	py-HappyDoc-2.1-0

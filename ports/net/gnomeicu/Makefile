@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.14 2003/09/28 10:41:09 sturm Exp $
 
-COMMENT=		"GNOME ICQ client"
+COMMENT=			GNOME ICQ client
 V=			0.96.1
 DISTNAME=		gnomeicu-${V}
 CATEGORIES=		net x11/gnome

@@ -3,7 +3,7 @@
 
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
-COMMENT=	"Network Kanji code conversion Filter"
+COMMENT=			Network Kanji code conversion Filter
 
 VERSION=	1.92
 DISTNAME=	nkf-${VERSION}

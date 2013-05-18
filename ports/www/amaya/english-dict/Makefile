@@ -2,7 +2,7 @@
 #
 # Many variables moved to ../Makefile.inc
 
-COMMENT=	"English dictionary for the Amaya browser/page composer"
+COMMENT=			English dictionary for the Amaya browser/page composer
 
 PKGNAME=		amaya-english-dict-20011029-0
 DISTNAME=		English

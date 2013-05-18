@@ -1,7 +1,7 @@
-# $MirOS: ports/math/grpn/Makefile,v 1.2 2005/03/30 18:13:35 bsiegert Exp $
+# $MirOS: ports/math/grpn/Makefile,v 1.3 2006/02/09 11:12:05 tg Exp $
 # $OpenBSD: Makefile,v 1.10 2003/11/02 19:58:21 margarida Exp $
 
-COMMENT=	"graphical reverse polish notation calculator"
+COMMENT=			graphical reverse polish notation calculator
 
 DISTNAME=	grpn-1.1.2
 CATEGORIES=	math x11

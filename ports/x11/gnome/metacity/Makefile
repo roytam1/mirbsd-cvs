@@ -1,7 +1,7 @@
-# $MirOS: ports/x11/gnome/metacity/Makefile,v 1.3 2006/02/09 09:36:23 tg Exp $
+# $MirOS: ports/x11/gnome/metacity/Makefile,v 1.4 2006/02/09 11:15:46 tg Exp $
 # $OpenBSD: Makefile,v 1.12 2004/12/15 13:57:57 alek Exp $
 
-COMMENT=		"Boring window manager for the adult in you."
+COMMENT=			Boring window manager for the adult in you.
 
 DISTNAME=		metacity-2.8.8
 CATEGORIES=		x11 x11/gnome

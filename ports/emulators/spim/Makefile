@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.4 2003/07/03 06:16:22 sturm Exp $
 
-COMMENT=	"MIPS R2000/R3000 simulator"
+COMMENT=			MIPS R2000/R3000 simulator
 
 DISTNAME=	spim
 PKGNAME=	spim-6.5-0

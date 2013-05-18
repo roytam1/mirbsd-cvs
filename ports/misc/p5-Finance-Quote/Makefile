@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.10 2004/04/27 13:03:11 kevlo Exp $
 
-COMMENT=	"module to obtain financial quotes from exchanges"
+COMMENT=			module to obtain financial quotes from exchanges
 
 DISTNAME=	Finance-Quote-1.08
 PKGNAME=	p5-${DISTNAME}-0

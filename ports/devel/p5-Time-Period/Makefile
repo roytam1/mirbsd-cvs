@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.1.1.1 2002/11/24 14:30:05 margarida Exp $
 
-COMMENT=		"module for dealing with time periods"
+COMMENT=			module for dealing with time periods
 
 DISTNAME=		Period-1.20
 PKGNAME=		p5-Time-${DISTNAME}-0

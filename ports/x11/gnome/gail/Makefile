@@ -1,7 +1,7 @@
-# $MirOS: ports/x11/gnome/gail/Makefile,v 1.2 2006/02/09 09:36:22 tg Exp $
+# $MirOS: ports/x11/gnome/gail/Makefile,v 1.3 2006/02/09 11:15:42 tg Exp $
 # $OpenBSD: Makefile,v 1.9 2004/12/15 13:57:56 alek Exp $
 
-COMMENT=		"GNOME Accessibility Implementation Library"
+COMMENT=			GNOME Accessibility Implementation Library
 
 DISTNAME=		gail-1.8.1
 CATEGORIES=		devel x11/gnome

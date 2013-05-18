@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.1.1.1 2004/05/12 21:25:58 xsa Exp $
 
-COMMENT=	"framework that eases the creation and validation of web forms"
+COMMENT=			framework that eases the creation and validation of web forms
 
 DISTNAME=	Formulator-1.6.2
 PKGNAME=	zope-${DISTNAME:L}-0

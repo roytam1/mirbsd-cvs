@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.3 2004/02/21 01:18:08 pvalchev Exp $
 
-COMMENT=	"RTF document converter"
+COMMENT=			RTF document converter
 
 VERSION=	0.18.1
 DISTNAME=	unrtf-${VERSION}

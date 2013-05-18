@@ -1,6 +1,6 @@
-# $MirOS$
+# $MirOS: ports/devel/libast/Makefile,v 1.1.7.1 2005/03/18 15:44:49 tg Exp $
 
-COMMENT=		"Library of Assorted Spiffy Things"
+COMMENT=			Library of Assorted Spiffy Things
 VER=			0.5
 DISTNAME=		libast-${VER}
 CATEGORIES=		devel

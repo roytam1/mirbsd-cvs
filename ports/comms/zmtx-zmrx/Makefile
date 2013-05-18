@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.17 2002/10/25 11:34:24 naddy Exp $
 
-COMMENT=	"receive/send files via ZMODEM protocol (unrestricted)"
+COMMENT=			receive/send files via ZMODEM protocol (unrestricted)
 
 DISTNAME=	zmtx-zmrx-1.02
 DISTFILES=	zmtx-zmrx.shar.gz

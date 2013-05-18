@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.7 2002/12/29 15:10:08 fgsch Exp $
 
-COMMENT=	"turn-based strategy engine"
+COMMENT=			turn-based strategy engine
 
 VERSION=	0.5.0
 DISTNAME=	lgeneral-${VERSION}

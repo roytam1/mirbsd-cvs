@@ -1,9 +1,9 @@
-# $MirOS: ports/www/gtkhtml/Makefile,v 1.2 2005/03/25 23:13:37 bsiegert Exp $
+# $MirOS: ports/www/gtkhtml/Makefile,v 1.3 2006/02/09 11:15:35 tg Exp $
 # $OpenBSD: Makefile,v 1.6 2003/04/10 15:55:48 marcm Exp $
 
 BROKEN=			needs update to GNOME 2
 
-COMMENT=		"lightweight HTML rendering/printing/editing engine"
+COMMENT=			lightweight HTML rendering/printing/editing engine
 
 DISTNAME=		gtkhtml-1.1.10
 CATEGORIES=    		www

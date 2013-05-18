@@ -1,7 +1,7 @@
-# $MirOS: ports/archivers/ucl/Makefile,v 1.2 2005/03/25 23:13:56 bsiegert Exp $
+# $MirOS: ports/archivers/ucl/Makefile,v 1.3 2006/02/09 09:35:35 tg Exp $
 # $OpenBSD: Makefile,v 1.4 2003/05/24 02:40:42 jolan Exp $
 
-COMMENT=	"portable lossless data compression library"
+COMMENT=			portable lossless data compression library
 
 DISTNAME=	ucl-1.01
 CATEGORIES=	archivers devel

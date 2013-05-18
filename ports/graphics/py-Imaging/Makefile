@@ -2,8 +2,8 @@
 
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
-COMMENT=		"python imaging library"
-COMMENT-examples=	"examples for python imaging library"
+COMMENT=			python imaging library
+COMMENT-examples=			examples for python imaging library
 
 VERSION=		1.1.4
 DISTNAME=		Imaging-${VERSION}

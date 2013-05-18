@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.19 2002/10/26 00:39:15 naddy Exp $
 
-COMMENT=	"powerful programming editor"
+COMMENT=			powerful programming editor
 
 DISTNAME=	xwpe-1.5.22a
 CATEGORIES=	editors

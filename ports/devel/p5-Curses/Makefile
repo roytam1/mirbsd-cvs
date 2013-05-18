@@ -2,7 +2,7 @@
 
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
-COMMENT=	"terminal screen handling and optimisation"
+COMMENT=			terminal screen handling and optimisation
 
 DISTNAME=	Curses-1.06
 PKGNAME=	p5-${DISTNAME}-0

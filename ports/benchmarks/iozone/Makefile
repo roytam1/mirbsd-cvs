@@ -1,7 +1,7 @@
 # $OpenBSD: Makefile,v 1.38 2003/09/30 10:25:34 naddy Exp $
 # Uses pthreads
 
-COMMENT=	"performance test of sequential file I/O"
+COMMENT=			performance test of sequential file I/O
 
 DISTNAME=	iozone3_203
 PKGNAME=	iozone-3.203-0

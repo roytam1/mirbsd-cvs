@@ -1,8 +1,8 @@
-# $MirOS$
+# $MirOS: ports/print/gimp-print/Makefile,v 1.2 2005/07/07 21:25:32 bsiegert Exp $
 
 BROKEN=		incomplete port
 
-COMMENT=	'GIMP Printing System'
+COMMENT=			GIMP Printing System
 V=		5.0.0-alpha3
 DISTNAME=	gimp-print-${V}
 EXTRACT_SUFX=	.tar.bz2

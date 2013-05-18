@@ -1,7 +1,7 @@
-# $MirOS$
+# $MirOS: ports/x11/XawMu/Makefile,v 1.2 2005/07/07 21:29:30 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.3 2003/12/30 23:16:01 pvalchev Exp $
 
-COMMENT=		"modern look Athena widgets"
+COMMENT=			modern look Athena widgets
 VERSION=		1.5
 DISTNAME=		XawM-${VERSION}u
 PKGNAME=		XawMu-${VERSION}-0

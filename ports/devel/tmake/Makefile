@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.5 2004/02/03 07:20:42 sturm Exp $
 
-COMMENT=	"Cross-platform makefile tool from TrollTech"
+COMMENT=			Cross-platform makefile tool from TrollTech
 
 DISTNAME=	tmake-1.10
 CATEGORIES=	devel

@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.4 2004/04/23 03:00:07 dons Exp $
 
-COMMENT=	"parser generator for the functional language Haskell"
+COMMENT=			parser generator for the functional language Haskell
 
 V=		1.14
 DISTNAME=	happy-${V}

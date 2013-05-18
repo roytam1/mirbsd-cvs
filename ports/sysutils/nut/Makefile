@@ -1,7 +1,7 @@
 # $OpenBSD: Makefile,v 1.12 2004/02/21 06:16:58 marcm Exp $
 
-COMMENT=		"UPS monitoring program supporting many brands"
-COMMENT-cgi=		"CGIs for monitoring Nut-based UPSs"
+COMMENT=			UPS monitoring program supporting many brands
+COMMENT-cgi=			CGIs for monitoring Nut-based UPSs
 
 VERSION=		1.4.1
 DISTNAME=		nut-${VERSION}

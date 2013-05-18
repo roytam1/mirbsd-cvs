@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.1.1.1 2003/07/08 19:06:57 sturm Exp $
 
-COMMENT=	"manages software package installations with symlinks"
+COMMENT=			manages software package installations with symlinks
 
 DISTNAME=	stow-1.3.3
 CATEGORIES=	sysutils

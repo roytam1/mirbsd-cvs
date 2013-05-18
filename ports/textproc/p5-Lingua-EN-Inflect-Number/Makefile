@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.1.1.1 2004/05/17 19:36:22 sturm Exp $
 
-COMMENT=	"force number of words to singular or plural"
+COMMENT=			force number of words to singular or plural
 
 DISTNAME=	Lingua-EN-Inflect-Number-1.1
 PKGNAME=	p5-${DISTNAME}-0

@@ -2,8 +2,8 @@
 
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
-COMMENT=	"Tk 8.0 bindings for Perl"
-COMMENT-demo=	"demonstrate the features of ptk"
+COMMENT=			Tk 8.0 bindings for Perl
+COMMENT-demo=			demonstrate the features of ptk
 
 VERSION=	800.024
 DISTNAME=	Tk-${VERSION}

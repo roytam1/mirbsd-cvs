@@ -1,10 +1,10 @@
-# $MirOS: ports/mbone/rat/Makefile,v 1.1.7.1 2005/03/18 15:50:15 tg Exp $
+# $MirOS: ports/mbone/rat/Makefile,v 1.2 2006/02/01 15:42:16 tg Exp $
 # $OpenBSD: Makefile,v 1.17 2002/12/23 00:37:51 pvalchev Exp $
 
 # to fix this, use ${OStriplet} or OSname+OSREV or OSname+OSver
 BROKEN="OPSYS, OSMAJOR, etc. abuse in mbone/rat/Makefile"
 
-COMMENT=	"Robust Audio Tool from UCL"
+COMMENT=			Robust Audio Tool from UCL
 
 DISTNAME=	rat-3.0.33
 CATEGORIES=	mbone

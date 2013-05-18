@@ -2,7 +2,7 @@
 
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
-COMMENT=	"RSA encoding and decoding using OpenSSL"
+COMMENT=			RSA encoding and decoding using OpenSSL
 
 VERSION=	0.19
 DISTNAME=	Crypt-OpenSSL-RSA-${VERSION}

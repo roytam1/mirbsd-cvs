@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.24 2003/08/29 15:07:24 naddy Exp $
 
-COMMENT=	"checkbook balancing tool"
+COMMENT=			checkbook balancing tool
 
 DISTNAME=	cbb-0.73
 CATEGORIES=	misc

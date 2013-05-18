@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.5 2004/02/01 20:22:18 sturm Exp $ 
 
-COMMENT=	"calendar and scheduling application for Horde"
+COMMENT=			calendar and scheduling application for Horde
 
 V=		1.0
 HORDE_MODULE=	kronolith

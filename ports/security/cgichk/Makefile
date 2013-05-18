@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.14 2004/01/25 21:10:51 pvalchev Exp $
 
-COMMENT=	"scans webservers for vulnerable CGI programs"
+COMMENT=			scans webservers for vulnerable CGI programs
 
 PKGNAME=	cgichk-3.6-0
 

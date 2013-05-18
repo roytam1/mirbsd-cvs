@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.11 2003/10/18 19:44:43 sturm Exp $
 
-COMMENT=	"multiprocessing HTTP performance testing client"
+COMMENT=			multiprocessing HTTP performance testing client
 
 DISTNAME=	http_load-04jan2002
 PKGNAME=	http_load-20020104-0

@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.14 2003/12/03 01:33:15 jolan Exp $
 
-COMMENT=	"interactive X11 proxy with selective X request replacement"
+COMMENT=			interactive X11 proxy with selective X request replacement
 DISTNAME=	mxconns-3.1.4
 CATEGORIES=	x11 security
 MASTER_SITES=	http://c.home.cern.ch/c/cons/www/mxconns/

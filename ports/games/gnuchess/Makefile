@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.19 2002/12/23 00:37:50 pvalchev Exp $
 
-COMMENT=	"Classic Gnu Chess"
+COMMENT=			Classic Gnu Chess
 
 DISTNAME=	gnuchess-4.0.pl80
 PKGNAME=	gnuchess-4.0.80-0

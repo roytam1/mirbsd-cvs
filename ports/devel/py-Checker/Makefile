@@ -1,7 +1,7 @@
 # $OpenBSD: Makefile,v 1.21 2004/01/01 09:07:58 sturm Exp $
 
 
-COMMENT=	"python codes checker"
+COMMENT=			python codes checker
 
 VERSION=	0.8.13
 DISTNAME=	pychecker-${VERSION}

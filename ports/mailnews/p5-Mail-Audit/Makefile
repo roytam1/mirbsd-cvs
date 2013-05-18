@@ -1,7 +1,7 @@
-# $MirOS$
+# $MirOS: ports/mailnews/p5-Mail-Audit/Makefile,v 1.2 2005/07/07 21:22:56 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.4 2004/01/30 17:04:48 lebel Exp $
 
-COMMENT=	"library for creating easy mail filters"
+COMMENT=			library for creating easy mail filters
 DISTNAME=	Mail-Audit-2.1
 PKGNAME=	p5-${DISTNAME}-0
 CATEGORIES=	mail perl5

@@ -1,7 +1,7 @@
-# $MirOS$
+# $MirOS: ports/net/ucd-snmp/Makefile,v 1.2 2005/07/06 19:21:33 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.38 2003/04/22 15:15:57 danh Exp $
 
-COMMENT=	"extensible SNMP implementation"
+COMMENT=			extensible SNMP implementation
 VERSION=	4.2.6
 DASH_VER=	-1
 DISTNAME=	ucd-snmp-${VERSION}

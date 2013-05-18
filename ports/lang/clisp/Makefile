@@ -2,7 +2,7 @@
 
 ONLY_FOR_PLATFORM=	OpenBSD:*:i386 MirBSD:*:i386
 
-COMMENT=	"ANSI Common Lisp compiler"
+COMMENT=			ANSI Common Lisp compiler
 
 DISTNAME=	clisp-2.33
 CATEGORIES=	lang

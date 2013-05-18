@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.33 2004/02/26 01:42:25 brad Exp $
 
-COMMENT=	"themed window manager"
+COMMENT=			themed window manager
 
 DISTNAME=	enlightenment-0.16.6
 CATEGORIES=	x11

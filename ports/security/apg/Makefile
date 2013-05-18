@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.9 2004/05/07 15:28:31 naddy Exp $
 
-COMMENT=		"automated password generator"
+COMMENT=			automated password generator
 
 DISTNAME=		apg-2.2.0
 CATEGORIES=     	security

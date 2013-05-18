@@ -1,7 +1,7 @@
-# $MirOS$
+# $MirOS: ports/mailnews/p5-Mail-Box/Makefile,v 1.2 2005/07/07 21:22:57 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.12 2002/10/30 05:01:43 pvalchev Exp $
 
-COMMENT=		"perl module to manage mail folders"
+COMMENT=			perl module to manage mail folders
 DISTNAME=		Mail-Box-2.018
 PKGNAME=		p5-${DISTNAME}-0
 CATEGORIES=		mail perl5

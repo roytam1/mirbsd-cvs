@@ -1,9 +1,9 @@
-# $MirOS: ports/lang/jdk/1.1/Makefile,v 1.2 2005/04/10 21:50:11 tg Exp $
+# $MirOS: ports/lang/jdk/1.1/Makefile,v 1.3 2005/04/11 15:55:48 tg Exp $
 # $OpenBSD: Makefile,v 1.7 2002/07/10 11:56:35 matt Exp $
 
 ONLY_FOR_PLATFORM=	OpenBSD:*:i386 MirBSD:*:i386
 
-COMMENT=	"Java Development Kit for Java 1.1 platform"
+COMMENT=			Java Development Kit for Java 1.1 platform
 
 BROKEN=		distfile is missing
 

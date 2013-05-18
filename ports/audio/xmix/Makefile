@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.20 2003/08/02 19:55:23 fgsch Exp $
 
-COMMENT=	"X11-based audio mixer"
+COMMENT=			X11-based audio mixer
 DISTNAME=	xmix-2.1
 CATEGORIES=	audio
 

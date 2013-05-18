@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.17 2002/10/25 11:34:24 naddy Exp $
 
-COMMENT=	"communication package for X11"
+COMMENT=			communication package for X11
 
 DISTNAME=	Seyon-2.14b
 PKGNAME=	seyon-2.14b-0

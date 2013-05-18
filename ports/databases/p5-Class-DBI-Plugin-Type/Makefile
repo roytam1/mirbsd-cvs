@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.1.1.1 2004/05/26 13:36:07 sturm Exp $
 
-COMMENT=	"determine type information for columns "
+COMMENT=			determine type information for columns
 
 DISTNAME=	Class-DBI-Plugin-Type-0.02
 PKGNAME=	p5-${DISTNAME}-0

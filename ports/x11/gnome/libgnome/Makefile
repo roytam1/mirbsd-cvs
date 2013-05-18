@@ -1,7 +1,7 @@
-# $MirOS: ports/x11/gnome/libgnome/Makefile,v 1.2 2005/12/29 17:34:02 bsiegert Exp $
+# $MirOS: ports/x11/gnome/libgnome/Makefile,v 1.3 2006/02/09 11:15:44 tg Exp $
 # $OpenBSD: Makefile,v 1.10 2004/12/15 13:57:56 alek Exp $
 
-COMMENT=		"libraries for the GNOME project"
+COMMENT=			libraries for the GNOME project
 
 DISTNAME=		libgnome-2.12.0.1
 CATEGORIES=		x11/gnome

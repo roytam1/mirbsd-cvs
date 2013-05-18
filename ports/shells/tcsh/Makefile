@@ -1,6 +1,6 @@
-# $MirOS$
+# $MirOS: ports/shells/tcsh/Makefile,v 1.1.7.1 2005/03/18 15:51:57 tg Exp $
 
-COMMENT=	"C shell with file name completion and command line editing"
+COMMENT=			C shell with file name completion and command line editing
 DISTNAME=	tcsh-6.13.00
 CATEGORIES=	shells
 HOMEPAGE=	http://www.tcsh.org

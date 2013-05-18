@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.1.1.1 2004/05/02 23:09:37 naddy Exp $
 
-COMMENT=	"persistence framework for Apache session data"
+COMMENT=			persistence framework for Apache session data
 
 DISTNAME=	Apache-Session-1.6
 PKGNAME=	p5-${DISTNAME}-0

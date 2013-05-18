@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.19 2002/10/28 02:05:29 naddy Exp $
 
-COMMENT=	"translate character sets"
+COMMENT=			translate character sets
 
 DISTNAME=	tcs
 PKGNAME=	tcs-19950325-0

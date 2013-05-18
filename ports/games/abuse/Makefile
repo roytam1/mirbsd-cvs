@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.24 2003/09/22 22:53:37 pvalchev Exp $
 
-COMMENT=	"full color 320x200 arcade quality platform shooter"
+COMMENT=			full color 320x200 arcade quality platform shooter
 
 DISTNAME=	abuse-2.0
 CATEGORIES=	games x11

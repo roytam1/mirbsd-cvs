@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.7 2004/01/16 02:39:20 kevlo Exp $
 
-COMMENT=	"HTML output stream class"
+COMMENT=			HTML output stream class
 
 DISTNAME=	HTML-Stream-1.55
 PKGNAME=	p5-${DISTNAME}-0

@@ -1,7 +1,7 @@
-# $MirOS$
+# $MirOS: ports/misc/p5-CreditCard/Makefile,v 1.1.7.1 2005/03/18 15:50:32 tg Exp $
 # $OpenBSD: Makefile,v 1.8 2002/12/29 19:49:40 fgsch Exp $
 
-COMMENT=	"verify credit card pins"
+COMMENT=			verify credit card pins
 DISTNAME=	Business-CreditCard-0.21
 CATEGORIES=	misc perl5
 MASTER_SITES=	${MASTER_SITE_PERL_CPAN:=Business/}

@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.5 2002/12/29 20:19:11 fgsch Exp $
 
-COMMENT=	"backend to diagram op trees"
+COMMENT=			backend to diagram op trees
 
 DISTNAME=	B-Graph-0.51
 PKGNAME=	p5-${DISTNAME}-0

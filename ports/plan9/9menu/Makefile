@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.19 2003/07/01 20:21:11 sturm Exp $
 
-COMMENT=	"simple menu patterned after plan9"
+COMMENT=			simple menu patterned after plan9
 
 DISTNAME=	9menu-1.7
 CATEGORIES=	plan9

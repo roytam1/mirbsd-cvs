@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.13 2004/02/01 20:40:45 sturm Exp $
 
-COMMENT=	"Adobe Font Metrics"
+COMMENT=			Adobe Font Metrics
 
 DISTNAME=	afm
 PKGNAME=	afm-1.0-0

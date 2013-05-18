@@ -1,7 +1,7 @@
-# $MirOS$
+# $MirOS: ports/misc/cdrdao/Makefile,v 1.1.7.1 2005/03/18 15:50:25 tg Exp $
 # $OpenBSD: Makefile,v 1.18 2002/11/08 15:35:19 fgsch Exp $
 
-COMMENT=		"write audio/data CD-Rs in disk-at-once mode"
+COMMENT=			write audio/data CD-Rs in disk-at-once mode
 DISTNAME=	 	cdrdao-1.1.7
 CATEGORIES=		audio misc
 MASTER_SITES=		${MASTER_SITE_SOURCEFORGE:=cdrdao/}

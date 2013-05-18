@@ -1,7 +1,7 @@
-# $MirOS$
+# $MirOS: ports/devel/libslang/Makefile,v 1.2 2005/07/07 21:19:14 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.39 2004/03/04 17:49:26 espie Exp $
 
-COMMENT=	"stack-based interpreter for terminal applications"
+COMMENT=			stack-based interpreter for terminal applications
 
 VERSION=	1.4.9
 DISTNAME=	slang-${VERSION}

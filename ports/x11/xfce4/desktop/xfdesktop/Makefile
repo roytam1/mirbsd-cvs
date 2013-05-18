@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.3 2004/01/09 01:27:42 jolan Exp $
 
-COMMENT=	"xfce4 desktop background manager"
+COMMENT=			xfce4 desktop background manager
 DISTNAME=	xfdesktop-${V}
 
 LIB_DEPENDS=	${GTK2} \

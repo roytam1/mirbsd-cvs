@@ -1,8 +1,8 @@
-# $MirOS$
+# $MirOS: ports/net/nam/Makefile,v 1.2 2005/07/07 21:24:18 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.19 2004/02/25 02:35:17 naddy Exp $
 # $FreeBSD: ports/net/nam/Makefile,v 1.3 1999/11/29 03:46:08 steve Exp $
 
-COMMENT=	"UCB/LBNL Network Animator"
+COMMENT=			UCB/LBNL Network Animator
 
 DISTNAME=	nam-src-1.9
 PKGNAME=	nam-1.9-0

@@ -3,7 +3,7 @@
 ONLY_FOR_PLATFORM=	OpenBSD:*:i386 MirBSD:*:i386
 EMUL=			linux
 
-COMMENT=	"emulates the Sega GameGear and MasterSystem"
+COMMENT=			emulates the Sega GameGear and MasterSystem
 
 PKGNAME=	mastergear-1.4-0
 DISTNAME=	MG14-Linux-80x86-bin

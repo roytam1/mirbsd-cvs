@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.14 2004/01/25 21:10:51 pvalchev Exp $
 
-COMMENT=	"NetBus client"
+COMMENT=			NetBus client
 
 DISTNAME=       linux-netbus-client-v0.4
 PKGNAME=	lxnb-0.4-0

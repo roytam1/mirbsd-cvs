@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.1.1.1 2004/05/10 15:38:02 xsa Exp $
 
-COMMENT=	"Zope folder-like product to store many more items"
+COMMENT=			Zope folder-like product to store many more items
 
 DISTNAME=	BTreeFolder2-1.0
 PKGNAME=	zope-${DISTNAME:L:S/_/./}-0

@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.1.1.1 2004/05/26 13:36:08 sturm Exp $
 
-COMMENT=	"extensions to Class::DBI for MySQL "
+COMMENT=			extensions to Class::DBI for MySQL
 
 DISTNAME=	Class-DBI-mysql-0.22
 PKGNAME=	p5-${DISTNAME}-0

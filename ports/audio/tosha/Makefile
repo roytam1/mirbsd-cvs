@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.22 2003/08/09 17:39:16 pvalchev Exp $
 
-COMMENT=	"read CD digital audio data through the SCSI bus"
+COMMENT=			read CD digital audio data through the SCSI bus
 DISTNAME=	tosha-0.6
 CATEGORIES=	audio
 

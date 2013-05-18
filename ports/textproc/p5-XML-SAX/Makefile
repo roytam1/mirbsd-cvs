@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.9 2003/11/15 15:12:54 sturm Exp $
 
-COMMENT=	"perl interface to the SAX2 XML Parser"
+COMMENT=			perl interface to the SAX2 XML Parser
 
 VERSION=	0.12
 DISTNAME=	XML-SAX-${VERSION}

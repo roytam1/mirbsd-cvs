@@ -1,9 +1,9 @@
-# $MirOS$
+# $MirOS: ports/graphics/p5-PerlMagick/Makefile,v 1.4 2005/07/07 21:21:58 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.10 2005/06/28 18:08:23 naddy Exp $
 
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
-COMMENT=	"object-oriented Perl interface to ImageMagick"
+COMMENT=			object-oriented Perl interface to ImageMagick
 
 VER=		6.2.3
 DASHVER=	3

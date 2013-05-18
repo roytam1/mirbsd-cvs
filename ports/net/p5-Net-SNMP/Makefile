@@ -11,7 +11,7 @@ PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
-COMMENT=	"Perl modules to access SNMP"
+COMMENT=			Perl modules to access SNMP
 MASTER_SITES=	${MASTER_SITE_PERL_CPAN:=Net/}
 
 BUILD_DEPENDS=	:p5-Crypt-DES->=2.03:security/p5-Crypt-DES \

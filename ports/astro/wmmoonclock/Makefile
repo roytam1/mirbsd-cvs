@@ -1,7 +1,7 @@
-# $MirOS$
+# $MirOS: ports/astro/wmmoonclock/Makefile,v 1.4 2006/03/23 21:20:44 tg Exp $
 # $OpenBSD: Makefile,v 1.14 2002/09/17 14:46:06 wilfried Exp $
 
-COMMENT=		'wm-dockapp; shows the moon phase'
+COMMENT=			wm-dockapp; shows the moon phase
 DISTNAME=		wmMoonClock-1.27
 PKGNAME=		${DISTNAME:L}-0
 CATEGORIES=		astro x11 x11/windowmaker

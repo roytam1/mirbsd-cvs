@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.4 2002/10/25 22:37:52 naddy Exp $
 
-COMMENT=	"free and complete CORBA-compliant implementation"
+COMMENT=			free and complete CORBA-compliant implementation
 
 DISTNAME=	mico-2.3.6
 CATEGORIES=	devel

@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.9 2004/02/20 23:22:15 couderc Exp $
 
-COMMENT=		"Ruby interface to LBL Packet Capture library"
+COMMENT=			Ruby interface to LBL Packet Capture library
 
 VERSION=		0.6
 DISTNAME=		ruby-pcap-${VERSION}

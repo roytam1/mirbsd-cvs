@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.2 2004/02/24 13:52:29 couderc Exp $
 
-COMMENT=	"Ruby binding to Gdk-pixbuf"
+COMMENT=			Ruby binding to Gdk-pixbuf
 
 VERSION=	0.34
 DISTNAME=	ruby-gnome-all-${VERSION}

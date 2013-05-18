@@ -2,7 +2,7 @@
 
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
-COMMENT=	"perl module for using OpenSSL"
+COMMENT=			perl module for using OpenSSL
 
 VERSION=	1.23
 DISTNAME=	Net_SSLeay.pm-${VERSION}

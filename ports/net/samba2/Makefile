@@ -1,7 +1,7 @@
-# $MirOS: ports/net/samba2/Makefile,v 1.4 2006/04/27 09:17:43 tg Exp $
+# $MirOS: ports/net/samba2/Makefile,v 1.5 2006/04/27 11:43:24 tg Exp $
 # $OpenBSD: Makefile,v 1.21 2003/10/26 09:33:23 sturm Exp $
 
-COMMENT=	"SMB and CIFS client and server for UNIX"
+COMMENT=			SMB and CIFS client and server for UNIX
 DISTNAME=	samba-2.2.12
 PKGNAME=	${DISTNAME}-1
 CATEGORIES=	net

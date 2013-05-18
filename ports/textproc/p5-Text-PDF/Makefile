@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.16 2003/11/15 15:12:54 sturm Exp $
 
-COMMENT=	"perl modules for creating and manipulating PDF"
+COMMENT=			perl modules for creating and manipulating PDF
 
 DISTNAME=	Text-PDF-0.25
 PKGNAME=	p5-${DISTNAME}-0

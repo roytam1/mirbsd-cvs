@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.5 2004/01/02 04:56:24 brad Exp $
 
-COMMENT=	"SIP Express Router"
+COMMENT=			SIP Express Router
 
 ONLY_FOR_PLATFORM=	*:*:i386 *:*:sparc
 

@@ -8,7 +8,7 @@
 # $OpenBSD: Makefile,v 1.16 2003/07/16 19:24:24 naddy Exp $
 #
 
-COMMENT=	"less + zcat + ISO-2022 - a pager similar to more and pg"
+COMMENT=			less + zcat + ISO-2022 - a pager similar to more and pg
 
 DISTNAME=	less-332
 PKGNAME=	ja-less-3.32p2.48-0

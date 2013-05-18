@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.28 2003/09/22 22:53:36 pvalchev Exp $
 
-COMMENT=	"u-law to gsm encoding audio converter and library"
+COMMENT=			u-law to gsm encoding audio converter and library
 
 DISTNAME=	gsm-1.0.10
 CATEGORIES=	audio

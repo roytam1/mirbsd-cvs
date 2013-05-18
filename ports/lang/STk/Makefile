@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.15 2003/05/19 08:50:43 naddy Exp $
 
-COMMENT=	"Scheme interpreter with Tk interface"
+COMMENT=			Scheme interpreter with Tk interface
 
 STK_VERSION=	4.0.1
 STK_ARCH=	$(OPSYS)-$(OPSYS_VER)-$(MACHINE)

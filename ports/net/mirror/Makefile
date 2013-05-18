@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.18 2003/09/22 22:53:37 pvalchev Exp $
 
-COMMENT=	"mirror packages on remote sites"
+COMMENT=			mirror packages on remote sites
 
 DISTNAME=	mirror-2.9
 CATEGORIES=	net

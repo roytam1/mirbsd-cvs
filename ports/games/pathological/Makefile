@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.3 2004/04/10 23:10:14 xsa Exp $
 
-COMMENT=	"enriched clone of the game Logical by Rainbow Arts"
+COMMENT=			enriched clone of the game Logical by Rainbow Arts
 
 DISTNAME=	pathological-1.1.3
 CATEGORIES=	games

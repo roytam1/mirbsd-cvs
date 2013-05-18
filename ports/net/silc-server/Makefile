@@ -4,7 +4,7 @@
 BROKEN=		"config file parser bug on ${MACHINE_ARCH}"
 .endif
 
-COMMENT=	"Secure Internet Live Conferencing (SILC) server"
+COMMENT=			Secure Internet Live Conferencing (SILC) server
 
 DISTNAME=	silc-server-0.9.18
 CATEGORIES=	net

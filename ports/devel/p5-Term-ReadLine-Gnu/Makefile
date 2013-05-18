@@ -2,7 +2,7 @@
 
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
-COMMENT=		'GNU Readline Library Wrapper Module'
+COMMENT=			GNU Readline Library Wrapper Module
 
 DISTNAME=		Term-ReadLine-Gnu-1.14
 PKGNAME=		p5-${DISTNAME}-0

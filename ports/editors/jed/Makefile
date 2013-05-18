@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.25 2003/05/14 01:08:05 naddy Exp $
 
-COMMENT=	"text editor"
+COMMENT=			text editor
 
 DISTNAME=	jed-0.99-16
 PKGNAME=	jed-0.99.16-0

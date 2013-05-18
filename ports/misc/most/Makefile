@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.6 2002/10/27 21:07:54 naddy Exp $
 
-COMMENT=	"browse or page through a text file"
+COMMENT=			browse or page through a text file
 
 DISTNAME=	most-4.9.2
 CATEGORIES=	misc

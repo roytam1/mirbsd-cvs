@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.9 2002/12/29 21:14:11 fgsch Exp $
 
-COMMENT=	"modules to implement the irc protocol"
+COMMENT=			modules to implement the irc protocol
 
 DISTNAME=	Net-IRC-0.73
 PKGNAME=	p5-${DISTNAME}-0

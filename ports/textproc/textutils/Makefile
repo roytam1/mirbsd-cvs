@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.6 2003/11/15 15:12:55 sturm Exp $
 
-COMMENT=		"GNU text utilities"
+COMMENT=			GNU text utilities
 
 DISTNAME=		textutils-2.0
 CATEGORIES=		textproc

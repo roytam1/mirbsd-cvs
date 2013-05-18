@@ -1,7 +1,7 @@
 # $OpenBSD: Makefile,v 1.17 2002/10/28 17:35:02 naddy Exp $
 # $FreeBSD: Makefile,v 1.5 1999/03/09 00:16:14 jseger Exp $
 
-COMMENT=	"fast scatter/gather TCP port scanner"
+COMMENT=			fast scatter/gather TCP port scanner
 
 DISTNAME=	strobe-1.06
 CATEGORIES=	security

@@ -2,7 +2,7 @@
 
 BROKEN=			Missing support for module x11/kde
 
-COMMENT=		"new mail notification utility for KDE"
+COMMENT=			new mail notification utility for KDE
 
 DISTNAME=		kbiff-3.6.3
 CATEGORIES=		mail

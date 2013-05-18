@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.17 2003/05/24 19:39:20 pvalchev Exp $
 
-COMMENT=	"clone of the Plan9 editor 'acme'"
+COMMENT=			clone of the Plan9 editor 'acme'
 
 VERSION=	0.13.41
 DISTNAME=	wily-9libs

@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.13 2004/01/31 21:32:18 pvalchev Exp $
 
-COMMENT=	"cuddlesome teddy for the X11 desktop"
+COMMENT=			cuddlesome teddy for the X11 desktop
 
 DISTNAME=	xteddy-2.0.2
 CATEGORIES=	games

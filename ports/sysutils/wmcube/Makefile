@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.16 2003/04/27 07:03:30 wilfried Exp $
 
-COMMENT=		'wm-dockapp; shows rotating 3d-object and CPU load'
+COMMENT=			wm-dockapp; shows rotating 3d-object and CPU load
 
 DISTNAME=		wmcube-0.98
 CATEGORIES=		sysutils x11 x11/windowmaker

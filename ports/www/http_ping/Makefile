@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.5 2003/10/18 19:44:43 sturm Exp $
 
-COMMENT=	"HTTP latency performance testing client"
+COMMENT=			HTTP latency performance testing client
 
 DISTNAME=	http_ping_03apr2002
 PKGNAME=	http_ping-20020403-0

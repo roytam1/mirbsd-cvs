@@ -2,7 +2,7 @@
 
 BROKEN=			Missing support for module x11/qt
 
-COMMENT=	"file manager with same look and feel as Windows95(tm)"
+COMMENT=			file manager with same look and feel as Windows95(tm)
 
 DISTNAME=	explorer-0.72
 CATEGORIES=	x11

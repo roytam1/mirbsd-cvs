@@ -1,6 +1,6 @@
-# $MirOS: ports/graphics/libpixman/Makefile,v 1.1 2005/08/20 13:27:35 bsiegert Exp $
+# $MirOS: ports/graphics/libpixman/Makefile,v 1.2 2006/02/09 11:11:50 tg Exp $
 
-COMMENT=		"pixel manipulation library"
+COMMENT=			pixel manipulation library
 
 DISTNAME=		libpixman-0.1.5
 CATEGORIES=		graphics

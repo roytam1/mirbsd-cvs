@@ -1,6 +1,6 @@
-# $MirOS: ports/net/djbdns/Makefile,v 1.25 2006/08/13 02:17:28 tg Exp $
+# $MirOS: ports/net/djbdns/Makefile,v 1.26 2006/08/26 16:46:55 tg Exp $
 
-COMMENT=		"collection of Domain Name System server and tools"
+COMMENT=			collection of Domain Name System server and tools
 VERSION=		1.05
 CATEGORIES=		net
 DISTNAME=		djbdns-${VERSION}

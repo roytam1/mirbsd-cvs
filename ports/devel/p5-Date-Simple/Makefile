@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.1.1.1 2004/04/11 11:55:39 sturm Exp $
 
-COMMENT=	"Manipulate simple date objects"
+COMMENT=			Manipulate simple date objects
 
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 

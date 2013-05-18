@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.5 2002/12/29 19:43:50 fgsch Exp $
 
-COMMENT=	"module to internal operations of neural networks"
+COMMENT=			module to internal operations of neural networks
 
 DISTNAME=	AI-Perceptron-0.01
 PKGNAME=	p5-${DISTNAME}-0

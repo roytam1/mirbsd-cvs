@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.5 2004/01/14 19:04:49 naddy Exp $
 
-COMMENT=	"SGML parser and entity manager"
+COMMENT=			SGML parser and entity manager
 
 DISTNAME=	lq-sp-1.3.4.10
 CATEGORIES=	textproc

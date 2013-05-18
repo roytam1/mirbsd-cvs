@@ -1,7 +1,7 @@
-# $MirOS$
+# $MirOS: ports/security/stegdetect/Makefile,v 1.2 2005/03/30 18:13:48 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.2 2003/09/25 06:25:14 jolan Exp $
 
-COMMENT=	"steganography detection tool"
+COMMENT=			steganography detection tool
 DISTNAME=	stegdetect-0.5
 CATEGORIES=	security graphics
 MASTER_SITES=	${HOMEPAGE}

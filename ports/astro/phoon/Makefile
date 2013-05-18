@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.2 2004/03/02 23:15:30 naddy Exp $
 
-COMMENT=		"displays the phase of the moon in ascii"
+COMMENT=			displays the phase of the moon in ascii
 
 DISTNAME=		phoon-20030120
 CATEGORIES=		astro

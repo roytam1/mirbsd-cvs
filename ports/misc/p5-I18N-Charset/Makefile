@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.16 2004/04/27 13:15:22 kevlo Exp $
 
-COMMENT=	"module to map charset names registered with IANA"
+COMMENT=			module to map charset names registered with IANA
 
 DISTNAME=	I18N-Charset-1.371
 PKGNAME=	p5-${DISTNAME}-0

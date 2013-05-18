@@ -1,10 +1,10 @@
-# $MirOS: ports/mailnews/evolution/Makefile,v 1.3 2005/07/07 21:22:43 bsiegert Exp $
+# $MirOS: ports/mailnews/evolution/Makefile,v 1.4 2006/02/09 11:11:59 tg Exp $
 # $OpenBSD: Makefile,v 1.12 2004/02/04 07:39:18 sturm Exp $
 
 BROKEN=			needs update to GNOME 2
 
-COMMENT=		"integrated email and PIM software for GNOME"
-COMMENT-devguide=	"Evolution Developer's Guide"
+COMMENT=			integrated email and PIM software for GNOME
+COMMENT-devguide=			Evolution Developer's Guide
 
 V=			1.2
 VERSION=		${V}.4

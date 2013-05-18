@@ -2,7 +2,7 @@
 # Original from: Bruno Rohee <rohee@OpenBSD.ORG>
 #
 
-COMMENT=		"verify email addresses and mailing lists"
+COMMENT=			verify email addresses and mailing lists
 
 DISTNAME=		vrfy_990522
 PKGNAME=		vrfy-99.05.22-0

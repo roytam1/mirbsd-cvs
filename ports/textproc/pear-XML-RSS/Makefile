@@ -1,7 +1,7 @@
-# $MirOS$
+# $MirOS: ports/textproc/pear-XML-RSS/Makefile,v 1.3 2005/07/07 21:27:21 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.1.1.1 2003/05/23 21:19:29 avsm Exp $
 
-COMMENT=	"parser for RDF Site Summary files in PHP"
+COMMENT=			parser for RDF Site Summary files in PHP
 
 V=		0.9.2
 DISTNAME=	XML_RSS-${V}

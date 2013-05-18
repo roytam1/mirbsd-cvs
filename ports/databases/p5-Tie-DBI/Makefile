@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.5 2002/12/29 19:37:53 fgsch Exp $
 
-COMMENT=	"Tie hashes to DBI relational databases"
+COMMENT=			Tie hashes to DBI relational databases
 
 VERSION=	0.91
 DISTNAME=	Tie-DBI-${VERSION}

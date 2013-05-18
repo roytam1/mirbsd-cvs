@@ -1,7 +1,7 @@
-# $MirOS: ports/misc/xcdroast/Makefile,v 1.3 2005/07/07 21:23:54 bsiegert Exp $
+# $MirOS: ports/misc/xcdroast/Makefile,v 1.4 2006/02/09 11:12:08 tg Exp $
 # $OpenBSD: Makefile,v 1.8 2004/01/12 05:37:11 jolan Exp $
 
-COMMENT=		"gtk-based frontend to cdrtools"
+COMMENT=			gtk-based frontend to cdrtools
 DISTNAME=		xcdroast-0.98alpha15
 PKGNAME=		${DISTNAME:L:S/alpha/a/}-1
 CATEGORIES=		misc x11

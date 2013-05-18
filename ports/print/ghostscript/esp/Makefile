@@ -1,6 +1,6 @@
-# $MirOS: ports/print/ghostscript/esp/Makefile,v 1.4 2006/02/09 11:15:14 tg Exp $
+# $MirOS: ports/print/ghostscript/esp/Makefile,v 1.5 2006/04/27 20:52:11 bsiegert Exp $
 
-COMMENT=		"ESP Ghostscript, a PostScript interpreter"
+COMMENT=			ESP Ghostscript, a PostScript interpreter
 VERSION=		8.15.2
 DASH_VER=		-0
 DISTNAME=		espgs-${VERSION}-source

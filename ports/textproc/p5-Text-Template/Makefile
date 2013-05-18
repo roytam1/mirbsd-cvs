@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.6 2003/11/15 15:12:54 sturm Exp $
 
-COMMENT=	"expand template text with embedded perl"
+COMMENT=			expand template text with embedded perl
 
 DISTNAME=	Text-Template-1.43
 PKGNAME=	p5-${DISTNAME}-0

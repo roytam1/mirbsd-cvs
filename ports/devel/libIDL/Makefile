@@ -1,7 +1,7 @@
-# $MirOS: ports/devel/libIDL/Makefile,v 1.4 2005/10/11 20:29:44 bsiegert Exp $
+# $MirOS: ports/devel/libIDL/Makefile,v 1.5 2006/02/09 11:11:22 tg Exp $
 # $OpenBSD: Makefile,v 1.15 2004/12/10 20:33:59 marcm Exp $
 
-COMMENT=		"IDL parsing library"
+COMMENT=			IDL parsing library
 DISTNAME=		libIDL-0.8.6
 CATEGORIES=		devel
 HOMEPAGE=		http://www.gnome.org/

@@ -1,9 +1,9 @@
-# $MirOS: ports/audio/p5-Audio-CD/Makefile,v 1.1.7.1 2005/03/18 15:43:04 tg Exp $
+# $MirOS: ports/audio/p5-Audio-CD/Makefile,v 1.3 2005/07/07 21:17:24 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.8 2004/01/17 15:58:06 naddy Exp $
 
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
-COMMENT=		"interface to libcdaudio"
+COMMENT=			interface to libcdaudio
 DISTNAME=	 	Audio-CD-0.04
 PKGNAME=		p5-${DISTNAME}-0
 CATEGORIES=		audio perl5

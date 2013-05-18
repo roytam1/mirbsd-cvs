@@ -1,7 +1,7 @@
 # $OpenBSD: Makefile,v 1.17 2004/03/13 15:48:54 sturm Exp $
 # $FreeBSD: Makefile,v 1.7 1997/12/01 16:50:58 pst Exp $
 
-COMMENT=	"graphical toolkit for Tcl"
+COMMENT=			graphical toolkit for Tcl
 
 DISTNAME=	tk8.0.5
 PKGNAME=	tk-8.0.5-0

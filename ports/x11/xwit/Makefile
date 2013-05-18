@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.7 2003/10/08 17:13:19 sturm Exp $
 
-COMMENT=	"X11 window interface tool"
+COMMENT=			X11 window interface tool
 
 DISTNAME=	xwit-3.4
 CATEGORIES=	x11

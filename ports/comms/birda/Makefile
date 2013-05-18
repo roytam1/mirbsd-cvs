@@ -1,7 +1,7 @@
 # $OpenBSD: Makefile,v 1.1.1.1 2003/08/21 12:58:01 grange Exp $
 # $RuOBSD: Makefile,v 1.7 2003/08/18 18:40:14 grange Exp $
 
-COMMENT=		"Bohlin's IrDA utilities"
+COMMENT=			Bohlin's IrDA utilities
 
 DISTNAME=		birda-1.1
 CATEGORIES=		comms

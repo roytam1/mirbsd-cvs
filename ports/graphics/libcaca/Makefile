@@ -1,7 +1,7 @@
-# $MirOS: ports/graphics/libcaca/Makefile,v 1.2 2005/07/07 21:21:45 bsiegert Exp $
+# $MirOS: ports/graphics/libcaca/Makefile,v 1.3 2005/12/28 19:21:03 tg Exp $
 # $OpenBSD: Makefile,v 1.2 2004/04/18 06:41:11 robert Exp $
 
-COMMENT=		"colour ascii art library"
+COMMENT=			colour ascii art library
 DISTNAME=		libcaca-0.9
 PKGNAME=		${DISTNAME}-2
 CATEGORIES=		graphics

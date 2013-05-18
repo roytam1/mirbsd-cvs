@@ -1,9 +1,9 @@
-# $MirOS: ports/audio/libao/Makefile,v 1.7 2006/03/23 21:42:25 tg Exp $
+# $MirOS: ports/audio/libao/Makefile,v 1.8 2006/07/23 15:49:13 tg Exp $
 # $OpenBSD: Makefile,v 1.23 2003/10/08 16:01:45 naddy Exp $
 
-COMMENT=		"portable audio output library"
-COMMENT-arts=		"aRts module for portable audio output library"
-COMMENT-esd=		"ESounD module for portable audio output library"
+COMMENT=			portable audio output library
+COMMENT-arts=			aRts module for portable audio output library
+COMMENT-esd=			ESounD module for portable audio output library
 
 VERSION=		0.8.6
 DISTNAME=		libao-${VERSION}

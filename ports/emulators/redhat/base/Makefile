@@ -1,7 +1,7 @@
-# $MirOS: ports/emulators/redhat/base/Makefile,v 1.4 2006/02/01 20:38:45 tg Exp $
+# $MirOS: ports/emulators/redhat/base/Makefile,v 1.5 2006/02/20 20:50:01 tg Exp $
 # $OpenBSD: Makefile,v 1.21 2004/03/02 07:49:24 ish Exp $
 
-COMMENT=	"Linux compatibility package based on RedHat GNU/Linux 8.0"
+COMMENT=			Linux compatibility package based on RedHat GNU/Linux 8.0
 PKGNAME=	redhat_base-8.0-${PL}
 MASTER_SITES=	${MASTER_SITE_REDHAT:=redhat/linux/8.0/en/os/i386/RedHat/RPMS/}
 MASTER_SITES0=	${MASTER_SITE_REDHAT:=redhat/linux/updates/8.0/en/os/i386/}

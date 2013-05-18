@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.14 2002/10/26 20:44:40 naddy Exp $
 
-COMMENT=	"Windows minesweeper"
+COMMENT=			Windows minesweeper
 
 DISTNAME=	xminesweep3.0
 PKGNAME=	xminesweep-3.0-0

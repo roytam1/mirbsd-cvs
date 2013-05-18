@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.2 2003/12/22 16:02:24 sturm Exp $
 
-COMMENT=		"asian font pack for acroread"
+COMMENT=			asian font pack for acroread
 
 PKGNAME=		acrofonts-5.0-0
 CATEGORIES=		print

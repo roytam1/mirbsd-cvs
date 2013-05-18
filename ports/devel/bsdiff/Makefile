@@ -1,6 +1,6 @@
-# $MirOS$
+# $MirOS: ports/devel/bsdiff/Makefile,v 1.1.7.1 2005/03/18 15:44:30 tg Exp $
 
-COMMENT=	"binary patch tools"
+COMMENT=			binary patch tools
 DISTNAME=	bsdiff-4.1
 CATEGORIES=	devel
 MASTER_SITES=	${HOMEPAGE}

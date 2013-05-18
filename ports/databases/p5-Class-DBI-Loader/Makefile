@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.1.1.1 2004/05/26 13:36:07 sturm Exp $
 
-COMMENT=	"dynamic definition of Class::DBI sub classes"
+COMMENT=			dynamic definition of Class::DBI sub classes
 
 DISTNAME=	Class-DBI-Loader-0.02
 PKGNAME=	p5-${DISTNAME}-0

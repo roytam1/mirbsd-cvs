@@ -4,7 +4,7 @@
 IGNORE="Fatal: milter required, see instructions in DESCR"
 .endif
 
-COMMENT=	"sendmail milter plugin for regular expression filtering"
+COMMENT=			sendmail milter plugin for regular expression filtering
 
 DISTNAME=	milter-regex-1.5
 CATEGORIES=	mail

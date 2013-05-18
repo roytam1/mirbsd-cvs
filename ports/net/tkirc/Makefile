@@ -1,7 +1,7 @@
-# $MirOS$
+# $MirOS: ports/net/tkirc/Makefile,v 1.3 2005/07/07 21:25:06 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.8 2004/02/02 17:35:01 sturm Exp $
 
-COMMENT=	"ircII internet relay chat client"
+COMMENT=			ircII internet relay chat client
 V=		2.46
 DISTNAME=	tkirc$V
 PKGNAME=	tkirc-$V-0

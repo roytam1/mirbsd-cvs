@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.21 2003/09/26 06:01:13 jolan Exp $
 
-COMMENT=	"command line arbitrary packet builder"
+COMMENT=			command line arbitrary packet builder
 
 DISTNAME=	nemesis-1.4beta3
 CATEGORIES=	net security

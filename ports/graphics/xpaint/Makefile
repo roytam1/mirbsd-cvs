@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.31 2002/11/22 02:37:37 margarida Exp $
 
-COMMENT=		"simple paint program"
+COMMENT=			simple paint program
 
 VERSION=		2.6.2
 DISTNAME=		xpaint-${VERSION}

@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.8 2004/02/25 02:35:15 naddy Exp $
 
-COMMENT=	"burgertime clone for X"
+COMMENT=			burgertime clone for X
 
 DISTNAME=	burgerspace-1.7.0
 CATEGORIES=	games

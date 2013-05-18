@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.2 2003/05/12 08:23:47 jolan Exp $
 
-COMMENT=	"clone of atari game"
+COMMENT=			clone of atari game
 DISTNAME=	moon-lander-1.0
 PKGNAME=	moonlander-1.0-0
 CATEGORIES=	games x11

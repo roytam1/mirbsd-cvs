@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.3 2004/05/23 15:41:07 sturm Exp $
 
-COMMENT=	"advanced lint: statically check C programs"
+COMMENT=			advanced lint: statically check C programs
 DISTNAME=	splint-3.1.1
 CATEGORIES=	devel
 

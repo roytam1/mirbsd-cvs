@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.1.1.1 2003/06/15 15:59:40 sturm Exp $
 
-COMMENT=	"digital camera frontend"
+COMMENT=			digital camera frontend
 
 VERSION=	0.1.10
 DISTNAME=	gtkam-${VERSION}

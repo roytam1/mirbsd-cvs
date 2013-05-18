@@ -1,7 +1,7 @@
 # $OpenBSD: Makefile,v 1.6 2003/05/19 00:10:37 naddy Exp $
 # $FreeBSD: ports/graphics/mpeg_encode/Makefile,v 1.11 2000/10/28 13:05:25 lioux Exp $
 
-COMMENT=	"UCB's MPEG-I video stream encoder"
+COMMENT=			UCB's MPEG-I video stream encoder
 
 DISTNAME=	mpeg_encode-1.5b-src
 PKGNAME=	${DISTNAME:S/-src//}-0

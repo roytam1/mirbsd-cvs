@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.4 2004/02/25 01:35:50 naddy Exp $
 
-COMMENT=		"snmp command line utility"
+COMMENT=			snmp command line utility
 
 VERSION=		0.2.12
 DISTNAME=		scli-${VERSION}

@@ -1,6 +1,6 @@
-# $MirOS$
+# $MirOS: ports/www/pear-DB/Makefile,v 1.3 2005/07/07 21:28:17 bsiegert Exp $
 
-COMMENT=	"OOP database abstraction layer for PHP"
+COMMENT=			OOP database abstraction layer for PHP
 V=		1.6.8
 DISTNAME=	DB-${V}
 PKGNAME=	pear-DB-${V}-0

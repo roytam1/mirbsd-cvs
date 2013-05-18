@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.8 2004/05/04 16:42:05 naddy Exp $
 
-COMMENT=	"fast compression for waveform files"
+COMMENT=			fast compression for waveform files
 
 DISTNAME=	shorten-3.6.0
 CATEGORIES=	audio archivers

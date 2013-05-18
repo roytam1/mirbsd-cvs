@@ -1,6 +1,6 @@
-# $MirOS: ports/security/muscle-framework/Makefile,v 1.1.7.1 2005/03/18 15:51:35 tg Exp $
+# $MirOS: ports/security/muscle-framework/Makefile,v 1.3 2005/07/07 21:25:52 bsiegert Exp $
 
-COMMENT=		"Smartcard access framework"
+COMMENT=			Smartcard access framework
 DISTNAME=		muscleframework-1.1.5
 PKGNAME=		${DISTNAME}-1
 CATEGORIES=		security

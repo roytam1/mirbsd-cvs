@@ -1,7 +1,7 @@
-# $MirOS$
+# $MirOS: ports/mailnews/sylpheed/Makefile,v 1.3 2006/05/15 21:24:37 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.48 2004/04/10 19:13:50 couderc Exp $
 
-COMMENT=		"mail/news client in gtk+"
+COMMENT=			mail/news client in gtk+
 
 VERSION=		2.2.4
 DISTNAME=		sylpheed-${VERSION}

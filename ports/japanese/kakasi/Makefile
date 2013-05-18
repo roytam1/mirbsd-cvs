@@ -1,7 +1,7 @@
 # $OpenBSD: Makefile,v 1.8 2002/12/29 19:43:49 fgsch Exp $
 # FreeBSD Id: Makefile,v 1.14 1998/04/05 04:46:33 max Exp $
 
-COMMENT=	"Kanji -> kana converter"
+COMMENT=			Kanji -> kana converter
 
 DISTNAME=	kakasi-2.3.1
 CATEGORIES=	japanese

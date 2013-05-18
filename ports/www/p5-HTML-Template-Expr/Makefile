@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.2 2002/12/11 16:40:43 margarida Exp $
 
-COMMENT=	"use HTML Templates which allows expressions"
+COMMENT=			use HTML Templates which allows expressions
 
 VERSION=	0.04
 DISTNAME=	HTML-Template-Expr-${VERSION}

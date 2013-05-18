@@ -1,7 +1,7 @@
-# $MirOS: ports/korean/hanterm-xf/Makefile,v 1.4 2006/02/01 16:28:02 tg Exp $
+# $MirOS: ports/korean/hanterm-xf/Makefile,v 1.5 2006/02/09 11:11:54 tg Exp $
 # $OpenBSD: Makefile,v 1.6 2004/01/25 21:10:50 pvalchev Exp $
 
-COMMENT=	"XFree86-based xterm with Korean language support"
+COMMENT=			XFree86-based xterm with Korean language support
 DISTNAME=	hanterm-xf-p19
 PKGNAME=	hanterm-xf-19-0
 CATEGORIES=	korean x11

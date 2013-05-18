@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.8 2002/12/29 19:43:50 fgsch Exp $
 
-COMMENT=	"monte carlo simulation software"
+COMMENT=			monte carlo simulation software
 
 DISTNAME=	mcsim-4.2.0
 CATEGORIES=	math

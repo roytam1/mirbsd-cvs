@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.1.1.1 2004/05/26 13:36:07 sturm Exp $
 
-COMMENT=	"more complex retrieve_all() for Class::DBI"
+COMMENT=			more complex retrieve_all() for Class::DBI
 
 DISTNAME=	Class-DBI-Plugin-RetrieveAll-1
 PKGNAME=	p5-${DISTNAME}-0

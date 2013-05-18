@@ -1,9 +1,9 @@
-# $MirOS: ports/astro/xworld/Makefile,v 1.1.7.1 2005/03/18 15:42:49 tg Exp $
+# $MirOS: ports/astro/xworld/Makefile,v 1.2 2006/02/09 12:25:13 tg Exp $
 # $OpenBSD: Makefile,v 1.5 2003/03/31 12:35:52 sturm Exp $
 
 BROKEN=		configure script requires csh
 
-COMMENT=	"earth as seen from the direction of the sun"
+COMMENT=			earth as seen from the direction of the sun
 
 DISTNAME=	xworld-2.0
 CATEGORIES=	astro x11

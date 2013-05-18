@@ -1,8 +1,8 @@
-# $MirOS: ports/archivers/star/Makefile,v 1.1.7.1 2005/03/18 15:42:44 tg Exp $
+# $MirOS: ports/archivers/star/Makefile,v 1.2 2006/02/09 12:25:12 tg Exp $
 # $OpenBSD: Makefile,v 1.13 2003/02/18 12:59:10 naddy Exp $
 # $FreeBSD: Makefile,v 1.7 1998/12/24 13:15:23 dirk Exp $
 
-COMMENT=	"unique standard tape archiver with many enhancements"
+COMMENT=			unique standard tape archiver with many enhancements
 
 DISTNAME=	star-1.4.3
 CATEGORIES=	archivers sysutils

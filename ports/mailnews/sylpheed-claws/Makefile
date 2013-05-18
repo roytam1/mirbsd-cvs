@@ -1,11 +1,11 @@
-# $MirOS: ports/mailnews/sylpheed-claws/Makefile,v 1.4 2006/01/01 05:25:28 tg Exp $
+# $MirOS: ports/mailnews/sylpheed-claws/Makefile,v 1.5 2006/02/09 11:12:01 tg Exp $
 # $OpenBSD: Makefile,v 1.5 2004/02/04 07:39:18 sturm Exp $
 
-COMMENT=		"lightweight GTK+ based mail/news client"
-COMMENT-dillo=		"Dillo plugin for sylpheed-claws"
-COMMENT-imageviewer=	"Image viewer plugin for sylpheed-claws"
-COMMENT-spamassassin=	"Spamassassin plugin for sylpheed-claws"
-COMMENT-themes=		"Sylpheed-claws themes"
+COMMENT=			lightweight GTK+ based mail/news client
+COMMENT-dillo=			Dillo plugin for sylpheed-claws
+COMMENT-imageviewer=			Image viewer plugin for sylpheed-claws
+COMMENT-spamassassin=			Spamassassin plugin for sylpheed-claws
+COMMENT-themes=			Sylpheed-claws themes
 
 VERSION=		0.9.0
 PL=			0

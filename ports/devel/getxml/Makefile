@@ -1,7 +1,7 @@
-# $MirOS$
+# $MirOS: ports/devel/getxml/Makefile,v 1.2 2005/03/30 16:51:07 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.1.1.1 2002/12/04 14:29:58 naddy Exp $
 
-COMMENT=	"XML internationalization tool"
+COMMENT=			XML internationalization tool
 
 DISTNAME=	getxml-1.0.4
 CATEGORIES=	devel

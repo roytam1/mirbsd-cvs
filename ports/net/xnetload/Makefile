@@ -1,6 +1,6 @@
-# $MirOS$
+# $MirOS: ports/net/xnetload/Makefile,v 1.1.7.1 2005/03/18 15:49:23 tg Exp $
 
-COMMENT=		"display usage of a network interface in xload manner"
+COMMENT=			display usage of a network interface in xload manner
 
 VERSION=		1.11.3
 DISTNAME=		xnetload-${VERSION}

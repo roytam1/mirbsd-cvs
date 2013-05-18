@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.11 2004/02/01 10:54:11 wilfried Exp $
 
-COMMENT=		'wm-dockapp; chess game'
+COMMENT=			wm-dockapp; chess game
 
 DISTNAME=		miniCHESS-0.8
 PKGNAME=		wm${DISTNAME:L}-0

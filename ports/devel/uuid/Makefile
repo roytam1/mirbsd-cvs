@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.2 2004/04/18 06:41:11 robert Exp $
 
-COMMENT=	"ISO-C API and CLI for generating Universally Unique Identifiers"
+COMMENT=			ISO-C API and CLI for generating Universally Unique Identifiers
 
 DISTNAME=	uuid-1.0.0
 CATEGORIES=	devel

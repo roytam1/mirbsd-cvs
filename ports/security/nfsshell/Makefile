@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.12 2004/01/25 21:10:51 pvalchev Exp $
 
-COMMENT=	"NFS auditing tool"
+COMMENT=			NFS auditing tool
 
 PKGNAME=	nfsshell-1.0-0
 DISTNAME=	nfsshell

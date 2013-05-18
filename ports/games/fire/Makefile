@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.6 2002/12/29 15:10:07 fgsch Exp $
 
-COMMENT=	"organic fireworks demo"
+COMMENT=			organic fireworks demo
 
 DISTNAME=	fire-1.0
 CATEGORIES=	games

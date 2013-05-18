@@ -1,7 +1,7 @@
 # $OpenBSD: Makefile,v 1.12 2002/12/29 20:41:08 fgsch Exp $
 # $FreeBSD: Makefile,v 1.4 1997/12/01 16:50:49 pst Exp $
 
-COMMENT=	"Tool Command Language"
+COMMENT=			Tool Command Language
 
 DISTNAME=	tcl8.0.5
 PKGNAME=	tcl-8.0.5-0

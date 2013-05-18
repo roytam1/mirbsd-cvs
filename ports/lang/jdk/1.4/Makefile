@@ -1,12 +1,12 @@
-# $MirOS: ports/lang/jdk/1.4/Makefile,v 1.10 2005/05/04 17:07:39 tg Exp $
+# $MirOS: ports/lang/jdk/1.4/Makefile,v 1.12 2005/07/07 21:22:29 bsiegert Exp $
 # $OpenBSD$
 # $FreeBSD: /repoman/r/pcvs/ports/java/jdk14/Makefile,v 1.79 2004/08/18 07:06:03 glewis Exp $
 
 ONLY_FOR_PLATFORM=	OpenBSD:*:i386 MirBSD:*:i386
 
 CATEGORIES=		devel/jdk java lang
-COMMENT=		"Java2(TM) Standard Edition Dev Kit v${V}"
-COMMENT-jre=		"Java2(TM) Standard Edition Runtime Environment v${V}"
+COMMENT=			Java2(TM) Standard Edition Dev Kit v${V}
+COMMENT-jre=			Java2(TM) Standard Edition Runtime Environment v${V}
 V=			1.4.2
 DISTNAME=		j2sdk-1_4_2
 PKGNAME=		jdk-${V}-0

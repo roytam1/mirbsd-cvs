@@ -1,7 +1,7 @@
 # $OpenBSD: Makefile,v 1.20 2002/10/28 01:38:46 naddy Exp $
 # $FreeBSD: Makefile,v 1.2 1997/11/10 11:33:04 asami Exp $
 
-COMMENT=	"decode tcpdump(1) output"
+COMMENT=			decode tcpdump(1) output
 
 DISTNAME=	tcpshow-1.74
 CATEGORIES=	net security

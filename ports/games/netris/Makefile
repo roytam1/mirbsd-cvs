@@ -1,7 +1,7 @@
-# $MirOS$
+# $MirOS: ports/games/netris/Makefile,v 1.1.7.1 2005/03/18 15:46:22 tg Exp $
 # $OpenBSD: Makefile,v 1.17 2003/09/23 15:29:41 sturm Exp $
 
-COMMENT=	"network head-to-head version of T*tris"
+COMMENT=			network head-to-head version of T*tris
 
 DISTNAME=	netris-0.52
 CATEGORIES=	games

@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.2 2004/05/18 20:52:48 naddy Exp $
 
-COMMENT=	"interface to read EXIF tags in JPEG images"
+COMMENT=			interface to read EXIF tags in JPEG images
 
 DISTNAME=	Image-EXIF-0.98.6
 PKGNAME=	p5-${DISTNAME}-0

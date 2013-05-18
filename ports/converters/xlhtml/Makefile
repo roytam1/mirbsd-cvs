@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.2 2002/12/29 19:37:52 fgsch Exp $
 
-COMMENT=	"convert Excel and PowerPoint to HTML"
+COMMENT=			convert Excel and PowerPoint to HTML
 
 V=		0.2.9.8
 DISTNAME=	xlHtml-${V}

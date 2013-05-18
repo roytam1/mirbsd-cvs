@@ -6,7 +6,7 @@
 # $OpenBSD: Makefile,v 1.11 2002/10/27 17:21:39 naddy Exp $
 #
 
-COMMENT=	"speed mail delivery by sorting & batching addresses"
+COMMENT=			speed mail delivery by sorting & batching addresses
 
 DISTNAME=	bulk_mailer-1.13
 CATEGORIES=	mail

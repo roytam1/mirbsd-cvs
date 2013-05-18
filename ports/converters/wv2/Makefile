@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.4 2004/02/25 02:35:15 naddy Exp $
 
-COMMENT=	"library providing routines to access Microsoft Word/Excel files"
+COMMENT=			library providing routines to access Microsoft Word/Excel files
 
 DISTNAME=	wv2-0.2.1
 CATEGORIES=	converters

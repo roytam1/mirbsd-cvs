@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.6 2004/04/15 10:28:37 dhartmei Exp $
 
-COMMENT=	"proxy IRC client with ICB server"
+COMMENT=			proxy IRC client with ICB server
 
 DISTNAME=	icbirc-1.7
 CATEGORIES=	net

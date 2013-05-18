@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.4 2004/02/25 02:35:16 naddy Exp $
 
-COMMENT=	"puzzle game resembling the arcade game Qix"
+COMMENT=			puzzle game resembling the arcade game Qix
 DISTNAME=	late-0.0.3
 EXTRACT_SUFX=	.tar.bz2
 CATEGORIES=	games x11

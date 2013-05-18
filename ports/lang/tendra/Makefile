@@ -3,7 +3,7 @@
 # supports 68k, alpha, mips, sparc as well, but not ported yet
 ONLY_FOR_PLATFORM=	OpenBSD:*:i386 MirBSD:*:i386
 
-COMMENT=	"TenDRA: advanced BSD-licensed C compiler"
+COMMENT=			TenDRA: advanced BSD-licensed C compiler
 
 V=		20030803
 DISTNAME=	tendra-${V}

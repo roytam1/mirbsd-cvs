@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.19 2003/09/23 16:44:06 fgsch Exp $
 
-COMMENT=	"GNU version of Go"
+COMMENT=			GNU version of Go
 
 DISTNAME=	gnugo-3.4
 CATEGORIES=	games

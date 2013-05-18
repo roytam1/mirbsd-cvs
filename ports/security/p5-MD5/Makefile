@@ -2,7 +2,7 @@
 
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
-COMMENT=	"interface to md5 message-digest algorithm"
+COMMENT=			interface to md5 message-digest algorithm
 
 DISTNAME=	MD5-1.7
 PKGNAME=	p5-${DISTNAME}-0

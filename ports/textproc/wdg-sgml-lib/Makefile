@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.4 2004/02/01 20:25:35 sturm Exp $
 
-COMMENT=	"collection of HTML, XHTML, ISO-HTML, WML and MathML DTDs"
+COMMENT=			collection of HTML, XHTML, ISO-HTML, WML and MathML DTDs
 
 DISTNAME=	wdg-sgml-lib-1.1.3
 CATEGORIES=	textproc

@@ -1,7 +1,7 @@
 # $OpenBSD: Makefile,v 1.1.1.1 2004/05/21 17:21:54 jolan Exp $
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
-COMMENT=	"perl binding for curl"
+COMMENT=			perl binding for curl
 DISTNAME=	p5-WWW-Curl-20040519
 CATEGORIES=	www net
 MASTER_SITES=	http://mirrors.protection.cx/~jolan/

@@ -1,9 +1,9 @@
-# $MirOS: ports/devel/apache-ant/Makefile,v 1.3 2005/04/10 21:49:25 tg Exp $
+# $MirOS: ports/devel/apache-ant/Makefile,v 1.4 2005/04/11 15:54:54 tg Exp $
 # $OpenBSD: Makefile,v 1.1.1.1 2004/01/03 13:40:03 sturm Exp $
 
 ONLY_FOR_PLATFORM=	OpenBSD:*:i386 MirBSD:*:i386
 
-COMMENT=        "java equivalent to make"
+COMMENT=			java equivalent to make
 
 DISTNAME=	apache-ant-1.6.0
 CATEGORIES=	devel

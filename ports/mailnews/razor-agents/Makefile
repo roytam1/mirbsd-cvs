@@ -2,7 +2,7 @@
 
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
-COMMENT=		"agent for Razor spam filtering networks"
+COMMENT=			agent for Razor spam filtering networks
 
 DISTNAME=		razor-agents-2.40
 CATEGORIES=		mail

@@ -1,7 +1,7 @@
-# $MirOS$
+# $MirOS: ports/palm/pilrc/Makefile,v 1.3 2005/07/07 21:25:18 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.7 2002/12/29 20:31:39 fgsch Exp $
 
-COMMENT=	"generate resources for PalmOS applications from text descr"
+COMMENT=			generate resources for PalmOS applications from text descr
 
 DISTNAME=	pilrc-2.8p5
 PKGNAME=	${DISTNAME:S/p5/.5/}-0

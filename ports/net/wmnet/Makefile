@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.8 2003/10/30 21:10:43 jolan Exp $
 
-COMMENT=	"little X dock.app network monitor"
+COMMENT=			little X dock.app network monitor
 
 DISTNAME=	wmnet-1.06
 PKGNAME=	${DISTNAME}-1

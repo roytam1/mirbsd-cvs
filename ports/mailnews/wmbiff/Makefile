@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.11 2004/05/08 06:50:10 sturm Exp $
 
-COMMENT=	"wm-dockapp; multiple mailbox checker"
+COMMENT=			wm-dockapp; multiple mailbox checker
 DISTNAME=	wmbiff-0.4.22
 CATEGORIES=	mail x11 x11/windowmaker
 MASTER_SITES=	${MASTER_SITE_SOURCEFORGE:=wmbiff/}

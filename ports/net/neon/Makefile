@@ -1,7 +1,7 @@
-# $MirOS: ports/net/neon/Makefile,v 1.3 2006/02/09 11:12:20 tg Exp $
+# $MirOS: ports/net/neon/Makefile,v 1.4 2006/03/28 15:50:35 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.12 2004/05/19 18:03:00 lebel Exp $
 
-COMMENT=		"HTTP and WebDAV client library, with C interface"
+COMMENT=			HTTP and WebDAV client library, with C interface
 
 VERSION=		0.24.7
 DISTNAME=		neon-${VERSION}

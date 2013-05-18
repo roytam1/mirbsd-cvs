@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.3 2004/01/30 08:39:49 xsa Exp $
 
-COMMENT=	"insert random 'Zippy the Pinhead' quotes in your documents"
+COMMENT=			insert random 'Zippy the Pinhead' quotes in your documents
 
 # unversioned, so impose a version
 VERSION=	1.0	

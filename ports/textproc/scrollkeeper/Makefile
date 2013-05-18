@@ -1,7 +1,7 @@
-# $MirOS: ports/textproc/scrollkeeper/Makefile,v 1.2 2005/12/29 23:20:22 bsiegert Exp $
+# $MirOS: ports/textproc/scrollkeeper/Makefile,v 1.3 2006/02/09 11:15:30 tg Exp $
 # $OpenBSD: Makefile,v 1.15 2004/12/07 00:23:23 alek Exp $
 
-COMMENT=		"Scrollkeeper Open Documentation Cataloging System"
+COMMENT=			Scrollkeeper Open Documentation Cataloging System
 
 VERSION=		0.3.14
 DISTNAME=		scrollkeeper-${VERSION}

@@ -1,7 +1,7 @@
-# $MirOS$
+# $MirOS: ports/www/netscape/communicator/Makefile,v 1.2 2005/07/07 21:27:48 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.14 2004/01/15 22:07:28 sturm Exp $
 
-COMMENT=	"Netscape Communicator (bsdi)"
+COMMENT=			Netscape Communicator (bsdi)
 
 PROGRAM_V=	4.75
 V2:=		${PROGRAM_V:S/.//}

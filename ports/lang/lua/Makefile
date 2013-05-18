@@ -1,7 +1,7 @@
-# $MirOS$
+# $MirOS: ports/lang/lua/Makefile,v 1.1.7.1 2005/03/18 15:47:45 tg Exp $
 # $OpenBSD: Makefile,v 1.11 2004/05/25 12:14:30 pedro Exp $
 
-COMMENT=	"powerful, light-weight programming language"
+COMMENT=			powerful, light-weight programming language
 DISTNAME=	lua-5.0.2
 CATEGORIES=     lang
 MASTER_SITES=	http://www.lua.org/ftp/ \

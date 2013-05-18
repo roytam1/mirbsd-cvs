@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.1.1.1 2004/05/19 21:15:47 msf Exp $
 
-COMMENT=	"Perl module for use in de-obfuscating source code"
+COMMENT=			Perl module for use in de-obfuscating source code
 
 DISTNAME=	B-Deobfuscate-0.10
 PKGNAME=	p5-${DISTNAME}-0

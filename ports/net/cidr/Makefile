@@ -1,7 +1,7 @@
-# $MirOS$
+# $MirOS: ports/net/cidr/Makefile,v 1.2 2005/07/07 21:24:05 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.5 2002/10/28 01:38:44 naddy Exp $
 
-COMMENT=	"RFC 1878 subnet calculator / helper"
+COMMENT=			RFC 1878 subnet calculator / helper
 
 BROKEN=		distfile not available
 

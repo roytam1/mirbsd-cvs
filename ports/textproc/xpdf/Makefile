@@ -1,7 +1,7 @@
-# $MirOS: ports/textproc/xpdf/Makefile,v 1.1.7.1 2005/03/18 15:53:06 tg Exp $
+# $MirOS: ports/textproc/xpdf/Makefile,v 1.2 2006/02/09 11:15:31 tg Exp $
 # $OpenBSD: Makefile,v 1.41 2004/04/06 02:35:44 brad Exp $
 
-COMMENT=	"PDF viewer for X"
+COMMENT=			PDF viewer for X
 
 DISTNAME=	xpdf-3.00
 CATEGORIES=	textproc x11

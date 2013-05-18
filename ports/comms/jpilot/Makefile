@@ -1,7 +1,7 @@
-# $MirOS: ports/comms/jpilot/Makefile,v 1.3 2005/07/07 21:18:00 bsiegert Exp $
+# $MirOS: ports/comms/jpilot/Makefile,v 1.4 2006/02/09 11:11:14 tg Exp $
 # $OpenBSD: Makefile,v 1.23 2003/03/03 03:01:58 fgsch Exp $
 
-COMMENT=	"desktop organizer software for the palm pilot"
+COMMENT=			desktop organizer software for the palm pilot
 DISTNAME=	jpilot-0.99.2
 PKGNAME=	${DISTNAME}-0
 CATEGORIES=	comms palm

@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.18 2003/06/17 16:20:04 marcm Exp $
 
-COMMENT=	"technical documentation XML/SGML definitions"
+COMMENT=			technical documentation XML/SGML definitions
 
 DISTNAME=	docbook-4.2
 PKGNAME=	${DISTNAME}-1

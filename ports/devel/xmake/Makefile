@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.18 2002/12/29 20:19:12 fgsch Exp $
 
-COMMENT=	"powerful make utility"
+COMMENT=			powerful make utility
 
 DISTNAME=	xmake-1.05
 PKGNAME=	${DISTNAME}-1

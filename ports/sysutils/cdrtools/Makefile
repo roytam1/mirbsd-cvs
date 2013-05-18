@@ -1,7 +1,7 @@
-# $MirOS$
+# $MirOS: ports/sysutils/cdrtools/Makefile,v 1.2 2005/07/07 21:26:31 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.7 2004/02/13 17:25:51 sturm Exp $
 
-COMMENT=		"ISO 9660 filesystem and CD creation tools"
+COMMENT=			ISO 9660 filesystem and CD creation tools
 DISTNAME=		cdrtools-2.00.3
 PKGNAME=		${DISTNAME}-1
 CATEGORIES=		sysutils

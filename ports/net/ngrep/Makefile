@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.21 2004/05/04 10:02:37 espie Exp $
 
-COMMENT=	"network grep"
+COMMENT=			network grep
 
 DISTNAME=	ngrep-1.42
 CATEGORIES=     net

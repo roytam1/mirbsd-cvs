@@ -2,7 +2,7 @@
 
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
-COMMENT=	"perl module to validate function/method parameters"
+COMMENT=			perl module to validate function/method parameters
 
 DISTNAME=	Params-Validate-0.74
 PKGNAME=	p5-${DISTNAME}-0

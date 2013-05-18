@@ -1,6 +1,6 @@
-# $MirOS: ports/print/gentium-font/Makefile,v 1.3 2005/08/21 11:49:58 tg Exp $
+# $MirOS: ports/print/gentium-font/Makefile,v 1.4 2005/12/16 10:44:31 tg Exp $
 
-COMMENT=		"freeware font with many latin/greek/cyrillic glyphs"
+COMMENT=			freeware font with many latin/greek/cyrillic glyphs
 CATEGORIES=		print graphics textproc productivity x11
 V=			102
 DISTNAME=		Gentium_${V}_W

@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.16 2003/05/24 02:40:42 jolan Exp $
 
-COMMENT=	"handle the old .ZOO archive format"
+COMMENT=			handle the old .ZOO archive format
 
 DISTNAME=	zoo-2.10pl1
 PKGNAME=	zoo-2.10.1-0

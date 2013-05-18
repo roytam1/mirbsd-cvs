@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.2 2003/05/12 08:23:46 jolan Exp $
 
-COMMENT=	"simple library designed for DVD navigation"
+COMMENT=			simple library designed for DVD navigation
 
 DISTNAME=	libdvdplay-1.0.1
 PKGNAME=	${DISTNAME}-2

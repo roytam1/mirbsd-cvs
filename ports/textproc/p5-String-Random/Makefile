@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.6 2004/02/07 12:49:02 sturm Exp $
 
-COMMENT=	"perl module for generating randoms strings"
+COMMENT=			perl module for generating randoms strings
 
 DISTNAME=	String-Random-0.20
 PKGNAME=	p5-${DISTNAME}-0

@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.17 2002/10/28 22:43:46 naddy Exp $
 
-COMMENT=	"text search engine by CNIDR"
+COMMENT=			text search engine by CNIDR
 
 #BROKEN=		C++ syntax errors, index.cxx:533: ANSI C++ forbids declaration PhraseLength with no type
 

@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.6 2003/10/18 19:44:53 sturm Exp $
 
-COMMENT=	"HTML text formating class"
+COMMENT=			HTML text formating class
 
 DISTNAME=	HTML-Format-1.23
 PKGNAME=	p5-${DISTNAME}-0

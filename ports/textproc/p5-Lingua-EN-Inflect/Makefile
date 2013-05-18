@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.1.1.1 2004/05/17 19:35:14 sturm Exp $
 
-COMMENT=	"Convert singular to plural. Select a or an."
+COMMENT=			Convert singular to plural. Select a or an.
 
 DISTNAME=	Lingua-EN-Inflect-1.86
 PKGNAME=	p5-${DISTNAME}-0

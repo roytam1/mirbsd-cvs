@@ -1,6 +1,6 @@
-# $MirOS: ports/misc/cksfv/Makefile,v 1.2 2005/08/21 11:49:22 tg Exp $
+# $MirOS: ports/misc/cksfv/Makefile,v 1.3 2005/12/30 17:56:51 tg Exp $
 
-COMMENT=		checksummer for .sfv files
+COMMENT=			checksummer for .sfv files
 V=			1.3
 CATEGORIES=		archivers misc net
 DISTNAME=		cksfv-$V

@@ -1,7 +1,7 @@
-# $MirOS$
+# $MirOS: ports/x11/xforms/Makefile,v 1.1.7.1 2005/03/18 16:01:17 tg Exp $
 # $OpenBSD: Makefile,v 1.27 2003/05/12 06:48:20 margarida Exp $
 
-COMMENT=	"GUI toolkit for X11"
+COMMENT=			GUI toolkit for X11
 DISTNAME=	xforms-1.0
 CATEGORIES=	x11
 HOMEPAGE=	http://world.std.com/~xforms/

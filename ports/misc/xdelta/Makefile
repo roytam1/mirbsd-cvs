@@ -1,8 +1,8 @@
-# $MirOS$
+# $MirOS: ports/misc/xdelta/Makefile,v 1.2 2005/03/30 16:51:09 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.14 2002/12/29 19:49:41 fgsch Exp $
 # $FreeBSD: Makefile,v 1.10 1998/09/03 00:05:11 jmacd Exp $
 
-COMMENT=	"binary delta generator and prototype RCS replacement"
+COMMENT=			binary delta generator and prototype RCS replacement
 
 DISTNAME=	xdelta-1.1.1
 CATEGORIES=	misc

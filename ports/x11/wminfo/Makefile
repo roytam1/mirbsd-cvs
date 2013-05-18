@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.11 2003/04/27 07:03:30 wilfried Exp $
 
-COMMENT=		'wm-dockapp; displays scrolling text'
+COMMENT=			wm-dockapp; displays scrolling text
 
 DISTNAME=		wminfo-1.51
 CATEGORIES=		x11 x11/windowmaker

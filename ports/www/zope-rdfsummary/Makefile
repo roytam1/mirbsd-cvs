@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.2 2004/01/30 08:39:49 xsa Exp $
 
-COMMENT=	"Zope product to display RSS files"
+COMMENT=			Zope product to display RSS files
 
 V=		2-4
 DISTNAME=	RDFSummary-${V}

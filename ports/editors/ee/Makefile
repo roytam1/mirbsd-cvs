@@ -1,7 +1,7 @@
-# $MirOS$
+# $MirOS: ports/editors/ee/Makefile,v 1.2 2005/06/23 15:46:12 tg Exp $
 # $OpenBSD: Makefile,v 1.2 2002/10/26 00:39:15 naddy Exp $
 
-COMMENT=		"easy to use text editor"
+COMMENT=			easy to use text editor
 VERSION=		1.4.6
 DISTNAME=		ee-${VERSION}
 CATEGORIES=     	editors

@@ -1,7 +1,7 @@
 # $OpenBSD: Makefile,v 1.24 2004/01/20 13:49:34 todd Exp $
 # Uses pthreads
 
-COMMENT=	"General Input Library (used by libggi)"
+COMMENT=			General Input Library (used by libggi)
 DISTNAME=	libgii-0.8.4
 CATEGORIES=	graphics
 

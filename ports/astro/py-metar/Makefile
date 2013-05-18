@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.2 2004/04/01 13:17:57 xsa Exp $
 
-COMMENT=	"Python module to access the NOAA's METAR weather reports"
+COMMENT=			Python module to access the NOAA's METAR weather reports
 
 DISTNAME=	pymetar-0.8
 PKGNAME=	${DISTNAME:S/py/py-/}-0

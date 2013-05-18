@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.8 2002/10/27 00:52:43 naddy Exp $
 
-COMMENT=	"extra japanese fonts, marumoji"
+COMMENT=			extra japanese fonts, marumoji
 
 CATEGORIES=	japanese x11
 DIST_SUBDIR=	ja-fonts

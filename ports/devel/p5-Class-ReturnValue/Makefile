@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.1.1.1 2004/05/10 17:46:55 naddy Exp $
 
-COMMENT=	"smart return-value object"
+COMMENT=			smart return-value object
 
 DISTNAME=	Class-ReturnValue-0.52
 PKGNAME=	p5-${DISTNAME}-0

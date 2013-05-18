@@ -1,7 +1,7 @@
 # $OpenBSD: Makefile,v 1.16 2002/12/23 08:05:51 pvalchev Exp $
 #
 
-COMMENT=		"AnaGram search utility"
+COMMENT=			AnaGram search utility
 
 DISTNAME=		agm-1.3.1
 CATEGORIES=		games

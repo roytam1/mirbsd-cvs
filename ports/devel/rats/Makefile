@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.12 2002/10/17 21:08:26 jsyn Exp $
 
-COMMENT=		"source code auditing tool"
+COMMENT=			source code auditing tool
 
 DISTNAME=		rats-2.1
 CATEGORIES=     	devel security

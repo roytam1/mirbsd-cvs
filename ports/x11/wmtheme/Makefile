@@ -1,7 +1,7 @@
-# $MirOS$
+# $MirOS: ports/x11/wmtheme/Makefile,v 1.2 2005/03/30 18:14:04 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.12 2003/10/08 17:13:18 sturm Exp $
 
-COMMENT=		"window manager theme utility"
+COMMENT=			window manager theme utility
 
 DISTNAME=		wmtheme-1.3.2
 CATEGORIES=		x11 

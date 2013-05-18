@@ -1,7 +1,7 @@
-# $MirOS: ports/graphics/sane-backends/Makefile,v 1.1.7.1 2005/03/18 15:47:09 tg Exp $
+# $MirOS: ports/graphics/sane-backends/Makefile,v 1.2 2006/02/09 11:11:52 tg Exp $
 # Original from: Antoine Jacoutot <ajacoutot@lphp.org>
 
-COMMENT=	"API for accessing scanners, backends"
+COMMENT=			API for accessing scanners, backends
 
 DISTNAME=	sane-backends-1.0.14
 CATEGORIES=	graphics

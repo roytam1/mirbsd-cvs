@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.17 2003/10/26 23:49:37 naddy Exp $
 
-COMMENT=	"Unix menuing shell"
+COMMENT=			Unix menuing shell
 
 DISTNAME=	mshell
 PKGNAME=	mshell-1.0-0

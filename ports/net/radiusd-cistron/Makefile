@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.19 2003/06/18 14:19:09 brad Exp $
 
-COMMENT=	"Cistron RADIUS server"
+COMMENT=			Cistron RADIUS server
 
 VERSION=	1.6.6
 DISTNAME=	radiusd-cistron-${VERSION}

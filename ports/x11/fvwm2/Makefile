@@ -1,9 +1,9 @@
-# $MirOS: ports/x11/fvwm2/Makefile,v 1.3 2005/07/07 21:28:43 bsiegert Exp $
+# $MirOS: ports/x11/fvwm2/Makefile,v 1.4 2006/02/09 09:36:22 tg Exp $
 # $OpenBSD: Makefile,v 1.31 2004/02/04 07:39:19 sturm Exp $
 
-COMMENT=	"multiple virtual desktop window manager, with icons"
-COMMENT-fvicons="multiple virtual desktop window manager icons"
-COMMENT-fvwm2=	"multiple virtual desktop window manager, without icons"
+COMMENT=			multiple virtual desktop window manager, with icons
+COMMENT-fvicons=			multiple virtual desktop window manager icons
+COMMENT-fvwm2=			multiple virtual desktop window manager, without icons
 
 VERSION=	2.4.16
 DISTNAME=	fvwm-${VERSION}

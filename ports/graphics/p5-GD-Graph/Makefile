@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.13 2002/10/24 01:55:27 kevlo Exp $
 
-COMMENT=	"module for graph plotting"
+COMMENT=			module for graph plotting
 
 DISTNAME=	GDGraph-1.35
 PKGNAME=	p5-GD-Graph-1.35-0

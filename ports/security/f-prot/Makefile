@@ -1,4 +1,4 @@
-# $MirOS: ports/security/f-prot/Makefile,v 1.5 2005/08/21 11:50:03 tg Exp $
+# $MirOS: ports/security/f-prot/Makefile,v 1.6 2005/10/21 20:32:38 tg Exp $
 
 .include <mirports.sys.mk>
 
@@ -7,7 +7,7 @@ ONLY_FOR_PLATFORM=	OpenBSD:*:i386 MirBSD:*:i386
 EMUL=			openbsd
 .endif
 
-COMMENT=		"personal use freeware virus scanner"
+COMMENT=			personal use freeware virus scanner
 CATEGORIES=		security sysutils virus
 V=			4.6.2
 DISTNAME=		fp-openbsd-ws-${V}

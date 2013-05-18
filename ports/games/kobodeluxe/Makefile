@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.5 2004/05/22 19:54:10 jolan Exp $
 
-COMMENT=	"sdl port of xkobo"
+COMMENT=			sdl port of xkobo
 DISTNAME=	KoboDeluxe-0.4pre8
 PKGNAME=	${DISTNAME:L}-0
 CATEGORIES=	games x11

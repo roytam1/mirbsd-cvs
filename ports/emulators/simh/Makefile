@@ -1,7 +1,7 @@
 # $OpenBSD: Makefile,v 1.45 2004/04/08 06:25:17 brad Exp $
 # $NetBSD: Makefile,v 1.2 1998/08/23 20:48:03 frueauf Exp $
 
-COMMENT=		"PDP, IBM 1401, Nova and other CPUs simulator"
+COMMENT=			PDP, IBM 1401, Nova and other CPUs simulator
 
 DISTNAME=		simh-3.0-2
 CATEGORIES=		emulators

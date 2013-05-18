@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.9 2003/10/08 17:13:16 sturm Exp $
 
-COMMENT=	"win95-like window manager based on fvwm 2.x"
+COMMENT=			win95-like window manager based on fvwm 2.x
 
 DISTNAME=	fvwm95-2.0.43a-Autoconf
 PKGNAME=	fvwm95-2.0.43a-0

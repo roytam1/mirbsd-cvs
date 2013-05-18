@@ -1,7 +1,7 @@
 # $OpenBSD: Makefile,v 1.17 2003/06/17 15:28:55 avsm Exp $
 # $FreeBSD: ports/net/pchar/Makefile,v 1.1.1.1 1999/11/04 08:33:26 obrien Exp $
 
-COMMENT=	"Sandia Internet path characterization tool"
+COMMENT=			Sandia Internet path characterization tool
 
 V=		1.4
 DISTNAME=	pchar-${V}

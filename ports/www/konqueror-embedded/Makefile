@@ -2,7 +2,7 @@
 
 BROKEN=			Missing support for module x11/qt2
 
-COMMENT='stand-alone Qt-based web browser'
+COMMENT=			stand-alone Qt-based web browser
 CATEGORIES=www x11
 
 USE_CXX=	Yes

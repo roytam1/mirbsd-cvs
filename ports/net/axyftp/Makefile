@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.14 2003/03/31 05:27:48 kevlo Exp $
 
-COMMENT=	"ftp client for X window system"
+COMMENT=			ftp client for X window system
 
 DISTNAME=	axyftp-0.5.1
 PKGNAME=	${DISTNAME}-1

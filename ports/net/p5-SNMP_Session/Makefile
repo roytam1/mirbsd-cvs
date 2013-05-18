@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.5 2003/12/01 06:03:25 jakob Exp $
 
-COMMENT=	"provides rudimentary access to remote SNMP agents"
+COMMENT=			provides rudimentary access to remote SNMP agents
 
 VERSION=	0.99
 DISTNAME=	SNMP_Session-${VERSION}

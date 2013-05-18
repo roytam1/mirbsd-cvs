@@ -1,7 +1,7 @@
-# $MirOS: ports/lang/hugs/Makefile,v 1.3 2005/07/07 21:22:24 bsiegert Exp $
+# $MirOS: ports/lang/hugs/Makefile,v 1.4 2006/02/09 11:11:55 tg Exp $
 # $OpenBSD: Makefile,v 1.5 2004/05/17 02:24:32 dons Exp $
 
-COMMENT=	"Haskell 98 interpreter"
+COMMENT=			Haskell 98 interpreter
 
 V=		Nov2003
 DISTNAME=	hugs98-${V}

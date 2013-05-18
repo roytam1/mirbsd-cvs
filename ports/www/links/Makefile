@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.9 2004/02/23 15:44:43 espie Exp $
 
-COMMENT=	"text browser, displays while downloading"
+COMMENT=			text browser, displays while downloading
 
 VERSION=	0.99
 DISTNAME=	links-${VERSION}

@@ -1,7 +1,7 @@
-# $MirOS: ports/devel/autoconf/2.59/Makefile,v 1.3 2005/09/02 00:54:15 tg Exp $
+# $MirOS: ports/devel/autoconf/2.59/Makefile,v 1.4 2006/02/09 11:11:18 tg Exp $
 # $OpenBSD: Makefile,v 1.1.1.1 2004/02/10 00:00:14 espie Exp $
 
-COMMENT=	"automatically configure source code on many Un*x platforms"
+COMMENT=			automatically configure source code on many Un*x platforms
 SUFFIX=		-2.59
 DISTNAME=	autoconf${SUFFIX}
 PKGNAME=	${DISTNAME}-2

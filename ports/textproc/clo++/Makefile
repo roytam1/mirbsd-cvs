@@ -1,7 +1,7 @@
-# $MirOS: ports/textproc/clo++/Makefile,v 1.1.7.1 2005/03/18 15:52:40 tg Exp $
+# $MirOS: ports/textproc/clo++/Makefile,v 1.2 2006/06/03 16:02:41 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.6 2003/11/15 15:12:53 sturm Exp $
 
-COMMENT=	"command line parser generator"
+COMMENT=			command line parser generator
 
 DISTNAME=	clo++-0.3.0
 PKGNAME=	${DISTNAME}-1

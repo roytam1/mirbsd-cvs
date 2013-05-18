@@ -1,7 +1,7 @@
-# $MirOS: ports/security/mcrypt/Makefile,v 1.1.7.1 2005/03/18 15:51:30 tg Exp $
+# $MirOS: ports/security/mcrypt/Makefile,v 1.2 2006/02/09 11:15:20 tg Exp $
 # $OpenBSD: Makefile,v 1.12 2003/04/10 18:08:57 jsyn Exp $
 
-COMMENT=		"extendable encryption program that supports many ciphers"
+COMMENT=			extendable encryption program that supports many ciphers
 DISTNAME=		mcrypt-2.6.3
 CATEGORIES=     	security
 HOMEPAGE=		http://mcrypt.hellug.gr/mcrypt/

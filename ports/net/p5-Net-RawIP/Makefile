@@ -2,7 +2,7 @@
 
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
-COMMENT=	"module to manipulate raw ip packets"
+COMMENT=			module to manipulate raw ip packets
 
 DISTNAME=	Net-RawIP-0.09d
 PKGNAME=	p5-${DISTNAME}-0

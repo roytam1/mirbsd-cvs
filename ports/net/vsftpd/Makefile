@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.6 2004/02/07 06:38:12 brad Exp $
 
-COMMENT=		"Ftp daemon which aims to be secure"
+COMMENT=			Ftp daemon which aims to be secure
 
 VERSION=		1.2.1
 DISTNAME=		vsftpd-${VERSION}

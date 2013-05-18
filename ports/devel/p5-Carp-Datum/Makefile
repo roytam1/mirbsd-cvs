@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.2 2004/01/04 08:34:26 sturm Exp $
 
-COMMENT=	"debugging and tracing ultimate module"
+COMMENT=			debugging and tracing ultimate module
 
 DISTNAME=	Carp-Datum-0.1.3
 PKGNAME=	p5-${DISTNAME}-0

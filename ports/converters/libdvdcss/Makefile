@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.10 2003/10/30 01:00:54 jolan Exp $
 
-COMMENT=	"descramble scrambled DVDs"
+COMMENT=			descramble scrambled DVDs
 
 VER=		1.2.8
 DISTNAME=	libdvdcss-${VER}

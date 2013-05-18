@@ -1,7 +1,7 @@
 # $OpenBSD: Makefile,v 1.23 2002/10/27 00:03:17 naddy Exp $
 # Original from: Marco S Hyman <marc@OpenBSD.ORG>
 
-COMMENT=	"X11 image display and modification tool"
+COMMENT=			X11 image display and modification tool
 
 DISTNAME=	xv-3.10a
 CATEGORIES=	graphics x11

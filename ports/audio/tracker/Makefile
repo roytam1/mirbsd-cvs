@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.21 2003/05/12 18:02:44 sturm Exp $
 
-COMMENT=	"MOD player"
+COMMENT=			MOD player
 DISTNAME=	tracker-5.3
 CATEGORIES=	audio
 

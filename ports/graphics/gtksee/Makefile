@@ -1,7 +1,7 @@
-# $MirOS: ports/graphics/gtksee/Makefile,v 1.3 2006/02/09 09:35:54 tg Exp $
+# $MirOS: ports/graphics/gtksee/Makefile,v 1.4 2006/02/09 11:11:48 tg Exp $
 # $OpenBSD: Makefile,v 1.16 2004/04/18 23:20:28 jcs Exp $
 
-COMMENT=	"image viewer similar to ACDSee for Windows"
+COMMENT=			image viewer similar to ACDSee for Windows
 
 DISTNAME=	gtksee-0.5.0
 CATEGORIES=	graphics

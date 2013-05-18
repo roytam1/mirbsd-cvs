@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.13 2004/02/25 02:35:17 naddy Exp $
 
-COMMENT=	"convert Netscape bookmarks into a Yahoo-like website"
+COMMENT=			convert Netscape bookmarks into a Yahoo-like website
 
 DISTNAME=	bk2site-1.1.8
 CATEGORIES=	www

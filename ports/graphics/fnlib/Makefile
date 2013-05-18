@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.21 2002/12/29 20:08:46 fgsch Exp $
 
-COMMENT=	"color font rendering library for X"
+COMMENT=			color font rendering library for X
 
 DISTNAME=	fnlib-0.5
 CATEGORIES=	graphics

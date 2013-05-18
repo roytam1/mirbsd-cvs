@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.4 2002/10/30 04:46:31 pvalchev Exp $
 
-COMMENT=	"interface to HMAC Message-Digest Algorithms"
+COMMENT=			interface to HMAC Message-Digest Algorithms
 
 DISTNAME=	Digest-HMAC-1.01
 PKGNAME=	p5-${DISTNAME}-0

@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.7 2002/10/27 00:52:43 naddy Exp $
 
-COMMENT=	"display kanji files in large letters"
+COMMENT=			display kanji files in large letters
 
 DISTNAME=	kbanner2
 PKGNAME=	kbanner-2-0

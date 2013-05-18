@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.17 2002/12/23 00:37:50 pvalchev Exp $
 
-COMMENT=	"Motif minesweeper game"
+COMMENT=			Motif minesweeper game
 
 DISTNAME=	xminehunter-0.4
 CATEGORIES=	games

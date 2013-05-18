@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.13 2003/10/08 17:13:17 sturm Exp $
 
-COMMENT=	"slide rule component of X11R3's xcalc"
+COMMENT=			slide rule component of X11R3's xcalc
 
 DISTNAME=	sliderule
 PKGNAME=	sliderule-1.0-0

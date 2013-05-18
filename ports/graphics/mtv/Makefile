@@ -2,7 +2,7 @@
 
 ONLY_FOR_PLATFORM=	OpenBSD:*:i386 MirBSD:*:i386
 
-COMMENT=	"mpeg video player"
+COMMENT=			mpeg video player
 
 DISTNAME=	mtv-1.0.6.0
 CATEGORIES=	graphics

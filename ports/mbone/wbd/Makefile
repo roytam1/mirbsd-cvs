@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.29 2002/12/23 00:37:51 pvalchev Exp $
 
-COMMENT=	"shared drawing (whiteboard) tool using multicast"
+COMMENT=			shared drawing (whiteboard) tool using multicast
 
 DISTNAME=	wbd-1.0ucl4
 CATEGORIES=	mbone

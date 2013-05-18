@@ -1,7 +1,7 @@
 # $OpenBSD: Makefile,v 1.4 2002/10/28 17:35:02 naddy Exp $
 # $FreeBSD: ports/security/slurpie/Makefile,v 1.4 2000/11/06 00:09:26 obrien Exp $
 
-COMMENT=	"distributed passwd file cracker"
+COMMENT=			distributed passwd file cracker
 
 VERSION=	2.0b
 DISTNAME=	slurpie

@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.20 2003/07/14 16:13:43 jason Exp $
 
-COMMENT=	"Simulation Program for Integrated Circuit Electronics"
+COMMENT=			Simulation Program for Integrated Circuit Electronics
 
 DISTNAME=		sp3f4.kit
 PKGNAME=		spice-3f5-1

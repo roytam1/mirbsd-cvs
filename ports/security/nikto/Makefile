@@ -1,6 +1,6 @@
 # $OpenBSD $
 
-COMMENT=	"Web and CGI vulnerability scanner with SSL support"
+COMMENT=			Web and CGI vulnerability scanner with SSL support
 
 DISTNAME=	nikto-1.32
 CATEGORIES=	security www

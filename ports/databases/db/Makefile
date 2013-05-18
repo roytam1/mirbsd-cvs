@@ -1,11 +1,11 @@
-# $MirOS: ports/databases/db/Makefile,v 1.8 2006/04/21 15:00:45 bsiegert Exp $
+# $MirOS: ports/databases/db/Makefile,v 1.9 2006/04/25 20:01:00 tg Exp $
 
 BROKEN=			ask tg@ to re-add SEPARATE_BUILD
 
-COMMENT=		"Berkeley DB, revision 4"
-COMMENT-doc=		"Berkeley DB documentation, revision 4"
-COMMENT-tcl=		"Berkeley DB Tcl library, revision 4"
-COMMENT-cxx=		"Berkeley DB C++ library, revision 4"
+COMMENT=			Berkeley DB, revision 4
+COMMENT-doc=			Berkeley DB documentation, revision 4
+COMMENT-tcl=			Berkeley DB Tcl library, revision 4
+COMMENT-cxx=			Berkeley DB C++ library, revision 4
 DESCR=			${PKGDIR}/DESCR
 
 RESPONSIBLE=		Benny Siegert <bsiegert@gmx.de>

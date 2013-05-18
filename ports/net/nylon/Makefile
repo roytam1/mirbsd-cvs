@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.1.1.1 2003/06/14 21:07:10 sturm Exp $
 
-COMMENT=	"lightweight SOCKS 4 and SOCKS 5 proxy"
+COMMENT=			lightweight SOCKS 4 and SOCKS 5 proxy
 DISTNAME=	nylon-1.2
 CATEGORIES=	net
 

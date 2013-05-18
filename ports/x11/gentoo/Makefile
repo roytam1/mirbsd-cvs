@@ -1,7 +1,7 @@
-# $MirOS$
+# $MirOS: ports/x11/gentoo/Makefile,v 1.3 2005/03/30 18:13:56 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.6 2002/09/09 16:22:10 pvalchev Exp $
 
-COMMENT=		"GTK+ Graphical filemanager"
+COMMENT=			GTK+ Graphical filemanager
 
 VERSION=		0.11.34
 DISTNAME=		gentoo-${VERSION}

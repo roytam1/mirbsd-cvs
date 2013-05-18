@@ -1,6 +1,6 @@
-# $MirOS: ports/devel/subversion/Makefile,v 1.6 2006/06/04 19:49:13 tg Exp $
+# $MirOS: ports/devel/subversion/Makefile,v 1.7 2006/06/04 20:29:35 bsiegert Exp $
 
-COMMENT=		"Subversion revision control system"
+COMMENT=			Subversion revision control system
 VERSION=		1.3.2
 DASH_VER=		-0
 DISTNAME=		subversion-${VERSION}

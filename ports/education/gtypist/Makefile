@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.9 2004/02/22 22:21:01 naddy Exp $
 
-COMMENT=	"interactive typing tutor"
+COMMENT=			interactive typing tutor
 
 DISTNAME=	gtypist-2.7
 CATEGORIES=	education

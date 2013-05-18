@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.18 2004/03/13 15:48:54 sturm Exp $
 
-COMMENT=	"graphical toolkit for Tcl"
+COMMENT=			graphical toolkit for Tcl
 
 VERSION=	8.3.5
 

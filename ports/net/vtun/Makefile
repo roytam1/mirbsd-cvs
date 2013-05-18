@@ -2,7 +2,7 @@
 
 BROKEN=		"insecure due to protocol flaws"
 
-COMMENT=	"virtual tunnels over TCP/IP networks with traffic shaping"
+COMMENT=			virtual tunnels over TCP/IP networks with traffic shaping
 
 DISTNAME=	vtun-2.6
 CATEGORIES=	net

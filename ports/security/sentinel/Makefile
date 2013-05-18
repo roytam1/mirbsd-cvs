@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.12 2003/02/03 06:38:22 pvalchev Exp $
 
-COMMENT=		"remote promiscous mode detection tool"
+COMMENT=			remote promiscous mode detection tool
 
 DISTNAME=		sentinel-1.0
 CATEGORIES=    		security net

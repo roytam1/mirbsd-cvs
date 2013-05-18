@@ -2,7 +2,7 @@
 
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
-COMMENT=	"speed up perl scripts by running them persistently"
+COMMENT=			speed up perl scripts by running them persistently
 
 VERSION=	2.22
 DISTNAME=	CGI-SpeedyCGI-${VERSION}

@@ -1,7 +1,7 @@
-# $MirOS: ports/productivity/gtimer/Makefile,v 1.2 2005/03/30 18:13:45 bsiegert Exp $
+# $MirOS: ports/productivity/gtimer/Makefile,v 1.3 2006/02/09 09:36:15 tg Exp $
 # $OpenBSD: Makefile,v 1.3 2003/07/16 17:37:47 naddy Exp $
 
-COMMENT=		"GTK-based time tracker"
+COMMENT=			GTK-based time tracker
 
 DISTNAME=		gtimer-1.1.5
 CATEGORIES=     	productivity x11

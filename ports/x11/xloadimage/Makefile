@@ -1,7 +1,7 @@
-# $MirOS: ports/x11/xloadimage/Makefile,v 1.5 2005/09/11 23:22:54 tg Exp $
+# $MirOS: ports/x11/xloadimage/Makefile,v 1.6 2006/04/25 20:26:49 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.24 2004/05/18 08:45:33 xsa Exp $
 
-COMMENT=	"graphics file viewer for X11"
+COMMENT=			graphics file viewer for X11
 VERSION=	4.1
 REVISION=	16	# Debian
 DISTNAME=	xloadimage.${VERSION}

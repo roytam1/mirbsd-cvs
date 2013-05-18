@@ -1,7 +1,7 @@
-# $MirOS: ports/devel/dejagnu/Makefile,v 1.2 2005/04/11 19:37:37 tg Exp $
+# $MirOS: ports/devel/dejagnu/Makefile,v 1.3 2005/04/11 19:38:08 tg Exp $
 # $OpenBSD: Makefile,v 1.21 2003/12/27 23:41:41 jose Exp $
 
-COMMENT=	"framework to test programs"
+COMMENT=			framework to test programs
 DISTNAME=	dejagnu-1.4.4
 CATEGORIES=	devel
 MASTER_SITES=	${MASTER_SITE_GNU:=dejagnu/}

@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.15 2004/01/02 13:01:28 jakob Exp $
 
-COMMENT=	"tiny/turbo/throttling HTTP server"
+COMMENT=			tiny/turbo/throttling HTTP server
 
 DISTNAME=	thttpd-2.25b
 PKGNAME=	thttpd-2.25b-0

@@ -2,7 +2,7 @@
 
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
-COMMENT=		'module to interface the DNS resolver'
+COMMENT=			module to interface the DNS resolver
 
 DISTNAME=		Net-DNS-0.47
 PKGNAME=		p5-${DISTNAME}-0

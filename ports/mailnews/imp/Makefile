@@ -2,7 +2,7 @@
 
 BROKEN=		needs updating to php5
 
-COMMENT=	"highly configurable pop3/imap4 webmail client"
+COMMENT=			highly configurable pop3/imap4 webmail client
 
 V=		3.2.3
 HORDE_MODULE=	imp

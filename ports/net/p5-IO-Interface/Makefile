@@ -2,7 +2,7 @@
 
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
-COMMENT=	"module for access to network card configuration information"
+COMMENT=			module for access to network card configuration information
 
 DISTNAME=	IO-Interface-0.97
 PKGNAME=	p5-${DISTNAME}-0

@@ -1,7 +1,7 @@
 # $OpenBSD: Makefile,v 1.4 2004/04/10 23:08:11 xsa Exp $
 
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
-COMMENT=	"set of Python modules designed for writing games"
+COMMENT=			set of Python modules designed for writing games
 DISTNAME=	pygame-1.6
 CATEGORIES=	devel games
 HOMEPAGE=	http://www.pygame.org/

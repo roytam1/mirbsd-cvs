@@ -2,7 +2,7 @@
 
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
-COMMENT=	"checks HTML documents for broken links"
+COMMENT=			checks HTML documents for broken links
 
 DISTNAME=	linkchecker-1.12.2
 CATEGORIES=    	www

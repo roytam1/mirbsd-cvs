@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.8 2003/09/29 13:02:29 naddy Exp $
 
-COMMENT=	"astronomical julian date calculator"
+COMMENT=			astronomical julian date calculator
 
 DISTNAME=	jday-1.3
 CATEGORIES=	astro

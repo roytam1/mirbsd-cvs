@@ -1,15 +1,15 @@
-# $MirOS$
+# $MirOS: ports/textproc/ispell/Makefile,v 1.2 2006/01/01 05:25:30 tg Exp $
 # $OpenBSD: Makefile,v 1.37 2004/01/14 17:09:08 jakob Exp $
 
-COMMENT=		"interactive spelling checker"
-COMMENT-dutch=		"ispell dictionary for Dutch"
-COMMENT-french=		"ispell dictionary for French"
-COMMENT-german=		"ispell dictionary for German"
-COMMENT-russian=	"ispell dictionary for Russian"
-COMMENT-portuguese=	"ispell dictionary for Portuguese"
-COMMENT-slovak=		"ispell dictionary for Slovak"
-COMMENT-spanish=	"ispell dictionary for Spanish"
-COMMENT-swedish=	"ispell dictionary for Swedish"
+COMMENT=			interactive spelling checker
+COMMENT-dutch=			ispell dictionary for Dutch
+COMMENT-french=			ispell dictionary for French
+COMMENT-german=			ispell dictionary for German
+COMMENT-russian=			ispell dictionary for Russian
+COMMENT-portuguese=			ispell dictionary for Portuguese
+COMMENT-slovak=			ispell dictionary for Slovak
+COMMENT-spanish=			ispell dictionary for Spanish
+COMMENT-swedish=			ispell dictionary for Swedish
 
 VERSION=		3.2.06
 PL=			1

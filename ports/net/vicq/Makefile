@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.7 2002/12/29 21:14:12 fgsch Exp $
 
-COMMENT=	"text-based ICQ implementation"
+COMMENT=			text-based ICQ implementation
 
 DISTNAME=	vicq-0.4.1
 CATEGORIES=     net

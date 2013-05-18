@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.1.1.1 2003/05/12 08:21:23 margarida Exp $
 
-COMMENT=		"DNS queries reflector"
+COMMENT=			DNS queries reflector
 
 DISTNAME=		dnsreflector-1.02
 CATEGORIES=		net sysutils

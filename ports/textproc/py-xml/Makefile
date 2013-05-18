@@ -2,7 +2,7 @@
 
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
-COMMENT=	"python module for writing basic XML applications"
+COMMENT=			python module for writing basic XML applications
 
 VERSION=	0.7.1
 DISTNAME=	PyXML-${VERSION}

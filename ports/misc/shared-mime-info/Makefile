@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.10 2004/12/22 11:50:29 alek Exp $
 
-COMMENT=		"Shared mime database for desktops"
+COMMENT=			Shared mime database for desktops
 
 VERSION=		0.15
 DISTNAME=		shared-mime-info-${VERSION}

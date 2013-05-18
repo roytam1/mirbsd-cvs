@@ -1,6 +1,6 @@
-# $MirOS: ports/print/ghostscript/fonts-std/Makefile,v 1.1.7.1 2005/03/18 15:51:03 tg Exp $
+# $MirOS: ports/print/ghostscript/fonts-std/Makefile,v 1.3 2005/07/07 21:25:30 bsiegert Exp $
 
-COMMENT=		"Standard Fonts for Ghostscript"
+COMMENT=			Standard Fonts for Ghostscript
 VERSION=		8.11
 DISTNAME=		ghostscript-fonts-std-${VERSION}
 PKGNAME=		gs-fonts-std-${VERSION}-0

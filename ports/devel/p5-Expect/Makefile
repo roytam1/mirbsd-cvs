@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.2 2003/01/30 13:51:35 sturm Exp $
 
-COMMENT=		"talk to other applications"
+COMMENT=			talk to other applications
 
 DISTNAME=		Expect-1.15
 PKGNAME=		p5-${DISTNAME}-0

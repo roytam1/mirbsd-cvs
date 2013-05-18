@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.8 2002/09/21 11:41:04 avsm Exp $
 
-COMMENT=	"store multi-level hash structure in single-level tied hash"
+COMMENT=			store multi-level hash structure in single-level tied hash
 
 DISTNAME=	MLDBM-2.01
 PKGNAME=	p5-${DISTNAME}-0

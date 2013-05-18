@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.8 2002/10/30 04:13:36 pvalchev Exp $
 
-COMMENT=	"perl module for accessing NNTP articles"
+COMMENT=			perl module for accessing NNTP articles
 
 DISTNAME=	News-Article-1.13
 PKGNAME=	p5-${DISTNAME}-0

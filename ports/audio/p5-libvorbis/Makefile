@@ -2,7 +2,7 @@
 
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
-COMMENT=		"Perl extension for Ogg Vorbis streams"
+COMMENT=			Perl extension for Ogg Vorbis streams
 
 V=			0.04
 DISTNAME=		libvorbis-perl-${V}

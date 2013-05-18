@@ -1,4 +1,4 @@
-# $MirOS: ports/emulators/wine/xover/Makefile,v 1.2 2005/04/10 21:49:53 tg Exp $
+# $MirOS: ports/emulators/wine/xover/Makefile,v 1.4 2005/07/07 21:20:55 bsiegert Exp $
 
 BROKEN=		243 UNIMPL linux_sys_set_thread_area
 # missing emulated syscalls
@@ -10,7 +10,7 @@ USE_X11=	Yes
 NO_SYSTRACE=	"weird Linuxulator stuff"
 IS_INTERACTIVE=	Yes
 
-COMMENT=	"experimental: Microsoft Windows emulator Crossover Office"
+COMMENT=			experimental: Microsoft Windows emulator Crossover Office
 VERSION=	2.0.0
 DISTNAME=	xover-${VERSION}
 PKGNAME=	xover-linux-${VERSION}-0

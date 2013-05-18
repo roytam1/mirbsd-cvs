@@ -1,13 +1,13 @@
-# $MirOS: ports/x11/openmotif/Makefile,v 1.4 2005/07/07 21:29:09 bsiegert Exp $
+# $MirOS: ports/x11/openmotif/Makefile,v 1.5 2006/02/09 12:25:14 tg Exp $
 # $OpenBSD: Makefile,v 1.20 2004/02/22 16:47:58 naddy Exp $
 
 # unbreak dependencies in ports/infrastructure/mk/bsd.port.mk once fixed!
 BROKEN=			installs into /usr/local/X11
 
 CATEGORIES=		x11
-COMMENT=		"Motif toolkit"
-COMMENT-debuglibs=	"Motif toolkit debug libraries"
-COMMENT-demos=		"Motif toolkit demos"
+COMMENT=			Motif toolkit
+COMMENT-debuglibs=			Motif toolkit debug libraries
+COMMENT-demos=			Motif toolkit demos
 VERSION=		2.1.30
 DISTNAME=		motif
 PATCHLEVEL=		5

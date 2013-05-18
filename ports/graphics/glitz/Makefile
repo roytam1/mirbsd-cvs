@@ -1,6 +1,6 @@
-# $MirOS: ports/graphics/glitz/Makefile,v 1.2 2006/02/09 11:11:46 tg Exp $
+# $MirOS: ports/graphics/glitz/Makefile,v 1.3 2006/08/26 23:34:12 tg Exp $
 
-COMMENT=		"OpenGL image compositing library"
+COMMENT=			OpenGL image compositing library
 
 DISTNAME=		glitz-0.4.3
 CATEGORIES=		graphics

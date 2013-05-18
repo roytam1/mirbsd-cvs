@@ -1,7 +1,7 @@
-# $MirOS$
+# $MirOS: ports/x11/rep-gtk/Makefile,v 1.3 2005/03/30 18:14:00 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.9 2003/05/15 08:52:57 margarida Exp $
 
-COMMENT=	"GTK+ binding for librep Lisp environment"
+COMMENT=			GTK+ binding for librep Lisp environment
 
 VERSION=	0.15
 DISTNAME=	rep-gtk-${VERSION}

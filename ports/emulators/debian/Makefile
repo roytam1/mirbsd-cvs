@@ -1,8 +1,8 @@
-# $MirOS: ports/emulators/debian/Makefile,v 1.3 2006/02/01 20:38:42 tg Exp $
+# $MirOS: ports/emulators/debian/Makefile,v 1.4 2006/06/25 06:26:52 tg Exp $
 
 ONLY_FOR_PLATFORM=	MirBSD:*:i386 OpenBSD:*:i386
 
-COMMENT=		"Debian GNU/Linux shared libraries"
+COMMENT=			Debian GNU/Linux shared libraries
 EMUL=			linux
 CATEGORIES=		emulators
 DISTNAME=		debian-libs-3.1

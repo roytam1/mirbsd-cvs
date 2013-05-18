@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.1.1.1 2004/05/26 13:36:07 sturm Exp $
 
-COMMENT=	"pager utility for Class::DBI"
+COMMENT=			pager utility for Class::DBI
 
 DISTNAME=	Class-DBI-Pager-0.05
 PKGNAME=	p5-${DISTNAME}-0

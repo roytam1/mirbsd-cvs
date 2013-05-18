@@ -2,7 +2,7 @@
 
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
-COMMENT=	"interface to the Blowfish encryption algorithm"
+COMMENT=			interface to the Blowfish encryption algorithm
 
 DISTNAME=	Crypt-Blowfish-2.09
 PKGNAME=	p5-${DISTNAME}-0

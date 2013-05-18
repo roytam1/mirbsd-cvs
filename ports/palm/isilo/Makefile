@@ -2,7 +2,7 @@
 
 ONLY_FOR_PLATFORM=	OpenBSD:*:i386 MirBSD:*:i386
 
-COMMENT=	"converts documents from text/html to isilo format"
+COMMENT=			converts documents from text/html to isilo format
 
 VER=		2.58
 DISTNAME=	iSiloBSD

@@ -1,7 +1,7 @@
-# $MirOS$
+# $MirOS: ports/www/snownews/Makefile,v 1.2 2005/07/06 19:21:38 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.6 2004/01/25 05:49:35 jolan Exp $
 
-COMMENT=		"text mode RSS newsreader"
+COMMENT=			text mode RSS newsreader
 VERSION=                1.4.4
 DASH_VER=		-1
 DISTNAME=		snownews-${VERSION}

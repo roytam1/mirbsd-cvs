@@ -1,6 +1,6 @@
-# $MirOS: ports/voip/linphone/Makefile,v 1.1.1.1 2005/09/01 20:55:49 tg Exp $
+# $MirOS: ports/voip/linphone/Makefile,v 1.2 2005/09/01 20:59:17 tg Exp $
 
-COMMENT=		"SIP telephony (VoIP) client"
+COMMENT=			SIP telephony (VoIP) client
 CATEGORIES=		comms net voip
 _V=			0.12.2
 DISTNAME=		linphone-${_V}

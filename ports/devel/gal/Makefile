@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.1.1.1 2003/10/14 20:26:08 marcm Exp $
 
-COMMENT=		"GNOME Application Libs"
+COMMENT=			GNOME Application Libs
 
 VERSION=		1.99.10
 DISTNAME=		gal-${VERSION}

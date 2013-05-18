@@ -1,7 +1,7 @@
 # $OpenBSD: Makefile,v 1.2 2004/02/02 18:02:22 sturm Exp $
 
 CATEGORIES=	books lang
-COMMENT=	'Icon programming language reference book'
+COMMENT=			Icon programming language reference book
 
 MASTER_SITES=	http://www.cs.arizona.edu/icon/ftp/doc/
 

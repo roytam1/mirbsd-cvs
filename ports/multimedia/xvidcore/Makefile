@@ -1,6 +1,6 @@
-# $MirOS$
+# $MirOS: ports/multimedia/xvidcore/Makefile,v 1.1.7.1 2005/03/18 15:50:46 tg Exp $
 
-COMMENT=		"ISO MPEG-4 compliant video codec"
+COMMENT=			ISO MPEG-4 compliant video codec
 DISTNAME=		xvidcore-1.0.1
 CATEGORIES=		multimedia
 HOMEPAGE=		http://www.xvid.org/

@@ -1,7 +1,7 @@
-# $MirOS: ports/graphics/gqview/Makefile,v 1.2 2005/05/01 13:50:50 bsiegert Exp $
+# $MirOS: ports/graphics/gqview/Makefile,v 1.3 2006/02/09 11:11:47 tg Exp $
 # $OpenBSD: Makefile,v 1.32 2004/05/10 00:58:45 brad Exp $
 
-COMMENT=	"Gtk-based graphic file viewer"
+COMMENT=			Gtk-based graphic file viewer
 
 DISTNAME=	gqview-1.4.3
 CATEGORIES=	graphics

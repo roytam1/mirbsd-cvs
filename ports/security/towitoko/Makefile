@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.2 2003/06/14 15:12:44 sturm Exp $
 
-COMMENT=		"library and utilities for towitoko card readers"
+COMMENT=			library and utilities for towitoko card readers
 
 DISTNAME=		towitoko-2.0.7
 CATEGORIES=		security

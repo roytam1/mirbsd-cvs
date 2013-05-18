@@ -1,7 +1,7 @@
-# $MirOS: ports/devel/libuta/Makefile,v 1.1.7.1 2005/03/18 15:44:55 tg Exp $
+# $MirOS: ports/devel/libuta/Makefile,v 1.2 2006/02/09 11:11:24 tg Exp $
 # $OpenBSD: Makefile,v 1.13 2004/01/04 20:32:29 pvalchev Exp $
 
-COMMENT=	"graphical user interface library for C++"
+COMMENT=			graphical user interface library for C++
 VERSION=	0.4.4
 DISTNAME=	libuta-${VERSION}
 CATEGORIES=	devel

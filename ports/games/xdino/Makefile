@@ -1,7 +1,7 @@
 # $OpenBSD: Makefile,v 1.16 2002/10/26 20:44:39 naddy Exp $
 #
 
-COMMENT=	"dino puzzle game for X11"
+COMMENT=			dino puzzle game for X11
 
 DISTNAME=	xdino-5.5.2
 CATEGORIES=	games

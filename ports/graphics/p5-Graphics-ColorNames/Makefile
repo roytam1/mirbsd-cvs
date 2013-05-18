@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.6 2002/10/24 14:25:03 shell Exp $
 
-COMMENT=	"defines RGB values for common color names"
+COMMENT=			defines RGB values for common color names
 
 VERSION=	0.31
 DISTNAME=	Graphics-ColorNames-${VERSION}

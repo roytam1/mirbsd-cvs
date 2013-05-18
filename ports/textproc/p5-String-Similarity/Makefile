@@ -2,7 +2,7 @@
 
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
-COMMENT=	"calculate the similarity of two strings"
+COMMENT=			calculate the similarity of two strings
 
 DISTNAME=	String-Similarity-1
 PKGNAME=	p5-${DISTNAME}-0

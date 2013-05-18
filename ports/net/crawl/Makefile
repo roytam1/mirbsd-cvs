@@ -1,9 +1,9 @@
-# $MirOS: ports/net/crawl/Makefile,v 1.1.7.1 2005/03/18 15:48:03 tg Exp $
+# $MirOS: ports/net/crawl/Makefile,v 1.2 2006/02/09 11:12:12 tg Exp $
 # $OpenBSD: Makefile,v 1.17 2004/04/07 22:51:03 brad Exp $
 
 BROKEN=			-I/usr/local/include/db
 
-COMMENT=		"small and efficient HTTP crawler"
+COMMENT=			small and efficient HTTP crawler
 DISTNAME=		crawl-0.4
 CATEGORIES=		net
 HOMEPAGE=		http://www.monkey.org/~provos/crawl/

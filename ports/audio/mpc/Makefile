@@ -1,6 +1,6 @@
-# $MirOS$
+# $MirOS: ports/audio/mpc/Makefile,v 1.2 2005/05/21 02:00:46 bsiegert Exp $
 
-COMMENT=		"client for Music Play Daemon"
+COMMENT=			client for Music Play Daemon
 CATEGORIES=		audio multimedia net
 DISTNAME=		mpc-0.11.2
 HOMEPAGE=		http://www.musicpd.org/

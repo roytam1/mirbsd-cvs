@@ -1,6 +1,6 @@
-# $MirOS$
+# $MirOS: ports/meta/gnome2/Makefile,v 1.2 2005/07/06 19:21:32 bsiegert Exp $
 
-COMMENT=		"meta-package to install all of GNOME 2"
+COMMENT=			meta-package to install all of GNOME 2
 VERSION=		2.8.1
 DASH_VER=		-0
 PKGNAME=		meta-gnome2-${VERSION}${DASH_VER}

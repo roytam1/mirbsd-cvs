@@ -2,7 +2,7 @@
 
 ONLY_FOR_PLATFORM=	OpenBSD:*:i386 MirBSD:*:i386
 
-COMMENT=	"shared drawing (whiteboard) tool using multicast"
+COMMENT=			shared drawing (whiteboard) tool using multicast
 
 DISTNAME=	wb-1.59
 CATEGORIES=	mbone

@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.8 2002/08/02 00:26:56 naddy Exp $
 
-COMMENT=	"module to scan C language files"
+COMMENT=			module to scan C language files
 
 DISTNAME=	C-Scan-0.74
 PKGNAME=	p5-${DISTNAME}-0

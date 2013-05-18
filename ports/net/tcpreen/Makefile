@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.6 2003/11/02 01:56:51 margarida Exp $
 
-COMMENT=		"simple tcp re-engineering tool"
+COMMENT=			simple tcp re-engineering tool
 
 VERSION=		1.2.4
 DISTNAME=		tcpreen-${VERSION}

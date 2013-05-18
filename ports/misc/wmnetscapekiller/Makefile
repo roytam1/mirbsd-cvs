@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.12 2002/12/29 19:49:41 fgsch Exp $
 
-COMMENT=		'wm-dockapp; for killing Netscape when it freezes'
+COMMENT=			wm-dockapp; for killing Netscape when it freezes
 
 DISTNAME=		wmNetscapeKiller-0.3
 PKGNAME=		${DISTNAME:L}-0

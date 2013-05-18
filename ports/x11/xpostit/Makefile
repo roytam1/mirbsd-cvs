@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.16 2004/05/18 08:45:33 xsa Exp $
 
-COMMENT=	"PostIt (R) messages onto your X11 screen"
+COMMENT=			PostIt (R) messages onto your X11 screen
 
 DISTNAME=	xpostit3.3.1
 PKGNAME=	xpostit-3.3.1-0

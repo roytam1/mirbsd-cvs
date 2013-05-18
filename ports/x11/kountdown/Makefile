@@ -2,7 +2,7 @@
 
 BROKEN=			Missing support for module x11/kde
 
-COMMENT=	"screen saver that displays a countdown to a selected date"
+COMMENT=			screen saver that displays a countdown to a selected date
 
 DISTNAME=	kountdown-0.4.1
 CATEGORIES=	x11

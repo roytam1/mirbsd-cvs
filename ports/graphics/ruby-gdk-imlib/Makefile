@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.2 2004/02/24 14:08:28 couderc Exp $
 
-COMMENT=	"Ruby binding to Gdk-imlib"
+COMMENT=			Ruby binding to Gdk-imlib
 
 VERSION=	0.34
 DISTNAME=	ruby-gnome-all-${VERSION}

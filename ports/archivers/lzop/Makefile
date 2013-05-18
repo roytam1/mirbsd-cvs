@@ -3,7 +3,7 @@
 
 BROKEN=		archivers/lzo too new
 
-COMMENT=	"fast file compressor similar to gzip"
+COMMENT=			fast file compressor similar to gzip
 
 DISTNAME=	lzop-1.01
 CATEGORIES=	archivers

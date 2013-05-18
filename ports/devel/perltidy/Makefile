@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.6 2003/12/05 17:30:22 sturm Exp $
 
-COMMENT=	"tool to indent and reformat perl scripts"
+COMMENT=			tool to indent and reformat perl scripts
 
 V=		20031021
 DISTNAME=	Perl-Tidy-${V}

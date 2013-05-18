@@ -9,7 +9,7 @@ PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
-COMMENT=	"ASCII drawing utility"
+COMMENT=			ASCII drawing utility
 HOMEPAGE=	http://langworth.com/CadubiProject
 MASTER_SITES=	http://langworth.com/downloads/
 

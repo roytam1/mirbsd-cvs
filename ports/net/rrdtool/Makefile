@@ -1,8 +1,8 @@
-# $MirOS: ports/net/rrdtool/Makefile,v 1.2 2005/04/10 21:50:47 tg Exp $
+# $MirOS: ports/net/rrdtool/Makefile,v 1.3 2006/02/09 11:15:06 tg Exp $
 # $OpenBSD: Makefile,v 1.24 2004/02/15 20:59:58 sturm Exp $
 
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
-COMMENT=	"system to store and display time-series data"
+COMMENT=			system to store and display time-series data
 VERSION=	1.0.46
 DISTNAME=	rrdtool-${VERSION}
 CATEGORIES=     net

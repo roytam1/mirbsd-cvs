@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.2 2004/03/31 03:48:37 jolan Exp $
 
-COMMENT=	"library to provide abstract access to various archives"
+COMMENT=			library to provide abstract access to various archives
 DISTNAME=	physfs-1.0.0
 CATEGORIES=	devel
 MASTER_SITES=	${HOMEPAGE}downloads/

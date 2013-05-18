@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.2 2004/02/24 13:46:39 couderc Exp $
 
-COMMENT=		"Ruby interface to ncurses"
+COMMENT=			Ruby interface to ncurses
 
 VERSION=		0.8
 DISTNAME=		ncurses-ruby-${VERSION}

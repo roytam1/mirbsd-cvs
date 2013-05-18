@@ -1,8 +1,8 @@
-# $MirOS: ports/converters/p5-Locale-gettext/Makefile,v 1.1.7.1 2005/03/18 15:44:02 tg Exp $
+# $MirOS: ports/converters/p5-Locale-gettext/Makefile,v 1.3 2005/07/07 21:18:14 bsiegert Exp $
 
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
-COMMENT=	"interface to gettext() internationalization function"
+COMMENT=			interface to gettext() internationalization function
 DISTNAME=	gettext-1.02
 PKGNAME=	p5-Locale-${DISTNAME}-0
 CATEGORIES=	converters perl5

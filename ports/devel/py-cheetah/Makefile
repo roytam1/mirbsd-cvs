@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.1.1.1 2004/04/28 08:33:17 xsa Exp $
 
-COMMENT=	"Python-powered template engine and code generator"
+COMMENT=			Python-powered template engine and code generator
 
 DISTNAME=	Cheetah-0.9.15
 PKGNAME=	py-${DISTNAME:L}-0

@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.2 2004/01/30 08:39:49 xsa Exp $
 
-COMMENT=	"Apache module for implementing a framework for doing design"
+COMMENT=			Apache module for implementing a framework for doing design
 
 # This port currently only works with archs supporting dynamic loading
 # and has Apache that supports DSOs.

@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.10 2004/04/13 20:23:59 xsa Exp $
 
-COMMENT=	"curses-based URL ripper"
+COMMENT=			curses-based URL ripper
 
 DISTNAME=	urlview-0.9
 CATEGORIES=	textproc

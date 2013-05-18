@@ -1,7 +1,7 @@
-# $MirOS: ports/databases/dbh/Makefile,v 1.2 2005/07/07 21:18:22 bsiegert Exp $
+# $MirOS: ports/databases/dbh/Makefile,v 1.3 2006/02/09 11:11:16 tg Exp $
 # $OpenBSD: Makefile,v 1.3 2004/04/18 00:58:31 jolan Exp $
 
-COMMENT=	"library to create Disk Based Hashtables on POSIX systems"
+COMMENT=			library to create Disk Based Hashtables on POSIX systems
 DISTNAME=	dbh_1.0-18
 PKGNAME=	${DISTNAME:L:S/-/./:S/_/-/}-0
 CATEGORIES=	databases

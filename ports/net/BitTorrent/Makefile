@@ -1,7 +1,7 @@
-# $MirOS: ports/net/BitTorrent/Makefile,v 1.3 2005/11/15 19:33:45 tg Exp $
+# $MirOS: ports/net/BitTorrent/Makefile,v 1.4 2005/11/25 07:54:00 tg Exp $
 # $OpenBSD: Makefile,v 1.4 2004/04/15 03:41:14 jolan Exp $
 
-COMMENT=	"cooperative file distribution system implemented in Python"
+COMMENT=			cooperative file distribution system implemented in Python
 DISTNAME=	BitTorrent-3.4.2
 CATEGORIES=	net
 MASTER_SITES=	${MASTER_SITE_SOURCEFORGE:=bittorrent/}

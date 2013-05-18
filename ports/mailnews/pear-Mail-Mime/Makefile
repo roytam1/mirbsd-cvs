@@ -1,7 +1,7 @@
-# $MirOS$
+# $MirOS: ports/mailnews/pear-Mail-Mime/Makefile,v 1.3 2005/07/07 21:23:05 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.1.1.1 2003/04/03 10:36:22 avsm Exp $
 
-COMMENT=	"classes to create and decode MIME messages in PHP"
+COMMENT=			classes to create and decode MIME messages in PHP
 
 V=		1.2.1
 DISTNAME=	Mail_Mime-${V}

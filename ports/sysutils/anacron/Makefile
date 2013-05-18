@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.3 2004/05/17 00:22:54 naddy Exp $
 
-COMMENT=	"periodic command scheduler"
+COMMENT=			periodic command scheduler
 
 DISTNAME=	anacron-2.3
 CATEGORIES=	sysutils

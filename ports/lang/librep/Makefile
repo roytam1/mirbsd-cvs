@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.14 2004/03/03 08:55:28 pvalchev Exp $
 
-COMMENT=	"Emacs Lisp-like runtime library"
+COMMENT=			Emacs Lisp-like runtime library
 
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 

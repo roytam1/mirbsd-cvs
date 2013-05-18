@@ -2,7 +2,7 @@
 
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
-COMMENT=	"interface to calculate m-difference between two objects"
+COMMENT=			interface to calculate m-difference between two objects
 
 DISTNAME=	Algorithm-MDiff-0.94
 PKGNAME=	p5-${DISTNAME}-0

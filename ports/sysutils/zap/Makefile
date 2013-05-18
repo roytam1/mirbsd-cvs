@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.13 2002/12/29 20:19:10 fgsch Exp $
 
-COMMENT=	"interactive process killer"
+COMMENT=			interactive process killer
 
 PKGNAME=	zap-1.3-0
 DISTNAME=	zap-1.3

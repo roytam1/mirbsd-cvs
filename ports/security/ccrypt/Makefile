@@ -1,7 +1,7 @@
-# $MirOS$
+# $MirOS: ports/security/ccrypt/Makefile,v 1.2 2005/03/25 23:14:03 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.9 2004/03/31 06:08:36 kevlo Exp $
 
-COMMENT=	"encrypt and decrypt AES files and streams"
+COMMENT=			encrypt and decrypt AES files and streams
 
 DISTNAME=	ccrypt-1.7
 CATEGORIES=	security

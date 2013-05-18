@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.5 2004/05/16 09:18:17 xsa Exp $
 
-COMMENT=	"validate method/function parameters"
+COMMENT=			validate method/function parameters
 
 DISTNAME=	Class-Container-0.11
 PKGNAME=	p5-${DISTNAME}-0

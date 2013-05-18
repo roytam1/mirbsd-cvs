@@ -1,7 +1,7 @@
-# $MirOS: ports/multimedia/mjpegtools/Makefile,v 1.3 2006/02/09 09:36:06 tg Exp $
+# $MirOS: ports/multimedia/mjpegtools/Makefile,v 1.4 2006/02/09 11:12:11 tg Exp $
 # $OpenBSD: Makefile,v 1.1.1.1 2004/07/09 11:58:39 sturm Exp $
 
-COMMENT=		"tools to edit/modify/encode video streams"
+COMMENT=			tools to edit/modify/encode video streams
 
 DISTNAME=		mjpegtools-1.6.2
 CATEGORIES=		multimedia

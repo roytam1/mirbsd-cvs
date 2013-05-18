@@ -1,7 +1,7 @@
-# $MirOS$
+# $MirOS: ports/lang/ocaml/Makefile,v 1.2 2005/07/07 21:22:31 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.27 2004/03/05 21:54:35 avsm Exp $
 
-COMMENT=	"ML language based on complete class-based objective system"
+COMMENT=			ML language based on complete class-based objective system
 DISTNAME=	ocaml-3.07
 PKGNAME=	${DISTNAME}pl2-0
 CATEGORIES=	lang

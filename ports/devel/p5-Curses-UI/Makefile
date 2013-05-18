@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.3 2004/04/11 15:01:20 brad Exp $
 
-COMMENT=	"curses based user interface framework for Perl"
+COMMENT=			curses based user interface framework for Perl
 
 DISTNAME=	Curses-UI-0.92
 PKGNAME=	p5-${DISTNAME}-0

@@ -1,7 +1,7 @@
-# $MirOS$
+# $MirOS: ports/mailnews/mailcrypt/Makefile,v 1.2 2005/03/25 23:14:02 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.13 2004/02/21 00:59:01 pvalchev Exp $
 
-COMMENT=	"emacs interface to PGP and GnuPG"
+COMMENT=			emacs interface to PGP and GnuPG
 
 DISTNAME=	mailcrypt-3.5.7
 CATEGORIES=     mail

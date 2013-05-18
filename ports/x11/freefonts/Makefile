@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.16 2004/02/01 20:17:47 sturm Exp $
 
-COMMENT=	"collection of ATM fonts from the CICA archives"
+COMMENT=			collection of ATM fonts from the CICA archives
 
 DISTNAME=	freefonts-0.10
 CATEGORIES=	x11

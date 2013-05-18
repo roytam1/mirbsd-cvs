@@ -1,8 +1,8 @@
-# $MirOS$
+# $MirOS: ports/emulators/wine/winesetup/Makefile,v 1.2 2005/07/07 21:20:54 bsiegert Exp $
 
 BROKEN=			have to port itcl and itk first
 
-COMMENT=		TK-based setup for wine
+COMMENT=			TK-based setup for wine
 V=			0-73
 DISTNAME=		winesetuptk-${V}
 EXTRACT_SUFX=		.tar.bz2

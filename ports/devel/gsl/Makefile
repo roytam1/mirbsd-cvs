@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.15 2004/02/25 02:35:15 naddy Exp $
 
-COMMENT=	"GNU Scientific Library"
+COMMENT=			GNU Scientific Library
 
 DISTNAME=	gsl-0.6
 CATEGORIES=	devel

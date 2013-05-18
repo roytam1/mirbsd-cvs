@@ -1,7 +1,7 @@
-# $MirOS$
+# $MirOS: ports/x11/hicolor-icon-theme/Makefile,v 1.1.7.1 2005/03/18 16:00:37 tg Exp $
 # $OpenBSD: Makefile,v 1.2 2004/12/04 16:32:54 sturm Exp $
 
-COMMENT=		"high-color icon theme shell for GNOME and KDE"
+COMMENT=			high-color icon theme shell for GNOME and KDE
 
 DISTNAME=		hicolor-icon-theme-0.5
 CATEGORIES=		x11

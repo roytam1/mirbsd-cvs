@@ -1,7 +1,7 @@
-# $MirOS: ports/x11/neXtaw/Makefile,v 1.2 2005/08/21 11:50:50 tg Exp $
+# $MirOS: ports/x11/neXtaw/Makefile,v 1.3 2006/02/09 11:15:52 tg Exp $
 # $OpenBSD: Makefile,v 1.3 2003/10/08 17:13:17 sturm Exp $
 
-COMMENT=		"libXaw widget set replacement with NeXTstep-like look"
+COMMENT=			libXaw widget set replacement with NeXTstep-like look
 VERSION=		0.15.1
 DISTNAME=		neXtaw-${VERSION}
 CATEGORIES=		x11 devel

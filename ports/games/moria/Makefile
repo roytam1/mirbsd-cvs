@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.5 2002/12/29 15:10:08 fgsch Exp $
 
-COMMENT=	"The Dungeons of Moria"
+COMMENT=			The Dungeons of Moria
 
 V=		5.5.2
 DISTNAME=	um$V

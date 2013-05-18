@@ -1,10 +1,10 @@
-# $MirOS: ports/multimedia/libquicktime/Makefile,v 1.2 2005/04/10 21:50:31 tg Exp $
+# $MirOS: ports/multimedia/libquicktime/Makefile,v 1.3 2006/02/09 11:12:10 tg Exp $
 # $OpenBSD: Makefile,v 1.1.1.1 2004/07/09 07:30:17 sturm Exp $
 # $FreeBSD: ports/multimedia/libquicktime/Makefile,v 1.19 2004/03/16 04:23:53 edwin Exp $
 
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
-COMMENT=		library for reading and writing quicktime files
+COMMENT=			library for reading and writing quicktime files
 DISTNAME=		libquicktime-0.9.2
 CATEGORIES=		multimedia
 

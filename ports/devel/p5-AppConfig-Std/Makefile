@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.1.1.1 2004/01/05 17:42:47 sturm Exp $
 
-COMMENT=	"subclass of AppConfig that provides standard options"
+COMMENT=			subclass of AppConfig that provides standard options
 
 DISTNAME=	AppConfig-Std-1.07
 PKGNAME=	p5-${DISTNAME}-0

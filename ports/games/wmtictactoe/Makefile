@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.10 2003/02/26 12:00:43 wilfried Exp $
 
-COMMENT=		'wm-dockapp; TicTacToe game'
+COMMENT=			wm-dockapp; TicTacToe game
 
 DISTNAME=		wmtictactoe-1.1-1
 PKGNAME=		wmtictactoe-1.1.1-0

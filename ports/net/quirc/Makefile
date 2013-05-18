@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.6 2004/03/04 07:28:02 kevlo Exp $
 
-COMMENT=	"irc client that uses Tcl/Tk"
+COMMENT=			irc client that uses Tcl/Tk
 
 DISTNAME=	quirc-0.9.84
 CATEGORIES=	net

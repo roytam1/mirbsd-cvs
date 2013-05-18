@@ -2,7 +2,7 @@
 
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
-COMMENT=	"module for approximate matching"
+COMMENT=			module for approximate matching
 
 DISTNAME=	String-Approx-3.23
 PKGNAME=	p5-${DISTNAME}-0

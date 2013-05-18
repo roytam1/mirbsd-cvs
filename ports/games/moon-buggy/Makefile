@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.5 2004/02/21 01:18:07 pvalchev Exp $
 
-COMMENT=	"drive some car across the moon"
+COMMENT=			drive some car across the moon
 
 DISTNAME=	moon-buggy-0.5.1
 CATEGORIES=    	games	

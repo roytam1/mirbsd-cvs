@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.7 2004/02/21 00:14:56 pvalchev Exp $
 
-COMMENT=	"open source standalone flash(tm) player"
+COMMENT=			open source standalone flash(tm) player
 
 DISTNAME=	flash-0.4.10
 CATEGORIES=	graphics	

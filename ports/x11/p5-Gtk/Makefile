@@ -1,9 +1,9 @@
-# $MirOS: ports/x11/p5-Gtk/Makefile,v 1.4 2005/07/07 21:29:11 bsiegert Exp $
+# $MirOS: ports/x11/p5-Gtk/Makefile,v 1.5 2006/02/09 11:15:53 tg Exp $
 # $OpenBSD: Makefile,v 1.15 2004/06/26 23:09:15 jcs Exp $
 
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
-COMMENT=	"set of modules to use Gtk+ libraries from Perl"
+COMMENT=			set of modules to use Gtk+ libraries from Perl
 VERSION=	0.7008
 DISTNAME=	Gtk-Perl-${VERSION}
 PKGNAME=	p5-Gtk-${VERSION}-0

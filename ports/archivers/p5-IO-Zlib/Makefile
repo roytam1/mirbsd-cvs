@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.3 2003/06/04 22:16:22 jolan Exp $
 
-COMMENT=	"IO:: style interface to Compress::Zlib"
+COMMENT=			IO:: style interface to Compress::Zlib
 
 DISTNAME=	IO-Zlib-1.01
 PKGNAME=	p5-${DISTNAME}-0

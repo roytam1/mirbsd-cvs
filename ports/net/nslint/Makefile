@@ -1,7 +1,7 @@
 # $OpenBSD: Makefile,v 1.4 2002/10/28 01:38:45 naddy Exp $
 # $FreeBSD: ports/net/nslint/Makefile,v 1.10 2000/04/09 18:12:37 cpiazza Exp $
 
-COMMENT=		"performs consistency checks on BIND files"
+COMMENT=			performs consistency checks on BIND files
 
 DISTNAME=		nslint-2.0.2
 CATEGORIES=     	net

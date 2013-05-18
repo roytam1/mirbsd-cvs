@@ -1,10 +1,10 @@
-# $MirOS: ports/sysutils/gkrellm/gkrellm/Makefile,v 1.5 2005/07/07 21:26:33 bsiegert Exp $
+# $MirOS: ports/sysutils/gkrellm/gkrellm/Makefile,v 1.6 2006/02/09 11:15:26 tg Exp $
 # $OpenBSD: Makefile,v 1.10 2004/05/18 14:49:56 naddy Exp $
 
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
-COMMENT=	"single process stack of system monitors for GTK+2 (server)"
-COMMENT-client=	"single process stack of system monitors for GTK+2"
+COMMENT=			single process stack of system monitors for GTK+2 (server)
+COMMENT-client=			single process stack of system monitors for GTK+2
 
 V=		2.2.0
 DISTNAME=	gkrellm-${V}

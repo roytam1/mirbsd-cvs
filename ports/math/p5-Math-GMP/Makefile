@@ -2,7 +2,7 @@
 
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
-COMMENT=	"high speed arbitrary-size integer math"
+COMMENT=			high speed arbitrary-size integer math
 
 DISTNAME=	Math-GMP-2.03
 PKGNAME=	p5-${DISTNAME}-0

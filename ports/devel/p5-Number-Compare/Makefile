@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.1.1.2 2004/04/11 11:56:55 sturm Exp $
 
-COMMENT=	"Compare numbers"
+COMMENT=			Compare numbers
 
 DISTNAME=	Number-Compare-0.01
 PKGNAME=	p5-${DISTNAME}-0

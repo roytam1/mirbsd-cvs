@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.3 2004/05/07 04:56:50 robert Exp $
 
-COMMENT=	"Module bundle for reading and parsing config files"
+COMMENT=			Module bundle for reading and parsing config files
 
 DISTNAME=	AppConfig-1.56
 PKGNAME=	p5-${DISTNAME}-0

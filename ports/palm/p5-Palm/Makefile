@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.4 2003/09/23 15:29:41 sturm Exp $
 
-COMMENT=	"interface to palm pdb databases"
+COMMENT=			interface to palm pdb databases
 
 DISTNAME=	p5-Palm-1.3.0
 CATEGORIES=	palm databases perl5

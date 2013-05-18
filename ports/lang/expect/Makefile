@@ -1,7 +1,7 @@
-# $MirOS: ports/lang/expect/Makefile,v 1.2 2005/04/11 19:20:26 tg Exp $
+# $MirOS: ports/lang/expect/Makefile,v 1.3 2006/02/09 09:36:00 tg Exp $
 # $OpenBSD: Makefile,v 1.42 2004/04/18 19:55:47 jolan Exp $
 
-COMMENT=	"sophisticated scripter based on Tcl/Tk"
+COMMENT=			sophisticated scripter based on Tcl/Tk
 V=		5.43
 _V=		${V:S/.//}
 DISTNAME=	expect-${V}.0

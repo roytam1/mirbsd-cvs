@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.1.1.1 2004/04/06 07:40:17 xsa Exp $
 
-COMMENT=	"online Image GALlery generator"
+COMMENT=			online Image GALlery generator
 
 DISTNAME=	igal-1.4
 CATEGORIES=	www graphics

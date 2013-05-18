@@ -1,9 +1,9 @@
-# $MirOS: ports/security/cyrus-sasl/Makefile,v 1.2 2006/02/09 09:36:15 tg Exp $
+# $MirOS: ports/security/cyrus-sasl/Makefile,v 1.3 2006/02/09 11:15:19 tg Exp $
 # $OpenBSD: Makefile,v 1.12 2004/02/17 03:26:02 kevlo Exp $
 
 BROKEN=		-I/usr/local/include/db4
 
-COMMENT=	"RFC 2222 SASL (Simple Authentication and Security Layer)"
+COMMENT=			RFC 2222 SASL (Simple Authentication and Security Layer)
 DISTNAME=	cyrus-sasl-2.1.17
 CATEGORIES=     security
 MASTER_SITES=	ftp://ftp.andrew.cmu.edu/pub/cyrus-mail/ \

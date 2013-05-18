@@ -2,7 +2,7 @@
 # Original from: Curtiss Howard, cereal@schizo.com
 #
 
-COMMENT=		"retrieve usenet posts via script"
+COMMENT=			retrieve usenet posts via script
 
 DISTNAME=		linleech_2.2.1.orig
 

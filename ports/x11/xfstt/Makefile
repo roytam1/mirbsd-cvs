@@ -3,7 +3,7 @@
 
 BROKEN=	"security (DoS) issue"
 
-COMMENT=	"TrueType font server for X11"
+COMMENT=			TrueType font server for X11
 
 DISTNAME=	xfstt-1.1
 CATEGORIES=	x11

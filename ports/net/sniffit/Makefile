@@ -5,7 +5,7 @@
 BROKEN=		"alignment issues"
 .endif
 
-COMMENT=	"packet sniffer program; for educational use"
+COMMENT=			packet sniffer program; for educational use
 
 DISTNAME=	sniffit.0.3.7.beta
 PKGNAME=	sniffit-0.3.7b-0

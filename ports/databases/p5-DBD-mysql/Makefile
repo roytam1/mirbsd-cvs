@@ -2,7 +2,7 @@
 
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
-COMMENT=		'MySQL drivers for the Perl DBI'
+COMMENT=			MySQL drivers for the Perl DBI
 
 DISTNAME=		DBD-mysql-2.9003
 PKGNAME=		p5-${DISTNAME}-0

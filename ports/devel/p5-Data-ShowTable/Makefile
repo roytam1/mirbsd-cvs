@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.6 2004/02/01 20:17:44 wilfried Exp $
 
-COMMENT=		'print arrays of data in a nicely formatted listing'
+COMMENT=			print arrays of data in a nicely formatted listing
 
 DISTNAME=		Data-ShowTable-3.3
 PKGNAME=		p5-${DISTNAME}-0

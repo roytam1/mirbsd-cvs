@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.3 2004/02/01 20:25:35 sturm Exp $
 
-COMMENT=		"HTML, XHTML validator"
+COMMENT=			HTML, XHTML validator
 
 DISTNAME=		validate-1.2
 CATEGORIES=		textproc

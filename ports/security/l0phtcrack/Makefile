@@ -2,7 +2,7 @@
 
 ONLY_FOR_PLATFORM=	OpenBSD:*:i386 MirBSD:*:i386
 
-COMMENT=	"Microsoft LANMAN & NT password sniffer/cracker"
+COMMENT=			Microsoft LANMAN & NT password sniffer/cracker
 
 PKGNAME=	l0phtcrack-2.52-0
 CATEGORIES=	security

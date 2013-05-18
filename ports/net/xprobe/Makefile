@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.7 2002/12/22 01:46:15 margarida Exp $
 
-COMMENT=		"ICMP active OS fingerprint scanner"
+COMMENT=			ICMP active OS fingerprint scanner
 
 DISTNAME=		xprobe-0.0.2
 CATEGORIES=    		net security

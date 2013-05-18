@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.22 2004/02/01 20:25:35 sturm Exp $
 
-COMMENT=	"all W3C-published SGML DTDs for HTML"
+COMMENT=			all W3C-published SGML DTDs for HTML
 
 DISTNAME=	html-4.01
 CATEGORIES=	textproc

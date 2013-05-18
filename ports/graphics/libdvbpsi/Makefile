@@ -1,7 +1,7 @@
-# $MirOS$
+# $MirOS: ports/graphics/libdvbpsi/Makefile,v 1.3 2006/06/23 22:45:33 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.2 2004/01/06 06:40:14 jolan Exp $
 
-COMMENT=	"library for decoding/generating MPEG TS/DVB PSI tables"
+COMMENT=			library for decoding/generating MPEG TS/DVB PSI tables
 VER=		0.1.5
 DISTNAME=	libdvbpsi4-${VER}
 PKGNAME=	libdvbpsi-${VER}-0

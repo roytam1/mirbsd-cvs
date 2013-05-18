@@ -1,4 +1,4 @@
-# $MirOS: ports/databases/mysql/Makefile,v 1.2 2005/07/07 21:18:25 bsiegert Exp $
+# $MirOS: ports/databases/mysql/Makefile,v 1.3 2006/02/02 20:13:47 tg Exp $
 # $OpenBSD: Makefile,v 1.99 2004/05/21 12:16:21 brad Exp $
 # Uses pthreads
 
@@ -9,9 +9,9 @@ BROKEN=		needs fixing/updating, any volunteers?
 #BROKEN=		gen_lex_hash hangs
 #.endif
 
-COMMENT=	"multithreaded SQL database (client)"
-COMMENT-server=	"multithreaded SQL database (server)"
-COMMENT-tests=	"multithreaded SQL database (regression test suite)"
+COMMENT=			multithreaded SQL database (client)
+COMMENT-server=			multithreaded SQL database (server)
+COMMENT-tests=			multithreaded SQL database (regression test suite)
 VERSION=	4.0.20
 DISTNAME=	mysql-${VERSION}
 FULLPKGNAME=	mysql-client-${VERSION}-0

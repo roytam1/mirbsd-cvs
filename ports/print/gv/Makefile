@@ -1,7 +1,7 @@
-# $MirOS: ports/print/gv/Makefile,v 1.2 2005/07/07 21:25:32 bsiegert Exp $
+# $MirOS: ports/print/gv/Makefile,v 1.3 2006/04/30 17:08:02 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.23 2004/01/04 21:32:18 espie Exp $
 
-COMMENT= 	"PostScript and PDF previewer"
+COMMENT=			PostScript and PDF previewer
 
 DISTNAME=	gv-3.5.8
 PKGNAME=	${DISTNAME}-4

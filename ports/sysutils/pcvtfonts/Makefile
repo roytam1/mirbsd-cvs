@@ -1,6 +1,6 @@
-# $MirOS$
+# $MirOS: ports/sysutils/pcvtfonts/Makefile,v 1.1 2006/07/22 17:23:39 tg Exp $
 
-COMMENT=		OpenBSD wscons/pcvt text console fonts
+COMMENT=			OpenBSD wscons/pcvt text console fonts
 CATEGORIES=		sysutils
 CVS_DISTFILE=		pcvtfonts
 V=			3.9

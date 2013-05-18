@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.43 2004/01/25 19:27:26 brad Exp $
 
-COMMENT=	"multi-router traffic grapher"
+COMMENT=			multi-router traffic grapher
 
 DISTNAME=	mrtg-2.10.13
 CATEGORIES=	net

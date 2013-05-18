@@ -1,7 +1,7 @@
 # $OpenBSD: Makefile,v 1.10 2004/02/01 20:22:18 sturm Exp $
 # $RuOBSD: Makefile,v 1.3 2002/04/28 16:29:29 grange Exp $
 
-COMMENT=		"proxy-cache-servers logfiles analizer"
+COMMENT=			proxy-cache-servers logfiles analizer
 
 DISTNAME=		calamaris-2.58
 CATEGORIES=		www sysutils

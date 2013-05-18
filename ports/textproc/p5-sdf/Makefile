@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.8 2004/02/21 01:18:08 pvalchev Exp $
 
-COMMENT=	"simple document format"
+COMMENT=			simple document format
 
 PKGNAME=	p5-sdf-2.001-0
 DISTNAME=	sdf-2.001

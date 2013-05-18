@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.25 2004/02/25 20:31:00 brad Exp $
 
-COMMENT=	"lossless image compression library"
+COMMENT=			lossless image compression library
 
 DISTNAME=	jbigkit-1.5
 CATEGORIES=	graphics

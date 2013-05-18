@@ -1,7 +1,7 @@
-# $MirOS$
+# $MirOS: ports/print/foiltex/Makefile,v 1.2 2005/07/07 21:25:27 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.6 2003/03/31 17:16:52 sturm Exp $
 
-COMMENT=	"LaTeX2e class for overhead transparencies"
+COMMENT=			LaTeX2e class for overhead transparencies
 
 DISTNAME=	foiltex-2.1.4a
 PKGNAME=	${DISTNAME}-1

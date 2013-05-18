@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.20 2004/05/07 15:28:32 naddy Exp $
 
-COMMENT=	"IP stack integrity checker"
+COMMENT=			IP stack integrity checker
 
 DISTNAME=	isic-0.05
 CATEGORIES=	security

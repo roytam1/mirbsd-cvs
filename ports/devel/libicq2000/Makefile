@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.7 2003/11/27 02:22:41 pvalchev Exp $
 
-COMMENT=	"protocol icq2000/2001 library"
+COMMENT=			protocol icq2000/2001 library
 
 DISTNAME=	libicq2000-0.3.2
 CATEGORIES=	net

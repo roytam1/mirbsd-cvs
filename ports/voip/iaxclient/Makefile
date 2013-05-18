@@ -1,6 +1,6 @@
-# $MirOS: ports/voip/iaxclient/Makefile,v 1.3 2005/07/07 21:27:29 bsiegert Exp $
+# $MirOS: ports/voip/iaxclient/Makefile,v 1.4 2005/08/21 11:50:26 tg Exp $
 
-COMMENT=		"IAX/IAX2 client library"
+COMMENT=			IAX/IAX2 client library
 CATEGORIES=		voip devel net
 DISTNAME=		iaxclient-20050617
 EXTRACT_SUFX=		.cpio.gz

@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.16 2003/11/15 15:12:55 sturm Exp $
 
-COMMENT=	"OO toolkit for SGML parsing and entity management"
+COMMENT=			OO toolkit for SGML parsing and entity management
 
 DISTNAME=	sp-1.3.4
 CATEGORIES=	textproc

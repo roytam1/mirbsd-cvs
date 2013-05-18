@@ -1,7 +1,7 @@
-# $MirOS$
+# $MirOS: ports/databases/iodbc/Makefile,v 1.2 2005/07/07 21:18:23 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.6 2004/02/01 07:12:39 pvalchev Exp $
 
-COMMENT=	"ODBC 2.x driver manager"
+COMMENT=			ODBC 2.x driver manager
 DISTNAME=	libiodbc-2.50.3
 PKGNAME=	iodbc-2.50.3-0
 CATEGORIES=	databases

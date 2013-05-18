@@ -1,9 +1,9 @@
-# $MirOS: ports/graphics/fxtv/Makefile,v 1.4 2005/07/07 21:21:38 bsiegert Exp $
+# $MirOS: ports/graphics/fxtv/Makefile,v 1.5 2006/02/09 11:11:45 tg Exp $
 # $OpenBSD: Makefile,v 1.29 2003/08/04 12:33:33 espie Exp $
 
 ONLY_FOR_PLATFORM=	*:*:i386 *:*:macppc
 
-COMMENT=	"Display and capture for Brooktree-based cards"
+COMMENT=			Display and capture for Brooktree-based cards
 DISTNAME=	fxtv-1.03
 PKGNAME=	${DISTNAME}-1
 

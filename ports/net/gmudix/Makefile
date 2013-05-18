@@ -1,7 +1,7 @@
-# $MirOS: ports/net/gmudix/Makefile,v 1.3 2005/05/01 13:50:53 bsiegert Exp $
+# $MirOS: ports/net/gmudix/Makefile,v 1.4 2006/02/09 11:12:15 tg Exp $
 # $OpenBSD: Makefile,v 1.1.1.1 2003/07/22 22:02:32 jolan Exp $
 
-COMMENT=		"Gnome2 MUD/Moo Client"
+COMMENT=			Gnome2 MUD/Moo Client
 
 DISTNAME=		gmudix-0.10
 CATEGORIES=		net x11

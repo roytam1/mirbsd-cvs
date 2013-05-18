@@ -1,7 +1,7 @@
-# $MirOS$
+# $MirOS: ports/net/GeoIP/Makefile,v 1.1.7.1 2005/03/18 15:47:59 tg Exp $
 # $OpenBSD: Makefile,v 1.3 2004/01/30 08:39:49 xsa Exp $
 
-COMMENT=	"find the country where IP address/hostname originates from"
+COMMENT=			find the country where IP address/hostname originates from
 
 DISTNAME=	GeoIP-1.2.0
 CATEGORIES=	net

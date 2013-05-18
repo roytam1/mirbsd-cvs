@@ -1,9 +1,9 @@
-# $MirOS: ports/databases/py-sqlite/Makefile,v 1.2 2005/03/25 23:13:32 bsiegert Exp $
+# $MirOS: ports/databases/py-sqlite/Makefile,v 1.4 2005/07/07 21:18:49 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.3 2004/03/03 02:41:49 djm Exp $
 
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
-COMMENT=	"SQLite adapter for Python"
+COMMENT=			SQLite adapter for Python
 
 VERSION=	0.5.0
 DISTNAME=	pysqlite-${VERSION}

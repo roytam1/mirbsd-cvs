@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.2 2004/05/19 06:15:57 dons Exp $
 
-COMMENT=		"minimalist documentation tool for Haskell"
+COMMENT=			minimalist documentation tool for Haskell
 
 V=			0.2.6
 DISTNAME=		idoc-${V}

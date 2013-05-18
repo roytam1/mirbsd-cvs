@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.16 2002/12/29 15:10:08 fgsch Exp $
 
-COMMENT=	"cockroaches hide under your windows"
+COMMENT=			cockroaches hide under your windows
 
 # The source code for xroach is the same under both directories
 # (4.4BSD-Lite and 4.4BSD-Lite2) on the dist site.

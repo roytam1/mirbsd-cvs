@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.12 2004/02/21 01:18:08 pvalchev Exp $
 
-COMMENT=	"web-based java SSH client"
+COMMENT=			web-based java SSH client
 VERSION=	2.1
 DISTNAME=	mindterm_${VERSION}-bin
 PKGNAME=	mindterm-${VERSION}-0

@@ -1,7 +1,7 @@
-# $MirOS: ports/audio/mp3blaster/Makefile,v 1.1.7.1 2005/03/18 15:43:00 tg Exp $
+# $MirOS: ports/audio/mp3blaster/Makefile,v 1.2 2005/06/23 16:51:13 tg Exp $
 # $OpenBSD: Makefile,v 1.5 2003/12/01 19:18:19 naddy Exp $
 
-COMMENT=		"text console audio player with an interactive interface"
+COMMENT=			text console audio player with an interactive interface
 DISTNAME=		mp3blaster-3.2.0
 CATEGORIES=		audio
 HOMEPAGE=		http://www.stack.nl/~brama/mp3blaster/

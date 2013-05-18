@@ -1,7 +1,7 @@
-# $MirOS$
+# $MirOS: ports/comms/hylafax/Makefile,v 1.2 2005/07/07 21:17:59 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.41 2003/11/11 22:24:19 todd Exp $
 
-COMMENT=		"send/receive faxes and share modems"
+COMMENT=			send/receive faxes and share modems
 DISTNAME=		hylafax-4.1.5
 PKGNAME=		${DISTNAME}-1
 CATEGORIES=		comms

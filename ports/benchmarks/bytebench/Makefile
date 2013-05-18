@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.18 2004/01/05 19:54:59 sturm Exp $
 
-COMMENT=	"BYTE magazine benchmark suite"
+COMMENT=			BYTE magazine benchmark suite
 DISTNAME=       bytebench-3.1
 CATEGORIES=	benchmarks
 

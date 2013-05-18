@@ -2,7 +2,7 @@
 
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
-COMMENT=	"module to calculate SHA1 digests"
+COMMENT=			module to calculate SHA1 digests
 
 VERSION=	2.10
 DISTNAME=	Digest-SHA1-${VERSION}

@@ -4,7 +4,7 @@ BROKEN=			Missing support for module x11/kde
 
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
-COMMENT=	"image viewer for KDE"
+COMMENT=			image viewer for KDE
 
 DISTNAME=	gwenview-1.0.1
 CATEGORIES=	graphics x11 x11/kde

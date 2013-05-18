@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.5 2004/02/25 01:35:50 naddy Exp $
 
-COMMENT=	"simple network library"
+COMMENT=			simple network library
 DISTNAME=	gnet-2.0.4
 CATEGORIES=	net
 MASTER_SITES=	${HOMEPAGE}src/

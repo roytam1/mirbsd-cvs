@@ -1,7 +1,7 @@
-# $MirOS: ports/print/teTeX/base/Makefile,v 1.2 2005/07/07 21:25:36 bsiegert Exp $
+# $MirOS: ports/print/teTeX/base/Makefile,v 1.3 2006/02/09 11:15:15 tg Exp $
 # $OpenBSD: Makefile,v 1.25 2003/04/04 21:19:23 sturm Exp $
 
-COMMENT=	"TeX distribution, executables"
+COMMENT=			TeX distribution, executables
 VERSION=	2.0.2
 DISTNAME=	tetex-base-${VERSION}
 PKGNAME=	${DISTNAME:S/tetex-/teTeX_/}-0

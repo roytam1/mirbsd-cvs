@@ -1,7 +1,7 @@
-# $MirOS: ports/x11/gnome/libbonobo/Makefile,v 1.4 2006/02/09 11:15:43 tg Exp $
+# $MirOS: ports/x11/gnome/libbonobo/Makefile,v 1.5 2006/06/03 16:02:42 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.11 2004/12/15 13:57:56 alek Exp $
 
-COMMENT=		"GNOME component and compound document system" 
+COMMENT=			GNOME component and compound document system
 
 DISTNAME=		libbonobo-2.10.1
 PKGNAME=		${DISTNAME}-1

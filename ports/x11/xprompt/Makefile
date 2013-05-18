@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.13 2003/10/08 17:13:19 sturm Exp $
 
-COMMENT=	"display a dialog box and prompt user for text"
+COMMENT=			display a dialog box and prompt user for text
 
 DISTNAME=	xprompt-1.4
 CATEGORIES=	x11

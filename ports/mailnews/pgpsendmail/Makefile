@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.19 2002/10/27 17:21:39 naddy Exp $
 
-COMMENT=	"PGP sign/encrypt/decrypt messages automatically"
+COMMENT=			PGP sign/encrypt/decrypt messages automatically
 
 DISTNAME=       PGPsendmail-v1.4.5
 PKGNAME=	pgpsendmail-1.4.5-0

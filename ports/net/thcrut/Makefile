@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.4 2004/01/25 21:10:51 pvalchev Exp $
 
-COMMENT=	"local network discovery tool"
+COMMENT=			local network discovery tool
 
 DISTNAME=	thcrut-0.1
 CATEGORIES=	net

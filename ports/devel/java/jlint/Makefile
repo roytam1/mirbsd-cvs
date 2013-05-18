@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.4 2002/10/27 01:02:17 naddy Exp $
 
-COMMENT=	"Java program analyzer and checker"
+COMMENT=			Java program analyzer and checker
 
 VERSION=	2.3
 DISTNAME=	jlint

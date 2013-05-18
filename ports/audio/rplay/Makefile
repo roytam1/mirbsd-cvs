@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.22 2002/10/24 22:20:03 naddy Exp $
 
-COMMENT=	"network audio player"
+COMMENT=			network audio player
 DISTNAME=	rplay-3.3.2
 CATEGORIES=	audio
 

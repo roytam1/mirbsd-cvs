@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.7 2003/03/02 05:35:11 david Exp $
 
-COMMENT=		"perl i18n routines"
+COMMENT=			perl i18n routines
 
 DISTNAME=		Locale-PGetText-0.16
 PKGNAME=		p5-${DISTNAME}-0

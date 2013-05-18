@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.29 2004/05/07 15:28:31 naddy Exp $
 
-COMMENT=	"raw IP packet construction library"
+COMMENT=			raw IP packet construction library
 
 DISTNAME=	libnet-1.0.2a
 CATEGORIES=	net

@@ -1,7 +1,7 @@
-# $MirOS: ports/devel/gconf/Makefile,v 1.6 2006/02/09 09:35:44 tg Exp $
+# $MirOS: ports/devel/gconf/Makefile,v 1.7 2006/06/03 16:02:38 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.9 2004/12/30 04:30:12 marcm Exp $
 
-COMMENT=		"configuration database system for GNOME"
+COMMENT=			configuration database system for GNOME
 VERSION=		2.12.1
 DISTNAME=		GConf-${VERSION}
 PKGNAME=		gconf2-${VERSION}-1

@@ -1,6 +1,6 @@
 #   $OpenBSD: Makefile,v 1.12 2002/10/30 04:13:36 pvalchev Exp $
 
-COMMENT=	"modules for handling mail with perl"
+COMMENT=			modules for handling mail with perl
 
 DISTNAME=	MailTools-1.15
 PKGNAME=	p5-Mail-Tools-1.15-0

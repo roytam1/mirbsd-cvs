@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.6 2004/02/22 05:33:55 marcm Exp $
 
-COMMENT=		"GNOME 2.0 help browser"
+COMMENT=			GNOME 2.0 help browser
 
 VERSION=		2.4.2
 DISTNAME=		yelp-${VERSION}

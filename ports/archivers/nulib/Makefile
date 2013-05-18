@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.22 2003/06/04 22:16:22 jolan Exp $
 
-COMMENT=	"NuFX archiver"
+COMMENT=			NuFX archiver
 
 DISTNAME=	nulib325
 PKGNAME=	nulib-3.25-0

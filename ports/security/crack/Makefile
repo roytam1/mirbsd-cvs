@@ -1,7 +1,7 @@
 # $OpenBSD: Makefile,v 1.22 2003/11/18 19:07:53 sturm Exp $
 # Original from: Ejovi Nuwere <ejovi@ejovi.net>
 
-COMMENT=	'sensible unix password cracker'
+COMMENT=			sensible unix password cracker
 
 DISTNAME=	crack5.0
 PKGNAME=	crack-5.0-1

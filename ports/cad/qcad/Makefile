@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.9 2003/02/26 10:41:11 espie Exp $
 
-COMMENT=		"Qt-based 2D CAD system"
+COMMENT=			Qt-based 2D CAD system
 
 PKGNAME=		${DISTNAME:S/-src//}-0
 DISTNAME=		qcad-1.5.4-src

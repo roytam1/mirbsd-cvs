@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.3 2004/04/18 06:41:11 robert Exp $
 
-COMMENT=		"color-able replacement for tail(1)"
+COMMENT=			color-able replacement for tail(1)
 
 DISTNAME=		colortail-0.3.0
 CATEGORIES=		sysutils

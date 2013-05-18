@@ -1,7 +1,7 @@
 # $OpenBSD: Makefile,v 1.15 2002/10/26 20:44:39 naddy Exp $
 #
 
-COMMENT=	"XEVIOUS-like shooting game"
+COMMENT=			XEVIOUS-like shooting game
 
 DISTNAME=	xev111
 PKGNAME=        xbat-1.11-0

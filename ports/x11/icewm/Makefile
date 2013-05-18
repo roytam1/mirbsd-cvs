@@ -1,7 +1,7 @@
-# $MirOS: ports/x11/icewm/Makefile,v 1.1.7.1 2005/03/18 16:00:38 tg Exp $
+# $MirOS: ports/x11/icewm/Makefile,v 1.2 2005/03/27 20:42:17 tg Exp $
 # $OpenBSD: Makefile,v 1.16 2004/05/25 16:36:35 naddy Exp $
 
-COMMENT=		"small, fast window manager"
+COMMENT=			small, fast window manager
 DISTNAME=		icewm-1.2.20
 CATEGORIES=     	x11
 HOMEPAGE=		http://www.icewm.org/

@@ -1,6 +1,6 @@
-# $MirOS: ports/editors/beaver/Makefile,v 1.2 2005/03/30 18:13:22 bsiegert Exp $
+# $MirOS: ports/editors/beaver/Makefile,v 1.3 2006/02/09 11:11:30 tg Exp $
 # $OpenBSD: Makefile,v 1.5 2003/08/23 21:19:53 naddy Exp $
-COMMENT=	"lightweight Gtk text editor with syntax highlighting"
+COMMENT=			lightweight Gtk text editor with syntax highlighting
 
 DISTNAME=	beaver-0.2.7
 CATEGORIES=	editors	

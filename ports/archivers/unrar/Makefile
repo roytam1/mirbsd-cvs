@@ -1,7 +1,7 @@
-# $MirOS: ports/archivers/unrar/Makefile,v 1.2 2005/07/07 21:17:03 bsiegert Exp $
+# $MirOS: ports/archivers/unrar/Makefile,v 1.3 2006/02/09 11:11:00 tg Exp $
 # $OpenBSD: Makefile,v 1.23 2004/02/23 00:33:34 naddy Exp $
 
-COMMENT=	"extract, list, and test RAR archives"
+COMMENT=			extract, list, and test RAR archives
 
 DISTNAME=	unrarsrc-3.3.6
 PKGNAME=	unrar-3.30-0

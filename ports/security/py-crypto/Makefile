@@ -2,7 +2,7 @@
 
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
-COMMENT=	"cryptographic tools for Python"
+COMMENT=			cryptographic tools for Python
 
 VERSION=	1.9a6
 DISTNAME=	pycrypto-${VERSION}

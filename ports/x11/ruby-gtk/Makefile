@@ -1,7 +1,7 @@
-# $MirOS$
+# $MirOS: ports/x11/ruby-gtk/Makefile,v 1.2 2005/03/30 18:14:01 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.13 2004/02/20 23:12:31 couderc Exp $
 
-COMMENT=		"Ruby extension library for GTK Toolkit"
+COMMENT=			Ruby extension library for GTK Toolkit
 
 VERSION=		0.34
 DISTNAME=		ruby-gtk-${VERSION}

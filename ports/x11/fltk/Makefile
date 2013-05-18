@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.28 2004/03/04 17:49:26 espie Exp $
 
-COMMENT=	"Fast-Light Tool Kit"
+COMMENT=			Fast-Light Tool Kit
 
 VER=		1.1.4
 DISTNAME=	fltk-${VER}

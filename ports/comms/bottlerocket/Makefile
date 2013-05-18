@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.2 2002/10/25 11:34:24 naddy Exp $
 
-COMMENT=	"X.10 firecracker interface"
+COMMENT=			X.10 firecracker interface
 
 DISTNAME=	bottlerocket-0.04c
 CATEGORIES=	comms

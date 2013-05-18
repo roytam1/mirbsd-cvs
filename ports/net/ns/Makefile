@@ -1,7 +1,7 @@
 # $OpenBSD: Makefile,v 1.24 2004/02/25 02:35:17 naddy Exp $
 # $FreeBSD: ports/net/ns/Makefile,v 1.3 1999/11/28 18:31:26 steve Exp $
 
-COMMENT=	"UCB/LBNL Network Simulator Version 2"
+COMMENT=			UCB/LBNL Network Simulator Version 2
 
 DISTNAME=	ns-2.26
 DISTFILES=	ns-src-2.26.tar.gz

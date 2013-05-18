@@ -1,7 +1,7 @@
-# $MirOS: ports/x11/rox-filer/Makefile,v 1.3 2005/07/07 21:29:18 bsiegert Exp $
+# $MirOS: ports/x11/rox-filer/Makefile,v 1.4 2006/02/09 11:15:54 tg Exp $
 # $OpenBSD: Makefile,v 1.20 2004/04/02 19:07:05 sturm Exp $
 
-COMMENT=		"gtk file manager with desktop features"
+COMMENT=			gtk file manager with desktop features
 VERSION=		2.1.1
 DISTNAME=		rox-${VERSION}
 PKGNAME=		rox-filer-${VERSION}-0

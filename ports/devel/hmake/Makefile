@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.2 2004/04/23 03:14:06 dons Exp $
 
-COMMENT=	"compilation manager for Haskell programs"
+COMMENT=			compilation manager for Haskell programs
  
 V=		3.08
 DISTNAME=	hmake-${V}

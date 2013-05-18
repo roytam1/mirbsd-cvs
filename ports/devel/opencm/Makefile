@@ -1,7 +1,7 @@
 # $OpenBSD: Makefile,v 1.18 2004/02/04 07:39:18 sturm Exp $
 
-COMMENT=		"OpenCM change management system"
-COMMENT-docs=		"OpenCM Documentation"
+COMMENT=			OpenCM change management system
+COMMENT-docs=			OpenCM Documentation
 
 V=			0.1.2alpha7pl1
 sV=			-1

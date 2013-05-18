@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.6 2002/09/01 15:16:17 shell Exp $
 
-COMMENT=	"perl interface to SSL sockets"
+COMMENT=			perl interface to SSL sockets
 
 VERSION=	0.91
 DISTNAME=	IO-Socket-SSL-${VERSION}

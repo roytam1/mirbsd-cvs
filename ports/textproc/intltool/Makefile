@@ -1,7 +1,7 @@
-# $MirOS$
+# $MirOS: ports/textproc/intltool/Makefile,v 1.2 2005/12/29 15:42:19 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.4 2004/10/26 03:53:41 marcm Exp $
 
-COMMENT=		"Internationalization tool"
+COMMENT=			Internationalization tool
 
 DISTNAME=		intltool-0.34.1
 CATEGORIES=		textproc

@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.7 2004/02/29 14:05:25 lebel Exp $
 
-COMMENT=	"update your Snort 1.8+ rules"
+COMMENT=			update your Snort 1.8+ rules
 
 DISTNAME=	oinkmaster-0.9
 CATEGORIES=	net security

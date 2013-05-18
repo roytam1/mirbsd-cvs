@@ -1,7 +1,7 @@
-# $MirOS$
+# $MirOS: ports/print/auctex/Makefile,v 1.2 2005/03/25 23:14:02 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.1.1.1 2004/02/21 01:41:12 pvalchev Exp $
 
-COMMENT=	"extensible emacs interface for TeX"
+COMMENT=			extensible emacs interface for TeX
 
 DISTNAME=	auctex-11.14
 CATEGORIES=	print

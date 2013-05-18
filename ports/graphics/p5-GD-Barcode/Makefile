@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.1.1.1 2002/09/04 01:32:46 brad Exp $
 
-COMMENT=	"create barcode image with GD"
+COMMENT=			create barcode image with GD
 
 DISTNAME=	GD-Barcode-1.13
 PKGNAME=	p5-${DISTNAME}-0

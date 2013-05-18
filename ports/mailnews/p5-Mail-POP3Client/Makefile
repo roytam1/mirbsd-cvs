@@ -1,6 +1,6 @@
 #   $OpenBSD: Makefile,v 1.17 2002/12/29 15:12:31 fgsch Exp $
 
-COMMENT=	"perl module to talk to a POP3 (RFC1081) server"
+COMMENT=			perl module to talk to a POP3 (RFC1081) server
 
 DISTNAME=	POP3Client-2.9
 PKGNAME=	p5-Mail-POP3Client-2.9-0

@@ -1,6 +1,6 @@
-# $MirOS$
+# $MirOS: ports/security/tinyca/Makefile,v 1.1.7.1 2005/03/18 15:51:56 tg Exp $
 
-COMMENT=	"gui to manage a certification authority"
+COMMENT=			gui to manage a certification authority
 DISTNAME=	tinyca-0.6.4
 CATEGORIES=	security
 HOMEPAGE=	http://tinyca.sm-zone.net/index.html

@@ -1,10 +1,10 @@
-# $MirOS$
+# $MirOS: ports/net/gabber/Makefile,v 1.2 2005/03/25 23:13:36 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.5 2003/07/12 06:27:12 marcm Exp $
 # $RuOBSD: Makefile,v 1.9 2002/10/28 16:01:41 grange Exp $
 
 BROKEN=			needs updating to GNOME 2
 
-COMMENT=		"GNOME jabber client"
+COMMENT=			GNOME jabber client
 
 DISTNAME=		gabber-0.8.7
 CATEGORIES=		net x11/gnome

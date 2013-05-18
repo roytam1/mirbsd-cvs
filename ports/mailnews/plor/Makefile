@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.16 2002/12/29 20:31:39 fgsch Exp $
 
-COMMENT=	"alpha-release readers for reading SOUP and QWK packets"
+COMMENT=			alpha-release readers for reading SOUP and QWK packets
 
 DISTNAME=	plor-0.3.2
 CATEGORIES=	news

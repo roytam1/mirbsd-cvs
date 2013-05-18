@@ -1,7 +1,7 @@
-# $MirOS$
+# $MirOS: ports/mailnews/p5-Mail-SpamAssassin/Makefile,v 1.2 2005/07/07 21:22:59 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.29 2004/01/21 08:01:59 brad Exp $
 
-COMMENT=		"mailfilter to identify and mark spam"
+COMMENT=			mailfilter to identify and mark spam
 
 DISTNAME=		Mail-SpamAssassin-2.63
 PKGNAME=		p5-${DISTNAME}-0

@@ -2,7 +2,7 @@
 
 BROKEN=			Missing support for module x11/kde
 
-COMMENT=	"XML editor for KDE"
+COMMENT=			XML editor for KDE
 
 DISTNAME=	kxmleditor-0.7.2
 CATEGORIES=	editors x11 x11/kde

@@ -1,9 +1,9 @@
-# $MirOS: ports/math/wingz/Makefile,v 1.2 2005/04/10 21:50:28 tg Exp $
+# $MirOS: ports/math/wingz/Makefile,v 1.4 2005/07/07 21:23:29 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.18 2002/10/27 18:29:15 naddy Exp $
 
 ONLY_FOR_PLATFORM=	OpenBSD:*:i386 MirBSD:*:i386
 
-COMMENT=	"commercial spreadsheet"
+COMMENT=			commercial spreadsheet
 
 DISTNAME=	Wingz-142
 PKGNAME=	${DISTNAME:L}-1

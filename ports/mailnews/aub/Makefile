@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.19 2004/02/02 17:35:01 sturm Exp $
 
-COMMENT=	"assemble usenet binaries"
+COMMENT=			assemble usenet binaries
 
 PKGNAME=	aub-2.0.5-0
 DISTNAME=	aub

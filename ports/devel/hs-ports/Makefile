@@ -4,7 +4,7 @@
 # only for archs to which the GHC ffi has been ported
 ONLY_FOR_PLATFORM=	*:*:i386 *:*:sparc
 
-COMMENT=	"Haskell library for concurrent and distributed programming"
+COMMENT=			Haskell library for concurrent and distributed programming
 
 V=		0.4.1
 DISTNAME=	hs-ports-${V}

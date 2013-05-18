@@ -1,11 +1,11 @@
-# $MirOS: ports/www/php/core/Makefile,v 1.12 2006/02/21 16:48:29 tg Exp $
+# $MirOS: ports/www/php/core/Makefile,v 1.13 2006/02/21 17:40:12 tg Exp $
 # $OpenBSD: Makefile,v 1.12 2005/12/29 23:03:29 sturm Exp $
 
 MULTI_PACKAGES=		-pear
 SUBPACKAGE?=
 
-COMMENT=		"server-side HTML-embedded scripting language"
-COMMENT-pear=		"base classes for common PHP tasks"
+COMMENT=			server-side HTML-embedded scripting language
+COMMENT-pear=			base classes for common PHP tasks
 PKGNAME=		php-core-${V}-${PV}
 FULLPKGNAME-pear=	php-pear-${V}-${PV}
 

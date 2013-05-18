@@ -1,7 +1,7 @@
 # $OpenBSD: Makefile,v 1.15 2002/10/26 00:39:15 naddy Exp $
 #
 
-COMMENT=	"Jonathan's Own Version of Emacs"
+COMMENT=			Jonathan's Own Version of Emacs
 
 DISTNAME=	jove-4.16
 CATEGORIES=	editors

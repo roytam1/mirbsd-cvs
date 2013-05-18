@@ -1,7 +1,7 @@
-# $MirOS: ports/net/libshout/Makefile,v 1.1.7.1 2005/03/18 15:48:30 tg Exp $
+# $MirOS: ports/net/libshout/Makefile,v 1.2 2006/02/09 09:36:10 tg Exp $
 # $OpenBSD: Makefile,v 1.1.1.1 2003/07/26 11:38:50 sturm Exp $
 
-COMMENT=	"library for communicating with an icecast server"
+COMMENT=			library for communicating with an icecast server
 
 DISTNAME=	libshout-2.0
 CATEGORIES=	net audio

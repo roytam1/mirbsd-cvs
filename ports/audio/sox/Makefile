@@ -1,7 +1,7 @@
-# $MirOS$
+# $MirOS: ports/audio/sox/Makefile,v 1.2 2005/06/05 19:03:21 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.31 2005/05/15 19:40:36 naddy Exp $
 
-COMMENT=	"SOund eXchange - universal sound sample translator"
+COMMENT=			SOund eXchange - universal sound sample translator
 
 DISTNAME=	sox-12.17.7
 CATEGORIES=	audio

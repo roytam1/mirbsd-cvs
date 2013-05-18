@@ -1,9 +1,9 @@
-# $MirOS$
+# $MirOS: ports/www/p5-HTTP-GHTTP/Makefile,v 1.4 2006/03/24 16:55:57 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.9 2004/01/17 15:58:10 naddy Exp $
 
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
-COMMENT=	"perl interface to the Gnome GHTTP library"
+COMMENT=			perl interface to the Gnome GHTTP library
 
 DISTNAME=	HTTP-GHTTP-1.07
 PKGNAME=	p5-${DISTNAME}-1

@@ -1,10 +1,10 @@
-# $MirOS: ports/emulators/wine/winex/Makefile,v 1.5 2005/08/21 11:48:46 tg Exp $
+# $MirOS: ports/emulators/wine/winex/Makefile,v 1.6 2005/11/17 21:58:42 tg Exp $
 
 BROKEN=			builds but stalls in WaitForWin16Mutex
 
 ONLY_FOR_PLATFORM=	OpenBSD:*:i386 MirBSD:*:i386
 
-COMMENT=		"Microsoft Windows® 3.1/95/NT/Games emulator for Unix®"
+COMMENT=			Microsoft Windows® 3.1/95/NT/Games emulator for Unix®
 CATEGORIES=		emulators
 DISTNAME=		winex-cvs-${V}
 PKGNAME=		winex-${V}-0

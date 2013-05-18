@@ -1,7 +1,7 @@
-# $MirOS$
+# $MirOS: ports/graphics/xfig/Makefile,v 1.2 2005/07/07 21:22:08 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.27 2004/02/25 02:35:16 naddy Exp $
 
-COMMENT=	"CAD drawing program for X11"
+COMMENT=			CAD drawing program for X11
 VERSION=	3.2.4
 DISTNAME=	xfig.${VERSION}.full
 PKGNAME=	xfig-${VERSION}-0

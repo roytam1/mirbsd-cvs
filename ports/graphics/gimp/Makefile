@@ -1,9 +1,9 @@
-# $MirOS: ports/graphics/gimp/Makefile,v 1.2 2005/08/04 21:43:41 tg Exp $
+# $MirOS: ports/graphics/gimp/Makefile,v 1.3 2006/02/09 11:11:46 tg Exp $
 # $OpenBSD: Makefile,v 1.6 2005/07/08 07:50:55 fgsch Exp $
 
 BROKEN=		porting in progress
 
-COMMENT=	"GNU Image Manipulation Program"
+COMMENT=			GNU Image Manipulation Program
 DISTNAME=	gimp-2.2.8
 CATEGORIES=	graphics
 DIR=		gimp/v2.2

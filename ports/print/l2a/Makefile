@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.4 2004/05/07 15:28:31 naddy Exp $
 
-COMMENT=		"filter for removing (La)TeX markup"
+COMMENT=			filter for removing (La)TeX markup
 
 DISTNAME=		l2a-1.2
 CATEGORIES=     	print

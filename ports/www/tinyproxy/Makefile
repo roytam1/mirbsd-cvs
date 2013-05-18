@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.9 2004/02/25 02:35:17 naddy Exp $
 
-COMMENT=		"lightweight HTTP/SSL proxy"
+COMMENT=			lightweight HTTP/SSL proxy
 
 VERSION=		1.6.2
 DISTNAME=		tinyproxy-${VERSION}

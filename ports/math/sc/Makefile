@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.7 2003/06/16 21:42:31 pvalchev Exp $
 
-COMMENT=	"curses spreadsheet-calculator program"
+COMMENT=			curses spreadsheet-calculator program
 
 DISTNAME=	sc-7.15
 PKGNAME=	${DISTNAME}-1

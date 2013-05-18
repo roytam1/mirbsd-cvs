@@ -1,7 +1,7 @@
-# $MirOS: ports/graphics/libgphoto2/Makefile,v 1.3 2005/12/29 21:58:14 tg Exp $
+# $MirOS: ports/graphics/libgphoto2/Makefile,v 1.4 2006/02/09 09:35:56 tg Exp $
 # $OpenBSD: Makefile,v 1.4 2004/04/14 18:39:57 brad Exp $
 
-COMMENT=		'digital camera library'
+COMMENT=			digital camera library
 CATEGORIES=		graphics devel
 VERSION=		2.1.6
 DISTNAME=		libgphoto2-${VERSION}

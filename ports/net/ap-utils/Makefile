@@ -1,7 +1,7 @@
-# $MirOS: ports/net/ap-utils/Makefile,v 1.1.7.1 2005/03/18 15:47:59 tg Exp $
+# $MirOS: ports/net/ap-utils/Makefile,v 1.2 2006/02/02 21:09:40 tg Exp $
 # $OpenBSD: Makefile,v 1.2 2003/06/02 02:02:35 margarida Exp $
 
-COMMENT=	"wireless access point configuration tools"
+COMMENT=			wireless access point configuration tools
 DISTNAME=	ap-utils-1.3.2
 CATEGORIES=	net
 EXTRACT_SUFX=	.tar.bz2

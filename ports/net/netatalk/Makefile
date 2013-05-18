@@ -1,7 +1,7 @@
-# $MirOS: ports/net/netatalk/Makefile,v 1.3 2006/08/13 01:39:00 tg Exp $
+# $MirOS: ports/net/netatalk/Makefile,v 1.4 2006/08/26 14:31:33 tg Exp $
 # $OpenBSD: Makefile,v 1.5 2003/08/22 11:18:19 naddy Exp $
 
-COMMENT=		"AFP file and print services for AppleTalk/IP networks"
+COMMENT=			AFP file and print services for AppleTalk/IP networks
 DISTNAME=		netatalk-1.6.3
 PKGNAME=		${DISTNAME}-2
 CATEGORIES=		net

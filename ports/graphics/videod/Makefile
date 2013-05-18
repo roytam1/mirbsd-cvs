@@ -2,7 +2,7 @@
 
 ONLY_FOR_PLATFORM=	*:*:i386 *:*:macppc
 
-COMMENT=	"Video capture daemon for bktr driver"
+COMMENT=			Video capture daemon for bktr driver
 
 VERSION=	1.2
 DISTNAME=	videod-${VERSION}

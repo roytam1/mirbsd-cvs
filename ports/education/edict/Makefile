@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.3 2004/02/11 02:08:53 kevlo Exp $
 
-COMMENT=	"commandline interface to online dictionaries"
+COMMENT=			commandline interface to online dictionaries
 
 DISTNAME=	edict-1.2
 CATEGORIES=	education

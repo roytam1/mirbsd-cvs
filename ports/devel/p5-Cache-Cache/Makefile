@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.3 2003/04/30 19:10:52 wilfried Exp $
 
-COMMENT=	"perl cache interface"
+COMMENT=			perl cache interface
 
 DISTNAME=	Cache-Cache-1.02
 PKGNAME=	p5-${DISTNAME}-0

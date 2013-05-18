@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.2 2004/01/30 08:39:48 xsa Exp $
 
-COMMENT=	"convert dates into the Shire Calendar"
+COMMENT=			convert dates into the Shire Calendar
 DISTNAME=	Date-Tolkien-Shire-1.12
 PKGNAME=	p5-${DISTNAME}-0
 CATEGORIES=	converters perl5

@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.15 2003/11/24 08:11:43 kevlo Exp $
 
-COMMENT=	"UPS software for APC UPS models"
+COMMENT=			UPS software for APC UPS models
 
 DISTNAME=	apc-upsd
 PKGNAME=	${DISTNAME}-19991128-0

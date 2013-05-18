@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.11 2003/10/08 17:13:17 sturm Exp $
 
-COMMENT=		"lightweight window manager with emphasis on usability"
+COMMENT=			lightweight window manager with emphasis on usability
 
 DISTNAME=		pwm-20030528
 CATEGORIES=		x11

@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.10 2004/02/01 10:54:23 wilfried Exp $
 
-COMMENT=		'wm-dockapp; resembling a miniature pin board'
+COMMENT=			wm-dockapp; resembling a miniature pin board
 DISTNAME=		wmpinboard-1.0
 CATEGORIES=		x11 x11/windowmaker
 

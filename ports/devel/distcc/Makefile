@@ -1,6 +1,6 @@
-# $MirOS: ports/devel/distcc/Makefile,v 1.2 2005/03/25 21:26:44 tyler Exp $
+# $MirOS: ports/devel/distcc/Makefile,v 1.3 2005/03/27 21:57:26 tg Exp $
 
-COMMENT=		"distributed front-end for the gcc compiler"
+COMMENT=			distributed front-end for the gcc compiler
 
 DISTNAME=		distcc-2.18.3
 CATEGORIES=		devel

@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.1.1.1 2004/05/26 13:36:07 sturm Exp $
 
-COMMENT=	"extensions to Class::DBI for SQLite"
+COMMENT=			extensions to Class::DBI for SQLite
 
 DISTNAME=	Class-DBI-SQLite-0.04
 PKGNAME=	p5-${DISTNAME}-0

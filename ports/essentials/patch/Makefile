@@ -1,4 +1,4 @@
-# $MirOS: ports/essentials/patch/Makefile,v 1.3 2005/11/17 23:59:27 tg Exp $
+# $MirOS: ports/essentials/patch/Makefile,v 1.4 2006/01/01 02:46:00 tg Exp $
 #-
 # This port must not contain a patches/ directory.
 
@@ -6,7 +6,7 @@
 IGNORE+=		"only works with MirMake"
 .endif
 
-COMMENT=		"MirOS patch(1)"
+COMMENT=			MirOS patch(1)
 CATEGORIES=		essentials
 DISTNAME=		patch-20051110
 PKGNAME=		${DISTNAME}-1

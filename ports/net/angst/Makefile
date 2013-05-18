@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.10 2002/12/22 01:20:16 margarida Exp $
 
-COMMENT=	"active packet sniffer"
+COMMENT=			active packet sniffer
 
 DISTNAME=	angst-0.4b
 CATEGORIES=	net

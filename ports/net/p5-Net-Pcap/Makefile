@@ -2,7 +2,7 @@
 
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
-COMMENT=	"module for pcap access"
+COMMENT=			module for pcap access
 
 DISTNAME=	Net-Pcap-0.04
 PKGNAME=	p5-Net-Pcap-0.04-0

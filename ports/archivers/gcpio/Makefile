@@ -1,7 +1,7 @@
 # $OpenBSD: Makefile,v 1.6 2003/05/24 01:29:15 jolan Exp $
 
 BROKEN=			undefined reference to rexec
-COMMENT=		"GNU copy-in/out (cpio)"
+COMMENT=			GNU copy-in/out (cpio)
 
 DISTNAME=		cpio-2.5
 PKGNAME=		g${DISTNAME}-0

@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.1.1.1 2004/04/20 19:59:53 naddy Exp $
 
-COMMENT=		"IPv6 to IPv4 web proxy"
+COMMENT=			IPv6 to IPv4 web proxy
 
 DISTNAME=		www6to4-1.5
 CATEGORIES=		www

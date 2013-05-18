@@ -1,8 +1,8 @@
-# $MirOS: ports/x11/gtkmm/Makefile,v 1.3 2005/07/07 21:28:53 bsiegert Exp $
+# $MirOS: ports/x11/gtkmm/Makefile,v 1.4 2006/02/09 09:36:24 tg Exp $
 # $OpenBSD: Makefile,v 1.15 2004/02/04 07:39:19 sturm Exp $
 
-COMMENT=		"C++ interface for gtk+"
-COMMENT-docs=		"C++ interface for gtk+ documentation"
+COMMENT=			C++ interface for gtk+
+COMMENT-docs=			C++ interface for gtk+ documentation
 
 VERSION=		1.2.10
 DISTNAME=		gtkmm-${VERSION}

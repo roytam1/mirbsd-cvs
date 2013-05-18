@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.21 2003/02/25 10:34:02 espie Exp $
 
-COMMENT=	"display the Earth on X11"
+COMMENT=			display the Earth on X11
 
 CATEGORIES=	x11
 HOMEPAGE=	http://www.cs.unc.edu/~scheuerm/xglobe/

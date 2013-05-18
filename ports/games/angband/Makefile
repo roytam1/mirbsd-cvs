@@ -1,8 +1,8 @@
 # $OpenBSD: Makefile,v 1.11 2002/12/29 15:10:07 fgsch Exp $
 # Original from: Robert Ruehlmann
 
-COMMENT=		"rogue-like game with X11 support"
-COMMENT-no_x11=		"rogue-like game"
+COMMENT=			rogue-like game with X11 support
+COMMENT-no_x11=			rogue-like game
 
 DISTNAME=		angband-2.9.3
 CATEGORIES=     	games

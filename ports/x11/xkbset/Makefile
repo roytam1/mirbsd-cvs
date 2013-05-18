@@ -1,7 +1,7 @@
 # $OpenBSD: Makefile,v 1.3 2003/03/31 14:59:29 sturm Exp $
 
-COMMENT=	"X11 keyboard accessibility tool"
-COMMENT-gui=	"GUI for xkbset"
+COMMENT=			X11 keyboard accessibility tool
+COMMENT-gui=			GUI for xkbset
 
 DISTNAME=	xkbset-0.5
 PKGNAME-gui=	xkbset-gui-0.5-0

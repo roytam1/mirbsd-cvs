@@ -2,7 +2,7 @@
 
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
-COMMENT=	"XMMS input plugin for playing shorten files"
+COMMENT=			XMMS input plugin for playing shorten files
 
 DISTNAME=	xmms-shn-2.4.0
 CATEGORIES=	audio

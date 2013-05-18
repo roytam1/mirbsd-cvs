@@ -2,7 +2,7 @@
 
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
-COMMENT=	"Python unicode codecs for Chinese, Japanese and Korean"
+COMMENT=			Python unicode codecs for Chinese, Japanese and Korean
 
 DISTNAME=	cjkcodecs-1.0.3
 PKGNAME=	py-${DISTNAME}-0

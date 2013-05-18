@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.14 2002/10/28 01:38:44 naddy Exp $
 
-COMMENT=	"Prospero client for the archie service"
+COMMENT=			Prospero client for the archie service
 
 DISTNAME=	c-archie-1.4.1-FIXED
 PKGNAME=	archie-1.4.1-0

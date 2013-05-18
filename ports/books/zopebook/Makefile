@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.5 2004/02/01 20:07:41 sturm Exp $
 
-COMMENT=        "Zope documentation"
+COMMENT=			Zope documentation
 DISTNAME=	ZopeBook-2_6
 PKGNAME=	${DISTNAME:L:S/_/./}-0
 CATEGORIES=	books

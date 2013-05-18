@@ -1,7 +1,7 @@
-# $MirOS$
+# $MirOS: ports/x11/xvkbd/Makefile,v 1.1.7.1 2005/03/18 16:01:24 tg Exp $
 # $OpenBSD: Makefile,v 1.2 2002/10/17 20:31:28 naddy Exp $
 
-COMMENT=		"xvkbd - virtual keyboard for X window system"
+COMMENT=			xvkbd - virtual keyboard for X window system
 DISTNAME=		xvkbd-2.6
 CATEGORIES=		x11
 HOMEPAGE=		http://homepage3.nifty.com/tsato/xvkbd/

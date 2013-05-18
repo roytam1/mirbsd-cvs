@@ -1,10 +1,10 @@
-# $MirOS: ports/graphics/gd/Makefile,v 1.1.7.1 2005/03/18 15:46:48 tg Exp $
+# $MirOS: ports/graphics/gd/Makefile,v 1.2 2006/02/09 11:11:45 tg Exp $
 # $OpenBSD: Makefile,v 1.37 2003/04/19 13:30:47 espie Exp $
 # $FreeBSD: Makefile,v 1.5 1998/06/25 03:13:16 vanilla Exp $
 
 # XXX what about X11 (freetype2 and Xpm are in base-X; probably make flavours)
 
-COMMENT=	"graphics library for fast image creation"
+COMMENT=			graphics library for fast image creation
 DISTNAME=	gd-1.8.4
 CATEGORIES=	graphics
 MASTER_SITES=	http://www.boutell.com/gd/http/ \

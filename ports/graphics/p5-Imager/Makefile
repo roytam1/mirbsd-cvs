@@ -2,7 +2,7 @@
 
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
-COMMENT=	"module for generating and manipulating images"
+COMMENT=			module for generating and manipulating images
 
 DISTNAME=	Imager-0.39
 PKGNAME=	p5-${DISTNAME}-0

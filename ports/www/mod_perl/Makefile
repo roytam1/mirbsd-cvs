@@ -1,11 +1,11 @@
-# $MirOS: ports/www/mod_perl/Makefile,v 1.1.7.1 2005/03/18 15:59:45 tg Exp $
+# $MirOS: ports/www/mod_perl/Makefile,v 1.3 2005/07/07 21:27:47 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.15 2004/04/13 14:37:26 peter Exp $
 
 # This port currently only works with archs supporting dynamic loading
 # and has Apache that supports DSOs.
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
-COMMENT=	"module that embeds a Perl interpreter into Apache"
+COMMENT=			module that embeds a Perl interpreter into Apache
 DISTNAME=	mod_perl-1.29
 CATEGORIES=	www perl5
 MASTER_SITES=	http://perl.apache.org/dist/ \

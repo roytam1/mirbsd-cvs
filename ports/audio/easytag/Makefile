@@ -1,7 +1,7 @@
-# $MirOS: ports/audio/easytag/Makefile,v 1.2 2005/03/30 18:13:16 bsiegert Exp $
+# $MirOS: ports/audio/easytag/Makefile,v 1.3 2006/02/09 11:11:03 tg Exp $
 # $OpenBSD: Makefile,v 1.6 2004/02/08 02:48:13 naddy Exp $
 
-COMMENT=		"MP3 ID3 tags editor"
+COMMENT=			MP3 ID3 tags editor
 DISTNAME=		easytag-0.30
 CATEGORIES=		audio x11
 HOMEPAGE=		http://easytag.sourceforge.net/

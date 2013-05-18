@@ -1,4 +1,4 @@
-# $MirOS: ports/lang/python/Makefile.inc,v 1.6 2005/11/15 19:23:38 tg Exp $
+# $MirOS: ports/lang/python/Makefile.inc,v 1.7 2005/11/16 19:08:22 tg Exp $
 # $OpenBSD: Makefile.inc,v 1.32 2005/06/06 20:47:04 alek Exp $
 
 .include <mirports.sys.mk>
@@ -8,15 +8,15 @@
 # requirement of the PSF license, if it constitutes a change to
 # Python itself.
 
-COMMENT=	"interpreted object-oriented programming language"
-COMMENT-bsddb=	"Berkeley db module for Python"
-COMMENT-expat=	"expat module for Python"
-COMMENT-gdbm=	"GNU dbm module for Python"
-COMMENT-idle=	"IDE for Python"
-COMMENT-mpz=	"GNU arbitrary magnitude integer module for Python"
-COMMENT-tests=	"Python test suite"
-COMMENT-tkinter="tk GUI module for Python"
-COMMENT-tools=	"extra tools for Python"
+COMMENT=			interpreted object-oriented programming language
+COMMENT-bsddb=			Berkeley db module for Python
+COMMENT-expat=			expat module for Python
+COMMENT-gdbm=			GNU dbm module for Python
+COMMENT-idle=			IDE for Python
+COMMENT-mpz=			GNU arbitrary magnitude integer module for Python
+COMMENT-tests=			Python test suite
+COMMENT-tkinter=			tk GUI module for Python
+COMMENT-tools=			extra tools for Python
 
 PKGNAME=	python-${VERSION}${PATCHLEVEL}${PKG_PATCHLEVEL}
 DISTNAME=	Python-${VERSION}${PATCHLEVEL}

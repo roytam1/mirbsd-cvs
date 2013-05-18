@@ -1,7 +1,7 @@
 # $OpenBSD: Makefile,v 1.5 2004/02/27 05:19:23 jcs Exp $
 
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
-COMMENT=	"Sybase database driver for the DBI module"
+COMMENT=			Sybase database driver for the DBI module
 DISTNAME=	DBD-Sybase-1.02
 PKGNAME=	p5-${DISTNAME}-1
 CATEGORIES=	databases perl5

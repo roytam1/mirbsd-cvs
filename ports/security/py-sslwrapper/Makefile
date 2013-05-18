@@ -2,7 +2,7 @@
 
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
-COMMENT=	"OpenSSL Wrappers for Python"
+COMMENT=			OpenSSL Wrappers for Python
 
 VERSION=	0.6.1
 DISTNAME=	POW-${VERSION}

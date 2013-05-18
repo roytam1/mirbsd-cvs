@@ -1,7 +1,7 @@
-# $MirOS$
+# $MirOS: ports/net/firewalk/Makefile,v 1.1.7.1 2005/03/18 15:48:16 tg Exp $
 # $OpenBSD: Makefile,v 1.24 2004/05/07 15:28:31 naddy Exp $
 
-COMMENT=	"gateway acl scanner (via static-source port traceroute)"
+COMMENT=			gateway acl scanner (via static-source port traceroute)
 DISTNAME=	firewalk-0.8
 CATEGORIES=     net
 MASTER_SITES=	http://www.packetfactory.net/firewalk/dist/

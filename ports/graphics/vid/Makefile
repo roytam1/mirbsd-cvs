@@ -1,7 +1,7 @@
 # $OpenBSD: Makefile,v 1.8 2003/01/20 18:54:14 sturm Exp $
 # $FreeBSD: ports/graphics/vid/Makefile,v 1.5 2001/02/21 07:48:56 roger Exp $
 
-COMMENT=	"get images from USB cameras using the OV511(+) chipsets"
+COMMENT=			get images from USB cameras using the OV511(+) chipsets
 
 DISTNAME=	vid-1.0.1
 PKGNAME=	${DISTNAME}-1

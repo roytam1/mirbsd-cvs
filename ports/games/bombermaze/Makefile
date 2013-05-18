@@ -1,9 +1,9 @@
-# $MirOS: ports/games/bombermaze/Makefile,v 1.2 2005/03/20 16:56:18 bsiegert Exp $
+# $MirOS: ports/games/bombermaze/Makefile,v 1.3 2006/02/09 11:11:34 tg Exp $
 # $OpenBSD: Makefile,v 1.6 2002/12/22 08:00:17 pvalchev Exp $
 
 IGNORE=		"might be broken, used to use Libtool"
 
-COMMENT=		"Bomberman clone for GNOME"
+COMMENT=			Bomberman clone for GNOME
 VERSION=		0.6.6
 DISTNAME=		bombermaze-${VERSION}
 CATEGORIES=		games x11

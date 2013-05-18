@@ -1,8 +1,8 @@
-# $MirOS: ports/archivers/zip/Makefile,v 1.3 2006/02/09 11:11:01 tg Exp $
+# $MirOS: ports/archivers/zip/Makefile,v 1.4 2006/06/23 15:13:50 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.30 2003/05/24 02:40:42 jolan Exp $
 # $FreeBSD: Makefile,v 1.11 1997/11/25 20:45:45 ache Exp $
 
-COMMENT=	"create/update ZIP files compatible with PKZip(tm)"
+COMMENT=			create/update ZIP files compatible with PKZip(tm)
 
 DISTNAME=	zip231
 PKGNAME=	zip-2.31-0

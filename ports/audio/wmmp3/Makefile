@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.12 2003/12/10 21:28:58 naddy Exp $
 
-COMMENT=		'wm-dockapp; front end for mpg123'
+COMMENT=			wm-dockapp; front end for mpg123
 DISTNAME=		wmmp3-0.12
 CATEGORIES=		audio x11 x11/windowmaker
 HOMEPAGE=		http://www.dotfiles.com/software/wmmp3/

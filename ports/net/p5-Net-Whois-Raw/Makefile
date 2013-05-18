@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.1.1.1 2003/05/04 18:48:52 sturm Exp $
 
-COMMENT=	"perl extension for unparsed raw whois information"
+COMMENT=			perl extension for unparsed raw whois information
 
 DISTNAME=	Net-Whois-Raw-0.23
 PKGNAME=	p5-${DISTNAME}-0

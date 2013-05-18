@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.15 2003/10/08 17:13:15 sturm Exp $
 
-COMMENT=	"twm, plus support for multiple virtual screens, etc"
+COMMENT=			twm, plus support for multiple virtual screens, etc
 
 DISTNAME=	ctwm-3.6
 CATEGORIES=	x11

@@ -5,7 +5,7 @@
 # good enough shape to run this app.
 ONLY_FOR_PLATFORM=	OpenBSD:*:i386 MirBSD:*:i386
 
-COMMENT=		"threaded DNS daemon, optimized for caching"
+COMMENT=			threaded DNS daemon, optimized for caching
 DISTNAME=		pdnsd-1.1.7a
 PKGNAME=		${DISTNAME}-1
 CATEGORIES=     	net

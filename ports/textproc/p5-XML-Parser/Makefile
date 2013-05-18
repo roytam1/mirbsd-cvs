@@ -2,7 +2,7 @@
 
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
-COMMENT=	"perl module for parsing XML documents"
+COMMENT=			perl module for parsing XML documents
 
 DISTNAME=	XML-Parser-2.31
 PKGNAME=	p5-${DISTNAME}-0

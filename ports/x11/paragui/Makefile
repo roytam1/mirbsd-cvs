@@ -1,7 +1,7 @@
-# $MirOS: ports/x11/paragui/Makefile,v 1.1.7.1 2005/03/18 16:00:49 tg Exp $
+# $MirOS: ports/x11/paragui/Makefile,v 1.2 2006/02/09 11:15:54 tg Exp $
 # $OpenBSD: Makefile,v 1.13 2004/02/25 02:35:18 naddy Exp $
 
-COMMENT=	"cross-platform high-level application framework"
+COMMENT=			cross-platform high-level application framework
 VERSION=	0.7.2
 DISTNAME=	paragui-${VERSION}
 CATEGORIES=	x11 devel

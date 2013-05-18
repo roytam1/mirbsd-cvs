@@ -1,7 +1,7 @@
-# $MirOS: ports/x11/gnome/zenity/Makefile,v 1.2 2005/03/25 23:13:52 bsiegert Exp $
+# $MirOS: ports/x11/gnome/zenity/Makefile,v 1.3 2006/02/09 11:15:49 tg Exp $
 # $OpenBSD: Makefile,v 1.1.1.1 2003/10/08 01:25:43 marcm Exp $
 
-COMMENT=		"dialogs for Gnome"
+COMMENT=			dialogs for Gnome
 
 DISTNAME=		zenity-1.6
 CATEGORIES=		x11/gnome

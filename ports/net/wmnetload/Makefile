@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.1.1.1 2003/05/11 02:56:56 wilfried Exp $
 
-COMMENT=		"wm-dockapp; simple network interface monitoring tool"
+COMMENT=			wm-dockapp; simple network interface monitoring tool
 
 DISTNAME=		wmnetload-1.3
 CATEGORIES=		net x11 x11/windowmaker

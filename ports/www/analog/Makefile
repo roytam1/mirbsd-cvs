@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.38 2003/10/18 19:44:41 sturm Exp $
 
-COMMENT=	"extremely fast program for analysing WWW logfiles"
+COMMENT=			extremely fast program for analysing WWW logfiles
 
 DISTNAME=	analog-5.32
 CATEGORIES=	www

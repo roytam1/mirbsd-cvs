@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.26 2002/12/23 00:37:51 pvalchev Exp $
 
-COMMENT=	"MBONE video tool"
+COMMENT=			MBONE video tool
 
 DISTNAME=	vic-2.8ucl4
 CATEGORIES=	mbone

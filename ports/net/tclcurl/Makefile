@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.4 2004/05/07 15:28:31 naddy Exp $
 
-COMMENT=		"Tcl bindings for Curl"
+COMMENT=			Tcl bindings for Curl
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
 DISTNAME=		TclCurl-0.10.5

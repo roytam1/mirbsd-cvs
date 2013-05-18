@@ -1,11 +1,11 @@
-# $MirOS: ports/audio/xmms/Makefile,v 1.5 2005/12/16 01:02:04 bsiegert Exp $
+# $MirOS: ports/audio/xmms/Makefile,v 1.6 2006/02/09 11:11:08 tg Exp $
 # $OpenBSD: Makefile,v 1.33 2004/05/24 13:17:40 robert Exp $
 
-COMMENT=		"Multimedia player for the X Window System"
-COMMENT-esd=		"Esound output plugin for XMMS"
-COMMENT-vorbis=		"Ogg Vorbis input plugin for XMMS"
-COMMENT-mikmod=		"Mikmod input plugin for XMMS"
-COMMENT-mp3=		"MP3 input plugin for XMMS"
+COMMENT=			Multimedia player for the X Window System
+COMMENT-esd=			Esound output plugin for XMMS
+COMMENT-vorbis=			Ogg Vorbis input plugin for XMMS
+COMMENT-mikmod=			Mikmod input plugin for XMMS
+COMMENT-mp3=			MP3 input plugin for XMMS
 
 VERSION=		1.2.10
 DASH_VER=		2

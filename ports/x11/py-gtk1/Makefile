@@ -1,10 +1,10 @@
-# $MirOS: ports/x11/py-gtk1/Makefile,v 1.2 2005/03/20 16:56:23 bsiegert Exp $
+# $MirOS: ports/x11/py-gtk1/Makefile,v 1.4 2005/07/07 21:29:13 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.15 2004/02/18 20:05:12 xsa Exp $
 
 IGNORE=		"might be broken, used to use Libtool"
 
-COMMENT=	"Gtk bindings for Python"
-COMMENT-gnome=	"Gtk and Gnome bindings for Python"
+COMMENT=			Gtk bindings for Python
+COMMENT-gnome=			Gtk and Gnome bindings for Python
 
 # Version numbers between py-gtk and py-gnome are different, but py-gnome
 # overlaps py-gtk. Because of this version number inconsistency, we use

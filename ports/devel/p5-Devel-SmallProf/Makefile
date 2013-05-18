@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.7 2004/04/16 21:28:19 xsa Exp $
 
-COMMENT=		"per-line Perl profiler"
+COMMENT=			per-line Perl profiler
 
 DISTNAME=		Devel-SmallProf-1.15
 PKGNAME=		p5-${DISTNAME}-0

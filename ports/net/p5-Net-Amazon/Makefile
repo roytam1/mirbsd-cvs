@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.3 2004/04/11 16:50:40 xsa Exp $
 
-COMMENT=		"Perl Interface to Amazon.{co.uk,com} Web Services"
+COMMENT=			Perl Interface to Amazon.{co.uk,com} Web Services
 
 DISTNAME=		Net-Amazon-0.21
 PKGNAME=		p5-${DISTNAME}-0

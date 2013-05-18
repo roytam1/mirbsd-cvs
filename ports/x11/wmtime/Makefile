@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.7 2003/10/08 17:13:18 sturm Exp $
 
-COMMENT=	"time/date applet for WindowMaker"
+COMMENT=			time/date applet for WindowMaker
 
 DISTNAME=	wmtime-1.0b2
 CATEGORIES=	x11 x11/windowmaker

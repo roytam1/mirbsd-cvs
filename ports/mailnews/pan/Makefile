@@ -1,7 +1,7 @@
-# $MirOS: ports/mailnews/pan/Makefile,v 1.4 2006/02/09 11:12:00 tg Exp $
+# $MirOS: ports/mailnews/pan/Makefile,v 1.5 2006/06/03 16:02:40 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.13 2004/04/02 19:07:05 sturm Exp $
 
-COMMENT=	"powerful Gtk+2 newsreader"
+COMMENT=			powerful Gtk+2 newsreader
 
 VER=		0.14.2
 DISTNAME=	pan-${VER}

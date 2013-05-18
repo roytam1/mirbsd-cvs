@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.6 2002/11/22 16:43:45 sturm Exp $
 
-COMMENT=	"command line gnutella client"
+COMMENT=			command line gnutella client
 
 DISTNAME=	gnut-0.4.28
 CATEGORIES=	net

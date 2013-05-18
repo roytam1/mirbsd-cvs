@@ -1,7 +1,7 @@
 # $OpenBSD: Makefile,v 1.28 2004/01/14 23:42:53 djm Exp $
 # $FreeBSD: Makefile,v 1.10 1998/03/28 14:36:34 steve Exp $
 
-COMMENT=		"X11/Motif GUI text editor"
+COMMENT=			X11/Motif GUI text editor
 
 DISTNAME=		nedit-5.4-source
 PKGNAME=		nedit-5.4-0

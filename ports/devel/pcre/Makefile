@@ -1,7 +1,7 @@
-# $MirOS: ports/devel/pcre/Makefile,v 1.2 2005/05/07 17:15:20 bsiegert Exp $
+# $MirOS: ports/devel/pcre/Makefile,v 1.3 2005/08/13 22:47:11 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.12 2004/01/14 17:21:52 jakob Exp $
 
-COMMENT=	"perl-compatible regular expression library"
+COMMENT=			perl-compatible regular expression library
 DISTNAME=	pcre-4.5
 DASH_VER=	-1
 PKGNAME=	${DISTNAME}${DASH_VER}

@@ -1,7 +1,7 @@
-# $MirOS: ports/x11/xscreensaver/Makefile,v 1.3 2006/02/09 11:15:59 tg Exp $
+# $MirOS: ports/x11/xscreensaver/Makefile,v 1.4 2006/06/03 16:43:13 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.23 2004/04/02 19:07:05 sturm Exp $
 
-COMMENT=		"screen saver and locker for the X Window System"
+COMMENT=			screen saver and locker for the X Window System
 
 VERSION=		4.06
 DISTNAME=		xscreensaver-${VERSION}

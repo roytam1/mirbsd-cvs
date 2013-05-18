@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.1.1.1 2004/05/20 10:48:23 sturm Exp $
 
-COMMENT=	"generate SQL from Perl data structures"
+COMMENT=			generate SQL from Perl data structures
 
 DISTNAME=	SQL-Abstract-1.15
 PKGNAME=	p5-${DISTNAME}-0

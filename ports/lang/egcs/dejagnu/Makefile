@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.10 2002/05/13 23:31:25 espie Exp $
 
-COMMENT=	"recent dejagnu, needed for gcc"
+COMMENT=			recent dejagnu, needed for gcc
 
 DISTNAME=	dejagnu-1.4.2
 CATEGORIES=	devel

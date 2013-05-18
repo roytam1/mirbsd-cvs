@@ -1,7 +1,7 @@
-# $MirOS$
+# $MirOS: ports/graphics/jasper/Makefile,v 1.3 2005/07/07 21:21:43 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.1.1.1 2004/05/14 05:33:57 brad Exp $
 
-COMMENT=	"software-based reference implementation of the JPEG-2000 codec"
+COMMENT=			software-based reference implementation of the JPEG-2000 codec
 
 DISTNAME=	jasper-1.701.0
 PKGNAME=	${DISTNAME}-0

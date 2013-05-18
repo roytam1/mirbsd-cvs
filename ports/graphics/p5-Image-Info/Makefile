@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.10 2002/12/29 20:08:46 fgsch Exp $
 
-COMMENT=	"perl module for getting image information"
+COMMENT=			perl module for getting image information
 
 VERSION=	1.11
 DISTNAME=	Image-Info-${VERSION}

@@ -1,7 +1,7 @@
-# $MirOS: ports/net/ipv6calc/Makefile,v 1.1.7.1 2005/03/18 15:48:25 tg Exp $
+# $MirOS: ports/net/ipv6calc/Makefile,v 1.2 2006/02/09 11:12:19 tg Exp $
 # $OpenBSD: Makefile,v 1.9 2003/12/12 18:07:36 pvalchev Exp $
 
-COMMENT=	"tool for manipulating IPv6 addresses"
+COMMENT=			tool for manipulating IPv6 addresses
 DISTNAME=	ipv6calc-0.46
 CATEGORIES=	net
 HOMEPAGE=	http://www.deepspace6.net/projects/ipv6calc.html

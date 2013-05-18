@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.17 2002/10/26 00:39:15 naddy Exp $
 
-COMMENT=	"full screen simple editor"
+COMMENT=			full screen simple editor
 
 DISTNAME=	uemacs
 PKGNAME=	uemacs-4.0-0

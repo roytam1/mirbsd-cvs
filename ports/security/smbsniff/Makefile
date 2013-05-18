@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.4 2002/10/28 17:35:02 naddy Exp $
 
-COMMENT=	'sniffer for LanManager environment (m$/samba workstations)'
+COMMENT=			sniffer for LanManager environment (m$/samba workstations)
 DISTNAME=	smbsniff-0.0.1b
 CATEGORIES=	security net
 

@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.53 2004/04/15 20:46:07 pvalchev Exp $
 
-COMMENT=	"list information about open files"
+COMMENT=			list information about open files
 
 VERSION=	4.69
 DISTNAME=	lsof_${VERSION}

@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.1.1.1 2003/04/27 08:03:35 sturm Exp $
 
-COMMENT=		"nice fixed width fonts, easy on the eye"
+COMMENT=			nice fixed width fonts, easy on the eye
 
 DISTNAME=		jmk-x11-fonts-3.0
 PKGNAME=		${DISTNAME:S/-x11//}-0

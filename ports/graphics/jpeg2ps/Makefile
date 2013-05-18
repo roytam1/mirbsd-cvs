@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.2 2003/09/23 15:29:41 sturm Exp $
 
-COMMENT=	"convert jpeg to compressed PostScript"
+COMMENT=			convert jpeg to compressed PostScript
 
 DISTNAME=	jpeg2ps-1.9
 CATEGORIES=	graphics

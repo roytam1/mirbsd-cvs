@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.2 2004/05/18 21:00:23 naddy Exp $
 
-COMMENT=		"Wake On Lan client"
+COMMENT=			Wake On Lan client
 
 DISTNAME=		wol-0.7.1
 CATEGORIES=		net

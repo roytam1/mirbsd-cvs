@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.7 2004/02/01 20:22:18 sturm Exp $
 
-COMMENT=	"lightweight and easy to use web calendar"
+COMMENT=			lightweight and easy to use web calendar
 
 V=		2.6
 DISTNAME=	calendar-$V

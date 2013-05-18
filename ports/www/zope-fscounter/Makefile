@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.3 2004/01/30 08:39:49 xsa Exp $
 
-COMMENT=	"web page hit counter for Zope"
+COMMENT=			web page hit counter for Zope
 
 VERSION=	1.2
 DISTNAME=	FSCounter.${VERSION}

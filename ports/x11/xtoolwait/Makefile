@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.11 2003/10/08 17:13:19 sturm Exp $
 
-COMMENT=	"tool startup utility for X11"
+COMMENT=			tool startup utility for X11
 
 DISTNAME=	xtoolwait-1.3
 CATEGORIES=	x11

@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.6 2004/01/02 04:56:24 brad Exp $
 
-COMMENT=	"Apache MySQL authentication module"
+COMMENT=			Apache MySQL authentication module
 
 # This port currently only works with archs supporting dynamic loading
 # and has Apache that supports DSO's.

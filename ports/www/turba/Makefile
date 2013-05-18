@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.7 2004/05/01 23:57:38 avsm Exp $ 
 
-COMMENT=	"contact management module for Horde"
+COMMENT=			contact management module for Horde
 
 V=		1.2.2
 HORDE_MODULE=	turba

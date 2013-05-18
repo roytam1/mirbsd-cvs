@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.11 2003/10/18 19:44:51 sturm Exp $
 
-COMMENT=	"Blatte functions to generate (X)HTML"
+COMMENT=			Blatte functions to generate (X)HTML
 
 DISTNAME=	Blatte-HTML-0.9
 PKGNAME=	p5-${DISTNAME}-0

@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.5 2002/09/08 12:15:04 avsm Exp $
 
-COMMENT=	"convert various Microsoft formats into HTML/PNG"
+COMMENT=			convert various Microsoft formats into HTML/PNG
 
 DISTNAME=	wv-0.7.2
 CATEGORIES=	converters

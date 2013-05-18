@@ -1,7 +1,7 @@
 # $OpenBSD: Makefile,v 1.27 2003/12/27 23:23:21 jose Exp $
 
-COMMENT=		"simplified wrapper and interface generator"
-COMMENT-examples=	"examples for swig"
+COMMENT=			simplified wrapper and interface generator
+COMMENT-examples=			examples for swig
 
 VERSION=	1.3.11
 

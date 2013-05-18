@@ -1,7 +1,7 @@
-# $MirOS$
+# $MirOS: ports/mailnews/ubh/Makefile,v 1.1.7.1 2005/03/18 15:49:59 tg Exp $
 # $OpenBSD: Makefile,v 1.8 2004/02/02 17:35:02 sturm Exp $
 
-COMMENT=	"download and decode binaries posted to Usenet"
+COMMENT=			download and decode binaries posted to Usenet
 DISTNAME=	ubh-2.5
 CATEGORIES=	news
 HOMEPAGE=	http://ubh.sourceforge.net/

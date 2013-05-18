@@ -1,9 +1,9 @@
-# $MirOS: ports/lang/squeak/Makefile,v 1.2 2005/04/10 21:50:19 tg Exp $
+# $MirOS: ports/lang/squeak/Makefile,v 1.3 2006/02/09 09:36:01 tg Exp $
 # $OpenBSD: Makefile,v 1.7 2004/05/17 15:04:03 espie Exp $
 
 NOT_FOR_PLATFORM=	${LP64_PLATFORMS}
 
-COMMENT=	"smalltalk system"
+COMMENT=			smalltalk system
 CATEGORIES=	lang
 
 # Apple license, similar to GPL, with a clause to protect Apple

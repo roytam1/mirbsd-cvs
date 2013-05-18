@@ -1,9 +1,9 @@
-# $MirOS: ports/x11/py-gtk/Makefile,v 1.5 2005/07/07 21:29:12 bsiegert Exp $
+# $MirOS: ports/x11/py-gtk/Makefile,v 1.6 2006/02/09 11:15:54 tg Exp $
 # $OpenBSD: Makefile,v 1.1.1.1 2004/02/16 21:12:50 xsa Exp $
 
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
-COMMENT=	"gtk+2 Python bindings"
+COMMENT=			gtk+2 Python bindings
 
 V=		2.0.0
 DISTNAME=	pygtk-${V}

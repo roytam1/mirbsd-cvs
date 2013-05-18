@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.6 2002/12/29 19:43:50 fgsch Exp $
 
-COMMENT=	"free spreadsheet with graphical user interface"
+COMMENT=			free spreadsheet with graphical user interface
 
 DISTNAME=	abs-src-0.8
 PKGNAME=	${DISTNAME:S/-src//}-0

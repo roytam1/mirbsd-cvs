@@ -2,7 +2,7 @@
 
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
-COMMENT=	"fast array facility to the Python language"
+COMMENT=			fast array facility to the Python language
 
 VERSION=	23.1
 DISTNAME=	Numeric-${VERSION}

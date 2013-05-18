@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.33 2003/05/14 13:09:52 margarida Exp $
 
-COMMENT=		"front-end to various audio players"
+COMMENT=			front-end to various audio players
 
 DISTNAME=		gqmpeg-0.20.0		
 CATEGORIES=		audio

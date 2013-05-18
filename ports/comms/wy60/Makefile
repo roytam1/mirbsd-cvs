@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.6 2004/02/22 22:21:01 naddy Exp $
 
-COMMENT=	"curses-based emulator for the Wyse 60 terminal"
+COMMENT=			curses-based emulator for the Wyse 60 terminal
 
 DISTNAME=	wy60-2.0.8
 CATEGORIES=	comms

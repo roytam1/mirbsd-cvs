@@ -1,7 +1,7 @@
-# $MirOS$
+# $MirOS: ports/security/gpgme/Makefile,v 1.2 2006/09/13 20:54:59 tg Exp $
 # $OpenBSD: Makefile,v 1.10 2003/05/27 14:16:48 couderc Exp $
 
-COMMENT=		"GnuPG Made Easy"
+COMMENT=			GnuPG Made Easy
 DISTNAME=		gpgme-1.0.3
 CATEGORIES=     	security devel
 HOMEPAGE=		http://www.gnupg.org/gpgme.html

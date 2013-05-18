@@ -1,9 +1,9 @@
-# $MirOS: ports/misc/screen/Makefile,v 1.8 2006/04/23 09:46:07 tg Exp $
+# $MirOS: ports/misc/screen/Makefile,v 1.9 2006/07/23 15:32:53 tg Exp $
 # $OpenBSD: Makefile,v 1.52 2004/01/17 05:34:28 brad Exp $
 
 NOT_FOR_PLATFORM=	Interix:*:*
 
-COMMENT=		"multi-screen window manager"
+COMMENT=			multi-screen window manager
 VERSION=		4.0.2
 DISTNAME=		screen-${VERSION}
 PKGNAME=		${DISTNAME}-5

@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.8 2003/07/31 19:12:00 sturm Exp $
 
-COMMENT=	"command line parsing library for Python"
+COMMENT=			command line parsing library for Python
 
 VERSION=	1.3
 DISTNAME=	Optik-${VERSION}

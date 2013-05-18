@@ -4,7 +4,7 @@
 IGNORE="Fatal: milter required, see instructions in DESCR"
 .endif
 
-COMMENT=	"sendmail milter plugin for SpamAssassin spamd"
+COMMENT=			sendmail milter plugin for SpamAssassin spamd
 
 DISTNAME=	milter-spamd-0.3
 CATEGORIES=	mail

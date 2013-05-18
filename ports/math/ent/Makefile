@@ -1,6 +1,6 @@
-# $MirOS: ports/math/ent/Makefile,v 1.1.7.1 2005/03/18 15:50:04 tg Exp $
+# $MirOS: ports/math/ent/Makefile,v 1.2 2005/08/21 11:49:16 tg Exp $
 
-COMMENT=		"estimate randomness of sample data"
+COMMENT=			estimate randomness of sample data
 CATEGORIES=		math security
 DISTNAME=		ent-19981020
 DISTFILES=		random.zip

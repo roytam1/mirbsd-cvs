@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.12 2003/11/15 15:12:54 sturm Exp $
 
-COMMENT=	"perl module to perform XSLT transformations"
+COMMENT=			perl module to perform XSLT transformations
 
 DISTNAME=	XML-XSLT-0.32
 PKGNAME=	p5-${DISTNAME}-0

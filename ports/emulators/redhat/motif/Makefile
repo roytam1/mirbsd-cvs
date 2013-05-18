@@ -1,7 +1,7 @@
-# $MirOS: ports/emulators/redhat/motif/Makefile,v 1.2 2005/07/07 21:20:48 bsiegert Exp $
+# $MirOS: ports/emulators/redhat/motif/Makefile,v 1.3 2006/02/01 20:38:48 tg Exp $
 # $OpenBSD: Makefile,v 1.10 2003/10/31 22:29:41 sturm Exp $
 
-COMMENT=	"Motif toolkit Linux libraries"
+COMMENT=			Motif toolkit Linux libraries
 PKGNAME=	redhat_motif-2.1.30-${PL}
 MASTER_SITES=	${MASTER_SITE_REDHAT:=contrib/openmotif/linux-rpm/}
 DISTFILES=	openmotif-2.1.30-1_ICS.i386.rpm

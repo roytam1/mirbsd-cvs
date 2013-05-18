@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.7 2003/09/25 06:25:13 jolan Exp $
 
-COMMENT=		"wm-dockapp; multiple pop3 mailbox checker"
+COMMENT=			wm-dockapp; multiple pop3 mailbox checker
 
 DISTNAME=		wmMultiPop3-0.9
 PKGNAME=		${DISTNAME:L}-0

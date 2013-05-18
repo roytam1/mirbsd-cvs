@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.1.1.1 2004/04/09 12:18:55 sturm Exp $
 
-COMMENT=	"efficient SNMP scanner"
+COMMENT=			efficient SNMP scanner
 
 DISTNAME=	onesixtyone-0.3.2
 CATEGORIES=	security

@@ -1,7 +1,7 @@
-# $MirOS$
+# $MirOS: ports/x11/msttcorefonts/Makefile,v 1.1.7.1 2005/03/18 16:00:44 tg Exp $
 # $OpenBSD: Makefile,v 1.8 2004/02/01 20:17:47 sturm Exp $
 
-COMMENT=		"Microsoft TrueType core fonts"
+COMMENT=			Microsoft TrueType core fonts
 DISTNAME=		msttcorefonts-1.2
 CATEGORIES=		x11
 DIST_SUBDIR=		${DISTNAME}

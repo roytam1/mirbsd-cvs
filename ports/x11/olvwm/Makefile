@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.27 2004/05/18 08:45:33 xsa Exp $
 
-COMMENT=	"OpenLook Virtual Window manager"
+COMMENT=			OpenLook Virtual Window manager
 
 DISTNAME=	olvwm4
 PKGNAME=	olvwm-4.2-0

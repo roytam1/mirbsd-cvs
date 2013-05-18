@@ -1,9 +1,9 @@
-# $MirOS: ports/graphics/netpbm/Makefile,v 1.3 2006/02/09 11:11:51 tg Exp $
+# $MirOS: ports/graphics/netpbm/Makefile,v 1.4 2006/05/05 19:51:52 tg Exp $
 # $OpenBSD: Makefile,v 1.30 2004/02/23 08:20:11 pvalchev Exp $
 # $NetBSD: Makefile,v 1.25 1999/03/04 14:18:54 tron Exp $
 
-COMMENT=		"toolkit for converting images between different formats"
-COMMENT-hpcd=		"convert photo CD images into ppm format"
+COMMENT=			toolkit for converting images between different formats
+COMMENT-hpcd=			convert photo CD images into ppm format
 VERSION=		9.24
 DISTNAME=		netpbm-${VERSION}
 PKGNAME=		${DISTNAME}-2

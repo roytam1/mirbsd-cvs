@@ -1,6 +1,6 @@
-# $MirOS: ports/essentials/cksum/Makefile,v 1.14 2006/06/23 15:30:14 tg Exp $
+# $MirOS: ports/essentials/cksum/Makefile,v 1.15 2006/08/26 16:51:33 tg Exp $
 
-COMMENT=		"MirOS cksum(1)"
+COMMENT=			MirOS cksum(1)
 CATEGORIES=		essentials
 DISTNAME=		cksum-20060623
 EXTRACT_SUFX=		.cgz

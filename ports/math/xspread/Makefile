@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.10 2002/11/23 07:25:59 pvalchev Exp $
 
-COMMENT=	"spreadsheet program under X11"
+COMMENT=			spreadsheet program under X11
 
 DISTNAME=	xspread3.1.1c
 PKGNAME=	xspread-3.1.1c-0

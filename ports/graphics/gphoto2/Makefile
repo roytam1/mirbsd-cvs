@@ -1,7 +1,7 @@
-# $MirOS: ports/graphics/gphoto2/Makefile,v 1.7 2005/12/30 01:47:45 tg Exp $
+# $MirOS: ports/graphics/gphoto2/Makefile,v 1.8 2006/02/09 09:35:54 tg Exp $
 # $OpenBSD: Makefile,v 1.3 2004/04/14 18:41:15 brad Exp $
 
-COMMENT=		'digital camera command-line interface'
+COMMENT=			digital camera command-line interface
 CATEGORIES=		graphics
 VERSION=		2.1.6
 DISTNAME=		gphoto2-${VERSION}

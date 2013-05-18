@@ -1,7 +1,7 @@
-# $MirOS: ports/x11/gnome/nautilus/Makefile,v 1.1.7.1 2005/03/18 16:00:30 tg Exp $
+# $MirOS: ports/x11/gnome/nautilus/Makefile,v 1.2 2006/02/09 11:15:46 tg Exp $
 # $OpenBSD: Makefile,v 1.13 2004/12/15 13:57:57 alek Exp $
 
-COMMENT=		"GNOME shell and file manager"
+COMMENT=			GNOME shell and file manager
 
 DISTNAME=		nautilus-2.8.2
 CATEGORIES=		x11 x11/gnome

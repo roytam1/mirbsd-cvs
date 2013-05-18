@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.1.1.1 2004/05/26 13:36:07 sturm Exp $
 
-COMMENT=	"easier relationship specification in CDBI::L"
+COMMENT=			easier relationship specification in CDBI::L
 
 DISTNAME=	Class-DBI-Loader-Relationship-1.2
 PKGNAME=	p5-${DISTNAME}-0

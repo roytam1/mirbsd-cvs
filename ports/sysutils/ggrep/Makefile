@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.2 2003/12/23 23:21:12 naddy Exp $
 
-COMMENT=	GNU versions of grep pattern matching utilities
+COMMENT=			GNU versions of grep pattern matching utilities
 
 DISTNAME=	grep-2.5.1
 PKGNAME=	g${DISTNAME}-1

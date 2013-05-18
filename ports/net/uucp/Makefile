@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.11 2003/12/14 01:39:18 naddy Exp $
 
-COMMENT=	"UUCP suite"
+COMMENT=			UUCP suite
 
 DISTNAME=	uucp-1.07
 CATEGORIES=	net mail

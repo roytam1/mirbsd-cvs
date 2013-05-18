@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.1.1.1 2003/05/13 10:41:50 avsm Exp $
 
-COMMENT=	"collection of useful CVS scripts"
+COMMENT=			collection of useful CVS scripts
 
 V=		0.2.0
 DISTNAME=	cvsutils-${V}

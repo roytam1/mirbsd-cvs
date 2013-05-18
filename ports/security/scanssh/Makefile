@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.9 2002/12/29 20:31:40 fgsch Exp $
 
-COMMENT=	"SSH remote version scanner"
+COMMENT=			SSH remote version scanner
 
 DISTNAME=	scanssh-1.6b
 CATEGORIES=	security

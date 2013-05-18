@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.6 2003/04/27 19:44:28 margarida Exp $
 
-COMMENT=	"perl module to generate recursive descent parsers"
+COMMENT=			perl module to generate recursive descent parsers
 
 DISTNAME=	Parse-RecDescent-1.94
 PKGNAME=	p5-${DISTNAME}-0

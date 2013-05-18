@@ -1,10 +1,10 @@
-# $MirOS: ports/emulators/wine/rewind/Makefile,v 1.6 2005/08/21 11:48:45 tg Exp $
+# $MirOS: ports/emulators/wine/rewind/Makefile,v 1.7 2005/10/10 20:01:46 tg Exp $
 
 BROKEN=			this port is not complete
 
 ONLY_FOR_PLATFORM=	OpenBSD:*:i386 MirBSD:*:i386
 
-COMMENT=		"Microsoft Windows 3.1/95/NT emulator for Unix"
+COMMENT=			Microsoft Windows 3.1/95/NT emulator for Unix
 CATEGORIES=		emulators
 V=			200xyyzz
 DISTNAME=		rewind-cvs-$(V)

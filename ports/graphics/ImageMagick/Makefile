@@ -1,7 +1,7 @@
-# $MirOS: ports/graphics/ImageMagick/Makefile,v 1.8 2006/02/09 09:35:52 tg Exp $
+# $MirOS: ports/graphics/ImageMagick/Makefile,v 1.9 2006/02/09 11:11:43 tg Exp $
 # $OpenBSD: Makefile,v 1.83 2005/06/28 18:08:23 naddy Exp $
 
-COMMENT=	"image processing tools"
+COMMENT=			image processing tools
 
 VER=		6.2.3
 DASHVER=	3

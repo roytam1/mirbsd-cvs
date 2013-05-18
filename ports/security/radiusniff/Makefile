@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.9 2002/10/28 17:35:02 naddy Exp $
 
-COMMENT=		"radius sniffer"
+COMMENT=			radius sniffer
 
 DISTNAME=		radiusniff-0.2
 CATEGORIES=     	security

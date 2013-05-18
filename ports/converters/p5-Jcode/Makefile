@@ -2,7 +2,7 @@
 
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
-COMMENT=	"handles various Japanese charsets"
+COMMENT=			handles various Japanese charsets
 
 DISTNAME=	Jcode-0.83
 PKGNAME=	p5-${DISTNAME}-0

@@ -1,7 +1,7 @@
-# $MirOS: ports/devel/soup/Makefile,v 1.7 2006/02/09 09:35:50 tg Exp $
+# $MirOS: ports/devel/soup/Makefile,v 1.8 2006/06/03 14:10:28 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.4 2003/12/04 23:07:25 pvalchev Exp $
 
-COMMENT=		"SOAP (Simple Object Access Protocol) implementation in C"
+COMMENT=			SOAP (Simple Object Access Protocol) implementation in C
 
 DISTNAME=		soup-0.7.11
 PKGNAME=		${DISTNAME}-4

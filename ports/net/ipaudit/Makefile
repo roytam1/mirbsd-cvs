@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.1.1.1 2003/05/14 12:53:19 margarida Exp $
 
-COMMENT=		"IP traffic summarizer"
+COMMENT=			IP traffic summarizer
 
 DISTNAME=		ipaudit-0.95
 CATEGORIES=		net sysutils

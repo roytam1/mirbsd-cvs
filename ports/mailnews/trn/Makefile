@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.7 2002/10/28 01:50:16 naddy Exp $
 
-COMMENT=	"threaded newsreader"
+COMMENT=			threaded newsreader
 
 CATEGORIES=	news
 

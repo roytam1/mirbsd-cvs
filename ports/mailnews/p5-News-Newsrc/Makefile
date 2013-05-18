@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.8 2002/12/29 20:31:39 fgsch Exp $
 
-COMMENT=	"module for managing newsrc files"
+COMMENT=			module for managing newsrc files
 
 DISTNAME=	News-Newsrc-1.08
 PKGNAME=	p5-${DISTNAME}-0

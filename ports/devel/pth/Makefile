@@ -1,7 +1,7 @@
-# $MirOS$
+# $MirOS: ports/devel/pth/Makefile,v 1.1.7.1 2005/03/18 15:45:22 tg Exp $
 # $OpenBSD: Makefile,v 1.11 2002/12/29 20:19:12 fgsch Exp $
 
-COMMENT=	"GNU portable threads"
+COMMENT=			GNU portable threads
 DISTNAME=	pth-1.4.1
 CATEGORIES=	devel
 MASTER_SITES=	${MASTER_SITE_GNU:=pth/}

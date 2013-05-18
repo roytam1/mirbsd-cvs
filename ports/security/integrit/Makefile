@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.4 2004/02/24 19:48:16 naddy Exp $
 
-COMMENT=		"file integrity checker"
+COMMENT=			file integrity checker
 
 VERSION=		3.02.00
 DISTNAME=		integrit-${VERSION}

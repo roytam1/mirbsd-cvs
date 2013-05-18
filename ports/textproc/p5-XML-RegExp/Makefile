@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.4 2003/11/15 15:12:54 sturm Exp $
 
-COMMENT=	"Provide regular expressions for some XML tokens"
+COMMENT=			Provide regular expressions for some XML tokens
 
 VERSION=	0.03
 DISTNAME=	XML-RegExp-${VERSION}

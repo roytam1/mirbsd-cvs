@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.1.1.1 2004/04/10 21:21:27 jolan Exp $
 
-COMMENT=	"binary patch tools"
+COMMENT=			binary patch tools
 DISTNAME=	bsdiff-4.1
 CATEGORIES=	misc devel
 MASTER_SITES=	${HOMEPAGE}

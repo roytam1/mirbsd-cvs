@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.1.1.1 2004/04/10 21:44:49 jolan Exp $
 
-COMMENT=	"command-line LiveJournal client"
+COMMENT=			command-line LiveJournal client
 DISTNAME=	clive-0.4.0
 CATEGORIES=	net
 MASTER_SITES=	${MASTER_SITE_SOURCEFORGE:=ljclive/}

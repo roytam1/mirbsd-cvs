@@ -1,7 +1,7 @@
-# $MirOS: ports/editors/abiword/Makefile,v 1.3 2005/03/25 23:13:46 bsiegert Exp $
+# $MirOS: ports/editors/abiword/Makefile,v 1.4 2006/02/09 11:11:30 tg Exp $
 # $OpenBSD: Makefile,v 1.32 2004/01/10 22:51:14 couderc Exp $
 
-COMMENT=		"open-source, cross-platform WYSIWYG word processor"
+COMMENT=			open-source, cross-platform WYSIWYG word processor
 VERSION=		2.0.12
 DISTNAME=		abiword-${VERSION}
 CATEGORIES=		editors

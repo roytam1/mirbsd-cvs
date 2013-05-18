@@ -1,10 +1,10 @@
-# $MirOS$
+# $MirOS: ports/lang/nhc98/Makefile,v 1.2 2005/04/10 21:50:17 tg Exp $
 # $OpenBSD: Makefile,v 1.2 2004/05/16 23:37:58 pvalchev Exp $
 # $NetBSD: Makefile,v 1.29 2004/03/26 21:19:53 wiz Exp $
 
 NOT_FOR_PLATFORM=	${LP64_PLATFORMS}
 
-COMMENT=	"portable Haskell compiler"
+COMMENT=			portable Haskell compiler
 V=		1.16
 DISTNAME=	nhc98-${V}
 CATEGORIES=	lang

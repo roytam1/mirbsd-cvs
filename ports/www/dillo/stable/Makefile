@@ -1,7 +1,7 @@
-# $MirOS: ports/www/dillo/stable/Makefile,v 1.6 2006/06/24 17:48:53 bsiegert Exp $
+# $MirOS: ports/www/dillo/stable/Makefile,v 1.7 2006/06/25 11:12:29 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.18 2004/02/26 13:43:26 couderc Exp $
 
-COMMENT=		"Fast and light gtk-based web browser"
+COMMENT=			Fast and light gtk-based web browser
 
 VERSION=		0.8.6
 DASH_VER=		-2

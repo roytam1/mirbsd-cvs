@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.11 2002/12/29 15:11:06 fgsch Exp $
 
-COMMENT=	"Differential GPS over IP communication device"
+COMMENT=			Differential GPS over IP communication device
 DISTNAME=	dgpsip-1.32
 CATEGORIES=	astro
 MASTER_SITES=	http://www.wsrcc.com/wolfgang/ftp/

@@ -1,8 +1,8 @@
-# $MirOS: ports/devel/sdl/Makefile,v 1.5 2005/12/28 16:37:57 tg Exp $
+# $MirOS: ports/devel/sdl/Makefile,v 1.6 2006/02/09 09:35:48 tg Exp $
 # $OpenBSD: Makefile,v 1.32 2004/04/23 12:09:18 robert Exp $
 # Uses pthreads
 
-COMMENT=		"cross-platform multimedia library"
+COMMENT=			cross-platform multimedia library
 VERSION=		1.2.9
 DISTNAME=		SDL-${VERSION}
 PKGNAME=		sdl-${VERSION}-1

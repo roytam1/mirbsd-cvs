@@ -1,7 +1,7 @@
-# $MirOS: ports/sysutils/bubblemon/Makefile,v 1.2 2005/03/25 23:13:54 bsiegert Exp $
+# $MirOS: ports/sysutils/bubblemon/Makefile,v 1.3 2006/02/09 11:15:25 tg Exp $
 # $OpenBSD: Makefile,v 1.14 2003/09/23 21:18:30 marcm Exp $
 
-COMMENT=		"GNOME panel applet that displays the CPU + memory load"
+COMMENT=			GNOME panel applet that displays the CPU + memory load
 
 DISTNAME=		bubblemon-2.0.1
 CATEGORIES=		sysutils x11/gnome

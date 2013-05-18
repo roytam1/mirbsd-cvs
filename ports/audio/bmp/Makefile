@@ -1,9 +1,9 @@
-# $MirOS: ports/audio/bmp/Makefile,v 1.3 2005/07/07 21:17:12 bsiegert Exp $
+# $MirOS: ports/audio/bmp/Makefile,v 1.4 2006/02/09 11:11:02 tg Exp $
 # $OpenBSD: Makefile,v 1.3 2005/01/02 18:57:26 alek Exp $
 
-COMMENT=	"gtk+2 media player based on XMMS"
-COMMENT-mp3=	"MP3 input plugin for bmp"
-COMMENT-vorbis=	"Ogg Vorbis input plugin for bmp"
+COMMENT=			gtk+2 media player based on XMMS
+COMMENT-mp3=			MP3 input plugin for bmp
+COMMENT-vorbis=			Ogg Vorbis input plugin for bmp
 V=		0.9.7
 DISTNAME=	bmp-$V
 PKGNAME=	bmp-$V-1

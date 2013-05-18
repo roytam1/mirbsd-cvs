@@ -1,7 +1,7 @@
-# $MirOS: ports/x11/openbox/Makefile,v 1.3 2006/02/09 11:15:53 tg Exp $
+# $MirOS: ports/x11/openbox/Makefile,v 1.4 2006/06/03 16:02:42 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.18 2004/04/24 22:09:55 robert Exp $
 
-COMMENT=	"small, fast & usable window manager"
+COMMENT=			small, fast & usable window manager
 
 DISTNAME=	openbox-3.2
 PKGNAME=	${DISTNAME}-1

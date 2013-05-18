@@ -2,7 +2,7 @@
 
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
-COMMENT=	"BSD process resource limit and priority functions"
+COMMENT=			BSD process resource limit and priority functions
 
 DISTNAME=	BSD-Resource-1.24
 PKGNAME=	p5-${DISTNAME}-0

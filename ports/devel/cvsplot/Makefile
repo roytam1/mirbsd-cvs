@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.7 2004/02/03 07:20:43 sturm Exp $
 
-COMMENT=		"CVS-managed project analyzer"
+COMMENT=			CVS-managed project analyzer
 
 DISTNAME=		cvsplot-1.6.5
 CATEGORIES=		devel

@@ -1,7 +1,7 @@
-# $MirOS: ports/devel/guilib/Makefile,v 1.3 2006/02/09 09:35:45 tg Exp $
+# $MirOS: ports/devel/guilib/Makefile,v 1.4 2006/02/09 11:11:22 tg Exp $
 # $OpenBSD: Makefile,v 1.11 2003/12/30 18:49:04 espie Exp $
 
-COMMENT=	"SDL C++ GUI widget library"
+COMMENT=			SDL C++ GUI widget library
 VER=		1.1.1
 PROJ=		GUIlib
 DISTNAME=	${PROJ}-${VER}

@@ -4,7 +4,7 @@ ONLY_FOR_PLATFORM=	OpenBSD:*:i386 MirBSD:*:i386
 
 CATEGORIES=	lang
 
-COMMENT="Polytechnique Montreal Modula-3"
+COMMENT=			Polytechnique Montreal Modula-3
 PERMIT_PACKAGE_FTP=Yes
 PERMIT_DISTFILES_FTP=Yes
 PERMIT_PACKAGE_CDROM=Yes

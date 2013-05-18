@@ -2,7 +2,7 @@
 
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
-COMMENT=	"OpenSSL's multiprecision integer arithmetic"
+COMMENT=			OpenSSL's multiprecision integer arithmetic
 
 DISTNAME=	Crypt-OpenSSL-Bignum-0.03
 PKGNAME=	p5-${DISTNAME}-0

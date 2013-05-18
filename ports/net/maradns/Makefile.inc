@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile.inc,v 1.2 2002/11/22 02:44:05 margarida Exp $
 
-COMMENT=		"simple and performant DNS server"
+COMMENT=			simple and performant DNS server
 
 DISTNAME=		maradns-${VERSION}
 CATEGORIES=		net

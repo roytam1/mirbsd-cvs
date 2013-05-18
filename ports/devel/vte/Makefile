@@ -1,7 +1,7 @@
-# $MirOS: ports/devel/vte/Makefile,v 1.2 2005/05/01 13:50:48 bsiegert Exp $
+# $MirOS: ports/devel/vte/Makefile,v 1.3 2006/02/09 11:11:29 tg Exp $
 # $OpenBSD: Makefile,v 1.6 2004/11/24 00:11:04 espie Exp $
 
-COMMENT=		"terminal emulatation library"
+COMMENT=			terminal emulatation library
 DISTNAME=		vte-0.11.11
 CATEGORIES=		devel x11/gnome
 HOMEPAGE=		http://www.gnome.org/

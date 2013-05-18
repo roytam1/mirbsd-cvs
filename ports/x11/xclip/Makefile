@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.1.1.1 2004/04/18 23:24:01 jolan Exp $
 
-COMMENT=		"command line interface to X selections"
+COMMENT=			command line interface to X selections
 DISTNAME=		xclip-0.08
 CATEGORIES=		x11
 MASTER_SITES=		${HOMEPAGE}

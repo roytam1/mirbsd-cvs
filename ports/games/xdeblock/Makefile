@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.20 2004/01/09 21:16:48 sturm Exp $
 
-COMMENT=	"block action game"
+COMMENT=			block action game
 
 DISTNAME=	xdeblock
 PKGNAME=	xdeblock-1.0-0

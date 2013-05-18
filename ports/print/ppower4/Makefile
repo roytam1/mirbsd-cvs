@@ -1,7 +1,7 @@
-# $MirOS$
+# $MirOS: ports/print/ppower4/Makefile,v 1.3 2005/07/07 21:25:34 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.2 2003/07/19 08:11:29 sturm Exp $
 
-COMMENT=	"PDF presentation post processor"
+COMMENT=			PDF presentation post processor
 
 DISTNAME=	ppower4-0.9.4
 PKGNAME=	${DISTNAME}-1

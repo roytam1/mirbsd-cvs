@@ -1,7 +1,7 @@
 # $OpenBSD: Makefile,v 1.14 2002/10/26 12:52:48 naddy Exp $
 #
 
-COMMENT=		"HP48sx emulator"
+COMMENT=			HP48sx emulator
 
 DISTNAME=		x48-0.4.0
 CATEGORIES=		emulators

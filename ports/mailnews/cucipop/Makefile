@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.18 2002/10/27 17:21:39 naddy Exp $
 
-COMMENT=	"Cubic Circle's POP3 daemon"
+COMMENT=			Cubic Circle's POP3 daemon
 
 DISTNAME=	cucipop-1.31
 CATEGORIES=	mail

@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.11 2004/02/01 20:17:47 sturm Exp $
 
-COMMENT=		'themes and icons for Window Maker'
+COMMENT=			themes and icons for Window Maker
 
 DISTNAME=		WindowMaker-extra-0.1
 PKGNAME=		${DISTNAME:L}-0

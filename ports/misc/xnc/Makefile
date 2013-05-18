@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.12 2003/12/26 19:34:23 naddy Exp $
 
-COMMENT=	"filemanager for X Window"
+COMMENT=			filemanager for X Window
 
 DISTNAME=	xnc-4.4.7
 DISTFILES=      ${DISTNAME}.src${EXTRACT_SUFX}

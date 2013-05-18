@@ -1,4 +1,4 @@
-# $MirOS: ports/sysutils/pxegrub/Makefile,v 1.10 2006/03/22 13:07:47 tg Exp $
+# $MirOS: ports/sysutils/pxegrub/Makefile,v 1.11 2006/08/26 23:34:50 tg Exp $
 #
 # Although you can only netboot a kernel with this, it's still included.
 # Maybe one day someone will include the correct parametres for disc kernels.
@@ -12,7 +12,7 @@
 
 ONLY_FOR_PLATFORM=	OpenBSD:*:i386 MirBSD:*:i386
 
-COMMENT=		"GNU GRUB with support for booting bsd.rd and netboot"
+COMMENT=			GNU GRUB with support for booting bsd.rd and netboot
 DISTNAME=       	grub-0.96
 PKGNAME=		${DISTNAME}-1
 CATEGORIES=		sysutils

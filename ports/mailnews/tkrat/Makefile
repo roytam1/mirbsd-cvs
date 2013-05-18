@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.16 2003/12/27 23:34:42 jose Exp $
 
-COMMENT=	"mail user agent for X in C with a Tcl/Tk frontend"
+COMMENT=			mail user agent for X in C with a Tcl/Tk frontend
 
 DISTNAME=	tkrat-2.1.2
 CATEGORIES=	mail x11

@@ -1,8 +1,8 @@
-# $MirOS$
+# $MirOS: ports/lang/otcl/Makefile,v 1.1.7.1 2005/03/18 15:47:46 tg Exp $
 # $OpenBSD: Makefile,v 1.17 2004/03/13 15:48:54 sturm Exp $
 # $FreeBSD: ports/lang/otcl/Makefile,v 1.6 1999/11/28 18:31:28 steve Exp $
 
-COMMENT=	"MIT Object Tcl"
+COMMENT=			MIT Object Tcl
 
 DISTNAME=	otcl-1.0a8
 CATEGORIES=	lang

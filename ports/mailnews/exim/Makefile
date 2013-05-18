@@ -1,6 +1,6 @@
-# $MirOS: ports/mailnews/exim/Makefile,v 1.5 2006/04/26 15:55:09 bsiegert Exp $
+# $MirOS: ports/mailnews/exim/Makefile,v 1.6 2006/06/08 12:10:37 bsiegert Exp $
 
-COMMENT=		"flexible mail transfer agent"
+COMMENT=			flexible mail transfer agent
 VERSION=		4.62
 DISTNAME=		exim-${VERSION}
 PKGNAME=		exim-${VERSION}-0

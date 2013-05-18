@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.3 2004/01/04 08:34:26 sturm Exp $
 
-COMMENT=	"module to obtain historical financial quotes from exchanges"
+COMMENT=			module to obtain historical financial quotes from exchanges
 DISTNAME=	Finance-QuoteHist-0.32
 PKGNAME=	p5-${DISTNAME}-0
 CATEGORIES=	misc perl5

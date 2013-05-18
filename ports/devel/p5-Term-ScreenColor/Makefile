@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.2 2003/04/06 00:46:17 margarida Exp $
 
-COMMENT=		"screen positioning and coloring module"
+COMMENT=			screen positioning and coloring module
 
 DISTNAME=		Term-ScreenColor-1.09
 PKGNAME=		p5-${DISTNAME}-0

@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.19 2004/05/07 15:28:31 naddy Exp $
 
-COMMENT=	"promiscuous mode interface detector"
+COMMENT=			promiscuous mode interface detector
 
 PKGNAME=	antisniff-1.1.2-0
 CATEGORIES=	security

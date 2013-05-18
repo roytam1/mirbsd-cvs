@@ -1,7 +1,7 @@
-# $MirOS: ports/devel/libwnck/Makefile,v 1.3 2006/02/09 09:35:46 tg Exp $
+# $MirOS: ports/devel/libwnck/Makefile,v 1.4 2006/02/09 11:11:25 tg Exp $
 # $OpenBSD: Makefile,v 1.8 2004/12/10 20:34:00 marcm Exp $
 
-COMMENT=		"window navigator construction kit"
+COMMENT=			window navigator construction kit
 
 DISTNAME=		libwnck-2.8.1
 CATEGORIES=		devel

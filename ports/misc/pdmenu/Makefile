@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.10 2004/04/09 09:52:10 espie Exp $
 
-COMMENT=		"simple slang-based menu program"
+COMMENT=			simple slang-based menu program
 
 DISTNAME=		pdmenu_1.2.69
 PKGNAME=		pdmenu-1.2.69-0

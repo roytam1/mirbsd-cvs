@@ -1,6 +1,6 @@
-# $MirOS: ports/security/pcsc-lite/Makefile,v 1.1.7.1 2005/03/18 15:51:40 tg Exp $
+# $MirOS: ports/security/pcsc-lite/Makefile,v 1.3 2005/07/07 21:26:13 bsiegert Exp $
 
-COMMENT=		"Smartcard middleware"
+COMMENT=			Smartcard middleware
 DISTNAME=		pcsc-lite-1.2.0
 PKGNAME=		${DISTNAME}-2
 CATEGORIES=		security

@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.16 2003/12/27 23:37:31 jose Exp $
 
-COMMENT=	"frontend to crontab"
+COMMENT=			frontend to crontab
 
 DISTNAME=	tkcron-2.12
 CATEGORIES=	misc 

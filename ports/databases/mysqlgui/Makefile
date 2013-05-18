@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.14 2004/01/02 05:11:08 brad Exp $
 
-COMMENT=		"graphical sql client for MySQL"
+COMMENT=			graphical sql client for MySQL
 
 DISTNAME=		mysqlgui-1.7.5
 CATEGORIES=		databases

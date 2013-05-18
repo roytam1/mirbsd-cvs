@@ -1,9 +1,9 @@
-# $MirOS: ports/mailnews/xfmail/Makefile,v 1.2 2005/03/30 16:51:08 bsiegert Exp $
+# $MirOS: ports/mailnews/xfmail/Makefile,v 1.3 2006/02/09 11:12:02 tg Exp $
 # $OpenBSD: Makefile,v 1.32 2004/01/25 03:24:41 naddy Exp $
 # $NetBSD: Makefile,v 1.2 1998/07/04 09:19:04 mycroft Exp $
 # $RuOBSD: Makefile,v 1.4 2002/05/18 04:21:36 form Exp $
 
-COMMENT=		"xforms-based mail application for Unix"
+COMMENT=			xforms-based mail application for Unix
 V=			1.5.3
 DISTNAME=       	xfmail-${V}
 CATEGORIES=     	mail x11

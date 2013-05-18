@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.1.1.1 2004/02/05 23:37:27 xsa Exp $
 
-COMMENT=	"Python interface to the gnuplot plotting program"
+COMMENT=			Python interface to the gnuplot plotting program
 
 DISTNAME=	gnuplot-py-1.7
 PKGNAME=	py-${DISTNAME:S/py-//}-0

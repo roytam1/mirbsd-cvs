@@ -1,7 +1,7 @@
 # $OpenBSD: Makefile,v 1.49 2003/10/08 17:13:17 sturm Exp $
 # $FreeBSD: Makefile,v 1.17 1998/03/28 14:12:55 steve Exp $
 
-COMMENT=	"API compatible clone of the Motif toolkit"
+COMMENT=			API compatible clone of the Motif toolkit
 
 DISTNAME=	lesstif-0.92.6
 CATEGORIES=	x11

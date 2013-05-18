@@ -1,9 +1,9 @@
-# $MirOS$
+# $MirOS: ports/security/nessus/Makefile,v 1.3 2005/07/07 21:25:54 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.35 2004/04/08 16:32:39 sturm Exp $
 
 IGNORE=		"might be broken, used to use Libtool"
 
-COMMENT=	"network security scanner"
+COMMENT=			network security scanner
 PKGNAME=	nessus-${VERS}-0
 CATEGORIES=	security
 VERS=		2.0.10a

@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.16 2004/05/19 17:01:20 xsa Exp $
 
-COMMENT=	"classic BSD4.4 cat-and-mouse"
+COMMENT=			classic BSD4.4 cat-and-mouse
 
 DISTNAME=	xneko
 PKGNAME=	xneko-4.4-0

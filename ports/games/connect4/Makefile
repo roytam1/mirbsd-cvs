@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.23 2003/04/14 15:02:09 wilfried Exp $
 
-COMMENT=	"curses version of the classic game"
+COMMENT=			curses version of the classic game
 
 DISTNAME=	connect4
 PKGNAME=	connect4-3.2-0

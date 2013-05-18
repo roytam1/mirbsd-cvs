@@ -3,7 +3,7 @@
 
 BROKEN=		"uses old MySQL API"
 
-COMMENT=	"X11 front end to the mysqladmin command"
+COMMENT=			X11 front end to the mysqladmin command
 
 DISTNAME=	xmysqladmin-1.0
 CATEGORIES=	databases

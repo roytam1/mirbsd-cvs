@@ -7,7 +7,7 @@
 # $OpenBSD: Makefile,v 1.14 2003/11/15 15:12:55 sturm Exp $
 #
 
-COMMENT=	"generate groff/HTML from linuxdoc/docbook SGML documents"
+COMMENT=			generate groff/HTML from linuxdoc/docbook SGML documents
 
 DISTNAME=	sgmlformat-1.7
 CATEGORIES=	textproc print

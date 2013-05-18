@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.7 2002/10/27 14:12:48 naddy Exp $
 
-COMMENT=	"small, Lisp-like interpreted language"
+COMMENT=			small, Lisp-like interpreted language
 
 DISTNAME=	Klone359
 PKGNAME=	klone-2.1a-0

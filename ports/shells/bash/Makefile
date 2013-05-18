@@ -1,7 +1,7 @@
-# $MirOS: ports/shells/bash/Makefile,v 1.4 2006/02/09 09:36:17 tg Exp $
+# $MirOS: ports/shells/bash/Makefile,v 1.5 2006/06/18 10:36:54 tg Exp $
 # $OpenBSD: Makefile,v 1.27 2004/01/13 20:09:39 naddy Exp $
 
-COMMENT=	"GNU Bourne Again Shell"
+COMMENT=			GNU Bourne Again Shell
 DISTNAME=	bash-2.05b
 PKGNAME=	${DISTNAME}-1
 CATEGORIES=	shells

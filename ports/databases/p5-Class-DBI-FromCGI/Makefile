@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.1.1.1 2004/05/26 13:36:07 sturm Exp $
 
-COMMENT=	"update Class::DBI objects through CGI::Untaint"
+COMMENT=			update Class::DBI objects through CGI::Untaint
 
 DISTNAME=	Class-DBI-FromCGI-0.94
 PKGNAME=	p5-${DISTNAME}-0

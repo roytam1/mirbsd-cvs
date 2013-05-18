@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.2 2004/02/21 00:01:39 couderc Exp $
 
-COMMENT=		"network traffic viewer"
+COMMENT=			network traffic viewer
 
 VERSION=		1.7.3b
 DISTNAME=		pktstat-${VERSION}

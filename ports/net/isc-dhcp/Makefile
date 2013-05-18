@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.4 2003/01/24 14:57:57 jakob Exp $
 
-COMMENT=	"Dynamic Host Control Protocol Server"
+COMMENT=			Dynamic Host Control Protocol Server
 
 VERSION=	3.0.1rc11
 DISTNAME=	isc-dhcp-${VERSION}

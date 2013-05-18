@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.17 2004/02/03 07:32:00 sturm Exp $
 
-COMMENT=	"embedding CDDB information in MP3s"
+COMMENT=			embedding CDDB information in MP3s
 
 DISTNAME=	mp3cddb-0.1
 CATEGORIES=	audio

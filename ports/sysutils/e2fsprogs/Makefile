@@ -1,8 +1,8 @@
-# $MirOS: ports/sysutils/e2fsprogs/Makefile,v 1.4 2006/01/03 03:35:05 tg Exp $
+# $MirOS: ports/sysutils/e2fsprogs/Makefile,v 1.5 2006/02/09 09:36:18 tg Exp $
 # $OpenBSD: Makefile,v 1.1.1.1 2004/02/20 19:54:58 espie Exp $
 # $FreeBSD: ports/sysutils/e2fsprogs/Makefile,v 1.8 2003/02/20 19:00:47 knu Exp $
 
-COMMENT=		"utilities to manipulate ext2 and ext3 filesystems"
+COMMENT=			utilities to manipulate ext2 and ext3 filesystems
 DISTNAME=		e2fsprogs-1.38
 PKGNAME=		${DISTNAME}-1
 CATEGORIES=		sysutils

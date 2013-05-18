@@ -3,7 +3,7 @@
 
 BROKEN=		label at end of compound statement
 
-COMMENT=	"Sun JDK's jar command written entirely in C"
+COMMENT=			Sun JDK's jar command written entirely in C
 
 DISTNAME=	fastjar-0.93
 CATEGORIES=     archivers

@@ -1,11 +1,11 @@
-# $MirOS$
+# $MirOS: ports/devel/ffcall/Makefile,v 1.1.7.1 2005/03/18 15:44:33 tg Exp $
 # $OpenBSD: Makefile,v 1.5 2003/07/06 22:46:14 pvalchev Exp $
 # $FreeBSD: ports/devel/ffcall/Makefile,v 1.2 2001/08/31 14:20:18 sobomax Exp $
 # Original From:                jagapen@home.com
 
 IGNORE=		"might be broken, used to use Libtool"
 
-COMMENT=	"foreign function call libraries"
+COMMENT=			foreign function call libraries
 DISTNAME=	ffcall-1.8
 CATEGORIES=	devel
 MASTER_SITES=	ftp://ftp.ilog.fr/pub/Users/haible/gnu/

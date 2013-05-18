@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.1.1.1 2004/05/26 13:56:43 sturm Exp $
 
-COMMENT=	"Perl MVC for web applications"
+COMMENT=			Perl MVC for web applications
 
 DISTNAME=	Maypole-1.4
 PKGNAME=	p5-${DISTNAME}-0

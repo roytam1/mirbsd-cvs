@@ -1,9 +1,9 @@
-# $MirOS$
+# $MirOS: ports/games/xinvaders/Makefile,v 1.3 2005/07/07 21:21:24 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.19 2004/05/16 23:37:58 pvalchev Exp $
 
 NOT_FOR_PLATFORM=	${LP64_PLATFORMS}
 
-COMMENT=	"shoot them nasty little bugs"
+COMMENT=			shoot them nasty little bugs
 
 DISTNAME=       xinvaders
 DIST_SUBDIR=	xinvaders

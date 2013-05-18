@@ -1,9 +1,9 @@
-# $MirOS$
+# $MirOS: ports/japanese/kinput2/Makefile,v 1.2 2005/07/07 21:22:14 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.14 2003/08/04 13:11:48 espie Exp $
 
-COMMENT-canna=		"X input method for Japanese, canna support"
-COMMENT-canna-wnn=	"X input method for Japanese, canna and wnn support"
-COMMENT-wnn=		"X input method for Japanese, wnn support"
+COMMENT-canna=			X input method for Japanese, canna support
+COMMENT-canna-wnn=			X input method for Japanese, canna and wnn support
+COMMENT-wnn=			X input method for Japanese, wnn support
 
 DISTNAME=		kinput2-v3.1
 PKGNAME=		ja-kinput2-3.1-0

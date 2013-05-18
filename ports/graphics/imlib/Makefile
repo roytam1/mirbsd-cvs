@@ -1,8 +1,8 @@
-# $MirOS: ports/graphics/imlib/Makefile,v 1.6 2006/02/09 11:11:49 tg Exp $
+# $MirOS: ports/graphics/imlib/Makefile,v 1.7 2006/06/25 02:46:31 tg Exp $
 # $OpenBSD: Makefile,v 1.46 2003/11/14 23:52:42 brad Exp $
 # $FreeBSD: Makefile,v 1.45 1999/03/09 01:08:57 nectar Exp $
 
-COMMENT=		"image manipulation library for X11"
+COMMENT=			image manipulation library for X11
 DISTNAME=		imlib-1.9.15
 PKGNAME=		${DISTNAME}-2
 CATEGORIES=		graphics devel

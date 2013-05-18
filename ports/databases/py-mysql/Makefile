@@ -2,7 +2,7 @@
 
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
-COMMENT=	"python interface to MySQL"
+COMMENT=			python interface to MySQL
 
 VERSION=	0.9.2
 DISTNAME=	MySQL-python-${VERSION}

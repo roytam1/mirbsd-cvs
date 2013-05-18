@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.5 2003/06/24 05:33:23 kevlo Exp $
 
-COMMENT=	"clone of the classic Eliza program"
+COMMENT=			clone of the classic Eliza program
 
 DISTNAME=	Chatbot-Eliza-1.04
 PKGNAME=	p5-${DISTNAME}-0

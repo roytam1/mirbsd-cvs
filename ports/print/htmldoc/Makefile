@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.13 2002/12/16 17:01:23 wilfried Exp $
 
-COMMENT=	"convert HTML pages to PDF/PS format"
+COMMENT=			convert HTML pages to PDF/PS format
 
 V=			1.8.23
 DISTNAME=		htmldoc-${V}

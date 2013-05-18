@@ -1,7 +1,7 @@
-# $MirOS$
+# $MirOS: ports/x11/lablgtk/Makefile,v 1.2 2005/03/30 18:13:58 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.4 2004/02/13 11:37:44 sturm Exp $
 
-COMMENT=	"OCaml interface to GTK+"
+COMMENT=			OCaml interface to GTK+
 
 DISTNAME=	lablgtk-1.2.5
 CATEGORIES=	x11 devel

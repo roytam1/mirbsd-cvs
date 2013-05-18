@@ -1,7 +1,7 @@
-# $MirOS: ports/converters/recode/Makefile,v 1.2 2005/07/07 21:18:19 bsiegert Exp $
+# $MirOS: ports/converters/recode/Makefile,v 1.3 2006/02/09 11:11:15 tg Exp $
 # $OpenBSD: Makefile,v 1.22 2003/04/27 21:00:21 avsm Exp $
 
-COMMENT=	"convert files between character sets and usages"
+COMMENT=			convert files between character sets and usages
 DISTNAME=	recode-3.6
 PKGNAME=	${DISTNAME}-1
 CATEGORIES=	converters textproc

@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.3 2003/01/04 19:09:52 pvalchev Exp $
 
-COMMENT=		"grep wrapper with search highlighting"
+COMMENT=			grep wrapper with search highlighting
 
 DISTNAME=		hgrep-19991004
 CATEGORIES=		textproc

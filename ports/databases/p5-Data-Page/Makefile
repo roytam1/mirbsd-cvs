@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.1.1.1 2004/05/20 10:52:00 sturm Exp $
 
-COMMENT=	"pager utility"
+COMMENT=			pager utility
 
 DISTNAME=	Data-Page-1.01
 PKGNAME=	p5-${DISTNAME}-0

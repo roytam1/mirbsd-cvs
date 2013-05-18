@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.14 2003/12/09 18:48:54 jose Exp $
 
-COMMENT=	'perl module to manage XML RSS files'
+COMMENT=			perl module to manage XML RSS files
 
 DISTNAME=	XML-RSS-1.02
 PKGNAME=	p5-${DISTNAME}-0

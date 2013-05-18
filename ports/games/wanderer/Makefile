@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.2 2003/04/17 10:58:12 wilfried Exp $
 
-COMMENT=	"Rogue like adventure game"
+COMMENT=			Rogue like adventure game
 
 VERSION=	3.2
 DISTNAME=	wanderer-${VERSION}

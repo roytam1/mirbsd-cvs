@@ -1,6 +1,6 @@
-# $MirOS: ports/books/selfhtml/Makefile,v 1.2 2005/07/07 21:17:47 bsiegert Exp $
+# $MirOS: ports/books/selfhtml/Makefile,v 1.3 2005/08/21 11:48:22 tg Exp $
 
-COMMENT=		"German HTML compendium"
+COMMENT=			German HTML compendium
 CATEGORIES=		books www
 DISTNAME=		selfhtml81
 EXTRACT_SUFX=		.zip

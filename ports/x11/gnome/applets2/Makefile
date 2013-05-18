@@ -1,8 +1,8 @@
-# $MirOS: ports/x11/gnome/applets2/Makefile,v 1.5 2005/07/07 21:28:45 bsiegert Exp $
+# $MirOS: ports/x11/gnome/applets2/Makefile,v 1.6 2006/02/09 11:15:41 tg Exp $
 # $OpenBSD: Makefile,v 1.19 2004/12/25 19:58:21 marcm Exp $
 
-COMMENT=		"applets for use with the GNOME panel"
-COMMENT-battstat=	"GNOME applet for monitoring battery level"
+COMMENT=			applets for use with the GNOME panel
+COMMENT-battstat=			GNOME applet for monitoring battery level
 
 VERSION=		2.8.2
 DISTNAME=		gnome-applets-${VERSION}

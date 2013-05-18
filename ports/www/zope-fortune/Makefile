@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.3 2004/01/30 08:39:49 xsa Exp $
 
-COMMENT=	"insert randomly-selected fortunes in your documents"
+COMMENT=			insert randomly-selected fortunes in your documents
 
 VERSION=	0.5.2
 DISTNAME=	Fortune-${VERSION}

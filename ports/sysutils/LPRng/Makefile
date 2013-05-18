@@ -1,7 +1,7 @@
-# $MirOS: ports/sysutils/LPRng/Makefile,v 1.1.7.1 2005/03/18 15:52:00 tg Exp $
+# $MirOS: ports/sysutils/LPRng/Makefile,v 1.2 2006/02/02 21:09:41 tg Exp $
 # $OpenBSD: Makefile,v 1.26 2004/01/06 02:25:45 espie Exp $
 
-COMMENT=	"enhanced printer spooler"
+COMMENT=			enhanced printer spooler
 DISTNAME=	LPRng-3.8.21
 CATEGORIES=	sysutils print
 MASTER_SITES=	ftp://ftp.lprng.com/pub/LPRng/LPRng/ \

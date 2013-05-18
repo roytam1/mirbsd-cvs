@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.33 2003/08/15 09:56:59 grange Exp $
 
-COMMENT=	"english-russian keyboard switcher for X11"
+COMMENT=			english-russian keyboard switcher for X11
 
 DISTNAME=	xruskb-1.15.3
 CATEGORIES=	russian x11

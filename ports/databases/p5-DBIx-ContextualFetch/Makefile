@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.1.1.1 2004/05/20 10:49:53 sturm Exp $
 
-COMMENT=	"add contextual fetches to DBI"
+COMMENT=			add contextual fetches to DBI
 
 DISTNAME=	DBIx-ContextualFetch-1.01
 PKGNAME=	p5-${DISTNAME}-0

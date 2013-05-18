@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.2 2004/02/01 20:07:41 sturm Exp $
 
-COMMENT='book about gimp'
+COMMENT=			book about gimp
 CATEGORIES=books graphics
 
 VERSION=1.0

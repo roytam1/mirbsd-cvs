@@ -1,7 +1,7 @@
-# $MirOS$
+# $MirOS: ports/textproc/p5-Email-Find/Makefile,v 1.2 2005/07/07 21:26:53 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.1 2004/04/24 16:13:50 peter Exp $
 
-COMMENT=		"Find RFC 822 email addresses in plain text"
+COMMENT=			Find RFC 822 email addresses in plain text
 VERSION=		0.09
 DISTNAME=		Email-Find-${VERSION}
 PKGNAME=		p5-${DISTNAME}-0

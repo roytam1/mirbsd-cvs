@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.5 2003/11/23 20:42:35 brad Exp $
 
-COMMENT=	"module for reading .ini-style configuration files"
+COMMENT=			module for reading .ini-style configuration files
 
 DISTNAME=	Config-IniFiles-2.38
 PKGNAME=	p5-${DISTNAME}-0

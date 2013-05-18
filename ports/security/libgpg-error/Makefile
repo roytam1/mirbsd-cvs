@@ -1,7 +1,7 @@
-# $MirOS: ports/security/libgpg-error/Makefile,v 1.2 2006/02/09 09:36:15 tg Exp $
+# $MirOS: ports/security/libgpg-error/Makefile,v 1.3 2006/09/13 20:54:58 tg Exp $
 # $OpenBSD: Makefile,v 1.1.1.1 2004/05/07 20:26:19 sturm Exp $
 
-COMMENT=		error codes for GnuPG related software
+COMMENT=			error codes for GnuPG related software
 DISTNAME=		libgpg-error-1.3
 CATEGORIES=		security devel
 HOMEPAGE=		http://www.gnupg.org/related_software/libgpg-error/

@@ -1,7 +1,7 @@
-# $MirOS: ports/net/pure-ftpd/Makefile,v 1.2 2005/07/07 21:24:52 bsiegert Exp $
+# $MirOS: ports/net/pure-ftpd/Makefile,v 1.3 2006/02/09 09:36:11 tg Exp $
 # $OpenBSD: Makefile,v 1.31 2004/03/08 03:57:16 brad Exp $
 
-COMMENT=	"small, easy to set up, fast and very secure FTP server"
+COMMENT=			small, easy to set up, fast and very secure FTP server
 DISTNAME=	pure-ftpd-1.0.18
 PKGNAME=	${DISTNAME}-1
 CATEGORIES=	net

@@ -1,7 +1,7 @@
-# $MirOS: ports/devel/sdl-image/Makefile,v 1.5 2006/02/09 09:35:49 tg Exp $
+# $MirOS: ports/devel/sdl-image/Makefile,v 1.6 2006/02/09 11:11:28 tg Exp $
 # $OpenBSD: Makefile,v 1.14 2003/05/12 08:23:46 jolan Exp $
 
-COMMENT=	"SDL image library"
+COMMENT=			SDL image library
 DISTNAME=	SDL_image-1.2.3
 PKGNAME=	${DISTNAME:L:S/_/-/}-0
 CATEGORIES=	devel graphics

@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.11 2002/11/30 22:13:11 margarida Exp $
 
-COMMENT=	"module for 3D graph plotting"
+COMMENT=			module for 3D graph plotting
 
 VERSION=	0.61
 DISTNAME=	GD-Graph3d-${VERSION}

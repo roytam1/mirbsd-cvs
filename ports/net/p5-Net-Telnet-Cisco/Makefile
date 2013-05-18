@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.2 2004/01/30 08:39:49 xsa Exp $
 
-COMMENT=		"module to interact with a Cisco router"
+COMMENT=			module to interact with a Cisco router
 
 DISTNAME=		Net-Telnet-Cisco-1.10
 PKGNAME=		p5-${DISTNAME}-0

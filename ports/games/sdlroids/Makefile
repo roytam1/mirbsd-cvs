@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.7 2003/04/11 17:07:38 lebel Exp $
 
-COMMENT=		"essentially an Asteroids clone"
+COMMENT=			essentially an Asteroids clone
 
 DISTNAME=		sdlroids-1.3.4
 CATEGORIES=		games

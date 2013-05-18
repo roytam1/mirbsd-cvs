@@ -1,7 +1,7 @@
-# $MirOS: ports/audio/xhippo/Makefile,v 1.3 2006/02/09 11:11:08 tg Exp $
+# $MirOS: ports/audio/xhippo/Makefile,v 1.4 2006/06/23 22:14:27 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.11 2004/04/02 19:07:04 sturm Exp $
 
-COMMENT=	"generic playlist manager for UNIX"
+COMMENT=			generic playlist manager for UNIX
 
 DISTNAME=	xhippo-3.3
 PKGNAME=	${DISTNAME}-1

@@ -1,7 +1,7 @@
-# $MirOS: ports/devel/libreadline/Makefile,v 1.2 2005/04/19 14:31:12 tg Exp $
+# $MirOS: ports/devel/libreadline/Makefile,v 1.3 2005/07/07 21:19:14 bsiegert Exp $
 
-COMMENT=		"history and line editing library similar to libedit"
-COMMENT-docs=		"documentation for libreadline"
+COMMENT=			history and line editing library similar to libedit
+COMMENT-docs=			documentation for libreadline
 CATEGORIES=		devel
 V=			5.0
 DISTNAME=		readline-${V}

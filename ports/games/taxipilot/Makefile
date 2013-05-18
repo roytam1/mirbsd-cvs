@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.5 2003/01/19 03:40:32 brad Exp $
 
-COMMENT=	"silly little game based on Spacetaxi for the C64"
+COMMENT=			silly little game based on Spacetaxi for the C64
 
 DISTNAME=	taxipilot-0.7.2
 CATEGORIES=	games

@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.5 2004/02/03 07:20:43 sturm Exp $
 
-COMMENT=	"scheme r5 library"
+COMMENT=			scheme r5 library
 
 CATEGORIES=	devel
 

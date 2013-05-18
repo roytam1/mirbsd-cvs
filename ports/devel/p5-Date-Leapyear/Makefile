@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.1.1.1 2004/04/11 11:54:19 sturm Exp $
 
-COMMENT=	"is a particular year a leap year"
+COMMENT=			is a particular year a leap year
 
 DISTNAME=	Date-Leapyear-1.71
 PKGNAME=	p5-${DISTNAME}-0

@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.6 2004/02/03 07:28:12 sturm Exp $
 
-COMMENT=	"convert a MySQL dump to a PostgreSQL dump"
+COMMENT=			convert a MySQL dump to a PostgreSQL dump
 
 DISTNAME=	mysql2pgsql
 PKGNAME=	mysql2pgsql-20010320-0

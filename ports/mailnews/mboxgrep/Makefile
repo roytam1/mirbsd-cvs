@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.4 2003/05/19 20:02:20 pvalchev Exp $
 
-COMMENT=	"scan mailboxes for messages matching a regular expression"
+COMMENT=			scan mailboxes for messages matching a regular expression
 
 DISTNAME=	mboxgrep-0.7.8
 CATEGORIES=	mail

@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.2 2004/02/27 01:08:34 brad Exp $
 
-COMMENT=	"framework for parsing the Perl Pod format"
+COMMENT=			framework for parsing the Perl Pod format
 
 DISTNAME=	Pod-Simple-2.05
 PKGNAME=	p5-${DISTNAME}-0

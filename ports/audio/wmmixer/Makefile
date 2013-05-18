@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.11 2002/09/27 22:51:58 naddy Exp $
 
-COMMENT=		'wm-dockapp; audio mixer'
+COMMENT=			wm-dockapp; audio mixer
 
 DISTNAME=		wmmixer-1.0-beta1
 PKGNAME=		wmmixer-1.0b1-0

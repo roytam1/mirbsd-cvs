@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.8 2004/02/02 17:35:01 sturm Exp $
 
-COMMENT=	"Tcl/Tk irc client"
+COMMENT=			Tcl/Tk irc client
 
 DISTNAME=	roxirc-2.0
 CATEGORIES=	net

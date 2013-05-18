@@ -1,6 +1,6 @@
-# $MirOS: ports/security/pgp+/Makefile,v 1.4 2005/11/07 20:30:47 tg Exp $
+# $MirOS: ports/security/pgp+/Makefile,v 1.5 2005/11/07 20:38:44 tg Exp $
 
-COMMENT=	"Pretty Good Privacy 2.6.3in"
+COMMENT=			Pretty Good Privacy 2.6.3in
 DISTNAME=	pgp263in010323
 CATEGORIES=	security
 PKGNAME=	pgp-2.6.3in-1

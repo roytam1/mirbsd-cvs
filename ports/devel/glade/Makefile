@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.15 2003/07/12 06:27:12 marcm Exp $
 
-COMMENT=		"free user interface builder for GTK+ and GNOME"
+COMMENT=			free user interface builder for GTK+ and GNOME
 
 DISTNAME=		glade-0.6.4
 CATEGORIES=		devel

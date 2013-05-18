@@ -1,7 +1,7 @@
-# $MirOS: ports/net/xchat2/Makefile,v 1.3 2005/07/07 21:25:14 bsiegert Exp $
+# $MirOS: ports/net/xchat2/Makefile,v 1.4 2006/02/09 11:15:10 tg Exp $
 # $OpenBSD: Makefile,v 1.9 2004/04/10 18:48:30 couderc Exp $
 
-COMMENT=	"GTK+2 IRC client"
+COMMENT=			GTK+2 IRC client
 MAJOR=		2.0
 VERSION=	${MAJOR}.8
 DISTNAME=	xchat-${VERSION}

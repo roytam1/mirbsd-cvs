@@ -2,7 +2,7 @@
 
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
-COMMENT=	"perl interface to the sync() system functions"
+COMMENT=			perl interface to the sync() system functions
 
 V=		0.09
 DISTNAME=	File-Sync-${V}

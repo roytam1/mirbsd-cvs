@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.7 2004/04/11 15:06:12 brad Exp $
 
-COMMENT=	"extensible framework for Perl server engines"
+COMMENT=			extensible framework for Perl server engines
 
 DISTNAME=	Net-Server-0.87
 PKGNAME=	p5-${DISTNAME}-0

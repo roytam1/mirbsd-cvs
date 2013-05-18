@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.23 2003/05/23 08:01:56 kevlo Exp $
 
-COMMENT=	"Perl5 module for uuencode and uudecode"
+COMMENT=			Perl5 module for uuencode and uudecode
 
 DISTNAME=	Convert-UU-0.52
 PKGNAME=	p5-${DISTNAME}-0

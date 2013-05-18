@@ -1,6 +1,6 @@
-# $MirOS: ports/sysutils/daemontools/Makefile,v 1.5 2006/01/15 12:57:45 tg Exp $
+# $MirOS: ports/sysutils/daemontools/Makefile,v 1.6 2006/02/21 13:06:23 tg Exp $
 
-COMMENT=		"collection of tools for managing unix services"
+COMMENT=			collection of tools for managing unix services
 CATEGORIES=		sysutils
 DISTNAME=		daemontools-0.76
 MANVER=			20020131

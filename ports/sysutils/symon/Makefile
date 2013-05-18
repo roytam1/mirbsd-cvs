@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.12 2004/03/02 14:32:43 naddy Exp $
 
-COMMENT=		"active monitoring tool"
+COMMENT=			active monitoring tool
 V=			2.65
 PL=			1
 DISTNAME=		symon-${V}
@@ -21,11 +21,11 @@ SUBPACKAGE?=
 
 # client only package
 MULTI_PACKAGES+=	-mon
-COMMENT-mon=		"active host monitor"
+COMMENT-mon=			active host monitor
 MON_LIBDEPENDS=
 # gatherer only package
 MULTI_PACKAGES+=	-mux
-COMMENT-mux=		"symon data gatherer"
+COMMENT-mux=			symon data gatherer
 MUX_LIBDEPENDS=		rrd:rrdtool-*:net/rrdtool
 
 .for i in ${MULTI_PACKAGES}

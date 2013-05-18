@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile.inc,v 1.2 2003/01/04 20:04:09 pvalchev Exp $
 
-COMMENT=	syslogd replacement
+COMMENT=			syslogd replacement
 
 CATEGORIES=	sysutils
 

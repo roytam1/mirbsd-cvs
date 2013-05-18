@@ -1,7 +1,7 @@
-# $MirOS: ports/graphics/dia/Makefile,v 1.3 2006/02/09 11:11:44 tg Exp $
+# $MirOS: ports/graphics/dia/Makefile,v 1.4 2006/06/03 16:02:40 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.24 2004/04/02 19:07:04 sturm Exp $
 
-COMMENT=	"technical diagrams drawing tool"
+COMMENT=			technical diagrams drawing tool
 
 DISTNAME=	dia-0.92.2
 PKGNAME=	${DISTNAME}-1

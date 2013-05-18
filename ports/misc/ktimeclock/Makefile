@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.4 2003/01/19 03:40:32 brad Exp $
 
-COMMENT=	"task-based timeclock for KDE"
+COMMENT=			task-based timeclock for KDE
 
 VERSION=	2.0.2
 DISTNAME=	ktimeclock-${VERSION}

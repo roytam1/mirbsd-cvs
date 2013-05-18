@@ -1,7 +1,7 @@
-# $MirOS: ports/devel/glib1/Makefile,v 1.6 2005/10/02 11:35:34 tg Exp $
+# $MirOS: ports/devel/glib1/Makefile,v 1.7 2006/02/09 09:35:44 tg Exp $
 # $OpenBSD: Makefile,v 1.52 2003/05/27 23:00:50 miod Exp $
 
-COMMENT=		"useful routines for C programming"
+COMMENT=			useful routines for C programming
 DISTNAME=		glib-1.2.10
 PKGNAME=		${DISTNAME}-3
 CATEGORIES=		devel

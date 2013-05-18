@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.3 2002/07/18 15:46:50 naddy Exp $
 			
-COMMENT=		"ARP reply daemon"
+COMMENT=			ARP reply daemon
 
 DISTNAME=		arpd-0.1
 CATEGORIES=    		net

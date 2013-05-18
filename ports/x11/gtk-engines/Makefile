@@ -1,9 +1,9 @@
-# $MirOS: ports/x11/gtk-engines/Makefile,v 1.5 2005/12/29 22:11:35 bsiegert Exp $
+# $MirOS: ports/x11/gtk-engines/Makefile,v 1.6 2006/02/09 09:36:24 tg Exp $
 # $OpenBSD: Makefile,v 1.6 2004/12/17 15:18:33 alek Exp $
 
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
-COMMENT=		"collection of theme engines for GTK+2"
+COMMENT=			collection of theme engines for GTK+2
 
 DISTNAME=		gtk-engines-2.7.1
 CATEGORIES=		x11

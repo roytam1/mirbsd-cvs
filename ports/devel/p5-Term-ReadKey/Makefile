@@ -2,7 +2,7 @@
 
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
-COMMENT=		'change terminal modes, and perform non-blocking reads'
+COMMENT=			change terminal modes, and perform non-blocking reads
 
 V=			2.21
 DISTNAME=		TermReadKey-${V}

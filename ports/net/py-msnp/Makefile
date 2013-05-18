@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.3 2004/01/30 08:39:49 xsa Exp $
 
-COMMENT=	"implementation of the MSN messaging protocol in Python"
+COMMENT=			implementation of the MSN messaging protocol in Python
 
 DISTNAME=	msnp.py-0.4.1
 PKGNAME=	py-${DISTNAME:S/.py//}-0

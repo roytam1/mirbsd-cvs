@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.2 2004/02/01 20:07:40 sturm Exp $
 
-COMMENT=	"documentation for autoconf, automake, libtool"
+COMMENT=			documentation for autoconf, automake, libtool
 
 V=		1.3
 DISTNAME=	autobook-${V}

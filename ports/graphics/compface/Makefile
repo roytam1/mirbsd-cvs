@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.13 2002/10/27 00:03:16 naddy Exp $
 
-COMMENT=	"programs and library for the 'X-face' mail and news header"
+COMMENT=			programs and library for the 'X-face' mail and news header
 
 DISTNAME=	compface
 PKGNAME=	compface-1.0-0

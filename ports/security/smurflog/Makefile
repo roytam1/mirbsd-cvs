@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.12 2004/04/09 09:52:10 espie Exp $
 
-COMMENT=	"logs smurf attacks"
+COMMENT=			logs smurf attacks
 DISTNAME=	smurflog-2.1
 CATEGORIES=	net security
 

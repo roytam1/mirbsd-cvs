@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.2 2004/05/27 18:21:00 sturm Exp $
 
-COMMENT=	"typeset fiction, non-fiction and mathematical books"
+COMMENT=			typeset fiction, non-fiction and mathematical books
 
 DISTNAME=	memoir-1.61p0
 CATEGORIES=	print

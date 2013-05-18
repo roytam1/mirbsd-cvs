@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.16 2003/08/20 02:55:31 brad Exp $
 
-COMMENT=	"monitor arp & rarp requests"
+COMMENT=			monitor arp & rarp requests
 
 DISTNAME=	arpwatch-2.1a11
 CATEGORIES=	net

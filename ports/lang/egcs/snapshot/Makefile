@@ -26,18 +26,18 @@ MYDIR=lang/egcs/snapshot
 
 # This is a configuration file for gcc
 
-COM=		'GNU compiler collection'
-COMMENT=	${COM}: core C compiler
-COMMENT-c++ =	${COM}: C++ compiler
-COMMENT-estdc=	${COM}: C++ compiler library
-COMMENT-g77=	${COM}: f77 compiler
-COMMENT-java=	${COM}: java compiler
-COMMENT-objc=	${COM}: obj C compiler
-COMMENT-ada=	${COM}: Ada compiler
+COM=				GNU compiler collection
+COMMENT=			${COM}: core C compiler
+COMMENT-c++ =			${COM}: C++ compiler
+COMMENT-estdc=			${COM}: C++ compiler library
+COMMENT-g77=			${COM}: f77 compiler
+COMMENT-java=			${COM}: java compiler
+COMMENT-objc=			${COM}: obj C compiler
+COMMENT-ada=			${COM}: Ada compiler
 
 PKGNAME=	gcc-$V-0
 PKGNAME-c++ =	g++-$V-0
-PKGNAME-estdc =	libstdc++-$V-0
+PKGNAME-estdc=	libstdc++-$V-0
 PKGNAME-g77=	g77-$V-0
 PKGNAME-java=	gcj-$V-0
 PKGNAME-objc=	gobjc-$V-0

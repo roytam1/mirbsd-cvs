@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.14 2002/10/26 20:44:39 naddy Exp $
 
-COMMENT=	"concurrent multi-player battle strategy game"
+COMMENT=			concurrent multi-player battle strategy game
 
 DISTNAME=	xbattle-5.4.1
 CATEGORIES=	games

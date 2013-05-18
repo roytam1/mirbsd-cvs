@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.7 2003/06/14 21:13:40 sturm Exp $
 
-COMMENT=	"multilanguage implementation of ctags"
+COMMENT=			multilanguage implementation of ctags
 
 DISTNAME=	ctags-5.5
 PKGNAME=	e${DISTNAME}-0

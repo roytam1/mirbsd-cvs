@@ -1,7 +1,7 @@
-# $MirOS: ports/archivers/lha/Makefile,v 1.2 2005/07/07 21:16:55 bsiegert Exp $
+# $MirOS: ports/archivers/lha/Makefile,v 1.3 2006/02/09 11:10:59 tg Exp $
 # $OpenBSD: Makefile,v 1.23 2004/05/06 23:07:57 naddy Exp $
 
-COMMENT=	"archive files using LZW compression (.lzh files)"
+COMMENT=			archive files using LZW compression (.lzh files)
 
 VERSION=	1.14i
 DISTNAME=	lha-${VERSION:S/.//}

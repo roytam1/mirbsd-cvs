@@ -2,7 +2,7 @@
 
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
-COMMENT=	"python interface to cURL library"
+COMMENT=			python interface to cURL library
 
 VERSION=	7.11.1
 DISTNAME=	pycurl-${VERSION}

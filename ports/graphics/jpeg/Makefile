@@ -1,7 +1,7 @@
-# $MirOS: ports/graphics/jpeg/Makefile,v 1.2 2005/07/07 21:21:44 bsiegert Exp $
+# $MirOS: ports/graphics/jpeg/Makefile,v 1.3 2005/09/11 23:46:14 tg Exp $
 # $OpenBSD: Makefile,v 1.24 2002/12/29 20:08:46 fgsch Exp $
 
-COMMENT=	"IJG's JPEG compression utilities"
+COMMENT=			IJG's JPEG compression utilities
 DISTNAME=	jpegsrc.v6b
 PKGNAME=	jpeg-6b-3
 CATEGORIES=	graphics

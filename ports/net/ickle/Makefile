@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.11 2002/07/26 02:52:11 pvalchev Exp $
 
-COMMENT=	"gtk-based icq 2000 client"
+COMMENT=			gtk-based icq 2000 client
 
 DISTNAME=	ickle-0.3.2
 CATEGORIES=	net

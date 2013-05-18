@@ -2,7 +2,7 @@
 # KAME Id: Makefile,v 1.5 1999/09/13 16:27:41 itojun Exp
 # Originally by: peter.galbavy@knowledge.com
 
-COMMENT=	"multi-threaded routing daemon"
+COMMENT=			multi-threaded routing daemon
 
 DISTNAME=	zebra-0.93a
 PKGNAME=	${DISTNAME}-2

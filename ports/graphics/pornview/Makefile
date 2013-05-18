@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.2 2004/01/30 08:39:48 xsa Exp $
 
-COMMENT=	"image viewer/manager"
+COMMENT=			image viewer/manager
 DISTNAME=	pornview-0.2.0pre1
 CATEGORIES=	graphics
 

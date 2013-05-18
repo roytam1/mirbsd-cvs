@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.1.1.1 2003/01/16 10:11:30 jakob Exp $
 
-COMMENT=	"SIP swiss army knife"
+COMMENT=			SIP swiss army knife
 
 DISTNAME=	sipsak-0.7.7
 CATEGORIES=	net

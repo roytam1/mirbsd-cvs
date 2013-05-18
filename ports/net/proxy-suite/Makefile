@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.11 2003/04/09 09:46:05 camield Exp $
 
-COMMENT=	"set of programs to enhance firewall security"
+COMMENT=			set of programs to enhance firewall security
 
 DISTNAME=	proxy-suite-1.9
 HOMEPAGE=	http://proxy-suite.suse.de

@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.10 2003/11/15 15:12:55 sturm Exp $
 
-COMMENT=	"very flexible diff-like program"
+COMMENT=			very flexible diff-like program
 
 DISTNAME=	spiff-1.0
 CATEGORIES=	textproc

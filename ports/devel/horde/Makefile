@@ -1,9 +1,9 @@
-# $MirOS: ports/devel/horde/Makefile,v 1.2 2005/03/19 22:55:01 bsiegert Exp $
+# $MirOS: ports/devel/horde/Makefile,v 1.3 2005/09/11 02:33:54 tg Exp $
 # $OpenBSD: Makefile,v 1.12 2004/05/01 16:16:34 avsm Exp $ 
 
 BROKEN=		needs upgrading to PHP5
 
-COMMENT=	"modular framework for web-based applications"
+COMMENT=			modular framework for web-based applications
 V=		2.2.5
 DISTNAME=	horde-${V}
 CATEGORIES=	devel www

@@ -1,7 +1,7 @@
-# $MirOS$
+# $MirOS: ports/games/frozen-bubble/Makefile,v 1.2 2005/07/07 21:21:04 bsiegert Exp $
 # $NetBSD: Makefile,v 1.16 2005/05/22 20:08:01 jlam Exp $
 
-COMMENT=		Pop the frozen bubbles
+COMMENT=			Pop the frozen bubbles
 DISTNAME=		frozen-bubble-1.0.0
 PKGNAME=		${DISTNAME}-0
 CATEGORIES=		games

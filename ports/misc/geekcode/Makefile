@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.4 2004/01/30 08:39:49 xsa Exp $
 
-COMMENT=	"geek code generator"
+COMMENT=			geek code generator
 
 DISTNAME=	geekcode-1.7.3
 CATEGORIES=	misc

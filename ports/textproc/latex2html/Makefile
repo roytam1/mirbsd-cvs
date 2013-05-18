@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.20 2004/02/01 20:25:35 sturm Exp $
 
-COMMENT=	"LaTeX to HTML converter"
+COMMENT=			LaTeX to HTML converter
 
 DISTNAME=	latex2html-97.1
 CATEGORIES=	textproc www

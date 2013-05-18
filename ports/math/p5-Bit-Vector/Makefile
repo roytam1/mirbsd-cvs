@@ -1,9 +1,9 @@
-# $MirOS: ports/math/p5-Bit-Vector/Makefile,v 1.4 2006/03/19 11:43:44 bsiegert Exp $
+# $MirOS: ports/math/p5-Bit-Vector/Makefile,v 1.5 2006/03/19 14:23:05 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.4 2004/01/17 15:58:08 naddy Exp $
 
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
-COMMENT=	"library of advanced math functions"
+COMMENT=			library of advanced math functions
 
 DISTNAME=	Bit-Vector-6.4
 PKGNAME=	p5-${DISTNAME}-1

@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.7 2004/02/26 16:40:11 espie Exp $
 
-COMMENT=	"WMF handling and conversion library"
+COMMENT=			WMF handling and conversion library
 
 DISTNAME=	libwmf-0.2.6
 CATEGORIES=	graphics devel

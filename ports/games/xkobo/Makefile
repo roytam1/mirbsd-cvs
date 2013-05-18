@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.16 2002/10/26 20:44:39 naddy Exp $
 
-COMMENT=	"multi-way scrolling shoot'em up for X11, addictive"
+COMMENT=			multi-way scrolling shoot'em up for X11, addictive
 
 DISTNAME=	xkobo-1.11
 CATEGORIES=	games

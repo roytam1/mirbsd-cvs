@@ -1,7 +1,7 @@
-# $MirOS: ports/x11/goggles/Makefile,v 1.2 2005/07/06 19:21:41 bsiegert Exp $
+# $MirOS: ports/x11/goggles/Makefile,v 1.3 2006/02/09 11:15:50 tg Exp $
 # $OpenBSD: Makefile,v 1.2 2004/02/12 02:19:39 espie Exp $
 
-COMMENT=		'gui for ogle'
+COMMENT=			gui for ogle
 
 CATEGORIES=		x11
 VERSION=		0.7.2

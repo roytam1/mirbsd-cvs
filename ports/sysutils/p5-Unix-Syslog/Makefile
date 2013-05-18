@@ -2,7 +2,7 @@
 
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
-COMMENT=	"interface to the UNIX system logger"
+COMMENT=			interface to the UNIX system logger
 
 DISTNAME=	Syslog-0.97
 PKGNAME=	p5-Unix-${DISTNAME}-0

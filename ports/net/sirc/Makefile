@@ -1,6 +1,6 @@
-# $MirOS: ports/net/sirc/Makefile,v 1.12 2006/01/23 22:48:20 tg Exp $
+# $MirOS: ports/net/sirc/Makefile,v 1.13 2006/02/05 14:37:58 tg Exp $
 
-COMMENT=		"programmable small perl irc client (utf-8, IPv6 ready)"
+COMMENT=			programmable small perl irc client (utf-8, IPv6 ready)
 CATEGORIES=		net
 DIST_NAME=		sirc
 DIST_DATE=		20060205

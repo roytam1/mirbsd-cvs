@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.6 2002/12/29 20:31:40 fgsch Exp $
 
-COMMENT=		"high level firewall language"
+COMMENT=			high level firewall language
 
 DISTNAME=		hlfl-0.52
 CATEGORIES=    		security lang

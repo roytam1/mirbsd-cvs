@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.13 2002/12/23 00:37:50 pvalchev Exp $
 
-COMMENT=	"emulator for US Robotics Pilot PDA"
+COMMENT=			emulator for US Robotics Pilot PDA
 
 DISTNAME=       xcopilot-0.6.6
 CATEGORIES=     emulators palm

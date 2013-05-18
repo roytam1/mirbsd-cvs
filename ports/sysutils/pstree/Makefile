@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.8 2003/09/23 15:29:41 sturm Exp $
 
-COMMENT=		"list processes as a tree"
+COMMENT=			list processes as a tree
 DISTNAME=		pstree-2.17
 PKGNAME=		${DISTNAME}-1
 CATEGORIES=     	sysutils

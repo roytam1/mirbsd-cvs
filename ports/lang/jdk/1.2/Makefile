@@ -4,10 +4,10 @@
 # Requires existing JDK 1.2 to build; use Linux emul for bootstrapping
 ONLY_FOR_PLATFORM=	OpenBSD:*:i386 MirBSD:*:i386
 
-COMMENT=		"Java2(TM) Standard Edition Dev Kit v${V}"
-COMMENT-debug=		"Java2(TM) Standard Edition Dev Kit Debug Binaries v${V}"
-COMMENT-demos=		"Java2(TM) Standard Edition Dev Kit Demo Files v${V}"
-COMMENT-jre=		"Java2(TM) Standard Edition Runtime Environment v${V}"
+COMMENT=			Java2(TM) Standard Edition Dev Kit v${V}
+COMMENT-debug=			Java2(TM) Standard Edition Dev Kit Debug Binaries v${V}
+COMMENT-demos=			Java2(TM) Standard Edition Dev Kit Demo Files v${V}
+COMMENT-jre=			Java2(TM) Standard Edition Runtime Environment v${V}
 V=			1.2.2
 DISTNAME=		jdk1_2_2-src
 PKGNAME=		jdk-${V}-0

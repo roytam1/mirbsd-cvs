@@ -2,7 +2,7 @@
 #
 # Many variables moved to ../Makefile.inc
 
-COMMENT=	"French dictionary for the Amaya browser/page composer"
+COMMENT=			French dictionary for the Amaya browser/page composer
 
 PKGNAME=		amaya-french-dict-20011029-0
 DISTNAME=		French

@@ -1,7 +1,7 @@
-# $MirOS$
+# $MirOS: ports/x11/terminus-font/Makefile,v 1.2 2005/12/16 10:31:47 tg Exp $
 # $OpenBSD: Makefile,v 1.7 2004/01/30 17:04:48 lebel Exp $
 
-COMMENT=		"fixed width fonts especially for long hacking sessions"
+COMMENT=			fixed width fonts especially for long hacking sessions
 DISTNAME=		terminus-font-4.16
 CATEGORIES=		x11
 HOMEPAGE=		http://www.is-vn.bg/hamster/jimmy-en.html

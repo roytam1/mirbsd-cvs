@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.9 2003/10/08 17:13:16 sturm Exp $
 
-COMMENT=	"3D filesystem visualizer"
+COMMENT=			3D filesystem visualizer
 
 DISTNAME=	fsv-0.9
 CATEGORIES=     x11

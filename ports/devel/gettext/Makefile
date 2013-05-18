@@ -1,8 +1,8 @@
-# $MirOS: ports/devel/gettext/Makefile,v 1.3 2005/07/24 11:50:14 bsiegert Exp $
+# $MirOS: ports/devel/gettext/Makefile,v 1.4 2006/02/09 11:11:20 tg Exp $
 # $FreeBSD: Makefile,v 1.4 1998/11/18 15:09:35 vanilla Exp $
 # $OpenBSD: Makefile,v 1.29 2004/01/31 21:41:56 brad Exp $
 
-COMMENT=	"GNU gettext"
+COMMENT=			GNU gettext
 DISTNAME=	gettext-0.10.40
 PKGNAME=	${DISTNAME}-2
 CATEGORIES=	devel

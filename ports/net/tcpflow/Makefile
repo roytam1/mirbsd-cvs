@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.12 2003/08/12 01:24:24 brad Exp $
 
-COMMENT=	"tool for capturing data from TCP connections"
+COMMENT=			tool for capturing data from TCP connections
 
 DISTNAME=	tcpflow-0.21
 CATEGORIES=	net

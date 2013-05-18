@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.32 2004/02/21 01:18:08 pvalchev Exp $
 
-COMMENT=	"SOCKS v5 application layer gateway and clients"
+COMMENT=			SOCKS v5 application layer gateway and clients
 
 DISTNAME=	socks5-v1.0r11
 PKGNAME=	socks5-1.0.11-0

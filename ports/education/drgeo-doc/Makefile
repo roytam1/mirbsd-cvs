@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.1.1.1 2004/02/21 20:47:50 espie Exp $
 
-COMMENT=	"interactive geometry program, documentation"
+COMMENT=			interactive geometry program, documentation
 
 DISTNAME=	drgeo-doc-1.4
 CATEGORIES=	education math

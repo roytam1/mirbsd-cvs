@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.4 2003/01/18 20:56:33 pvalchev Exp $
 			
-COMMENT=		"wireless auditing suite"
+COMMENT=			wireless auditing suite
 
 DISTNAME=		bsd-airtools-v0.2
 PKGNAME=		bsd-airtools-0.2-2

@@ -2,7 +2,7 @@
 #
 # Many variables moved to ../Makefile.inc
 
-COMMENT=		"test-bed browser/authoring tool of the W3C"
+COMMENT=			test-bed browser/authoring tool of the W3C
 
 AMAYA_VERSION=		5.1
 DISTNAME=		amaya-src-${AMAYA_VERSION}

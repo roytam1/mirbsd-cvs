@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.5 2004/02/03 00:46:41 pvalchev Exp $
 
-COMMENT=		"add tags to Ogg Vorbis files to adjust the volume"
+COMMENT=			add tags to Ogg Vorbis files to adjust the volume
 DISTNAME=		vorbisgain-0.34
 CATEGORIES=		audio
 HOMEPAGE=		http://sjeng.org/vorbisgain.html

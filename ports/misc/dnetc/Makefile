@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.7 2003/12/12 14:45:08 lebel Exp $
 
-COMMENT=		"official distributed.net client"
+COMMENT=			official distributed.net client
 
 .if ${MACHINE_ARCH:L} == "m68k"
 A=			m68k

@@ -1,7 +1,7 @@
-# $MirOS: ports/net/pavuk/Makefile,v 1.2 2005/07/07 21:24:47 bsiegert Exp $
+# $MirOS: ports/net/pavuk/Makefile,v 1.3 2006/02/09 11:12:21 tg Exp $
 # $OpenBSD: Makefile,v 1.6 2003/01/30 22:39:07 espie Exp $
 
-COMMENT=	"tool to mirror contents of HTTP and FTP servers"
+COMMENT=			tool to mirror contents of HTTP and FTP servers
 
 DISTNAME=	pavuk-0.9pl28
 PKGNAME=	${DISTNAME}a-0

@@ -2,7 +2,7 @@
 
 ONLY_FOR_PLATFORM=	*:*:i386 *:*:macppc
 
-COMMENT=	"battery monitor panel plugin for xfce4"
+COMMENT=			battery monitor panel plugin for xfce4
 DISTNAME=	xfce4-battery-plugin-0.2.0
 MASTER_SITES=	${MASTER_SITE_GOODIES}
 

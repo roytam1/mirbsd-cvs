@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.13 2003/10/08 17:13:15 sturm Exp $
 
-COMMENT=	"round, analog X11 clock with bezier curve hands"
+COMMENT=			round, analog X11 clock with bezier curve hands
 
 DISTNAME=	bclock-1.0
 CATEGORIES=	x11

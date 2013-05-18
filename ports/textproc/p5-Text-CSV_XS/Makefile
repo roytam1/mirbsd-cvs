@@ -2,7 +2,7 @@
 
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
-COMMENT=	"comma-separated values manipulation routines"
+COMMENT=			comma-separated values manipulation routines
 
 DISTNAME=	Text-CSV_XS-0.23
 PKGNAME=	p5-${DISTNAME}-0

@@ -1,7 +1,7 @@
-# $MirOS: ports/editors/xemacs21/Makefile,v 1.4 2006/02/09 09:35:51 tg Exp $
+# $MirOS: ports/editors/xemacs21/Makefile,v 1.5 2006/02/09 11:11:31 tg Exp $
 # $OpenBSD: Makefile,v 1.20 2003/07/06 18:34:48 naddy Exp $
 
-COMMENT=		"heavily customizable and extensible editor"
+COMMENT=			heavily customizable and extensible editor
 
 VERSION=		21.4.12
 DASH_VER=		-1

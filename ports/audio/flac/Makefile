@@ -1,7 +1,7 @@
-# $MirOS: ports/audio/flac/Makefile,v 1.7 2006/02/01 17:51:55 tg Exp $
+# $MirOS: ports/audio/flac/Makefile,v 1.8 2006/02/07 20:17:30 tg Exp $
 # $OpenBSD: Makefile,v 1.18 2003/04/18 00:28:40 naddy Exp $
 
-COMMENT=		"free lossless audio codec"
+COMMENT=			free lossless audio codec
 DISTNAME=		flac-1.1.2
 PKGNAME?=		${DISTNAME}-1
 CATEGORIES=		audio archivers

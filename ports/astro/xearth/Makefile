@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.13 2002/10/24 16:21:35 naddy Exp $
 
-COMMENT=	"set the root window to the image of earth"
+COMMENT=			set the root window to the image of earth
 DISTNAME=	xearth-1.1
 CATEGORIES=	astro x11
 MASTER_SITES=	ftp://cag.lcs.mit.edu/pub/tuna/

@@ -1,7 +1,7 @@
 # $OpenBSD: Makefile,v 1.15 2002/07/30 14:36:50 brad Exp $
 # $FreeBSD: Makefile,v 1.1.1.1 1999/01/18 04:50:26 steve Exp $
 
-COMMENT=	"new POSIX awk"
+COMMENT=			new POSIX awk
 
 DISTNAME=	mawk1.3.3
 PKGNAME=	mawk-1.3.3-0

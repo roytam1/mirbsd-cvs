@@ -1,7 +1,7 @@
-# $MirOS: ports/www/p5-URI/Makefile,v 1.2 2005/07/07 21:28:16 bsiegert Exp $
+# $MirOS: ports/www/p5-URI/Makefile,v 1.3 2006/03/18 20:06:13 tg Exp $
 # $OpenBSD: Makefile,v 1.15 2004/04/22 22:15:47 naddy Exp $
 
-COMMENT=	"library to parse Uniform Resource Identifiers"
+COMMENT=			library to parse Uniform Resource Identifiers
 DISTNAME=	URI-1.35
 PKGNAME=	p5-${DISTNAME}-1
 CATEGORIES=	www perl5

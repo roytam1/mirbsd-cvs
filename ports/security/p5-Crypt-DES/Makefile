@@ -2,7 +2,7 @@
 
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
-COMMENT= 	"interface to the DES encryption algorithm"
+COMMENT=			interface to the DES encryption algorithm
 
 VERSION=	2.03
 DISTNAME=	Crypt-DES-${VERSION}

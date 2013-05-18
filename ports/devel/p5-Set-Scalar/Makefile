@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.7 2002/12/29 20:19:11 fgsch Exp $
 
-COMMENT=	"module for containing a set of scalars"
+COMMENT=			module for containing a set of scalars
 
 DISTNAME=	Set-Scalar-1.17
 PKGNAME=	p5-${DISTNAME}-0

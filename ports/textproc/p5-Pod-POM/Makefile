@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.3 2003/11/15 15:12:54 sturm Exp $
 
-COMMENT=	"convert Pod documents into a simple object model form"
+COMMENT=			convert Pod documents into a simple object model form
 
 DISTNAME=	Pod-POM-0.15
 PKGNAME=	p5-${DISTNAME}-0

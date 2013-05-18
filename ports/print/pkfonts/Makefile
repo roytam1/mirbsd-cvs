@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.21 2004/02/01 20:40:46 sturm Exp $
 
-COMMENT=	"English PK fonts (300dpi) for ghostscript, xdvi, etc."
+COMMENT=			English PK fonts (300dpi) for ghostscript, xdvi, etc.
 
 DISTNAME=	pkfonts
 VERSION=	1.0

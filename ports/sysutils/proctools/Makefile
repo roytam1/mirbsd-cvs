@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.1.1.1 2003/01/06 18:03:44 lebel Exp $
 
-COMMENT=	"scan for and send signals to processes"
+COMMENT=			scan for and send signals to processes
 
 VERSION=	0.3
 DISTNAME=	proctools-${VERSION}

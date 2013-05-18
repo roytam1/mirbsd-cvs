@@ -6,7 +6,7 @@
 # $OpenBSD: Makefile,v 1.17 2003/07/16 19:24:25 naddy Exp $
 #
 
-COMMENT=	"download news articles from NNTP server"
+COMMENT=			download news articles from NNTP server
 
 DISTNAME=	newsfetch-1.21
 CATEGORIES=	news

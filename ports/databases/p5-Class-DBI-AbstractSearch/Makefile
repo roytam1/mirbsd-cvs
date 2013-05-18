@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.1.1.1 2004/05/26 13:36:07 sturm Exp $
 
-COMMENT=	"abstract Class::DBI's SQL with SQL::Abstract"
+COMMENT=			abstract Class::DBI's SQL with SQL::Abstract
 
 DISTNAME=	Class-DBI-AbstractSearch-0.03
 PKGNAME=	p5-${DISTNAME}-0

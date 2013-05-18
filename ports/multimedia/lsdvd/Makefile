@@ -1,7 +1,7 @@
-# $MirOS: ports/multimedia/lsdvd/Makefile,v 1.1.7.1 2005/03/18 15:50:43 tg Exp $
+# $MirOS: ports/multimedia/lsdvd/Makefile,v 1.2 2006/02/09 11:12:11 tg Exp $
 # $OpenBSD: Makefile,v 1.1.1.1 2004/06/21 21:26:24 xsa Exp $
 
-COMMENT=	"print information about the content and structure of a DVD"
+COMMENT=			print information about the content and structure of a DVD
 
 DISTNAME=	lsdvd-0.10
 CATEGORIES=	multimedia

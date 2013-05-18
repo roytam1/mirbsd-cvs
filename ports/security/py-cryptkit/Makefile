@@ -2,7 +2,7 @@
 
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
-COMMENT=	"Python Cryptographic Toolkit"
+COMMENT=			Python Cryptographic Toolkit
 
 DISTNAME=	cryptkit-0.9
 PKGNAME=	py-${DISTNAME}-0

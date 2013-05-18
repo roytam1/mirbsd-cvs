@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.5 2003/08/22 18:57:49 naddy Exp $
 
-COMMENT=	"tty-based mail and news client"
+COMMENT=			tty-based mail and news client
 
 VERSION=	0.4.8
 DISTNAME=	tty-grin-${VERSION}

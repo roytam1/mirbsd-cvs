@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.29 2003/01/30 22:46:26 margarida Exp $
 
-COMMENT=	"Pretty Good Privacy 2.6.3ia"
+COMMENT=			Pretty Good Privacy 2.6.3ia
 
 DISTNAME=	pgp263is
 PKGNAME=	pgp-2.6.3-0

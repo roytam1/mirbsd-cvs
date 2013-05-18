@@ -1,6 +1,6 @@
-# $MirOS$
+# $MirOS: ports/devel/desktop-file-utils/Makefile,v 1.2 2005/03/20 16:46:24 bsiegert Exp $
 
-COMMENT=		"utilities for working with desktop entries"
+COMMENT=			utilities for working with desktop entries
 
 VERSION=		0.10
 DISTNAME=		desktop-file-utils-${VERSION}

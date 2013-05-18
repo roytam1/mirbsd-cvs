@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.3 2002/10/14 10:02:51 pvalchev Exp $
 
-COMMENT=	"vector-based, pretty, Asteroids clone" 
+COMMENT=			vector-based, pretty, Asteroids clone
 
 VERSION=	1.1.0
 DISTNAME=	vectoroids-${VERSION}

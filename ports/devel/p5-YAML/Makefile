@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.1.1.1 2004/05/19 21:13:34 msf Exp $
 
-COMMENT=	"YAML ain't a markup language"
+COMMENT=			YAML ain't a markup language
 
 V=		0.35
 DISTNAME=	YAML-0.35

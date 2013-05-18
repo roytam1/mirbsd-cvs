@@ -1,10 +1,10 @@
-# $MirOS: ports/archivers/rar-linux/Makefile,v 1.7 2006/01/01 03:15:06 tg Exp $
+# $MirOS: ports/archivers/rar-linux/Makefile,v 1.8 2006/02/09 12:25:11 tg Exp $
 
 ONLY_FOR_PLATFORM=	OpenBSD:*:i386 MirBSD:*:i386
 EMUL=			linux
 
 CATEGORIES=		archivers
-COMMENT=		"commercial RAR archiver binary"
+COMMENT=			commercial RAR archiver binary
 V=			3.4.1
 DISTNAME=		rarlinux-${V}
 FULLPKGNAME=		rar-${V}-2-linux

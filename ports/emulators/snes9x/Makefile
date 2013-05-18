@@ -1,10 +1,10 @@
-# $MirOS: ports/emulators/snes9x/Makefile,v 1.2 2005/04/10 21:49:48 tg Exp $
+# $MirOS: ports/emulators/snes9x/Makefile,v 1.4 2005/07/07 21:20:49 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.6 2003/04/10 18:08:56 jsyn Exp $
 
 ONLY_FOR_PLATFORM=	OpenBSD:*:i386 MirBSD:*:i386
 EMUL=			linux
 
-COMMENT=	"emulates the Super Nintendo Entertainment System"
+COMMENT=			emulates the Super Nintendo Entertainment System
 PKGNAME=	snes9x-1.37c-1
 DISTNAME=	s9x.linuxc6.137.i386
 CATEGORIES=	emulators games

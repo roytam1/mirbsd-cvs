@@ -1,7 +1,7 @@
 # $OpenBSD: Makefile,v 1.17 2002/12/29 21:14:12 fgsch Exp $
 # $NetBSD: Makefile,v 1.3 2000/01/21 10:01:23 itojun Exp $
 
-COMMENT=	"DNS proxy that supports IPv6 <==> IPv4 record translation"
+COMMENT=			DNS proxy that supports IPv6 <==> IPv4 record translation
 
 DISTNAME=	totd-1.3
 CATEGORIES=	net

@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.17 2004/02/02 17:45:22 sturm Exp $
 
-COMMENT=	"Tk script to read GNU info files and display them"
+COMMENT=			Tk script to read GNU info files and display them
 
 DISTNAME=	tkinfo-2.6
 CATEGORIES=	misc 

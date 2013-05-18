@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.3 2003/06/18 21:43:40 pvalchev Exp $
 
-COMMENT=	"displays the status of multi-player Internet Game servers"
+COMMENT=			displays the status of multi-player Internet Game servers
 
 DISTNAME=	qstat24e
 PKGNAME=	qstat-2.4e-0

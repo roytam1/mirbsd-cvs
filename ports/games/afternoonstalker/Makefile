@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.6 2004/02/25 02:35:15 naddy Exp $
 
-COMMENT=	"Night Stalker clone for X"
+COMMENT=			Night Stalker clone for X
 
 DISTNAME=	afternoonstalker-1.0.2
 CATEGORIES=	games

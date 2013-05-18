@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.1.1.1 2003/02/18 23:58:00 naddy Exp $
 
-COMMENT=	"tool to programm the eeprom on FTDI usb devices"
+COMMENT=			tool to programm the eeprom on FTDI usb devices
 
 DISTNAME=	ftdi-eeprom-1.1
 CATEGORIES=	misc

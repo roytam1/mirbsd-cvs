@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.10 2004/02/03 07:28:12 sturm Exp $
 
-COMMENT=	"chinese big5/gb truetype fonts"
+COMMENT=			chinese big5/gb truetype fonts
 
 DISTNAME=       zh-arphicttf-2.11
 PKGNAME=	zh-fonts-arphicttf-2.11-0

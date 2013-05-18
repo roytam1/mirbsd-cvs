@@ -2,7 +2,7 @@
 
 BROKEN=			Missing support for module x11/qt2
 
-COMMENT=	"qt home accounting program"
+COMMENT=			qt home accounting program
 
 DISTNAME=	qhacc-0.6.1a
 CATEGORIES=	productivity x11

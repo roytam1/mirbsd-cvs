@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.8 2004/04/24 17:22:54 peter Exp $
 
-COMMENT=	"Apache ASP support"
+COMMENT=			Apache ASP support
 
 VERSION=	2.57
 DISTNAME=	Apache-ASP-${VERSION}

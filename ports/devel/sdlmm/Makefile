@@ -1,7 +1,7 @@
-# $MirOS: ports/devel/sdlmm/Makefile,v 1.2 2005/07/07 21:20:29 bsiegert Exp $
+# $MirOS: ports/devel/sdlmm/Makefile,v 1.3 2006/02/09 09:35:50 tg Exp $
 # $OpenBSD: Makefile,v 1.7 2004/01/02 18:06:32 espie Exp $
 
-COMMENT=	"C++ wrapper for the Simple DirectMedia Layer"
+COMMENT=			C++ wrapper for the Simple DirectMedia Layer
 VERSION=	0.1.8
 DISTNAME=	SDLmm-${VERSION}
 PKGNAME=	${DISTNAME:L}-0

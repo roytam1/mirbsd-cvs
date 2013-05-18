@@ -1,7 +1,7 @@
-# $MirOS: ports/x11/gnome/keyring/Makefile,v 1.2 2005/05/01 13:59:46 bsiegert Exp $
+# $MirOS: ports/x11/gnome/keyring/Makefile,v 1.3 2005/12/29 18:26:01 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.4 2004/12/15 13:57:56 alek Exp $
 
-COMMENT=		"password agent for the GNOME project"
+COMMENT=			password agent for the GNOME project
 
 DISTNAME=		gnome-keyring-0.4.6
 CATEGORIES=		x11/gnome

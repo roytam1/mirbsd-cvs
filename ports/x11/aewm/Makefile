@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/x11/aewm/Makefile,v 1.2 2005/03/30 18:13:54 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.9 2003/10/08 17:13:15 sturm Exp $
 
 DISTNAME=	aewm-1.2.0
@@ -10,7 +10,7 @@ PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
-COMMENT=	"minimalistic window manager for X11"
+COMMENT=			minimalistic window manager for X11
 HOMEPAGE=	http://www.red-bean.com/~decklin/aewm/
 MASTER_SITES=	${HOMEPAGE} \
 		ftp://rt.fm/pub/aewm/

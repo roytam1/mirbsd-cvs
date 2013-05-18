@@ -1,7 +1,7 @@
-# $MirOS$
+# $MirOS: ports/audio/libcdaudio/Makefile,v 1.1.7.1 2005/03/18 15:42:56 tg Exp $
 # $OpenBSD: Makefile,v 1.8 2002/12/29 19:29:56 fgsch Exp $
 
-COMMENT=	"multi-platform cd player development library"
+COMMENT=			multi-platform cd player development library
 DISTNAME=	libcdaudio-0.99.6
 CATEGORIES=	audio
 HOMEPAGE=	http://libcdaudio.sourceforge.net/

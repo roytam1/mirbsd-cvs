@@ -1,7 +1,7 @@
-# $MirOS: ports/education/drgeo/Makefile,v 1.3 2006/02/09 11:11:32 tg Exp $
+# $MirOS: ports/education/drgeo/Makefile,v 1.4 2006/06/03 16:02:39 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.1.1.1 2004/02/21 12:31:02 espie Exp $
 
-COMMENT=	"interactive geometry program"
+COMMENT=			interactive geometry program
 
 DISTNAME=	drgeo-0.9.12
 PKGNAME=	${DISTNAME}-1

@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.17 2003/10/18 19:44:59 sturm Exp $
 
-COMMENT=	"transparent www proxy driver for pf"
+COMMENT=			transparent www proxy driver for pf
 
 DISTNAME=	transproxy-1.4
 CATEGORIES=	www net

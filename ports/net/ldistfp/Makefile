@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.5 2002/10/28 01:38:45 naddy Exp $
 
-COMMENT=	"remote identd fingerprinting tool"
+COMMENT=			remote identd fingerprinting tool
 
 DISTNAME=	ldistfp-0.1.4
 CATEGORIES=	net security

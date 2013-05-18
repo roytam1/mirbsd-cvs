@@ -1,9 +1,9 @@
-# $MirOS: ports/multimedia/realplayer-linux/Makefile,v 1.1 2006/03/24 13:41:54 tg Exp $
+# $MirOS: ports/multimedia/realplayer-linux/Makefile,v 1.2 2006/03/24 13:57:07 tg Exp $
 
 ONLY_FOR_PLATFORM=	OpenBSD:*:i386 MirBSD:*:i386
 EMUL=			linux
 
-COMMENT=		Real Networks streaming audio/video client
+COMMENT=			Real Networks streaming audio/video client
 DISTNAME=		rp8_linux20_libc6_i386_cs2
 PKGNAME=		realplayer-linux-8.0.1-4
 CATEGORIES=		audio graphics x11 multimedia

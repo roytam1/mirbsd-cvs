@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.2 2003/06/05 07:53:20 sturm Exp $
 
-COMMENT=		"PPTP Server"
+COMMENT=			PPTP Server
 
 VERSION=		1.1.4-b4
 PKGNAME=		poptop-${VERSION:S/-b/.b/}-0

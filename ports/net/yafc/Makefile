@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.14 2003/04/02 10:33:20 avsm Exp $
 
-COMMENT=	"powerful console ftp client with many features"
+COMMENT=			powerful console ftp client with many features
 
 DISTNAME=	yafc-1.0
 CATEGORIES=	net

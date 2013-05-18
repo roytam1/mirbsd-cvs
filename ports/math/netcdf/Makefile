@@ -2,7 +2,7 @@
 # $FreeBSD: ports/math/netcdf/Makefile,v 1.7 2000/06/16 21:51:39 asami Exp $
 #
 
-COMMENT=	"library for machine-independent, array-oriented data access"
+COMMENT=			library for machine-independent, array-oriented data access
 
 DISTNAME=	netcdf-3.5.0
 CATEGORIES=	math

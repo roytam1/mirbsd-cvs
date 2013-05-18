@@ -3,7 +3,7 @@
 
 DISTNAME=		lam-6.5.9
 CATEGORIES=     	devel math net comms
-COMMENT=		"great implementation of the message passing interface"
+COMMENT=			great implementation of the message passing interface
 
 
 PERMIT_PACKAGE_CDROM=	Yes

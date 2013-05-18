@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.4 2002/12/29 20:08:46 fgsch Exp $
 
-COMMENT=	"image viewer for X"
+COMMENT=			image viewer for X
 
 VERSION=	1.4
 DISTNAME=	iview-${VERSION}

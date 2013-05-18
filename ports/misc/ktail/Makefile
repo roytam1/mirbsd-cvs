@@ -2,7 +2,7 @@
 
 BROKEN=			Missing support for module x11/kde
 
-COMMENT=	"file monitor"
+COMMENT=			file monitor
 
 DISTNAME=	ktail-0.6.1
 CATEGORIES=	misc

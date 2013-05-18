@@ -1,9 +1,9 @@
-# $MirOS: ports/emulators/linux-common/Makefile,v 1.2 2006/02/20 20:46:43 tg Exp $
+# $MirOS: ports/emulators/linux-common/Makefile,v 1.3 2006/02/20 21:06:42 tg Exp $
 
 ONLY_FOR_PLATFORM=	OpenBSD:*:i386 MirBSD:*:i386
 
 CATEGORIES=		emulators
-COMMENT=		"common files for compat_linux(8)"
+COMMENT=			common files for compat_linux(8)
 EMUL=			linux
 PKGNAME=		linux-common-20060220-1
 

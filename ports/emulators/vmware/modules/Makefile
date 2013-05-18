@@ -1,4 +1,4 @@
-# $MirOS: ports/emulators/vmware/modules/Makefile,v 1.2 2005/04/10 21:49:49 tg Exp $
+# $MirOS: ports/emulators/vmware/modules/Makefile,v 1.4 2005/07/07 21:20:51 bsiegert Exp $
 
 ONLY_FOR_PLATFORM=	OpenBSD:*:i386 MirBSD:*:i386
 
@@ -6,7 +6,7 @@ ONLY_FOR_PLATFORM=	OpenBSD:*:i386 MirBSD:*:i386
 IGNORE="Fatal: This port requires kernel sources to build"
 .endif
 
-COMMENT=	"LKMs to allow vmware to run under MirBSD"
+COMMENT=			LKMs to allow vmware to run under MirBSD
 PKGNAME=	vmware-modules-1.1-0
 DISTNAME=	vmware-openbsd-1.1
 CATEGORIES=	emulators

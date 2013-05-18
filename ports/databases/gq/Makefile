@@ -1,7 +1,7 @@
-# $MirOS$
+# $MirOS: ports/databases/gq/Makefile,v 1.2 2005/03/30 18:13:19 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.9 2004/04/01 08:44:27 jakob Exp $
 
-COMMENT=	"GTK-based LDAP client"
+COMMENT=			GTK-based LDAP client
 
 VERSION=	0.7.0beta2
 DISTNAME=	gq-${VERSION}

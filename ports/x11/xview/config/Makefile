@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.11 2004/02/01 20:17:47 sturm Exp $
 
-COMMENT=	"OpenLook Toolkit config files"
+COMMENT=			OpenLook Toolkit config files
 
 PKGNAME=	xview-config-${XVIEW_VERSION}-0
 CATEGORIES=	x11

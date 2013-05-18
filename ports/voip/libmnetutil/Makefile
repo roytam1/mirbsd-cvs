@@ -1,6 +1,6 @@
-# $MirOS: ports/voip/libmnetutil/Makefile,v 1.1 2005/06/11 23:37:24 tg Exp $
+# $MirOS: ports/voip/libmnetutil/Makefile,v 1.2 2005/08/21 11:50:30 tg Exp $
 
-COMMENT=		"networking classes for C++ (sockets, DNS, ...)"
+COMMENT=			networking classes for C++ (sockets, DNS, ...)
 CATEGORIES=		voip devel net
 DISTNAME=		libmnetutil-0.3.0
 HOMEPAGE=		http://www.minisip.org/

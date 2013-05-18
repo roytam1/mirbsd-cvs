@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.10 2002/10/26 20:44:40 naddy Exp $
 
-COMMENT=	"screen bottom ripples like a pool of water"
+COMMENT=			screen bottom ripples like a pool of water
 
 DISTNAME=	xripple
 PKGNAME=	xripple-1.0-0

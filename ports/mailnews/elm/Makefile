@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.16 2002/10/27 17:21:39 naddy Exp $
 
-COMMENT=	"once-popular mail user agent"
+COMMENT=			once-popular mail user agent
 DISTNAME=	elm-2.4ME+66
 PKGNAME=	${DISTNAME:S/+/_/}-0
 CATEGORIES=	mail

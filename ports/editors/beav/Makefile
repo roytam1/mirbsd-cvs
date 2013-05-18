@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.21 2002/10/26 00:39:15 naddy Exp $
 
-COMMENT=	"binary editor and viewer"
+COMMENT=			binary editor and viewer
 
 DISTNAME=	beav_1.40-15
 PKGNAME=	beav-1.40.15-0

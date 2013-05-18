@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.9 2002/12/24 01:08:43 pvalchev Exp $
 
-COMMENT=		"traceroute implementation using TCP packets"
+COMMENT=			traceroute implementation using TCP packets
 
 DISTNAME=		tcptraceroute-1.4
 PKGNAME=		${DISTNAME}-1

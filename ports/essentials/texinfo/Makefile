@@ -1,8 +1,8 @@
-# $MirOS: ports/essentials/texinfo/Makefile,v 1.2 2005/11/10 21:14:06 tg Exp $
+# $MirOS: ports/essentials/texinfo/Makefile,v 1.3 2005/11/10 22:20:45 tg Exp $
 #-
 # This port must not depend on autoconf, and be built without GNU m4.
 
-COMMENT=		"GNU's man page successor"
+COMMENT=			GNU's man page successor
 DISTNAME=		texinfo-4.8
 CATEGORIES=		textproc
 MASTER_SITES=		${MASTER_SITE_GNU:=texinfo/}

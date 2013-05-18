@@ -1,4 +1,4 @@
-# $MirOS: ports/www/mod_jk/Makefile,v 1.3 2005/07/07 21:27:46 bsiegert Exp $
+# $MirOS: ports/www/mod_jk/Makefile,v 1.4 2006/02/09 09:36:20 tg Exp $
 # $OpenBSD: Makefile,v 1.1.1.1 2004/01/02 08:19:54 sturm Exp $
 
 IGNORE=		"might be broken, used to use Libtool"
@@ -7,7 +7,7 @@ IGNORE=		"might be broken, used to use Libtool"
 # and has Apache that supports DSO's.
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
-COMMENT=		"Apache-Tomcat AJP Connector"
+COMMENT=			Apache-Tomcat AJP Connector
 V=			1.2.5
 DISTNAME=		jakarta-tomcat-connectors-jk-${V}-src
 PKGNAME=		mod_jk-${V}-0

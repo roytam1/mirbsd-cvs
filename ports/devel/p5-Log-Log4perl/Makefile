@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.1.1.1 2004/01/28 14:04:25 sturm Exp $
 
-COMMENT=	"module to scan C language files"
+COMMENT=			module to scan C language files
 
 DISTNAME=	Log-Log4perl-0.41
 PKGNAME=	p5-${DISTNAME}-0

@@ -1,9 +1,9 @@
-# $MirOS: ports/devel/gmake/Makefile,v 1.8 2006/07/17 00:51:09 tg Exp $
+# $MirOS: ports/devel/gmake/Makefile,v 1.9 2006/08/26 23:33:54 tg Exp $
 # $OpenBSD: Makefile,v 1.29 2004/04/06 03:12:19 brad Exp $
 #-
 # This port must not have dependencies, or list them in CVSROOT/modules.
 
-COMMENT=		GNU make
+COMMENT=			GNU make
 DISTNAME=		make-3.81
 PKGNAME=		g${DISTNAME}-0
 CATEGORIES=		devel

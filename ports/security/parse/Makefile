@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.12 2004/02/01 07:12:39 pvalchev Exp $
 
-COMMENT=	"watch a tcpdump trace in real-time"
+COMMENT=			watch a tcpdump trace in real-time
 
 DISTNAME=	parse
 PKGNAME=	parse-1.0-0

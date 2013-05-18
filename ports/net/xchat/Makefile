@@ -1,8 +1,8 @@
-# $MirOS$
+# $MirOS: ports/net/xchat/Makefile,v 1.2 2005/07/07 21:25:14 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.45 2003/08/02 14:36:50 couderc Exp $
 # $FreeBSD: Makefile,v 1.12 1999/06/08 23:41:54 steve Exp $
 
-COMMENT=	"X11 IRC client"
+COMMENT=			X11 IRC client
 MAJOR=		1.8
 VERSION=	${MAJOR}.11
 DISTNAME=	xchat-${VERSION}

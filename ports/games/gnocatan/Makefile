@@ -1,7 +1,7 @@
-# $MirOS: ports/games/gnocatan/Makefile,v 1.1.7.1 2005/03/18 15:46:15 tg Exp $
+# $MirOS: ports/games/gnocatan/Makefile,v 1.2 2006/02/09 11:11:37 tg Exp $
 # $OpenBSD: Makefile,v 1.2 2003/04/24 09:30:32 sturm Exp $
 
-COMMENT=	"Settlers of Catan for GNOME/Gtk"
+COMMENT=			Settlers of Catan for GNOME/Gtk
 VERSION=	0.6.1
 DISTNAME=	gnocatan-${VERSION}
 CATEGORIES=	games x11/gnome

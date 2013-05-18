@@ -1,5 +1,5 @@
 # $OpenBSD: Makefile,v 1.20 2002/10/28 01:38:47 naddy Exp $
-COMMENT='enhanced talk that allows for multiple parties'
+COMMENT=			enhanced talk that allows for multiple parties
 
 DISTNAME=	ytalk-3.1.1
 CATEGORIES=	net

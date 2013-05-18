@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.17 2003/06/21 07:49:24 pvalchev Exp $
 
-COMMENT=	"object-oriented web application server"
+COMMENT=			object-oriented web application server
 
 VERSION=	2.6.1
 PORT_VERSION=	${VERSION}

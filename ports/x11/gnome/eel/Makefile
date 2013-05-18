@@ -1,7 +1,7 @@
-# $MirOS: ports/x11/gnome/eel/Makefile,v 1.1.7.1 2005/03/18 16:00:23 tg Exp $
+# $MirOS: ports/x11/gnome/eel/Makefile,v 1.2 2006/02/09 11:15:41 tg Exp $
 # $OpenBSD: Makefile,v 1.12 2004/12/15 13:57:56 alek Exp $
 
-COMMENT=		"Eazel Extensions Library"
+COMMENT=			Eazel Extensions Library
 
 DISTNAME=		eel-2.8.2
 CATEGORIES=		devel x11/gnome

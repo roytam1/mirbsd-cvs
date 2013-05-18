@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.1.1.1 2003/05/28 23:12:16 avsm Exp $
 
-COMMENT=	"library to resolve perl Pod escape sequences"
+COMMENT=			library to resolve perl Pod escape sequences
 
 DISTNAME=	Pod-Escapes-1.03
 PKGNAME=	p5-${DISTNAME}-0

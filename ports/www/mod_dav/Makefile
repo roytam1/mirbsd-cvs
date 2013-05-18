@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.7 2004/05/24 09:34:04 sturm Exp $
 
-COMMENT=	"class 1 and 2 DAV server for the Apache webserver"
+COMMENT=			class 1 and 2 DAV server for the Apache webserver
 
 # This port currently only works with archs supporting dynamic loading
 # and has Apache that supports DSO's.

@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.1.1.1 2003/11/22 00:57:55 espie Exp $
 
-COMMENT=	"access software for a blind person using a braille terminal"
+COMMENT=			access software for a blind person using a braille terminal
 
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 DISTNAME=	brltty-3.3.1

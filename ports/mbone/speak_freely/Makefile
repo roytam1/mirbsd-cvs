@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.19 2002/12/23 00:37:51 pvalchev Exp $
 
-COMMENT=	"voice communication over data networks"
+COMMENT=			voice communication over data networks
 
 DISTNAME=	speak_freely-7.1
 CATEGORIES=	mbone audio security

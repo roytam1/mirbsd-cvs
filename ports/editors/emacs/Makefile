@@ -1,9 +1,9 @@
-# $MirOS: ports/editors/emacs/Makefile,v 1.2 2005/07/07 21:20:36 bsiegert Exp $
+# $MirOS: ports/editors/emacs/Makefile,v 1.3 2006/02/09 11:11:30 tg Exp $
 # $OpenBSD: Makefile,v 1.21 2004/02/04 07:39:18 sturm Exp $
 
-COMMENT=		"GNU editor: extensible, customizable, self documenting"
-COMMENT-el=		"elisp sources for those who want to read/modify them"
-COMMENT-leim=		"Library of Emacs Input Methods"
+COMMENT=			GNU editor: extensible, customizable, self documenting
+COMMENT-el=			elisp sources for those who want to read/modify them
+COMMENT-leim=			Library of Emacs Input Methods
 VERSION=		21.3
 DISTNAME=		emacs-${VERSION}
 FULLPKGNAME-el=		emacs-el-${VERSION}-0

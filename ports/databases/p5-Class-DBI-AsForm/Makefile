@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.1.1.1 2004/05/26 13:36:07 sturm Exp $
 
-COMMENT=	"produce HTML form elements for database columns"
+COMMENT=			produce HTML form elements for database columns
 
 DISTNAME=	Class-DBI-AsForm-2.2
 PKGNAME=	p5-${DISTNAME}-0

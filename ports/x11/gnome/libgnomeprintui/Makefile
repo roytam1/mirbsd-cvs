@@ -1,7 +1,7 @@
-# $MirOS: ports/x11/gnome/libgnomeprintui/Makefile,v 1.3 2006/02/09 09:36:23 tg Exp $
+# $MirOS: ports/x11/gnome/libgnomeprintui/Makefile,v 1.4 2006/02/09 11:15:45 tg Exp $
 # $OpenBSD: Makefile,v 1.8 2004/12/15 13:57:56 alek Exp $
 
-COMMENT=		"user interface components for libgnomeprint"
+COMMENT=			user interface components for libgnomeprint
 DISTNAME=		libgnomeprintui-2.8.1
 CATEGORIES=		x11/gnome devel
 HOMEPAGE=		http://www.gnome.org/projects/gnome-print/

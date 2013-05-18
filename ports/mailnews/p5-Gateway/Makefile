@@ -1,7 +1,7 @@
-# $MirOS$
+# $MirOS: ports/mailnews/p5-Gateway/Makefile,v 1.2 2005/07/07 21:22:53 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.9 2002/10/30 04:13:36 pvalchev Exp $
 
-COMMENT=	"perl module to gateway between news and mail"
+COMMENT=			perl module to gateway between news and mail
 DISTNAME=	Gateway-0.42
 PKGNAME=	p5-${DISTNAME}-0
 CATEGORIES=	news perl5

@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.14 2003/02/16 14:24:32 naddy Exp $
 
-COMMENT=	"Ericsson's high-level functional programming language"
+COMMENT=			Ericsson's high-level functional programming language
 
 VERSION=		47.4.0
 DISTNAME=		erlang-${VERSION}

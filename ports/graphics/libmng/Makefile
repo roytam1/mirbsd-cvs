@@ -1,7 +1,7 @@
-# $MirOS: ports/graphics/libmng/Makefile,v 1.4 2006/01/11 17:30:16 tg Exp $
+# $MirOS: ports/graphics/libmng/Makefile,v 1.5 2006/02/09 09:35:56 tg Exp $
 # $OpenBSD: Makefile,v 1.10 2003/12/23 23:50:56 brad Exp $
 
-COMMENT=		"Multiple-image Network Graphics (MNG) reference library"
+COMMENT=			Multiple-image Network Graphics (MNG) reference library
 DISTNAME=		libmng-1.0.9
 PKGNAME=		${DISTNAME}-1
 CATEGORIES=		graphics

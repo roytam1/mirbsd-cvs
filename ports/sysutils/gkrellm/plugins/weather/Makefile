@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.2 2004/04/12 04:55:36 sturm Exp $
 
-COMMENT=	"Weather plugin for GkrellM2"
+COMMENT=			Weather plugin for GkrellM2
 
 DISTNAME=	gkrellweather-2.0.6
 CATEGORIES=	x11 sysutils/gkrellm

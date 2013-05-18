@@ -5,7 +5,7 @@
 #
 # $OpenBSD: Makefile,v 1.13 2002/12/29 20:31:40 fgsch Exp $
 
-COMMENT=	"library to generate (and manipulate) PGP packets"
+COMMENT=			library to generate (and manipulate) PGP packets
 
 BROKEN=		"does not build"
 

@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.4 2002/07/19 02:04:03 kevlo Exp $
 
-COMMENT=	"library for balanced binary trees"
+COMMENT=			library for balanced binary trees
 
 VERSION=	1.4.0
 DISTNAME=	avl-${VERSION}

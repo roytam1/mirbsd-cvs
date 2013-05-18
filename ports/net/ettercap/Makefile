@@ -1,9 +1,9 @@
-# $MirOS: ports/net/ettercap/Makefile,v 1.3 2005/05/01 13:50:53 bsiegert Exp $
+# $MirOS: ports/net/ettercap/Makefile,v 1.4 2006/02/09 11:12:14 tg Exp $
 # $OpenBSD: Makefile,v 1.26 2004/02/25 02:35:16 naddy Exp $
 
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
-COMMENT=	"multi-purpose sniffer/interceptor/logger"
+COMMENT=			multi-purpose sniffer/interceptor/logger
 
 VER=		0.6.b
 DISTNAME=	ettercap-${VER}

@@ -2,7 +2,7 @@
 
 BROKEN=			"Needs upgrade to newer version"
 
-COMMENT=		"H.323 Video Conferencing library"
+COMMENT=			H.323 Video Conferencing library
 
 VERSION=		1.8.5
 DISTNAME=		openh323-${VERSION}

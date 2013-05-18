@@ -1,7 +1,7 @@
-# $MirOS$
+# $MirOS: ports/devel/asp2php/Makefile,v 1.2 2005/03/30 18:13:20 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.16 2002/09/15 11:01:25 shell Exp $
 
-COMMENT=	"convert ASP code to PHP code"
+COMMENT=			convert ASP code to PHP code
 
 DISTNAME=	asp2php-0.76.13
 CATEGORIES=	devel www

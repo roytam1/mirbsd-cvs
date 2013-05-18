@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.5 2004/05/04 20:22:51 david Exp $
 
-COMMENT=	"Web intrusion detection and prevention engine"
+COMMENT=			Web intrusion detection and prevention engine
 
 # This port currently only works with archs supporting dynamic loading
 # and has Apache that supports DSO's.

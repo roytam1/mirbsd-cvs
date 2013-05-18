@@ -1,7 +1,7 @@
 # $OpenBSD: Makefile,v 1.13 2003/11/15 15:12:53 sturm Exp $
 #
 
-COMMENT=	"powerful command-line front end to diff"
+COMMENT=			powerful command-line front end to diff
 
 PKGNAME=	idiff-1.0-0
 DISTNAME=	idiff-1.0

@@ -2,7 +2,7 @@
 
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
-COMMENT=	"interface to handy and fast permutation"
+COMMENT=			interface to handy and fast permutation
 
 DISTNAME=	Algorithm-Permute-0.06
 PKGNAME=	p5-${DISTNAME}-0

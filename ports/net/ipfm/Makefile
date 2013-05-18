@@ -1,8 +1,8 @@
-# $MirOS$
+# $MirOS: ports/net/ipfm/Makefile,v 1.1.7.1 2005/03/18 15:48:25 tg Exp $
 # $FreeBSD: ports/net/ipfm/Makefile,v 1.2 2000/04/09 18:11:44 cpiazza Exp $
 # $OpenBSD: Makefile,v 1.7 2002/10/28 01:38:45 naddy Exp $
 
-COMMENT=	"IP bandwidth analysis tool"
+COMMENT=			IP bandwidth analysis tool
 
 DISTNAME=	ipfm-0.11.4
 CATEGORIES=     net

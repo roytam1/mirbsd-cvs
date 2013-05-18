@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.1 2004/02/16 21:09:22 djm Exp $
 
-COMMENT=		'Template Toolkit'
+COMMENT=			Template Toolkit
 
 DISTNAME=		Template-Toolkit-2.13
 PKGNAME=		p5-Template-2.13-0

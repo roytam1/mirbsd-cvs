@@ -1,7 +1,7 @@
-# $MirOS$
+# $MirOS: ports/devel/silc-toolkit/Makefile,v 1.2 2005/07/07 21:20:30 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.1.1.1 2004/04/11 21:25:13 jolan Exp $
 
-COMMENT=	"toolkit for the development of SILC applications"
+COMMENT=			toolkit for the development of SILC applications
 DISTNAME=	silc-toolkit-0.9.12
 PKGNAME=	${DISTNAME}-1
 CATEGORIES=	devel

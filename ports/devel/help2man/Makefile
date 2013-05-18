@@ -1,7 +1,7 @@
-# $MirOS: ports/devel/help2man/Makefile,v 1.3 2005/11/10 21:13:45 tg Exp $
+# $MirOS: ports/devel/help2man/Makefile,v 1.4 2006/02/09 09:35:45 tg Exp $
 # $OpenBSD: Makefile,v 1.5 2002/11/13 19:04:53 naddy Exp $
 
-COMMENT=	"GNU help2man"
+COMMENT=			GNU help2man
 DISTNAME=	help2man-1.29
 CATEGORIES=	devel
 MASTER_SITES=	${MASTER_SITE_GNU:=help2man/}

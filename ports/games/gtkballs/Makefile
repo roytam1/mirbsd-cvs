@@ -1,7 +1,7 @@
-# $MirOS: ports/games/gtkballs/Makefile,v 1.2 2005/03/30 18:13:28 bsiegert Exp $
+# $MirOS: ports/games/gtkballs/Makefile,v 1.3 2006/02/09 11:11:38 tg Exp $
 # $OpenBSD: Makefile,v 1.12 2002/12/29 15:10:07 fgsch Exp $
 
-COMMENT=	"gtk+ clone of the lines ball logic game"
+COMMENT=			gtk+ clone of the lines ball logic game
 
 DISTNAME=	gtkballs-2.2.0
 CATEGORIES=	games x11

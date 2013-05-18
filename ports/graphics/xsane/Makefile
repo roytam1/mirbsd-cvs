@@ -1,7 +1,7 @@
-# $MirOS: ports/graphics/xsane/Makefile,v 1.2 2005/03/30 18:13:33 bsiegert Exp $
+# $MirOS: ports/graphics/xsane/Makefile,v 1.3 2006/02/09 11:11:54 tg Exp $
 # Original from: Antoine Jacoutot <ajacoutot@lphp.org>
 
-COMMENT=	"scanner frontend for SANE"
+COMMENT=			scanner frontend for SANE
 
 DISTNAME=	xsane-0.95
 CATEGORIES=	graphics

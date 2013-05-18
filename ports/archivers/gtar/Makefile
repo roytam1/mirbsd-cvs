@@ -1,7 +1,7 @@
-# $MirOS: ports/archivers/gtar/Makefile,v 1.1.7.1 2005/03/18 15:42:40 tg Exp $
+# $MirOS: ports/archivers/gtar/Makefile,v 1.3 2005/07/07 21:16:53 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.29 2004/05/15 12:57:34 naddy Exp $
 
-COMMENT=		"GNU version of the traditional tar archiver"
+COMMENT=			GNU version of the traditional tar archiver
 DISTNAME=		tar-1.15.1
 PKGNAME=		g${DISTNAME}-0
 CATEGORIES=		archivers

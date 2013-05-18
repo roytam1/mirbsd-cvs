@@ -2,7 +2,7 @@
 
 BROKEN=			Missing support for module x11/qt2
 
-COMMENT=	"qt-based window manager"
+COMMENT=			qt-based window manager
 
 DISTNAME=	qlwm-1.7
 CATEGORIES=	x11

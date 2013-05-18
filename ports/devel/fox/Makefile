@@ -1,7 +1,7 @@
-# $MirOS: ports/devel/fox/Makefile,v 1.2 2005/07/06 19:21:29 bsiegert Exp $
+# $MirOS: ports/devel/fox/Makefile,v 1.3 2006/02/09 11:11:20 tg Exp $
 # $OpenBSD: Makefile,v 1.1.1.1 2003/11/13 18:50:39 espie Exp $
 
-COMMENT=		'C++ toolkit for GUI'
+COMMENT=			C++ toolkit for GUI
 
 CATEGORIES=		devel x11
 VERSION=		1.1.41

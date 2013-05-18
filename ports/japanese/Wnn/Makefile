@@ -3,14 +3,14 @@
 # $FreeBSD: Makefile,v 1.19 1997/09/23 02:17:58 max Exp $
 # $OpenBSD: Makefile,v 1.46 2004/01/02 22:03:36 espie Exp $
 
-COMMENT= 	"Japanese input method"
-COMMENT-dict=	"dictionaries for Japanese Wnn"
-COMMENT-ko= 	"Korean input method"
-COMMENT-kodict= "dictionaries for Korean Wnn"
-COMMENT-zh=	"Chinese input method"
-COMMENT-zhdict= "dictionaries for Chinese Wnn"
-COMMENT-data= 	"common files to all languages of Wnn"
-COMMENT-xwnmo=	"X11 input method for Wnn"
+COMMENT=			Japanese input method
+COMMENT-dict=			dictionaries for Japanese Wnn
+COMMENT-ko=			Korean input method
+COMMENT-kodict=			dictionaries for Korean Wnn
+COMMENT-zh=			Chinese input method
+COMMENT-zhdict=			dictionaries for Chinese Wnn
+COMMENT-data=			common files to all languages of Wnn
+COMMENT-xwnmo=			X11 input method for Wnn
 
 DISTNAME=	Wnn4.2
 

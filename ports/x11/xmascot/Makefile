@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.16 2004/05/24 08:18:27 xsa Exp $
 
-COMMENT=	"moving mascot on your X11 screen"
+COMMENT=			moving mascot on your X11 screen
 
 DISTNAME=	xmascot2.6a
 PKGNAME=        xmascot-2.6a-0

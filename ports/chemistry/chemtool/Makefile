@@ -1,6 +1,6 @@
-# $MirOS: ports/chemistry/chemtool/Makefile,v 1.4 2005/12/16 01:02:49 bsiegert Exp $
+# $MirOS: ports/chemistry/chemtool/Makefile,v 1.5 2006/02/09 11:11:12 tg Exp $
 
-COMMENT=		"drawing tool for chemical structure formulae"
+COMMENT=			drawing tool for chemical structure formulae
 
 VERSION=		1.6.7
 DASH_VER=		-0

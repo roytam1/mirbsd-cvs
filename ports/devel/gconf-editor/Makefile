@@ -1,6 +1,6 @@
-# $MirOS: ports/devel/gconf-editor/Makefile,v 1.1.7.1 2005/03/18 15:44:37 tg Exp $
+# $MirOS: ports/devel/gconf-editor/Makefile,v 1.2 2006/02/09 11:11:20 tg Exp $
 
-COMMENT=		"editor for the GConf configuration system"
+COMMENT=			editor for the GConf configuration system
 DISTNAME=		gconf-editor-2.4.0
 CATEGORIES=		devel x11/gnome
 HOMEPAGE=		http://www.gnome.org/

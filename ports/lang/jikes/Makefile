@@ -1,5 +1,5 @@
 # $OpenBSD: Makefile,v 1.8 2003/04/07 17:20:49 ian Exp $
-COMMENT="compile Java source into .class files (quickly!)"
+COMMENT=			compile Java source into .class files (quickly!)
 
 # Jikes, a fast Java compiler. As of OpenBSD 2.8, compilation needs
 # lots of space - up your limits and/or add swap space as appropriate.

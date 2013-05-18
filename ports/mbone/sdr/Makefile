@@ -1,6 +1,6 @@
 #   $OpenBSD: Makefile,v 1.20 2002/12/23 00:37:51 pvalchev Exp $
 
-COMMENT=	"MBone Session Directory"
+COMMENT=			MBone Session Directory
 
 DISTNAME=	sdr-2.7e
 CATEGORIES=	mbone

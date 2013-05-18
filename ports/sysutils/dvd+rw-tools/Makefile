@@ -1,9 +1,9 @@
-# $MirOS: ports/sysutils/dvd+rw-tools/Makefile,v 1.1 2005/05/28 21:16:49 bsiegert Exp $
+# $MirOS: ports/sysutils/dvd+rw-tools/Makefile,v 1.2 2005/10/18 14:15:38 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.2 2005/01/27 10:57:20 espie Exp $
 
 NOT_FOR_PLATFORM=	Darwin:*:*
 
-COMMENT=		"mastering tools for DVD+RW/+R/-R/-RW"
+COMMENT=			mastering tools for DVD+RW/+R/-R/-RW
 
 DISTNAME=		dvd+rw-tools-5.21.4.10.8
 PKGNAME=		${DISTNAME}-1

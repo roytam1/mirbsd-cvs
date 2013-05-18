@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.1.1.1 2003/02/03 03:30:12 margarida Exp $
 
-COMMENT=		"widgets library"
+COMMENT=			widgets library
 
 VERSION=		0.2.2
 DISTNAME=		Mowitz-${VERSION}

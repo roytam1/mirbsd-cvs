@@ -1,7 +1,7 @@
-# $MirOS: ports/graphics/swfdec/Makefile,v 1.2 2005/05/01 13:50:50 bsiegert Exp $
+# $MirOS: ports/graphics/swfdec/Makefile,v 1.3 2006/02/09 11:11:52 tg Exp $
 # $OpenBSD: Makefile,v 1.4 2003/12/10 21:28:58 naddy Exp $
 
-COMMENT=	"flash rendering library"
+COMMENT=			flash rendering library
 DISTNAME=	swfdec-0.2.2
 CATEGORIES=	graphics www/mozilla
 MASTER_SITES=	${MASTER_SITE_SOURCEFORGE:=swfdec/}

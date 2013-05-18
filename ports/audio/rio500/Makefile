@@ -2,7 +2,7 @@
 
 ONLY_FOR_PLATFORM=	OpenBSD:*:i386 MirBSD:*:i386
 
-COMMENT=	"Diamond Rio 500 utilities"
+COMMENT=			Diamond Rio 500 utilities
 DISTNAME=	rio500-0.7
 CATEGORIES=	audio
 

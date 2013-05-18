@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.8 2002/07/18 15:46:50 naddy Exp $
 
-COMMENT=		"voice over misconfigured internet telephones"
+COMMENT=			voice over misconfigured internet telephones
 
 DISTNAME=		vomit-0.2
 CATEGORIES=		security

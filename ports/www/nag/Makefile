@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.6 2004/02/01 20:22:18 sturm Exp $ 
 
-COMMENT=	"task list manager for Horde"
+COMMENT=			task list manager for Horde
 
 V=		1.1
 HORDE_MODULE=	nag

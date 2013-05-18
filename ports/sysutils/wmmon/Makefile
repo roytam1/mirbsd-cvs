@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.7 2003/03/31 14:49:13 sturm Exp $
 
-COMMENT=	"WindowMaker dock app similar to xload"
+COMMENT=			WindowMaker dock app similar to xload
 
 DISTNAME=	wmmon-1.0b2
 CATEGORIES=	sysutils x11 x11/windowmaker

@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.6 2002/10/23 07:16:11 pvalchev Exp $
 
-COMMENT=	"simple program for plotting 2d mathematical functions"
+COMMENT=			simple program for plotting 2d mathematical functions
 
 DISTNAME=	geg-1.0.2
 CATEGORIES=	math

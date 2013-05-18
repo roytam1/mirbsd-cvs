@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.10 2003/01/21 22:58:03 pvalchev Exp $
 
-COMMENT=	"graphically improved game of yore"
+COMMENT=			graphically improved game of yore
 
 VERSION=	0.21
 DATAVERSION=	1.5

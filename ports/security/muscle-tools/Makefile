@@ -1,6 +1,6 @@
-# $MirOS: ports/security/muscle-tools/Makefile,v 1.1.7.1 2005/03/18 15:51:35 tg Exp $
+# $MirOS: ports/security/muscle-tools/Makefile,v 1.2 2005/04/10 21:50:55 tg Exp $
 
-COMMENT=		"Smartcard access tools"
+COMMENT=			Smartcard access tools
 DISTNAME=		muscleTools-0.9.2
 CATEGORIES=		security
 MASTER_SITES=		http://alioth.debian.org/download.php/395/

@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.9 2004/02/04 15:57:27 xsa Exp $
 
-COMMENT=	"Zope content management framework"
+COMMENT=			Zope content management framework
 
 DISTNAME=	CMF-1.3.3
 PKGNAME=	zope-${DISTNAME:L}-0

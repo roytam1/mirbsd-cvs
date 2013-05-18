@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.22 2002/10/27 21:07:54 naddy Exp $
 
-COMMENT=	"view and manipulate contents of a tar file"
+COMMENT=			view and manipulate contents of a tar file
 
 DISTNAME=	xtar-1.4
 CATEGORIES=	misc

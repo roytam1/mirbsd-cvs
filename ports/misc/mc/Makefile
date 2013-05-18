@@ -1,6 +1,6 @@
-# $MirOS: ports/misc/mc/Makefile,v 1.10 2006/02/21 15:12:12 tg Exp $
+# $MirOS: ports/misc/mc/Makefile,v 1.11 2006/04/18 19:14:46 bsiegert Exp $
 
-COMMENT=		"free Norton Commander clone with many useful features"
+COMMENT=			free Norton Commander clone with many useful features
 DISTNAME=		mc-4.6.1
 PKGNAME=		${DISTNAME}-3
 CATEGORIES=		misc

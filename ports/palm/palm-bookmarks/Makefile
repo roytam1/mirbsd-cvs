@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.4 2004/02/02 17:35:02 sturm Exp $
 
-COMMENT=	"bookmarks on your palm"
+COMMENT=			bookmarks on your palm
 
 DISTNAME=	palm-bookmarks-0.2
 CATEGORIES=	palm textproc

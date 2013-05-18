@@ -1,7 +1,7 @@
-# $MirOS: ports/audio/libvorbis/Makefile,v 1.3 2005/12/28 16:37:55 tg Exp $
+# $MirOS: ports/audio/libvorbis/Makefile,v 1.4 2006/02/09 09:35:37 tg Exp $
 # $OpenBSD: Makefile,v 1.13 2003/12/14 00:52:22 naddy Exp $
 
-COMMENT=		"audio compression codec library"
+COMMENT=			audio compression codec library
 DISTNAME=		libvorbis-1.1.2
 CATEGORIES=    		audio
 HOMEPAGE=		http://www.vorbis.com/

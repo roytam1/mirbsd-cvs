@@ -1,7 +1,7 @@
-# $MirOS$
+# $MirOS: ports/audio/cdparanoia/Makefile,v 1.2 2005/07/07 21:17:13 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.13 2004/03/02 04:59:51 brad Exp $
 
-COMMENT=	"CDDA reading utility with extra data verification features"
+COMMENT=			CDDA reading utility with extra data verification features
 DISTNAME=	cdparanoia-III-alpha9.8
 PKGNAME=	cdparanoia-3.a9.8-0
 CATEGORIES=	audio

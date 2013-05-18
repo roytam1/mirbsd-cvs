@@ -2,7 +2,7 @@
 
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
-COMMENT=	"universal unicode codec using iconv for Python"
+COMMENT=			universal unicode codec using iconv for Python
 
 DISTNAME=	iconvcodec-1.1.2
 PKGNAME=	py-${DISTNAME}-0

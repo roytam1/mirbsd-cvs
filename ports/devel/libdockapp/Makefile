@@ -1,7 +1,7 @@
-# $MirOS: ports/devel/libdockapp/Makefile,v 1.1.7.1 2005/03/18 15:44:50 tg Exp $
+# $MirOS: ports/devel/libdockapp/Makefile,v 1.2 2006/02/09 09:35:45 tg Exp $
 # $OpenBSD: Makefile,v 1.9 2002/09/17 14:35:03 wilfried Exp $
 
-COMMENT=		'dockapp-making standard library for Window Maker'
+COMMENT=			dockapp-making standard library for Window Maker
 DISTNAME=		libdockapp-0.4.0
 CATEGORIES=		devel
 

@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.16 2003/03/01 01:31:53 sturm Exp $
 
-COMMENT=	"record, playback and monitor RTPv2 data streams"
+COMMENT=			record, playback and monitor RTPv2 data streams
 
 DISTNAME=	rtptools-1.9
 CATEGORIES=	mbone

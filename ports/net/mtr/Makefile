@@ -1,7 +1,7 @@
-# $MirOS$
+# $MirOS: ports/net/mtr/Makefile,v 1.2 2005/03/30 18:13:42 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.25 2003/10/09 08:40:27 jakob Exp $
 
-COMMENT=	"Matt's traceroute - network diagnostic tool"
+COMMENT=			Matt's traceroute - network diagnostic tool
 
 DISTNAME=	mtr-0.54
 CATEGORIES=	net

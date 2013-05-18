@@ -1,7 +1,7 @@
-# $MirOS: ports/devel/atlas/Makefile,v 1.2 2005/07/07 21:18:52 bsiegert Exp $
+# $MirOS: ports/devel/atlas/Makefile,v 1.3 2006/02/09 09:35:43 tg Exp $
 # $OpenBSD: Makefile,v 1.7 2004/02/25 02:35:15 naddy Exp $
 
-COMMENT=	"C++ reference implementation of the Atlas protocol"
+COMMENT=			C++ reference implementation of the Atlas protocol
 VERSION=	0.4.3.1
 DISTNAME=	Atlas-C++-${VERSION}
 PKGNAME=	${DISTNAME:S/C++-//:L}-0

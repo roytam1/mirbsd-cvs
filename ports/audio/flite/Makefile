@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.2 2003/04/23 22:46:13 jason Exp $
 
-COMMENT=	"text to speech utility"
+COMMENT=			text to speech utility
 
 VERSION=	1.2
 DISTNAME=	flite-${VERSION}-release

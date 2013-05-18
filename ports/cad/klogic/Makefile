@@ -1,11 +1,11 @@
-# $MirOS: ports/cad/klogic/Makefile,v 1.2 2005/04/10 21:49:07 tg Exp $
+# $MirOS: ports/cad/klogic/Makefile,v 1.3 2006/02/09 13:25:12 tg Exp $
 # $OpenBSD: Makefile,v 1.5 2004/05/15 14:32:26 brad Exp $
 
 BROKEN=			Missing support for module x11/kde
 
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
-COMMENT= 	"logic circuit simulator for KDE"
+COMMENT=			logic circuit simulator for KDE
 
 DISTNAME=	klogic-1.6
 CATEGORIES=	cad education x11 x11/kde

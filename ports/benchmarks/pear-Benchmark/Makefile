@@ -1,7 +1,7 @@
-# $MirOS$
+# $MirOS: ports/benchmarks/pear-Benchmark/Makefile,v 1.3 2005/07/07 21:17:42 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.1.1.1 2003/05/23 21:32:52 avsm Exp $
 
-COMMENT=	"framework to benchmark PHP scripts or function calls"
+COMMENT=			framework to benchmark PHP scripts or function calls
 
 V=		1.2.1
 DISTNAME=	Benchmark-${V}

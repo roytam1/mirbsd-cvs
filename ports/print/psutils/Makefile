@@ -1,7 +1,7 @@
-# $MirOS: ports/print/psutils/Makefile,v 1.3 2006/01/01 04:03:47 tg Exp $
+# $MirOS: ports/print/psutils/Makefile,v 1.4 2006/08/10 18:17:33 tg Exp $
 # $OpenBSD: Makefile,v 1.18 2004/02/21 01:20:09 pvalchev Exp $
 
-COMMENT=		"manipulating PostScript documents"
+COMMENT=			manipulating PostScript documents
 DISTNAME=		psutils-p17
 PKGNAME=		psutils-1.17-2
 CATEGORIES=		print

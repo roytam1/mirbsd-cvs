@@ -1,7 +1,7 @@
-# $MirOS: ports/devel/automake/1.4/Makefile,v 1.4 2006/03/06 23:17:45 tg Exp $
+# $MirOS: ports/devel/automake/1.4/Makefile,v 1.5 2006/03/23 22:50:42 tg Exp $
 # $OpenBSD: Makefile,v 1.27 2002/11/27 07:50:28 ish Exp $
 
-COMMENT=		"GNU Standards-compliant Makefile generator"
+COMMENT=			GNU Standards-compliant Makefile generator
 DISTNAME=		automake-1.4-p6
 MPVERSION=		1.4p6-MirPorts-5
 PKGNAME=		automake-${MPVERSION:S/-MirPorts-/-/}

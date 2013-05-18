@@ -2,8 +2,8 @@
 
 ONLY_FOR_PLATFORM=	OpenBSD:*:i386 MirBSD:*:i386
 
-COMMENT=	"network file distribution system"
-COMMENT-server=	"network file distribution server"
+COMMENT=			network file distribution system
+COMMENT-server=			network file distribution server
 
 VERSION=	16.1g
 DISTNAME=	cvsup-snap-${VERSION}

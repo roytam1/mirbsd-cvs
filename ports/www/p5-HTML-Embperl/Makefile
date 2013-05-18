@@ -2,7 +2,7 @@
 
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
-COMMENT=	"embperl allows you to embed perl in your HTML documents"
+COMMENT=			embperl allows you to embed perl in your HTML documents
 
 VERSION=	1.3.3
 DISTNAME=	HTML-Embperl-${VERSION}

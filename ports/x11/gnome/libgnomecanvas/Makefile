@@ -1,7 +1,7 @@
-# $MirOS: ports/x11/gnome/libgnomecanvas/Makefile,v 1.5 2006/02/09 09:36:22 tg Exp $
+# $MirOS: ports/x11/gnome/libgnomecanvas/Makefile,v 1.6 2006/02/09 11:15:44 tg Exp $
 # $OpenBSD: Makefile,v 1.10 2004/12/27 18:57:58 sturm Exp $
 
-COMMENT=		"graphics library for GNOME"
+COMMENT=			graphics library for GNOME
 
 DISTNAME=		libgnomecanvas-2.12.0
 PKGNAME=		${DISTNAME}-0

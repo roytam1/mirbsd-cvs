@@ -2,7 +2,7 @@
 
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
-COMMENT=	"conversions to and from arbitrary character sets"
+COMMENT=			conversions to and from arbitrary character sets
 
 DISTNAME=	Unicode-Map-0.112
 PKGNAME=	p5-${DISTNAME}-0

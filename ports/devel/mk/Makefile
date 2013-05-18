@@ -1,7 +1,7 @@
-# $MirOS$
+# $MirOS: ports/devel/mk/Makefile,v 1.2 2005/03/25 23:13:54 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.2 2003/03/03 00:51:37 pvalchev Exp $
 
-COMMENT=	"Streamlined replacement for make"
+COMMENT=			Streamlined replacement for make
 
 VERSION=	2.0
 DISTNAME=	mk-${VERSION}

@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.5 2003/11/15 15:12:54 sturm Exp $
 
-COMMENT=	"perl module collection for working with XML"
+COMMENT=			perl module collection for working with XML
 
 VERSION=	0.07
 DISTNAME=	libxml-perl-${VERSION}

@@ -1,7 +1,7 @@
-# $MirOS: ports/misc/gacc/Makefile,v 1.3 2005/07/07 21:23:40 bsiegert Exp $
+# $MirOS: ports/misc/gacc/Makefile,v 1.4 2006/02/09 11:12:06 tg Exp $
 # $OpenBSD: Makefile,v 1.9 2003/06/20 08:14:52 kevlo Exp $
 
-COMMENT=	"personal accounts manager"
+COMMENT=			personal accounts manager
 
 VERSION=	0.7.5
 DISTNAME=	gacc_${VERSION}.orig

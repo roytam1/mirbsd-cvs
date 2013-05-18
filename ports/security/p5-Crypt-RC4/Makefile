@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.4 2002/12/29 20:31:40 fgsch Exp $
 
-COMMENT=	"implementation of the RC4 encryption algorithm"
+COMMENT=			implementation of the RC4 encryption algorithm
 
 DISTNAME=	Crypt-RC4-2.02
 PKGNAME=	p5-${DISTNAME}-0

@@ -5,7 +5,7 @@
 BROKEN=		"hangs at runtime during build process"
 .endif
 
-COMMENT=	"scheme r5 interpreter"
+COMMENT=			scheme r5 interpreter
 
 CATEGORIES=	lang
 

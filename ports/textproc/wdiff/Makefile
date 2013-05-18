@@ -1,7 +1,7 @@
-# $MirOS$
+# $MirOS: ports/textproc/wdiff/Makefile,v 1.2 2006/06/28 23:32:17 tg Exp $
 # $OpenBSD: Makefile,v 1.16 2002/12/23 09:09:12 pvalchev Exp $
 
-COMMENT=		word differences between text files
+COMMENT=			word differences between text files
 
 DISTNAME=		wdiff-0.5
 PKGNAME=		${DISTNAME}-1

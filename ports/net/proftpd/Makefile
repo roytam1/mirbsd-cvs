@@ -1,6 +1,6 @@
-# $MirOS: ports/net/proftpd/Makefile,v 1.1.7.1 2005/03/18 15:48:55 tg Exp $
+# $MirOS: ports/net/proftpd/Makefile,v 1.2 2006/02/09 11:12:24 tg Exp $
 
-COMMENT=        highly configurable ftp daemon
+COMMENT=			highly configurable ftp daemon
 DISTNAME=	proftpd-1.2.9
 CATEGORIES=	net
 HOMEPAGE=	http://www.proftpd.org/

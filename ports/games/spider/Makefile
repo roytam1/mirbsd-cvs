@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.13 2002/10/26 20:44:39 naddy Exp $
 
-COMMENT=	"challenging double decked solitaire game"
+COMMENT=			challenging double decked solitaire game
 
 DISTNAME=	spider
 PKGNAME=	spider-1.1-0

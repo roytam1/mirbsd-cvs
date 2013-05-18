@@ -1,7 +1,7 @@
-# $MirOS: ports/editors/scintilla/Makefile,v 1.3 2005/07/07 21:20:39 bsiegert Exp $
+# $MirOS: ports/editors/scintilla/Makefile,v 1.4 2006/02/09 11:11:31 tg Exp $
 # $OpenBSD: Makefile,v 1.1.1.1 2003/08/14 18:24:30 sturm Exp $
 
-COMMENT=	"source code editing component for GTK+"
+COMMENT=			source code editing component for GTK+
 
 VERSION=	1.54
 DISTNAME=	scintilla${VERSION:S/.//}

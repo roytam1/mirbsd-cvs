@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.12 2004/04/11 19:12:24 sturm Exp $
 
-COMMENT=	"LaTeX vgrind(1) look-alike"
+COMMENT=			LaTeX vgrind(1) look-alike
 
 CATEGORIES=	textproc devel print
 

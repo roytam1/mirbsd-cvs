@@ -1,7 +1,7 @@
-# $MirOS$
+# $MirOS: ports/x11/Xaw3d/Makefile,v 1.2 2005/12/06 22:01:02 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.20 2003/10/08 17:13:14 sturm Exp $
 
-COMMENT=	"3D Athena Widget set that looks like Motif"
+COMMENT=			3D Athena Widget set that looks like Motif
 
 DISTNAME=	Xaw3d-1.5
 PKGNAME=	${DISTNAME}-1

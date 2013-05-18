@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.19 2003/04/23 08:30:05 sturm Exp $
 
-COMMENT=	"X11 animation player with support for lots of formats"
+COMMENT=			X11 animation player with support for lots of formats
 
 DISTNAME=xanim-2.80.1
 PKGNAME=${DISTNAME}-1

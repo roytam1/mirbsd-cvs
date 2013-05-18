@@ -1,4 +1,4 @@
-# $MirOS: ports/chinese/rxvt-big5/Makefile,v 1.2 2005/04/10 21:49:08 tg Exp $
+# $MirOS: ports/chinese/rxvt-big5/Makefile,v 1.4 2005/07/07 21:17:56 bsiegert Exp $
 
 BROKEN=		the PLIST just doesnt look right to me...
 
@@ -6,7 +6,7 @@ BROKEN=		the PLIST just doesnt look right to me...
 
 ONLY_FOR_PLATFORM=	OpenBSD:*:i386 MirBSD:*:i386
 
-COMMENT=	"color terminal emulator Linux binary"
+COMMENT=			color terminal emulator Linux binary
 
 PKGNAME=	zh-rxvt-big5-2.7.8-1
 CATEGORIES=	chinese

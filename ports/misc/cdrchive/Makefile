@@ -1,9 +1,9 @@
-# $MirOS: ports/misc/cdrchive/Makefile,v 1.3 2006/02/09 09:36:03 tg Exp $
+# $MirOS: ports/misc/cdrchive/Makefile,v 1.4 2006/02/09 13:25:14 tg Exp $
 # $OpenBSD: Makefile,v 1.10 2004/02/25 02:35:16 naddy Exp $
 
 BROKEN=			Missing support for module x11/qt2
 
-COMMENT=		"Qt-based CD creation tool"
+COMMENT=			Qt-based CD creation tool
 
 PKGNAME=		${DISTNAME:S/-OpenBSD//}-0
 DISTNAME=		cdrchive-1.0.1-OpenBSD

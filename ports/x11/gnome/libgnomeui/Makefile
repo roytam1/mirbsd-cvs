@@ -1,7 +1,7 @@
-# $MirOS: ports/x11/gnome/libgnomeui/Makefile,v 1.2 2005/12/29 19:35:00 bsiegert Exp $
+# $MirOS: ports/x11/gnome/libgnomeui/Makefile,v 1.3 2006/02/09 09:36:23 tg Exp $
 # $OpenBSD: Makefile,v 1.8 2004/12/15 13:57:56 alek Exp $
 
-COMMENT=		"user interface components for GNOME"
+COMMENT=			user interface components for GNOME
 
 DISTNAME=		libgnomeui-2.12.0
 CATEGORIES=		x11/gnome

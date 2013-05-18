@@ -1,9 +1,9 @@
-# $MirOS$
+# $MirOS: ports/emulators/BasiliskII/Makefile,v 1.3 2005/07/07 21:20:44 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.7 2002/12/23 00:03:57 grange Exp $
 # $RuOBSD: Makefile,v 1.4 2002/04/29 11:07:18 grange Exp $
 # $NetBSD: Makefile,v 1.1.1.1 2001/12/29 00:22:02 abs Exp $
 
-COMMENT=		"open source 68k Macintosh emulator"
+COMMENT=			open source 68k Macintosh emulator
 
 DISTNAME=		BasiliskII_src_31052001
 PKGNAME=		BasiliskII-0.9.1-0

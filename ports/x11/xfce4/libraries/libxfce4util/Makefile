@@ -2,7 +2,7 @@
 
 CATEGORIES=	x11/xfce4 x11/xfce4/libraries devel
 
-COMMENT=	"basic utility library for xfce4"
+COMMENT=			basic utility library for xfce4
 DISTNAME=	libxfce4util-${V}
 
 USE_X11=	No

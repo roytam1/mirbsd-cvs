@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.23 2003/05/24 01:14:50 jolan Exp $
 
-COMMENT=	"block-sorting file compressor, encumbered"
+COMMENT=			block-sorting file compressor, encumbered
 
 DISTNAME=	bzip-0.21
 CATEGORIES=	archivers

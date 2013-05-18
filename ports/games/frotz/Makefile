@@ -2,7 +2,7 @@
 # $NetBSD: Makefile,v 1.2 2000/01/15 18:46:28 jlam Exp $
 # Original from: Stefan Jokisch
 
-COMMENT=	"Curses-based interpreter for Infocom-compatible games"
+COMMENT=			Curses-based interpreter for Infocom-compatible games
 
 DISTNAME=		UnixFrotz232R2Std10
 PKGNAME=		frotz-2.32-0

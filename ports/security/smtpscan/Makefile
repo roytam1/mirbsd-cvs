@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.3 2004/02/01 20:37:15 sturm Exp $
 
-COMMENT=	"Remote SMTP Server Detection"
+COMMENT=			Remote SMTP Server Detection
 
 VERSION=	0.5
 DISTNAME=	smtpscan-${VERSION}

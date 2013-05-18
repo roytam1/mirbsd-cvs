@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.1.1.1 2003/11/19 16:58:38 sturm Exp $
 
-COMMENT=	"powerful IMAP/Maildir synchronization and reader support"
+COMMENT=			powerful IMAP/Maildir synchronization and reader support
 
 DISTNAME=	offlineimap_4.0.0
 CATEGORIES=	mail

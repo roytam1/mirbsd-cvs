@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.4 2004/02/01 20:25:35 sturm Exp $
 
-COMMENT=		"boustrophedon text reader"
+COMMENT=			boustrophedon text reader
 DISTNAME=		boust-0.161
 CATEGORIES=		textproc
 

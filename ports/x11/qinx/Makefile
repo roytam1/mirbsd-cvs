@@ -4,7 +4,7 @@ BROKEN=			Missing support for module x11/kde
 
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
-COMMENT=	"QNX Photon inspired theme for KDE"
+COMMENT=			QNX Photon inspired theme for KDE
 
 DISTNAME=	qinx-1.0
 CATEGORIES=	x11 x11/kde

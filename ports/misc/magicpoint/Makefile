@@ -1,7 +1,7 @@
-# $MirOS$
+# $MirOS: ports/misc/magicpoint/Makefile,v 1.2 2005/07/07 21:23:42 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.32 2004/04/09 09:52:09 espie Exp $
 
-COMMENT=	"X11-based presentation tool"
+COMMENT=			X11-based presentation tool
 DISTNAME=	magicpoint-1.10a
 PKGNAME=	${DISTNAME}-1
 CATEGORIES=	misc productivity

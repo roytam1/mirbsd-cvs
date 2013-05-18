@@ -2,7 +2,7 @@
 # ATTENTION: It does not work in > 256 color modes, please fix
 # it if you can.
 
-COMMENT=	".bdf, .xbm, .xpm mouse cursor editor"
+COMMENT=			.bdf, .xbm, .xpm mouse cursor editor
 
 DISTNAME=       xfedor-5.0.1
 CATEGORIES=	x11

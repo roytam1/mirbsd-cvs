@@ -1,7 +1,7 @@
-# $MirOS$
+# $MirOS: ports/x11/e16keyedit/Makefile,v 1.2 2005/03/30 18:13:54 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.4 2003/10/08 17:13:15 sturm Exp $
 
-COMMENT=		"edit enlightenment's keybindings"
+COMMENT=			edit enlightenment's keybindings
 
 DISTNAME=		e16keyedit-0.2
 CATEGORIES=     	x11

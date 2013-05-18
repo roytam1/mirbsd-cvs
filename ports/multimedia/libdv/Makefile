@@ -1,7 +1,7 @@
-# $MirOS: ports/multimedia/libdv/Makefile,v 1.3 2005/03/30 18:13:37 bsiegert Exp $
+# $MirOS: ports/multimedia/libdv/Makefile,v 1.4 2006/02/09 11:12:10 tg Exp $
 # $OpenBSD: Makefile,v 1.1.1.1 2004/06/26 18:00:27 sturm Exp $
 
-COMMENT=		"Quasar DV codec"
+COMMENT=			Quasar DV codec
 
 DISTNAME=		libdv-0.102
 CATEGORIES=		multimedia

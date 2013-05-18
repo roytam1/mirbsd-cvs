@@ -8,8 +8,8 @@ PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
-COMMENT=	"ARP level ping utility"
-HOMEPAGE=	"http://www.habets.pp.se/synscan/programs.php?prog=ARPing"
+COMMENT=			ARP level ping utility
+HOMEPAGE=			http://www.habets.pp.se/synscan/programs.php?prog=ARPing
 MASTER_SITES=	ftp://ftp.habets.pp.se/pub/synscan/ \
 		ftp://rt.fm/pub/arping/
 

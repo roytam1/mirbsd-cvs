@@ -1,7 +1,7 @@
-# $MirOS: ports/x11/gtkglarea/Makefile,v 1.2 2005/03/30 18:13:57 bsiegert Exp $
+# $MirOS: ports/x11/gtkglarea/Makefile,v 1.3 2006/02/09 09:36:24 tg Exp $
 # $OpenBSD: Makefile,v 1.21 2003/10/08 17:13:16 sturm Exp $
 
-COMMENT=		"OpenGL widget for GTK+ GUI toolkit"
+COMMENT=			OpenGL widget for GTK+ GUI toolkit
 
 DISTNAME=		gtkglarea-1.2.2
 CATEGORIES=		x11 graphics

@@ -1,7 +1,7 @@
-# $MirOS: ports/x11/sawfish/Makefile,v 1.3 2005/03/30 18:14:01 bsiegert Exp $
+# $MirOS: ports/x11/sawfish/Makefile,v 1.4 2006/02/09 11:15:55 tg Exp $
 # $OpenBSD: Makefile,v 1.13 2003/05/15 04:39:16 margarida Exp $
 
-COMMENT=	"extensible window manager"
+COMMENT=			extensible window manager
 
 VERSION=	0.36
 DISTNAME=	sawfish-${VERSION}

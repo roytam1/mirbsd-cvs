@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.2 2004/01/30 08:39:48 xsa Exp $
 
-COMMENT=	"clone of arcade game 'Defender' with a Linux theme"
+COMMENT=			clone of arcade game 'Defender' with a Linux theme
 
 DISTNAME=	defendguin-0.0.10
 CATEGORIES=	games x11

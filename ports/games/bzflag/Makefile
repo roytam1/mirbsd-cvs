@@ -1,9 +1,9 @@
-# $MirOS: ports/games/bzflag/Makefile,v 1.2 2005/07/07 21:20:58 bsiegert Exp $
+# $MirOS: ports/games/bzflag/Makefile,v 1.3 2006/02/09 11:11:35 tg Exp $
 # $OpenBSD: Makefile,v 1.4 2004/02/25 02:35:15 naddy Exp $
 
 BROKEN=		doesn't respect CXXFLAGS, problems loading data files
 
-COMMENT=	"graphical multiplayer 3-d tank war game"
+COMMENT=			graphical multiplayer 3-d tank war game
 DISTNAME=	bzflag-1.10.4.20040125
 PKGNAME=	bzflag-1.10.4-0
 CATEGORIES=	games x11

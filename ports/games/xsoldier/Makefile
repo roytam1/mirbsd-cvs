@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.15 2002/10/26 20:44:40 naddy Exp $
 
-COMMENT=	"shooting game for X11"
+COMMENT=			shooting game for X11
 
 DISTNAME=	xsoldier-0.96
 PKGNAME=	${DISTNAME}-1

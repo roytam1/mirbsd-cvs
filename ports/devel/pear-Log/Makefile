@@ -1,7 +1,7 @@
-# $MirOS$
+# $MirOS: ports/devel/pear-Log/Makefile,v 1.3 2005/07/07 21:20:16 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.5 2004/02/29 00:08:50 avsm Exp $
 
-COMMENT=	"logging utilities for PHP"
+COMMENT=			logging utilities for PHP
 
 V=		1.8.4
 DISTNAME=	Log-${V}

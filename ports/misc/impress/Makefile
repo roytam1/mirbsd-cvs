@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.8 2003/12/27 23:37:02 jose Exp $
 
-COMMENT=	"publishing and presentation tool"
+COMMENT=			publishing and presentation tool
 
 VERSION=	1.1b9
 DISTNAME=	imp${VERSION}

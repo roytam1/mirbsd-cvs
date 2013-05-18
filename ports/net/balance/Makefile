@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.6 2002/12/29 21:14:10 fgsch Exp $
 
-COMMENT=		"tcp proxy with load balancing and failover mechanisms"
+COMMENT=			tcp proxy with load balancing and failover mechanisms
 
 VERSION=		2.33
 DISTNAME=		balance-${VERSION}

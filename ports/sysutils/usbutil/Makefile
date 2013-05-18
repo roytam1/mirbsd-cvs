@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.12 2002/10/28 19:53:44 naddy Exp $
 
-COMMENT=	"USB developer utilities"
+COMMENT=			USB developer utilities
 
 DISTNAME=	usbutil-0.5
 CATEGORIES=	sysutils

@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.9 2004/02/12 18:47:26 naddy Exp $
 
-COMMENT=		"code browsing program"
+COMMENT=			code browsing program
 
 DISTNAME=		cscope-15.5
 CATEGORIES=     	devel

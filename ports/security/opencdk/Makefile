@@ -1,7 +1,7 @@
-# $MirOS$
+# $MirOS: ports/security/opencdk/Makefile,v 1.1.7.1 2005/03/18 15:51:37 tg Exp $
 # $OpenBSD: Makefile,v 1.3 2004/05/08 06:42:59 sturm Exp $
 
-COMMENT=		"Open Crypto Development Kit"
+COMMENT=			Open Crypto Development Kit
 VERSION=		0.5.5
 DISTNAME=		opencdk-${VERSION}
 EXTRACT_SUFX=		.tar.bz2

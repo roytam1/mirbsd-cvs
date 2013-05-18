@@ -1,7 +1,7 @@
-# $MirOS$
+# $MirOS: ports/www/p5-HTML-Base/Makefile,v 1.2 2005/07/07 21:28:00 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.9 2003/10/18 19:44:52 sturm Exp $
 
-COMMENT=	"base HTML library"
+COMMENT=			base HTML library
 DISTNAME=	HTML-0.6
 PKGNAME=	p5-HTML-Base-0.6-0
 CATEGORIES=	www perl5

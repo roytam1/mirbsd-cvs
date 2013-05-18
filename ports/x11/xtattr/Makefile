@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.12 2003/10/08 17:13:19 sturm Exp $
 
-COMMENT=	"changing xterm attributes"
+COMMENT=			changing xterm attributes
 
 DISTNAME=	xtattr-1.0
 CATEGORIES=	x11

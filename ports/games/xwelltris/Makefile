@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.3 2003/09/25 06:25:13 jolan Exp $
 
-COMMENT=	"2.5 dimensional tetris-like game"
+COMMENT=			2.5 dimensional tetris-like game
 
 DISTNAME=	${PKGNAME}.src
 PKGNAME=	xwelltris-1.0.1-0

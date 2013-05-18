@@ -1,9 +1,9 @@
-# $MirOS: ports/plan9/kencc/Makefile,v 1.1 2006/03/31 03:50:14 tg Exp $
+# $MirOS: ports/plan9/kencc/Makefile,v 1.2 2006/08/26 23:34:40 tg Exp $
 
 # sort of hard to add more...
 ONLY_FOR_PLATFORM=	Darwin:*:powerpc MirBSD:*:i386 OpenBSD:*:i386
 
-COMMENT=		"Plan 9 compiler suite"
+COMMENT=			Plan 9 compiler suite
 CATEGORIES=		devel lang plan9
 V=			20060303
 DISTNAME=		kencc-${V}

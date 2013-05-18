@@ -2,7 +2,7 @@
 
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
-COMMENT=	"implements DSA using OpenSSL"
+COMMENT=			implements DSA using OpenSSL
 
 VERSION=	0.11
 DISTNAME=	Crypt-OpenSSL-DSA-${VERSION}

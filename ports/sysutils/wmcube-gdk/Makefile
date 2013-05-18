@@ -1,7 +1,7 @@
-# $MirOS$
+# $MirOS: ports/sysutils/wmcube-gdk/Makefile,v 1.2 2005/03/30 18:13:49 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.9 2002/09/17 15:22:27 wilfried Exp $
 
-COMMENT=		'wm-dockapp; shows rotating 3d-object and CPU load'
+COMMENT=			wm-dockapp; shows rotating 3d-object and CPU load
 
 DISTNAME=		wmcube-gdk-0.98p2
 CATEGORIES=		sysutils x11 x11/windowmaker

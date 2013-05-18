@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.16 2003/11/15 15:12:53 sturm Exp $
 
-COMMENT=	"approximate grep (fast approximate pattern-matching tool)"
+COMMENT=			approximate grep (fast approximate pattern-matching tool)
 
 DISTNAME=	agrep-2.04
 CATEGORIES=	textproc

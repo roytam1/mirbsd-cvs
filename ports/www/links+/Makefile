@@ -1,7 +1,7 @@
-# $MirOS: ports/www/links+/Makefile,v 1.3 2005/07/07 21:27:39 bsiegert Exp $
+# $MirOS: ports/www/links+/Makefile,v 1.4 2006/02/09 11:15:35 tg Exp $
 # $OpenBSD: Makefile,v 1.15 2003/11/17 22:59:32 fgsch Exp $
 
-COMMENT=	"graphics and text browser with javascript support"
+COMMENT=			graphics and text browser with javascript support
 VER=		2.1pre17
 DISTNAME=	links-${VER}
 PKGNAME=	links+-${VER}-0

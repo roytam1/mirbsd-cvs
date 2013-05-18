@@ -1,7 +1,7 @@
 # $OpenBSD: Makefile,v 1.3 2004/01/30 08:39:48 xsa Exp $
 
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
-COMMENT=	"Python wrapper for the Ogg libraries"
+COMMENT=			Python wrapper for the Ogg libraries
 DISTNAME=	pyogg-1.3
 PKGNAME=	${DISTNAME:S/py/py-/}-0
 CATEGORIES=	audio

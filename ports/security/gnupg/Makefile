@@ -1,7 +1,7 @@
-# $MirOS: ports/security/gnupg/Makefile,v 1.8 2006/09/11 01:02:03 tg Exp $
+# $MirOS: ports/security/gnupg/Makefile,v 1.9 2006/09/13 20:54:58 tg Exp $
 # $OpenBSD: Makefile,v 1.52 2005/05/17 15:08:34 martin Exp $
 
-COMMENT=		GNU privacy guard - a GPL'd PGP replacement
+COMMENT=			GNU privacy guard - a GPL'd PGP replacement
 VERSION=		1.4.5
 DISTNAME=		gnupg-${VERSION}
 PKGNAME=		${DISTNAME}-2

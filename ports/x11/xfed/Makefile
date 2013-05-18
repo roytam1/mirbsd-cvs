@@ -1,7 +1,7 @@
-# $MirOS$
+# $MirOS: ports/x11/xfed/Makefile,v 1.2 2005/07/07 21:29:33 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.19 2002/10/29 19:48:59 naddy Exp $
 
-COMMENT=	"X11 fonts (.bdf files) editor"
+COMMENT=			X11 fonts (.bdf files) editor
 DISTNAME=	xfed
 PKGNAME=	xfed-1.0-0
 CATEGORIES=	x11

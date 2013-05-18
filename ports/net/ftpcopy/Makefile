@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.7 2002/10/27 22:48:26 naddy Exp $
 
-COMMENT=	"FTP listing and transfer tools"
+COMMENT=			FTP listing and transfer tools
 
 DISTNAME=	ftpcopy-0.3.9
 CATEGORIES=	net

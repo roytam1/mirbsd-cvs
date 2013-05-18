@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.10 2002/12/29 19:29:57 fgsch Exp $
 
-COMMENT=	"console napster client"
+COMMENT=			console napster client
 
 VERSION=	1.3g
 DISTNAME=	TekNap-${VERSION}

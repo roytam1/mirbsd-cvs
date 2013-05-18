@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.12 2003/04/10 18:08:56 jsyn Exp $
 
-COMMENT=	"userland arp-proxy daemon"
+COMMENT=			userland arp-proxy daemon
 
 DISTNAME=	arpcatch
 PKGNAME=	${DISTNAME}-19970824-0

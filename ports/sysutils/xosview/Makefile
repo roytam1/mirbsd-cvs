@@ -1,7 +1,7 @@
 # $OpenBSD: Makefile,v 1.30 2002/11/07 06:37:47 pvalchev Exp $
 # $NetBSD: Makefile,v 1.9 1998/04/15 10:38:50 agc Exp $
 
-COMMENT=	"graphical performance meter"
+COMMENT=			graphical performance meter
 
 DISTNAME=	xosview-1.8.0
 PKGNAME=	${DISTNAME}-1

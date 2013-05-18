@@ -1,6 +1,6 @@
-# $MirOS: ports/x11/gnome/games/Makefile,v 1.2 2005/07/06 19:21:39 bsiegert Exp $
+# $MirOS: ports/x11/gnome/games/Makefile,v 1.3 2006/02/09 11:15:43 tg Exp $
 
-COMMENT=		"GNOME games"
+COMMENT=			GNOME games
 
 VERSION=		2.8.3
 DASH_VER=		-0

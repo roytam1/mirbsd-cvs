@@ -1,6 +1,6 @@
-# $MirOS: ports/graphics/cairo/Makefile,v 1.5 2006/02/09 11:11:43 tg Exp $
+# $MirOS: ports/graphics/cairo/Makefile,v 1.6 2006/08/26 23:34:11 tg Exp $
 
-COMMENT=		"vector graphics library"
+COMMENT=			vector graphics library
 
 DISTNAME=		cairo-1.0.0
 PKGNAME=		${DISTNAME}-2

@@ -1,7 +1,7 @@
-# $MirOS$
+# $MirOS: ports/japanese/kterm/Makefile,v 1.2 2005/07/07 21:22:14 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.19 2002/11/21 05:48:41 pvalchev Exp $
 
-COMMENT=	"Japanese-capable xterm"
+COMMENT=			Japanese-capable xterm
 VERSION=	6.2.0
 DISTNAME=	kterm-${VERSION}
 PKGNAME=	ja-kterm-${VERSION}-1

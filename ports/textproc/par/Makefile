@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.13 2003/11/15 15:12:55 sturm Exp $
 
-COMMENT=	"paragraph reflow for email"
+COMMENT=			paragraph reflow for email
 
 VERSION=	1.52
 DISTNAME=	Par${VERSION:S/.//}

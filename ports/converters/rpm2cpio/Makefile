@@ -1,7 +1,7 @@
-# $MirOS$
+# $MirOS: ports/converters/rpm2cpio/Makefile,v 1.1.7.1 2005/03/18 15:44:05 tg Exp $
 # $OpenBSD: Makefile,v 1.8 2004/02/03 07:28:12 sturm Exp $
 
-COMMENT=	"rpm2cpio, simple perl converter"
+COMMENT=			rpm2cpio, simple perl converter
 DISTNAME=	rpm2cpio-1.2
 CATEGORIES=	converters archivers
 MASTER_SITES=	http://www.iagora.com/~espel/

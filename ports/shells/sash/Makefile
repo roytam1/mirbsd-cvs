@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.7 2002/08/07 18:31:33 wcobb Exp $
 
-COMMENT=		"stand-alone shell with built-in commands"
+COMMENT=			stand-alone shell with built-in commands
 
 VERSION=		3.6
 DISTNAME=		sash-${VERSION}

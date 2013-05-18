@@ -1,7 +1,7 @@
-# $MirOS: ports/x11/vlc/Makefile,v 1.4 2005/07/07 21:29:23 bsiegert Exp $
+# $MirOS: ports/x11/vlc/Makefile,v 1.5 2006/02/09 11:15:55 tg Exp $
 # $OpenBSD: Makefile,v 1.11 2004/04/28 01:30:53 jolan Exp $
 
-COMMENT=	"videolan client; multimedia player"
+COMMENT=			videolan client; multimedia player
 
 VER=		0.7.1
 DISTNAME=	vlc-${VER}

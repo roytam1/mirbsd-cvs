@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.3 2004/04/18 17:38:37 naddy Exp $
 
-COMMENT=		"GUI for dctc (Direct Connect Text Clone)"
+COMMENT=			GUI for dctc (Direct Connect Text Clone)
 
 DISTNAME=		dc_gui-0.42
 CATEGORIES=		net x11

@@ -2,7 +2,7 @@
 
 BROKEN=			Missing support for module x11/qt2
 
-COMMENT=	"graphical CVS front-end using QT2"
+COMMENT=			graphical CVS front-end using QT2
 DISTNAME=	lincvs-0.4.90
 CATEGORIES=	devel
 HOMEPAGE=	http://www.lincvs.org

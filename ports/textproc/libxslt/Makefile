@@ -1,7 +1,7 @@
-# $MirOS: ports/textproc/libxslt/Makefile,v 1.1.7.1 2005/03/18 15:52:47 tg Exp $
+# $MirOS: ports/textproc/libxslt/Makefile,v 1.2 2005/12/28 00:56:18 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.34 2004/04/08 06:32:43 marcm Exp $
 
-COMMENT=		"XSLT C Library for GNOME"
+COMMENT=			XSLT C Library for GNOME
 
 DISTNAME=		libxslt-1.1.15
 CATEGORIES=		textproc

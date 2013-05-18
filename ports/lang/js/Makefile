@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.2 2004/05/07 15:28:31 naddy Exp $
 
-COMMENT=		"command line JavaScript interpreter"
+COMMENT=			command line JavaScript interpreter
 
 DISTNAME=		js-0.2.5
 CATEGORIES=		lang

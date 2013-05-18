@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.13 2002/10/26 20:44:40 naddy Exp $
 
-COMMENT=	"Mahjongg"
+COMMENT=			Mahjongg
 
 DISTNAME=       xmj
 PKGNAME=	xmj-1.0-0

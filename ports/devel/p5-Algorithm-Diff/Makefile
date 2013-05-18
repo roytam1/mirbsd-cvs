@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.7 2002/12/29 20:19:11 fgsch Exp $
 
-COMMENT=	"interface to compute differences between two objects"
+COMMENT=			interface to compute differences between two objects
 
 DISTNAME=	Algorithm-Diff-1.15
 PKGNAME=	p5-${DISTNAME}-0

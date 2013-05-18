@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.3 2002/12/29 21:14:12 fgsch Exp $
 
-COMMENT=	"report network interface statistics"
+COMMENT=			report network interface statistics
 
 DISTNAME=	tcpstat-1.4
 CATEGORIES=	net

@@ -2,7 +2,7 @@
 
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
-COMMENT=	"XMMS visualization plugin, to display Kjofol skins"
+COMMENT=			XMMS visualization plugin, to display Kjofol skins
 
 VERSION=	0.95
 DISTNAME=	kint_xmms-${VERSION}

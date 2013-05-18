@@ -2,7 +2,7 @@
 
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
-COMMENT=	"Python tools for computational molecular biology"
+COMMENT=			Python tools for computational molecular biology
 
 DISTNAME=	biopython-1.24
 PKGNAME=	py-${DISTNAME:L}-0

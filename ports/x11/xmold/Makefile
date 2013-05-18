@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.15 2004/05/24 08:31:13 xsa Exp $
 
-COMMENT=	"mold spreading over your X11 screen"
+COMMENT=			mold spreading over your X11 screen
 
 DISTNAME=	xmold
 PKGNAME=        xmold-1.0-0

@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.5 2003/11/15 15:12:54 sturm Exp $
 
-COMMENT=	"US-ASCII transliterations of Unicode text"
+COMMENT=			US-ASCII transliterations of Unicode text
 
 DISTNAME=	Text-Unidecode-0.04
 PKGNAME=	p5-${DISTNAME}-0

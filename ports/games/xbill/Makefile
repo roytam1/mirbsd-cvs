@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.15 2002/10/26 20:44:39 naddy Exp $
 
-COMMENT=	"save your computers from the evil clutches of Bill"
+COMMENT=			save your computers from the evil clutches of Bill
 
 DISTNAME=	xbill-2.0
 CATEGORIES=	games x11

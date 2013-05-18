@@ -1,7 +1,7 @@
-# $MirOS: ports/devel/popt/Makefile,v 1.3 2006/02/09 09:35:47 tg Exp $
+# $MirOS: ports/devel/popt/Makefile,v 1.4 2006/06/03 12:58:32 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.12 2003/07/15 16:50:22 jolan Exp $
 
-COMMENT=		"getopt(3)-like library with a number of enhancements"
+COMMENT=			getopt(3)-like library with a number of enhancements
 DISTNAME=		popt-1.7
 PKGNAME=		${DISTNAME}-2
 CATEGORIES=		devel

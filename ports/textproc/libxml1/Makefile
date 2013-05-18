@@ -1,7 +1,7 @@
-# $MirOS: ports/textproc/libxml1/Makefile,v 1.2 2005/07/07 21:26:51 bsiegert Exp $
+# $MirOS: ports/textproc/libxml1/Makefile,v 1.3 2005/10/24 21:57:49 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.9 2003/11/15 15:12:53 sturm Exp $
 
-COMMENT=	"XML parsing library for GNOME"
+COMMENT=			XML parsing library for GNOME
 
 VERSION=	1.8.17
 DISTNAME=	libxml-${VERSION}

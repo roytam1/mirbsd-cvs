@@ -1,7 +1,7 @@
-# $MirOS$
+# $MirOS: ports/audio/wsoundserver/Makefile,v 1.2 2005/07/07 21:17:35 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.20 2004/04/19 13:36:50 wilfried Exp $
 
-COMMENT=		'sound server for Window Maker'
+COMMENT=			sound server for Window Maker
 DISTNAME=		WSoundServer-0.4.0
 PKGNAME=		${DISTNAME:L}-0
 CATEGORIES=		audio

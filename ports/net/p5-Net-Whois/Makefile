@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.6 2004/02/07 12:51:24 sturm Exp $
 
-COMMENT=	'perl5 module for getting and parsing whois entries'
+COMMENT=			perl5 module for getting and parsing whois entries
 
 VERSION=	1.9
 DISTNAME=	Net-Whois-${VERSION}

@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.13 2002/10/28 19:53:44 naddy Exp $
 
-COMMENT=	"log out idle users and those hogging resources"
+COMMENT=			log out idle users and those hogging resources
 
 DISTNAME=	idled-1.16
 CATEGORIES=	sysutils

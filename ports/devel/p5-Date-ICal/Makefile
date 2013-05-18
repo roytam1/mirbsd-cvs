@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.1.1.1 2004/04/11 11:59:50 sturm Exp $
 
-COMMENT=	"Perl Extensions for ICal objects"
+COMMENT=			Perl Extensions for ICal objects
 
 DISTNAME=	Date-ICal-1.72
 PKGNAME=	p5-${DISTNAME}-0

@@ -1,6 +1,6 @@
-# $MirOS: ports/editors/joe/Makefile,v 1.5 2006/01/13 03:49:24 tg Exp $
+# $MirOS: ports/editors/joe/Makefile,v 1.6 2006/01/27 00:23:33 tg Exp $
 
-COMMENT=		"Joe's Own Editor"
+COMMENT=			Joe's Own Editor
 CATEGORIES=		editors
 DISTNAME=		joe-3.1jupp5
 PKGNAME=		${DISTNAME}-1

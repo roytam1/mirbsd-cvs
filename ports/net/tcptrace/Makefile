@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.15 2002/10/28 01:38:46 naddy Exp $
 
-COMMENT=	"TCP dump file analysis tool"
+COMMENT=			TCP dump file analysis tool
 
 DISTNAME=	tcptrace-6.2.0
 CATEGORIES=	net

@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.28 2002/12/14 14:09:07 naddy Exp $
 
-COMMENT=	"format ascii files for printing on PostScript printers"
+COMMENT=			format ascii files for printing on PostScript printers
 
 DISTNAME=	a2ps-4.13b
 WRKDIST=	${WRKDIR}/a2ps-4.13

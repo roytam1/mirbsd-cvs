@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.8 2002/12/29 15:10:08 fgsch Exp $
 
-COMMENT=	"jezzball-style, penguin puzzle game"
+COMMENT=			jezzball-style, penguin puzzle game
 
 DISTNAME=	icebreaker-1.2.1
 CATEGORIES=	games

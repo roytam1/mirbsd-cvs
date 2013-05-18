@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.23 2003/08/03 15:14:34 pvalchev Exp $
 
-COMMENT=	"new MH mail handling program"
+COMMENT=			new MH mail handling program
 
 DISTNAME=		nmh-1.0.4
 PKGNAME=		${DISTNAME}-1

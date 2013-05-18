@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.9 2003/10/18 19:44:55 sturm Exp $
 
-COMMENT=	"generate HTML tables for cgi scripts"
+COMMENT=			generate HTML tables for cgi scripts
 
 DISTNAME=	HTML-Table-1.18a
 PKGNAME=	p5-${DISTNAME}-0

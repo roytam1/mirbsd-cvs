@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.3 2004/05/22 19:54:10 jolan Exp $
 
-COMMENT=	"SDL clone of the popular Game of Life"
+COMMENT=			SDL clone of the popular Game of Life
 
 DISTNAME=	life-1.0
 EXTRACT_SUFX=	.tar.bz2

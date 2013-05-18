@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.25 2003/08/05 08:36:16 jakob Exp $
 
-COMMENT=	"SOCKS client and server"
+COMMENT=			SOCKS client and server
 
 DISTNAME=	dante-1.1.14
 CATEGORIES=	security

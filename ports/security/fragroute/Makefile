@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.5 2002/12/29 20:31:40 fgsch Exp $
 			
-COMMENT=		"intercept, modify, and rewrite egress traffic"
+COMMENT=			intercept, modify, and rewrite egress traffic
 
 DISTNAME=		fragroute-1.2
 PKGNAME=		${DISTNAME}-1

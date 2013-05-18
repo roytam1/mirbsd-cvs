@@ -9,7 +9,7 @@ PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
-COMMENT=	"Perl module to authenticate against a RADIUS server"
+COMMENT=			Perl module to authenticate against a RADIUS server
 MASTER_SITES=	${MASTER_SITE_PERL_CPAN:=Authen/}
 
 

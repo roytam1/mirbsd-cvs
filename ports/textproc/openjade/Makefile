@@ -1,7 +1,7 @@
-# $MirOS$
+# $MirOS: ports/textproc/openjade/Makefile,v 1.1.7.1 2005/03/18 15:52:49 tg Exp $
 # $OpenBSD: Makefile,v 1.15 2004/04/20 22:36:17 brad Exp $
 
-COMMENT=	"object-oriented SGML/XML parser toolkit and DSSSL engine"
+COMMENT=			object-oriented SGML/XML parser toolkit and DSSSL engine
 DISTNAME=	openjade-1.3
 CATEGORIES=	textproc
 MASTER_SITES=	${MASTER_SITE_SOURCEFORGE:=openjade/}

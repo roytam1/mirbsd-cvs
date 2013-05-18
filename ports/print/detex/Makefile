@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.17 2002/12/23 08:51:07 pvalchev Exp $
 
-COMMENT=		"strip TeX/LaTeX codes from a file"
+COMMENT=			strip TeX/LaTeX codes from a file
 
 DISTNAME=		detex-2.6
 CATEGORIES=		print

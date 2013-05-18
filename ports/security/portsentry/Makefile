@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.6 2003/08/14 09:23:31 kevlo Exp $
 
-COMMENT=	"port scan detection and active defense"
+COMMENT=			port scan detection and active defense
 
 DISTNAME=	portsentry-1.1
 CATEGORIES=	security

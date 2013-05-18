@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.14 2002/10/27 00:03:16 naddy Exp $
 
-COMMENT=	"play mpeg movies on X11"
+COMMENT=			play mpeg movies on X11
 
 DISTNAME=	mpeg_play-2.4
 CATEGORIES=	graphics

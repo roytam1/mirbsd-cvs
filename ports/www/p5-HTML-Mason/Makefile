@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.14 2004/04/18 19:53:41 robert Exp $
 
-COMMENT=	"high-performance dynamic web authoring system"
+COMMENT=			high-performance dynamic web authoring system
 
 DISTNAME=	HTML-Mason-1.26
 PKGNAME=	p5-${DISTNAME}-0

@@ -1,7 +1,7 @@
-# $MirOS$
+# $MirOS: ports/security/crank/Makefile,v 1.2 2005/03/30 18:13:46 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.11 2003/03/27 17:38:22 pvalchev Exp $
 
-COMMENT=	"classical (pen-and-paper) cipher cryptanalysis toolkit"
+COMMENT=			classical (pen-and-paper) cipher cryptanalysis toolkit
 
 DISTNAME=		crank-0.1.4
 CATEGORIES=		security

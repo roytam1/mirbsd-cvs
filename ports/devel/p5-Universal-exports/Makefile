@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.1.1.1 2004/05/20 11:14:50 sturm Exp $
 
-COMMENT=	"lightweight, universal exporting/require of variables"
+COMMENT=			lightweight, universal exporting/require of variables
 
 V=		0.03
 DISTNAME=	UNIVERSAL-exports-${V}

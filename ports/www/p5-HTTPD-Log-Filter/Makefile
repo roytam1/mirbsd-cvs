@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.3 2004/05/12 06:12:08 pvalchev Exp $
 
-COMMENT=	"httpd log filter library"
+COMMENT=			httpd log filter library
 
 DISTNAME=	HTTPD-Log-Filter-1.08
 PKGNAME=	p5-${DISTNAME}-0

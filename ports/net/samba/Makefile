@@ -1,10 +1,10 @@
-# $MirOS: ports/net/samba/Makefile,v 1.3 2006/01/01 03:49:12 tg Exp $
+# $MirOS: ports/net/samba/Makefile,v 1.4 2006/02/09 09:36:11 tg Exp $
 # $OpenBSD: Makefile,v 1.21 2003/10/26 09:33:23 sturm Exp $
 
 BROKEN=		does not function correctly sometimes
 
-COMMENT=	"SMB and CIFS client and server for UNIX"
-COMMENT-docs=	"documentation and examples for samba"
+COMMENT=			SMB and CIFS client and server for UNIX
+COMMENT-docs=			documentation and examples for samba
 
 PKGNAME=	${DISTNAME}-0
 PKGNAME-docs=	samba-docs-${VERSION}-0

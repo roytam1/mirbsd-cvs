@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.1 2004/01/25 18:19:30 dhartmei Exp $
 
-COMMENT=	"server for KiSS DP-500 network movie player"
+COMMENT=			server for KiSS DP-500 network movie player
 
 DISTNAME=	kissd-0.1
 CATEGORIES=	net

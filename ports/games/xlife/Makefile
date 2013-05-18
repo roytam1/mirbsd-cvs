@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.16 2002/10/26 20:44:39 naddy Exp $
 
-COMMENT=	"John Horton Conway's Game of Life"
+COMMENT=			John Horton Conway's Game of Life
 
 DISTNAME=	xlife-5.3
 CATEGORIES=	games

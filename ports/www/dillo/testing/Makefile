@@ -1,7 +1,7 @@
-# $MirOS: ports/www/dillo/testing/Makefile,v 1.3 2005/07/06 19:21:37 bsiegert Exp $
+# $MirOS: ports/www/dillo/testing/Makefile,v 1.4 2006/02/09 11:15:33 tg Exp $
 # $OpenBSD: Makefile,v 1.18 2004/02/26 13:43:26 couderc Exp $
 
-COMMENT=		"Fast and light gtk-based web browser (alpha ssl support)"
+COMMENT=			Fast and light gtk-based web browser (alpha ssl support)
 
 VERSION=		0.8.3
 DASH_VER=		-0-ssl

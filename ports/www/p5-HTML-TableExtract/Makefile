@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.11 2003/10/18 19:44:55 sturm Exp $
 
-COMMENT=	"module to extract text contained within HTML tables"
+COMMENT=			module to extract text contained within HTML tables
 
 DISTNAME=	HTML-TableExtract-1.08
 PKGNAME=	p5-${DISTNAME}-0

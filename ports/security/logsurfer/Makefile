@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.14 2002/10/28 17:35:02 naddy Exp $
 
-COMMENT=	"processes logfiles and perform certain actions"
+COMMENT=			processes logfiles and perform certain actions
 
 DISTNAME=	logsurfer-1.5b
 CATEGORIES=	security

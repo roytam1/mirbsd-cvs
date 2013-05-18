@@ -2,7 +2,7 @@
 
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
-COMMENT=	"routines for accessing the OpenSSL prng"
+COMMENT=			routines for accessing the OpenSSL prng
 
 VERSION=	0.03
 DISTNAME=	Crypt-OpenSSL-Random-${VERSION}

@@ -1,8 +1,8 @@
-# $MirOS$
+# $MirOS: ports/emulators/fuse/Makefile,v 1.4 2006/06/03 16:02:40 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.6 2004/05/08 06:46:45 sturm Exp $
 # $RuOBSD: Makefile,v 1.7 2002/03/26 19:14:05 grange Exp $
 
-COMMENT=		"Free Unix Spectrum Emulator"
+COMMENT=			Free Unix Spectrum Emulator
 
 DISTNAME=		fuse-0.6.2.1
 PKGNAME=		${DISTNAME}-1

@@ -1,7 +1,7 @@
-# $MirOS: ports/audio/gom/Makefile,v 1.1.7.1 2005/03/18 15:42:52 tg Exp $
+# $MirOS: ports/audio/gom/Makefile,v 1.2 2006/02/09 09:35:36 tg Exp $
 # $OpenBSD: Makefile,v 1.16 2002/12/29 19:29:56 fgsch Exp $
 
-COMMENT=	"generic audio mixer"
+COMMENT=			generic audio mixer
 DISTNAME=	gom-0.30.0
 CATEGORIES=     audio
 MASTER_SITES=	ftp://ibiblio.org/pub/linux/apps/sound/mixers/ \

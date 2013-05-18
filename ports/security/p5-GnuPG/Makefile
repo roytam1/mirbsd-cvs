@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.9 2002/12/29 20:31:40 fgsch Exp $
 
-COMMENT=	"perl5 interface to GnuPG"
+COMMENT=			perl5 interface to GnuPG
 
 VERSION=	0.09
 DISTNAME=	GnuPG-${VERSION}

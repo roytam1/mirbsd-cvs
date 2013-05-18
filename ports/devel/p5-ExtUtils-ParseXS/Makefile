@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.1.1.1 2004/05/21 22:11:47 msf Exp $
 
-COMMENT=	"converts Perl XS code into C code" 
+COMMENT=			converts Perl XS code into C code
 
 DISTNAME=	ExtUtils-ParseXS-2.08
 PKGNAME=	p5-${DISTNAME}-0

@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.20 2004/04/09 09:47:10 sturm Exp $
 
-COMMENT=	"two-dimensional drawing tool and hyper-object browser"
+COMMENT=			two-dimensional drawing tool and hyper-object browser
 
 DISTNAME=	tgif-QPL-4.1.43
 PKGNAME=	${DISTNAME:S/-QPL//}-0

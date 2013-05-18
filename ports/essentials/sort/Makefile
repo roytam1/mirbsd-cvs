@@ -1,6 +1,6 @@
-# $MirOS: ports/essentials/cksum/Makefile,v 1.2 2005/04/12 21:10:57 tg Exp $
+# $MirOS: ports/essentials/sort/Makefile,v 1.1 2005/04/18 22:03:24 bsiegert Exp $
 
-COMMENT=		"MirOS sort(1)"
+COMMENT=			MirOS sort(1)
 CATEGORIES=		essentials
 DISTNAME=		mirsort-20050418
 HOMEPAGE=		http://mirbsd.de/

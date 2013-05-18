@@ -1,14 +1,14 @@
-# $MirOS: ports/games/uqm/Makefile,v 1.2 2005/04/10 21:49:55 tg Exp $
+# $MirOS: ports/games/uqm/Makefile,v 1.4 2005/07/07 21:21:16 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.9 2004/03/31 03:42:16 jolan Exp $
 
 # 64-bit issues, unaligned memory access
 ONLY_FOR_PLATFORM=	*:*:i386 *:*:powerpc
 
-COMMENT=		"ur-quan masters: sdl port of star control 2"
-COMMENT-3domusic=	"ur-quan masters: 3DO music content"
-COMMENT-remix1=		"ur-quan masters: remix pack number one"
-COMMENT-remix2=		"ur-quan masters: remix pack number two"
-COMMENT-voice=		"ur-quan masters: speech content"
+COMMENT=			ur-quan masters: sdl port of star control 2
+COMMENT-3domusic=			ur-quan masters: 3DO music content
+COMMENT-remix1=			ur-quan masters: remix pack number one
+COMMENT-remix2=			ur-quan masters: remix pack number two
+COMMENT-voice=			ur-quan masters: speech content
 
 VER=			0.3
 DISTNAME=		uqm-${VER}-source

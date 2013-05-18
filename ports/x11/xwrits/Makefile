@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.5 2002/12/29 20:31:42 fgsch Exp $
 
-COMMENT=	"typing break alarm and timer"
+COMMENT=			typing break alarm and timer
 
 DISTNAME=	xwrits-2.21
 CATEGORIES=	x11

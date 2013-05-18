@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.6 2004/04/27 13:14:01 kevlo Exp $
 
-COMMENT=	"text-based MSN messenger client"
+COMMENT=			text-based MSN messenger client
 
 DISTNAME=	pebrot-0.8.6
 PKGNAME=	py-${DISTNAME}-0

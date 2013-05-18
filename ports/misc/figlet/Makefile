@@ -1,7 +1,7 @@
-# $MirOS: ports/misc/figlet/Makefile,v 1.7 2006/03/23 21:14:06 tg Exp $
+# $MirOS: ports/misc/figlet/Makefile,v 1.8 2006/06/24 12:51:43 tg Exp $
 # $OpenBSD: Makefile,v 1.14 2002/10/27 21:07:53 naddy Exp $
 
-COMMENT=		"generates ASCII banner art"
+COMMENT=			generates ASCII banner art
 DISTNAME=		figlet222
 PKGNAME=		figlet-2.2.2-1
 CATEGORIES=		misc graphics

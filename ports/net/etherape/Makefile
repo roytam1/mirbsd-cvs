@@ -1,9 +1,9 @@
-# $MirOS: ports/net/etherape/Makefile,v 1.2 2005/03/25 23:13:49 bsiegert Exp $
+# $MirOS: ports/net/etherape/Makefile,v 1.3 2006/02/09 11:12:13 tg Exp $
 # $OpenBSD: Makefile,v 1.3 2004/02/25 13:59:07 naddy Exp $
 
 IGNORE=		"might be broken, used to use Libtool"
 
-COMMENT=		"graphical network monitor"
+COMMENT=			graphical network monitor
 DISTNAME=		etherape-0.9.0
 CATEGORIES=		net
 HOMEPAGE=		http://etherape.sourceforge.net/

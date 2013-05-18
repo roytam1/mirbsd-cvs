@@ -1,7 +1,7 @@
-# $MirOS$
+# $MirOS: ports/print/prosper/Makefile,v 1.2 2005/07/07 21:25:34 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.5 2004/02/01 20:40:46 sturm Exp $
 
-COMMENT=	"LaTeX class to produce high quality slides"
+COMMENT=			LaTeX class to produce high quality slides
 
 DISTNAME=	prosper-1.00.4
 PKGNAME=	${DISTNAME}-1

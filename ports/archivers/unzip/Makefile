@@ -1,7 +1,7 @@
-# $MirOS: ports/archivers/unzip/Makefile,v 1.4 2006/02/09 11:11:01 tg Exp $
+# $MirOS: ports/archivers/unzip/Makefile,v 1.5 2006/06/23 14:34:35 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.32 2003/08/17 23:48:40 brad Exp $
 
-COMMENT=	"extract, list & test files in a ZIP archive"
+COMMENT=			extract, list & test files in a ZIP archive
 VERSION=	5.52
 DISTNAME=	unzip${VERSION:S/.//}
 PKGNAME=	unzip-${VERSION}-0

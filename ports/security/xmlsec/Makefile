@@ -1,7 +1,7 @@
 # $OpenBSD: Makefile,v 1.8 2004/05/08 06:44:19 sturm Exp $
 
-COMMENT=	"XML security library"
-COMMENT-docs=	"XML security library documentation"
+COMMENT=			XML security library
+COMMENT-docs=			XML security library documentation
 
 VERSION=	1.2.5
 DISTNAME=	xmlsec1-${VERSION}

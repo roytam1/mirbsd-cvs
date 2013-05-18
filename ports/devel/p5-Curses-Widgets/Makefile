@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.9 2002/11/30 19:39:13 margarida Exp $
 
-COMMENT=	"curses(3) based terminal widgets"
+COMMENT=			curses(3) based terminal widgets
 
 VERSION=	1.997
 DISTNAME=	CursesWidgets-${VERSION}

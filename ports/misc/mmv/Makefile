@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.18 2003/09/23 15:29:41 sturm Exp $
 
-COMMENT=	"move/copy/append/link multiple files with wildcards"
+COMMENT=			move/copy/append/link multiple files with wildcards
 
 DISTNAME=	mmv
 PKGNAME=	mmv-1.01b-0

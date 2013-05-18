@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.7 2003/08/12 20:03:34 pvalchev Exp $
 
-COMMENT=	"multi-radix calculator for x11"
+COMMENT=			multi-radix calculator for x11
 
 DATE=		19951219
 DISTNAME=	hexcalc

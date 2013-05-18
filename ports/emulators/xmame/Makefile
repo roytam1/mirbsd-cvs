@@ -1,9 +1,9 @@
-# $MirOS: ports/emulators/xmame/Makefile,v 1.5 2005/07/07 21:20:56 bsiegert Exp $
+# $MirOS: ports/emulators/xmame/Makefile,v 1.6 2006/02/09 11:11:34 tg Exp $
 # $OpenBSD: Makefile,v 1.10 2003/10/11 01:37:55 brad Exp $
 
-COMMENT=	"emulates arcade machines and old home computers"
-COMMENT-mame=	"emulates a massive variety of arcade machines"
-COMMENT-mess=	"emulates game consoles and old home computers"
+COMMENT=			emulates arcade machines and old home computers
+COMMENT-mame=			emulates a massive variety of arcade machines
+COMMENT-mess=			emulates game consoles and old home computers
 
 VERSION=	0.56.2
 DISTNAME=	xmame-${VERSION}

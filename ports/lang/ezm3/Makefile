@@ -2,7 +2,7 @@
 
 ONLY_FOR_PLATFORM=	OpenBSD:*:i386 MirBSD:*:i386
 
-COMMENT=	"Modula-3 distribution for building CVSup"
+COMMENT=			Modula-3 distribution for building CVSup
 DISTNAME=	ezm3-1.0
 CATEGORIES=	lang
 

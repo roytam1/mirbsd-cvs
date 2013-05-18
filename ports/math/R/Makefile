@@ -2,7 +2,7 @@
 
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
-COMMENT=	"clone of S, a powerful math/statistics/graphics language"
+COMMENT=			clone of S, a powerful math/statistics/graphics language
 DISTNAME=	R-1.9.0
 CATEGORIES=    	math
 HOMEPAGE=	http://www.r-project.org/

@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.10 2004/12/22 06:02:26 marcm Exp $
 
-COMMENT=		"spreadsheet application for GNOME"
+COMMENT=			spreadsheet application for GNOME
 
 VERSION=		1.4.2
 DISTNAME=		gnumeric-${VERSION}

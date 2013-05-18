@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.5 2002/10/28 01:38:45 naddy Exp $
 
-COMMENT=		"DNS zone verification tool"
+COMMENT=			DNS zone verification tool
 
 DISTNAME=		dlint1.4.0
 PKGNAME=		dlint-1.4.0-0

@@ -1,6 +1,6 @@
-# $MirOS: ports/audio/mpc/Makefile,v 1.2 2005/05/21 02:00:46 bsiegert Exp $
+# $MirOS: ports/audio/ncmpc/Makefile,v 1.1 2005/05/21 03:09:15 bsiegert Exp $
 
-COMMENT=		"ncurses client for Music Play Daemon"
+COMMENT=			ncurses client for Music Play Daemon
 CATEGORIES=		audio multimedia net
 DISTNAME=		ncmpc-0.11.1
 HOMEPAGE=		http://www.musicpd.org/

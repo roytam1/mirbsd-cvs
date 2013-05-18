@@ -3,7 +3,7 @@
 # XXX This will panic any vax
 NOT_FOR_PLATFORM=	*:*:vax
 
-COMMENT=	"shared memory lib for apps with pre-forked process model"
+COMMENT=			shared memory lib for apps with pre-forked process model
 
 DISTNAME=	mm-1.3.0
 CATEGORIES=	devel

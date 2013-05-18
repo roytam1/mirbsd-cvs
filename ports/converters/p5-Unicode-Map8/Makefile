@@ -2,7 +2,7 @@
 
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
-COMMENT=	"module to implement efficient mapping tables"
+COMMENT=			module to implement efficient mapping tables
 
 DISTNAME=	Unicode-Map8-0.12
 PKGNAME=	p5-${DISTNAME}-0

@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.25 2004/02/26 23:12:31 brad Exp $
 
-COMMENT=	"game where you deal drugs on the streets of NY"
+COMMENT=			game where you deal drugs on the streets of NY
 
 DISTNAME=	dopewars-1.5.7
 PKGNAME=	${DISTNAME}-2

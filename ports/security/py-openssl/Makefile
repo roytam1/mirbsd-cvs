@@ -2,7 +2,7 @@
 
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
-COMMENT=	"Python interface to the OpenSSL library"
+COMMENT=			Python interface to the OpenSSL library
 
 VERSION=	0.5.1
 DISTNAME=	pyOpenSSL-${VERSION}

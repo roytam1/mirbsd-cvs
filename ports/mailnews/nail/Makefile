@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.6 2004/04/18 15:08:28 naddy Exp $
 
-COMMENT=		"enhanced, MIME capable Berkeley Mail"
+COMMENT=			enhanced, MIME capable Berkeley Mail
 
 DISTNAME=		nail-10.5
 CATEGORIES=		mail

@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.9 2002/09/21 11:38:58 avsm Exp $
 
-COMMENT=	"module for converting structures to strings and back"
+COMMENT=			module for converting structures to strings and back
 
 DISTNAME=	FreezeThaw-0.43
 PKGNAME=	p5-${DISTNAME}-0

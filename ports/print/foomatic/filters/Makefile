@@ -1,6 +1,6 @@
-# $MirOS$
+# $MirOS: ports/print/foomatic/filters/Makefile,v 1.2 2005/07/07 21:25:28 bsiegert Exp $
 
-COMMENT=		"universal print filter script"
+COMMENT=			universal print filter script
 
 VERSION=		3.0.2
 DISTNAME=		foomatic-filters-${VERSION}

@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.17 2003/07/16 17:37:46 naddy Exp $
 
-COMMENT=	"MOD/S3M/MTM tracker that does its own DSP"
+COMMENT=			MOD/S3M/MTM tracker that does its own DSP
 DISTNAME=	nspmod-0.1
 CATEGORIES=	audio
 MASTER_SITES=	http://www.jeton.or.jp/users/toru/www/orgsoft/nspmod/ \

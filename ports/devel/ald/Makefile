@@ -2,7 +2,7 @@
 
 ONLY_FOR_PLATFORM=	OpenBSD:*:i386 MirBSD:*:i386
 
-COMMENT=		"Assembly Language Debugger"
+COMMENT=			Assembly Language Debugger
 
 DISTNAME=		ald-0.1.5a
 CATEGORIES=		devel

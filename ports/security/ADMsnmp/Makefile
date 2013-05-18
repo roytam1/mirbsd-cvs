@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.18 2002/12/29 20:31:39 fgsch Exp $
 
-COMMENT=		"SNMP audit scanner"
+COMMENT=			SNMP audit scanner
 
 DISTNAME=       	ADMsnmp.0.1
 PKGNAME=        	ADMsnmp-0.1-0

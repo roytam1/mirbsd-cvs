@@ -1,6 +1,6 @@
-# $MirOS: ports/security/pcsc-egate/Makefile,v 1.1.7.1 2005/03/18 15:51:40 tg Exp $
+# $MirOS: ports/security/pcsc-egate/Makefile,v 1.3 2005/07/07 21:26:12 bsiegert Exp $
 
-COMMENT=		"Smartcard backend driver for egate tokens"
+COMMENT=			Smartcard backend driver for egate tokens
 DISTNAME=		ifd-egate-0.05
 PKGNAME=		${DISTNAME}-2
 CATEGORIES=		security

@@ -1,7 +1,7 @@
-# $MirOS$
+# $MirOS: ports/astro/wmsun/Makefile,v 1.4 2006/03/23 21:20:45 tg Exp $
 # $OpenBSD: Makefile,v 1.13 2002/09/17 14:46:06 wilfried Exp $
 
-COMMENT=		'wm-dockapp; shows sunrise/sunset times'
+COMMENT=			wm-dockapp; shows sunrise/sunset times
 DISTNAME=		wmSun-1.03
 PKGNAME=		${DISTNAME:L}-0
 CATEGORIES=		astro x11 x11/windowmaker

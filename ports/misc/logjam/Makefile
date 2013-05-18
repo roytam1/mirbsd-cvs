@@ -1,7 +1,7 @@
-# $MirOS: ports/misc/logjam/Makefile,v 1.3 2005/05/01 13:50:52 bsiegert Exp $
+# $MirOS: ports/misc/logjam/Makefile,v 1.4 2006/02/09 11:12:07 tg Exp $
 # $OpenBSD: Makefile,v 1.2 2003/02/12 18:14:28 brad Exp $
 
-COMMENT=	"gtk livejournal client"
+COMMENT=			gtk livejournal client
 
 VERSION=	4.0.1
 DISTNAME=	logjam-${VERSION}

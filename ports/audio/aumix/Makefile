@@ -1,7 +1,7 @@
-# $MirOS: ports/audio/aumix/Makefile,v 1.2 2005/05/01 13:40:32 bsiegert Exp $
+# $MirOS: ports/audio/aumix/Makefile,v 1.3 2006/02/09 11:11:02 tg Exp $
 # $OpenBSD: Makefile,v 1.10 2004/04/13 18:36:57 naddy Exp $
 
-COMMENT=	"full-screen ncurses or GTK-based audio mixer"
+COMMENT=			full-screen ncurses or GTK-based audio mixer
 
 DISTNAME=	aumix-2.8
 CATEGORIES=	audio

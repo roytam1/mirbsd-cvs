@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.15 2002/10/28 13:40:41 naddy Exp $
 
-COMMENT=	"GUI for manipulating BibTeX bibliography databases"
+COMMENT=			GUI for manipulating BibTeX bibliography databases
 
 DISTNAME=	bibview-2.2
 CATEGORIES=	databases print

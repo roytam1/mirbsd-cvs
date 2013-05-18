@@ -2,7 +2,7 @@
 
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
-COMMENT=	"module to calculate Nilsimsa digests"
+COMMENT=			module to calculate Nilsimsa digests
 
 DISTNAME=	Digest-Nilsimsa-0.06
 PKGNAME=	p5-${DISTNAME}-0

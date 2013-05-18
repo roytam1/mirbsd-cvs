@@ -1,11 +1,11 @@
-# $MirOS: ports/emulators/qvm86/Makefile,v 1.6 2006/01/01 02:45:59 tg Exp $
+# $MirOS: ports/emulators/qvm86/Makefile,v 1.7 2006/02/01 15:42:15 tg Exp $
 # $OpenBSD: Makefile,v 1.7 2005/11/05 12:11:05 todd Exp $
 
 BROKEN=			problems with network, sound, etc.
 
 ONLY_FOR_PLATFORMS=	MirBSD:*:i386
 
-COMMENT=		"fast i386 emulator with kernel module"
+COMMENT=			fast i386 emulator with kernel module
 PKGNAME=		${_CVS_DISTF0:R}-0
 CATEGORIES=		emulators
 HOMEPAGE=		http://fabrice.bellard.free.fr/qemu/ \

@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.14 2003/10/08 17:13:15 sturm Exp $
 
-COMMENT=	"hyper-animated face analog clock for X11"
+COMMENT=			hyper-animated face analog clock for X11
 
 DISTNAME=	emiclock-2.0.2
 CATEGORIES=	x11

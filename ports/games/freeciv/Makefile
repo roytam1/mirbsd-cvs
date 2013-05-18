@@ -1,7 +1,7 @@
-# $MirOS$
+# $MirOS: ports/games/freeciv/Makefile,v 1.2 2005/05/01 13:19:05 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.34 2004/05/04 11:31:48 naddy Exp $
 
-COMMENT=	"Civilization clone for X11; multiplayer"
+COMMENT=			Civilization clone for X11; multiplayer
 
 DISTNAME=	freeciv-2.0.0
 CATEGORIES=	games

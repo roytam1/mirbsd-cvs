@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.14 2003/01/02 19:23:48 brad Exp $
 
-COMMENT=	"text utilities for use with GD drawing package"
+COMMENT=			text utilities for use with GD drawing package
 
 VERSION=	0.83
 DISTNAME=	GDTextUtil-${VERSION}

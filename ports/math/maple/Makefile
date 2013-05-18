@@ -1,4 +1,4 @@
-# $MirOS: ports/math/maple/Makefile,v 1.2 2005/04/10 21:50:23 tg Exp $
+# $MirOS: ports/math/maple/Makefile,v 1.3 2005/04/11 15:56:04 tg Exp $
 # $OpenBSD: Makefile,v 1.22 2002/12/29 19:43:50 fgsch Exp $
 # XXX This port installs in a somewhat unusual way.
 
@@ -8,7 +8,7 @@
 ONLY_FOR_PLATFORM=	OpenBSD:*:i386 MirBSD:*:i386
 EMUL=			linux
 
-COMMENT=	"algebraic and symbolic computations; commercial"
+COMMENT=			algebraic and symbolic computations; commercial
 
 # Directory where the maple CDROM was mounted
 .if !defined(MAPLE_CDROM)

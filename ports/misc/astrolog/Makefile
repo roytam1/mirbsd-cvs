@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.21 2003/03/31 14:27:18 sturm Exp $
 
-COMMENT=	"astrology program for X11 and alpha-numeric terminals"
+COMMENT=			astrology program for X11 and alpha-numeric terminals
 
 DISTNAME=	ast53unx
 PKGNAME=	astrolog-5.30-0

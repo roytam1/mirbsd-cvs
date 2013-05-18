@@ -1,7 +1,7 @@
-# $MirOS$
+# $MirOS: ports/games/circuit/Makefile,v 1.2 2005/03/30 18:13:25 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.5 2002/12/16 19:55:15 espie Exp $
 
-COMMENT=	"finish-the-cycle logic puzzle"
+COMMENT=			finish-the-cycle logic puzzle
 CATEGORIES=	games
 
 

@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.1.1.1 2004/05/03 07:36:32 dons Exp $
 
-COMMENT=	"Haskell cryptographic library"
+COMMENT=			Haskell cryptographic library
 CATEGORIES=	security
 
 V=		1.1.2

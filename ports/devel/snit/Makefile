@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.5 2004/05/07 15:28:31 naddy Exp $
 
-COMMENT=		"simple object oriented framework for Tcl"
+COMMENT=			simple object oriented framework for Tcl
 
 VERSION=		0.7
 PKGNAME=		snit-${VERSION}-0

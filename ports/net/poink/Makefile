@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.1.1.1 2003/04/16 20:30:20 sturm Exp $
 
-COMMENT=	"nosuid, secure TCP/IP ping"
+COMMENT=			nosuid, secure TCP/IP ping
 
 DISTNAME=	poink
 PKGNAME=	${DISTNAME}-1.6-0

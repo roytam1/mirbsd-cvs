@@ -9,7 +9,7 @@ PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
-COMMENT=	"search mailboxes for a particular email"
+COMMENT=			search mailboxes for a particular email
 HOMEPAGE=	http://grepmail.sourceforge.net/
 MASTER_SITES=	${MASTER_SITE_SOURCEFORGE:=grepmail/}
 

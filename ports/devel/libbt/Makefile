@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.2 2004/04/18 01:04:28 jolan Exp $
 
-COMMENT=	"c reimplementation of the BitTorrent core protocols"
+COMMENT=			c reimplementation of the BitTorrent core protocols
 DISTNAME=	libbt-1.01
 CATEGORIES=	devel net
 MASTER_SITES=	${MASTER_SITE_SOURCEFORGE:=libbt/}

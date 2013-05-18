@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.1.1.1 2004/04/11 12:11:11 sturm Exp $
 
-COMMENT=	"Perl interface to RFC2445 (iCalendar) objects"
+COMMENT=			Perl interface to RFC2445 (iCalendar) objects
 
 DISTNAME=	Net-ICal-0.15
 PKGNAME=	p5-${DISTNAME}-0

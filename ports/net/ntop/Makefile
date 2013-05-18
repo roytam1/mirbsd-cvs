@@ -1,7 +1,7 @@
 # $OpenBSD: Makefile,v 1.25 2003/02/24 21:28:45 rohee Exp $
 # $FreeBSD: Makefile,v 1.2 1998/08/11 09:57:51 andreas Exp $
 
-COMMENT=	"network usage, interface similar to top(1)"
+COMMENT=			network usage, interface similar to top(1)
 
 DISTNAME=	ntop-1.1-src
 PKGNAME=	ntop-1.1-0

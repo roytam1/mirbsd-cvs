@@ -1,7 +1,7 @@
-# $MirOS$
+# $MirOS: ports/security/gnutls/Makefile,v 1.1.7.1 2005/03/18 15:51:23 tg Exp $
 # $OpenBSD: Makefile,v 1.3 2004/05/08 06:43:40 sturm Exp $
 
-COMMENT=		"GNU Transport Layer Security library"
+COMMENT=			GNU Transport Layer Security library
 VERSION=		1.0.20
 DISTNAME=		gnutls-${VERSION}
 CATEGORIES=		security

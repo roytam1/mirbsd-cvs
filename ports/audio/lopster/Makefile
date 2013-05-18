@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.25 2004/05/22 19:54:10 jolan Exp $
 
-COMMENT=	"full featured GTK Napster client"
+COMMENT=			full featured GTK Napster client
 DISTNAME=	lopster-1.2.0
 PKGNAME=	${DISTNAME}-2
 CATEGORIES=	audio

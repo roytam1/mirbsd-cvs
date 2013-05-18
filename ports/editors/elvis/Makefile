@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.8 2003/04/08 13:28:59 naddy Exp $
 
-COMMENT=	"clone of the ex/vi text editor"
+COMMENT=			clone of the ex/vi text editor
 
 DISTNAME=	elvis-2.1_4
 PKGNAME=	${DISTNAME:S/_/./}-0

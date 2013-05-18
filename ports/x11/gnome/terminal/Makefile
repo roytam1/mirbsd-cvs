@@ -1,7 +1,7 @@
-# $MirOS: ports/x11/gnome/terminal/Makefile,v 1.2 2006/02/09 09:36:24 tg Exp $
+# $MirOS: ports/x11/gnome/terminal/Makefile,v 1.3 2006/02/09 11:15:47 tg Exp $
 # $OpenBSD: Makefile,v 1.14 2004/12/15 13:57:57 alek Exp $
 
-COMMENT=		"GNOME terminal"
+COMMENT=			GNOME terminal
 
 DISTNAME=		gnome-terminal-2.8.2
 CATEGORIES=		x11/gnome

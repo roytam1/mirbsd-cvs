@@ -2,7 +2,7 @@
 
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
-COMMENT=	"probability and statistics utilities for Python"
+COMMENT=			probability and statistics utilities for Python
 
 DISTNAME=	probstat_0.912
 PKGNAME=	py-${DISTNAME:S/_/-/}-0

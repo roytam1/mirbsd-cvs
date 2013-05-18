@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.9 2004/05/24 08:49:24 xsa Exp $
 
-COMMENT=	"dynamically change some settings of an xterm"
+COMMENT=			dynamically change some settings of an xterm
 
 DISTNAME=	xtermset-0.5.2
 CATEGORIES=	x11

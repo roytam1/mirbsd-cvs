@@ -1,7 +1,7 @@
-# $MirOS: ports/net/icecast/Makefile,v 1.2 2006/02/09 09:36:08 tg Exp $
+# $MirOS: ports/net/icecast/Makefile,v 1.3 2006/02/09 11:12:18 tg Exp $
 # $OpenBSD: Makefile,v 1.24 2004/05/13 10:48:36 naddy Exp $
 
-COMMENT=	"server for streaming Ogg Vorbis and MP3"
+COMMENT=			server for streaming Ogg Vorbis and MP3
 
 DISTNAME=	icecast-2.2.0
 CATEGORIES=	net audio

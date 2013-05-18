@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.3 2003/10/17 06:24:42 grange Exp $
 
-COMMENT=		"library for the floppy controller emulation"
+COMMENT=			library for the floppy controller emulation
 
 DISTNAME=		lib765-0.3.1.1
 CATEGORIES=		devel

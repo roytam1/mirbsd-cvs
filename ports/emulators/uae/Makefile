@@ -1,7 +1,7 @@
-# $MirOS$
+# $MirOS: ports/emulators/uae/Makefile,v 1.3 2005/03/30 18:13:25 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.5 2002/10/26 12:52:48 naddy Exp $
 
-COMMENT=	"UAE amiga emulator"
+COMMENT=			UAE amiga emulator
 DISTNAME=	uae-0.8.21
 CATEGORIES=	emulators x11
 

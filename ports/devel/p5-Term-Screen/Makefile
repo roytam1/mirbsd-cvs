@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.1.1.1 2003/01/27 23:34:37 margarida Exp $
 
-COMMENT=		"positioning screen based module"
+COMMENT=			positioning screen based module
 
 DISTNAME=		Term-Screen-1.02
 PKGNAME=		p5-${DISTNAME}-0

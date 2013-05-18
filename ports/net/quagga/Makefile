@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.2 2004/01/02 06:50:55 david Exp $
 
-COMMENT=	"multi-threaded routing daemon"
+COMMENT=			multi-threaded routing daemon
 
 DISTNAME=	quagga-0.96.4
 CATEGORIES=	net

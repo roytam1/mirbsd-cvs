@@ -1,6 +1,6 @@
-# $MirOS$
+# $MirOS: ports/www/gtk-webcore/nrcore/Makefile,v 1.1 2005/06/14 16:49:31 bsiegert Exp $
 
-COMMENT=		"Gtk-Webcore: rendering engine core"
+COMMENT=			Gtk-Webcore: rendering engine core
 DISTNAME=		osb-nrcore-${VERSION}
 
 LIB_DEPENDS+=		glib-2.0.400.0::devel/glib

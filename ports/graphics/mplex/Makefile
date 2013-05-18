@@ -2,7 +2,7 @@
 # $FreeBSD: ports/graphics/mplex/Makefile,v 1.8 2000/05/29 23:54:39 steve Exp $
 #
 
-COMMENT=	"Multiplexes MPEG component streams into system layers"
+COMMENT=			Multiplexes MPEG component streams into system layers
 
 DISTNAME=	mplex-1.1
 CATEGORIES=	graphics

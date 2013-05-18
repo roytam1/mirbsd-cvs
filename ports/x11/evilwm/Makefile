@@ -1,8 +1,8 @@
-# $MirOS: ports/x11/evilwm/Makefile,v 1.3 2005/08/21 11:50:44 tg Exp $
+# $MirOS: ports/x11/evilwm/Makefile,v 1.4 2005/12/18 03:37:16 tg Exp $
 
 NOT_FOR_PLATFORM=	MirBSD:8:*
 
-COMMENT=		"minimalist window manager for keyboard or mouse"
+COMMENT=			minimalist window manager for keyboard or mouse
 CATEGORIES=		x11
 V=			0.99.17
 DISTNAME=		evilwm_${V}.orig

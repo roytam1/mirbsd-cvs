@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.12 2003/10/08 17:13:20 sturm Exp $
 
-COMMENT=	"magnify, rotate, mirror the image on the X11 screen"
+COMMENT=			magnify, rotate, mirror the image on the X11 screen
 
 DISTNAME=	xzoom-0.3
 CATEGORIES=	x11

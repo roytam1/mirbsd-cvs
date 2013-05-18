@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.13 2004/05/04 04:49:51 jolan Exp $
 
-COMMENT=	"app-level proxy for mail retrieval behind firewalls"
+COMMENT=			app-level proxy for mail retrieval behind firewalls
 
 DISTNAME=	pop3gwd-1.2
 CATEGORIES=    	net mail

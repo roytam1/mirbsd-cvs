@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.5 2003/12/01 04:13:06 marcm Exp $
 
-COMMENT=		"lightweight HTML rendering/printing/editing engine"
+COMMENT=			lightweight HTML rendering/printing/editing engine
 
 DISTNAME=		libgtkhtml-2.4.1
 CATEGORIES=		x11/gnome

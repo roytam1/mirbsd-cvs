@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.16 2002/10/26 20:44:40 naddy Exp $
 
-COMMENT=	"solitaire"
+COMMENT=			solitaire
 
 DISTNAME=       xsol-new
 PKGNAME=	xsol-2.1.1-0

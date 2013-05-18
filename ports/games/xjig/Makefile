@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.19 2003/03/31 13:07:46 sturm Exp $
 
-COMMENT=	"jigsaw puzzle game for X11"
+COMMENT=			jigsaw puzzle game for X11
 
 DISTNAME=	xjig-2.4
 CATEGORIES=	games

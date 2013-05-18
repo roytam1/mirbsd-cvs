@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.19 2002/10/25 11:34:24 naddy Exp $
 
-COMMENT=	"small & simple FAX send/receive program"
+COMMENT=			small & simple FAX send/receive program
 
 DISTNAME=	efax-0.9
 PKGNAME=	${DISTNAME}-1

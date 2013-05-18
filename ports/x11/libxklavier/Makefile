@@ -1,6 +1,6 @@
-# $MirOS: ports/x11/libxklavier/Makefile,v 1.1.7.1 2005/03/18 16:00:42 tg Exp $
+# $MirOS: ports/x11/libxklavier/Makefile,v 1.2 2006/02/09 11:15:51 tg Exp $
 
-COMMENT=		"X Keyboard Extension library"
+COMMENT=			X Keyboard Extension library
 
 VERSION=		2.0
 DISTNAME=		libxklavier-${VERSION}

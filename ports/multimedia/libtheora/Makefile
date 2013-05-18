@@ -1,7 +1,7 @@
-# $MirOS$
+# $MirOS: ports/multimedia/libtheora/Makefile,v 1.2 2005/12/28 16:38:03 tg Exp $
 # $OpenBSD: Makefile,v 1.4 2005/03/08 10:04:45 alek Exp $
 
-COMMENT=		"Open video codec"
+COMMENT=			Open video codec
 DISTNAME=		libtheora-1.0alpha5
 CATEGORIES=		multimedia
 HOMEPAGE=		http://www.theora.org

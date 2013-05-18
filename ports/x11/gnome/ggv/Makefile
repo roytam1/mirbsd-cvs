@@ -1,7 +1,7 @@
-# $MirOS: ports/x11/gnome/ggv/Makefile,v 1.1.7.1 2005/03/18 16:00:25 tg Exp $
+# $MirOS: ports/x11/gnome/ggv/Makefile,v 1.2 2006/02/09 11:15:43 tg Exp $
 # $OpenBSD: Makefile,v 1.6 2005/03/06 10:51:07 alek Exp $
 
-COMMENT=		"GNOME frontend for GhostScript"
+COMMENT=			GNOME frontend for GhostScript
 DISTNAME=		ggv-2.8.4
 CATEGORIES=		print x11/gnome
 

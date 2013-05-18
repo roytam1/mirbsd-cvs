@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.14 2004/02/15 17:28:09 naddy Exp $ 
 
-COMMENT=	"big5/gb enhanced truetype font manager"
+COMMENT=			big5/gb enhanced truetype font manager
 
 DISTNAME=       ttfm-0.9.5
 PKGNAME=        zh-${DISTNAME}-0

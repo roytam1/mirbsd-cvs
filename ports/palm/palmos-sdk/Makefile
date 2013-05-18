@@ -1,7 +1,7 @@
-# $MirOS$
+# $MirOS: ports/palm/palmos-sdk/Makefile,v 1.2 2005/07/07 21:25:17 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.9 2002/10/28 02:13:21 naddy Exp $
 
-COMMENT=	"PalmOS include files"
+COMMENT=			PalmOS include files
 
 VERSION=	4.0
 DISTNAME=	sdk40

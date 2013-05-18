@@ -1,7 +1,7 @@
-# $MirOS$
+# $MirOS: ports/www/p5-SOAP-Lite/Makefile,v 1.2 2005/07/07 21:28:14 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.1.1.1 2003/05/21 18:14:44 avsm Exp $
 
-COMMENT=	"client and server-side SOAP implementation"
+COMMENT=			client and server-side SOAP implementation
 DISTNAME=	SOAP-Lite-0.55
 PKGNAME=	p5-${DISTNAME}-0
 CATEGORIES=	www perl5

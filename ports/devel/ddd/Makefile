@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.38 2004/03/04 17:49:26 espie Exp $
 
-COMMENT=	"Data Display Debugger, graphical front-end for GDB, etc"
+COMMENT=			Data Display Debugger, graphical front-end for GDB, etc
 
 DISTNAME=	ddd-3.3.8
 CATEGORIES=	devel

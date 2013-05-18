@@ -1,9 +1,9 @@
-# $MirOS$
+# $MirOS: ports/sysutils/ntfsprogs/Makefile,v 1.1.7.1 2005/03/18 15:52:18 tg Exp $
 # $NetBSD: Makefile,v 1.2 2004/10/09 10:29:12 kristerw Exp $
 
 BROKEN=			no <wchar.h>
 
-COMMENT=		'Linux-NTFS project utilities for the NT Filesystem (ntfs)'
+COMMENT=			Linux-NTFS project utilities for the NT Filesystem (ntfs)
 DISTNAME=		ntfsprogs-1.9.4
 CATEGORIES=		sysutils
 MASTER_SITES=		${MASTER_SITE_SOURCEFORGE:=linux-ntfs/}

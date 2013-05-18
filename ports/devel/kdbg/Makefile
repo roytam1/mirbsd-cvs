@@ -4,7 +4,7 @@ BROKEN=			Missing support for module x11/kde
 
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
-COMMENT=	"graphical debugger for KDE"
+COMMENT=			graphical debugger for KDE
 
 DISTNAME=	kdbg-1.2.5
 CATEGORIES=	devel

@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.14 2002/10/28 19:53:44 naddy Exp $
 
-COMMENT=	"create tcp socket and connect to stdin/out"
+COMMENT=			create tcp socket and connect to stdin/out
 
 DISTNAME=	socket-1.1
 CATEGORIES=	sysutils net

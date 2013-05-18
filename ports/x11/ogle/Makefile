@@ -1,7 +1,7 @@
-# $MirOS: ports/x11/ogle/Makefile,v 1.4 2006/06/03 16:02:42 bsiegert Exp $
+# $MirOS: ports/x11/ogle/Makefile,v 1.5 2006/06/23 22:33:03 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.27 2004/02/29 08:12:56 pvalchev Exp $
 
-COMMENT=		"DVD player"
+COMMENT=			DVD player
 
 CATEGORIES=		x11
 DISTNAME=		ogle-0.9.2

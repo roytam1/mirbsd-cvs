@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.1.1.1 2002/10/16 12:56:22 wilfried Exp $
 
-COMMENT=	"error/exception handling in an OO-ish way"
+COMMENT=			error/exception handling in an OO-ish way
 
 DISTNAME=	Error-0.15
 PKGNAME=	p5-${DISTNAME}-0

@@ -1,4 +1,4 @@
-# $MirOS: ports/lang/ghc/Makefile,v 1.2 2005/04/10 21:50:10 tg Exp $
+# $MirOS: ports/lang/ghc/Makefile,v 1.4 2005/07/07 21:22:22 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.17 2004/05/20 00:08:22 dons Exp $
 # 
 # Based on Simon Marlow's port script for FreeBSD:
@@ -20,8 +20,8 @@ ONLY_FOR_PLATFORM=	*:*:i386 *:*:sparc *:*:amd64
 # The build process: we build a full GHC from C source. The C source
 # needs to be generated once for each arch, for each version of GHC.
 
-COMMENT=	"compiler for the functional language Haskell"
-COMMENT-doc=	"documentation for the functional language Haskell"
+COMMENT=			compiler for the functional language Haskell
+COMMENT-doc=			documentation for the functional language Haskell
 
 V=		6.2.1
 

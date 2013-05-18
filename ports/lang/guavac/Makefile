@@ -1,7 +1,7 @@
 # $OpenBSD: Makefile,v 1.11 2002/10/27 14:12:48 naddy Exp $
 #
 
-COMMENT=		"Java compiler and decompiler developed under GPL"
+COMMENT=			Java compiler and decompiler developed under GPL
 
 DISTNAME=		guavac-1.2
 CATEGORIES=		lang

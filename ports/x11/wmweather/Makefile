@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.13 2002/09/17 14:46:07 wilfried Exp $
 
-COMMENT=		'wm-dockapp; weather monitor'
+COMMENT=			wm-dockapp; weather monitor
 
 DISTNAME=		wmWeather-1.31
 PKGNAME=		${DISTNAME:L}-0

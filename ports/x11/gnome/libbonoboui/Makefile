@@ -1,7 +1,7 @@
-# $MirOS$
+# $MirOS: ports/x11/gnome/libbonoboui/Makefile,v 1.2 2005/12/29 18:15:41 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.12 2004/12/15 13:57:56 alek Exp $
 
-COMMENT=		"user interface components for bonobo"
+COMMENT=			user interface components for bonobo
 
 DISTNAME=		libbonoboui-2.10.1
 CATEGORIES=		x11/gnome

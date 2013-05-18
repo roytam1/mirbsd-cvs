@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.32 2004/04/25 15:34:08 sturm Exp $
 
-COMMENT=	"graphical frontend for LaTeX (nearly WYSIWYG)"
+COMMENT=			graphical frontend for LaTeX (nearly WYSIWYG)
 
 DISTNAME=	lyx-1.3.4
 CATEGORIES=	print

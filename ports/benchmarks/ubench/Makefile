@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.2 2004/01/30 08:39:48 xsa Exp $
 
-COMMENT=	"Unix benchmark utility"
+COMMENT=			Unix benchmark utility
 DISTNAME=	ubench-0.32	
 CATEGORIES=	benchmarks
 HOMEPAGE=	http://www.phystech.com/download/ubench.html

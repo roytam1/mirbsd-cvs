@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.6 2002/12/29 15:12:31 fgsch Exp $
 
-COMMENT=	"manipulates e-mail alias files of various formats"
+COMMENT=			manipulates e-mail alias files of various formats
 
 DISTNAME=	Mail-Alias-1.12
 PKGNAME=	p5-${DISTNAME}-0

@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.23 2004/05/07 15:28:31 naddy Exp $
 
-COMMENT=	"network monitoring library with TCP/IP reassembly"
+COMMENT=			network monitoring library with TCP/IP reassembly
 
 DISTNAME=	libnids-1.18
 CATEGORIES=	net

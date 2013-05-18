@@ -1,7 +1,7 @@
-# $MirOS$
+# $MirOS: ports/devel/libsoup/Makefile,v 1.4 2006/06/03 16:02:39 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.6 2004/11/23 21:34:27 espie Exp $
 
-COMMENT=		"a SOAP implementation in C"
+COMMENT=			a SOAP implementation in C
 
 DISTNAME=		libsoup-2.2.1
 PKGNAME=		${DISTNAME}-1

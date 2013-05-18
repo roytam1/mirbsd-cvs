@@ -1,7 +1,7 @@
-# $MirOS: ports/security/libgcrypt/Makefile,v 1.1.7.1 2005/03/18 15:51:30 tg Exp $
+# $MirOS: ports/security/libgcrypt/Makefile,v 1.2 2006/02/09 09:36:15 tg Exp $
 # $OpenBSD: Makefile,v 1.5 2004/05/08 06:41:47 sturm Exp $
 
-COMMENT=		"crypto library based on code used in GnuPG"
+COMMENT=			crypto library based on code used in GnuPG
 VERSION=		1.2.0
 DISTNAME=		libgcrypt-${VERSION}
 CATEGORIES=		security

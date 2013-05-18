@@ -1,7 +1,7 @@
-# $MirOS$
+# $MirOS: ports/aqua/p5-Graphics-AquaTerm/Makefile,v 1.1 2006/07/16 12:01:06 bsiegert Exp $
 
 ONLY_FOR_PLATFORM=	Darwin:*:*
-COMMENT=		"AquaTerm perl adapter module"
+COMMENT=			AquaTerm perl adapter module
 
 VERSION=		1.0.0
 DASH_VER=		0

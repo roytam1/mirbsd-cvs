@@ -1,7 +1,7 @@
-# $MirOS: ports/databases/freetds/Makefile,v 1.1.7.1 2005/03/18 15:44:07 tg Exp $
+# $MirOS: ports/databases/freetds/Makefile,v 1.2 2006/02/02 21:09:40 tg Exp $
 # $OpenBSD: Makefile,v 1.17 2004/04/14 03:17:04 jcs Exp $
 
-COMMENT=	"project to document and implement the TDS protocol"
+COMMENT=			project to document and implement the TDS protocol
 DISTNAME=	freetds-0.62.4
 CATEGORIES=	databases
 HOMEPAGE=	http://www.freetds.org/

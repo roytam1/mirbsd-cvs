@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.28 2004/05/09 01:52:32 naddy Exp $
 
-COMMENT=		"reduce the amount of SPAM/UCE (junk-mail)"
+COMMENT=			reduce the amount of SPAM/UCE (junk-mail)
 
 VERSION=		1.0.3
 DISTNAME=		tmda-${VERSION}

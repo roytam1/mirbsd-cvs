@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.2 2004/03/31 03:49:16 jolan Exp $
 
-COMMENT=	"library that handles the decoding of sound file formats"
+COMMENT=			library that handles the decoding of sound file formats
 DISTNAME=	SDL_sound-1.0.1
 PKGNAME=	${DISTNAME:L:S/_/-/}-1
 CATEGORIES=	devel audio

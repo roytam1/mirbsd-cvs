@@ -2,7 +2,7 @@
 
 PKG_ARCH=	*
 
-COMMENT=	"flight of the amazon queen"
+COMMENT=			flight of the amazon queen
 DISTNAME=	FOTAQ_Talkie
 EXTRACT_SUFX=	.zip
 PKGNAME=	fotaq-20040316-0

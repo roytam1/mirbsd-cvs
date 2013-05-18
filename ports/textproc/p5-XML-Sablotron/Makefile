@@ -1,9 +1,9 @@
-# $MirOS: ports/textproc/p5-XML-Sablotron/Makefile,v 1.1.7.1 2005/03/18 15:52:56 tg Exp $
+# $MirOS: ports/textproc/p5-XML-Sablotron/Makefile,v 1.3 2005/07/07 21:27:17 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.13 2004/02/29 01:03:32 avsm Exp $
 
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
-COMMENT=	"perl interface to the Sablotron XSLT engine"
+COMMENT=			perl interface to the Sablotron XSLT engine
 DISTNAME=	XML-Sablotron-1.0
 PKGNAME=	p5-${DISTNAME}-0
 CATEGORIES=	textproc perl5

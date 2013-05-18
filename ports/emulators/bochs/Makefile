@@ -1,8 +1,8 @@
-# $MirOS$
+# $MirOS: ports/emulators/bochs/Makefile,v 1.1.7.1 2005/03/18 15:45:52 tg Exp $
 # $OpenBSD: Makefile,v 1.36 2004/05/12 22:40:11 pedro Exp $
 # $NetBSD: Makefile,v 1.2 1998/09/22 06:11:36 garbled Exp $
 
-COMMENT=	"x86 machine simulator"
+COMMENT=			x86 machine simulator
 DISTNAME=	bochs-2.1.1
 CATEGORIES=	emulators
 MASTER_SITES=	${MASTER_SITE_SOURCEFORGE:=bochs/}

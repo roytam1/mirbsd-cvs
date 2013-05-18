@@ -1,7 +1,7 @@
-# $MirOS$
+# $MirOS: ports/devel/jakarta-servletapi/Makefile,v 1.2 2005/03/25 23:13:38 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.8 2004/04/08 06:49:08 brad Exp $
 
-COMMENT=	"implementation of the JSP and Java Servlet APIs"
+COMMENT=			implementation of the JSP and Java Servlet APIs
 
 V=		3.2.4
 DISTNAME=	jakarta-servletapi-${V}

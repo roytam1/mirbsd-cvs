@@ -1,7 +1,7 @@
-# $MirOS$
+# $MirOS: ports/security/p5-PGP-Sign/Makefile,v 1.2 2005/07/07 21:26:11 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.9 2002/07/15 03:26:24 shell Exp $
 
-COMMENT=	"perl module to create/verify PGP signatures"
+COMMENT=			perl module to create/verify PGP signatures
 DISTNAME=	PGP-Sign-0.17
 PKGNAME=	p5-${DISTNAME}-0
 CATEGORIES=	security perl5

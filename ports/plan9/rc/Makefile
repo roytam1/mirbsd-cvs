@@ -1,7 +1,7 @@
-# $MirOS: ports/plan9/rc/Makefile,v 1.2 2005/07/06 19:21:34 bsiegert Exp $
+# $MirOS: ports/plan9/rc/Makefile,v 1.3 2006/02/09 09:36:14 tg Exp $
 # $OpenBSD: Makefile,v 1.13 2003/05/15 03:25:56 markus Exp $
 
-COMMENT=		"clone of plan9 shell"
+COMMENT=			clone of plan9 shell
 
 VERSION=		1.7.1
 DASH_VER=		-0

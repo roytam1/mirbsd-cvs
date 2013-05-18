@@ -1,7 +1,7 @@
-# $MirOS$
+# $MirOS: ports/net/cadaver/Makefile,v 1.2 2006/06/03 16:02:40 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.7 2004/05/19 18:04:37 lebel Exp $
 
-COMMENT=		"command-line WebDAV client"
+COMMENT=			command-line WebDAV client
 
 VERSION=		0.22.2
 DISTNAME=		cadaver-${VERSION}

@@ -1,7 +1,7 @@
-# $MirOS: ports/archivers/lzo/Makefile,v 1.2 2005/12/15 13:01:18 tg Exp $
+# $MirOS: ports/archivers/lzo/Makefile,v 1.3 2006/02/09 09:35:35 tg Exp $
 # $OpenBSD: Makefile,v 1.31 2004/02/23 00:33:34 naddy Exp $
 
-COMMENT=		"portable speedy lossless data compression library"
+COMMENT=			portable speedy lossless data compression library
 DISTNAME=		lzo-2.02
 CATEGORIES=		archivers devel
 MASTER_SITES=		${HOMEPAGE}download/

@@ -1,7 +1,7 @@
-# $MirOS: ports/textproc/gtkspell/Makefile,v 1.2 2005/05/01 13:59:45 bsiegert Exp $
+# $MirOS: ports/textproc/gtkspell/Makefile,v 1.3 2006/02/09 11:15:29 tg Exp $
 # $OpenBSD: Makefile,v 1.8 2004/04/13 01:34:57 jolan Exp $
 
-COMMENT=	"gtk2 spelling checker"
+COMMENT=			gtk2 spelling checker
 DISTNAME=	gtkspell-2.0.5
 CATEGORIES=	textproc x11
 MASTER_SITES=	${HOMEPAGE}download/

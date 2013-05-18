@@ -1,7 +1,7 @@
-# $MirOS: ports/devel/ORBit0/Makefile,v 1.2 2005/03/20 16:56:15 bsiegert Exp $
+# $MirOS: ports/devel/ORBit0/Makefile,v 1.3 2006/02/09 11:11:16 tg Exp $
 # $OpenBSD: Makefile,v 1.33 2002/11/21 02:33:59 margarida Exp $
 
-COMMENT=	"high-performance CORBA ORB with support for the C language"
+COMMENT=			high-performance CORBA ORB with support for the C language
 
 DISTNAME=	ORBit-0.5.13
 CATEGORIES=	devel

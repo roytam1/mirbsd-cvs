@@ -15,7 +15,7 @@ PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
-COMMENT=	"Apache RADIUS authentication module"
+COMMENT=			Apache RADIUS authentication module
 HOMEPAGE=	http://www.freeradius.org/mod_auth_radius/
 MASTER_SITES=	ftp://ftp.freeradius.org/pub/radius/
 EXTRACT_SUFX=	.tar

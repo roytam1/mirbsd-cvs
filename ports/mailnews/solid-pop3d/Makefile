@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.12 2002/09/12 16:41:26 danh Exp $
 
-COMMENT=	"flexible POP3 server"
+COMMENT=			flexible POP3 server
 
 VERSION=	0.15
 DISTNAME=	solid-pop3d-${VERSION}

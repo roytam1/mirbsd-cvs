@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.13 2003/10/08 17:13:15 sturm Exp $
 
-COMMENT=	"blow holes through windows"
+COMMENT=			blow holes through windows
 
 DISTNAME=	blast-1.0-ss-11.00
 PKGNAME=	blast-1.0-0

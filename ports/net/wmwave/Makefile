@@ -9,7 +9,7 @@ PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
-COMMENT=	"Window Maker dockapp to display wavelan statistics"
+COMMENT=			Window Maker dockapp to display wavelan statistics
 HOMEPAGE=	http://www.schuermann.org/~dockapps/
 MASTER_SITES=	ftp://rt.fm/pub/wmwave/
 EXTRACT_SUFX=	.tgz

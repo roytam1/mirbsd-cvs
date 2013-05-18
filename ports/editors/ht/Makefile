@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.4 2003/11/11 19:54:07 margarida Exp $
 
-COMMENT=		"file editor/viewer/analyzer for executables"
+COMMENT=			file editor/viewer/analyzer for executables
 
 DISTNAME=		ht-0.7.4
 CATEGORIES=		editors

@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.2 2004/05/17 11:34:06 grange Exp $
 
-COMMENT=		"IPv4/IPv6 traffic collector"
+COMMENT=			IPv4/IPv6 traffic collector
 
 DISTNAME=		cnupm-3.5
 CATEGORIES=		net

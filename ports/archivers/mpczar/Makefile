@@ -1,6 +1,6 @@
-# $MirOS: ports/archivers/mpczar/Makefile,v 1.4 2006/05/27 23:41:32 tg Exp $
+# $MirOS: ports/archivers/mpczar/Makefile,v 1.5 2006/06/24 00:36:59 tg Exp $
 
-COMMENT=		"MirPorts CpioZ archiver for distfiles"
+COMMENT=			MirPorts CpioZ archiver for distfiles
 CATEGORIES=		archivers essentials
 DISTNAME=		mpczar-20060624
 EXTRACT_SUFX=		.cgz

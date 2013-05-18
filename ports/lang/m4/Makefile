@@ -1,10 +1,10 @@
-# $MirOS: ports/lang/m4/Makefile,v 1.3 2005/11/10 22:20:48 tg Exp $
+# $MirOS: ports/lang/m4/Makefile,v 1.4 2006/06/16 22:16:03 tg Exp $
 # $OpenBSD: Makefile,v 1.18 2002/12/29 20:19:11 fgsch Exp $
 # $FreeBSD: Makefile,v 1.7 1997/06/16 08:22:35 max Exp $
 #-
 # On Interix, this port cannot depend on autoconf.
 
-COMMENT=		"GNU m4"
+COMMENT=			GNU m4
 DISTNAME=		m4-1.4.4
 CATEGORIES=		devel lang
 MASTER_SITES=		${MASTER_SITE_GNU:=m4/}

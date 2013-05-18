@@ -1,4 +1,4 @@
-# $MirOS: ports/misc/hfsplus/Makefile,v 1.4 2005/07/07 21:23:41 bsiegert Exp $
+# $MirOS: ports/misc/hfsplus/Makefile,v 1.5 2006/02/09 11:12:07 tg Exp $
 # $OpenBSD: Makefile,v 1.6 2003/02/15 14:37:19 espie Exp $
 
 # use NO_IGNORE=Yes to build this on OpenBSD with OpenBSD ports framework
@@ -7,7 +7,7 @@ IGNORE=		"might be broken, used to use Libtool"
 # this only makes sense on macintosh (powerpc) systems.
 ONLY_FOR_PLATFORM=	*:*:powerpc
 
-COMMENT=	"hfsplus filesystem access tool"
+COMMENT=			hfsplus filesystem access tool
 VERSION=	1.0.4
 DISTNAME=	hfsplus_${VERSION}
 PKGNAME=	hfsplus-${VERSION}-0

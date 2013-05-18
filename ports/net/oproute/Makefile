@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.7 2002/09/17 08:53:50 jsyn Exp $
 
-COMMENT=		"network performance measuring tool"
+COMMENT=			network performance measuring tool
 
 DISTNAME=		oproute-0.7
 PKGNAME=		${DISTNAME}-1

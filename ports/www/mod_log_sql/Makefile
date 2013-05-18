@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.3 2004/01/30 08:39:49 xsa Exp $
 
-COMMENT=	"Apache module for logging to an SQL database"
+COMMENT=			Apache module for logging to an SQL database
 
 # This port currently only works with archs supporting dynamic loading
 # and has Apache that supports DSO's.

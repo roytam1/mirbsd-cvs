@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.1.1.1 2004/03/02 22:42:14 hshoexer Exp $
 
-COMMENT=	"descramble scrambled DVDs using ACSS"
+COMMENT=			descramble scrambled DVDs using ACSS
 
 VER=		0.2
 DISTNAME=	libdvd-${VER}

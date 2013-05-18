@@ -1,10 +1,10 @@
-# $MirOS: ports/www/php/extensions/Makefile,v 1.13 2006/02/21 16:48:30 tg Exp $
+# $MirOS: ports/www/php/extensions/Makefile,v 1.14 2006/02/21 17:42:30 tg Exp $
 # $OpenBSD: Makefile,v 1.17 2005/12/29 23:06:28 sturm Exp $
 
 BROKEN=			porting in progress
 
 FULLPKGNAME=		php-extensions-${V}-${PV}
-COMMENT=		"informational package about PHP5 extensions"
+COMMENT=			informational package about PHP5 extensions
 
 MULTI_PACKAGES=
 SUBPACKAGE?=
@@ -37,7 +37,7 @@ PSEUDO_FLAVORS+=	no_bz2
 CONFIGURE_ARGS+=	--without-bz2
 .else
 MULTI_PACKAGES+=	-bz2
-COMMENT-bz2=		"bzip2 compression extensions for php"
+COMMENT-bz2=			bzip2 compression extensions for php
 CONFIGURE_ARGS+=	--with-bz2=shared,${LOCALBASE}
 BZ2_DEPENDS=		bz2::archivers/bzip2
 .endif
@@ -48,7 +48,7 @@ PSEUDO_FLAVORS+=	no_curl
 CONFIGURE_ARGS+=	--without-curl
 .else
 MULTI_PACKAGES+=	-curl
-COMMENT-curl=		"curl URL library extensions for php"
+COMMENT-curl=			curl URL library extensions for php
 CONFIGURE_ARGS+=	--with-curl=shared,${LOCALBASE}
 CURL_DEPENDS=		curl::net/curl
 .endif
@@ -59,7 +59,7 @@ PSEUDO_FLAVORS+=	no_dba
 CONFIGURE_ARGS+=	--disable-dba
 .else
 MULTI_PACKAGES+=	-dba
-COMMENT-dba=		"dba GDBM access extensions for php"
+COMMENT-dba=			dba GDBM access extensions for php
 CONFIGURE_ARGS+=	--enable-dba=shared --with-gdbm=${LOCALBASE}
 DBA_DEPENDS=		gdbm::databases/gdbm
 .endif
@@ -70,7 +70,7 @@ PSEUDO_FLAVORS+=	no_dbase
 CONFIGURE_ARGS+=	--disable-dbase
 .else
 MULTI_PACKAGES+=	-dbase
-COMMENT-dbase=		"dBase database access extensions for php"
+COMMENT-dbase=			dBase database access extensions for php
 CONFIGURE_ARGS+=	--enable-dbase=shared
 .endif
 
@@ -80,7 +80,7 @@ PSEUDO_FLAVORS+=	no_dbx
 CONFIGURE_ARGS+=	--disable-dbx
 .else
 MULTI_PACKAGES+=	-dbx
-COMMENT-dbx=		"dbx database abstraction interface for php"
+COMMENT-dbx=			dbx database abstraction interface for php
 CONFIGURE_ARGS+=	--enable-dbx=shared
 .endif
 
@@ -90,7 +90,7 @@ PSEUDO_FLAVORS+=	no_fam
 CONFIGURE_ARGS+=	--disable-fam
 .else
 MULTI_PACKAGES+=	-fam
-COMMENT-fam=		"filesystem alteration monitor extensions for php"
+COMMENT-fam=			filesystem alteration monitor extensions for php
 CONFIGURE_ARGS+=	--enable-fam=shared ...
 #FAM_DEPENDS=		...
 .endif
@@ -101,7 +101,7 @@ PSEUDO_FLAVORS+=	no_filepro
 CONFIGURE_ARGS+=	--disable-filepro
 .else
 MULTI_PACKAGES+=	-filepro
-COMMENT-filepro=	"filepro database access extensions for php"
+COMMENT-filepro=			filepro database access extensions for php
 CONFIGURE_ARGS+=	--enable-filepro=shared
 .endif
 
@@ -112,7 +112,7 @@ CONFIGURE_ARGS+=	--without-gd --without-xpm-dir --without-ttf \
 			--without-freetype-dir
 .else
 MULTI_PACKAGES+=	-gd
-COMMENT-gd=		"image manipulation extensions for php"
+COMMENT-gd=			image manipulation extensions for php
 GD_DEPENDS=		ttf::print/freetype ${GRAPHIC_DEPENDS} \
 			t1::devel/t1lib
 CONFIGURE_ARGS+=	--with-gd=shared ${GRAPHIC_CONFIG} \
@@ -133,7 +133,7 @@ PSEUDO_FLAVORS+=	no_gmp
 CONFIGURE_ARGS+=	--without-gmp
 .else
 MULTI_PACKAGES+=	-gmp
-COMMENT-gmp=		"gmp math library support for php"
+COMMENT-gmp=			gmp math library support for php
 CONFIGURE_ARGS+=	--with-gmp=shared,${LOCALBASE}
 GMP_DEPENDS=		gmp::devel/gmp
 .endif
@@ -144,7 +144,7 @@ PSEUDO_FLAVORS+=	no_imap
 CONFIGURE_ARGS+=	--without-imap --without-kerberos
 .else
 MULTI_PACKAGES+=	-imap
-COMMENT-imap=		"imap, pop3 and nntp extensions for php"
+COMMENT-imap=			imap, pop3 and nntp extensions for php
 CONFIGURE_ARGS+=	--with-imap=shared,${LOCALBASE} --with-imap-ssl
 .  if ${OStype} == "OpenBSD"
 CONFIGURE_ARGS+=	--with-kerberos=/usr
@@ -158,7 +158,7 @@ PSEUDO_FLAVORS+=	no_ldap
 CONFIGURE_ARGS+=	--without-ldap
 .else
 MULTI_PACKAGES+=	-ldap
-COMMENT-ldap=		"ldap protocol extensions for php"
+COMMENT-ldap=			ldap protocol extensions for php
 CONFIGURE_ARGS+=	--with-ldap=shared,${LOCALBASE}
 LDAP_DEPENDS=		ldap,lber::databases/openldap
 .endif
@@ -169,7 +169,7 @@ PSEUDO_FLAVORS+=	no_mcrypt
 CONFIGURE_ARGS+=	--without-mcrypt
 .else
 MULTI_PACKAGES+=	-mcrypt
-COMMENT-mcrypt=		"mcrypt encryption/decryption extensions for php"
+COMMENT-mcrypt=			mcrypt encryption/decryption extensions for php
 CONFIGURE_ARGS+=	--with-mcrypt=shared,${LOCALBASE}
 MCRYPT_DEPENDS=		mcrypt::security/libmcrypt ltdl::devel/libtool
 .endif
@@ -180,7 +180,7 @@ PSEUDO_FLAVORS+=	no_mhash
 CONFIGURE_ARGS+=	--without-mhash
 .else
 MULTI_PACKAGES+=	-mhash
-COMMENT-mhash=		"mhash extensions for php"
+COMMENT-mhash=			mhash extensions for php
 CONFIGURE_ARGS+=	--with-mhash=shared,${LOCALBASE}
 MHASH_DEPENDS=		mhash::security/mhash
 .endif
@@ -192,7 +192,7 @@ FLAVOR+=		no_mysql	# since it's broken
 CONFIGURE_ARGS+=	--without-mysql
 .else
 MULTI_PACKAGES+=	-mysql
-COMMENT-mysql=		"mysql database access extensions for php"
+COMMENT-mysql=			mysql database access extensions for php
 CONFIGURE_ARGS+=	--with-mysql=shared,${LOCALBASE}
 MYSQL_DEPENDS=		lib/mysql/mysqlclient::databases/mysql
 USE_CXX=		Yes
@@ -204,7 +204,7 @@ PSEUDO_FLAVORS+=	no_ncurses
 CONFIGURE_ARGS+=	--without-ncurses
 .else
 MULTI_PACKAGES+=	-ncurses
-COMMENT-ncurses=	"ncurses extensions for php"
+COMMENT-ncurses=			ncurses extensions for php
 CONFIGURE_ARGS+=	--with-ncurses=shared,${LOCALBASE}
 .endif
 
@@ -214,7 +214,7 @@ PSEUDO_FLAVORS+=	no_odbc
 CONFIGURE_ARGS+=	--without-odbc
 .else
 MULTI_PACKAGES+=	-odbc
-COMMENT-odbc=		"odbc database access extensions for php"
+COMMENT-odbc=			odbc database access extensions for php
 CONFIGURE_ARGS+=	--with-iodbc=shared
 ODBC_DEPENDS=		iodbc::databases/iodbc
 .endif
@@ -225,7 +225,7 @@ PSEUDO_FLAVORS+=	no_pgsql
 CONFIGURE_ARGS+=	--without-pgsql
 .else
 MULTI_PACKAGES+=	-pgsql
-COMMENT-pgsql=		"pgsql database access extensions for php"
+COMMENT-pgsql=			pgsql database access extensions for php
 CONFIGURE_ARGS+=	--with-pgsql=shared,${LOCALBASE}
 PGSQL_DEPENDS=		pq::databases/postgresql
 .endif
@@ -236,7 +236,7 @@ PSEUDO_FLAVORS+=	no_shmop
 CONFIGURE_ARGS+=	--disable-shmop
 .else
 MULTI_PACKAGES+=	-shmop
-COMMENT-shmop=		"shared memory extensions for php"
+COMMENT-shmop=			shared memory extensions for php
 CONFIGURE_ARGS+=	--enable-shmop=shared
 .endif
 
@@ -246,7 +246,7 @@ PSEUDO_FLAVORS+=	no_soap
 CONFIGURE_ARGS+=	--without-soap
 .else
 MULTI_PACKAGES+=	-soap
-COMMENT-soap=		"SOAP functions for php"
+COMMENT-soap=			SOAP functions for php
 CONFIGURE_ARGS+=	--enable-soap=shared
 .endif
 
@@ -256,7 +256,7 @@ PSEUDO_FLAVORS+=	no_snmp
 CONFIGURE_ARGS+=	--without-snmp
 .else
 MULTI_PACKAGES+=	-snmp
-COMMENT-snmp=		"snmp protocol extensions for php"
+COMMENT-snmp=			snmp protocol extensions for php
 CONFIGURE_ARGS+=	--with-snmp=shared,${LOCALBASE} --enable-ucd-snmp-hack
 SNMP_DEPENDS=		snmp::net/ucd-snmp
 .endif
@@ -267,7 +267,7 @@ PSEUDO_FLAVORS+=	no_sybase_ct
 CONFIGURE_ARGS+=	--without-sybase-ct
 .else
 MULTI_PACKAGES+=	-sybase_ct
-COMMENT-sybase_ct=	"sybase database access extensions for php"
+COMMENT-sybase_ct=			sybase database access extensions for php
 CONFIGURE_ARGS+=	--with-sybase-ct=shared,${LOCALBASE}
 SYBASE_CT_DEPENDS=	ct::databases/freetds
 .endif
@@ -278,7 +278,7 @@ PSEUDO_FLAVORS+=	no_xmlrpc
 CONFIGURE_ARGS+=	--without-xmlrpc
 .else
 MULTI_PACKAGES+=	-xmlrpc
-COMMENT-xmlrpc=		"XML RPC functions for php"
+COMMENT-xmlrpc=			XML RPC functions for php
 CONFIGURE_ARGS+=	--with-xmlrpc=shared
 .  if ${OStype} != "MirBSD"
 XMLRPC_DEPENDS=		expat::textproc/expat
@@ -291,7 +291,7 @@ PSEUDO_FLAVORS+=	no_xsl
 CONFIGURE_ARGS+=	--without-xsl
 .else
 MULTI_PACKAGES+=	-xsl
-COMMENT-xsl=		"XSL functions for php"
+COMMENT-xsl=			XSL functions for php
 CONFIGURE_ARGS+=	--with-xsl=shared --enable-dom
 XSL_DEPENDS=		xslt,exslt::textproc/libxslt
 .endif

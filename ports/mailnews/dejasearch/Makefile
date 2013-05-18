@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.5 2004/02/02 17:35:02 sturm Exp $
 
-COMMENT=	"frontend to dejanews for searching usenet archives"
+COMMENT=			frontend to dejanews for searching usenet archives
 
 DISTNAME=	dejasearch-1.9.0
 CATEGORIES=	news

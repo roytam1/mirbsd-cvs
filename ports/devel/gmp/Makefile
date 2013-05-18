@@ -1,7 +1,7 @@
-# $MirOS: ports/devel/gmp/Makefile,v 1.1.7.1 2005/03/18 15:44:42 tg Exp $
+# $MirOS: ports/devel/gmp/Makefile,v 1.2 2006/01/25 13:54:47 tg Exp $
 # $OpenBSD: Makefile,v 1.11 2004/02/22 22:21:01 naddy Exp $
 
-COMMENT=		"library for arbitrary precision arithmetic"
+COMMENT=			library for arbitrary precision arithmetic
 DISTNAME=		gmp-4.1.4
 CATEGORIES=		devel math
 HOMEPAGE=		http://www.swox.com/gmp/

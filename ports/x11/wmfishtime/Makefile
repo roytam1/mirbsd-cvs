@@ -1,7 +1,7 @@
-# $MirOS$
+# $MirOS: ports/x11/wmfishtime/Makefile,v 1.2 2005/03/30 18:14:03 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.7 2002/09/17 15:22:27 wilfried Exp $
 
-COMMENT=		'wm-dockapp; clock application with clock, date and fish'
+COMMENT=			wm-dockapp; clock application with clock, date and fish
 
 DISTNAME=		wmfishtime-1.23
 CATEGORIES=     	x11 x11/windowmaker

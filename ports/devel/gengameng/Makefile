@@ -1,9 +1,9 @@
-# $MirOS$
+# $MirOS: ports/devel/gengameng/Makefile,v 1.1.7.1 2005/03/18 15:44:37 tg Exp $
 # $OpenBSD: Makefile,v 1.11 2004/02/25 02:35:15 naddy Exp $
 
 IGNORE=		"might be broken, used to use Libtool"
 
-COMMENT=	"X11 game engine library"
+COMMENT=			X11 game engine library
 VERSION=	4.1
 DISTNAME=	gengameng-${VERSION}
 CATEGORIES=	devel x11

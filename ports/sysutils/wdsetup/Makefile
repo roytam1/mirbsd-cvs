@@ -2,7 +2,7 @@
 
 ONLY_FOR_PLATFORM=	OpenBSD:*:i386 MirBSD:*:i386
 
-COMMENT=	"Western Digital and SMC ethernet card configuration program"
+COMMENT=			Western Digital and SMC ethernet card configuration program
 
 DISTNAME=	wdsetup-0.6b
 PKGNAME=	wdsetup-0.6b-0

@@ -8,7 +8,7 @@ ONLY_FOR_PLATFORM=	OpenBSD:*:i386 MirBSD:*:i386
 BROKEN=	"HANDLER THREAD PROBLEM: java.net.SocketException: Resource temporarily unavailable"
 
 # Build just the Tomcat connector for our in-tree Apache
-COMMENT=	"Tomcat (Servlet/JSP) - Apache Connector"
+COMMENT=			Tomcat (Servlet/JSP) - Apache Connector
 V=		3.2.4
 PKGNAME=	jserv-${V}-0
 DISTNAME=	jakarta-tomcat-${V}-src

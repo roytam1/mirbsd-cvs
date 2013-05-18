@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.18 2002/10/26 00:39:15 naddy Exp $
 
-COMMENT=	"standard OpenLook text editor for X11"
+COMMENT=			standard OpenLook text editor for X11
 
 DISTNAME=	textedit
 PKGNAME=	textedit-1.0-0

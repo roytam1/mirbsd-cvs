@@ -1,7 +1,7 @@
-# $MirOS$
+# $MirOS: ports/mailnews/p5-MIME-tools/Makefile,v 1.2 2005/07/07 21:23:01 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.12 2002/11/27 06:49:42 pvalchev Exp $
 
-COMMENT=		"modules for parsing (and creating!) MIME entities"
+COMMENT=			modules for parsing (and creating!) MIME entities
 DISTNAME=		MIME-tools-5.411a
 PKGNAME=		p5-${DISTNAME}-0
 CATEGORIES=		mail perl5

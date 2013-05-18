@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.5 2004/05/07 15:28:31 naddy Exp $
 
-COMMENT=		"useful routines for Tcl"
+COMMENT=			useful routines for Tcl
 
 DISTNAME=		tcllib-1.4
 CATEGORIES=		devel lang/tcl

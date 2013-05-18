@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.3 2004/05/08 06:48:08 sturm Exp $
 
-COMMENT=		"Free Unix Spectrum Emulator utilities"
+COMMENT=			Free Unix Spectrum Emulator utilities
 
 DISTNAME=		fuse-utils-0.6.2
 CATEGORIES=		emulators

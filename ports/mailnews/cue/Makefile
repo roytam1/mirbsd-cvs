@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.3 2004/02/09 21:00:23 itojun Exp $
 
-COMMENT=	"mh-e like mail user agent"
+COMMENT=			mh-e like mail user agent
 
 DISTNAME=	cue-snap-20040209
 PKGNAME=	cue-20040209-0

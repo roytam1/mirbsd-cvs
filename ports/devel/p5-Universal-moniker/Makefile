@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.1.1.1 2004/05/21 11:33:16 msf Exp $
 
-COMMENT=	"Perl module for aliasing class names"
+COMMENT=			Perl module for aliasing class names
 
 DISTNAME=	UNIVERSAL-moniker-0.07
 PKGNAME=	p5-Universal-moniker-0.07-0

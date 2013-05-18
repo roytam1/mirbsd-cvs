@@ -6,7 +6,7 @@
 # $OpenBSD: Makefile,v 1.15 2002/10/27 14:12:47 naddy Exp $
 #
 
-COMMENT=	"lazy functional language"
+COMMENT=			lazy functional language
 
 DISTNAME=	gofer230a
 PKGNAME=	gofer-2.30a-0

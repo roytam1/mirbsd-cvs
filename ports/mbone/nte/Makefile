@@ -1,7 +1,7 @@
-# $MirOS$
+# $MirOS: ports/mbone/nte/Makefile,v 1.1.7.1 2005/03/18 15:50:15 tg Exp $
 # $OpenBSD: Makefile,v 1.21 2002/12/23 00:37:51 pvalchev Exp $
 
-COMMENT=	"Network Text Editor multicast tool from UCL"
+COMMENT=			Network Text Editor multicast tool from UCL
 
 DISTNAME=	nte-1.7.0
 CATEGORIES=	mbone

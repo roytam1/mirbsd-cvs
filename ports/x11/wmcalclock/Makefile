@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.13 2002/09/17 14:46:07 wilfried Exp $
 
-COMMENT=		'wm-dockapp; calendar/clock'
+COMMENT=			wm-dockapp; calendar/clock
 
 DISTNAME=		wmCalClock-1.25
 PKGNAME=		${DISTNAME:L}-0

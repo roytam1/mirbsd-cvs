@@ -1,8 +1,8 @@
-# $MirOS: ports/audio/esound/Makefile,v 1.3 2005/12/16 01:01:01 bsiegert Exp $
+# $MirOS: ports/audio/esound/Makefile,v 1.4 2006/02/09 09:35:36 tg Exp $
 # $OpenBSD: Makefile,v 1.34 2004/11/21 17:51:44 espie Exp $
 # $FreeBSD: Makefile,v 1.8 1999/03/09 01:08:46 nectar Exp $
 
-COMMENT=	"sound library for Enlightenment"
+COMMENT=			sound library for Enlightenment
 
 DISTNAME=	esound-0.2.34
 PKGNAME=	${DISTNAME}-2

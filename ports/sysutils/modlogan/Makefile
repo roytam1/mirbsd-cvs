@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.5 2004/02/25 13:59:07 naddy Exp $
 
-COMMENT=	"modular log analyzer"
+COMMENT=			modular log analyzer
 DISTNAME=	modlogan-0.8.10
 CATEGORIES=	sysutils www
 HOMEPAGE=	http://www.modlogan.org/

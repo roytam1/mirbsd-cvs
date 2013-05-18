@@ -1,9 +1,9 @@
-# $MirOS$
+# $MirOS: ports/japanese/canna/Makefile,v 1.2 2005/07/07 21:22:09 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.18 2003/03/12 21:21:54 brad Exp $
 
-COMMENT= 	'canna (kana-kanji converter) libraries'
-COMMENT-dict=	'canna (kana-kanji converter) dictionaries'
-COMMENT-server=	'canna (kana-kanji converter) server'
+COMMENT=			canna (kana-kanji converter) libraries
+COMMENT-dict=			canna (kana-kanji converter) dictionaries
+COMMENT-server=			canna (kana-kanji converter) server
 
 CATEGORIES=	japanese
 DISTNAME=	Canna35b2

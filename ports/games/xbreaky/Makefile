@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.9 2003/06/20 02:17:18 kevlo Exp $
 
-COMMENT=	"breakout game for the X Window System"
+COMMENT=			breakout game for the X Window System
 
 DISTNAME=	xbreaky-0.0.5
 CATEGORIES=	games x11

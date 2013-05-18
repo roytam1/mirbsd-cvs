@@ -1,6 +1,6 @@
-# $MirOS: ports/x11/gnome/common/Makefile,v 1.1 2005/12/29 16:17:00 bsiegert Exp $
+# $MirOS: ports/x11/gnome/common/Makefile,v 1.2 2005/12/29 19:06:14 bsiegert Exp $
 
-COMMENT=		"common files for GNOME applications"
+COMMENT=			common files for GNOME applications
 
 VERSION=		2.12.0
 DISTNAME=		gnome-common-${VERSION}

@@ -1,7 +1,7 @@
-# $MirOS: ports/x11/gnome/evolution-data-server/Makefile,v 1.1.7.1 2005/03/18 16:00:23 tg Exp $
+# $MirOS: ports/x11/gnome/evolution-data-server/Makefile,v 1.2 2006/02/09 11:15:42 tg Exp $
 # $OpenBSD: Makefile,v 1.4 2004/12/11 06:03:08 marcm Exp $
 
-COMMENT=		"data backends for the Evolution mail/PIM suite"
+COMMENT=			data backends for the Evolution mail/PIM suite
 
 DISTNAME=		evolution-data-server-1.0.3
 CATEGORIES=		x11/gnome databases

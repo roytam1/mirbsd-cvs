@@ -1,7 +1,7 @@
-# $MirOS$
+# $MirOS: ports/security/gpa/Makefile,v 1.2 2005/03/30 18:13:46 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.11 2002/12/29 20:31:40 fgsch Exp $
 
-COMMENT=	"graphical interface for GnuPG"
+COMMENT=			graphical interface for GnuPG
 
 VERSION=	0.4.3
 DISTNAME=	gpa-${VERSION}

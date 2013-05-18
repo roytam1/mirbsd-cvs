@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.39 2004/05/10 08:42:42 brad Exp $
 
-COMMENT=	"flexible mail transfer agent"
+COMMENT=			flexible mail transfer agent
 VERSION=	3.36
 VERSION_DOC=	3.30
 DISTNAME=	exim-${VERSION}

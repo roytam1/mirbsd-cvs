@@ -1,7 +1,7 @@
-# $MirOS$
+# $MirOS: ports/audio/normalize/Makefile,v 1.3 2006/06/23 22:33:02 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.7 2004/01/27 20:19:13 sturm Exp $
 
-COMMENT=	"audio file volume normalizer"
+COMMENT=			audio file volume normalizer
 
 DISTNAME=	normalize-0.7.4
 PKGNAME=	${DISTNAME}-1

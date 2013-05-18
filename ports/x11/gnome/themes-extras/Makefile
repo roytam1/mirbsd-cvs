@@ -1,6 +1,6 @@
-# $MirOS: ports/x11/gnome/themes-extras/Makefile,v 1.2 2005/07/06 19:21:40 bsiegert Exp $
+# $MirOS: ports/x11/gnome/themes-extras/Makefile,v 1.3 2006/02/09 11:15:48 tg Exp $
 
-COMMENT=		"themes collection for GNOME"
+COMMENT=			themes collection for GNOME
 
 VERSION=		0.4
 DASH_VER=		-0

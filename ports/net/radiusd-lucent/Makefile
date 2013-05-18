@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.18 2003/06/29 04:48:38 avsm Exp $
 
-COMMENT=	"Lucent remote access RADIUS server"
+COMMENT=			Lucent remote access RADIUS server
 
 DISTNAME=	radius21
 PKGNAME=	radiusd-lucent-2.1-6

@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.16 2002/10/30 13:48:48 naddy Exp $
 
-COMMENT=	"9wm with automatic window tiling and virtual desktops"
+COMMENT=			9wm with automatic window tiling and virtual desktops
 
 DISTNAME=	larswm-7.2.8
 CATEGORIES=	plan9

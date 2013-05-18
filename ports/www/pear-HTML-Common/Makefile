@@ -1,7 +1,7 @@
-# $MirOS$
+# $MirOS: ports/www/pear-HTML-Common/Makefile,v 1.3 2005/07/07 21:28:17 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.3 2003/11/15 20:02:40 avsm Exp $
 
-COMMENT=	"base package for HTML handling in PHP"
+COMMENT=			base package for HTML handling in PHP
 V=		1.2.1
 DISTNAME=	HTML_Common-${V}
 PKGNAME=	pear-HTML-Common-${V}-0

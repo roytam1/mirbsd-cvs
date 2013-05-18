@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.1.1.1 2004/05/03 19:13:28 naddy Exp $
 
-COMMENT=		"commandline shell and file manager"
+COMMENT=			commandline shell and file manager
 
 DISTNAME=		clex-3.1.9
 CATEGORIES=		misc

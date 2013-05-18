@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.4 2003/01/19 02:50:32 brad Exp $
 
-COMMENT=	"puzzle game for KDE"
+COMMENT=			puzzle game for KDE
 
 DISTNAME=	kslide-0.90
 CATEGORIES=	games

@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.9 2003/11/15 15:12:54 sturm Exp $
 
-COMMENT=	'perl module to create WML cards'
+COMMENT=			perl module to create WML cards
 
 DISTNAME=	WML-Card-0.02
 PKGNAME=	p5-${DISTNAME}-0

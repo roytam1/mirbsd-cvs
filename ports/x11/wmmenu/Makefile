@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.8 2002/10/29 19:48:59 naddy Exp $
 
-COMMENT=		'wm-dockapp; A popup menu of icons that launch programs'
+COMMENT=			wm-dockapp; A popup menu of icons that launch programs
 
 DISTNAME=		wmmenu-1.2
 CATEGORIES=     	x11 x11/windowmaker

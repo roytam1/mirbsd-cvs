@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.11 2003/12/26 17:07:56 naddy Exp $
 
-COMMENT=		"C library to produce PDF files"
+COMMENT=			C library to produce PDF files
 
 DISTNAME=		pdflib-4.0.3
 CATEGORIES=     	print

@@ -1,8 +1,8 @@
-# $MirOS: ports/voip/iaxcomm/Makefile,v 1.4 2005/07/07 21:27:30 bsiegert Exp $
+# $MirOS: ports/voip/iaxcomm/Makefile,v 1.5 2005/08/21 11:50:28 tg Exp $
 
 BROKEN=			severe ressource problems; segfaults if run from wrksrc
 
-COMMENT=		"minimal IAX/IAX2 client programme"
+COMMENT=			minimal IAX/IAX2 client programme
 CATEGORIES=		voip devel net
 V=			20050617
 DISTNAME=		iaxclient-${V}

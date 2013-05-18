@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.1.1.1 2003/02/13 14:51:43 naddy Exp $
 
-COMMENT=		"build utility like make"
+COMMENT=			build utility like make
 
 DISTNAME=	 	jam-2.4	
 CATEGORIES=	  	devel	

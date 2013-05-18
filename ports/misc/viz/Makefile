@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.10 2003/06/20 08:18:53 kevlo Exp $
 
-COMMENT=	"Convert invisible (binary) characters to a visible form"
+COMMENT=			Convert invisible (binary) characters to a visible form
 
 DISTNAME=	viz-1.1.1
 CATEGORIES=	misc

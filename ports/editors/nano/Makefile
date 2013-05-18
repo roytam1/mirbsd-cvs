@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.36 2004/02/20 21:30:38 naddy Exp $
 
-COMMENT=	"small, easy to use editor"
+COMMENT=			small, easy to use editor
 
 DISTNAME=	nano-1.2.3
 CATEGORIES=	editors

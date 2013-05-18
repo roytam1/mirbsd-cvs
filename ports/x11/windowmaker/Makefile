@@ -1,8 +1,8 @@
-# $MirOS: ports/x11/windowmaker/Makefile,v 1.8 2006/03/06 23:19:04 tg Exp $
+# $MirOS: ports/x11/windowmaker/Makefile,v 1.9 2006/04/26 12:50:24 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.57 2003/08/16 19:06:07 tedu Exp $
 
-COMMENT=		'window manager that emulates NEXTSTEP(tm)'
-COMMENT-lang=		"language subpackage for Window Maker"
+COMMENT=			window manager that emulates NEXTSTEP(tm)
+COMMENT-lang=			language subpackage for Window Maker
 
 V=			0.92.0
 PL=			1

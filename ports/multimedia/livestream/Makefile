@@ -1,6 +1,6 @@
-# $MirOS: ports/multimedia/livestream/Makefile,v 1.5 2005/08/21 11:49:31 tg Exp $
+# $MirOS: ports/multimedia/livestream/Makefile,v 1.6 2005/12/28 18:12:02 tg Exp $
 
-COMMENT=		"library for live.com streaming servers"
+COMMENT=			library for live.com streaming servers
 V=			2005.12.23
 DISTNAME=		live.$V
 PKGNAME=		liblivestream-$V-0

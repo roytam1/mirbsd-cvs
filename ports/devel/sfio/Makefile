@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.2 2003/12/04 23:07:25 pvalchev Exp $
 
-COMMENT=	"Safe/Fast I/O Library"
+COMMENT=			Safe/Fast I/O Library
 
 VERSION=	2002
 PKGNAME=	sfio-${VERSION}-0

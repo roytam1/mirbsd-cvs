@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.6 2003/01/04 19:09:52 pvalchev Exp $
 
-COMMENT=		"perl5 module for interactive network functions"
+COMMENT=			perl5 module for interactive network functions
 
 DISTNAME=		Net-Telnet-3.03
 PKGNAME=		p5-${DISTNAME}-0

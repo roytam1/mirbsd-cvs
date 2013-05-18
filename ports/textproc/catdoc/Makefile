@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.21 2004/03/02 20:56:09 ish Exp $
 
-COMMENT=	"MS Word ==> ASCII or TeX, Tk viewer included"
+COMMENT=			MS Word ==> ASCII or TeX, Tk viewer included
 
 DISTNAME=	catdoc-0.91.4
 CATEGORIES=	textproc

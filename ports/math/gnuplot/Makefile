@@ -1,7 +1,7 @@
-# $MirOS: ports/math/gnuplot/Makefile,v 1.1.7.1 2005/03/18 15:50:05 tg Exp $
+# $MirOS: ports/math/gnuplot/Makefile,v 1.2 2006/02/09 11:12:04 tg Exp $
 # $OpenBSD: Makefile,v 1.25 2004/02/04 15:02:09 xsa Exp $
 
-COMMENT=	"command-driven interactive function plotting program"
+COMMENT=			command-driven interactive function plotting program
 
 DISTNAME=	gnuplot-4.0.0
 CATEGORIES=	math graphics

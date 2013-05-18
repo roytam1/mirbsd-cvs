@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.5 2004/02/12 14:09:49 kevlo Exp $
 
-COMMENT=	"perl scripts for migrating system information to LDAP"
+COMMENT=			perl scripts for migrating system information to LDAP
 
 DISTNAME=	MigrationTools
 PKGNAME=	migrationtools-45-0

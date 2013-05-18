@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.7 2004/04/09 09:52:10 espie Exp $
 
-COMMENT=		"fast and light window manager with plug-ins"
+COMMENT=			fast and light window manager with plug-ins
 
 DISTNAME=		golem-0.0.5
 CATEGORIES=     	x11

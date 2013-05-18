@@ -1,6 +1,6 @@
-# $MirOS: ports/x11/gnome/libgnomecups/Makefile,v 1.2 2005/05/01 14:05:21 bsiegert Exp $
+# $MirOS: ports/x11/gnome/libgnomecups/Makefile,v 1.3 2006/02/09 11:15:44 tg Exp $
 
-COMMENT=		"CUPS functionality hooks for GNOME"
+COMMENT=			CUPS functionality hooks for GNOME
 
 VERSION=		0.1.14
 DISTNAME=		libgnomecups-${VERSION}

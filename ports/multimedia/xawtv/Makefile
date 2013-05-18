@@ -1,8 +1,8 @@
-# $MirOS: ports/multimedia/xawtv/Makefile,v 1.3 2005/04/11 15:56:17 tg Exp $
+# $MirOS: ports/multimedia/xawtv/Makefile,v 1.4 2006/02/09 11:12:11 tg Exp $
 # $OpenBSD: Makefile,v 1.1.1.1 2003/11/16 16:17:58 sturm Exp $
 
 ONLY_FOR_PLATFORM=	*:*:i386 *:*:macppc
-COMMENT=		"TV viewing application"
+COMMENT=			TV viewing application
 DISTNAME=		xawtv-3.90
 DISTFILES=		${DISTNAME:S,-,_,}.tar.gz
 CATEGORIES=		x11 graphics multimedia

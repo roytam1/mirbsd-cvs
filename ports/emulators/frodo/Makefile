@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.13 2003/12/27 23:41:01 jose Exp $
 
-COMMENT=	"Commodore 64 emulator"
+COMMENT=			Commodore 64 emulator
 
 DISTNAME=	FrodoV4_1b.Src
 PKGNAME=	frodo-4.1b-1

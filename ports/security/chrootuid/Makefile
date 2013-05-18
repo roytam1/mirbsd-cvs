@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.5 2002/12/29 20:31:39 fgsch Exp $
 
-COMMENT=		"control chroot and su access rights by application"
+COMMENT=			control chroot and su access rights by application
 
 VERSION=		1.3
 DISTNAME=		chrootuid${VERSION}

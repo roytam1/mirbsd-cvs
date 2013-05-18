@@ -3,7 +3,7 @@
 
 ONLY_FOR_PLATFORM=	OpenBSD:*:i386 MirBSD:*:i386
 
-COMMENT=	"AntiVirus DAT file for uvscan"
+COMMENT=			AntiVirus DAT file for uvscan
 
 VERSION=	4312
 DISTNAME=	dat-${VERSION}

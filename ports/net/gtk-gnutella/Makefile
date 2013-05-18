@@ -1,7 +1,7 @@
-# $MirOS: ports/net/gtk-gnutella/Makefile,v 1.2 2005/03/30 18:13:40 bsiegert Exp $
+# $MirOS: ports/net/gtk-gnutella/Makefile,v 1.3 2006/02/09 11:12:18 tg Exp $
 # $OpenBSD: Makefile,v 1.14 2004/05/15 14:35:01 sturm Exp $
 
-COMMENT=		"Gtk-based GUI client for the Gnutella Network"
+COMMENT=			Gtk-based GUI client for the Gnutella Network
 
 DISTNAME=		gtk-gnutella-0.93.3
 CATEGORIES=     	net 

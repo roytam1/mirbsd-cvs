@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.1.1.1 2004/01/05 17:45:36 sturm Exp $
 
-COMMENT=	"Perl Interface to the DICT protocol"
+COMMENT=			Perl Interface to the DICT protocol
 
 DISTNAME=	Net-Dict-2.07
 PKGNAME=	p5-${DISTNAME}-0

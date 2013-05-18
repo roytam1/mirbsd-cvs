@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.4 2002/12/29 15:10:08 fgsch Exp $
 
-COMMENT=	"complex rogue-style game of dungeon exploration"
+COMMENT=			complex rogue-style game of dungeon exploration
 
 VERSION=	0.90.4
 PKGNAME=	omega-${VERSION}-0

@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.1.1.1 2003/07/20 00:26:21 naddy Exp $
 
-COMMENT=	"safely manipulate and inspect CVS respositories"
+COMMENT=			safely manipulate and inspect CVS respositories
 
 DISTNAME=	cvslock-0.2
 CATEGORIES=	devel

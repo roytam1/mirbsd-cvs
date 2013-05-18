@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.2 2002/07/07 06:41:56 pvalchev Exp $
 
-COMMENT=		"simple hostname scanner"
+COMMENT=			simple hostname scanner
 
 DISTNAME=		plushs-1.2
 CATEGORIES=		net

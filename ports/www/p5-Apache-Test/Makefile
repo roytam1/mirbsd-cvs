@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.1.1.1 2004/04/16 22:17:14 naddy Exp $
 
-COMMENT=	"Test wrapper with helpers for testing Apache"
+COMMENT=			Test wrapper with helpers for testing Apache
 
 DISTNAME=	Apache-Test-1.09
 PKGNAME=	p5-${DISTNAME}-0

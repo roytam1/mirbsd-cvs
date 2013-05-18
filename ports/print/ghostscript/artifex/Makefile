@@ -1,7 +1,7 @@
-# $MirOS: ports/print/ghostscript/afpl/Makefile,v 1.6 2006/02/09 11:15:13 tg Exp $
+# $MirOS: ports/print/ghostscript/artifex/Makefile,v 1.1 2006/06/15 18:34:47 tg Exp $
 # $OpenBSD: Makefile,v 1.20 2004/05/23 18:51:59 sturm Exp $
 
-COMMENT=		"AFPL PostScript interpreter"
+COMMENT=			AFPL PostScript interpreter
 VERSION=		8.54
 DISTNAME=		ghostscript-${VERSION}-gpl
 PKGNAME=		ghostscript-${VERSION}-0

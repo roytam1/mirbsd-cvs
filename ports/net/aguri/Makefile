@@ -1,5 +1,5 @@
 # $OpenBSD: Makefile,v 1.3 2004/05/07 15:28:31 naddy Exp $
-COMMENT=		"aggregation-based network traffic profiler"
+COMMENT=			aggregation-based network traffic profiler
 
 DISTNAME=		aguri-0.7
 CATEGORIES=		net

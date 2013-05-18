@@ -1,7 +1,7 @@
-# $MirOS$
+# $MirOS: ports/devel/vtcl/Makefile,v 1.1.7.1 2005/03/18 15:45:39 tg Exp $
 # $OpenBSD: Makefile,v 1.2 2004/05/07 15:28:31 naddy Exp $
 
-COMMENT=		"Visual Tcl development environment"
+COMMENT=			Visual Tcl development environment
 DISTNAME=		vtcl-1.6.0
 CATEGORIES=		devel
 HOMEPAGE=		http://vtcl.sourceforge.net/

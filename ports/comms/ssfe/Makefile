@@ -1,6 +1,6 @@
-# $MirOS: ports/comms/ssfe/Makefile,v 1.6 2006/01/01 21:54:25 tg Exp $
+# $MirOS: ports/comms/ssfe/Makefile,v 1.7 2006/01/24 22:05:05 tg Exp $
 
-COMMENT=		"split-screen front end for dumb programmes"
+COMMENT=			split-screen front end for dumb programmes
 CATEGORIES=		comms devel misc
 DIST_NAME=		ssfe
 DIST_DATE=		20060124

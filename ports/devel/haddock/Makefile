@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.4 2004/04/23 02:40:16 dons Exp $
 
-COMMENT=	"documentation tool for the functional language Haskell"
+COMMENT=			documentation tool for the functional language Haskell
 
 V=		0.6
 DISTNAME=	haddock-${V}

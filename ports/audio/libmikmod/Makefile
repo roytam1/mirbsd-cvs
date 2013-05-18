@@ -1,7 +1,7 @@
-# $MirOS: ports/audio/libmikmod/Makefile,v 1.3 2006/02/09 09:35:37 tg Exp $
+# $MirOS: ports/audio/libmikmod/Makefile,v 1.4 2006/04/27 21:34:19 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.7 2004/01/24 19:57:34 pvalchev Exp $
 
-COMMENT=	"mikmod sound library"
+COMMENT=			mikmod sound library
 VERSION=	3.1.10
 DISTNAME=	libmikmod-${VERSION}
 PKGNAME=	${DISTNAME}-4

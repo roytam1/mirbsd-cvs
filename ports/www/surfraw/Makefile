@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.14 2003/10/18 19:44:57 sturm Exp $
 
-COMMENT=	"command line interface to popular WWW search engines"
+COMMENT=			command line interface to popular WWW search engines
 
 DISTNAME=	surfraw-1.0.7
 CATEGORIES=	www

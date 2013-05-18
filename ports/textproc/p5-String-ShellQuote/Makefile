@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.1.1.1 2002/12/06 20:55:26 sturm Exp $
 
-COMMENT=		"Quote strings for passing through the shell"
+COMMENT=			Quote strings for passing through the shell
 
 DISTNAME=		String-ShellQuote-1.00
 PKGNAME=		p5-${DISTNAME}-0

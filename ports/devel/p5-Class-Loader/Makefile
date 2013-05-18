@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.5 2002/12/29 20:19:11 fgsch Exp $
 
-COMMENT=	"load modules and create objects on demand"
+COMMENT=			load modules and create objects on demand
 
 DISTNAME=	Class-Loader-2.02
 PKGNAME=	p5-${DISTNAME}-0

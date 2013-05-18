@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.4 2004/02/07 12:40:44 sturm Exp $
 
-COMMENT=	"perl module for IPv4 address parsing"
+COMMENT=			perl module for IPv4 address parsing
 
 VERSION=	1.20
 DISTNAME=	Net-IP-${VERSION}

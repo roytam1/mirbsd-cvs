@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.1.1.1 2004/05/19 09:21:59 sturm Exp $
 
-COMMENT=	"add / call inheritable triggers"
+COMMENT=			add / call inheritable triggers
 
 DISTNAME=	Class-Trigger-0.08
 PKGNAME=	p5-${DISTNAME}-0

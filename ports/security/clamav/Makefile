@@ -1,6 +1,6 @@
-# $MirOS: ports/security/clamav/Makefile,v 1.1.7.1 2005/03/18 15:51:21 tg Exp $
+# $MirOS: ports/security/clamav/Makefile,v 1.2 2006/02/09 11:15:18 tg Exp $
 
-COMMENT=		"Free Virus Scanner"
+COMMENT=			Free Virus Scanner
 VERSION=		0.65
 DISTNAME=		clamav-${VERSION}
 CATEGORIES=		security

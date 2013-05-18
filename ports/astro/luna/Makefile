@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.5 2003/01/04 19:09:52 pvalchev Exp $
 
-COMMENT=	"display the moon's phase"
+COMMENT=			display the moon's phase
 
 DISTNAME=	luna19s
 PKGNAME=	luna-1.9-0

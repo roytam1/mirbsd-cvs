@@ -1,11 +1,11 @@
-# $MirOS: ports/mailnews/courier-imap/Makefile,v 1.2 2005/07/07 21:22:42 bsiegert Exp $
+# $MirOS: ports/mailnews/courier-imap/Makefile,v 1.3 2006/02/09 11:11:58 tg Exp $
 # $OpenBSD: Makefile,v 1.37 2004/02/16 17:14:52 avsm Exp $ 
 
-COMMENT=	"imap server for maildir format mailboxes"
-COMMENT-pop3=	"pop3 server for maildir format mailboxes"
-COMMENT-ldap=	"ldap authentication module for courier-imap"
-COMMENT-mysql=	"mysql authentication module for courier-imap"
-COMMENT-pgsql=	"pgsql authentication module for courier-imap"
+COMMENT=			imap server for maildir format mailboxes
+COMMENT-pop3=			pop3 server for maildir format mailboxes
+COMMENT-ldap=			ldap authentication module for courier-imap
+COMMENT-mysql=			mysql authentication module for courier-imap
+COMMENT-pgsql=			pgsql authentication module for courier-imap
 
 COURIERVER=	1.7.2
 DISTNAME=	courier-imap-${COURIERVER}

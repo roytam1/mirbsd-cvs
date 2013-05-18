@@ -1,9 +1,9 @@
-# $MirOS: ports/emulators/zsnes/Makefile,v 1.5 2005/10/02 19:25:34 tg Exp $
+# $MirOS: ports/emulators/zsnes/Makefile,v 1.6 2005/10/03 22:23:40 tg Exp $
 # $OpenBSD: Makefile,v 1.8 2002/12/29 15:06:49 fgsch Exp $
 
 ONLY_FOR_PLATFORM=	OpenBSD:*:i386 MirBSD:*:i386
 
-COMMENT=		"Super Nintendo emulator for x86"
+COMMENT=			Super Nintendo emulator for x86
 VERSION=		1.42
 DISTNAME=		zsnes-${VERSION}
 PKGNAME=		${DISTNAME}-1

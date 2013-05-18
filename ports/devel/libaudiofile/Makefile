@@ -1,7 +1,7 @@
-# $MirOS: ports/devel/libaudiofile/Makefile,v 1.3 2005/10/15 17:41:21 bsiegert Exp $
+# $MirOS: ports/devel/libaudiofile/Makefile,v 1.4 2005/12/28 16:37:56 tg Exp $
 # $OpenBSD: Makefile,v 1.28 2004/02/24 23:23:27 brad Exp $
 
-COMMENT=	"SGI audiofile library clone"
+COMMENT=			SGI audiofile library clone
 DISTNAME=	audiofile-0.2.6
 PKGNAME=	lib${DISTNAME}-1
 CATEGORIES=	devel audio

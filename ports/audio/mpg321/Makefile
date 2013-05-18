@@ -1,10 +1,10 @@
-# $MirOS$
+# $MirOS: ports/audio/mpg321/Makefile,v 1.5 2006/06/23 22:14:27 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.14 2004/04/05 20:26:25 naddy Exp $
 
 # not very useful with static libao
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
-COMMENT=	"free clone of mpg123, a command-line mp3 player"
+COMMENT=			free clone of mpg123, a command-line mp3 player
 DISTNAME=	mpg321-0.2.10
 PKGNAME=	${DISTNAME}-1
 CATEGORIES=	audio

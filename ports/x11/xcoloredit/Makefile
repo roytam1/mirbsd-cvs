@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.15 2004/05/18 08:45:33 xsa Exp $
 
-COMMENT=	"find color values by graphical color mixing"
+COMMENT=			find color values by graphical color mixing
 
 DISTNAME=	xcoloredit
 PKGNAME=	xcoloredit-1.2-0

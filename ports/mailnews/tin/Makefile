@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.26 2004/03/09 05:31:04 fgsch Exp $
 
-COMMENT=	'threaded NNTP and spool based UseNet newsreader'
+COMMENT=			threaded NNTP and spool based UseNet newsreader
 
 DISTNAME=	tin-1.6.2
 CATEGORIES=	news

@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.3 2004/02/21 02:32:20 naddy Exp $
 
-COMMENT=	"command-line MPEG audio decoder and player"
+COMMENT=			command-line MPEG audio decoder and player
 
 DISTNAME=	madplay-0.15.1b
 PKGNAME=	${DISTNAME}-1

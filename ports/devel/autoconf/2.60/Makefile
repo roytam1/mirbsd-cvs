@@ -1,6 +1,6 @@
-# $MirOS: ports/devel/autoconf/2.60/Makefile,v 1.3 2006/07/01 12:57:56 tg Exp $
+# $MirOS: ports/devel/autoconf/2.60/Makefile,v 1.4 2006/07/01 13:30:18 tg Exp $
 
-COMMENT=		automatically configure source code on many Un*x platforms
+COMMENT=			automatically configure source code on many Un*x platforms
 SUFFIX=			-2.60
 PL=			2
 DISTNAME=		autoconf${SUFFIX}

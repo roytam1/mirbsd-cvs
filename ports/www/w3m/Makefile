@@ -1,7 +1,7 @@
-# $MirOS: ports/www/w3m/Makefile,v 1.4 2006/01/01 04:18:38 tg Exp $
+# $MirOS: ports/www/w3m/Makefile,v 1.5 2006/01/01 05:25:31 tg Exp $
 # $OpenBSD: Makefile,v 1.59 2005/02/22 10:23:39 alek Exp $
 
-COMMENT=	"pager/text-based web browser"
+COMMENT=			pager/text-based web browser
 VERSION=	0.5.1
 DASH_VER=	-0
 DISTNAME=	w3m-${VERSION}

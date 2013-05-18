@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.13 2004/04/22 12:53:41 xsa Exp $
 
-COMMENT=	"handle GIF89a transparent option and interlace mode"
+COMMENT=			handle GIF89a transparent option and interlace mode
 
 DISTNAME=	giftrans
 PKGNAME=        giftrans-1.12-0

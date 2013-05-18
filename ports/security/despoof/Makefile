@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.6 2002/12/29 20:31:40 fgsch Exp $
 
-COMMENT=	"command-line anti-spoofing detection utility"
+COMMENT=			command-line anti-spoofing detection utility
 
 DISTNAME=	despoof-0.9
 CATEGORIES=	security

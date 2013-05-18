@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.7 2002/09/05 00:49:51 jsyn Exp $
 
-COMMENT=	"powerful webserver security scanner"
+COMMENT=			powerful webserver security scanner
 
 DISTNAME=	arirang-1.6
 CATEGORIES= 	security
