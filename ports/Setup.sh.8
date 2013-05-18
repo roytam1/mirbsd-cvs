@@ -1,4 +1,4 @@
-.\" $MirOS: ports/Setup.sh.8,v 1.7 2005/11/17 23:54:20 tg Exp $
+.\" $MirOS: ports/Setup.sh.8,v 1.8 2005/12/17 05:46:17 tg Exp $
 .\"-
 .\" Copyright (c) 2005
 .\"	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -105,7 +105,7 @@ Full command line prefix of
 .Xr nroff 1
 binary or equivalent.
 If unset, MirOS nrcon (from
-.Tn AT&T
+.At
 nroff) is used if found.
 .Pp
 Default value: /usr/bin/env nroff -Tascii
@@ -287,7 +287,7 @@ for
 Running
 .Nm
 overwrites this file.
-.It Pa ${LOCALBASE}/db/make.cfg
+.It Pa ${LOCALBASE}/db/mmake.cfg
 Contains installation-wide (as opposed to system-wide)
 configuration for building MirPorts packages.
 .Pp
@@ -327,7 +327,7 @@ Port location:
 The
 .Os MirBSD
 Korn Shell is always installed if it's not found or too old.
-Currently, at least R24 (2005/08/21) is required.
+Currently, at least R26 (2005/11/22) is required.
 A manual page is attempted to be installed into
 .Pa /usr/share/man/cat1/
 or
@@ -348,7 +348,7 @@ is installed if the system
 is no MirMake or too old.
 If a recent version of MirMake is already found on the
 system or in ${LOCALBASE}/bin, no action is taken, or
-a wrapper is put into ${LOCALBASE}/bin/make so that a
+a wrapper is put into ${LOCALBASE}/bin/mmake so that a
 user can install \*(Ltbsd.port.mk\*(Gt himself.
 .Ss NROFF
 Port location:
@@ -361,7 +361,7 @@ or
 is found (usually the case only on Interix), the
 .Os MirBSD
 version of
-.Tn AT&T
+.At
 .Xr nroff 1
 is installed.
 Note that this check is currently only tested on Interix,
@@ -477,15 +477,17 @@ in cases of errors and should abort on all errors and corner cases.
 .Xr pkg_update 1 ,
 .Xr sh 1 ,
 .Xr wget 1
+.Pp
+.Pa http://mirbsd.mirsolutions.de/man7/BSD-Licence.htm
 .Sh AUTHORS
 .Nm
 was written by
-.An Thorsten Glaser Aq tg@66h.42h.de .
+.An Thorsten Glaser Aq tg@mirbsd.de .
 The MirPorts Framework is maintained by
 .Aq miros-discuss@MirBSD.org .
 The package tools have been taken over from
 FreeBSD and OpenBSD and are now maintained by
-.An Benny Siegert Aq bsiegert@mirbsd.org .
+.An Benny Siegert Aq bsiegert@66h.42h.de .
 .Sh CAVEATS
 Be careful with passing environment variables to
 .Nm
