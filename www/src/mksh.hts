@@ -1,10 +1,10 @@
-# $MirOS: www/src/mksh.hts,v 1.52 2007/09/07 20:32:50 tg Exp $
+# $MirOS: www/src/mksh.hts,v 1.53 2007/09/07 22:22:15 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.52 2007/09/07 20:32:50 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.53 2007/09/07 22:22:15 tg Exp $'
 mws_content <<'EOF'
 <h1>mksh(1) R31</h1>
 <p>This is the website of the MirBSD™ Korn Shell, an actively developed free
@@ -455,7 +455,8 @@ mws_content <<'EOF'
  as well as as SRPM (source RPM). There used to be a repository by <a
  href="http://ftp.skynet.be/pub/suser-guru/rpm/packages/System/mksh/">loki</a>
  in the past. An <a href="http://www.mirbsd.org/MirOS/dist/mir/mksh/ports/mksh-31-1.src.rpm">inofficial
- <em>portable</em> SRPM</a> (created on Debian) is available as well.</li>
+ <em>portable</em> SRPM</a> (created on Debian GNU/kFreeBSD) is available
+ as well.</li>
 <li><a href="http://www.archlinux.org/">Arch GNU/Linux</a> users can install
  an <a href="http://aur.archlinux.org/packages.php?do_Details=1&amp;ID=3431">mksh
  package</a> by Daniel “homsn” Hommel.</li>
@@ -596,7 +597,7 @@ mws_content <<'EOF'
  <li>Debian GNU/kFreeBSD 4.0 sid 6.2-1-686 (i386 gcc4.0.3-7)</li>
  <li>Debian GNU/kFreeBSD 4.0 sid 6.2-1-686 (i386 gcc4.1.2-15)</li>
  <li>Debian GNU/kFreeBSD 4.0 sid 6.2-1-686 (i386 gcc4.2-20070609-1)</li>
- <li>Debian GNU/kFreeBSD 4.0 sid 6.2-1-686 (i386 gcc4.2.1-1)</li>
+ <li>Debian GNU/kFreeBSD 4.0 sid 6.2-1-686 (i386 gcc4.2.1-5)</li>
  <li>Debian GNU/kFreeBSD 4.0 sid 6.2-1-686 (i386 tcc0.9.24cvs20070502) <em>didn’t link with libc*.a</em></li>
  <li>Debian GNU 4.0 sid GNU-Mach/1.3.99 Hurd/0.3 (i386 gcc4.1.2-7)</li>
  <li>DragonFly 1.9-DEVELOPMENT Feb 20, 2007 (i386 gcc3.4.6)</li>
@@ -666,6 +667,7 @@ mws_content <<'EOF'
   ANSI’n’POSIX Environment (not finished)</li>
  <li>Plan porting mksh to <a href="http://www.minix3.org/">Minix 3</a>
   (not finished yet)</li>
+ <li>Fix typo (blsk → bksl) in <tt>check.t</tt> test naming</li>
 </ul>
 <p>mksh R31 was released as part of MirOS #10 with these news:</p><ul>
  <li>Support the TenDRA compiler (possibly also Ten15, not tried)</li>
