@@ -1,5 +1,5 @@
 <?php
-/* $MirOS: www/index.php,v 1.19 2006/06/09 20:31:14 tg Exp $ */
+/* $MirOS: www/index.php,v 1.20 2006/06/18 21:45:21 tg Exp $ */
 /*-
  * The MirOS Project - Webpages
  * Copyrighted material; read LICENCE for terms of use.
@@ -52,12 +52,28 @@
 <div class="content">
  <div style="border:4px ridge red; margin:0px 24px 0px 24px; padding:12px;">
   <h1>Important message</h1>
+ <?php	if (($rq == "content/bWtzaA__.inc") ||
+	    ($rq == "content/d2xvZy0w.inc") ||
+	    ($rq == "content/d2xvZy0x.inc") ||
+	    ($rq == "content/d2xvZy0y.inc") ||
+	    ($rq == "content/d2xvZy0z.inc") ||
+	    ($rq == "content/d2xvZy00.inc") ||
+	    ($rq == "content/d2xvZy01.inc") ||
+	    ($rq == "content/d2xvZy02.inc") ||
+	    ($rq == "content/d2xvZy03.inc") ||
+	    ($rq == "content/d2xvZy04.inc") ||
+	    ($rq == "content/d2xvZy05.inc")) { ?>
+  <p>The entire website is currently under reconstruction. While you
+   have reached a page we try to keep accurate and up to date, it is
+   still not guaranteed. Take care.</p>
+ <?php } else { ?>
   <p>This website is currently under reconstruction. The information
    you find here is probably out of date and not maintained any more
    in favour of the new website. If you want to volunteer helping us
    to set up the new website (same design, KISS content), mail Benny
    at bsiegert@mirbsd.de, thanks.</p>
   <p>Continue at your own risk&#8230;</p>
+ <?php } ?>
  </div>
  <?php
 	$cmsc = get_include_contents($rq);
