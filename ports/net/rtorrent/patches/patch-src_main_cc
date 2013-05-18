@@ -1,19 +1,19 @@
-$MirOS: ports/net/rtorrent/patches/patch-src_main_cc,v 1.2 2006/03/18 18:26:37 tg Exp $
---- src/main.cc.orig	Fri Sep 29 11:56:18 2006
-+++ src/main.cc	Fri Oct  6 16:38:45 2006
-@@ -221,9 +221,9 @@ main(int argc, char** argv) {
-     //    control->variable()->process_command("schedule = scheduler,10,10,download_scheduler=");
+$MirOS: ports/net/rtorrent/patches/patch-src_main_cc,v 1.3 2006/10/06 19:34:40 tg Exp $
+--- src/main.cc.orig	Sun Mar 25 14:39:37 2007
++++ src/main.cc	Tue May  8 22:28:02 2007
+@@ -231,9 +231,9 @@ main(int argc, char** argv) {
+        );
  
      if (OptionParser::has_flag('n', argc, argv))
 -      control->core()->push_log("Ignoring ~/.rtorrent.rc.");
 +      control->core()->push_log("Ignoring ~/.etc/rtorrent.rc.");
      else
--      control->variable()->process_command("try_import = ~/.rtorrent.rc");
-+      control->variable()->process_command("try_import = ~/.etc/rtorrent.rc");
+-      control->variable()->process_single("try_import = ~/.rtorrent.rc");
++      control->variable()->process_single("try_import = ~/.etc/rtorrent.rc");
  
      int firstArg = parse_options(control, argc, argv);
  
-@@ -310,7 +310,7 @@ print_help() {
+@@ -320,7 +320,7 @@ print_help() {
    std::cout << std::endl;
    std::cout << "Usage: rtorrent [OPTIONS]... [FILE]... [URL]..." << std::endl;
    std::cout << "  -h                Display this very helpful text" << std::endl;

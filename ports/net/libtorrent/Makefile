@@ -1,8 +1,8 @@
-# $MirOS: ports/net/libtorrent/Makefile,v 1.4 2006/10/06 19:34:38 tg Exp $
+# $MirOS: ports/net/libtorrent/Makefile,v 1.5 2007/02/22 22:57:54 tg Exp $
 
 CATEGORIES=		net
 COMMENT=		BitTorrent client back-end library
-DISTNAME=		libtorrent-0.10.3
+DISTNAME=		libtorrent-0.11.4
 HOMEPAGE=		http://libtorrent.rakshasa.no/
 MASTER_SITES=		${HOMEPAGE}downloads/
 
@@ -24,7 +24,15 @@ AUTOMAKE_VERSION=	1.9
 CONFIGURE_ARGS+=	${CONFIGURE_SHARED} \
 			--enable-static \
 			--disable-debug \
-			--enable-ipv6 \
 			--with-openssl=/usr
+
+# not for now: upstream says it's broken in the app itself
+#			--enable-ipv6 \
+
+.include <mirports.sys.mk>
+
+.if ${OStype:M*BSD}
+CONFIGURE_ARGS+=	--with-kqueue
+.endif
 
 .include <bsd.port.mk>
