@@ -1,5 +1,5 @@
 #!/usr/bin/perl
-# $MirOS: ports/net/sirc/dist/dsircp,v 1.3 2005/12/15 13:10:24 tg Exp $
+# $MirOS: ports/net/sirc/dist/dsircp,v 1.4 2005/12/18 16:36:44 tg Exp $
 #-
 # dsircp: dumb-mode small irc client in perl
 # by orabidoo <roger.espel.llima@pobox.com>
@@ -7,7 +7,7 @@
 # Copyright (C) 1995-1997 Roger Espel Llima
 # Copyright (c) 2002-2003 Hubert Feyrer
 # Copyright (c) Phil Stracchino
-# Copyright (c) 2001-2005 Thorsten Glaser
+# Copyright (c) 2001-2006 Thorsten Glaser
 #
 # Licensor offers the work "AS IS" and WITHOUT WARRANTY of any kind,
 # express, or implied, to the maximum extent permitted by applicable
@@ -39,6 +39,7 @@
 #	-U = non-UTF-8 (Unicode) mode
 #	-C = set local charset to optarg
 #	-X = set local charset to UTF-8
+#	-T = do not show timestamps on messages by default
 
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License, Version 2, as
@@ -86,13 +87,13 @@ couldn't be found. Have you even bothered to run 'install'?\n";
 }
 use Encode;
 
-&Getopts('n:s:p:u:i:l:L:H:rqQR78UC:X');
+&Getopts('n:s:p:u:i:l:L:H:rqQR78UC:XT');
 
 %set=("LOGFILE", "", "LOG", "off", "PRINTUH", "none", "PRINTCHAN", "off",
 	"LOCALHOST", "", "CTCP", "no", "SENDAHEAD", 4096,
 	"USERINFO", "", "FINGER", "", "IRCNAME", "", "EIGHT_BIT", "on",
 	"LOADPATH", join(":", @loadpath), "CTRL_T", "/next", "UTF", "on",
-	"CHARSET", "iso-8859-1");
+	"CHARSET", "iso-8859-1", "SHOWTIME", "on");
 
 $raw_mode=$opt_r || (!-t STDOUT);
 $ansi=!$raw_mode && $ENV{"TERM"} =~ /^vt|^xterm|^ansi/i;
@@ -122,6 +123,7 @@ $set{"LOCALHOST"}=$opt_H || $ENV{"SIRCHOST"} || $ENV{"IRCHOST"} ||
 $opt_U && ($set{"UTF"}="off");
 $opt_C && ($set{"CHARSET"}=$opt_C);
 $opt_X && ($set{"CHARSET"}="utf8");
+$opt_T && ($set{"SHOWTIME"}="off");
 
 if ($set{"LOCALHOST"}) {
   $bindaddr=&resolve($set{"LOCALHOST"});
@@ -375,9 +377,19 @@ sub print {
     if $set{"EIGHT_BIT"} ne 'on';
   $logging && print LOG $what."\n";
   $what = &sortnames($what) if ($what =~ /Users on #\w+:/);
+  $tstamp = (localtime)[2] . ":" . (localtime)[1];
   if ($raw_mode) {
-    print $what, "\n" || &exit;
+    $tstamp .= Encode::encode($set{"CHARSET"}, "\x{239C}", 0);
+    $tstamp =~ s/\?$/|/;
+    if ($set{"SHOWTIME"} eq 'off') {
+      $tstamp = "";
+    }
+    print $tstamp . $what, "\n" || &exit;
   } elsif ($ansi) {
+    $tstamp = "\cv" . $tstamp . "\cv ";
+    if ($set{"SHOWTIME"} eq 'off') {
+      $tstamp = "";
+    }
     $what =~ s/([\ca\cc-\ch\cj-\cu\cw-\c^])/&enhance($1)/eg;
     # this should be better
     my ($is_bold,$is_ul,$is_rev) = (0,0,0);
@@ -397,10 +409,14 @@ sub print {
       my $code = $ansi_code->[$is_bold][$is_ul][$is_rev];
       $what =~ s/\c[bv_]/$code/;
     }
-    print $what, $normal, "\n" || &exit;
+    print $tstamp . $what, $normal, "\n" || &exit;
   } else {
+    $tstamp .= "| ";
+    if ($set{"SHOWTIME"} eq 'off') {
+      $tstamp = "";
+    }
     $what =~ tr/\ca-\ch\cj-\c_//d;
-    print $what, "\n" || &exit;
+    print $tstamp . $what, "\n" || &exit;
   }
 }
 
@@ -713,9 +729,9 @@ sub doset {
   } elsif ($var eq 'PRINTCHAN') {
     $set{$var}="on", $printchan=1 if $val =~ /^on$/i;
     $set{$var}="off", $printchan=0 if $val =~ /^off$/i;
-  } elsif ($var eq 'UTF') {
-    $set{$var}="on" if $val =~ /^on$/i;
-    $set{$var}="off" if $val =~ /^off$/i;
+  } elsif ($var eq 'UTF' || $var eq 'SHOWTIME') {
+    $set{$var}="on" if $val =~ /^on/i;
+    $set{$var}="off" if $val =~ /^of/i;
   } elsif ($var eq 'CHARSET') {
     $set{$var}=$val;
   } elsif ($var eq 'CTCP') {

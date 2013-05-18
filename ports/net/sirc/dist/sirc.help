@@ -1,8 +1,8 @@
 @main
 Welcome to sirc v. $version, by orabidoo  (last changed: $date),
 a small and simple IRC client written in perl, with extensions for
-$MirOS: ports/net/sirc/patches/patch-sirc_help,v 1.1.7.1 2005/03/18 15:49:06 tg Exp $ by
-Thorsten "mirabile" Glaser <tg@66h.42h.de> and others.
+$MirOS: ports/net/sirc/dist/sirc.help,v 1.2 2005/09/01 20:38:51 tg Exp $ by
+Thorsten "mirabile" Glaser <tg@mirbsd.de> and others.
 
 To get help on a particular topic, type "/help <topic>"  (without the
 <>'s or the ""'s)
@@ -298,7 +298,7 @@ Do a /help set <variable> for help on specific variables.
 The list of SET variables is:
 CHARSET    CTCP       CTRL_T     EIGHT_BIT  FINGER
 IRCNAME    LOADPATH   LOCALHOST  PRINTCHAN  PRINTUH
-SENDAHEAD  USERINFO   UTF
+SENDAHEAD  SHOWTIME   USERINFO   UTF
 Note that sirc scripts may add their own SET variables.
 @set charset
 Sets the local character set assumed.
@@ -354,6 +354,8 @@ behavior; higher values speed up the transfer, although rising it more
 than like 8k or so hardly makes a difference, and setting it higher
 than what your Unix kernel is willing to buffer would be a bad idea.
 The default value is 4096.
+@set showtime
+Sets whether sirc will show timestamps on messages.
 @set userinfo
 Sets the CTCP userinfo reply.
 The default value is whatever is in the environment variable $USERINFO,
