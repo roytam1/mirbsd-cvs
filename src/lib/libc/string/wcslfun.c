@@ -1,5 +1,5 @@
-/* $MirOS: src/lib/libc/string/wcslfun.c,v 1.6 2006/11/08 23:22:07 tg Exp $ */
-/* _MirOS: src/lib/libc/string/strlfun.c,v 1.10 2006/11/08 23:18:04 tg Exp $ */
+/* $MirOS: src/lib/libc/string/wcslfun.c,v 1.7 2006/11/09 14:31:12 tg Exp $ */
+/* _MirOS: src/lib/libc/string/strlfun.c,v 1.11 2006/11/21 01:33:47 tg Exp $ */
 
 /*-
  * Copyright (c) 2006
@@ -30,7 +30,15 @@
 #include <sys/types.h>
 #include <wchar.h>
 
-__RCSID("$MirOS: src/lib/libc/string/wcslfun.c,v 1.6 2006/11/08 23:22:07 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/string/wcslfun.c,v 1.7 2006/11/09 14:31:12 tg Exp $");
+
+#ifdef WCSXFRM
+#undef HAVE_WCSLCPY
+#undef HAVE_WCSLCAT
+#define HAVE_WCSLCPY	0
+#define HAVE_WCSLCAT	1
+#define wcslcpy		wcsxfrm
+#endif
 
 #if !defined(HAVE_WCSLCAT) || (HAVE_WCSLCAT == 0)
 /*
