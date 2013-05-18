@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/i386/livecd/Makefile,v 1.3 2006/04/05 23:15:59 tg Exp $
+# $MirOS: src/distrib/i386/livecd/Makefile,v 1.4 2006/04/05 23:20:01 tg Exp $
 
 .include <bsd.own.mk>
 
@@ -9,7 +9,7 @@ all install:
 
 it: ${CDROM}
 
-${CDROM}: unpack prepimg makeimg
+${CDROM}: unpack prepimg nukefiles makeimg
 
 unpack:
 	mkdir -p workdir
@@ -25,6 +25,10 @@ prepimg:
 	    of=workdir/bsd
 	cp ${.CURDIR}/boot.cfg workdir/etc/
 
+nukefiles:
+	cd workdir/usr && ${SUDO} rm -rf X11R6/lib/X11/doc X11R6/man \
+	    lib/libgcj.* share/{doc,gnat,info,java,man}
+
 makeimg:
 	mkisofs -R -T -L -d -D -N -v -v \
 	    -b etc/boot.386 -c etc/boot.cat \
@@ -35,7 +39,7 @@ makeimg:
 	    -no-emul-boot -boot-load-size 4 -boot-info-table \
 	    -pad -o ${CDROM} workdir
 
-.PHONY: it unpack prepimg makeimg
+.PHONY: it unpack prepimg makeimg nukefiles
 
 clean cleandir cleannobsd:
 	-${SUDO} rm -rf ${CDROM} workdir
