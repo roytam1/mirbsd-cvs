@@ -1095,3 +1095,40 @@ Title: mksh on… platforms
 <p>And then, mksh R35b can go out, we fixed some bugs and tested on more
  platforms (fixing testsuite shortcomings during that time, even).</p>
 ----
+Date: 17.07.2008 21:43
+Author: tg@
+Title: <a href="@@RELPATH@@mksh.htm">mksh</a> – The iShell
+
+<p style="margin-bottom:0px;">Try this:</p>
+<div style="border:4px ridge blue; margin:0px 24px 0px 24px; padding:12px;">
+ <pre>
+	$ cvs -d anoncvs@anoncvs.mirbsd.org:/cvs co -PA mksh
+	$ cd mksh
+	$ cat >iBuild.sh <<-'EOF'
+		DEV=/Developer/Platforms/iPhoneOS.platform/Developer
+		SDK=${DEV}/SDKs/iPhoneOS2.0.sdk
+		CC="${DEV}/usr/bin/gcc-4.0 -arch arm"
+		CPPFLAGS="-I${SDK}/usr/include"
+		CPPFLAGS="$CPPFLAGS -I${DEV}/usr/lib/gcc/arm-apple-darwin9/4.0.1/include"
+		CPPFLAGS="$CPPFLAGS -F${SDK}/System/library/Frameworks"
+		CPPFLAGS="$CPPFLAGS -F${SDK}/System/library/PrivateFrameworks"
+		CPPFLAGS="$CPPFLAGS -F/System/library/Frameworks"
+		LDFLAGS="-L${SDK}/usr/lib -L${DEV}/usr/lib/gcc/arm-apple-darwin9/4.0.1/lib"
+
+		export CC CPPFLAGS LDFLAGS
+		exec "$@"
+	EOF
+	$ mksh iBuild.sh mksh Build.sh -r
+	$ file mksh
+ </pre>
+</div><p style="margin-top:0px;">Mach-O executable arm</p>
+<p>Of course, you need the iPhone 2.0 SDK on your Mac for this (and,
+ presumably, an installed native mksh… otherwise just change the above
+ instructions a little.</p>
+<p>We haven't tested it yet, but if gecko2@ can figure out how to run
+ mobileterminal.app inside the emulator, he will… and possibly jailbreak
+ his iPhone G3.</p>
+<p>Maybe this fact (availability of mksh) strengthens <a
+ href="@@RELPATH@@permalinks/wlog-10_e20080714-tg.htm">our point</a>.</p>
+<p>In the meanwhile, gecko2@ has found the geocaches I placed.</p>
+----
