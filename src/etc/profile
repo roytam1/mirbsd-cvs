@@ -1,4 +1,4 @@
-# $MirOS: src/etc/profile,v 1.28 2006/07/23 18:44:25 tg Exp $
+# $MirOS: src/etc/profile,v 1.29 2006/08/07 17:20:31 tg Exp $
 #-
 umask 022
 [ -z "$KSH_VERSION" ] && alias print='echo -e'
@@ -114,11 +114,12 @@ function klynx		# kterm lynx (EUC-JP)
 	( sleep 1; cls; print -n 'Press Ctrl-L!' ) 2>/dev/null &
 	lynx -display_charset euc-jp "$@"
 }
-function Lstripcom	# strip comments from file
+function Lstripcom	# strip comments (and whitespace) from file/stdin
 {
 	local _line
 	set -o noglob
-	cat "$@" | while read _line; do
+	cat "$@" |&
+	while read -p _line; do
 		_line=${_line%%#*}
 		[[ -n $_line ]] && print -r -- $_line
 	done

@@ -1,20 +1,19 @@
 #!/bin/mksh
-# $MirOS: src/etc/netstart,v 1.4 2005/07/24 15:45:28 tg Exp $
+# $MirOS: src/etc/netstart,v 1.5 2006/06/17 19:10:56 tg Exp $
 # $OpenBSD: netstart,v 1.105 2005/05/22 08:56:08 todd Exp $
 
-# Strip comments (and leading/trailing whitespace if IFS is set)
-# from a file and spew to stdout
-stripcom() {
-	local _file="$1"
+# strip comments (and leading/trailing whitespace if IFS is set) from
+# any file(s) given as argument, or stdin if none, and spew to stdout
+function stripcom
+{
 	local _line
-
-	{
-		while read _line; do
-			_line=${_line%%#*}		# strip comments
-			test -z "$_line" && continue
-			echo $_line
-		done
-	} <$_file
+	set -o noglob
+	cat "$@" |&
+	while read -p _line; do
+		_line=${_line%%#*}
+		[[ -n $_line ]] && print -r -- $_line
+	done
+	set +o noglob
 }
 
 # Returns true if $1 contains only alphanumerics
