@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: contrib/hosted/fwcf/fwcf.sh,v 1.33 2007/07/02 14:55:44 tg Exp $
+# $MirOS: contrib/hosted/fwcf/fwcf.sh,v 1.34 2007/07/16 15:29:31 tg Exp $
 #-
 # Copyright (c) 2006, 2007
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -43,7 +43,7 @@
 export PATH=/bin:/sbin:/usr/bin:/usr/sbin
 wd=$(pwd)
 cd /
-what='FreeWRT Configuration Filesytem (fwcf), Version 1.05
+what='FreeWRT Configuration Filesytem (fwcf), Version 1.05b
 Copyright (c) 2006, 2007
 	Thorsten Glaser <tg@freewrt.org>
 '
@@ -83,7 +83,7 @@ if [[ $me != fwcf ]]; then
 	done
 	shift $((OPTIND - 1))
 
-	(( nofwcf == fflag == 0 )) && if ! fwcf status -q; then
+	(( nofwcf == 0 && fflag == 0 )) && if ! fwcf status -q; then
 		print -u2 "error: will not $me: unsaved changes in /etc found!"
 		print -u2 "Either run 'fwcf commit' before trying to $me"
 		print -u2 "or retry with '$me -F${*+ }$*' to force a ${me}."
