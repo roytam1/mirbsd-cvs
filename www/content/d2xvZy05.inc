@@ -1,5 +1,5 @@
 <!-- PageID: wlog-9 -->
-<small class="rcsid">$MirOS: www/content/d2xvZy05.inc,v 1.38 2006/08/27 01:36:30 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy05.inc,v 1.39 2006/08/27 20:12:30 bsiegert Exp $</small>
 <h1>MirBSD &ndash; WTF is Verpeilungsfaktor?</h1>
 <p><small><a href="#eof">bottom</a> or <a href="/?older">older</a>
  editions</small></p>
@@ -600,6 +600,45 @@
  <p>tyler@ pointed me to <a href="http://www.oswd.org/">oswd.org</a>, a
   website with free design templates. I have some ideas on how I would
   like it to look but nothing definitive yet.</p>
+</div>
+
+<div class="wlentry">
+ <h3 id="e20060827">27.08.2006 by tg@</h3>
+ <p>Okay, the <a href="/newsite/">new website is online</a>, with fixes.
+  I don't think using other peoples' design is a good thing, because, if
+  you don't use a design of your own which you <em>don't</em> licence to
+  others freely, you aren't safe from copycats. This is a reason for the
+  &quot;must not copy the design of MirOS or (my) personal webpage&quot;
+  clause in the old www/LICENCE file, by the way. (I don't like the news
+  entry format much &ndash; it has too much red tape (everything before,
+  and <em>especially</em> the colon-space (use an equals sign, if you're
+  going to use a key-value pair at all!), in the header).</p>
+ <p>Played with MacOS 7.5.3 in Basilisk &#8545; and SheepShaver today. I
+  think the GUI is quite intuitive. The OSnews article on GEOS was quite
+  the good read for the evening too, and fasm (flat assembler) looks not
+  bad either, and it has a funny BSD-style licence.</p>
+ <p>On the other hand I ended up doing my own letter form for a DIN 5008
+  letter all afternoon, because there are no good ones available, and no
+  single one for Lotus Word Pro 9.5 (Millennium Edition) for Windows, at
+  all! This sucks, the freely available specs (the standard itself costs
+  some 30-50 &euro;) suck and contradict themselves, but IMHO, I crafted
+  something usable which doesn't make me look bad to my hopefully future
+  employer at the first look. (On related news, I am still looking for a
+  job, anyone?)<br />PS: Long live (AFPL) Ghostscript!</p>
+ <p>I'm pondering to release mksh R28 now, codename <tt>Pleitegeier</tt>
+  (not an <a href="http://grml.org/">austrian word</a> though). I should
+  move some of the MI Plan 9 support code into the branch though, as I'm
+  suspicious of it causing issues with job control in Plan 9 itself. The
+  <a href="http://directory.fsf.org/search/fsd-search.py?q=mksh">FSF and
+  UNESCO directory of Free Software</a> sadly still doesn't list it.</p>
+ <p>I should convert the entire repository to strict ISO_646.irv:1991 or
+  UTF-8 conformance. Maybe post-#9bis, because I'd really like to get it
+  out of the doors, but then really (including change logs, mailx(1) and
+  submit.cf default, etc.) and correctly.</p>
+ <p>Cygwin, Interix, various Mac and Windows instances, GNU and BSD suck
+  <em>all</em>, just in different flavours and strengths. And Solaris is
+  the funny dot on the i. (What is Plan 9 APE then? I guess I don't want
+  to even know.)</p>
 </div>
 
 <p id="eof">Good luck, have fun, take care etc.pp</p>
