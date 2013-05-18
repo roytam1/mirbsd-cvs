@@ -1,5 +1,5 @@
 #!/usr/bin/env mksh
-# $MirOS: ports/infrastructure/pkgtools/upgrade/pkg_upgrade.sh,v 1.13 2006/01/17 22:57:00 tg Exp $
+# $MirOS: ports/infrastructure/pkgtools/upgrade/pkg_upgrade.sh,v 1.14 2006/02/20 20:56:08 tg Exp $
 #-
 # Copyright (c) 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -85,6 +85,7 @@ grep -q '^@option no-default-conflict' $TMPDIR/+CONTENTS
 if [[ $? -eq 0 || -z "$OLDPKGS" ]]; then
 	# we can safely go on
 	[[ $quiet = 1 ]] || print -u2 "$me: adding previously uninstalled '${1##*/}'"
+	rm -rf $TMPDIR
 	exec pkg_add "$npkg"
 fi
 
@@ -106,9 +107,11 @@ if [[ -f $PKG_DBDIR/$OLDPKGS/+REQUIRED_BY ]] ; then
 	mv -f $PKG_DBDIR/$OLDPKGS/+REQUIRED_BY $TMPDIR
 fi
 
-if grep -q '^@option base-package' $PKG_DBDIR/$OLDPKGS/+CONTENTS ; then
+if grep -qi '^@option base-package' $TMPDIR/+CONTENTS; then
 	print -u2 "$me: '$OLDPKGS' is a base package, unregistering only"
-	pkg_delete -DU $OLDPKGS && pkg_add -Nq "$npkg"
+	pkg_delete -DU $OLDPKGS && pkg_add -INq "$npkg"
+elif grep -qi '^@comment upgrade-no-scripts' $TMPDIR/+CONTENTS; then
+	pkg_delete -D $OLDPKGS && pkg_add -I "$npkg"
 else
 	pkg_delete $OLDPKGS && pkg_add "$npkg"
 fi
