@@ -1,4 +1,4 @@
-# $MirOS: ports/audio/mpg123/Makefile,v 1.7 2008/05/16 22:14:18 tg Exp $
+# $MirOS: ports/audio/mpg123/Makefile,v 1.8 2008/05/17 23:29:30 tg Exp $
 # $OpenBSD: Makefile,v 1.30 2003/11/13 20:51:50 margarida Exp $
 
 # might not be too hard to add more
@@ -10,7 +10,7 @@ DASH_VER=		6
 CATEGORIES=		audio
 HOMEPAGE=		http://www.mpg123.de/
 
-# See the COPYING file installed with the package.
+# GNU LGPLv2.1 (except libao and oldalsa audio modules, which are GPL)
 PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 PERMIT_PACKAGE_CDROM=	Yes
