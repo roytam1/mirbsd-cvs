@@ -7578,29 +7578,7 @@ int put_clip(const char *s)
 
 #endif /* __EMX__ */
 
-/*
- * Sleep for a number of milli-sec.
- */
-void LYmsec_delay(unsigned msec)
-{
-#if defined(_WINDOWS)
-    Sleep(msec);
-
-#elif defined(HAVE_NAPMS)
-    napms((int) msec);
-
-#elif defined(DJGPP) || defined(HAVE_USLEEP)
-    usleep(1000 * msec);
-
-#else
-    struct timeval tv;
-    unsigned long usec = 1000UL * msec;
-
-    tv.tv_sec = usec / 1000000UL;
-    tv.tv_usec = usec % 1000000UL;
-    select(0, NULL, NULL, NULL, &tv);
-#endif
-}
+#define WANT_LYmsec_delay
 
 #if defined(WIN_EX)		/* 1997/10/16 (Thu) 20:13:28 */
 
@@ -7850,3 +7828,29 @@ void LYCloselog(void)
 }
 
 #endif /* SYSLOG_REQUESTED_URLS */
+
+#if defined(WANT_LYmsec_delay) || defined(USE_MOUSE)
+/*
+ * Sleep for a number of milli-sec.
+ */
+void LYmsec_delay(unsigned msec)
+{
+#if defined(_WINDOWS)
+    Sleep(msec);
+
+#elif defined(HAVE_NAPMS)
+    napms((int) msec);
+
+#elif defined(DJGPP) || defined(HAVE_USLEEP)
+    usleep(1000 * msec);
+
+#else
+    struct timeval tv;
+    unsigned long usec = 1000UL * msec;
+
+    tv.tv_sec = usec / 1000000UL;
+    tv.tv_usec = usec % 1000000UL;
+    select(0, NULL, NULL, NULL, &tv);
+#endif
+}
+#endif /* WANT_LYmsec_delay || USE_MOUSE */
