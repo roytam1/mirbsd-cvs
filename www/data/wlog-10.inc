@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.391 2012/07/15 09:19:04 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.392 2012/07/15 15:31:29 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -9097,7 +9097,12 @@ Tag: debian pcli tip
 	exec /usr/bin/X -retro -nolisten tcp "$@"
  </pre>
 </div><p class="boxfoot">For display managers, similar files exist in
- <tt>/etc/kde4/kdm</tt> and related places.</p><!-- RSS stop -->
+ <tt>/etc/kde4/kdm</tt> and related places.</p>
+<p><strong>Update:</strong> Also, newer xterm(1) justify <a
+ href="https://www.mirbsd.org/cvs.cgi/contrib/samples/dot.Xresources?rev=HEAD">an
+ update to <tt>~/.Xresources</tt></a> for we can finally get rid of
+ cut buffers, and get a blinking underline cursor to boot!</p>
+<!-- RSS stop -->
 <p>On the other front, worked on Debian packaging, and upstream on
  pax(1) and <a href="@@RELPATH@@jupp.htm">jupp</a>, with more things
  to follow (especially in <a href="@@RELPATH@@mksh.htm">mksh</a>).
