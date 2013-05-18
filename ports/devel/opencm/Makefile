@@ -1,3 +1,4 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.18 2004/02/04 07:39:18 sturm Exp $
 
 COMMENT=			OpenCM change management system
@@ -14,7 +15,7 @@ HOMEPAGE=		http://www.opencm.org
 
 
 # BSD/(GPL for diff3)
-PERMIT_PACKAGE_CDROM=	Yes
+PERMIT_PACKAGE_CDROM=	dependency devel/boehm-gc is not allowed for CDROM
 PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_CDROM= Yes
 PERMIT_DISTFILES_FTP=	Yes
