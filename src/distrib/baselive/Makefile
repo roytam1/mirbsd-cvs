@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/baselive/Makefile,v 1.14 2006/12/20 17:58:28 tg Exp $
+# $MirOS: src/distrib/baselive/Makefile,v 1.15 2007/01/30 22:42:05 tg Exp $
 
 .include <bsd.own.mk>
 
@@ -139,7 +139,7 @@ cdrom-prepare: bsd.gz
 	    sed 's!RMD160 (!&v${OSrev}/${MACHINE}/!' \
 	    <v${OSrev}/${MACHINE}/RMD160 >RMD160; \
 	    ${SUDO} touch boot.cat; \
-	    rmd160 00-README bsd boot.* stand/* >>RMD160
+	    rmd160 0* bsd boot.* stand/* >>RMD160
 	-${SUDO} rm -f ${WRKDIR}/boot.cat ${CDROM}
 
 cdrom-generate:
