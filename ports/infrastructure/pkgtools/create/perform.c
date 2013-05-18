@@ -1,4 +1,4 @@
-/* $MirOS: ports/infrastructure/pkgtools/create/perform.c,v 1.19 2009/11/29 17:26:04 bsiegert Exp $ */
+/* $MirOS: ports/infrastructure/pkgtools/create/perform.c,v 1.20 2009/12/08 20:51:04 bsiegert Exp $ */
 /* $OpenBSD: perform.c,v 1.17 2003/08/27 06:51:26 jolan Exp $	*/
 
 /*
@@ -32,7 +32,7 @@
 #include <signal.h>
 #include <unistd.h>
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/create/perform.c,v 1.19 2009/11/29 17:26:04 bsiegert Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/create/perform.c,v 1.20 2009/12/08 20:51:04 bsiegert Exp $");
 
 static void sanity_check(void);
 static void make_dist(char *, char *, const char *, package_t *);
@@ -380,7 +380,7 @@ make_dist(char *homepath, char *pkg, const char *fsuffix, package_t *plist)
 	xasprintf(&cp2, "%s | %s >%s", cp,
 		compression == COMP_GZIP ? "gzip -n9fc" :
 		compression == COMP_LZMA ? "lzma -z9fc" :
-		"xz -zfc9e -F xz -C crc32", (tf = format_arg(tball)));
+		"xz -zfc7e -F xz -C crc32", (tf = format_arg(tball)));
 	xfree(tf);
 	xfree(cp);
     } else
