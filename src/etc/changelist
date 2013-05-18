@@ -1,4 +1,4 @@
-# $MirOS: src/etc/changelist,v 1.4 2005/07/06 18:34:10 tg Exp $
+# $MirOS: src/etc/changelist,v 1.5 2005/07/24 15:45:28 tg Exp $
 # $OpenBSD: changelist,v 1.42 2005/02/07 06:45:17 david Exp $
 #
 # List of files which the security script backs up and checks
@@ -106,6 +106,7 @@
 /etc/rc.conf
 /etc/rc.conf.local
 /etc/rc.local
+/etc/rc.netselect
 /etc/rc.securelevel
 /etc/rc.shutdown
 /etc/remote
