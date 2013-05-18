@@ -1,4 +1,4 @@
-mws_putheader '$MirOS: www/src/ann-10.hts,v 1.4 2008/03/16 18:22:49 tg Exp $'
+mws_putheader '$MirOS: www/src/ann-10.hts,v 1.5 2008/03/16 18:28:17 tg Exp $'
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -22,6 +22,16 @@ mws_content <<'EOF'
  "enough RAM": 32 MiB for SPARC, 64 MiB for text mode on i386, or 96 MiB
  for X11. The standard installation needs at least 250 MiB on the hard
  disk; for X11 and ports, 1 GiB or more is recommended.</p>
+
+<p>Virtualisation environments: qemu-system-sparc is not yet enough,
+ but getting close. qemu (native on i386) is very fine, but slow.
+ qemu-system-i386 is not tested. bochs works, but is even slower.
+ VirtualBox is <strong>buggy</strong> and does not work with a lot of
+ operating systems, MirBSD being among them. Parallels Desktop is a
+ superb speedy method to run MirBSD on a Macintosh, as BootCamp is not
+ enough yet. We had limited success (i.e. works, but not tested well)
+ with Xen+HVM (Vanderpool, Pacifica), VMware Server, MS VirtualPC (both
+ on Windows and on the Macintosh).</p>
 
 <p>Instructions for installing MirOS are contained in the
  install.i386(7) or install.sparc(7) manpages.</p> 

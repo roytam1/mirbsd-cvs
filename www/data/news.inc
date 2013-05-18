@@ -691,6 +691,10 @@ Date: 16.03.2008
 <p>Read the <a href="@@RELPATH@@ann-10.htm">release announcement</a>,
  or the <a href="@@RELPATH@@clogs/">CVS ChangeLog files</a>, for more
  information on this release.</p>
+<p>Note that, while a lot of virtualisation software performs quite
+ well (Parallels, qemu) or works (VMware Server, bochs, MS VirtualPC,
+ Xen+HVM) with MirBSD, sadly, VirtualBox doesn’t. Due to a bug in it,
+ a lot of operating systems do not work.</p>
 ----
 Title: MirOS #10 downloads
 Date: 20.03.2008
