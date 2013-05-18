@@ -25,7 +25,7 @@
 #include <lib/libsa/stand.h>
 #include <lib/libsa/fat.h>
 
-__RCSID("$MirOS: src/sys/lib/libsa/fat.c,v 1.9 2008/12/28 05:29:07 tg Exp $");
+__RCSID("$MirOS: src/sys/lib/libsa/fat.c,v 1.10 2008/12/28 06:26:10 tg Exp $");
 
 #if BYTE_ORDER != LITTLE_ENDIAN
 #define getlew(ofs) (buf[(ofs)] + ((unsigned)buf[(ofs) + 1] << 8))
@@ -325,10 +325,9 @@ fat_read(struct open_file *f, void *buf, size_t size, size_t *resid)
 			break;
 
 		otmp = ff->nodeseekp % blksiz;
-		stmp = blksiz;
+		stmp = blksiz - otmp;
 		if (ff->nodesize && (ff->nodesize - ff->nodeseekp) < stmp)
 			stmp = ff->nodesize - ff->nodeseekp;
-		stmp -= otmp;
 		if (stmp >= size)
 			stmp = size;
 		memmove(buf, ff->databuf + otmp, stmp);
@@ -414,16 +413,15 @@ fat_readdir(struct open_file *f, char *name)
 		return (0);
 	}
 
+	*name = '\0';
  getrec:
 	if ((rv = fat_read(f, fat_dirbuf, sizeof (fat_dirbuf), &sr)))
 		return (rv);
 	if (sr)
 		return (-1);
 	/* end of directory? */
-	if (fat_dirbuf[0] == 0) {
-		*name = '\0';
+	if (fat_dirbuf[0] == 0)
 		return (-1);
-	}
 	/* deleted file? */
 	if (fat_dirbuf[0] == 0xE5)
 		goto getrec;
