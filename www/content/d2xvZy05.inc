@@ -1,5 +1,5 @@
 <!-- PageID: wlog-9 -->
-<small class="rcsid">$MirOS: www/content/d2xvZy05.inc,v 1.9 2006/07/05 05:12:31 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy05.inc,v 1.10 2006/07/06 00:12:18 tg Exp $</small>
 <h1>MirBSD &ndash; WTF is Verpeilungsfaktor?</h1>
 <p><small><a href="#eof">bottom</a> or <a href="/?older">older</a>
  editions</small></p>
@@ -184,6 +184,8 @@
 
 <div class="wlentry">
  <h3 id="e20060705">05.07.2006 by tg@</h3>
+ <p><tt>mksh R27e</tt> is spreading slowly, but the goal of mksh's world
+  domination is getting closer&#8230;</p>
  <p>Originally I had decided to go to bed earlier today, but somehow I'm
   fascinated by the just-finishing (tarmk stage) sparc snapshot build. I
   will publish that snapshot on BT now and afterwards try to hack on the
@@ -193,7 +195,9 @@
  <p>makefs(8) from TNF has appeared, and I already have filed the bug <a
   href="http://www.NetBSD.org/cgi-bin/query-pr-single.pl?number=33924">toolchain/33924</a>
   in their gnats ;) I hope they'll help improving it so we might someday
-  get rid of mkisofs(8) in base.</p>
+  get rid of mkisofs(8) in base. I also opened another report &ndash; <a
+  href="http://www.NetBSD.org/cgi-bin/query-pr-single.pl?number=33925">toolchain/33925</a>
+  with the filesystem size off by a block issue from 2003 or so.</p>
  <p>I haven't been able to work much on ports, as expected. Benny on the
   other hand is currently trying to buy internet access via a modem. Yes
   a (USB-attached soft)modem, that analog phone line thingie. He'll work
