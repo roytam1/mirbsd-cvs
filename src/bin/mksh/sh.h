@@ -96,9 +96,9 @@
 #define __SCCSID(x)	__IDSTRING(sccsid,x)
 
 #ifdef EXTERN
-__RCSID("$MirOS: src/bin/mksh/sh.h,v 1.212 2008/04/22 19:00:41 tg Exp $");
+__RCSID("$MirOS: src/bin/mksh/sh.h,v 1.213 2008/05/02 18:55:36 tg Exp $");
 #endif
-#define MKSH_VERSION "R33 2008/05/02"
+#define MKSH_VERSION "R33 2008/05/04"
 
 #ifndef MKSH_INCLUDES_ONLY
 
