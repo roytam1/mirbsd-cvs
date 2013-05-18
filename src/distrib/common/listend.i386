@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/listend.i386,v 1.14 2007/06/22 19:58:59 tg Exp $
+# $MirOS: src/distrib/common/listend.i386,v 1.15 2007/08/28 23:00:20 tg Exp $
 
 # we want the disklabel without manual page
 CRUNCHSPECIAL disklabel	srcdir distrib/special/dl-noman
@@ -10,7 +10,7 @@ LINK	instbin					sbin/mount_msdos
 LINK	instbin					usr/bin/more usr/bin/less
 
 # these don't fit
-SPECIAL	rmdir etc/isdn etc/ssh
+SPECIAL	rmdir etc/isdn etc/ssh usr/share/zoneinfo
 
 # replace bigger normal boot by fdboot
 SPECIAL	rm usr/mdec/boot
