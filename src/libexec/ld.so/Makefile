@@ -1,4 +1,4 @@
-# $MirOS: src/libexec/ld.so/Makefile,v 1.8 2007/04/18 20:59:02 tg Exp $
+# $MirOS: src/libexec/ld.so/Makefile,v 1.9 2008/10/16 13:31:20 tg Exp $
 # $OpenBSD: Makefile,v 1.34 2006/05/11 22:03:22 deraadt Exp $
 
 SUBDIR=		ldconfig ldd
@@ -13,6 +13,9 @@ SRCS+=	library_mquery.c
 .else
 SRCS+=	library.c
 .endif
+
+SRCS+=		ssp.c
+CFLAGS_ssp.o=	-fno-stack-protector -fno-stack-protector-all
 
 PROG=		ld.so
 DPADD+=		${LIBMDSUP}

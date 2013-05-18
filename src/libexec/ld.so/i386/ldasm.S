@@ -1,4 +1,4 @@
-/**	$MirOS$ */
+/**	$MirOS: src/libexec/ld.so/i386/ldasm.S,v 1.2 2006/06/30 18:11:01 tg Exp $ */
 /*	$OpenBSD: ldasm.S,v 1.10 2006/05/03 16:10:52 drahn Exp $ */
 
 /*
@@ -52,6 +52,8 @@ _dl_start:
 	pushl	%eax			# load saved SP for dl_boot_bind
 
 	call	_dl_boot_bind@PLT	# _dl_boot_bind(sp,dl_data)
+
+	call	__guard_setup@PLT
 
 	pushl	%edi			# push saved dl_data
 	movl	%edi,%ebp
