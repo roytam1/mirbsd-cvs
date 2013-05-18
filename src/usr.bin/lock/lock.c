@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.bin/lock/lock.c,v 1.2 2005/03/13 18:33:12 tg Exp $ */
+/**	$MirOS: src/usr.bin/lock/lock.c,v 1.3 2005/11/23 17:36:20 tg Exp $ */
 /*	$OpenBSD: lock.c,v 1.21 2005/07/14 14:42:28 jmc Exp $	*/
 /*	$NetBSD: lock.c,v 1.8 1996/05/07 18:32:31 jtc Exp $	*/
 
@@ -67,7 +67,7 @@ static char copyright[] =
 #include <bsd_auth.h>
 
 __SCCSID("@(#)lock.c	8.1 (Berkeley) 6/6/93");
-__RCSID("$MirOS: src/usr.bin/lock/lock.c,v 1.2 2005/03/13 18:33:12 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/lock/lock.c,v 1.3 2005/11/23 17:36:20 tg Exp $");
 
 #define	TIMEOUT	15
 
@@ -98,6 +98,16 @@ main(int argc, char *argv[])
 	style = NULL;
 	usemine = 0;
 	no_timeout = 0;
+
+	if ((p = strrchr(argv[0], '/')) != NULL)
+		++p;
+	else
+		p = argv[0];
+
+	if (!strcmp(p, "lock-np")) {
+		no_timeout = 1;
+		usemine = 1;
+	}
 
 	if (!(pw = getpwuid(getuid())))
 		errx(1, "unknown uid %u.", getuid());
