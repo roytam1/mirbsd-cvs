@@ -1,4 +1,4 @@
-rcsid_inc2rss='$MirOS: www/mk/inc2rss,v 1.30 2009/10/31 17:02:39 tg Exp $'
+rcsid_inc2rss='$MirOS: www/mk/inc2rss,v 1.31 2011/07/25 09:33:53 tg Exp $'
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -132,7 +132,11 @@ integer last='entries < maxentries ? 0 : entries - maxentries'
 while (( i >= last )); do
 	integer ent=${ei_indir[i]}
 
-	[[ ${e_deleted[ent]} = 1 ]] && continue
+	if [[ ${e_deleted[ent]} = 1 ]]; then
+		(( last = last > 0 ? last - 1 : 0 ))
+		let i--
+		continue
+	fi
 	rss_output $ent "/permalinks/" >>${name}.rss~
 	let i--
 done
