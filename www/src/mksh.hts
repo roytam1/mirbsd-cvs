@@ -2,7 +2,7 @@
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.162 2008/08/02 17:53:53 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.163 2008/08/16 22:03:12 tg Exp $'
 mws_content <<'EOF'
 <h1>mksh(1) R35b</h1>
 <p>This is the website of the MirBSD™ Korn Shell, an actively developed free
@@ -988,6 +988,12 @@ mws_content <<'EOF'
   via <tt>Build.sh</tt>, run with <tt>-DMKSH_AFREE_DEBUG</tt> (unless ramdisc
   or MirOS-stable or formal release, i.e. DEBUGLIBS is not set)</li>
  <li>Merge final version of jaredy’s fix for the stack-storage free issue</li>
+ <li>Be more efficient in the mksh(1) manual page example section</li>
+ <li>Fix multi-line <tt>$PS1</tt> in the (officially orphaned and unsupported)
+  “vi” command-line editing mode (regression; reported by asarch via IRC)</li>
+ <li>Fix multi-line <tt>$PS1</tt> where the last line is too long for the edit
+  area to fit on the screen, genuine (pdksh, probably) bug, while here</li>
+ <li>Plug a memory leak; patch from jaredy taken from oksh</li>
 </ul>
 <p id="r35b">mksh R35b comes with the following bug fixes:</p><ul>
  <li>IRIX also has no UTF-8 locale at all, confirmed by Elias Pipping</li>
