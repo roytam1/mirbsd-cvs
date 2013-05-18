@@ -502,6 +502,7 @@ BSD/OS)
 	;;
 Coherent)
 	oswarn="; it has major issues"
+	add_cppflags -DMKSH__NO_SYMLINK
 	check_categories="$check_categories nosymlink"
 	add_cppflags -DMKSH__NO_SETEUGID
 	;;
