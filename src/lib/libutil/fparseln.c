@@ -2,7 +2,7 @@
 /*	$NetBSD: fparseln.c,v 1.7 1999/07/02 15:49:12 simonb Exp $	*/
 
 /*
- * Copyright (c) 2009 Thorsten Glaser
+ * Copyright (c) 2009, 2010 Thorsten Glaser
  * Copyright (c) 1997 Christos Zoulas.  All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,12 +33,13 @@
 #include <stdlib.h>
 
 #ifdef DEBIAN
+#define NEED_FPARSELN_DECL
 #include "mbsdtree.h"
 #else
 #include "util.h"
 #endif
 
-__RCSID("$MirOS: src/lib/libutil/fparseln.c,v 1.2 2009/07/23 19:32:21 tg Exp $");
+__RCSID("$MirOS: src/lib/libutil/fparseln.c,v 1.3 2010/03/07 00:34:27 tg Exp $");
 
 static int isescaped(const char *, const char *, int);
 
