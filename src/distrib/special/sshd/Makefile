@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/special/sshd/Makefile,v 1.8 2009/10/04 20:14:15 tg Exp $
+# $MirOS: src/distrib/special/sshd/Makefile,v 1.9 2009/10/04 20:48:37 tg Exp $
 # $OpenBSD: Makefile,v 1.68 2008/11/04 08:22:13 djm Exp $
 #-
 # Build an extra small sshd(8) without BSD auth
@@ -8,6 +8,7 @@ SSHDIR=	${.CURDIR}/../../../usr.bin/ssh
 
 CFLAGS+=-Wall -Wpointer-arith -Wno-uninitialized -Wstrict-prototypes \
 	-Wmissing-prototypes -Wunused -Wsign-compare -Wshadow
+CDIAGFLAGS+=	-Wno-cast-qual -Wno-unused
 
 PROG=	sshd
 BINOWN=	root

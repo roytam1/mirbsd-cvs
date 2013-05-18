@@ -2,7 +2,8 @@
 
 .include <bsd.own.mk>
 
-SUBDIR=	lib ssh sshd ssh-add ssh-keygen ssh-agent scp sftp-server \
+SUBDIR=	lib libroaming_off libroaming_on \
+	ssh sshd ssh-add ssh-keygen ssh-agent scp sftp-server \
 	ssh-keysign ssh-keyscan sftp scard
 
 distribution:
