@@ -265,6 +265,66 @@ void output_toupper_table (void)
   }
 }
 
+void output_totitle_table (void)
+{
+  int pages[0x100];
+  int p, p1, p2, i1, i2;
+  const char* filename = "tbl_towt.c";
+  FILE* f = fopen(filename, "w");
+  if (!f) {
+    fprintf(stderr, "error during fopen of `%s'\n", filename);
+    exit(1);
+  }
+  for (p = 0; p < 0x100; p++)
+    pages[p] = 0;
+  for (p = 0; p < 0x100; p++)
+    for (i1 = 0; i1 < 0x100; i1++) {
+      unsigned int ch = 0x100*p + i1;
+      if (iswoctet(ch))
+	continue;
+      if (uppercase(ch) == ch && titlecase(ch) != ch) {
+        pages[p] = 1;
+        break;
+      }
+    }
+  for (p = 0; p < 0x100; p++)
+    if (pages[p]) {
+      fprintf(f, "static const uint16_t totitle_table_page%02X[256] = {\n", p);
+      for (i1 = 0; i1 < 32; i1++) {
+        for (i2 = 0; i2 < 8; i2++) {
+          unsigned int ch = 256*p + 8*i1 + i2;
+          int j = 0;
+	  if (uppercase(ch) == ch && titlecase(ch) != ch)
+	    j = ((int)titlecase(ch) - (int)ch) & 0xFFFF;
+          fprintf(f, "%c0x%04X%s", i2==0?'\t':' ', j, (8*i1+i2<255?",":""));
+        }
+        fprintf(f, "\n");
+      }
+      fprintf(f, "};\n");
+      fprintf(f, "\n");
+    }
+  fprintf(f, "const uint16_t * const totitle_table[0x100] = {\n");
+  for (p1 = 0; p1 < 0x80; p1++) {
+    for (p2 = 0; p2 < 2; p2++) {
+      p = 2*p1 + p2;
+      if (pages[p])
+        fprintf(f, "%ctotitle_table_page%02X%s", p2?' ':'\t', p, (p<0x100-1?",":""));
+      else
+        fprintf(f, "%cnop_page%s", p2?' ':'\t', (p<0x100-1?",":""));
+    }
+    fprintf(f, "\n");
+  }
+  fprintf(f, "};\n");
+  if (ferror(f)) {
+    fprintf(stderr, "error writing on `%s'\n", filename);
+    exit(1);
+  }
+  if (fclose(f)) {
+    fprintf(stderr, "error closing `%s'\n", filename);
+    exit(1);
+  }
+}
+
 /* Create tolower.h, used by libutf8. */
 void output_tolower_table (void)
 {
@@ -353,7 +413,8 @@ void output_attribute_table (void)
   }
   for (ch = 0; ch < 0x10000; ch++) {
     int attributes = 0;
-    if (!strcmp(unicode_attributes[ch].category, "Lt"))
+    if (unicode_attributes[ch].category &&
+     !strcmp(unicode_attributes[ch].category, "Lt"))
       attributes |= upper | lower;	/* title case */
     else if (lowercase(ch) != ch && uppercase(ch) == ch)
       attributes |= upper;
@@ -539,6 +600,7 @@ int main (int argc, char* argv[])
   fill_attributes(argv[1]);
 
   output_toupper_table();
+  output_totitle_table();
   output_tolower_table();
   output_attribute_table();
 
