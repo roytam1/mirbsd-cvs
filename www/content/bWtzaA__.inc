@@ -1,5 +1,5 @@
 <!-- PageID: mksh -->
-<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.38 2006/07/25 14:57:40 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.39 2006/07/25 17:26:28 tg Exp $</small>
 
 <h1>mksh(1) R27e</h1>
 <p>This is the MirBSD&trade; Korn Shell, a more or less portable
@@ -39,6 +39,7 @@
   <tt>/bin/sh</tt> although it's not specifically designed to</li>
  <li>Simplify nroff macro load in manual page</li>
  <li>Add sample file: <tt>dot.mkshrc</tt></li>
+ <li>Correct and enhance book citation list in the manual page.</li>
 </ul>
 <p>We recommend mksh <b>R27e</b> to be used:</p><ul>
  <li>Allow <tt>Test.sh</tt> to be passed parameters (-v)</li>
