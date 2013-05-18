@@ -1,4 +1,4 @@
-# $MirOS: src/sys/conf/Makefile.inc,v 1.3 2005/12/20 18:06:13 tg Exp $
+# $MirOS: src/sys/conf/Makefile.inc,v 1.4 2006/01/11 12:15:16 tg Exp $
 #-
 # Copyright (c) 2005, 2006
 #	Thorsten "mirabile" Glaser <tg@mirbsd.de>
@@ -42,7 +42,7 @@ AFLAGS=		-x assembler-with-cpp -traditional-cpp -D_LOCORE
 STRIPFLAGS=	-g -X -x
 
 .if ${MKC_USAP:L} == "yes"
-CPPFLAGS+=	-DMSDOS_NO_LFN
+CPPFLAGS+=	-DMSDOSFS_NO_LFN
 .endif
 
 HOSTCC=		${CC}
