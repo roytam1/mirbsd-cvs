@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.249 2009/03/29 13:04:05 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.250 2009/03/31 19:33:49 bsiegert Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -688,6 +688,11 @@ _SED_SUBST+=		-e 's|$${${_v}}|${${_v}}|g'
 _SED_SUBST+=		-e 's,$${FLAVOURS},${FLAVOUR_EXT},g' -e 's,$$\\,$$,g'
 # and append it to the PLIST substitution pipeline
 SED_PLIST+=		|${_SED_SUBST}
+
+SUBST_CMD=		perl -pi
+.for i in ${SUBST_VARS}
+SUBST_CMD+=		-e "s%\\\$${$i}%${$i}%;"
+.endfor
 
 .if !defined(NO_LIBTOOLISE_PLIST) || (${NO_LIBTOOLISE_PLIST:L} == "no")
 SED_PLIST+=		| (cd ${WRKINST}${PREFIX}; LOCALBASE=${LOCALBASE} perl -W ${PORTSDIR}/infrastructure/scripts/unlibtoolise || rm -f $@.tmp)
