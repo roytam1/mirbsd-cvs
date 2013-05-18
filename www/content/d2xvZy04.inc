@@ -1,5 +1,5 @@
 <!-- PageID: wlog-8 -->
-<small class="rcsid">$MirOS: www/content/d2xvZy04.inc,v 1.41 2006/02/22 02:35:09 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy04.inc,v 1.42 2006/02/24 01:49:42 tg Exp $</small>
 <h1>MirBSD &ndash; WTF, We Have a Release!?</h1>
 <p><small><a href="#eof">bottom</a> or <a href="/?older">older</a>
  editions</small></p>
@@ -528,6 +528,17 @@ celebrate this event, rotate the wlog and start a new one.</p>
   too) much and not getting any real work done.</p>
  <p>Oh, by the way... virtually nobody remembered my birthday. The folks
   at #UnixNL were very friendly, though.</p>
+</div>
+
+<div class="wlentry">
+ <h3 id="e20060224">24.02.2006 by tg@</h3>
+ <p>Commit ID: 10043FF4D4816FF87C6 &ndash; it gets worse.</p>
+ <p>While I had a good afternoon, I'm slightly pissed now. bogus said no
+  and won't join us for FOSDEM. I hope ciruZ gets persuaded enough, also
+  we won't go today but tomorrow at 05:00 CET instead, so he'll get some
+  more spare time to prepare.</p>
+ <p>This also gives me time to make a FOSDEM snapshot... dating the 25th
+  then, probably.</p>
 </div>
 
 <p id="eof">Good luck, have fun, take care etc.pp</p>
