@@ -1,5 +1,5 @@
 <!-- PageID: wlog-9 -->
-<small class="rcsid">$MirOS: www/content/d2xvZy05.inc,v 1.37 2006/08/24 22:27:20 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy05.inc,v 1.38 2006/08/27 01:36:30 tg Exp $</small>
 <h1>MirBSD &ndash; WTF is Verpeilungsfaktor?</h1>
 <p><small><a href="#eof">bottom</a> or <a href="/?older">older</a>
  editions</small></p>
@@ -580,6 +580,26 @@
   last night, I must admit. I had an interesting hangover today. Hacking
   helped me to overcome it though, as did much sleep (too much). This is
   not improving my bank account's or my work situation though.</p>
+</div>
+
+<div class="wlentry">
+ <h3 id="e20060827">27.08.2006 by bsiegert@</h3>
+ <p>I started working on the all-new MirOS website in the all-new
+  <tt>web</tt> module. At the moment, no new content nor design has been
+  incorporated. However, I started writing a parser for news and wlog
+  entries. These entries can be dynamically converted to HTML and RSS
+  formats.</p>
+ <p>The entry format is largely self-explanatory and like an e-mail
+  message. The header has metadata of the form "Name: value" and is
+  delimited by an empty line. Then comes the body, delimited by a line
+  with four hyphens. New entries are added at the bottom but I show an
+  example of sorting antichronologically on <tt>index.php</tt>.</p>
+ <p>There won't be any more base64-coded filenames. I rather want to use
+  php like you would use server-side includes, i.e. <tt>&lt;?php require
+  "header.php" ?&gt;</tt>.</p>
+ <p>tyler@ pointed me to <a href="http://www.oswd.org/">oswd.org</a>, a
+  website with free design templates. I have some ideas on how I would
+  like it to look but nothing definitive yet.</p>
 </div>
 
 <p id="eof">Good luck, have fun, take care etc.pp</p>
