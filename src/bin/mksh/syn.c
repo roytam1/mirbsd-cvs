@@ -23,7 +23,7 @@
 
 #include "sh.h"
 
-__RCSID("$MirOS: src/bin/mksh/syn.c,v 1.79 2012/07/30 21:37:16 tg Exp $");
+__RCSID("$MirOS: src/bin/mksh/syn.c,v 1.80 2012/08/17 18:34:25 tg Exp $");
 
 extern void yyskiputf8bom(void);
 
@@ -319,7 +319,7 @@ get_command(int cf)
 					ACCEPT;
 
 					/* manipulate the vars string */
-					tcp = *(--vars.cur);
+					tcp = XPptrv(vars)[(vars.len = 0)];
 					/* 'varname=' -> 'varname' */
 					tcp[wdscan(tcp, EOS) - tcp - 3] = EOS;
 
