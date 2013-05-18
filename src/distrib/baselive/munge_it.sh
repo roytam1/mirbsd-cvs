@@ -82,10 +82,7 @@ ed -s etc/rc <<-'EOMD'
 	.
 	/cprng.*pr16/d
 	i
-		mount_mfs swap /.d
-		(cd /.d; mksh /dev/MAKEDEV rd0a)
-		mount -fwo async,noatime /.d/rd0a /dev
-		umount /.d
+		mount -fwo async,noatime /dev/rd0a /dev
 		cat /dev/.rs >/dev/urandom 2>&-
 		# on sparc, use the nvram to provide some additional entropy
 		# also read some stuff from the HDD etc. (doesn't matter if it breaks)
@@ -100,10 +97,7 @@ ed -s etc/rc <<-'EOMD'
 	.
 	/^raidctl.*all/s/^/#/
 	/^umount/a
-		mount_mfs swap /.d
-		(cd /.d; mksh /dev/MAKEDEV rd0a)
-		mount -fwo async,noatime /.d/rd0a /dev
-		umount /.d
+		mount -fwo async,noatime /dev/rd0a /dev >/dev/null 2>&1
 	.
 	/t nonfs/i
 		print -n 'extracting mfs contents...'
@@ -192,7 +186,7 @@ install -c -o root -g staff -m 644 \
 install -c -o root -g bin -m 555 \
     $myplace/evilwm-session usr/local/bin/evilwm-session
 
-(cd dev; mksh ./MAKEDEV std)
+(cd dev; mksh ./MAKEDEV std rd0a)
 pwd_mkdb -pd $(realpath etc) master.passwd
 ( ( dd if=/dev/prandom bs=64 count=7; \
     dd if=/dev/arandom bs=64 count=56; \
@@ -218,7 +212,7 @@ mv usr/X11R6/lib/X11/fonts usr/X11R6/lib/fonts
 find etc tmp usr/X11R6/lib/X11 var | sort | \
     cpio -oC512 -Hsv4crc -Mset | gzip -n9 >stand/fsrw.dat
 rm -rf usr/X11R6/lib/X11 var sys
-mkdir -p .d emul usr/X11R6/lib/X11 usr/mpkg usr/ports var
+mkdir -p emul usr/X11R6/lib/X11 usr/mpkg usr/ports var
 chown 0:0 emul var
 
 exit 0
