@@ -19,6 +19,7 @@ JOE 3.1jupp23
 - ^KE no longer trashes buffers cloned by ^KO and ^K; needs not split
 - jupp: ^[# inserts last math equation; ^[= its result
 - Use ${SHELL:-${EXECSHELL:-/bin/sh}} for all shells and check access
+- After ^KR, the current position is before and ^QP after the insertion
 
 JOE 3.1jupp22
 

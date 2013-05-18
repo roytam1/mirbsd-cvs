@@ -29,6 +29,7 @@
 #include "uedit.h"
 #include "utils.h"
 #include "vs.h"
+#include "poshist.h"
 #include "ushell.h"
 #include "utf8.h"
 #include "charmap.h"
@@ -917,8 +918,15 @@ int doinsf(BW *bw, unsigned char *s, void *object, int *notify)
 		if (error) {
 			msgnw(bw->parent, msgs[-error]), brm(tmp);
 			ret = -1;
-		} else
+		} else {
+			P *pafter;
+
+			pafter = pdup(bw->cursor);
+			pgetc(pafter);
 			binsb(bw->cursor, tmp);
+			prgetc(pafter);
+			aftermove(bw->parent, pafter);
+		}
 		vsrm(s);
 		bw->cursor->xcol = piscol(bw->cursor);
 		return ret;
