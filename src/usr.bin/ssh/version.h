@@ -1,10 +1,10 @@
-/* $MirOS: src/usr.bin/ssh/version.h,v 1.35 2007/06/27 13:40:22 tg Exp $ */
+/* $MirOS: src/usr.bin/ssh/version.h,v 1.36 2007/06/30 03:03:17 tg Exp $ */
 /* $NetBSD: version.h,v 1.28 2003/04/03 06:21:37 itojun Exp $	*/
 /* $OpenBSD: version.h,v 1.49 2007/03/06 10:13:14 djm Exp $ */
 
 #define __OPENSSH_VERSION	"OpenSSH_4.6"
 
-#define __MIRBSDSSH_VERSION	"MirBSD_Secure_Shell-0An1B"
+#define __MIRBSDSSH_VERSION	"MirBSD_Secure_Shell-0An1C"
 
 /*
  * it is important to retain OpenSSH version identification part, it is
