@@ -1,4 +1,4 @@
-/*	$OpenBSD: printf.c,v 1.12 2004/05/31 15:48:26 pedro Exp $	*/
+/*	$OpenBSD: printf.c,v 1.17 2009/10/27 23:59:41 deraadt Exp $	*/
 
 /*-
  * Copyright (c) 1989 The Regents of the University of California.
@@ -30,54 +30,41 @@
  */
 
 #ifdef MKSH_PRINTF_BUILTIN
-
 /* MirBSD Korn Shell */
 #include "sh.h"
-#include <ctype.h>
-
 #else
-
 /* stand-alone executable */
 #include <sys/types.h>
-
 #include <ctype.h>
 #include <err.h>
 #include <errno.h>
 #include <limits.h>
-#include <stdarg.h>
+#include <locale.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
-/* NetBSD ash */
-#ifdef SHELL
-#define main printfcmd
-#include "bltin.h"
 #endif
 
+__RCSID("$MirOS$");
+
+static int	 print_escape_str(const char *);
+static int	 print_escape(const char *);
+
+static int	 getchr(void);
+#ifndef MKSH_PRINTF_BUILTIN
+static double	 getdouble(void);
 #endif
-
-__COPYRIGHT("Copyright (c) 1989 The Regents of the University of California.\n\
-All rights reserved.\n");
-__SCCSID("@(#)printf.c	5.9 (Berkeley) 6/1/90");
-__RCSID("$MirOS: src/usr.bin/printf/printf.c,v 1.13 2010/01/28 16:20:51 tg Exp $");
-
-static int print_escape_str(const char *);
-static int print_escape(const char *);
-
-static int getchr(void);
-#ifndef NO_STRTOD
-static double getdouble(void);
-#endif
-static int getinteger(void);
-static long getlong(void);
+static int	 getinteger(void);
+static long	 getlong(void);
 static unsigned long getulong(void);
 static const char *getstr(void);
-static char *mklong(const char *, int);
-static void check_conversion(const char *, const char *);
+static char	*mklong(const char *, int);
+static void      check_conversion(const char *, const char *);
+static int	 usage(void);
+static int	 real_main(char *, const char *[]);
 
-static int usage(void);
-static int real_main(char *, const char *[]);
+static int	rval;
+static const char **gargv;
 
 #ifdef MKSH_PRINTF_BUILTIN
 static int s_get(void);
@@ -85,37 +72,80 @@ static void s_put(int);
 static void s_prt(int);
 
 static const char *s_ptr;
-#endif
 
-static int rval;
-static const char **gargv;
+#define isxdigit(c)	(((c) >= '0' && (c) <= '9') || ((c) >= 'a' && (c) <= 'f') || ((c) >= 'A' && (c) <= 'F'))
+#endif
 
 #define isodigit(c)	((c) >= '0' && (c) <= '7')
 #define octtobin(c)	((c) - '0')
 #define hextobin(c)	((c) >= 'A' && (c) <= 'F' ? c - 'A' + 10 : (c) >= 'a' && (c) <= 'f' ? c - 'a' + 10 : c - '0')
 
-#define PF(f, func) do { \
-	if (fieldwidth) \
-		if (precision) \
-			(void)printf(f, fieldwidth, precision, func); \
-		else \
-			(void)printf(f, fieldwidth, func); \
-	else if (precision) \
-		(void)printf(f, precision, func); \
-	else \
-		(void)printf(f, func); \
+#define PF(f, func)	do {						\
+	if (fieldwidth)							\
+		if (precision)						\
+			uprintf(f, fieldwidth, precision, func);	\
+		else							\
+			uprintf(f, fieldwidth, func);			\
+	else if (precision)						\
+		uprintf(f, precision, func);				\
+	else								\
+		uprintf(f, func);					\
 } while (/* CONSTCOND */ 0)
 
-#ifdef MKSH_PRINTF_BUILTIN
-#define uwarnx warningf
-#define UWARNX false,
-#else
-#define uwarnx warnx
-#define UWARNX /* nothing */
+#ifndef vstrchr
+#define vstrchr		strchr
 #endif
 
-#ifndef vstrchr
-#define vstrchr	strchr
+#ifdef MKSH_PRINTF_BUILTIN
+#define ufprintf	shf_fprintf
+#define uprintf		shprintf
+#define uputc(c)	shf_putchar((c), shl_stdout)
+#define ustderr		shl_out
+#define uwarnx		warningf
+#define UWARNX		false,
+
+int
+c_printf(const char **wp)
+{
+	int rv;
+	const char *old_kshname;
+	char *fmt;
+
+	old_kshname = kshname;
+	kshname = wp[0];
+	++wp;
+	if (wp[0] && !strcmp(wp[0], "--"))
+		++wp;
+	if (wp[0]) {
+		strdupx(fmt, wp[0], ATEMP);
+		rv = real_main(fmt, wp);
+		afree(fmt, ATEMP);
+	} else
+		rv = usage();
+	kshname = old_kshname;
+	return (rv);
+}
+#else
+#define ufprintf	fprintf
+#define uprintf		printf
+#define uputc		putchar
+#define ustderr		stderr
+#define uwarnx		warnx
+#define UWARNX		/* nothing */
+
+int
+main(int argc, char *argv[])
+{
+	setlocale(LC_ALL, "");
+
+	if (argc > 1 && !strcmp(argv[1], "--")) {
+		--argc;
+		++argv;
+	}
+
+	++argv;
+	return (argc < 2 ? usage() : real_main(argv[0], (const char **)argv));
+}
 #endif
 
 static int
@@ -125,11 +155,10 @@ real_main(char *format, const char *argv[])
 	int fieldwidth, precision;
 	char convch, nextch;
 
-	++argv;
 	gargv = ++argv;
 
 #define SKIP1	"#-+ 0"
-#define SKIP2	"*0123456789"
+#define SKIP2	"0123456789"
 	do {
 		/*
 		 * Basic algorithm is to scan the format string for conversion
@@ -147,7 +176,7 @@ real_main(char *format, const char *argv[])
 				start = fmt++;
 
 				if (*fmt == '%') {
-					putchar ('%');
+					uputc('%');
 					break;
 				} else if (*fmt == 'b') {
 					const char *p = getstr();
@@ -158,19 +187,31 @@ real_main(char *format, const char *argv[])
 				}
 
 				/* skip to field width */
-				for (; strchr(SKIP1, *fmt); ++fmt) ;
-				fieldwidth = *fmt == '*' ? getinteger() : 0;
-
-				/* skip to possible '.', get following precision */
-				for (; strchr(SKIP2, *fmt); ++fmt) ;
-				if (*fmt == '.')
+				for (; strchr(SKIP1, *fmt); ++fmt)
+					;
+				if (*fmt == '*') {
 					++fmt;
-				precision = *fmt == '*' ? getinteger() : 0;
+					fieldwidth = getinteger();
+				} else
+					fieldwidth = 0;
 
-				for (; strchr(SKIP2, *fmt); ++fmt) ;
+				/* skip to field precision */
+				for (; strchr(SKIP2, *fmt); ++fmt)
+					;
+				precision = 0;
+				if (*fmt == '.') {
+					++fmt;
+					if (*fmt == '*') {
+						++fmt;
+						precision = getinteger();
+					}
+					for (; strchr(SKIP2, *fmt); ++fmt)
+						;
+				}
+
 				if (!*fmt) {
 					uwarnx(UWARNX "missing format character");
-					return(1);
+					return (1);
 				}
 
 				convch = *fmt;
@@ -213,10 +254,15 @@ real_main(char *format, const char *argv[])
 					PF(f, p);
 					break;
 				}
-#ifndef NO_STRTOD
+#ifndef MKSH_PRINTF_BUILTIN
+#if 0
+				case 'a':
+				case 'A':
+#endif
 				case 'e':
 				case 'E':
 				case 'f':
+				case 'F':
 				case 'g':
 				case 'G': {
 					double p = getdouble();
@@ -224,9 +270,10 @@ real_main(char *format, const char *argv[])
 					break;
 				}
 #endif
+
 				default:
 					uwarnx(UWARNX "%s: invalid directive", start);
-					return(1);
+					return (1);
 				}
 				*(fmt + 1) = nextch;
 				break;
@@ -236,7 +283,7 @@ real_main(char *format, const char *argv[])
 				break;
 
 			default:
-				putchar (*fmt);
+				uputc(*fmt);
 				break;
 			}
 		}
@@ -244,33 +291,6 @@ real_main(char *format, const char *argv[])
 
 	return (rval);
 }
-
-#ifdef MKSH_PRINTF_BUILTIN
-int
-c_printf(const char **wp)
-{
-	int rv;
-	const char *old_kshname;
-	char *fmt;
-
-	old_kshname = kshname;
-	kshname = wp[0];
-	shf_flush(shl_stdout);
-	shf_flush(shl_out);
-	strdupx(fmt, wp[1], ATEMP);
-	rv = wp[1] ? real_main(fmt, wp) : usage();
-	afree(fmt, ATEMP);
-	fflush(NULL);
-	kshname = old_kshname;
-	return (rv);
-}
-#else
-int
-main(int argc, char *argv[])
-{
-	return (argc < 2 ? usage() : real_main(argv[1], (const char **)argv));
-}
-#endif
 
 
 /*
@@ -296,7 +316,7 @@ print_escape_str(const char *str)
 					return (1);
 				else if (!c)
 					--str;
-				putchar(c);
+				uputc(c);
 				uwarnx(UWARNX
 				    "unknown escape sequence `\\%c'", c);
 				rval = 1;
@@ -316,22 +336,22 @@ print_escape_str(const char *str)
 					value <<= 3;
 					value += octtobin(*str);
 				}
-				putchar (value);
+				uputc(value);
 				str--;
 			} else if (*str == 'c') {
-				return 1;
+				return (1);
 			} else {
 				str--;
 				str += print_escape(str);
 			}
 #endif
 		} else {
-			putchar (*str);
+			uputc(*str);
 		}
 		str++;
 	}
 
-	return 0;
+	return (0);
 }
 
 /*
@@ -376,75 +396,75 @@ print_escape(const char *str)
 			value <<= 3;
 			value += octtobin(*str);
 		}
-		putchar(value);
-		return str - start - 1;
+		uputc(value);
+		return (str - start - 1);
 		/* NOTREACHED */
 
 	case 'x':
 		str++;
-		for (value = 0; isxdigit((unsigned char)*str); str++) {
+		for (value = 0; isxdigit(*str); str++) {
 			value <<= 4;
 			value += hextobin(*str);
 		}
-		if ((unsigned)value > UCHAR_MAX) {
+		if (value > UCHAR_MAX) {
 			uwarnx(UWARNX "escape sequence out of range for character");
 			rval = 1;
 		}
-		putchar (value);
-		return str - start - 1;
+		uputc(value);
+		return (str - start - 1);
 		/* NOTREACHED */
 
 	case '\\':			/* backslash */
-		putchar('\\');
+		uputc('\\');
 		break;
 
 	case '\'':			/* single quote */
-		putchar('\'');
+		uputc('\'');
 		break;
 
 	case '"':			/* double quote */
-		putchar('"');
+		uputc('"');
 		break;
 
 	case 'a':			/* alert */
-		putchar('\a');
+		uputc('\a');
 		break;
 
 	case 'b':			/* backspace */
-		putchar('\b');
+		uputc('\b');
 		break;
 
 	case 'e':			/* escape */
-		putchar(033);
+		uputc(033);
 		break;
 
 	case 'f':			/* form-feed */
-		putchar('\f');
+		uputc('\f');
 		break;
 
 	case 'n':			/* newline */
-		putchar('\n');
+		uputc('\n');
 		break;
 
 	case 'r':			/* carriage-return */
-		putchar('\r');
+		uputc('\r');
 		break;
 
 	case 't':			/* tab */
-		putchar('\t');
+		uputc('\t');
 		break;
 
 	case 'v':			/* vertical-tab */
-		putchar('\v');
+		uputc('\v');
 		break;
 
 	default:
-		putchar(*str);
+		uputc(*str);
 		uwarnx(UWARNX "unknown escape sequence `\\%c'", *str);
 		rval = 1;
 	}
 
-	return 1;
+	return (1);
 #endif
 }
 
@@ -480,29 +500,29 @@ static int
 getchr(void)
 {
 	if (!*gargv)
-		return((int)'\0');
-	return((int)**gargv++);
+		return ((int)'\0');
+	return ((int)**gargv++);
 }
 
 static const char *
 getstr(void)
 {
 	if (!*gargv)
-		return("");
-	return(*gargv++);
+		return ("");
+	return (*gargv++);
 }
 
+static const char *number = "+-.0123456789";
 static int
 getinteger(void)
 {
-	static const char *number = "+-.0123456789";
 	if (!*gargv)
-		return(0);
+		return (0);
 
 	if (vstrchr(number, **gargv))
-		return(atoi(*gargv++));
+		return (atoi(*gargv++));
 
-	return 0;
+	return (0);
 }
 
 static long
@@ -512,15 +532,15 @@ getlong(void)
 	char *ep;
 
 	if (!*gargv)
-		return(0L);
+		return (0L);
 
 	if (**gargv == '\"' || **gargv == '\'')
-		return (long) *((*gargv++)+1);
+		return ((long)*((*gargv++)+1));
 
 	errno = 0;
-	val = strtol (*gargv, &ep, 0);
+	val = strtol(*gargv, &ep, 0);
 	check_conversion(*gargv++, ep);
-	return val;
+	return (val);
 }
 
 static unsigned long
@@ -530,18 +550,18 @@ getulong(void)
 	char *ep;
 
 	if (!*gargv)
-		return(0UL);
+		return (0UL);
 
 	if (**gargv == '\"' || **gargv == '\'')
-		return (unsigned long) *((*gargv++)+1);
+		return ((unsigned long) *((*gargv++)+1));
 
 	errno = 0;
-	val = strtoul (*gargv, &ep, 0);
+	val = strtoul(*gargv, &ep, 0);
 	check_conversion(*gargv++, ep);
-	return val;
+	return (val);
 }
 
-#ifndef NO_STRTOD
+#ifndef MKSH_PRINTF_BUILTIN
 static double
 getdouble(void)
 {
@@ -549,15 +569,15 @@ getdouble(void)
 	char *ep;
 
 	if (!*gargv)
-		return(0.0);
+		return (0.0);
 
 	if (**gargv == '\"' || **gargv == '\'')
-		return (double) *((*gargv++)+1);
+		return ((double)*((*gargv++)+1));
 
 	errno = 0;
-	val = strtod (*gargv, &ep);
+	val = strtod(*gargv, &ep);
 	check_conversion(*gargv++, ep);
-	return val;
+	return (val);
 }
 #endif
 
@@ -579,7 +599,7 @@ check_conversion(const char *s, const char *ep)
 static int
 usage(void)
 {
-	(void)fprintf(stderr, "usage: printf format [arg ...]\n");
+	ufprintf(ustderr, "usage: printf format [arg ...]\n");
 	return (1);
 }
 
@@ -607,8 +627,6 @@ s_prt(int c)
 	} else
 		c = utf_wctomb(ts, c - 0x100);
 
-	ts[c] = 0;
-	for (c = 0; ts[c]; ++c)
-		putchar(ts[c]);
+	shf_write(ts, c, shl_stdout);
 }
 #endif
