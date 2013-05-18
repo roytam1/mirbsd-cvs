@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.79 2006/08/26 23:10:37 tg Exp $
+# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.80 2006/08/26 23:31:24 tg Exp $
 #-
 # Copyright (c) 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -73,6 +73,20 @@ export SHELL=$new_mirksh MKSH=$new_mirksh
 
 [[ -n $BASH_VERSION ]] && shopt -s extglob
 [[ -z $OLDMAKE ]] && OLDMAKE=make
+
+# Normalise certain variables
+CPPFLAGS=${CPPFLAGS##*( )}
+CPPFLAGS=${CPPFLAGS%%*( )}
+COPTS=$(echo " ${CFLAGS:--O2 -fno-strength-reduce -fno-strict-aliasing} " | \
+    sed -e "s# $CPPFLAGS # #g" \
+    -e 's# -include[	 ][	 ]*/[^ ]*/mirmake.h # #g')
+CPPFLAGS=$(echo " $CPPFLAGS " | sed \
+    -e 's# -include[	 ][	 ]*/[^ ]*/mirmake.h # #g')
+LDFLAGS=$(echo " $LDFLAGS " | sed -e 's# -lmirmake # #g')
+COPTS=${COPTS##*( )}
+COPTS=${COPTS%%*( )}
+LDFLAGS=${LDFLAGS##*( )}
+LDFLAGS=${LDFLAGS%%*( )}
 
 # Directories
 top=$(cd $(dirname $0)/../..; pwd)
@@ -155,12 +169,10 @@ Linux)
 esac
 
 : ${CC:=gcc} ${NROFF:=nroff}
-COPTS=${CFLAGS:--O2 -fno-strength-reduce -fno-strict-aliasing}
-CPPFLAGS="$CPPFLAGS -D_MIRMAKE_DEFNS -isystem $d_build/F\
+CPPFLAGS="${CPPFLAGS##*( )} -D_MIRMAKE_DEFNS -isystem $d_build/F\
  -include $d_build/F/mirmake.h"
 CFLAGS="$COPTS $CPPFLAGS"
 echo | $NROFF -v 2>&1 | grep GNU >&- 2>&- && NROFF="$NROFF -c"
-LDFLAGS=$(echo " $LDFLAGS "|sed -e 's/ -lmirmake //' -e 's/^ *//' -e 's/ *$//')
 export CC COPTS CPPFLAGS CFLAGS LDFLAGS NROFF NOMAN=yes NOOBJ=yes
 unset LDADD DPADD LIBS
 
@@ -213,13 +225,13 @@ sed_exp="-e 's#@@machine@@#${new_machin}#g' \
 cp  $d_src/lib/libc/stdlib/getopt_long.c $d_src/lib/libc/string/strlfun.c \
     $d_src/include/*.h $d_src/usr.bin/mkdep/mkdep.sh $d_build/
 cp  $d_src/share/mk/*.mk $d_build/mk/
-cp  $d_src/include/{getopt,md4,md5,rmd160,sha1,sha2,stdbool,sysexits}.h \
+cp  $d_src/include/{getopt,md{4,5},ohash,rmd160,sha{1,2},stdbool,sysexits}.h \
     $top/dist/contrib/mirmake.h $d_build/F/
 cp  $d_src/lib/libc/hash/{md4,md5,rmd160,sha1,sha2}.c \
     $d_src/lib/libc/string/strlfun.c \
     $d_src/lib/libc/stdlib/{getopt_long,strtoll}.c \
     $d_src/lib/libc/stdio/{{,v}asprintf,mktemp}.c \
-    $top/dist/contrib/*.c $d_build/libmirmake/
+    $top/dist/contrib/*.c $d_build/ohash/*.[ch] $d_build/libmirmake/
 for lc in md4 md5 rmd160 sha1; do
 	typeset -u uc=$lc
 	sed -e "s/hashinc/$lc.h/g" -e "s/HASH/$uc/g" \
@@ -264,7 +276,8 @@ $OLDMAKE -f Makefile.boot bmake CC="$CC" MACHINE="${new_machin}" \
 	print -u2 "Error: build failure"
 	exit 1
 }
-rm $d_build/F/stdbool.h
+rm F/stdbool.h
+unset CFLAGS
 
 # Build libmirmake
 cd $d_build/libmirmake
@@ -278,6 +291,7 @@ unset HAVE_EXIT
 scnfunc exit 't==false' 'stdbool.h' 'bool t = true;' stdbool.h
 test 1 = $HAVE_EXIT || cp $d_src/include/stdbool.h $d_build/F/
 unset HAVE_EXIT
+scnfunc ohash_delete 'NULL' 'stdlib.h' 'void ohash_delete(void *);'
 SRCS="md4hl.c md5hl.c rmd160hl.c sha1hl.c sha256hl.c sha384hl.c sha512hl.c"
 SRCS="getopt_long.c md4.c md5.c rmd160.c sha1.c sha2.c $SRCS"
 [[ $new_machos = Interix ]] && \
@@ -286,6 +300,11 @@ SRCS="getopt_long.c md4.c md5.c rmd160.c sha1.c sha2.c $SRCS"
 [[ $HAVE_FGETLN = 1 ]] || SRCS="$SRCS fgetln.c"
 [[ $HAVE_ARC4RANDOM = 1 ]] || CPPFLAGS="$CPPFLAGS -D_ARC4RANDOM_WRAP"
 [[ $HAVE_ARC4RANDOM_PUSHB = 1 ]] || SRCS="$SRCS arc4random.c"
+[[ $HAVE_OHASH_DELETE = 1 ]] || \
+    SRCS="$SRCS ohash_create_entry.c ohash_delete.c ohash_do.c \
+    ohash_entries.c ohash_enum.c ohash_init.c ohash_interval.c \
+    ohash_lookup_interval.c ohash_lookup_memory.c ohash_qlookup.c \
+    ohash_qlookupi.c"
 print ... done
 SRCS=$SRCS $d_build/bmake -m $d_build/mk libmirmake.a
 rm -f $top/tmpx/libmirmake.a
