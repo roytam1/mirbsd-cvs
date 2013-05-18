@@ -1,4 +1,4 @@
-/* $MirOS: src/sys/dev/raidframe/rf_openbsdkintf.c,v 1.3 2005/12/19 21:49:56 tg Exp $ */
+/* $MirOS: src/sys/dev/raidframe/rf_openbsdkintf.c,v 1.4 2006/04/06 21:19:18 tg Exp $ */
 /* $OpenBSD: rf_openbsdkintf.c,v 1.31 2005/12/08 05:53:45 tedu Exp $	*/
 /* $NetBSD: rf_netbsdkintf.c,v 1.109 2001/07/27 03:30:07 oster Exp $	*/
 
@@ -391,7 +391,7 @@ raidattach(int num)
 		raidPtrs[i] = NULL;
 	rc = rf_BootRaidframe();
 	if (rc == 0)
-		printf("Kernelized RAIDframe activated\n");
+		printf("Kernelised RAIDframe activated\n");
 	else
 	        panic("Serious error booting RAID !!!");
 
@@ -589,7 +589,7 @@ rf_shutdown_hook(RF_ThreadArg_t arg)
 
 	pool_destroy(&rs->sc_cbufpool);
 
-	/* It's no longer initialized... */
+	/* It's no longer initialised... */
 	rs->sc_flags &= ~RAIDF_INITED;
 
 	/* config_detach the device. */
@@ -916,7 +916,7 @@ raidioctl(dev_t dev, u_long cmd, caddr_t data, int flag, struct proc *p)
 			return (EBADF);
 	}
 
-	/* Must be initialized for these... */
+	/* Must be initialised for these... */
 	switch (cmd) {
 	case DIOCGDINFO:
 	case DIOCSDINFO:
@@ -1070,7 +1070,7 @@ raidioctl(dev_t dev, u_long cmd, caddr_t data, int flag, struct proc *p)
 
 			pool_destroy(&rs->sc_cbufpool);
 
-			/* It's no longer initialized... */
+			/* It's no longer initialised... */
 			rs->sc_flags &= ~RAIDF_INITED;
 
 			/* config_detach the device. */
