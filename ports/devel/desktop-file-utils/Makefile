@@ -1,4 +1,4 @@
-# $MirOS: ports/devel/desktop-file-utils/Makefile,v 1.2 2005/03/20 16:46:24 bsiegert Exp $
+# $MirOS: ports/devel/desktop-file-utils/Makefile,v 1.3 2006/09/14 00:08:09 tg Exp $
 
 COMMENT=			utilities for working with desktop entries
 
@@ -16,7 +16,7 @@ PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
-MODULES=		devel/gettext
+MODULES=		devel/gettext devel/pkgconfig
 
 LIB_DEPENDS+=		glib-2.0.0.0::devel/glib \
 			popt::devel/popt
