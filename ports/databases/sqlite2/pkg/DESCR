@@ -4,3 +4,7 @@ without running a separate RDBMS process. The distribution comes with a
 standalone command-line access program (sqlite) that can be used to
 administer an SQLite database and which serves as an example of how to
 use the SQLite library.
+
+This version is probably obsolete; see ports/databases/sqlite for the
+version currently maintained upstream. These two can, however, be in-
+stalled in parallel, due to API versioning. Migration is painless.
