@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.321 2010/02/25 22:07:52 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.322 2010/02/25 22:23:09 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -953,7 +953,6 @@ mws_content <<'EOF'
  <li>[tg] Fix exit 127 on "mksh /tmp/horsies" ipv of 1 on ENOENT, #548744</li>
  <li>[Clint Adams] Fix typos in the testsuite</li>
  <li>[tg, Clint Adams] Begin a shared testsuite for mksh and posh</li>
- <li>[tg] Document (via check.t) another posh bug affecting mksh, #445651</li>
  <li>[tg] Make 「((foo) || bar)」 and 「((foo) | (bar))」 work</li>
  <li>[tg] Fix lazy evaluation of assignments by ternary operator, #445651</li>
  <li>[tg] Work around Cygwin bugs (quirks) hindering the testsuite</li>
