@@ -1,4 +1,4 @@
-/* $MirOS: www/files/vstyle.css,v 1.27 2010/06/15 20:43:05 tg Exp $ */
+/* $MirOS: www/files/vstyle.css,v 1.28 2010/06/17 20:08:06 tg Exp $ */
 
 /*-
  * The MirOS Project - Webpages
@@ -133,7 +133,6 @@ img {
 
 .index {
 	float:left;
-	margin:112px 0px 0px 0px;
 	padding:0px;
 	width:184px;
 }

@@ -1,4 +1,4 @@
-rcsid_htsconv='$MirOS: www/mk/htsconv,v 1.47 2010/03/27 18:02:55 tg Exp $'
+rcsid_htsconv='$MirOS: www/mk/htsconv,v 1.48 2010/04/09 19:29:16 tg Exp $'
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -144,6 +144,7 @@ function mws_putheader {
 		 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 		 <meta name="MSSmartTagsPreventParsing" content="TRUE" />
 		 <link rel="stylesheet" type="text/css" href="@@RELPATH@@vstyle.css" />
+		 <!--[if IE]><style>.index { margin-top:132px; }</style><![endif]-->
 		 <link rel="apple-touch-icon" href="@@RELPATH@@pics/blumenkohl.png" />
 		 <link rel="canonical" href="$mws__canonpath" />
 		 <meta name="author" content="Thorsten Glaser" />
