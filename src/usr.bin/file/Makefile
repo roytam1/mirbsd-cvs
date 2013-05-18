@@ -1,10 +1,10 @@
-# $MirOS$
+# $MirOS: src/usr.bin/file/Makefile,v 1.2 2005/03/13 18:32:56 tg Exp $
 # $OpenBSD: Makefile,v 1.10 2004/05/19 02:32:35 tedu Exp $
 
 MAGIC=		/etc/magic
-MAGICOWN=	root
-MAGICGRP=	bin
-MAGICMODE=	444
+MAGICOWN=	${BINOWN}
+MAGICGRP=	${CONFGRP}
+MAGICMODE=	${NONBINMODE}
 
 PROG=		file
 SRCS=		file.c apprentice.c fsmagic.c softmagic.c ascmagic.c is_tar.c \

@@ -1,4 +1,4 @@
-# $MirOS: src/gnu/usr.bin/lynx/Makefile.bsd-wrapper,v 1.10 2006/09/20 22:25:25 tg Exp $
+# $MirOS: src/gnu/usr.bin/lynx/Makefile.bsd-wrapper,v 1.11 2006/10/28 19:07:32 tg Exp $
 # $OpenBSD: Makefile.bsd-wrapper,v 1.12 2003/05/01 18:59:36 avsm Exp $
 
 MAN=		lynx.1
@@ -69,5 +69,6 @@ do-install:
 distribution:
 	${INSTALL_DATA} ${.CURDIR}/lynx.cfg ${DESTDIR}/etc/lynx.cfg
 	${INSTALL_DATA} ${.CURDIR}/samples/lynx.lss ${DESTDIR}/etc/lynx.lss
+	chgrp ${CONFGRP} ${DESTDIR}/etc/lynx.cfg ${DESTDIR}/etc/lynx.lss
 
 .include <bsd.cfwrap.mk>
