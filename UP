@@ -53,7 +53,7 @@ case $1 {
 [[ $CVSROOT = rsync://* ]] && sshx=
 set -x
 nice $rsync -rxlztpgaHKS --delete --stats --exclude=/ign/ \
-    ${sshx:+"$sshx"} $p "$@" \
+    --numeric-ids ${sshx:+"$sshx"} $p "$@" \
     ${CVSROOT:-_anoncvs@anoncvs.mirbsd.org:$what}/ $vd/
 rv=$?
 cd $wd
