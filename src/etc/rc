@@ -1,4 +1,4 @@
-# $MirOS: src/etc/rc,v 1.20 2006/06/11 23:41:26 tg Exp $
+# $MirOS: src/etc/rc,v 1.21 2006/06/11 23:52:25 tg Exp $
 # $OpenBSD: rc,v 1.277 2006/01/12 21:54:15 deraadt Exp $
 #-
 # System startup script run by init on autoboot or after single-user.
@@ -524,8 +524,10 @@ fi
 
 # build ps databases
 echo -n building ps databases:
-echo -n " kvm"
-kvm_mkdb
+if [[ $kvm_mkdb != NO ]]; then
+	echo -n " kvm"
+	kvm_mkdb
+fi
 echo -n " dev"
 dev_mkdb
 echo .

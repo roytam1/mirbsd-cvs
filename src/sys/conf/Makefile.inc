@@ -1,4 +1,4 @@
-# $MirOS: src/sys/conf/Makefile.inc,v 1.13 2006/06/12 12:28:45 tg Exp $
+# $MirOS: src/sys/conf/Makefile.inc,v 1.14 2006/06/12 21:57:09 tg Exp $
 #-
 # Copyright (c) 2005, 2006
 #	Thorsten "mirabilos" Glaser <tg@mirbsd.de>
@@ -64,6 +64,9 @@ SYSTEM_LD_TAIL+=; \
 .else
 LINKFLAGS+=	-x
 .endif
+
+SYSTEM_LD_TAIL+=; \
+		echo Running kvm_mkdb...; kvm_mkdb -o . ./$@
 
 .ifndef NO_GZIP
 SYSTEM_LD_GZIP=	echo gzip -n9 $@; rm -f $@.gz; gzip -n9 $@; mv $@.gz $@
