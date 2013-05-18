@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/install.sub,v 1.59 2009/09/13 16:57:01 tg Exp $
+# $MirOS: src/distrib/common/install.sub,v 1.60 2009/09/23 16:12:40 tg Exp $
 # $OpenBSD: install.sub,v 1.388 2005/07/02 00:55:48 uwe Exp $
 # $NetBSD: install.sub,v 1.5.2.8 1996/09/02 23:25:02 pk Exp $
 #
@@ -966,7 +966,7 @@ __EOT
 		echo "Getting $_f ..."
 		case $_f in
 		*.ngz)	ftp $_ftp_active -o - -V -m "$_src/$_f" | \
-			    gzip -dcf | tar xphf - -C /mnt
+			    gzip -dcf | tar -M lncp -xphf - -C /mnt
 			;;
 		*)	ftp $_ftp_active -o "/mnt/$_f" -V -m "$_src/$_f"
 			;;
@@ -1291,7 +1291,8 @@ install_tape() {
 		[[ $resp = done ]] && return
 		_bs=$resp
 
-		dd if=$TAPE bs=$_bs | tar ${_z}xvphf - -C /mnt || return
+		dd if=$TAPE bs=$_bs | tar -M lncp -${_z}xvphf - -C /mnt || \
+		    return
 	done
 }
 
