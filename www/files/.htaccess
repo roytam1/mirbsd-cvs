@@ -1,4 +1,4 @@
-# $MirOS: www/files/.htaccess,v 1.3 2007/10/03 23:12:49 tg Exp $
+# $MirOS: www/files/.htaccess,v 1.4 2007/10/08 12:00:41 tg Exp $
 
 Options ExecCGI Indexes SymLinksIfOwnerMatch
 IndexOptions -FancyIndexing
@@ -33,6 +33,7 @@ AddType 'application/octet-stream' bz2 dsc fs rd ISO iso gz cgz ngz tgz Z
 AddType 'text/plain; charset=cp437' asc
 AddType 'text/plain; charset=utf-8' txt
 AddType 'application/x-x509-ca-cert' cer
+AddType 'application/metalink+xml' metalink
 
 # forced text files
 <Files LICENCE>

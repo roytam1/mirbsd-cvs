@@ -215,3 +215,14 @@ Author: tg@
  Germany 1 mirror, more than 100 on Germany 2, an unknown lot on Japan, more
  than 60 BT downloads from me and friends… that accumulates quite.</p>
 ----
+Date: 24.03.2008
+Author: tg@
+
+<p>I seem to have a sort of fan club, mostly related to <a
+ href="@@RELPATH@@mksh.htm">mksh</a>, but also to <a
+ href="@@RELPATH@@jupp.htm">jupp</a>. Interesting.</p>
+<p>Benny has built 1503 binary packages, amounting to about 954 MiB of
+ data. Uploading…</p>
+<p>We just got an email about Metalinker, which looks interesting enough
+ to try, from its primal developer Anthony Bryan. We now have it ☺</p>
+----

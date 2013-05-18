@@ -1,10 +1,10 @@
-# $MirOS: www/src/getting.hts,v 1.8 2008/03/19 21:57:43 tg Exp $
+# $MirOS: www/src/getting.hts,v 1.9 2008/03/20 20:46:49 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname getting "Get MirOS!"
-mws_putheader '$MirOS: www/src/getting.hts,v 1.8 2008/03/19 21:57:43 tg Exp $'
+mws_putheader '$MirOS: www/src/getting.hts,v 1.9 2008/03/20 20:46:49 tg Exp $'
 mws_content <<'EOF'
 <h1>Get MirOS!</h1>
 
@@ -55,12 +55,14 @@ mws_content <<'EOF'
    <p>Contains the CVS repository and a few binary packages.</p>
    <p>Released 16.03.2008 (<a href="ann-10.htm">Release
     announcement</a>).</p></td>
-  <td><p>via HTTP: ISO @ Germany 1 (disabled temporarily) / <a
-   href="http://server.leveldown.de/~nezza/MIR80316.ISO">Germany 2</a> / <a
-   href="http://pub.allbsd.org/MirOS/ISOs/MIR80316.ISO">Japan</a> – <a
-   href="/MirOS/v10/">NetInstall directory</a> – <a
-   href="/MirOS/v10/cdrom10.iso">NetInstall ISO</a> – <a
-   href="http://f.scarywater.net/miros/">via BitTorrent</a></p>
+  <td>
+   <p>use the <a href="f/MirBSD-10semel.metalink">Metalink</a> file</p>
+   <p>via HTTP: ISO @ Germany 1 (disabled temporarily) / <a
+    href="http://server.leveldown.de/~nezza/MIR80316.ISO">Germany 2</a> / <a
+    href="http://pub.allbsd.org/MirOS/ISOs/MIR80316.ISO">Japan</a> – <a
+    href="/MirOS/v10/">NetInstall directory</a> – <a
+    href="/MirOS/v10/cdrom10.iso">NetInstall ISO</a> – <a
+    href="http://f.scarywater.net/miros/">via BitTorrent</a></p>
    <p>Netinstall: go to one of the mirrors listed below and pull from
     the <tt>/MirOS/v10/{i386,sparc}/</tt> directory.</p></td>
  </tr><tr>

@@ -721,3 +721,14 @@ Date: 20.03.2008
  our hoster has installed on the Germany 1 mirror do not produce too much
  inconvenience for you. Thanks for using MirOS!</p>
 ----
+Title: MirOS #10 downloads reloaded; new Errata page
+Date: 24.03.2008
+
+<p>After 1600+ downloads, we think it has settled down a little.
+ Nevertheless, we got a request to use a new form of distribution,
+ the <a href="http://www.metalinker.org/">metalinks</a>.</p>
+<p><a href="@@RELPATH@@f/MirBSD-10semel.metalink">MirOS #10 Metalink</a></p>
+<p>There is also a list of <a href="@@RELPATH@@errata10.htm">errata
+ for MirOS #10</a>; we will issue a binary update within a few days,
+ as at least the Sendmail bug is severe.</p>
+----

@@ -1,4 +1,4 @@
-mws_putheader '$MirOS: www/src/ann-10.hts,v 1.6 2008/03/21 22:18:13 tg Exp $'
+mws_putheader '$MirOS: www/src/ann-10.hts,v 1.7 2008/03/22 20:51:13 tg Exp $'
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -12,7 +12,8 @@ mws_content <<'EOF'
  href="http://www.mirbsd.org/MirOS/v10/cdrom.iso">from mirbsd.org</a>.
  This image can be burned to a CD and used for installing over the
  network. The full CD image can be downloaded <a
- href="http://f.scarywater.net/miros/">via BitTorrent</a>.</p>
+ href="http://f.scarywater.net/miros/">via BitTorrent</a> or using the <a
+ href="f/MirBSD-10semel.metalink">Metalink</a>.</p>
 
 <p>Note: while our development snapshots are distributed as combined
  Live and Install CDs, the release ISO is <em>not</em> a Live CD due
