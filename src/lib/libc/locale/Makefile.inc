@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: src/lib/libc/locale/Makefile.inc,v 1.2 2006/01/30 13:01:45 tg Exp $
 # $OpenBSD: Makefile.inc,v 1.10 2005/08/08 05:53:01 espie Exp $
 
 .ifdef __LIBC_OPENBSD_LOCALE
@@ -37,5 +37,13 @@ CFLAGS+=-I${.CURDIR}
 
 MAN+=	btowc.3 mbrtowc.3 nl_langinfo.3 setlocale.3 wcrtomb.3 wctob.3
 MLINKS+=setlocale.3 localeconv.3
+
+# stubs
+MAN+=	iswalnum.3 towlower.3 mblen.3 mbstowcs.3 mbtowc.3 \
+	wcstombs.3 wctomb.3
+MLINKS+=iswalnum.3 iswalpha.3 \
+	iswalnum.3 iswlower.3 \
+	iswalnum.3 iswupper.3 \
+	towlower.3 towupper.3
 
 .endif
