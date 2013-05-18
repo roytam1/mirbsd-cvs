@@ -1,5 +1,5 @@
 #!/bin/sh
-# $MirOS: contrib/samples/dot.xinitrc,v 1.4 2008/11/08 22:24:29 tg Exp $
+# $MirOS: contrib/samples/dot.xinitrc,v 1.5 2009/08/27 16:42:39 tg Exp $
 #-
 # Copyright (c) 2003, 2004, 2005, 2009
 #	Thorsten "mirabilos" Glaser <tg@mirbsd.org>
@@ -34,7 +34,7 @@ setxkbmap -option "grp_led:caps"
 # merge in defaults and keymaps
 
 if [ -f $sysresources ]; then
-    xrdb -merge $sysresources
+    xrdb $sysresources
 fi
 
 if [ -f $sysmodmap ]; then
@@ -42,7 +42,7 @@ if [ -f $sysmodmap ]; then
 fi
 
 if [ -f $userresources ]; then
-    xrdb -merge $userresources
+    xrdb $userresources
 fi
 
 if [ -f $usermodmap ]; then

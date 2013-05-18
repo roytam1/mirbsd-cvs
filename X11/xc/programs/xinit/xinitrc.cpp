@@ -1,6 +1,6 @@
 XCOMM!/bin/sh
 XCOMM $MirSecuCron$
-XCOMM $MirOS: X11/xc/programs/xinit/xinitrc.cpp,v 1.11 2008/11/06 23:02:44 tg Exp $
+XCOMM $MirOS: X11/xc/programs/xinit/xinitrc.cpp,v 1.12 2009/07/18 14:08:57 tg Exp $
 XCOMM $Xorg: xinitrc.cpp,v 1.3 2000/08/17 19:54:30 cpqbld Exp $
 
 userresources=$HOME/.Xresources
@@ -11,7 +11,7 @@ sysmodmap=XINITDIR/.Xmodmap
 XCOMM merge in defaults and keymaps
 
 if [ -f $sysresources ]; then
-	xrdb -merge $sysresources
+	xrdb $sysresources
 fi
 
 if [ -f $sysmodmap ]; then
@@ -19,7 +19,7 @@ if [ -f $sysmodmap ]; then
 fi
 
 if [ -f $userresources ]; then
-	xrdb -merge $userresources
+	xrdb $userresources
 fi
 
 if [ -f $usermodmap ]; then
