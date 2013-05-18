@@ -1,5 +1,5 @@
 <!-- PageID: wlog-9 -->
-<small class="rcsid">$MirOS: www/content/d2xvZy05.inc,v 1.17 2006/07/17 02:29:29 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy05.inc,v 1.18 2006/07/19 17:42:50 bsiegert Exp $</small>
 <h1>MirBSD &ndash; WTF is Verpeilungsfaktor?</h1>
 <p><small><a href="#eof">bottom</a> or <a href="/?older">older</a>
  editions</small></p>
@@ -345,5 +345,6 @@
   changing keyboards between German, French and US&mdash;the
   latter for example here in Plan 9 because I don't know how to
   change the keyboard layout ...</p>
+</div>
 
 <p id="eof">Good luck, have fun, take care etc.pp</p>
