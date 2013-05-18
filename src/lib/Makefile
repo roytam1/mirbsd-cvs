@@ -1,4 +1,4 @@
-# $MirOS: src/lib/Makefile,v 1.13 2007/08/07 21:21:26 tg Exp $
+# $MirOS: src/lib/Makefile,v 1.14 2007/08/07 22:39:13 tg Exp $
 # $OpenBSD: Makefile,v 1.49 2003/05/14 01:46:51 hin Exp $
 # $NetBSD: Makefile,v 1.20.4.1 1996/06/14 17:22:38 cgd Exp $
 
@@ -20,6 +20,7 @@
   SUBDIR+= libkvm		# depends: libz
   SUBDIR+= libl
   SUBDIR+= libm
+  SUBDIR+= libmdsup
   SUBDIR+= libmenu
   SUBDIR+= libncurses
   SUBDIR+= libocurses
