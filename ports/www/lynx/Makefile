@@ -1,8 +1,9 @@
-# $MirOS: ports/www/lynx/Makefile,v 1.15 2007/05/20 12:06:18 tg Exp $
+# $MirOS: ports/www/lynx/Makefile,v 1.16 2007/08/03 12:14:23 tg Exp $
 
 COMMENT=		standard text-mode world wide web browser
 CATEGORIES=		www essentials
 VERSION=		2.8.7dev.7
+DASH_VER=		1
 DISTNAME=		lynx${VERSION:C/[a-z]$//}
 .if ${VERSION} != ${VERSION:C/[a-z]$//}
 PATCHFILES=		lynx${VERSION}.patch.gz:0
@@ -30,7 +31,7 @@ INSTALL_TARGET=		install-full
 NO_REGRESS=		Yes
 
 MODULES+=		converters/libiconv
-CONFIGURE_STYLE=	gnu
+CONFIGURE_STYLE=	autoconf no-autoheader
 CONFIGURE_ARGS+=	--enable-vertrace \
 			--enable-warnings \
 			--disable-nls \
