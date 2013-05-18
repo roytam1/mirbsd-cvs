@@ -3,8 +3,9 @@ mirhost (20110728-1) xunstable; urgency=low
   * Add build-{arch,indep} targets as alias for build
   * Switch to non-native packaging
     XXX skip using a builddir, use objdir instead
+  * debian/rules: cleanup (remove install/check, dh_installdirs)
 
- -- Thorsten Glaser <tg@mirbsd.de>  Thu, 28 Jul 2011 17:02:16 +0000
+ -- Thorsten Glaser <tg@mirbsd.de>  Sat, 12 Nov 2011 00:05:49 +0000
 
 mirhost (20110419) unstable; urgency=low
 

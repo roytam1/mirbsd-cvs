@@ -1,8 +1,7 @@
 #!/usr/bin/make -f
-# $MirOS$
+# $MirOS: contrib/hosted/tg/deb/arngc/debian/rules,v 1.1 2011/08/04 20:39:05 tg Exp $
 
 build build-arch build-indep:
-install:
 
 clean:
 	dh_testdir
@@ -27,4 +26,4 @@ binary-indep:
 binary-arch:
 
 binary: binary-indep binary-arch
-.PHONY: binary binary-arch binary-indep build build-arch build-indep clean install
+.PHONY: binary binary-arch binary-indep build build-arch build-indep clean

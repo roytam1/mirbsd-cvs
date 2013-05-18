@@ -2,8 +2,9 @@ arngc (20110805) xunstable; urgency=low
 
   * README.Debian: mention how to disable stunnel4, too
     XXX missing: drive stunnel4 to avoid zombies, if detected
+  * debian/rules: cleanup
 
- -- Thorsten Glaser <tg@mirbsd.de>  Sat, 17 Sep 2011 17:55:10 +0000
+ -- Thorsten Glaser <tg@mirbsd.de>  Sat, 12 Nov 2011 00:04:40 +0000
 
 arngc (20110804) unstable; urgency=low
 

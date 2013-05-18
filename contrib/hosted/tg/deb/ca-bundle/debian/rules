@@ -1,5 +1,5 @@
 #!/usr/bin/make -f
-# $MirOS: contrib/hosted/tg/deb/ca-bundle/debian/rules,v 1.5 2011/08/30 14:06:34 tg Exp $
+# $MirOS: contrib/hosted/tg/deb/ca-bundle/debian/rules,v 1.6 2011/09/06 20:18:41 tg Exp $
 
 build-arch:
 build build-indep: generated/.build_stamp
@@ -44,4 +44,4 @@ binary-indep: build-indep
 binary-arch: build-arch
 
 binary: binary-indep binary-arch
-.PHONY:	binary binary-arch binary-indep build build-arch build-indep check clean
+.PHONY: binary binary-arch binary-indep build build-arch build-indep clean

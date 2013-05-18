@@ -170,20 +170,12 @@ postinst_md:
 		ln -sf ../../../../${mbsd}/usr/lib/gcc/${mbsd}/3.4.6/crt$${i}.o; \
 	done
 
-install: debian/.build_stamp
+binary-indep:
+
+binary-arch: debian/.build_stamp
 	dh_testdir
 	dh_testroot
 	dh_clean -k
-	dh_installdirs
-
-# Build architecture-independent files here.
-binary-indep: build install
-# We have nothing to do by default.
-
-# Build architecture-dependent files here.
-binary-arch: build install
-	dh_testdir
-	dh_testroot
 	dh_installchangelogs
 	dh_installdocs
 #	dh_installexamples
@@ -215,4 +207,4 @@ binary-arch: build install
 	dh_builddeb
 
 binary: binary-indep binary-arch
-.PHONY: build clean binary-indep binary-arch binary install check
+.PHONY: binary binary-arch binary-indep build build-arch build-indep clean

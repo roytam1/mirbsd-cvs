@@ -3,8 +3,9 @@ mbsd-bug (20090225-3) xunstable; urgency=low
   * debian/source/format: Enforce "1.0" manually, for now
   * debian/control: Remove DMUA, I'm a DD now
   * Add Origin and Bugs headers
+  * debian/rules: cleanup (remove install/check, dh_installdirs)
 
- -- Thorsten Glaser <tg@mirbsd.de>  Thu, 26 Feb 2009 11:38:27 +0103
+ -- Thorsten Glaser <tg@mirbsd.de>  Sat, 12 Nov 2011 00:07:39 +0000
 
 mbsd-bug (20090225-2) unstable; urgency=low
 
