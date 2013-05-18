@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/baselive/Makefile,v 1.17 2007/03/09 11:31:49 tg Exp $
+# $MirOS: src/distrib/baselive/Makefile,v 1.18 2007/05/25 23:08:56 tg Exp $
 
 .include <bsd.own.mk>
 
@@ -121,6 +121,7 @@ bsd.gz: bsd ${IMAGE}
 nukefiles:
 	cd ${WRKDIR} && ${SUDO} rm -rf etc/X11 usr/{local/lib/X11,releng} \
 	    usr/{,X11R6/}{doc,info,man} usr/X11R6/lib/X11/doc
+.if ${DEBUGLIBS:L} == "yes"
 	-for name in ${WRKDIR}/usr/{,X11R6/}lib/*@(.so.*|.a); do \
 		print -n stripping $${name##*/} ...; \
 		if [[ $$name = *.a ]]; then \
@@ -129,6 +130,7 @@ nukefiles:
 			${SUDO} strip -s $$name && print; \
 		fi; \
 	done
+.endif
 
 makeimg: cdrom-prepare cdrom-mdcopy cdrom-generate cdrom-mdboot cdrom-finish
 
