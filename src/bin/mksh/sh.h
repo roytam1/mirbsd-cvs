@@ -1343,6 +1343,7 @@ struct ioword {
 #define DOTEMP	BIT(8)		/* dito: in word part of ${..[%#=?]..} */
 #define DOVACHECK BIT(9)	/* var assign check (for typeset, set, etc) */
 #define DOMARKDIRS BIT(10)	/* force markdirs behaviour */
+#define DOKEEPQUOTE BIT(11)	/* internal use by globbing code */
 
 /*
  * The arguments of [[ .. ]] expressions are kept in t->args[] and flags
