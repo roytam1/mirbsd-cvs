@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.327 2010/03/14 19:45:17 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.328 2010/03/16 20:58:43 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -890,6 +890,13 @@ mws_content <<'EOF'
   BeOS; this is not tested though)</li>
  <li>[tg, stippi] Add Haiku specific RLIMIT_NOVMON as ‘V’ to ulimit builtin</li>
  <li>[tg] Let Build.sh cope with dirname(1) unavailability</li>
+ <li>[tg] In the Emacs editing mode, hi-bit7 octets are now considered
+  “motion characters” for word boundaries – Esc+b, Esc+f, ^W, …</li>
+ <li>[tg] Make EXECSHELL default configurable at compile time</li>
+ <li>[tg] If MKSH_SMALL do not compile in “set -o bgnice” by default</li>
+ <li>[tg] Rework how RLIMIT_{AS,RSS,VMEM} map to ‘m’ and ‘v’ ulimits</li>
+ <li>[tg] Add some more OS specific limits seen in zsh</li>
+ <li>[tg] SUSv4 ${v=a\ b} and "${v=a\ b}" and ${v-a\ b} compliance, tests</li>
 </ul>
 <p id="r39c">mksh R39c is an important minor bugfix release:</p><ul>
  <li>[tg] Build system, code, docs and testsuite cleanup, also style(9)</li>
