@@ -1,5 +1,5 @@
 <!-- PageID: wlog-7 -->
-<small class="rcsid">$MirOS: www/content/d2xvZy03.inc,v 1.77 2006/01/27 00:14:30 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy03.inc,v 1.78 2006/01/27 00:54:11 tg Exp $</small>
 <h1>MirBSD &ndash; RELEASE TIME!!! Stable Services for Commercial Customers</h1>
 <h3>News <small><a href="#eof">bottom</a></small></h3>
 <h6>Note: all these entries are from tg@ up to November 3rd, when the
@@ -1617,7 +1617,7 @@
  fallout I could easily see and synched a bit against OpenBSD. The snapshot
  can now be built.<br />Yesterday, I've been in the Netzladen again, bashing
  the <a href="http://machackers.netzladen.org/">mach-ackers</a> and uploaded
- some <a href="https://users.mirsolutions.de:446/~tg/binaries/">binaries of
+ some <a href="http://tg.mirsolutions.de/binaries/">binaries of
  my software for Mac OSX</a>, in case your target iMac (iih, really) has got
  no gcc installed. I can't imagine anybody surviving without mksh, ed and jupp
  around... (bsiegert@ will probably bash me for this wlog entry, but OTOH he

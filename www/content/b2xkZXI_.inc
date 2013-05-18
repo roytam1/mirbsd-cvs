@@ -1,5 +1,5 @@
 <!-- PageID: older -->
-<small class="rcsid">$MirOS: www/content/b2xkZXI_.inc,v 1.20 2006/01/27 00:14:28 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/b2xkZXI_.inc,v 1.21 2006/01/27 00:54:10 tg Exp $</small>
 <h1>Older News and Weblogs</h1>
 <h3>Old News</h3>
 <p><a href="#newsend">Skip to News bottom</a></p><ul>
@@ -29,7 +29,7 @@
 	that they actually exist (and will attend FROSCON).</li>
 
 <li>18.12.2005<br />First public development snapshot of tg@'s fork of the
-	sirc IRC client, <a href="http://www.66h.42h.de/bsd/mirsirc-20051218.tgz">MirSirc</a>,
+	sirc IRC client, <a href="http://tg.mirsolutions.de/bsd/mirsirc-20051218.tgz">MirSirc</a>,
 	released for peer review (relative to <tt>/usr/local</tt>).<br />A
 	lot of pending fixes for the build of the whole system was revised
 	and committed in an overnight no-sleep session at Netzladen.</li>
