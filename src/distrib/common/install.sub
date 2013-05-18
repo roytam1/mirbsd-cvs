@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/install.sub,v 1.2 2006/10/07 22:20:48 tg Exp $
+# $MirOS: src/distrib/common/install.sub,v 1.3 2006/10/08 00:24:41 tg Exp $
 # $OpenBSD: install.sub,v 1.388 2005/07/02 00:55:48 uwe Exp $
 # $NetBSD: install.sub,v 1.5.2.8 1996/09/02 23:25:02 pk Exp $
 #
@@ -1564,7 +1564,7 @@ questions() {
 	[[ $resp == n ]] && return
 	ask_which "speed" "should $_bd use" "9600 19200 38400 57600 115200"
 	[[ $resp == done ]] && return
-	echo "set tty $_bd\nstty $_bd $resp" >>/mnt/etc/boot.cfg
+	echo "set tty $_bd\nstty $_bd $resp" >>/mnt/boot.cfg
 	sed	-e "/^${_td}/s/std.9600/std.${resp}/" \
 		-e "/^${_td}/s/unknown/vt220	/" \
 		-e "/${_td}/s/off/on secure/" /mnt/etc/ttys >/tmp/ttys

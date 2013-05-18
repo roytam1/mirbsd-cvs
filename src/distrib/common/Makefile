@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/Makefile,v 1.13 2006/08/19 18:32:01 tg Exp $
+# $MirOS: src/distrib/common/Makefile,v 1.14 2006/09/29 22:25:35 tg Exp $
 
 .include <bsd.own.mk>
 
@@ -195,8 +195,8 @@ cdrom-prepare: bsd.rd
 		cd ${WRKDIR}/contrib; \
 		lndir ${TOPDIR}/contrib; \
 	fi
-	cp ${BOOT} ${WRKDIR}/etc/boot.ldr
-	cp ${TOPDIR}/common/boot.cfg.${MACHINE} ${WRKDIR}/etc/boot.cfg
+	cp ${BOOT} ${WRKDIR}/boot.ldr
+	cp ${TOPDIR}/common/boot.cfg.${MACHINE} ${WRKDIR}/boot.cfg
 	cp bsd.rd ${WRKDIR}/v${OSrev}/${MACHINE}/
 	cp ${TOPDIR}/common/00-README ${WRKDIR}/
 	chmod -R u+w ${WRKDIR}

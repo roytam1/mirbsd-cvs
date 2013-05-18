@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/baselive/Makefile,v 1.7 2006/10/02 07:08:10 tg Exp $
+# $MirOS: src/distrib/baselive/Makefile,v 1.8 2006/10/02 22:38:13 tg Exp $
 
 .include <bsd.own.mk>
 
@@ -60,7 +60,7 @@ unpack-mi:
 	cd ${WRKDIR}/v${OSrev} && ln -s ${BSDRELDIR}/rel ${MACHINE}
 	cp ${TOPDIR}/common/00-README ${WRKDIR}/
 	cat ${TOPDIR}/common/boot.cfg.${MACHINE} ${.CURDIR}/boot.cfg.tail | \
-	    sudo dd of=${WRKDIR}/etc/boot.cfg
+	    sudo dd of=${WRKDIR}/boot.cfg
 
 unpack-md:
 
@@ -130,11 +130,11 @@ makeimg: cdrom-prepare cdrom-mdcopy cdrom-generate cdrom-mdboot cdrom-finish
 
 cdrom-prepare: bsd.gz
 	${SUDO} dd if=bsd.gz obs=2048 conv=osync of=${WRKDIR}/bsd
-	${SUDO} cp ${BOOT} ${WRKDIR}/etc/boot.ldr
+	${SUDO} cp ${BOOT} ${WRKDIR}/boot.ldr
 	cd ${WRKDIR}; sed 's!RMD160 (!&v${OSrev}/${MACHINE}/!' \
-	    <v${OSrev}/${MACHINE}/RMD160 >RMD160; ${SUDO} touch etc/boot.cat
-	cd ${WRKDIR}; rmd160 00-README bsd etc/boot.* stand/* >>RMD160
-	-${SUDO} rm -f ${WRKDIR}/etc/boot.cat ${CDROM} ${WRKDIR}/RMD160.gz
+	    <v${OSrev}/${MACHINE}/RMD160 >RMD160; ${SUDO} touch boot.cat
+	cd ${WRKDIR}; rmd160 00-README bsd boot.* stand/* >>RMD160
+	-${SUDO} rm -f ${WRKDIR}/boot.cat ${CDROM} ${WRKDIR}/RMD160.gz
 
 cdrom-generate:
 	cd ${WRKDIR}; sort -uo RMD160 RMD160; gzip -n9 RMD160

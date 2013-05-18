@@ -1,4 +1,4 @@
-/**	$MirOS$ */
+/**	$MirOS: src/sys/stand/boot/cmd.h,v 1.2 2005/03/06 21:28:33 tg Exp $ */
 /*	$OpenBSD: cmd.h,v 1.14 2003/08/11 06:23:07 deraadt Exp $	*/
 
 /*
@@ -43,7 +43,7 @@ struct cmd_state {
 	char bootdev[16]; /* device */
 	char image[MAXPATHLEN - 16]; /* image */
 	int  boothowto; /* howto */
-	char *conf; /* /etc/boot.conf normally */
+	char *conf; /* /boot.cfg normally */
 	void *addr; /* load here */
 	int timeout;
 

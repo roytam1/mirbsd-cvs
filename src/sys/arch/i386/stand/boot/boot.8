@@ -1,4 +1,4 @@
-.\"	$MirOS: src/sys/arch/i386/stand/boot/boot.8,v 1.4 2006/04/06 11:07:31 tg Exp $
+.\"	$MirOS: src/sys/arch/i386/stand/boot/boot.8,v 1.5 2006/07/23 23:41:28 tg Exp $
 .\"	$OpenBSD: boot.8,v 1.41 2005/02/18 15:26:23 robert Exp $
 .\"
 .\" Copyright (c) 1997-2001 Michael Shalayeff
@@ -117,7 +117,7 @@ Probe for APM support in the BIOS.
 Display a message if support is present.
 .It
 If the file
-.Pa /etc/boot.cfg
+.Pa /boot.cfg
 exists on the filesystem
 .Nm
 was loaded from, open and parse it.
@@ -345,7 +345,7 @@ first stage bootstrap
 PXE bootstrap
 .It Pa /boot
 system bootstrap
-.It Pa /etc/boot.cfg
+.It Pa /boot.cfg
 system bootstrap's startup file
 .It Pa /bsd
 kernel image
@@ -359,7 +359,7 @@ Remove the 5 second pause at boot-time permanently, causing
 .Nm
 to load the kernel immediately without prompting:
 .Pp
-.Dl # echo \&"boot\&" > /etc/boot.cfg
+.Dl # echo \&"boot\&" > /boot.cfg
 .Pp
 Use serial console.
 A null modem cable should connect the specified serial port to a terminal.
@@ -369,7 +369,7 @@ Useful for debugging.
 .Pp
 Invoke the serial console at every boot:
 .Pp
-.Dl # echo \&"set tty com0\&" > /etc/boot.cfg
+.Dl # echo \&"set tty com0\&" >/boot.cfg
 .Pp
 Boot the kernel named
 .Pa /bsd

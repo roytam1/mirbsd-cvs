@@ -1,4 +1,4 @@
-# $MirOS: src/etc/changelist,v 1.8 2006/02/18 16:38:46 tg Exp $
+# $MirOS: src/etc/changelist,v 1.9 2006/03/18 18:36:35 tg Exp $
 # $OpenBSD: changelist,v 1.42 2005/02/07 06:45:17 david Exp $
 #
 # List of files which the security script backs up and checks
@@ -7,6 +7,7 @@
 # Files prefixed with a '+' will have their md5 checksums stored,
 # not the actual files.
 
+/boot.cfg
 /etc/Distfile
 /etc/X11/XF86Config
 /etc/X11/xdm/Xaccess
@@ -15,7 +16,6 @@
 /etc/X11/xdm/xdm-config
 /etc/arp.conf
 /etc/bgpd.conf
-/etc/boot.cfg
 /etc/bootparams
 /etc/ccd.conf
 /etc/changelist

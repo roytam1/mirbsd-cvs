@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/stand/boot/boot.c,v 1.7 2006/04/10 19:15:16 tg Exp $	*/
+/**	$MirOS: src/sys/stand/boot/boot.c,v 1.8 2006/08/19 12:45:48 tg Exp $	*/
 /*	$OpenBSD: boot.c,v 1.30 2004/01/29 00:54:08 tom Exp $	*/
 
 /*
@@ -87,7 +87,7 @@ boot(dev_t bootdev)
 
 	/*
 	 * Let's be non-intrusive.. We try to get our /$IP/boot.cfg
-	 * first, and if that fails, fall back to /etc/boot.cfg, and
+	 * first, and if that fails, fall back to /boot.cfg, and
 	 * if that fails, do no boot.cfg at all.
 	 * Pim van Pelt / Paul de Weerd 20040328
 	 */
@@ -103,7 +103,7 @@ boot(dev_t bootdev)
 #elif !defined(SMALL_BOOT)
 	if (hook_value) {
 		cmd.boothowto = 0;
-		snprintf(myconf, sizeof (myconf), "/etc/boot.%d",
+		snprintf(myconf, sizeof (myconf), "/boot.%d",
 		    (hook_value % 999));
 		cmd.conf = myconf;
 		cmd.addr = (void *)DEFAULT_KERNEL_ADDRESS;
@@ -116,7 +116,7 @@ boot(dev_t bootdev)
 
 	if (st < 0) {
 		cmd.boothowto = 0;
-		cmd.conf = "/etc/boot.cfg";
+		cmd.conf = "/boot.cfg";
 		cmd.addr = (void *)DEFAULT_KERNEL_ADDRESS;
 		cmd.timeout = 5;
 
