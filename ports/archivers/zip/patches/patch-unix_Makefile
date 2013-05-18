@@ -1,6 +1,6 @@
-$MirOS$
---- unix/Makefile.orig	2005-02-28 08:33:50.000000000 +0100
-+++ unix/Makefile	2006-06-23 17:01:26.000000000 +0200
+$MirOS: ports/archivers/zip/patches/patch-unix_Makefile,v 1.2 2006/06/23 15:13:51 bsiegert Exp $
+--- unix/Makefile.orig	Sun Apr 23 01:51:55 2006
++++ unix/Makefile	Fri Feb 23 12:00:56 2007
 @@ -17,10 +17,9 @@ SHELL = /bin/sh
  LN = ln -s
  
@@ -13,16 +13,16 @@ $MirOS$
  EXE =
  
  # probably can change this to 'install' if you have it
-@@ -45,7 +44,7 @@ VERSION = Version 2.31
- #   CFLAGS    flags for C compile
+@@ -47,7 +46,7 @@ VERSION = Version 2.32
  #   LFLAGS1   flags after output file spec, before obj file list
  #   LFLAGS2   flags after obj file list (libraries, etc)
--CFLAGS = -O2 -I. -DUNIX $(LOCAL_ZIP)
-+CFLAGS +=  -I. -DUNIX $(LOCAL_ZIP)
+ CFLAGS_NOOPT = -I. -DUNIX $(LOCAL_ZIP)
+-CFLAGS = -O2 $(CFLAGS_NOOPT)
++CFLAGS += $(CFLAGS_NOOPT)
  LFLAGS1 =
  LFLAGS2 = -s
  
-@@ -126,11 +125,9 @@ $(ZIPMANUAL): man/zip.1
+@@ -128,18 +127,16 @@ $(ZIPMANUAL): man/zip.1
  # install
  install:        $(ZIPS)
  	-$(INSTALL_D) $(BINDIR)
@@ -36,3 +36,11 @@ $MirOS$
  
  uninstall:
  	-cd $(BINDIR); rm -f $(ZIPS)
+ 	-cd $(MANDIR); rm -f zip.$(manext)
+ 
+ flags:  unix/configure
+-	sh unix/configure "${CC}" "${CFLAGS_NOOPT}"
++	sh unix/configure "${CC}" "${CFLAGS}"
+ 
+ # These symbols, when #defined using -D have these effects on compilation:
+ # ZMEM                  - includes C language versions of memset(), memcpy(),
