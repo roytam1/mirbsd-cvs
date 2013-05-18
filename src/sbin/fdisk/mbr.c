@@ -1,4 +1,4 @@
-/**	$MirOS: src/sbin/fdisk/mbr.c,v 1.4 2010/08/14 19:43:55 tg Exp $ */
+/**	$MirOS: src/sbin/fdisk/mbr.c,v 1.5 2010/08/14 20:53:07 tg Exp $ */
 /*	$OpenBSD: mbr.c,v 1.22 2006/05/29 05:09:36 ray Exp $	*/
 
 /*
@@ -48,7 +48,7 @@
 #include "mbr.h"
 #include "part.h"
 
-__RCSID("$MirOS: src/sbin/fdisk/mbr.c,v 1.4 2010/08/14 19:43:55 tg Exp $");
+__RCSID("$MirOS: src/sbin/fdisk/mbr.c,v 1.5 2010/08/14 20:53:07 tg Exp $");
 
 void
 MBR_init(disk_t *disk, mbr_t *mbr)
@@ -141,7 +141,12 @@ int
 MBR_read(int fd, off_t where, char *buf)
 {
 	if (cdblockedread(fd, buf, DEV_BSIZE, where * DEV_BSIZE) == -1)
+#if 0
+		/* no instance calling MBR_read checks retval, gah! */
 		return (-1);
+#else
+		err(1, "reading MBR from #%llu", (unsigned long long)where);
+#endif
 	return (0);
 }
 
