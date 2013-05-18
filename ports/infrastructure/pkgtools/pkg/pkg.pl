@@ -1,5 +1,5 @@
 #!/usr/bin/perl
-# $MirOS: ports/infrastructure/pkgtools/pkg/pkg.pl,v 1.3 2006/11/08 16:51:22 bsiegert Exp $
+# $MirOS: ports/infrastructure/pkgtools/pkg/pkg.pl,v 1.4 2007/07/09 19:35:05 bsiegert Exp $
 # $OpenBSD: pkg.pl,v 1.7 2001/11/17 10:42:11 espie Exp $
 #
 # Copyright (c) 2001 Marc Espie.
@@ -29,6 +29,7 @@ require 5.6.0;
 
 use strict;
 use Getopt::Std;
+use File::Spec;
 
 # This is a first implementation of the pkg_* perl replacement.
 # We are doing this piecewise, handling larger and larger parts of
@@ -273,7 +274,23 @@ sub check_lib_specs
 				print "not found\n" if $verbose;
 				return undef;
 			} else {
-			    print "found ", $candidates[0], "\n" if $verbose;
+				print "found ", $candidates[0], "\n" if $verbose;
+			}
+		} elsif ($spec =~ m/^(.*)\.la$/) {
+			my $libname = $1;
+			if (-f File::Spec->catfile($dir, "lib$libname.la")) {
+				print "found $dir/lib$libname.la\n" if $verbose;
+				return 1;
+			}
+			# if no .la, we accept _any_ .so version
+			my @candidates = 
+				(glob(File::Spec->catfile($dir, "lib$libname.so.*")),
+				 glob(File::Spec->catfile($dir, "lib$libname.*dylib")));
+			if (@candidates == 0) {
+				print "not found\n" if $verbose;
+				return undef;
+			} else {
+				print "found ", $candidates[0], "\n" if $verbose;
 			}
 		} else {
 			print "bad spec\n" if $verbose;
