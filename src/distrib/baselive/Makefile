@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/baselive/Makefile,v 1.54 2009/06/29 17:08:28 tg Exp $
+# $MirOS: src/distrib/baselive/Makefile,v 1.55 2009/06/29 17:35:01 tg Exp $
 
 .include <bsd.own.mk>
 
@@ -222,7 +222,7 @@ cdrom-prepare: bsd.gz
 	while (( i < 64 )); do [[ $${dump[i++]} = 2035560? ]] && break; done; \
 	if [[ $$i = 64 || $${dump[i-1]} != 20355601 ]]; then \
 		print -u2 found invalid or no patch field version; exit 1; \
-	fi; ofs=$$((0x$${dump[i+1]})); \
+	fi; ofs=$$((#0x$${dump[i+1]})); \
 	print -n v${OSrev}/sparc/bsd.rd\\0 | \
 	    ${SUDO} dd of=${WRKDIR}/b_sparc.ldr bs=1 seek=$$ofs conv=notrunc
 .endif
@@ -322,7 +322,7 @@ cdrom-generate:
 	chmod 755 ${WRKDIR}
 	# pad the ISO with ]0;256K] NUL bytes, ie. for
 	# a geometry of 16 heads, 32 sectors per track
-	dd if=/dev/zero count=1 bs=$$(( (512 * 32 * 16) - \
+	dd if=/dev/zero count=1 bs=$$((# (512 * 32 * 16) - \
 	    ($$(stat -f %z ${CDROM}) % (512 * 32 * 16)) )) 2>&- >>${CDROM}
 	getextent_cd9660 -f ${CDROM} b_i386.ldr | \
 	    ${MKSH} ${WRKDIR}/v${OSrev}/i386/bootxx.sh -B 11 | \
@@ -331,7 +331,7 @@ cdrom-generate:
 .if ${DUALIVE:L} == "no"
 	getextent_cd9660 -f ${CDROM} b_i386.ldr | \
 	    ${MKSH} ${WRKDIR}/v${OSrev}/i386/bootxx.sh \
-	    -g $$(($$(stat -f %z ${CDROM}) / (512 * 32 * 16))):16:32 \
+	    -g $$((#$$(stat -f %z ${CDROM}) / (512 * 32 * 16))):16:32 \
 	    -A -M 4:0x96 -S 2 | \
 	    dd of=${CDROM} conv=notrunc bs=512 2>/dev/null
 .else
@@ -340,7 +340,7 @@ cdrom-generate:
 	    dd of=${CDROM} conv=notrunc bs=512 seek=${CHAINSECTOR} 2>/dev/null
 	getextent_cd9660 -f ${CDROM} b_sparc.ldr | \
 	    ${MKSH} ${WRKDIR}/v${OSrev}/sparc/bootxx.sh \
-	    -g $$(($$(stat -f %z ${CDROM}) / (512 * 32 * 16))):16:32 \
+	    -g $$((#$$(stat -f %z ${CDROM}) / (512 * 32 * 16))):16:32 \
 	    -0 ${CHAINSECTOR} -S 2 | \
 	    dd of=${CDROM} conv=notrunc 2>/dev/null
 .endif

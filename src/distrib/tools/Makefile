@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/tools/Makefile,v 1.33 2009/06/07 13:13:18 tg Exp $
+# $MirOS: src/distrib/tools/Makefile,v 1.34 2009/06/29 17:08:29 tg Exp $
 
 all: sundsklbl
 
@@ -61,7 +61,7 @@ makecdimage: .PHONY
 	while (( i < 64 )); do [[ $${dump[i++]} = 2035560? ]] && break; done; \
 	if [[ $$i = 64 || $${dump[i-1]} != 20355601 ]]; then \
 		print -u2 found invalid or no patch field version; exit 1; \
-	fi; ofs=$$((0x$${dump[i+1]})); \
+	fi; ofs=$$((#0x$${dump[i+1]})); \
 	print -n v${OSrev}/sparc/bsd.rd\\0 | \
 	    dd of=cddir/b_sparc.ldr bs=1 seek=$$ofs conv=notrunc
 	ln cddir/v${OSrev}/sparc/bsd.rd cddir/vmunix		# for kicks
@@ -78,7 +78,7 @@ makecdimage: .PHONY
 	    ${CDROM} cddir
 	# pad the ISO with ]0;256K] NUL bytes, ie. for
 	# a geometry of 16 heads, 32 sectors per track
-	dd if=/dev/zero count=1 bs=$$(( (512 * 32 * 16) - \
+	dd if=/dev/zero count=1 bs=$$((# (512 * 32 * 16) - \
 	    ($$(stat -f %z ${CDROM}) % (512 * 32 * 16)) )) 2>&- >>${CDROM}
 	getextent_cd9660 -f ${CDROM} b_i386.ldr | \
 	    ${MKSH} ${BSDSRCDIR}/usr.sbin/installboot/bxinst.i386 -B 11 | \
@@ -89,7 +89,7 @@ makecdimage: .PHONY
 	    dd of=${CDROM} conv=notrunc bs=512 seek=${CHAINSECTOR} 2>/dev/null
 	getextent_cd9660 -f ${CDROM} b_sparc.ldr | \
 	    ${MKSH} ${BSDSRCDIR}/usr.sbin/installboot/bxinst.sparc \
-	    -g $$(($$(stat -f %z ${CDROM}) / (512 * 32 * 16))):16:32 \
+	    -g $$((#$$(stat -f %z ${CDROM}) / (512 * 32 * 16))):16:32 \
 	    -0 ${CHAINSECTOR} -S 2 | \
 	    dd of=${CDROM} conv=notrunc 2>/dev/null
 

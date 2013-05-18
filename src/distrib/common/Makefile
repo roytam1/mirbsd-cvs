@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/Makefile,v 1.44 2009/06/29 18:47:55 tg Exp $
+# $MirOS: src/distrib/common/Makefile,v 1.45 2009/06/29 18:49:04 tg Exp $
 
 .include <bsd.own.mk>
 
@@ -225,7 +225,7 @@ cdrom-generate:
 	    ${CDROM} ${WRKDIR}
 	# pad the ISO with ]0;256K] NUL bytes, ie. for
 	# a geometry of 16 heads, 32 sectors per track
-	dd if=/dev/zero count=1 bs=$$(( (512 * 32 * 16) - \
+	dd if=/dev/zero count=1 bs=$$((# (512 * 32 * 16) - \
 	    ($$(stat -f %z ${CDROM}) % (512 * 32 * 16)) )) 2>&- >>${CDROM}
 
 .include <bsd.obj.mk>
