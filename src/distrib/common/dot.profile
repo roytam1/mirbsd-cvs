@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/dot.profile,v 1.19 2007/07/26 10:49:47 tg Exp $
+# $MirOS: src/distrib/common/dot.profile,v 1.20 2007/09/01 10:51:49 tg Exp $
 # $OpenBSD: dot.profile,v 1.4 2002/09/13 21:38:47 deraadt Exp $
 # $NetBSD: dot.profile,v 1.1 1995/12/18 22:54:43 pk Exp $
 #
@@ -82,7 +82,7 @@ if [ ! -f /.profile.done ]; then
 	# also read some stuff from the HDD etc. (doesn't matter if it breaks)
 	/usr/libexec/cprng -p
 	( ( (for d in {w,s,rai,c}:128, r:1,128; do b=${d#*,}; d=${d%,*}; dd \
-	     if=/dev/r${d%:*}d0c count=${d#*:} ${b:+bs=$b of=/dev/arandom}; \
+	     if=/dev/r${d%:*}d0c count=${d#*:} ${b:+bs=$b of=/dev/urandom}; \
 	     done; eeprom; dmesg; sysctl -a) 2>&1 | cksum -backsum -asha512 \
 	     -asuma -atiger -armd160 -aadler32 >/dev/wrandom) &)
 
@@ -114,6 +114,9 @@ This work is provided "AS IS" and WITHOUT WARRANTY of any kind.\n'
 
 	# don't run this twice
 	print -n >/.profile.done
+
+	# reset arandom(4)
+	( typeset -i8 x='RANDOM & 255'; print -n "\0${x#8#}" >/dev/arandom )
 
 	# try to spawn a second shell
 	mksh -lT1 >/dev/null 2>&1

@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/distrib/baselive/munge_it.sh,v 1.26 2007/08/12 13:59:36 tg Exp $
+# $MirOS: src/distrib/baselive/munge_it.sh,v 1.27 2007/09/02 16:43:51 tg Exp $
 #-
 # Copyright (c) 2006, 2007
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -72,17 +72,17 @@ ed -s etc/ntpd.conf <<-'EOMD'
 EOMD
 ed -s etc/rc <<-'EOMD'
 	1i
-		# $MirOS: src/distrib/baselive/munge_it.sh,v 1.26 2007/08/12 13:59:36 tg Exp $
+		# $MirOS: src/distrib/baselive/munge_it.sh,v 1.27 2007/09/02 16:43:51 tg Exp $
 	.
 	/cprng.*pr16/d
 	i
 		mount -fwo async,noatime /dev/rd0a /dev
-		cat /dev/.rs >/dev/arandom 2>&-
+		cat /dev/.rs >/dev/urandom 2>&-
 		# on sparc, use the nvram to provide some additional entropy
 		# also read some stuff from the HDD etc. (doesn't matter if it breaks)
 		( ( (for d in {w,s,rai,c}:128, f:1, r:1,512; do b=${d#*,}; d=${d%,*};\
-		     dd if=/dev/r${d%:*}d0c count=${d#*:} ${b:+bs=$b of=/dev/arandom}\
-		     ; done; dd if=/var/db/host.random of=/dev/arandom; dmesg; sysctl\
+		     dd if=/dev/r${d%:*}d0c count=${d#*:} ${b:+bs=$b of=/dev/urandom}\
+		     ; done; dd if=/var/db/host.random of=/dev/urandom; dmesg; sysctl\
 		     -a; eeprom) 2>&1 | cksum -a cksum -a sha512 -a suma -a tiger -a \
 		     rmd160 -a adler32 -b >/dev/wrandom) &)
 		/usr/libexec/cprng -pr32 >/dev/urandom &
@@ -109,7 +109,7 @@ ed -s etc/rc <<-'EOMD'
 	/dmesg.boot/i
 
 		# try to get some entropy from the network
-		(ulimit -T 60; exec /usr/bin/ftp -mvo /dev/arandom \
+		(ulimit -T 60; exec /usr/bin/ftp -mvo /dev/urandom \
 		    https://herc.mirbsd.org/rn.cgi?live"<$(uname -a | sed '
 			s/%/%25/g
 			s/;/%3b/g

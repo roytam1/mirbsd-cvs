@@ -1,4 +1,4 @@
-# $MirOS: src/etc/rc,v 1.76 2007/09/02 16:43:52 tg Exp $
+# $MirOS: src/etc/rc,v 1.77 2007/09/25 15:57:48 tg Exp $
 # $OpenBSD: rc,v 1.277 2006/01/12 21:54:15 deraadt Exp $
 #-
 # System startup script run by init on autoboot or after single-user.
@@ -145,10 +145,11 @@ trap : 3	# shouldn't be needed
 if [[ $1 = shutdown ]]; then
 	[[ -x /usr/sbin/wsconfig ]] && /usr/sbin/wsconfig -s 1
 	echo Received shutdown request.
-	(dd if=/dev/arandom count=2; dd if=/dev/urandom count=8) \
-	    2>/dev/wrandom | dd of=/var/db/host.random >/dev/wrandom 2>&1 && \
-	    chmod 600 /var/db/host.random >/dev/wrandom 2>&1 && \
-	    if [[ -f /etc/rc.shutdown ]]; then
+	(
+		(dd if=/dev/arandom count=2; dd if=/dev/urandom count=8) | \
+		    dd of=/var/db/host.random && \
+		    chmod 600 /var/db/host.random
+	) >/dev/wrandom 2>&1 && if [[ -f /etc/rc.shutdown ]]; then
 		echo /etc/rc.shutdown in progress...
 		. /etc/rc.shutdown
 		echo /etc/rc.shutdown complete.
@@ -380,11 +381,14 @@ if [[ $arptables = YES && -s /etc/arp.conf ]]; then
 fi
 
 # read old random seed; if there's no /var/db/host.random, make
-# one through /dev/arandom; else reset seed file anyway so that
-# if a shutdown-less reboot occurs the next seed is not a repeat
-cat /var/db/host.random >/dev/arandom 2>&1
-( (dd if=/dev/arandom count=5; dd if=/dev/urandom count=3) 2>/dev/wrandom | \
-  dd of=/var/db/host.random; chmod 600 /var/db/host.random) >/dev/wrandom 2>&1
+# one through random(4); else reset seed file anyway so that if
+# a shutdown-less reboot occurs the next seed is not a repeat
+(
+	cat /var/db/host.random >/dev/urandom
+	(dd if=/dev/arandom count=5; dd if=/dev/urandom count=3) | \
+	    dd of=/var/db/host.random
+	chmod 600 /var/db/host.random
+) >/dev/wrandom 2>&1
 
 # clean up left-over files
 rm -f /etc/nologin
@@ -395,6 +399,9 @@ install -c -m 664 -g utmp /dev/null /var/run/utmp
 
 # save a copy of the boot messages
 dmesg | tee /var/run/dmesg.boot | cksum -ba rmd160 >/dev/wrandom
+
+# reset arandom(4)
+( typeset -i8 x='RANDOM & 255'; print -n "\0${x#8#}" >/dev/arandom )
 
 echo starting system logger
 rm -f /dev/log
@@ -570,15 +577,13 @@ if [[ -x /usr/libexec/vi.recover && -d /var/tmp/vi.recover ]]; then
 fi
 
 # Copy over /dev/{null,zero} into anoncvs chroot, it needs it
-[[ -d /var/anoncvs/anoncvs && -s /var/anoncvs/anoncvssh \
-    && ! ( -c /var/anoncvs/anoncvs/dev/null \
-    && -c /var/anoncvs/anoncvs/dev/zero ) ]] && \
+[[ -c /var/anoncvs/anoncvs/dev/null && -c /var/anoncvs/anoncvs/dev/zero ]] || \
+    [[ ! -d /var/anoncvs/anoncvs || ! -s /var/anoncvs/anoncvssh ]] || \
     pax -rw -pe /dev/{null,zero} /var/anoncvs/anoncvs
 
 # Generate all the RSA keys we might need
-if [[ ! -f /etc/ssl/private/default.key \
-    || ! -f /etc/ssl/default.cer \
-    || ! -f /etc/ssl/deflt-ca.cer ]]; then
+if [[ ! -f /etc/ssl/private/default.key || \
+    ! -f /etc/ssl/default.cer || ! -f /etc/ssl/deflt-ca.cer ]]; then
 	echo -n "openssl: generating new host RSA key... "
 	rm -f /etc/ssl/{def{ault,lt-ca}.cer,private/default.key}
 	# XXX 6000-8000 is recommended... choose less to be nice to old boxen
