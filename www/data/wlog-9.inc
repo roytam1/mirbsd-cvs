@@ -2731,8 +2731,8 @@ Author: tg@
  OpenCVS to the build, but no fixes for the necessary sendmail upgrade or <a
  href="http://www.securityfocus.com/bid/27647/info">IP ID vulnerability</a>
  yet (or even planned).</p>
-<p lang="de">Schon mal geröstete und schokierte SOJABOHNEN gesehen? Hmm… die
- schmecken ja sogar. Ziemlich herzhaft.</p>
+<p xml:lang="de">Schon mal geröstete und schokierte SOJABOHNEN gesehen? Hmm…
+ die schmecken ja sogar. Ziemlich herzhaft.</p>
 <p>Now I’m fixing Debian fixes to upstream software. Funny. But people who
  re-invent strdup(3) do belong shot, even if their crapware is public domain.
  Luckily, mgcc(1) catches <tt>sizeof (char *)</tt>.</p>
