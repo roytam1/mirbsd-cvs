@@ -1,4 +1,4 @@
-/* $MirOS: ports/infrastructure/pkgtools/add/extract.c,v 1.10 2006/03/19 20:08:11 tg Exp $ */
+/* $MirOS: ports/infrastructure/pkgtools/add/extract.c,v 1.11 2006/06/25 08:21:03 tg Exp $ */
 /* $OpenBSD: extract.c,v 1.16 2003/07/04 17:31:19 avsm Exp $ */
 
 /*
@@ -27,7 +27,7 @@
 #include "add.h"
 #include "rcdb.h"
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/add/extract.c,v 1.10 2006/03/19 20:08:11 tg Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/add/extract.c,v 1.11 2006/06/25 08:21:03 tg Exp $");
 
 #if 0 /* defined(__OpenBSD__) && !defined(__MirBSD__) */
 /* this gets rid of the requirement to run paxmirabilis
@@ -131,7 +131,7 @@ static char *
 find_last_md5(plist_t *p)
 {
     plist_t *q;
-    
+
     for (q = p; q && (q->type != PLIST_COMMENT || strncmp(q->name, "MD5:", 4));
 	q = q->prev) {
     }
@@ -249,7 +249,7 @@ extract_plist(const char *home, package_t *pkg)
 		inc_dir_counter(tmp, &usedb, ourdb);
 		free(tmp);
 		break;
-	    } 
+	    }
 	    last_file = p->name;
 	    if (Verbose)
 		printf("extract: %s/%s\n", Directory, p->name);

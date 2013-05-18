@@ -1,4 +1,4 @@
-/**	$MirOS: ports/infrastructure/pkgtools/lib/str.c,v 1.7 2006/11/03 20:14:16 bsiegert Exp $ */
+/**	$MirOS: ports/infrastructure/pkgtools/lib/str.c,v 1.8 2006/11/06 15:59:35 bsiegert Exp $ */
 /*	$OpenBSD: str.c,v 1.11 2003/07/04 17:31:19 avsm Exp $	*/
 
 /*
@@ -24,7 +24,7 @@
 #include <fnmatch.h>
 #include "lib.h"
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/str.c,v 1.7 2006/11/03 20:14:16 bsiegert Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/str.c,v 1.8 2006/11/06 15:59:35 bsiegert Exp $");
 
 /* Convert a filename (which can be relative to the current directory) to
  * an absolute one. Returns a pointer to a static internal buffer.
@@ -115,9 +115,9 @@ find_version(const char *name)
 
     if (!name)
 	return NULL;
-    for (idx = strchr(name + 1, '-'); idx && *idx && !isdigit(idx[1]) 
+    for (idx = strchr(name + 1, '-'); idx && *idx && !isdigit(idx[1])
 		&& idx[1] != '<' && idx[1] != '>'; idx = strchr(idx + 1, '-'));
-    
+
     return idx;
 }
 
@@ -141,7 +141,7 @@ nuke_version(char *name, bool wildcard)
     if (idx)
 	*idx = '-';
     return ret;
-} 
+}
 
 /* Lowercase a whole string */
 void
@@ -307,7 +307,7 @@ multiversion_match(const char *pattern, const char *pkg)
 	char			*cp, *ver, *token;
 	char			name[FILENAME_MAX];
 	enum deweycmp_ops op;
-	
+
 	/* short-cut path if the name does not match */
 	ver = find_version(pkg);
 	if (strncmp(pattern, pkg, (size_t)(ver - pkg)))
@@ -323,7 +323,7 @@ multiversion_match(const char *pattern, const char *pkg)
 		op = NONE;
 		if (*cp == '>')
 			op = (cp[1] == '=') ? GE : GT;
-		else if (*cp == '<') 
+		else if (*cp == '<')
 			op = (cp[1] == '=') ? LE : LT;
 		if (op == NONE && glob_match(cp, ver))
 			return 1;

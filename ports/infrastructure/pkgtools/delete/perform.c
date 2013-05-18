@@ -1,4 +1,4 @@
-/**	$MirOS: ports/infrastructure/pkgtools/delete/perform.c,v 1.8 2005/12/20 19:22:59 tg Exp $ */
+/**	$MirOS: ports/infrastructure/pkgtools/delete/perform.c,v 1.9 2006/02/26 00:42:55 bsiegert Exp $ */
 /*	$OpenBSD: perform.c,v 1.16 2003/08/21 20:24:56 espie Exp $	*/
 
 /*
@@ -29,7 +29,7 @@
 #include "delete.h"
 #include <libgen.h>
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/delete/perform.c,v 1.8 2005/12/20 19:22:59 tg Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/delete/perform.c,v 1.9 2006/02/26 00:42:55 bsiegert Exp $");
 
 static int pkg_do(char *);
 static void sanity_check(char *);
@@ -144,7 +144,7 @@ pkg_do(char *pkg)
     if (!KeepFiles && find_plist_option(&Plist, "base-package") != NULL) {
 	pwarnx("package '%s' is considered a BASE PACKAGE.\n"
 		"DELETING IT WILL ALMOST CERTAINLY BREAK YOUR SYSTEM%s.",
-		pkg, Force ? "\n(but I'll delete it anyway)" : 
+		pkg, Force ? "\n(but I'll delete it anyway)" :
 		".\nUse -f if you are really sure what you are doing");
 	if (!Force)
 	    return 1;

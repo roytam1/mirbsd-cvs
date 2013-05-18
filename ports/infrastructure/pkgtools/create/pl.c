@@ -1,4 +1,4 @@
-/**	$MirOS: ports/infrastructure/pkgtools/create/pl.c,v 1.19 2005/12/20 22:58:44 tg Exp $ */
+/**	$MirOS: ports/infrastructure/pkgtools/create/pl.c,v 1.20 2006/09/24 20:40:48 tg Exp $ */
 /*	$OpenBSD: pl.c,v 1.11 2003/08/15 00:03:22 espie Exp $	*/
 
 /*
@@ -29,7 +29,7 @@
 #include <md5.h>
 #include <unistd.h>
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/create/pl.c,v 1.19 2005/12/20 22:58:44 tg Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/create/pl.c,v 1.20 2006/09/24 20:40:48 tg Exp $");
 
 ld_type_t LdType = LD_STATIC;
 
@@ -92,7 +92,7 @@ check_lib(package_t *pkg, plist_t *p, char *cwd)
 		char *tmp;
 		size_t len;
 
-		tmp = copy_string(p->name); 
+		tmp = copy_string(p->name);
 		len = strlen(tmp);
 		while (len > 3 && strcmp(tmp + len - 3, ".so")) {
 			for (; len > 0 && tmp[len] != '.'; len--);

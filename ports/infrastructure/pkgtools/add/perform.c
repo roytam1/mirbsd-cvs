@@ -1,4 +1,4 @@
-/* $MirOS: ports/infrastructure/pkgtools/add/perform.c,v 1.11 2006/11/19 13:14:29 tg Exp $ */
+/* $MirOS: ports/infrastructure/pkgtools/add/perform.c,v 1.12 2006/11/19 22:16:35 bsiegert Exp $ */
 /* $OpenBSD: perform.c,v 1.32 2003/08/21 20:24:56 espie Exp $	*/
 
 /*
@@ -29,7 +29,7 @@
 #include <signal.h>
 #include <errno.h>
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/add/perform.c,v 1.11 2006/11/19 13:14:29 tg Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/add/perform.c,v 1.12 2006/11/19 22:16:35 bsiegert Exp $");
 
 static int pkg_do(char *);
 static int sanity_check(char *);
@@ -248,7 +248,7 @@ pkg_do(char *pkg)
 
     /* See if some other version of us is already installed */
     tmp = nuke_version(PkgName, true);
-    
+
 
     if (findmatchingname(dbdir, tmp, check_if_installed, installed, sizeof(installed))) {
 	pwarnx("other version '%s' already installed", installed);

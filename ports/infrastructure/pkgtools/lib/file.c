@@ -1,4 +1,4 @@
-/* $MirOS: ports/infrastructure/pkgtools/lib/file.c,v 1.11 2006/09/24 20:40:48 tg Exp $ */
+/* $MirOS: ports/infrastructure/pkgtools/lib/file.c,v 1.12 2006/11/19 22:16:36 bsiegert Exp $ */
 /* $OpenBSD: file.c,v 1.26 2003/08/21 20:24:57 espie Exp $	*/
 
 /*
@@ -33,7 +33,7 @@
 #include <libgen.h>
 #include <unistd.h>
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/file.c,v 1.11 2006/09/24 20:40:48 tg Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/file.c,v 1.12 2006/11/19 22:16:36 bsiegert Exp $");
 
 /* Try to find the log dir for an incomplete package specification.
  * Used in pkg_info and pkg_delete. Returns the number of matches,
@@ -76,7 +76,7 @@ glob_package(char *log_dir, size_t len, const char *pkg)
 	if (matches > 1) {
 		int i;
 		printf("Hint: The following versions of this package are installed:\n");
-		for (i = 0; i < matches; i++) 
+		for (i = 0; i < matches; i++)
 			printf(" %s\n", basename(pglob.gl_pathv[i]));
 	}
 

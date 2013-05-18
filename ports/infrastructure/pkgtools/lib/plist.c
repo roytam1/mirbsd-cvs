@@ -1,4 +1,4 @@
-/**	$MirOS: ports/infrastructure/pkgtools/lib/plist.c,v 1.5 2005/11/23 17:41:06 bsiegert Exp $ */
+/**	$MirOS: ports/infrastructure/pkgtools/lib/plist.c,v 1.6 2006/09/24 20:40:48 tg Exp $ */
 /*	$OpenBSD: plist.c,v 1.17 2003/08/21 20:24:57 espie Exp $	*/
 
 /*
@@ -26,7 +26,7 @@
 #include <md5.h>
 #include "rcdb.h"
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/plist.c,v 1.5 2005/11/23 17:41:06 bsiegert Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/plist.c,v 1.6 2006/09/24 20:40:48 tg Exp $");
 
 #define NULLMD5 "d41d8cd98f00b204e9800998ecf8427e"
 
@@ -598,7 +598,7 @@ delete_hierarchy(char *dir, bool ign_err, bool nukedirs)
  * the 'dir' parameter defines whether only files or only directories
  * will be deleted. Rationale: dirs will be removed in a second pass
  * after the files.
- */ 
+ */
 void
 delete_extra(const char *fname, bool dir)
 {
