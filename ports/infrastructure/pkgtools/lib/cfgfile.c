@@ -1,4 +1,4 @@
-/* $MirOS: ports/infrastructure/pkgtools/lib/cfgfile.c,v 1.1.2.14 2010/10/19 19:41:16 bsiegert Exp $ */
+/* $MirOS: ports/infrastructure/pkgtools/lib/cfgfile.c,v 1.1.2.15 2010/10/19 19:52:25 bsiegert Exp $ */
 
 /*-
  * Copyright (c) 2009, 2010
@@ -31,7 +31,7 @@
 #include <err.h>
 #include "lib.h"
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/cfgfile.c,v 1.1.2.14 2010/10/19 19:41:16 bsiegert Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/cfgfile.c,v 1.1.2.15 2010/10/19 19:52:25 bsiegert Exp $");
 
 SLIST_HEAD(cfg_varlist, cfg_var);
 struct cfg_var {
@@ -153,7 +153,8 @@ cfg_read_config(const char *filename)
 
 	cfgfile = fopen(filename ? filename : DEFAULT_CFGFILE, "r");
 	if (!cfgfile) {
-		warn("Error opening configuration file");
+		if (errno != ENOENT)
+			warn("Error opening configuration file");
 		return false;
 	}
 
