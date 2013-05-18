@@ -1,7 +1,7 @@
-$MirOS$
---- src/shell.c.orig	Mon Apr  3 20:15:38 2006
-+++ src/shell.c	Thu May  4 11:33:57 2006
-@@ -48,6 +48,8 @@
+$MirOS: ports/databases/sqlite/patches/patch-src_shell_c,v 1.1 2006/05/04 11:41:25 tg Exp $
+--- src/shell.c.orig	Sat Aug 12 12:48:55 2006
++++ src/shell.c	Fri Oct  6 20:42:30 2006
+@@ -52,6 +52,8 @@
  # define stifle_history(X)
  #endif
  
@@ -10,7 +10,7 @@ $MirOS$
  /* Make sure isatty() has a prototype.
  */
  extern int isatty();
-@@ -793,6 +795,7 @@ static void open_db(struct callback_data
+@@ -800,6 +802,7 @@ static void open_db(struct callback_data
    if( p->db==0 ){
      sqlite3_open(p->zDbFilename, &p->db);
      db = p->db;

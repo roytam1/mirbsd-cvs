@@ -1,9 +1,9 @@
-# $MirOS: ports/databases/sqlite/Makefile,v 1.5 2006/05/04 11:41:24 tg Exp $
+# $MirOS: ports/databases/sqlite/Makefile,v 1.6 2006/09/14 00:07:59 tg Exp $
 
-COMMENT=			Embedded SQL implementation
-_V=			3.3.5
+COMMENT=		Embedded SQL implementation
+_V=			3.3.7
 DISTNAME=		sqlite-${_V}
-PKGNAME=		sqlite3-${_V}-1
+PKGNAME=		sqlite3-${_V}-0
 CATEGORIES=		databases
 HOMEPAGE=		http://www.sqlite.org/
 MASTER_SITES=		${HOMEPAGE}
@@ -16,8 +16,10 @@ PERMIT_PACKAGE_FTP=	Yes
 
 CONFIGURE_STYLE=	autoconf no-autoheader
 AUTOCONF_NEW=		Yes
-CONFIGURE_ARGS=		--disable-tcl \
-			${CONFIGURE_SHARED}
+CONFIGURE_ARGS=		${CONFIGURE_SHARED} \
+			--enable-static \
+			--disable-libtool-lock \
+			--disable-tcl
 
 NO_REGRESS=		Yes
 
