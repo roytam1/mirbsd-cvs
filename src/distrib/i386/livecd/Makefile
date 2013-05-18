@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/i386/livecd/Makefile,v 1.9 2006/04/06 00:58:25 tg Exp $
+# $MirOS: src/distrib/i386/livecd/Makefile,v 1.10 2006/04/06 11:25:37 tg Exp $
 
 .include <bsd.own.mk>
 
@@ -9,7 +9,7 @@ all install:
 
 it: ${CDROM}
 
-${CDROM}: unpack prepimg nukefiles makeimg
+${CDROM}: unpack addcontrib prepimg nukefiles makeimg
 
 unpack:
 	mkdir -p workdir
@@ -18,10 +18,29 @@ unpack:
 	cd workdir && ${SUDO} tar xzphf ${BSDRELDIR}/rel/${_i}${OSrev}.ngz
 .endfor
 
+addcontrib:
+	mkdir -p tempdir/jupp
+	@if [[ -s ${BSDSRCDIR}/contrib/code/jupp/jupprc ]]; then \
+		cd tempdir/jupp; \
+		lndir ${BSDSRCDIR}/contrib/code/jupp; \
+	else \
+		cd tempdir; \
+		cvs -Rqz3 -d _anoncvs@anoncvs.66h.42h.de:/cvs co \
+		    -PAdjupp contrib/code/jupp || rm -rf jupp; \
+	fi
+	@if [[ -d tempdir/jupp ]]; then \
+		targpath=$$(readlink -nf workdir); \
+		cd tempdir/jupp; \
+		CC=${CC:Q} ${MKSH} ./configure \
+		    --prefix=/usr --sysconfdir=/etc; \
+		make; \
+		make install DESTDIR="$$targpath"; \
+	fi
+
 prepimg: bsd.gz
 	cd workdir && ${SUDO} mksh ${.CURDIR}/munge_it.sh
 	${SUDO} dd if=bsd.gz obs=2048 conv=osync of=workdir/bsd
-	${SUDO} dd if=${DESTDIR}/usr/mdec/boot obs=2048 conv=osync \
+	${SUDO} dd if=workdir/usr/mdec/boot obs=2048 conv=osync \
 	    of=workdir/etc/boot.386
 
 bsd.gz: ${REALOBJDIR}/../generic/bsd
@@ -44,10 +63,10 @@ makeimg:
 	    -no-emul-boot -boot-load-size 4 -boot-info-table \
 	    -pad -o ${CDROM} workdir
 
-.PHONY: it unpack prepimg makeimg nukefiles
+.PHONY: addcontrib it makeimg nukefiles prepimg unpack
 
 clean cleandir cleannobsd:
-	-${SUDO} rm -rf ${CDROM} workdir
+	-${SUDO} rm -rf ${CDROM} bsd bsd.gz tempdir workdir
 
 .include <bsd.obj.mk>
 .include <bsd.subdir.mk>
