@@ -1,7 +1,8 @@
-/**	$MirOS: src/usr.sbin/makefs/walk.c,v 1.6 2008/12/26 23:02:16 tg Exp $ */
+/**	$MirOS: src/usr.sbin/makefs/walk.c,v 1.7 2008/12/26 23:37:54 tg Exp $ */
 /*	$NetBSD: walk.c,v 1.23 2006/10/10 01:55:45 dbj Exp $	*/
 
 /*
+ * Copyright (c) 2009 Thorsten Glaser
  * Copyright (c) 2001 Wasabi Systems, Inc.
  * All rights reserved.
  *
@@ -43,10 +44,12 @@
 #include <sys/cdefs.h>
 #if defined(__RCSID) && !defined(__lint)
 __RCSID("$NetBSD: walk.c,v 1.23 2006/10/10 01:55:45 dbj Exp $");
-__IDSTRING(mbsdid, "$MirOS: src/usr.sbin/makefs/walk.c,v 1.6 2008/12/26 23:02:16 tg Exp $");
+__IDSTRING(mbsdid, "$MirOS: src/usr.sbin/makefs/walk.c,v 1.7 2008/12/26 23:37:54 tg Exp $");
 #endif	/* !__lint */
 
 #include <sys/param.h>
+#include <sys/time.h>
+#include <sys/stat.h>
 
 #include <assert.h>
 #include <errno.h>
@@ -56,7 +59,6 @@ __IDSTRING(mbsdid, "$MirOS: src/usr.sbin/makefs/walk.c,v 1.6 2008/12/26 23:02:16
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
-#include <sys/stat.h>
 
 #include "makefs.h"
 #include "mtree.h"
@@ -141,7 +143,7 @@ walk_dir(const char *dir, fsnode *parent)
 				cur->inode->nlink++;
 				if (debug & DEBUG_WALK_DIR_LINKCHECK)
 					printf("link_check: found [%u, %llu]\n",
-					    curino->st.st_dev,
+					    (unsigned int)curino->st.st_dev,
 					    (unsigned long long)curino->st.st_ino);
 			}
 		}
@@ -477,7 +479,8 @@ apply_specentry(const char *dir, NODE *specnode, fsnode *dirnode)
 #endif
 	if (specnode->flags & F_DEV) {
 		ASEPRINT("rdev", "%#x",
-		    dirnode->inode->st.st_rdev, specnode->st_rdev);
+		    (unsigned int)dirnode->inode->st.st_rdev,
+		    (unsigned int)specnode->st_rdev);
 		dirnode->inode->st.st_rdev = specnode->st_rdev;
 	}
 #undef ASEPRINT
@@ -547,7 +550,7 @@ inode_type(mode_t mode)
  *	return pointer to fsinode matching `entry's st_ino & st_dev if it exists,
  *	otherwise add `entry' to table and return NULL
  */
-/* This was borrowed from du.c and tweaked to keep an fsnode 
+/* This was borrowed from du.c and tweaked to keep an fsnode
  * pointer instead. -- dbj@netbsd.org
  */
 static fsinode *
@@ -566,7 +569,7 @@ link_check(fsinode *entry)
 	 */
 	const uint64_t HTCONST = 11400714819323198485ULL;
 	const int HTBITS = 64;
-	
+
 	/* Never store zero in hashtable */
 	assert(entry);
 
@@ -604,7 +607,7 @@ link_check(fsinode *entry)
 	tmp *= HTCONST;
 	h  = tmp >> (HTBITS - htshift);
 	h2 = 1 | ( tmp >> (HTBITS - (htshift<<1) - 1)); /* must be odd */
-	
+
 	/* open address hashtable search with double hash probing */
 	while (htable[h].data) {
 		if ((htable[h].data->st.st_ino == entry->st.st_ino) &&

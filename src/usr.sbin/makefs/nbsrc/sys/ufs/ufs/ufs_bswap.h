@@ -1,7 +1,8 @@
-/**	$MirOS$ */
+/**	$MirOS: src/usr.sbin/makefs/nbsrc/sys/ufs/ufs/ufs_bswap.h,v 1.4 2008/10/31 19:25:48 tg Exp $ */
 /*	$NetBSD: ufs_bswap.h,v 1.18 2006/01/29 21:42:42 dsl Exp $	*/
 
 /*
+ * Copyright (c) 2009 Thorsten Glaser.
  * Copyright (c) 1998 Manuel Bouyer.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -40,6 +41,8 @@
 
 #ifdef __MirBSD__
 #include <sys/endian.h>
+#elif defined(__GLIBC__)
+#include <endian.h>
 #else
 #include <sys/bswap.h>
 #endif

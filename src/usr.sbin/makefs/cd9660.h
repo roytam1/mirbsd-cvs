@@ -1,7 +1,8 @@
-/**	$MirOS: src/usr.sbin/makefs/cd9660.h,v 1.12 2008/11/04 00:19:00 tg Exp $ */
+/**	$MirOS: src/usr.sbin/makefs/cd9660.h,v 1.13 2008/11/06 23:45:17 tg Exp $ */
 /*	$NetBSD: cd9660.h,v 1.12 2008/07/27 10:29:32 reinoud Exp $	*/
 
 /*
+ * Copyright (c) 2009 Thorsten Glaser
  * Copyright (c) 2005 Daniel Watt, Walter Deignan, Ryan Gabrys, Alan
  * Perez-Rathke and Ram Vedam.  All rights reserved.
  *
@@ -64,6 +65,7 @@
 #define	INODE_WARNX(__x)
 #endif /* DEBUG */
 
+#undef __bounded
 #if defined(__GNUC__) && (defined(__OpenBSD__) || defined(__MirBSD__))
 #define __bounded(...)	__attribute__((__bounded__ (__VA_ARGS__)))
 #else

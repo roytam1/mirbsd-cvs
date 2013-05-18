@@ -1,4 +1,4 @@
-# $MirOS: src/usr.sbin/makefs/Makefile,v 1.17 2008/10/31 19:38:18 tg Exp $
+# $MirOS: src/usr.sbin/makefs/Makefile,v 1.18 2008/10/31 19:45:30 tg Exp $
 # $NetBSD: Makefile,v 1.22 2008/08/29 00:02:25 gmcgarry Exp $
 
 .include <bsd.own.mk>
@@ -16,7 +16,13 @@ SRCS=	buf.c \
 	walk.c
 MAN=	makefs.8
 
-.if ${OStype} == "MirBSD"
+.if (${OStype} == "MirBSD") || defined(DEBIAN)
+MAKEFS_PORT=	Yes
+.else
+MAKEFS_PORT=	No
+.endif
+
+.if ${MAKEFS_PORT:L} == "yes"
 HOSTPROG=	#defined, empty
 NETBSDSRCDIR?=	${.CURDIR}/nbsrc
 CDIAGFLAGS+=	-Wmissing-declarations -Wmissing-prototypes
@@ -35,7 +41,7 @@ CPPFLAGS+=	-I${.CURDIR} \
 .PATH:		${.CURDIR}/ffs ${UFSSRC}/ffs \
 		${.CURDIR}/cd9660 ${CD9660SRC} \
 		${MKNODSRC} ${MTREESRC}
-.if ${OStype} == "MirBSD"
+.if ${MAKEFS_PORT:L} == "yes"
 CPPFLAGS+=	-I${NETBSDSRCDIR}/sys \
 		-I${BSDSRCDIR}/sbin/mknod -I${BSDSRCDIR}/usr.sbin/mtree \
 		-I${BSDSRCDIR}/sys -I${BSDSRCDIR}/sys/isofs/cd9660
@@ -43,12 +49,16 @@ CPPFLAGS+=	-I${NETBSDSRCDIR}/sys \
 		${BSDSRCDIR}/sbin/mknod ${BSDSRCDIR}/usr.sbin/mtree
 .endif
 
-.if (${HOSTPROG:U} == "")
+.ifdef DEBIAN
+LDADD+=		-lbsd
+.endif
+
+.if (${HOSTPROG:U} == "") && !defined(DEBIAN)
 DPADD+= ${LIBUTIL}
 LDADD+= -lutil
 .endif
 
-.if ${OStype} != "MirBSD"
+.if ${MAKEFS_PORT:L} != "yes"
 WARNS?=	3
 
 .if !defined(HOSTPROGNAME)
@@ -69,8 +79,14 @@ SRCS+=		strsuftoll.c
 CPPFLAGS+=	-I${NETBSDSRCDIR}/lib/libc/stdlib
 .PATH: ${NETBSDSRCDIR}/lib/libc/stdlib
 
+.  ifdef DEBIAN
+CPPFLAGS+=	-D_GNU_SOURCE -DDEBIAN
+SRCS+=		fparseln.c
+.PATH: ${BSDSRCDIR}/lib/libutil
+.  else
 SRCS+=		stat_flags.c
 .PATH: ${NETBSDSRCDIR}/lib/libutil
+.  endif
 .endif
 
 .include <bsd.prog.mk>

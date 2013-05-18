@@ -1,6 +1,7 @@
 /*	$NetBSD: buf.c,v 1.12 2004/06/20 22:20:18 jmc Exp $	*/
 
 /*
+ * Copyright (c) 2009 Thorsten Glaser <tg@mirbsd.org>
  * Copyright (c) 2001 Wasabi Systems, Inc.
  * All rights reserved.
  *
@@ -42,6 +43,7 @@
 #include <sys/cdefs.h>
 #if defined(__RCSID) && !defined(__lint)
 __RCSID("$NetBSD: buf.c,v 1.12 2004/06/20 22:20:18 jmc Exp $");
+__IDSTRING(mbsdid, "$MirOS: src/usr.sbin/makefs/ffs/ffs_balloc.c,v 1.4 2008/10/31 21:24:24 tg Exp $");
 #endif	/* !__lint */
 
 #include <sys/param.h>
@@ -49,6 +51,7 @@ __RCSID("$NetBSD: buf.c,v 1.12 2004/06/20 22:20:18 jmc Exp $");
 
 #include <assert.h>
 #include <errno.h>
+#include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -124,7 +127,7 @@ brelse(struct buf *bp)
 		bp->b_bcount = 0;
 		return;
 	}
-		
+
 	TAILQ_REMOVE(&buftail, bp, b_tailq);
 	free(bp->b_data);
 	free(bp);
@@ -166,7 +169,7 @@ bcleanup(void)
 	 *	know why there's still some buffers lying around that
 	 *	aren't brelse()d
 	 */
-	
+
 	if (TAILQ_EMPTY(&buftail))
 		return;
 
@@ -207,7 +210,7 @@ getblk(int fd, struct fs *fs, daddr_t blkno, int size)
 	if (bp == NULL) {
 		if ((bp = calloc(1, sizeof(struct buf))) == NULL)
 			err(1, "getblk: calloc");
-			
+
 		bp->b_bufsize = 0;
 		bp->b_blkno = bp->b_lblkno = blkno;
 		bp->b_fd = fd;

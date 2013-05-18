@@ -1,7 +1,8 @@
-/**	$MirOS: src/usr.sbin/makefs/nbsrc/lib/libc/gen/pwcache.h,v 1.6 2008/10/31 19:45:30 tg Exp $ */
+/**	$MirOS: src/usr.sbin/makefs/nbsrc/lib/libc/gen/pwcache.h,v 1.7 2008/10/31 21:03:56 tg Exp $ */
 /*	$NetBSD: pwcache.h,v 1.5 2003/11/10 08:51:51 wiz Exp $	*/
 
 /*-
+ * Copyright (c) 2009 Thorsten Glaser.
  * Copyright (c) 1992 Keith Muller.
  * Copyright (c) 1992, 1993
  *	The Regents of the University of California.  All rights reserved.
@@ -72,7 +73,7 @@ typedef struct gidc {
 	gid_t gid;		/* cached gid */
 } GIDC;
 
-#ifdef __MirBSD__
+#if defined(__MirBSD__) || defined(DEBIAN)
 const char *__nbcompat_user_from_uid(uid_t uid, int noname);
 const char *__nbcompat_group_from_gid(gid_t gid, int noname);
 int uid_from_user(const char *name, uid_t *uid);

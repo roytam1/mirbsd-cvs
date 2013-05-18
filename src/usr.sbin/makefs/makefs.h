@@ -1,7 +1,8 @@
-/**	$MirOS: src/usr.sbin/makefs/makefs.h,v 1.8 2008/11/06 18:13:22 tg Exp $ */
+/**	$MirOS: src/usr.sbin/makefs/makefs.h,v 1.9 2008/12/26 23:37:54 tg Exp $ */
 /*	$NetBSD: makefs.h,v 1.19 2006/10/10 01:55:45 dbj Exp $	*/
 
 /*
+ * Copyright (c) 2009 Thorsten Glaser
  * Copyright (c) 2001 Wasabi Systems, Inc.
  * All rights reserved.
  *
@@ -64,6 +65,11 @@
 
 #include <sys/stat.h>
 #include <err.h>
+
+#ifdef DEBIAN
+#undef __unused
+#define __unused __attribute__((unused))
+#endif
 
 /*
  * fsnode -

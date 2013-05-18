@@ -1,6 +1,7 @@
-/*	$NetBSD: cd9660_debug.c,v 1.4 2005/12/24 20:56:41 perry Exp $	*/
+/*	$NetBSD: cd9660_debug.c,v 1.8 2007/01/30 01:46:33 dogcow Exp $	*/
 
 /*
+ * Copyright (c) 2009 Thorsten Glaser
  * Copyright (c) 2005 Daniel Watt, Walter Deignan, Ryan Gabrys, Alan
  * Perez-Rathke and Ram Vedam.  All rights reserved.
  *
@@ -40,7 +41,8 @@
 #include <sys/param.h>
 
 #if defined(__RCSID) && !defined(__lint)
-__RCSID("$NetBSD: cd9660_debug.c,v 1.4 2005/12/24 20:56:41 perry Exp $");
+__RCSID("$NetBSD: cd9660_debug.c,v 1.8 2007/01/30 01:46:33 dogcow Exp $");
+__IDSTRING(mbsdid, "$MirOS: src/usr.sbin/makefs/cd9660/iso9660_rrip.c,v 1.21 2009/06/29 18:58:55 tg Exp $");
 #endif  /* !__lint */
 
 #if !HAVE_NBTOOL_CONFIG_H
@@ -94,6 +96,7 @@ debug_print_susp_attrs(cd9660node *n, int indent)
 void
 debug_print_tree(cd9660node *node, int level)
 {
+#if !HAVE_NBTOOL_CONFIG_H
 	cd9660node *cn;
 
 	print_n_tabs(level);
@@ -123,6 +126,9 @@ debug_print_tree(cd9660node *node, int level)
 		debug_print_susp_attrs(node, level + 1);
 	TAILQ_FOREACH(cn, &node->cn_children, cn_next_child)
 		debug_print_tree(cn, level + 1);
+#else
+	printf("Sorry, debuging is not supported in host-tools mode.\n");
+#endif
 }
 
 void
@@ -291,6 +297,7 @@ debug_dump_to_xml_padded_hex_output(const char *element, unsigned char *buf,
 int
 debug_get_encoded_number(unsigned char* buf, int mode)
 {
+#if !HAVE_NBTOOL_CONFIG_H
 	switch (mode) {
 	/* 711: Single bite */
 	case 711:
@@ -298,7 +305,7 @@ debug_get_encoded_number(unsigned char* buf, int mode)
 
 	/* 712: Single signed byte */
 	case 712:
-		return isonum_712((signed char *)buf);
+		return isonum_712((char *)buf);
 
 	/* 721: 16 bit LE */
 	case 721:
@@ -324,6 +331,7 @@ debug_get_encoded_number(unsigned char* buf, int mode)
 	case 733:
 		return isonum_733(buf);
 	}
+#endif
 	return 0;
 }
 
@@ -335,7 +343,7 @@ debug_dump_integer(const char *element, char* buf, int mode)
 }
 
 void
-debug_dump_string(const char *element, unsigned char *buf, int len)
+debug_dump_string(const char *element __unused, unsigned char *buf __unused, int len __unused)
 {
 
 }

@@ -1,7 +1,8 @@
-/**	$MirOS: src/usr.sbin/makefs/makefs.c,v 1.7 2008/10/31 19:45:30 tg Exp $ */
+/**	$MirOS: src/usr.sbin/makefs/makefs.c,v 1.8 2008/10/31 21:24:24 tg Exp $ */
 /*	$NetBSD: makefs.c,v 1.26 2006/10/22 21:11:56 christos Exp $	*/
 
 /*
+ * Copyright (c) 2009 Thorsten Glaser
  * Copyright (c) 2001-2003 Wasabi Systems, Inc.
  * All rights reserved.
  *
@@ -40,15 +41,18 @@
 #include "nbtool_config.h"
 #endif
 
-#ifdef __MirBSD__
+#if defined(__MirBSD__) || defined(DEBIAN)
 #include "mbsdtree.h"
 #endif
 
 #include <sys/cdefs.h>
 #if defined(__RCSID) && !defined(__lint)
 __RCSID("$NetBSD: makefs.c,v 1.26 2006/10/22 21:11:56 christos Exp $");
-__IDSTRING(mbsdid, "$MirOS: src/usr.sbin/makefs/makefs.c,v 1.7 2008/10/31 19:45:30 tg Exp $");
+__IDSTRING(mbsdid, "$MirOS: src/usr.sbin/makefs/makefs.c,v 1.8 2008/10/31 21:24:24 tg Exp $");
 #endif	/* !__lint */
+
+#include <sys/param.h>
+#include <sys/time.h>
 
 #include <assert.h>
 #include <ctype.h>
@@ -194,7 +198,7 @@ main(int argc, char *argv[])
 			fsoptions.maxsize =
 			    strsuftoll("maximum size", optarg, 1LL, LLONG_MAX);
 			break;
-			
+
 		case 'o':
 		{
 			char *p;
@@ -306,7 +310,7 @@ static fstype_t *
 get_fstype(const char *type)
 {
 	int i;
-	
+
 	for (i = 0; fstypes[i].type != NULL; i++)
 		if (strcmp(fstypes[i].type, type) == 0)
 			return (&fstypes[i]);

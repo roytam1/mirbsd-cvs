@@ -2,6 +2,7 @@
 /*	$NetBSD: fparseln.c,v 1.7 1999/07/02 15:49:12 simonb Exp $	*/
 
 /*
+ * Copyright (c) 2009 Thorsten Glaser
  * Copyright (c) 1997 Christos Zoulas.  All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -30,17 +31,19 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#if defined(LIBC_SCCS) && !defined(lint)
-static const char rcsid[] = "$OpenBSD: fparseln.c,v 1.5 2004/05/28 07:03:47 deraadt Exp $";
-#endif /* LIBC_SCCS and not lint */
-
 #include <sys/cdefs.h>
 
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
 
+#ifdef DEBIAN
+#include "mbsdtree.h"
+#else
 #include "util.h"
+#endif
+
+__RCSID("$MirOS$");
 
 static int isescaped(const char *, const char *, int);
 

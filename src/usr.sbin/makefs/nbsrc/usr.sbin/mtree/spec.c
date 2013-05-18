@@ -1,7 +1,9 @@
-/**	$MirOS: src/usr.sbin/makefs/nbsrc/usr.sbin/mtree/spec.c,v 1.7 2008/10/31 21:24:26 tg Exp $ */
+/**	$MirOS: src/usr.sbin/makefs/nbsrc/usr.sbin/mtree/spec.c,v 1.8 2008/10/31 21:36:40 tg Exp $ */
 /*	$NetBSD: spec.c,v 1.65 2008/04/28 20:24:17 martin Exp $	*/
 
 /*-
+ * Copyright (c) 2009
+ *	Thorsten Glaser <tg@mirbsd.org>
  * Copyright (c) 1989, 1993
  *	The Regents of the University of California.  All rights reserved.
  *
@@ -63,7 +65,7 @@
 #include "nbtool_config.h"
 #endif
 
-#ifdef __MirBSD__
+#if defined(__MirBSD__) || defined(DEBIAN)
 #include "mbsdtree.h"
 #endif
 
@@ -73,7 +75,7 @@
 static char sccsid[] = "@(#)spec.c	8.2 (Berkeley) 4/28/95";
 #else
 __RCSID("$NetBSD: spec.c,v 1.65 2008/04/28 20:24:17 martin Exp $");
-__IDSTRING(mbsdid, "$MirOS: src/usr.sbin/makefs/nbsrc/usr.sbin/mtree/spec.c,v 1.7 2008/10/31 21:24:26 tg Exp $");
+__IDSTRING(mbsdid, "$MirOS: src/usr.sbin/makefs/nbsrc/usr.sbin/mtree/spec.c,v 1.8 2008/10/31 21:36:40 tg Exp $");
 #endif
 #endif /* not lint */
 
@@ -89,12 +91,14 @@ __IDSTRING(mbsdid, "$MirOS: src/usr.sbin/makefs/nbsrc/usr.sbin/mtree/spec.c,v 1.
 #include <string.h>
 #include <unistd.h>
 #include <vis.h>
+#ifndef DEBIAN
 #include <util.h>
+#endif
 
 #include "extern.h"
 #include "pack_dev.h"
 
-#ifdef __MirBSD__
+#if defined(__MirBSD__) || defined(DEBIAN)
 #include "pwcache.h"
 #endif
 
@@ -305,6 +309,7 @@ free_nodes(NODE *root)
 	}
 }
 
+#ifndef DEBIAN
 /*
  * dump_nodes --
  *	dump the NODEs from `cur', based in the directory `dir'.
@@ -352,7 +357,7 @@ dump_nodes(const char *dir, NODE *root, int pathlast)
 			printf("mode=%#o ", cur->st_mode);
 		if (MATCHFLAG(F_DEV) &&
 		    (cur->type == F_BLOCK || cur->type == F_CHAR))
-			printf("device=%#x ", cur->st_rdev);
+			printf("device=%#x ", (unsigned int)cur->st_rdev);
 		if (MATCHFLAG(F_NLINK))
 			printf("nlink=%d ", cur->st_nlink);
 		if (MATCHFLAG(F_SLINK))
@@ -409,6 +414,7 @@ vispath(const char *path)
 	strsvis(pathbuf, path, VIS_CSTYLE, extra);
 	return(pathbuf);
 }
+#endif /* ndef DEBIAN */
 
 
 static dev_t
@@ -536,11 +542,13 @@ set(char *t, NODE *ip)
 			ip->st_rdev = parsedev(val);
 			break;
 		case F_FLAGS:
+#ifndef DEBIAN
 			if (strcmp("none", val) == 0)
 				ip->st_flags = 0;
 			else if (string_to_flags(&val, &ip->st_flags, NULL)
 			    != 0)
 				mtree_err("invalid flag `%s'", val);
+#endif
 			break;
 		case F_GID:
 			ip->st_gid = (gid_t)strtoul(val, &ep, 10);

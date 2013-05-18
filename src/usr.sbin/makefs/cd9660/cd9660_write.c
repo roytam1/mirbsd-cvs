@@ -1,7 +1,8 @@
-/**	$MirOS: src/usr.sbin/makefs/cd9660/cd9660_write.c,v 1.7 2009/01/18 18:47:06 tg Exp $ */
+/**	$MirOS: src/usr.sbin/makefs/cd9660/cd9660_write.c,v 1.8 2009/07/03 19:20:11 tg Exp $ */
 /*	$NetBSD: cd9660_write.c,v 1.9 2008/05/10 19:00:07 skrll Exp $	*/
 
 /*
+ * Copyright (c) 2009 Thorsten Glaser
  * Copyright (c) 2005 Daniel Watt, Walter Deignan, Ryan Gabrys, Alan
  * Perez-Rathke and Ram Vedam.  All rights reserved.
  *
@@ -39,7 +40,7 @@
 #include <sys/cdefs.h>
 #if defined(__RCSID) && !defined(__lint)
 __RCSID("$NetBSD: cd9660_write.c,v 1.9 2008/05/10 19:00:07 skrll Exp $");
-__IDSTRING(mbsdid, "$MirOS: src/usr.sbin/makefs/cd9660/cd9660_write.c,v 1.7 2009/01/18 18:47:06 tg Exp $");
+__IDSTRING(mbsdid, "$MirOS: src/usr.sbin/makefs/cd9660/cd9660_write.c,v 1.8 2009/07/03 19:20:11 tg Exp $");
 #endif  /* !__lint */
 
 #include <inttypes.h>
@@ -77,7 +78,8 @@ cd9660_write_image(const char* image)
 
 	/* write padding first, it gets overwritten if we have none */
 	memset(buf, 0, 2048);
-	cd9660_write_filedata(fd, diskStructure.totalSectors - 1, buf, 1);
+	cd9660_write_filedata(fd, diskStructure.totalSectors - 1,
+	    (unsigned char *)buf, 1);
 
 	if (diskStructure.has_generic_bootimage) {
 		status = cd9660_copy_file(fd, 0,

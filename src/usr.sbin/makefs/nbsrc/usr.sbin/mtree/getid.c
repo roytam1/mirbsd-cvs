@@ -1,9 +1,11 @@
-/**	$MirOS$ */
+/**	$MirOS: src/usr.sbin/makefs/nbsrc/usr.sbin/mtree/getid.c,v 1.6 2008/10/31 19:45:31 tg Exp $ */
 /*	$NetBSD: getid.c,v 1.7 2008/04/28 20:24:17 martin Exp $	*/
 /*	from: NetBSD: getpwent.c,v 1.48 2000/10/03 03:22:26 enami Exp */
 /*	from: NetBSD: getgrent.c,v 1.41 2002/01/12 23:51:30 lukem Exp */
 
 /*
+ * Copyright (c) 2009
+ *	Thorsten Glaser <tg@mirbsd.org>
  * Copyright (c) 1987, 1988, 1989, 1993, 1994, 1995
  *	The Regents of the University of California.  All rights reserved.
  *
@@ -67,7 +69,7 @@
 
 #include <sys/cdefs.h>
 __RCSID("$NetBSD: getid.c,v 1.7 2008/04/28 20:24:17 martin Exp $");
-__IDSTRING(mbsdid, "$MirOS$");
+__IDSTRING(mbsdid, "$MirOS: src/usr.sbin/makefs/nbsrc/usr.sbin/mtree/getid.c,v 1.6 2008/10/31 19:45:31 tg Exp $");
 
 #include <sys/param.h>
 
@@ -82,8 +84,16 @@ __IDSTRING(mbsdid, "$MirOS$");
 
 #include "extern.h"
 
-#ifdef __MirBSD__
+#if defined(__MirBSD__) || defined(DEBIAN)
 #include "pwcache.h"
+#endif
+
+/* XXX eglibc? */
+#ifndef UID_MAX
+#define UID_MAX		UINT_MAX	/* max value for a uid_t */
+#endif
+#ifndef GID_MAX
+#define GID_MAX		UINT_MAX	/* max value for a gid_t */
 #endif
 
 static	struct group *	gi_getgrnam(const char *);
@@ -434,4 +444,3 @@ pwmatchline(int search, uid_t uid, const char *name)
 
 	return 1;
 }
-

@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.sbin/makefs/ffs.c,v 1.8 2008/10/31 21:24:23 tg Exp $ */
+/**	$MirOS: src/usr.sbin/makefs/ffs.c,v 1.9 2008/10/31 21:36:39 tg Exp $ */
 /*	$NetBSD: ffs.c,v 1.42 2006/12/18 21:03:29 christos Exp $	*/
 
 /*
@@ -36,6 +36,8 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 /*
+ * Copyright (c) 2009
+ *	Thorsten Glaser <tg@mirbsd.org>
  * Copyright (c) 1982, 1986, 1989, 1993
  *	The Regents of the University of California.  All rights reserved.
  *
@@ -73,10 +75,11 @@
 #include <sys/cdefs.h>
 #if defined(__RCSID) && !defined(__lint)
 __RCSID("$NetBSD: ffs.c,v 1.42 2006/12/18 21:03:29 christos Exp $");
-__IDSTRING(mbsdid, "$MirOS: src/usr.sbin/makefs/ffs.c,v 1.8 2008/10/31 21:24:23 tg Exp $");
+__IDSTRING(mbsdid, "$MirOS: src/usr.sbin/makefs/ffs.c,v 1.9 2008/10/31 21:36:39 tg Exp $");
 #endif	/* !__lint */
 
 #include <sys/param.h>
+#include <sys/time.h>
 
 #if !HAVE_NBTOOL_CONFIG_H
 #include <sys/mount.h>
@@ -106,6 +109,10 @@ __IDSTRING(mbsdid, "$MirOS: src/usr.sbin/makefs/ffs.c,v 1.8 2008/10/31 21:24:23 
 #include "ffs/ufs_inode.h"
 #include "ffs/newfs_extern.h"
 #include "ffs/ffs_extern.h"
+
+#ifndef MAXPHYS
+#define MAXPHYS		(64 * 1024)	/* max raw I/O transfer size */
+#endif
 
 #undef DIP
 #define DIP(dp, field) \
@@ -393,11 +400,11 @@ ffs_validate(const char *dir, fsnode *root, fsinfo_t *fsopts)
 		/* add space needed to store inodes, x3 for blockmaps, etc */
 	if (ffs_opts->version == 1)
 		fsopts->size += ncg * DINODE1_SIZE *
-		    roundup(fsopts->inodes / ncg, 
+		    roundup(fsopts->inodes / ncg,
 			ffs_opts->bsize / DINODE1_SIZE);
 	else
 		fsopts->size += ncg * DINODE2_SIZE *
-		    roundup(fsopts->inodes / ncg, 
+		    roundup(fsopts->inodes / ncg,
 			ffs_opts->bsize / DINODE2_SIZE);
 
 		/* add minfree */
@@ -936,7 +943,7 @@ ffs_write_file(union dinode *din, uint32_t ino, void *buf, fsinfo_t *fsopts)
 		if (!isfile)
 			p += chunk;
 	}
-  
+
  write_inode_and_leave:
 	ffs_write_inode(&in.i_din, in.i_number, fsopts);
 
@@ -1083,7 +1090,7 @@ ffs_write_inode(union dinode *dp, uint32_t ino, const fsinfo_t *fsopts)
 	if (S_ISDIR(DIP(dp, mode))) {
 		ufs_add32(cgp->cg_cs.cs_ndir, 1, fsopts->needswap);
 		fs->fs_cstotal.cs_ndir++;
-		fs->fs_cs(fs, cg).cs_ndir++; 
+		fs->fs_cs(fs, cg).cs_ndir++;
 	}
 
 	/*
