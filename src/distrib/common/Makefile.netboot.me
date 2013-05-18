@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/Makefile.netboot.me,v 1.1 2010/01/30 14:31:02 tg Exp $
+# $MirOS: src/distrib/common/Makefile.netboot.me,v 1.2 2010/08/06 15:40:01 tg Exp $
 
 CBIN?=		instbin
 IMAGESIZE=	8192
@@ -73,12 +73,13 @@ cdrom-mdcopy:
 	dd if=/dev/arandom bs=2048 count=1 of=eltorito.loo
 	-rm -rf templates
 	mkdir -p templates/bsd4me
+	mv ${WRKDIR}/boot templates/
 	mv ${WRKDIR}/v${OSrev}/${MACHINE}/bsd.rd templates/bsd4me/bsd
 	cd ${WRKDIR} && rm -rf *
 	cp ${.CURDIR}/boot.cfg LICENCE.TXT gpl_srcs.tgz ldbsd.{com,txt} \
 	    templates/bsd4me/
-	chmod 0644 templates/bsd4me/*
-	cd templates && pax -rw -l -pe bsd4me ${WRKDIR}/
+	chmod 0644 templates/bsd4me/* templates/boot/grub/*
+	cd templates && pax -rw -l -pe bsd4me boot/grub ${WRKDIR}/
 	ln ${WRKDIR}/bsd4me/ldbsd.com ${WRKDIR}/b_${MACHINE}.ldr
 	@:>templates/bsd4me.stamp
 

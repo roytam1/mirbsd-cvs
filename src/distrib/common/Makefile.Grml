@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/Makefile.Grml,v 1.1 2010/01/30 14:31:02 tg Exp $
+# $MirOS: src/distrib/common/Makefile.Grml,v 1.2 2010/08/06 15:40:01 tg Exp $
 
 CBIN?=		instbin
 IMAGESIZE=	8192
@@ -84,7 +84,7 @@ cdrom-mdcopy:
 	cd ${WRKDIR} && rm -rf *
 	cp ${.CURDIR}/boot.* LICENCE.TXT gpl_srcs.tgz ldbsd.{com,iso,txt} \
 	    templates/boot/addons/bsd4grml/
-	chmod 0644 templates/boot/addons/bsd4grml/*
+	chmod 0644 templates/boot/addons/bsd4grml/* templates/boot/grub/*
 	cd templates && pax -rw -l -pe boot ${WRKDIR}/
 	rm -f templates/boot/addons/bsd4grml/ldbsd.iso
 	ln ${WRKDIR}/boot/addons/bsd4grml/ldbsd.iso ${WRKDIR}/b_${MACHINE}.ldr
