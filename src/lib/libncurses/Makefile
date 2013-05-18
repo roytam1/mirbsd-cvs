@@ -1,4 +1,4 @@
-# $MirOS: src/lib/libncurses/Makefile,v 1.4 2006/10/27 16:12:50 tg Exp $
+# $MirOS: src/lib/libncurses/Makefile,v 1.5 2006/10/28 19:07:56 tg Exp $
 
 LIB=		ncurses
 LIBLINKS=	curses ncursesw termcap termlib
@@ -477,6 +477,12 @@ MLINKS+=	default_colors.3 assume_default_colors.3
 MLINKS+=	default_colors.3 use_default_colors.3
 MLINKS+=	resizeterm.3 is_term_resized.3
 MLINKS+=	resizeterm.3 resize_term.3
+
+# OpenBSD special
+MLINKS+=	curs_termcap.3 termcap.3
+MLINKS+=	curs_termcap.3 tparam.3
+MLINKS+=	curs_terminfo.3 terminfo.3
+MLINKS+=	ncurses.3 curses.3
 
 .include <bsd.own.mk>
 
