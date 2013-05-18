@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/stand/libsa/pxe.c,v 1.18 2009/01/12 19:39:22 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/stand/libsa/pxe.c,v 1.19 2009/03/15 17:14:14 tg Exp $ */
 /*	$OpenBSD: pxe.c,v 1.5 2007/07/27 17:46:56 tom Exp $ */
 /*	$NetBSD: pxe.c,v 1.5 2003/03/11 18:29:00 drochner Exp $	*/
 
@@ -389,7 +389,7 @@ pxe_init(int quiet)
 	if (!(i386_dosdev & 1))
 		return (1);	/* PXE scan disabled */
 
-	for (cp = (char *)0xa0000; cp >= (char *)0x10000; cp -= 0x10) {
+	for (cp = (char *)0x90000; cp >= (char *)0x10000; cp -= 0x10) {
 		if (pxenv == NULL)
 			try_pxenv(cp);
 		if (pxe == NULL)
