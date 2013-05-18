@@ -1,8 +1,9 @@
 #!/bin/mksh
-# $MirOS: src/distrib/miniroot/install.sh,v 1.15 2006/08/16 18:46:14 tg Exp $
+# $MirOS: src/distrib/common/install.sh,v 1.1 2006/08/17 19:34:14 tg Exp $
 # $OpenBSD: install.sh,v 1.152 2005/04/21 21:41:33 krw Exp $
 # $NetBSD: install.sh,v 1.5.2.8 1996/08/27 18:15:05 gwr Exp $
 #
+# Copyright (c) 2007 Thorsten Glaser
 # Copyright (c) 1997-2004 Todd Miller, Theo de Raadt, Ken Westerback
 # All rights reserved.
 #
@@ -358,7 +359,8 @@ use to log in and work with the system, as well as do administrative
 tasks using sudo(8). The newly created user account will be added to
 the class 'staff', and the group 'wheel' for being able to use sudo,
 as well as 'wsrc' and 'staff'. You might want to add yourself to the
-groups 'operator', 'audio', etc. manually later.
+groups 'operator', 'audio', etc. manually later. eMail for root will
+be forwarded to this user as well.
 EOF
 _oifs=$IFS
 IFS=; _rootuser=; full=; _rootuid=3000
@@ -452,10 +454,13 @@ $_rootuser:*:$_rootuid:
 wq
 EOF
 print "%g/@ROOT@/s//$_rootuser/\nwq" | ed -s /mnt/etc/sudoers
+print '/^. root:$/'"s//root:\t\t$_rootuser/\nwq" | ed -s /mnt/etc/mail/aliases
 cp -r /mnt/etc/skel /mnt/home/$_rootuser
 chmod 711 /mnt/home/$_rootuser
 chown -R $_rootuid:$_rootuid /mnt/home/$_rootuser
 /mnt/usr/sbin/pwd_mkdb -pd /mnt/etc master.passwd
+# XXX this can be slow due to DNS, but what the hey…
+/mnt/usr/sbin/chroot /mnt usr/bin/newaliases
 
 echo -n "done.\nGenerating initial host.random file..."
 dd if=/dev/arandom of=/mnt/var/db/host.random bs=1024 count=16 >/dev/null 2>&1
