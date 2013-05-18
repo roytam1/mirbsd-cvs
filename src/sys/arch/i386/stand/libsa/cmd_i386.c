@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/stand/libsa/cmd_i386.c,v 1.19 2009/01/02 20:21:54 tg Exp $	*/
+/**	$MirOS: src/sys/arch/i386/stand/libsa/cmd_i386.c,v 1.20 2009/01/02 20:37:30 tg Exp $	*/
 /*	$OpenBSD: cmd_i386.c,v 1.29 2006/09/18 21:14:15 mpf Exp $	*/
 
 /*
@@ -43,10 +43,6 @@
 extern const char version[];
 extern int i386_flag_oldbios;
 extern struct disklist_lh disklist;
-
-#ifndef SMALL_BOOT
-extern uint32_t bios_bootpte[4];
-#endif
 
 #ifndef SMALL_BOOT
 int Xboot(void);
@@ -282,6 +278,8 @@ Xoldbios(void)
 }
 
 #ifndef SMALL_BOOT
+extern uint8_t i386_biosdev;
+
 int
 Xmdexec(void)
 {
@@ -346,6 +344,6 @@ Xmdexec(void)
 	}
 
 	gateA20(0);
-	bootbuf(buf, sz, baddr, i386_bootdev, jaddr);
+	bootbuf(buf, sz, baddr, i386_biosdev, jaddr);
 }
 #endif

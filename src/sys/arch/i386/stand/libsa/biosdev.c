@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/stand/libsa/biosdev.c,v 1.23 2009/01/03 16:21:40 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/stand/libsa/biosdev.c,v 1.24 2009/01/10 18:15:10 tg Exp $ */
 /*	$OpenBSD: biosdev.c,v 1.74 2008/06/25 15:32:18 reyk Exp $	*/
 
 /*
@@ -52,10 +52,6 @@ static __inline int EDD_rw (int, int, u_int64_t, u_int32_t, void *);
 static __inline int real_io(int, bios_diskinfo_t *, daddr_t, int, void *);
 
 extern int debug;
-#ifndef SMALL_BOOT
-extern uint32_t bios_bootpte[4];
-#endif
-extern uint8_t i386_userpt;
 int i386_flag_oldbios = 0;
 
 #if 0

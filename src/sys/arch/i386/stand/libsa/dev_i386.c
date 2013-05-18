@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/stand/libsa/dev_i386.c,v 1.9 2009/01/02 16:56:47 tg Exp $	*/
+/**	$MirOS: src/sys/arch/i386/stand/libsa/dev_i386.c,v 1.10 2009/01/10 14:49:04 tg Exp $	*/
 /*	$OpenBSD: dev_i386.c,v 1.30 2007/06/27 20:29:37 mk Exp $	*/
 
 /*
@@ -33,10 +33,6 @@
 #include <dev/cons.h>
 
 extern int debug;
-
-#ifndef SMALL_BOOT
-int i386_bootdev;
-#endif
 
 /* XXX use slot for 'rd' for 'hd' pseudo-device */
 const char bdevs[][4] = {
@@ -95,8 +91,6 @@ void
 devboot(dev_t bootdev, char *p)
 {
 #ifndef SMALL_BOOT
-	i386_bootdev = bootdev;
-
 //	if (i386_toridev) {	//XXX
 		*p++ = 'c';
 		*p++ = 'd';

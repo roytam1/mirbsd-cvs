@@ -46,8 +46,6 @@ TAILQ_HEAD(disklist_lh, diskinfo);
 /* Head of this list */
 extern struct diskinfo *bootdev_dip;
 
-extern int i386_bootdev;
-
 void dump_diskinfo(void);
 int disk_trylabel(struct diskinfo *);
 

@@ -36,7 +36,10 @@
 	.globl	_C_LABEL(boot)
 	.globl	_C_LABEL(_rtt)
 	.globl	_C_LABEL(bios_bootpte)
-	.globl	_C_LABEL(i386_userpt)
+	.globl	i386_userpt
+	.globl	i386_biosdev
+	.globl	i386_biosflags
+	.globl	i386_dosdev
 	.globl	idt_init
 	.globl	Gdtr
 
@@ -216,7 +219,10 @@ pxe_progname:
 
 _C_LABEL(bios_bootpte):
 	.long	0, 0, 0, 0
-_C_LABEL(i386_userpt):
+i386_userpt:
+i386_biosdev:
+i386_biosflags:
+i386_dosdev:
 	.byte	0
 
 	bounce_buf = 0x30000

@@ -1,4 +1,4 @@
-/*	$MirOS$ */
+/*	$MirOS: src/sys/arch/i386/stand/libsa/pxe.c,v 1.6 2009/01/10 13:03:40 tg Exp $ */
 /*	$OpenBSD: pxe.c,v 1.5 2007/07/27 17:46:56 tom Exp $ */
 /*	$NetBSD: pxe.c,v 1.5 2003/03/11 18:29:00 drochner Exp $	*/
 
@@ -439,8 +439,7 @@ pxe_init(int quiet)
 		return 1;
 	}
 
-	memcpy(&bootplayer,
-	    SEGOFF2FLAT(gci->Buffer.segment, gci->Buffer.offset),
+	memcpy(&bootplayer, PTOV(gci->Buffer.segment, gci->Buffer.offset),
 	    gci->BufferSize);
 
 	bcopy(&bootplayer.yip, &myip.s_addr, sizeof(myip.s_addr));

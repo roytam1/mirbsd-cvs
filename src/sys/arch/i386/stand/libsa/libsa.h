@@ -1,3 +1,4 @@
+/*	$MirOS$ */
 /*	$OpenBSD: libsa.h,v 1.44 2007/04/27 10:08:34 tom Exp $	*/
 
 /*
@@ -36,6 +37,10 @@
 
 #define	DEFAULT_KERNEL_ADDRESS	0
 
+#define VTOPSEG(vaddr)	(((uint32_t)vaddr) >> 4)
+#define VTOPOFF(vaddr)	(((uint32_t)vaddr) & 15)
+#define PTOV(seg,ofs)	((void *)((((uint32_t)seg) << 4) + ((uint32_t)ofs)))
+
 struct i386_boot_probes {
 	char *name;
 	void (**probes)(void);
@@ -72,6 +77,12 @@ extern const char bdevs[][4];
 extern const int nbdevs;
 extern u_int cnvmem, extmem; /* XXX global pass memprobe()->machdep_start() */
 extern int ps2model;
+
+extern uint32_t bios_bootpte[4];
+extern uint8_t i386_userpt;
+extern uint8_t i386_biosdev;
+extern uint8_t i386_biosflags;
+extern uint8_t i386_dosdev;
 
 extern struct i386_boot_probes probe_list[];
 extern int nibprobes;

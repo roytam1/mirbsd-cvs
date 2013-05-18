@@ -1,4 +1,4 @@
-/*	$MirOS$ */
+/*	$MirOS: src/sys/arch/i386/stand/libsa/pxeboot.h,v 1.2 2009/01/10 13:03:40 tg Exp $ */
 /*	$OpenBSD: pxeboot.h,v 1.1 2004/03/19 13:48:18 tom Exp $ */
 /*	$NetBSD$	*/
 
@@ -36,13 +36,6 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-
-/* Flat address space for [pxe]boot in protected mode */
-#define	VTOPSEG(vaddr)	(((u_int32_t) vaddr) >> 4)
-#define	VTOPOFF(vaddr)	(((u_int32_t) vaddr) & 0xf)
-
-#define SEGOFF2FLAT(seg, off) ((void *)((((u_int32_t)(seg))<<4) + \
-    ((u_int32_t)(off))))
 
 extern int have_pxe;
 

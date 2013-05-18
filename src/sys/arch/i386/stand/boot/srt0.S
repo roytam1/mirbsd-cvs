@@ -1,4 +1,4 @@
-/* $MirOS: src/sys/arch/i386/stand/boot/srt0.S,v 1.51 2009/01/10 18:15:09 tg Exp $ */
+/* $MirOS: src/sys/arch/i386/stand/boot/srt0.S,v 1.52 2009/01/10 19:21:26 tg Exp $ */
 
 /*-
  * Copyright (c) 2003, 2004, 2005, 2006, 2007, 2008, 2009
@@ -38,6 +38,9 @@
 	.globl	_start
 	.globl	bios_bootpte
 	.globl	i386_userpt
+	.globl	i386_biosdev
+	.globl	i386_biosflags
+	.globl	i386_dosdev
 	.globl	pxe_bang
 	.globl	pxe_plus
 
