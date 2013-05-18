@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/distrib/common/install.sh,v 1.9 2007/06/16 22:36:47 tg Exp $
+# $MirOS: src/distrib/common/install.sh,v 1.10 2007/06/22 20:02:56 tg Exp $
 # $OpenBSD: install.sh,v 1.152 2005/04/21 21:41:33 krw Exp $
 # $NetBSD: install.sh,v 1.5.2.8 1996/08/27 18:15:05 gwr Exp $
 #
@@ -482,15 +482,23 @@ cat >/mnt/etc/rc.once <<-'EOF'
 	cd /
 	# lock to prevent double-runs
 	print -n postinstall run-once >/var/run/cron.maintenance
+	print starting postingstall script | logger -t rc.once
 	newaliases 2>&1 | logger -t rc.once
 	sync
 	( (
+		print running BSDstats script
 		stats_sysadd=-firstrun mksh /usr/share/misc/bsdstats
 		rm -f /var/run/cron.maintenance
 		# the following ones lock themselves
-		mksh /etc/cronrun daily
-		mksh /etc/cronrun weekly
-		mksh /etc/cronrun monthly
+		# prevent BSDstats script from being run _again_
+		[[ -s /usr/share/misc/bsdstats ]] && \
+		    mv /usr/share/misc/bsdstats /usr/share/misc/bsdstats-
+		print running daily cronjob; mksh /etc/cronrun daily
+		[[ -s /usr/share/misc/bsdstats- ]] && \
+		    mv /usr/share/misc/bsdstats- /usr/share/misc/bsdstats
+		print running weekly cronjob; mksh /etc/cronrun weekly
+		print running monthly cronjob; mksh /etc/cronrun monthly
+		print done, cleaning up
 		# clean up after ourselves
 		sync
 		rm /etc/rc.once
