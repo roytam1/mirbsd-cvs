@@ -12,8 +12,10 @@ PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_CDROM=	"patents"
 PERMIT_DISTFILES_FTP=	Yes
 
-CFLAGS+=		-fomit-frame-pointer -funroll-loops \
+.include <mirports.sys.mk>
+COPTS+=			-fomit-frame-pointer -funroll-loops \
 			-Wall -Winline -Wshadow -W
+EXTRA_MAKE_FLAGS+=	CFLAGS=${CFLAGS:Q}
 
 do-install:
 	${INSTALL_PROGRAM} ${WRKSRC}/bzip ${PREFIX}/bin
