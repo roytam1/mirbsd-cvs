@@ -1,9 +1,0 @@
-@comment $MirOS$
-${P5SITE}/Params/Util.pm
-@comment ${P5ARCH}/auto/Params/Util/.packlist
-man/man3/Params::Util${P5MAN3EXT}
-@comment @dirrm ${P5ARCH}/auto/Params/Util
-@comment @dirrm ${P5ARCH}/auto/Params
-@comment @dirrm ${P5ARCH}/auto
-@comment @dirrm ${P5ARCH}
-@dirrm ${P5SITE}/Params
