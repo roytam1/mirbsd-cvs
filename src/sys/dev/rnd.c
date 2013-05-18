@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/dev/rnd.c,v 1.46 2008/07/26 19:40:51 tg Exp $ */
+/**	$MirOS: src/sys/dev/rnd.c,v 1.47 2008/11/13 00:19:00 tg Exp $ */
 /*	$OpenBSD: rnd.c,v 1.78 2005/07/07 00:11:24 djm Exp $	*/
 
 /*
@@ -700,7 +700,6 @@ void
 randomattach(void)
 {
 	int i;
-	/* this one is generated from newvers.sh */
 
 	if (rnd_attached) {
 #ifdef RNDEBUG
