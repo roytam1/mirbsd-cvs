@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.281 2010/02/07 14:07:33 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.282 2010/02/08 16:41:36 bsiegert Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -6227,4 +6227,14 @@ Tag: event
 
 <p>Oh, and contrary to “popular” belief, the food at the Pakistani (!)
  restaurant on Saturday was excellent :).</p>
+----
+Title: the day after FOSDEM
+Author: tg@
+Date: 08.02.2010 17:10
+Tag: event
+Language: de_DE-1901
+
+<p>Bauch wieder OK, dafür nen recht wehtuënden Frosch im Hals,
+ Hammerkopfschmerzen, Rückenschmerzen und bißchen Gliederschmerzen.
+ Grml. Ich mach' im Moment erst mal nix.</p>
 ----
