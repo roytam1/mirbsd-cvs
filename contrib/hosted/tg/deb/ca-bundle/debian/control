@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: contrib/hosted/tg/deb/ca-bundle/debian/control,v 1.12 2011/04/24 17:02:37 tg Exp $
 #-
 Source: ca-bundle
 Origin: WTF
@@ -6,8 +6,7 @@ Bugs: mailto:wtf@mirbsd.org
 Section: misc
 Priority: optional
 Maintainer: Thorsten Glaser <tg@mirbsd.de>
-Build-Depends: debhelper (>= 5)
-Build-Depends-Indep: openssl
+Build-Depends: debhelper (>= 5), openssl
 Standards-Version: 3.9.2
 
 Package: ca-bundle
