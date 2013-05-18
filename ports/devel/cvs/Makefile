@@ -1,4 +1,4 @@
-# $MirOS: ports/devel/cvs/Makefile,v 1.18 2011/05/06 23:17:26 tg Exp $
+# $MirOS: ports/devel/cvs/Makefile,v 1.19 2011/06/11 03:55:34 tg Exp $
 
 COMMENT=		Concurrent Versions System
 CATEGORIES=		devel essentials
@@ -16,8 +16,9 @@ PERMIT_PACKAGE_FTP=	Yes
 DISTNAME=		cvs-${VSN}
 MASTER_SITES=		${MASTER_SITE_GNU:gnu/=non-gnu/cvs/source/feature/${VSN}/}
 
-CONFIGURE_STYLE=	autoconf
+CONFIGURE_STYLE=	autogen
 AUTOCONF_NEW=		Yes
+AUTOMAKE_VERSION=	1.9
 CONFIGURE_ARGS+=	--disable-nls \
 			--enable-client \
 			--enable-password-authenticated-client \
