@@ -89,7 +89,7 @@
 #include "cpp.h"
 #include "cpy.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/libexec/cpp/cpp.c,v 1.5 2008/11/18 19:51:52 tg Exp $");
 
 #define	MAXARG	250	/* # of args to a macro, limited by char value */
 #define	SBSIZE	600000
@@ -175,12 +175,15 @@ static void expdef(usch *proto, struct recur *, int gotwarn);
 void define(void);
 static int canexpand(struct recur *, struct symtab *np);
 void include(void);
-void line(void);
 void flbuf(void);
-void usage(void);
+void usage(void) __dead;
 usch *xstrdup(char *str);
-usch *prtprag(usch *opb);
+const usch *prtprag(const usch *opb);
 
+usch nullusch[] = "";
+#ifdef GCC_VARI
+usch zerousch[] = "0";
+#endif
 
 int
 main(int argc, char **argv)
@@ -258,11 +261,11 @@ main(int argc, char **argv)
 	argc -= optind;
 	argv += optind;
 
-	filloc = lookup((usch *)"__FILE__", ENTER);
-	linloc = lookup((usch *)"__LINE__", ENTER);
-	pragloc = lookup((usch *)"_Pragma", ENTER);
-	filloc->value = linloc->value = (usch *)""; /* Just something */
-	pragloc->value = (usch *)"";
+	filloc = lookup((const usch *)"__FILE__", ENTER);
+	linloc = lookup((const usch *)"__LINE__", ENTER);
+	pragloc = lookup((const usch *)"_Pragma", ENTER);
+	filloc->value = linloc->value = nullusch; /* Just something */
+	pragloc->value = nullusch;
 
 	if (tflag == 0) {
 		time_t t = time(NULL);
@@ -271,22 +274,22 @@ main(int argc, char **argv)
 		/*
 		 * Manually move in the predefined macros.
 		 */
-		nl = lookup((usch *)"__TIME__", ENTER);
+		nl = lookup((const usch *)"__TIME__", ENTER);
 		savch(0); savch('"');  n[19] = 0; savstr(&n[11]); savch('"');
 		savch(OBJCT);
 		nl->value = stringbuf-1;
 
-		nl = lookup((usch *)"__DATE__", ENTER);
+		nl = lookup((const usch *)"__DATE__", ENTER);
 		savch(0); savch('"'); n[24] = n[11] = 0; savstr(&n[4]);
 		savstr(&n[20]); savch('"'); savch(OBJCT);
 		nl->value = stringbuf-1;
 
-		nl = lookup((usch *)"__STDC__", ENTER);
+		nl = lookup((const usch *)"__STDC__", ENTER);
 		savch(0); savch('1'); savch(OBJCT);
 		nl->value = stringbuf-1;
 
-		nl = lookup((usch *)"__STDC_VERSION__", ENTER);
-		savch(0); savstr((usch *)"199901L"); savch(OBJCT);
+		nl = lookup((const usch *)"__STDC_VERSION__", ENTER);
+		savch(0); savstr((const usch *)"199901L"); savch(OBJCT);
 		nl->value = stringbuf-1;
 	}
 
@@ -431,7 +434,7 @@ found:			if (nl == 0 || subst(nl, NULL) == 0) {
 }
 
 void
-line()
+line(void)
 {
 	static usch *lbuf;
 	static int llen;
@@ -478,7 +481,7 @@ bad:	error("bad line directive");
  * - For "..." files, first search "current" dir, then as <...> files.
  */
 void
-include()
+include(void)
 {
 	struct incs *w;
 	struct symtab *nl;
@@ -587,7 +590,7 @@ getcmnt(void)
 		if (c == '*') {
 			c = cinput();
 			if (c == '/') {
-				savstr((usch *)"*/");
+				savstr((const usch *)"*/");
 				return;
 			}
 			cunput(c);
@@ -626,7 +629,7 @@ cmprepl(usch *o, usch *n)
 }
 
 void
-define()
+define(void)
 {
 	struct symtab *np;
 	usch *args[MAXARG], *ubuf, *sbeg;
@@ -968,9 +971,7 @@ bad:	error("bad pragma operator");
  * substitute namep for sp->value.
  */
 int
-subst(sp, rp)
-struct symtab *sp;
-struct recur *rp;
+subst(struct symtab *sp, struct recur *rp)
 {
 	struct recur rp2;
 	register usch *vp, *cp, *obp;
@@ -1277,7 +1278,7 @@ expdef(usch *vp, struct recur *rp, int gotwarn)
 		savch('\0');
 	}
 	if (ellips)
-		args[i] = (usch *)"";
+		args[i] = nullusch;
 	if (ellips && c != ')') {
 		args[i] = stringbuf;
 		plev = 0;
@@ -1344,7 +1345,7 @@ expdef(usch *vp, struct recur *rp, int gotwarn)
 			} else if (sp[-1] == GCCARG) {
 				ap = args[narg];
 				if (ap[0] == 0)
-					ap = (usch *)"0";
+					ap = zerousch;
 				bp = ap;
 				sp--;
 #endif
@@ -1397,7 +1398,7 @@ expdef(usch *vp, struct recur *rp, int gotwarn)
 }
 
 usch *
-savstr(usch *str)
+savstr(const usch *str)
 {
 	usch *rv = stringbuf;
 
@@ -1436,7 +1437,7 @@ unpstr(usch *c)
 }
 
 void
-flbuf()
+flbuf(void)
 {
 	if (obufp == 0)
 		return;
@@ -1454,7 +1455,7 @@ putch(int ch)
 }
 
 void
-putstr(usch *s)
+putstr(const usch *s)
 {
 	for (; *s; s++) {
 		if (*s == PRAGS) {
@@ -1493,7 +1494,7 @@ num2str(int num)
  * saves result on heap.
  */
 usch *
-sheap(char *fmt, ...)
+sheap(const char *fmt, ...)
 {
 	va_list ap;
 	usch *op = stringbuf;
@@ -1524,7 +1525,7 @@ sheap(char *fmt, ...)
 }
 
 void
-usage()
+usage(void)
 {
 	error("Usage: cpp [-Cdt] [-Dvar=val] [-Uvar] [-Ipath] [-Spath]");
 }
@@ -1566,7 +1567,7 @@ static int numsyms;
  * Allocate a symtab struct and store the string.
  */
 static struct symtab *
-getsymtab(usch *str)
+getsymtab(const usch *str)
 {
 	struct symtab *sp = malloc(sizeof(struct symtab));
 
@@ -1575,7 +1576,7 @@ getsymtab(usch *str)
 	sp->namep = savstr(str);
 	savch('\0');
 	sp->value = NULL;
-	sp->file = ifiles ? ifiles->orgfn : (usch *)"<initial>";
+	sp->file = ifiles ? ifiles->orgfn : (const usch *)"<initial>";
 	sp->line = ifiles ? ifiles->lineno : 0;
 	return sp;
 }
@@ -1585,12 +1586,13 @@ getsymtab(usch *str)
  * Only do full string matching, no pointer optimisations.
  */
 struct symtab *
-lookup(usch *key, int enterf)
+lookup(const usch *key, int enterf)
 {
 	struct symtab *sp;
 	struct tree *w, *new, *last;
 	int len, cix, bit, fbit, svbit, ix, bitno;
-	usch *k, *m, *sm;
+	const usch *k;
+	usch *m, *sm;
 
 	/* Count full string length */
 	for (k = key, len = 0; *k; k++, len++)
@@ -1698,13 +1700,13 @@ xstrdup(char *str)
 	return rv;
 }
 
-usch *
-prtprag(usch *s)
+const usch *
+prtprag(const usch *s)
 {
 	int ch;
 
 	s++;
-	putstr((usch *)"\n#pragma ");
+	putstr((const usch *)"\n#pragma ");
 	while (*s != PRAGE) {
 		if (*s == 'L')
 			s++;
@@ -1720,7 +1722,7 @@ prtprag(usch *s)
 			putch(*s);
 		}
 	}
-	putstr((usch *)"\n");
+	putstr((const usch *)"\n");
 	prtline();
 	return ++s;
 }

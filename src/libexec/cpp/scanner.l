@@ -44,7 +44,7 @@
 #include "cpp.h"
 #include "cpy.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/libexec/cpp/scanner.l,v 1.2 2008/11/18 19:51:52 tg Exp $");
 %}
 
 %{
@@ -58,10 +58,9 @@ static void ifstmt(void);
 static void cpperror(void);
 static void pragmastmt(void);
 static void undefstmt(void);
-static void cpperror(void);
 static void elifstmt(void);
 static void storepb(void);
-static void badop(const char *);
+static void badop(const char *) __dead;
 void  include(void);
 void  define(void);
 
@@ -101,7 +100,7 @@ yyinput(char *b, int m)
 #undef fileno
 #define fileno(x) 0
 
-#if YY_FLEX_SUBMINOR_VERSION >= 31
+#if defined(YY_FLEX_SUBMINOR_VERSION) && (YY_FLEX_SUBMINOR_VERSION >= 31)
 /* Hack to avoid unnecessary warnings */
 FILE *yyget_in	(void);
 FILE *yyget_out  (void);
@@ -351,9 +350,6 @@ L?\"(\\.|[^\\"])*\"	{ PRTOUT(STRING); }
 
 usch *yyp, yybuf[CPPBUF];
 
-int yylex(void);
-int yywrap(void);
-
 static int
 inpch(void)
 {
@@ -420,7 +416,8 @@ again:	switch (c = inpch()) {
 static void
 prinit(struct initar *it, struct includ *ic)
 {
-	char *a, *pre, *post;
+	char *a;
+	const char *pre, *post;
 
 	if (it->next)
 		prinit(it->next, ic);
@@ -480,7 +477,7 @@ pushfile(usch *file)
 			error("Limit for nested includes exceeded");
 	} else {
 		ic->infil = 0;
-		ic->orgfn = ic->fname = (usch *)"<stdin>";
+		ic->orgfn = ic->fname = (const usch *)"<stdin>";
 	}
 	ic->buffer = ic->bbuf+NAMEMAX;
 	ic->curptr = ic->buffer;
@@ -514,7 +511,7 @@ pushfile(usch *file)
  * Print current position to output file.
  */
 void
-prtline()
+prtline(void)
 {
 	usch *s, *os = stringbuf;
 
@@ -918,7 +915,7 @@ pragmastmt(void)
 	if (yylex() != WSPACE)
 		error("bad pragma");
 	if (!flslvl)
-		putstr((usch *)"#pragma ");
+		putstr((const usch *)"#pragma ");
 	do {
 		c = input();
 		if (!flslvl)
@@ -936,7 +933,7 @@ badop(const char *op)
 }
 
 int
-cinput()
+cinput(void)
 {
 	return input();
 }

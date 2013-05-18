@@ -65,8 +65,8 @@
 
 #include "cpp.h"
 
-void yyerror(char *);
-int yylex(void);
+__RCSID("$MirOS$");
+
 int setd(int l, int r);
 
 #define	EVALUNARY(tok, l, r) l.nd_val = tok r.nd_val; l.op = r.op
@@ -197,7 +197,7 @@ term:
 %%
 
 void
-yyerror(char *err)
+yyerror(const char *err)
 {
 	error(err);
 }

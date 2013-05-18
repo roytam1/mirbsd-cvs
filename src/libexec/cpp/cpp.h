@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$Id$	*/
 
 /*
@@ -67,8 +68,8 @@ extern	int	ofd;
 /* definition for include file info */
 struct includ {
 	struct includ *next;
-	usch *fname;	/* current fn, changed if #line found */
-	usch *orgfn;	/* current fn, not changed */
+	const usch *fname;	/* current fn, changed if #line found */
+	const usch *orgfn;	/* current fn, not changed */
 	int lineno;
 	int infil;
 	usch *curptr;
@@ -82,7 +83,7 @@ struct includ {
 struct symtab {
 	usch *namep;    
 	usch *value;    
-	usch *file;
+	const usch *file;
 	int line;
 };
 
@@ -111,31 +112,33 @@ struct nd {
 
 struct recur;	/* not used outside cpp.c */
 int subst(struct symtab *, struct recur *);
-struct symtab *lookup(usch *namep, int enterf);
+struct symtab *lookup(const usch *namep, int enterf);
 usch *gotident(struct symtab *nl);
 int slow;	/* scan slowly for new tokens */
 
 int pushfile(usch *fname);
 void popfile(void);
 void prtline(void);
+#ifndef FLEX_SCANNER
 int yylex(void);
+#endif
 void cunput(int);
 int curline(void);
 char *curfile(void);
 void setline(int);
 void setfile(char *);
 int yyparse(void);
-void yyerror(char *);
+void yyerror(const char *) __dead;
 void unpstr(usch *);
-usch *savstr(usch *str);
+usch *savstr(const usch *str);
 void savch(int c);
 void mainscan(void);
 void putch(int);
-void putstr(usch *s);
+void putstr(const usch *s);
 void line(void);
-usch *sheap(char *fmt, ...);
+usch *sheap(const char *fmt, ...);
 void xwarning(usch *);
-void xerror(usch *);
+void xerror(usch *) __dead;
 #ifdef HAVE_CPP_VARARG_MACRO_GCC
 #define warning(...) xwarning(sheap(__VA_ARGS__))
 #define error(...) xerror(sheap(__VA_ARGS__))
