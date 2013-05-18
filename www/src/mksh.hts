@@ -2,7 +2,7 @@
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.183 2008/11/02 23:06:37 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.184 2008/11/08 17:46:59 tg Exp $'
 mws_content <<'EOF'
 <h1>mksh(1) R36</h1>
 <p>This is the website of the MirBSD™ Korn Shell, an actively developed free
@@ -304,8 +304,8 @@ mws_content <<'EOF'
 <h5 id="oe_llvm">Compiler: LLVM</h5>
 <p>Apple llvm-gcc from Xcode 3.1 had full success with mksh R34.</p>
 <p>Vanilla <a href="http://llvm.org/">llvm-gcc</a> works fine as well.</p>
-<p>Vanilla <a href="http://clang.llvm.org/">llvm-clang</a> produces
- output which fails 83% of the test suite.</p>
+<p>Vanilla <a href="http://clang.llvm.org/">llvm-clang</a> starting at
+ r58935 produces working code with mksh R36b and up.</p>
 
 <h5 id="oe_msc">Compiler: Microsoft® C/C++</h5>
 <p>Support for the Microsoft® C Compiler on Interix and UWIN, with the
@@ -753,6 +753,7 @@ mws_content <<'EOF'
 <h3 id="regress_dev">Development Versions post release</h3>
 <ul>
  <li style="list-style:none;">– tests by the project, using Build.sh –</li>
+ <li>MirOS #10-current (i386 clang58935 llvm58935)</li>
  <li>MirOS #10-current (i386 pcc20081028)</li>
  <li>MirOS #10-current (i386 pcc20081028-MirPorts-0)</li>
  <li>MirOS #10-current (i386 SUNWcc5.9 Linux_i386 2007/05/03, GNU ld 2.13.90.0.2 20020802)</li>
@@ -875,7 +876,7 @@ mws_content <<'EOF'
  <li>Debian GNU/Linux 4.0 testing 2.6.24-1-686 (i386 gcc4.1.2-23)</li>
  <li>Debian GNU/Linux 4.0 testing 2.6.24-1-686 (i386 gcc4.2.4-2+b1)</li>
  <li>Debian GNU/Linux 4.0 testing 2.6.24-1-686 (i386 gcc4.3.1-2)</li>
- <li>Debian GNU/Linux 4.0 testing 2.6.25-2-686 (i386 llvmgcc4.2.1-Apple_5555-LLVM_r52845)</li>
+ <li>Debian GNU/Linux 4.0 testing 2.6.25-2-686 (i386 llvmgcc4.2.1-Apple_5555 llvm52845)</li>
  <li>Debian GNU/Linux 4.0 sid 2.6.18-6-vserver-s390x (S/390 gcc4.3.1-2)</li>
  <li>Debian GNU/Linux 4.0 sid 2.6.22-2-powerpc (macppc gcc4.2.2-3)</li>
  <li>Mandriva GNU/Linux CS 2006.0 2.6.12-22mdksmp (i386 gcc4.0.1-5mdk)</li>
@@ -1023,6 +1024,8 @@ mws_content <<'EOF'
  <li>[tg] If &lt;strings.h&gt; exists, pull it in for strcasecmp(3)</li>
  <li>[tg] Welcome QNX/Neutrino; work around broken <tt>/bin/ed</tt></li>
  <li>[tg] Simplify, shorten, speed up <tt>PS1</tt> in <tt>dot.mkshrc</tt></li>
+ <li>[tg] Remove some dead code courtesy of scan-build native runs</li>
+ <li>[tg] Add some casts to prevent LLVM+Clang warnings</li>
 </ul>
 <p id="r36">mksh R36 features the following changes:</p><ul>
  <li>Fix <tt>Build.sh</tt> invocation without ‘-r’, 10x Elias Pipping</li>
