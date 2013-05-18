@@ -1,8 +1,8 @@
-# $MirOS: ports/meta/gnome2/Makefile,v 1.9 2007/07/31 20:57:08 bsiegert Exp $
+# $MirOS: ports/meta/gnome2/Makefile,v 1.10 2008/06/25 18:40:48 bsiegert Exp $
 
 COMMENT=		meta package to install all of GNOME 2
 VERSION=		2.18.2
-DASH_VER=		1
+DASH_VER=		2
 PKGNAME=		meta-gnome2-${VERSION}-${DASH_VER}
 CATEGORIES=		meta x11/gnome
 HOMEPAGE=		http://www.gnome.org/
@@ -23,7 +23,7 @@ PKG_ARCH=		*
 USE_X11=		Yes # GNOME needs X11
 USE_CXX=		Yes # multiple dependencies use CXX
 
-B_R_DEPENDS+=		::textproc/libxml,python
+B_R_DEPENDS+=		:libxml->=2.6.32:textproc/libxml
 B_R_DEPENDS+=		::devel/gconf
 B_R_DEPENDS+=		::devel/desktop-file-utils
 B_R_DEPENDS+=		::x11/gnome/mime-data

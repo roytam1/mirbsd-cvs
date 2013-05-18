@@ -1,4 +1,4 @@
-@comment $MirOS: ports/textproc/libxml/pkg/PLIST,v 1.5 2007/01/25 21:54:44 bsiegert Exp $
+@comment $MirOS: ports/textproc/libxml/pkg/PLIST,v 1.6 2007/06/22 22:29:42 bsiegert Exp $
 @comment $OpenBSD: PLIST,v 1.34 2004/04/06 06:50:34 kevlo Exp $
 bin/xml2-config
 bin/xmlcatalog
@@ -52,12 +52,65 @@ include/libxml2/libxml/xpathInternals.h
 include/libxml2/libxml/xpointer.h
 lib/libxml2.la
 lib/pkgconfig/libxml-2.0.pc
+lib/python${MODPY_VERSION}/site-packages/drv_libxml2.py
+lib/python${MODPY_VERSION}/site-packages/libxml2.py
+lib/python${MODPY_VERSION}/site-packages/libxml2mod.la
 lib/xml2Conf.sh
 man/man1/xml2-config.1
 man/man1/xmlcatalog.1
 man/man1/xmllint.1
 man/man3/libxml.3
 share/aclocal/libxml.m4
+share/doc/libxml2-python-${MODPY_EGG_VERSION}/TODO
+share/doc/libxml2-python-${MODPY_EGG_VERSION}/examples/attribs.py
+share/doc/libxml2-python-${MODPY_EGG_VERSION}/examples/build.py
+share/doc/libxml2-python-${MODPY_EGG_VERSION}/examples/compareNodes.py
+share/doc/libxml2-python-${MODPY_EGG_VERSION}/examples/ctxterror.py
+share/doc/libxml2-python-${MODPY_EGG_VERSION}/examples/cutnpaste.py
+share/doc/libxml2-python-${MODPY_EGG_VERSION}/examples/dtdvalid.py
+share/doc/libxml2-python-${MODPY_EGG_VERSION}/examples/error.py
+share/doc/libxml2-python-${MODPY_EGG_VERSION}/examples/inbuf.py
+share/doc/libxml2-python-${MODPY_EGG_VERSION}/examples/indexes.py
+share/doc/libxml2-python-${MODPY_EGG_VERSION}/examples/invalid.xml
+share/doc/libxml2-python-${MODPY_EGG_VERSION}/examples/nsdel.py
+share/doc/libxml2-python-${MODPY_EGG_VERSION}/examples/outbuf.py
+share/doc/libxml2-python-${MODPY_EGG_VERSION}/examples/push.py
+share/doc/libxml2-python-${MODPY_EGG_VERSION}/examples/pushSAX.py
+share/doc/libxml2-python-${MODPY_EGG_VERSION}/examples/pushSAXhtml.py
+share/doc/libxml2-python-${MODPY_EGG_VERSION}/examples/reader.py
+share/doc/libxml2-python-${MODPY_EGG_VERSION}/examples/reader2.py
+share/doc/libxml2-python-${MODPY_EGG_VERSION}/examples/reader3.py
+share/doc/libxml2-python-${MODPY_EGG_VERSION}/examples/reader4.py
+share/doc/libxml2-python-${MODPY_EGG_VERSION}/examples/reader5.py
+share/doc/libxml2-python-${MODPY_EGG_VERSION}/examples/reader6.py
+share/doc/libxml2-python-${MODPY_EGG_VERSION}/examples/reader7.py
+share/doc/libxml2-python-${MODPY_EGG_VERSION}/examples/reader8.py
+share/doc/libxml2-python-${MODPY_EGG_VERSION}/examples/readererr.py
+share/doc/libxml2-python-${MODPY_EGG_VERSION}/examples/readernext.py
+share/doc/libxml2-python-${MODPY_EGG_VERSION}/examples/regexp.py
+share/doc/libxml2-python-${MODPY_EGG_VERSION}/examples/relaxng.py
+share/doc/libxml2-python-${MODPY_EGG_VERSION}/examples/resolver.py
+share/doc/libxml2-python-${MODPY_EGG_VERSION}/examples/schema.py
+share/doc/libxml2-python-${MODPY_EGG_VERSION}/examples/serialize.py
+share/doc/libxml2-python-${MODPY_EGG_VERSION}/examples/sync.py
+share/doc/libxml2-python-${MODPY_EGG_VERSION}/examples/test.dtd
+share/doc/libxml2-python-${MODPY_EGG_VERSION}/examples/thread2.py
+share/doc/libxml2-python-${MODPY_EGG_VERSION}/examples/tst.py
+share/doc/libxml2-python-${MODPY_EGG_VERSION}/examples/tst.xml
+share/doc/libxml2-python-${MODPY_EGG_VERSION}/examples/tstLastError.py
+share/doc/libxml2-python-${MODPY_EGG_VERSION}/examples/tstURI.py
+share/doc/libxml2-python-${MODPY_EGG_VERSION}/examples/tstmem.py
+share/doc/libxml2-python-${MODPY_EGG_VERSION}/examples/tstxpath.py
+share/doc/libxml2-python-${MODPY_EGG_VERSION}/examples/valid.xml
+share/doc/libxml2-python-${MODPY_EGG_VERSION}/examples/validDTD.py
+share/doc/libxml2-python-${MODPY_EGG_VERSION}/examples/validRNG.py
+share/doc/libxml2-python-${MODPY_EGG_VERSION}/examples/validSchemas.py
+share/doc/libxml2-python-${MODPY_EGG_VERSION}/examples/validate.py
+share/doc/libxml2-python-${MODPY_EGG_VERSION}/examples/walker.py
+share/doc/libxml2-python-${MODPY_EGG_VERSION}/examples/xpath.py
+share/doc/libxml2-python-${MODPY_EGG_VERSION}/examples/xpathext.py
+share/doc/libxml2-python-${MODPY_EGG_VERSION}/examples/xpathns.py
+share/doc/libxml2-python-${MODPY_EGG_VERSION}/examples/xpathret.py
 share/doc/libxml2/Copyright
 share/doc/libxml2/examples/testHTML.c
 share/doc/libxml2/examples/testSAX.c
@@ -70,6 +123,7 @@ share/doc/libxml2/html/Libxml2-Logo-90x34.gif
 share/doc/libxml2/html/encoding.html
 share/doc/libxml2/html/html/book1.html
 share/doc/libxml2/html/html/home.png
+share/doc/libxml2/html/html/index.html
 share/doc/libxml2/html/html/left.png
 share/doc/libxml2/html/html/libxml-DOCBparser.html
 share/doc/libxml2/html/html/libxml-HTMLparser.html
@@ -234,7 +288,6 @@ share/gtk-doc/html/libxml2/libxml2.devhelp
 share/gtk-doc/html/libxml2/right.png
 share/gtk-doc/html/libxml2/style.css
 share/gtk-doc/html/libxml2/up.png
-%%python%%
 @dirrm share/gtk-doc/html/libxml2
 @dirrm share/gtk-doc/html
 @dirrm share/gtk-doc
@@ -244,8 +297,12 @@ share/gtk-doc/html/libxml2/up.png
 @dirrm share/doc/libxml2/html/html
 @dirrm share/doc/libxml2/html
 @dirrm share/doc/libxml2/examples
+@dirrm share/doc/libxml2-python-${MODPY_EGG_VERSION}/examples
+@dirrm share/doc/libxml2-python-${MODPY_EGG_VERSION}
 @dirrm share/doc/libxml2
 @dirrm share/aclocal
+@dirrm lib/python${MODPY_VERSION}/site-packages
+@dirrm lib/python${MODPY_VERSION}
 @dirrm lib/pkgconfig
 @dirrm include/libxml2/libxml
 @dirrm include/libxml2
