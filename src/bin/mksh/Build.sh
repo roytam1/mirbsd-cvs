@@ -1045,6 +1045,22 @@ ac_test mknod '' 'if to use mknod(), makedev() and friends' <<-'EOF'
 	}
 EOF
 
+ac_test realpath mksh_full 0 <<-'EOF'
+	#if HAVE_SYS_PARAM_H
+	#include <sys/param.h>
+	#endif
+	#include <stdlib.h>
+	#ifndef PATH_MAX
+	#define PATH_MAX 1024
+	#endif
+	char *res, dst[PATH_MAX];
+	const char src[] = ".";
+	int main(void) {
+		res = realpath(src, dst);
+		return (res == NULL ? 1 : 0);
+	}
+EOF
+
 ac_test revoke mksh_full 0 <<-'EOF'
 	#if HAVE_LIBUTIL_H
 	#include <libutil.h>
