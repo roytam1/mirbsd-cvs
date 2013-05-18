@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/tools/Makefile,v 1.5 2007/10/01 21:40:23 tg Exp $
+# $MirOS: src/distrib/tools/Makefile,v 1.6 2007/10/01 21:52:20 tg Exp $
 
 all: sundsklbl
 
@@ -42,7 +42,7 @@ makecdimage: .PHONY
 	cp ${DSTTOPDIR}/sparc/{bootxx,bsd.rd} cddir/v${OSrev}/sparc/
 	ln cddir/v${OSrev}/sparc/bsd.rd cddir/vmunix	# for kicks
 	ln cddir/v${OSrev}/sparc/bsd.rd cddir/bsd	# for idiots
-	chmod -R u+w ${WRKDIR}
+	chmod -R u+w cddir
 	mkisofs -r -f -L -d -D -N -v -v -b b_i386.iso -c boot.cat \
 	    -no-emul-boot -boot-load-size 4 -boot-info-table \
 	    -P 'The http://mirbsd.de/ team and its contributors' \
