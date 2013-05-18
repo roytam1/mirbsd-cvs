@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.222 2009/07/30 19:57:12 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.223 2009/07/30 20:14:22 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -4532,4 +4532,131 @@ Tag: rant
  to find a company doing similar stunts. While the iPhone may help them through
  the current economical crisis, I dare suggest they build more variants of the
  iMer instead :þ At least these have hack value.</p>
+----
+Title: KDE 4 – inakzeptabel
+Date: 02.08.2009 19:12
+Author: tg@
+Language: de
+Tag: rant
+
+<p>Vor ein paar Tagen im IRC…</p><ul>
+ <li><a href="http://techbase.kde.org/Projects/PIM/Akonadi#Do_I_need_a_running_MySQL_server.3F">KDE4PIM
+  FAQ 5.9 Do I need a running MySQL server?</a> (Nein, wir bringen einen mit,
+  vergessen aber, dessen Sicherheitslücken zu patchen.)</li>
+ <li><a href="http://techbase.kde.org/Projects/PIM/Akonadi#Can_Akonadi_use_a_normal_MySQL_server_running_on_my_system.3F">KDE4PIM
+  FAQ 5.10 Can Akonadi use a normal MySQL server running on my system?</a>
+  (Wer zur Hölle benutzt MySQL, wenn er eine Datenbank (SQLite, MS-SQL,
+  PostgreSQL) haben kann? Außerdem ist es recht diffizil, eine Datenbank
+  oder ein Datengrab aufzusetzen, zu konfigurieren und abzusichern… auch
+  wenn der obige Punkt sagt, sie bringen eine mit.)</li>
+ <li><a href="http://techbase.kde.org/Projects/PIM/Akonadi#Which_DBMS_does_Akonadi_use.3F">KDE4PIM
+  FAQ 5.6 Which DBMS does Akonadi use?</a> (Ein Wort: Ｗａｒｕｍ？)</li>
+ <li><a href="http://techbase.kde.org/Projects/PIM/Akonadi#Why_not_use_sqlite.3F">KDE4PIM
+  FAQ 5.7 Why not use sqlite?</a> (Auf Deutsch: wir sind zu blöd, Code
+  zu schreiben, der funktioniert. Daß es mit MySQL tut ist nur Zufall,
+  weil das genau so ein Haufen Scheiße ist, aber das haben wir noch
+  nicht gemerkt.)</li>
+ <li><a href="http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=513382">Debian
+  #513382 – akonadi-server: depends on mysql-server</a> (Wir nutzen zwar den
+  Datengrabserver der Distribution, aber ändern trotzdem nix an der Sache.
+  Aber auch wir finden’s „toll“, daß ein MySQL-Server via /etc/init.d ｐｌｕｓ
+  einer pro eingeloggter KDE4-Luser gestartet wird.)</li>
+</ul>
+<p style="margin-bottom:0px;">Zu Datenbank vs. Datengrab hatten wir ja:</p>
+<div style="border:4px ridge blue; margin:0px 24px 0px 24px; padding:12px;"><pre>
+ “mysql is about as much database as ms access” – “MSSQL at least descends
+ from a database” “it's a rebranded SyBase” “MySQL however was born from a
+ flatfile and went downhill from there” – “at least jetDB doesn’t claim to
+ be a database”	-- myself, Tonnerre and psychoschlumpf in #nosec
+</pre></div><p style="margin-top:0px;">Kleine Randbemerkung: mediawiki_*.deb
+ dependet auch auf MySQL… obschon das FusionForge-Paket es für PostgreSQL
+ konfiguriert und das so auch ganz gut tut. Echt ’ne Krankheit…</p>
+----
+Title: a whole lot of new releases
+Date: 02.08.2009 19:13
+Author: tg@
+Tag: mksh news
+
+<p>I took the weekend to release a couple of things… MirBSD™ base code
+ stuff and base releases (printf.c for mksh in Debian; arc4random.c for
+ Win32 and other non-BSD OSes, now with a HKCU key used in addition to
+ the HKLM seed key which may not be writable; MirMake; MirPorts Package
+ Tools; mirdate – rdate(8)), <a href="@@RELPATH@@jupp.htm">jupp</a>,
+ <a href="@@RELPATH@@mksh.htm">mksh</a> including a new PDF manpage, <a
+ href="@@RELPATH@@kwalletcli.htm">KWalletCLI</a>, and the RANDEX plugin
+ for XChat (Win32, BSD and *nix). I also prepared for the inclusion of
+ more Debian source packages in my CVS “home subtree” and creation of
+ SRPMs for more software (not in CVS though). I cleaned up the mess that
+ were the X11 dist sets in base, cleaned up compiler warnings on half a
+ dozen or more platforms in several parts of the code, fixed bugs in a
+ lot of subprojects, integrated things better, updated the BSD::arc4random
+ MirPort as well as TinyIRC, MirSirc, the irssi and XChat RANDEX plugins
+ to include better version reporting and, for XChat, seedfile support and
+ better responsibility. Now all I need to do is build more binaries and
+ ports (DEB RPM OpenBSD FreeWRT etc.) of the subprojects, update <a
+ href="http://lynx.isc.org/current/">Lynx</a> in base and ports (there is
+ a new major release out, even), update MirGRML, fix the HDD in my sparc,
+ compile stuff, … you see I’m busy.</p>
+<p>Here’s a “checksum and link collection” for today’s finest:</p><ul>
+ <li style="list-style:none;">Simple CVS file drops</li>
+ <li>RMD160 (printf.c.1.10) = 8e8b88401a04474db973be07540a79b129919ff5</li>
+ <li>TIGER (printf.c.1.10) = 3cec4bc24074e88c7889143d19f7659ced17482115ea5afb</li>
+ <li>3098389975 10575 <a href="@@ABSPATH@@/MirOS/dist/hosted/other/printf.c.1.10">/MirOS/dist/hosted/other/printf.c.1.10</a></li>
+ <li>MD5 (printf.c.1.10) = d09ae97aebac104f834d3d3ddd1702ca</li>
+ <li>RMD160 (arc4random.c.1.16) = b0caa3509d2cade6d86cb2c13e6b8817ced2d9a9</li>
+ <li>TIGER (arc4random.c.1.16) = ef6d7a281d451e28434b0e003990eebb47edd0cd4d899fd1</li>
+ <li>2199066621 12558 <a href="@@ABSPATH@@/MirOS/dist/hosted/other/arc4random.c.1.16">/MirOS/dist/hosted/other/arc4random.c.1.16</a></li>
+ <li>MD5 (arc4random.c.1.16) = e8376a9b51c0ce08f5ed20722b05cad3</li>
+ <li style="list-style:none;">Simple subproject checkouts</li>
+ <li>RMD160 (mirmake-20090801.cpio.gz) = 79e0d15aab4c7a05690e66769c12dbeb3d99daa1</li>
+ <li>TIGER (mirmake-20090801.cpio.gz) = 2c6642b9515f38e736386945e72c06f402134ebf898613de</li>
+ <li>788720631 372063 <a href="@@ABSPATH@@/MirOS/dist/mir/make/mirmake-20090801.cpio.gz">/MirOS/dist/mir/make/mirmake-20090801.cpio.gz</a></li>
+ <li>MD5 (mirmake-20090801.cpio.gz) = 47c63503210054d86db80040474f1f71</li>
+ <li>RMD160 (pkgtools-20090801.mcz) = 482dcf4b915a10bb6b76859f0c1755b67d6343bb</li>
+ <li>TIGER (pkgtools-20090801.mcz) = 3a622ac3c895c4af9df719dd30cfd3fe45e6d719cc34db5e</li>
+ <li>2864495035 180188 <a href="@@ABSPATH@@/MirOS/dist/mir/pkgtools/pkgtools-20090801.mcz">/MirOS/dist/mir/pkgtools/pkgtools-20090801.mcz</a></li>
+ <li>MD5 (pkgtools-20090801.mcz) = 87378c95bde1c219d4a09e6bb8ccb897</li>
+ <li>RMD160 (rdate-20090802.tar.gz) = abac9ae8a08ac566d6c0396d39cd5d2cd724f7b0</li>
+ <li>TIGER (rdate-20090802.tar.gz) = f38a164e9d77412203349f79e8033c413335dd6f43a5cbf5</li>
+ <li>3840714105 11987 <a href="@@ABSPATH@@/MirOS/dist/mir/rdate/rdate-20090802.tar.gz">/MirOS/dist/mir/rdate/rdate-20090802.tar.gz</a></li>
+ <li>MD5 (rdate-20090802.tar.gz) = a8fa4550b5a77cff6db1ed0a9d8aa357</li>
+ <li style="list-style:none;">JUPP (including Win32 binary)</li>
+ <li><a href="@@ABSPATH@@/MirOS/dist/jupp/joe.pdf">PDF manpage</a></li>
+ <li><a href="@@ABSPATH@@/MirOS/dist/jupp/joe.htm">HTML manpage</a></li>
+ <li>RMD160 (joe-3.1jupp11.cpio.gz) = 7ade55cb8511600b3a9d77f37bc581b2d09ab2aa</li>
+ <li>TIGER (joe-3.1jupp11.cpio.gz) = b7bb4aa464b705e697ab2a52ad75fc8755a5817bfb83e09a</li>
+ <li>805235529 419484 <a href="@@ABSPATH@@/MirOS/dist/jupp/joe-3.1jupp11.cpio.gz">/MirOS/dist/jupp/joe-3.1jupp11.cpio.gz</a></li>
+ <li>MD5 (joe-3.1jupp11.cpio.gz) = 1e2f21a6fdebe678b125e96806267f33</li>
+ <li>RMD160 (JWIN31B.EXE) = f9eb9f6b3bd2a1bb5874e36d2dcc6dbdaabf75cc</li>
+ <li>TIGER (JWIN31B.EXE) = 771461b752114978ed64f67c01e3ef22a9a9cdf76fda6b11</li>
+ <li>674256238 948176 <a href="@@ABSPATH@@/MirOS/dist/jupp/JWIN31B.EXE">/MirOS/dist/jupp/JWIN31B.EXE</a></li>
+ <li>MD5 (JWIN31B.EXE) = b2d3f1044221fdea76f15621e94e1ae4</li>
+ <li style="list-style:none;">mksh (including Cygwin package)</li>
+ <li><a href="@@ABSPATH@@/MirOS/dist/mir/mksh/mksh.pdf">PDF manpage</a></li>
+ <li>RMD160 (mksh-R39.cpio.gz) = 5a5bcbe288e722f9772e27d2fdc36eee174bbb7b</li>
+ <li>TIGER (mksh-R39.cpio.gz) = 2a2c08ccf5e27365aa652663629789ade93b3d30c0d1d51f</li>
+ <li>4103085544 278476 <a href="@@ABSPATH@@/MirOS/dist/mir/mksh/mksh-R39.cpio.gz">/MirOS/dist/mir/mksh/mksh-R39.cpio.gz</a></li>
+ <li>MD5 (mksh-R39.cpio.gz) = b2eeb4fe4ccac2704e1440e53cd2672c</li>
+ <li>RMD160 (mksh-39.1-cygwin.tgz) = 0cecd4ffb72f2d51a5c935da58e67350fab10e81</li>
+ <li>TIGER (mksh-39.1-cygwin.tgz) = 3157abadc40696bcb8df1d3574df571b728bef3d4d2ac2f2</li>
+ <li>2818578374 144625 <a href="https://eurynome.mirbsd.org/~tg/pub/mksh-39.1-cygwin.tgz">mksh R39 for Cygwin</a></li>
+ <li>MD5 (mksh-39.1-cygwin.tgz) = ca949841e39721be666e6a82803e7769</li>
+ <li style="list-style:none;">KWalletCLI</li>
+ <li>RMD160 (kwalletcli-1.00.tar.gz) = f04ebd39e9714212a915b6d7d4524c8cc2daaee7</li>
+ <li>TIGER (kwalletcli-1.00.tar.gz) = 0fc673c0c813608f0f0d863dfd924a6d62a8507c7bdf361b</li>
+ <li>2355082724 11524 <a href="@@ABSPATH@@/MirOS/dist/hosted/kwalletcli/kwalletcli-1.00.tar.gz">/MirOS/dist/hosted/kwalletcli/kwalletcli-1.00.tar.gz</a></li>
+ <li>MD5 (kwalletcli-1.00.tar.gz) = 76ef3c1d611a11ea13dc805d67d82208</li>
+ <li style="list-style:none;">RANDEX plugin for XChar (including Win32 binary)</li>
+ <li>RMD160 (xchat-randex-1.10.tar.gz) = fd61babbf4e5189f69dae8eb664ee2780433bf4b</li>
+ <li>TIGER (xchat-randex-1.10.tar.gz) = 6bd888b157fcd931e54b71e9778950cbfa675ae6b784ddd5</li>
+ <li>2651117045 8702 <a href="@@ABSPATH@@/MirOS/dist/hosted/xchat-randex/xchat-randex-1.10.tar.gz">/MirOS/dist/hosted/xchat-randex/xchat-randex-1.10.tar.gz</a></li>
+ <li>MD5 (xchat-randex-1.10.tar.gz) = d1585c5fae3ee531deeffc8314910553</li>
+ <li>RMD160 (randex.dll.gz.1.10) = a4aaa67cfdad1f9a1bcdc3eea797aff3a30703c4</li>
+ <li>TIGER (randex.dll.gz.1.10) = 55b2dcd7d790d28944d7424121cf5c6d4d386a99751fb556</li>
+ <li>972086546 23998 <a href="@@ABSPATH@@/MirOS/dist/hosted/xchat-randex/randex.dll.gz.1.10">/MirOS/dist/hosted/xchat-randex/randex.dll.gz.1.10</a></li>
+ <li>MD5 (randex.dll.gz.1.10) = 793ce548256efc6a23f7a37dde9215a2</li>
+</ul>
+<p>An observation… mksh “print $RANDOM” on Cygwin is very slow, and the
+ HKCU seed changes each time. This should be debugged, it shan’t unless
+ <tt>RANDOM</tt> is being written to or 400k calls are done.</p>
 ----
