@@ -1,5 +1,5 @@
 # $MirSecuCron$
-# $MirOS: src/etc/etc.sparc/disktab,v 1.14 2009/04/17 19:26:30 tg Exp $
+# $MirOS: src/etc/etc.sparc/disktab,v 1.15 2009/07/18 14:09:10 tg Exp $
 # $OpenBSD: disktab,v 1.18 2005/02/07 06:08:10 david Exp $
 # $OpenBSD: disktab,v 1.21 2003/03/01 00:46:24 miod Exp $
 #	@(#)disktab	5.5 (Berkeley) 2/27/91
@@ -31,9 +31,9 @@
 #	t[a-p]	partition types (filesystem, swap, etc)
 
 rdroot|ramdisk miniroot image for boot floppy:\
-	:ty=ramdisk:rm#300:se#512:nc#26:nt#8:ns#16:\
-	:pa#3328:oa#0:ta=4.2BSD:ba#4096:fa#512:\
-	:pc#3328:oc#0:
+	:ty=ramdisk:rm#300:se#512:nc#28:nt#8:ns#16:\
+	:pa#3584:oa#0:ta=4.2BSD:ba#4096:fa#512:\
+	:pc#3584:oc#0:
 
 ipldisc|ramdisk miniroot image for bsd.rd:\
 	:ty=ramdisk:rm#300:se#512:nc#29:nt#8:ns#16:\
