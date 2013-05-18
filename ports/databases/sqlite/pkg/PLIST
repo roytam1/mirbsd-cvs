@@ -1,8 +1,9 @@
-@comment $MirOS: ports/databases/sqlite/pkg/PLIST,v 1.2 2006/05/04 10:59:11 tg Exp $
+@comment $MirOS: ports/databases/sqlite/pkg/PLIST,v 1.3 2007/05/06 20:22:31 tg Exp $
 @comment $OpenBSD: PLIST,v 1.1 2004/02/18 20:59:24 djm Exp $
 bin/sqlite3
 include/sqlite3.h
 include/sqlite3ext.h
 lib/libsqlite3.la
 lib/pkgconfig/sqlite3.pc
+man/man1/sqlite3.1
 @dirrm lib/pkgconfig
