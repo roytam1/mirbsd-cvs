@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.395 2012/07/16 13:31:48 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.396 2012/08/13 20:15:55 bsiegert Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -9245,9 +9245,8 @@ Tag: news
  some of the great things when using open source. Check out the video
  below:</p>
 
-<iframe width="560" height="315"
- src="http://www.youtube-nocookie.com/embed/ASi5aTRPof0" frameborder="0"
- allowfullscreen="allowfullscreen"></iframe>
+<p>[edit by tg@ to keep XHTML valid] <a
+ href="http://www.youtube-nocookie.com/embed/ASi5aTRPof0">http://www.youtube-nocookie.com/embed/ASi5aTRPof0</a></p>
 
 <p>Read the
  <a href="http://osworld.pl/wywiad-z-benny-siegert-deweloperem-mirbsd/">original
