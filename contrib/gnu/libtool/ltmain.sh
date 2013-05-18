@@ -1,6 +1,6 @@
 # ltmain.sh - Provide generalized library-building support services.
-# $MirOS: contrib/gnu/libtool/ltmain.in,v 1.39 2007/02/22 22:30:37 tg Exp $
-# _MirOS: contrib/gnu/libtool/ltmain.in,v 1.39 2007/02/22 22:30:37 tg Exp $
+# $MirOS: contrib/gnu/libtool/ltmain.in,v 1.40 2007/05/07 17:19:01 tg Exp $
+# $miros: contrib/gnu/libtool/ltmain.in,v 1.40 2007/05/07 17:19:01 tg Exp $
 # NOTE: Changing this file will not affect anything until you rerun configure.
 #
 # Copyright (C) 1996, 1997, 1998, 1999, 2000, 2001, 2003, 2004, 2005, 2006
@@ -48,7 +48,7 @@ EXIT_FAILURE=1
 PROGRAM=ltmain.sh
 PACKAGE=libtool
 VERSION=1.5.23a
-TIMESTAMP=" (MirLibtool 2007/02/22 22:31:54)"
+TIMESTAMP=" (MirLibtool 2007/05/07 17:22:30)"
 
 # Be Bourne compatible (taken from Autoconf:_AS_BOURNE_COMPATIBLE).
 if test -n "${ZSH_VERSION+set}" && (emulate sh) >/dev/null 2>&1; then
@@ -1566,8 +1566,17 @@ EOF
 	continue
 	;;
 
-      -L*)
-	dir=`$echo "X$arg" | $Xsed -e 's/^-L//'`
+      -L*|-Wl,--library-after=*)
+	case $arg in
+	-L*)
+	  minus_l_command="-L"
+	  dir=`$echo "X$arg" | $Xsed -e 's/^-L//'`
+	  ;;
+	-Wl,--library-after=*)
+	  minus_l_command="-Wl,--library-after="
+	  dir=`$echo "X$arg" | $Xsed -e 's/[-_a-zA-Z0-9,]*=//'`
+	  ;;
+	esac
 	# We need an absolute path.
 	case $dir in
 	[\\/]* | [A-Za-z]:[\\/]*) ;;
@@ -1582,9 +1591,9 @@ EOF
 	  ;;
 	esac
 	case "$deplibs " in
-	*" -L$dir "*) ;;
+	*" $minus_l_command$dir "*) ;;
 	*)
-	  deplibs="$deplibs -L$dir"
+	  deplibs="$deplibs $minus_l_command$dir"
 	  lib_search_path="$lib_search_path $dir"
 	  ;;
 	esac
@@ -2251,13 +2260,13 @@ EOF
 	    fi
 	  fi
 	  ;; # -l
-	-L*)
+	-L*|-Wl,--library-after=*)
 	  case $linkmode in
 	  lib)
 	    deplibs="$deplib $deplibs"
 	    test "$pass" = conv && continue
 	    newdependency_libs="$deplib $newdependency_libs"
-	    newlib_search_path="$newlib_search_path "`$echo "X$deplib" | $Xsed -e 's/^-L//'`
+	    newlib_search_path="$newlib_search_path "`$echo "X$deplib" | $Xsed -e 's/^-L//' -e 's/^-Wl,--library-after=//'`
 	    ;;
 	  prog)
 	    if test "$pass" = conv; then
