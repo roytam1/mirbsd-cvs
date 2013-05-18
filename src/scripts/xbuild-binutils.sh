@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/scripts/xbuild-binutils.sh,v 1.6 2006/03/01 13:45:10 tg Exp $
+# $MirOS: src/scripts/xbuild-binutils.sh,v 1.7 2006/03/01 14:04:07 tg Exp $
 #-
 # Copyright (c) 2004, 2005, 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -85,6 +85,7 @@ $cp /usr/lib/libopcodes.la \
     MACHINE=$MACHINE \
     MACHINE_ARCH=$MACHINE_ARCH \
     GCCTARGET=$TARGET \
+    CFARGS="--with-sysroot=$CROSSDIR" \
     make -f Makefile.bsd-wrapper )
 
 install -c -s -o $BINOWN -g $BINGRP -m 555 \

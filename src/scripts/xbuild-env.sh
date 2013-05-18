@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/scripts/xbuild-env.sh,v 1.13 2006/03/01 14:16:11 tg Exp $
+# $MirOS: src/scripts/xbuild-env.sh,v 1.14 2006/03/01 20:08:10 tg Exp $
 #-
 # Copyright (c) 2004, 2005, 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -107,9 +107,8 @@ print -r -- "$HOST" >$CROSSDIR/H_CANON
     MAKEOBJDIR=obj.$MACHINE \
     make obj )
 
-CROSSCPPFLAGS="$CROSSCPPFLAGS -nostdinc -isystem ${CROSSDIR}/usr/include"
-BUILDLDFLAGS="$CROSSLDFLAGS -L${CROSSDIR}/usr/lib -static"
-CROSSLDFLAGS="$CROSSLDFLAGS -nostdlib -L${CROSSDIR}/usr/lib -static"
+BUILDLDFLAGS="$LDFLAGS -static"
+CROSSLDFLAGS="$CROSSLDFLAGS -static"
 [[ -z $CROSSCFLAGS ]] && CROSSCFLAGS="-O2 -fhonour-copts"
 
 cat >$CROSSDIR/T_BASEENV <<-EOF
