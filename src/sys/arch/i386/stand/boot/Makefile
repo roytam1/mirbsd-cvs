@@ -1,4 +1,4 @@
-# $MirOS: src/sys/arch/i386/stand/boot/Makefile,v 1.26 2009/01/12 17:52:44 tg Exp $
+# $MirOS: src/sys/arch/i386/stand/boot/Makefile,v 1.27 2009/01/12 21:54:40 tg Exp $
 
 SMALL_BOOT?=	No
 
@@ -63,10 +63,11 @@ ${PROG}:	$(OBJS) $(DPADD)
 	objcopy -O binary ${PROG}.tmp ${PROG}
 	@-rm -f ${PROG}.tmp
 
+TESTMBR?=	mbrldr
 testmkr: ${PROG}
 	print 2 $$(( size = ($$(stat -f %z ${PROG}) + 511) / 512 + 1 )) | \
 	    ${MKSH} $$(realpath ${.OBJDIR})/../bootxx/bxinst | \
-	    cat /usr/mdec/mbrldr - ${PROG} | dd conv=osync of=$@
+	    cat /usr/mdec/${TESTMBR} - ${PROG} | dd conv=osync of=$@
 	print -n '\x80\x0\x2\x0\xDB\x4\x2\x0\x1\x0\x0\x0\x81\x0\x0\x0' | \
 	    dd conv=notrunc bs=1 seek=462 of=$@
 .else
