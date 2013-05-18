@@ -1,4 +1,4 @@
-/* $MirOS: www/files/vstyle.css,v 1.18 2009/09/25 18:25:19 tg Exp $ */
+/* $MirOS: www/files/vstyle.css,v 1.19 2009/09/25 18:33:27 tg Exp $ */
 
 /*-
  * The MirOS Project - Webpages
@@ -7,72 +7,63 @@
 
 
 /*
- * Fonts: MSIE EOT first, CSS3 second
+ * Fonts (let’s just hope the URI is relative to the CSS file…)
  */
 
 @font-face {
-        font-family:Gentium;
-        font-style:normal;
-        font-weight:normal;
-        src:url(/FNT/GenR102.eot);
+	font-family:"Gentium";
+	font-style:normal;
+	font-weight:normal;
+	src:url(FNT/GenR102.eot);
+	src:local("Gentium Regular"),
+	    local("Gentium"),
+	    local("Gentium Basic Regular"),
+	    local("Gentium Basic"),
+	    local("Gentium Book Basic Regular"),
+	    local("Gentium Book Basic"),
+	    url(FNT/GenR102.ttf) format("truetype");
 }
 
 @font-face {
-        font-family:Gentium;
-        font-style:italic;
-        font-weight:normal;
-        src:url(/FNT/GenI102.eot);
+	font-family:"Gentium";
+	font-style:italic;
+	font-weight:normal;
+	src:url(FNT/GenI102.eot);
+	src:local("Gentium Italic"),
+	    local("Gentium"),
+	    local("Gentium Basic Italic"),
+	    local("Gentium Basic"),
+	    local("Gentium Book Basic Italic"),
+	    local("Gentium Book Basic"),
+	    url(FNT/GenI102.ttf) format("truetype");
 }
 
 @font-face {
-        font-family:Gentium;
-        font-style:normal;
-        font-weight:bold;
-        src:url(/FNT/GenBasB.eot);
+	font-family:"Gentium Basic";
+	font-style:normal;
+	font-weight:bold;
+	src:url(FNT/GenBasB.eot);
+	src:local("Gentium Bold"),
+	    local("Gentium"),
+	    local("Gentium Basic Bold"),
+	    local("Gentium Basic"),
+	    local("Gentium Book Basic Bold"),
+	    local("Gentium Book Basic"),
+	    url(FNT/GenBasB.ttf) format("truetype");
 }
 
 @font-face {
-        font-family:Gentium;
-        font-style:italic;
-        font-weight:bold;
-        src:url(/FNT/GenBasBI.eot);
-}
-
-
-@font-face {
-        font-family:Gentium;
-        font-style:normal;
-        font-weight:normal;
-        src:local(Gentium),
-            url(/FNT/GenR102.ttf) format("truetype"),
-            url(/FNT/GenR102.eot) format("embedded-opentype");
-}
-
-@font-face {
-        font-family:Gentium;
-        font-style:italic;
-        font-weight:normal;
-        src:local(Gentium),
-            url(/FNT/GenI102.ttf) format("truetype"),
-            url(/FNT/GenI102.eot) format("embedded-opentype");
-}
-
-@font-face {
-        font-family:Gentium;
-        font-style:normal;
-        font-weight:bold;
-        src:local(Gentium Basic),
-            url(/FNT/GenBasB.ttf) format("truetype"),
-            url(/FNT/GenBasB.eot) format("embedded-opentype");
-}
-
-@font-face {
-        font-family:Gentium;
-        font-style:italic;
-        font-weight:bold;
-        src:local(Gentium Basic),
-            url(/FNT/GenBasBI.ttf) format("truetype"),
-            url(/FNT/GenBasBI.eot) format("embedded-opentype");
+	font-family:"Gentium Basic";
+	font-style:italic;
+	font-weight:bold;
+	src:url(FNT/GenBasBI.eot);
+	src:local("Gentium Bold Italic"),
+	    local("Gentium"),
+	    local("Gentium Basic Bold Italic"),
+	    local("Gentium Basic"),
+	    local("Gentium Book Basic Bold Italic"),
+	    local("Gentium Book Basic"),
+	    url(FNT/GenBasBI.ttf) format("truetype");
 }
 
 
@@ -89,8 +80,13 @@ body {
 
 body,p,.content {
 	color:#333333;
-	font-family:Gentium, Helvetica, sans-serif;
+	font-family:"Gentium", Helvetica, sans-serif;
 	line-height:130%;
+}
+
+b strong {
+	font-family:"Gentium Basic", "Gentium", Helvetica, sans-serif;
+	font-weight:bold;
 }
 
 a {
