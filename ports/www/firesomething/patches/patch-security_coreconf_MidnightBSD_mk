@@ -1,6 +1,6 @@
-$MirOS$
---- security/coreconf/MidnightBSD.mk.orig	Mon Dec  8 20:37:32 2008
-+++ security/coreconf/MidnightBSD.mk	Mon Dec  8 20:43:26 2008
+$MirOS: ports/www/firesomething/patches/patch-security_coreconf_MidnightBSD_mk,v 1.1 2008/12/08 22:38:53 tg Exp $
+--- security/coreconf/MidnightBSD.mk.orig	Wed Dec 17 23:12:55 2008
++++ security/coreconf/MidnightBSD.mk	Wed Dec 17 23:12:57 2008
 @@ -20,6 +20,7 @@
  # the Initial Developer. All Rights Reserved.
  #
@@ -56,9 +56,9 @@ $MirOS$
 -endif
 -PROCESS_MAP_FILE = grep -v ';-' $< | \
 -        sed -e 's,;+,,' -e 's; DATA ;;' -e 's,;;,,' -e 's,;.*,;,' > $@
--
--G++INCLUDES		= -I/usr/include/g++
  
+-G++INCLUDES		= -I/usr/include/g++
+-
 -INCLUDES		+= -I/usr/X11R6/include
 +USE_SYSTEM_ZLIB		= 1
 +ZLIB_LIBS		= -lz
