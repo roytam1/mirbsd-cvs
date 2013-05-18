@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.414 2013/01/11 00:11:04 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.415 2013/01/17 20:36:29 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -9736,4 +9736,32 @@ Tag: debian rant
  I cannot reproduce the “PILE OF POO” here, but you can <a
  href="https://duckduckgo.com/?kp=-1&amp;kl=wt-wt&amp;kb=t&amp;kh=1&amp;kj=g2&amp;km=l&amp;ka=monospace&amp;ku=1&amp;ko=s&amp;k1=-1&amp;kv=1&amp;t=debian&amp;q=unicode+pile+of+poo">just
  duckduckgo it</a>.</p>
+----
+Date: 20.02.2013 08:28:20
+Author: tg@
+Title: GNU autotools generated files
+Tag: debian rant
+
+<p class="boxhead">On Planet Debian, Vincent Bernat <a
+ href="http://vincent.bernat.im/en/blog/2013-lldpd-0.7.1.html">wrote</a>:</p>
+<div class="boxtext">
+ The drawback of this approach is that if you rebuild configure from
+ the released tarball, you don’t have the git tree and the version will
+ be a date. Just don’t do that.
+</div><p class="boxfoot">Excuse me‽</p>
+<p>This is totally inacceptable. Regenerating files like aclocal.m4 and
+ Makefile.in (for automake), configure (for autoconf), and the likes is
+ one of the absolute <strong>duties</strong> of a software package.
+ Things <strong>will</strong> break sooner or later if people do not do
+ that. Additionally, generated files <strong>must</strong> be remakable
+ from the distfile, so <strong>do not break this!</strong></p>
+<p>May I suggest, constructively, an alternative? (People – rightfully,
+ I must admit – complain I’m “just” ranting too much.)<br />When making
+ a release from git, write the “git describe” output into a file. Then,
+ use that file instead of trying to run the git executable if .git/. is
+ not a directory (“<tt>test -d .git/.</tt>”). Do not call git, because,
+ in packages, it’s either not installed or/and also undesired.</p>
+<p>Couldn’t comment on your blog, but felt strongly enough about this I
+ took the effort of writing a full post of my own.</p>
+<p>(But thanks for the book recommendation.)</p>
 ----
