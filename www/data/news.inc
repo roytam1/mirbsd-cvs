@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/news.inc,v 1.94 2008/12/28 20:56:46 tg Exp $
+RCSID: $MirOS: www/data/news.inc,v 1.95 2009/01/08 21:36:34 tg Exp $
 Title: Older news from the MirOS Project
 Date: 01.03.2006
 
@@ -1266,6 +1266,9 @@ Tag: security
 
 <p>MirOS-current has security fixes for xterm (CVE-2006-7236, CVE-2008-2383)
  and OpenSSL (CVE-2008-5077) and updating from CVS is recommended.</p>
+<p>On unrelated news, <tt>ports/net/irssi/files/randex.pl</tt>, the Irssi
+ plugin for the MirOS RANDEX protocol to exchange entropy over IRC, has
+ been updated as well.</p>
 ----
 Date: 08.01.2009 21:25
 Author: tg@
