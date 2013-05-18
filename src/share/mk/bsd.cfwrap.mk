@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/bsd.cfwrap.mk,v 1.21 2008/07/11 11:33:20 tg Exp $
+# $MirOS: src/share/mk/bsd.cfwrap.mk,v 1.23 2009/04/17 16:30:13 tg Exp $
 
 .if !defined(BSD_CFWRAP_MK)
 BSD_CFWRAP_MK=1
@@ -61,10 +61,10 @@ FSFHOSTCFLAGS+=	-Werror-maybe-reset
 .endif
 
 .if (${DEBUGLIBS:L} == "yes") && (${FSFISLIB:L} == "yes")
-.  if ${MKC_DEBG:L} == "no"
-FSFCDEBUG=	-g1
-.  else
+.  if defined(MKC_DEBG) && (${MKC_DEBG:L} != "no")
 FSFCDEBUG=	-g3
+.  else
+FSFCDEBUG=	-g1
 .  endif
 FSFCFLAGS+=	${FSFCDEBUG} -fno-omit-frame-pointer
 FSFCXXFLAGS+=	${FSFCDEBUG}
