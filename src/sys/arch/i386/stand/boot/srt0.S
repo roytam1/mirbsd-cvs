@@ -1,7 +1,7 @@
-/* $MirOS: src/sys/arch/i386/stand/boot/srt0.S,v 1.11 2007/03/18 02:45:52 tg Exp $ */
+/* $MirOS: src/sys/arch/i386/stand/boot/srt0.S,v 1.12 2008/08/05 17:57:07 tg Exp $ */
 
 /*-
- * Copyright (c) 2003, 2004, 2005, 2006, 2007
+ * Copyright (c) 2003, 2004, 2005, 2006, 2007, 2008
  *	Thorsten Glaser <tg@mirbsd.de>
  *
  * Provided that these terms and disclaimer and all copyright notices
@@ -91,7 +91,7 @@
 	.globl	_C_LABEL(end)
 	.globl	_ASM_LABEL(pmm_init)
 	.globl	_C_LABEL(tori_bootflag)
-#ifndef SMALL_BOOT
+#if 0 /* ndef SMALL_BOOT */
 	.globl	_C_LABEL(tori_pblk)
 #endif
 
@@ -100,7 +100,7 @@ _start:	cli
 	. = _start + 0x08	/* "EL TORITO BOOT INFO TABLE" */
 	.long	0		/* filled in by mkisofs: */
 Lbofs:	.long	0xcafebabe	/* LBA address of boot file */
-#ifdef SMALL_BOOT
+#if 1 /* def SMALL_BOOT */
 Lbdev:	.byte	0		/* local copy of BIOS boot device */
 _C_LABEL(tori_bootflag):
 	.long	0
@@ -158,7 +158,7 @@ LisRel:	UD(5)			/** E: done reloc, or not needed */
 	cld
 	jmp	SA_LOADSEG,offset Lstart
 
-#ifndef SMALL_BOOT
+#if 0 /* ndef SMALL_BOOT */
 /*
  * Stuff which MUST NOT be placed in the .bss section
  */
@@ -209,9 +209,16 @@ L..e1:	mov	al,dl
 #else
 	mov	eax,[_rval]
 	cmp	eax,0x6A6D4F00
+#if 1
+	je	LpreFD
+	xor	eax,eax
+	dec	eax
+	mov	al,dl
+	mov	[_C_LABEL(tori_bootflag)],eax
+	jmp	LpreFD
+#else
 	jne	LfCD
-
-#ifdef	WANT_ELTORITO_CHECK
+#ifdef	WANT_ELTORITO_CHECK */
 	/* check for El Torito */
 	mov	ax,0x4B01
 	mov	si,offset Ltblk
@@ -281,12 +288,6 @@ L..e2:	xor	ax,ax
 	jmp	LnoCD
 #endif	/* not def WANT_ELTORITO_CHECK */
 
-LfCD:	xor	eax,eax
-	dec	eax
-	mov	al,dl
-	mov	[_C_LABEL(tori_bootflag)],eax
-	jmp	LpreFD
-
 LisCD:	mov	bx,SA_LINKSEG	/* target segment */
 	inc	eax		/* don't load the first sector again */
 	add	bx,0x80		/* 2048 bytes in paragraphs */
@@ -315,8 +316,16 @@ L..37l:	mov	ah,1
 	mov	ah,0		/* ACK the key for the PIC */
 	int	0x16
 	jmp	0xF000,0xFFF0
+
 #endif
 L..37:	jmp	LpreCD		/* prepare boot from CD */
+
+LfCD:	xor	eax,eax
+	dec	eax
+	mov	al,dl
+	mov	[_C_LABEL(tori_bootflag)],eax
+	jmp	LpreFD
+#endif /* 0 */
 #endif /* !SMALL_BOOT */
 
 #ifdef	LOUD
@@ -334,6 +343,7 @@ Lsrt0:	.ascii	"MirOS boot v"
 #endif
 
 #ifndef SMALL_BOOT
+#if 0
 LcdLDS:	pusha
 	push	eax
 	UDX(4)
@@ -444,6 +454,7 @@ LpreCD:	UD(13)			/** M: cd-rom boot */
 #endif
 	/* FALL-THROUGH */
 #endif
+#endif /* 0 */
 
 LpreFD:	/* prepare booting */
 #ifdef BOOTSELECT_HOOK
