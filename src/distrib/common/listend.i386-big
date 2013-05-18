@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/listend.i386-big,v 1.16 2007/05/26 23:07:39 tg Exp $
+# $MirOS: src/distrib/common/listend.i386-big,v 1.17 2007/05/27 00:58:25 tg Exp $
 
 # extra programmes
 LINK	instbin					bin/ps
@@ -30,6 +30,8 @@ LINK	instbin					usr/bin/scp
 LINK	instbin					usr/bin/showmount
 LINK	instbin					usr/bin/ssh
 LINK	instbin					usr/bin/ssh-keygen
+LINK	instbin					usr/bin/uudecode usr/bin/b64decode
+LINK	instbin					usr/bin/uuencode usr/bin/b64encode
 LINK	instbin					usr/libexec/tftpd
 LINK	instbin					usr/sbin/dhcpd
 LINK	instbin					usr/sbin/fdformat
