@@ -1,6 +1,6 @@
-# $MirOS: src/sys/conf/Makefile.inc,v 1.2 2005/12/19 20:12:32 tg Exp $
+# $MirOS: src/sys/conf/Makefile.inc,v 1.3 2005/12/20 18:06:13 tg Exp $
 #-
-# Copyright (c) 2005
+# Copyright (c) 2005, 2006
 #	Thorsten "mirabile" Glaser <tg@mirbsd.de>
 #
 # Licensee is hereby permitted to deal in this work without restric-
@@ -40,6 +40,10 @@ CDIAGFLAGS+=	-fno-builtin-printf -fno-builtin-log
 COPTS?=		-O2
 AFLAGS=		-x assembler-with-cpp -traditional-cpp -D_LOCORE
 STRIPFLAGS=	-g -X -x
+
+.if ${MKC_USAP:L} == "yes"
+CPPFLAGS+=	-DMSDOS_NO_LFN
+.endif
 
 HOSTCC=		${CC}
 HOSTED_CPPFLAGS=${CPPFLAGS:N-nostdinc:N-D_KERNEL}

@@ -220,9 +220,17 @@ msdosfs_mount(mp, path, data, ndp, p)
 	if (pmp->pm_flags & MSDOSFSMNT_GEMDOSFS)
 		pmp->pm_flags |= MSDOSFSMNT_NOWIN95;
 	
-	if (pmp->pm_flags & MSDOSFSMNT_NOWIN95)
+	/*
+	 * Avoid US patents 5,579,517 and 5,758,352
+	 */
+#ifdef MSDOS_NO_LFN
+	pmp->pm_flags |= MSDOSFSMNT_NOWIN95;
+#endif
+
+	if (pmp->pm_flags & MSDOSFSMNT_NOWIN95) {
 		pmp->pm_flags |= MSDOSFSMNT_SHORTNAME;
-	else if (!(pmp->pm_flags & (MSDOSFSMNT_SHORTNAME | MSDOSFSMNT_LONGNAME))) {
+		pmp->pm_flags &= ~MSDOSFSMNT_LONGNAME;
+	} else if (!(pmp->pm_flags & (MSDOSFSMNT_SHORTNAME | MSDOSFSMNT_LONGNAME))) {
 		struct vnode *rvp;
 		
 		/*
