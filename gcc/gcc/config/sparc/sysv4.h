@@ -1,3 +1,5 @@
+/* $MirOS$ */
+
 /* Target definitions for GNU compiler for SPARC running System V.4
    Copyright (C) 1991, 1992, 1995, 1996, 1997, 1998, 2000, 2002
    Free Software Foundation, Inc.
@@ -156,6 +158,7 @@ do { ASM_OUTPUT_ALIGN ((FILE), Pmode == SImode ? 2 : 3);		\
 /* Switch into a generic section.  */
 #undef TARGET_ASM_NAMED_SECTION
 #define TARGET_ASM_NAMED_SECTION  sparc_elf_asm_named_section
+#define NEED_SPARC_ELF_ASM_NAMED_SECTION
 #endif
 
 #undef ASM_OUTPUT_ALIGNED_BSS

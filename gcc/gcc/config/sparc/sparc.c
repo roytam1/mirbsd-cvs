@@ -1,4 +1,4 @@
-/* $MirOS$ */
+/* $MirOS: gcc/gcc/config/sparc/sparc.c,v 1.2 2009/01/03 14:31:23 tg Exp $ */
 
 /* Subroutines for insn-output.c for SPARC.
    Copyright (C) 1987, 1988, 1989, 1992, 1993, 1994, 1995, 1996, 1997, 1998,
@@ -165,7 +165,11 @@ static void sparc_flat_save_restore (FILE *, const char *, int,
 static void sparc_nonflat_function_epilogue (FILE *, HOST_WIDE_INT, int);
 static void sparc_nonflat_function_prologue (FILE *, HOST_WIDE_INT, int);
 #ifdef OBJECT_FORMAT_ELF
+#ifdef NEED_SPARC_ELF_ASM_NAMED_SECTION
 static void sparc_elf_asm_named_section (const char *, unsigned int);
+#endif
+#else
+#undef NEED_SPARC_ELF_ASM_NAMED_SECTION
 #endif
 static void sparc_aout_select_section (tree, int, unsigned HOST_WIDE_INT)
      ATTRIBUTE_UNUSED;
@@ -8691,7 +8695,7 @@ sparc_profile_hook (int labelno)
   emit_library_call (fun, LCT_NORMAL, VOIDmode, 1, lab, Pmode);
 }
 
-#ifdef OBJECT_FORMAT_ELF
+#ifdef NEED_SPARC_ELF_ASM_NAMED_SECTION
 static void
 sparc_elf_asm_named_section (const char *name, unsigned int flags)
 {
