@@ -1,4 +1,4 @@
-# $MirOS: src/scripts/roff2htm,v 1.60 2011/07/17 12:57:48 tg Exp $
+# $MirOS: src/scripts/roff2htm,v 1.61 2011/09/13 18:36:31 tg Exp $
 # $ekkoBSD: catman2html.sh,v 1.2 2004/03/07 03:02:53 stephen Exp $
 #-
 # Copyright (c) 2004, 2005, 2006, 2007, 2011
@@ -91,8 +91,6 @@ s/\([0-9A-z][-.,0-9A-z]*\)-\n\(  *\)\([0-9A-z][-.,0-9A-z]*([1-9][A-z]*)\)\([^ ]*
 	    -e 's#</b>[^€-¿][€-¿]*<b>##g'				\
 	    -e 's#[^€-¿][€-¿]*##g'					\
 	    -e 's#_</i<b><</b>i>##g'					\
-									\
-	    -e 's#^\( \{2,3\}\)\([A-z][ ,0-9A-z</>]*\)$#\1<tt>\2</tt>#'	\
 									\
 	    -e '/^   /s#\(\([0-9A-z][-.,0-9A-z]*\)(\([1-9]\)[/0-9A-Za-z]*)\)#<a href=\"../man\3/\2.htm\">\1</a>#g' \
 	    -e '/^   /s#\(<i>\([0-9A-z][-.,0-9A-z]*\)</i>(\([1-9]\)[/0-9A-Za-z]*)\)#<a href=\"../man\3/\2.htm\">\1</a>#g' \
@@ -209,20 +207,6 @@ function output_header {
 		font-size:large;
 		font-family:sans-serif;
 	}
-	/* XXX check whether this and the sed line are at all needed */
-	tt {
-		color:#CCCCCC;
-	}
-	tt b {
-		color:#FFFFFF;
-	}
-	tt b i,tt i b {
-		color:#FFFFFF;
-		border-bottom:1px solid #FFFFFF;
-	}
-	tt i {
-		border-bottom:1px solid #CCCCCC;
-	}
 	/* ]]> */
  </style>
 </head><body>
@@ -233,7 +217,7 @@ function output_header {
 function output_footer {
 	print '</div><hr /><div class="footer"><p
  style="font-size:xx-small;">Generated on' $roff2htm_gendate 'by
- <tt>$MirOS: src/scripts/roff2htm,v 1.60 2011/07/17 12:57:48 tg Exp $</tt></p>
+ <tt>$MirOS: src/scripts/roff2htm,v 1.61 2011/09/13 18:36:31 tg Exp $</tt></p>
 <p>These manual pages and other documentation are <a
  href="../man7/BSD-Licence.htm">copyrighted</a> by their respective writers;
  their source is available at our <a href="http://cvs.mirbsd.de/">CVSweb</a>,
