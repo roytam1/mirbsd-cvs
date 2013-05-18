@@ -1,4 +1,4 @@
-/* $MirOS: src/sys/crypto/arc4random.c,v 1.1 2010/09/19 18:55:33 tg Exp $ */
+/* $MirOS: src/sys/crypto/arc4random.c,v 1.2 2010/09/25 11:33:17 tg Exp $ */
 
 /*-
  * Copyright © 2010
@@ -42,10 +42,12 @@ extern struct arcfour_status initial_arc4random;
 size_t arc4random_count = 0;
 
 /*
- * 4 MiB seems like a sane limit to protect against reading
+ * 8 MiB seems like a sane limit to protect against reading
  * enough stream cipher output to try and attack the key
  */
-#define ARC4RANDOM_MAXBYTES	(4 * 1048576)
+#ifndef ARC4RANDOM_MAXBYTES
+#define ARC4RANDOM_MAXBYTES	(8 * 1048576)
+#endif
 
 u_int32_t
 arc4random(void)
