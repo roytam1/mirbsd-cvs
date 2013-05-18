@@ -1,18 +1,12 @@
-/* $MirOS: src/share/misc/licence.template,v 1.20 2006/12/11 21:04:56 tg Rel $ */
-
 /*-
- * Copyright (c) 2005, 2006, 2007
- *	Thorsten Glaser <tg@mirbsd.de>
+ * Copyright (c) 2008
+ *	Thorsten Glaser <tg@mirbsd.org>
  *
  * Provided that these terms and disclaimer and all copyright notices
  * are retained or reproduced in an accompanying document, permission
  * is granted to deal in this work without restriction, including un-
  * limited rights to use, publicly perform, distribute, sell, modify,
  * merge, give away, or sublicence.
- *
- * Advertising materials mentioning features or use of this work must
- * display the following acknowledgement:
- *	This product includes material provided by Thorsten Glaser.
  *
  * This work is provided "AS IS" and WITHOUT WARRANTY of any kind, to
  * the utmost extent permitted by applicable law, neither express nor
@@ -22,28 +16,61 @@
  * of dealing in the work, even if advised of the possibility of such
  * damage or existence of a defect, except proven that it results out
  * of said person's immediate fault when using the work as intended.
+ *
+ * The author reserves the right to steward the OPTU encoding forms.
+ *-
+ * Note: this only works because OPTU is the *only* available locale.
  */
 
+#include <libckern.h>
+#ifdef _KERN_HOSTED
 #include <errno.h>
-#include <wchar.h>
+#endif
 
-__RCSID("$MirOS: src/lib/libc/i18n/wcrtomb.c,v 1.16 2007/02/02 19:28:34 tg Exp $");
+__RCSID("$MirOS$");
+
+#ifdef _KERN_HOSTED
+static size_t _optu16to8(uint8_t * restrict, wchar_t, mbstate_t * restrict);
 
 size_t
-wcrtomb(char *__restrict__ dst, wchar_t wc, mbstate_t *__restrict__ ps)
+wcrtomb(char * restrict s, wchar_t wc, mbstate_t * restrict ps)
 {
-	static mbstate_t internal_mbstate = { 0, 0 };
-	unsigned char *s = (unsigned char *)dst;
-	uint8_t count;
+	static mbstate_t w_state = { 0, 0 };
 
+	return (_optu16to8((uint8_t * restrict)s, wc, ps ? ps : &w_state));
+}
+#endif
+
+size_t
+optu16to8(char * restrict s, wchar_t wc, mbstate_t * restrict ps)
+{
+	static mbstate_t o_state = { 0, 0 };
+
+#ifdef _KERN_HOSTED
+	return (_optu16to8((uint8_t * restrict)s, wc, ps ? ps : &o_state));
+}
+
+static size_t
+_optu16to8(uint8_t * restrict s, wchar_t wc, mbstate_t * restrict ps)
+{
+#endif
+	uint8_t count, *src = (uint8_t *)s;
+
+#ifndef _KERN_HOSTED
 	if (__predict_false(ps == NULL))
-		ps = &internal_mbstate;
+		ps = &o_state;
+#endif
 
-	count = ps->count;
+	if ((count = ps->count) == 3) {
+#ifdef _KERN_HOSTED
+		errno = EINVAL;
+#endif
+		return ((size_t)(-1));
+	}
 
-	if (__predict_false(dst == NULL)) {
+	if (__predict_false(s == NULL)) {
 		ps->count = 0;
-		return (++count);
+		return (count + 1);
 	}
 
 	while (__predict_false(count)) {
@@ -52,11 +79,13 @@ wcrtomb(char *__restrict__ dst, wchar_t wc, mbstate_t *__restrict__ ps)
 	}
 
 	if (__predict_false(wc > WCHAR_MAX)) {
+#ifdef _KERN_HOSTED
 		errno = EILSEQ;
+#endif
 		return ((size_t)(-1));
-	} else if (__predict_true(wc < 0x80)) {
+	} else if (__predict_true(wc < 0x80 || (wc & 0xFF80) == 0xEF80)) {
 		/* count is already 0 */
-		*s++ = wc;
+		*s++ = wc & 0xFF;
 	} else if (wc < 0x0800) {
 		count = 1;
 		*s++ = (wc >> 6) | 0xC0;
@@ -69,5 +98,5 @@ wcrtomb(char *__restrict__ dst, wchar_t wc, mbstate_t *__restrict__ ps)
 		*s++ = ((wc >> (6 * --count)) & 0x3F) | 0x80;
 	}
 	ps->count = 0;
-	return ((char *)s - dst);
+	return ((size_t)((uint8_t *)s - src));
 }

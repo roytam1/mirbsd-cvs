@@ -1,4 +1,4 @@
-/* $MirOS: src/kern/include/libckern.h,v 1.9 2008/08/01 19:10:59 tg Exp $ */
+/* $MirOS: src/kern/include/libckern.h,v 1.10 2008/08/01 22:22:21 tg Exp $ */
 
 /*-
  * Copyright (c) 2008
@@ -66,12 +66,15 @@ typedef struct {
 
 __BEGIN_DECLS
 void __main(void);
+
 int bcmp(const void *, const void *, size_t)
     __attribute__((bounded (string, 1, 3)))
     __attribute__((bounded (string, 2, 3)));
 void bzero(void *, size_t)
     __attribute__((bounded (string, 1, 2)));
+
 int ffs(int);
+
 void *memchr(const void *, int, size_t)
     __attribute__((bounded (string, 1, 3)));
 int memcmp(const void *, const void *, size_t)
@@ -79,6 +82,13 @@ int memcmp(const void *, const void *, size_t)
     __attribute__((bounded (string, 2, 3)));
 void *memset(void *, int, size_t)
     __attribute__((bounded (string, 1, 3)));
+
+size_t optu16to8(char * restrict, wchar_t, mbstate_t * restrict)
+    __attribute__((bounded (minbytes, 1, 5)));
+size_t optu8to16(wchar_t * restrict, const char * restrict, size_t,
+    mbstate_t * restrict)
+    __attribute__((bounded (string, 2, 3)));
+
 int strcmp(const char *, const char *);
 int strcoll(const char *, const char *);
 size_t strlcat(char *, const char *, size_t)
@@ -89,6 +99,10 @@ size_t strlen(const char *);
 size_t strxfrm(char *, const char *, size_t)
     __attribute__((bounded (string, 1, 3)));
 
+#ifdef _KERN_HOSTED
+size_t wcrtomb(char * restrict, wchar_t, mbstate_t * restrict)
+    __attribute__((bounded (minbytes, 1, 5)));
+#endif
 int wcscmp(const wchar_t *, const wchar_t *);
 int wcscoll(const wchar_t *, const wchar_t *);
 size_t wcslcat(wchar_t *, const wchar_t *, size_t);
