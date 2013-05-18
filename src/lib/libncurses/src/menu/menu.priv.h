@@ -30,6 +30,7 @@
  *   Author:  Juergen Pfeifer, 1995,1997                                    *
  ****************************************************************************/
 
+/* $MirOS$ */
 /* $Id$ */
 
 /***************************************************************************
@@ -131,13 +132,6 @@ extern NCURSES_EXPORT(int)  _nc_menu_cursor_pos (const MENU* menu, const ITEM* i
 #define returnMenuHook(code)	TRACE_RETURN(code,menu_hook)
 #define returnMenuOpts(code)	TRACE_RETURN(code,menu_opts)
 
-extern NCURSES_EXPORT(ITEM *)	    _nc_retrace_item (ITEM *);
-extern NCURSES_EXPORT(ITEM **)	    _nc_retrace_item_ptr (ITEM **);
-extern NCURSES_EXPORT(Item_Options) _nc_retrace_item_opts (Item_Options);
-extern NCURSES_EXPORT(MENU *)	    _nc_retrace_menu (MENU *);
-extern NCURSES_EXPORT(Menu_Hook)    _nc_retrace_menu_hook (Menu_Hook);
-extern NCURSES_EXPORT(Menu_Options) _nc_retrace_menu_opts (Menu_Options);
-
 #else /* !TRACE */
 
 #define returnItem(code)	return code
@@ -148,5 +142,16 @@ extern NCURSES_EXPORT(Menu_Options) _nc_retrace_menu_opts (Menu_Options);
 #define returnMenuOpts(code)	return code
 
 #endif /* TRACE/!TRACE */
+
+#if defined(TRACE) || defined(TRACE_DEFS)
+
+extern NCURSES_EXPORT(ITEM *)	    _nc_retrace_item (ITEM *);
+extern NCURSES_EXPORT(ITEM **)	    _nc_retrace_item_ptr (ITEM **);
+extern NCURSES_EXPORT(Item_Options) _nc_retrace_item_opts (Item_Options);
+extern NCURSES_EXPORT(MENU *)	    _nc_retrace_menu (MENU *);
+extern NCURSES_EXPORT(Menu_Hook)    _nc_retrace_menu_hook (Menu_Hook);
+extern NCURSES_EXPORT(Menu_Options) _nc_retrace_menu_opts (Menu_Options);
+
+#endif
 
 #endif /* MENU_PRIV_H_incl */

@@ -30,12 +30,12 @@
  *   Author:  Thomas E. Dickey                                              *
  ****************************************************************************/
 
-#define TRACE
+#define TRACE_DEFS
 #include "menu.priv.h"
 
 MODULE_ID("$Id$")
 #ifdef __MirBSD__
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/lib/libncurses/src/menu/m_trace.c,v 1.4 2009/09/06 12:46:45 tg Exp $");
 #endif
 
 NCURSES_EXPORT(ITEM *)

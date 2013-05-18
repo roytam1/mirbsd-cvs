@@ -30,6 +30,7 @@
  *   Author:  Juergen Pfeifer, 1995,1997                                    *
  ****************************************************************************/
 
+/* $MirOS$ */
 /* $Id$ */
 
 #ifndef FORM_PRIV_H
@@ -172,12 +173,6 @@ extern NCURSES_EXPORT(wchar_t *) _nc_Widen_String(char *, int *);
 #define returnFieldType(code)	TRACE_RETURN(code,field_type)
 #define returnFormHook(code)	TRACE_RETURN(code,form_hook)
 
-extern NCURSES_EXPORT(FIELD **)	    _nc_retrace_field_ptr (FIELD **);
-extern NCURSES_EXPORT(FIELD *)	    _nc_retrace_field (FIELD *);
-extern NCURSES_EXPORT(FIELDTYPE *)  _nc_retrace_field_type (FIELDTYPE *);
-extern NCURSES_EXPORT(FORM *)  _nc_retrace_form (FORM *);
-extern NCURSES_EXPORT(Form_Hook)  _nc_retrace_form_hook (Form_Hook);
-
 #else /* !TRACE */
 
 #define returnFieldPtr(code)	return code
@@ -187,6 +182,16 @@ extern NCURSES_EXPORT(Form_Hook)  _nc_retrace_form_hook (Form_Hook);
 #define returnFormHook(code)	return code
 
 #endif /* TRACE/!TRACE */
+
+#if defined(TRACE) || defined(TRACE_DEFS)
+
+extern NCURSES_EXPORT(FIELD **)	    _nc_retrace_field_ptr (FIELD **);
+extern NCURSES_EXPORT(FIELD *)	    _nc_retrace_field (FIELD *);
+extern NCURSES_EXPORT(FIELDTYPE *)  _nc_retrace_field_type (FIELDTYPE *);
+extern NCURSES_EXPORT(FORM *)  _nc_retrace_form (FORM *);
+extern NCURSES_EXPORT(Form_Hook)  _nc_retrace_form_hook (Form_Hook);
+
+#endif
 
 /*
  * Use Check_CTYPE_Field() to simplify FIELDTYPE's that use only the ccheck()
