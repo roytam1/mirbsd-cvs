@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.168 2009/03/02 18:13:29 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.169 2009/03/14 18:30:52 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -3474,7 +3474,7 @@ Tag: bug geocache
 <p>More… some other time. Still wish humans would hibernate too…</p>
 ----
 Author: tg@
-Title: GUUG FFG Redux ? Geocacheing in Karlsruhe
+Title: GUUG FFG Redux – Geocacheing in Karlsruhe
 Date: 14.03.2009 18:19:37
 Tag: bug event geocache hardware
 
