@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/bsd.own.mk,v 1.59 2008/12/13 23:29:29 tg Exp $
+# $MirOS: src/share/mk/bsd.own.mk,v 1.60 2009/03/29 13:04:21 tg Exp $
 # $OpenBSD: bsd.own.mk,v 1.92 2005/01/18 00:28:42 mickey Exp $
 # $NetBSD: bsd.own.mk,v 1.24 1996/04/13 02:08:09 thorpej Exp $
 
@@ -96,14 +96,6 @@ LKMOWN?=	${BINOWN}
 LKMGRP?=	${BINGRP}
 LKMMODE?=	${NONBINMODE}
 
-INSTALL_COPY?=	-c
-.ifndef DEBUG
-INSTALL_STRIP?=	-s
-STRIP?=		strip
-.endif
-INSTALL_STRIP?=
-STRIP?=		:
-
 NOLINT?=	yes
 NOMAN?=		no
 NOOBJ?=		no
@@ -132,6 +124,19 @@ ASPICFLAG=	-KPIC
 .elif ${OBJECT_FMT} == "a.out"
 ASPICFLAG=	-k
 .endif
+
+INSTALL_COPY?=	-c
+.ifndef DEBUG
+.  if ${OBJECT_FMT} == "Mach-O"
+INSTALL_STRIP?=
+STRIP?=		strip -x
+.  else
+INSTALL_STRIP?=	-s
+STRIP?=		strip
+.  endif
+.endif
+INSTALL_STRIP?=
+STRIP?=		:
 
 # XXX fixme
 PIC?=		cat --
