@@ -1,7 +1,7 @@
 #!/usr/bin/env mksh
-# $MirOS: ports/infrastructure/pkgtools/upgrade/pkg_upgrade.sh,v 1.30 2007/08/16 12:28:39 tg Exp $
+# $MirOS: ports/infrastructure/pkgtools/upgrade/pkg_upgrade.sh,v 1.31 2008/03/24 22:10:58 tg Exp $
 #-
-# Copyright (c) 2006, 2007
+# Copyright (c) 2006, 2007, 2008
 #	Thorsten Glaser <tg@mirbsd.de>
 # Copyright (c) 2005, 2007
 #	Benny Siegert <bsiegert@66h.42h.de>
@@ -282,6 +282,7 @@ done <$TMPDIR/+REQUIRED_BY
 # forward dependency information: +DEPENDS created by pkg_add
 
 # backward dependency information: same for old and new package
-if [[ -f $TMPDIR/+REQUIRED_BY && -d $PKG_DBDIR/$PKGNAME ]]; then
-	mv $TMPDIR/+REQUIRED_BY $PKG_DBDIR/$PKGNAME
+if [[ -f $TMPDIR/+REQUIRED_BY ]]; then
+	mkdir -p $PKG_DBDIR/$PKGNAME
+	mv $TMPDIR/+REQUIRED_BY $PKG_DBDIR/$PKGNAME/
 fi
