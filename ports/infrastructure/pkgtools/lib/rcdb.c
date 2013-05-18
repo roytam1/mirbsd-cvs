@@ -1,4 +1,4 @@
-/* $MirOS: ports/infrastructure/pkgtools/lib/rcdb.c,v 1.4 2008/05/01 00:52:32 tg Exp $ */
+/* $MirOS: ports/infrastructure/pkgtools/lib/rcdb.c,v 1.5 2009/11/28 22:15:51 bsiegert Exp $ */
 
 /*-
  * Copyright (c) 2004, 2005
@@ -49,7 +49,7 @@
 #define __DBINTERFACE_PRIVATE
 #include "lib.h"
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/rcdb.c,v 1.4 2008/05/01 00:52:32 tg Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/rcdb.c,v 1.5 2009/11/28 22:15:51 bsiegert Exp $");
 
 DBT *
 rcdb_alloc(void *item, const size_t length)
@@ -248,9 +248,9 @@ rcdb_lookup(RCDB *handle, const char *const searchkey)
 
 	if ((handle == NULL) || (searchkey == NULL)) {
 		errno = EINVAL;
-		return (recno_t)-1;
+		goto bad;
 	}
-retr:
+ retr:
 	rv = handle->database->seq(handle->database,
 	    &(handle->dbt_key), &(handle->dbt_data),
 	    (curno ? R_NEXT : R_FIRST));
@@ -278,8 +278,9 @@ retr:
 
 	return curno;
 
-bad:
-	handle->lastrec = handle->currec = 0;
+ bad:
+	if (handle)
+		handle->lastrec = handle->currec = 0;
 	return (recno_t)-1;
 }
 
