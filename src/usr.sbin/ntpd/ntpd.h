@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.sbin/ntpd/ntpd.h,v 1.14 2007/10/08 12:04:33 tg Exp $ */
+/**	$MirOS: src/usr.sbin/ntpd/ntpd.h,v 1.15 2008/05/13 12:20:06 tg Exp $ */
 /*	$OpenBSD: ntpd.h,v 1.70 2006/06/04 18:58:13 otto Exp $ */
 
 /*
@@ -115,25 +115,25 @@ struct ntp_peer {
 	struct ntp_query		*query;
 	struct ntp_offset		 reply[OFFSET_ARRAY_SIZE];
 	struct ntp_offset		 update;
-	enum client_state		 state;
 	time_t				 next;
 	time_t				 deadline;
+	int				 lasterror;
+	enum client_state		 state;
 	u_int32_t			 id;
 	u_int8_t			 shift;
 	u_int8_t			 trustlevel;
-	uint8_t				 stratum_offset;
-	int				 lasterror;
+	u_int8_t			 stratum_offset;
 };
 
 struct ntpd_conf {
 	TAILQ_HEAD(listen_addrs, listen_addr)	listen_addrs;
 	TAILQ_HEAD(ntp_peers, ntp_peer)		ntp_peers;
 	struct ntp_status			status;
+	u_int32_t				scale;
 	u_int8_t				listen_all;
 	u_int8_t				settime;
 	u_int8_t				debug;
-	uint8_t					trace;
-	u_int32_t				scale;
+	u_int8_t				trace;
 };
 
 struct buf {
