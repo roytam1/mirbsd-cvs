@@ -1,4 +1,4 @@
-/* $MirOS: src/lib/libc/i18n/charsets.c,v 1.11 2006/05/21 12:38:39 tg Exp $ */
+/* $MirOS: src/lib/libc/i18n/charsets.c,v 1.12 2006/06/03 22:12:55 tg Exp $ */
 
 /*-
  * Copyright (c) 2005
@@ -35,11 +35,13 @@
 
 #include "mir18n.h"
 
-__RCSID("$MirOS: src/lib/libc/i18n/charsets.c,v 1.11 2006/05/21 12:38:39 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/i18n/charsets.c,v 1.12 2006/06/03 22:12:55 tg Exp $");
 
 /* simple locale support (C and UTF-8) */
 
 const char *__weak_setlocale(int, const char *);
+
+bool __locale_is_utf8 = false;
 
 const char *
 __weak_setlocale(int category, const char *locale)

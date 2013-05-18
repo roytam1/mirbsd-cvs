@@ -1,4 +1,4 @@
-# $MirOS: src/lib/libc/i18n/Makefile.inc,v 1.17 2006/06/01 22:55:35 tg Exp $
+# $MirOS: src/lib/libc/i18n/Makefile.inc,v 1.18 2006/06/02 12:58:52 tg Exp $
 
 .PATH: ${LIBCSRCDIR}/i18n
 .PATH: ${LIBCSRCDIR}/locale
@@ -13,8 +13,8 @@ SRCS+=	tbl_wnop.c
 
 SRCS+=	catalogues.c
 SRCS+=	charsets.c
-SRCS+=	isutf8.c
 SRCS+=	langinfo.c
+SRCS+=	mbcurmax.c
 
 SRCS+=	btowc.c
 SRCS+=	iswctype.c
