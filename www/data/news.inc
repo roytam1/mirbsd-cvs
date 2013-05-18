@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/news.inc,v 1.148 2011/07/25 16:21:55 tg Exp $
+RCSID: $MirOS: www/data/news.inc,v 1.149 2012/01/15 20:49:52 tg Exp $
 Title: Older news from the MirOS Project
 Date: 01.03.2006
 
@@ -1993,4 +1993,28 @@ Tag: snapshot
  in addition to e.g. the mksh(1) fix noted on the mailing list.</p>
 <p>The MirOS infrastructure servers will be upgraded to patchlevel 10uB0
  shortly.</p>
+----
+Title: mksh R41 released
+Date: 30.11.2012 23:39
+Author: tg@
+Tag: mksh
+
+<p>The <a href="@@RELPATH@@mksh.htm">MirBSD Korn Shell R41</a> has finally
+ been released. This is a major “everything” version with important fixes
+ as well as new features and behavioural changes. Sorry for the delay.</p>
+<p>See also the:</p><ul>
+ <li><a href="@@RELPATH@@mksh.htm#r41">detailed changelog</a></li>
+ <li><a href="@@RELPATH@@mksh.htm#p41">packagers’ info</a></li>
+ <li><a href="@@RELPATH@@mksh.htm#c41">users’ caveats</a></li>
+ <li><a href="@@ABSPATH@@/MirOS/cats/mir/mksh/mksh-R41.cat1.gz">Preformatted
+  manual page</a> (<a href="@@ABSPATH@@/MirOS/cats/mir/mksh/mksh-R41.htm.gz">HTML</a>,
+  <a href="@@ABSPATH@@/MirOS/cats/mir/mksh/mksh-R41.pdf">PDF</a>, <a
+  href="@@ABSPATH@@/MirOS/cats/mir/mksh/mksh-R41.txt.gz">plaintext</a>)</li>
+ <li><a href="@@ABSPATH@@/MirOS/dist/mir/mksh/mksh-R41.tgz">Download</a>
+  <strong>NEW</strong> as gzip(1)’d us<!-- -->tar(1) distfile!</li>
+ <li>OpenSuSE Buildservice <a
+  href="http://download.opensuse.org/repositories/shells/CentOS_5/src/mksh-41-1.1.src.rpm">SRPM</a>
+  (and more, including binaries; just browse that directory tree)</li>
+ <li><a href="http://news.gmane.org/gmane.os.miros.mksh">mailing list</a></li>
+</ul>
 ----
