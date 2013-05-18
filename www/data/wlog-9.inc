@@ -1547,3 +1547,23 @@ Title: A Good Day™
  especially the vt100 wscons change. The floppy image is probably going to
  die though, and installboot doesn’t like the miniroot (yet).</p>
 ----
+Date: 13.08.2007
+Author: tg@
+
+<p>There are days you just want to go back to bed. This is one of them and
+ I’m beginning to hate my 42½ hour working weeks again.</p>
+<p>Lynx is buggy, trying to convery my nicely working solutions to kludges
+ around broken GnuTLS (with no reason to exist), since the latter does not
+ support even some basic OpenSSL function calls, and they have to autofool
+ for it. Guess who’s going to fix that? Okay, I already did, so…</p>
+<p>Due to my recent ability to compile <a href="http://www.cachewolf.de/">
+ CacheWolf</a> with gcj, it’s not in base again. Yeah, call me selfish, it
+ is nothing new. Anyway, it won’t hurt since it’ll reside in the “ada” set
+ which almost nobody installs, and isn’t selected by default either. Also,
+ it’s i386 only (quelle surprise). Maybe someone can make use of it. gcj’s
+ also enough for university students’ needs (except that gij is broken). I
+ recall Benny telling me that boehm-gc with threads wo’t work; gcj uses it
+ and seems to work relatively stable. Java™ still sucks, especially if you
+ have two different line ending conventions in a windows-1252 encoded file
+ and the docs are in the same charset except for some UTF-8+BOM…</p>
+----
