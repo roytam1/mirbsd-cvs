@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/sys/param.h,v 1.86 2009/08/10 05:16:54 tg Exp $ */
+/**	$MirOS: src/sys/sys/param.h,v 1.87 2009/12/13 00:32:15 tg Exp $ */
 /*	$OpenBSD: param.h,v 1.54 2004/02/27 18:06:55 deraadt Exp $	*/
 /*	$NetBSD: param.h,v 1.23 1996/03/17 01:02:29 thorpej Exp $	*/
 
@@ -191,7 +191,7 @@
 #define __BOUNDINTU(maxv,x)	MIN((maxv),(x))
 
 /* Macros for calculating the offset of a field */
-#if !defined(offsetof) && defined(_KERNEL)
+#if !defined(offsetof) && (defined(_KERNEL) || defined(_STANDALONE))
 #define offsetof(s, e)	((size_t)&((s *)0)->e)
 #endif
 
