@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/Makefile,v 1.6 2006/08/18 21:36:29 tg Exp $
+# $MirOS: src/distrib/common/Makefile,v 1.7 2006/08/18 21:41:25 tg Exp $
 
 .include <bsd.own.mk>
 
@@ -20,6 +20,7 @@ CFLAGS+=	${CDIAGFLAGS} ${COPTS}
 HOSTCFLAGS?=	${CFLAGS}
 
 # temporary mounts
+WRKDIR=		${REALOBJDIR}/tmpdata
 TMPMOUNT=	${REALOBJDIR}/tmpmnt
 VND?=		svnd0
 VND_DEV=	/dev/${VND}a
@@ -93,7 +94,7 @@ install:
 unconfig:
 	-${SUDO} umount -f ${VND_DEV}
 	-${SUDO} vnconfig -u ${VND}
-	-${SUDO} rm -rf ${TMPMOUNT} ${IMAGE} ${FLOPPY}
+	-${SUDO} rm -rf ${TMPMOUNT} ${WRKDIR} ${IMAGE} ${FLOPPY}
 
 cleannobsd: unconfig
 	rm -f *core ${CBIN} ${CBIN}.mk ${CBIN}.cache ${CBIN}.conf ${IMAGE} \
@@ -122,13 +123,15 @@ ${CBIN}: ${CBIN}.mk ${CBIN}.cache ${CBIN}.c
 
 ${IMAGE}: ${CBIN}
 	test ! -e ${TMPMOUNT} || (cd ${TOPDIR}/common; ${MAKE} unconfig)
-	${SUDO} mkdir -p ${TMPMOUNT}
-	${SUDO} mtree -def ${MTREE} -p ${TMPMOUNT}/ -u
-	OBJDIR=${REALOBJDIR:Q} TARGDIR=${TMPMOUNT:Q} TOPDIR=${TOPDIR:Q} \
+	${SUDO} rm -rf ${WRKDIR}
+	${SUDO} mkdir -p ${WRKDIR}
+	${SUDO} mtree -Udef ${MTREE} -p ${WRKDIR}/
+	OBJDIR=${REALOBJDIR:Q} TARGDIR=${WRKDIR:Q} TOPDIR=${TOPDIR:Q} \
 	    DESTDIR=${DESTDIR:Q} BSDOBJDIR=${BSDOBJDIR:Q} \
 	    ${SUDO} ${SHELL} ${TOPDIR}/common/runlist.sh ${LISTS}
-	${SUDO} rm ${TMPMOUNT}/${CBIN}
-	${SUDO} makefs -s ${IMAGESIZE}b -o ${IMAGEOPTS} ${IMAGE} ${TMPMOUNT}
+	${SUDO} rm ${WRKDIR}/${CBIN}
+	${SUDO} makefs -s ${IMAGESIZE}b -o ${IMAGEOPTS} ${IMAGE} ${WRKDIR}
+	${SUDO} mkdir -p ${TMPMOUNT}
 	${SUDO} vnconfig -v -c ${VND} ${IMAGE}
 	${SUDO} disklabel -w ${RAWLABEL} ${VND} ${IMAGETYPE}
 	${SUDO} mount -r ${VND_DEV} ${TMPMOUNT}
@@ -139,7 +142,7 @@ ${IMAGE}: ${CBIN}
 	${SUDO} umount ${TMPMOUNT}
 	${SUDO} fsck -fy ${VND_RDEV}
 	${SUDO} vnconfig -v -u ${VND}
-	${SUDO} rm -rf ${TMPMOUNT}
+	${SUDO} rm -rf ${TMPMOUNT} ${WRKDIR}
 
 bsd.uc: bsd ${IMAGE} ${RDSETROOT}
 	-rm -f $@
@@ -161,12 +164,14 @@ bsd.rd.net: bsd.st
 
 ${FLOPPY}: bsd.st
 	test ! -e ${TMPMOUNT} || (cd ${TOPDIR}/common; ${MAKE} unconfig)
+	${SUDO} rm -rf ${WRKDIR}
+	mkdir -p ${WRKDIR}
+	cp ${BOOT} ${WRKDIR}/boot
+	gzip -vn9 <bsd.st >${WRKDIR}/bsd
+	${SUDO} chown -R 0:0 ${WRKDIR}
+	${SUDO} chmod -R u=rwX,go=rX ${WRKDIR}
+	${SUDO} makefs -s ${FLOPPYSIZE}b -o ${FLOPPYOPTS} ${FLOPPY} ${WRKDIR}
 	mkdir -p ${TMPMOUNT}
-	cp ${BOOT} ${TMPMOUNT}/boot
-	gzip -vn9 <bsd.st >${TMPMOUNT}/bsd
-	${SUDO} chown -R 0:0 ${TMPMOUNT}
-	${SUDO} chmod -R u=rwX,go=rX ${TMPMOUNT}
-	${SUDO} makefs -s ${FLOPPYSIZE}b -o ${FLOPPYOPTS} ${FLOPPY} ${TMPMOUNT}
 	${SUDO} vnconfig -v -c ${VND} ${FLOPPY}
 	${SUDO} disklabel -w ${RAWLABEL} ${VND} ${FLOPPYTYPE}
 	${SUDO} mount -r ${VND_DEV} ${TMPMOUNT}
@@ -177,7 +182,7 @@ ${FLOPPY}: bsd.st
 	${SUDO} umount ${TMPMOUNT}
 	${SUDO} fsck -fy ${VND_RDEV}
 	${SUDO} vnconfig -v -u ${VND}
-	${SUDO} rm -rf ${TMPMOUNT}
+	${SUDO} rm -rf ${TMPMOUNT} ${WRKDIR}
 
 ${CDROM}: cdrom-prepare cdrom-mdcopy cdrom-generate cdrom-mdboot
 

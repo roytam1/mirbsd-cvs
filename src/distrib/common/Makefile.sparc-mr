@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/Makefile.sparc-mr,v 1.1 2006/08/18 21:08:02 tg Exp $
+# $MirOS: src/distrib/common/Makefile.sparc-mr,v 1.2 2006/08/18 21:42:34 tg Exp $
 
 RAWLABEL=
 
@@ -9,7 +9,7 @@ IMAGE=		miniroot${OSrev}.fs
 IMAGESIZE=	12288
 IMAGETYPE=	miniroot
 IMAGE_PREP=	${SUDO} ${DESTDIR}/usr/mdec/installboot -v \
-		    ${TMPMOUNT}/boot ${BOOTXX} ${VND_CRDEV}
+		    ${WRKDIR}/boot ${BOOTXX} ${VND_CRDEV}
 
 KERNEL_BUILD=	No
 KERNEL_BSDRD=	No
