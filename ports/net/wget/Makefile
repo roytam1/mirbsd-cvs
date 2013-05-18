@@ -1,4 +1,4 @@
-# $MirOS: ports/net/wget/Makefile,v 1.7 2006/09/14 00:12:27 tg Exp $
+# $MirOS: ports/net/wget/Makefile,v 1.8 2006/10/14 23:30:55 tg Exp $
 # $OpenBSD: Makefile,v 1.35 2003/05/14 15:03:51 brad Exp $
 
 COMMENT=		retrieve files via HTTP and FTP
@@ -8,9 +8,7 @@ DISTNAME=		wget-${V}
 PKGNAME=		wget-${V}-${P}
 CATEGORIES=		net
 MASTER_SITES=		${MASTER_SITE_GNU:=wget/}
-MASTER_SITES0=		http://ftp.fr.debian.org/debian/pool/main/w/wget/ \
-			http://ftp.debian.org/debian/pool/main/w/wget/ \
-			ftp://ftp.us.debian.org/debian/pool/main/w/wget/
+MASTER_SITES0=		${MASTER_SITE_DEBIAN:=w/wget/}
 HOMEPAGE=		http://www.gnu.org/software/wget/
 
 PATCHFILES=		wget_${V}-${P}.diff.gz:0

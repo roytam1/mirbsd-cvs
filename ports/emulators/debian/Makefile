@@ -1,12 +1,12 @@
-# $MirOS: ports/emulators/debian/Makefile,v 1.4 2006/06/25 06:26:52 tg Exp $
+# $MirOS: ports/emulators/debian/Makefile,v 1.5 2006/09/14 00:09:09 tg Exp $
 
 ONLY_FOR_PLATFORM=	MirBSD:*:i386 OpenBSD:*:i386
 
-COMMENT=			Debian GNU/Linux shared libraries
+COMMENT=		Debian GNU/Linux shared libraries
 EMUL=			linux
 CATEGORIES=		emulators
 DISTNAME=		debian-libs-3.1
-FULLPKGNAME=		${DISTNAME}-2
+FULLPKGNAME=		${DISTNAME}-3
 RESPONSIBLE=		Thorsten Glaser <tg@mirbsd.de>
 RUN_DEPENDS+=		:linux-common-*:emulators/linux-common
 
@@ -17,8 +17,6 @@ PERMIT_PACKAGE_CDROM=	Yes
 PERMIT_PACKAGE_FTP=	Yes
 
 DIST_SUBDIR=		deb
-MASTER_SITE_DEBIAN=	http://ftp.debian.org/pool/main/
-
 MASTER_SITES0=		${MASTER_SITE_DEBIAN:=g/glibc/}
 MASTER_SITES1=		${MASTER_SITE_DEBIAN:=e/expat/}
 MASTER_SITES2=		${MASTER_SITE_DEBIAN:=f/fontconfig/}
@@ -28,10 +26,10 @@ MASTER_SITES5=		${MASTER_SITE_DEBIAN:=z/zlib/}
 MASTER_SITES6=		${MASTER_SITE_DEBIAN:=x/xrender/}
 MASTER_SITES7=		${MASTER_SITE_DEBIAN:=g/gcc-3.3/}
 
-DISTFILES=		libc6_2.3.2.ds1-22_i386.deb:0 \
+DISTFILES=		libc6_2.3.2.ds1-22sarge4_i386.deb:0 \
 			libexpat1_1.95.8-3_i386.deb:1 \
 			libfontconfig1_2.3.1-2_i386.deb:2 \
-			libfreetype6_2.1.7-2.4_i386.deb:3 \
+			libfreetype6_2.1.7-6_i386.deb:3 \
 			libice6_4.3.0.dfsg.1-14sarge1_i386.deb:4 \
 			libsm6_4.3.0.dfsg.1-14sarge1_i386.deb:4 \
 			libx11-6_4.3.0.dfsg.1-14sarge1_i386.deb:4 \
