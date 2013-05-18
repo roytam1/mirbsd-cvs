@@ -1,7 +1,7 @@
-# $MirOS: ports/print/ghostscript/esp/Makefile,v 1.5 2006/04/27 20:52:11 bsiegert Exp $
+# $MirOS: ports/print/ghostscript/esp/Makefile,v 1.6 2006/09/14 00:12:41 tg Exp $
 
-COMMENT=			ESP Ghostscript, a PostScript interpreter
-VERSION=		8.15.2
+COMMENT=		ESP Ghostscript, a PostScript interpreter
+VERSION=		8.15.3
 DASH_VER=		-0
 DISTNAME=		espgs-${VERSION}-source
 PKGNAME=		ghostscript-${VERSION}${DASH_VER}
@@ -28,7 +28,7 @@ WRKDIST=		${WRKDIR}/${DISTNAME:S/-source//}
 LIB_DEPENDS=		jpeg.62::graphics/jpeg \
 			tiff.35::graphics/tiff
 RUN_DEPENDS=		:gs-fonts-std-*:print/ghostscript/fonts-std
-MODULES+=		graphics/png converters/libiconv
+MODULES+=		graphics/png converters/libiconv devel/pkgconfig
 
 FAKE_FLAGS=		BINMODE=${BINMODE} \
 			SHAREMODE=${SHAREMODE}

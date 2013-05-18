@@ -1,6 +1,7 @@
-@comment $MirOS: ports/print/ghostscript/esp/pkg/PLIST,v 1.1.7.1 2005/03/18 15:51:03 tg Exp $
+@comment $MirOS: ports/print/ghostscript/esp/pkg/PLIST,v 1.2 2006/04/27 20:52:12 bsiegert Exp $
 %%cups%%
 bin/bdftops
+bin/dumphint
 bin/dvipdf
 bin/eps2eps
 bin/fixmswrd.pl
@@ -395,12 +396,20 @@ share/ghostscript/8.15/lib/cdj690.upp
 share/ghostscript/8.15/lib/cdj690ec.upp
 share/ghostscript/8.15/lib/cid2code.ps
 share/ghostscript/8.15/lib/cidfmap
+share/ghostscript/8.15/lib/cjkv/baseutil.ps
+share/ghostscript/8.15/lib/cjkv/cjkcidcm.ps
+share/ghostscript/8.15/lib/cjkv/cjkfnmap.ps
+share/ghostscript/8.15/lib/cjkv/cjkvinit.ps
+share/ghostscript/8.15/lib/cjkv/cjkvttcf.ps
+share/ghostscript/8.15/lib/cjkv/tt11util.ps
+share/ghostscript/8.15/lib/cjkv/tt42util.ps
 share/ghostscript/8.15/lib/decrypt.ps
 share/ghostscript/8.15/lib/dmp_init.ps
 share/ghostscript/8.15/lib/dmp_site.ps
 share/ghostscript/8.15/lib/dnj750c.upp
 share/ghostscript/8.15/lib/dnj750m.upp
 share/ghostscript/8.15/lib/docie.ps
+share/ghostscript/8.15/lib/dumphint.ps
 share/ghostscript/8.15/lib/errpage.ps
 share/ghostscript/8.15/lib/escp_24.src
 share/ghostscript/8.15/lib/font2c.ps
@@ -586,6 +595,7 @@ share/ghostscript/8.15/lib/winmaps.ps
 share/ghostscript/8.15/lib/wrfont.ps
 share/ghostscript/8.15/lib/xlatmap
 share/ghostscript/8.15/lib/zeroline.ps
+@dirrm share/ghostscript/8.15/lib/cjkv
 @dirrm share/ghostscript/8.15/lib
 @dirrm share/ghostscript/8.15/examples
 @dirrm share/ghostscript/8.15/doc
