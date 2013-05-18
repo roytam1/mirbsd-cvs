@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/stand/boot/conf.c,v 1.14 2009/01/10 13:03:39 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/stand/boot/conf.c,v 1.15 2009/01/10 13:06:19 tg Exp $ */
 /*	$OpenBSD: conf.c,v 1.39 2008/04/19 23:20:22 weingart Exp $	*/
 
 /*
@@ -36,7 +36,6 @@
 #include <libsa.h>
 #include <lib/libsa/ufs.h>
 #include <lib/libsa/cd9660.h>
-#include <tori.h>
 #ifndef SMALL_BOOT
 #include <lib/libsa/fat.h>
 #ifdef USE_PXE
@@ -108,9 +107,6 @@ struct fs_ops file_system[] = {
 int nfsys = NENTS(file_system);
 
 struct devsw	devsw[] = {
-#ifndef SMALL_BOOT
-	{ "TORI", toristrategy, toriopen, toriclose, toriioctl },
-#endif
 	{ "BIOS", biosstrategy, biosopen, biosclose, biosioctl },
 #if 0
 	{ "TFTP", tftpstrategy, tftpopen, tftpclose, tftpioctl },

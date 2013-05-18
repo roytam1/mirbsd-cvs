@@ -1,4 +1,4 @@
-# $MirOS: src/sys/arch/i386/stand/boot/Makefile,v 1.18 2009/01/10 11:58:00 tg Exp $
+# $MirOS: src/sys/arch/i386/stand/boot/Makefile,v 1.19 2009/01/10 13:41:17 tg Exp $
 
 .include "${.CURDIR}/../Makefile.inc"
 
@@ -8,7 +8,6 @@ SADIR=${.CURDIR}/..
 .include "${KERNBASE}/Makefile.inc"
 
 CPPFLAGS+=	${DEBUGFLAGS}
-#CPPFLAGS+=	-DWANT_ELTORITO_CHECK
 #CPPFLAGS+=	-DLOUD #-DEXTRALOUD
 #CPPFLAGS+=	-DUTEST #-DUHARD #-DUANAL
 #CPPFLAGS+=	-DDEBUG_OFS

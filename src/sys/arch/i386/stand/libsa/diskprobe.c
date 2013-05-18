@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/stand/libsa/diskprobe.c,v 1.10 2009/01/02 05:16:34 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/stand/libsa/diskprobe.c,v 1.11 2009/01/03 13:43:33 tg Exp $ */
 /*	$OpenBSD: diskprobe.c,v 1.29 2007/06/18 22:11:20 krw Exp $	*/
 
 /*
@@ -108,22 +108,22 @@ hardprobe(void)
 
 #ifndef SMALL_BOOT
 	/* CD-ROM */
-	if (i386_toridev) {
+//	if (i386_toridev) { //XXX
 		printf(" cd0");
 		dip = alloc(sizeof(struct diskinfo));
 		memset(dip, 0, sizeof(*dip));
 		dip->bios_info.bsd_dev = MAKEBOOTDEV(6, 0, 0, 0, RAW_PART);
 		dip->bios_info.flags |= (BDI_INVALID | BDI_EL_TORITO);
-		dip->bios_info.bios_number = i386_toridev;
+//		dip->bios_info.bios_number = i386_toridev;
 		TAILQ_INSERT_TAIL(&disklist, dip, list);
-	}
+//	}
 #endif
 
 	/* Hard disks */
 	for (i = 0x80; i < 0x88; i++) {
 #ifndef SMALL_BOOT
-		if (i == i386_toridev)
-			continue;
+//		if (i == i386_toridev)
+//			continue;
 #endif
 
 		dip = alloc(sizeof(struct diskinfo));

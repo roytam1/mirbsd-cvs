@@ -1,4 +1,4 @@
-/* $MirOS: src/sys/arch/i386/stand/boot/srt0.S,v 1.48 2009/01/10 14:30:44 tg Exp $ */
+/* $MirOS: src/sys/arch/i386/stand/boot/srt0.S,v 1.49 2009/01/10 14:38:49 tg Exp $ */
 
 /*-
  * Copyright (c) 2003, 2004, 2005, 2006, 2007, 2008, 2009
@@ -81,9 +81,6 @@
 	.globl	_start
 	.globl	_C_LABEL(bios_bootdev)
 	.globl	_C_LABEL(bios_bootpte)
-#ifndef SMALL_BOOT
-	.globl	_C_LABEL(i386_toridev)
-#endif
 	.globl	_C_LABEL(boot)
 	.globl	_C_LABEL(edata)
 	.globl	_C_LABEL(end)
@@ -333,7 +330,7 @@ LnoCD:
 	shr	eax,16
 	test	al,1
 	jz	1f
-	mov	[_C_LABEL(i386_toridev)],edx
+//	mov	[_C_LABEL(i386_toridev)],edx
 1:
 #endif
 	UD32(17)		/** Q: jump into C code */

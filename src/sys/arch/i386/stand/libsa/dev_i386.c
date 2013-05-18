@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/stand/libsa/dev_i386.c,v 1.8 2009/01/02 04:58:41 tg Exp $	*/
+/**	$MirOS: src/sys/arch/i386/stand/libsa/dev_i386.c,v 1.9 2009/01/02 16:56:47 tg Exp $	*/
 /*	$OpenBSD: dev_i386.c,v 1.30 2007/06/27 20:29:37 mk Exp $	*/
 
 /*
@@ -36,7 +36,6 @@ extern int debug;
 
 #ifndef SMALL_BOOT
 int i386_bootdev;
-int i386_toridev = 0;
 #endif
 
 /* XXX use slot for 'rd' for 'hd' pseudo-device */
@@ -98,7 +97,7 @@ devboot(dev_t bootdev, char *p)
 #ifndef SMALL_BOOT
 	i386_bootdev = bootdev;
 
-	if (i386_toridev) {
+//	if (i386_toridev) {	//XXX
 		*p++ = 'c';
 		*p++ = 'd';
 		*p++ = '0';
@@ -106,7 +105,7 @@ devboot(dev_t bootdev, char *p)
 		*p = '\0';
 		printf(" (El Torito)");
 		return;
-	}
+//	}
 #endif
 	if (bootdev & 0x80)
 		*p++ = 'h';
