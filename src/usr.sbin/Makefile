@@ -1,4 +1,4 @@
-# $MirOS: src/usr.sbin/Makefile,v 1.18 2006/07/05 20:42:45 tg Exp $
+# $MirOS: src/usr.sbin/Makefile,v 1.19 2006/07/08 21:42:55 tg Exp $
 # $OpenBSD: Makefile,v 1.110 2004/05/04 23:27:21 deraadt Exp $
 
 .include <bsd.own.mk>
@@ -103,6 +103,7 @@
   SUBDIR+= vnconfig
   SUBDIR+= wsconscfg
 .if ${MACHINE_ARCH} == "i386"
+  SUBDIR+= wsconfig
   SUBDIR+= wsfontload
 .endif
   SUBDIR+= wsmoused
