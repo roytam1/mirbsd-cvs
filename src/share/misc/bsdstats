@@ -1,4 +1,4 @@
-# $MirOS: src/share/misc/bsdstats,v 1.9 2006/10/03 20:34:58 tg Exp $
+# $MirOS: src/share/misc/bsdstats,v 1.10 2006/10/04 00:15:04 tg Exp $
 # $FreeBSD: /repoman/r/pcvs/ports/sysutils/bsdstats/files/300.statistics,v 1.30 2006/10/02 12:07:30 scrappy Exp $
 
 rpt='http://rpt.bsdstats.org/scripts/'
@@ -67,12 +67,12 @@ if (( stats_report_time <= (now - (14 * 86400) + 7200) )); then
 	uri="report_system.php?token=$stats_key&key=$stats_token&rel=$(uri_escape $version)&arch=$(uname -m)&opsys=$(uname -s)"
 	res=$(sleep $((RANDOM % 99 + 21)); /usr/bin/ftp -Vo - "$rpt$uri" 2>&-)
 	print -r "system report $uri -> ${res:-ERROR}"
-	[[ $res = OK* ]] || ok=0
+	[[ $res = *OK* ]] || ok=0
 	cpu=$(sysctl -n hw.model)
 	uri="report_cpu.php?token=$stats_key&key=$stats_token&cpus=1&vendor=$(print -r -- "$cpu" | cut -d' ' -f1)&cpu_type=$(uri_escape $(print -r -- "$cpu" | cut -d' ' -f2-))"
 	res=$(sleep $((RANDOM % 99 + 21)); /usr/bin/ftp -Vo - "$rpt$uri" 2>&-)
 	print -r "cpu report $uri -> ${res:-ERROR}"
-	[[ $res = OK* ]] || ok=0
+	[[ $res = *OK* ]] || ok=0
 	uri="disable_token.php?key=$stats_key&token=$stats_token"
 	res=$(sleep $((RANDOM % 99 + 21)); /usr/bin/ftp -Vo - "$rpt$uri" 2>&-)
 	print -r "done $uri -> ${res:-ERROR}"
