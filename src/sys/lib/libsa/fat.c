@@ -1,5 +1,5 @@
 /*-
- * Copyright (c) 2005, 2008
+ * Copyright (c) 2005, 2008, 2009
  *	Thorsten Glaser <tg@mirbsd.org>
  *
  * Provided that these terms and disclaimer and all copyright notices
@@ -25,7 +25,7 @@
 #include <lib/libsa/stand.h>
 #include <lib/libsa/fat.h>
 
-__RCSID("$MirOS: src/sys/lib/libsa/fat.c,v 1.11 2008/12/28 21:25:12 tg Exp $");
+__RCSID("$MirOS: src/sys/lib/libsa/fat.c,v 1.12 2009/01/03 12:43:05 tg Exp $");
 
 #if BYTE_ORDER != LITTLE_ENDIAN
 #define getlew(ofs) (buf[(ofs)] + ((unsigned)buf[(ofs) + 1] << 8))
@@ -417,10 +417,10 @@ fat_readdir(struct open_file *f, char *name)
 	if ((rv = fat_read(f, fat_dirbuf, sizeof (fat_dirbuf), &sr)))
 		return (rv);
 	if (sr)
-		return (-1);
+		return (EIO);
 	/* end of directory? */
 	if (fat_dirbuf[0] == 0)
-		return (-1);
+		return (ENOENT);
 	/* deleted file? */
 	if (fat_dirbuf[0] == 0xE5)
 		goto getrec;
