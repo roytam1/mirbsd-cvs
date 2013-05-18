@@ -1,4 +1,4 @@
-# $MirOS: src/etc/profile,v 1.32 2006/09/20 22:01:34 tg Exp $
+# $MirOS: src/etc/profile,v 1.33 2006/10/17 21:48:59 tg Exp $
 #-
 umask 022
 [ -z "$KSH_VERSION" ] && alias print='echo -e'
@@ -122,11 +122,13 @@ function Lstripcom	# strip comments (and whitespace) from file(s)
 	done
 }
 
+[[ $BROWSER = lynx* ]] && unset BROWSER
 if [[ $LC_CTYPE = en_US.UTF-8 ]]; then
-	: ${BROWSER:=ulynx}
+	: ${BROWSER:=lynx -display_charset utf8}
 else
 	: ${BROWSER:=lynx}
 fi
+[[ $BROWSER = lynx* ]] && alias lynx="$BROWSER"
 
 if [ -O /tmp/ssh-agent/$USER_ID ]; then
 	# If the agent is not running, remove stale files
