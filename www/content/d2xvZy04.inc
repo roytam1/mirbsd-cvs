@@ -1,5 +1,5 @@
 <!-- PageID: wlog-8 -->
-<small class="rcsid">$MirOS: www/content/d2xvZy04.inc,v 1.52 2006/03/23 23:37:18 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy04.inc,v 1.53 2006/03/27 07:27:04 tg Exp $</small>
 <h1>MirBSD &ndash; WTF, We Have a Release!?</h1>
 <p><small><a href="#eof">bottom</a> or <a href="/?older">older</a>
  editions</small></p>
@@ -780,6 +780,31 @@ celebrate this event, rotate the wlog and start a new one.</p>
  <p>I've come, again, to the conclusion that it all sucks. Interestingly
   I discovered (yeah, right, didn't even know) that ntpd(8) is on the CD
   (yeah, the 4 Megs one). Fun stuff to do with that ahead.</p>
+ <p>Today I've hacked quite a few things: fix _ASM_SOURCE use (Makefiles
+  and code), clean up rnd(4) and kernel build, even help the sparc port;
+  reduce the size of the persistent entropy pool, generated manual pages
+  and thus distribution; add no_msn flavour to centericq; import new and
+  last (branch gcc-3_4 is now closed) gcc and gpc and libtool, start all
+  the usual merge and upgrade work (gcc not yet finished); ask cvs(1) to
+  not error out if CVSREADONLYFS and it cannot lock var-tags or history;
+  apply the OpenSSH and OpenVPN randomness pushback hack to OpenSSL too,
+  affecting KEX on SSLv3 and TLSv1, also add my ASN.1 OCTET STREAM hack,
+  taken from my vnconfig(8) patch; change ssh(1)/sshd(8) default ciphers
+  to prefer secure over fast (these days it's okay like that I suppose);
+  bring out a new mirmake; implement $RANDOM (with arc4random(3) until a
+  write occured, like in mksh(1)) for sh(1); document ports that disable
+  systrace(1) in the INDEX.</p>
+ <p>Damn FSF. Libtool is REALLY using /usr/mpkg/bin/bash (note the path)
+  as shell, preferring over /bin/sh (eh, what's wrong with mksh?).</p>
+ <p>Tonnerre found that to <tt>config = mmap(NULL, st.st_size, PROT_READ
+  | PROT_WRITE, MAP_ANON, -1, 0UL);</tt> breaks on Limupf... and why. It
+  demands use of <tt>MAP_PRIVATE</tt> (in contrast to what mmap(2) says,
+  on BSD of course). And they want to be compatible, hah!</p>
+ <p>Benny thinks he found a bug in perl(1) - my gdb(1) backtrace however
+  tells me he'd better look at fseeko() from /usr/lib/libc.so.38.2</p>
+ <p>I thought spring was there... but it rained cats and dogs later that
+  day. And no new anime episodes to watch - for weeks!</p>
+ <p>Hubert says NetBSD&reg; runs as DomU on Xen3. Me wanna!!!</p>
 </div>
 
 <p id="eof">Good luck, have fun, take care etc.pp</p>
