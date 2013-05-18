@@ -1,0 +1,231 @@
+$MirOS$
+--- src/sanity.sh.orig	Thu Sep 22 20:33:44 2005
++++ src/sanity.sh	Sat Sep 18 21:24:28 2010
+@@ -1503,6 +1503,9 @@ run_filter ()
+ # lack \|).
+ dotest ()
+ {
++  #echo dotest >$TESTDIR/_dotest.fun
++  #pwd >$TESTDIR/_dotest.cwd
++  #printf '%s\n' "$2" >$TESTDIR/_dotest.cmd
+   rm -f $TESTDIR/dotest.ex? 2>&1
+   eval "$2" >$TESTDIR/dotest.tmp 2>&1
+   status=$?
+@@ -1518,6 +1521,9 @@ dotest ()
+ # Like dotest except only 2 args and result must exactly match stdin
+ dotest_lit ()
+ {
++  #echo dotest_lit >$TESTDIR/_dotest.fun
++  #pwd >$TESTDIR/_dotest.cwd
++  #printf '%s\n' "$2" >$TESTDIR/_dotest.cmd
+   rm -f $TESTDIR/dotest.ex? 2>&1
+   eval "$2" >$TESTDIR/dotest.tmp 2>&1
+   status=$?
+@@ -1543,6 +1549,9 @@ dotest_lit ()
+ # Like dotest except exitstatus should be nonzero.
+ dotest_fail ()
+ {
++  #echo dotest_fail >$TESTDIR/_dotest.fun
++  #pwd >$TESTDIR/_dotest.cwd
++  #printf '%s\n' "$2" >$TESTDIR/_dotest.cmd
+   rm -f $TESTDIR/dotest.ex? 2>&1
+   eval "$2" >$TESTDIR/dotest.tmp 2>&1
+   status=$?
+@@ -1558,6 +1567,9 @@ dotest_fail ()
+ # Like dotest except output is sorted.
+ dotest_sort ()
+ {
++  #echo dotest_sort >$TESTDIR/_dotest.fun
++  #pwd >$TESTDIR/_dotest.cwd
++  #printf '%s\n' "$2" >$TESTDIR/_dotest.cmd
+   rm -f $TESTDIR/dotest.ex? 2>&1
+   eval "$2" >$TESTDIR/dotest.tmp1 2>&1
+   status=$?
+@@ -1574,6 +1586,9 @@ dotest_sort ()
+ # Like dotest_fail except output is sorted.
+ dotest_fail_sort ()
+ {
++  #echo dotest_fail_sort >$TESTDIR/_dotest.fun
++  #pwd >$TESTDIR/_dotest.cwd
++  #printf '%s\n' "$2" >$TESTDIR/_dotest.cmd
+   rm -f $TESTDIR/dotest.ex? 2>&1
+   eval "$2" >$TESTDIR/dotest.tmp1 2>&1
+   status=$?
+@@ -2600,6 +2615,20 @@ CVSROOT=`newroot $CVSROOT_DIRNAME`; expo
+ ###
+ dotest init-1 "$testcvs init"
+ 
++# We might need to allow "cvs admin" access.
++mkdir wnt
++cd wnt
++dotest init-1a "$testcvs -q co CVSROOT" "[UP] CVSROOT${DOTSTAR}"
++cd CVSROOT
++sed -e's/^#UserAdminOptions=/UserAdminOptions=/' <config >tmpconfig
++mv tmpconfig config
++dotest init-1b "$testcvs -q ci -m allow-cvs-admin" "" \
++".*/CVSROOT/config,v  <--  config
++new revision: 1\.[0-9]*; previous revision: 1\.[0-9]*
++$SPROG commit: Rebuilding administrative file database"
++cd ../..
++rm -r wnt
++
+ # Now hide the primary root behind a secondary if requested.
+ if $proxy; then
+     # Save the primary root.
+@@ -2781,6 +2810,19 @@ cp -Rp $CVSROOT_DIRNAME/CVSROOT $TESTDIR
+ ###
+ dotest init-2 "$testcvs init"
+ 
++# We might need to allow "cvs admin" access.
++mkdir wnt
++cd wnt
++dotest init-2a "$testcvs -q co CVSROOT" "[UP] CVSROOT${DOTSTAR}"
++cd CVSROOT
++sed -e's/^#UserAdminOptions=/UserAdminOptions=/' <config >tmpconfig
++mv tmpconfig config
++dotest init-2b "$testcvs -q ci -m allow-cvs-admin" "" \
++".*/CVSROOT/config,v  <--  config
++new revision: 1\.[0-9]*; previous revision: 1\.[0-9]*
++$SPROG commit: Rebuilding administrative file database"
++cd ../..
++rm -r wnt
+ 
+ 
+ ###
+@@ -2805,6 +2847,7 @@ Concurrent Versions System (CVS) [0-9.]*
+ 
+ Copyright (C) [0-9]* Free Software Foundation, Inc.
+ 
++Portions contributed by Thorsten Glaser for the MirOS Project.
+ Senior active maintainers include Larry Jones, Derek R. Price,
+ and Mark D. Baushke.  Please see the AUTHORS and README files from the CVS
+ distribution kit for a complete list of contributors and copyrights.
+@@ -2822,8 +2865,8 @@ Specify the --help option for further in
+ #Secondary Server: Concurrent Versions System (CVS) [0-9p.]* (.*server)'
+ 	  if $remote; then
+ 		dotest version-2r "${testcvs} version" \
+-'Client: Concurrent Versions System (CVS) [0-9p.]* (client.*)
+-Server: Concurrent Versions System (CVS) [0-9p.]* (.*server)'
++'Client: Concurrent Versions System (CVS) [0-9p.]*\(-Mir[^ ]*\)* (client.*)
++Server: Concurrent Versions System (CVS) [0-9p.]*\(-Mir[^ ]*\)* (.*server)'
+ 	  else
+ 		dotest version-2 "${testcvs} version" \
+ 'Concurrent Versions System (CVS) [0-9.]*.*'
+@@ -3327,10 +3370,11 @@ ${SPROG} \[admin aborted\]: attempt to d
+ 	  # many other folks are still using the older 'invalid option'
+ 	  # lib/getopt.c will use POSIX when __posixly_correct
+ 	  # otherwise the other, so accept both of them. -- mdb
++	  # Added optional single quotes. -- mirabilos
+ 	  dotest_fail basicb-21 "${testcvs} -q admin -H" \
+-"admin: invalid option -- H
++"admin: invalid option -- '*H'*
+ ${CPROG} \[admin aborted\]: specify ${CPROG} -H admin for usage information" \
+-"admin: illegal option -- H
++"admin: illegal option -- '*H'*
+ ${CPROG} \[admin aborted\]: specify ${CPROG} -H admin for usage information"
+ 	  cd ..
+ 	  rmdir 1
+@@ -4963,7 +5007,7 @@ $SPROG commit: Rebuilding administrative
+ 	    CVSROOT=":pserver;proxy=localhost;proxyport=8080:localhost/dev/null"
+ 	    dotest parseroot-3r "$testcvs -d'$CVSROOT' logout" \
+ "Logging out of :pserver:$username@localhost:2401/dev/null
+-$CPROG logout: warning: failed to open $HOME/\.cvspass for reading: No such file or directory
++$CPROG logout: CVS password file $HOME/\.cvspass does not exist - creating a new file
+ $CPROG logout: Entry not found."
+ 	    CVSROOT=":pserver;proxyport=8080:localhost/dev/null"
+ 	    dotest_fail parseroot-4r "$testcvs -d'$CVSROOT' logout" \
+@@ -9757,7 +9801,9 @@ No conflicts created by this import"
+ N import-quirks-4/file1
+ N import-quirks-4/file2
+ N import-quirks-4/file3
+-No conflicts created by this import"
++No conflicts created by this import
++cvs import: warning: you are using an even vendor branch, which can
++lead to problems: '1.1.2'.  Use for example: '1.1.3' or '1.1.5'."
+ 
+ 	  dokeep
+ 	  cd ..
+@@ -15741,6 +15787,7 @@ description:
+ revision 1\.1
+ date: ${ISO8601DATE};  author: ${username};  state: Exp;  commitid: ${commitid};
+ branches:  1\.1\.2;
++x
+ xCVS: ----------------------------------------------------------------------
+ xCVS: Enter Log.  Lines beginning with .CVS:. are removed automatically
+ xCVS:
+@@ -15752,6 +15799,7 @@ xCVS: ----------------------------------
+ ----------------------------
+ revision 1\.1\.2\.1
+ date: ${ISO8601DATE};  author: ${username};  state: Exp;  lines: ${PLUS}1 -0;  commitid: ${commitid};
++x
+ xCVS: ----------------------------------------------------------------------
+ xCVS: Enter Log.  Lines beginning with .CVS:. are removed automatically
+ xCVS:
+@@ -15779,6 +15827,7 @@ description:
+ revision 1\.1
+ date: ${ISO8601DATE};  author: ${username};  state: Exp;  commitid: ${commitid};
+ branches:  1\.1\.2;
++x
+ xCVS: ----------------------------------------------------------------------
+ xCVS: Enter Log.  Lines beginning with .CVS:. are removed automatically
+ xCVS:
+@@ -15790,6 +15839,7 @@ xCVS: ----------------------------------
+ ----------------------------
+ revision 1\.1\.2\.1
+ date: ${ISO8601DATE};  author: ${username};  state: Exp;  lines: ${PLUS}1 -0;  commitid: ${commitid};
++x
+ xCVS: ----------------------------------------------------------------------
+ xCVS: Enter Log.  Lines beginning with .CVS:. are removed automatically
+ xCVS:
+@@ -15811,6 +15861,7 @@ description:
+ revision 1\.1
+ date: ${ISO8601DATE};  author: ${username};  state: Exp;  commitid: ${commitid};
+ branches:  1\.1\.2;
++x
+ xCVS: ----------------------------------------------------------------------
+ xCVS: Enter Log.  Lines beginning with .CVS:. are removed automatically
+ xCVS:
+@@ -15822,6 +15873,7 @@ xCVS: ----------------------------------
+ ----------------------------
+ revision 1\.1\.2\.1
+ date: ${ISO8601DATE};  author: ${username};  state: Exp;  lines: ${PLUS}1 -0;  commitid: ${commitid};
++x
+ xCVS: ----------------------------------------------------------------------
+ xCVS: Enter Log.  Lines beginning with .CVS:. are removed automatically
+ xCVS:
+@@ -23538,6 +23590,13 @@ C3b235f50|kingdon|<remote>|ccvs/emx|1.3|
+ M3b23af50|kingdon|~/work/*0|ccvs/doc|1.281|cvs.texinfo
+ EOF
+ 
++	# workaround for time_t vs. leapseconds
++	if test -n "$GETDATE_LD_PRELOAD"; then
++		save_LD_PRELOAD=$LD_PRELOAD
++		LD_PRELOAD=$GETDATE_LD_PRELOAD
++		export LD_PRELOAD
++	fi
++
+ 	  dotest history-1 "${testcvs} history -e -a" \
+ "O 1997-06-04 19:48 ${PLUS}0000 anonymous ccvs     =ccvs= <remote>/\*
+ O 1997-06-05 14:00 ${PLUS}0000 anonymous ccvs     =src=  <remote>/\*
+@@ -23602,6 +23661,12 @@ O 1997-06-06 08:12 ${PLUS}0000 kingdon  
+ "O 1997-06-04 19:48 ${PLUS}0000 anonymous ccvs =ccvs= <remote>/\*
+ O 1997-06-05 14:00 ${PLUS}0000 anonymous ccvs =src=  <remote>/\*
+ O 1997-06-06 08:12 ${PLUS}0000 kingdon   ccvs =ccvs= <remote>/\*"
++
++	test -n "$GETDATE_LD_PRELOAD" && if test -n "$save_LD_PRELOAD"; then
++		LD_PRELOAD=$save_LD_PRELOAD
++	else
++		unset LD_PRELOAD
++	fi
+ 	  ;;
+ 
+ 
+@@ -24852,7 +24917,7 @@ xx Second log line
+ xx"
+ 
+ 	  cd ../CVSROOT
+-	  echo "MaxCommentLeaderLength=1k" >>config
++	  echo "MaxCommentLeaderLength=1K" >>config
+ 	  dotest keywordlog-35 "$testcvs -Q ci -mset-MaxCommentLeaderLength"
+ 
+ 	  cd ../first-dir

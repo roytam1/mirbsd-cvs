@@ -1,11 +1,11 @@
-$MirOS: ports/devel/cvs/patches/patch-src_client_c,v 1.1 2010/09/15 20:56:59 tg Exp $
+$MirOS: ports/devel/cvs/patches/patch-src_client_c,v 1.2 2010/09/15 23:41:21 tg Exp $
 --- src/client.c.orig	Sun Oct  2 15:16:58 2005
 +++ src/client.c	Wed Sep 15 23:31:26 2010
 @@ -20,6 +20,8 @@
  #include "buffer.h"
  #include "save-cwd.h"
  
-+__RCSID("$MirOS: ports/devel/cvs/patches/patch-src_client_c,v 1.1 2010/09/15 20:56:59 tg Exp $");
++__RCSID("$MirOS: ports/devel/cvs/patches/patch-src_client_c,v 1.2 2010/09/15 23:41:21 tg Exp $");
 +
  #ifdef CLIENT_SUPPORT
  
@@ -28,17 +28,3 @@ $MirOS: ports/devel/cvs/patches/patch-src_client_c,v 1.1 2010/09/15 20:56:59 tg 
      }
      free (buf);
      free (mode_string);
-@@ -4533,10 +4535,9 @@ warning: ignoring -k options due to serv
- 	/* File no longer exists.  Don't do anything, missing files
- 	   just happen.  */
-     }
--    else if (!vers->ts_rcs || args->force
--	     || strcmp (vers->ts_conflict
--		        ? vers->ts_conflict : vers->ts_rcs, vers->ts_user)
--	     || (vers->ts_conflict && !strcmp (cvs_cmd_name, "diff")))
-+    else if (vers->ts_rcs == NULL
-+             || args->force
-+             || strcmp (vers->ts_user, vers->ts_rcs) != 0)
-     {
- 	if (args->no_contents
- 	    && supported_request ("Is-modified"))

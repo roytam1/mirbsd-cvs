@@ -1,9 +1,11 @@
-# $MirOS: ports/devel/cvs/Makefile,v 1.13 2010/09/16 21:25:15 tg Exp $
+# $MirOS: ports/devel/cvs/Makefile,v 1.14 2010/09/16 21:26:09 tg Exp $
+
+IGNORE=wip
 
 COMMENT=		Concurrent Versions System
 CATEGORIES=		devel essentials
 VSN=			1.12.13
-DASH_VER=		8		# in sync with MirOS-0AAC rev.
+DASH_VER=		9		# in sync with MirOS-0AAC rev.
 HOMEPAGE=		http://www.nongnu.org/cvs/
 RESPONSIBLE=		Thorsten Glaser <tg@mirbsd.org>
 
@@ -39,6 +41,11 @@ CONFIGURE_ENV+=		ac_cv_sys_long_file_names=yes
 # hardcoded paths
 CONFIGURE_ENV+=		ac_cv_path_CSH=${LOCALBASE:Q}/bin/csh
 CONFIGURE_ENV+=		ac_cv_path_PS2PDF=false
+
+# see mircvs://contrib/code/Snippets/posixtz.c
+.if exists(/usr/lib/libposixtz.so)
+REGRESS_ENV+=		GETDATE_LD_PRELOAD=/usr/lib/libposixtz.so
+.endif
 
 pre-configure:
 	print '%g/\(MirPorts-\)QQ/s//\1${DASH_VER}/g\nwq' | \
