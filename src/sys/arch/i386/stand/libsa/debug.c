@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/stand/libsa/debug.c,v 1.3 2007/05/24 21:38:05 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/stand/libsa/debug.c,v 1.4 2008/08/01 11:24:59 tg Exp $ */
 /*	$OpenBSD: debug.c,v 1.13 2004/03/09 19:12:12 tom Exp $	*/
 
 /*
@@ -81,7 +81,7 @@ dump_regs(u_int trapno, u_int arg)
 
 	dump_mem("Code dump", (void *)*reg_values[8], 8);
 	/* %ebx (void *)((*reg_values[3] + 15) & ~0x0F) */
-	dump_mem("Memory dump", (void *)0x1a000, 48);
+	dump_mem("Memory dump", (void *)0x1a000, 4 /* 48 */);
 	dump_mem("Stack trace", (void *)(*reg_values[4]), 48);
 #endif
 
