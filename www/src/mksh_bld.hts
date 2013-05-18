@@ -1,11 +1,11 @@
-# $MirOS: www/src/mksh_old.hts,v 1.25 2010/01/01 20:46:24 tg Exp $
+# $MirOS: www/src/mksh_bld.hts,v 1.1 2010/01/28 21:05:33 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/mksh/build "mksh – build/regression tests"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh_old.hts,v 1.25 2010/01/01 20:46:24 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh_bld.hts,v 1.1 2010/01/28 21:05:33 tg Exp $'
 mws_content <<'EOF'
 <p>Jump to <a href="#regress_fail">known failures</a></p>
 <h2><a href="mksh.htm">mksh</a> – builds and regression tests</h2>
@@ -66,8 +66,8 @@ mws_content <<'EOF'
  <li>Debian GNU sid GNU-Mach 1.3.99/Hurd-0.3 i686-AT386 (i386 gcc4.3.3-12)</li>
  <li>Android-3 GNU/Linux 1.5 (emulator) ARMv5TE Thumb (arm-eabi gcc4.2.1 +bionic) <em>without</em> testsuite check</li>
  <li>CentOS GNU/Linux 5.2 2.6.18-92.1.18.el5xen (amd64 gcc4.1.2-44)</li>
- <li>Debian GNU/Linux sid 2.6.18-6-686 (i386 gcc4.5.0-r155486 gcc-snapshot_20091228-2) <em>but <tt>-combine</tt> is _still_ broken again *sigh…*</em></li>
- <li>Debian GNU/Linux sid 2.6.18-6-686 (i386 gcc4.4.2-8)</li>
+ <li>Debian GNU/Linux sid 2.6.18-6-686 (i386 gcc4.5.0-r155979 gcc-snapshot_20100117-1) <em>but <tt>-combine</tt> is _still_ broken again *sigh…*</em></li>
+ <li>Debian GNU/Linux sid 2.6.18-6-686 (i386 gcc4.4.3-1)</li>
  <li>Debian GNU/Linux sid 2.6.18-6-686 (i386 nwcc0.7.9)</li>
  <li>Debian GNU/Linux sid 2.6.18-6-686 (i386 TenDRA-4.1.2-18)</li>
  <li>Debian GNU/Linux 5.0 lenny 2.6.18-6-686 (i386 gcc4.1.2-25)</li>
@@ -107,6 +107,7 @@ mws_content <<'EOF'
  <li>Fedora GNU/Linux Core 11 2.6.18-128.el5 (macppc gcc4.4.0-0.31) <em>by ppc2 buildd via Koji/EPEL packager</em></li>
  <li>Fedora GNU/Linux Core 11 2.6.18-128.el5 (ppc64 gcc4.4.0-0.31) <em>by ppc9 buildd via Koji/EPEL packager</em></li>
  <li>Fedora GNU/Linux Core 11 2.6.18-128.1.1.el5 (amd64 gcc4.4.0-0.31) <em>by x86-2 buildd via Koji/EPEL packager</em></li>
+ <li>Maemo GNU/Linux (autobuilders for chinook, diablo, fremantle; details coming soon)</li>
  <li>Red Hat GNU/Linux RHEL 4 2.6.18-128.1.1.el5xen (i386 gcc3.4.6-10) <em>by xenbuilder2 buildd via Koji/EPEL packager</em></li>
  <li>Red Hat GNU/Linux RHEL 4 2.6.18-128.el5 (macppc gcc3.4.6-10) <em>by ppc3 buildd via Koji/EPEL packager</em></li>
  <li>Red Hat GNU/Linux RHEL 4 2.6.18-128.1.1.el5xen (amd64 gcc3.4.6-10) <em>by xenbuilder2 buildd via Koji/EPEL packager</em></li>
@@ -460,7 +461,7 @@ mws_content <<'EOF'
  </ul></li>
 </ul>
 
-<h2 id="regress_fail">Known to FAIL Build or Test</h3>
+<h2 id="regress_fail">Known to FAIL Build or Test</h2>
 <ul>
  <li>UWIN-NT 4.1.0/5.0 2195 2006-02-14 (i386 bcpp BCC32.EXE 5.5.1, ILINK32.EXE 5.00)
   does not really work except a few basic commands</li>

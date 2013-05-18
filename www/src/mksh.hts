@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.313 2010/01/28 17:12:04 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.314 2010/01/28 21:05:32 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -41,8 +41,8 @@ mws_content <<'EOF'
  src="@@RELPATH@@pics/mksh128x100.png" /></object></td></tr></table>
 
 <h2 id="prefetch">Introduction</h2>
-<p>The current version of mksh is <strong>mksh R39</strong> from
- <em>2 August 2009</em>.</p>
+<p>The current version of mksh is <strong>mksh R39b</strong> from
+ <em>28 January 2010</em>.</p>
 <p>Thanks to “Der Verein <a href="http://www.trash.net/verein/">trash.net</a>”
  for sponsoring access to a Solaris 8 box. Thanks to HP TestDrive/PvP, which
  helps in keeping mksh portable to several Unixes and compilers, and track down
@@ -530,7 +530,7 @@ mws_content <<'EOF'
 
 <h5 id="oe_interix">OS: Interix</h5>
 <p>We have only tested SFU 3.5 on Windows® 2000, not SUA on Windows® 2003 SR1
- or the version integrated into Vista.</p>
+ or the version integrated into Vista. Windows 7’s works, gcc only though.</p>
 <p>As the Unix Perl which comes with Interix is too old, and the ActiveState
  Perl has… other issues, to run the regression tests, please install Perl from
  <a href="http://www.pkgsrc.org/">NetBSD® pkgsrc®</a> instead.</p>
@@ -575,7 +575,8 @@ mws_content <<'EOF'
 
 <h5 id="oe_osf1">OS: DEC/Compaq OSF/1, Compaq/HP Tru64</h5>
 <p>Digital Unix is somewhat supported using gcc as of mksh R31b.
- With mksh R33b, many more versions and the native compiler work.</p>
+ With mksh R33b, many more versions and the native compiler work.
+ In fact, gcc sometimes segfaults, so use the vendor compiler.</p>
 
 <h5 id="oe_plan9">OS: Plan 9</h5>
 <p>Plan 9 is not supported yet – we were able to create an executable, but
@@ -850,7 +851,8 @@ mws_content <<'EOF'
  <li>[tg] Remove more functionality, such as Emacs command line editing mode
   bind key macros, and other extensions, from MKSH_SMALL to help floppies</li>
  <li>[tg] Make forking and subshells less expensive wrt. random state</li>
- <li>[tg] Build and source code fixes for / caught by SUNWcc, HP aCC, pcc</li>
+ <li>[tg] Build and source code fixes for / caught by SUNWcc, HP aCC, pcc,
+  DEC ucode cc (MIPS), GCC, LLVM clang</li>
  <li>[tg] Make undef/def MKSH_NOVI into 0/1 MKSH_S_NOVI build flag</li>
  <li>[tg] Get rid of "U getenv" in nm(1) output, we already import environ</li>
  <li>[tg] Simplify $RANDOM handling: reads are now either arc4random(3) (if

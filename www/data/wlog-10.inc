@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.274 2010/01/03 19:42:16 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.275 2010/01/20 17:31:03 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -6069,4 +6069,26 @@ Tag: debian event mksh rant snapshot
  of hot chocolate, pour an Espresso into it, and enjoy the mix with
  a piece of cake (I'd say strawberry or mousse-pear but all they had
  was cassis-créme) and pity me for not knowing any French next month.</p>
+----
+Title: To do.
+Author: tg@
+Date: 28.01.2010 21:20
+Tag: debian event mksh
+
+<p><a href="http://www.fosdem.org/"><img alt="I’m going to FOSDEM, as usual"
+ src="http://www.fosdem.org/promo/going-to" /></a></p>
+<p>The MirOS Project will have a booth at FOSDEM 2010, business as usual.
+ If you thought otherwise, you’re crazy ☺</p>
+<p>I know I should write a wlog entry about the BSP, write more, release <a
+ href="@@RELPATH@@mksh.htm">mksh</a> R40, fix the TaC of it and the <a
+ href="@@RELPATH@@kwalletcli.htm">kwalletcli</a> webpage (thanks again, it’s
+ now in Debian sid!) etc.pp but I also need to prepare an ISO for FOSDEM, etc.
+ Heck, I should prepare a talk for FOSDEM, but I’m not going to. If I need to
+ stand there and talk, I’ll talk, not hold a presentation. I’ll just see what
+ people are interested in, talk about The MirOS Project, and improvise.</p>
+<p>I’m busy, and there’s only so much computing you can do in a day. This
+ does include the dayjob. At least, my NMUs are in Debian now and probably
+ can help people (and I submitted info about other bugs too).</p>
+<p>Anyway, watch the news in the months to follow… can’t talk about everything
+ now.</p>
 ----
