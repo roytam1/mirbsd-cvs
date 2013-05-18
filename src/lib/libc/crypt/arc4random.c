@@ -1,8 +1,8 @@
-/**	$MirOS: src/lib/libc/crypt/arc4random.c,v 1.14 2008/04/07 20:55:49 tg Exp $ */
+/**	$MirOS: src/lib/libc/crypt/arc4random.c,v 1.15 2008/04/07 20:57:52 tg Exp $ */
 /*	$OpenBSD: arc4random.c,v 1.14 2005/06/06 14:57:59 kjell Exp $	*/
 
 /*
- * Copyright (c) 2006, 2007 Thorsten Glaser <tg@mirbsd.de>
+ * Copyright (c) 2006, 2007, 2008 Thorsten Glaser <tg@mirbsd.de>
  * Copyright (c) 1996, David Mazieres <dm@uun.org>
  *
  * Permission to use, copy, modify, and distribute this software for any
@@ -46,7 +46,7 @@
 #include <string.h>
 #include <unistd.h>
 
-__RCSID("$MirOS: src/lib/libc/crypt/arc4random.c,v 1.14 2008/04/07 20:55:49 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/crypt/arc4random.c,v 1.15 2008/04/07 20:57:52 tg Exp $");
 
 #ifdef __GNUC__
 #define inline __inline
@@ -204,7 +204,7 @@ arc4random_push(int n)
 uint32_t
 arc4random_pushb(const void *buf, size_t len)
 {
-	uint32_t v, i, k;
+	uint32_t v, i, k, tr;
 	size_t j;
 	int mib[2];
 	union {
@@ -213,6 +213,7 @@ arc4random_pushb(const void *buf, size_t len)
 		uint32_t xbuf[2];
 	} idat;
 
+	tr = arc4random();
 	v = (rand() << 16) + len;
 	taina_time(&idat.tai64tm);
 	for (j = 0; j < len; ++j) {
@@ -231,9 +232,11 @@ arc4random_pushb(const void *buf, size_t len)
 	mib[1] = KERN_ARND;
 	j = sizeof (i);
 
+	idat.xbuf[1] ^= tr;
 	if (sysctl(mib, 2, &i, &j, &idat.buf[0], len) != 0)
 		i = idat.xbuf[0] ^
 		    (((v & 1) + 1) * (rand() & 0xFF)) ^ arc4random();
+	idat.xbuf[1] ^= tr;
 
 	taina_time(&idat.tai64tm);
 	idat.xbuf[0] ^= v;
