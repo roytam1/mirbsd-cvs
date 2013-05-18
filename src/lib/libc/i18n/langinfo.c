@@ -1,4 +1,4 @@
-/* $MirOS: src/lib/libc/i18n/langinfo.c,v 1.6 2006/01/31 19:51:34 tg Exp $ */
+/* $MirOS: src/lib/libc/i18n/langinfo.c,v 1.7 2006/01/31 19:55:33 tg Exp $ */
 
 /*-
  * Copyright (c) 2003, 2004, 2005, 2006
@@ -37,7 +37,7 @@
 #include <nl_types.h>
 #include <stdlib.h>
 
-__RCSID("$MirOS: src/lib/libc/i18n/langinfo.c,v 1.6 2006/01/31 19:51:34 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/i18n/langinfo.c,v 1.7 2006/01/31 19:55:33 tg Exp $");
 
 /* fake locale support */
 
@@ -79,6 +79,7 @@ __weak_nl_langinfo(nl_item item)
 	switch (item) {
 	  case CODESET:
 		s = __locale_is_utf8 ? "UTF-8" : "ISO_646.irv:1991";
+		break;
 	  case D_T_FMT:
 		s = _DefaultTimeLocale.d_t_fmt;
 		break;
