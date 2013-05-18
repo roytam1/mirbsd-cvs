@@ -1,4 +1,4 @@
-$MirOS: src/sys/dev/usb/usbdevs,v 1.6 2008/05/17 16:26:55 tg Exp $
+$MirOS: src/sys/dev/usb/usbdevs,v 1.7 2012/07/06 14:15:43 tg Exp $
 /* $OpenBSD: usbdevs,v 1.579 2012/04/08 12:15:21 jsg Exp $ */
 /* $NetBSD: usbdevs,v 1.322 2003/05/10 17:47:14 hamajima Exp $ */
 
@@ -329,7 +329,6 @@ vendor NETGEAR		0x0846	BayNETGEAR
 vendor TOPRE		0x0853	Topre Corporation
 vendor ACTIVEWIRE	0x0854	ActiveWire
 vendor BBELECTR		0x0856	B&B Electronics
-vendor BBELECTRONICS	0x0856	B&B Electronics
 vendor PORTGEAR		0x085a	PortGear
 vendor NETGEAR2		0x0864	Netgear
 vendor SYSTEMTALKS	0x086e	System Talks
@@ -398,7 +397,7 @@ vendor NEODIO		0x0aec  Neodio
 vendor OPTION		0x0af0  Option
 vendor TODOS		0x0b0c	Todos Data System
 vendor ASUS		0x0b05	ASUS
-vendor SIIG2		0x0b39	SIIG
+vendor OCT		0x0b39	Omnidirectional Control Technology
 vendor TEKRAM		0x0b3b	Tekram Technology
 vendor HAL		0x0b41	HAL Corporation
 vendor NEC2		0x0b62	NEC
@@ -1056,7 +1055,6 @@ product AZUREWAVE RTL8188CE_2	0x3359	RTL8188CE
 product BAYER CONTOUR		0x6001	Ascensia Contour
 
 /* B&B Electronics products */
-product BBELECTRONICS USOTL4		0xac01	USOTL4 RS-422/485
 product BBELECTR USOTL4		0xac01	USOTL4 RS-422/485
 product BBELECTR USTL4		0xac02	USTL4 RS-422/485
 product BBELECTR USO9ML2	0xac03	USO9ML2 RS-232
@@ -2971,7 +2969,7 @@ product OLYMPUS C1		0x0102	C-1
 product OLYMPUS C700		0x0105	C-700 Ultra Zoom
 
 /* Omnidirectional Control Technology products */
-product SIIG2 USBTOETHER	0x0109	USB TO Ethernet
+product OCT USBTOETHER		0x0109	Ethernet
 
 /* OmniVision Technologies, Inc. products */
 product OMNIVISION OV511	0x0511	OV511
@@ -3378,7 +3376,6 @@ product SCANLOGIC SL11R		0x0002	SL11R-IDE
 product SCANLOGIC 336CX		0x0300	Phantom 336CX - C3
 
 /* Sealevel products */
-product SEALEVEL USBSERIAL	0x2101	USB-Serial converter
 product SEALEVEL 2101		0x2101	SeaLINK+232 (2101/2105)
 product SEALEVEL 2102		0x2102	SeaLINK+485 (2102)
 product SEALEVEL 2103		0x2103	SeaLINK+232I (2103)
@@ -3532,7 +3529,7 @@ product	SIGMATEL DNSSF7X	0x8020	Datum Networks SSF-7X Multi Players
 /* SIIG products */
 product SIIG DIGIFILMREADER	0x0004	DigiFilm-Combo
 product SIIG MULTICARDREADER	0x0201	MULTICARDREADER
-product SIIG2 US2308		0x0421	Serial
+product OCT US2308		0x0421	Serial
 
 /* Silicom products */
 product SILICOM U2E		0x0001	U2E

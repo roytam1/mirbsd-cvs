@@ -151,21 +151,21 @@ USB_MATCH(uftdi)
 	     uaa->product == USB_PRODUCT_FTDI_LCD_CFA_633 ||
 	     uaa->product == USB_PRODUCT_FTDI_LCD_CFA_634))
 	    return (UMATCH_VENDOR_PRODUCT);
-	if (uaa->vendor == USB_VENDOR_SIIG2 &&
-	    (uaa->product == USB_PRODUCT_SIIG2_US2308))
+	if (uaa->vendor == USB_VENDOR_OCT &&
+	    (uaa->product == USB_PRODUCT_OCT_US2308))
 		return (UMATCH_VENDOR_PRODUCT);
 	if (uaa->vendor == USB_VENDOR_INTREPIDCS &&
 	    (uaa->product == USB_PRODUCT_INTREPIDCS_VALUECAN ||
 	     uaa->product == USB_PRODUCT_INTREPIDCS_NEOVI))
 		return (UMATCH_VENDOR_PRODUCT);
-	if (uaa->vendor == USB_VENDOR_BBELECTRONICS &&
-	    (uaa->product == USB_PRODUCT_BBELECTRONICS_USOTL4))
+	if (uaa->vendor == USB_VENDOR_BBELECTR &&
+	    (uaa->product == USB_PRODUCT_BBELECTR_USOTL4))
 		return (UMATCH_VENDOR_PRODUCT);
 	if (uaa->vendor == USB_VENDOR_FALCOM &&
 	    (uaa->product == USB_PRODUCT_FALCOM_TWIST))
 		 return (UMATCH_VENDOR_PRODUCT);
 	if (uaa->vendor == USB_VENDOR_SEALEVEL &&
-	    uaa->product == USB_PRODUCT_SEALEVEL_USBSERIAL)
+	    uaa->product == USB_PRODUCT_SEALEVEL_2101)
 		return (UMATCH_VENDOR_PRODUCT);
 
 	return (UMATCH_NONE);
@@ -231,7 +231,7 @@ USB_ATTACH(uftdi)
 		case USB_PRODUCT_FTDI_LCD_CFA_632:
 		case USB_PRODUCT_FTDI_LCD_CFA_633:
 		case USB_PRODUCT_FTDI_LCD_CFA_634:
-		case USB_PRODUCT_SEALEVEL_USBSERIAL:
+		case USB_PRODUCT_SEALEVEL_2101:
 			sc->sc_type = UFTDI_TYPE_8U232AM;
 			sc->sc_hdrlen = 0;
 			break;
@@ -254,9 +254,9 @@ USB_ATTACH(uftdi)
 		}
 		break;
 
-	case USB_VENDOR_SIIG2:
+	case USB_VENDOR_OCT:
 		switch (uaa->product) {
-		case USB_PRODUCT_SIIG2_US2308:
+		case USB_PRODUCT_OCT_US2308:
 			sc->sc_type = UFTDI_TYPE_8U232AM;
 			sc->sc_hdrlen = 0;
 			break;
@@ -266,9 +266,9 @@ USB_ATTACH(uftdi)
 		}
 		break;
 
-	case USB_VENDOR_BBELECTRONICS:
+	case USB_VENDOR_BBELECTR:
 		switch( uaa->product ){
-		case USB_PRODUCT_BBELECTRONICS_USOTL4:
+		case USB_PRODUCT_BBELECTR_USOTL4:
 			sc->sc_type = UFTDI_TYPE_8U232AM;
 			sc->sc_hdrlen = 0;
 			break;
