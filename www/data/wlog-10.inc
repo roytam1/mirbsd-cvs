@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.133 2009/01/02 05:15:12 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.135 2009/01/02 17:15:38 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -2620,4 +2620,17 @@ Title: GNU GRUB, the horrors [updated 2 times]
  see my earlier post. And it can’t load an MS-DOS® boot sector, however,
  chaining to GRUB then from there to DOS works. (So much for my plans to
  directly load an IO.SYS file.)</p>
+----
+Date: 06.01.2009 19:55
+Author: tg@
+Title: delaying
+
+<p>It's official, I've got a new job (some adminning). However, this means,
+ whereas Benny has been committing like crazy, I've got to step back some.
+ I somehow broke DOS operation of boot(8/i386) during some of the last
+ changes, which means I need to investigate. And probably rewrite all of
+ the asm part of it to get rid of the LINKSEG vs LOADSEG problems, since
+ I confuse them all the time, and OpenBSD only introduced them because
+ they didn't know how to use 32 bit relocations in 16 bit code segments.</p>
+<p>This means my mikap project will be delayed a little. Sorry.</p>
 ----
