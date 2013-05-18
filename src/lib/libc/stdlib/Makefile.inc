@@ -1,11 +1,11 @@
-# $MirOS: src/lib/libc/stdlib/Makefile.inc,v 1.2 2005/03/06 20:28:47 tg Exp $
+# $MirOS: src/lib/libc/stdlib/Makefile.inc,v 1.3 2005/09/22 20:15:31 tg Exp $
 
 # stdlib sources
 .PATH: ${LIBCSRCDIR}/arch/${MACHINE_ARCH}/stdlib ${LIBCSRCDIR}/stdlib
 
 SRCS+=	a64l.c abort.c atexit.c atoi.c atof.c atol.c atoll.c bsearch.c \
 	calloc.c cfree.c exit.c ecvt.c gcvt.c getenv.c getopt_long.c \
-	getsubopt.c hcreate.c heapsort.c l64a.c llabs.c lsearch.c malloc.c \
+	getsubopt.c hcreate.c heapsort.c l64a.c llabs.c lsearch.c \
 	merge.c putenv.c qsort.c radixsort.c rand.c random.c \
 	realpath.c setenv.c strtod.c strtol.c strtoll.c strtonum.c strtoul.c \
 	strtoull.c system.c getprogname.c \
@@ -37,6 +37,15 @@ SRCS+=	abs.c div.c labs.c ldiv.c
 SRCS+=	insque.S remque.S
 .else
 SRCS+=	insque.c remque.c
+.endif
+
+MALLOC_TYPE?=mmap
+.if ${MALLOC_TYPE:L} == "mmap"
+SRCS+=	malloc.c
+.elif ${MALLOC_TYPE:L} == "brk"
+SRCS+=	malloc_brk.c
+.else
+.  error MALLOC_TYPE "${MALLOC_TYPE:L}" unknown.
 .endif
 
 MAN+=	a64l.3 abort.3 abs.3 alloca.3 atexit.3 atof.3 atoi.3 atol.3 atoll.3 \

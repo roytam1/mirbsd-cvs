@@ -30,7 +30,7 @@
 .\" OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 .\" SUCH DAMAGE.
 .\"
-.\"	$MirOS$
+.\"	$MirOS: src/lib/libc/stdlib/malloc.3,v 1.2 2006/01/31 12:31:57 tg Exp $
 .\"	$OpenBSD: malloc.3,v 1.42 2006/01/18 06:36:05 jakemsr Exp $
 .\"
 .Dd August 27, 1996
@@ -58,6 +58,13 @@
 .Ft char *
 .Va malloc_options ;
 .Sh DESCRIPTION
+Note: if using
+.Xr brk 2
+malloc instead of
+.Xr mmap 2
+malloc, this manual page is inaccurate,
+especially regarding the protection functions.
+.Pp
 The
 .Fn malloc
 function allocates uninitialized space for an object whose
