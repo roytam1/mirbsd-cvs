@@ -2,7 +2,7 @@
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.211 2009/03/24 18:23:24 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.212 2009/03/24 18:34:36 tg Exp $'
 mws_content <<'EOF'
 <h1>mksh(1) R36b</h1>
 <p>This is the website of the MirBSD™ Korn Shell, an actively developed free
@@ -241,7 +241,7 @@ mws_content <<'EOF'
  (mksh R36b and below)</li>
 <li><tt>-DMKSH_BINSHREDUCED</tt> – include code to automatically “set -o
  posix” to reduce functionality if called as <tt>sh</tt> or <tt>-sh</tt></li>
-<li><tt>-DUSE_REALLOC_MALLOC=0<tt> – if <tt>realloc(NULL, n)</tt> is not
+<li><tt>-DUSE_REALLOC_MALLOC=0</tt> – if <tt>realloc(NULL, n)</tt> is not
  equivalent to <tt>malloc(n)</tt> (n &gt; 0) as ANSI C89 prescribes</li>
 </ul>
 <p>You can override certain mirtoconf checks by setting environment variables
@@ -784,12 +784,14 @@ mws_content <<'EOF'
 <h2 id="regress">Official Testing</h2>
 <p>The MirOS Project has tested mksh on the following operating systems,
  asked people to test, and hunted mksh down in these packaging systems:</p>
-<!--
 <h3 id="regress_dev">Development Versions post release</h3>
 <ul>
  <li style="list-style:none;">– tests by the project, using Build.sh –</li>
+ <li>BSDi BSD/OS 3.1 #4 M300-043 (i386 gcc2.7.2.1)</li>
+ <li>BSDi BSD/OS 3.1 #4 M300-043 (i386 gcc1.42)</li>
+ <li style="list-style:none;">– other build system integration –</li>
+ <li>Fedora GNU/Linux Core 10 2.6.27.9-159.fc10.x86_64 (amd64 gcc4.4.0-0.23)</li>
 </ul>
--->
 <h3 id="regress_rel">Current Release</h3>
 <ul>
  <li style="list-style:none;">– tests by the project, using Makefile –</li>
@@ -869,8 +871,6 @@ mws_content <<'EOF'
 <ul>
  <li style="list-style:none;">– tests by the project, using Build.sh –</li>
  <li>MirOS #7-stable (sparc gcc2.95.3-078E)</li>
- <li>BSDi BSD/OS 3.1 #4 M300-043 (i386 gcc2.7.2.1)</li>
- <li>BSDi BSD/OS 3.1 #4 M300-043 (i386 gcc1.42)</li>
  <li>FreeBSD 6.2-RELEASE (i386 gcc3.4.6-20060305)</li>
  <li>MidnightBSD 0.1.1-RELEASE (sparc64 gcc3.4.4-20050518)</li>
  <li>MidnightBSD 0.2-CURRENT (i386 gcc3.4.6-20060305)</li>
@@ -1103,6 +1103,7 @@ mws_content <<'EOF'
  <li>[tg] Document somewhat surprising behaviour in mksh(1) better;
   here: <tt>[ x -eq y]</tt>; for gps23 from <tt>#ksh</tt></li>
  <li>[tg] Reduce memory consumption by allocator simplification</li>
+ <li>[tg] Fix bugs spotted by DEC ucode cc (ULTRIX) and gcc 1.42 (BSD/OS)</li>
 </ul>
 <p id="r36b">mksh R36b is a compatible, major bug-fix update:</p><ul>
  <li>[tg] Add check for naming the output file “scn” instead of “a.out” or
