@@ -1,4 +1,4 @@
-# $MirOS: ports/devel/libslang/Makefile,v 1.3 2006/09/14 00:08:23 tg Exp $
+# $MirOS: ports/devel/libslang/Makefile,v 1.4 2008/11/08 23:03:38 tg Exp $
 # $OpenBSD: Makefile,v 1.39 2004/03/04 17:49:26 espie Exp $
 
 COMMENT=			stack-based interpreter for terminal applications
@@ -32,7 +32,7 @@ pre-patch:
 
 .include <bsd.port.mk>
 
-.if !defined(NO_SHARED_LIBS)
+.if !defined(NO_SHARED_LIBS) || ${NO_SHARED_LIBS:L} == "no"
 ALL_TARGET= all elf
 INSTALL_TARGET= install-elf
 .endif
