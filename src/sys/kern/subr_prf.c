@@ -1,4 +1,4 @@
-/**	$MirOS$ */
+/**	$MirOS: src/sys/kern/subr_prf.c,v 1.2 2006/10/17 23:16:45 tg Exp $ */
 /*	$OpenBSD: subr_prf.c,v 1.61 2005/04/14 21:58:50 krw Exp $	*/
 /*	$NetBSD: subr_prf.c,v 1.45 1997/10/24 18:14:25 chuck Exp $	*/
 
@@ -179,6 +179,7 @@ tablefull(tab)
  * prints "panic: <message>" and reboots.   if called twice (i.e. recursive
  * call) we avoid trying to sync the disk and just reboot (to avoid
  * recursive panics).
+ * A stripped version of this code is at ddb/db_usrreq.c - keep it in sync.
  */
 
 void

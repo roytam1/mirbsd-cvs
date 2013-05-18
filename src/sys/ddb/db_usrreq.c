@@ -1,8 +1,16 @@
-/**	$MirOS$ */
+/**	$MirOS: src/sys/ddb/db_usrreq.c,v 1.2 2006/10/17 23:29:48 tg Exp $ */
 /*	$OpenBSD: db_usrreq.c,v 1.9 2004/02/06 22:19:21 tedu Exp $	*/
 
 /*
+ * Copyright (c) 2006 Thorsten Glaser <tg@mirbsd.de>
  * Copyright (c) 1996 Michael Shalayeff.  All rights reserved.
+ * Copyright (c) 1986, 1988, 1991, 1993
+ *	The Regents of the University of California.  All rights reserved.
+ * (c) UNIX System Laboratories, Inc.
+ * All or some portions of this file are derived from material licensed
+ * to the University of California by American Telephone and Telegraph
+ * Co. or Unix System Laboratories, Inc. and are reproduced herein with
+ * the permission of UNIX System Laboratories, Inc.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -12,6 +20,9 @@
  * 2. Redistributions in binary form must reproduce the above copyright
  *    notice, this list of conditions and the following disclaimer in the
  *    documentation and/or other materials provided with the distribution.
+ * 3. Neither the name of the University nor the names of its contributors
+ *    may be used to endorse or promote products derived from this software
+ *    without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
  * IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
@@ -32,11 +43,14 @@
 #include <uvm/uvm_extern.h>
 #include <sys/sysctl.h>
 
+#include <ddb/db_output.h>
 #include <ddb/db_var.h>
 
-int	db_log = 1;
+static void paniK(const char *, ...)
+    __attribute__((__format__(__kprintf__,1,2)));
 
-static int db_allowcrash = 0;
+int	db_log = 1;
+int	db_allowcrash = 0;
 
 int
 ddb_sysctl(name, namelen, oldp, oldlenp, newp, newlen, p)
@@ -105,13 +119,48 @@ ddb_sysctl(name, namelen, oldp, oldlenp, newp, newlen, p)
 		default:
 			if (!db_allowcrash)
 				return (EPERM);
-			panic("ddb user requested panic: sysctl ddb.crash=%d",
+			paniK("ddb user requested panic: sysctl ddb.crash=%d",
 			    ctlval);
-			printf("db_usrreq.c: recovering sysop after panic\n");
+			printf("db_usrreq.c: recovering sysop after panik\n");
 		}
 		return (0);
 	default:
 		return (EOPNOTSUPP);
 	}
 	/* NOTREACHED */
+}
+
+/* this comes from panic() in kern/subr_prf.c - keep it in sync */
+static void
+paniK(const char *fmt, ...)
+{
+	va_list ap;
+	void (*tmp_panic_hook)(void) = panic_hook;
+
+	if (panic_hook) {
+		panic_hook = NULL;
+		tmp_panic_hook();
+	}
+
+	printf("panic: ");
+	va_start(ap, fmt);
+	vprintf(fmt, ap);
+	printf("\n");
+	va_end(ap);
+
+#ifdef KGDB
+	kgdb_panic();
+#endif
+#ifdef KADB
+	if (boothowto & RB_KDB)
+		kdbpanic();
+#endif
+#ifdef DDB
+	if (db_panic)
+		Debugger();
+	else
+		db_stack_dump();
+#endif
+
+	panic_hook = tmp_panic_hook;
 }
