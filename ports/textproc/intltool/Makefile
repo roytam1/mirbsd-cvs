@@ -1,8 +1,8 @@
-# $MirOS: ports/textproc/intltool/Makefile,v 1.3 2006/09/14 00:14:05 tg Exp $
+# $MirOS: ports/textproc/intltool/Makefile,v 1.4 2010/11/24 10:30:53 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.4 2004/10/26 03:53:41 marcm Exp $
 
 COMMENT=		internationalization tool
-VERSION=		0.35.5
+VERSION=		0.40.6
 DISTNAME=		intltool-${VERSION}
 CATEGORIES=		textproc x11/gnome
 

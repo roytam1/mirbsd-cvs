@@ -1,4 +1,4 @@
-@comment $MirOS$
+@comment $MirOS: ports/textproc/intltool/pkg/PLIST,v 1.2 2005/12/29 15:42:20 bsiegert Exp $
 @comment $OpenBSD: PLIST,v 1.6 2004/10/26 03:53:41 marcm Exp $
 bin/intltool-extract
 bin/intltool-merge
@@ -12,8 +12,5 @@ man/man8/intltool-update.8
 man/man8/intltoolize.8
 share/aclocal/intltool.m4
 share/intltool/Makefile.in.in
-share/intltool/intltool-extract.in
-share/intltool/intltool-merge.in
-share/intltool/intltool-update.in
 @dirrm share/intltool
 @dirrm share/aclocal
