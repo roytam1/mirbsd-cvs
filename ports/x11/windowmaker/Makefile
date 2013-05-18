@@ -1,15 +1,15 @@
-# $MirOS: ports/x11/windowmaker/Makefile,v 1.12 2007/04/03 19:46:44 tg Exp $
+# $MirOS: ports/x11/windowmaker/Makefile,v 1.13 2009/08/16 17:19:35 tg Exp $
 # $OpenBSD: Makefile,v 1.57 2003/08/16 19:06:07 tedu Exp $
 
 COMMENT=		window manager that emulates NeXTSTEP(tm)
 COMMENT-lang=		language subpackage for Window Maker
 
 VSN=			0.92.0
-DASH_VER=		2
+DASH_VER=		3
 DISTNAME=		WindowMaker-${VSN}
 PKGNAME=		${DISTNAME:L}-${DASH_VER}
 CATEGORIES=		x11 x11/windowmaker
-HOMEPAGE=		http://www.windowmaker.org/
+HOMEPAGE=		http://www.windowmaker.info/
 
 # GPL
 PERMIT_PACKAGE_CDROM=	Yes

@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/templates/network.conf.template,v 1.21 2007/02/17 05:52:26 tg Exp $
+# $MirOS: ports/infrastructure/templates/network.conf.template,v 1.22 2009/08/24 15:11:11 tg Exp $
 # $OpenBSD: network.conf.template,v 1.107 2007/01/18 11:21:15 steven Exp $
 
 #
@@ -200,7 +200,7 @@ MASTER_SITE_AFTERSTEP+=	\
 	ftp://ftp.dti.ad.jp/pub/X/AfterStep/ \
 
 MASTER_SITE_WINDOWMAKER+=	\
-	ftp://ftp.windowmaker.info/pub/ \
+	http://windowmaker.info/pub/ \
 
 MASTER_SITE_SOURCEWARE+=	\
 	ftp://mirrors.rcn.net/mirrors/sources.redhat.com/ \
