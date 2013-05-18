@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/isa/clock.c,v 1.10 2007/02/07 20:43:25 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/isa/clock.c,v 1.11 2010/07/25 16:37:59 tg Exp $ */
 /*	$OpenBSD: clock.c,v 1.31 2004/02/27 21:07:49 grange Exp $	*/
 /*	$NetBSD: clock.c,v 1.39 1996/05/12 23:11:54 mycroft Exp $	*/
 
@@ -95,6 +95,8 @@ WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 #include <sys/device.h>
 #include <sys/taitime.h>
 #include <sys/timeout.h>
+
+#include <dev/rndvar.h>
 
 #include <machine/cpu.h>
 #include <machine/intr.h>
@@ -626,7 +628,10 @@ clock_expandyear(int clockyear)
 void
 inittodr(time_t base)
 {
-	mc_todregs rtclk;
+	struct {
+		mc_todregs rtclk;
+		time_t basetime, rtctime;
+	} x;
 	struct tm tm;
 	int s;
 
@@ -647,19 +652,19 @@ inittodr(time_t base)
 	time.tv_usec = 0;
 
 	s = splclock();
-	if (rtcget(&rtclk)) {
+	if (rtcget(&x.rtclk)) {
 		splx(s);
 		printf("WARNING: invalid time in clock chip\n");
 		goto fstime;
 	}
 	splx(s);
 
-	tm.tm_sec = hexdectodec(rtclk[MC_SEC]);
-	tm.tm_min = hexdectodec(rtclk[MC_MIN]);
-	tm.tm_hour = hexdectodec(rtclk[MC_HOUR]);
-	tm.tm_mday = hexdectodec(rtclk[MC_DOM]);
-	tm.tm_mon = hexdectodec(rtclk[MC_MONTH]) - 1;
-	tm.tm_year = clock_expandyear(hexdectodec(rtclk[MC_YEAR])) - 1900;
+	tm.tm_sec = hexdectodec(x.rtclk[MC_SEC]);
+	tm.tm_min = hexdectodec(x.rtclk[MC_MIN]);
+	tm.tm_hour = hexdectodec(x.rtclk[MC_HOUR]);
+	tm.tm_mday = hexdectodec(x.rtclk[MC_DOM]);
+	tm.tm_mon = hexdectodec(x.rtclk[MC_MONTH]) - 1;
+	tm.tm_year = clock_expandyear(hexdectodec(x.rtclk[MC_YEAR])) - 1900;
 	tm.tm_gmtoff = 0;
 
 	/*
@@ -685,6 +690,7 @@ inittodr(time_t base)
 	if (tz.tz_dsttime)
 		time.tv_sec -= 3600;
 	time.tv_sec += tai2timet(mjd2tai(tm2mjd(tm)));
+	x.rtctime = time.tv_sec;
 
 	if (base < time.tv_sec - 5*SECYR)
 		printf("WARNING: file system time much less than clock time\n");
@@ -693,14 +699,17 @@ inittodr(time_t base)
 		printf("WARNING: using file system time\n");
 		goto fstime;
 	}
+	goto oktime;
 
-	timeset = 1;
-	return;
-
-fstime:
-	timeset = 1;
+ fstime:
 	time.tv_sec = base;
 	printf("WARNING: CHECK AND RESET THE DATE!\n");
+
+ oktime:
+	x.basetime = base;
+	rnd_lopool_add(&x, sizeof(x));
+	timeset = 1;
+	return;
 }
 
 /*

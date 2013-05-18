@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/dev/rnd.c,v 1.60 2010/09/12 18:20:00 tg Exp $ */
+/**	$MirOS: src/sys/dev/rnd.c,v 1.61 2010/09/12 18:50:25 tg Exp $ */
 /*	$OpenBSD: rnd.c,v 1.78 2005/07/07 00:11:24 djm Exp $	*/
 
 /*
@@ -1363,9 +1363,9 @@ rnd_pool_add(struct rnd_pooladd *sa, const void *d, size_t n)
 	} else
 #endif
 	    {
-		/* cannot use memcpy since time is volatile */
-		sa->u.tv.tv_sec = time.tv_sec;
-		sa->u.tv.tv_usec = time.tv_usec;
+		/* cannot use memcpy since mono_time is volatile */
+		sa->u.tv.tv_sec = mono_time.tv_sec;
+		sa->u.tv.tv_usec = mono_time.tv_usec;
 	}
 	sa->sp = sa;
 

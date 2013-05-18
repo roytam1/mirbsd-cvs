@@ -68,6 +68,8 @@
 #include <sys/malloc.h>
 #include <sys/systm.h>
 
+#include <dev/rndvar.h>
+
 #include <uvm/uvm_extern.h>
 
 #include <machine/autoconf.h>
@@ -897,6 +899,7 @@ inittodr(base)
 	int sec, min, hour, day, mon, year;
 	int badbase = 0, waszero = base == 0;
 	char *bad = NULL;
+	time_t x[2];
 
 	if (base < 5 * SECYR) {
 		/*
@@ -930,6 +933,10 @@ inittodr(base)
 #if defined(SUN4)
 forward:
 #endif
+	x[0] = time.tv_sec;
+	x[1] = base;
+	rnd_lopool_add(x, sizeof(x));
+
 	if (time.tv_sec == 0) {
 		/*
 		 * Believe the time in the file system for lack of
