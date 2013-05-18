@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/mirports.sys.mk,v 1.38 2006/10/13 17:09:19 tg Exp $
+# $MirOS: ports/infrastructure/mk/mirports.sys.mk,v 1.39 2006/10/17 21:15:42 tg Exp $
 #-
 # Copyright (c) 2005, 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -37,12 +37,12 @@ OSname=			${OSNAME:L}
 .if ${OStype} == "MirBSD"
 OSver!=	print '.include "/usr/share/mk/sys.mk"\nall:\n.ifdef OSrelm\n\t@echo' \
 	    '$${OSrel}.$${OSrelm}\n.else\n\t@echo $${OSrev}.$${OSrpl}\n.endif' \
-	    | ${MAKE} -rf - all
+	    | MAKEFLAGS= ${MAKE} -rf - all
 # fake 'uname -r' for speed
 OSREV=	${OSver:R}
 .elif ${OStype} == "OpenBSD"
 OSver!=	print '.include "/usr/share/mk/sys.mk"\nall:\n\t@echo $${OSREV}' \
-	    | ${MAKE} -rf - all
+	    | MAKEFLAGS= ${MAKE} -rf - all
 # fake 'uname -r' for speed
 OSREV=	${OSver}
 .elif ${OStype} == "Interix"
