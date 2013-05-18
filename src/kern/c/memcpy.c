@@ -1,5 +1,5 @@
 /*-
- * Copyright (c) 2008
+ * Copyright (c) 2008, 2009
  *	Thorsten Glaser <tg@mirbsd.org>
  *
  * Provided that these terms and disclaimer and all copyright notices
@@ -20,7 +20,7 @@
 
 #include <libckern.h>
 
-__RCSID("$MirOS: src/kern/c/memcpy.c,v 1.1 2008/08/03 21:02:00 tg Exp $");
+__RCSID("$MirOS: src/kern/c/memcpy.c,v 1.2 2008/12/27 21:29:30 tg Exp $");
 
 #ifdef L_mempcpy
 #define memmove mempcpy
@@ -31,6 +31,9 @@ memmove(void *dst, const void *src, size_t len)
 {
 	const uint8_t *s = src;
 	uint8_t *d = dst;
+#ifdef L_mempcpy
+	uint8_t * const rv = dst + len;
+#endif
 
 	if (len) {
 		if (src < dst) {
@@ -43,7 +46,7 @@ memmove(void *dst, const void *src, size_t len)
 				*d++ = *s++;
 	}
 #ifdef L_mempcpy
-	return (d);
+	return (rv);
 #else
 	return (dst);
 #endif

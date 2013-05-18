@@ -1,5 +1,5 @@
 /*-
- * Copyright (c) 2008
+ * Copyright (c) 2008, 2009
  *	Thorsten Glaser <tg@mirbsd.org>
  *
  * Provided that these terms and disclaimer and all copyright notices
@@ -21,10 +21,13 @@
 #define _GNU_SOURCE
 #include <string.h>
 
-__RCSID("$MirOS: src/share/misc/licence.template,v 1.28 2008/11/14 15:33:44 tg Rel $");
+__RCSID("$MirOS: src/lib/libc/string/stpcpy.c,v 1.1 2008/12/27 21:43:23 tg Exp $");
 
 char *
 stpcpy(char *dst, const char *src)
 {
-	return (mempcpy(dst, src, strlen(src) + 1));
+	size_t n;
+
+	n = strlen(src);
+	return (memcpy(dst, src, n + 1) + n);
 }
