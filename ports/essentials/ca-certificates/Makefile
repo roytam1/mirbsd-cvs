@@ -1,10 +1,10 @@
-# $MirOS: ports/essentials/ca-certificates/Makefile,v 1.5 2008/12/07 18:57:57 tg Exp $
+# $MirOS: ports/essentials/ca-certificates/Makefile,v 1.6 2009/05/17 16:10:05 tg Exp $
 
 COMMENT=		X.509 CA certificate collection
 CATEGORIES=		essentials security
 MCZ_FETCH=		Yes
 CVS_DISTREPO=		${_MIROS_ANONCVS}
-CVS_DISTDATE=		2009/05/17 15:00
+CVS_DISTDATE=		2009/11/15
 CVS_DISTMODS=		src/etc/ssl.certs.shar
 CVS_DISTFILE=		ca-certificates
 RESPONSIBLE=		Thorsten Glaser <tg@mirbsd.org>
