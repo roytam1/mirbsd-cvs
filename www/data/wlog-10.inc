@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.162 2009/02/21 19:00:08 bsiegert Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.163 2009/02/23 15:52:58 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -3404,4 +3404,30 @@ Title: one (lonely) day at work
  grml-live version</a>. Although a few commits to the bootloader (cd9660),
  getextent_cd9660(1), kernel, installer, tpmrng(8) are still pending; he
  will be provided with a new version of bsd4grml then.</p>
+----
+Author: bsiegert@
+Date: 24.02.2009 20:45
+Title: Bulk builds revisited
+
+<p>Even though I had added a “mmake bulk-build” target to MirPorts’
+ top-level Makefile some time ago, one thing has always been broken: if
+ one port in a bulk build fails to build, we do not want to abort the
+ whole thing. Using mmake -k however leads to 0-byte packages and
+ corresponding bulk cookies being created erroneously. This seems to be
+ a consequence of the “indirect” inter-target dependencies used by
+ MirPorts.</p>
+
+<p>The fix turned out easier than I thought: there is a
+ <tt>REPORT_PROBLEM</tt> variable that can be set to a command run when
+ mmake fails. The default is <tt>exit 1</tt>. For bulk builds (i.e. when
+ <tt>BULK</tt> is set), we now default to a new <tt>failedport</tt>
+ script, which records the directory and flavour in
+ <tt>${PORTSDIR}/Failed</tt> and exits with status 0. Thus, the build
+ continues at the next port, as is should.</p>
+
+<p>The next thing I want to do is a HTML report of a finished bulk build
+ with links to all build reports. I saw this in Rodrigo Osorio's
+ “Porting applications in FreeBSD” talk on <a
+ href="http://www.fosdem.org/2009/">FOSDEM 2009</a>, and thought it was
+ quite nice.</p>
 ----
