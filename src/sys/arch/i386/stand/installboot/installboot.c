@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/stand/installboot/installboot.c,v 1.15 2006/04/08 00:03:00 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/stand/installboot/installboot.c,v 1.16 2006/04/08 00:09:12 tg Exp $ */
 /*	$OpenBSD: installboot.c,v 1.47 2004/07/15 21:44:16 tom Exp $	*/
 /*	$NetBSD: installboot.c,v 1.5 1995/11/17 23:23:50 gwr Exp $ */
 
@@ -88,7 +88,7 @@
 #include <unistd.h>
 #include <util.h>
 
-__RCSID("$MirOS: src/sys/arch/i386/stand/installboot/installboot.c,v 1.15 2006/04/08 00:03:00 tg Exp $");
+__RCSID("$MirOS: src/sys/arch/i386/stand/installboot/installboot.c,v 1.16 2006/04/08 00:09:12 tg Exp $");
 
 extern	char *__progname;
 int	verbose, nowrite, nheads, nsectors, userspec = 0;
@@ -189,7 +189,8 @@ main(int argc, char *argv[])
 	bios_diskinfo_t di;
 	long mbrofs;
 	int mbrpart, usembrpart = 0;
-	off_t isoofs = 0, isolen = 0, imaofs = 0, imasec = 0;
+	/* do *not* use off_t */
+	u_long isoofs = 0, isolen = 0, imaofs = 0, imasec = 0;
 
 	fprintf(stderr, "MirOS BSD installboot " __BOOT_VER "\n");
 
