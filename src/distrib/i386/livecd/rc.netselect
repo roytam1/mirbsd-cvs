@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/i386/livecd/rc.netselect,v 1.4 2006/04/10 20:57:32 tg Exp $
+# $MirOS: src/distrib/i386/livecd/rc.netselect,v 1.5 2006/04/10 21:51:52 tg Exp $
 #-
 # Copyright (c) 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -67,6 +67,12 @@ function ask_netconfig
 {
 	set -A all_ifnames -- $(get_net_ifnames | sort)
 	default_ifname=${all_ifnames[0]}
+	if [[ -z $default_ifname ]]; then
+		print
+		print No network interface found, skipping.
+		do_netconf none
+		return
+	fi
 	print
 	print "Available network interfaces: ${all_ifnames[*]}"
 	if=
