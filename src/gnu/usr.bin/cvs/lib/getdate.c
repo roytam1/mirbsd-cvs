@@ -156,7 +156,7 @@
 #include "getdate.h"
 
 #ifdef USE_LIBBSD
-#include <bsd/string.h>
+size_t strlcat(char *, const char *, size_t);
 #endif
 
 /* There's no need to extend the stack, so there's no need to involve
@@ -240,7 +240,7 @@ xmemdup(void const *p, size_t s)
 # define ATTRIBUTE_UNUSED __attribute__ ((__unused__))
 #endif
 
-__RCSID("$MirOS: ports/devel/cvs/patches/patch-lib_getdate_c,v 1.6 2010/09/18 22:35:08 tg Exp $");
+__RCSID("$MirOS: src/gnu/usr.bin/cvs/lib/getdate.c,v 1.11 2010/09/19 19:42:58 tg Exp $");
 __RCSID("$miros: src/gnu/usr.bin/cvs/lib/getdate.y,v 1.6.2.5 2010/09/18 19:17:41 tg Exp $");
 
 /* Shift A right by B bits portably, by dividing A by 2**B and
@@ -3292,14 +3292,13 @@ main(int argc, char **argv)
 	printf ("Bad format - couldn't convert.\n");
       else if (! (tm = localtime (&d.tv_sec)))
 	{
-	  long int sec = d.tv_sec;
-	  printf ("localtime (%ld) failed\n", sec);
+	  printf ("localtime (%lld) failed\n", (long long)d.tv_sec);
 	}
       else
 	{
 	  int ns = d.tv_nsec;
 	  printf ("%13lld =\t%04ld-%02d-%02d %02d:%02d:%02d.%09d\n",
-		  (int64_t)d.tv_sec, (long)tm->tm_year + 1900,
+		  (long long)d.tv_sec, (long)tm->tm_year + 1900,
 		  tm->tm_mon + 1, tm->tm_mday,
 		  tm->tm_hour, tm->tm_min, tm->tm_sec, ns);
 	}
@@ -3311,4 +3310,3 @@ main(int argc, char **argv)
   return 0;
 }
 #endif /* TEST */
-

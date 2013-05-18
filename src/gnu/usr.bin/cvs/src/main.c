@@ -25,10 +25,10 @@
 #include "xgethostname.h"
 
 #ifdef USE_LIBBSD
-#include <bsd/bsd.h>
+uint32_t arc4random(void);
 #endif
 
-__RCSID("$MirOS: src/gnu/usr.bin/cvs/src/main.c,v 1.12 2011/05/06 21:04:19 tg Exp $");
+__RCSID("$MirOS: src/gnu/usr.bin/cvs/src/main.c,v 1.13 2011/06/11 02:56:58 tg Exp $");
 
 const char *program_name;
 const char *program_path;
@@ -753,9 +753,9 @@ distribution kit for a complete list of contributors and copyrights.\n",
 
     /* Calculate the cvs global session ID */
 
-    global_session_id = Xasprintf ("1%010llX%04X%04X", (uint64_t)time (NULL),
-				   (int)(getpid() & 0xFFFF),
-				   (int)(arc4random() & 0xFFFF));
+    global_session_id = Xasprintf("1%010llX%04X%04X",
+      (unsigned long long)time(NULL),
+      (int)(getpid() & 0xFFFF), (int)(arc4random() & 0xFFFF));
 
     TRACE (TRACE_FUNCTION, "main: Session ID is %s", global_session_id);
 
