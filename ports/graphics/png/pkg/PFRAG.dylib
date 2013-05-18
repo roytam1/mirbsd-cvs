@@ -1,5 +1,0 @@
-@comment $MirOS: ports/graphics/png/pkg/PFRAG.dylib,v 1.6 2008/05/13 16:38:02 tg Exp $
-@comment hand-crafted, might not be correct
-pkgview/png/lib/libpng.9.0.0.dylib
-pkgview/png/lib/libpng.9.dylib
-pkgview/png/lib/libpng.dylib
