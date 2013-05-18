@@ -116,6 +116,7 @@ c_printf(const char **wp)
 	int rv;
 	const char *old_kshname;
 	char *fmt;
+	uint8_t old_utfmode;
 
 	old_kshname = kshname;
 	kshname = wp[0];
@@ -124,7 +125,10 @@ c_printf(const char **wp)
 		++wp;
 	if (wp[0]) {
 		strdupx(fmt, wp[0], ATEMP);
+		old_utfmode = UTFMODE;
+		UTFMODE = 0;
 		rv = real_main(fmt, wp);
+		UTFMODE = old_utfmode;
 		afree(fmt, ATEMP);
 	} else
 		rv = usage();
