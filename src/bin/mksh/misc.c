@@ -29,7 +29,7 @@
 #include <grp.h>
 #endif
 
-__RCSID("$MirOS: src/bin/mksh/misc.c,v 1.131 2009/11/23 12:48:19 tg Exp $");
+__RCSID("$MirOS: src/bin/mksh/misc.c,v 1.133 2009/11/28 14:28:02 tg Exp $");
 
 unsigned char chtypes[UCHAR_MAX + 1];	/* type bits for unsigned char */
 
@@ -244,7 +244,7 @@ change_flag(enum sh_flag f, int what, unsigned int newval)
 int
 parse_args(const char **argv,
     int what,			/* OF_CMDLINE or OF_SET */
-    int *setargsp)
+    bool *setargsp)
 {
 	static char cmd_opts[NELEM(options) + 5]; /* o:T:\0 */
 	static char set_opts[NELEM(options) + 6]; /* A:o;s\0 */

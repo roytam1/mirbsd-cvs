@@ -236,7 +236,8 @@ expand(const char *cp,	/* input word */
 	doblank = 0;
 	make_magic = 0;
 	word = (f&DOBLANK) ? IFS_WS : IFS_WORD;
-	st_head.next = NULL;
+	/* clang doesn't know OSUBST comes before CSUBST */
+	memset(&st_head, 0, sizeof(st_head));
 	st = &st_head;
 
 	while (1) {
