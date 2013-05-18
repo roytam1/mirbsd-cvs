@@ -1,5 +1,5 @@
 # $MirSecuCron$
-# $MirOS: src/usr.bin/ssh/ssh_config,v 1.18 2009/07/18 14:09:19 tg Exp $
+# $MirOS: src/usr.bin/ssh/ssh_config,v 1.19 2009/10/02 16:58:50 tg Exp $
 # $OpenBSD: ssh_config,v 1.25 2009/02/17 01:28:32 djm Exp $
 
 # This is the ssh client system-wide configuration file.  See
@@ -17,7 +17,7 @@
 
 # Site-wide defaults for some ssh_config(5) options.
 
-# Host *
+Host *
 #	AddressFamily any
 #	BatchMode no
 #	BindAddress ...
@@ -71,7 +71,7 @@
 #	RSAAuthentication yes
 #	SendEnv ...
 #	ServerAliveCountMax 3
-#	ServerAliveInterval 0
+	ServerAliveInterval 200
 #	SmartcardDevice ...
 #	StrictHostKeyChecking ask
 #	TCPKeepAlive yes
