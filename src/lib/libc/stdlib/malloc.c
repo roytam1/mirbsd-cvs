@@ -7,7 +7,7 @@
  * ----------------------------------------------------------------------------
  */
 
-#if defined(LIBC_SCCS) && !defined(lint)
+#if 0 /* defined(LIBC_SCCS) && !defined(lint) */
 static char rcsid[] = "$OpenBSD: malloc.c,v 1.71 2004/08/11 06:22:45 tdeval Exp $";
 #endif /* LIBC_SCCS and not lint */
 
@@ -50,6 +50,8 @@ static char rcsid[] = "$OpenBSD: malloc.c,v 1.71 2004/08/11 06:22:45 tdeval Exp 
 #include <errno.h>
 
 #include "thread_private.h"
+
+__RCSID("$MirOS$");
 
 /*
  * The basic parameters you can tweak.
@@ -398,7 +400,7 @@ map_pages(size_t pages)
     }
     tail = result + pages + malloc_guard;
 
-    if (brk(tail) == (char *)-1) {
+    if (brk(tail) == -1) {
 #ifdef MALLOC_EXTRA_SANITY
 	wrtwarning("(ES): map_pages fails\n");
 #endif /* MALLOC_EXTRA_SANITY */

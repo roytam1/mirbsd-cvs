@@ -28,11 +28,13 @@
  */
 
 #if 0
-$MirOS$
 static char *rcsid = "$OpenBSD: multibyte.c,v 1.4 2003/06/02 20:18:38 millert Exp $";
 #endif /* LIBC_SCCS and not lint */
 
 #include <stdlib.h>
+#include <wchar.h>
+
+__RCSID("$MirOS$");
 
 /*
  * Stub multibyte character functions.
@@ -118,11 +120,6 @@ wcstombs(s, pwcs, n)
 
 	return count;
 }
-
-#ifdef	_BSD_WINT_T_
-typedef	_BSD_WINT_T_	wint_t;
-#undef	_BSD_WINT_T_
-#endif
 
 int
 iswalnum(wint_t x)
