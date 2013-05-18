@@ -1,4 +1,4 @@
-# $MirOS: ports/print/teTeX/base/Makefile,v 1.6 2007/03/01 21:45:53 tg Exp $
+# $MirOS: ports/print/teTeX/base/Makefile,v 1.7 2007/03/04 23:30:29 tg Exp $
 # $OpenBSD: Makefile,v 1.25 2003/04/04 21:19:23 sturm Exp $
 
 COMMENT=		TeX distribution, executables
@@ -55,7 +55,7 @@ pre-patch:
 	cd ${WRKSRC}/texk/etc/autoconf; \
 	    cp ${LOCALBASE}/share/autoconf-2.13/* .; \
 	    chmod u+w *; \
-	    patch -l -z .mir.orig <${FILESDIR}/ac.diff
+	    patch -l -z .orig.mir <${FILESDIR}/ac.diff
 
 post-configure:
 	find ${WRKBUILD} -name Makefile -exec perl -i -pe \
