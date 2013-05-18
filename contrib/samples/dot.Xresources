@@ -1,7 +1,7 @@
 ! $MirSecuCron$
-! $MirOS: src/share/misc/licence.template,v 1.28 2008/11/14 15:33:44 tg Rel $
+! $MirOS: contrib/samples/dot.Xresources,v 1.10 2009/09/09 10:34:18 tg Exp $
 !-
-! Copyright (c) 2003, 2004, 2005, 2006, 2007, 2009
+! Copyright (c) 2003, 2004, 2005, 2006, 2007, 2009, 2010
 !	Thorsten "mirabilos" Glaser <tg@mirbsd.org>
 !
 ! Provided that these terms and disclaimer and all copyright notices
@@ -22,9 +22,11 @@
 ! Xresources file for xterm, xterm with terminus, xterm with vga,
 ! kterm, netscape with mouse wheel, and whatever else pleases you.
 
+! TODO: use cursorUnderLine (xterm #237 and up)
+
 !--- generic XTerm settings ---
 XTerm*VT100*loginShell:		true
-XTerm*ScrollBar:		off
+XTerm*ScrollBar:		false
 XTerm*SaveLines:		4096
 XTerm*eightBitInput:		true
 XTerm*eightBitOutput:		true
@@ -33,6 +35,10 @@ XTerm*deleteIsDEL:		false
 XTerm*VT100*background:		black
 XTerm*VT100*foreground:		lightgrey
 XTerm*termName:			xterm-xfree86
+XTerm*cursorColor:		black
+XTerm*VT100*colorMode:		true
+XTerm*VT100*boldColors:		false
+XTerm*VT100*dynamicColors:	true
 XTerm*VT100*color0:		black
 XTerm*VT100*color1:		red3
 XTerm*VT100*color2:		green3
@@ -53,7 +59,7 @@ XTerm*VT100*color14:		cyan
 XTerm*VT100*color15:		white
 XTerm*VT100*colorUL:		yellow
 XTerm*VT100*colorBD:		white
-XTerm*VT100*utf8:		1
+XTerm*VT100*utf8:		true
 XTerm*fontMenu*font1*Label:	Unicode
 XTerm*VT100*utf8Fonts.font1:	-misc-fixed-medium-r-normal--18-120-100-100-c-90-iso10646-1
 XTerm*VT100*utf8Fonts.font2:	-misc-fixed-medium-r-normal--7-70-75-75-c-50-iso10646-1
@@ -66,7 +72,7 @@ XTerm*visualBell:		true
 
 !--- generic black/white XTerm settings ---
 BXTerm*VT100*loginShell:	true
-BXTerm*ScrollBar:		off
+BXTerm*ScrollBar:		false
 BXTerm*SaveLines:		4096
 BXTerm*eightBitInput:		true
 BXTerm*eightBitOutput:		true
@@ -75,10 +81,11 @@ BXTerm*deleteIsDEL:		false
 BXTerm*VT100*background:	white
 BXTerm*VT100*foreground:	black
 BXTerm*termName:		xterm-r6
-BXTerm*VT100*colorMode:		off
-BXTerm*VT100*boldColors:	off
-BXTerm*VT100*dynamicColors:	off
-BXTerm*VT100*utf8:		1
+BXTerm*cursorColor:		black
+BXTerm*VT100*colorMode:		false
+BXTerm*VT100*boldColors:	false
+BXTerm*VT100*dynamicColors:	false
+BXTerm*VT100*utf8:		true
 BXTerm*fontMenu*font1*Label:	Unicode
 BXTerm*VT100*utf8Fonts.font1:	-misc-fixed-medium-r-normal--18-120-100-100-c-90-iso10646-1
 BXTerm*VT100*utf8Fonts.font2:	-misc-fixed-medium-r-normal--7-70-75-75-c-50-iso10646-1
@@ -91,7 +98,7 @@ BXTerm*visualBell:		true
 
 !--- Terminus font modifications ---
 TXTerm*VT100*loginShell:	true
-TXTerm*ScrollBar:		off
+TXTerm*ScrollBar:		false
 TXTerm*SaveLines:		4096
 TXTerm*eightBitInput:		true
 TXTerm*eightBitOutput:		true
@@ -112,6 +119,10 @@ TXTerm*VT100*font6:		-xos4-terminus-medium-r-normal--20-200-72-72-c-100-iso10646
 TXTerm*VT100*background:	black
 TXTerm*VT100*foreground:	lightgrey
 TXTerm*termName:		xterm-xfree86
+TXTerm*cursorColor:		black
+TXTerm*VT100*colorMode:		true
+TXTerm*VT100*boldColors:	false
+TXTerm*VT100*dynamicColors:	true
 TXTerm*VT100*color0:		black
 TXTerm*VT100*color1:		red3
 TXTerm*VT100*color2:		green3
@@ -132,12 +143,12 @@ TXTerm*VT100*color14:		cyan
 TXTerm*VT100*color15:		white
 TXTerm*VT100*colorUL:		yellow
 TXTerm*VT100*colorBD:		white
-TXTerm*VT100*utf8:		1
+TXTerm*VT100*utf8:		true
 TXTerm*visualBell:		true
 
 !--- an XTerm with vga font ---
 VXTerm*VT100*loginShell:	true
-VXTerm*ScrollBar:		off
+VXTerm*ScrollBar:		false
 VXTerm*SaveLines:		4096
 VXTerm*eightBitInput:		true
 VXTerm*eightBitOutput:		true
@@ -159,6 +170,7 @@ VXTerm*VT100*geometry:		80x25
 VXTerm*VT100*background:	black
 VXTerm*VT100*foreground:	lightgrey
 VXTerm*termName:		xterm-xfree86
+VXTerm*cursorColor:		black
 VXTerm*VT100*colorBDMode:	false
 VXTerm*VT100*boldColors:	true
 VXTerm*VT100*boldMode:		false
@@ -184,12 +196,12 @@ VXTerm*VT100*color14:		cyan
 VXTerm*VT100*color15:		white
 VXTerm*VT100*colorUL:		yellow
 VXTerm*VT100*colorBD:		white
-VXTerm*VT100*utf8:		0
+VXTerm*VT100*utf8:		false
 VXTerm*visualBell:		true
 
 !--- generic utf-8 XTerm settings ---
 UXTerm*VT100*loginShell:	true
-UXTerm*ScrollBar:		off
+UXTerm*ScrollBar:		false
 UXTerm*SaveLines:		4096
 UXTerm*eightBitInput:		true
 UXTerm*eightBitOutput:		true
@@ -198,6 +210,11 @@ UXTerm*deleteIsDEL:		false
 UXTerm*VT100*background:	black
 UXTerm*VT100*foreground:	lightgrey
 UXTerm*termName:		xterm-xfree86
+UXTerm*cursorColor:		black
+UXTerm*VT100*colorMode:		true
+UXTerm*VT100*boldColors:	false
+UXTerm*VT100*dynamicColors:	true
+UXTerm*VT100*utf8:		true
 UXTerm*VT100*color0:		black
 UXTerm*VT100*color1:		red3
 UXTerm*VT100*color2:		green3
@@ -218,7 +235,7 @@ UXTerm*VT100*color14:		cyan
 UXTerm*VT100*color15:		white
 UXTerm*VT100*colorUL:		yellow
 UXTerm*VT100*colorBD:		white
-UXTerm*VT100*utf8:		1
+UXTerm*VT100*utf8:		true
 UXTerm*fontMenu*font1*Label:	xTerm-like
 UXTerm*fontMenu*font3*Label:	narrow tall
 UXTerm*fontMenu*font4*Label:	wide short
@@ -239,14 +256,19 @@ UXTerm*charClass:		33:33,35:35,37:37,38:38,43:43,44:44,45:45,46:46,47:47,58:58,6
 
 !--- euc-jp kterm settings ---
 KTerm*VT100*loginShell:		true
-KTerm*ScrollBar:		off
+KTerm*ScrollBar:		false
 KTerm*SaveLines:		4096
 KTerm*eightBitInput:		true
 KTerm*eightBitOutput:		true
 KTerm*backarrowKeyIsErase:	true
+KTerm*deleteIsDEL:		false
 KTerm*VT100*background:		black
 KTerm*VT100*foreground:		lightgrey
 KTerm*termName:			kterm
+KTerm*cursorColor:		black
+KTerm*VT100*colorMode:		true
+KTerm*VT100*boldColors:		false
+KTerm*VT100*dynamicColors:	true
 KTerm*VT100*color0:		black
 KTerm*VT100*color1:		red3
 KTerm*VT100*color2:		green3
@@ -267,6 +289,7 @@ KTerm*VT100*color14:		cyan
 KTerm*VT100*color15:		white
 KTerm*VT100*colorUL:		yellow
 KTerm*VT100*colorBD:		white
+KTerm*VT100*utf8:		false
 KTerm*visualBell:		true
 KTerm*VT100*kanjiMode:		euc
 KTerm*VT100*Translations:	#override \

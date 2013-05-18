@@ -1,7 +1,7 @@
 ! $MirSecuCron$
-! $MirOS: src/share/misc/licence.template,v 1.28 2008/11/14 15:33:44 tg Rel $
+! $MirOS: src/etc/skel/dot.Xresources,v 1.8 2009/09/09 10:34:20 tg Exp $
 !-
-! Copyright (c) 2003, 2006, 2007, 2009
+! Copyright (c) 2003, 2006, 2007, 2009, 2010
 !	Thorsten Glaser <tg@mirbsd.org>
 !
 ! Provided that these terms and disclaimer and all copyright notices
@@ -22,7 +22,7 @@
 ! Xresources file for xterm and uxterm with fixed-misc font.
 
 XTerm*VT100*loginShell:		true
-XTerm*ScrollBar:		off
+XTerm*ScrollBar:		false
 XTerm*SaveLines:		4096
 XTerm*eightBitInput:		true
 XTerm*eightBitOutput:		true
@@ -36,6 +36,10 @@ XTerm*VT100*background:		white
 XTerm*VT100*foreground:		black
 #endif
 XTerm*termName:			xterm-xfree86
+XTerm*cursorColor:		black
+XTerm*VT100*colorMode:		true
+XTerm*VT100*boldColors:		false
+XTerm*VT100*dynamicColors:	true
 XTerm*VT100*color0:		black
 XTerm*VT100*color1:		red3
 XTerm*VT100*color2:		green3
@@ -56,7 +60,7 @@ XTerm*VT100*color14:		cyan
 XTerm*VT100*color15:		white
 XTerm*VT100*colorUL:		yellow
 XTerm*VT100*colorBD:		white
-XTerm*VT100*utf8:		1
+XTerm*VT100*utf8:		true
 XTerm*fontMenu*font1*Label:	Unicode
 XTerm*VT100*utf8Fonts.font1:	-misc-fixed-medium-r-normal--18-120-100-100-c-90-iso10646-1
 XTerm*VT100*utf8Fonts.font2:	-misc-fixed-medium-r-normal--7-70-75-75-c-50-iso10646-1
@@ -68,7 +72,7 @@ XTerm*utf8Fonts.font:		-misc-fixed-medium-r-semicondensed--13-120-75-75-c-60-iso
 XTerm*visualBell:		true
 
 UXTerm*VT100*loginShell:	true
-UXTerm*ScrollBar:		off
+UXTerm*ScrollBar:		false
 UXTerm*SaveLines:		4096
 UXTerm*eightBitInput:		true
 UXTerm*eightBitOutput:		true
@@ -77,6 +81,11 @@ UXTerm*deleteIsDEL:		false
 UXTerm*VT100*background:	black
 UXTerm*VT100*foreground:	lightgrey
 UXTerm*termName:		xterm-xfree86
+UXTerm*cursorColor:		black
+UXTerm*VT100*colorMode:		true
+UXTerm*VT100*boldColors:	false
+UXTerm*VT100*dynamicColors:	true
+UXTerm*VT100*utf8:		true
 UXTerm*VT100*color0:		black
 UXTerm*VT100*color1:		red3
 UXTerm*VT100*color2:		green3
@@ -97,7 +106,7 @@ UXTerm*VT100*color14:		cyan
 UXTerm*VT100*color15:		white
 UXTerm*VT100*colorUL:		yellow
 UXTerm*VT100*colorBD:		white
-UXTerm*VT100*utf8:		1
+UXTerm*VT100*utf8:		true
 UXTerm*fontMenu*font1*Label:	xTerm-like
 UXTerm*fontMenu*font3*Label:	narrow tall
 UXTerm*fontMenu*font4*Label:	wide short
