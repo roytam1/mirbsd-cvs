@@ -1,4 +1,4 @@
-/**	$MirOS: src/distrib/common/elfrdsetroot.c,v 1.4 2005/12/04 23:14:38 tg Exp $ */
+/**	$MirOS: src/distrib/common/elfrdsetroot.c,v 1.5 2006/05/26 18:24:08 tg Exp $ */
 /*	$OpenBSD: elfrdsetroot.c,v 1.10 2005/01/14 22:47:06 deraadt Exp $	*/
 /*	$NetBSD: rdsetroot.c,v 1.2 1995/10/13 16:38:39 gwr Exp $	*/
 
@@ -53,7 +53,7 @@
 
 #include <sys/exec_elf.h>
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/distrib/common/elfrdsetroot.c,v 1.5 2006/05/26 18:24:08 tg Exp $");
 
 char *file;
 
@@ -179,7 +179,7 @@ main(int argc, char **argv)
 			exit(1);
 		}
 
-		msync(dataseg, mmap_size, 0);
+		msync(dataseg, mmap_size, MS_SYNC);
 	}
 
 #ifdef	DEBUG
