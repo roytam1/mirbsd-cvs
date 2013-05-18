@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/stand/libsa/debug.c,v 1.4 2008/08/01 11:24:59 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/stand/libsa/debug.c,v 1.5 2009/01/11 19:05:59 tg Exp $ */
 /*	$OpenBSD: debug.c,v 1.13 2004/03/09 19:12:12 tom Exp $	*/
 
 /*
@@ -55,6 +55,13 @@ void d_putc(dev_t, int);
 void
 dump_regs(u_int trapno, u_int arg)
 {
+#ifdef TRAP_ME_NOT
+	static const char traptext[8] = {
+		'T', 0x10, 'R', 0x10, 'A', 0x10, 'P', 0x10
+	};
+
+	memcpy((char *)VBASE + (76 * 2), traptext, sizeof (traptext));
+#else
 #ifndef SMALL_BOOT
 	register int i;
 #endif
@@ -87,9 +94,10 @@ dump_regs(u_int trapno, u_int arg)
 
 	/* restore the console */
 	cn_tab = save_cons;
+#endif
 }
 
-#ifndef SMALL_BOOT
+#if !defined(SMALL_BOOT) && !defined(TRAP_ME_NOT)
 void
 dump_mem(char *l, void *p, size_t n)
 {
@@ -103,6 +111,7 @@ dump_mem(char *l, void *p, size_t n)
 }
 #endif
 
+#ifndef TRAP_ME_NOT
 u_int d_pos;
 
 void
@@ -119,3 +128,4 @@ d_putc(dev_t d, int c)
 		break;
 	}
 }
+#endif
