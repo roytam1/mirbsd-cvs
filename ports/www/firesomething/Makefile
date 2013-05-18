@@ -1,9 +1,9 @@
-# $MirOS: ports/www/firesomething/Makefile,v 1.29 2008/11/13 20:18:17 tg Exp $
+# $MirOS: ports/www/firesomething/Makefile,v 1.30 2008/11/14 00:47:20 tg Exp $
 # $OpenBSD: Makefile,v 1.41 2005/11/15 09:21:52 wilfried Exp $
 
 ONLY_FOR_PLATFORM=	*:*:alpha *:*:i386 *:*:sparc *:*:sparc64 *:*:amd64 *:*:powerpc
 COMMENT=		one of the successors to the Netscape browser engine
-VER=			2.0.0.14
+VER=			3.0.4
 DASH_VER=		1
 DISTNAME=		mozilla
 PKGNAME=		firesomething-${VER}-${DASH_VER}
@@ -18,18 +18,21 @@ PERMIT_DISTFILES_FTP=	Yes
 
 .include <mirports.sys.mk>
 
+MASTER_SITES=		ftp://releases.mozilla.org/pub/mozilla.org/firefox/releases/${VER}/source/ \
 MASTER_SITES=		ftp://archive.mozilla.org/pub/mozilla.org/firefox/releases/${VER}/source/ \
 			http://ftp.eu.mozilla.org/pub/mozilla.org/firefox/releases/${VER}/source/ \
 			http://ftp.mozilla.org/pub/mozilla.org/firefox/releases/${VER}/source/
 DISTFILES=		firefox-${VER}-source.tar.bz2
-SO_VERSION=		9.0
+SO_VERSION=		10.0
 
 MODULES+=		devel/gettext devel/pkgconfig
 RUN_DEPENDS+=		:esound-*:audio/esound
-BUILD_DEPENDS+=		:libIDL-*:devel/libIDL \
-			:zip->=2.3:archivers/zip \
-			:pkgconfig-*:devel/pkgconfig
+BUILD_DEPENDS+=		:libIDL-*:devel/libIDL
+BUILD_DEPENDS+=		:zip->=2.3:archivers/zip
+BUILD_DEPENDS+=		:python->=2.5.2-7:lang/python/2.5
+LIB_DEPENDS+=		cairo:cairo->=1.6:graphics/cairo
 LIB_DEPENDS+=		gdk-x11-2.0.0.0,gdk_pixbuf-2.0.0.0,gtk-x11-2.0.0.0::x11/gtk+
+LIB_DEPENDS+=		dbus-glib-1::sysutils/dbus-glib
 
 VMEM_WARNING=		Yes
 USE_CXX=		Yes
@@ -40,21 +43,23 @@ NO_REGRESS=		Yes
 SUBST_VARS=		LOCALBASE SO_EXTENSION SO_VERSION VER
 SO_EXTENSION=		.${SO_VERSION}
 
-MODGNU_RECURSE_DIRS=	${WRKSRC}/nsprpub ${WRKSRC}/directory/c-sdk ${WRKSRC}
+MODGNU_RECURSE_DIRS=	${WRKSRC}/nsprpub ${WRKSRC}
 CONFIGURE_STYLE=	autoconf no-autoheader
 CONFIGURE_ARGS+=	--with-system-jpeg=${LOCALBASE}	\
 			--with-system-png=${PNG_BASE}	\
 			--with-system-zlib=/usr/lib	\
+			--with-system-sqlite		\
 			--with-pthreads			\
 			--without-system-nspr		\
 			--enable-xft			\
 			--enable-optimize=-Os		\
-			--enable-default-toolkit=gtk2	\
+			--enable-default-toolkit=cairo-gtk2	\
 			--disable-debug			\
 			--disable-tests			\
 			--disable-pedantic		\
 			--disable-installer		\
 			--disable-updater		\
+			--disable-crashreporter		\
 			--disable-gnomeui		\
 			--disable-gnomevfs		\
 			--enable-xinerama		\
@@ -78,22 +83,22 @@ post-extract:
 	    touch certdata.txt && sleep 1 && touch certdata.c
 
 post-patch:
-.for dir in security/coreconf directory/c-sdk/config
-	cd ${WRKSRC}/${dir} && \
+	cd ${WRKSRC}/security/coreconf && \
 	    ln -sf FreeBSD.mk MidnightBSD.mk && \
 	    ln -sf OpenBSD.mk MirBSD.mk
-.endfor
 
 pre-configure:
 	@perl -pi -e 's|_LOCALBASE_|${LOCALBASE}|g; s|_X11BASE_|${X11BASE}|g' \
 		${WRKSRC}/browser/app/mozilla.in
 	@perl -pi -e 's|_SO_VERSION_|${SO_VERSION}|g' \
 		${WRKSRC}/nsprpub/pr/include/md/_openbsd.h \
-		${WRKSRC}/xpcom/components/nsNativeComponentLoader.cpp
+		${WRKSRC}/xpcom/components/nsNativeComponentLoader.cpp \
+		${WRKSRC}/browser/installer/unix/packages-static
 
 post-install:
 	cd ${PREFIX} && \
-	    mv -f bin/firefox bin/firesomething && \
+	    mv -f firesomething/firefox firesomething/firesomething && \
 	    mv -f firesomething/firefox-bin firesomething/firesomething-bin
+	cd ${PREFIX}/bin && ln -sf ../firesomething/firesomething firesomething
 
 .include <bsd.port.mk>

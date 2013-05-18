@@ -1,7 +1,7 @@
-$MirOS: ports/www/firesomething/patches/patch-nsprpub_configure_in,v 1.6 2008/05/21 06:31:04 bsiegert Exp $
+$MirOS: ports/www/firesomething/patches/patch-nsprpub_configure_in,v 1.6.2.2 2008/09/06 19:29:01 bsiegert Exp $
 $OpenBSD: patch-nsprpub_configure_in,v 1.3 2005/04/09 15:43:47 wilfried Exp $
---- nsprpub/configure.in.orig	Wed Oct 31 18:07:15 2007
-+++ nsprpub/configure.in	Thu Nov 13 22:01:46 2008
+--- nsprpub/configure.in.orig	Tue Apr 29 01:20:48 2008
++++ nsprpub/configure.in	Tue Aug 26 22:45:07 2008
 @@ -42,7 +42,7 @@ dnl ***** END LICENSE BLOCK *****
  AC_PREREQ(2.12)
  AC_INIT(config/libc_r.h)
@@ -11,7 +11,7 @@ $OpenBSD: patch-nsprpub_configure_in,v 1.3 2005/04/09 15:43:47 wilfried Exp $
  AC_CANONICAL_SYSTEM
  
  dnl ========================================================
-@@ -637,6 +637,16 @@ else
+@@ -659,6 +659,16 @@ else
      OS_TEST=`uname -m`
  fi
  
@@ -28,7 +28,7 @@ $OpenBSD: patch-nsprpub_configure_in,v 1.3 2005/04/09 15:43:47 wilfried Exp $
  if test "$OS_ARCH" = "IRIX64"; then
      OS_ARCH=IRIX
  fi
-@@ -1723,14 +1733,34 @@ mips-sony-newsos*)
+@@ -1797,14 +1807,34 @@ mips-sony-newsos*)
      _DEBUG_FLAGS="-gstabs"
  	;;
  
@@ -65,7 +65,7 @@ $OpenBSD: patch-nsprpub_configure_in,v 1.3 2005/04/09 15:43:47 wilfried Exp $
      DSO_CFLAGS=-fPIC
      MDCPUCFG_H=_openbsd.cfg
      PR_MD_CSRCS=openbsd.c
-@@ -2453,7 +2483,7 @@ if test -n "$USE_PTHREADS"; then
+@@ -2528,7 +2558,7 @@ if test -n "$USE_PTHREADS"; then
              _PTHREAD_LDFLAGS=
          fi
  	    ;;
@@ -74,7 +74,7 @@ $OpenBSD: patch-nsprpub_configure_in,v 1.3 2005/04/09 15:43:47 wilfried Exp $
  	    AC_DEFINE(_REENTRANT)
  	    AC_DEFINE(_THREAD_SAFE)
  	    dnl -pthread links in -lc_r, so don't specify it explicitly.
-@@ -2475,7 +2505,7 @@ if test -n "$USE_PTHREADS"; then
+@@ -2550,7 +2580,7 @@ if test -n "$USE_PTHREADS"; then
  	        _PTHREAD_LDFLAGS=
  	    fi
  	    ;;
@@ -83,7 +83,7 @@ $OpenBSD: patch-nsprpub_configure_in,v 1.3 2005/04/09 15:43:47 wilfried Exp $
          if test "$ac_cv_have_dash_pthread" = "yes"; then
              _PTHREAD_LDFLAGS=-pthread
          fi
-@@ -2575,7 +2605,7 @@ case "$target" in
+@@ -2650,7 +2680,7 @@ case "$target" in
      _PTHREAD_LDFLAGS=
      USE_USER_PTHREADS=
      ;;

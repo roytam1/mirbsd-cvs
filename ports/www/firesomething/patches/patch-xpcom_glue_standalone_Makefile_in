@@ -1,8 +1,8 @@
-$MirOS: ports/www/firesomething/patches/patch-xpcom_glue_standalone_Makefile_in,v 1.3 2008/05/21 06:31:05 bsiegert Exp $
---- xpcom/glue/standalone/Makefile.in.orig	2006-01-05 20:35:46.000000000 +0100
-+++ xpcom/glue/standalone/Makefile.in	2008-05-20 21:38:27.000000000 +0200
-@@ -59,7 +59,7 @@ endif
- ifeq (WINNT,$(OS_ARCH))
+$MirOS: ports/www/firesomething/patches/patch-xpcom_glue_standalone_Makefile_in,v 1.4.2.1 2008/08/24 14:52:28 bsiegert Exp $
+--- xpcom/glue/standalone/Makefile.in.orig	2008-03-22 05:25:35.000000000 +0100
++++ xpcom/glue/standalone/Makefile.in	2008-08-24 14:52:53.000000000 +0200
+@@ -62,7 +62,7 @@ endif
+ ifneq (,$(filter WINNT WINCE,$(OS_ARCH)))
  LINKSRC = nsGlueLinkingWin.cpp
  endif
 -ifneq (,$(filter AIX DragonFly FreeBSD Linux NetBSD OpenBSD SunOS,$(OS_ARCH)))

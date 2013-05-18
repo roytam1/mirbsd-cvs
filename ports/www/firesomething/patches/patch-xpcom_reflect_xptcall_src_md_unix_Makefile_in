@@ -1,8 +1,8 @@
-$MirOS: ports/www/firesomething/patches/patch-xpcom_reflect_xptcall_src_md_unix_Makefile_in,v 1.7 2008/05/21 12:23:24 tg Exp $
+$MirOS: ports/www/firesomething/patches/patch-xpcom_reflect_xptcall_src_md_unix_Makefile_in,v 1.8.2.2 2008/09/06 19:29:02 bsiegert Exp $
 $OpenBSD: patch-xpcom_reflect_xptcall_src_md_unix_Makefile_in,v 1.4 2004/11/26 18:29:15 pvalchev Exp $
---- xpcom/reflect/xptcall/src/md/unix/Makefile.in.orig	Tue Feb 19 21:11:34 2008
-+++ xpcom/reflect/xptcall/src/md/unix/Makefile.in	Wed May 21 12:31:18 2008
-@@ -62,7 +62,7 @@ include $(topsrcdir)/config/config.mk
+--- xpcom/reflect/xptcall/src/md/unix/Makefile.in.orig	Wed Apr  9 08:33:57 2008
++++ xpcom/reflect/xptcall/src/md/unix/Makefile.in	Tue Aug 26 22:45:21 2008
+@@ -64,7 +64,7 @@ include $(topsrcdir)/config/config.mk
  #
  # Lots of Unixish x86 flavors
  #
@@ -10,9 +10,9 @@ $OpenBSD: patch-xpcom_reflect_xptcall_src_md_unix_Makefile_in,v 1.4 2004/11/26 1
 +ifneq (,$(filter BSD_OS Darwin FreeBSD MidnightBSD MirBSD NetBSD OpenBSD,$(OS_ARCH)))
  ifeq (86,$(findstring 86,$(OS_TEST)))
  CPPSRCS		:= xptcinvoke_unixish_x86.cpp xptcstubs_unixish_x86.cpp
- endif
-@@ -151,6 +151,12 @@ ifeq ($(OS_ARCH)$(OS_TEST),OpenBSDalpha)
- CPPSRCS		:= xptcinvoke_openbsd_alpha.cpp xptcstubs_openbsd_alpha.cpp
+ ifeq (Darwin,$(OS_ARCH))
+@@ -150,6 +150,12 @@ CPPSRCS		:= xptcinvoke_osf1_alpha.cpp xp
+ ASFILES		:= xptcinvoke_asm_osf1_alpha.s xptcstubs_asm_osf1_alpha.s
  endif
  #
 +# OpenBSD/Alpha
@@ -24,7 +24,7 @@ $OpenBSD: patch-xpcom_reflect_xptcall_src_md_unix_Makefile_in,v 1.4 2004/11/26 1
  # Linux/Alpha
  #
  ifneq (,$(filter Linuxalpha FreeBSDalpha NetBSDalpha,$(OS_ARCH)$(OS_TEST)))                           
-@@ -318,6 +324,14 @@ ASFILES		:= xptcinvoke_asm_ppc_openbsd.s
+@@ -343,6 +349,14 @@ ASFILES		:= xptcinvoke_asm_ppc_openbsd.s
  endif
  
  #
@@ -39,7 +39,7 @@ $OpenBSD: patch-xpcom_reflect_xptcall_src_md_unix_Makefile_in,v 1.4 2004/11/26 1
  # Darwin/PPC
  #
  ifeq ($(OS_ARCH),Darwin)
-@@ -355,6 +369,13 @@ else
+@@ -380,6 +394,13 @@ else
  ASFILES		:= xptcinvoke_asm_sparc_linux.s xptcstubs_asm_sparc_solaris.s
  endif
  endif

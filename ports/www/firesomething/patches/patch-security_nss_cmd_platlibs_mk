@@ -1,7 +1,7 @@
-$MirOS: ports/www/firesomething/patches/patch-security_nss_cmd_platlibs_mk,v 1.4 2008/05/21 06:31:05 bsiegert Exp $
---- security/nss/cmd/platlibs.mk.orig	2006-11-17 03:13:16.000000000 +0100
-+++ security/nss/cmd/platlibs.mk	2008-05-20 21:25:44.000000000 +0200
-@@ -213,7 +213,7 @@ endif
+$MirOS: ports/www/firesomething/patches/patch-security_nss_cmd_platlibs_mk,v 1.5.2.1 2008/08/24 14:52:27 bsiegert Exp $
+--- security/nss/cmd/platlibs.mk.orig	2008-02-25 22:32:33.000000000 +0100
++++ security/nss/cmd/platlibs.mk	2008-08-24 14:52:52.000000000 +0200
+@@ -243,7 +243,7 @@ endif
  # If GNU ld is used, we must use the -rpath-link option to tell
  # the linker where to find libsoftokn3.so, an implicit dependency
  # of libnss3.so.
