@@ -1,4 +1,4 @@
-/* $MirOS: src/sys/dev/ic/tpm.c,v 1.1 2009/02/16 21:21:00 tg Exp $ */
+/* $MirOS: src/sys/dev/ic/tpm.c,v 1.2 2009/02/22 12:24:25 tg Exp $ */
 
 /*-
  * Copyright (c) 2009 Thorsten Glaser <tg@mirbsd.org>
@@ -273,7 +273,7 @@ tpm_attach(struct device *parent, struct device *self, void *aux)
 	tpm_sc->vendor[3] = inb(TPM_DATA);
 	tpm_sc->vendor[4] = '\0';
 
-	printf(" at 0x%X (%s), version %d.%d.%d.%d, vendor %s\n",
+	printf(" port 0x%X (%s), version %d.%d.%d.%d, vendor %s\n",
 	    tpm_sc->base, tpm_chip_names[tpm_sc->type],
 	    tpm_sc->version[0], tpm_sc->version[1], tpm_sc->version[2],
 	    tpm_sc->version[3], tpm_sc->vendor);
