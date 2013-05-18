@@ -1,5 +1,5 @@
 #!/usr/bin/env mksh
-# $MirOS: ports/infrastructure/pkgtools/upgrade/pkg_upgrade.sh,v 1.11 2006/01/17 22:52:29 tg Exp $
+# $MirOS: ports/infrastructure/pkgtools/upgrade/pkg_upgrade.sh,v 1.12 2006/01/17 22:54:17 tg Exp $
 #-
 # Copyright (c) 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -72,7 +72,7 @@ PKGNAME=$(awk '$1=="@name" { print $2 }' $TMPDIR/+CONTENTS)
 OLDPKGS=$(echo ${PKGNAME%%-[0-9]*}-[0-9]*)
 [[ $OLDPKGS = ?(${PKGNAME%%-[0-9]*})@(-\[0-9\]\*) ]] && OLDPKGS=
 if [[ $auto = 1 && -z $OLDPKGS ]]; then
-	[[ $quiet = 1 ]] || print -u2 "$me: ignoring uninstalled package '$1'"
+	[[ $quiet = 1 ]] || print -u2 "$me: ignoring uninstalled package '${1##*/}'"
 	exit 0
 fi
 cd $OLDPWD
@@ -83,7 +83,7 @@ cd $OLDPWD
 grep -q '^@option no-default-conflict' $TMPDIR/+CONTENTS
 if [[ $? -eq 0 || -z "$OLDPKGS" ]]; then
 	# we can safely go on
-	[[ $quiet = 1 ]] || print -u2 "$me: adding previously uninstalled '$1'"
+	[[ $quiet = 1 ]] || print -u2 "$me: adding previously uninstalled '${1##*/}'"
 	exec pkg_add $1
 fi
 
@@ -99,7 +99,7 @@ fi
 NEWPKG=${1##*/}
 [[ $OLDPKGS = ${NEWPKG%.+([a-zA-Z])} && $force = 0 ]] && exit 0
 
-print -u2 "$me: will remove $OLDPKGS in favour of $1"
+print -u2 "$me: will remove $OLDPKGS in favour of ${1##*/}"
 
 if [[ -f $PKG_DBDIR/$OLDPKGS/+REQUIRED_BY ]] ; then
 	mv -f $PKG_DBDIR/$OLDPKGS/+REQUIRED_BY $TMPDIR
