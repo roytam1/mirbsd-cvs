@@ -37,7 +37,7 @@
 __COPYRIGHT("@(#) Copyright (c) 1989, 1993\n\
 	The Regents of the University of California.  All rights reserved.\n");
 __SCCSID("@(#)cat.c	8.2 (Berkeley) 4/27/95");
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/bin/cat/cat.c,v 1.2 2007/07/05 23:09:31 tg Exp $");
 
 #include <sys/param.h>
 #include <sys/stat.h>
@@ -54,9 +54,9 @@ __RCSID("$MirOS$");
 
 extern char *__progname;
 
-int bflag, eflag, nflag, sflag, tflag, vflag;
+int bflag, eflag, lflag, nflag, sflag, tflag, vflag;
 int rval;
-char *filename;
+const char *filename;
 
 void cook_args(char *argv[]);
 void cook_buf(FILE *);
@@ -67,18 +67,22 @@ int
 main(int argc, char *argv[])
 {
 	int ch;
+	struct flock stdout_lock;
 
 #ifndef __MirBSD__
 	setlocale(LC_ALL, "");
 #endif
 
-	while ((ch = getopt(argc, argv, "benstuv")) != -1)
+	while ((ch = getopt(argc, argv, "belnstuv")) != -1)
 		switch (ch) {
 		case 'b':
 			bflag = nflag = 1;	/* -b implies -n */
 			break;
 		case 'e':
 			eflag = vflag = 1;	/* -e implies -v */
+			break;
+		case 'l':
+			lflag = 1;
 			break;
 		case 'n':
 			nflag = 1;
@@ -97,11 +101,21 @@ main(int argc, char *argv[])
 			break;
 		default:
 			(void)fprintf(stderr,
-			    "usage: %s [-benstuv] [-] [file ...]\n", __progname);
+			    "usage: %s [-belnstuv] [-] [file ...]\n",
+			    __progname);
 			exit(1);
 			/* NOTREACHED */
 		}
 	argv += optind;
+
+	if (lflag) {
+		stdout_lock.l_len = 0;
+		stdout_lock.l_start = 0;
+		stdout_lock.l_type = F_WRLCK;
+		stdout_lock.l_whence = SEEK_SET;
+		if (fcntl(STDOUT_FILENO, F_SETLKW, &stdout_lock) == -1)
+			err(1, "fcntl(stdout, F_SETLKW)");
+	}
 
 	if (bflag || eflag || nflag || sflag || tflag || vflag)
 		cook_args(argv);

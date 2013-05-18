@@ -1,3 +1,4 @@
+.\"	$MirOS$
 .\"	$OpenBSD: cat.1,v 1.25 2004/07/02 10:28:34 jmc Exp $
 .\"	$NetBSD: cat.1,v 1.12 1995/09/27 05:38:55 cgd Exp $
 .\"
@@ -33,7 +34,7 @@
 .\"
 .\"     @(#)cat.1	8.3 (Berkeley) 5/2/95
 .\"
-.Dd May 2, 1995
+.Dd $Mdocdate$
 .Dt CAT 1
 .Os
 .Sh NAME
@@ -41,7 +42,7 @@
 .Nd concatenate and print files
 .Sh SYNOPSIS
 .Nm cat
-.Op Fl benstuv
+.Op Fl belnstuv
 .Op Ar
 .Sh DESCRIPTION
 The
@@ -70,6 +71,16 @@ Implies the
 option and also prints a dollar sign
 .Pq Ql \&$
 at the end of each line.
+.It Fl l
+Set an exclusive advisory lock on the standard output file descriptor.
+This lock is set using
+.Xr fcntl 2
+with the
+.Dv F_SETLKW
+command.
+If the output file is already locked,
+.Nm
+will block until the lock is acquired.
 .It Fl n
 Number the output lines, starting at 1.
 .It Fl s
@@ -154,6 +165,7 @@ operand.
 .Xr sh 1 ,
 .Xr tail 1 ,
 .Xr vis 1 ,
+.Xr fcntl 2 ,
 .Xr setbuf 3
 .Rs
 .%A Rob Pike
@@ -169,13 +181,19 @@ utility is compliant with the
 specification.
 .Pp
 The flags
-.Op Fl benstv
+.Op Fl belnstv
 are extensions to the specification.
 .Sh HISTORY
 A
 .Nm
 utility appeared in
 .At v1 .
+The
+.Fl l
+option was added from
+.Nx
+in
+.Mx 11 .
 .Sh BUGS
 Because of the shell language mechanism used to perform output
 redirection, the command
