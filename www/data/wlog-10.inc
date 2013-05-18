@@ -823,7 +823,7 @@ Title: kqemu
 <p>Now missing: vmxnet source code… or evil BLOB? I suppose the latter.</p>
 <p>Unrelated side note: Netcologne is cool, but they suck: you can only
  change the PTR for your static IP, which you pay 4.90 € per month for, if
- you’̲re a business customer. No IPv6 anyway (but SixXS has a new PoP, out
+ you’re a business customer. No IPv6 anyway (but SixXS has a new PoP, out
  of all places in Düsseldorf *evil grin*). And Strato gives gecko2@ two IPs,
  but only allows the MAC of the built-in NIC (so no bridging to domU or VMs).
  Why can’t they ever do something not totally clueless? (Okay, I could ask
@@ -866,4 +866,39 @@ Title: Getting things done… slowly
  keeping me informed). And Benny fixed ports bugs again, as well as put
  security updates for Freetype2 et al. into the tree. Thanks!</p>
 <p>FWIW: Opera 9.50 segfaults on me. It can’t be updated thusly.</p>
+----
+Date: 25.06.2008
+Author: tg@
+Title: U+1E9E… and where innovation resides
+
+<p>So the uppercase eszett – ‘ẞ’ (or <tt>‘ẞ’</tt> if your monospace font
+ has it) – is <a href="http://www.golem.de/0806/60622.html">now an ISO
+ 10646 standard</a>. Your favourite BSD has been one of the first to add
+ support for it to libc, a (contributed) keyboard layout, and even Markus
+ Kuhn’s fixed-misc Unicode fonts, after the proposal with a real codepoint
+ assignment came out. Not all Germans, nor typographers, but historicians,
+ might like it, the discussion has been flamewar-like. But we <a
+ href="http://blogs.msdn.com/michkap/archive/2008/05/15/8506679.aspx">knew
+ this</a> all along.</p>
+<p>Ah, by the way. No, we aren’t dead. Websites are irrelevant, but if you
+ end up here, please read about <a href="@@RELPATH@@mksh.htm">mksh</a>
+ anyway. Real questions are asked on <a href="@@RELPATH@@rss.htm#lists">the
+ mailing lists</a> or in <a href="@@RELPATH@@irc.htm">IRC</a>. And we don’t
+ have a handbook (yet), because with two developers, nobody has yet had
+ enough spare time to write one, plus you’d need a couple of handbooks – one
+ for people coming from Open/NetBSD (Lite-based), one for people coming from
+ Free/DragonFly/MidnightBSD (386BSD-based), one for people coming from Unix®,
+ one for the Apple followers, one for the GNU/Leenocksers, etc. You see?</p>
+<p>And while here: Xcode 3.1 (on gecko2@’s Macbook) comes with llvm-gcc… but
+ not in <tt>/usr/bin/</tt> but in <tt>/Developer/usr/bin/</tt>. It compiles
+ quickly, produces fast and small code… kind of nice. If Apple brings <a
+ href="http://llvm.org/">LLVM</a>+<a href="http://clang.llvm.org/">clang</a>
+ into a usable shape to replace our gcc 3.4.6 (gcc4 has unsafe optimisations
+ that cannot be turned off, and all other compilers produce bigger code,
+ which breaks the installation media (especially floppies) and SPARC
+ kernels), in a form usable as compact command-line compilers (and not just
+ libraries for Xcode integration), I’ll be happy. (They’d just need to add
+ mksh to Mac OSX then to make me even happier, but I guess I’m sort of late
+ with that request. Even if it’s fully free – in contrast to GNU bash – and,
+ in its most recent incarnations, even advertising clause free.)</p>
 ----
