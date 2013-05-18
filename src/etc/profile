@@ -1,4 +1,4 @@
-# $MirOS: src/etc/profile,v 1.45 2007/02/08 21:53:07 tg Exp $
+# $MirOS: src/etc/profile,v 1.46 2007/02/13 15:03:01 tg Exp $
 #-
 umask 022
 [ -z "$KSH_VERSION" ] && alias print='echo -e'
@@ -110,15 +110,6 @@ function bye
 function ge		# German English
 {
 	$BROWSER "http://dict.leo.org/?search=$*"
-}
-function ulynx		# uxterm lynx (UTF-8)
-{
-	command lynx -display_charset utf8 "$@"
-}
-function klynx		# kterm lynx (EUC-JP)
-{
-	( sleep 1; cls; print -n 'Press Ctrl-L!' ) 2>/dev/null &
-	command lynx -display_charset euc-jp "$@"
 }
 function Lstripcom	# strip comments (and whitespace) from file(s)
 {
