@@ -1,4 +1,4 @@
-@c $MirOS: gcc/gcc/doc/invoke.texi,v 1.16 2009/01/03 14:31:24 tg Exp $
+@c $MirOS: gcc/gcc/doc/invoke.texi,v 1.17 2009/08/01 13:19:35 tg Exp $
 @c
 @c Copyright (C) 1988, 1989, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999,
 @c 2000, 2001, 2002, 2003, 2004, 2005, 2007, 2009
@@ -2588,24 +2588,24 @@ A variable might be changed by @samp{longjmp} or @samp{vfork}.
 Any of several floating-point events that often indicate errors, such as
 overflow, underflow, loss of precision, etc.
 
-@item @r{(C++ only)}
-An enumerator and a non-enumerator both appear in a conditional expression.
+@item
+(C++ only) An enumerator and a non-enumerator both appear in a conditional expression.
 
-@item @r{(C++ only)}
-A non-static reference or non-static @samp{const} member appears in a
+@item
+(C++ only) A non-static reference or non-static @samp{const} member appears in a
 class without constructors.
 
-@item @r{(C++ only)}
-Ambiguous virtual bases.
+@item
+(C++ only) Ambiguous virtual bases.
 
-@item @r{(C++ only)}
-Subscripting an array which has been declared @samp{register}.
+@item
+(C++ only) Subscripting an array which has been declared @samp{register}.
 
-@item @r{(C++ only)}
-Taking the address of a variable which has been declared @samp{register}.
+@item
+(C++ only) Taking the address of a variable which has been declared @samp{register}.
 
-@item @r{(C++ only)}
-A base class is not initialized in a derived class' copy constructor.
+@item
+(C++ only) A base class is not initialized in a derived class' copy constructor.
 @end itemize
 
 @item -Wno-div-by-zero
@@ -4966,6 +4966,7 @@ they cause the preprocessor output to be unsuitable for actual
 compilation.
 
 @table @gcctabopt
+@item -Wp,@var{option}
 @opindex Wp
 You can use @option{-Wp,@var{option}} to bypass the compiler driver
 and pass @var{option} directly through to the preprocessor.  If
@@ -4978,7 +4979,7 @@ you should avoid using @option{-Wp} and let the driver handle the
 options instead.
 
 @item -Xpreprocessor @var{option}
-@opindex preprocessor
+@opindex Xpreprocessor
 Pass @var{option} as an option to the preprocessor.  You can use this to
 supply system-specific preprocessor options which GCC does not know how to
 recognize.
