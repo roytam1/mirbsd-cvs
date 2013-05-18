@@ -28,7 +28,7 @@
 
 #ifndef MKSH_NO_CMDLINE_EDITING
 
-__RCSID("$MirOS: src/bin/mksh/edit.c,v 1.256 2012/11/26 22:39:14 tg Exp $");
+__RCSID("$MirOS: src/bin/mksh/edit.c,v 1.257 2012/12/01 01:36:19 tg Exp $");
 
 /*
  * in later versions we might use libtermcap for this, but since external
@@ -2273,6 +2273,7 @@ x_push(int nchars)
 {
 	char *cp;
 
+	mkssert(xcp != NULL);
 	strndupx(cp, xcp, nchars, AEDIT);
 	if (killstack[killsp])
 		afree(killstack[killsp], AEDIT);

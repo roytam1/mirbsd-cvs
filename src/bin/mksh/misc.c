@@ -445,6 +445,7 @@ parse_args(const char **argv,
 	if (arrayset) {
 		const char *ccp = NULL;
 
+		mkssert(array != NULL);
 		if (*array)
 			ccp = skip_varname(array, false);
 		if (!ccp || !(!ccp[0] || (ccp[0] == '+' && !ccp[1]))) {
