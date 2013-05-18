@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/bsd.own.mk,v 1.46 2007/03/09 10:24:51 tg Exp $
+# $MirOS: src/share/mk/bsd.own.mk,v 1.47 2007/05/16 23:44:37 tg Exp $
 # $OpenBSD: bsd.own.mk,v 1.92 2005/01/18 00:28:42 mickey Exp $
 # $NetBSD: bsd.own.mk,v 1.24 1996/04/13 02:08:09 thorpej Exp $
 
@@ -13,7 +13,7 @@ BSD_OWN_MK=1
 .endif
 
 SKEY?=		Yes	# no = avoid building with support for S/key auth
-DEBUGLIBS?=	Yes	# yes (snapshots), no (releases), removed (mirmake)
+DEBUGLIBS?=	No	# yes (snapshots), no (releases), removed (mirmake)
 MALLOC_TYPE?=	mmap	# default: mmap, other: brk
 
 CROSS_MODE?=	No
@@ -106,10 +106,6 @@ INSTALL_STRIP?=
 # routers and other embedded systems); normal systems should leave it alone!
 STATIC?=	-static
 
-#.if ${MACHINE_ARCH} == "sparc"
-#NOPIC=		yes
-#.endif
-
 NOLINT?=	yes
 NOMAN?=		no
 NOOBJ?=		no
@@ -120,11 +116,8 @@ LDFLAGS?=
 LDFLAGS+=	${STATIC}
 .endif
 
-# MirOS is always ELF for now, although the possible choices
-# are: ELF a.out COFF Mach-O PE (consistent with nbsd)
-# RTLD: dyld GNU BSD
-OBJECT_FMT=	ELF
-RTLD_TYPE=	BSD
+OBJECT_FMT=	ELF		# ELF a.out COFF Mach-O PE
+RTLD_TYPE=	BSD		# dyld GNU BSD
 
 .if ${OBJECT_FMT} == "Mach-O"
 PICFLAG=	-fno-common
@@ -191,6 +184,7 @@ LIBM?=		${DESTDIR}/usr/lib/libm.a
 LIBMENU?=	${DESTDIR}/usr/lib/libmenu.a
 LIBMILTER?=	${DESTDIR}/usr/lib/libmilter.a
 LIBOLDCURSES?=	${DESTDIR}/usr/lib/libocurses.a
+LIBOSSAUDIO?=	${DESTDIR}/usr/lib/libossaudio.a
 LIBPANEL?=	${DESTDIR}/usr/lib/libpanel.a
 LIBPCAP?=	${DESTDIR}/usr/lib/libpcap.a
 LIBPERL?=	${DESTDIR}/usr/lib/libperl.a
@@ -207,16 +201,11 @@ LIBUTIL?=	${DESTDIR}/usr/lib/libutil.a
 LIBY?=		${DESTDIR}/usr/lib/liby.a
 LIBZ?=		${DESTDIR}/usr/lib/libz.a
 
-.if (${MACHINE_ARCH} == "i386")
+.if ${MACHINE_ARCH} == "i386"
 LIBARCH?=	${DESTDIR}/usr/lib/lib${MACHINE_ARCH}.a
 .else
 LIBARCH?=
 .endif
-
-# old stuff
-LIBOSSAUDIO?=	${DESTDIR}/usr/lib/libossaudio.a
-LIBOTERMCAP?=	${DESTDIR}/usr/lib/libotermcap.a
-LIBRESOLV?=	${DESTDIR}/usr/lib/libresolv.a
 
 .PHONY: spell clean cleandir obj manpages print all \
 	depend beforedepend afterdepend cleandepend \
