@@ -2023,3 +2023,18 @@ Author: tg@
 <p>Woo-hoo! Even homsn got his arse moved, Arch GNU/Linux now has mksh
  R31c, like Fedora, Gentoo, soon Fink. World domination, anyone?</p>
 ----
+Date: 13.09.2007
+Author: tg@
+
+<p>I’ve just put the last polishing steps for some in-tree software into
+ cvs, and I suppose the release is imminent. If but XTaran would deliver
+ some more sparc test results… I have no idea if XFree86® works there, nor
+ if the ISO is bootable, I can just hope.</p>
+<p>Since I’m fairly busy with my dayjob <em>and</em> have increased duties
+ and responsibilities at FreeWRT, and Benny is working on his diploma, and
+ we’re okay with the current code quality, I assume that what we have in
+ the tree right now will be the final release.</p>
+<p>Oh damn. I still need to work on the dual-arch bootable CD stuff. Crap.
+ That means some more coding (where the assembly part is the easier half…)
+ and possibly testing. But it’ll rock.</p>
+----
