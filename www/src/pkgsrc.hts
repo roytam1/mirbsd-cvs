@@ -4,7 +4,7 @@
 mws_setname pkgsrc "pkgsrc on MirOS"
 mws_subdir 0
 mws_setheadline pkgsrc on MirOS
-mws_putheader '$MirOS: www/src/pkgsrc.hts,v 1.3 2011/07/05 20:14:54 bsiegert Exp $'
+mws_putheader '$MirOS: www/src/pkgsrc.hts,v 1.4 2011/12/18 12:08:41 bsiegert Exp $'
 mws_content <<'EOF'
 <p>pkgsrc is a “ports tree” developed by the NetBSD project and portable
  to several other operating systems. Support for MirOS has existed since
@@ -32,11 +32,12 @@ mws_content <<'EOF'
 
 <h2>Binary packages</h2>
 
-<p>Pre-built binary packages of the <b>2011Q3 branch</b> (from September
- 2011), built for recent MirOS-current (from 2011), are available. They
- can be used even if you did not install a compiler on the system. The
- binary repository contains <b>5330 packages</b>. The packages have been
- built with
+<p>Pre-built binary packages of the
+ <a href="http://mail-index.netbsd.org/current-users/2011/10/03/msg017924.html"><b>2011Q3 branch</b></a>
+ (from October 2011), built for recent MirOS-current (from 2011), are
+ available. They can be used even if you did not install a compiler on
+ the system. The binary repository contains <b>5330 packages</b>. The
+ packages have been built with
  <tt>/usr/pkg</tt>
  as the prefix and
  <tt>/usr/pkg/var</tt> as VARBASE, so that they are self-contained. This
