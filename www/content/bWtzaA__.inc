@@ -1,5 +1,5 @@
 <!-- PageID: mksh -->
-<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.104 2007/05/21 20:11:15 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.105 2007/05/22 21:50:53 tg Exp $</small>
 
 <h1>mksh(1) R29</h1>
 <p>This is the MirBSD&trade; Korn Shell, a more or less portable
@@ -88,6 +88,7 @@
   by Jupp “cnuke” Söntgen) – not public, not finished yet</li>
  <li>No longer build a statically linked shell by default; do not try,
   do not provide any means; user has to use LDFLAGS instead.</li>
+ <li>Fix detection of function prototypes (data declaractions were ok)</li>
 </ul>
 <p>Dedicated to David Ramsey and Coverity, mksh R29e unveils:</p><ul>
  <li>Don't poll in strcasestr(3) if setlocale(3) isn't used</li>
