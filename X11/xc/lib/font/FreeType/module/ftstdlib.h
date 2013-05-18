@@ -1,3 +1,4 @@
+/* $MirOS$ */
 /* ftstdlib.h -- modified for XFree86. */
 /* $XFree86: xc/lib/font/FreeType/module/ftstdlib.h,v 1.3 2004/12/31 02:56:03 tsi Exp $ */
 
@@ -209,6 +210,7 @@
 #define ft_isdigit   xf86isdigit
 #define ft_isxdigit  xf86isxdigit
 
+#define ft_memchr    xf86memchr
 #define ft_memcmp    xf86memcmp
 #define ft_memcpy    xf86memcpy
 #define ft_memmove   xf86memmove
