@@ -1,4 +1,4 @@
-# $MirOS: gcc/gcc/p/utils/Makefile,v 1.5 2006/03/27 11:59:05 tg Exp $
+# $MirOS: gcc/gcc/p/utils/Makefile,v 1.6 2006/03/31 03:16:58 tg Exp $
 # Makefile for the GNU Pascal utilities
 #
 # Copyright (C) 2002-2006 Free Software Foundation, Inc.
@@ -44,7 +44,7 @@ VPATH=$(srcdir)
 PFLAGS1=--executable-path=. --unit-path=$(GCC_DIR)/p/rts --unit-path=$(GCC_DIR)/p/units
 EXE=binobj$(exeext) gpidump$(exeext)
 EXE2=binobj gpidump
-PC_WITH_FLAGS=$(PC) --automake --executable-file-name $(UTILS_WARN) $(subst -std=gnu99,,$(subst -Wformat,,$(CFLAGS))) $(PFLAGS) $(PFLAGS1)
+PC_WITH_FLAGS=$(PC) --automake --executable-file-name $(UTILS_WARN) $(subst -std=gnu99,,$(subst -Wformat,,$(subst -Wbounded,,$(CFLAGS)))) $(PFLAGS) $(PFLAGS1)
 
 all: $(EXE)
 
