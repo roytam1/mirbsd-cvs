@@ -22,7 +22,7 @@
 
 #include "sh.h"
 
-__RCSID("$MirOS: src/bin/mksh/eval.c,v 1.93 2010/09/14 21:26:10 tg Exp $");
+__RCSID("$MirOS: src/bin/mksh/eval.c,v 1.94 2011/01/21 22:25:32 tg Exp $");
 
 /*
  * string expansion
@@ -507,8 +507,9 @@ expand(const char *cp,	/* input word */
 							while (p >= sbeg) {
 								bool gotmatch;
 
-								c = *p; *p = '\0';
-								gotmatch = gmatchx(sbeg, tpat0, false);
+								c = *p;
+								*p = '\0';
+								gotmatch = tobool(gmatchx(sbeg, tpat0, false));
 								*p = c;
 								if (gotmatch)
 									break;

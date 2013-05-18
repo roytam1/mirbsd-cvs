@@ -29,7 +29,7 @@
 #include <grp.h>
 #endif
 
-__RCSID("$MirOS: src/bin/mksh/misc.c,v 1.151 2011/02/11 01:18:19 tg Exp $");
+__RCSID("$MirOS: src/bin/mksh/misc.c,v 1.152 2011/03/05 21:43:17 tg Exp $");
 
 /* type bits for unsigned char */
 unsigned char chtypes[UCHAR_MAX + 1];
@@ -433,7 +433,7 @@ parse_args(const char **argv,
 		    xstrcmp);
 	}
 	if (arrayset)
-		go.optind += set_array(array, arrayset > 0 ? true : false,
+		go.optind += set_array(array, tobool(arrayset > 0),
 		    argv + go.optind);
 
 	return (go.optind);
