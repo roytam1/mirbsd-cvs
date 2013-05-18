@@ -1,3 +1,4 @@
+./etc/X11/XF86Config
 ./etc/X11/app-defaults/Beforelight
 ./etc/X11/app-defaults/Bitmap
 ./etc/X11/app-defaults/Bitmap-color
