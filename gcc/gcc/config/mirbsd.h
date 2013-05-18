@@ -1,16 +1,16 @@
-/* $MirOS: gcc/gcc/config/mirbsd.h,v 1.17 2007/10/02 00:24:09 tg Exp $ */
+/* $MirOS: gcc/gcc/config/mirbsd.h,v 1.18 2007/10/05 21:07:55 tg Exp $ */
 
 /* Base configuration file for all MirOS BSD targets.
-   Copyright (C) 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2005, 2006, 2007
+   Copyright (C) 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2005, 2006, 2007,
+   2008
    Free Software Foundation, Inc.
-   Contributed by Thorsten “mirabilos” Glaser <tg@mirbsd.de>
+   Contributed by Thorsten “mirabilos” Glaser <tg@mirbsd.org>
 
 This file is part of GCC.
 
 GCC is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
-the Free Software Foundation; either version 2, or (at your option)
-any later version.
+the Free Software Foundation; version 2.
 
 GCC is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -212,6 +212,18 @@ Boston, MA 02111-1307, USA.  */
 #undef ENDFILE_SPEC
 #define ENDFILE_SPEC MIRBSD_ENDFILE_SPEC
 
+/*
+ * Work around gcc version-specific library vs rpath problem.
+ * Components are:
+ *	%R = sysroot præfix (usually empty)
+ *	STANDARD_EXEC_PREFIX = “${PREFIX}/lib/gcc/”
+ *	DEFAULT_TARGET_MACHINE = “${OStriplet}”
+ *	DEFAULT_TARGET_VERSION = “3.4.6”
+ */
+#undef MIRBSD_RPATH
+#define MIRBSD_RPATH	"-rpath %R" STANDARD_EXEC_PREFIX \
+			    DEFAULT_TARGET_MACHINE "/" DEFAULT_TARGET_VERSION
+
 /* Provide a LINK_SPEC appropriate for MirOS BSD.  Here we provide
    support for the special GCC options -assert, -R, -rpath, -shared,
    -nostdlib, -static, -rdynamic, and -dynamic-linker.
@@ -220,7 +232,8 @@ Boston, MA 02111-1307, USA.  */
    target-specific LINK_SPEC options.  */
 
 #define MIRBSD_LINK_SPEC			\
-  "%{assert*} %{R*} %{rpath*}			\
+  "%{assert*}					\
+   %{R*} %{rpath*} " MIRBSD_RPATH "		\
    %{!shared:					\
      -dc -dp					\
      %{!nostdlib:%{!r*:%{!e*:-e __start}}}	\

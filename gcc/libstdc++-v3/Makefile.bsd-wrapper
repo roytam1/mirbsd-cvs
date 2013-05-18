@@ -1,4 +1,4 @@
-# $MirOS: gcc/libstdc++-v3/Makefile.bsd-wrapper,v 1.14 2005/12/17 06:04:19 tg Exp $
+# $MirOS: gcc/libstdc++-v3/Makefile.bsd-wrapper,v 1.15 2006/11/03 01:14:04 tg Exp $
 
 .include <bsd.own.mk>
 .include "${GNUSYSTEM_AUX_DIR}/locations.mk"
@@ -16,7 +16,8 @@ CFARGS+=	--enable-static ${CF_PIC} --prefix=${GCC_PREFIX} \
 		--disable-libstdcxx-pch --disable-nls --enable-c99 \
 		--enable-long-long --disable-libstdcxx-debug \
 		--enable-cxx-flags="${FSFCXXFLAGS:C/ *$//}" \
-		--disable-symvers --with-gxx-include-dir=${GCC_PREFIX}/include/gxx
+		--disable-symvers --enable-version-specific-runtime-libs \
+		--with-gxx-include-dir=${GCC_PREFIX}/include/gxx
 XARGS+=		LIBIBERTY_HDRS="${GNU_LIBIBERTY_INC}" \
 		LIBIBERTY_SRC="${GNU_LIBIBERTY_SRC}" \
 		SECTION_FLAGS= CXX="${CC}"
@@ -40,7 +41,7 @@ LIBFILES+=	libstdc++.so.${LIBCXX_REV}
 
 .if ${GCC_NATIVE:L} == "yes"
 post-install:
-	cd ${DESTDIR}${GCC_PREFIX}/lib \
+	cd ${DESTDIR}${GCC_PREFIX}/lib/gcc/${GCCTARGET}/${GCCVERSION} \
 	    && chown -h ${LIBOWN}:${LIBGRP} ${LIBFILES} \
 	    && chmod ${LIBMODE} ${LIBFILES}
 .endif

@@ -1,4 +1,4 @@
-# $MirOS: gcc/gcc/Makefile.bsd-wrapper,v 1.51 2007/08/24 14:20:00 tg Exp $
+# $MirOS: gcc/gcc/Makefile.bsd-wrapper,v 1.52 2008/11/18 19:17:54 tg Exp $
 
 .include <bsd.own.mk>
 .include "${GNUSYSTEM_AUX_DIR}/locations.mk"
@@ -64,11 +64,12 @@ COPTS+=		-std=gnu99
 .  endif
 .endif
 
+VSLIBDIR=	${GCC_PREFIX}/lib/gcc/${GCCTARGET}/${GCCVERSION}
 BOOT_CFLAGS?=	${FSFCFLAGS}
 GNATLIBCFLAGS?=	${BOOT_CFLAGS}
 CPPFLAGS+=	-I${GNU_LIBIBERTY_INC}
 XARGS+=		BISON=yacc LIBIBERTY_HDRS="${GNU_LIBIBERTY_INC}" \
-		extrapartsdir='${GCC_PREFIX}/lib' BOOT_CFLAGS="${BOOT_CFLAGS}" \
+		extrapartsdir=${VSLIBDIR:Q} BOOT_CFLAGS="${BOOT_CFLAGS}" \
 		CFLAGS="${FSFCFLAGS}" GNATLIBCFLAGS="${GNATLIBCFLAGS}" \
 		HOST_CC="${HOSTCC}" MAKEINFOFLAGS=--no-split \
 		VALGRIND_DRIVER_DEFINES="-DNO_SHARED_LIBGCC_MULTILIB"
@@ -101,7 +102,8 @@ CFARGS+=	--prefix=${GCC_PREFIX} --libexecdir=${GCC_PREFIX}/lib \
 		--disable-threads ${OBJC_GC} --enable-shared \
 		--enable-stack-protector --disable-sjlj-exceptions \
 		--with-local-prefix=${GCC_PREFIX} --disable-nls \
-		--with-gxx-include-dir=${GCC_PREFIX}/include/gxx ${__LANGS}
+		--with-gxx-include-dir=${GCC_PREFIX}/include/gxx \
+		--enable-version-specific-runtime-libs ${__LANGS}
 .if (${CROSS_MODE:L} == "yes") && !defined(_CROSSBUILD)
 # required if build != (host == target), for the chained auto-build.h call
 # breaks if build == host == target *sigh*
@@ -141,8 +143,7 @@ all-quick:
 	cd ${FSFOBJDIR} && ${FSFMAKE} ${ALL_TARGET}
 
 pre-install:
-	mkdir -p ${DESTDIR}${GCC_PREFIX}/lib/gcc/${GCCTARGET}/${GCCVERSION} \
-	    ${DESTDIR}${MANDIR}1
+	mkdir -p ${DESTDIR:Q}${VSLIBDIR:Q} ${DESTDIR:Q}${MANDIR:Q}1
 .if !defined(NO_PASCAL) || ${NO_PASCAL:L} == "no"
 .  if (${GCC_NATIVE:L} != "yes") && exists(${.SYSMK}/libmirmake.a)
 	mkdir libmirmake && cd libmirmake && ar x ${.SYSMK}/libmirmake.a md5.o
@@ -166,7 +167,7 @@ post-install:
     ((${CROSS_MODE:L} != "yes") || defined(_CROSSBUILD))
 	-${INSTALL} ${INSTALL_COPY} -o ${LIBOWN} -g ${LIBGRP} -m ${LIBMODE} \
 	    libgcc_s_fpic.so.${LIBGCC_REV} \
-	    ${DESTDIR}${GCC_PREFIX}/lib/libgcc_s.so.${LIBGCC_REV}
+	    ${DESTDIR:Q}${VSLIBDIR:Q}/libgcc_s.so.${LIBGCC_REV}
 .endif
 .if ${NOMAN:L} == "no"
 .  for _i in ${INFO}
@@ -188,9 +189,9 @@ post-install:
 .  if !defined(NO_ADA) || ${NO_ADA:L} == "no"
 	@echo '  /usr/lib/gcc/${GCCTARGET}/${GCCVERSION}/ada{include,lib}'
 .  endif
+	@echo 'XXX: some things may be in ${VSLIBDIR} instead of /usr/lib/gcc'
 .endif
-	chown -R ${BINOWN}:${BINGRP} \
-	    ${DESTDIR}${GCC_PREFIX}/lib/gcc/${GCCTARGET}/${GCCVERSION}
+	chown -R ${BINOWN}:${BINGRP} ${DESTDIR:Q}${VSLIBDIR:Q}
 
 pre-clean:
 	-rm -rf ada lbin

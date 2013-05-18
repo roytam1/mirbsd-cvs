@@ -1,4 +1,4 @@
-# $MirOS: gcc/gcc/p/Make-lang.in,v 1.16 2006/01/31 12:48:37 tg Exp $
+# $MirOS: gcc/gcc/p/Make-lang.in,v 1.17 2006/03/27 11:58:56 tg Exp $
 # Top level Makefile fragment for GNU Pascal.
 #
 # Copyright (C) 1987-2005 Free Software Foundation, Inc.
@@ -137,10 +137,10 @@ rts_version=`cat $(RTS_VERSION_FILENAME)`
 
 GPCSOLIBSHORTNAME=libgpc.so
 GPCSOLIBNAME=$(GPCSOLIBSHORTNAME).$(gpc_major).$(gpc_minor)
-GPCSOLIBDIR=lib
+GPCSOLIBDIR=$(slibdir)
 
 #GPCALIBDIR=$(libsubdir)
-GPCALIBDIR=$(prefix)/$(GPCSOLIBDIR)
+GPCALIBDIR=$(GPCSOLIBDIR)
 
 BISON=bison
 BISONFLAGS=
@@ -472,9 +472,9 @@ pascal.install-lib: pascal.install-dir
 	  fi; \
 	done
 	if [ x$(WITH_SHARED) = xyes ] && [ -f $(GPCSOLIBNAME) ]; then \
-	  mkdir -p -m a+rx $(DESTDIR)$(prefix)/$(GPCSOLIBDIR) && \
-	  $(INSTALL_DATA) $(GPCSOLIBNAME) $(DESTDIR)$(prefix)/$(GPCSOLIBDIR)/$(GPCSOLIBNAME) && \
-	  chmod a-x $(DESTDIR)$(prefix)/$(GPCSOLIBDIR)/$(GPCSOLIBNAME); \
+	  mkdir -p -m a+rx $(DESTDIR)$(GPCSOLIBDIR) && \
+	  $(INSTALL_DATA) $(GPCSOLIBNAME) $(DESTDIR)$(GPCSOLIBDIR)/$(GPCSOLIBNAME) && \
+	  chmod a-x $(DESTDIR)$(GPCSOLIBDIR)/$(GPCSOLIBNAME); \
 	else \
 	  true; \
 	fi
