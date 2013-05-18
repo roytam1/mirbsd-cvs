@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/sys/cdefs.h,v 1.13 2006/11/03 17:14:41 tg Exp $ */
+/**	$MirOS: src/sys/sys/cdefs.h,v 1.14 2006/11/03 18:22:30 tg Exp $ */
 /*	$OpenBSD: cdefs.h,v 1.18 2005/05/27 21:28:12 millert Exp $	*/
 /*	$NetBSD: cdefs.h,v 1.16 1996/04/03 20:46:39 christos Exp $	*/
 
@@ -351,9 +351,9 @@
 #endif
 
 /*
- * _ALL_SOURCE enables everything
+ * _ALL_SOURCE and _GNU_SOURCE enable everything
  */
-#ifdef _ALL_SOURCE
+#if defined(_ALL_SOURCE) || defined(_GNU_SOURCE)
 # undef __POSIX_VISIBLE
 # undef __XPG_VISIBLE
 # undef __ISO_C_VISIBLE
