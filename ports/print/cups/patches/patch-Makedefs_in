@@ -1,6 +1,6 @@
-$MirOS: ports/print/cups/patches/patch-Makedefs_in,v 1.4 2006/07/26 19:56:01 bsiegert Exp $
---- Makedefs.in.orig	Thu Aug  3 02:54:15 2006
-+++ Makedefs.in	Wed Nov  8 18:01:53 2006
+$MirOS: ports/print/cups/patches/patch-Makedefs_in,v 1.5 2006/11/08 18:25:43 bsiegert Exp $
+--- Makedefs.in.orig	Mon Mar 12 21:48:50 2007
++++ Makedefs.in	Thu Mar 15 19:11:58 2007
 @@ -28,8 +28,8 @@
  
  AR		=	@AR@
@@ -39,7 +39,7 @@ $MirOS: ports/print/cups/patches/patch-Makedefs_in,v 1.4 2006/07/26 19:56:01 bsi
  top_srcdir	=	@top_srcdir@
  
  BUILDROOT	=	$(DSTROOT)
-@@ -238,12 +239,11 @@ DBUSDIR		=	@DBUSDIR@
+@@ -241,12 +242,11 @@ DBUSDIR		=	@DBUSDIR@
  # Rules...
  #
  
@@ -54,7 +54,7 @@ $MirOS: ports/print/cups/patches/patch-Makedefs_in,v 1.4 2006/07/26 19:56:01 bsi
  
  .c.32.o:
  	echo Compiling 32-bit $<...
-@@ -254,8 +254,8 @@ DBUSDIR		=	@DBUSDIR@
+@@ -257,8 +257,8 @@ DBUSDIR		=	@DBUSDIR@
  	$(CC) $(ARCH64FLAGS) $(OPTIM) $(CFLAGS) -c -o $@ $<
  
  .cxx.o:
