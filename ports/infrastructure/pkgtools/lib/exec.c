@@ -1,4 +1,4 @@
-/**	$MirOS: ports/infrastructure/pkgtools/lib/exec.c,v 1.4 2007/03/30 23:20:11 bsiegert Exp $ */
+/**	$MirOS: ports/infrastructure/pkgtools/lib/exec.c,v 1.5 2007/04/30 12:48:09 tg Exp $ */
 /*	$OpenBSD: exec.c,v 1.8 2003/09/05 19:40:42 tedu Exp $	*/
 
 /*
@@ -23,8 +23,9 @@
 #include <err.h>
 #include <pwd.h>
 #include "lib.h"
+#include <sys/wait.h>
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/exec.c,v 1.4 2007/03/30 23:20:11 bsiegert Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/exec.c,v 1.5 2007/04/30 12:48:09 tg Exp $");
 
 #ifdef AS_USER
 static bool PrivsDropped = false;
@@ -66,6 +67,40 @@ vsystem(const char *fmt, ...)
 	va_end(args);
 	free(cmd);
 	return ret;
+}
+
+/*
+ * Yet another way to run an external command *sigh*
+ */
+int
+runcomm_(const char *whom, int nargs, const char * const *args)
+{
+	int i = 0;
+	pid_t pid;
+
+	if (Verbose) {
+		fputs("Running \"", stdout);
+		while (i < nargs)
+			printf("%s ", args[i++]);
+		fputs("\"\n", stdout);
+	}
+
+	if ((pid = fork()) < 0)
+		err(2, "failed to fork");
+	else if (pid == 0) {
+		union mksh_ccphack {
+			char **rw;
+			const char * const *ro;
+		} argvec;
+
+		/* stupid API */
+		argvec.ro = args;
+		execvp(whom, argvec.rw);
+		warn("failed to execute %s command", whom);
+		return (-1);
+	}
+	wait(&i);
+	return (i);
 }
 
 /*

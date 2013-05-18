@@ -1,4 +1,4 @@
-/* $MirOS: ports/infrastructure/pkgtools/create/perform.c,v 1.8 2007/03/30 23:20:10 bsiegert Exp $ */
+/* $MirOS: ports/infrastructure/pkgtools/create/perform.c,v 1.9 2008/03/27 20:58:46 bsiegert Exp $ */
 /* $OpenBSD: perform.c,v 1.17 2003/08/27 06:51:26 jolan Exp $	*/
 
 /*
@@ -26,14 +26,13 @@
 #ifndef __INTERIX
 #include <sys/syslimits.h>
 #endif
-#include <sys/wait.h>
 
 #include <err.h>
 #include <errno.h>
 #include <signal.h>
 #include <unistd.h>
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/create/perform.c,v 1.8 2007/03/30 23:20:10 bsiegert Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/create/perform.c,v 1.9 2008/03/27 20:58:46 bsiegert Exp $");
 
 static void sanity_check(void);
 static void make_dist(char *, char *, const char *, package_t *);
@@ -267,7 +266,6 @@ make_dist(char *homepath, char *pkg, const char *fsuffix, package_t *plist)
     FILE *flist = 0;
     int nargs = 0;
     int i;
-    pid_t pid;
 
     args[nargs++] = strdup("tar");	/* argv[0] */
 
@@ -370,23 +368,11 @@ make_dist(char *homepath, char *pkg, const char *fsuffix, package_t *plist)
 
     /* fork/exec tar to create the package */
 
-    if (Verbose) {
-    	printf("Running \"");
-    	for (i = 0; i < nargs; i++) {
-		printf("%s ", args[i]);
-	}
-	printf("\"\n");
-    }
-    pid = fork();
-    if ( pid < 0 )
-	err(2, "failed to fork");
-    else if ( pid == 0 ) {
-	execvp("tar", args);
+    if ((ret = runcomm("tar", nargs, args)) == -1) {
 	for (i = 0; i < current; i++)
 	    unlink(tempfile[i]);
-	err(2, "failed to execute tar command");
+	exit(2);
     }
-    wait(&ret);
     for (i = 0; i < current; i++)
 	unlink(tempfile[i]);
     if (BaseDir) {
