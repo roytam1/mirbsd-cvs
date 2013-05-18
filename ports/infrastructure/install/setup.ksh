@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: ports/infrastructure/install/setup.ksh,v 1.64 2006/10/06 14:08:02 tg Exp $
+# $MirOS: ports/infrastructure/install/setup.ksh,v 1.65 2006/10/13 12:50:43 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -350,65 +350,73 @@ f_verexist=$($localbase/bin/mmake -f f all 2>/dev/null)
 		# Trouble ahead
 		[[ $m = /usr/bin/make ]] || rm -f $m
 	else
-		# Write a wrapper
+		wrapper=1 # Write a wrapper
 		if [[ -x $localbase/bin/mmake && \
 		    $(mmake -f f all) -lt $mv ]]; then
-			if [[ $(head -1 $localbase/bin/mmake) \
-			    != "#!$MKSH" ]]; then
-				print -u2 Error: You must upgrade MirMake \
-				    via ports.
-				exit 1
-			fi
+			[[ $(head -1 $localbase/bin/mmake) \
+			    = "#!$MKSH" ]] || wrapper=0
 		fi
-		rm -f $localbase/bin/mmake
-		cat >$localbase/bin/mmake <<-EOF
-			#!$MKSH
-			exec $m -m $shmk -m $sysmk "\$@"
-		EOF
-		chown $myuid:$mygid $localbase/bin/mmake
-		chmod 555 $localbase/bin/mmake
-		mkdir -p $shmk
+		if [[ $wrapper = 1 ]]; then
+			rm -f $localbase/bin/mmake
+			cat >$localbase/bin/mmake <<-EOF
+				#!$MKSH
+				exec $m -m $shmk -m $sysmk "\$@"
+			EOF
+			chown $myuid:$mygid $localbase/bin/mmake
+			chmod 555 $localbase/bin/mmake
+			mkdir -p $shmk
+			# Fake package installation
+			mkdir -p $localbase/db/pkg/mirmake-$f_ver-0
+			sed -e "s#/usr/mpkg#$localbase#" \
+			    <$portsdir/infrastructure/templates/basepkg.CONTENTS \
+			    >$localbase/db/pkg/mirmake-$f_ver-0/+CONTENTS
+			print mirmake >$localbase/db/pkg/mirmake-$f_ver-0/+COMMENT
+		else
+			print Upgrading MirMake, please wait...
+			(cd $portsdir/devel/mirmake; \
+			    . $localbase/db/SetEnv.sh; \
+			    mmake repackage reupgrade clean)
+		fi
+	fi
+fi
+(( nopt )) || if [[ $(mmake -f f all 2>/dev/null) -lt $mv ]]; then
+	if [[ $(cd $localbase/db/pkg && echo mirmake-*) != "mirmake-*" ]]; then
+		print Upgrading MirMake, please wait...
+		(cd $portsdir/devel/mirmake; \
+		    . $localbase/db/SetEnv.sh; \
+		    mmake repackage reupgrade clean)
+	else
+		# Too old (or nonexistant), install new mirmake
+		dependdist make
+		cd mirmake
+		osmandir=man/cat
+		if [[ $isinterix = yes ]]; then
+			ostype=Interix
+		elif [[ $ismirbsd = yes ]]; then
+			ostype=MirBSD
+		elif [[ $isopenbsd = yes ]]; then
+			ostype=OpenBSD
+		elif [[ $isdarwin = yes ]]; then
+			ostype=Darwin
+			osmandir=man/man
+		fi
+		u=$myuid:$mygid
+		[[ $u = root:bin ]] && u=
+		set -e
+		$SHELL ./Build.sh $ostype $localbase $osmandir mmake \
+		    "" "" "" $SHELL $u
+		$SHELL ./Install.sh
+		set +e
+		cd $T
+		rm -rf mirmake
 		# Fake package installation
 		mkdir -p $localbase/db/pkg/mirmake-$f_ver-0
 		sed -e "s#/usr/mpkg#$localbase#" \
 		    <$portsdir/infrastructure/templates/basepkg.CONTENTS \
 		    >$localbase/db/pkg/mirmake-$f_ver-0/+CONTENTS
-		print mirmake >$localbase/db/pkg/mirmake-$f_ver-0/+COMMENT
+		print MirOS make variant \
+		    >$localbase/db/pkg/mirmake-$f_ver-0/+COMMENT
 	fi
-fi
-(( nopt )) || if [[ $(mmake -f f all 2>/dev/null) -lt $mv ]]; then
-	if [[ $(cd $localbase/db/pkg && echo mirmake-*) != "mirmake-*" ]]; then
-		print -u2 Error: You must upgrade MirMake via ports.
-		exit 1
-	fi
-	# Too old (or nonexistant), install new mirmake
-	dependdist make
-	cd mirmake
-	osmandir=man/cat
-	if [[ $isinterix = yes ]]; then
-		ostype=Interix
-	elif [[ $ismirbsd = yes ]]; then
-		ostype=MirBSD
-	elif [[ $isopenbsd = yes ]]; then
-		ostype=OpenBSD
-	elif [[ $isdarwin = yes ]]; then
-		ostype=Darwin
-		osmandir=man/man
-	fi
-	u=$myuid:$mygid
-	[[ $u = root:bin ]] && u=
-	set -e
-	$SHELL ./Build.sh $ostype $localbase $osmandir mmake "" "" "" $SHELL $u
-	$SHELL ./Install.sh
-	set +e
-	cd $T
-	rm -rf mirmake
-	# Fake package installation
-	mkdir -p $localbase/db/pkg/mirmake-$f_ver-0
-	sed -e "s#/usr/mpkg#$localbase#" \
-	    <$portsdir/infrastructure/templates/basepkg.CONTENTS \
-	    >$localbase/db/pkg/mirmake-$f_ver-0/+CONTENTS
-	print MirOS make variant >$localbase/db/pkg/mirmake-$f_ver-0/+COMMENT
 fi
 
 # Copy <*.mk> includes
@@ -609,8 +617,10 @@ if [[ $(cd $localbase/db/pkg && echo pkgtools-$f_ver-*) \
     != "pkgtools-$f_ver-*" ]]; then
 	: # Current package tools are already installed
 elif [[ $(cd $localbase/db/pkg && echo pkgtools-*) != "pkgtools-*" ]]; then
-	print -u2 Error: upgrade pkgtools via ports.
-	exit 1
+	print Upgrading package tools, please wait...
+	(cd $portsdir/essentials/pkgtools; \
+	    . $localbase/db/SetEnv.sh; \
+	    mmake repackage reupgrade clean)
 else
 	mkdir $T/pkgtools
 	cd $T/pkgtools
