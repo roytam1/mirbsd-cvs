@@ -1,4 +1,4 @@
-# $MirOS: src/sys/arch/i386/stand/liveboot/Makefile,v 1.8 2009/02/01 10:47:36 tg Exp $
+# $MirOS: src/sys/arch/i386/stand/liveboot/Makefile,v 1.9 2009/02/02 21:31:34 tg Exp $
 
 BOOTSELECT_HOOK=yes
 BOOTLDR_PATH=	${.CURDIR}/../boot
@@ -9,7 +9,7 @@ BSD4GRML?=	No
 DUALIVE=	No
 GRML=		No
 CPPFLAGS+=	-DFORGRML
-MBSD_PREFIX=	/boot/mirbsd
+MBSD_PREFIX=	/boot/addons/bsd4grml
 NOMAN=		No
 .endif
 
