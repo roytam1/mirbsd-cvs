@@ -1,9 +1,9 @@
-/**	$MirOS: src/sys/dev/rndvar.h,v 1.2 2005/03/06 21:27:35 tg Exp $ */
+/**	$MirOS: src/sys/dev/rndvar.h,v 1.3 2006/03/27 09:25:23 tg Exp $ */
 /*	$OpenBSD: rndvar.h,v 1.19 2003/11/03 18:24:28 tedu Exp $	*/
 
 /*
- * Copyright (c) 2004, 2005
- *	Thorsten "mirabile" Glaser <tg@66h.42h.de>
+ * Copyright (c) 2004, 2005, 2006
+ *	Thorsten Glaser <tg@mirbsd.de>
  * Copyright (c) 1996,2000 Michael Shalayeff.
  *
  * This software derived from one contributed by Theodore Ts'o.
@@ -35,9 +35,9 @@
 #define __RNDVAR_H__
 
 #define POOLWORDS 1024	/* Power of 2 - note that this is 32-bit words */
-#define	rnd_addpool_size 16
+#define	rnd_addpool_size 16 /* 32-bit words; don't change */
 
-#ifndef ASMSTR		/* only if we're not called from assembly code */
+#ifndef _ASM_SOURCE
 
 #define	RND_RND		0	/* real randomness like nuclear chips */
 #define	RND_SRND	1	/* strong random source */
@@ -107,6 +107,6 @@ void arc4random_bytes(void *, size_t);
 u_int32_t arc4random(void);
 
 #endif /* _KERNEL */
-#endif /* ndef ASMSTR */
+#endif /* !_ASM_SOURCE */
 
 #endif /* __RNDVAR_H__ */
