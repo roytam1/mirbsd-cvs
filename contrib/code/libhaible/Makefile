@@ -1,4 +1,4 @@
-# $MirOS: contrib/code/libhaible/Makefile,v 1.8 2006/05/30 12:11:49 tg Exp $
+# $MirOS: contrib/code/libhaible/Makefile,v 1.9 2006/05/30 12:28:49 tg Exp $
 
 LIB=	haible
 NOPIC=	Yes	# for now
@@ -14,6 +14,10 @@ SRCS+=	wcswidth.c
 SRCS+=	wctrans.c
 SRCS+=	wctype.c
 SRCS+=	wcwidth.c
+
+.PATH: ${.CURDIR}/string
+SRCS+=	wcsdup.c
+SRCS+=	wcstok.c
 
 .for _wctype in alnum alpha blank cntrl digit graph lower print punct \
     space upper xdigit

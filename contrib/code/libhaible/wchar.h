@@ -1,4 +1,4 @@
-/* $MirOS: contrib/code/libhaible/wchar.h,v 1.4 2006/05/30 12:11:49 tg Exp $ */
+/* $MirOS: contrib/code/libhaible/wchar.h,v 1.5 2006/05/30 12:28:50 tg Exp $ */
 
 /*-
  * Copyright (c) 2005, 2006
@@ -115,6 +115,7 @@ int	wcscoll(const wchar_t *, const wchar_t *);
 #endif
 wchar_t	*wcscpy(wchar_t *__restrict__, const wchar_t *__restrict__);
 size_t	wcscspn(const wchar_t *, const wchar_t *);
+wchar_t *wcsdup(const wchar_t *);
 #ifdef notyet
 size_t	wcsftime(wchar_t *__restrict__, size_t, const wchar_t *__restrict__,
 	    const struct tm *__restrict__);
@@ -137,8 +138,10 @@ size_t	wcsspn(const wchar_t *, const wchar_t *);
 wchar_t	*wcsstr(const wchar_t *__restrict__, const wchar_t *__restrict__);
 double	wcstod(const wchar_t *__restrict__, wchar_t **__restrict__);
 float	wcstof(const wchar_t *__restrict__, wchar_t **__restrict__);
+#endif
 wchar_t	*wcstok(wchar_t *__restrict__, const wchar_t *__restrict__,
 	    wchar_t **__restrict__);
+#ifdef notyet
 long	wcstol(const wchar_t *__restrict__, wchar_t **__restrict__, int);
 long double wcstold(const wchar_t *__restrict__, wchar_t **__restrict__);
 #endif
