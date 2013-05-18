@@ -1,11 +1,11 @@
-# $MirOS$
+# $MirOS: ports/graphics/libart/Makefile,v 1.5 2007/06/01 15:31:58 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.12 2004/02/21 22:27:49 marcm Exp $
 
 COMMENT=		high-performance 2D graphics library
 
-VERSION=		2.3.16
+VERSION=		2.3.19
 DISTNAME=		libart_lgpl-${VERSION}
-PKGNAME=		libart-${VERSION}-0
+PKGNAME=		libart-${VERSION}-${DASH_VER}
 CATEGORIES=		graphics
 
 HOMEPAGE=		http://www.artofcode.com/libart.html
