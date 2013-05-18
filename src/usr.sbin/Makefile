@@ -1,4 +1,4 @@
-# $MirOS: src/usr.sbin/Makefile,v 1.22 2007/10/20 21:59:47 tg Exp $
+# $MirOS: src/usr.sbin/Makefile,v 1.23 2007/10/29 20:38:46 tg Exp $
 # $OpenBSD: Makefile,v 1.110 2004/05/04 23:27:21 deraadt Exp $
 
 .include <bsd.own.mk>
@@ -28,6 +28,7 @@
   SUBDIR+= faithd
   SUBDIR+= fdformat
 # SUBDIR+= ftp-proxy
+  SUBDIR+= getextent_cd9660
 # SUBDIR+= gpioctl
 # SUBDIR+= hostapd
 # SUBDIR+= hotplugd
