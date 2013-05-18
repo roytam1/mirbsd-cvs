@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: ports/infrastructure/install/setup.ksh,v 1.85 2008/05/01 00:52:31 tg Exp $
+# $MirOS: ports/infrastructure/install/setup.ksh,v 1.86 2008/05/03 00:22:03 tg Exp $
 #-
 # Copyright (c) 2005, 2008
 #	Thorsten “mirabilos” Glaser <tg@mirbsd.de>
@@ -608,12 +608,10 @@ EOF
 	setenv PKG_TMPDIR '$PKG_TMPDIR'
 EOF
 [[ $myuid = root ]] || print 'setenv BINMODE 755' >>$localbase/db/SetEnv.csh
-cat >$localbase/db/SetEnv.csh <<-'EOF'
-	#XXX convert this to csh
-	#if [ -z "$SSL_CERT_DIR" -a -d $LOCALBASE/share/ca-certificates/. ]; then
-	#	SSL_CERT_DIR=$LOCALBASE/share/ca-certificates
-	#	export SSL_CERT_DIR
-	#fi
+cat >>$localbase/db/SetEnv.csh <<-'EOF'
+	if ( !($?SSL_CERT_DIR) && -d $LOCALBASE/share/ca-certificates/. ) then
+		setenv SSL_CERT_DIR $LOCALBASE/share/ca-certificates
+	endif
 	true
 EOF
 
