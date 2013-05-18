@@ -1,5 +1,5 @@
-# $MirOS: src/sys/arch/sparc/conf/RAMDISK,v 1.8 2007/06/10 16:46:44 tg Exp $
-# $miros: src/sys/arch/sparc/conf/GENERIC,v 1.14 2007/06/10 18:15:25 tg Exp $
+# $MirOS: src/sys/arch/sparc/conf/RAMDISK,v 1.9 2007/06/10 18:14:58 tg Exp $
+# $miros: src/sys/arch/sparc/conf/GENERIC,v 1.15 2007/08/10 00:28:32 tg Exp $
 
 machine		sparc			# arch, used by config; REQUIRED
 
@@ -122,9 +122,6 @@ option		SUN4M		# sun4m - SS10, SS20, Classic, etc.
 #option		KGDBRATE=38400	# baud rate
 
 maxusers	2		# estimated number of users
-
-option		WSEMUL_SUN	# provide sun terminal emulation; required
-option		WSEMUL_NO_VT100	# do not provide vt100 terminal emulation
 
 config		bsd	root on rd0a
 
@@ -415,7 +412,7 @@ pcmcia*	at tslot? socket ?
 #an*	at pcmcia? function ?			# Aironet IEEE 802.11DS
 ne*	at pcmcia? function ?			# NE2000-compat ethernet
 ep*	at pcmcia? function ?			# PCMCIA based 3C5xx ethernet
-com*	at pcmcia? function ?			# PCMCIA modems/serial ports
+#com*	at pcmcia? function ?			# PCMCIA modems/serial ports
 
 # Media Independent Interface (mii) drivers (required by hme, ne, ep)
 #bmtphy*	at mii? phy ?				# Broadcom 10/100 PHYs
