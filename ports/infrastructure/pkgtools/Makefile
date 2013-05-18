@@ -1,8 +1,7 @@
-# $MirOS: ports/infrastructure/pkgtools/Makefile,v 1.4 2005/11/19 11:22:04 tg Exp $
+# $MirOS: ports/infrastructure/pkgtools/Makefile,v 1.3 2005/09/12 22:53:20 tg Exp $
 
   SUBDIR=  lib
   SUBDIR+= add
-  SUBDIR+= check
   SUBDIR+= create
   SUBDIR+= delete
   SUBDIR+= info
