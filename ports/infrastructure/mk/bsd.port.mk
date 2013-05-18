@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.207 2008/08/26 18:38:13 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.208 2008/08/27 07:31:41 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -346,6 +346,7 @@ _MAKE_COOKIE?=		touch -f
 
 # Miscellaneous overridable commands:
 GMAKE?=			gmake
+USE_CCACHE?=		No
 
 CHECKSUM_FILE?=		${.CURDIR}/distinfo
 
@@ -1329,6 +1330,12 @@ ${_SYSTRACE_COOKIE}:
 	fi
 	@sed ${_SYSTRACE_SED_SUBST} ${SYSTRACE_FILTER} >>$@
 .endfor
+.if ${USE_CCACHE:L} == "yes"
+	@for cmd in chmod chown fswrite lchown link mknod rename symlink; do \
+		print '\tnative-'$$cmd: filename match \
+		    "\"$$HOME/.ccache\" then permit"; \
+	done >>$@
+.endif
 	@if [ -f ${.CURDIR}/systrace.policy ]; then \
 		sed ${_SYSTRACE_SED_SUBST} ${.CURDIR}/systrace.policy >>$@; \
 	fi
