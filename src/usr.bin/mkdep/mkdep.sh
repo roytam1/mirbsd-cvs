@@ -1,7 +1,7 @@
 #!/usr/bin/env mksh
-# $MirOS: src/usr.bin/mkdep/mkdep.sh,v 1.8 2008/10/05 15:40:39 tg Exp $
+# $MirOS: src/usr.bin/mkdep/mkdep.sh,v 1.9 2008/10/05 16:39:14 tg Exp $
 #-
-# Copyright (c) 2004, 2005, 2007, 2008
+# Copyright (c) 2004, 2005, 2007, 2008, 2009
 #	Thorsten Glaser <tg@mirbsd.org>
 #
 # Provided that these terms and disclaimer and all copyright notices
@@ -44,15 +44,21 @@ flag_a=0
 flag_p=0
 
 # parse mkdep(1) options
+oi=$OPTIND
 while getopts ":af:p" opt; do
 	case $opt {
 	a)	flag_a=1 ;;
 	f)	df="${OPTARG:-.depend}" ;;
 	p)	flag_p=1 ;;
 	\?)	break ;;
+	*)	break ;;	# e.g. '+a'
 	}
+	# This is needed because we 'break' in the case \? above,
+	# where OPTIND varies between *ksh versions due to a bug,
+	# inherited from pdksh via oksh, in mksh < 39.9.20091015
+	oi=$OPTIND
 done
-shift $((OPTIND - 1))
+shift $((oi - 1))
 
 # check if files given
 if (( $# == 0 )); then
