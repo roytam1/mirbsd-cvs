@@ -1,4 +1,4 @@
-# $MirOS: src/lib/libc/gen/Makefile.inc,v 1.6 2006/06/02 02:29:48 tg Exp $
+# $MirOS: src/lib/libc/gen/Makefile.inc,v 1.7 2006/11/01 19:49:32 tg Exp $
 # $OpenBSD: Makefile.inc,v 1.37 2005/02/01 15:12:28 millert Exp $
 
 # gen sources
@@ -18,8 +18,8 @@ SRCS+=  alarm.c assert.c auth_subr.c authenticate.c \
         seekdir.c setdomainname.c sethostname.c setjmperr.c setmode.c \
         setproctitle.c siginterrupt.c siglist.c signal.c signame.c \
         sigsetops.c sleep.c strtofflags.c sysconf.c sysctl.c syslog.c \
-        telldir.c time.c times.c timezone.c tolower_.c ttyname.c \
-        ttyslot.c toupper_.c ualarm.c uname.c unvis.c usleep.c \
+        telldir.c time.c times.c timezone.c ttyname.c \
+        ttyslot.c ualarm.c uname.c unvis.c usleep.c \
         utime.c valloc.c vis.c wait.c wait3.c waitpid.c warn.c \
         warnx.c vwarn.c vwarnx.c verr.c verrx.c
 

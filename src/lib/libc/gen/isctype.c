@@ -1,4 +1,4 @@
-/* $MirOS: src/lib/libc/gen/isctype.c,v 1.2 2006/11/01 19:49:33 tg Exp $ */
+/* $MirOS: src/lib/libc/gen/isctype.c,v 1.3 2006/11/02 13:36:32 tg Exp $ */
 
 /*-
  * Copyright (c) 2006
@@ -26,7 +26,7 @@
 #include <stdio.h>
 #include "mir18n.h"
 
-__RCSID("$MirOS: src/lib/libc/gen/isctype.c,v 1.2 2006/11/01 19:49:33 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/gen/isctype.c,v 1.3 2006/11/02 13:36:32 tg Exp $");
 
 #undef isalnum
 #undef isalpha
@@ -42,6 +42,8 @@ __RCSID("$MirOS: src/lib/libc/gen/isctype.c,v 1.2 2006/11/01 19:49:33 tg Exp $")
 #undef isupper
 #undef isxdigit
 #undef toascii
+#undef tolower
+#undef toupper
 
 #if MIR18N_C_CSET == 2
 #define CTYPE_NUM_CHARS       256
@@ -73,12 +75,26 @@ __CTYPE_IMPL(space,128)
 __CTYPE_IMPL(upper,128)
 __CTYPE_IMPL(xdigit,128)
 
-int isascii(int c)
+int
+isascii(int c)
 {
 	return ((unsigned int)c <= 0177);
 }
 
-int toascii(int c)
+int
+toascii(int c)
 {
 	return (c & 0177);
+}
+
+int
+tolower(int c)
+{
+	return (((c) >= 'A') && ((c) <= 'Z') ? (c) - 'A' + 'a' : (c));
+}
+
+int
+toupper(int c)
+{
+	return (((c) >= 'a') && ((c) <= 'z') ? (c) - 'a' + 'A' : (c));
 }
