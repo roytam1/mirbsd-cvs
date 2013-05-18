@@ -25,7 +25,7 @@
 # http://www.research.att.com/~gsf/public/ifs.sh
 
 expected-stdout:
-	@(#)MIRBSD KSH R40 2011/07/25
+	@(#)MIRBSD KSH R40 2011/10/25
 description:
 	Check version of shell.
 stdin:
@@ -5891,6 +5891,7 @@ description:
 	-DMKSH_ASSUME_UTF8=1 => not expected, please investigate
 	-UMKSH_ASSUME_UTF8 => not expected, but if your OS is old,
 	 try passing HAVE_SETLOCALE_CTYPE=0 to Build.sh
+need-pass: no
 category: !os:hpux
 need-ctty: yes
 arguments: !-i!
