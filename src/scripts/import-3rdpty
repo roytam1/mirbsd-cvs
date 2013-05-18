@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/scripts/import-3rdpty,v 1.32 2005/12/06 02:15:43 tg Exp $
+# $MirOS: src/scripts/import-3rdpty,v 1.33 2005/12/17 05:46:22 tg Exp $
 #-
 # Copyright (c) 2004, 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -24,7 +24,7 @@
 # other issues arising in any way out of its use, even if advised of
 # the possibility of such damage or existence of a nontrivial bug.
 
-print -r -- '========= $MirOS: src/scripts/import-3rdpty,v 1.32 2005/12/06 02:15:43 tg Exp $ ========='
+print -r -- '========= $MirOS: src/scripts/import-3rdpty,v 1.33 2005/12/17 05:46:22 tg Exp $ ========='
 
 ignlist=0
 force=0
@@ -1055,6 +1055,7 @@ openbsd)
 		usr.sbin/bgpd \
 		usr.sbin/bind \
 		usr.sbin/catman \
+		usr.sbin/ftp-proxy \
 		usr.sbin/gpioctl \
 		usr.sbin/grfinfo \
 		usr.sbin/hilinfo \
