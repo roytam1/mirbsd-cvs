@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.272 2010/01/01 14:17:08 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.273 2010/01/01 20:46:20 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -5933,4 +5933,65 @@ Date: 01.01.2010 20:46
  interest to do that…</p>
 <p>And: our <a href="@@ABSPATH@@/cvs.cgi/www/">website source code</a> is
  in fact superiour to many others ☻ and quite extensible and flexible…</p>
+----
+Title: new MirBSD-current snapshot; more TODO done
+Author: tg@
+Date: 03.01.2010 19:42
+Tag: debian snapshot
+
+<p>The MirBSD <a href="@@ABSPATH@@/MirOS/current/cdrom10.iso">Midi-ISO</a>
+ (bi-arch manifold boot) and NetInstall for both i386 and sparc have been
+ upgraded to the 20091226 snapshot (sorry for the delay). A separate news
+ announcement will be done when a full ISO (MirBSD + MirGRML) is done.</p>
+<p>Other than that, I have fixed a couple of things all over the place, <a
+ href="@@RELPATH@@jupp.htm">jupp</a> for example. The planned release of <a
+ href="@@RELPATH@@mksh.htm">mksh</a> R39b is still not done though, as I’m
+ only human as well, and too much hacking isn’t something one can do without
+ relaxing some in between.</p>
+<p>On the Debian front, my RCBD #1 was continued, here’s #1½ results:</p><ul>
+  <li style="list-style:none;">Carry over from day #1</li>
+ <li><a href="http://bugs.debian.org/552791">bug #552791</a> – acorn-fdisk –
+  Copyright file does not contain verbatim copy of the license or a pointer
+  to one</li>
+ <li><a href="http://bugs.debian.org/562647">bug #562647</a> – gidentd –
+  Does not work with ipv4 after recent change in netbase</li>
+ <li><a href="http://bugs.debian.org/558812">bug #558812</a> – dietlibc –
+  incorrect license in debian/copyright</li>
+ <li><a href="http://bugs.debian.org/531937">bug #531937</a> – autossh –
+  FTBFS on mipsel due to missing -fPIC</li>
+  <li style="list-style:none;">New ones</li>
+ <li><a href="http://bugs.debian.org/563522">bug #563522</a> – acorn-fdisk –
+  cleanup patches</li>
+ <li><a href="http://bugs.debian.org/563525">bug #563525</a> – gidentd –
+  cleanup patches</li>
+</ul>
+<p>Explanations: I did go overboard during the first patching session, but
+ I suppose this is what the NM learning period is for too. The autossh
+ maintainer said thanks and will probably integrate my patches, so I don’t
+ need to NMU. I could close the dietlibc bug. The other two didn’t look as
+ good, I had to separate the fix for the RC bug (and other required fixes,
+ such as ftp-master rejects – there were none though) and my other fixes;
+ I submit the former as NMU diffs again and pointed Zack to the .dsc files,
+ and opened the aforementioned two new bugs with the rest of the diffs, so
+ the proper maintainers can take and apply them.</p>
+<p>There’s questioning if gidentd should be removed (see the PR for more);
+ the acorn-fdisk upstream (arm-fdisk it’s called there) is not actively
+ developing but will receive patches; the autossh maintainer said thanks
+ but I didn’t yet hear back from upstream.</p>
+<p>The <a href="http://bugs.debian.org/541535">binutils as intel_mode bug</a>
+ was fixed upstream and in experimental for my case, but I had to reopen
+ things because the variant documented in binutils-current still doesn’t
+ work, so others (who use the new, more intel-like, syntax) don’t run into
+ it.</p>
+<p>Luk sent me a request to do more mipsel-FTBFS-due-to-toolchain-bugs
+ workarounds. Will do (but can’t promise to do so before the upcoming <a
+ href="http://wiki.debian.org/BSP2010/Moenchengladbach">BSP</a>.</p>
+<p>Robert Millan incorporated something like manifold-boot into GRUB 2,
+ after I described it to him (the debian-bsd@ people are currently sorting
+ out some heisenbugs with it, though). Now there’s three variants (but then,
+ this helps spotting bugs that don’t appear in all implementations).</p>
+<p><a href="http://marc.info/?m=111197460604448">sendmail 8.13.4 is out</a>,
+ I wonder when OgreBSD will upgrade… I could do it myself again, but this
+ time it’s not <em>that</em> urgent. Still waiting for the TLS extension,
+ though…</p>
 ----
