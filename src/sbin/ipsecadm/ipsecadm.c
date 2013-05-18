@@ -101,7 +101,9 @@ transform xf[] = {
 	{ "des", SADB_EALG_DESCBC, XF_ENC | ESP_OLD | ESP_NEW },
 	{ "3des", SADB_EALG_3DESCBC, XF_ENC | ESP_OLD | ESP_NEW },
 	{ "aes", SADB_X_EALG_AES, XF_ENC | ESP_NEW },
+#ifdef SADB_X_EALG_AESCTR
 	{ "aesctr", SADB_X_EALG_AESCTR, XF_ENC | ESP_NEW },
+#endif
 	{ "blf", SADB_X_EALG_BLF, XF_ENC | ESP_NEW },
 	{ "cast", SADB_X_EALG_CAST, XF_ENC | ESP_NEW },
 	{ "skipjack", SADB_X_EALG_SKIPJACK, XF_ENC | ESP_NEW },

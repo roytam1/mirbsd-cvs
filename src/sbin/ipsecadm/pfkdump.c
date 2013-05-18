@@ -166,7 +166,9 @@ struct idname enc_types[] = {
 	{ SADB_EALG_DESCBC,		"des-cbc",		NULL },
 	{ SADB_X_EALG_3IDEA,		"idea3",		NULL },
 	{ SADB_X_EALG_AES,		"aes",			NULL },
+#ifdef SADB_X_EALG_AESCTR
 	{ SADB_X_EALG_AESCTR,		"aesctr",		NULL },
+#endif
 	{ SADB_X_EALG_BLF,		"blowfish",		NULL },
 	{ SADB_X_EALG_CAST,		"cast128",		NULL },
 	{ SADB_X_EALG_DES_IV32,		"des-iv32",		NULL },

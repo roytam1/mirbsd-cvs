@@ -790,11 +790,13 @@ pf_key_v2_get_kernel_sa(u_int8_t *spi, size_t spi_sz, u_int8_t proto,
 		ksa.exp_first_use = life->sadb_lifetime_usetime;
 	}
 
+#ifdef SADB_X_EXT_LIFETIME_LASTUSE
 	ext = pf_key_v2_find_ext(ret, SADB_X_EXT_LIFETIME_LASTUSE);
 	if (ext) {
 		life = (struct sadb_lifetime *)ext->seg;
 		ksa.last_used = life->sadb_lifetime_usetime;
 	}
+#endif
 
 	ext = pf_key_v2_find_ext(ret, SADB_EXT_ADDRESS_SRC);
 	if (ext) {

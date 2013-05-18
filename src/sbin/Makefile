@@ -7,7 +7,7 @@
 .endif
   SUBDIR+= atactl
   SUBDIR+= badsect
-  SUBDIR+= bioctl
+# SUBDIR+= bioctl
   SUBDIR+= brconfig
   SUBDIR+= ccdconfig
   SUBDIR+= clri
@@ -26,8 +26,7 @@
   SUBDIR+= growfs
   SUBDIR+= ifconfig
   SUBDIR+= init
-.if (${MACHINE} == "amd64") || (${MACHINE} == "i386") \
-    || (${MACHINE} == "macppc")
+.if (${MACHINE} == "amd64") || (${MACHINE} == "i386")
   SUBDIR+= iopctl
 .endif
   SUBDIR+= ipsecadm
@@ -59,9 +58,6 @@
   SUBDIR+= newfs_msdos
   SUBDIR+= nfsd
   SUBDIR+= nologin
-.if ${MACHINE} == "macppc"
-  SUBDIR+= pdisk
-.endif
   SUBDIR+= pfctl
   SUBDIR+= pflogd
   SUBDIR+= ping
@@ -83,10 +79,7 @@
   SUBDIR+= ttyflags
   SUBDIR+= tunefs
   SUBDIR+= umount
-.if (${MACHINE} == "amd64") || (${MACHINE} == "i386") \
-    || (${MACHINE} == "sparc") || (${MACHINE_ARCH} == "powerpc")
   SUBDIR+= wicontrol
-.endif
   SUBDIR+= wsconsctl
 
 .include <bsd.subdir.mk>
