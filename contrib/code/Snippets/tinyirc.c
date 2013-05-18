@@ -63,7 +63,7 @@
 #define	__RCSID(x)	static const char __rcsid[] __attribute__((used)) = (x)
 #endif
 
-__RCSID("$MirOS: contrib/code/Snippets/tinyirc.c,v 1.15 2008/12/02 13:34:28 tg Exp $");
+__RCSID("$MirOS: contrib/code/Snippets/tinyirc.c,v 1.16 2008/12/02 15:18:58 tg Exp $");
 
 #ifndef __dead
 #define __dead
@@ -82,6 +82,8 @@ char *linein, lineout[LINELEN], *history[HISTLEN], localhost[64],
 *ptr, *term, *fromhost, IRCNAME[10], inputbuf[512], beenden = 0;
 const char *CM, *CS, *CE, *SO, *SE, *DC;
 char bp[4096];
+#define NLASTCHAN 12
+char *lastchans[NLASTCHAN];
 int cursd = 0, curli = 0, curx = 0;
 fd_set readfs;
 struct timeval time_out;
@@ -141,6 +143,7 @@ void printpartial(int);
 void userinput(void);
 __dead void cleanup(int);
 int main(int, char *[]);
+static void pushlastchan(char *);
 
 int my_stricmp(const char *str1, const char *str2)
 {
@@ -506,6 +509,7 @@ int donumeric(int num)
 #define DO_ME		51
 #define DO_DESCRIBE	52
 #define DO_CTCP		53
+#define DO_NOTICE	21
 static const char *cmdlist[LISTSIZE] =
 {"AWAY", "ADMIN", "CONNECT", "CLOSE", "DIE", "DNS", "ERROR", "HELP",
  "HASH", "INVITE", "INFO", "ISON", "JOIN", "KICK", "KILL", "LIST", "LINKS",
@@ -684,12 +688,15 @@ void parseinput(void)
 		*linein++ = '\0';
 		if (!strcmp(tmp, "*"))
 			tmp = object->name;
+		if (strcmp(tmp, object->name))
+			pushlastchan(tmp);
 		snprintf(lineout, LINELEN, "PRIVMSG %s :\001ACTION %s\001\n",
 		    tmp, linein);
 		if (*tmp == '#')
 			outcol = printf("* %s:%s", IRCNAME, tmp);
 		else
 			outcol = printf("*-> %s: %s", tmp, IRCNAME);
+		linein[-1] = ' ';
 		j = 1;
 		while(tok_out[++j])
 			outcol = wordwrapout(tok_out[j], outcol);
@@ -715,10 +722,13 @@ void parseinput(void)
 			*tmp2++ = toupper(*tmp2);
 		if (!strcmp(tmp, "*"))
 			tmp = object->name;
+		if (strcmp(tmp, object->name))
+			pushlastchan(tmp);
 		snprintf(lineout, LINELEN, "PRIVMSG %s :\001%s\001\n",
 		    tmp, linein);
 		snprintf(bp, sizeof (bp),
 		    "Sending a CTCP %s to %s", linein, tmp);
+		linein[-1] = ' ';
 		column = printf("*C*");
 		outcol = wordwrapout(bp, outcol);
 		goto parseinput_done;
@@ -738,6 +748,9 @@ void parseinput(void)
 		outcol = printf("= %s", lineout);
 		goto parseinput_done;
 	}
+
+	if (i == DO_PRIVMSG || i == DO_JOIN || i == DO_NOTICE)
+		pushlastchan(tok_out[1]);
 
 	strlcpy(lineout, (i == DO_QUOTE) ? "" : cmdlist[i], LINELEN);
 	j = 0;
@@ -792,6 +805,8 @@ void userinput(void)
 {
     int i, z;
     char ch;
+    static int lasttab = -1;
+
     if (dumb) {
 	fgets(linein, 500, stdin);
 	tmp = strchr(linein, '\n');
@@ -803,6 +818,8 @@ void userinput(void)
 	read(stdinfd, &ch, 1);
 	if (ch == '\177')
 	    ch = '\10';
+	if (ch != '\t')
+		lasttab = -1;
 	switch (ch) {
 	case '\1':		/* C-a */
 	    if (curx >= CO)
@@ -882,6 +899,26 @@ void userinput(void)
 		object = objlist;
 	    wasdate = 0;
 	    break;
+	case '\t':
+	    if (++lasttab == 0) {
+		if (lastchans[0] == NULL)
+			break;
+		if (curli) {
+			if ((++histline) >= HISTLEN)
+				histline = 0;
+			linein = history[histline];
+		}
+	    }
+	    for (;;) {
+		if (lasttab >= NLASTCHAN)
+			lasttab = 0;
+		if (lastchans[lasttab])
+			break;
+		++lasttab;
+	    }
+	    snprintf(history[histline], 512, "/m %s ", lastchans[lasttab]);
+	    histupdate();
+	    break;
 	case '\26':		/* ^V */
 	    /* quote - press ^V^V^A to insert a ^A, it's invisible tho */
 	    read(stdinfd, &ch, 1);
@@ -925,6 +962,8 @@ main(int argc, char *argv[])
     char *ircusername, *ircgecosname;
     int i;
 
+    for (i = 0; i < NLASTCHAN; ++i)
+	lastchans[i] = NULL;
     stdinfd = fileno(stdin);
     stdoutfd = fileno(stdout);
     ircusername = getenv("IRCUSER");
@@ -1037,4 +1076,28 @@ main(int argc, char *argv[])
 	resetty();
     }
     exit(0);
+}
+
+static void
+pushlastchan(char *cname)
+{
+	int i;
+
+	for (i = 0; i < NLASTCHAN; ++i)
+		if (lastchans[i] && !strcmp(lastchans[i], cname))
+			break;
+	if (i < NLASTCHAN)
+		cname = lastchans[i];
+	else {
+		if ((cname = strdup(cname)) == NULL)
+			return;
+		i = NLASTCHAN - 1;
+		if (lastchans[i])
+			free(lastchans[i]);
+	}
+	while (i > 0) {
+		lastchans[i] = lastchans[i - 1];
+		--i;
+	}
+	lastchans[0] = cname;
 }
