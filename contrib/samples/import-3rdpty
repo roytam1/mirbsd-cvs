@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: contrib/samples/import-3rdpty,v 1.7 2006/09/13 20:07:30 tg Exp $
+# $MirOS: contrib/samples/import-3rdpty,v 1.8 2006/09/20 19:03:54 tg Exp $
 #-
 # Copyright (c) 2004, 2005, 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -24,7 +24,7 @@
 # other issues arising in any way out of its use, even if advised of
 # the possibility of such damage or existence of a defect.
 
-print -ru2 -- '========= $MirOS: contrib/samples/import-3rdpty,v 1.7 2006/09/13 20:07:30 tg Exp $ ========='
+print -ru2 -- '========= $MirOS: contrib/samples/import-3rdpty,v 1.8 2006/09/20 19:03:54 tg Exp $ ========='
 
 ignlist=0
 force=0
@@ -533,9 +533,7 @@ openbsd)
 		etc/ppp/chatscript.sample \
 		etc/ppp/options \
 		etc/ppp/options.leaf \
-		etc/root/dot.cshrc \
-		etc/root/dot.klogin \
-		etc/root/dot.login \
+		etc/root \
 		etc/skel/dot.cshrc \
 		etc/skel/dot.login \
 		etc/systrace/usr_sbin_named \
