@@ -1,10 +1,10 @@
-# $MirOS: www/src/mksh_old.hts,v 1.15 2009/04/05 15:55:17 tg Exp $
+# $MirOS: www/src/mksh_old.hts,v 1.16 2009/04/13 17:17:27 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/mksh/old "mksh – old versions"
-mws_putheader '$MirOS: www/src/mksh_old.hts,v 1.15 2009/04/05 15:55:17 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh_old.hts,v 1.16 2009/04/13 17:17:27 tg Exp $'
 mws_content <<'EOF'
 <h1><a href="mksh.htm">mksh</a> – old versions</h1>
 <p>This page lists information about mksh R36b and earlier.</p>
@@ -48,6 +48,10 @@ mws_content <<'EOF'
  *) export HISTFILE=~/.nonksh-history ;;<br />
  esac</tt><br />to avoid them overwriting each others' history file.</p>
 <p>Very old sample: <a href="/cvs.cgi/contrib/samples/etc_profile">this</a></p>
+<p>OS inclusion:</p><ul>
+<li><a href="http://crux.nu/">Crux GNU/Linux</a> used to have an mksh port contributed by
+ <a href="http://www.xs4all.nl/~hanb/software/crux/han/mksh/">Han Boetes</a>.</li>
+</ul>
 
 <h2 id="regress">Official Testing</h2>
 <p>The MirOS Project has tested mksh on the following operating systems,

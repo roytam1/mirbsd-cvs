@@ -3,7 +3,7 @@
 
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.219 2009/04/07 22:38:00 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.220 2009/04/13 17:17:27 tg Exp $'
 mws_content <<'EOF'
 <h1>mksh(1) R37c</h1>
 <p>This is the website of the MirBSD™ Korn Shell, an actively developed free
@@ -589,8 +589,6 @@ mws_content <<'EOF'
 <p><a href="mksh_old.htm#upgrade">older entries</a></p>
 
 <h2 id="otheros">Inclusion in other operating systems</h2><ul>
-<li><a href="http://crux.nu/">Crux GNU/Linux</a> has an mksh port contributed by
- <a href="http://www.xs4all.nl/~hanb/software/crux/han/mksh/">Han Boetes</a>.</li>
 <li><a href="http://www.debian.org/">Debian</a> GNU/Linux, GNU/HURD and
  GNU/kFreeBSD have an <a href="http://packages.debian.org/mksh">mksh package</a>
  maintained by the MirOS Project and uploaded (sponsored) by Bastian “waldi”
@@ -633,7 +631,7 @@ mws_content <<'EOF'
  also <a href="https://dev.openwrt.org/browser/packages/utils/mksh">provides
  mksh</a> on ADSL/WLAN routers thanks to Felix “nbd” Fietkau.</li>
 <li><a href="http://www.ubuntu.com/">Ubuntu GNU/Linux</a>, <a
- href="http://www.gnusolaris.org/gswiki">Nexenta OS</a> (GNU/Solaris), the <a
+ href="http://www.nexenta.org/os">Nexenta OS</a> (GNU/Solaris), the <a
  href="http://grml.org/">grml</a> (and grml64) Live-CD, and other Debian
  derivates also have an mksh package; Knoppix, SIDUX, and grml-small do
  <em>not</em> contain or offer mksh. <em>Note</em>: We need URLs to the
