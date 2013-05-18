@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.197 2009/05/31 13:01:50 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.198 2009/05/31 19:00:34 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -4109,4 +4109,56 @@ Tag: bug mksh
  introduced in R38 causing memory corruption.</p><!-- RSS stop -->
 <p>This – and a lot more bugs – were discovered while porting Git (resp.
  running its test suite) for Michael Gebetsroither (grml).</p>
+----
+Title: grml.org manifold-boot™ ISOs
+Date: 06.06.2009 14:00
+Author: tg@
+Tag: grml
+
+<p>The official <a href="http://grml.org/">grml GNU/Linux</a> ISOs will
+ use the manifold-boot™ technology from The MirOS Project – development
+ builds have already done so for a couple of days – starting at 2009.08
+ (the next scheduled formal release).</p>
+<p style="margin-bottom:0px;">This basically means you will be able to</p>
+<div style="border:4px ridge blue; margin:0px 24px 0px 24px; padding:12px;">
+ <pre>
+# dd if=grml-daily.iso of=/dev/sda [bs=…]
+# dd if=/dev/cdrom of=/dev/sda [bs=…]
+ </pre>
+</div><p style="margin-top:0px;">to create a bootable USB stick (or a
+ Live HDD, CF/SD/MMC card, etc). MirOS CDs have been using this since
+ approximately October 2007. Support for loading GNU GRUB2 instead of
+ boot(8/i386) was a dozen-line patch adding some ifdefs to our source
+ (upstream; the grml Git repo only contains the generated bootblocks)
+ hacked on a lone evening. (Knowledge how to boot GNU GRUB was there,
+ from boot(8/i386) “machine exec” support, already.)</p>
+<p><a href="http://michael-prokop.at/blog/">Mikas Blog</a> appears to
+ contain more documentation on GRUB2 than the FSF’s pages…</p>
+----
+Title: RANDEX plugin for XChat
+Date: 06.06.2009 14:05
+Author: tg@
+
+<p>The already mentioned RANDEX protocol (entropy exchange via IRC) is
+ now supported, by means of a plugin, on XChat as well. Of course, the
+ whole feeding entropy back to the kernel thing can only work on Win32
+ (thanks to my earlier changes to <tt>arc4random.c</tt> and MirOS BSD,
+ although I thought our XChat port is stuck at 1.8.11-1 and only now I
+ see we have an XChat2 port (with a bzip2 distfile, yuck).</p>
+<p>This plugin is therefore tested to compile (by myself), with strict
+ warnings on MirOS BSD/i386, Debian Lenny/i386, Mac OSX/i386, Cygwin32
+ (for MinGW); it works on Lenny, Win2k (myself) and Mac OSX (gecko2@).
+ A <a href="@@ABSPATH@@/MirOS/dist/hosted/tg/randex.dll.gz.1.05">ready
+ made DLL</a> for Win32 is available for direct download from us as is
+ the <a href="@@ABSPATH@@/MirOS/dist/hosted/tg/xchat-randex_1.05.orig.tar.gz">source
+ code</a>. It is, of course, <a href="@@ABSPATH@@/MirOS-Licence">MirOS
+ licenced</a>.</p>
+<p>While it does not feed back entropy to the kernel on e.g. Mac OSX –
+ due to a hypothetical arc4random_pushk(3) function needing root privs
+ – it can still be used to access the pool by typing <tt>/RANDOM</tt>,
+ or simply participate in the distribution (one can get back some from
+ the pool from <a href="https://call.mirbsd.org/rn.cgi?from=wlog">call
+ MirBSD</a>), thus gecko2@ offered to push it into Fink.</p>
+<p>I hope “Biertier” comrad now joins the fun set up by Vutral and me,
+ especially since he operates an SSL-only private IRC server.</p>
 ----
