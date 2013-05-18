@@ -22,7 +22,7 @@
 
 #include <libckern.h>
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/kern/c/optu8to16.c,v 1.1 2008/08/01 23:24:01 tg Exp $");
 
 size_t
 optu8to16(wchar_t * restrict pwc, const char * restrict src, size_t n,
@@ -36,15 +36,19 @@ optu8to16(wchar_t * restrict pwc, const char * restrict src, size_t n,
 	if (__predict_false(ps == NULL))
 		ps = &istate;
 
-	if ((count = ps->count) == 3) {
-		if (pwc != NULL && s != NULL)
+	if (__predict_false((count = ps->count) == 3)) {
+		if (pwc != NULL && (n == 0 || s != NULL))
 			*pwc = 0xEF80 | (ps->value & 0x3F);
 		ps->count = 0;
 		return (0);
 	}
 
-	if (__predict_false(n == 0))
-		return ((size_t)(-2));
+	if (__predict_false(n == 0)) {
+		if (__predict_true(count == 0))
+			return ((size_t)(-2));
+		wc = ps->value << 6;
+		goto dismiss;
+	}
 
 	if (__predict_false(s == NULL)) {
 		ps->count = 0;
@@ -91,6 +95,7 @@ optu8to16(wchar_t * restrict pwc, const char * restrict src, size_t n,
 		    (count == 1 && wc == 0xFFC0 && c > 0xBD))) {
 			/* reject current octet, dismiss former octet */
 			s--;
+ dismiss:
 			if (count == 2) {
 				count = 0;
 				wc = (wc >> 12) | 0xEFE0;
