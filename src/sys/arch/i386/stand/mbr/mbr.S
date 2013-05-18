@@ -1,4 +1,4 @@
-/* $MirOS: src/share/misc/licence.template,v 1.28 2008/11/14 15:33:44 tg Rel $ */
+/* $MirOS: src/sys/arch/i386/stand/mbr/mbr.S,v 1.10 2009/01/31 15:50:44 tg Exp $ */
 
 /*-
  * Copyright (c) 2009
@@ -49,7 +49,8 @@ _start:	xor	eax,eax
 	lret
 
 	/* entry message */
-Lemsg:	.ascii	"Mir-" __BOOT_VER
+Lemsg:	.ascii	"Mir-"
+	.ascii	__BOOT_VER
 #ifdef BOOTMANAGER
 	/* Lem<nn> are patch points */
 	.ascii	": 0="
