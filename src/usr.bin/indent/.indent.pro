@@ -62,6 +62,7 @@
 -Tkvm_t
 -Tlock_data_t
 -Tlock_t
+-Tmbstate_t
 -Tmbuf_t
 -Tmjd_t
 -Tmode_t

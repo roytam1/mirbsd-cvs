@@ -1,4 +1,4 @@
-/* $MirOS: src/kern/include/libckern.h,v 1.15 2008/11/22 12:18:22 tg Exp $ */
+/* $MirOS: src/kern/include/libckern.h,v 1.16 2008/11/22 12:33:26 tg Exp $ */
 
 /*-
  * Copyright (c) 2008
@@ -102,10 +102,10 @@ void *memmove(void *, const void *, size_t)
 void *memset(void *, int, size_t)
     __attribute__((bounded (buffer, 1, 3)));
 
-size_t optu16to8(char * restrict, wchar_t, mbstate_t * restrict)
+size_t optu16to8(char * __restrict__, wchar_t, mbstate_t * __restrict__)
     __attribute__((bounded (minbytes, 1, 5)));
-size_t optu8to16(wchar_t * restrict, const char * restrict, size_t,
-    mbstate_t * restrict)
+size_t optu8to16(wchar_t * __restrict__, const char * __restrict__,
+    size_t, mbstate_t * __restrict__)
     __attribute__((bounded (string, 2, 3)));
 
 int strcmp(const char *, const char *);
@@ -119,7 +119,7 @@ size_t strxfrm(char *, const char *, size_t)
     __attribute__((bounded (string, 1, 3)));
 
 #ifdef _KERN_HOSTED
-size_t wcrtomb(char * restrict, wchar_t, mbstate_t * restrict)
+size_t wcrtomb(char * __restrict__, wchar_t, mbstate_t * __restrict__)
     __attribute__((bounded (minbytes, 1, 5)));
 #endif
 int wcscmp(const wchar_t *, const wchar_t *);
