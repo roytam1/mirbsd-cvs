@@ -1,4 +1,3 @@
-/**	$MirOS$	*/
 /*	$OpenBSD: utsname.h,v 1.5 2003/06/02 23:28:22 millert Exp $	*/
 /*	$NetBSD: utsname.h,v 1.6 1994/06/29 06:46:11 cgd Exp $	*/
 
@@ -47,7 +46,6 @@ struct utsname {
 	char	release[SYS_NMLN];	/* Release level. */
 	char	version[SYS_NMLN];	/* Version level. */
 	char	machine[SYS_NMLN];	/* Hardware type. */
-	char	patchlevel[SYS_NMLN];	/* Patch level. */
 };
 
 #include <sys/cdefs.h>

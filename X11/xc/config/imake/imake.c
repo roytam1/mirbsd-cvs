@@ -1,4 +1,4 @@
-/* $MirOS$ */
+/* $MirOS: X11/xc/config/imake/imake.c,v 1.3 2005/04/16 18:09:53 tg Exp $ */
 
 /***************************************************************************
  *                                                                         *
@@ -145,7 +145,7 @@ in this Software without prior written authorization from The Open Group.
  *	#include INCLUDE_IMAKEFILE
  *	<add any global targets like 'clean' and long dependencies>
  */
-#if defined(__FreeBSD__) || defined(__NetBSD__)
+#if defined(__FreeBSD__) || defined(__NetBSD__) || defined(__OpenBSD__)
 /* This needs to be before _POSIX_SOURCE gets defined */
 # include <sys/param.h>
 # include <sys/types.h>
@@ -830,7 +830,7 @@ doit(FILE *outfd, char *cmd, char **argv)
 static void
 parse_utsname(struct utsname *name, char *fmt, char *result, char *msg)
 {
-  char buf[SYS_NMLN * 5 + 1];
+  char buf[SYS_NMLN * 6 + 1];
   char *ptr = buf;
   int arg;
 
@@ -840,8 +840,8 @@ parse_utsname(struct utsname *name, char *fmt, char *result, char *msg)
   /* Assemble all the pieces into a buffer. */
   for (arg = 0; fmt[arg] != ' '; arg++)
     {
-      /* Our buffer is only guaranteed to hold 5 arguments. */
-      if (arg >= 5)
+      /* Our buffer is only guaranteed to hold 6 arguments. */
+      if (arg >= 6)
 	LogFatal(msg, fmt);
 
       switch (fmt[arg])
@@ -881,11 +881,20 @@ parse_utsname(struct utsname *name, char *fmt, char *result, char *msg)
 	  ptr += strlen(ptr);
 	  break;
 
-#ifdef __MirBSD__
+#if defined(CTL_KERN) && defined(KERN_OSPATCHLEVEL)
 	case 'l':
-	  if (arg > 0)
-	    *ptr++ = ' ';
-	  strcpy(ptr, name->patchlevel);
+	  {
+	    int mib[2] = { CTL_KERN, KERN_OSPATCHLEVEL };
+	    char ospatchlevel[];
+	    size_t len = sizeof (ospatchlevel);
+
+	    if (sysctl(mib, sizeof (mib) / sizeof (mib[0]), ospatchlevel,
+	               &len, NULL, 0) < 0) {
+	      LogMsg("warning: sysctl kern.ospatchlevel failed!\n", "");
+	      strcpy(ptr, "unknown");
+	    } else
+	      strcpy(ptr, ospatchlevel);
+	  }
 	  ptr += strlen(ptr);
 	  break;
 #endif
