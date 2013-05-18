@@ -1,10 +1,11 @@
-# $MirOS: ports/editors/emacs/Makefile,v 1.6 2007/03/31 22:01:58 tg Exp $
+# $MirOS: ports/editors/emacs/Makefile,v 1.7 2008/03/09 17:22:35 tg Exp $
 # $OpenBSD: Makefile,v 1.21 2004/02/04 07:39:18 sturm Exp $
 
 COMMENT=		GNU editor: extensible, customizable, self documenting
 COMMENT-el=		elisp sources for those who want to read/modify them
 COMMENT-leim=		Library of Emacs Input Methods
 VERSION=		21.3
+DASH_VER=		1
 DISTNAME=		emacs-${VERSION}
 FULLPKGNAME-el=		emacs-el-${VERSION}-${DASH_VER}
 FULLPKGNAME-leim=	emacs-leim-${VERSION}-${DASH_VER}
@@ -29,7 +30,9 @@ SUBPACKAGE?=
 FLAVOURS=		no_x11
 FLAVOUR?=
 
-.if ${OSname} == "mirbsd"
+.if ${OSname} == "MidnightBSD"
+GCCARCH=		${ARCH}-ecce-freebsd6
+.elif ${OSname} == "MirBSD"
 GCCARCH=		${ARCH}-ecce-openbsd3.5
 .else
 GCCARCH=		${OStriplet}
@@ -37,8 +40,8 @@ GCCARCH=		${OStriplet}
 
 USE_CXX=		Yes
 CONFIGURE_STYLE=	gnu dest
-CONFIGURE_ARGS=		${GCCARCH} --with-pop
-.include <mirports.sys.mk>
+CONFIGURE_ARGS=		${GCCARCH} \
+			--with-pop
 .if ${OBJECT_FMT:U} == "ELF"
 LDFLAGS+=		-Z
 .endif
@@ -48,8 +51,8 @@ SUBST_VARS=		GCCARCH VERSION
 .if ${FLAVOUR:L:Mno_x11}
 CONFIGURE_ARGS+=	--with-x=no
 .else
-USE_X11=Yes
-LIB_DEPENDS=		ungif.5::graphics/libungif \
+USE_X11=		Yes
+LIB_DEPENDS+=		ungif.5::graphics/libungif \
 			jpeg.62::graphics/jpeg \
 			tiff.35::graphics/tiff
 .endif
@@ -57,7 +60,7 @@ MODULES+=		graphics/png
 
 .if defined(PACKAGING)
 .  if !empty(SUBPACKAGE)
-RUN_DEPENDS=		:emacs-${VERSION}*:editors/emacs21
+RUN_DEPENDS=		:emacs-${VERSION}*:editors/emacs
 LIB_DEPENDS=
 .  endif
 .  if ${SUBPACKAGE} == "-el"
