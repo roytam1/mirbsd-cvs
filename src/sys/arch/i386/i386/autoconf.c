@@ -1,10 +1,10 @@
-/**	$MirOS: src/sys/arch/i386/i386/autoconf.c,v 1.8 2006/04/12 23:12:34 tg Exp $	*/
+/**	$MirOS: src/sys/arch/i386/i386/autoconf.c,v 1.9 2006/07/21 16:30:36 tg Exp $	*/
 /*	$OpenBSD: autoconf.c,v 1.52 2003/10/15 03:56:21 david Exp $	*/
 /*	$NetBSD: autoconf.c,v 1.20 1996/05/03 19:41:56 christos Exp $	*/
 
 /*-
- * Copyright (c) 2004
- *	Thorsten "mirabile" Glaser <tg@66h.42h.de>
+ * Copyright (c) 2004, 2007
+ *	Thorsten “mirabilos” Glaser <tg@66h.42h.de>
  * Copyright (c) 1990 The Regents of the University of California.
  * All rights reserved.
  *
@@ -131,8 +131,13 @@ cpu_configure()
 	 * use it.  Here we setup a periodic timeout to collect the data.
 	 */
 	if (viac3_rnd_present) {
+		extern int arc4random_seedfreq, hz;
+
 		timeout_set(&viac3_rnd_tmo, viac3_rnd, &viac3_rnd_tmo);
 		viac3_rnd(&viac3_rnd_tmo);
+
+		/* we can probably afford re-seeding this every minute */
+		arc4random_seedfreq = hz << 6;
 	}
 #ifdef CRYPTO
 	/*

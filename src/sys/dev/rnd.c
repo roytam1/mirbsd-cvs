@@ -1,11 +1,11 @@
-/**	$MirOS: src/sys/dev/rnd.c,v 1.31 2007/09/24 16:24:25 tg Exp $ */
+/**	$MirOS: src/sys/dev/rnd.c,v 1.32 2007/09/24 16:56:23 tg Exp $ */
 /*	$OpenBSD: rnd.c,v 1.78 2005/07/07 00:11:24 djm Exp $	*/
 
 /*
  * rnd.c -- A strong random number generator
  *
- * Copyright (c) 2000, 2002, 2003, 2004, 2005, 2006
- *	Thorsten "mirabilos" Glaser <tg@mirbsd.de>
+ * Copyright (c) 2000, 2002, 2003, 2004, 2005, 2006, 2007
+ *	Thorsten “mirabilos” Glaser <tg@mirbsd.de>
  * Copyright (c) 1996, 1997, 2000-2002 Michael Shalayeff.
  * Copyright Theodore Ts'o, 1994, 1995, 1996, 1997, 1998, 1999.
  * All rights reserved.
@@ -220,7 +220,7 @@
  *
  * The special files for the random(4) driver should have been created
  * during the installation process.  However, if your system does not have
- * /dev/random and /dev/{s,u,a,p}random created already, they can be
+ * /dev/random and /dev/{s,u,a,p,w}random created already, they can be
  * created by using the MAKEDEV(8) script as follows:
  *
  *	# cd /dev; ./MAKEDEV random
@@ -261,6 +261,8 @@
 
 #include <dev/rndvar.h>
 #include <dev/rndioctl.h>
+
+extern int hz;
 
 #ifdef	RNDEBUG
 int	rnd_debug = 0x0000;
@@ -403,7 +405,7 @@ struct rand_event {
 	u_int re_val;
 };
 
-struct timeout rnd_timeout, arc4_timeout, prnd_timeout, rnd_addpool_timeout;
+struct timeout rnd_timeout, arc4_timeout, rnd_addpool_timeout;
 struct random_bucket random_state;
 struct arc4_stream arc4random_state;
 struct timer_rand_state rnd_states[RND_SRC_NUM];
@@ -429,12 +431,10 @@ uint32_t rnd_addpool_num = 0, rnd_addpool_allow = 1;
 static int rnd_attached;
 static int arc4random_initialised;
 struct rndstats rndstats;
+int arc4random_seedfreq = 0;
 
-void srandom(u_long);
-void prnd_reinit(void *);
-void rnd_addpool_reinit(void *);
-
-static u_int32_t roll(u_int32_t w, int i)
+static __inline u_int32_t
+roll(u_int32_t w, int i)
 {
 #ifdef i386
 	__asm ("roll %%cl, %0" : "+r" (w) : "c" (i));
@@ -445,7 +445,7 @@ static u_int32_t roll(u_int32_t w, int i)
 }
 
 /* must be called at a proper spl, returns ptr to the next event */
-static struct rand_event *
+static __inline struct rand_event *
 rnd_get(void)
 {
 	struct rand_event *p = rnd_event_tail;
@@ -462,7 +462,7 @@ rnd_get(void)
 }
 
 /* must be called at a proper spl, returns next available item */
-static struct rand_event *
+static __inline struct rand_event *
 rnd_put(void)
 {
 	struct rand_event *p = rnd_event_head + 1;
@@ -477,7 +477,7 @@ rnd_put(void)
 }
 
 /* must be called at a proper spl, returns number of items in the queue */
-static int
+static __inline int
 rnd_qlen(void)
 {
 	int len = rnd_event_head - rnd_event_tail;
@@ -493,6 +493,7 @@ static u_int8_t arc4_getbyte(void);
 void arc4_stir(void);
 void arc4_reinit(void *v);
 static void arc4maybeinit(void);
+static void rnd_addpool_reinit(void *);
 
 /* Arcfour random stream generator.  This code is derived from section
  * 17.1 of Applied Cryptography, second edition, which describes a
@@ -575,19 +576,16 @@ arc4_stir(void)
 		arc4_getbyte();
 
 	/* Additionally, throw away a pseudo-random number of bytes. */
-	for (n = (random() & 0x0F); n; --n)
+	for (n = (random() & 7) + (arc4_getbyte() & 7); n; --n)
 		arc4_getbyte();
 }
 
 static void
 arc4maybeinit(void)
 {
-	extern int hz;
-
 	if (!arc4random_initialised) {
-		/* 10 minutes, per dm@'s suggestion */
 		if (rnd_attached)
-			timeout_add(&arc4_timeout, 10 * 60 * hz);
+			timeout_add(&arc4_timeout, arc4random_seedfreq);
 		arc4random_initialised++;
 		arc4_stir();
 	}
@@ -609,22 +607,6 @@ arc4random(void)
 	arc4maybeinit();
 	return ((arc4_getbyte() << 24) | (arc4_getbyte() << 16)
 		| (arc4_getbyte() << 8) | arc4_getbyte());
-}
-
-void
-prnd_reinit(void *v)
-{
-	extern int hz;
-	extern volatile int ticks;
-
-	if (!rnd_attached) {
-		srandom(ticks ^ time.tv_sec);
-		return;
-	}
-
-	timeout_add(&prnd_timeout, hz << 8);
-	/* re-seed the PRNG about once every 4-and-a-bit minutes */
-	srandom(arc4random());
 }
 
 void
@@ -655,10 +637,7 @@ randomattach(void)
 
 	timeout_set(&rnd_timeout, dequeue_randomness, &random_state);
 	timeout_set(&arc4_timeout, arc4_reinit, NULL);
-	timeout_set(&prnd_timeout, prnd_reinit, NULL);
 	timeout_set(&rnd_addpool_timeout, rnd_addpool_reinit, NULL);
-
-	prnd_reinit(NULL);
 
 	random_state.add_ptr = 0;
 	random_state.entropy_count = 0;
@@ -672,9 +651,12 @@ randomattach(void)
 	for (i = 0; i < 256; i++)
 		arc4random_state.s[i] = i;
 	arc4_reinit(NULL);
-	timeout_add(&rnd_addpool_timeout, hz << 5);
+	/* 10 minutes, per dm@openbsd's suggestion */
+	if (!arc4random_seedfreq)
+		arc4random_seedfreq = 10 * 60 * hz;
 
 	++rnd_attached;
+	timeout_add(&rnd_addpool_timeout, hz << 5);
 	/* this one is enqueued in init_main.c */
 	rnd_bootpool ^= random() << 8;
 }
@@ -1010,7 +992,7 @@ randomread(dev_t dev, struct uio *uio, int ioflag)
 					ret = EWOULDBLOCK;
 					break;
 				}
-#ifdef RNDEBUG
+#ifdef	RNDEBUG
 				if (rnd_debug & RD_WAIT)
 					printf("rnd: sleep[%u]\n",
 					    random_state.asleep);
@@ -1019,7 +1001,7 @@ randomread(dev_t dev, struct uio *uio, int ioflag)
 				rndstats.rnd_waits++;
 				ret = tsleep(&random_state.asleep,
 				    PWAIT | PCATCH, "rndrd", 0);
-#ifdef RNDEBUG
+#ifdef	RNDEBUG
 				if (rnd_debug & RD_WAIT)
 					printf("rnd: awakened(%d)\n", ret);
 #endif
@@ -1029,13 +1011,13 @@ randomread(dev_t dev, struct uio *uio, int ioflag)
 			if (n > random_state.entropy_count / 8)
 				n = random_state.entropy_count / 8;
 			rndstats.rnd_reads++;
-#ifdef RNDEBUG
+#ifdef	RNDEBUG
 			if (rnd_debug & RD_OUTPUT)
 				printf("rnd: %u possible output\n", n);
 #endif
 		case RND_URND:
 			get_random_bytes((char *)buf, n);
-#ifdef RNDEBUG
+#ifdef	RNDEBUG
 			if (rnd_debug & RD_OUTPUT)
 				printf("rnd: %u bytes for output\n", n);
 #endif
@@ -1250,10 +1232,9 @@ randomioctl(dev_t dev, u_long cmd, caddr_t data, int flag, struct proc *p)
 	return (ret);
 }
 
-void
+static void
 rnd_addpool_reinit(void *v)
 {
-	extern int hz;
 	register int i;
 	register uint32_t j;
 
