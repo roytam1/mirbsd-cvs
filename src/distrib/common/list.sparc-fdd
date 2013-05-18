@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/list.sparc-fdd,v 1.1 2008/07/12 22:06:14 tg Exp $
+# $MirOS: src/distrib/common/list.sparc-fdd,v 1.2 2008/07/12 22:49:48 tg Exp $
 
 SRCDIRS	distrib/special sys/arch/sparc/stand
 SRCDIRS	bin sbin usr.bin usr.sbin libexec
@@ -12,7 +12,7 @@ LINK	instbin					bin/chmod bin/chgrp sbin/chown usr/bin/chflags
 LINK	instbin					bin/cp
 LINK	instbin					bin/date
 LINK	instbin					bin/dd
-LINK	instbin					bin/df
+LINK	instbin					bin/ed
 LINK	instbin					bin/hostname
 LINK	instbin					bin/ln
 LINK	instbin					bin/ls
@@ -32,6 +32,7 @@ LINK	instbin					sbin/init
 LINK	instbin					sbin/mount
 LINK	instbin					sbin/mount_cd9660
 LINK	instbin					sbin/mount_ffs
+LINK	instbin					sbin/mount_nfs
 LINK	instbin					sbin/newfs sbin/mount_mfs
 LINK	instbin					sbin/reboot sbin/halt
 LINK	instbin					sbin/route
@@ -48,10 +49,8 @@ LINK	instbin					usr/bin/script
 LINK	instbin					usr/bin/sed
 LINK	instbin					usr/mdec/installboot
 LINK	instbin					usr/sbin/chkuterm
-LINK	instbin					usr/sbin/chroot
 LINK	instbin					usr/sbin/eeprom
 LINK	instbin					usr/sbin/rdate
-LINK	instbin					usr/sbin/sysctl
 ARGVLINK cp					mv_cp
 ARGVLINK mksh					-mksh
 ARGVLINK mksh					-sh
@@ -87,8 +86,8 @@ COPY	${DESTDIR}/usr/mdec/boot		usr/mdec/boot
 COPY	${DESTDIR}/usr/mdec/bootxx		usr/mdec/bootxx
 
 # devices stuff
-SPECIAL	cd dev; ./MAKEDEV ptm pty0; rm ?typ[a-zA-Z]
 SPECIAL	cd dev; ./MAKEDEV ramdisk
+SPECIAL	cd dev; ./MAKEDEV ptm pty0; rm ?typ[a-zA-Z] {,r}sd[12]*
 
 # install stuff
 SCRIPT	${TOPDIR}/common/install.sparc		install.md
