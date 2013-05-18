@@ -1,9 +1,11 @@
-# $MirOS: src/gnu/usr.sbin/sendmail/libmilter/Makefile,v 1.7 2007/05/17 17:27:50 tg Exp $
+# $MirOS: src/gnu/usr.sbin/sendmail/libmilter/Makefile,v 1.8 2008/05/07 13:15:20 tg Exp $
 #	$OpenBSD: Makefile,v 1.11 2007/02/04 13:17:35 millert Exp $
 
 .include <bsd.own.mk>
 
 LIB=		milter
+LDFLAGS+=	-pthread
+DPADD+=		${LIBPTHREAD}
 HDRS=		mfapi.h milter.h mfdef.h
 HDRSRC=		${.CURDIR}/../include/libmilter
 HDRDST=		${DESTDIR}/usr/include/libmilter
