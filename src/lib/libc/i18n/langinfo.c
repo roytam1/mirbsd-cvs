@@ -1,4 +1,4 @@
-/* $MirOS: src/share/misc/licence.template,v 1.6 2006/01/24 22:24:02 tg Rel $ */
+/* $MirOS: src/lib/libc/i18n/langinfo.c,v 1.6 2006/01/31 19:51:34 tg Exp $ */
 
 /*-
  * Copyright (c) 2003, 2004, 2005, 2006
@@ -35,8 +35,9 @@
 #include <langinfo.h>
 #include <locale.h>
 #include <nl_types.h>
+#include <stdlib.h>
 
-__RCSID("$MirOS: src/lib/libc/i18n/langinfo.c,v 1.5 2005/12/17 05:46:14 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/i18n/langinfo.c,v 1.6 2006/01/31 19:51:34 tg Exp $");
 
 /* fake locale support */
 
