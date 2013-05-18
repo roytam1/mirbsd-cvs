@@ -1,4 +1,4 @@
-/**	$MirOS: src/sbin/fdisk/part.c,v 1.3 2005/04/29 18:34:55 tg Exp $	*/
+/**	$MirOS: src/sbin/fdisk/part.c,v 1.4 2006/09/20 20:03:31 tg Exp $	*/
 /*	$OpenBSD: part.c,v 1.42 2006/06/09 17:01:47 deraadt Exp $	*/
 
 /*
@@ -40,7 +40,7 @@
 #include "misc.h"
 #include "mbr.h"
 
-__RCSID("$MirOS: src/sbin/fdisk/part.c,v 1.3 2005/04/29 18:34:55 tg Exp $");
+__RCSID("$MirOS: src/sbin/fdisk/part.c,v 1.4 2006/09/20 20:03:31 tg Exp $");
 
 int	PRT_check_chs(prt_t *partn);
 
@@ -112,6 +112,7 @@ static const struct part_type {
 	{ 0x87, "NTFS VS     "},   /* NTFS volume set or HPFS mirrored */
 	{ 0x93, "Amoeba FS   "},   /* Amoeba filesystem */
 	{ 0x94, "Amoeba BBT  "},   /* Amoeba bad block table */
+	{ 0x96, "ISO 9660    "},   /* ISO 9660 (CHRP, manifold-boot) */
 	{ 0x99, "Mylex       "},   /* Mylex EISA SCSI */
 	{ 0x9F, "BSDI        "},   /* BSDI BSD/OS */
 	{ 0xA0, "NotebookSave"},   /* Phoenix NoteBIOS save-to-disk */
