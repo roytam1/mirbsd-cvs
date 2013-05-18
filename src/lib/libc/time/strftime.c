@@ -36,13 +36,11 @@
 
 #include <sys/cdefs.h>
 __SCCSID("@(#)strftime.c	5.4 (Berkeley) 3/14/89");
-__RCSID("$MirOS: src/lib/libc/time/strftime.c,v 1.3 2008/11/04 01:43:16 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/time/strftime.c,v 1.4 2009/11/09 21:30:57 tg Exp $");
 
 #include "tzfile.h"
 #include "fcntl.h"
 #include "locale.h"
-
-#include <sys/taitime.h>	/* for MJD functions */
 
 struct lc_time_T {
 	const char *	mon[MONSPERYEAR];
@@ -264,24 +262,26 @@ label:
 					"%02d", pt, ptlim);
 				continue;
 			case 'J': {
-				/* modified julian date, as per DJB */
-				mjd_t t_mjd;
+				/* Modified Julian Date */
+				mirtime_mjd t_mjd;
 				/* julian date, as per http://tycho.usno.navy.mil/mjd.html */
 				double t_jd;
-				/* like _conv(), width from SQLite3 */
-				char buf[20];
+				char buf[24];
 
-				t_mjd = tm2mjd(*t);
+				mjd_implode(&t_mjd, t);
 				t_jd = t_mjd.sec;
-				/* how many seconds has our day? */
-				t_mjd.sec = 86400;
-				t_jd /= (double)((mjd2tm(t_mjd).tm_sec == 60) ?
-				    86401 : 86400);
-				t_jd += 2400000.5 + (double)t_mjd.mjd;
+				/* how many seconds does this day have? */
+				t_mjd.sec = 86399;
+				t_jd /= mirtime_isleap(mjd2timet(&t_mjd) + 1) ?
+				    86401 : 86400;
+				t_jd += .5;
+				t_mjd.mjd += 2400000;
+				t_jd += t_mjd.mjd;
 
-				snprintf(buf, sizeof (buf), "%.16g", t_jd);
+				snprintf(buf, sizeof (buf), "%.22f", t_jd);
 				pt = _add(buf, pt, ptlim);
-				continue; }
+				continue;
+			}
 			case 'j':
 				pt = _conv(t->tm_yday + 1, "%03d", pt, ptlim);
 				continue;

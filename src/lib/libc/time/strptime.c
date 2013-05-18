@@ -1,4 +1,4 @@
-/**	$MirOS: src/lib/libc/time/strptime.c,v 1.4 2009/05/30 18:42:38 tg Exp $ */
+/**	$MirOS: src/lib/libc/time/strptime.c,v 1.5 2009/08/09 17:42:49 tg Exp $ */
 /*	$OpenBSD: strptime.c,v 1.12 2008/06/26 05:42:05 ray Exp $ */
 /*	$NetBSD: strptime.c,v 1.12 1998/01/20 21:39:40 mycroft Exp $	*/
 
@@ -32,7 +32,6 @@
 
 #include <sys/cdefs.h>
 #include <sys/localedef.h>
-#include <sys/taitime.h>
 #include <ctype.h>
 #include <errno.h>
 #include <limits.h>
@@ -43,7 +42,7 @@
 #include <time.h>
 #include <tzfile.h>
 
-__RCSID("$MirOS: src/lib/libc/time/strptime.c,v 1.4 2009/05/30 18:42:38 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/time/strptime.c,v 1.5 2009/08/09 17:42:49 tg Exp $");
 
 /*
  * Evil hack for const correctness due to API brokenness
@@ -264,14 +263,16 @@ literal:
 			break;
 
 		case 'J': {	/* Julian Date */
-			/* modified julian date, as per DJB */
-			mjd_t t_mjd;
+			/* Modified Julian Date */
+			mirtime_mjd t_mjd;
 			/* julian date, as per http://tycho.usno.navy.mil/mjd.html */
 			double t_jd;
-			/* like _conv(), width from SQLite3 */
-			char cvb[20], *cp;
+			char cvb[24], *cp;
 			size_t cvbp = 0;
 			int gotdot = 0, saved_errno;
+
+			if (*bp == '-')
+				cvb[cvbp++] = *bp++;
 
 			if (*bp != '.' && (*bp < '0' || *bp > '9'))
 				return (NULL);
@@ -294,17 +295,19 @@ literal:
 			errno = saved_errno;
 			if (cp == NULL || *cp != '\0')
 				return (NULL);
+
 			t_jd -= 2400000.5;		/* JD -> MJD */
 			t_mjd.mjd = (time_t)t_jd;	/* day part */
 			if (t_mjd.mjd < 0)
 				--t_mjd.mjd;		/* make seconds positive */
 			t_jd -= t_mjd.mjd;		/* frac. seconds part */
-			/* how many seconds has our day? */
-			t_mjd.sec = 86400;
-			t_jd *= ((mjd2tm(t_mjd).tm_sec == 60) ? 86401 : 86400);
+			/* how many seconds does this day have? */
+			t_mjd.sec = 86399;
+			t_jd *= mirtime_isleap(mjd2timet(&t_mjd) + 1) ?
+			    86401 : 86400;
 			t_mjd.sec = t_jd;		/* int. seconds part */
 			/* return the value */
-			*tm = mjd2tm(t_mjd);
+			mjd_explode(tm, &t_mjd);
 			break;
 		}
 
