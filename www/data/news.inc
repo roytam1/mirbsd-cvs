@@ -307,3 +307,27 @@ Author: tg@
  to the person who wishes to remain anonymous for providing us the ability
  to do this porting work.</p>
 ----
+Title: mksh R30 released
+Date: 28.06.2007
+
+<p><a href="@@RELPATH@@mksh.htm">mksh R30</a> has been released; read the
+ <a href="@@RELPATH@@mksh.htm#clog">ChangeLog</a> for details. FreeWRT,
+ Debian, FreeBSD Ports, MidnightBSD mports, MirPorts, RedHat/Fedora, the
+ OpenSuSE Buildservice all have it already; we expect others to follow.</p>
+<p>This release is dedicated to everyone who helped with portability.</p>
+----
+Title: MirOS #10 RC3 available
+Date: 01.08.2007
+
+<p>The <a href="http://f.scarywater.net/miros/">BitTorrent tracker</a> now
+ has a torrent for the MirOS #10 RC3 Live+Install CD; of course, the <a
+ href="/MirOS/current/">netinstall location</a> has been upgraded with the
+ new dist sets as well. You can now select a keyboard layout during livecd
+ boot, and it's been made more user friendly; many small bugs have been
+ plugged; <a href="@@RELPATH@@mksh.htm">everyone's favourite shell</a> is
+ at R30-current with support for TenDRA and maybe tcc, and several ports,
+ most notably GNOME, are in good shape.</p>
+<p><em>Please</em> <strong>report</strong> errors back to us; we don't plan
+ on making any further changes to the codebase save bugfixes and maybe some
+ more changes to ports.</p>
+----
