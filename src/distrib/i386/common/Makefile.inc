@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/i386/common/Makefile.inc,v 1.22 2006/07/05 20:36:34 tg Exp $
+# $MirOS: src/distrib/i386/common/Makefile.inc,v 1.23 2006/07/05 21:06:15 tg Exp $
 # $OpenBSD: Makefile.inc,v 1.15 2004/11/25 22:02:08 deraadt Exp $
 
 .ifndef _MODSRC_DISTRIB_I386_COMMON_MAKEFILE_INC
@@ -59,9 +59,12 @@ ${FS}:	bsd.gz do-floppy
 
 do-floppy:
 .ifdef USE_MAKEFS
+	${SUDO} rm -rf ${MOUNT_POINT}
 	mkdir -p ${MOUNT_POINT}
 	cp ${BOOT} ${MOUNT_POINT}/boot
 	cp bsd.gz ${MOUNT_POINT}/bsd
+	${SUDO} chown -R 0:0 ${MOUNT_POINT}
+	${SUDO} chmod -R u=rwX,go=rX ${MOUNT_POINT}
 	makefs -o minfree=0,optimization=space,bsize=4096,fsize=512 \
 	    -s ${FLOPPYSIZE}b ${REALIMAGE} ${MOUNT_POINT}
 	${SUDO} vnconfig -v -c ${VND} ${REALIMAGE}
@@ -72,6 +75,7 @@ do-floppy:
 	${SUDO} vnconfig -v -c ${VND} ${REALIMAGE}
 	${SUDO} disklabel -w -r ${VND} ${FLOPPYTYPE}
 	${SUDO} newfs -m 0 -o space -i 1048576 -c 80 -b 4096 ${VND_RDEV}
+	${SUDO} rm -rf ${MOUNT_POINT}
 	mkdir -p ${MOUNT_POINT}
 	${SUDO} mount ${VND_DEV} ${MOUNT_POINT}
 	${SUDO} cp ${BOOT} ${REALOBJDIR}/boot
@@ -88,7 +92,7 @@ do-floppy:
 	${SUDO} fsck -fy ${VND_RDEV}
 	${SUDO} vnconfig -u ${VND}
 	cp ${REALIMAGE} ${FS}
-	rm ${REALIMAGE}
+	${SUDO} rm -rf ${REALIMAGE} ${MOUNT_POINT}
 
 DISKTYPE?=	ipldisc
 NBLKS?=		8192
@@ -119,6 +123,7 @@ rd_setup: ${CBIN}
 	${SUDO} vnconfig -v -c ${VND} ${REALIMAGE}
 	${SUDO} disklabel -w -r ${VND} ${DISKTYPE}
 	${SUDO} newfs ${NEWFSARGS} ${VND_RDEV}
+	${SUDO} rm -rf ${MOUNT_POINT}
 	mkdir -p ${MOUNT_POINT}
 	${SUDO} mount ${VND_DEV} ${MOUNT_POINT}
 

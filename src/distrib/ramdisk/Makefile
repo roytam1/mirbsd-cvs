@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/ramdisk/Makefile,v 1.7 2006/07/05 21:39:50 tg Exp $
+# $MirOS: src/distrib/ramdisk/Makefile,v 1.8 2006/07/05 21:40:08 tg Exp $
 # $OpenBSD: Makefile,v 1.26 2004/02/28 04:53:30 jolan Exp $
 
 CBIN=		instbin
@@ -77,15 +77,32 @@ all:	bsd.rd bsd.rd.net
 .  endif
 .endif
 
-${FS}:	bsd.gz ${BOOT} ${BOOTXX}
+${FS}:	bsd.gz ${BOOT} ${BOOTXX} do-floppy
+
+do-floppy:
+.ifdef USE_MAKEFS
+	${SUDO} rm -rf ${MOUNT_POINT}
+	mkdir -p ${MOUNT_POINT}
+	cp ${BOOT} ${MOUNT_POINT}/
+	cp bsd.gz ${MOUNT_POINT}/bsd
+	${SUDO} chown -R 0:0 ${MOUNT_POINT}
+	${SUDO} chmod -R u=rwX,go=rX ${MOUNT_POINT}
+	makefs -o minfree=0,optimization=space,bsize=4096,fsize=512 \
+	    -s ${FLOPPYSIZE}b ${REALIMAGE} ${MOUNT_POINT}
+	${SUDO} vnconfig -v -c ${VND} ${REALIMAGE}
+	${SUDO} disklabel -w ${RAWLABEL} ${VND} ${FLOPPYTYPE}
+	${SUDO} mount -r ${VND_DEV} ${MOUNT_POINT}
+.else
 	dd if=/dev/zero of=${REALIMAGE} count=${FLOPPYSIZE}
 	${SUDO} vnconfig -v -c ${VND} ${REALIMAGE}
 	${SUDO} disklabel -w ${RAWLABEL} ${VND} ${FLOPPYTYPE}
 	${SUDO} newfs ${NEWFSOPTS_FD} ${VND_RDEV}
+	${SUDO} rm -rf ${MOUNT_POINT}
 	mkdir -p ${MOUNT_POINT}
 	${SUDO} mount ${VND_DEV} ${MOUNT_POINT}
 	${SUDO} cp ${BOOT} ${MOUNT_POINT}/
 	${SUDO} dd if=bsd.gz of=${MOUNT_POINT}/bsd obs=512 conv=osync
+.endif
 	${SUDO} ${INSTALLBOOT} -v ${BOOTIN} ${BOOTXX} \
 	    $$(echo ${VND_RDEV} | sed -e 's/a$$/c/')
 .if (${MACHINE_ARCH} == "vax")
@@ -95,9 +112,10 @@ ${FS}:	bsd.gz ${BOOT} ${BOOTXX}
 	@df -i ${MOUNT_POINT}
 	@echo ""
 	${SUDO} umount ${MOUNT_POINT}
+	${SUDO} fsck -fy ${VND_RDEV}
 	${SUDO} vnconfig -u ${VND}
 	dd if=${REALIMAGE} of=${FS} count=${FLOPPYSIZE}
-	rm -f ${REALIMAGE}
+	${SUDO} rm -rf ${REALIMAGE} ${MOUNT_POINT}
 
 bsd.strip: ${DO_BSDRD_UC}
 	cp ${DO_BSDRD_UC} bsd.strip
@@ -124,6 +142,7 @@ ${IMAGE}: ${CBIN}
 	${SUDO} vnconfig -v -c ${VND} ${REALIMAGE}
 	${SUDO} disklabel -w ${RAWLABEL} ${VND} ${DISKTYPE}
 	${SUDO} newfs ${NEWFSOPTS_RD} ${VND_RDEV} || ${NEWFS_WILL_FAIL}
+	${SUDO} rm -rf ${MOUNT_POINT}
 	mkdir -p ${MOUNT_POINT}
 	${SUDO} mount ${VND_DEV} ${MOUNT_POINT}
 	${SUDO} mtree -def ${MTREE} -p ${MOUNT_POINT}/ -u
@@ -135,7 +154,7 @@ ${IMAGE}: ${CBIN}
 	@df -i ${MOUNT_POINT}
 	@echo ""
 	-${SUDO} umount ${MOUNT_POINT}
-	${SUDO} fsck -f ${VND_RDEV}
+	${SUDO} fsck -fy ${VND_RDEV}
 	-${SUDO} vnconfig -u ${VND}
 	cp ${REALIMAGE} ${IMAGE}
 	rm ${REALIMAGE}
