@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/Makefile.i386-big,v 1.2 2006/08/18 20:48:46 tg Exp $
+# $MirOS: src/distrib/common/Makefile.i386-big,v 1.3 2006/08/18 21:36:29 tg Exp $
 
 IMAGESIZE=	8192
 IMAGETYPE=	ipldisc
@@ -11,7 +11,7 @@ FLOPPY=		no
 CDROM_MDOPTS=	-b etc/boot.iso -c etc/boot.cat \
 		-no-emul-boot -boot-load-size 4 -boot-info-table
 
-bsd: ${REALOBJDIR}/../generic/bsd
+bsd: ${BSDOBJDIR}/distrib/generic/bsd
 	cp -f $> $@
 
 cdrom-mdcopy:
