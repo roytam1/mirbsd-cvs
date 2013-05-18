@@ -1,0 +1,10 @@
+# $MirOS$
+
+IMAGESIZE=	3072
+
+#		(17,0) = rd0a
+RAMDISK_PREP=	print 'rootdev 17 0\nquit' | config -ef ${DO_BSDRD_UC}
+
+BOOT=		${BSDOBJDIR}/sys/arch/i386/stand/fdboot/boot
+
+INST_FILES=	${FLOPPY}

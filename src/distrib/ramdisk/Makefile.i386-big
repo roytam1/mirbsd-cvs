@@ -1,0 +1,15 @@
+# $MirOS$
+
+MTREE=		${TOPDIR}/miniroot/mtree.conf
+IMAGETYPE=	ipldisc
+
+KERNEL_BUILD=	no
+#		(17,0) = rd0a
+RAMDISK_PREP=	print 'rootdev 17 0\nquit' | config -ef ${DO_BSDRD_UC}
+
+FLOPPY=		no
+
+INST_FILES=	${FLOPPY}
+
+bsd: ${REALOBJDIR}/../generic/bsd
+	cp -f $> $@

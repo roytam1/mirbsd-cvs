@@ -1,200 +1,177 @@
-# $MirOS: src/distrib/ramdisk/Makefile,v 1.9 2006/07/05 22:58:56 tg Exp $
-# $OpenBSD: Makefile,v 1.26 2004/02/28 04:53:30 jolan Exp $
-
-CBIN=		instbin
-ARCHDIR=	${.CURDIR}/../${MACHINE}/ramdisk
-REALOBJDIR!=	readlink -nf ${.OBJDIR} || ( cd ${.OBJDIR} && pwd )
+# $MirOS$
 
 .include <bsd.own.mk>
+
+# common variables
+REALOBJDIR!=	readlink -nf ${.OBJDIR}
+TOPDIR?=	${.CURDIR}/..
+SYSDIR=		${TOPDIR}/../sys
+MACHCONF?=	${MACHINE}
+
+.if ${.CURDIR}/Makefile.${MACHCONF} != "no"
+.  include "${.CURDIR}/Makefile.${MACHCONF}"
+.endif
+
+# compiler options
+.if !${COPTS:M-Os}
+COPTS+=		-Os
+.endif
 CFLAGS+=	${CDIAGFLAGS} ${COPTS}
 HOSTCFLAGS?=	${CFLAGS}
 
-.if exists(${ARCHDIR}/Makefile.inc)
-.  include "${ARCHDIR}/Makefile.inc"
-.endif
-
-MOUNT_POINT=	${REALOBJDIR}/tmpmnt
+# temporary mounts
+TMPMOUNT=	${REALOBJDIR}/tmpmnt
 VND?=		svnd0
 VND_DEV=	/dev/${VND}a
 VND_RDEV=	/dev/r${VND}a
 VND_CRDEV=	/dev/r${VND}c
-DISKTYPE=	rdroot
-REALIMAGE=	${REALOBJDIR}/tmp.ima
-IMAGE?=		ramdisk${OSrev}.fs
-IMAGESIZE?=	8192			# 4 MiB in 512 byte blocks
-NEWFS_WILL_FAIL?=false
-.if ${OBJECT_FMT:U} == "ELF"
-RDSETROOT?=	elfrdsetroot
-CRUNCHGENOPTS?=-E
-AOUT_BSDRD?=	No
-.else
-RDSETROOT?=	rdsetroot
-CRUNCHGENOPTS?=
-AOUT_BSDRD=	No
-.endif
-DO_BSDRD_NAME?=	bsd.rd
-DO_BSDRD_UC=	uncompressed.${DO_BSDRD_NAME}
-KERNEL?=	RAMDISK
-UTILS?=		${.CURDIR}/../miniroot
-STRIP?=		strip
-
-LISTS=		${.CURDIR}/list ${ARCHDIR}/list
-MTREE=		${UTILS}/mtree.conf.small
-
-XNAME?=		floppy
-FS?=		${XNAME}${OSrev}.fs
-FLOPPYSIZE?=	2880
-FLOPPYTYPE?=	floppy
-INSTALLBOOT?=	installboot
-BOOT?=		${DESTDIR}/usr/mdec/boot
-BOOTIN?=	${MOUNT_POINT}/boot
-BOOTXX?=	${DESTDIR}/usr/mdec/bootxx
 RAWLABEL?=	-r
 
-# old format, minfree, opt, b/i  trks, sects, cpg
-NEWFSOPTS=	-t ffs -m 0 -o space -f 1024 -b 8192
-NEWFSOPTS_RD?=	${NEWFSOPTS} -i 16384 -c 64 -s ${IMAGESIZE}
-#NEWFSOPTS_FD=	${NEWFSOPTS} -i 524288 -c 80 -s ${FLOPPYSIZE}
-NEWFSOPTS_FD=	${NEWFSOPTS} -i 1048575 -c 256 -s ${FLOPPYSIZE}
+# tools selection
+RDSETROOT?=	elfrdsetroot
+CRUNCHGENOPTS?=	-E
+STRIP?=		strip
+STRIP_CBIN?=	--strip-all -R .comment -R .eh_frame
+STRIP_KERNEL?=	--strip-all -R .comment -R .eh_frame
 
-# build kernel
-RAMDISK=	${KERNEL}
-SYSDIR=		${.CURDIR}/../../sys
-.ifndef KERNEL_LOCAL_BUILD
-.  include "${.CURDIR}/../Makefile.kernel"
+# crunched binary and ramdisk
+CBIN?=		instbin
+LISTS?=		${.CURDIR}/listhdr.${MACHCONF} ${.CURDIR}/list \
+		${.CURDIR}/listend.${MACHCONF}
+MTREE?=		${TOPDIR}/miniroot/mtree.conf.small
+IMAGE?=		ramdisk${OSrev}.fs
+IMAGESIZE?=	8192
+IMAGEOPTS?=	minfree=0,optimization=space,bsize=4096,fsize=512,density=3072
+IMAGETYPE?=	rdroot
+
+# kernel
+RAMDISK?=	RAMDISK
+KERNEL_BUILD?=	Yes
+AOUT_BSDRD?=	No
+RAMDISK_PREP?=	@:
+
+.if ${KERNEL_BUILD:L} != "no"
+.  include "${TOPDIR}/Makefile.kernel"
 .endif
 
-.if ${AOUT_BSDRD:L} != "yes"
-.  ifdef MAKEFLOPPY
-all:	bsd.rd ${FS}
-.  else
-all:	bsd.rd
-.  endif
+# floppy (set to no to disable)
+FLOPPY?=	floppy${OSrev}.fs
+FLOPPYSIZE?=	2880
+FLOPPYSECS?=	18
+FLOPPYOPTS?=	minfree=0,optimization=space,bsize=4096,fsize=512
+FLOPPYTYPE?=	floppy3
+INSTALLBOOT?=	${DESTDIR}/usr/mdec/installboot -h 2 -s ${FLOPPYSECS}
+BOOT?=		${DESTDIR}/usr/mdec/boot
+BOOTXX?=	${DESTDIR}/usr/mdec/bootxx
+
+#---
+
+_RD_KERNELS=	bsd.rd
+.if ${AOUT_BSDRD:L} != "no"
+_RD_KERNELS+=	bsd.rd.net
+.endif
+
+.if ${FLOPPY:L} != "no"
+ALL_TGTS=	${_RD_KERNELS}
+INST_FILES?=	${_RD_KERNELS}
 .else
-.  ifdef MAKEFLOPPY
-all:	bsd.rd bsd.rd.net ${FS}
-.  else
-all:	bsd.rd bsd.rd.net
-.  endif
+ALL_TGTS=	${_RD_KERNELS} ${FLOPPY}
+INST_FILES?=	${_RD_KERNELS} ${FLOPPY}
 .endif
 
-${FS}:	bsd.gz ${BOOT} ${BOOTXX} do-floppy
+all: ${ALL_TGTS}
 
-do-floppy:
-.ifdef USE_MAKEFS
-	${SUDO} rm -rf ${MOUNT_POINT}
-	mkdir -p ${MOUNT_POINT}
-	cp ${BOOT} ${MOUNT_POINT}/
-	cp bsd.gz ${MOUNT_POINT}/bsd
-	${SUDO} chown -R 0:0 ${MOUNT_POINT}
-	${SUDO} chmod -R u=rwX,go=rX ${MOUNT_POINT}
-	makefs -o minfree=0,optimization=space,bsize=4096,fsize=512 \
-	    -s ${FLOPPYSIZE}b ${REALIMAGE} ${MOUNT_POINT}
-	${SUDO} vnconfig -v -c ${VND} ${REALIMAGE}
-	${SUDO} disklabel -w ${RAWLABEL} ${VND} ${FLOPPYTYPE}
-	${SUDO} mount -r ${VND_DEV} ${MOUNT_POINT}
-.else
-	dd if=/dev/zero of=${REALIMAGE} count=${FLOPPYSIZE}
-	${SUDO} vnconfig -v -c ${VND} ${REALIMAGE}
-	${SUDO} disklabel -w ${RAWLABEL} ${VND} ${FLOPPYTYPE}
-	${SUDO} newfs ${NEWFSOPTS_FD} ${VND_RDEV}
-	${SUDO} rm -rf ${MOUNT_POINT}
-	mkdir -p ${MOUNT_POINT}
-	${SUDO} mount ${VND_DEV} ${MOUNT_POINT}
-	${SUDO} cp ${BOOT} ${MOUNT_POINT}/
-	${SUDO} dd if=bsd.gz of=${MOUNT_POINT}/bsd obs=512 conv=osync
+install:
+.for _i in ${INST_FILES}
+	${INSTALL} -c -o ${SHAREOWN} -g ${SHAREGRP} -m ${SHAREMODE} \
+	    ${_i} ${DESTDIR}/snapshot/
+.endfor
+
+unconfig:
+	-${SUDO} umount -f ${VND_DEV}
+	-${SUDO} vnconfig -u ${VND}
+	-${SUDO} rm -rf ${TMPMOUNT} ${IMAGE} ${FLOPPY}
+
+cleannobsd: unconfig
+	rm -f *core ${CBIN} ${CBIN}.mk ${CBIN}.cache ${CBIN}.conf \
+	    ${RDSETROOT} *.c *.o *.lo bsd.{uc,st} ${_RD_KERNELS}
+
+clean cleandir: cleannobsd
+	rm -f bsd
+.if ${KERNEL_BUILD:L} != "no"
+	rm -rf build
 .endif
-	${SUDO} ${INSTALLBOOT} -v ${BOOTIN} ${BOOTXX} ${VND_CRDEV}
-.if (${MACHINE_ARCH} == "vax")
-	${SUDO} disklabel -B -b ${BOOTXX} ${VND}
-.endif
-	@echo ""
-	@df -i ${MOUNT_POINT}
-	@echo ""
-	${SUDO} umount ${MOUNT_POINT}
-	${SUDO} fsck -fy ${VND_RDEV}
-	${SUDO} vnconfig -u ${VND}
-	dd if=${REALIMAGE} of=${FS} count=${FLOPPYSIZE}
-	${SUDO} rm -rf ${REALIMAGE} ${MOUNT_POINT}
 
-bsd.strip: ${DO_BSDRD_UC}
-	cp ${DO_BSDRD_UC} bsd.strip
-	${STRIP} --strip-all -R .comment -R .eh_frame bsd.strip
-
-bsd.gz: bsd.strip
-	${GZIP} ${GZIPFLAGS} <$> >$@
-
-${DO_BSDRD_UC}: ${IMAGE} bsd ${RDSETROOT}
-	gzip -d <bsd >${DO_BSDRD_UC}
-	${REALOBJDIR}/${RDSETROOT} ${DO_BSDRD_UC} <${IMAGE}
-
-bsd.rd.net: bsd.strip
-	elf2aout $> $@ -b
-
-${DO_BSDRD_NAME}: ${DO_BSDRD_UC}
-	gzip -n9 <${DO_BSDRD_UC} >${DO_BSDRD_NAME}
-
-${RDSETROOT}: ${.CURDIR}/../common/${RDSETROOT}.c
+${RDSETROOT}: ${TOPDIR}/common/${RDSETROOT}.c
 	${HOSTCC} ${HOSTCFLAGS} -DDEBUG -o $@ $>
 
-${IMAGE}: ${CBIN}
-	dd if=/dev/zero of=${REALIMAGE} count=${IMAGESIZE}
-	${SUDO} vnconfig -v -c ${VND} ${REALIMAGE}
-	${SUDO} disklabel -w ${RAWLABEL} ${VND} ${DISKTYPE}
-	${SUDO} newfs ${NEWFSOPTS_RD} ${VND_RDEV} || ${NEWFS_WILL_FAIL}
-	${SUDO} rm -rf ${MOUNT_POINT}
-	mkdir -p ${MOUNT_POINT}
-	${SUDO} mount ${VND_DEV} ${MOUNT_POINT}
-	${SUDO} mtree -def ${MTREE} -p ${MOUNT_POINT}/ -u
-	REV=${OSrev} CURDIR=${.CURDIR} OBJDIR=${.OBJDIR} ARCHDIR=${ARCHDIR} \
-	    TARGDIR=${MOUNT_POINT} UTILS=${UTILS} \
-	    ${SUDO} ${SHELL} ${UTILS}/runlist.sh ${LISTS}
-	${SUDO} rm ${MOUNT_POINT}/${CBIN}
-	@echo ""
-	@df -i ${MOUNT_POINT}
-	@echo ""
-	-${SUDO} umount ${MOUNT_POINT}
-	${SUDO} fsck -fy ${VND_RDEV}
-	-${SUDO} vnconfig -u ${VND}
-	cp ${REALIMAGE} ${IMAGE}
-	rm ${REALIMAGE}
-
 ${CBIN}.conf: ${LISTS}
-	awk -f ${UTILS}/makeconf.awk CBIN=${CBIN} ${LISTS} > ${CBIN}.conf
+	awk -f ${TOPDIR}/miniroot/makeconf.awk CBIN=${CBIN} ${LISTS} >$@
 
 ${CBIN}.mk ${CBIN}.cache ${CBIN}.c: ${CBIN}.conf
-	crunchgen ${CRUNCHGENOPTS} -D ${.CURDIR}/../.. -L ${DESTDIR}/usr/lib \
+	crunchgen ${CRUNCHGENOPTS} -D ${TOPDIR}/.. -L ${DESTDIR}/usr/lib \
 	    -c ${CBIN}.c -e ${CBIN} -m ${CBIN}.mk ${CBIN}.conf
 
 ${CBIN}: ${CBIN}.mk ${CBIN}.cache ${CBIN}.c
-	make -f ${CBIN}.mk all
-	${STRIP} --strip-all -R .comment -R .eh_frame ${CBIN}
+	${MAKE} -f ${CBIN}.mk all
+	${STRIP} ${STRIP_CBIN} ${CBIN}
 
-clean cleandir:
-.ifndef KERNEL_LOCAL_BUILD
-	-rm -rf build
-.endif
-	/bin/rm -f *.core ${IMAGE} ${CBIN} ${CBIN}.mk ${CBIN}.cache \
-	${CBIN}.conf *.o *.lo *.c bsd bsd.* ${DO_BSDRD_NAME} ${DO_BSDRD_UC} \
-	    ${FS} ${REALIMAGE} ${RDSETROOT}
-	/bin/rm -rf ${MOUNT_POINT}
+${IMAGE}: ${CBIN}
+	test ! -e ${TMPMOUNT} || (cd ${.CURDIR}; ${MAKE} unconfig)
+	${SUDO} mkdir -p ${TMPMOUNT}
+	${SUDO} mtree -def ${MTREE} -p ${TMPMOUNT}/ -u
+	OBJDIR=${REALOBJDIR} TARGDIR=${TMPMOUNT} TOPDIR=${TOPDIR} \
+	    ${SUDO} ${SHELL} ${TOPDIR}/miniroot/runlist.sh ${LISTS}
+	${SUDO} rm ${TMPMOUNT}/${CBIN}
+	${SUDO} makefs -s ${IMAGESIZE}b -o ${IMAGEOPTS} ${IMAGE} ${TMPMOUNT}
+	${SUDO} vnconfig -v -c ${VND} ${IMAGE}
+	${SUDO} disklabel -w ${RAWLABEL} ${VND} ${IMAGETYPE}
+	${SUDO} mount -r ${VND_DEV} ${TMPMOUNT}
+	@echo ""
+	@df -i ${TMPMOUNT}
+	@echo ""
+	${SUDO} umount ${TMPMOUNT}
+	${SUDO} fsck -fy ${VND_RDEV}
+	${SUDO} vnconfig -v -u ${VND}
+	${SUDO} rm -rf ${TMPMOUNT}
 
-cleannobsd:
-	/bin/rm -f *.core ${IMAGE} ${CBIN} ${CBIN}.mk ${CBIN}.cache \
-	${CBIN}.conf *.o *.lo *.c bsd.* ${DO_BSDRD_NAME} ${DO_BSDRD_UC} \
-	    ${FS} ${REALIMAGE} ${RDSETROOT}
-	/bin/rm -rf ${MOUNT_POINT}
+bsd.uc: bsd ${IMAGE} ${RDSETROOT}
+	-rm -f $@
+	gzip -d <$> >$@
+	${RAMDISK_PREP}
+	${REALOBJDIR}/${RDSETROOT} $@ <${IMAGE}
 
-beforeinstall:
-	cp bsd.rd* ${DESTDIR}/snapshot/
-.ifdef MAKEFLOPPY
-	cp ${FS} ${DESTDIR}/snapshot/
-.endif
+bsd.rd: bsd.uc
+	-rm -f $@
+	gzip -vn9 <$> >$@
 
-unconfig:
-	-${SUDO} umount -f ${MOUNT_POINT}
-	-${SUDO} vnconfig -u ${VND}
-	-${SUDO} /bin/rm -f ${REALIMAGE}
+bsd.st: bsd.uc
+	cp -f $> $@
+	${STRIP} ${STRIP_KERNEL} $@
+
+bsd.rd.net: bsd.st
+	-rm -f $@
+	elf2aout $> $@ -b
+
+${FLOPPY}: bsd.st
+	test ! -e ${TMPMOUNT} || (cd ${.CURDIR}; ${MAKE} unconfig)
+	mkdir -p ${TMPMOUNT}
+	cp ${BOOT} ${TMPMOUNT}/boot
+	gzip -vn9 <bsd.st >${TMPMOUNT}/bsd
+	${SUDO} chown -R 0:0 ${TMPMOUNT}
+	${SUDO} chmod -R u=rwX,go=rX ${TMPMOUNT}
+	${SUDO} makefs -s ${FLOPPYSIZE}b -o ${FLOPPYOPTS} ${FLOPPY} ${TMPMOUNT}
+	${SUDO} vnconfig -v -c ${VND} ${FLOPPY}
+	${SUDO} disklabel -w ${RAWLABEL} ${VND} ${FLOPPYTYPE}
+	${SUDO} mount -r ${VND_DEV} ${TMPMOUNT}
+	@echo ""
+	@df -i ${TMPMOUNT}
+	@echo ""
+	${SUDO} ${INSTALLBOOT} -v ${TMPMOUNT}/boot ${BOOTXX} ${VND_CRDEV}
+	${SUDO} umount ${TMPMOUNT}
+	${SUDO} fsck -fy ${VND_RDEV}
+	${SUDO} vnconfig -v -u ${VND}
+	${SUDO} rm -rf ${TMPMOUNT}
 
 .include <bsd.obj.mk>
 .include <bsd.subdir.mk>
