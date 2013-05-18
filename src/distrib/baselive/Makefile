@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/baselive/Makefile,v 1.58 2009/08/02 16:20:49 tg Exp $
+# $MirOS: src/distrib/baselive/Makefile,v 1.59 2009/08/15 18:18:40 tg Exp $
 
 .include <bsd.own.mk>
 
@@ -201,12 +201,13 @@ nukefiles:
 					print deleted for $${i##*/}; \
 					${SUDO} rm -f $$name; \
 				else \
-					${SUDO} strip -g $$name && print; \
+					${SUDO} strip --strip-unneeded \
+					    $$name && print; \
 				fi; \
 				break; \
 			done; \
 		else \
-			${SUDO} strip -s $$name && print; \
+			${SUDO} strip --strip-unneeded $$name && print; \
 		fi; \
 	done
 .endif
