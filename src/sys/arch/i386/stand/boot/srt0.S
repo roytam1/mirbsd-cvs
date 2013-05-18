@@ -1,4 +1,4 @@
-/* $MirOS: src/sys/arch/i386/stand/boot/srt0.S,v 1.81 2009/10/27 13:23:38 tg Exp $ */
+/* $MirOS: src/sys/arch/i386/stand/boot/srt0.S,v 1.82 2009/10/27 14:34:49 tg Exp $ */
 
 /*-
  * Copyright (c) 2003, 2004, 2005, 2006, 2007, 2008, 2009
@@ -114,18 +114,17 @@ Lmbhdr:	.long	0x1BADB002		/* magic */
 	/* pointer to ldbsd.com command line or 1 (DOS/COMBOOT PSP) */
 Largp:	.long	0
 
-Linit:
-#if 0	/* qemu sucks, int3 doesn't work */
+Linit:	/* qemu sucks, int3 doesn’t work */
 	push	ds
 	push	ax
 	mov	ax,0x7000
 	mov	ds,ax
 	mov	byte ptr ds:[0],0xCB
-	/* set a b *0x70000 to stop this */
+	/* set a “b *0x70000” to stop at this point */
 	lcall	0x7000,0x0000
 	pop	ax
 	pop	ds
-#endif
+
 #ifndef SMALL_BOOT
 	mov	cx,es
 	shl	ecx,16
