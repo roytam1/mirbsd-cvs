@@ -1,17 +1,17 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.12 2004/04/11 15:16:07 brad Exp $
 
-COMMENT=			trivial perl API for reading/writing XML
+COMMENT=	trivial perl API for reading/writing XML
 
-DISTNAME=	XML-Simple-2.12
-PKGNAME=	p5-${DISTNAME}-0
+DISTNAME=	XML-Simple-2.16
+PKGNAME=	p5-${DISTNAME}-${DASH_VER}
 CATEGORIES=	textproc perl5
 MASTER_SITES=	${MASTER_SITE_PERL_CPAN:=XML/}
 
 HOMEPAGE=	http://www.web.co.nz/~grantm/cpan/
 
-BUILD_DEPENDS=  :p5-XML-Parser->=2:textproc/p5-XML-Parser \
+B_R_DEPENDS=  :p5-XML-Parser->=2:textproc/p5-XML-Parser \
 		:p5-XML-SAX->=0.12:textproc/p5-XML-SAX
-RUN_DEPENDS=    ${BUILD_DEPENDS}
 
 # GPL/Artistic
 PERMIT_PACKAGE_CDROM=	Yes
