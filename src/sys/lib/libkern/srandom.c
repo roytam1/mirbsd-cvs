@@ -1,4 +1,4 @@
-/* $MirOS: src/share/misc/licence.template,v 1.20 2006/12/11 21:04:56 tg Rel $ */
+/* $MirOS: src/sys/lib/libkern/srandom.c,v 1.6 2007/03/13 00:35:59 tg Exp $ */
 
 /*-
  * Copyright (c) 2007
@@ -22,15 +22,15 @@
 
 #include <lib/libkern/libkern.h>
 
-extern u_long _randseed;
+extern uint32_t _randseed;
 
 void
 srandom(u_long val)
 {
-	u_long tmp = _randseed;
+	uint32_t tmp = _randseed;
 
 	_randseed = val & 0x7FFFFFFF;
-	tmp += val >> 30;
+	tmp += val >> 31;
 	while (tmp) {
 		if (tmp & 1)
 			random();
