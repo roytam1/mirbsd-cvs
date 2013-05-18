@@ -1,10 +1,10 @@
-$MirOS: ports/www/lynx/patches/patch-samples_oldlynx,v 1.4 2009/01/18 20:22:05 tg Exp $
+$MirOS: ports/www/lynx/patches/patch-samples_oldlynx,v 1.5 2009/08/09 15:46:32 tg Exp $
 
 	rewritten something more sane and secure
 	but requires mksh for execution
 
 --- samples/oldlynx.orig	Tue Sep 19 00:28:05 2006
-+++ samples/oldlynx	Sun Aug  9 15:35:31 2009
++++ samples/oldlynx	Sat Mar  3 18:20:22 2012
 @@ -1,20 +1,21 @@
 -#!/bin/sh
 -# invoke lynx built with color-style, overriding the color options to use the

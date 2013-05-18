@@ -1,11 +1,11 @@
-$MirOS: ports/www/lynx/patches/patch-src_LYMain_c,v 1.11 2009/08/09 15:46:32 tg Exp $
+$MirOS: ports/www/lynx/patches/patch-src_LYMain_c,v 1.12 2010/12/23 20:34:02 tg Exp $
 
 	site policy
-	also contains a spelling change; suggested for upstream inclusion
+	also contains spelling fixes; suggested for upstream inclusion
 
---- src/LYMain.c.orig	Sat Dec 11 15:26:08 2010
-+++ src/LYMain.c	Thu Dec 23 20:13:40 2010
-@@ -1163,6 +1163,9 @@ int main(int argc,
+--- src/LYMain.c.orig	Mon Feb 20 02:13:33 2012
++++ src/LYMain.c	Sat Mar  3 18:20:22 2012
+@@ -1199,6 +1199,9 @@ int main(int argc,
      StrAllocCopy(LYUserAgent, LYNX_NAME);
      StrAllocCat(LYUserAgent, "/");
      StrAllocCat(LYUserAgent, LYNX_VERSION);
@@ -15,7 +15,16 @@ $MirOS: ports/www/lynx/patches/patch-src_LYMain_c,v 1.11 2009/08/09 15:46:32 tg 
      if (HTLibraryVersion) {
  	StrAllocCat(LYUserAgent, " libwww-FM/");
  	StrAllocCat(LYUserAgent, HTLibraryVersion);
-@@ -2070,10 +2073,7 @@ int main(int argc,
+@@ -1666,7 +1669,7 @@ int main(int argc,
+      * If the input is not a tty, we are either running in cron, or are
+      * getting input via a pipe:
+      *
+-     * a) in cron, none of stdin/stdout/stderr are tty's.
++     * a) in cron, none of stdin/stdout/stderr are ttys.
+      * b) from a pipe, we should have either "-" or "-stdin" options.
+      */
+     if (!LYGetStdinArgs
+@@ -2131,10 +2134,7 @@ int main(int argc,
       * synchronized.  - FM
       */
      if (isEmpty(bookmark_page)) {
@@ -27,7 +36,7 @@ $MirOS: ports/www/lynx/patches/patch-src_LYMain_c,v 1.11 2009/08/09 15:46:32 tg 
      }
      if (isEmpty(BookmarkPage)) {
  	set_default_bookmark_page(bookmark_page);
-@@ -2966,7 +2966,7 @@ within userdefs.h." },
+@@ -3027,7 +3027,7 @@ within userdefs.h." },
  #endif
  	{ "file_url", "\
  disallow using G)oto, served links or bookmarks for\n\
@@ -36,7 +45,7 @@ $MirOS: ports/www/lynx/patches/patch-src_LYMain_c,v 1.11 2009/08/09 15:46:32 tg 
  	{ "goto", "disable the 'g' (goto) command" },
  #if !defined(HAVE_UTMP) || defined(VMS) /* not selective */
  	{ "inside_ftp", "\
-@@ -3004,7 +3004,7 @@ disallow execution of Lynx CGI URLs" },
+@@ -3065,7 +3065,7 @@ disallow execution of Lynx CGI URLs" },
  	{ "mail", "disallow mail" },
  	{ "multibook", "disallow multiple bookmark files" },
  	{ "news_post", "disallow USENET News posting." },
@@ -45,7 +54,19 @@ $MirOS: ports/www/lynx/patches/patch-src_LYMain_c,v 1.11 2009/08/09 15:46:32 tg 
  #if !defined(HAVE_UTMP) || defined(VMS) /* not selective */
  	{ "outside_ftp", "\
  disallow ftps coming from outside your\n\
-@@ -3170,38 +3170,7 @@ static int version_fun(char *next_arg GC
+@@ -3093,9 +3093,9 @@ disallow telnets coming from outside you
+ 	{ "print", "disallow most print options" },
+ 	{ "shell", "\
+ disallow shell escapes, and lynxexec, lynxprog or lynxcgi\n\
+-G)oto's" },
++G)oto" },
+ 	{ "suspend", "disallow Control-Z suspends with escape to shell" },
+-	{ "telnet_port", "disallow specifying a port in telnet G)oto's" },
++	{ "telnet_port", "disallow specifying a port in telnet G)oto" },
+ 	{ "useragent", "disallow modifications of the User-Agent header" },
+     };
+     /* *INDENT-ON* */
+@@ -3231,38 +3231,7 @@ static int version_fun(char *next_arg GC
      printf("%s\n", result);
      free(result);
  

@@ -1,4 +1,4 @@
-$MirOS$
+$MirOS: ports/www/lynx/patches/patch-src_LYCharSets_c,v 1.1 2009/09/06 14:17:03 tg Exp $
 
 	Support ISO-8859-1 displays without system locale support,
 	e.g. when the locale is always UTF-8 (MirBSD)
@@ -6,8 +6,10 @@ $MirOS$
 	This needs support from libncursesw (MirBSD #10uAA and up)
 	and is a no-op if that ncurses patch isn’t available
 
---- src/LYCharSets.c.orig	Mon May 25 21:05:07 2009
-+++ src/LYCharSets.c	Sun Sep  6 14:10:04 2009
+	Also, fix spelling.
+
+--- src/LYCharSets.c.orig	Mon Feb 13 02:45:53 2012
++++ src/LYCharSets.c	Sat Mar  3 18:20:22 2012
 @@ -16,6 +16,10 @@
  
  #include <LYLeaks.h>
@@ -19,6 +21,15 @@ $MirOS$
  HTkcode kanji_code = NOKANJI;
  BOOLEAN LYHaveCJKCharacterSet = FALSE;
  BOOLEAN DisplayCharsetMatchLocale = TRUE;
+@@ -519,7 +523,7 @@ void HTMLSetCharacterHandling(int i)
+ void Set_HTCJK(const char *inMIMEname,
+ 	       const char *outMIMEname)
+ {
+-    /* need not check for synonyms: MIMEname's got from LYCharSet_UC */
++    /* need not check for synonyms: MIMEnames got from LYCharSet_UC */
+ 
+     if (LYRawMode) {
+ 	if ((!strcmp(inMIMEname, "euc-jp") ||
 @@ -600,6 +604,18 @@ static void HTMLSetDisplayCharsetMatchLo
  {
      BOOLEAN match;

@@ -1,10 +1,9 @@
-@comment $MirOS: ports/www/lynx/PLIST,v 1.1 2009/08/09 15:46:30 tg Exp $
+@comment $MirOS$
 bin/lynx
 bin/oldlynx
 man/man1/lynx.1
 share/doc/lynx/lynx_doc/AUTHORS
 share/doc/lynx/lynx_doc/CHANGES
-@comment share/doc/lynx/lynx_doc/CHANGES.bak.orig
 share/doc/lynx/lynx_doc/COPYHEADER
 share/doc/lynx/lynx_doc/COPYHEADER.asc
 @comment share/doc/lynx/lynx_doc/COPYING
@@ -42,6 +41,7 @@ share/doc/lynx/lynx_doc/docs/win-386.announce
 share/doc/lynx/lynx_doc/samples/blue-background.lss
 share/doc/lynx/lynx_doc/samples/bright-blue.lss
 share/doc/lynx/lynx_doc/samples/cernrules.txt
+@comment share/doc/lynx/lynx_doc/samples/cernrules.txt.orig
 share/doc/lynx/lynx_doc/samples/home.htm
 share/doc/lynx/lynx_doc/samples/installdirs.html
 share/doc/lynx/lynx_doc/samples/jumps.htm
@@ -86,6 +86,7 @@ share/doc/lynx/lynx_doc/test/spaces.html
 share/doc/lynx/lynx_doc/test/special_urls.html
 share/doc/lynx/lynx_doc/test/tabtest.html
 share/doc/lynx/lynx_doc/test/tags.html
+@comment share/doc/lynx/lynx_doc/test/tags.html.orig
 share/doc/lynx/lynx_doc/test/test-styles.html
 share/doc/lynx/lynx_doc/test/unicode.html
 share/doc/lynx/lynx_doc/test/utf-8-demo.html

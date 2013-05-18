@@ -1,9 +1,9 @@
-$MirOS$
+$MirOS: ports/www/lynx/patches/patch-WWW_Library_Implementation_HTTelnet_c,v 1.1 2010/12/23 20:25:31 tg Exp $
 
 	Fix spelling; suggested for upstream inclusion.
 
 --- WWW/Library/Implementation/HTTelnet.c.orig	Wed Nov 25 10:56:24 2009
-+++ WWW/Library/Implementation/HTTelnet.c	Thu Dec 23 20:13:40 2010
++++ WWW/Library/Implementation/HTTelnet.c	Sat Mar  3 18:20:21 2012
 @@ -75,7 +75,7 @@ static int remote_session(char *acc_meth
       * Modified to allow for odd chars in a username only if exists.
       * 05-28-94 Lynx 2-3-1 Garrett Arch Blythe

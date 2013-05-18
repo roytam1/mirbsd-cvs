@@ -1,9 +1,9 @@
-$MirOS: ports/www/lynx/patches/patch-lynx_man,v 1.3 2009/01/18 20:22:04 tg Exp $
+$MirOS: ports/www/lynx/patches/patch-lynx_man,v 1.4 2010/12/23 20:25:31 tg Exp $
 
-	site policy
+	site policy; some fix spelling
 
---- lynx.man.orig	Mon Oct  4 09:44:32 2010
-+++ lynx.man	Thu Dec 23 20:13:40 2010
+--- lynx.man.orig	Mon Feb 13 02:45:53 2012
++++ lynx.man	Sat Mar  3 18:20:22 2012
 @@ -218,16 +218,16 @@ it is equivalent to setting the \fBCOLOR
  library like \fBncurses\fR, \fILynx\fP relies completely on the terminal
  description to determine whether color mode is possible, and
@@ -24,7 +24,7 @@ $MirOS: ports/www/lynx/patches/patch-lynx_man,v 1.3 2009/01/18 20:22:04 tg Exp $
  for most systems, but ~/cookies for MS-DOS.
  .TP
  .B \-cookie_save_file\fR=\fIFILENAME
-@@ -416,7 +416,7 @@ within a mailto URL or form ACTION.
+@@ -420,7 +420,7 @@ within a mailto URL or form ACTION.
  .TP
  .B \-nocolor
  force color mode off, overriding terminal capabilities and any
@@ -33,7 +33,7 @@ $MirOS: ports/www/lynx/patches/patch-lynx_man,v 1.3 2009/01/18 20:22:04 tg Exp $
  .TP
  .B \-noexec
  disable local program execution. (DEFAULT)
-@@ -634,7 +634,7 @@ disallow mail.
+@@ -638,7 +638,7 @@ disallow mail.
  disallow USENET News posting.
  .TP
  .B options_save
@@ -42,7 +42,32 @@ $MirOS: ports/www/lynx/patches/patch-lynx_man,v 1.3 2009/01/18 20:22:04 tg Exp $
  .TP
  .B outside_ftp
  disallow ftps for people coming from outside your
-@@ -803,7 +803,7 @@ color-style
+@@ -663,13 +663,13 @@ outside your domain (utmp required for s
+ disallow most print options.
+ .TP
+ .B shell
+-disallow shell escapes and lynxexec or lynxprog G)oto's.
++disallow shell escapes and lynxexec or lynxprog G)oto.
+ .TP
+ .B suspend
+ disallow Unix Control-Z suspends with escape to shell.
+ .TP
+ .B telnet_port
+-disallow specifying a port in telnet G)oto's.
++disallow specifying a port in telnet G)oto.
+ .TP
+ .B useragent
+ disallow modifications of the User-Agent header.
+@@ -737,7 +737,7 @@ lynx -source . >foo.html
+ .IP
+ generates HTML source listing the files in the current directory.
+ Each file is marked by an HREF relative to the parent directory.
+-Add a trailing slash to make the HREF's relative to the current directory:
++Add a trailing slash to make the HREFs relative to the current directory:
+ .sp
+ .RS
+ lynx -source ./ >foo.html
+@@ -807,7 +807,7 @@ color-style
  TRST (table layout)
  .TP
  .B 8
@@ -51,7 +76,7 @@ $MirOS: ports/www/lynx/patches/patch-lynx_man,v 1.3 2009/01/18 20:22:04 tg Exp $
  .TP
  .B 16
  binary string copy/append, used in form data construction.
-@@ -969,7 +969,7 @@ the contents of an /etc/organization fil
+@@ -973,7 +973,7 @@ the contents of an /etc/organization fil
  .TP
  .B NNTPSERVER
  If set, this variable specifies the default NNTP server that will be used
@@ -60,3 +85,12 @@ $MirOS: ports/www/lynx/patches/patch-lynx_man,v 1.3 2009/01/18 20:22:04 tg Exp $
  .TP
  .B ORGANIZATION
  This variable, if set, provides the string used in the \fBOrganization:\fR
+@@ -1201,7 +1201,7 @@ and the WWW community.  Also a special t
+ much of \fILynx\fP to VMS and did or organized most of its development since the
+ departures of Lou Montulli and Garrett Blythe from the University of Kansas
+ in the summer of 1994 through the release of v2.7.2, and to everyone
+-on the net who has contributed to \fILynx\fP's development either directly (through
++on the net who has contributed to \fILynx\fP' development either directly (through
+ patches, comments or bug reports) or indirectly (through inspiration and
+ development of other systems).
+ .SH AUTHORS

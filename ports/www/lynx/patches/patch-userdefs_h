@@ -1,11 +1,12 @@
-$MirOS: ports/www/lynx/patches/patch-userdefs_h,v 1.13 2009/08/09 15:46:33 tg Exp $
+$MirOS: ports/www/lynx/patches/patch-userdefs_h,v 1.14 2010/12/23 20:34:02 tg Exp $
 
 	Upstream (Lynx) should at least enable KANJI_CODE_OVERRIDE by
 	default and incorporate the #ifndef LYNX_VERSION part.
 	Setting PREFERRED_LANGUAGE to "" is a sensible thing to do too.
+	Some spelling fixes.
 
---- userdefs.h.orig	Sat Dec 11 15:26:08 2010
-+++ userdefs.h	Thu Dec 23 20:13:40 2010
+--- userdefs.h.orig	Mon Jun 13 00:18:30 2011
++++ userdefs.h	Sat Mar  3 18:20:22 2012
 @@ -339,7 +339,7 @@
   * use any default viewers for image types.  Note that open is used as
   * the default for NeXT, instead of the XLOADIMAGE_COMMAND definition.
@@ -32,6 +33,17 @@ $MirOS: ports/www/lynx/patches/patch-userdefs_h,v 1.13 2009/08/09 15:46:33 tg Ex
  
  /*****************************
   * HELPFILE must be defined as a URL and must have a
+@@ -634,8 +635,8 @@
+ * least recently displayed documents will be freed until one or the other
+ * value is no longer exceeded.  The value can be modified in lynx.cfg.
+ *
+-* The Unix and VMS but not VAXC implementations use the C library malloc's
+-* and calloc's for memory allocation, and procedures for taking the actual
++* The Unix and VMS but not VAXC implementations use the C library malloc
++* and calloc for memory allocation, and procedures for taking the actual
+ * amount of cache into account still need to be developed.  They use only
+ * the DEFAULT_CACHE_SIZE value, and that specifies the absolute maximum
+ * number of documents to cache (rather than the maximum number only if
 @@ -739,7 +740,7 @@
   * that preference in their RC file.  This may be a comma-separated list
   * of languages in decreasing preference.
@@ -66,7 +78,7 @@ $MirOS: ports/www/lynx/patches/patch-userdefs_h,v 1.13 2009/08/09 15:46:33 tg Ex
   * ignore it. - kw */
  /* $Format: "#define LYNX_VERSION \"$ProjectVersion$\""$ */
 +#ifndef LYNX_VERSION
- #define LYNX_VERSION "2.8.8dev.7"
+ #define LYNX_VERSION "2.8.8dev.12"
 +#endif
  #define LYNX_WWW_HOME "http://lynx.isc.org/"
  #define LYNX_WWW_DIST "http://lynx.isc.org/current/"
@@ -98,7 +110,16 @@ $MirOS: ports/www/lynx/patches/patch-userdefs_h,v 1.13 2009/08/09 15:46:33 tg Ex
  #endif /* FNAMES_8_3 */
  #endif
  
-@@ -1651,11 +1654,11 @@
+@@ -1610,7 +1613,7 @@
+ #if       ! defined(NOT_ASCII)
+ /*****************************
+  * SUPPORT_MULTIBYTE_EDIT provides better support of CJK characters to
+- * Lynx's Line Editor.  JIS X0201 Kana is partially supported.  The
++ * Lynx' Line Editor.  JIS X0201 Kana is partially supported.  The
+  * reason why I didn't support it fully is I think supporting it is not
+  * required so much and I don't have an environment to test it. - TH
+  */
+@@ -1648,11 +1651,11 @@
  
  /*****************************
   * Uncomment the following line to enable the kanji code override routine.

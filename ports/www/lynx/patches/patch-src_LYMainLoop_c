@@ -1,10 +1,10 @@
-$MirOS$
+$MirOS: ports/www/lynx/patches/patch-src_LYMainLoop_c,v 1.1 2010/12/23 20:34:01 tg Exp $
 
 	Fix spelling; suggested for upstream inclusion.
 
---- src/LYMainLoop.c.orig	Mon Oct  4 09:44:32 2010
-+++ src/LYMainLoop.c	Thu Dec 23 20:13:40 2010
-@@ -900,7 +900,7 @@ static int find_link_near_col(int col,
+--- src/LYMainLoop.c.orig	Thu Feb 23 02:03:09 2012
++++ src/LYMainLoop.c	Sat Mar  3 18:20:22 2012
+@@ -901,7 +901,7 @@ static int find_link_near_col(int col,
  
  /*
   * This is a special feature to traverse every http link derived from startfile
@@ -13,7 +13,7 @@ $MirOS$
   * with "traversal_host" are searched - this keeps the search from crossing to
   * other servers (a feature, not a bug!).
   */
-@@ -1950,7 +1950,7 @@ static void handle_LYK_DIRED_MENU(BOOLEA
+@@ -2048,7 +2048,7 @@ static void handle_LYK_DIRED_MENU(BOOLEA
  
      /*
       * If we are viewing a local directory listing or a local file which is not
@@ -22,10 +22,21 @@ $MirOS$
       * specs and passed as the argument, so we start up CSwing positioned on
       * that node of the directory tree.  Otherwise, pass the current default
       * directory as the argument.  - FM
-@@ -7293,7 +7293,7 @@ int mainloop(void)
+@@ -6303,8 +6303,8 @@ int mainloop(void)
+ 	    /*
+ 	     * Reset all of the other relevant flags.  - FM
+ 	     */
+-	    LYUserSpecifiedURL = FALSE;		/* only set for goto's and jumps's */
+-	    LYJumpFileURL = FALSE;	/* only set for jump's */
++	    LYUserSpecifiedURL = FALSE;		/* only set for gotos and jumps */
++	    LYJumpFileURL = FALSE;	/* only set for jumps */
+ 	    LYNoRefererForThis = FALSE;		/* always reset on return here */
+ 	    reloading = FALSE;	/* set for RELOAD and NOCACHE keys */
+ 	    HEAD_request = FALSE;	/* only set for HEAD requests */
+@@ -7576,7 +7576,7 @@ int mainloop(void)
  	    break;
  
- #ifdef EXP_ADDRLIST_PAGE
+ #ifdef USE_ADDRLIST_PAGE
 -	case LYK_ADDRLIST:	/* always list URL's (only) */
 +	case LYK_ADDRLIST:	/* always list URLs (only) */
  	    if (handle_LYK_ADDRLIST(&cmd))

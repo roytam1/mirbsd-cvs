@@ -1,10 +1,10 @@
-$MirOS$
+$MirOS: ports/www/lynx/patches/patch-LYMessages_en_h,v 1.1 2010/12/23 20:25:30 tg Exp $
 
 	Fix spelling; suggested for upstream inclusion.
 
---- LYMessages_en.h.orig	Sat Dec 11 15:26:08 2010
-+++ LYMessages_en.h	Thu Dec 23 20:13:40 2010
-@@ -603,7 +603,7 @@
+--- LYMessages_en.h.orig	Mon Feb 13 02:45:53 2012
++++ LYMessages_en.h	Sat Mar  3 18:20:20 2012
+@@ -606,7 +606,7 @@
  #define ERROR_UNCOMPRESSING_TEMP gettext("Error uncompressing temporary file!")
  #define UNSUPPORTED_URL_SCHEME gettext("Unsupported URL scheme!")
  #define UNSUPPORTED_DATA_URL gettext("Unsupported data: URL!  Use SHOWINFO, for now.")

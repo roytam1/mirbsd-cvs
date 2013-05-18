@@ -1,12 +1,12 @@
-$MirOS: ports/www/lynx/patches/patch-makefile_in,v 1.3 2008/03/09 18:19:43 tg Exp $
+$MirOS: ports/www/lynx/patches/patch-makefile_in,v 1.4 2008/12/17 00:24:42 tg Exp $
 
 	BSD make specific. Portable would be
 	+ LY_CFLAGS='$(CFLAGS)'
 	or something like that, but :Q also quotes the quotes.
 
---- makefile.in.orig	Sun Sep 21 22:49:24 2008
-+++ makefile.in	Wed Dec 17 00:14:05 2008
-@@ -175,13 +175,13 @@ SITE_DEFS = # Your defines here
+--- makefile.in.orig	Mon Jun 13 00:18:30 2011
++++ makefile.in	Sat Mar  3 18:20:22 2012
+@@ -179,13 +179,13 @@ SITE_DEFS = # Your defines here
  # for installation of local execution links, please see the file userdefs.h
  
  WWW_CFLAGS = \
