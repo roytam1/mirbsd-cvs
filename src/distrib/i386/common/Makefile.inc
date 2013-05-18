@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/i386/common/Makefile.inc,v 1.26 2006/07/16 13:07:48 tg Exp $
+# $MirOS: src/distrib/i386/common/Makefile.inc,v 1.27 2006/07/16 13:08:53 tg Exp $
 # $OpenBSD: Makefile.inc,v 1.15 2004/11/25 22:02:08 deraadt Exp $
 
 .ifndef _MODSRC_DISTRIB_I386_COMMON_MAKEFILE_INC
@@ -125,7 +125,7 @@ rd_setup: ${CBIN}
 	${SUDO} rm -rf ${MOUNT_POINT}
 	mkdir -p ${MOUNT_POINT}
 .else
-	dd if=/dev/zero of=${REALIMAGE} bs=512 count=${NBLKS}
+	dd if=/dev/zero of=${REALIMAGE} count=${NBLKS}
 	${SUDO} vnconfig -v -c ${VND} ${REALIMAGE}
 	${SUDO} disklabel -w -r ${VND} ${DISKTYPE}
 	${SUDO} newfs ${NEWFSARGS} ${VND_RDEV}
