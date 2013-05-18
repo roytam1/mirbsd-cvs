@@ -1,4 +1,4 @@
-# i386 specific $MirOS: src/etc/etc.i386/sysctl.conf,v 1.3 2005/03/22 19:36:56 tg Exp $
+# $MirOS: src/etc/etc.i386/sysctl.conf,v 1.4 2006/10/18 00:59:49 tg Exp $
 #machdep.allowaperture=2	# See xf86(4)
 #machdep.apmwarn=10		# battery % when apm status messages enabled
 #machdep.apmhalt=1		# 1=powerdown hack, try if halt -p doesn't work

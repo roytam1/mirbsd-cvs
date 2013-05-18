@@ -1,28 +1,40 @@
-#!/bin/mksh
-# $MirOS$
+#!/usr/bin/env mksh
+# $MirOS: src/share/misc/licence.template,v 1.24 2008/04/22 11:43:31 tg Rel $
+#-
+# Copyright (c) 2008
+#	Thorsten Glaser <tg@mirbsd.org>
 #
-# Copyright (c) 2004 Dale Rahn <drahn@openbsd.org>
+# Provided that these terms and disclaimer and all copyright notices
+# are retained or reproduced in an accompanying document, permission
+# is granted to deal in this work without restriction, including un-
+# limited rights to use, publicly perform, distribute, sell, modify,
+# merge, give away, or sublicence.
 #
-# Permission to use, copy, modify, and distribute this software for any
-# purpose with or without fee is hereby granted, provided that the above
-# copyright notice and this permission notice appear in all copies.
-#
-# THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
-# WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
-# MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
-# ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
-# WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
-# ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
-# OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+# This work is provided "AS IS" and WITHOUT WARRANTY of any kind, to
+# the utmost extent permitted by applicable law, neither express nor
+# implied; without malicious intent or gross negligence. In no event
+# may a licensor, author or contributor be held liable for indirect,
+# direct, other damage, loss, or other issues arising in any way out
+# of dealing in the work, even if advised of the possibility of such
+# damage or existence of a defect, except proven that it results out
+# of said person's immediate fault when using the work as intended.
 
-letters="p q r s t u v w x y z P Q R S T"
-suffixes="0 1 2 3 4 5 6 7 8 9 a b c d e f g h i j k l m n o p q \
-    r s t u v w x y z A B C D E F G H I J K L M N O P Q R S T U V W X Y Z"
+# sync these with MAKEDEV.common
+set -A letters p q r s t u v w x y z P Q R S T
+set -A suffixes 0 1 2 3 4 5 6 7 8 9 \
+    a b c d e f g h i j k l m n o p q r s t u v w x y z \
+    A B C D E F G H I J K L M N O P Q R S T U V W X Y Z
 
-for i in ${letters}
-do
-  for j in ${suffixes}
-  do
-    echo "tty${i}${j}	none				network"
-  done
+me=$(realpath "$0")
+mydir=${me%/*}
+machine=$1
+
+cat "$mydir/etc.$machine/ttys"
+
+for l in ${letters[*]}; do
+	for s in ${suffixes[*]}; do
+		print "tty$l$s\tnone\t\t\t\tnetwork"
+	done
 done
+
+exit 0
