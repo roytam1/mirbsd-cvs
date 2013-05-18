@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.410 2012/12/31 22:36:33 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.411 2013/01/01 01:25:02 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -9630,7 +9630,7 @@ Tag: debian mksh
 <p><a href="@@RELPATH@@jupp.htm">jupp</a> got refreshed: it’s got a bracketed
  paste mode, which is even auto-enabled on <tt>xterm-xfree86</tt> (though the
  xterm(1) in MirBSD’s a tad too old to know it; will update that later, just
- imported sendmail(1) 8.14.6 and lynx(1) 2.8.8dev.15 into base, more to come)
+ imported sendmail(8) 8.14.6 and lynx(1) 2.8.8dev.15 into base, more to come)
  and will be enhanced later (should disable auto-indent, wordwrap, status line
  updates, and possibly more), lots of new functions and bindings, now uses
  mkstemp(3) to create backup files race-free, and more (read the NEWS file).</p>
