@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/distrib/i386/livecd/munge_it.sh,v 1.10 2006/04/06 00:53:20 tg Exp $
+# $MirOS: src/distrib/i386/livecd/munge_it.sh,v 1.11 2006/04/07 12:15:58 tg Exp $
 #-
 # Copyright (c) 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -63,12 +63,14 @@ ed -s etc/ntpd.conf <<-'EOF'
 EOF
 ed -s etc/rc <<-'EOF'
 	1i
-		# $MirOS: src/distrib/i386/livecd/munge_it.sh,v 1.10 2006/04/06 00:53:20 tg Exp $
+		# $MirOS: src/distrib/i386/livecd/munge_it.sh,v 1.11 2006/04/07 12:15:58 tg Exp $
 	.
 	/shutdown request/ka
 	/^fi/a
 
 		mount /dev/rd0a /dev
+		test -e /dev/.rs && cat /dev/.rs >/dev/urandom
+		rm -f /dev/.rs
 	.
 	/^rm.*fastboot$/a
 
@@ -78,7 +80,7 @@ ed -s etc/rc <<-'EOF'
 			mount_mfs -s ${2:-300000} swap /$1
 		}
 		print -n 'initialising memory filesystems...'
-		do_mfsmount etc 60000
+		do_mfsmount etc 40960
 		do_mfsmount tmp 600000
 		do_mfsmount var
 		sleep 2
