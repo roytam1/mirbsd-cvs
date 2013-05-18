@@ -530,7 +530,7 @@ Date: 26.11.2007
  upgrade</a> for newer MirOS #10-beta versions (Linuxtag 2007 and
  newer) is also available. To install the latter, use</p>
 
-<p><pre>cd / ; sudo tar xvfz /path/to/perl-CVE-2007-5116.cpio.gz</pre></p>
+<pre>cd / ; sudo tar xvfz /path/to/perl-CVE-2007-5116.cpio.gz</pre>
 
 <p>The following ports also had security updates: <tt>print/cups</tt>
  (fixed in 1.2.11-1), <tt>devel/pcre</tt> (fixed in 7.4-0). Please
@@ -627,7 +627,7 @@ Date: 01.03.2008
  <li>Integrate all changes from OpenBSD ksh</li>
  <li>Integrate some changes from Debian: the “dot” command needs an
   argument; prevent namespace conflict between (built-in) aliases and
-  (POSIX, not Korn) shell functions
+  (POSIX, not Korn) shell functions</li>
  <li>Add <tt>\uXXXX</tt> and <tt>\xXX</tt> escapes to the print builtin</li>
  <li>No longer check if we are called as “sh” for special handling</li>
  <li>Implement here strings: you can now replace <tt>print -r -- "$foo" |

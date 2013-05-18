@@ -2756,3 +2756,25 @@ Title: mksh releng
 <p>Still some testing to do, but I’m okay with what we have, not only for
  mksh(1) but also for the entire OS. Expect #10 finally next week or so.</p>
 ----
+Date: 01.03.2008
+Author: tg@
+
+<p>Why do I always find bugs at almost after release time? Why do I let my
+ coffee become cold, have too few milk at home, etc? Why do I sometimes
+ forget to <tt>mount -uw /x</tt> before qemu’ing an image placed on that
+ filesystem? Why do I sometimes forget to plug in the power of the laptop
+ and then wonder why it suddenly turns off, having no APM nor ACPI?</p>
+<p>I’d like to call a vote for <a href="@@RELPATH@@ports.htm">MirPorts</a>:
+ replace the <tt>FLAVOR</tt> and <tt>FLAVORS</tt> variables by these with
+ correct spelling (<tt>FLAVOUR</tt> and <tt>FLAVOURS</tt>), keep it as it
+ is, support both with English preferred, support both with American dialect
+ preferred? I’m strongly tending to British English and would like to have
+ this general policy in MirOS.</p>
+<p>OpenBSD/zaurus works, although it’s a PITA to get a working Linux 2.4 on
+ it first. The USB NIC (aue(4)) doesn’t work, though (not enough power); but
+ it at least tries, under OpenBSD, while it is ignored under Linux 2.4 and
+ 2.6; my USB stick works on the Zaurus but not on the laptop or the WL-500g;
+ a CF card reader only works on the Asus box, so I must use that for data
+ transfer (and cannot use ntpd(8), which sucks) with smallish 16 MiB and 32
+ MiB CF cards from my digital camera…</p>
+----
