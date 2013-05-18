@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/Makefile,v 1.30 2008/08/05 19:19:58 tg Exp $
+# $MirOS: src/distrib/common/Makefile,v 1.31 2008/08/05 19:25:16 tg Exp $
 
 .include <bsd.own.mk>
 
@@ -103,7 +103,7 @@ unconfig:
 
 cleannobsd: unconfig
 	rm -f *core ${CBIN} ${CBIN}.{cache,conf,mk,unstripped} ${IMAGE} \
-	    ${RDSETROOT} *.c *.o *.lo* bsd.{uc,st} ${_RD_TARGETS} mkisofs.log
+	    ${RDSETROOT} *.c *.o *.lo* bsd.{uc,st} ${_RD_TARGETS}
 
 clean cleandir: cleannobsd
 	rm -f bsd
@@ -210,12 +210,12 @@ cdrom-prepare: bsd.rd
 
 cdrom-generate:
 	chmod -R u+w ${WRKDIR}
-	mkisofs -r -f -L -d -D -N -v -v ${CDROM_MDOPTS} \
+	mkisofs -r ${CDROM_MDOPTS} \
 	    -P 'The http://mirbsd.de/ team and its contributors' \
 	    -p 'Copyright © 2002-2008 by The MirOS Project' \
 	    -V 'MirOS #${OSrev} BSD/${MACHINE} boot-only CD' \
 	    -volset "$$(uname -slm) Setup" -sysid "MirOSBSD" \
-	    -pad -o ${CDROM} ${WRKDIR} 2>&1 | tee mkisofs.log
+	    -pad -o ${CDROM} ${WRKDIR}
 	-rm -rf ${WRKDIR}
 
 .include <bsd.obj.mk>

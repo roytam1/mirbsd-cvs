@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/Makefile.i386-big,v 1.13 2008/08/05 19:19:58 tg Exp $
+# $MirOS: src/distrib/common/Makefile.i386-big,v 1.14 2008/08/05 19:25:17 tg Exp $
 
 IMAGESIZE=	8192
 IMAGETYPE=	ipldisc
@@ -18,11 +18,10 @@ cdrom-mdcopy:
 	cp ${DESTDIR}/usr/mdec/pxeboot ${WRKDIR}/v${OSrev}/${MACHINE}/
 
 cdrom-mdboot:
-	fgrep ${WRKDIR}/b_${MACHINE}.ldr mkisofs.log | \
+	getextent_cd9660 -f ${CDROM} b_${MACHINE}.ldr | \
 	    ${MKSH} ${BOOTSH} -S 2 | \
 	    dd of=${CDROM} conv=notrunc 2>/dev/null
-	fgrep ${WRKDIR}/b_${MACHINE}.ldr mkisofs.log | \
+	getextent_cd9660 -f ${CDROM} b_${MACHINE}.ldr | \
 	    ${MKSH} ${BOOTSH} -B 11 | \
-	    dd of=${CDROM} conv=notrunc bs=2048 seek=$$(fgrep \
-	    ${WRKDIR}/b_${MACHINE}.iso mkisofs.log | \
-	    while read s rest; do print $$s; done) 2>/dev/null
+	    dd of=${CDROM} conv=notrunc bs=2048 seek=$$(getextent_cd9660 \
+	    -f ${CDROM} -b b_${MACHINE}.iso) 2>/dev/null

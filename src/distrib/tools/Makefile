@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/tools/Makefile,v 1.19 2008/03/15 22:23:04 tg Exp $
+# $MirOS: src/distrib/tools/Makefile,v 1.20 2008/08/05 19:19:57 tg Exp $
 
 all: sundsklbl
 
@@ -18,8 +18,7 @@ depend:
 prereq:
 
 clean: .PHONY
-	-rm -f i386_chain sundsklbl *.o
-	-rm -rf ${CDROM} mkisofs.log
+	-rm -f i386_chain sundsklbl *.o ${CDROM}
 	-rm -rf cddir
 
 cleandir: .PHONY clean
@@ -35,7 +34,7 @@ sundsklbl: sundsklbl.c
 	    PROG=$@ NOMAN=Yes EXPERIMENTAL=Yes
 
 makecdimage: .PHONY
-	-rm -rf cddir ${CDROM} mkisofs.log
+	-rm -rf cddir ${CDROM}
 	mkdir -p cddir/v${OSrev}/{i386,sparc}
 	for arch in i386 sparc; do \
 		for file in ${DSTTOPDIR}/$$arch/{*boot*,bsd.rd,*mbr*}; do \
@@ -48,21 +47,20 @@ makecdimage: .PHONY
 	ln cddir/v${OSrev}/sparc/bsd.rd cddir/vmunix		# for kicks
 	ln cddir/v${OSrev}/sparc/bsd.rd cddir/bsd		# for idiots
 	cp ${.CURDIR}/../common/00-README ${.CURDIR}/boot.cfg cddir/
-	mkisofs -r -f -L -d -D -N -v -v -b b_i386.iso -c boot.cat \
-	    -no-emul-boot \
+	mkisofs -r -b b_i386.iso -c boot.cat -no-emul-boot \
 	    -P 'The http://mirbsd.de/ team and its contributors' \
 	    -p 'Copyright © 2002-2008 by The MirOS Project' \
 	    -V 'MirOS #${OSrev} BSD manifold-boot CD' \
 	    -volset "$$(uname -sl) i386/sparc Setup" -sysid MirOSBSD \
-	    -pad -o ${CDROM} cddir 2>&1 | tee mkisofs.log
-	fgrep b_i386.ldr mkisofs.log | \
+	    -pad -o ${CDROM} cddir 2>&1
+	getextent_cd9660 -f ${CDROM} b_i386.ldr | \
 	    ${MKSH} ${BSDSRCDIR}/usr.sbin/installboot/bxinst.i386 -B 11 | \
-	    dd of=${CDROM} conv=notrunc bs=2048 seek=$$(fgrep b_i386.iso \
-	    mkisofs.log | while read s rest; do print $$s; done) 2>/dev/null
-	fgrep b_i386.ldr mkisofs.log | \
+	    dd of=${CDROM} conv=notrunc bs=2048 seek=$$(getextent_cd9660 \
+	    -f ${CDROM} -b b_i386.iso) 2>/dev/null
+	getextent_cd9660 -f ${CDROM} b_i386.ldr | \
 	    ${MKSH} ${BSDSRCDIR}/usr.sbin/installboot/bxinst.i386 -S 2 | \
 	    dd of=${CDROM} conv=notrunc bs=512 seek=${CHAINSECTOR} 2>/dev/null
-	fgrep b_sparc.ldr mkisofs.log | \
+	getextent_cd9660 -f ${CDROM} b_sparc.ldr | \
 	    ${MKSH} ${BSDSRCDIR}/usr.sbin/installboot/bxinst.sparc \
 	    -0 ${CHAINSECTOR} -S 2 | \
 	    dd of=${CDROM} conv=notrunc 2>/dev/null
