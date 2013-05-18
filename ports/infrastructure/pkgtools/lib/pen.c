@@ -1,4 +1,4 @@
-/**	$MirOS: ports/infrastructure/pkgtools/lib/pen.c,v 1.3 2008/11/02 18:19:53 tg Exp $ */
+/**	$MirOS: ports/infrastructure/pkgtools/lib/pen.c,v 1.4 2008/11/02 18:56:30 tg Exp $ */
 /*	$OpenBSD: pen.c,v 1.13 2003/07/04 17:31:19 avsm Exp $	*/
 
 /*
@@ -29,7 +29,7 @@
 #endif
 #include <errno.h>
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/pen.c,v 1.3 2008/11/02 18:19:53 tg Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/pen.c,v 1.4 2008/11/02 18:56:30 tg Exp $");
 
 /* For keeping track of where we are */
 static char Current[FILENAME_MAX];
@@ -147,12 +147,15 @@ leave_playpen(char *save)
 	warnx("can't chdir back to '%s'", Previous);
 	_exit(2);
     } else if (Current[0] && strcmp(Current, Previous)) {
+	char *cp;
+
         if (strcmp(Current,"/")==0) {
             fprintf(stderr,"PANIC: About to rm -rf / (not doing so, aborting)\n");
             abort();	/* XXX is abort safe? */
         }
-	if (xsystem(false, "rm -rf %s", Current))
-	    pwarnx("couldn't remove temporary dir '%s'", Current);
+	if (xsystem(false, "rm -rf %s", cp = format_arg(Current)))
+	    pwarnx("couldn't remove temporary dir %s", cp);
+	xfree(cp);
 	strlcpy(Current, Previous, sizeof(Current));	/* XXX */
     }
     if (save)

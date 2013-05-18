@@ -1,4 +1,4 @@
-/**	$MirOS: ports/infrastructure/pkgtools/lib/plist.c,v 1.13 2008/11/02 18:19:53 tg Exp $ */
+/**	$MirOS: ports/infrastructure/pkgtools/lib/plist.c,v 1.14 2008/11/02 18:56:30 tg Exp $ */
 /*	$OpenBSD: plist.c,v 1.17 2003/08/21 20:24:57 espie Exp $	*/
 
 /*
@@ -26,7 +26,7 @@
 #include <md5.h>
 #include "rcdb.h"
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/plist.c,v 1.13 2008/11/02 18:19:53 tg Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/plist.c,v 1.14 2008/11/02 18:56:30 tg Exp $");
 
 #define NULLMD5 "d41d8cd98f00b204e9800998ecf8427e"
 
@@ -541,8 +541,16 @@ process_dirrm(plist_t *p, bool keep_files, int *usedb, RCDB *ourdb,
 }
 
 #ifdef DEBUG
-#define RMDIR(dir) xsystem(false, "%s %s", RMDIR_CMD, dir)
-#define REMOVE(dir,ie) xsystem(false, "%s %s%s", REMOVE_CMD, (ie ? "-f " : ""), dir)
+#define RMDIR(dir)	RM_DEBUG(RMDIR_CMD, "", (dir))
+#define REMOVE(dir, ie)	RM_DEBUG(REMOVE_CMD, ((ie) ? "-f " : ""), (dir))
+#define RM_DEBUG(cmd, arg1, arg2) ({				\
+	int rv;							\
+	char *a2;						\
+	a2 = format_arg(arg2);					\
+	rv = xsystem(false, "%s %s%s", (cmd), (arg1), a2);	\
+	xfree(a2);						\
+	(rv);							\
+})
 #else
 #define RMDIR rmdir
 #define	REMOVE(file,ie) (remove(file) && !(ie))
@@ -562,8 +570,13 @@ delete_hierarchy(char *dir, bool ign_err, bool nukedirs)
 	return !ign_err;
     }
     else if (nukedirs) {
-	if (xsystem(false, "%s -r%s %s", REMOVE_CMD, (ign_err ? "f" : ""), dir))
+	int rv;
+	cp1 = format_arg(dir);
+	rv = xsystem(false, "%s -r%s %s", REMOVE_CMD, ign_err ? "f" : "", cp1);
+	xfree(cp1);
+	if (rv)
 	    return 1;
+	cp1 = dir;
     }
     else if (isdir(dir)) {
 	if (RMDIR(dir) && !ign_err)

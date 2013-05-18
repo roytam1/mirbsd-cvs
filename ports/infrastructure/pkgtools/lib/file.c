@@ -1,4 +1,4 @@
-/* $MirOS: ports/infrastructure/pkgtools/lib/file.c,v 1.17 2008/11/02 18:19:52 tg Exp $ */
+/* $MirOS: ports/infrastructure/pkgtools/lib/file.c,v 1.18 2008/11/02 18:56:29 tg Exp $ */
 /* $OpenBSD: file.c,v 1.26 2003/08/21 20:24:57 espie Exp $	*/
 
 /*
@@ -33,7 +33,7 @@
 #include <libgen.h>
 #include <unistd.h>
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/file.c,v 1.17 2008/11/02 18:19:52 tg Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/file.c,v 1.18 2008/11/02 18:56:29 tg Exp $");
 
 /* Try to find the log dir for an incomplete package specification.
  * Used in pkg_info and pkg_delete. Returns the number of matches,
@@ -618,35 +618,54 @@ write_file(const char *filename, const char *mode, const char *fmt, ...)
 void
 copy_file(const char *dir, const char *fname, const char *to)
 {
-    char cmd[FILENAME_MAX];
+	char *cmd, *a1, *a2, *a3;
 
-    if (fname[0] == '/')
-	snprintf(cmd, sizeof(cmd), "cp -p -r %s %s", fname, to);
-    else
-	snprintf(cmd, sizeof(cmd), "cp -p -r %s/%s %s", dir, fname, to);
-    if (xsystem(false, "%s", cmd)) {
-	cleanup(0);
-	errx(2, "could not perform '%s'", cmd);
-    }
+	a1 = format_arg(fname);
+	a2 = format_arg(to);
+	if (fname[0] == '/')
+		xasprintf(&cmd, "cp -p -r %s %s", a1, a2);
+	else {
+		xasprintf(&cmd, "cp -p -r %s/%s %s",
+		    (a3 = format_arg(dir)), a1, a2);
+		xfree(a3);
+	}
+	xfree(a2);
+	xfree(a1);
+	if (sxsystem(false, cmd)) {
+		cleanup(0);
+		errx(2, "could not perform %s", cmd);
+	}
+	xfree(cmd);
 }
 
 void
 move_file(const char *dir, const char *fname, char *to)
 {
-    char cmd[FILENAME_MAX];
+	char *cmd, *a1, *a2, *a3;
 
-    if (fname[0] == '/')
-	snprintf(cmd, sizeof(cmd), "mv -f %s %s", fname, to);
-    else
-	snprintf(cmd, sizeof(cmd), "mv -f %s/%s %s", dir, fname, to);
-    if (xsystem(false, "%s", cmd)) {
-	cleanup(0);
-	errx(2, "could not perform '%s'", cmd);
-    }
+	a1 = format_arg(fname);
+	a2 = format_arg(to);
+	if (fname[0] == '/')
+		xasprintf(&cmd, "mv -f %s %s", a1, a2);
+	else {
+		xasprintf(&cmd, "mv -f %s/%s %s",
+		    (a3 = format_arg(dir)), a1, a2);
+		xfree(a3);
+	}
+	xfree(a1);
+	if (sxsystem(false, cmd)) {
+		cleanup(0);
+		errx(2, "could not perform %s", cmd);
+	}
+	xfree(cmd);
 #ifdef AS_USER
-    if (!geteuid())
-	xsystem(false, "chown -f %s %s", getlogin(), to);
-    /* no error handling, we don't care if chown fails */
+	if (!geteuid()) {
+		/* no error handling, we don't care if chown fails */
+		xsystem(false, "chown -f %s %s",
+		    a1 = format_arg(getlogin()), to);
+		xfree(a1);
+	}
+	xfree(a2);
 #endif
 }
 
@@ -661,58 +680,63 @@ move_file(const char *dir, const char *fname, char *to)
 void
 copy_hierarchy(const char *dir, char *fname, bool to)
 {
-    char cmd[FILENAME_MAX * 3];
+	char *cmd, *a1, *a2;
 
-    if (!to) {
-	/* If absolute path, use it */
-	if (*fname == '/')
-	    dir = "/";
-	snprintf(cmd, sizeof(cmd), "tar cf - -C %s %s | tar xpf -",
- 		 dir, fname);
-    }
-    else
-	snprintf(cmd, sizeof(cmd), "tar cf - %s | tar xpf - -C %s",
- 		 fname, dir);
+	a2 = format_arg(fname);
+	if (!to) {
+		/* If absolute path, use it */
+		if (*fname == '/')
+			dir = "/";
+		xasprintf(&cmd, "tar cf - -C %s %s | tar xpf -",
+		    (a1 = format_arg(dir)), a2);
+	} else
+		xasprintf(&cmd, "tar cf - %s | tar xpf - -C %s",
+		    a2, (a1 = format_arg(dir)));
 #ifdef DEBUG
-    printf("Using '%s' to copy trees.\n", cmd);
+	printf("Using '%s' to copy trees.\n", cmd);
 #endif
-    if (system(cmd)) {
-	cleanup(0);
-	errx(2, "copy_file: could not perform '%s'", cmd);
-    }
+	xfree(a1);
+	xfree(a2);
+	if (sxsystem(false, cmd)) {
+		cleanup(0);
+		errx(2, "copy_file: could not perform %s", cmd);
+	}
+	xfree(cmd);
 }
 
 /* Unpack a tar file */
 int
 unpack(char *pkg, const char *flist)
 {
-    char args[10], *cp;
-    const char *decompressor = NULL;
+	char *a1, *a2;
+	const char *decompressor = NULL;
+	int rv = 0;
 
-    args[0] = '\0';
-    /*
-     * Figure out by a crude heuristic whether this or not this is probably
-     * compressed.
-     */
-    if (strcmp(pkg, "-")) {
-	if ((cp = strrchr(pkg, '.'))) {
-	    if (!strcmp(cp, ".clz"))
-		decompressor = "lzma";
-	    else if (strchr(cp, 'z') || strchr(cp, 'Z'))
-		decompressor = "gzip";
+	a1 = format_arg(pkg);
+	a2 = format_arg(flist ? flist : "");
+
+	/* figure out by a crude heuristic whether it's probably compressed */
+	if (strcmp(pkg, "-")) {
+		char *cp;
+		if ((cp = strrchr(pkg, '.'))) {
+			if (!strcmp(cp, ".clz"))
+				decompressor = "lzma";
+			else if (strchr(cp, 'z') || strchr(cp, 'Z'))
+				decompressor = "gzip";
+		} else
+			decompressor = "gzip";
 	}
-    } else
-	strlcpy(args, "z", sizeof(args));
-    strlcat(args, "xpf", sizeof(args));
-    if (!flist)
-	flist = "";
-    if (decompressor ?
-      xsystem(false, "%s -dc %s | tar %s - %s", decompressor, pkg, args, flist) :
-      xsystem(false, "tar %s %s %s", args, pkg, flist)) {
-	pwarnx("tar extract of %s failed!", pkg);
-	return 1;
-    }
-    return 0;
+
+	if (decompressor)
+		rv = xsystem(false, "%s -fdc %s | tar -xpf - %s",
+		    decompressor, a1, a2);
+	else
+		rv = xsystem(false, "tar -xpf %s %s", a1, a2);
+	if (rv)
+		pwarnx("tar extract of %s failed!", a1);
+	xfree(a2);
+	xfree(a1);
+	return (rv ? 1 : 0);
 }
 
 /*
