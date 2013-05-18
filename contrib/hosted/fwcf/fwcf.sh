@@ -1,5 +1,5 @@
 #!/bin/sh
-# $MirOS: contrib/hosted/fwcf/fwcf.sh,v 1.24 2007/03/02 05:35:47 tg Exp $
+# $MirOS: contrib/hosted/fwcf/fwcf.sh,v 1.25 2007/03/02 05:42:28 tg Exp $
 #-
 # Copyright (c) 2006, 2007
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -66,6 +66,7 @@ if ! test -e "$part"; then
 fi
 
 if test $1 = erase; then
+	dd if="$part" 2>&1 | md5sum 2>&1 >/dev/urandom
 	fwcf.helper -Me | mtd -F write - fwcf
 	exit $?
 fi
