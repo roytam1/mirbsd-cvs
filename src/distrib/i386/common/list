@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/i386/common/list,v 1.16 2006/05/17 11:33:07 tg Exp $
+# $MirOS: src/distrib/i386/common/list,v 1.17 2006/05/26 18:29:49 tg Exp $
 # $OpenBSD: list,v 1.15 2005/05/04 17:08:07 miod Exp $
 
 # copy the crunched binary, link to it, and kill it
@@ -77,7 +77,7 @@ COPY	${CURDIR}/../../miniroot/protocols	etc/protocols
 COPY	${CURDIR}/../../miniroot/services	etc/services
 COPY	${CURDIR}/../../miniroot/shells		etc/shells
 COPY	${DESTDIR}/etc/spwd.db			etc/spwd.db
-TERMCAP	vt100,vt220,wsvtg,dumb			usr/share/misc/termcap
+TERMCAP	vt100,vt220,wsvt25,wsvtg,dumb		usr/share/misc/termcap
 
 SYMLINK	/tmp/disktab.shadow			etc/disktab
 SYMLINK	/tmp/fstab.shadow			etc/fstab
