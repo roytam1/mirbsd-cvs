@@ -1,4 +1,4 @@
-# $MirOS: src/usr.sbin/config/Makefile,v 1.2 2005/03/13 19:16:18 tg Exp $
+# $MirOS: src/usr.sbin/config/Makefile,v 1.3 2005/03/15 19:28:30 tg Exp $
 # $OpenBSD: Makefile,v 1.13 2003/07/22 17:15:13 brad Exp $
 
 .include <bsd.own.mk>
@@ -17,8 +17,8 @@ SRCS+=		exec_aout.c
 
 CPPFLAGS+=	-I.
 
-LDADD=		-lkvm
-DPADD=		${LIBKVM}
+LDADD=		-lkvm -lz
+DPADD=		${LIBKVM} ${LIBZ}
 
 CLEANFILES+=	gram.c scan.c y.tab.h
 MAN=		config.8
