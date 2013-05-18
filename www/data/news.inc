@@ -939,7 +939,12 @@ Author: tg@
  licence simplification (the advertising clause is gone). This version
  was not tested on AIX, BSD/OS, Interix, GNU/kFreeBSD, UWIN, the Intel
  compiler, but we expect no regressions on these platforms either. New
- supported platforms include dietlibc, LLVM.</p>
+ supported platforms include dietlibc, LLVM. Platforms already working
+ continue to be MirOS BSD, DragonFly BSD, FreeBSD, MidnightBSD, NetBSD,
+ OpenBSD, DEC ULTRIX, Mac OSX, HP Tru64, HP-UX, Solaris, Debian GNU/HURD,
+ Cygwin, and various GNU/Linux systems; using gcc, pcc, SUNWcc, llvm-gcc,
+ Compaq C, HP aCC, TenDRA; on a variety of hardware architectures.</p>
+</p>
 <p>Online manual: <a href="@@RELPATH@@htman/i386/man1/mksh.htm">HTML</a>,
  <a href="/MirOS/dist/mir/mksh/mksh.pdf">PDF</a> (<a
  href="http://www.cl.cam.ac.uk/~mgk25/iso-paper.html">ISO A4 paper</a>, we
