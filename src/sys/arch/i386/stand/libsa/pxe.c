@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/stand/libsa/pxe.c,v 1.15 2009/01/12 18:07:23 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/stand/libsa/pxe.c,v 1.16 2009/01/12 19:04:12 tg Exp $ */
 /*	$OpenBSD: pxe.c,v 1.5 2007/07/27 17:46:56 tom Exp $ */
 /*	$NetBSD: pxe.c,v 1.5 2003/03/11 18:29:00 drochner Exp $	*/
 
@@ -382,7 +382,7 @@ pxe_init(int quiet)
 	if (pxe_bang)
 		try_pxe(PTOV(pxe_bang >> 16, pxe_bang & 0xFFFF));
 
-	if (pxe_plus == pxe_bang && (!pxe || !pxenv))
+	if (pxe_plus == pxe_bang && (pxe || pxenv))
 		goto got_one;	/* probably from SYSLINUX */
 
 	if (!(i386_dosdev & 1))
