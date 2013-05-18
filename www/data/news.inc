@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/news.inc,v 1.97 2009/01/18 00:28:01 tg Exp $
+RCSID: $MirOS: www/data/news.inc,v 1.98 2009/01/26 22:49:15 tg Exp $
 Title: Older news from the MirOS Project
 Date: 01.03.2006
 
@@ -1323,7 +1323,7 @@ Date: 26.01.2009 22:35
 Author: tg@
 Tag: bug snapshot
 
-<p style="font-size:xx-large;">Benny, read below before killing me.</p>
+<p style="font-size:xx-small;">Benny, read below before killing me.</p>
 <p><a href="http://www.ctyme.com/intr/rb-0706.htm">AH=41h INT 13h</a>
  is a function with which one can ask a BIOS if it supports LBA on a
  specific drive or not. The El Torito bootable CDs only function with
