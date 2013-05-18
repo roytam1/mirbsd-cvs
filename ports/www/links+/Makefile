@@ -1,4 +1,4 @@
-# $MirOS: ports/www/links+/Makefile,v 1.6 2006/11/16 23:20:29 tg Exp $
+# $MirOS: ports/www/links+/Makefile,v 1.7 2008/03/09 17:23:37 tg Exp $
 # $OpenBSD: Makefile,v 1.15 2003/11/17 22:59:32 fgsch Exp $
 
 COMMENT=		graphics and text browser with javascript support
@@ -18,7 +18,7 @@ PERMIT_DISTFILES_FTP=	Yes
 FLAVOURS=		no_x11
 FLAVOUR?=
 
-CONFIGURE_STYLE=	gnu
+CONFIGURE_STYLE=	autoconf
 CONFIGURE_ENV+=		PKG_CONFIG=no ac_cv_path_PKG_CONFIG=no
 CONFIGURE_ENV+=		ac_cv_lib_pcre_pcre_compile=no
 CONFIGURE_ARGS+=	--enable-javascript \
