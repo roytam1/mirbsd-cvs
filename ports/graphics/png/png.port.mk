@@ -1,4 +1,4 @@
-# $MirOS: ports/graphics/png/png.port.mk,v 1.8 2008/04/07 19:46:56 tg Exp $
+# $MirOS: ports/graphics/png/png.port.mk,v 1.9 2008/04/12 20:22:14 tg Exp $
 
 # Valid choices: any, base, port
 USE_PNG?=		any
@@ -14,10 +14,17 @@ USE_PNG=		port
 .endif
 
 .if ${USE_PNG:L:Mport}
-LIB_DEPENDS+=		pkgview/png/lib/png:png->=1.2.26-0:graphics/png
+MODPNG_DEPENDS=		pkgview/png/lib/png:png->=1.2.26-0:graphics/png
 PNG_BASE=		${LOCALBASE}/pkgview/png
 CPPFLAGS+=		-I${PNG_BASE:Q}/include
 LDFLAGS+=		-Wl,-rpath,${PNG_BASE:Q}/lib -L${PNG_BASE:Q}/lib
-.elif !${USE_PNG:L:Mbase}
+.elif ${USE_PNG:L:Mbase}
+MODPNG_DEPENDS=		#empty
+PNG_BASE=		/usr
+.else
 .  error USE_PNG=${USE_PNG:L} invalid
+.endif
+
+.ifndef MODPNG_INHIBIT
+LIB_DEPENDS+=		${MODPNG_DEPENDS}
 .endif
