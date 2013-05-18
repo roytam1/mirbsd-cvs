@@ -248,7 +248,7 @@ getent(char **cap, u_int *len, char **db_array, int fd,
 			char *dbrecord;
 
 			clen = snprintf(pbuf, sizeof(pbuf), "%s.db", *db_p);
-			if (clen != -1 && clen < sizeof(pbuf) && usedb &&
+			if (clen != -1 && (size_t)clen < sizeof(pbuf) && usedb &&
 			    (capdbp = dbopen(pbuf, O_RDONLY, 0, DB_HASH, 0))) {
 				opened++;
 				retval = cdbget(capdbp, &dbrecord, name);

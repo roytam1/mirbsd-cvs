@@ -34,6 +34,8 @@
 #include <wchar.h>
 #include "local.h"
 
+wint_t __fgetwc_unlock(FILE *);
+
 wint_t
 __fgetwc_unlock(FILE *fp)
 {

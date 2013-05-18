@@ -229,8 +229,7 @@ __bt_defcmp(const DBT *a, const DBT *b)
  *	Number of bytes needed to distinguish b from a.
  */
 size_t
-__bt_defpfx(a, b)
-	const DBT *a, *b;
+__bt_defpfx(const DBT *a, const DBT *b)
 {
 	u_char *p1, *p2;
 	size_t cnt, len;

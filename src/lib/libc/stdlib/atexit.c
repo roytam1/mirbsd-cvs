@@ -59,7 +59,7 @@ int
 atexit(void (*fn)(void))
 {
 	struct atexit *p = __atexit;
-	int pgsize = getpagesize();
+	size_t pgsize = getpagesize();
 
 	if (pgsize < sizeof(*p))
 		return (-1);
@@ -95,11 +95,13 @@ atexit(void (*fn)(void))
 /*
  * Register the cleanup function
  */
+void __atexit_register_cleanup(void (*fn)(void));
+
 void
 __atexit_register_cleanup(void (*fn)(void))
 {
 	struct atexit *p = __atexit;
-	int pgsize = getpagesize();
+	size_t pgsize = getpagesize();
 
 	if (pgsize < sizeof(*p))
 		return;

@@ -31,6 +31,9 @@
  *	@(#)extern.h	8.10 (Berkeley) 7/20/94
  */
 
+#ifndef _BTREE_EXTERN_H
+#define _BTREE_EXTERN_H
+
 int	 __bt_close(DB *);
 int	 __bt_cmp(BTREE *, const DBT *, EPG *);
 int	 __bt_crsrdel(BTREE *, EPGNO *);
@@ -65,4 +68,6 @@ void	 __bt_dump(DB *);
 #endif
 #ifdef STATISTICS
 void	 __bt_stat(DB *);
+#endif
+
 #endif

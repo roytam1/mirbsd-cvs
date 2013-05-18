@@ -305,7 +305,7 @@ send_again:
 			cu->cu_error.re_errno = errno;
 			return (cu->cu_error.re_status = RPC_CANTRECV);
 		}
-		if (inlen < sizeof(u_int32_t))
+		if ((size_t)inlen < sizeof(u_int32_t))
 			continue;	
 		/* see if reply transaction id matches sent id */
 		if (((struct rpc_msg *)(cu->cu_inbuf))->rm_xid !=

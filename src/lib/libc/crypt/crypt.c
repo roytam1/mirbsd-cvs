@@ -56,6 +56,10 @@
 # include <stdio.h>
 #endif
 
+void _des_init(void);
+void _des_setup_salt(int32_t);
+int _des_do_des(u_int32_t, u_int32_t, u_int32_t *, u_int32_t *, int);
+
 static const u_char	IP[64] = {
 	58, 50, 42, 34, 26, 18, 10,  2, 60, 52, 44, 36, 28, 20, 12,  4,
 	62, 54, 46, 38, 30, 22, 14,  6, 64, 56, 48, 40, 32, 24, 16,  8,
@@ -358,8 +362,8 @@ des_setkey(const char *key)
 	if (!_des_initialised)
 		_des_init();
 
-	rawkey0 = ntohl(*(u_int32_t *) key);
-	rawkey1 = ntohl(*(u_int32_t *) (key + 4));
+	rawkey0 = ntohl(*(const u_int32_t *) key);
+	rawkey1 = ntohl(*(const u_int32_t *) (key + 4));
 
 	if ((rawkey0 | rawkey1)
 	    && rawkey0 == old_rawkey0
@@ -576,8 +580,6 @@ crypt(const char *key, const char *setting)
 	u_int32_t	count, salt, l, r0, r1, keybuf[2];
 	u_char		*p, *q;
 	static u_char	output[21];
-	extern char	*md5crypt(const char *, const char *);
-	extern char	*bcrypt(const char *, const char *);
 
 	if (setting[0] == '$') {
 		switch (setting[1]) {
@@ -596,7 +598,7 @@ crypt(const char *key, const char *setting)
 	 * and padding with zeros.
 	 */
 	q = (u_char *) keybuf;
-	while ((q - (u_char *) keybuf) < sizeof(keybuf)) {
+	while ((size_t)((q - (u_char *) keybuf)) < sizeof(keybuf)) {
 		if ((*q++ = *key << 1))
 			key++;
 	}
@@ -625,8 +627,8 @@ crypt(const char *key, const char *setting)
 			 * And XOR with the next 8 characters of the key.
 			 */
 			q = (u_char *) keybuf;
-			while (((q - (u_char *) keybuf) < sizeof(keybuf)) &&
-					*key)
+			while ((((size_t)(q - (u_char *) keybuf) <
+			    sizeof(keybuf))) && *key)
 				*q++ ^= *key++ << 1;
 
 			if (des_setkey((char *) keybuf))

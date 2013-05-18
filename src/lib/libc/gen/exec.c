@@ -1,4 +1,4 @@
-/**	$MirOS: src/lib/libc/gen/exec.c,v 1.2 2005/03/06 20:28:40 tg Exp $ */
+/**	$MirOS: src/lib/libc/gen/exec.c,v 1.3 2005/09/22 20:39:59 tg Exp $ */
 /*	$OpenBSD: exec.c,v 1.18 2005/08/08 08:05:34 espie Exp $ */
 /*-
  * Copyright (c) 1991, 1993
@@ -154,7 +154,7 @@ execvp(const char *name, char * const *argv)
 
 	/* Get the path we're searching. */
 	if (!(path = getenv("PATH")))
-		path = _PATH_DEFPATH;
+		path = (char *)_PATH_DEFPATH;
 	len = strlen(path) + 1;
 	cur = alloca(len);
 	if (cur == NULL) {
@@ -169,7 +169,7 @@ execvp(const char *name, char * const *argv)
 		 * mean the current directory.
 		 */
 		if (!*p) {
-			p = ".";
+			p = (char *)".";
 			lp = 1;
 		} else
 			lp = strlen(p);
@@ -180,14 +180,14 @@ execvp(const char *name, char * const *argv)
 		 * security issue; given a way to make the path too long
 		 * the user may execute the wrong program.
 		 */
-		if (lp + ln + 2 > sizeof(buf)) {
+		if ((size_t)lp + ln + 2 > sizeof(buf)) {
 			struct iovec iov[3];
 
-			iov[0].iov_base = "execvp: ";
+			iov[0].iov_base = (char *)"execvp: ";
 			iov[0].iov_len = 8;
 			iov[1].iov_base = p;
 			iov[1].iov_len = lp;
-			iov[2].iov_base = ": path too long\n";
+			iov[2].iov_base = (char *)": path too long\n";
 			iov[2].iov_len = 16;
 			(void)writev(STDERR_FILENO, iov, 3);
 			continue;
@@ -212,7 +212,7 @@ retry:		(void)execve(bp, argv, environ);
 			memp = alloca((cnt + 2) * sizeof(char *));
 			if (memp == NULL)
 				goto done;
-			memp[0] = "sh";
+			memp[0] = (char *)"sh";
 			memp[1] = bp;
 			memmove(memp + 2, argv + 1, cnt * sizeof(char *));
 			(void)execve(_PATH_BSHELL, memp, environ);

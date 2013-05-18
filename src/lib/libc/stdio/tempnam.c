@@ -36,7 +36,7 @@
 #include <unistd.h>
 #include <paths.h>
 
-__RCSID("$MirOS: src/lib/libc/stdio/tempnam.c,v 1.3 2005/09/22 20:13:05 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/stdio/tempnam.c,v 1.4 2005/10/21 10:53:26 tg Exp $");
 
 __warn_references(tempnam,
     "tempnam() possibly used unsafely; consider using mkstemp()");
@@ -71,12 +71,12 @@ tempnam(const char *dir, const char *pfx)
 			return(f);
 	}
 
-	f = P_tmpdir;
+	f = (char *)P_tmpdir;
 	(void)snprintf(name, MAXPATHLEN, "%s%sXXXXXXXXX", f, pfx);
 	if ((f = _mktemp(name)))
 		return(f);
 
-	f = _PATH_TMP;
+	f = (char *)_PATH_TMP;
 	(void)snprintf(name, MAXPATHLEN, "%s%sXXXXXXXXX", f, pfx);
 	if ((f = _mktemp(name)))
 		return(f);

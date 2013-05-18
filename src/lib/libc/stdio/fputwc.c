@@ -36,6 +36,8 @@
 #include "local.h"
 #include "fvwrite.h"
 
+wint_t __fputwc_unlock(wchar_t, FILE *);
+
 wint_t
 __fputwc_unlock(wchar_t wc, FILE *fp)
 {

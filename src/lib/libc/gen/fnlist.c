@@ -1,4 +1,4 @@
-/**	$MirOS: src/lib/libc/gen/fnlist.c,v 1.8 2006/01/24 21:01:03 tg Exp $ */
+/**	$MirOS: src/lib/libc/gen/fnlist.c,v 1.9 2006/01/24 21:07:50 tg Exp $ */
 /*	$OpenBSD: nlist.c,v 1.51 2005/08/08 08:05:34 espie Exp $ */
 /*
  * Copyright (c) 1989, 1993
@@ -41,7 +41,7 @@
 #include <unistd.h>
 #include <a.out.h>		/* pulls in nlist.h */
 
-__RCSID("$MirOS: src/lib/libc/gen/fnlist.c,v 1.8 2006/01/24 21:01:03 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/gen/fnlist.c,v 1.9 2006/01/24 21:07:50 tg Exp $");
 
 #ifdef _NLIST_DO_ELF
 #include <elf_abi.h>
@@ -217,7 +217,7 @@ __elf_fnlist(FILE *f, struct nlist *list)
 	if ((shdr = malloc(shdr_size)) == NULL)
 		return (-1);
 
-	if (fpread(f, shdr, shdr_size, ehdr.e_shoff) != shdr_size) {
+	if ((off_t)fpread(f, shdr, shdr_size, ehdr.e_shoff) != shdr_size) {
 		free(shdr);
 		return (-1);
 	}
@@ -246,7 +246,7 @@ __elf_fnlist(FILE *f, struct nlist *list)
 	 */
 	if ((strtab = malloc(symstrsize)) == NULL)
 		return (-1);
-	if (fpread(f, strtab, symstrsize, symstroff) != symstrsize) {
+	if ((off_t)fpread(f, strtab, symstrsize, symstroff) != symstrsize) {
 		free(strtab);
 		return (-1);
 	}
@@ -366,7 +366,8 @@ static struct nlist_handlers {
 int
 __fnlist(FILE *f, struct nlist *list)
 {
-	int n = -1, i;
+	int n = -1;
+	size_t i;
 
 	for (i = 0; i < sizeof(nlist_fn)/sizeof(nlist_fn[0]); i++) {
 		n = (nlist_fn[i].fn)(f, list);

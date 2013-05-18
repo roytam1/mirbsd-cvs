@@ -1,4 +1,4 @@
-/**	$MirOS: src/lib/libc/db/btree/bt_put.c,v 1.2 2005/03/06 20:28:35 tg Exp $ */
+/**	$MirOS: src/lib/libc/db/btree/bt_put.c,v 1.3 2005/09/22 20:07:46 tg Exp $ */
 /*	$OpenBSD: bt_put.c,v 1.13 2005/08/05 13:02:59 espie Exp $	*/
 
 /*-
@@ -44,7 +44,7 @@
 #include "btree.h"
 
 __SCCSID("@(#)bt_put.c   8.8 (Berkeley) 7/26/94");
-__RCSID("$MirOS: src/lib/libc/db/btree/bt_put.c,v 1.2 2005/03/06 20:28:35 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/db/btree/bt_put.c,v 1.3 2005/09/22 20:07:46 tg Exp $");
 
 static EPG *bt_fast(BTREE *, const DBT *, const DBT *, int *);
 
@@ -197,7 +197,7 @@ delete:		if (__bt_dleaf(t, key, h, idx) == RET_ERROR) {
 	 * into the offset array, shift the pointers up.
 	 */
 	nbytes = NBLEAFDBT(key->size, data->size);
-	if (h->upper - h->lower < nbytes + sizeof(indx_t)) {
+	if ((size_t)(h->upper - h->lower) < nbytes + sizeof(indx_t)) {
 		if ((status = __bt_split(t, h, key,
 		    data, dflags, nbytes, idx)) != RET_SUCCESS)
 			return (status);
@@ -278,7 +278,7 @@ bt_fast(BTREE *t, const DBT *key, const DBT *data, int *exactp)
 	 * have to search to get split stack.
 	 */
 	nbytes = NBLEAFDBT(key->size, data->size);
-	if (h->upper - h->lower < nbytes + sizeof(indx_t))
+	if ((size_t)(h->upper - h->lower) < nbytes + sizeof(indx_t))
 		goto miss;
 
 	if (t->bt_order == FORWARD) {

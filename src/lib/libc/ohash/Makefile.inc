@@ -9,6 +9,9 @@ SRCS+=	ohash_create_entry.c ohash_delete.c ohash_do.c ohash_entries.c \
 	ohash_lookup_interval.c ohash_lookup_memory.c \
 	ohash_qlookup.c ohash_qlookupi.c
 
+CFLAGS_ohash_do.o+= -Wno-cast-qual
+CFLAGS_ohash_enum.o+= -Wno-cast-qual
+
 MAN+=	ohash_init.3 ohash_interval.3
 MLINKS+=ohash_init.3 ohash_delete.3 \
 	ohash_init.3 ohash_lookup_interval.3 \

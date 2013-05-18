@@ -1,4 +1,4 @@
-# $MirOS: src/lib/libc/stdlib/Makefile.inc,v 1.3 2005/09/22 20:15:31 tg Exp $
+# $MirOS: src/lib/libc/stdlib/Makefile.inc,v 1.4 2006/03/30 18:36:01 tg Exp $
 
 # stdlib sources
 .PATH: ${LIBCSRCDIR}/arch/${MACHINE_ARCH}/stdlib ${LIBCSRCDIR}/stdlib
@@ -11,6 +11,22 @@ SRCS+=	a64l.c abort.c atexit.c atoi.c atof.c atol.c atoll.c bsearch.c \
 	strtoull.c system.c getprogname.c \
 	tfind.c tsearch.c _rand48.c drand48.c erand48.c jrand48.c lcong48.c \
 	lrand48.c mrand48.c nrand48.c seed48.c srand48.c qabs.c qdiv.c _Exit.c
+
+CFLAGS_bsearch.o+= -Wno-cast-qual
+CFLAGS_ecvt.o+= -Wno-cast-qual
+CFLAGS_getopt_long.o+= -Wno-error
+CFLAGS_hcreate.o+= -Wno-error
+CFLAGS_lsearch.o+= -Wno-cast-qual
+CFLAGS_random.o+= -Wno-cast-qual -Wno-uninitialized
+CFLAGS_strtod.o+= -Wno-error
+CFLAGS_strtol.o+= -Wno-error
+CFLAGS_strtoll.o+= -Wno-cast-qual
+CFLAGS_strtoul.o+= -Wno-error
+CFLAGS_strtoull.o+= -Wno-cast-qual
+CFLAGS_system.o+= -Wno-error
+CFLAGS_tfind.o+= -Wno-cast-qual
+CFLAGS_tsearch.o+= -Wno-cast-qual
+CFLAGS_malloc.o+= -Wno-error
 
 .if   (${MACHINE_ARCH} == "m68k")
 SRCS+=	abs.S div.c labs.c ldiv.c

@@ -1,4 +1,4 @@
-/**	$MirOS: src/lib/libc/crypt/arc4random.c,v 1.2 2005/03/06 20:28:34 tg Exp $ */
+/**	$MirOS: src/lib/libc/crypt/arc4random.c,v 1.3 2005/09/22 20:06:58 tg Exp $ */
 /*	$OpenBSD: arc4random.c,v 1.14 2005/06/06 14:57:59 kjell Exp $	*/
 
 /*
@@ -41,7 +41,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-__RCSID("$MirOS: src/lib/libc/crypt/arc4random.c,v 1.2 2005/03/06 20:28:34 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/crypt/arc4random.c,v 1.3 2005/09/22 20:06:58 tg Exp $");
 
 #ifdef __GNUC__
 #define inline __inline
@@ -93,8 +93,8 @@ arc4_addrandom(struct arc4_stream *as, u_char *dat, int datlen)
 static void
 arc4_stir(struct arc4_stream *as)
 {
-	int     i, mib[2];
-	size_t	len;
+	int     mib[2];
+	size_t	i, len;
 	u_char rnd[128];
 
 	mib[0] = CTL_KERN;
@@ -188,5 +188,5 @@ arc4random_push(int n)
 		 * do not add the n, but rather the kernel-supplied
 		 * new random value to our local arc4 generator
 		 */
-		arc4_addrandom(&rs, (char *)&i, len);
+		arc4_addrandom(&rs, (u_char *)&i, len);
 }

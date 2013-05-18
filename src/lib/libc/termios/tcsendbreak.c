@@ -41,7 +41,7 @@
 
 /* ARGSUSED */
 int
-tcsendbreak(int fd, int len)
+tcsendbreak(int fd, int len __attribute__((unused)))
 {
 	struct timeval sleepytime;
 

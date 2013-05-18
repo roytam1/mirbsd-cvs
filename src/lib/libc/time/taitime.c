@@ -1,4 +1,4 @@
-/* $MirOS: src/lib/libc/time/taitime.c,v 1.2 2005/04/17 01:36:06 tg Exp $ */
+/* $MirOS: src/lib/libc/time/taitime.c,v 1.3 2005/12/17 05:46:16 tg Exp $ */
 
 /*-
  * Copyright (c) 2004, 2005
@@ -30,7 +30,7 @@
 #include "private.h"
 #include "tzfile.h"
 
-__RCSID("$MirOS: src/lib/libc/time/taitime.c,v 1.2 2005/04/17 01:36:06 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/time/taitime.c,v 1.3 2005/12/17 05:46:16 tg Exp $");
 
 static __inline tai64_t *_tai_leaps(void);
 
@@ -141,6 +141,7 @@ tai64_t _leaps[TZ_MAX_LEAPS + 1] = {0};
 int _leaps_initialised = 0;
 
 /* private interface */
+void _pushleap(time_t);
 void
 _pushleap(time_t leap)
 {

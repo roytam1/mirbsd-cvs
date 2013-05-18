@@ -44,7 +44,7 @@
 #include <unistd.h>
 #include <stdarg.h>
 
-__RCSID("$MirOS: src/lib/libc/gen/syslog.c,v 1.2 2005/03/06 20:28:41 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/gen/syslog.c,v 1.3 2005/09/22 20:40:01 tg Exp $");
 
 static struct syslog_data sdata = SYSLOG_DATA_INIT;
 
@@ -233,7 +233,7 @@ vsyslog_r(int pri, struct syslog_data *data, const char *fmt, va_list ap)
 
 		iov[0].iov_base = stdp;
 		iov[0].iov_len = cnt - (stdp - tbuf);
-		iov[1].iov_base = "\n";
+		iov[1].iov_base = (void *)"\n";
 		iov[1].iov_len = 1;
 		(void)writev(STDERR_FILENO, iov, 2);
 	}
@@ -275,7 +275,7 @@ vsyslog_r(int pri, struct syslog_data *data, const char *fmt, va_list ap)
 		p = strchr(tbuf, '>') + 1;
 		iov[0].iov_base = p;
 		iov[0].iov_len = cnt - (p - tbuf);
-		iov[1].iov_base = "\r\n";
+		iov[1].iov_base = (void *)"\r\n";
 		iov[1].iov_len = 2;
 		(void)writev(fd, iov, 2);
 		(void)close(fd);

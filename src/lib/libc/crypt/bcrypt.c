@@ -66,20 +66,18 @@
 #define BCRYPT_BLOCKS 6		/* Ciphertext blocks */
 #define BCRYPT_MINROUNDS 16	/* we have log2(rounds) in salt */
 
-char   *bcrypt_gensalt(u_int8_t);
-
 static void encode_salt(char *, u_int8_t *, u_int16_t, u_int8_t);
 static void encode_base64(u_int8_t *, u_int8_t *, u_int16_t);
-static void decode_base64(u_int8_t *, u_int16_t, u_int8_t *);
+static void decode_base64(u_int8_t *, u_int16_t, const u_int8_t *);
 
 static char    encrypted[_PASSWORD_LEN];
 static char    gsalt[BCRYPT_MAXSALT * 4 / 3 + 1];
 static char    error[] = ":";
 
-const static u_int8_t Base64Code[] =
+static const u_int8_t Base64Code[] =
 "./ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 
-const static u_int8_t index_64[128] = {
+static const u_int8_t index_64[128] = {
 	255, 255, 255, 255, 255, 255, 255, 255, 255, 255,
 	255, 255, 255, 255, 255, 255, 255, 255, 255, 255,
 	255, 255, 255, 255, 255, 255, 255, 255, 255, 255,
@@ -97,10 +95,10 @@ const static u_int8_t index_64[128] = {
 #define CHAR64(c)  ( (c) > 127 ? 255 : index_64[(c)])
 
 static void
-decode_base64(u_int8_t *buffer, u_int16_t len, u_int8_t *data)
+decode_base64(u_int8_t *buffer, u_int16_t len, const u_int8_t *data)
 {
 	u_int8_t *bp = buffer;
-	u_int8_t *p = data;
+	const u_int8_t *p = data;
 	u_int8_t c1, c2, c3, c4;
 	while (bp < buffer + len) {
 		c1 = CHAR64(*p);
@@ -227,16 +225,16 @@ bcrypt(const char *key, const char *salt)
 		return error;
 
 	/* We dont want the base64 salt but the raw data */
-	decode_base64(csalt, BCRYPT_MAXSALT, (u_int8_t *) salt);
+	decode_base64(csalt, BCRYPT_MAXSALT, (const u_int8_t *) salt);
 	salt_len = BCRYPT_MAXSALT;
 	key_len = strlen(key) + (minor >= 'a' ? 1 : 0);
 
 	/* Setting up S-Boxes and Subkeys */
 	Blowfish_initstate(&state);
 	Blowfish_expandstate(&state, csalt, salt_len,
-	    (u_int8_t *) key, key_len);
+	    (const u_int8_t *) key, key_len);
 	for (k = 0; k < rounds; k++) {
-		Blowfish_expand0state(&state, (u_int8_t *) key, key_len);
+		Blowfish_expand0state(&state, (const u_int8_t *) key, key_len);
 		Blowfish_expand0state(&state, csalt, salt_len);
 	}
 

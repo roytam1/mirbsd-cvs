@@ -1,4 +1,4 @@
-/* $MirOS: src/lib/libc/gen/setdomainname.c,v 1.3 2005/09/22 20:40:00 tg Exp $ */
+/* $MirOS: src/lib/libc/gen/setdomainname.c,v 1.4 2005/12/17 05:46:14 tg Exp $ */
 
 /*-
  * Copyright (c) 2005
@@ -25,10 +25,11 @@
 #include <sys/sysctl.h>
 #include <unistd.h>
 
-__RCSID("$MirOS: src/lib/libc/gen/setdomainname.c,v 1.3 2005/09/22 20:40:00 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/gen/setdomainname.c,v 1.4 2005/12/17 05:46:14 tg Exp $");
 
 int
-setdomainname(const char *name, size_t namelen)
+setdomainname(const char *name __attribute__((unused)),
+    size_t namelen __attribute__((unused)))
 {
 	return (0);
 }

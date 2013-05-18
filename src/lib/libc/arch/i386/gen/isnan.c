@@ -38,8 +38,7 @@
 #include <math.h>
 
 int
-isnan(d)
-	double d;
+isnan(double d)
 {
 	struct ieee_double *p = (struct ieee_double *)&d;
 

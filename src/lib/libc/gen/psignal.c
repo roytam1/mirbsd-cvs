@@ -56,13 +56,13 @@ psignal(unsigned int sig, const char *s)
 		n = strlen(s);
 		iov[0].iov_base = (void *)s;
 		iov[0].iov_len = n;
-		iov[1].iov_base = ": ";
+		iov[1].iov_base = (void *)": ";
 		iov[1].iov_len = 2;
 		niov = 2;
 	}
 	iov[niov].iov_base = (void *)c;
 	iov[niov].iov_len = strlen(c);
-	iov[niov+1].iov_base = "\n";
+	iov[niov+1].iov_base = (void *)"\n";
 	iov[niov+1].iov_len = 1;
 	(void)writev(STDERR_FILENO, iov, niov+2);
 }

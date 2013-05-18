@@ -33,21 +33,21 @@
 #include <math.h>
 
 /*
- * ldexp(value, exp): return value * (2 ** exp).
+ * ldexp(value, expr): return value * (2 ** expr).
  */
 
 double
-ldexp (double value, int exp)
+ldexp (double value, int expr)
 {
 	double temp;
 #if __GNUC__ >= 2
 	__asm ("fscale"
 		: "=t" (temp)
-		: "0" (value), "u" ((double)exp));
+		: "0" (value), "u" ((double)expr));
 #else
 	__asm ("fscale; fstp %%st(1)"
 		: "=f" (temp)
-		: "f" (value), "0" ((double)exp));
+		: "f" (value), "0" ((double)expr));
 #endif
 	return (temp);
 }

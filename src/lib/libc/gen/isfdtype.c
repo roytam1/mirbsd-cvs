@@ -31,5 +31,5 @@ isfdtype(int fd, int fdtype)
 	if (fstat(fd, &sb) != 0)
 		return (-1);
 
-	return ((sb.st_mode & S_IFMT) == fdtype);
+	return ((sb.st_mode & S_IFMT) == (mode_t)fdtype);
 }

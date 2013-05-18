@@ -1,4 +1,4 @@
-/**	$MirOS: src/lib/libc/db/btree/bt_split.c,v 1.2 2005/03/06 20:28:35 tg Exp $ */
+/**	$MirOS: src/lib/libc/db/btree/bt_split.c,v 1.3 2005/09/22 20:07:46 tg Exp $ */
 /*	$OpenBSD: bt_split.c,v 1.13 2005/08/05 13:03:00 espie Exp $	*/
 
 /*-
@@ -202,7 +202,7 @@ __bt_split(BTREE *t, PAGE *sp, const DBT *key, const DBT *data, int flags,
 		}
 
 		/* Split the parent page if necessary or shift the indices. */
-		if (h->upper - h->lower < nbytes + sizeof(indx_t)) {
+		if ((size_t)h->upper - h->lower < nbytes + sizeof(indx_t)) {
 			sp = h;
 			h = h->pgno == P_ROOT ?
 			    bt_root(t, h, &l, &r, &skip, nbytes) :

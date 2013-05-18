@@ -88,7 +88,7 @@ xdr_pmaplist(XDR *xdrs, struct pmaplist **rp)
 	 */
 	bool_t more_elements;
 	int freeing = (xdrs->x_op == XDR_FREE);
-	struct pmaplist **next;
+	struct pmaplist **next = NULL;
 
 	while (TRUE) {
 		more_elements = (bool_t)(*rp != NULL);

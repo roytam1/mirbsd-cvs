@@ -1,4 +1,4 @@
-/**	$MirOS: src/lib/libc/gen/getpwent.c,v 1.2 2005/03/06 20:28:40 tg Exp $ */
+/**	$MirOS: src/lib/libc/gen/getpwent.c,v 1.3 2005/09/22 20:39:59 tg Exp $ */
 /*	$OpenBSD: getpwent.c,v 1.34 2005/08/08 08:05:34 espie Exp $ */
 /*
  * Copyright (c) 1988, 1993
@@ -42,7 +42,7 @@
 #include <limits.h>
 #include <netgroup.h>
 
-__RCSID("$MirOS: src/lib/libc/gen/getpwent.c,v 1.2 2005/03/06 20:28:40 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/gen/getpwent.c,v 1.3 2005/09/22 20:39:59 tg Exp $");
 
 static struct passwd _pw_passwd;	/* password structure */
 static DB *_pw_db;			/* password database */
@@ -207,7 +207,7 @@ __hashpw(DBT *key)
 	p += sizeof(time_t);
 
 	/* See if there's any data left.  If so, read in flags. */
-	if (data.size > (p - (char *)data.data)) {
+	if (data.size > (size_t)(p - (char *)data.data)) {
 		memmove((char *)&_pw_flags, p, sizeof(int));
 		p += sizeof(int);
 	} else

@@ -1,4 +1,4 @@
-# $MirOS: src/lib/libc/gen/Makefile.inc,v 1.4 2005/09/22 21:21:08 tg Exp $
+# $MirOS: src/lib/libc/gen/Makefile.inc,v 1.5 2006/01/24 20:14:49 tg Exp $
 # $OpenBSD: Makefile.inc,v 1.37 2005/02/01 15:12:28 millert Exp $
 
 # gen sources
@@ -25,6 +25,26 @@ SRCS+=  alarm.c assert.c auth_subr.c authenticate.c \
 
 # indirect reference stubs, to be removed soon.
 SRCS+=	_sys_errlist.c _sys_nerr.c _sys_siglist.c
+
+# for now...
+CFLAGS_auth_subr.o+= -Wno-error
+CFLAGS_authenticate.o+= -Wno-error
+CFLAGS_disklabel.o+= -Wno-error
+CFLAGS_exec.o+= -Wno-cast-qual
+CFLAGS_fstab.o+= -Wno-error
+CFLAGS_fts.o+= -Wno-error
+CFLAGS_ftw.o+= -Wno-cast-qual
+CFLAGS_getcap.o+= -Wno-cast-qual
+CFLAGS_getnetgrent.o+= -Wno-error
+CFLAGS_getusershell.o+= -Wno-cast-qual
+CFLAGS_login_cap.o+= -Wno-error
+CFLAGS_nftw.o+= -Wno-error
+CFLAGS_psignal.o+= -Wno-cast-qual
+CFLAGS_sethostname.o+= -Wno-cast-qual
+CFLAGS_syslog.o+= -Wno-missing-format-attribute		# gcc problem
+CFLAGS_syslog.o+= -Wno-cast-qual
+CFLAGS_ttyname.o+= -Wno-shadow
+CFLAGS__sys_nerr.o+= -Wno-error
 
 # machine-dependent gen sources
 # m-d Makefile.inc must include sources for:
