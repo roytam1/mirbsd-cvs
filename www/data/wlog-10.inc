@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.408 2012/12/15 13:24:19 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.409 2012/12/16 22:59:15 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -9605,4 +9605,44 @@ Tag: debian politics
  Konsequenzen keine Angst haben, organisiert. Die werden dann maximal
  Märtyrer. Ich wiederhole nochmal für die Politiker und die ganz langsamen
  unter den Lesern: Überwachung verhindert <em>keine</em> Straftat.</p>
+----
+Date: 31.12.2012 22:36
+Author: tg@
+Title: Not just Amigas, editors and errnos
+Tag: debian mksh
+
+<p><a href="@@RELPATH@@mksh.htm">mksh</a> made <a
+ href="http://phoronix.com/forums/showthread.php?76247-Debian-Brought-Back-To-Life-On-M68K-Based-Amigas">quite</a> <a
+ href="http://linux.slashdot.org/story/12/12/26/163222/debian-m68k-port-resurrected">some</a> <a
+ href="http://www.solidot.org/story?sid=32869">waves</a> (machine <a
+ href="http://sprunge.us/UPGA">translation</a> of the third article) recently.
+ Let’s state it’s not just Amigas – ara5 is a buildd running the Atari kernel,
+ an emulated though. On the other hand, the bare-metal Ataris used to be the
+ fastest buildds, so I expect we get them back online soonish. I’m currently
+ fighting with some buildd software bugfixes, but once they’re in, we will
+ make more of them. Oh, and porterboxen! Does anyone want to host a VM with a
+ porterbox? Requirements: wheezy host system (can be emulated), 1 GiB RAM, one
+ CPU core with about 6500 BogoMIPS or more (so the emulated system has decent
+ speed; an AMD Phenom II X4 3.2 GHz does just fine). Oh, and mksh is <a
+ href="@@RELPATH@@mksh_bld.htm">ported</a> to more and more platforms, like
+ 386BSD 0.0 with GCC 1.39, and QNX 4 with Watcom… and more bugfixes are also
+ being worked on. And let’s not forget features!</p>
+<p><a href="@@RELPATH@@jupp.htm">jupp</a> got refreshed: it’s got a bracketed
+ paste mode, which is even auto-enabled on <tt>xterm-xfree86</tt> (though the
+ xterm(1) in MirBSD’s a tad too old to know it; will update that later, just
+ imported sendmail(1) 8.14.6 and lynx(1) 2.8.8dev.15 into base, more to come)
+ and will be enhanced later (should disable auto-indent, wordwrap, status line
+ updates, and possibly more), lots of new functions and bindings, now uses
+ mkstemp(3) to create backup files race-free, and more (read the NEWS file).</p>
+<p>In MirBSD, Benny and I just added a number of <tt>errno</tt>s, mostly for
+ SUSv4 compliance and being able to compile more software from pkgsrc® without
+ needing to patch. This is being tested right now (although I should probably
+ go out and watch fireworks in less than a half-hour), together with the new
+ imports and the bunch of small fixes we accumulate (even though <em>most</em>
+ development in MirBSD is currently in mksh(1) and similar doesn’t mean that
+ <em>all</em> is, or worse, we were dead, which we aren’t). I’ll publish a
+ new snapshot some time in January. The Grml 2012.12 also contains a pretty
+ up-to-date MirBSD, with a boot(8/i386)loader that now ignores GUID partition
+ table entries when deciding what to use for the ‘a’ slice.</p>
+<p>If you haven’t already done so, read Benjamin Mako Hill’s writings!</p>
 ----
