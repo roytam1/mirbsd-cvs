@@ -1,8 +1,8 @@
-# $MirOS: ports/devel/libglade/Makefile,v 1.11 2007/06/21 17:01:38 bsiegert Exp $
+# $MirOS: ports/devel/libglade/Makefile,v 1.12 2009/08/16 17:16:58 tg Exp $
 # $OpenBSD: Makefile,v 1.7 2004/12/22 06:31:05 espie Exp $
 
 COMMENT=		library for loading GLADE interface files at runtime
-VSN=			2.6.1
+VSN=			2.6.3
 DISTNAME=		libglade-${VSN}
 PKGNAME=		libglade2-${VSN}-${DASH_VER}
 CATEGORIES=		devel

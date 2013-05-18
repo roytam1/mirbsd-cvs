@@ -1,8 +1,8 @@
-$MirOS$
+$MirOS: ports/devel/libglade/patches/patch-Makefile_in,v 1.2 2005/12/28 18:20:52 bsiegert Exp $
 $OpenBSD: patch-Makefile_in,v 1.2 2004/06/23 03:23:48 marcm Exp $
---- Makefile.in.orig	Fri Feb 11 14:11:01 2005
-+++ Makefile.in	Wed Dec 28 18:08:53 2005
-@@ -819,9 +819,7 @@ uninstall-info: uninstall-info-recursive
+--- Makefile.in.orig	Mon Aug 18 07:59:18 2008
++++ Makefile.in	Thu Oct 18 18:12:48 2012
+@@ -847,9 +847,7 @@ uninstall-am: uninstall-binSCRIPTS unins
  
  
  @HAVE_XMLCATALOG_TRUE@install-data-local:
