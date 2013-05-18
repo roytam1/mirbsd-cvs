@@ -145,7 +145,7 @@ extern  u_int32_t       _getlong(const unsigned char *);
 #endif
 
 __SCCSID("@(#)host.c	e07@nikhef.nl (Eric Wassenaar) 961013");
-__RCSID("$MirOS: src/usr.bin/host/host.c,v 1.5 2010/06/08 08:38:29 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/host/host.c,v 1.6 2011/04/18 13:31:45 tg Exp $");
 
 #ifndef NO_DATA
 #define NO_DATA	NO_ADDRESS	/* used here only in case authoritative */
@@ -171,7 +171,7 @@ __RCSID("$MirOS: src/usr.bin/host/host.c,v 1.5 2010/06/08 08:38:29 tg Exp $");
 #define MAXPACKET 8192		/* but tcp packets can be considerably larger */
 #endif
 #else /* !0 */
-#define MAXPACKET 262144	/* accomodate large AXFR */
+#define MAXPACKET 262144	/* accommodate large AXFR */
 #endif
 #ifndef HFIXEDSZ
 #define HFIXEDSZ 12		/* actually sizeof(HEADER) */
