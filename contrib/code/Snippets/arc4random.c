@@ -1,5 +1,5 @@
 static const char __vcsid[] = "@(#) MirOS contributed arc4random.c (old)"
-    "\n	@(#)rcsid_master: $MirOS: contrib/code/Snippets/arc4random.c,v 1.24 2009/11/29 18:24:21 tg Exp $"
+    "\n	@(#)rcsid_master: $MirOS: contrib/code/Snippets/arc4random.c,v 1.25 2010/01/06 17:52:31 tg Exp $"
     ;
 
 /*-
@@ -278,8 +278,8 @@ stir_finish(uint8_t av)
 	av &= 0x0FU;
 	while (n--)
 		arc4_getbyte();
-	while (n < sizeof(tb))
-		tb[n++] = arc4_getbyte();
+	while (++n < sizeof(tb))
+		tb[n] = arc4_getbyte();
 	if (arc4_writeback(tb, sizeof(tb), 0))
 		arc4_getbyte();
 	while (av--)
