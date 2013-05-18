@@ -1,4 +1,4 @@
-# $MirOS: ports/mailnews/pine/Makefile,v 1.24 2008/10/04 19:03:17 tg Exp $
+# $MirOS: ports/mailnews/pine/Makefile,v 1.25 2008/12/09 13:05:05 tg Exp $
 # $OpenBSD: Makefile,v 1.56 2003/10/05 21:42:29 jakob Exp $
 
 ONLY_FOR_PLATFORM=	OpenBSD:*:* MirBSD:*:*
@@ -100,7 +100,8 @@ do-build:
 .for _i in ${ATSED_DEPS}
 	cd ${WRKSRC} && mv ${_i} ${_i}.bak && sed ${ATSED} <${_i}.bak >${_i}
 .endfor
-	@cd ${WRKSRC}; chmod a+x build; ./build ${PINE_BUILD_FLAGS} bso
+	@cd ${WRKSRC} && chmod a+x build && exec ${SETENV} ${MAKE_ENV} \
+	    ./build ${PINE_BUILD_FLAGS} bso
 
 do-install:
 .for _i in ${ATSED_FILES}
