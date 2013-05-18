@@ -617,7 +617,6 @@
 ./usr/mdec/boot.fd
 ./usr/mdec/bootxx
 ./usr/mdec/bootxx.sh
-./usr/mdec/bootxx.tar
 ./usr/mdec/installboot
 ./usr/obj
 ./usr/ports
