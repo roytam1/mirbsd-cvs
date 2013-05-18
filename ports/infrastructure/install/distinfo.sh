@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/install/distinfo.sh,v 1.35 2007/01/22 18:54:10 tg Exp $
+# $MirOS: ports/infrastructure/install/distinfo.sh,v 1.36 2007/03/05 21:34:53 tg Exp $
 
 case $what in
 make)
@@ -29,7 +29,7 @@ mtree)
 	distinfo_md5=86cf94a633f136d650f76d065bbd7e0e
 	distinfo_sum=3117223138
 	distinfo_size=17999
-	distinfo_date="Sep 12 19:19"
+	distinfo_date="Sep 12  2005"
 	;;
 nroff)
 	f_key=signkey
@@ -39,7 +39,7 @@ nroff)
 	distinfo_md5=c9336d68a54a1965e37fcf4dab19cba3
 	distinfo_sum=1195567255
 	distinfo_size=224960
-	distinfo_date="Sep 12 19:34"
+	distinfo_date="Sep 12  2005"
 	;;
 pkgtools)
 	f_key=gzsigkey.pub
