@@ -1,4 +1,4 @@
-# $MirOS: src/include/Makefile,v 1.12 2006/04/19 19:30:07 tg Exp $
+# $MirOS: src/include/Makefile,v 1.13 2006/05/21 12:15:32 tg Exp $
 # $OpenBSD: Makefile,v 1.135 2005/07/10 06:53:44 grange Exp $
 # $NetBSD: Makefile,v 1.59 1996/05/15 21:36:43 jtc Exp $
 # @(#)Makefile	5.45.1.1 (Berkeley) 5/6/91
@@ -31,7 +31,7 @@ LDIRS=	altq crypto ddb dev isofs miscfs net netatalk netinet netinet6 \
 	netipx netisdn netnatm nfs ntfs scsi sys ufs uvm
 
 # Directories with an includes target
-RDIRS=	../lib/libcdk ../lib/libcompat ../lib/libcurses ../lib/libedit \
+RDIRS=	../lib/libcompat ../lib/libcurses ../lib/libedit \
 	../lib/libevent ../lib/libexpat ../lib/libform ../lib/libkeynote \
 	../lib/libmenu ../lib/libocurses ../lib/libossaudio ../lib/libpanel \
 	../lib/libpcap ../lib/libpng ../lib/libpthread ../lib/librpcsvc \
@@ -41,8 +41,7 @@ RDIRS=	../lib/libcdk ../lib/libcompat ../lib/libcurses ../lib/libedit \
 	../sys/arch/${MACHINE}
 
 # Places using Makefile that needs a prerequisite target met before includes
-PRDIRS=	../lib/libcdk ../lib/librpcsvc ../lib/libssl/crypto \
-	../sys/arch/${MACHINE}/stand
+PRDIRS=	../lib/librpcsvc ../lib/libssl/crypto ../sys/arch/${MACHINE}/stand
 
 NOOBJ=	yes
 
