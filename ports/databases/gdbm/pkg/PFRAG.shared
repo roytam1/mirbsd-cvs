@@ -1,3 +1,0 @@
-@comment $MirOS$
-@comment $OpenBSD: PFRAG.shared,v 1.2 2002/11/05 05:31:18 brad Exp $
-@lib lib/libgdbm.so.3.0
