@@ -1,11 +1,12 @@
 <!-- PageID: mksh -->
-<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.88 2007/03/05 01:57:53 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.89 2007/03/05 21:34:53 tg Exp $</small>
 
 <h1>mksh(1) R29</h1>
 <p>This is the MirBSD&trade; Korn Shell, a more or less portable
  version of the pdksh derivate which comes, as an alternative to
  the default (and not used by anyone sane) C Shell, or (ancient)
  Bourne shell, with MirOS.</p>
+<p>Go directly to the <a href="#toc">Table of Contents</a>.</p>
 <p>This website is always accessible via a redirection at <a
  href="http://mirbsd.de/mksh">http://mirbsd.de/mksh</a> and <a
  href="http://mirbsd.de/mksh-fornow">this page</a> is accessible
@@ -59,7 +60,7 @@
 <p>If you need help converting your $PS1, join <tt>#!/bin/mksh</tt>
  (yes, that's really the name of the channel, no kidding) on Freenode.</p>
 
-<h2>Table of Contents</h2><ul>
+<h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#clog">ChangeLog</a></li>
  <li><a href="#plans">future plans</a></li>
  <li><a href="#prefetch">Requirements</a></li>
@@ -84,6 +85,31 @@
  <li>Plan porting mksh to <a href="http://www.minix3.org/">Minix 3</a>
   (not finished yet)</li>
  <li>Plan porting to other UNIX&reg;-like systems via HP Testdrive</li>
+</ul>
+<p>Immediately upgrade to mksh R29b please:</p><ul>
+ <li>Bugfix: display UTF-8 control characters (U+0080..U+009F, i.e.
+  everything with a wcwidth(3) of -1) the same as ASCII control
+  characters (U+0001..U+001F), i.e. with a ctrl caret followed by
+  its value XOR U+0040; subsequently treat their width as 2;
+  fix crash (CPU hog in spinning loop) on meta-tab+backspace</li>
+ <li>Fix setlocale description in manual page</li>
+ <li>in the utf-8 mode, invalid multibytes are now handled more strictly:<ul>
+   <li>if it's in x_literal() (“quote” / ^V) mode, it's accepted like now</li>
+   <li>if it's a mb sequence start, it's rejected with a beep</li>
+   <li>if it's a mb continuation, the whole sequence is silently rejected</li>
+  </ul>
+  This makes command line editing when accidentally hitting, e.g. with
+  my mircvs://contrib/samples/dot.Xmodmap layout, Mode_switch-x much
+  more robust.</li>
+ <li>remove unused utf_width() macro</li>
+ <li>if $CC supports -fstack-protector-all, add it to CFLAGS</li>
+ <li>shut up some more gcc 4.1.2 warnings</li>
+ <li>if $CC supports -fno-tree-vrp and is subject to the <a
+  href="http://gcc.gnu.org/bugzilla/show_bug.cgi?id=30785">null pointer
+  test optimised away</a> bug, use -fno-tree-vrp to work around it</li>
+ <li>in Build.sh, simplify a.out / a.exe (Cygwin) issues</li>
+ <li>shrink the manual page to 39 pages sized DIN A4 when built as PS/PDF</li>
+ <li>fix a typo in the manual page</li>
 </ul>
 <p>Please upgrade to mksh R29 due to the following changes:</p><ul>
  <li>Fix portability of regression tests using fgrep(1), twice</li>
@@ -498,9 +524,9 @@
  <li><a href="http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R29.cpio.gz">http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R29.cpio.gz</a></li>
  <li>Please use gzsig(1) to verify the integrity of the distfile instead!
   Hashes are only so you know which distfile you want.</li>
- <li>RMD160 (mksh-R29.cpio.gz) = a84319c9407f7a36861b580e4196b0e7787c7e86</li>
- <li>1557967472 237759 /MirOS/dist/mir/mksh/mksh-R29.cpio.gz</li>
- <li>MD5 (mksh-R29.cpio.gz) = 77d6eba538d68d957bb97065f2b4d895</li>
+ <li>RMD160 (mksh-R29b.cpio.gz) = a329df3c012819dc5fb593dda5d9a52951bda81b</li>
+ <li>1632152196 238113 /MirOS/dist/mir/mksh/mksh-R29b.cpio.gz</li>
+ <li>MD5 (mksh-R29b.cpio.gz) = a21850403bd30bab461f2fc9f9b803b8</li>
 </ul>
 
 <h2>Installation</h2>
@@ -515,14 +541,14 @@
  please note that most of them, seen on Mozilla&reg; and
  its derivates as well as Microsoft&reg; Internet Explorer,
  have a bug where the file is saved correctly
- as <em>mksh-R29.cpio.gz</em> but already decompressed.</p>
+ as <em>mksh-R29b.cpio.gz</em> but already decompressed.</p>
 
 <h3 id="extract">Unpacking</h3>
-<p>On decent systems, you can just use <tt>tar xzf mksh-R29.cpio.gz</tt>
+<p>On decent systems, you can just use <tt>tar xzf mksh-R29b.cpio.gz</tt>
  to extract the file. On quite damaged systems such as basically everything
  which is not MirOS or anything else with <a href="/?MirCpio">MirCpio</a>
  (paxmirabilis) or some other kind of paxtar, use <tt>gzip -dc
- mksh-R29.cpio.gz | cpio -mid</tt> or <tt>gzip -dc mksh-R29.cpio.gz |
+ mksh-R29b.cpio.gz | cpio -mid</tt> or <tt>gzip -dc mksh-R29b.cpio.gz |
  pax -r</tt> instead.</p>
 <p>Of course, skip the gzip stage (use cat) or the 'z' flag
  if your browser already decompressed the file.</p>
@@ -599,9 +625,9 @@
  <a href="http://grml.org/">grml</a>, and other Debian derivates
  probably have it as well. <a href="http://dev-loki.blogspot.com/">Pascal
  &quot;loki&quot; Bleser</a> of <a href="http://planet.fosdem.org/">FOSDEM</a>
- fame has packaged mksh for SuSE GNU/Linux (<a
+ fame has packaged mksh for SuSE GNU/Linux (fixed for Fedora and Debian, <a
  href="http://linux01.gwdg.de/~pbleser/rpm-navigation.php?cat=System/mksh/">link
- to webinterface)</a>, which is hosted at at least two mirrors, a <a
+ to (broken) webinterface)</a>, which is hosted at at least two mirrors, a <a
  href="http://ftp.gwdg.de/pub/linux/misc/suser-guru/rpm/packages/System/mksh/">primary</a>
  and a <a href="http://ftp.skynet.be/pub/suser-guru/rpm/packages/System/mksh/">fast</a>
  site. Arch GNU/Linux is said to also package mksh. <strong>NOTE:</strong>
@@ -844,4 +870,6 @@
  these people who dedicated pdksh to the public, and asserts
  a collective copyright on the code.</p>
 <p>The MirBSD Korn shell is not related to the <a
- href="http://www.kornshell.com/">original Korn Shell</a>.</p>
+ href="http://www.kornshell.com/">original (AT&amp;T) Korn Shell</a>,
+ other that it, like AT&amp;T ksh, tries to implement a programming
+ language known as Korn Shell.</p>
