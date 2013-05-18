@@ -1,12 +1,12 @@
-# $MirOS: www/src/mksh.hts,v 1.50 2007/09/03 09:31:40 tg Exp $
+# $MirOS: www/src/mksh.hts,v 1.51 2007/09/07 19:31:05 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.50 2007/09/03 09:31:40 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.51 2007/09/07 19:31:05 tg Exp $'
 mws_content <<'EOF'
-<h1>mksh(1) R30</h1>
+<h1>mksh(1) R31</h1>
 <p>This is the website of the MirBSD™ Korn Shell, an actively developed free
  implementation of the Korn Shell programming language and a successor to the
  Public Domain Korn Shell (pdksh).</p>
@@ -32,16 +32,16 @@ mws_content <<'EOF'
 </ul>
 
 <h2 id="prefetch">Introduction</h2>
-<p>The current version of mksh is <strong>mksh R30</strong> from
- <em>26 July 2007</em>.</p>
+<p>The current version of mksh is <strong>mksh R31</strong> from
+ <em>7 September 2007</em>.</p>
 <p>Thanks to “Der Verein <a href="http://www.trash.net/verein/">trash.net</a>”
  for sponsoring access to a Solaris 8 box. Thanks to HP TestDrive, which helps
  in keeping mksh portable to several Unixes and compilers, and track down some
  architecture- or glibc-specific bugs. Thanks to Julian “yofuh” Wiesener for
  just another account on a Sun E420 on Solaris 11β. Thanks to someone who
  prefers to stay anonymous due to tons of red tape for providing access to an
- AIX 5.3 system with gcc and xlC installed. Thanks to gnubber's admin providing
- shell access to a Debian GNU/HURD system.</p>
+ AIX 5.3 system with gcc and xlC installed. Thanks to gnubber's admin (Samuel
+ “youpi” Thibault) for providing shell access to a Debian GNU/HURD system.</p>
 <p>What is mksh(1)? – Short answer: The MirBSD Korn Shell. Okay, but what
  exactly does it do, or why another shell? These questions will be answered
  <a href="#contrib">below</a> for the people interested. Right now, you only
@@ -130,12 +130,17 @@ mws_content <<'EOF'
 <h3 id="mirrors">Known Mirrors</h3><ul>
  <li><a href="http://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R30.cpio.gz">http://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R30.cpio.gz</a></li>
  <li><a href="http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R30.cpio.gz">http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R30.cpio.gz</a></li>
+ <li><a href="http://www.mirbsd.org/MirOS/dist/mir/mksh/ports/mksh_31.1.orig.tar.gz">http://www.mirbsd.org/MirOS/dist/mir/mksh/ports/mksh_31.1.orig.tar.gz</a></li>
+ <li><a href="http://pub.allbsd.org/MirOS/dist/mir/mksh/ports/mksh_31.1.orig.tar.gz">http://pub.allbsd.org/MirOS/dist/mir/mksh/ports/mksh_31.1.orig.tar.gz</a></li>
+ <li><a href="http://ftp.debian.org/debian/pool/main/m/mksh/mksh_31.1.orig.tar.gz">http://ftp.{*.,}debian.org/debian/pool/main/m/mksh/mksh_31.1.orig.tar.gz</a></li>
 </ul>
 <h3 id="hashes">Checksums and Hashes</h3><ul>
  <li>RMD160 (mksh-R30.cpio.gz) = a23a1df6d7158e78283422d64db19a15f10e81b8</li>
  <li>TIGER (mksh-R30.cpio.gz) = e5e8cdd8edc7530a8b486c5fc00b551aafe396954c147a95</li>
  <li>1122404631 245700 /MirOS/dist/mir/mksh/mksh-R30.cpio.gz</li>
  <li>MD5 (mksh-R30.cpio.gz) = 184a63aa5b1450581dc463148f3d245e</li>
+ <li>SHA1 (mksh_31.1.orig.tar.gz) = 23d6db0fb8d87ceadf17ee68b04446aae9e4fe39</li>
+ <li style="list-style:none;">All official distfiles are gzsig(1)d.</li>
 </ul>
 
 <h3 id="decomp">Decompression</h3>
@@ -150,7 +155,7 @@ mws_content <<'EOF'
 <li>$ tar xzf mksh-R30.cpio.gz &amp;&amp; cd mksh</li>
 <li>$ gzip -dc mksh-R30.cpio.gz | cpio -mid &amp;&amp; cd mksh</li>
 <li>$ gzip -dc mksh-R30.cpio.gz | pax -r &amp;&amp; cd mksh</li>
-<li>$ tar xzf mksh_30.1.orig.tar.gz &amp;&amp; cd mksh-30.1</li>
+<li>$ tar xzf mksh_31.1.orig.tar.gz &amp;&amp; cd mksh-31.1</li>
 </ul>
 
 <h3 id="compile">Compilation</h3>
@@ -204,7 +209,7 @@ mws_content <<'EOF'
 <p>You can override certain mirtoconf checks by setting environment variables
  like <tt>HAVE_REVOKE=0</tt> (default for Linux) – if these are set to 0 or 1,
  the values are used; if unset, the values are probed.</p>
-<p>Starting in mksh R30b, the mknod(8) builtin can be disabled by HAVE_MKNOD=0.
+<p>Starting in mksh R31, the mknod(8) builtin can be disabled by HAVE_MKNOD=0.
  Other useful items are HAVE_SETLOCALE_CTYPE=0, HAVE_PERSISTENT_HISTORY=0.</p>
 
 <h4 id="oespec">Operating Environment specific notes</h4>
@@ -276,12 +281,12 @@ mws_content <<'EOF'
  versions might be supported as well. This compiler is a primary choice.</p>
 
 <h5 id="oe_tcc">Compiler: tcc (Tiny C)</h5>
-<p>Support for Fabrice Bellard’s tcc appeared in mksh R30b, although its
+<p>Support for Fabrice Bellard’s tcc appeared in mksh R31, although its
  unability to do ‘-E’ in older versions gave us some headache, and glibc
  currently makes it impossible to link the final executable.</p>
 
 <h5 id="oe_t15">Compiler: TenDRA (maybe Ten15 too)</h5>
-<p>Support for TenDRA appeared in mksh R30b and appears to be solid; mksh
+<p>Support for TenDRA appeared in mksh R31 and appears to be solid; mksh
  uses the ‘system’ profile for compiling by default.</p>
 
 <h5 id="oe_aix">OS: AIX</h5>
@@ -359,6 +364,8 @@ mws_content <<'EOF'
  msc – I could not get gcc-egcs, gcc-2.95, gcc-mingw, icc to work) but the
  platform itself is very flakey, and even some regression tests crash, due
  to target limitations apparently.</p>
+<p>My UWIN installation has been wrecked, so only mksh R30 is tested, mksh
+ R31 is not. Sorry folks.</p>
 
 <h3 id="postbuild">After compiling</h3>
 <p>The <tt>Build.sh</tt> script generates an executable (“mksh”, except on
@@ -404,8 +411,7 @@ mws_content <<'EOF'
 <li><a href="http://www.debian.org/">Debian</a> GNU/Linux, GNU/HURD and
  GNU/kFreeBSD have an <a href="http://packages.debian.org/mksh">mksh package</a>
  maintained by the MirOS Project and uploaded (sponsored) by Bastian “waldi”
- Blank; the debconf questions were taken from dash. The source package is <a
- href="/MirOS/dist/mir/mksh/ports/mksh_30.1-1.dsc">here, too</a>.</li>
+ Blank; the debconf questions were taken from dash.</li>
 <li><a href="http://www.gentoo.org/">Gentoo GNU/Linux</a> has an mksh <a
  href="http://sources.gentoo.org/viewcvs.py/gentoo-x86/app-shells/mksh/">ebuild</a>
  created by Hanno Böck.</li>
@@ -509,7 +515,9 @@ mws_content <<'EOF'
  expansion and some aliases as side effect. There is no limit (well, 2³¹ probably) on
  array sizes any more. Many bugs and security holes have been closed in
  mksh and are still in oksh and OpenBSD ksh. The user interface has much
- less bugs and surprises; emacs editing mode is enabled by default.</p>
+ less bugs and surprises; emacs editing mode is enabled by default.
+ In contrast to oksh, <tt>set -o arc4random</tt> can be used to control
+ which generator for <tt>$RANDOM</tt> is used.</p>
 <p>mksh is the heir of pdksh and contains all the latest fixes from upstream
  (so ca. 1995) and Debian, except a change which breaks (at least) BSD make
  due to different errorlevel (return/exit code) handling. See above for other
@@ -541,6 +549,7 @@ mws_content <<'EOF'
 <p>The MirOS Project has tested mksh on the following operating systems,
  asked people to test, and hunted mksh down in these packaging systems:</p>
 <ul>
+ <li>MirOS #10 RC6 (sparc gcc3.4.6)</li>
  <li>MirOS #10 RC2 (i386 gcc3.4.6)</li>
  <li>MirOS #10 RC1 (i386 SUNcc5.9 Linux_i386 2007/05/03, GNU ld 2.13.90.0.2 20020802)</li>
  <li>MirOS #7-stable (sparc gcc2.95)</li>
@@ -582,7 +591,7 @@ mws_content <<'EOF'
  <li>Debian GNU/kFreeBSD 4.0 sid 6.2-1-686 (i386 gcc1:3.3.6-15)</li>
  <li>Debian GNU/kFreeBSD 4.0 sid 6.2-1-686 (i386 gcc3.4.6-5)</li>
  <li>Debian GNU/kFreeBSD 4.0 sid 6.2-1-686 (i386 gcc4.0.3-7)</li>
- <li>Debian GNU/kFreeBSD 4.0 sid 6.2-1-686 (i386 gcc4.1.2-13)</li>
+ <li>Debian GNU/kFreeBSD 4.0 sid 6.2-1-686 (i386 gcc4.1.2-15)</li>
  <li>Debian GNU/kFreeBSD 4.0 sid 6.2-1-686 (i386 gcc4.2-20070609-1)</li>
  <li>Debian GNU/kFreeBSD 4.0 sid 6.2-1-686 (i386 gcc4.2.1-1)</li>
  <li>Debian GNU/kFreeBSD 4.0 sid 6.2-1-686 (i386 tcc0.9.24cvs20070502) <em>didn't link with libc*.a</em></li>
@@ -636,8 +645,10 @@ mws_content <<'EOF'
 <li>${foo//bar/baz/g}</li>
 <li>${foo:S/bar/baz/g} ${foo:C/bar/baz/x}</li>
 <li>A sensible website</li>
-<li>Build on more platforms – PW32, Minix 3, Plan 9, Syllable</li>
-<li>Build with platforms' native tools – ACK, kencc, ICC/UWIN, egcs/UWIN</li>
+<li>Build and actually work on more platforms – PW32, Minix 3,
+ Plan 9, Syllable</li>
+<li>Build with more platforms’ native tools or other compilers
+ – ACK, kencc, ICC/UWIN, egcs/UWIN, tcc</li>
 </ul>
 
 <h2 id="clog">Recent Changes</h2>
@@ -649,7 +660,7 @@ mws_content <<'EOF'
 </ul>
 <p>mksh R31 was released as part of MirOS #10 with these news:</p><ul>
  <li>Support the TenDRA compiler (possibly also Ten15, not tried)</li>
- <li>Begin supporting Fabrice Bellard's Tiny C Compiler (tcc on Debian
+ <li>Begin supporting Fabrice Bellard’s Tiny C Compiler (tcc on Debian
   cannot link due to duplicate symbols in GNU libc, thus unfinished)</li>
  <li>Improve some mirtoconf checks (most notably, mknod(2) and macros)</li>
  <li>Add new emacs editing command “clear-screen” (<tt>ESC ^L</tt>)
