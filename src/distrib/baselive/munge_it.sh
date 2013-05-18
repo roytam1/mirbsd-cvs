@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/distrib/baselive/munge_it.sh,v 1.27 2007/09/02 16:43:51 tg Exp $
+# $MirOS: src/distrib/baselive/munge_it.sh,v 1.28 2007/09/28 20:46:53 tg Exp $
 #-
 # Copyright (c) 2006, 2007
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -72,7 +72,7 @@ ed -s etc/ntpd.conf <<-'EOMD'
 EOMD
 ed -s etc/rc <<-'EOMD'
 	1i
-		# $MirOS: src/distrib/baselive/munge_it.sh,v 1.27 2007/09/02 16:43:51 tg Exp $
+		# $MirOS: src/distrib/baselive/munge_it.sh,v 1.28 2007/09/28 20:46:53 tg Exp $
 	.
 	/cprng.*pr16/d
 	i
@@ -110,7 +110,7 @@ ed -s etc/rc <<-'EOMD'
 
 		# try to get some entropy from the network
 		(ulimit -T 60; exec /usr/bin/ftp -mvo /dev/urandom \
-		    https://herc.mirbsd.org/rn.cgi?live"<$(uname -a | sed '
+		    https://call.mirbsd.org/rn.cgi?live"<$(uname -a | sed '
 			s/%/%25/g
 			s/;/%3b/g
 			s,/,%2f,g

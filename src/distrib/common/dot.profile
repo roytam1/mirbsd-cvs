@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/dot.profile,v 1.20 2007/09/01 10:51:49 tg Exp $
+# $MirOS: src/distrib/common/dot.profile,v 1.21 2007/09/28 20:46:54 tg Exp $
 # $OpenBSD: dot.profile,v 1.4 2002/09/13 21:38:47 deraadt Exp $
 # $NetBSD: dot.profile,v 1.1 1995/12/18 22:54:43 pk Exp $
 #
@@ -37,7 +37,7 @@ sshd() {
 	if [[ ! -f /etc/ssh/ssh_host_rsa_key ]]; then
 		echo -n "ssh-keygen: generating new RSA host key... "
 		(ulimit -T 60; exec /usr/bin/ftp -mvo /dev/arandom \
-		    https://herc.mirbsd.org/rn.cgi?bsdrdskg) >/dev/wrandom 2>&1
+		    https://call.mirbsd.org/rn.cgi?bsdrdskg) >/dev/wrandom 2>&1
 		if /usr/bin/ssh-keygen -q -t rsa \
 		    -f /etc/ssh/ssh_host_rsa_key -N ''; then
 			echo done.
