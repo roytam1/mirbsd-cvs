@@ -1,4 +1,4 @@
-# $MirOS: CVSROOT/cvswrappers,v 1.9 2009/06/22 11:05:33 tg Exp $
+# $MirOS: CVSROOT/cvswrappers,v 1.10 2009/11/22 22:06:23 tg Exp $
 #-
 # This file affects handling of files based on their names.
 #
@@ -70,6 +70,8 @@
 *.iso -k 'b'
 *.JAR -k 'b'
 *.jar -k 'b'
+*.JKS -k 'b'
+*.jks -k 'b'
 *.JPEG -k 'b'
 *.jpeg -k 'b'
 *.JPG -k 'b'
