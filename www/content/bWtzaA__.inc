@@ -1,5 +1,5 @@
 <!-- PageID: mksh -->
-<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.47 2006/08/12 21:22:02 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.48 2006/08/12 22:06:48 tg Exp $</small>
 
 <h1>mksh(1) R27e</h1>
 <p>This is the MirBSD&trade; Korn Shell, a more or less portable
@@ -419,6 +419,7 @@
   <li>MirOS BSD #9-stable (i386)</li>
   <li>NetBSD 1.6.1 (pmax)</li>
   <li>Debian GNU/Linux 3.1-stable (i386)</li>
+  <li>Debian GNU/Linux 3.1-testing (s390x)</li>
   <li>DragonFly BSD 1.3-Preview (i386)</li>
   <li>NetBSD 3.0_STABLE (i386)</li>
   <li>Solaris 8 (sun4u)</li>
