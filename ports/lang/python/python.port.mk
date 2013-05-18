@@ -1,4 +1,4 @@
-# $MirOS: ports/lang/python/python.port.mk,v 1.4 2008/05/02 15:10:40 tg Exp $
+# $MirOS: ports/lang/python/python.port.mk,v 1.5 2008/08/12 08:38:45 tg Exp $
 # $OpenBSD: python.port.mk,v 1.10 2004/08/06 07:33:19 xsa Exp $
 
 CATEGORIES+=		lang/python
@@ -14,8 +14,10 @@ BUILD_DEPENDS+=		${_MODPY_BUILD_DEPENDS}
 RUN_DEPENDS+=		${_MODPY_BUILD_DEPENDS}
 
 .if !defined(NO_SHARED_LIBS) || ${NO_SHARED_LIBS:U} != YES
+.  if ${MODPY_VERSION} != "2.5"
 MODPY_EXPAT_DEPENDS=	:python-expat-${MODPY_VERSION}*:lang/python/${MODPY_VERSION},-expat	
 MODPY_TKINTER_DEPENDS=	:python-tkinter-${MODPY_VERSION}*:lang/python/${MODPY_VERSION},-tkinter
+.  endif
 .endif
 
 MODPY_BIN=		${LOCALBASE}/bin/python${MODPY_VERSION}
