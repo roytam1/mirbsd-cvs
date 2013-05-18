@@ -401,7 +401,7 @@ int main(int argc, char **argv, char **envp)
 						/* update keymap */
 						rmkbd(bw->parent->kbd);
 						bw->parent->kbd =
-						    mkkbd(kmap_getcontext(bw->o.context));
+						    mkkbd(kmap_getcontext(bw->o.context, 1));
 					}
 				}
 				bw->b->o = bw->o;

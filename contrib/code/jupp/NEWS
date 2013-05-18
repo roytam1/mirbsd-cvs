@@ -20,6 +20,7 @@ JOE 3.1jupp23
 - jupp: ^[# inserts last math equation; ^[= its result
 - Use ${SHELL:-${EXECSHELL:-/bin/sh}} for all shells and check access
 - After ^KR, the current position is before and ^QP after the insertion
+- ^[p and xterm-xfree86 paste mode (automatic in the latter)
 
 JOE 3.1jupp22
 

@@ -164,6 +164,13 @@ CAP *getcap(unsigned char *name, unsigned int baud, void (*out) (unsigned char *
 	cap->tbuf = vsmk(4096);
 	cap->abuf = NULL;
 	cap->sort = NULL;
+	cap->paste_on = NULL;
+	cap->paste_off = NULL;
+
+	if (!strcmp(name, "xterm-xfree86")) {
+		cap->paste_on = "\033[?2004h";
+		cap->paste_off = "\033[?2004l";
+	}
 
 #ifdef TERMINFO
 	cap->abuf = (unsigned char *) joe_malloc(4096);

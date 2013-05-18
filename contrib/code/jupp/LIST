@@ -180,6 +180,7 @@ Misc
 ----
 beep		Beep
 execmd		Execute a joe command
+keymap		Switch keymap
 math		Calculator
 mathins		Insert last math expression
 mathres		Insert last math result

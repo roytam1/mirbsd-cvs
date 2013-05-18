@@ -759,6 +759,9 @@ different from what is reported in the TERMCAP or TERMINFO entry, you can
 set this with the \fBstty rows nn cols nn\fR command, or by setting the
 \fBLINES\fR and \fBCOLUMNS\fR environment variables.
 
+The \fBxterm\-xfree86\fR terminal allows automatic entering and leaving
+of the bracketed paste mode.
+
 JOE normally expects that flow control between the computer and your
 terminal to use ^S/^Q handshaking (I.E., if the computer is sending
 characters too fast for your terminal, your terminal sends ^S to stop the
