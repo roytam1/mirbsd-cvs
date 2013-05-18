@@ -27,7 +27,7 @@
 #include <stddef.h>
 #include "lib.h"
 
-__RCSID("$MirOS: src/share/misc/licence.template,v 1.24 2008/04/22 11:43:31 tg Rel $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/proc.c,v 1.1 2008/11/02 18:56:30 tg Exp $");
 
 extern char **environ;
 
@@ -181,8 +181,19 @@ int
 vxsystem(bool flag_unlimit, const char *fmt, va_list ap)
 {
 	char *cmd;
-	size_t len;
 	int rv;
+
+	xvasprintf(&cmd, fmt, ap);
+	rv = sxsystem(flag_unlimit, cmd);
+	xfree(cmd);
+	return (rv);
+}
+
+int
+sxsystem(bool flag_unlimit, const char *cmd)
+{
+	if (cmd == NULL)
+		errx(1, "sxsystem: NULL pointer given");
 
 	if (argmax == 0) {
 		if ((argmax = sysconf(_SC_ARG_MAX)) == (size_t)-1) {
@@ -192,15 +203,12 @@ vxsystem(bool flag_unlimit, const char *fmt, va_list ap)
 		argmax -= 32;		/* some space for sh -c */
 	}
 
-	len = xvasprintf(&cmd, fmt, ap);
-	if (len > argmax)
+	if (strlen(cmd) > argmax)
 		errx(1, "vxsystem arguments too big: %s", cmd);
 
 #ifdef DEBUG
 	fprintf(stderr, "Executing 「%s」\n", cmd);
 	fflush(stderr);
 #endif
-	rv = mirsystem(cmd, flag_unlimit);
-	xfree(cmd);
-	return (rv);
+	return (mirsystem(cmd, flag_unlimit));
 }

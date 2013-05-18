@@ -1,4 +1,4 @@
-/**	$MirOS: ports/infrastructure/pkgtools/lib/lib.h,v 1.18 2008/10/12 15:35:22 tg Exp $ */
+/**	$MirOS: ports/infrastructure/pkgtools/lib/lib.h,v 1.20 2008/11/02 18:56:30 tg Exp $ */
 /*	$OpenBSD: lib.h,v 1.14 2003/08/21 20:24:57 espie Exp $	*/
 
 /*
@@ -270,5 +270,7 @@ int xsystem(bool, const char *, ...)
     __attribute__((format (printf, 2, 3)));
 int vxsystem(bool, const char *, va_list)
     __attribute__((format (printf, 2, 0)));
+int sxsystem(bool, const char *)
+    __attribute__((nonnull (2)));
 
 #endif /* _INST_LIB_LIB_H_ */
