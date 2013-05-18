@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.231 2008/11/02 03:22:59 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.232 2008/11/02 03:51:16 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -2423,7 +2423,8 @@ ${FULLDISTDIR}/${_CVS_DISTF${_i:S/-//}}:
 	fi
 	@[[ -e ${FULLDISTDIR}/${_CVS_DISTF${_i:S/-//}} ]] || { \
 		cd ${.CURDIR}; ${MAKE} fetch-depends; \
-		PATH=${_PORTPATH} ${_CVS_FETCH${_i:S/-//}}; \
+		PATH=${_PORTPATH:Q} TMPDIR=${TMPDIR:Q} \
+		    ${_CVS_FETCH${_i:S/-//}}; \
 		file=${@:S@^${DISTDIR}/@@}; \
 		ck=$$(cd ${DISTDIR} && ${_size_fragment}); \
 		if [[ ! -s ${CHECKSUM_FILE} ]]; then \
