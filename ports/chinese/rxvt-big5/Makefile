@@ -1,4 +1,4 @@
-# $MirOS: ports/chinese/rxvt-big5/Makefile,v 1.5 2006/09/14 00:07:33 tg Exp $
+# $MirOS: ports/chinese/rxvt-big5/Makefile,v 1.6 2008/10/05 01:23:43 tg Exp $
 
 BROKEN=		the PLIST just doesnt look right to me...
 
@@ -6,11 +6,9 @@ BROKEN=		the PLIST just doesnt look right to me...
 
 ONLY_FOR_PLATFORM=	OpenBSD:*:i386 MirBSD:*:i386
 
-COMMENT=			color terminal emulator Linux binary
-
-PKGNAME=	zh-rxvt-big5-2.7.8-1
-CATEGORIES=	chinese
-
+COMMENT=		color terminal emulator Linux binary
+PKGNAME=		zh-rxvt-big5-2.7.8-1
+CATEGORIES=		chinese
 
 PERMIT_PACKAGE_CDROM=   Yes
 PERMIT_PACKAGE_FTP=     Yes
@@ -58,6 +56,6 @@ post-install:
 	@find ${PREFIX} -perm -4000 -exec chmod u-s {} \;
 
 # fix ownerships
-	@find ${PREFIX} -user 5041 -exec chown -h root.wheel {} \;
+	@find ${PREFIX} -user 5041 -exec chown -h root:wheel {} \;
 
 .include <bsd.port.mk>
