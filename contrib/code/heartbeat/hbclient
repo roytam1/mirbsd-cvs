@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: contrib/code/heartbeat/hbclient,v 1.8 2006/07/28 13:14:53 tg Exp $
+# $MirOS: contrib/code/heartbeat/hbclient,v 1.9 2006/07/28 13:15:19 tg Exp $
 #-
 # Copyright (c) 2004, 2006
 #	Thorsten "mirabilos" Glaser <tg@66h.42h.de>
@@ -45,6 +45,25 @@
 #	#!/bin/sh
 #	exec setuidgid _dnslog multilog t ./main
 # Edit the configuration sections below and start the service.
+#
+# You need some configuration in /etc too:
+# --- begin /etc/hostname.gif4589
+# !/sbin/ifconfig \$if up
+# !/sbin/route -n add -inet6 default fe80::%\$if -mtu 1280
+# --- end /etc/hostname.gif4589
+#
+# --- snippet /etc/ppp/ip-up
+# [...]
+# ifconfig gif4589 down
+# [...]
+# pfctl -f /etc/pf.conf 2>&1	| logger -t pfctl-load
+# pfctl -i $1 -F state 2>&1	| logger -t pfctl-flush
+# pfctl -e >/dev/null 2>&1	# just in case...
+# [...]
+# /service/sixxs/run once 2>&1 | logger -t 'sixxs-reload'
+# ifconfig gif4589 giftunnel $4 212.224.0.188 up
+# [...]
+# --- end /etc/ppp/ip-up
 #
 # Invocation if not run via daemontools:
 # hbclient &		- run as background process, beating
@@ -121,37 +140,16 @@ function getip
 # set up tunnel interface
 function setup
 {
-	# just in case...
-	ifconfig $TUNNEL down >/dev/null 2>&1; sleep 1
-	ifconfig $TUNNEL destroy >/dev/null 2>&1
-
-	# set up interface and default route
-	ifconfig $TUNNEL up
-	route -n add -inet6 default fe80::%$TUNNEL -mtu 1280
-
-	# set up point-to-point tunnel if needed
-	[[ -n $SUBNET ]] \
-	    || ifconfig $TUNNEL inet6 ${MYUSER} ${MYUSER%2}1 prefixlen 128
 }
 
 # throw the tunnel through IPv4 land
 function throw
 {
-	# never reached if SENDER is set
-	ifconfig $TUNNEL down
-	ifconfig $TUNNEL deletetunnel
-	[[ -z $1 ]] \
-	    || ifconfig $TUNNEL giftunnel $1 $SERVER
-	ifconfig $TUNNEL up
 }
 
 # clean up, remove interfaces and routes
 function clean
 {
-	ifconfig $TUNNEL down
-	route -n delete -inet6 default
-	sleep 1
-	ifconfig $TUNNEL destroy
 }
 
 #=== subroutines (not configurable) ===
