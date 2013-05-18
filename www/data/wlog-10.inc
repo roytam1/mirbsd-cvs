@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.194 2009/05/26 20:57:29 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.195 2009/05/27 13:37:19 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -4045,4 +4045,31 @@ menuentry "bsd4grml from harddisk (ISO = grml_2009.05-rc1.iso)" {
  href="http://michael-prokop.at/blog/2009/05/25/boot-an-iso-via-grub2/">ISO
  loopback boot</a>, which <a href="http://blog.zugschlus.de/archives/825-grml-als-eigenes-Rescuesystem.html"
  xml:lang="de">Zugschlus</a> brought into practical use.</p>
+----
+Date: 30.05.2009 00:14
+Author: tg@
+Title: mksh user feedback appreciated
+Tag: mksh
+
+<p>With another <a href="@@RELPATH@@mksh.htm">mksh</a> release out, and
+ the first feedback (actually a patch with explanation &ndash; naaina
+ ported it to the newly released QNX 6.4, 10x) already in, I would like
+ to request user feedback if mksh compiles okay for them, the regression
+ test suite results, and if it does its job &ndash; especially on the
+ more obscure platforms. Current plans for R36b are mere portability and
+ bug fixes, and maybe some more of the Syllable, Plan 9 or Haiku issues
+ touched if someone does it.</p>
+<p>On the other hand, I'm really glad I get feedback, even patches from
+ people I've never heard of beforehand, which even touch documentation
+ as it should be. One had the luck of adding a feature that had been,
+ independently, requested in <a href="@@RELPATH@@irc.htm">IRC</a> mere
+ days beforehand. You're welcome ;)</p>
+<p>Let me plug a link to the fine manual page mksh(1) or its <a
+ href="@@ABSPATH@@/MirOS/dist/mir/mksh/mksh.pdf">PDF</a> version.</p>
+<p>Thanks to all users as well, we cracked the 100 in Debian popcon a
+ few days ago (102), even though it's down a tad right now, to 94.</p>
+<p>Plans are to get promoted to Arch Linux Community from AUR, included
+ into Mac OSX, Minix, pkgsrc® (as bootstrap shell) and QNX by default,
+ and the usual world domination in general. Hey, I'm fixing dietlibc
+ bugs on Launchpad now, so low I've sunk, so gimme some rest.</p>
 ----
