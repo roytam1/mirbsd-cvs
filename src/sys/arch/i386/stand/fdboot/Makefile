@@ -1,12 +1,12 @@
-# $MirOS: src/sys/arch/i386/stand/fdboot/Makefile,v 1.3 2006/08/19 12:45:47 tg Exp $
+# $MirOS: src/sys/arch/i386/stand/fdboot/Makefile,v 1.4 2006/08/19 14:20:29 tg Exp $
 
 #BOOTSELECT_HOOK=yes
 CPPFLAGS+=	-DSMALL_BOOT
 BOOTLDR_PATH=	${.CURDIR}/../boot
 NOMAN=		yes
 
+# This doesn't get installed
 install:
-	# This doesn't get installed
 
 .PATH: ${BOOTLDR_PATH}
 .include "${BOOTLDR_PATH}/Makefile"

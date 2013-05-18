@@ -1,11 +1,11 @@
-# $MirOS: src/sys/arch/i386/stand/liveboot/Makefile,v 1.2 2006/04/06 10:58:15 tg Exp $
+# $MirOS: src/sys/arch/i386/stand/liveboot/Makefile,v 1.3 2006/05/15 20:47:42 tg Exp $
 
 BOOTSELECT_HOOK=yes
 BOOTLDR_PATH=	${.CURDIR}/../boot
 NOMAN=		yes
 
+# This doesn't get installed
 install:
-	# This doesn't get installed
 
 .PATH: ${BOOTLDR_PATH}
 .include "${BOOTLDR_PATH}/Makefile"
