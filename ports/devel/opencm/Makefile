@@ -1,14 +1,15 @@
-# $MirOS: ports/devel/opencm/Makefile,v 1.5 2007/04/11 17:56:09 bsiegert Exp $
+# $MirOS: ports/devel/opencm/Makefile,v 1.6 2008/03/09 17:22:31 tg Exp $
 # $OpenBSD: Makefile,v 1.18 2004/02/04 07:39:18 sturm Exp $
 
-COMMENT=			OpenCM change management system
-COMMENT-docs=			OpenCM Documentation
+COMMENT=		OpenCM change management system
+COMMENT-docs=		OpenCM Documentation
 
 V=			0.1.2alpha7pl1
 sV=			-1
+DASH_VER=		1
 DISTNAME=		opencm-${V}${sV}-src
-PKGNAME=		opencm-${V}-0
-FULLPKGNAME-docs=	opencm-docs-${V}-0
+PKGNAME=		opencm-${V}-${DASH_VER}
+FULLPKGNAME-docs=	opencm-docs-${V}-${DASH_VER}
 CATEGORIES=		devel
 
 HOMEPAGE=		http://www.opencm.org
@@ -35,7 +36,7 @@ CONFIGURE_ENV=		vl_cv_lib_kerberos=1
 NO_REGRESS=	Yes
 
 PSEUDO_FLAVOURS=	no_docs
-FLAVOUR?=
+FLAVOUR?=		no_docs
 
 MULTI_PACKAGES=
 
@@ -66,7 +67,7 @@ LIB_DEPENDS=		gc.1:boehm-gc->=6.2:devel/boehm-gc
 
 PLIST=			${PKGDIR}/PLIST${SUBPACKAGE}
 
-WRKDIST=		${WRKDIR}/${PKGNAME}
+WRKDIST=		${WRKDIR}/opencm-${V}
 WRKSRC=			${WRKDIST}/base
 
 .include <bsd.port.mk>
