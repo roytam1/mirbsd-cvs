@@ -1,9 +1,9 @@
-/* $MirOS: src/lib/libc/stdio/fgetwc.c,v 1.5 2007/02/06 23:07:31 tg Exp $ */
+/* $MirOS: src/lib/libc/stdio/fgetwc.c,v 1.6 2007/02/06 23:33:22 tg Exp $ */
 /* $OpenBSD: fgetwc.c,v 1.1 2005/06/17 20:40:32 espie Exp $	*/
 /* $NetBSD: fgetwc.c,v 1.3 2003/03/07 07:11:36 tshiozak Exp $ */
 
 /*-
- * Copyright (c) 2007 Thorsten Glaser
+ * Copyright (c) 2007, 2008 Thorsten Glaser
  * Copyright (c)2001 Citrus Project,
  * All rights reserved.
  *
@@ -37,7 +37,7 @@
 #include <wchar.h>
 #include "local.h"
 
-__RCSID("$MirOS: src/lib/libc/stdio/fgetwc.c,v 1.5 2007/02/06 23:07:31 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/stdio/fgetwc.c,v 1.6 2007/02/06 23:33:22 tg Exp $");
 
 wint_t __fgetwc_unlock(FILE *);
 
@@ -48,7 +48,6 @@ __fgetwc_unlock(FILE *fp)
 	mbstate_t *st;
 	wchar_t wc;
 	size_t size;
-	bool firstc = true;
 
 	_SET_ORIENTATION(fp, 1);
 	wcio = WCIO_GET(fp);
@@ -71,22 +70,17 @@ __fgetwc_unlock(FILE *fp)
 		int ch = __sgetc(fp);
 
 		if (ch == EOF) {
+			if (optu8to16(&wc, NULL, 0, st) == 0)
+				return (wc);
 			return WEOF;
 		}
 
 		c = ch;
-		size = mbrtowc(&wc, &c, 1, st);
-		if (size == (size_t)-1) {
-			if (!firstc) {
-				ungetc(ch, fp);
-				ungetc(mbrtowc_rollback(st), fp);
-			}
-			mbsreset(st);
-			fp->_flags |= __SERR;
-			errno = EILSEQ;
-			return WEOF;
+		size = optu8to16(&wc, &c, 1, st);
+		if (size == 0) {
+			ungetc(ch, fp);
+			return (wc);
 		}
-		firstc = false;
 	} while (size == (size_t)-2);
 
 	return wc;
