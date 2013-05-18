@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/sys/arch/sparc/stand/bootxx/mkbxinst.sh,v 1.1 2007/10/20 20:24:41 tg Exp $
+# $MirOS: src/sys/arch/sparc/stand/bootxx/mkbxinst.sh,v 1.2 2007/10/20 20:25:32 tg Exp $
 #-
 # Copyright (c) 2007
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -27,7 +27,7 @@
 # Arguments: $1 = a.out (sparc OpenBoot) bootxx, linked
 # Output: shell script to stdout
 
-rcsid='$MirOS: src/sys/arch/sparc/stand/bootxx/mkbxinst.sh,v 1.1 2007/10/20 20:24:41 tg Exp $'
+rcsid='$MirOS: src/sys/arch/sparc/stand/bootxx/mkbxinst.sh,v 1.2 2007/10/20 20:25:32 tg Exp $'
 
 function die {
 	rv=$1; shift
@@ -106,8 +106,9 @@ cat <<'EOF'
 set -A blktblent
 typeset -i blktblnum=0 firstblock lastblock i=0 sscale=0
 
-while getopts ":S:" ch; do
+while getopts ":0S:" ch; do
 	case $ch {
+	(0)	dd if=/dev/zero count=1 2>/dev/null ;;
 	(S)	if (( (sscale = OPTARG) < 0 || OPTARG > 24 )); then
 			print -u2 Error: invalid sector scale "'$OPTARG'"
 			exit 1

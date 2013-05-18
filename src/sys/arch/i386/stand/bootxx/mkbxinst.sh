@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/sys/arch/i386/stand/bootxx/mkbxinst.sh,v 1.1 2007/10/20 21:28:40 tg Exp $
+# $MirOS: src/sys/arch/i386/stand/bootxx/mkbxinst.sh,v 1.2 2007/10/20 21:59:02 tg Exp $
 #-
 # Copyright (c) 2007
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -27,7 +27,7 @@
 # Arguments: $1 = ELF bootxx, linked
 # Output: shell script to stdout
 
-rcsid='$MirOS: src/sys/arch/i386/stand/bootxx/mkbxinst.sh,v 1.1 2007/10/20 21:28:40 tg Exp $'
+rcsid='$MirOS: src/sys/arch/i386/stand/bootxx/mkbxinst.sh,v 1.2 2007/10/20 21:59:02 tg Exp $'
 
 function die {
 	rv=$1; shift
@@ -145,8 +145,9 @@ function record_block {
 
 typeset -i flag_one=0 partp=0 numheads=0 numsecs=0 sscale=0
 
-while getopts ":1h:p:S:s:" ch; do
+while getopts ":01h:p:S:s:" ch; do
 	case $ch {
+	(0)	;;
 	(1)	flag_one=1 ;;
 	(h)	if (( (numheads = OPTARG) < 1 || OPTARG > 256 )); then
 			print -u2 warning: invalid head count "'$OPTARG'"
