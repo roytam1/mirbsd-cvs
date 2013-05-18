@@ -1,4 +1,4 @@
-/* $MirOS: src/sys/arch/i386/stand/boot/srt0.S,v 1.69 2009/01/12 20:13:12 tg Exp $ */
+/* $MirOS: src/sys/arch/i386/stand/boot/srt0.S,v 1.70 2009/01/12 21:00:16 tg Exp $ */
 
 /*-
  * Copyright (c) 2003, 2004, 2005, 2006, 2007, 2008, 2009
@@ -34,7 +34,7 @@
 	.globl	_edata
 	.globl	_end
 	.globl	_rtt
-#ifndef SMALL_BOOT
+#ifdef USE_PXE
 	.globl	have_pxe
 #endif
 	/* global */
@@ -381,7 +381,9 @@ Lmb2rm:	mov	edi,offset Ldrvi
 	stosd			/* partition */
 	stosd			/* partition */
 	stosd			/* partition */
+#ifdef USE_PXE
 	mov	[have_pxe],eax	/* do not even try */
+#endif
 
 	lgdt	Gdtr
 	call	prot_to_real	/* converts stack */
