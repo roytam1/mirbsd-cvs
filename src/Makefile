@@ -1,4 +1,4 @@
-# $MirOS: src/Makefile,v 1.125 2008/05/01 01:12:38 tg Exp $
+# $MirOS: src/Makefile,v 1.126 2008/05/01 01:13:47 tg Exp $
 # $OpenBSD: Makefile,v 1.103 2004/05/03 15:18:18 drahn Exp $
 
 .if defined(MAKECONF) && exists(${MAKECONF})
@@ -497,9 +497,12 @@ _do-dist:
 	@echo ============================================================
 .endif
 
+cflags:
+	@print -r -- CFLAGS=\'${CFLAGS:N-Werror:Q} ${COPTS:N-Werror:Q}\'
+
 .PHONY:	beforeinstall afterinstall mksystrace mksystrace-obj mksystrace-dest \
 	build-pre contbuild distrib-dirs b-r release do-htman \
-	base-distbuild base-distinstall dist-q dist _do-dist cleandir
+	base-distbuild base-distinstall dist-q dist _do-dist cleandir cflags
 
 .include <bsd.subdir.mk>
 
