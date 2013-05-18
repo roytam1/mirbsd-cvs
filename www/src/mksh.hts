@@ -2,7 +2,7 @@
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.160 2008/07/28 03:22:32 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.161 2008/08/02 17:50:49 tg Exp $'
 mws_content <<'EOF'
 <h1>mksh(1) R35b</h1>
 <p>This is the website of the MirBSD™ Korn Shell, an actively developed free
@@ -944,7 +944,7 @@ mws_content <<'EOF'
 <h2 id="plans">Future Plans</h2><ul>
 <li>when typing then moving in the history, push current (eventually even
  empty) line into history buffer first, so that, when we go down the
- history again, do not lose what was typed first</li>
+ history again, do not lose what was typed first; ignore dups and spaces</li>
 <li>bash-style multiline command line editing, as an option (the current
  horizontally scrolled one is finally (with R28) bug-free even with
  multiline and very long prompts optionally with embedded newlines,
@@ -957,7 +957,6 @@ mws_content <<'EOF'
 <li>Adding builtins <tt>fstat</tt>, <tt>lstat</tt>, <tt>traverse</tt>, …</li>
 <li>for a b in …; do (like make(1) does)</li>
 <li>${foo:S/bar/baz/g} ${foo:C/bar/baz/x}</li>
-<li>More than 9 fds in redirections and <tt>print -u<i>n</i></tt></li>
 <li>A sensible website</li>
 <li>Build and actually work on more platforms – PW32, Minix 3,
  Plan 9, Syllable – debug these</li>
@@ -966,6 +965,7 @@ mws_content <<'EOF'
 <li>Add the ability to handle embedded NUL bytes in strings read,
  for example in the hexdump “utility” (regression test)
  <br />XXX this might be a bad idea actually, cf. php’s insecurity</li>
+<li>Bugfix for suspending <tt>a &amp;&amp; b</tt> chain</li>
 </ul>
 
 <h2 id="clog">Recent Changes</h2>
