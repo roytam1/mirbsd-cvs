@@ -1,5 +1,5 @@
-# $MirOS: src/lib/libssl/man/Makefile,v 1.7 2007/09/26 09:38:30 tg Exp $
-# $OpenBSD: Makefile,v 1.11 2006/11/09 09:45:17 markus Exp $
+# $MirOS: src/lib/libssl/man/Makefile,v 1.8 2007/10/23 14:45:37 tg Exp $
+# $OpenBSD: Makefile,v 1.13 2008/07/28 23:44:10 jsg Exp $
 
 .include <bsd.own.mk>		# for NOMAN
 
@@ -228,7 +228,6 @@ MANALL=	\
 	d2i_X509_REQ.cat3 \
 	d2i_X509_SIG.cat3 \
 	des_modes.cat7 \
-	des_random_key.cat3 \
 	dh.cat3 \
 	dsa.cat3 \
 	engine.cat3 \
@@ -250,49 +249,6 @@ CLEANFILES+=	${MANALL:S/.cat1/.1/g:S/.cat2/.2/g:S/.cat3/.3/g:S/.cat4/.4/g:S/.cat
 
 # these are a real problem, since they re-document functions described in
 # other pages.
-#
-# err.pod -> ERR_get_error.pod
-# ERR_peek_error ERR_get_error_line
-# ERR_peek_error_line ERR_get_error_line_data ERR_peek_error_line_data
-# ERR_GET_LIB ERR_GET_FUNC ERR_GET_REASON ERR_clear_error ERR_error_string
-# ERR_lib_error_string ERR_func_error_string ERR_reason_error_string
-# ERR_print_errors ERR_print_errors_fp ERR_load_crypto_strings ERR_free_strings
-# ERR_remove_state ERR_put_error ERR_add_error_data ERR_load_strings ERR_PACK
-# ERR_get_next_error_library
-#
-# rand.pod -> RAND_bytes.pod
-# RAND_pseudo_bytes RAND_seed RAND_add RAND_status RAND_event
-# RAND_screen RAND_load_file RAND_write_file RAND_file_name RAND_egd
-# RAND_set_rand_method RAND_get_rand_method RAND_SSLeay RAND_cleanup
-
-# buffer.pod -> BUF_MEM_new.pod
-# BUF_MEM_free BUF_MEM_grow BUF_strdup
-
-# rc4.pod -> RC4.pod
-# RC4_set_key
-
-# threads.pod -> CRYPTO_set_locking_callback.pod
-# CRYPTO_set_id_callback CRYPTO_num_locks
-
-# ripemd.pod -> RIPEMD160.pod
-# RIPEMD160_Init RIPEMD160_Update RIPEMD160_Final
-
-# sha.pod -> SHA1.pod
-
-# md5.pod -> MD5.pod
-
-# hmac.pod -> HMAC.pod
-
-# des.pod -> des_random_key, des_set_key, des_key_sched, des_set_key_checked,
-# des_set_key_unchecked, des_set_odd_parity, des_is_weak_key, des_ecb_encrypt,
-# des_ecb2_encrypt, des_ecb3_encrypt, des_ncbc_encrypt, des_cfb_encrypt,
-# des_ofb_encrypt, des_pcbc_encrypt, des_cfb64_encrypt, des_ofb64_encrypt,
-# des_xcbc_encrypt, des_ede2_cbc_encrypt, des_ede2_cfb64_encrypt,
-# des_ede2_ofb64_encrypt, des_ede3_cbc_encrypt, des_ede3_cbcm_encrypt,
-# des_ede3_cfb64_encrypt, des_ede3_ofb64_encrypt, des_read_password,
-# des_read_2passwords, des_read_pw_string, des_cbc_cksum, des_quad_cksum,
-# des_string_to_key, des_string_to_2keys, des_fcrypt, des_crypt,
-# des_enc_read, des_enc_write
 
 .for page src in \
 	BF_set_key blowfish \
@@ -300,17 +256,17 @@ CLEANFILES+=	${MANALL:S/.cat1/.1/g:S/.cat2/.2/g:S/.cat3/.3/g:S/.cat4/.4/g:S/.cat
 	CRYPTO_set_locking_callback threads \
 	HMAC hmac \
 	MD5 md5 \
-	PEM_read_bio_PrivateKey pem \
-	RC4 rc4 \
-	RIPEMD160 ripemd \
-	SHA1 sha \
 	OPENSSL_bio bio \
 	OPENSSL_err err \
+	PEM_read_bio_PrivateKey pem \
 	RAND_set_rand_engine rand \
-	des_random_key des
+	RC4 rc4 \
+	RIPEMD160 ripemd \
+	SHA1 sha
 
 ${page}.3: ${src}.pod
-	${POD2MAN} --section=3 --name=${page:U} ${.CURDIR}/../src/doc/crypto/${src}.pod >$@
+	${POD2MAN} --section=3 --name=${page:U} \
+	    ${.CURDIR}/../src/doc/crypto/${src}.pod >$@ || (rm -f $@; exit 1)
 .endfor
 
 MLINKS+=\
@@ -324,11 +280,9 @@ MLINKS+=\
 	ASN1_STRING_new.3 ASN1_STRING_free.3 \
 	ASN1_STRING_new.3 ASN1_STRING_type_new.3 \
 	ASN1_STRING_print_ex.3 ASN1_STRING_print_ex_fp.3 \
-	BF_set_key.3 BF_cbc.3 \
 	BF_set_key.3 BF_cbc_encrypt.3 \
 	BF_set_key.3 BF_cfb64_encrypt.3 \
 	BF_set_key.3 BF_decrypt.3 \
-	BF_set_key.3 BF_ecb.3 \
 	BF_set_key.3 BF_ecb_encrypt.3 \
 	BF_set_key.3 BF_encrypt.3 \
 	BF_set_key.3 BF_ofb64_encrypt.3 \
@@ -349,12 +303,18 @@ MLINKS+=\
 	BIO_ctrl.3 BIO_set_info_callback.3 \
 	BIO_ctrl.3 BIO_tell.3 \
 	BIO_ctrl.3 BIO_wpending.3 \
+	BIO_f_buffer.3 BIO_get_buffer_num_lines.3 \
+	BIO_f_buffer.3 BIO_set_buffer_read_data.3 \
+	BIO_f_buffer.3 BIO_set_buffer_size.3 \
+	BIO_f_buffer.3 BIO_set_read_buffer_size.3 \
+	BIO_f_buffer.3 BIO_set_write_buffer_size.3 \
 	BIO_f_cipher.3 BIO_get_cipher_ctx.3 \
 	BIO_f_cipher.3 BIO_get_cipher_status.3 \
 	BIO_f_cipher.3 BIO_set_cipher.3 \
 	BIO_f_md.3 BIO_get_md.3 \
 	BIO_f_md.3 BIO_get_md_ctx.3 \
 	BIO_f_md.3 BIO_set_md.3 \
+	BIO_f_ssl.3 BIO_do_handshake.3 \
 	BIO_f_ssl.3 BIO_get_num_renegotiates.3 \
 	BIO_f_ssl.3 BIO_get_ssl.3 \
 	BIO_f_ssl.3 BIO_new_buffer_ssl_connect.3 \
@@ -366,6 +326,7 @@ MLINKS+=\
 	BIO_f_ssl.3 BIO_set_ssl_renegotiate_timeout.3 \
 	BIO_f_ssl.3 BIO_ssl_copy_session_id.3 \
 	BIO_f_ssl.3 BIO_ssl_shutdown.3 \
+	BIO_find_type.3 BIO_method_type.3 \
 	BIO_find_type.3 BIO_next.3 \
 	BIO_new.3 BIO_free.3 \
 	BIO_new.3 BIO_free_all.3 \
@@ -419,7 +380,9 @@ MLINKS+=\
 	BIO_s_mem.3 BIO_new_mem_buf.3 \
 	BIO_s_mem.3 BIO_set_mem_buf.3 \
 	BIO_s_mem.3 BIO_set_mem_eof_return.3 \
+	BIO_s_socket.3 BIO_get_fd.3 \
 	BIO_s_socket.3 BIO_new_socket.3 \
+	BIO_s_socket.3 BIO_set_fd.3 \
 	BIO_set_callback.3 BIO_debug_callback.3 \
 	BIO_set_callback.3 BIO_get_callback.3 \
 	BIO_set_callback.3 BIO_get_callback_arg.3 \
@@ -988,40 +951,6 @@ MLINKS+=\
 	d2i_X509_REQ.3 i2d_X509_REQ_bio.3 \
 	d2i_X509_REQ.3 i2d_X509_REQ_fp.3 \
 	d2i_X509_SIG.3 i2d_X509_SIG.3 \
-	des_random_key.3 des_cbc_cksum.3 \
-	des_random_key.3 des_cfb64_encrypt.3 \
-	des_random_key.3 des_cfb_encrypt.3 \
-	des_random_key.3 des_crypt.3 \
-	des_random_key.3 des_ecb2_encrypt.3 \
-	des_random_key.3 des_ecb3_encrypt.3 \
-	des_random_key.3 des_ecb_encrypt.3 \
-	des_random_key.3 des_ede2_cbc_encrypt.3 \
-	des_random_key.3 des_ede2_cfb64_encrypt.3 \
-	des_random_key.3 des_ede2_ofb64_encrypt.3 \
-	des_random_key.3 des_ede3_cbc_encrypt.3 \
-	des_random_key.3 des_ede3_cbcm_encrypt.3 \
-	des_random_key.3 des_ede3_cfb64_encrypt.3 \
-	des_random_key.3 des_ede3_ofb64_encrypt.3 \
-	des_random_key.3 des_enc_read.3 \
-	des_random_key.3 des_enc_write.3 \
-	des_random_key.3 des_fcrypt.3 \
-	des_random_key.3 des_is_weak_key.3 \
-	des_random_key.3 des_key_sched.3 \
-	des_random_key.3 des_ncbc_encrypt.3 \
-	des_random_key.3 des_ofb64_encrypt.3 \
-	des_random_key.3 des_ofb_encrypt.3 \
-	des_random_key.3 des_pcbc_encrypt.3 \
-	des_random_key.3 des_quad_cksum.3 \
-	des_random_key.3 des_read_2passwords.3 \
-	des_random_key.3 des_read_password.3 \
-	des_random_key.3 des_read_pw_string.3 \
-	des_random_key.3 des_set_key.3 \
-	des_random_key.3 des_set_key_checked.3 \
-	des_random_key.3 des_set_key_unchecked.3 \
-	des_random_key.3 des_set_odd_parity.3 \
-	des_random_key.3 des_string_to_2keys.3 \
-	des_random_key.3 des_string_to_key.3 \
-	des_random_key.3 des_xcbc_encrypt.3 \
 	dsa.3 DSA_OpenSSL.3 \
 	dsa.3 DSA_SIG_free.3 \
 	dsa.3 DSA_do_verify.3 \
@@ -1082,8 +1011,7 @@ MLINKS+=\
 	ui.3 UI_new_method.3 \
 	ui.3 UI_process.3 \
 	ui.3 UI_set_default_method.3 \
-	ui.3 UI_set_method.3 \
-	ui_compat.3 des_read_pw.3
+	ui.3 UI_set_method.3
 
 .  include <bsd.man.mk>
 .else
@@ -1092,7 +1020,14 @@ maninstall:
 
 .SUFFIXES: .pod
 
-OPENSSLTOOL_SRCS=	openssl.pod asn1octetstream.pod asn1parse.pod ca.pod ciphers.pod config.pod crl.pod crl2pkcs7.pod dgst.pod dhparam.pod dsa.pod dsaparam.pod enc.pod errstr.pod gendsa.pod genrsa.pod nseq.pod ocsp.pod passwd.pod pkcs12.pod pkcs7.pod pkcs8.pod rand.pod req.pod rsa.pod rsautl.pod s_client.pod s_server.pod s_time.pod sess_id.pod smime.pod speed.pod spkac.pod verify.pod version.pod x509.pod
+OPENSSLTOOL_SRCS=	openssl.pod asn1octetstream.pod asn1parse.pod ca.pod \
+			ciphers.pod config.pod crl.pod crl2pkcs7.pod dgst.pod \
+			dhparam.pod dsa.pod dsaparam.pod enc.pod errstr.pod \
+			gendsa.pod genrsa.pod nseq.pod ocsp.pod passwd.pod \
+			pkcs12.pod pkcs7.pod pkcs8.pod rand.pod req.pod \
+			rsa.pod rsautl.pod s_client.pod s_server.pod \
+			s_time.pod sess_id.pod smime.pod speed.pod spkac.pod \
+			verify.pod version.pod x509.pod
 CLEANFILES+=		openssltool.pm openssltool.1
 openssltool.pm: ${OPENSSLTOOL_SRCS:S!^!${.CURDIR}/../src/doc/apps/!}
 	(cd ${.CURDIR}/../src/doc/apps; cat ${OPENSSLTOOL_SRCS}) >$@
@@ -1113,11 +1048,10 @@ CLEANFILES+=\
 	BUF_MEM_new.pm \
 	CRYPTO_set_locking_callback.pm \
 	HMAC.pm \
+	MD5.pm \
 	RC4.pm \
 	RIPEMD160.pm \
-	SHA1.pm \
-	des_random_key.pm \
-	MD5.pm
+	SHA1.pm
 
 clean cleandir:
 	rm -f ${CLEANFILES}
