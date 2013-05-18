@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/distrib/baselive/munge_it.sh,v 1.30 2008/03/04 23:48:58 tg Exp $
+# $MirOS: src/distrib/baselive/munge_it.sh,v 1.31 2008/05/13 11:49:02 tg Exp $
 #-
 # Copyright (c) 2006, 2007, 2008
 #	Thorsten “mirabilos” Glaser <tg@mirbsd.de>
@@ -53,7 +53,6 @@ ed -s etc/inetd.conf <<-'EOMD'
 	wq
 EOMD
 ed -s etc/master.passwd <<-'EOMD'
-	/^root:/s!:/:!:/dev/.root:!
 	/^nobody:/i
 		live:$2a$04$NCMhVFfIg3afYRXLCDGjcOPYJxem4lxSLcthQT5AaejUaAAvIWdCW:32762:32762:staff:0:0:MirOS BSD Live CD User:/home/live:/usr/dbin/mksh
 	.
@@ -68,7 +67,7 @@ ed -s etc/ntpd.conf <<-'EOMD'
 EOMD
 ed -s etc/rc <<-'EOMD'
 	1i
-		# $MirOS: src/distrib/baselive/munge_it.sh,v 1.30 2008/03/04 23:48:58 tg Exp $
+		# $MirOS: src/distrib/baselive/munge_it.sh,v 1.31 2008/05/13 11:49:02 tg Exp $
 	.
 	/cprng.*pr16/d
 	i
@@ -204,14 +203,13 @@ pwd_mkdb -pd $(readlink -nf etc) master.passwd
     chmod 600 var/db/host.random) \
     >/dev/wrandom 2>&1
 
-mv root dev/.root
 rm -rf usr/X11R6/lib/X11/fonts/{100dpi,OTF,Speedo,Type1,cyrillic,local}
 mv usr/X11R6/lib/X11/fonts usr/X11R6/lib/fonts
 (cd usr/X11R6/lib/X11; ln -s ../fonts)
 # tmp because of perms
-find dev/.root etc tmp usr/X11R6/lib/X11 var | sort | \
+find etc tmp usr/X11R6/lib/X11 var | sort | \
     cpio -oC512 -Hsv4crc -Mset | gzip -n9 >stand/fsrw.dat
-rm -rf dev/.root usr/X11R6/lib/X11 var sys
+rm -rf usr/X11R6/lib/X11 var sys
 mkdir -p emul usr/X11R6/lib/X11 usr/mpkg usr/ports var
 chown 0:0 emul var
 
