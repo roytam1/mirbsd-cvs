@@ -1,4 +1,4 @@
-/* $MirOS: src/sys/arch/i386/stand/bootxx/bootxx.S,v 1.7 2007/02/26 17:39:10 tg Exp $ */
+/* $MirOS: src/sys/arch/i386/stand/bootxx/bootxx.S,v 1.8 2007/05/26 21:57:39 tg Exp $ */
 
 /*-
  * Copyright (c) 2003, 2004, 2005, 2007
@@ -39,7 +39,7 @@ GTENTRY(_start)
 	xor	eax,eax
 	push	eax
 	popfd
-	/* set up stack from 07A0:FFFC (0x179FC) down */
+	/* set up stack from 07C0:FFFC (0x17BFC) down */
 	add	ax,0x07C0
 	mov	ss,ax
 	mov	sp,0xFFFC
