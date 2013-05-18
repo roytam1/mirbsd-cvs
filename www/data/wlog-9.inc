@@ -1916,7 +1916,7 @@ libhello_la_LDFLAGS = -version-info ${LIBHELLO_VER}
 
 <h3>References</h3>
 
-<ol><li><p><a name="bsiegert-20070902-ref1"></a>Miller, P.&nbsp;A.,
+<ol><li><p><a id="bsiegert-20070902-ref1"></a>Miller, P.&nbsp;A.,
  Recursive Make Considered Harmful, <i>AUUGN Journal of AUUG Inc.</i>,
  <b>19</b> (1), 14&ndash;25 (1998).</p>
  <p>URL: <a
