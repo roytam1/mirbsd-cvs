@@ -1,6 +1,6 @@
-# $MirOS: ports/sysutils/fam/Makefile,v 1.1 2005/10/12 21:00:26 bsiegert Exp $
+# $MirOS: ports/sysutils/fam/Makefile,v 1.2 2006/09/14 00:13:31 tg Exp $
 
-COMMENT=			file alteration monitor
+COMMENT=		file alteration monitor
 
 VERSION=		2.7.0
 DISTNAME=		fam-${VERSION}
