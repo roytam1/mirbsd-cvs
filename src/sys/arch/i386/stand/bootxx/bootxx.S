@@ -1,4 +1,4 @@
-/* $MirOS: src/sys/arch/i386/stand/bootxx/bootxx.S,v 1.19 2009/06/07 11:30:23 tg Exp $ */
+/* $MirOS: src/sys/arch/i386/stand/bootxx/bootxx.S,v 1.21 2009/06/07 13:07:46 tg Exp $ */
 
 /*-
  * Copyright (c) 2009
@@ -26,14 +26,10 @@
 
 	.globl	_start
 	.type	_start,@function
-_start:	xor	ecx,ecx
-#ifdef BOOT_GRUB
-	mov	bx,0x3000	/* we load to 08000 so put stack further up */
-	mov	ss,bx
-#else
+_start:	/* bootxx entry point 07C00 */
+	xor	ecx,ecx
 	mov	ss,cx
-#endif
-	mov	sp,0xFFFC
+	mov	sp,0x7BFC
 	push	ecx
 	popfd
 	mov	es,cx
