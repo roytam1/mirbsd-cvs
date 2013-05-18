@@ -9,10 +9,9 @@
 .\" the sendmail distribution.
 .\"
 .\"
-.\"	$MirOS: src/gnu/usr.sbin/sendmail/sendmail/sendmail.8,v 1.3 2005/10/21 10:46:30 tg Exp $
-.\"     $Sendmail: sendmail.8,v 8.57 2003/12/01 17:02:41 ca Exp $
+.\"     $Sendmail: sendmail.8,v 8.58 2007/08/02 05:42:33 ca Exp $
 .\"
-.Dd December 1, 2003
+.Dd August 2, 2007
 .Dt SENDMAIL 8
 .Os
 .Sh NAME
@@ -309,7 +308,7 @@ only.
 Limit processed jobs to those containing
 .Ar substr
 as a substring of the queue ID or not when
-.Em \&!
+.Em !\&
 is specified.
 .It Xo Fl q Ns Op Ar \&! Ns
 .Cm Q Ns Ar substr
@@ -317,7 +316,7 @@ is specified.
 Limit processed jobs to quarantined jobs containing
 .Ar substr
 as a substring of the quarantine reason or not when
-.Em \&!
+.Em !\&
 is specified.
 .It Xo Fl q Ns Op Ar \&! Ns
 .Cm R Ns Ar substr
@@ -325,7 +324,7 @@ is specified.
 Limit processed jobs to those containing
 .Ar substr
 as a substring of one of the recipients or not when
-.Em \&!
+.Em !\&
 is specified.
 .It Xo Fl q Ns Op Ar \&! Ns
 .Cm S Ns Ar substr
@@ -333,7 +332,7 @@ is specified.
 Limit processed jobs to those containing
 .Ar substr
 as a substring of the sender or not when
-.Em \&!
+.Em !\&
 is specified.
 .It Fl R Ar return
 Set the amount of the message to be returned

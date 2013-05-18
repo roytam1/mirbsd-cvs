@@ -14,7 +14,8 @@
 #include <sendmail.h>
 #include <sm/time.h>
 
-SM_RCSID("@(#)$Sendmail: deliver.c,v 8.1012 2007/03/29 21:20:15 ca Exp $")
+SM_RCSID("$MirOS$")
+SM_RCSID("@(#)$Sendmail: deliver.c,v 8.1015 2007/10/17 21:35:30 ca Exp $")
 
 #if HASSETUSERCONTEXT
 # include <login_cap.h>

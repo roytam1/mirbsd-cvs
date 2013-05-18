@@ -13,6 +13,7 @@
 
 #include <sendmail.h>
 
+SM_RCSID("$MirOS$")
 SM_RCSID("@(#)$Sendmail: util.c,v 8.414 2007/11/02 17:30:38 ca Exp $")
 
 #include <sm/sendmail.h>

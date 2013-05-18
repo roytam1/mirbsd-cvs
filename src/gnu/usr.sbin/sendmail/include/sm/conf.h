@@ -10,7 +10,8 @@
  * the sendmail distribution.
  *
  *
- *	$Sendmail: conf.h,v 1.132 2007/03/21 23:56:18 ca Exp $
+ *	$MirOS$
+ *	$Sendmail: conf.h,v 1.134 2007/09/24 23:05:37 ca Exp $
  */
 
 /*

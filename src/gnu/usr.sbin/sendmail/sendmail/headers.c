@@ -14,7 +14,7 @@
 #include <sendmail.h>
 #include <sm/sendmail.h>
 
-SM_RCSID("@(#)$Sendmail: headers.c,v 8.310 2007/02/07 22:44:35 ca Exp $")
+SM_RCSID("@(#)$Sendmail: headers.c,v 8.312 2007/06/19 18:52:11 ca Exp $")
 
 static HDR	*allocheader __P((char *, char *, int, SM_RPOOL_T *, bool));
 static size_t	fix_mime_header __P((HDR *, ENVELOPE *));

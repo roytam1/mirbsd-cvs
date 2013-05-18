@@ -14,8 +14,8 @@
 
 #include <sendmail.h>
 
-SM_RCSID("$MirOS: src/gnu/usr.sbin/sendmail/sendmail/map.c,v 1.4 2007/04/29 20:44:15 tg Exp $")
-SM_RCSID("@(#)$Sendmail: map.c,v 8.696 2007/04/03 21:33:14 ca Exp $")
+SM_RCSID("$MirOS: src/gnu/usr.sbin/sendmail/sendmail/map.c,v 1.5 2008/03/02 21:41:15 tg Exp $")
+SM_RCSID("@(#)$Sendmail: map.c,v 8.699 2007/10/10 00:06:45 ca Exp $")
 
 #if LDAPMAP
 # include <sm/ldap.h>

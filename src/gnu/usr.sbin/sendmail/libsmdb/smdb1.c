@@ -9,8 +9,8 @@
 */
 
 #include <sm/gen.h>
+SM_RCSID("$MirOS: src/gnu/usr.sbin/sendmail/libsmdb/smdb1.c,v 1.2 2006/10/28 21:18:09 tg Exp $")
 SM_RCSID("@(#)$Sendmail: smdb1.c,v 8.59 2004/08/03 20:58:39 ca Exp $")
-__RCSID("$MirOS: src/gnu/usr.sbin/sendmail/sendmail/map.c,v 1.2 2006/10/28 21:13:47 tg Exp $");
 
 #include <unistd.h>
 #include <stdlib.h>
