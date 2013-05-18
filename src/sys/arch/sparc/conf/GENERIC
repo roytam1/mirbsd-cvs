@@ -1,11 +1,11 @@
-# $MirOS: src/sys/arch/sparc/conf/GENERIC,v 1.21 2008/10/22 21:48:59 tg Exp $
+# $MirOS: src/sys/arch/sparc/conf/GENERIC,v 1.22 2008/11/16 20:12:51 tg Exp $
 # $OpenBSD: GENERIC,v 1.75 2004/03/09 15:24:27 miod Exp $
 # $NetBSD: GENERIC,v 1.48 1997/08/23 19:19:01 mjacob Exp $
 
 # Machine architecture; required by config(8)
 machine		sparc			# arch, used by config; REQUIRED
 
-# $miros: src/sys/arch/i386/conf/GENERIC,v 1.39 2008/11/16 20:12:50 tg Exp $
+# $miros: src/sys/arch/i386/conf/GENERIC,v 1.40 2008/11/16 20:47:46 tg Exp $
 # $OpenBSD: GENERIC,v 1.112 2004/11/28 23:39:45 canacar Exp $
 #
 # Machine-independent option; used by all architectures.
@@ -114,6 +114,12 @@ pseudo-device	ppp			# PPP
 pseudo-device	sl			# CSLIP
 pseudo-device	tun			# network tunneling over tty
 pseudo-device	vlan 			# IEEE 802.1Q VLAN
+
+# tuning options, potentally dangerous to enable/change *at all*, be warned
+#option		POOLWORDS=1024		# size of entropy pool (power of two)
+#option		NVNODE=32768			# raise static alloced bufsiz
+#option		MAXDSIZ="(1024 * 1048576)"	# bump max data size to 1 GiB
+#option		BUFCACHEPERCENT=7		# default: 5% of total RAM sz
 
 maxusers	64			# estimated number of users
 
