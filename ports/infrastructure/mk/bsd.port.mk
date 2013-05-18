@@ -1189,12 +1189,12 @@ _upgrade-${_i}:
 
 MODSIMPLE_configure= \
 	cd ${WRKCONF} && ${_SYSTRACE_CMD} ${SETENV} REALOS=${OStype:Q} \
-	    CC=${CC:Q} ac_cv_path_CC=${CC:Q} CPPFLAGS=${CPPFLAGS:C/ *$//:Q} \
-	    CFLAGS="$$(print -nr -- '${CFLAGS}' | \
+	    ac_cv_path_CC=${CC:Q} LDFLAGS=${LDFLAGS:Q} \
+	    ac_cv_path_CXX=${CXX:Q} CPPFLAGS=${CPPFLAGS:S/\\/\\\\/g:Q} \
+	    CC=${CC:Q} CFLAGS="$$(print -nr -- '${CFLAGS}' | \
 		sed -e 's${CPPFLAGS:S\\\\\\g}g' -e 's/[ 	]*$$//')" \
-	    CXXFLAGS="$$(print -nr -- '${CXXFLAGS}' | \
+	    CXX=${CXX:Q} CXXFLAGS="$$(print -nr -- '${CXXFLAGS}' | \
 		sed -e 's${CPPFLAGS:S\\\\\\g}g' -e 's/[ 	]*$$//')" \
-	    CXX=${CXX:Q} ac_cv_path_CXX=${CXX:Q} LDFLAGS=${LDFLAGS:Q} \
 	    INSTALL="/usr/bin/install -c -o ${BINOWN} -g ${BINGRP}" \
 	    ac_given_INSTALL="/usr/bin/install -c -o ${BINOWN} -g ${BINGRP}" \
 	    INSTALL_PROGRAM=${INSTALL_PROGRAM:Q} YACC=${YACC:Q} \
