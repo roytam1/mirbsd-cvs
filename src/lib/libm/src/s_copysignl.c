@@ -16,16 +16,19 @@
  * of dealing in the work, even if advised of the possibility of such
  * damage or existence of a defect, except proven that it results out
  * of said person's immediate fault when using the work as intended.
- *-
- * FAKE function!
  */
 
 #include <math.h>
 
-__RCSID("$MirOS$ fake");
+__RCSID("$MirOS: src/lib/libm/src/s_copysignl.c,v 1.1 2008/11/10 21:09:11 tg Exp $");
 
 long double
 copysignl(long double x, long double y)
 {
-	return ((long double)copysign((double)x, (double)y));
+	if (y < 0.0) {
+		if (x >= 0.0)
+			x = -x;
+	} else if (x < 0.0)
+		x = -x;
+	return (x);
 }
