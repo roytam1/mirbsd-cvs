@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.406 2012/12/08 19:25:10 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.407 2012/12/10 16:44:56 bsiegert Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -9555,4 +9555,44 @@ Tag: news
  consisting of Daniel Seuffert, Marius Nünnerich and Benny Siegert,
  will consider the proposals. If yours has been accepted, you will be
  informed by e-mail within one week of the submission deadline.</p>
+----
+Date: 15.12.2012 13:23
+Author: tg@
+Title: Der heilige… Frieden?
+Tag: debian politics
+
+<p style="font-size:small;">(Apologies for putting this on Planet Debian,
+ but it says the one or other non-English post is okay as long as it’s an
+ exception. I feel I need to reach more people with this, but don’t feel
+ like translating this into English right now.)</p>
+<p>In Bonn herrscht immer noch „Bombenstimmung“, wenn man z.B. auf die
+ Webseite der Lokalzeitung schaut – von dem Amoklauf in Connecticut, über
+ den sich im IRC gewunder wird, ist immer noch nichts zu sehen, dafür wird
+ fleißig wider „Islamisten“ gehetzt.</p>
+<p>Ich finde das besorgniserregend, muß doch jetzt jeder Angehörige des
+ Islams fürchten, verfolgt oder benachteiligt zu werden. Das reizt doch
+ erst recht zum Gegenschlag, bei dem dann auch Menschen, die absolut
+ <strong>nicht</strong> mit der hier vorherrschenden Meinung und Politik
+ übereinstimmen, getroffen werden können.</p>
+<p>Ich persönlich habe kein Problem mit Menschen anderen Glaubens oder
+ anderer Weltanschauung, solange wir friedlich miteinander leben können.
+ Ich teile eure Unzufriedenheit mit dem herrschenden Staat, der immer
+ weitergehenden Überwachung, Unterdrückung von Leuten, die nicht dem
+ vorherrschenden Menschenbild entsprechen (egal an welchen Kategoriën),
+ und bitte die, die dies lesen, nochmal nachzudenken, bevor sie etwas
+ tun, was hinterher Unschuldige trifft oder gar in „friendly fire“
+ ausartet.</p>
+<p>Hat eigentlich wer die in Bad Godesberg ausgegebenen Koran-Bücher
+ sich mal angeschaut? Als ich davon las, war ich ja zugegebenermaßen
+ neugierig, weil ich vom Koran leider eher wenig kenne, weiß aber nicht,
+ wie neutral oder eben nicht die Übersetzung gehalten ist. Anhand dessen,
+ <em>was</em> ich bereits mitbekam, sollte das eher friedlicher sein als
+ was durch spätere Theologen festgelegt wurde – wie ja auch zum Beispiel
+ im Christentum, aber über die Horrorepisoden der christlichen Kirche will
+ ich jetzt auch nicht mich auslassen, in der Hoffnung, daß auch diese sich
+ mit den Jahren gebessert hat. (Ist nur halt das Problem mit den Leuten,
+ die die „alten Hetzparolen“ jetzt noch verbreiten. Ist wie im Netz mit
+ den Groupies von Theo de Raadt, die noch asiger zu Leuten sind als er
+ selber.) (Außerdem muß man ja befürchten, durch Besitz eines Korans schon
+ vorverurteilt zu werden heutzutage *seufz*… ich finde das nicht gut!)</p>
 ----
