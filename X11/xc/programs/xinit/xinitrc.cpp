@@ -1,5 +1,5 @@
 XCOMM!/bin/sh
-XCOMM $MirOS: X11/xc/programs/xinit/xinitrc.cpp,v 1.9 2007/02/19 05:30:40 tg Exp $
+XCOMM $MirOS: X11/xc/programs/xinit/xinitrc.cpp,v 1.10 2007/06/04 19:04:36 tg Exp $
 XCOMM $Xorg: xinitrc.cpp,v 1.3 2000/08/17 19:54:30 cpqbld Exp $
 
 userresources=$HOME/.Xresources
@@ -28,7 +28,7 @@ fi
 XCOMM start some nice programs
 
 xclock -render -update 1 -geometry 50x50-1+1 &
-xconsole -iconic &
+#xconsole -iconic &
 #xterm -geometry 80x24+0+0 &
 whence -p twm && exec twm		# standard window manager
 whence -p evilwm && exec evilwm		# shouldn't be the default
