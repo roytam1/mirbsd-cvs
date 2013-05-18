@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/dev/rndvar.h,v 1.11 2008/06/13 13:11:50 tg Exp $ */
+/**	$MirOS: src/sys/dev/rndvar.h,v 1.12 2008/06/13 14:00:05 tg Exp $ */
 /*	$OpenBSD: rndvar.h,v 1.19 2003/11/03 18:24:28 tedu Exp $	*/
 
 /*
@@ -90,7 +90,8 @@ extern int rnd_addpool_num;	/* ring buffer write pointer */
 	rnd_addpool_num = (rnd_addpool_num + 1) % rnd_addpool_size;	\
 } while (/* CONSTCOND */ 0)
 
-#define rnd_bootpool_add(addr, len) rnd_addpool_add(adler32(random() | 1, \
+#define rnd_bootpool_add(addr, len) \
+	rnd_addpool_add(adler32(arc4random() | 1, \
 	    (const u_char *)(addr), (len)))
 
 #define	add_true_randomness(d)	enqueue_randomness(RND_SRC_TRUE,  (int)(d))
