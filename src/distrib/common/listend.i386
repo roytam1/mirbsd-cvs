@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/listend.i386,v 1.5 2007/01/26 16:00:27 tg Exp $
+# $MirOS: src/distrib/common/listend.i386,v 1.7 2007/01/26 18:18:00 tg Exp $
 
 # we want the disklabel without manual page
 CRUNCHSPECIAL disklabel	srcdir distrib/special/dl-noman
@@ -11,11 +11,6 @@ LINK	instbin					sbin/wicontrol
 LINK	instbin					usr/bin/more usr/bin/less
 
 # these don't fit
-REMOVE	bin/sync
-REMOVE	sbin/ping6
-REMOVE	sbin/restore
-REMOVE	sbin/scsi
-REMOVE	usr/bin/find
 
 # devices stuff
 SPECIAL	cd dev; ./MAKEDEV ramdisk
