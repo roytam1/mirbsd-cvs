@@ -567,3 +567,13 @@ Date: 21.01.2008
  placed, so your browser should be able to auto-detect them. If you have
  any problem, do not hesitate to contact me.</p>
 ----
+Title: MirOS at FOSDEM 2008
+Date: 07.02.2008
+
+<p>The MirOS project will be present at <a
+ href="http://www.fosdem.org/2008/">FOSDEM 2008</a> in Bruxelles,
+ Belgium. We will have a booth and distribute the usual CDs and
+ flyers. The BSD projects share a developer room with PostgreSQL. <b>I
+ will hold a talk about "Build systems with autoconf, automake, and
+ libtool" at Sunday, Feb 24, from 2pm to 3pm.</b></p>
+----

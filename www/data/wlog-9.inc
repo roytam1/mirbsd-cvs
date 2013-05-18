@@ -2576,3 +2576,27 @@ Title: mksh bug
 
 <p>Oh well, today is december 31. Happy new year 2008, everyone!</p>
 ----
+Author: bsiegert@
+Date: 07.02.2008
+
+<p>I am making the first steps on my new MacBook Pro &ndash; a fine
+ machine. I had had a bug report last year that MirMake does not build
+ on a new Intel Mac running Mac&nbsp;OS 10.5 "Leopard". During 24C3, I
+ had tried unsuccessfully to fix this. Now I finally know the
+ reason.</p>
+
+<p>It is an incompatibility between the getopt.h and getopt_long.c
+ that come with MirMake and the ones in Leopard's libSystem. It seems
+ that Apple has changed some function implementations to be UNIX2003
+ compatible. The old ones have been preserved for binary
+ compatibility, and the choice is done via "symbol variants", like
+ <tt>_getopt@UNIX2003</tt>. The upshot is that you <i>need</i> to use
+ the system header.</p>
+
+<p>I devised a fix (use the system getopt(3) in Darwin) but I now I
+need to figure out how to make a new mirmake release.</p>
+
+<p>In other news, I am working on the talk for FOSDEM 2008 in
+ Bruxelles. Stay tuned for more stuff about build systems (see
+ news).</p>
+----
