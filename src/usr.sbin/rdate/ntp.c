@@ -1,7 +1,7 @@
 /*	$OpenBSD: ntp.c,v 1.27 2004/10/26 09:48:59 henning Exp $	*/
 
 /*
- * Copyright (c) 2002, 2004, 2005, 2006, 2007 by Thorsten Glaser.
+ * Copyright (c) 2002, 2004, 2005, 2006, 2007, 2009 by Thorsten Glaser.
  * Copyright (c) 1996, 1997 by N.M. Maclaren. All rights reserved.
  * Copyright (c) 1996, 1997 by University of Cambridge. All rights reserved.
  *
@@ -54,7 +54,7 @@
 
 #include "rdate.h"
 
-__RCSID("$MirOS: src/usr.sbin/rdate/ntp.c,v 1.16 2007/08/16 10:38:29 tg Exp $");
+__RCSID("$MirOS: src/usr.sbin/rdate/ntp.c,v 1.17 2007/08/17 15:03:01 tg Exp $");
 
 /*
  * NTP definitions.  Note that these assume 8-bit bytes - sigh.  There
@@ -122,7 +122,7 @@ ntp_client(const char *hostname, int family, struct timeval *new,
     struct timeval *adjust, int sport, int nversion)
 {
 	struct addrinfo hints, *res0, *res;
-	double offset, error;
+	double offset = 0, error = 0;
 	int accepts = 0, ret, s, ierror;
 	union {
 		struct sockaddr *s_sa;
@@ -187,7 +187,7 @@ sync_ntp(int fd, const struct sockaddr *peer, double *offset, double *error,
 	int attempts = 0, accepts = 0, rejects = 0;
 	int delay = MAX_DELAY, ret;
 	double deadline;
-	double a, b, x, y;
+	double a, b, x = 0, y = 0;
 	double minerr = 0.1;		/* Maximum ignorable variation */
 	struct ntp_data data;
 
