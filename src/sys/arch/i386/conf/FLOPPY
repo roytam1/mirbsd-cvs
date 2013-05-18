@@ -1,9 +1,9 @@
-# $MirOS: src/sys/arch/i386/conf/GENERIC,v 1.23 2005/10/18 21:03:05 tg Exp $
+# $MirOS: src/sys/arch/i386/conf/FLOPPY,v 1.6 2005/12/05 16:55:03 tg Exp $
 # _MirOS: src/sys/arch/i386/conf/GENERIC,v 1.23 2005/10/18 21:03:05 tg Exp $
 
 machine		i386			# arch, used by config; REQUIRED
 
-# $MirOS: src/sys/arch/i386/conf/GENERIC,v 1.23 2005/10/18 21:03:05 tg Exp $
+# $MirOS: src/sys/arch/i386/conf/FLOPPY,v 1.6 2005/12/05 16:55:03 tg Exp $
 # $OpenBSD: GENERIC,v 1.112 2004/11/28 23:39:45 canacar Exp $
 #
 # Machine-independent option; used by all architectures.
@@ -25,7 +25,7 @@ machine		i386			# arch, used by config; REQUIRED
 #option		SCSIDEBUG		# extra debugging information
 option		SCSITERSE		# be terse with SCSI diagnostic stuff
 option		APM_NOPRINT		# don't print APM messages
-makeoptions	CSYS="-Os"		# build extra small kernel
+makeoptions	CSYS="-Os -fno-align-loops -fno-align-jumps"		# build extra small kernel
 option		SMALL_KERNEL		# remove certain large stuff
 option		NO_PROPOLICE		# remove stack protector
 
