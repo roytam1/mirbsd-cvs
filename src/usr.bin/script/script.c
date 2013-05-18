@@ -2,7 +2,7 @@
 /*	$NetBSD: script.c,v 1.3 1994/12/21 08:55:43 jtc Exp $	*/
 
 /*-
- * Copyright (c) 2007
+ * Copyright (c) 2007, 2008
  *	Thorsten Glaser <tg@mirbsd.de>
  *
  * Provided that these terms and disclaimer and all copyright notices
@@ -79,7 +79,7 @@
 __COPYRIGHT("@(#) Copyright (c) 1980, 1992, 1993\n\
 	The Regents of the University of California.  All rights reserved.\n");
 __SCCSID("@(#)script.c	8.1 (Berkeley) 6/6/93");
-__RCSID("$MirOS: src/usr.bin/script/script.c,v 1.12 2007/03/06 03:15:11 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/script/script.c,v 1.13 2007/03/09 11:56:27 tg Exp $");
 
 #include <sys/time.h>
 #include <sys/ioctl.h>
@@ -114,10 +114,12 @@ const char *shcmd = NULL;
 
 #ifndef NO_CONV
 bool l1mode = false;
+bool lumode = false;
 const char *l1rep = "?";
 size_t l1rlen = 1;
 #else
 #define l1mode	0
+#define lumode	0
 #endif
 
 volatile sig_atomic_t dead;
@@ -163,13 +165,13 @@ main(int argc, char *argv[])
 	extern bool __locale_is_utf8;
 	__locale_is_utf8 = true;
 #else
-#error Need at least MirOS #9uAB locale support!*/
+#error Need at least MirOS #9uAB locale support!
 #endif
 #endif
 #endif
 
 	aflg = nflg = 0;
-	while ((ch = getopt(argc, argv, "ac:L:lnqs")) != -1)
+	while ((ch = getopt(argc, argv, "ac:L:lnqsU:u")) != -1)
 		switch(ch) {
 		case 'a':
 			aflg = 1;
@@ -184,6 +186,7 @@ main(int argc, char *argv[])
 			/* FALLTHRU */
 		case 'l':
 			l1mode = true;
+			lumode = false;
 			break;
 #endif
 		case 'n':
@@ -197,6 +200,16 @@ main(int argc, char *argv[])
 		case 's':
 			do_loginshell = true;
 			break;
+#ifndef NO_CONV
+		case 'U':
+			l1rep = optarg;
+			l1rlen = strlen(l1rep);
+			/* FALLTHRU */
+		case 'u':
+			lumode = true;
+			l1mode = false;
+			break;
+#endif
 		default:
 			usage();
 		}
@@ -227,7 +240,7 @@ main(int argc, char *argv[])
 	if (!qflg)
 		printf("Script started, %s%s%s\n",
 #ifndef NO_CONV
-		    l1mode ? "latin1 mode, " :
+		    l1mode ? "latin1 mode, " : lumode ? "luit mode, " :
 #endif
 		    "", fscript ? "output file is " : "no output file", fname);
 #endif
@@ -271,6 +284,7 @@ doinput(void)
 {
 	ssize_t cc, off;
 	unsigned char ibuf[BUFSIZ];
+	unsigned char *ubuf = NULL;
 #ifndef NO_CONV
 	unsigned char cbuf[BUFSIZ * 2];
 	mbstate_t state = { 0, 0 };
@@ -278,6 +292,15 @@ doinput(void)
 	unsigned char *cbuf = NULL;	/* to quieten gcc */
 #endif
 
+#ifndef NO_CONV
+	if (lumode) {
+		/* this formula works because wcwidth(U+0000..U+00FF)<2 */
+		cc = l1rlen < 1 ? 1 : l1rlen;
+		if ((ubuf = calloc(BUFSIZ, cc)) == NULL)
+			err(1, "cannot allocate %zd*%zd bytes for"
+			    " conversion buffer", cc, (ssize_t)BUFSIZ);
+	}
+#endif
 	if (fscript)
 		fclose(fscript);
 	for (;;) {
@@ -297,11 +320,44 @@ doinput(void)
 			dump(ibuf, cc);
 			cc = cp - cbuf;
 			dump(cbuf, cc);
+		} else if (lumode) {
+			unsigned char *cp = ibuf;
+			unsigned char *lp = ubuf;
+			size_t n;
+			wchar_t wc;
+
+			off = cc;
+			dump(ibuf, cc);
+			while (off) {
+				n = mbrtowc(&wc, (char *)cp, off, &state);
+
+				if (n == 0) {
+					n = 1;
+					wc = 0;
+				} else if (n == (size_t)-1) {
+					n = 1;
+					wc = 0xFFFD;
+					state.count = 0;
+				} else if (n == (size_t)-2)
+					break;
+				off -= n;
+				cp += n;
+				if (wc < 0x0100)
+					*lp++ = wc;
+				else for (cc = 0; cc < wcwidth(wc); ++cc) {
+					/* what about wcwidth==(-1) C0/C1? */
+					memcpy(lp, l1rep, l1rlen);
+					lp += l1rlen;
+				}
+			}
+			cc = lp - ubuf;
+			dump(ubuf, cc);
 		}
 #endif
 		for (off = 0; off < cc; ) {
 			ssize_t n = write(master,
-			    (l1mode ? cbuf : ibuf) + off, cc - off);
+			    (l1mode ? cbuf : lumode ? ubuf : ibuf) + off,
+			    cc - off);
 			if (n == -1 && errno != EAGAIN)
 				break;
 			if (n == 0)
@@ -310,6 +366,11 @@ doinput(void)
 				off += n;
 		}
 	}
+#ifndef NO_CONV
+	if (lumode && state.count)
+		/* incomplete multibyte char on exit */
+		write(master, l1rep, l1rlen);
+#endif
 	done(sigdeadstatus);
 }
 
@@ -360,7 +421,10 @@ dooutput(void)
 	time_t tvec;
 #endif
 #ifndef NO_CONV
+	unsigned char ubuf[BUFSIZ * 2];
 	mbstate_t state = { 0, 0 };
+#else
+	unsigned char *ubuf = NULL;	/* to quieten gcc */
 #endif
 	ssize_t outcc = 0, cc, fcc, off;
 
@@ -442,11 +506,20 @@ dooutput(void)
 			}
 			cc = lp - cbuf;
 			dump(cbuf, cc);
+		} else if (lumode) {
+			unsigned char *cp = ubuf;
+
+			for (off = 0; off < cc; ++off)
+				cp += wcrtomb((char *)cp, obuf[off], &state);
+			dump(obuf, cc);
+			cc = cp - ubuf;
+			dump(ubuf, cc);
 		}
 #endif
 		for (off = 0; off < cc; ) {
 			ssize_t n = write(STDOUT_FILENO,
-			     (l1mode ? cbuf : obuf) + off, cc - off);
+			    (l1mode ? cbuf : lumode ? ubuf : obuf) + off,
+			    cc - off);
 			if (n == -1 && errno != EAGAIN)
 				break;
 			if (n == 0)
