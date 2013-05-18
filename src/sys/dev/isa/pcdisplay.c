@@ -1,3 +1,4 @@
+/* $MirOS$ */
 /* $OpenBSD: pcdisplay.c,v 1.9 2006/11/29 19:08:22 miod Exp $ */
 /* $NetBSD: pcdisplay.c,v 1.9.4.1 2000/06/30 16:27:48 simonb Exp $ */
 
@@ -93,7 +94,12 @@ const struct wsscreen_descr pcdisplay_scr = {
 	"80x25", 80, 25,
 	&pcdisplay_emulops,
 	0, 0, /* no font support */
+#if 0
 	WSSCREEN_REVERSE /* that's minimal... */
+#else
+	/* there is no fallback anyway, so support them all, most screens do */
+	WSSCREEN_HILIT | WSSCREEN_UNDERLINE | WSSCREEN_BLINK | WSSCREEN_REVERSE
+#endif
 };
 
 const struct wsscreen_descr *_pcdisplay_scrlist[] = {
