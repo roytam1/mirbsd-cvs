@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.81 2008/10/05 01:00:39 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.82 2008/10/05 12:54:04 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -1707,4 +1707,34 @@ Title: I agree with RMS
  a cloud shell… using $favourite_name (SOAP, XML, XMLRPC, AJAX, insert
  whatever disgusting technology is used at the moment) instead of Unix
  IPC via Pipes to connect “applications”. Gah! *shudder*</p>
+----
+Date: 13.10.2008 22:29
+Author: tg@
+Title: mksh – please test release candidate
+
+<p>Hi everyone, <a href="@@RELPATH@@mksh.htm">mksh</a>’s current
+ development version should be tested on as many platforms as
+ possible before a new release. This mostly means:</p>
+<pre> $ CVS_RSH=ssh; export CVS_RSH
+ $ cvs -d :ext:anoncvs@anoncvs.mirbsd.org:/cvs co -PA mksh
+ $ cd mksh
+ $ (sh Build.sh -r &amp;&amp; ./test.sh -v) 2>&1 | tee build.log</pre>
+<p>Afterwards, please mail me (<tt>tg@</tt>) the <tt>build.log</tt>
+ file, play around a little with mksh(1), see if it works. You can
+ use a relative path to the source directory for repeated builds and
+ also pass different compilers or flags as shown below, but please
+ remember that passing CFLAGS or LIBS overrides the defaults, which
+ you thusly should include:</p>
+<ul>
+ <li><tt>CC=gcc ksh93 ../mksh/Build.sh -r &amp;&amp; ./test.sh -v</tt></li>
+ <li><tt>CFLAGS="-q64 -O3 -qstrict" bash ../mksh/Build.sh -r &amp;&amp; ./test.sh -v</tt></li>
+ <li><tt>CFLAGS="-xO2 -m64" /usr/xpg4/bin/sh Build.sh -r &amp;&amp; ./test.sh -v</tt></li>
+ <li>…</li>
+</ul>
+<p>You are, of course, invited to join the mailing list discussions
+ regarding features, bugs, and behaviour, or even send in patches for
+ missing items or architectures. I’d especially be happy if someone
+ made Minix 3 work… pdksh runs there, mksh didn’t last time I tried
+ (with gcc, but once that’s up ACK should be easy). Or Plan 9.</p>
+<p>If you’re on Ohloh, please add mksh to one of your stacks.</p>
 ----
