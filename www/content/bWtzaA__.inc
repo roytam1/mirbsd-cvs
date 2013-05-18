@@ -1,5 +1,5 @@
 <!-- PageID: mksh -->
-<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.90 2007/03/10 21:49:14 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.91 2007/03/12 22:26:53 tg Exp $</small>
 
 <h1>mksh(1) R29</h1>
 <p>This is the MirBSD&trade; Korn Shell, a more or less portable
@@ -14,7 +14,25 @@
 <p>mksh is listed at <a href="http://directory.fsf.org/mksh.html">the
  FSF/UNESCO directory of Free Software</a>.</p>
 
-<h2>Due to current circumstances...</h2>
+<h2 id="toc">Table of Contents</h2><ul>
+ <li><a href="#clog">ChangeLog</a></li>
+ <li><a href="#plans">future plans</a></li>
+ <li><a href="#prefetch">Requirements</a></li>
+ <li><a href="#fetch">Downloading</a></li>
+ <li><a href="#extract">Unpacking</a></li>
+ <li><a href="#build">Building</a>...</li>
+ <li><a href="#buildbsd">on BSD</a></li>
+ <li><a href="#buildsol">on Solaris</a></li>
+ <li><a href="#buildgnu">on GNU and Mac OSX</a></li>
+ <li><a href="#buildsfu">on Interix</a></li>
+ <li><a href="#regress">Testsuite Results</a></li>
+ <li><a href="#contrib">Additional information</a></li>
+ <li><a href="#manual">Online manual page</a></li>
+ <li><a href="#irc">Internet Relay Chat</a></li>
+ <li><a href="#licence">Licence</a></li>
+</ul>
+
+<h2>Some notes for OpenBSD users who stumble upon this site...</h2>
 <p>I'd like to state a few things, now that mksh has been brought
  up on misc@openbsd.org: It's an actively developed pdksh-based
  korn shell with <strong>all</strong> improvements from the OpenBSD
@@ -59,24 +77,6 @@
  href="http://www.mirbsd.org/GBG/mksh.pdf">MirBSD Korn Shell</a></p>
 <p>If you need help converting your $PS1, join <tt>#!/bin/mksh</tt>
  (yes, that's really the name of the channel, no kidding) on Freenode.</p>
-
-<h2 id="toc">Table of Contents</h2><ul>
- <li><a href="#clog">ChangeLog</a></li>
- <li><a href="#plans">future plans</a></li>
- <li><a href="#prefetch">Requirements</a></li>
- <li><a href="#fetch">Downloading</a></li>
- <li><a href="#extract">Unpacking</a></li>
- <li><a href="#build">Building</a>...</li>
- <li><a href="#buildbsd">on BSD</a></li>
- <li><a href="#buildsol">on Solaris</a></li>
- <li><a href="#buildgnu">on GNU and Mac OSX</a></li>
- <li><a href="#buildsfu">on Interix</a></li>
- <li><a href="#regress">Testsuite Results</a></li>
- <li><a href="#contrib">Additional information</a></li>
- <li><a href="#manual">Online manual page</a></li>
- <li><a href="#irc">Internet Relay Chat</a></li>
- <li><a href="#licence">Licence</a></li>
-</ul>
 
 <h2 id="clog">Recent Changes</h2>
 <p>Changes in the current (unreleased) development version:</p><ul>
