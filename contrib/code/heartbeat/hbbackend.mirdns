@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: contrib/code/heartbeat/hbbackend.mirdns,v 1.5 2006/03/20 00:23:31 tg Exp $
+# $MirOS: contrib/code/heartbeat/hbbackend.mirdns,v 1.6 2006/03/20 01:13:26 tg Exp $
 #-
 # Copyright (c) 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -57,7 +57,6 @@ function do_heartbeat
 	triggerdown &
 	mydown=$!
 	mystat=UP
-	do_dnsup &
 }
 
 function do_idle
@@ -103,6 +102,7 @@ function chstate
 function dns_write
 {
 	print $1 >$tinydns/U-$myuser.txt
+	do_dnsup &
 }
 
 function do_dnsup
