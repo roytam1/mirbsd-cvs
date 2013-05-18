@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.418 2011/07/18 00:35:49 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.419 2011/07/26 14:50:10 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -1046,6 +1046,9 @@ exec /usr/bin/ld "${args[@]}"</pre>
  <li>[tg] Change the internal hash algorithm from Bob Jenkins’ one-at-a-time
   to its NUL-counting, always-changing, never-zero, better-avalanching MirOS
   variant <a href="@@ABSPATH@@/cvs.cgi/src/kern/include/nzat.h">NZAT</a></li>
+</ul>
+<p>Changes in the current (unreleased) stable branch:</p><ul>
+ <li>[tg, Wouter Verhelst] Fix <tt>${foo%\?}</tt> in <tt>-o sh</tt></li>
 </ul>
 <p id="r40b">mksh R40b introduces several <em>desired</em> fixes:</p><ul>
  <li>[tg] Don’t busy-loop on <tt>nameref ARY=ARY</tt> (LHS = RHS)</li>
