@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.253 2009/07/07 20:29:09 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.254 2009/07/07 20:37:02 tg Exp $'
 mws_content <<'EOF'
 <h2>mksh(1) R38c</h2>
 
@@ -1035,6 +1035,9 @@ mws_content <<'EOF'
   during alias conflict detection to be more robust (cf. Debian #535970)</li>
  <li>[tg] Build system improvements for ACK and nwcc, both on Debian sid</li>
  <li>[tg] Fix spelling error in changelog discovered by Lintian</li>
+ <li>[tg] Aligh “set -o nounset” / “set -u” behaviour with future POSIX
+  standard, as discussed with GNU bash maintainers, David Korn from AT&amp;T
+  ksh93, and The Open Group; prompted by use of it in Debian, cf. #522255</li>
 </ul>
 <p id="r38c">mksh R38c contains the following fixes:</p><ul>
  <li>[tg] Fix regression tests on OSes insisting on a shebang (Cygwin)</li>
