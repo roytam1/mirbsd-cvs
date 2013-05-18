@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.461 2012/06/26 20:39:33 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.462 2012/06/28 20:47:34 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -1146,6 +1146,11 @@ exec /usr/bin/ld "${args[@]}"</pre>
  <li>[tg] fix trimming with positional parameters (Closes: #48453)</li>
  <li>[tg] ensure that case end tokens are not mixed up (Closes: #220272)</li>
  <li>[tg] make alias definitions in mksh -c work (Closes: #517009), hack</li>
+ <li>[tg] Apply speed improvements and add <tt>MKSH_SMALL_BUT_FAST</tt></li>
+ <li>[tg] Fix <tt>CONSERVATIVE_FDS</tt> use-before-definition bug</li>
+ <li>[tg] Correct a regression when tab-completing (LP#1025843) and fix bugs
+  in the same code wrt. completion display and other expansions</li>
+ <li>[tg] Make quoted output of “typeset -p” AT&amp;T ksh93 compatible</li>
 </ul>
 <p>Changes in the current (unreleased) stable branch:</p><ul>
  <li>[tg] Fix a bug in the manual page</li>
