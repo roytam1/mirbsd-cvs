@@ -20,7 +20,7 @@ Replaces: ca-certificates, ca-certificates-java,
  openjdk-6-jre-headless, sun-java5-bin, sun-java6-bin, sympa, jxplorer
 Provides: ca-certificates, ca-certificates-java
 Enhances: curl, gajim, gnutls-bin, libgnutls13, libgnutls26, libssl0.9.8,
- lynx-cur, openssl, oracle-j2sdk1.6,
+ lynx-cur, openssl, oracle-j2sdk1.6, oracle-j2sdk1.7,
  cacao-oj6-jre-headless, ia32-sun-java5-bin, ia32-sun-java6-bin, j2re1.4,
  java-gcj-compat-headless, kdelibs-data, kdelibs-data-kde3, kdelibs5-data,
  libapache-mod-ssl, libgcj-common, libgcj10, libgcj11, libgcj12,

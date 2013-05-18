@@ -1,3 +1,11 @@
+ca-bundle (20130106) wtf; urgency=high
+
+  * The “annoying CAcert guy next to me” upload
+  * Enhances java-package made oracle-j2sdk1.7
+  * Update from latest MirPorts Framework
+
+ -- Thorsten Glaser <tg@mirbsd.de>  Sun, 06 Jan 2013 00:54:56 +0000
+
 ca-bundle (20120530) wtf; urgency=low
 
   * The “I’m at work waaay too late tonight” upload

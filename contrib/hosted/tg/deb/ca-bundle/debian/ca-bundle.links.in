@@ -1,5 +1,5 @@
 #!/bin/sh
-# $MirOS$
+# $MirOS: contrib/hosted/tg/deb/ca-bundle/debian/ca-bundle.links.in,v 1.4 2012/05/30 19:56:07 tg Exp $
 
 cd "$(dirname "$0")"
 rm -f ca-bundle.links{,~}
@@ -31,6 +31,7 @@ etc/ssl/certs/java/cacerts usr/lib/jvm/ia32-java-6-sun-1.6.0.13/jre/lib/security
 etc/ssl/certs/java/cacerts usr/lib/jvm/ia32-java-6-sun-1.6.0.14/jre/lib/security/cacerts
 etc/ssl/certs/java/cacerts usr/lib/jvm/ia32-java-6-sun-1.6.0.22/jre/lib/security/cacerts
 etc/ssl/certs/java/cacerts usr/lib/jvm/j2sdk1.6-oracle/jre/lib/security/cacerts
+etc/ssl/certs/java/cacerts usr/lib/jvm/j2sdk1.7-oracle/jre/lib/security/cacerts
 etc/ssl/certs/java/cacerts usr/lib/jvm/java-1.5.0-sun-1.5.0.06/jre/lib/security/cacerts
 etc/ssl/certs/java/cacerts usr/lib/jvm/java-1.5.0-sun-1.5.0.14/jre/lib/security/cacerts
 etc/ssl/certs/java/cacerts usr/lib/jvm/java-1.5.0-sun-1.5.0.15/jre/lib/security/cacerts
