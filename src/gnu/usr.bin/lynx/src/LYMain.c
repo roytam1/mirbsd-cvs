@@ -1,4 +1,4 @@
-/* $MirOS: src/gnu/usr.bin/lynx/src/LYMain.c,v 1.2 2005/03/27 22:42:37 tg Exp $ */
+/* $MirOS: src/gnu/usr.bin/lynx/src/LYMain.c,v 1.3 2005/03/27 22:52:43 tg Exp $ */
 
 #include <HTUtils.h>
 #include <HTTP.h>
@@ -3187,33 +3187,26 @@ static int version_fun(char *next_arg GCC_UNUSED)
     printf("%s\n", result);
     free(result);
 
-#ifndef __DATE__
-#define __DATE__ ""
-#endif
-#ifndef __TIME__
-#define __TIME__ ""
-#endif
-
 /*
  * SYSTEM_NAME is set by the configure script.  Show build date/time for other
  * systems, according to predefined compiler symbols.
  */
 #ifdef SYSTEM_NAME
-    printf(gettext("Built on %s %s %s\n"), SYSTEM_NAME, __DATE__, __TIME__);
+    printf(gettext("Built on %s\n"), SYSTEM_NAME);
 #else
 #ifdef __CYGWIN__
-    printf("Compiled by CYGWIN (%s %s).\n", __DATE__, __TIME__);
+    printf("Compiled by CYGWIN.\n");
 #else
 #ifdef __BORLANDC__
-    printf("Compiled by Borland C++ (%s %s).\n", __DATE__, __TIME__);
+    printf("Compiled by Borland C++.\n");
 #else
 #ifdef _MSC_VER
-    printf("Compiled by Microsoft Visual C++ (%s %s).\n", __DATE__, __TIME__);
+    printf("Compiled by Microsoft Visual C++.\n");
 #else
 #ifdef __DJGPP__
-    printf("Compiled by DJGPP (%s %s).\n", __DATE__, __TIME__);
+    printf("Compiled by DJGPP.\n");
 #else
-    printf("Compiled at (%s %s).\n", __DATE__, __TIME__);
+    printf("No compilation information available.\n");
 #endif /* __DJGPP__ */
 #endif /* _MSC_VER */
 #endif /* __BORLANDC__ */
@@ -3226,7 +3219,7 @@ static int version_fun(char *next_arg GCC_UNUSED)
     puts(gettext("See http://lynx.isc.org/ and the online help for more information."));
     puts("");
 #ifdef USE_SSL
-    puts("See http://www.moxienet.com/lynx/ for information about SSL for Lynx.");
+    puts("Cry for help to obtain information about SSL for Lynx.");
 #ifdef OPENSSL_VERSION_TEXT
     puts("See http://www.openssl.org/ for information about OpenSSL.");
 #endif /* OPENSSL_VERSION_TEXT */
