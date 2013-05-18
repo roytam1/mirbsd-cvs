@@ -493,19 +493,10 @@ evalexpr(Expr_state *es, int prec)
 			break;
 		case O_RSHIFT:
 		case O_RSHIFTASN:
-			if (es->natural)
-				res = vl->val.u >> vr->val.u;
-			else {
-				/*
-				 * This is implementation-defined in ISO C,
-				 * though not undefined, and all known twos
-				 * complement implementations make an arith
-				 * shift-right out of this, and open-coding
-				 * it would probably hurt massively.
-				 */
-				/* how about ANDing? */
-				res = (mksh_uari_t)(vl->val.i >> vr->val.u);
-			}
+			/* how about ANDing with 31 (except lksh)? */
+			res = es->natural || vl->val.i >= 0 ?
+			    vl->val.u >> vr->val.u :
+			    ~(~vl->val.u >> vr->val.u);
 			break;
 		/* how about rotation? */
 		case O_LT:
