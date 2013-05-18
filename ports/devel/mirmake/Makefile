@@ -1,4 +1,4 @@
-# $MirOS: ports/devel/mirmake/Makefile,v 1.19 2006/11/07 00:33:12 tg Exp $
+# $MirOS: ports/devel/mirmake/Makefile,v 1.20 2006/12/28 02:33:15 tg Exp $
 #-
 # This port should contain no patches.
 
@@ -26,7 +26,9 @@ SED_PLIST+=		| sed -e '/^IFSFU:/d'
 .endif
 
 do-build:
-	cd ${WRKBUILD} && ${SETENV} ${MAKE_ENV} ${MKSH} ./Build.sh \
+	cd ${WRKBUILD} && ${SETENV} ${MAKE_ENV} \
+	    CFLAGS=${CFLAGS:M*:Q:S${CPPFLAGS:M*:Q}} \
+	    ${MKSH} ./Build.sh \
 	    ${OStype} ${PREFIX} man/cat mmake \
 	    ${MACHINE} ${MACHINE_ARCH} ${MACHINE_OS} \
 	    ${MKSH} ${BINOWN}:${BINGRP}
