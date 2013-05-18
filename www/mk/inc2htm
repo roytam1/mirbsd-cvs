@@ -1,4 +1,4 @@
-rcsid_inc2htm='$MirOS: www/mk/inc2htm,v 1.18 2008/12/04 18:49:00 tg Exp $'
+rcsid_inc2htm='$MirOS: www/mk/inc2htm,v 1.19 2008/12/04 19:49:12 tg Exp $'
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -21,9 +21,9 @@ wd=$(pwd)
 cd "$TOP/data"
 for x in *.cfg; do
 	x=${x%.cfg}
-	t=$(grep '^targets=' $x.cfg)
-	targets=
-	eval $t
+	t=$(grep '^targets=' $x.cfg || :)
+	typeset -l targets=
+	[[ -z $t ]] || eval $t
 	for t in $targets; do
 		eval linktarget_$t=$x
 	done
