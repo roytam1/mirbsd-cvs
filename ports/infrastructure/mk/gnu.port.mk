@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/gnu.port.mk,v 1.53 2009/01/15 22:44:43 tg Exp $
+# $MirOS: ports/infrastructure/mk/gnu.port.mk,v 1.54 2009/02/09 11:55:59 tg Exp $
 # $OpenBSD: gnu.port.mk,v 1.19 2004/06/06 11:49:08 espie Exp $
 
 AUTOCONF_NEW?=		No
@@ -33,10 +33,14 @@ AUTOCONF_ENV=		PATH=${PORTPATH:Q} PORTSDIR=${PORTSDIR:Q} \
 			M4=${M4:Q} \
 			AUTOCONF_VERSION=${AUTOCONF_VERSION} \
 			AUTOMAKE_VERSION=${AUTOMAKE_VERSION}
-EXTRA_XAKE_FLAGS+=	mkdir_p='mkdir -p' \
+MAKE_FLAGS+=		V=1 mkdir_p='mkdir -p' \
 			mkinstalldirs='mkdir -p' \
 			MAKEINFO="makeinfo --no-split"
-CONFIGURE_ENV+=		MAKEINFO="makeinfo --no-split"
+FAKE_FLAGS+=		V=1 mkdir_p='mkdir -p' \
+			mkinstalldirs='mkdir -p' \
+			MAKEINFO="makeinfo --no-split"
+CONFIGURE_ENV+=		V=1 \
+			MAKEINFO="makeinfo --no-split"
 
 MODGNU_AUTOMAKE_DEPS=	::devel/metaauto \
 			:automake-${AUTOMAKE_VERSION}*:devel/automake/${AUTOMAKE_VERSION}
