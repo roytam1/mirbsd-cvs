@@ -287,3 +287,23 @@ Date: 16.07.2007
  the upcoming mksh R30 will please even more, and suggest other projects,
  such as NetBSD®, to switch at least their native ksh to mksh.</p>
 ----
+Title: sparc32 no longer in Debian; mksh with xlC
+Date: 23.07.2007
+Author: tg@
+
+<p>With apologies to every Debian user who is still on sparc32, XTaran of
+ <a href="http://www.symlink.ch/">Symlink</a> fame has provided us with
+ the idea: We aim to produce an operating system for 32-bit sparc boxen
+ that is small, fast, stable, reliable and secure. MirOS/sparc is its name,
+ and while it's currently being dormant, I promise it will be polished and
+ shining in a short while. (I hope to get the issues I had some weeks ago
+ solved, even at the cost of Ada support should that be necessary.)</p>
+<p>I could use some parts for my SPARCstation 20 though: it only has a 75
+ MHz supersparc CPU and 128 MiB RAM; if someone has a 233 MHz hypersparc
+ CPU (I think Ross built these) I'd be delighted to upgrade, and more RAM
+ never is bad. I've got some SCSI discs from tyler, so that's not urgent.</p>
+<p><a href="@@RELPATH@@mksh.htm">mksh</a> now builds with IBM XL C/C++ on
+ AIX – Linux/POWER and Mac OSX shall follow once I'm able to test. Thanks
+ to the person who wishes to remain anonymous for providing us the ability
+ to do this porting work.</p>
+----
