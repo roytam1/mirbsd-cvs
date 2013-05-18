@@ -1,5 +1,5 @@
 /*
- * $LynxId: HTMIME.c,v 1.76 2011/06/11 12:10:40 tom Exp $
+ * $LynxId: HTMIME.c,v 1.79 2012/08/22 09:48:46 tom Exp $
  *
  *			MIME Message Parse			HTMIME.c
  *			==================
@@ -577,7 +577,12 @@ static int pumpData(HTStream *me)
 	    FREE(url);
 	}
     }
-    CTRACE((tfp, "...end of pumpData\n"));
+    CTRACE((tfp, "...end of pumpData, copied %"
+	    PRI_off_t " vs %"
+	    PRI_off_t "\n",
+	    me->anchor->actual_length,
+	    me->anchor->content_length));
+    me->anchor->actual_length = 0;
     return HT_OK;
 }
 
@@ -791,10 +796,10 @@ static int dispatchField(HTStream *me)
 	/*
 	 * Convert to integer and indicate in anchor.  - FM
 	 */
-	me->anchor->content_length = atoi(me->value);
+	me->anchor->content_length = LYatoll(me->value);
 	if (me->anchor->content_length < 0)
 	    me->anchor->content_length = 0;
-	CTRACE((tfp, "        Converted to integer: '%ld'\n",
+	CTRACE((tfp, "        Converted to integer: '%" PRI_off_t "'\n",
 		me->anchor->content_length));
 	break;
     case miCONTENT_LOCATION:
@@ -1075,7 +1080,13 @@ static void HTMIME_put_character(HTStream *me, int c)
     switch (me->state) {
       begin_transparent:
     case MIME_TRANSPARENT:
-	(*me->targetClass.put_character) (me->target, c);
+	me->anchor->actual_length += 1;
+	if (me->anchor->content_length == 0 ||
+	    (me->anchor->content_length >= me->anchor->actual_length)) {
+	    (me->targetClass.put_character) (me->target, c);
+	} else {
+	    (me->targetClass.put_character) (me->target, c);
+	}
 	return;
 
 	/* RFC-2616 describes chunked transfer coding */
