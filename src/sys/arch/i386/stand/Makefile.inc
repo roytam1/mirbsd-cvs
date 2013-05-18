@@ -1,4 +1,4 @@
-# $MirOS: src/sys/arch/i386/stand/Makefile.inc,v 1.23 2009/01/10 13:41:17 tg Exp $
+# $MirOS: src/sys/arch/i386/stand/Makefile.inc,v 1.24 2009/01/12 17:39:42 tg Exp $
 # $OpenBSD: Makefile.inc,v 1.40 2007/11/26 10:26:02 deraadt Exp $
 
 .ifndef MODSRC_SYS_ARCH_I386_STAND_MAKEFILE_INC
@@ -17,7 +17,7 @@ COPTS+=		-fno-stack-protector -ffreestanding -Wall -Wno-packed -Os \
 		-mpreferred-stack-boundary=2 -falign-functions=1 ${DEBUG} \
 		-falign-jumps=1 -falign-loops=1 -fno-omit-frame-pointer
 HOSTCPPFLAGS:=	${CPPFLAGS}
-CPPFLAGS+=	-I${S} -I${SADIR}/libsa -I. \
+CPPFLAGS+=	-I${S} -I${SADIR}/libsa -I. -I${KERNBASE}/include \
 		-I${.CURDIR} -D__BOOT_VER=${_V:Q}
 SACFLAGS=	-D_STANDALONE
 DEBUGFLAGS=

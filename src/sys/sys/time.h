@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/sys/time.h,v 1.4 2007/05/19 21:31:58 tg Exp $ */
+/**	$MirOS: src/sys/sys/time.h,v 1.5 2011/11/20 04:57:15 tg Exp $ */
 /*	$OpenBSD: time.h,v 1.17 2003/08/14 05:34:47 kevlo Exp $	*/
 /*	$NetBSD: time.h,v 1.18 1996/04/23 10:29:33 mycroft Exp $	*/
 
@@ -37,7 +37,11 @@
 #define _SYS_TIME_H_
 
 #include <sys/types.h>
+#if defined(_KERNEL) || defined(_STANDALONE)
+#include <mirtime.h>
+#else
 #include <syskern/mirtime.h>
+#endif
 
 /*
  * Structure returned by gettimeofday(2) system call,
