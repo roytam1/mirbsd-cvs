@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.348 2011/08/18 16:53:24 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.349 2011/08/18 17:27:34 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -8211,7 +8211,7 @@ Tag: debian
  so what is one to do?</p><div class="boxtext">
  <pre>
 	<b>$</b> GNUTARGET=a.out-i386-linux ar rc with-aout \
-	&gt; debian-binary control.tar.gz data.tar.gz
+	<b>&gt;</b> debian-binary control.tar.gz data.tar.gz
 	<b>$</b> md5sum pkg_1.0_all.deb with-aout on-elf
 	248f78d42f8ca8f2a3560f9800b2bf01  pkg_1.0_all.deb
 	248f78d42f8ca8f2a3560f9800b2bf01  with-aout
@@ -8225,7 +8225,7 @@ Tag: debian
 	ar: supported targets: elf32-m68k a.out-m68k-linux elf32-little elf32-big plugin srec symbolsrec verilog tekhex binary ihex trad-core<br />
 	<tt style="font-weight:bold;">debian_i386$</tt> ar -h 2&gt;&amp;1 | grep '^ar: supported targets'<br />
 	ar: supported targets: elf32-i386 a.out-i386-linux pei-i386 elf32-little elf32-big elf64-x86-64 elf32-x86-64 pei-x86-64 elf64-l1om elf64-k1om elf64-little elf64-big plugin srec symbolsrec verilog tekhex binary ihex trad-core<br />
-	<tt style="font-weight:bold;">debian_i386$</tt> ar -h 2&gt;&amp;1 | grep '^ar: supported targets' # binutils-multiarch<br />
+	<tt style="font-weight:bold;">debian_i386$</tt> ar -h 2&gt;&amp;1 | grep '^ar: supported targets' <tt style="font-weight:bold;"># binutils-multiarch</tt><br />
 	ar: supported targets: elf32-i386 a.out-i386-linux pei-i386 elf32-little elf32-big elf64-alpha ecoff-littlealpha elf64-little elf64-big elf32-littlearm elf32-bigarm elf32-hppa-linux elf32-hppa elf64-x86-64 elf32-x86-64 elf64-l1om elf64-k1om elf64-ia64-little elf64-ia64-big pei-ia64 elf32-m68k a.out-m68k-linux coff-m68k versados ieee a.out-zero-big elf32-tradbigmips elf32-tradlittlemips ecoff-bigmips ecoff-littlemips elf32-ntradbigmips elf64-tradbigmips elf32-ntradlittlemips elf64-tradlittlemips elf32-powerpc aixcoff-rs6000 elf32-powerpcle ppcboot elf64-powerpc elf64-powerpcle aixcoff64-rs6000 aix5coff64-rs6000 elf32-s390 elf64-s390 elf32-shbig-linux elf32-sh-linux elf32-sh64-linux elf32-sh64big-linux elf64-sh64-linux elf64-sh64big-linux elf32-sparc a.out-sparc-linux elf64-sparc a.out-sunos-big pei-x86-64 elf32-m32r-linux elf32-m32rle-linux elf32-spu plugin srec symbolsrec verilog tekhex binary ihex trad-core<br />
 	<tt style="font-weight:bold;">mirbsd_i386$</tt> ar -h 2&gt;&amp;1 | grep '^ar: supported targets'<br />
 	ar: supported targets: elf32-i386 coff-a29k-big a.out.adobe aix5coff64-rs6000 a.out-zero-big a.out-mips-little epoc-pe-arm-big epoc-pe-arm-little epoc-pei-arm-big epoc-pei-arm-little coff-arm-big coff-arm-little a.out-arm-netbsd pe-arm-big pe-arm-little pei-arm-big pei-arm-little b.out.big b.out.little efi-app-ia32 efi-app-ia64 elf32-avr elf32-big elf32-bigarc elf32-bigarm elf32-bigarm-symbian elf32-bigarm-vxworks elf32-bigmips elf32-cr16c elf32-cris elf32-crx elf32-d10v elf32-d30v elf32-dlx elf32-fr30 elf32-frv elf32-frvfdpic elf32-h8300 elf32-hppa-linux elf32-hppa-netbsd elf32-hppa elf32-i370 elf32-i386-freebsd elf32-i386-vxworks elf32-i860-little elf32-i860 elf32-i960 elf32-ia64-hpux-big elf32-ip2k elf32-iq2000 elf32-little elf32-littlearc elf32-littlearm elf32-littlearm-symbian elf32-littlearm-vxworks elf32-littlemips elf32-m32r elf32-m32rle elf32-m32r-linux elf32-m32rle-linux elf32-m68hc11 elf32-m68hc12 elf32-m68k elf32-m88k elf32-mcore-big elf32-mcore-little elf32-mn10200 elf32-mn10300 elf32-msp430 elf32-nbigmips elf32-nlittlemips elf32-ntradbigmips elf32-ntradlittlemips elf32-openrisc elf32-or32 elf32-pj elf32-pjl elf32-powerpc elf32-powerpc-vxworks elf32-powerpcle elf32-s390 elf32-sh elf32-shbig-linux elf32-shl elf32-shl-symbian elf32-sh-linux elf32-shl-nbsd elf32-sh-nbsd elf32-sh64 elf32-sh64l elf32-sh64l-nbsd elf32-sh64-nbsd elf32-sh64-linux elf32-sh64big-linux elf32-sparc elf32-tradbigmips elf32-tradlittlemips elf32-us-cris elf32-v850 elf32-vax elf32-xstormy16 elf32-xtensa-be elf32-xtensa-le elf64-alpha-freebsd elf64-alpha elf64-big elf64-bigmips elf64-hppa-linux elf64-hppa elf64-ia64-big elf64-ia64-hpux-big elf64-ia64-little elf64-little elf64-littlemips elf64-mmix elf64-powerpc elf64-powerpcle elf64-s390 elf64-sh64 elf64-sh64l elf64-sh64l-nbsd elf64-sh64-nbsd elf64-sh64-linux elf64-sh64big-linux elf64-sparc elf64-tradbigmips elf64-tradlittlemips elf64-x86-64 mmo pe-powerpc pei-powerpc pe-powerpcle pei-powerpcle a.out-cris demo64 ecoff-bigmips ecoff-biglittlemips ecoff-littlemips ecoff-littlealpha coff-go32 coff-go32-exe coff-h8300 coff-h8500 a.out-hp300hpux a.out-i386 a.out-i386-bsd coff-i386 a.out-i386-freebsd a.out-i386-lynx coff-i386-lynx msdos a.out-i386-netbsd i386os9k pe-i386 pei-i386 coff-i860 coff-Intel-big coff-Intel-little ieee coff-m68k coff-m68k-un a.out-m68k-lynx coff-m68k-lynx a.out-m68k-netbsd coff-m68k-sysv coff-m88kbcs a.out-m88k-mach3 a.out-m88k-openbsd mach-o-be mach-o-le mach-o-fat coff-maxq pe-mcore-big pe-mcore-little pei-mcore-big pei-mcore-little pe-mips pei-mips a.out-newsos3 nlm32-alpha nlm32-i386 nlm32-powerpc nlm32-sparc coff-or32-big a.out-pc532-mach a.out-ns32k-netbsd a.out-pdp11 pef pef-xlib ppcboot aixcoff64-rs6000 aixcoff-rs6000 coff-sh-small coff-sh coff-shl-small coff-shl pe-shl pei-shl coff-sparc a.out-sparc-little a.out-sparc-linux a.out-sparc-lynx coff-sparc-lynx a.out-sparc-netbsd a.out-sunos-big sym a.out-tic30 coff-tic30 coff0-beh-c54x coff0-c54x coff1-beh-c54x coff1-c54x coff2-beh-c54x coff2-c54x coff-tic80 a.out-vax-bsd a.out-vax-netbsd a.out-vax1k-netbsd versados vms-alpha vms-vax coff-w65 coff-we32k coff-z8k elf32-am33lin elf32-ms1 srec symbolsrec tekhex binary ihex netbsd-core<br />
@@ -8255,13 +8255,13 @@ Tag: debian
  and <tt>fakeroot</tt> set the uid/gid to 0)</p><div class="boxtext">
  <pre>
 	<b>$</b> find debian-binary control.tar.gz data.tar.gz | \
-	&gt; mircpio -oHar -Mdist &gt;with-mircpio
+	<b>&gt;</b> mircpio -oHar -Mdist &gt;with-mircpio
 	<b>$</b> mirpax -w -M dist -f with-mirpax -x ar \
-	&gt; debian-binary control.tar.gz data.tar.gz
+	<b>&gt;</b> debian-binary control.tar.gz data.tar.gz
 	<b>$</b> mirtar -M dist -A -cf with-mirtar \
-	&gt; debian-binary control.tar.gz data.tar.gz
+	<b>&gt;</b> debian-binary control.tar.gz data.tar.gz
 	<b>$</b> GNUTARGET=a.out-i386-linux fakeroot ar rc with-aout-ar \
-	&gt; debian-binary control.tar.gz data.tar.gz
+	<b>&gt;</b> debian-binary control.tar.gz data.tar.gz
 	<b>$</b> md5sum with-*
 	a466e2fd57cdee141fe585a43245548f  with-aout-ar
 	a466e2fd57cdee141fe585a43245548f  with-mircpio
@@ -8340,7 +8340,7 @@ Tag: debian
 	    mircpio -oC512 -Hustar -M0x0B -Mgslash) | gzip -n9 &gt;control.tar.gz; \
 	(cd data; find . | fgrep -v /.svn | sort | \
 	    mircpio -oC512 -Hustar -M0x0B -Mgslash) | gzip -n9 &gt;data.tar.gz; \
-	mirtar -A -M dist -cf $$toplev/../$$d debian-binary control.tar.gz data.tar.gz; \
+	mirtar -M dist -Acf $$toplev/../$$d debian-binary cont*gz dat*gz; \
 	rm -f control.tar.gz data.tar.gz; \
 	cd $$toplev; dpkg-distaddfile $$d non-free/devel optional
  </pre>
