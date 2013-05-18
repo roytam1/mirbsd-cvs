@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/share/misc/licence.template,v 1.2 2005/03/03 19:43:30 tg Rel $
+# $MirOS: src/lib/upd-chk-soversion,v 1.1 2005/10/21 11:02:38 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -30,9 +30,8 @@ fi
 cd $(dirname $0)/..
 result=$(for dir in gnu/usr.bin/perl lib/libc lib/libcurses lib/libdes \
     lib/libedit lib/libform lib/libkvm lib/libm lib/libmenu lib/libocurses \
-    lib/libossaudio lib/libpanel lib/libpcap lib/libpthread lib/libsectok \
-    lib/libskey lib/libssl/crypto lib/libssl/ssl lib/libusbhid lib/libutil \
-    lib/libz usr.bin/sudo/noexec; do
+    lib/libpanel lib/libpcap lib/libpthread lib/libsectok lib/libskey \
+    lib/libssl/crypto lib/libssl/ssl lib/libusbhid lib/libutil lib/libz; do
 	cvs -Rq diff -ur$1 -ropenbsd $dir/shlib_version
 done) 2>&1
 print -r -- "$result"
