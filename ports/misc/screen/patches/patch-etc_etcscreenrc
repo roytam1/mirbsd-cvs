@@ -1,9 +1,9 @@
-$MirOS: ports/misc/screen/patches/patch-etc_etcscreenrc,v 1.9 2009/09/09 10:33:25 tg Exp $
+$MirOS: ports/misc/screen/patches/patch-etc_etcscreenrc,v 1.10 2009/10/03 16:20:22 tg Exp $
 --- etc/etcscreenrc.orig	Fri Dec  5 13:45:51 2003
-+++ etc/etcscreenrc	Sat Oct  3 16:18:49 2009
++++ etc/etcscreenrc	Sat Jan  9 20:06:40 2010
 @@ -1,20 +1,21 @@
 +# $MirSecuCron$
-+# $MirOS: ports/misc/screen/patches/patch-etc_etcscreenrc,v 1.9 2009/09/09 10:33:25 tg Exp $
++# $MirOS: ports/misc/screen/patches/patch-etc_etcscreenrc,v 1.10 2009/10/03 16:20:22 tg Exp $
  #
  # This is an example for the global screenrc file.
 -# You may want to install this file as /usr/local/etc/screenrc.
@@ -74,7 +74,7 @@ $MirOS: ports/misc/screen/patches/patch-etc_etcscreenrc,v 1.9 2009/09/09 10:33:2
  #terminfo xterm|xterms|xs ti=\E7\E[?47l
  
  #make hp700 termcap/info better
-@@ -78,17 +86,35 @@ terminfo hp700 'Z0=\E[?3h:Z1=\E[?3l:hs:t
+@@ -78,17 +86,44 @@ terminfo hp700 'Z0=\E[?3h:Z1=\E[?3l:hs:t
  #wyse-75-42 must have defflow control (xo = "terminal uses xon/xoff")
  #(nowadays: nx = padding doesn't work, have to use xon/off)
  #essential to have it here, as this is a slow terminal.
@@ -95,6 +95,14 @@ $MirOS: ports/misc/screen/patches/patch-etc_etcscreenrc,v 1.9 2009/09/09 10:33:2
  bind O login off
  bind } history
  
++# press <escapechar>+u to enter hexadecimal Unicode codepoint or octet
++# a) screen-4.0.3-MirPorts-14 and up (automatical mode)
++bind u digraph '`?'
++# b) other screen versions, window encoding is UTF-8
++#bind u digraph 'U+'
++# c) other screen versions, window encoding is ASCII or 8-bit
++#bind u digraph '0x'
++
 +# Enable non-blocking mode to better cope with flakey ssh connections.
 +defnonblock 5
 +
@@ -102,7 +110,8 @@ $MirOS: ports/misc/screen/patches/patch-etc_etcscreenrc,v 1.9 2009/09/09 10:33:2
 +shelltitle -
 +# use this one...
 +#hardstatus alwayslastline "%{kr} %H %{ky} load[%l] %{kg} %d.%m.%Y %0c %{yb} %=%?%-w%?[%n%f %t]%?%+w%? "
-+# ... if this one has violet instead of blue on the bottom right
++# ... if this one has violet instead of blue on the bottom right;
++# append ":%s" to "%0c" to display seconds on the clock
 +hardstatus alwayslastline "%{kr} %H %{ky} load[%l] %{kg} %d.%m.%Y %0c %{+b}%{yb} %=%?%-w%?[%n%f %t]%?%+w%? "
 +nethack on
 +defscrollback 4096
