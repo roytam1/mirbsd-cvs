@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.137 2006/10/27 15:53:05 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.138 2006/11/03 23:41:25 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -1821,16 +1821,19 @@ ${_EXTRACT_COOKIE}: ${_WRKDIR_COOKIE} ${_SYSTRACE_COOKIE}
 	@x='${_i}'; if [[ $$x = *([!:]):+([!:]):* ]]; then \
 		print -u2 'Error:\tthe middle part of LIB_DEPENDS cannot be reliably used to'; \
 		print -u2 '\tenforce a minimum version. Use a mixed tdependency instead on'; \
-		print -u2 '\titem "${_i}" like'; \
+		print -u2 '\titem "${_i}" like\n'; \
 		IFS=:; set -A y -- $$x; \
 		print -u2 "LIB_DEPENDS+=\\t\\t$${y[0]}::$${y[2]}"; \
 		print -u2 "B_R_DEPENDS+=\\t\\t:$${y[1]}:$${y[2]}"; \
 		print -u2 'BUILD_DEPENDS+=\t\t$${B_R_DEPENDS}'; \
 		print -u2 'RUN_DEPENDS+=\t\t$${B_R_DEPENDS}'; \
+		print -u2; \
 		touch ${WRKDIR}/.lib_kludge_hit; \
 	fi
 .endfor
+.if (${USER:L} == "tg") || (${USER:L} == "bsiegert")
 	@[[ ! -e ${WRKDIR}/.lib_kludge_hit ]]
+.endif
 .if ${DIST_SOURCE:L} == "distfile"
 	@cd ${.CURDIR} && exec ${MAKE} NOSUPDISTFILES=1 \
 	    checksum build-depends lib-depends
