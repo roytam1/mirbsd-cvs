@@ -1,3 +1,7 @@
+#if 0
+.if "0" == "1"
+#endif
+
 /* Configuration options */
 /* please change the default server to one near you. */
 #define DEFAULTSERVER	"irc.mirbsd.org"
@@ -14,8 +18,9 @@
 #else
 #define RELEASE_OS	"unknown OS"
 #endif
-#define RELEASE_L	"TinyIRC 20081209 (" RELEASE_OS ") MirOS-contrib"
-#define RELEASE_S	"TinyIRC MirOS"
+#define RELEASE_VER	"TinyIRC 20081209"
+#define RELEASE_L	RELEASE_VER " (" RELEASE_OS ") MirOS-contrib"
+#define RELEASE_S	RELEASE_VER " MirOS"
 /* tinyirc 1.0
 
    TinyIRC Alpha Release
@@ -72,7 +77,7 @@
 #define	__RCSID(x)	static const char __rcsid[] __attribute__((used)) = (x)
 #endif
 
-__RCSID("$MirOS: contrib/code/Snippets/tinyirc.c,v 1.22 2008/12/09 20:27:02 tg Exp $");
+__RCSID("$MirOS: contrib/code/Snippets/tinyirc.c,v 1.23 2008/12/09 20:37:12 tg Exp $");
 
 #ifndef __dead
 #define __dead
@@ -512,7 +517,7 @@ int donumeric(int num)
     return (0);
 }
 
-#define	LISTSIZE	54
+#define	LISTSIZE	55
 #define	DO_JOIN		12
 #define	DO_MSG		18
 #define	DO_PRIVMSG	30
@@ -525,6 +530,7 @@ int donumeric(int num)
 #define DO_CTCP		53
 #define DO_NOTICE	21
 #define DO_NAMES	23
+#define DO_NS		54
 static const char *cmdlist[LISTSIZE] =
 {"AWAY", "ADMIN", "CONNECT", "CLOSE", "DIE", "DNS", "ERROR", "HELP",
  "HASH", "INVITE", "INFO", "ISON", "JOIN", "KICK", "KILL", "LIST", "LINKS",
@@ -532,7 +538,7 @@ static const char *cmdlist[LISTSIZE] =
  "PART", "PASS", "PING", "PONG", "PRIVMSG", "QUOTE", "QUIT", "REHASH", "RESTART",
  "SERVER", "SQUIT", "STATS", "SUMMON", "TIME", "TOPIC", "TRACE", "USER",
  "USERHOST", "USERS", "VERSION", "W", "WALLOPS", "WHO", "WHOIS", "WHOWAS",
- "ME", "DESCRIBE", "CTCP"};
+ "ME", "DESCRIBE", "CTCP", "NS"};
 static int numargs[LISTSIZE] =
 {1, 1, 3, 1, 1, 1, 1, 1,
  1, 2, 1, 1, 1, 3, 2, 1, 1,
@@ -540,7 +546,7 @@ static int numargs[LISTSIZE] =
  1, 1, 1, 1, 2, 0, 1, 1, 1,
  3, 2, 1, 3, 1, 2, 2, 4,
  1, 1, 1, 1, 1, 1, 1, 1,
- 1, 1, 1
+ 1, 1, 1, 0
 };
 static int (*docommand[LISTSIZE]) (void) =
 {nop, nop, nop, nop, nop, nop, doerror, nop,
@@ -549,7 +555,7 @@ static int (*docommand[LISTSIZE]) (void) =
  dopart, nop, nop, dopong, doprivmsg, nop, doquit, nop, nop,
  nop, dosquit, nop, nop, dotime, dotopic, nop, nop,
  nop, nop, nop, nop, nop, nop, nop, nop,
- nop, nop, nop
+ nop, nop, nop, nop
 };
 
 int wordwrapout(char *ptrx, size_t count)
@@ -794,6 +800,28 @@ void parseinput(void)
 		   tok_out[j + 1] != NULL) ? " :" : " "), tok_out[j]);
 	   outcol = wordwrapout(tok_out[j], outcol);
 	}
+	if (i == DO_NS && strstr(lineout, "%s") != NULL) {
+		char ch;
+
+		strlcpy(inputbuf, lineout, 384);
+		tmp = inputbuf + 384;
+		tputs_x(tgoto(CM, 0, LI - 1));
+		tputs_x(CE);
+		printf("Password? ");
+		fflush(stdout);
+		while ((ch = getchar()) != '\n')
+			if (ch == 8 || ch == 127) {
+				if (tmp > inputbuf + 384)
+					--tmp;
+			} else if (tmp < inputbuf + sizeof (inputbuf) - 2)
+				*tmp++ = ch;
+		*tmp = '\0';
+		wasdate = 0;
+		tputs_x(tgoto(CM, 0, LI - 1));
+		tputs_x(CE);
+		snprintf(lineout, LINELEN, inputbuf, inputbuf + 384);
+	}
+
  parseinput_cont:
 	strlcat(lineout, "\n", LINELEN);
     } else {
@@ -1132,3 +1160,15 @@ pushlastchan(char *cname)
 	}
 	lastchans[0] = cname;
 }
+
+#if 0
+.endif
+
+PROG=		tinyirc
+NOMAN=		Yes
+
+LDADD+=		-lotermcap
+DPADD+=		${LIBOTERMCAP}
+
+.include <bsd.prog.mk>
+#endif
