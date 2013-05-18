@@ -1,4 +1,4 @@
-# $MirOS: ports/devel/nspr/Makefile,v 1.5 2006/09/14 00:08:28 tg Exp $
+# $MirOS: ports/devel/nspr/Makefile,v 1.6 2010/02/02 20:36:19 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.1.1.1 2004/01/29 21:57:53 pvalchev Exp $
 # $FreeBSD: /repoman/r/pcvs/ports/devel/nspr/Makefile,v 1.13 2003/12/13 21:30:19 peter Exp $
 
@@ -6,6 +6,7 @@ ONLY_FOR_PLATFORM=	OpenBSD:*:i386 MirBSD:*:*
 
 COMMENT=		Netscape Portable Runtime
 VERSION=		4.8.2
+DASH_VER=		1
 DISTNAME=		nspr-${VERSION}
 CATEGORIES=		devel
 HOMEPAGE=		http://www.mozilla.org/projects/nspr/index.html
@@ -27,6 +28,10 @@ CONFIGURE_ARGS+=	--disable-debug \
 			--with-pthreads
 
 WRKSRC=			${WRKDIST}/mozilla/nsprpub
+SO_VERSION=		10.0
+MAKE_ENV+=		SO_VERSION=${SO_VERSION:Q}
+CONFIGURE_ENV+=		SO_VERSION=${SO_VERSION:Q}
+SUBST_VARS+=		SO_VERSION
 
 do-install:
 	${INSTALL_DATA_DIR} ${PREFIX}/include/nspr
