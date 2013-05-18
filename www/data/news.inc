@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/news.inc,v 1.89 2008/12/04 13:23:15 tg Exp $
+RCSID: $MirOS: www/data/news.inc,v 1.90 2008/12/04 13:45:35 tg Exp $
 Title: Older news from the MirOS Project
 Date: 01.03.2006
 
@@ -314,15 +314,19 @@ Author: tg@
  to the person who wishes to remain anonymous for providing us the ability
  to do this porting work.</p>
 ----
-Date: 27.06.2007
+Date: 27.07.2007
 Title: fixed some annoying kernel bug
+# tg@ doesn't know june from july sometimes
+ID: e20070627-nn
 
 <p>On boot, if the kernel were to drop into ddb(4), it would panic again,
  rebooting over and over, due to an uninitialised timeout(9) in random(9);
  this was fixed today.</p>
 ----
 Title: mksh R30 released
-Date: 28.06.2007
+Date: 28.07.2007
+# tg@ doesn't know june from july sometimes
+ID: e20070628-nn
 
 <p><a href="@@RELPATH@@mksh.htm">mksh R30</a> has been released; read the
  <a href="@@RELPATH@@mksh.htm#clog">ChangeLog</a> for details. FreeWRT,

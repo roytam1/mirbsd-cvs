@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-9.inc,v 1.96 2008/11/08 22:24:34 tg Exp $
+RCSID: $MirOS: www/data/wlog-9.inc,v 1.97 2008/11/11 01:53:58 tg Exp $
 Date: 25.06.2006
 Author: tg@
 
@@ -1159,8 +1159,10 @@ Date: 23.11.2006
   mouse button in between, the mouse lags. Seriously, quite a lot.</p>
 ----
 Title: wlog from a plane
-Date: 04.01.2006
+Date: 04.01.2007
 Author: bsiegert@
+# bsiegert@ doesn't know 2006 from 2007 when he flies
+ID: e20060104-bsiegert
 
 <p>This wlog entry was written on the flight from Dresden to Stuttgart.
  Flying is great: While it would take me about eight hours using
