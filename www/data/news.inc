@@ -497,3 +497,14 @@ Date: 21.10.2007
  their aliases in the title and are hard linked to save space and generation
  time (and hopefully search engine traffic, who knows).</p>
 ----
+Title: mksh R32 released, plans for R33
+Date: 25.10.2007
+
+<p><a href="@@RELPATH@@mksh.htm">mksh R32</a> has been released; read the
+ <a href="@@RELPATH@@mksh.htm#clog">ChangeLog</a> for details. In short, an
+ internal error when using pipelines as co-processes was fixed, array index
+ bounds expanded, the build system improved, and everything cleaned up.</p>
+<p>mksh R33 will address the namespace conflict between aliases and shell
+ functions in a way Debian patched their pdksh package to go. This implies
+ that FSH invocations will be able to define all common aliases again.</p>
+----
