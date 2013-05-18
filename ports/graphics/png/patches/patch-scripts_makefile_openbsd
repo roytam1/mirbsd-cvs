@@ -1,13 +1,12 @@
-$MirOS: ports/graphics/png/patches/patch-scripts_makefile_openbsd,v 1.5 2008/04/07 19:37:25 tg Exp $
+$MirOS: ports/graphics/png/patches/patch-scripts_makefile_openbsd,v 1.6 2008/05/13 16:38:01 tg Exp $
 $OpenBSD: patch-scripts_makefile_openbsd,v 1.9 2004/07/06 21:53:16 brad Exp $
---- scripts/makefile.openbsd.orig	Thu May  8 11:57:47 2008
-+++ scripts/makefile.openbsd	Tue May 13 16:27:52 2008
-@@ -1,14 +1,18 @@
+--- scripts/makefile.openbsd.orig	Thu Sep 18 09:47:42 2008
++++ scripts/makefile.openbsd	Wed Oct 22 18:52:22 2008
+@@ -1,14 +1,17 @@
 -# makefile for libpng
-+# makefile for libpng under MirPorts
++# makefile for libpng under the MirPorts Framework
  # Copyright (C) 1995 Guy Eric Schalnat, Group 42, Inc.
- # Copyright (C) 2007 Glenn Randers-Pehrson
-+# Copyright (C) 2008 Thorsten Glaser
+ # Copyright (C) 2007-2008 Glenn Randers-Pehrson
  # For conditions of distribution and use, see copyright notice in png.h
  
  PREFIX?= /usr/local
@@ -19,14 +18,14 @@ $OpenBSD: patch-scripts_makefile_openbsd,v 1.9 2004/07/06 21:53:16 brad Exp $
 +DOCDIR=	${PREFIX}/share/doc/png
  
 -SHLIB_MAJOR=	0
--SHLIB_MINOR=	1.2.29
-+SHLIB_MAJOR=	8
-+SHLIB_MINOR=	1
+-SHLIB_MINOR=	1.2.32
++SHLIB_MAJOR=	9
++SHLIB_MINOR=	0
  
  LIB=	png
  SRCS=	png.c pngerror.c pngget.c pngmem.c pngpread.c \
-@@ -20,26 +24,48 @@ HDRS=	png.h pngconf.h
- CFLAGS+= -Wall
+@@ -20,26 +23,48 @@ HDRS=	png.h pngconf.h
+ CFLAGS+= -W -Wall
  CPPFLAGS+= -I${.CURDIR} -DPNG_NO_MMX_CODE 
  
 +LDADD+=		-lz
@@ -80,7 +79,7 @@ $OpenBSD: patch-scripts_makefile_openbsd,v 1.9 2004/07/06 21:53:16 brad Exp $
  	fi
  	if [ ! -d ${DESTDIR}${LIBDIR} ]; then \
  	  ${INSTALL} -d -o root -g wheel ${DESTDIR}${LIBDIR}; \
-@@ -53,21 +79,19 @@ beforeinstall:
+@@ -53,21 +78,19 @@ beforeinstall:
  	if [ ! -d ${DESTDIR}${MANDIR}5 ]; then \
  	  ${INSTALL} -d -o root -g wheel ${DESTDIR}${MANDIR}5; \
  	fi

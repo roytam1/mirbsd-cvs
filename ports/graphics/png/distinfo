@@ -1,7 +1,7 @@
 $MirOS$
 
-MD5 (libpng-1.2.29.tar.gz) = a388004b7d7492660c19a2d611a8ca62
-RMD160 (libpng-1.2.29.tar.gz) = 17c16b2eb9af75cbbbce791371db423368fa03dd
-SHA1 (libpng-1.2.29.tar.gz) = 9d366d25171ad82b55490506a5ec513a897d5690
-SIZE (libpng-1.2.29.tar.gz) = 796551
-TIGER (libpng-1.2.29.tar.gz) = a6a265372b29e03f89e4e5324bd467734c17a945d94af157
+MD5 (libpng-1.2.32.tar.gz) = 0bede460cd3fd5b84ed881d52b9afd58
+RMD160 (libpng-1.2.32.tar.gz) = 1bd0e6e7578f217f26707f6d3146988dda9fda10
+SHA1 (libpng-1.2.32.tar.gz) = 07511933cb4c074ccd8d881ff634df54ab49b8a6
+SIZE (libpng-1.2.32.tar.gz) = 792846
+TIGER (libpng-1.2.32.tar.gz) = c62579a1c51dc80577f9dbca407cac7796826c41dec73d63
