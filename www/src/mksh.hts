@@ -1,4 +1,4 @@
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.97 2008/03/24 20:02:40 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.98 2008/03/27 13:08:38 tg Exp $'
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -690,8 +690,8 @@ mws_content <<'EOF'
  <li style="list-style:none;">– older mksh versions –</li>
  <li>See <a href="mksh_old.htm#regress">the old-mksh site</a></li>
  <li style="list-style:none;">– tests by third parties (Build.sh) –</li>
- <li>HP OSF/1 V4.0 1229 (alpha DEC C V5.9-005 Rev. 1229) <em>by Jupp Schugt</em></li>
- <li>HP OSF/1 V4.0 1229 (alpha gcc2.8.1 alpha-dec-osf4.0d) <em>by Jupp Schugt</em></li>
+ <li>HP OSF/1 V4.0F 1229 (alpha DEC C V5.9-005) <em>by Jupp Schugt</em></li>
+ <li>HP OSF/1 V4.0F 1229 (alpha gcc2.8.1 alpha-dec-osf4.0d) <em>by Jupp Schugt</em></li>
  <li>SGI IRIX64 (mips gcc3.4.1 mips-sgi-irix6.5) <em>by Elias Pipping</em></li>
  <li style="list-style:none;">– other build system integration –</li>
  <li>See the <a href="#otheros">Inclusion</a> section for general information</li>
@@ -795,6 +795,16 @@ mws_content <<'EOF'
  <li>Port to <a href="http://www.syllable.org/">Syllable</a> (much
   improved; support now en par with Plan 9’s, thanks to Anthony Morphett
   &lt;awmorp@gmail.com&gt; – maybe the rest is a kernel bug?)</li>
+ <li>Port to SGI IRIX 6.5 (uname: IRIX64) using gcc</li>
+ <li>Scan for a lot more compilers; add support for MIPSpro</li>
+ <li>Ignore if the OS doesn’t define <tt>MAP_FILE</tt> for mmap(2)</li>
+ <li>Use <tt>sys/types.h</tt> as <tt>sys/mkdev.h</tt> dependency</li>
+ <li>Enable OSF/1 V2.0 <tt>/bin/sh</tt> to run <tt>Build.sh</tt></li>
+ <li>Add strcasecmp(3) proto for Ultrix 4.5 only (imake style)</li>
+ <li>Add S_ISLNK if the OS doesn’t define it</li>
+ <li>Use tempnam(3) if mkstemp(3) not found – <strong>not recommended</strong></li>
+ <li>Reduce dependency on certain OE facilities: printf(1), fgrep(1) being
+  able to scan for two patterns at the same time, perl5 being named perl</li>
  <li>New <tt>-T-</tt> option for dæmonisation, cf. man page</li>
  <li>Port to BSDi BSD/OS 3.1 (gcc 1.42 and gcc 2.7.2.1 supported)</li>
  <li>Simplify the <tt>dot.mkshrc</tt> file and make it more robust</li>
