@@ -34,7 +34,7 @@
 .\" (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
 .\" THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .\"
-.\" $MirOS: src/usr.bin/ssh/sshd_config.5,v 1.18 2007/03/08 10:09:33 tg Exp $
+.\" $MirOS: src/usr.bin/ssh/sshd_config.5,v 1.19 2007/06/16 15:41:53 tg Exp $
 .\" $OpenBSD: sshd_config.5,v 1.77 2007/06/08 07:48:09 jmc Exp $
 .Dd $Mdocdate: June 16 2007 $
 .Dt SSHD_CONFIG 5
@@ -202,9 +202,9 @@ and
 .Dq cast128-cbc .
 The default is:
 .Bd -literal -offset 3n
-aes256-cbc,blowfish-cbc,cast128-cbc,arcfour256,
-aes256-ctr,rijndael-cbc@lysator.liu.se,aes192-cbc,
-aes192-ctr,arcfour128,aes128-cbc,arcfour,aes128-ctr,3des-cbc
+aes128-cbc,blowfish-cbc,arcfour256,cast128-cbc,
+aes256-cbc,rijndael-cbc@lysator.liu.se,aes256-ctr,aes192-cbc,
+aes192-ctr,arcfour128,arcfour,aes128-ctr,3des-cbc
 .Ed
 .It Cm ClientAliveCountMax
 Sets the number of client alive messages (see below) which may be
