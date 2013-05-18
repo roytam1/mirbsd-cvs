@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.100 2008/03/09 14:16:07 tg Exp $
+# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.101 2008/03/09 16:19:49 tg Exp $
 #-
 # Copyright (c) 2006, 2008
 #	Thorsten “mirabilos” Glaser <tg@mirbsd.de>
@@ -186,6 +186,7 @@ if ! gnuos=$($SHELL $top/dist/contrib/gnu/config/config.guess); then
 	exit 1
 fi
 
+rm -rf $d_build
 mkdir -p $d_build/mk $d_build/F
 
 sed_exp="-e 's#@@machine@@#${new_machin}#g' \
