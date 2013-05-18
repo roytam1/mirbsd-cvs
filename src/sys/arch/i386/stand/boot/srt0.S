@@ -1,4 +1,4 @@
-/* $MirOS: src/sys/arch/i386/stand/boot/srt0.S,v 1.67 2009/01/12 19:39:21 tg Exp $ */
+/* $MirOS: src/sys/arch/i386/stand/boot/srt0.S,v 1.68 2009/01/12 19:42:00 tg Exp $ */
 
 /*-
  * Copyright (c) 2003, 2004, 2005, 2006, 2007, 2008, 2009
@@ -328,11 +328,12 @@ Lstart:	call	idt_init
 
 	call	real_to_prot
 Lsta32:	.code32
+	/* ensure stack is 32-bit aligned */
+	mov	esp,0x0003FFFC
 	/* zero out .bss section */
 	xor	eax,eax
 	push	eax
 	popfd
-	sti
 	mov	ecx,offset _end
 	mov	edi,offset _edata
 	sub	ecx,edi
@@ -347,6 +348,8 @@ Lsta32:	.code32
 	/* store user choice */
 	mov	[hook_value],ebx
 #endif
+
+	sti
 
 	movzx	eax,byte ptr [i386_biosdev]
 	push	eax
@@ -415,7 +418,6 @@ pxecall_bang:
 
 	call	real_to_prot
 	.code32
-	sti
 
 	mov	eax,ebx
 	pop	edi
@@ -448,7 +450,6 @@ pxecall_plus:
 
 	call	real_to_prot
 	.code32
-	sti
 
 	mov	eax,ebx
 	pop	edi

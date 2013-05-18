@@ -1,4 +1,4 @@
-/*	$MirOS: src/sys/arch/i386/stand/libsa/gidt.S,v 1.24 2009/01/11 23:16:20 tg Exp $ */
+/*	$MirOS: src/sys/arch/i386/stand/libsa/gidt.S,v 1.25 2009/01/12 19:37:17 tg Exp $ */
 /*	$OpenBSD: gidt.S,v 1.32 2006/12/26 19:30:44 tom Exp $	*/
 
 /*
@@ -289,7 +289,6 @@ EMUh:
 	sti
 	int	0
 	LemuNR = . - 1
-	cli
 
 	pushfd
 	push	eax
@@ -436,10 +435,6 @@ Ltcend:	pop	si		/* offset Ltcbeg */
 	.globl	prot_to_real
 prot_to_real:
 	cli
-	/* fix up return address */
-	pop	eax
-	sub	eax,SA_LINKADDR
-	push	ax
 	/* switch to 16 bit code size */
 	ljmp	S16TEXT,offset Lp2r32 - SA_LINKADDR
 Lp2r32:	.code16
@@ -469,6 +464,10 @@ Lp2r16:	/* convert ESP to SS:SP */
 	mov	gs,ax
 	/* load real mode IDT */
 	data32 addr32 lidt (Idtr_real - SA_LINKADDR)
+	/* fix up return address */
+	pop	eax
+	sub	eax,SA_LINKADDR
+	push	ax
 	ret
 
 /*-
@@ -482,6 +481,11 @@ Lp2r16:	/* convert ESP to SS:SP */
 	.globl	real_to_prot
 real_to_prot:
 	cli
+	/* fix up return address */
+	xor	eax,eax
+	pop	ax
+	add	eax,SA_LINKADDR
+	push	eax
 	/* load GDT via data segment */
 	mov	ax,SA_LINKSEG
 	mov	ds,ax
@@ -507,9 +511,4 @@ Lr2p32:	.code32
 	mov	ss,ax
 	/* load protected mode IDT */
 	lidt	Idtr
-	/* fix up return address */
-	xor	eax,eax
-	pop	ax
-	add	eax,SA_LINKADDR
-	push	eax
 	ret
