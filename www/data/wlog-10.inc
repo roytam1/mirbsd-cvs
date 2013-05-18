@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.159 2009/02/15 15:26:22 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.160 2009/02/16 21:27:29 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -3306,4 +3306,20 @@ Title: still recovering
 <p>I guess I have some catching up on sleep, life duties, and
  non-computer-related activities to do, considering how much
  the new job and the FOSDEM preparations strained.</p>
+----
+Author: tg@
+Date: 21.02.2009 14:01
+Title: mksh new memory allocator: postponed
+Tag: mksh
+
+<p>The MirOS Project News in the upcoming February issue of the <a
+ href="http://www.bsdmag.org/">BSD magazine</a> contains a mention
+ of mksh R37 with a new memory allocator. This will, however, be
+ postponed, because I could not get it right in time (even though
+ I learned from the first tries – and wish I could write it in i386
+ assembly) and lost interest for now, as the current one still does
+ work. I may revisit that at a later date.</p>
+<p>Fixing the PS1 bug, maybe changing the echo builtin to SUSv3 (and
+ nothing more), maybe porting, are on the list, besides continuing
+ the <a href="http://scan.coverity.com/">Coverity Scan</a> fixes.</p>
 ----
