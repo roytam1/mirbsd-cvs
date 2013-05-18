@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/baselive/sparc/rc.netselect,v 1.1 2006/08/18 22:18:26 tg Exp $
+# $MirOS: src/distrib/baselive/sparc/rc.netselect,v 1.2 2006/09/30 20:59:01 tg Exp $
 #-
 # Copyright (c) 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -27,6 +27,11 @@
 
 # Stuff to come *before* the shell escape possibility
 do_before
+print
+print Welcome to the MirBSD/sparc baseLive CD
+print =======================================
+show_info
+get_passwd
 
 # The menu
 print
@@ -48,25 +53,17 @@ done
 case $i {
 (1)	# no network to configure
 	do_netconf none
-	show_info
-	get_passwd
-	set_hostname
 	;;
 (2)	# configure the network
 	ask_netconfig
-	show_info
-	get_passwd
-	set_hostname
 	;;
 (3)	# configure network and X
 	ask_netconfig
-	show_info
 	print xdm_flags= >>/etc/rc.conf.local
-	get_passwd
-	set_hostname
 	;;
 }
 print
 
 # Stuff to clean up
+set_hostname
 do_after

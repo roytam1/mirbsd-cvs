@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/baselive/i386/rc.netselect,v 1.5 2006/09/30 20:59:01 tg Exp $
+# $MirOS: src/distrib/baselive/i386/rc.netselect,v 1.6 2006/10/04 08:59:02 tg Exp $
 #-
 # Copyright (c) 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -27,6 +27,11 @@
 
 # Stuff to come *before* the shell escape possibility
 do_before
+print
+print Welcome to the MirBSD/i386 baseLive CD
+print ======================================
+show_info
+get_passwd
 
 # The menu
 print
@@ -50,41 +55,27 @@ done
 case $i {
 (1)	# no network to configure
 	do_netconf none
-	show_info
-	get_passwd
-	set_hostname
 	;;
 (2)	# configure the network
 	ask_netconfig
-	show_info
-	get_passwd
-	set_hostname
 	;;
 (3)	# configure network and X
-	ask_netconfig
-	show_info
 	print xdm_flags= >>/etc/rc.conf.local
-	get_passwd
-	set_hostname
+	ask_netconfig
 	;;
 (4)	# configure network and X (with lower resolution)
-	ask_netconfig
-	show_info
 	print xdm_flags= >>/etc/rc.conf.local
 	print '/DefaultDepth/s/24/16/\nwq' | ed -s /etc/X11/XF86Config
-	get_passwd
-	set_hostname
+	ask_netconfig
 	;;
 (5)	# configure network and X (with lower resolution)
-	ask_netconfig
-	show_info
 	print xdm_flags= >>/etc/rc.conf.local
 	print '/DefaultDepth/s/24/8/\nwq' | ed -s /etc/X11/XF86Config
-	get_passwd
-	set_hostname
+	ask_netconfig
 	;;
 }
 print
 
 # Stuff to clean up
+set_hostname
 do_after
