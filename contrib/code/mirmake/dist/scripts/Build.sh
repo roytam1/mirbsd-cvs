@@ -1,8 +1,8 @@
 #!/bin/mksh
-# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.70 2005/12/17 05:46:09 tg Exp $
+# $MirOS: src/share/misc/licence.template,v 1.14 2006/08/09 19:35:23 tg Rel $
 #-
-# Copyright (c) 2004, 2005
-#	Thorsten "mirabile" Glaser <tg@66h.42h.de>
+# Copyright (c) 2004, 2005, 2006
+#	Thorsten Glaser <tg@mirbsd.de>
 #
 # Licensee is hereby permitted to deal in this work without restric-
 # tion, including unlimited rights to use, publicly perform, modify,
@@ -11,8 +11,8 @@
 # in all redistributions or reproduced in accompanying documentation
 # or other materials provided with binary redistributions.
 #
-# All advertising materials mentioning features or use of this soft-
-# ware must display the following acknowledgement:
+# Advertising materials mentioning features or use of this work must
+# display the following acknowledgement:
 #	This product includes material provided by Thorsten Glaser.
 #
 # Licensor offers the work "AS IS" and WITHOUT WARRANTY of any kind,
@@ -22,7 +22,7 @@
 # or other damage, or direct damage except proven a consequence of a
 # direct error of said person and intended use of this work, loss or
 # other issues arising in any way out of its use, even if advised of
-# the possibility of such damage or existence of a nontrivial bug.
+# the possibility of such damage or existence of a defect.
 #-
 # _Really_ build MirMake. Called from mirbsdksh.
 
@@ -77,6 +77,8 @@ export SHELL=$new_mirksh
 
 # Directories
 top=$(cd $(dirname $0)/../..; pwd)
+mkdir $top/tmpx
+export PATH=$top/tmpx:$PATH
 d_script=$top/dist/scripts
 d_src=$top/dist/src
 d_build=$top/build
@@ -104,10 +106,8 @@ Darwin:*:*)
 	;;
 Interix:*:*)
 	[[ -z $new_binids ]] && new_binids=-
-	CPPFLAGS="$CPPFLAGS -D_ALL_SOURCE"
 	[[ $new_macarc = i[3456789x]86 ]] && new_macarc=i386
-	/usr/bin/install -c -m 555 $d_script/../contrib/mktemp.sh \
-	    /usr/bin/mktemp
+	/usr/bin/install -c -m 555 $top/dist/contrib/mktemp.sh $top/tmpx/mktemp
 	;;
 *:*:i[3456789x]86)
 	new_macarc=i386
@@ -123,6 +123,7 @@ Darwin)
 *Interix)
 	_obfm=PE
 	_rtld=GNU
+	CPPFLAGS="$CPPFLAGS -D_ALL_SOURCE"
 	;;
 BSD)
 	# MirOS BSD
