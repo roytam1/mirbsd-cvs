@@ -1,4 +1,4 @@
-/**	$MirOS: ports/infrastructure/pkgtools/lib/lib.h,v 1.28.2.8 2010/03/04 18:03:38 bsiegert Exp $ */
+/**	$MirOS: ports/infrastructure/pkgtools/lib/lib.h,v 1.28.2.9 2010/05/11 19:08:08 bsiegert Exp $ */
 /*	$OpenBSD: lib.h,v 1.14 2003/08/21 20:24:57 espie Exp $	*/
 
 /*
@@ -275,6 +275,8 @@ void 		pwarnx(const char *, ...)
 		    __attribute__((__format__ (printf, 1, 2)));
 void 		pwarn(const char *, ...)
 		    __attribute__((__format__ (printf, 1, 2)));
+int		diag(const char*, ...)
+		    __attribute__((__format__ (printf, 1, 2)));
 
 /* Externs */
 extern bool	Verbose;
@@ -327,5 +329,8 @@ void		matchlist_destroy(struct matchlist*);
 void		print_matchlist_menu(struct matchlist*);
 struct match*	match_by_number(struct matchlist*, int);
  
+/* library specifier */
+bool		match_libspec(char*, const char *, ld_type_t);
+
 
 #endif /* _INST_LIB_LIB_H_ */

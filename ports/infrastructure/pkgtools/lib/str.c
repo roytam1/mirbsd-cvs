@@ -1,4 +1,4 @@
-/**	$MirOS: ports/infrastructure/pkgtools/lib/str.c,v 1.13.2.3 2010/02/27 16:20:19 bsiegert Exp $ */
+/**	$MirOS: ports/infrastructure/pkgtools/lib/str.c,v 1.13.2.4 2010/03/04 18:03:39 bsiegert Exp $ */
 /*	$OpenBSD: str.c,v 1.11 2003/07/04 17:31:19 avsm Exp $	*/
 
 /*
@@ -25,7 +25,7 @@
 #include <fnmatch.h>
 #include "lib.h"
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/str.c,v 1.13.2.3 2010/02/27 16:20:19 bsiegert Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/str.c,v 1.13.2.4 2010/03/04 18:03:39 bsiegert Exp $");
 
 /* "normalize" a URL by replacing all the characters which are "not nice"
  * in a filename by '_' characters.
@@ -599,3 +599,18 @@ findmatchingname_file(const char *filename, const char *pattern, matchfn f, char
 	fclose(fp);
 	return found;
 }
+
+/* print out a diagnostic string only if Verbose is set. */
+int
+diag(const char *fmt, ...)
+{
+	int ret = 0;
+	va_list ap;
+
+	va_start(ap, fmt);
+	if (Verbose)
+		ret = vfprintf(stdout, fmt, ap);
+	va_end(ap);
+	return ret;
+}
+
