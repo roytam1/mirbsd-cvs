@@ -812,3 +812,23 @@ Title: Improving the world, yet again
  The mports maintainers can now take our patches and get rid of their
  linuxulated firesomething binary port ☺</p>
 ----
+Date: 24.05.2008 01:00
+Author: tg@
+Title: kqemu
+
+<p>Last time I had tried qemu+kqemu (on GNU/Linux), it made BSD segfault,
+ kinda like VirtualBox nowadays. But things seem to have changed: I ran
+ the Linuxtag 2008 Live CD Edition inside it (on MirBSD) with no problems
+ at all. Nice, and shows that BSDs can have LKMs.</p>
+<p>Now missing: vmxnet source code… or evil BLOB? I suppose the latter.</p>
+<p>Unrelated side note: Netcologne is cool, but they suck: you can only
+ change the PTR for your static IP, which you pay 4.90 € per month for, if
+ you’̲re a business customer. No IPv6 anyway (but SixXS has a new PoP, out
+ of all places in Düsseldorf *evil grin*). And Strato gives gecko2@ two IPs,
+ but only allows the MAC of the built-in NIC (so no bridging to domU or VMs).
+ Why can’t they ever do something not totally clueless? (Okay, I could ask
+ the support… Netcologne support even phoned me back after my eMail enquiry
+ apparently went through their entire house until they could figure out what
+ I need (to mail Fefe, who blocks PTRs like foo-www-xxx-yyy-zzz.ISP), but
+ rejected; Strato support is, from my past experience, hopeless.)</p>
+----
