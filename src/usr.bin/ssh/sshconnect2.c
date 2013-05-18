@@ -64,7 +64,7 @@
 #include "uidswap.h"
 #include "jpake.h"
 
-__RCSID("$MirOS: src/usr.bin/ssh/sshconnect2.c,v 1.12 2008/12/16 20:55:31 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/sshconnect2.c,v 1.13 2008/12/16 22:13:32 tg Exp $");
 
 /* for now */
 extern const EVP_MD *evp_ssh_sha256(void);
@@ -1263,7 +1263,6 @@ ssh_keysign(Key *key, u_char **sigp, u_int *lenp,
 			fatal("ssh_keysign: dup2: %s", strerror(errno));
 		close(from[1]);
 		close(to[0]);
-		arc4_preexec();
 		execl(_PATH_SSH_KEY_SIGN, _PATH_SSH_KEY_SIGN, (char *) 0);
 		fatal("ssh_keysign: exec(%s): %s", _PATH_SSH_KEY_SIGN,
 		    strerror(errno));

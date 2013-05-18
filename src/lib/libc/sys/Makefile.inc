@@ -1,4 +1,4 @@
-# $MirOS: src/lib/libc/sys/Makefile.inc,v 1.7 2007/05/19 22:07:03 tg Exp $
+# $MirOS: src/lib/libc/sys/Makefile.inc,v 1.8 2008/11/30 17:30:03 tg Exp $
 # $OpenBSD: Makefile.inc,v 1.73 2005/06/17 20:37:31 drahn Exp $
 # $NetBSD: Makefile.inc,v 1.35 1995/10/16 23:49:07 jtc Exp $
 # @(#)Makefile.inc	8.1 (Berkeley) 6/17/93
@@ -10,6 +10,9 @@
 SRCS+=	Ovfork.S brk.S cerror.S exect.S fork.S rfork.S \
 	sbrk.S sigpending.S sigprocmask.S sigreturn.S \
 	sigsuspend.S syscall.S
+
+# wrappers with arc4random_atexit:
+SRCS+=	_exit_r.c exect_r.c execve_r.c
 
 LSRCS+=	Lint_Ovfork.c Lint_brk.c Lint_exect.c Lint_fork.c \
 	Lint_rfork.c Lint_sbrk.c \
@@ -33,7 +36,7 @@ CFLAGS_stack_protector.o+= -fno-stack-protector
 # modules with default implementations on all architectures:
 ASM=	accept.o access.o acct.o adjtime.o bind.o chdir.o chflags.o chmod.o \
 	chown.o chroot.o clock_gettime.o clock_settime.o clock_getres.o \
-	close.o closefrom.o connect.o dup.o dup2.o execve.o fchdir.o \
+	close.o closefrom.o connect.o dup.o dup2.o fchdir.o \
 	fchflags.o fchmod.o fchown.o fchroot.o fcntl.o fhopen.o fhstat.o \
 	fhstatfs.o flock.o fpathconf.o fstat.o \
 	fstatfs.o fsync.o futimes.o getdirentries.o getegid.o geteuid.o \
@@ -65,12 +68,12 @@ GASM=	${ASM:.o=.go}
 PASM=	${ASM:.o=.po}
 SASM=	${ASM:.o=.so}
 
-PSEUDO=	_getlogin.o _setlogin.o _ptrace.o
+PSEUDO=	_getlogin.o _setlogin.o _ptrace.o execve__.o
 GPSEUDO=${PSEUDO:.o=.go}
 PPSEUDO=${PSEUDO:.o=.po}
 SPSEUDO=${PSEUDO:.o=.so}
 
-PSEUDO_NOERR=	_exit.o
+PSEUDO_NOERR=	_exit__.o
 GPSEUDO_NOERR=${PSEUDO_NOERR:.o=.go}
 PPSEUDO_NOERR=${PSEUDO_NOERR:.o=.po}
 SPSEUDO_NOERR=${PSEUDO_NOERR:.o=.so}
@@ -106,54 +109,54 @@ ${ASM}: ${LIBCSRCDIR}/arch/${MACHINE_ARCH}/SYS.h /usr/include/sys/syscall.h
 
 ${GPSEUDO}: ${LIBCSRCDIR}/arch/${MACHINE_ARCH}/SYS.h /usr/include/sys/syscall.h
 	@echo creating ${.TARGET}
-	@printf '#include "SYS.h"\nPSEUDO(${.PREFIX},${.PREFIX:S/_//})\n' | \
+	@printf '#include "SYS.h"\nPSEUDO(${.PREFIX},${.PREFIX:S/_//g})\n' | \
 	    ${CPP} ${CFLAGS:M-[ID]*} ${AINC} - | ${AS} -o ${.TARGET}.o
 	@${LD} -X -r ${.TARGET}.o -o ${.TARGET}
 	@rm -f ${.TARGET}.o
 
 ${PPSEUDO}: ${LIBCSRCDIR}/arch/${MACHINE_ARCH}/SYS.h /usr/include/sys/syscall.h
 	@echo creating ${.TARGET}
-	@printf '#include "SYS.h"\nPSEUDO(${.PREFIX},${.PREFIX:S/_//})\n' | \
+	@printf '#include "SYS.h"\nPSEUDO(${.PREFIX},${.PREFIX:S/_//g})\n' | \
 	    ${CPP} -DPROF ${CFLAGS:M-[ID]*} ${AINC} - | ${AS} -o ${.TARGET}.o
 	@${LD} -X -r ${.TARGET}.o -o ${.TARGET}
 	@rm -f ${.TARGET}.o
 
 ${SPSEUDO}: ${LIBCSRCDIR}/arch/${MACHINE_ARCH}/SYS.h /usr/include/sys/syscall.h
 	@echo creating ${.TARGET}
-	@printf '#include "SYS.h"\nPSEUDO(${.PREFIX},${.PREFIX:S/_//})\n' | \
+	@printf '#include "SYS.h"\nPSEUDO(${.PREFIX},${.PREFIX:S/_//g})\n' | \
 	    ${CPP} -DPIC ${CFLAGS:M-[ID]*} ${AINC} - | \
 	    ${AS} ${ASPICFLAG} -o ${.TARGET}
 
 ${PSEUDO}: ${LIBCSRCDIR}/arch/${MACHINE_ARCH}/SYS.h /usr/include/sys/syscall.h
 	@echo creating ${.TARGET}
-	@printf '#include "SYS.h"\nPSEUDO(${.PREFIX},${.PREFIX:S/_//})\n' | \
+	@printf '#include "SYS.h"\nPSEUDO(${.PREFIX},${.PREFIX:S/_//g})\n' | \
 	    ${CPP} ${CFLAGS:M-[ID]*} ${AINC} - | ${AS} -o ${.TARGET}.o
 	@${LD} -X -r ${.TARGET}.o -o ${.TARGET}
 	@rm -f ${.TARGET}.o
 
 ${GPSEUDO_NOERR}: ${LIBCSRCDIR}/arch/${MACHINE_ARCH}/SYS.h /usr/include/sys/syscall.h
 	@echo creating ${.TARGET}
-	@printf '#include "SYS.h"\nPSEUDO_NOERROR(${.PREFIX},${.PREFIX:S/_//})\n' | \
+	@printf '#include "SYS.h"\nPSEUDO_NOERROR(${.PREFIX},${.PREFIX:S/_//g})\n' | \
 	    ${CPP} ${CFLAGS:M-[ID]*} ${AINC} - | ${AS} -o ${.TARGET}.o
 	@${LD} -X -r ${.TARGET}.o -o ${.TARGET}
 	@rm -f ${.TARGET}.o
 
 ${PPSEUDO_NOERR}: ${LIBCSRCDIR}/arch/${MACHINE_ARCH}/SYS.h /usr/include/sys/syscall.h
 	@echo creating ${.TARGET}
-	@printf '#include "SYS.h"\nPSEUDO_NOERROR(${.PREFIX},${.PREFIX:S/_//})\n' | \
+	@printf '#include "SYS.h"\nPSEUDO_NOERROR(${.PREFIX},${.PREFIX:S/_//g})\n' | \
 	    ${CPP} -DPROF ${CFLAGS:M-[ID]*} ${AINC} - | ${AS} -o ${.TARGET}.o
 	@${LD} -X -r ${.TARGET}.o -o ${.TARGET}
 	@rm -f ${.TARGET}.o
 
 ${SPSEUDO_NOERR}: ${LIBCSRCDIR}/arch/${MACHINE_ARCH}/SYS.h /usr/include/sys/syscall.h
 	@echo creating ${.TARGET}
-	@printf '#include "SYS.h"\nPSEUDO_NOERROR(${.PREFIX},${.PREFIX:S/_//})\n' | \
+	@printf '#include "SYS.h"\nPSEUDO_NOERROR(${.PREFIX},${.PREFIX:S/_//g})\n' | \
 	    ${CPP} -DPIC ${CFLAGS:M-[ID]*} ${AINC} - | \
 	    ${AS} ${ASPICFLAG} -o ${.TARGET}
 
 ${PSEUDO_NOERR}: ${LIBCSRCDIR}/arch/${MACHINE_ARCH}/SYS.h /usr/include/sys/syscall.h
 	@echo creating ${.TARGET}
-	@printf '#include "SYS.h"\nPSEUDO_NOERROR(${.PREFIX},${.PREFIX:S/_//})\n' | \
+	@printf '#include "SYS.h"\nPSEUDO_NOERROR(${.PREFIX},${.PREFIX:S/_//g})\n' | \
 	    ${CPP} ${CFLAGS:M-[ID]*} ${AINC} - | ${AS} -o ${.TARGET}.o
 	@${LD} -X -r ${.TARGET}.o -o ${.TARGET}
 	@rm -f ${.TARGET}.o

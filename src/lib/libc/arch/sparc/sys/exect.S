@@ -34,7 +34,11 @@
 
 #include "SYS.h"
 
-SYSENTRY(exect)
+RCSID("$MirOS$")
+
+	.text
+
+SYSENTRY(exect__)
 	mov	SYS_execve, %g1	/* execve(file, argv, env) */
 	t	ST_SYSCALL
 	ERROR()

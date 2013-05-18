@@ -122,6 +122,9 @@ void	_thread_malloc_unlock(void);
 						_thread_malloc_init();\
 				} while (0)
 
+#define _ARC4_LOCK()		/* nothing; for now */
+#define _ARC4_UNLOCK()		/* nothing; for now */
+
 /* copied from pthread_private.h with a twist */
 #ifdef _LIBC_IN_ABORT
 int     _thread_sys_sigprocmask(int, const void *, void *);

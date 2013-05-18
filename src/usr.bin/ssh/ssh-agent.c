@@ -64,7 +64,7 @@
 #include "log.h"
 #include "misc.h"
 
-__RCSID("$MirOS: src/usr.bin/ssh/ssh-agent.c,v 1.14 2008/12/16 20:55:29 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/ssh-agent.c,v 1.15 2008/12/16 22:13:30 tg Exp $");
 
 #ifdef SMARTCARD
 #include "scard.h"
@@ -1196,7 +1196,6 @@ main(int ac, char **av)
 			perror("setenv");
 			exit(1);
 		}
-		arc4_preexec();
 		execvp(av[0], av);
 		perror(av[0]);
 		exit(1);

@@ -49,7 +49,7 @@
 #include "dns.h"
 #include "version.h"
 
-__RCSID("$MirOS: src/usr.bin/ssh/sshconnect.c,v 1.13 2008/12/16 20:55:31 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/sshconnect.c,v 1.14 2008/12/16 22:13:31 tg Exp $");
 
 char *client_version_string = NULL;
 char *server_version_string = NULL;
@@ -131,7 +131,6 @@ ssh_proxy_connect(const char *host, u_short port, const char *proxy_command)
 
 		/* Execute the proxy command.  Note that we gave up any
 		   extra privileges above. */
-		arc4_preexec();
 		execv(argv[0], argv);
 		perror(argv[0]);
 		exit(1);
@@ -1156,7 +1155,6 @@ ssh_local_cmd(const char *args)
 	pid = fork();
 	if (pid == 0) {
 		debug3("Executing %s -c \"%s\"", shell, args);
-		arc4_preexec();
 		execl(shell, shell, "-c", args, (char *)NULL);
 		error("Couldn't execute %s -c \"%s\": %s",
 		    shell, args, strerror(errno));

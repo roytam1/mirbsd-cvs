@@ -34,9 +34,11 @@
 #include "SYS.h"
 #include <machine/psl.h>
 
+RCSID("$MirOS$")
+
 	.text
 
-ENTRY(exect)
+SYSENTRY(exect__)
 	movl	$(SYS_execve),%eax
 	pushf
 	popl	%edx

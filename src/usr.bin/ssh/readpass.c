@@ -43,7 +43,7 @@
 #include "ssh.h"
 #include "uidswap.h"
 
-__RCSID("$MirOS: src/usr.bin/ssh/readpass.c,v 1.6 2006/09/20 21:41:01 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/readpass.c,v 1.7 2008/12/16 22:13:28 tg Exp $");
 
 static char *
 ssh_askpass(char *askpass, const char *msg)
@@ -71,7 +71,6 @@ ssh_askpass(char *askpass, const char *msg)
 		close(p[0]);
 		if (dup2(p[1], STDOUT_FILENO) < 0)
 			fatal("ssh_askpass: dup2: %s", strerror(errno));
-		arc4_preexec();
 		execlp(askpass, askpass, msg, (char *) 0);
 		fatal("ssh_askpass: exec(%s): %s", askpass, strerror(errno));
 	}

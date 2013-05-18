@@ -100,7 +100,7 @@
 #include "monitor_wrap.h"
 #include "version.h"
 
-__RCSID("$MirOS: src/usr.bin/ssh/sshd.c,v 1.15 2008/12/16 20:55:32 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/sshd.c,v 1.16 2008/12/16 22:13:32 tg Exp $");
 
 #ifndef O_NOCTTY
 #define O_NOCTTY	0
@@ -279,7 +279,6 @@ sighup_restart(void)
 	logit("Received SIGHUP; restarting.");
 	close_listen_socks();
 	close_startup_pipes();
-	arc4_preexec();
 	alarm(0);  /* alarm timer persists across exec */
 	execv(saved_argv[0], saved_argv);
 	logit("RESTART FAILED: av[0]='%.100s', error: %.100s.", saved_argv[0],
@@ -1607,7 +1606,6 @@ main(int ac, char **av)
 		if (startup_pipe != -1)
 			close(startup_pipe);
 
-		arc4_preexec();
 		execv(rexec_argv[0], rexec_argv);
 
 		/* Reexec has failed, fall back and continue */

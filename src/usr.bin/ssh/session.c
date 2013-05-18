@@ -79,7 +79,7 @@
 #include "monitor_wrap.h"
 #include "sftp.h"
 
-__RCSID("$MirOS: src/usr.bin/ssh/session.c,v 1.19 2008/12/16 20:55:27 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/session.c,v 1.20 2008/12/16 22:13:29 tg Exp $");
 
 #define IS_INTERNAL_SFTP(c) \
 	(!strncmp(c, INTERNAL_SFTP_NAME, sizeof(INTERNAL_SFTP_NAME) - 1) && \
@@ -1192,7 +1192,6 @@ do_pwchange(Session *s)
 	if (s->ttyfd != -1) {
 		fprintf(stderr,
 		    "You must change your password now and login again!\n");
-		arc4_preexec();
 		execl(_PATH_PASSWD_PROG, "passwd", (char *)NULL);
 		perror("passwd");
 	} else {
@@ -1207,7 +1206,6 @@ launch_login(struct passwd *pw, const char *hostname)
 {
 	/* Launch login(1). */
 
-	arc4_preexec();
 	execl("/usr/bin/login", "login", "-h", hostname,
 	    "-p", "-f", "--", pw->pw_name, (char *)NULL);
 
@@ -1394,7 +1392,6 @@ do_child(Session *s, const char *command)
 		/* Execute the shell. */
 		argv[0] = argv0;
 		argv[1] = NULL;
-		arc4_preexec();
 		execve(shell, argv, env);
 
 		/* Executing the shell failed. */
@@ -1409,7 +1406,6 @@ do_child(Session *s, const char *command)
 	argv[1] = "-c";
 	argv[2] = (char *) command;
 	argv[3] = NULL;
-	arc4_preexec();
 	execve(shell, argv, env);
 	perror(shell);
 	exit(1);

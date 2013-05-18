@@ -99,7 +99,7 @@
 #include "misc.h"
 #include "progressmeter.h"
 
-__RCSID("$MirOS: src/usr.bin/ssh/scp.c,v 1.16 2008/12/16 20:55:25 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/scp.c,v 1.17 2008/12/16 22:13:28 tg Exp $");
 
 #define COPY_BUFLEN	16384
 
@@ -161,7 +161,6 @@ do_local_cmd(arglist *a)
 		fatal("do_local_cmd: fork: %s", strerror(errno));
 
 	if (pid == 0) {
-		arc4_preexec();
 		execvp(a->list[0], a->list);
 		perror(a->list[0]);
 		exit(1);
@@ -235,7 +234,6 @@ do_cmd(char *host, char *remuser, char *cmd, int *fdin, int *fdout)
 		addargs(&args, "%s", host);
 		addargs(&args, "%s", cmd);
 
-		arc4_preexec();
 		execvp(ssh_program, args.list);
 		perror(ssh_program);
 		exit(1);
