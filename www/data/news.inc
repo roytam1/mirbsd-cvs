@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/news.inc,v 1.110 2009/04/12 12:43:46 tg Exp $
+RCSID: $MirOS: www/data/news.inc,v 1.111 2009/04/22 20:00:38 tg Exp $
 Title: Older news from the MirOS Project
 Date: 01.03.2006
 
@@ -1563,8 +1563,8 @@ Tag: bug
  symlink(7) is created. MirOS #7 can be used to access filesystems
  such as these, but the broken symlinks can still not be accessed
  by penalty of a kernel panic(9).</p>
-<p>MirOS #10-current: ext2fs can only be mounted read-only for now,
- starting today, until these problems are fixed.</p>
+<p>MirOS #10-current: ext2fs will be mounted read-only by default
+ for now, starting 2009-04-23, until these problems are fixed.</p>
 <p>MirOS (recent but unknown versions): the <tt>async</tt> mount
  flag ceased to work as it did before, says bsiegert@</p>
 <hr />
