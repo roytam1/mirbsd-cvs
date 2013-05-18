@@ -653,6 +653,7 @@
 ./usr/sbin/accton
 ./usr/sbin/activadm
 ./usr/sbin/activinit
+./usr/sbin/adduser
 ./usr/sbin/apxs
 ./usr/sbin/arp
 ./usr/sbin/bad144
@@ -2283,6 +2284,7 @@
 ./usr/share/man/cat8/accton.0
 ./usr/share/man/cat8/activadm.0
 ./usr/share/man/cat8/activinit.0
+./usr/share/man/cat8/adduser.0
 ./usr/share/man/cat8/afterboot.0
 ./usr/share/man/cat8/apxs.0
 ./usr/share/man/cat8/arp.0
