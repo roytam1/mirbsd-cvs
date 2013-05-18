@@ -1,5 +1,5 @@
 vers(__file__,
-	{-$MirOS: src/etc/etc.sparc/MAKEDEV.md,v 1.4 2005/07/23 15:00:33 tg Exp $-},
+	{-$MirOS: src/etc/etc.sparc/MAKEDEV.md,v 1.5 2005/07/23 15:36:57 tg Exp $-},
 etc.MACHINE)dnl
 vers(__file__,
 	{-$OpenBSD: MAKEDEV.md,v 1.28 2005/07/17 12:23:14 miod Exp $-},
@@ -102,7 +102,6 @@ _DEV(lkm, 112)
 _DEV(oppr)
 _DEV(pf, 59)
 _DEV(rnd, 119)
-_DEV(ses, 124)
 _DEV(ss, 121)
 _DEV(systrace, 50)
 _DEV(tun, 111)
@@ -124,10 +123,8 @@ dnl *** some sparc-specific targets
 dnl
 twrget(all, s64_tzs, tty, a, b, c, d)dnl
 twrget(all, s64_czs, cua, a, b, c, d)dnl
-target(all, ses, 0)dnl
 target(all, ch, 0)dnl
 target(all, ss, 0, 1)dnl
-target(all, xfs, 0)dnl
 twrget(all, flo, fd, 0, 0B, 0C, 0D, 0E, 0F, 0G, 0H)dnl
 twrget(all, flo, fd, 1, 1B, 1C, 1D, 1E, 1F, 1G, 1H)dnl
 target(all, pty, 0)dnl

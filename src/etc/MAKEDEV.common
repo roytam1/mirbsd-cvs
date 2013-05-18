@@ -1,4 +1,4 @@
-vers(a, {-$MirOS: src/etc/MAKEDEV.common,v 1.3 2005/05/06 13:01:54 tg Exp $-})dnl
+vers(a, {-$MirOS: src/etc/MAKEDEV.common,v 1.4 2005/07/24 12:49:10 tg Exp $-})dnl
 vers(a, {-$OpenBSD: MAKEDEV.common,v 1.19 2005/06/29 18:23:26 todd Exp $-})dnl
 divert(1)dnl
 dnl
@@ -229,8 +229,6 @@ _mkdev(ss, ss*, {-M ss$U c major_ss_c Mult($U,16) 640 operator
 	M enss$U c major_ss_c Add(Mult($U,16),3) 640 operator
 	RMlist="$RMlist scan$U"
 	MKlist="$MKlist;umask 77;ln -s ss$U scan$U"-})dnl
-__devitem(ses, ses*, SES/SAF-TE SCSI devices)dnl
-_mkdev(ses, ses*, {-M ses$U c major_ses_c $U 640 operator-})dnl
 dnl XXX see ramdisk above
 __devitem(ramd, ramdisk, Ramdisk kernel devices,nothing)dnl
 _mkdev(ramd, ramdisk, {-dnl
@@ -534,8 +532,6 @@ _mkdev(spif, spif*, {-case $U in
 	M bpp${nam}0 c major_bppsp_c Add($offset, 0) 600-})dnl
 __devitem(bpp, bpp*, Parallel port)dnl
 _mkdev(bpp, {-bpp*-}, {-M bpp$U c major_bpp_c $U 600-}, 600)dnl
-__devitem(xfs, xfs*, XFS filesystem node, mount_xfs 8)dnl
-_mcdev(xfs, xfs*, xfs, {-major_xfs_c-}, 600)dnl
 __devitem(rmidi, rmidi*, Raw MIDI devices,midi)dnl
 _mcdev(rmidi, rmidi*, rmidi, {-major_rmidi_c-}, 666)dnl
 __devtitle(plat, Platform-specific devices)dnl
