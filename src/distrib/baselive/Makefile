@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/baselive/Makefile,v 1.40 2008/10/31 23:43:44 tg Exp $
+# $MirOS: src/distrib/baselive/Makefile,v 1.41 2008/11/01 02:07:46 tg Exp $
 
 .include <bsd.own.mk>
 
@@ -53,6 +53,7 @@ CDROM?=		livecd${OSrev}.iso
 .endif
 CDROM_PAD?=	1
 CDROM_OPTS+=	applicationid=NetBSD_makefs
+CDROM_OPTS+=	hide-rr-moved
 .if ${DUALIVE:L} != "no"
 CDROM_OPTS+=	label=MirOS~v${OSrev}~BSD~DuaLive~CD
 .else
