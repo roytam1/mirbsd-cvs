@@ -1,4 +1,4 @@
-/* $MirOS: src/share/misc/licence.template,v 1.14 2006/08/09 19:35:23 tg Rel $ */
+/* $MirOS: src/lib/libc/string/strcasecmpfun.c,v 1.1 2006/11/21 01:25:10 tg Exp $ */
 
 /*-
  * Copyright (c) 2006
@@ -52,7 +52,9 @@
 #define	x_tolower	_tolower
 #endif
 
-__RCSID("$MirOS: src/lib/libc/string/strcasecmp.c,v 1.4 2006/11/21 01:04:10 tg Exp $");
+#if !defined(_KERNEL) && !defined(_STANDALONE)
+__RCSID("$MirOS: src/lib/libc/string/strcasecmpfun.c,v 1.1 2006/11/21 01:25:10 tg Exp $");
+#endif
 
 #if defined(STRCASECMP) || defined(WCSCASECMP)
 int

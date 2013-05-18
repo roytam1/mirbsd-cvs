@@ -1,4 +1,4 @@
-/* $MirOS: src/lib/libc/string/strcasecmpfun.c,v 1.1 2006/11/21 01:25:10 tg Exp $ */
+/* $MirOS: src/sys/lib/libkern/strncasecmp.c,v 1.3 2006/11/21 02:28:26 tg Exp $ */
 
 /*-
  * Copyright (c) 2006
@@ -35,7 +35,9 @@
 #define	LC		/* nothing */
 #define	x_tolower	_tolower
 
-__RCSID("$MirOS: src/lib/libc/string/strcasecmpfun.c,v 1.1 2006/11/21 01:25:10 tg Exp $");
+#if !defined(_KERNEL) && !defined(_STANDALONE)
+__RCSID("$MirOS: src/sys/lib/libkern/strncasecmp.c,v 1.3 2006/11/21 02:28:26 tg Exp $");
+#endif
 
 int
 strncasecmp(const CHAR *s1, const CHAR *s2, size_t n)

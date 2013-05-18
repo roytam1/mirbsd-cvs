@@ -1,4 +1,4 @@
-/* $MirOS: contrib/hosted/fwcf/adler.h,v 1.2 2006/09/19 11:30:24 tg Exp $ */
+/* $MirOS: src/sys/lib/libsa/adler32s.c,v 1.1 2006/10/07 21:36:22 tg Exp $ */
 
 /*-
  * Copyright (c) 2006
@@ -43,15 +43,16 @@
 #include <sys/limits.h>
 #include <dev/rndvar.h>
 #define zADDRND(x)	rnd_addpool_add((uint32_t)(x) ^ (uint32_t)time.tv_sec)
+#define zRCSID(x)	/* nothing, for space reasons */
 #else
 #include <limits.h>
 #include <stdlib.h>
 #define zADDRND(x)	arc4random_push((int)(x))
-#endif
 #define zRCSID(x)	__RCSID(x);
 #endif
+#endif
 
-zRCSID("$MirOS$")
+zRCSID("$MirOS: src/sys/lib/libsa/adler32s.c,v 1.1 2006/10/07 21:36:22 tg Exp $")
 
 unsigned long adler32(unsigned long, const unsigned char *, unsigned);
 

@@ -1,4 +1,4 @@
-/* $MirOS: src/lib/libc/arch/i386/string/strcat.S,v 1.5 2005/10/21 10:53:23 tg Exp $ */
+/* $MirOS: src/sys/lib/libkern/arch/i386/strcat.S,v 1.2 2006/11/21 02:28:28 tg Exp $ */
 /*
  * Written by J.T. Conklin <jtc@netbsd.org>.
  * Public domain.
@@ -11,9 +11,6 @@
 	.ascii "strcat() is almost always misused, consider using strlcat()"
 	.text
 #NO_APP
-
-	.section .comment
-	.asciz	"$MirOS: src/lib/libc/arch/i386/string/strcat.S,v 1.5 2005/10/21 10:53:23 tg Exp $"
 
 	.text
 

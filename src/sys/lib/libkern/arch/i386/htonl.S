@@ -1,4 +1,4 @@
-/* $MirOS: src/lib/libc/arch/i386/net/htonl.S,v 1.5 2006/11/01 20:01:17 tg Exp $ */
+/* $MirOS: src/sys/lib/libkern/arch/i386/htonl.S,v 1.4 2006/11/21 02:28:27 tg Exp $ */
 
 /*-
  * Copyright (c) 2003, 2004
@@ -24,8 +24,6 @@
 #include <machine/asm.h>
 
 	.intel_syntax noprefix
-	.section .comment
-	.asciz	"$MirOS: src/lib/libc/arch/i386/net/htonl.S,v 1.5 2006/11/01 20:01:17 tg Exp $"
 	.text
 
 NENTRY(htons)

@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: memcmp.S,v 1.4 2005/08/07 11:30:38 espie Exp $ */
 /*
  * Written by J.T. Conklin <jtc@netbsd.org>.
@@ -5,8 +6,6 @@
  */
 
 #include <machine/asm.h>
-
-RCSID("$MirOS: src/lib/libc/arch/i386/string/memcmp.S,v 1.6 2006/05/13 14:49:00 tg Exp $")
 
 	.text
 

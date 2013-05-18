@@ -1,5 +1,4 @@
-/* $MirOS: src/lib/libc/string/strlfun.c,v 1.10 2006/11/08 23:18:04 tg Exp $ */
-/* _MirOS: src/lib/libc/string/strlfun.c,v 1.10 2006/11/08 23:18:04 tg Exp $ */
+/* $MirOS: src/lib/libc/string/strlfun.c,v 1.11 2006/11/21 01:33:47 tg Exp $ */
 
 /*-
  * Copyright (c) 2006
@@ -26,6 +25,14 @@
  * by Todd C. Miller (see below), which was carried out by Th. Glaser
  * as well as writing wcslcat() and wcslcpy() equivalents.
  */
+
+#ifdef STRXFRM
+#undef HAVE_STRLCPY
+#undef HAVE_STRLCAT
+#define HAVE_STRLCPY	0
+#define HAVE_STRLCAT	1
+#define strlcpy		strxfrm
+#endif
 
 #include <sys/types.h>
 #if defined(_KERNEL) || defined(_STANDALONE)
@@ -71,7 +78,9 @@ extern size_t strlen(const char *);
 #define __predict_false(exp)	((exp) != 0)
 #endif
 
-__RCSID("$MirOS: src/lib/libc/string/strlfun.c,v 1.10 2006/11/08 23:18:04 tg Exp $");
+#if !defined(_KERNEL) && !defined(_STANDALONE)
+__RCSID("$MirOS: src/lib/libc/string/strlfun.c,v 1.11 2006/11/21 01:33:47 tg Exp $");
+#endif
 
 size_t strlcat(char *, const char *, size_t);
 size_t strlcpy(char *, const char *, size_t);

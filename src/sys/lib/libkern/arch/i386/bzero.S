@@ -1,4 +1,4 @@
-/* $MirOS: src/lib/libc/arch/i386/string/bzero.S,v 1.4 2005/09/22 20:06:17 tg Exp $ */
+/* $MirOS: src/sys/lib/libkern/arch/i386/bzero.S,v 1.2 2006/11/21 02:28:27 tg Exp $ */
 /*
  * Written by J.T. Conklin <jtc@netbsd.org>.
  * Public domain.
@@ -6,8 +6,6 @@
 
 #include <machine/asm.h>
 
-	.section .comment
-	.asciz	"$MirOS: src/lib/libc/arch/i386/string/bzero.S,v 1.4 2005/09/22 20:06:17 tg Exp $"
 	.text
 
 ENTRY(bzero)
