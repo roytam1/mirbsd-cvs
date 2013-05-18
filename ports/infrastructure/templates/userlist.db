@@ -1,6 +1,6 @@
-# $MirOS: ports/infrastructure/templates/userlist.db,v 1.8 2007/06/18 21:13:29 tg Exp $
-#
-# List of users and groups for the MirPorts infrastructure.
+# $MirOS: ports/infrastructure/templates/userlist.db,v 1.9 2007/07/09 09:24:53 tg Exp $
+#-
+# List of users and groups for MirOS base and the MirPorts infrastructure.
 # Format: three columns, separated by one or more tabs or spaces
 # (please use tabs and align like shown below)
 #   column 1:	uid/gid, or "#" for comments
@@ -8,10 +8,11 @@
 #   column 3:	GECOS field of user, or NO if no user is created
 # If a user is created, his name is always the same as the
 # name of his group. The UID and GID are always the same.
-#
-0	root		!0:daemon:0:0:Charlie &:/root:/bin/sh
+#-
+### system users (registry: OpenBSD)
+0	root		!0:daemon:0:0:Charlie &:/:/bin/sh
 0	wheel		NO,root
-1	daemon		!1::0:0:the devil himself:/root:/sbin/nologin
+1	daemon		!1::0:0:the devil himself:/:/sbin/nologin
 1	daemon		NO,daemon
 2	kmem		NO,root
 2	operator	!5::0:0:system &:/operator:/sbin/nologin
@@ -73,6 +74,7 @@
 88	_ripd		RIP Daemon
 89	_hoststated	host state Daemon
 117	dialer		NO
+### system users (registry: MirOS)
 250	audio		NO
 251	_cvsadmin	NO
 252	_isrc		NO
@@ -80,18 +82,20 @@
 254	_anoncvs	!254::0:0:anonymous CVS and RSYNC:/var/anoncvs/anoncvs:/var/anoncvs/anoncvssh
 254	_anoncvs	NO
 255	_rsync		net/rsync unprivileged group
+### ports users (registry: MirPorts)
 256	_dnscache	net/djbdns cache
 257	_tinydns	net/djbdns server
 258	_dnslog		net/djbdns logdaemon
 259	_freenet	net/freenetp
 260	_bnetd		games/bnetd
 261	_mldonkey	net/mldonkey
-262	_mailscan	???
+#262	_mailscan	???
 263	_cups		print/cups
 264	_gii		net/gated
 265	_icecast	net/icecast
 266	_slapd		databases/openldap
 267	_openvpn	net/openvpn
+### ports users (registry: OpenBSD)
 500	_opennap	audio/opennap
 501	_gnats		databases/gnats
 502	_mysql		databases/mysql server
@@ -175,5 +179,6 @@
 580	_puppet		sysutils/ruby-puppet
 581	_gonzui		textproc/gonzui
 582	_tabled		sysutils/tabled
+### system users (registry: OpenBSD)
 32766	nogroup		NO
 32767	nobody		Unprivileged User
