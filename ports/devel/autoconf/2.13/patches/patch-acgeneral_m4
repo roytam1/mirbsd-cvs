@@ -1,28 +1,29 @@
-$MirOS: ports/devel/autoconf/2.13/patches/patch-acgeneral_m4,v 1.4 2005/04/27 05:51:46 tg Exp $
+$MirOS: ports/devel/autoconf/2.13/patches/patch-acgeneral_m4,v 1.5 2007/02/23 00:58:41 tg Exp $
 $OpenBSD: patch-acgeneral_m4,v 1.1 2003/02/15 23:58:57 brad Exp $
 --- acgeneral.m4.orig	Tue Jan  5 13:27:15 1999
-+++ acgeneral.m4	Fri Feb 23 00:43:51 2007
++++ acgeneral.m4	Sat Apr  5 18:02:42 2008
 @@ -1,7 +1,9 @@
  dnl Parameterized macros.
  dnl Requires GNU m4.
  dnl This file is part of Autoconf.
 -dnl Copyright (C) 1992, 93, 94, 95, 96, 1998 Free Software Foundation, Inc.
-+dnl $MirOS: ports/devel/autoconf/2.13/patches/patch-acgeneral_m4,v 1.4 2005/04/27 05:51:46 tg Exp $
-+dnl Copyright (C) 1992, 1993, 1994, 1995, 1996, 1998, 1999, 2004
++dnl $MirOS: ports/devel/autoconf/2.13/patches/patch-acgeneral_m4,v 1.5 2007/02/23 00:58:41 tg Exp $
++dnl Copyright (C) 1992, 1993, 1994, 1995, 1996, 1998, 1999, 2004, 2008
 +dnl	Free Software Foundation, Inc.
  dnl
  dnl This program is free software; you can redistribute it and/or modify
  dnl it under the terms of the GNU General Public License as published by
-@@ -52,7 +54,7 @@ dnl
+@@ -52,7 +54,8 @@ dnl
  divert(-1)dnl Throw away output until AC_INIT is called.
  changequote([, ])
  
 -define(AC_ACVERSION, 2.13)
 +define(AC_ACVERSION, 2.13.@MIRPORTS_DASHVER@)
++define([AC_AUTOCONF_VERSION], [2.13])
  
  dnl Some old m4's don't support m4exit.  But they provide
  dnl equivalent functionality by core dumping because of the
-@@ -62,12 +64,18 @@ Install it before installing Autoconf or
+@@ -62,12 +65,18 @@ Install it before installing Autoconf or
  M4 environment variable to its path name.
  )m4exit(2)])
  
@@ -45,7 +46,7 @@ $OpenBSD: patch-acgeneral_m4,v 1.1 2003/02/15 23:58:57 brad Exp $
  dnl ### Defining macros
  
  
-@@ -78,14 +86,18 @@ dnl and AC_DIVERSION_ICMDS.
+@@ -78,14 +87,18 @@ dnl and AC_DIVERSION_ICMDS.
  dnl AC_DIVERSION_NOTICE - 1 (= 0)	AC_REQUIRE'd #! /bin/sh line
  define(AC_DIVERSION_NOTICE, 1)dnl	copyright notice & option help strings
  define(AC_DIVERSION_INIT, 2)dnl		initialization code
@@ -72,7 +73,7 @@ $OpenBSD: patch-acgeneral_m4,v 1.1 2003/02/15 23:58:57 brad Exp $
  
  dnl Change the diversion stream to STREAM, while stacking old values.
  dnl AC_DIVERT_PUSH(STREAM)
-@@ -101,6 +113,22 @@ define(AC_DIVERT_POP,
+@@ -101,6 +114,22 @@ define(AC_DIVERT_POP,
  divert(AC_DIVERSION_CURRENT)dnl
  ])
  
@@ -95,18 +96,18 @@ $OpenBSD: patch-acgeneral_m4,v 1.1 2003/02/15 23:58:57 brad Exp $
  dnl Initialize the diversion setup.
  define([AC_DIVERSION_CURRENT], AC_DIVERSION_NORMAL)
  dnl This will be popped by AC_REQUIRE in AC_INIT.
-@@ -147,7 +175,9 @@ dnl AC_INIT_NOTICE()
+@@ -147,7 +176,9 @@ dnl AC_INIT_NOTICE()
  AC_DEFUN(AC_INIT_NOTICE,
  [# Guess values for system-dependent variables and create Makefiles.
  # Generated automatically using autoconf version] AC_ACVERSION [
 -# Copyright (C) 1992, 93, 94, 95, 96 Free Software Foundation, Inc.
-+# $MirOS: ports/devel/autoconf/2.13/patches/patch-acgeneral_m4,v 1.4 2005/04/27 05:51:46 tg Exp $
++# $MirOS: ports/devel/autoconf/2.13/patches/patch-acgeneral_m4,v 1.5 2007/02/23 00:58:41 tg Exp $
 +# Copyright (C) 1992, 1993, 1994, 1995, 1996, 2004
 +#	Free Software Foundation, Inc.
  #
  # This configure script is free software; the Free Software Foundation
  # gives unlimited permission to copy, distribute and modify it.
-@@ -225,7 +255,7 @@ do
+@@ -225,7 +256,7 @@ do
  
    case "$ac_option" in
  changequote(, )dnl
@@ -115,7 +116,7 @@ $OpenBSD: patch-acgeneral_m4,v 1.1 2003/02/15 23:58:57 brad Exp $
  changequote([, ])dnl
    *) ac_optarg= ;;
    esac
-@@ -258,25 +288,25 @@ changequote([, ])dnl
+@@ -258,25 +289,25 @@ changequote([, ])dnl
      datadir="$ac_optarg" ;;
  
    -disable-* | --disable-*)
@@ -147,7 +148,7 @@ $OpenBSD: patch-acgeneral_m4,v 1.1 2003/02/15 23:58:57 brad Exp $
      case "$ac_option" in
        *=*) ;;
        *) ac_optarg=yes ;;
-@@ -307,7 +337,7 @@ Configuration:
+@@ -307,7 +338,7 @@ Configuration:
    --cache-file=FILE       cache test results in FILE
    --help                  print this message
    --no-create             do not create output files
@@ -156,7 +157,7 @@ $OpenBSD: patch-acgeneral_m4,v 1.1 2003/02/15 23:58:57 brad Exp $
    --version               print the version of autoconf that created configure
  Directory and file names:
    --prefix=PREFIX         install architecture-independent files in PREFIX
-@@ -346,11 +376,12 @@ Features and packages:
+@@ -346,11 +377,12 @@ Features and packages:
    --without-PACKAGE       do not use PACKAGE (same as --with-PACKAGE=no)
    --x-includes=DIR        X include files are in DIR
    --x-libraries=DIR       X library files are in DIR
@@ -173,7 +174,7 @@ $OpenBSD: patch-acgeneral_m4,v 1.1 2003/02/15 23:58:57 brad Exp $
      exit 0 ;;
  
    -host | --host | --hos | --ho)
-@@ -504,14 +535,14 @@ EOF
+@@ -504,14 +536,14 @@ EOF
      exit 0 ;;
  
    -with-* | --with-*)
@@ -191,7 +192,7 @@ $OpenBSD: patch-acgeneral_m4,v 1.1 2003/02/15 23:58:57 brad Exp $
      case "$ac_option" in
        *=*) ;;
        *) ac_optarg=yes ;;
-@@ -519,14 +550,14 @@ changequote([, ])dnl
+@@ -519,14 +551,14 @@ changequote([, ])dnl
      eval "with_${ac_package}='$ac_optarg'" ;;
  
    -without-* | --without-*)
@@ -209,7 +210,7 @@ $OpenBSD: patch-acgeneral_m4,v 1.1 2003/02/15 23:58:57 brad Exp $
      eval "with_${ac_package}=no" ;;
  
    --x)
-@@ -552,7 +583,7 @@ changequote([, ])dnl
+@@ -552,7 +584,7 @@ changequote([, ])dnl
  
    *)
  changequote(, )dnl
@@ -218,7 +219,7 @@ $OpenBSD: patch-acgeneral_m4,v 1.1 2003/02/15 23:58:57 brad Exp $
  changequote([, ])dnl
        AC_MSG_WARN($ac_option: invalid host type)
      fi
-@@ -566,7 +597,7 @@ changequote([, ])dnl
+@@ -566,7 +598,7 @@ changequote([, ])dnl
  done
  
  if test -n "$ac_prev"; then
@@ -227,7 +228,7 @@ $OpenBSD: patch-acgeneral_m4,v 1.1 2003/02/15 23:58:57 brad Exp $
  fi
  ])
  
-@@ -586,6 +617,9 @@ AC_INIT_NOTICE
+@@ -586,6 +618,9 @@ AC_INIT_NOTICE
  AC_DIVERT_POP()dnl to NORMAL
  AC_DIVERT_PUSH(AC_DIVERSION_INIT)dnl
  AC_INIT_PARSE_ARGS
@@ -237,7 +238,7 @@ $OpenBSD: patch-acgeneral_m4,v 1.1 2003/02/15 23:58:57 brad Exp $
  AC_INIT_PREPARE($1)dnl
  AC_DIVERT_POP()dnl to NORMAL
  ])
-@@ -639,7 +673,7 @@ done
+@@ -639,7 +674,7 @@ done
  # NLS nuisances.
  # Only set these to C if already set.  These must not be set unconditionally
  # because not all systems understand e.g. LANG=C (notably SCO).
@@ -246,7 +247,7 @@ $OpenBSD: patch-acgeneral_m4,v 1.1 2003/02/15 23:58:57 brad Exp $
  # Non-C LC_CTYPE values break the ctype check.
  if test "${LANG+set}"   = set; then LANG=C;   export LANG;   fi
  if test "${LC_ALL+set}" = set; then LC_ALL=C; export LC_ALL; fi
-@@ -661,7 +695,7 @@ if test -z "$srcdir"; then
+@@ -661,7 +696,7 @@ if test -z "$srcdir"; then
    # Try the directory containing this script, then its parent.
    ac_prog=[$]0
  changequote(, )dnl
@@ -255,7 +256,7 @@ $OpenBSD: patch-acgeneral_m4,v 1.1 2003/02/15 23:58:57 brad Exp $
  changequote([, ])dnl
    test "x$ac_confdir" = "x$ac_prog" && ac_confdir=.
    srcdir=$ac_confdir
-@@ -681,7 +715,7 @@ fi
+@@ -681,7 +716,7 @@ fi
  dnl Double slashes in pathnames in object file debugging info
  dnl mess up M-x gdb in Emacs.
  changequote(, )dnl
@@ -264,7 +265,7 @@ $OpenBSD: patch-acgeneral_m4,v 1.1 2003/02/15 23:58:57 brad Exp $
  changequote([, ])dnl
  
  dnl Let the site file select an alternate cache file if it wants to.
-@@ -728,13 +762,10 @@ dnl ### Selecting optional features
+@@ -728,13 +763,10 @@ dnl ### Selecting optional features
  
  dnl AC_ARG_ENABLE(FEATURE, HELP-STRING, ACTION-IF-TRUE [, ACTION-IF-FALSE])
  AC_DEFUN(AC_ARG_ENABLE,
@@ -281,7 +282,7 @@ $OpenBSD: patch-acgeneral_m4,v 1.1 2003/02/15 23:58:57 brad Exp $
    ifelse([$3], , :, [$3])
  ifelse([$4], , , [else
    $4
-@@ -753,13 +784,10 @@ dnl ### Working with optional software
+@@ -753,13 +785,10 @@ dnl ### Working with optional software
  
  dnl AC_ARG_WITH(PACKAGE, HELP-STRING, ACTION-IF-TRUE [, ACTION-IF-FALSE])
  AC_DEFUN(AC_ARG_WITH,
@@ -298,7 +299,7 @@ $OpenBSD: patch-acgeneral_m4,v 1.1 2003/02/15 23:58:57 brad Exp $
    ifelse([$3], , :, [$3])
  ifelse([$4], , , [else
    $4
-@@ -785,14 +813,14 @@ else
+@@ -785,14 +814,14 @@ else
    cat <<\EOF_SED > conftestsed
  s,\\,\\\\,g; s,\$,$$,g
  EOF_SED
@@ -316,7 +317,7 @@ $OpenBSD: patch-acgeneral_m4,v 1.1 2003/02/15 23:58:57 brad Exp $
  
  # sed with no file args requires a program.
  test "$program_transform_name" = "" && program_transform_name="s,x,x,"
-@@ -847,7 +875,7 @@ dnl AC_CONFIG_AUX_DIR(DIR)
+@@ -847,7 +876,7 @@ dnl AC_CONFIG_AUX_DIR(DIR)
  AC_DEFUN(AC_CONFIG_AUX_DIR,
  [AC_CONFIG_AUX_DIRS($1 $srcdir/$1)])
  
@@ -325,7 +326,7 @@ $OpenBSD: patch-acgeneral_m4,v 1.1 2003/02/15 23:58:57 brad Exp $
  dnl There's no need to call this macro explicitly; just AC_REQUIRE it.
  AC_DEFUN(AC_CONFIG_AUX_DIR_DEFAULT,
  [AC_CONFIG_AUX_DIRS($srcdir $srcdir/.. $srcdir/../..)])
-@@ -859,7 +887,7 @@ dnl do not automatically need to distrib
+@@ -859,7 +888,7 @@ dnl do not automatically need to distrib
  dnl AC_CONFIG_AUX_DIRS(DIR ...)
  AC_DEFUN(AC_CONFIG_AUX_DIRS,
  [ac_aux_dir=
@@ -334,7 +335,7 @@ $OpenBSD: patch-acgeneral_m4,v 1.1 2003/02/15 23:58:57 brad Exp $
    if test -f $ac_dir/install-sh; then
      ac_aux_dir=$ac_dir
      ac_install_sh="$ac_aux_dir/install-sh -c"
-@@ -868,20 +896,27 @@ for ac_dir in $1; do
+@@ -868,20 +897,27 @@ for ac_dir in $1; do
      ac_aux_dir=$ac_dir
      ac_install_sh="$ac_aux_dir/install.sh -c"
      break
@@ -365,7 +366,7 @@ $OpenBSD: patch-acgeneral_m4,v 1.1 2003/02/15 23:58:57 brad Exp $
  AC_BEFORE([$0], [AC_ARG_PROGRAM])
  # Do some error checking and defaulting for the host and target type.
  # The inputs are:
-@@ -903,9 +938,6 @@ NONE---*---* | *---NONE---* | *---*---NO
+@@ -903,9 +939,6 @@ NONE---*---* | *---NONE---* | *---*---NO
  *) AC_MSG_ERROR(can only configure for one host and one target at a time) ;;
  esac
  
@@ -375,7 +376,7 @@ $OpenBSD: patch-acgeneral_m4,v 1.1 2003/02/15 23:58:57 brad Exp $
  test "$host_alias" != "$target_alias" &&
    test "$program_prefix$program_suffix$program_transform_name" = \
      NONENONEs,x,x, &&
-@@ -914,104 +946,72 @@ test "$host_alias" != "$target_alias" &&
+@@ -914,104 +947,72 @@ test "$host_alias" != "$target_alias" &&
  
  dnl Subroutines of AC_CANONICAL_SYSTEM.
  
@@ -533,7 +534,7 @@ $OpenBSD: patch-acgeneral_m4,v 1.1 2003/02/15 23:58:57 brad Exp $
  
  dnl AC_VALIDATE_CACHED_SYSTEM_TUPLE[(cmd)]
  dnl if the cache file is inconsistent with the current host,
-@@ -1064,7 +1064,9 @@ dnl AC_CACHE_LOAD()
+@@ -1064,7 +1065,9 @@ dnl AC_CACHE_LOAD()
  define(AC_CACHE_LOAD,
  [if test -r "$cache_file"; then
    echo "loading cache $cache_file"
@@ -544,7 +545,7 @@ $OpenBSD: patch-acgeneral_m4,v 1.1 2003/02/15 23:58:57 brad Exp $
  else
    echo "creating cache $cache_file"
    > $cache_file
-@@ -1097,16 +1099,16 @@ dnl Allow a site initialization script t
+@@ -1097,16 +1100,16 @@ dnl Allow a site initialization script t
  # and sets the high bit in the cache file unless we assign to the vars.
  changequote(, )dnl
  (set) 2>&1 |
@@ -564,7 +565,7 @@ $OpenBSD: patch-acgeneral_m4,v 1.1 2003/02/15 23:58:57 brad Exp $
      sed -n -e 's/^\([a-zA-Z0-9_]*_cv_[a-zA-Z0-9_]*\)=\(.*\)/\1=${\1=\2}/p'
      ;;
    esac >> confcache
-@@ -1124,14 +1126,13 @@ fi
+@@ -1124,14 +1127,13 @@ fi
  rm -f confcache
  ])
  
@@ -581,7 +582,7 @@ $OpenBSD: patch-acgeneral_m4,v 1.1 2003/02/15 23:58:57 brad Exp $
    echo $ac_n "(cached) $ac_c" 1>&AC_FD_MSG
  else
    $2
-@@ -1308,6 +1309,17 @@ define(AC_OBSOLETE,
+@@ -1308,6 +1310,17 @@ define(AC_OBSOLETE,
  )])
  
  
@@ -599,7 +600,7 @@ $OpenBSD: patch-acgeneral_m4,v 1.1 2003/02/15 23:58:57 brad Exp $
  dnl ### Checking for programs
  
  
-@@ -1387,7 +1399,7 @@ AC_CACHE_VAL(ac_cv_path_$1,
+@@ -1387,7 +1400,7 @@ AC_CACHE_VAL(ac_cv_path_$1,
    /*)
    ac_cv_path_$1="[$]$1" # Let the user override the test with a path.
    ;;
@@ -608,7 +609,7 @@ $OpenBSD: patch-acgeneral_m4,v 1.1 2003/02/15 23:58:57 brad Exp $
    ac_cv_path_$1="[$]$1" # Let the user override the test with a dos path.
    ;;
    *)
-@@ -1396,7 +1408,7 @@ dnl $ac_dummy forces splitting on consta
+@@ -1396,7 +1409,7 @@ dnl $ac_dummy forces splitting on consta
  dnl POSIX.2 word splitting is done only on the output of word expansions,
  dnl not every word.  This closes a longstanding sh security hole.
    ac_dummy="ifelse([$4], , $PATH, [$4])"
@@ -617,7 +618,7 @@ $OpenBSD: patch-acgeneral_m4,v 1.1 2003/02/15 23:58:57 brad Exp $
      test -z "$ac_dir" && ac_dir=.
      if test -f $ac_dir/$ac_word; then
        ac_cv_path_$1="$ac_dir/$ac_word"
-@@ -1466,10 +1478,10 @@ fi
+@@ -1466,10 +1479,10 @@ fi
  fi])
  ])
  
@@ -631,7 +632,7 @@ $OpenBSD: patch-acgeneral_m4,v 1.1 2003/02/15 23:58:57 brad Exp $
  dnl This comes too late to find a site file based on the prefix,
  dnl and it might use a cached value for the path.
  dnl No big loss, I think, since most configures don't use this macro anyway.
-@@ -1484,7 +1496,7 @@ echo $ac_n "checking for prefix by $ac_c
+@@ -1484,7 +1497,7 @@ echo $ac_n "checking for prefix by $ac_c
  AC_PATH_PROG(AC_VAR_NAME, $1)
  changequote(<<, >>)dnl
    if test -n "$ac_cv_path_<<>>AC_VAR_NAME"; then
@@ -640,7 +641,7 @@ $OpenBSD: patch-acgeneral_m4,v 1.1 2003/02/15 23:58:57 brad Exp $
  changequote([, ])dnl
    fi
  fi
-@@ -1492,12 +1504,12 @@ undefine([AC_VAR_NAME])dnl
+@@ -1492,12 +1505,12 @@ undefine([AC_VAR_NAME])dnl
  ])
  
  dnl Try to compile, link and execute TEST-PROGRAM.  Set WORKING-VAR to
@@ -658,7 +659,7 @@ $OpenBSD: patch-acgeneral_m4,v 1.1 2003/02/15 23:58:57 brad Exp $
  dnl AC_TRY_COMPILER(TEST-PROGRAM, WORKING-VAR, CROSS-VAR)
  AC_DEFUN(AC_TRY_COMPILER,
  [cat > conftest.$ac_ext << EOF
-@@ -1534,6 +1546,7 @@ dnl ACTION-IF-NOT-FOUND.
+@@ -1534,6 +1547,7 @@ dnl ACTION-IF-NOT-FOUND.
  
  AC_DEFUN(AC_TRY_LINK_FUNC,
  AC_TRY_LINK(dnl
@@ -666,7 +667,7 @@ $OpenBSD: patch-acgeneral_m4,v 1.1 2003/02/15 23:58:57 brad Exp $
  ifelse([$1], [main], , dnl Avoid conflicting decl of main.
  [/* Override any gcc2 internal prototype to avoid an error.  */
  ]ifelse(AC_LANG, CPLUSPLUS, [#ifdef __cplusplus
-@@ -1543,7 +1556,7 @@ extern "C"
+@@ -1543,7 +1557,7 @@ extern "C"
  [/* We use char because int might match the return type of a gcc2
      builtin and then its argument prototype would still apply.  */
  char $1();
@@ -675,7 +676,7 @@ $OpenBSD: patch-acgeneral_m4,v 1.1 2003/02/15 23:58:57 brad Exp $
  [$1()],
  [$2],
  [$3]))
-@@ -1559,10 +1572,10 @@ AC_CACHE_CHECK([for library containing $
+@@ -1559,10 +1573,10 @@ AC_CACHE_CHECK([for library containing $
  [ac_func_search_save_LIBS="$LIBS"
  ac_cv_search_$1="no"
  AC_TRY_LINK_FUNC([$1], [ac_cv_search_$1="none required"])
@@ -689,7 +690,7 @@ $OpenBSD: patch-acgeneral_m4,v 1.1 2003/02/15 23:58:57 brad Exp $
  break])
  done
  LIBS="$ac_func_search_save_LIBS"])
-@@ -1583,7 +1596,7 @@ dnl Use a cache variable name containing
+@@ -1583,7 +1597,7 @@ dnl Use a cache variable name containing
  dnl because the test really is for library $1 defining function $2, not
  dnl just for library $1.  Separate tests with the same $1 and different $2s
  dnl may have different results.
@@ -698,7 +699,7 @@ $OpenBSD: patch-acgeneral_m4,v 1.1 2003/02/15 23:58:57 brad Exp $
  AC_CACHE_VAL(ac_cv_lib_$ac_lib_var,
  [ac_save_LIBS="$LIBS"
  LIBS="-l$1 $5 $LIBS"
-@@ -1604,12 +1617,12 @@ char $2();
+@@ -1604,12 +1618,12 @@ char $2();
  	    eval "ac_cv_lib_$ac_lib_var=no")
  LIBS="$ac_save_LIBS"
  ])dnl
@@ -714,7 +715,7 @@ $OpenBSD: patch-acgeneral_m4,v 1.1 2003/02/15 23:58:57 brad Exp $
  changequote([, ])dnl
    AC_DEFINE_UNQUOTED($ac_tr_lib)
    LIBS="-l$1 $LIBS"
-@@ -1666,10 +1679,10 @@ EOF
+@@ -1666,10 +1680,10 @@ EOF
  dnl Capture the stderr of cpp.  eval is necessary to expand ac_cpp.
  dnl We used to copy stderr to stdout and capture it in a variable, but
  dnl that breaks under sh -x, which writes compile commands starting
@@ -727,7 +728,7 @@ $OpenBSD: patch-acgeneral_m4,v 1.1 2003/02/15 23:58:57 brad Exp $
  if test -z "$ac_err"; then
    ifelse([$2], , :, [rm -rf conftest*
    $2])
-@@ -1843,12 +1856,12 @@ dnl ### Checking for header files
+@@ -1843,12 +1857,12 @@ dnl ### Checking for header files
  dnl AC_CHECK_HEADER(HEADER-FILE, [ACTION-IF-FOUND [, ACTION-IF-NOT-FOUND]])
  AC_DEFUN(AC_CHECK_HEADER,
  [dnl Do the transliteration at runtime so arg 1 can be a shell variable.
@@ -742,7 +743,7 @@ $OpenBSD: patch-acgeneral_m4,v 1.1 2003/02/15 23:58:57 brad Exp $
    AC_MSG_RESULT(yes)
    ifelse([$2], , :, [$2])
  else
-@@ -1864,7 +1877,7 @@ AC_DEFUN(AC_CHECK_HEADERS,
+@@ -1864,7 +1878,7 @@ AC_DEFUN(AC_CHECK_HEADERS,
  do
  AC_CHECK_HEADER($ac_hdr,
  [changequote(, )dnl
@@ -751,7 +752,7 @@ $OpenBSD: patch-acgeneral_m4,v 1.1 2003/02/15 23:58:57 brad Exp $
  changequote([, ])dnl
    AC_DEFINE_UNQUOTED($ac_tr_hdr) $2], $3)dnl
  done
-@@ -1877,7 +1890,7 @@ dnl AC_CHECK_FILE(FILE, [ACTION-IF-FOUND
+@@ -1877,7 +1891,7 @@ dnl AC_CHECK_FILE(FILE, [ACTION-IF-FOUND
  AC_DEFUN(AC_CHECK_FILE,
  [AC_REQUIRE([AC_PROG_CC])
  dnl Do the transliteration at runtime so arg 1 can be a shell variable.
@@ -760,7 +761,7 @@ $OpenBSD: patch-acgeneral_m4,v 1.1 2003/02/15 23:58:57 brad Exp $
  AC_MSG_CHECKING([for $1])
  AC_CACHE_VAL(ac_cv_file_$ac_safe,
  [if test "$cross_compiling" = yes; then
-@@ -1891,7 +1904,7 @@ else
+@@ -1891,7 +1905,7 @@ else
      eval "ac_cv_file_$ac_safe=no"
    fi
  fi])dnl
@@ -769,7 +770,7 @@ $OpenBSD: patch-acgeneral_m4,v 1.1 2003/02/15 23:58:57 brad Exp $
    AC_MSG_RESULT(yes)
    ifelse([$2], , :, [$2])
  else
-@@ -1906,7 +1919,7 @@ AC_DEFUN(AC_CHECK_FILES,
+@@ -1906,7 +1920,7 @@ AC_DEFUN(AC_CHECK_FILES,
  do
  AC_CHECK_FILE($ac_file,
  [changequote(, )dnl
@@ -778,7 +779,7 @@ $OpenBSD: patch-acgeneral_m4,v 1.1 2003/02/15 23:58:57 brad Exp $
  changequote([, ])dnl
    AC_DEFINE_UNQUOTED($ac_tr_file) $2], $3)dnl
  done
-@@ -1920,7 +1933,9 @@ dnl AC_CHECK_FUNC(FUNCTION, [ACTION-IF-F
+@@ -1920,7 +1934,9 @@ dnl AC_CHECK_FUNC(FUNCTION, [ACTION-IF-F
  AC_DEFUN(AC_CHECK_FUNC,
  [AC_MSG_CHECKING([for $1])
  AC_CACHE_VAL(ac_cv_func_$1,
@@ -789,7 +790,7 @@ $OpenBSD: patch-acgeneral_m4,v 1.1 2003/02/15 23:58:57 brad Exp $
  dnl Don't include <ctype.h> because on OSF/1 3.0 it includes <sys/types.h>
  dnl which includes <sys/select.h> which contains a prototype for
  dnl select.  Similarly for bzero.
-@@ -1935,6 +1950,7 @@ extern "C"
+@@ -1935,6 +1951,7 @@ extern "C"
  [/* We use char because int might match the return type of a gcc2
      builtin and then its argument prototype would still apply.  */
  char $1();
@@ -797,7 +798,7 @@ $OpenBSD: patch-acgeneral_m4,v 1.1 2003/02/15 23:58:57 brad Exp $
  ], [
  /* The GNU C library defines this for functions which it implements
      to always fail with ENOSYS.  Some functions are actually named
-@@ -1942,10 +1958,11 @@ char $1();
+@@ -1942,10 +1959,11 @@ char $1();
  #if defined (__stub_$1) || defined (__stub___$1)
  choke me
  #else
@@ -812,7 +813,7 @@ $OpenBSD: patch-acgeneral_m4,v 1.1 2003/02/15 23:58:57 brad Exp $
    AC_MSG_RESULT(yes)
    ifelse([$2], , :, [$2])
  else
-@@ -1961,7 +1978,7 @@ AC_DEFUN(AC_CHECK_FUNCS,
+@@ -1961,7 +1979,7 @@ AC_DEFUN(AC_CHECK_FUNCS,
  do
  AC_CHECK_FUNC($ac_func,
  [changequote(, )dnl
@@ -821,7 +822,7 @@ $OpenBSD: patch-acgeneral_m4,v 1.1 2003/02/15 23:58:57 brad Exp $
  changequote([, ])dnl
    AC_DEFINE_UNQUOTED($ac_tr_func) $2], $3)dnl
  done
-@@ -1994,7 +2011,7 @@ main()
+@@ -1994,7 +2012,7 @@ main()
    if (!f) exit(1);
    fprintf(f, "%d\n", sizeof($1));
    exit(0);
@@ -830,7 +831,7 @@ $OpenBSD: patch-acgeneral_m4,v 1.1 2003/02/15 23:58:57 brad Exp $
  AC_MSG_RESULT($AC_CV_NAME)
  AC_DEFINE_UNQUOTED(AC_TYPE_NAME, $AC_CV_NAME)
  undefine([AC_TYPE_NAME])dnl
-@@ -2005,7 +2022,7 @@ undefine([AC_CV_NAME])dnl
+@@ -2005,7 +2023,7 @@ undefine([AC_CV_NAME])dnl
  dnl ### Checking for typedefs
  
  
@@ -839,7 +840,7 @@ $OpenBSD: patch-acgeneral_m4,v 1.1 2003/02/15 23:58:57 brad Exp $
  AC_DEFUN(AC_CHECK_TYPE,
  [AC_REQUIRE([AC_HEADER_STDC])dnl
  AC_MSG_CHECKING(for $1)
-@@ -2013,14 +2030,17 @@ AC_CACHE_VAL(ac_cv_type_$1,
+@@ -2013,14 +2031,17 @@ AC_CACHE_VAL(ac_cv_type_$1,
  [AC_EGREP_CPP(dnl
  changequote(<<,>>)dnl
  <<(^|[^a-zA-Z_0-9])$1[^a-zA-Z_0-9]>>dnl
@@ -862,7 +863,7 @@ $OpenBSD: patch-acgeneral_m4,v 1.1 2003/02/15 23:58:57 brad Exp $
  fi
  ])
  
-@@ -2037,6 +2057,10 @@ dnl link name in DEST...
+@@ -2037,6 +2058,10 @@ dnl link name in DEST...
  dnl AC_LINK_FILES(SOURCE..., DEST...)
  AC_DEFUN(AC_LINK_FILES,
  [dnl
@@ -873,7 +874,7 @@ $OpenBSD: patch-acgeneral_m4,v 1.1 2003/02/15 23:58:57 brad Exp $
  define([AC_LIST_FILES], ifdef([AC_LIST_FILES], [AC_LIST_FILES ],)[$1])dnl
  define([AC_LIST_LINKS], ifdef([AC_LIST_LINKS], [AC_LIST_LINKS ],)[$2])])
  
-@@ -2062,7 +2086,7 @@ AC_SUBST(subdirs)dnl
+@@ -2062,7 +2087,7 @@ AC_SUBST(subdirs)dnl
  
  dnl The big finish.
  dnl Produce config.status, config.h, and links; and configure subdirs.
@@ -882,7 +883,7 @@ $OpenBSD: patch-acgeneral_m4,v 1.1 2003/02/15 23:58:57 brad Exp $
  define(AC_OUTPUT,
  [trap '' 1 2 15
  AC_CACHE_SAVE
-@@ -2083,13 +2107,18 @@ fi
+@@ -2083,13 +2108,18 @@ fi
  
  trap 'rm -f $CONFIG_STATUS conftest*; exit 1' 1 2 15
  
@@ -902,7 +903,7 @@ $OpenBSD: patch-acgeneral_m4,v 1.1 2003/02/15 23:58:57 brad Exp $
  cat > $CONFIG_STATUS <<EOF
  #! /bin/sh
  # Generated automatically by configure.
-@@ -2097,7 +2126,7 @@ cat > $CONFIG_STATUS <<EOF
+@@ -2097,7 +2127,7 @@ cat > $CONFIG_STATUS <<EOF
  # This directory was configured as follows,
  dnl hostname on some systems (SVR3.2, Linux) returns a bogus exit status,
  dnl so uname gets run too.
@@ -911,7 +912,7 @@ $OpenBSD: patch-acgeneral_m4,v 1.1 2003/02/15 23:58:57 brad Exp $
  #
  [#] [$]0 [$]ac_configure_args
  #
-@@ -2128,8 +2157,8 @@ ifdef([AC_PROVIDE_AC_PROG_INSTALL], [ac_
+@@ -2128,8 +2158,8 @@ ifdef([AC_PROVIDE_AC_PROG_INSTALL], [ac_
  
  changequote(<<, >>)dnl
  ifdef(<<AC_LIST_HEADER>>,
@@ -922,7 +923,7 @@ $OpenBSD: patch-acgeneral_m4,v 1.1 2003/02/15 23:58:57 brad Exp $
  changequote([, ])dnl
  EOF
  cat >> $CONFIG_STATUS <<EOF
-@@ -2140,16 +2169,18 @@ ifdef([AC_LIST_LINKS], [AC_OUTPUT_LINKS(
+@@ -2140,16 +2170,18 @@ ifdef([AC_LIST_LINKS], [AC_OUTPUT_LINKS(
  EOF
  cat >> $CONFIG_STATUS <<EOF
  undivert(AC_DIVERSION_ICMDS)dnl
@@ -942,7 +943,7 @@ $OpenBSD: patch-acgeneral_m4,v 1.1 2003/02/15 23:58:57 brad Exp $
  dnl config.status should not do recursion.
  ifdef([AC_LIST_SUBDIRS], [AC_OUTPUT_SUBDIRS(AC_LIST_SUBDIRS)])dnl
  ])dnl
-@@ -2165,14 +2196,21 @@ dnl Using a here document instead of a s
+@@ -2165,14 +2197,21 @@ dnl Using a here document instead of a s
  # Protect against Makefile macro expansion.
  cat > conftest.defs <<\EOF
  changequote(<<, >>)dnl
@@ -966,7 +967,7 @@ $OpenBSD: patch-acgeneral_m4,v 1.1 2003/02/15 23:58:57 brad Exp $
  rm -f conftest.defs
  ])
  
-@@ -2222,9 +2260,9 @@ while $ac_more_lines; do
+@@ -2222,9 +2261,9 @@ while $ac_more_lines; do
      else
        ac_sed_cmds="$ac_sed_cmds | sed -f conftest.s$ac_file"
      fi
@@ -978,7 +979,7 @@ $OpenBSD: patch-acgeneral_m4,v 1.1 2003/02/15 23:58:57 brad Exp $
    fi
  done
  if test -z "$ac_sed_cmds"; then
-@@ -2241,23 +2279,23 @@ for ac_file in .. $CONFIG_FILES; do if t
+@@ -2241,23 +2280,23 @@ for ac_file in .. $CONFIG_FILES; do if t
  changequote(, )dnl
    # Support "outfile[:infile[:infile...]]", defaulting infile="outfile.in".
    case "$ac_file" in
@@ -1007,7 +1008,7 @@ $OpenBSD: patch-acgeneral_m4,v 1.1 2003/02/15 23:58:57 brad Exp $
  changequote([, ])dnl
    else
      ac_dir_suffix= ac_dots=
-@@ -2266,7 +2304,7 @@ changequote([, ])dnl
+@@ -2266,7 +2305,7 @@ changequote([, ])dnl
    case "$ac_given_srcdir" in
    .)  srcdir=.
        if test -z "$ac_dots"; then top_srcdir=.
@@ -1016,7 +1017,7 @@ $OpenBSD: patch-acgeneral_m4,v 1.1 2003/02/15 23:58:57 brad Exp $
    /*) srcdir="$ac_given_srcdir$ac_dir_suffix"; top_srcdir="$ac_given_srcdir" ;;
    *) # Relative path.
      srcdir="$ac_dots$ac_given_srcdir$ac_dir_suffix"
-@@ -2284,14 +2322,16 @@ changequote([, ])dnl
+@@ -2284,14 +2323,16 @@ changequote([, ])dnl
  
    echo creating "$ac_file"
    rm -f "$ac_file"
@@ -1036,7 +1037,7 @@ $OpenBSD: patch-acgeneral_m4,v 1.1 2003/02/15 23:58:57 brad Exp $
    sed -e "$ac_comsub
  s%@configure_input@%$configure_input%g
  s%@srcdir@%$srcdir%g
-@@ -2350,8 +2390,8 @@ for ac_file in .. $CONFIG_HEADERS; do if
+@@ -2350,8 +2391,8 @@ for ac_file in .. $CONFIG_HEADERS; do if
  changequote(, )dnl
    # Support "outfile[:infile[:infile...]]", defaulting infile="outfile.in".
    case "$ac_file" in
@@ -1047,7 +1048,7 @@ $OpenBSD: patch-acgeneral_m4,v 1.1 2003/02/15 23:58:57 brad Exp $
    *) ac_file_in="${ac_file}.in" ;;
    esac
  changequote([, ])dnl
-@@ -2359,11 +2399,50 @@ changequote([, ])dnl
+@@ -2359,11 +2400,50 @@ changequote([, ])dnl
    echo creating $ac_file
  
    rm -f conftest.frag conftest.in conftest.out
@@ -1099,7 +1100,7 @@ $OpenBSD: patch-acgeneral_m4,v 1.1 2003/02/15 23:58:57 brad Exp $
  # Transform confdefs.h into a sed script conftest.vals that substitutes
  # the proper values into config.h.in to produce config.h.  And first:
  # Protect against being on the right side of a sed subst in config.status.
-@@ -2398,7 +2477,7 @@ EOF
+@@ -2398,7 +2478,7 @@ EOF
  rm -f conftest.tail
  while :
  do
@@ -1108,7 +1109,7 @@ $OpenBSD: patch-acgeneral_m4,v 1.1 2003/02/15 23:58:57 brad Exp $
    # grep -c gives empty output for an empty file on some AIX systems.
    if test -z "$ac_lines" || test "$ac_lines" -eq 0; then break; fi
    # Write a limited-size here document to conftest.frag.
-@@ -2414,6 +2493,7 @@ do
+@@ -2414,6 +2494,7 @@ do
    mv conftest.tail conftest.vals
  done
  rm -f conftest.vals
@@ -1116,7 +1117,7 @@ $OpenBSD: patch-acgeneral_m4,v 1.1 2003/02/15 23:58:57 brad Exp $
  
  dnl Now back to your regularly scheduled config.status.
  cat >> $CONFIG_STATUS <<\EOF
-@@ -2427,7 +2507,7 @@ cat >> $CONFIG_STATUS <<\EOF
+@@ -2427,7 +2508,7 @@ cat >> $CONFIG_STATUS <<\EOF
    else
      # Remove last slash and all that follows it.  Not all systems have dirname.
    changequote(, )dnl
@@ -1125,7 +1126,7 @@ $OpenBSD: patch-acgeneral_m4,v 1.1 2003/02/15 23:58:57 brad Exp $
    changequote([, ])dnl
      if test "$ac_dir" != "$ac_file" && test "$ac_dir" != .; then
        # The file is in a subdirectory.
-@@ -2453,6 +2533,10 @@ EOF
+@@ -2453,6 +2534,10 @@ EOF
  
  cat >> $CONFIG_STATUS <<\EOF
  srcdir=$ac_given_srcdir
@@ -1136,7 +1137,7 @@ $OpenBSD: patch-acgeneral_m4,v 1.1 2003/02/15 23:58:57 brad Exp $
  while test -n "$ac_sources"; do
    set $ac_dests; ac_dest=[$]1; shift; ac_dests=[$]*
    set $ac_sources; ac_source=[$]1; shift; ac_sources=[$]*
-@@ -2467,15 +2551,15 @@ while test -n "$ac_sources"; do
+@@ -2467,15 +2552,15 @@ while test -n "$ac_sources"; do
    # Make relative symlinks.
    # Remove last slash and all that follows it.  Not all systems have dirname.
  changequote(, )dnl
@@ -1155,7 +1156,7 @@ $OpenBSD: patch-acgeneral_m4,v 1.1 2003/02/15 23:58:57 brad Exp $
  changequote([, ])dnl
    else
      ac_dest_dir_suffix= ac_dots=
-@@ -2542,17 +2626,17 @@ if test "$no_recursion" != yes; then
+@@ -2542,17 +2627,17 @@ if test "$no_recursion" != yes; then
      *)
        if test -d ./$ac_config_dir || mkdir ./$ac_config_dir; then :;
        else
@@ -1176,7 +1177,7 @@ $OpenBSD: patch-acgeneral_m4,v 1.1 2003/02/15 23:58:57 brad Exp $
  changequote([, ])dnl
  
      case "$srcdir" in
-@@ -2566,7 +2650,7 @@ changequote([, ])dnl
+@@ -2566,7 +2651,7 @@ changequote([, ])dnl
  
      # Check for guested configure; otherwise get Cygnus style configure.
      if test -f $ac_sub_srcdir/configure; then
@@ -1185,7 +1186,7 @@ $OpenBSD: patch-acgeneral_m4,v 1.1 2003/02/15 23:58:57 brad Exp $
      elif test -f $ac_sub_srcdir/configure.in; then
        ac_sub_configure=$ac_configure
      else
-@@ -2592,9 +2676,9 @@ changequote([, ])dnl
+@@ -2592,9 +2677,9 @@ changequote([, ])dnl
          esac
  ])dnl
  
