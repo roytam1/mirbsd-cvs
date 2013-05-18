@@ -392,7 +392,7 @@ Language: de
  Ballermann und so.)</p>
 ----
 Date: 13.04.2008 03:10
-Author: tg
+Author: tg@
 Title: current state: annoyed
 
 <p>How can <a href="http://marc.info/?m=120805623420666">a bug like this</a>
@@ -402,7 +402,7 @@ Title: current state: annoyed
  data corruption bugs in the OpenBSD kernel, LP64 bugs in OpenSSL, etc.</p>
 ----
 Date: 14.04.2008 11:32
-Author: tg
+Author: tg@
 Title: my first advisory
 
 <p>XTaran mentioned that there is a Secunia advisory for mksh: <a
