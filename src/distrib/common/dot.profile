@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/dot.profile,v 1.26 2008/03/15 21:12:59 tg Exp $
+# $MirOS: src/distrib/common/dot.profile,v 1.27 2008/05/22 23:07:51 tg Exp $
 # $OpenBSD: dot.profile,v 1.4 2002/09/13 21:38:47 deraadt Exp $
 # $NetBSD: dot.profile,v 1.1 1995/12/18 22:54:43 pk Exp $
 #
@@ -144,6 +144,8 @@ This work is provided "AS IS" and WITHOUT WARRANTY of any kind.\n'
 			;;
 		}
 	done
+else
+	stty newcrt werase ^W intr ^C kill ^U erase ^? status ^T
 fi
 export TERM=vt220
 print -n '\nAvailable editor: ed'
