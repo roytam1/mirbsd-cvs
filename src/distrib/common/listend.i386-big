@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/listend.i386-big,v 1.41 2010/09/25 12:01:48 tg Exp $
+# $MirOS: src/distrib/common/listend.i386-big,v 1.42 2010/12/12 20:34:32 tg Exp $
 
 # missing from mksh here
 LINK	instbin					sbin/mknod
@@ -27,6 +27,7 @@ LINK	instbin					usr/bin/scp
 LINK	instbin					usr/bin/sort
 LINK	instbin					usr/bin/ssh
 LINK	instbin					usr/bin/ssh-keygen
+SPECIAL	mkdir -p var/spool/lock
 LINK	instbin					usr/bin/tip usr/bin/cu
 LINK	instbin					usr/bin/uudecode usr/bin/b64decode
 LINK	instbin					usr/bin/uuencode usr/bin/b64encode
