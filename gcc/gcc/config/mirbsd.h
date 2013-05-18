@@ -1,4 +1,4 @@
-/* $MirOS: gcc/gcc/config/mirbsd.h,v 1.14 2006/11/09 02:22:57 tg Exp $ */
+/* $MirOS: gcc/gcc/config/mirbsd.h,v 1.15 2006/12/11 20:30:59 tg Exp $ */
 
 /* Base configuration file for all MirOS BSD targets.
    Copyright (C) 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2005, 2006
@@ -61,11 +61,23 @@ Boston, MA 02111-1307, USA.  */
 
 /* Look for the include files in the system-defined places.  */
 
+#ifdef MIRBSD_NATIVE
+
 #undef GPLUSPLUS_INCLUDE_DIR
 #define GPLUSPLUS_INCLUDE_DIR		"/usr/include/gxx"
 
 #undef GCC_INCLUDE_DIR
 #define GCC_INCLUDE_DIR			"/usr/include"
+
+#else
+
+/* Not sure how to do this best.  We use MIRBSD_NATIVE to
+   cross-compile the native compiler, though.  */
+
+#undef GCC_INCLUDE_DIR
+#define GCC_INCLUDE_DIR			GPLUSPLUS_INCLUDE_DIR "/.."
+
+#endif
 
 #undef INCLUDE_DEFAULTS
 #define INCLUDE_DEFAULTS				\
