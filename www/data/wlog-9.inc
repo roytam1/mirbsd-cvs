@@ -2744,3 +2744,15 @@ Author: tg@
  to MirOS (many thanks here!).</p>
 <p>Benny is doing good progress on the XFree86® security fixes.</p>
 ----
+Date: 29.02.2008
+Author: tg@
+Title: mksh releng
+
+<p>I managed to ssh into all possible boxen to test whether the upcoming
+ release of <a href="@@RELPATH@@mksh.htm">mksh</a> will work on them (well,
+ the Debian GNU/kFreeBSD qemu instance had to be upgraded first). I even
+ installed some Linux 2.4 and then OpenBSD on wbx’ Zaurus since nobody of
+ them could give me a shell.</p>
+<p>Still some testing to do, but I’m okay with what we have, not only for
+ mksh(1) but also for the entire OS. Expect #10 finally next week or so.</p>
+----
