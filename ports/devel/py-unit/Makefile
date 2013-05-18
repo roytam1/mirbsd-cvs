@@ -1,7 +1,8 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.12 2004/01/25 16:46:30 sturm Exp $
 
 
-COMMENT=			unit testing framework for python
+COMMENT=		unit testing framework for python
 
 VERSION=		1.4.1
 DISTNAME=		pyunit-${VERSION}
@@ -29,6 +30,8 @@ MODULES=	lang/python
 .if !${FLAVOR:L:Mno_x11}
 BUILD_DEPENDS=	${RUN_DEPENDS}
 RUN_DEPENDS=	:python-tkinter-${MODPY_VERSION}*:lang/python/${MODPY_VERSION},-tkinter
+.else
+USE_X11=	Yes
 .endif
 
 NO_REGRESS=	Yes
