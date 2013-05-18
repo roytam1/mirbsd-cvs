@@ -1,4 +1,4 @@
-# $MirOS: src/etc/rc,v 1.68 2007/06/11 21:23:14 tg Exp $
+# $MirOS: src/etc/rc,v 1.69 2007/06/15 23:43:46 tg Exp $
 # $OpenBSD: rc,v 1.277 2006/01/12 21:54:15 deraadt Exp $
 #-
 # System startup script run by init on autoboot or after single-user.
@@ -599,11 +599,16 @@ if [[ ! -f /etc/ssh/ssh_host_rsa_key ]]; then
 	echo done.
 fi
 
+if [[ -e /etc/rc.once ]]; then
+	print rc: running post-install hooks
+	/bin/mksh /etc/rc.once
+fi
+
 echo -n starting network daemons:
 
 # $routed_flags are imported from /etc/rc.conf.
 # If $routed_flags == NO, routed isn't run.
-# Same for the other dæmons.
+# Same for the other dÃ¦mons.
 
 if [[ $routed_flags != NO ]]; then
 	echo -n ' routed';		routed $routed_flags
@@ -774,10 +779,6 @@ echo -n ' cron';		cron
 
 if [[ $wsmoused_flags != NO && -x /usr/sbin/wsmoused ]]; then
 	echo -n ' wsmoused';	/usr/sbin/wsmoused $wsmoused_flags
-fi
-
-if [[ -e /etc/rc.once ]]; then
-	echo -n ' postinstall';	/bin/mksh /etc/rc.once >/dev/null 2>&1 &
 fi
 
 echo .

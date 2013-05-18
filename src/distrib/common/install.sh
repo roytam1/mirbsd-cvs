@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/distrib/common/install.sh,v 1.7 2007/03/11 01:04:49 tg Exp $
+# $MirOS: src/distrib/common/install.sh,v 1.8 2007/06/04 08:36:37 tg Exp $
 # $OpenBSD: install.sh,v 1.152 2005/04/21 21:41:33 krw Exp $
 # $NetBSD: install.sh,v 1.5.2.8 1996/08/27 18:15:05 gwr Exp $
 #
@@ -477,17 +477,25 @@ chmod 711 /mnt/home/$_rootuser
 chown -R $_rootuid:$_rootuid /mnt/home/$_rootuser
 /mnt/usr/sbin/pwd_mkdb -pd /mnt/etc master.passwd
 
-cat >/mnt/etc/rc.once <<'EOF'
-export TZ=UTC PATH=/bin:/usr/bin:/sbin:/usr/sbin
-(stats_sysadd=-firstrun mksh /usr/share/misc/bsdstats; mksh /etc/daily; \
-    mksh /etc/weekly; mksh /etc/monthly) 2>&1 | \
-    mail -s "$(hostname) postinstall output" root
-sync
-rm /etc/rc.once
+cat >/mnt/etc/rc.once <<-'EOF'
+	export TZ=UTC PATH=/bin:/usr/bin:/sbin:/usr/sbin
+	cd /
+	# lock to prevent double-runs
+	print -n postinstall run-once >/var/run/cron.maintenance
+	newaliases 2>&1 | logger -t rc.once
+	sync
+	( (
+		stats_sysadd=-firstrun mksh /usr/share/misc/bsdstats
+		rm -f /var/run/cron.maintenance
+		# the following ones lock themselves
+		mksh /etc/cronrun daily
+		mksh /etc/cronrun weekly
+		mksh /etc/cronrun monthly
+		# clean up after ourselves
+		sync
+		rm /etc/rc.once
+	) 2>&1 | logger -t rc.once ) &
 EOF
-
-# XXX this can be slow due to DNS, but what the hey…
-/mnt/usr/sbin/chroot /mnt usr/bin/newaliases
 
 echo -n "done.\nGenerating initial host.random file..."
 ( ( dd if=/dev/prandom bs=64 count=1; \

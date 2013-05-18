@@ -1,6 +1,7 @@
 ./.profile
 ./etc/ccd.conf
 ./etc/changelist
+./etc/cronrun
 ./etc/daily
 ./etc/dhclient.conf
 ./etc/dhcpd.conf

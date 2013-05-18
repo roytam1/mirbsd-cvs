@@ -1,4 +1,4 @@
-# $MirOS: src/etc/changelist,v 1.10 2006/10/13 19:18:03 tg Exp $
+# $MirOS: src/etc/changelist,v 1.11 2007/03/09 13:05:10 tg Exp $
 # $OpenBSD: changelist,v 1.52 2007/02/28 01:37:15 david Exp $
 #
 # List of files which the security script backs up and checks
@@ -21,6 +21,7 @@
 /etc/changelist
 /etc/changelist.local
 /etc/chio.conf
+/etc/cronrun
 /etc/crontab
 /etc/csh.cshrc
 /etc/csh.login
