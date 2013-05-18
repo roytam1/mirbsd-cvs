@@ -3,7 +3,7 @@
 
 #include "sh.h"
 
-__RCSID("$MirOS: src/bin/mksh/histrap.c,v 1.31 2006/11/10 05:23:12 tg Exp $");
+__RCSID("$MirOS: src/bin/mksh/histrap.c,v 1.32 2006/11/10 06:40:05 tg Exp $");
 
 #ifndef mksh_siglist
 #if defined(BSD) || defined(__APPLE__)
@@ -1057,7 +1057,7 @@ gettrap(const char *name, int igncase)
 	int i;
 	Trap *p;
 
-	if (digit(*name)) {
+	if (ksh_isdigit(*name)) {
 		int n;
 
 		if (getn(name, &n) && 0 <= n && n < NSIG)
