@@ -1,0 +1,14 @@
+$MirOS$
+--- lib/toolbar.in.orig	Sun Sep 10 16:11:48 2006
++++ lib/toolbar.in	Sun Oct  1 03:57:09 2006
+@@ -4,6 +4,8 @@
+ # since modifications to this file will be discarded when you
+ # (re)install icewm.
+ #
++# $MirOS$
++#
++prog UXTerm xterm uxterm
+ prog XTerm xterm xterm
+-prog FTE fte fte
+-prog Netscape netscape netscape
++prog Opera opera opera

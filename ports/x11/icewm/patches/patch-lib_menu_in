@@ -1,11 +1,16 @@
-$MirOS: ports/x11/icewm/patches/patch-lib_menu_in,v 1.2 2005/04/28 22:30:52 tg Exp $
+$MirOS: ports/x11/icewm/patches/patch-lib_menu_in,v 1.3 2006/10/01 02:13:05 tg Exp $
 $OpenBSD: patch-lib_menu_in,v 1.2 2004/05/21 17:00:09 naddy Exp $
---- lib/menu.in.orig	Sun Jan  9 21:47:58 2005
-+++ lib/menu.in	Thu Apr 28 22:30:19 2005
-@@ -5,15 +5,119 @@
+--- lib/menu.in.orig	Sun Sep 10 16:11:48 2006
++++ lib/menu.in	Sun Oct  1 03:56:56 2006
+@@ -4,16 +4,124 @@
+ # since modifications to this file will be discarded when you
  # (re)install icewm.
  #
- prog xterm xterm xterm
+-prog xterm xterm xterm
++# $MirOS$
++#
++prog UXTerm xterm uxterm
++prog XTerm xterm xterm
 +prog Eterm Eterm Eterm
 +prog aterm aterm aterm
  prog rxvt xterm rxvt -bg black -cr green -fg white -C -fn 9x15 -sl 500
@@ -24,11 +29,12 @@ $OpenBSD: patch-lib_menu_in,v 1.2 2004/05/21 17:00:09 naddy Exp $
 +#menufile Tool_bar folder toolbar
 +menu Applications folder {
 +    menu Editors folder {
-+        prog Jupp emacs jupp
-+        prog ed vim ed
++        prog Jupp emacs uxterm -T Jupp -e jupp
++        prog ed-utf vim uxterm -T 'ed (UTF-8)' -e ed
++        prog ed-latin1 vim xterm -T 'ed (ISO-8859-1)' -e ed
 +        prog NEdit nedit nedit
 +        prog fte fte fte
-+        prog vim vim gvim 
++        prog vim vim gvim
 +        prog xemacs xemacs xemacs
 +        prog emacs emacs emacs
 +        prog xed_it xedit xedit
@@ -38,7 +44,7 @@ $OpenBSD: patch-lib_menu_in,v 1.2 2004/05/21 17:00:09 naddy Exp $
 +        prog Xc_oral xcoral xcoral
 +    }
 +    menu "WWW Browsers" folder {
-+        prog Lynx lynx xterm -T Lynx -e lynx 
++        prog Lynx lynx uxterm -T Lynx -e lynx -display_charset utf8
 +        prog Links+ lynx links -g
 +        prog Netscape netscape netscape
 +        prog Konqueror konqueror konqueror
@@ -59,7 +65,7 @@ $OpenBSD: patch-lib_menu_in,v 1.2 2004/05/21 17:00:09 naddy Exp $
 +	prog Pine pine xterm -T Pine -e pine
 +    }
 +    menu "Internet Utilities" folder {
-+        prog sirc xchat xterm -T sirc -e sirc
++        prog sirc xchat uxterm -T sirc -e sirc -X
 +        prog XChat xchat xchat
 +        prog GTK-Gnutella gtk-gnutella gtk-gnutella
 +    }
