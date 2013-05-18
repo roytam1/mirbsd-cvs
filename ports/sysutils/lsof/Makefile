@@ -1,25 +1,10 @@
 # $OpenBSD: Makefile,v 1.53 2004/04/15 20:46:07 pvalchev Exp $
 
-COMMENT=			list information about open files
-
+COMMENT=		list information about open files
 VERSION=	4.69
 DISTNAME=	lsof_${VERSION}
 PKGNAME=	${DISTNAME:S/_/-/}-0
 CATEGORIES=	sysutils
-MASTER_SITES=	ftp://vic.cc.purdue.edu/pub/tools/unix/lsof/ \
-		ftp://ftp.ayamura.org/pub/lsof/ \
-		ftp://ftp.cerias.purdue.edu/pub/tools/unix/sysutils/lsof/ \
-		ftp://ftp.cert.dfn.de/pub/tools/admin/lsof/ \
-		ftp://ftp.fu-berlin.de/pub/unix/tools/lsof/ \
-		ftp://ftp.fu-berlin.de/pub/unix/tools/lsof/ \
-		ftp://ftp.sunet.se/pub/unix/admin/lsof/ \
-		ftp://ftp.tau.ac.il/pub/unix/admin/ \
-		ftp://ftp.tu-darmstadt.de/pub/sysadmin/lsof/ \
-		ftp://ftp.tux.org/pub/sites/vic.cc.purdue.edu/tools/unix/lsof/ \
-		ftp://gd.tuwien.ac.at/utils/admin-tools/lsof/ \
-		ftp://sunsite.ualberta.ca/pub/Mirror/lsof/ \
-		ftp://the.wiretapped.net/pub/security/host-security/lsof/
-
 
 PERMIT_PACKAGE_CDROM=	Yes
 PERMIT_PACKAGE_FTP=	Yes
