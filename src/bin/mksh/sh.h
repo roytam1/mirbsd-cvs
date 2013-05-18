@@ -646,7 +646,10 @@ enum sh_flag {
 #define kshlongjmp	siglongjmp
 #endif
 
+struct sretrace_info;
 struct yyrecursive_state;
+
+extern struct sretrace_info *retrace_info;
 
 extern struct env {
 	ALLOC_ITEM alloc_INT;	/* internal, do not touch */
@@ -1933,7 +1936,7 @@ void initkeywords(void);
 struct op *compile(Source *, bool);
 bool parse_usec(const char *, struct timeval *);
 char *yyrecursive(int);
-void yyrecursive_pop(void);
+void yyrecursive_pop(bool);
 /* tree.c */
 void fptreef(struct shf *, int, const char *, ...);
 char *snptreef(char *, ssize_t, const char *, ...);

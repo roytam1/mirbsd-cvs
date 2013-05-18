@@ -794,7 +794,9 @@ shell(Source * volatile s, volatile bool toplevel)
 			 * needs FMONITOR set (not FTALKING/SF_TTY)...
 			 */
 			/* toss any input we have so far */
+			yyrecursive_pop(true);
 			s->start = s->str = null;
+			retrace_info = NULL;
 			herep = heres;
 			break;
 		}
@@ -939,8 +941,7 @@ quitenv(struct shf *shf)
 	char *cp;
 	int fd;
 
-	while (e->yyrecursive_statep)
-		yyrecursive_pop();
+	yyrecursive_pop(true);
 	if (ep->oenv && ep->oenv->loc != ep->loc)
 		popblock();
 	if (ep->savefd != NULL) {
