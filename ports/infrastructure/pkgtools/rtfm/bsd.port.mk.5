@@ -1,4 +1,4 @@
-.\" $MirOS: ports/infrastructure/pkgtools/rtfm/bsd.port.mk.5,v 1.8 2006/08/28 02:07:50 tg Exp $
+.\" $MirOS: ports/infrastructure/pkgtools/rtfm/bsd.port.mk.5,v 1.9 2006/11/17 18:31:42 tg Exp $
 .\" $OpenBSD: bsd.port.mk.5,v 1.134 2004/02/18 13:39:02 xsa Exp $
 .\"
 .\" Copyright (c) 2000 Marc Espie
@@ -565,7 +565,7 @@ package name.
 .Sq flavor ...
 is a comma separated list of flavors.
 By default, the dependency will build the default flavor.
-Build dependencies are checked at the beginning of the extract stage.
+Build and lib dependencies are checked at the beginning of the extract stage.
 .Pp
 Build dependencies that are not the default
 .Ar package
@@ -978,6 +978,9 @@ fetch dynamically generated archives that can't be checksummed.
 Avoid using IGNOREFILES whenever possible.
 .It Ev LIB_DEPENDS
 Libraries this port depends upon.
+These are also always build dependencies, and added to
+.Ev BUILD_DEPENDS
+automatically, if required.
 Each item has the form
 .Sq lib_specs:[pkgspec]:directory[,-subpackage][,flavor ...][:target] .
 Similar to BUILD_DEPENDS, except for

@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/x11/tk/8.4/Makefile,v 1.5 2006/11/20 22:50:49 tg Exp $
 # $OpenBSD: Makefile,v 1.6 2004/05/07 15:28:32 naddy Exp $
 
 ONLY_FOR_PLATFORM=	MirBSD:*:* OpenBSD:*:*
@@ -17,8 +17,7 @@ PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
-B_R_DEPENDS+=		:tcl->=8.4:lang/tcl/8.4
-LIB_DEPENDS+=		tcl84::lang/tcl/8.4
+LIB_DEPENDS+=		tcl84:tcl-8.4.*:lang/tcl/8.4
 
 FAKE_FLAGS=	INSTALL="install -c" INSTALL_ROOT="${WRKINST}" \
 		BASE_INCLUDE_DIR='$$(prefix)/include/tk$$(VERSION)' \
