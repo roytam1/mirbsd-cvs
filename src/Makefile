@@ -1,4 +1,4 @@
-# $MirOS: src/Makefile,v 1.73 2006/10/14 23:43:02 tg Exp $
+# $MirOS: src/Makefile,v 1.74 2006/10/16 19:19:20 tg Exp $
 # $OpenBSD: Makefile,v 1.103 2004/05/03 15:18:18 drahn Exp $
 
 .if defined(MAKECONF) && exists(${MAKECONF})
@@ -6,8 +6,9 @@
 .endif
 .include <bsd.own.mk>
 .include "Makefile.inc"
-NOMAN?=	no
-CVSROOT?=/cvs
+NOMAN?=		no
+CVSROOT?=	/cvs
+ANONCVSROOT?=	anoncvs@anoncvs.mirbsd.org:/cvs
 
   SUBDIR+= lib
   SUBDIR+= include
@@ -256,9 +257,23 @@ _do-dist:
 .endif
 	@date
 .ifndef QUICK_DIST
-	test -e ${BSDRELDIR}/rel/ports${OSrev}.ngz || env SUDO=${SUDO:Q} \
-	    OSrev=${OSrev:Q} BSDRELDIR=${BSDRELDIR:Q} \
-	    CVSROOT=${CVSROOT:Q} ${MKSH} ${BSDSRCDIR}/scripts/tarports
+	if ! test -e ${BSDRELDIR}/rel/ports${OSrev}.ngz; then \
+		cd ${BSDRELDIR}; \
+		if mount 2>&- | fgrep ' on ${BSDRELDIR}/usr ' >&- 2>&-; then \
+			${SUDO} umount ${BSDRELDIR}/usr; \
+		fi; \
+		test ! -e usr || ${SUDO} rm -rf usr; \
+		mkdir usr && \
+		${SUDO} mount_mfs -s 458752 swap ${BSDRELDIR}/usr && \
+		cd usr && \
+		(umask 002; cvs -Rqz3 -d ${CVSROOT} co -PA ports) && \
+		${MKSH} ${.CURDIR}/scripts/mnt-cvsroot ${ANONCVSROOT} . && \
+		${SUDO} chown -R root:wsrc ports && \
+		cd .. && \
+		find usr/ports | sort | cpio -oC512 -Hsv4cpio -Mset | \
+		    gzip -n9 | ${SUDO} dd of=rel/ports${OSrev}.ngz && \
+		${SUDO} umount ${BSDRELDIR}/usr; \
+	fi
 .endif
 	cd ${BSDRELDIR}/base/snapshot && ${SUDO} ${INSTALL} -c \
 	    -o root -g wheel -m 444 * ${BSDRELDIR}/rel/
