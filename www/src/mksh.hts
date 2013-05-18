@@ -2,7 +2,7 @@
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.137 2008/07/10 22:20:05 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.138 2008/07/11 01:06:29 tg Exp $'
 mws_content <<'EOF'
 <h1>mksh(1) R33d</h1>
 <p>This is the website of the MirBSD™ Korn Shell, an actively developed free
@@ -1026,7 +1026,8 @@ mws_content <<'EOF'
  <li>Do not spin if unlink(2) fails on $HISTFILE, from Decklin Foster</li>
  <li>Dump the perl(1) <tt>$^O</tt> variable in <tt>test.sh</tt> to logs</li>
  <li>Pull in latest changes from oksh</li>
- <li>Allow white space between a here string indicator and the string</li>
+ <li>Allow white space between a here string indicator and the string,
+  accidentally discovered by twkm (#ksh, freenode)</li>
  <li>Allow fd specifications outside the 0‥9 range for I/O redirections,
   and bounds check them to be lower than the <tt>FDBASE</tt> definition,
   currently still 10 if MKSH_SMALL, 24 otherwise (unportable)</li>
