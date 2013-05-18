@@ -1,5 +1,5 @@
 <?php
-/* $MirOS: www/files/index.php,v 1.10 2008/05/03 02:26:29 tg Exp $ */
+/* $MirOS: www/files/index.php,v 1.11 2008/05/17 20:56:10 tg Exp $ */
 /*-
  * The MirOS Project - Webpages
  * Copyrighted material; read LICENCE for terms of use.
@@ -103,7 +103,7 @@ function get_include_contents($filename) {
  <meta name="copyright" content="All rights reserved. Redistribution except for scientific and educational uses strictly prohibited." />
  <meta name="owner" content="The MirOS Project and The MirPorts Framework" />
  <meta name="licence" content="see the source files in CVSWEB for details" />
- <!-- $MirOS: www/files/index.php,v 1.10 2008/05/03 02:26:29 tg Exp $ -->
+ <!-- $MirOS: www/files/index.php,v 1.11 2008/05/17 20:56:10 tg Exp $ -->
  <title>MirOS/MirPorts: a wonderful operating system for a world of peace</title>
  <meta name="robots" content="index, follow" />
  <!--
@@ -117,7 +117,8 @@ function get_include_contents($filename) {
  <ul class="lv1">
   <li><a href="/main.htm">Main</a><ul class="lv2">
 	<li><a href="/wlog-10.htm">Weblog</a> for #10</li>
-	<li><a href="/oldnews.htm">Old News</a> &amp; WLog</li>
+	<li><a href="/news.htm">Old News</a> &amp;
+	    <a href="/oldnews.htm#owlog">WLog</a></li>
   </ul></li>
   <li><a href="/?about">About</a></li>
 <!-- these are not in a usable state
