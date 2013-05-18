@@ -24,8 +24,6 @@ PERMIT_DISTFILES_FTP=   Yes
 
 CONFIGURE_STYLE= gnu 
 CONFIGURE_ARGS=	--with-ssl
-CONFIGURE_ENV=  CPPFLAGS="-I${LOCALBASE}/include" \
-		LDFLAGS="-L${LOCALBASE}/lib"
 
 MODULES=	devel/gettext
 

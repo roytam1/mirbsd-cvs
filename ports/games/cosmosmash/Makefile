@@ -21,6 +21,5 @@ LIB_DEPENDS=	gengameng.4.1::devel/gengameng \
 USE_X11=	Yes
 
 CONFIGURE_STYLE= gnu
-CONFIGURE_ENV=	CPPFLAGS="-I${LOCALBASE}/include"
 
 .include <bsd.port.mk>

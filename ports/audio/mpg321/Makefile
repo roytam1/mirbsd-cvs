@@ -23,7 +23,5 @@ USE_CXX=	Yes
 
 CONFIGURE_STYLE=gnu
 CONFIGURE_ARGS=	--disable-mpg123-symlink
-CONFIGURE_ENV=	CPPFLAGS="-I${LOCALBASE}/include" \
-		LDFLAGS="-L${LOCALBASE}/lib"
 
 .include <bsd.port.mk>

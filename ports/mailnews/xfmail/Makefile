@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/mailnews/xfmail/Makefile,v 1.2 2005/03/30 16:51:08 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.32 2004/01/25 03:24:41 naddy Exp $
 # $NetBSD: Makefile,v 1.2 1998/07/04 09:19:04 mycroft Exp $
 # $RuOBSD: Makefile,v 1.4 2002/05/18 04:21:36 form Exp $
@@ -26,8 +26,6 @@ USE_CXX=		Yes
 USE_GMAKE=		Yes
 CONFIGURE_STYLE=	autogen
 CONFIGURE_ARGS=		--without-nas-sound
-CONFIGURE_ENV=		CPPFLAGS="-I${LOCALBASE}/include" \
-			LDFLAGS="-L${LOCALBASE}/lib"
 MODGNU_CONFIG_AUTOGEN=	${WRKSRC}/autogen.sh
 
 FLAVORS=		esd

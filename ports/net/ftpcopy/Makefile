@@ -14,7 +14,6 @@ PERMIT_PACKAGE_FTP=	"inscrutable license mix"
 PERMIT_DISTFILES_CDROM=	"inscrutable license mix"
 PERMIT_DISTFILES_FTP=	"inscrutable license mix"
 
-MAKE_FLAGS=	CC="${CC}"
 FAKE_FLAGS=	prefix="${DESTDIR}/${PREFIX}"
 
 REGRESS_TARGET=	check

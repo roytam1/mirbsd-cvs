@@ -20,7 +20,6 @@ MASTER_SITES=		ftp://ftp.porcupine.org/pub/security/ \
 			ftp://ftp.cerias.purdue.edu/pub/tools/unix/sysutils/chrootuid/
 
 ALL_TARGET=		chrootuid
-MAKE_FLAGS=		CC="${CC}" CFLAGS="${CFLAGS}"
 
 NO_REGRESS=		Yes
 

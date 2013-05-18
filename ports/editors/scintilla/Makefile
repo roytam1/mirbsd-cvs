@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/editors/scintilla/Makefile,v 1.3 2005/07/07 21:20:39 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.1.1.1 2003/08/14 18:24:30 sturm Exp $
 
 COMMENT=	"source code editing component for GTK+"
@@ -26,8 +26,7 @@ USE_CXX=	Yes
 NO_REGRESS=	Yes
 
 MAKE_FILE=	makefile
-MAKE_ENV=	CXX='${CXX}' CXXFLAGS='${CXXFLAGS}' \
-		NO_SHARED_LIBS='${NO_SHARED_LIBS}'
+MAKE_ENV=		NO_SHARED_LIBS='${NO_SHARED_LIBS}'
 
 WRKDIST=	${WRKDIR}/scintilla
 WRKSRC=		${WRKDIST}/gtk

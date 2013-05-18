@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/audio/grip/Makefile,v 1.2 2005/03/20 16:46:18 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.8 2002/12/29 19:29:56 fgsch Exp $
 
 COMMENT=	"front-end to external cd audio rippers and mp3 encoders"
@@ -15,14 +15,13 @@ PERMIT_DISTFILES_FTP=	Yes
 
 MASTER_SITES=		${MASTER_SITE_SOURCEFORGE:=grip/}
 
-BUILD_DEPENDS=	:pkgconfig->=0.12.0p1:devel/pkgconfig 
-
 LIB_DEPENDS=	ghttp::www/libghttp \
 		id3.3.8::audio/id3lib \
 		glib-2.0.0.11::devel/glib \
 		gnomeui-2::x11/gnome/libgnomeui \
 		curl.2.2::net/curl \
 		vte::devel/vte
+MODULES+=		devel/pkgconfig
 
 USE_GMAKE=		Yes
 USE_CXX=		Yes
@@ -30,10 +29,7 @@ NO_REGRESS=		Yes
 
 AUTOCONF_NEW=		Yes
 CONFIGURE_STYLE=	autoconf
-CONFIGURE_ENV=		CPPFLAGS="-I${LOCALBASE}/include" \
-			LDFLAGS="-L${LOCALBASE}/lib" \
-			LIBS="-pthread" \
-			PKG_CONFIG_PATH="/usr/X11R6/lib/pkgconfig"
+CONFIGURE_ENV=		LIBS="-pthread"
 
 CONFIGURE_ARGS+=	--disable-cdpar
 

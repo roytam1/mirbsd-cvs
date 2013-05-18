@@ -36,8 +36,6 @@ PAPERSIZE=	Letter
 
 CONFIGURE_ARGS=	--with-medium=${PAPERSIZE} \
 		${CONFIGURE_SHARED}
-CONFIGURE_ENV=	CPPFLAGS="-I${LOCALBASE}/include" \
-		LDFLAGS="-L${LOCALBASE}/lib"
 
 pre-build:
 	/usr/bin/touch $(WRKSRC)/doc/*.info

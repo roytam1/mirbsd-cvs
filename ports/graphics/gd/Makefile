@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/graphics/gd/Makefile,v 1.1.7.1 2005/03/18 15:46:48 tg Exp $
 # $OpenBSD: Makefile,v 1.37 2003/04/19 13:30:47 espie Exp $
 # $FreeBSD: Makefile,v 1.5 1998/06/25 03:13:16 vanilla Exp $
 
@@ -10,9 +10,8 @@ CATEGORIES=	graphics
 MASTER_SITES=	http://www.boutell.com/gd/http/ \
 		ftp://ftp.boutell.com/pub/boutell/gd/
 HOMEPAGE=	http://www.boutell.com/gd/
-LIB_DEPENDS=	jpeg.62::graphics/jpeg \
-		png.2::graphics/png \
-		ttf.1.3::print/freetype
+LIB_DEPENDS=	jpeg.62::graphics/jpeg
+MODULES+=	graphics/png print/freetype
 
 # MIT-like, badly worded
 PERMIT_PACKAGE_CDROM=	Yes
@@ -21,7 +20,7 @@ PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
 CPPFLAGS+=	-DHAVE_LIBJPEG -DHAVE_LIBTTF -DHAVE_LIBPNG
-MAKE_FLAGS+=	COMPILER="${CC}" prefix="${PREFIX}" CFLAGS="${CFLAGS}" \
+MAKE_FLAGS+=	COMPILER="${CC}" prefix="${PREFIX}" \
 		INCLUDEDIRS="-I. -I${LOCALBASE}/include/libpng -I${LOCALBASE}/include/freetype1/freetype -I${LOCALBASE}/include" \
 		LIBS="-lgd -lm -lpng -lz -ljpeg -lttf" \
 		LIBDIRS="-L. -L${LOCALBASE}/lib"

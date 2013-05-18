@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/x11/gnome/nautilus/Makefile,v 1.1.7.1 2005/03/18 16:00:30 tg Exp $
 # $OpenBSD: Makefile,v 1.13 2004/12/15 13:57:57 alek Exp $
 
 COMMENT=		"GNOME shell and file manager"
@@ -17,10 +17,9 @@ PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
-MODULES=		devel/gettext
+MODULES=		devel/gettext devel/pkgconfig
 
-BUILD_DEPENDS= 		:pkgconfig-*:devel/pkgconfig \
-			:p5-XML-Parser-*:textproc/p5-XML-Parser
+BUILD_DEPENDS=		:p5-XML-Parser-*:textproc/p5-XML-Parser
 LIB_DEPENDS=		eel-2.10.2::x11/gnome/eel \
 			gnome-desktop-2.0::x11/gnome/desktop \
 			rsvg-2.2::x11/gnome/librsvg

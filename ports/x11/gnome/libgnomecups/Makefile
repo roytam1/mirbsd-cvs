@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/x11/gnome/libgnomecups/Makefile,v 1.2 2005/05/01 14:05:21 bsiegert Exp $
 
 COMMENT=		"CUPS functionality hooks for GNOME"
 
@@ -19,10 +19,9 @@ PERMIT_DISTFILES_FTP=	Yes
 
 EXTRACT_SUFX=		.tar.bz2
 
-MODULES=		devel/gettext
+MODULES=		devel/gettext devel/pkgconfig
 
-BUILD_DEPENDS=		:pkgconfig-*:devel/pkgconfig \
-			:p5-XML-Parser-*:textproc/p5-XML-Parser
+BUILD_DEPENDS=		:p5-XML-Parser-*:textproc/p5-XML-Parser
 LIB_DEPENDS=		gthread-2.0.0.0,glib-2.0.0.0,gmodule-2.0.0.0,gobject-2.0.0.0::devel/glib \
 			cups.2::print/cups
 

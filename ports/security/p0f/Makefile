@@ -28,8 +28,7 @@ ALL_TARGET=		p0f-mysql
 EXAMPLES+=		mysql/db.sql mysql/p0f-mysql.conf
 .endif
 
-MAKE_FLAGS=		CC='${CC}' \
-			CFLAGS='${CFLAGS} -DSYSCONFDIR="\"${SYSCONFDIR}\""'
+CPPFLAGS+=		-DSYSCONFDIR=\"${SYSCONFDIR}\"
 NO_REGRESS=		Yes
 
 post-patch:

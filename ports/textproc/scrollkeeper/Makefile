@@ -1,4 +1,4 @@
-# $MirOS: ports/textproc/scrollkeeper/Makefile,v 1.1.7.1 2005/03/18 15:53:01 tg Exp $
+# $MirOS: ports/textproc/scrollkeeper/Makefile,v 1.2 2005/12/29 23:20:22 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.15 2004/12/07 00:23:23 alek Exp $
 
 COMMENT=		"Scrollkeeper Open Documentation Cataloging System"
@@ -37,8 +37,6 @@ CONFIGURE_ARGS+= 	--localstatedir=/var
 CONFIGURE_ARGS+=	--with-omfdirs=${LOCALBASE}/share/omf
 CONFIGURE_ARGS+=	--with-xml-catalog=/var/db/xmlcatalog
 CONFIGURE_ARGS+=	--with-partial-db-dir=db/scrollkeeper
-CONFIGURE_ENV=   	CPPFLAGS="-I${LOCALBASE}/include" \
-			LDFLAGS="-L${LOCALBASE}/lib"
 
 post-install:
 	@${INSTALL_DATA_DIR} ${PREFIX}/share/examples/scrollkeeper; \

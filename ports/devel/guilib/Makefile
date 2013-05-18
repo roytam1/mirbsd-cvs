@@ -1,4 +1,4 @@
-# $MirOS: ports/devel/guilib/Makefile,v 1.2 2005/07/07 21:19:05 bsiegert Exp $
+# $MirOS: ports/devel/guilib/Makefile,v 1.3 2006/02/09 09:35:45 tg Exp $
 # $OpenBSD: Makefile,v 1.11 2003/12/30 18:49:04 espie Exp $
 
 COMMENT=	"SDL C++ GUI widget library"
@@ -22,7 +22,6 @@ USE_X11=	Yes
 USE_CXX=	Yes
 
 CONFIGURE_STYLE=	gnu
-CONFIGURE_ENV+=		LDFLAGS="${LDFLAGS} -L${X11BASE}/lib"
 CONFIGURE_ARGS+=	${CONFIGURE_SHARED}
 
 .include <bsd.port.mk>

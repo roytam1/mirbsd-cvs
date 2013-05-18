@@ -15,7 +15,7 @@ PERMIT_DISTFILES_FTP=	Yes
 
 MASTER_SITES=	http://www.linalco.com/ragnar/
 
-MAKE_FLAGS=	CC="${CC}" PROF="${CFLAGS}"
+MAKE_FLAGS=	PROF="${CFLAGS}"
 
 pre-build:
 	@cd ${WRKBUILD}; ${MAKE_PROGRAM} clean

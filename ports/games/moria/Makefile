@@ -23,8 +23,6 @@ NO_REGRESS=	Yes
 WRKDIST=	${WRKDIR}/umoria
 WRKSRC=		${WRKDIST}
 
-MAKE_ENV=	CC="${CC}" CFLAGS="${CFLAGS}"
-
 do-build:
 	@cd ${WRKBUILD}; for i in ${WRKSRC}/source/*; do ln -sf $$i; done; \
 	 for i in ${WRKSRC}/unix/*; do ln -sf $$i; done; \

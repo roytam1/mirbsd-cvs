@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/devel/libgsf/Makefile,v 1.3 2005/07/07 21:19:11 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.7 2004/12/10 20:33:59 marcm Exp $
 
 COMMENT=		"GNOME Structured File library"
@@ -21,9 +21,7 @@ PERMIT_DISTFILES_FTP=	Yes
 MASTER_SITES=		${MASTER_SITE_GNOME:=sources/libgsf/1.11/}
 EXTRACT_SUFX=		.tar.bz2
 
-MODULES=		devel/gettext
-
-BUILD_DEPENDS=		:pkgconfig->=0.14.0:devel/pkgconfig
+MODULES=		devel/gettext devel/pkgconfig
 
 LIB_DEPENDS=		bz2.10.2::archivers/bzip2 \
 			xml2.8.4::textproc/libxml \

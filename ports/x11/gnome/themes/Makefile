@@ -16,10 +16,9 @@ PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
-MODULES=		devel/gettext
+MODULES=		devel/gettext devel/pkgconfig
 
 BUILD_DEPENDS=		${RUN_DEPENDS} \
-			:pkgconfig-*:devel/pkgconfig \
 			:p5-XML-Parser-*:textproc/p5-XML-Parser
 RUN_DEPENDS=		:gtk-engines2->=2.2.0:x11/gtk-engines2
 LIB_DEPENDS= 		gnomeui-2.0::x11/gnome/libgnomeui

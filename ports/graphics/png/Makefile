@@ -1,4 +1,4 @@
-# $MirOS: ports/graphics/png/Makefile,v 1.2 2005/04/23 13:47:40 bsiegert Exp $
+# $MirOS: ports/graphics/png/Makefile,v 1.3 2005/07/07 21:21:59 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.46 2004/07/06 22:17:48 brad Exp $
 
 COMMENT=	"library for manipulating PNG images"
@@ -15,7 +15,6 @@ PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
 FAKE_FLAGS=	DESTDIR="${WRKINST}" PREFIX="${PREFIX}"
-MAKE_ENV=	CC="${CC}"
 
 MAKE_FILE=	scripts/makefile.openbsd
 

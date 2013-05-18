@@ -1,4 +1,4 @@
-# $MirOS: ports/graphics/gdk-pixbuf/Makefile,v 1.3 2005/07/07 21:21:39 bsiegert Exp $
+# $MirOS: ports/graphics/gdk-pixbuf/Makefile,v 1.4 2006/02/09 09:35:53 tg Exp $
 # $OpenBSD: Makefile,v 1.30 2004/03/02 07:57:21 brad Exp $
 
 COMMENT=	"GdkPixbuf graphics library"
@@ -23,8 +23,6 @@ CONFIGURE_ARGS+= --disable-modules \
 		 --disable-mmx \
 		 --disable-gtk-doc \
 		 --with-html-dir="${PREFIX}/share/doc"
-CONFIGURE_ENV=  CPPFLAGS="-I${LOCALBASE}/include/libpng -I${LOCALBASE}/include" \
-		LDFLAGS="-L${LOCALBASE}/lib"
 
 PSEUDO_FLAVORS=	no_gnome
 FLAVOR?=
@@ -38,9 +36,9 @@ BROKEN=		GNOME 1 has been removed
 SUBPACKAGE?=
 
 LIB_DEPENDS+=	jpeg.62::graphics/jpeg \
-		png.2::graphics/png \
 		tiff.35.::graphics/tiff \
 		gtk.1.2,gdk.1.2::x11/gtk+1
+MODULES+=		graphics/png
 
 .if defined(PACKAGING)
 . if ${SUBPACKAGE} == "-gnome"

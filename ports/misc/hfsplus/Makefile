@@ -1,4 +1,4 @@
-# $MirOS: ports/misc/hfsplus/Makefile,v 1.2 2005/04/10 21:50:30 tg Exp $
+# $MirOS: ports/misc/hfsplus/Makefile,v 1.4 2005/07/07 21:23:41 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.6 2003/02/15 14:37:19 espie Exp $
 
 # use NO_IGNORE=Yes to build this on OpenBSD with OpenBSD ports framework
@@ -34,9 +34,7 @@ MASTER_SITES=	http://ftp.penguinppc.org/projects/hfsplus/
 
 # actually uses automake/autoheader, but that is done in pre-configure now
 CONFIGURE_STYLE= gnu
-CONFIGURE_ENV=	LIBS="-lutf8" \
-		CPPFLAGS="-I${LOCALBASE}/include" \
-		LDFLAGS="-L${LOCALBASE}/lib"
+CONFIGURE_ENV=	LIBS="-lutf8"
 MODGNU_CONFIG_GUESS_DIRS= ${WRKSRC}
 
 pre-configure:

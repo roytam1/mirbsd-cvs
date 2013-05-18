@@ -1,4 +1,4 @@
-# $MirOS: ports/devel/ORBit/Makefile,v 1.4 2005/07/06 18:01:14 bsiegert Exp $
+# $MirOS: ports/devel/ORBit/Makefile,v 1.5 2005/10/11 20:55:39 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.14 2004/12/10 20:33:58 marcm Exp $
 
 COMMENT=		"high-performance CORBA Object Request Broker"
@@ -14,9 +14,8 @@ PERMIT_DISTFILES_FTP=	Yes
 MASTER_SITES=		${MASTER_SITE_GNOME:=sources/ORBit2/2.12/}
 EXTRACT_SUFX=		.tar.bz2
 
-MODULES=		devel/gettext
+MODULES=		devel/gettext devel/pkgconfig
 
-BUILD_DEPENDS=		:pkgconfig->=0.14.0:devel/pkgconfig
 LIB_DEPENDS=		IDL-2::devel/libIDL \
 			gmodule-2.0.0.0,gobject-2.0.0.0,gthread-2.0.0.0::devel/glib\
 			popt::devel/popt

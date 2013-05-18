@@ -1,4 +1,4 @@
-# $MirOS: ports/emulators/xmame/Makefile,v 1.3 2005/04/10 21:49:53 tg Exp $
+# $MirOS: ports/emulators/xmame/Makefile,v 1.5 2005/07/07 21:20:56 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.10 2003/10/11 01:37:55 brad Exp $
 
 COMMENT=	"emulates arcade machines and old home computers"
@@ -99,7 +99,6 @@ MAKE_ENV=	PREFIX="${PREFIX}"
 MAKE_FILE=	Makefile.OpenBSD
 FAKE_FLAGS=	${MAKE_FLAGS}
 MAKE_FLAGS+=	ARCH=openbsd \
-		CC="${CC}" CFLAGS="${CFLAGS} -DRTLD_GLOBAL=0" \
 		DISPLAY_METHOD="${DISPLAY_METHOD}" \
 		INCLUDES="-I${LOCALBASE}/include" LIBS="-L${LOCALBASE}/lib" \
 		X11INC="-I${X11BASE}/include" X11LIB="-L${X11BASE}/lib" \

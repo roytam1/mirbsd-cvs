@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/devel/ORBit0/Makefile,v 1.2 2005/03/20 16:56:15 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.33 2002/11/21 02:33:59 margarida Exp $
 
 COMMENT=	"high-performance CORBA ORB with support for the C language"
@@ -30,8 +30,6 @@ CONFIGURE_STYLE= autoconf no-autoheader
 MODGNU_CONFIG_GUESS_DIRS= ${WRKSRC} ${WRKSRC}/popt ${WRKSRC}/libIDL
 CONFIGURE_ARGS+= ${CONFIGURE_SHARED}
 CONFIGURE_ARGS+= --enable-static --disable-indent
-CONFIGURE_ENV=	CPPFLAGS="-I${LOCALBASE}/include" \
-		LDFLAGS="-L${LOCALBASE}/lib"
 
 post-install:
 	${INSTALL_DATA_DIR} ${PREFIX}/share/examples/orbit

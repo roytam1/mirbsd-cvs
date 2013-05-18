@@ -28,9 +28,7 @@ CONFIGURE_ARGS=	--with-sharedir="${PREFIX}/share/mutt" \
 		--enable-external_dotlock \
 		--enable-imap --enable-pop --with-ssl \
 		--without-gss --sysconfdir=${CONFDIR}
-CONFIGURE_ENV=	CPPFLAGS="-I${LOCALBASE}/include" \
-		LDFLAGS="-L${LOCALBASE}/lib" \
-		ISPELL="${LOCALBASE}/bin/ispell"
+CONFIGURE_ENV=		ISPELL="${LOCALBASE}/bin/ispell"
 
 .if ${FLAVOR:L:Mslang}
 LIB_DEPENDS+=	slang.14::devel/libslang

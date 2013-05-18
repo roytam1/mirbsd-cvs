@@ -1,4 +1,4 @@
-# $MirOS: ports/devel/glib/Makefile,v 1.5 2005/09/22 19:27:36 bsiegert Exp $
+# $MirOS: ports/devel/glib/Makefile,v 1.6 2005/09/23 20:17:52 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.19 2004/12/22 06:31:05 espie Exp $
 
 COMMENT=		"general-purpose utility library"
@@ -26,9 +26,8 @@ SUBPACKAGE?=
 .if defined(PACKAGING) && ${SUBPACKAGE} == "-docs"
 PKG_ARCH=		*
 .else
-MODULES=		devel/gettext
+MODULES=		devel/gettext devel/pkgconfig
 .endif
-BUILD_DEPENDS=          :pkgconfig-*:devel/pkgconfig
 
 # hppa's threads are broken (configure test gives Bus error)...
 .if (${MACHINE_ARCH} == "hppa")

@@ -24,9 +24,8 @@ CONFIGURE_ARGS+=	--with-expat-lib=${LOCALBASE}/lib \
 			--with-expat-include=${LOCALBASE}/include \
 			--libdir=${WRKINST}${PREFIX}/share/rats \
 			--datadir=${WRKINST}${PREFIX}/share/rats
-MAKE_FLAGS=		CFLAGS='${CFLAGS} -I${LOCALBASE}/include \
-			  -DHAVE_LIBEXPAT=1 -DHAVE_EXPAT_H=1 \
-			  -DDATADIR=\"${LOCALBASE}/share/rats\"'
+CPPFLAGS+=		  -DHAVE_LIBEXPAT=1 -DHAVE_EXPAT_H=1 \
+			  -DDATADIR=\"${LOCALBASE}/share/rats\"
 
 ALL_TARGET=		rats
 NO_REGRESS=		Yes

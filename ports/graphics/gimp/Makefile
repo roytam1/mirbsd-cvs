@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/graphics/gimp/Makefile,v 1.2 2005/08/04 21:43:41 tg Exp $
 # $OpenBSD: Makefile,v 1.6 2005/07/08 07:50:55 fgsch Exp $
 
 BROKEN=		porting in progress
@@ -13,8 +13,7 @@ MASTER_SITES=	ftp://ftp.gimp.org/pub/${DIR}/ \
 		ftp://ftp.cs.umn.edu/pub/${DIR}/ \
 		ftp://ftp.funet.fi/pub/sci/graphics/packages/gimp/${DIR}/
 
-BUILD_DEPENDS=	:pkgconfig->=0.12.0p1:devel/pkgconfig \
-		:p5-XML-Parser-*:textproc/p5-XML-Parser
+BUILD_DEPENDS=	:p5-XML-Parser-*:textproc/p5-XML-Parser
 RUN_DEPENDS=    :wget-*:net/wget
 LIB_DEPENDS=	gdk-x11-2.0.0.0,gdk_pixbuf-2.0.0.0,gtk-x11-2.0.0.0::x11/gtk+ \
 		aa.1.3::graphics/aalib \
@@ -30,7 +29,7 @@ PERMIT_DISTFILES_FTP=	Yes
 PERMIT_PACKAGE_CDROM=	Yes
 PERMIT_PACKAGE_FTP=	Yes
 
-MODULES=	devel/gettext
+MODULES=	devel/gettext devel/pkgconfig graphics/png
 
 USE_X11=	Yes
 USE_GMAKE=	Yes
@@ -39,7 +38,6 @@ AUTOCONF_NEW=	Yes
 CONFIGURE_ARGS=	${CONFIGURE_SHARED}
 CONFIGURE_ARGS+= --disable-print --disable-gtkhtml --disable-svg \
 		 --disable-sse
-CPPFLAGS+=	-I${LOCALBASE}/include/libpng
 
 FLAVORS=	altivec
 FLAVOR?=

@@ -1,4 +1,4 @@
-# $MirOS: ports/devel/sdl-ttf/Makefile,v 1.2 2005/07/07 21:20:28 bsiegert Exp $
+# $MirOS: ports/devel/sdl-ttf/Makefile,v 1.3 2006/02/09 09:35:50 tg Exp $
 # $OpenBSD: Makefile,v 1.17 2003/05/12 08:23:46 jolan Exp $
 
 COMMENT=	"SDL TrueType fonts library"
@@ -20,7 +20,6 @@ USE_X11=	Yes
 USE_CXX=	Yes
 
 CONFIGURE_STYLE=	autoconf
-CONFIGURE_ENV+=		LDFLAGS="-L${X11BASE}/lib"
 CONFIGURE_ARGS+=	${CONFIGURE_SHARED}
 
 .include <bsd.port.mk>

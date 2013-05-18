@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/games/bzflag/Makefile,v 1.2 2005/07/07 21:20:58 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.4 2004/02/25 02:35:15 naddy Exp $
 
 BROKEN=		doesn't respect CXXFLAGS, problems loading data files
@@ -21,7 +21,6 @@ USE_X11=	Yes
 USE_CXX=	Yes
 
 CONFIGURE_STYLE=gnu
-CONFIGURE_ENV+=	CPPFLAGS="-I${X11BASE}/include"
 
 post-extract:
 	@sed -e 's|@LINUX_TRUE@||g ; s|@LINUX_FALSE@|#|g' \

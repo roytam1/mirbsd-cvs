@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/audio/mp3info/Makefile,v 1.1.7.1 2005/03/18 15:43:03 tg Exp $
 # $OpenBSD: Makefile,v 1.17 2003/12/13 01:17:52 margarida Exp $
 
 COMMENT=	"MP3 information tool"
@@ -14,8 +14,6 @@ PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
 EXTRACT_SUFX=		.tgz
-
-MAKE_FLAGS=		CC="${CC}" CFLAGS="${CFLAGS}"
 
 FLAVORS=	no_x11
 FLAVOR?=

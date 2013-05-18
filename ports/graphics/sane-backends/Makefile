@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/graphics/sane-backends/Makefile,v 1.1.7.1 2005/03/18 15:47:09 tg Exp $
 # Original from: Antoine Jacoutot <ajacoutot@lphp.org>
 
 COMMENT=	"API for accessing scanners, backends"
@@ -25,8 +25,6 @@ USE_GMAKE=		Yes
 AUTOCONF_NEW=		Yes
 CONFIGURE_STYLE=	autoconf
 
-CONFIGURE_ENV+=		CPPFLAGS="-I${LOCALBASE}/include" \
-			LDFLAGS="-L${LOCALBASE}/lib"
 CONFIGURE_ARGS+=	${CONFIGURE_SHARED}
 CONFIGURE_ARGS+=	--enable-static
 

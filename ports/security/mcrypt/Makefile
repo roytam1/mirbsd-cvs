@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/security/mcrypt/Makefile,v 1.1.7.1 2005/03/18 15:51:30 tg Exp $
 # $OpenBSD: Makefile,v 1.12 2003/04/10 18:08:57 jsyn Exp $
 
 COMMENT=		"extendable encryption program that supports many ciphers"
@@ -22,7 +22,6 @@ CONFIGURE_STYLE=	autoconf automake
 AUTOCONF_NEW=		Yes
 CONFIGURE_ARGS+= 	${CONFIGURE_SHARED}
 CONFIGURE_ARGS+= 	--enable-static --with-catgets 
-CONFIGURE_ENV+=  	CPPFLAGS="-I${LOCALBASE}/include" \
-                	LDFLAGS="-L${LOCALBASE}/lib -lintl"
+LDFLAGS+=		-lintl
 
 .include <bsd.port.mk>

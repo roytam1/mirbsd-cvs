@@ -21,18 +21,13 @@ MASTER_SITES=	ftp://ftp.easysw.com/pub/fltk/${VER}/ \
 		ftp://ftp.funet.fi/pub/mirrors/ftp.easysw.com/pub/fltk/${VER}/ \
 		ftp://gd.tuwien.ac.at/hci/fltk/${VER}/
 
-LIB_DEPENDS=	jpeg.62::graphics/jpeg \
-		png.2::graphics/png
+LIB_DEPENDS=	jpeg.62::graphics/jpeg
+MODULES+=	graphics/png
 
 NO_REGRESS=	Yes
 USE_X11=	Yes
 CONFIGURE_STYLE=autoconf dest no-autoheader
-AUTOCONF_VERSION=2.54
 CONFIGURE_ARGS=	${CONFIGURE_SHARED}
-CONFIGURE_ENV=	CPPFLAGS="-I${LOCALBASE}/include" \
-		CFLAGS="${CFLAGS} -I${LOCALBASE}/include" \
-		CXXFLAGS="${CXXFLAGS} -I${LOCALBASE}/include" \
-		LIBS="-L${LOCALBASE}/lib"
 
 pre-build:
 	perl -pi -e "s,%%SYSCONFDIR%%,${SYSCONFDIR}," \

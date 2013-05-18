@@ -15,10 +15,10 @@ PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
-BUILD_DEPENDS=		:p5-XML-Parser-*:textproc/p5-XML-Parser \
-			:pkgconfig-*:devel/pkgconfig
+BUILD_DEPENDS=		:p5-XML-Parser-*:textproc/p5-XML-Parser
 LIB_DEPENDS=		glib-2.0.0.0,gmodule-2.0.0.0,gobject-2.0.0.0::devel/glib \
 			xml2::textproc/libxml
+MODULES+=		devel/pkgconfig
 
 USE_CXX=		Yes
 CONFIGURE_STYLE=	gnu

@@ -19,8 +19,6 @@ MASTER_SITES=		${HOMEPAGE}
 
 MAKE_FILE=		BSDmakefile
 
-MAKE_ENV=		CC="${CC}" CFLAGS="${CFLAGS}"
-
 do-install:
 	${INSTALL_PROGRAM} ${WRKSRC}/pktstat ${PREFIX}/sbin
 	${INSTALL_DATA} ${WRKSRC}/pktstat.1 ${PREFIX}/man/man1

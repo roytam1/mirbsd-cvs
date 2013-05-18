@@ -1,4 +1,4 @@
-# $MirOS: ports/math/galculator/Makefile,v 1.2 2005/03/25 23:13:48 bsiegert Exp $
+# $MirOS: ports/math/galculator/Makefile,v 1.3 2006/02/09 09:36:03 tg Exp $
 # $OpenBSD: Makefile,v 1.6 2004/05/27 20:10:19 naddy Exp $
 
 COMMENT=	"GTK2-based scientific calculator"
@@ -23,7 +23,5 @@ USE_GMAKE=	Yes
 USE_CXX=	Yes
 USE_X11=	Yes
 CONFIGURE_STYLE=gnu
-CONFIGURE_ARGS=	CPPFLAGS="-I${LOCALBASE}/include" \
-		LDFLAGS="-L${LOCALBASE}/lib"
 
 .include <bsd.port.mk>

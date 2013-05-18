@@ -17,7 +17,6 @@ PERMIT_DISTFILES_FTP=	Yes
 MASTER_SITES=		ftp://ftp.eng.auburn.edu/pub/doug/
 
 ALL_TARGET=		target
-MAKE_FLAGS+=		CFLAGS="${CFLAGS}" CC="${CC}"
 
 NO_REGRESS=		Yes
 

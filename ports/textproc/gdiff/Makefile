@@ -21,8 +21,5 @@ MODULES=	devel/gettext
 CONFIGURE_STYLE=gnu
 MODGNU_CONFIG_GUESS_DIRS+= ${WRKSRC}/config
 CONFIGURE_ARGS=	--program-prefix=g
-CONFIGURE_ENV=	CPPFLAGS="-I${LOCALBASE}/include" \
-		LDFLAGS="-L${LOCALBASE}/lib" \
-		MAKEINFO="makeinfo --no-split"
 
 .include <bsd.port.mk>

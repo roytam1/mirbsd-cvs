@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/net/gmudix/Makefile,v 1.3 2005/05/01 13:50:53 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.1.1.1 2003/07/22 22:02:32 jolan Exp $
 
 COMMENT=		"Gnome2 MUD/Moo Client"
@@ -17,7 +17,7 @@ PERMIT_DISTFILES_FTP=	Yes
 USE_X11=		Yes
 USE_CXX=		Yes
 
-BUILD_DEPENDS=		:pkgconfig-*:devel/pkgconfig
+MODULES+=		devel/pkgconfig
 LIB_DEPENDS=		glib-2.0.0.0,gthread-2.0.0.0::devel/glib \
 			gdk-x11-2.0.0.0,gdk_pixbuf-2.0.0.0,gtk-x11-2.0.0.0::x11/gtk+
 

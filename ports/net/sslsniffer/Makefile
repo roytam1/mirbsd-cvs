@@ -14,8 +14,6 @@ PERMIT_PACKAGE_FTP=     Yes
 PERMIT_DISTFILES_CDROM= Yes
 PERMIT_DISTFILES_FTP=   Yes
 
-MAKE_FLAGS=	CC='${CC}'
-
 WRKDIST=	${WRKDIR}/sslsniffer
 
 do-install:

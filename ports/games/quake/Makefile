@@ -33,8 +33,6 @@ ERRORS="Fatal: Choose only one flavor: sdl or ggi"
 
 SUBPACKAGE?=
 
-CONFIGURE_ENV=LDFLAGS='-L${LOCALBASE}/lib -L${X11BASE}/lib'
-CONFIGURE_ENV+=CPPFLAGS='-I${LOCALBASE}/include -I${X11BASE}/include'
 CONFIGURE_STYLE=	autoconf
 CONFIGURE_ARGS=		--enable-release
 CONFIGURE_ARGS+=	--bindir=/bin

@@ -1,4 +1,4 @@
-# $MirOS: ports/x11/gnome/libgnomeprintui/Makefile,v 1.2 2005/03/25 23:13:50 bsiegert Exp $
+# $MirOS: ports/x11/gnome/libgnomeprintui/Makefile,v 1.3 2006/02/09 09:36:23 tg Exp $
 # $OpenBSD: Makefile,v 1.8 2004/12/15 13:57:56 alek Exp $
 
 COMMENT=		"user interface components for libgnomeprint"
@@ -16,10 +16,9 @@ PERMIT_DISTFILES_FTP=	Yes
 MASTER_SITES=		${MASTER_SITE_GNOME:=sources/libgnomeprintui/2.8/}
 EXTRACT_SUFX=		.tar.bz2
 
-MODULES=		devel/gettext
+MODULES=		devel/gettext devel/pkgconfig
 
-BUILD_DEPENDS=		:pkgconfig->=0.12.0p1:devel/pkgconfig \
-			:libglade2->=2.0.0:devel/libglade \
+BUILD_DEPENDS=		:libglade2->=2.0.0:devel/libglade \
 			:gnome-icon-theme->=1.2.0:x11/gnome/icon-theme
 RUN_DEPENDS=		:gnome-icon-theme->=1.2.0:x11/gnome/icon-theme
 LIB_DEPENDS=		gnomecanvas-2::x11/gnome/libgnomecanvas \
@@ -30,7 +29,5 @@ CONFIGURE_STYLE=	autoconf
 AUTOCONF_NEW=		Yes
 CONFIGURE_ARGS+=	${CONFIGURE_SHARED}
 CONFIGURE_ARGS+=	--disable-gtk-doc
-CONFIGURE_ENV=		CPPFLAGS="-I${LOCALBASE}/include" \
-			LDFLAGS="-L${LOCALBASE}/lib"
 
 .include <bsd.port.mk>

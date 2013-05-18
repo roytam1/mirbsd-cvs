@@ -1,4 +1,4 @@
-# $MirOS: ports/graphics/cairo/Makefile,v 1.3 2005/10/07 22:02:59 bsiegert Exp $
+# $MirOS: ports/graphics/cairo/Makefile,v 1.4 2005/12/16 02:49:54 tg Exp $
 
 COMMENT=		"vector graphics library"
 
@@ -18,16 +18,15 @@ PERMIT_DISTFILES_FTP=	Yes
 
 MASTER_SITES=		http://cairographics.org/releases/
 
-BUILD_DEPENDS+=		:pkgconfig-*:devel/pkgconfig
 LIB_DEPENDS+=		png::graphics/png
 #LIB_DEPENDS+=		pixman::graphics/libpixman
 #LIB_DEPENDS+=		glitz::graphics/glitz
+MODULES+=		devel/pkgconfig
 
 USE_X11=		Yes
 
 CONFIGURE_STYLE=	autoconf
 AUTOCONF_NEW=		Yes
-CONFIGURE_ENV=  	PKG_CONFIG_PATH="${X11BASE}/lib/pkgconfig"
 
 CONFIGURE_ARGS=		--enable-static \
 			${CONFIGURE_SHARED}

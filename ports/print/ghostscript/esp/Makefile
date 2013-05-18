@@ -1,4 +1,4 @@
-# $MirOS: ports/print/ghostscript/esp/Makefile,v 1.2 2005/07/06 19:21:36 bsiegert Exp $
+# $MirOS: ports/print/ghostscript/esp/Makefile,v 1.3 2005/12/16 01:17:24 bsiegert Exp $
 
 COMMENT=		"ESP Ghostscript, a PostScript interpreter"
 VERSION=		7.07.1
@@ -25,10 +25,10 @@ MASTER_SITES=		ftp://ftp.easysw.com/pub/ghostscript/ \
 EXTRACT_SUFX=		.tar.bz2
 WRKDIST=		${WRKDIR}/${DISTNAME:S/-source//}
 
-LIB_DEPENDS=		png.3::graphics/png \
-			jpeg.62::graphics/jpeg \
+LIB_DEPENDS=		jpeg.62::graphics/jpeg \
 			tiff.35::graphics/tiff
 RUN_DEPENDS=		:gs-fonts-std-*:print/ghostscript/fonts-std
+MODULES+=		graphics/png
 
 FAKE_FLAGS=		BINMODE=${BINMODE} \
 			SHAREMODE=${SHAREMODE}
@@ -37,7 +37,6 @@ CONFIGURE_STYLE=	autoconf dest no-autoheader
 AUTOCONF_NEW=		Yes
 
 CONFIGURE_ENV+=		DSOFLAGS="${LDFLAGS}"
-CFLAGS+=		-I${LOCALBASE}/include/libpng
 CONFIGURE_ARGS=		${CONFIGURE_SHARED} --with-ijs \
 			--with-fontpath=${LOCALBASE}/share/ghostscript/fonts \
 			--without-omni

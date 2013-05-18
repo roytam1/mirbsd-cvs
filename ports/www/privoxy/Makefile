@@ -26,8 +26,7 @@ MAKE_FILE=	GNUmakefile
 LIB_DEPENDS=	pcre,pcreposix::devel/pcre
 
 CONFIGURE_STYLE=	autoconf
-CONFIGURE_ENV=	CPPFLAGS="-Dunix -I${LOCALBASE}/include" \
-		LDFLAGS="-L${LOCALBASE}/lib"
+CPPFLAGS+=		-Dunix
 
 pre-configure:
 	@cd ${WRKDIST} && AUTOCONF_VERSION=${AUTOCONF_VERSION} autoheader

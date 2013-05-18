@@ -17,7 +17,6 @@ MASTER_SITES=	${HOMEPAGE}
 EXTRACT_SUFX=	.tgz
 
 WRKDIST=	${WRKDIR}/xmake
-MAKE_FLAGS=	CC="${CC}" CFLAGS="${CFLAGS}"
 
 pre-build:
 	@rm -rf ${WRKSRC}/obj

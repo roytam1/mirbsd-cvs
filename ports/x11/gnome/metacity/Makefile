@@ -1,4 +1,4 @@
-# $MirOS: ports/x11/gnome/metacity/Makefile,v 1.2 2005/03/25 23:13:51 bsiegert Exp $
+# $MirOS: ports/x11/gnome/metacity/Makefile,v 1.3 2006/02/09 09:36:23 tg Exp $
 # $OpenBSD: Makefile,v 1.12 2004/12/15 13:57:57 alek Exp $
 
 COMMENT=		"Boring window manager for the adult in you."
@@ -18,10 +18,9 @@ PERMIT_DISTFILES_FTP=	Yes
 MASTER_SITES=		${MASTER_SITE_GNOME:=sources/metacity/2.8/}
 EXTRACT_SUFX=		.tar.bz2
 
-MODULES=		devel/gettext
+MODULES=		devel/gettext devel/pkgconfig
 
-BUILD_DEPENDS=		:pkgconfig-*:devel/pkgconfig \
-			:p5-XML-Parser-*:textproc/p5-XML-Parser
+BUILD_DEPENDS=		:p5-XML-Parser-*:textproc/p5-XML-Parser
 LIB_DEPENDS=		gconf-2::devel/gconf \
 			glade-2.0.0.0::devel/libglade \
 			startup-notification-1::devel/startup-notification

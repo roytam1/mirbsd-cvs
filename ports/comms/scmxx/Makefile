@@ -18,13 +18,10 @@ MASTER_SITES=http://ma2geo.mathematik.uni-karlsruhe.de/~hendrik/scmxx/download/
 
 MODULES=		converters/libiconv
 
-MAKE_ENV=		CPPFLAGS="-I${LOCALBASE}/include -DNO_NL_LANGINFO" \
-			LDFLAGS="-L${LOCALBASE}/lib"
+CPPFLAGS+=		-DNO_NL_LANGINFO
 
 USE_GMAKE=		Yes
 CONFIGURE_STYLE=	gnu
-CONFIGURE_ENV=		CPPFLAGS="-I${LOCALBASE}/include" \
-			LDFLAGS="-L${LOCALBASE}/lib"
 
 NO_REGRESS=		Yes
 

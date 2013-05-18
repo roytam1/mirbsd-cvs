@@ -29,7 +29,6 @@ CONFIGURE_STYLE=	gnu
 .if ${FLAVOR:L:Mesd}
 LIB_DEPENDS+=	esd.2::audio/esound
 CONFIGURE_ARGS+=	--with-esound
-CONFIGURE_ENV+=		CPPFLAGS="-I${LOCALBASE}/include"
 .else
 CONFIGURE_ARGS+=	--disable-esound
 .endif

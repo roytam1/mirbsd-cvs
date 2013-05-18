@@ -14,7 +14,8 @@ PERMIT_DISTFILES_FTP=   Yes
 
 MASTER_SITES=	ftp://freebsd.sinica.edu.tw/pub/statue/ttfm/
 
-MAKE_FLAGS=	CC="${CC}" CFLAGS='${CFLAGS} `freetype-config --cflags`'
+FTCFLAGS!=	freetype-config --cflags
+CFLAGS+=	${FTCFLAGS}
 
 NO_REGRESS=	Yes
 

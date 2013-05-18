@@ -18,8 +18,6 @@ MODULES=		devel/gettext
 USE_GMAKE=		Yes
 CONFIGURE_STYLE=	gnu
 CONFIGURE_ARGS=		--program-prefix="g"
-CONFIGURE_ENV=		CPPFLAGS="-I${LOCALBASE}/include" \
-			LDFLAGS="-L${LOCALBASE}/lib"
 
 # since we got a conflict with id-utils regarding the name gid, rename that
 # binary to ggid.

@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/misc/gacc/Makefile,v 1.3 2005/07/07 21:23:40 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.9 2003/06/20 08:14:52 kevlo Exp $
 
 COMMENT=	"personal accounts manager"
@@ -25,7 +25,6 @@ USE_X11=	Yes
 
 CONFIGURE_STYLE= gnu
 CONFIGURE_ARGS=	--datadir=${PREFIX}/share/examples/gacc
-CONFIGURE_ENV=	CPPFLAGS="-I${LOCALBASE}/include"
 
 WRKDIST=        ${WRKDIR}/gacc-${VERSION}.orig
 

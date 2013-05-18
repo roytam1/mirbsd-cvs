@@ -23,8 +23,6 @@ EXTRACT_SUFX=		.tgz
 
 CONFIGURE_STYLE=	autoconf no-autoheader
 AUTOCONF_NEW=		Yes
-CONFIGURE_ENV=	CPPFLAGS="-I${LOCALBASE}/include" \
-		LDFLAGS="-L${LOCALBASE}/lib"
 
 NO_REGRESS=		Yes
 

@@ -16,7 +16,7 @@ PERMIT_DISTFILES_FTP=	Yes
 
 MASTER_SITES=		${MASTER_SITE_SOURCEFORGE:=gqmpeg/}
 
-MODULES=		devel/gettext
+MODULES=		devel/gettext graphics/png
 
 RUN_DEPENDS+=		:mpg321-*:audio/mpg321
 
@@ -25,9 +25,6 @@ USE_CXX=		Yes
 
 CONFIGURE_STYLE=	gnu
 AUTOCONF_NEW=		Yes
-CONFIGURE_ENV=		CPPFLAGS="-I${LOCALBASE}/include/libpng \
-			-I${LOCALBASE}/include" \
-			LDFLAGS="-L${LOCALBASE}/lib"
 
 DOCS=			FAQ README SKIN-SPECS-V1 \
 			plugin/README.plugin

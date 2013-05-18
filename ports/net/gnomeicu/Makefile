@@ -20,8 +20,6 @@ PERMIT_DISTFILES_FTP=	Yes
 USE_X11=		Yes
 CONFIGURE_STYLE= 	autoconf
 CONFIGURE_ARGS= 	${CONFIGURE_SHARED}
-CONFIGURE_ENV=  	CPPFLAGS="-I${LOCALBASE}/include" \
-			LDFLAGS="-L${LOCALBASE}/lib"
 
 post-install:
 	@${INSTALL_DATA_DIR} ${PREFIX}/share/examples/gnomeicu; \

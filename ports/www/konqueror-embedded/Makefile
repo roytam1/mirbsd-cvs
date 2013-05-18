@@ -30,9 +30,9 @@ CONFIGURE_ARGS+=	--enable-xmlui
 CONFIGURE_ARGS+=	--disable-dlopen
 CONFIGURE_ARGS+=	--disable-debug
 
-LIB_DEPENDS=	png.2::graphics/png \
-		jpeg.62::graphics/jpeg \
+LIB_DEPENDS=	jpeg.62::graphics/jpeg \
 		pcreposix,pcre::devel/pcre
+MODULES+=		graphics/png
 
 MAKE_FLAGS=CXXLD='--tag CXX ${CXX} -L${MODQT_LIBDIR}'
 

@@ -1,4 +1,4 @@
-# $MirOS: ports/x11/windowmaker/Makefile,v 1.3 2006/01/01 05:25:31 tg Exp $
+# $MirOS: ports/x11/windowmaker/Makefile,v 1.4 2006/02/09 09:36:26 tg Exp $
 # $OpenBSD: Makefile,v 1.57 2003/08/16 19:06:07 tedu Exp $
 
 COMMENT=		'window manager that emulates NEXTSTEP(tm)'
@@ -33,8 +33,7 @@ CONFIGURE_ARGS+=	${CONFIGURE_SHARED} \
 			--disable-dependency-tracking \
 			--enable-gnome \
 			--enable-kde
-CONFIGURE_ENV=		CPPFLAGS="-I${LOCALBASE}/include/libpng" LIBS="-L${LOCALBASE}/lib" \
-			LINGUAS='bg cs da de el es et fi fr gl hr hu it ja ko ms nl no pl pt ro ru sk sv tr zh_CN zh_TW'
+CONFIGURE_ENV=		LINGUAS='bg cs da de el es et fi fr gl hr hu it ja ko ms nl no pl pt ro ru sk sv tr zh_CN zh_TW'
 
 MULTI_PACKAGES= 	-lang
 
@@ -47,10 +46,9 @@ SUBPACKAGE?=
 .if defined(PACKAGING) && !empty(SUBPACKAGE)
 RUN_DEPENDS=		:windowmaker->=0.90.0:x11/windowmaker
 .else
-MODULES=		devel/gettext
+MODULES=		devel/gettext graphics/png
 LIB_DEPENDS=		jpeg.62::graphics/jpeg \
 			tiff.35::graphics/tiff \
-			png.2::graphics/png \
 			ungif.5::graphics/libungif
 .endif
 

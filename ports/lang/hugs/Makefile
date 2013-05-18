@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/lang/hugs/Makefile,v 1.3 2005/07/07 21:22:24 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.5 2004/05/17 02:24:32 dons Exp $
 
 COMMENT=	"Haskell 98 interpreter"
@@ -14,7 +14,6 @@ MASTER_SITES0=	ftp://ftp.cse.unsw.edu.au/pub/users/dons/hugs98/
 DISTFILES=	${DISTNAME}.tar.gz ${DISTNAME}-regress.tar.bz2:0
 
 CONFIGURE_STYLE=dest
-CONFIGURE_ENV+=	CFLAGS="${CFLAGS}" CC="${CC}"
 CONFIGURE_ARGS+=--with-pthreads --disable-ffi --libdir=${PREFIX}/share
 
 WRKBUILD=	${WRKDIST}/src

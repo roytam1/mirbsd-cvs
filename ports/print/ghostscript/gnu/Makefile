@@ -1,4 +1,4 @@
-# $MirOS: ports/print/ghostscript/gnu/Makefile,v 1.3 2005/04/10 21:50:52 tg Exp $
+# $MirOS: ports/print/ghostscript/gnu/Makefile,v 1.5 2005/07/07 21:25:31 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.36 2004/02/25 01:28:07 brad Exp $
 
 BROKEN=		does not honour CC
@@ -30,8 +30,8 @@ JPEGDIR=	graphics/jpeg
 PNGDIR=		graphics/png
 
 BUILD_DEPENDS=	::${JPEGDIR}:patch ::${PNGDIR}:patch
-LIB_DEPENDS=	png.2::${PNGDIR}
 RUN_DEPENDS=	:gs-fonts-std-*:print/ghostscript/fonts-std
+MODULES+=		graphics/png
 
 EXTRACT_ONLY=	${GS_SOURCES}
 

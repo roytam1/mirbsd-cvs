@@ -25,6 +25,5 @@ LIB_DEPENDS+=	physfs.0.0::devel/physfs \
 
 CONFIGURE_STYLE=gnu
 CONFIGURE_ARGS+=--disable-modplug
-CONFIGURE_ENV+=	CPPFLAGS="-I${LOCALBASE}/include" LDFLAGS="-L${LOCALBASE}/lib"
 
 .include <bsd.port.mk>

@@ -17,8 +17,8 @@ PERMIT_DISTFILES_FTP=	Yes
 
 LIB_DEPENDS=	SDL::devel/sdl \
 		SDL_mixer::devel/sdl-mixer \
-		SDL_net::devel/sdl-net \
-		png.2::graphics/png
+		SDL_net::devel/sdl-net
+MODULES+=		graphics/png
 
 MASTER_SITES=	http://user.cs.tu-berlin.de/~karlb/castle-combat/
 
@@ -26,7 +26,5 @@ USE_X11= 	Yes
 USE_CXX=	Yes
 CONFIGURE_STYLE= gnu
 CONFIGURE_ARGS+= --with-png
-CONFIGURE_ENV=	CPPFLAGS="-I${LOCALBASE}/include/libpng -I${LOCALBASE}/include" \
-		LDFLAGS="-L${LOCALBASE}/lib"
 
 .include <bsd.port.mk>

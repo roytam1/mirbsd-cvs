@@ -1,4 +1,4 @@
-# $MirOS: ports/graphics/imlib/Makefile,v 1.4 2005/12/28 16:38:01 tg Exp $
+# $MirOS: ports/graphics/imlib/Makefile,v 1.5 2006/02/09 09:35:54 tg Exp $
 # $OpenBSD: Makefile,v 1.46 2003/11/14 23:52:42 brad Exp $
 # $FreeBSD: Makefile,v 1.45 1999/03/09 01:08:57 nectar Exp $
 
@@ -11,8 +11,8 @@ HOMEPAGE=		http://freshmeat.net/projects/imlib/
 
 LIB_DEPENDS+=		gtk.1.2,gdk.1.2::x11/gtk+1 \
 			jpeg.62::graphics/jpeg \
-			png.2::graphics/png \
 			tiff.35::graphics/tiff
+MODULES+=		graphics/png
 
 # GNU GPL
 PERMIT_PACKAGE_CDROM=	Yes
@@ -27,7 +27,6 @@ CONFIGURE_STYLE=	autoconf
 AUTOCONF_NEW=		Yes
 CONFIGURE_ARGS+=	${CONFIGURE_SHARED}
 CONFIGURE_ARGS+=	--disable-modules --disable-nls
-CPPFLAGS+=		-I${LOCALBASE}/include/libpng
 
 FLAVORS=		no_cxx
 FLAVOR?=

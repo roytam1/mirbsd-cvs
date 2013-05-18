@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/math/grace/Makefile,v 1.1.7.1 2005/03/18 15:50:05 tg Exp $
 # $OpenBSD: Makefile,v 1.17 2004/01/11 11:12:52 sturm Exp $
 # $FreeBSD: ports/math/grace/Makefile,v 1.18 2001/04/25 05:59:19 lkoeller Exp $
 
@@ -27,10 +27,10 @@ CONFIGURE_ARGS+=	--with-bundled-xbae \
 			--enable-grace-home=${PREFIX}/grace
 
 LIB_DEPENDS=	jpeg.62::graphics/jpeg \
-		png.2::graphics/png \
 		t1.5::devel/t1lib \
 		tiff.35::graphics/tiff \
 		pdf.2::print/pdflib
+MODULES+=		graphics/png
 
 FLAVORS=	no_x11 fftw netcdf xmhtml
 FLAVOR?=

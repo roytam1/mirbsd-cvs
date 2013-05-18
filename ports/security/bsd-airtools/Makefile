@@ -30,8 +30,6 @@ post-extract:
 	${WRKDIST}/$i
 .endfor
 
-MAKE_FLAGS=             CC="${CC}" CFLAGS="${CFLAGS}"
-
 do-configure:
 	cd ${WRKDIST}/dstumbler; env ${MAKE_FLAGS} ./configure
 

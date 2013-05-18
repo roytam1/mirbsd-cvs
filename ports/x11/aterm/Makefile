@@ -16,7 +16,6 @@ MASTER_SITES=	${MASTER_SITE_SOURCEFORGE:=aterm/}
 USE_X11=	Yes
 CONFIGURE_STYLE= gnu
 CONFIGURE_ARGS=	--enable-xgetdefault --enable-ttygid --enable-utmp
-CONFIGURE_ENV=	CPPFLAGS="-I${X11BASE}/include"
 
 FLAVORS=	big5 lite
 FLAVOR?=

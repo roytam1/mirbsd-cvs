@@ -17,12 +17,10 @@ PERMIT_DISTFILES_FTP=   Yes
 MASTER_SITES=	${MASTER_SITE_SOURCEFORGE:=lgames/}
 
 LIB_DEPENDS=	SDL::devel/sdl \
-		SDL_mixer::devel/sdl-mixer \
-		png.2.0::graphics/png
+		SDL_mixer::devel/sdl-mixer
+MODULES+=		graphics/png
 		
 CONFIGURE_STYLE=autoconf
-CONFIGURE_ENV=	CPPFLAGS="-I${LOCALBASE}/include/libpng" \
-		LDFLAGS="-L${LOCALBASE}/lib"
 
 USE_X11=	Yes
 USE_CXX=	Yes

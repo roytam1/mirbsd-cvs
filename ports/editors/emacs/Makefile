@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/editors/emacs/Makefile,v 1.2 2005/07/07 21:20:36 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.21 2004/02/04 07:39:18 sturm Exp $
 
 COMMENT=		"GNU editor: extensible, customizable, self documenting"
@@ -34,13 +34,7 @@ CONFIGURE_STYLE=	gnu dest
 CONFIGURE_ARGS=		${GCCARCH} --with-pop
 .include <bsd.own.mk>
 .if ${OBJECT_FMT:U} == "ELF"
-CONFIGURE_ENV=		CPPFLAGS="-I${LOCALBASE}/include \
-				  -I${LOCALBASE}/include/libpng" \
-			LDFLAGS="-Z -L${LOCALBASE}/lib"
-.else
-CONFIGURE_ENV=		CPPFLAGS="-I${LOCALBASE}/include \
-				  -I${LOCALBASE}/include/libpng" \
-			LDFLAGS=" -L${LOCALBASE}/lib"
+LDFLAGS+=		-Z
 .endif
 
 SUBST_VARS=		GCCARCH VERSION
@@ -51,9 +45,9 @@ CONFIGURE_ARGS+=	--with-x=no
 USE_X11=Yes
 LIB_DEPENDS=		ungif.5::graphics/libungif \
 			jpeg.62::graphics/jpeg \
-			png.2::graphics/png \
 			tiff.35::graphics/tiff
 .endif
+MODULES+=		graphics/png
 
 .if defined(PACKAGING)
 .  if !empty(SUBPACKAGE)

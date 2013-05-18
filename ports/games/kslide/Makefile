@@ -19,7 +19,7 @@ EXTRACT_SUFX=	.tar.bz2
 
 LIB_DEPENDS=	kdecore.4,DCOP,kdefx,kdesu,kdeui,kio::x11/kde/libs3
 
-MODULES=	x11/qt3
+MODULES=	x11/qt3 graphics/png
 USE_CXX=	Yes
 MODQT_MT=	Yes
 

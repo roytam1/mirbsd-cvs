@@ -20,8 +20,6 @@ CONFIGURE_ARGS=		--enable-ipv6 \
 			--with-openssl=/usr \
 			--disable-pgpmime
 
-MAKE_FLAGS=		CC='${CC}'
-
 do-install:
 	${INSTALL_PROGRAM} ${WRKSRC}/cue ${PREFIX}/bin
 	${INSTALL_DATA_DIR} ${PREFIX}/share/examples/cue

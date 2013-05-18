@@ -19,8 +19,6 @@ PERMIT_DISTFILES_FTP=	Yes
 MASTER_SITES=		ftp://ftp.opnix.com/oproute/ \
 			http://www.mirrors.wiretapped.net/security/network-monitoring/oproute/
 
-MAKE_FLAGS=		CXX="${CXX}" CFLAGS="${CFLAGS}"
-
 NO_REGRESS=		Yes
 			
 post-install:

@@ -1,4 +1,4 @@
-# $MirOS: ports/net/freenet6/Makefile,v 1.1.7.1 2005/03/18 15:48:18 tg Exp $
+# $MirOS: ports/net/freenet6/Makefile,v 1.2 2005/09/01 20:50:33 tg Exp $
 
 COMMENT=	"Freenet6 IPv6 Tunnel Broker Client"
 NO_REGRESS=	Yes
@@ -18,7 +18,6 @@ PERMIT_DISTFILES_FTP=   Yes
 EXTRACT_SUFX=	.tgz
 MASTER_SITES=	${_MASTER_SITE_MIRBSD}
 
-MAKE_ENV=	CFLAGS="${CFLAGS}"
 MAKE_FLAGS+=	target=mirbsd CC="$(CC)"
 WRKDIST=	${WRKDIR}/tspc2
 TRUEPREFIX?=	${PREFIX}

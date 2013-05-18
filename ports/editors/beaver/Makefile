@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/editors/beaver/Makefile,v 1.2 2005/03/30 18:13:22 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.5 2003/08/23 21:19:53 naddy Exp $
 COMMENT=	"lightweight Gtk text editor with syntax highlighting"
 
@@ -18,7 +18,7 @@ LIB_DEPENDS=	gtk.1.2,gdk.1.2::x11/gtk+1
 
 USE_GMAKE=	Yes
 USE_X11=	Yes
-MAKE_FLAGS=	CC="${CC}" OPTI="${CFLAGS}"
+MAKE_FLAGS=	OPTI="${CFLAGS}"
 
 WRKSRC=	${WRKDIST}/src
 

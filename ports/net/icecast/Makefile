@@ -1,4 +1,4 @@
-# $MirOS: ports/net/icecast/Makefile,v 1.1.7.1 2005/03/18 15:48:21 tg Exp $
+# $MirOS: ports/net/icecast/Makefile,v 1.2 2006/02/09 09:36:08 tg Exp $
 # $OpenBSD: Makefile,v 1.24 2004/05/13 10:48:36 naddy Exp $
 
 COMMENT=	"server for streaming Ogg Vorbis and MP3"
@@ -19,8 +19,6 @@ MASTER_SITES=	http://downloads.us.xiph.org/releases/icecast/
 CONFIGURE_STYLE= autoconf
 AUTOCONF_NEW=	yes
 CONFIGURE_ARGS+= --localstatedir=/var --without-theora
-CONFIGURE_ENV=	CPPFLAGS="-I${LOCALBASE}/include" \
-		LDFLAGS="-L${LOCALBASE}/lib"
 
 LIB_DEPENDS=	curl.2::net/curl \
 		xslt.1::textproc/libxslt \

@@ -23,7 +23,7 @@ USE_X11=	Yes
 MASTER_SITES=	http://www.eblong.com/zarf/ftp/
 EXTRACT_SUFX=	.tar.Z
 
-MAKE_FLAGS=	CFLAGS="${CFLAGS}" XLIB="${X11BASE}/lib" LDFLAGS="${LDFLAGS}"
+MAKE_FLAGS=	XLIB="${X11BASE}/lib"
 WRKDIST=	${WRKDIR}/xzip
 
 ALL_TARGET=	xzip

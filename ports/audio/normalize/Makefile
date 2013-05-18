@@ -27,8 +27,6 @@ CONFIGURE_STYLE=gnu
 CONFIGURE_ARGS=	--disable-xmms \
 		--with-mad \
 		--with-audiofile
-CONFIGURE_ENV=	CPPFLAGS="-I${LOCALBASE}/include" \
-		LDFLAGS="-L${LOCALBASE}/lib"
 
 LIB_DEPENDS=	mad.2::audio/libmad \
 		audiofile::devel/libaudiofile

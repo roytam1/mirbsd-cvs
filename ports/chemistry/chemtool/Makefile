@@ -1,4 +1,4 @@
-# $MirOS: ports/chemistry/chemtool/Makefile,v 1.3 2005/07/06 19:21:25 bsiegert Exp $
+# $MirOS: ports/chemistry/chemtool/Makefile,v 1.4 2005/12/16 01:02:49 bsiegert Exp $
 
 COMMENT=		"drawing tool for chemical structure formulae"
 
@@ -20,16 +20,13 @@ PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
 
-BUILD_DEPENDS=		:pkgconfig-*:devel/pkgconfig
 RUN_DEPENDS=		::print/transfig
 LIB_DEPENDS=		atk-1.0.0.0::devel/atk \
 			gdk-x11-2.0.0.0,gdk_pixbuf-2.0.0.0,gtk-x11-2.0.0.0::x11/gtk+
 
 USE_GMAKE=		Yes
 CONFIGURE_STYLE=	gnu
-MODULES=		devel/gettext
-
-CONFIGURE_ENV=     PKG_CONFIG_PATH="${LOCALBASE}/lib/pkgconfig:${X11BASE}/lib/pkgconfig"
+MODULES=		devel/gettext devel/pkgconfig
 
 NO_REGRESS=		Yes
 

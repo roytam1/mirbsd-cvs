@@ -1,4 +1,4 @@
-# $MirOS: ports/graphics/ImageMagick/Makefile,v 1.7 2005/12/16 15:40:10 tg Exp $
+# $MirOS: ports/graphics/ImageMagick/Makefile,v 1.8 2006/02/09 09:35:52 tg Exp $
 # $OpenBSD: Makefile,v 1.83 2005/06/28 18:08:23 naddy Exp $
 
 COMMENT=	"image processing tools"
@@ -47,9 +47,9 @@ CONFIGURE_ARGS+= --with-quantum-depth=16 \
 		 --without-wmf \
 		 --disable-ltdl-install
 
-CONFIGURE_ENV+=	CPPFLAGS="-I${LOCALBASE}/include/libxml2 -I${LOCALBASE}/include" \
-		LDFLAGS="-L${WRKBUILD}/magick/.libs -L${WRKBUILD}/wand/.libs -L${LOCALBASE}/lib" \
-		ac_cv_path_LaunchDelegate=no
+CPPFLAGS+=		-I${LOCALBASE}/include/libxml2
+LDFLAGS+=		-L${WRKBUILD}/magick/.libs -L${WRKBUILD}/wand/.libs
+CONFIGURE_ENV+=		ac_cv_path_LaunchDelegate=no
 
 FLAVORS=	no_x11
 FLAVOR?=

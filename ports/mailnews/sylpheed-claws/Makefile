@@ -1,4 +1,4 @@
-# $MirOS: ports/mailnews/sylpheed-claws/Makefile,v 1.3 2005/07/07 21:23:10 bsiegert Exp $
+# $MirOS: ports/mailnews/sylpheed-claws/Makefile,v 1.4 2006/01/01 05:25:28 tg Exp $
 # $OpenBSD: Makefile,v 1.5 2004/02/04 07:39:18 sturm Exp $
 
 COMMENT=		"lightweight GTK+ based mail/news client"
@@ -36,8 +36,6 @@ CONFIGURE_ARGS=		--enable-ipv6 --enable-openssl \
 			--program-suffix="-claws" \
 			--enable-spamassassin-plugin \
 			--enable-dillo-viewer-plugin
-CONFIGURE_ENV=		CPPFLAGS="-I${LOCALBASE}/include" \
-			LDFLAGS="-L${LOCALBASE}/lib"
 
 FLAVORS=		compface gpgme jpilot ldap pixbuf
 FLAVOR?=

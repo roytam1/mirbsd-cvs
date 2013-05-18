@@ -16,8 +16,8 @@ PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
-LIB_DEPENDS=	tiff.36::graphics/tiff \
-		png.4::graphics/png
+LIB_DEPENDS=	tiff.36::graphics/tiff
+MODULES+=		graphics/png
 
 USE_X11=	Yes
 USE_CXX=	Yes
@@ -25,9 +25,6 @@ NO_REGRESS=	Yes
 
 CONFIGURE_STYLE=	autoconf old dest
 
-CONFIGURE_ENV=	CFLAGS="${CFLAGS} -I${LOCALBASE}/include -I${LOCALBASE}/include/libpng" \
-		CPPFLAGS="${CPPFLAGS} -I${LOCALBASE}/include" \
-		LIBS="-L${LOCALBASE}/lib"
 CONFIGURE_ARGS=	--with-x
 
 XNLAUNCHFILES=	.launch.menu .xnlaunch.ini graphs.gif ives.gif kill.gif \

@@ -21,8 +21,6 @@ RUN_DEPENDS=	:ghostscript-*:print/ghostscript/gnu \
 USE_GMAKE=	Yes
 USE_CXX=	Yes
 CONFIGURE_STYLE= gnu
-CONFIGURE_ENV=	CPPFLAGS="-I${LOCALBASE}/include" \
-		LDFLAGS="-L${LOCALBASE}/lib"
 
 MODULES=	devel/gettext
 

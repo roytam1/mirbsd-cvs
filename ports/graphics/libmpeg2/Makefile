@@ -16,15 +16,12 @@ PERMIT_PACKAGE_CDROM=	Yes
 PERMIT_PACKAGE_FTP=	Yes
 
 USE_X11=	Yes
-
-BUILD_DEPENDS=	:pkgconfig->=0.12.0p1:devel/pkgconfig
+MODULES+=		devel/pkgconfig
 
 WRKDIST=${WRKDIR}/mpeg2dec-0.4.0
 
 CONFIGURE_STYLE=gnu
-CONFIGURE_ENV=	CPPFLAGS="-I${X11BASE}/include -I${LOCALBASE}/include" \
-		LDFLAGS="-L${LOCALBASE}/lib -L${X11BASE}/lib" \
-		LIBS="-lX11 -lXext -lXv"
+CONFIGURE_ENV=	LIBS="-lX11 -lXext -lXv"
 CONFIGURE_ARGS+=${CONFIGURE_SHARED} --disable-sdl
 
 .include <bsd.port.mk>

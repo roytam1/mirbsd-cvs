@@ -27,7 +27,7 @@ LIB_DEPENDS=	SDL:sdl-*-!no_x11:devel/sdl
 WISH=wish8.4
 FRODOLIBDIR=${PREFIX}/lib/frodo
 
-CONFIGURE_ENV=		CFLAGS='${CFLAGS} -O3 -D__unix -DX_USE_SHM -fno-exceptions'
+CFLAGS+=		-D__unix -DX_USE_SHM -fno-exceptions
 
 
 MAKE_ENV=WISH=${WISH} FRODOLIBDIR=${FRODOLIBDIR}

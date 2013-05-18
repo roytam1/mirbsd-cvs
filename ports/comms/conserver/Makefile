@@ -16,7 +16,6 @@ PERMIT_DISTFILES_FTP=	Yes
 
 MASTER_SITES=	ftp://ftp.conserver.com/conserver/
 
-AUTOCONF_VERSION= 2.54
 CONFIGURE_STYLE= autoconf
 CONFIGURE_ARGS=	--with-64bit \
 		--with-master=localhost

@@ -31,7 +31,6 @@ WRKDIST=	${WRKDIR}
 NETHACKCONFIG=	${FILESDIR}/x-config
 USE_X11=        Yes
 USE_CXX=	Yes
-MAKE_ENV+=	CFLAGS="${CFLAGS} -I${X11BASE}/include -I${LOCALBASE}/include -L${X11BASE}/lib -L${LOCALBASE}/lib"
 
 NO_REGRESS=	Yes
 

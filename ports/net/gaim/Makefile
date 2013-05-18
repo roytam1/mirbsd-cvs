@@ -1,4 +1,4 @@
-# $MirOS: ports/net/gaim/Makefile,v 1.3 2005/04/10 21:50:38 tg Exp $
+# $MirOS: ports/net/gaim/Makefile,v 1.4 2005/10/16 11:44:07 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.73 2005/01/28 16:33:28 fgsch Exp $
 
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
@@ -20,14 +20,10 @@ PERMIT_DISTFILES_FTP=	Yes
 
 RESPONSIBLE=		Benny Siegert <bsiegert@gmx.de>
 
-MODULES=		devel/gettext
+MODULES=		devel/gettext devel/pkgconfig
 
 LIB_DEPENDS+=		gdk-x11-2.0.0.0,gdk_pixbuf-2.0.0.0,gtk-x11-2.0.0.0::x11/gtk+ \
 			startup-notification-1.0.0::devel/startup-notification
-BUILD_DEPENDS+=		:pkgconfig-*:devel/pkgconfig
-
-PKG_CONFIG_PATH=	${LOCALBASE}/lib/pkgconfig:${X11BASE}/lib/pkgconfig
-CONFIGURE_ENV+=		PKG_CONFIG_PATH=${PKG_CONFIG_PATH}
 
 USE_X11=		Yes
 USE_GMAKE=		Yes

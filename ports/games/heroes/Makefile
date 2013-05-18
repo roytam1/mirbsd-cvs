@@ -62,8 +62,7 @@ CONFIGURE_ARGS+= --without-ggi
 
 CONFIGURE_STYLE= gnu
 MODGNU_CONFIG_GUESS_DIRS= ${WRKSRC}/tools
-CONFIGURE_ENV+=	CPPFLAGS="-I${LOCALBASE}/include" \
-		LDFLAGS="-L${LOCALBASE}/lib -lm -lintl"
+LDFLAGS+=		-lm -lintl
 CONFIGURE_ARGS+= --disable-optimizations \
 		 --disable-debug \
 		 --without-mikmod

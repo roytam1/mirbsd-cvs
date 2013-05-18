@@ -27,7 +27,6 @@ LIB_DEPENDS=           gdbm.3::databases/gdbm
 
 USE_CXX=		Yes
 CONFIGURE_STYLE=	gnu
-CONFIGURE_ENV=		LDFLAGS="-L${LOCALBASE}/lib" 
 MAKE_ENV=		INCLUDES="-I${LOCALBASE}/include"
 CONFIGURE_ARGS=		--datadir=${PREFIX}/share/doc \
 			--enable-sendmail=/usr/sbin/sendmail \

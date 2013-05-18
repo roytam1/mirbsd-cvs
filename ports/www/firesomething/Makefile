@@ -1,4 +1,4 @@
-# $MirOS: ports/www/firesomething/Makefile,v 1.6 2005/07/06 19:21:37 bsiegert Exp $
+# $MirOS: ports/www/firesomething/Makefile,v 1.7 2005/12/18 16:36:46 tg Exp $
 # $OpenBSD: Makefile,v 1.10 2004/08/08 17:19:36 robert Exp $
 
 BROKEN=			Kaput. I suggest ports/www/opera (BSD), K-Meleon (Win), Safari (Mac)
@@ -22,8 +22,8 @@ MASTER_SITES=		http://ftp.eu.mozilla.org/pub/mozilla.org/firefox/releases/${VERS
 			http://ftp.mozilla.org/pub/firefox/releases/${VERSION}/
 DISTFILES=		firefox-source-${VERSION}.tar.bz2
 
-BUILD_DEPENDS=		:zip->=2.3:archivers/zip \
-			:pkgconfig-*:devel/pkgconfig
+MODULES+=		devel/pkgconfig
+BUILD_DEPENDS=		:zip->=2.3:archivers/zip
 LIB_DEPENDS=		gtk.1,gdk.1::x11/gtk+1 \
 			glib.1,gmodule.1::devel/glib1 \
 			IDL.4::devel/ORBit \
@@ -65,8 +65,7 @@ CONFIGURE_ARGS+=	--disable-ldap			\
 CFLAGS+=		-fno-stack-protector
 .endif
 
-CONFIGURE_ENV=		MOZ_PHOENIX=1 \
-			PKG_CONFIG_PATH="${LOCALBASE}/lib/pkgconfig:${X11BASE}/lib/pkgconfig"
+CONFIGURE_ENV=		MOZ_PHOENIX=1
 MAKE_ENV=		MOZ_PHOENIX=1 \
 			LD_LIBRARY_PATH="${WRKSRC}/dist/bin"
 

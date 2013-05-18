@@ -18,7 +18,6 @@ MASTER_SITES=		ftp://www.toontown.org/pub/teapop/
 
 CONFIGURE_STYLE=	gnu
 CONFIGURE_ARGS=		--enable-flock
-CONFIGURE_ENV=		LDFLAGS="-L${LOCALBASE}/lib"
 
 NO_REGRESS=		Yes
 			

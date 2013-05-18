@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/graphics/gqview/Makefile,v 1.2 2005/05/01 13:50:50 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.32 2004/05/10 00:58:45 brad Exp $
 
 COMMENT=	"Gtk-based graphic file viewer"
@@ -16,17 +16,14 @@ PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
-MODULES=	devel/gettext
+MODULES=		devel/gettext devel/pkgconfig graphics/png
 
-LIB_DEPENDS+=	png.2::graphics/png \
-		gdk-x11-2.0.0.0,gdk_pixbuf-2.0.0.0,gtk-x11-2.0.0.0::x11/gtk+
-BUILD_DEPENDS+=	:pkgconfig-*:devel/pkgconfig
+LIB_DEPENDS+=		gdk-x11-2.0.0.0,gdk_pixbuf-2.0.0.0,gtk-x11-2.0.0.0::x11/gtk+
 
 USE_CXX=	Yes
+USE_X11=	Yes
 
 CONFIGURE_STYLE= gnu
-CONFIGURE_ENV=	CPPFLAGS="-I${X11BASE}/include -I${LOCALBASE}/include/libpng -I${LOCALBASE}/include" \
-		LDFLAGS="-L${LOCALBASE}/lib"
 
 # gqview only installs these files conditionally if it finds gnome-config.
 # here we will install the files manually, this eases integration with GNOME.

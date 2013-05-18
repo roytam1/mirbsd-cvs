@@ -1,4 +1,4 @@
-# $MirOS: ports/net/dctc/Makefile,v 1.2 2005/03/30 16:51:11 bsiegert Exp $
+# $MirOS: ports/net/dctc/Makefile,v 1.3 2006/02/09 09:36:07 tg Exp $
 # $OpenBSD: Makefile,v 1.4 2004/04/18 17:38:37 naddy Exp $
 
 COMMENT=		"Direct Connect clone"
@@ -18,7 +18,7 @@ MASTER_SITES=		${HOMEPAGE}
 LIB_DEPENDS=    	glib.1.2,gthread.1.2::devel/glib1
 
 CONFIGURE_STYLE= 	autoconf
-CONFIGURE_ENV=		CPPFLAGS="-DMSG_NOSIGNAL=0"
+CPPFLAGS+=		-DMSG_NOSIGNAL=0
 
 post-install:
 	@${INSTALL_DATA_DIR} ${PREFIX}/share/doc/dctc; \

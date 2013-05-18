@@ -14,10 +14,7 @@ PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
 MASTER_SITES=	${HOMEPAGE}
-
-MAKE_FLAGS=	CXX="${CXX}" \
-		CXXFLAGS="${CXXFLAGS} -fno-implicit-templates" \
-		RANLIB=${RANLIB}
+CXXFLAGS+=		-fno-implicit-templates
 
 NO_REGRESS=	Yes
 

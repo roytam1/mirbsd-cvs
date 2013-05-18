@@ -15,8 +15,8 @@ PERMIT_DISTFILES_FTP=	Yes
 
 MASTER_SITES=		http://www.pdflib.com/pdflib/download/
 
-LIB_DEPENDS=		png.2::graphics/png \
-			tiff.35::graphics/tiff
+LIB_DEPENDS=		tiff.35::graphics/tiff
+MODULES+=		graphics/png
 
 CONFIGURE_STYLE=	autoconf dest
 MODGNU_CONFIG_GUESS_DIRS= ${WRKSRC} ${WRKSRC}/config
@@ -29,9 +29,7 @@ CONFIGURE_ARGS=		${CONFIGURE_SHARED} \
 			--without-py \
 			--without-tcl
 
-CONFIGURE_ENV=		LDFLAGS="-L${LOCALBASE}/lib" \
-			CPPFLAGS="-I${LOCALBASE}/include/libpng -I${LOCALBASE}/include" \
-			LIBS="-lm"
+CONFIGURE_ENV=		LIBS="-lm"
 MAKE_ENV=		${CONFIGURE_ENV}
 
 REGRESS_TARGET=		test

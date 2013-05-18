@@ -1,4 +1,4 @@
-# $MirOS: ports/sysutils/pxegrub/Makefile,v 1.7 2005/08/21 11:50:16 tg Exp $
+# $MirOS: ports/sysutils/pxegrub/Makefile,v 1.8 2005/11/18 00:40:03 tg Exp $
 #
 # Although you can only netboot a kernel with this, it's still included.
 # Maybe one day someone will include the correct parametres for disc kernels.
@@ -31,7 +31,6 @@ USE_GMAKE=		Yes
 NO_REGRESS=		Yes
 
 CONFIGURE_ARGS+=	--enable-diskless
-MAKE_FLAGS=		MAKEINFO="makeinfo --no-split"
 
 GCC_VERSION!=		${CC} -v 2>&1 | fgrep "cc version" | sed 's!^.*cc version \([0-9\.]*\).*$!\1!'
 COPTS+=			-fno-stack-protector

@@ -1,4 +1,4 @@
-# $MirOS: ports/graphics/cqcam/Makefile,v 1.3 2005/04/10 21:49:57 tg Exp $
+# $MirOS: ports/graphics/cqcam/Makefile,v 1.4 2005/04/11 15:55:34 tg Exp $
 # $OpenBSD: Makefile,v 1.6 2002/12/29 20:08:46 fgsch Exp $
 
 ONLY_FOR_PLATFORM=	OpenBSD:*:i386 MirBSD:*:i386
@@ -29,22 +29,14 @@ FLAVORS=	no_x11
 FLAVOR?=	
 
 .if ${FLAVOR:L:Mno_x11}
-CONFIGURE_ENV=	CPPFLAGS="-I${LOCALBASE}/include" \
-		LDFLAGS="-L${LOCALBASE}/lib"
-MAKE_FLAGS=	${FAKE_FLAGS}
-FAKE_FLAGS=	CLIENTS="cli webcam"
+EXTRA_XAKE_FLAGS=	CLIENTS="cli webcam"
 .else
 USE_X11=	Yes
 LIB_DEPENDS+=	gtk.1,gdk.1::x11/gtk+1
 LIB_DEPENDS+=	xview,olgx::x11/xview/lib
 #BUILD_DEPENDS=	wish8.3::x11/tk/8.3
 CONFIGURE_ARGS+= --with-gtk-prefix=${LOCALBASE} 
-CONFIGURE_ENV=	CPPFLAGS="-I${LOCALBASE}/include" \
-		LDFLAGS="-L${LOCALBASE}/lib" # -L${LOCALBASE}/lib/tcl8.3"
-#MAKE_FLAGS=	CPPFLAGS="-I${LOCALBASE}/include/tcl8.3 \
-#		-I${LOCALBASE}/include/tk8.3" \
-MAKE_FLAGS=	${FAKE_FLAGS}
-FAKE_FLAGS=	CLIENTS="cli gtkfe webcam xfe"
+EXTRA_XAKE_FLAGS=	CLIENTS="cli gtkfe webcam xfe"
 .endif
 
 post-install:

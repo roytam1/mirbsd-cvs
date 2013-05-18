@@ -22,7 +22,6 @@ FLAVORS=	no_x11 no_perl mysql postgresql ldap no_ssl
 FLAVOR?=
 
 MAKE_ENV=	FLAVOR="${FLAVOR}"
-MAKE_FLAGS=	CC="${CC}" CFLAGS="${CFLAGS}"
 
 EXIM_MAKECAT=
 EXIM_LOOKUP_INCLUDE=

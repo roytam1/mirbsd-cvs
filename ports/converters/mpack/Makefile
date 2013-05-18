@@ -17,7 +17,6 @@ MASTER_SITES=	ftp://ftp.andrew.cmu.edu/pub/mpack/
 EXTRACT_SUFX=	.tar.Z
 
 WRKDIST=	${WRKDIR}/mpack
-MAKE_ENV=	CC="${CC}" CFLAGS="${CFLAGS}"
 
 NO_REGRESS=	Yes
 

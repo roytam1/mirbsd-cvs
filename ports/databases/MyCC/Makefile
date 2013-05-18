@@ -26,7 +26,7 @@ MODULES=		x11/qt3
 LIB_DEPENDS=		lib/mysql/mysqlclient.10::databases/mysql
 
 MAKE_ENV=		LOCALBASE=${LOCALBASE} HACK_CFLAGS="${CFLAGS}"
-MAKE_FLAGS=   		CC=${CC} CXX=${CXX} LINK=${CXX}
+MAKE_FLAGS=   		LINK=${CXX}
 
 USE_X11=		Yes
 CONFIGURE_STYLE=	gnu

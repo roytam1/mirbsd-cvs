@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/games/gtkballs/Makefile,v 1.2 2005/03/30 18:13:28 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.12 2002/12/29 15:10:07 fgsch Exp $
 
 COMMENT=	"gtk+ clone of the lines ball logic game"
@@ -23,7 +23,5 @@ USE_GMAKE=	Yes
 USE_X11=	Yes
 CONFIGURE_STYLE=gnu dest
 CONFIGURE_ARGS=	--localstatedir=/var/games
-CONFIGURE_ENV=	CPPFLAGS="-I${LOCALBASE}/include" \
-		LDFLAGS="-L${LOCALBASE}/lib"
 
 .include <bsd.port.mk>

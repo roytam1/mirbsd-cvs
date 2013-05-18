@@ -14,8 +14,6 @@ PERMIT_DISTFILES_FTP=	Yes
 
 MASTER_SITES=	${MASTER_SITE_SUNSITE:=apps/serialcomm/fax/}
 
-MAKE_FLAGS=	CC="${CC}" CFLAGS="${CFLAGS}"
-
 NO_REGRESS=	Yes
 
 do-install:

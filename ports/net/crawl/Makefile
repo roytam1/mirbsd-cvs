@@ -1,5 +1,7 @@
-# $MirOS$
+# $MirOS: ports/net/crawl/Makefile,v 1.1.7.1 2005/03/18 15:48:03 tg Exp $
 # $OpenBSD: Makefile,v 1.17 2004/04/07 22:51:03 brad Exp $
+
+BROKEN=			-I/usr/local/include/db
 
 COMMENT=		"small and efficient HTTP crawler"
 DISTNAME=		crawl-0.4

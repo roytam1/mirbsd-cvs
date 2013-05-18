@@ -14,9 +14,6 @@ LIB_DEPENDS=	curl.2::net/curl
 
 CONFIGURE_STYLE= gnu
 CONFIGURE_ARGS=	--datadir=${PREFIX}/share --libexecdir=${PREFIX}/libexec
-CONFIGURE_ENV=	CPPFLAGS="${CPPFLAGS} -I${LOCALBASE}/include" \
-		LDFLAGS="${LDFLAGS} -L${LOCALBASE}/lib" \
-		CFLAGS=""
 
 USE_GMAKE=	Yes
 USE_CXX=	Yes

@@ -1,4 +1,4 @@
-# $MirOS: ports/x11/gnome/libgnome/Makefile,v 1.1.7.1 2005/03/18 16:00:25 tg Exp $
+# $MirOS: ports/x11/gnome/libgnome/Makefile,v 1.2 2005/12/29 17:34:02 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.10 2004/12/15 13:57:56 alek Exp $
 
 COMMENT=		"libraries for the GNOME project"
@@ -18,10 +18,9 @@ PERMIT_DISTFILES_FTP=	Yes
 MASTER_SITES=		${MASTER_SITE_GNOME:=sources/libgnome/2.12/}
 EXTRACT_SUFX=		.tar.bz2
 
-MODULES=		devel/gettext
+MODULES=		devel/gettext devel/pkgconfig
 
-BUILD_DEPENDS=		:pkgconfig-*:devel/pkgconfig \
-			:p5-XML-Parser-*:textproc/p5-XML-Parser
+BUILD_DEPENDS=		:p5-XML-Parser-*:textproc/p5-XML-Parser
 LIB_DEPENDS=		esd.0.2::audio/esound \
 			gnomevfs-2::x11/gnome/vfs2 \
 			audiofile::devel/libaudiofile \

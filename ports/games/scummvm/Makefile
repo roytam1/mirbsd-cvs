@@ -21,14 +21,10 @@ LIB_DEPENDS=	SDL::devel/sdl \
 
 CONFIGURE_STYLE=simple
 CONFIGURE_ARGS+=--disable-alsa
-CONFIGURE_ENV+=	CPPFLAGS="-I${LOCALBASE}/include" \
-		LDFLAGS="-L${LOCALBASE}/lib"
 NO_REGRESS=	Yes
 USE_GMAKE=	Yes
 USE_X11=	Yes
 USE_CXX=	Yes
-
-MAKE_ENV+=	CXXFLAGS="${CXXFLAGS}" CXX="${CXX}"
 
 # XXX gcc3 compiling compact.cpp with -O2 gobbles 800MB
 .if ${MACHINE_ARCH} == "sparc64"

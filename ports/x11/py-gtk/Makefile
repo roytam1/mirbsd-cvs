@@ -1,4 +1,4 @@
-# $MirOS: ports/x11/py-gtk/Makefile,v 1.3 2005/03/25 23:13:45 bsiegert Exp $
+# $MirOS: ports/x11/py-gtk/Makefile,v 1.5 2005/07/07 21:29:12 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.1.1.1 2004/02/16 21:12:50 xsa Exp $
 
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
@@ -20,12 +20,11 @@ PERMIT_DISTFILES_FTP=	Yes
 
 MASTER_SITES=	${MASTER_SITE_GNOME:=sources/pygtk/2.0/}
 
-MODULES=	converters/libiconv lang/python
+MODULES=	converters/libiconv lang/python devel/pkgconfig
 
 MODPY_DISTUTILS_BUILDARGS=	--enable-threading
 
-BUILD_DEPENDS=	:pkgconfig-*:devel/pkgconfig \
-		:py-Numeric-*:math/py-Numeric
+BUILD_DEPENDS=	:py-Numeric-*:math/py-Numeric
 LIB_DEPENDS=	gthread-2.0.0.0::devel/glib \
 		glade-2.0.0.0::devel/libglade \
 		gdk-x11-2.0.0.0,gdk_pixbuf-2.0.0.0,gtk-x11-2.0.0.0::x11/gtk+

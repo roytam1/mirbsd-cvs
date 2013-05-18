@@ -20,7 +20,6 @@ EXTRACT_SUFX=	.tgz
 
 NO_REGRESS=	Yes
 
-MAKE_FLAGS=	CC="${CC}" CFLAGS="${CFLAGS}"
 
 do-install:
 	${INSTALL_DATA_DIR} ${PREFIX}/share/doc/multitail

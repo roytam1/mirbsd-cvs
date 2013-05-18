@@ -18,7 +18,5 @@ PERMIT_DISTFILES_FTP=	Yes
 LIB_DEPENDS=	gmp.4::devel/gmp
 
 CONFIGURE_STYLE= perl
-CONFIGURE_ENV+=	CPPFLAGS="-I${LOCALBASE}/include" \
-		LDFLAGS="-L${LOCALBASE}/lib"
 
 .include <bsd.port.mk>

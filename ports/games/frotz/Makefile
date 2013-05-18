@@ -18,7 +18,6 @@ PERMIT_DISTFILES_FTP=	Yes
 
 MASTER_SITES=		ftp://ftp.gmd.de/if-archive/infocom/interpreters/frotz/
 
-MAKE_FLAGS=		CC="${CC}" CFLAGS="${CFLAGS}"
 WRKDIST=		${WRKDIR}/frotz-2.32
 
 ALL_TARGET=		frotz

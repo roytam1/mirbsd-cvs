@@ -16,8 +16,6 @@ PERMIT_DISTFILES_FTP=	Yes
 
 CONFIGURE_STYLE=	gnu
 
-MAKE_FLAGS=		MAKEINFO="makeinfo --no-split"
-
 post-install:
 	${INSTALL_DATA_DIR} ${PREFIX}/share/gnugo
 	${INSTALL_DATA} ${WRKSRC}/interface/gnugo.el \

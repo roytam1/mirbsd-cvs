@@ -24,7 +24,6 @@ CFLAGS+=		-DHAVE_GZIP=1 \
 			-DHAVE_BSD_MOUNT=1 \
 			-DMOUNT_TYPE='\"ffs\"'
 LDSTATIC=		-static
-MAKE_FLAGS=		CFLAGS="${CFLAGS}"
 NO_REGRESS=		Yes
 
 do-install:

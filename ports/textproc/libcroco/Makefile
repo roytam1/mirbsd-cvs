@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/textproc/libcroco/Makefile,v 1.2 2005/05/01 14:05:21 bsiegert Exp $
 
 COMMENT=		"parse and manipulate CSS (Cascading Style Sheets)"
 
@@ -19,9 +19,8 @@ PERMIT_DISTFILES_FTP=	Yes
 
 EXTRACT_SUFX=		.tar.bz2
 
-MODULES=		devel/gettext
+MODULES=		devel/gettext devel/pkgconfig
 
-BUILD_DEPENDS=		:pkgconfig-*:devel/pkgconfig
 LIB_DEPENDS=		glib-2.0.0.0::devel/glib \
 			xml2::textproc/libxml
 

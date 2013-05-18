@@ -1,4 +1,4 @@
-# $MirOS: ports/net/ethereal/Makefile,v 1.5 2006/01/01 05:25:28 tg Exp $
+# $MirOS: ports/net/ethereal/Makefile,v 1.6 2006/02/09 09:36:08 tg Exp $
 # $OpenBSD: Makefile,v 1.90 2004/05/10 06:14:43 jakob Exp $
 
 BROKEN=		"many security problems"
@@ -59,7 +59,7 @@ BUILD_DEPENDS+=		gtk.1.2::x11/gtk+
 .else
 CONFIGURE_ARGS+=	--enable-gtk2
 LIB_DEPENDS+=		glib-2.0.0.0,gthread-2.0.0.0::devel/glib
-BUILD_DEPENDS+=		:pkgconfig-*:devel/pkgconfig
+MODULES+=		devel/pkgconfig
 .if ! ${FLAVOR:L:Mno_x11}
 BUILD_DEPENDS+=		gdk_pixbuf-2.0.0.0,gdk-x11-2.0.0.0,gtk-x11-2.0.0.0::x11/gtk+
 .endif
@@ -76,7 +76,7 @@ RUN_DEPENDS+=		:tethereal-${VERSION}${FLAVOR_EXT}:net/ethereal
 
 .if ${FLAVOR:L:Msnmp}
 CONFIGURE_ARGS+=	--with-ucd-snmp
-CONFIGURE_ENV+=		LDFLAGS="${LDFLAGS} -L${LOCALBASE}/lib" LIBS="-lsnmp -lcrypto -ldes"
+CONFIGURE_ENV+=		LIBS="-lsnmp -lcrypto -ldes"
 LIB_DEPENDS+=		snmp::net/ucd-snmp
 .else
 CONFIGURE_ARGS+=	--without-ucd-snmp

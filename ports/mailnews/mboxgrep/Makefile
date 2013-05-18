@@ -20,8 +20,6 @@ LIB_DEPENDS=	pcre::devel/pcre
 WRKSRC=		${WRKDIR}/mboxgrep
 
 CONFIGURE_STYLE= gnu
-CONFIGURE_ENV=	CFLAGS="-I${LOCALBASE}/include" \
-		LIBS="-L${LOCALBASE}/lib"
 
 NO_REGRESS=	Yes
 

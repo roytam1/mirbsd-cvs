@@ -18,7 +18,7 @@ MASTER_SITES=	ftp://freebsd.sinica.edu.tw/pub/keith/	\
 PYTHON_VER=	2.1
 RUN_DEPENDS=	::chinese/arphicttf \
 		:python-${PYTHON_VER}*:lang/python/${PYTHON_VER}
-LIB_DEPENDS=	ttf.1::print/freetype
+MODULES+=		print/freetype
 
 NO_REGRESS=	Yes
 
@@ -26,8 +26,6 @@ post-patch:
 	perl -pi -e \
 		"s|/usr/bin/python|${LOCALBASE}/bin/python${PYTHON_VER}|" \
 		${WRKSRC}/bg5ps
-
-MAKE_FLAGS=CFLAGS="${CFLAGS} -I${LOCALBASE}/include/freetype1" LDFLAGS=-L${LOCALBASE}/lib
 
 do-install:
 	${INSTALL_PROGRAM} ${WRKBUILD}/bg5ps ${PREFIX}/bin

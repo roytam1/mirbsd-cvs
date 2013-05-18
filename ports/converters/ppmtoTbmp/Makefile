@@ -14,8 +14,7 @@ PERMIT_DISTFILES_FTP=	Yes
 
 MASTER_SITES=	${HOMEPAGE}
 
-MAKE_FLAGS=	CFLAGS="${CFLAGS} -I${LOCALBASE}/include" \
-		LDLIBS="-L${LOCALBASE}/lib -lpnm -lppm -lpgm -lpbm"
+MAKE_FLAGS=		LDLIBS="-L${LOCALBASE}/lib -lpnm -lppm -lpgm -lpbm"
 
 LIB_DEPENDS=	pnm,ppm,pgm,pbm::graphics/netpbm
 

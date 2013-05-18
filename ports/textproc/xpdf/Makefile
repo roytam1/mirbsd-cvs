@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/textproc/xpdf/Makefile,v 1.1.7.1 2005/03/18 15:53:06 tg Exp $
 # $OpenBSD: Makefile,v 1.41 2004/04/06 02:35:44 brad Exp $
 
 COMMENT=	"PDF viewer for X"
@@ -27,8 +27,7 @@ CONFIGURE_STYLE= gnu
 CONFIGURE_ARGS+= --enable-multithreaded \
 		 --without-Sgm-library \
 		 --without-libpaper-library
-CONFIGURE_ENV=	CPPFLAGS="-I${X11BASE}/include/freetype2 -I${X11BASE}/include -I${LOCALBASE}/include" \
-		LDFLAGS="-L${X11BASE}/lib -L${LOCALBASE}/lib"
+CPPFLAGS+=	-I${X11BASE}/include/freetype2
 
 USE_CXX=	Yes
 NO_REGRESS=	Yes

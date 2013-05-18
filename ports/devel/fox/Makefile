@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/devel/fox/Makefile,v 1.2 2005/07/06 19:21:29 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.1.1.1 2003/11/13 18:50:39 espie Exp $
 
 COMMENT=		'C++ toolkit for GUI'
@@ -19,15 +19,13 @@ PERMIT_PACKAGE_CDROM=	Yes
 
 LIB_DEPENDS=		bz2::archivers/bzip2 \
 			jpeg::graphics/jpeg \
-			png::graphics/png \
 			tiff::graphics/tiff
+MODULES+=		graphics/png
 
 USE_CXX=		Yes
 USE_X11=		Yes
 CONFIGURE_STYLE=	autoconf no-autoheader
 CONFIGURE_ARGS+=	--x-includes=${X11BASE}/include \
 			--x-libraries=${X11BASE}/lib
-CONFIGURE_ENV+=		CPPFLAGS="-I${LOCALBASE}/include -I${LOCALBASE}/include/libpng" \
-			LDFLAGS="-L${LOCALBASE}/lib" 
 
 .include <bsd.port.mk>

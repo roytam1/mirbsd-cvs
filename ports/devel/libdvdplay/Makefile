@@ -18,6 +18,5 @@ PERMIT_PACKAGE_FTP=	Yes
 LIB_DEPENDS=	dvdread::devel/libdvdread
 
 CONFIGURE_STYLE=gnu
-CONFIGURE_ENV=	CPPFLAGS="-I${LOCALBASE}/include" LDFLAGS="-L${LOCALBASE}/lib"
 
 .include <bsd.port.mk>

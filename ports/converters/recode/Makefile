@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/converters/recode/Makefile,v 1.2 2005/07/07 21:18:19 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.22 2003/04/27 21:00:21 avsm Exp $
 
 COMMENT=	"convert files between character sets and usages"
@@ -18,8 +18,6 @@ MASTER_SITES=	${MASTER_SITE_GNU:=recode/}
 
 CONFIGURE_STYLE=autoconf
 CONFIGURE_ARGS=	--without-included-gettext
-CONFIGURE_ENV=	CPPFLAGS="-I${LOCALBASE}/include" \
-		LDFLAGS="-L${LOCALBASE}/lib"
 
 REGRESS_DEPENDS=	:python-*:lang/python
 

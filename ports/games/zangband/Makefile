@@ -20,7 +20,6 @@ BUILD_DEPENDS=  	::devel/autoconf/${AUTOCONF_VERSION} \
 	                ::devel/automake
 
 USE_GMAKE=		Yes
-MAKE_ENV=		CC="${CC}" CFLAGS="${CFLAGS}"
 CONFIGURE_STYLE=	gnu
 CONFIGURE_ENV=		TRUEPREFIX="${TRUEPREFIX}"
 

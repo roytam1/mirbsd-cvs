@@ -25,7 +25,6 @@ FLAVOR?=
 
 .if ${FLAVOR:L:Mflexresp}
 LIB_DEPENDS+=	net::net/libnet
-CONFIGURE_ENV+=	LDFLAGS="-L${LOCALBASE}/lib"
 CONFIGURE_ARGS+= --enable-flexresp
 .endif
 

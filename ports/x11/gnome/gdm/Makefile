@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/x11/gnome/gdm/Makefile,v 1.1.7.1 2005/03/18 16:00:23 tg Exp $
 # $OpenBSD: Makefile,v 1.3 2004/01/30 13:36:51 marcm Exp $
 
 
@@ -19,12 +19,12 @@ PERMIT_DISTFILES_FTP=	Yes
 MASTER_SITES=		${MASTER_SITE_GNOME:=sources/gdm/2.4/}
 EXTRACT_SUFX=		.tar.bz2
 
-BUILD_DEPENDS=		:pkgconfig-*:devel/pkgconfig \
-			:scrollkeeper->=0.3.12:textproc/scrollkeeper \
+BUILD_DEPENDS=		:scrollkeeper->=0.3.12:textproc/scrollkeeper \
 			:p5-XML-Parser-*:textproc/p5-XML-Parser
 RUN_DEPENDS=		:scrollkeeper->=0.3.12:textproc/scrollkeeper
 LIB_DEPENDS=		gnomeui-2::x11/gnome/libgnomeui \
 			rsvg-2::x11/gnome/librsvg
+MODULES+=		devel/pkgconfig
 
 
 CONFDIR=		${SYSCONFDIR}/X11
@@ -35,8 +35,6 @@ AUTOCONF_NEW=		Yes
 CONFIGURE_ARGS+=	${CONFIGURE_SHARED}
 CONFIGURE_ARGS+=	--sysconfdir="${CONFDIR}"
 CONFIGURE_ARGS+=	--localstatedir=/var
-CONFIGURE_ENV=		CPPFLAGS="-I${LOCALBASE}/include -I${X11BASE}/include" \
-			LDFLAGS="-L${LOCALBASE}/lib"
 SUBST_VARS=		CONFDIR
 
 post-patch:

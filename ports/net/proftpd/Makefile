@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/net/proftpd/Makefile,v 1.1.7.1 2005/03/18 15:48:55 tg Exp $
 
 COMMENT=        highly configurable ftp daemon
 DISTNAME=	proftpd-1.2.9
@@ -48,7 +48,7 @@ MOD:=			${MOD}:mod_sql:mod_sql_postgres
 
 .if ${FLAVOR:L:Mssl}
 CFLAGS+=		-DHAVE_OPENSSL
-CONFIGURE_ENV=		LDFLAGS="-lssl -lcrypto"
+LDFLAGS+=		-lssl -lcrypto
 .endif
 
 CONFIGURE_STYLE=        gnu

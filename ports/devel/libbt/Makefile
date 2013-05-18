@@ -20,7 +20,6 @@ USE_X11=	Yes	# for makedepend
 LIB_DEPENDS=	curl.2.2::net/curl
 
 CONFIGURE_STYLE=gnu
-CONFIGURE_ENV+=	LDFLAGS="-L${LOCALBASE}/lib"
 
 do-install:
 	${INSTALL_DATA_DIR} ${PREFIX}/include/libbt

@@ -28,8 +28,7 @@ pre-build:
 	mv cops.out cops && chmod u+x cops
 
 MAKE_FILE=	makefile
-MAKE_FLAGS=	EXECUTABLE="${EXECUTABLE}" C_SRC="${C_SRC}" \
-		CC="${CC}" CFLAGS="${CFLAGS}"
+MAKE_FLAGS=	EXECUTABLE="${EXECUTABLE}" C_SRC="${C_SRC}"
 
 NO_REGRESS=	Yes
 

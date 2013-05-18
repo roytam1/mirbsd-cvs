@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/x11/gnome/session/Makefile,v 1.1.7.1 2005/03/18 16:00:34 tg Exp $
 # $OpenBSD: Makefile,v 1.13 2004/12/15 13:57:57 alek Exp $
 
 COMMENT=		"GNOME session"
@@ -17,10 +17,9 @@ PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
-MODULES=		devel/gettext
+MODULES=		devel/gettext devel/pkgconfig
 
-BUILD_DEPENDS= 		:pkgconfig-*:devel/pkgconfig \
-			:p5-XML-Parser-*:textproc/p5-XML-Parser \
+BUILD_DEPENDS= 		:p5-XML-Parser-*:textproc/p5-XML-Parser \
 			:scrollkeeper-*:textproc/scrollkeeper
 LIB_DEPENDS= 		gnomeui-2.0::x11/gnome/libgnomeui
 
@@ -30,8 +29,6 @@ CONFIGURE_STYLE= 	autoconf
 AUTOCONF_NEW=		Yes
 CONFIGURE_ARGS+= 	--disable-rebuilds
 CONFIGURE_ARGS+=	--with-gconf-schema-file-dir=${LOCALBASE}/share/schemas/gnome-session
-CONFIGURE_ENV=		CPPFLAGS="-I${LOCALBASE}/include" \
-			LDFLAGS="-L${LOCALBASE}/lib"
 
 post-patch:
 	@ln -s /usr/bin/true ${WRKDIR}/bin/scrollkeeper-update

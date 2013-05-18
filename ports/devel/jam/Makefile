@@ -16,7 +16,6 @@ PERMIT_DISTFILES_FTP=	Yes
 MASTER_SITES=	 	ftp://ftp.perforce.com/pub/jam/	
 EXTRACT_SUFX=		.tar
 NO_REGRESS=		Yes
-MAKE_FLAGS=		CC="${CC}" CCFLAGS="${CFLAGS}"
 
 do-install:
 	${INSTALL_PROGRAM} ${WRKSRC}/bin/jam ${PREFIX}/bin

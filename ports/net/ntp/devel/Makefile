@@ -5,6 +5,6 @@ NTP_VERSION=	4.1.74
 CONFIGURE_ARGS+= --with-openssl-libdir=/usr/lib \
 		--with-openssl-incdir=/usr/include \
 		--with-crypto=openssl
-CONFIGURE_ENV=	CFLAGS="${CFLAGS} -DHAVE_IPV6"
+CPPFLAGS+=	-DHAVE_IPV6
 
 .include <bsd.port.mk>

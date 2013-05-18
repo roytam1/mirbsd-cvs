@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/graphics/sane-frontends/Makefile,v 1.2 2005/03/30 18:13:32 bsiegert Exp $
 # Original from: Antoine Jacoutot <ajacoutot@lphp.org>
 
 COMMENT=	"API for accessing scanners, frontends"
@@ -27,19 +27,6 @@ AUTOCONF_NEW=	Yes
 CONFIGURE_STYLE=autoconf
 
 CONFIGURE_ARGS+=	--disable-gtk2
-
-FLAVORS=	gimp
-FLAVOR?=
-
-.if ${FLAVOR:L} == "gimp"
-LIB_DEPENDS+=		gimp::graphics/gimp/stable
-CONFIGURE_ENV+=		CPPFLAGS="-I${LOCALBASE}/include -I${LOCALBASE}/include/gimp-1.2" \
-			LDFLAGS="-L${LOCALBASE}/lib"
-CONFIGURE_ARGS+=	--enable-gimp12
-.else
-CONFIGURE_ENV+=		CPPFLAGS="-I${LOCALBASE}/include" \
-			LDFLAGS="-L${LOCALBASE}/lib"
 CONFIGURE_ARGS+=	--disable-gimp
-.endif
 
 .include <bsd.port.mk>

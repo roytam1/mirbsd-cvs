@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/mailnews/evolution/Makefile,v 1.3 2005/07/07 21:22:43 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.12 2004/02/04 07:39:18 sturm Exp $
 
 BROKEN=			needs update to GNOME 2
@@ -56,8 +56,6 @@ CONFIGURE_ARGS+=	--with-krb5=/usr
 CONFIGURE_ARGS+=	--enable-openssl
 CONFIGURE_ARGS+=	--disable-pilot-conduits
 CONFIGURE_ARGS+=	--disable-gtk-doc
-CONFIGURE_ENV=		CPPFLAGS="-I${LOCALBASE}/include" \
-			LDFLAGS="-L${LOCALBASE}/lib"
 
 FLAVORS=		ldap
 FLAVOR?=

@@ -16,7 +16,7 @@ MASTER_SITES=	http://www.fh-wilhelmshaven.de/~akcaagaa/palmpower/files/
 
 USE_GMAKE=	Yes
 CONFIGURE_STYLE= gnu
-CONFIGURE_ENV=	CFLAGS="-Dunix ${CFLAGS}"
+CPPFLAGS+=	-Dunix
 
 post-build:
 	@(cd ${WRKSRC}/utils && ${CC} ${CFLAGS} -o splitprc splitprc.c)

@@ -12,9 +12,8 @@ PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_CDROM=	"patents"
 PERMIT_DISTFILES_FTP=	Yes
 
-MAKE_FLAGS=	CC="${CC}" \
-		CFLAGS="${CFLAGS} -fomit-frame-pointer -funroll-loops \
-		-Wall -Winline -Wshadow -W"
+CFLAGS+=		-fomit-frame-pointer -funroll-loops \
+			-Wall -Winline -Wshadow -W
 
 do-install:
 	${INSTALL_PROGRAM} ${WRKSRC}/bzip ${PREFIX}/bin

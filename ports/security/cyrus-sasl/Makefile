@@ -1,5 +1,7 @@
-# $MirOS: ports/security/cyrus-sasl/Makefile,v 1.1.7.1 2005/03/18 15:51:21 tg Exp $
+# $MirOS: ports/security/cyrus-sasl/Makefile,v 1.2 2006/02/09 09:36:15 tg Exp $
 # $OpenBSD: Makefile,v 1.12 2004/02/17 03:26:02 kevlo Exp $
+
+BROKEN=		-I/usr/local/include/db4
 
 COMMENT=	"RFC 2222 SASL (Simple Authentication and Security Layer)"
 DISTNAME=	cyrus-sasl-2.1.17
@@ -16,8 +18,7 @@ PERMIT_DISTFILES_FTP=	yes
 
 MODGNU_CONFIG_GUESS_DIRS= ${WRKSRC}/config ${WRKSRC}/saslauthd/config
 
-CONFIGURE_ENV+=		CFLAGS="-O2" LDFLAGS='${LDFLAGS}' \
-			CPPFLAGS="-I/usr/local/include/db4"
+CPPFLAGS+=		-I/usr/local/include/db4
 CONFIGURE_STYLE=	gnu
 CONFIGURE_ARGS+=	${CONFIGURE_SHARED}
 CONFIGURE_ARGS+=	--with-saslauthd="/var/sasl2" \

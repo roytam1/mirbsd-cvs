@@ -1,4 +1,4 @@
-# $MirOS: ports/x11/gnome/libgnomecanvas/Makefile,v 1.4 2005/12/29 17:46:58 bsiegert Exp $
+# $MirOS: ports/x11/gnome/libgnomecanvas/Makefile,v 1.5 2006/02/09 09:36:22 tg Exp $
 # $OpenBSD: Makefile,v 1.10 2004/12/27 18:57:58 sturm Exp $
 
 COMMENT=		"graphics library for GNOME"
@@ -19,7 +19,6 @@ PERMIT_DISTFILES_FTP=	Yes
 
 MODULES=		devel/gettext devel/pkgconfig
 
-BUILD_DEPENDS=		:pkgconfig-*:devel/pkgconfig
 LIB_DEPENDS=		art_lgpl_2::graphics/libart \
 			gdk-x11-2.0.0.3,gdk_pixbuf-2.0.0.3,gtk-x11-2.0.0.3::x11/gtk+ \
 			glade-2.0.0.0::devel/libglade \

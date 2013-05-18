@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/x11/gnome/eog/Makefile,v 1.1.7.1 2005/03/18 16:00:23 tg Exp $
 # $OpenBSD: Makefile,v 1.6 2005/02/13 18:50:25 alek Exp $
 
 COMMENT=		"Eye of GNOME: an image viewing and cataloging program"
@@ -16,10 +16,9 @@ PERMIT_DISTFILES_FTP=	Yes
 MASTER_SITES=		${MASTER_SITE_GNOME:=sources/eog/2.8/}	
 EXTRACT_SUFX=		.tar.bz2
 
-MODULES=		devel/gettext
+MODULES=		devel/gettext devel/pkgconfig
 
-BUILD_DEPENDS=		:pkgconfig-*:devel/pkgconfig \
-			:p5-XML-Parser-*:textproc/p5-XML-Parser \
+BUILD_DEPENDS=		:p5-XML-Parser-*:textproc/p5-XML-Parser \
 			:scrollkeeper-*:textproc/scrollkeeper
 LIB_DEPENDS=		gnomeui-2::x11/gnome/libgnomeui
 RUN_DEPENDS=		:scrollkeeper-*:textproc/scrollkeeper

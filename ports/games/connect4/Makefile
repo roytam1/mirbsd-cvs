@@ -17,7 +17,7 @@ EXTRACT_SUFX=	.Z
 EXTRACT_CASES=	*.Z) ${GZIP_CMD} -dc ${FULLDISTDIR}/$$archive | \
 		${_PERL_FIX_SHAR} | /bin/sh ;;
 
-MAKE_FLAGS=	CFLAGS='${CFLAGS} -DSCOREFILE=\"/var/games/connect4.scores\"'
+CPPFLAGS+=	-DSCOREFILE=\"/var/games/connect4.scores\"
 
 ALL_TARGET=	c4
 

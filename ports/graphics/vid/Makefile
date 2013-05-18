@@ -19,8 +19,7 @@ MASTER_SITES=	${MASTER_SITE_SOURCEFORGE:=ovtvid-bsd/}
 
 LIB_DEPENDS=	pbm,pnm::graphics/netpbm
 
-MAKE_FLAGS=	CFLAGS="${CFLAGS}" CPPFLAGS="-I${LOCALBASE}/include" \
-		LIBS="-L${LOCALBASE}/lib -lpnm -lpbm"
+MAKE_FLAGS=		LIBS="-L${LOCALBASE}/lib -lpnm -lpbm"
 ALL_TARGET=	default
 
 NO_REGRESS=	Yes

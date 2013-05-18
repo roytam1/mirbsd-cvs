@@ -10,8 +10,8 @@ HOMEPAGE=	http://www.enlightenment.org/
 
 LIB_DEPENDS=	esd.2::audio/esound \
 		Fnlib.5::graphics/fnlib \
-		ghttp.1::www/libghttp \
-		ttf.1.3::print/freetype
+		ghttp.1::www/libghttp
+MODULES+=		print/freetype
 
 
 # X11
@@ -24,7 +24,5 @@ USE_X11=	Yes
 USE_GMAKE=	Yes
 CONFIGURE_STYLE= gnu
 CONFIGURE_ARGS=	--enable-fsstd
-CONFIGURE_ENV=	CPPFLAGS="-I${X11BASE}/include -I${LOCALBASE}/include -I${LOCALBASE}/include/freetype1/freetype" \
-		LDFLAGS="-L${X11BASE}/lib -L${LOCALBASE}/lib"
 
 .include <bsd.port.mk>

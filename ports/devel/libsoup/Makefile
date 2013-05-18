@@ -19,7 +19,7 @@ EXTRACT_SUFX=		.tar.bz2
 
 LIB_DEPENDS=		glib-2.0.0.0,gobject-2.0.0.0,gthread-2.0.0.0::devel/glib \
 			xml2.7::textproc/libxml
-BUILD_DEPENDS=		:pkgconfig-*:devel/pkgconfig
+MODULES+=		devel/pkgconfig
 
 USE_GMAKE=		Yes
 CONFIGURE_STYLE=	autoconf

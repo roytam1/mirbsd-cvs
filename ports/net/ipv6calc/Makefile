@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/net/ipv6calc/Makefile,v 1.1.7.1 2005/03/18 15:48:25 tg Exp $
 # $OpenBSD: Makefile,v 1.9 2003/12/12 18:07:36 pvalchev Exp $
 
 COMMENT=	"tool for manipulating IPv6 addresses"
@@ -18,7 +18,7 @@ PERMIT_DISTFILES_FTP=	Yes
 
 CONFIGURE_STYLE= gnu
 
-MAKE_FLAGS=	CC="${CC}" COPTS+="${CFLAGS}"
+MAKE_FLAGS=	COPTS="${CFLAGS}"
 
 REGRESS_TARGET=	test
 

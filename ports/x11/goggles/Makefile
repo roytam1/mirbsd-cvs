@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/x11/goggles/Makefile,v 1.2 2005/07/06 19:21:41 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.2 2004/02/12 02:19:39 espie Exp $
 
 COMMENT=		'gui for ogle'
@@ -27,8 +27,5 @@ CONFIGURE_STYLE=	autoconf
 AUTOCONF_NEW=		Yes
 CONFIGURE_ARGS+=	--with-dvdcontrol=${LOCALBASE} \
 			--with-fox=${LOCALBASE}
-#CONFIGURE_ENV+=		CPPFLAGS=-I${X11BASE}/include \
-#			LDFLAGS=-L${X11BASE}/lib
-#MAKE_FLAGS=		INCLUDES=-I${X11BASE}/include
 
 .include <bsd.port.mk>

@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/audio/mpg123/Makefile,v 1.2 2005/07/07 21:17:22 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.30 2003/11/13 20:51:50 margarida Exp $
 
 COMMENT=	"MPEG audio 1/2 Layer 1, 2 and 3 player"
@@ -33,8 +33,6 @@ ALL_TARGET=	mirbsd-esd
 .else
 ALL_TARGET=	mirbsd
 .endif
-
-MAKE_FLAGS+=	CC="${CC}" COPTS="${COPTS}" CPPFLAGS="${CPPFLAGS}"
 
 post-patch:
 	@cp ${FILESDIR}/audio_openbsd.c ${FILESDIR}/term.c ${WRKSRC}

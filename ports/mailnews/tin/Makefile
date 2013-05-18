@@ -31,8 +31,6 @@ CONFIGURE_ARGS+=	--with-ispell=${LOCALBASE}/bin/ispell \
 			--with-pcre=${LOCALBASE} \
 			--enable-break-long-lines \
 			--enable-ipv6
-CONFIGURE_ENV=	CPPFLAGS="-I${LOCALBASE}/include" \
-		LDFLAGS="-L${LOCALBASE}/lib"
 
 LIB_DEPENDS+=	pcre::devel/pcre \
 		utf8::misc/libutf8

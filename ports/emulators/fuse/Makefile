@@ -19,16 +19,14 @@ MASTER_SITES=		${MASTER_SITE_SOURCEFORGE:=fuse-emulator/}
 
 USE_X11=		Yes
 
-BUILD_DEPENDS=		::devel/pkgconfig
 LIB_DEPENDS=		glib-2.0.0.8,gmodule-2.0.0.8,gobject-2.0.0.8::devel/glib \
 			spectrum.3::devel/libspectrum \
-			765.3::devel/lib765 png.3::graphics/png \
+			765.3::devel/lib765 \
 			xml2.7::textproc/libxml
+MODULES+=		devel/pkgconfig graphics/png
 
 CONFIGURE_STYLE=	gnu
-CONFIGURE_ENV=		CPPFLAGS="-I${LOCALBASE}/include/libpng" \
-			LDFLAGS="-L${LOCALBASE}/lib" \
-			LIBS="-lbz2"
+CONFIGURE_ENV=		LIBS="-lbz2"
 
 FLAVORS=gtk
 FLAVOR?=

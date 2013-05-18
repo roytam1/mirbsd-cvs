@@ -18,8 +18,7 @@ PERMIT_DISTFILES_FTP=	Yes
 
 LIB_DEPENDS=	net::net/libnet
 
-MAKE_FLAGS+=	CC='${CC}' CFLAGS='${CFLAGS}' \
-		DEFS='-I${LOCALBASE}/include `libnet-config --defines`' \
+MAKE_FLAGS+=	DEFS='-I${LOCALBASE}/include `libnet-config --defines`' \
 		LIBS='-L${LOCALBASE}/lib -lnet -lpcap'
 
 NO_REGRESS=	Yes

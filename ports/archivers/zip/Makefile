@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/archivers/zip/Makefile,v 1.2 2005/07/07 21:17:05 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.30 2003/05/24 02:40:42 jolan Exp $
 # $FreeBSD: Makefile,v 1.11 1997/11/25 20:45:45 ache Exp $
 
@@ -20,7 +20,7 @@ PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
-MAKE_FLAGS=	CC="${CC}" CFLAGS="${CFLAGS} -I. -DUNIX"
+CPPFLAGS+=		-I. -DUNIX
 FAKE_FLAGS=	prefix="${WRKINST}${PREFIX}"
 
 MAKE_FILE=	unix/Makefile

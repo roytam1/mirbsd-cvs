@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/x11/gnome/games/Makefile,v 1.2 2005/07/06 19:21:39 bsiegert Exp $
 
 COMMENT=		"GNOME games"
 
@@ -20,10 +20,9 @@ PERMIT_DISTFILES_FTP=	Yes
 
 EXTRACT_SUFX=		.tar.bz2
 
-MODULES=		devel/gettext
+MODULES=		devel/gettext devel/pkgconfig
 
-BUILD_DEPENDS=		:pkgconfig-*:devel/pkgconfig \
-			:intltool-*:textproc/intltool \
+BUILD_DEPENDS=		:intltool-*:textproc/intltool \
 			:p5-XML-Parser-*:textproc/p5-XML-Parser
 LIB_DEPENDS=		gsf-1::devel/libgsf \
 			croco-0.6.3.0::textproc/libcroco \

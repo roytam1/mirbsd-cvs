@@ -19,8 +19,6 @@ LIB_DEPENDS=	gsm.1.0::audio/gsm
 CONFIGURE_STYLE= gnu dest
 CONFIGURE_ARGS+= ${CONFIGURE_SHARED}
 CONFIGURE_ARGS+= --enable-static
-CONFIGURE_ENV=	CPPFLAGS="-I${LOCALBASE}/include" \
-		LDFLAGS="-L${LOCALBASE}/lib"
 
 post-extract:
 	@cd ${WRKSRC}/doc && mv rplay.texi rplayd.texi

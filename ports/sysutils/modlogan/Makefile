@@ -19,8 +19,7 @@ LIB_DEPENDS=	expat.3::textproc/expat \
 
 CONFIGURE_STYLE= gnu
 CONFIGURE_ARGS+= --libdir=${PREFIX}/lib/modlogan
-CONFIGURE_ENV += LOCALBASE="${LOCALBASE}" \
-		 LDFLAGS="-L${LOCALBASE}/lib"
+CONFIGURE_ENV += LOCALBASE="${LOCALBASE}" 
 
 NO_REGRESS=	Yes
 

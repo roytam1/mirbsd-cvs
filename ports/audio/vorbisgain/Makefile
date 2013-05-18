@@ -18,8 +18,6 @@ LIB_DEPENDS=		vorbis.2,vorbisfile.3::audio/libvorbis
 
 CONFIGURE_STYLE=	gnu
 CONFIGURE_ARGS=		--enable-recursive
-CONFIGURE_ENV=		CPPFLAGS="-I${LOCALBASE}/include" \
-			LDFLAGS="-L${LOCALBASE}/lib"
 
 post-extract:
 	@chmod 755 ${WRKDIST}/configure

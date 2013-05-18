@@ -27,8 +27,6 @@ CONFIGURE_ARGS=	--os=OpenBSD --no-menu
 
 NO_REGRESS=	Yes
 
-MAKE_FLAGS=	CC='${CC}' CFLAGS='${CFLAGS}'
-
 CINS=	cj.cin cj.tab cj.tab.rev phone.tab phone.cin phone.tab phone.tab.rev \
 	pinyin.cin pinyin.tab pinyin.tab.rev array30.cin array30.tab \
 	array30.tab.rev zmdbosh.cin  zmdbosh.tab zmdbosh.tab.rev 

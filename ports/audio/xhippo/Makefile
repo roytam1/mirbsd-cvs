@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/audio/xhippo/Makefile,v 1.2 2005/05/01 13:40:32 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.11 2004/04/02 19:07:04 sturm Exp $
 
 COMMENT=	"generic playlist manager for UNIX"
@@ -16,7 +16,6 @@ PERMIT_DISTFILES_FTP=  Yes
 
 MASTER_SITES=	${MASTER_SITE_GNU:=xhippo/}
 
-BUILD_DEPENDS=	:pkgconfig-*:devel/pkgconfig
 LIB_DEPENDS=	gdk_pixbuf_xlib-2.0.0.0::x11/gtk+ \
 		id3tag.2::audio/libid3tag
 
@@ -25,10 +24,8 @@ USE_CXX=	Yes
 CONFIGURE_STYLE= autoconf
 AUTOCONF_NEW=	Yes
 CONFIGURE_ARGS=	--with-gtk2
-CONFIGURE_ENV=  CPPFLAGS="-I${LOCALBASE}/include" \
-		LDFLAGS="-L${LOCALBASE}/lib"
 
-MODULES=	devel/gettext
+MODULES=	devel/gettext devel/pkgconfig
 
 DOCS=	ChangeLog gnu-xhippo.html screenshot.jpeg xhippo.html.gz \
 	xhippo.info.gz xhippo.ps.gz xhippo.sgml xhippo.txt.gz xhippo_toc.html

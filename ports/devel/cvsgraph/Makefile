@@ -15,13 +15,13 @@ PERMIT_DISTFILES_FTP=	Yes
 MASTER_SITES=		${HOMEPAGE}/release/
 
 LIB_DEPENDS=		gd.18::graphics/gd \
-			jpeg::graphics/jpeg \
-			png::graphics/png
+			jpeg::graphics/jpeg
+MODULES+=		graphics/png
 
 ALL_TARGET=		
 
 CONFIGURE_STYLE=	gnu dest
-CONFIGURE_ENV=		LDFLAGS="-L${LOCALBASE}/lib" LIBS="-lttf -lm"
+CONFIGURE_ENV=		LIBS="-lttf -lm"
 CONFIGURE_ARGS=		--with-gd-inc=${LOCALBASE}/include \
 			--with-gd-lib=${LOCALBASE}/lib
 CONFIGURE_ARGS+=	--with-jpeg-inc=${LOCALBASE}/include \

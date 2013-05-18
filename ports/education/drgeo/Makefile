@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/education/drgeo/Makefile,v 1.2 2005/03/25 23:13:47 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.1.1.1 2004/02/21 12:31:02 espie Exp $
 
 COMMENT=	"interactive geometry program"
@@ -18,9 +18,8 @@ PERMIT_DISTFILES_FTP=	Yes
 MASTER_SITES=	${MASTER_SITE_SOURCEFORGE:=ofset/}
 DISTFILES=	${DISTNAME}.tar.gz
 
-MODULES=	devel/gettext
+MODULES=	devel/gettext devel/pkgconfig
 
-BUILD_DEPENDS=	:pkgconfig-*:devel/pkgconfig
 LIB_DEPENDS=	xml2.6::textproc/libxml \
 		glade-2.0.0.0::devel/libglade \
 		guile::lang/guile

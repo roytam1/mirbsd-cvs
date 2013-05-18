@@ -1,4 +1,4 @@
-# $MirOS: ports/multimedia/mplayer/Makefile,v 1.11 2005/08/21 11:49:33 tg Exp $
+# $MirOS: ports/multimedia/mplayer/Makefile,v 1.12 2005/12/28 21:02:13 tg Exp $
 # $OpenBSD: Makefile,v 1.83 2005/05/09 12:24:38 biorn Exp $
 
 # May not be hard to add more.
@@ -27,10 +27,9 @@ MASTER_SITES+=		http://ftp.lug.udel.edu/MPlayer/releases/
 
 .include <mirports.sys.mk>
 
-MODULES=	converters/libiconv
+MODULES=	converters/libiconv graphics/png
 
-LIB_DEPENDS=	png::graphics/png \
-		jpeg::graphics/jpeg \
+LIB_DEPENDS=	jpeg::graphics/jpeg \
 		mp3lame::audio/lame,no_x11 \
 		theora::multimedia/libtheora \
 		cdda_paranoia,cdda_interface:cdparanoia->=3.a9.8:audio/cdparanoia

@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/www/gtk-webcore/Makefile.inc,v 1.1 2005/06/14 16:49:25 bsiegert Exp $
 
 VERSION=		0.5.0
 DASH_VER?=		0
@@ -16,8 +16,8 @@ PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
-BUILD_DEPENDS=          :pkgconfig-*:devel/pkgconfig
 LIB_DEPENDS+=		xml2::textproc/libxml
+MODULES+=		devel/pkgconfig
 
 USE_X11=		Yes
 CONFIGURE_STYLE= 	autoconf

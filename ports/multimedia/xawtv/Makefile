@@ -1,4 +1,4 @@
-# $MirOS: ports/multimedia/xawtv/Makefile,v 1.2 2005/04/10 21:50:35 tg Exp $
+# $MirOS: ports/multimedia/xawtv/Makefile,v 1.3 2005/04/11 15:56:17 tg Exp $
 # $OpenBSD: Makefile,v 1.1.1.1 2003/11/16 16:17:58 sturm Exp $
 
 ONLY_FOR_PLATFORM=	*:*:i386 *:*:macppc
@@ -18,6 +18,7 @@ PERMIT_DISTFILES_FTP=	Yes
 LIB_DEPENDS=		jpeg.62::graphics/jpeg \
 			aa.1.3::graphics/aalib \
 			png.2::graphics/png
+MODULES+=		devel/pkgconfig
 
 .if ${MACHINE_ARCH} == "i386"
 FLAVORS=		mmx
@@ -32,7 +33,6 @@ CONFIGURE_ARGS+=	--disable-mmx
 CONFIGURE_STYLE=	gnu
 CONFIGURE_ARGS+=	--enable-aa --disable-motif \
 			--disable-alsa --disable-lirc
-CONFIGURE_ENV=		PKG_CONFIG_PATH="${X11BASE}/lib/pkgconfig"
 
 MAKE_FLAGS=	verbose=yes SYSCONFDIR="${SYSCONFDIR}"
 NO_REGRESS=	Yes

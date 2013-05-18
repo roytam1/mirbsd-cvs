@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/graphics/xsane/Makefile,v 1.2 2005/03/30 18:13:33 bsiegert Exp $
 # Original from: Antoine Jacoutot <ajacoutot@lphp.org>
 
 COMMENT=	"scanner frontend for SANE"
@@ -21,9 +21,8 @@ PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
-MODULES=	devel/gettext
+MODULES=	devel/gettext graphics/png
 LIB_DEPENDS=	gtk.1.2,gdk.1.2::x11/gtk+1 \
-		png.2::graphics/png \
 		jpeg.62::graphics/jpeg \
 		tiff.35::graphics/tiff 
 
@@ -34,20 +33,6 @@ CONFIGURE_STYLE=	autoconf no-autoheader
 
 CONFIGURE_ARGS+=	--disable-gtk2 \
 			--disable-gimp2
-
-FLAVORS=	gimp
-FLAVOR?=
-
-.if ${FLAVOR:L} == "gimp"
-LIB_DEPENDS+=		gimp::graphics/gimp/stable
-CONFIGURE_ENV+=		CPPFLAGS="-I${LOCALBASE}/include \
-				 -I${LOCALBASE}/include/gimp-1.2 \
-				 -I${LOCALBASE}/include/libpng" \
-			LDFLAGS="-L${LOCALBASE}/lib"
-.else
-CONFIGURE_ENV+=		CPPFLAGS="-I${LOCALBASE}/include -I${LOCALBASE}/include/libpng" \
-			LDFLAGS="-L${LOCALBASE}/lib"
 CONFIGURE_ARGS+=	--disable-gimp
-.endif
 
 .include <bsd.port.mk>

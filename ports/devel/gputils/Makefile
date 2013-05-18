@@ -23,7 +23,6 @@ MASTER_SITES0=		http://www.ajd.net.au/ports/
 
 CONFIGURE_STYLE=	gnu autoconf
 AUTOCONF_NEW=		Yes
-CONFIGURE_ENV=		"CC=${CC}" "CPP=${CPP}" "CFLAGS=${CFLAGS}" "CPPFLAGS=${CPPFLAGS}" "LDFLAGS=${LDFLAGS}"
 
 # Commands used to create the testsuite tarball
 # I put these here mainly for documentation, but if you can't fetch

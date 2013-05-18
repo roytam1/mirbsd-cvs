@@ -20,8 +20,6 @@ PERMIT_DISTFILES_FTP=	Yes
 USE_X11=		Yes
 CONFIGURE_STYLE= 	gnu dest
 
-CONFIGURE_ENV=		CPPFLAGS='${CPPFLAGS} -I${X11BASE}/include'
-
 NO_REGRESS=	Yes
 
 .include <bsd.port.mk>

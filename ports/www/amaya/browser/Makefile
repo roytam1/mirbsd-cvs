@@ -24,8 +24,8 @@ LIB_DEPENDS+=		gdk_imlib.19::graphics/imlib
 .elif ${FLAVOR:L} == "motif"
 
 USE_MOTIF=		any
-LIB_DEPENDS+=		jpeg.62::graphics/jpeg \
-			png.2::graphics/png 
+LIB_DEPENDS+=		jpeg.62::graphics/jpeg
+MODULES+=		graphics/png
 CONFIGURE_ARGS+=	--without-gtk \
 			--with-motif-includes=${LOCALBASE}/include \
 			--with-motif-libraries=${LOCALBASE}/lib
@@ -42,8 +42,6 @@ USE_GMAKE=		Yes
 CONFIGURE_STYLE=	autoconf dest
 MODGNU_CONFIG_GUESS_DIRS= ${WRKSRC} ${WRKSRC}/../libwww/config
 CONFIGURE_SCRIPT=	../configure
-CONFIGURE_ENV=		CPPFLAGS="-I${LOCALBASE}/include -I${LOCALBASE}/include/libpng" \
-			LIBS="-L${LOCALBASE}/lib"
 CONFIGURE_ARGS+=	--without-graphic-libs
 
 # We need to regenerate configure in two places, Amaya/ and libwww/

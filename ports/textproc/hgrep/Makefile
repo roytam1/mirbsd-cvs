@@ -19,8 +19,6 @@ DISTFILES=		hgrep_04oct1999.tar.gz
 
 NO_REGRESS=		Yes
 
-MAKE_FLAGS=	CC="${CC}" CFLAGS="${CFLAGS}" LDFLAGS=""
-
 WRKDIST=	${WRKDIR}/hgrep
 
 do-install:

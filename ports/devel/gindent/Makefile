@@ -21,8 +21,6 @@ MODULES=	devel/gettext
 NO_REGRESS=	Yes
 CONFIGURE_STYLE= gnu
 CONFIGURE_ARGS=	--program-prefix="g" --without-included-gettext
-CONFIGURE_ENV=	CPPFLAGS="-I${LOCALBASE}/include" \
-		LDFLAGS="-L${LOCALBASE}/lib"
 MAKE_ARGS=	BERKELEY_DEFAULTS=1
 
 .include <bsd.port.mk>

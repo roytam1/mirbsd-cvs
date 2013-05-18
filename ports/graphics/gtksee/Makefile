@@ -1,4 +1,4 @@
-# $MirOS: ports/graphics/gtksee/Makefile,v 1.2 2005/03/30 18:13:31 bsiegert Exp $
+# $MirOS: ports/graphics/gtksee/Makefile,v 1.3 2006/02/09 09:35:54 tg Exp $
 # $OpenBSD: Makefile,v 1.16 2004/04/18 23:20:28 jcs Exp $
 
 COMMENT=	"image viewer similar to ACDSee for Windows"
@@ -15,16 +15,14 @@ PERMIT_DISTFILES_FTP=	Yes
 
 LIB_DEPENDS=	gtk.1.2,gdk.1.2::x11/gtk+1 \
 		jpeg.62::graphics/jpeg \
-		tiff.35::graphics/tiff \
-		png.2::graphics/png
+		tiff.35::graphics/tiff
 RUN_DEPENDS=	:bzip-*:archivers/bzip \
 		:bzip2-*:archivers/bzip2
+MODULES+=		graphics/png
 
 USE_X11=	Yes
 
 CONFIGURE_STYLE= gnu
-CONFIGURE_ENV=	CPPFLAGS="-I${LOCALBASE}/include/libpng -I${LOCALBASE}/include" \
-		LDFLAGS="-L${LOCALBASE}/lib"
 CONFIGURE_ARGS+=--with-im-libs="${PREFIX}/lib" \
 		--with-im-incs="${PREFIX}/include"
 

@@ -1,4 +1,4 @@
-# $MirOS: ports/net/rrdtool/Makefile,v 1.1.7.1 2005/03/18 15:49:02 tg Exp $
+# $MirOS: ports/net/rrdtool/Makefile,v 1.2 2005/04/10 21:50:47 tg Exp $
 # $OpenBSD: Makefile,v 1.24 2004/02/15 20:59:58 sturm Exp $
 
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
@@ -22,8 +22,7 @@ SUBST_VARS=	VERSION
 FLAVORS=	tcl
 FLAVOR?=
 
-LIB_DEPENDS=	png.4::graphics/png
-
+MODULES+=		graphics/png
 CONFIGURE_STYLE= autoconf
 CONFIGURE_ARGS+= ${CONFIGURE_SHARED} --enable-static \
 		--enable-local-libpng \
@@ -38,8 +37,6 @@ CFLAGS+=	-I${LOCALBASE}/include/tcl8.4
 .else
 CONFIGURE_ARGS+= --without-tcllib
 .endif
-
-CFLAGS+=	-I${LOCALBASE}/include/libpng
 
 .if ${FLAVOR:L:Mtcl}
 post-install:

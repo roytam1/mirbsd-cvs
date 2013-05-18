@@ -1,4 +1,4 @@
-# $MirOS: ports/www/links+/Makefile,v 1.1.7.1 2005/03/18 15:59:37 tg Exp $
+# $MirOS: ports/www/links+/Makefile,v 1.3 2005/07/07 21:27:39 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.15 2003/11/17 22:59:32 fgsch Exp $
 
 COMMENT=	"graphics and text browser with javascript support"
@@ -25,12 +25,11 @@ CONFIGURE_ARGS+=--enable-javascript --with-ssl --without-pmshell \
 
 .if !${FLAVOR:L:Mno_x11}
 LIB_DEPENDS=	jpeg.62::graphics/jpeg \
-		png.2::graphics/png \
 		tiff.35::graphics/tiff
+MODULES+=		graphics/png
 USE_X11=	Yes
 CONFIGURE_ARGS+=--with-x --enable-graphics \
 		--with-libjpeg --with-libtiff
-CPPFLAGS+=	-I${LOCALBASE}/include/libpng
 .else
 CONFIGURE_ARGS+=--without-x --disable-graphics \
 		--without-libjpeg --without-libtiff

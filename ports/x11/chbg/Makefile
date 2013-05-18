@@ -18,11 +18,11 @@ PERMIT_DISTFILES_FTP=	Yes
 MASTER_SITES=		${MASTER_SITE_SOURCEFORGE:=chbg/}
 
 LIB_DEPENDS=		gdk_imlib.19::graphics/imlib
+MODULES+=		graphics/png
 
 CONFIGURE_ARGS=		--with-image-library=gdkimlib \
 			--with-imlib1-config=${LOCALBASE}/bin/imlib-config \
 			--with-gtk-config=${LOCALBASE}/bin/gtk-config
-CONFIGURE_ENV=		CPPFLAGS="-I${LOCALBASE}/include/libpng"
 
 # Will install some stub files for gnome. Needed if Gnome not installed
 # when packaging.

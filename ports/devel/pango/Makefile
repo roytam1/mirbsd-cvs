@@ -1,4 +1,4 @@
-# $MirOS: ports/devel/pango/Makefile,v 1.4 2005/09/22 20:04:19 bsiegert Exp $
+# $MirOS: ports/devel/pango/Makefile,v 1.5 2005/09/25 15:42:14 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.7 2003/09/23 06:12:41 marcm Exp $
 
 COMMENT=		"library for layout and rendering of text"
@@ -19,7 +19,7 @@ EXTRACT_SUFX=           .tar.bz2
 
 LIB_DEPENDS+=		glib-2.0.0.800,gmodule-2.0.0.800,gobject-2.0.0.800::devel/glib
 LIB_DEPENDS+=		cairo.2::graphics/cairo
-BUILD_DEPENDS=          :pkgconfig-*:devel/pkgconfig
+MODULES+=		devel/pkgconfig
 
 USE_X11=		Yes
 USE_GMAKE=		Yes
@@ -29,7 +29,6 @@ AUTOCONF_NEW=		Yes
 CONFIGURE_ARGS+=	${CONFIGURE_SHARED}
 CONFIGURE_ARGS+=	--enable-static
 CONFIGURE_ARGS+=	--without-qt
-CONFIGURE_ENV+=		PKG_CONFIG_PATH="${LOCALBASE}/lib/pkgconfig:${X11BASE}/lib/pkgconfig"
 
 post-install:
 	@${INSTALL_DATA_DIR} ${PREFIX}/share/examples/pango; \

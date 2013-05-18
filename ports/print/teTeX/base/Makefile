@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/print/teTeX/base/Makefile,v 1.2 2005/07/07 21:25:36 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.25 2003/04/04 21:19:23 sturm Exp $
 
 COMMENT=	"TeX distribution, executables"
@@ -12,7 +12,7 @@ DISTFILES=	tetex-src-${VERSION}.tar.gz
 #BUILD_DEPENDS=	:teTeX_texmf->=2.0:print/teTeX/texmf
 RUN_DEPENDS=	:teTeX_texmf->=2.0:print/teTeX/texmf \
 		:texi2html->=1.56:textproc/texi2html
-LIB_DEPENDS=	png.3::graphics/png
+MODULES+=		graphics/png
 
 CONFIGURE_STYLE=dest autogen no-autoheader
 AUTOGEN=	${SHELL} ${WRKSRC}/reautoconf

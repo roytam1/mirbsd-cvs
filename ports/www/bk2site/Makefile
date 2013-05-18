@@ -16,8 +16,6 @@ MASTER_SITES=	${MASTER_SITE_SOURCEFORGE:=bk2site/}
 
 CONFIGURE_STYLE=	gnu
 CONFIGURE_ARGS=		--enable-standard-datadir
-MAKE_FLAGS=		CXXFLAGS="${CXXFLAGS}"
-
 
 post-install:
 	${INSTALL_MAN} ${WRKSRC}/bk2site.1 ${PREFIX}/man/man1/

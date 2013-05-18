@@ -16,7 +16,6 @@ PERMIT_DISTFILES_FTP=	Yes
 MASTER_SITES=		ftp://mcrypt.hellug.gr/pub/mcrypt/shash/
 
 CONFIGURE_STYLE=	gnu
-CONFIGURE_ENV+=		CFLAGS='-I${LOCALBASE}/include -L${LOCALBASE}/lib'
 
 FLAVORS=		static
 FLAVOR?=

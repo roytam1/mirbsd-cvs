@@ -16,8 +16,6 @@ PERMIT_DISTFILES_FTP=	yes
 MASTER_SITES=		ftp://fast.cs.utah.edu/pub/skill-${VERSION}/
 EXTRACT_SUFX=		.tgz
 
-MAKE_FLAGS=		CC='${CC}' CFLAGS='${CFLAGS}'
-
 NO_REGRESS=		Yes
 
 do-configure:

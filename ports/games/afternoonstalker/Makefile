@@ -23,6 +23,5 @@ USE_X11=	Yes
 USE_CXX=	Yes
 
 CONFIGURE_STYLE= gnu
-CONFIGURE_ENV=	CPPFLAGS="-I${LOCALBASE}/include"
 
 .include <bsd.port.mk>

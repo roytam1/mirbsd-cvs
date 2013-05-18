@@ -17,9 +17,6 @@ PERMIT_DISTFILES_FTP=	Yes
 USE_CXX=		Yes
 
 CONFIGURE_STYLE= gnu
-CONFIGURE_ENV=  CPPFLAGS="-I${X11BASE}/include -I${LOCALBASE}/include" \
-		LDFLAGS="-L${X11BASE}/lib -L${LOCALBASE}/lib"
-
 NO_REGRESS=	Yes
 
 post-patch:

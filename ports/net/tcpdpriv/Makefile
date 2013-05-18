@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/net/tcpdpriv/Makefile,v 1.1.7.1 2005/03/18 15:49:07 tg Exp $
 # $OpenBSD: Makefile,v 1.1.1.1 2003/04/13 10:00:41 sturm Exp $
 
 COMMENT=	"removes sensitive information from a tcpdump -w file"
@@ -17,8 +17,6 @@ PERMIT_DISTFILES_FTP=	Yes
 
 MASTER_SITES=		ftp://ita.ee.lbl.gov/software/
 EXTRACT_SUFX=		.tar.Z
-
-MAKE_FLAGS=		CC="${CC}" CFLAGS="${CFLAGS}"
 
 NO_REGRESS=		Yes
 

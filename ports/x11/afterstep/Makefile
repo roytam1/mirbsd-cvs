@@ -10,10 +10,9 @@ MASTER_SITES=   ftp://ftp.afterstep.org/stable/
 HOMEPAGE=	http://www.afterstep.org/
 
 RUN_DEPENDS=	::x11/asclock
-LIB_DEPENDS=	png.2::graphics/png \
-		jpeg.62::graphics/jpeg \
+LIB_DEPENDS=	jpeg.62::graphics/jpeg \
 		rplay.::audio/rplay
-
+MODULES+=		graphics/png
 
 # GPL/LGPL/X11
 PERMIT_PACKAGE_CDROM=   Yes
@@ -29,9 +28,6 @@ CONFIGURE_ARGS+= --with-jpeg-includes=${LOCALBASE}/include
 CONFIGURE_ARGS+= --with-jpeg-library=${LOCALBASE}/lib
 CONFIGURE_ARGS+= --with-png-includes=${LOCALBASE}/include/libpng
 CONFIGURE_ARGS+= --with-png-library=${LOCALBASE}/lib
-CONFIGURE_ENV=	CPPFLAGS="-I${LOCALBASE}/include" \
-		LDFLAGS="-L${LOCALBASE}/lib" \
-		CFLAGS="${CFLAGS} -fsigned-char"
 
 NO_REGRESS=	Yes
 		

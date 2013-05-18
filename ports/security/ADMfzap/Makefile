@@ -19,7 +19,6 @@ MASTER_SITES=   	ftp://adm.freelsd.net/pub/ADM/ \
                 	http://adm.freelsd.net/ADM/
 
 MAKE_ENV+=      	LIB_PATH=`/bin/ls -1 /usr/lib/libc.so.* | tail -1`
-MAKE_FLAGS=		CC="${CC}"
 ALL_TARGET=     	openbsd
 
 NO_REGRESS=		Yes

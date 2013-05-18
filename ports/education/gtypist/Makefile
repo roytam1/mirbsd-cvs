@@ -18,8 +18,5 @@ MASTER_SITES=	${MASTER_SITE_GNU:=gtypist/}
 MODULES=	devel/gettext
 
 CONFIGURE_STYLE=gnu
-CONFIGURE_ENV=	CPPFLAGS="-I${LOCALBASE}/include" \
-		LDFLAGS="-L${LOCALBASE}/lib" \
-		MAKEINFO="makeinfo --no-split"
 
 .include <bsd.port.mk>

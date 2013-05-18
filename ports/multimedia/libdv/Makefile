@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/multimedia/libdv/Makefile,v 1.3 2005/03/30 18:13:37 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.1.1.1 2004/06/26 18:00:27 sturm Exp $
 
 COMMENT=		"Quasar DV codec"
@@ -16,20 +16,16 @@ PERMIT_DISTFILES_FTP=	Yes
 
 MASTER_SITES=		${MASTER_SITE_SOURCEFORGE:=libdv/}
 
-BUILD_DEPENDS=		::devel/pkgconfig
-
 LIB_DEPENDS=		SDL.2::devel/sdl \
 			gdk.1.2,gtk.1.2::x11/gtk+1 \
 			glib.1.2,gmodule.1.2::devel/glib1 \
 			popt.0::devel/popt
+MODULES+=		devel/pkgconfig
 
 USE_X11=		Yes
 CONFIGURE_STYLE=	gnu
 CONFIGURE_ARGS+=	${CONFIGURE_SHARED}
 CONFIGURE_ARGS+=	--with-gnu-ld=no --enable-sdl --enable-gtk \
 			--with-x --without-debug
-CONFIGURE_ENV+=		CPPFLAGS="-I${LOCALBASE}/include" \
-			LDFLAGS="-L${LOCALBASE}/lib" \
-			PKG_CONFIG_PATH=${PKG_CONFIG_PATH}:${X11BASE}/lib/pkgconfig
 
 .include <bsd.port.mk>

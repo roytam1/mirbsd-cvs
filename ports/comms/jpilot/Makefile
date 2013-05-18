@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/comms/jpilot/Makefile,v 1.3 2005/07/07 21:18:00 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.23 2003/03/03 03:01:58 fgsch Exp $
 
 COMMENT=	"desktop organizer software for the palm pilot"
@@ -21,9 +21,6 @@ USE_X11=	Yes
 USE_CXX=	Yes
 CONFIGURE_STYLE=autoconf
 AUTOCONF_NEW=	Yes
-CONFIGURE_ENV=	CPPFLAGS="-I${LOCALBASE}/include" \
-		CFLAGS="-I${LOCALBASE}/include" \
-		LDFLAGS="-L${LOCALBASE}/lib"
 
 CONFIGURE_ARGS+=--disable-pl-test
 

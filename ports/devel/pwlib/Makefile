@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/devel/pwlib/Makefile,v 1.1.7.1 2005/03/18 15:45:24 tg Exp $
 
 COMMENT=		"cross platform C++ socket and stuff library"
 VERSION=		1.6.3
@@ -30,7 +30,7 @@ CONFIGURE_ENV=		STDCCFLAGS="-I${LOCALBASE}/include/ptlib/unix"
 CONFIGURE_ARGS+=	--enable-internalregex
 CONFIGURE_ARGS+=	--disable-openssl		# broken for now
 CONFIGURE_ARGS+=	--disable-sdl --disable-openldap
-MAKE_ENV=		PWLIBDIR=${WRKDIST} LDFLAGS="-L${X11BASE}/lib"
+MAKE_ENV=		PWLIBDIR=${WRKDIST}
 ALL_TARGET=		optshared
 
 NO_REGRESS=     	Yes

@@ -18,7 +18,6 @@ PERMIT_DISTFILES_FTP=	Yes
 NO_REGRESS=	Yes
 USE_GMAKE=	Yes
 USE_CXX=	Yes
-MAKE_ENV=	CC="${CC}" CXX="${CXX}" CXXFLAGS="${CXXFLAGS}"
 
 do-install:
 	${INSTALL_PROGRAM} ${WRKSRC}/ttygrin ${PREFIX}/bin/ttygrin

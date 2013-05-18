@@ -23,8 +23,6 @@ MODULES=	devel/gettext
 
 CONFIGURE_STYLE=autoconf
 AUTOCONF_NEW=	Yes
-CONFIGURE_ENV=	CPPFLAGS="-I${LOCALBASE}/include" \
-		LDFLAGS="-L${LOCALBASE}/lib"
 CONFIGURE_ARGS=	--enable-all
 
 .if ${FLAVOR:L:Mslang}

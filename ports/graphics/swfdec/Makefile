@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/graphics/swfdec/Makefile,v 1.2 2005/05/01 13:50:50 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.4 2003/12/10 21:28:58 naddy Exp $
 
 COMMENT=	"flash rendering library"
@@ -15,20 +15,16 @@ PERMIT_DISTFILES_FTP=	Yes
 PERMIT_PACKAGE_CDROM=	Yes
 PERMIT_PACKAGE_FTP=	Yes
 
-BUILD_DEPENDS+=	:pkgconfig->=0.12.0p1:devel/pkgconfig
-
 LIB_DEPENDS=	SDL::devel/sdl \
 		mad.2::audio/libmad \
 		art_lgpl_2.5::graphics/libart \
 		gdk-x11-2.0.0.11,gdk_pixbuf-2.0.0.11,gtk-x11-2.0.0.11::x11/gtk+
+MODULES+=		devel/pkgconfig
 
 USE_CXX=	Yes
 
 CONFIGURE_STYLE=gnu
 CONFIGURE_ARGS+=--disable-pixbuf-loader
-CONFIGURE_ENV=	CPPFLAGS="-I${LOCALBASE}/include" \
-		LDFLAGS="-L${LOCALBASE}/lib" \
-		PKG_CONFIG_PATH="${LOCALBASE}/lib/pkgconfig"
 
 FLAVORS=	plugin
 FLAVOR?=

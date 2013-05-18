@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/archivers/unarj/Makefile,v 1.2 2005/07/07 21:17:03 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.17 2003/05/24 02:40:42 jolan Exp $
 # $FreeBSD: Makefile,v 1.12 1999/02/17 22:25:36 ache Exp $
 
@@ -15,8 +15,6 @@ PERMIT_PACKAGE_CDROM=	No
 PERMIT_PACKAGE_FTP=	No
 PERMIT_DISTFILES_CDROM=	No
 PERMIT_DISTFILES_FTP=	No
-
-MAKE_ENV=	CC="${CC}" CFLAGS="${CFLAGS}"
 
 do-install:
 	${INSTALL_DATA_DIR} ${PREFIX}/share/doc/unarj

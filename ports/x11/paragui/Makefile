@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/x11/paragui/Makefile,v 1.1.7.1 2005/03/18 16:00:49 tg Exp $
 # $OpenBSD: Makefile,v 1.13 2004/02/25 02:35:18 naddy Exp $
 
 COMMENT=	"cross-platform high-level application framework"
@@ -22,7 +22,6 @@ USE_X11=	Yes
 USE_GMAKE=	Yes
 CONFIGURE_STYLE=autoconf
 MODGNU_CONFIG_GUESS_DIRS= ${WRKSRC} ${WRKSRC}/test
-CONFIGURE_ENV=	LDFLAGS="-L${LOCALBASE}/lib -L${X11BASE}/lib" \
-		LIBS=-pthread
+CONFIGURE_ENV=		LIBS=-pthread
 
 .include <bsd.port.mk>

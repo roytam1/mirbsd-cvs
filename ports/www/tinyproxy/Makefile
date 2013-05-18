@@ -19,7 +19,6 @@ PERMIT_DISTFILES_FTP=	Yes
 
 CONFIGURE_STYLE=	simple
 CONFIGURE_ARGS+=	--with-config=${SYSCONFDIR}/tinyproxy/tinyproxy.conf
-MAKE_FLAGS=		CFLAGS="${CFLAGS}"
 
 DOCS=			HT* RFC_INFO filter-howto.txt *.html
 

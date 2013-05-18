@@ -1,4 +1,4 @@
-# $MirOS: ports/x11/wxgtk/Makefile,v 1.3 2005/06/17 23:11:30 tg Exp $
+# $MirOS: ports/x11/wxgtk/Makefile,v 1.5 2005/07/07 21:29:27 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.5 2003/10/08 17:13:18 sturm Exp $
 
 COMMENT=		"C++ cross-platform GUI toolkit"
@@ -12,9 +12,9 @@ HOMEPAGE=		http://wxWindows.org/
 LIB_DEPENDS+=		gdk.,gtk.::x11/gtk+1 \
 			glib.,gmodule.,gthread.::devel/glib1 \
 			jpeg.62::graphics/jpeg \
-			png.2::graphics/png \
 			tiff.35::graphics/tiff \
 			expat::textproc/expat
+MODULES+=		graphics/png
 
 CONFIGURE_STYLE=	autoconf no-autoheader
 AUTOCONF_NEW=		Yes

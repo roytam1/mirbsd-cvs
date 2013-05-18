@@ -19,8 +19,6 @@ WRKDIST=	${WRKDIR}/anti_sniff
 
 ALL_TARGET=	OpenBSD-all
 
-MAKE_FLAGS=	CC="${CC}"
-
 NO_REGRESS=	Yes
 
 do-install:

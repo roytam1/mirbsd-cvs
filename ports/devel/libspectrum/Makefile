@@ -16,9 +16,9 @@ PERMIT_DISTFILES_FTP=	Yes
 
 MASTER_SITES=		${MASTER_SITE_SOURCEFORGE:=fuse-emulator/}
 
-BUILD_DEPENDS=		::devel/pkgconfig
 LIB_DEPENDS=		glib-2.0.0.11::devel/glib \
 			gcrypt.12::security/libgcrypt
+MODULES+=		devel/pkgconfig
 
 CONFIGURE_STYLE=	gnu
 CONFIGURE_ARGS=		${CONFIGURE_SHARED}

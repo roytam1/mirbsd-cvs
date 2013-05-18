@@ -14,8 +14,6 @@ PERMIT_DISTFILES_FTP=	Yes
 
 MASTER_SITES=		ftp://ftp.csl.sony.co.jp/pub/kjc/
 
-MAKE_FLAGS=		CC="${CC}" CFLAGS="${CFLAGS}"
-
 post-install:
 		${INSTALL_SCRIPT_DIR} ${PREFIX}/share/aguri/
 .for script in README agurify.pl density.pl makeplot.pl

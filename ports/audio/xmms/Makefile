@@ -1,4 +1,4 @@
-# $MirOS: ports/audio/xmms/Makefile,v 1.4 2005/07/01 12:01:08 bsiegert Exp $
+# $MirOS: ports/audio/xmms/Makefile,v 1.5 2005/12/16 01:02:04 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.33 2004/05/24 13:17:40 robert Exp $
 
 COMMENT=		"Multimedia player for the X Window System"
@@ -62,10 +62,7 @@ CONFIGURE_ARGS=		${CONFIGURE_SHARED} \
 			--without-gnome \
 			--enable-ipv6
 
-CONFIGURE_ENV=		CPPFLAGS="-I${LOCALBASE}/include -I${X11BASE}/include" \
-			CFLAGS="${CFLAGS} -I${LOCALBASE}/include -I${X11BASE}/include" \
-			LDFLAGS="-L${LOCALBASE}/lib -L${X11BASE}/lib" \
-			XML_CONFIG="${LOCALBASE}/bin/xml-config" \
+CONFIGURE_ENV=		XML_CONFIG="${LOCALBASE}/bin/xml-config" \
 
 DOCS=			README NEWS FAQ
 

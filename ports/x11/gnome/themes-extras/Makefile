@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/x11/gnome/themes-extras/Makefile,v 1.2 2005/07/06 19:21:40 bsiegert Exp $
 
 COMMENT=		"themes collection for GNOME"
 
@@ -28,7 +28,5 @@ LIB_DEPENDS= 		gnomeui-2.0::x11/gnome/libgnomeui
 
 USE_X11=		Yes
 CONFIGURE_STYLE= 	gnu automake
-CONFIGURE_ENV=		CPPFLAGS="-I${LOCALBASE}/include" \
-			LDFLAGS="-L${LOCALBASE}/lib"
 
 .include <bsd.port.mk>

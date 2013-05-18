@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/net/gtk-gnutella/Makefile,v 1.2 2005/03/30 18:13:40 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.14 2004/05/15 14:35:01 sturm Exp $
 
 COMMENT=		"Gtk-based GUI client for the Gnutella Network"
@@ -18,7 +18,7 @@ PERMIT_DISTFILES_FTP=	Yes
 MASTER_SITES=		${MASTER_SITE_SOURCEFORGE:=gtk-gnutella/}
 EXTRACT_SUFX=		.tar.bz2
 
-BUILD_DEPENDS=		:pkgconfig-*:devel/pkgconfig
+MODULES+=		devel/pkgconfig
 LIB_DEPENDS=		gtk.1.2,gdk.1.2::x11/gtk+1 \
 			xml2::textproc/libxml
 

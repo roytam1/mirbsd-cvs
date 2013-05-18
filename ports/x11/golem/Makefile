@@ -19,7 +19,6 @@ MASTER_SITES=		${MASTER_SITE_SOURCEFORGE:=golem/}
 USE_X11=		Yes
 
 CONFIGURE_STYLE=	autoconf dest no-autoheader
-AUTOCONF_VERSION=	2.52
 
 NO_REGRESS=		Yes
 

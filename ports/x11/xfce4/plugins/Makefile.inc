@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/x11/xfce4/plugins/Makefile.inc,v 1.2 2005/05/01 13:59:51 bsiegert Exp $
 
 V?=		4.0.5
 CATEGORIES?=	x11 x11/xfce4 x11/xfce4-plugins
@@ -28,12 +28,10 @@ GTHREAD=gthread-2.0.0.11::devel/glib
 GUI=	xfcegui4.1.6::x11/xfce4/libraries/libxfcegui4
 MCS=	xfce4mcs-client.1.1,xfce4mcs-manager.1.1::x11/xfce4/libraries/libxfce4mcs
 PANEL=	:xfce4-panel-*:x11/xfce4/desktop/xfce4-panel
-PKG=	:pkgconfig-*:devel/pkgconfig
 STARTUP=startup-notification-1.0.0::devel/startup-notification
 XML2=	xml2.7.10::textproc/libxml
 
-BUILD_DEPENDS?=	${PKG} \
-		${PANEL}
+BUILD_DEPENDS?=	${PANEL}
 RUN_DEPENDS?=	${PANEL}
 
 CONFIGURE_STYLE?=	autoconf

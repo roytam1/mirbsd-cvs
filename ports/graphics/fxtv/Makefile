@@ -1,4 +1,4 @@
-# $MirOS: ports/graphics/fxtv/Makefile,v 1.2 2005/04/10 21:49:58 tg Exp $
+# $MirOS: ports/graphics/fxtv/Makefile,v 1.4 2005/07/07 21:21:38 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.29 2003/08/04 12:33:33 espie Exp $
 
 ONLY_FOR_PLATFORM=	*:*:i386 *:*:macppc
@@ -33,10 +33,6 @@ PERMIT_DISTFILES_FTP=	Yes
 
 USE_X11=	Yes
 NO_REGRESS=	Yes
-
-MAKE_FLAGS=	CFLAGS="${CFLAGS}" \
-		X11BASE="${X11BASE}" \
-		LOCALBASE="${LOCALBASE}"
 
 pre-build:
 	cp ${FILESDIR}/Makefile ${WRKSRC}

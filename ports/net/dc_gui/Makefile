@@ -21,7 +21,5 @@ RUN_DEPENDS=		:dctc-*:net/dctc
 USE_X11=		Yes
 USE_CXX=		Yes
 CONFIGURE_STYLE= 	autoconf
-CONFIGURE_ENV=		CPPFLAGS="-I${LOCALBASE}/include" \
-			LDFLAGS="-L${LOCALBASE}/lib"
 
 .include <bsd.port.mk>

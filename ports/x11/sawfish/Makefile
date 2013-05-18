@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/x11/sawfish/Makefile,v 1.3 2005/03/30 18:14:01 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.13 2003/05/15 04:39:16 margarida Exp $
 
 COMMENT=	"extensible window manager"
@@ -34,8 +34,6 @@ CONFIGURE_ARGS+= ${CONFIGURE_SHARED}
 CONFIGURE_ARGS+= --without-audiofile --without-esd \
 		 --disable-capplet --disable-themer \
 		 --disable-gnome-widgets --disable-linguas
-CONFIGURE_ENV=	CPPFLAGS="-I${LOCALBASE}/include" \
-		LDFLAGS="-L${LOCALBASE}/lib"
 
 NO_REGRESS=	Yes
 

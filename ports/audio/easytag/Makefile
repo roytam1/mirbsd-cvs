@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/audio/easytag/Makefile,v 1.2 2005/03/30 18:13:16 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.6 2004/02/08 02:48:13 naddy Exp $
 
 COMMENT=		"MP3 ID3 tags editor"
@@ -32,8 +32,6 @@ USE_X11=		Yes
 USE_CXX=		Yes
 USE_GMAKE=		Yes
 CONFIGURE_STYLE=	gnu
-CONFIGURE_ENV=		CPPFLAGS="-I${LOCALBASE}/include" \
-			LDFLAGS="-L${LOCALBASE}/lib"
 
 post-install:
 	${INSTALL_DATA_DIR} ${PREFIX}/share/doc/easytag

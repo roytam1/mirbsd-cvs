@@ -16,7 +16,7 @@ PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
 WRKDIST=		${WRKDIR}/tracker
-MAKE_FLAGS=	MACHINE=openbsd CC=$(CC) INSTALL="$(INSTALL)" \
+EXTRA_XAKE_FLAGS=	MACHINE=openbsd CC=$(CC) INSTALL="$(INSTALL)" \
 		CFLAGS_openbsd='-O3 -funroll-loops -finline-functions ${COPTS}' \
 		INST_BIN_OPT="-c -s -m $(BINMODE) -o $(BINOWN) -g $(BINGRP)" \
 		INST_MAN_OPT="-c -m 644 -o $(BINOWN) -g $(BINGRP)" \
@@ -24,8 +24,6 @@ MAKE_FLAGS=	MACHINE=openbsd CC=$(CC) INSTALL="$(INSTALL)" \
 		PREFIX='$${DESTDIR}/${PREFIX}'
 
 NO_REGRESS=	Yes
-
-FAKE_FLAGS=	${MAKE_FLAGS}
 
 post-extract:
 	@mkdir -p ${WRKSRC}/Arch/OpenBSD

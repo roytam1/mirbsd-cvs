@@ -22,8 +22,6 @@ MASTER_SITES=	ftp://ftp.gnupg.org/gcrypt/alpha/gnutls/libtasn1/ \
 
 CONFIGURE_STYLE=	gnu
 CONFIGURE_ARGS=		${CONFIGURE_SHARED}
-CONFIGURE_ENV=		CPPFLAGS="-I${LOCALBASE}/include" \
-			LDFLAGS="-L${LOCALBASE}/lib"
 
 post-install:
 	${INSTALL_DATA_DIR} ${PREFIX}/share/doc/libtasn1

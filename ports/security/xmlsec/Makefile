@@ -30,8 +30,7 @@ PKG_ARCH=		*
 .endif
 
 .if ${SUBPACKAGE} != "-docs"
-MODULES=		converters/libiconv
-BUILD_DEPENDS=		::devel/pkgconfig
+MODULES=		converters/libiconv devel/pkgconfig
 LIB_DEPENDS=		xslt.2::textproc/libxslt \
 			gnutls.12::security/gnutls
 .endif

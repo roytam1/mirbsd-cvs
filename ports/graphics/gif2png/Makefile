@@ -14,8 +14,7 @@ PERMIT_DISTFILES_FTP=	Yes
 
 MASTER_SITES=	${HOMEPAGE}
 
-LIB_DEPENDS=	png.2::graphics/png
-
+MODULES+=		graphics/png
 USE_GMAKE=	Yes
 CONFIGURE_STYLE= gnu
 CONFIGURE_ARGS=	--with-png-inc="${LOCALBASE}/include/libpng" \

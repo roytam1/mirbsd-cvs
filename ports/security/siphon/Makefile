@@ -16,10 +16,9 @@ PERMIT_DISTFILES_FTP=	Yes
 MASTER_SITES=		http://siphon.datanerds.net/ \
 			${MASTER_SITE_PACKETSTORM:=UNIX/utilities/}
 
-MAKE_FLAGS=		CC="${CC}" \
-			CFLAGS='${CFLAGS} -Wall -I. \
-				-DSYSCONFDIR="\"${SYSCONFDIR}\""' \
-			CCFLAGS='-pthread \
+CPPFLAGS+=		-I. \
+				-DSYSCONFDIR=\"${SYSCONFDIR}\"
+EXTRA_MAKE_FLAGS+=	CCFLAGS='-pthread \
 				-DSYSCONFDIR="\"${SYSCONFDIR}\""'
 MAKE_ENV=		SYSCONFDIR="${SYSCONFDIR}"
 

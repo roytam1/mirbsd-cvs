@@ -16,9 +16,7 @@ PERMIT_DISTFILES_FTP=	Yes
 
 USE_GMAKE=	Yes
 
-MAKE_FLAGS=	CC="${CC}" \
-		CFLAGS='${CFLAGS} -Wall -c -I../$$(MCH) -I../include' \
-		LDFLAGS=""
+CFLAGS+=	-Wall -c -I../$$(MCH) -I../include
 
 MAKE_FILE=	makefile.nix
 

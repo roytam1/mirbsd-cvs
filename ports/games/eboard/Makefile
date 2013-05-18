@@ -24,10 +24,6 @@ USE_X11=		Yes
 USE_CXX=		Yes
 AUTOCONF_NEW=		Yes
 CONFIGURE_STYLE=	autoconf
-CONFIGURE_ENV=	CPPFLAGS="-I${LOCALBASE}/include" \
-                LDFLAGS="-L${LOCALBASE}/lib"
-
-MAKE_FLAGS+=	CXXFLAGS="${CXXFLAGS}" CFLAGS="${CFLAGS}"
 
 DOCS=	Crafty.txt FICS-Timeseal.txt GNUChess4.txt GNUChess5.txt \
 	Scripts.txt Sjeng.txt Themes.txt

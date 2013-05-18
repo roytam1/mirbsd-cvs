@@ -22,8 +22,6 @@ USE_CXX=		Yes
 CONFIGURE_STYLE=	gnu
 CONFIGURE_ARGS=		--enable-ssl --enable-ipv6 \
 			--disable-imlib
-CONFIGURE_ENV=  	CPPFLAGS="-I${LOCALBASE}/include" \
-			LDFLAGS="-L${LOCALBASE}/lib"
 
 FLAVORS=	compface gpgme ldap
 FLAVOR?=

@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/net/pavuk/Makefile,v 1.2 2005/07/07 21:24:47 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.6 2003/01/30 22:39:07 espie Exp $
 
 COMMENT=	"tool to mirror contents of HTTP and FTP servers"
@@ -30,8 +30,6 @@ CONFIGURE_STYLE= gnu
 CONFIGURE_ARGS+= --disable-debug --disable-tree  \
 		 --disable-gnome --with-regex=posix \
 		 --disable-socks
-CONFIGURE_ENV=	CPPFLAGS="-I${LOCALBASE}/include" \
-		LDFLAGS="-L${LOCALBASE}/lib"
 
 .if !${FLAVOR:L:Mno_x11}
 LIB_DEPENDS+=	gtk.1.2,gdk.1.2::x11/gtk+

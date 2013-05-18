@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/graphics/libpixman/Makefile,v 1.1 2005/08/20 13:27:35 bsiegert Exp $
 
 COMMENT=		"pixel manipulation library"
 
@@ -15,7 +15,7 @@ PERMIT_DISTFILES_FTP=	Yes
 
 MASTER_SITES=		http://cairographics.org/snapshots/
 
-BUILD_DEPENDS+=		::devel/pkgconfig
+MODULES+=		devel/pkgconfig
 
 CONFIGURE_STYLE=	autoconf
 AUTOCONF_NEW=		Yes

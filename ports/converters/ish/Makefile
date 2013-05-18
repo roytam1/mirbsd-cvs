@@ -16,7 +16,6 @@ MASTER_SITES=	\
 	ftp://ftp.ics.es.osaka-u.ac.jp/pub/mirrors/FreeBSD-jp/ports-jp/LOCAL_PORTS/
 
 MAKE_FILE=	makefile
-MAKE_FLAGS=	CFLAGS="${CFLAGS}"
 ALL_TARGET=	ish
 NO_REGRESS=	Yes
 

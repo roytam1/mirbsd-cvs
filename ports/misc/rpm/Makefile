@@ -1,4 +1,4 @@
-# $MirOS: ports/misc/rpm/Makefile,v 1.2 2005/07/07 21:23:50 bsiegert Exp $
+# $MirOS: ports/misc/rpm/Makefile,v 1.3 2006/02/09 09:36:05 tg Exp $
 # $OpenBSD: Makefile,v 1.11 2002/12/29 19:49:40 fgsch Exp $
 
 COMMENT=	"redhat package manager"
@@ -22,8 +22,6 @@ MODGNU_CONFIG_GUESS_DIRS= ${WRKSRC} ${WRKSRC}/popt
 
 # Enforce check for pgp, so no build-time depend is needed
 CONFIGURE_ENV=		PGPBIN=$(LOCALBASE)/bin/pgp
-CONFIGURE_ENV+=		CPPFLAGS=-I${LOCALBASE}/include
-CONFIGURE_ENV+=		LDFLAGS=-L${LOCALBASE}/lib
 CONFIGURE_ENV+=		varprefix=/var
 
 MAKE_FLAGS=	librpm_la_LDFLAGS='-version-info 0:1:0'

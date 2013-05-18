@@ -1,4 +1,4 @@
-# $MirOS: ports/devel/sdl-net/Makefile,v 1.2 2005/07/07 21:20:27 bsiegert Exp $
+# $MirOS: ports/devel/sdl-net/Makefile,v 1.3 2006/02/09 09:35:50 tg Exp $
 # $OpenBSD: Makefile,v 1.13 2003/05/12 08:23:46 jolan Exp $
 
 COMMENT=	"SDL cross-platform networking library"
@@ -20,8 +20,6 @@ USE_X11=	Yes
 USE_CXX=	Yes
 
 CONFIGURE_STYLE=	autoconf
-CONFIGURE_ENV+=		CPPFLAGS="-I${LOCALBASE}/include" \
-			LDFLAGS="${LDFLAGS} -L${X11BASE}/lib"
 CONFIGURE_ARGS+=	--disable-gui \
 			${CONFIGURE_SHARED}
 

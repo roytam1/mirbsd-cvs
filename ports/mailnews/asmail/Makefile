@@ -22,8 +22,6 @@ USE_X11=	Yes
 
 CONFIGURE_STYLE= gnu
 CONFIGURE_ARGS=	--enable-shaping
-CONFIGURE_ENV=	CPPFLAGS="-I${LOCALBASE}/include" \
-		LDFLAGS="-L${LOCALBASE}/lib"
 
 post-patch:
 	@sed -e s#!!PREFIX!!#${PREFIX}#g \

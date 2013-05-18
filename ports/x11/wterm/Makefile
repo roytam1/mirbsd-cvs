@@ -25,8 +25,6 @@ CONFIGURE_STYLE=	gnu
 CONFIGURE_ARGS+=	--enable-utmp --enable-wtmp \
 			--with-xpm --enable-xpm-background --enable-transparency \
 			--enable-xgetdefault --enable-ttygid
-CONFIGURE_ENV=		CPPFLAGS="-I${LOCALBASE}/include" \
-			LDFLAGS="-L${LOCALBASE}/lib"
 
 do-install:
 	${INSTALL_PROGRAM} ${WRKBUILD}/src/wterm ${PREFIX}/bin

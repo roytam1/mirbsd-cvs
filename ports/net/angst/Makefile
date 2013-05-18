@@ -21,8 +21,7 @@ LIB_DEPENDS=	net::net/libnet
 
 ALL_TARGET=	angst
 
-MAKE_FLAGS=	CC="${CC}" CFLAGS="${CFLAGS}" \
-		INCLUDE="-I${LOCALBASE}/include" \
+MAKE_FLAGS=		INCLUDE="-I${LOCALBASE}/include" \
 		LIBS="-L${LOCALBASE}/lib `libnet-config --libs` -lpcap"
 
 NO_REGRESS=	Yes

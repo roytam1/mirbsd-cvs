@@ -1,4 +1,4 @@
-# $MirOS: ports/editors/xemacs21/Makefile,v 1.3 2006/02/01 15:42:14 tg Exp $
+# $MirOS: ports/editors/xemacs21/Makefile,v 1.4 2006/02/09 09:35:51 tg Exp $
 # $OpenBSD: Makefile,v 1.20 2003/07/06 18:34:48 naddy Exp $
 
 COMMENT=		"heavily customizable and extensible editor"
@@ -108,7 +108,7 @@ CONFIGURE_ARGS+=--with-scrollbars=lucid \
 
 LIB_DEPENDS+=	jpeg.62::graphics/jpeg
 CONFIGURE_ARGS+=--with-jpeg
-LIB_DEPENDS+=	png.2.::graphics/png
+MODULES+=		graphics/png
 CONFIGURE_ARGS+=--with-png \
 		--site-includes="${LOCALBASE}/include/libpng"
 

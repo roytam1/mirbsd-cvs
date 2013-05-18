@@ -24,8 +24,6 @@ USE_GMAKE=	Yes
 USE_X11=	Yes
 USE_CXX=	Yes
 CONFIGURE_STYLE=gnu
-CONFIGURE_ENV=	CPPFLAGS="-I${LOCALBASE}/include -I${X11BASE}/include" \
-		LDFLAGS="-L${X11BASE}/lib -L${LOCALBASE}/lib" \
-		LIBS="-pthread"
+CONFIGURE_ENV=		LIBS="-pthread"
 
 .include <bsd.port.mk>

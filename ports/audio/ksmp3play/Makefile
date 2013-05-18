@@ -20,8 +20,7 @@ MASTER_SITES=	http://www.xanadunet.net/ksmp3play/
 
 USE_CXX=	Yes
 CONFIGURE_STYLE= gnu
-CONFIGURE_ENV=	CFLAGS="-I${LOCALBASE}/include ${CFLAGS}" \
-		LIBS="-liberty"
+CONFIGURE_ENV=	LIBS="-liberty"
 
 post-install:
 	${INSTALL_DATA_DIR} ${PREFIX}/share/doc/ksmp3play

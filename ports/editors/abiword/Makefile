@@ -1,4 +1,4 @@
-# $MirOS: ports/editors/abiword/Makefile,v 1.2 2005/03/20 16:46:28 bsiegert Exp $
+# $MirOS: ports/editors/abiword/Makefile,v 1.3 2005/03/25 23:13:46 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.32 2004/01/10 22:51:14 couderc Exp $
 
 COMMENT=		"open-source, cross-platform WYSIWYG word processor"
@@ -7,8 +7,7 @@ DISTNAME=		abiword-${VERSION}
 CATEGORIES=		editors
 HOMEPAGE=		http://www.abisource.com/
 
-MODULES=		devel/gettext
-BUILD_DEPENDS=		:pkgconfig->=0.14.0:devel/pkgconfig
+MODULES=		devel/gettext devel/pkgconfig graphics/png
 LIB_DEPENDS=		fribidi::devel/fribidi \
 			gthread-2.0.0.0::devel/glib \
 			gdk-x11-2.0.0.0,gdk_pixbuf-2.0.0.0,gtk-x11-2.0.0.0::x11/gtk+ \
@@ -30,8 +29,6 @@ USE_CXX=		Yes
 CONFIGURE_STYLE=	autoconf
 AUTOCONF_NEW=		Yes
 CONFIGURE_ARGS=		--without-pspell
-CPPFLAGS+=		-I${LOCALBASE}/include/libpng
-CONFIGURE_ENV+=		PKG_CONFIG_PATH="${LOCALBASE}/lib/pkgconfig:${X11BASE}/lib/pkgconfig"
 
 FLAVORS=		gnome
 FLAVOR?=

@@ -65,7 +65,7 @@ post-build:
 ALL_TARGET=	scmlit
 
 #CFLAGS+=	-Dunix
-MAKE_FLAGS=	CFLAGS='${CFLAGS}' LD='${CC}'
+MAKE_FLAGS=	LD='${CC}'
 MAKE_ENV=	SCHEME_LIBRARY_PATH=${LOCALBASE}/share/slib/
 
 do-install:

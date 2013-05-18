@@ -1,4 +1,4 @@
-# $MirOS: ports/x11/gnome/libbonobo/Makefile,v 1.2 2005/05/01 13:37:16 bsiegert Exp $
+# $MirOS: ports/x11/gnome/libbonobo/Makefile,v 1.3 2005/10/12 19:43:46 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.11 2004/12/15 13:57:56 alek Exp $
 
 COMMENT=		"GNOME component and compound document system" 
@@ -18,10 +18,9 @@ PERMIT_DISTFILES_FTP=	Yes
 MASTER_SITES=		${MASTER_SITE_GNOME:=sources/libbonobo/2.10/}
 EXTRACT_SUFX=		.tar.bz2
 
-MODULES=		devel/gettext
+MODULES=		devel/gettext devel/pkgconfig
 
-BUILD_DEPENDS=		:pkgconfig-*:devel/pkgconfig \
-			:p5-XML-Parser-*:textproc/p5-XML-Parser
+BUILD_DEPENDS=		:p5-XML-Parser-*:textproc/p5-XML-Parser
 LIB_DEPENDS=		ORBit-2,ORBitCosNaming-2::devel/ORBit \
 			xml2.6::textproc/libxml
 
@@ -31,8 +30,6 @@ AUTOCONF_NEW=		Yes
 CONFIGURE_ARGS+=	${CONFIGURE_SHARED}
 CONFIGURE_ARGS+=	--sysconfdir="${SYSCONFDIR}/gnome"
 CONFIGURE_ARGS+=	--disable-gtk-doc
-CONFIGURE_ENV=		CPPFLAGS="-I${LOCALBASE}/include" \
-			LDFLAGS="-L${LOCALBASE}/lib"
 
 post-install:
 	@${INSTALL_DATA_DIR} ${PREFIX}/share/examples/libbonobo; \

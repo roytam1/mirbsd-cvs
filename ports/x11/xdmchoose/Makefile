@@ -17,7 +17,6 @@ MASTER_SITES=	http://frmb.home.cern.ch/frmb/download/
 
 USE_X11=	Yes
 CONFIGURE_STYLE= gnu
-CONFIGURE_ENV=	CPPFLAGS="-I${X11BASE}/include"
 
 post-install:
 	@perl -i -pe 's!%%PREFIX%%!${TRUEPREFIX}!g' ${WRKSRC}/xdmchoose.conf

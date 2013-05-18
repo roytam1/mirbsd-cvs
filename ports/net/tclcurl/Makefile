@@ -22,7 +22,6 @@ LIB_DEPENDS=    	curl.2.2::net/curl \
 CONFIGURE_STYLE=	gnu dest
 CONFIGURE_ARGS+=	--with-tcl=${LOCALBASE}/lib/tcl8.4 \
 			--with-tclinclude=${LOCALBASE}/include/tcl8.4/ 
-CONFIGURE_ENV+=		CPPFLAGS="-I${LOCALBASE}/include"
 
 # broken in this version
 REGRESS_TARGET= 	test

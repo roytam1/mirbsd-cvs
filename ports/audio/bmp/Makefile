@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/audio/bmp/Makefile,v 1.3 2005/07/07 21:17:12 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.3 2005/01/02 18:57:26 alek Exp $
 
 COMMENT=	"gtk+2 media player based on XMMS"
@@ -22,9 +22,8 @@ PERMIT_PACKAGE_FTP=	Yes
 
 USE_X11=	Yes
 
-MODULES=	devel/gettext
+MODULES=	devel/gettext devel/pkgconfig
 
-BUILD_DEPENDS=	:pkgconfig-*:devel/pkgconfig
 LIB_DEPENDS=	gdk_pixbuf-2.0.400.3,gdk-x11-2.0.400.3::x11/gtk+ \
 		glib-2.0.400.2,gthread-2.0.400.2::devel/glib
 

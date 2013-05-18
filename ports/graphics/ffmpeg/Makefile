@@ -31,7 +31,6 @@ CFLAGS+=-fomit-frame-pointer
 .endif
 
 CONFIGURE_STYLE=simple
-CONFIGURE_ENV+=	CPPFLAGS="-I${LOCALBASE}/include"
 CONFIGURE_ARGS+=${CONFIGURE_SHARED} \
 		--cc=${CC} \
 		--make=${MAKE_PROGRAM} \
@@ -43,8 +42,6 @@ CONFIGURE_ARGS+=${CONFIGURE_SHARED} \
 		--enable-vorbis \
 		--enable-a52bin \
 		--disable-debug
-
-MAKE_ENV+=	LDFLAGS="-L${X11BASE}/lib -L${LOCALBASE}/lib"
 
 # bktr(4) support
 .if ${MACHINE_ARCH} != "i386" && ${MACHINE_ARCH} != "powerpc"

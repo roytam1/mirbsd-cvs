@@ -20,7 +20,7 @@ PERMIT_DISTFILES_CDROM= Yes
 PERMIT_DISTFILES_FTP=   Yes
 
 CONFIGURE_STYLE= gnu dest
-CFLAGS+=        -DHANZI # LDFLAGS=-s datadir=/usr/local/lib/less
+CPPFLAGS+=		-DHANZI # LDFLAGS=-s datadir=/usr/local/lib/less
 
 post-install:
 	${INSTALL_DATA} ${WRKSRC}/README.CLESS ${PREFIX}/share/doc/cless 

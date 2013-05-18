@@ -33,8 +33,6 @@ CONFIGURE_ARGS=		--with-audiofile-prefix=${LOCALBASE} \
 			--disable-alsa \
 			--disable-sgi \
 			--disable-oss
-CONFIGURE_ENV=		CPPFLAGS="-I${LOCALBASE}/include" \
-			LDFLAGS="-L${LOCALBASE}/lib"
 
 .if ${FLAVOR:L:Mgnome}
 LIB_DEPENDS+=	gnome.36,gnomesupport.0,gnomeui.46,art_lgpl.4::x11/gnome/libs \

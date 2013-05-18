@@ -22,6 +22,5 @@ USE_X11=	Yes
 USE_CXX=	Yes
 
 CONFIGURE_STYLE= autoconf
-CONFIGURE_ENV=	LDFLAGS="-L${X11BASE}/lib"
 
 .include <bsd.port.mk>

@@ -1,4 +1,4 @@
-# $MirOS: ports/devel/libIDL/Makefile,v 1.3 2005/05/18 06:07:02 tg Exp $
+# $MirOS: ports/devel/libIDL/Makefile,v 1.4 2005/10/11 20:29:44 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.15 2004/12/10 20:33:59 marcm Exp $
 
 COMMENT=		"IDL parsing library"
@@ -14,9 +14,8 @@ PERMIT_DISTFILES_FTP=	Yes
 MASTER_SITES=		${MASTER_SITE_GNOME:=sources/libIDL/0.8/}
 EXTRACT_SUFX=		.tar.bz2
 
-BUILD_DEPENDS=		:pkgconfig-*:devel/pkgconfig
 LIB_DEPENDS=		glib-2.0.0.0::devel/glib
-MODULES=		devel/gettext
+MODULES=		devel/gettext devel/pkgconfig
 
 USE_GMAKE=		Yes
 CONFIGURE_STYLE=	autoconf no-autoheader

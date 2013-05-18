@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/games/bombermaze/Makefile,v 1.2 2005/03/20 16:56:18 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.6 2002/12/22 08:00:17 pvalchev Exp $
 
 IGNORE=		"might be broken, used to use Libtool"
@@ -30,8 +30,6 @@ USE_CXX=		Yes
 NO_REGRESS=		Yes
 
 CONFIGURE_STYLE=	gnu
-CONFIGURE_ENV=		CPPFLAGS="-I${LOCALBASE}/include" \
-			LDFLAGS="-L${LOCALBASE}/lib" \
-			LIBS="-pthread"
+CONFIGURE_ENV=		LIBS="-pthread"
 
 .include <bsd.port.mk>

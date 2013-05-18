@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/x11/libxklavier/Makefile,v 1.1.7.1 2005/03/18 16:00:42 tg Exp $
 
 COMMENT=		"X Keyboard Extension library"
 
@@ -17,10 +17,9 @@ PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
-BUILD_DEPENDS=          :pkgconfig-*:devel/pkgconfig
 LIB_DEPENDS+=		xml2::textproc/libxml
 
-MODULES=		devel/gettext
+MODULES=		devel/gettext devel/pkgconfig
 
 USE_X11=		Yes
 CONFIGURE_STYLE= 	autogen

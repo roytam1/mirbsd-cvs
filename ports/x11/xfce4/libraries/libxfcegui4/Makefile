@@ -6,6 +6,4 @@ DISTNAME=	libxfcegui4-${V}
 LIB_DEPENDS=	${GTK2} \
 		${UTIL}
 
-CONFIGURE_ENV=	CPPFLAGS="-I${LOCALBASE}/include"
-
 .include <bsd.port.mk>

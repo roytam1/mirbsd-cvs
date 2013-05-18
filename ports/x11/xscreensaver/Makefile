@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/x11/xscreensaver/Makefile,v 1.2 2005/04/19 12:32:49 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.23 2004/04/02 19:07:05 sturm Exp $
 
 COMMENT=		"screen saver and locker for the X Window System"
@@ -29,7 +29,6 @@ USE_GMAKE=		Yes
 NO_REGRESS=		Yes
 
 CONFIGURE_STYLE=	autoconf no-autoheader
-AUTOCONF_VERSION=	2.54
 CONFIGURE_ARGS+=	--with-hackdir="${PREFIX}/libexec/xscreensaver"
 CONFIGURE_ARGS+=	--with-gl
 CONFIGURE_ARGS+=	--with-xpm
@@ -37,9 +36,6 @@ CONFIGURE_ARGS+=	--without-gnome
 CONFIGURE_ARGS+=	--with-zippy=/usr/games/fortune
 CONFIGURE_ARGS+=	--without-kerberos
 CONFIGURE_ARGS+=	--with-xml
-CONFIGURE_ENV+=		CPPFLAGS="-I${LOCALBASE}/include"
-CONFIGURE_ENV+=		CFLAGS="${CFLAGS} -I${LOCALBASE}/include"
-CONFIGURE_ENV+=		LDFLAGS="-L${LOCALBASE}/lib"
 
 FLAVORS=		no_gle gtk2
 FLAVOR?=		no_gle
@@ -52,7 +48,7 @@ CONFIGURE_ARGS+=	--without-gle
 .endif
 
 .if ${FLAVOR:L:Mgtk2}
-BUILD_DEPENDS+=		:pkgconfig-*:devel/pkgconfig
+MODULES+=		devel/pkgconfig
 LIB_DEPENDS+=		gdk_pixbuf_xlib-2.0.0.0::x11/gtk+ \
 			glade-2.0.0.0::devel/libglade
 CONFIGURE_ARGS+=	--with-gtk2

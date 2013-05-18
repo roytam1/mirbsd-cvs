@@ -22,10 +22,7 @@ MASTER_SITES=		${MASTER_SITE_SOURCEFORGE:=aide/}
 USE_GMAKE=		Yes
 CONFIGURE_STYLE=	gnu
 CONFIGURE_ARGS+=	--with-mhash
-CONFIGURE_ENV+=		YACC="bison -y" \
-			CPPFLAGS="-I${LOCALBASE}/include/" \
-			LDFLAGS="-L${LOCALBASE}/lib/" \
-			CFLAGS="${CFLAGS}"
+CONFIGURE_ENV+=		YACC="bison -y"
 
 post-install:
 	${INSTALL_DATA_DIR} ${PREFIX}/share/examples/aide

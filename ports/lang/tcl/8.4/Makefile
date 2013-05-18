@@ -1,4 +1,4 @@
-# $MirOS: ports/lang/tcl/8.4/Makefile,v 1.3 2005/07/07 21:22:38 bsiegert Exp $
+# $MirOS: ports/lang/tcl/8.4/Makefile,v 1.4 2006/02/09 09:36:01 tg Exp $
 # $OpenBSD: Makefile,v 1.7 2004/05/20 21:25:44 miod Exp $
 # Uses pthreads (can but does not at the moment)
 
@@ -18,7 +18,6 @@ PERMIT_DISTFILES_FTP=	Yes
 
 .include <mirports.sys.mk>
 
-MAKE_FLAGS=	CFLAGS="${CFLAGS}"
 FAKE_FLAGS=	INSTALL="install -c" INSTALL_ROOT="${WRKINST}" \
 		BASE_INCLUDE_DIR='$$(prefix)/include/tcl$$(VERSION)' \
 		INCLUDE_INSTALL_DIR='$$(INSTALL_ROOT)$$(BASE_INCLUDE_DIR)' \

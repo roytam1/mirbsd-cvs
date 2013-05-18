@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/archivers/unrar/Makefile,v 1.2 2005/07/07 21:17:03 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.23 2004/02/23 00:33:34 naddy Exp $
 
 COMMENT=	"extract, list, and test RAR archives"
@@ -26,7 +26,7 @@ PATCH_LIST=	patch-* gcc-patch-*
 WRKDIST=	${WRKDIR}/unrar
 
 MAKE_FILE=	makefile.unix
-MAKE_FLAGS=	CXX="${CXX}" CXXFLAGS="${CXXFLAGS}" DEFINES=""
+EXTRA_MAKE_FLAGS=	DEFINES=""
 
 do-install:
 	${INSTALL_PROGRAM} ${WRKBUILD}/unrar ${PREFIX}/bin

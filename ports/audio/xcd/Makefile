@@ -18,7 +18,6 @@ FAKE_FLAGS=BINDIR=${WRKINST}${PREFIX}/bin \
 	MANDIR=${WRKINST}${PREFIX}/man/man1
 WRKDIST=	${WRKDIR}/xcd
 
-MAKE_ENV=	CC="${CC}"
 RUN_DEPENDS=	::x11/tk/8.4
 
 do-configure:

@@ -1,4 +1,4 @@
-# $MirOS: ports/x11/gtk+/Makefile,v 1.6 2005/09/25 15:45:55 bsiegert Exp $
+# $MirOS: ports/x11/gtk+/Makefile,v 1.7 2005/10/09 15:27:06 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.14 2004/03/30 15:48:29 sturm Exp $
 
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
@@ -26,15 +26,13 @@ MULTI_PACKAGES=         	-docs
 SUBPACKAGE?=
 
 .if ${SUBPACKAGE} != "-docs"
-MODULES=			devel/gettext
+MODULES=			devel/gettext devel/pkgconfig graphics/png
 
 LIB_DEPENDS=			glib-2.0.0.800,gmodule-2.0.0.800,gobject-2.0.0.800::devel/glib \
 				pango-1.0.0.1000,pangoft2-1.0.0.1000,pangox-1.0.0.1000,pangoxft-1.0.0.1000::devel/pango \
 				atk-1.0.0.1011::devel/atk \
 				tiff::graphics/tiff \
-				png.3::graphics/png \
 				jpeg.62::graphics/jpeg
-BUILD_DEPENDS=          	:pkgconfig-*:devel/pkgconfig
 .endif
 
 .if defined(PACKAGING) && ${SUBPACKAGE} == "-docs"
@@ -43,19 +41,11 @@ PKG_ARCH=			*
 
 USE_X11=			Yes
 USE_GMAKE=			Yes
-CPPFLAGS+=			-I${X11BASE}/include/freetype2/ -I${LOCALBASE}/include/libpng
 CONFIGURE_STYLE=		autoconf
 AUTOCONF_NEW=			Yes
 
 CONFIGURE_ARGS+=		--enable-static
 CONFIGURE_ARGS+=		${CONFIGURE_SHARED}
 CONFIGURE_ARGS+= 		--disable-gtk-doc
-
-PKG_CONFIG_PATH=		${LOCALBASE}/lib/pkgconfig:${X11BASE}/lib/pkgconfig
-MAKE_ENV+=			PKG_CONFIG_PATH="${PKG_CONFIG_PATH}"
-CONFIGURE_ENV+=			PKG_CONFIG_PATH="${PKG_CONFIG_PATH}"
-
-#  re-enable this only if build breaks on MirOS or OpenBSD
-#NO_SYSTRACE=			"normalize_filename: filename too long"
 
 .include <bsd.port.mk>

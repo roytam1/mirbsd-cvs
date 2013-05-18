@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/x11/openbox/Makefile,v 1.2 2005/05/01 13:59:49 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.18 2004/04/24 22:09:55 robert Exp $
 
 COMMENT=	"small, fast & usable window manager"
@@ -10,11 +10,10 @@ MASTER_SITES=	http://icculus.org/openbox/releases/
 HOMEPAGE=	http://www.openbox.org/
 
 
-MODULES=	devel/gettext
+MODULES=	devel/gettext devel/pkgconfig
 LIB_DEPENDS+=	gdk-x11-2.0.0.0,gdk_pixbuf-2.0.0.0,gtk-x11-2.0.0.0::x11/gtk+ \
 		xml2.6::textproc/libxml \
 		startup-notification-1.0.0::devel/startup-notification
-BUILD_DEPENDS+=	:pkgconfig-*:devel/pkgconfig
 
 # GPL
 PERMIT_PACKAGE_CDROM=	Yes
@@ -25,7 +24,6 @@ PERMIT_DISTFILES_FTP=	Yes
 USE_X11=	Yes
 USE_GMAKE=	Yes
 CONFIGURE_STYLE= gnu
-CONFIGURE_ENV=	PKG_CONFIG_PATH="${X11BASE}/lib/pkgconfig"
 
 NO_REGRESS=	Yes
 

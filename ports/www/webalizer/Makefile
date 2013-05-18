@@ -23,8 +23,7 @@ WRKDIST=	${WRKDIR}/webalizer-2.01-10
 
 CONFIGURE_STYLE= gnu dest
 CONFIGURE_ARGS=	--enable-dns
-CONFIGURE_ENV=	LDFLAGS="-L${LOCALBASE}/lib" \
-		LIBS="-ljpeg -lttf"
+CONFIGURE_ENV=	LIBS="-ljpeg -lttf"
 
 NO_REGRESS=	Yes
 

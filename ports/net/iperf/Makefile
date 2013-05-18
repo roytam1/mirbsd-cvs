@@ -15,8 +15,6 @@ PERMIT_DISTFILES_FTP=	Yes
 
 MASTER_SITES=		http://dast.nlanr.net/Projects/Iperf/
 
-MAKE_ENV=	CC="${CC}" CXX="${CXX}" CXXFLAGS="${CXXFLAGS}"
-
 USE_CXX=	Yes
 NO_REGRESS=	Yes
 

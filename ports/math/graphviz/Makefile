@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/math/graphviz/Makefile,v 1.2 2005/07/07 21:23:17 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.10 2004/03/04 01:48:02 naddy Exp $
 
 IGNORE=		"might be broken, used to use Libtool"
@@ -20,9 +20,8 @@ PERMIT_PACKAGE_CDROM=	Yes
 CONFIGURE_STYLE=	gnu
 CONFIGURE_ENV=TCLCONFIG=${LOCALBASE}/lib/tcl8.4/tclConfig.sh \
 	TKCONFIG=${LOCALBASE}/lib/tk8.4/tkConfig.sh \
-	LIBS=-lz \
-	LDFLAGS=-L${LOCALBASE}/lib \
-	CPPFLAGS='-I${LOCALBASE}/include -I${LOCALBASE}/include/tcl8.4 -I${LOCALBASE}/include/tk8.4 -I${X11BASE}/include'
+	LIBS=-lz
+CPPFLAGS+=		-I${LOCALBASE}/include/tcl8.4 -I${LOCALBASE}/include/tk8.4
 
 CONFIGURE_ARGS=	--with-freetypeincludedir=${X11BASE}/include/freetype2 \
 		--with-pngincludedir=${LOCALBASE}/include/libpng
@@ -44,8 +43,8 @@ post-extract:
 
 LIB_DEPENDS=	tcl84.::lang/tcl/8.4 \
 		tk84.::x11/tk/8.4 \
-		jpeg.62::graphics/jpeg \
-		png.2::graphics/png
+		jpeg.62::graphics/jpeg
+MODULES+=		graphics/png
 
 BUILD_DEPENDS=	::devel/autoconf/${AUTOCONF_VERSION} \
 		::devel/metaauto \

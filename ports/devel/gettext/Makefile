@@ -1,4 +1,4 @@
-# $MirOS: ports/devel/gettext/Makefile,v 1.2 2005/07/07 21:19:02 bsiegert Exp $
+# $MirOS: ports/devel/gettext/Makefile,v 1.3 2005/07/24 11:50:14 bsiegert Exp $
 # $FreeBSD: Makefile,v 1.4 1998/11/18 15:09:35 vanilla Exp $
 # $OpenBSD: Makefile,v 1.29 2004/01/31 21:41:56 brad Exp $
 
@@ -19,8 +19,7 @@ PERMIT_DISTFILES_FTP=	Yes
 CONFIGURE_STYLE= autoconf
 CONFIGURE_ARGS+= ${CONFIGURE_SHARED}
 CONFIGURE_ARGS+= --with-included-gettext
-CONFIGURE_ENV=	CPPFLAGS="-I${LOCALBASE}/include" \
-		LDFLAGS="-L${WRKBUILD}/intl/.libs -L${LOCALBASE}/lib"
+LDFLAGS+=		-L${WRKBUILD}/intl/.libs
 
 post-extract:
 	@rm -f ${WRKSRC}/doc/gettext.info*

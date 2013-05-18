@@ -9,16 +9,15 @@ MASTER_SITES=	ftp://swrinde.nde.swri.edu/pub/png/applications/
 
 HOMEPAGE=	http://www.libpng.org/pub/png/apps/tiff2png.html
 
-LIB_DEPENDS=	tiff.35::graphics/tiff \
-		png.2::graphics/png
-
+LIB_DEPENDS=	tiff.35::graphics/tiff
+MODULES+=	graphics/png
 
 PERMIT_PACKAGE_CDROM=	Yes
 PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
-MAKE_FLAGS=	CC="${CC}" OPTIMFLAGS="${CFLAGS}" DEBUGFLAGS="-Wall -W" \
+MAKE_FLAGS=	OPTIMFLAGS="${CFLAGS}" DEBUGFLAGS="-Wall -W" \
 		CFLAGS='$$(TIFF_VERSION) -DFAXPECT $$(MIN_INVERT) $$(OPTIMFLAGS) $$(DEBUGFLAGS) -I${LOCALBASE}/include/libpng -I${LOCALBASE}/include' \
 		LDFLAGS="-L${LOCALBASE}/lib -lpng -lz -ltiff -ljpeg -lm"
 

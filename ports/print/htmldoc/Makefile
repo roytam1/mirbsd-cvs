@@ -22,11 +22,9 @@ MASTER_SITES=		ftp://ftp.easysw.com/pub/htmldoc/${V}/ \
 			ftp://ftp.funet.fi/pub/mirrors/ftp.easysw.com/pub/htmldoc/${V}/
 
 LIB_DEPENDS=		fltk.1,fltk_images.1::x11/fltk
+MODULES+=		graphics/png
 
 CONFIGURE_STYLE=	gnu dest
-CONFIGURE_ENV= 		LDFLAGS="-L${LOCALBASE}/lib" \
-			CXXFLAGS="-I${LOCALBASE}/include -I${LOCALBASE}/include/libpng" \
-			CPPFLAGS="-I${LOCALBASE}/include"
 
 post-extract:
 	@rm -rf ${WRKSRC}/jpeg ${WRKSRC}/png ${WRKSRC}/zlib

@@ -17,13 +17,9 @@ PERMIT_DISTFILES_FTP=	Yes
 
 MASTER_SITES=		http://freesoftware.fsf.org/download/xbubble/
 
-LIB_DEPENDS=		png.2::graphics/png
-
+MODULES+=		graphics/png
 USE_X11=		Yes
 USE_GMAKE=		Yes
 CONFIGURE_STYLE=	GNU
-
-CONFIGURE_ENV=		CPPFLAGS="-I${LOCALBASE}/include/libpng" \
-			LDFLAGS="-L${LOCALBASE}/lib"
 
 .include <bsd.port.mk>

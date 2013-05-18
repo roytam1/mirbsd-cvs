@@ -24,7 +24,5 @@ USE_X11=	Yes
 
 CONFIGURE_STYLE=gnu
 CONFIGURE_ARGS+=--with-zlib
-CONFIGURE_ENV=	CPPFLAGS="-I${LOCALBASE}/include" \
-		LDFLAGS="-L${LOCALBASE}/lib"
 
 .include <bsd.port.mk>

@@ -1,4 +1,4 @@
-# $MirOS: ports/x11/p5-Gtk/Makefile,v 1.2 2005/03/30 18:13:59 bsiegert Exp $
+# $MirOS: ports/x11/p5-Gtk/Makefile,v 1.4 2005/07/07 21:29:11 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.15 2004/06/26 23:09:15 jcs Exp $
 
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
@@ -30,8 +30,6 @@ BUILD_DEPENDS=	${RUN_DEPENDS}
 CONFIGURE_STYLE= perl
 CONFIGURE_ARGS=	--without-gtkhtml --without-gtkxmhtml \
 		--without-gnomeprint --without-applets --without-glade
-CONFIGURE_ENV=	CPPFLAGS="-I${LOCALBASE}/include" \
-		LDFLAGS="-L${LOCALBASE}/lib"
 
 MAKE_FLAGS=	INST_MAN3DIR="../blib/man3p"
 

@@ -3,8 +3,6 @@
 COMMENT=	"settings manager for xfce4"
 DISTNAME=	xfce-mcs-manager-${V}
 
-CONFIGURE_ENV=	CPPFLAGS="-I${LOCALBASE}/include" LDFLAGS="-L${LOCALBASE}/lib"
-
 LIB_DEPENDS=	${GTK2} \
 		${MCS} \
 		${GUI}

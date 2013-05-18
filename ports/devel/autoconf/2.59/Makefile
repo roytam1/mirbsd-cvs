@@ -1,4 +1,4 @@
-# $MirOS: ports/devel/autoconf/2.59/Makefile,v 1.2 2005/07/07 21:18:55 bsiegert Exp $
+# $MirOS: ports/devel/autoconf/2.59/Makefile,v 1.3 2005/09/02 00:54:15 tg Exp $
 # $OpenBSD: Makefile,v 1.1.1.1 2004/02/10 00:00:14 espie Exp $
 
 COMMENT=	"automatically configure source code on many Un*x platforms"
@@ -20,8 +20,8 @@ BUILD_DEPENDS=		:help2man-*:devel/help2man
 CONFIGURE_STYLE=	gnu
 CONFIGURE_ARGS+=	--program-suffix=${SUFFIX} --without-lispdir
 CONFIGURE_ENV+=		M4='${M4}' AWK="${AWK}"
-MAKE_FLAGS=		pkgdatadir=${PREFIX}/share/autoconf${SUFFIX}
-FAKE_FLAGS=		${MAKE_FLAGS} DESTDIR=${WRKINST} lispdir=
+EXTRA_XAKE_FLAGS=		pkgdatadir=${PREFIX}/share/autoconf${SUFFIX}
+EXTRA_FAKE_FLAGS=		DESTDIR=${WRKINST} lispdir=
 SUBST_VARS=		SUFFIX
 
 NO_REGRESS=		Yes

@@ -18,7 +18,7 @@ MASTER_SITES=	${MASTER_SITE_SOURCEFORGE:=taxipilot/}
 
 LIB_DEPENDS=	kdecore.4,DCOP,kdecore,kdefx,kdesu,kdeui,kio::x11/kde/libs3
 
-MODULES=	x11/qt3
+MODULES=	x11/qt3 graphics/png
 MODQT_MT=	Yes
 
 PORTHOME=	${WRKDIR}

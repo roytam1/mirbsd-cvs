@@ -14,7 +14,6 @@ PERMIT_DISTFILES_FTP=	No
 
 CONFIGURE_STYLE= gnu dest
 
-MAKE_FLAGS=	CFLAGS="${CFLAGS} -I."
 NO_REGRESS=	Yes
 
 post-configure:

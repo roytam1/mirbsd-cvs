@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/audio/aumix/Makefile,v 1.2 2005/05/01 13:40:32 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.10 2004/04/13 18:36:57 naddy Exp $
 
 COMMENT=	"full-screen ncurses or GTK-based audio mixer"
@@ -19,20 +19,17 @@ MASTER_SITES=	${MASTER_SITE_SOURCEFORGE:=aumix/} \
 		http://jpj.net/~trevor/aumix/old/
 EXTRACT_SUFX=	.tar.bz2
 
-MODULES=	devel/gettext
+MODULES=	devel/gettext devel/pkgconfig
 
 FLAVORS=	no_x11 no_curses dummy
 FLAVOR?=
 
 CONFIGURE_STYLE= gnu
 CONFIGURE_ARGS=	--enable-own-labels --without-gtk1
-CONFIGURE_ENV=	CPPFLAGS='-I${LOCALBASE}/include' \
-		LDFLAGS='-L${LOCALBASE}/lib'
 
 .if ${FLAVOR:L:Mno_x11}
 CONFIGURE_ARGS+= --without-gtk
 .else
-BUILD_DEPENDS+=	:pkgconfig-*:devel/pkgconfig
 LIB_DEPENDS+=	gdk-x11-2.0.0.14,gdk_pixbuf-2.0.0.14,gtk-x11-2.0.0.14::x11/gtk+
 USE_X11=	Yes
 .endif

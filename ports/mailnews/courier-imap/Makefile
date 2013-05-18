@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/mailnews/courier-imap/Makefile,v 1.2 2005/07/07 21:22:42 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.37 2004/02/16 17:14:52 avsm Exp $ 
 
 COMMENT=	"imap server for maildir format mailboxes"
@@ -39,9 +39,6 @@ USE_GMAKE=	Yes
 LIB_DEPENDS=	gdbm.2::databases/gdbm
 
 CONFIGURE_STYLE= gnu old
-CONFIGURE_ENV=	LDFLAGS="-L${LOCALBASE}/lib" \
-		CXXFLAGS="${CFLAGS} -I${LOCALBASE}/include" \
-		CPPFLAGS="${CFLAGS} -I${LOCALBASE}/include"
 CONFIGURE_ARGS=	--disable-root-check --datadir=${PREFIX}/sbin \
 		--with-userdb=${SYSCONFDIR}/userdb --with-authuserdb \
 		--sysconfdir=${COURIERCONF} --with-authdaemon \

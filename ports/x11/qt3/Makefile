@@ -1,4 +1,4 @@
-# $MirOS: ports/x11/qt3/Makefile,v 1.9 2006/01/11 18:25:27 tg Exp $
+# $MirOS: ports/x11/qt3/Makefile,v 1.10 2006/01/11 20:09:54 tg Exp $
 # $OpenBSD: Makefile,v 1.58 2006/01/02 16:59:37 espie Exp $
 # $FreeBSD: Makefile,v 1.33 1999/02/27 03:09:57 andreas Exp $
 
@@ -141,8 +141,8 @@ CONFIGURE_ARGS+=	-I${LOCALBASE}/include/postgresql \
 .endif
 
 .if !defined(PACKAGING) || ${SUBPACKAGE} != "-html"
-LIB_DEPENDS+=		png::graphics/png \
-			mng::graphics/libmng
+LIB_DEPENDS+=		mng::graphics/libmng
+MODULES+=		graphics/png
 .endif
 
 .if defined(PACKAGING) && ${SUBPACKAGE} != "-html" && ${SUBPACKAGE} != ""

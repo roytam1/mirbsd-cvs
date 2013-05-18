@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/games/gnocatan/Makefile,v 1.1.7.1 2005/03/18 15:46:15 tg Exp $
 # $OpenBSD: Makefile,v 1.2 2003/04/24 09:30:32 sturm Exp $
 
 COMMENT=	"Settlers of Catan for GNOME/Gtk"
@@ -21,7 +21,5 @@ USE_GMAKE=	Yes
 USE_X11=	Yes
 USE_CXX=	Yes
 CONFIGURE_STYLE=autoconf
-CONFIGURE_ENV=	CPPFLAGS="-I${LOCALBASE}/include" \
-		LDFLAGS="-L${LOCALBASE}/lib"
 
 .include <bsd.port.mk>

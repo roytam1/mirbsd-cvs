@@ -1,4 +1,4 @@
-# $MirOS: ports/print/ghostscript/afpl/Makefile,v 1.4 2005/06/27 20:14:20 tg Exp $
+# $MirOS: ports/print/ghostscript/afpl/Makefile,v 1.5 2005/12/29 20:04:59 tg Exp $
 # $OpenBSD: Makefile,v 1.20 2004/05/23 18:51:59 sturm Exp $
 
 COMMENT=		"AFPL PostScript interpreter"
@@ -25,7 +25,7 @@ PNGDIR=			graphics/png
 
 BUILD_DEPENDS+=		::${JPEGDIR}:patch ::${PNGDIR}:patch
 RUN_DEPENDS+=		:gs-fonts-std-*:print/ghostscript/fonts-std
-LIB_DEPENDS+=		png.2::${PNGDIR}
+MODULES+=		graphics/png
 
 WRKDIST=		${WRKDIR}/${DISTNAME}
 WRKSRC=			${WRKDIST}/src

@@ -1,4 +1,4 @@
-# $MirOS: ports/graphics/imlib2/Makefile,v 1.4 2005/12/28 19:00:35 tg Exp $
+# $MirOS: ports/graphics/imlib2/Makefile,v 1.5 2006/02/09 09:35:54 tg Exp $
 # $OpenBSD: Makefile,v 1.1.1.1 2004/04/18 02:01:25 jolan Exp $
 
 COMMENT=		"image manipulation library"
@@ -17,9 +17,8 @@ FLAVORS=		no_cxx
 FLAVOR?=
 
 USE_X11=		Yes
-MODULES+=		devel/pkgconfig
-LIB_DEPENDS+=		png.2::graphics/png \
-			tiff.35::graphics/tiff
+MODULES+=		devel/pkgconfig graphics/png
+LIB_DEPENDS+=		tiff.35::graphics/tiff
 
 CONFIGURE_STYLE=	autoconf
 AUTOCONF_NEW=		Yes
@@ -40,8 +39,6 @@ USE_CXX=		Yes
 ERRORS+=		"Fatal: Must use no_cxx flavour if no shared libs."
 .  endif
 .endif
-
-CPPFLAGS+=		-I${LOCALBASE}/include/libpng
 
 post-extract:
 	cp ${FILESDIR}/round.c ${WRKSRC}/src/lib/

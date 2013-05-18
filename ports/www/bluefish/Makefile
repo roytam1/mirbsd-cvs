@@ -20,15 +20,13 @@ PERMIT_PACKAGE_FTP=     Yes
 PERMIT_DISTFILES_CDROM= Yes
 PERMIT_DISTFILES_FTP=   Yes
 
-BUILD_DEPENDS=	:pkgconfig-*:devel/pkgconfig
+MODULES+=		devel/pkgconfig
 LIB_DEPENDS=	gtk-x11-2.0.0.14,gdk-x11-2.0.0.14,gdk_pixbuf-2.0.0.14::x11/gtk+ \
 		pcre::devel/pcre \
 		aspell::textproc/aspell/core
 
 CONFIGURE_STYLE=gnu dest
 CONFIGURE_ARGS=	--with-icon-path='$${DESTDIR}${PREFIX}/share/pixmaps/'
-CONFIGURE_ENV=	CPPFLAGS="-I${LOCALBASE}/include" \
-		LDFLAGS="-L${LOCALBASE}/lib"
 
 USE_GMAKE=	Yes
 

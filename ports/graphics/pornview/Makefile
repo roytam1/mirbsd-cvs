@@ -14,12 +14,10 @@ PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
 LIB_DEPENDS=	gdk_pixbuf.2::graphics/gdk-pixbuf
+MODULES+=		graphics/png
 
 USE_X11=	Yes
 USE_CXX=	Yes
 CONFIGURE_STYLE=gnu
-CONFIGURE_ENV=	CPPFLAGS="-I${LOCALBASE}/include \
-		  -I${LOCALBASE}/include/libpng" \
-		LDFLAGS="-L${LOCALBASE}/lib" 
 
 .include <bsd.port.mk>

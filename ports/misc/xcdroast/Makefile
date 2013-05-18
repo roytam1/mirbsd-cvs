@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/misc/xcdroast/Makefile,v 1.3 2005/07/07 21:23:54 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.8 2004/01/12 05:37:11 jolan Exp $
 
 COMMENT=		"gtk-based frontend to cdrtools"
@@ -18,9 +18,8 @@ PERMIT_DISTFILES_FTP=	Yes
 
 USE_X11=	Yes
 
-MODULES=	devel/gettext
+MODULES=	devel/gettext devel/pkgconfig
 
-BUILD_DEPENDS=	:pkgconfig-*:devel/pkgconfig
 RUN_DEPENDS=	:cdrtools->=2.0:sysutils/cdrtools
 LIB_DEPENDS=	gdk_pixbuf-2.0.0.14,gdk-x11-2.0.0.14,gtk-x11-2.0.0.14::x11/gtk+
 

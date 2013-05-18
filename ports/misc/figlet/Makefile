@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/misc/figlet/Makefile,v 1.4 2005/12/28 01:46:22 tg Exp $
 # $OpenBSD: Makefile,v 1.14 2002/10/27 21:07:53 naddy Exp $
 
 COMMENT=	"generates ASCII banner art"
@@ -20,7 +20,6 @@ DISTFILES=	${DISTNAME}${EXTRACT_SUFX} \
 		figlet-fonts-20021023/contributed.tar.gz \
 		figlet-fonts-20021023/international.tar.gz \
 		figlet-fonts-20021023/ms-dos.tar.gz
-MAKE_FLAGS+=	CC=${CC:Q} CFLAGS=${CFLAGS:Q}
 MAKE_FLAGS+=	DEFAULTFONTDIR=${PREFIX}/share/figlet
 NO_REGRESS=	Yes
 

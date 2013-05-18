@@ -15,8 +15,7 @@ PERMIT_DISTFILES_CDROM= "no license"
 PERMIT_DISTFILES_FTP=   "no license"
 
 FINGERPRINTS=	${PREFIX}/share/ldistfp/ldistfp-auth-fingerprints
-MAKE_FLAGS=	CC='${CC}' \
-		CFLAGS='${CFLAGS} -DFINGERPRINTS=\"${FINGERPRINTS}\"'
+CPPFLAGS+=	-DFINGERPRINTS=\"${FINGERPRINTS}\"
 
 WRKDIST=	${WRKDIR}/ldistfp
 WRKSRC=		${WRKDIST}/src

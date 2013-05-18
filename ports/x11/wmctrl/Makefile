@@ -18,7 +18,7 @@ PERMIT_PACKAGE_FTP=	Yes
 
 USE_X11=	Yes
 
-BUILD_DEPENDS=	:pkgconfig-*:devel/pkgconfig
+MODULES+=		devel/pkgconfig
 LIB_DEPENDS=	glib-2.0.0.11::devel/glib
 
 CONFIGURE_STYLE=gnu

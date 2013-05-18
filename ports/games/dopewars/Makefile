@@ -16,10 +16,8 @@ PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
-MODULES+=	devel/gettext
-
+MODULES+=	devel/gettext devel/pkgconfig
 LIB_DEPENDS+=   glib-2.0.0.0::devel/glib
-BUILD_DEPENDS+= :pkgconfig-*:devel/pkgconfig
 
 USE_GMAKE=	Yes
 USE_CXX=	Yes
@@ -30,8 +28,6 @@ CONFIGURE_ARGS+= --enable-nls \
 		 --disable-gui-server \
 		 --disable-plugins \
 		 --disable-sdl
-CONFIGURE_ENV=	CPPFLAGS="-I${LOCALBASE}/include" \
-		LDFLAGS="-L${LOCALBASE}/lib"
 
 FLAVORS=	no_x11
 FLAVOR?=

@@ -13,8 +13,6 @@ PERMIT_DISTFILES_FTP=	Yes
 
 MASTER_SITES=		http://www.mesa.nl/pub/dvi2tty/
 
-MAKE_FLAGS=		CC="${CC}" CFLAGS="${CFLAGS}"
-
 NO_REGRESS=		Yes
 
 do-install:

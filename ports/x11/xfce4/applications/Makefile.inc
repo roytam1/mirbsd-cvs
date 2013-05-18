@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/x11/xfce4/applications/Makefile.inc,v 1.1.7.1 2005/03/18 16:01:06 tg Exp $
 
 V?=		4.0.5
 
@@ -18,9 +18,9 @@ PERMIT_DISTFILES_FTP?=	Yes
 PERMIT_PACKAGE_CDROM?=	Yes
 PERMIT_PACKAGE_FTP?=	Yes
 
-BUILD_DEPENDS?=	:pkgconfig-*:devel/pkgconfig \
-		:xfce-mcs-manager-*:x11/xfce4/desktop/xfce-mcs-manager
-RUN_DEPENDS?=	:xfce-mcs-manager-*:x11/xfce4/desktop/xfce-mcs-manager
+MODULES+=		devel/pkgconfig
+BUILD_DEPENDS?=		:xfce-mcs-manager-*:x11/xfce4/desktop/xfce-mcs-manager
+RUN_DEPENDS?=		:xfce-mcs-manager-*:x11/xfce4/desktop/xfce-mcs-manager
 
 CONFIGURE_STYLE?=	autoconf
 AUTOCONF_NEW?=		Yes

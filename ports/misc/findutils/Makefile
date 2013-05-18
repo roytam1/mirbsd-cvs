@@ -19,11 +19,8 @@ MODULES=		devel/gettext
 
 CONFIGURE_STYLE=	gnu dest old
 CONFIGURE_ARGS=		--program-prefix="g"
-CONFIGURE_ENV=		CPPFLAGS="-I${LOCALBASE}/include" \
-			LDFLAGS="-L${LOCALBASE}/lib"
 MAKE_FLAGS=		localstatedir=/var/db
-FAKE_FLAGS=		DESTDIR=${WRKINST} \
-			MAKEINFO="makeinfo --no-split"
+FAKE_FLAGS=		DESTDIR=${WRKINST}
 
 # regenerate in one piece
 post-extract:

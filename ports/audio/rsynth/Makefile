@@ -15,7 +15,6 @@ FAKE_FLAGS=		PREFIX=${WRKINST}${PREFIX}
 LIB_DEPENDS=	gdbm.::databases/gdbm
 
 CONFIGURE_STYLE=autoconf
-CONFIGURE_ENV=	LDFLAGS=-L${LOCALBASE}/lib CPPFLAGS=-I${LOCALBASE}/include
 CONFIGURE_ARGS=	`$(CC) -dumpmachine`
 
 pre-configure:

@@ -1,4 +1,4 @@
-# $MirOS: ports/print/cups/Makefile,v 1.2 2005/07/06 19:21:35 bsiegert Exp $
+# $MirOS: ports/print/cups/Makefile,v 1.3 2005/12/16 01:07:12 bsiegert Exp $
 
 COMMENT=		"Common Unix Printing System"
 
@@ -23,9 +23,9 @@ MASTER_SITES=		ftp://ftp.easysw.com/pub/cups/${VERSION}/ \
 			
 EXTRACT_SUFX=		.tar.bz2
 
-LIB_DEPENDS=		png.3::graphics/png \
-			jpeg.62::graphics/jpeg \
+LIB_DEPENDS=		jpeg.62::graphics/jpeg \
 			tiff.35::graphics/tiff
+MODULES+=		graphics/png
 
 FAKE_FLAGS+=		BINMODE=${BINMODE} \
 			SHAREMODE=${SHAREMODE} \
@@ -40,13 +40,7 @@ CONFIGURE_ARGS+=	--with-cups-user=_cups \
 			--localstatedir=/var \
 			--enable-ssl
 
-CONFIGURE_ENV=		CPPFLAGS="-I${LOCALBASE}/include \
-			  -I${LOCALBASE}/include/libpng" \
-			DSOFLAGS="-L${LOCALBASE}/lib" \
-			LDFLAGS="-L${LOCALBASE}/lib"
-
-CFLAGS+=		"-I${LOCALBASE}/include" \
-			"-I${LOCALBASE}/include/libpng"
+CONFIGURE_ENV=		DSOFLAGS="-L${LOCALBASE}/lib"
 
 WRKDIST=		${WRKDIR}/${DISTNAME:S/-source//}
 

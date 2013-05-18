@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/www/gtkhtml/Makefile,v 1.2 2005/03/25 23:13:37 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.6 2003/04/10 15:55:48 marcm Exp $
 
 BROKEN=			needs update to GNOME 2
@@ -35,7 +35,5 @@ CONFIGURE_ARGS+=        ${CONFIGURE_SHARED}
 CONFIGURE_ARGS+=	--with-bonobo
 CONFIGURE_ARGS+= 	--with-gconf
 CONFIGURE_ARGS+= 	--disable-gtk-doc
-CONFIGURE_ENV=		CPPFLAGS="-I${LOCALBASE}/include" \
-			LDFLAGS="-L${LOCALBASE}/lib"
 
 .include <bsd.port.mk>

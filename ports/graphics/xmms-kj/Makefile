@@ -20,8 +20,8 @@ PERMIT_DISTFILES_FTP=	Yes
 MASTER_SITES=	${HOMEPAGE} \
 		http://mirror.csoft.org/xmms-kj/
 
-LIB_DEPENDS=	xmms.2::audio/xmms \
-		png.3::graphics/png
+MODULES+=		graphics/png
+LIB_DEPENDS=	xmms.2::audio/xmms
 
 WRKDIST=	${WRKDIR}/xmms-kj
 MAKE_FILE=      makefile
@@ -29,8 +29,6 @@ ALL_TARGET=	vislib
 NO_REGRESS=	Yes
 USE_X11=	Yes
 
-CFLAGS+=	-I${LOCALBASE}/include/libpng
-MAKE_FLAGS=	CC="${CC}"
 MTREE_FILE=	${FILESDIR}/mtree
 
 do-install:

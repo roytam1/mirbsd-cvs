@@ -19,7 +19,6 @@ MASTER_SITES=		ftp://ftp.demon.co.uk/pub/unix/linux/games/ \
 USE_X11=		Yes
 USE_CXX=		Yes
 
-MAKE_FLAGS=		CXX="${CXX}" CXXFLAGS="${CXXFLAGS}"
 ALL_TARGET=		xlincity
 NO_REGRESS=		Yes
 

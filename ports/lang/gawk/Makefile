@@ -19,7 +19,5 @@ MASTER_SITES=		${MASTER_SITE_GNU:=gawk/}
 MODULES=		devel/gettext
 
 CONFIGURE_STYLE=	gnu
-CONFIGURE_ENV=  	CPPFLAGS="-I${LOCALBASE}/include" \
-			LDFLAGS="-L${LOCALBASE}/lib"
 
 .include <bsd.port.mk>

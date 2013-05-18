@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/graphics/glitz/Makefile,v 1.1 2005/08/20 13:27:33 bsiegert Exp $
 
 COMMENT=		"OpenGL image compositing library"
 
@@ -16,11 +16,10 @@ PERMIT_DISTFILES_FTP=	Yes
 MASTER_SITES=		http://cairographics.org/snapshots/
 
 USE_X11=		Yes
+MODULES+=		devel/pkgconfig
 
 CONFIGURE_STYLE=	autoconf
 AUTOCONF_NEW=		Yes
-
-BUILD_DEPENDS+=		::devel/pkgconfig
 
 .include <bsd.own.mk>
 

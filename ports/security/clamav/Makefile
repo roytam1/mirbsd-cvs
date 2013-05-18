@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/security/clamav/Makefile,v 1.1.7.1 2005/03/18 15:51:21 tg Exp $
 
 COMMENT=		"Free Virus Scanner"
 VERSION=		0.65
@@ -42,9 +42,7 @@ CONFIGURE_ARGS+=        --disable-clamav \
 			--sbindir=${PREFIX}/libexec \
 			--with-dbdir=${PREFIX}/libdata/clamav
 
-CONFIGURE_ENV+=		LDFLAGS=" -pthread -L${PREFIX}/lib"
-CONFIGURE_ENV+=		CFLAGS="-I${PREFIX}/include"
-
+LDFLAGS+=		-pthread
 DOCS=			clamav-mirror-howto.pdf clamdoc.pdf signatures.pdf
 DOCS+=			clamd_supervised/*.* html/*.*
 

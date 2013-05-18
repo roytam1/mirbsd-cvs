@@ -19,10 +19,6 @@ MASTER_SITES=		http://michael.toren.net/code/tcptraceroute/
 
 LIB_DEPENDS=		net::net/libnet
 
-MAKE_FLAGS=		CC="${CC}" \
-			CFLAGS="${CFLAGS} -L${LOCALBASE}/lib \
-			-I${LOCALBASE}/include"
-
 ALL_TARGET=
 
 NO_REGRESS=		Yes

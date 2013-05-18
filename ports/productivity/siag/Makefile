@@ -26,8 +26,7 @@ CONFIGURE_STYLE=	gnu
 
 CONFIGURE_ARGS+=	--with-docdir=${PREFIX}/share/doc
 
-CONFIGURE_ENV+=		LDFLAGS="-L${WRKBUILD}/common -L${LOCALBASE}/lib" \
-			CPPFLAGS="-I${LOCALBASE}/include"
+LDFLAGS+=		-L${WRKBUILD}/common
 
 NO_REGRESS=		Yes
 

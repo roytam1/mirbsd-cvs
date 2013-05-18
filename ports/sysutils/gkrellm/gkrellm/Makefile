@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/sysutils/gkrellm/gkrellm/Makefile,v 1.5 2005/07/07 21:26:33 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.10 2004/05/18 14:49:56 naddy Exp $
 
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
@@ -32,7 +32,7 @@ MULTI_PACKAGES+=-client
 .endif
 SUBPACKAGE?=
 
-BUILD_DEPENDS=	:pkgconfig-*:devel/pkgconfig
+MODULES+=	devel/pkgconfig
 LIB_DEPENDS=	gthread-2.0.=0::devel/glib
 
 NO_REGRESS=	Yes

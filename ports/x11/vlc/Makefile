@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/x11/vlc/Makefile,v 1.4 2005/07/07 21:29:23 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.11 2004/04/28 01:30:53 jolan Exp $
 
 COMMENT=	"videolan client; multimedia player"
@@ -21,12 +21,11 @@ PERMIT_DISTFILES_FTP=	Yes
 
 USE_X11=	Yes
 
-MODULES=	devel/gettext
+MODULES=	devel/gettext graphics/png
 
 LIB_DEPENDS=	SDL::devel/sdl \
 		gtk.1.2,gdk.1.2::x11/gtk+1 \
 		glib,gthread::devel/glib1 \
-		png::graphics/png \
 		id3tag.2::audio/libid3tag \
 		mad.2::audio/libmad \
 		ogg::audio/libogg \
@@ -38,9 +37,7 @@ LIB_DEPENDS=	SDL::devel/sdl \
 		faad::audio/faad
 
 CONFIGURE_STYLE=gnu
-CONFIGURE_ENV=	LDFLAGS="-L${LOCALBASE}/lib" \
-		LIBS="-logg" \
-		CPPFLAGS="-I${LOCALBASE}/include -I${LOCALBASE}/include/libpng"
+CONFIGURE_ENV=	LIBS="-logg"
 CONFIGURE_ARGS+=--disable-oss \
 		--enable-sdl \
 		--enable-mad \

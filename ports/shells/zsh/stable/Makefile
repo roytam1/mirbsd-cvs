@@ -34,12 +34,11 @@ FLAVOR?=        static
 FLAVOR?=
 .endif
 
-AUTOCONF_VERSION=2.57
 CONFIGURE_STYLE= autoconf
 CONFIGURE_ARGS=	--enable-zsh-mem --enable-zsh-secure-free --enable-maildir-support
 
 .if ${FLAVOR:L} == "static"
-CONFIGURE_ENV=	LDFLAGS="-static"
+LDFLAGS+=	-static
 CONFIGURE_ARGS+=--disable-dynamic
 .else
 # we only enable sub-packages if the FLAVOR is not static

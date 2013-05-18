@@ -1,4 +1,4 @@
-# $MirOS: ports/devel/boehm-gc/Makefile,v 1.5 2005/07/07 21:18:57 bsiegert Exp $
+# $MirOS: ports/devel/boehm-gc/Makefile,v 1.6 2005/09/20 17:33:04 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.29 2004/03/04 17:49:26 espie Exp $
 # $FreeBSD: Makefile,v 1.4 1999/01/10 20:12:06 steve Exp $
 
@@ -17,10 +17,6 @@ PERMIT_PACKAGE_CDROM=	No
 PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_CDROM=	No
 PERMIT_DISTFILES_FTP=	Yes
-
-# don't include mirmake.h, it breaks the assembly parts
-# missing + not an oversight
-CPPFLAGS=	-idirafter ${LOCALBASE}/include
 
 MAKE_ENV=	CP="cp" \
 		INSTALL_DATA="${INSTALL_DATA}" \

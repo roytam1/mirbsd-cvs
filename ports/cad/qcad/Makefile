@@ -21,14 +21,13 @@ MODULES=	x11/qt3
 USE_CXX=	Yes
 MODQT_MT=	Yes
 
-MAKE_FLAGS= \
-	CXX='${CXX}' \
-	CXXFLAGS='${CXXFLAGS} -pthread -Wall -DQT_NO_DEBUG -DDATADIR=\"${PREFIX}/share\"' \
+EXTRA_MAKE_FLAGS= \
 	INCPATH='-I${MODQT_INCDIR}' \
 	LINK='${CXX}' \
 	LFLAGS='' \
 	LIBS='-pthread -L${MODQT_LIBDIR} -L${LOCALBASE}/lib -lqt-mt -L${X11BASE}/lib -lX11' \
 	AR='ar cq'
+CXXFLAGS+=		-pthread -Wall -DQT_NO_DEBUG -DDATADIR=\"${PREFIX}/share\"
 
 ALL_TARGET=		qcad
 NO_REGRESS=		Yes
