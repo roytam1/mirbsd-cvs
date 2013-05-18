@@ -1,4 +1,4 @@
-# $MirOS: src/gnu/usr.bin/anoncvs/Makefile,v 1.4 2006/02/24 18:15:26 tg Exp $
+# $MirOS: src/gnu/usr.bin/anoncvs/Makefile,v 1.5 2006/09/21 23:50:42 tg Exp $
 
 CBIN=		anoncvsbin
 BINDIR=		/var/anoncvs/anoncvs
@@ -56,12 +56,9 @@ distribution:
 .endif
 
 depend:
-	# Nothing here so far...
 
 lint:
-	# Nothing here so far...
 
 tags:
-	# Nothing here so far...
 
 .include <bsd.prog.mk>

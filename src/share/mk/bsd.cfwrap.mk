@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/bsd.cfwrap.mk,v 1.16 2006/09/29 22:05:58 tg Exp $
+# $MirOS: src/share/mk/bsd.cfwrap.mk,v 1.17 2006/10/06 22:05:59 tg Exp $
 
 .if !defined(BSD_CFWRAP_MK)
 BSD_CFWRAP_MK=1
@@ -141,8 +141,6 @@ maninstall:
 .for _tgt in depend lint tags
 .  if !target(${_tgt})
 ${_tgt}: _SUBDIRUSE
-	# Nothing here so far...
-
 .  endif
 .endfor
 

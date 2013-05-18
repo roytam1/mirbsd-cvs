@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/generic/Makefile,v 1.2 2006/07/03 22:12:00 tg Exp $
+# $MirOS: src/distrib/generic/Makefile,v 1.3 2006/08/17 14:09:21 tg Exp $
 
 .include <bsd.own.mk>
 CFLAGS+=	${CDIAGFLAGS} ${COPTS}
@@ -18,7 +18,6 @@ rebsd:
 	cd ${.CURDIR} && exec ${MAKE} KMAKE_CLEAN=: bsd
 
 depend:
-	# Nothing here so far...
 
 install: install.mi install.md
 
