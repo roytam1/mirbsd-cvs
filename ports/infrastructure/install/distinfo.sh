@@ -43,13 +43,13 @@ nroff)
 	;;
 pkgtools)
 	f_key=gzsigkey.pub
-	f_ver=20070122
+	f_ver=20070308
 	f_dist=pkgtools-$f_ver.cgz
 	f_path=mir/pkgtools
-	distinfo_md5=287e953043ab64a74d6a557f733f0052
-	distinfo_sum=1155586789
-	distinfo_size=110993
-	distinfo_date="Jan 22 18:51"
+	distinfo_md5=b454b014530bff0f56144783d00fdb52
+	distinfo_sum=2290738921
+	distinfo_size=111009
+	distinfo_date="Mar  8 10:56"
 	;;
 *)
 	echo Do not call me directly. >&2
