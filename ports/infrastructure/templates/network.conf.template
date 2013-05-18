@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/templates/network.conf.template,v 1.16 2006/06/15 19:21:24 tg Exp $
+# $MirOS: ports/infrastructure/templates/network.conf.template,v 1.17 2006/06/23 13:42:02 tg Exp $
 # $OpenBSD: network.conf.template,v 1.99 2006/05/22 18:50:01 steven Exp $
 
 #
@@ -58,6 +58,7 @@ MASTER_SITE_BACKUP?=	\
 
 # Popular master sites, most useful sites come first.
 MASTER_SITE_GNU+=	\
+	http://ftp.gnu.org/gnu/ \
 	ftp://ftp.gnu.org/gnu/ \
 	ftp://ftp.funet.fi/pub/gnu/prep/ \
 	ftp://mirrors.usc.edu/pub/gnu/ \
