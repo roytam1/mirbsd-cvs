@@ -1,4 +1,4 @@
-/* $MirOS: src/share/misc/licence.template,v 1.8 2006/06/16 23:03:39 tg Rel $ */
+/* $MirOS: src/share/misc/licence.template,v 1.14 2006/08/09 19:35:23 tg Rel $ */
 
 /*-
  * Copyright (c) 2006
@@ -11,8 +11,8 @@
  * in all redistributions or reproduced in accompanying documentation
  * or other materials provided with binary redistributions.
  *
- * All advertising materials mentioning features or use of this soft-
- * ware must display the following acknowledgement:
+ * Advertising materials mentioning features or use of this work must
+ * display the following acknowledgement:
  *	This product includes material provided by Thorsten Glaser.
  *
  * Licensor offers the work "AS IS" and WITHOUT WARRANTY of any kind,
@@ -22,7 +22,7 @@
  * or other damage, or direct damage except proven a consequence of a
  * direct error of said person and intended use of this work, loss or
  * other issues arising in any way out of its use, even if advised of
- * the possibility of such damage or existence of a nontrivial bug.
+ * the possibility of such damage or existence of a defect.
  */
 
 #include <sys/param.h>
@@ -37,7 +37,7 @@
 #include <openssl/evp.h>
 #include <openssl/pem.h>
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.sbin/openssl/asn1octetstream.c,v 1.1 2006/07/09 00:01:31 tg Exp $");
 
 #undef PROG
 #define PROG	asn1octetstream_main
