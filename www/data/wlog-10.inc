@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.398 2012/08/27 06:55:47 bsiegert Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.399 2012/10/12 14:14:38 bsiegert Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -9330,4 +9330,61 @@ Tag: golang
 
 <p>Go 1.1, which is expected for January 2013, will support NetBSD on
  x86 officially.</p>
+----
+Date: 01.12.2012 20:02
+Author: tg@
+Title: Proposed extensions to the JSON specification
+
+<p>The following proposal extends the JSON specification, with the idea
+ of using JSON as an information interchange format, rather than just a
+ way of writing certain ECMAscript values. They do not add anything but
+ only restrict valid JSON content and encoders with some rationale.</p>
+<p>First of, I’d like to remind everyone, including JSON’s author, that
+ JSON <em>is</em> case-sensitive, <em>except</em> in the four hexdigits
+ after a backslash-u sequence in a String.</p>
+<p>Second, I’d like to remind everyone that JSON is not binary-safe. No
+ way around that, it implements Unicode (actually, 16-bit UCS-2, and it
+ doesn’t guarantee that UTF-16 surrogates are correctly paired) text. I
+ also consider only UTF-{8,{16,32}{B,L}E} valid encodings for JSON. (No
+ PDP endian, either. Sorry, guys.)</p>
+<p>For my first proposal, I’d like to point out CVE-2011-4815 which was
+ about overflowing hashtables. The obvious fix is to randomise the hash
+ per hashtable; to ensure this doesn’t leak, we sort ASCIIbetically the
+ keys of an Object in the encoder. (Using Unicode is good here – we can
+ just sort the keys as UTF-8 strings by their <tt>uint8_t</tt> value or
+ as Unicode (UCS-2 or even UCS-4 or UTF-16) strings by the codepoints.)
+ JSON was never preserving the order of elements in an Object anyway so
+ we make it standardised (we still accept any order, and, when parsing,
+ in collision cases, the later value wins). This also helps diffs.</p>
+<p>For my second proposal, I’d like to forbid \u0000, \uFFFE, \uFFFF in
+ strings. The first because many implementations use C strings, and for
+ an information interchange format this is better; it also has security
+ implications to allow NUL in a string. The other two, but not unpaired
+ UTF-16 surrogates (as ECMAscript uses UCS-2 and got UTF-16 only later)
+ because they’re not valid Unicode; JSON was not binary-safe already so
+ why bother. Among other benefits, this also helps implementations.</p>
+<p>For my third proposal, I’d like to agree that implementations should
+ impose a nesting depth limit that may be user-defined, and in the face
+ of which, cyclic checking may be ignored by an encoder. I emit nesting
+ depth overflows as literalnull, but it may also throw an error.</p>
+<p>All these do not permit anything that wasn’t accepted to be accepted
+ afterwards. I’ve got a forth proposal which changes acceptance rules –
+ but only for a subset of parsers: formally JSON is defined in ECMA-262
+ as industry standard that, in contrast to RFC 4627, always allowed any
+ Value as top-level element of a JSON text. I’d like to make it so, and
+ ignore the RFC’s requirement for it to be an Object or Array. Even so,
+ the first two characters (after the BOM, if any) of a JSON text always
+ are in the non-NUL 7-bit ASCII range, allowing for encoding detection.
+ (This is done by the NUL octet pattern in the first four octets.)</p>
+<p>JSON has only taken off because it’s a tightly defined simple format
+ that can be used “everywhere” and isn’t too awful for humans (escaping
+ not needed for U+0020‥U+D7FF and U+E000‥U+FFFD after all, though I was
+ almost adding a recommendation to escape U+007F‥U+009F always; thought
+ on this is welcome via <a href="@@RELPATH@@irc.htm">IRC</a> or eMail).
+ I’ve started to use a trailing comma in indexed and associative arrays
+ in code I write at work, when the array values are one a line, to help
+ version control systems to do their diffs, but refrain from asking for
+ a JSON extension to permit that in order to not endanger compatibility
+ any (no comment needed, it’s just not worth it), but I’d like my above
+ proposals to be followed by implementators (and I’m one of them).</p>
 ----
