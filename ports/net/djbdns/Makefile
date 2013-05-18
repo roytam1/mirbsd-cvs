@@ -1,4 +1,4 @@
-# $MirOS: ports/net/djbdns/Makefile,v 1.27 2006/09/14 00:11:38 tg Exp $
+# $MirOS: ports/net/djbdns/Makefile,v 1.28 2006/11/16 20:24:39 tg Exp $
 
 COMMENT=		collection of Domain Name System server and tools
 VERSION=		1.05
@@ -63,7 +63,7 @@ WRKDIST=		${WRKDIR}
 WRKSRC=			${WRKDIR}/build
 CONFIGURE_STYLE=	simple
 CONFIGURE_ENV+=		TOP=${WRKDIR} SYSCONFDIR=${SYSCONFDIR:Q}
-EXTRA_MAKE_ENV+=	TOP=${WRKDIR}
+MAKE_ENV+=		TOP=${WRKDIR}
 CPPFLAGS+=		-D_SYSCONFDIR=\"${SYSCONFDIR:Q}\"
 CPPFLAGS+=		-D_DJBDNS_PORT_V=\"${PKGNAME:Q}\"
 CPPFLAGS+=		-D_PATH_MKSH=\"${MKSH:Q}\"
