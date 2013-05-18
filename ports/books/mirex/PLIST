@@ -1,4 +1,4 @@
-@comment $MirOS: ports/books/mirex/PLIST,v 1.2 2008/10/16 20:01:17 tg Exp $
+@comment $MirOS: ports/books/mirex/PLIST,v 1.3 2010/01/26 17:32:13 tg Exp $
 share/examples/mirex/MirOS-Licence
 share/examples/mirex/RCStags
 share/examples/mirex/acronyms
@@ -16,6 +16,7 @@ share/examples/mirex/gzsigkey.2
 share/examples/mirex/import-3rdpty
 share/examples/mirex/kana
 share/examples/mirex/kbd-layout
+share/examples/mirex/kbd-xf86
 share/examples/mirex/licence.template
 share/examples/mirex/license.template
 share/examples/mirex/man.template
@@ -26,7 +27,6 @@ share/examples/mirex/portmdoc
 share/examples/mirex/ucs2utf8
 share/examples/mirex/unidata.htm
 share/examples/mirex/unidata.txt
-share/examples/mirex/unitable.htm
 share/examples/mirex/utf-8
 share/examples/mirex/utf-8-demo
 @dirrm share/examples/mirex
