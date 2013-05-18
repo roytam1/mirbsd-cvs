@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: ports/infrastructure/install/setup.ksh,v 1.58 2006/06/25 00:59:03 tg Exp $
+# $MirOS: ports/infrastructure/install/setup.ksh,v 1.59 2006/06/25 07:55:27 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -313,11 +313,15 @@ EOF
 shmk=$localbase/share/mmake
 mv=20051220
 f_ver=$(make -f f all)
+f_verexist=$($localbase/bin/mmake -f f all 2>/dev/null)
 (( nopt )) || if [[ $f_ver -ge $mv ]]; then
 	# Version matches; write a wrapper if needed
 	sysmk=$(make -f f ___DISPLAY_MAKEVARS=.SYSMK)
 	m=$(whence -p make)
-	if [[ $sysmk = $shmk ]]; then
+	if [[ $f_verexist -ge $mv ]]; then
+		# We have already been here, keep the port
+		:
+	elif [[ $sysmk = $shmk ]]; then
 		# Trouble ahead
 		[[ $m = /usr/bin/make ]] || rm -f $m
 	else
@@ -331,6 +335,7 @@ f_ver=$(make -f f all)
 				exit 1
 			fi
 		fi
+		rm -f $localbase/bin/mmake
 		cat >$localbase/bin/mmake <<-EOF
 			#!$MKSH
 			exec $m -m $shmk -m $sysmk "\$@"
