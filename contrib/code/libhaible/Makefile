@@ -1,4 +1,4 @@
-# $MirOS: contrib/code/libhaible/Makefile,v 1.20 2006/05/30 20:04:22 tg Exp $
+# $MirOS: contrib/code/libhaible/Makefile,v 1.21 2006/05/30 20:28:30 tg Exp $
 
 LIB=	haible
 NOPIC=	Yes	# for now
@@ -25,10 +25,21 @@ SRCS+=	wcwidth.c
 SRCS+=	wcsdup.c
 SRCS+=	wcstok.c
 
+# reachover for libc
+.include <bsd.own.mk>
+LIBCSRCDIR?=	${BSDSRCDIR}/lib/libc
+
+.PATH: ${LIBCSRCDIR}/locale
+CPPFLAGS+= -I${LIBCSRCDIR}/locale
+SRCS+=	wcstod.c
+SRCS+=	wcstol.c
+SRCS+=	wcstoll.c
+SRCS+=	wcstoul.c
+SRCS+=	wcstoull.c
+
 # missing
 #SRCS+=	fwprintf.c
 #SRCS+=	fwscanf.c
-#SRCS+=	mbrlen.c
 #SRCS+=	mbsrtowcs.c
 #SRCS+=	swprintf.c
 #SRCS+=	swscanf.c
@@ -41,14 +52,8 @@ SRCS+=	wcstok.c
 #SRCS+=	wcscoll.c
 #SRCS+=	wcsftime.c
 #SRCS+=	wcsrtombs.c
-#SRCS+=	wcstod.c
 #SRCS+=	wcstof.c
-#SRCS+=	wcstol.c
 #SRCS+=	wcstold.c
-#SRCS+=	wcstoll.c
-#SRCS+=	wcstoul.c
-#SRCS+=	wcstoull.c
-#SRCS+=	wcsxfrm.c
 #SRCS+=	wprintf.c
 #SRCS+=	wscanf.c
 
@@ -72,9 +77,6 @@ MLINKS+=	catgets.3 catopen.3
 MLINKS+=	catgets.3 catclose.3
 
 # reachover for libc
-.include <bsd.own.mk>
-LIBCSRCDIR?=	${BSDSRCDIR}/lib/libc
-
 .PATH: ${LIBCSRCDIR}/locale
 MAN+=		iswctype.3 mbrlen.3 towctrans.3 wctrans.3 wctype.3
 # not yet
