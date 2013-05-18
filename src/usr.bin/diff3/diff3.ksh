@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/usr.bin/diff3/diff3.ksh,v 1.2 2005/07/07 13:39:43 tg Exp $
+# $MirOS: src/usr.bin/diff3/diff3.ksh,v 1.3 2006/09/20 21:40:54 tg Exp $
 # $OpenBSD: diff3.ksh,v 1.4 2006/02/22 22:35:11 jmc Exp $
 #
 # Copyright (c) 2003 Todd C. Miller <Todd.Miller@courtesan.com>
@@ -21,7 +21,7 @@
 # Materiel Command, USAF, under agreement number F39502-99-1-0512.
 #
 
-set -o posix		# set POSIX mode to prevent +foo in getopts
+#set -o posix		# set POSIX mode to prevent +foo in getopts
 OPTIND=1		# force getopts to reset itself
 
 export PATH=/bin:/usr/bin

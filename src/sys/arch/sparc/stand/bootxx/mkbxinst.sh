@@ -1,5 +1,5 @@
 #!/bin/mksh
-rcsid='$MirOS: src/sys/arch/sparc/stand/bootxx/mkbxinst.sh,v 1.17 2009/02/02 23:59:50 tg Exp $'
+rcsid='$MirOS: src/sys/arch/sparc/stand/bootxx/mkbxinst.sh,v 1.18 2009/07/24 16:45:11 tg Exp $'
 #-
 # Copyright (c) 2007, 2008, 2009
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -184,7 +184,7 @@ EOF
 print typeset -i blktblsz=$tblsz
 cat <<'EOF'
 set -A blktblent
-typeset -i blktblnum=0 firstblock lastblock i=0 sscale=0 chainsec=-1
+typeset -i blktblent blktblnum=0 firstblock lastblock i=0 sscale=0 chainsec=-1
 set -A g_code 2048 1 640
 
 while getopts ":0:g:N:S:" ch; do
@@ -219,7 +219,7 @@ shift $((OPTIND - 1))
 
 # zero-initialise the block array
 while (( i < blktblsz )); do
-	typeset -i blktblent[i++]=0
+	blktblent[i++]=0
 done
 
 # read in the extents

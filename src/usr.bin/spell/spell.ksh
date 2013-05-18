@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/usr.bin/spell/spell.ksh,v 1.2 2005/07/07 13:39:58 tg Exp $
+# $MirOS: src/usr.bin/spell/spell.ksh,v 1.3 2005/11/23 18:04:18 tg Exp $
 # $OpenBSD: spell.ksh,v 1.9 2005/07/06 07:08:05 jmc Exp $
 #
 # Copyright (c) 2001, 2003 Todd C. Miller <Todd.Miller@courtesan.com>
@@ -37,7 +37,7 @@ TMP=`mktemp /tmp/spell.XXXXXXXX` || exit 1
 VTMP=
 USAGE="usage: spell [-biltvx] [-d list] [-h spellhist] [-m a | e | l | m | s]\n\t[-s stop] [+extra_list] [file ...]"
 
-set -o posix		# set POSIX mode to prevent +foo in getopts
+#set -o posix		# set POSIX mode to prevent +foo in getopts
 OPTIND=1		# force getopts to reset itself
 
 trap "rm -f $TMP $VTMP; exit 0" 0 1 2 15

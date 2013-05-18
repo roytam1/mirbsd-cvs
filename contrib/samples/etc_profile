@@ -1,4 +1,4 @@
-# $MirOS: contrib/samples/etc_profile,v 1.9 2007/09/03 18:32:04 tg Exp $
+# $MirOS: contrib/samples/etc_profile,v 1.10 2008/05/07 12:16:11 tg Exp $
 #-
 # Initialisation file for MirOS ksh (pdksh, sh), (s)ash and GNU bash
 # Fallback mode only for non-Korn-shells, though.
@@ -117,7 +117,10 @@ if [ -z "$KSH_VERSION" -a -z "$DONTWANTMKSH" ]; then
 	fi
 fi
 if [ -n "$KSH_VERSION" ]; then
-	set +o sh +o vi +o posix
+	(set +o sh) 2>/dev/null && set +o sh
+	(set +o vi) 2>/dev/null && set +o vi
+	(set +o posix) 2>/dev/null && set +o posix
+	(set -o emacs) 2>/dev/null && set -o emacs
 	unset KSH_TRIED
 	[[ ${COLUMNS:-1} -le 1 ]] && export COLUMNS=80
 	# we rely on ~/.mkshrc to set $PS1 here
