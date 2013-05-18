@@ -1,4 +1,4 @@
-/*	$MirOS: src/sys/arch/i386/stand/libsa/gidt.S,v 1.6 2009/01/02 01:38:43 tg Exp $ */
+/*	$MirOS: src/sys/arch/i386/stand/libsa/gidt.S,v 1.8 2009/01/02 02:13:21 tg Exp $ */
 /*	$OpenBSD: gidt.S,v 1.32 2006/12/26 19:30:44 tom Exp $	*/
 
 /*
@@ -427,14 +427,14 @@ ENTRY(bootbuf)
 	/* set up flags, real mode stack */
 	xor	eax,eax
 	mov	ss,ax
-	mov	esp,0x0000FFFC
+	mov	esp,0x000006FC
 	push	eax
 	popf
 
 	/*-
 	 * Now the machine status is as follows:
 	 * - CS = DS = ES = 4012h = (LINKADDR >> 4)
-	 * - SS:SP = 0000:FFFCh
+	 * - SS:SP = 0000:06FCh
 	 * - EFLAGS = 0
 	 * - ESI = linear address of source buffer (must be para aligned)
 	 * - ECX = source buffer size (up to 64 KiB)
@@ -445,7 +445,10 @@ ENTRY(bootbuf)
 	 * - _C_LABEL(bios_bootpte) = future DS:SI contents (16by)
 	 * - 0000:0600h .. 0000:07FFh are available to put the boot
 	 *   partition table entry in, according to SYSLINUX docs;
-	 *   we also move certain relocation code there
+	 *   we also move certain relocation code there, and our
+	 *   stack is also positioned in there
+	 * - we assume ECX > (“ES”<<4)|“DI” [EBP]
+	 * - “DI” is almost certainly 0 and should be
 	 */
 
 	mov	eax,edi
