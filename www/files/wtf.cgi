@@ -1,5 +1,5 @@
 #!/usr/bin/perl -T
-my $rcsid = '$MirOS: www/files/wtf.cgi,v 1.5 2012/05/15 20:37:31 tg Exp $';
+my $rcsid = '$MirOS: www/files/wtf.cgi,v 1.6 2012/05/15 20:39:33 tg Exp $';
 #-
 # Copyright © 2012
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -103,7 +103,7 @@ if ($query ne "") {
 	}
 
 	$output .= "<p>\n <input type=\"hidden\" name=\"q\" value=\"" . $enc .
-	    "\" /><input type=\"submit\" value=\"Search the web for: " .
+	    " acronym\" /><input type=\"submit\" value=\"Web lookup for: " .
 	    $enc . "\" />";
 }
 close(ACRONYMS);
