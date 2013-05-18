@@ -1,6 +1,6 @@
-# $MirOS: ports/security/pcsc-egate/Makefile,v 1.3 2005/07/07 21:26:12 bsiegert Exp $
+# $MirOS: ports/security/pcsc-egate/Makefile,v 1.4 2006/09/14 00:13:15 tg Exp $
 
-COMMENT=			Smartcard backend driver for egate tokens
+COMMENT=		Smartcard backend driver for egate tokens
 DISTNAME=		ifd-egate-0.05
 PKGNAME=		${DISTNAME}-2
 CATEGORIES=		security
@@ -17,6 +17,7 @@ NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 LIB_DEPENDS+=		usb.7::devel/libusb
 BUILD_DEPENDS+=		:pcsc-lite->=1.2:security/pcsc-lite
 RUN_DEPENDS+=		:pcsc-lite->=1.2:security/pcsc-lite
+USE_CXX=		Yes # depends on libusb, which uses CXX
 
 INSTALL_TARGET=		myinstall
 

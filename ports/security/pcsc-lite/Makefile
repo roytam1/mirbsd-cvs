@@ -1,6 +1,6 @@
-# $MirOS: ports/security/pcsc-lite/Makefile,v 1.4 2006/09/14 00:13:15 tg Exp $
+# $MirOS: ports/security/pcsc-lite/Makefile,v 1.5 2007/03/31 22:02:08 tg Exp $
 
-COMMENT=			Smartcard middleware
+COMMENT=		Smartcard middleware
 DISTNAME=		pcsc-lite-1.2.0
 PKGNAME=		${DISTNAME}-2
 CATEGORIES=		security
@@ -27,6 +27,7 @@ CONFIGURE_ENV+=		PTHREAD_LIBS=-pthread PTHREAD_CFLAGS=-pthread
 
 LIB_DEPENDS+=		usb.7::devel/libusb
 USE_GMAKE=		Yes
+USE_CXX=		Yes # depends on libusb, which uses CXX
 
 .include <mirports.sys.mk>
 .if ${FLAVOR:L:Mdebug}
