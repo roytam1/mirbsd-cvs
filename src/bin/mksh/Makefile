@@ -1,6 +1,8 @@
-# $MirOS: src/bin/mksh/Makefile,v 1.69 2008/11/15 11:42:18 tg Exp $
+# $MirOS: src/bin/mksh/Makefile,v 1.70 2008/11/17 01:14:57 tg Exp $
 #-
 # use CPPFLAGS=-DDEBUG __CRAZY=Yes to check for certain more stuff
+
+NOMAN=		Yes	# temporary
 
 .include <bsd.own.mk>
 
