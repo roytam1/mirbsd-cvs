@@ -1,5 +1,5 @@
 #!/bin/mksh
-rcsid='$MirOS: src/sys/arch/i386/stand/bootxx/mkbxinst.sh,v 1.24 2009/06/29 20:51:00 tg Exp $'
+rcsid='$MirOS: src/sys/arch/i386/stand/bootxx/mkbxinst.sh,v 1.25 2009/07/24 16:27:56 tg Exp $'
 #-
 # Copyright (c) 2007, 2008, 2009
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -52,7 +52,7 @@ print "# \$miros:${rcsid#*:}"
 print "# \$miros:${rcsidS#*:}"
 cat <<'EOF'
 #-
-# Copyright (c) 2007, 2008, 2009
+# Copyright (c) 2007, 2008, 2009, 2010
 #	Thorsten Glaser <tg@mirbsd.org>
 #
 # Provided that these terms and disclaimer and all copyright notices
@@ -132,10 +132,10 @@ function record_block {
 	fi
 }
 
-typeset -i partp=0 numheads=0 numsecs=0 sscale=0 bsh=9 mbrpno=0 mbrptp=0
+typeset -i partp=0 numheads=0 numsecs=0 sscale=0 bsh=9 mbrpno=0 mbrptp=0 pofs=0
 set -A g_code 0 0 0
 
-while getopts ":0:1AB:g:h:M:p:S:s:" ch; do
+while getopts ":0:1AB:g:h:M:O:p:S:s:" ch; do
 	case $ch {
 	(0)	;;
 	(1)	;;
@@ -178,6 +178,11 @@ while getopts ":0:1AB:g:h:M:p:S:s:" ch; do
 			print -u2 warning: invalid partition type "'$OPTARG'"
 			mbrptp=0
 		fi ;;
+	(O)	if [[ $OPTARG != +([0-9]) ]]; then
+			print -u2 warning: invalid partition offset "'$OPTARG'"
+		else
+			pofs=$OPTARG
+		fi ;;
 	(p)	if (( (partp = OPTARG) < 1 || OPTARG > 255 )); then
 			print -u2 warning: invalid partition type "'$OPTARG'"
 			partp=0
@@ -192,9 +197,9 @@ while getopts ":0:1AB:g:h:M:p:S:s:" ch; do
 		fi ;;
 	(*)	print -u2 'Syntax:
 	bxinst [-1A] [-B blocksize] [-g C:H:S] [-h heads] [-M pno(1..4)[:typ]]
-	    [-p partitiontype] [-S scale] [-s sectors] <sectorlist | \\
+	    [-O partitionofs] [-p type] [-S scale] [-s secs] <sectorlist | \\
 	    dd of=image conv=notrunc
-Default values: blocksize=9 heads=16 sectors=63 partitiontype=0x27 scale=0
+Default values: blocksize=9 heads=16 sectors=63 part.ofs=0 type=0x27 scale=0
     partno=4 if -g (create MBR partition) is given; -A = auto boot geometry'
 		exit 1 ;;
 	}
@@ -291,19 +296,28 @@ print -u2 "using sectors of 2^$bsh = $((1 << bsh)) bytes"
 # create an MBR partition if desired
 if (( psz )); then
 	(( mbrpno = 0x1BE + ((mbrpno - 1) * 16) ))
+	set -A o_code	# g_code equivalent for partition offset
+	(( o_code[2] = pofs % g_code[2] + 1 ))
+	(( o_code[1] = pofs / g_code[2] ))
+	(( o_code[0] = o_code[1] / g_code[1] + 1 ))
+	(( o_code[1] = o_code[1] % g_code[1] + 1 ))
+	# boot flag; C/H/S offset
 	thecode[mbrpno++]=0x80
-	thecode[mbrpno++]=0
-	thecode[mbrpno++]=1
-	thecode[mbrpno++]=0
+	(( thecode[mbrpno++] = o_code[1] - 1 ))
+	(( cylno = o_code[0] > 1024 ? 1023 : o_code[0] - 1 ))
+	(( thecode[mbrpno++] = o_code[2] | ((cylno & 0x0300) >> 2) ))
+	(( thecode[mbrpno++] = cylno & 0x00FF ))
+	# partition type; C/H/S end
 	(( thecode[mbrpno++] = (mbrptp ? mbrptp : partp ? partp : 0x27) ))
 	(( thecode[mbrpno++] = g_code[1] - 1 ))
 	(( cylno = g_code[0] > 1024 ? 1023 : g_code[0] - 1 ))
 	(( thecode[mbrpno++] = g_code[2] | ((cylno & 0x0300) >> 2) ))
 	(( thecode[mbrpno++] = cylno & 0x00FF ))
-	thecode[mbrpno++]=0
-	thecode[mbrpno++]=0
-	thecode[mbrpno++]=0
-	thecode[mbrpno++]=0
+	# partition offset, size (LBA)
+	(( thecode[mbrpno++] = pofs & 0xFF ))
+	(( thecode[mbrpno++] = (pofs >> 8) & 0xFF ))
+	(( thecode[mbrpno++] = (pofs >> 16) & 0xFF ))
+	(( thecode[mbrpno++] = (pofs >> 24) & 0xFF ))
 	(( thecode[mbrpno++] = psz & 0xFF ))
 	(( thecode[mbrpno++] = (psz >> 8) & 0xFF ))
 	(( thecode[mbrpno++] = (psz >> 16) & 0xFF ))
