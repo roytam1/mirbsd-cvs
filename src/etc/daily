@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/etc/daily,v 1.13 2006/10/07 22:20:48 tg Exp $
+# $MirOS: src/etc/daily,v 1.14 2006/10/07 22:21:40 tg Exp $
 # $OpenBSD: daily,v 1.50 2005/03/17 18:16:52 millert Exp $
 # From: @(#)daily	8.2 (Berkeley) 1/25/94
 
@@ -179,7 +179,7 @@ fi
 # bsdstats.org stuff
 bsdstats_flags=$(. /etc/rc.conf; echo "$bsdstats_flags")
 if [[ $bsdstats_flags != NO && -s /usr/share/misc/bsdstats ]]; then
-	integer 'jitter=RANDOM % 600 + 100'
+	typeset -i 'jitter=RANDOM % 600 + 100'
 	print
 	print "BSDstats - initial delay of ${jitter}s ($(date))"
 	sleep $jitter

@@ -1,7 +1,7 @@
 define(COMM,`#')dnl
 include(MAKEDEV.sub)dnl
 dnl
-vers(a, {-$MirOS: src/etc/MAKEDEV.mi,v 1.6 2005/07/24 12:49:10 tg Exp $-})dnl
+vers(a, {-$MirOS: src/etc/MAKEDEV.mi,v 1.7 2006/06/17 16:28:20 tg Exp $-})dnl
 vers(a, {-$OpenBSD: MAKEDEV.mi,v 1.73 2005/02/07 06:14:18 david Exp $-})dnl
 dnl
 divert(1)dnl
@@ -60,7 +60,7 @@ dnl
 dnl
 divert(0)dnl
 #!/bin/mksh
-# $MirOS: src/etc/MAKEDEV.mi,v 1.6 2005/07/24 12:49:10 tg Exp $
+# $MirOS: src/etc/MAKEDEV.mi,v 1.7 2006/06/17 16:28:20 tg Exp $
 #
 # THIS FILE AUTOMATICALLY GENERATED.  DO NOT EDIT.
 # generated from:
@@ -90,16 +90,16 @@ hex()
 
 alph2d()
 {
-	local t="$1"
-	local p="0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
-	local sub=${p%${t}*}
+	typeset t="$1"
+	typeset p="0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+	typeset sub=${p%${t}*}
 	echo ${#sub}
 }
 
 h2d()
 {
-	local s="$1"
-	local f=${s%*[0-9a-f]} n=${s#[0-9a-f]*}
+	typeset s="$1"
+	typeset f=${s%*[0-9a-f]} n=${s#[0-9a-f]*}
 
 	echo $(($(_h2d $f)*16+ $(_h2d $n) ))
 }

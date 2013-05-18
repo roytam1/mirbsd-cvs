@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/etc/netstart,v 1.7 2006/08/14 20:32:43 tg Exp $
+# $MirOS: src/etc/netstart,v 1.8 2007/03/23 21:02:42 tg Exp $
 # $OpenBSD: netstart,v 1.105 2005/05/22 08:56:08 todd Exp $
 
 # strip comments (and leading/trailing whitespace if IFS is set) from
@@ -14,7 +14,7 @@ function stripcom
 
 # Returns true if $1 contains only alphanumerics
 isalphanumeric() {
-	local _n
+	typeset _n
 	_n=$1
 	while [ ${#_n} != 0 ]; do
 		case $_n in

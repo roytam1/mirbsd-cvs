@@ -1,4 +1,4 @@
-# $MirOS: src/etc/root.profile,v 1.3 2007/02/19 03:03:28 tg Exp $
+# $MirOS: src/etc/root.profile,v 1.4 2007/05/24 22:31:34 tg Exp $
 #-
 # initialisation for bourne shell (worst case)
 
@@ -24,8 +24,8 @@ if test -z "$USER_ID"; then
 fi
 
 Lretrocfg() {		# retrieve kernel config file
-	local Tin
-	local Tout
+	typeset Tin
+	typeset Tout
 	Tin=
 	Tout=
 	if Tin=$(mktemp /tmp/Lretrocfg.iXXXXXXXXXX) && \

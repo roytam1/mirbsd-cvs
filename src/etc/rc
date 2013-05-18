@@ -1,4 +1,4 @@
-# $MirOS: src/etc/rc,v 1.67 2007/06/09 15:00:57 tg Exp $
+# $MirOS: src/etc/rc,v 1.68 2007/06/11 21:23:14 tg Exp $
 # $OpenBSD: rc,v 1.277 2006/01/12 21:54:15 deraadt Exp $
 #-
 # System startup script run by init on autoboot or after single-user.
@@ -27,9 +27,9 @@ function stripcom {
 # Update resource limits when sysctl changes
 # Usage: update_limit -X loginconf_name
 update_limit() {
-	local _fl=$1	# ulimit flag
-	local _lc=$2	# login.conf name
-	local n s
+	typeset _fl=$1	# ulimit flag
+	typeset _lc=$2	# login.conf name
+	typeset n s
 
 	for s in "" -cur -max; do
 		n=$(getcap -f /etc/login.conf -s $_lc$s daemon 2>/dev/null)
@@ -83,7 +83,7 @@ mixerctl_conf()
 
 wsconsctl_conf()
 {
-	local save_IFS=$IFS
+	typeset save_IFS=$IFS
 
 	test -x /sbin/wsconsctl -a -s /etc/wsconsctl.conf || return
 	IFS="
@@ -100,7 +100,7 @@ wsconsctl_conf()
 # -> sorting is done on $_mp[] from 0 to ${#_mp[*]}-1
 # -> swapping is done on $_dev[] $_mp[] $_fstype[] $_opt[]
 function _fsswap {
-	local dev mp fstype opt rest
+	typeset dev mp fstype opt rest
 
 	dev=${_dev[$1]}
 	mp=${_mp[$1]}
@@ -119,9 +119,9 @@ function _fsswap {
 }
 
 function _fssort {
-	integer i=0
+	typeset -i i=0
 	while (( i < (${#_mp[*]} - 1) )); do
-		integer j=i k=i+1
+		typeset -i j=i k=i+1
 		while (( k < ${#_mp[*]} )); do
 			[[ ${_mp[k]} < ${_mp[j]} ]] && j=k
 			let k++
@@ -191,7 +191,7 @@ print -u2 "console at $consspeed bps"
 . /etc/rc.conf
 
 # Read /etc/fstab into arrays and sort by mountpoint
-integer i=0
+typeset -i i=0
 set -A _dev _mp _fstype _opt
 stripcom /etc/fstab |&
 while read -p _fdev _fmp _ffstype _fopt _frest; do
