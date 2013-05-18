@@ -1,5 +1,5 @@
 <!-- PageID: mksh -->
-<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.77 2007/01/06 18:49:31 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.78 2007/01/06 18:59:17 tg Exp $</small>
 
 <h1>mksh(1) R28</h1>
 <p>This is the MirBSD&trade; Korn Shell, a more or less portable
@@ -105,6 +105,24 @@
  <li>Enhance sample ~/.mkshrc</li>
  <li>Prevent segfaults when setlocale(3) or nl_langinfo(3) return NULL</li>
  <li>Use RLIMIT_AS if RLIMIT_VMEM is not found</li>
+ <li>Don't expand <tt>~foo/</tt> if MKSH_SMALL, spares getpwnam(3) call</li>
+ <li>Fix and autoconfify signal list generation</li>
+ <li>Build.sh now uses $TARGET_OS as "uname -s" output for cross builds</li>
+ <li>Set flag for regression tests that can't succeed if MKSH_SMALL</li>
+ <li>Don't even check for setlocale(3) if MKSH_SMALL, unless overridden
+  by user / build environment</li>
+ <li>Scan for C Preprocessor, use $CPP if $CC -E fails</li>
+ <li>Fix possible nil pointer dereferences and signal name mismatches</li>
+ <li>Scan for __attribute__((...)) and -std=gnu99 (req'd on Solaris 10)</li>
+ <li>Correct $LDSTATIC logic, unbreak -d, don't let the user override
+  (or need to) $SRCS, $sigseen</li>
+ <li>Simplify TIOCGWINSZ handling, no need to catch SIGWINCH any more;
+  window size changes are processed after input line editing ends (i.e.
+  the lines are entered or <tt>ESC #</tt> (emacs mode) is pressed) and
+  at startup; ^L (redraw) can't change window size on the fly</li>
+ <li>Add -fwrapv to standard CFLAGS, just to be safe, like with when I
+  added -fno-strict-aliasing; this is pending a bug fix in gcc, see <a
+  href="http://gcc.gnu.org/bugzilla/show_bug.cgi?id=30477">PR#30477</a></li>
 </ul>
 <p>Upgrading to mksh R28 with these changes is highly recommended:</p><ul>
  <li>For these who build software as root, the regression testsuite
@@ -394,10 +412,11 @@
  <li>MD5 (mksh-R28.cpio.gz) = 1869f79961c365c65116974706a56c67</li>
 </ul>
 
-<p>There is a <a href="http://users.unixforge.de/~tglaser/mksh_28.9.20070106.dsc">Debian
- experimental source package</a> (<b>dget</b>table) of mksh-current as of 2007/01/06,
- not GnuPG-signed <em>yet</em> due to hardware issues here. (Just in case, cksum is 3410414089 261
- and tiger is 329c7040fec0e809f0a029f03d83590b9ea9eb0b9a267242.)</p>
+<p>There is a <a href="http://users.unixforge.de/~tglaser/mksh_28.9.20070117.dsc">Debian
+ experimental source package</a> (<b>dget</b>table) of mksh-current as of 2007/01/17,
+ not GnuPG-signed <em>yet</em> due to hardware issues. (Just in case, cksum is
+ 1213678833 262 and tiger is 70668b81d2cdce6fa014a114cf6e29aaf5bd9262f0e3a3d1.)
+ The .tar.gz is gzsig(1)d, though.</p>
 
 <p>Find older versions below:</p>
 
