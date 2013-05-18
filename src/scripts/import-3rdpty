@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/scripts/import-3rdpty,v 1.24 2005/11/23 18:04:44 tg Exp $
+# $MirOS: src/scripts/import-3rdpty,v 1.25 2005/11/23 21:03:41 tg Exp $
 #-
 # Copyright (c) 2004, 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -23,7 +23,7 @@
 # rect or other, however caused, arising in any way out of the usage
 # of this work, even if advised of the possibility of such damage.
 
-print -r -- '========= $MirOS: src/scripts/import-3rdpty,v 1.24 2005/11/23 18:04:44 tg Exp $ ========='
+print -r -- '========= $MirOS: src/scripts/import-3rdpty,v 1.25 2005/11/23 21:03:41 tg Exp $ ========='
 
 ignlist=0
 force=0
@@ -118,6 +118,7 @@ binutils)
 		gdb/NEWS \
 		gdb/PROBLEMS \
 		gdb/README \
+		gdb/acconfig.h \
 		gdb/cp-name-parser.c \
 		gdb/doc/*.info* \
 		gdb/doc/ChangeLog* \
@@ -150,8 +151,10 @@ binutils)
 		ld/testsuite \
 		libiberty/COPYING.LIB \
 		libiberty/ChangeLog* \
+		libiberty/Makefile.in \
 		libiberty/README \
 		libiberty/_doprnt.c \
+		libiberty/aclocal.m4 \
 		libiberty/alloca.c \
 		libiberty/asprintf.c \
 		libiberty/atexit.c \
@@ -165,8 +168,10 @@ binutils)
 		libiberty/clock.c \
 		libiberty/config \
 		libiberty/config.h-vms \
+		libiberty/config.in \
 		libiberty/config.table \
 		libiberty/configure \
+		libiberty/configure.ac \
 		libiberty/copying-lib.texi \
 		libiberty/ffs.c \
 		libiberty/fnmatch.c \
@@ -265,6 +270,98 @@ cdk)
 	;;
 cvs)
 	IGNORELIST="\
+		.cvsignore \
+		ABOUT-NLS \
+		COPYING \
+		COPYING.LIB \
+		ChangeLog \
+		ChangeLog.zoo \
+		HACKING \
+		INSTALL \
+		PROJECTS \
+		README.VMS \
+		TESTS \
+		build.com \
+		compile \
+		config.guess \
+		config.rpath \
+		config.sub \
+		contrib/.cvsignore \
+		contrib/ChangeLog \
+		cvs-format.el \
+		cvs.spec.in \
+		cvsnt.dep \
+		cvsnt.dsp \
+		cvsnt.dsw \
+		cvsnt.mak \
+		depcomp \
+		diff/.cvsignore \
+		diff/ChangeLog \
+		diff/build_diff.com \
+		diff/libdiff.dep \
+		diff/libdiff.dsp \
+		diff/libdiff.mak \
+		doc/.cvsignore \
+		doc/ChangeLog \
+		doc/ChangeLog.fsf \
+		doc/cvs.1 \
+		doc/mdate-sh \
+		doc/texinfo.tex \
+		install-sh \
+		lib/.cvsignore \
+		lib/ChangeLog \
+		lib/ChangeLog.fsf \
+		lib/Makefile.gnulib \
+		lib/README \
+		lib/alloca_.h \
+		lib/build_lib.com \
+		lib/fnmatch.c \
+		lib/fnmatch_.h \
+		lib/fnmatch_loop.c \
+		lib/getopt.c \
+		lib/getopt1.c \
+		lib/getopt_.h \
+		lib/getopt_int.h \
+		lib/getpass.c \
+		lib/libcvs.dep \
+		lib/libcvs.dsp \
+		lib/libcvs.mak \
+		lib/mktime.c \
+		lib/stdbool_.h \
+		lib/stdint_.h \
+		lib/test-getdate.sh \
+		lib/valloc.c \
+		m4/ChangeLog \
+		m4/README \
+		m4/alloca.m4 \
+		m4/fnmatch.m4 \
+		m4/getopt.m4 \
+		m4/getpass.m4 \
+		m4/md5.m4 \
+		m4/mktime.m4 \
+		m4/nls.m4 \
+		man/.cvsignore \
+		man/ChangeLog \
+		man/cvsbug.8 \
+		mdate-sh \
+		missing \
+		mkinstalldirs \
+		mktemp.sh \
+		src/.cvsignore \
+		src/ChangeLog \
+		src/ChangeLog-9194 \
+		src/ChangeLog-9395 \
+		src/ChangeLog-96 \
+		src/ChangeLog-97 \
+		src/build_src.com \
+		src/cvsbug.in \
+		src/gssapi-client.c \
+		src/gssapi-client.h \
+		src/kerberos4-client.c \
+		src/kerberos4-client.h \
+		src/myndbm.c \
+		src/myndbm.h \
+		ylwrap \
 	"
 	vendor=FSF
 	vpath=src/gnu/usr.bin/cvs
@@ -304,10 +401,22 @@ expat)
 	;;
 lynx)
 	IGNORELIST="\
+		*.com \
+		ABOUT-NLS \
+		CHANGES \
+		COPYHEADER \
+		COPYING \
+		INSTALLATION \
+		PROBLEMS \
+		README \
+		VMSPrint.com \
 		WWW/FreeofCharge.html \
 		WWW/Library/VMS \
 		WWW/Library/djgpp \
 		WWW/Library/vms \
+		config.guess \
+		config.sub \
+		descrip.mms \
 		docs/CHANGES* \
 		docs/OS-390* \
 		docs/SOCKETSHR.announce \
@@ -315,7 +424,17 @@ lynx)
 		docs/VMSWAIS.announce \
 		docs/djgpp.key \
 		docs/win-386.announce \
+		fixed512.com \
+		install.sh \
 		lib \
+		lynx.hlp \
+		lynx.rsp \
+		make-msc.bat \
+		makefile.bcb \
+		makefile.msc \
+		makelynx.bat \
+		makew32.bat \
+		mkdirs.sh \
 		po \
 		samples/*VMS* \
 		samples/lynx.com \
@@ -330,28 +449,6 @@ lynx)
 		src/makefile.{dos,dsl,wsl} \
 		src/mktime.c \
 		src/strstr.c \
-		*.com \
-		ABOUT-NLS \
-		CHANGES \
-		COPYHEADER \
-		COPYING \
-		INSTALLATION \
-		PROBLEMS \
-		README \
-		VMSPrint.com \
-		config.guess \
-		config.sub \
-		descrip.mms \
-		fixed512.com \
-		install.sh \
-		lynx.hlp \
-		lynx.rsp \
-		make-msc.bat \
-		makefile.bcb \
-		makefile.msc \
-		makelynx.bat \
-		makew32.bat \
-		mkdirs.sh \
 	"
 	vendor=lynx
 	vpath=src/gnu/usr.bin/lynx
@@ -366,15 +463,19 @@ openbsd)
 		bin/ksh \
 		bin/rcp \
 		bin/rmail \
+		bin/test/TEST.README \
+		bin/test/TEST.csh \
+		bin/test/TEST.sh \
+		bin/test/test.c \
 		distrib/alpha \
 		distrib/amd64 \
 		distrib/cats \
-		distrib/common/rdsetroot.c,v \
+		distrib/common/rdsetroot.c \
 		distrib/crunch \
 		distrib/hp300 \
 		distrib/hppa \
 		distrib/hppa64 \
-		distrib/i386/Makefile.inc,v \
+		distrib/i386/Makefile.inc \
 		distrib/i386/cdfs \
 		distrib/i386/cdfs-emu \
 		distrib/i386/ramdiskA \
@@ -432,16 +533,17 @@ openbsd)
 		etc/mtree/BSD.local.dist \
 		etc/mtree/BSD.x11.dist \
 		etc/ospfd.conf \
-		etc/ppp/chatscript.sample,v \
-		etc/ppp/options,v \
-		etc/ppp/options.leaf,v \
-		etc/root/dot.cshrc,v \
-		etc/root/dot.klogin,v \
-		etc/root/dot.login,v \
-		etc/skel/dot.cshrc,v \
-		etc/skel/dot.login,v \
+		etc/ppp/chatscript.sample \
+		etc/ppp/options \
+		etc/ppp/options.leaf \
+		etc/root/dot.cshrc \
+		etc/root/dot.klogin \
+		etc/root/dot.login \
+		etc/skel/dot.cshrc \
+		etc/skel/dot.login \
 		etc/systrace/usr_sbin_named \
 		games \
+		gnu/README \
 		gnu/egcs \
 		gnu/lib \
 		gnu/share \
@@ -456,7 +558,14 @@ openbsd)
 		gnu/usr.bin/rcs \
 		gnu/usr.bin/sendbug \
 		gnu/usr.bin/texinfo \
+		gnu/usr.sbin/Makefile.inc \
 		gnu/usr.sbin/mkhybrid \
+		gnu/usr.sbin/sendmail/CACerts \
+		gnu/usr.sbin/sendmail/cf/cf/corpse.mc \
+		gnu/usr.sbin/sendmail/cf/cf/lucifier.mc \
+		gnu/usr.sbin/sendmail/contrib/expn.pl \
+		gnu/usr.sbin/sendmail/contrib/re-mqueue.pl \
+		gnu/usr.sbin/sendmail/doc/op/README \
 		include/rpcsvc \
 		include/wchar.h \
 		include/wctype.h \
@@ -514,20 +623,14 @@ openbsd)
 		lib/libc/yp \
 		lib/libcom_err \
 		lib/libcompat/regexp/COPYRIGHT \
-		lib/libcompat/regexp/COPYRIGHT \
 		lib/libcurses++ \
 		lib/libdes/README \
-		lib/libdes/README \
-		lib/libdes/VERSION \
 		lib/libdes/VERSION \
 		lib/libdes/asm \
 		lib/libdes/des_locl.org \
-		lib/libdes/des_locl.org \
-		lib/libedit/readline/Makefile \
 		lib/libedit/readline/Makefile \
 		lib/libedit/tokenizer.h \
 		lib/libevent/compat \
-		lib/libevent/err.c \
 		lib/libevent/err.c \
 		lib/libevent/sample \
 		lib/libevent/test \
@@ -540,20 +643,13 @@ openbsd)
 		lib/libkafs \
 		lib/libkrb5 \
 		lib/libkvm/kvm_alpha.c \
-		lib/libkvm/kvm_alpha.c \
-		lib/libkvm/kvm_arm.c \
 		lib/libkvm/kvm_arm.c \
 		lib/libkvm/kvm_hppa.c \
-		lib/libkvm/kvm_hppa.c \
 		lib/libkvm/kvm_m68k.c \
-		lib/libkvm/kvm_m68k.c \
-		lib/libkvm/kvm_m88k.c \
 		lib/libkvm/kvm_m88k.c \
 		lib/libkvm/kvm_mips64.c \
 		lib/libkvm/kvm_powerpc.c \
 		lib/libkvm/kvm_sparc64.c \
-		lib/libkvm/kvm_sparc64.c \
-		lib/libkvm/kvm_vax.c \
 		lib/libkvm/kvm_vax.c \
 		lib/libm/arch/alpha \
 		lib/libm/arch/hppa \
@@ -564,10 +660,7 @@ openbsd)
 		lib/libm/src/w_cabs.c \
 		lib/libm/src/w_cabsf.c \
 		lib/libossaudio/shlib_version \
-		lib/libossaudio/shlib_version \
 		lib/libpcap/CHANGES \
-		lib/libpcap/CHANGES \
-		lib/libpcap/README \
 		lib/libpcap/README \
 		lib/libpthread/arch/alpha \
 		lib/libpthread/arch/arm \
@@ -581,10 +674,7 @@ openbsd)
 		lib/libpthread/arch/sparc64 \
 		lib/libpthread/arch/vax \
 		lib/librpcsvc/yp.x \
-		lib/librpcsvc/yp.x \
 		lib/librpcsvc/yppasswd.x \
-		lib/librpcsvc/yppasswd.x \
-		lib/libssl/cert.pem \
 		lib/libssl/cert.pem \
 		lib/libssl/crypto/arch/alpha \
 		lib/libssl/crypto/arch/arm \
@@ -707,6 +797,7 @@ openbsd)
 		regress \
 		sbin/dumplfs \
 		sbin/fsirand \
+		sbin/modunload/pathnames.h \
 		sbin/mount_ados \
 		sbin/mount_lfs \
 		sbin/mount_udf \
@@ -735,23 +826,23 @@ openbsd)
 		share/man/man4/man4.sparc64 \
 		share/man/man4/man4.vax \
 		share/man/man4/man4.zaurus \
-		share/man/man5/bsd.port.mk.5,v \
-		share/man/man5/bsd.regress.mk.5,v \
+		share/man/man5/bsd.port.mk.5 \
+		share/man/man5/bsd.regress.mk.5 \
 		share/man/man5/defaultdomain.5 \
 		share/man/man5/mk.conf.5 \
-		share/man/man7/mirroring-ports.7,v \
-		share/man/man7/packages-specs.7,v \
-		share/man/man7/packages.7,v \
-		share/man/man7/ports.7,v \
-		share/man/man8/compat_aout.8,v \
-		share/man/man8/compat_bsdos.8,v \
-		share/man/man8/compat_freebsd.8,v \
-		share/man/man8/compat_hpux.8,v \
-		share/man/man8/compat_ibcs2.8,v \
-		share/man/man8/compat_osf1.8,v \
-		share/man/man8/compat_sunos.8,v \
-		share/man/man8/compat_svr4.8,v \
-		share/man/man8/compat_ultrix.8,v \
+		share/man/man7/mirroring-ports.7 \
+		share/man/man7/packages-specs.7 \
+		share/man/man7/packages.7 \
+		share/man/man7/ports.7 \
+		share/man/man8/compat_aout.8 \
+		share/man/man8/compat_bsdos.8 \
+		share/man/man8/compat_freebsd.8 \
+		share/man/man8/compat_hpux.8 \
+		share/man/man8/compat_ibcs2.8 \
+		share/man/man8/compat_osf1.8 \
+		share/man/man8/compat_sunos.8 \
+		share/man/man8/compat_svr4.8 \
+		share/man/man8/compat_ultrix.8 \
 		share/man/man8/man8.alpha \
 		share/man/man8/man8.cats \
 		share/man/man8/man8.hp300 \
@@ -767,8 +858,8 @@ openbsd)
 		share/man/man8/man8.sparc64 \
 		share/man/man8/man8.vax \
 		share/man/man8/man8.zaurus \
-		share/man/man8/release.8,v \
-		share/man/man8/yp.8,v \
+		share/man/man8/release.8 \
+		share/man/man8/yp.8 \
 		share/misc/pcvtfonts \
 		share/mk/bsd.nls.mk \
 		share/mk/bsd.port.mk \
@@ -803,6 +894,7 @@ openbsd)
 		sys/arch/zaurus \
 		sys/compat/aout \
 		sys/compat/bsdos \
+		sys/compat/common/compat_exec.c \
 		sys/compat/freebsd \
 		sys/compat/hpux \
 		sys/compat/ibcs2 \
@@ -818,6 +910,7 @@ openbsd)
 		sys/dev/hil \
 		sys/dev/tc \
 		sys/gnu \
+		sys/kern/kern_xxx.c \
 		sys/lib/libkern/arch/alpha \
 		sys/lib/libkern/arch/arm \
 		sys/lib/libkern/arch/hppa \
@@ -827,6 +920,10 @@ openbsd)
 		sys/lib/libkern/arch/mips64 \
 		sys/lib/libkern/arch/sparc64 \
 		sys/lib/libkern/arch/vax \
+		sys/lib/libkern/softfloat-macros.h \
+		sys/lib/libkern/softfloat-specialize.h \
+		sys/lib/libkern/softfloat.c \
+		sys/lib/libkern/softfloat.h \
 		sys/lib/libz \
 		sys/netccitt \
 		sys/netiso \
@@ -849,6 +946,9 @@ openbsd)
 		usr.bin/elf2ecoff \
 		usr.bin/error \
 		usr.bin/fgen \
+		usr.bin/file/LEGAL.NOTICE \
+		usr.bin/file/MAINT \
+		usr.bin/file/PORTING \
 		usr.bin/from \
 		usr.bin/fsplit \
 		usr.bin/gencat \
@@ -856,11 +956,27 @@ openbsd)
 		usr.bin/lam \
 		usr.bin/learn \
 		usr.bin/leave \
+		usr.bin/less/INSTALL \
+		usr.bin/less/LICENSE \
+		usr.bin/less/Makefile.aut \
+		usr.bin/less/Makefile.bsd-wrapper \
+		usr.bin/less/Makefile.in \
+		usr.bin/less/NEWS \
+		usr.bin/less/README \
+		usr.bin/less/configure \
+		usr.bin/less/configure.ac \
+		usr.bin/less/defines.h.in \
+		usr.bin/less/install.sh \
+		usr.bin/less/mkfuncs.awk \
+		usr.bin/less/mkinstalldirs \
 		usr.bin/mg \
 		usr.bin/mkdep/mkdep.gcc.sh \
+		usr.bin/mkdep/mkdep.sh \
 		usr.bin/mkstr \
 		usr.bin/nm \
 		usr.bin/oldrdist \
+		usr.bin/passwd/krb5_passwd.c \
+		usr.bin/passwd/yp_passwd.c \
 		usr.bin/pmdb/arch/alpha \
 		usr.bin/pmdb/arch/arm \
 		usr.bin/pmdb/arch/hppa \
@@ -877,6 +993,12 @@ openbsd)
 		usr.bin/rdistd \
 		usr.bin/rsh \
 		usr.bin/size \
+		usr.bin/ssh/auth-krb5.c \
+		usr.bin/ssh/auth2-gss.c \
+		usr.bin/ssh/gss-genr.c \
+		usr.bin/ssh/gss-serv-krb5.c \
+		usr.bin/ssh/gss-serv.c \
+		usr.bin/ssh/ssh-gss.h \
 		usr.bin/stat \
 		usr.bin/strings \
 		usr.bin/strip \
@@ -984,12 +1106,113 @@ png)
 	;;
 rcs)
 	IGNORELIST="\
+		COPYING \
+		CREDITS \
+		ChangeLog \
+		INSTALL \
+		INSTALL.RCS \
+		Makefile.in \
+		NEWS \
+		README \
+		REFS \
+		configure \
+		configure.in \
+		install-sh \
+		man/COPYING \
+		man/ChangeLog \
+		man/Makefile.in \
+		man/rcsfile.5 \
+		mkinstalldirs \
+		src/COPYING \
+		src/ChangeLog \
+		src/Makefile.in \
+		src/TAGS \
+		src/conf.heg \
+		src/conf.sh \
+		src/maketime.c \
+		src/maketime.h \
+		src/partime.c \
+		src/partime.h \
 	"
 	vendor=FSF
 	vpath=src/gnu/usr.bin/rcs
 	;;
 texinfo)
 	IGNORELIST="\
+		ABOUT-NLS \
+		AUTHORS \
+		COPYING \
+		ChangeLog \
+		ChangeLog.46 \
+		INSTALL \
+		INSTALL.generic \
+		INTRODUCTION \
+		NEWS \
+		README \
+		README.dev \
+		TODO \
+		config.guess \
+		config.rpath \
+		config.sub \
+		depcomp \
+		doc/Makefile.am \
+		doc/Makefile.in \
+		doc/README \
+		doc/epsf.tex \
+		doc/fdl.texi \
+		doc/info-stnd.texi \
+		doc/info.texi \
+		doc/mdate-sh \
+		doc/pdfcolor.tex \
+		doc/stamp-1 \
+		doc/stamp-vti \
+		doc/texi2dvi.1 \
+		doc/texindex.1 \
+		doc/texinfo.tex \
+		doc/texinfo.txi \
+		doc/txi-cs.tex \
+		doc/txi-de.tex \
+		doc/txi-en.tex \
+		doc/txi-es.tex \
+		doc/txi-fr.tex \
+		doc/txi-it.tex \
+		doc/txi-nl.tex \
+		doc/txi-no.tex \
+		doc/txi-pl.tex \
+		doc/txi-pt.tex \
+		doc/txi-tr.tex \
+		doc/version-stnd.texi \
+		doc/version.texi \
+		info/README \
+		info/pcterm.c \
+		install-sh \
+		m4/ChangeLog \
+		m4/Makefile.am \
+		m4/Makefile.in \
+		makeinfo/README \
+		makeinfo/tests \
+		missing \
+		mkinstalldirs \
+		util/README \
+		util/deref.c \
+		util/dir-example \
+		util/fixfonts \
+		util/fixref.gawk \
+		util/gdoc \
+		util/gendocs.sh \
+		util/gendocs_template \
+		util/infosrch \
+		util/install-info-html \
+		util/outline.gawk \
+		util/prepinfo.awk \
+		util/tex3patch \
+		util/texi-docstring-magic.el \
+		util/texi2dvi \
+		util/texi2pdf \
+		util/texinfo-cat.in \
+		util/texinfo.dtd \
+		util/texinfo.xsl \
+		util/txitextest \
 	"
 	vendor=FSF
 	vpath=src/gnu/usr.bin/texinfo
@@ -1122,7 +1345,7 @@ binutils)
 		exit 1
 	fi
 	;;
-cvs)
+cdk|cvs|expat)
 	print -u2 not implemented yet
 	exit 1
 	;;
@@ -1146,7 +1369,7 @@ openbsd)
 		exit 1
 	fi
 	;;
-rcs)
+png|rcs)
 	print -u2 not implemented yet
 	exit 1
 	;;
