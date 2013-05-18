@@ -1,9 +1,9 @@
-# $MirOS: ports/www/w3m/Makefile,v 1.6 2006/09/14 00:15:00 tg Exp $
+# $MirOS: ports/www/w3m/Makefile,v 1.7 2006/12/20 15:32:08 tg Exp $
 # $OpenBSD: Makefile,v 1.59 2005/02/22 10:23:39 alek Exp $
 
 COMMENT=		pager/text-based web browser
 VERSION=		0.5.1
-DASH_VER=		0
+DASH_VER=		1
 DISTNAME=		w3m-${VERSION}
 CATEGORIES=		www
 HOMEPAGE=		http://w3m.sourceforge.net/
