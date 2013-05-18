@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.404 2012/12/02 17:32:37 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.405 2012/12/07 23:47:47 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -9417,8 +9417,20 @@ Tag: debian
 <p>Before we begin, everyone should read up on hashtables and what open
  addressing / closed hashing is. The context is lines 111‥190 of <a
  href="http://hg.python.org/cpython/file/026b9f5dd97f/Objects/dictobject.c">Python’s
- Objects/dictobject.c as of today</a> (so we get the line numbers straight).
- My questions on this are:</p>
+ Objects/dictobject.c as of today</a> (so we get the line numbers straight).</p>
+<p>(I’ve reworded this wlog entry a bit; I originally wrote it too late at
+ night for it to read coherent.) Basically, I’ve got an application where
+ I’d like to use a hashtable for a number of things – not as generic as
+ Python, and with focus on small footprint. I’d like to offer associative
+ arrays in a scripting language, where the keys are always arbitrary byte
+ strings excluding NUL. Also, I’d like to use the hashtable as backend for
+ indexed arrays, where the keys are <tt>uint32_t</tt> and the usual use
+ case is sequential. Finally, I’m using it for several internal tables,
+ such as a list of keywords, one of builtins, one of special variables,
+ etc. which is a reason for me to not use a self-balancing binary tree
+ as data structure (reading further below might suggest that, but getting
+ a sorted list of hashtable keys is not the focus, though not unimportant).
+ <br />My questions on this are:</p>
 <p class="boxhead">① Why is the shift on perturb done after its first use?
  In my experiments (using 32-bit width everywhere), for the pathological
  case of an 8-element (i = 3) table with three entries 0, 0x40000000 and
@@ -9461,29 +9473,45 @@ Tag: debian
  like Xing and Groundspeak/Geocaching.COM, at all. In fact, I urge others to
  do the same, so it really hurts them; it may be their business model, but not
  if they spam me. Besides, OpenCaching.DE exists.</span></p>
+<p>Another thing is: to avoid CVE-2011-4815, I’m randomising the hash used,
+ with one “seed” value per hashtable, changed before a resize operation.
+ I originally thought to seed it with nonzero, but then I have to rehash
+ on hashtable resize, so I’ll be XORing the final hash value instead (thanks
+ ciruZ for the idea). I’m thinking of omitting that for indexed arrays, as
+ an attacker almost certainly cannot determine the keys there. (To directly
+ use the indexed array keys, which are already <tt>uint32_t</tt>, as hashes
+ makes using <tt>i</tt> from ② even more important.) The hash I’m using is
+ a modified Jenkins one-at-a-time called NZAAT: it’s my new generic standard
+ nōn-cryptographic hash, and the changes are thus: while adding a byte,
+ another increment of the hash is done (so NUL counts), and the finaliser
+ got prefixed with the shift-left-add+shift-right-xor sequence of the
+ adder (but not adding any value or the +1), to get best avalanche for
+ all bytes. I actually compiled several versions of <tt>Hash.cs</tt> on
+ a Windows® VM at work to analyse the original one-at-a-time and all of my
+ modifications; these turned out to be the simplest ones (I originally had
+ added 0x100 instead of 1, but the effect was the same, and +1 is usually
+ cheaper on most CPUs).</p>
+<p>Also, to avoid people being able to get to the seed, a user will always
+ get only a sorted list of hashtable keys (numeric for indexed arrays,
+ ASCIIbetically otherwise; see also my thoughts on JSON from the previous
+ wlog entry). What algorithm do I use? For strings, comparisons are much
+ more expensive, so I’d like to keep them low. Memory use is also a factor;
+ allocating one large(r) block is better than many small ones due to the
+ pool allocator overhead and due to portability to ancient Unicēs (which
+ is another reason for me to use a hashtable which is a small struct plus
+ an array of pointers, and then pass the list of keys as array of string
+ pointers, instead of a tree). For both reasons, I’m thinking a relatively
+ simple MergeSort: I need to allocate the result array anyway, so I can
+ just get two and free the one that isn’t the end result, and it’s AFAICT
+ the cheapest on comparisons other than Tree Sort (which nobody really seems
+ to use, and which would effect to using a balanced binary tree again).
+ Since keys are unique, stability and duplicate handling is never an issue.
+ I’d like to use only one algorithm and one data structure, not a combination,
+ as compactness <em>is</em> a design goal.</p>
 <p>Please drop your thoughts on <a href="@@RELPATH@@irc.htm">Freenode</a>,
  e.g. by <tt>/msg MemoServ send mirabilos <i>your text here</i></tt> or per
  eMail to the domains debian, freewrt or mirbsd, which are organisations, with
  the localpart <tt>tg</tt>. Or just contact me as usual, if you’re already
  acquainted. Or lookup 0xE99007E0. Thanks in advance! (Especially, Python
  Developers’ thoughts are welcome.)</p>
-<p>Another thing to think of: to avoid things like CVE-2011-4815, I’ll XOR
- the actual hash with a random, one per hashtable (changed on resize) value.
- When using the hashtable as storage backend for (potentially sparse) indexed
- arrays, my keys are 32-bit integers, too. I’m thinking of skipping that
- randomisation there: an attacker probably cannot decide the keys, only the
- values, for code that writes into indexed arrays (as opposed to associative
- arrays, where integer keys are just interpreted as strings and hashed and
- then randomised). Right? (The code in question is used in a less general
- fashion than Python’s, namely, a (Unix) shell.)</p>
-<p>PS: Sorting algorithm with as few comparisons as possible (we’re talking
- array of strings here: cheap swaps), decent performance and memory usage.
- I’m thinking Merge Sort. Maybe Tree Sort, but then I shouldn’t use a hash
- table, and on the other hand, I don’t always need a list of keys (with the
- reason the associative array keys need to be sorted being CVE-2011-4815,
- so the secret XOR value is never exposed, among other reasons), and it’s
- harder on the allocator, whereas Merge Sort is easy, alloc-wise: I need to
- return a newly allocated array anyway. It’s mostly but not only for making
- a sorted list of array keys, but all use cases have unique strings and no
- need for a stable sort, or in-place for that matter.</p>
 ----
