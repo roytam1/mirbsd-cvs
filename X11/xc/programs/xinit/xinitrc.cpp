@@ -1,5 +1,5 @@
 XCOMM!/bin/sh
-XCOMM $MirOS: X11/xc/programs/xinit/xinitrc.cpp,v 1.7 2006/06/23 15:45:46 tg Exp $
+XCOMM $MirOS: X11/xc/programs/xinit/xinitrc.cpp,v 1.8 2007/01/29 01:31:30 tg Exp $
 XCOMM $Xorg: xinitrc.cpp,v 1.3 2000/08/17 19:54:30 cpqbld Exp $
 
 userresources=$HOME/.Xresources
@@ -10,19 +10,19 @@ sysmodmap=XINITDIR/.Xmodmap
 XCOMM merge in defaults and keymaps
 
 if [ -f $sysresources ]; then
-    xrdb -merge $sysresources
+	xrdb -merge $sysresources
 fi
 
 if [ -f $sysmodmap ]; then
-    xmodmap $sysmodmap
+	xmodmap $sysmodmap
 fi
 
 if [ -f $userresources ]; then
-    xrdb -merge $userresources
+	xrdb -merge $userresources
 fi
 
 if [ -f $usermodmap ]; then
-    xmodmap $usermodmap
+	xmodmap $usermodmap
 fi
 
 XCOMM start some nice programs
