@@ -1,4 +1,4 @@
-/* $OpenBSD: readconf.c,v 1.173 2008/12/09 02:58:16 djm Exp $ */
+/* $OpenBSD: readconf.c,v 1.176 2009/02/12 03:00:56 djm Exp $ */
 /*
  * Author: Tatu Ylonen <ylo@cs.hut.fi>
  * Copyright (c) 1995 Tatu Ylonen <ylo@cs.hut.fi>, Espoo, Finland
@@ -40,7 +40,7 @@
 #include "kex.h"
 #include "mac.h"
 
-__RCSID("$MirOS: src/usr.bin/ssh/readconf.c,v 1.15 2008/03/02 21:14:20 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/readconf.c,v 1.16 2008/12/16 20:55:25 tg Exp $");
 
 /* Format of the configuration file:
 
@@ -166,7 +166,7 @@ static struct {
 	{ "fallbacktorsh", oDeprecated },
 	{ "usersh", oDeprecated },
 	{ "identityfile", oIdentityFile },
-	{ "identityfile2", oIdentityFile },			/* alias */
+	{ "identityfile2", oIdentityFile },			/* obsolete */
 	{ "identitiesonly", oIdentitiesOnly },
 	{ "hostname", oHostName },
 	{ "hostkeyalias", oHostKeyAlias },
@@ -182,8 +182,8 @@ static struct {
 	{ "host", oHost },
 	{ "escapechar", oEscapeChar },
 	{ "globalknownhostsfile", oGlobalKnownHostsFile },
-	{ "userknownhostsfile", oUserKnownHostsFile },		/* obsolete */
-	{ "globalknownhostsfile2", oGlobalKnownHostsFile2 },
+	{ "globalknownhostsfile2", oGlobalKnownHostsFile2 },	/* obsolete */
+	{ "userknownhostsfile", oUserKnownHostsFile },
 	{ "userknownhostsfile2", oUserKnownHostsFile2 },	/* obsolete */
 	{ "connectionattempts", oConnectionAttempts },
 	{ "batchmode", oBatchMode },
@@ -719,7 +719,8 @@ parse_int:
 		}
 
 		if (parse_forward(&fwd, fwdarg,
-		    opcode == oDynamicForward ? 1 : 0) == 0)
+		    opcode == oDynamicForward ? 1 : 0,
+		    opcode == oRemoteForward ? 1 : 0) == 0)
 			fatal("%.200s line %d: Bad forwarding specification.",
 			    filename, linenum);
 
@@ -1198,7 +1199,7 @@ fill_default_options(Options * options)
  * returns number of arguments parsed or zero on error
  */
 int
-parse_forward(Forward *fwd, const char *fwdspec, int dynamicfwd)
+parse_forward(Forward *fwd, const char *fwdspec, int dynamicfwd, int remotefwd)
 {
 	int i;
 	char *p, *cp, *fwdarg[4];
@@ -1257,16 +1258,20 @@ parse_forward(Forward *fwd, const char *fwdspec, int dynamicfwd)
 	} else {
 		if (!(i == 3 || i == 4))
 			goto fail_free;
-		if (fwd->connect_port == 0)
+		if (fwd->connect_port <= 0)
 			goto fail_free;
 	}
 
-	if (fwd->listen_port == 0)
+	if (fwd->listen_port < 0 || (!remotefwd && fwd->listen_port == 0))
 		goto fail_free;
 
 	if (fwd->connect_host != NULL &&
 	    strlen(fwd->connect_host) >= NI_MAXHOST)
 		goto fail_free;
+	if (fwd->listen_host != NULL &&
+	    strlen(fwd->listen_host) >= NI_MAXHOST)
+		goto fail_free;
+
 
 	return (i);
 

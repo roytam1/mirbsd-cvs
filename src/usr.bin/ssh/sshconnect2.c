@@ -1,4 +1,4 @@
-/* $OpenBSD: sshconnect2.c,v 1.170 2008/11/04 08:22:13 djm Exp $ */
+/* $OpenBSD: sshconnect2.c,v 1.171 2009/03/05 07:18:19 djm Exp $ */
 /*
  * Copyright (c) 2000 Markus Friedl.  All rights reserved.
  * Copyright (c) 2008 Damien Miller.  All rights reserved.
@@ -62,9 +62,10 @@
 #include "msg.h"
 #include "pathnames.h"
 #include "uidswap.h"
+#include "schnorr.h"
 #include "jpake.h"
 
-__RCSID("$MirOS: src/usr.bin/ssh/sshconnect2.c,v 1.13 2008/12/16 22:13:32 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/sshconnect2.c,v 1.14 2008/12/27 21:17:59 tg Exp $");
 
 /* for now */
 extern const EVP_MD *evp_ssh_sha256(void);

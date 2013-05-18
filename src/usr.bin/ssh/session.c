@@ -1,4 +1,4 @@
-/* $OpenBSD: session.c,v 1.244 2008/11/09 12:34:47 tobias Exp $ */
+/* $OpenBSD: session.c,v 1.245 2009/01/22 09:46:01 djm Exp $ */
 /*
  * Copyright (c) 1995 Tatu Ylonen <ylo@cs.hut.fi>, Espoo, Finland
  *                    All rights reserved
@@ -79,7 +79,7 @@
 #include "monitor_wrap.h"
 #include "sftp.h"
 
-__RCSID("$MirOS: src/usr.bin/ssh/session.c,v 1.20 2008/12/16 22:13:29 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/session.c,v 1.21 2008/12/27 21:17:56 tg Exp $");
 
 #define IS_INTERNAL_SFTP(c) \
 	(!strncmp(c, INTERNAL_SFTP_NAME, sizeof(INTERNAL_SFTP_NAME) - 1) && \
@@ -215,7 +215,7 @@ auth_input_request_forwarding(struct passwd * pw)
 	    SSH_CHANNEL_AUTH_SOCKET, sock, sock, -1,
 	    CHAN_X11_WINDOW_DEFAULT, CHAN_X11_PACKET_DEFAULT,
 	    0, "auth socket", 1);
-	strlcpy(nc->path, auth_sock_name, sizeof(nc->path));
+	nc->path = xstrdup(auth_sock_name);
 	return 1;
 
  authsock_err:

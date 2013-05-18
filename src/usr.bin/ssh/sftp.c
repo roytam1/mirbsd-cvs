@@ -1,4 +1,4 @@
-/* $OpenBSD: sftp.c,v 1.106 2008/12/09 15:35:00 sobrado Exp $ */
+/* $OpenBSD: sftp.c,v 1.107 2009/02/02 11:15:14 dtucker Exp $ */
 /*
  * Copyright (c) 2001-2004 Damien Miller <djm@openbsd.org>
  *
@@ -45,7 +45,7 @@
 #include "sftp-common.h"
 #include "sftp-client.h"
 
-__RCSID("$MirOS: src/usr.bin/ssh/sftp.c,v 1.18 2008/12/16 22:13:30 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/sftp.c,v 1.19 2008/12/27 21:17:58 tg Exp $");
 
 /* File to read commands from */
 FILE* infile;
@@ -1215,8 +1215,8 @@ parse_dispatch_command(struct sftp_conn *conn, const char *cmd, char **pwd,
     int err_abort)
 {
 	char *path1, *path2, *tmp;
-	int pflag, lflag, iflag, hflag, cmdnum, i;
-	unsigned long n_arg;
+	int pflag = 0, lflag = 0, iflag = 0, hflag = 0, cmdnum, i;
+	unsigned long n_arg = 0;
 	Attrib a, *aa;
 	char path_buf[MAXPATHLEN];
 	int err = 0;

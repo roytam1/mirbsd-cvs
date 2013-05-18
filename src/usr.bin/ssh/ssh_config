@@ -1,5 +1,5 @@
-# $MirOS: src/usr.bin/ssh/ssh_config,v 1.15 2008/12/16 20:55:31 tg Exp $
-# $OpenBSD: ssh_config,v 1.24 2008/07/25 06:56:35 grunk Exp $
+# $MirOS: src/usr.bin/ssh/ssh_config,v 1.16 2008/12/16 22:13:31 tg Exp $
+# $OpenBSD: ssh_config,v 1.25 2009/02/17 01:28:32 djm Exp $
 
 # This is the ssh client system-wide configuration file.  See
 # ssh_config(5) for more information.  This file provides defaults for
@@ -48,15 +48,15 @@
 #   IdentitiesOnly no
 #   Port 22
 #   Protocol 2,1
+#   Cipher blowfish
+#   Ciphers aes256-ctr,arcfour256,aes256-cbc,cast128-cbc,aes128-cbc,blowfish-cbc,rijndael-cbc@lysator.liu.se,aes128-ctr,arcfour128,arcfour,aes192-cbc,aes192-ctr,3des-cbc
+#   MACs umac-64@openssh.com,hmac-ripemd160,hmac-ripemd160@openssh.com,hmac-sha1,hmac-sha1-96,hmac-md5,hmac-md5-96
 #   EscapeChar ~
 #   TCPKeepAlive yes
 #   Tunnel no
 #   TunnelDevice any:any
 #   PermitLocalCommand no
 #   VisualHostKey no
-#   Cipher blowfish
-#   Ciphers aes128-cbc,blowfish-cbc,arcfour256,cast128-cbc,aes256-cbc,rijndael-cbc@lysator.liu.se,aes256-ctr,aes192-cbc,aes192-ctr,arcfour128,arcfour,aes128-ctr,3des-cbc
-#   MACs umac-64@openssh.com,hmac-ripemd160,hmac-ripemd160@openssh.com,hmac-sha1,hmac-md5,hmac-sha1-96,hmac-md5-96
 #   Compression no
 #   CompressionLevel 6
 

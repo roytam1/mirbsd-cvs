@@ -1,5 +1,5 @@
-/* $MirOS: src/usr.bin/ssh/readconf.h,v 1.10 2008/03/02 21:14:20 tg Exp $ */
-/* $OpenBSD: readconf.h,v 1.76 2008/11/04 08:22:13 djm Exp $ */
+/* $MirOS: src/usr.bin/ssh/readconf.h,v 1.11 2008/12/16 20:55:25 tg Exp $ */
+/* $OpenBSD: readconf.h,v 1.78 2009/02/12 03:00:56 djm Exp $ */
 
 /*
  * Author: Tatu Ylonen <ylo@cs.hut.fi>
@@ -21,9 +21,9 @@
 
 typedef struct {
 	char	 *listen_host;		/* Host (address) to listen on. */
-	u_short	  listen_port;		/* Port to forward. */
+	int	  listen_port;		/* Port to forward. */
 	char	 *connect_host;		/* Host to connect. */
-	u_short	  connect_port;		/* Port to connect on connect_host. */
+	int	  connect_port;		/* Port to connect on connect_host. */
 }       Forward;
 /* Data structure for representing option data. */
 
@@ -133,7 +133,7 @@ typedef struct {
 void     initialize_options(Options *);
 void     fill_default_options(Options *);
 int	 read_config_file(const char *, const char *, Options *, int);
-int	 parse_forward(Forward *, const char *, int);
+int	 parse_forward(Forward *, const char *, int, int);
 
 int
 process_config_line(Options *, const char *, char *, const char *, int, int *);

@@ -1,5 +1,5 @@
-/* $MirOS: src/usr.bin/ssh/pathnames.h,v 1.3 2006/04/19 10:40:50 tg Exp $ */
-/* $OpenBSD: pathnames.h,v 1.16 2006/03/25 22:22:43 djm Exp $ */
+/* $MirOS: src/usr.bin/ssh/pathnames.h,v 1.4 2006/07/23 14:19:27 tg Exp $ */
+/* $OpenBSD: pathnames.h,v 1.17 2008/12/29 02:23:26 stevesk Exp $ */
 
 /*
  * Author: Tatu Ylonen <ylo@cs.hut.fi>
@@ -47,7 +47,7 @@
 #define _PATH_SSH_DAEMON_PID_FILE	_PATH_SSH_PIDDIR "/sshd.pid"
 
 /*
- * The directory in user\'s home directory in which the files reside. The
+ * The directory in user's home directory in which the files reside. The
  * directory should be world-readable (though not all files are).
  */
 #define _PATH_SSH_USER_DIR		".etc/ssh"
@@ -70,9 +70,9 @@
 #define _PATH_SSH_CLIENT_ID_RSA		".etc/ssh/id_rsa"
 
 /*
- * Configuration file in user\'s home directory.  This file need not be
+ * Configuration file in user's home directory.  This file need not be
  * readable by anyone but the user him/herself, but does not contain anything
- * particularly secret.  If the user\'s home directory resides on an NFS
+ * particularly secret.  If the user's home directory resides on an NFS
  * volume where root is mapped to nobody, this may need to be world-readable.
  */
 #define _PATH_SSH_USER_CONFFILE		".etc/ssh/config"

@@ -34,7 +34,7 @@
 .\" (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
 .\" THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .\"
-.\" $MirOS: src/usr.bin/ssh/sshd.8,v 1.16 2008/12/16 20:55:32 tg Exp $
+.\" $MirOS: src/usr.bin/ssh/sshd.8,v 1.17 2008/12/16 22:13:32 tg Exp $
 .\" $OpenBSD: sshd.8,v 1.247 2008/10/03 13:08:12 jmc Exp $
 .Dd $Mdocdate: December 16 2008 $
 .Dt SSHD 8
@@ -312,7 +312,7 @@ The client selects the encryption algorithm
 to use from those offered by the server.
 Additionally, session integrity is provided
 through a cryptographic message authentication code
-(hmac-ripemd160, umac-64, hmac-sha1 or hmac-md5).
+(umac-64, hmac-ripemd160, hmac-sha1 or hmac-md5).
 .Pp
 Finally, the server and the client enter an authentication dialog.
 The client tries to authenticate itself using

@@ -1,4 +1,4 @@
-/* $OpenBSD: monitor.c,v 1.100 2008/11/04 08:22:13 djm Exp $ */
+/* $OpenBSD: monitor.c,v 1.101 2009/02/12 03:26:22 djm Exp $ */
 /*
  * Copyright 2002 Niels Provos <provos@citi.umich.edu>
  * Copyright 2002 Markus Friedl <markus@openbsd.org>
@@ -70,7 +70,7 @@
 #include "ssh2.h"
 #include "jpake.h"
 
-__RCSID("$MirOS: src/usr.bin/ssh/monitor.c,v 1.12 2008/03/02 21:14:20 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/monitor.c,v 1.13 2008/12/16 20:55:23 tg Exp $");
 
 /* Imports */
 extern ServerOptions options;
@@ -1214,7 +1214,9 @@ mm_answer_rsa_challenge(int sock, Buffer *m)
 		fatal("%s: key type mismatch", __func__);
 	if ((key = key_from_blob(blob, blen)) == NULL)
 		fatal("%s: received bad key", __func__);
-
+	if (key->type != KEY_RSA)
+		fatal("%s: received bad key type %d", __func__, key->type);
+	key->type = KEY_RSA1;
 	if (ssh1_challenge)
 		BN_clear_free(ssh1_challenge);
 	ssh1_challenge = auth_rsa_generate_challenge(key);

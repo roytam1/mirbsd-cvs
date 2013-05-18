@@ -1,5 +1,5 @@
-/* $MirOS$ */
-/* $OpenBSD: cipher.h,v 1.36 2006/03/25 22:22:42 djm Exp $ */
+/* $MirOS: src/usr.bin/ssh/cipher.h,v 1.3 2006/04/19 10:40:46 tg Exp $ */
+/* $OpenBSD: cipher.h,v 1.37 2009/01/26 09:58:15 markus Exp $ */
 
 /*
  * Author: Tatu Ylonen <ylo@cs.hut.fi>
@@ -82,6 +82,7 @@ void	 cipher_cleanup(CipherContext *);
 void	 cipher_set_key_string(CipherContext *, Cipher *, const char *, int);
 u_int	 cipher_blocksize(const Cipher *);
 u_int	 cipher_keylen(const Cipher *);
+u_int	 cipher_is_cbc(const Cipher *);
 
 u_int	 cipher_get_number(const Cipher *);
 void	 cipher_get_keyiv(CipherContext *, u_char *, u_int);

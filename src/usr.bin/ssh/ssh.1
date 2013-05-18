@@ -34,9 +34,9 @@
 .\" (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
 .\" THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .\"
-.\" $MirOS: src/usr.bin/ssh/ssh.1,v 1.25 2008/12/16 20:55:30 tg Exp $
-.\" $OpenBSD: ssh.1,v 1.280 2008/11/09 12:34:47 tobias Exp $
-.Dd $Mdocdate: December 16 2008 $
+.\" $MirOS: src/usr.bin/ssh/ssh.1,v 1.26 2008/12/16 22:13:30 tg Exp $
+.\" $OpenBSD: ssh.1,v 1.283 2009/03/19 15:15:09 jmc Exp $
+.Dd $Mdocdate: March 22 2009 $
 .Dt SSH 1
 .Os
 .Sh NAME
@@ -539,6 +539,13 @@ will only succeed if the server's
 .Cm GatewayPorts
 option is enabled (see
 .Xr sshd_config 5 ) .
+.Pp
+If the
+.Ar port
+argument is
+.Ql 0 ,
+the listen port will be dynamically allocated on the server and reported
+to the client at run time.
 .It Fl S Ar ctl_path
 Specifies the location of a control socket for connection sharing.
 Refer to the description of
@@ -668,7 +675,7 @@ Both protocols support similar authentication methods,
 but protocol 2 is preferred since
 it provides additional mechanisms for confidentiality
 (the traffic is encrypted using AES, 3DES, Blowfish, CAST128, or Arcfour)
-and integrity (hmac-ripemd160, umac-64, hmac-sha1, hmac-md5).
+and integrity (umac-64, hmac-ripemd160, hmac-sha1, hmac-md5).
 Protocol 1 lacks a strong mechanism for ensuring the
 integrity of the connection.
 .Pp

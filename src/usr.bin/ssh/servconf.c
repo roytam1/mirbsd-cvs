@@ -1,4 +1,4 @@
-/* $OpenBSD: servconf.c,v 1.193 2008/12/09 03:20:42 stevesk Exp $ */
+/* $OpenBSD: servconf.c,v 1.194 2009/01/22 10:02:34 djm Exp $ */
 /*
  * Copyright (c) 1995 Tatu Ylonen <ylo@cs.hut.fi>, Espoo, Finland
  *                    All rights reserved
@@ -40,10 +40,10 @@
 #include "channels.h"
 #include "groupaccess.h"
 
-__RCSID("$MirOS: src/usr.bin/ssh/servconf.c,v 1.20 2008/12/16 20:55:26 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/servconf.c,v 1.21 2008/12/16 22:13:29 tg Exp $");
 
-static void add_listen_addr(ServerOptions *, char *, u_short);
-static void add_one_listen_addr(ServerOptions *, char *, u_short);
+static void add_listen_addr(ServerOptions *, char *, int);
+static void add_one_listen_addr(ServerOptions *, char *, int);
 
 /* Use of privilege separation or not */
 extern int use_privsep;
@@ -395,7 +395,7 @@ parse_token(const char *cp, const char *filename,
 }
 
 static void
-add_listen_addr(ServerOptions *options, char *addr, u_short port)
+add_listen_addr(ServerOptions *options, char *addr, int port)
 {
 	u_int i;
 
@@ -411,7 +411,7 @@ add_listen_addr(ServerOptions *options, char *addr, u_short port)
 }
 
 static void
-add_one_listen_addr(ServerOptions *options, char *addr, u_short port)
+add_one_listen_addr(ServerOptions *options, char *addr, int port)
 {
 	struct addrinfo hints, *ai, *aitop;
 	char strport[NI_MAXSERV];
@@ -421,7 +421,7 @@ add_one_listen_addr(ServerOptions *options, char *addr, u_short port)
 	hints.ai_family = options->address_family;
 	hints.ai_socktype = SOCK_STREAM;
 	hints.ai_flags = (addr == NULL) ? AI_PASSIVE : 0;
-	snprintf(strport, sizeof strport, "%u", port);
+	snprintf(strport, sizeof strport, "%d", port);
 	if ((gaierr = getaddrinfo(addr, strport, &hints, &aitop)) != 0)
 		fatal("bad addr or host: %s (%s)",
 		    addr ? addr : "<NULL>",
@@ -577,7 +577,7 @@ process_server_config_line(ServerOptions *options, char *line,
 	SyslogFacility *log_facility_ptr;
 	LogLevel *log_level_ptr;
 	ServerOpCodes opcode;
-	u_short port;
+	int port;
 	u_int i, flags = 0;
 	size_t len;
 
@@ -628,7 +628,7 @@ process_server_config_line(ServerOptions *options, char *line,
 			fatal("%s line %d: missing port number.",
 			    filename, linenum);
 		options->ports[options->num_ports++] = a2port(arg);
-		if (options->ports[options->num_ports-1] == 0)
+		if (options->ports[options->num_ports-1] <= 0)
 			fatal("%s line %d: Badly formatted port number.",
 			    filename, linenum);
 		break;
@@ -681,7 +681,7 @@ process_server_config_line(ServerOptions *options, char *line,
 		p = cleanhostname(p);
 		if (arg == NULL)
 			port = 0;
-		else if ((port = a2port(arg)) == 0)
+		else if ((port = a2port(arg)) <= 0)
 			fatal("%s line %d: bad port number", filename, linenum);
 
 		add_listen_addr(options, p, port);
@@ -1170,7 +1170,7 @@ process_server_config_line(ServerOptions *options, char *line,
 				fatal("%s line %d: missing host in PermitOpen",
 				    filename, linenum);
 			p = cleanhostname(p);
-			if (arg == NULL || (port = a2port(arg)) == 0)
+			if (arg == NULL || (port = a2port(arg)) <= 0)
 				fatal("%s line %d: bad port number in "
 				    "PermitOpen", filename, linenum);
 			if (*activep && n == -1)

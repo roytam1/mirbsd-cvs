@@ -1,5 +1,5 @@
-/* $MirOS: src/usr.bin/ssh/myproposal.h,v 1.10 2007/07/07 23:01:51 tg Exp $ */
-/* $OpenBSD: myproposal.h,v 1.22 2007/06/07 19:37:34 pvalchev Exp $ */
+/* $MirOS: src/usr.bin/ssh/myproposal.h,v 1.11 2007/09/13 13:52:54 tg Exp $ */
+/* $OpenBSD: myproposal.h,v 1.23 2009/01/23 07:58:11 djm Exp $ */
 
 /*
  * Copyright (c) 2000 Markus Friedl.  All rights reserved.
@@ -31,13 +31,14 @@
 	"diffie-hellman-group14-sha1," \
 	"diffie-hellman-group1-sha1"
 #define	KEX_DEFAULT_PK_ALG	"ssh-rsa,ssh-dss"
+
 #define	KEX_DEFAULT_ENCRYPT \
-	"aes128-cbc,blowfish-cbc,arcfour256,cast128-cbc," \
-	"aes256-cbc,rijndael-cbc@lysator.liu.se,aes256-ctr,aes192-cbc," \
-	"aes192-ctr,arcfour128,aes128-cbc,arcfour,3des-cbc"
+	"aes256-ctr,arcfour256,aes256-cbc,cast128-cbc,aes128-cbc," \
+	"blowfish-cbc,rijndael-cbc@lysator.liu.se,aes128-ctr," \
+	"arcfour128,arcfour,aes192-cbc,aes192-ctr,3des-cbc"
 #define	KEX_DEFAULT_MAC \
 	"umac-64@openssh.com,hmac-ripemd160,hmac-ripemd160@openssh.com," \
-	"hmac-sha1,hmac-md5,hmac-sha1-96,hmac-md5-96"
+	"hmac-sha1,hmac-sha1-96,hmac-md5,hmac-md5-96"
 #define	KEX_DEFAULT_COMP	"none,zlib@openssh.com,zlib"
 #define	KEX_DEFAULT_LANG	""
 

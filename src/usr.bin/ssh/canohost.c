@@ -1,4 +1,4 @@
-/* $OpenBSD: canohost.c,v 1.63 2008/06/12 00:03:49 dtucker Exp $ */
+/* $OpenBSD: canohost.c,v 1.64 2009/02/12 03:00:56 djm Exp $ */
 /*
  * Author: Tatu Ylonen <ylo@cs.hut.fi>
  * Copyright (c) 1995 Tatu Ylonen <ylo@cs.hut.fi>, Espoo, Finland
@@ -31,7 +31,7 @@
 #include "canohost.h"
 #include "misc.h"
 
-__RCSID("$MirOS: src/usr.bin/ssh/canohost.c,v 1.5 2008/03/02 21:14:18 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/canohost.c,v 1.6 2008/12/16 20:55:19 tg Exp $");
 
 static void check_ip_options(int, char *);
 
@@ -302,7 +302,7 @@ get_remote_name_or_ip(u_int utmp_len, int use_dns)
 
 /* Returns the local/remote port for the socket. */
 
-static int
+int
 get_sock_port(int sock, int local)
 {
 	struct sockaddr_storage from;

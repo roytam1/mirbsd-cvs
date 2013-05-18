@@ -34,9 +34,9 @@
 .\" (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
 .\" THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .\"
-.\" $MirOS: src/usr.bin/ssh/ssh_config.5,v 1.22 2008/03/02 21:14:23 tg Exp $
-.\" $OpenBSD: ssh_config.5,v 1.115 2008/11/04 08:22:13 djm Exp $
-.Dd $Mdocdate: December 16 2008 $
+.\" $MirOS: src/usr.bin/ssh/ssh_config.5,v 1.23 2008/12/16 20:55:31 tg Exp $
+.\" $OpenBSD: ssh_config.5,v 1.119 2009/02/22 23:50:57 djm Exp $
+.Dd $Mdocdate: March 22 2009 $
 .Dt SSH_CONFIG 5
 .Os
 .Sh NAME
@@ -205,9 +205,9 @@ and
 .Dq cast128-cbc .
 The default is:
 .Bd -literal -offset 3n
-aes128-cbc,blowfish-cbc,arcfour256,cast128-cbc,
-aes256-cbc,rijndael-cbc@lysator.liu.se,aes256-ctr,aes192-cbc,
-aes192-ctr,arcfour128,arcfour,aes128-ctr,3des-cbc
+aes256-ctr,arcfour256,aes256-cbc,cast128-cbc,aes128-cbc,
+blowfish-cbc,rijndael-cbc@lysator.liu.se,aes128-ctr,
+arcfour128,arcfour,aes192-cbc,aes192-ctr,3des-cbc
 .Ed
 .It Cm ClearAllForwardings
 Specifies that all local, remote, and dynamic port forwardings
@@ -658,7 +658,7 @@ Multiple algorithms must be comma-separated.
 The default is:
 .Bd -literal -offset indent
 umac-64@openssh.com,hmac-ripemd160,hmac-ripemd160@openssh.com,
-hmac-sha1,hmac-md5,hmac-sha1-96,hmac-md5-96
+hmac-sha1,hmac-sha1-96,hmac-md5,hmac-md5-96
 .Ed
 .It Cm NoHostAuthenticationForLocalhost
 This option can be used if the home directory is shared across machines.
@@ -803,6 +803,13 @@ Multiple forwardings may be specified, and additional
 forwardings can be given on the command line.
 Privileged ports can be forwarded only when
 logging in as root on the remote machine.
+.Pp
+If the
+.Ar port
+argument is
+.Ql 0 ,
+the listen port will be dynamically allocated on the server and reported
+to the client at run time.
 .Pp
 If the
 .Ar bind_address
@@ -1069,17 +1076,6 @@ Specifies the full pathname of the
 program.
 The default is
 .Pa /usr/X11R6/bin/xauth .
-.It Cm ZeroKnowledgePasswordAuthentication
-Specifies whether to use zero knowledge password authentication.
-This authentication method avoids exposure of password to untrusted
-hosts.
-The argument to this keyword must be
-.Dq yes
-or
-.Dq no .
-The default is currently
-.Dq no
-as this method is considered experimental.
 .El
 .Sh PATTERNS
 A

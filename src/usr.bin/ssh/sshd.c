@@ -1,4 +1,4 @@
-/* $OpenBSD: sshd.c,v 1.365 2008/10/30 19:31:16 stevesk Exp $ */
+/* $OpenBSD: sshd.c,v 1.366 2009/01/22 10:02:34 djm Exp $ */
 /*
  * Author: Tatu Ylonen <ylo@cs.hut.fi>
  * Copyright (c) 1995 Tatu Ylonen <ylo@cs.hut.fi>, Espoo, Finland
@@ -100,7 +100,7 @@
 #include "monitor_wrap.h"
 #include "version.h"
 
-__RCSID("$MirOS: src/usr.bin/ssh/sshd.c,v 1.16 2008/12/16 22:13:32 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/sshd.c,v 1.17 2008/12/27 21:18:00 tg Exp $");
 
 #ifndef O_NOCTTY
 #define O_NOCTTY	0
@@ -1265,7 +1265,7 @@ main(int ac, char **av)
 				exit(1);
 			}
 			options.ports[options.num_ports++] = a2port(optarg);
-			if (options.ports[options.num_ports-1] == 0) {
+			if (options.ports[options.num_ports-1] <= 0) {
 				fprintf(stderr, "Bad port number.\n");
 				exit(1);
 			}

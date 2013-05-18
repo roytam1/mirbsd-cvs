@@ -1,4 +1,4 @@
-/* $OpenBSD: ssh-keyscan.c,v 1.77 2008/11/01 11:14:36 sobrado Exp $ */
+/* $OpenBSD: ssh-keyscan.c,v 1.78 2009/01/22 10:02:34 djm Exp $ */
 /*
  * Copyright 1995, 1996 by David Mazieres <dm@lcs.mit.edu>.
  *
@@ -42,7 +42,7 @@
 #include "misc.h"
 #include "hostfile.h"
 
-__RCSID("$MirOS: src/usr.bin/ssh/ssh-keyscan.c,v 1.7 2008/03/02 21:14:22 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/ssh-keyscan.c,v 1.8 2008/12/16 20:55:29 tg Exp $");
 
 /* Flag indicating whether IPv4 or IPv6.  This can be set on the command line.
    Default value is AF_UNSPEC means both IPv4 and IPv6. */
@@ -730,7 +730,7 @@ main(int argc, char **argv)
 			break;
 		case 'p':
 			ssh_port = a2port(optarg);
-			if (ssh_port == 0) {
+			if (ssh_port <= 0) {
 				fprintf(stderr, "Bad port '%s'\n", optarg);
 				exit(1);
 			}
