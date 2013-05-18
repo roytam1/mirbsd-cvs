@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/i386/common/list,v 1.10 2006/02/25 03:12:24 tg Exp $
+# $MirOS: src/distrib/i386/common/list,v 1.11 2006/04/06 11:07:29 tg Exp $
 # $OpenBSD: list,v 1.15 2005/05/04 17:08:07 miod Exp $
 
 SRCDIRS distrib/special usr.bin/ssh
@@ -90,3 +90,6 @@ SCRIPT	${CURDIR}/../common/install.md		install.md
 SCRIPT	${CURDIR}/../../miniroot/install.sh	install
 SCRIPT	${CURDIR}/../../miniroot/install.sub	install.sub
 SPECIAL	chmod 755 install
+
+# and a few bits of entropy
+SPECIAL	dd if=/dev/urandom count=2 of=var/db/host.random
