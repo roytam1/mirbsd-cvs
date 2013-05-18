@@ -1,7 +1,7 @@
-/* $MirOS: contrib/code/Snippets/tinyirc.c,v 1.2 2006/01/13 03:49:28 tg Exp $ */
+/* $MirOS: contrib/code/Snippets/tinyirc.c,v 1.3 2006/05/21 10:48:26 tg Exp $ */
 
 /* Configuration options */
-static char *DEFAULTSERVER = "irc.mirbsd.org";
+static const char DEFAULTSERVER[] = "irc.mirbsd.org";
 /* please change the default server to one near you. */
 #define DEFAULTPORT	6666
 #define COMMANDCHAR	'/'
@@ -54,43 +54,30 @@ static char *DEFAULTSERVER = "irc.mirbsd.org";
     * ^C command for instant exiting
  */
 
-#include <stdio.h>
-#ifndef USETERMIOS
-#include <sgtty.h>
-#define	USE_OLD_TTY
-#include <sys/ioctl.h>
-#if !defined(sun) && !defined(sequent) && !defined(hpux) && \
-	!defined(_AIX_)
-#include <strings.h>
-#define strchr index
-#else
-#include <string.h>
-#endif
-#else
-#include <string.h>
-#include <termios.h>
-#endif
 #include <sys/types.h>
-#include <pwd.h>
 #include <sys/time.h>
 #include <sys/file.h>
-#include <fcntl.h>
 #include <sys/socket.h>
+#include <sys/uio.h>
 #include <netinet/in.h>
-#include <netdb.h>
-#include <signal.h>
 #include <ctype.h>
 #include <curses.h>
+#include <fcntl.h>
+#include <netdb.h>
+#include <pwd.h>
+#include <signal.h>
+#include <stdio.h>
 #include <stdlib.h>
-#include <sys/uio.h>
+#include <string.h>
 #include <term.h>
+#include <termios.h>
 #include <unistd.h>
 
 #ifndef __RCSID
-#define __RCSID(x)	static const char _rcsid[] = (x)
+#define	__RCSID(x)	static const char __rcsid[] __attribute__((used)) = (x)
 #endif
 
-__RCSID("$MirOS: contrib/code/Snippets/tinyirc.c,v 1.2 2006/01/13 03:49:28 tg Exp $");
+__RCSID("$MirOS: contrib/code/Snippets/tinyirc.c,v 1.3 2006/05/21 10:48:26 tg Exp $");
 
 struct dlist {
     char name[64];
@@ -111,7 +98,6 @@ struct tm *timenow;
 static time_t idletimer, datenow, wasdate;
 struct passwd *userinfo;
 
-#ifdef	USETERMIOS
 struct termios _tty;
 tcflag_t _res_iflg, _res_lflg;
 #define raw() (_tty.c_lflag &= ~(ICANON | ECHO | ISIG), \
@@ -120,16 +106,6 @@ tcflag_t _res_iflg, _res_lflg;
 	_res_iflg = _tty.c_iflag, _res_lflg = _tty.c_lflag)
 #define resetty() (_tty.c_iflag = _res_iflg, _tty.c_lflag = _res_lflg,\
 	(void) tcsetattr(stdinfd, TCSADRAIN, &_tty))
-#else
-struct sgttyb _tty;
-int _res_flg;
-#define raw() (_tty.sg_flags |= RAW, _tty.sg_flags &= ~ECHO, \
-	ioctl(stdinfd, TIOCSETP, &_tty))
-#define savetty() ((void) ioctl(stdinfd, TIOCGETP, &_tty), \
-	_res_flg = _tty.sg_flags)
-#define resetty() (_tty.sg_flags = _res_flg, \
-	(void) ioctl(stdinfd, TIOCSETP, &_tty))
-#endif
 
 int putchar_x(c)
 int c;
