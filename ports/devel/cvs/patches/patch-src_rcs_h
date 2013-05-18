@@ -1,8 +1,8 @@
-$MirOS$
+$MirOS: ports/devel/cvs/patches/patch-src_rcs_h,v 1.2 2010/09/15 20:57:02 tg Exp $
 --- src/rcs.h.orig	Thu Mar 17 22:36:02 2005
-+++ src/rcs.h	Wed Sep 15 19:36:15 2010
++++ src/rcs.h	Sat Sep 18 23:01:41 2010
 @@ -1,3 +1,5 @@
-+/* $MirOS$ */
++/* $MirOS: ports/devel/cvs/patches/patch-src_rcs_h,v 1.2 2010/09/15 20:57:02 tg Exp $ */
 +
  /*
   * Copyright (C) 1986-2005 The Free Software Foundation, Inc.
@@ -16,3 +16,12 @@ $MirOS$
  #define	SDATEFORM	"%d.%d.%d.%d.%d.%d"
  
  /*
+@@ -189,7 +191,7 @@ typedef void (*RCSCHECKOUTPROC) (void *,
+ struct rcsbuffer;
+ 
+ /* What RCS_deltas is supposed to do.  */
+-enum rcs_delta_op {RCS_ANNOTATE, RCS_FETCH};
++enum rcs_delta_op {RCS_ANNOTATE, RCS_ANNOTATE_BACKWARDS, RCS_FETCH};
+ 
+ /*
+  * exported interfaces

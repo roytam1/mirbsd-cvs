@@ -1,6 +1,6 @@
-$MirOS: ports/devel/cvs/patches/patch-src_main_c,v 1.6 2010/09/15 21:32:17 tg Exp $
+$MirOS: ports/devel/cvs/patches/patch-src_main_c,v 1.7 2010/09/15 23:41:21 tg Exp $
 --- src/main.c.orig	Sun Oct  2 15:16:59 2005
-+++ src/main.c	Wed Sep 15 23:31:33 2010
++++ src/main.c	Sat Sep 18 22:56:07 2010
 @@ -24,6 +24,12 @@
  #include "strftime.h"
  #include "xgethostname.h"
@@ -9,12 +9,20 @@ $MirOS: ports/devel/cvs/patches/patch-src_main_c,v 1.6 2010/09/15 21:32:17 tg Ex
 +#include <bsd/bsd.h>
 +#endif
 +
-+__RCSID("$MirOS: ports/devel/cvs/patches/patch-src_main_c,v 1.6 2010/09/15 21:32:17 tg Exp $");
++__RCSID("$MirOS: ports/devel/cvs/patches/patch-src_main_c,v 1.7 2010/09/15 23:41:21 tg Exp $");
 +
  const char *program_name;
  const char *program_path;
  const char *cvs_cmd_name;
-@@ -465,39 +471,7 @@ enum {COMMITID_RAW_SIZE = (sizeof(time_t
+@@ -283,6 +289,7 @@ static const char *const opt_usage[] =
+     "    -q           Cause CVS to be somewhat quiet.\n",
+     "    -r           Make checked-out files read-only.\n",
+     "    -w           Make checked-out files read-write (default).\n",
++    "    -g           Force group-write permissions on checked-out files.\n",
+     "    -n           Do not execute anything that will change the disk.\n",
+     "    -t           Show trace of program execution (repeat for more\n",
+     "                 verbosity) -- try with -n.\n",
+@@ -465,39 +472,7 @@ enum {COMMITID_RAW_SIZE = (sizeof(time_t
  static char const alphabet[62] =
    "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
  
@@ -54,16 +62,30 @@ $MirOS: ports/devel/cvs/patches/patch-src_main_c,v 1.6 2010/09/15 21:32:17 tg Ex
  int
  main (int argc, char **argv)
  {
-@@ -511,7 +485,7 @@ main (int argc, char **argv)
+@@ -511,7 +486,7 @@ main (int argc, char **argv)
      int help = 0;		/* Has the user asked for help?  This
  				   lets us support the `cvs -H cmd'
  				   convention to give help for cmd. */
 -    static const char short_options[] = "+QqrwtnRvb:T:e:d:Hfz:s:xa";
-+    static const char short_options[] = "+QqrwtnRvb:T:e:d:Hfz:s:xal";
++    static const char short_options[] = "+QqrwgtnRvb:T:e:d:Hfz:s:xal";
      static struct option long_options[] =
      {
          {"help", 0, NULL, 'H'},
-@@ -669,6 +643,9 @@ main (int argc, char **argv)
+@@ -658,6 +633,13 @@ main (int argc, char **argv)
+ 	    case 'w':
+ 		cvswrite = 1;
+ 		break;
++	    case 'g':
++		/*
++		 * Force full write permissions for the group.
++		 * See the user's manual for details and dangers.
++		 */
++		umask(umask(S_IRWXG|S_IRWXO) & S_IRWXO);
++		break;
+ 	    case 't':
+ 		trace++;
+ 		break;
+@@ -669,6 +651,9 @@ main (int argc, char **argv)
  		noexec = 1;
  		logoff = 1;
  		break;
@@ -73,7 +95,7 @@ $MirOS: ports/devel/cvs/patches/patch-src_main_c,v 1.6 2010/09/15 21:32:17 tg Ex
  	    case 'v':
  		(void) fputs ("\n", stdout);
  		version (0, NULL);    
-@@ -676,6 +653,7 @@ main (int argc, char **argv)
+@@ -676,6 +661,7 @@ main (int argc, char **argv)
  		(void) fputs ("\
  Copyright (C) 2005 Free Software Foundation, Inc.\n\
  \n\
@@ -81,7 +103,7 @@ $MirOS: ports/devel/cvs/patches/patch-src_main_c,v 1.6 2010/09/15 21:32:17 tg Ex
  Senior active maintainers include Larry Jones, Derek R. Price,\n\
  and Mark D. Baushke.  Please see the AUTHORS and README files from the CVS\n\
  distribution kit for a complete list of contributors and copyrights.\n",
-@@ -764,57 +742,12 @@ distribution kit for a complete list of 
+@@ -764,57 +750,12 @@ distribution kit for a complete list of 
      if (argc < 1)
  	usage (usg);
  
@@ -142,7 +164,7 @@ $MirOS: ports/devel/cvs/patches/patch-src_main_c,v 1.6 2010/09/15 21:32:17 tg Ex
      TRACE (TRACE_FUNCTION, "main: Session ID is %s", global_session_id);
  
      /* Look up the command name. */
-@@ -1244,7 +1177,7 @@ parse_tagdate (char **tag, char **date, 
+@@ -1244,7 +1185,7 @@ parse_tagdate (char **tag, char **date, 
  	if (*++p)
  	{
  	    if (*date) free (*date);
@@ -151,7 +173,7 @@ $MirOS: ports/devel/cvs/patches/patch-src_main_c,v 1.6 2010/09/15 21:32:17 tg Ex
  	}
      }
      else if (strlen (input))
-@@ -1285,7 +1218,7 @@ date_from_time_t (time_t unixtime)
+@@ -1285,7 +1226,7 @@ date_from_time_t (time_t unixtime)
  	ftm = localtime (&unixtime);
  
      (void) sprintf (date, DATEFORM,
@@ -160,7 +182,7 @@ $MirOS: ports/devel/cvs/patches/patch-src_main_c,v 1.6 2010/09/15 21:32:17 tg Ex
  		    ftm->tm_mon + 1, ftm->tm_mday, ftm->tm_hour,
  		    ftm->tm_min, ftm->tm_sec);
      ret = xstrdup (date);
-@@ -1315,8 +1248,9 @@ date_to_internet (char *dest, const char
+@@ -1315,8 +1256,9 @@ date_to_internet (char *dest, const char
  void
  date_to_tm (struct tm *dest, const char *source)
  {
@@ -171,7 +193,7 @@ $MirOS: ports/devel/cvs/patches/patch-src_main_c,v 1.6 2010/09/15 21:32:17 tg Ex
  		&dest->tm_hour, &dest->tm_min, &dest->tm_sec)
  	    != 6)
  	/* Is there a better way to handle errors here?  I made this
-@@ -1324,9 +1258,7 @@ date_to_tm (struct tm *dest, const char 
+@@ -1324,9 +1266,7 @@ date_to_tm (struct tm *dest, const char 
  	   deal with fatal errors.  */
  	error (0, 0, "internal error: bad date %s", source);
  
@@ -182,7 +204,7 @@ $MirOS: ports/devel/cvs/patches/patch-src_main_c,v 1.6 2010/09/15 21:32:17 tg Ex
      dest->tm_mon -= 1;
  }
  
-@@ -1348,10 +1280,10 @@ tm_to_internet (char *dest, const struct
+@@ -1348,10 +1288,10 @@ tm_to_internet (char *dest, const struct
        {"Jan", "Feb", "Mar", "Apr", "May", "Jun",
  	 "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
      
