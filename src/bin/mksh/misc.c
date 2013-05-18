@@ -2,11 +2,11 @@
 /*	$OpenBSD: path.c,v 1.12 2005/03/30 17:16:37 deraadt Exp $	*/
 
 #include "sh.h"
-#if HAVE_SETGROUPS
+#if HAVE_GRP_H
 #include <grp.h>
 #endif
 
-__RCSID("$MirOS: src/bin/mksh/misc.c,v 1.43 2006/11/16 13:35:07 tg Exp $\t"
+__RCSID("$MirOS: src/bin/mksh/misc.c,v 1.50 2007/01/26 18:27:34 tg Exp $\t"
 	MKSH_SH_H_ID);
 
 #undef USE_CHVT
@@ -25,7 +25,7 @@ static int do_gmatch(const unsigned char *, const unsigned char *,
     const unsigned char *, const unsigned char *);
 static const unsigned char *cclass(const unsigned char *, int);
 #ifdef USE_CHVT
-static void parse_T(char *);
+static void chvt(const char *);
 #endif
 static char *do_phys_path(XString *, char *, const char *);
 
@@ -287,8 +287,10 @@ parse_args(char **argv,
 		/* see cmd_opts[] declaration */
 		*p++ = 'o';
 		*p++ = ':';
+#ifndef MKSH_SMALL
 		*p++ = 'T';
 		*p++ = ':';
+#endif
 		/* see set_opts[] declaration */
 		*q++ = 'A';
 		*q++ = ':';
@@ -360,18 +362,18 @@ parse_args(char **argv,
 			}
 			break;
 
-		case 'T':
 #ifndef MKSH_SMALL
+		case 'T':
 			if (what != OF_FIRSTTIME)
 				break;
 #ifndef USE_CHVT
 			errorf("no TIOCSCTTY ioctl");
 #else
 			change_flag(FTALKING, OF_CMDLINE, 1);
-			parse_T(go.optarg);
-#endif
+			chvt(go.optarg);
 #endif
 			break;
+#endif
 
 		case '?':
 			return -1;
@@ -1318,7 +1320,7 @@ do_phys_path(XString *xsp, char *xp, const char *pathl)
 
 #ifdef USE_CHVT
 static void
-parse_T(char *fn)
+chvt(const char *fn)
 {
 	char dv[20];
 	struct stat sb;
@@ -1328,7 +1330,7 @@ parse_T(char *fn)
 		memcpy(dv, "/dev/ttyC", 9);
 		strlcpy(dv + 9, fn, 20 - 9);
 		if (stat(dv, &sb)) {
-			memmove(dv + 8, dv + 9, 20 - 9);
+			strlcpy(dv + 8, fn, 20 - 8);
 			if (stat(dv, &sb))
 				errorf("chvt: can't find tty %s", fn);
 		}
@@ -1340,10 +1342,11 @@ parse_T(char *fn)
 		warningf(false, "chvt: cannot chown root %s", fn);
 	if (((sb.st_mode & 07777) != 0600) && chmod(fn, 0600))
 		warningf(false, "chvt: cannot chmod 0600 %s", fn);
-#if !defined(__sun__) && !defined(__gnu_linux__) && !defined(__INTERIX)
+#if HAVE_REVOKE
 	if (revoke(fn))
-		warningf(false, "chvt: cannot revoke %s", fn);
 #endif
+		warningf(false, "chvt: cannot revoke %s, new shell is"
+		    " potentially insecure", fn);
 
 	if ((fd = open(fn, O_RDWR)) == -1) {
 		sleep(1);

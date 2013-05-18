@@ -5,7 +5,7 @@
 
 #include "sh.h"
 
-__RCSID("$MirOS: src/bin/mksh/funcs.c,v 1.43 2007/01/12 10:18:20 tg Exp $");
+__RCSID("$MirOS: src/bin/mksh/funcs.c,v 1.46 2007/01/26 18:37:26 tg Exp $");
 
 int
 c_cd(char **wp)
@@ -856,9 +856,8 @@ c_alias(char **wp)
 
 	/* "hash -r" means reset all the tracked aliases.. */
 	if (rflag) {
-		static const char *const args[] = {
-			"unalias", "-ta", NULL
-		};
+		static char args0[] = "unalias", args1[] = "-ta",
+		    *args[] = { args0, args1, NULL };
 
 		if (!tflag || *wp) {
 			shprintf("alias: -r flag can only be used with -t"
@@ -1964,7 +1963,8 @@ c_set(char **wp)
 	char **owp = wp;
 
 	if (wp[1] == NULL) {
-		static const char *const args [] = { "set", "-", NULL };
+		static char args0[] = "set", args1[] = "-",
+		    *args[] = { args0, args1, NULL };
 		return c_typeset(args);
 	}
 
@@ -2190,7 +2190,7 @@ c_exec(char **wp __unused)
 	return 0;
 }
 
-#ifndef MKSH_SMALL
+#if !defined(MKSH_SMALL) || defined(MKSH_NEED_MKNOD)
 static int
 c_mknod(char **wp)
 {
@@ -2311,7 +2311,7 @@ const struct builtin shbuiltins [] = {
 	{"ulimit", c_ulimit},
 	{"+umask", c_umask},
 	{"*=unset", c_unset},
-#ifndef MKSH_SMALL
+#if !defined(MKSH_SMALL) || defined(MKSH_NEED_MKNOD)
 	{"mknod", c_mknod},
 #endif
 	{NULL, NULL}
