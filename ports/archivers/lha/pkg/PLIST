@@ -1,5 +1,0 @@
-@comment $MirOS$
-bin/lha
-man/ja_JP.EUC/man1/lha.1
-@dirrm man/ja_JP.EUC/man1
-@dirrm man/ja_JP.EUC

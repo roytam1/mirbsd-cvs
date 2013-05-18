@@ -1,5 +1,0 @@
-@comment $MirOS$
-share/doc/jmdict-datfile/licence.html
-share/jmdict-datfile/dictionary
-@dirrm share/jmdict-datfile
-@dirrm share/doc/jmdict-datfile

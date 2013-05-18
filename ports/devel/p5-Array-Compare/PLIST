@@ -1,9 +1,0 @@
-@comment $MirOS$
-${P5SITE}/Array/Compare.pm
-@comment ${P5ARCH}/auto/Array/Compare/.packlist
-man/man3/Array::Compare${P5MAN3EXT}
-@comment @dirrm ${P5ARCH}/auto/Array/Compare
-@comment @dirrm ${P5ARCH}/auto/Array
-@comment @dirrm ${P5ARCH}/auto
-@comment @dirrm ${P5ARCH}
-@dirrm ${P5SITE}/Array

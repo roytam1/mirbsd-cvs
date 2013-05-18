@@ -1,5 +1,0 @@
-@comment $MirOS: ports/www/php/extensions/pkg/PLIST-fam,v 1.1 2008/05/02 14:45:31 tg Exp $
-lib/php/modules/fam.so
-@dirrm lib/php/modules
-@dirrm lib/php
-@dirrm lib
