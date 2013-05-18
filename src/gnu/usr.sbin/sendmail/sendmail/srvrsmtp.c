@@ -17,8 +17,8 @@
 # include <libmilter/mfdef.h>
 #endif /* MILTER */
 
-SM_RCSID("$MirOS: src/gnu/usr.sbin/sendmail/sendmail/srvrsmtp.c,v 1.3 2005/04/26 21:04:42 tg Exp $");
-SM_RCSID("@(#)$Sendmail: srvrsmtp.c,v 8.922 2006/02/28 00:42:13 ca Exp $")
+SM_RCSID("$MirOS: src/gnu/usr.sbin/sendmail/sendmail/srvrsmtp.c,v 1.4 2006/03/23 13:20:23 tg Exp $");
+SM_RCSID("@(#)$Sendmail: srvrsmtp.c,v 8.924.2.5 2006/07/07 16:29:39 ca Exp $")
 
 #include <sm/time.h>
 #include <sm/fdset.h>
@@ -71,9 +71,10 @@ static unsigned int	srvfeatures __P((ENVELOPE *, char *, unsigned int));
 #define	STOP_ATTACK	((time_t) -1)
 static time_t	checksmtpattack __P((volatile unsigned int *, unsigned int,
 				     bool, char *, ENVELOPE *));
-static void	mail_esmtp_args __P((char *, char *, ENVELOPE *));
+static void	mail_esmtp_args __P((char *, char *, ENVELOPE *, unsigned int));
 static void	printvrfyaddr __P((ADDRESS *, bool, bool));
-static void	rcpt_esmtp_args __P((ADDRESS *, char *, char *, ENVELOPE *));
+static void	rcpt_esmtp_args __P((ADDRESS *, char *, char *, ENVELOPE *,
+				unsigned int));
 static char	*skipword __P((char *volatile, char *));
 static void	setup_smtpd_io __P((void));
 
@@ -589,8 +590,8 @@ smtp(nullserver, d_flags, e)
 			: (SRV_OFFER_EXPN
 			  | (bitset(PRIV_NOVERB, PrivacyFlags)
 			     ? SRV_NONE : SRV_OFFER_VERB)))
-		| (bitset(PRIV_NORECEIPTS, PrivacyFlags) ? SRV_NONE
-							 : SRV_OFFER_DSN)
+		| ((bitset(PRIV_NORECEIPTS, PrivacyFlags) || !SendMIMEErrors)
+			 ? SRV_NONE : SRV_OFFER_DSN)
 #if SASL
 		| (bitnset(D_NOAUTH, d_flags) ? SRV_NONE : SRV_OFFER_AUTH)
 		| (bitset(SASL_SEC_NOPLAINTEXT, SASLOpts) ? SRV_REQ_SEC
@@ -851,8 +852,9 @@ smtp(nullserver, d_flags, e)
 		char state;
 		char *response;
 
-		response = milter_connect(peerhostname, RealHostAddr,
-					  e, &state);
+		q = macvalue(macid("{client_name}"), e);
+		SM_ASSERT(q != NULL);
+		response = milter_connect(q, RealHostAddr, e, &state);
 		switch (state)
 		{
 		  case SMFIR_REPLYCODE:	/* REPLYCODE shouldn't happen */
@@ -1286,14 +1288,17 @@ smtp(nullserver, d_flags, e)
 
 				if (ssf != NULL && *ssf > 0)
 				{
+					int tmo;
+
 					/*
 					**  Convert I/O layer to use SASL.
 					**  If the call fails, the connection
 					**  is aborted.
 					*/
 
+					tmo = TimeOuts.to_datablock * 1000;
 					if (sfdcsasl(&InChannel, &OutChannel,
-						     conn) == 0)
+						     conn, tmo) == 0)
 					{
 						/* restart dialogue */
 						n_helo = 0;
@@ -2018,7 +2023,7 @@ smtp(nullserver, d_flags, e)
 				  case SMFIR_SHUTDOWN:
 					if (MilterLogLevel > 3)
 						sm_syslog(LOG_INFO, e->e_id,
-							  "Milter: Milter: helo=%s, reject=421 4.7.0 %s closing connection",
+							  "Milter: helo=%s, reject=421 4.7.0 %s closing connection",
 							  p, MyHostName);
 					tempfail = true;
 					smtp.sm_milterize = false;
@@ -2298,7 +2303,7 @@ smtp(nullserver, d_flags, e)
 					sm_dprintf("MAIL: got arg %s=\"%s\"\n", kp,
 						vp == NULL ? "<null>" : vp);
 
-				mail_esmtp_args(kp, vp, e);
+				mail_esmtp_args(kp, vp, e, features);
 				if (equal != NULL)
 					*equal = '=';
 				args[argno++] = kp;
@@ -2568,7 +2573,7 @@ smtp(nullserver, d_flags, e)
 					sm_dprintf("RCPT: got arg %s=\"%s\"\n", kp,
 						vp == NULL ? "<null>" : vp);
 
-				rcpt_esmtp_args(a, kp, vp, e);
+				rcpt_esmtp_args(a, kp, vp, e, features);
 				if (equal != NULL)
 					*equal = '=';
 				args[argno++] = kp;
@@ -3850,6 +3855,7 @@ skipword(p, w)
 
 	return p;
 }
+
 /*
 **  MAIL_ESMTP_ARGS -- process ESMTP arguments from MAIL line
 **
@@ -3857,16 +3863,18 @@ skipword(p, w)
 **		kp -- the parameter key.
 **		vp -- the value of that parameter.
 **		e -- the envelope.
+**		features -- current server features
 **
 **	Returns:
 **		none.
 */
 
 static void
-mail_esmtp_args(kp, vp, e)
+mail_esmtp_args(kp, vp, e, features)
 	char *kp;
 	char *vp;
 	ENVELOPE *e;
+	unsigned int features;
 {
 	if (sm_strcasecmp(kp, "size") == 0)
 	{
@@ -3913,7 +3921,7 @@ mail_esmtp_args(kp, vp, e)
 	}
 	else if (sm_strcasecmp(kp, "envid") == 0)
 	{
-		if (bitset(PRIV_NORECEIPTS, PrivacyFlags))
+		if (!bitset(SRV_OFFER_DSN, features))
 		{
 			usrerr("504 5.7.0 Sorry, ENVID not supported, we do not allow DSN");
 			/* NOTREACHED */
@@ -3939,7 +3947,7 @@ mail_esmtp_args(kp, vp, e)
 	}
 	else if (sm_strcasecmp(kp, "ret") == 0)
 	{
-		if (bitset(PRIV_NORECEIPTS, PrivacyFlags))
+		if (!bitset(SRV_OFFER_DSN, features))
 		{
 			usrerr("504 5.7.0 Sorry, RET not supported, we do not allow DSN");
 			/* NOTREACHED */
@@ -4132,23 +4140,25 @@ mail_esmtp_args(kp, vp, e)
 **		kp -- the parameter key.
 **		vp -- the value of that parameter.
 **		e -- the envelope.
+**		features -- current server features
 **
 **	Returns:
 **		none.
 */
 
 static void
-rcpt_esmtp_args(a, kp, vp, e)
+rcpt_esmtp_args(a, kp, vp, e, features)
 	ADDRESS *a;
 	char *kp;
 	char *vp;
 	ENVELOPE *e;
+	unsigned int features;
 {
 	if (sm_strcasecmp(kp, "notify") == 0)
 	{
 		char *p;
 
-		if (bitset(PRIV_NORECEIPTS, PrivacyFlags))
+		if (!bitset(SRV_OFFER_DSN, features))
 		{
 			usrerr("504 5.7.0 Sorry, NOTIFY not supported, we do not allow DSN");
 			/* NOTREACHED */
@@ -4189,7 +4199,7 @@ rcpt_esmtp_args(a, kp, vp, e)
 	}
 	else if (sm_strcasecmp(kp, "orcpt") == 0)
 	{
-		if (bitset(PRIV_NORECEIPTS, PrivacyFlags))
+		if (!bitset(SRV_OFFER_DSN, features))
 		{
 			usrerr("504 5.7.0 Sorry, ORCPT not supported, we do not allow DSN");
 			/* NOTREACHED */

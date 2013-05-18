@@ -13,7 +13,7 @@
 
 #include <sendmail.h>
 
-SM_RCSID("@(#)$Sendmail: conf.c,v 8.1081 2006/02/24 02:21:53 ca Exp $")
+SM_RCSID("@(#)$Sendmail: conf.c,v 8.1082 2006/03/22 22:49:33 ca Exp $")
 
 #include <sendmail/pathnames.h>
 #if NEWDB
@@ -31,7 +31,7 @@ SM_RCSID("@(#)$Sendmail: conf.c,v 8.1081 2006/02/24 02:21:53 ca Exp $")
 # include <sys/ioctl.h>
 # include <sys/param.h>
 
-__RCSID("$MirOS: src/gnu/usr.sbin/sendmail/sendmail/conf.c,v 1.4 2005/07/07 13:39:30 tg Exp $");
+__RCSID("$MirOS: src/gnu/usr.sbin/sendmail/sendmail/conf.c,v 1.5 2006/03/23 13:20:22 tg Exp $");
 
 #include <limits.h>
 #if NETINET || NETINET6
@@ -2199,7 +2199,7 @@ shouldqueue(pri, ct)
 	    memfree < QueueLowMem)
 	{
 		if (tTd(3, 30))
-			sm_dprintf("true (memfree=%ld < QueueLowMem)\n",
+			sm_dprintf("true (memfree=%ld < QueueLowMem=%ld)\n",
 				memfree, QueueLowMem);
 		return true;
 	}
