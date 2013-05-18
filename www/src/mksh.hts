@@ -2,9 +2,9 @@
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.138 2008/07/11 01:06:29 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.139 2008/07/11 11:07:02 tg Exp $'
 mws_content <<'EOF'
-<h1>mksh(1) R33d</h1>
+<h1>mksh(1) R35</h1>
 <p>This is the website of the MirBSD™ Korn Shell, an actively developed free
  implementation of the Korn Shell programming language and a successor to the
  Public Domain Korn Shell (pdksh).</p>
@@ -30,8 +30,8 @@ mws_content <<'EOF'
 </ul>
 
 <h2 id="prefetch">Introduction</h2>
-<p>The current version of mksh is <strong>mksh R33d</strong> from
- <em>11 April 2008</em>.</p>
+<p>The current version of mksh is <strong>mksh R35</strong> from
+ <em>11 July 2008</em>.</p>
 <p>Thanks to “Der Verein <a href="http://www.trash.net/verein/">trash.net</a>”
  for sponsoring access to a Solaris 8 box. Thanks to HP TestDrive, which helps
  in keeping mksh portable to several Unixes and compilers, and track down some
@@ -146,14 +146,14 @@ mws_content <<'EOF'
  extract from the CPIO distfile and is available even on a stock Microsoft®
  Windows® installation.</p>
 <h3 id="mirrors">Known Mirrors</h3><ul>
- <li><a href="http://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R33d.cpio.gz">http://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R33d.cpio.gz</a></li>
- <li><a href="http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R33d.cpio.gz">http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R33d.cpio.gz</a></li>
+ <li><a href="http://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R35.cpio.gz">http://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R35.cpio.gz</a></li>
+ <li><a href="http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R35.cpio.gz">http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R35.cpio.gz</a></li>
 </ul>
 <h3 id="hashes">Checksums and Hashes</h3><ul>
- <li>RMD160 (mksh-R33d.cpio.gz) = d810a705b01e146f9addd184c168798a22a36d38</li>
- <li>TIGER (mksh-R33d.cpio.gz) = 2b4b7fdb945e210fc0394cc2f8f0d16cbf854706d17ca1c7</li>
- <li>4128767266 255911 /MirOS/dist/mir/mksh/mksh-R33d.cpio.gz</li>
- <li>MD5 (mksh-R33d.cpio.gz) = 8ad2547ad55dc3a02b13554ab9b5c9c8</li>
+ <li>RMD160 (mksh-R35.cpio.gz) = c9555b59e4586b22da137d7f92eda038c996d17c</li>
+ <li>TIGER (mksh-R35.cpio.gz) = 0504744633fe7d666f22b6c55b057a92c93204b5badd16e6</li>
+ <li>134017041 262062 /MirOS/dist/mir/mksh/mksh-R35.cpio.gz</li>
+ <li>MD5 (mksh-R35.cpio.gz) = 5fd8714770337e0786b124530ddd3ba0</li>
  <li style="list-style:none;">All official distfiles are gzsig(1)d.</li>
 </ul>
 
@@ -166,11 +166,11 @@ mws_content <<'EOF'
 <p>The first example is using BSD paxtar (MirOS BSD, OpenBSD, NetBSD®), or
  “bsdtar” (DragonFly); the second and third use cpio(1) or pax(1) and are
  for most operating systems; the fourth is for Debian.</p><ul>
-<li>$ tar xzf mksh-R33d.cpio.gz &amp;&amp; cd mksh</li>
-<li>$ gzip -dc mksh-R33d.cpio.gz | cpio -mid &amp;&amp; cd mksh</li>
-<li>$ gzip -dc mksh-R33d.cpio.gz | pax -r &amp;&amp; cd mksh</li>
+<li>$ tar xzf mksh-R35.cpio.gz &amp;&amp; cd mksh</li>
+<li>$ gzip -dc mksh-R35.cpio.gz | cpio -mid &amp;&amp; cd mksh</li>
+<li>$ gzip -dc mksh-R35.cpio.gz | pax -r &amp;&amp; cd mksh</li>
 <li style="list-style:none;">and, in exceptional cases</li>
-<li>$ tar xzf mksh_33.4.orig.tar.gz &amp;&amp; cd mksh-33.4</li>
+<li>$ tar xzf mksh_35.1.orig.tar.gz &amp;&amp; cd mksh-35.1</li>
 </ul>
 
 <h3 id="compile">Compilation</h3>
@@ -512,12 +512,14 @@ mws_content <<'EOF'
  ChangeLog</a>, these are the packager-visible upgrade notes regarding
  changes in the build system (<tt>Build.sh</tt> and friends, compiler
  support, packaging conventions, bad examples, etc).</p>
-<p>In mksh R34, setlocale/nl_langinfo have been disabled by default for
+<p>In mksh R35, setlocale/nl_langinfo have been disabled by default for
  some platforms. If we do not assume UTF-8, disabling lets mksh employ
  the <tt>LANG</tt> and <tt>LC_*</tt> environment variables for codeset
  determination. Also, a new builtin is included depending on existence
  of the readlink(3) function, disabled by default if MKSH_SMALL. The
- “pdksh” check category is no longer persistent.</p>
+ “pdksh” check category is no longer persistent. The licence has changed
+ (the advertising clause was removed). The <tt>dot.mkshrc</tt> sample
+ was changed to improve re-use.<br />There was no R34.</p>
 <p>No changes in mksh R33c except for Ultrix support. None in R33d.</p>
 <p>In mksh R33b, much more compilers are detected, even if not all of
  them are supported. The OE (OS and CC/LD) versions are now dumped too.
@@ -565,8 +567,9 @@ mws_content <<'EOF'
 <li><a href="http://www.debian.org/">Debian</a> GNU/Linux, GNU/HURD and
  GNU/kFreeBSD have an <a href="http://packages.debian.org/mksh">mksh package</a>
  maintained by the MirOS Project and uploaded (sponsored) by Bastian “waldi”
- Blank and Otavio Salvador; the debconf questions were taken from dash. The <a
- href="http://www.mirbsd.org/MirOS/dist/mir/mksh/ports/mksh_33.4-1.dsc">mksh
+ Blank and Otavio Salvador; the debconf questions and dietlibc stub were taken
+ from dash. The <a
+ href="http://www.mirbsd.org/MirOS/dist/mir/mksh/ports/mksh_35.1-1.dsc">mksh
  Debian source package</a> is available, too.</li>
 <li><a href="http://www.gentoo.org/">Gentoo GNU/Linux</a> has an mksh <a
  href="http://sources.gentoo.org/viewcvs.py/gentoo-x86/app-shells/mksh/">ebuild</a>
@@ -588,7 +591,7 @@ mws_content <<'EOF'
  as well as as SRPM (source RPM). There used to be a repository by <a
  href="http://ftp.skynet.be/pub/suser-guru/rpm/packages/System/mksh/">loki</a>
  in the past.</li>
-<li>An <a href="http://www.mirbsd.org/MirOS/dist/mir/mksh/ports/mksh-33d-1.src.rpm">inofficial
+<li>An <a href="http://www.mirbsd.org/MirOS/dist/mir/mksh/ports/mksh-35-1.src.rpm">inofficial
  <em>portable</em> SRPM</a> (created on Debian GNU/kFreeBSD) is available
  as well. This one contains the <tt>arc4random.c</tt> support routines for
  operating systems from clueless vendors (GNU, Sun, etc).</li>
@@ -719,7 +722,7 @@ mws_content <<'EOF'
 <h2 id="regress">Official Testing</h2>
 <p>The MirOS Project has tested mksh on the following operating systems,
  asked people to test, and hunted mksh down in these packaging systems:</p>
-<h3 id="regress_rel">Release Candidate</h3>
+<h3 id="regress_rel">Current Release</h3>
 <ul>
  <li style="list-style:none;">– tests by the project, using Makefile –</li>
  <li>MirOS #10-current (i386 gcc3.4.6)</li>
@@ -949,6 +952,8 @@ mws_content <<'EOF'
   &lt;awmorp@gmail.com&gt; – maybe the rest is a kernel bug?)</li>
  <!-- li>Import the GNU bash- and zsh-style ability to get and set multiple
   limits in a single invocation from oksh (thanks millert) -->
+</ul>
+<p id="r35">mksh R35 comes with helluva changes:</p><ul>
   <li>Simplify and refactor the ulimit builtin, partially from oksh</li>
  <li>Some style cleanup; use appropriate integer types</li>
  <li>Fix a bug in table (e.g. kill -l, tab completion) display: the width
