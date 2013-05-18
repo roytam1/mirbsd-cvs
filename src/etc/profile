@@ -79,7 +79,7 @@ unset _shellok
 [[ -x /emul/linux/bin/bash ]] && alias lx='/emul/linux/bin/bash --login'
 function bye {
 	[[ $1 = k ]] && ssh-agent -k
-	local M='\033c'
+	typeset M='\033c'
 	[ $? -ne 0 ] && M='\033c Warning: ssh-agent returned error!\n'
 	print -n -- "$M"
 	exit
@@ -106,4 +106,4 @@ if [ -O /var/run/ssh-agent/$USER_ID ]; then
 	unset _dir
 fi
 
-: $MirOS: src/etc/profile,v 1.50 2007/05/20 12:12:10 tg Exp $
+: $MirOS: src/etc/profile,v 1.51 2007/05/22 18:52:08 tg Exp $
