@@ -1,4 +1,4 @@
-@comment $MirOS$
+@comment $MirOS: ports/devel/cvs/pkg/PLIST,v 1.1 2006/10/02 05:59:19 tg Exp $
 @unexec install-info --delete --info-dir=%D/info %D/info/cvs.info
 @unexec install-info --delete --info-dir=%D/info %D/info/cvsclient.info
 bin/cvs

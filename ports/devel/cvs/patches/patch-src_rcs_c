@@ -1,11 +1,11 @@
-$MirOS: ports/devel/cvs/patches/patch-src_rcs_c,v 1.3 2007/06/06 13:46:44 tg Exp $
+$MirOS: ports/devel/cvs/patches/patch-src_rcs_c,v 1.4 2008/03/02 20:35:18 tg Exp $
 --- src/rcs.c.orig	Wed Sep 28 15:25:37 2005
-+++ src/rcs.c	Wed Jun  6 13:37:36 2007
++++ src/rcs.c	Sun Sep  6 11:31:07 2009
 @@ -33,6 +33,8 @@
  # endif
  #endif
  
-+__RCSID("$MirOS: ports/devel/cvs/patches/patch-src_rcs_c,v 1.3 2007/06/06 13:46:44 tg Exp $");
++__RCSID("$MirOS: src/gnu/usr.bin/cvs/src/rcs.c,v 1.9 2009/09/05 18:33:40 tg Exp $");
 +
  /* The RCS -k options, and a set of enums that must match the array.
     These come first so that we can use enum kflag in function
@@ -18,7 +18,32 @@ $MirOS: ports/devel/cvs/patches/patch-src_rcs_c,v 1.3 2007/06/06 13:46:44 tg Exp
  static char *escape_keyword_value (const char *, int *);
  static void expand_keywords (RCSNode *, RCSVers *, const char *,
                               const char *, size_t, enum kflag, char *,
-@@ -3120,6 +3123,7 @@ RCS_getrevtime (RCSNode *rcs, const char
+@@ -2166,6 +2169,8 @@ RCS_getversion (RCSNode *rcs, const char
+ 
+ 	if (! RCS_nodeisbranch (rcs, tag))
+ 	{
++	    if (! strcmp (date, "BASE"))
++		return RCS_gettag (rcs, tag, force_tag_match, simple_tag);
+ 	    /* We can't get a particular date if the tag is not a
+                branch.  */
+ 	    return NULL;
+@@ -2177,6 +2182,15 @@ RCS_getversion (RCSNode *rcs, const char
+ 	else
+ 	    branch = xstrdup (tag);
+ 
++	if (! strcmp (date, "BASE"))
++	{
++	    /* Cut off the branch suffix and return.  */
++	    rev = strrchr (branch, '.');
++	    if (rev)
++		*rev = '\0';
++	    return branch;
++	}
++
+ 	/* Fetch the revision of branch as of date.  */
+ 	rev = RCS_getdatebranch (rcs, date, branch);
+ 	free (branch);
+@@ -3120,6 +3134,7 @@ RCS_getrevtime (RCSNode *rcs, const char
      struct timespec revdate;
      Node *p;
      RCSVers *vers;
@@ -26,7 +51,7 @@ $MirOS: ports/devel/cvs/patches/patch-src_rcs_c,v 1.3 2007/06/06 13:46:44 tg Exp
  
      /* make sure we have something to look at... */
      assert (rcs != NULL);
-@@ -3134,7 +3138,7 @@ RCS_getrevtime (RCSNode *rcs, const char
+@@ -3134,7 +3149,7 @@ RCS_getrevtime (RCSNode *rcs, const char
      vers = p->data;
  
      /* split up the date */
@@ -35,7 +60,7 @@ $MirOS: ports/devel/cvs/patches/patch-src_rcs_c,v 1.3 2007/06/06 13:46:44 tg Exp
  		&xtm.tm_mday, &xtm.tm_hour, &xtm.tm_min, &xtm.tm_sec) != 6)
  	error (1, 0, "%s: invalid date for revision %s (%s)", rcs->print_path,
  	       rev, vers->date);
-@@ -3144,15 +3148,14 @@ RCS_getrevtime (RCSNode *rcs, const char
+@@ -3144,15 +3159,14 @@ RCS_getrevtime (RCSNode *rcs, const char
         2000+, RCS files contain all four digits and we subtract 1900,
         because the tm_year field should contain years since 1900.  */
  
@@ -55,7 +80,7 @@ $MirOS: ports/devel/cvs/patches/patch-src_rcs_c,v 1.3 2007/06/06 13:46:44 tg Exp
  		       xtm.tm_hour, xtm.tm_min, xtm.tm_sec);
  
      /* Turn it into seconds since the epoch.
-@@ -3173,7 +3176,7 @@ RCS_getrevtime (RCSNode *rcs, const char
+@@ -3173,7 +3187,7 @@ RCS_getrevtime (RCSNode *rcs, const char
  	/* Put an appropriate string into `date', if we were given one. */
  	ftm = gmtime (&revdate.tv_sec);
  	(void) sprintf (date, DATEFORM,
@@ -64,7 +89,7 @@ $MirOS: ports/devel/cvs/patches/patch-src_rcs_c,v 1.3 2007/06/06 13:46:44 tg Exp
  			ftm->tm_mon + 1, ftm->tm_mday, ftm->tm_hour,
  			ftm->tm_min, ftm->tm_sec);
      }
-@@ -3475,6 +3478,7 @@ enum keyword
+@@ -3475,6 +3489,7 @@ enum keyword
      KEYWORD_REVISION,
      KEYWORD_SOURCE,
      KEYWORD_STATE,
@@ -72,7 +97,7 @@ $MirOS: ports/devel/cvs/patches/patch-src_rcs_c,v 1.3 2007/06/06 13:46:44 tg Exp
      KEYWORD_LOCALID
  };
  struct rcs_keyword
-@@ -3511,6 +3515,7 @@ new_keywords (void)
+@@ -3511,6 +3526,7 @@ new_keywords (void)
      KEYWORD_INIT (new, KEYWORD_REVISION, "Revision");
      KEYWORD_INIT (new, KEYWORD_SOURCE, "Source");
      KEYWORD_INIT (new, KEYWORD_STATE, "State");
@@ -80,7 +105,7 @@ $MirOS: ports/devel/cvs/patches/patch-src_rcs_c,v 1.3 2007/06/06 13:46:44 tg Exp
  
      return new;
  }
-@@ -3544,6 +3549,30 @@ printable_date (const char *rcs_date)
+@@ -3544,6 +3560,30 @@ printable_date (const char *rcs_date)
  
  
  
@@ -111,7 +136,7 @@ $MirOS: ports/devel/cvs/patches/patch-src_rcs_c,v 1.3 2007/06/06 13:46:44 tg Exp
  /* Escape the characters in a string so that it can be included in an
     RCS value.  */
  static char *
-@@ -3741,6 +3770,11 @@ expand_keywords (RCSNode *rcs, RCSVers *
+@@ -3741,6 +3781,11 @@ expand_keywords (RCSNode *rcs, RCSVers *
  		free_value = 1;
  		break;
  
@@ -123,7 +148,7 @@ $MirOS: ports/devel/cvs/patches/patch-src_rcs_c,v 1.3 2007/06/06 13:46:44 tg Exp
  	    case KEYWORD_CVSHEADER:
  	    case KEYWORD_HEADER:
  	    case KEYWORD_ID:
-@@ -5081,7 +5115,7 @@ RCS_checkin (RCSNode *rcs, const char *u
+@@ -5081,7 +5126,7 @@ RCS_checkin (RCSNode *rcs, const char *u
  	(void) time (&modtime);
      ftm = gmtime (&modtime);
      delta->date = Xasprintf (DATEFORM,
