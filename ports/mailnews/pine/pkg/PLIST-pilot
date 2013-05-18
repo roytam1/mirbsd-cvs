@@ -1,4 +1,0 @@
-@comment $MirOS$
-@comment $OpenBSD: PLIST-pilot,v 1.1 2002/12/01 20:57:10 jakob Exp $
-bin/pilot
-man/man1/pilot.1

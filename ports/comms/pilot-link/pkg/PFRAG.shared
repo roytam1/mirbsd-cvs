@@ -1,3 +1,0 @@
-@comment $MirOS$
-@comment $OpenBSD: PFRAG.shared,v 1.2 2002/02/18 21:37:41 pvalchev Exp $
-@lib lib/libpisock.so.4.0

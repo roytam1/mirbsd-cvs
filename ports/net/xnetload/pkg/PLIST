@@ -1,7 +1,0 @@
-@comment $MirOS$
-@group kmem
-@mode 2555
-bin/xnetload
-@group
-@mode
-man/man1/xnetload.1

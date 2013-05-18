@@ -1,7 +1,0 @@
-@comment $OpenBSD: PLIST,v 1.2 2002/04/07 01:54:48 naddy Exp $
-bin/fax
-bin/efax
-bin/efix
-man/man1/fax.1
-man/man1/efax.1
-man/man1/efix.1
