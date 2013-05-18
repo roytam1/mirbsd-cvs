@@ -1,4 +1,4 @@
-/* $MirOS: src/lib/libc/i18n/wcrtomb.c,v 1.9 2006/05/31 00:14:41 tg Exp $ */
+/* $MirOS: src/lib/libc/i18n/wcrtomb.c,v 1.10 2006/06/02 19:45:00 tg Exp $ */
 
 /*-
  * Copyright (c) 2005, 2006
@@ -23,6 +23,11 @@
  * direct error of said person and intended use of this work, loss or
  * other issues arising in any way out of its use, even if advised of
  * the possibility of such damage or existence of a nontrivial bug.
+ *-
+ * THIS FUNCTION VIOLATES THE INTERFACE DEFINITION!
+ * If the 'ps' argument contains a conversion state, at maximum, five
+ * bytes (two from the 'ps', three (= MB_CUR_MAX) from the 'wc' argu-
+ * ment) are stored.
  */
 
 #include <errno.h>
@@ -30,52 +35,47 @@
 
 #include "mir18n.h"
 
-__RCSID("$MirOS: src/lib/libc/i18n/wcrtomb.c,v 1.9 2006/05/31 00:14:41 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/i18n/wcrtomb.c,v 1.10 2006/06/02 19:45:00 tg Exp $");
 
 size_t
-wcrtomb(char *__restrict__ sb, wchar_t wc, mbstate_t *__restrict__ ps)
+wcrtomb(char *__restrict__ src, wchar_t wc, mbstate_t *__restrict__ ps)
 {
 	static mbstate_t internal_mbstate = { 0, 0 };
-	unsigned char *s = (unsigned char *)sb;
+	unsigned char *s = (unsigned char *)src;
+	unsigned count;
 
 	if (__predict_false(ps == NULL))
 		ps = &internal_mbstate;
 
-	if (__predict_false(s == NULL)) {
-		size_t numb = ps->count;
+	count = __locale_is_utf8 ? ps->count : 0;
+
+	if (__predict_false(src == NULL)) {
 		ps->count = 0;
-		return (numb + 1);
+		return (++count);
 	}
 
-	if (__predict_true(!__locale_is_utf8)) {
-		if (wc <= MIR18N_SB_CVT) {
-			*s = wc;
-			return (1);
-		}
- ilseq:
+	while (__predict_false(count)) {
+		/* process any remnants from previous conversion state */
+		*s++ = ((ps->value >> (6 * --count)) & 0x3F) | 0x80;
+	}
+
+	if (__predict_false(wc >
+	    (__locale_is_utf8 ? MIR18N_MB_MAX : MIR18N_SB_CVT))) {
 		errno = EILSEQ;
 		return ((size_t)(-1));
-	}
-
-	while (__predict_false(ps->count)) {
-		/* process any remnants from previous conversion state */
-		*s++ = ((ps->value >> (6 * --ps->count)) & 0x3F) | 0x80;
-	}
-
-	if (wc < 0x0080) {
+	} else if (__predict_true((wc < 0x80) || !__locale_is_utf8)) {
 		*s++ = wc;
 	} else if (wc < 0x0800) {
-		ps->count = 1;
+		count = 1;
 		*s++ = (wc >> 6) | 0xC0;
-	} else if (__predict_false(wc > MIR18N_MB_MAX)) {
-		goto ilseq;
 	} else {
-		ps->count = 2;
+		count = 2;
 		*s++ = (wc >> 12) | 0xE0;
 	}
 
-	while (__predict_false(ps->count)) {
-		*s++ = ((wc >> (6 * --ps->count)) & 0x3F) | 0x80;
+	while (__predict_false(count)) {
+		*s++ = ((wc >> (6 * --count)) & 0x3F) | 0x80;
 	}
-	return (s - (unsigned char *)sb + 1);
+	ps->count = 0;
+	return ((char *)s - src);
 }
