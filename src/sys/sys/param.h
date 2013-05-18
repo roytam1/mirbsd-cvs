@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/sys/param.h,v 1.56 2007/01/25 15:52:27 tg Exp $ */
+/**	$MirOS: src/sys/sys/param.h,v 1.57 2007/02/07 01:37:50 tg Exp $ */
 /*	$OpenBSD: param.h,v 1.54 2004/02/27 18:06:55 deraadt Exp $	*/
 /*	$NetBSD: param.h,v 1.23 1996/03/17 01:02:29 thorpej Exp $	*/
 
@@ -177,23 +177,13 @@
 #define	isclr(a,i)	(((a)[(i)/NBBY] & (1<<((i)%NBBY))) == 0)
 
 /* Macros for counting, rounding and bounding */
-#ifdef __GNUC__
 #ifndef howmany
-#define howmany(x,y)	__extension__({		\
-	typeof (x) __SP_x = (x);		\
-	typeof (y) __SP_y = (y);		\
-	((__SP_x + (__SP_y - 1)) / __SP_y);	\
-})
+#define	howmany(x, y)	(((x)+((y)-1))/(y))
 #endif
-#define roundup(x,y)	__extension__({		\
-	typeof (x) __SP_x = (x);		\
-	typeof (y) __SP_y = (y);		\
-	(howmany(__SP_x, __SP_y) * __SP_y);	\
-})
-#define powerof2(x)	__extension__({		\
-	typeof (x) __SP_x = (x);		\
-	(((__SP_x - 1) & __SP_x) == 0);		\
-})
+#define	roundup(x,y)	(howmany((x), (y)) * (y))
+#define	powerof2(x)	((((x)-1)&(x))==0)
+
+#ifdef __GNUC__
 #define MIN(x,y)	__extension__({		\
 	typeof (x) __SP_x = (x);		\
 	typeof (y) __SP_y = (y);		\
@@ -213,17 +203,12 @@
 	  __SP_x );				\
 })
 #else
-#ifndef howmany
-#define	howmany(x, y)	(((x)+((y)-1))/(y))
-#endif
-#define	roundup(x, y)	((((x)+((y)-1))/(y))*(y))
-#define	powerof2(x)	((((x)-1)&(x))==0)
 #define	MIN(a,b)	(((a)<(b))?(a):(b))
 #define	MAX(a,b)	(((a)>(b))?(a):(b))
-
 #define	__BOUNDINT(minv,maxv,v)	\
 	( ((v) < (minv)) ? (minv) : ( ((v) > (maxv)) ? (maxv) : (v) ) )
 #endif /* !__GNUC__ */
+
 #define __BOUNDINT0(maxv,x)	__BOUNDINT(0,(maxv),(x))
 #define __BOUNDINTU(maxv,x)	MIN((maxv),(x))
 
