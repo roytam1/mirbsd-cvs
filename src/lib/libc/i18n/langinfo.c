@@ -1,4 +1,4 @@
-/* $MirOS: src/lib/libc/i18n/langinfo.c,v 1.12 2006/09/07 17:13:15 tg Exp $ */
+/* $MirOS: src/lib/libc/i18n/langinfo.c,v 1.13 2006/11/01 18:31:11 tg Exp $ */
 
 /*-
  * Copyright (c) 2003, 2004, 2005, 2006
@@ -35,12 +35,11 @@
 #include <sys/localedef.h>
 #include <langinfo.h>
 #include <locale.h>
-#include <nl_types.h>
 #include <stdlib.h>
 
 #include "mir18n.h"
 
-__RCSID("$MirOS: src/lib/libc/i18n/langinfo.c,v 1.12 2006/09/07 17:13:15 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/i18n/langinfo.c,v 1.13 2006/11/01 18:31:11 tg Exp $");
 
 /* fake locale support */
 
