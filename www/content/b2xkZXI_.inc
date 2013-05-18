@@ -1,8 +1,22 @@
 <!-- PageID: older -->
-<small class="rcsid">$MirOS: www/content/b2xkZXI_.inc,v 1.24 2006/03/19 21:23:19 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/b2xkZXI_.inc,v 1.25 2006/04/06 12:00:59 tg Exp $</small>
 <h1>Older News and Weblogs</h1>
 <h3>Old News</h3>
 <p><a href="#newsend">Skip to News bottom</a></p><ul>
+
+<li>06.04.2006<br />The Ada and GCJ compilers are no longer delivered with
+	MirOS-current. Users who require them must now build these drivers
+	manually by changing <tt>/etc/make.cfg</tt> and building the "gcc"
+	module. Note: GNAT (the Ada compiler of GCC) requires itself to be
+	built (you can pull it from an older snapshot or #8-stable).</li>
+
+<li>29.03.2006<br />We've added a new server to the Freeforge IRC network,
+	<tt>herc.66h.42h.de</tt> Port 6668 (SSL), 6667 and 6666 (non-SSL).
+	You can either directly connect to that server or the round-robin,
+	<tt>irc.66h.42h.de</tt> (or <tt>irc4.66h.42h.de</tt> for IPv4-only
+	or <tt>irc6.66h.42h.de</tt> for IPv6-only connections). Note: this
+	server does have IPv6 connectivity, however it's only a SixXS over
+	ADSL (consumer line) connection, so don't overload it.</li>
 
 <li>19.03.2006<br />We've added a new server to the Freeforge IRC network,
 	<tt>maou.66h.42h.de</tt> Port 6668 (SSL), 6667 and 6666 (non-SSL).

@@ -1,7 +1,18 @@
 <!-- PageID: news -->
-<small class="rcsid">$MirOS: www/content/bmV3cw__.inc,v 1.65 2006/04/06 12:00:59 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bmV3cw__.inc,v 1.66 2006/04/11 09:55:19 tg Exp $</small>
 
 <h1>Current MirOS News</h1><ul>
+
+<li>23.04.2006<br />There might be a service outage on mirsolutions.de and
+	mirbsd.org soonish. We will try to prepare backup NS/MX in advance
+	and point the mirbsd.de redirector you should be using for any web
+	stuff anyway to a working mirror. On some unrelated news, the live
+	CD which will be distributed at LinuxTag 2006 is already up on the
+	<a href="http://f.scarywater.net/miros/">BitTorrent tracker</a>, I
+	however recommend to get the CD there anyway if you can make it as
+	we've revived the cool LinuxTag 2004 cover by Wokmann. The current
+	live CD still does not have automatic serial console recognisation
+	in the fancy boot manager, though.</li>
 
 <li>11.04.2006<br />On <a href="http://f.scarywater.net/miros/">BitTorrent
 	</a> there is a new snapshot available, which, for the first time,
@@ -14,19 +25,8 @@
 	or succeeded (especially if there is a regression e.g. regarding a
 	normal installation). Thanks!</li>
 
-<li>06.04.2006<br />The Ada and GCJ compilers are no longer delivered with
-	MirOS-current. Users who require them must now build these drivers
-	manually by changing <tt>/etc/make.cfg</tt> and building the "gcc"
-	module. Note: GNAT (the Ada compiler of GCC) requires itself to be
-	built (you can pull it from an older snapshot or #8-stable).</li>
-
-<li>29.03.2006<br />We've added a new server to the Freeforge IRC network,
-	<tt>herc.66h.42h.de</tt> Port 6668 (SSL), 6667 and 6666 (non-SSL).
-	You can either directly connect to that server or the round-robin,
-	<tt>irc.66h.42h.de</tt> (or <tt>irc4.66h.42h.de</tt> for IPv4-only
-	or <tt>irc6.66h.42h.de</tt> for IPv6-only connections). Note: this
-	server does have IPv6 connectivity, however it's only a SixXS over
-	ADSL (consumer line) connection, so don't overload it.</li>
+<li>older news:<br />Please read the <a href="/?irc">FreeForge IRC network
+	information</a> as well.</li>
 
 <li>27.03.2006<br />In case you have acquired a MirOS CD-ROM "FOSDEM 2006"
 	edition please verify the checksums of the data on the CD. Some of
