@@ -3,7 +3,7 @@
 
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.238 2009/05/31 17:23:52 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.239 2009/05/31 17:50:32 tg Exp $'
 mws_content <<'EOF'
 <h1>mksh(1) R38b</h1>
 <p>This is the website of the MirBSD™ Korn Shell, an actively developed free
@@ -168,10 +168,10 @@ mws_content <<'EOF'
  <li><a href="http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R38b.cpio.gz">http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R38b.cpio.gz</a></li>
 </ul>
 <h3 id="hashes">Checksums and Hashes</h3><ul>
- <li>RMD160 (mksh-R38.cpio.gz) = 90f1a119ca8d6e048facab53d876600bba60c6f8</li>
- <li>TIGER (mksh-R38.cpio.gz) = b896a964170bea97704ab86056b074d605eb220aa95d40c7</li>
- <li>3205774625 276123 /MirOS/dist/mir/mksh/mksh-R38.cpio.gz</li>
- <li>MD5 (mksh-R38.cpio.gz) = e2fa1f50690abf763cc3e4d8e1612728</li>
+ <li>RMD160 (mksh-R38b.cpio.gz) = 02fbe51e6330c3dab49e6bf273573fb5fb282451</li>
+ <li>TIGER (mksh-R38b.cpio.gz) = b79bcf07ddd58a332b7ec43cf884819655f0c56f6289c318</li>
+ <li>1779631716 276680 /MirOS/dist/mir/mksh/mksh-R38b.cpio.gz</li>
+ <li>MD5 (mksh-R38b.cpio.gz) = 7a9353648b6f4008b1bbcfffdffff333</li>
  <li style="list-style:none;">All official distfiles are gzsig(1)d.</li>
 </ul>
 
@@ -779,6 +779,7 @@ mws_content <<'EOF'
  <li>MirOS #10-current (i386 llvmgcc4.2.1-Apple_5627mp2 llvm58935mp0)</li>
  <li>MirOS #10-current (i386 llvmgcc4.2.1-Apple_5627mp2 opt+llc+llvm58935mp0)</li>
  <li>MirOS #10-current (i386 pcc20081028-MirPorts-1)</li>
+ <li>MirOS #10-current (i386 pcc20090522-cvs)</li>
  <li>MirOS #10-current (i386 SUNWcc5.9 Linux_i386 2007/05/03, GNU ld 2.13.90.0.2 20020802)</li>
  <li>BSDi BSD/OS 3.1 #4 M300-043 (i386 gcc2.7.2.1)</li>
  <li>BSDi BSD/OS 3.1 #4 M300-043 (i386 gcc1.42)</li>

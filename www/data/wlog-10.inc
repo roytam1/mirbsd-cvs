@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.196 2009/05/30 00:33:28 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.197 2009/05/31 13:01:50 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -4097,4 +4097,16 @@ Title: On BSD derivates and ports frameworks
  starting from scratch. Heck, even MidnightBSD would probably have
  jumped on the MirPorts wagon if they had not had such success with
  mports at that time already.</p>
+----
+Title: mksh R38 released
+Date: 31.05.2009 19:01
+Author: tg@
+Tag: bug mksh
+
+<p>The <a href="@@RELPATH@@mksh.htm">MirBSD Korn Shell R38b</a> has been
+ released. It adds portability to QNX 6.4, a built-in base64 decoder and
+ encoder written in mksh itself, and most importantly fixes a regression
+ introduced in R38 causing memory corruption.</p><!-- RSS stop -->
+<p>This – and a lot more bugs – were discovered while porting Git (resp.
+ running its test suite) for Michael Gebetsroither (grml).</p>
 ----
