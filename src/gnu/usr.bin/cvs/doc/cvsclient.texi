@@ -2,7 +2,7 @@
 
 @setfilename cvsclient.info
 @afourpaper
-@comment $MirOS: ports/devel/cvs/patches/patch-doc_cvs_texinfo,v 1.8 2011/05/06 23:17:27 tg Exp $
+@comment $MirOS: src/gnu/usr.bin/cvs/doc/cvsclient.texi,v 1.4 2011/06/11 03:46:26 tg Exp $
 @include version-client.texi
 
 @dircategory Programming
@@ -55,7 +55,7 @@ operation of each CVS command and option---and one must look at the CVS
 user documentation, @file{cvs.texinfo}, for that information.  The
 protocol is non-proprietary (anyone who wants to is encouraged to
 implement it) and an implementation, known as CVS, is available under
-the GNU Public License.  The CVS distribution, containing this
+the GNU General Public License.  The CVS distribution, containing this
 implementation, @file{cvs.texinfo}, and a copy (possibly more or less up
 to date than what you are reading now) of this document,
 @file{cvsclient.texi}, can be found at the usual GNU FTP sites, with a
