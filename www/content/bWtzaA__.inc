@@ -1,5 +1,5 @@
 <!-- PageID: mksh -->
-<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.84 2007/02/18 23:28:11 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.85 2007/03/04 06:27:07 tg Exp $</small>
 
 <h1>mksh(1) R28</h1>
 <p>This is the MirBSD&trade; Korn Shell, a more or less portable
@@ -36,8 +36,10 @@
  <li>Begin porting mksh to the <a href="http://9fans.net/">Plan 9</a>
   ANSI'n'POSIX Environment (not finished)</li>
  <li>Plan porting mksh to <a href="http://www.minix3.org/">Minix 3</a>
-  (not codified yet)</li>
+  (not finished yet)</li>
  <li>Plan porting to other UNIX&reg;-like systems via HP Testdrive</li>
+</ul>
+<p>Please upgrade to mksh R29 due to the following changes:</p><ul>
  <li>Fix portability of regression tests using fgrep(1), twice</li>
  <li>Fix description of $RANDOM in manual page</li>
  <li>Fix build under OpenSolaris Build 47 (reported in IRC)</li>
@@ -68,8 +70,8 @@
  <li>Unbreak the -d option to <tt>Build.sh</tt></li>
  <li>Check for <tt>cc</tt> options -Wno-error, -fwhole-program --combine,
   and (if MKSH_SMALL) -fno-inline and use them if they don't fail</li>
- <li>The autoconf-style checks have been enhanced, improved and be made
-  more verbose by default</li>
+ <li>The autoconf-style (&#8220;mirtoconf&#8221;) checks have been enhanced,
+  improved and be made more verbose by default</li>
  <li>Rewrite a few functions both to save space and to simplify/unify
   the code; also spotted a few bugs in existing (inherited) code</li>
  <li>Fix format string mistakes and wrong function and data prototypes</li>
@@ -134,7 +136,7 @@
  <li>if MKSH_SMALL, don't include -T support and don't scan
   for revoke() function</li>
  <li>new #ifdef MKSH_NEED_MKNOD to embed mknod(1) even if
-  MKSH_SMALL is enabled (<b>XXX</b> to be integrated with Build.sh)</li>
+  MKSH_SMALL is enabled</li>
  <li>do not scan for revoke() on GNU/Linux since it always fails</li>
  <li>simplify GNU/Linux CPPFLAGS and use them for GNU/HURD and
   GNU/kFreeBSD (tested on Debian experimental, thanks to the
@@ -142,7 +144,7 @@
  <li>fix the 'bind' (no args) builtin output</li>
  <li>new #ifdef MKSH_ASSUME_UTF8 to not check setlocale() and
   nl_langinfo(CODESET) if we want to always enable the utf-8
-  command line editing mode (<b>XXX</b> integrate with Build.sh)</li>
+  command line editing mode</li>
  <li>tabcomplete a newline to singlequote+newline+singlequote
   instead of backslash+newline which is eaten; thanks to
   Thomas E. "TGEN" Spanjaard for noticing</li>
