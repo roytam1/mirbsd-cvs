@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/scripts/roff2htm,v 1.39 2007/01/25 11:19:43 tg Exp $
+# $MirOS: src/scripts/roff2htm,v 1.40 2007/01/25 11:26:11 tg Exp $
 # $ekkoBSD: catman2html.sh,v 1.2 2004/03/07 03:02:53 stephen Exp $
 #-
 # Copyright (c) 2004, 2005, 2006, 2007
@@ -40,10 +40,9 @@ gendate=$(date +"%F %T")		# current time
 
 do_convert()
 {
+	integer isblank=0
 	set +e
-	let isblank=0
-	expand								\
-	| sed								\
+	expand | sed							\
 	    -e '/-$/N
 {
 s/\([0-9A-z][-.,0-9A-z]*\)-\n\(  *\)\([0-9A-z][-.,0-9A-z]*([1-9][A-z]*)\)\([^ ]*\) /\1\3\4\
@@ -78,8 +77,8 @@ s/\([0-9A-z][-.,0-9A-z]*\)-\n\(  *\)\([0-9A-z][-.,0-9A-z]*([1-9][A-z]*)\)\([^ ]*
 	    -e '/^   /s#\(\([0-9A-z][-.,0-9A-z]*\)(\(PAPERS\))\)#<a href=\"../man\3/\2.htm\">\1</a>#g' \
 	    -e '/^   /s#\(<i>\([0-9A-z][-.,0-9A-z]*\)</i>(\(PAPERS\))\)#<a href=\"../man\3/\2.htm\">\1</a>#g' \
 									\
-	    -e 's#<b>+</b>\( *\)<b>o</b># \1\&bull;#'			\
-	    -e 's#<b>+</b>#\&bull;#'					\
+	    -e 's#<b>+</b>\( *\)<b>o</b># \1â€¢#'				\
+	    -e 's#<b>+</b>#â€¢#'						\
 	    -e 's#</\([bi]\)><\1>##g'					\
 	    -e 's#</\([bi]\)>\([[:punct:][:space:]]*\)<\1>#\2#g'	\
 	    -e 's#\([^[:punct:]]\)\([-!"#$%&'\''()*+,./:;=?@[\]^_`{|}~]*\)\(<[bi]>\)#\1\3\2#g'	\
@@ -87,9 +86,9 @@ s/\([0-9A-z][-.,0-9A-z]*\)-\n\(  *\)\([0-9A-z][-.,0-9A-z]*([1-9][A-z]*)\)\([^ ]*
 	    -e 's#\(<i>/[^<]*\)</i>/#\1/</i>#g'				\
 	    -e 's#<h3>*<b>*>#<h3>#g' -e 's#</b></h3>#</h3>#g'		\
 									\
-	    -e 's#Á#\&amp;#g'						\
-	    -e 's#þ#\&lt;#g'						\
-	    -e 's#ÿ#\&gt;#g'						\
+	    -e 's/Á/\&#38;/g'						\
+	    -e 's/þ/\&#60;/g'						\
+	    -e 's/ÿ/\&#62;/g'						\
 									\
 	    -e '1s#^#<pre>#'						\
 	    -e '$s#$#</pre>#'						\
@@ -126,7 +125,7 @@ output_footer()
 {
 	cat <<-EOF
 		<hr /><p style="font-size:xx-small;">Generated on ${gendate} by
-		 \$MirOS: src/scripts/roff2htm,v 1.39 2007/01/25 11:19:43 tg Exp $</p>
+		 \$MirOS: src/scripts/roff2htm,v 1.40 2007/01/25 11:26:11 tg Exp $</p>
 		<p>These manual pages are copyrighted by their respective writers; their
 		 source is available at our <a href="http://cvs.mirbsd.de/">CVSweb</a>.
 		 The rest is Copyright Â© 2002-2007 <a href="http://www.mirbsd.org/">The
