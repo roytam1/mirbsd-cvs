@@ -2,7 +2,7 @@
 
 #include "sh.h"
 
-__RCSID("$MirOS: src/bin/mksh/jobs.c,v 1.9.2.2 2006/08/24 19:52:56 tg Exp $");
+__RCSID("$MirOS: src/bin/mksh/jobs.c,v 1.10 2006/08/24 20:32:53 tg Exp $");
 
 /* Order important! */
 #define PRUNNING	0
