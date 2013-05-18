@@ -1,4 +1,4 @@
-# $MirOS: src/etc/rc,v 1.88 2008/10/20 18:04:03 tg Exp $
+# $MirOS: src/etc/rc,v 1.89 2008/10/20 18:20:31 tg Exp $
 # $OpenBSD: rc,v 1.277 2006/01/12 21:54:15 deraadt Exp $
 #-
 # System startup script run by init on autoboot or after single-user.
@@ -6,7 +6,6 @@
 # is the controlling terminal. This is called with _PATH_BSHELL which
 # must be an mksh(1).
 
-set +o posix -o braceexpand +o utf8-hack
 export HOME=/ LC_CTYPE=en_US.UTF-8 PATH=/sbin:/bin:/usr/sbin:/usr/bin
 umask 022
 cd /
