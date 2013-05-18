@@ -1,8 +1,0 @@
-# $MirOS$
-
-PROG=		lemon
-BINDIR=		${BSD_PREFIX}/bin
-
-CPPFLAGS+=	-D'LEMPAR_PATH="${BSD_PREFIX}/share/lemon/lempar.c"'
-
-.include <bsd.prog.mk>

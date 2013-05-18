@@ -1,3 +1,0 @@
-The QEMU Guest Agent allows a minimum of communication between
-host and guest, for example to initiate a guest system shutdown,
-over a virtual serial connection.
