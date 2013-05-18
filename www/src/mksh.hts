@@ -1,10 +1,10 @@
-# $MirOS: www/src/mksh.hts,v 1.69 2007/10/14 14:07:39 tg Exp $
+# $MirOS: www/src/mksh.hts,v 1.70 2007/10/15 19:33:17 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.69 2007/10/14 14:07:39 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.70 2007/10/15 19:33:17 tg Exp $'
 mws_content <<'EOF'
 <h1>mksh(1) R31d</h1>
 <p>This is the website of the MirBSD™ Korn Shell, an actively developed free
@@ -699,6 +699,11 @@ mws_content <<'EOF'
   ANSI’n’POSIX Environment (not finished)</li>
  <li>Plan porting mksh to <a href="http://www.minix3.org/">Minix 3</a>
   (not finished yet)</li>
+ <li>Make checks for symbol declarations compile checks instead of link
+  checks, as the binding may not succeed due to different symbol types,
+  for instance on AIX, if the declaration does not match</li>
+ <li>Widen the range of array indices to [0‥2³²-1], with negative values
+  being mapped into the high-bit31 range for simplicity</li>
 </ul>
 <p>Everyone should upgrade to mksh R31d with fixes for…</p><ul>
  <li>Support pcc (the ragge version of the Portable C Compiler)</li>
