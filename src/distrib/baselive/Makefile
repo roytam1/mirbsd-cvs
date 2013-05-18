@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/baselive/Makefile,v 1.23 2007/07/15 20:48:38 tg Exp $
+# $MirOS: src/distrib/baselive/Makefile,v 1.24 2007/07/18 09:04:11 tg Exp $
 
 .include <bsd.own.mk>
 
@@ -174,7 +174,7 @@ cdrom-generate:
 	    ${SUDO} ${MKSH} ${.CURDIR}/mklocatedb.sh ${REALOBJDIR}/${IMAGE}
 	${SUDO} mkisofs -R -f -L -d -D -N -v -v ${CDROM_MDOPTS} \
 	    -P 'The MirOS Project and its contributors' \
-	    -p 'Copyright © 2007 Thorsten Glaser' \
+	    -p 'Copyright © 2007-2008 Thorsten Glaser' \
 	    -V 'MirOS #${OSrev} BSD/${MACHINE} Live CD' \
 	    -volset "$$(uname -slm) Live" -sysid "MirOSBSD" \
 	    -pad -o ${CDROM} ${WRKDIR} 2>&1 | tee mkisofs.log
