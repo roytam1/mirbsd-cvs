@@ -1594,9 +1594,6 @@
 ./usr/lib/libobjc.a
 ./usr/lib/libobjc.la
 ./usr/lib/libobjc.so.3.1
-./usr/lib/libobjc_gc.a
-./usr/lib/libobjc_gc.la
-./usr/lib/libobjc_gc.so.3.1
 ./usr/lib/libocurses.a
 ./usr/lib/libopcodes.a
 ./usr/lib/libopcodes.la
