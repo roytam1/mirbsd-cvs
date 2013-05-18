@@ -1,4 +1,4 @@
-# $MirOS: www/Makefile,v 1.31 2008/09/17 21:21:37 tg Exp $
+# $MirOS: www/Makefile,v 1.32 2008/09/17 21:52:04 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -112,6 +112,7 @@ _reinstall:
 	cd ${TOP}/files && pax -rw -pe -v . ${DST}/dst/
 	cd ${TOP} && pax -rw -pe -v pics ${DST}/dst/
 	cd dst && \
+	    ln -sf wlog-${WLOG_LATEST}.htm wlog.htm && \
 	    ln -sf wlog-${WLOG_LATEST}.rss wlog.rss && \
 	    rm -rf $$(find . -name CVS -o -name .cvsignore)
 	chmod -R u=rwX,go=rX dst
