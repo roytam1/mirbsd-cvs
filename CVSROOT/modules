@@ -1,4 +1,4 @@
-# $MirOS: CVSROOT/modules,v 1.35 2009/08/08 12:57:09 tg Exp $
+# $MirOS: CVSROOT/modules,v 1.36 2009/11/22 20:14:53 tg Exp $
 # from $OpenBSD: modules,v 1.17 1998/07/12 04:44:24 todd Exp $
 #-
 # Three different line formats are valid:
@@ -59,16 +59,19 @@ miniports	-a ports/Makefile ports/Setup.sh \
 basedep		-a contrib/code/Snippets/tinyirc.c \
 		   contrib/code/jupp
 
-# Ported projects and other distfile sources
+# MirOS BSD subdirectories made into distfiles
 cksum		src/bin/md5
+ed		src/bin/ed
+mksh		src/bin/mksh
+pax		src/bin/pax
+rdate		src/usr.sbin/rdate
+
+# Ported projects and other distfile sources
 e3		contrib/gnu/e3
 jupp		contrib/code/jupp
 mirmake		contrib/code/mirmake
-mksh		src/bin/mksh
 mpczar		contrib/code/mpczar
-pax		src/bin/pax
 pkgtools	ports/infrastructure/pkgtools
-rdate		src/usr.sbin/rdate
 
 # Hosted projects
 bsd-arc4random	&_bsd-arc4random
