@@ -1,5 +1,5 @@
 <!-- PageID: mksh -->
-<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.110 2007/06/03 17:29:30 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.111 2007/06/04 22:03:18 tg Exp $</small>
 
 <h1>mksh(1) R29</h1>
 <p>This is the MirBSD&trade; Korn Shell, a more or less portable
@@ -98,6 +98,11 @@
  <li>Make mksh compilable with SUNpro 12 (inside compat_linux(8)) for
   real, both targetting a Linux binary – Total failed: 12 (11 unexpected) –
   and a native MirOS BSD binary – which works more than just fine…</li>
+ <li>Prefer more common signal names (SIGCHLD) over uncommon ones (SIGCLD)</li>
+ <li>Quieten gcc and support SUNpro 5.8 on Solaris 10 on sparc64</li>
+ <li>Optimise signal handling and detection; enable compilers whose
+  præprocessor doesn't have <tt>-dD</tt> to generate list of signals</li>
+ <li>Optimise mirtoconf meta-checks for persistent history etc.</li>
 </ul>
 <p>Please use mksh R29f because of below modifications:</p><ul>
  <li>Fix detection of function prototypes (data declaractions were ok)</li>
