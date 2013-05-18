@@ -1,5 +1,5 @@
 <!-- PageID: mksh -->
-<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.76 2007/01/06 17:45:41 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.77 2007/01/06 18:49:31 tg Exp $</small>
 
 <h1>mksh(1) R28</h1>
 <p>This is the MirBSD&trade; Korn Shell, a more or less portable
@@ -394,10 +394,10 @@
  <li>MD5 (mksh-R28.cpio.gz) = 1869f79961c365c65116974706a56c67</li>
 </ul>
 
-<p>There is a <a href="http://users.unixforge.de/~tglaser/mksh_28.9.20061211.dsc">Debian
- experimental source package</a> (<b>dget</b>table) of mksh-current as of 2006/12/11,
- not GnuPG-signed <em>yet</em> due to hardware issues here. (Just in case, cksum is 779230138 261
- and tiger is eec01cf25dc8fb51a3a58d9478bca028c84296c388a8c6dd.)</p>
+<p>There is a <a href="http://users.unixforge.de/~tglaser/mksh_28.9.20070106.dsc">Debian
+ experimental source package</a> (<b>dget</b>table) of mksh-current as of 2007/01/06,
+ not GnuPG-signed <em>yet</em> due to hardware issues here. (Just in case, cksum is 3410414089 261
+ and tiger is 329c7040fec0e809f0a029f03d83590b9ea9eb0b9a267242.)</p>
 
 <p>Find older versions below:</p>
 
