@@ -22,9 +22,24 @@
  * of said person's immediate fault when using the work as intended.
  */
 
+#ifdef _LIBMIRMAKE
+#ifndef _ALIGN_TEXT
+#define _ALIGN_TEXT		.p2align 2, 0x90
+#endif
+#define FTYPE(x)		.type x,@function
+#define	_ENTRY(name) \
+	.text; _ALIGN_TEXT; .globl name; FTYPE(name); name:
+#define _PROF_PROLOGUE		/* no profiling */
+#define ENTRY(name)		_ENTRY(_C_LABEL(name)); _PROF_PROLOGUE
+#define RCSID(x)		.section .comment;		\
+				.ascii "@(""#)rcsid: ";		\
+				.asciz x;			\
+				.previous
+#else
 #include <machine/asm.h>
+#endif
 
-RCSID("$MirOS: src/bin/md5/suma-x86.S,v 1.5 2006/05/26 12:34:38 tg Exp $")
+RCSID("$MirOS: src/lib/libc/hash/suma-i386.S,v 1.1 2007/05/07 15:21:18 tg Exp $")
 
 	.intel_syntax noprefix
 	.text
