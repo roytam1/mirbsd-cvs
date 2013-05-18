@@ -1,5 +1,5 @@
 <!-- PageID: mksh -->
-<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.98 2007/04/23 22:33:21 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.99 2007/04/24 21:08:57 tg Exp $</small>
 
 <h1>mksh(1) R29</h1>
 <p>This is the MirBSD&trade; Korn Shell, a more or less portable
@@ -84,11 +84,31 @@
   ANSI'n'POSIX Environment (not finished)</li>
  <li>Plan porting mksh to <a href="http://www.minix3.org/">Minix 3</a>
   (not finished yet)</li>
+ <li>Begin work on building on Solaris with Sun's compiler (contributed
+  by Jupp “cnuke” Söntgen) – not public, not finished yet</li>
+ <li>No longer build a statically linked shell by default; do not try,
+  do not provide any means; user has to use LDFLAGS instead.</li>
+</ul>
+<p>Portability improvements in mksh R29d contain:</p><ul>
  <li>Unbreak testsuite on Mac OSX (whose brain-dead file system does
   non-standard Unicode decomposing and normalisation on filenames,
   thus rendering ANOTHER of our tests unusable *sigh*)</li>
  <li>Port to AIX, thanks to Kurt Telep</li>
  <li>Minor fixes for HP-UX, thanks to HP Testdrive Programme</li>
+ <li>size optimisation if utf-8 is assumed to be always on</li>
+ <li>Do not scan for and use “-fwhole-program --combine” because it's the
+  cause of at least http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=408850
+  and breakage with FORTIFY_SOURCE on SuSE; thanks to Pascal Bleser (yaloki),
+  Marcus Rückert (darix), Martin Zobel-Helas, Steve Langasek (vorlon) for
+  tracking this bug down in two different places; Closes: Debian #421518</li>
+ <li>small manual page fixes</li>
+ <li>copy $PATH from Build.sh to test.sh; thanks to a test account on Sun
+  Solaris 11 donated by Julian Wiesener (yofuh) I was able to verify that
+  you want to prefix $PATH with <tt>/usr/xpg4/bin</tt> because the other
+  tools (<tt>/usr/bin</tt>, <tt>/usr/ccs</tt>, et al.) suck major arse…</li>
+ <li>Note: the SuSE package in the Buildservice was created by darix (without
+  my knowledge), is maintained by loki now</li>
+ <li>Note: the PDF manual page is now PDF 1.3 (Acrobat 4.x) again</li>
 </ul>
 <p>Minor bugfixes in mksh R29c – you might want it:</p><ul>
  <li>Regression fix: mksh has some kind of “encoded string” format;
@@ -516,6 +536,8 @@
  <tt>traverse</tt>.</li>
 <li>for a b in …; do (like make(1) does)</li>
 <li>A sensible website</li>
+<li>Build on more platforms</li>
+<li>Build with platforms' native tools</li>
 </ul>
 
 <h2 id="prefetch">Requirements</h2>
@@ -554,14 +576,14 @@
 <h2 id="fetch">Getting The Source</h2>
 
 <p>The current version is:</p><ul>
- <li><a href="http://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R29c.cpio.gz">http://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R29c.cpio.gz</a></li>
- <li><a href="http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R29c.cpio.gz">http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R29c.cpio.gz</a></li>
+ <li><a href="http://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R29d.cpio.gz">http://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R29d.cpio.gz</a></li>
+ <li><a href="http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R29d.cpio.gz">http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R29d.cpio.gz</a></li>
  <li>Please use gzsig(1) to verify the integrity of the distfile instead!
   Hashes are only so you know which distfile you want.</li>
- <li>RMD160 (mksh-R29c.cpio.gz) = 47dd5107c4f8237d89de05bae6374fb86ff5f155</li>
- <li>TIGER (mksh-R29c.cpio.gz) = 8f031cfecd2adbd8e6683a72abf1645f59165a3f7e28b450</li>
- <li>3771424446 240022 /MirOS/dist/mir/mksh/mksh-R29c.cpio.gz</li>
- <li>MD5 (mksh-R29c.cpio.gz) = 183957bfcbf7ca212843d6ca85be2fce</li>
+ <li>RMD160 (mksh-R29d.cpio.gz) = 5c68799fad511330fd3bc29053143a9db800ebf2</li>
+ <li>TIGER (mksh-R29d.cpio.gz) = 54ea05fee4c3bcf993a5ff646c8d7505508d22be8997de40</li>
+ <li>2298384882 240690 /MirOS/dist/mir/mksh/mksh-R29d.cpio.gz</li>
+ <li>MD5 (mksh-R29d.cpio.gz) = 90d997b72395c053afcacbf07122fa1a</li>
 </ul>
 
 <h2>Installation</h2>
@@ -576,14 +598,14 @@
  please note that most of them, seen on Mozilla&reg; and
  its derivates as well as Microsoft&reg; Internet Explorer,
  have a bug where the file is saved correctly
- as <em>mksh-R29c.cpio.gz</em> but already decompressed.</p>
+ as <em>mksh-R29d.cpio.gz</em> but already decompressed.</p>
 
 <h3 id="extract">Unpacking</h3>
-<p>On decent systems, you can just use <tt>tar xzf mksh-R29c.cpio.gz</tt>
+<p>On decent systems, you can just use <tt>tar xzf mksh-R29d.cpio.gz</tt>
  to extract the file. On quite damaged systems such as basically everything
  which is not MirOS or anything else with <a href="/?MirCpio">MirCpio</a>
  (paxmirabilis) or some other kind of paxtar, use <tt>gzip -dc
- mksh-R29c.cpio.gz | cpio -mid</tt> or <tt>gzip -dc mksh-R29c.cpio.gz |
+ mksh-R29d.cpio.gz | cpio -mid</tt> or <tt>gzip -dc mksh-R29d.cpio.gz |
  pax -r</tt> instead.</p>
 <p>Of course, skip the gzip stage (use cat) or the 'z' flag
  if your browser already decompressed the file.</p>
@@ -626,7 +648,9 @@
  I suggest to support them because they are doing great
  things like Netzladen e.V. where I are involved in.</p>
 <p>Tonnerre LOMBARD has made it possible to build and
- test (from time to time) mksh on a Solaris 10 box.</p>
+ test (from time to time) mksh on a Solaris 10 box.<br />
+ Julian “yofuh” Wiesener provides a shell account on a
+ Sun Solaris 11 (beta) zone, thanks as well.</p>
 <ul>
  <li>cd mksh; env SHELL=/bin/sh sh Build.sh -r &amp;&amp; ./test.sh</li>
  <li>/usr/ucb/install -c -s -o root -g bin -m 555 mksh ~/.bin/mksh</li>
@@ -653,22 +677,29 @@
  now part of Debian unstable and Debian testing. A Gentoo ebuild
  is available, written by Hanno Boeck, just "emerge mksh" to
  install it. mksh is also part of Fink thanks to Andreas "gecko2"
- Gockel, but called "mirbsdksh" (not mksh) there. Thanks to morfic
+ Gockel, but called "mirbsdksh" (not mksh) there (with hope for a
+ migration to the official “mksh” denomination). Thanks to morfic
  (Daniel Goller), Sourcemage (SMGL) has an mksh spell, originally
  crafted by yours truly, debugged and fixed together. FreeWRT also
- comes with mksh. Ubuntu, <a href="http://www.gnusolaris.org/">Nexenta OS</a>,
- <a href="http://grml.org/">grml</a>, and other Debian derivates
- probably have it as well. <a href="http://dev-loki.blogspot.com/">Pascal
- &quot;loki&quot; Bleser</a> of <a href="http://planet.fosdem.org/">FOSDEM</a>
- fame has packaged mksh for SuSE GNU/Linux (fixed for Fedora and Debian, <a
+ comes with mksh, as does OpenWrt. Ubuntu, <a
+ href="http://www.gnusolaris.org/">Nexenta OS</a>, <a
+ href="http://grml.org/">grml</a>, and other Debian derivates either
+ probably have it as well or even are known to. <a
+ href="http://dev-loki.blogspot.com/">Pascal &quot;loki&quot; Bleser</a>
+ of <a href="http://planet.fosdem.org/">FOSDEM</a> fame has packaged mksh
+ for SuSE GNU/Linux (fixed for Fedora and Debian, *old* packages at: <a
  href="http://linux01.gwdg.de/~pbleser/rpm-navigation.php?cat=System/mksh/">link
  to (broken) webinterface)</a>, which is hosted at at least two mirrors, a <a
  href="http://ftp.gwdg.de/pub/linux/misc/suser-guru/rpm/packages/System/mksh/">primary</a>
  and a <a href="http://ftp.skynet.be/pub/suser-guru/rpm/packages/System/mksh/">fast</a>
- site. Arch GNU/Linux is said to also package mksh. <strong>NOTE:</strong>
- These packages usually have <em>not</em> been provided and/or tested by
- the mksh developers and are not guaranteed to work properly; also, they
- might deliver an older version.
+ site. Since recently, mksh can be found in the OpenSuSE <a
+ href="http://en.opensuse.org/Build_Service">Build Service</a> for several
+ RPM-based GNU/Linux distributions within a subtree of <a
+ href="http://software.opensuse.org/download/shells/">the shells repo</a>.
+ Arch GNU/Linux <a href="http://aur.archlinux.org/packages.php?do_Details=1&amp;ID=3431">also
+ packages mksh. <strong>NOTE:</strong> These packages usually have
+ <em>not</em> been provided and/or tested by the mksh developers and are not
+ guaranteed to work properly; also, they might deliver an older version.
 </p>
 
 <h3 id="buildsfu">Microsoft Services for Unix</h3>
@@ -705,9 +736,10 @@
 <p>The MirOS Project has tested mksh on the following operating systems,
  asked people to test, and hunted mksh down in these packaging systems:</p>
 <ul>
- <li>mksh-current<ul>
-  <li>Darwin ??? Mac OSX 10.4 (powerpc)</li>
+ <li>mksh R29d<ul>
+  <li>Darwin 8.9.0 Mac OSX 10.4 (powerpc)</li>
   <li>AIX 5.3 ML05 – thanks Gurft</li>
+  <li>Solaris 5.10 Generic_118833-36 (sun4u) 32-bit, 64-bit</li>
  </ul></li>
  <li>mksh R29c<ul>
   <li>MirOS #10-beta (i386 gcc3.4.6)</li>
