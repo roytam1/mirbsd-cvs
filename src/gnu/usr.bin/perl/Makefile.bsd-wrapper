@@ -1,4 +1,4 @@
-# $MirOS: src/gnu/usr.bin/perl/Makefile.bsd-wrapper,v 1.23 2007/06/09 18:31:31 tg Exp $
+# $MirOS: src/gnu/usr.bin/perl/Makefile.bsd-wrapper,v 1.24 2008/08/02 13:47:05 tg Exp $
 # $OpenBSD: Makefile.bsd-wrapper,v 1.71 2006/11/09 21:31:12 millert Exp $
 #
 # Build wrapper for Perl 5.8.8
@@ -14,8 +14,6 @@ THREADED_PERL?=	No
 CONFIGURE_ARGS+=-Dusethreads
 CFLAGS+=	-pthread
 .endif
-
-#CFLAGS+=	-std=gnu89
 
 # Arguments passed to Configure...
 XFLAGS=		${CFLAGS} -Werror-maybe-reset
