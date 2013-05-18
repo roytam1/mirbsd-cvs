@@ -1,4 +1,4 @@
-# $MirOS: src/usr.bin/ssh/ssh/Makefile,v 1.3 2008/12/16 20:55:35 tg Exp $
+# $MirOS: src/usr.bin/ssh/ssh/Makefile,v 1.4 2009/10/04 14:29:14 tg Exp $
 # $OpenBSD: Makefile,v 1.53 2009/05/28 16:50:16 andreas Exp $
 
 .PATH:		${.CURDIR}/..
@@ -12,13 +12,12 @@ LINKS=	${BINDIR}/ssh ${BINDIR}/slogin
 MLINKS=	ssh.1 slogin.1
 
 SRCS=	ssh.c readconf.c clientloop.c sshtty.c \
-	sshconnect.c sshconnect1.c sshconnect2.c mux.c \
-	roaming_common.c
+	sshconnect.c sshconnect1.c sshconnect2.c mux.c
 
 CFLAGS_clientloop.o+=	-Wno-unused
 CFLAGS_sshconnect2.o+=	-Wno-unused
 
 .include <bsd.prog.mk>
 
-DPADD+=	${LIBCRYPTO} ${LIBZ} ${LIBDES}
-LDADD+=	-lcrypto -lz -ldes
+DPADD+=	${LIBCRYPTO} ${LIBZ} ${LIBDES} ${DP_R_ON}
+LDADD+=	-lcrypto -lz -ldes ${LD_R_ON}

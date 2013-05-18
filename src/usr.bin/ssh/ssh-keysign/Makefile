@@ -10,9 +10,9 @@ BINMODE?=4555
 BINDIR=	/usr/libexec
 MAN=	ssh-keysign.8
 
-SRCS=	ssh-keysign.c readconf.c roaming_dummy.c
+SRCS=	ssh-keysign.c readconf.c
 
 .include <bsd.prog.mk>
 
-LDADD+=	-lcrypto -lz
-DPADD+=	${LIBCRYPTO} ${LIBZ}
+LDADD+=	-lcrypto -lz ${LD_R_OFF}
+DPADD+=	${LIBCRYPTO} ${LIBZ} ${DP_R_OFF}
