@@ -1,4 +1,4 @@
-.\"	$MirOS: ports/infrastructure/pkgtools/add/pkg_add.1,v 1.8 2008/03/27 21:00:37 bsiegert Exp $
+.\"	$MirOS: ports/infrastructure/pkgtools/add/pkg_add.1,v 1.9 2008/10/12 15:35:20 tg Exp $
 .\"	$OpenBSD: pkg_add.1,v 1.32 2003/07/14 13:38:24 jmc Exp $
 .\"
 .\" FreeBSD install - a package for the installation and maintenance
@@ -52,7 +52,7 @@
 .\" .Dd must come before definition of .Mx, because when called
 .\" with -mandoc, it might implement .Mx itself, but we want to
 .\" use our own definition. And .Dd must come *first*, always.
-.Dd $Mdocdate: March 27 2008 $
+.Dd $Mdocdate: October 12 2008 $
 .\"
 .\" Implement .Mx (MirBSD)
 .de Mx
@@ -125,7 +125,7 @@ or
 suffix) or an FTP location in the form of an URL.
 For example, the following is valid:
 .Pp
-.Ic pkg_add -v ftp://ftp.openbsd.org/pub/OpenBSD/2.7/packages/i386/m4-1.4.tgz
+.Ic pkg_add \-v https://www.mirbsd.org/Pkgs/v10/i386/joe\-3.1jupp9\-0.cgz
 .Pp
 If the given package names are not found in the current working directory,
 .Nm
