@@ -2,7 +2,7 @@
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.169 2008/09/30 19:37:50 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.170 2008/10/10 22:04:22 tg Exp $'
 mws_content <<'EOF'
 <h1>mksh(1) R35b</h1>
 <p>This is the website of the MirBSD™ Korn Shell, an actively developed free
@@ -1032,6 +1032,10 @@ mws_content <<'EOF'
   arr[sizeof (arr)];</tt>, even if the only accesses are of the <tt>*--p</tt>
   style, by preventing it from recognising static storage in this case</li>
  <li>Neither AIX has a UTF-8 locale, so disable use of setlocale(3) there</li>
+ <li>Fix some of the things the LLVM-Clang scan-build static analyser spotted
+  and a couple of compile time warnings</li>
+ <li>Reduce amout of stack space eaten, prefer <tt>.bss</tt> storage</li>
+ <li>Restore old input line on history search abortion</li>
 </ul>
 <p id="r35b">mksh R35b comes with the following bug fixes:</p><ul>
  <li>IRIX also has no UTF-8 locale at all, confirmed by Elias Pipping</li>
