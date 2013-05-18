@@ -1,4 +1,4 @@
-@comment $MirOS$
+@comment $MirOS: ports/net/ucd-snmp/pkg/PLIST,v 1.1.7.1 2005/03/18 15:49:18 tg Exp $
 @comment $OpenBSD: PLIST,v 1.11 2004/04/14 18:59:08 xsa Exp $
 @unexec rm -f %D/share/snmp/mibs/.index
 bin/encode_keychange
@@ -64,11 +64,8 @@ include/ucd-snmp/ucd-snmp-includes.h
 include/ucd-snmp/util_funcs.h
 include/ucd-snmp/var_struct.h
 include/ucd-snmp/version.h
-lib/libsnmp.a
 lib/libsnmp.la
-lib/libucdagent.a
 lib/libucdagent.la
-lib/libucdmibs.a
 lib/libucdmibs.la
 man/man1/snmpbulkget.1
 man/man1/snmpbulkwalk.1
@@ -210,7 +207,6 @@ share/snmp/snmpconf/snmpd.conf/system
 share/snmp/snmpconf/snmpd.conf/trapsinks
 share/snmp/snmpconf/snmptrapd.conf/formatting
 share/snmp/snmpconf/snmptrapd.conf/traphandle
-%%SHARED%%
 @dirrm share/snmp/snmpconf/snmptrapd.conf
 @dirrm share/snmp/snmpconf/snmpd.conf
 @dirrm share/snmp/snmpconf/snmp.conf
