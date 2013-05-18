@@ -1,5 +1,5 @@
 # $MirOS: src/sys/arch/sparc/conf/FLOPPY,v 1.7 2008/07/13 23:57:37 tg Exp $
-# $miros: src/sys/arch/sparc/conf/GENERIC,v 1.19 2008/07/13 23:57:37 tg Exp $
+# $miros: src/sys/arch/sparc/conf/GENERIC,v 1.24 2009/04/17 19:32:45 tg Exp $
 
 machine		sparc			# arch, used by config; REQUIRED
 
@@ -26,7 +26,7 @@ option		NO_PROPOLICE		# remove stack protector
 option		BOOT_CONFIG		# add support for boot -c
 option		TIMEZONE=0		# time zone to adjust RTC time by
 option		DST=0			# daylight saving time used by RTC
-option		MINIROOTSIZE=3456	# size of ramdisk array
+option		MINIROOTSIZE=3328	# size of ramdisk array
 option		RAMDISK_HOOKS		# allow using initrd
 
 #option		CRYPTO			# Cryptographic framework
@@ -106,6 +106,16 @@ pseudo-device	loop			# network loopback
 #pseudo-device	tun			# network tunneling over tty
 #pseudo-device	vlan 			# IEEE 802.1Q VLAN
 
+# tuning options, potentally dangerous to enable/change *at all*, be warned
+#option		POOLWORDS=1024		# size of entropy pool (power of two)
+#option		NVNODE=32768			# raise static alloced bufsiz
+#option		MAXDSIZ="(1024 * 1048576)"	# bump max data size to 1 GiB
+#option		BUFCACHEPERCENT=7		# default: 5% of total RAM sz
+
+maxusers	2			# estimated number of users
+
+config		bsd	root on rd0a
+
 #--- end of machine independent config
 
 # Options for variants of the Sun SPARC architecture.
@@ -117,13 +127,10 @@ option		SUN4M		# sun4m - SS10, SS20, Classic, etc.
 
 #option		MMU_3L		# 3-level MMU on sun4/400
 
+# remote debugger support - disable DDB if enabling this
 #option		KGDB		# support for kernel gdb
 #option		KGDBDEV=0xc01	# kgdb device number (dev_t)
 #option		KGDBRATE=38400	# baud rate
-
-maxusers	2		# estimated number of users
-
-config		bsd	root on rd0a
 
 # Main bus and CPU – all systems.
 mainbus0 at root
