@@ -1,14 +1,17 @@
-# $MirOS: ports/net/rsync/Makefile,v 1.13 2008/04/02 00:06:03 tg Exp $
+# $MirOS: ports/net/rsync/Makefile,v 1.14 2008/04/12 20:36:04 tg Exp $
 # $OpenBSD: Makefile,v 1.41 2004/05/11 13:39:17 naddy Exp $
 
 COMMENT=		mirroring/synchronisation over low bandwidth links
-DISTNAME=		rsync-3.0.2
+VERSION=		3.0.3
 CATEGORIES=		net
 HOMEPAGE=		http://rsync.samba.org/
 RESPONSIBLE=		Thorsten Glaser <tg@66h.42h.de>
 
 FLAVOURS=		static
 FLAVOUR?=
+
+DISTNAME=		rsync-${VERSION}
+FULLPKGNAME-static=	rsync-static-${VERSION}-${DASH_VER}
 
 # GNU GPLv3
 PERMIT_PACKAGE_CDROM=	Yes
@@ -36,6 +39,7 @@ CONFIGURE_ARGS+=	--disable-debug \
 			--disable-iconv \
 			--disable-locale
 LDSTATIC=		-static
+PLIST=			${PKGDIR}/PLIST-static
 .else
 MODULES+=		converters/libiconv
 USE_ICONV?=		any
@@ -48,9 +52,14 @@ post-extract:
 .endif
 
 post-install:
+.if ${FLAVOUR:L} == "static"
+	mv -f ${PREFIX}/bin/rsync ${PREFIX}/bin/rsync-static
+	-rm -f ${PREFIX}/man/man*/*
+.else
 	${INSTALL_DATA_DIR} ${PREFIX}/share/doc/rsync
 	cd ${WRKSRC} && ${INSTALL_DATA} COPYING NEWS OLDNEWS README TODO \
 	    csprotocol.txt rsync3.txt rsyncsh.txt tech_report.tex \
 	    ${PREFIX}/share/doc/rsync/
+.endif
 
 .include <bsd.port.mk>

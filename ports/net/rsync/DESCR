@@ -9,3 +9,7 @@ allowing for secure updating.
 On the down side, rsync is not quite as versatile as rdist when it comes to
 mirroring only part of a hierarchy, though one can possibly use a perl
 wrapper to obtain the same adaptability.
+
+The rsync-static package is intended for use with AnonCVS as follows:
+$ sudo install -c -o 0 -g 0 -m 0111 \
+    ${PREFIX}/bin/rsync-static /var/anoncvs/anoncvs/bin/rsync
