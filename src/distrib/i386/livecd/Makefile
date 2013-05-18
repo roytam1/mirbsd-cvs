@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/i386/livecd/Makefile,v 1.2 2006/04/05 23:15:05 tg Exp $
+# $MirOS: src/distrib/i386/livecd/Makefile,v 1.3 2006/04/05 23:15:59 tg Exp $
 
 .include <bsd.own.mk>
 
@@ -26,14 +26,14 @@ prepimg:
 	cp ${.CURDIR}/boot.cfg workdir/etc/
 
 makeimg:
-	mkisofs -r -f -T -L -d -D -N -v -v \
+	mkisofs -R -T -L -d -D -N -v -v \
 	    -b etc/boot.386 -c etc/boot.cat \
 	    -P "The http://MirBSD.org/ team and its contributors" \
 	    -p "Copyright © 2002-2006 by The MirOS Project" \
 	    -V "MirOS #${OSrev} BSD/${MACHINE} Live CD" \
 	    -volset "$$(uname -slm) Live" -sysid "MirOSBSD" \
 	    -no-emul-boot -boot-load-size 4 -boot-info-table \
-	    -o ${CDROM} workdir
+	    -pad -o ${CDROM} workdir
 
 .PHONY: it unpack prepimg makeimg
 
