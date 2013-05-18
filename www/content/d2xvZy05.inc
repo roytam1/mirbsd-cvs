@@ -1,5 +1,5 @@
 <!-- PageID: wlog-9 -->
-<small class="rcsid">$MirOS: www/content/d2xvZy05.inc,v 1.41 2006/09/04 00:28:32 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy05.inc,v 1.42 2006/09/04 00:38:13 tg Exp $</small>
 <h1>MirBSD &ndash; WTF is Verpeilungsfaktor?</h1>
 <p><small><a href="#eof">bottom</a> or <a href="/?older">older</a>
  editions</small></p>
@@ -646,7 +646,8 @@
  <p>Yeah, to hell with OSI, the FSF now has two webpages which are under
   the MirOS licence: <a href="http://directory.fsf.org/mksh.html">mksh's
   page</a> and <a href="http://directory.fsf.org/mirmake.html">mirmake's
-  page</a>. Cool!</p>
+  page</a>, and <a href="http://directory.fsf.org/jupp.html">the page of
+  jupp the editor</a>. Cool!</p>
  <p>We have a <a href="http://www.mirbsd.org/newsite/">new design</a>, I
   must say I'm&#8230; shocked. (And make these &lt;h2&gt; smaller in the
   CSS, please.)</p>
