@@ -647,10 +647,11 @@ cryptoattach(int n)
 int
 cryptoopen(dev_t dev, int flag, int mode, struct proc *p)
 {
-	MINOR_DIVERT_TPM(open, dev, flag, mode, p);
-
 	if (usercrypto == 0)
 		return (ENXIO);
+
+	MINOR_DIVERT_TPM(open, dev, flag, mode, p);
+
 #ifdef CRYPTO
 	return (0);
 #else
