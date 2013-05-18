@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/share/misc/licence.template,v 1.6 2006/01/24 22:24:02 tg Rel $
+# $MirOS: contrib/code/heartbeat/hbmulti,v 1.1 2006/01/28 16:18:59 tg Exp $
 #-
 # Copyright (c) 2004, 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -91,7 +91,8 @@ set -A cf_host -- dns.server 212.224.0.188
 function getip
 {
 	local gotit=0
-	ifconfig $EXT_IF | while read a b c; do
+	ifconfig $EXT_IF |&
+	while read -p a b c; do
 		[[ $a = inet ]] || continue
 		gotit=1
 		print $b
@@ -108,24 +109,24 @@ function setup_v6tunnel
 	# just in case...
 	ifconfig $1 destroy >/dev/null 2>&1
 
-	ifconfig $1 up
-	[[ $2 = 1 ]] && route -n add -inet6 default fe80::%$1 -mtu 1280
+	ifconfig $1 up 2>&1
+	[[ $2 = 1 ]] && route -n add -inet6 default fe80::%$1 -mtu 1280 2>&1
 }
 
 # throw the IPv6 tunnel through IPv4 land (run on IP address change)
 # 1: tunnel interface name
-# 2: our IP (or empty or 0.0.0.0 on DOWN event)
+# 2: our IP (or 0.0.0.0 on DOWN event)
 # 3: server IP (ignored on DOWN event)
 function throw_v6tunnel
 {
 	# just in case... should be done by /etc/ppp/ip-up already
 	ifconfig $1 down >/dev/null 2>&1
 
-	ifconfig $1 deletetunnel
-	[[ -z $2 || $2 = 0.0.0.0 ]] || ifconfig $1 giftunnel $2 $3
+	ifconfig $1 deletetunnel 2>&1
+	[[ $2 = 0.0.0.0 ]] || ifconfig $1 giftunnel $2 $3 2>&1
 
 	# don't delete this...
-	ifconfig $1 up
+	ifconfig $1 up 2>&1
 }
 
 # clean up, remove interface and routes
@@ -133,8 +134,8 @@ function throw_v6tunnel
 # 2: "1" if this was a default route
 function clean_v6tunnel
 {
-	[[ $2 = 1 ]] && route -n delete -inet6 default
-	ifconfig $1 destroy
+	[[ $2 = 1 ]] && route -n delete -inet6 default 2>&1
+	ifconfig $1 destroy 2>&1
 }
 
 #=== subroutines (not configurable) ===
@@ -198,7 +199,7 @@ function do_heartbeat
 function destruct
 {
 	logall received destruct, code \'$1\'
-	iterate diable
+	iterate disable
 	iterate throw
 	iterate clean
 	log bye
@@ -237,7 +238,8 @@ function iterate
 			(setup)
 				setup_v6tunnel $tunnel $defroute ;;
 			(throw)
-				throw_v6tunnel $tunnel $2 ${cf_host[n]} ;;
+				throw_v6tunnel $tunnel \
+				    ${2:-0.0.0.0} ${cf_host[n]} ;;
 			(*)
 				log "Unknown keyword '$1' in '${cf_type[n]}'" \
 				    "(#$n), ignoring"
@@ -270,6 +272,9 @@ function iterate
 }
 
 #=== main programme ===
+
+[[ -n $STDERR ]] && typeset -ft setup_v6tunnel throw_v6tunnel clean_v6tunnel \
+    log logall tell do_disable do_heartbeat destruct iterate
 
 typeset -u parm="$1"
 
