@@ -1,4 +1,4 @@
-/**	$MirOS: ports/infrastructure/pkgtools/lib/exec.c,v 1.7 2008/10/12 15:35:22 tg Exp $ */
+/**	$MirOS: ports/infrastructure/pkgtools/lib/exec.c,v 1.8 2008/11/02 18:19:52 tg Exp $ */
 /*	$OpenBSD: exec.c,v 1.8 2003/09/05 19:40:42 tedu Exp $	*/
 
 /*
@@ -26,49 +26,11 @@
 #include "lib.h"
 #include <sys/wait.h>
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/exec.c,v 1.7 2008/10/12 15:35:22 tg Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/exec.c,v 1.8 2008/11/02 18:19:52 tg Exp $");
 
 #ifdef AS_USER
 static bool PrivsDropped = false;
 #endif
-
-/*
- * Unusual system() substitute.  Accepts format string and args,
- * builds and executes command.  Returns exit code.
- */
-
-int
-asystem(const char *fmt, ...)
-{
-	va_list	args;
-	char	*cmd;
-	ssize_t	maxargs;
-	int	ret;
-
-	if ((maxargs = sysconf(_SC_ARG_MAX)) == -1) {
-		pwarnx("asystem can't retrieve max args");
-		return 1;
-	}
-	maxargs -= 32;			/* some slop for the sh -c */
-	if ((cmd = (char *) malloc((size_t)maxargs)) == NULL) {
-		pwarnx("asystem can't alloc arg space");
-		return 1;
-	}
-
-	va_start(args, fmt);
-	if (vsnprintf(cmd, (size_t)maxargs, fmt, args) >= maxargs) {
-		pwarnx("asystem args are too long");
-		free(cmd);
-		return 1;
-	}
-#ifdef DEBUG
-	printf("Executing %s\n", cmd);
-#endif
-	ret = system(cmd);
-	va_end(args);
-	free(cmd);
-	return ret;
-}
 
 /*
  * Yet another way to run an external command *sigh*

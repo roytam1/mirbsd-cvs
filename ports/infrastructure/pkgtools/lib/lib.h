@@ -149,8 +149,6 @@ typedef int (*matchfn)(const char *found, char *data, int len);
 
 /* Prototypes */
 /* Misc */
-int		asystem(const char *, ...)
-		    __attribute__((__format__ (printf, 1, 2)));
 #define runcomm(cmd, nargs, args, outf) runcomm_((const char *)(cmd), \
 	    (nargs), (const char * const *)(args), (outf))
 int		runcomm_(const char *, int, const char * const *,
@@ -246,5 +244,31 @@ void 		pwarn(const char *, ...)
 extern bool	Verbose;
 extern bool	Fake;
 extern bool	Force;
+
+/* mem.c */
+void *xcalloc(size_t, size_t);
+void *xrealloc(void *, size_t, size_t);
+void xfree(void *);
+int xasprintf(char **, const char *, ...)
+    __attribute__((nonnull (1)))
+    __attribute__((format (printf, 2, 3)));
+int xvasprintf(char **, const char *, va_list)
+    __attribute__((nonnull (1)))
+    __attribute__((format (printf, 2, 0)));
+void *xstrdup(const void *);
+
+/* proc.c */
+char *format_arg(const char *)
+    __attribute__((nonnull (1)));
+#define format_comm(args) format_comm_((const char * const *)(args))
+char *format_comm_(const char * const *)
+    __attribute__((nonnull (1)));
+void unlimit(void);
+int mirsystem(const char *, bool)
+    __attribute__((nonnull (1)));
+int xsystem(bool, const char *, ...)
+    __attribute__((format (printf, 2, 3)));
+int vxsystem(bool, const char *, va_list)
+    __attribute__((format (printf, 2, 0)));
 
 #endif /* _INST_LIB_LIB_H_ */

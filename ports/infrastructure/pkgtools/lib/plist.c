@@ -1,4 +1,4 @@
-/**	$MirOS: ports/infrastructure/pkgtools/lib/plist.c,v 1.12 2008/10/12 14:33:10 tg Exp $ */
+/**	$MirOS: ports/infrastructure/pkgtools/lib/plist.c,v 1.13 2008/11/02 18:19:53 tg Exp $ */
 /*	$OpenBSD: plist.c,v 1.17 2003/08/21 20:24:57 espie Exp $	*/
 
 /*
@@ -26,7 +26,7 @@
 #include <md5.h>
 #include "rcdb.h"
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/plist.c,v 1.12 2008/10/12 14:33:10 tg Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/plist.c,v 1.13 2008/11/02 18:19:53 tg Exp $");
 
 #define NULLMD5 "d41d8cd98f00b204e9800998ecf8427e"
 
@@ -541,8 +541,8 @@ process_dirrm(plist_t *p, bool keep_files, int *usedb, RCDB *ourdb,
 }
 
 #ifdef DEBUG
-#define RMDIR(dir) asystem("%s %s", RMDIR_CMD, dir)
-#define REMOVE(dir,ie) asystem("%s %s%s", REMOVE_CMD, (ie ? "-f " : ""), dir)
+#define RMDIR(dir) xsystem(false, "%s %s", RMDIR_CMD, dir)
+#define REMOVE(dir,ie) xsystem(false, "%s %s%s", REMOVE_CMD, (ie ? "-f " : ""), dir)
 #else
 #define RMDIR rmdir
 #define	REMOVE(file,ie) (remove(file) && !(ie))
@@ -562,7 +562,7 @@ delete_hierarchy(char *dir, bool ign_err, bool nukedirs)
 	return !ign_err;
     }
     else if (nukedirs) {
-	if (asystem("%s -r%s %s", REMOVE_CMD, (ign_err ? "f" : ""), dir))
+	if (xsystem(false, "%s -r%s %s", REMOVE_CMD, (ign_err ? "f" : ""), dir))
 	    return 1;
     }
     else if (isdir(dir)) {
