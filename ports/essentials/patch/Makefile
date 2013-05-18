@@ -1,9 +1,9 @@
-# $MirOS: ports/essentials/patch/Makefile,v 1.2 2005/11/10 20:51:34 tg Exp $
+# $MirOS: ports/essentials/patch/Makefile,v 1.3 2005/11/17 23:59:27 tg Exp $
 #-
 # This port must not contain a patches/ directory.
 
 .if ${.SYSMK} == "/usr/share/mk"
-ERRORS+=		"This port only works with MirMake"
+IGNORE+=		"only works with MirMake"
 .endif
 
 COMMENT=		"MirOS patch(1)"

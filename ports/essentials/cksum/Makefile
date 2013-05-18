@@ -1,7 +1,7 @@
-# $MirOS: ports/essentials/cksum/Makefile,v 1.9 2005/11/16 16:37:36 tg Exp $
+# $MirOS: ports/essentials/cksum/Makefile,v 1.10 2005/11/16 17:20:24 tg Exp $
 
 .if ${.SYSMK} == "/usr/share/mk"
-ERRORS+=		"This port only works with MirMake"
+IGNORE+=		"only works with MirMake"
 .endif
 
 COMMENT=		"MirOS cksum(1)"

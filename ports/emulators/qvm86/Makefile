@@ -1,4 +1,4 @@
-# $MirOS: ports/emulators/qvm86/Makefile,v 1.4 2005/11/17 23:05:56 tg Exp $
+# $MirOS: ports/emulators/qvm86/Makefile,v 1.5 2005/11/21 20:46:01 tg Exp $
 # $OpenBSD: Makefile,v 1.7 2005/11/05 12:11:05 todd Exp $
 
 BROKEN=			problems with network, sound, etc.
@@ -56,7 +56,7 @@ SMKVER!=		let major=$$(print | /usr/bin/env -i \
 			let 'version=major * 256 + minor'; print $$version
 
 .if ${SMKVER} < 2106
-ERRORS+=		"Your system make(1) is too old, please upgrade."
+IGNORE+=		"requires a newer system make(1), please upgrade"
 .endif
 
 post-extract:

@@ -1,4 +1,4 @@
-# $MirOS: ports/games/bsdgames/Makefile,v 1.6 2005/12/28 01:04:55 tg Exp $
+# $MirOS: ports/games/bsdgames/Makefile,v 1.7 2005/12/28 01:25:08 tg Exp $
 
 COMMENT=		"BSD base system games"
 CATEGORIES=		games
@@ -17,7 +17,7 @@ PERMIT_PACKAGE_FTP=	Yes
 
 .include <mirports.sys.mk>
 .if !defined(SUDO) || empty(SUDO)
-ERRORS+=		"You must use SUDO=sudo."
+IGNORE+=		"requires use of SUDO=sudo"
 .endif
 
 PREFIX=			/usr
