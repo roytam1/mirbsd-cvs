@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.287 2009/10/10 18:04:23 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.288 2009/10/10 21:49:55 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -770,7 +770,13 @@ mws_content <<'EOF'
  asked people to test, and hunted mksh down in these packaging systems:</p>
 <h3 id="regress_dev">Development Versions post release</h3>
 <ul>
+<li style="list-style:none;">– tests by the project, using Makefile –</li>
+ <li>MirOS #10-current (i386 gcc3.4.6)</li>
+ <li>MirOS #10-current (sparc gcc3.4.6)</li>
 <li style="list-style:none;">– tests by the project, using Build.sh –</li>
+ <li>AIX 5.3 (powerpc gcc4.0.0_powerpc-ibm-aix5.1.0.0, LD 1.65 04/06/2005)</li>
+ <li>AIX 5.3 32-bit (powerpc xlC9.0 070428, LD 1.65 04/06/2005)</li>
+ <li>AIX 5.3 64-bit (powerpc xlC9.0 070428, LD 1.65 04/06/2005)</li>
  <li>Solaris 10 Generic_137111-08 sun4u (sparc gcc3.4.6)</li>
  <li>Solaris 10 Generic_137111-08 sun4u (sparc64 gcc3.4.6)</li>
  <li>Solaris 10 Generic_137111-08 sun4u (sparc:V8+ SUNWcc5.9 124867-08 2008/10/07, ld 5.10-1.489)</li>
@@ -827,9 +833,6 @@ mws_content <<'EOF'
  <li>MidnightBSD 0.3-CURRENT (i386 gcc3.4.6-20080430)</li>
  <li>NetBSD 3.0_STABLE (i386 gcc3.3.3_nb3_20040520)</li>
  <li>OpenBSD 4.3 GENERIC#207 (zaurus gcc3.3.5)</li>
- <li>AIX 5.3 (powerpc gcc4.0.0_powerpc-ibm-aix5.1.0.0, LD 1.65 04/06/2005)</li>
- <li>AIX 5.3 32-bit (powerpc xlC9.0 070428, LD 1.65 04/06/2005)</li>
- <li>AIX 5.3 64-bit (powerpc xlC9.0 070428, LD 1.65 04/06/2005)</li>
  <li>HP Tru64 OSF/1 V5.1B 2650 (alpha gcc2.97-tru64-010710 alphaev56)</li>
  <li>Mac OSX Leopard 10.5.5 (9F33) Darwin 9.5.0 (amd64 gcc4.0.1-Apple_5484)</li>
  <li>Mac OSX Leopard 10.5.5 (9F33) Darwin 9.5.0 (i386 llvmgcc4.2.1-Apple_5555-LLVM_2039)</li>
