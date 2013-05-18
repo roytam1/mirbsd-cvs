@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/Makefile,v 1.16 2006/10/14 23:20:07 tg Exp $
+# $MirOS: src/distrib/common/Makefile,v 1.17 2007/01/26 19:08:04 tg Exp $
 
 .include <bsd.own.mk>
 
@@ -114,7 +114,7 @@ ${CBIN}.conf: ${LISTS}
 	awk -f ${TOPDIR}/common/makeconf.awk CBIN=${CBIN} ${LISTS} >$@
 
 ${CBIN}.mk ${CBIN}.cache ${CBIN}.c: ${CBIN}.conf
-	crunchgen ${CRUNCHGENOPTS} -D ${TOPDIR}/.. -L ${DESTDIR}/usr/lib \
+	crunchgen ${CRUNCHGENOPTS} -D ${BSDSRCDIR} -L ${DESTDIR}/usr/lib \
 	    -c ${CBIN}.c -e ${CBIN} -m ${CBIN}.mk ${CBIN}.conf
 
 ${CBIN}: ${CBIN}.mk ${CBIN}.cache ${CBIN}.c
