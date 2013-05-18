@@ -1,4 +1,4 @@
-/* $MirOS: src/sys/dev/ic/vga.c,v 1.4 2007/02/06 21:36:08 tg Exp $ */
+/* $MirOS: src/sys/dev/ic/vga.c,v 1.5 2007/02/06 21:40:40 tg Exp $ */
 /* $OpenBSD: vga.c,v 1.42 2006/11/29 19:11:15 miod Exp $ */
 /* $NetBSD: vga.c,v 1.28.2.1 2000/06/30 16:27:47 simonb Exp $ */
 
@@ -1030,7 +1030,7 @@ vga_unpack_attr(id, attr, fg, bg, ul)
 	} else {
 		*fg = pctoansi[attr & 0x07];
 		*bg = pctoansi[(attr & 0x70) >> 4];
-		if (*ul != NULL)
+		if (ul != NULL)
 			*ul = 0;
 	}
 	if (attr & FG_INTENSE)
