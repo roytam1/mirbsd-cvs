@@ -243,5 +243,5 @@ Author: bsiegert@
  writing to /var/db, which makes it unsuitable for AS_USER builds.
  firesomething only when works as <tt>firefox</tt>. Still, this gives
  you a wide variety of pre-built packages for the new release.
- Enjoy!</b>
+ Enjoy!</p>
 ----
