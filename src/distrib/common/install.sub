@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/install.sub,v 1.45 2009/07/18 14:08:58 tg Exp $
+# $MirOS: src/distrib/common/install.sub,v 1.46 2009/08/01 13:24:29 tg Exp $
 # $OpenBSD: install.sub,v 1.388 2005/07/02 00:55:48 uwe Exp $
 # $NetBSD: install.sub,v 1.5.2.8 1996/09/02 23:25:02 pk Exp $
 #
@@ -1102,7 +1102,7 @@ install_url() {
 
 	# Get server directory
 	eval resp=\$_${_url_type}_server_dir
-	ask_until "Server directory?" "${resp:-$SETDIR}"
+	ask_until "Server directory?" "${resp:-$FTPDIR$SETDIR}"
 	eval _${_url_type}_server_dir=$resp
 
 	if [[ $_url_type = ftp ]]; then
@@ -1696,8 +1696,12 @@ ROOTDEV=
 
 VERSION=10
 
-SETDIR="v${VERSION}/$ARCH"
-OBSD="MirOS BSD #$VERSION/$ARCH"
+# FTPDIR: prefix for SETDIR for ftp/http/https installs
+FTPDIR="MirOS/"
+#SETDIR="v${VERSION}/$ARCH"
+#OBSD="MirOS BSD #$VERSION/$ARCH"
+SETDIR="current/$ARCH"
+OBSD="MirOS BSD #$VERSION-current/$ARCH"
 SERVERLIST=/tmp/serverlist
 
 # Do not limit ourselves during installs or upgrades.
