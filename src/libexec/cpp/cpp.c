@@ -13,7 +13,7 @@
 #include <paths.h>
 
 __SCCSID("@(#)cpp.c	1.22 11/7/90");
-__RCSID("$MirOS: src/libexec/cpp/cpp.c,v 1.3 2005/07/01 12:10:16 tg Exp $");
+__RCSID("$MirOS: src/libexec/cpp/cpp.c,v 1.4 2007/08/24 14:20:04 tg Exp $");
 
 /* C command
 /* written by John F. Reiser
@@ -166,7 +166,7 @@ STATIC 	FILE *mout;	/* file to place dependencies on */
 #define CONT  2
 #define BACK  3
 STATIC	int	ifno;
-# define NPREDEF 50
+# define NPREDEF 130
 STATIC	char *prespc[NPREDEF];
 STATIC	char **predef = prespc;
 STATIC	char *punspc[NPREDEF];
