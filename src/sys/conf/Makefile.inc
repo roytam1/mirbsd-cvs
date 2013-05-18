@@ -1,4 +1,4 @@
-# $MirOS: src/sys/conf/Makefile.inc,v 1.20 2007/02/06 18:59:14 tg Exp $
+# $MirOS: src/sys/conf/Makefile.inc,v 1.21 2007/02/06 20:37:24 tg Exp $
 #-
 # Copyright (c) 2005, 2006, 2007
 #	Thorsten "mirabilos" Glaser <tg@mirbsd.de>
@@ -151,6 +151,7 @@ autoconf.o conf.o: Makefile
 # depend on maxusers
 machdep.o: Makefile
 
+HOSTCPPFLAGS+=	-I${BSDSRCDIR}/lib/libz
 .PATH: ${BSDSRCDIR}/lib/libz
 .include "${BSDSRCDIR}/lib/libz/Makefile.gen"
 
