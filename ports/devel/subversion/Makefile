@@ -1,7 +1,8 @@
-# $MirOS: ports/devel/subversion/Makefile,v 1.17 2008/03/14 20:56:52 tg Exp $
+# $MirOS: ports/devel/subversion/Makefile,v 1.18 2008/03/15 23:16:55 tg Exp $
 
 COMMENT=		Subversion revision control system
-VERSION=		1.4.5
+VERSION=		1.5.0
+DASH_VER=		0
 DISTNAME=		subversion-${VERSION}
 CATEGORIES=		devel net
 HOMEPAGE=		http://subversion.tigris.org/
@@ -22,6 +23,7 @@ FLAVOUR?=
 LIB_DEPENDS+=		apr::devel/apr/apr
 LIB_DEPENDS+=		neon::net/neon
 RUN_DEPENDS+=		:p5-URI-*:www/p5-URI
+MODULES+=		p5
 
 .if ${FLAVOUR:L:Mbsddb}
 LIB_DEPENDS+=		db.4.2::databases/db
@@ -56,10 +58,11 @@ post-install:
         INSTALLMAN3DIR=${LOCALBASE:Q}/man/man3 \
         INSTALLSITEMAN3DIR=${LOCALBASE:Q}/man/man3 \
         INSTALLVENDORMAN3DIR=${LOCALBASE:Q}/man/man3
-	${INSTALL_SCRIPT} ${WRKSRC}/contrib/client-side/svn_load_dirs.pl ${PREFIX}/bin/svn_load_dirs
+	${INSTALL_SCRIPT} ${WRKSRC}/contrib/client-side/svn_load_dirs/svn_load_dirs.pl ${PREFIX}/bin/svn_load_dirs
 	${INSTALL_SCRIPT} ${FILESDIR}/svnup-cvs ${PREFIX}/bin
 	${INSTALL_MAN} ${WRKSRC}/contrib/client-side/svnup-cvs.cat1 ${PREFIX}/man/cat1/svnup-cvs.0
 	${INSTALL_DATA_DIR} ${PREFIX}/share/doc/subversion
+	${INSTALL_DATA} ${WRKSRC}/contrib/client-side/svn_load_dirs/svn_load_dirs.README ${PREFIX}/share/doc/subversion
 .for i in ${DOCFILES}
 	${INSTALL_DATA} ${WRKSRC}/notes/${i} ${PREFIX}/share/doc/subversion
 .endfor

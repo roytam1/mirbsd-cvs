@@ -1,4 +1,7 @@
-MD5 (subversion-1.4.5.tar.bz2) = 4c333a5fe827568c67d195cda7a5e154
-RMD160 (subversion-1.4.5.tar.bz2) = 159f3eac9168d856a19ffb235c5417757cd5a496
-SHA1 (subversion-1.4.5.tar.bz2) = acc80381cb670736ad626fee1eb04f36ba7e5fc8
-SIZE (subversion-1.4.5.tar.bz2) = 4722624
+$MirOS$
+
+MD5 (subversion-1.5.0.tar.bz2) = 004b57643406dd10957ec87955702189
+RMD160 (subversion-1.5.0.tar.bz2) = ccbe67ebd473c7fed13253e02f4de88d1b7c89c8
+SHA1 (subversion-1.5.0.tar.bz2) = 1236a32521b4d8c02261cdc567f6a33d9623f51f
+SIZE (subversion-1.5.0.tar.bz2) = 4852793
+TIGER (subversion-1.5.0.tar.bz2) = f6d5bbf2478352d419ea58ccb15f756f50e8867bbb4a2209
