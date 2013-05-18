@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.412 2013/01/01 05:38:19 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.413 2013/01/04 17:32:10 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -9605,6 +9605,8 @@ Tag: debian politics
  Konsequenzen keine Angst haben, organisiert. Die werden dann maximal
  Märtyrer. Ich wiederhole nochmal für die Politiker und die ganz langsamen
  unter den Lesern: Überwachung verhindert <em>keine</em> Straftat.</p>
+<p><strong>Update 11.01.2013</strong>: Mittlerweile hat auch <a
+ href="http://blog.fefe.de/?ts=ae2a54c2">Fefe</a> was dazu.</p>
 ----
 Date: 31.12.2012 22:36
 Author: tg@
