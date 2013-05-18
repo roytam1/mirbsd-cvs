@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/bsd.cfwrap.mk,v 1.17 2006/10/06 22:05:59 tg Exp $
+# $MirOS: src/share/mk/bsd.cfwrap.mk,v 1.18 2007/02/09 19:12:20 tg Exp $
 
 .if !defined(BSD_CFWRAP_MK)
 BSD_CFWRAP_MK=1
@@ -66,7 +66,7 @@ FSFHOSTCFLAGS+=	-g1 -fno-omit-frame-pointer
 .endif
 
 .if !defined(CFWRAP_NO_CCOM)
-XVARS+=	CC=${CC:M*:Q} CFLAGS=${FSFCFLAGS:M*:Q} CPP=${CPP:Q}
+XVARS+=	CC=${CC:NGCC_HONOUR_COPTS=*:M*:Q} CFLAGS=${FSFCFLAGS:M*:Q} CPP=${CPP:Q}
 .  if !defined(CFWRAP_NO_CXXCOM)
 XVARS+=	CXX=${CXX:M*:Q} CXXFLAGS=${FSFCXXFLAGS:M*:Q}
 .  endif

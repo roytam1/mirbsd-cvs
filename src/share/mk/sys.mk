@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/sys.mk,v 1.93 2007/03/08 10:07:02 tg Exp $
+# $MirOS: src/share/mk/sys.mk,v 1.94 2007/03/09 10:07:32 tg Exp $
 # $OpenBSD: sys.mk,v 1.45 2005/03/07 00:06:00 deraadt Exp $
 # $NetBSD: sys.mk,v 1.27 1996/04/10 05:47:19 mycroft Exp $
 # @(#)sys.mk	5.11 (Berkeley) 3/13/91
@@ -29,7 +29,7 @@ OSNAME!=	uname -s
 OSname=		${OSNAME:L}
 OStriplet?=	${MACHINE_ARCH}-ecce-${OSname}${OSrev}
 _MIRMAKE_EXE=	/usr/bin/make
-_MIRMAKE_VER=	20070308
+_MIRMAKE_VER=	20070309
 
 .SUFFIXES:	.out .a .ln .o .s .S .c .m .cc .cxx .y .l .i .h .sh .m4
 .LIBS:		.a
@@ -40,16 +40,18 @@ RANLIB?=	ranlib
 LORDER?=	lorder
 
 AS?=		as
+CC?=		mgcc
+CPP?=		cpp
+HOSTCC?=	mgcc
+
+CPPFLAGS?=
+PIPE?=		-pipe
+
 AFLAGS?=	${DEBUG}
 COMPILE.s?=	${CC} -D_ASM_SOURCE ${AFLAGS} -c
 LINK.s?=	${CC} -D_ASM_SOURCE ${AFLAGS} ${LDFLAGS}
 COMPILE.S?=	${CC} -D_ASM_SOURCE ${AFLAGS} ${CPPFLAGS} -c
 LINK.S?=	${CC} -D_ASM_SOURCE ${AFLAGS} ${CPPFLAGS} ${LDFLAGS}
-
-CC?=		mgcc
-HOSTCC?=	mgcc
-
-PIPE?=		-pipe
 
 CFLAGS?=	-O2 ${PIPE} ${DEBUG}
 COMPILE.c?=	${CC} ${CFLAGS:M*} ${CPPFLAGS} -c
@@ -59,9 +61,6 @@ CXX?=		c++
 CXXFLAGS?=	${CFLAGS}
 COMPILE.cc?=	${CXX} ${CXXFLAGS:M*} ${CPPFLAGS} -c
 LINK.cc?=	${CXX} ${CXXFLAGS:M*} ${CPPFLAGS} ${LDFLAGS}
-
-CPP?=		cpp
-CPPFLAGS?=
 
 LEX?=		lex
 LFLAGS?=
