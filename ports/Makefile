@@ -1,4 +1,4 @@
-# $MirOS: ports/Makefile,v 1.22 2006/11/17 00:18:45 tg Exp $
+# $MirOS: ports/Makefile,v 1.23 2006/12/31 17:03:16 tg Exp $
 # $OpenBSD: Makefile,v 1.43 2003/12/15 17:56:40 espie Exp $
 # $FreeBSD: Makefile,v 1.36 1997/10/04 15:54:31 jkh Exp $
 #-
@@ -49,10 +49,7 @@ _CMD+=category=${category:Q}
 .  if defined(maintainer)
 _CMD+=maintainer=${maintainer:Q}
 .  endif
-SUBDIR != ${_CMD}
-_MANUAL_SUBDIR=	yes
-.elif defined(SUBDIRLIST)
-SUBDIR != sed -e 's,[ 	]*\#.*,,' -e '/^[ 	]*$$/d' ${SUBDIRLIST}
+SUBDIR!=	${_CMD}
 _MANUAL_SUBDIR=	yes
 .endif
 

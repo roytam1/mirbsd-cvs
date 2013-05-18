@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.subdir.mk,v 1.6 2006/02/09 13:31:31 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.subdir.mk,v 1.7 2006/09/13 22:07:12 tg Exp $
 # $OpenBSD: bsd.port.subdir.mk,v 1.64 2004/04/07 13:06:33 espie Exp $
 # $FreeBSD: bsd.port.subdir.mk,v 1.20 1997/08/22 11:16:15 asami Exp $
 #
@@ -52,7 +52,9 @@ ECHO_MSG?=	echo
 REPORT_PROBLEM?=exit 1
 
 # create a list of subdirectories
-.ifndef _MANUAL_SUBDIR
+.ifdef SUBONLY
+SUBDIR=		${SUBONLY}
+.elifndef _MANUAL_SUBDIR
 _SUBDIR!=	cd ${.CURDIR} && echo */Makefile \
 		    | sed -e 's!/Makefile!!g' | sort -R' '
 .  if ${_SUBDIR:N\*}
