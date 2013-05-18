@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.306 2010/08/15 13:00:13 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.307 2010/08/15 13:40:40 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -6975,4 +6975,33 @@ Tag: snapshot
  <li><a href="http://mirror.bsdprison.com/MirOS/current/">USA</a> insecure
   HTTP and <a href="ftp://ftp.bsdprison.com/pub/MirOS/current/">FTP</a></li>
 </ul>
+----
+Title: FrOSCon 2010 and today’s resumée
+Author: tg@
+Date: 24.08.2010 14:43
+Tag: debian event mksh snapshot
+
+<p>FrOSCon was a blast. I had two booths of my own – MirBSD and FreeWRT – as
+ well as shares of Debian and Grml. Well, MirBSD was run by Benny and gecko2
+ because I just didn’t have any time for it, despite XTaran’s help with the
+ FreeWRT booth. All I did was the initial setup of both booths, while at the
+ same time answering about three questions regarding FreeWRT in parallel.
+ Wow. What a little small, open hardware can do to you. XTaran and I had fun
+ and we’ll do FreeWRT booths again; I managed to flash my two FON2100 devices
+ (“La Fonera” – the FON2200 can use the same image, says nbd of OpenWrt) and
+ will fix the port’s remaining few bugs I found; XTaran will try to push the
+ WL-500gPv2 development. The social part was nice as well, although I think
+ the greek restaurant in the city will not be visited by me again. Anyway,
+ if you didn’t attend FrOSCon, your own fault…</p>
+<p>Since the BitTorrent tracker used by MirOS is down, here’s the link to <a
+ href="@@RELPATH@@f/MirOS%20%2310-current%20%28FrOSCon%202010%29%20%5B2C7AF16C%5D.torrent">the
+ current (FrOSCon 2010 Edition) snapshot’s torrent</a>, Triforce as usual.
+ We’ll probably rewrite torrent files for all our ISOs and publish them on
+ the MirBSD website. I’m currently considering OpenBitTorrent plus one or
+ two DHT seed nodes with no statistics. Maybe with webseed. (Need to update
+ the libtorrent/rtorrent MirPorts first, though…) Other options would be
+ different trackers or running one of our own. I will announce the outcome
+ as news entry, once done.</p>
+<p>On the plus side, the review process of mksh(1) in Android continues,
+ and I fixed the realpath builtin to behave even more POSIX-ish.</p>
 ----
