@@ -1,4 +1,4 @@
-.\" $MirOS: src/share/misc/licence.template,v 1.28 2008/11/14 15:33:44 tg Rel $
+.\" $MirOS: src/sys/arch/i386/stand/boot/boot.8,v 1.16 2009/01/20 21:11:27 tg Exp $
 .\"-
 .\" Copyright (c) 2009
 .\"	Thorsten Glaser <tg@mirbsd.org>
@@ -18,7 +18,7 @@
 .\" damage or existence of a defect, except proven that it results out
 .\" of said person's immediate fault when using the work as intended.
 .\"-
-.Dd $Mdocdate$
+.Dd $Mdocdate: January 20 2009 $
 .Dt BOOT 8 i386
 .Os
 .Sh NAME
@@ -81,6 +81,9 @@ While we do not care about the actual address, we expect to be whole.
 We are loaded at the final address.
 The drive used to load us from is passed in a special memory location.
 The DS:SI registers are set up if we were loaded from a HDD partition.
+The Master Boot Record
+.Po Pa /usr/mdec/mbrldr No or Pa /usr/mdec/mbrmgr Pc
+takes care to set these up correctly.
 .It PXE
 The NIC's PXE boot ROM initialises the NIC, network driver, UNDI and
 PXE interfaces, contacts a DHCP server by broadcasting an IPv4 request on
@@ -101,7 +104,7 @@ The interrupt vectors are hooked by DOS, so if we overwrite any memory in
 use by DOS, we lose.
 That would be the case if xxxx is larger than our final address, any hooks
 point to an address between our final address and 9000:0000h, the HMA is in
-use (because that’s where the kernel is loaded to), or somesuch.
+use (because that's where the kernel is loaded to), or somesuch.
 This also implies we cannot chain any other bootloader.
 Furthermore, we require the machine to be in Real Mode, not in VM86 mode,
 so EMM386.SYS, Win32 or similar must not be active.
@@ -413,16 +416,18 @@ partition first.
 The default partition type, 0x27, can be changed at
 .Xr installboot 8
 time, where it is hardcoded into the partition boot record.
-If no suitable MBR partition was found or we're talking floppy, the
+If no suitable MBR partition was found or we're on a floppy, the
 disklabel is searched at the beginning of the drive instead.
 The label offset for the i386 architecture is one 512-byte sector.
+On
+.Mx
+.Tn DuaLive
+CDs, it may be embedded in the first-stage sparc bootloader.
 If no disklabel can be read from the disc, one is faked.
-The device size defaults to the size of an 1440 KiB floppy disc,
-but if any MBR primary partitions are found which span more space,
-these values are used instead.
-The
-.Sq c
-slice is filled appropriately.
+The device size
+.Pq So c Sc slice
+defaults to the size of an 1440 KiB floppy disc, but if any MBR primary
+partitions are found which span more space, their values are used instead.
 The
 .Sq d ,
 .Sq e ,
@@ -433,13 +438,20 @@ slices are filled with the four MBR primary partitions, if any.
 The
 .Sq a
 slice is filled, in this order, with: the partition passed via DS:SI
-if plausible, the first non-empty MBR partition, the whole disc.
+if plausible, the first non-empty MBR partition
+.Po \*(sLd\*(sR-\*(sLg\*(sR slices Pc ,
+the whole disc
+.Po So c Sc slice Pc .
 .Sh FILES
 .Bl -tag -compact -width /tftpboot/boot.cfg
 .It Pa /usr/mdec/bootxx
 first stage bootloader (PBR)
 .It Pa /usr/mdec/boot
 second stage bootloader
+.It Pa /usr/mdec/mbrldr
+hard disc MBR, simple version
+.It Pa /usr/mdec/mbrmgr
+MBR, bootmanager version
 .It Pa /boot
 usual location of installed loader
 .It Pa ldbsd.com
