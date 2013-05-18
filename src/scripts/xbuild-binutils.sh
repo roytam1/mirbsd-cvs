@@ -1,8 +1,8 @@
 #!/bin/mksh
-# $MirOS: src/scripts/xbuild-binutils.sh,v 1.3 2005/12/17 05:46:23 tg Exp $
+# $MirOS: src/share/misc/licence.template,v 1.6 2006/01/24 22:24:02 tg Rel $
 #-
-# Copyright (c) 2004, 2005
-#	Thorsten "mirabile" Glaser <tg@66h.42h.de>
+# Copyright (c) 2004, 2005, 2006
+#	Thorsten Glaser <tg@mirbsd.de>
 #
 # Licensee is hereby permitted to deal in this work without restric-
 # tion, including unlimited rights to use, publicly perform, modify,
@@ -26,14 +26,6 @@
 #-
 # call this with the canonical target name as parameter
 
-TARGET=$1
-EMULATION=$2
-
-if [[ -z $TARGET ]]; then
-	print No target given.
-	exit 1
-fi
-
 [[ -z $CROSSDIR ]] && CROSSDIR=${DESTDIR}/usr/cross/${TARGET}
 
 if [[ ! -s $CROSSDIR/T_BASEENV ]]; then
@@ -42,17 +34,26 @@ if [[ ! -s $CROSSDIR/T_BASEENV ]]; then
 fi
 
 . $CROSSDIR/T_BASEENV
+export SHELL=$MKSH
+
+[[ -n $1 ]] && TARGET=$1
+[[ -n $2 ]] && EMULATION=$2
+
+if [[ -z $TARGET ]]; then
+	print -u2 No target given.
+	exit 1
+fi
 
 if [[ -z $EMULATION ]]; then
 	EMULATION=$( \
 	    targ=$TARGET; \
 	    . $BSDSRCDIR/gnu/usr.bin/binutils/ld/configure.tgt; \
-	    print $targ_emul)
+	    print -r -- $targ_emul)
 fi
 
 if ! ld -V 2>&1 | fgrep -w $EMULATION >/dev/null 2>&1; then
-	print -- Target emulation \"$EMULATION\" not known.
-	print -- Execute \"ld -V\" to list known targets.
+	print -ru2 -- Target emulation \"$EMULATION\" not known.
+	print -ru2 -- Execute \"ld -V\" to list known targets.
 	exit 1
 fi
 

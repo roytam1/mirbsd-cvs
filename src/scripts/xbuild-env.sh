@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/share/misc/licence.template,v 1.6 2006/01/24 22:24:02 tg Rel $
+# $MirOS: src/scripts/xbuild-env.sh,v 1.4 2006/02/28 21:22:20 tg Exp $
 #-
 # Copyright (c) 2004, 2005, 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -67,7 +67,7 @@ if [[ -z $MKSH ]]; then
 		MKSH="/usr/bin/env mksh"
 	fi
 fi
-SHELL=$MKSH
+export SHELL=$MKSH
 if ! FOO=$($SHELL $BSDSRCDIR/gnu/share/config.sub "$TARGET" 2>/dev/null); then
 	print -u2 "Invalid target $TARGET chosen, exiting."
 	exit 1
@@ -112,6 +112,7 @@ cat >$CROSSDIR/T_BASEENV <<-EOF
 	MACHINE='$MACHINE'
 	MACHINE_ARCH='$MARCH'
 	MKSH='$MKSH'
+	TARGET='$TARGET'
 EOF
 
 cat >$CROSSDIR/T_ENV <<-EOF

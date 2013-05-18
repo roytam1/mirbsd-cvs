@@ -1,8 +1,8 @@
 #!/bin/mksh
-# $MirOS: src/scripts/xbuild-gcc.sh,v 1.3 2005/12/17 05:46:23 tg Exp $
+# $MirOS: src/share/misc/licence.template,v 1.6 2006/01/24 22:24:02 tg Rel $
 #-
-# Copyright (c) 2004
-#	Thorsten "mirabile" Glaser <tg@66h.42h.de>
+# Copyright (c) 2004, 2006
+#	Thorsten Glaser <tg@mirbsd.de>
 #
 # Licensee is hereby permitted to deal in this work without restric-
 # tion, including unlimited rights to use, publicly perform, modify,
@@ -37,12 +37,6 @@ else
 	langs=c
 fi
 
-TARGET=$1
-if [[ -z $TARGET ]]; then
-	print -u2 No target given.
-	exit 1
-fi
-
 [[ -z $CROSSDIR ]] && CROSSDIR=${DESTDIR}/usr/cross/${TARGET}
 
 if [[ ! -s $CROSSDIR/T_BASEENV ]]; then
@@ -52,78 +46,32 @@ fi
 
 . $CROSSDIR/T_BASEENV
 
+[[ -n $1 ]] && TARGET=$1
+if [[ -z $TARGET ]]; then
+	print -u2 No target given.
+	exit 1
+fi
+
 set -e
 set -x
 
-cd $BSDSRCDIR/scripts
-CFLAGS="$(make ___DISPLAY_MAKEVARS=CFLAGS)"
-cd $BSDSRCDIR/gnu/share
-GNU_LIBIBERTY_INC="$(make ___DISPLAY_MAKEVARS=GNU_LIBIBERTY_INC)"
+( cd $BSDSRCDIR/gcc; \
+    BSDSRCDIR=$BSDSRCDIR \
+    BSDOBJDIR=$CROSSDIR/usr/obj \
+    OStriplet=$HOST \
+    MACHINE=$MACHINE \
+    MACHINE_ARCH=$MARCH \
+    MAKEOBJDIR=obj.$MACHINE \
+    make obj )
 
-cd $CROSSDIR/usr/obj/gnu/gcc/gcc
-ln -sf ${CROSSDIR}/usr/bin/as .
-PATH=$PATH:${CROSSDIR}/usr/bin BISON=yacc \
-    GNUSYSTEM_AUX_DIR=${BSDSRCDIR}/gnu/share \
-    CFLAGS="${CFLAGS} -I${GNU_LIBIBERTY_INC}" \
-    $SHELL $BSDSRCDIR/gnu/gcc/gcc/configure \
-    --prefix ${CROSSDIR}/usr --build $HOST --host $HOST \
-    --target $TARGET --with-gnu-as=${CROSSDIR}/usr/bin/as \
-    --with-gnu-ld=${CROSSDIR}/usr/bin/ld \
-    --enable-languages=$langs --disable-cpp --disable-nls \
-    --with-local-prefix=${CROSSDIR}/usr --disable-libtool-lock \
-    --enable-sjlj-exceptions --with-system-zlib --disable-shared \
-    --with-gxx-include-dir=${CROSSDIR}/usr/include/gxx
-PATH=$PATH:${CROSSDIR}/usr/bin make \
-    BISON=yacc LANGUAGES=c LDFLAGS="-static" build_infodir=. \
-    CFLAGS="${CFLAGS} -I${GNU_LIBIBERTY_INC}" \
-    GNUSYSTEM_AUX_DIR="${BSDSRCDIR}/gnu/share" INSTALL_MAN= \
-    GCC_FOR_TARGET="./xgcc -B./ -I${CROSSDIR}/usr/include" \
-    LIBIBERTY_HDRS="${GNU_LIBIBERTY_INC}"
-[[ $ada = 0 ]] || \
-PATH=$PATH:${CROSSDIR}/usr/bin make \
-    BISON=yacc LANGUAGES=c LDFLAGS="-static" build_infodir=. \
-    CFLAGS="${CFLAGS} -I${GNU_LIBIBERTY_INC}" \
-    GNUSYSTEM_AUX_DIR="${BSDSRCDIR}/gnu/share" INSTALL_MAN= \
-    GCC_FOR_TARGET="./xgcc -B./ -I${CROSSDIR}/usr/include" \
-    LIBIBERTY_HDRS="${GNU_LIBIBERTY_INC}" gnat1
-[[ $ada = 0 ]] || \
-PATH=$PATH:${CROSSDIR}/usr/bin make \
-    BISON=yacc LANGUAGES=c LDFLAGS="-static" build_infodir=. \
-    CFLAGS="${CFLAGS} -I${GNU_LIBIBERTY_INC}" \
-    GNUSYSTEM_AUX_DIR="${BSDSRCDIR}/gnu/share" INSTALL_MAN= \
-    GCC_FOR_TARGET="./xgcc -B./ -I${CROSSDIR}/usr/include" \
-    LIBIBERTY_HDRS="${GNU_LIBIBERTY_INC}" gnatlib_and_tools
-( cd $BSDSRCDIR/gnu/gcc/gcc; make -f Makefile.bsd-wrapper \
-    DESTDIR=$CROSSDIR GCCTARGET=$TARGET pre-install )
-INST444='install -c -o root -g bin -m 444'
-[[ ! -e crtbegin.o ]] || $INST444 crtbegin.o ${CROSSDIR}/usr/lib/crtbegin.o
-[[ ! -e crtbeginS.o ]] || $INST444 crtbeginS.o ${CROSSDIR}/usr/lib/crtbeginS.o
-[[ ! -e crtend.o ]] || $INST444 crtend.o ${CROSSDIR}/usr/lib/crtend.o
-[[ ! -e crtendS.o ]] || $INST444 crtendS.o ${CROSSDIR}/usr/lib/crtendS.o
-[[ ! -e fpic/crtbeginS.o ]] || $INST444 fpic/crtbeginS.o ${CROSSDIR}/usr/lib/crtbeginS.o
-[[ ! -e fpic/crtendS.o ]] || $INST444 fpic/crtendS.o ${CROSSDIR}/usr/lib/crtendS.o
-[[ ! -e crtsavres.o ]] || $INST444 crtsavres.o ${CROSSDIR}/usr/lib/crtsavres.o
-[[ ! -e ncrti.o ]] || $INST444 ncrti.o ${CROSSDIR}/usr/lib/ncrti.o
-[[ ! -e ncrtn.o ]] || $INST444 ncrtn.o ${CROSSDIR}/usr/lib/ncrtn.o
-PATH=$PATH:${CROSSDIR}/usr/bin make \
-    BISON=yacc LANGUAGES=c LDFLAGS="-static" build_infodir=. \
-    CFLAGS="${CFLAGS} -I${GNU_LIBIBERTY_INC}" \
-    GNUSYSTEM_AUX_DIR="${BSDSRCDIR}/gnu/share" INSTALL_MAN= \
-    GCC_FOR_TARGET="./xgcc -B./ -I${CROSSDIR}/usr/include" \
-    LIBIBERTY_HDRS="${GNU_LIBIBERTY_INC}" \
-    INSTALL_TARGET='install-common $$(INSTALL_HEADERS)
-    $$(INSTALL_LIBGCC) lang.install-normal install-driver' \
-    install
-
-ln -f ${CROSSDIR}/usr/bin/$TARGET-gcc ${CROSSDIR}/usr/bin/cc
-
-install -c -s -o root -g bin -m 555 \
-    ${CROSSDIR}/usr/obj/gnu/gcc/gcc/cpp ${CROSSDIR}/usr/libexec/cpp
-sed -e 's/@dollaropt@//' -e 's#/usr/include#${CROSSDIR}/usr/include#' \
-    -e 's#/usr/libexec/cpp#${CROSSDIR}/usr/libexec/cpp#' \
-    $BSDSRCDIR/usr.bin/cpp/cpp.sh >${CROSSDIR}/usr/bin/cpp
-chown root:bin ${CROSSDIR}/usr/bin/cpp
-chmod 555 ${CROSSDIR}/usr/bin/cpp
+( cd $BSDSRCDIR/gcc; \
+    BSDSRCDIR=$BSDSRCDIR \
+    BSDOBJDIR=$CROSSDIR/usr/obj \
+    OStriplet=$HOST \
+    MACHINE=$MACHINE \
+    MACHINE_ARCH=$MARCH \
+    GCCTARGET=$TARGET \
+    make XXX )
 
 set +x
 print
