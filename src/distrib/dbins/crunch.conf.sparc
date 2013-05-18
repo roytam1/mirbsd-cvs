@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/dbins/crunch.conf.sparc,v 1.1 2008/03/27 19:05:12 tg Exp $
+# $MirOS: src/distrib/dbins/crunch.conf.sparc,v 1.2 2008/04/13 03:08:13 tg Exp $
 
 srcdirs bin sbin usr.bin usr.sbin
 libs -lcrypto -lcurses -ldes -ledit -levent -lkeynote -lkvm -lm -lpcap -lssl -lutil -lz
@@ -36,6 +36,7 @@ ln mksh sh
 ln mt eject
 ln ncheck_ffs ncheck
 ln newfs mount_mfs
+ln nologin -nologin
 ln pax cpio
 ln pax tar
 ln reboot halt
