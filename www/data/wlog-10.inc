@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.263 2009/12/13 16:43:37 bsiegert Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.264 2009/12/17 14:52:15 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -5718,4 +5718,22 @@ Language: de_DE-1901
  <br />Ich meine, für den Wasserrohrbruch zwischen Straßen- und U-Bahn
  können die ja nix, aber informieren können hätte man mich wenigstens,
  denn am nächsten Tage (gestern) mußte ich <em>sehr</em> früh ’raus.</p>
+----
+Title: Disappointed
+Author: tg@
+Date: 26.12.2009 16:35
+Tag: snapshot
+
+<p>I somewhat had hoped the TLS extension would be finished this month.
+ Too bad. I will still wait for an OpenSSL patch, and maybe options for
+ clients to control behaviour (on connections to servers that don’t have
+ it implemented yet), such as lynx(1).</p>
+<p>Alas, we need a snapshot by January, to put on AllBSD.de USB sticks,
+ so I’m compiling one. Other than that, recovering a little over the
+ weekend, will need to work next week as well. Taking things slower.
+ I think I caught a slight cold+stomach ache last weekend, when it was
+ freezing pretty hard.</p>
+<p>Benny is at 26C3, but there’s probably no official MirOS presence.
+ You’re still cordially invited to talk to him and gecko2@ who’s there
+ as well.</p>
 ----
