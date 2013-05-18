@@ -1,4 +1,4 @@
-/* $MirOS: contrib/code/jupp/umath.c,v 1.2 2008/05/13 13:08:28 tg Exp $ */
+/* $MirOS: contrib/code/jupp/umath.c,v 1.4 2012/12/20 20:11:54 tg Exp $ */
 /*
  *	Math
  *	Copyright
@@ -20,7 +20,7 @@
 #include "charmap.h"
 #include "w.h"
 
-unsigned char *merr;
+const unsigned char * volatile merr;
 
 static RETSIGTYPE fperr(int unused)
 {
