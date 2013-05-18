@@ -1,4 +1,4 @@
-# $MirOS: www/Makefile,v 1.42 2008/12/04 20:31:32 tg Exp $
+# $MirOS: www/Makefile,v 1.43 2008/12/04 20:33:02 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -59,7 +59,7 @@ all:
 install: site.tgz
 
 STRFTM_MAKE=	cd ${.CURDIR:Q} && ${MAKE} -f ${.SYSMK}/bsd.prog.mk NOMAN=Yes \
-		    VPATH=${.CURDIR:Q}/mk PROG=strftm LDSTATIC=-static
+		    VPATH=${.CURDIR:Q}/mk PROG=strftm
 
 OBJS+=		${SRCS:M*.hts:S/hts$/htm~/}
 CLEANFILES+=	${SRCS:M*.hts:S/hts$/htm~/}
