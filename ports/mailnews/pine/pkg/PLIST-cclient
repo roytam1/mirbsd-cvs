@@ -1,4 +1,4 @@
-@comment $MirOS: ports/mailnews/pine/pkg/PLIST-cclient,v 1.1.7.1 2005/03/18 15:49:48 tg Exp $
+@comment $MirOS: ports/mailnews/pine/pkg/PLIST-cclient,v 1.2 2005/10/07 19:40:58 tg Exp $
 @comment $OpenBSD: PLIST,v 1.5 2001/08/02 22:01:27 jakob Exp $
 include/c-client/c-client.h
 include/c-client/env.h
@@ -19,4 +19,5 @@ include/c-client/smtp.h
 include/c-client/tcp.h
 include/c-client/utf8.h
 lib/libc-client.a
+%%SHARED%%
 @dirrm include/c-client

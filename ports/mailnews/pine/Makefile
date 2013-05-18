@@ -1,4 +1,4 @@
-# $MirOS: ports/mailnews/pine/Makefile,v 1.26 2008/12/09 13:18:34 tg Exp $
+# $MirOS: ports/mailnews/pine/Makefile,v 1.27 2009/08/16 16:27:26 tg Exp $
 # $OpenBSD: Makefile,v 1.56 2003/10/05 21:42:29 jakob Exp $
 
 ONLY_FOR_PLATFORM=	OpenBSD:*:* MirBSD:*:*
@@ -15,7 +15,7 @@ PICO_VERSION=		4.10
 PILOT_VERSION=		2.0
 IMAP_VERSION=		2004.357
 PINE_PATCHLEV=		7	# must be the highest
-CCLIENT_PATCHLEV=	6
+CCLIENT_PATCHLEV=	7
 PICOLOT_PATCHLEV=	2
 PINE_PATCHLEV?=		${CCLIENT_PATCHLEV}
 DISTNAME=		pine${VERSION}
@@ -147,5 +147,7 @@ do-install:
 	    ${PREFIX}/include/c-client/
 	${INSTALL_DATA} ${WRKSRC}/imap/c-client/c-client.a \
 	    ${PREFIX}/lib/libc-client.a
+	${INSTALL_DATA} ${WRKSRC}/imap/c-client/c-client_pic.a \
+	    ${PREFIX}/lib/libc-client_pic.a
 
 .include <bsd.port.mk>
