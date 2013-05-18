@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/dot.profile,v 1.44 2009/01/18 14:50:03 tg Exp $
+# $MirOS: src/distrib/common/dot.profile,v 1.45 2009/01/18 15:44:08 tg Exp $
 # $OpenBSD: dot.profile,v 1.4 2002/09/13 21:38:47 deraadt Exp $
 # $NetBSD: dot.profile,v 1.1 1995/12/18 22:54:43 pk Exp $
 #
@@ -138,6 +138,7 @@ This work is provided "AS IS" and WITHOUT WARRANTY of any kind.\n'
 		([Uu]*)	/upgrade ;;
 		}
 	done
+	unset _forceloop
 else
 	stty newcrt werase ^W intr ^C kill ^U erase ^? status ^T
 fi
