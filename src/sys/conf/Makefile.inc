@@ -1,4 +1,4 @@
-# $MirOS: src/sys/conf/Makefile.inc,v 1.6 2006/01/15 23:46:37 tg Exp $
+# $MirOS: src/sys/conf/Makefile.inc,v 1.7 2006/01/31 10:17:47 tg Exp $
 #-
 # Copyright (c) 2005, 2006
 #	Thorsten "mirabile" Glaser <tg@mirbsd.de>
@@ -80,6 +80,9 @@ NORMAL_S_C=	${CC} ${AFLAGS} ${CPPFLAGS} ${PARAM} -c $<
 HOSTED_C=	${HOSTCC} ${HOSTED_CFLAGS} ${HOSTED_CPPFLAGS} -c $<
 
 .MAIN: all
+
+# these are 'make depend'ed
+_COMMON_SRCS=	param.c ioconf.c tai_leaps.c
 
 # Propolice init
 init_ssp.o: $S/kern/init_ssp.c
