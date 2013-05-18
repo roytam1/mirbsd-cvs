@@ -1,10 +1,10 @@
-/**	$MirOS: src/sys/arch/i386/stand/libsa/toridev.c,v 1.3 2008/11/08 23:04:08 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/stand/libsa/toridev.c,v 1.4 2008/12/28 03:40:15 tg Exp $ */
 /*	$OpenBSD: biosdev.c,v 1.68 2004/03/09 19:12:12 tom Exp $	*/
 
 /*
  * Copyright (c) 1996 Michael Shalayeff
  * Copyright (c) 2003 Tobias Weingartner
- * Copyright (c) 2002, 2003, 2004
+ * Copyright (c) 2002, 2003, 2004, 2009
  *	Thorsten "mirabilos" Glaser <tg@mirbsd.org>
  * All rights reserved.
  *
@@ -66,7 +66,6 @@ static __inline int
 CD_rw(u_int64_t daddr, void *buf)
 {
 	int rv;
-	int dev = T_DRV;
 	volatile static struct EDD_CB cb;
 
 	/* Zero out reserved stuff */
@@ -88,7 +87,7 @@ CD_rw(u_int64_t daddr, void *buf)
 	BIOS_regs.biosr_ds = (u_int32_t)&cb >> 4;
 	__asm __volatile (DOINT(0x13) "; setc %b0" : "=a" (rv)
 			  : "0" (0x4200),
-			    "d" (dev), "S" ((int) (&cb) & 0xf) : "%ecx", "cc");
+			    "d" (i386_toridev), "S" ((int) (&cb) & 0xf) : "%ecx", "cc");
 	return (rv & 0xff)? rv >> 8 : 0;
 }
 
@@ -121,7 +120,7 @@ tori_io(daddr_t off, void *buf)
 				getchar();
 			}
 #endif
-			biosdreset(T_DRV);
+			biosdreset(i386_toridev);
 			break;
 		}
 	}

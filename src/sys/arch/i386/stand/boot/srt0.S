@@ -1,4 +1,4 @@
-/* $MirOS: src/sys/arch/i386/stand/boot/srt0.S,v 1.27 2009/01/02 04:22:36 tg Exp $ */
+/* $MirOS: src/sys/arch/i386/stand/boot/srt0.S,v 1.28 2009/01/02 04:27:43 tg Exp $ */
 
 /*-
  * Copyright (c) 2003, 2004, 2005, 2006, 2007, 2008
@@ -91,7 +91,6 @@
 	.globl	_C_LABEL(edata)
 	.globl	_C_LABEL(end)
 	.globl	_ASM_LABEL(pmm_init)
-	.globl	_C_LABEL(tori_bootflag)
 
 _start:	cli
 	jmp	Lstart
@@ -104,10 +103,6 @@ _C_LABEL(bios_bootpte):
 	.p2align 4
 Ltblk:	.long	0x13,0,0,0	/* El Torito parameter block */
 	.byte	0,0,0
-	.p2align 2
-_C_LABEL(tori_bootflag):
-	.long	0
-Lbdev:	.byte	0		/* local copy of BIOS boot device */
 	. = _start + 0x41
 Lstart:	mov	bx,SA_LOADSEG
 	mov	ss,bx
@@ -249,34 +244,50 @@ Lmain:	UD(6)			/** F: jump successful */
 	mov	ax,cs
 	mov	ds,ax
 	mov	es,ax
-	mov	ebx,offset Lbdev - SA_LOADADDR
-	mov	[bx],dl
+	push	dx
 
+	/* check if drive is a CD */
+	xor	ax,ax
+	push	ax
 #ifndef SMALL_BOOT
-	mov	ebx,offset _rval - SA_LOADADDR
-	mov	eax,[bx]
-	mov	al,0		/* partp (patched in) doesn't matter */
-	cmp	eax,0x6A6D4F00
-	je	LpreFD
-	xor	eax,eax
-	dec	eax
-	mov	al,dl
-	mov	ebx,offset _C_LABEL(tori_bootflag) - SA_LOADADDR
-	mov	[bx],eax
-#endif /* !SMALL_BOOT */
+	cmp	dl,0x88
+	jae	1f
+	push	dx
+	mov	ah,0x41
+	mov	bx,0x55aa
+	int	0x13
+	pop	dx
+	jc	LnoCD
+	cmp	bx,0xaa55
+	jne	LnoCD
+	or	ah,ah
+	jz	LnoCD
+1:	/* this may be a CD */
+	mov	esi,offset Ltblk - SA_LOADADDR
+	mov	byte ptr [si],0x13
+	mov	ax,0x4B01
+	int	0x13
+	jc	LnoCD
+	test	byte ptr [si+1],0x0F
+	jnz	LnoCD
+	/* we have a CD in no emulation mode */
+	pop	ax
+	inc	ax
+	push	ax
+#endif
 
-LpreFD:	/* prepare booting */
+LnoCD:
 #ifdef BOOTSELECT_HOOK
 	UD(37)			/** e: calling the hook */
 	call	Lhook
 	push	eax
 #endif
 	UD(14)			/** N: preparing 32-bit */
-	xor	edx,edx
-	mov	ebx,offset Lbdev - SA_LOADADDR
-	mov	dl,[bx]		/* carry this over to VPAM */
+	pop	dx
+	shl	edx,16
+	pop	dx
 	mov	ebx,offset _rval - SA_LOADADDR
-	mov	dh,[bx]
+	mov	dh,[bx]		/* carry this over to VPAM */
 #ifdef BOOTSELECT_HOOK
 	pop	esi
 #endif
@@ -328,11 +339,19 @@ Lpmode:	mov	eax,0x10
 	mov	[_C_LABEL(hook_value)],ecx
 #endif
 	/* store saved BIOS boot device */
-	pop	edx
-	mov	[_C_LABEL(userpt)],dh
-	mov	dh,0
+	pop	eax
+	mov	[_C_LABEL(userpt)],ah
+	xor	edx,edx
+	mov	dl,al
 	push	edx
 	mov	[_C_LABEL(bios_bootdev)],edx
+#ifndef SMALL_BOOT
+	shr	eax,16
+	test	al,1
+	jz	1f
+	mov	[_C_LABEL(i386_toridev)],edx
+1:
+#endif
 	UD32(17)		/** Q: jump into C code */
 	/* jump into boot loader C code */
 	call	_C_LABEL(boot)

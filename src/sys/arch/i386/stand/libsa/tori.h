@@ -1,4 +1,4 @@
-/* $MirOS: src/sys/arch/i386/stand/libsa/tori.h,v 1.1.7.1 2005/03/06 16:33:43 tg Exp $ */
+/* $MirOS: src/sys/arch/i386/stand/libsa/tori.h,v 1.2 2008/08/05 19:05:01 tg Exp $ */
 
 #ifndef	_LIBSA_TORI_H
 #define	_LIBSA_TORI_H
@@ -44,9 +44,6 @@ extern struct tori_pbk tori_pblk;
 		tori_pblk.x3[2]=(dh);					 \
 	} while (0)
 #endif
-
-extern u_int32_t tori_bootflag;
-#define T_DRV	(tori_bootflag & 0xFF)
 
 struct open_file;
 

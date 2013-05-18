@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/stand/pxeboot/conf.c,v 1.7 2008/08/01 11:25:01 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/stand/pxeboot/conf.c,v 1.8 2008/08/01 12:39:08 tg Exp $ */
 /*	$OpenBSD: conf.c,v 1.16 2008/04/19 23:20:22 weingart Exp $	*/
 
 /*
@@ -110,5 +110,3 @@ struct consdev constab[] = {
 	{ NULL }
 };
 struct consdev *cn_tab = constab;
-
-int tori_bootflag;

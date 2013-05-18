@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/stand/libsa/diskprobe.c,v 1.7 2008/08/01 11:32:54 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/stand/libsa/diskprobe.c,v 1.8 2008/11/08 23:04:08 tg Exp $ */
 /*	$OpenBSD: diskprobe.c,v 1.29 2007/06/18 22:11:20 krw Exp $	*/
 
 /*
@@ -45,8 +45,6 @@
 #include "libsa.h"
 
 #define MAX_CKSUMLEN MAXBSIZE / DEV_BSIZE	/* Max # of blks to cksum */
-
-extern u_int32_t tori_bootflag;
 
 /* Local Prototypes */
 static int disksum(int);
@@ -110,13 +108,13 @@ hardprobe(void)
 
 #ifndef SMALL_BOOT
 	/* CD-ROM */
-	if (tori_bootflag) {
+	if (i386_toridev) {
 		printf(" cd0");
 		dip = alloc(sizeof(struct diskinfo));
 		memset(dip, 0, sizeof(*dip));
 		dip->bios_info.bsd_dev = MAKEBOOTDEV(6, 0, 0, 0, RAW_PART);
 		dip->bios_info.flags |= (BDI_INVALID | BDI_EL_TORITO);
-		dip->bios_info.bios_number = tori_bootflag & 0xFF;
+		dip->bios_info.bios_number = i386_toridev;
 		TAILQ_INSERT_TAIL(&disklist, dip, list);
 	}
 #endif
@@ -124,7 +122,7 @@ hardprobe(void)
 	/* Hard disks */
 	for (i = 0x80; i < 0x88; i++) {
 #ifndef SMALL_BOOT
-		if ((tori_bootflag) && (i == (tori_bootflag & 0xFF)))
+		if (i == i386_toridev)
 			continue;
 #endif
 

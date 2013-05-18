@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/stand/libsa/cmd_i386.c,v 1.16 2009/01/02 01:45:44 tg Exp $	*/
+/**	$MirOS: src/sys/arch/i386/stand/libsa/cmd_i386.c,v 1.17 2009/01/02 02:13:21 tg Exp $	*/
 /*	$OpenBSD: cmd_i386.c,v 1.29 2006/09/18 21:14:15 mpf Exp $	*/
 
 /*
@@ -46,7 +46,6 @@ extern struct disklist_lh disklist;
 
 #ifndef SMALL_BOOT
 extern uint32_t bios_bootpte[4];
-int i386_bootdev;
 #endif
 
 #ifndef SMALL_BOOT
