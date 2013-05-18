@@ -1,7 +1,9 @@
-@comment $MirOS$
+@comment $MirOS: ports/net/bind/pkg/PLIST,v 1.1.7.1 2005/03/18 15:49:24 tg Exp $
 @comment $OpenBSD: PLIST,v 1.15 2003/01/25 14:14:37 jakob Exp $
 bin/isc-config.sh
-include/dns/a6.h
+include/bind9/check.h
+include/bind9/getaddresses.h
+include/bind9/version.h
 include/dns/acl.h
 include/dns/adb.h
 include/dns/byaddr.h
@@ -15,6 +17,7 @@ include/dns/dbtable.h
 include/dns/diff.h
 include/dns/dispatch.h
 include/dns/dnssec.h
+include/dns/ds.h
 include/dns/enumclass.h
 include/dns/enumtype.h
 include/dns/events.h
@@ -30,8 +33,9 @@ include/dns/masterdump.h
 include/dns/message.h
 include/dns/name.h
 include/dns/ncache.h
-include/dns/nxt.h
+include/dns/nsec.h
 include/dns/peer.h
+include/dns/portlist.h
 include/dns/rbt.h
 include/dns/rcode.h
 include/dns/rdata.h
@@ -58,6 +62,7 @@ include/dns/tsig.h
 include/dns/ttl.h
 include/dns/types.h
 include/dns/validator.h
+include/dns/version.h
 include/dns/view.h
 include/dns/xfrin.h
 include/dns/zone.h
@@ -83,6 +88,7 @@ include/isc/eventclass.h
 include/isc/file.h
 include/isc/formatcheck.h
 include/isc/fsaccess.h
+include/isc/hash.h
 include/isc/heap.h
 include/isc/hex.h
 include/isc/hmacmd5.h
@@ -109,6 +115,7 @@ include/isc/offset.h
 include/isc/once.h
 include/isc/ondestroy.h
 include/isc/os.h
+include/isc/parseint.h
 include/isc/platform.h
 include/isc/print.h
 include/isc/quota.h
@@ -125,6 +132,7 @@ include/isc/sha1.h
 include/isc/sockaddr.h
 include/isc/socket.h
 include/isc/stdio.h
+include/isc/stdlib.h
 include/isc/stdtime.h
 include/isc/string.h
 include/isc/symtab.h
@@ -136,6 +144,7 @@ include/isc/time.h
 include/isc/timer.h
 include/isc/types.h
 include/isc/util.h
+include/isc/version.h
 include/isccc/alist.h
 include/isccc/base64.h
 include/isccc/cc.h
@@ -148,9 +157,12 @@ include/isccc/symtab.h
 include/isccc/symtype.h
 include/isccc/types.h
 include/isccc/util.h
+include/isccc/version.h
 include/isccfg/cfg.h
-include/isccfg/check.h
+include/isccfg/grammar.h
 include/isccfg/log.h
+include/isccfg/namedconf.h
+include/isccfg/version.h
 include/lwres/context.h
 include/lwres/int.h
 include/lwres/ipv6.h
@@ -163,15 +175,12 @@ include/lwres/net.h
 include/lwres/netdb.h
 include/lwres/platform.h
 include/lwres/result.h
-lib/libdns.a
+include/lwres/version.h
+lib/libbind9.la
 lib/libdns.la
-lib/libisc.a
 lib/libisc.la
-lib/libisccc.a
 lib/libisccc.la
-lib/libisccfg.a
 lib/libisccfg.la
-lib/liblwres.a
 lib/liblwres.la
 man/man3/lwres.3
 man/man3/lwres_addr_parse.3
@@ -258,10 +267,10 @@ man/man3/lwres_resutil.3
 man/man3/lwres_sethostent.3
 man/man3/lwres_sethostent_r.3
 man/man3/lwres_string_parse.3
-%%SHARED%%
 @dirrm include/lwres
 @dirrm include/isccfg
 @dirrm include/isccc
 @dirrm include/isc
 @dirrm include/dst
 @dirrm include/dns
+@dirrm include/bind9
