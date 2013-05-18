@@ -1,6 +1,6 @@
-$MirOS$
+$MirOS: ports/net/rrdtool/patches/patch-src_rrd_graph_c,v 1.1 2008/11/12 20:27:50 tg Exp $
 --- src/rrd_graph.c.orig	Mon Apr 25 21:03:23 2005
-+++ src/rrd_graph.c	Wed Nov 12 20:12:00 2008
++++ src/rrd_graph.c	Wed Nov 12 23:14:53 2008
 @@ -2009,15 +2009,15 @@ horizontal_mrtg_grid(gdImagePtr gif, ima
   xRight = im->xorigin + im->xsize;
  
