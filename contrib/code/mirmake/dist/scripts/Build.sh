@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/share/misc/licence.template,v 1.14 2006/08/09 19:35:23 tg Rel $
+# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.72 2006/08/26 15:40:13 tg Exp $
 #-
 # Copyright (c) 2004, 2005, 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -55,16 +55,15 @@ function testfunc {
 }
 
 # Get parameters
-new_ostype="$1"
-new_prefix="$2"		# /usr/local
-new_manpth="$3"		# man/cat
-new_exenam="$4"		# bmake
-new_machin="$5"		# MACHINE
-new_macarc="$6"		# MACHINE_ARCH
-new_machos="$7"		# MACHINE_OS
-new_mirksh="$8"
-new_binids="$9"
-[[ -z $OLDMAKE ]] && OLDMAKE=make
+new_ostype=$1
+new_prefix=$2		# /usr/local
+new_manpth=$3		# man/cat
+new_exenam=$4		# bmake
+new_machin=$5		# MACHINE
+new_macarc=$6		# MACHINE_ARCH
+new_machos=$7		# MACHINE_OS
+new_mirksh=$8
+new_binids=$9
 
 if [ -z "$new_mirksh" ]; then
 	echo "Use ../../Build.sh instead!" >&2
@@ -74,6 +73,7 @@ fi
 export SHELL=$new_mirksh
 
 [[ -n $BASH_VERSION ]] && shopt -s extglob
+[[ -z $OLDMAKE ]] && OLDMAKE=make
 
 # Directories
 top=$(cd $(dirname $0)/../..; pwd)
@@ -92,7 +92,7 @@ else
 	is_catman=0
 fi
 
-case "$new_machos:$new_machin:$new_macarc" in
+case $new_machos:$new_machin:$new_macarc in
 Darwin:*:powerpc)
 	;;
 Darwin:*:i686)
@@ -154,11 +154,12 @@ Linux)
 	;;
 esac
 
-export CC="${CC:-gcc}"
-export COPTS="${CFLAGS:--O2 -fno-strength-reduce -fno-strict-aliasing}"
-export CPPFLAGS="$CPPFLAGS -D_MIRMAKE_DEFNS -isystem $d_build/F -include $d_build/F/mirmake.h"
-export CFLAGS="$COPTS $CPPFLAGS"
-export NROFF="${NROFF:-nroff}"
+: ${CC:=gcc} ${NROFF:=nroff}
+COPTS=${CFLAGS:--O2 -fno-strength-reduce -fno-strict-aliasing}
+CPPFLAGS="$CPPFLAGS -D_MIRMAKE_DEFNS -isystem $d_build/F -include $d_build/F/mirmake.h"
+CFLAGS="$COPTS $CPPFLAGS"
+echo | $NROFF -v 2>&1 | grep GNU >&- 2>&- && NROFF="$NROFF -c"
+export CC COPTS CPPFLAGS CFLAGS NROFF
 
 . $d_script/Version.sh
 

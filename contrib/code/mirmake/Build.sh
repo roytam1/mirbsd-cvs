@@ -1,5 +1,5 @@
 #!/bin/sh
-# $MirOS: contrib/code/mirmake/Build.sh,v 1.19 2006/03/19 21:08:42 tg Exp $
+# $MirOS: src/share/misc/licence.template,v 1.14 2006/08/09 19:35:23 tg Rel $
 #-
 # Copyright (c) 2004, 2005, 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -11,8 +11,8 @@
 # in all redistributions or reproduced in accompanying documentation
 # or other materials provided with binary redistributions.
 #
-# All advertising materials mentioning features or use of this soft-
-# ware must display the following acknowledgement:
+# Advertising materials mentioning features or use of this work must
+# display the following acknowledgement:
 #	This product includes material provided by Thorsten Glaser.
 #
 # Licensor offers the work "AS IS" and WITHOUT WARRANTY of any kind,
@@ -22,30 +22,30 @@
 # or other damage, or direct damage except proven a consequence of a
 # direct error of said person and intended use of this work, loss or
 # other issues arising in any way out of its use, even if advised of
-# the possibility of such damage or existence of a nontrivial bug.
+# the possibility of such damage or existence of a defect.
 #-
 # Build MirMake. (Assumes mksh or bash)
 
-OSN="$1"		# OStype
-PFX="${2:-/usr/local}"	# Installation prefix (optional)
-MPT="${3:-man/cat}"	# manpath (cat magic) (optional)
-MKN="${4:-bmake}"	# name of executable (optional)
-MAC="$5"		# machine (i386, macppc) (optional)
-MAR="$6"		# machine_arch (i386, powerpc) (optional)
-MOS="$7"		# machine_os (BSD, Linux) (optional)
-MKS="$8"		# mirbsdksh path (optional)
-BIN="$9"		# binown:bingrp (optional)
+OSN=$1			# OStype
+PFX=${2-/usr/local}	# Installation prefix (optional)
+MPT=${3-man/cat}	# manpath (cat magic) (optional)
+MKN=${4-bmake}		# name of executable (optional)
+MAC=$5			# machine (i386, macppc) (optional)
+MAR=$6			# machine_arch (i386, powerpc) (optional)
+MOS=$7			# machine_os (BSD, Linux) (optional)
+MKS=$8			# mirbsdksh path (optional)
+BIN=$9			# binown:bingrp (optional)
 
 if [ x"$MAC" = x"" ]; then
-	MAC="`machine 2>/dev/null || uname -m 2>/dev/null || echo unknown`"
+	MAC=`machine 2>/dev/null || uname -m 2>/dev/null || echo unknown`
 fi
 
 if [ x"$MAR" = x"" ]; then
-	MAR="`arch -s 2>/dev/null || arch 2>/dev/null || echo unknown`"
+	MAR=`arch -s 2>/dev/null || arch 2>/dev/null || echo unknown`
 fi
 
 if [ x"$MOS" = x"" ]; then
-	u="`uname`"
+	u=`uname`
 	case $u in
 	*Linux*)	MOS=Linux	;;
 	*BSD*)		MOS=BSD		;;
@@ -54,7 +54,7 @@ if [ x"$MOS" = x"" ]; then
 	esac
 fi
 
-case "$MOS" in
+case $MOS in
 Interix)
 	# Okay, we know this MACHINE_OS
 	[ x"$MAC" = x"x86" ] && MAC=i386
@@ -73,7 +73,7 @@ BSD|Darwin|Linux)
 	echo "- BSD Darwin Interix Linux"
 	echo "Your uname -a output is:"
 	uname -a
-	OSN=""	# fall through
+	OSN=	# fall through
 	;;
 esac
 
@@ -81,7 +81,7 @@ if [ x"$MAC" = x"unknown" ] || [ x"$MAR" = x"unknown" ] || [ x"$MOS" = x"unknown
 	echo "Error: cannot guess machine or machine_arch"
 	echo "Your uname -a output is:"
 	uname -a
-	OSN=""	# fall through
+	OSN=	# fall through
 fi
 
 if [ x"$OSN" = x"" ]; then
@@ -106,7 +106,7 @@ if [ x"$OSN" = x"" ]; then
 	exit 1
 fi
 
-mktest=""
+mktest=
 for f in mksh mirbsdksh ksh; do
 	for d in /bin /usr/local/bin /bin /sw/bin; do
 		mktest="${mktest}${d}/${f} "
@@ -116,7 +116,7 @@ ms=NONE
 echo "Checking for mirbsdksh..."
 for s in $MKS $MKSH $mktest $SHELL; do
 	echo "Trying ${s}..."
-	t="`$s -c 'let a=1; (( a + 1 )) 2>/dev/null && if [[ $KSH_VERSION = @(\@\(#\)MIRBSD KSH R)@(2[6-9]|[3-9][0-9]|[1-9][0-9][0-9])\ +([0-9])/+([0-9])/+([0-9]) ]]; then echo yes; else echo no; fi' 2>/dev/null`"
+	t=`$s -c 'let a=1; (( a + 1 )) 2>/dev/null && if [[ $KSH_VERSION = @(\@\(#\)MIRBSD KSH R)@(2[6-9]|[3-9][0-9]|[1-9][0-9][0-9])\ +([0-9])/+([0-9])/+([0-9]) ]]; then echo yes; else echo no; fi' 2>/dev/null`
 	if [ x"$t" = x"yes" ]; then
 		echo "Found mirbsdksh: $s"
 		ms=$s
@@ -126,11 +126,11 @@ done
 
 if [ -n "$OVERRIDE_MKSH" ]; then
 	if test -x "$OVERRIDE_MKSH"; then
-		ms="$OVERRIDE_MKSH"
+		ms=$OVERRIDE_MKSH
 	else
 		for s in $MKS $mktest; do
 			echo "Trying ${s} again..."
-			t="`$s -c 'let a=1; (( a + 1 )) 2>/dev/null && if [[ -n $KSH_VERSION -o -n $BASH_VERSION ]]; then echo yes; else echo no; fi' 2>/dev/null`"
+			t=`$s -c 'let a=1; (( a + 1 )) 2>/dev/null && if [[ -n $KSH_VERSION -o -n $BASH_VERSION ]]; then echo yes; else echo no; fi' 2>/dev/null`
 			if [ x"$t" = x"yes" ]; then
 				echo "Found some ksh or bash: $s"
 				ms=$s
@@ -148,7 +148,7 @@ if [ x"$ms" = x"NONE" ]; then
 fi
 
 echo "Building MirMake on $MOS/$MAC ($MAR) for $OSN"
-echo "with $ms and ${CC:-gcc} to $PFX/bin/$MKN"
-echo "Documentation goes to $PFX/${MPT}1/ (user ${BIN:-root:bin})"
+echo "with $ms and ${CC-gcc} to $PFX/bin/$MKN"
+echo "Documentation goes to $PFX/${MPT}1/ (user ${BIN-root:bin})"
 
 exec $ms `dirname $0`/dist/scripts/Build.sh "$OSN" "$PFX" "$MPT" "$MKN" "$MAC" "$MAR" "$MOS" $ms "$BIN"
