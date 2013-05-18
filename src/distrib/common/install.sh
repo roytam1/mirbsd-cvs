@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/distrib/common/install.sh,v 1.15 2008/06/15 14:14:16 tg Exp $
+# $MirOS: src/distrib/common/install.sh,v 1.16 2008/07/09 23:32:02 tg Exp $
 # $OpenBSD: install.sh,v 1.152 2005/04/21 21:41:33 krw Exp $
 # $NetBSD: install.sh,v 1.5.2.8 1996/08/27 18:15:05 gwr Exp $
 #
@@ -406,7 +406,7 @@ while :; do
 	fi
 done
 IFS=$_oifs
-_rootline=":$_rootuid:$_rootuid:staff:0:0:$full:/home/$_rootuser:/bin/mksh"
+_rootline=":$_rootuid:$_rootuid:staff:0:0:$full:/home/$_rootuser:/usr/dbin/mksh"
 
 set_timezone
 

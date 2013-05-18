@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/usr.sbin/adduser/adduser,v 1.8 2008/06/25 12:04:30 tg Exp $
+# $MirOS: src/usr.sbin/adduser/adduser,v 1.9 2008/06/25 12:10:22 tg Exp $
 #-
 # Copyright (c) 2006, 2007, 2008
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -201,7 +201,8 @@ while :; do
 		break
 	done
 	while :; do
-		ask "Login shell?" "${shell:-/bin/mksh}"
+		ask "Login shell?" "${shell:-/usr/dbin/mksh}"
+		[[ $shell = - ]] && shell=/sbin/nologin
 		[[ $shell = /sbin/nologin ]] && break
 		shells=
 		Lstripcom /etc/shells |&
