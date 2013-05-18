@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.82 2006/08/27 00:39:32 tg Exp $
+# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.83 2006/08/27 00:49:09 tg Exp $
 #-
 # Copyright (c) 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -292,7 +292,9 @@ scnfunc exit 't==false' 'stdbool.h' 'bool t = true;' stdbool.h
 test 1 = $HAVE_EXIT || cp $d_src/include/stdbool.h $d_build/F/
 unset HAVE_EXIT
 scnfunc ohash_delete 'NULL' 'stdlib.h' 'void ohash_delete(void *);'
-scnfunc utimes 'NULL,NULL' 'stdlib.h sys/time.h'
+scnfunc utimes 'NULL,NULL' 'stdlib.h sys/time.h' '#ifndef timespeccmp
+#error timespeccmp not defined
+#endif'
 SRCS="md4hl.c md5hl.c rmd160hl.c sha1hl.c sha256hl.c sha384hl.c sha512hl.c"
 SRCS="getopt_long.c md4.c md5.c rmd160.c sha1.c sha2.c $SRCS"
 [[ $new_machos = Interix ]] && \
