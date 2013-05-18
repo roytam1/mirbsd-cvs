@@ -1,4 +1,4 @@
-# $MirOS: www/src/main.hts,v 1.14 2009/02/09 11:48:28 tg Exp $
+# $MirOS: www/src/main.hts,v 1.15 2009/06/21 11:01:24 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -7,7 +7,7 @@ mws_setname main "Welcome at The MirOS Project"
 mws_setrss "news.rss"
 mws_subdir 0
 mws_setheadline Welcome to the MirOS Project!
-mws_putheader '$MirOS: www/src/main.hts,v 1.14 2009/02/09 11:48:28 tg Exp $'
+mws_putheader '$MirOS: www/src/main.hts,v 1.15 2009/06/21 11:01:24 tg Exp $'
 mws_content <<'EOF'
 <p class="rcsid">MirOS BSD &amp; MirPorts Framework – a wonderful
  operating system for a world of peace</p>
@@ -32,6 +32,12 @@ mws_content <<'EOF'
  href="@@ABSPATH@@/MirOS/PR/flyer_de.pdf">deutsch/german</a>, <a
  href="@@ABSPATH@@/MirOS/PR/flyer_fr.pdf">français/french</a>).
  Please note the BSD-Licence(7), especially the advertising clauses.</p>
+
+<h2>Translations</h2>
+
+<p>Bohdan Zograf has kindly published a <a
+ href="http://www.webhostinghub.com/support/about-miros-be">Belorussian
+ translation of the MirBSD website</a>, thanks!</p>
 
 <h2>News</h2>
 
