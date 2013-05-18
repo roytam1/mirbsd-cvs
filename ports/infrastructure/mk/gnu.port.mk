@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/gnu.port.mk,v 1.34 2007/05/16 22:17:25 tg Exp $
+# $MirOS: ports/infrastructure/mk/gnu.port.mk,v 1.35 2007/05/17 22:37:13 tg Exp $
 # $OpenBSD: gnu.port.mk,v 1.19 2004/06/06 11:49:08 espie Exp $
 
 AUTOCONF_NEW?=		No
@@ -37,7 +37,14 @@ EXTRA_XAKE_FLAGS+=	mkdir_p='mkdir -p' \
 CONFIGURE_ENV+=		MAKEINFO="makeinfo --no-split"
 
 MODGNU_AUTOMAKE_DEPS=	::devel/metaauto ::devel/automake/${AUTOMAKE_VERSION}
-MODGNU_AUTOCONF_DEPS=	::devel/metaauto ::devel/autoconf/${AUTOCONF_VERSION}
+MODGNU_AUTOCONF_DEPS=	::devel/metaauto
+.if ${AUTOCONF_VERSION} == "2.13"
+MODGNU_AUTOCONF_DEPS+=	:autoconf-2.13->=20070223:devel/autoconf/2.13
+.elif ${AUTOCONF_VERSION} == "2.60"
+MODGNU_AUTOCONF_DEPS+=	:autoconf-2.60->=3:devel/autoconf/2.60
+.else
+MODGNU_AUTOCONF_DEPS+=	::devel/autoconf/${AUTOCONF_VERSION}
+.endif
 
 # Dependencies
 .if ${CONFIGURE_STYLE:L:Mautogen}
