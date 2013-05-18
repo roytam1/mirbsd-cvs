@@ -795,4 +795,20 @@ Title: Improving the world, yet again
  Life sucks, and bureaucracy sucks even worse. And there’s no way around
  <em>that</em>. Too bad. (I had an encounter with bureaucrats again… could
  you tell? Hah. They want money back, even though it belongs to me.)</p>
+<p><strong>Update 21.05.2008:</strong> Benny has committed an update to
+ firesomething-2.0.0.13-0, and I bumped the dash ver and made it work as
+ well on MidnightBSD. Sample build:</p>
+<pre> $ cd /usr/mirports/www/firesomething
+ $ mmake install clean PKG_CONFIG_PATH=$(mmake show=PKG_CONFIG_PATH):/usr/local/libdata/pkgconfig</pre>
+<p>You must have installed fontconfig from mports (and, of course, perl,
+ for MirPorts to work at all.</p>
+<p>This beast now works on MirBSD/i386 and MidnightBSD/i386, should work
+ on OpenBSD/i386, OpenBSD/amd64, OpenBSD/alpha, OpenBSD/powerpc,
+ OpenBSD/sparc, OpenBSD/sparc64, and possibly MidnightBSD/amd64 and
+ MirBSD/sparc (not yet on MidnightBSD/sparc64, but they’ll want to test
+ and fix that). No idea about Darwin and Interix. Benny is going to bump
+ to the latest upstream version now, whereas Jonathan recommended us to
+ go to 3.0b2 for increased speed and decreased resource use. We’ll see.
+ The mports maintainers can now take our patches and get rid of their
+ linuxulated firesomething binary port ☺</p>
 ----
