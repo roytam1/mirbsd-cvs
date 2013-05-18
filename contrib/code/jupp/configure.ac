@@ -26,11 +26,14 @@ AC_PROG_EGREP
 AC_PROG_INSTALL
 AC_PROG_LN_S
 
-case "$host" in
-	*-*-solaris*)
-		CPPFLAGS="$CPPFLAGS -I/usr/local/include"
-		LDFLAGS="$LDFLAGS -L/usr/local/lib -R/usr/local/lib"
-		;;
+case $host in
+*-*-minix*)
+	CPPFLAGS="$CPPFLAGS -D_POSIX_SOURCE -D_POSIX_1_SOURCE=2 -D_MINIX"
+	;;
+*-*-solaris*)
+	CPPFLAGS="$CPPFLAGS -I/usr/local/include"
+	LDFLAGS="$LDFLAGS -L/usr/local/lib -R/usr/local/lib"
+	;;
 esac
 
 case $host in
