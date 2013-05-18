@@ -1,8 +1,8 @@
-# $MirOS: ports/infrastructure/mk/perl.port.mk,v 1.12 2009/01/03 20:45:39 bsiegert Exp $
+# $MirOS: ports/infrastructure/mk/perl.port.mk,v 1.13 2009/08/16 16:27:09 tg Exp $
 # $OpenBSD: perl.port.mk,v 1.9 2004/06/08 20:28:19 sturm Exp $
 # Based on bsd.port.mk, originally by Jordan K. Hubbard.
 
-.ifndef MODPERL_ARCH
+.ifndef P5ARCH
 .  include "${PORTSDIR}/infrastructure/mk/p5.port.mk"
 .endif
 
