@@ -1,5 +1,5 @@
 # $Id$
-# $MirOS: src/gnu/usr.sbin/sendmail/cf/cf/aliases,v 1.2 2005/07/24 15:27:48 tg Exp $
+# $MirOS: src/gnu/usr.sbin/sendmail/cf/cf/aliases,v 1.3 2005/12/04 14:01:09 tg Exp $
 # $OpenBSD: aliases,v 1.4 2003/12/17 19:42:33 henning Exp $
 #
 #  Aliases in this file will NOT be expanded in the header from
@@ -71,7 +71,6 @@ _mailman:	/dev/null
 _mixmaster:	/dev/null
 _spamdaemon:	/dev/null
 _postfix:	/dev/null
-_postdrop:	/dev/null
 _bitlbee:	/dev/null
 _pdnsd:		/dev/null
 _tacacs:	/dev/null
@@ -117,6 +116,33 @@ _gpsd:		/dev/null
 _xavante:	/dev/null
 _saned:		/dev/null
 _avenger:	/dev/null
+_nrpe:		/dev/null
+_snort:		/dev/null
+_ipfreely:	/dev/null
+_freeradius:	/dev/null
+_mpd:		/dev/null
+_rbldns:	/dev/null
+_smokeping:	/dev/null
+_postgrey:	/dev/null
+_prelude:	/dev/null
+_pfflowd:	/dev/null
+_tor:		/dev/null
+_dk-milter:	/dev/null
+_milter-greylist:	/dev/null
+_dkim-milter:	/dev/null
+_mdefang:	/dev/null
+_courier:	/dev/null
+_dbus:		/dev/null
+_perdition:	/dev/null
+_siproxd:	/dev/null
+_netflow:	/dev/null
+_apache2:	/dev/null
+_openvpn:	/dev/null
+_mrtg:		/dev/null
+_hiawatha:	/dev/null
+_puppet:	/dev/null
+_gonzui:	/dev/null
+_tabled:	/dev/null
 nobody:		/dev/null
 
 _isrc:		/dev/null
