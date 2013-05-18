@@ -1,4 +1,4 @@
-/* $MirOS: www/files/vstyle.css,v 1.35 2011/09/13 18:13:05 tg Exp $ */
+/* $MirOS: www/files/vstyle.css,v 1.36 2011/11/14 22:28:02 tg Exp $ */
 
 /*-
  * The MirOS Project - Webpages
@@ -371,17 +371,18 @@ h5 {
 /* put stuff into nice boxes */
 
 .boxhead {
-	margin-bottom:0px;
+	/*margin-bottom:0px;*/
 }
 
 .boxtext {
-	border:4px ridge blue;
+	border:1px solid #c8c8c8;
+	background:#ffffff;
 	margin:0px 24px 0px 18px;
 	padding:2px 12px 2px 3px;
 }
 
 .boxfoot {
-	margin-top:0px;
+	/*margin-top:0px;*/
 }
 
 pre {
