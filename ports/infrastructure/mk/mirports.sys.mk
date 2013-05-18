@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/mirports.sys.mk,v 1.41 2006/12/28 03:34:27 tg Exp $
+# $MirOS: ports/infrastructure/mk/mirports.sys.mk,v 1.42 2006/12/29 01:14:04 tg Exp $
 #-
 # Copyright (c) 2005, 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -120,7 +120,6 @@ _SYSTRACE_ARGS=		-i -a
 .  endif
 
 .  if ${OSrev} < 36
-HAS_DLADDR=		No
 _CKSUM_A=
 _GDIFFLAG=		NEED_GDIFF=yes
 .  endif
@@ -157,7 +156,6 @@ _MIROS_ANONCVS=		anoncvs@anoncvs.mirbsd.org:/cvs
 ARCH?=			${MACHINE_ARCH}
 FETCH_CMD?=		/usr/bin/ftp -EV -m
 HAS_CXX?=		base
-HAS_DLADDR?=		Yes
 HAS_TIMET64?=		No
 LP64_PLATFORMS?=	*:*:alpha *:*:amd64 *:*:sparc64
 MKC_USAP?=		No
