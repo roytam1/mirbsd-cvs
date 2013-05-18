@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.69 2005/11/18 14:14:30 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.70 2005/11/19 12:54:25 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -228,10 +228,10 @@ P5ARCH?=		${P5SITE}/${MACHINE_ARCH}-${OSname}
 
 MAKE_FLAGS?=
 .if !defined(FAKE_FLAGS)
-FAKE_FLAGS=		${DESTDIRNAME}='${WRKINST}'
+FAKE_FLAGS=		${DESTDIRNAME}=${WRKINST:Q}
 .endif
 
-EXTRA_XAKE_FLAGS+=	SHELL="${SHELL}"
+EXTRA_XAKE_FLAGS+=	SHELL=${SHELL:Q}
 MAKE_FLAGS+=		${EXTRA_MAKE_FLAGS} ${EXTRA_XAKE_FLAGS}
 FAKE_FLAGS+=		${EXTRA_FAKE_FLAGS} ${EXTRA_XAKE_FLAGS}
 
@@ -243,7 +243,7 @@ MAKE_PROGRAM=		${GMAKE}
 MAKE_FLAGS+=		MAKE=$(MAKE_PROGRAM)
 FAKE_FLAGS+=		MAKE=$(MAKE_PROGRAM)
 .  if ${USE_SCHILY:L} != "no"
-MAKE_ENV+=		MAKEPROG='${MAKE_PROGRAM}' CCOM=cc
+MAKE_ENV+=		MAKEPROG=${MAKE_PROGRAM:Q} CCOM=cc
 .  endif
 .else
 MAKE_PROGRAM=		${MAKE}
@@ -285,7 +285,7 @@ LIB_DEPENDS+=		Xm.2::x11/openmotif
 ERRORS+=		"Unknown USE_MOTIF=${USE_MOTIF:Q} settings."
 .  endif
 MOTIFLIB=		-L${LOCALBASE}/lib -lXm
-MAKE_ENV+=		MOTIFLIB='${MOTIFLIB}'
+MAKE_ENV+=		MOTIFLIB=${MOTIFLIB:Q}
 .endif
 
 .if !empty(SUBPACKAGE)
@@ -449,20 +449,20 @@ NO_CXX=			No
 .  elif ${HAS_CXX:L} != "reason"
 NO_CXX=			C++ is not supported on this system
 .  endif
-CONFIGURE_ENV+=		CXX='${CXX}'
-MAKE_ENV+=		CXX='${CXX}'
+CONFIGURE_ENV+=		CXX=${CXX:Q}
+MAKE_ENV+=		CXX=${CXX:Q}
 .endif
 
 MAKE_FILE?=		Makefile
 PORTHOME?=		/${PKGNAME}_writes_to_HOME
 
-MAKE_ENV+=		HOME='${PORTHOME}' PATH='${PORTPATH}' \
-			PREFIX='${PREFIX}' TRUEPREFIX='${PREFIX}' \
-			LOCALBASE='${LOCALBASE}' X11BASE='${X11BASE}' \
-			CC='${CC}' CFLAGS='${CFLAGS:C/ *$//}' \
-			LDFLAGS='${LDFLAGS}' ${DESTDIRNAME}= \
-			BINOWN='${BINOWN}' BINGRP='${BINGRP}' \
-			EXTRA_SYS_MK_INCLUDES="\"${PORTSDIR}/infrastructure/mk/mirports.bsd.mk\""
+MAKE_ENV+=		HOME=${PORTHOME:Q} PATH=${PORTPATH:Q} \
+			PREFIX=${PREFIX:Q} TRUEPREFIX=${PREFIX:Q} \
+			LOCALBASE=${LOCALBASE:Q} X11BASE=${X11BASE:Q} \
+			CC=${CC:Q} CFLAGS=${CFLAGS:C/ *$//:Q} \
+			LDFLAGS=${LDFLAGS:Q} ${DESTDIRNAME}= \
+			BINOWN=${BINOWN:Q} BINGRP=${BINGRP:Q} \
+			EXTRA_SYS_MK_INCLUDES=\"${PORTSDIR:Q}/infrastructure/mk/mirports.bsd.mk\"
 
 .if defined(LDADD) && !empty(LDADD)
 MAKE_ENV+=		LDADD=${LDADD:Q}
@@ -562,7 +562,7 @@ ${_PACKAGE_COOKIE}:
 .else
 ${_PACKAGE_COOKIE}: ${_PACKAGE_COOKIE_DEPS}
 .endif
-	@cd ${.CURDIR} && SUBPACKAGE='' FLAVOR='${FLAVOR}' PACKAGING='' exec ${MAKE} _package
+	@cd ${.CURDIR} && SUBPACKAGE= FLAVOR=${FLAVOR:Q} PACKAGING= exec ${MAKE} _package
 .if !defined(PACKAGE_NOINSTALL)
 	@${_MAKE_COOKIE} $@
 .endif
@@ -593,14 +593,14 @@ INSTALL_SCRIPT_DIR=	${INSTALL_PROGRAM_DIR}
 INSTALL_DATA_DIR=	${INSTALL} -d -o ${SHAREOWN} -g ${SHAREGRP} -m ${DIRMODE}
 INSTALL_MAN_DIR=	${INSTALL} -d -o ${MANOWN} -g ${MANGRP} -m ${DIRMODE}
 
-_INSTALL_MACROS=	BSD_INSTALL_PROGRAM="${INSTALL_PROGRAM}" \
-			BSD_INSTALL_SCRIPT="${INSTALL_SCRIPT}" \
-			BSD_INSTALL_DATA="${INSTALL_DATA}" \
-			BSD_INSTALL_MAN="${INSTALL_MAN}" \
-			BSD_INSTALL_PROGRAM_DIR="${INSTALL_PROGRAM_DIR}" \
-			BSD_INSTALL_SCRIPT_DIR="${INSTALL_SCRIPT_DIR}" \
-			BSD_INSTALL_DATA_DIR="${INSTALL_DATA_DIR}" \
-			BSD_INSTALL_MAN_DIR="${INSTALL_MAN_DIR}"
+_INSTALL_MACROS=	BSD_INSTALL_PROGRAM=${INSTALL_PROGRAM:Q} \
+			BSD_INSTALL_SCRIPT=${INSTALL_SCRIPT:Q} \
+			BSD_INSTALL_DATA=${INSTALL_DATA:Q} \
+			BSD_INSTALL_MAN=${INSTALL_MAN:Q} \
+			BSD_INSTALL_PROGRAM_DIR=${INSTALL_PROGRAM_DIR:Q} \
+			BSD_INSTALL_SCRIPT_DIR=${INSTALL_SCRIPT_DIR:Q} \
+			BSD_INSTALL_DATA_DIR=${INSTALL_DATA_DIR:Q} \
+			BSD_INSTALL_MAN_DIR=${INSTALL_MAN_DIR:Q}
 MAKE_ENV+=		${_INSTALL_MACROS}
 SCRIPTS_ENV+=		${_INSTALL_MACROS}
 
@@ -680,7 +680,7 @@ _PKG_PREREQ=		${WRKPKG}/PLIST${SUBPACKAGE} \
 # Note that if you override PKG_ARGS, you will not get correct dependencies;
 # you can add stuff to PKG_ARGS_ADD instead
 .if !defined(PKG_ARGS)
-PKG_ARGS=		-v -c '${WRKPKG}/COMMENT${SUBPACKAGE}' \
+PKG_ARGS=		-v -c ${WRKPKG:Q}/COMMENT${SUBPACKAGE:Q} \
 			-d ${WRKPKG}/DESCR${SUBPACKAGE}
 PKG_ARGS+=		-f ${WRKPKG}/PLIST${SUBPACKAGE} -p ${PREFIX}
 .  if exists(${PKGDIR}/INSTALL${SUBPACKAGE})
@@ -768,13 +768,13 @@ MASTER_SITES${_I}:=	${MASTER_SITES${_I}} ${MASTER_SITE_BACKUP}
 .    else
 MASTER_SITES${_I}:=	${MASTER_SITE_OVERRIDE} ${MASTER_SITES${_I}}
 .    endif
-_SITE_SELECTOR+=	*:${_I}) sites="${MASTER_SITES${_I}}";;
+_SITE_SELECTOR+=	*:${_I}) sites=${MASTER_SITES${_I}:Q};;
 .  else
 _SITE_SELECTOR+=	*:${_I}) echo >&2 \
 			    "Error: MASTER_SITES${_I} not defined";;
 .  endif
 .endfor
-_SITE_SELECTOR+=	*) sites="${MASTER_SITES}";; esac
+_SITE_SELECTOR+=	*) sites=${MASTER_SITES:Q};; esac
 
 
 # Code to handle ports distfiles on a CDROM.  The distfiles
@@ -814,11 +814,11 @@ _CVS_DISTF${_i:S/-//}:=	${_CVS_DISTF${_i:S/-//}}.mcz
 ERRORS+=		"neither CVS_DISTDATE${_i:S/-//} nor CVS_DISTTAGS${_i:S/-//} defined"
 .    endif
 _CVS_FETCH${_i:S/-//}=	${MKSH} ${PORTSDIR}/infrastructure/scripts/mkmcz \
-			    '${FULLDISTDIR}/${_CVS_DISTF${_i:S/-//}}' \
-			    '${CVS_DISTREPO${_i:S/-//}}' \
-			    '${CVS_DISTDATE${_i:S/-//}}' \
-			    '${CVS_DISTTAGS${_i:S/-//}}' \
-			    '${CVS_DISTMODS${_i:S/-//}}'
+			    ${FULLDISTDIR:Q}/${_CVS_DISTF${_i:S/-//}:Q} \
+			    ${CVS_DISTREPO${_i:S/-//}:Q} \
+			    ${CVS_DISTDATE${_i:S/-//}:Q} \
+			    ${CVS_DISTTAGS${_i:S/-//}:Q} \
+			    ${CVS_DISTMODS${_i:S/-//}:Q}
 .  endif
 .endfor
 
@@ -966,7 +966,7 @@ _CONFIGURE_SCRIPT=	./${CONFIGURE_SCRIPT}
 .  endif
 .endif
 
-CONFIGURE_ENV+=		PATH='${PORTPATH}'
+CONFIGURE_ENV+=		PATH=${PORTPATH:Q}
 
 .if ${NO_SHARED_LIBS:L} == "yes"
 CONFIGURE_SHARED?=	--disable-shared
@@ -975,14 +975,14 @@ CONFIGURE_SHARED?=	--enable-shared
 .endif
 
 # Passed to configure invocations, and user scripts
-SCRIPTS_ENV+=		CURDIR='${.CURDIR}' DISTDIR='${DISTDIR}' \
-			PATH='${PORTPATH}' WRKDIR='${WRKDIR}' \
-			WRKDIST='${WRKDIST}' WRKSRC='${WRKSRC}' \
-			WRKBUILD='${WRKBUILD}' PATCHDIR='${PATCHDIR}' \
-			SCRIPTDIR='${SCRIPTDIR}' FILESDIR='${FILESDIR}' \
-			PORTSDIR='${PORTSDIR}' DEPENDS="${DEPENDS}" \
-			PREFIX='${PREFIX}' LOCALBASE='${LOCALBASE}' \
-			X11BASE='${X11BASE}'
+SCRIPTS_ENV+=		CURDIR=${.CURDIR:Q} DISTDIR=${DISTDIR:Q} \
+			PATH=${PORTPATH:Q} WRKDIR=${WRKDIR:Q} \
+			WRKDIST=${WRKDIST:Q} WRKSRC=${WRKSRC:Q} \
+			WRKBUILD=${WRKBUILD:Q} PATCHDIR=${PATCHDIR:Q} \
+			SCRIPTDIR=${SCRIPTDIR:Q} FILESDIR=${FILESDIR:Q} \
+			PORTSDIR=${PORTSDIR:Q} DEPENDS=${DEPENDS:Q} \
+			PREFIX=${PREFIX:Q} LOCALBASE=${LOCALBASE:Q} \
+			X11BASE=${X11BASE:Q}
 
 .if defined(BATCH)
 SCRIPTS_ENV+=		BATCH=yes
@@ -1124,7 +1124,7 @@ _libresolve_fragment= \
 	case "$$d" in \
 	*/*)	shprefix="$${d%/*}/"; shdir="${LOCALBASE}/$${d%/*}"; \
 		d=$${d\#\#*/};; \
-	*)	shprefix=""; shdir="${LOCALBASE}/lib";; \
+	*)	shprefix=; shdir="${LOCALBASE}/lib";; \
 	esac; \
 	check=$$(eval $$listlibs | perl \
 	    ${PORTSDIR}/infrastructure/scripts/resolve-lib ${_resolve_lib_args} $$d) \
@@ -1177,26 +1177,26 @@ ${PKG_DBDIR}/${FULLPKGNAME${_i}}/+CONTENTS: ${PKG_DBDIR}/${FULLPKGNAME}/+CONTENT
 .endif
 
 MODSIMPLE_configure= \
-	cd ${WRKCONF} && ${_SYSTRACE_CMD} ${SETENV} REALOS='${OStype}' \
-	    CC="${CC}" ac_cv_path_CC="${CC}" CFLAGS="${CFLAGS:C/ *$//}" \
-	    CXX="${CXX}" ac_cv_path_CXX="${CXX}" LDFLAGS="${LDFLAGS}" \
-	    CXXFLAGS="${CXXFLAGS:C/ *$//}" CPPFLAGS="${CPPFLAGS:C/ *$//}" \
+	cd ${WRKCONF} && ${_SYSTRACE_CMD} ${SETENV} REALOS=${OStype:Q} \
+	    CC=${CC:Q} ac_cv_path_CC=${CC:Q} CFLAGS=${CFLAGS:C/ *$//:Q} \
+	    CXX=${CXX:Q} ac_cv_path_CXX=${CXX:Q} LDFLAGS=${LDFLAGS:Q} \
+	    CXXFLAGS=${CXXFLAGS:C/ *$//:Q} CPPFLAGS=${CPPFLAGS:C/ *$//:Q} \
 	    INSTALL="/usr/bin/install -c -o ${BINOWN} -g ${BINGRP}" \
 	    ac_given_INSTALL="/usr/bin/install -c -o ${BINOWN} -g ${BINGRP}" \
-	    INSTALL_PROGRAM="${INSTALL_PROGRAM}" YACC="${YACC}" \
-	    INSTALL_MAN="${INSTALL_MAN}" INSTALL_DATA="${INSTALL_DATA}" \
-	    INSTALL_SCRIPT="${INSTALL_SCRIPT}" LD="${LD}" GCC_NO_WERROR=1 \
+	    INSTALL_PROGRAM=${INSTALL_PROGRAM:Q} YACC=${YACC:Q} \
+	    INSTALL_MAN=${INSTALL_MAN:Q} INSTALL_DATA=${INSTALL_DATA:Q} \
+	    INSTALL_SCRIPT=${INSTALL_SCRIPT:Q} LD=${LD:Q} GCC_NO_WERROR=1 \
 	    ${CONFIGURE_ENV} ${SH} ${_CONFIGURE_SCRIPT} ${CONFIGURE_ARGS}
 
-_FAKE_SETUP=		TRUEPREFIX='${PREFIX}' PREFIX='${WRKINST}${PREFIX}' \
-			${DESTDIRNAME}='${WRKINST}'
+_FAKE_SETUP=		TRUEPREFIX=${PREFIX:Q} PREFIX=${WRKINST:Q}${PREFIX:Q} \
+			${DESTDIRNAME}=${WRKINST:Q}
 
 VMEM_WARNING?=		No
 _CLEANDEPENDS?=		Yes
 
 _tmpvars:=
 .  for _v in ${SUBST_VARS}
-_tmpvars+=		${_v}='${${_v}}'
+_tmpvars+=		${_v}=${${_v}:Q}
 .  endfor
 
 # mirroring utilities
@@ -1264,8 +1264,8 @@ ${_PACKAGE_COOKIE}:
 .else
 ${_PACKAGE_COOKIE}: ${_PACKAGE_COOKIE_DEPS}
 .endif
-	@cd ${.CURDIR} && SUBPACKAGE='' FLAVOR='${FLAVOR}' \
-	    PACKAGING='' exec ${MAKE} _package
+	@cd ${.CURDIR} && SUBPACKAGE= FLAVOR=${FLAVOR:Q} \
+	    PACKAGING= exec ${MAKE} _package
 .if !defined(PACKAGE_NOINSTALL)
 	@${_MAKE_COOKIE} $@
 .endif
@@ -1277,8 +1277,8 @@ ${_PACKAGE_COOKIE${_s}}:
 .  else
 ${_PACKAGE_COOKIE${_s}}: ${_PACKAGE_COOKIE_DEPS}
 .  endif
-	@cd ${.CURDIR} && SUBPACKAGE='${_s}' FLAVOR='${FLAVOR}' \
-	    PACKAGING='${_s}' exec ${MAKE} _package
+	@cd ${.CURDIR} && SUBPACKAGE=${_s:Q} FLAVOR=${FLAVOR:Q} \
+	    PACKAGING=${_s:Q} exec ${MAKE} _package
 .endfor
 
 .PRECIOUS: ${_PACKAGE_COOKIES} ${_INSTALL_COOKIE}
@@ -1367,7 +1367,7 @@ ${WRKPKG}/DESCR${SUBPACKAGE}: ${DESCR}
 ${WRKPKG}/mtree.spec: ${MTREE_FILE}
 	@${_SED_SUBST} ${MTREE_FILE} >$@.tmp
 	@(print '/@@local/d\ni\n'; IFS=/; s=; \
-	 for pc in $$(print '${LOCALBASE}'); do \
+	 for pc in $$(print ${LOCALBASE:Q}); do \
 		s="$$s    "; print "$$s$$pc"; \
 	 done; print '.\nwq') | ed -s $@.tmp
 	@mv -f $@.tmp $@
@@ -1441,7 +1441,7 @@ depends: lib-depends build-depends run-depends regress-depends
 
 _print-packagename:
 .if ${_FULL_PACKAGE_NAME:L} == "yes"
-	@echo '${PKGPATH}/${FULLPKGNAME${SUBPACKAGE}}'
+	@echo ${PKGPATH:Q}/${FULLPKGNAME${SUBPACKAGE}:Q}
 .else
 	@echo ${FULLPKGNAME${SUBPACKAGE}}
 .endif
@@ -1452,7 +1452,7 @@ _print-packagename:
 ${WRKDIR}/.${_DEP}${_i:C,[|:./<=>*],-,g}: ${_WRKDIR_COOKIE}
 	@unset PACKAGING DEPENDS_TARGET FLAVOR SUBPACKAGE \
 	    _MASTER WRKDIR|| true; \
-	echo '${_i}'|{ \
+	echo ${_i:Q}|{ \
 		IFS=:; read dep pkg dir target; \
 		${_flavour_fragment}; defaulted=false; \
 		case "X$$target" in X) target=${DEPENDS_TARGET};; esac; \
@@ -1566,7 +1566,7 @@ fetch checksum extract patch configure all build install regress \
 lib-depends-check: ${_LIBLIST} ${_BUILDLIBLIST}
 	@${_depfile_fragment}; \
 	LIB_DEPENDS="$$(${MAKE} _recurse-lib-depends-check)" \
-	PKG_DBDIR='${PKG_DBDIR}' perl ${_CHECK_LIBS_SCRIPT} \
+	PKG_DBDIR=${PKG_DBDIR:Q} perl ${_CHECK_LIBS_SCRIPT} \
 	    ${_LIBLIST} ${_BUILDLIBLIST}
 
 manpages-check: ${_FAKE_COOKIE}
@@ -1612,7 +1612,7 @@ checksum: fetch
 	if [ ! -f $$checksum_file ]; then \
 		${ECHO_MSG} ">> No checksum file."; \
 	else \
-		cd ${DISTDIR}; OK=true; list=''; \
+		cd ${DISTDIR}; OK=true; list=; \
 		for file in ${_CKSUMFILES}; do \
 			match=; \
 			for cipher in ${_CIPHERS}; do \
@@ -1809,7 +1809,7 @@ ${_DISTPATCH_COOKIE}: ${_EXTRACT_COOKIE}
 	@${ECHO_MSG} "===>  Applying distribution patches for ${FULLPKGNAME}${_MASTER}"
 	@cd ${FULLDISTDIR}; \
 	  for patchfile in ${_PATCHFILES}; do \
-	  	case "${PATCH_DEBUG:L}" in \
+	  	case ${PATCH_DEBUG:L:Q} in \
 		no)	;; \
 		*)	${ECHO_MSG} "===>   Applying distribution patch $$patchfile" ;; \
 		esac; \
@@ -1851,7 +1851,7 @@ ${_PATCH_COOKIE}: ${_EXTRACT_COOKIE}
 				;; \
 			*) \
 			    if [ -e $$i ]; then \
-					case "${PATCH_DEBUG:L}" in \
+					case ${PATCH_DEBUG:L:Q} in \
 					no)	;; \
 					*)	${ECHO_MSG} "===>   Applying ${OPSYS} patch $$i" ;; \
 					esac; \
@@ -1914,7 +1914,7 @@ ${_CONFIGURE_COOKIE}: ${_PATCH_COOKIE}
 	chmod ${BINMODE} ${WRKDIR}/bin/cc ${WRKDIR}/bin/uname
 .  if ${MACHINE} != "i386"
 	ln -sf ${WRKSRC}/RULES/i386-openbsd-cc.rul \
-	    "${WRKSRC}/RULES/${MACHINE}-openbsd-cc.rul"
+	    ${WRKSRC:Q}/RULES/${MACHINE:Q}-openbsd-cc.rul
 .  endif
 .endif
 .if target(do-configure)
@@ -2062,12 +2062,12 @@ install-binpkg:
 		echo "Package ${FULLPKGNAME${SUBPACKAGE}} is already installed"; \
 	else \
 		${SUDO} ${SETENV} PKG_PATH=${PKGREPOSITORY}:${PKG_PATH} \
-		    PKG_TMPDIR=${PKG_TMPDIR} PATH="${PKG_CMDDIR}:$$PATH" \
+		    PKG_TMPDIR=${PKG_TMPDIR} PATH=${PKG_CMDDIR:Q}:$$PATH \
 		    ${PKG_CMD_ADD} ${PKGFILE${SUBPACKAGE}}; \
 	fi
 .  else
 	@${SUDO} ${SETENV} PKG_PATH=${PKGREPOSITORY}:${PKG_PATH} \
-	    PKG_TMPDIR=${PKG_TMPDIR} PATH="${PKG_CMDDIR}:$$PATH" \
+	    PKG_TMPDIR=${PKG_TMPDIR} PATH=${PKG_CMDDIR:Q}:$$PATH \
 	    ${PKG_CMD_ADD} ${PKGFILE${SUBPACKAGE}}
 .  endif
 .endif
@@ -2097,7 +2097,7 @@ _package: ${_PKG_PREREQ}
 	case "$${duplicates}" in "");; \
 	*)	echo "\n*** WARNING *** Duplicates in PLIST:\n$$duplicates\n";; \
 	esac
-	@cd ${.CURDIR} && if ${SUDO} ${SETENV} PATH="${PKG_CMDDIR}:$$PATH" \
+	@cd ${.CURDIR} && if ${SUDO} ${SETENV} PATH=${PKG_CMDDIR:Q}:$$PATH \
 	    ${PKG_CMD_CREATE} ${PKG_ARGS} ${PKGFILE${SUBPACKAGE}}; then \
 		mode=$$(id -u):$$(id -g); \
 		${SUDO} ${CHOWN} $${mode} ${PKGFILE${SUBPACKAGE}}; \
@@ -2240,11 +2240,11 @@ clean:
 .  if ${_clean:L:Minstall}
 .    if ${_clean:L:Msub}
 .      for _s in ${MULTI_PACKAGES}
-	-${SUDO} ${SETENV} PATH="${PKG_CMDDIR}:$$PATH" \
+	-${SUDO} ${SETENV} PATH=${PKG_CMDDIR:Q}:$$PATH \
 	    ${PKG_CMD_DELETE} ${FULLPKGNAME${_s}}
 .      endfor
 .    else
-	-${SUDO} ${SETENV} PATH="${PKG_CMDDIR}:$$PATH" \
+	-${SUDO} ${SETENV} PATH=${PKG_CMDDIR:Q}:$$PATH \
 	    ${PKG_CMD_DELETE} ${FULLPKGNAME${SUBPACKAGE}}
 .    endif
 .  endif
@@ -2252,7 +2252,7 @@ clean:
 	rm -f ${_PACKAGE_COOKIES}
 .    if defined(MULTI_PACKAGES)
 .      for _s in ${MULTI_PACKAGES}
-	@cd ${.CURDIR} && SUBPACKAGE='${_s}' exec ${MAKE} _delete-package-links
+	@cd ${.CURDIR} && SUBPACKAGE=${_s:Q} exec ${MAKE} _delete-package-links
 .      endfor
 .    endif
 .  elif ${_clean:L:Mpackage}
@@ -2280,21 +2280,21 @@ clean:
 .if ${FAKE:L} == "yes"
 plist update-plist: fake
 	@mkdir -p ${PKGDIR}
-	@DESTDIR=${WRKINST} PREFIX=${WRKINST}${PREFIX} LDCONFIG="${LDCONFIG}" \
+	@DESTDIR=${WRKINST} PREFIX=${WRKINST}${PREFIX} LDCONFIG=${LDCONFIG:Q} \
 	LOCALBASE=${PREFIX} \
 	MTREE_FILE=${WRKPKG}/mtree.spec \
 	INSTALL_PRE_COOKIE=${_INSTALL_PRE_COOKIE} \
 	PKGREPOSITORY=${PKGREPOSITORY} \
 	PLIST=${PLIST} \
 	PFRAG=${PKGDIR}/PFRAG \
-	FLAVORS='${FLAVORS}' MULTI_PACKAGES='${MULTI_PACKAGES}' \
-	OKAY_FILES='${_FAKE_COOKIE} ${_INSTALL_PRE_COOKIE}' \
+	FLAVORS=${FLAVORS:Q} MULTI_PACKAGES=${MULTI_PACKAGES:Q} \
+	OKAY_FILES=${_FAKE_COOKIE:Q}\ ${_INSTALL_PRE_COOKIE:Q} \
 	perl ${PORTSDIR}/infrastructure/scripts/make-plist ${PKGDIR} ${_tmpvars}
 .endif
 
 update-patches:
 	@toedit=$$(WRKDIST=${WRKDIST} PATCHDIR=${PATCHDIR} \
-	    PATCH_LIST='${PATCH_LIST}' DIFF_ARGS='${DIFF_ARGS}' \
+	    PATCH_LIST=${PATCH_LIST:Q} DIFF_ARGS=${DIFF_ARGS:Q} \
 	    DISTORIG=${DISTORIG} PATCHORIG=${PATCHORIG} ${_GDIFFLAG} \
 	    ${SHELL} ${PORTSDIR}/infrastructure/scripts/update-patches); \
 	case $$toedit in "");; \
@@ -2382,7 +2382,7 @@ _fetch-onefile:
 # distribution-name|port-path|installation-prefix|comment|homepage| \
 #  description-file|maintainer|categories|lib-deps|build-deps|run-deps| \
 #  fos-os|for-arch|package-cdrom|package-ftp|distfiles-cdrom|distfiles-ftp
-_EXTRA_DESCRIBE=""
+_EXTRA_DESCRIBE=
 .if defined(BROKEN)
 _EXTRA_DESCRIBE+=	"(broken)"
 .endif
@@ -2415,12 +2415,12 @@ _EXTRA_DESCRIBE=
 .endif
 describe:
 .if defined(MULTI_PACKAGES) && !defined(PACKAGING)
-	@cd ${.CURDIR} && SUBPACKAGE='${SUBPACKAGE}' FLAVOR='${FLAVOR}' \
-	    PACKAGING='${SUBPACKAGE}' exec ${MAKE} describe
+	@cd ${.CURDIR} && SUBPACKAGE=${SUBPACKAGE:Q} FLAVOR=${FLAVOR:Q} \
+	    PACKAGING=${SUBPACKAGE:Q} exec ${MAKE} describe
 .  if empty(SUBPACKAGE)
 .    for _sub in ${MULTI_PACKAGES}
-	@cd ${.CURDIR} && SUBPACKAGE='${_sub}' FLAVOR='${FLAVOR}' \
-	    PACKAGING='${_sub}' exec ${MAKE} describe
+	@cd ${.CURDIR} && SUBPACKAGE=${_sub:Q} FLAVOR=${FLAVOR:Q} \
+	    PACKAGING=${_sub:Q} exec ${MAKE} describe
 .    endfor
 .  endif
 .else
@@ -2480,12 +2480,12 @@ describe:
 
 readmes:
 .if defined(MULTI_PACKAGES) && !defined(PACKAGING)
-	@cd ${.CURDIR} && SUBPACKAGE='${SUBPACKAGE}' FLAVOR='${FLAVOR}' \
-	    PACKAGING='${SUBPACKAGE}' exec ${MAKE} readmes
+	@cd ${.CURDIR} && SUBPACKAGE=${SUBPACKAGE:Q} FLAVOR=${FLAVOR:Q} \
+	    PACKAGING=${SUBPACKAGE:Q} exec ${MAKE} readmes
 .  if empty(SUBPACKAGE)
 .    for _sub in ${MULTI_PACKAGES}
-	@cd ${.CURDIR} && SUBPACKAGE='${_sub}' FLAVOR='${FLAVOR}' \
-	    PACKAGING='${_sub}' exec ${MAKE} readmes
+	@cd ${.CURDIR} && SUBPACKAGE=${_sub:Q} FLAVOR=${FLAVOR:Q} \
+	    PACKAGING=${_sub:Q} exec ${MAKE} readmes
 .    endfor
 .  endif
 .else
@@ -2624,9 +2624,9 @@ ${_i:L}-depends-list:
 	@unset FLAVOR SUBPACKAGE || true; \
 	: $${_INITIAL_ECHO:='echo -n "This port requires \""'}; \
 	: $${_ECHO='echo -n'}; \
-	: $${_FINAL_ECHO:='echo "\" for ${_i:L}."'}; space=''; \
+	: $${_FINAL_ECHO:='echo "\" for ${_i:L}."'}; space=; \
 	eval $${_INITIAL_ECHO}; \
-	for spec in $$(echo '${_${_i}_DEP2}' \
+	for spec in $$(echo ${_${_i}_DEP2:Q} \
 		| tr '\040' '\012' | sort -u); do \
 		$${_ECHO} "$$space$${spec}"; \
 		space=' '; \
@@ -2640,7 +2640,7 @@ ${_i:L}-depends-list:
 _recurse-lib-depends-check:
 .for _i in  ${LIB_DEPENDS}
 	@unset FLAVOR SUBPACKAGE  || true; \
-	echo '${_i}' | { \
+	echo ${_i:Q} | { \
 		IFS=:; read dep pkg dir target; \
 		IFS=,; for j in $$dep; do echo $$j; done; \
 		if ! fgrep -q "|$$dir|" $${_DEPENDS_FILE}; then \
@@ -2652,7 +2652,7 @@ _recurse-lib-depends-check:
 .endfor
 .for _i in  ${RUN_DEPENDS}
 	@unset FLAVOR SUBPACKAGE  || true; \
-	echo '${_i}' | { \
+	echo ${_i:Q} | { \
 		IFS=:; read dep pkg dir target; \
 		if ! fgrep -q "|$$dir|" $${_DEPENDS_FILE}; then \
 			echo "|$$dir|" >>$${_DEPENDS_FILE}; \
@@ -2667,7 +2667,7 @@ _recurse-lib-depends-check:
 _recurse-solve-package-depends:
 .for _i in ${RUN_DEPENDS}
 	@unset FLAVOR SUBPACKAGE || true; \
-	echo '${_i}' |{ \
+	echo ${_i:Q} |{ \
 		IFS=:; read dep pkg dir target; \
 		if [[ -n $$dir ]]; then \
 			${_flavour_fragment}; \
@@ -2692,10 +2692,10 @@ _recurse-solve-package-depends:
 .if ${NO_SHARED_LIBS:L} != "yes"
 .  for _i in ${LIB_DEPENDS}
 	@unset FLAVOR SUBPACKAGE || true; \
-	echo '${_i}'|{ \
+	echo ${_i:Q}|{ \
 		IFS=:; read dep pkg dir target; \
 		${_flavour_fragment}; \
-		libspecs='';comma=''; \
+		libspecs=;comma=; \
 		default=$$(eval $$toset ${MAKE} _print-packagename); \
 		case "X$$pkg" in \
 		X)	pkg=$$(echo $$default | sed -e 's,-[0-9].*,-*,');; \
@@ -2718,7 +2718,7 @@ _recurse-solve-package-depends:
 		if [[ -n $$newdep ]]; then \
 			eval $$toset ${MAKE} \
 			    ${PKGREPOSITORY}/$$default${PKG_SUFX}; \
-			listlibs='${SETENV} PATH="${PKG_CMDDIR}:$$PATH" \
+			listlibs='${SETENV} PATH=${PKG_CMDDIR:Q}:$$PATH \
 			    ${PKG_CMD_INFO} -L \
 			    ${PKGREPOSITORY}/$$default${PKG_SUFX} \
 			    | grep $$shdir | sed -e "s,^$$shdir/,,"'; \
@@ -2776,7 +2776,7 @@ run-dir-depends:
 	@${_depfile_fragment}; \
 	if ! fgrep -q "|${FULLPKGPATH}|" $${_DEPENDS_FILE}; then \
 		echo "|${FULLPKGPATH}|" >>$${_DEPENDS_FILE}; \
-		self=${FULLPKGPATH} PACKAGING='${SUBPACKAGE}' \
+		self=${FULLPKGPATH} PACKAGING=${SUBPACKAGE:Q} \
 		${MAKE} _recurse-run-dir-depends; \
 	fi
 .else
@@ -2906,7 +2906,7 @@ rebuild:
 
 uninstall deinstall:
 	@${ECHO_MSG} "===> Deinstalling for ${FULLPKGNAME${SUBPACKAGE}}"
-	@${SUDO} ${SETENV} PATH="${PKG_CMDDIR}:$$PATH" \
+	@${SUDO} ${SETENV} PATH=${PKG_CMDDIR:Q}:$$PATH \
 	    ${PKG_CMD_DELETE} ${FULLPKGNAME${SUBPACKAGE}}
 
 .if defined(ERRORS)

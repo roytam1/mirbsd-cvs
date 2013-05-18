@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/old-install.mk,v 1.3 2005/07/06 18:34:55 bsiegert Exp $
+# $MirOS: ports/infrastructure/mk/old-install.mk,v 1.4 2005/08/20 12:33:54 tg Exp $
 # $OpenBSD: old-install.mk,v 1.10 2002/06/27 12:47:23 mpech Exp $
 # Stuff that is needed for old, pre-fake, port installations.
 
@@ -95,7 +95,7 @@ ${_INSTALL_COOKIE}: ${_BUILD_COOKIE}
 MTREE_FILE?=	${PORTSDIR}/infrastructure/db/fake.mtree
 
 plist: install
-	@DESTDIR=${PREFIX} PREFIX=${PREFIX} LDCONFIG="${LDCONFIG}" MTREE_FILE=${MTREE_FILE} \
+	@DESTDIR=${PREFIX} PREFIX=${PREFIX} LDCONFIG=${LDCONFIG:Q} MTREE_FILE=${MTREE_FILE} \
 	INSTALL_PRE_COOKIE=${_INSTALL_PRE_COOKIE} \
 	perl ${PORTSDIR}/infrastructure/scripts/make-plist ${PLIST}
 

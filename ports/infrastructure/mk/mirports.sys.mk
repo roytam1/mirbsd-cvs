@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/mirports.sys.mk,v 1.23 2005/11/11 00:02:13 tg Exp $
+# $MirOS: ports/infrastructure/mk/mirports.sys.mk,v 1.24 2005/11/19 12:54:26 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -188,7 +188,7 @@ HTMLIFY=		sed -e 's/&/\&amp;/g' -e 's/>/\&gt;/g' -e 's/</\&lt;/g'
 # Code to invoke to split dir,-multi,flavour
 
 _flavour_fragment= \
-	multi=''; flavour=''; space=''; sawflavour=false; \
+	multi=; flavour=; space=; sawflavour=false; \
 	case "$$dir" in \
 	*,*) \
 		IFS=,; first=true; for i in $$dir; do \

@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/sys.mk,v 1.39 2005/11/19 12:34:57 tg Exp $
+# $MirOS: src/share/mk/sys.mk,v 1.40 2005/12/04 13:22:55 tg Exp $
 # $OpenBSD: sys.mk,v 1.45 2005/03/07 00:06:00 deraadt Exp $
 # $NetBSD: sys.mk,v 1.27 1996/04/10 05:47:19 mycroft Exp $
 # @(#)sys.mk	5.11 (Berkeley) 3/13/91
@@ -200,7 +200,7 @@ CTAGS?=		/usr/bin/ctags
 .endif
 ___display_makevars: .PHONY .NOTMAIN
 .for _i in ${___DISPLAY_MAKEVARS}
-	@print -r -- '${${_i}}'
+	@print -r -- ${${_i}:Q}
 .endfor
 
 .endif

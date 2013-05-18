@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.subdir.mk,v 1.2 2005/07/05 18:50:21 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.subdir.mk,v 1.3 2005/11/15 19:33:56 tg Exp $
 # $OpenBSD: bsd.port.subdir.mk,v 1.64 2004/04/07 13:06:33 espie Exp $
 # $FreeBSD: bsd.port.subdir.mk,v 1.20 1997/08/22 11:16:15 asami Exp $
 #
@@ -151,7 +151,7 @@ README.html:
 	@dir=$d; ${_flavour_fragment}; \
 	name=$$(eval $$toset ${MAKE} _print-packagename); \
 	case $$name in \
-		README) comment='';; \
+		README) comment=;; \
 		*) comment=$$(eval $$toset ${MAKE} show=_COMMENT \
 		    | sed -e 's,^",,' -e 's,"$$,,' | ${HTMLIFY});; \
 	esac; \

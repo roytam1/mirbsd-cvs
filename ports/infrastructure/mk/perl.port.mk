@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/perl.port.mk,v 1.1.7.1 2005/03/18 15:47:19 tg Exp $
+# $MirOS: ports/infrastructure/mk/perl.port.mk,v 1.2 2005/06/24 17:37:13 tg Exp $
 # $OpenBSD: perl.port.mk,v 1.9 2004/06/08 20:28:19 sturm Exp $
 # Based on bsd.port.mk, originally by Jordan K. Hubbard.
 
@@ -16,28 +16,28 @@ MODPERL_SRC?=	${WRKSRC}
 BUILD_DEPENDS+=	::devel/p5-Module-Build
 .  endif
 MODPERL_configure= cd ${MODPERL_SRC}; ${_SYSTRACE_CMD} ${SETENV} ${CONFIGURE_ENV} \
-	/usr/bin/perl Build.PL install_path=lib="${MODPERL_SITEPRE}" \
-	install_path=arch="${MODPERL_SITEPRE}/${MODPERL_ARCH}" \
-	install_path=libdoc="${MODPERL_MANPRE}3" \
-	install_path=bindoc="${MODPERL_MANPRE}1" \
-	install_path=bin="${MODPERL_PRE}/bin" \
-	install_path=script="${MODPERL_PRE}/bin" ${CONFIGURE_ARGS} 
+	/usr/bin/perl Build.PL install_path=lib=${MODPERL_SITEPRE:Q} \
+	install_path=arch=${MODPERL_SITEPRE:Q}/${MODPERL_ARCH:Q} \
+	install_path=libdoc=${MODPERL_MANPRE:Q}3 \
+	install_path=bindoc=${MODPERL_MANPRE:Q}1 \
+	install_path=bin=${MODPERL_PRE:Q}/bin \
+	install_path=script=${MODPERL_PRE:Q}/bin ${CONFIGURE_ARGS} 
 .else
 MODPERL_configure= cd ${MODPERL_SRC}; ${_SYSTRACE_CMD} ${SETENV} ${CONFIGURE_ENV} \
-	CC="${CC}" CFLAGS="${CFLAGS:C/ *$//}" CXX="${CXX}" \
-	CXXFLAGS="${CXXFLAGS:C/ *$//}" YACC="${YACC}" LD="${LD}" \
-	LDFLAGS="${LDFLAGS}" /usr/bin/perl Makefile.PL \
-     	PREFIX='${PREFIX}' INSTALLSITELIB='${MODPERL_SITEPRE}' \
+	CC=${CC:Q} CFLAGS=${CFLAGS:C/ *$//:Q} CXX=${CXX:Q} \
+	CXXFLAGS=${CXXFLAGS:C/ *$//:Q} YACC=${YACC:Q} LD=${LD:Q} \
+	LDFLAGS=${LDFLAGS:Q} /usr/bin/perl Makefile.PL \
+     	PREFIX=${PREFIX:Q} INSTALLSITELIB=${MODPERL_SITEPRE:Q} \
 	INSTALLSITEARCH="\$${INSTALLSITELIB}/${MODPERL_ARCH}" \
-	INSTALLPRIVLIB='${MODPERL_DESTDIR}/usr/libdata/perl5' \
+	INSTALLPRIVLIB=${MODPERL_DESTDIR:Q}/usr/libdata/perl5 \
 	INSTALLARCHLIB="\$${INSTALLPRIVLIB}/${MODPERL_ARCH}" \
-	INSTALLBIN='${MODPERL_PRE}/bin' INSTALLSCRIPT='$${INSTALLBIN}' \
-	INSTALLMAN1DIR='${MODPERL_MANPRE}1' \
-	INSTALLSITEMAN1DIR='${MODPERL_MANPRE}1' \
-	INSTALLVENDORMAN1DIR='${MODPERL_MANPRE}1' \
-	INSTALLMAN3DIR='${MODPERL_MANPRE}3' \
-	INSTALLSITEMAN3DIR='${MODPERL_MANPRE}3' \
-	INSTALLVENDORMAN3DIR='${MODPERL_MANPRE}3' ${CONFIGURE_ARGS}
+	INSTALLBIN=${MODPERL_PRE:Q}/bin INSTALLSCRIPT='$${INSTALLBIN}' \
+	INSTALLMAN1DIR=${MODPERL_MANPRE:Q}1 \
+	INSTALLSITEMAN1DIR=${MODPERL_MANPRE:Q}1 \
+	INSTALLVENDORMAN1DIR=${MODPERL_MANPRE:Q}1 \
+	INSTALLMAN3DIR=${MODPERL_MANPRE:Q}3 \
+	INSTALLSITEMAN3DIR=${MODPERL_MANPRE:Q}3 \
+	INSTALLVENDORMAN3DIR=${MODPERL_MANPRE:Q}3 ${CONFIGURE_ARGS}
 .endif
 
 MODPERL_pre_fake= \

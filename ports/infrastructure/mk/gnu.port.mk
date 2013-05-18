@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/gnu.port.mk,v 1.7 2005/09/23 11:12:26 tg Exp $
+# $MirOS: ports/infrastructure/mk/gnu.port.mk,v 1.8 2005/11/10 23:45:07 tg Exp $
 # $OpenBSD: gnu.port.mk,v 1.19 2004/06/06 11:49:08 espie Exp $
 
 AUTOCONF_NEW?=		No
@@ -25,7 +25,7 @@ AUTOUPDATE?=		autoupdate
 AUTOHEADER?=		autoheader
 # missing ?= not an oversight
 AUTOCONF_ENV=		PATH=${PORTPATH} PORTSDIR=${PORTSDIR} \
-			M4='${M4}' \
+			M4=${M4:Q} \
 			AUTOCONF_VERSION=${AUTOCONF_VERSION} \
 			AUTOMAKE_VERSION=${AUTOMAKE_VERSION}
 
@@ -69,13 +69,13 @@ MODGNU_MIRLIBTOOL?=	No
 .  if ${CONFIGURE_STYLE:L:Mdest}
 CONFIGURE_ARGS+=	--prefix='$${${DESTDIRNAME}}${PREFIX}'
 .  else
-CONFIGURE_ARGS+=	--prefix='${PREFIX}'
+CONFIGURE_ARGS+=	--prefix=${PREFIX:Q}
 .  endif
 .  if empty(CONFIGURE_STYLE:L:Mold)
 .    if ${CONFIGURE_STYLE:L:Mdest}
 CONFIGURE_ARGS+=	--sysconfdir='$${${DESTDIRNAME}}${SYSCONFDIR}'
 .    else
-CONFIGURE_ARGS+=	--sysconfdir='${SYSCONFDIR}'
+CONFIGURE_ARGS+=	--sysconfdir=${SYSCONFDIR:Q}
 .    endif
 .  endif
 .endif
@@ -155,5 +155,5 @@ CONFIGURE_ENV+=		ac_cv_func_truncate=yes
 .endif
 
 .if defined(LDADD) && !empty(LDADD)
-CONFIGURE_ENV+=		LIBS="${LDADD}"
+CONFIGURE_ENV+=		LIBS=${LDADD:Q}
 .endif
