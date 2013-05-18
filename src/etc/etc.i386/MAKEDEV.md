@@ -24,7 +24,8 @@ dnl #notyet#__devitem(acpi, acpi, Advanced Configuration and Power Interface)dnl
 dnl #notyet#__devitem(nvram, nvram, NVRAM access)dnl
 _mkdev(nvram, nvram, {-M nvram c major_nvram_c 0 440 kmem-})dnl
 __devitem(cry, crypto, Hardware crypto access driver,crypto)dnl
-_mkdev(cry, crypto, {-M crypto c major_cry_c 0-})dnl
+_mkdev(cry, crypto, {-M crypto c major_cry_c 0
+	M tpm c major_cry_c 1 660 operator-})dnl
 _TITLE(make)
 _DEV(all)
 _DEV(ramdisk)
