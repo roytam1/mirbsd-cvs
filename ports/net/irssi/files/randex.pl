@@ -21,7 +21,7 @@
 
 use vars qw($VERSION %IRSSI);
 $VERSION = sprintf "%d.%02d",
-    q$MirOS: ports/net/irssi/files/randex.pl,v 1.11 2009/01/08 19:48:58 tg Exp $
+    q$MirOS: ports/net/irssi/files/randex.pl,v 1.12 2009/01/13 21:39:58 tg Exp $
     =~ m/,v (\d+)\.(\d+) /;
 # do not send mail to junk@mirbsd.org
 %IRSSI = (
@@ -121,6 +121,17 @@ process_entropy_request
 	Irssi::print("${nick} initiated the RANDEX protocol with ${target}")
 	    unless Irssi::settings_get_bool("rand_quiet");
 	$server->ctcp_send_reply("NOTICE ${nick} :\caRANDOM ${evalue}\ca");
+}
+
+sub
+process_random_request
+{
+	my ($server, $args, $nick, $address, $target) = @_;
+	my $papi = (BSD::arc4random::have_kintf() ? "Perl" : "none");
+	arc4random_pushb("from $nick $args $address $target");
+	Irssi::print("${nick} queried RANDEX protocol information from ${target}")
+	    unless Irssi::settings_get_bool("rand_quiet");
+	$server->ctcp_send_reply("PRIVMSG ${nick} :\caACTION uses the RANDEX plugin v${VERSION} for irssi, push API: ${papi}\ca");
 }
 
 sub
@@ -329,8 +340,10 @@ Irssi::signal_add('gui exit', \&sig_quitting);
 Irssi::command_bind('randex', 'cmd_randex');
 Irssi::command_bind('randstir', 'cmd_randstir');
 Irssi::signal_add('ctcp msg entropy', \&process_entropy_request);
+Irssi::signal_add('ctcp msg random', \&process_random_request);
 Irssi::signal_add('ctcp reply random', \&process_random_response);
 Irssi::ctcp_register("ENTROPY");
+Irssi::ctcp_register("RANDOM");
 Irssi::signal_add_first('ctcp msg version', \&process_ctcp_before);
 Irssi::signal_add_last('ctcp msg version', \&process_ctcp_after);
 Irssi::print("randex.pl ${VERSION} loaded, entropy is " .

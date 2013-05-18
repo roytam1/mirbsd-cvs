@@ -1,5 +1,5 @@
 #!/usr/bin/env perl
-# $MirOS: ports/net/sirc/dist/dsircp,v 1.23 2009/01/08 19:53:37 tg Exp $
+# $MirOS: ports/net/sirc/dist/dsircp,v 1.24 2009/01/08 20:23:30 tg Exp $
 #-
 # dsircp: dumb-mode small irc client in perl
 # by orabidoo <roger.espel.llima@pobox.com>
@@ -49,7 +49,7 @@
 # (unified diffs appreciated) and they might make it to the next release.
 #
 # For bug reports, comments, questions, email roger.espel.llima@pobox.com
-# and miros-discuss@mirbsd.de
+# and miros-discuss@mirbsd.org but not junk@mirbsd.org ;)
 #
 # You can always find the latest version of sirc at the following URL:
 # http://www.eleves.ens.fr:8080/home/espel/sirc/sirc.html
@@ -760,7 +760,7 @@ sub ctcp {
   $a && ($a=' '.$a);
   $to = (&eq($towho, $nick) ? "you" : $towho);
   &tell("*** $who$puh1 did a CTCP $what$a to $to")
-    unless $what =~ /^(ACTION|ENTROPY|PING)$/;
+    unless $what =~ /^(ACTION|ENTROPY|PING|RANDOM)$/;
   if ($what eq 'ACTION') {
     &dohooks("action", $towho, $args);
     if (&eq($towho, $nick)) {
@@ -779,7 +779,7 @@ sub ctcp {
   } elsif ($what eq 'TIME') {
     &reply("TIME ".&date(time));
   } elsif ($what eq 'CLIENTINFO') {
-    &reply("CLIENTINFO ACTION, CLIENTINFO, ECHO, ENTROPY, ERRMSG, FINGER, PING, TIME, USERINFO, VERSION");
+    &reply("CLIENTINFO ACTION, CLIENTINFO, ECHO, ENTROPY, ERRMSG, FINGER, PING, RANDOM, TIME, USERINFO, VERSION");
   } elsif ($what eq 'FINGER') {
     &reply("FINGER ".$set{"FINGER"});
   } elsif ($what eq 'USERINFO') {
@@ -800,6 +800,20 @@ sub ctcp {
     chop($evalue);
     &tell("*** $who$puh1 initiated the RANDEX protocol with $to");
     &reply("RANDOM $evalue");
+  } elsif ($what eq 'RANDOM') {
+    arc4random_pushb("$who$puh1$towho$args");
+    &tell("*** $who$puh1 queried RANDEX protocol information from $to");
+    if ($set{"CTCP"} ne 'noreply') {
+      my $papi = (BSD::arc4random::have_kintf() ? "Perl" : "none");
+      my $skip_r = 0;
+      if ($lastrep<time-10) {
+        $lastrep=time;
+        $nreps=1;
+      } elsif ($nreps++>=2 && $set{"CTCP"} eq 'noflood') {
+        $skip_r = 1;
+      }
+      &sl("PRIVMSG $who :\caACTION uses MirSirc $version$add_ons with built-in support for the RANDEX protocol, push API: ${papi}\ca") unless $skip_r;
+    }
   }
 }
 

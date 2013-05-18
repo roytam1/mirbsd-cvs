@@ -24,6 +24,7 @@
  *	- violation: CTCP VERSION will not be amended by " (RANDOM=%d)"
  *	^ these stem from limitation of the XChat Plugin API 2.0
  *	- other than that, the protocol is fully supported
+ *	- additional CTCP RANDOM returns plugin status and version
  *
  * On MirBSD (arc4random_pushk) and Win32, the entropy received will be fed
  * back to the operating system; on other OSes, this plugin acts mostly as
@@ -40,7 +41,7 @@
  */
 
 static const char __rcsid[] =
-    "$MirOS: contrib/hosted/tg/code/xchat-randex/main.c,v 1.3 2009/06/06 12:24:15 tg Exp $";
+    "$MirOS: contrib/hosted/tg/code/xchat-randex/main.c,v 1.4 2009/06/06 13:43:04 tg Stab $";
 
 #include <sys/types.h>
 #if defined(HAVE_STDINT_H) && HAVE_STDINT_H
@@ -65,13 +66,17 @@ static const char __rcsid[] =
 #ifndef arc4random_pushk
 extern u_int32_t arc4random(void);
 extern void arc4random_stir(void);
-#ifdef WIN32
+#if defined(__CYGWIN__) || defined(WIN32)
 extern uint32_t arc4random_pushb(const void *, size_t);
 #define arc4random_pushk arc4random_pushb
+#define RELEASE_PAPI	"Win32"
 #else
 extern void arc4random_addrandom(u_char *, int);
 #define arc4random_pushk(b,n) arc4random_addrandom((u_char *)(b), (int)(n))
+#define RELEASE_PAPI	"none"
 #endif
+#else
+#define RELEASE_PAPI	"pushk"
 #endif
 
 static unsigned long adler32(unsigned long, const unsigned char *, unsigned);
@@ -82,7 +87,7 @@ static char buf[128];
 /* The XChat Plugin API 2.0 is not const clean */
 static char randex_name[] = "randex";
 static char randex_desc[] = "MirOS RANDomness EXchange protocol support";
-static char randex_vers[] = "1.05";
+static char randex_vers[] = "1.06";
 static char null[] = "";
 
 int xchat_plugin_init(xchat_plugin *, char **, char **, char **, char *);
@@ -181,6 +186,9 @@ hookfn_rawirc(char *word[], char *word_eol[], void *user_data)
 		if (!strcasecmp(cmd, "privmsg") &&
 		    !strncasecmp(rest, "entropy", 7))
 			return (do_randex(1, src, dst, word_eol[1]));
+		else if (!strcasecmp(cmd, "privmsg") &&
+		    !strncasecmp(rest, "random", 6))
+			return (do_randex(2, src, dst, word_eol[1]));
 		else if (!strcasecmp(cmd, "notice") &&
 		    !strncasecmp(rest, "random", 6))
 			return (do_randex(0, src, dst, word_eol[1]));
@@ -325,12 +333,18 @@ do_randex(int is_req, char *rsrc, char *dst, char *line)
 		 * should go to the server tab, but there is no way
 		 * to do so even with xchat_find_context => doesn't
 		 */
-		xchat_printf(ph, is_req ?
+		xchat_printf(ph, is_req == 2 ?
+		    "%s queried RANDEX protocol information from %s\n" :
+		    is_req ?
 		    "%s initiated the RANDEX protocol with %s\n" :
 		    "RANDEX protocol reply from %s to %s, processing\n",
 		    src, dst);
 	entropyio(line, strlen(line));
-	if (is_req)
+	if (is_req == 2)
+		xchat_commandf(ph, "quote PRIVMSG %s :\001ACTION uses the"
+		    " RANDEX plugin v%s for XChat, push API: %s\001",
+		    src, randex_vers, RELEASE_PAPI);
+	else if (is_req)
 		xchat_commandf(ph, "quote NOTICE %s :\001RANDOM %s\001",
 		    src, buf);
 	if (src != rsrc)

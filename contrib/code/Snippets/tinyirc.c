@@ -11,6 +11,7 @@
 #define COMMANDCHAR	'/'
 /* each line of history adds 512 bytes to resident size */
 #define HISTLEN		8
+
 #if defined(__MirBSD__)
 #define RELEASE_OS	"MirBSD"
 #elif defined(__OpenBSD__)
@@ -22,13 +23,22 @@
 #else
 #define RELEASE_OS	"unknown OS"
 #endif
-#define RELEASE_VER	"TinyIRC 20090118"
+#if defined(__CYGWIN__) || defined(WIN32)
+#define RELEASE_PAPI	"Win32"
+#elif defined(__MirBSD__)
+#define RELEASE_PAPI	"pushb"
+#else
+#define RELEASE_PAPI	"none"
+#endif
+
+#define RELEASE_VER	"TinyIRC 20090802"
 #define RELEASE_L	RELEASE_VER " (" RELEASE_OS ") MirOS-contrib"
 #define RELEASE_S	RELEASE_VER " MirOS"
+
 /*-
-   TinyIRC – MirOS Fork
+   TinyIRC - MirOS Fork
    Copyright (C) 1994 Nathan I. Laredo <laredo@gnu.org>
-   Copyright (c) 1999-2008 Thorsten Glaser <tg@mirbsd.org>
+   Copyright (c) 1999-2009 Thorsten Glaser <tg@mirbsd.org>
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License Version 1
@@ -47,9 +57,12 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-
-   Please visit the MirBSD project pages
-   at http://mirbsd.de/ or http://www.mirbsd.org/
+   The copyright holders consider the licence's condition of source
+   publication to be fulfilled if all of the sources in the exact
+   state used to build a combined binary, e.g. using crunchgen(1),
+   that includes this work as part of it are published, without the
+   other, independent works part of said combined binary requiring
+   to be distributed under the terms of the GNU GPL.
  */
 
 #include <sys/types.h>
@@ -80,7 +93,7 @@
 #define	__RCSID(x)	static const char __rcsid[] __attribute__((used)) = (x)
 #endif
 
-__RCSID("$MirOS: contrib/code/Snippets/tinyirc.c,v 1.34 2009/01/17 14:08:22 tg Exp $");
+__RCSID("$MirOS: contrib/code/Snippets/tinyirc.c,v 1.35 2009/01/18 15:44:09 tg Exp $");
 
 #ifndef __dead
 #define __dead
@@ -185,9 +198,9 @@ void arc4adlerpush(const void *buf)
 	time_t v;
 
 	v = arc4random();
-	s = adler32(adler32(s, &v, sizeof (v)), buf, strlen(buf));
+	s = adler32(adler32(s, &v, sizeof(v)), buf, strlen(buf));
 	v = time(NULL) ^ (time_t)s;
-	arc4random_pushb(&v, sizeof (v));
+	arc4random_pushb(&v, sizeof(v));
 }
 
 int my_stricmp(const char *str1, const char *str2)
@@ -358,7 +371,7 @@ static int donick(void)
 {
     if (strcmp(tok_in[0], IRCNAME) == 0) {
 	wasdate = 0;
-	strlcpy(IRCNAME, tok_in[2], sizeof (IRCNAME));
+	strlcpy(IRCNAME, tok_in[2], sizeof(IRCNAME));
     }
     printf("*** %s is now known as %s", tok_in[0], tok_in[2]);
     return 0;
@@ -408,8 +421,8 @@ static int doprivmsg(void)
 	ctcp[i++ - 1] = 0;
 	tok_in[3][strlen(tok_in[3]) - 1] = 0;
 	if (!strcmp(ctcp, "ENTROPY")) {
-		arc4random_pushb(serverdata, sizeof (serverdata));
-		snprintf(bp, sizeof (bp),
+		arc4random_pushb(serverdata, sizeof(serverdata));
+		snprintf(bp, sizeof(bp),
 		    "%s initiated the RANDEX protocol with %s",
 		    tok_in[0], *tok_in[2] == '#' ? tok_in[2] : "you");
 		column = printf("*C*");
@@ -425,6 +438,19 @@ static int doprivmsg(void)
 		}
 		strlcat(lineout, "\001\n", LINELEN);
 		sendline();
+	} else if (!strcmp(ctcp, "RANDOM")) {
+		arc4random_pushb(serverdata, sizeof(serverdata));
+		snprintf(bp, sizeof(bp),
+		    "%s queried RANDEX protocol information from %s",
+		    tok_in[0], *tok_in[2] == '#' ? tok_in[2] : "you");
+		column = printf("*C*");
+		column = wordwrapout(bp, column);
+		skipout = 1;
+		snprintf(lineout, LINELEN,
+		    "PRIVMSG %s :\001ACTION uses %s with built-in support"
+		    " for the RANDEX protocol, push API: %s\001\n", tok_in[0],
+		    RELEASE_L, RELEASE_PAPI);
+		sendline();
 	} else if (!strcmp(ctcp, "VERSION")) {
 		snprintf(lineout, LINELEN,
 		    "NOTICE %s :\001VERSION %s (RANDOM=%u)\001\n",
@@ -432,8 +458,8 @@ static int doprivmsg(void)
 		sendline();
 	} else if (!strcmp(ctcp, "CLIENTINFO")) {
 		snprintf(lineout, LINELEN,
-		    "NOTICE %s :\001CLIENTINFO ACTION, CLIENTINFO, "
-		    "ECHO, ENTROPY, ERRMSG, PING, TIME, VERSION\001\n",
+		    "NOTICE %s :\001CLIENTINFO ACTION, CLIENTINFO, ECHO, "
+		    "ENTROPY, ERRMSG, PING, RANDOM, TIME, VERSION\001\n",
 		    tok_in[0]);
 		sendline();
 	} else if (!strcmp(ctcp, "PING") ||
@@ -464,7 +490,7 @@ static int doprivmsg(void)
 		skipout = 1;
 	}
 	if (!skipout) {
-		snprintf(bp, sizeof (bp), "%s did a CTCP %s%s%s to %s",
+		snprintf(bp, sizeof(bp), "%s did a CTCP %s%s%s to %s",
 		    tok_in[0], ctcp, tok_in[3][i] ? " " : "",
 		    tok_in[3] + i, *tok_in[2] == '#' ? tok_in[2] : "you");
 		column = printf("*C*");
@@ -525,7 +551,7 @@ int donumeric(int num)
 	resetty();
 	tmp = IRCNAME;
 	while ((ch = getchar()) != '\n')
-	    if (strlen(IRCNAME) < sizeof (IRCNAME) - 1)
+	    if (strlen(IRCNAME) < sizeof(IRCNAME) - 1)
 		*(tmp++) = ch;
         *tmp = '\0';
 	wasdate = 0;
@@ -779,7 +805,7 @@ void parseinput(void)
 			pushlastchan(tmp);
 		snprintf(lineout, LINELEN, "PRIVMSG %s :\001%s\001\n",
 		    tmp, linein);
-		snprintf(bp, sizeof (bp),
+		snprintf(bp, sizeof(bp),
 		    "Sending a CTCP %s to %s", linein, tmp);
 		linein[-1] = ' ';
 		column = printf("*C*");
@@ -839,14 +865,14 @@ void parseinput(void)
 			if (ch == 8 || ch == 127) {
 				if (tmp > inputbuf + 384)
 					--tmp;
-			} else if (tmp < inputbuf + sizeof (inputbuf) - 2)
+			} else if (tmp < inputbuf + sizeof(inputbuf) - 2)
 				*tmp++ = ch;
 		*tmp = '\0';
 		wasdate = 0;
 		tputs_x(tgoto(cap_cm, 0, maxlin));
 		tputs_x(cap_ce);
 		snprintf(lineout, LINELEN, inputbuf, inputbuf + 384);
-		bzero(inputbuf, sizeof (inputbuf));
+		bzero(inputbuf, sizeof(inputbuf));
 	}
 
  parseinput_cont:
@@ -1089,9 +1115,9 @@ main(int argc, char *argv[])
 	ircusername = ircusername ? ircusername : userinfo->pw_name;
 	ircgecosname = ircgecosname ? ircgecosname : userinfo->pw_gecos;
     }
-    strlcpy(hostname, DEFAULTSERVER, sizeof (hostname));
+    strlcpy(hostname, DEFAULTSERVER, sizeof(hostname));
     tmp = getenv("IRCNICK");
-    strlcpy(IRCNAME, tmp ? tmp : ircusername, sizeof (IRCNAME));
+    strlcpy(IRCNAME, tmp ? tmp : ircusername, sizeof(IRCNAME));
     if (argc > 1) {
 	for (i = 1; i < argc; i++)
 	    if (argv[i][0] == '-') {
@@ -1103,19 +1129,19 @@ main(int argc, char *argv[])
 		    exit(1);
 		}
 	    } else if (strchr(argv[i], '.')) {
-		strlcpy(hostname, argv[i], sizeof (hostname));
+		strlcpy(hostname, argv[i], sizeof(hostname));
 	    } else if (atoi(argv[i]) > 255) {
 		IRCPORT = atoi(argv[i]);
 	    } else
-		strlcpy(IRCNAME, argv[i], sizeof (IRCNAME));
+		strlcpy(IRCNAME, argv[i], sizeof(IRCNAME));
     }
     printf("*** trying port %d of %s\n\n", IRCPORT, hostname);
     if ((sockfd = makeconnect(hostname)) < 0) {
 	fprintf(stderr, "*** %s connection refused, aborting\n", hostname);
 	exit(0);
     }
-    if (gethostname(localhost, sizeof (hostname)) || !*localhost)
-	strlcpy(localhost, "localhost", sizeof (hostname));
+    if (gethostname(localhost, sizeof(hostname)) || !*localhost)
+	strlcpy(localhost, "localhost", sizeof(hostname));
     snprintf(lineout, LINELEN, "USER %s %s %s :%s\n", ircusername,
 	localhost, hostname, ircgecosname);
     sendline();
