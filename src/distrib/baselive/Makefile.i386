@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/baselive/Makefile.i386,v 1.5 2007/03/26 17:41:29 tg Exp $
+# $MirOS: src/distrib/baselive/Makefile.i386,v 1.6 2007/07/11 16:14:44 tg Exp $
 
 KERNEL_PREP=	print 'rootdev 6 0\nquit' | config -ef bsd.tmp
 BOOT=		${REALOBJDIR}/../../sys/arch/i386/stand/liveboot/boot
@@ -17,7 +17,21 @@ cdrom-mdcopy:
 	${SUDO} cp ${BOOT} ${WRKDIR}/boot.iso
 	cd ${WRKDIR} && cksum -a cksum -a rmd160 -a tiger boot.iso >>CKSUM
 
+MIINSTALLBOOT?=	${BSDSRCDIR}/usr.sbin/installboot/bxinst.
+CHAINSECTOR?=	24
+
 cdrom-mdboot:
-	${DESTDIR}/usr/mdec/installboot -v -h 16 -s 63 -I $$(fgrep \
-	    ${WRKDIR}/boot.ldr mkisofs.log | while read start end rest; do \
-		print -- $$start $$end; done) ${BOOTXX} ${CDROM}
+	if [[ -s ${WRKDIR}/loot ]]; then \
+		fgrep ${WRKDIR}/boot.ldr mkisofs.log | \
+		    ${MKSH} ${MIINSTALLBOOT}i386 -S 2 | \
+		    dd of=${CDROM} conv=notrunc bs=512 seek=${CHAINSECTOR} \
+		    2>/dev/null; \
+		fgrep ${WRKDIR}/loot mkisofs.log | \
+		    ${MKSH} ${MIINSTALLBOOT}-0 ${CHAINSECTOR} -S 2 | \
+		    dd of=${CDROM} conv=notrunc 2>/dev/null; \
+	else \
+		${DESTDIR}/usr/mdec/installboot -v -h 16 -s 63 -I $$(fgrep \
+		    ${WRKDIR}/boot.ldr mkisofs.log | \
+		    while read start end rest; do \
+			print -- $$start $$end; done) ${BOOTXX} ${CDROM}; \
+	fi

@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/baselive/Makefile,v 1.26 2008/06/13 19:58:34 tg Exp $
+# $MirOS: src/distrib/baselive/Makefile,v 1.27 2008/07/09 23:57:21 tg Exp $
 
 .include <bsd.own.mk>
 
@@ -160,6 +160,8 @@ cdrom-generate:
 .if ${BATCH:L} != "yes"
 	@print Build coordination: press RETURN to continue...; read dummy
 .endif
+	[[ ! -s ${WRKDIR}/loot ]] || \
+	    perl -pi -e 's/MirBSD/MirLSD/; s/bsd/lsd/' ${WRKDIR}/loot
 	cd ${WRKDIR}; \
 	    sort -k3 |& exec 3>&p; exec 4<&p; \
 	    sort |& exec 5>&p; exec 6<&p; \
