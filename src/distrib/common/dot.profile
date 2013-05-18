@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/dot.profile,v 1.37 2008/11/08 22:23:51 tg Exp $
+# $MirOS: src/distrib/common/dot.profile,v 1.38 2008/12/04 15:18:32 tg Exp $
 # $OpenBSD: dot.profile,v 1.4 2002/09/13 21:38:47 deraadt Exp $
 # $NetBSD: dot.profile,v 1.1 1995/12/18 22:54:43 pk Exp $
 #
@@ -39,11 +39,45 @@ umask 022
 cd /
 ulimit -c 0
 
+function uri_escape {
+	print -nr -- "$*" | sed -e '
+	    s.%.%25.g
+	    s.;.%3B.g
+	    s./.%2F.g
+	    s.?.%3F.g
+	    s.:.%3A.g
+	    s.@@.%40.g
+	    s.&.%26.g
+	    s.=.%3D.g
+	    s.+.%2B.g
+	    s.\$.%24.g
+	    s.,.%2C.g
+	    s.	.%09.g
+	    s. .%20.g
+	    s.<.%3C.g
+	    s.>.%3E.g
+	    s.#.%23.g
+	    s.".%22.g
+	    s.{.%7B.g
+	    s.}.%7D.g
+	    s.|.%7C.g
+	    s.\\.%5C.g
+	    s.\^.%5E.g
+	    s.\[.%5B.g
+	    s.\].%5D.g
+	    s.`.%60.g
+	    s.'\''.%27.g
+	'
+}
+
 _getrnd() {
-	(ulimit -T 60; exec ftp -mvo /dev/arandom \
-	    https://call.mirbsd.org/rn.cgi?bsdrd${1:-manuell},$(dd \
-	    if=/dev/arandom bs=57 count=1 | \
-	    b64encode -r - | tr '+=/' '._-')) >/dev/wrandom 2>&1
+	typeset url=${2:-https}://call.mirbsd.org/rn.cgi
+
+	url=${url}?bsdrd${1:-manuell}
+	url=$url,os=$(uri_escape "$(uname -a)")
+	url=$url,seed=$(dd if=/dev/arandom bs=57 count=1 2>&- | \
+	    b64encode -r - | tr '+=/' '._-')
+	(ulimit -T 60; exec ftp -mvo /dev/arandom "$url") >/dev/wrandom 2>&1
 }
 
 sshd() {
