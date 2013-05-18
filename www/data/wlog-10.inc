@@ -226,3 +226,22 @@ Author: tg@
 <p>We just got an email about Metalinker, which looks interesting enough
  to try, from its primal developer Anthony Bryan. We now have it ☺</p>
 ----
+Date: 28.03.2008
+Author: bsiegert@
+
+<p>Wow, my first posting in this new weblog. My laptop, a new MacBook
+ Pro, spent about 10 days over easter in order to really do a MirPorts
+ bulk build. 1503 binary packages for MirOS #10 have been uploaded to
+ the mirrors. This has also been an occasion to review some largely
+ untouched parts of the tree. Most of the problems seen are related to
+ missing distfiles, changed download URLs, etc. Some packages did not
+ build during th bulk build but when run non-recursively, they
+ worked.</p>
+
+<p>Some bugs in the resulting packages remain: You must manually install
+ the expat package for most of the stuff to work. gtk+ insists on
+ writing to /var/db, which makes it unsuitable for AS_USER builds.
+ firesomething only when works as <tt>firefox</tt>. Still, this gives
+ you a wide variety of pre-built packages for the new release.
+ Enjoy!</b>
+----
