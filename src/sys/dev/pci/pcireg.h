@@ -1,6 +1,6 @@
-/**	$MirOS: src/sys/dev/pci/pcireg.h,v 1.3 2005/07/07 18:02:40 tg Exp $	*/
+/**	$MirOS: src/sys/dev/pci/pcireg.h,v 1.4 2010/04/16 22:44:06 tg Exp $	*/
 /*	$NetBSD: pcireg.h,v 1.40 2003/03/25 21:56:20 thorpej Exp $	*/
-/*	$OpenBSD: pcireg.h,v 1.27 2004/11/16 00:31:02 brad Exp $	*/
+/*	$OpenBSD: pcireg.h,v 1.39 2010/12/05 15:15:14 kettenis Exp $	*/
 /*	$NetBSD: pcireg.h,v 1.26 2000/05/10 16:58:42 thorpej Exp $	*/
 
 /*
@@ -42,6 +42,9 @@
  * XXX This is not complete.
  */
 
+#define	PCI_CONFIG_SPACE_SIZE		0x100
+#define	PCIE_CONFIG_SPACE_SIZE		0x1000
+
 /*
  * Device identification register; contains a vendor ID and a device ID.
  */
@@ -79,6 +82,7 @@ typedef u_int16_t pci_product_id_t;
 #define	PCI_COMMAND_STEPPING_ENABLE		0x00000080
 #define	PCI_COMMAND_SERR_ENABLE			0x00000100
 #define	PCI_COMMAND_BACKTOBACK_ENABLE		0x00000200
+#define PCI_COMMAND_INTERRUPT_DISABLE		0x00000400
 
 #define	PCI_STATUS_CAPLIST_SUPPORT		0x00100000
 #define	PCI_STATUS_66MHZ_SUPPORT		0x00200000
@@ -164,6 +168,7 @@ typedef u_int8_t pci_revision_t;
 #define	PCI_SUBCLASS_MASS_STORAGE_RAID		0x04
 #define	PCI_SUBCLASS_MASS_STORAGE_ATA		0x05
 #define	PCI_SUBCLASS_MASS_STORAGE_SATA		0x06
+#define	PCI_SUBCLASS_MASS_STORAGE_SAS		0x07
 #define	PCI_SUBCLASS_MASS_STORAGE_MISC		0x80
 
 /* 0x02 network subclasses */
@@ -186,6 +191,7 @@ typedef u_int8_t pci_revision_t;
 #define	PCI_SUBCLASS_MULTIMEDIA_VIDEO		0x00
 #define	PCI_SUBCLASS_MULTIMEDIA_AUDIO		0x01
 #define	PCI_SUBCLASS_MULTIMEDIA_TELEPHONY	0x02
+#define	PCI_SUBCLASS_MULTIMEDIA_HDAUDIO		0x03
 #define	PCI_SUBCLASS_MULTIMEDIA_MISC		0x80
 
 /* 0x05 memory subclasses */
@@ -406,6 +412,11 @@ typedef u_int8_t pci_revision_t;
 #define	PCI_MAPREG_MEM_TYPE_32BIT_1M		0x00000002
 #define	PCI_MAPREG_MEM_TYPE_64BIT		0x00000004
 
+#define _PCI_MAPREG_TYPEBITS(reg) \
+	(PCI_MAPREG_TYPE(reg) == PCI_MAPREG_TYPE_IO ? \
+	reg & PCI_MAPREG_TYPE_MASK : \
+	reg & (PCI_MAPREG_TYPE_MASK|PCI_MAPREG_MEM_TYPE_MASK))
+
 #define	PCI_MAPREG_MEM_PREFETCHABLE(mr)					\
 	    (((mr) & PCI_MAPREG_MEM_PREFETCHABLE_MASK) != 0)
 #define	PCI_MAPREG_MEM_PREFETCHABLE_MASK	0x00000008
@@ -441,6 +452,19 @@ typedef u_int8_t pci_revision_t;
 #define PCI_SUBSYS_ID_REG 0x2c
 
 /*
+ * Expansion ROM Base Address register
+ * (PCI rev. 2.0)
+ */
+#define PCI_ROM_REG 0x30
+
+#define PCI_ROM_ENABLE			0x00000001
+#define PCI_ROM_ADDR_MASK		0xfffff800
+#define PCI_ROM_ADDR(mr)						\
+	    ((mr) & PCI_ROM_ADDR_MASK)
+#define PCI_ROM_SIZE(mr)						\
+	    (PCI_ROM_ADDR(mr) & -PCI_ROM_ADDR(mr))
+
+/*
  * capabilities link list (PCI rev. 2.2)
  */
 #define PCI_CAPLISTPTR_REG		0x34	/* header type 0 */
@@ -468,6 +492,16 @@ typedef u_int8_t pci_revision_t;
 #define PCI_CAP_MSIX		0x11
 
 /*
+ * Vital Product Data; access via capability pointer (PCI rev 2.2).
+ */
+#define	PCI_VPD_ADDRESS_MASK	0x7fff
+#define	PCI_VPD_ADDRESS_SHIFT	16
+#define	PCI_VPD_ADDRESS(ofs)	\
+	(((ofs) & PCI_VPD_ADDRESS_MASK) << PCI_VPD_ADDRESS_SHIFT)
+#define	PCI_VPD_DATAREG(ofs)	((ofs) + 4)
+#define	PCI_VPD_OPFLAG		0x80000000
+
+/*
  * Power Management Control Status Register; access via capability pointer.
  */
 #define PCI_PMCSR		0x04
@@ -476,6 +510,44 @@ typedef u_int8_t pci_revision_t;
 #define PCI_PMCSR_STATE_D1	0x01
 #define PCI_PMCSR_STATE_D2	0x02
 #define PCI_PMCSR_STATE_D3	0x03
+
+/*
+ * PCI Express; access via capability pointer.
+ */
+#define PCI_PCIE_XCAP		0x00
+#define PCI_PCIE_XCAP_SI	0x01000000
+#define PCI_PCIE_DCAP		0x04
+#define PCI_PCIE_DCSR		0x08
+#define PCI_PCIE_DCSR_ENA_NO_SNOOP	0x00000800
+#define PCI_PCIE_LCAP		0x0c
+#define PCI_PCIE_LCSR		0x10
+#define PCI_PCIE_LCSR_ASPM_L0S	0x00000001
+#define PCI_PCIE_LCSR_ASPM_L1	0x00000002
+#define PCI_PCIE_LCSR_ES	0x00000080
+#define PCI_PCIE_SLCAP		0x14
+#define PCI_PCIE_SLCAP_ABP	0x00000001
+#define PCI_PCIE_SLCAP_PCP	0x00000002
+#define PCI_PCIE_SLCAP_MSP	0x00000004
+#define PCI_PCIE_SLCAP_AIP	0x00000008
+#define PCI_PCIE_SLCAP_PIP	0x00000010
+#define PCI_PCIE_SLCAP_HPS	0x00000020
+#define PCI_PCIE_SLCAP_HPC	0x00000040
+#define PCI_PCIE_SLCSR		0x18
+#define PCI_PCIE_SLCSR_ABE	0x00000001
+#define PCI_PCIE_SLCSR_PFE	0x00000002
+#define PCI_PCIE_SLCSR_MSE	0x00000004
+#define PCI_PCIE_SLCSR_PDE	0x00000008
+#define PCI_PCIE_SLCSR_CCE	0x00000010
+#define PCI_PCIE_SLCSR_HPE	0x00000020
+#define PCI_PCIE_SLCSR_ABP	0x00010000
+#define PCI_PCIE_SLCSR_PFD	0x00020000
+#define PCI_PCIE_SLCSR_MSC	0x00040000
+#define PCI_PCIE_SLCSR_PDC	0x00080000
+#define PCI_PCIE_SLCSR_CC	0x00100000
+#define PCI_PCIE_SLCSR_MS	0x00200000
+#define PCI_PCIE_SLCSR_PDS	0x00400000
+#define PCI_PCIE_SLCSR_LACS	0x01000000
+#define PCI_PCIE_RCSR		0x1c
 
 /*
  * Interrupt Configuration Register; contains interrupt pin and line.
