@@ -711,13 +711,13 @@ PKG_ARGS+=		${PKG_ARGS_ADD}
 .if !defined(_COMMENT)
 ERRORS+=		"Missing port comment in Makefile."
 .endif
-.if ${FULLPKGNAME:C/^.*-([^-]*)-[0-9][0-9]*(-[a-zA-Z][^-]*)*$/\1/:N[0-9][0-9.]*}
-ERRORS+=		"Invalid version number in main package: ${FULLPKGNAME:C/^.*-([^-]*)-[0-9][0-9]*(-[a-zA-Z][^-]*)*$/\1/}."
+.if ${FULLPKGNAME:C/^.*-([^-]*)-[0-9][0-9]*(-[a-zA-Z][^-]*)*$/\1/:C/^[0-9][0-9.]*$//}
+ERRORS+=		"Invalid version number in main package: ${FULLPKGNAME:C/^.*-([^-]*)-[0-9][0-9]*(-[a-zA-Z][^-]*)*$/\1/:C/^[0-9][0-9.]*$//}."
 .endif
 .if defined(MULTI_PACKAGES) && !empty(MULTI_PACKAGES)
 .  for _s in ${MULTI_PACKAGES}
-.    if ${FULLPKGNAME${_s}:C/^.*-([^-]*)-[0-9][0-9]*(-[a-zA-Z][^-]*)*$/\1/:N[0-9][0-9.]*}
-ERRORS+=		"Invalid version number in '${_s}' subpackage: ${FULLPKGNAME${_s}:C/^.*-([^-]*)-[0-9][0-9]*(-[a-zA-Z][^-]*)*$/\1/}."
+.    if ${FULLPKGNAME${_s}:C/^.*-([^-]*)-[0-9][0-9]*(-[a-zA-Z][^-]*)*$/\1/:C/^[0-9][0-9.]*$//}
+ERRORS+=		"Invalid version number in '${_s}' subpackage: ${FULLPKGNAME${_s}:C/^.*-([^-]*)-[0-9][0-9]*(-[a-zA-Z][^-]*)*$/\1/:C/^[0-9][0-9.]*$//}."
 .    endif
 .  endfor
 .endif
