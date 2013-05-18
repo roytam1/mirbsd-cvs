@@ -371,18 +371,17 @@ h5 {
 /* put stuff into nice boxes */
 
 .boxhead {
-	/*margin-bottom:0px;*/
+	margin-bottom:0px;
 }
 
 .boxtext {
-	border:1px solid #c8c8c8;
-	background:#ffffff;
+	border:4px ridge blue;
 	margin:0px 24px 0px 18px;
 	padding:2px 12px 2px 3px;
 }
 
 .boxfoot {
-	/*margin-top:0px;*/
+	margin-top:0px;
 }
 
 pre {
