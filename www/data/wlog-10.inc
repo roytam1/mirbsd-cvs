@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.296 2010/07/05 20:57:09 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.297 2010/07/11 12:19:28 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -6595,7 +6595,7 @@ Date: 17.06.2010 19:58
 Title: LSM/RMLL; mksh R40, R41 plans
 Author: tg@
 Date: 05.07.2010 20:54
-Tag: bug debian mksh
+Tag: bug debian event mksh
 
 <p>The current version of <a href="@@RELPATH@@mksh.htm#clog">mksh</a>
  had use of arc4random(3) removed, including “set -o arc4random”, to
