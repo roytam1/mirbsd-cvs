@@ -1,0 +1,4 @@
+# $MirOS$
+configure.sh configure.in
+configure.sh aclocal.m4
+configure configure.sh

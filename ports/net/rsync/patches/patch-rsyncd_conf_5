@@ -1,7 +1,7 @@
 $MirOS$
---- rsyncd.conf.5.orig	Tue Nov  7 04:39:29 2006
-+++ rsyncd.conf.5	Sat Feb 17 20:24:51 2007
-@@ -657,8 +657,8 @@ A more sophisticated example would be:
+--- rsyncd.conf.5.orig	Mon Mar 31 06:31:29 2008
++++ rsyncd.conf.5	Tue Apr  1 22:37:08 2008
+@@ -757,8 +757,8 @@ A more sophisticated example would be:
  .PP 
  .nf 
  
@@ -9,6 +9,6 @@ $MirOS$
 -gid = nobody
 +uid = _rsync
 +gid = _rsync
- use chroot = no
+ use chroot = yes
  max connections = 4
  syslog facility = local5
