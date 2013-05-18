@@ -1,4 +1,4 @@
-@comment $MirOS: ports/multimedia/win32-codecs/pkg/PLIST,v 1.4 2005/12/29 19:17:55 tg Exp $
+@comment $MirOS: ports/multimedia/win32-codecs/pkg/PLIST,v 1.5 2006/03/02 02:16:09 tg Exp $
 lib/codecs/3ivX.qtx
 lib/codecs/3ivxDSAudioDecoder.ax
 lib/codecs/ACTLComponent.qtx
@@ -127,9 +127,11 @@ lib/codecs/vp31vfw.dll
 lib/codecs/vp4vfw.dll
 lib/codecs/vp5vfw.dll
 lib/codecs/vp6vfw.dll
+lib/codecs/vp7vfw.dll
 lib/codecs/vssh264.dll
 lib/codecs/vssh264core.dll
 lib/codecs/vssh264dec.dll
+lib/codecs/vsshdsd.dll
 lib/codecs/vsslight.dll
 lib/codecs/vsswlt.dll
 lib/codecs/wma9dmod.dll
@@ -143,4 +145,6 @@ lib/codecs/wmvdmod.dll
 lib/codecs/wmvds32.ax
 lib/codecs/wnvplay1.dll
 lib/codecs/wnvwinx.dll
+lib/codecs/wvc1dmod.dll
+lib/codecs/zmbv.dll
 @dirrm lib/codecs
