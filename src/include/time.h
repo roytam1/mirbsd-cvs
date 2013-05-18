@@ -1,4 +1,4 @@
-/**	$MirOS: src/include/time.h,v 1.2 2005/03/06 17:16:58 tg Exp $ */
+/**	$MirOS: src/include/time.h,v 1.3 2005/11/21 19:31:54 tg Exp $ */
 /*	$OpenBSD: time.h,v 1.16 2003/08/01 17:38:33 avsm Exp $	*/
 /*	$NetBSD: time.h,v 1.9 1994/10/26 00:56:35 cgd Exp $	*/
 
@@ -106,8 +106,8 @@ typedef	int64_t tai64_t;
 /* The same, just with nanosecond and attosecond accuracy */
 typedef	struct {
 	tai64_t secs;
-	u_int32_t nano;
-	u_int32_t atto;
+	uint32_t nano;
+	uint32_t atto;
 } tai64na_t;
 
 /* Modified Julian Date */
@@ -164,21 +164,24 @@ int	tai_isleap(tai64_t);
 
 /* Conversion routines */
 #define __TAI64_BIAS	0x4000000000000000ULL
+/* these are normally macros */
+tai64_t	timet2tai(time_t);
 #define	timet2tai(x)	((tai64_t)((time_t)(x) + __TAI64_BIAS))
+time_t	tai2timet(tai64_t);
 #define	tai2timet(x)	((time_t)((tai64_t)(x) - __TAI64_BIAS))
 tai64_t	utc2tai(int64_t);
 int64_t	tai2utc(tai64_t);
 tai64_t	mjd2tai(mjd_t);
 mjd_t	tai2mjd(tai64_t);
 
-struct tm	mjd2tm(mjd_t);
-mjd_t		tm2mjd(struct tm);
+struct tm mjd2tm(mjd_t);
+mjd_t tm2mjd(struct tm);
 
 /* Conversion between tai64 and DJB-compatible TAI64NA on the wire values */
-void	exporttai(u_int8_t *, tai64na_t *)
+void	exporttai(uint8_t *, tai64na_t *)
 		__attribute__((__bounded__(__minbytes__,1,16)))
 		__attribute__((__bounded__(__minbytes__,2,16)));
-void	importtai(u_int8_t *, tai64na_t *)
+void	importtai(uint8_t *, tai64na_t *)
 		__attribute__((__bounded__(__minbytes__,1,16)))
 		__attribute__((__bounded__(__minbytes__,2,16)));
 __END_DECLS

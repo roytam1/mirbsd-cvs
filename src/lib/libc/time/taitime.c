@@ -1,8 +1,9 @@
-/* $MirOS: src/lib/libc/time/taitime.c,v 1.3 2005/12/17 05:46:16 tg Exp $ */
+/* $MirOS: src/share/misc/licence.template,v 1.7 2006/04/09 22:08:49 tg Rel $ */
 
 /*-
- * Copyright (c) 2004, 2005
- *	Thorsten "mirabile" Glaser <tg@66h.42h.de>
+ * Copyright (c) 2004, 2005, 2006
+ *	Thorsten Glaser <tg@mirbsd.de>
+ * Based upon code placed into the public domain by Dan J. Bernstein.
  *
  * Licensee is hereby permitted to deal in this work without restric-
  * tion, including unlimited rights to use, publicly perform, modify,
@@ -30,10 +31,11 @@
 #include "private.h"
 #include "tzfile.h"
 
-__RCSID("$MirOS: src/lib/libc/time/taitime.c,v 1.3 2005/12/17 05:46:16 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/time/taitime.c,v 1.4 2006/06/02 02:29:56 tg Exp $");
 
+/* private interface */
+void _pushleap(time_t);
 static __inline tai64_t *_tai_leaps(void);
-
 
 tai64_t
 tai_time(tai64_t *v)
@@ -51,7 +53,7 @@ tai_time(tai64_t *v)
 	if (__predict_false(v != NULL))
 		*v = t;
 
-	return t;
+	return (t);
 }
 
 void
@@ -70,13 +72,13 @@ taina_time(tai64na_t *t)
 
 
 void
-exporttai(u_int8_t *dst, tai64na_t *src)
+exporttai(uint8_t *dst, tai64na_t *src)
 {
 	struct {
-		u_int64_t secs;
-		u_int32_t nano;
-		u_int32_t atto;
-	}     *target = (void *)dst;
+		uint64_t secs;
+		uint32_t nano;
+		uint32_t atto;
+	} *target = (void *)dst;
 
 	if (__predict_false((src == NULL) || (dst == NULL)))
 		return;
@@ -87,13 +89,13 @@ exporttai(u_int8_t *dst, tai64na_t *src)
 }
 
 void
-importtai(u_int8_t *src, tai64na_t *dst)
+importtai(uint8_t *src, tai64na_t *dst)
 {
 	struct {
-		u_int64_t secs;
-		u_int32_t nano;
-		u_int32_t atto;
-	}     *source = (void *)src;
+		uint64_t secs;
+		uint32_t nano;
+		uint32_t atto;
+	} *source = (void *)src;
 
 	if (__predict_false((src == NULL) || (dst == NULL)))
 		return;
@@ -110,14 +112,12 @@ utc2tai(int64_t u)
 	tai64_t t = u + __TAI64_BIAS;
 	tai64_t *s = _tai_leaps();
 
-	if (__predict_false(u < 0))
-		return t;
-
-	while (__predict_true((*s) && (t >= *s))) {
-		++t;
-		++s;
-	}
-	return t;
+	if (__predict_true(u > 0))
+		while (__predict_true((*s) && (t >= *s))) {
+			++t;
+			++s;
+		}
+	return (t);
 }
 
 int64_t
@@ -132,7 +132,7 @@ tai2utc(tai64_t t)
 			++s;
 		}
 
-	return u;
+	return (u);
 }
 
 
@@ -141,7 +141,6 @@ tai64_t _leaps[TZ_MAX_LEAPS + 1] = {0};
 int _leaps_initialised = 0;
 
 /* private interface */
-void _pushleap(time_t);
 void
 _pushleap(time_t leap)
 {
@@ -164,13 +163,13 @@ _tai_leaps(void)
 		_leaps_initialised = 1;
 		_initialise_leaps();
 	}
-	return _leaps;
+	return (_leaps);
 }
 
 tai64_t *
 tai_leaps(void)
 {
-	return _tai_leaps();
+	return (_tai_leaps());
 }
 
 int
@@ -181,39 +180,37 @@ tai_isleap(tai64_t x)
 	t = _tai_leaps();
 	while (__predict_true(*t))
 		if (__predict_false((*t) == x))
-			return 1;
+			return (1);
 		else if (__predict_false((*t) > x))
-			return 0;
+			return (0);
 		else
 			++t;
-	return 0;
+	return (0);
 }
 
 /* normally a macro */
-#ifndef timet2tai
+#undef timet2tai
 tai64_t
 timet2tai(time_t x)
 {
-	return (((u_int64_t)x < 0x4000000000000000ULL)
-	    ? ((tai64_t)((u_int64_t)x + __TAI64_BIAS))
-	    : (((u_int64_t)x < 0x8000000000000000ULL)
+	return (((uint64_t)x < 0x4000000000000000ULL)
+	    ? ((tai64_t)((uint64_t)x + __TAI64_BIAS))
+	    : (((uint64_t)x < 0x8000000000000000ULL)
 	    ? ((tai64_t)0x7FFFFFFFFFFFFFFFULL)
-	    : (((u_int64_t)x < 0xC000000000000000ULL)
+	    : (((uint64_t)x < 0xC000000000000000ULL)
 	    ? ((tai64_t)0ULL)
-	    : ((tai64_t)((u_int64_t)x + __TAI64_BIAS)))));
+	    : ((tai64_t)((uint64_t)x + __TAI64_BIAS)))));
 }
-#endif
 
 /* normally a macro */
-#ifndef tai2timet
+#undef tai2timet
 time_t
 tai2timet(tai64_t x)
 {
-	return (((u_int64_t)x & 0x8000000000000000ULL)
+	return (((uint64_t)x & 0x8000000000000000ULL)
 	    ? 0
-	    : ((u_int64_t)x - __TAI64_BIAS));
+	    : ((uint64_t)x - __TAI64_BIAS));
 }
-#endif
 
 tai64_t
 mjd2tai(mjd_t m)
@@ -226,7 +223,7 @@ mjd2tai(mjd_t m)
 	if (m.sec > 86399)
 		++t;
 
-	return t;
+	return (t);
 }
 
 mjd_t
@@ -246,7 +243,7 @@ tai2mjd(tai64_t tai)
 	if (__predict_false(tai_isleap(tai)))
 		++m.sec;
 
-	return m;
+	return (m);
 }
 
 /*
@@ -264,7 +261,7 @@ mjd2tm(mjd_t m)
 	int month, day, yday, wday, sec, leap;
 	struct tm res;
 
-	memset(&res, 0, sizeof(res));
+	bzero(&res, sizeof(res));
 
 	year = m.mjd;
 	sec = m.sec;
@@ -279,8 +276,7 @@ mjd2tm(mjd_t m)
 		++year;
 	}
 
-	leap = (sec == 86400);
-	if (__predict_false(leap))
+	if (__predict_false(leap = ((sec == 86400) ? 1 : 0)))
 		--sec;
 
 	day = (int32_t)(year % 146097LL) + 678881;
@@ -333,9 +329,7 @@ mjd2tm(mjd_t m)
 	if (__predict_false(year < 1))
 		--year;
 
-	res.tm_sec = (sec % 60);
-	if (__predict_false(leap))
-		++res.tm_sec;
+	res.tm_sec = (sec % 60) + leap;
 	sec /= 60;
 	res.tm_min = (sec % 60);
 	res.tm_hour = (sec / 60);
@@ -345,7 +339,7 @@ mjd2tm(mjd_t m)
 	res.tm_wday = wday;
 	res.tm_yday = yday;
 
-	return res;
+	return (res);
 }
 
 /* from caldate_mjd libtai-0.60 */
@@ -368,21 +362,21 @@ tm2mjd(struct tm tm)
 	time_t d = tm.tm_year + 1900LL;
 	int m = tm.tm_mon;
 	int y;
-	long sec;
 	mjd_t res;
 
 	if (__predict_false(d < 0))
 		++d;
 	y = (int)(d % 400LL);
 	d = 146097LL * (d / 400) + tm.tm_mday - 678882LL;
-	sec = tm.tm_sec - tm.tm_gmtoff + 60 * (tm.tm_min + 60 * tm.tm_hour);
+	res.sec = tm.tm_sec + 60 * tm.tm_min + 3600 * tm.tm_hour
+	    - tm.tm_gmtoff;
 
-	while (__predict_false(sec < 0L)) {
-		sec += 86400L;
+	while (__predict_false(res.sec < 0L)) {
+		res.sec += 86400L;
 		--d;
 	}
-	while (__predict_false(sec > 86400L)) {
-		sec -= 86400L;
+	while (__predict_false(res.sec > 86400L)) {
+		res.sec -= 86400L;
 		++d;
 	}
 
@@ -414,10 +408,7 @@ tm2mjd(struct tm tm)
 	d += 1461LL * (y % 25);
 	y /= 25;
 
-	d += times36524[y & 3];
+	res.mjd = d + times36524[y & 3];
 
-	res.mjd = d;
-	res.sec = (int32_t)sec;
-
-	return res;
+	return (res);
 }
