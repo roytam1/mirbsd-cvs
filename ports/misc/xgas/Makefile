@@ -1,10 +1,11 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.15 2003/04/14 15:02:09 wilfried Exp $
 
-COMMENT=			animated simulation of an ideal gas
+COMMENT=	animated simulation of an ideal gas
 
 DISTNAME=	xgas
 PKGNAME=        xgas-1.0-0
-CATEGORIES=     misc
+CATEGORIES=     misc chemistry
 
 MASTER_SITES=	${MASTER_SITE_SUNSITE:=X11/demos/}
 
@@ -14,6 +15,7 @@ PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
 CONFIGURE_STYLE=imake
+USE_X11=	Yes
 
 NO_REGRESS=	Yes
 
