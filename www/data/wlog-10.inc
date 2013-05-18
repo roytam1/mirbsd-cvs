@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.312 2010/10/08 21:02:51 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.313 2010/10/16 19:55:02 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -7167,4 +7167,36 @@ Tag: debian
  some Python ISO hacks for <a href="http://grml.org/">mika</a> and some
  minor stuff, and further cleaning up MirBSD.</p><!-- RSS stop -->
 <p>Well, did I mention dentists are sadists?</p>
+----
+Title: Debian/m68k progress, MirBSD notes
+Author: tg@
+Date: 06.11.2010 15:10
+Tag: debian event mksh
+
+<p>I’m almost finished with “sort of re-bootstrapping” Debian/m68k (I
+ can use etch-m68k as well as what was in unstable at the moment as
+ dependencies, so it was not <em>that</em> much, still, 305 binary
+ packages build from 84 source packages, most for unstable (very few
+ for unreleased, with very responsive maintainers, thanks all, who
+ will include the patches in their next uploads) is a bit… including
+ rebuilds with newer versions, more patches, more testing or newer
+ dependencies installed. I’ll probably upload on Sunday evening, as
+ I’ll be off for 2-4 days at least from then (see below). Ingo tried
+ to test on real hardware, but as Murphy wants a hard disc failed…
+ we’ll still try to get something done over the weekend. If you want
+ to have <a href="https://www.freewrt.org/~tg/debs68k/debidx.htm">a
+ look</a>, see my repository index (<tt>sources.txt</tt> contains a
+ sample sources.list file, <tt>0-NOTE.txt</tt> some hints, including
+ the right debootstrap/cowbuilder magic and speed tricks). I’ll need
+ to learn how to use LVM and set up a buildd now…</p>
+<p>I’ve not been in much of a hacking mood recently – all these visits
+ to the dentist leave me in unrest and disturb my equilibrium. Hence,
+ not much activity even in <a href="@@RELPATH@@mksh.htm">mksh</a> even
+ if there was need, almost none in MirBSD. This is only temporary, but
+ I won’t attend <a href="http://openrheinruhr.de/">OpenRheinRuhr</a>,
+ or, if I come at all, it’ll be for socialising only and probably only
+ one day. Benny’s done with his Doctor (in France, no idea whether it’s
+ one in Germany as well) of Chemistry and has returned to hacking some
+ (World of) Google-Go(o) code. I expect MirBSD activity to slowly raise
+ once we can come back. Please accept our apologies.</p>
 ----
