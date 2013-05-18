@@ -1,5 +1,5 @@
 #!/usr/bin/env mksh
-# $MirOS: src/sys/arch/sparc/stand/bootxx/bxinst.sh,v 1.5 2007/10/16 22:01:37 tg Exp $
+# $MirOS: src/sys/arch/sparc/stand/bootxx/bxinst.sh,v 1.6 2007/10/16 22:04:18 tg Exp $
 #-
 # Copyright (c) 2007
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -24,7 +24,7 @@
 # of said person's immediate fault when using the work as intended.
 #-
 # Self-installing SPARC boot blocks for MirOS BSD (sun4m, sun4c)
-# Reads a list of extents (blockno numblocks LF) from standard input
+# Reads a list of extents (firstblock lastblock) from standard input
 # and writes bootxx to standard output, which can subsequentially be
 # stored past the SunOS disklabel directly on the disc.
 
@@ -49,10 +49,9 @@ while (( i < blktblsz )); do
 done
 
 # read in the extents
-while read blockno numblocks junk; do
-	while (( numblocks )); do
-		let blktblent[blktblnum++]=blockno++
-		let numblocks--
+while read firstblock lastblock junk; do
+	while (( firstblock <= lastblock )); do
+		let blktblent[blktblnum++]=firstblock++
 	done
 	if (( blktblnum > blktblsz )); then
 		print -u2 Error: too many blocks, maximum $blktblsz
