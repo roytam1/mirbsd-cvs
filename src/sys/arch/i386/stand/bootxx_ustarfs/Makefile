@@ -1,4 +1,4 @@
-# $MirOS: src/sys/arch/i386/stand/bootxx_ustarfs/Makefile,v 1.2 2010/01/10 02:02:51 tg Exp $
+# $MirOS: src/sys/arch/i386/stand/bootxx_ustarfs/Makefile,v 1.3 2010/01/10 12:43:55 tg Exp $
 
 PROG=		bootxx.tar
 SRCS+=		bootxx.S
@@ -14,7 +14,7 @@ ${PROG}: ${OBJS} ${DPADD}
 	${LD} ${LDFLAGS} -o $@.elf ${OBJS} ${LDADD}
 	@size $@.elf
 	objcopy -O binary $@.elf $@.tmp
-	printf '%s\0' "$$(${MKSH} ${.CURDIR}/tarcksum $@.tmp)" | \
+	print -n "$$(${MKSH} ${.CURDIR}/tarcksum $@.tmp)\\0" | \
 	    dd of=$@.tmp bs=1 seek=148 conv=notrunc
 	mv -f $@.tmp $@
 
