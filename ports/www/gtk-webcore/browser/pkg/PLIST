@@ -1,5 +1,0 @@
-@comment $MirOS$
-bin/osb-browser
-share/osb-browser/default-location-icon.png
-share/osb-browser/osb-browser.glade
-@dirrm share/osb-browser

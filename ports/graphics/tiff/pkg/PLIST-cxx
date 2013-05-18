@@ -1,3 +1,0 @@
-@comment $MirOS: ports/graphics/tiff/pkg/PLIST-cxx,v 1.2 2005/09/11 23:13:07 tg Exp $
-include/tiffio.hxx
-lib/libtiffxx.la
