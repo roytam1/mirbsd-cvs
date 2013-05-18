@@ -1,5 +1,5 @@
 <!-- PageID: mksh -->
-<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.30 2006/07/04 15:27:15 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.31 2006/07/04 21:17:58 tg Exp $</small>
 
 <h1>mksh(1) R27e</h1>
 <p>This is the MirBSD&trade; Korn Shell, a more or less portable
@@ -346,7 +346,7 @@
    Manual page generation usually succeeds with recent versions of GNU groff,
    but the place to install them is not unified.</li>
   <li>CRUX GNU/Linux (i386): works (package by Han Boetes who even uses mksh
-   as /bin/sh)</li>
+   as /bin/sh and tells everyone to ditch bash)</li>
  </ul></li>
  <li>mksh R27d<ul>
   <li>There are both a FreeBSD port and a DragonFly pkgsrc in
