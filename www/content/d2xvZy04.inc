@@ -1,5 +1,5 @@
 <!-- PageID: wlog-8 -->
-<small class="rcsid">$MirOS: www/content/d2xvZy04.inc,v 1.51 2006/03/23 23:30:33 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy04.inc,v 1.52 2006/03/23 23:37:18 tg Exp $</small>
 <h1>MirBSD &ndash; WTF, We Have a Release!?</h1>
 <p><small><a href="#eof">bottom</a> or <a href="/?older">older</a>
  editions</small></p>
@@ -754,6 +754,32 @@ celebrate this event, rotate the wlog and start a new one.</p>
  <p>Read the <a href="http://porting-unix-to-the-386.jolix.com/">summary
   about porting (Berkeley) Unix to the i386 architecture</a> by the well
   known Jolitzens. Some interesting facts. Found at D&aelig;monnews.</p>
+</div>
+
+<div class="wlentry">
+ <h3 id="e20060327">27.03.2006 by tg@</h3>
+ <p>What do we do with maou? It froze again this night. In my opinion we
+  ought to provide stable services, but how the hell am I supposed to if
+  I do not even get a kernel panic? I'm starting to think whether to set
+  up some kind of "ping watchdog" with automatic web interface reboot in
+  a shell script.</p>
+ <p>Furthermore, look at this:</p><pre>
+	[ DNS ]
+	mirbsd.org NS record currently not present at tld1.ultradns.net
+	mirbsd.org NS record currently not present at tld2.ultradns.net
+	mirbsd.org NS record currently not present at tld3.ultradns.org
+	mirbsd.org NS record currently not present at tld4.ultradns.org
+	mirbsd.org NS record currently not present at tld5.ultradns.info
+	mirbsd.org NS record currently not present at tld6.ultradns.co.uk
+	[ Whois ]
+	Name Server:PDC0.MIRBSD.ORG
+	Name Server:BDC0.MIRBSD.ORG
+	Name Server:BDC1.MIRBSD.ORG
+	Name Server:PDC1.66H.42H.DE
+ </pre>
+ <p>I've come, again, to the conclusion that it all sucks. Interestingly
+  I discovered (yeah, right, didn't even know) that ntpd(8) is on the CD
+  (yeah, the 4 Megs one). Fun stuff to do with that ahead.</p>
 </div>
 
 <p id="eof">Good luck, have fun, take care etc.pp</p>

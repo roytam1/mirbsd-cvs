@@ -1,7 +1,11 @@
 <!-- PageID: news -->
-<small class="rcsid">$MirOS: www/content/bmV3cw__.inc,v 1.61 2006/03/19 11:26:03 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bmV3cw__.inc,v 1.62 2006/03/19 22:39:21 tg Exp $</small>
 
 <h1>Current MirOS News</h1><ul>
+
+<li>27.03.2006<br />In case you have acquired a MirOS CD-ROM "FOSDEM 2006"
+	edition please verify the checksums of the data on the CD. Some of
+	the CDs we distributed at FOSDEM were burned from a bad ISO.</li>
 
 <li>19.03.2006<br />We've added a new server to the Freeforge IRC network,
 	<tt>maou.66h.42h.de</tt> Port 6668 (SSL), 6667 and 6666 (non-SSL).
