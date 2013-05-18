@@ -1,4 +1,4 @@
-# $MirOS: ports/audio/flac/Makefile,v 1.6 2006/02/01 17:36:54 tg Exp $
+# $MirOS: ports/audio/flac/Makefile,v 1.7 2006/02/01 17:51:55 tg Exp $
 # $OpenBSD: Makefile,v 1.18 2003/04/18 00:28:40 naddy Exp $
 
 COMMENT=		"free lossless audio codec"
@@ -36,7 +36,6 @@ CONFIGURE_ARGS=		${CONFIGURE_SHARED} \
 CONFIGURE_ENV+=		ac_cv_path_XMMS_CONFIG=false \
 			ac_cv_prog_DOXYGEN=false
 CPPFLAGS+=		-I${WRKSRC}/include
-EXTRA_FAKE_FLAGS+=	mkdir_p='mkdir -p'
 
 # "obj" is magic to our make(1)
 post-configure:

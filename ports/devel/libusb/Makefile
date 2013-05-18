@@ -1,4 +1,4 @@
-# $MirOS: ports/devel/libusb/Makefile,v 1.3 2005/12/29 21:26:10 tg Exp $
+# $MirOS: ports/devel/libusb/Makefile,v 1.4 2005/12/29 22:51:37 tg Exp $
 # $OpenBSD: Makefile,v 1.11 2004/04/21 03:04:14 naddy Exp $
 
 COMMENT=		"USB access library"
@@ -21,6 +21,5 @@ CONFIGURE_ARGS+=	${CONFIGURE_SHARED} \
 			--enable-static \
 			--disable-build-docs
 CONFIGURE_ENV+=		libusb_cv_path_doxygen=false
-EXTRA_FAKE_FLAGS+=	mkdir_p='mkdir -p'
 
 .include <bsd.port.mk>

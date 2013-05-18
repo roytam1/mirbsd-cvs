@@ -1,4 +1,4 @@
-# $MirOS: ports/net/openvpn/Makefile,v 1.4 2005/11/04 20:38:43 tg Exp $
+# $MirOS: ports/net/openvpn/Makefile,v 1.5 2005/12/15 13:07:22 tg Exp $
 # $OpenBSD: Makefile,v 1.2 2003/12/30 21:29:53 sturm Exp $
 
 COMMENT=		"easy-to-use, robust, highly configurable VPN solution"
@@ -37,7 +37,6 @@ CONFIGURE_ARGS+=--disable-lzo
 CONFIGURE_ARGS+=--with-lzo-headers=${LOCALBASE}/include \
 		--with-lzo-lib=${LOCALBASE}/lib
 .endif
-FAKE_FLAGS+=	mkdir_p='/bin/mkdir -p'
 
 SAMPLES_DIR=	${PREFIX}/share/examples/openvpn
 
