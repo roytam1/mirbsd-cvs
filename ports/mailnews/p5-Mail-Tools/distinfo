@@ -1,3 +1,7 @@
-MD5 (MailTools-1.15.tar.gz) = 5b8125343cc1a130c713f5655a0e2784
-RMD160 (MailTools-1.15.tar.gz) = 67d1e1c553d6853cbd6193d0ce5898a584970e68
-SHA1 (MailTools-1.15.tar.gz) = 1a64c81d27c3bb563c21792104c26d37c82b77dd
+$MirOS$
+
+MD5 (MailTools-2.04.tar.gz) = d21ea4f375d1e5f3da6b0a4e8ba1e2c6
+RMD160 (MailTools-2.04.tar.gz) = 7a8d149e3d3c8fc9e65166590637eed5115b2cb2
+SHA1 (MailTools-2.04.tar.gz) = 6fccd04f9db0f478e19eec047be3bf0a1d8297f5
+SIZE (MailTools-2.04.tar.gz) = 52292
+TIGER (MailTools-2.04.tar.gz) = 1c2c95b32271049b6ab354381387fe6a92bfe90dd985adad
