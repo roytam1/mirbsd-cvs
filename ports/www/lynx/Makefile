@@ -1,8 +1,8 @@
-# $MirOS: ports/www/lynx/Makefile,v 1.7 2006/09/13 19:31:52 tg Exp $
+# $MirOS: ports/www/lynx/Makefile,v 1.8 2006/10/02 23:22:06 tg Exp $
 
 COMMENT=			standard text-mode world wide web browser
 CATEGORIES=			www essentials
-VERSION=			2.8.6pre.5
+VERSION=			2.8.7dev.1
 PL=				0
 DISTNAME=			lynx${VERSION:C/[a-z]$//}
 .if ${VERSION} != ${VERSION:C/[a-z]$//}
@@ -21,7 +21,7 @@ PERMIT_DISTFILES_FTP=		Yes
 PERMIT_PACKAGE_CDROM=		Yes
 PERMIT_PACKAGE_FTP=		Yes
 
-WRKDIST=			${WRKDIR}/lynx2-8-6
+WRKDIST=			${WRKDIR}/lynx2-8-7
 MAKE_FILE=			makefile
 INSTALL_TARGET=			install-full
 NO_REGRESS=			Yes

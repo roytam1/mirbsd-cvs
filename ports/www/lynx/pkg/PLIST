@@ -1,10 +1,12 @@
-@comment $MirOS: ports/www/lynx/pkg/PLIST,v 1.3 2006/09/13 19:31:53 tg Exp $
+@comment $MirOS: ports/www/lynx/pkg/PLIST,v 1.4 2006/10/02 23:22:08 tg Exp $
 bin/lynx
 bin/oldlynx
 man/man1/lynx.1
 share/lynx_doc/CHANGES
 share/lynx_doc/COPYHEADER
+share/lynx_doc/COPYHEADER.asc
 @comment share/lynx_doc/COPYING
+share/lynx_doc/COPYING.asc
 share/lynx_doc/PROBLEMS
 share/lynx_doc/README
 share/lynx_doc/docs/CHANGES2.3
