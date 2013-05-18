@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.374 2011/12/18 13:14:24 bsiegert Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.375 2011/12/28 23:19:07 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -8876,4 +8876,29 @@ Tag: news snapshot
  as <a href="@@RELPATH@@mksh.htm">mksh</a>. Occasionally, they do
  have updates, e.g. <a href="@@RELPATH@@jupp.htm#bins">the latest
  Jupp/Win32 release</a>, or fixes in CVS.</p>
+----
+Date: 05.01.2012 21:22
+Author: tg@
+Title: Clone a disc with progress indicator
+Tag: debian pcli tip
+
+<p>On <a href="@@RELPATH@@main.htm">MirBSD</a> and other sane OSes,
+ you can just press <tt>^T</tt> (Ctrl-T) when dd(1) runs; this sends
+ it a <tt>SIGINFO</tt> (cf. sigaction(2)) which asks it to display
+ (progress) information to the tty. This includes kFreeBSD, btw.</p>
+<p class="boxhead">There’s also pv:</p><div class="boxtext">
+ <pre>
+	dd if=/dev/mapper/vg01-${customername}--hudson bs=1048576 | \
+	    pv -pter -B 1048576 -s 85899345920 | \
+	    xz -0 >/mnt/ci-${customername}-snap-20120105-lenny.img.xz
+ </pre>
+</div><p class="boxfoot">I used this At wOrk today to back up a Jenkins VM
+ before upgrading its underlying operating system for evaluation. Here, the
+ <tt>-s</tt> flag is the total size (in bytes; don’t forget to multiply by
+ 1024 when reading from Linux’ /proc/partitions) so pv can calculate a total
+ and an ETA; <tt>-B</tt> is the same as <tt>bs</tt>; and xz is the currently
+ best compressor to use, in any situation, unless you must stay compatible to
+ gzip(1)-only systems. (Except that it’s not under an Open Source licence.)</p>
+<p><a href="http://sourceforge.net/projects/clpbar/">clpbar</a> might also
+ be worth looking into. XTaran points out sid has this as bar.</p>
 ----
