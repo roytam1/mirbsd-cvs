@@ -56,6 +56,7 @@
 #include <sys/types.h>
 #include <sys/time.h>
 #include <sys/file.h>
+#include <sys/ioctl.h>
 #include <sys/socket.h>
 #include <sys/uio.h>
 #include <netinet/in.h>
@@ -166,7 +167,7 @@ void printpartial(int);
 void userinput(void);
 __dead void cleanup(int);
 static void dowinch(int);
-static void tcsetup(int);
+static void dowinsz(int);
 int main(int, char *[]);
 static void pushlastchan(char *);
 
@@ -883,7 +884,7 @@ void userinput(void)
  again:
 	rv = read(stdinfd, &ch, 1);
 	if (sigwinch) {
-		tcsetup(1);
+		dowinsz(1);
 		sigwinch = 0;
 	}
 	if (rv == -1 && errno == EINTR)
@@ -933,7 +934,7 @@ void userinput(void)
 	case '\5':		/* C-e */
 	    curx = curli;
 	case '\14':		/* C-l */
-	    tcsetup(2);
+	    dowinsz(2);
 	    break;
 	case '\6':		/* C-f */
 	    if (curx < curli)
@@ -1035,25 +1036,20 @@ dowinch(int sig __attribute__((unused)))
 }
 
 static void
-tcsetup(int scrupdate)
+dowinsz(int scrupdate)
 {
-	if (tgetent(bp, term) < 1) {
-	    fprintf(stderr, "tinyirc: no termcap entry for %s\n", term);
-	    exit(1);
+	struct winsize ws;
+
+	CO = LI = -1;
+	if (ioctl(stdoutfd, TIOCGWINSZ, &ws) >= 0) {
+		CO = ws.ws_col - 2;
+		LI = ws.ws_row;
 	}
-	if ((CO = tgetnum(s_co) - 2) < 1)
+	if (CO < 5)
 		CO = 78;
-	if ((LI = tgetnum(s_li)) == -1)
+	if (LI < 5)
 		LI = 24;
-	if ((CM = tgetstr(s_cm, &ptr)) == NULL)
-		CM = tgetstr(s_CM, &ptr);
-	if ((SO = tgetstr(s_so, &ptr)) == NULL)
-		SO = "";
-	if ((SE = tgetstr(s_se, &ptr)) == NULL)
-		SE = "";
-	CS = tgetstr(s_cs, &ptr);
-	CE = tgetstr(s_ce, &ptr);
-	DC = tgetstr(s_dc, &ptr);
+
 	wasdate = 0;
 	if (scrupdate) {
 		tputs_x(tgoto(CS, LI - 3, 0));
@@ -1118,7 +1114,20 @@ main(int argc, char *argv[])
 	    fprintf(stderr, "tinyirc: TERM not set\n");
 	    exit(1);
 	}
-	tcsetup(0);
+	if (tgetent(bp, term) < 1) {
+	    fprintf(stderr, "tinyirc: no termcap entry for %s\n", term);
+	    exit(1);
+	}
+	if ((CM = tgetstr(s_cm, &ptr)) == NULL)
+		CM = tgetstr(s_CM, &ptr);
+	if ((SO = tgetstr(s_so, &ptr)) == NULL)
+		SO = "";
+	if ((SE = tgetstr(s_se, &ptr)) == NULL)
+		SE = "";
+	CS = tgetstr(s_cs, &ptr);
+	CE = tgetstr(s_ce, &ptr);
+	DC = tgetstr(s_dc, &ptr);
+	dowinsz(0);
 	if (!CM || !CS || !CE) {
 	    printf("tinyirc: sorry, no termcap cm,cs,ce: dumb mode set\n");
 	    dumb = 1;
