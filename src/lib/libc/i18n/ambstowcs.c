@@ -1,6 +1,6 @@
 /*-
  * Copyright (c) 2008
- *	Thorsten Glaser <tg@mirbsd.de>
+ *	Thorsten Glaser <tg@mirbsd.org>
  *
  * Provided that these terms and disclaimer and all copyright notices
  * are retained or reproduced in an accompanying document, permission
@@ -20,19 +20,32 @@
 
 #include <err.h>
 #include <wchar.h>
-#include "ambstowcs.h"
 
-__RCSID("$MirOS: src/share/common/ambstowcs.c,v 1.1 2007/07/16 15:12:02 tg Exp $");
+__RCSID("$MirOS: src/share/misc/licence.template,v 1.28 2008/11/14 15:33:44 tg Rel $");
+
+#ifdef L_ambsntowcs
+#define ambstowcs	ambsntowcs
+#define namestr		"ambsntowcs"
+#define SECARG		, size_t n
+#define mbsrtowcs	mbsnrtowcs
+#define MAXARG		, n
+#else
+#define namestr		"ambstowcs"
+#define SECARG		/* nothing */
+#define MAXARG		/* nothing */
+#endif
 
 wchar_t *
-ambstowcs(const char *s)
+ambstowcs(const char *s  SECARG)
 {
 	wchar_t *ws;
-	size_t n;
+	size_t len;
+	mbstate_t ps = { 0, 0 };
 
-	if ((ws = calloc((n = mbstowcs(NULL, s, 0) + 1),
+	if ((ws = calloc((len = mbsrtowcs(NULL, &s  MAXARG, 0, &ps) + 1),
 	    sizeof (wchar_t))) == NULL)
-		err(1, "out of memory allocating %zu wide chars", n);
-	mbstowcs(ws, s, n);
+		err(1, "%s: out of memory allocating %zu wide characters",
+		    namestr, len);
+	mbsrtowcs(ws, &s  MAXARG, len, &ps);
 	return (ws);
 }

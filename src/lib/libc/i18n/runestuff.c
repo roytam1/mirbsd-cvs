@@ -22,7 +22,7 @@
 #include <utf.h>
 #include <wchar.h>
 
-__RCSID("$MirOS: src/share/misc/licence.template,v 1.28 2008/11/14 15:33:44 tg Rel $");
+__RCSID("$MirOS: src/lib/libc/i18n/runestuff.c,v 1.1 2008/11/22 12:56:21 tg Exp $");
 
 #define DECL_PS		mbstate_t ps = { 0, 0 }
 
@@ -284,20 +284,13 @@ utfecpy(char *dst, char *end, const char *src)
 		return (dst + slen);
 	}
 
-	if ((bufp = buf = calloc(slen + 1, sizeof (wchar_t))) == NULL) {
-		/* truncating, possibly fragging last woctet */
-		memcpy(dst, src, dlen);
-	} else {
-		/* possibly truncating, retaining last woctet */
-		mbsrtowcs(buf, &src, slen + 1, &ps);
-		end = dst + wcsrtombs(dst, (const wchar_t **)&bufp, dlen - 1,
-		    &ps);
-		free(buf);
-		*end = '\0';
-		if (mbsinit(&ps))
-			/* no need to truncate last mbchar (valid OPTU-8) */
-			return (end);
-	}
+	bufp = buf = ambstowcs(src);
+	end = dst + wcsrtombs(dst, (const wchar_t **)&bufp, dlen - 1, &ps);
+	free(buf);
+	*end = '\0';
+	if (mbsinit(&ps))
+		/* no need to truncate last mbchar (valid OPTU-8) */
+		return (end);
 	/* truncate last mbchar (valid CESU-8) */
 	--end;
 	while ((*(unsigned char *)end & 0xC0) == 0x80)
@@ -353,12 +346,8 @@ utfrrune(char *s, wint_t wc)
 		return (match);
 	} else {
 		wchar_t *buf, *match, *cp;
-		size_t len;
 
-		if ((buf = calloc((len = mbstowcs(NULL, s, 0) + 1),
-		    sizeof (wchar_t))) == NULL)
-			return (NULL);
-		mbstowcs(buf, s, len);
+		buf = ambstowcs(s);
 		if ((match = wcsrchr(buf, wc)) != NULL) {
 			cp = buf;
 			while (cp < match)
@@ -387,12 +376,8 @@ utfrune(char *s, wint_t wc)
 		return (strstr(s, buf));
 	} else {
 		wchar_t *buf, *match, *cp;
-		size_t len;
 
-		if ((buf = calloc((len = mbstowcs(NULL, s, 0) + 1),
-		    sizeof (wchar_t))) == NULL)
-			return (NULL);
-		mbstowcs(buf, s, len);
+		buf = ambstowcs(s);
 		if ((match = wcschr(buf, wc)) != NULL) {
 			cp = buf;
 			while (cp < match)
@@ -411,18 +396,9 @@ utfutf(char *s1, const char *s2)
 {
 	if (s2 != NULL && *s2) {
 		wchar_t *buf1, *buf2, *match, *cp;
-		size_t len;
 
-		if ((buf1 = calloc((len = mbstowcs(NULL, s1, 0) + 1),
-		    sizeof (wchar_t))) == NULL)
-			return (NULL);
-		mbstowcs(buf1, s1, len);
-		if ((buf2 = calloc((len = mbstowcs(NULL, s2, 0) + 1),
-		    sizeof (wchar_t))) == NULL) {
-			free(buf1);
-			return (NULL);
-		}
-		mbstowcs(buf2, s2, len);
+		buf1 = ambstowcs(s1);
+		buf2 = ambstowcs(s2);
 		if ((match = wcsstr(buf1, buf2)) != NULL) {
 			cp = buf1;
 			while (cp < match)

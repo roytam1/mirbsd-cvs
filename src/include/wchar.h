@@ -1,4 +1,4 @@
-/* $MirOS: src/include/wchar.h,v 1.27 2008/11/22 12:18:21 tg Exp $ */
+/* $MirOS: src/include/wchar.h,v 1.28 2008/11/22 12:33:25 tg Exp $ */
 
 /*-
  * Copyright (c) 2007, 2008
@@ -216,6 +216,10 @@ __END_DECLS
 
 #if __OPENBSD_VISIBLE && !defined(iswoctet)
 #define iswoctet(wc)	(((wchar_t)(wc) & 0xFF80) == 0xEF80)
+wchar_t *ambsntowcs(const char *, size_t)
+    __attribute__((nonnull (1), bounded (string, 1, 2)));
+wchar_t *ambstowcs(const char *)
+    __attribute__((nonnull (1)));
 #endif
 
 #ifdef __GNUC__
