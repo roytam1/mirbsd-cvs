@@ -1,4 +1,4 @@
-# $MirOS: src/Makefile,v 1.40 2006/04/10 21:26:29 tg Exp $
+# $MirOS: src/Makefile,v 1.41 2006/04/10 21:35:28 tg Exp $
 # $OpenBSD: Makefile,v 1.103 2004/05/03 15:18:18 drahn Exp $
 
 .if defined(MAKECONF) && exists(${MAKECONF})
@@ -280,7 +280,7 @@ _do-dist:
 	@/bin/ls -Fl ${BSDRELDIR}/rel
 	@echo "============================================================"
 .if ${MACHINE_ARCH} == "i386"
-	cd ${BSDSRCDIR}/distrib/i386/livecd && ${MAKE} it
+	cd ${BSDSRCDIR}/distrib/i386/livecd && ${MAKE} it cleanworkdir
 	@echo
 	@echo Done with MirOS Snapshot generation.
 	@date
