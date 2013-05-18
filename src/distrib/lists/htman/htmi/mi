@@ -7471,6 +7471,7 @@
 ./manDOCS/milter/xxfi_helo.html
 ./manDOCS/milter/xxfi_negotiate.html
 ./manDOCS/milter/xxfi_unknown.html
+./manDOCS/sendmail.cf.htm
 ./manINFO/.htaccess
 ./manINFO/annotate.html
 ./manINFO/as.html
