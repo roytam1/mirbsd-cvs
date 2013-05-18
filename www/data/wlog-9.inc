@@ -2345,3 +2345,33 @@ Author: tg@
  sparc, and since all of our manual pages are online, I just could have
  pointed him there. But the mnbsd people are all quite nice.</p>
 ----
+Date: 20.10.2007
+Author: tg@
+
+<p>I suppose this is the day my best friend moves back into this city, and
+ since it’s due to his girlfriend I guess credit goes to her. Good. Now we
+ can hang around more than the last years.</p>
+<p>Today though I was at the others’ place (at cnuke@ and bogus), together
+ with Kabelaffe, and we hacked a little, everybody on his own project, as
+ we used to do in the past as well. I managed to create self-installing i386
+ boot blocks, integrated the chain boot block and SunOS disklabel, and now
+ everything is ready for MI installboot(8).</p>
+<p>I also started to poke around the kernel for using the hardware-aided AES
+ functions modern CPUs (not crypto extension cards!) provide. UVM swapencrypt
+ is going to use this code soon. vnd(4) will use the OCF – crypto(9) – for
+ operations though, so that users can select the actual algorithm used, and
+ we retain backwards compatibility (plus, software blowfish is a little less
+ CPU intensive than software Rĳndaël (AES)). I’ll have to write some glue
+ first though, as the APIs differ. And I’m still wondering how to test all
+ of this… I guess tear will have to hold for it prior to going live.</p>
+<p>I still did not make any progress with the merged manual pages though.
+ (Making a list which of them is the same between arches.) Although this
+ would be nice to spot gcc/sparc/nroff bugs as well.</p>
+<p>I had some conversation with Miod; maybe we should get boot.net back,
+ as bsd.net kernels can’t be debugged (due to having their symbol table
+ stripped, Miod says, but I don’t think it’s entirely stripped from what
+ I see at elf2aout(1)’s code). But I still need some helpful people to
+ e.g. maintain an mksh port inside OpenBSD Ports… and we definitively
+ need a kernel coder inside the MirOS project.</p>
+<p>It’s getting cold. Winter is near. Okay, so is Samhain.</p>
+----
