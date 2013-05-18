@@ -1,4 +1,4 @@
-.\"	$MirOS: src/share/man/man8/afterboot.8,v 1.7 2006/03/19 21:23:18 tg Exp $
+.\"	$MirOS: src/share/man/man8/afterboot.8,v 1.8 2006/04/19 18:40:04 tg Exp $
 .\"	$OpenBSD: afterboot.8,v 1.110 2005/07/14 21:12:17 jmc Exp $
 .\"
 .\" Copyright (c) 1997 Marshall M. Midden
@@ -85,8 +85,14 @@ Most significant and easily fixed problems will be reported at
 The web page will mention if a problem is security related.
 It is recommended that you check this page regularly.
 .Ss Login
-Log in as
-.Dq root .
+During installation, a user with which you can login has been created.
+Use
+.Xr sudo 8
+to perform administrative tasks.
+Logging in as
+.Dq root
+is no longer possible; this also affects single user mode
+(which only works after you manually set a root password).
 You can do so on the console, or over the network using
 .Xr ssh 1 .
 If you wish to log in as root over the network, edit the
@@ -96,7 +102,8 @@ file and set
 to
 .Dq yes
 first (see
-.Xr sshd_config 5 ) .
+.Xr sshd_config 5 ) ,
+but this is totally insecure.
 .Pp
 If you want to use RSA Version 1 or DSA Version 2 keys with
 .Xr sshd 8 ,
