@@ -1,4 +1,4 @@
-/* $MirOS: ports/infrastructure/pkgtools/lib/cfgfile.c,v 1.1.2.3 2009/12/23 13:54:14 bsiegert Exp $ */
+/* $MirOS: ports/infrastructure/pkgtools/lib/cfgfile.c,v 1.1.2.4 2009/12/23 15:41:47 bsiegert Exp $ */
 
 /*-
  * Copyright (c) 2009
@@ -29,36 +29,36 @@
 #include <string.h>
 #include <errno.h>
 #include <err.h>
-#include "queue.h"
+#include <sys/queue.h>
 #include "lib.h"
 
 #ifndef SYSCONFDIR
-# define SYSCONFDIR "."
+# define SYSCONFDIR "/etc"
 #endif
 #define CFG_FILE SYSCONFDIR "/pkgtools/pkgtools.conf"
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/cfgfile.c,v 1.1.2.3 2009/12/23 13:54:14 bsiegert Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/cfgfile.c,v 1.1.2.4 2009/12/23 15:41:47 bsiegert Exp $");
 
-typedef SLIST_HEAD(cfg_varlist, cfg_var) cfg_varlist;
+SLIST_HEAD(cfg_varlist, cfg_var);
 struct cfg_var {
 	char *key;
 	char *val;
 	SLIST_ENTRY(cfg_var) entries;
 };
 
-static cfg_varlist Vars = SLIST_HEAD_INITIALIZER(Vars);
+static struct cfg_varlist Vars = SLIST_HEAD_INITIALIZER(Vars);
 static char *Pager = NULL;
 
-FILE
-*cfg_open(void)
-{
-	FILE *cfgfile;
+LIST_HEAD(cfg_sourcelist, cfg_source);
+struct cfg_source {
+	unsigned long priority;
+	bool remote;
+	char *source;
+	LIST_ENTRY(cfg_source) entries;
+};
 
-	cfgfile = fopen(CFG_FILE, "r");
-	if (!cfgfile)
-		warn("Error opening configuration file");
-	return cfgfile;
-}
+static struct cfg_sourcelist Sources = LIST_HEAD_INITIALIZER(Sources);
+	
 
 /* Parse a line of the form "key=value", where i is the index of the '='
  * sign and len is the length of the string. Works even when the string is
@@ -68,30 +68,103 @@ static void
 parse_var(char *line, size_t i, size_t len)
 {
 	struct cfg_var *var;
+	char *key, *val;
+
+	assert(i < len);
+
+	/* i is the position of the '='; everything before is the name,
+	 * the value is everything after it */
+	key = cfg_expand_vars(line, i);
+	if (!key)
+		return;
+	val = cfg_expand_vars(line + i + 1, len - i - 1);
+	if (!val) {
+		warnx("%s: Variable expansion failed", var->key);
+		free(key);
+		return;
+	}
+
+	/* overwrite existing variable */
+	SLIST_FOREACH(var, &Vars, entries) {
+		if (!strcmp(key, var->key)) {
+			free(var->val);
+			var->val = val;
+			free(key);
+			return;
+		}
+	}
 
 	var = malloc(sizeof (struct cfg_var));
 	if (!var) {
 		warn(NULL);
+		free(key);
+		free(val);
 		return;
 	}
 
-	/* i is the position of the '='; everything before is the name,
-	 * the value is everything after it */
-	var->key = malloc(i + 1);
-	if (!var->key) {
-		warn(NULL);
-		return;
-	}
-	strlcpy(var->key, line, i + 1);
-
-	var->val = cfg_expand_vars(line + i + 1, len - i - 1);
-	if (!var->val) {
-		warnx("%s: Variable expansion failed", var->key);
-		return;
-	}
+	var->key = key;
+	var->val = val;
 	SLIST_INSERT_HEAD(&Vars, var, entries);
 }
 
+/* Parse a configuration directive of the form
+ * 	Source 1 /usr/ports/Packages
+ * where the first number is a priority (unsigned) and the rest is the
+ * path---either local or remote, ftp and http.
+ */
+static void
+parse_source(char *string, size_t len)
+{
+	char *arg, *sep;
+	struct cfg_source *source, *sp;
+
+	source = malloc(sizeof (struct cfg_source));
+	if (!source) {
+		warn(NULL);
+		return;
+	}
+
+	arg = cfg_expand_vars(string, len);
+	if (!arg) {
+		free(source);
+		return;
+	}
+	
+	source->priority = (unsigned long)strtol(arg, &sep, 0);
+	if (!sep || *sep == '\0') {
+		warnx("Syntax error in Source line '%s'", arg);
+		free(arg);
+		free(source);
+	}
+	while (*sep && isspace(*sep))
+		sep++;
+	source->source = strdup(sep);
+	free(arg);
+	if (!source->source) {
+		warn(NULL);
+		free(source);
+		return;
+	}
+	source->remote = isURL(source->source);
+
+	if (Verbose)
+		printf("Got package source '%s'%s, priority %lu\n",
+				source->source,
+				source->remote ? " (remote)" : "",
+				source->priority);
+
+	if (LIST_EMPTY(&Sources) ||
+			LIST_FIRST(&Sources)->priority >= source->priority)
+		LIST_INSERT_HEAD(&Sources, source, entries);
+	else {
+		LIST_FOREACH(sp, &Sources, entries) {
+			if (sp->priority >= source->priority) {
+				LIST_INSERT_BEFORE(sp, source, entries);
+				break;
+			}
+		}
+	}
+}
 
 /* Parse a configuration directive. i is the index of the space separating
  * the directive from the arguments.
@@ -103,24 +176,31 @@ parse_command(char *line, size_t i, size_t len)
 		if (Pager)
 			free(Pager);
 		Pager = cfg_expand_vars(line + i + 1, len - i - 1);
+	} else if (i == 6 && !strncasecmp(line, "Source", i)) {
+		parse_source(line + i + 1, len - i - 1);
 	} else
 		warnx("Unrecognized command: %s", line);
 }
 
 /* Read the configuration file. Returns true if successful, false otherwise.
  * The contents are saved in static variables, use the appropriate functions
- * to probe for them. */
+ * to probe for them.
+ * The argument is the filename for the configuration file, or NULL to use
+ * the default.
+ */
 bool
-cfg_read_config(void)
+cfg_read_config(const char *filename)
 {
 	FILE *cfgfile;
 	char *line;
 	size_t len, i;
 	bool line_end;
 
-	cfgfile = cfg_open();
-	if (!cfgfile)
+	cfgfile = fopen(filename ? filename : CFG_FILE, "r");
+	if (!cfgfile) {
+		warn("Error opening configuration file");
 		return false;
+	}
 
 	do {
 		line = fgetln(cfgfile, &len);

@@ -1,4 +1,4 @@
-/**	$MirOS: ports/infrastructure/pkgtools/lib/lib.h,v 1.28.2.1 2009/12/22 22:26:51 bsiegert Exp $ */
+/**	$MirOS: ports/infrastructure/pkgtools/lib/lib.h,v 1.28.2.2 2009/12/23 15:41:47 bsiegert Exp $ */
 /*	$OpenBSD: lib.h,v 1.14 2003/08/21 20:24:57 espie Exp $	*/
 
 /*
@@ -281,8 +281,7 @@ int sxsystem(bool, const char *)
     __attribute__((nonnull (2)));
 
 /* configuration file */
-bool		cfg_read_config(void);
-FILE		*cfg_open(void);
+bool		cfg_read_config(const char*);
 void		cfg_dump_vars(void);
 char		*cfg_expand_vars(char*, size_t);
 const char	*cfg_get_pager(void);
