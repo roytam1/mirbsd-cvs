@@ -1,6 +1,0 @@
-# $MirOS: src/distrib/common/listend.i386,v 1.17 2008/12/10 18:03:21 tg Exp $
-
-# devices stuff
-SPECIAL	cd dev; mksh MAKEDEV ptm pty0; rm ?typ[a-zA-Z]
-SPECIAL	cd dev; mksh MAKEDEV ramdisk
-SPECIAL	print '/r:1,128/s//f:1, &/\nwq' | ed -s .profile
