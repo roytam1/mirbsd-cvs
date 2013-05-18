@@ -1,4 +1,4 @@
-/* $MirOS: src/include/ctype.h,v 1.12 2007/02/02 21:09:06 tg Exp $ */
+/* $MirOS: src/include/ctype.h,v 1.13 2007/02/08 04:31:02 tg Exp $ */
 
 /*-
  * Copyright (c) 2006, 2007
@@ -72,10 +72,12 @@ extern const unsigned char __C_attribute_table_pg[256];
 	 !(__C_attribute_table_pg[__CTYPE_Ic] & (_ctp_ ## t >> 8)));	\
 })
 #else
-#define __CTYPE_IMPL(c,t)						\
-	(((((int)(c)) < 0) || (((int)(c)) > 127)) ? 0 :			\
-	 ((__C_attribute_table_pg[((int)(c))] & (_ctp_ ## t & 0xFF)) &&	\
-	 !(__C_attribute_table_pg[((int)(c))] & (_ctp_ ## t >> 8))))
+#define __CTYPE_IMPL(c,t)				\
+	((((unsigned)(c)) > 127) ? 0 :			\
+	 ((__C_attribute_table_pg[((unsigned)(c))] &	\
+	    (_ctp_ ## t & 0xFF)) &&			\
+	 !(__C_attribute_table_pg[((unsigned)(c))] &	\
+	    (_ctp_ ## t >> 8))))
 #endif
 
 #define isalnum(c)	__CTYPE_IMPL((c),alnum)
@@ -107,7 +109,7 @@ extern const unsigned char __C_attribute_table_pg[256];
 #endif
 
 #if !defined(_ANSI_SOURCE) && !defined(_POSIX_SOURCE)
-#define isascii(c)	((unsigned int)(c) < 0x80)
+#define isascii(c)	((unsigned)(c) < 0x80)
 #define isblank(c)	__CTYPE_IMPL((c),blank)
 #define toascii(c)	((c) & 0x7F)
 
