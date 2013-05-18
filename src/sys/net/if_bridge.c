@@ -45,6 +45,7 @@
 #include <sys/errno.h>
 #include <sys/kernel.h>
 #include <machine/cpu.h>
+#include <dev/rndvar.h>
 
 #include <net/if.h>
 #include <net/if_types.h>
@@ -91,7 +92,7 @@
 #endif
 
 #include <net/if_bridge.h>
-
+	
 #ifndef	BRIDGE_RTABLE_SIZE
 #define	BRIDGE_RTABLE_SIZE	1024
 #endif

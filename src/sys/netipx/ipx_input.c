@@ -47,6 +47,7 @@
 #include <net/if.h>
 #include <net/route.h>
 #include <net/netisr.h>
+#include <dev/rndvar.h>
 
 #include <netipx/ipx.h>
 #include <netipx/spx.h>

@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/netinet/ip_carp.c,v 1.4 2005/12/20 19:41:43 tg Exp $ */
+/**	$MirOS: src/sys/netinet/ip_carp.c,v 1.5 2006/09/22 13:17:04 tg Exp $ */
 /*	$OpenBSD: ip_carp.c,v 1.52 2004/05/16 02:06:10 mcbride Exp $	*/
 
 /*
@@ -50,6 +50,7 @@
 #include <sys/syslog.h>
 
 #include <machine/cpu.h>
+#include <dev/rndvar.h>
 
 #include <net/if.h>
 #include <net/if_types.h>

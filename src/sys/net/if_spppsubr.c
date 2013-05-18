@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/net/if_spppsubr.c,v 1.7 2006/09/24 18:41:15 tg Exp $ */
+/**	$MirOS: src/sys/net/if_spppsubr.c,v 1.8 2006/10/17 20:48:49 tg Exp $ */
 /*	$OpenBSD: if_spppsubr.c,v 1.34 2005/06/08 06:55:33 henning Exp $	*/
 /*
  * Synchronous PPP/Cisco link level subroutines.
@@ -75,6 +75,7 @@
 #if defined (__FreeBSD__) || defined(__OpenBSD_) || defined(__NetBSD__)
 #include <machine/random.h>
 #endif
+#include <dev/rndvar.h>
 #if defined (__NetBSD__) || defined (__OpenBSD__)
 #include <machine/cpu.h> /* XXX for softnet */
 #endif
