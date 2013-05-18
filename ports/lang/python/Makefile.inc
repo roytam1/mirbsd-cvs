@@ -1,4 +1,4 @@
-# $MirOS: ports/lang/python/Makefile.inc,v 1.11 2007/07/19 22:13:07 tg Exp $
+# $MirOS: ports/lang/python/Makefile.inc,v 1.12 2007/08/24 14:23:40 tg Exp $
 # $OpenBSD: Makefile.inc,v 1.32 2005/06/06 20:47:04 alek Exp $
 
 .include <mirports.sys.mk>
@@ -21,9 +21,7 @@ COMMENT-tools=		extra tools for Python
 PKGNAME=		python-${VERSION}${PATCHLEVEL}-${DASH_VER}
 DISTNAME=		Python-${VERSION}${PATCHLEVEL}
 CATEGORIES=		lang
-MASTER_SITES=		ftp://ftp.python.org/pub/${PSUBDIR}/ \
-			http://python.mirrors.pair.com/ftp/${PSUBDIR}/ \
-			http://python.mirrors.ilisys.com.au/ftp/${PSUBDIR}/
+MASTER_SITES=		http://www.python.org/ftp/${PSUBDIR}/
 PSUBDIR=		python/${VERSION}${PATCHLEVEL}
 EXTRACT_SUFX=		.tgz
 
