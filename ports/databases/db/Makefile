@@ -1,4 +1,6 @@
-# $MirOS: ports/databases/db/Makefile,v 1.6 2005/07/26 20:07:37 bsiegert Exp $
+# $MirOS: ports/databases/db/Makefile,v 1.5 2005/07/25 20:31:58 bsiegert Exp $
+
+BROKEN=			ask tg@ to re-add SEPARATE_BUILD
 
 COMMENT=		"Berkeley DB, revision 4"
 COMMENT-doc=		"Berkeley DB documentation, revision 4"
