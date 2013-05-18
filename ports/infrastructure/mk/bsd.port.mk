@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.81 2005/12/17 02:57:14 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.82 2005/12/17 03:06:07 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -2029,6 +2029,9 @@ ${_FAKE_COOKIE}: ${_BUILD_COOKIE} ${WRKPKG}/mtree.spec
 	@${SUDO} ${INSTALL_PROGRAM_DIR} ${WRKINST}
 	@${SUDO} /usr/sbin/mtree -U -e -d -n -p ${WRKINST} \
 		-f ${WRKPKG}/mtree.spec  >/dev/null
+.  if ${PREFIX} == "/usr"
+	@${SUDO} ln -s ../man ${WRKINST}/usr/share/man
+.  endif
 .  for _p in ${PROTECT_MOUNT_POINTS}
 	@${SUDO} mount -u -r ${_p}
 .  endfor
@@ -2064,6 +2067,10 @@ ${_FAKE_COOKIE}: ${_BUILD_COOKIE} ${WRKPKG}/mtree.spec
 .  for _p in ${PROTECT_MOUNT_POINTS}
 	@${SUDO} mount -u -w ${_p}
 .  endfor
+.  if ${PREFIX} == "/usr"
+	@[[ $$(readlink ${WRKINST}/usr/share/man) != ../man ]] || \
+	    ${SUDO} rm ${WRKINST}/usr/share/man
+.  endif
 	@${SUDO} ${_MAKE_COOKIE} $@
 
 # The real install
