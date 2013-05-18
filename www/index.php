@@ -1,5 +1,5 @@
 <?php
-/* $MirOS: www/index.php,v 1.17 2006/01/19 01:23:57 tg Exp $ */
+/* $MirOS: www/index.php,v 1.18 2006/05/08 21:05:30 tg Exp $ */
 /*-
  * The MirOS Project - Webpages
  * Copyrighted material; read LICENCE for terms of use.
@@ -50,6 +50,15 @@
  </ul>
 </div>
 <div class="content">
+ <div style="border:4px ridge blue; margin:0px 24px 0px 24px; padding:12px;">
+  <h1>Important message</h1>
+  <p>This website is currently under reconstruction. The information
+   you find here is probably out of date and not maintained any more
+   in favour of the new website. If you want to volunteer helping us
+   to set up the new website (same design, KISS content), mail Benny
+   at bsiegert@mirbsd.de, thanks.</p>
+  <p>Continue at your own risk&#8230;</p>
+ </div>
  <?php
 	$cmsc = get_include_contents($rq);
 	if ($cmsc === false) {
