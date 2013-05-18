@@ -1,4 +1,4 @@
-.\"	$MirOS: src/share/tmac/mdoc/doc-syms,v 1.8 2006/08/11 12:35:56 tg Exp $
+.\"	$MirOS: src/share/tmac/mdoc/doc-syms,v 1.9 2006/11/03 15:05:12 tg Exp $
 .\"	$OpenBSD: doc-syms,v 1.57 2005/06/05 19:39:27 jmc Exp $
 .\"
 .\" Copyright (c) 2003, 2004, 2006
@@ -416,7 +416,8 @@
 .		ds b1 \&\\*(tNIEEE Std \\*(aa754-1985
 .	\}
 .	if "\\*(A\\n(aP"-iso8802-3" \{\
-.		ds b1 \&\\*(tNISO \\*(aa8802-3: 1989\\*(sV
+.		ds b1 \&\\*(tNISO \\*(aa8802-3: 1989
+.\" .		ds b1 \&\\*(tNISO \\*(aa8802-3: 1989\\*(sV
 .\" .		as b1 ("\\*(tNANSI C\\*(aa")
 .	\}
 .	if "\\*(A\\n(aP"-xpg3" \{\
