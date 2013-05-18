@@ -1,5 +1,5 @@
 <!-- PageID: mksh -->
-<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.106 2007/05/24 09:28:13 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.107 2007/05/24 23:10:36 tg Exp $</small>
 
 <h1>mksh(1) R29</h1>
 <p>This is the MirBSD&trade; Korn Shell, a more or less portable
@@ -16,6 +16,7 @@
 
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#clog">ChangeLog</a></li>
+ <li><a href="#vsn">on version numbers</a> – for packagers</li>
  <li><a href="#plans">future plans</a></li>
  <li><a href="#prefetch">Requirements</a></li>
  <li><a href="#fetch">Downloading</a></li>
@@ -91,6 +92,8 @@
  <li>Remove some probably dead mirtoconf checks</li>
  <li>Fix detection of function prototypes (data declaractions were ok)</li>
  <li>Fix a regression introduced in R29e regarding the scroll bar</li>
+ <li>Recommendation on <a href="#vsn">version numbering</a> changed;
+  suffixes b, c, … match .2, .3, … like alphabetical numbering order</li>
 </ul>
 <p>Dedicated to David Ramsey and Coverity, mksh R29e unveils:</p><ul>
  <li>Don't poll in strcasestr(3) if setlocale(3) isn't used</li>
@@ -544,6 +547,30 @@
  and the inability to build without gcc installed as gcc. It also
  adds installation hints for various operating systems.</p>
 <p>v1.11 is a minor update to v1.10 with a few build and style fixes only.</p>
+
+<h2 id="vsn">Recommendations on version numbering</h2>
+<p>mksh by default uses a version numbering scheme that uses full integers,
+ prefixed by a capital letter R significing “Release”. If minor updates are
+ required or requested, a lower-case letter from the standard latin alphabet
+ will be appended, starting at ‘b’ and ending at ‘z’ (but usually way before
+ or at ‘i’). If a packaging system cannot handle version numbers such as
+ <tt>mksh-R29b</tt> (source) -&gt; <tt>mksh-R29b-1</tt>, <tt>mksh-R29bp1</tt>
+ (binary), packagers OUGHT TO map this to a numerical system as follows:
+ <tt>mksh-29.2-1</tt>, <tt>mksh-29.2.1</tt>, <tt>mksh-29.2nb0</tt>, depending
+ on the packaging-system local policy for build numbers / patchlevels.</p>
+<p>Schemes to AVOID are <tt>mirbsdksh-1.29b</tt>, <tt>mksh-2.9.2</tt>, or
+ worse. Please adhere to our recommendations so that users are able to locate
+ mksh in their operation environment of choice.</p>
+
+<h3 id="editor">/bin/ed</h3>
+<p>While we're at it – recommendations for packagers – there is another set
+ of do's and dont's: location of the UNIX® standard text editor. As outlined
+ in traditional unixoid operating system standards, manifested into POSIX,
+ and – for these three-letter words that aren't Unix, no matter which of the
+ kernels they use in their variety of so-called distributions – the <a
+ href="http://www.pathname.com/fhs/pub/fhs-2.3.html#SPECIFICOPTIONS2">FHS</a>
+ (FSSTND): ed lives in <tt>/bin/ed</tt>, period.</p>
+<p>Patching mksh's to look for ed in ANY other location is a MUST NOT.</p>
 
 <h2 id="plans">Future Plans</h2><ul>
 <li>bash-style multiline command line editing, as an option (the current
