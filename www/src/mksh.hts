@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.511 2013/04/26 22:25:43 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.512 2013/04/26 22:39:14 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -1168,15 +1168,23 @@ exec /usr/bin/ld "${args[@]}"</pre>
 <p><a href="mksh_old.htm#caveat">older entries</a></p>
 
 <h2 id="clog">Recent Changes</h2>
-<!--
 <p>Changes in the current (unreleased) development version:</p><ul>
--->
  <!-- li>Begin porting mksh to the <a href="http://9fans.net/">Plan 9</a>
   ANSI’n’POSIX Environment (not finished)</li -->
  <!-- li>Port to <a href="http://www.syllable.org/">Syllable Desktop</a>
   (not finished, but maybe the rest is a kernel bug?)</li -->
  <!-- li>Import the GNU bash- and zsh-style ability to get and set multiple
   limits in a single invocation from oksh (thanks millert) -->
+ <li>[tg] <tt>dot.mkshrc</tt>: prevent lksh from running it</li>
+ <li>[tg] Add the lksh manual page to the mksh distribution</li>
+ <li>[tg] Make both lksh and mksh interpret numbers with a leading digit
+  zero (‘0’) as octal precisely iff “set -o posix” is active</li>
+ <li>[tg] Point out the octal digit and the integer arithmetic differences
+  from POSuX verbosely in the manual pages (point people who need octals to
+  “set -o posix” and who need longs to lksh) and elaborate on the horrors of
+  ISO C Undefined Behaviour which is allowed to delete all your data</li>
+ <li>[tg] Unbreak “set -o” (list flags) in lksh on LP64 machines</li>
+</ul>
 <p id="r45">R45 comes with this bag of changes:</p><ul>
  <li>[tg] Make “set -x” print the commands run in escaped form</li>
  <li>[tg] <tt>PS4</tt> in <tt>dot.mkshrc</tt> is now timestamped</li>
