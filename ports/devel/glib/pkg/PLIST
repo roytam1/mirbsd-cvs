@@ -1,4 +1,4 @@
-@comment $MirOS: ports/devel/glib/pkg/PLIST,v 1.8 2009/08/05 07:54:09 tg Exp $
+@comment $MirOS: ports/devel/glib/pkg/PLIST,v 1.9 2010/11/25 15:35:42 bsiegert Exp $
 @comment $OpenBSD: PLIST,v 1.13 2004/10/26 03:49:03 marcm Exp $
 bin/glib-genmarshal
 bin/glib-gettextize
@@ -130,7 +130,7 @@ include/glib-2.0/gobject/gvaluearray.h
 include/glib-2.0/gobject/gvaluecollector.h
 include/glib-2.0/gobject/gvaluetypes.h
 @comment lib/charset.alias
-lib/gio/modules/libgiofam.la
+@comment lib/gio/modules/libgiofam.la
 lib/glib-2.0/include/glibconfig.h
 lib/libgio-2.0.la
 lib/libglib-2.0.la
@@ -416,8 +416,6 @@ share/locale/zh_TW/LC_MESSAGES/glib20.mo
 @dirrm lib/pkgconfig
 @dirrm lib/glib-2.0/include
 @dirrm lib/glib-2.0
-@dirrm lib/gio/modules
-@dirrm lib/gio
 @dirrm include/glib-2.0/gobject
 @dirrm include/glib-2.0/glib
 @dirrm include/glib-2.0/gio
