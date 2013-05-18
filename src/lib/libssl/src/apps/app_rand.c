@@ -119,7 +119,7 @@
 #include <openssl/bio.h>
 #include <openssl/rand.h>
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/lib/libssl/src/apps/app_rand.c,v 1.2 2008/07/06 15:43:18 tg Exp $");
 
 static int seeded = 0;
 static int egdsocket = 0;
@@ -222,15 +222,25 @@ void app_RAND_allow_write_file(void)
 	seeded = 1;
 	}
 
-void app_RAND_pushback(void)
+void app_RAND_pushback(uint32_t x1, uint32_t x2, uint32_t x3, uint32_t x4)
 	{
 #ifdef MBSD_CB_ARND
-	uint8_t oldentropy[16];
+	union {
+		uint8_t byone[16];
+		uint32_t byfour[4];
+	} oldentropy;
 	uint32_t newentropy;
 
-	RAND_bytes(oldentropy, sizeof (oldentropy));
-	newentropy = arc4random_pushb(oldentropy, sizeof (oldentropy));
+	RAND_bytes(oldentropy.byone, sizeof (oldentropy));
+	oldentropy.byfour[0] ^= x1;
+	oldentropy.byfour[1] ^= x2;
+	oldentropy.byfour[2] ^= x3;
+	oldentropy.byfour[3] ^= x4;
+	newentropy = arc4random_pushb(oldentropy.byone, sizeof (oldentropy));
 	RAND_add(&newentropy, 4, 3.9);
+#elif defined(LINT)
+	x1=x2;
+	x3=x4;
 #endif
 	return;
 	}

@@ -140,7 +140,7 @@ typedef unsigned int u_int;
 #include <openssl/rand.h>
 #include "s_apps.h"
 
-__RCSID("$MirOS: src/lib/libssl/src/apps/s_server.c,v 1.5 2008/05/22 22:00:41 tg Exp $");
+__RCSID("$MirOS: src/lib/libssl/src/apps/s_server.c,v 1.6 2008/07/06 15:44:51 tg Exp $");
 
 #ifdef OPENSSL_SYS_WINCE
 /* Windows CE incorrectly defines fileno as returning void*, so to avoid problems below... */
@@ -1697,7 +1697,7 @@ static RSA MS_CALLBACK *tmp_rsa_cb(SSL *s, int is_export, int keylength)
 	{
 	static RSA *rsa_tmp=NULL;
 
-	app_RAND_pushback();
+	app_RAND_pushback((uint32_t)s, is_export, keylength, (uint32_t)rsa_tmp);
 
 	if (rsa_tmp == NULL)
 		{

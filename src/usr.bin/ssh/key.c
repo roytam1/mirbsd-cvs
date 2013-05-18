@@ -48,7 +48,7 @@
 #include "buffer.h"
 #include "log.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.bin/ssh/key.c,v 1.2 2008/05/22 21:50:43 tg Exp $");
 
 static void key_gen_callback(int, int, void *);
 
@@ -871,12 +871,18 @@ key_demote(const Key *k)
 }
 
 static void
-key_gen_callback(int p __attribute__((unused)),
-    int n __attribute__((unused)), void *arg __attribute__((unused)))
+key_gen_callback(int p, int n, void *arg)
 {
-	uint32_t oldentropy, newentropy;
+	union {
+		uint8_t byone[16];
+		uint32_t byfour[4];
+	} oldentropy;
+	uint32_t newentropy;
 
-	RAND_bytes((u_char *)&oldentropy, sizeof (uint32_t));
-	newentropy = arc4random_pushb(&oldentropy, sizeof (uint32_t));
+	RAND_bytes(oldentropy.byone, sizeof (oldentropy));
+	oldentropy.byfour[0] ^= (uint32_t)p;
+	oldentropy.byfour[1] ^= (uint32_t)n;
+	oldentropy.byfour[2] ^= (uint32_t)arg;
+	newentropy = arc4random_pushb(oldentropy.byone, sizeof (oldentropy));
 	RAND_add(&newentropy, 4, 3.9);
 }

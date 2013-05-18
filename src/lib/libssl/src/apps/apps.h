@@ -1,4 +1,4 @@
-/* $MirOS: src/lib/libssl/src/apps/apps.h,v 1.2 2007/09/28 12:41:52 tg Exp $ */
+/* $MirOS: src/lib/libssl/src/apps/apps.h,v 1.3 2008/07/06 15:44:50 tg Exp $ */
 
 /* apps/apps.h */
 /* Copyright (C) 1995-1998 Eric Young (eay@cryptsoft.com)
@@ -128,7 +128,7 @@
 #endif
 #include <openssl/ossl_typ.h>
 
-void app_RAND_pushback(void);
+void app_RAND_pushback(uint32_t, uint32_t, uint32_t, uint32_t);
 
 int app_RAND_load_file(const char *file, BIO *bio_e, int dont_warn);
 int app_RAND_write_file(const char *file, BIO *bio_e);

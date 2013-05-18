@@ -71,7 +71,7 @@
 #include <openssl/pem.h>
 #include <openssl/rand.h>
 
-__RCSID("$MirOS: src/lib/libssl/src/apps/genrsa.c,v 1.4 2008/05/22 22:00:40 tg Exp $");
+__RCSID("$MirOS: src/lib/libssl/src/apps/genrsa.c,v 1.5 2008/07/06 15:44:50 tg Exp $");
 
 #define DEFBITS	512
 #undef PROG
@@ -311,7 +311,7 @@ void MS_CALLBACK genrsa_cb(int p, int n, void *arg)
 	if (p == 2) c='*';
 	if (p == 3) c='\n';
 	BIO_write((BIO *)arg,&c,1);
-	app_RAND_pushback();
+	app_RAND_pushback((uint32_t)p, (uint32_t)n, (uint32_t)arg, 0);
 	(void)BIO_flush((BIO *)arg);
 #ifdef LINT
 	p=n;

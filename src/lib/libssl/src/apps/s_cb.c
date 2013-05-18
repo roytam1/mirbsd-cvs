@@ -121,7 +121,7 @@
 #include <openssl/ssl.h>
 #include "s_apps.h"
 
-__RCSID("$MirOS: src/lib/libssl/src/apps/s_cb.c,v 1.5 2008/05/22 22:00:40 tg Exp $");
+__RCSID("$MirOS: src/lib/libssl/src/apps/s_cb.c,v 1.6 2008/07/06 15:44:50 tg Exp $");
 
 int verify_depth=0;
 int verify_error=X509_V_OK;
@@ -132,7 +132,7 @@ int MS_CALLBACK verify_callback(int ok, X509_STORE_CTX *ctx)
 	X509 *err_cert;
 	int err,depth;
 
-	app_RAND_pushback();
+	app_RAND_pushback((uint32_t)ok, (uint32_t)ctx, 0, 0);
 
 	err_cert=X509_STORE_CTX_get_current_cert(ctx);
 	err=	X509_STORE_CTX_get_error(ctx);
@@ -180,7 +180,7 @@ int MS_CALLBACK verify_callback(int ok, X509_STORE_CTX *ctx)
 
 int set_cert_stuff(SSL_CTX *ctx, char *cert_file, char *key_file)
 	{
-	app_RAND_pushback();
+	app_RAND_pushback((uint32_t)ctx, (uint32_t)cert_file, (uint32_t)key_file, 0);
 	if (cert_file != NULL)
 		{
 		/*
@@ -239,7 +239,7 @@ long MS_CALLBACK bio_dump_cb(BIO *bio, int cmd, const char *argp, int argi,
 	{
 	BIO *out;
 
-	app_RAND_pushback();
+	app_RAND_pushback((uint32_t)bio, (uint32_t)argp, cmd^argi, (uint32_t)(argl^ret));
 
 	out=(BIO *)BIO_get_callback_arg(bio);
 	if (out == NULL) return(ret);
@@ -265,7 +265,7 @@ void MS_CALLBACK apps_ssl_info_callback(const SSL *s, int where, int ret)
 	char *str;
 	int w;
 
-	app_RAND_pushback();
+	app_RAND_pushback((uint32_t)s, where, ret, w);
 
 	w=where& ~SSL_ST_MASK;
 
@@ -304,7 +304,7 @@ void MS_CALLBACK msg_cb(int write_p, int version, int content_type, const void *
 	BIO *bio = arg;
 	const char *str_write_p, *str_version, *str_content_type = "", *str_details1 = "", *str_details2= "";
 
-	app_RAND_pushback();
+	app_RAND_pushback((uint32_t)(write_p^version^content_type)^(uint32_t)len, (uint32_t)buf, (uint32_t)ssl, (uint32_t)arg);
 
 	str_write_p = write_p ? ">>>" : "<<<";
 
