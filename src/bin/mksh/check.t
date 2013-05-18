@@ -220,11 +220,19 @@ stdin:
 	echo -n >tf
 	alias ls=ls
 	ls
-	echo $(ls)
+	echo = now
+	i=`ls`
+	print -r -- $(for x in "$i"; do
+		[[ $x = @(.|..) ]] && continue
+		print -r -- "$x"
+	done)
+	echo = out
 	exit 0
 expected-stdout:
 	tf
+	= now
 	tf
+	= out
 ---
 name: alias-10
 description:
@@ -7596,10 +7604,10 @@ stdin:
 	mk 'function foo ()' >f-bash
 	mk 'function stop ()' stop >f-stop
 	chmod +x f-*
-	echo "korn: $(./f-korn)"
-	echo "dash: $(./f-dash)"
-	echo "bash: $(./f-bash)"
-	echo "stop: $(./f-stop)"
+	x="korn: $("$PWD"/f-korn)"; echo "${x/@("$PWD")/.}"
+	x="dash: $("$PWD"/f-dash)"; echo "${x/@("$PWD")/.}"
+	x="bash: $("$PWD"/f-bash)"; echo "${x/@("$PWD")/.}"
+	x="stop: $("$PWD"/f-stop)"; echo "${x/@("$PWD")/.}"
 expected-stdout:
 	korn: bar='foo'
 	dash: bar='./f-dash'
