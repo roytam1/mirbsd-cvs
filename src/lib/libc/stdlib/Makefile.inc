@@ -1,4 +1,4 @@
-# $MirOS: src/lib/libc/stdlib/Makefile.inc,v 1.7 2007/05/22 16:13:51 tg Exp $
+# $MirOS: src/lib/libc/stdlib/Makefile.inc,v 1.8 2008/08/01 19:07:44 tg Exp $
 
 # stdlib sources
 .PATH: ${LIBCSRCDIR}/arch/${MACHINE_ARCH}/stdlib ${LIBCSRCDIR}/stdlib
@@ -48,7 +48,7 @@ SRCS+=	insque.c remque.c
 
 MALLOC_TYPE?=mmap
 .if ${MALLOC_TYPE:L} == "mmap"
-SRCS+=	malloc.c
+SRCS+=	malloc_mmap.c
 .elif ${MALLOC_TYPE:L} == "brk"
 SRCS+=	malloc_brk.c
 .else
