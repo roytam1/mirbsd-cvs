@@ -1,4 +1,4 @@
-# $MirOS: ports/books/mirex/Makefile,v 1.5 2006/01/27 01:03:33 tg Exp $
+# $MirOS: ports/books/mirex/Makefile,v 1.6 2006/02/21 03:24:53 tg Exp $
 
 COMMENT=		"MirOS sample files, keys and information"
 CATEGORIES=		books
@@ -20,6 +20,7 @@ WRKDIST=		${WRKDIR}/contrib/samples
 DATA_DIR=		${PREFIX}/share/examples/mirex
 KEYS=			1 2
 
+# sync with src/distrib/i386/ramdisk/list.local
 post-build:
 	tail -3 <${WRKDIR}/src/share/doc/README | grep '^key ' \
 	    | while IFS="	" read keynr keyfile; do \

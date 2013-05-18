@@ -1,9 +1,9 @@
-# $MirOS: src/sys/arch/i386/conf/FLOPPY,v 1.7 2005/12/05 16:57:57 tg Exp $
-# _MirOS: src/sys/arch/i386/conf/GENERIC,v 1.23 2005/10/18 21:03:05 tg Exp $
+# $MirOS: src/sys/arch/i386/conf/FLOPPY,v 1.8 2005/12/05 17:25:44 tg Exp $
+# _MirOS: src/sys/arch/i386/conf/GENERIC,v 1.26 2006/01/09 18:34:15 tg Exp $
 
 machine		i386			# arch, used by config; REQUIRED
 
-# $MirOS: src/sys/arch/i386/conf/FLOPPY,v 1.7 2005/12/05 16:57:57 tg Exp $
+# $MirOS: src/sys/arch/i386/conf/FLOPPY,v 1.8 2005/12/05 17:25:44 tg Exp $
 # $OpenBSD: GENERIC,v 1.112 2004/11/28 23:39:45 canacar Exp $
 #
 # Machine-independent option; used by all architectures.
@@ -45,8 +45,6 @@ option		RAMDISK_HOOKS		# allow using initrd
 
 #option		COMPAT_OSSAUDIO		# source compatibility with OSS/Lite
 #option		COMPAT_OPENBSD		# binary compatibility with OpenBSD
-#option		COMPAT_78		# MirOS #7-current (before ca. 08u40)
-					# note this needs COMPAT_OPENBSD also
 
 option		FFS			# UFS
 option		FFS_SOFTUPDATES		# Soft updates
@@ -96,7 +94,7 @@ option		INET6			# IPv6 (needs INET)
 
 #pseudo-device	pty	16		# pseudo-terminals (can grow runtime)
 #pseudo-device	tb	1		# tablet line discipline
-#pseudo-device	vnd	16		# paging to files
+pseudo-device	vnd	2		# paging to files
 #pseudo-device	ccd	4		# concatenated disk devices
 pseudo-device	rd	1		# ramdisk (fixed/avail and umem)
 #pseudo-device	ksyms	1		# kernel symbols device
@@ -438,9 +436,9 @@ lc0	at isa? port 0x200 irq ?		# DEC EtherWorks
 lc1	at isa? port 0x280 irq ?		# DEC EtherWorks
 le0	at isa? port 0x360 irq 15 drq 6		# IsoLan, NE2100, and DEPCA
 ex0	at isa? port 0x320 irq 5		# Intel EtherExpress PRO/10
-#tr0	at isa? disable port 0xa20 iomem 0xd8000 irq ?	# IBM TROPIC based Token-Ring
-#tr1	at isa? disable port 0xa24 iomem 0xd0000 irq ?
-#tr*	at isa? disable port ? irq ?			# 3COM TROPIC based Token-Ring
+#tr0	at isa? port 0xa20 iomem 0xd8000 irq ?	# IBM TROPIC based Token-Ring
+#tr1	at isa? port 0xa24 iomem 0xd0000 irq ?
+#tr*	at isa? port ? irq ?			# 3COM TROPIC based Token-Ring
 #lmc*	at pci? dev ? function ?		# Lan Media Corp SSI/T3/HSSI
 le*	at pci? dev ? function ?		# PCnet-PCI based ethernet
 le*	at isapnp?

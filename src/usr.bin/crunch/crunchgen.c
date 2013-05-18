@@ -1,4 +1,4 @@
-/* $MirOS: src/usr.bin/crunch/crunchgen.c,v 1.2 2005/03/13 18:32:50 tg Exp $ */
+/* $MirOS: src/usr.bin/crunch/crunchgen.c,v 1.3 2006/02/24 01:19:46 tg Exp $ */
 /* $OpenBSD: crunchgen.c,v 1.21 2004/08/24 09:11:39 jmc Exp $	 */
 
 /*
@@ -43,7 +43,7 @@
 #include <ctype.h>
 #include <string.h>
 
-__RCSID("$MirOS: src/usr.bin/crunch/crunchgen.c,v 1.2 2005/03/13 18:32:50 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/crunch/crunchgen.c,v 1.3 2006/02/24 01:19:46 tg Exp $");
 
 #define CRUNCH_VERSION	"0.3-MirOS"
 
@@ -820,7 +820,7 @@ top_makefile_rules(FILE * outmk)
 
 	fprintf(outmk, "%s: %s.o $(CRUNCHED_OBJS)\n",
 	    execfname, execfname);
-	fprintf(outmk, "\t$(CC) -static -o %s %s.o $(CRUNCHED_OBJS) $(LIBS)\n",
+	fprintf(outmk, "\t$(CC) -static -o %s %s.o $(CRUNCHED_OBJS) -Wl,--start-group $(LIBS) -Wl,--end-group\n",
 	    execfname, execfname);
 	fprintf(outmk, "all: objs exe\nobjs: $(SUBMAKE_TARGETS)\n");
 	fprintf(outmk, "exe: %s\n", execfname);

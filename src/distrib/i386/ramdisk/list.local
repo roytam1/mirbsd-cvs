@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/i386/ramdisk/list.local,v 1.7 2005/12/21 17:52:13 tg Exp $
+# $MirOS: src/distrib/i386/ramdisk/list.local,v 1.8 2006/02/23 17:45:03 tg Exp $
 
 # extra
 
@@ -23,7 +23,8 @@ COPY	${CURDIR}/inetd.conf			etc/inetd.conf
 
 COPY	${DESTDIR}/etc/ntpd.conf		etc/ntpd.conf
 
-SPECIAL	fgrep ssh-rsa ${DESTDIR}/usr/share/doc/README >gzsig.keys
+# sync with ports/books/mirex/Makefile
+SPECIAL	tail -3 <${DESTDIR}/usr/share/doc/README | grep '^key ' | while IFS="	" read keynr keyfile; do IFS=" :"; set -A keyno $keynr; IFS=; print $keyfile >gzsigkey.${keyno[1]}; done
 
 # kernel PPPD
 
@@ -36,13 +37,13 @@ SPECIAL	fgrep ssh-rsa ${DESTDIR}/usr/share/doc/README >gzsig.keys
 
 # SSH requirements
 
-LIBS	-L${BSDOBJDIR}/usr.bin/ssh/lib -lssh  -lutil -lotermcap -ll -lm -lssl -lcrypto -ldes -lkvm -lz
+LIBS	-L${BSDOBJDIR}/usr.bin/ssh/lib -lssh  -lssl -lcrypto -lutil -lotermcap -ll -lm -ldes -lkvm -lz
 
 COPY	${CURDIR}/../../miniroot/login.conf	etc/login.conf
 COPY	${DESTDIR}/etc/ssh/ssh_config		etc/ssh/ssh_config
 
 SPECIAL	sed 's!^.*rmitRootLogi.*!PermitRootLogin yes!' <${DESTDIR}/etc/ssh/sshd_config >etc/ssh/sshd_config
-SPECIAL	sed 's!^root.*!root:x:0:0:daemon:0:0:MirOS Ramdisk Root:/:/bin/mksh!' <${DESTDIR}/etc/master.passwd >etc/master.passwd
+SPECIAL	sed 's!^root:.*!root:x:0:0:daemon:0:0:MirOS Ramdisk Root:/:/bin/mksh!' <${DESTDIR}/etc/master.passwd >etc/master.passwd
 
 SPECIAL	/usr/sbin/pwd_mkdb -d ./etc /etc/master.passwd
 
