@@ -1,5 +1,5 @@
 #!/bin/sh
-# $MirOS: ports/Setup.sh,v 1.32 2006/12/28 00:51:01 tg Exp $
+# $MirOS: ports/Setup.sh,v 1.33 2007/03/05 21:34:52 tg Exp $
 #-
 # Copyright (c) 2005, 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -122,7 +122,7 @@ test x"$fetch" = x"false" && if test $isinterix = yes; then
 fi
 if test x"$fetch" = x"false"; then
 	# Check for ftp/wget/fetch
-	for dir in $localbase/bin /usr/{mpkg,local}/bin /bin /usr/bin; do
+	for dir in $localbase/bin /usr/{mpkg,local,pkg}/bin /bin /usr/bin; do
 		if test -f $dir/wget; then
 			fetch=$dir/wget
 			break
