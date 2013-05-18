@@ -1,7 +1,0 @@
-# $MirOS: src/distrib/baselive/i386/rc.conf.local,v 1.1 2006/08/18 22:18:25 tg Exp $
-
-apmd_flags=
-httpd_flags="-u -DSSL"
-ntpd_flags=
-portmap=YES
-wsmoused_flags=-2

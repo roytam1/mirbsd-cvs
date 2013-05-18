@@ -1,6 +1,0 @@
-@comment $OpenBSD: PLIST,v 1.4 2004/01/18 01:41:35 naddy Exp $
-${P5ARCH}/HTML/Base.pm
-man/man3/HTML::Base.3p
-@dirrm man/man3
-@dirrm ${P5ARCH}/HTML
-@dirrm ${P5ARCH}
