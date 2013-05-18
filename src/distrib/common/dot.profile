@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/dot.profile,v 1.30 2008/10/19 19:27:50 tg Exp $
+# $MirOS: src/distrib/common/dot.profile,v 1.31 2008/10/20 17:51:31 tg Exp $
 # $OpenBSD: dot.profile,v 1.4 2002/09/13 21:38:47 deraadt Exp $
 # $NetBSD: dot.profile,v 1.1 1995/12/18 22:54:43 pk Exp $
 #
@@ -33,9 +33,11 @@
 # (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
 # THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-set +o posix -o braceexpand
-export PATH=/sbin:/bin:/usr/bin:/usr/sbin:/ PS1='$PWD # ' HOME=/
+set +o posix -o braceexpand +o utf8-hack
+export HOME=/ LC_CTYPE=en_US.UTF-8 PATH=/sbin:/bin:/usr/sbin:/usr/bin:/ \
+    PS1='$PWD # '
 umask 022
+cd /
 ulimit -c 0
 
 sshd() {
