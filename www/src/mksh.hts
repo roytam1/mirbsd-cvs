@@ -4,8 +4,22 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.261 2009/08/02 10:25:18 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.262 2009/08/02 10:31:15 tg Exp $'
 mws_content <<'EOF'
+<h2 id="toc">Table of Contents</h2><ul>
+ <li><a href="#prefetch">Introduction</a> and Licence</li>
+ <li><a href="#irc">Support</a> (IRC, manual page, mailing lists, …)</li>
+ <li><a href="#build">Installation</a></li>
+ <li><a href="#upgrade">Upgrade</a> your packages from older mksh</li>
+ <li>Inclusion in <a href="#otheros">operating systems</a></li>
+ <li><a href="mksh_old.htm#contrib">comparision</a> with other shells</li>
+ <li><a href="#regress">Testsuite Results</a> (regression tests)</li>
+ <li><a href="mksh_old.htm#vsn">on version numbers</a> – for packagers</li>
+ <li><a href="mksh_old.htm#plans">future plans</a></li>
+ <li><a href="#clog">ChangeLog</a></li>
+ <li>information about <a href="mksh_old.htm">old versions</a></li>
+</ul>
+
 <h2>mksh(1) R39</h2>
 
 <p>This is the website of the MirBSD™ Korn Shell, an actively developed free
@@ -24,20 +38,6 @@ mws_content <<'EOF'
 </td><td style="width:160px;"><object data="@@RELPATH@@pics/mksh.svg"
  type="image/svg+xml" width="128" height="100"><img alt="mksh Logo"
  src="@@RELPATH@@pics/mksh128x100.png" /></object></td></tr></table>
-
-<h2 id="toc">Table of Contents</h2><ul>
- <li><a href="#prefetch">Introduction</a> and Licence</li>
- <li><a href="#irc">Support</a> (IRC, manual page, mailing lists, …)</li>
- <li><a href="#build">Installation</a></li>
- <li><a href="#upgrade">Upgrade</a> your packages from older mksh</li>
- <li>Inclusion in <a href="#otheros">operating systems</a></li>
- <li><a href="mksh_old.htm#contrib">comparision</a> with other shells</li>
- <li><a href="#regress">Testsuite Results</a> (regression tests)</li>
- <li><a href="mksh_old.htm#vsn">on version numbers</a> – for packagers</li>
- <li><a href="mksh_old.htm#plans">future plans</a></li>
- <li><a href="#clog">ChangeLog</a></li>
- <li>information about <a href="mksh_old.htm">old versions</a></li>
-</ul>
 
 <h2 id="prefetch">Introduction</h2>
 <p>The current version of mksh is <strong>mksh R39</strong> from
