@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.456 2012/05/07 17:03:05 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.457 2012/05/11 22:14:03 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -1130,6 +1130,8 @@ exec /usr/bin/ld "${args[@]}"</pre>
  <li>[tg] Some bugfixes, prompted by RT and Valgrind</li>
  <li>[RT] Disable sigsuspend(2) on Syllable Desktop</li>
  <li>[tg] Fix several issues with typeset -p (LP: #993847)</li>
+ <li>[RT] Detect lcc and apply inline fix, e.g. for use with libc5</li>
+ <li>[tg] If klibc, set -DMKSH_NO_LIMITS and check for sigsuspend fix</li>
 </ul>
 <p>Changes in the current (unreleased) stable branch:</p><ul>
  <li>[tg] Fix a bug in the manual page</li>
