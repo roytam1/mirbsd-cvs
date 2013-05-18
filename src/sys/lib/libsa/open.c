@@ -1,4 +1,4 @@
-/**	$MirOS$ */
+/**	$MirOS: src/sys/lib/libsa/open.c,v 1.3 2009/08/11 13:24:00 tg Exp $ */
 /*	$OpenBSD: open.c,v 1.10 2003/08/11 06:23:09 deraadt Exp $	*/
 /*	$NetBSD: open.c,v 1.12 1996/09/30 16:01:21 ws Exp $	*/
 
@@ -143,7 +143,8 @@ oopen(const char *fname, int mode)
 				printf("=>ok(%d)\n", fd);
 #endif
 			return (fd);
-		}
+		} else if (error == ENOENT || error == ENOTDIR)
+			goto no_match;
 	}
 
 	/* pass file name to the different filesystem open routines */
@@ -169,6 +170,7 @@ oopen(const char *fname, int mode)
 		if (error == ENOENT || error == ENOTDIR)
 			break;
 	}
+ no_match:
 #ifdef DEBUG
 	if (debug)
 		printf(" no match");
