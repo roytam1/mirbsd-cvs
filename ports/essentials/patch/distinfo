@@ -1,5 +1,8 @@
-3150582830 37085 patch-20051110.cpio.gz
-MD5 (patch-20051110.cpio.gz) = 101a98d27ab4e2dad292af601d4f9687
-RMD160 (patch-20051110.cpio.gz) = ac32b2b0a1e7203256ec4bd255c7525053afb3ed
-SHA1 (patch-20051110.cpio.gz) = 46febb5ba261c82799a5e15bde8891d94dfddf7b
-SIZE (patch-20051110.cpio.gz) = 37085
+$MirOS$
+
+944271943 39174 patch-20091122.cpio.gz
+MD5 (patch-20091122.cpio.gz) = 2f01690a3c2cefbb607cca16ddd5039f
+RMD160 (patch-20091122.cpio.gz) = fbdf01d4d835defbde389313b5ab2a712bf61949
+SHA1 (patch-20091122.cpio.gz) = a50c09105e49e1040b9ac2af67037118cfc2be6d
+SIZE (patch-20091122.cpio.gz) = 39174
+TIGER (patch-20091122.cpio.gz) = 8d6f820157899bd4f1c20b30b2b8d102990394588acfb6f0

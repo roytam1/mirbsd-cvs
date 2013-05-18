@@ -1,15 +1,15 @@
-# $MirOS: ports/infrastructure/install/distinfo.sh,v 1.93 2009/09/12 12:50:34 tg Exp $
+# $MirOS: ports/infrastructure/install/distinfo.sh,v 1.94 2009/10/24 18:42:17 tg Exp $
 
 case $what in
 make)
 	f_key=gzsigkey.pub
-	f_ver=20091020
+	f_ver=20091122
 	f_dist=mirmake-$f_ver.cpio.gz
 	f_path=mir/make
-	distinfo_md5=1cfcb47eb3213bb35d9f4b2aaf069cc6
-	distinfo_sum=868316930
-	distinfo_size=372840
-	distinfo_date="Oct 20 21:19"
+	distinfo_md5=caa41ad861722914ec0411c706995861
+	distinfo_sum=2957498700
+	distinfo_size=383230
+	distinfo_date="Nov 22 20:44"
 	;;
 mksh)
 	f_key=gzsigkey.pub
@@ -22,34 +22,34 @@ mksh)
 	distinfo_date="Aug  2 10:09"
 	;;
 mtree)
-	f_key=signkey
-	f_ver=20050912
+	f_key=gzsigkey.pub
+	f_ver=20091122
 	f_dist=mirmtree-$f_ver.cpio.gz
 	f_path=mir/mtree
-	distinfo_md5=86cf94a633f136d650f76d065bbd7e0e
-	distinfo_sum=3117223138
-	distinfo_size=17999
-	distinfo_date="Sep 12  2005"
+	distinfo_md5=2af647aa0564064434e4eedd475e705e
+	distinfo_sum=926768756
+	distinfo_size=19523
+	distinfo_date="Nov 22 20:48"
 	;;
 nroff)
-	f_key=signkey
-	f_ver=20050912
+	f_key=gzsigkey.pub
+	f_ver=20091122
 	f_dist=mirnroff-$f_ver.cpio.gz
 	f_path=mir/nroff
-	distinfo_md5=c9336d68a54a1965e37fcf4dab19cba3
-	distinfo_sum=1195567255
-	distinfo_size=224960
-	distinfo_date="Sep 12  2005"
+	distinfo_md5=288945978e5612ad6d900b0e29fdf8db
+	distinfo_sum=2278748484
+	distinfo_size=237087
+	distinfo_date="Nov 22 20:49"
 	;;
 pkgtools)
 	f_key=
-	f_ver=20091024
+	f_ver=200911222000
 	f_dist=pkgtools-$f_ver.mcz
 	f_path=mir/pkgtools
-	distinfo_md5=d547eafe2ee3dde80ecdcb18a429e95e
-	distinfo_sum=3208816955
-	distinfo_size=180603
-	distinfo_date="Oct 24 18:33"
+	distinfo_md5=1e9c3dcb0bf9a1cf25bd9ca87fb3dd72
+	distinfo_sum=682882193
+	distinfo_size=188955
+	distinfo_date="Nov 22 20:25"
 	;;
 *)
 	echo Do not call me directly. >&2
