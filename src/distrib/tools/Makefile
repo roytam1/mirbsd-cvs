@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/tools/Makefile,v 1.23 2008/10/21 01:21:50 tg Exp $
+# $MirOS: src/distrib/tools/Makefile,v 1.24 2008/10/21 01:35:59 tg Exp $
 
 all: sundsklbl
 
@@ -57,7 +57,7 @@ makecdimage: .PHONY
 	makefs -t cd9660 -o "$$(print -r -- ${CDROM_OPTS} | tr ' ~' ', ')" \
 	    ${CDROM}~ cddir
 	# pad for a geometry of 8 heads, 16 sectors per track
-	dd if=${CDROM}~ of=${CDROM} obs=$$(8*16*512) conv=osync
+	dd if=${CDROM}~ of=${CDROM} obs=$$((8 * 16 * 512)) conv=osync
 	getextent_cd9660 -f ${CDROM} b_i386.ldr | \
 	    ${MKSH} ${BSDSRCDIR}/usr.sbin/installboot/bxinst.i386 -B 11 | \
 	    dd of=${CDROM} conv=notrunc bs=2048 seek=$$(getextent_cd9660 \

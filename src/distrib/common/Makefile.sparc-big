@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/Makefile.sparc-big,v 1.4 2008/08/05 22:48:46 tg Exp $
+# $MirOS: src/distrib/common/Makefile.sparc-big,v 1.5 2008/10/21 01:35:59 tg Exp $
 # $OpenBSD: Makefile.inc,v 1.14 2002/05/01 19:21:28 mickey Exp $
 
 RAWLABEL=
@@ -6,7 +6,7 @@ IMAGESIZE=	3712
 IMAGETYPE=	ipldisc
 AOUT_BSDRD=	Yes
 FLOPPY=		no
-CDROM_PAD=	8*16
+CDROM_PAD=	8 * 16
 
 cdrom-mdcopy:
 	ln ${WRKDIR}/v${OSrev}/${MACHINE}/bsd.rd ${WRKDIR}/vmunix # for kicks

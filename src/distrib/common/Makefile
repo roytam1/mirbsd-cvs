@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/Makefile,v 1.35 2008/10/21 01:35:57 tg Exp $
+# $MirOS: src/distrib/common/Makefile,v 1.36 2008/10/21 01:37:04 tg Exp $
 
 .include <bsd.own.mk>
 
@@ -110,7 +110,7 @@ unconfig:
 
 cleannobsd: unconfig
 	rm -f *core ${CBIN} ${CBIN}.{cache,conf,mk,unstripped} ${IMAGE} \
-	    ${RDSETROOT} *.c *.o *.lo *~ bsd.{uc,st} ${_RD_TARGETS}
+	    ${RDSETROOT} *.c *.o *.lo *.loo *~ bsd.{uc,st} ${_RD_TARGETS}
 
 clean cleandir: cleannobsd
 	rm -f bsd
@@ -219,7 +219,7 @@ cdrom-generate:
 	chmod -R u+w ${WRKDIR}
 	makefs -t cd9660 -o "$$(print -r -- ${CDROM_OPTS} | tr ' ~' ', ')" \
 	    ${CDROM}~ ${WRKDIR}
-	dd if=${CDROM}~ of=${CDROM} obs=$$(${CDROM_PAD}*512) conv=osync
+	dd if=${CDROM}~ of=${CDROM} obs=$$((${CDROM_PAD} * 512)) conv=osync
 	-rm -rf ${WRKDIR} ${CDROM}~
 
 .include <bsd.obj.mk>
