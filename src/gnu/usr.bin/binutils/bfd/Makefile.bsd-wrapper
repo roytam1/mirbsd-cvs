@@ -1,9 +1,9 @@
-# $MirOS: src/gnu/usr.bin/binutils/bfd/Makefile.bsd-wrapper,v 1.6 2005/06/13 19:16:33 tg Exp $
+# $MirOS: src/gnu/usr.bin/binutils/bfd/Makefile.bsd-wrapper,v 1.7 2005/06/13 20:12:30 tg Exp $
 
 .include "../Makefile.inc"
 
 FSFSRC=		${GNU_BINUTILS_BFD}
-CLEANFILES+=	_gplwarn.c bfd_inst.h doc/aoutx.texi doc/archive.texi \
+CLEANFILES+=	bfd_inst.h doc/aoutx.texi doc/archive.texi \
 		doc/archures.texi doc/bfdio.texi doc/bfdt.texi \
 		doc/bfdwin.texi doc/cache.texi doc/coffcode.texi \
 		doc/core.texi doc/elf.texi doc/elfcode.texi doc/format.texi \
@@ -11,12 +11,7 @@ CLEANFILES+=	_gplwarn.c bfd_inst.h doc/aoutx.texi doc/archive.texi \
 		doc/mmo.texi doc/opncls.texi doc/reloc.texi doc/section.texi \
 		doc/syms.texi doc/targets.texi
 
-config.status: _gplwarn.c
-
 all: bfd_inst.h
-
-_gplwarn.c: ${GNUSYSTEM_AUX_DIR}/_gplwarn.c
-	cp $> $@
 
 bfd.h: build
 

@@ -1,10 +1,11 @@
-# $MirOS: ports/devel/libreadline/Makefile,v 1.3 2005/07/07 21:19:14 bsiegert Exp $
+# $MirOS: ports/devel/libreadline/Makefile,v 1.4 2006/09/14 00:08:23 tg Exp $
 
-COMMENT=			history and line editing library similar to libedit
-COMMENT-docs=			documentation for libreadline
+COMMENT=		history and line editing library similar to libedit
+COMMENT-docs=		documentation for libreadline
 CATEGORIES=		devel
 V=			5.0
 DISTNAME=		readline-${V}
+PKGNAME=		${DISTNAME}-1
 PKGNAME-docs=		readline-docs-${V}-0
 MASTER_SITES=		${MASTER_SITE_GNU:=readline/}
 HOMEPAGE=		http://cnswww.cns.cwru.edu/php/chet/readline/rltop.html

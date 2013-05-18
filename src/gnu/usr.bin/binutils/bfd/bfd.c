@@ -217,7 +217,7 @@ CODE_FRAGMENT
 #undef obj_symbols
 #include "elf-bfd.h"
 
-__RCSID("$MirOS: src/gnu/usr.bin/binutils/bfd/bfd.c,v 1.4 2005/06/05 21:23:53 tg Exp $");
+__RCSID("$MirOS: src/gnu/usr.bin/binutils/bfd/bfd.c,v 1.5 2005/07/07 16:22:35 tg Exp $");
 
 /* provide storage for subsystem, stack and heap data which may have been
    passed in on the command line.  Ld puts this data into a bfd_link_info
@@ -1510,6 +1510,3 @@ bfd_preserve_finish (bfd *abfd ATTRIBUTE_UNUSED, struct bfd_preserve *preserve)
      objalloc.  */
   bfd_hash_table_free (&preserve->section_htab);
 }
-
-#define	MYNAME	"libbfd"
-#include "_gplwarn.c"

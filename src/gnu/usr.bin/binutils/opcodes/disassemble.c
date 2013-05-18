@@ -19,7 +19,7 @@
 #include "sysdep.h"
 #include "dis-asm.h"
 
-__RCSID("$MirOS: src/gnu/usr.bin/binutils/opcodes/disassemble.c,v 1.4 2005/06/05 21:24:48 tg Exp $");
+__RCSID("$MirOS: src/gnu/usr.bin/binutils/opcodes/disassemble.c,v 1.5 2005/07/07 16:23:20 tg Exp $");
 
 #ifdef ARCH_all
 #define ARCH_a29k
@@ -445,6 +445,3 @@ disassemble_init_for_target (struct disassemble_info * info)
       break;
     }
 }
-
-#define	MYNAME	"libopcodes"
-#include "_gplwarn.c"

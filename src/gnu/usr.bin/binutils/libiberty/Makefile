@@ -1,10 +1,10 @@
-# $MirOS: src/gnu/usr.bin/binutils/libiberty/Makefile,v 1.4 2005/06/05 21:36:39 tg Exp $
+# $MirOS: src/gnu/usr.bin/binutils/libiberty/Makefile,v 1.5 2005/07/07 20:17:33 tg Exp $
 
 .include "../Makefile.inc"
 
 LIB=		iberty
 NOPIC=		Yes
-SRCS=		_gplwarn.c argv.c concat.c copysign.c cp-demangle.c \
+SRCS=		argv.c concat.c copysign.c cp-demangle.c \
 		cp-demint.c cplus-dem.c dyn-string.c fdmatch.c fibheap.c \
 		floatformat.c fopen_unlocked.c getpwd.c getruntime.c \
 		hashtab.c hex.c htab_old.c lbasename.c lrealpath.c \

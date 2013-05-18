@@ -1,11 +1,10 @@
-@comment $MirOS$
+@comment $MirOS: ports/devel/dejagnu/pkg/PLIST,v 1.2 2005/04/11 19:37:38 tg Exp $
 @comment $OpenBSD: PLIST,v 1.6 2002/12/30 07:37:55 fgsch Exp $
 @unexec install-info --delete --info-dir=%D/info %D/info/dejagnu.info
 bin/runtest
 include/dejagnu.h
 info/dejagnu.info
 man/man1/runtest.1
-@comment share/dejagnu/_gplwarn.c
 share/dejagnu/baseboards/README
 share/dejagnu/baseboards/a29k-udi.exp
 share/dejagnu/baseboards/am33_2.0-libremote.exp
