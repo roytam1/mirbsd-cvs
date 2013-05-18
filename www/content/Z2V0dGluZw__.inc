@@ -1,8 +1,8 @@
 <!-- PageID: getting -->
-<small class="rcsid">$MirOS: www/content/Z2V0dGluZw__.inc,v 1.11 2006/03/19 21:23:19 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/Z2V0dGluZw__.inc,v 1.12 2006/04/19 19:01:16 tg Exp $</small>
 <h1>How to get MirOS</h1>
 
-<h3>Introduction</h3>
+<h2>Introduction</h2>
 <p>MirOS is separated in various parts: the MirBSD base installation,
  the MirLinux base installation (available about 2006), the
  full source tree for MirBSD/MirLinux (including the X-Windowing
@@ -14,7 +14,11 @@
 <p>More information about <a href="/?anoncvs">anonCVS</a> and
  anonRSYNC can be found on the <a href="/?mirrors">Mirrors</a> list.</p>
 
-<h3>Buy CDs with MirOS on them</h3>
+<h2>Checksums</h2>
+<p>I cannot stress this enough: verify the gzsig(1) signature of the
+ checksums and the integrity of all checksummed files!</p>
+
+<h2>Buy CDs with MirOS on them</h2>
 <p>Usually, on exhibitions such as the <a
  href="http://www.froscon.org/">FROSCON, St. Augustin (near Bonn), .de</a>, <a
  href="http://www.ccc.de/congress/">Chaos Communication Congress, Berlin, .de</a>, <a
@@ -31,7 +35,7 @@
  the usual pricing is: at least 15 EUR per CD (25 for both) to Germany.<br />
  We cannot ship to outside the European Union and Swiss/Schweiz/Suisse.</p>
 
-<h3>Get MirOS now, the new way!</h3>
+<h2>Get MirOS now, the new way!</h2>
 <p>The current version is MirOS BSD #8semel, available for the i386
  architecture, released on December 23rd, 2005, and MirOS #7quater
  for the sparc architecture, based upon code from 2003. You might
@@ -41,7 +45,7 @@
  new features, you get some breakage. If you actually find a bug, please
  send us a bugfix instead of a complaint ;-)</p>
 
-<h4>Doing an online installation</h4>
+<h3>Doing an online installation</h3>
 <p>Currently, you must set the installation method to <tt>HTTP</tt>, the
  server to <tt>www.mirbsd.org</tt> and the path to
  <tt>MirOS/v8/i386</tt> (or <tt>MirOS/v7/bsd/sparc</tt>),
@@ -51,7 +55,7 @@
  available for download from a single site (and its mirrors). Source code
  will be retrievable using the <a href="/cvs.cgi/">CVSWEB interface</a>.</p>
 
-<h4>MirOS #8semel</h4>
+<h3>MirOS #8semel</h3>
 <p>The first release of the MirOS #8 branch, and the only version
  currently supported. Users are strongly suggested to update.
  You can use MirPorts-current with this version.</p>
@@ -74,20 +78,20 @@
 <p>You can retrieve the source code for MirOS #8semel
  by using anonCVS with the tag <tt>MIRBSD_8_BASE</tt>.</p>
 
-<h4>MirOS #8-stable</h4>
+<h3>MirOS #8-stable</h3>
 <p>This is a development branch with only security and runnability fixes
  to #8semel. There are currently no fixes included.</p>
 <p>You can retrieve the source code for MirOS #8-stable
  by using anonCVS with the tag <tt>MIRBSD_8</tt>.</p>
 
-<h4>Snapshots of current development</h4>
+<h3>Snapshots of current development</h3>
 <p>You can usually find some more or less recent snapshots in the
  <a href="http://www.mirbsd.org/MirOS/current/">&quot;current&quot;
  directory</a>; beware these might be older than the latest release
  or not work at all. The BitTorrent snapshots however are usually newer
  than the latest release which is also made available via BT, usually
  a few weeks after the release.</p>
-<h5><tt style="color:#FF0033;">NEW:</tt> BitTorrent</h5>
+<h4><tt style="color:#FF0033;">NEW:</tt> BitTorrent</h4>
 <p>The greatest Anime tracker found has enabled the MirOS project to host
  Torrents for our snapshots and releases on them. Please refer <a
  href="http://f.scarywater.net/miros/">the tracker page</a> and consider
@@ -100,7 +104,7 @@
  users a decent downstream. <strong>Please leave your downloaders open
  for another 2-3 weeks after downloading MirOS.</strong> Thanks.</p>
 
-<h4>Live CD</h4>
+<h3>Live CD</h3>
 <p>Starting April 21th, all snapshots will be published in the form
  of combined Installation / Live CDs (these are automatically built
  during the normal distribution / release generation process). The
