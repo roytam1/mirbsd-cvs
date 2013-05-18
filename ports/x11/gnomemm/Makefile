@@ -1,7 +1,10 @@
+# $MirBSD$
 # $OpenBSD: Makefile,v 1.6 2004/02/04 07:39:19 sturm Exp $
 
-COMMENT=			C++ interface for the GNOME libraries
-COMMENT-docs=			C++ interface for the GNOME libraries documentation
+BROKEN=			GNOME 1 was removed
+
+COMMENT=		C++ interface for the GNOME libraries
+COMMENT-docs=		C++ interface for the GNOME libraries documentation
 
 VERSION=		1.2.3
 DISTNAME=		gnomemm-${VERSION}
