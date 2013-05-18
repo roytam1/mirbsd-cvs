@@ -1,5 +1,5 @@
 #!/usr/bin/env mksh
-# $MirOS: ports/infrastructure/pkgtools/upgrade/pkg_upgrade.sh,v 1.24 2007/03/31 20:45:08 tg Exp $
+# $MirOS: ports/infrastructure/pkgtools/upgrade/pkg_upgrade.sh,v 1.25 2007/04/01 00:05:22 tg Exp $
 #-
 # Copyright (c) 2006, 2007
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -105,7 +105,7 @@ EOF
 
 	# Register dependencies of the stub
 	[[ -f $stubpkgdir/+DEPENDS ]] && while read package; do
-		if [[ -d $PKG_DBDIR/$package ]] ; then
+		if [[ -d $PKG_DBDIR/$package ]]; then
 			print -r -- "shlibs-$OLDPKGS" >> $PKG_DBDIR/$package/+REQUIRED_BY
 #			print -u2 -r "Debug: Dependency of shlibs-$OLDPKGS on $package successully registered"
 		else
@@ -140,7 +140,7 @@ shift $((OPTIND - 1))
 npkg="$(readlink -nf "$1")"
 
 PKG_DBDIR=@@dbdir@@/pkg
-if [[ ! -d $PKG_DBDIR ]] ; then
+if [[ ! -d $PKG_DBDIR ]]; then
 	print -u2 "$me: package database directory does not exist"
 	exit 1
 fi
@@ -151,8 +151,8 @@ if [[ ! -s $npkg ]]; then
 fi
 
 TMPDIR=$(mktemp -d /tmp/pkg_upgrade.XXXXXXXXXX) || exit 1
-trap 'rm -rf $TMPDIR ; exit 0' 0
-trap 'rm -rf $TMPDIR ; exit 1' 1 2 3 5 13 15
+trap 'rm -rf $TMPDIR; exit 0' 0
+trap 'rm -rf $TMPDIR; exit 1' 1 2 3 5 13 15
 
 OLDPWD=$PWD
 cd $TMPDIR
@@ -224,20 +224,26 @@ else
 	pkg_delete -C $fd $OLDPKGS && pkg_add $fa "$npkg"
 fi
 
-# forward dependency information of old package
-# only remove old information here; new information was
-# already entered into */+REQUIRED_BY by the pkg_add above
+# forward dependency information of backward dependencies of old package
 [[ -f $TMPDIR/+DEPENDS ]] && while read package; do
 	if [[ -e $PKG_DBDIR/$package/+REQUIRED_BY ]]; then
 		if grep "^$OLDPKGS\$" $PKG_DBDIR/$package/+REQUIRED_BY \
 		    >/dev/null 2>&1; then
-			print "/^$OLDPKGS\$/d\nwq" | ed -s \
+			print "%g/^$OLDPKGS\$/d\nwq" | ed -s \
 			    $PKG_DBDIR/$package/+REQUIRED_BY
 #			print -u2 "Debug: dependency of $OLDPKGS on" \
 #			    "$package successfully removed"
 		else
 			print -u2 "Notice: $OLDPKGS was not registered" \
 			    "as backward dependency of $package"
+		fi
+		# and add new version if we deleted the one from pkg_add
+		if ! grep "^$PKGNAME\$" $PKG_DBDIR/$package/+REQUIRED_BY \
+		    >/dev/null 2>&1; then
+			print -r -- "$PKGNAME" \
+			    >>$PKG_DBDIR/$package/+REQUIRED_BY
+#			print -u2 "Debug: dependency on $package of" \
+#			    "$PKGNAME successfully added"
 		fi
 	else
 		print -u2 "Notice: Dependency $package of $OLDPKGS" \
@@ -251,7 +257,7 @@ done <$TMPDIR/+DEPENDS
 		# remove old version of this package from there
 		if grep "^$OLDPKGS\$" $PKG_DBDIR/$package/+DEPENDS \
 		    >/dev/null 2>&1; then
-			print "/^$OLDPKGS\$/d\nwq" | ed -s \
+			print "%g/^$OLDPKGS\$/d\nwq" | ed -s \
 			    $PKG_DBDIR/$package/+DEPENDS
 #			print -u2 "Debug: dependency of $package on" \
 #			    "$OLDPKGS successfully removed"
@@ -269,7 +275,9 @@ done <$TMPDIR/+DEPENDS
 	fi
 done <$TMPDIR/+REQUIRED_BY
 
+# forward dependency information: +DEPENDS created by pkg_add
+
 # backward dependency information: same for old and new package
-if [[ -f $TMPDIR/+REQUIRED_BY && -d $PKG_DBDIR/$PKGNAME ]] ; then
+if [[ -f $TMPDIR/+REQUIRED_BY && -d $PKG_DBDIR/$PKGNAME ]]; then
 	mv $TMPDIR/+REQUIRED_BY $PKG_DBDIR/$PKGNAME
 fi
