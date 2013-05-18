@@ -1,5 +1,5 @@
-#!/bin/sh
-# $MirOS$
+#!/bin/mksh
+# $MirOS: contrib/samples/cvs_automerge,v 1.1.7.1 2005/02/05 01:59:40 tg Exp $
 #-
 # Copyright (c) 2004, 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>

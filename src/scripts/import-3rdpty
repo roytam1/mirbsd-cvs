@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/scripts/import-3rdpty,v 1.6 2005/06/22 11:15:41 tg Exp $
+# $MirOS: src/scripts/import-3rdpty,v 1.7 2005/06/22 15:55:15 tg Exp $
 #-
 # Copyright (c) 2004, 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -23,7 +23,7 @@
 # rect or other, however caused, arising in any way out of the usage
 # of this work, even if advised of the possibility of such damage.
 
-print -r -- '========= $MirOS: src/scripts/import-3rdpty,v 1.6 2005/06/22 11:15:41 tg Exp $ ========='
+print -r -- '========= $MirOS: src/scripts/import-3rdpty,v 1.7 2005/06/22 15:55:15 tg Exp $ ========='
 
 ignlist=0
 force=0
@@ -545,6 +545,7 @@ openbsd)
 		sys/lib/libkern/arch/mips64 \
 		sys/lib/libkern/arch/sparc64 \
 		sys/lib/libkern/arch/vax \
+		sys/lib/libz \
 		sys/netccitt \
 		sys/netiso \
 		sys/netns \

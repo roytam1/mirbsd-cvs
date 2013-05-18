@@ -1,4 +1,4 @@
-#!/bin/ksh
+#!/bin/mksh
 #
 # Copyright (c) 2002, 2003, 2004 Chris Cappuccio.  Pretend that you see BSD
 # license blurb, clause 1, 2 and warranty disclaimer here.
@@ -201,7 +201,7 @@ else
      echo $4 does not contain an unpacked etcXX.tgz file
      exit
    fi
-   if [ ! -f "$4"/bin/ksh ]; then
+   if [ ! -f "$4"/bin/mksh ]; then
      echo $4 does not contain an unpacked baseXX.tgz file
      exit
    fi
@@ -501,19 +501,19 @@ mkdir $TT/tmp $TT/mnt
 # /var is really r-w /tmp
 ln -s /tmp/var $TT/var
 
-if [ -x $TT/bin/ksh ]; then
+if [ -x $TT/bin/mksh ]; then
 # Here we reuse $TA again
-# Flashdist's distribution list has ksh and not sh nor csh binaries.
-# Of course sh is just a hard link to ksh, but we prefer to stay clean and
+# Flashdist's distribution list has mksh and not sh nor csh binaries.
+# Of course sh is just a hard link to mksh, but we prefer to stay clean and
 # simple on the flash.
  if [ ! -x $TT/bin/sh ]; then
-  echo Changing any instance of /bin/sh in $TT/etc/master.passwd to /bin/ksh
-  sed -e 's/bin\/sh/bin\/ksh/' <$TT/etc/master.passwd >$TA
+  echo Changing any instance of /bin/sh in $TT/etc/master.passwd to /bin/mksh
+  sed -e 's/bin\/sh/bin\/mksh/' <$TT/etc/master.passwd >$TA
   cat <$TA >$TT/etc/master.passwd
  fi
  if [ ! -x $TT/bin/csh ]; then
-  echo Changing any instance of /bin/csh in $TT/etc/master.passwd to /bin/ksh
-  sed -e 's/bin\/csh/bin\/ksh/' <$TT/etc/master.passwd >$TA
+  echo Changing any instance of /bin/csh in $TT/etc/master.passwd to /bin/mksh
+  sed -e 's/bin\/csh/bin\/mksh/' <$TT/etc/master.passwd >$TA
   cat <$TA >$TT/etc/master.passwd
  fi
 fi

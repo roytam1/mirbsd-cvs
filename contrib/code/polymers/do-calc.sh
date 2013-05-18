@@ -1,6 +1,6 @@
-#!/bin/sh
+#!/bin/mksh
 #
-# $MirOS: contrib/code/polymers/do-calc.sh,v 1.1 2005/03/20 17:50:20 bsiegert Exp $
+# $MirOS: contrib/code/polymers/do-calc.sh,v 1.2 2005/03/20 18:19:13 bsiegert Exp $
 
 RUNS=10000
 

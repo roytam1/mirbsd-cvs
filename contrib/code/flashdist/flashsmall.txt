@@ -7,10 +7,10 @@
 ./bin/echo
 ./bin/hostname
 ./bin/kill
-./bin/ksh
 ./bin/ln
 ./bin/ls
 ./bin/mkdir
+./bin/mksh
 ./bin/mv
 ./bin/ps
 ./bin/pwd

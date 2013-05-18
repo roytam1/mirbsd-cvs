@@ -25,27 +25,27 @@ dows designed to be sticky:
 The file ~/.etc/bin/xtm referred in said file is this one:
 
 ---- cutting here may damage your screen surface -----
-#!/bin/sh -
-# $MirOS$
-if [ x"$1" = x"vga" ]; then
+#!/bin/mksh
+# $MirOS: contrib/samples/myXenvironment,v 1.1.7.1 2005/02/05 01:59:40 tg Exp $
+if [[ $1 = vga ]]; then
 	# exec xtm vga ...
 	shift
 	/usr/X11R6/bin/xterm -class VXTerm "$@" &
 	exit 0
-  elif [ -e /usr/local/lib/X11/fonts/terminus ]; then
-	if [ x"$1" = x"big" ]; then
+elif [[ -e /usr/local/lib/X11/fonts/terminus ]]; then
+	if [[ $1 = big ]]; then
 		# exec xtm big ...
 		shift
 		/usr/X11R6/bin/xterm -class TXTerm -geom 101x33+0+0 \
 		    -fn -xos4-terminus-medium-r-normal--20-200-72-72-c-100-iso8859-1 \
 		    "$@" &
 		exit 0
-	  else
+	else
 		exec /usr/X11R6/bin/xterm -class TXTerm -geom 127x41+0+0 \
 		    -fn -xos4-terminus-medium-r-normal--16-160-72-72-c-80-iso8859-1 \
 		    "$@"
 	fi
-  else
+else
 	exec /usr/X11R6/bin/xterm -geom 113x42+0+0 -fn 9x15 "$@"
 fi
 ---- cutting here may damage your screen surface -----
@@ -54,7 +54,7 @@ When I want to have two windows open the same time, e.g.
 for chatting, I use ~/.etc/bin/xchat for it:
 
 ---- cutting here may damage your screen surface -----
-#!/bin/sh -
+#!/bin/sh
 if [ -e /usr/local/lib/X11/fonts/terminus ]; then
 	/usr/X11R6/bin/xterm -T irc-quakenet -si -geom 127x11+0+0 \
 	    -fn -xos4-terminus-bold-r-normal--14-140-72-72-c-80-iso8859-1 \
@@ -62,7 +62,7 @@ if [ -e /usr/local/lib/X11/fonts/terminus ]; then
 	/usr/X11R6/bin/xterm -T irc-opn -si -geom 127x31+0+159 \
 	    -fn -xos4-terminus-medium-r-normal--16-160-72-72-c-80-iso8859-1 \
 	    -class TXTerm -e sirc -i "MirBSD packages a kernel, userland and da attitude" &
-  else
+else
 	/usr/X11R6/bin/xterm -T irc-quakenet -si -geom 144x11+0+0 -fn 7x13 \
 	    -e tinyirc mirabile irc.quakenet.org &
 	/usr/X11R6/bin/xterm -T irc-opn -si -geom 113x32+0+146 -fn 9x15 \

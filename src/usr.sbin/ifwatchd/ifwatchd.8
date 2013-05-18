@@ -1,4 +1,4 @@
-.\" $MirOS$
+.\" $MirOS: src/usr.sbin/ifwatchd/ifwatchd.8,v 1.2 2005/03/13 19:17:01 tg Exp $
 .\" $NetBSD: ifwatchd.8,v 1.23 2004/11/25 16:05:11 wiz Exp $
 .\"
 .\" Copyright (c) 2001-2003 The NetBSD Foundation, Inc.
@@ -194,7 +194,7 @@ A script like the following should work for most users, although it
 will not work for machines with multiple interfaces running
 .Cm dhclient .
 .Bd -literal -offset indent
-#!/bin/ksh
+#!/bin/mksh
 # Arguments:  ifname tty speed address destination
 # If there is a dhclient already running, kill it.
 # (This step could be put in a distinct no-carrier script,

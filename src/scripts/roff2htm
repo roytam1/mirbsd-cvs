@@ -1,5 +1,5 @@
-#!/bin/sh
-# $MirOS: src/scripts/roff2htm,v 1.5 2005/03/29 12:33:51 tg Exp $
+#!/bin/mksh
+# $MirOS: src/scripts/roff2htm,v 1.6 2005/03/29 17:27:31 tg Exp $
 # $ekkoBSD: catman2html.sh,v 1.2 2004/03/07 03:02:53 stephen Exp $
 #-
 # Copyright (c) 2004, 2005
@@ -116,7 +116,7 @@ output_header()
 </head><body>
 <h1>MirOS Manual: <a href="../man${2}/${1}.htm"><tt>${1}(${2})</tt></a></h1>
 <p style="font-size:xx-small;">Generated on ${gendate} by
- \$MirOS: src/scripts/roff2htm,v 1.5 2005/03/29 12:33:51 tg Exp $</p>
+ \$MirOS: src/scripts/roff2htm,v 1.6 2005/03/29 17:27:31 tg Exp $</p>
 <hr />
 EOF
 }
