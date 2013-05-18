@@ -1,10 +1,10 @@
-# $MirOS: www/src/mksh_old.hts,v 1.9 2008/07/14 13:04:31 tg Exp $
+# $MirOS: www/src/mksh_old.hts,v 1.10 2008/07/28 03:22:32 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/mksh/old "mksh – old versions"
-mws_putheader '$MirOS: www/src/mksh_old.hts,v 1.9 2008/07/14 13:04:31 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh_old.hts,v 1.10 2008/07/28 03:22:32 tg Exp $'
 mws_content <<'EOF'
 <h1><a href="mksh.htm">mksh</a> – old versions</h1>
 <p>This page lists information about mksh R29 and earlier.</p>
@@ -19,7 +19,7 @@ mws_content <<'EOF'
  <tt>-static</tt> by default on architectures that support it</li>
 <li><tt>-nd</tt> (R29 and below): build statically, always try to link with
  <tt>-static</tt> even on systems with nsswitch/PAM</li>
-<li><tt>-q</tt> (all versions): output almost nothing</li>
+<li><tt>-q</tt> (R35b and below): output almost nothing</li>
 <li><tt>-r</tt> (all versions): don't try to build a pre-formatted version
  of the manual page using nroff(1) if found</li>
 </ul>
