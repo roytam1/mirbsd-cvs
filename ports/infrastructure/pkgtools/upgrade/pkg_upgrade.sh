@@ -1,5 +1,5 @@
 #!/usr/bin/env mksh
-# $MirOS: ports/infrastructure/pkgtools/upgrade/pkg_upgrade.sh,v 1.34 2008/10/12 15:28:49 tg Exp $
+# $MirOS: ports/infrastructure/pkgtools/upgrade/pkg_upgrade.sh,v 1.35 2008/10/12 15:29:18 tg Exp $
 #-
 # Copyright (c) 2006, 2007, 2008
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -155,7 +155,14 @@ trap 'rm -rf $TMPDIR; exit 0' 0
 trap 'rm -rf $TMPDIR; exit 1' 1 2 3 5 13 15
 
 cd $TMPDIR
-tar xfz "$npkg" +CONTENTS
+case $npkg {
+(*.clz)
+	lzma -dc "$npkg" ;;
+(*.*([!.])z*([!.]))
+	gzip -dc "$npkg" ;;
+(*)
+	cat "$npkg" ;;
+} | tar xf - +CONTENTS
 cd $PKG_DBDIR
 PKGNAME=$(awk '$1=="@name" { print $2 }' $TMPDIR/+CONTENTS)
 OLDPKGS=$(echo ${PKGNAME%%-[0-9]*}-[0-9]*)

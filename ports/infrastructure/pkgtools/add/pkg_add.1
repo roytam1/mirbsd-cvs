@@ -1,4 +1,4 @@
-.\"	$MirOS: ports/infrastructure/pkgtools/add/pkg_add.1,v 1.7 2008/03/14 16:46:01 tg Exp $
+.\"	$MirOS: ports/infrastructure/pkgtools/add/pkg_add.1,v 1.8 2008/03/27 21:00:37 bsiegert Exp $
 .\"	$OpenBSD: pkg_add.1,v 1.32 2003/07/14 13:38:24 jmc Exp $
 .\"
 .\" FreeBSD install - a package for the installation and maintenance
@@ -52,7 +52,7 @@
 .\" .Dd must come before definition of .Mx, because when called
 .\" with -mandoc, it might implement .Mx itself, but we want to
 .\" use our own definition. And .Dd must come *first*, always.
-.Dd $Mdocdate: March 14 2008 $
+.Dd $Mdocdate: March 27 2008 $
 .\"
 .\" Implement .Mx (MirBSD)
 .de Mx
@@ -539,6 +539,7 @@ Starting from
 .Mx 8 ,
 package tools generate SVR4 CPIO archives with CRC by default.
 These files usually have the extension \.cgz, but \.tgz is also possible.
+If compressed with LZMA, they are called \.clz.
 .Sh BUGS
 Hard links between files in a distribution are only preserved if either
 (1) the staging area is on the same file system as the target directory of

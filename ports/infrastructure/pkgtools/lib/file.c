@@ -1,4 +1,4 @@
-/* $MirOS: ports/infrastructure/pkgtools/lib/file.c,v 1.13 2006/11/19 22:34:07 tg Exp $ */
+/* $MirOS: ports/infrastructure/pkgtools/lib/file.c,v 1.14 2007/03/01 23:03:50 tg Exp $ */
 /* $OpenBSD: file.c,v 1.26 2003/08/21 20:24:57 espie Exp $	*/
 
 /*
@@ -33,7 +33,7 @@
 #include <libgen.h>
 #include <unistd.h>
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/file.c,v 1.13 2006/11/19 22:34:07 tg Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/file.c,v 1.14 2007/03/01 23:03:50 tg Exp $");
 
 /* Try to find the log dir for an incomplete package specification.
  * Used in pkg_info and pkg_delete. Returns the number of matches,
@@ -90,22 +90,27 @@ trim_end(char *name)
 {
 	size_t n, m;
 	n = strlen(name);
-	m = strlen(".tgz");
-	if (n > m && strcmp(name+n-m, ".tgz") == 0) {
-		name[n-m] = 0;
-		return 1;
-	}
 	m = strlen(".tar.gz");
 	if (n > m && strcmp(name+n-m, ".tar.gz") == 0) {
 		name[n-m] = 0;
 		return 1;
 	}
-	m = strlen(".cgz");
+	m = strlen(".tgz");
+	if (n > m && strcmp(name+n-m, ".tgz") == 0) {
+		name[n-m] = 0;
+		return 1;
+	}
+	/* m = strlen(".cgz"); */
 	if (n > m && strcmp(name+n-m, ".cgz") == 0) {
 		name[n-m] = 0;
 		return 1;
 	}
-	m = strlen(".tar");
+	/* m = strlen(".clz"); */
+	if (n > m && strcmp(name+n-m, ".clz") == 0) {
+		name[n-m] = 0;
+		return 1;
+	}
+	/* m = strlen(".tar"); */
 	if (n > m && strcmp(name+n-m, ".tar") == 0) {
 		name[n-m] = 0;
 		return 1;
@@ -129,6 +134,7 @@ ensure_tgz(char *name)
 	len = strlen(name);
 	if ( (strcmp (name, "-") == 0 )
 	     || CHK_NAME(name,len,".cgz")
+	     || CHK_NAME(name,len,".clz")
 	     || CHK_NAME(name,len,".tgz")
 	     || CHK_NAME(name,len,".tar.gz")
 	     || CHK_NAME(name,len,".tar"))
@@ -363,7 +369,7 @@ fileGetURL(char *base, char *spec)
     char pen[FILENAME_MAX];
     FILE *ftp;
     pid_t tpid;
-    int i, status;
+    int status;
     char *hint;
 
     rp = NULL;
@@ -418,10 +424,17 @@ fileGetURL(char *base, char *spec)
 		printf("Extracting from FTP connection into %s\n", pen);
 	    tpid = fork();
 	    if (!tpid) {
+		const char *decompressor = "cat";
+
+		if ((cp = strrchr(fname, '.'))) {
+			if (!strcmp(cp, ".clz"))
+			    decompressor = "lzma";
+			else if (strchr(cp, 'z') || strchr(cp, 'Z'))
+			    decompressor = "gzip";
+		}
 		dup2(fileno(ftp), 0);
-		i = execlp("tar",
-		    "tar", Verbose ? "-xpzvf" : "-xpzf", "-", NULL);
-		exit(i);
+		exit(vsystem("%s | tar -x%spf -", decompressor,
+		    Verbose ? "v" : ""));
 	    }
 	    else {
 		int pstat;
@@ -673,7 +686,8 @@ copy_hierarchy(const char *dir, char *fname, bool to)
 int
 unpack(char *pkg, const char *flist)
 {
-    char args[10], suff[80], *cp;
+    char args[10], *cp;
+    const char *decompressor = NULL;
 
     args[0] = '\0';
     /*
@@ -681,17 +695,20 @@ unpack(char *pkg, const char *flist)
      * compressed.
      */
     if (strcmp(pkg, "-")) {
-	cp = strrchr(pkg, '.');
-	if (cp) {
-	    strlcpy(suff, cp + 1, sizeof(suff));
-	    if (strchr(suff, 'z') || strchr(suff, 'Z'))
-		strlcpy(args, "-z", sizeof(args));
+	if ((cp = strrchr(pkg, '.'))) {
+	    if (!strcmp(cp, ".clz"))
+		decompressor = "lzma";
+	    else if (strchr(cp, 'z') || strchr(cp, 'Z'))
+		decompressor = "gzip";
 	}
-    }
-    else
+    } else
 	strlcpy(args, "z", sizeof(args));
     strlcat(args, "xpf", sizeof(args));
-    if (vsystem("tar %s %s %s", args, pkg, flist ? flist : "")) {
+    if (!flist)
+	flist = "";
+    if (decompressor ?
+      vsystem("%s -dc %s | tar %s - %s", decompressor, pkg, args, flist) :
+      vsystem("tar %s %s %s", args, pkg, flist)) {
 	pwarnx("tar extract of %s failed!", pkg);
 	return 1;
     }

@@ -1,4 +1,4 @@
-/**	$MirOS: ports/infrastructure/pkgtools/lib/exec.c,v 1.5 2007/04/30 12:48:09 tg Exp $ */
+/**	$MirOS: ports/infrastructure/pkgtools/lib/exec.c,v 1.6 2008/10/12 14:35:17 tg Exp $ */
 /*	$OpenBSD: exec.c,v 1.8 2003/09/05 19:40:42 tedu Exp $	*/
 
 /*
@@ -21,11 +21,12 @@
  */
 
 #include <err.h>
+#include <fcntl.h>
 #include <pwd.h>
 #include "lib.h"
 #include <sys/wait.h>
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/exec.c,v 1.5 2007/04/30 12:48:09 tg Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/exec.c,v 1.6 2008/10/12 14:35:17 tg Exp $");
 
 #ifdef AS_USER
 static bool PrivsDropped = false;
@@ -73,7 +74,8 @@ vsystem(const char *fmt, ...)
  * Yet another way to run an external command *sigh*
  */
 int
-runcomm_(const char *whom, int nargs, const char * const *args)
+runcomm_(const char *whom, int nargs, const char * const *args,
+    const char *outf)
 {
 	int i = 0;
 	pid_t pid;
@@ -82,6 +84,8 @@ runcomm_(const char *whom, int nargs, const char * const *args)
 		fputs("Running \"", stdout);
 		while (i < nargs)
 			printf("%s ", args[i++]);
+		if (outf)
+			printf(">%s", outf);
 		fputs("\"\n", stdout);
 	}
 
@@ -93,6 +97,22 @@ runcomm_(const char *whom, int nargs, const char * const *args)
 			const char * const *ro;
 		} argvec;
 
+		if (outf) {
+			int fd;
+
+			if ((fd = open(outf, O_WRONLY | O_CREAT | O_TRUNC,
+			    0666)) < 0) {
+				warn("cannot open '%s' for writing", outf);
+				return (-1);
+			}
+			if (dup2(fd, STDOUT_FILENO) == -1) {
+				warn("cannot dup2");
+				return (-1);
+			}
+			if (fd != STDOUT_FILENO)
+				/* do not care about errors here */
+				close(fd);
+		}
 		/* stupid API */
 		argvec.ro = args;
 		execvp(whom, argvec.rw);

@@ -1,4 +1,4 @@
-/* $MirOS: ports/infrastructure/pkgtools/create/perform.c,v 1.9 2008/03/27 20:58:46 bsiegert Exp $ */
+/* $MirOS: ports/infrastructure/pkgtools/create/perform.c,v 1.10 2008/10/12 14:35:16 tg Exp $ */
 /* $OpenBSD: perform.c,v 1.17 2003/08/27 06:51:26 jolan Exp $	*/
 
 /*
@@ -32,7 +32,7 @@
 #include <signal.h>
 #include <unistd.h>
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/create/perform.c,v 1.9 2008/03/27 20:58:46 bsiegert Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/create/perform.c,v 1.10 2008/10/12 14:35:16 tg Exp $");
 
 static void sanity_check(void);
 static void make_dist(char *, char *, const char *, package_t *);
@@ -261,11 +261,13 @@ make_dist(char *homepath, char *pkg, const char *fsuffix, package_t *plist)
     int ret;
 #define DIST_MAX_ARGS 4096
     char *args[DIST_MAX_ARGS];
+    const char **cargs = (const char **)args;
     char *tempfile[DIST_MAX_ARGS/2];
     int current = 0;
     FILE *flist = 0;
     int nargs = 0;
-    int i;
+    int i, compression;
+    char *lztmp;
 
     args[nargs++] = strdup("tar");	/* argv[0] */
 
@@ -274,12 +276,24 @@ make_dist(char *homepath, char *pkg, const char *fsuffix, package_t *plist)
     else
 	snprintf(tball, FILENAME_MAX, "%s/%s.%s", homepath, pkg, fsuffix);
 
+    if (((lztmp = strrchr(tball, '.')) != NULL) &&
+      (!strcmp(lztmp, ".clz"))) {
+	/* LZMA compression */
+	compression = 2;
+	lztmp = strdup(tball);
+	lztmp[strlen(lztmp) - 1] = '~';
+    } else if (strchr(fsuffix, 'z'))
+	/* gzip compression */
+	compression = 1;
+    else
+	compression = 0;
+
     args[nargs++] = strdup("-c");
     if (!WantUSTAR)
 	args[nargs++] = strdup("-S");
     args[nargs++] = strdup("-f");
-    args[nargs++] = tball;
-    if (strchr(fsuffix, 'z'))	/* Compress/gzip? */
+    args[nargs++] = compression == 2 ? lztmp : tball;
+    if (compression == 1)
 	args[nargs++] = strdup("-z");
     if (Dereference)
 	args[nargs++] = strdup("-h");
@@ -292,12 +306,10 @@ make_dist(char *homepath, char *pkg, const char *fsuffix, package_t *plist)
 	*/
     }
 
-    if (Verbose) {
-        if (strchr(fsuffix, 'z'))
-	    printf("Creating gzip'd tar ball in '%s'\n", tball);
-        else
-	    printf("Creating tar ball in '%s'\n", tball);
-    }
+    if (Verbose)
+	printf("Creating %star ball in '%s'\n",
+	    compression == 2 ? "LZMA compressed " :
+	    compression == 1 ? "gzip'd " : "", tball);
     args[nargs++] = strdup(CONTENTS_FNAME);
     args[nargs++] = strdup(COMMENT_FNAME);
     args[nargs++] = strdup(DESC_FNAME);
@@ -368,9 +380,11 @@ make_dist(char *homepath, char *pkg, const char *fsuffix, package_t *plist)
 
     /* fork/exec tar to create the package */
 
-    if ((ret = runcomm("tar", nargs, args)) == -1) {
+    if ((ret = runcomm("tar", nargs, args, NULL)) == -1) {
 	for (i = 0; i < current; i++)
 	    unlink(tempfile[i]);
+	if (compression == 2)
+	    unlink(lztmp);
 	exit(2);
     }
     for (i = 0; i < current; i++)
@@ -383,9 +397,30 @@ make_dist(char *homepath, char *pkg, const char *fsuffix, package_t *plist)
     }
     /* assume either signal or bad exit is enough for us */
     if (ret) {
+	if (compression == 2)
+	    unlink(lztmp);
 	cleanup(0);
-	errx(2, "tar command failed with code %d", ret);
+	errx(2, "%s command failed with code %d", "tar", ret);
     }
+
+    if (compression != 2)
+	return;
+    /* apply LZMA compression */
+
+    nargs = 0;
+    cargs[nargs++] = "lzma";
+    /* oO -9 will not fit into default datasize ulimit */
+    cargs[nargs++] = "-z7fc";
+    cargs[nargs++] = lztmp;
+    cargs[nargs] = NULL;
+    if ((ret = runcomm("lzma", nargs, cargs, tball))) {
+	unlink(lztmp);
+	unlink(tball);
+	cleanup(0);
+	errx(2, "%s command failed with code %d", "lzma", ret);
+    }
+    unlink(lztmp);
+    free(lztmp);
 }
 
 static void
