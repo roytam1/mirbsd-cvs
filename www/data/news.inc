@@ -732,3 +732,10 @@ Date: 24.03.2008
  for MirOS #10</a>; we will issue a binary update within a few days,
  as at least the Sendmail bug is severe.</p>
 ----
+Title: MirOS #10 first binary update published
+Date: 27.03.2008
+
+<p>The <a href="@@RELPATH@@errata10.htm#binup">Errata page</a> lists
+ a binary update for the Sendmail and Apache security flaws and a
+ shortcoming in the &lt;bsd.lkm.mk&gt; file. We advise to upgrade.</p>
+----
