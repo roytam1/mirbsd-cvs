@@ -1003,7 +1003,7 @@ quitenv(struct shf *shf)
 		if (Flag(FTALKING))
 			x_done();
 #endif
-//		afreeall(APERM);
+		afreeall(APERM);
 #endif
 		exit(exstat & 0xFF);
 	}
