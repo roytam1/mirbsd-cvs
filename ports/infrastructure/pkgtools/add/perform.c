@@ -1,4 +1,4 @@
-/* $MirOS: ports/infrastructure/pkgtools/add/perform.c,v 1.25 2009/08/19 18:30:10 tg Exp $ */
+/* $MirOS: ports/infrastructure/pkgtools/add/perform.c,v 1.26 2009/11/22 15:34:13 tg Exp $ */
 /* $OpenBSD: perform.c,v 1.32 2003/08/21 20:24:56 espie Exp $	*/
 
 /*
@@ -29,7 +29,7 @@
 #include <signal.h>
 #include <errno.h>
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/add/perform.c,v 1.25 2009/08/19 18:30:10 tg Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/add/perform.c,v 1.26 2009/11/22 15:34:13 tg Exp $");
 
 static int pkg_do(char *);
 static int sanity_check(char *);
@@ -155,16 +155,16 @@ pkg_do(char *pkg)
 	} else {
 	    strlcpy(pkg_fullname, ensure_tgz(pkg), sizeof(pkg_fullname));
 	    if (strcmp(pkg, "-")) {
-		if (!ispkgpattern(pkg_fullname)
-		    && stat(pkg_fullname, &sb) == -1) {
+		if (ispkgpattern(pkg_fullname))
+		    sb.st_size = 100000;
+		else if (stat(pkg_fullname, &sb) == -1) {
 		    pwarnx("can't stat package file '%s'", pkg_fullname);
 		    goto bomb;
 		}
-		snprintf(extract_contents, sizeof( extract_contents ),
-			 "%s", CONTENTS_FNAME);
+		strlcpy(extract_contents, CONTENTS_FNAME,
+			sizeof(extract_contents));
 		extract = extract_contents;
-	    }
-	    else {
+	    } else {
 		extract = NULL;
 		sb.st_size = 100000;	/* Make up a plausible average size */
 	    }
@@ -200,7 +200,7 @@ pkg_do(char *pkg)
 	     * extracted the full file, anyway.
 	     */
 
-	    if (!extract && min_free(playpen) < sb.st_size * 4) {
+	    if (!extract && min_free(playpen) < (size_t)sb.st_size * 4) {
 		pwarnx("projected size of %ld exceeds available free space\n"
 		       "Please set your PKG_TMPDIR variable to point to a"
 		       "location with more\n"
