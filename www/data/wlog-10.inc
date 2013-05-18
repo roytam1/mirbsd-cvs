@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.91 2008/11/01 00:48:14 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.92 2008/11/06 22:25:37 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -1198,7 +1198,7 @@ Title: MirEwe requiescas in pacem
  href="@@ABSPATH@@/MirOS/dist/hosted/other/ewe-rcsfiles.cgz">gzipped sv4crc</a> file,
  gzsig(1)ned, as usual.</p>
 <p><strong>Update 06.11.2008</strong>: We now have an <object width="128"
- height="128" data="@@RELPATH@@pics/ewe.svg" type="image/svg+xml"><img
+ height="96" data="@@RELPATH@@pics/ewe.svg" type="image/svg+xml"><img
  src="@@RELPATH@@pics/ewe128x128.png" alt="Ewe icon" /></object> Icon,
  thanks to smultron.</p>
 <p>And, also as usual, one more unrelated thing: <tt>config(8) -ef /bsd</tt>
