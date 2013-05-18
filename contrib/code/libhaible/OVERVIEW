@@ -1,9 +1,9 @@
-$MirOS: contrib/code/libhaible/OVERVIEW,v 1.19 2006/05/31 00:41:04 tg Exp $
+$MirOS: contrib/code/libhaible/OVERVIEW,v 1.20 2006/05/31 00:56:12 tg Exp $
 $function name		header		manpage		source location
 $ 
-$ Info: # = commented out
+$ Info: #=commented out C=libc H=libhaible G=GPL/libhaible
 $  
-__mb_cur_max		 stdlib.h	H:__MB_CUR_MAX	i18n/isutf8.c
+__mb_cur_max		 stdlib.h	G:__MB_CUR_MAX	i18n/isutf8.c
 btowc			 wchar.h	C:btowc		i18n/btowc.c
 catclose		 nl_types.h	H:catgets	i18n/catalogues.c
 catgets			 nl_types.h	H:catgets	i18n/catalogues.c
@@ -17,19 +17,19 @@ fwprintf		#wchar.h	-
 fwscanf			#wchar.h	-
 getwc			 wchar.h	C:getwc		stdio/getwc.c
 getwchar		 wchar.h	C:getwc		stdio/getwchar.c
-iswalnum		 wctype.h	C:iswalnum	libhaible/iswTYPE.c
-iswalpha		 wctype.h	C:iswalnum	libhaible/iswTYPE.c
-iswblank		 wctype.h	C:iswalnum	libhaible/iswTYPE.c
-iswcntrl		 wctype.h	C:iswalnum	libhaible/iswTYPE.c
-iswctype		 wctype.h	H:iswctype	libhaible/iswctype.c
-iswdigit		 wctype.h	C:iswalnum	libhaible/iswTYPE.c
-iswgraph		 wctype.h	C:iswalnum	libhaible/iswTYPE.c
-iswlower		 wctype.h	C:iswalnum	libhaible/iswTYPE.c
-iswprint		 wctype.h	C:iswalnum	libhaible/iswTYPE.c
-iswpunct		 wctype.h	C:iswalnum	libhaible/iswTYPE.c
-iswspace		 wctype.h	C:iswalnum	libhaible/iswTYPE.c
-iswupper		 wctype.h	C:iswalnum	libhaible/iswTYPE.c
-iswxdigit		 wctype.h	C:iswalnum	libhaible/iswTYPE.c
+iswalnum	LGPL	 wctype.h	C:iswalnum	libhaible/iswTYPE.c
+iswalpha	LGPL	 wctype.h	C:iswalnum	libhaible/iswTYPE.c
+iswblank	LGPL	 wctype.h	C:iswalnum	libhaible/iswTYPE.c
+iswcntrl	LGPL	 wctype.h	C:iswalnum	libhaible/iswTYPE.c
+iswctype	LGPL	 wctype.h	H:iswctype	libhaible/iswctype.c
+iswdigit	LGPL	 wctype.h	C:iswalnum	libhaible/iswTYPE.c
+iswgraph	LGPL	 wctype.h	C:iswalnum	libhaible/iswTYPE.c
+iswlower	LGPL	 wctype.h	C:iswalnum	libhaible/iswTYPE.c
+iswprint	LGPL	 wctype.h	C:iswalnum	libhaible/iswTYPE.c
+iswpunct	LGPL	 wctype.h	C:iswalnum	libhaible/iswTYPE.c
+iswspace	LGPL	 wctype.h	C:iswalnum	libhaible/iswTYPE.c
+iswupper	LGPL	 wctype.h	C:iswalnum	libhaible/iswTYPE.c
+iswxdigit	LGPL	 wctype.h	C:iswalnum	libhaible/iswTYPE.c
 localeconv		 locale.h	C:setlocale	i18n/langinfo.c
 mblen			 stdlib.h	C:mblen		libhaible/mblen.c
 mbrlen			 wchar.h	H:mbrlen	libhaible/mbrlen.c
@@ -44,9 +44,9 @@ putwchar		 wchar.h	C:putwc		stdio/putwchar.c
 setlocale		 locale.h	C:setlocale	i18n/charsets.c
 swprintf		#wchar.h	-
 swscanf			#wchar.h	-
-towctrans		 wctype.h	H:towctrans	libhaible/towctrans.c
-towlower		 wctype.h	C:towlower	libhaible/towlower.c
-towupper		 wctype.h	C:towlower	libhaible/towupper.c
+towctrans	LGPL	 wctype.h	H:towctrans	libhaible/towctrans.c
+towlower	LGPL	 wctype.h	C:towlower	libhaible/towlower.c
+towupper	LGPL	 wctype.h	C:towlower	libhaible/towupper.c
 ungetwc			 wchar.h	C:ungetwc	stdio/ungetwc.c
 vfwprintf		#wchar.h	-
 vfwscanf		#wchar.h	-
@@ -78,7 +78,7 @@ wcsspn			 wchar.h	C:wmemchr	string/wcsspn.c
 wcsstr			 wchar.h	C:wmemchr	string/wcsstr.c
 wcstod			 wchar.h	H:wmemchr	locale/wcstod.c
 wcstof			 wchar.h	H:wmemchr	locale/wcstod.c
-wcstok			 wchar.h	C:wcstok	libhaible/wcstok.c
+wcstok		LGPL	 wchar.h	C:wcstok	libhaible/wcstok.c
 wcstol			 wchar.h	H:wmemchr	locale/wcstol.c
 wcstold			 wchar.h	H:wmemchr	locale/wcstod.c
 wcstoll			 wchar.h	H:wmemchr	locale/wcstoll.c
@@ -86,13 +86,13 @@ wcstombs		 stdlib.h	C:wcstombs	libhaible/wcstombs.c
 wcstoul			 wchar.h	H:wmemchr	locale/wcstoul.c
 wcstoull		 wchar.h	H:wmemchr	locale/wcstoull.c
 wcswcs			 wchar.h	H:wmemchr	string/wcsstr.c
-wcswidth		 wchar.h	H:wcswidth	libhaible/wcswidth.c
+wcswidth		 wchar.h	G:wcswidth	libhaible/wcswidth.c
 wcsxfrm			 wchar.h	H:wmemchr	libhaible/wcsxfrm.c
 wctob			 wchar.h	C:wctob		i18n/wctob.c
 wctomb			 stdlib.h	C:wctomb	libhaible/wctomb.c
 wctrans			 wctype.h	H:wctrans	libhaible/wctrans.c
 wctype			 wchar.h	H:wctype	libhaible/wctype.c
-wcwidth			 wchar.h	H:wcwidth	libhaible/wcwidth.c
+wcwidth			 wchar.h	G:wcwidth	libhaible/wcwidth.c
 wmemchr			 wchar.h	C:wmemchr	string/wmemchr.c
 wmemcmp			 wchar.h	C:wmemchr	string/wmemcmp.c
 wmemcpy			 wchar.h	C:wmemchr	string/wmemcpy.c
