@@ -1,4 +1,4 @@
-/*	$MirOS: src/sys/arch/i386/stand/libsa/gidt.S,v 1.11 2009/01/02 16:38:37 tg Exp $ */
+/*	$MirOS: src/sys/arch/i386/stand/libsa/gidt.S,v 1.12 2009/01/10 12:09:26 tg Exp $ */
 /*	$OpenBSD: gidt.S,v 1.32 2006/12/26 19:30:44 tom Exp $	*/
 
 /*
@@ -347,7 +347,7 @@ EMUh:
 	/* save BIOS int vector */
 	mov	%al, intno
 
-	prot2real
+	call	prot_to_real
 
 	push	%ds
 
@@ -376,7 +376,7 @@ intno	= . - 1
 
 	addr32 movl %eax, (2f - SA_LINKADDR)
 
-	real2prot
+	call	real_to_prot
 
 	# movl $Leax, %eax
 	.byte 0xb8
@@ -421,9 +421,10 @@ ENTRY(bootbuf)
 	pop	%ebp		/* Buffer Target (ES:DI) */
 	pop	%edx		/* Device (and flags) */
 	pop	%edi		/* Initial CS:IP */
-	prot2real		/* Switch */
 
 	.intel_syntax noprefix
+
+	call	prot_to_real
 
 	/* set up flags, real mode stack */
 	xor	eax,eax
