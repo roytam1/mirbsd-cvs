@@ -174,15 +174,17 @@ to your xauth list before.
 You might find the following script useful:
 .RS -2C
 .nf
-\&#!/bin/mksh
-typeset -i dispnr=${1:-1}
-COOKIE=$(dd if=/dev/arandom bs=16 count=1 | hexdump -e '16/1 "%02X"')
+\&#!/bin/sh
+dispnr=${1:-1}
+hostname=$(hostname)
+COOKIE=$(/usr/sbin/openssl rand -hex 16)
 
-xauth add $(hostname)/unix:$dispnr . $COOKIE
+xauth add $hostname/unix:$dispnr . $COOKIE
 xauth add localhost/unix:$dispnr . $COOKIE
 Xnest :$dispnr
-xauth remove $(hostname)/unix:$dispnr localhost/unix:$dispnr
-exit 0
+rv=$?
+xauth remove $hostname/unix:$dispnr localhost/unix:$dispnr
+exit $rv
 .fi
 .RE
 .PP
