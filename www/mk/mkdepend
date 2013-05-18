@@ -1,4 +1,4 @@
-# $MirOS: www/mk/mkdepend,v 1.4 2007/06/03 22:00:43 tg Exp $
+# $MirOS: www/mk/mkdepend,v 1.1 2007/06/09 23:29:54 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -18,7 +18,7 @@ for f in "$@"; do
 	print "\${TOP}/$f" >>"$d/$(tofn "$f")"
 	if [[ $f = *.hts ]]; then
 		g=${f##*/}
-		print "${g%s}m: .NOTMAIN \${DEPS_$(tofn "$f")}" >>"$DST/.depend.tmp2"
+		print "${g%s}m~: .NOTMAIN \${DEPS_$(tofn "$f")}" >>"$DST/.depend.tmp2"
 	fi
 	[[ $debug = 1 ]] && print "D: input file $f"
 done

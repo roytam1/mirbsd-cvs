@@ -1,4 +1,4 @@
-# $MirOS: www/Makefile,v 1.24 2008/03/15 23:41:48 tg Exp $
+# $MirOS: www/Makefile,v 1.25 2008/03/22 20:38:16 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -44,8 +44,8 @@ CLEANFILES+=	news.cut
 all:
 install: site.tgz
 
-OBJS+=		${SRCS:M*.hts:S/hts$/htm/}
-CLEANFILES+=	${SRCS:M*.hts:S/hts$/htm/}
+OBJS+=		${SRCS:M*.hts:S/hts$/htm~/}
+CLEANFILES+=	${SRCS:M*.hts:S/hts$/htm~/}
 
 DEPSRCS+=	${SRCS:S,^,src/,}
 INCSRCS+=	${WLOGS:S/^/wlog-/}
@@ -98,7 +98,7 @@ WLOG_LATEST:=${_i}
 _reinstall:
 	-rm -rf dst
 	mkdir dst dst/permalinks
-	pax -rw -pe -dv ${OBJS:Nstamp_*} dst/
+	pax -rw -pe -dv ${OBJS:Nstamp_*:S/htm~$/htm/} dst/
 .for _i in ${GENSRCS}
 	pax -rw -pe -dv $$(<${_i}) dst/
 .endfor
@@ -112,14 +112,18 @@ _reinstall:
 	chmod -R u=rwX,go=rX dst
 	chmod a+x dst/cvs.cgi
 
-.SUFFIXES: .htm .hts
+.SUFFIXES: .htm~ .hts
 
-.hts.htm:
-	@rm -f $@.tmp
-	@print '( . mk/htsconv; . $< ) >$@'
-	@(export ${U_ENV}; cd ${DST}; . ${TOP}/mk/htsconv; . $<) >$@.tmp || \
-	    (rm -f $@.tmp; exit 1)
-	@(. ${TOP}/mk/htsconv; mws_moveifchange $@.tmp $@)
+.hts.htm~:
+	@dstd='$@'; dstf=$${dstd%~}; rm -f $@; \
+	 print '( . mk/htsconv; . $< ) >'$$dstf; \
+	 if (export ${U_ENV}; cd ${DST}; . ${TOP}/mk/htsconv; . $<) \
+	    >$@; then \
+		(. ${TOP}/mk/htsconv; mws_moveifchange -k $$dstd $$dstf); \
+	 else \
+		rm -f $@; \
+		exit 1; \
+	fi
 
 .PHONY: clean cleandir depend install deinstall reinstall _reinstall \
 	cp-herc cp-heph rs-heph
