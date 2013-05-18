@@ -1,5 +1,5 @@
 <!-- PageID: mksh -->
-<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.32 2006/07/04 21:18:49 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.33 2006/07/06 22:18:03 tg Exp $</small>
 
 <h1>mksh(1) R27e</h1>
 <p>This is the MirBSD&trade; Korn Shell, a more or less portable
@@ -30,7 +30,11 @@
 </ul>
 
 <h2 id="clog">Recent Changes</h2>
-<!-- p>Changes in the current (unreleased) development version:</p><ul -->
+<p>Changes in the current (unreleased) development version:</p><ul>
+ <li>For these who build software as root, the regression testsuite
+  has been adapted to pass when using a priviledgued shell. You have
+  been warned, though. Do not compile software as root.</li>
+</ul>
 <p>We recommend mksh <b>R27e</b> to be used:</p><ul>
  <li>Allow <tt>Test.sh</tt> to be passed parameters (-v)</li>
  <li>Fix all <tt>-Wchar-subscripts</tt> on Solaris/sparc64
