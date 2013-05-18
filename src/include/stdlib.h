@@ -1,4 +1,4 @@
-/**	$MirOS: src/include/stdlib.h,v 1.18 2008/04/06 16:35:16 tg Exp $ */
+/**	$MirOS: src/include/stdlib.h,v 1.19 2008/04/06 22:37:36 tg Exp $ */
 /*	$OpenBSD: stdlib.h,v 1.34 2005/05/27 17:45:56 millert Exp $	*/
 /*	$NetBSD: stdlib.h,v 1.25 1995/12/27 21:19:08 jtc Exp $	*/
 
@@ -210,7 +210,8 @@ int	 sradixsort(const unsigned char **, int, const unsigned char *,
 char	*initstate(unsigned int, char *, size_t)
 		__attribute__((__bounded__ (__string__,2,3)));
 long	 random(void);
-char	*realpath(const char *, char *);
+char	*realpath(const char *, char *)
+		__attribute__((__bounded__ (__minbytes__,2,1024)));
 char	*setstate(const char *);
 void	 srandom(unsigned int);
 void	 srandomdev(void);
