@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: contrib/code/heartbeat/hbclient,v 1.6 2006/03/27 07:19:54 tg Exp $
+# $MirOS: contrib/code/heartbeat/hbclient,v 1.7 2006/06/26 14:14:19 tg Exp $
 #-
 # Copyright (c) 2004, 2006
 #	Thorsten "mirabilos" Glaser <tg@66h.42h.de>
@@ -51,6 +51,7 @@
 # hbclient down		- run once, tell the server the tunnel is down
 # hbclient pass		- run once, ask server for password change
 #			  (interactively asks for new password twice)
+# hbclient once		- run once, beat once only
 #
 # Changing the password is only supported by the MirOS hbServer, not
 # by SixXS.
@@ -270,6 +271,11 @@ if [[ $parm = PASS ]]; then
 	print
 	print Do not forget to edit $me
 	print replacing the old password with the one just entered.
+	exit 0
+fi
+
+if [[ $parm = ONCE ]]; then
+	do_heartbeat $(getip)
 	exit 0
 fi
 
