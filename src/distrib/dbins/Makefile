@@ -1,7 +1,9 @@
-# $MirOS: src/distrib/dbins/Makefile,v 1.1 2008/03/27 19:05:12 tg Exp $
+# $MirOS: src/distrib/dbins/Makefile,v 1.2 2008/03/27 20:02:41 tg Exp $
 
 CBIN=		dbins
-BINDIR=		/bin
+BINDIR=		/sbin
+PROG=		${CBIN}
+SRCS=		# empty
 NOMAN=		Yes
 
 LINKS+=		${BINDIR}/${CBIN} /bin/cat \
@@ -153,18 +155,5 @@ cleandir: clean
 
 depend lint tags: ${CBIN}.mk
 	${MAKE} -f ${CBIN}.mk $@
-
-install:
-	${INSTALL} ${INSTALL_COPY} ${INSTALL_STRIP} -o ${BINOWN} -g ${BINGRP} \
-	    -m ${BINMODE} ${CBIN} ${DESTDIR}${BINDIR}/
-.  if defined(LINKS) && !empty(LINKS)
-.    for lnk file in ${LINKS}
-	@l=${DESTDIR}${lnk}; \
-	 t=${DESTDIR}${file}; \
-	 echo $$t -\> $$l; \
-	 rm -f $$t; ln $$l $$t || cp $$l $$t
-.    endfor
-.  endif
-	-rm ${DESTDIR}${BINDIR}/${CBIN}
 
 .include <bsd.prog.mk>
