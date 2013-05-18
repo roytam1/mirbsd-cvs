@@ -1,4 +1,4 @@
-/* $MirOS$ */
+/* $MirOS: src/sys/net/netisr_dispatch.h,v 1.2 2005/03/06 21:28:16 tg Exp $ */
 /* $OpenBSD: netisr_dispatch.h,v 1.7 2004/11/28 23:39:45 canacar Exp $	*/
 /* $NetBSD: netisr_dispatch.h,v 1.2 2000/07/02 04:40:47 cgd Exp $ */
 
@@ -34,6 +34,8 @@
  * When adding functions to this list, be sure to add headers to provide
  * their prototypes in <net/netisr.h> (if necessary).
  */
+
+	DONETISR(NETISR_RND,netrndintr);
 
 #ifdef INET
 #if NETHER > 0

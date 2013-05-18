@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/net/if.c,v 1.5 2005/12/20 19:41:24 tg Exp $ */
+/**	$MirOS: src/sys/net/if.c,v 1.6 2005/12/23 11:31:09 tg Exp $ */
 /*	$OpenBSD: if.c,v 1.136 2005/06/23 14:30:40 mickey Exp $	*/
 /*	$NetBSD: if.c,v 1.35 1996/05/07 05:26:04 thorpej Exp $	*/
 
@@ -84,6 +84,9 @@
 #include <net/if_media.h>
 #include <net/if_types.h>
 #include <net/route.h>
+#include <net/netisr.h>
+
+#include <dev/rndvar.h>
 
 #ifdef INET
 #include <netinet/in.h>
@@ -1494,4 +1497,11 @@ ifpromisc(ifp, pswitch)
 	}
 	ifr.ifr_flags = ifp->if_flags;
 	return ((*ifp->if_ioctl)(ifp, SIOCSIFFLAGS, (caddr_t)&ifr));
+}
+
+int netrndintr_v;
+void
+netrndintr(void)
+{
+	add_net_randomness(netrndintr_v);
 }

@@ -1,4 +1,4 @@
-/**	$MirOS$ */
+/**	$MirOS: src/sys/net/netisr.h,v 1.2 2005/03/06 21:28:16 tg Exp $ */
 /*	$OpenBSD: netisr.h,v 1.20 2004/11/28 23:39:45 canacar Exp $	*/
 /*	$NetBSD: netisr.h,v 1.12 1995/08/12 23:59:24 mycroft Exp $	*/
 
@@ -53,6 +53,7 @@
  * interrupt used for scheduling the network code to calls
  * on the lowest level routine of each protocol.
  */
+#define	NETISR_RND	1
 #define	NETISR_IP	2		/* same as AF_INET */
 #define	NETISR_IMP	3		/* same as AF_IMPLINK */
 #define	NETISR_NS	6		/* same as AF_NS */
@@ -72,7 +73,9 @@
 #ifndef _LOCORE
 #ifdef _KERNEL
 extern int	netisr;			/* scheduling bits for network */
+extern int	netrndintr_v;		/* NETISR_RND anisr value */
 
+void	netrndintr(void);
 void	arpintr(void);
 void	ipintr(void);
 void	ip6intr(void);
@@ -86,9 +89,11 @@ void	ccittintr(void);
 void	bridgeintr(void);
 void	pppoeintr(void);
 
-#include <dev/rndvar.h>
-#define	schednetisr(anisr)	\
-	{ netisr |= 1<<(anisr); add_net_randomness(anisr); setsoftnet(); }
+#define	schednetisr(anisr)	do {		\
+	netisr |= (1<<(anisr) | NETISR_RND);	\
+	netrndintr_v = (anisr);			\
+	setsoftnet();				\
+} while (0)
 #endif
 #endif
 
