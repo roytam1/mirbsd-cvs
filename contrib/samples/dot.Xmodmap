@@ -1,4 +1,4 @@
-! $MirOS: contrib/samples/dot.Xmodmap,v 1.24.4.1 2012/06/08 23:09:43 tg Exp $
+! $MirOS: contrib/samples/dot.Xmodmap,v 1.24.4.2 2012/06/08 23:49:02 tg Exp $
 !-
 ! Copyright © 2004, 2007, 2008, 2010, 2012
 !	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
@@ -109,7 +109,7 @@ keycode	0x12 =	9		parenleft	U00B9		U00A8
 keycode	0x13 =	0		parenright	U00B0		U00A9
 keycode	0x14 =	minus		underscore	U00AD		U00DF
 keycode	0x15 =	equal		plus		U00BD		U00AB
-keycode	0x16 =	BackSpace	Terminate_Server  U00FF		U0178
+keycode	0x16 =	BackSpace	BackSpace	U00FF		U0178	NoSymbol NoSymbol Terminate_Server
 keycode	0x76 =	Insert		Insert		U3008		U300A
 keycode	0x6E =	Home		Home		U3014		U3010
 keycode	0x70 =	Prior		Prior		U300C		U300E
