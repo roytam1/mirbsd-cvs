@@ -1,4 +1,4 @@
-/* $MirOS: ports/infrastructure/pkgtools/lib/cfgfile.c,v 1.1.2.1 2009/12/22 22:26:51 bsiegert Exp $ */
+/* $MirOS: ports/infrastructure/pkgtools/lib/cfgfile.c,v 1.1.2.2 2009/12/23 13:37:46 bsiegert Exp $ */
 
 /*-
  * Copyright (c) 2009
@@ -37,7 +37,7 @@
 #endif
 #define CFG_FILE SYSCONFDIR "/pkgtools/pkgtools.conf"
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/cfgfile.c,v 1.1.2.1 2009/12/22 22:26:51 bsiegert Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/cfgfile.c,v 1.1.2.2 2009/12/23 13:37:46 bsiegert Exp $");
 
 typedef SLIST_HEAD(cfg_varlist, cfg_var) cfg_varlist;
 struct cfg_var {
@@ -208,6 +208,7 @@ char
 		if (len == 0) {
 			assert(rv_len > 1);
 			strlcpy(rv_cp, "$", rv_len);
+			rv_cp++;
 			break;
 		}
 
@@ -218,6 +219,8 @@ char
 			rv_len--;
 			rv_size--;
 			rv_cp++;
+			cp++;
+			len--;
 			break;
 		case '{':
 			paren = '}';
