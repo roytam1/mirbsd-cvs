@@ -1,20 +1,11 @@
-# $MirOS$
+# $MirOS: src/libexec/cpp/Makefile,v 1.2 2005/03/06 19:23:58 tg Exp $
 # @(#)Makefile	5.2 (Berkeley) 5/12/90
 
 PROG=		cpp
-SRCS=		cpp.c cpy.c rodata.o
+SRCS=		cpp.c cpy.y
 NOMAN=		yes
 CPPFLAGS+=	-Dunix=1 -DFLEXNAMES
-CLEANFILES+=	cpy.c rodata.c
-
-beforedepend: cpy.c
-
-rodata.c: cpy.c
-
-cpy.c: cpy.y
-	${YACC} -r ${.ALLSRC}
-	mv y.tab.c rodata.c
-	mv y.code.c cpy.c
+YFLAGS=
 
 afterinstall:
 	${INSTALL} ${INSTALL_COPY} -o ${BINOWN} -g ${BINGRP} -m ${BINMODE} \

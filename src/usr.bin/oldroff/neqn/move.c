@@ -1,5 +1,3 @@
-/* $MirOS$ */
-
 /*-
  * Copyright (c) 1979, 1980, 1981, 1986, 1988, 1990, 1991, 1992
  *     The Regents of the University of California.
@@ -42,12 +40,12 @@
  * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef lint
-static char sccsid[] = "@(#)move.c	4.4 (Berkeley) 4/17/91";
-#endif
+#include <sys/cdefs.h>
+__SCCSID("@(#)move.c	4.4 (Berkeley) 4/17/91");
+__RCSID("$MirOS$");
 
 # include "e.h"
-# include "e.def"
+# include "ey.h"
 
 move(dir, amt, p) int dir, amt, p; {
 	int a;
@@ -65,6 +63,6 @@ move(dir, amt, p) int dir, amt, p; {
 		printf("\\v'-%du'\\*(%d\\v'%du'\n", a, p, a);
 	else if (dir == DOWN)
 		printf("\\v'%du'\\*(%d\\v'-%du'\n", a, p, a);
-	if(dbg)printf(".\tmove %d dir %d amt %d; h=%d b=%d\n", 
+	if(dbg)printf(".\tmove %d dir %d amt %d; h=%d b=%d\n",
 		p, dir, a, eht[yyval], ebase[yyval]);
 }

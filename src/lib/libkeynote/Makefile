@@ -1,4 +1,4 @@
-# $MirOS: src/lib/libkeynote/Makefile,v 1.2 2005/03/06 20:29:07 tg Exp $
+# $MirOS: src/lib/libkeynote/Makefile,v 1.3 2005/10/21 11:02:45 tg Exp $
 # $OpenBSD: Makefile,v 1.15 2004/06/25 05:06:49 msf Exp $
 
 LIB=	keynote
@@ -20,20 +20,20 @@ NOPIC=		yes
 .include <bsd.own.mk>
 COPTS+=		-Wall
 CPPFLAGS+=	-I.
-LEXFLAGS=	-Cr -Pkn -s -i
-YACCFLAGS=	-d -p kn -b k
+LFLAGS=		-Cr -Pkn -s -i
+YFLAGS=		-d -p kn -b k
 
 HDRS=	keynote.h
 SRCS=	k.tab.c lex.kn.c environment.c parse_assertion.c signature.c auxil.c \
 	base64.c
 
-CLEANFILES+= k.tab.c lex.kn.c k.tab.h
+CLEANFILES+=	k.tab.c k.tab.h lex.kn.c
 
 k.tab.c: keynote.y keynote.h signature.h
-	$(YACC.y) $(YACCFLAGS) ${.CURDIR}/keynote.y
+	${YACC.y} ${.CURDIR}/keynote.y
 
 lex.kn.c: keynote.l keynote.y keynote.h assertion.h signature.h
-	$(LEX.l) $(LEXFLAGS) ${.CURDIR}/keynote.l
+	${LEX.l} ${.CURDIR}/keynote.l
 
 includes:
 	@@cd ${.CURDIR}; for i in $(HDRS); do \

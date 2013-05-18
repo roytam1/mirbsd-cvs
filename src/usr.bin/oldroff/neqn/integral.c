@@ -1,5 +1,3 @@
-/* $MirOS$ */
-
 /*-
  * Copyright (c) 1979, 1980, 1981, 1986, 1988, 1990, 1991, 1992
  *     The Regents of the University of California.
@@ -42,12 +40,12 @@
  * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef lint
-static char sccsid[] = "@(#)integral.c	4.4 (Berkeley) 4/17/91";
-#endif
+#include <sys/cdefs.h>
+__SCCSID("@(#)integral.c	4.4 (Berkeley) 4/17/91");
+__RCSID("$MirOS$");
 
 # include "e.h"
-# include "e.def"
+# include "ey.h"
 
 integral(p, p1, p2) {
 #ifndef	NEQN
@@ -62,7 +60,7 @@ integral(p, p1, p2) {
 		bshiftb(p, SUB, p1);
 	else if (p2 != 0)
 		bshiftb(p, SUP, p2);
-	if(dbg)printf(".\tintegral: S%d; h=%d b=%d\n", 
+	if(dbg)printf(".\tintegral: S%d; h=%d b=%d\n",
 		p, eht[p], ebase[p]);
 	lfont[p] = ROM;
 }
@@ -73,7 +71,7 @@ setintegral() {
 	yyval = oalloc();
 	f = "\\(is";
 #ifndef NEQN
-	printf(".ds %d \\s%d\\v'.1m'\\s+4%s\\s-4\\v'-.1m'\\s%d\n", 
+	printf(".ds %d \\s%d\\v'.1m'\\s+4%s\\s-4\\v'-.1m'\\s%d\n",
 		yyval, ps, f, ps);
 	eht[yyval] = VERT( (((ps+4)*12)/10)*6 );
 	ebase[yyval] = VERT( (ps*6*3)/10 );

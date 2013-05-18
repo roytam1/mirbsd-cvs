@@ -47,7 +47,7 @@ static char rcsid[] = "$OpenBSD: scan.l,v 1.6 2004/05/10 15:26:22 deraadt Exp $"
 #include <err.h>
 
 #include "lint1.h"
-#include "y.tab.h"
+#include "cgram.h"
 
 #define CHAR_MASK	(~(~0 << CHAR_BIT))
 

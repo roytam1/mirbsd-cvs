@@ -1,5 +1,4 @@
 %{
-/**	$MirOS$ */
 /*      $OpenBSD: scan.l,v 1.18 2005/04/13 06:36:03 otto Exp $	*/
 
 /*
@@ -27,9 +26,9 @@
 
 #include "extern.h"
 #include "pathnames.h"
-#include "y.tab.h"
+#include "bc.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.bin/bc/scan.l,v 1.2 2006/09/21 02:20:31 tg Exp $");
 
 int		lineno;
 

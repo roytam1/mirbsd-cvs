@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/sys.mk,v 1.101 2007/04/18 19:56:24 tg Exp $
+# $MirOS: src/share/mk/sys.mk,v 1.102 2007/04/27 20:05:09 tg Exp $
 # $OpenBSD: sys.mk,v 1.45 2005/03/07 00:06:00 deraadt Exp $
 # $NetBSD: sys.mk,v 1.27 1996/04/10 05:47:19 mycroft Exp $
 # @(#)sys.mk	5.11 (Berkeley) 3/13/91
@@ -29,7 +29,7 @@ OSNAME!=	uname -s
 OSname=		${OSNAME:L}
 OStriplet?=	${MACHINE_ARCH}-ecce-${OSname}${OSrev}
 _MIRMAKE_EXE=	/usr/bin/make
-_MIRMAKE_VER=	20070427
+_MIRMAKE_VER=	20070428
 
 .SUFFIXES:	.out .a .ln .o .s .S .c .m .cc .cxx .y .l .i .h .sh .m4
 .LIBS:		.a
@@ -172,14 +172,13 @@ CTAGS?=		/usr/bin/ctags
 
 # Yacc
 .y:
-	${YACC.y} -b ${.TARGET:R} ${.IMPSRC}
+	${YACC.y} -o ${.TARGET:R}.tab.c ${.IMPSRC}
 	${LINK.c} -o ${.TARGET} ${.TARGET:R}.tab.c ${LDLIBS}
 	rm -f ${.TARGET:R}.tab.c
 .y.c:
-	${YACC.y} -b ${.TARGET:R} ${.IMPSRC}
-	mv ${.TARGET:R}.tab.c ${.TARGET}
+	${YACC.y} -o ${.TARGET} ${.IMPSRC}
 .y.o:
-	${YACC.y} -b ${.TARGET:R} ${.IMPSRC}
+	${YACC.y} -o ${.TARGET:R}.tab.c ${.IMPSRC}
 	${COMPILE.c} ${CFLAGS_${.TARGET}:M*} -o ${.TARGET} ${.TARGET:R}.tab.c
 	rm -f ${.TARGET:R}.tab.c
 

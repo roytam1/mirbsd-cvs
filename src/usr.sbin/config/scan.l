@@ -49,9 +49,9 @@
 #include <string.h>
 #include <unistd.h>
 #include "config.h"
-#include "y.tab.h"
+#include "gram.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.sbin/config/scan.l,v 1.3 2007/02/19 03:24:55 tg Exp $");
 
 int	yyline;
 const char *yyfile;

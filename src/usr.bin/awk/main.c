@@ -33,7 +33,9 @@ const char	*version = "version 20041222";
 #include <string.h>
 #include <signal.h>
 #include "awk.h"
-#include "ytab.h"
+#include "awkgram.h"
+
+__RCSID("$MirOS$");
 
 #define	MAX_PFILE	20
 

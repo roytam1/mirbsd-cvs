@@ -1,11 +1,9 @@
 %{#
-/* $MirOS$ */
-
 /*-
  * Copyright (c) 1979, 1980, 1981, 1986, 1988, 1990, 1991, 1992
  *     The Regents of the University of California.
  * Copyright (C) Caldera International Inc.  2001-2002.
- * Copyright (c) 2003, 2004
+ * Copyright (c) 2003, 2004, 2007
  *	Thorsten "mirabile" Glaser <tg@66h.42h.de>
  * All rights reserved.
  *
@@ -43,9 +41,9 @@
  * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef lint
-static char sccsid[] = "@(#)e.y	4.2 (Berkeley) 4/17/91";
-#endif
+#include <sys/cdefs.h>
+__SCCSID("@(#)e.y	4.2 (Berkeley) 4/17/91");
+__RCSID("$MirOS$");
 
 #include "e.h"
 int	fromflg;
@@ -156,7 +154,7 @@ from	: FROM	{ $$=ps; ps -= 3; fromflg = 1;
 		}
 	;
 
-to	: TO	{ $$=ps; if(fromflg==0)ps -= 3; 
+to	: TO	{ $$=ps; if(fromflg==0)ps -= 3;
 			if(dbg)printf(".\tto: old ps %d, new ps %d\n", $$, ps);
 		}
 	;

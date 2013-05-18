@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/bsd.prog.mk,v 1.24 2006/07/03 01:36:36 tg Exp $
+# $MirOS: src/share/mk/bsd.prog.mk,v 1.25 2006/10/06 22:05:59 tg Exp $
 # $OpenBSD: bsd.prog.mk,v 1.44 2005/04/15 17:18:57 espie Exp $
 # $NetBSD: bsd.prog.mk,v 1.55 1996/04/08 21:19:26 jtc Exp $
 # @(#)bsd.prog.mk	5.26 (Berkeley) 6/25/91
@@ -27,10 +27,19 @@ CXXFLAGS+=	${CXXOPTS} -fno-omit-frame-pointer
 HOSTCFLAGS?=	${CFLAGS}
 
 .if defined(PROG) && !empty(PROG)
-SRCS?=	${PROG}.c
+SRCS?=		${PROG}.c
 .  if !empty(SRCS:N*.h:N*.sh)
-OBJS+=	${SRCS:N*.h:N*.sh:R:S/$/.o/g}
-LOBJS+=	${LSRCS:.c=.ln} ${SRCS:M*.c:.c=.ln}
+OBJS+=		${SRCS:N*.h:N*.sh:R:S/$/.o/g}
+LOBJS+=		${LSRCS:.c=.ln} ${SRCS:M*.c:.c=.ln} \
+		${SRCS:M*.l:.l=.ln} ${SRCS:M*.y:.y=.ln}
+.    for _i in ${SRCS:M*.l} ${SRCS:M*.y}
+CLEANFILES+=	${_i:R}.c
+.    endfor
+.    if ${YFLAGS:M-d}
+.      for _i in ${SRCS:M*.y}
+CLEANFILES+=	${_i:R}.h
+.      endfor
+.    endif
 .  endif
 
 .  if !empty(SRCS:M*.C) || !empty(SRCS:M*.cc) || !empty(SRCS:M*.cxx)

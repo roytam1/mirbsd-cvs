@@ -43,7 +43,9 @@
 #include <dev/wscons/wsksymvar.h>
 #include <err.h>
 #include "wsconsctl.h"
-#include "y.tab.h"
+#include "map_parse.h"
+
+__RCSID("$MirOS$");
 
 #define yywrap()	1
 

@@ -1,5 +1,3 @@
-/* $MirOS$ */
-
 /*-
  * Copyright (c) 1979, 1980, 1981, 1986, 1988, 1990, 1991, 1992
  *     The Regents of the University of California.
@@ -42,12 +40,12 @@
  * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef lint
-static char sccsid[] = "@(#)text.c	4.4 (Berkeley) 4/17/91";
-#endif
+#include <sys/cdefs.h>
+__SCCSID("@(#)text.c	4.4 (Berkeley) 4/17/91");
+__RCSID("$MirOS$");
 
 # include "e.h"
-# include "e.def"
+# include "ey.h"
 
 int	csp;
 int	psp;
@@ -139,7 +137,7 @@ trans(c,p1) int c; char *p1; {
 			name4(c,'=');
 			psp++;
 		} else {
-			cs[csp++] = c;  
+			cs[csp++] = c;
 		}
 		break;
 	case '-':

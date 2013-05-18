@@ -32,7 +32,9 @@ THIS SOFTWARE.
 #include <unistd.h>
 #include <stdarg.h>
 #include "awk.h"
-#include "ytab.h"
+#include "awkgram.h"
+
+__RCSID("$MirOS$");
 
 FILE	*infile	= NULL;
 char	*file	= "";

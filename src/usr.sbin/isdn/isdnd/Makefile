@@ -1,4 +1,4 @@
-# $MirOS: src/usr.sbin/isdn/isdnd/Makefile,v 1.3 2005/03/15 22:13:31 tg Exp $
+# $MirOS: src/usr.sbin/isdn/isdnd/Makefile,v 1.4 2007/03/10 19:38:26 tg Exp $
 # $NetBSD: Makefile,v 1.5 2001/12/31 19:41:37 thorpej Exp $
 
 PROG=		isdnd
@@ -7,20 +7,12 @@ SRCS=		rc_parse.y rc_scan.l main.c rc_config.c log.c curses.c	\
 		exec.c dial.c monitor.c pcause.c controller.c alias.c	\
 		holiday.c
 MAN=		isdnd.8 isdnd.rc.5 isdnd.rates.5 isdnd.acct.5
-CLEANFILES+=	rc_parse.c rc_parse.h
 SRC_PATH?=	${.CURDIR}
 
 CPPFLAGS+=	-I${SRC_PATH}/../isdnmonitor -I${SRC_PATH}/../isdntel -I.
 
 LDADD+=		-ly -ll
 DPADD+=		${LIBY} ${LIBL}
-
-beforedepend: rc_parse.h
-
-rc_parse.c rc_parse.h: rc_parse.y
-	${YACC} -d ${.ALLSRC}
-	mv y.tab.c rc_parse.c
-	mv y.tab.h rc_parse.h
 
 .include <bsd.prog.mk>
 

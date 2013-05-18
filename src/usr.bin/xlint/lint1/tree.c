@@ -1,4 +1,4 @@
-/**	$MirOS$ */
+/**	$MirOS: src/usr.bin/xlint/lint1/tree.c,v 1.2 2005/03/13 18:34:09 tg Exp $ */
 /*	$OpenBSD: tree.c,v 1.7 2005/01/24 00:12:28 millert Exp $	*/
 /*	$NetBSD: tree.c,v 1.12 1995/10/02 17:37:57 jpo Exp $	*/
 
@@ -41,9 +41,9 @@
 #include <math.h>
 
 #include "lint1.h"
-#include "y.tab.h"
+#include "cgram.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.bin/xlint/lint1/tree.c,v 1.2 2005/03/13 18:34:09 tg Exp $");
 
 /* Various flags for each operator. */
 static	mod_t	modtab[NOPS];

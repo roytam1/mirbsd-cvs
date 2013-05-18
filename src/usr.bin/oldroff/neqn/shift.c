@@ -1,5 +1,3 @@
-/* $MirOS$ */
-
 /*-
  * Copyright (c) 1979, 1980, 1981, 1986, 1988, 1990, 1991, 1992
  *     The Regents of the University of California.
@@ -42,12 +40,12 @@
  * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef lint
-static char sccsid[] = "@(#)shift.c	4.4 (Berkeley) 4/17/91";
-#endif
+#include <sys/cdefs.h>
+__SCCSID("@(#)shift.c	4.4 (Berkeley) 4/17/91");
+__RCSID("$MirOS$");
 
 # include "e.h"
-#include "e.def"
+#include "ey.h"
 
 bshiftb(p1, dir, p2) int p1, dir, p2; {
 	int shval, d1, h1, b1, h2, b2;
@@ -111,10 +109,10 @@ bshiftb(p1, dir, p2) int p1, dir, p2; {
 		eht[yyval] = h1 + max(0, h2 - VERT(1));
 #endif
 	}
-	if(dbg)printf(".\tb:b shift b: S%d <- S%d vert %d S%d vert %d; b=%d, h=%d\n", 
+	if(dbg)printf(".\tb:b shift b: S%d <- S%d vert %d S%d vert %d; b=%d, h=%d\n",
 		yyval, p1, shval, p2, -shval, ebase[yyval], eht[yyval]);
 #ifndef NEQN
-	printf(".as %d \\v'%du'\\s-%d%s\\*(%d\\s+%d%s\\v'%du'\n", 
+	printf(".as %d \\v'%du'\\s-%d%s\\*(%d\\s+%d%s\\v'%du'\n",
 		yyval, shval, diffps, sh1, p2, diffps, sh2, -shval);
 	ps += deltaps;
 	if (rfont[p2] == ITAL)
@@ -122,7 +120,7 @@ bshiftb(p1, dir, p2) int p1, dir, p2; {
 	else
 		rfont[p1] = rfont[p2];
 #else
-	printf(".as %d \\v'%du'\\*(%d\\v'%du'\n", 
+	printf(".as %d \\v'%du'\\*(%d\\v'%du'\n",
 		yyval, shval, p2, -shval);
 #endif
 	ofree(p2);
@@ -194,14 +192,14 @@ shift2(p1, p2, p3) int p1, p2, p3; {
 	printf(".nr %d \\n(%d\n", treg, p3);
 	printf(".if \\n(%d>\\n(%d .nr %d \\n(%d\n", p2, treg, treg, p2);
 #ifndef NEQN
-	printf(".as %d \\v'%du'\\s%d\\*(%d\\h'-\\n(%du'\\v'%du'\\\n", 
+	printf(".as %d \\v'%du'\\s%d\\*(%d\\h'-\\n(%du'\\v'%du'\\\n",
 		p1, subsh, effps, p2, p2, -subsh+supsh);
-	printf("\\s%d\\*(%d\\h'-\\n(%du+\\n(%du'\\s%d\\v'%du'\n", 
+	printf("\\s%d\\*(%d\\h'-\\n(%du+\\n(%du'\\s%d\\v'%du'\n",
 		effps, p3, p3, treg, effps2, -supsh);
 #else
-	printf(".as %d \\v'%du'\\*(%d\\h'-\\n(%du'\\v'%du'\\\n", 
+	printf(".as %d \\v'%du'\\*(%d\\h'-\\n(%du'\\v'%du'\\\n",
 		p1, subsh, p2, p2, -subsh+supsh);
-	printf("\\*(%d\\h'-\\n(%du+\\n(%du'\\v'%du'\n", 
+	printf("\\*(%d\\h'-\\n(%du+\\n(%du'\\v'%du'\n",
 		p3, p3, treg, -supsh);
 #endif
 	ps += deltaps;

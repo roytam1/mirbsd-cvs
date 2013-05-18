@@ -1,5 +1,3 @@
-/* $MirOS$ */
-
 /*-
  * Copyright (c) 1979, 1980, 1981, 1986, 1988, 1990, 1991, 1992
  *     The Regents of the University of California.
@@ -42,12 +40,12 @@
  * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef lint
-static char sccsid[] = "@(#)funny.c	4.4 (Berkeley) 4/17/91";
-#endif
+#include <sys/cdefs.h>
+__SCCSID("@(#)funny.c	4.4 (Berkeley) 4/17/91");
+__RCSID("$MirOS$");
 
 # include "e.h"
-# include "e.def"
+# include "ey.h"
 
 funny(n) int n; {
 	char *f;
@@ -74,7 +72,7 @@ funny(n) int n; {
 	eht[yyval] = VERT(2);
 	ebase[yyval] = 0;
 #endif
-	if(dbg)printf(".\tfunny: S%d <- %s; h=%d b=%d\n", 
+	if(dbg)printf(".\tfunny: S%d <- %s; h=%d b=%d\n",
 		yyval, f, eht[yyval], ebase[yyval]);
 	lfont[yyval] = rfont[yyval] = ROM;
 }

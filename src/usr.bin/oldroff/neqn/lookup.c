@@ -1,5 +1,3 @@
-/* $MirOS$ */
-
 /*-
  * Copyright (c) 1979, 1980, 1981, 1986, 1988, 1990, 1991, 1992
  *     The Regents of the University of California.
@@ -42,14 +40,14 @@
  * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef lint
-static char sccsid[] = "@(#)lookup.c	4.3 (Berkeley) 4/17/91";
-#endif
+#include <sys/cdefs.h>
+__SCCSID("@(#)lookup.c	4.3 (Berkeley) 4/17/91");
+__RCSID("$MirOS$");
 
 #include <stdlib.h>
 
 #include "e.h"
-#include "e.def"
+#include "ey.h"
 
 #define	TBLSIZE	100
 
@@ -61,42 +59,42 @@ struct {
 	char	*key;
 	int	keyval;
 } keyword[]	={
-	"sub", 	SUB, 
-	"sup", 	SUP, 
-	".EN", 	EOF, 
-	"from", 	FROM, 
-	"to", 	TO, 
-	"sum", 	SUM, 
-	"hat", 	HAT, 
-	"vec", VEC, 
-	"dyad", DYAD, 
-	"dot", 	DOT, 
-	"dotdot", 	DOTDOT, 
-	"bar", 	BAR, 
-	"tilde", 	TILDE, 
-	"under", 	UNDER, 
-	"prod", 	PROD, 
-	"int", 	INT, 
-	"integral", 	INT, 
-	"union", 	UNION, 
-	"inter", 	INTER, 
-	"pile", 	PILE, 
-	"lpile", 	LPILE, 
-	"cpile", 	CPILE, 
-	"rpile", 	RPILE, 
-	"over", 	OVER, 
-	"sqrt", 	SQRT, 
-	"above", 	ABOVE, 
-	"size", 	SIZE, 
-	"font", 	FONT, 
-	"fat", FAT, 
-	"roman", 	ROMAN, 
-	"italic", 	ITALIC, 
-	"bold", 	BOLD, 
-	"left", 	LEFT, 
-	"right", 	RIGHT, 
-	"delim", 	DELIM, 
-	"define", 	DEFINE, 
+	"sub", 	SUB,
+	"sup", 	SUP,
+	".EN", 	EOF,
+	"from", 	FROM,
+	"to", 	TO,
+	"sum", 	SUM,
+	"hat", 	HAT,
+	"vec", VEC,
+	"dyad", DYAD,
+	"dot", 	DOT,
+	"dotdot", 	DOTDOT,
+	"bar", 	BAR,
+	"tilde", 	TILDE,
+	"under", 	UNDER,
+	"prod", 	PROD,
+	"int", 	INT,
+	"integral", 	INT,
+	"union", 	UNION,
+	"inter", 	INTER,
+	"pile", 	PILE,
+	"lpile", 	LPILE,
+	"cpile", 	CPILE,
+	"rpile", 	RPILE,
+	"over", 	OVER,
+	"sqrt", 	SQRT,
+	"above", 	ABOVE,
+	"size", 	SIZE,
+	"font", 	FONT,
+	"fat", FAT,
+	"roman", 	ROMAN,
+	"italic", 	ITALIC,
+	"bold", 	BOLD,
+	"left", 	LEFT,
+	"right", 	RIGHT,
+	"delim", 	DELIM,
+	"define", 	DEFINE,
 
 #ifdef	NEQN	/* make ndefine synonym for define, tdefine a no-op */
 
@@ -105,26 +103,26 @@ struct {
 
 #else
 
-	"tdefine", 	DEFINE, 
-	"ndefine", 	NDEFINE, 
+	"tdefine", 	DEFINE,
+	"ndefine", 	NDEFINE,
 
 #endif
 
-	"gsize", 	GSIZE, 
-	".gsize", 	GSIZE, 
-	"gfont", 	GFONT, 
-	"include", 	INCLUDE, 
-	"up", 	UP, 
-	"down", 	DOWN, 
-	"fwd", 	FWD, 
-	"back", 	BACK, 
-	"mark", 	MARK, 
-	"lineup", 	LINEUP, 
-	"matrix", 	MATRIX, 
-	"col", 	COL, 
-	"lcol", 	LCOL, 
-	"ccol", 	CCOL, 
-	"rcol", 	RCOL, 
+	"gsize", 	GSIZE,
+	".gsize", 	GSIZE,
+	"gfont", 	GFONT,
+	"include", 	INCLUDE,
+	"up", 	UP,
+	"down", 	DOWN,
+	"fwd", 	FWD,
+	"back", 	BACK,
+	"mark", 	MARK,
+	"lineup", 	LINEUP,
+	"matrix", 	MATRIX,
+	"col", 	COL,
+	"lcol", 	LCOL,
+	"ccol", 	CCOL,
+	"rcol", 	RCOL,
 	0, 	0
 };
 

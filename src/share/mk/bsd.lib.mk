@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/bsd.lib.mk,v 1.52 2007/03/08 10:07:02 tg Exp $
+# $MirOS: src/share/mk/bsd.lib.mk,v 1.53 2007/03/10 22:18:29 tg Exp $
 # $OpenBSD: bsd.lib.mk,v 1.43 2004/09/20 18:52:38 espie Exp $
 # $NetBSD: bsd.lib.mk,v 1.67 1996/01/17 20:39:26 mycroft Exp $
 # @(#)bsd.lib.mk	5.26 (Berkeley) 5/2/91
@@ -211,12 +211,22 @@ ${SHLIB_SONAME}: ${CRTI} ${CRTBEGIN} ${SOBJS} ${DPADD} ${CRTEND} ${CRTN}
 	ln -s ${SHLIB_SONAME} ${_i} || cp ${SHLIB_SONAME} ${_i}
 .endfor
 
-LOBJS+=		${LSRCS:.c=.ln} ${SRCS:M*.c:.c=.ln}
+LOBJS+=		${LSRCS:.c=.ln} ${SRCS:M*.c:.c=.ln} \
+		${SRCS:M*.l:.l=.ln} ${SRCS:M*.y:.y=.ln}
 LLIBS?=		-lc
 llib-l${LIB}.ln: ${LOBJS}
 	@echo building llib-l${LIB}.ln
 	@rm -f llib-l${LIB}.ln
 	@${LINT} -C${LIB} ${LOBJS} ${LLIBS}
+
+.for _i in ${SRCS:M*.l} ${SRCS:M*.y}
+CLEANFILES+=	${_i:R}.c
+.endfor
+.if ${YFLAGS:M-d}
+.  for _i in ${SRCS:M*.y}
+CLEANFILES+=	${_i:R}.h
+.  endfor
+.endif
 
 .if !target(clean)
 clean: _SUBDIRUSE

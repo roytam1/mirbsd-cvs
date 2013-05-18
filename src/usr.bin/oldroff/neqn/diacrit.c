@@ -1,5 +1,3 @@
-/* $MirOS$ */
-
 /*-
  * Copyright (c) 1979, 1980, 1981, 1986, 1988, 1990, 1991, 1992
  *     The Regents of the University of California.
@@ -42,12 +40,12 @@
  * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef lint
-static char sccsid[] = "@(#)diacrit.c	4.4 (Berkeley) 4/17/91";
-#endif
+#include <sys/cdefs.h>
+__SCCSID("@(#)diacrit.c	4.4 (Berkeley) 4/17/91");
+__RCSID("$MirOS$");
 
 # include "e.h"
-# include "e.def"
+# include "ey.h"
 
 diacrit(p1, type) int p1, type; {
 	int c, t;
@@ -108,7 +106,7 @@ diacrit(p1, type) int p1, type; {
 			printf(".ds %d \\s%d\\v'.18m'\\h'.05m'\\l'\\n(%du-.1m\\(rn'\\h'.05m'\\v'-.18m'\\s0\n",
 				c, effps, p1);
 #else
-			printf(".ds %d \\v'-1'\\l'\\n(%du'\\v'1'\n", 
+			printf(".ds %d \\v'-1'\\l'\\n(%du'\\v'1'\n",
 				c, p1);
 #endif
 			break;
@@ -126,12 +124,12 @@ diacrit(p1, type) int p1, type; {
 #ifndef NEQN
 	if (lfont[p1] != ITAL)
 		printf(".nr %d 0\n", t);
-	printf(".as %d \\h'-\\n(%du-\\n(%du/2u+\\n(%du'\\v'0-\\n(10u'\\*(%d", 
+	printf(".as %d \\h'-\\n(%du-\\n(%du/2u+\\n(%du'\\v'0-\\n(10u'\\*(%d",
 		p1, p1, c, t, c);
 	printf("\\v'\\n(10u'\\h'-\\n(%du+\\n(%du/2u-\\n(%du'\n", c, p1, t);
 	/* BUG - should go to right end of widest */
 #else
-	printf(".as %d \\h'-\\n(%du-\\n(%du/2u'\\v'0-\\n(10u'\\*(%d", 
+	printf(".as %d \\h'-\\n(%du-\\n(%du/2u'\\v'0-\\n(10u'\\*(%d",
 		p1, p1, c, c);
 	printf("\\v'\\n(10u'\\h'-\\n(%du+\\n(%du/2u'\n", c, p1);
 #endif

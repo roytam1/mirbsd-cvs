@@ -1,5 +1,3 @@
-/* $MirOS$ */
-
 /*-
  * Copyright (c) 1979, 1980, 1981, 1986, 1988, 1990, 1991, 1992
  *     The Regents of the University of California.
@@ -44,12 +42,12 @@
 
 #include <sys/cdefs.h>
 __SCCSID("@(#)lex.c	4.4 (Berkeley) 4/17/91");
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.bin/oldroff/neqn/lex.c,v 1.1.7.1 2005/03/06 16:56:02 tg Exp $");
 
 #include <stdlib.h>
 
 #include "e.h"
-#include "e.def"
+#include "ey.h"
 
 #define	SSIZE	400
 char	token[SSIZE];
