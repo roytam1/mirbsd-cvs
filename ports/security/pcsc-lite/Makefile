@@ -1,8 +1,10 @@
-# $MirOS: ports/security/pcsc-lite/Makefile,v 1.6 2007/04/16 18:29:53 bsiegert Exp $
+# $MirOS: ports/security/pcsc-lite/Makefile,v 1.7 2008/03/09 17:23:30 tg Exp $
+
+NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
 COMMENT=		Smartcard middleware
 DISTNAME=		pcsc-lite-1.2.0
-PKGNAME=		${DISTNAME}-2
+DASH_VER=		3
 CATEGORIES=		security
 MASTER_SITES=		http://alioth.debian.org/download.php/419/
 HOMEPAGE=		http://alioth.debian.org/projects/pcsclite/
@@ -16,13 +18,12 @@ PERMIT_DISTFILES_FTP=	Yes
 FLAVOURS=		debug
 FLAVOUR?=
 
-NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 CONFIGURE_STYLE=	autoconf
 AUTOCONF_NEW=		Yes
 CONFIGURE_ARGS+=	${CONFIGURE_SHARED} \
-			--enable-libusb=${LOCALBASE} \
-			--enable-usbdropdir=${LOCALBASE}/libexec/pcsc/drivers \
-			--enable-muscledropdir=${LOCALBASE}/libexec/pcsc/services
+			--enable-libusb=${LOCALBASE:Q} \
+			--enable-usbdropdir=${LOCALBASE:Q}/libexec/pcsc/drivers \
+			--enable-muscledropdir=${LOCALBASE:Q}/libexec/pcsc/services
 CONFIGURE_ENV+=		PTHREAD_LIBS=-pthread PTHREAD_CFLAGS=-pthread
 
 LIB_DEPENDS+=		usb.7::devel/libusb
@@ -37,6 +38,8 @@ CONFIGURE_ARGS+=	--enable-debug --enable-debugatr
 
 post-install:
 	${INSTALL_DATA_DIR} ${PREFIX}/share/examples/pcsc-lite
+	#XXX is this WRKINST/etc/ or SYSCONFDIR? after finding this
+	#XXX out, suggest adding @sample to PLIST
 	mv ${WRKINST}/etc/reader.conf ${PREFIX}/share/examples/pcsc-lite/
 
 .include <bsd.port.mk>
