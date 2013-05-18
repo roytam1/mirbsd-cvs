@@ -1,4 +1,4 @@
-# $MirOS: ports/net/neon/Makefile,v 1.2 2005/11/09 19:19:43 bsiegert Exp $
+# $MirOS: ports/net/neon/Makefile,v 1.3 2006/02/09 11:12:20 tg Exp $
 # $OpenBSD: Makefile,v 1.12 2004/05/19 18:03:00 lebel Exp $
 
 COMMENT=		"HTTP and WebDAV client library, with C interface"
@@ -19,7 +19,7 @@ PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
-LIB_DEPENDS=		xml2.6:libxml->=2.4.8:textproc/libxml
+LIB_DEPENDS=		xml2.2:libxml->=2.4.8:textproc/libxml
 
 MODULES=		converters/libiconv devel/pkgconfig
 NO_REGRESS=		Yes
