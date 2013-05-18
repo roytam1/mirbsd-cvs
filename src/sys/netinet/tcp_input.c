@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/netinet/tcp_input.c,v 1.8 2006/01/31 10:09:43 tg Exp $ */
+/**	$MirOS: src/sys/netinet/tcp_input.c,v 1.9 2006/01/31 10:58:10 tg Exp $ */
 /*	$OpenBSD: tcp_input.c,v 1.168 2004/05/21 11:36:23 markus Exp $	*/
 /*	$OpenBSD: tcp_input.c,v 1.158.2.3 2005/01/11 04:40:29 brad Exp $	*/
 /*	$OpenBSD: tcp_input.c,v 1.178 2004/11/25 15:32:08 markus Exp $	*/
@@ -2217,14 +2217,15 @@ dropwithreset:
 	if (tiflags & TH_RST)
 		goto drop;
 	if (tiflags & TH_ACK) {
-		tcp_respond(tp, mtod(m, caddr_t), m, (tcp_seq)0, th->th_ack,
+		tcp_respond(tp, mtod(m, caddr_t), th, (tcp_seq)0, th->th_ack,
 		    TH_RST);
 	} else {
 		if (tiflags & TH_SYN)
 			tlen++;
-		tcp_respond(tp, mtod(m, caddr_t), m, th->th_seq + tlen,
+		tcp_respond(tp, mtod(m, caddr_t), th, th->th_seq + tlen,
 		    (tcp_seq)0, TH_RST|TH_ACK);
 	}
+	m_freem(m);
 	return;
 
 drop:
@@ -3932,7 +3933,8 @@ syn_cache_get(src, dst, th, hlen, tlen, so, m)
 	return (so);
 
 resetandabort:
-	tcp_respond(NULL, mtod(m, caddr_t), m, (tcp_seq)0, th->th_ack, TH_RST);
+	tcp_respond(NULL, mtod(m, caddr_t), th, (tcp_seq)0, th->th_ack, TH_RST);
+	m_freem(m);
 abort:
 	if (so != NULL)
 		(void) soabort(so);
