@@ -25,7 +25,7 @@
 #include <lib/libsa/stand.h>
 #include <lib/libsa/fat.h>
 
-__RCSID("$MirOS: src/sys/lib/libsa/fat.c,v 1.15 2009/03/13 20:40:58 tg Exp $");
+__RCSID("$MirOS: src/sys/lib/libsa/fat.c,v 1.16 2010/01/10 17:47:52 tg Exp $");
 
 #if BYTE_ORDER != LITTLE_ENDIAN
 #define getlew(ofs) (buf[(ofs)] + ((unsigned)buf[(ofs) + 1] << 8))
@@ -79,7 +79,7 @@ rd(struct open_file *f, void *buf, daddr_t blk, size_t size)
 	    blk, size, buf, &buflen)))
 		;
 	else if (buflen != size)
-		rv = EINVAL;
+		rv = EIO;
 	return (rv);
 }
 
