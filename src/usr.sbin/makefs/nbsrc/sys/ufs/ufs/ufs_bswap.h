@@ -1,8 +1,8 @@
-/**	$MirOS: src/usr.sbin/makefs/nbsrc/sys/ufs/ufs/ufs_bswap.h,v 1.6 2010/03/06 20:35:44 tg Exp $ */
+/**	$MirOS: src/usr.sbin/makefs/nbsrc/sys/ufs/ufs/ufs_bswap.h,v 1.7 2010/03/06 23:24:18 tg Exp $ */
 /*	$NetBSD: ufs_bswap.h,v 1.19 2009/10/19 18:41:17 bouyer Exp $	*/
 
 /*
- * Copyright (c) 2009
+ * Copyright (c) 2009, 2010
  *	Thorsten Glaser <tg@mirbsd.org>
  * Copyright (c) 1998 Manuel Bouyer.
  *
@@ -55,6 +55,9 @@
 #endif
 
 #if !defined(_KERNEL) || defined(FFS_EI)
+#ifdef DEBIAN
+#include <stdint.h>
+#endif
 /* inlines for access to swapped data */
 static inline u_int16_t
 ufs_rw16(uint16_t a, int ns)
