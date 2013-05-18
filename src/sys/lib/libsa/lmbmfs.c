@@ -25,7 +25,7 @@
 #include <lib/libsa/stand.h>
 #include <lib/libsa/lmbmfs.h>
 
-__RCSID("$MirOS: src/sys/lib/libsa/lmbmfs.c,v 1.2 2009/08/11 13:24:00 tg Exp $");
+__RCSID("$MirOS: src/sys/lib/libsa/lmbmfs.c,v 1.3 2009/08/11 13:40:07 tg Exp $");
 
 extern struct lmbm_modinfo {
 	void *mod_start;
@@ -45,31 +45,6 @@ struct lmbmfs_file {
 	struct lmbm_item *item;
 	size_t nodeseekp;		/* current node: file offset */
 };
-
-int
-lmbm_strategy(void *devdata, int rw, daddr_t blk, size_t size, void *buf,
-    size_t *rsize)
-{
-	return (EIO);
-}
-
-int
-lmbm_open(struct open_file *f, ...)
-{
-	return (lmbm_num ? 0 : ENXIO);
-}
-
-int
-lmbm_close(struct open_file *f)
-{
-	return (0);
-}
-
-int
-lmbm_ioctl(struct open_file *f, u_long cmd, void *data)
-{
-	return (EIO);
-}
 
 /**
  * We need to move the modules passed to us by the Multiboot loader

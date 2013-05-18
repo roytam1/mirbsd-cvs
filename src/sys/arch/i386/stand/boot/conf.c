@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/stand/boot/conf.c,v 1.20 2009/10/27 13:37:28 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/stand/boot/conf.c,v 1.21 2009/10/27 13:54:27 tg Exp $ */
 /*	$OpenBSD: conf.c,v 1.39 2008/04/19 23:20:22 weingart Exp $	*/
 
 /*
@@ -39,12 +39,14 @@
 #ifndef SMALL_BOOT
 #include <lib/libsa/fat.h>
 #include <lib/libsa/lmbmfs.h>
+#include <lib/libsa/dummydev.h>
 #ifdef USE_PXE
 #include <lib/libsa/nfs.h>
 #include <lib/libsa/tftp.h>
 #include <lib/libsa/netif.h>
-#include <sys/disklabel.h>
 #endif
+#include <sys/disklabel.h>
+#include "disk.h"
 #endif
 #include <biosdev.h>
 #include <dev/cons.h>
@@ -53,7 +55,6 @@
 #include <stand/boot/cmd.h>
 #include "cmd_i386.h"
 #ifdef USE_PXE
-#include "disk.h"
 #include "pxeboot.h"
 #include "pxe_net.h"
 #endif
@@ -120,8 +121,9 @@ int nfsys = NENTS(file_system);
 struct devsw devsw[] = {
 	{ "BIOS", biosstrategy, biosopen, biosclose, biosioctl },
 #ifndef SMALL_BOOT
-#define DEVSW_LMBM 1
-	{ "lmbm", lmbm_strategy, lmbm_open, lmbm_close, lmbm_ioctl },
+#define DEVSW_DUMMYDEV 1
+	{ "DUMY", dummydev_strategy, dummydev_open, dummydev_close,
+	  dummydev_ioctl },
 #ifdef USE_PXE
 #define DEVSW_NET 2
 	{ "PXE", net_strategy, net_open, net_close, net_ioctl },
@@ -214,7 +216,7 @@ lmbmfs_check(void)
 
 struct devsw_prefix_match devsw_match[] = {
 #ifndef SMALL_BOOT
-	{ &devsw[DEVSW_LMBM], lmbm_fs_ops, "lmbm", 0, 1 },
+	{ &devsw[DEVSW_DUMMYDEV], lmbm_fs_ops, "lmbm", 0, 1 },
 #ifdef USE_PXE
 	{ &devsw[DEVSW_NET], tftp_fs_ops, "tftp", 1, 1 },
 	{ &devsw[DEVSW_NET], nfs_fs_ops, "nfs", 1, 1 },

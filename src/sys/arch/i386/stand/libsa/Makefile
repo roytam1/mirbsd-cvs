@@ -1,4 +1,4 @@
-# $MirOS: src/sys/arch/i386/stand/libsa/Makefile,v 1.30 2009/08/09 18:51:42 tg Exp $
+# $MirOS: src/sys/arch/i386/stand/libsa/Makefile,v 1.31 2009/10/04 16:49:43 tg Exp $
 # $OpenBSD: Makefile,v 1.47 2007/05/30 01:25:43 tom Exp $
 
 .include "${.CURDIR}/../Makefile.inc"
@@ -59,6 +59,7 @@ SRCS+=	bootp.c bootparam.c rarp.c
 
 # boot filesystems
 SRCS+=	ufs.c nfs.c tftp.c cd9660.c fat.c lmbmfs.c
+SRCS+=	dummydev.c
 
 # debugger
 SRCS+=	debug.c
