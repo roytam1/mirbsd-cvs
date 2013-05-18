@@ -1,4 +1,4 @@
-@comment $MirOS: ports/devel/subversion/pkg/PLIST,v 1.8 2007/09/17 21:02:06 bsiegert Exp $
+@comment $MirOS: ports/devel/subversion/pkg/PLIST,v 1.9 2008/06/28 11:29:27 bsiegert Exp $
 %%bsddb%%
 bin/svn
 bin/svn_load_dirs
@@ -14,6 +14,7 @@ include/subversion-1/mod_dav_svn.h
 include/subversion-1/svn-revision.txt
 include/subversion-1/svn_auth.h
 include/subversion-1/svn_base64.h
+include/subversion-1/svn_checksum.h
 include/subversion-1/svn_client.h
 include/subversion-1/svn_cmdline.h
 include/subversion-1/svn_compat.h
@@ -22,6 +23,7 @@ include/subversion-1/svn_ctype.h
 include/subversion-1/svn_dav.h
 include/subversion-1/svn_delta.h
 include/subversion-1/svn_diff.h
+include/subversion-1/svn_dirent_uri.h
 include/subversion-1/svn_dso.h
 include/subversion-1/svn_error.h
 include/subversion-1/svn_error_codes.h
