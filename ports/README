@@ -1,4 +1,4 @@
-$MirOS: ports/README,v 1.5 2006/12/31 17:03:16 tg Exp $
+$MirOS: ports/README,v 1.6 2008/02/28 12:06:38 tg Exp $
 
 The MirPorts Framework
 ----------------------
@@ -15,6 +15,7 @@ MirPorts currently works on:
  * OpenBSD 3.4 (not tested)
  * OpenBSD 3.5
  * OpenBSD 3.6 (and up)
+ * MidnightBSD 0.2-CURRENT (and up)
  * MirOS BSD #8 (and up)
  * Mac OSX 10.3
  * Mac OSX 10.4
