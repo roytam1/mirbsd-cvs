@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/news.inc,v 1.108 2009/04/07 22:37:58 tg Exp $
+RCSID: $MirOS: www/data/news.inc,v 1.109 2009/04/11 18:35:41 tg Exp $
 Title: Older news from the MirOS Project
 Date: 01.03.2006
 
@@ -1379,31 +1379,18 @@ Tag: bug event snapshot
  to do the following steps:</p>
 <div style="border:4px ridge blue; margin:0px 24px 0px 24px; padding:12px;">
  <pre>
-Location of sets? (cd disk ftp http shttp nfs or 'done') [cd] <strong>shttp</strong>
+Location of sets? (cd disk ftp http shttp nfs or 'done') [done] <strong>shttp</strong>
 HTTP/FTP proxy URL? (e.g. 'http://proxy:8080', or 'none') [none] <em>«Enter»</em>
 Server? (IP address, hostname or 'done') <strong>www.mirbsd.org</strong>
-Server directory? [v10/i386] <strong>MirOS/current/i386</strong>
+Server directory? [v10/i386] <strong>MirOS/current/older/i386</strong>
 
 <em>…</em>
 
-Set name? (or 'done') [bsd] <strong>fix*</strong>
+Set name? (or 'done') […] <strong>*</strong>
 
-        [ ] bsd
-        [ ] bsd.rd
-        [ ] base10.ngz
-        [ ] etc10.ngz
-        [ ] gnu10.ngz
-        [ ] dev10.ngz
-        [ ] ada10.ngz
-        [ ] xbase10.ngz
-        [ ] xetc10.ngz
-        [ ] xsrv10.ngz
-        [ ] unfree10.ngz
-        [ ] pkgutl10.ngz
-        [ ] ports10.ngz
+        [X] bsd
         [X] fixes10.ngz
-        [ ] site10.ngz
-Set name? (or 'done') [bsd] <strong>done</strong>
+Set name? (or 'done') […] <strong>done</strong>
 Ready to install sets? [yes] <em>«Enter»</em>
  </pre>
 </div><p style="margin-top:0px;">This sequence will add the fixes
@@ -1544,4 +1531,18 @@ Tag: snapshot
  bootloader</a> (<tt>fixes10.ngz</tt>) for the problem with the <a
  href="@@RELPATH@@permalinks/news_e20090208-tg.htm">FOSDEM snapshot</a>
  has <a href="@@ABSPATH@@/MirOS/current/older/i386/">moved</a>.</p>
+----
+Date: 12.04.2009 12:42
+Author: tg@
+Title: Easter Snapshot – now with RELIABILITY FIX
+Tag: bug snapshot
+
+<p><a href="@@RELPATH@@permalinks/news_e20090411-tg.htm">Yesterday’s
+ snapshot</a> has been amended with new kernels (<tt>bsd</tt> plus
+ <tt>bsd.rd</tt> and, subsequently, <tt>cdrom10.iso</tt>) because of
+ some pf(4) bugfixes (and SSL ones which do not really affect us). The
+ <a href="@@RELPATH@@permalinks/news_e20090208-tg.htm">FOSDEM snapshot
+ upgrade instructions</a> were also updated wrt. the new kernel.</p>
+<p>Thanks to bsiegert@ for noticing this so timely!</p>
+<p>Other than that… happy Ostara!</p>
 ----
