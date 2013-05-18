@@ -1,4 +1,4 @@
-/**	$MirOS$ */
+/**	$MirOS: src/include/time.h,v 1.8 2007/02/07 20:43:21 tg Exp $ */
 /*	$OpenBSD: time.h,v 1.16 2003/08/01 17:38:33 avsm Exp $	*/
 /*	$NetBSD: time.h,v 1.9 1994/10/26 00:56:35 cgd Exp $	*/
 
@@ -90,7 +90,9 @@ struct tm {
 #endif
 
 __BEGIN_DECLS
+#ifndef _ANSI_LIBRARY
 struct timespec;
+#endif
 char *asctime(const struct tm *);
 clock_t clock(void);
 char *ctime(const time_t *);
@@ -108,7 +110,9 @@ char *ctime_r(const time_t *, char *)
 		__attribute__ ((__bounded__(__minbytes__,2,26)));
 struct tm *gmtime_r(const time_t *, struct tm *);
 struct tm *localtime_r(const time_t *, struct tm *);
+#ifndef _ANSI_LIBRARY
 int nanosleep(const struct timespec *, struct timespec *);
+#endif
 
 #if !defined(_ANSI_SOURCE)
 #define CLK_TCK		100
