@@ -1,4 +1,4 @@
-/* $MirOS: src/share/misc/licence.template,v 1.7 2006/04/09 22:08:49 tg Rel $ */
+/* $MirOS: src/share/misc/licence.template,v 1.14 2006/08/09 19:35:23 tg Rel $ */
 
 /*-
  * Copyright (c) 2006
@@ -11,8 +11,8 @@
  * in all redistributions or reproduced in accompanying documentation
  * or other materials provided with binary redistributions.
  *
- * All advertising materials mentioning features or use of this soft-
- * ware must display the following acknowledgement:
+ * Advertising materials mentioning features or use of this work must
+ * display the following acknowledgement:
  *	This product includes material provided by Thorsten Glaser.
  *
  * Licensor offers the work "AS IS" and WITHOUT WARRANTY of any kind,
@@ -22,7 +22,7 @@
  * or other damage, or direct damage except proven a consequence of a
  * direct error of said person and intended use of this work, loss or
  * other issues arising in any way out of its use, even if advised of
- * the possibility of such damage or existence of a nontrivial bug.
+ * the possibility of such damage or existence of a defect.
  */
 
 #include <wctype.h>
@@ -30,7 +30,7 @@
 #define mir18n_attributes
 #include "mir18n.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/lib/libc/i18n/iswctype.c,v 1.1 2006/06/01 22:42:37 tg Exp $");
 
 int
 iswctype(wint_t wc, wctype_t charclass)
@@ -40,7 +40,7 @@ iswctype(wint_t wc, wctype_t charclass)
 	if (wc > (__locale_is_utf8 ? MIR18N_MB_MAX : MIR18N_SB_MAX))
 		return (0);
 
-	/* non-UTF8 chars are ASCII or latin1; they match unicode 1:1 */
+	/* non-CESU8 chars are ASCII or latin1; they match unicode 1:1 */
 	charattr = attribute_table[wc >> 8][wc & 0xFF];
 	return ((charattr & wmask_incl(charclass)) &&
 	    !(charattr & wmask_excl(charclass)));

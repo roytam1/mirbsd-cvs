@@ -1,4 +1,4 @@
-/* $MirOS: src/lib/libc/include/mir18n.h,v 1.5 2006/06/01 22:20:04 tg Exp $ */
+/* $MirOS: src/lib/libc/include/mir18n.h,v 1.6 2006/06/03 21:01:24 tg Exp $ */
 
 #ifndef _LIBC_MIR18N_H
 #define _LIBC_MIR18N_H
@@ -7,7 +7,7 @@
 #define MIR18N_SB_MAX	0xFF	/* or 0x7F */
 /* set to 0xFF to allow conversion from/to latin1 for historical reasons */
 #define MIR18N_SB_CVT	0xFF	/* or 0x7F */
-/* highest allowed character in 'UTF-8' locale */
+/* highest allowed character in 'CESU-8' (UTF-8) locale */
 #define MIR18N_MB_MAX	0xFFFD
 
 #ifndef __bool_true_false_are_defined
@@ -15,7 +15,7 @@
 #endif
 
 __BEGIN_DECLS
-extern bool __locale_is_utf8;
+extern bool __locale_is_utf8;	/* actually CESU-8 if true, ASCII if false */
 __END_DECLS
 
 #ifdef mir18n_attributes

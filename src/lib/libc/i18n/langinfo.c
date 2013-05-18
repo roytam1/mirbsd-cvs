@@ -1,4 +1,4 @@
-/* $MirOS: src/lib/libc/i18n/langinfo.c,v 1.10 2006/05/21 12:38:39 tg Exp $ */
+/* $MirOS: src/lib/libc/i18n/langinfo.c,v 1.11 2006/05/30 10:45:57 tg Exp $ */
 
 /*-
  * Copyright (c) 2003, 2004, 2005, 2006
@@ -13,8 +13,8 @@
  * in all redistributions or reproduced in accompanying documentation
  * or other materials provided with binary redistributions.
  *
- * All advertising materials mentioning features or use of this soft-
- * ware must display the following acknowledgement:
+ * Advertising materials mentioning features or use of this work must
+ * display the following acknowledgement:
  *	This product includes material provided by Thorsten Glaser.
  *
  * Licensor offers the work "AS IS" and WITHOUT WARRANTY of any kind,
@@ -24,7 +24,7 @@
  * or other damage, or direct damage except proven a consequence of a
  * direct error of said person and intended use of this work, loss or
  * other issues arising in any way out of its use, even if advised of
- * the possibility of such damage or existence of a nontrivial bug.
+ * the possibility of such damage or existence of a defect.
  *-
  * Fake locale support, just enough to fool people. Functions are de-
  * fined weak in case someone wants to override these.
@@ -40,7 +40,7 @@
 
 #include "mir18n.h"
 
-__RCSID("$MirOS: src/lib/libc/i18n/langinfo.c,v 1.10 2006/05/21 12:38:39 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/i18n/langinfo.c,v 1.11 2006/05/30 10:45:57 tg Exp $");
 
 /* fake locale support */
 
@@ -83,7 +83,7 @@ __weak_nl_langinfo(nl_item item)
 	case CODESET:
 		/* if MIR18N_SB_{MAX,CVT} are both 0xFF, we in fact
 		 * have ISO-8859-1 character set, but we don't care
-		 * because we're on the path to a full UTF-8 system */
+		 * because we're on the path to a CESU8-only system */
 		s = __locale_is_utf8 ? "UTF-8" : "ISO_646.irv:1991";
 		break;
 	case D_T_FMT:
