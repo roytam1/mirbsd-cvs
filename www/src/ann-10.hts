@@ -1,4 +1,4 @@
-mws_putheader '$MirOS: www/src/ann-10.hts,v 1.5 2008/03/16 18:28:17 tg Exp $'
+mws_putheader '$MirOS: www/src/ann-10.hts,v 1.6 2008/03/21 22:18:13 tg Exp $'
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -13,7 +13,11 @@ mws_content <<'EOF'
  This image can be burned to a CD and used for installing over the
  network. The full CD image can be downloaded <a
  href="http://f.scarywater.net/miros/">via BitTorrent</a>.</p>
- 
+
+<p>Note: while our development snapshots are distributed as combined
+ Live and Install CDs, the release ISO is <em>not</em> a Live CD due
+ to the size of the data included.</p>
+
 <p>MirOS BSD is a secure operating system, originally based on OpenBSD,
  for i386 and sparc machines. Read more about it at <a
  href="about.htm">the "About MirOS" page</a>.</p>
@@ -34,7 +38,7 @@ mws_content <<'EOF'
  on Windows and on the Macintosh).</p>
 
 <p>Instructions for installing MirOS are contained in the
- install.i386(7) or install.sparc(7) manpages.</p> 
+ install.i386(7) or install.sparc(7) manpages.</p>
 
 <hr />
 
@@ -65,7 +69,7 @@ mws_content <<'EOF'
  and checked for security problems both by the developers and by
  Coverity, Inc. Many bugs have been fixed, and UTF-8 is fully
  supported.</p>
- 
+
 <p><b>Optional pkgsrc support.</b>&nbsp; As an option, pkgsrc from NetBSD
  can be installed and used in parallel as a complement to MirPorts.</p>
 
@@ -73,7 +77,7 @@ mws_content <<'EOF'
  been fixed. Due to some speed optimizations, the system should
  generally feel faster. The linker now correctly supports shared library
  interdependencies, which makes porting software easier.</p>
- 
+
 <p><b>Compatibility.</b>&nbsp; Even if MirOS BSD uses its own binary
  format, OpenBSD and Linux binaries can be run at native speed using the
  kernel binary emulation. Thus, software like the Opera browser can be

@@ -712,6 +712,10 @@ Date: 20.03.2008
 <p>Due to popular request: the SFV (CRC32) of the ISO is 76D0638A, more
  hashes are <a href="/MirOS/v10/CKSUM.gz">here</a>, and for these who
  still use the insecure MD5, check 0afb38491f7557b1f7bc9ec8997ca5b4</p>
+<p>Note to avoid confusion: the release CD is <em>no Live CD</em>, but
+ we <em>do</em> have Live CDs. However, only development snapshots are
+ distributed as Live CD. It would not fit on a release CD due to the
+ size of the data included, sorry.</p>
 <p>We’re really surprised from the number of downloads – seems as MirOS
  has become popular. We hope that the traffic throtteling/limiting methods
  our hoster has installed on the Germany 1 mirror do not produce too much
