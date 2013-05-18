@@ -1,4 +1,4 @@
-dnl $MirOS: src/gnu/usr.bin/cvs/configure.in,v 1.9 2011/06/11 03:55:33 tg Exp $
+dnl $MirOS: src/gnu/usr.bin/cvs/configure.in,v 1.10 2011/06/11 04:06:53 tg Exp $
 dnl
 dnl configure.in for cvs
 
@@ -142,6 +142,7 @@ AC_CHECK_MEMBERS([struct stat.st_rdev])
 
 AC_FUNC_FSEEKO
 AC_FUNC_ALLOCA
+AC_CHECK_FUNCS([fseeko])
 if test $ac_cv_func_fseeko = no; then
     AC_LIBOBJ(fseeko)
     AC_LIBOBJ(ftello)

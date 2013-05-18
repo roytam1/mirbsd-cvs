@@ -58,7 +58,7 @@ dnl  gl_FUNC_GETPASS_GNU
   dnl you must add AM_GNU_GETTEXT([external]) or similar to configure.ac.
   gl_GETTIME
   AC_FUNC_GETTIMEOFDAY_CLOBBER
-  gl_GLOB
+dnl  gl_GLOB
   gl_FUNC_LSTAT
   AC_FUNC_MALLOC
 dnl  gl_MBCHAR
