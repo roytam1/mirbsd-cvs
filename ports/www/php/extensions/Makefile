@@ -1,4 +1,4 @@
-# $MirOS: ports/www/php/extensions/Makefile,v 1.15 2006/09/14 00:14:57 tg Exp $
+# $MirOS: ports/www/php/extensions/Makefile,v 1.16 2007/02/22 23:11:49 tg Exp $
 # $OpenBSD: Makefile,v 1.17 2005/12/29 23:06:28 sturm Exp $
 
 FULLPKGNAME=		php-extensions-${V}-${PV}
@@ -112,10 +112,11 @@ CONFIGURE_ARGS+=	--without-gd --without-xpm-dir --without-ttf \
 .else
 MULTI_PACKAGES+=	-gd
 COMMENT-gd=		image manipulation extensions for php
-GD_DEPENDS=		ttf::print/freetype ${GRAPHIC_DEPENDS} \
+GD_DEPENDS=		${GRAPHIC_DEPENDS} \
 			t1::devel/t1lib
 CONFIGURE_ARGS+=	--with-gd=shared ${GRAPHIC_CONFIG} \
-			--with-ttf=shared,${LOCALBASE:Q} --without-freetype-dir \
+			--with-freetype-dir=${X11BASE:Q} \
+			--enable-gd-native-ttf \
 			--with-t1lib=${LOCALBASE:Q}
 .  if !${FLAVOR:L:Mno_x11}
 USE_X11=		yes
