@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.131 2009/01/02 00:19:11 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.132 2009/01/02 03:12:30 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -2599,4 +2599,8 @@ Title: GNU GRUB, the horrors
 <p>Anyway, I now have a way to boot MS-DOS® from a USB stick (bootbsd
  → grub → memdisk → DOS) in order to install SYSLINUX on the very same
  stick… gaaaaaaaaaaaah!</p>
+<hr />
+<p><strong>Update:</strong> Yay! Our bootloader <em>is</em> now multiboot
+ compliant, detects El Torito in a better way without the patch-the-code
+ kludge, and can thusly survive boot ↔ grub cycles.</p>
 ----
