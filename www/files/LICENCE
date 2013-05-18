@@ -4,7 +4,7 @@ and related websites, as well as to every page explicitly
 referencing them.
 
 The website content is
-Copyright © 2002, 2003, 2004, 2005, 2006, 2007, 2008
+Copyright © 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009
 	The MirOS Project <miros-dev@mirbsd.org>
 	• Thorsten „mirabilos“ Glaser
 	• Benny Siegert
@@ -13,11 +13,11 @@ All rights reserved.
 
 Provided that these terms and disclaimer and all copyright notices
 are retained or reproduced in an accompanying document, permission
-is granted to deal in this work without restriction, including un-
+is granted to deal in this work without restriction, including un‐
 limited rights to use, publicly perform, distribute, sell, modify,
 merge, give away, or sublicence.
 
-Neither the name of The MirOS Project nor the names of its contri-
+Neither the name of The MirOS Project nor the names of its contri‐
 butors may be used to endorse or promote products derived from the
 work or other products without specific prior written permission.
 
@@ -26,9 +26,9 @@ the imprint of that site must give due credit to its authors.
 
 This licence does not cover usage of the “look and feel” of either
 the MirOS Project website or the personal home pages of authors or
-contributors. Use of the marks “MirBSD”, “MirOS”, “MirPorts Frame-
+contributors. Use of the marks “MirBSD”, “MirOS”, “MirPorts Frame‐
 work”, or any other mark reserved by or for the MirOS Project, and
-the visual marks used, such as the BSD Dæmon or the Shilouette Dæ-
+the visual marks used, such as the BSD Dæmon or the Shilouette Dæ‐
 mon, is not licenced hereby either; website mirrors are allowed to
 redistribute exact copies of our material, but other use of any of
 the marks shown above or otherwise belonging to the Project or the
@@ -45,7 +45,7 @@ may a licensor, author or contributor be held liable for indirect,
 direct, other damage, loss, or other issues arising in any way out
 of dealing in the work, even if advised of the possibility of such
 damage or existence of a defect, except proven that it results out
-of said person's immediate fault when using the work as intended.
+of said person’s immediate fault when using the work as intended.
 
 
 Anyone is permitted to use the favicon.ico file under the
@@ -79,12 +79,24 @@ The GIMP <http://www.isc.tamu.edu/~lewing/gimp/> if asked.
 The anargeek emblem contains an explicit licence embedded
 in the SVG source code and a PNG zTXt chunk.
 
-The CVSweb CGI script is covered by a two-clause UCB-sty-
+The CVSweb CGI script is covered by a two-clause UCB-sty‐
 le BSD licence embedded in the source code.
+
+The fonts used are covered by their own licences and used
+with permission. Note that the look and feel clause above
+may affect your ability to re-use them in derivates.
+
+Some parts of the site’s content – such as the translated
+Anargeek manifesto or the HTML versions of the manual pa‐
+ges and BSD documentation – are covered by different, si‐
+milarily free licences. Refer there for details.
 
 Relicencing of any parts of this work under the GNU “Free
 Documentation License”, or a similar non-free licence, is
 hereby explicitly prohibited.
 
-____________________________________________________________
-$MirOS: www/files/LICENCE,v 1.1 2007/06/09 23:29:49 tg Exp $
+
+Do not send any eMail to <junk@mirbsd.org> ☺
+
+⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼
+$MirOS: www/files/LICENCE,v 1.2 2008/02/24 12:46:06 tg Exp $
