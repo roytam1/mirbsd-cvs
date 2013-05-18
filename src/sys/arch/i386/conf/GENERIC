@@ -1,4 +1,4 @@
-# $MirOS: src/sys/arch/i386/conf/GENERIC,v 1.36 2008/07/13 20:05:35 tg Exp $
+# $MirOS: src/sys/arch/i386/conf/GENERIC,v 1.37 2008/10/20 19:09:51 tg Exp $
 # $OpenBSD: GENERIC,v 1.360 2004/05/11 04:01:00 deraadt Exp $
 # $NetBSD: GENERIC,v 1.48 1996/05/20 18:17:23 mrg Exp $
 #-
@@ -13,7 +13,7 @@
 
 machine		i386			# arch, used by config; REQUIRED
 
-# $MirOS: src/sys/arch/i386/conf/GENERIC,v 1.36 2008/07/13 20:05:35 tg Exp $
+# $MirOS: src/sys/arch/i386/conf/GENERIC,v 1.37 2008/10/20 19:09:51 tg Exp $
 # $OpenBSD: GENERIC,v 1.112 2004/11/28 23:39:45 canacar Exp $
 #
 # Machine-independent option; used by all architectures.
@@ -38,10 +38,6 @@ option		SCSIDEBUG		# extra debugging information
 #makeoptions	CSYS="..."		# extra CFLAGS
 #option		SMALL_KERNEL		# remove certain large stuff
 #option		NO_PROPOLICE		# remove stack protector
-
-option		NVNODE=32768			# raise static alloced bufsiz
-option		MAXDSIZ="(1536 * 1048576)"	# bump max data sz to 1.5 GiB
-option		BUFCACHEPERCENT=7		# default: 5% of total RAM sz
 
 option		BOOT_CONFIG		# add support for boot -c
 option		TIMEZONE=0		# time zone to adjust RTC time by
@@ -152,6 +148,10 @@ option		NTFS			# NT file system (experimental)
 
 # Generic swap; second partition of root disk or network.
 config		bsd	swap generic
+
+option		NVNODE=32768			# raise static alloced bufsiz
+option		MAXDSIZ="(1536 * 1048576)"	# bump max data sz to 1.5 GiB
+option		BUFCACHEPERCENT=7		# default: 5% of total RAM sz
 
 mainbus0 at root
 
