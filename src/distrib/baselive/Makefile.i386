@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/baselive/Makefile.i386,v 1.3 2006/10/02 22:38:13 tg Exp $
+# $MirOS: src/distrib/baselive/Makefile.i386,v 1.4 2006/10/13 19:18:02 tg Exp $
 
 KERNEL_PREP=	print 'rootdev 6 0\nquit' | config -ef bsd.tmp
 BOOT=		${REALOBJDIR}/../../sys/arch/i386/stand/liveboot/boot
@@ -15,7 +15,7 @@ unpack-md:
 
 cdrom-mdcopy:
 	${SUDO} cp ${BOOT} ${WRKDIR}/boot.iso
-	cd ${WRKDIR}; rmd160 boot.iso >>RMD160
+	cd ${WRKDIR} && cksum -a cksum -a rmd160 -a tiger boot.iso >>CKSUM
 
 cdrom-mdboot:
 	${DESTDIR}/usr/mdec/installboot -v -I $$(fgrep \
