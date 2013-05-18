@@ -1,8 +1,8 @@
-# $MirOS: ports/devel/subversion/Makefile,v 1.7 2006/06/04 20:29:35 bsiegert Exp $
+# $MirOS: ports/devel/subversion/Makefile,v 1.9 2006/10/07 21:27:45 bsiegert Exp $
 
 COMMENT=		Subversion revision control system
 VERSION=		1.4.0
-DASH_VER=		-0
+DASH_VER=		-1
 DISTNAME=		subversion-${VERSION}
 PKGNAME=		subversion-${VERSION}${DASH_VER}
 CATEGORIES=		devel net
@@ -23,6 +23,7 @@ FLAVORS=		bsddb
 FLAVOR?=
 
 LIB_DEPENDS+=		apr::devel/apr/apr
+LIB_DEPENDS+=		neon::net/neon
 RUN_DEPENDS+=		:p5-URI-*:www/p5-URI
 
 .if ${FLAVOR:L:Mbsddb}
