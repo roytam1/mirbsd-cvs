@@ -3,7 +3,7 @@
 
 mws_setname ports "The MirPorts Framework"
 mws_subdir 0
-mws_putheader '$MirOS: www/src/ports.hts,v 1.4 2008/03/14 21:13:10 tg Exp $'
+mws_putheader '$MirOS: www/src/ports.hts,v 1.5 2008/03/16 23:12:38 tg Exp $'
 mws_content <<'EOF'
 <h1>MirPorts: The MirOS Ports Framework</h1>
 
@@ -48,6 +48,10 @@ mws_content <<'EOF'
  as we have MirLibtool, which aids in 90% of the use cases. (Besides,
  we did the adjustments for MirBSD already, and sometimes even for
  ekkoBSD. It’s possible.)</p>
+
+<p>You <strong>must</strong> first install perl from mports, which
+ creates the <tt>/usr/bin/perl</tt> link required to run some code
+ we inherited from OpenBSD and could not yet rewrite in non-perl.</p>
 
 <p>There are two possible, recommended, methods of operation of
  the MirPorts Framework (mirports, not to confuse with mports,
