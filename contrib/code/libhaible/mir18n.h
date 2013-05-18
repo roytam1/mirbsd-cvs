@@ -1,10 +1,12 @@
-/* $MirOS: contrib/code/libhaible/mir18n.h,v 1.5 2006/05/23 11:18:43 tg Exp $ */
+/* $MirOS: contrib/code/libhaible/mir18n.h,v 1.6 2006/05/30 10:02:16 tg Exp $ */
 
 #ifndef _LIBC_MIR18N_H
 #define _LIBC_MIR18N_H
 
 /* highest allowed character in 'C' locale */
 #define MIR18N_SB_MAX	0xFF
+/* set to 0xFF to allow conversion from/to latin1 for historical reasons */
+#define MIR18N_SB_CVT	0xFF
 /* highest allowed character in 'UTF-8' locale */
 #define MIR18N_MB_MAX	0xFFFD
 

@@ -1,10 +1,12 @@
-/* $MirOS: src/lib/libc/include/mir18n.h,v 1.1 2006/05/21 12:12:30 tg Exp $ */
+/* $MirOS: src/lib/libc/include/mir18n.h,v 1.2 2006/05/30 10:02:30 tg Exp $ */
 
 #ifndef _LIBC_MIR18N_H
 #define _LIBC_MIR18N_H
 
 /* highest allowed character in 'C' locale */
 #define MIR18N_SB_MAX	0xFF
+/* set to 0xFF to allow conversion from/to latin1 for historical reasons */
+#define MIR18N_SB_CVT	0xFF
 /* highest allowed character in 'UTF-8' locale */
 #define MIR18N_MB_MAX	0xFFFD
 
