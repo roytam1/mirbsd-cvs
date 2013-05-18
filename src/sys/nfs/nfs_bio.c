@@ -416,7 +416,7 @@ again:
 		 */
 
 		if (NFS_ISV3(vp)) {
-			rw_enter_write(&np->n_commitlock, curproc);
+			rw_enter_write(&np->n_commitlock);
 			if (bp->b_flags & B_NEEDCOMMIT) {
 				bp->b_flags &= ~B_NEEDCOMMIT;
 				nfs_del_tobecommitted_range(vp, bp);
@@ -705,7 +705,7 @@ nfs_doio(bp, p)
 #endif
 	    error = nfs_writerpc(vp, uiop, &iomode, &must_commit);
 
-	    rw_enter_write(&np->n_commitlock, curproc);
+	    rw_enter_write(&np->n_commitlock);
 	    if (!error && iomode == NFSV3WRITE_UNSTABLE) {
 		bp->b_flags |= B_NEEDCOMMIT;
 		nfs_add_tobecommitted_range(vp, bp);

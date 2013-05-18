@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/nfs/nfs_vnops.c,v 1.3 2005/04/29 15:07:09 tg Exp $ */
+/**	$MirOS: src/sys/nfs/nfs_vnops.c,v 1.4 2005/04/29 19:36:15 tg Exp $ */
 /*	$OpenBSD: nfs_vnops.c,v 1.64 2005/04/21 23:29:04 deraadt Exp $	*/
 /*	$NetBSD: nfs_vnops.c,v 1.62.4.1 1996/07/08 20:26:52 jtc Exp $	*/
 
@@ -3034,7 +3034,7 @@ nfs_writebp(bp, force)
 		off = ((u_quad_t)bp->b_blkno) * DEV_BSIZE + bp->b_dirtyoff;
 		cnt = bp->b_dirtyend - bp->b_dirtyoff;
 
-		rw_enter_write(&np->n_commitlock, curproc);
+		rw_enter_write(&np->n_commitlock);
 		if (!(bp->b_flags & B_NEEDCOMMIT)) {
 			rw_exit_write(&np->n_commitlock);
 			return (0);

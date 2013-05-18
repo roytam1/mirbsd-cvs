@@ -87,10 +87,6 @@
 #include <netinet6/nd6.h>
 #endif /* INET6 */
 
-/* XXX for now */
-#define time_second time.tv_sec
-#define csum_flags csum
-
 #define DPFPRINTF(n, x)	if (pf_status.debug >= (n)) printf x
 
 /*

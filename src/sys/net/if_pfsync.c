@@ -703,7 +703,7 @@ pfsync_input(struct mbuf *m, ...)
 			key.creatorid = rup->creatorid;
 
 			if (key.id == 0 && key.creatorid == 0) {
-				sc->sc_ureq_received = time_uptime;
+				sc->sc_ureq_received = mono_time.tv_sec;
 				if (sc->sc_bulk_send_next == NULL)
 					sc->sc_bulk_send_next =
 					    TAILQ_FIRST(&state_list);
@@ -749,7 +749,7 @@ pfsync_input(struct mbuf *m, ...)
 				    "update start\n");
 			break;
 		case PFSYNC_BUS_END:
-			if (time_uptime - ntohl(bus->endtime) >=
+			if (mono_time.tv_sec - ntohl(bus->endtime) >=
 			    sc->sc_ureq_sent) {
 				/* that's it, we're happy */
 				sc->sc_ureq_sent = 0;
@@ -919,7 +919,7 @@ pfsyncioctl(struct ifnet *ifp, u_long cmd, caddr_t data)
 		if (sc->sc_sync_ifp ||
 		    sc->sc_sendaddr.s_addr != INADDR_PFSYNC_GROUP) {
 			/* Request a full state table update. */
-			sc->sc_ureq_sent = time_uptime;
+			sc->sc_ureq_sent = mono_time.tv_sec;
 #if NCARP > 0
 			if (pfsync_sync_ok)
 				carp_suppress_preempt++;
@@ -1113,7 +1113,7 @@ pfsync_pack_state(u_int8_t action, struct pf_state *st, int flags)
 
 	secs = time_second;
 
-	st->pfsync_time = time_uptime;
+	st->pfsync_time = mono_time.tv_sec;
 
 	if (sp == NULL) {
 		/* not a "duplicate" update */
@@ -1341,7 +1341,7 @@ pfsync_send_bus(struct pfsync_softc *sc, u_int8_t status)
 		bus = sc->sc_statep.b;
 		bus->creatorid = pf_status.hostid;
 		bus->status = status;
-		bus->endtime = htonl(time_uptime - sc->sc_ureq_received);
+		bus->endtime = htonl(mono_time.tv_sec - sc->sc_ureq_received);
 		pfsync_sendout(sc);
 	}
 }

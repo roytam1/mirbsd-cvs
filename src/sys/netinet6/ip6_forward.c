@@ -431,7 +431,7 @@ ip6_forward(m, srcrt)
 		ip6->ip6_dst.s6_addr16[1] = 0;
 
 #if NPF > 0 
-	if (pf_test6(PF_OUT, rt->rt_ifp, &m) != PF_PASS) {
+	if (pf_test6(PF_OUT, rt->rt_ifp, &m, NULL) != PF_PASS) {
 		m_freem(m);
 		goto senderr;
 	}

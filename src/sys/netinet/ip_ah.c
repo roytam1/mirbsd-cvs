@@ -935,12 +935,11 @@ ah_output(struct mbuf *m, struct tdb *tdb, struct mbuf **mp, int skip,
 	int len, rplen;
 	u_int8_t prot;
 	struct ah *ah;
-
 #if NBPFILTER > 0
-	{
-		struct ifnet *ifn;
+	struct ifnet *ifn = &(encif[0].sc_if);
+
+	if (ifn->if_bpf) {
 		struct enchdr hdr;
-		struct mbuf m1;
 
 		bzero (&hdr, sizeof(hdr));
 
@@ -948,15 +947,7 @@ ah_output(struct mbuf *m, struct tdb *tdb, struct mbuf **mp, int skip,
 		hdr.spi = tdb->tdb_spi;
 		hdr.flags |= M_AUTH | M_AUTH_AH;
 
-		m1.m_flags = 0;
-		m1.m_next = m;
-		m1.m_len = ENC_HDRLEN;
-		m1.m_data = (char *) &hdr;
-
-		ifn = &(encif[0].sc_if);
-
-		if (ifn->if_bpf)
-			bpf_mtap(ifn->if_bpf, &m1);
+		bpf_mtap_hdr(ifn->if_bpf, (char *)&hdr, ENC_HDRLEN, m);
 	}
 #endif
 

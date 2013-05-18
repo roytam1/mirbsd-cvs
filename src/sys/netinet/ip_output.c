@@ -569,7 +569,7 @@ sendit:
 		 */
 #if NPF > 0
 
-		if (pf_test(PF_OUT, &encif[0].sc_if, &m) != PF_PASS) {
+		if (pf_test(PF_OUT, &encif[0].sc_if, &m, NULL) != PF_PASS) {
 			error = EHOSTUNREACH;
 			splx(s);
 			m_freem(m);
@@ -667,7 +667,7 @@ sendit:
 	 * Packet filter
 	 */
 #if NPF > 0
-	if (pf_test(PF_OUT, ifp, &m) != PF_PASS) {
+	if (pf_test(PF_OUT, ifp, &m, NULL) != PF_PASS) {
 		error = EHOSTUNREACH;
 		m_freem(m);
 		goto done;

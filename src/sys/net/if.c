@@ -1,5 +1,5 @@
-/**	$MirOS: src/sys/net/if.c,v 1.2 2005/03/06 21:28:13 tg Exp $ */
-/*	$OpenBSD: if.c,v 1.136 2005/06/23 14:30:40 mickey Exp $	*/
+/**	$MirOS: src/sys/net/if.c,v 1.3 2005/07/04 03:36:35 tg Exp $ */
+/*	$OpenBSD: if.c,v 1.140 2005/11/29 02:59:42 jolan Exp $	*/
 /*	$NetBSD: if.c,v 1.35 1996/05/07 05:26:04 thorpej Exp $	*/
 
 /*
@@ -131,11 +131,16 @@ int	if_detached_ioctl(struct ifnet *, u_long, caddr_t);
 int	if_detached_init(struct ifnet *);
 void	if_detached_watchdog(struct ifnet *);
 
+int	if_getgroup(caddr_t, struct ifnet *);
+int	if_getgroupmembers(caddr_t);
+
 int	if_clone_list(struct if_clonereq *);
 struct if_clone	*if_clone_lookup(const char *, int *);
 
 void	if_congestion_clear(void *);
+int	if_group_egress_build(void);
 
+TAILQ_HEAD(, ifg_group) ifg_head;
 LIST_HEAD(, if_clone) if_cloners = LIST_HEAD_INITIALIZER(if_cloners);
 int if_cloners_count;
 
@@ -239,6 +244,10 @@ if_attachsetup(struct ifnet *ifp)
 		}
 		ifindex2ifnet = (struct ifnet **)q;
 	}
+
+	TAILQ_INIT(&ifp->if_groups);
+
+	if_addgroup(ifp, IFG_ALL);
 
 	ifindex2ifnet[if_index] = ifp;
 
@@ -378,6 +387,7 @@ if_attachhead(struct ifnet *ifp)
 {
 	if (if_index == 0) {
 		TAILQ_INIT(&ifnet);
+		TAILQ_INIT(&ifg_head);
 	}
 	TAILQ_INIT(&ifp->if_addrlist);
 	ifp->if_addrhooks = malloc(sizeof(*ifp->if_addrhooks),
@@ -403,6 +413,7 @@ if_attach(struct ifnet *ifp)
 
 	if (if_index == 0) {
 		TAILQ_INIT(&ifnet);
+		TAILQ_INIT(&ifg_head);
 	}
 	TAILQ_INIT(&ifp->if_addrlist);
 	ifp->if_addrhooks = malloc(sizeof(*ifp->if_addrhooks),
@@ -473,6 +484,7 @@ void
 if_detach(struct ifnet *ifp)
 {
 	struct ifaddr *ifa;
+	struct ifg_list *ifg;
 	int i, s = splimp();
 	struct radix_node_head *rnh;
 	struct domain *dp;
@@ -591,6 +603,11 @@ do { \
 
 		free(ifa, M_IFADDR);
 	}
+
+	for (ifg = TAILQ_FIRST(&ifp->if_groups); ifg;
+	    ifg = TAILQ_FIRST(&ifp->if_groups))
+		if_delgroup(ifp, ifg->ifgl_group->ifg_group);
+
 	if_free_sadl(ifp);
 
 	free(ifnet_addrs[ifp->if_index], M_IFADDR);
@@ -663,7 +680,7 @@ if_clone_create(const char *name)
 
 	if ((ret = (*ifc->ifc_create)(ifc, unit)) != -1 &&
 	    (ifp = ifunit(name)) != NULL)
-		;
+		if_addgroup(ifp, ifc->ifc_name);
 
 	return (ret);
 }
@@ -695,8 +712,10 @@ if_clone_destroy(const char *name)
 		splx(s);
 	}
 
+	if_delgroup(ifp, ifc->ifc_name);
+
 	if ((ret = (*ifc->ifc_destroy)(ifp)) == -1)
-		;
+		if_addgroup(ifp, ifc->ifc_name);
 
 	return (ret);
 }
@@ -1139,7 +1158,12 @@ ifioctl(struct socket *so, u_long cmd, caddr_t data, struct proc *p)
 {
 	struct ifnet *ifp;
 	struct ifreq *ifr;
+	struct ifaddr *ifa;
+	struct sockaddr_dl *sdl;
+	struct ifgroupreq *ifgr;
+	char ifdescrbuf[IFDESCRSIZE];
 	int error = 0;
+	size_t bytesdone;
 	short oif_flags;
 
 	switch (cmd) {
@@ -1160,6 +1184,8 @@ ifioctl(struct socket *so, u_long cmd, caddr_t data, struct proc *p)
 		    if_clone_destroy(ifr->ifr_name));
 	case SIOCIFGCLONERS:
 		return (if_clone_list((struct if_clonereq *)data));
+	case SIOCGIFGMEMB:
+		return (if_getgroupmembers(data));
 	}
 
 	ifp = ifunit(ifr->ifr_name);
@@ -1253,6 +1279,89 @@ ifioctl(struct socket *so, u_long cmd, caddr_t data, struct proc *p)
 		error = (*ifp->if_ioctl)(ifp, cmd, data);
 		break;
 
+	case SIOCGIFDESCR:
+		strlcpy(ifdescrbuf, ifp->if_description, IFDESCRSIZE);
+		error = copyoutstr(ifdescrbuf, ifr->ifr_data, IFDESCRSIZE,
+		    &bytesdone);
+		break;
+
+	case SIOCSIFDESCR:
+		if ((error = suser(p, 0)) != 0)
+			return (error);
+		error = copyinstr(ifr->ifr_data, ifdescrbuf,
+		    IFDESCRSIZE, &bytesdone);
+		if (error == 0) {
+			(void)memset(ifp->if_description, 0, IFDESCRSIZE);
+			strlcpy(ifp->if_description, ifdescrbuf, IFDESCRSIZE);
+		}
+		break;
+
+	case SIOCAIFGROUP:
+		if ((error = suser(p, 0)))
+			return (error);
+		ifgr = (struct ifgroupreq *)data;
+		if ((error = if_addgroup(ifp, ifgr->ifgr_group)))
+			return (error);
+		break;
+
+	case SIOCGIFGROUP:
+		if ((error = if_getgroup(data, ifp)))
+			return (error);
+		break;
+
+	case SIOCDIFGROUP:
+		if ((error = suser(p, 0)))
+			return (error);
+		ifgr = (struct ifgroupreq *)data;
+		if ((error = if_delgroup(ifp, ifgr->ifgr_group)))
+			return (error);
+		break;
+
+	case SIOCSIFLLADDR:
+	        if ((error = suser(p, 0)))
+	                return (error);
+	        ifa = ifnet_addrs[ifp->if_index];
+	        if (ifa == NULL)
+	                return (EINVAL);
+	        sdl = (struct sockaddr_dl *)ifa->ifa_addr;
+	        if (sdl == NULL)
+	                return (EINVAL);
+	        if (ifr->ifr_addr.sa_len != ETHER_ADDR_LEN)
+	                return (EINVAL);
+		if (ETHER_IS_MULTICAST(ifr->ifr_addr.sa_data))
+			return (EINVAL);
+	        switch (ifp->if_type) {
+		case IFT_ETHER:
+		case IFT_FDDI:
+		case IFT_XETHER:
+		case IFT_ISO88025:
+		case IFT_L2VLAN:
+	                bcopy((caddr_t)ifr->ifr_addr.sa_data,
+			      (caddr_t)((struct arpcom *)ifp)->ac_enaddr,
+			      ETHER_ADDR_LEN);
+			/* fall through */
+		case IFT_ARCNET:
+                        bcopy((caddr_t)ifr->ifr_addr.sa_data,
+			      LLADDR(sdl), ETHER_ADDR_LEN);
+			break;
+		default:
+	                return (ENODEV);
+		}
+		if (ifp->if_flags & IFF_UP) {
+		        int s = splimp();
+			ifp->if_flags &= ~IFF_UP;
+			(*ifp->if_ioctl)(ifp, SIOCSIFFLAGS, (caddr_t)&ifr);
+			ifp->if_flags |= IFF_UP;
+			(*ifp->if_ioctl)(ifp, SIOCSIFFLAGS, (caddr_t)&ifr);
+			splx(s);
+			TAILQ_FOREACH(ifa, &ifp->if_addrlist, ifa_list) {
+			        if (ifa->ifa_addr != NULL &&
+				    ifa->ifa_addr->sa_family == AF_INET)
+				        arp_ifinit((struct arpcom *)ifp, ifa);
+			}
+		}
+		break;
+
 	default:
 		if (so->so_proto == 0)
 			return (EOPNOTSUPP);
@@ -1315,6 +1424,7 @@ ifioctl(struct socket *so, u_long cmd, caddr_t data, struct proc *p)
 	}
 
 	if (((oif_flags ^ ifp->if_flags) & IFF_UP) != 0) {
+		ifp->if_lastchange = time;
 #ifdef INET6
 		if ((ifp->if_flags & IFF_UP) != 0) {
 			int s = splnet();
@@ -1459,15 +1569,280 @@ if_detached_watchdog(struct ifnet *ifp)
 }
 
 /*
+ * Add a group to an interface
+ */
+int
+if_addgroup(struct ifnet *ifp, const char *groupname)
+{
+	struct ifg_list		*ifgl;
+	struct ifg_group	*ifg = NULL;
+	struct ifg_member	*ifgm;
+
+	if (groupname[0] && groupname[strlen(groupname) - 1] >= '0' &&
+	    groupname[strlen(groupname) - 1] <= '9')
+		return (EINVAL);
+
+	TAILQ_FOREACH(ifgl, &ifp->if_groups, ifgl_next)
+		if (!strcmp(ifgl->ifgl_group->ifg_group, groupname))
+			return (EEXIST);
+
+	if ((ifgl = (struct ifg_list *)malloc(sizeof(struct ifg_list), M_TEMP,
+	    M_NOWAIT)) == NULL)
+		return (ENOMEM);
+
+	if ((ifgm = (struct ifg_member *)malloc(sizeof(struct ifg_member),
+	    M_TEMP, M_NOWAIT)) == NULL) {
+		free(ifgl, M_TEMP);
+		return (ENOMEM);
+	}
+
+	TAILQ_FOREACH(ifg, &ifg_head, ifg_next)
+		if (!strcmp(ifg->ifg_group, groupname))
+			break;
+
+	if (ifg == NULL) {
+		if ((ifg = (struct ifg_group *)malloc(sizeof(struct ifg_group),
+		    M_TEMP, M_NOWAIT)) == NULL) {
+			free(ifgl, M_TEMP);
+			free(ifgm, M_TEMP);
+			return (ENOMEM);
+		}
+		strlcpy(ifg->ifg_group, groupname, sizeof(ifg->ifg_group));
+		ifg->ifg_refcnt = 0;
+		TAILQ_INIT(&ifg->ifg_members);
+#if NPF > 0
+		pfi_attach_ifgroup(ifg);
+#endif
+		TAILQ_INSERT_TAIL(&ifg_head, ifg, ifg_next);
+	}
+
+	ifg->ifg_refcnt++;
+	ifgl->ifgl_group = ifg;
+	ifgm->ifgm_ifp = ifp;
+
+	TAILQ_INSERT_TAIL(&ifg->ifg_members, ifgm, ifgm_next);
+	TAILQ_INSERT_TAIL(&ifp->if_groups, ifgl, ifgl_next);
+
+#if NPF > 0
+	pfi_group_change(groupname);
+#endif
+
+	return (0);
+}
+
+/*
+ * Remove a group from an interface
+ */
+int
+if_delgroup(struct ifnet *ifp, const char *groupname)
+{
+	struct ifg_list		*ifgl;
+	struct ifg_member	*ifgm;
+
+	TAILQ_FOREACH(ifgl, &ifp->if_groups, ifgl_next)
+		if (!strcmp(ifgl->ifgl_group->ifg_group, groupname))
+			break;
+	if (ifgl == NULL)
+		return (ENOENT);
+
+	TAILQ_REMOVE(&ifp->if_groups, ifgl, ifgl_next);
+
+	TAILQ_FOREACH(ifgm, &ifgl->ifgl_group->ifg_members, ifgm_next)
+		if (ifgm->ifgm_ifp == ifp)
+			break;
+
+	if (ifgm != NULL) {
+		TAILQ_REMOVE(&ifgl->ifgl_group->ifg_members, ifgm, ifgm_next);
+		free(ifgm, M_TEMP);
+	}
+
+	if (--ifgl->ifgl_group->ifg_refcnt == 0) {
+		TAILQ_REMOVE(&ifg_head, ifgl->ifgl_group, ifg_next);
+#if NPF > 0
+		pfi_detach_ifgroup(ifgl->ifgl_group);
+#endif
+		free(ifgl->ifgl_group, M_TEMP);
+	}
+
+	free(ifgl, M_TEMP);
+
+#if NPF > 0
+	pfi_group_change(groupname);
+#endif
+
+	return (0);
+}
+
+/*
+ * Stores all groups from an interface in memory pointed
+ * to by data
+ */
+int
+if_getgroup(caddr_t data, struct ifnet *ifp)
+{
+	int			 len, error;
+	struct ifg_list		*ifgl;
+	struct ifg_req		 ifgrq, *ifgp;
+	struct ifgroupreq	*ifgr = (struct ifgroupreq *)data;
+
+	if (ifgr->ifgr_len == 0) {
+		TAILQ_FOREACH(ifgl, &ifp->if_groups, ifgl_next)
+			ifgr->ifgr_len += sizeof(struct ifg_req);
+		return (0);
+	}
+
+	len = ifgr->ifgr_len;
+	ifgp = ifgr->ifgr_groups;
+	TAILQ_FOREACH(ifgl, &ifp->if_groups, ifgl_next) {
+		if (len < sizeof(ifgrq))
+			return (EINVAL);
+		strlcpy(ifgrq.ifgrq_group, ifgl->ifgl_group->ifg_group,
+		    sizeof(ifgrq.ifgrq_group));
+		if ((error = copyout((caddr_t)&ifgrq, (caddr_t)ifgp,
+		    sizeof(struct ifg_req))))
+			return (error);
+		len -= sizeof(ifgrq);
+		ifgp++;
+	}
+
+	return (0);
+}
+
+/*
+ * Stores all members of a group in memory pointed to by data
+ */
+int
+if_getgroupmembers(caddr_t data)
+{
+	struct ifgroupreq	*ifgr = (struct ifgroupreq *)data;
+	struct ifg_group	*ifg;
+	struct ifg_member	*ifgm;
+	struct ifg_req		 ifgrq, *ifgp;
+	int			 len, error;
+
+	TAILQ_FOREACH(ifg, &ifg_head, ifg_next)
+		if (!strcmp(ifg->ifg_group, ifgr->ifgr_name))
+			break;
+	if (ifg == NULL)
+		return (ENOENT);
+
+	if (ifgr->ifgr_len == 0) {
+		TAILQ_FOREACH(ifgm, &ifg->ifg_members, ifgm_next)
+			ifgr->ifgr_len += sizeof(ifgrq);
+		return (0);
+	}
+
+	len = ifgr->ifgr_len;
+	ifgp = ifgr->ifgr_groups;
+	TAILQ_FOREACH(ifgm, &ifg->ifg_members, ifgm_next) {
+		if (len < sizeof(ifgrq))
+			return (EINVAL);
+		strlcpy(ifgrq.ifgrq_member, ifgm->ifgm_ifp->if_xname,
+		    sizeof(ifgrq.ifgrq_member));
+		if ((error = copyout((caddr_t)&ifgrq, (caddr_t)ifgp,
+		    sizeof(struct ifg_req))))
+			return (error);
+		len -= sizeof(ifgrq);
+		ifgp++;
+	}
+
+	return (0);
+}
+
+void
+if_group_routechange(struct sockaddr *dst, struct sockaddr *mask)
+{
+	switch (dst->sa_family) {
+	case AF_INET:
+		if (satosin(dst)->sin_addr.s_addr == INADDR_ANY)
+			if_group_egress_build();
+		break;
+#ifdef INET6
+	case AF_INET6:
+		if (IN6_ARE_ADDR_EQUAL(&(satosin6(dst))->sin6_addr,
+		    &in6addr_any) &&
+		    mask && IN6_ARE_ADDR_EQUAL(&(satosin6(mask))->sin6_addr,
+		    &in6addr_any))
+			if_group_egress_build();
+		break;
+#endif
+	}
+}
+
+int
+if_group_egress_build(void)
+{
+	struct ifg_group	*ifg;
+	struct ifg_member	*ifgm, *next;
+	struct sockaddr_in	 sa_in;
+#ifdef INET6
+	struct sockaddr_in6	 sa_in6;
+#endif
+	struct radix_node_head	*rnh;
+	struct radix_node	*rn;
+	struct rtentry		*rt;
+
+	TAILQ_FOREACH(ifg, &ifg_head, ifg_next)
+		if (!strcmp(ifg->ifg_group, IFG_EGRESS))
+			break;
+
+	if (ifg != NULL)
+		for (ifgm = TAILQ_FIRST(&ifg->ifg_members); ifgm; ifgm = next) {
+			next = TAILQ_NEXT(ifgm, ifgm_next);
+			if_delgroup(ifgm->ifgm_ifp, IFG_EGRESS);
+		}
+
+	if ((rnh = rt_tables[AF_INET]) == NULL)
+		return (-1);
+
+	bzero(&sa_in, sizeof(sa_in));
+	sa_in.sin_len = sizeof(sa_in);
+	sa_in.sin_family = AF_INET;
+	if ((rn = rnh->rnh_lookup(&sa_in, &sa_in, rnh))) {
+		do {
+			rt = (struct rtentry *)rn;
+			if (rt->rt_ifp)
+				if_addgroup(rt->rt_ifp, IFG_EGRESS);
+#ifndef SMALL_KERNEL
+			if (rn_mpath_capable(rnh))
+				rn = rn_mpath_next(rn);
+			else
+#endif
+				rn = NULL;
+		} while (rn != NULL);
+	}
+
+#ifdef INET6
+	if ((rnh = rt_tables[AF_INET6]) == NULL)
+		return (-1);
+
+	bcopy(&sa6_any, &sa_in6, sizeof(sa_in6));
+	if ((rn = rnh->rnh_lookup(&sa_in6, &sa_in6, rnh))) {
+		do {
+			rt = (struct rtentry *)rn;
+			if (rt->rt_ifp)
+				if_addgroup(rt->rt_ifp, IFG_EGRESS);
+#ifndef SMALL_KERNEL
+			if (rn_mpath_capable(rnh))
+				rn = rn_mpath_next(rn);
+			else
+#endif
+				rn = NULL;
+		} while (rn != NULL);
+	}
+#endif
+
+	return (0);
+}
+
+/*
  * Set/clear promiscuous mode on interface ifp based on the truth value
  * of pswitch.  The calls are reference counted so that only the first
  * "on" request actually has an effect, as does the final "off" request.
  * Results are undefined if the "off" and "on" requests are not matched.
  */
 int
-ifpromisc(ifp, pswitch)
-	struct ifnet *ifp;
-	int pswitch;
+ifpromisc(struct ifnet *ifp, int pswitch)
 {
 	struct ifreq ifr;
 

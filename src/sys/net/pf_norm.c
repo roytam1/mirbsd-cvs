@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/net/pf_norm.c,v 1.2 2005/03/06 21:28:17 tg Exp $ */
+/**	$MirOS: src/sys/net/pf_norm.c,v 1.3 2005/12/19 20:05:58 tg Exp $ */
 /*	$OpenBSD: pf_norm.c,v 1.103 2005/10/17 08:43:35 henning Exp $ */
 
 /*
@@ -1379,7 +1379,7 @@ pf_normalize_tcp_init(struct mbuf *m, int off, struct pf_pdesc *pd,
 					src->scrub->pfss_tsval0 = ntohl(tsval);
 					src->scrub->pfss_tsval = ntohl(tsval);
 					src->scrub->pfss_tsecr = ntohl(tsecr);
-					getmicrouptime(&src->scrub->pfss_last);
+					src->scrub->pfss_last = mono_time;
 				}
 				/* FALLTHROUGH */
 			default:
@@ -1537,7 +1537,7 @@ pf_normalize_tcp_stateful(struct mbuf *m, int off, struct pf_pdesc *pd,
 #define TS_MAX_IDLE	(24*24*60*60)
 #define TS_MAX_CONN	(12*24*60*60)	/* XXX remove when better tsecr check */
 
-	getmicrouptime(&uptime);
+	uptime = mono_time;
 	if (src->scrub && (src->scrub->pfss_flags & PFSS_PAWS) &&
 	    (uptime.tv_sec - src->scrub->pfss_last.tv_sec > TS_MAX_IDLE ||
 	    time_second - state->creation > TS_MAX_CONN))  {
@@ -1665,16 +1665,18 @@ pf_normalize_tcp_stateful(struct mbuf *m, int off, struct pf_pdesc *pd,
 			    tsval_from_last) ? '1' : ' ',
 			    SEQ_GT(tsecr, dst->scrub->pfss_tsval) ? '2' : ' ',
 			    SEQ_LT(tsecr, dst->scrub->pfss_tsval0)? '3' : ' '));
-			DPFPRINTF((" tsval: %lu  tsecr: %lu  +ticks: %lu  "
+			DPFPRINTF((" tsval: %lu  tsecr: %lu  +ticks: %u  "
 			    "idle: %llus %lums\n",
-			    tsval, tsecr, tsval_from_last,
+			    (long)tsval, (long)tsecr, tsval_from_last,
 			    (int64_t)delta_ts.tv_sec,
 			    delta_ts.tv_usec / 1000));
 			DPFPRINTF((" src->tsval: %lu  tsecr: %lu\n",
-			    src->scrub->pfss_tsval, src->scrub->pfss_tsecr));
+			    (long)src->scrub->pfss_tsval,
+			    (long)src->scrub->pfss_tsecr));
 			DPFPRINTF((" dst->tsval: %lu  tsecr: %lu  tsval0: %lu"
-			    "\n", dst->scrub->pfss_tsval,
-			    dst->scrub->pfss_tsecr, dst->scrub->pfss_tsval0));
+			    "\n", (long)dst->scrub->pfss_tsval,
+			    (long)dst->scrub->pfss_tsecr,
+			    (long)dst->scrub->pfss_tsval0));
 			if (pf_status.debug >= PF_DEBUG_MISC) {
 				pf_print_state(state);
 				pf_print_flags(th->th_flags);
@@ -1769,7 +1771,7 @@ pf_normalize_tcp_stateful(struct mbuf *m, int off, struct pf_pdesc *pd,
 	 */
 	if (got_ts && src->scrub && PFSS_TIMESTAMP == (src->scrub->pfss_flags &
 	    (PFSS_PAWS_IDLED|PFSS_TIMESTAMP))) {
-		getmicrouptime(&src->scrub->pfss_last);
+		src->scrub->pfss_last = mono_time;
 		if (SEQ_GEQ(tsval, src->scrub->pfss_tsval) ||
 		    (src->scrub->pfss_flags & PFSS_PAWS) == 0)
 			src->scrub->pfss_tsval = tsval;

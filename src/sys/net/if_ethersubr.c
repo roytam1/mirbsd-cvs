@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/net/if_ethersubr.c,v 1.2 2005/03/06 21:28:15 tg Exp $ */
+/**	$MirOS: src/sys/net/if_ethersubr.c,v 1.3 2005/12/19 20:50:17 tg Exp $ */
 /*	$OpenBSD: if_ethersubr.c,v 1.98 2005/10/17 08:43:35 henning Exp $	*/
 /*	$NetBSD: if_ethersubr.c,v 1.19 1996/05/07 02:40:30 thorpej Exp $	*/
 
@@ -577,6 +577,14 @@ ether_input(ifp, eh, m)
 #endif /* NCARP > 0 */
 
 	ac = (struct arpcom *)ifp;
+
+	/*
+	 * If packet has been filtered by the bpf listener, drop it now
+	 */
+	if (m->m_flags & M_FILDROP) {
+		m_free(m);
+		return;
+	}
 
 	/*
 	 * If packet is unicast and we're in promiscuous mode, make sure it

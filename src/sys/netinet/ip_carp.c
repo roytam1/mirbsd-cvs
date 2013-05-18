@@ -1,4 +1,4 @@
-/**	$MirOS$ */
+/**	$MirOS: src/sys/netinet/ip_carp.c,v 1.2 2005/03/06 21:28:18 tg Exp $ */
 /*	$OpenBSD: ip_carp.c,v 1.52 2004/05/16 02:06:10 mcbride Exp $	*/
 
 /*
@@ -473,25 +473,6 @@ carp_input_c(struct mbuf *m, struct carp_header *ch, sa_family_t af)
 	sc->sc_ac.ac_if.if_lastchange = time;
 	sc->sc_ac.ac_if.if_ipackets++;
 	sc->sc_ac.ac_if.if_ibytes += m->m_pkthdr.len;
-
-#if NBPFILTER > 0
-	if (sc->sc_ac.ac_if.if_bpf) {
-		/*
-		 * We need to prepend the address family as
-		 * a four byte field.  Cons up a dummy header
-		 * to pacify bpf.  This is safe because bpf
-		 * will only read from the mbuf (i.e., it won't
-		 * try to free it or keep a pointer to it).
-		 */
-		struct mbuf m0;
-		u_int32_t af = htonl(af);
-
-		m0.m_next = m;
-		m0.m_len = sizeof(af);
-		m0.m_data = (char *)&af;
-		bpf_mtap(sc->sc_ac.ac_if.if_bpf, &m0);
-	}
-#endif
 
 	/* verify the CARP version. */
 	if (ch->carp_version != CARP_VERSION) {

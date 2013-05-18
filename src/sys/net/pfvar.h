@@ -166,6 +166,10 @@ struct pf_addr_wrap {
 
 #ifdef _KERNEL
 
+/* XXX for now */
+#define time_second time.tv_sec
+#define csum_flags csum
+
 struct pfi_dynaddr {
 	TAILQ_ENTRY(pfi_dynaddr)	 entry;
 	struct pf_addr			 pfid_addr4;
