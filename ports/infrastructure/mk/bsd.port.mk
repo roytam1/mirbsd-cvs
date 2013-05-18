@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.177 2007/05/14 01:40:55 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.178 2007/05/26 02:38:11 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -1796,12 +1796,12 @@ checksum: fetch
 	done
 .    if ${PERMIT_DISTFILES_CDROM:L} == "yes"
 .      for _i in ${_CKSUMFILES}
-	@ln ${DISTDIR}/${_i} ${DISTDIR}/CDROM/${_i} || \
+	@ln ${DISTDIR}/${_i} ${DISTDIR}/CDROM/${_i} 2>&- || \
 	    ln -s ${DISTDIR}/${_i} ${DISTDIR}/CDROM/${_i}
 .      endfor
 .    endif
 .    for _i in ${_CKSUMFILES}
-	@ln ${DISTDIR}/${_i} ${DISTDIR}/FTP/${_i} || \
+	@ln ${DISTDIR}/${_i} ${DISTDIR}/FTP/${_i} 2>&- || \
 	    ln -s ${DISTDIR}/${_i} ${DISTDIR}/FTP/${_i}
 .    endfor
 .  endif
