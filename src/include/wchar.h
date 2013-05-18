@@ -1,4 +1,4 @@
-/* $MirOS: src/include/wchar.h,v 1.25 2008/11/22 08:48:58 tg Exp $ */
+/* $MirOS: src/include/wchar.h,v 1.26 2008/11/22 09:02:32 tg Exp $ */
 
 /*-
  * Copyright (c) 2007, 2008
@@ -44,17 +44,17 @@
 #endif /* !__IN_MKDEP */
 
 #if !defined(_GCC_WCHAR_T) && !defined(__cplusplus)
-#define _GCC_WCHAR_T
-typedef __WCHAR_TYPE__ wchar_t;
+#define	_GCC_WCHAR_T
+typedef	__WCHAR_TYPE__	wchar_t;
 #endif
 
 #if !defined(_GCC_WINT_T)
-#define _GCC_WINT_T
-typedef __WINT_TYPE__ wint_t;
+#define	_GCC_WINT_T
+typedef	__WINT_TYPE__	wint_t;
 #endif
 
 #if !defined(_GCC_MBSTATE_T)
-#define _GCC_MBSTATE_T
+#define	_GCC_MBSTATE_T
 typedef struct {
 	/*-
 	 * 0: initial state

@@ -1,4 +1,4 @@
-/* $MirOS: src/kern/include/libckern.h,v 1.13 2008/08/03 21:02:02 tg Exp $ */
+/* $MirOS: src/kern/include/libckern.h,v 1.14 2008/11/22 08:48:58 tg Exp $ */
 
 /*-
  * Copyright (c) 2008
@@ -46,17 +46,17 @@
 #endif /* !__IN_MKDEP */
 
 #if !defined(_GCC_WCHAR_T) && !defined(__cplusplus)
-#define _GCC_WCHAR_T
-typedef __WCHAR_TYPE__ wchar_t;
+#define	_GCC_WCHAR_T
+typedef	__WCHAR_TYPE__	wchar_t;
 #endif
 
 #if !defined(_GCC_WINT_T)
-#define _GCC_WINT_T
-typedef __WINT_TYPE__ wint_t;
+#define	_GCC_WINT_T
+typedef	__WINT_TYPE__	wint_t;
 #endif
 
 #if !defined(_GCC_MBSTATE_T)
-#define _GCC_MBSTATE_T
+#define	_GCC_MBSTATE_T
 typedef struct {
 	unsigned int count:2;
 	unsigned int value:12;
