@@ -1,4 +1,4 @@
-# $MirOS: CVSROOT/cvswrappers,v 1.8 2008/04/10 17:25:03 tg Exp $
+# $MirOS: CVSROOT/cvswrappers,v 1.9 2009/06/22 11:05:33 tg Exp $
 #-
 # This file affects handling of files based on their names.
 #
@@ -58,6 +58,8 @@
 *.fon -k 'b'
 *.GIF -k 'b'
 *.gif -k 'b'
+*.GPG -k 'b'
+*.gpg -k 'b'
 *.GZ -k 'b'
 *.gz -k 'b'
 *.ICO -k 'b'
@@ -96,6 +98,8 @@
 *.pfb -k 'b'
 *.PFM -k 'b'
 *.pfm -k 'b'
+*.PGP -k 'b'
+*.pgp -k 'b'
 *.PNG -k 'b'
 *.png -k 'b'
 *.PRT -k 'b'
