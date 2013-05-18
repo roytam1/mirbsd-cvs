@@ -1,4 +1,4 @@
-# $MirOS: ports/devel/autoconf/2.60/Makefile,v 1.6 2006/11/16 22:07:25 tg Exp $
+# $MirOS: ports/devel/autoconf/2.60/Makefile,v 1.7 2009/11/21 16:52:12 tg Exp $
 
 COMMENT=		automatically configure source code on many Un*x platforms
 SUFFIX=			-2.60
@@ -15,6 +15,7 @@ PERMIT_PACKAGE_CDROM=	Yes
 PERMIT_PACKAGE_FTP=	Yes
 
 BUILD_DEPENDS=		:help2man-*:devel/help2man
+USE_M4=			bsd
 MODULES+=		m4
 B_R_DEPENDS+=		${MODM4_DEPENDS}
 

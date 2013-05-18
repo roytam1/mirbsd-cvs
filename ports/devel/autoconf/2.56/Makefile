@@ -1,4 +1,4 @@
-# $MirOS: ports/devel/autoconf/2.56/Makefile,v 1.2 2006/09/14 00:08:03 tg Exp $
+# $MirOS: ports/devel/autoconf/2.56/Makefile,v 1.3 2009/11/21 16:52:10 tg Exp $
 # $OpenBSD: Makefile,v 1.1.1.1 2003/06/24 23:03:54 espie Exp $
 
 COMMENT=		automatically configure source code on many Un*x platforms
@@ -16,6 +16,7 @@ PERMIT_PACKAGE_FTP=	Yes
 BUILD_DEPENDS=		:help2man-*:devel/help2man
 
 SUFFIX=			-2.56
+USE_M4=			bsd
 MODULES+=		m4
 B_R_DEPENDS+=		${MODM4_DEPENDS}
 CONFIGURE_STYLE=	gnu

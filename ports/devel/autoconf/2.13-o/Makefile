@@ -1,4 +1,4 @@
-# $MirOS: ports/devel/autoconf/2.13-o/Makefile,v 1.4 2006/09/14 00:08:02 tg Exp $
+# $MirOS: ports/devel/autoconf/2.13-o/Makefile,v 1.5 2009/11/21 16:52:07 tg Exp $
 # $OpenBSD: Makefile,v 1.1.1.1 2003/02/15 14:02:54 espie Exp $
 
 COMMENT=		automatically configure source code on many Un*x platforms
@@ -17,6 +17,7 @@ PERMIT_PACKAGE_CDROM=	Yes
 PERMIT_PACKAGE_FTP=	Yes
 
 SUFFIX=			-${VERSION}-o
+USE_M4=			bsd
 MODULES+=		m4
 B_R_DEPENDS+=		${MODM4_DEPENDS}
 CONFIGURE_ARGS+=	--program-suffix=${SUFFIX}
