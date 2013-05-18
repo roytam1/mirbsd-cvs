@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/miniroot/dot.profile,v 1.6 2006/04/09 08:54:57 tg Exp $
+# $MirOS: src/distrib/miniroot/dot.profile,v 1.7 2006/04/10 12:22:19 tg Exp $
 # $OpenBSD: dot.profile,v 1.4 2002/09/13 21:38:47 deraadt Exp $
 # $NetBSD: dot.profile,v 1.1 1995/12/18 22:54:43 pk Exp $
 #
@@ -71,7 +71,6 @@ if [ ! -f /.profile.done ]; then
 	dd if=/dev/rwd0c count=126 >/dev/prandom 2>&1
 	dd if=/dev/rsd0c count=126 >/dev/prandom 2>&1
 	cat /var/db/host.random >/dev/arandom 2>&1
-	rm -f /var/db/host.random
 
 	# say hello and legalese
 	echo '
@@ -86,6 +85,7 @@ other terms used by MirOS or its contributed material.
 This work is provided "AS IS" and WITHOUT WARRANTY of any kind.\n'
 
 	mount -u $rootdisk / || mount -fuw /dev/rd0a /
+	rm -f /var/db/host.random
 
 	# set up some sane defaults
 	echo 'erase ^?, werase ^W, kill ^U, intr ^C, status ^T'
