@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/i386/trap.c,v 1.3 2005/05/05 23:11:27 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/i386/trap.c,v 1.4 2006/09/22 13:16:59 tg Exp $ */
 /*	$OpenBSD: trap.c,v 1.62 2004/04/15 00:22:42 tedu Exp $	*/
 /*	$NetBSD: trap.c,v 1.95 1996/05/05 06:50:02 mycroft Exp $	*/
 
@@ -285,6 +285,7 @@ trap(frame)
 		 * at this point is the same as on exit from a `slow'
 		 * interrupt.
 		 */
+		vframe = NULL;
 		switch (*(u_char *)frame.tf_eip) {
 		case 0xcf:	/* iret */
 			vframe = (void *)((int)&frame.tf_esp - 44);
@@ -301,7 +302,7 @@ trap(frame)
 		default:
 			goto we_re_toast;
 		}
-		if (KERNELMODE(vframe->tf_cs, vframe->tf_eflags))
+		if (!vframe || KERNELMODE(vframe->tf_cs, vframe->tf_eflags))
 			goto we_re_toast;
 
 		frame.tf_eip = resume;
