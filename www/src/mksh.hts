@@ -1,10 +1,10 @@
-# $MirOS: www/src/mksh.hts,v 1.17 2007/07/01 22:03:28 tg Exp $
+# $MirOS: www/src/mksh.hts,v 1.18 2007/07/04 21:01:04 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.17 2007/07/01 22:03:28 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.18 2007/07/04 21:01:04 tg Exp $'
 mws_content <<'EOF'
 <h1>mksh(1) R29</h1>
 <p>This is the website of the MirBSD™ Korn Shell, an actively developed free
@@ -761,7 +761,7 @@ LINK.EXE: Microsoft (R) Incremental Linker Version 7.00.9466
  <li>Don't try to execute ELF, a.out, COFF, gzip or MZ binaries</li>
  <li>Can be built on HP-UX (PA-RISC and IA64) with gcc or HP C/aC++</li>
  <li>Support <tt>x=(a b c)</tt> bash-like array initialisation</li>
- <li>Begin supporting <tt>${foo:2:3}</tt> bash-like substring expansion</li>
+ <li>Support <tt>${foo:2:3}</tt> bash-like substring expansion</li>
  <li>Many mirtoconf improvements, fixes; speed-up; better portability</li>
  <li>Enable compilation using Microsoft C/C++ Standard Compiler</li>
  <li>Add UWIN build target using various compilers with the cc wrapper</li>
@@ -772,6 +772,7 @@ LINK.EXE: Microsoft (R) Incremental Linker Version 7.00.9466
  <li>Fix large file support for OSes that require CPPFLAGS contains
   <tt>-D_FILE_OFFSET_BITS=64</tt> – it was detected but not actually
   used in the build; thanks to hondza for the problem report!</li>
+ <li>Give the lexer a bigger state stack if !MKSH_SMALL</li>
 </ul>
 <p>Please use mksh R29f because of below modifications:</p><ul>
  <li>Fix detection of function prototypes (data declaractions were ok)</li>
