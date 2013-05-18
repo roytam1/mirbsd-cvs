@@ -1,4 +1,4 @@
-# $MirOS: ports/x11/qt3/Makefile,v 1.12 2006/09/14 00:15:35 tg Exp $
+# $MirOS: ports/x11/qt3/Makefile,v 1.13 2008/03/09 17:23:44 tg Exp $
 # $OpenBSD: Makefile,v 1.58 2006/01/02 16:59:37 espie Exp $
 # $FreeBSD: Makefile,v 1.33 1999/02/27 03:09:57 andreas Exp $
 
@@ -21,7 +21,7 @@ LIBqui_VERSION=		1.0
 QT_PLUGINS=		plugins-${LIBqt-mt_VERSION:R}
 
 VERSION=		3.5
-PL=			0
+PL=			1
 DISTNAME=		qt-x11-free-3.${VERSION}
 CATEGORIES=		x11 kde
 MASTER_SITES=		ftp://ftp.troll.no/qt/source/
@@ -66,7 +66,7 @@ CONFIGURE_ARGS+=	-qt-gif -system-libmng -system-libpng \
 			-system-libjpeg -system-zlib \
 			-qt-imgfmt-mng -qt-imgfmt-png -qt-imgfmt-jpeg \
 			-sm -no-g++-exceptions \
-			-v -stl -xrender -xft -fast \
+			-v -stl -xrender -no-xft -fast \
 			-no-sql-odbc -no-sql-ibase -qt-sql-sqlite \
 			-tablet \
 			-xinerama \
@@ -79,6 +79,8 @@ CONFIGURE_ARGS+=	-qt-gif -system-libmng -system-libpng \
 			-L${LOCALBASE}/lib
 
 MULTI_PACKAGES+=	-html
+
+
 
 .if ${FLAVOUR:L:Mdebug}
 CONFIGURE_ARGS+=	-debug
