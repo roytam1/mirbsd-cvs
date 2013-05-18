@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.317 2011/01/01 02:38:13 bsiegert Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.318 2011/01/02 16:40:21 bsiegert Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -7287,4 +7287,33 @@ Date: 31.12.2010 12:50
 
 <p>You can now use pkgsrc to build whatever you like. Please test this
  procedure and report whether it works for you.</p>
+----
+Date: 15.01.2011 22:07
+Author: tg@
+Title: FOSDEM 2011 – Let the beards grow!
+Tag: debian event mksh rant
+
+<p><a href="http://www.fosdem.org/"><img
+ alt="FOSDEM, the Free and Open Source Software Developers' European Meeting"
+ src="http://www.fosdem.org/promo/fosdem/static" /></a></p>
+<p style="font-size:big;">❧ Who’s not? ☺ Same procedure as every year.</p>
+<p style="font-size:small;">(okay, lolando prefers skiïng but…)</p>
+<p>Anyway. A cow‐orker told me that Belgium again/still has no gouvernment,
+ and they have been asked to grow out their beards until they do. I found
+ “evidence” on the ’net but won’t link it here, also it’s on German… anyway.
+ Let’s all join in. (Besides, I now have an excuse to not shave, maybe even
+ my grandmother will accept this one…)</p>
+<p>RT said on IRC that <a href="@@RELPATH@@mksh.htm">mksh</a> will probably
+ work on <a href="http://oldwiki.mingw.org/index.php/MsysShell">MSYS</a>.</p>
+<p>My Debian/m68k stuff is coming around nicely, but I <em>still</em> haven’t
+ gotten around to do everything planned, plus I need to grow a new kernel and
+ eglibc, after the latest uploads, and the 2.6.37 based one panics. Also I’ve
+ got to take care to not overwork myself. (And make a MirBSD ISO for FOSDEM.)
+ But hey, it’s been not working for some time and better now. And slow anyway
+ ☺ yet we’re progressing. Does anyone know how to debug that a C programme
+ only calling res_init(3) segfaults?</p>
+<p>Benny is apparently not just working on making NetBSD® pkgsrc® available
+ on MirOS BSD (picking up my work from 4+ years ago) but also replacing
+ The MirPorts Framework with it. Sad, as I got a request for a gajim MirPort
+ over a cocktail just this evening…</p>
 ----
