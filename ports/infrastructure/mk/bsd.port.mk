@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.245 2008/12/07 18:17:18 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.246 2008/12/07 20:32:24 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -2371,6 +2371,11 @@ ${_FAKE_COOKIE}: ${_BUILD_COOKIE} ${WRKPKG}/mtree.spec
 	    ${MAKE_PROGRAM} ${FAKE_FLAGS} -f ${MAKE_FILE} ${FAKE_TARGET}
 # End of FAKE.
 .  endif
+.  for _m in ${MODULES}
+.    if defined(MOD${_m:U}_post-fake)
+	@${MOD${_m:U}_post-fake}
+.    endif
+.  endfor
 .  if target(post-install)
 	@cd ${.CURDIR} && exec ${SUDO} ${_SYSTRACE_CMD} \
 	    ${MAKE} post-install ${_FAKE_SETUP}

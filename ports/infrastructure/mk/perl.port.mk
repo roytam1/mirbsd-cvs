@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/perl.port.mk,v 1.10 2008/03/15 23:16:54 tg Exp $
+# $MirOS: ports/infrastructure/mk/perl.port.mk,v 1.11 2008/10/04 18:37:32 tg Exp $
 # $OpenBSD: perl.port.mk,v 1.9 2004/06/08 20:28:19 sturm Exp $
 # Based on bsd.port.mk, originally by Jordan K. Hubbard.
 
@@ -46,9 +46,13 @@ MODPERL_configure= cd ${MODPERL_SRC}; ${_SYSTRACE_CMD} ${SETENV} ${CONFIGURE_ENV
 REGRESS_TARGET?=test
 .endif
 
-MODPERL_pre_fake= \
+MODPERL_pre-fake= \
 	${SUDO} mkdir -p ${WRKINST}$$(/usr/bin/perl -e \
 	    'use Config; print $$Config{installarchlib}, "\n";')
+
+MODPERL_post-fake= \
+	${SUDO} find ${DESTDIR}${PREFIX}/${P5ARCH} -name .packlist -exec rm \{\} \; ; \
+	${SUDO} find -d ${DESTDIR}${PREFIX}/${P5ARCH} -type d -exec rmdir \{\} \; 2>&1
 
 .if ${CONFIGURE_STYLE:L:Mmodbuild}
 .  if !target(do-build)
