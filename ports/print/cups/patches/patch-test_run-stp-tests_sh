@@ -1,7 +1,7 @@
-$MirOS$
---- test/run-stp-tests.sh.orig	2004-06-29 01:31:12.000000000 +0200
-+++ test/run-stp-tests.sh	2004-10-31 19:20:44.000000000 +0100
-@@ -28,7 +28,7 @@
+$MirOS: ports/print/cups/patches/patch-test_run-stp-tests_sh,v 1.1.7.1 2005/03/18 15:51:00 tg Exp $
+--- test/run-stp-tests.sh.orig	Fri May  5 16:33:34 2006
++++ test/run-stp-tests.sh	Tue May  9 17:39:40 2006
+@@ -30,7 +30,7 @@ argcount=$#
  # Make the IPP test program...
  #
  
@@ -9,16 +9,4 @@ $MirOS$
 +${MAKE_PROGRAM}
  
  #
- # Greet the tester...
-@@ -442,9 +442,9 @@ cat str-trailer.html >>$strfile
- htmlfile=`basename $strfile .shtml`.html
- pdffile=`basename $strfile .shtml`.pdf
- 
--htmldoc --numbered --verbose --titleimage ../doc/images/cups-large.gif \
-+htmldoc --datadir ${LOCALBASE}/share/htmldoc --numbered --verbose --titleimage ../doc/images/cups-large.gif \
- 	-f $htmlfile $strfile
--htmldoc --numbered --verbose --titleimage ../doc/images/cups-large.gif \
-+htmldoc --datadir ${LOCALBASE}/share/htmldoc --numbered --verbose --titleimage ../doc/images/cups-large.gif \
- 	-f $pdffile $strfile
- 
- echo ""
+ # Figure out the proper echo options...

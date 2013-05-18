@@ -1,7 +1,7 @@
-$MirOS$
---- systemv/lp.c.orig	2004-02-07 14:33:29.000000000 -0800
-+++ systemv/lp.c	2004-02-07 14:34:04.000000000 -0800
-@@ -260,7 +260,7 @@ main(int  argc,		/* I - Number of comman
+$MirOS: ports/print/cups/patches/patch-systemv_lp_c,v 1.1.7.1 2005/03/18 15:51:00 tg Exp $
+--- systemv/lp.c.orig	Mon Mar  6 13:02:00 2006
++++ systemv/lp.c	Tue May  9 17:39:40 2006
+@@ -314,7 +314,7 @@ main(int  argc,				/* I - Number of comm
  	      num_copies = atoi(argv[i]);
  	    }
  

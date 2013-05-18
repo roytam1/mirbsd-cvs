@@ -1,6 +1,6 @@
-$MirOS$
---- config-scripts/cups-libtool.m4.orig	Mon Jan  3 20:29:23 2005
-+++ config-scripts/cups-libtool.m4	Tue Dec 13 16:53:32 2005
+$MirOS: ports/print/cups/patches/patch-config-scripts_cups-libtool_m4,v 1.1 2005/12/16 01:08:10 bsiegert Exp $
+--- config-scripts/cups-libtool.m4.orig	Wed Apr 26 19:52:04 2006
++++ config-scripts/cups-libtool.m4	Mon Jun 19 19:41:10 2006
 @@ -22,27 +22,14 @@ dnl       EMail: cups-info@cups.org
  dnl         WWW: http://www.cups.org
  dnl
@@ -25,8 +25,9 @@ $MirOS$
  	LIBCUPSIMAGE="libcupsimage.la"
  	LINKCUPS="../cups/\$(LIBCUPS)"
  	LINKCUPSIMAGE="../filter/\$(LIBCUPSIMAGE)"
- 	DSO="\$(CC)"
+-	DSO="\$(CC)"
 -fi
++	DSO="\$(LIBTOOL) --mode=link \$(CC)"
 +	DSOFLAGS="$DSOFLAGS -rpath \$(libdir) \$(OPTIM)"
  
  dnl

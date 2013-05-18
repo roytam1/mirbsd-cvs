@@ -1,9 +1,9 @@
-# $MirOS: ports/print/cups/Makefile,v 1.3 2005/12/16 01:07:12 bsiegert Exp $
+# $MirOS: ports/print/cups/Makefile,v 1.4 2006/02/09 11:15:12 tg Exp $
 
 COMMENT=		"Common Unix Printing System"
 
-VERSION=		1.1.23
-DASH_VER=		-1
+VERSION=		1.2.0
+DASH_VER=		-0
 DISTNAME=		cups-${VERSION}-source
 PKGNAME=		${DISTNAME:S/-source//}${DASH_VER}
 CATEGORIES=		print sysutils
@@ -27,10 +27,9 @@ LIB_DEPENDS=		jpeg.62::graphics/jpeg \
 			tiff.35::graphics/tiff
 MODULES+=		graphics/png
 
-FAKE_FLAGS+=		BINMODE=${BINMODE} \
+EXTRA_XAKE_FLAGS+=	BINMODE=${BINMODE} \
 			SHAREMODE=${SHAREMODE} \
 			top_builddir=${WRKBUILD}
-MAKE_FLAGS+=		top_builddir=${WRKBUILD}
 
 CONFIGURE_STYLE=	autoconf no-autoheader dest
 AUTOCONF_NEW=		Yes
@@ -44,6 +43,7 @@ CONFIGURE_ENV=		DSOFLAGS="-L${LOCALBASE}/lib"
 
 WRKDIST=		${WRKDIR}/${DISTNAME:S/-source//}
 
+LDFLAGS+=		-pthread
 REGRESS_FLAGS=		LOCALBASE=${LOCALBASE}
 
 REGRESS_DEPENDS=	::print/htmldoc
@@ -52,7 +52,7 @@ REGRESS_IS_INTERACTIVE=	Yes
 USE_CXX=		yes
 
 post-configure:
-.for i in cups.sh config.h cups-config conf/cupsd.conf
+.for i in config.h cups-config conf/cupsd.conf
 	@mv ${WRKBUILD}/${i} ${WRKBUILD}/${i}.bak
 	@sed -e s#\$${DESTDIR}##g ${WRKBUILD}/${i}.bak > ${WRKBUILD}/${i}
 .endfor
@@ -60,7 +60,7 @@ post-configure:
 post-install:
 	@${INSTALL_DATA_DIR} ${PREFIX}/share/examples/cups
 	@cd ${WRKINST}/etc/cups && cp -Rp * ${PREFIX}/share/examples/cups
-	@${INSTALL_DATA} ${WRKBUILD}/cups.sh ${PREFIX}/share/cups
+	@${INSTALL_DATA} ${WRKBUILD}/init/cups.sh ${PREFIX}/share/cups
 	@${INSTALL_DATA} ${FILESDIR}/README.MirBSD ${PREFIX}/share/doc/cups
 .for file in cups-enable cups-disable
 	@sed s,y0y0y0,${TRUEPREFIX}, < ${FILESDIR}/${file} > \

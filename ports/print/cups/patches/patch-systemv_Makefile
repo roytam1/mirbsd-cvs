@@ -1,0 +1,111 @@
+$MirOS$
+--- systemv/Makefile.orig	Mon Jun 19 20:31:43 2006
++++ systemv/Makefile	Mon Jun 19 20:31:54 2006
+@@ -111,7 +111,7 @@ uninstall:
+ 
+ accept:	accept.o ../cups/$(LIBCUPS)
+ 	echo Linking $@...
+-	$(CC) $(LDFLAGS) -o accept accept.o $(LIBS)
++	$(LIBTOOL) --mode=link $(CC) $(LDFLAGS) -o accept accept.o $(LIBS)
+ 	$(RM) reject cupsenable cupsdisable
+ 	$(LN) accept reject
+ 	$(LN) accept cupsenable
+@@ -124,7 +124,7 @@ accept:	accept.o ../cups/$(LIBCUPS)
+ 
+ cancel:	cancel.o ../cups/$(LIBCUPS)
+ 	echo Linking $@...
+-	$(CC) $(LDFLAGS) -o cancel cancel.o $(LIBS)
++	$(LIBTOOL) --mode=link $(CC) $(LDFLAGS) -o cancel cancel.o $(LIBS)
+ 
+ 
+ #
+@@ -133,7 +133,7 @@ cancel:	cancel.o ../cups/$(LIBCUPS)
+ 
+ cupsaddsmb:	cupsaddsmb.o ../cups/$(LIBCUPS)
+ 	echo Linking $@...
+-	$(CC) $(LDFLAGS) -o cupsaddsmb cupsaddsmb.o $(LIBS)
++	$(LIBTOOL) --mode=link $(CC) $(LDFLAGS) -o cupsaddsmb cupsaddsmb.o $(LIBS)
+ 
+ 
+ #
+@@ -142,7 +142,7 @@ cupsaddsmb:	cupsaddsmb.o ../cups/$(LIBCU
+ 
+ cupstestdsc:	cupstestdsc.o ../cups/$(LIBCUPS)
+ 	echo Linking $@...
+-	$(CC) $(LDFLAGS) -o $@ cupstestdsc.o $(LIBS)
++	$(LIBTOOL) --mode=link $(CC) $(LDFLAGS) -o $@ cupstestdsc.o $(LIBS)
+ 
+ 
+ #
+@@ -151,7 +151,7 @@ cupstestdsc:	cupstestdsc.o ../cups/$(LIB
+ 
+ cupstestppd:	cupstestppd.o ../cups/$(LIBCUPS)
+ 	echo Linking $@...
+-	$(CC) $(LDFLAGS) -o $@ cupstestppd.o $(LIBS)
++	$(LIBTOOL) --mode=link $(CC) $(LDFLAGS) -o $@ cupstestppd.o $(LIBS)
+ 
+ 
+ #
+@@ -160,7 +160,7 @@ cupstestppd:	cupstestppd.o ../cups/$(LIB
+ 
+ lp:	lp.o ../cups/$(LIBCUPS)
+ 	echo Linking $@...
+-	$(CC) $(LDFLAGS) -o lp lp.o $(LIBS)
++	$(LIBTOOL) --mode=link $(CC) $(LDFLAGS) -o lp lp.o $(LIBS)
+ 
+ 
+ #
+@@ -169,7 +169,7 @@ lp:	lp.o ../cups/$(LIBCUPS)
+ 
+ lpadmin:	lpadmin.o ../cups/$(LIBCUPS)
+ 	echo Linking $@...
+-	$(CC) $(LDFLAGS) -o lpadmin lpadmin.o $(LIBZ) $(LIBS)
++	$(LIBTOOL) --mode=link $(CC) $(LDFLAGS) -o lpadmin lpadmin.o $(LIBZ) $(LIBS)
+ 
+ 
+ #
+@@ -178,7 +178,7 @@ lpadmin:	lpadmin.o ../cups/$(LIBCUPS)
+ 
+ lpinfo:	lpinfo.o ../cups/$(LIBCUPS)
+ 	echo Linking $@...
+-	$(CC) $(LDFLAGS) -o lpinfo lpinfo.o $(LIBS)
++	$(LIBTOOL) --mode=link $(CC) $(LDFLAGS) -o lpinfo lpinfo.o $(LIBS)
+ 
+ 
+ #
+@@ -187,7 +187,7 @@ lpinfo:	lpinfo.o ../cups/$(LIBCUPS)
+ 
+ lpmove:	lpmove.o ../cups/$(LIBCUPS)
+ 	echo Linking $@...
+-	$(CC) $(LDFLAGS) -o lpmove lpmove.o $(LIBS)
++	$(LIBTOOL) --mode=link $(CC) $(LDFLAGS) -o lpmove lpmove.o $(LIBS)
+ 
+ 
+ #
+@@ -196,7 +196,7 @@ lpmove:	lpmove.o ../cups/$(LIBCUPS)
+ 
+ lpoptions:	lpoptions.o ../cups/$(LIBCUPS)
+ 	echo Linking $@...
+-	$(CC) $(LDFLAGS) -o lpoptions lpoptions.o $(LIBZ) $(LIBS)
++	$(LIBTOOL) --mode=link $(CC) $(LDFLAGS) -o lpoptions lpoptions.o $(LIBZ) $(LIBS)
+ 
+ 
+ #
+@@ -205,7 +205,7 @@ lpoptions:	lpoptions.o ../cups/$(LIBCUPS
+ 
+ lppasswd:	lppasswd.o ../cups/$(LIBCUPS)
+ 	echo Linking $@...
+-	$(CC) $(LDFLAGS) -o lppasswd lppasswd.o $(LIBZ) $(LIBS)
++	$(LIBTOOL) --mode=link $(CC) $(LDFLAGS) -o lppasswd lppasswd.o $(LIBZ) $(LIBS)
+ 
+ 
+ #
+@@ -214,7 +214,7 @@ lppasswd:	lppasswd.o ../cups/$(LIBCUPS)
+ 
+ lpstat:	lpstat.o ../cups/$(LIBCUPS)
+ 	echo Linking $@...
+-	$(CC) $(LDFLAGS) -o lpstat lpstat.o $(LIBS)
++	$(LIBTOOL) --mode=link $(CC) $(LDFLAGS) -o lpstat lpstat.o $(LIBS)
+ 
+ 
+ #

@@ -1,7 +1,7 @@
-$MirOS$
---- berkeley/lpr.c.orig	2004-09-09 17:09:56.000000000 +0200
-+++ berkeley/lpr.c	2004-10-31 19:20:44.000000000 +0100
-@@ -231,7 +231,7 @@ main(int  argc,		/* I - Number of comman
+$MirOS: ports/print/cups/patches/patch-berkeley_lpr_c,v 1.1.7.1 2005/03/18 15:51:00 tg Exp $
+--- berkeley/lpr.c.orig	Mon Mar  6 13:02:00 2006
++++ berkeley/lpr.c	Tue May  9 17:39:25 2006
+@@ -299,7 +299,7 @@ main(int  argc,				/* I - Number of comm
  	      num_copies = atoi(argv[i]);
  	    }
  

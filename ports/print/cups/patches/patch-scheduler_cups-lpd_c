@@ -1,9 +1,9 @@
-$MirOS$
---- scheduler/cups-lpd.c.orig	2004-10-04 21:40:13.000000000 +0200
-+++ scheduler/cups-lpd.c	2004-10-31 19:20:44.000000000 +0100
-@@ -985,7 +985,7 @@ remove_jobs(const char *dest,		/* I - De
-     ippAddString(request, IPP_TAG_OPERATION, IPP_TAG_LANGUAGE,
-         	 "attributes-natural-language", NULL, language->language);
+$MirOS: ports/print/cups/patches/patch-scheduler_cups-lpd_c,v 1.1.7.1 2005/03/18 15:51:00 tg Exp $
+--- scheduler/cups-lpd.c.orig	Mon Apr 24 13:49:36 2006
++++ scheduler/cups-lpd.c	Tue May  9 17:39:40 2006
+@@ -1367,7 +1367,7 @@ remove_jobs(const char *dest,		/* I - De
+ 
+     request = ippNewRequest(IPP_CANCEL_JOB);
  
 -    sprintf(uri, "ipp://localhost/jobs/%d", id);
 +    snprintf(uri, sizeof(uri), "ipp://localhost/jobs/%d", id);

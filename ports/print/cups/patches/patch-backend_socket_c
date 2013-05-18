@@ -1,7 +1,7 @@
-$MirOS$
---- backend/socket.c.orig	2004-05-13 17:13:20.000000000 +0200
-+++ backend/socket.c	2004-10-31 19:20:44.000000000 +0100
-@@ -270,6 +270,7 @@ main(int  argc,			/* I - Number of comma
+$MirOS: ports/print/cups/patches/patch-backend_socket_c,v 1.1.7.1 2005/03/18 15:51:00 tg Exp $
+--- backend/socket.c.orig	Tue Mar  7 22:07:21 2006
++++ backend/socket.c	Tue May  9 17:39:25 2006
+@@ -353,6 +353,7 @@ main(int  argc,				/* I - Number of comm
  
        tbytes += nbytes;
        bufptr = buffer;

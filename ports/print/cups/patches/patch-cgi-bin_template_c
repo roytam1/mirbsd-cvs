@@ -1,7 +1,7 @@
-$MirOS$
---- cgi-bin/template.c.orig	2003-07-20 08:14:45.000000000 -0700
-+++ cgi-bin/template.c	2004-02-07 14:15:19.000000000 -0800
-@@ -237,9 +237,9 @@ cgi_copy(FILE *out,		/* I - Output file 
+$MirOS: ports/print/cups/patches/patch-cgi-bin_template_c,v 1.1.7.1 2005/03/18 15:51:00 tg Exp $
+--- cgi-bin/template.c.orig	Tue Apr 25 17:15:22 2006
++++ cgi-bin/template.c	Tue May  9 17:39:25 2006
+@@ -323,9 +323,9 @@ cgi_copy(FILE *out,			/* I - Output file
  	*/
  
          if (name[1])

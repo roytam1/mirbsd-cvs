@@ -1,0 +1,14 @@
+$MirOS$
+--- locale/Makefile.orig	Mon Jun 19 20:04:23 2006
++++ locale/Makefile	Mon Jun 19 20:04:00 2006
+@@ -103,8 +103,8 @@ pot:
+ #
+ 
+ translate:	translate.o ../cups/$(LIBCUPS)
+-	echo Linking $<...
+-	$(CC) $(LDFLAGS) -o translate translate.o $(LIBS)
++	echo Linking $@...
++	$(LIBTOOL) --mode=link $(CC) $(LDFLAGS) -o translate translate.o $(LIBS)
+ 
+ translate.o:	../cups/http.h ../cups/i18n.h ../cups/language.h ../cups/string.h
+ 
