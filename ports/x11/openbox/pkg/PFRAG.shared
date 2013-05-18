@@ -1,4 +1,0 @@
-@comment $MirOS$
-@comment $OpenBSD: PFRAG.shared,v 1.1 2003/11/12 03:45:05 brad Exp $
-@lib lib/libobparser.so.2.0
-@lib lib/libobrender.so.2.0

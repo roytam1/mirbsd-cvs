@@ -1,4 +1,0 @@
-This class implements a regex-based RFC 2822 parser that locates email
-addresses in strings and returns a list of "Email::Address" objects
-found. Alternately you may construct objects manually. The goal of this
-software is to be correct, and very very fast.

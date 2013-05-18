@@ -1,6 +1,0 @@
-@comment $OpenBSD: PLIST,v 1.5 2004/02/05 23:29:35 xsa Exp $
-bin/flawfinder
-man/man1/flawfinder.1
-share/doc/flawfinder/flawfinder.pdf
-share/doc/flawfinder/flawfinder.ps
-@dirrm share/doc/flawfinder

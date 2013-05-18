@@ -1,6 +1,0 @@
-@comment $MirOS$
-@unexec install-info --delete --info-dir=%D/info %D/info/sed.info
-bin/gsed
-info/sed.info
-man/man1/gsed.1
-@exec install-info --info-dir=%D/info %D/info/sed.info
