@@ -1,8 +1,8 @@
 #!/bin/mksh
-# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.94 2007/10/25 16:01:21 tg Exp $
+# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.98 2008/03/09 13:42:52 tg Exp $
 #-
-# Copyright (c) 2006
-#	Thorsten Glaser <tg@mirbsd.de>
+# Copyright (c) 2006, 2008
+#	Thorsten “mirabilos” Glaser <tg@mirbsd.de>
 #
 # Licensee is hereby permitted to deal in this work without restric-
 # tion, including unlimited rights to use, publicly perform, modify,
@@ -224,6 +224,24 @@ for ps in make.1 mk/{bsd.own.mk,bsd.prog.mk,bsd.sys.mk,sys.mk} mkdep.sh; do
 		exit 1
 	fi
 done
+cd $d_build
+rm -f _t.*
+cat >_t.c <<-'EOF'
+	#include <string.h>
+	#undef __attribute__
+	int xcopy(const void *, void *, size_t)
+	    __attribute__((bounded (buffer, 1, 3)))
+	    __attribute__((bounded (buffer, 2, 3)));
+	int main(int ac, char *av[]) { return (xcopy(av[0], av[--ac], 1)); }
+	int xcopy(const void *s, void *d, size_t n) {
+		memmove(d, s, n); return (n);
+	}
+EOF
+$CC -o _t.exe _t.c -Werror || rm -f _t.exe
+[[ -x _t.exe ]] || perl -pi -e \
+    's/__attribute__\s*\(\(\s*_*bounded_*\s*\([^)]*\)\s*\)\)//' \
+    $(find . -name \*.[ch])
+rm -f _t.*
 
 if [[ $binown = - ]]; then
 	binown=$(id -un)
