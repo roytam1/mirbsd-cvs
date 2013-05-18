@@ -1,5 +1,5 @@
 #!/bin/sh
-# $MirOS: src/bin/mksh/Build.sh,v 1.194 2007/06/04 21:15:27 tg Exp $
+# $MirOS: src/bin/mksh/Build.sh,v 1.195 2007/06/04 21:27:53 tg Exp $
 #-
 # Environment used: CC CFLAGS CPP CPPFLAGS LDFLAGS LIBS NOWARN NROFF TARGET_OS
 # CPPFLAGS recognised: MKSH_SMALL MKSH_ASSUME_UTF8 MKSH_NEED_MKNOD MKSH_NOPWNAM
@@ -755,7 +755,7 @@ test 1 = $NEED_MKSH_SIGNAME && if test $HAVE_CPP_DD = yes; then
 	$e done.
 else
 	$e No list of signal names available via cpp.
-	echo -n >signames.inc
+	printf >signames.inc
 fi
 
 addsrcs HAVE_SETMODE setmode.c
