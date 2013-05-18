@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/news.inc,v 1.118 2009/06/19 18:46:12 tg Exp $
+RCSID: $MirOS: www/data/news.inc,v 1.119 2009/08/09 14:21:30 tg Exp $
 Title: Older news from the MirOS Project
 Date: 01.03.2006
 
@@ -1652,4 +1652,42 @@ Tag: bug
  may or may not work; support is only barely tested).</p>
 <p>We now also have a wake(8) utility courtesy of Marc Balmer from
  OpenBSD, no ÆrieBSD, no NetBSD® to Wake-on-LAN other computers.</p>
+----
+Title: /dev/arandom passes ports/math/ent and dieharder_2.28.1-3_i386.deb
+Date: 20.08.2009 15:32
+Author: tg@
+
+<p>arandom(4) is a high quality SRNG (stretched RNG). It passes these
+ test suites quite well on bleu (IBM X40, without TPM support). I also
+ took 128 MiB samples from the same <tt>/dev/arandom</tt>, as well as
+ from tear (Via C7), herc (P-233MMX), ss5, eurynome. The results are
+ similar to each other (some of the tests rewind the input file a lot
+ of times, so there are of course differences to the test using the
+ arandom(4) stream directly – but the results are as good as can be
+ expected, and tests that happen to fail (which is expected too, as
+ it’s random after all) pass quite well with other runs). Another 128
+ MiB snippet of the TPM output looks to be as good as the arandom one,
+ which doesn’t infer that it’s a TRNG, but it’ll at least help; the
+ C7 xstore-rng output however looks rather bad in some tests (such as
+ the Chi square test); apparently, the kernel initialises it with not
+ optimum values (which <em>may</em> even be correct, as we use the RNG
+ from kernel space, so a bias doesn’t matter, whereas Von Neumann bias
+ correction would eat up very many bits; additionally, it’s designed
+ to work from VIA C3 onwards).</p>
+<p>I think <a href="http://marc.info/?m=125058382706316">the Entropy
+ Key</a> will have even better results. It’s still a thermal noise
+ (or Johnson noise?) type, not a “real” QRNG (using photons and a
+ mirror, or radioactive material and a Geiger counter), unless the
+ one from fourmilab.ch (I’d insert a link here, but John Walker’s
+ site appears to be down). Personally, I use the use-many-sources
+ and mix approach, getting “best” entropy from external sources,
+ including fourmilab’s (via https), “good” from myself (VIA C7,
+ IBM TPM, soon eKey); “medium”, “regular” and “bad” from myself,
+ where most of these are non-interceptible – the RANDOM.SYS for DOS
+ author says every bit counts, and I think so too. cprng(8) is an
+ example of “medium” (or “bad” if you lack the appropriate hardware)
+ source; keyboard/mouse are “regular”, disc/net I/O are “bad” but
+ available. The four-pool mixing helps, and the results show. Hell,
+ even <tt>nwt</tt> has good entropy. And the RANDEX protocol helps
+ some, too. Untrusted, but potentially good bits; wrandom(4) pool.</p>
 ----
