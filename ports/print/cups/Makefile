@@ -1,4 +1,4 @@
-# $MirOS: ports/print/cups/Makefile,v 1.5 2006/06/21 19:25:32 bsiegert Exp $
+# $MirOS: ports/print/cups/Makefile,v 1.6 2006/07/07 16:31:02 bsiegert Exp $
 
 COMMENT=		"Common Unix Printing System"
 
@@ -37,6 +37,7 @@ CONFIGURE_ARGS+=	--with-cups-user=_cups \
 			--with-cups-group=_cups \
 			${CONFIGURE_SHARED} \
 			--localstatedir=/var \
+			--without-php \
 			--enable-ssl
 
 CONFIGURE_ENV=		DSOFLAGS="-L${LOCALBASE}/lib"
