@@ -2724,3 +2724,23 @@ Author: tg@
  now… we need actual user feedback for this, I think.</p>
 <p>I wish OpenBSD’d update their sendmail(8), so we can do that too ☻</p>
 ----
+Date: 28.02.2008
+Author: tg@
+
+<p>OpenBSD <em>is</em> weird. They did, in 4.3-beta locked-tree state, link
+ OpenCVS to the build, but no fixes for the necessary sendmail upgrade or <a
+ href="http://www.securityfocus.com/bid/27647/info">IP ID vulnerability</a>
+ yet (or even planned).</p>
+<p lang="de">Schon mal geröstete und schokierte SOJABOHNEN gesehen? Hmm… die
+ schmecken ja sogar. Ziemlich herzhaft.</p>
+<p>Now I’m fixing Debian fixes to upstream software. Funny. But people who
+ re-invent strdup(3) do belong shot, even if their crapware is public domain.
+ Luckily, mgcc(1) catches <tt>sizeof (char *)</tt>.</p>
+<p>I’m done with ${foo/bar/baz} support in mksh(1); the mcabber port can now
+ do umlauts (stupid implementation, they should use more native functions,
+ especially since they do link against libncursesw).</p>
+<p>The MirPorts main page is now connected again. Rob “rjek” Kendrick is
+ currently porting his small, fast, CSS capable, JS planned, NetSurf browser
+ to MirOS (many thanks here!).</p>
+<p>Benny is doing good progress on the XFree86® security fixes.</p>
+----

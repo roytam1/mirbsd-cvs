@@ -8,7 +8,7 @@
  <meta name="copyright" content="All rights reserved. Redistribution except for scientific and educational uses strictly prohibited." />
  <meta name="owner" content="The MirOS Project and The MirPorts Framework" />
  <meta name="licence" content="see the source files in CVSWEB for details" />
- <!-- $MirOS: www/mk/tmpl.pre,v 1.10 2008/02/07 19:59:28 bsiegert Exp $ -->
+ <!-- $MirOS: www/mk/tmpl.pre,v 1.11 2008/02/22 22:09:13 tg Exp $ -->
  <title>MirOS/MirPorts: a wonderful operating system for a world of peace</title>
  <meta name="robots" content="index, follow" />@@RSS@@
  <!--
@@ -26,7 +26,6 @@
 </ul></li>
 <li><a href="/?about">About</a></li>
 <!-- these are not in a usable state
-<li><a href="/?ports">MirPorts</a></li>
 <li><a href="/?docs">Documentation</a></li>
 <li><a href="/?faq">FAQ</a></li>
 -->
@@ -40,6 +39,7 @@
 <li><a href="@@RELPATH@@htman/i386/">i386</a></li>
 <li><a href="@@RELPATH@@htman/sparc/">sparc</a></li>
 </ul></li>
+<li><a href="@@RELPATH@@ports.htm">MirPorts</a> Framework</li>
 <li>Subprojects<ul class="lv2">
 <li><a href="@@RELPATH@@jupp.htm">jupp</a> Editor</li>
 <li><a href="@@RELPATH@@mksh.htm">mksh</a> Shell</li>

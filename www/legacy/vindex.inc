@@ -4,7 +4,6 @@
   </ul></li>
   <li><a href="/?about">About</a></li>
 <!-- these are not in a usable state
-  <li><a href="/?ports">MirPorts</a></li>
   <li><a href="/?docs">Documentation</a></li>
   <li><a href="/?faq">FAQ</a></li>
 -->
@@ -18,6 +17,7 @@
     <li><a href="/htman/i386/">i386</a></li>
     <li><a href="/htman/sparc/">sparc</a></li>
   </ul></li>
+  <li><a href="/ports.htm">MirPorts</a> Framework</li>
   <li>Subprojects<ul class="lv2">
 	<li><a href="/jupp.htm">jupp</a> Editor</li>
 	<li><a href="/mksh.htm">mksh</a> Shell</li>
