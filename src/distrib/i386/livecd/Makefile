@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/i386/livecd/Makefile,v 1.18 2006/04/07 12:37:02 tg Exp $
+# $MirOS: src/distrib/i386/livecd/Makefile,v 1.19 2006/04/07 12:38:54 tg Exp $
 
 .include <bsd.own.mk>
 
@@ -78,7 +78,7 @@ makeimg: bsd.gz
 	    -V "MirOS #${OSrev} BSD/${MACHINE} Live CD" \
 	    -volset "$$(uname -slm) Live" -sysid "MirOSBSD" \
 	    -no-emul-boot -boot-load-size 4 -boot-info-table \
-	    -pad -o ${CDROM} workdir | tee makeimg.log
+	    -pad -o ${CDROM} workdir 2>&1 | tee makeimg.log
 
 rdsetroot:	${.CURDIR}/../../common/elfrdsetroot.c
 	${HOSTCC} ${HOSTCFLAGS} -DDEBUG -o $@ ${.ALLSRC}
