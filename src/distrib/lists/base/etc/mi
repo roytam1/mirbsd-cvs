@@ -225,7 +225,6 @@
 ./root/.profile
 ./var/anoncvs/anoncvs/.hushlogin
 ./var/anoncvs/anoncvs/.plan
-./var/anoncvs/anoncvs/.profile
 ./var/anoncvs/anoncvs/cvs
 ./var/anoncvs/anoncvs/etc/group
 ./var/anoncvs/anoncvs/etc/hosts

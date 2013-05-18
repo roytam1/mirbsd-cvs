@@ -1948,8 +1948,4 @@
 ./usr/share/sendmail/siteconfig/uucp.old.arpa.m4
 ./usr/share/sendmail/siteconfig/uucp.ucbarpa.m4
 ./usr/share/sendmail/siteconfig/uucp.ucbvax.m4
-./var/anoncvs/anoncvs/bin/cat
 ./var/anoncvs/anoncvs/bin/cvs
-./var/anoncvs/anoncvs/bin/pwd
-./var/anoncvs/anoncvs/bin/rm
-./var/anoncvs/anoncvs/bin/sh
