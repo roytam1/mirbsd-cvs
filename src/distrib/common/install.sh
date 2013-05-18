@@ -476,16 +476,18 @@ cp -r /mnt/etc/skel /mnt/home/$_rootuser
 chmod 711 /mnt/home/$_rootuser
 chown -R $_rootuid:$_rootuid /mnt/home/$_rootuser
 /mnt/usr/sbin/pwd_mkdb -pd /mnt/etc master.passwd
-# XXX this can be slow due to DNS, but what the hey…
-/mnt/usr/sbin/chroot /mnt usr/bin/newaliases
 
 cat >/mnt/etc/rc.once <<'EOF'
 export TZ=UTC PATH=/bin:/usr/bin:/sbin:/usr/sbin
-(mksh /etc/daily;mksh /etc/weekly;mksh /etc/monthly) 2>&1 | \
+(stats_sysadd=-firstrun mksh /usr/share/misc/bsdstats; mksh /etc/daily; \
+    mksh /etc/weekly; mksh /etc/monthly) 2>&1 | \
     mail -s "$(hostname) postinstall output" root
 sync
 rm /etc/rc.once
 EOF
+
+# XXX this can be slow due to DNS, but what the hey…
+/mnt/usr/sbin/chroot /mnt usr/bin/newaliases
 
 echo -n "done.\nGenerating initial host.random file..."
 dd if=/dev/arandom of=/mnt/var/db/host.random bs=1024 count=16 >/dev/null 2>&1
