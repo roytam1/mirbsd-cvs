@@ -326,3 +326,25 @@ endif</pre>
  work. I am also confident I will be able to provide a working port
  for firesomething 3 when released.</p>
 ----
+Date: 10.04.2008
+Author: tg@
+
+<p>I haven’t written here for a while, but I just want to get one
+ thing said. I might have done what Sun feared <em>first thing</em>
+ after I got a Java™ VM (even if it’s only single-threaded Ewe for
+ embedded systems) running stably on MirOS… it now has a native
+ method arc4random_pushb(3)… yeah!</p>
+<p>Entropy is determining a lot of my life these days anyway. For
+ example, accidentally sleeping too few, too much or at weird times,
+ being phoned by random people, talking with Vutral about further
+ possible improvements in our RNGs, being asked by CAcert.org if we
+ are suitable OS for their high-security boxen (almost, but we’ll
+ fix the missing parts, and some they’ve got to do themselves as
+ no off-the-shelf OS does), and reporting in huge masses of entropy
+ to <a href="https://www.cacert.at/cgi-bin/rngresults">CAcert.at
+ Research Lab</a> – some 128 MiB samples with Firesomething “Bon
+ Echo”, as Opera ISE’d out and Lynx just first ate up all CPU then
+ none at all any more without monitorable activity…</p>
+<p>Ah, and BOINC is running stable on MirBSD. MidnightBSD has some
+ issues, mainly due to the fucked-up FreeBSD kernel and brandelf.</p>
+----
