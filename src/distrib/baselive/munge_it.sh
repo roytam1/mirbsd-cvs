@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/distrib/baselive/munge_it.sh,v 1.29 2007/09/28 22:54:07 tg Exp $
+# $MirOS: src/distrib/baselive/munge_it.sh,v 1.30 2008/03/04 23:48:58 tg Exp $
 #-
 # Copyright (c) 2006, 2007, 2008
 #	Thorsten “mirabilos” Glaser <tg@mirbsd.de>
@@ -72,7 +72,7 @@ ed -s etc/ntpd.conf <<-'EOMD'
 EOMD
 ed -s etc/rc <<-'EOMD'
 	1i
-		# $MirOS: src/distrib/baselive/munge_it.sh,v 1.29 2007/09/28 22:54:07 tg Exp $
+		# $MirOS: src/distrib/baselive/munge_it.sh,v 1.30 2008/03/04 23:48:58 tg Exp $
 	.
 	/cprng.*pr16/d
 	i
@@ -126,21 +126,6 @@ ed -s etc/rc <<-'EOMD'
 		    ')>,seed=$RANDOM" >/dev/wrandom 2>&1)
 	.
 	/openssl genrsa/s/4096/1024/
-	/xdm may be started/i
-		(
-			cp /usr/bin/ftp /tmp/ftp.bsdstats
-			ed -s /tmp/ftp.bsdstats <<-'EOFB'
-				%g/MirOS LiveCD/s//MirOS ftp(1)/
-				wq
-			EOFB
-			sed 's!/usr/bin/ftp!/tmp/ftp.bsdstats!g' \
-			    </usr/share/misc/bsdstats >/tmp/run.bsdstats
-			stats_sysadd=-livecd mksh \
-			    /tmp/run.bsdstats <&- 2>&1 | logger -t BSDstats
-			rm -f /tmp/ftp.bsdstats /tmp/run.bsdstats
-		) &
-
-	.
 	wq
 EOMD
 ed -s etc/rc.securelevel <<-'EOMD'
