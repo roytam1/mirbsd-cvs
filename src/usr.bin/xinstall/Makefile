@@ -1,4 +1,4 @@
-# $MirOS: src/usr.bin/xinstall/Makefile,v 1.5 2008/03/27 17:42:44 tg Exp $
+# $MirOS: src/usr.bin/xinstall/Makefile,v 1.6 2008/04/06 22:48:19 tg Exp $
 
 PROG=	xinstall
 SRCS=	${PROG}.c
@@ -18,7 +18,7 @@ CPPFLAGS+=	-DNEED_SETMODE_DECL
 .endif
 
 realinstall:
-.if (${OBJECT_FMT} == "Mach-O") && (${LINK.prog} != "NO")
+.if ${OBJECT_FMT} == "Mach-O"
 	@echo Relinking ${PROG}
 	${LINK.prog} -o ${PROG}
 .endif
