@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.128 2008/12/31 19:10:35 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.129 2009/01/01 17:26:25 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -2550,4 +2550,18 @@ Tag: hardware bug
  Oh, and the second and the third. But I’ll write the first wlog
  entry, hahaha, and <strong>the Developers’ Weblog is <em>not</em>
  a blog!</strong> Oh, and the fourth.</p>
+----
+Date: 01.01.2009 17:30
+Author: tg@
+Title: Useful GSM tricks
+
+<p style="font-size:small;">Ich guck’ ja keinen an…</p>
+<ul>
+ <li><tt>##002#</tt> (and press the green/dial button afterwards):
+  disable all call redirections (alle)</li>
+ <li><tt>##21#</tt>: disable unconditional redirection (immer)</li>
+ <li><tt>##61#</tt>: disable redirections if no answer (geht nicht ran)</li>
+ <li><tt>##62#</tt>: disable redirections if unreachable (Akku leer, …)</li>
+ <li><tt>##67#</tt>: disable redirections if busy (besetzt)</li>
+</ul>
 ----
