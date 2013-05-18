@@ -1,4 +1,4 @@
-# $MirOS: ports/emulators/fedora/Makefile,v 1.4 2009/03/29 13:04:00 tg Exp $
+# $MirOS: ports/emulators/fedora/Makefile,v 1.5 2010/04/04 10:33:43 tg Exp $
 # $OpenBSD: Makefile,v 1.8 2008/06/12 16:33:21 miod Exp $
 # $OpenBSD: Makefile,v 1.3 2007/09/16 00:45:13 merdely Exp $
 # $OpenBSD: Makefile.inc,v 1.1.1.1 2006/10/17 22:33:44 sturm Exp $
@@ -95,7 +95,7 @@ BUILD_DEPENDS+=		:paxmirabilis->=20081030:archivers/mircpio
 do-install:
 	${INSTALL_DATA_DIR} ${FEDORADIR}/usr/{,X11R6/}lib
 .for rpm in ${RPMS:S/:0//}
-	cd ${FEDORADIR}; rpm2cpio ${RPMDIR}/${rpm} | ${USE_CPIO} -mid
+	cd ${FEDORADIR}; rpm2cpio ${RPMDIR}/${rpm} | ${USE_CPIO} -idm
 .endfor
 
 # get rid of some unnecessary files and directories

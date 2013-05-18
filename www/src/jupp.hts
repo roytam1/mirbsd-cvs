@@ -1,11 +1,11 @@
-# $MirOS: www/src/jupp.hts,v 1.31 2011/10/05 21:41:25 tg Exp $
+# $MirOS: www/src/jupp.hts,v 1.32 2011/12/17 01:21:34 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/juppp "jupp – Programmer’s Editor"
 mws_setheadline jupp – the Editor which sucks less
-mws_putheader '$MirOS: www/src/jupp.hts,v 1.31 2011/10/05 21:41:25 tg Exp $'
+mws_putheader '$MirOS: www/src/jupp.hts,v 1.32 2011/12/17 01:21:34 tg Exp $'
 mws_content <<'EOF'
 <p>The current version is <em>joe-2.8jupp2</em> for MS-DOS® compatible systems,
  and <em>joe-3.1jupp18</em> for Unix/GNU compatible systems. This page is
@@ -112,7 +112,7 @@ mws_content <<'EOF'
 <h3>Unpacking</h3>
 <p>Use a command like<br />
  <tt>$ tar xzf joe-3.1jupp18.cpio.gz</tt> # paxtar, bsdtar<br />
- <tt>$ gzip -dc joe-3.1jupp18.cpio.gz | cpio -mid</tt> # any cpio<br />
+ <tt>$ gzip -dc joe-3.1jupp18.cpio.gz | cpio -idm</tt> # any cpio<br />
  <tt>$ pax -r -z &lt;joe-3.1jupp18.cpio.gz</tt> # any POSIX® archiver<br />
  <tt>$ gzip -dc joe-3.1jupp18.cpio.gz | pax -r</tt> # on MS Windows®<br />
  <tt>$ tar xzf jupp_3.1.18.orig.tar.gz</tt> # ustarball from Debian<br />

@@ -1,10 +1,10 @@
-$MirOS$
+$MirOS: ports/converters/rpm2cpio/patches/patch-rpm2cpio,v 1.1.7.1 2005/03/18 15:44:05 tg Exp $
 --- rpm2cpio.orig	Sun Sep 12 14:39:53 2004
 +++ rpm2cpio	Sat Aug 28 15:43:11 2004
 @@ -1,47 +1,37 @@
  #!/usr/bin/perl
 -
-+# $MirOS$
++# $MirOS: ports/converters/rpm2cpio/patches/patch-rpm2cpio,v 1.1.7.1 2005/03/18 15:44:05 tg Exp $
 +#
  # Copyright (C) 1997,1998,1999, Roger Espel Llima
 -# 
@@ -61,7 +61,7 @@ $MirOS$
 -        extract files:   cpio -d -i < /file/name
 +     list of contents:   tar tf file.cpio
 +        extract files:   tar xp[hv]f file.cpio
-+You could use "cpio -mid[v] <file.cpio" as well...
++You could use "cpio -idm[v] <file.cpio" as well...
  HERE
  
    exit 0;

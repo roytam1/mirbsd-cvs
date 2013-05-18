@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS$
+# $MirOS: contrib/hosted/tg/pimp-initramfs,v 1.1 2009/12/20 23:46:22 tg Exp $
 #-
 # Copyright (c) 2009
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -32,7 +32,7 @@ orgf=$(realpath initrd.gz)
 newf=${orgf%gz}new
 cd $T
 
-gzip -dc "$orgf" | mircpio -mid
+gzip -dc "$orgf" | mircpio -idm
 # scan for duplicates; hardlink them
 find . -type f -print0 | xargs -0 md5sum | sort | while read sum name; do
 	if [[ $sum = $lastsum ]]; then
