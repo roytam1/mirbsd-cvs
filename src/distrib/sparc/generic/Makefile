@@ -1,16 +1,15 @@
-# $MirOS: src/distrib/sparc/generic/Makefile,v 1.1 2006/06/11 01:08:30 tg Exp $
+# $MirOS: src/distrib/sparc/generic/Makefile,v 1.2 2006/06/11 01:22:49 tg Exp $
 
 RAMDISK=	GENERIC
 SYSDIR=		${.CURDIR}/../../../sys
 SYSSUBDIR=	${SYSDIR}/arch/sparc
 KERNDIR=	${SYSSUBDIR}/compile/${RAMDISK}
-MAKE_CLEAN?=	${MAKE} clean
 
 all:	bsd
 
 rebsd:
 	rm -f bsd
-	cd ${.CURDIR} && exec ${MAKE} MAKE_CLEAN=: bsd
+	cd ${.CURDIR} && exec ${MAKE} KMAKE_CLEAN=: bsd
 
 depend:
 	# Nothing here so far...

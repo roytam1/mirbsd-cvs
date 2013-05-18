@@ -1,12 +1,16 @@
-# $MirOS: src/distrib/Makefile.kernel,v 1.1 2006/06/11 01:08:29 tg Exp $
+# $MirOS: src/distrib/Makefile.kernel,v 1.2 2006/06/11 01:22:38 tg Exp $
+
+KMAKE_CLEAN?=	${MAKE} clean
+KMAKE_DEPEND?=	${KMAKE} depend
+KMAKE?=		${MAKE} COPTS=${CFLAGS:Q}
 
 bsd:
 	mkdir -p build/${RAMDISK}
 	[[ -f build/${RAMDISK}/version || ! -f ${KERNDIR}/version ]] \
 	    || cat ${KERNDIR}/version >build/${RAMDISK}/version
 	( cd build/${RAMDISK}; config -s ${SYSDIR} -b . \
-	    ${SYSSUBDIR}/conf/${RAMDISK} && ${MAKE_CLEAN} && ${MAKE} \
-	    COPTS=${CFLAGS:Q} depend && exec ${MAKE} COPTS=${CFLAGS:Q} bsd )
+	    ${SYSSUBDIR}/conf/${RAMDISK} && ${KMAKE_CLEAN} && \
+	    ${KMAKE_DEPEND} && exec ${KMAKE} bsd )
 	mv build/${RAMDISK}/bsd .
 	-[[ ! -e ${KERNDIR} ]] \
 	    || if ! cat build/${RAMDISK}/version >${KERNDIR}/version; then \
