@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/Makefile.i386-sshd,v 1.1 2010/01/07 20:56:08 tg Exp $
+# $MirOS: src/distrib/common/Makefile.i386-sshd,v 1.2 2010/01/17 00:35:07 tg Exp $
 
 IMAGESIZE=	8192
 IMAGETYPE=	ipldisc
@@ -8,6 +8,7 @@ LISTADDS=	boot cd9660 dhclient disktools ext2fs i386 isdn msdos \
 		pppoe-user upgrade
 MACHCONF:=	i386-big
 LISTADDS+=	autosshd
+LGRUBCFG=	extra
 
 KERNEL_BUILD=	no
 # uncompressed bsd.rd, so that people can change the rootpw easily

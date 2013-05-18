@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/baselive/Makefile,v 1.60 2009/12/27 14:48:11 tg Exp $
+# $MirOS: src/distrib/baselive/Makefile,v 1.61 2010/01/06 18:52:23 tg Exp $
 
 .include <bsd.own.mk>
 
@@ -127,6 +127,8 @@ unpack:
 .if ${GRML:L} == "no"
 	${SUDO} rm -f ${WRKDIR}/boot.9
 .endif
+	${SUDO} mkdir -p ${WRKDIR}/boot/grub
+	${SUDO} cp ${.CURDIR}/i386/loopback.* ${WRKDIR}/boot/grub/
 
 ${IMAGE}:
 	test ! -e ${TMPMOUNT} || (cd ${.CURDIR}; ${MAKE} unconfig)

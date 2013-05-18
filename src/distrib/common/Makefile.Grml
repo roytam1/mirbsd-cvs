@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/grml/Makefile,v 1.9 2010/01/30 13:20:42 tg Exp $
+# $MirOS: src/distrib/common/Makefile.Grml,v 1.1 2010/01/30 14:31:02 tg Exp $
 
 CBIN?=		instbin
 IMAGESIZE=	8192
@@ -29,6 +29,7 @@ LISTADDS=	boot cd9660 dhclient disktools ext2fs i386 isdn msdos \
 		pppoe-user
 MACHCONF:=	i386-big
 LISTADDS+=	Grml
+LGRUBCFG=	grml
 
 ${CBIN}.conf: gnustuff
 
@@ -76,7 +77,9 @@ templates/bsd4grml.stamp: ${CDROM}
 cdrom-mdcopy:
 	dd if=/dev/arandom bs=2048 count=1 of=eltorito.loo
 	-rm -rf templates
-	mkdir -p templates/boot/addons/bsd4grml
+	mkdir -p templates/boot/{addons/bsd4grml,grub}
+	mv ${WRKDIR}/boot/grub/loopback.cfg templates/boot/grub/
+	mv ${WRKDIR}/boot/grub/loopback.* templates/boot/addons/bsd4grml/
 	mv ${WRKDIR}/v${OSrev}/${MACHINE}/bsd.rd templates/boot/addons/bsd4grml/
 	cd ${WRKDIR} && rm -rf *
 	cp ${.CURDIR}/boot.* LICENCE.TXT gpl_srcs.tgz ldbsd.{com,iso,txt} \
