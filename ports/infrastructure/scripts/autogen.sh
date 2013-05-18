@@ -1,5 +1,5 @@
 #!/usr/bin/env mksh
-# $MirOS: ports/infrastructure/scripts/autogen.sh,v 1.8 2008/07/01 11:21:18 tg Exp $
+# $MirOS: ports/infrastructure/scripts/autogen.sh,v 1.9 2008/07/01 11:28:47 tg Exp $
 #-
 # Copyright (c) 2004, 2005, 2006, 2008
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -40,7 +40,7 @@ fi
 export AUTOCONF_VERSION AUTOMAKE_VERSION GNUSYSTEM_AUX_DIR
 
 AM_FLAGS="--miros --ignore-deps"
-[[ $AUTOMAKE_VERSION = 1.4 ]] && AM_FLAGS=
+[[ $AUTOMAKE_VERSION = 1.4 ]] && AM_FLAGS=-i
 [[ -n $flags ]] && AM_FLAGS=$flags
 
 todel=
