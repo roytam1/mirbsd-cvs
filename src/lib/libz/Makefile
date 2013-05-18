@@ -1,18 +1,24 @@
-# $MirOS: src/lib/libz/Makefile,v 1.23 2007/05/17 18:38:36 tg Exp $
-# $OpenBSD: Makefile,v 1.13 2005/07/20 21:29:00 jmc Exp $
+# $MirOS$
 
-SHLIB_VERSION?=	5.3
 LIB=		z
-HDRS=		zconf.h zlib.h
-SRCS=		adler32.c compress.c crc32.c deflate.c gzio.c infback.c \
-		inffast.c inflate.c inftrees.c trees.c uncompr.c zutil.c
-MAN=		compress.3
+SHLIB_VERSION?=	5.3
+
+KERNBASE?=	${BSDSRCDIR}/kern
+KERNNOGCC=	#defined
+
 .include <bsd.own.mk>
+.include "${KERNBASE}/z/Makefile.adler32"
+.include "${KERNBASE}/z/Makefile.inc"
+
+SRCS+=		${ZLIB_SRCS}
+HDRS=		zconf.h zlib.h
+HDRSRC=		${KERNBASE}/include
+CLEANFILES+=	${ZLIB_CLEANFLS}
+CPPFLAGS+=	-DZCONST=const
 COPTS+=		-Wall -Wno-old-style-definitions
-CPPFLAGS+=	-I. -DZCONST=const
-GENHDRS=	crc32.h inffixed.h trees.h
-CLEANFILES+=	mk_crc32 mk_crc32.c mk_inffixed mk_inffixed.c \
-		mk_trees mk_trees.c ${GENHDRS}
+MAN=		compress.3
+
+beforedepend: ${ZLIB_GENHDRS}
 
 MLINKS=	compress.3 zlibVersion.3 compress.3 deflateInit.3 \
 	compress.3 deflate.3 compress.3 deflateEnd.3 \
@@ -50,12 +56,4 @@ SRCS+=		gzfopen.c
 MAN+=		gzfopen.3
 MLINKS+=	gzfopen.3 gzfdopen.3
 
-HOSTCFLAGS?=	${CFLAGS}
-HOSTLDFLAGS?=	${LDFLAGS}
-HOSTCPPFLAGS?=	${CPPFLAGS}
-HOSTCPPFLAGS+=	-I${.CURDIR}
-
-beforedepend: ${GENHDRS}
-
-.include "Makefile.gen"
 .include <bsd.lib.mk>
