@@ -1,3 +1,4 @@
+/* $MirOS: src/gnu/usr.sbin/sendmail/include/sm/cdefs.h,v 1.2 2009/11/18 08:44:25 tg Exp $ */
 /*
  * Copyright (c) 2000-2002 Sendmail, Inc. and its suppliers.
  *	All rights reserved.
@@ -121,11 +122,11 @@
 */
 
 # ifndef SM_CONF_FORMAT_TEST
-#  if __GNUC__ == 2 && __GNUC_MINOR__ >= 7
+#  if (__GNUC__ == 2 && __GNUC_MINOR__ >= 7) || (__GNUC__ > 2)
 #   define SM_CONF_FORMAT_TEST	1
-#  else /* __GNUC__ == 2 && __GNUC_MINOR__ >= 7 */
+#  else /* (__GNUC__ == 2 && __GNUC_MINOR__ >= 7) || (__GNUC__ > 2) */
 #   define SM_CONF_FORMAT_TEST	0
-#  endif /* __GNUC__ == 2 && __GNUC_MINOR__ >= 7 */
+#  endif /* (__GNUC__ == 2 && __GNUC_MINOR__ >= 7) || (__GNUC__ > 2) */
 # endif /* SM_CONF_FORMAT_TEST */
 
 # ifndef PRINTFLIKE
@@ -143,5 +144,21 @@
 #   define SCANFLIKE(x,y)
 #  endif /* SM_CONF_FORMAT_TEST */
 # endif /* ! SCANFLIKE */
+
+# ifndef BOUNDED
+#  ifdef __OpenBSD__
+#   define BOUNDED(x,y,z) __attribute__((bounded (x, y, z)))
+#  else
+#   define BOUNDED(x,y,z)
+#  endif
+# endif
+
+# ifndef NONNULL
+#  if defined(__OpenBSD__) || (__GNUC__ > 3)
+#   define NONNULL(x, ...) __attribute__((nonnull (x, ## __VA_ARGS__)))
+#  else
+#   define NONNULL(x, ...)
+#  endif
+# endif
 
 #endif /* ! SM_CDEFS_H */

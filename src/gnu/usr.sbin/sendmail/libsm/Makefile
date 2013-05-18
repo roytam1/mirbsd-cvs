@@ -1,4 +1,5 @@
-#       $Sendmail: Makefile,v 1.2 2006/08/16 21:06:30 ca Exp $
+# $MirOS$
+# $Sendmail: Makefile,v 1.2 2006/08/16 21:06:30 ca Exp $
 
 LIB=	sm
 SRCS=	assert.c debug.c errstring.c exc.c heap.c match.c rpool.c strdup.c \
@@ -14,7 +15,6 @@ SRCS=	assert.c debug.c errstring.c exc.c heap.c match.c rpool.c strdup.c \
 ENVDEF=	-DNOT_SENDMAIL
 
 # This is not a library that gets installed so only build the .a version
-NOPROFILE=1
-NOPIC=1
+NOPIC=	yes
 
 .include <bsd.lib.mk>

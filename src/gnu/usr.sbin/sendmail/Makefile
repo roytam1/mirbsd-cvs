@@ -1,4 +1,5 @@
-#	$OpenBSD: Makefile,v 1.10 2010/10/17 22:54:37 schwarze Exp $
+# $MirOS: src/gnu/usr.sbin/sendmail/Makefile,v 1.4 2010/12/19 17:17:48 tg Exp $
+# $OpenBSD: Makefile,v 1.10 2010/10/17 22:54:37 schwarze Exp $
 
 # We only use these libs internally
 .if !make(install)
@@ -15,7 +16,11 @@ SUBDIR+= libmilter sendmail mailstats makemap praliases smrsh editmap cf/cf
 
 # These just get installed verbatim
 .if make(install)
-SUBDIR+= cf
+SUBDIR+= doc/op cf
 .endif
+
+afterinstall:
+	${INSTALL} -c -o ${DOCOWN} -g ${DOCGRP} -m ${DOCMODE} LICENSE \
+	    ${DESTDIR}${DOCDIR}/legal/LICENCE.smtpd
 
 .include <bsd.subdir.mk>

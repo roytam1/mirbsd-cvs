@@ -1,16 +1,17 @@
 .\"	$OpenBSD: praliases.1,v 1.8 2010/09/23 14:51:57 jmc Exp $
 .\"
-.\" Copyright (c) 1998-2000 Sendmail, Inc. and its suppliers.
-.\"	All rights reserved.
+.\" Copyright (c) 1998-2000, 2008 Sendmail, Inc. and its suppliers.
+.\"	 All rights reserved.
 .\"
 .\" By using this file, you agree to the terms and conditions set
 .\" forth in the LICENSE file which can be found at the top level of
 .\" the sendmail distribution.
 .\"
 .\"
-.\"	$Sendmail: praliases.8,v 8.17 2000/12/15 19:53:45 gshapiro Exp $
+.\"	$MirOS: src/gnu/usr.sbin/sendmail/praliases/praliases.8,v 1.3 2010/12/19 17:18:17 tg Exp $
+.\"	$Id$
 .\"
-.Dd $Mdocdate: September 23 2010 $
+.Dd $Mdocdate: December 19 2010 $
 .Dt PRALIASES 1
 .Os
 .Sh NAME
@@ -30,12 +31,16 @@ The special internal @:@ alias will be displayed if present.
 .Pp
 The options are as follows:
 .Bl -tag -width Ds
-.It Fl C
-Read the specified sendmail configuration file instead of the default
+.It Fl C Ar file
+Read the specified sendmail configuration file
+.Ar file
+instead of the default
 .Nm sendmail
 configuration file.
-.It Fl f
-Read the specified file instead of the configured
+.It Fl f Ar file
+Read the specified
+.Ar file
+instead of the configured
 .Nm sendmail
 system aliases file(s).
 .El

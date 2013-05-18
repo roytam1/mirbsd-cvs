@@ -18,7 +18,8 @@ SM_IDSTR(copyright,
      Copyright (c) 1990, 1993, 1994\n\
 	The Regents of the University of California.  All rights reserved.\n")
 
-SM_IDSTR(id, "@(#)$Sendmail: mail.local.c,v 8.256 2008/02/19 07:13:30 gshapiro Exp $")
+SM_RCSID("$MirOS: src/gnu/usr.sbin/sendmail/mail.local/mail.local.c,v 1.5 2008/05/07 13:15:22 tg Exp $")
+SM_IDSTR(id, "@(#)$Id$")
 
 #include <stdlib.h>
 #include <sm/errstring.h>
@@ -147,7 +148,7 @@ off_t	HeaderLength;
 off_t	BodyLength;
 #endif /* CONTENTLENGTH */
 
-bool	EightBitMime = true;		/* advertise 8BITMIME in LMTP */
+bool	EightBitMime = false;		/* advertise 8BITMIME in LMTP */
 char	ErrBuf[10240];			/* error buffer */
 int	ExitVal = EX_OK;		/* sysexits.h error value. */
 bool	HoldErrs = false;		/* Hold errors in ErrBuf */
@@ -234,12 +235,12 @@ main(argc, argv)
 		sm_exit(EX_CONFIG);
 	}
 #if HASHSPOOL
-	while ((ch = getopt(argc, argv, "7bdD:f:h:r:lH:p:n")) != -1)
+	while ((ch = getopt(argc, argv, "78bdD:f:h:r:lH:p:n")) != -1)
 #else /* HASHSPOOL */
 #  if _FFR_SPOOL_PATH
-	while ((ch = getopt(argc, argv, "7bdD:f:h:r:lp:")) != -1)
+	while ((ch = getopt(argc, argv, "78bdD:f:h:r:lp:")) != -1)
 #  else /* _FFR_SPOOL_PATH */
-	while ((ch = getopt(argc, argv, "7bdD:f:h:r:l")) != -1)
+	while ((ch = getopt(argc, argv, "78bdD:f:h:r:l")) != -1)
 #  endif /* _FFR_SPOOL_PATH */
 #endif /* HASHSPOOL */
 	{
@@ -247,6 +248,10 @@ main(argc, argv)
 		{
 		  case '7':		/* Do not advertise 8BITMIME */
 			EightBitMime = false;
+			break;
+
+		  case '8':		/* Do advertise 8BITMIME */
+			EightBitMime = true;
 			break;
 
 		  case 'b':		/* bounce mail when over quota. */

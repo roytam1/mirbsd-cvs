@@ -1,5 +1,9 @@
 divert(-1)
 #
+# $MirOS: src/gnu/usr.sbin/sendmail/cf/cf/openbsd-submit.mc,v 1.3 2009/11/18 09:16:14 tg Exp $
+#
+# Copyright (c) 2004, 2005, 2006, 2008
+#	Thorsten "mirabilos" Glaser <tg@MirBSD.org>
 # Copyright (c) 2001-2003 Sendmail, Inc. and its suppliers.
 #	All rights reserved.
 #
@@ -15,6 +19,7 @@ divert(-1)
 #
 
 divert(0)dnl
+VERSIONID(`$MirOS: src/gnu/usr.sbin/sendmail/cf/cf/openbsd-submit.mc,v 1.3 2009/11/18 09:16:14 tg Exp $')
 VERSIONID(`$OpenBSD: openbsd-submit.mc,v 1.1 2008/10/03 16:29:05 millert Exp $')
 define(`confCF_VERSION', `Submit')dnl
 OSTYPE(openbsd)dnl
@@ -22,9 +27,21 @@ define(`_USE_DECNET_SYNTAX_', `1')dnl support DECnet
 define(`confTIME_ZONE', `USE_TZ')dnl
 define(`confBIND_OPTS', `WorkAroundBrokenAAAA')dnl
 define(`confDONT_INIT_GROUPS', `True')dnl
+define(`confEIGHT_BIT_HANDLING', `mimefy')dnl
+define(`confDEF_CHAR_SET', `utf-8')dnl
+define(`confCACERT_PATH', `/etc/ssl/certs')dnl
+define(`_DEF_SMTP_MAILER_FLAGS', `LmDFMuX')dnl
+define(`SMTP_MAILER_FLAGS', `67E')dnl
 define(`confCT_FILE', `-o MAIL_SETTINGS_DIR`'trusted-users')dnl
 FEATURE(`use_ct_file')dnl
 FEATURE(`accept_unresolvable_domains')dnl
 dnl
-dnl If you use IPv6 only, change [127.0.0.1] to [IPv6:::1]
-FEATURE(`msp', `[127.0.0.1]')dnl
+dnl First is for IPv4, second is for IPv6
+dnl FEATURE(`msp', `[127.0.0.1]')dnl
+FEATURE(`msp', `[IPv6:::1]')dnl
+dnl
+LOCAL_CONFIG
+dnl
+dnl Parts of these Content-type are never base64-encoded, only QP
+dnl
+Cqtext/plain

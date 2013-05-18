@@ -1,3 +1,4 @@
+/* $MirOS$ */
 /*
  * Copyright (c) 2000-2001, 2003 Sendmail, Inc. and its suppliers.
  *	All rights reserved.
@@ -23,10 +24,10 @@
 /* return number of bytes left in a buffer */
 #define SPACELEFT(buf, ptr)	(sizeof buf - ((ptr) - buf))
 
-extern int PRINTFLIKE(3, 4)
+extern int PRINTFLIKE(3, 4) BOUNDED(string, 1, 2) NONNULL(3)
 sm_snprintf __P((char *, size_t, const char *, ...));
 
-extern bool
+extern bool NONNULL(1, 2)
 sm_match __P((const char *_str, const char *_pattern));
 
 extern char *
@@ -59,23 +60,24 @@ sm_strdup_tagged_x __P((const char *str, char *file, int line, int group));
 	strcpy(sm_malloc_tagged_x(strlen(str) + 1, file, line, group), str)
 #endif /* DO_NOT_USE_STRCPY */
 
-extern char *
+extern char * PRINTFLIKE(1, 2)
 sm_stringf_x __P((const char *_fmt, ...));
 
-extern char *
+extern char * PRINTFLIKE(1, 0)
 sm_vstringf_x __P((const char *_fmt, va_list _ap));
 
-extern size_t
+extern size_t BOUNDED(string, 1, 3)
 sm_strlcpy __P((char *_dst, const char *_src, ssize_t _len));
 
-extern size_t
+extern size_t BOUNDED(string, 1, 3)
 sm_strlcat __P((char *_dst, const char *_src, ssize_t _len));
 
-extern size_t
+extern size_t BOUNDED(string, 1, 4)
 sm_strlcat2 __P((char *, const char *, const char *, ssize_t));
 
 extern size_t
 #ifdef __STDC__
+BOUNDED(string, 1, 2)
 sm_strlcpyn(char *dst, ssize_t len, int n, ...);
 #else /* __STDC__ */
 sm_strlcpyn __P((char *,

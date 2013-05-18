@@ -1,5 +1,6 @@
 /*
- * Copyright (c) 1998-2007 Sendmail, Inc. and its suppliers.
+ * Copyright (c) 2006 Thorsten Glaser
+ * Copyright (c) 1998-2008 Sendmail, Inc. and its suppliers.
  *	All rights reserved.
  * Copyright (c) 1992, 1995-1997 Eric P. Allman.  All rights reserved.
  * Copyright (c) 1992, 1993
@@ -13,7 +14,8 @@
 
 #include <sendmail.h>
 
-SM_RCSID("@(#)$Sendmail: map.c,v 8.699 2007/10/10 00:06:45 ca Exp $")
+SM_RCSID("$MirOS: src/gnu/usr.sbin/sendmail/sendmail/map.c,v 1.7 2008/12/17 00:42:56 tg Exp $")
+SM_RCSID("@(#)$Id$")
 
 #if LDAPMAP
 # include <sm/ldap.h>
@@ -730,7 +732,7 @@ getcanonname(host, hbsize, trymx, pttl)
 	int mapno;
 	bool found = false;
 	bool got_tempfail = false;
-	auto int status;
+	auto int status = EX_UNAVAILABLE;
 	char *maptype[MAXMAPSTACK];
 	short mapreturn[MAXMAPACTIONS];
 #if defined(SUN_EXTENSIONS) && defined(SUN_INIT_DOMAIN)
@@ -1918,6 +1920,9 @@ ndbm_map_close(map)
 #  ifndef DB_HASH_NELEM
 #   define DB_HASH_NELEM	4096		/* (starting) size of hash table */
 #  endif /* ! DB_HASH_NELEM */
+#  ifndef DB_HASH_BSIZE
+#   define DB_HASH_BSIZE	16384		/* bucket size (default 4096) */
+#  endif /* ! DB_HASH_BSIZE */
 # endif /* DB_VERSION_MAJOR < 2 */
 
 bool
@@ -1976,6 +1981,9 @@ hash_map_open(map, mode)
 #  ifdef DB_CACHE_SIZE
 	hinfo.db_cachesize = DB_CACHE_SIZE;
 #  endif /* DB_CACHE_SIZE */
+#  ifdef DB_HASH_BSIZE
+	hinfo.bsize = DB_HASH_BSIZE;
+#  endif
 # endif /* DB_VERSION_MAJOR < 3 */
 
 	return db_map_open(map, mode, "hash", DB_HASH, &hinfo);
@@ -3415,6 +3423,18 @@ ldapmap_open(map, mode)
 	else
 		id = "localhost";
 
+	if (tTd(74, 104))
+	{
+		extern MAPCLASS NullMapClass;
+
+		/* debug mode: don't actually open an LDAP connection */
+		map->map_orgclass = map->map_class;
+		map->map_class = &NullMapClass;
+		map->map_mflags |= MF_OPEN;
+		map->map_pid = CurrentPid;
+		return true;
+	}
+
 	/* No connection yet, connect */
 	if (!sm_ldap_start(map->map_mname, lmap))
 	{
@@ -3514,12 +3534,12 @@ sunet_id_hash(str)
 	p_last = p;
 	while (*p != '\0')
 	{
-		if (islower(*p) || isdigit(*p))
+		if (isascii(*p) && (islower(*p) || isdigit(*p)))
 		{
 			*p_last = *p;
 			p_last++;
 		}
-		else if (isupper(*p))
+		else if (isascii(*p) && isupper(*p))
 		{
 			*p_last = tolower(*p);
 			p_last++;
@@ -3967,6 +3987,10 @@ ldapmap_parseargs(map, args)
 		map->map_coldelim = ' ';
 	}
 
+# if _FFR_LDAP_NETWORK_TIMEOUT
+	lmap->ldap_networktmo = 120;
+# endif /* _FFR_LDAP_NETWORK_TIMEOUT */
+
 	for (;;)
 	{
 		while (isascii(*p) && isspace(*p))
@@ -4066,7 +4090,7 @@ ldapmap_parseargs(map, args)
 		  case 'c':		/* network (connect) timeout */
 			while (isascii(*++p) && isspace(*p))
 				continue;
-			lmap->ldap_networktmo.tv_sec = atoi(p);
+			lmap->ldap_networktmo = atoi(p);
 			break;
 # endif /* _FFR_LDAP_NETWORK_TIMEOUT */
 
@@ -5969,7 +5993,7 @@ stab_map_store(map, lhs, rhs)
 /*
 **  STAB_MAP_OPEN -- initialize (reads data file)
 **
-**	This is a wierd case -- it is only intended as a fallback for
+**	This is a weird case -- it is only intended as a fallback for
 **	aliases.  For this reason, opens for write (only during a
 **	"newaliases") always fails, and opens for read open the
 **	actual underlying text file instead of the database.
@@ -6687,6 +6711,13 @@ null_map_store(map, key, val)
 	return;
 }
 
+MAPCLASS	NullMapClass =
+{
+	"null-map",		NULL,			0,
+	NULL,			null_map_lookup,	null_map_store,
+	null_map_open,		null_map_close,
+};
+
 /*
 **  BOGUS stubs
 */
@@ -7325,7 +7356,8 @@ arith_map_lookup(map, name, av, statp)
 			if (LogLevel > 10)
 				sm_syslog(LOG_WARNING, NOQID,
 					  "arith_map: unknown operator %c",
-					  isprint(*name) ? *name : '?');
+					  (isascii(*name) && isprint(*name)) ?
+					  *name : '?');
 			return NULL;
 		}
 		if (boolres)

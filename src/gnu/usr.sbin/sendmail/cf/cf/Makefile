@@ -1,4 +1,5 @@
-#	$OpenBSD: Makefile,v 1.24 2008/10/03 16:29:05 millert Exp $
+# $MirOS: src/gnu/usr.sbin/sendmail/cf/cf/Makefile,v 1.8 2008/12/17 00:42:55 tg Exp $
+# $OpenBSD: Makefile,v 1.24 2008/10/03 16:29:05 millert Exp $
 #
 #  Makefile for configuration files.
 #
@@ -11,6 +12,8 @@
 #  have a fairly modern M4 available (GNU m4 works).  On SunOS, use
 #  /usr/5bin/m4.
 #
+# Create configuration files using "m4 ../m4/cf.m4 file.mc >file.cf";
+# this may be easier than tweaking the Makefile.
 
 M4=	/usr/bin/m4
 CFDIR=	${.CURDIR}/..
@@ -29,9 +32,10 @@ RM=	rm -f
 	$(SED) -e 's/^/# /' ${.CURDIR}/$*.mc >>$@
 	$(CHMOD) $(ROMODE) $@
 
-ALL=	openbsd-submit.cf clientproto.cf tcpproto.cf openbsd-localhost.cf \
-	openbsd-proto.cf courtesan.cf courtesan-nonet.cf openbsd-lists.cf \
-	openbsd-bulk.cf lucifier.cf corpse.cf knecht.cf
+ALL=	openbsd-localhost.cf openbsd-proto.cf openbsd-submit.cf
+
+FILES=	access aliases genericstable local-host-names mailertable \
+	relay-domains service.switch trusted-users virtusertable
 
 all: $(ALL)
 
@@ -48,7 +52,7 @@ install:
 			echo "WARNING: installed missing ${DESTDIR}/etc/mail/submit.cf"; \
 			echo "You should probably rebuild ${DESTDIR}/etc/mail/sendmail.cf"; \
 			${INSTALL} ${INSTALL_COPY} -o root -g wheel -m 644 \
-			    submit.cf ${DESTDIR}/etc/mail/submit.cf; \
+			    openbsd-submit.cf ${DESTDIR}/etc/mail/submit.cf; \
 		fi; \
 		if test ! -e ${DESTDIR}/etc/mail/localhost.cf; then \
 			echo "WARNING: installed missing ${DESTDIR}/etc/mail/localhost.cf"; \
@@ -57,13 +61,45 @@ install:
 		fi; \
 	fi
 
-distribution: openbsd-proto.cf openbsd-localhost.cf openbsd-submit.cf
-	${INSTALL} ${INSTALL_COPY} -o root -g wheel -m 644 openbsd-proto.cf \
-	    ${DESTDIR}/etc/mail/sendmail.cf
-	${INSTALL} ${INSTALL_COPY} -o root -g wheel -m 644 openbsd-localhost.cf \
-	    ${DESTDIR}/etc/mail/localhost.cf
-	${INSTALL} ${INSTALL_COPY} -o root -g wheel -m 644 openbsd-submit.cf \
-	    ${DESTDIR}/etc/mail/submit.cf
+distribution: openbsd-proto.cf openbsd-localhost.cf openbsd-submit.cf \
+    dist-install regen-databases
+
+dist-install:
+	${INSTALL} ${INSTALL_COPY} -o root -g wheel -m 644 \
+	    openbsd-proto.cf ${DESTDIR}/etc/mail/sendmail.cf
+	${INSTALL} ${INSTALL_COPY} -o root -g wheel -m 644 \
+	    openbsd-localhost.cf ${DESTDIR}/etc/mail/localhost.cf
+	${INSTALL} ${INSTALL_COPY} -o root -g wheel -m 644 \
+	    openbsd-submit.cf ${DESTDIR}/etc/mail/submit.cf
+	cd ${.CURDIR} && ${INSTALL} ${INSTALL_COPY} -o root -g wheel -m 640 \
+	    ${FILES} ${DESTDIR}/etc/mail/
+
+regen-databases:
+	@for dbsource in access aliases genericstable mailertable \
+	    virtusertable userdb; do \
+		db="${DESTDIR}/etc/mail/$$dbsource"; \
+		case $$dbsource in \
+		aliases) \
+			cmd="sendmail -C${DESTDIR}/etc/mail/sendmail.cf \
+			    -bi -O AliasFile=$$db \
+			    -O DontBlameSendmail=mapinunsafedirpath" ;; \
+		userdb) \
+			cmd="makemap btree $${db}.db <$$db" ;; \
+		*) \
+			cmd="makemap hash $${db}.db <$$db" ;; \
+		esac; \
+		if test -e $$db; then \
+			chown ${BINOWN}:${CONFGRP} $$db; \
+			chmod 640 $$db; \
+			rm -f $${db}.db; \
+			echo $$cmd; \
+			eval $$cmd; \
+			chown ${BINOWN}:${CONFGRP} $${db}.db; \
+			chmod 640 $${db}.db; \
+		else \
+			true; \
+		fi; \
+	done
 
 # this is overkill, but....
 M4FILES=\
@@ -194,5 +230,7 @@ M4FILES=\
 	${CFDIR}/ostype/uxpds.m4
 
 $(ALL): $(M4FILES)
+
+.PHONY: regen-databases
 
 .include <bsd.prog.mk>

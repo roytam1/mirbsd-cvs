@@ -9,7 +9,7 @@
 # the sendmail distribution.
 #
 #
-#	$Sendmail: README,v 8.391 2008/02/12 16:38:21 ca Exp $
+#	$Id$
 #
 
 This directory contains the source files for sendmail(TM).
@@ -32,6 +32,7 @@ For detailed instructions, please read the document ../doc/op/op.me:
 	cd ../doc/op ; make op.ps op.txt
 
 Sendmail is a trademark of Sendmail, Inc.
+US Patent Numbers 6865671, 6986037.
 
 
 +-------------------+

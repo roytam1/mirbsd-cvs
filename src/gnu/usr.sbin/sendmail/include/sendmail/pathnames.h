@@ -9,7 +9,8 @@
  * the sendmail distribution.
  *
  *
- *	$Sendmail: pathnames.h,v 8.36 2002/04/09 22:40:26 gshapiro Exp $
+ *	$MirOS: src/gnu/usr.sbin/sendmail/include/sendmail/pathnames.h,v 1.2 2005/05/04 11:47:39 tg Exp $
+ *	$Id$
  */
 
 #ifndef SM_PATHNAMES_H
@@ -25,7 +26,7 @@
 #  endif /* ! _PATH_SENDMAILCF */
 
 #  ifndef _PATH_SENDMAILPID
-#   ifdef BSD4_4
+#   if defined(BSD4_4) || defined(__MirBSD__)
 #    define _PATH_SENDMAILPID	"/var/run/sendmail.pid"
 #   else /* BSD4_4 */
 #    define _PATH_SENDMAILPID	"/etc/mail/sendmail.pid"

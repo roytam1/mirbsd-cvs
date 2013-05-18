@@ -8,15 +8,17 @@
 .\" the sendmail distribution.
 .\"
 .\"
-.\"	$Sendmail: mail.local.8,v 8.25 2003/10/20 20:26:51 ca Exp $
+.\"	$MirOS: src/gnu/usr.sbin/sendmail/mail.local/mail.local.8,v 1.3 2008/05/07 13:15:22 tg Exp $
+.\"	$Id$
 .\"
-.TH MAIL.LOCAL 8 "$Date$"
+.TH MAIL.LOCAL 8 "December 19, 2010"
 .SH NAME
 mail.local
 \- store mail in a mailbox
 .SH SYNOPSIS
 .B mail.local
-.RB [ \-7 "] [" \-b "] [" \-d "] [" \-D
+.RB [ \-7 | \-8 "] [" \-b
+.RB "] [" \-d "] [" \-D
 .IR mbdb ]
 .RB [ \-l "] [" \-f 
 \fIfrom\fR|\fB\-r\fR
@@ -37,6 +39,10 @@ The options are as follows:
 .TP 1i
 .B \-7
 Do not advertise 8BITMIME support in LMTP mode.
+This is the default in MirOS.
+.TP
+.B \-8
+Do advertise 8BITMIME support in LMTP mode.
 .TP 
 .B \-b
 Return a permanent error instead of a temporary error

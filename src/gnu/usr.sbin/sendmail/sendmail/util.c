@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1998-2007 Sendmail, Inc. and its suppliers.
+ * Copyright (c) 1998-2007, 2009 Sendmail, Inc. and its suppliers.
  *	All rights reserved.
  * Copyright (c) 1983, 1995-1997 Eric P. Allman.  All rights reserved.
  * Copyright (c) 1988, 1993
@@ -13,7 +13,8 @@
 
 #include <sendmail.h>
 
-SM_RCSID("@(#)$Sendmail: util.c,v 8.414 2007/11/02 17:30:38 ca Exp $")
+SM_RCSID("$MirOS: src/gnu/usr.sbin/sendmail/sendmail/util.c,v 1.5 2008/05/07 13:15:30 tg Exp $")
+SM_RCSID("@(#)$Id$")
 
 #include <sm/sendmail.h>
 #include <sysexits.h>
@@ -868,7 +869,7 @@ xputs(fp, s)
 			c &= 0177;
 		}
   printchar:
-		if (isprint(c))
+		if (isascii(c) && isprint(c))
 		{
 			(void) sm_io_putc(fp, SM_TIME_DEFAULT, c);
 			continue;
@@ -895,7 +896,7 @@ xputs(fp, s)
 					     TermEscape.te_rv_on);
 			shiftout = true;
 		}
-		if (isprint(c))
+		if (isascii(c) && isprint(c))
 		{
 			(void) sm_io_putc(fp, SM_TIME_DEFAULT, '\\');
 			(void) sm_io_putc(fp, SM_TIME_DEFAULT, c);
@@ -2107,6 +2108,7 @@ prog_open(argv, pfd, e)
 	if (ProgMailer != NULL && ProgMailer->m_rootdir != NULL)
 	{
 		expand(ProgMailer->m_rootdir, buf, sizeof(buf), e);
+		get_random();
 		if (chroot(buf) < 0)
 		{
 			syserr("prog_open: cannot chroot(%s)", buf);

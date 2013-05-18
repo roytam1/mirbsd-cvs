@@ -1,5 +1,6 @@
 divert(-1)
 #
+# Copyright (c) 2009 Thorsten Glaser <t.glaser@tarent.de>
 # Copyright (c) 1999-2002, 2004, 2007 Sendmail, Inc. and its suppliers.
 #	All rights reserved.
 #
@@ -10,7 +11,8 @@ divert(-1)
 #
 
 divert(0)
-VERSIONID(`$Sendmail: ldap_routing.m4,v 8.15 2007/05/01 17:38:25 ca Exp $')
+VERSIONID(`$MirOS: src/gnu/usr.sbin/sendmail/cf/feature/ldap_routing.m4,v 1.4 2009/01/30 09:38:43 tg Exp $')
+VERSIONID(`$Id$')
 divert(-1)
 
 # Check first two arguments.  If they aren't set, may need to warn in proto.m4
@@ -44,3 +46,5 @@ Kldapmh ifelse(len(X`'_ARG1_), `1',
 Kldapmra ifelse(len(X`'_ARG2_), `1',
 		`ldap -1 -T<TMPF> -v mailRoutingAddress -k (&(objectClass=inetLocalMailRecipient)(mailLocalAddress=%0))',
 		`_ARG2_')
+
+Kldaprx regex -s1 ^.*\|([^|]*)$

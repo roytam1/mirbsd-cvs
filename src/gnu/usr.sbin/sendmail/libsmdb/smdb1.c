@@ -1,4 +1,5 @@
 /*
+** Copyright (c) 2006 Thorsten Glaser
 ** Copyright (c) 1999-2002, 2004, 2009 Sendmail, Inc. and its suppliers.
 **	All rights reserved.
 **
@@ -8,7 +9,8 @@
 */
 
 #include <sm/gen.h>
-SM_RCSID("@(#)$Sendmail: smdb1.c,v 8.62 2009/11/12 23:04:18 ca Exp $")
+SM_RCSID("$MirOS: src/gnu/usr.sbin/sendmail/libsmdb/smdb1.c,v 1.3 2008/05/07 13:15:22 tg Exp $")
+SM_RCSID("@(#)$Id$")
 
 #include <unistd.h>
 #include <stdlib.h>
@@ -20,6 +22,10 @@ SM_RCSID("@(#)$Sendmail: smdb1.c,v 8.62 2009/11/12 23:04:18 ca Exp $")
 #if (DB_VERSION_MAJOR == 1)
 
 # define SMDB1_FILE_EXTENSION "db"
+
+#  ifndef DB_HASH_BSIZE
+#   define DB_HASH_BSIZE	16384		/* bucket size (default 4096) */
+#  endif /* ! DB_HASH_BSIZE */
 
 struct smdb_db1_struct
 {
@@ -519,6 +525,7 @@ smdb_db_open(database, db_name, mode, mode_mask, sff, type, user_info,
 	    (strncmp(SMDB_TYPE_HASH, type, SMDB_TYPE_HASH_LEN) == 0))
 	{
 		(void) memset(&hash_info, '\0', sizeof hash_info);
+		hash_info.bsize = DB_HASH_BSIZE;
 		hash_info.nelem = db_params->smdbp_num_elements;
 		hash_info.cachesize = db_params->smdbp_cache_size;
 		params = &hash_info;

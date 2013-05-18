@@ -12,19 +12,16 @@
  */
 
 #include <sm/gen.h>
-#ifndef lint
-SM_UNUSED(static char copyright[]) =
+
+SM_COPYRIGHT(
 "@(#) Copyright (c) 1998-2001 Sendmail, Inc. and its suppliers.\n\
 	All rights reserved.\n\
      Copyright (c) 1992 Eric P. Allman.  All rights reserved.\n\
      Copyright (c) 1992, 1993\n\
-	The Regents of the University of California.  All rights reserved.\n";
-#endif /* ! lint */
+	The Regents of the University of California.  All rights reserved.\n"
+)
 
-#ifndef lint
-SM_UNUSED(static char id[]) = "@(#)$Sendmail: editmap.c,v 1.25 2007/05/11 18:50:35 ca Exp $";
-#endif /* ! lint */
-
+SM_RCSID("@(#)$Sendmail: editmap.c,v 1.25 2007/05/11 18:50:35 ca Exp $")
 
 #include <sys/types.h>
 #ifndef ISC_UNIX

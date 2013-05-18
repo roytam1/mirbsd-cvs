@@ -23,11 +23,7 @@
  * 2. Redistributions in binary form must reproduce the above copyright
  *    notice, this list of conditions and the following disclaimer in the
  *    documentation and/or other materials provided with the distribution.
- * 3. All advertising materials mentioning features or use of this software
- *    must display the following acknowledgement:
- *      This product includes software developed by the University of
- *      California, Berkeley and its contributors.
- * 4. Neither the name of the University nor the names of its contributors
+ * 3. Neither the name of the University nor the names of its contributors
  *    may be used to endorse or promote products derived from this software
  *    without specific prior written permission.
  *
@@ -45,7 +41,8 @@
  */
 
 #include <sendmail.h>
-SM_RCSID("@(#)$Sendmail: ratectrl.c,v 8.12 2008/02/11 22:56:05 ca Exp $")
+SM_RCSID("$MirOS$")
+SM_RCSID("@(#)$Id$")
 
 /*
 **  stuff included - given some warnings (inet_ntoa)
@@ -69,9 +66,6 @@ SM_RCSID("@(#)$Sendmail: ratectrl.c,v 8.12 2008/02/11 22:56:05 ca Exp $")
 /* forward declarations */
 static int client_rate __P((time_t, SOCKADDR *, bool));
 static int total_rate __P((time_t, bool));
-#if 0
-static int sockaddrcmp __P((SOCKADDR *, SOCKADDR *));
-#endif /* 0 */
 
 /*
 **  CONNECTION_RATE_CHECK - updates connection history data
@@ -485,50 +479,3 @@ total_rate(now, update)
 
 	return cnt;
 }
-
-#if 0
-/*
-** SOCKADDRCMP - compare two SOCKADDR structures
-**   this function may be used to compare SOCKADDR
-**   structures when using bsearch and qsort functions
-**   in the same way we do with strcmp
-**
-** Parameters:
-**   a, b - addresses
-**
-** Returns:
-**   1 if a > b
-**  -1 if a < b
-**   0 if a = b
-**
-** OBS: This call isn't used at the moment, it will
-** be used when code will be extended to work with IPV6
-*/
-
-static int
-sockaddrcmp(a, b)
-	 SOCKADDR *a;
-	 SOCKADDR *b;
-{
-	if (a->sa.sa_family > b->sa.sa_family)
-		return 1;
-	if (a->sa.sa_family < b->sa.sa_family)
-		return -1;
-
-	switch (a->sa.sa_family)
-	{
-	  case AF_INET:
-		if (a->sin.sin_addr.s_addr > b->sin.sin_addr.s_addr)
-			return 1;
-		if (a->sin.sin_addr.s_addr < b->sin.sin_addr.s_addr)
-			return -1;
-		return 0;
-		break;
-
-	  case AF_INET6:
-		/* TO BE DONE */
-		break;
-	}
-	return 0;
-}
-#endif /* 0 */
