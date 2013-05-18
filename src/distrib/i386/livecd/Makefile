@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/i386/livecd/Makefile,v 1.15 2006/04/06 22:08:12 tg Exp $
+# $MirOS: src/distrib/i386/livecd/Makefile,v 1.16 2006/04/07 12:15:58 tg Exp $
 
 .include <bsd.own.mk>
 
@@ -89,7 +89,9 @@ unconfig:
 .PHONY: addcontrib gendev it makeimg nukefiles prepimg unconfig unpack
 
 clean cleandir cleannobsd:
-	-${SUDO} rm -rf ${CDROM} bsd{,.gz} mr.fs tempdir tmpmnt workdir
+	-rm -f ${CDROM} bsd{,.gz} mr.fs rdsetroot
+	-rm -rf tempdir tmpmnt
+	-${SUDO} rm -rf workdir
 
 .include <bsd.obj.mk>
 .include <bsd.subdir.mk>
