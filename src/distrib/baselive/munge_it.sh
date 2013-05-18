@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/share/misc/licence.template,v 1.20 2006/12/11 21:04:56 tg Rel $
+# $MirOS: src/distrib/baselive/munge_it.sh,v 1.16 2007/02/20 00:04:00 tg Exp $
 #-
 # Copyright (c) 2006, 2007
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -72,7 +72,7 @@ ed -s etc/ntpd.conf <<-'EOMD'
 EOMD
 ed -s etc/rc <<-'EOMD'
 	1i
-		# $MirOS: src/distrib/baselive/munge_it.sh,v 1.15 2006/11/01 00:27:21 tg Exp $
+		# $MirOS: src/distrib/baselive/munge_it.sh,v 1.16 2007/02/20 00:04:00 tg Exp $
 	.
 	/shutdown request/ka
 	/^fi/a
@@ -86,7 +86,7 @@ ed -s etc/rc <<-'EOMD'
 	.
 	/^raidctl.*all/s/^/#/
 	/^umount/a
-		mount -fwo async,noatime /dev/rd0a /dev
+		mount -fwo async,noatime /dev/rd0a /dev >/dev/null 2>&1
 	.
 	/t nonfs/i
 		print -n 'extracting mfs contents...'
