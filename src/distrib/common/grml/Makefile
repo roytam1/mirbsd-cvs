@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/grml/Makefile,v 1.1 2009/01/18 15:54:49 tg Exp $
+# $MirOS: src/distrib/common/grml/Makefile,v 1.2 2009/01/24 19:15:46 tg Exp $
 
 .include <bsd.own.mk>
 
@@ -40,7 +40,7 @@ cdrom-mdcopy:
 
 cdrom-mdboot:
 	getextent_cd9660 -f ${CDROM} b_${MACHINE}.ldr | \
-	    ${MKSH} ${BOOTSH} -S 2 | \
+	    ${MKSH} ${BOOTSH} -A -S 2 | \
 	    dd of=${CDROM} conv=notrunc 2>/dev/null
 	getextent_cd9660 -f ${CDROM} b_${MACHINE}.ldr | \
 	    ${MKSH} ${BOOTSH} -B 11 | \

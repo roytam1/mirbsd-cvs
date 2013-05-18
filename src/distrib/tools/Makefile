@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/tools/Makefile,v 1.31 2009/04/16 13:20:23 tg Exp $
+# $MirOS: src/distrib/tools/Makefile,v 1.32 2009/04/26 10:22:09 tg Exp $
 
 all: sundsklbl
 
@@ -85,7 +85,7 @@ makecdimage: .PHONY
 	    dd of=${CDROM} conv=notrunc bs=2048 seek=$$(getextent_cd9660 \
 	    -f ${CDROM} -b '$$BootImage$$') 2>/dev/null
 	getextent_cd9660 -f ${CDROM} b_i386.ldr | \
-	    ${MKSH} ${BSDSRCDIR}/usr.sbin/installboot/bxinst.i386 -S 2 | \
+	    ${MKSH} ${BSDSRCDIR}/usr.sbin/installboot/bxinst.i386 -A -S 2 | \
 	    dd of=${CDROM} conv=notrunc bs=512 seek=${CHAINSECTOR} 2>/dev/null
 	getextent_cd9660 -f ${CDROM} b_sparc.ldr | \
 	    ${MKSH} ${BSDSRCDIR}/usr.sbin/installboot/bxinst.sparc \

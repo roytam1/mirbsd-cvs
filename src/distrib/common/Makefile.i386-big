@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/Makefile.i386-big,v 1.16 2008/08/06 00:28:37 tg Exp $
+# $MirOS: src/distrib/common/Makefile.i386-big,v 1.17 2009/01/12 21:54:41 tg Exp $
 
 IMAGESIZE=	8192
 IMAGETYPE=	ipldisc
@@ -19,7 +19,7 @@ cdrom-mdcopy:
 
 cdrom-mdboot:
 	getextent_cd9660 -f ${CDROM} b_${MACHINE}.ldr | \
-	    ${MKSH} ${BOOTSH} -S 2 | \
+	    ${MKSH} ${BOOTSH} -A -S 2 | \
 	    dd of=${CDROM} conv=notrunc 2>/dev/null
 	getextent_cd9660 -f ${CDROM} b_${MACHINE}.ldr | \
 	    ${MKSH} ${BOOTSH} -B 11 | \
