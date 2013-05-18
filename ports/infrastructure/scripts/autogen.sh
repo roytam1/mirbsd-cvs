@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: ports/infrastructure/scripts/autogen.sh,v 1.1 2006/02/05 17:16:40 tg Exp $
+# $MirOS: ports/infrastructure/scripts/autogen.sh,v 1.4 2006/02/05 17:41:11 tg Exp $
 #-
 # Copyright (c) 2004, 2005, 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -43,7 +43,9 @@ done
 
 set -e
 set -x
-aclocal -I .
+ACLOCAL_AMFLAGS=
+[[ -e Makefile.am ]] && ACLOCAL_AMFLAGS=$(grep '^[:space:]*ACLOCAL_AMFLAGS' Makefile.am | cut -d '=' -f 2)
+aclocal -I . $ACLOCAL_AMFLAGS
 f=configure.ac
 [[ ! -e $f ]] && f=configure.in
 if fgrep -q -e AC_CONFIG_HEADER -e AM_CONFIG_HEADER $f; then
