@@ -1,4 +1,4 @@
-/* $MirOS: src/sys/arch/i386/stand/libz/adler32.S,v 1.1 2006/08/19 12:59:53 tg Exp $ */
+/* $MirOS: contrib/hosted/fwcf/adler.h,v 1.2 2006/09/19 11:30:24 tg Exp $ */
 
 /*-
  * Copyright (c) 2006
@@ -32,71 +32,78 @@
  *	src/sys/lib/libsa/adler32s.c,v
  */
 
-#ifdef UNDERSCORES
-#define	_C(x)	_ ## x
+#ifdef _STANDALONE
+#define zADDRND(x)	/* nothing */
+#define zRCSID(x)	/* nothing, for space reasons */
+#include <limits.h>
 #else
-#define	_C(x)	x
+#include <sys/param.h>
+#ifdef _KERNEL
+#include <sys/kernel.h>
+#include <sys/limits.h>
+#include <dev/rndvar.h>
+#define zADDRND(x)	rnd_addpool_add((uint32_t)(x) ^ (uint32_t)time.tv_sec)
+#else
+#include <limits.h>
+#include <stdlib.h>
+#define zADDRND(x)	arc4random_push((int)(x))
 #endif
+#define zRCSID(x)	__RCSID(x);
+#endif
+
+zRCSID("$MirOS$")
+
+unsigned long adler32(unsigned long, const unsigned char *, unsigned);
 
 #define BASE	65521	/* largest prime smaller than 65536 */
 #define NMAX	5552	/* largest n: 255n(n+1)/2 + (n+1)(BASE-1) <= 2^32-1 */
+#define MINLBIT	16	/* min. number of bits required to represent BASE */
 
-	.intel_syntax noprefix
-	.section .comment
-	.asciz	"$MirOS: src/sys/arch/i386/stand/libz/adler32.S,v 1.1 2006/08/19 12:59:53 tg Exp $"
-	.text
+#ifndef MIN
+#define MIN(a,b)	(((a) < (b)) ? (a) : (b))
+#endif
 
-/* void ADLER32_Update(ADLER32_CTX *ctx, const uint8_t *buf, size_t len) */
-/* u_long adler32(u_long adler, const uint8_t *buf, unsigned len) */
-	.globl	_C(adler32)
-_C(adler32):
-	push	ebp
-	mov	ebp,esp
-	push	ebx
-	push	esi
-	push	edi
-	mov	edi,[ebp+8]	/* adler */
-	mov	esi,[ebp+12]	/* buf */
-	mov	ecx,[ebp+16]	/* len */
+#ifndef NULL
+#define NULL		((void *)0UL)
+#endif
 
-	xor	ebx,ebx
-	mov	bx,di		/* EBX = s1 (lower half) */
-	shr	edi,16		/* EDI = s2 (upper half) */
+unsigned long
+adler32(unsigned long s1, const unsigned char *buf, unsigned len)
+{
+	unsigned long s2;
+	unsigned n;
 
-	cld
-.L1:	jecxz	.L4
-	mov	edx,NMAX
-	cmp	ecx,edx
-	jae	.L2
-	mov	edx,ecx
-.L2:	sub	ecx,edx
-	/* do at most NMAX bytes at a time */
-	xor	eax,eax
-.L3:	lodsb
-	add	ebx,eax
-	add	edi,ebx
-	dec	edx
-	jnz	.L3
-	/* s{1,2} %= BASE; */
-	push	ebp
-	mov	ebp,BASE
-	/* EDX is already 0, cool */
-	xor	eax,eax
-	xchg	eax,ebx
-	div	ebp
-	xchg	ebx,edx
-	/* EDX is 0 again, cool */
-	mov	eax,edi
-	div	ebp
-	mov	edi,edx
-	pop	ebp
-	/* and loop */
-	jmp	.L1
-.L4:	/* return */
-	shl	edi,16
-	lea	eax,[edi+ebx]
-	pop	edi
-	pop	esi
-	pop	ebx
-	pop	ebp
-	ret
+	/* compile-time assertion: we must fit 32 bits into an unsigned long */
+	switch (0) {
+	case 0:
+	case sizeof(unsigned long) * CHAR_BIT >= 32:
+		;
+	}
+
+	/* compile-time assertion: we must fit MINLBIT bits into an unsigned */
+	switch (0) {
+	case 0:
+	case sizeof(unsigned) * CHAR_BIT >= MINLBIT:
+		;
+	}
+
+	if (buf == NULL)
+		return (1UL);
+
+	s2 = (s1 >> 16) & 0xFFFFUL;
+	s1 &= 0xFFFFUL;
+
+	while (len) {
+		len -= (n = MIN(len, NMAX));
+		while (n--) {
+			s1 += *buf++;
+			s2 += s1;
+		}
+		s1 %= BASE;
+		s2 %= BASE;
+	}
+
+	s1 |= (s2 << 16);
+	zADDRND(s1);		/* once-only evaluation of s1 not guaranteed */
+	return (s1);
+}

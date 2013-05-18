@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/dev/rndvar.h,v 1.5 2006/08/18 12:29:52 tg Exp $ */
+/**	$MirOS: src/sys/dev/rndvar.h,v 1.6 2006/08/22 20:58:24 tg Exp $ */
 /*	$OpenBSD: rndvar.h,v 1.19 2003/11/03 18:24:28 tedu Exp $	*/
 
 /*
@@ -92,7 +92,7 @@ extern uint32_t rnd_addpool_allow;
 			if (rnd_addpool_num == rnd_addpool_size)	\
 				rnd_addpool_num = 0;			\
 		}							\
-	} while(0)
+	} while (/*CONSTCOND*/0)
 
 #define	add_true_randomness(d)	enqueue_randomness(RND_SRC_TRUE,  (int)(d))
 #define	add_timer_randomness(d)	enqueue_randomness(RND_SRC_TIMER, (int)(d))
