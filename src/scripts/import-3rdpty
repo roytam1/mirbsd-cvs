@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/scripts/import-3rdpty,v 1.9 2005/07/21 18:07:01 tg Exp $
+# $MirOS: src/scripts/import-3rdpty,v 1.10 2005/07/21 18:47:14 tg Exp $
 #-
 # Copyright (c) 2004, 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -23,7 +23,7 @@
 # rect or other, however caused, arising in any way out of the usage
 # of this work, even if advised of the possibility of such damage.
 
-print -r -- '========= $MirOS: src/scripts/import-3rdpty,v 1.9 2005/07/21 18:07:01 tg Exp $ ========='
+print -r -- '========= $MirOS: src/scripts/import-3rdpty,v 1.10 2005/07/21 18:47:14 tg Exp $ ========='
 
 ignlist=0
 force=0
@@ -349,6 +349,7 @@ openbsd)
 		etc/etc.svr4 \
 		etc/etc.vax \
 		etc/etc.zaurus \
+		etc/hostapd.conf \
 		etc/kerberosV \
 		etc/mail \
 		etc/mtree/4.4BSD.root \
@@ -356,6 +357,7 @@ openbsd)
 		etc/mtree/4.4BSD.var \
 		etc/mtree/BSD.local.dist \
 		etc/mtree/BSD.x11.dist \
+		etc/ospfd.conf \
 		etc/systrace/usr_sbin_named \
 		games \
 		gnu/egcs \
@@ -374,6 +376,8 @@ openbsd)
 		gnu/usr.bin/texinfo \
 		gnu/usr.sbin/mkhybrid \
 		include/rpcsvc \
+		include/wchar.h \
+		include/wctype.h \
 		kerberosIV \
 		kerberosV \
 		lib/csu \
@@ -405,6 +409,24 @@ openbsd)
 		lib/libc/regex/WHATSNEW \
 		lib/libc/rpc/DISCLAIMER \
 		lib/libc/rpc/README \
+		lib/libc/stdio/fgetwc.c \
+		lib/libc/stdio/fgetws.3 \
+		lib/libc/stdio/fgetws.c \
+		lib/libc/stdio/fileext.h \
+		lib/libc/stdio/fputwc.c \
+		lib/libc/stdio/fputws.3 \
+		lib/libc/stdio/fputws.c \
+		lib/libc/stdio/fwide.3 \
+		lib/libc/stdio/fwide.c \
+		lib/libc/stdio/getwc.3 \
+		lib/libc/stdio/getwc.c \
+		lib/libc/stdio/getwchar.c \
+		lib/libc/stdio/putwc.3 \
+		lib/libc/stdio/putwc.c \
+		lib/libc/stdio/putwchar.c \
+		lib/libc/stdio/ungetwc.3 \
+		lib/libc/stdio/ungetwc.c \
+		lib/libc/stdio/wcio.h \
 		lib/libc/yp \
 		lib/libcom_err \
 		lib/libcompat/regexp/COPYRIGHT \
@@ -497,6 +519,11 @@ openbsd)
 		libexec/ld.so/hppa64 \
 		libexec/ld.so/mips \
 		libexec/ld.so/mips64 \
+		libexec/ld.so/powerpc/Makefile.inc \
+		libexec/ld.so/powerpc/archdep.h \
+		libexec/ld.so/powerpc/ldasm.S \
+		libexec/ld.so/powerpc/rtld_machine.c \
+		libexec/ld.so/powerpc/syscall.h \
 		libexec/ld.so/sparc64 \
 		libexec/lfs_cleanerd \
 		libexec/login_kerberos \
@@ -643,6 +670,7 @@ openbsd)
 		usr.bin/learn \
 		usr.bin/leave \
 		usr.bin/mg \
+		usr.bin/mkdep/mkdep.gcc.sh \
 		usr.bin/mkstr \
 		usr.bin/nm \
 		usr.bin/oldrdist \
