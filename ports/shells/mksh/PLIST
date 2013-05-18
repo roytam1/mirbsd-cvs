@@ -1,8 +1,0 @@
-@comment $MirOS: ports/shells/mksh/pkg/PLIST,v 1.4 2007/04/23 12:22:20 tg Exp $
-@option base-package
-bin/mksh
-@sample /bin/mksh
-man/cat1/mksh.0
-share/examples/mksh/dot.mkshrc
-@sample ${SYSCONFDIR}/skel/.mkshrc
-@dirrm share/examples/mksh

@@ -1,4 +1,0 @@
-@comment $OpenBSD: PLIST,v 1.1.1.1 2003/12/22 01:34:18 espie Exp $
-@option no-default-conflict
-share/doc/icon/implementation-of-icon${FLAVOUR_EXT}.pdf
-@dirrm share/doc/icon

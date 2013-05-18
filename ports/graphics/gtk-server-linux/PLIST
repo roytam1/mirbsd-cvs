@@ -1,5 +1,0 @@
-@comment $MirOS$
-bin/gtk-server
-share/examples/gtk-server/gtk-server.cfg
-@sample /etc/gtk-server.cfg
-@dirrm share/examples/gtk-server

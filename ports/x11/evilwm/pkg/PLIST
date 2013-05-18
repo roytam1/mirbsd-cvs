@@ -1,5 +1,0 @@
-@comment $MirOS$
-bin/evilwm
-man/cat1/evilwm.0
-share/doc/evilwm/README
-@dirrm share/doc/evilwm
