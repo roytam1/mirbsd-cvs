@@ -1,9 +1,11 @@
-# $MirOS: src/share/mk/bsd.sys.mk,v 1.5 2006/01/31 13:42:47 tg Exp $
+# $MirOS: src/share/mk/bsd.sys.mk,v 1.7 2006/06/11 00:08:57 tg Exp $
 # $OpenBSD: bsd.sys.mk,v 1.8 2000/07/06 23:12:41 millert Exp $
 # $NetBSD: bsd.sys.mk,v 1.2 1995/12/13 01:25:07 cgd Exp $
 
 .if !defined(BSD_SYS_MK)
 BSD_SYS_MK=1
+
+CPPFLAGS+=	-isystem ${.CURDIR}
 
 # The following is only wanted for source tree builds, not MirPorts
 .ifndef TRUEPREFIX

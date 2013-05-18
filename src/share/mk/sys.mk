@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/sys.mk,v 1.80 2006/10/27 15:52:58 tg Exp $
+# $MirOS: src/share/mk/sys.mk,v 1.81 2006/10/28 19:52:51 tg Exp $
 # $OpenBSD: sys.mk,v 1.45 2005/03/07 00:06:00 deraadt Exp $
 # $NetBSD: sys.mk,v 1.27 1996/04/10 05:47:19 mycroft Exp $
 # @(#)sys.mk	5.11 (Berkeley) 3/13/91
@@ -29,7 +29,7 @@ OSNAME!=	uname -s
 OSname=		${OSNAME:L}
 OStriplet?=	${MACHINE_ARCH}-ecce-${OSname}${OSrev}
 _MIRMAKE_EXE=	/usr/bin/make
-_MIRMAKE_VER=	20061028
+_MIRMAKE_VER=	20061101
 
 .SUFFIXES:	.out .a .ln .o .s .S .c .m .cc .cxx .y .l .i .h .sh .m4
 .LIBS:		.a
@@ -61,7 +61,7 @@ COMPILE.cc?=	${CXX} ${CXXFLAGS:M*} ${CPPFLAGS} -c
 LINK.cc?=	${CXX} ${CXXFLAGS:M*} ${CPPFLAGS} ${LDFLAGS}
 
 CPP?=		cpp
-CPPFLAGS?=	-isystem ${.CURDIR}
+CPPFLAGS?=
 
 LEX?=		lex
 LFLAGS?=
