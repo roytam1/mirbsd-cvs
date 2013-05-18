@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/i386/common/list,v 1.17 2006/05/26 18:29:49 tg Exp $
+# $MirOS: src/distrib/i386/common/list,v 1.18 2006/05/26 19:16:50 tg Exp $
 # $OpenBSD: list,v 1.15 2005/05/04 17:08:07 miod Exp $
 
 # copy the crunched binary, link to it, and kill it
@@ -37,10 +37,8 @@ LINK	instbin					sbin/mount_ffs
 LINK	instbin					sbin/mount_msdos
 LINK	instbin					sbin/newfs sbin/mount_mfs
 LINK	instbin					sbin/ping
-LINK	instbin					sbin/ping6
 LINK	instbin					sbin/reboot sbin/halt
 LINK	instbin					sbin/route
-LINK	instbin					sbin/rtsol
 LINK	instbin					sbin/swapctl
 LINK	instbin					sbin/umount
 LINK	instbin					sbin/wicontrol
@@ -92,4 +90,4 @@ SCRIPT	${CURDIR}/../../miniroot/install.sub	install.sub
 SPECIAL	chmod 755 install
 
 # and a few bits of entropy
-SPECIAL	dd if=/dev/urandom count=1 of=var/db/host.random
+SPECIAL	dd if=/dev/arandom size=64 count=1 of=var/db/host.random
