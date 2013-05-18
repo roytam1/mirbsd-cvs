@@ -1,8 +1,8 @@
-# $MirOS: src/etc/etc.i386/Makefile.inc,v 1.2 2005/03/06 19:05:55 tg Exp $
+# $MirOS: src/etc/etc.i386/Makefile.inc,v 1.3 2006/02/14 20:47:53 tg Exp $
 
 .if defined(DESTDIR)
 
 snap_md:
-	${SUDO} cp ${DESTDIR}/usr/mdec/pxeboot ${DESTDIR}/snapshot/
+	${SUDO} cp ${DESTDIR}/usr/mdec/{,pxe}boot ${DESTDIR}/snapshot/
 
 .endif
