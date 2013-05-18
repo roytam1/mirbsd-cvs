@@ -1,5 +1,5 @@
 <!-- PageID: wlog-8 -->
-<small class="rcsid">$MirOS: www/content/d2xvZy04.inc,v 1.64 2006/04/07 23:25:29 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy04.inc,v 1.65 2006/04/08 00:29:23 tg Exp $</small>
 <h1>MirBSD &ndash; WTF, We Have a Release!?</h1>
 <p><small><a href="#eof">bottom</a> or <a href="/?older">older</a>
  editions</small></p>
@@ -1137,6 +1137,24 @@ celebrate this event, rotate the wlog and start a new one.</p>
   now? Some Lunox or Kinderunix guru reading this and want to send me an
   unidiff? (Only -i must work, -I or neither-of-these-specified does not
   need to be used. Partition tables must work, though.)</p>
+</div>
+
+<div class="wlentry">
+ <h3 id="e20060409">09.04.2006 by tg@</h3>
+ <p>There is not much to say today. I'm slowly improving but there are a
+  days or times where I need to rest too. At least I fixed the web pages
+  (plain text versions) of the licence templates (rcs -kb), added a link
+  to the MirOS one from the ISC one (like ealier in the web version) and
+  fixed a spelling mistake in ours.</p>
+ <p>I got a new user for &#39764;&#29579; and I hope he pays and behaves
+  well&#8230; if so, I'm not going &quot;into red numbers&quot; with the
+  box again.</p>
+ <p>I wonder if it's a good idea to hardcode &#39764;&#29579;&#12398; IP
+  address on the live CDs &ndash; but then, MirOS doesn't have more than
+  a few hundred users world-wide, NTP intervals are large, and the first
+  rdate(8) call doesn't hurt either. (Too bad there's no way to send any
+  entropy back with an NTP answer packet &ndash; at least I did not find
+  a way to&#8230;</p>
 </div>
 
 <p id="eof">Good luck, have fun, take care etc.pp</p>
