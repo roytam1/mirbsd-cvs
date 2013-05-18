@@ -1,5 +1,5 @@
 <!-- PageID: main -->
-<small class="rcsid">$MirOS: www/content/bWFpbg__.inc,v 1.54 2006/07/30 21:18:36 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bWFpbg__.inc,v 1.55 2006/07/30 21:19:04 tg Exp $</small>
 
 <h1>Welcome to the MirOS Project!</h1>
 
@@ -7,9 +7,10 @@
 
 <p>MirOS BSD is a secure operating system from the BSD family for 32-bit
  i386 and sparc systems. It is based on <a
- href="http://www.openbsd.org/">OpenBSD</a>. MirPorts is a portable ports
+ href="http://www.openbsd.org/">OpenBSD</a>. <a href="/?ports">MirPorts</a>
+ is a portable ports
  tree to facilitate the installation of additional software. The project
- also releases some portable software: mksh, a ksh-based shell;
+ also releases some portable software: mksh, a pdksh-based shell;
  PaxMirabilis, an archiver for various formats; MirMake, a framework for
  building software; MirNroff, an AT&amp;T nroff based man page (and text
  document) formatter; MirCksum, a flexible checksumming and hash generation

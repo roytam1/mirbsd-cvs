@@ -1,6 +1,10 @@
 <!-- PageID: ports -->
-<small class="rcsid">$MirOS: www/content/cG9ydHM_.inc,v 1.8 2006/01/24 22:31:44 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/cG9ydHM_.inc,v 1.9 2006/01/27 00:14:30 tg Exp $</small>
 <h1>MirPorts: The MirOS Ports Framework</h1>
+
+<p>The official MirPorts homepage can always be reached at <a
+ href="http://mirbsd.de/ports">http://mirbsd.de/ports</a> which
+ redirects to a &quot;known working&quot; mirror.</p>
 
 <h2>Installation instructions</h2>
 
