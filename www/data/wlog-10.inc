@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.310 2010/09/16 21:25:16 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.311 2010/09/26 16:35:17 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -7099,7 +7099,8 @@ Tag: news rant release security snapshot
  <tt>eurynome</tt> and have (<strong>again</strong>) reannounced this
  project’s torrents. <strong>Please <a href="@@RELPATH@@bt.htm">download
  the *.torrent files</a> again.</strong> And don’t bother asking, I’m not
- running a public tracker.</p>
+ running a public tracker. <strong>Clarification:</strong> The content is
+ unchanged, <em>only the torrent metafile</em> has changed!</p>
 <p>The updated CVS and new RNG code seem to behave well; I also fixed old
  bugs in the process. I will probably update our main server within some
  foreseeable future (this would be the ideal time to push out a snapshot
