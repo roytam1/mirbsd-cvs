@@ -1,4 +1,4 @@
-# $MirOS: src/etc/Makefile,v 1.26 2006/10/15 02:11:38 tg Exp $
+# $MirOS: src/etc/Makefile,v 1.27 2006/10/28 19:54:55 tg Exp $
 # $OpenBSD: Makefile,v 1.226 2005/05/26 23:06:06 mcbride Exp $
 
 TZDIR=		/usr/share/zoneinfo
@@ -81,7 +81,7 @@ etc-files:
 	${INSTALL} -c -o root -g wheel -m 600 crontab ${DESTDIR}/var/cron/tabs/root
 	${INSTALL} -c -o root -g wheel -m 600 master.passwd ${DESTDIR}/etc/
 	pwd_mkdb -p -d ${DESTDIR}/etc /etc/master.passwd
-	${INSTALL} -c -o root -g wheel -m 600 pf.conf ${DESTDIR}/etc/
+	${INSTALL} -c -o root -g wheel -m 640 pf.conf ${DESTDIR}/etc/
 	${INSTALL} -c -o ${BINOWN} -g ${BINGRP} -m 555 \
 	    etc.${MACHINE}/MAKEDEV ${DESTDIR}/dev/
 	${INSTALL} -c -o root -g wheel -m 600 root.profile ${DESTDIR}/.profile
@@ -140,7 +140,7 @@ etc-files:
 		${DESTDIR}/var/log/messages
 	${INSTALL} -c -o ${BINOWN} -g wheel -m 664 /dev/null \
 		${DESTDIR}/var/log/sendmail.st
-	${INSTALL} -c -o ${BINOWN} -g wheel -m 644 /dev/null \
+	${INSTALL} -c -o ${BINOWN} -g wheel -m 640 /dev/null \
 		${DESTDIR}/var/log/wtmp
 	${INSTALL} -c -o daemon -g staff -m 664 /dev/null \
 		${DESTDIR}/var/msgs/bounds
@@ -253,7 +253,7 @@ install-generated:
 DHSIZE=	1024 1536 2048 3072 4096
 update-moduli:
 	{ \
-		echo '# $$MirOS: src/etc/Makefile,v 1.26 2006/10/15 02:11:38 tg Exp $$'; \
+		echo '# $$MirOS: src/etc/Makefile,v 1.27 2006/10/28 19:54:55 tg Exp $$'; \
 		echo '# Time Type Tests Tries Size Generator Modulus'; \
 		for i in ${DHSIZE}; do \
 			ssh-keygen -b $$i -G /dev/stdout; \

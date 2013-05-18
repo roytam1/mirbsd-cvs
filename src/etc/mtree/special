@@ -1,4 +1,4 @@
-# $MirOS: src/etc/mtree/special,v 1.11 2006/10/15 00:39:16 tg Exp $
+# $MirOS: src/etc/mtree/special,v 1.12 2006/10/15 02:11:40 tg Exp $
 # $OpenBSD: special,v 1.66 2005/06/08 20:11:38 deraadt Exp $
 # $NetBSD: special,v 1.4 1996/05/08 21:30:18 pk Exp $
 # @(#)special	8.2 (Berkeley) 1/23/94
@@ -103,7 +103,7 @@ uucp		type=dir mode=0755 uname=root gname=wheel optional ignore
 root		type=dir mode=0700 uname=root gname=wheel
 .cshrc		type=file mode=0644 uname=root gname=wheel optional
 .login		type=file mode=0644 uname=root gname=wheel optional
-.profile	type=file mode=0644 uname=root gname=wheel optional
+.profile	type=file mode=0600 uname=root gname=wheel optional
 .rhosts		type=file mode=0600 uname=root gname=wheel optional
 ..	#root
 
@@ -160,7 +160,7 @@ kvm_bsd.db	type=file mode=0644 uname=root gname=wheel
 log		type=dir mode=0755 uname=root gname=wheel
 authlog		type=file mode=0640 uname=root gname=wheel optional
 secure		type=file mode=0600 uname=root gname=wheel optional
-wtmp		type=file mode=0644 uname=root gname=wheel
+wtmp		type=file mode=0640 uname=root gname=wheel
 lastlog		type=file mode=0644 uname=root gname=wheel optional
 shareddirs.db	type=file mode=0644 uname=root gname=wheel optional
 ..	#var/log
