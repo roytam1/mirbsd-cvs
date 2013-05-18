@@ -1,5 +1,7 @@
 +-----------------------------------------------------------------
 |
+| Remember to uncompress /bsd for modload(8) to work!
+|
 | If you want to load this kernel module at boot time, add the
 | following lines to /etc/rc.securelevel before the line which
 | echoes a simple dot:
