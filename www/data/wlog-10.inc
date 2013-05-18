@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.325 2011/03/07 20:42:12 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.326 2011/03/11 17:58:36 bsiegert Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -7504,4 +7504,58 @@ Author: bsiegert@
  the new-developer process during FOSDEM 2011. A big “Thank you” goes out
  to these three persons in particular as well as to all those that warmly
  welcomed me on the NetBSD developer mailing list.</p>
+----
+Title: Impressions of the Go programming language
+Date: 12.03.2011 15:10
+Tags: go
+Author: bsiegert@
+
+<p><em>A few days ago, somebody sent me an e-mail with a few questions
+ about the Go programming language, of which I am a coauthor and
+ contributor. The questions concerned my general impression, the
+ experience I had in it, the future and some good areas of application.
+ Here is my reply.</em></p>
+
+<p>In my experience, when people try Go, there are two phases: On a
+ first glance, it does not seem very special. However, many that do try
+ it quickly become hooked.</p>
+
+<p>I myself was primarily programming in C when I started using Go. I
+ had written some code in Limbo, which an be seen as the predecessor of
+ Go, so trying it seemed natural. I quickly discovered that it is a very
+ well-designed language, whose constructs make perfect sense and are
+ easy to grasp. The standard library is also very well done and makes
+ many common programming jobs easy.</p>
+
+<p>I decided to write a project I did for work in Go. However, the target
+ was a Windows system, so I became involved in the Windows port. My
+ first contributions were to the path package. It is a nice experience
+ working with such bright and professional people as the Go developers.
+ While they can be sometimes a bit terse in code reviews, they are very
+ talented people. I found myself thinking a long time about a single
+ sentence in a review before finally “getting it”.</p>
+
+<p>Speaking of which, the code review process is very efficient for the
+ development of the language.</p>
+
+<p>In the future, I think Go will get a much wider adoption, and be
+ usable also for writing “native” graphical user interface programs.
+ There is a WinAPI port for creating Windows GUIs, and there is a very
+ good Gtk+ adapter for Unix-like systems. I can also see it being used a
+ lot for network servers, such as HTTP application servers and so
+ on.</p>
+
+<p>In these two areas, parallelism is a key point. In a GUI application,
+ you want the interface to remain reactive during calculations and I/O,
+ which is very easy to do with multiple goroutines. In a network
+ application, you also have to process many requests in parallel. Go has
+ the potential to scale significantly better than other languages.
+ Maybe will even be one of the answers to the problem of programming for
+ ever more parallel machines, as almost all new computers have multiple
+ CPU cores.</p>
+
+<p>I also think that there will be more optimization so the language
+ will get much faster in the future. It is already faster than Python in
+ most cases (easy, since it is a compiled language) but just as easy for
+ many.</p>
 ----
