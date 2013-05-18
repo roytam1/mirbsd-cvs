@@ -3,7 +3,7 @@
 
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.226 2009/04/21 10:07:23 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.227 2009/04/22 16:25:14 tg Exp $'
 mws_content <<'EOF'
 <h1>mksh(1) R37c</h1>
 <p>This is the website of the MirBSD™ Korn Shell, an actively developed free
@@ -952,7 +952,9 @@ mws_content <<'EOF'
 <li>Mode for no input line editing at all (required for Plan 9)
  and no Emacs just Vi mode (requested by unknown at FOSDEM 2009 – yuck)</li>
 <li>Real Unicode command line editing code</li>
-<li>Real Unicode internal op, including ${foo:2:3}</li>
+<li>Real Unicode internal op – ${foo:2:3} now works with MirOS OPTU-8
+ but having internal representation being MirOS OPTU-16 would help in
+ the long term</li>
 <li>Build with more platforms’ native tools or other compilers
  – ACK, kencc, ICC/UWIN, egcs/UWIN, tcc</li>
 <li>Add the ability to handle embedded NUL bytes in strings read,
@@ -987,6 +989,24 @@ mws_content <<'EOF'
   limits in a single invocation from oksh (thanks millert) -->
  <li>[ahoka] Begin porting to <a href="http://www.haiku-os.org/">Haiku</a>
   and, implicitly, BeOS (not finished yet)</li>
+ <li>[tg] Improve regression test output debugging</li>
+ <li>[tg] Fix &lt;libutil.h&gt; prerequisites on MidnightBSD in mirtoconf</li>
+ <li>[tg] Mention that RedHat BZ#496791 cannot currently be fixed in the
+  manpage by discouraging use of apostrophes in comments in comsubs; add
+  appropriate (expected-fail) regression tests</li>
+ <li>[tg] Sync with OpenBSD ksh (mostly a no-op)</li>
+ <li>[James Butler] Add search-history-up and search-history-down keybindings
+  (tcsh-like) to the Emacs command line editing mode</li>
+ <li>[tg] Bind new search-history-{up,down} to ANSI PgUp and PgDn keys</li>
+ <li>[tg] Document ANSI default keybindings (↑↓←→ Home End Del PgUp PgDn)
+  in the mksh(1) manual page as well</li>
+ <li>[tg] Optimise internal UTF-8 handling code for size and reusability</li>
+ <li>[tg] Incompatible change: <tt>${foo:1:2}</tt> and <tt>${#foo}</tt> now
+  operate on characters, not on bytes. Characters are octets (<tt>set +U</tt>)
+  or (utf8-mode) MirOS OPTU-8 multibyte characters (<tt>set -U</tt>)</li>
+ <li>[tg] Improve regression tests relating to <tt>${foo:1:2}</tt> and
+  <tt>${#foo}</tt> and <tt>let wc=1#x</tt> and utf8-mode</li>
+ <li>[tg] Use per-file copyright notices, move global text to manpage</li>
 </ul>
 <p id="r37c">mksh R37c provides these follow-up fixes:</p><ul>
  <li>[tg] Improve præprocessor detection/work in <tt>Build.sh</tt></li>
