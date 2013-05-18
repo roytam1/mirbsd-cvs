@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.bin/nc/socks.c,v 1.5 2005/11/23 18:04:11 tg Exp $ */
+/**	$MirOS: src/usr.bin/nc/socks.c,v 1.6 2005/11/23 20:38:23 tg Exp $ */
 /*	$OpenBSD: socks.c,v 1.15 2005/05/24 20:13:28 avsm Exp $	*/
 
 /*
@@ -40,7 +40,7 @@
 #include <unistd.h>
 #include "atomicio.h"
 
-__RCSID("$MirOS: src/usr.bin/nc/socks.c,v 1.5 2005/11/23 18:04:11 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/nc/socks.c,v 1.6 2005/11/23 20:38:23 tg Exp $");
 
 #define SOCKS_PORT	"1080"
 #define HTTP_PROXY_PORT	"3128"
@@ -150,11 +150,11 @@ socks_connect(const char *host, const char *port,
 		buf[2] = SOCKS_NOAUTH;
 		cnt = atomicio(vwrite, proxyfd, buf, 3);
 		if (cnt != 3)
-			err(1, "write failed (%d/3)", cnt);
+			err(1, "write failed (%ld/3)", cnt);
 
 		cnt = atomicio(read, proxyfd, buf, 2);
 		if (cnt != 2)
-			err(1, "read failed (%d/3)", cnt);
+			err(1, "read failed (%ld/3)", cnt);
 
 		if (buf[1] == SOCKS_NOMETHOD)
 			errx(1, "authentication method negotiation failed");
@@ -203,11 +203,11 @@ socks_connect(const char *host, const char *port,
 
 		cnt = atomicio(vwrite, proxyfd, buf, wlen);
 		if (cnt != wlen)
-			err(1, "write failed (%d/%d)", cnt, wlen);
+			err(1, "write failed (%ld/%ld)", cnt, wlen);
 
 		cnt = atomicio(read, proxyfd, buf, 10);
 		if (cnt != 10)
-			err(1, "read failed (%d/10)", cnt);
+			err(1, "read failed (%ld/10)", cnt);
 		if (buf[1] != 0)
 			errx(1, "connection failed, SOCKS error %d", buf[1]);
 	} else if (socksv == 4) {
@@ -225,11 +225,11 @@ socks_connect(const char *host, const char *port,
 
 		cnt = atomicio(vwrite, proxyfd, buf, wlen);
 		if (cnt != wlen)
-			err(1, "write failed (%d/%d)", cnt, wlen);
+			err(1, "write failed (%ld/%ld)", cnt, wlen);
 
 		cnt = atomicio(read, proxyfd, buf, 8);
 		if (cnt != 8)
-			err(1, "read failed (%d/8)", cnt);
+			err(1, "read failed (%ld/8)", cnt);
 		if (buf[1] != 90)
 			errx(1, "connection failed, SOCKS error %d", buf[1]);
 	} else if (socksv == -1) {
@@ -255,7 +255,7 @@ socks_connect(const char *host, const char *port,
 
 		cnt = atomicio(vwrite, proxyfd, buf, r);
 		if ((int)cnt != r)
-			err(1, "write failed (%d/%d)", cnt, r);
+			err(1, "write failed (%ld/%d)", cnt, r);
 
 		/* Read reply */
 		for (r = 0; r < HTTP_MAXHDRS; r++) {

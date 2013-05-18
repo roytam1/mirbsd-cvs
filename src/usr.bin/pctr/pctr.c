@@ -9,12 +9,11 @@
  * OpenBSD project by leaving this copyright notice intact.
  */
 
+#include <sys/param.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
-#include <sys/param.h>
-#include <sys/types.h>
 #include <sys/stat.h>
 #include <sys/sysctl.h>
 #include <sys/ioctl.h>
@@ -23,6 +22,8 @@
 #include <machine/cpu.h>
 #include <machine/pctr.h>
 #include <machine/specialreg.h>
+
+__RCSID("$MirOS$");
 
 #define CFL_MESI 0x1   /* Unit mask accepts MESI encoding */
 #define CFL_SA   0x2   /* Unit mask accepts Self/Any bit */
@@ -260,7 +261,7 @@ printdesc(char *desc)
 		while (*--p == ' ')
 			;
 		p++;
-		printf("      %.*s\n", p - desc, desc);
+		printf("      %.*s\n", (int)(p - desc), desc);
 		desc = p;
 	}
 }
@@ -351,7 +352,7 @@ fn2str(int family, u_int sel)
 		    sel & P6CTR_E ? 'e' : '-',
 		    sel & P6CTR_K ? 'k' : '-',
 		    sel & P6CTR_U ? 'u' : '-',
-		    fn, cm, um, 7 - (strlen(cm) + strlen(um)), "",
+		    fn, cm, um, 7 - (int)(strlen(cm) + strlen(um)), "",
 		    cfnp ? cfnp->name : "unknown function");
 	} else
 		return (NULL);

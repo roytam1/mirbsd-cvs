@@ -1,8 +1,8 @@
-/* $MirOS: src/usr.bin/host/host.c,v 1.1.7.1 2005/03/06 16:46:48 tg Exp $ */
+/* $MirOS: src/share/misc/licence.template,v 1.14 2006/08/09 19:35:23 tg Rel $ */
 
 /*-
- * Copyright (c) 2001, 2002, 2003, 2004
- *	Thorsten "mirabile" Glaser <tg@66h.42h.de>
+ * Copyright (c) 2001, 2002, 2003, 2004, 2006
+ *	Thorsten Glaser <tg@mirbsd.de>
  *
  * Licensee is hereby permitted to deal in this work without restric-
  * tion, including unlimited rights to use, publicly perform, modify,
@@ -11,8 +11,8 @@
  * in all redistributions or reproduced in accompanying documentation
  * or other materials provided with binary redistributions.
  *
- * All advertising materials mentioning features or use of this soft-
- * ware must display the following acknowledgement:
+ * Advertising materials mentioning features or use of this work must
+ * display the following acknowledgement:
  *	This product includes material provided by Thorsten Glaser.
  *
  * Licensor offers the work "AS IS" and WITHOUT WARRANTY of any kind,
@@ -22,7 +22,7 @@
  * or other damage, or direct damage except proven a consequence of a
  * direct error of said person and intended use of this work, loss or
  * other issues arising in any way out of its use, even if advised of
- * the possibility of such damage or existence of a nontrivial bug.
+ * the possibility of such damage or existence of a defect.
  *-
  * Based upon code by:
  * Copyright (c) 1985, 1989 Regents of the University of California.
@@ -93,7 +93,7 @@
  * -z		special mode to list delegated zones in a zone
  */
 
-static char Usage[] =
+static const char Usage[] =
 "\
 Usage:	 host [-v] [-a] [-t querytype] [options] name [server]\n\
 Listing: host [-v] [-a] [-t querytype] [options] -l zone [server]\n\
@@ -128,7 +128,7 @@ char *version = "961113-MirOS";
 #include <unistd.h>
 
 __SCCSID("@(#)host.c	e07@nikhef.nl (Eric Wassenaar) 961013");
-__RCSID("$MirOS: src/usr.bin/host/host.c,v 1.1.7.1 2005/03/06 16:46:48 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/host/host.c,v 1.2 2005/12/17 05:46:27 tg Exp $");
 
 #ifndef NO_DATA
 #define NO_DATA	NO_ADDRESS	/* used here only in case authoritative */
@@ -6744,7 +6744,7 @@ input int answerlen;			/* length of answer buffer */
 	if (bp->tc)
 	{
 		if (answerlen > sizeof(querybuf))
-			printf(" (truncated to %d)", sizeof(querybuf));
+			printf(" (truncated to %ld)", sizeof (querybuf));
 		else
 			printf(" (truncated)");
 	}
