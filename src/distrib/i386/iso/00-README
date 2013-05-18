@@ -8,6 +8,12 @@ small ramdisk image. You can install or upgrade a MirOS installation and
 do some basic repair tasks. Also included are some useful tools, for ex-
 ample an ssh client and server facilitating remote control.
 
+If you are reading this text from the Live/Install CD instead of the 5MB
+Mini-ISO image, you will be presented a textual menu interface with four
+entries at boot asking you (to be selected via their number or by cursor
+keys) whether you want to proceed to the traditional bootloader, run the
+Live CD or directly start the Setup programme.
+
 For further information on how to set up MirOS, please go to our website
 at http://MirBSD.org/ and read the installation documents.
 
@@ -38,6 +44,18 @@ If this is a formal release, the directory in which you are reading this
 file also contains checksums of the installation sets (*ngz) and kernels
 (bsd*). You can check them from within the installation. Check the vali-
 dity of the signatures on the checksum with a hash tool and gzsig(1).
+
+Live CD
+-------
+
+This edition of the MirBSD Live/Install CD is an early beta issue. There
+most likely be bugs, so beware.
+
+As a new feature, you can 'cat' or 'dd' either the whole CD-ROM, or just
+the 5MB Mini-ISO (./v8/i386/cdrom8.iso), on your hard disc (/dev/hda, on
+GNU/Linux, or /dev/rwd0c, on MirOS) and run it from there. Note this de-
+stroys your partition table and any other installed operating systems. A
+specific hack for serial console users will be added later.
 
 
 MirBSD Licence
@@ -93,4 +111,4 @@ code is available at http://www.mirbsd.org/ and its mirrors; further
 information can be found at /usr/share/doc/legal/ as well.
 
 _________________________________________________________________________
-$MirOS: src/distrib/i386/iso/00-README,v 1.6 2006/01/13 03:49:30 tg Exp $
+$MirOS: src/distrib/i386/iso/00-README,v 1.7 2006/03/19 21:23:17 tg Exp $
