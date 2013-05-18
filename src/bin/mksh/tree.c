@@ -2,7 +2,7 @@
 
 #include "sh.h"
 
-__RCSID("$MirOS: src/bin/mksh/tree.c,v 1.14 2008/02/26 21:08:33 tg Exp $");
+__RCSID("$MirOS: src/bin/mksh/tree.c,v 1.15 2008/03/01 21:10:26 tg Exp $");
 
 #define INDENT	4
 
@@ -375,7 +375,7 @@ vfptreef(struct shf *shf, int indent, const char *fmt, va_list va)
 				shf_fprintf(shf, "%d", va_arg(va, int));
 				break;
 			case 'u':	/* decimal */
-				shf_fprintf(shf, "%u", va_arg(va, unsigned));
+				shf_fprintf(shf, "%u", va_arg(va, unsigned int));
 				break;
 			case 'T':	/* format tree */
 				ptree(va_arg(va, struct op *), indent, shf);
