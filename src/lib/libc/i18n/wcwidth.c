@@ -1,4 +1,4 @@
-/* $MirOS: contrib/code/libhaible/wcwidth.c,v 1.5 2006/05/30 12:11:49 tg Exp $ */
+/* $MirOS: contrib/code/libhaible/wcwidth.c,v 1.6 2006/05/30 12:13:45 tg Exp $ */
 /* $XTermId: wcwidth.c,v 1.17 2006/03/20 00:36:19 tom Exp $ */
 /* $XFree86: xc/programs/xterm/wcwidth.c,v 1.8 2006/03/20 00:36:19 dickey Exp $ */
 
@@ -12,7 +12,7 @@
 
 #include <wchar.h>
 
-__RCSID("$MirOS: contrib/code/libhaible/wcwidth.c,v 1.5 2006/05/30 12:11:49 tg Exp $");
+__RCSID("$MirOS: contrib/code/libhaible/wcwidth.c,v 1.6 2006/05/30 12:13:45 tg Exp $");
 
 struct interval {
 	wint_t first;

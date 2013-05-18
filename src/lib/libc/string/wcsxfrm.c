@@ -1,4 +1,4 @@
-/**	$MirOS$ */
+/**	$MirOS: contrib/code/libhaible/wcsxfrm.c,v 1.1 2006/05/30 20:34:39 tg Exp $ */
 /*	$OpenBSD: multibyte_sb.c,v 1.6 2005/12/10 02:01:51 deraadt Exp $	*/
 /*	$NetBSD: multibyte_sb.c,v 1.4 2003/08/07 16:43:04 agc Exp $	*/
 
@@ -35,7 +35,7 @@
 #include <stdlib.h>
 #include <wchar.h>
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: contrib/code/libhaible/wcsxfrm.c,v 1.1 2006/05/30 20:34:39 tg Exp $");
 
 size_t
 wcsxfrm(wchar_t *__restrict__ dest, const wchar_t *__restrict__ src, size_t n)

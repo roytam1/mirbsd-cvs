@@ -1,4 +1,4 @@
-/* $MirOS: contrib/code/libhaible/mbrlen.c,v 1.1 2006/05/30 19:49:45 tg Exp $ */
+/* $MirOS: contrib/code/libhaible/mbstowcs.c,v 1.2 2006/05/30 23:14:19 tg Exp $ */
 
 /*-
  * Copyright (c) 2006
@@ -10,10 +10,6 @@
  * pyright notices above, these terms and the disclaimer are retained
  * in all redistributions or reproduced in accompanying documentation
  * or other materials provided with binary redistributions.
- *
- * All advertising materials mentioning features or use of this soft-
- * ware must display the following acknowledgement:
- *	This product includes material provided by Thorsten Glaser.
  *
  * Licensor offers the work "AS IS" and WITHOUT WARRANTY of any kind,
  * express, or implied, to the maximum extent permitted by applicable
@@ -27,16 +23,14 @@
 
 #include <wchar.h>
 
-__RCSID("$MirOS: contrib/code/libhaible/mbrlen.c,v 1.1 2006/05/30 19:49:45 tg Exp $");
+__RCSID("$MirOS: contrib/code/libhaible/mbstowcs.c,v 1.2 2006/05/30 23:14:19 tg Exp $");
 
 size_t
-mbrlen(const char *__restrict__ s, size_t n, mbstate_t *__restrict__ ps)
+mbstowcs(wchar_t *__restrict__ pwcs, const char *__restrict__ s, size_t n)
 {
-	static mbstate_t internal = { 0, 0 };
-	mbstate_t *nps;
+	mbstate_t state;
+	const char *sb = s;
 
-	/* only evaluate ps once, according to TFM */
-	if ((nps = ps) == NULL)
-		nps = &internal;
-	return (mbrtowc(NULL, s, n, nps));
+	bzero(&state, sizeof (mbstate_t));
+	return (mbsrtowcs(pwcs, &sb, n, &state));
 }

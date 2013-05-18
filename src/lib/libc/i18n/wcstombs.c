@@ -1,4 +1,4 @@
-/* $MirOS: src/share/misc/licence.template,v 1.7 2006/04/09 22:08:49 tg Rel $ */
+/* $MirOS: contrib/code/libhaible/wcstombs.c,v 1.2 2006/05/31 00:25:52 tg Exp $ */
 
 /*-
  * Copyright (c) 2006
@@ -10,10 +10,6 @@
  * pyright notices above, these terms and the disclaimer are retained
  * in all redistributions or reproduced in accompanying documentation
  * or other materials provided with binary redistributions.
- *
- * All advertising materials mentioning features or use of this soft-
- * ware must display the following acknowledgement:
- *	This product includes material provided by Thorsten Glaser.
  *
  * Licensor offers the work "AS IS" and WITHOUT WARRANTY of any kind,
  * express, or implied, to the maximum extent permitted by applicable
@@ -27,19 +23,14 @@
 
 #include <wchar.h>
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: contrib/code/libhaible/wcstombs.c,v 1.2 2006/05/31 00:25:52 tg Exp $");
 
-int
-mblen(const char *s, size_t n)
+size_t
+wcstombs(char *__restrict__ s, const wchar_t *__restrict__ pwcs, size_t n)
 {
 	mbstate_t state;
-	int rv;
-
-	if (s == NULL)
-		return (0);
+	const wchar_t *src = pwcs;
 
 	bzero(&state, sizeof (mbstate_t));
-	if ((rv = mbrtowc(NULL, s, n, &state)) < 0)
-		return (-1);
-	return (rv);
+	return (wcsrtombs(s, &src, n, &state));
 }

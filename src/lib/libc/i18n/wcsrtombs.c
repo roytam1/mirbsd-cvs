@@ -1,4 +1,4 @@
-/* $MirOS: contrib/code/libhaible/mbsrtowcs.c,v 1.14 2006/05/30 23:06:34 tg Exp $ */
+/* $MirOS: contrib/code/libhaible/wcsrtombs.c,v 1.1 2006/05/31 00:25:52 tg Exp $ */
 
 /*-
  * Copyright (c) 2006
@@ -30,7 +30,7 @@
 
 #include "mir18n.h"
 
-__RCSID("$MirOS: contrib/code/libhaible/mbsrtowcs.c,v 1.14 2006/05/30 23:06:34 tg Exp $");
+__RCSID("$MirOS: contrib/code/libhaible/wcsrtombs.c,v 1.1 2006/05/31 00:25:52 tg Exp $");
 
 size_t
 wcsrtombs(char *__restrict__ dst, const wchar_t **__restrict__ src,

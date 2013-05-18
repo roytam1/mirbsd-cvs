@@ -1,4 +1,4 @@
-/* $MirOS: contrib/code/libhaible/mbtowc.c,v 1.1 2006/05/30 19:49:45 tg Exp $ */
+/* $MirOS: contrib/code/libhaible/mblen.c,v 1.1 2006/05/30 19:49:45 tg Exp $ */
 
 /*-
  * Copyright (c) 2006
@@ -27,16 +27,19 @@
 
 #include <wchar.h>
 
-__RCSID("$MirOS: contrib/code/libhaible/mbtowc.c,v 1.1 2006/05/30 19:49:45 tg Exp $");
+__RCSID("$MirOS: contrib/code/libhaible/mblen.c,v 1.1 2006/05/30 19:49:45 tg Exp $");
 
 int
-wctomb(char *s, const wchar_t c)
+mblen(const char *s, size_t n)
 {
 	mbstate_t state;
+	int rv;
 
 	if (s == NULL)
 		return (0);
 
 	bzero(&state, sizeof (mbstate_t));
-	return (wcrtomb(s, c, &state));
+	if ((rv = mbrtowc(NULL, s, n, &state)) < 0)
+		return (-1);
+	return (rv);
 }

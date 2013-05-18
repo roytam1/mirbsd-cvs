@@ -1,4 +1,4 @@
-/* $MirOS: src/share/misc/licence.template,v 1.7 2006/04/09 22:08:49 tg Rel $ */
+/* $MirOS: contrib/code/libhaible/wctrans.c,v 1.1 2006/05/30 11:34:21 tg Exp $ */
 
 /*-
  * Copyright (c) 2006
@@ -30,7 +30,7 @@
 #define mir18n_caseconv
 #include "mir18n.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: contrib/code/libhaible/wctrans.c,v 1.1 2006/05/30 11:34:21 tg Exp $");
 
 /* this is, admittedly, taken from libutf8 */
 struct trans_property {

@@ -1,4 +1,4 @@
-# $MirOS: src/lib/libc/string/Makefile.inc,v 1.6 2005/09/22 20:45:54 tg Exp $
+# $MirOS: src/lib/libc/string/Makefile.inc,v 1.7 2006/06/01 21:54:47 tg Exp $
 # $OpenBSD: Makefile.inc,v 1.17 2005/05/26 12:56:01 otto Exp $
 
 # string sources
@@ -17,6 +17,7 @@ SRCS+=	wcsncasecmp.c
 
 SRCS+=	wcscoll.c
 SRCS+=	wcsdup.c
+SRCS+=	wcsxfrm.c
 
 # machine-dependent net sources
 # m-d Makefile.inc must include sources for:

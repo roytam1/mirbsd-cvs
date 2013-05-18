@@ -1,4 +1,4 @@
-/* $MirOS: src/share/misc/licence.template,v 1.7 2006/04/09 22:08:49 tg Rel $ */
+/* $MirOS: contrib/code/libhaible/wctomb.c,v 1.1 2006/05/30 20:04:22 tg Exp $ */
 
 /*-
  * Copyright (c) 2006
@@ -27,19 +27,16 @@
 
 #include <wchar.h>
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: contrib/code/libhaible/wctomb.c,v 1.1 2006/05/30 20:04:22 tg Exp $");
 
 int
-mbtowc(wchar_t *__restrict__ pwc, const char *__restrict__ s, size_t n)
+wctomb(char *s, const wchar_t c)
 {
 	mbstate_t state;
-	int rv;
 
 	if (s == NULL)
 		return (0);
 
 	bzero(&state, sizeof (mbstate_t));
-	if ((rv = mbrtowc(pwc, s, n, &state)) < 0)
-		return (-1);
-	return (rv);
+	return (wcrtomb(s, c, &state));
 }

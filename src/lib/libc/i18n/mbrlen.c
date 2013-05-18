@@ -1,4 +1,4 @@
-/* $MirOS: contrib/code/libhaible/wcstombs.c,v 1.1 2006/05/30 20:04:22 tg Exp $ */
+/* $MirOS: contrib/code/libhaible/mbrlen.c,v 1.2 2006/05/30 22:05:32 tg Exp $ */
 
 /*-
  * Copyright (c) 2006
@@ -10,6 +10,10 @@
  * pyright notices above, these terms and the disclaimer are retained
  * in all redistributions or reproduced in accompanying documentation
  * or other materials provided with binary redistributions.
+ *
+ * All advertising materials mentioning features or use of this soft-
+ * ware must display the following acknowledgement:
+ *	This product includes material provided by Thorsten Glaser.
  *
  * Licensor offers the work "AS IS" and WITHOUT WARRANTY of any kind,
  * express, or implied, to the maximum extent permitted by applicable
@@ -23,14 +27,16 @@
 
 #include <wchar.h>
 
-__RCSID("$MirOS: contrib/code/libhaible/wcstombs.c,v 1.1 2006/05/30 20:04:22 tg Exp $");
+__RCSID("$MirOS: contrib/code/libhaible/mbrlen.c,v 1.2 2006/05/30 22:05:32 tg Exp $");
 
 size_t
-wcstombs(char *__restrict__ s, const wchar_t *__restrict__ pwcs, size_t n)
+mbrlen(const char *__restrict__ s, size_t n, mbstate_t *__restrict__ ps)
 {
-	mbstate_t state;
-	const wchar_t *src = pwcs;
+	static mbstate_t internal = { 0, 0 };
+	mbstate_t *nps;
 
-	bzero(&state, sizeof (mbstate_t));
-	return (wcsrtombs(s, &src, n, &state));
+	/* only evaluate ps once, according to TFM */
+	if ((nps = ps) == NULL)
+		nps = &internal;
+	return (mbrtowc(NULL, s, n, nps));
 }

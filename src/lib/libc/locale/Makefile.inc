@@ -1,4 +1,4 @@
-# $MirOS: src/lib/libc/locale/Makefile.inc,v 1.4 2006/05/26 14:12:22 tg Exp $
+# $MirOS: src/lib/libc/locale/Makefile.inc,v 1.5 2006/06/01 21:58:13 tg Exp $
 # $OpenBSD: Makefile.inc,v 1.10 2005/08/08 05:53:01 espie Exp $
 
 .ifdef __LIBC_OPENBSD_LOCALE
@@ -48,16 +48,30 @@ CFLAGS_wcstoll.o+=	-Wno-cast-qual
 CFLAGS_wcstoul.o+=	-Wno-cast-qual
 CFLAGS_wcstoull.o+=	-Wno-cast-qual
 
-MAN+=	btowc.3 mbrtowc.3 mbsinit.3 nl_langinfo.3 setlocale.3 \
-	wcrtomb.3 wctob.3
+MAN+=	btowc.3
+MAN+=	mblen.3
+MAN+=	mbrlen.3
+MAN+=	mbrtowc.3
+MAN+=	mbsinit.3
+MAN+=	mbsrtowcs.3
+MAN+=	mbstowcs.3
+MAN+=	mbtowc.3
+MAN+=	nl_langinfo.3
+MAN+=	setlocale.3
+MAN+=	wcrtomb.3
+MAN+=	wcsrtombs.3
+MAN+=	wcstombs.3
+MAN+=	wctob.3
+MAN+=	wctomb.3
+MAN+=	wctrans.3
+MAN+=	wctype.3
 MLINKS+=setlocale.3 localeconv.3
 
 # stubs
-MAN+=	iswalnum.3 towlower.3 mblen.3 mbstowcs.3 mbtowc.3 \
-	wcstombs.3 wctomb.3
-MLINKS+=iswalnum.3 iswalpha.3 \
-	iswalnum.3 iswlower.3 \
-	iswalnum.3 iswupper.3 \
-	towlower.3 towupper.3
+MAN+=	iswalnum.3 towlower.3
+MLINKS+=iswalnum.3 iswalpha.3
+MLINKS+=iswalnum.3 iswlower.3
+MLINKS+=iswalnum.3 iswupper.3
+MLINKS+=towlower.3 towupper.3
 
 .endif

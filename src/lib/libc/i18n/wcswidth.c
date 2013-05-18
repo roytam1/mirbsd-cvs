@@ -1,4 +1,4 @@
-/* $MirOS: src/share/misc/licence.template,v 1.7 2006/04/09 22:08:49 tg Rel $ */
+/* $MirOS: contrib/code/libhaible/wcswidth.c,v 1.1 2006/05/30 12:11:49 tg Exp $ */
 
 /*-
  * Copyright (c) 2006
@@ -27,7 +27,7 @@
 
 #include <wchar.h>
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: contrib/code/libhaible/wcswidth.c,v 1.1 2006/05/30 12:11:49 tg Exp $");
 
 int
 wcswidth(const wchar_t *s, size_t n)

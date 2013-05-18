@@ -1,23 +1,11 @@
-# $MirOS: contrib/code/libhaible/Makefile,v 1.31 2006/06/01 21:59:52 tg Exp $
+# $MirOS: contrib/code/libhaible/Makefile,v 1.32 2006/06/01 22:03:22 tg Exp $
 
 LIB=	haible
 NOPIC=	Yes	# for now
 SRCS+=	iswctype.c
-SRCS+=	mblen.c
-SRCS+=	mbrlen.c
-SRCS+=	mbsrtowcs.c
-SRCS+=	mbstowcs.c
-SRCS+=	mbtowc.c
 SRCS+=	towctrans.c
 SRCS+=	towlower.c
 SRCS+=	towupper.c
-SRCS+=	wcsrtombs.c
-SRCS+=	wcstombs.c
-SRCS+=	wcswidth.c
-SRCS+=	wctomb.c
-SRCS+=	wctrans.c
-SRCS+=	wctype.c
-SRCS+=	wcwidth.c
 
 .PATH: ${.CURDIR}/string
 SRCS+=	wcstok.c
@@ -64,8 +52,7 @@ MLINKS+=	MB_CUR_MAX.3 MB_LEN_MAX.3
 
 # reachover for libc
 .PATH: ${LIBCSRCDIR}/locale
-MAN+=		iswctype.3 mbrlen.3 towctrans.3 wctrans.3 wctype.3
-MAN+=		mbsrtowcs.3 wcsrtombs.3
+MAN+=		iswctype.3 towctrans.3
 MLINKS+=	iswalnum.3 iswblank.3 \
 		iswalnum.3 iswcntrl.3 \
 		iswalnum.3 iswdigit.3 \
