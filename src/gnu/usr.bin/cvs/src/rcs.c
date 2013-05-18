@@ -33,7 +33,7 @@
 # endif
 #endif
 
-__RCSID("$MirOS: ports/devel/cvs/patches/patch-src_rcs_c,v 1.8 2010/09/19 00:42:40 tg Exp $");
+__RCSID("$MirOS: src/gnu/usr.bin/cvs/src/rcs.c,v 1.11 2010/09/19 19:43:08 tg Exp $");
 
 /* The RCS -k options, and a set of enums that must match the array.
    These come first so that we can use enum kflag in function
@@ -4221,6 +4221,9 @@ RCS_checkout (RCSNode *rcs, const char *workfile, const char *rev,
 	    : (workfile != NULL ? workfile
 	       : (sout != RUN_TTY ? sout
 		  : "(stdout)"))));
+
+    if (rev && *rev == '-')
+	++rev;
 
     assert (rev == NULL || isdigit ((unsigned char) *rev));
 
