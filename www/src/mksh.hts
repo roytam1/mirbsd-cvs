@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.386 2011/03/07 20:36:36 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.387 2011/03/13 16:36:24 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -1174,6 +1174,8 @@ exec /usr/bin/ld "${args[@]}"</pre>
  <li>[tg] Correct some documentation, code commentary, etc.</li>
  <li>[tg] Handle the UTF-8 Byte Order Mark in <tt>$(…)</tt> expressions</li>
  <li>[tg] Speed up reading input by checking for the BOM only once</li>
+ <li>[tg] Fix mis-detection of gcc format attribute (false negative)</li>
+ <li>[tg] Include some Android specific hacks (no change on other OEs)</li>
 </ul>
 <p id="r39c">mksh R39c is an important minor bugfix release:</p><ul>
  <li>[tg] Build system, code, docs and testsuite cleanup, also style(9)</li>
