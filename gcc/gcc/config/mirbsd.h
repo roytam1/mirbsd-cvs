@@ -1,9 +1,9 @@
-/* $MirOS: gcc/gcc/config/mirbsd.h,v 1.12 2006/09/20 17:45:29 tg Exp $ */
+/* $MirOS: gcc/gcc/config/mirbsd.h,v 1.13 2006/11/09 02:20:48 tg Exp $ */
 
 /* Base configuration file for all MirOS BSD targets.
-   Copyright (C) 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2005
+   Copyright (C) 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2005, 2006
    Free Software Foundation, Inc.
-   Hacked by Thorsten Glaser <tg@MirBSD.de>
+   Contributed by Thorsten "mirabilos" Glaser <tg@mirbsd.de>
 
 This file is part of GCC.
 
@@ -137,7 +137,7 @@ Boston, MA 02111-1307, USA.  */
 /* Define this so we can compile MS code for use with WINE.  */
 #define HANDLE_PRAGMA_PACK_PUSH_POP 1
 
-/* Don't use the `xsTAG;' construct in DBX output; OpenBSD systems that
+/* Don't use the 'xsTAG;' construct in DBX output; BSD systems that
    use DBX don't support it.  */
 #define DBX_NO_XREFS
 
@@ -250,7 +250,7 @@ Boston, MA 02111-1307, USA.  */
 /* Assembler format: output and generation of labels.  */
 
 /* Define the strings used for the .type and .size directives.
-   These strings generally do not vary from one system running OpenBSD
+   These strings generally do not vary from one system running BSD
    to another, but if a given system needs to use different pseudo-op
    names for these, they may be overridden in the arch specific file.  */
 
@@ -277,7 +277,7 @@ Boston, MA 02111-1307, USA.  */
 
 /* These macros generate the special .type and .size directives which
    are used to set the corresponding fields of the linker symbol table
-   entries under OpenBSD.  These macros also have to output the starting
+   entries under MirOS.  These macros also have to output the starting
    labels for the relevant functions/objects.  */
 
 /* Extra assembler code needed to declare a function properly.
@@ -349,7 +349,7 @@ do {									\
 	}								\
    } while (0)
 
-/* Those are `generic' ways to weaken/globalize a label. We shouldn't need
+/* Those are 'generic' ways to weaken/globalize a label. We shouldn't need
    to override a processor specific definition. Hence, #ifndef ASM_*
    In case overriding turns out to be needed, one can always #undef ASM_*
    before including this file.  */
