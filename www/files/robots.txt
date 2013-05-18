@@ -1,14 +1,16 @@
-# $MirOS: www/files/robots.txt,v 1.2 2007/10/02 18:55:00 tg Exp $
+# $MirOS: www/files/robots.txt,v 1.3 2011/04/03 21:49:46 tg Exp $
 
 # Allow downloads
 
 User-Agent: wget
+Crawl-delay: 30
 Disallow:
 
 # Disallow the W3C Linkchecker
 # XXX to be revisited
 
 User-Agent: W3C-checklink
+Crawl-delay: 5
 # dynamically generated content
 Disallow: /htman
 Disallow: /man
@@ -39,9 +41,11 @@ Disallow: /d/
 Disallow: /dist/
 Disallow: /distfiles/
 
-# Disallow other bots
+# This crawler operates at 1 Hz
 
-User-Agent: *
+User-Agent: sitebot
+Crawl-delay: 7
+Disallow: /cvs.cgi/
 Disallow: /GBG/
 # search machines shouldn't index dups
 Disallow: /man1
@@ -61,10 +65,22 @@ Disallow: /d/
 Disallow: /dist/
 Disallow: /distfiles/
 
-# This crawler operates at 1 Hz
+# Disallow other bots some access
 
-User-Agent: sitebot
-Disallow: /cvs.cgi/
+User-Agent: *
+Crawl-delay: 8
+Disallow: /GBG/
+# search machines shouldn't index dups
+Disallow: /man1
+Disallow: /man2
+Disallow: /man3
+Disallow: /man4
+Disallow: /man5
+Disallow: /man6
+Disallow: /man7
+Disallow: /man8
+Disallow: /man9
+# nor the download area
 Disallow: /MirOS/
 Disallow: /Pkgs/
 Disallow: /current/
