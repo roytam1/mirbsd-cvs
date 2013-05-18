@@ -1,9 +1,9 @@
-# $MirOS: ports/databases/sqlite/Makefile,v 1.7 2006/10/06 21:01:21 tg Exp $
+# $MirOS: ports/databases/sqlite/Makefile,v 1.8 2007/02/22 22:57:44 tg Exp $
 
 COMMENT=		Embedded SQL implementation
-_V=			3.3.7
+_V=			3.3.17
 DISTNAME=		sqlite-${_V}
-PKGNAME=		sqlite3-${_V}-0
+PKGNAME=		sqlite3-${_V}-${DASH_VER}
 CATEGORIES=		databases
 HOMEPAGE=		http://www.sqlite.org/
 MASTER_SITES=		${HOMEPAGE}

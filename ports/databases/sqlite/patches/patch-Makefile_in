@@ -1,7 +1,7 @@
-$MirOS: ports/databases/sqlite/patches/patch-Makefile_in,v 1.1 2006/05/04 11:41:24 tg Exp $
---- Makefile.in.orig	Mon Aug  7 11:30:43 2006
-+++ Makefile.in	Fri Oct  6 20:43:38 2006
-@@ -263,9 +263,9 @@ libtclsqlite3.la:	tclsqlite.lo libsqlite
+$MirOS: ports/databases/sqlite/patches/patch-Makefile_in,v 1.2 2006/10/06 21:01:22 tg Exp $
+--- Makefile.in.orig	Fri Apr  6 12:44:14 2007
++++ Makefile.in	Sun May  6 20:08:22 2007
+@@ -285,9 +285,9 @@ libtclsqlite3.la:	tclsqlite.lo libsqlite
                  -rpath $(libdir)/sqlite \
  		-version-info "8:6:8"
  

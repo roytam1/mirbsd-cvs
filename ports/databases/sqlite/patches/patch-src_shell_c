@@ -1,16 +1,16 @@
-$MirOS: ports/databases/sqlite/patches/patch-src_shell_c,v 1.1 2006/05/04 11:41:25 tg Exp $
---- src/shell.c.orig	Sat Aug 12 12:48:55 2006
-+++ src/shell.c	Fri Oct  6 20:42:30 2006
-@@ -52,6 +52,8 @@
- # define stifle_history(X)
+$MirOS: ports/databases/sqlite/patches/patch-src_shell_c,v 1.2 2006/10/06 21:01:22 tg Exp $
+--- src/shell.c.orig	Thu Mar 29 18:39:09 2007
++++ src/shell.c	Sun May  6 20:11:39 2007
+@@ -61,6 +61,8 @@
+ extern int isatty();
  #endif
  
 +#include "regexp.h"
 +
- /* Make sure isatty() has a prototype.
- */
- extern int isatty();
-@@ -800,6 +802,7 @@ static void open_db(struct callback_data
+ /*
+ ** If the following flag is set, then command execution stops
+ ** at an error if we are not interactive.
+@@ -891,6 +893,7 @@ static void open_db(struct callback_data
    if( p->db==0 ){
      sqlite3_open(p->zDbFilename, &p->db);
      db = p->db;

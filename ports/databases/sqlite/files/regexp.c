@@ -1,15 +1,12 @@
-/* $MirOS: src/share/misc/licence.template,v 1.14 2006/08/09 19:35:23 tg Rel $ */
-
 /*-
- * Copyright (c) 2006
+ * Copyright (c) 2006, 2007
  *	Thorsten Glaser <tg@mirbsd.de>
  *
- * Licensee is hereby permitted to deal in this work without restric-
- * tion, including unlimited rights to use, publicly perform, modify,
- * merge, distribute, sell, give away or sublicence, provided all co-
- * pyright notices above, these terms and the disclaimer are retained
- * in all redistributions or reproduced in accompanying documentation
- * or other materials provided with binary redistributions.
+ * Provided that these terms and disclaimer and all copyright notices
+ * are retained or reproduced in an accompanying document, permission
+ * is granted to deal in this work without restriction, including un-
+ * limited rights to use, publicly perform, distribute, sell, modify,
+ * merge, give away, or sublicence.
  *
  * Advertising materials mentioning features or use of this work must
  * display the following acknowledgement:
@@ -21,14 +18,14 @@
  * covered by the GNU General Public License version 1 or Library Ge-
  * neral Public License (any version) is permitted.
  *
- * Licensor offers the work "AS IS" and WITHOUT WARRANTY of any kind,
- * express, or implied, to the maximum extent permitted by applicable
- * law, without malicious intent or gross negligence; in no event may
- * licensor, an author or contributor be held liable for any indirect
- * or other damage, or direct damage except proven a consequence of a
- * direct error of said person and intended use of this work, loss or
- * other issues arising in any way out of its use, even if advised of
- * the possibility of such damage or existence of a defect.
+ * This work is provided "AS IS" and WITHOUT WARRANTY of any kind, to
+ * the utmost extent permitted by applicable law, neither express nor
+ * implied; without malicious intent or gross negligence. In no event
+ * may a licensor, author or contributor be held liable for indirect,
+ * direct, other damage, loss, or other issues arising in any way out
+ * of dealing in the work, even if advised of the possibility of such
+ * damage or existence of a defect, except proven that it results out
+ * of said person's immediate fault when using the work as intended.
  */
 
 #include <sys/param.h>
@@ -39,7 +36,10 @@
 #include "sqlite3.h"
 #include "regexp.h"
 
-__RCSID("$MirOS: ports/databases/sqlite/files/regexp.c,v 1.2 2006/05/28 20:58:38 tg Exp $");
+__RCSID("$MirOS: ports/databases/sqlite/files/regexp.c,v 1.3 2006/10/06 21:01:22 tg Exp $");
+
+#define ERRSTR_TEXT	"REGEXP error: "
+#define ERRSTR_SIZE	14			/* strlen(ERRSTR_TEXT) */
 
 static unsigned char errstr[256];
 
@@ -54,29 +54,19 @@ sqlite3_regexp_posixext_func(sqlite3_context *ctx, int ac, sqlite3_value **av)
 	if ((retext == NULL) || (haystack == NULL))
 		return;
 
-	if ((rv = regcomp(&re, retext, REG_EXTENDED | REG_NOSUB)))
-		goto err_out;
+	if ((rv = regcomp(&re, retext, REG_EXTENDED | REG_NOSUB)) == 0)
+		rv = regexec(&re, haystack, 0, NULL, 0);
 
-	rv = regexec(&re, haystack, 0, NULL, 0);
-	if ((rv != 0) && (rv != REG_NOMATCH))
-		goto err_out;
+	if ((rv == 0) || (rv == REG_NOMATCH))
+		sqlite3_result_int(ctx, ((rv == REG_NOMATCH) ? 0 : 1));
+	else {
+		memcpy(errstr, ERRSTR_TEXT, ERRSTR_SIZE + /* NUL */ 1);
+		regerror(rv, &re, errstr + ERRSTR_SIZE,
+		    sizeof (errstr) - ERRSTR_SIZE);
+		sqlite3_result_error(ctx, errstr, -1);
+	}
 
 	regfree(&re);
-	sqlite3_result_int(ctx, ((rv == REG_NOMATCH) ? 0 : 1));
-	return;
-
- err_out:
-	{
-		unsigned char buf[256];
-
-		*buf = '\0';
-		regerror(rv, &re, buf, sizeof (buf));
-		regfree(&re);
-
-		snprintf(errstr, sizeof (errstr), "REGEXP error: %s", buf);
-		sqlite3_result_error(ctx, errstr, -1);
-		return;
-	}
 }
 
 void
