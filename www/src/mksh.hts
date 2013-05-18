@@ -1,10 +1,10 @@
-# $MirOS: www/src/mksh.hts,v 1.62 2007/09/21 10:50:26 tg Exp $
+# $MirOS: www/src/mksh.hts,v 1.63 2007/09/24 21:06:37 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.62 2007/09/21 10:50:26 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.63 2007/09/24 21:06:37 tg Exp $'
 mws_content <<'EOF'
 <h1>mksh(1) R31c</h1>
 <p>This is the website of the MirBSD™ Korn Shell, an actively developed free
@@ -92,7 +92,9 @@ mws_content <<'EOF'
  copy the <tt>dot.mkshrc</tt> file from the source distribution as
  <tt>~/.mkshrc</tt> into the user’s home directory and let the user adjust
  it to suit his needs. The sample file configures a few aliases and shell
- functions as well as a sensible prompt (<tt>$PS1</tt>).</p>
+ functions as well as a sensible prompt (<tt>$PS1</tt>) and some csh-like
+ directory stack functions and zsh-like hooks. Full use of this file requires
+ a few special UNIX® tools, e.g. readlink(1) with the <tt>-f</tt> flag.</p>
 
 <h2 id="irc">Support</h2>
 <p>We provide an online manual page in <a
@@ -688,7 +690,8 @@ mws_content <<'EOF'
  <li>Plan porting mksh to <a href="http://www.minix3.org/">Minix 3</a>
   (not finished yet)</li>
  <li>Begin supporting pcc (the ragge version of the Portable C Compiler)</li>
- <li>Add pushd/popd/dirs functions and precmd/chpwd hooks to dot.mkshrc</li>
+ <li>Add pushd/popd/dirs functions (csh) and precmd/chpwd hooks (zsh) to
+  <tt>dot.mkshrc</tt> which now requires readlink(1) with <tt>-f</tt></li>
 </ul>
 <p>The mksh R31c (Solaris-only) upgrade for cnuke@ was caused by:</p><ul>
  <li>Clean up <tt>Build.sh</tt> and “test … -o …” doesn’t exist in Bourne</li>
