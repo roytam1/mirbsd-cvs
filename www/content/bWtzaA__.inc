@@ -1,5 +1,5 @@
 <!-- PageID: mksh -->
-<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.28 2006/05/27 19:45:06 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.29 2006/07/04 15:04:55 tg Exp $</small>
 
 <h1>mksh(1) R27e</h1>
 <p>This is the MirBSD&trade; Korn Shell, a more or less portable
@@ -365,6 +365,7 @@
    in <em>heredoc-tmpfile-8</em>. On NetBSD&reg; 1.5/pmax this
    trick does not work because the system scripts are not compatible
    with the Korn shell.</li>
+  <li>Gentoo GNU/Linux (ppc, x86): an official ebuild exists.</li>
  </ul></li>
  <li>mksh R26<ul>
   <li>CRUX GNU/Linux: Han Boetes said it works.</li>
