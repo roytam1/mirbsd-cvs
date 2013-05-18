@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.483 2012/12/07 23:46:15 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.484 2012/12/08 19:27:10 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -264,6 +264,12 @@ mws_content <<'EOF'
 <h5 class="cr" id="oe_bcc">Compiler: Borland C++ Builder</h5>
 <p>This compiler is somewhat supported in mksh R30 with UWIN’s cc wrapper.
  (We haven’t been able to produce a working executable though.)</p>
+
+<h5 class="cr" id="oe_c68">Compiler: C68 (C386, etc.)</h5>
+<p>The Walkers’ C89 compiler is not supported at the moment, but this
+ is mostly due to difficulties in figuring it out. Any people who actually
+ got it to compile anything, especially for both Linux and Minix, for both
+ i386 and m68k, please contact us.</p>
 
 <h5 class="cr" id="oe_decc">Compiler: DEC/Compaq/HP C for OSF/1 and Tru64</h5>
 <p>This compiler is fully supported with mksh R33b (partial support did
@@ -603,6 +609,9 @@ exec /usr/bin/ld "${args[@]}"</pre>
  with mksh R40e (clang). More porting and tests are needed. <strong>This
  is different from “regular” Minix 3.</strong> Do be sure to set your
  <tt>TARGET_OS</tt> environment variable correctly.</p>
+<h5>OS: Minix-vmd</h5>
+<p>mksh R42 works fine on Minix-vmd down to version 1.7.0 but not 1.5
+ due to OS limitations.</p>
 
 <h5 class="cr" id="oe_mnt">OS: MiNT / FreeMiNT</h5>
 <p>Support appeared in mksh R40. Depending on the distribution you use,
@@ -694,6 +703,10 @@ exec /usr/bin/ld "${args[@]}"</pre>
 <p>Solaris does not come with Berkeley mdoc macros for nroff, so using
  the HTML or PDF versions of the manual pages or pregenerating a catman
  page on another OS is required.</p>
+
+<h5 class="cr" id="oe_sunos">OS: SunOS</h5>
+<p>On mksh R42, add <tt>-DMKSH_TYPEDEF_SIG_ATOMIC_T=int</tt> and
+ <tt>-DMKSH_TYPEDEF_SSIZE_T=int</tt> and RT says SunOS 4.1.1 will work.</p>
 
 <h5 class="cr" id="oe_syll"><img width="186" height="64" alt="[Syllable logo]"
  class="fr" src="@@RELPATH@@pics/logos/syllable.png" />OS: Syllable Desktop</h5>
@@ -1112,6 +1125,9 @@ exec /usr/bin/ld "${args[@]}"</pre>
   limits in a single invocation from oksh (thanks millert) -->
  <li>[tg] Make <tt>-DMKSH_DISABLE_EXPERIMENTAL</tt> a nop again</li>
  <li>[tg] Re-enable <tt>${ precmd;}</tt> in <tt>dot.mkshrc</tt></li>
+ <li>[RT] Port to Minix-vmd; begin porting to SunOS 4.1.1, Xenix,
+  ISC (Interactive) Unix</li>
+ <li>[tg] Prefer const-clean <tt>sys_errlist[]</tt> to strerror(3)</li>
 <li style="list-style:none;">Changes already MFCd into R41-stable branch</li>
  <li>[tg] Fix gettimeofday(2) detection at build time (warning)</li>
  <li>[RT, tg] <tt>Build.sh</tt>: catch non-working dash printf builtin</li>
