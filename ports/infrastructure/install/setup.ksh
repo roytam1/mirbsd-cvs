@@ -1,5 +1,5 @@
 #!/usr/bin/env mksh
-# $MirOS: ports/infrastructure/install/setup.ksh,v 1.90 2008/11/08 18:45:25 tg Exp $
+# $MirOS: ports/infrastructure/install/setup.ksh,v 1.91 2008/11/29 12:15:47 tg Exp $
 #-
 # Copyright (c) 2005, 2008
 #	Thorsten “mirabilos” Glaser <tg@mirbsd.de>
@@ -692,7 +692,8 @@ if (( nopt )); then
 	exit 0
 fi
 
-f_ver=$(cd $portsdir/essentials/pkgtools && mmake show=_VERSION)
+f_ver=$(cd $portsdir/essentials/pkgtools && \
+    mmake show='CVS_DISTDATE:C![^0-9]!!g')
 if [[ $(cd $localbase/db/pkg && echo pkgtools-$f_ver-*) \
     != "pkgtools-$f_ver-*" ]]; then
 	: # Current package tools are already installed
