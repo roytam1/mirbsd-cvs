@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/dev/rnd.c,v 1.21 2006/05/28 23:35:20 tg Exp $ */
+/**	$MirOS: src/sys/dev/rnd.c,v 1.22 2006/06/29 13:27:36 tg Exp $ */
 /*	$OpenBSD: rnd.c,v 1.78 2005/07/07 00:11:24 djm Exp $	*/
 
 /*
@@ -742,16 +742,20 @@ add_entropy_words(const u_int32_t *buf, u_int n)
  *
  */
 void
-enqueue_randomness(int state, int val)
+enqueue_randomness(int xstate, int val)
 {
 	register struct timer_rand_state *p;
 	register struct rand_event *rep;
 	struct timeval tv;
 	u_int xtime, nbits;
 	int s;
+	int state = xstate;
 
 	if (!rnd_attached)
 		return;
+
+	if ((xstate == RND_SRC_TRUST) || (xstate == RND_SRC_POOL))
+		state = RND_SRC_TRUE;
 
 #ifdef DIAGNOSTIC
 	if (state < 0 || state >= RND_SRC_NUM)
@@ -836,10 +840,12 @@ enqueue_randomness(int state, int val)
 	rep->re_time = xtime;
 	rep->re_val = val;
 
-	rndstats.rnd_enqs++;
-	rndstats.rnd_ed[nbits]++;
-	rndstats.rnd_sc[state]++;
-	rndstats.rnd_sb[state] += nbits;
+	if (state == xstate) {
+		rndstats.rnd_enqs++;
+		rndstats.rnd_ed[nbits]++;
+		rndstats.rnd_sc[state]++;
+		rndstats.rnd_sb[state] += nbits;
+	}
 
 	if (rnd_qlen() > QEVSLOW/2 && !random_state.tmo) {
 		random_state.tmo++;
@@ -1258,7 +1264,8 @@ rnd_addpool_reinit(void *v)
 	for (i = 0; i < rnd_addpool_size; ++i)
 		if ((j = rnd_addpool_buf[i]))	/* don't add all zeroes */
 			if (++j)		/* don't add all ones */
-				add_true_randomness(j - (random() & 1));
+				enqueue_randomness(RND_SRC_POOL,
+				    j - (random() & 1));
 	bzero(rnd_addpool_buf, sizeof (rnd_addpool_buf));
 
 	/* re-schedule this routine in about 32..40 seconds (randomised) */

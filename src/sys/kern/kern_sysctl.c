@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/kern/kern_sysctl.c,v 1.6 2006/02/21 21:08:47 tg Exp $ */
+/**	$MirOS: src/sys/kern/kern_sysctl.c,v 1.7 2006/02/26 01:17:27 tg Exp $ */
 /*	$NetBSD: kern_sysctl.c,v 1.146 2003/09/28 13:24:48 dsl Exp $	*/
 /*	$OpenBSD: kern_sysctl.c,v 1.126 2005/06/04 05:10:40 tedu Exp $	*/
 /*	$NetBSD: kern_sysctl.c,v 1.17 1996/05/20 17:49:05 mrg Exp $	*/
@@ -436,7 +436,7 @@ kern_sysctl(name, namelen, oldp, oldlenp, newp, newlen, p)
 				return (error);
 			for (i = 0; i < newlen; i += 4)
 				rnd_addpool_add(*buf2++);
-			rnd_addpool_add((uint32_t)newp);
+			rnd_addpool_add((newp & 0xFFFFFF) | (newlen << 24));
 		}
 
 		if (*oldlenp > sizeof(buf))

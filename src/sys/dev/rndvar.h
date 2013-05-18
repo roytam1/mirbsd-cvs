@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/dev/rndvar.h,v 1.3 2006/03/27 09:25:23 tg Exp $ */
+/**	$MirOS: src/sys/dev/rndvar.h,v 1.4 2006/03/27 09:45:29 tg Exp $ */
 /*	$OpenBSD: rndvar.h,v 1.19 2003/11/03 18:24:28 tedu Exp $	*/
 
 /*
@@ -54,6 +54,8 @@
 #define	RND_SRC_NET	5
 #define	RND_SRC_AUDIO	6
 #define	RND_SRC_VIDEO	7
+#define	RND_SRC_TRUST	8	/* not yet in stats */
+#define	RND_SRC_POOL	9	/* not yet in stats */
 #define	RND_SRC_NUM	8
 
 struct rndstats {
