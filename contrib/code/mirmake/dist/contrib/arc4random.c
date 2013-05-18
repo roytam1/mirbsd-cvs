@@ -1,4 +1,4 @@
-/* $MirOS: contrib/code/mirmake/dist/contrib/arc4random.c,v 1.3 2006/08/27 00:19:50 tg Exp $ */
+/* $MirOS: contrib/code/mirmake/dist/contrib/arc4random.c,v 1.4 2006/10/13 12:44:42 tg Exp $ */
 
 /*-
  * Copyright (c) 2006
@@ -30,7 +30,7 @@
 #include <time.h>
 #include <unistd.h>
 
-__RCSID("$MirOS: contrib/code/mirmake/dist/contrib/arc4random.c,v 1.3 2006/08/27 00:19:50 tg Exp $");
+__RCSID("$MirOS: contrib/code/mirmake/dist/contrib/arc4random.c,v 1.4 2006/10/13 12:44:42 tg Exp $");
 
 void
 arc4random_push(int n)
@@ -65,6 +65,7 @@ arc4random_pushb(const void *buf, size_t len)
 		srandom((arc4random() & ~1) + (v & 3));
 		once_only = 0;
 	}
+	return (arc4random() ^ (v & 1));
 }
 
 #ifndef _ARC4RANDOM_WRAP
