@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/baselive/Makefile,v 1.61 2010/01/06 18:52:23 tg Exp $
+# $MirOS: src/distrib/baselive/Makefile,v 1.62 2010/08/06 15:40:00 tg Exp $
 
 .include <bsd.own.mk>
 
@@ -62,7 +62,7 @@ CDROM_OPTS+=	label=MirOS~v${OSrev}~BSD/i386~Live~CD
 .endif
 CDROM_OPTS+=	no-trailing-padding
 CDROM_OPTS+=	preparer=MirBSD_and_its_contributors
-CDROM_OPTS+=	publisher=Copyright_\<c\>_2002=2010_The_MirOS_Project
+CDROM_OPTS+=	publisher=Copyright_\<c\>_2002=2011_The_MirOS_Project
 CDROM_OPTS+=	rockridge
 .if ${DUALIVE:L} != "no"
 .  if ${GRML:L} != "no"
