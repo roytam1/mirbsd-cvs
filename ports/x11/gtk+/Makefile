@@ -1,4 +1,4 @@
-# $MirOS: ports/x11/gtk+/Makefile,v 1.15 2008/03/09 17:23:43 tg Exp $
+# $MirOS: ports/x11/gtk+/Makefile,v 1.16 2008/04/07 21:19:34 tg Exp $
 # $OpenBSD: Makefile,v 1.14 2004/03/30 15:48:29 sturm Exp $
 
 NOT_FOR_PLATFORM=		${NOPIC_PLATFORMS}
@@ -34,11 +34,11 @@ FLAVOUR?=
 .if ${SUBPACKAGE} != "-docs"
 MODULES=			devel/gettext devel/pkgconfig graphics/png
 
-LIB_DEPENDS=			glib-2.0.0.800,gmodule-2.0.0.800,gobject-2.0.0.800,gthread-2.0.0.800::devel/glib \
-				pango-1.0.0.1000,pangoft2-1.0.0.1000,pangox-1.0.0.1000,pangoxft-1.0.0.1000,pangocairo-1.0.0.1000::devel/pango \
-				atk-1.0.0.1011::devel/atk \
+LIB_DEPENDS=			glib-2.0.0.0,gmodule-2.0.0.0,gobject-2.0.0.0,gthread-2.0.0.0::devel/glib \
+				pango-1.0.0.0,pangoft2-1.0.0.0,pangox-1.0.0.0,pangoxft-1.0.0.0,pangocairo-1.0.0.0::devel/pango \
+				atk-1.0.0.0::devel/atk \
 				tiff::graphics/tiff \
-				jpeg.62::graphics/jpeg
+				jpeg::graphics/jpeg
 . if ${FLAVOUR:L:Mcups}
 LIB_DEPENDS+=			cups,cupsimage::print/cups
 . endif

@@ -1,4 +1,4 @@
-# $MirOS: ports/audio/grip/Makefile,v 1.4 2006/09/14 00:07:02 tg Exp $
+# $MirOS: ports/audio/grip/Makefile,v 1.5 2007/04/04 18:00:24 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.8 2002/12/29 19:29:56 fgsch Exp $
 
 COMMENT=		front-end to external cd audio rippers and mp3 encoders
@@ -16,10 +16,10 @@ PERMIT_DISTFILES_FTP=	Yes
 MASTER_SITES=		${MASTER_SITE_SOURCEFORGE:=grip/}
 
 LIB_DEPENDS=	ghttp::www/libghttp \
-		id3.3.8::audio/id3lib \
-		glib-2.0.0.11::devel/glib \
+		id3::audio/id3lib \
+		glib-2.0.0.0::devel/glib \
 		gnomeui-2::x11/gnome/libgnomeui \
-		curl.2.2::net/curl \
+		curl::net/curl \
 		vte::devel/vte
 MODULES+=		devel/pkgconfig
 

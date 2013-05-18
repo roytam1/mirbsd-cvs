@@ -1,4 +1,4 @@
-# $MirOS: ports/audio/bmp/Makefile,v 1.5 2006/09/14 00:06:58 tg Exp $
+# $MirOS: ports/audio/bmp/Makefile,v 1.6 2008/03/09 17:22:22 tg Exp $
 # $OpenBSD: Makefile,v 1.3 2005/01/02 18:57:26 alek Exp $
 
 COMMENT=			gtk+2 media player based on XMMS
@@ -24,8 +24,7 @@ USE_X11=	Yes
 
 MODULES=	devel/gettext devel/pkgconfig
 
-LIB_DEPENDS=	gdk_pixbuf-2.0.400.3,gdk-x11-2.0.400.3::x11/gtk+ \
-		glib-2.0.400.2,gthread-2.0.400.2::devel/glib
+LIB_DEPENDS=	gdk_pixbuf-2.0.0.0,gdk-x11-2.0.0.0::x11/gtk+
 
 MULTI_PACKAGES=
 PSEUDO_FLAVOURS=	no_mp3 no_vorbis
@@ -52,8 +51,8 @@ CONFIGURE_ARGS+=--disable-vorbis
 SUBPACKAGE?=
 
 .if $(SUBPACKAGE) != "-mp3"
-LIB_DEPENDS+=	esd.2.34::audio/esound \
-		glade-2.0.0.4::devel/libglade \
+LIB_DEPENDS+=	esd::audio/esound \
+		glade-2.0.0.0::devel/libglade \
 		xml2::textproc/libxml
 .endif
 
@@ -63,7 +62,7 @@ PERMIT_DISTFILES_CDROM=	"patent issues"
 PERMIT_DISTFILES_FTP=	"patent issues"
 RUN_DEPENDS=	::audio/bmp
 . elif ${SUBPACKAGE} == "-vorbis"
-LIB_DEPENDS=	vorbisfile.4.0,vorbis::audio/libvorbis
+LIB_DEPENDS=	vorbisfile,vorbis::audio/libvorbis
 RUN_DEPENDS=	::audio/bmp
 . endif
 .endif

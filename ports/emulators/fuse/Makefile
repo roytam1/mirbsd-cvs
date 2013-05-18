@@ -1,4 +1,4 @@
-# $MirOS: ports/emulators/fuse/Makefile,v 1.5 2006/09/14 00:09:09 tg Exp $
+# $MirOS: ports/emulators/fuse/Makefile,v 1.6 2008/03/09 17:22:40 tg Exp $
 # $OpenBSD: Makefile,v 1.6 2004/05/08 06:46:45 sturm Exp $
 # $RuOBSD: Makefile,v 1.7 2002/03/26 19:14:05 grange Exp $
 
@@ -21,10 +21,10 @@ MASTER_SITES=		${MASTER_SITE_SOURCEFORGE:=fuse-emulator/}
 
 USE_X11=		Yes
 
-LIB_DEPENDS=		glib-2.0.0.8,gmodule-2.0.0.8,gobject-2.0.0.8::devel/glib \
-			spectrum.3::devel/libspectrum \
-			765.3::devel/lib765 \
-			xml2.2.6::textproc/libxml
+LIB_DEPENDS=		glib-2.0.0.0,gmodule-2.0.0.0,gobject-2.0.0.0::devel/glib \
+			spectrum::devel/libspectrum \
+			765::devel/lib765 \
+			xml2::textproc/libxml
 MODULES+=		devel/pkgconfig graphics/png
 
 CONFIGURE_STYLE=	gnu

@@ -1,4 +1,4 @@
-# $MirOS: ports/net/mcabber/Makefile,v 1.9 2008/10/05 21:04:21 tg Exp $
+# $MirOS: ports/net/mcabber/Makefile,v 1.10 2008/10/09 21:01:33 tg Exp $
 
 COMMENT=		curses-based jabber client implementation
 DISTNAME=		mcabber-0.9.9
@@ -26,7 +26,7 @@ CONFIGURE_ARGS+=	--enable-gpgme \
 			--disable-hgcset \
 			--disable-nls
 
-LIB_DEPENDS+=		glib-2.0.0.800,gmodule-2.0.0.800,gobject-2.0.0.800::devel/glib \
+LIB_DEPENDS+=		glib-2.0.0.0,gmodule-2.0.0.0,gobject-2.0.0.0::devel/glib \
 			otr:libotr->=3.1.0:security/libotr \
 			gcrypt:libgcrypt->=1.2.2:security/libgcrypt \
 			gpgme:gpgme->=1.0.0:security/gpgme
