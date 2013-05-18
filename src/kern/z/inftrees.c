@@ -6,12 +6,14 @@
 #include "zutil.h"
 #include "inftrees.h"
 
-zRCSID("$MirOS$")
+zRCSID("$MirOS: src/kern/z/inftrees.c,v 1.2 2008/08/01 13:46:10 tg Exp $")
 
 #define MAXBITS 15
 
+#ifndef SMALL
 const char inflate_copyright[] =
    " inflate 1.2.3 Copyright 1995-2005 Mark Adler ";
+#endif
 /*
   If you use the zlib library in a product, an acknowledgment is welcome
   in the documentation of your product. If for some reason you cannot
