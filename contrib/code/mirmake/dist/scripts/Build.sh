@@ -1,4 +1,4 @@
-# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.132 2009/11/09 22:40:59 tg Exp $
+# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.133 2009/11/17 19:10:29 tg Exp $
 #-
 # Copyright (c) 2006, 2008
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -387,6 +387,7 @@ EOF
 fi
 
 # check for fgetln, strlcpy/strlcat, arc4random
+# note: testfunc rv uses inverse logic!
 add_fgetln=
 if testfunc 'char *fgetln(FILE *, size_t *)' 'fgetln(stdin, &x)' \
     '#include <stdio.h>' 'size_t x;'; then
@@ -398,13 +399,13 @@ if testfunc 'size_t strlcpy(char *, const char *, size_t)' \
 	add_strlfun=$d_build/strlfun.c
 fi
 add_arcfour=
-if ! testfunc 'u_int32_t arc4random(void)' \
+if testfunc 'u_int32_t arc4random(void)' \
     'return ((int)arc4random())'; then
 	add_arcfour=$top/dist/contrib/code/Snippets/arc4random.c
-elif ! testfunc 'void arc4random_stir(void)' \
+elif testfunc 'void arc4random_stir(void)' \
     'arc4random_stir()'; then
 	add_arcfour=$top/dist/contrib/code/Snippets/arc4random.c
-elif ! testfunc 'void arc4random_addrandom(unsigned char *, int)' \
+elif testfunc 'void arc4random_addrandom(unsigned char *, int)' \
     'arc4random_addrandom((void *)argv[0], argc)'; then
 	add_arcfour=$top/dist/contrib/code/Snippets/arc4random.c
 fi
