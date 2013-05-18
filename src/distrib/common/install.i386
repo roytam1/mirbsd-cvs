@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/install.i386,v 1.2 2007/05/24 23:04:04 tg Exp $
+# $MirOS: src/distrib/common/install.i386,v 1.3 2007/06/15 23:46:48 tg Exp $
 # $OpenBSD: install.md,v 1.28 2005/04/02 14:34:46 krw Exp $
 #
 #
@@ -44,7 +44,7 @@ MDFSTYPE=ntfs
 MDFSOPTS=ro
 MDTERM=wsvtg
 MDXAPERTURE=2
-MDSERIAL="pccom com tty0"
+MDSERIAL="pccom com"
 ARCH=ARCH
 
 # $1 is the disk to check

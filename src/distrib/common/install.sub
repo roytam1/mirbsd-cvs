@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/install.sub,v 1.17 2007/06/15 23:46:48 tg Exp $
+# $MirOS: src/distrib/common/install.sub,v 1.18 2007/06/22 20:06:57 tg Exp $
 # $OpenBSD: install.sub,v 1.388 2005/07/02 00:55:48 uwe Exp $
 # $NetBSD: install.sub,v 1.5.2.8 1996/09/02 23:25:02 pk Exp $
 #
@@ -184,15 +184,14 @@ get_ifdevs() {
 # Get the first (lowest unit #) serial device if any, if MDSERIAL is set.
 # NOTE: Only single digit serial devices (<dev>0 -> <dev>9) are looked for.
 get_serialdev() {
-	typeset _d _bd _td
+	typeset _d _bd
 
 	[[ -n $MDSERIAL ]] || exit
 	set -- $MDSERIAL
 	_d=$1
 	_bd=$2
-	_td=$3
 	set -- $(scan_dmesg "/^${_d}\([0-9]\) .*/s//\1/p")
-	echo "$_bd$1 $_td$1"
+	[[ -z $1 ]] || echo "$_bd$1"
 }
 
 get_drive() {
@@ -1535,8 +1534,6 @@ donetconfig() {
 }
 
 questions() {
-	typeset _bd _td
-
 	ask_yn "Start sshd(8) by default?" yes
 	if [[ $resp == n ]]; then
 		echo "sshd_flags=NO		# disabled during install" \
@@ -1575,17 +1572,11 @@ questions() {
 	fi
 
 	[[ -z $SERIALDEV ]] && return
-	set -- $SERIALDEV
-	_bd=$1
-	_td=$2
-	ask_yn "Change the default console to $_bd?"
+	ask_yn "Change the default console to $SERIALDEV?"
 	[[ $resp == n ]] && return
-	ask_which "speed" "should $_bd use" "9600 19200 38400 57600 115200"
+	ask_which "speed" "should $SERIALDEV use" "9600 19200 38400 57600 115200"
 	[[ $resp == done ]] && return
-	echo "set tty $_bd\nstty $_bd $resp" >>/mnt/boot.cfg
-	sed	-e "/^${_td}/s/std.9600/std.${resp}/" \
-		-e "/^${_td}/s/unknown/vt220	/" \
-		-e "/${_td}/s/off/on secure/" /mnt/etc/ttys >/tmp/ttys
+	echo "set tty $SERIALDEV\nstty $SERIALDEV $resp" >>/mnt/boot.cfg
 }
 
 finish_up() {
