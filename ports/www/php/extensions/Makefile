@@ -1,4 +1,4 @@
-# $MirOS: ports/www/php/extensions/Makefile,v 1.26 2009/06/21 09:37:08 tg Exp $
+# $MirOS: ports/www/php/extensions/Makefile,v 1.28 2009/08/16 17:25:53 tg Exp $
 # $OpenBSD: Makefile,v 1.17 2005/12/29 23:06:28 sturm Exp $
 
 FULLPKGNAME=		php-extensions-${VSN}-${DASH_VER}
@@ -134,7 +134,6 @@ GMP_DEPENDS=		gmp::devel/gmp
 
 # imap
 PSEUDO_FLAVOURS+=	no_imap
-FLAVOUR+=		no_imap		# requires libc-client_pic.a
 .if ${FLAVOUR:L:Mno_imap}
 CONFIGURE_ARGS+=	--without-imap --without-kerberos
 .else
@@ -144,7 +143,7 @@ CONFIGURE_ARGS+=	--with-imap=shared,${LOCALBASE:Q} --with-imap-ssl
 .  if ${OStype} == "OpenBSD"
 CONFIGURE_ARGS+=	--with-kerberos=/usr
 .  endif
-BUILD_DEPENDS+=		::mailnews/pine,-cclient
+BUILD_DEPENDS+=		:c-client->=4.64-7:mailnews/pine,-cclient
 .endif
 
 # ldap
