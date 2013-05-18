@@ -1,5 +1,5 @@
 <!-- PageID: mksh -->
-<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.96 2007/04/18 09:41:27 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.97 2007/04/23 12:22:19 tg Exp $</small>
 
 <h1>mksh(1) R29</h1>
 <p>This is the MirBSD&trade; Korn Shell, a more or less portable
@@ -84,7 +84,11 @@
   ANSI'n'POSIX Environment (not finished)</li>
  <li>Plan porting mksh to <a href="http://www.minix3.org/">Minix 3</a>
   (not finished yet)</li>
- <li>Plan porting to other UNIX&reg;-like systems via HP Testdrive</li>
+ <li>Unbreak testsuite on Mac OSX (whose brain-dead file system does
+  non-standard Unicode decomposing and normalisation on filenames,
+  thus rendering ANOTHER of our tests unusable *sigh*)</li>
+ <li>Port to AIX, thanks to Kurt Telep</li>
+ <li>Minor fixes for HP-UX, thanks to HP Testdrive Programme</li>
 </ul>
 <p>Minor bugfixes in mksh R29c – you might want it:</p><ul>
  <li>Regression fix: mksh has some kind of “encoded string” format;
@@ -701,6 +705,10 @@
 <p>The MirOS Project has tested mksh on the following operating systems,
  asked people to test, and hunted mksh down in these packaging systems:</p>
 <ul>
+ <li>mksh-current<ul>
+  <li>Darwin ??? Mac OSX 10.4 (powerpc)</li>
+  <li>AIX 5.3 ML05</li>
+ </ul></li>
  <li>mksh R29c<ul>
   <li>MirOS #10-beta (i386 gcc3.4.6)</li>
   <li>Solaris 8 (sun4u gcc3.4.3) both without and with -m64</li>
@@ -711,7 +719,8 @@
   <li>OpenBSD 4.0 (sparc64 gcc3.3.5)</li>
   <li>Debian etch (i386, ia64, amd64 gcc4.1.1-21)</li>
   <li>FreeBSD 6.1 (i386, ia64 gcc3.4.4)</li>
-  <li>HP-UX 11i 11.11 (PA-RISC gcc3.4.2) <em>no regression test run</em></li>
+  <li>HP-UX 11i B.11.11 (PA-RISC gcc3.4.2) <em>no regression test run</em></li>
+  <li>HP-UX 11i v2 B.11.23 (ia64 gcc3.4.3)</li>
  </ul></li>
  <li>mksh R29 &ndash; release candidate<ul>
   <li>MirOS #7-stable (sparc gcc2.95), #9-current (i386 gcc3.4.6)</li>
