@@ -1,7 +1,7 @@
-# $MirOS$
+# $MirOS: src/distrib/i386/common/listpre.full,v 1.1 2006/05/15 19:20:15 tg Exp $
 
-SRCDIRS distrib/ramtools usr.bin/ssh
+SRCDIRS distrib/ramtools usr.bin/ssh usr.sbin/isdn
 SRCDIRS bin sbin usr.bin usr.sbin
 SRCDIRS sys/arch/i386/stand libexec
 
-LIBS	-L${BSDOBJDIR}/usr.bin/ssh/lib -lssh  -lssl -lcrypto -lutil -lotermcap -ll -lm -ldes -lkvm -lz
+LIBS	-L${BSDOBJDIR}/usr.bin/ssh/lib -lssh  -lssl -lcrypto -lutil -lotermcap -ll -lm -ldes -lkvm -lz -ledit
