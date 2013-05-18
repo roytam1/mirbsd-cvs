@@ -33,7 +33,7 @@
 # endif
 #endif
 
-__RCSID("$MirOS: src/gnu/usr.bin/cvs/src/rcs.c,v 1.7 2007/06/06 13:46:48 tg Exp $");
+__RCSID("$MirOS: src/gnu/usr.bin/cvs/src/rcs.c,v 1.8 2008/03/02 20:34:02 tg Exp $");
 
 /* The RCS -k options, and a set of enums that must match the array.
    These come first so that we can use enum kflag in function
@@ -2169,6 +2169,8 @@ RCS_getversion (RCSNode *rcs, const char *tag, const char *date,
 
 	if (! RCS_nodeisbranch (rcs, tag))
 	{
+	    if (! strcmp (date, "BASE"))
+		return RCS_gettag (rcs, tag, force_tag_match, simple_tag);
 	    /* We can't get a particular date if the tag is not a
                branch.  */
 	    return NULL;
@@ -2179,6 +2181,15 @@ RCS_getversion (RCSNode *rcs, const char *tag, const char *date,
 	    branch = RCS_whatbranch (rcs, tag);
 	else
 	    branch = xstrdup (tag);
+
+	if (! strcmp (date, "BASE"))
+	{
+	    /* Cut off the branch suffix and return.  */
+	    rev = strrchr (branch, '.');
+	    if (rev)
+		*rev = '\0';
+	    return branch;
+	}
 
 	/* Fetch the revision of branch as of date.  */
 	rev = RCS_getdatebranch (rcs, date, branch);

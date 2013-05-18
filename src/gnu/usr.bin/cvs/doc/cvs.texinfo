@@ -2,11 +2,11 @@
 @comment Documentation for CVS.
 @setfilename cvs.info
 @afourpaper
-@comment $MirOS: src/gnu/usr.bin/cvs/doc/cvs.texinfo,v 1.7 2007/03/10 23:53:35 tg Exp $
+@comment $MirOS: src/gnu/usr.bin/cvs/doc/cvs.texinfo,v 1.8 2007/06/06 13:46:45 tg Exp $
 @macro copyleftnotice
 @noindent
 Copyright @copyright{} 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000,
-                       2001, 2002, 2003, 2004, 2005, 2006
+                       2001, 2002, 2003, 2004, 2005, 2006, 2009
                        Free Software Foundation, Inc.
 
 @multitable @columnfractions .12 .88
@@ -8705,6 +8705,7 @@ and @code{watchers}.
 @item -r @var{tag}[:@var{date}]
 @cindex HEAD, special tag
 @cindex BASE, special tag
+@cindex BASE, special date
 Use the revision specified by the @var{tag} argument (and the @var{date}
 argument for the commands which accept it) instead of the
 default @dfn{head} revision.  As well as arbitrary tags defined
@@ -8751,6 +8752,12 @@ the revision as of the given date on the branch.
 When a command expects a specific revision,
 the name of a branch is interpreted as the most recent
 revision on that branch.
+
+As a MirOS CVS extension, specifying @samp{BASE} as the @var{date} portion
+of the argument yields the @emph{base revision} of the branch specified by
+the @var{tag} portion of the argument, i.e. the revision on the parent
+branch the @var{tag} branch split off, or, where both branches were the
+same.  This option has not received very much testing, beware!
 
 Specifying the @samp{-q} global option along with the
 @samp{-r} command option is often useful, to suppress
@@ -11899,7 +11906,8 @@ Use head revision if tag/date not found.  See
 @item -j @var{tag}[:@var{date}]
 Merge in the change specified by @var{tag}, or when @var{date} is specified
 and @var{tag} is a branch tag, the version from the branch @var{tag} as it
-existed on @var{date}.  See @ref{checkout options}.
+existed on @var{date}.  See @ref{checkout options}.  Also,
+see @ref{Common options}.
 
 @item -k @var{kflag}
 Use @var{kflag} keyword expansion.  See
@@ -11929,7 +11937,7 @@ behavior}.
 @item -r @var{tag}[:@var{date}]
 Checkout the revision already tagged with @var{tag} or, when @var{date} is
 specified and @var{tag} is a branch tag, the version from the branch @var{tag}
-as it existed on @var{date}.  This .  See @ref{Common options}.
+as it existed on @var{date}.  See @ref{Common options}.
 
 @item -s
 Like -c, but include module status.  See @ref{checkout options}.
@@ -15833,7 +15841,7 @@ The MirOS Project uses @sc{cvs} heavily in MirOS BSD and the
 MirPorts Framework and has enhanced it. Responsible:
 
 @display
-Thorsten Glaser <@t{tg@@mirbsd.de}>
+Thorsten Glaser <@t{tg@@mirbsd.org}>
 @end display
 
 CVS Homepage: @url{http://www.nongnu.org/cvs/}

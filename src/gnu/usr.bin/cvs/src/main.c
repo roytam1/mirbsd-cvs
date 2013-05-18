@@ -24,7 +24,7 @@
 #include "strftime.h"
 #include "xgethostname.h"
 
-__RCSID("$MirOS: src/gnu/usr.bin/cvs/src/main.c,v 1.7 2005/12/06 23:30:40 tg Exp $");
+__RCSID("$MirOS: src/gnu/usr.bin/cvs/src/main.c,v 1.8 2007/03/10 23:53:41 tg Exp $");
 
 const char *program_name;
 const char *program_path;
@@ -1170,7 +1170,7 @@ parse_tagdate (char **tag, char **date, const char *input)
 	if (*++p)
 	{
 	    if (*date) free (*date);
-	    *date = Make_Date (p);
+	    *date = strcmp (p, "BASE") ? Make_Date (p) : xstrdup (p);
 	}
     }
     else if (strlen (input))
