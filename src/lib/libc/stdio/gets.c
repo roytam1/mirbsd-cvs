@@ -34,7 +34,7 @@
 #include <stdio.h>
 
 __warn_references(gets,
-    "warning: gets() is very unsafe; consider using fgets()");
+    "gets() is very unsafe; consider using fgets()");
 
 char *
 gets(char *buf)

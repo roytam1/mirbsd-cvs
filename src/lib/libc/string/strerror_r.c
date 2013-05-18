@@ -1,3 +1,4 @@
+/* $MirOS$ */
 /* $OpenBSD: strerror_r.c,v 1.6 2005/08/08 08:05:37 espie Exp $ */
 /* Public Domain <marc@snafu.org> */
 
@@ -67,7 +68,7 @@ __num2string(int num, int sign, int setid, char *buf, size_t buflen,
 	size_t len;
 
 	if (0 <= num && num < max) {
-		len = strlcpy(buf, def, buflen);
+		len = strlcpy(buf, list[num], buflen);
 		if (len >= buflen)
 			ret = ERANGE;
 	} else {

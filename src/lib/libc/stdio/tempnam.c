@@ -36,10 +36,10 @@
 #include <unistd.h>
 #include <paths.h>
 
-__RCSID("$MirOS: src/lib/libc/stdio/tempnam.c,v 1.2 2005/07/26 19:31:54 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/stdio/tempnam.c,v 1.3 2005/09/22 20:13:05 tg Exp $");
 
 __warn_references(tempnam,
-    "warning: tempnam() possibly used unsafely; consider using mkstemp()");
+    "tempnam() possibly used unsafely; consider using mkstemp()");
 
 extern char *_mktemp(char *);
 

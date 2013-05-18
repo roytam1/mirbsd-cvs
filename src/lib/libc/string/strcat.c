@@ -35,9 +35,9 @@
 #include <lib/libkern/libkern.h>
 #endif
 
-__RCSID("$MirOS: src/lib/libc/string/strcat.c,v 1.4 2005/04/29 18:34:50 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/string/strcat.c,v 1.5 2005/09/22 20:16:48 tg Exp $");
 
-__warn_references(strcat, "warning: strcat() is almost always misused, consider using strlcat()");
+__warn_references(strcat, "strcat() is almost always misused, consider using strlcat()");
 
 char *
 strcat(s, append)

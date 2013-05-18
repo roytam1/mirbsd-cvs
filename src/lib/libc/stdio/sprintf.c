@@ -36,9 +36,9 @@
 #include <limits.h>
 #include "local.h"
 
-__RCSID("$MirOS: src/lib/libc/stdio/sprintf.c,v 1.3 2005/04/16 19:52:22 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/stdio/sprintf.c,v 1.4 2005/09/22 20:13:05 tg Exp $");
 
-__warn_references(sprintf, "warning: sprintf() is often misused, consider using snprintf()");
+__warn_references(sprintf, "sprintf() is often misused, consider using snprintf()");
 
 int
 sprintf(char *str, const char *fmt, ...)

@@ -1,4 +1,4 @@
-/**	$MirOS$ */
+/**	$MirOS: src/lib/libc/stdio/mktemp.c,v 1.3 2005/09/22 20:13:05 tg Exp $ */
 /*	$OpenBSD: mktemp.c,v 1.19 2005/08/08 08:05:36 espie Exp $ */
 /*
  * Copyright (c) 1987, 1993
@@ -38,7 +38,7 @@
 #include <ctype.h>
 #include <unistd.h>
 
-__RCSID("$MirOS: src/lib/libc/stdio/mktemp.c,v 1.2 2005/09/18 19:58:03 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/stdio/mktemp.c,v 1.3 2005/09/22 20:13:05 tg Exp $");
 
 static int _gettemp(char *, int *, int, int);
 
@@ -74,7 +74,7 @@ _mktemp(char *path)
 
 #ifdef __warn_references
 __warn_references(mktemp,
-    "warning: mktemp() possibly used unsafely; consider using mkstemp()");
+    "mktemp() possibly used unsafely; consider using mkstemp()");
 #endif
 
 char *

@@ -63,7 +63,7 @@
 #include <stdlib.h>
 #include "thread_private.h"
 
-__RCSID("$MirOS: src/lib/libc/net/gethostnamadr.c,v 1.5 2005/07/09 13:23:31 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/net/gethostnamadr.c,v 1.6 2005/09/22 20:40:02 tg Exp $");
 
 #define MULTI_PTRS_ARE_ALIASES 1	/* XXX - experimental */
 
@@ -874,7 +874,7 @@ _gethtbyaddr(const void *addr, socklen_t len, int af)
 	_sethtent(0);
 	while ((p = _gethtent()))
 		if (p->h_addrtype == af && p->h_length == len &&
-		    !bcmp(p->h_addr, addr, len))
+		    !memcmp(p->h_addr, addr, len))
 			break;
 	_endhtent();
 	return (p);

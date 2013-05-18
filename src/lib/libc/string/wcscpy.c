@@ -33,7 +33,7 @@
 
 #if defined(APIWARN)
 __warn_references(wcscpy,
-    "warning: wcscpy() is almost always misused, please use wcslcpy()");
+    "wcscpy() is almost always misused, please use wcslcpy()");
 #endif
 
 wchar_t *
