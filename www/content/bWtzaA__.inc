@@ -1,5 +1,5 @@
 <!-- PageID: mksh -->
-<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.101 2007/05/01 21:11:23 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.102 2007/05/10 19:49:57 tg Exp $</small>
 
 <h1>mksh(1) R29</h1>
 <p>This is the MirBSD&trade; Korn Shell, a more or less portable
@@ -88,6 +88,16 @@
   by Jupp “cnuke” Söntgen) – not public, not finished yet</li>
  <li>No longer build a statically linked shell by default; do not try,
   do not provide any means; user has to use LDFLAGS instead.</li>
+ <li>Don't poll in strcasestr(3) if setlocale(3) isn't used</li>
+ <li>Remove some redundant or unused functions</li>
+ <li>Fix a horizontal scrolling on tabcomplete bug, reported by David
+  Ramsey, thanks a lot!</li>
+ <li>Fix the utf8bom-3 regression test on MirBSD-current</li>
+ <li>Some workarounds around problems found by Coverity Scan, mostly
+  issues with Scan, but the changes help gcc to optimise better</li>
+ <li>Fix a null pointer dereference in error path, mis-use of strchr(3)
+  to search for a NUL byte, and two possible out-of-bounds array
+  accesses, found by Coverity Scan, many thanks!</li>
 </ul>
 <p>Portability improvements in mksh R29d contain:</p><ul>
  <li>Unbreak testsuite on Mac OSX (whose brain-dead file system does
