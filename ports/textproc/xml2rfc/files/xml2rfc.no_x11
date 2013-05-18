@@ -1,7 +1,0 @@
-#!/bin/sh
-# $MirOS$
-
-tclsh=y0y0y0/bin/tclsh8.4
-xml2rfc=y0y0y0/share/xml2rfc/xml2rfc.tcl
-
-exec $tclsh $xml2rfc xml2rfc $@

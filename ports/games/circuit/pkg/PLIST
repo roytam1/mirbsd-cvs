@@ -1,3 +1,0 @@
-@comment $OpenBSD: PLIST,v 1.2 2002/12/14 17:47:19 espie Exp $
-bin/circuit
-man/man6/circuit.6

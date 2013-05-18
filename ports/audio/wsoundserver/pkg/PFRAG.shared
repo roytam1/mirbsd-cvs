@@ -1,3 +1,0 @@
-@comment $MirOS$
-@comment $OpenBSD: PFRAG.shared,v 1.1.1.1 2001/01/09 20:59:36 naddy Exp $
-@lib lib/libwsound.so.1.3
