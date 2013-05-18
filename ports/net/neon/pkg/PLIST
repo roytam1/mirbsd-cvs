@@ -1,4 +1,4 @@
-@comment $MirOS: ports/net/neon/pkg/PLIST,v 1.1.7.1 2005/03/18 15:48:35 tg Exp $
+@comment $MirOS: ports/net/neon/pkg/PLIST,v 1.2 2005/11/09 19:19:45 bsiegert Exp $
 @comment $OpenBSD: PLIST,v 1.7 2003/11/27 16:46:24 lebel Exp $
 bin/neon-config
 include/neon/ne_207.h
@@ -7,7 +7,6 @@ include/neon/ne_alloc.h
 include/neon/ne_auth.h
 include/neon/ne_basic.h
 include/neon/ne_compress.h
-include/neon/ne_cookies.h
 include/neon/ne_dates.h
 include/neon/ne_defs.h
 include/neon/ne_i18n.h
@@ -23,6 +22,7 @@ include/neon/ne_string.h
 include/neon/ne_uri.h
 include/neon/ne_utils.h
 include/neon/ne_xml.h
+include/neon/ne_xmlreq.h
 lib/libneon.la
 lib/pkgconfig/neon.pc
 man/man1/neon-config.1
@@ -48,11 +48,15 @@ man/man3/ne_calloc.3
 man/man3/ne_close_connection.3
 man/man3/ne_forget_auth.3
 man/man3/ne_get_error.3
+man/man3/ne_get_response_header.3
+man/man3/ne_get_scheme.3
+man/man3/ne_get_server_hostport.3
 man/man3/ne_get_status.3
 man/man3/ne_iaddr_cmp.3
 man/man3/ne_iaddr_free.3
 man/man3/ne_iaddr_make.3
 man/man3/ne_iaddr_print.3
+man/man3/ne_iaddr_typeof.3
 man/man3/ne_malloc.3
 man/man3/ne_oom_callback.3
 man/man3/ne_print_request_header.3
@@ -61,16 +65,17 @@ man/man3/ne_realloc.3
 man/man3/ne_request_create.3
 man/man3/ne_request_destroy.3
 man/man3/ne_request_dispatch.3
+man/man3/ne_response_header_iterate.3
 man/man3/ne_session_create.3
 man/man3/ne_session_destroy.3
 man/man3/ne_session_proxy.3
 man/man3/ne_set_error.3
-man/man3/ne_set_expect100.3
 man/man3/ne_set_persist.3
 man/man3/ne_set_proxy_auth.3
 man/man3/ne_set_read_timeout.3
 man/man3/ne_set_request_body_buffer.3
 man/man3/ne_set_request_body_fd.3
+man/man3/ne_set_request_expect100.3
 man/man3/ne_set_server_auth.3
 man/man3/ne_set_useragent.3
 man/man3/ne_shave.3
@@ -102,6 +107,8 @@ man/man3/ne_strndup.3
 man/man3/ne_token.3
 man/man3/ne_version_match.3
 man/man3/ne_version_string.3
+man/man3/ne_xml_create.3
+man/man3/ne_xml_destroy.3
 man/man3/neon.3
 share/doc/neon/BUGS
 share/doc/neon/NEWS
@@ -146,7 +153,9 @@ share/doc/neon/html/refopts.html
 share/doc/neon/html/refreq.html
 share/doc/neon/html/refreqbody.html
 share/doc/neon/html/refreqhdr.html
+share/doc/neon/html/refreqopts.html
 share/doc/neon/html/refresolve.html
+share/doc/neon/html/refresphdr.html
 share/doc/neon/html/refsess.html
 share/doc/neon/html/refshave.html
 share/doc/neon/html/refsockinit.html
@@ -158,6 +167,7 @@ share/doc/neon/html/refsslvfy.html
 share/doc/neon/html/refstatus.html
 share/doc/neon/html/reftok.html
 share/doc/neon/html/refvers.html
+share/doc/neon/html/refxml.html
 share/doc/neon/html/using.html
 share/doc/neon/html/xml.html
 share/neon/macros/ChangeLog
@@ -165,12 +175,9 @@ share/neon/macros/neon-test.m4
 share/neon/macros/neon-xml-parser.m4
 share/neon/macros/neon.m4
 share/neon/macros/socklen-arg-type.m4
-%%SHARED%%
 @dirrm share/neon/macros
 @dirrm share/neon
 @dirrm share/doc/neon/html
 @dirrm share/doc/neon
-@dirrm share/doc
-@dirrm share
 @dirrm lib/pkgconfig
 @dirrm include/neon
