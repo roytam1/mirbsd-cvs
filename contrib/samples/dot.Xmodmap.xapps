@@ -1,4 +1,4 @@
-! $MirOS: contrib/samples/dot.Xmodmap.xapps,v 1.5 2006/01/26 23:03:34 tg Rel $
+! $MirOS: contrib/samples/dot.Xmodmap.xapps,v 1.6 2006/01/26 23:09:25 tg Rel $
 !-
 ! Copyright (c) 2006
 !	Thorsten Glaser <tg@mirbsd.de>
@@ -146,6 +146,16 @@ keycode	0x66 =	Right
 keycode	0x5A =	KP_Insert
 keycode	0x5B =	KP_Delete
 
+keycode	0x5C =
+keycode	0x5D =
+keycode	0x72 =
+keycode	0x7C =
+keycode	0x7D =
+keycode	0x7E =
+keycode	0x7F =
+keycode	0x80 =
+keycode	0x9C =
+
 clear	Shift
 clear	Lock
 clear	Control
@@ -160,5 +170,6 @@ add	Shift	= Shift_L	Shift_R
 add	Control	= Control_L	Control_R
 add	Mod1	= Alt_L		Alt_R
 add	Mod2	= Num_Lock
-add	Mod4	= Meta_L	Meta_R
-add	Mod5	= Scroll_Lock
+add	Mod3	= Meta_L	Meta_R
+add	Mod4	= Scroll_Lock
+add	Mod5	= Mode_switch
