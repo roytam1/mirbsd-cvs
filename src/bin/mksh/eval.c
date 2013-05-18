@@ -22,7 +22,7 @@
 
 #include "sh.h"
 
-__RCSID("$MirOS: src/bin/mksh/eval.c,v 1.64 2009/08/01 19:31:02 tg Exp $");
+__RCSID("$MirOS: src/bin/mksh/eval.c,v 1.66 2009/08/28 20:30:55 tg Exp $");
 
 /*
  * string expansion
@@ -385,7 +385,7 @@ expand(const char *cp,	/* input word */
 						    &from, KSH_UNWIND_ERROR, true);
 						afree(stg, ATEMP);
 						if (end) {
-							evaluate(stg = wdstrip(mid, false, false),
+							evaluate(substitute(stg = wdstrip(mid, false, false), 0),
 							    &num, KSH_UNWIND_ERROR, true);
 							afree(stg, ATEMP);
 						}
