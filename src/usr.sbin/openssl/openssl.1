@@ -1,5 +1,5 @@
-.\" $MirOS: src/usr.sbin/openssl/openssl.1,v 1.5 2006/07/09 00:28:39 tg Exp $
-.\" $OpenBSD: openssl.1,v 1.51 2005/04/29 09:31:05 jmc Exp $
+.\" $MirOS: src/usr.sbin/openssl/openssl.1,v 1.6 2006/09/20 20:38:15 tg Exp $
+.\" $OpenBSD: openssl.1,v 1.56 2006/06/27 14:23:52 jmc Exp $
 .\" ====================================================================
 .\" Copyright (c) 1998-2002 The OpenSSL Project.  All rights reserved.
 .\"
@@ -1064,7 +1064,7 @@ certificate's DN.
 .It Ar msie_hack
 The same as
 .Fl msie_hack .
-.It Ar nameopt , certopt
+.It Ar name_opt , cert_opt
 These options allow the format used to display the certificate details
 when asking the user to confirm signing.
 All the options supported by the
@@ -1255,8 +1255,8 @@ A sample configuration file with the relevant sections for
 \& policy         = policy_any            # default policy
 \& email_in_dn    = no                    # Don't add the email into cert DN
 
-\& nameopt        = ca_default            # Subject name display option
-\& certopt        = ca_default            # Certificate display option
+\& name_opt        = ca_default           # Subject name display option
+\& cert_opt        = ca_default           # Certificate display option
 \& copy_extensions = none                 #Don't copy extensions from request
 
 \& [ policy_any ]
@@ -1996,7 +1996,7 @@ digest as opposed to a digital signature.
 .It Fl keyform Ar ENGINE | PEM
 Key file format.
 .It Fl out Ar file
-file to output to, or standard output by default.
+The file to output to, or standard output by default.
 .It Fl passin Ar arg
 The key password source.
 For more information about the format of
@@ -2740,12 +2740,12 @@ des-ecb            DES in ECB mode
 des-ofb            DES in OFB mode
 
 des-ede-cbc        Two key triple DES EDE in CBC mode
-des-ede            Alias for des-ede
+des-ede            Two key triple DES EDE in ECB mode
 des-ede-cfb        Two key triple DES EDE in CFB mode
 des-ede-ofb        Two key triple DES EDE in OFB mode
 
 des-ede3-cbc       Three key triple DES EDE in CBC mode
-des-ede3           Alias for des-ede3-cbc
+des-ede3           Three key triple DES EDE in ECB mode
 des3               Alias for des-ede3-cbc
 des-ede3-cfb       Three key triple DES EDE CFB mode
 des-ede3-ofb       Three key triple DES EDE in OFB mode
@@ -2761,9 +2761,9 @@ idea-ofb           IDEA in OFB mode
 
 rc2-cbc            128-bit RC2 in CBC mode
 rc2                Alias for rc2-cbc
-rc2-cfb            128-bit RC2 in CBC mode
-rc2-ecb            128-bit RC2 in CBC mode
-rc2-ofb            128-bit RC2 in CBC mode
+rc2-cfb            128-bit RC2 in CFB mode
+rc2-ecb            128-bit RC2 in ECB mode
+rc2-ofb            128-bit RC2 in OFB mode
 rc2-64-cbc         64-bit RC2 in CBC mode
 rc2-40-cbc         40-bit RC2 in CBC mode
 
@@ -4349,6 +4349,7 @@ $ openssl -in keycerts.pem -export -name "My PKCS#12 file" \e
 .Sh RAND
 .Cm openssl rand
 .Op Fl base64
+.Op Fl hex
 .Op Fl engine Ar id
 .Op Fl out Ar file
 .Op Fl rand Ar file ...
@@ -4390,6 +4391,8 @@ string) will cause
 to attempt to obtain a functional reference to the specified engine,
 thus initialising it if needed.
 The engine will then be set as the default for all available algorithms.
+.It Fl hex
+Specify hexadecimal output.
 .It Fl out Ar file
 Write to
 .Ar file
@@ -5098,7 +5101,7 @@ environment variable serves the same purpose but its use is discouraged.
 .Nm OpenSSL Ns Li 's
 handling of T61Strings
 .Pq aka TeletexStrings
-is broken: it effectively treats them as ISO-8859-1
+is broken: it effectively treats them as ISO 8859-1
 .Pq Latin 1 ;
 Netscape and MSIE have similar behaviour.
 This can cause problems if you need characters that aren't available in
@@ -8193,7 +8196,7 @@ Trusted certificates have the lines:
 .Ed
 .Pp
 The conversion to UTF8 format used with the name options assumes that
-T61Strings use the ISO8859-1 character set.
+T61Strings use the ISO 8859-1 character set.
 This is wrong, but Netscape and MSIE do this, as do many certificates.
 So although this is incorrect
 it is more likely to display the majority of certificates correctly.
