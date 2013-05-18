@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/stand/libsa/cmd_i386.c,v 1.22 2009/01/10 22:18:53 tg Exp $	*/
+/**	$MirOS: src/sys/arch/i386/stand/libsa/cmd_i386.c,v 1.23 2009/01/11 00:32:40 tg Exp $	*/
 /*	$OpenBSD: cmd_i386.c,v 1.29 2006/09/18 21:14:15 mpf Exp $	*/
 
 /*
@@ -193,10 +193,10 @@ Xboot(void)
 
 	if (part < 0) {
 		/* boot whole sector; just zero bootpart */
-		bzero(bios_bootpte, 16);
+		bzero(&bios_bootpte, 16);
 	} else {
-		memcpy(bios_bootpte, buf + DOSPARTOFF + part * 16, 16);
-		if ((st = biosd_io(F_READ, bd, bios_bootpte[2], 1, buf)))
+		memcpy(&bios_bootpte, buf + DOSPARTOFF + part * 16, 16);
+		if ((st = biosd_io(F_READ, bd, bios_bootpte.p_ofs, 1, buf)))
 			goto bad;
 	}
 

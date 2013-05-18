@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/stand/libsa/biosdev.c,v 1.29 2009/01/11 01:46:20 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/stand/libsa/biosdev.c,v 1.30 2009/01/11 13:28:49 tg Exp $ */
 /*	$OpenBSD: biosdev.c,v 1.74 2008/06/25 15:32:18 reyk Exp $	*/
 
 /*
@@ -708,9 +708,8 @@ disk_trylabel(struct diskinfo *dip)
 		totsiz = 2880;
 
 		if (!(bd->bios_number & 0x80) || bd->flags & BDI_EL_TORITO ||
-		    (((char *)bios_bootpte)[0] & 0x7F) ||
-		    !((char *)bios_bootptr)[4])
-			bzero(bios_bootpte, 16);
+		    (bios_bootpte.active & 0x7F) /* || !bios_bootpte.partyp */)
+			bios_bootpte.partyp = 0;
 		if (bd->bios_number & 0x80) {
 			/* read MBR */
 			i = biosd_io(F_READ, bd, DOSBBSECTOR, 1, NULL);
@@ -755,10 +754,11 @@ disk_trylabel(struct diskinfo *dip)
 		bzero(dip->disklabel.d_partitions,
 		    sizeof (dip->disklabel.d_partitions));
 
-		if (bios_bootpte[2] || bios_bootpte[3]) {
+		if (bios_bootpte.partyp &&
+		    (bios_bootpte.p_ofs || bios_bootpte.p_siz)) {
 			/* 'a' partition passed from MBR/SYSLINUX */
-			dip->disklabel.d_partitions[0].p_offset = bios_bootpte[2];
-			dip->disklabel.d_partitions[0].p_size = bios_bootpte[3];
+			dip->disklabel.d_partitions[0].p_offset = bios_bootpte.p_ofs;
+			dip->disklabel.d_partitions[0].p_size = bios_bootpte.p_siz;
 			dip->disklabel.d_partitions[0].p_fstype = FS_MANUAL;
 		} else {
 			/* 'a' partition covering the "whole" disk */

@@ -1,4 +1,4 @@
-/*	$MirOS$ */
+/*	$MirOS: src/sys/arch/i386/stand/libsa/libsa.h,v 1.6 2009/01/10 20:28:28 tg Exp $ */
 /*	$OpenBSD: libsa.h,v 1.44 2007/04/27 10:08:34 tom Exp $	*/
 
 /*
@@ -78,7 +78,18 @@ extern const int nbdevs;
 extern u_int cnvmem, extmem; /* XXX global pass memprobe()->machdep_start() */
 extern int ps2model;
 
-extern uint32_t bios_bootpte[4];
+extern struct {
+	uint8_t active;
+	uint8_t beg_DH;
+	uint8_t beg_CL;
+	uint8_t beg_CH;
+	uint8_t partyp;
+	uint8_t end_DH;
+	uint8_t end_CL;
+	uint8_t end_CH;
+	uint32_t p_ofs;
+	uint32_t p_siz;
+} bios_bootpte;
 extern uint8_t i386_userpt;
 extern uint8_t i386_biosdev;
 extern uint8_t i386_biosflags;
