@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/stand/libsa/biosdev.c,v 1.38 2009/01/26 15:27:08 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/stand/libsa/biosdev.c,v 1.39 2009/01/31 16:07:22 tg Exp $ */
 /*	$OpenBSD: biosdev.c,v 1.74 2008/06/25 15:32:18 reyk Exp $	*/
 
 /*
@@ -181,8 +181,8 @@ biosd_io(int rw, bios_diskinfo_t *bd, daddr_t off, int nsect, void *buf)
 		if (s + n >= bd->bios_sectors)
 			n = bd->bios_sectors - s;
 	}
-	if (buf && rw != F_READ)
-		memcpy(bounce_buf + spre * 512, buf,
+	if ((buf || spre) && rw != F_READ)
+		memmove(bounce_buf + spre * 512, buf ? buf : bounce_buf,
 		    MIN(n - spre, nsect) * 512);
 	/* try operation up to 5 times */
 	rv = 1;
@@ -234,8 +234,8 @@ biosd_io(int rw, bios_diskinfo_t *bd, daddr_t off, int nsect, void *buf)
 #endif
 	if (rv)
 		return (rv);
-	if (buf && rw == F_READ)
-		memcpy(buf, bounce_buf + spre * 512,
+	if ((buf || spre) && rw == F_READ)
+		memmove(buf ? buf : bounce_buf, bounce_buf + spre * 512,
 		    MIN(n - spre, nsect) * 512);
 	if ((nsect -= n) <= 0)
 		return (0);
