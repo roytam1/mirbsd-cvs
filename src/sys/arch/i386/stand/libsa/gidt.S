@@ -1,4 +1,4 @@
-/*	$MirOS: src/sys/arch/i386/stand/libsa/gidt.S,v 1.4 2009/01/01 21:46:38 tg Exp $ */
+/*	$MirOS: src/sys/arch/i386/stand/libsa/gidt.S,v 1.5 2009/01/01 23:59:02 tg Exp $ */
 /*	$OpenBSD: gidt.S,v 1.32 2006/12/26 19:30:44 tom Exp $	*/
 
 /*
@@ -413,6 +413,7 @@ intno	= . - 1
 
 /* Call buffer at 07c0:0000 in real mode to simulate a BIOS boot */
 ENTRY(bootbuf)
+	cli
 	pop	%eax		/* Don't need return address */
 	pop	%esi		/* Buffer Source (linear) */
 	pop	%ecx		/* Size */
@@ -424,12 +425,11 @@ ENTRY(bootbuf)
 	.intel_syntax noprefix
 
 	/* set up flags, real mode stack */
-	cli
 	xor	eax,eax
-	push	eax
-	popf
 	mov	ss,ax
 	mov	esp,0x0000FFFC
+	push	eax
+	popf
 
 	/*-
 	 * Now the machine status is as follows:
