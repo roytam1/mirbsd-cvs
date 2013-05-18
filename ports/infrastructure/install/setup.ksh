@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: ports/infrastructure/install/setup.ksh,v 1.76 2007/01/18 19:41:29 tg Exp $
+# $MirOS: ports/infrastructure/install/setup.ksh,v 1.77 2007/04/01 01:24:04 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -369,12 +369,13 @@ f_verexist=$($localbase/bin/mmake -f f all 2>/dev/null)
 			chmod 555 $localbase/bin/mmake
 			mkdir -p $shmk
 			# Fake package installation
-			mkdir -p $localbase/db/pkg/mirmake-$f_ver-0
+			mkdir -p $localbase/db/pkg/mirmake-$f_ver-0-wrapper
 			sed -e "s#/usr/mpkg#$localbase#" \
-			    -e 's#@subdir@#devel/mirmake,#' \
+			    -e 's#@subdir@#devel/mirmake,wrapper#' \
 			    <$portsdir/infrastructure/templates/basepkg.CONTENTS \
-			    >$localbase/db/pkg/mirmake-$f_ver-0/+CONTENTS
-			print mirmake >$localbase/db/pkg/mirmake-$f_ver-0/+COMMENT
+			    >$localbase/db/pkg/mirmake-$f_ver-0-wrapper/+CONTENTS
+			print mirmake wrapper, created by Setup.sh \
+			    >$localbase/db/pkg/mirmake-$f_ver-0-wrapper/+COMMENT
 		else
 			print Upgrading MirMake, please wait...
 			(cd $portsdir/devel/mirmake; \
@@ -414,13 +415,13 @@ fi
 		cd $T
 		rm -rf mirmake
 		# Fake package installation
-		mkdir -p $localbase/db/pkg/mirmake-$f_ver-0
+		mkdir -p $localbase/db/pkg/mirmake-$f_ver-0-setup
 		sed -e "s#/usr/mpkg#$localbase#" \
-		    -e 's#@subdir@#devel/mirmake,#' \
+		    -e 's#@subdir@#devel/mirmake,setup#' \
 		    <$portsdir/infrastructure/templates/basepkg.CONTENTS \
-		    >$localbase/db/pkg/mirmake-$f_ver-0/+CONTENTS
-		print MirOS make variant \
-		    >$localbase/db/pkg/mirmake-$f_ver-0/+COMMENT
+		    >$localbase/db/pkg/mirmake-$f_ver-0-setup/+CONTENTS
+		print MirOS make variant, installed by Setup.sh \
+		    >$localbase/db/pkg/mirmake-$f_ver-0-setup/+COMMENT
 	fi
 fi
 
@@ -453,12 +454,13 @@ if [[ ! -f /usr/bin/nroff && ! -f $localbase/bin/nroff ]]; then
 	# Building this without NOMAN=yes can be done by a port.
 	rm -rf mirnroff
 	# Fake package installation
-	mkdir -p $localbase/db/pkg/nroff-$f_ver-0
+	mkdir -p $localbase/db/pkg/nroff-$f_ver-0-setup
 	sed -e "s#/usr/mpkg#$localbase#" \
-	    -e 's#@subdir@#essentials/nroff,#' \
+	    -e 's#@subdir@#essentials/nroff,setup#' \
 	    <$portsdir/infrastructure/templates/basepkg.CONTENTS \
-	    >$localbase/db/pkg/nroff-$f_ver-0/+CONTENTS
-	print unix text processor >$localbase/db/pkg/nroff-$f_ver-0/+COMMENT
+	    >$localbase/db/pkg/nroff-$f_ver-0-setup/+CONTENTS
+	print unix text processor, installed by Setup.sh \
+	    >$localbase/db/pkg/nroff-$f_ver-0-setup/+COMMENT
 fi
 (( iopt )) && exit 0
 unset NROFF
@@ -477,12 +479,12 @@ if [[ ! -x /usr/sbin/mtree && ! -x $localbase/bin/mtree ]]; then
 	cd ..
 	rm -rf mtree
 	# Fake package installation
-	mkdir -p $localbase/db/pkg/mtree-$f_ver-0
+	mkdir -p $localbase/db/pkg/mtree-$f_ver-0-setup
 	sed -e "s#/usr/mpkg#$localbase#" \
-	    -e 's#@subdir@#essentials/mtree,#' \
+	    -e 's#@subdir@#essentials/mtree,setup#' \
 	    <$portsdir/infrastructure/templates/basepkg.CONTENTS \
-	    >$localbase/db/pkg/mtree-$f_ver-0/+CONTENTS
-	print mtree >$localbase/db/pkg/mtree-$f_ver-0/+COMMENT
+	    >$localbase/db/pkg/mtree-$f_ver-0-setup/+CONTENTS
+	print mtree >$localbase/db/pkg/mtree-$f_ver-0-setup/+COMMENT
 fi
 [[ $run_mtree = 0 ]] &&	mtree -U -e -d -n -p / -f $T/fake.mtree
 
@@ -644,11 +646,13 @@ else
 	if (( topt == 0 )); then
 		dependdist pkgtools
 		cd $T/pkgtools
+		app=
 	else
 		mkdir -p $T/pkgtools
 		cd $T/pkgtools
 		lndir $portsdir/infrastructure/pkgtools
-		f_ver=20061227	# hardcoded here, update manually and seldom
+		f_ver=20070431	# hardcoded here, update manually and seldom
+		app=-opt_t
 	fi
 	export LOCALBASE=$localbase PORTSDIR=$portsdir
 	set -e
@@ -660,12 +664,14 @@ else
 	unset LOCALBASE
 	cd $T
 	# Fake package installation
-	mkdir -p $localbase/db/pkg/pkgtools-$f_ver-0
+	mkdir -p $localbase/db/pkg/pkgtools-$f_ver-0$app
 	sed -e "s#/usr/mpkg#$localbase#" \
-	    -e 's#@subdir@#essentials/pkgtools,#' \
+	    -e 's#@subdir@#essentials/pkgtools,'${app#-}'#' \
 	    <$portsdir/infrastructure/templates/basepkg.CONTENTS \
-	    >$localbase/db/pkg/pkgtools-$f_ver-0/+CONTENTS
-	print autopackage tools >$localbase/db/pkg/pkgtools-$f_ver-0/+COMMENT
+	    >$localbase/db/pkg/pkgtools-$f_ver-0$app/+CONTENTS
+	print autopackage tools, created by Setup.sh ${app:+from CVS} \
+	    >$localbase/db/pkg/pkgtools-$f_ver-0$app/+COMMENT
+	unset app
 fi
 
 
