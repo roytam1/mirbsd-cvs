@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.316 2010/12/11 13:27:23 bsiegert Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.317 2011/01/01 02:38:13 bsiegert Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -7276,7 +7276,7 @@ Date: 31.12.2010 12:50
   /usr/pkg. The dbdir should be inside the prefix to avoid conflicts
   with MirPorts.<br />
   <tt>cd bootstrap ; ./bootstrap --prefix /usr/pkg --pkgdbdir
-  /usr/pkg/db</tt>
+  /usr/pkg/db</tt></li>
  <li>Add /usr/pkg/bin and /usr/pkg/sbin to your path:<br />
   <tt>export PATH=/usr/pkg/bin:${PATH}:/usr/pkg/sbin</tt></li>
  <li>I recommend to install perl first because it is needed by many
