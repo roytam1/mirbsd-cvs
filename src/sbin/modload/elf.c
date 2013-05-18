@@ -1,5 +1,5 @@
-/**	$MirOS: src/sbin/modload/elf.c,v 1.2 2005/03/06 19:50:16 tg Exp $	*/
-/*	$OpenBSD: elf.c,v 1.6 2003/09/18 18:00:13 deraadt Exp $	*/
+/**	$MirOS: src/sbin/modload/elf.c,v 1.3 2005/11/17 12:07:57 tg Exp $	*/
+/*	$OpenBSD: elf.c,v 1.7 2004/12/28 09:05:18 deraadt Exp $	*/
 /*	$NetBSD: elf.c,v 1.8 2002/01/03 21:45:58 jdolecek Exp $	*/
 
 /*
@@ -32,7 +32,7 @@
 
 #include <sys/param.h>
 
-#if defined(__alpha__) || defined(__arch64__) || defined(__x86_64__)
+#if defined(__LP64__)
 #define ELFSIZE 64
 #else
 #define ELFSIZE 32
@@ -55,7 +55,7 @@
 
 #include "modload.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/sbin/modload/elf.c,v 1.3 2005/11/17 12:07:57 tg Exp $");
 
 char *strtab;
 
@@ -124,7 +124,7 @@ read_sections(int fd, Elf_Ehdr *ehdr, char *shstrtab, struct elf_section **head)
 			    (u_long)sizeof(*s));
 		s->name = shstrtab + shdr.sh_name;
 		s->type = shdr.sh_type;
-		s->addr = (void*)shdr.sh_addr;
+		s->addr = (void *)shdr.sh_addr;
 		s->offset = shdr.sh_offset;
 		s->size = shdr.sh_size;
 		s->align = shdr.sh_addralign;
@@ -274,12 +274,12 @@ elf_mod_sizes(int fd, size_t *modsize, int *strtablen,
 		 * XXX try to get rid of the hole before the data
 		 * section that GNU-ld likes to put there
 		 */
-		if (strcmp(s->name, ".rodata") == 0 && s->addr > (void*)off) {
+		if (strcmp(s->name, ".data") == 0 && s->addr > (void *)off) {
 			data_offset = roundup(off, s->align);
 			if (debug)
 				fprintf(stderr, ".rodata section forced to "
 				    "offset %p (was %p)\n",
-				    (void*)data_offset, s->addr);
+				    (void *)data_offset, s->addr);
 			/* later remove size of compressed hole from off */
 			data_hole = (ssize_t)s->addr - data_offset;
 		}
@@ -406,7 +406,7 @@ elf_mod_load(int fd)
 
 	free_sections(head);
 	free(shstrtab);
-	return (void*)ehdr.e_entry;
+	return (void *)ehdr.e_entry;
 }
 
 extern int devfd, modfd;

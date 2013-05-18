@@ -1,5 +1,5 @@
-/* $MirOS: src/sbin/isakmpd/policy.c,v 1.2 2005/03/06 19:50:05 tg Exp $ */
-/* $OpenBSD: policy.c,v 1.85 2005/04/08 22:32:10 cloder Exp $	 */
+/* $MirOS: src/sbin/isakmpd/policy.c,v 1.3 2005/04/26 15:42:38 tg Exp $ */
+/* $OpenBSD: policy.c,v 1.86 2005/06/14 10:50:47 hshoexer Exp $	 */
 /* $EOM: policy.c,v 1.49 2000/10/24 13:33:39 niklas Exp $ */
 
 /*
@@ -64,7 +64,7 @@
 #include "policy.h"
 #include "x509.h"
 
-__RCSID("$MirOS: src/sbin/isakmpd/policy.c,v 1.2 2005/03/06 19:50:05 tg Exp $");
+__RCSID("$MirOS: src/sbin/isakmpd/policy.c,v 1.3 2005/04/26 15:42:38 tg Exp $");
 
 char          **policy_asserts = NULL;
 int		ignore_policy = 0;
@@ -515,7 +515,9 @@ policy_callback(char *name)
 							break;
 						}
 					else if (decode_16(value) ==
-					    IPSEC_ENCAP_UDP_ENCAP_TUNNEL)
+					    IPSEC_ENCAP_UDP_ENCAP_TUNNEL ||
+					    decode_16(value) ==
+					    IPSEC_ENCAP_UDP_ENCAP_TUNNEL_DRAFT)
 						switch (proto->proto) {
 						case IPSEC_PROTO_IPSEC_AH:
 							ah_encapsulation = "udp-encap-tunnel";

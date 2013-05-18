@@ -1,5 +1,5 @@
-/**	$MirOS$ */
-/*	$OpenBSD: fdisk.c,v 1.39 2004/08/03 09:22:03 otto Exp $	*/
+/**	$MirOS: src/sbin/fdisk/fdisk.c,v 1.2 2005/03/06 19:49:54 tg Exp $ */
+/*	$OpenBSD: fdisk.c,v 1.40 2005/05/01 20:53:38 jmc Exp $	*/
 
 /*
  * Copyright (c) 1997 Tobias Weingartner
@@ -43,7 +43,7 @@ static unsigned char builtin_mbr[] = {
 #include "mbrcode.h"
 };
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/sbin/fdisk/fdisk.c,v 1.2 2005/03/06 19:49:54 tg Exp $");
 
 static void
 usage(void)
@@ -51,7 +51,7 @@ usage(void)
 	extern char * __progname;
 
 	fprintf(stderr, "usage: %s "
-	    "[-ieu] [-f mbrboot] [-c cyl -h head -s sect] disk\n"
+	    "[-ieu] [-c cylinders -h heads -s sectors] [-f mbrfile] device\n"
 	    "\t-i: initialise disk with virgin MBR\n"
 	    "\t-u: update MBR code, preserve partition table\n"
 	    "\t-e: edit MBRs on disk interactively\n"

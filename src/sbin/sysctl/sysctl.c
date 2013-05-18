@@ -1,5 +1,5 @@
-/**	$MirOS$ */
-/*	$OpenBSD: sysctl.c,v 1.113 2004/04/15 00:23:17 tedu Exp $	*/
+/**	$MirOS: src/sbin/sysctl/sysctl.c,v 1.2 2005/03/06 19:50:39 tg Exp $ */
+/*	$OpenBSD: sysctl.c,v 1.123 2005/07/20 16:56:12 miod Exp $	*/
 /*	$NetBSD: sysctl.c,v 1.9 1995/09/30 07:12:50 thorpej Exp $	*/
 
 /*
@@ -52,6 +52,7 @@ static const char copyright[] =
 #include <sys/sensors.h>
 #include <machine/cpu.h>
 #include <net/route.h>
+#include <net/if.h>
 
 #include <netinet/in.h>
 #include <netinet/in_systm.h>
@@ -109,7 +110,7 @@ static const char copyright[] =
 #endif
 
 __SCCSID("@(#)sysctl.c	8.5 (Berkeley) 5/9/95");
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/sbin/sysctl/sysctl.c,v 1.2 2005/03/06 19:50:39 tg Exp $");
 
 struct ctlname topname[] = CTL_NAMES;
 struct ctlname kernname[] = CTL_KERN_NAMES;
@@ -122,10 +123,11 @@ struct ctlname debugname[CTL_DEBUG_MAXID];
 struct ctlname kernmallocname[] = CTL_KERN_MALLOC_NAMES;
 struct ctlname forkstatname[] = CTL_KERN_FORKSTAT_NAMES;
 struct ctlname nchstatsname[] = CTL_KERN_NCHSTATS_NAMES;
-struct ctlname ttyname[] = CTL_KERN_TTY_NAMES;
+struct ctlname ttysname[] = CTL_KERN_TTY_NAMES;
 struct ctlname semname[] = CTL_KERN_SEMINFO_NAMES;
 struct ctlname shmname[] = CTL_KERN_SHMINFO_NAMES;
 struct ctlname watchdogname[] = CTL_KERN_WATCHDOG_NAMES;
+struct ctlname tcname[] = CTL_KERN_TIMECOUNTER_NAMES;
 struct ctlname *vfsname;
 #ifdef CTL_MACHDEP_NAMES
 struct ctlname machdepname[] = CTL_MACHDEP_NAMES;
@@ -176,6 +178,7 @@ int	Aflag, aflag, nflag, qflag;
 #define	LONGARRAY	0x00000800
 #define	KMEMSTATS	0x00001000
 #define	SENSORS		0x00002000
+#define	ZTSSCALE	0x00004000
 
 /* prototypes */
 void debuginit(void);
@@ -202,6 +205,7 @@ int sysctl_malloc(char *, char **, int *, int, int *);
 int sysctl_seminfo(char *, char **, int *, int, int *);
 int sysctl_shminfo(char *, char **, int *, int, int *);
 int sysctl_watchdog(char *, char **, int *, int, int *);
+int sysctl_tc(char *, char **, int *, int, int *);
 int sysctl_sensors(char *, char **, int *, int, int *);
 int sysctl_emul(char *, char *, int);
 #ifdef CPU_CHIPSET
@@ -272,7 +276,7 @@ listall(char *prefix, struct list *lp)
 	if (lp->list == NULL)
 		return;
 	if ((len = strlcpy(name, prefix, sizeof(name))) >= sizeof(name))
-		warn("%s: name too long", prefix);
+		errx(1, "%s: name too long", prefix);
 	cp = name + len++;
 	*cp++ = '.';
 	for (lvl2 = 0; lvl2 < lp->size; lvl2++) {
@@ -301,6 +305,14 @@ parse(char *string, int flags)
 	struct list *lp;
 	int mib[CTL_MAXNAME];
 	char *cp, *bufp, buf[BUFSIZ];
+#ifdef CPU_ZTSSCALE
+	struct ztsscale {
+		int ts_minx;
+		int ts_maxx;
+		int ts_miny;
+		int ts_maxy;
+	} tsbuf;
+#endif
 
 	(void)strlcpy(buf, string, sizeof(buf));
 	bufp = buf;
@@ -344,7 +356,6 @@ parse(char *string, int flags)
 			len = sysctl_tty(string, &bufp, mib, flags, &type);
 			if (len < 0)
 				return;
-			newsize = 0;
 			break;
 		case KERN_NCHSTATS:
 			sysctl_nchstats(string, &bufp, mib, flags, &type);
@@ -410,6 +421,12 @@ parse(char *string, int flags)
 			break;
 		case KERN_WATCHDOG:
 			len = sysctl_watchdog(string, &bufp, mib, flags,
+			    &type);
+			if (len < 0)
+				return;
+			break;
+		case KERN_TIMECOUNTER:
+			len = sysctl_tc(string, &bufp, mib, flags,
 			    &type);
 			if (len < 0)
 				return;
@@ -492,9 +509,9 @@ parse(char *string, int flags)
 				return;
 
 			if ((mib[2] == IPPROTO_TCP &&
-			     mib[3] == TCPCTL_BADDYNAMIC) ||
+			    mib[3] == TCPCTL_BADDYNAMIC) ||
 			    (mib[2] == IPPROTO_UDP &&
-			     mib[3] == UDPCTL_BADDYNAMIC)) {
+			    mib[3] == UDPCTL_BADDYNAMIC)) {
 
 				special |= BADDYNAMIC;
 
@@ -579,6 +596,46 @@ parse(char *string, int flags)
 			len = sysctl_chipset(string, &bufp, mib, flags, &type);
 			if (len < 0)
 				return;
+			break;
+		}
+#endif
+#ifdef CPU_ZTSSCALE
+		if (mib[1] == CPU_ZTSSCALE) {
+			special |= ZTSSCALE;
+			if (newsize > 0) {
+				const char *errstr = 0;
+
+				/* Unspecified values default to 0. */
+				bzero(&tsbuf, sizeof tsbuf);
+				newval = (void *)strtok(newval, ",");
+				if (newval != NULL) {
+					tsbuf.ts_minx = (int)strtonum(newval,
+					    0, 32768, &errstr);
+					newval = (void *)strtok(NULL, ",");
+				}
+				if (!errstr && newval != NULL) {
+					tsbuf.ts_maxx = (int)strtonum(newval,
+					    0, 32768, &errstr);
+					newval = (void *)strtok(NULL, ",");
+				}
+				if (!errstr && newval != NULL) {
+					tsbuf.ts_miny = (int)strtonum(newval,
+					    0, 32768, &errstr);
+					newval = (void *)strtok(NULL, ",");
+				}
+				if (!errstr && newval != NULL) {
+					tsbuf.ts_maxy = (int)strtonum(newval,
+					    0, 32768, &errstr);
+					newval = (void *)strtok(NULL, ",");
+				}
+				if (errstr)
+					errx(1, "calibration value is %s",
+					    errstr);
+				if (newval != NULL)
+					errx(1, "too many calibration values");
+				newval = &tsbuf;
+				newsize = sizeof(tsbuf);
+			}
 			break;
 		}
 #endif
@@ -760,9 +817,9 @@ parse(char *string, int flags)
 		if (!nflag)
 			(void)printf("%s%s", string, equ);
 		(void)printf("bootdev = 0x%x, "
-			     "cylinders = %u, heads = %u, sectors = %u\n",
-			     pdi->bsd_dev, pdi->bios_cylinders,
-			     pdi->bios_heads, pdi->bios_sectors);
+		    "cylinders = %u, heads = %u, sectors = %u\n",
+		    pdi->bsd_dev, pdi->bios_cylinders,
+		    pdi->bios_heads, pdi->bios_sectors);
 		return;
 	}
 	if (special & BIOSDEV) {
@@ -895,7 +952,32 @@ parse(char *string, int flags)
 		}
 		return;
 	}
+#ifdef CPU_ZTSSCALE
+	if (special & ZTSSCALE) {
+		struct ztsscale *tsp;
 
+		if (newsize == 0) {
+			if (!nflag)
+				(void)printf("%s%s", string, equ);
+			tsp = (struct ztsscale *)buf;
+			(void)printf("%d,%d,%d,%d\n", tsp->ts_minx,
+			    tsp->ts_maxx, tsp->ts_miny, tsp->ts_maxy);
+		} else {
+			if (!qflag) {
+				if (!nflag) {
+					tsp = (struct ztsscale *)buf;
+					(void)printf("%s: %d,%d,%d,%d -> ",
+					    string, tsp->ts_minx, tsp->ts_maxx,
+					    tsp->ts_miny, tsp->ts_maxy);
+				}
+				tsp = (struct ztsscale *)newval;
+				(void)printf("%d,%d,%d,%d\n", tsp->ts_minx,
+				    tsp->ts_maxx, tsp->ts_miny, tsp->ts_maxy);
+			}
+		}
+		return;
+	}
+#endif
 	switch (type) {
 	case CTLTYPE_INT:
 		if (newsize == 0) {
@@ -1217,7 +1299,7 @@ sysctl_bios(char *string, char **bufpp, int mib[], int flags, int *typep)
 			/* scan all the bios devices */
 			for (indx = 0; indx < 256; indx++) {
 				snprintf(name, sizeof(name), "%s.%u",
-					 string, indx);
+				    string, indx);
 				parse(name, 1);
 			}
 			return (-1);
@@ -1272,6 +1354,7 @@ struct ctlname mobileipname[] = MOBILEIPCTL_NAMES;
 struct ctlname ipcompname[] = IPCOMPCTL_NAMES;
 struct ctlname carpname[] = CARPCTL_NAMES;
 struct ctlname bpfname[] = CTL_NET_BPF_NAMES;
+struct ctlname ifqname[] = CTL_IFQ_NAMES;
 struct list inetlist = { inetname, IPPROTO_MAXID };
 struct list inetvars[] = {
 	{ ipname, IPCTL_MAXID },	/* ip */
@@ -1389,14 +1472,16 @@ struct list inetvars[] = {
 	{ carpname, CARPCTL_MAXID },
 };
 struct list bpflist = { bpfname, NET_BPF_MAXID };
+struct list ifqlist = { ifqname, IFQCTL_MAXID };
 
 struct list kernmalloclist = { kernmallocname, KERN_MALLOC_MAXID };
 struct list forkstatlist = { forkstatname, KERN_FORKSTAT_MAXID };
 struct list nchstatslist = { nchstatsname, KERN_NCHSTATS_MAXID };
-struct list ttylist = { ttyname, KERN_TTY_MAXID };
+struct list ttylist = { ttysname, KERN_TTY_MAXID };
 struct list semlist = { semname, KERN_SEMINFO_MAXID };
 struct list shmlist = { shmname, KERN_SHMINFO_MAXID };
 struct list watchdoglist = { watchdogname, KERN_WATCHDOG_MAXID };
+struct list tclist = { tcname, KERN_TIMECOUNTER_MAXID };
 
 /*
  * handle vfs namei cache statistics
@@ -1453,6 +1538,12 @@ sysctl_nchstats(char *string, char **bufpp, int mib[], int flags, int *typep)
 		break;
 	case KERN_NCHSTATS_2PASSES:
 		(void)printf("%ld\n", nch.ncs_2passes);
+		break;
+	case KERN_NCHSTATS_REVHITS:
+		(void)printf("%ld\n", nch.ncs_revhits);
+		break;
+	case KERN_NCHSTATS_REVMISS:
+		(void)printf("%ld\n", nch.ncs_revmiss);
 		break;
 	}
 	return (-1);
@@ -1625,9 +1716,9 @@ sysctl_malloc(char *string, char **bufpp, int mib[], int flags, int *typep)
 		ptr = strstr(buf, name);
  tryagain:
 		if (ptr == NULL) {
-		       warnx("fourth level name %s in %s is invalid", name,
-			     string);
-		       return (-1);
+			warnx("fourth level name %s in %s is invalid", name,
+			    string);
+			return (-1);
 		}
 		if ((*(ptr + strlen(name)) != ',') &&
 		    (*(ptr + strlen(name)) != '\0')) {
@@ -1737,6 +1828,20 @@ sysctl_inet(char *string, char **bufpp, int mib[], int flags, int *typep)
 		return (-1);
 	mib[3] = indx;
 	*typep = lp->list[indx].ctl_type;
+	if (*typep == CTLTYPE_NODE) {
+		int tindx;
+
+		if (*bufpp == 0) {
+			listall(string, &ifqlist);
+			return(-1);
+		}
+		lp = &ifqlist;
+		if ((tindx = findname(string, "fifth", bufpp, lp)) == -1)
+			return (-1);
+		mib[4] = tindx;
+		*typep = lp->list[tindx].ctl_type;
+		return(5);
+	}
 	return (4);
 }
 
@@ -1955,6 +2060,26 @@ sysctl_watchdog(char *string, char **bufpp, int mib[], int flags,
 }
 
 /*
+ * Handle timecounter support
+ */
+int
+sysctl_tc(char *string, char **bufpp, int mib[], int flags,
+    int *typep)
+{
+	int indx;
+
+	if (*bufpp == NULL) {
+		listall(string, &tclist);
+		return (-1);
+	}
+	if ((indx = findname(string, "third", bufpp, &tclist)) == -1)
+		return (-1);
+	mib[2] = indx;
+	*typep = tclist.list[indx].ctl_type;
+	return (3);
+}
+
+/*
  * Handle hardware monitoring sensors support
  */
 int
@@ -1964,12 +2089,12 @@ sysctl_sensors(char *string, char **bufpp, int mib[], int flags, int *typep)
 	int indx;
 
 	if (*bufpp == NULL) {
-		char name[BUFSIZ];
+		char buf[BUFSIZ];
 
 		/* scan all sensors */
 		for (indx = 0; indx < 256; indx++) {
-			snprintf(name, sizeof(name), "%s.%u", string, indx);
-			parse(name, 0);
+			snprintf(buf, sizeof(buf), "%s.%u", string, indx);
+			parse(buf, 0);
 		}
 		return (-1);
 	}

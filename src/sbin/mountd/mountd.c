@@ -1,5 +1,5 @@
-/**	$MirOS$ */
-/*	$OpenBSD: mountd.c,v 1.62 2003/10/16 20:14:42 millert Exp $	*/
+/**	$MirOS: src/sbin/mountd/mountd.c,v 1.2 2005/03/06 19:50:26 tg Exp $ */
+/*	$OpenBSD: mountd.c,v 1.63 2005/04/08 20:09:38 jaredy Exp $	*/
 /*	$NetBSD: mountd.c,v 1.31 1996/02/18 11:57:53 fvdl Exp $	*/
 
 /*
@@ -73,7 +73,7 @@ static char copyright[] =
 #include <stdarg.h>
 
 __SCCSID("@(#)mountd.c  8.15 (Berkeley) 5/1/95");
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/sbin/mountd/mountd.c,v 1.2 2005/03/06 19:50:26 tg Exp $");
 
 /*
  * Structures for keeping the mount list and export list
@@ -413,11 +413,15 @@ mntsrv(struct svc_req *rqstp, SVCXPRT *transp)
 		 * Get the real pathname and make sure it is a file or
 		 * directory that exists.
 		 */
-		if (realpath(rpcpath, dirpath) == 0 ||
-		    stat(dirpath, &stb) < 0 ||
+		if (realpath(rpcpath, dirpath) == NULL) {
+			bad = errno;
+			if (debug)
+				fprintf(stderr, "realpath failed on %s\n",
+				    rpcpath);
+			strlcpy(dirpath, rpcpath, sizeof(dirpath));
+		} else if (stat(dirpath, &stb) < 0 ||
 		    (!S_ISDIR(stb.st_mode) && !S_ISREG(stb.st_mode)) ||
 		    statfs(dirpath, &fsb) < 0) {
-			chdir("/");	/* Just in case realpath doesn't */
 			if (debug)
 				fprintf(stderr, "stat failed on %s\n", dirpath);
 			bad = ENOENT;	/* We will send error reply later */

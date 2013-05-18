@@ -1,5 +1,5 @@
-/**	$MirOS$	*/
-/*	$OpenBSD: ping6.c,v 1.57 2004/01/25 03:39:15 deraadt Exp $	*/
+/**	$MirOS: src/sbin/ping6/ping6.c,v 1.2 2005/03/06 19:50:32 tg Exp $	*/
+/*	$OpenBSD: ping6.c,v 1.59 2004/09/14 22:12:27 deraadt Exp $	*/
 /*	$KAME: ping6.c,v 1.163 2002/10/25 02:19:06 itojun Exp $	*/
 
 /*
@@ -72,7 +72,7 @@ static char copyright[] =
 "@(#) Copyright (c) 1989, 1993\n\
 	The Regents of the University of California.  All rights reserved.\n";
 static char sccsid[] = "@(#)ping.c	8.1 (Berkeley) 6/5/93";
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/sbin/ping6/ping6.c,v 1.2 2005/03/06 19:50:32 tg Exp $");
 #endif /* not lint */
 
 /*
@@ -1064,7 +1064,6 @@ main(int argc, char *argv[])
 
 	for (;;) {
 		struct msghdr m;
-		struct cmsghdr *cm;
 		u_char buf[1024];
 		struct iovec iov[2];
 
@@ -1132,7 +1131,6 @@ main(int argc, char *argv[])
 		iov[0].iov_len = packlen;
 		m.msg_iov = iov;
 		m.msg_iovlen = 1;
-		cm = (struct cmsghdr *)buf;
 		m.msg_control = (caddr_t)buf;
 		m.msg_controllen = sizeof(buf);
 
@@ -2696,6 +2694,6 @@ usage(void)
 	    "] [-a [aAclsg]] [-b sockbufsiz] [-c count] \n"
             "\t[-I interface] [-i wait] [-l preload] [-p pattern] "
 	    "[-S sourceaddr]\n"
-            "\t[-s packetsize] [-h hoplimit] [hops...] [-g gateway] host\n");
+            "\t[-s packetsize] [-h hoplimit] [-g gateway] [hops...] host\n");
 	exit(1);
 }

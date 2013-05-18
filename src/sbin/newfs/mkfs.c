@@ -1,5 +1,5 @@
-/**	$MirOS$ */
-/*	$OpenBSD: mkfs.c,v 1.46 2005/01/06 08:57:30 otto Exp $	*/
+/**	$MirOS: src/sbin/newfs/mkfs.c,v 1.2 2005/03/06 19:50:27 tg Exp $ */
+/*	$OpenBSD: mkfs.c,v 1.47 2005/04/14 19:58:32 deraadt Exp $	*/
 /*	$NetBSD: mkfs.c,v 1.25 1995/06/18 21:35:38 cgd Exp $	*/
 
 /*
@@ -53,7 +53,7 @@
 #endif
 
 __SCCSID("@(#)mkfs.c	8.3 (Berkeley) 2/3/94");
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/sbin/newfs/mkfs.c,v 1.2 2005/03/06 19:50:27 tg Exp $");
 
 /*
  * make file system for cylinder-group style file systems
@@ -676,7 +676,9 @@ next:
 			continue;
 		j = snprintf(tmpbuf, sizeof tmpbuf, " %ld,",
 		    fsbtodb(&sblock, cgsblock(&sblock, cylno)));
-		if (i+j >= width) {
+		if (j >= sizeof tmpbuf)
+			j = sizeof tmpbuf - 1;
+		if (j == -1 || i+j >= width) {
 			printf("\n");
 			i = 0;
 		}

@@ -1,5 +1,5 @@
-/**	$MirOS: src/sbin/atactl/atactl.c,v 1.2 2005/03/06 19:49:48 tg Exp $	*/
-/*	$OpenBSD: atactl.c,v 1.33 2004/02/19 21:22:07 grange Exp $	*/
+/**	$MirOS: src/sbin/atactl/atactl.c,v 1.3 2005/04/15 17:14:34 tg Exp $	*/
+/*	$OpenBSD: atactl.c,v 1.34 2004/09/16 04:39:35 deraadt Exp $	*/
 /*	$NetBSD: atactl.c,v 1.4 1999/02/24 18:49:14 jwise Exp $	*/
 
 /*-
@@ -62,7 +62,7 @@
 #include "atasec.h"
 #include "atasmart.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/sbin/atactl/atactl.c,v 1.3 2005/04/15 17:14:34 tg Exp $");
 
 struct command {
 	const char *cmd_name;
@@ -408,9 +408,7 @@ usage(void)
 void
 ata_command(struct atareq *req)
 {
-	int error;
-
-	if ((error = ioctl(fd, ATAIOCCOMMAND, req)) == -1)
+	if (ioctl(fd, ATAIOCCOMMAND, req) == -1)
 		err(1, "ATAIOCCOMMAND failed");
 
 	switch (req->retsts) {
@@ -486,7 +484,6 @@ void
 device_dump(int argc, char *argv[])
 {
 	unsigned char buf[131072];
-	int error;
 	atagettrace_t agt;
 	int total;
 	int p = 0;
@@ -507,7 +504,7 @@ device_dump(int argc, char *argv[])
 	agt.buf_size = sizeof(buf);
 	agt.buf = buf;
 
-	if ((error = ioctl(fd, ATAIOGETTRACE, &agt)) == -1)
+	if (ioctl(fd, ATAIOGETTRACE, &agt) == -1)
 		err(1, "ATAIOGETTRACE failed");
 
 	total = agt.bytes_copied;

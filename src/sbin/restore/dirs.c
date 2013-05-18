@@ -1,5 +1,5 @@
-/**	$MirOS$ */
-/*	$OpenBSD: dirs.c,v 1.27 2004/04/13 21:51:18 henning Exp $	*/
+/**	$MirOS: src/sbin/restore/dirs.c,v 1.2 2005/03/06 19:50:34 tg Exp $ */
+/*	$OpenBSD: dirs.c,v 1.30 2005/04/28 16:15:45 millert Exp $	*/
 /*	$NetBSD: dirs.c,v 1.26 1997/07/01 05:37:49 lukem Exp $	*/
 
 /*
@@ -59,7 +59,7 @@
 #include "extern.h"
 
 __SCCSID("@(#)dirs.c	8.5 (Berkeley) 8/31/94");
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/sbin/restore/dirs.c,v 1.2 2005/03/06 19:50:34 tg Exp $");
 
 /*
  * Symbol table of directories read from tape.
@@ -135,8 +135,7 @@ static struct direct	*searchdir(ino_t, char *);
  *	directories on the tape.
  */
 void
-extractdirs(genmode)
-	int genmode;
+extractdirs(int genmode)
 {
 	int i;
 	struct ufs1_dinode *ip;
@@ -205,7 +204,7 @@ extractdirs(genmode)
  * skip over all the directories on the tape
  */
 void
-skipdirs()
+skipdirs(void)
 {
 
 	while (curfile.dip && (curfile.dip->di_mode & IFMT) == IFDIR) {
@@ -218,14 +217,11 @@ skipdirs()
  *	pname and pass them off to be processed.
  */
 void
-treescan(pname, ino, todo)
-	char *pname;
-	ino_t ino;
-	long (*todo)(char *, ino_t, int);
+treescan(char *pname, ino_t ino, long (*todo)(char *, ino_t, int))
 {
 	struct inotab *itp;
 	struct direct *dp;
-	int namelen;
+	size_t namelen;
 	long bpt;
 	char locname[MAXPATHLEN + 1];
 
@@ -246,9 +242,11 @@ treescan(pname, ino, todo)
 	 * begin search through the directory
 	 * skipping over "." and ".."
 	 */
-	namelen = snprintf(locname, sizeof(locname), "%s/", pname);
-	if (namelen >= sizeof(locname))
-		namelen = sizeof(locname) - 1;
+	namelen = strlcpy(locname, pname, sizeof(locname));
+	if (namelen >= sizeof(locname) - 1)
+		namelen = sizeof(locname) - 2;
+	locname[namelen++] = '/';
+	locname[namelen] = '\0';
 	rst_seekdir(dirp, itp->t_seekpt, itp->t_seekpt);
 	dp = rst_readdir(dirp); /* "." */
 	if (dp != NULL && strcmp(dp->d_name, ".") == 0)
@@ -284,8 +282,7 @@ treescan(pname, ino, todo)
  * Lookup a pathname which is always assumed to start from the ROOTINO.
  */
 struct direct *
-pathsearch(pathname)
-	const char *pathname;
+pathsearch(const char *pathname)
 {
 	ino_t ino;
 	struct direct *dp;
@@ -310,9 +307,7 @@ pathsearch(pathname)
  * Return its inode number if found, zero if it does not exist.
  */
 static struct direct *
-searchdir(inum, name)
-	ino_t	inum;
-	char	*name;
+searchdir(ino_t inum, char *name)
 {
 	struct direct *dp;
 	struct inotab *itp;
@@ -335,9 +330,7 @@ searchdir(inum, name)
  * Put the directory entries in the directory file
  */
 static void
-putdir(buf, size)
-	char *buf;
-	size_t size;
+putdir(char *buf, size_t size)
 {
 	struct direct cvtbuf;
 	struct odirect *odp;
@@ -355,8 +348,10 @@ putdir(buf, size)
 	} else {
 		for (loc = 0; loc < size; ) {
 			dp = (struct direct *)(buf + loc);
-			if (Bcvt)
-				swabst((u_char *)"ls", (u_char *) dp);
+			if (Bcvt) {
+				dp->d_ino = swap32(dp->d_ino);
+				dp->d_reclen = swap16(dp->d_reclen);
+			}
 			if (oldinofmt && dp->d_ino != 0) {
 #				if BYTE_ORDER == BIG_ENDIAN
 					if (Bcvt)
@@ -415,8 +410,7 @@ long prev = 0;
  * add a new directory entry to a file.
  */
 static void
-putent(dp)
-	struct direct *dp;
+putent(struct direct *dp)
 {
 	dp->d_reclen = DIRSIZ(0, dp);
 	if (dirloc + dp->d_reclen > DIRBLKSIZ) {
@@ -434,7 +428,7 @@ putent(dp)
  * flush out a directory that is finished.
  */
 static void
-flushent()
+flushent(void)
 {
 	((struct direct *)(dirbuf + prev))->d_reclen = DIRBLKSIZ - prev;
 	(void)fwrite(dirbuf, (int)dirloc, 1, df);
@@ -443,13 +437,14 @@ flushent()
 }
 
 static void
-dcvt(odp, ndp)
-	struct odirect *odp;
-	struct direct *ndp;
+dcvt(struct odirect *odp, struct direct *ndp)
 {
 
 	memset(ndp, 0, (size_t)(sizeof *ndp));
-	ndp->d_ino =  odp->d_ino;
+	if (Bcvt)
+	    ndp->d_ino = swap16(odp->d_ino);
+	else
+	    ndp->d_ino = odp->d_ino;
 	ndp->d_type = DT_UNKNOWN;
 	(void)strncpy(ndp->d_name, odp->d_name, ODIRSIZ);
 	ndp->d_namlen = strlen(ndp->d_name);
@@ -464,9 +459,7 @@ dcvt(odp, ndp)
  * the desired seek offset into it.
  */
 static void
-rst_seekdir(dirp, loc, base)
-	RST_DIR *dirp;
-	long loc, base;
+rst_seekdir(RST_DIR *dirp, long loc, long base)
 {
 
 	if (loc == rst_telldir(dirp))
@@ -484,8 +477,7 @@ rst_seekdir(dirp, loc, base)
  * get next entry in a directory.
  */
 struct direct *
-rst_readdir(dirp)
-	RST_DIR *dirp;
+rst_readdir(RST_DIR *dirp)
 {
 	struct direct *dp;
 
@@ -525,8 +517,7 @@ rst_readdir(dirp)
  * Simulate the opening of a directory
  */
 RST_DIR *
-rst_opendir(name)
-	const char *name;
+rst_opendir(const char *name)
 {
 	struct inotab *itp;
 	RST_DIR *dirp;
@@ -545,10 +536,8 @@ rst_opendir(name)
  * In our case, there is nothing to do when closing a directory.
  */
 void
-rst_closedir(dirp)
-	RST_DIR *dirp;
+rst_closedir(RST_DIR *dirp)
 {
-
 	(void)close(dirp->dd_fd);
 	free(dirp);
 	return;
@@ -558,8 +547,7 @@ rst_closedir(dirp)
  * Simulate finding the current offset in the directory.
  */
 static long
-rst_telldir(dirp)
-	RST_DIR *dirp;
+rst_telldir(RST_DIR *dirp)
 {
 	return ((long)lseek(dirp->dd_fd,
 	    (off_t)0, SEEK_CUR) - dirp->dd_size + dirp->dd_loc);
@@ -569,8 +557,7 @@ rst_telldir(dirp)
  * Open a directory file.
  */
 static RST_DIR *
-opendirfile(name)
-	const char *name;
+opendirfile(const char *name)
 {
 	RST_DIR *dirp;
 	int fd;
@@ -590,8 +577,7 @@ opendirfile(name)
  * Set the mode, owner, and times for all new or changed directories
  */
 void
-setdirmodes(flags)
-	int flags;
+setdirmodes(int flags)
 {
 	FILE *mf;
 	struct modeinfo node;
@@ -651,9 +637,7 @@ setdirmodes(flags)
  * Generate a literal copy of a directory.
  */
 int
-genliteraldir(name, ino)
-	char *name;
-	ino_t ino;
+genliteraldir(char *name, ino_t ino)
 {
 	struct inotab *itp;
 	int ofile, dp, i, size;
@@ -691,8 +675,7 @@ genliteraldir(name, ino)
  * Determine the type of an inode
  */
 int
-inodetype(ino)
-	ino_t ino;
+inodetype(ino_t ino)
 {
 	struct inotab *itp;
 
@@ -707,10 +690,7 @@ inodetype(ino)
  * If requested, save its pertinent mode, owner, and time info.
  */
 static struct inotab *
-allocinotab(ino, dip, seekpt)
-	ino_t ino;
-	struct ufs1_dinode *dip;
-	long seekpt;
+allocinotab(ino_t ino, struct ufs1_dinode *dip, long seekpt)
 {
 	struct inotab	*itp;
 	struct modeinfo node;
@@ -741,8 +721,7 @@ allocinotab(ino, dip, seekpt)
  * Look up an inode in the table of directories
  */
 static struct inotab *
-inotablookup(ino)
-	ino_t	ino;
+inotablookup(ino_t ino)
 {
 	struct inotab *itp;
 
@@ -756,7 +735,7 @@ inotablookup(ino)
  * Clean up and exit
  */
 void
-cleanup()
+cleanup(void)
 {
 
 	closemt();

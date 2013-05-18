@@ -1,4 +1,4 @@
-# $MirOS: src/sbin/Makefile,v 1.5 2005/03/15 18:39:16 tg Exp $
+# $MirOS: src/sbin/Makefile,v 1.6 2005/07/01 12:05:17 tg Exp $
 
 .include <bsd.own.mk>
 
@@ -7,6 +7,7 @@
 .endif
   SUBDIR+= atactl
   SUBDIR+= badsect
+  SUBDIR+= bioctl
   SUBDIR+= brconfig
   SUBDIR+= ccdconfig
   SUBDIR+= clri
@@ -30,6 +31,7 @@
   SUBDIR+= iopctl
 .endif
   SUBDIR+= ipsecadm
+  SUBDIR+= ipsecctl
 .if ${CROSS_MODE:L} != "yes"
   SUBDIR+= isakmpd
 .endif

@@ -1,5 +1,5 @@
-/**	$MirOS: src/sbin/mount_ext2fs/mount_ext2fs.c,v 1.2 2005/03/06 19:50:18 tg Exp $	*/
-/*	$OpenBSD: mount_ext2fs.c,v 1.12 2003/07/03 22:41:40 tedu Exp $	*/
+/**	$MirOS: src/sbin/mount_ext2fs/mount_ext2fs.c,v 1.3 2005/05/23 10:16:51 tg Exp $	*/
+/*	$OpenBSD: mount_ext2fs.c,v 1.13 2005/04/08 20:09:36 jaredy Exp $	*/
 /*	$NetBSD: mount_ffs.c,v 1.3 1996/04/13 01:31:19 jtc Exp $	*/
 
 /*-
@@ -31,9 +31,6 @@
  * SUCH DAMAGE.
  */
 
-#include <sys/cdefs.h>
-__RCSID("$MirOS: src/sbin/mount_ext2fs/mount_ext2fs.c,v 1.2 2005/03/06 19:50:18 tg Exp $");
-
 #include <sys/param.h>
 #include <sys/mount.h>
 
@@ -45,6 +42,9 @@ __RCSID("$MirOS: src/sbin/mount_ext2fs/mount_ext2fs.c,v 1.2 2005/03/06 19:50:18 
 #include <unistd.h>
 
 #include "mntopts.h"
+
+__SCCSID("@(#)mount_ufs.c	8.2 (Berkeley) 3/27/94");
+__RCSID("$MirOS$");
 
 void	ext2fs_usage(void);
 
@@ -83,7 +83,7 @@ main(int argc, char *argv[])
 
         args.fspec = argv[0];		/* The name of the device file. */
 	if (realpath(argv[1], fs_name) == NULL)	/* The mount point. */
-		err(1, "realpath %s", fs_name);
+		err(1, "realpath %s", argv[1]);
 
 #define DEFAULT_ROOTUID	-2
 	args.export_info.ex_root = DEFAULT_ROOTUID;

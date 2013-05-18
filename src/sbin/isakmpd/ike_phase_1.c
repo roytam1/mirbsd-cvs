@@ -1,4 +1,4 @@
-/* $OpenBSD: ike_phase_1.c,v 1.62 2005/04/08 22:32:10 cloder Exp $	 */
+/* $OpenBSD: ike_phase_1.c,v 1.65 2005/07/05 11:59:51 hshoexer Exp $	 */
 /* $EOM: ike_phase_1.c,v 1.31 2000/12/11 23:47:56 niklas Exp $	 */
 
 /*
@@ -351,7 +351,7 @@ ike_phase_1_initiator_send_SA(struct message *msg)
 	memcpy(ie->sa_i_b + sa_len - ISAKMP_GEN_SZ,
 	    payload_first(msg, ISAKMP_PAYLOAD_PROPOSAL)->p, proposal_len);
 	transforms_len = 0;
-	for (i = 0, p = payload_first(msg, ISAKMP_PAYLOAD_TRANSFORM);
+	for (i = 0, p = TAILQ_FIRST(&msg->payload[ISAKMP_PAYLOAD_TRANSFORM]);
 	    i < conf->cnt; i++, p = TAILQ_NEXT(p, link)) {
 		memcpy(ie->sa_i_b + sa_len + proposal_len + transforms_len -
 		    ISAKMP_GEN_SZ, p->p, transform_len[i]);
@@ -825,9 +825,20 @@ ike_phase_1_send_ID(struct message *msg)
 		switch (id_type) {
 		case IPSEC_ID_IPV4_ADDR:
 		case IPSEC_ID_IPV6_ADDR:
-			/* Already in network byteorder.  */
+			data = conf_get_str(my_id, "Address");
+			if (!data) {
+				log_print("ike_phase_1_send_ID: section %s "
+				    "has no \"Address\" tag", my_id);
+				return -1;
+			}
+			if (text2sockaddr(data, NULL, &src, af, 0)) {
+				log_error("ike_phase_1_send_ID: "
+				    "text2sockaddr() failed");
+				return -1;
+			}
 			memcpy(buf + ISAKMP_ID_DATA_OFF,
 			    sockaddr_addrdata(src), sockaddr_addrlen(src));
+			free(src);
 			break;
 
 		case IPSEC_ID_IPV4_ADDR_SUBNET:
@@ -1329,7 +1340,7 @@ attribute_unacceptable(u_int16_t type, u_int8_t *value, u_int16_t len,
 
 				/*
 				 * If this is the type we are looking at,
-				 * to save a pointer this section in vs->life.
+				 * save a pointer to this section in vs->life.
 				 */
 				if (constant_value(ike_duration_cst, str) ==
 				    decode_16(value)) {

@@ -1,4 +1,4 @@
-/* $MirOS$ */
+/* $MirOS: src/sbin/growfs/growfs.c,v 1.2 2005/03/06 19:49:59 tg Exp $ */
 
 /*
  * growfs(8) from FreeBSD-current as of Mon Sep  1 21:04:19 UTC 2003
@@ -68,7 +68,7 @@
 
 #include "debug.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/sbin/growfs/growfs.c,v 1.2 2005/03/06 19:49:59 tg Exp $");
 
 /* *************************************************** GLOBALS & TYPES ***** */
 #ifdef FS_DEBUG
@@ -239,7 +239,9 @@ growfs(int fsi, int fso, unsigned int Nflag)
 		j = snprintf(tmpbuf, 100, " %d%s",
 		    (int)fsbtodb(&sblock, cgsblock(&sblock, cylno)),
 		    cylno < (sblock.fs_ncg - 1) ? "," : "");
-		if (i + j >= width) {
+		if (j >= sizeof tmpbuf)
+			j = sizeof tmpbuf - 1;
+		if (j == -1 || i + j >= width) {
 			printf("\n");
 			i = 0;
 		}

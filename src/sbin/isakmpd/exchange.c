@@ -1,5 +1,5 @@
-/* $MirOS: src/sbin/isakmpd/exchange.c,v 1.2 2005/03/06 19:50:03 tg Exp $ */
-/* $OpenBSD: exchange.c,v 1.119 2005/04/08 22:32:09 cloder Exp $	 */
+/* $MirOS: src/sbin/isakmpd/exchange.c,v 1.3 2005/04/26 15:42:38 tg Exp $ */
+/* $OpenBSD: exchange.c,v 1.123 2005/07/05 11:57:03 hshoexer Exp $	 */
 /* $EOM: exchange.c,v 1.143 2000/12/04 00:02:25 angelos Exp $	 */
 
 /*
@@ -62,7 +62,7 @@
 #include "util.h"
 #include "key.h"
 
-__RCSID("$MirOS: src/sbin/isakmpd/exchange.c,v 1.2 2005/03/06 19:50:03 tg Exp $");
+__RCSID("$MirOS: src/sbin/isakmpd/exchange.c,v 1.3 2005/04/26 15:42:38 tg Exp $");
 
 /* Initial number of bits from the cookies used as hash.  */
 #define INITIAL_BUCKET_BITS 6
@@ -243,18 +243,18 @@ exchange_handle_leftover_payloads(struct message *msg)
 	struct payload	*p;
 	int	i;
 
-	for (i = ISAKMP_PAYLOAD_SA; i < payload_index_max; i++) {
+	for (i = ISAKMP_PAYLOAD_SA; i < ISAKMP_PAYLOAD_MAX; i++) {
 		if (i == ISAKMP_PAYLOAD_PROPOSAL ||
 		    i == ISAKMP_PAYLOAD_TRANSFORM)
 			continue;
-		for (p = payload_first(msg, i); p;
-		    p = TAILQ_NEXT(p, link)) {
+		TAILQ_FOREACH(p, &msg->payload[i], link) {
 			if (p->flags & PL_MARK)
 				continue;
 			if (!doi->handle_leftover_payload ||
 			    doi->handle_leftover_payload(msg, i, p))
 				LOG_DBG((LOG_EXCHANGE, 10,
-				    "exchange_run: unexpected payload %s",
+				    "exchange_handle_leftover_payloads: "
+				    "unexpected payload %s",
 				    constant_name(isakmp_payload_cst, i)));
 		}
 	}
@@ -273,7 +273,7 @@ exchange_run(struct message *msg)
 	struct exchange *exchange = msg->exchange;
 	struct doi	*doi = exchange->doi;
 	int             (*handler)(struct message *) = exchange->initiator ?
-	    doi->initiator : doi->responder;
+			    doi->initiator : doi->responder;
 	int              done = 0;
 
 	while (!done) {
@@ -329,7 +329,7 @@ exchange_run(struct message *msg)
 				message_register_post_send(msg,
 				    exchange_finalize);
 
-				/* Fallthrough.  */
+				/* FALLTHROUGH */
 
 			case 0:
 				/* XXX error handling.  */
@@ -1565,11 +1565,11 @@ exchange_save_nonce(struct message *msg)
 int
 exchange_save_certreq(struct message *msg)
 {
-	struct payload	*cp = payload_first(msg, ISAKMP_PAYLOAD_CERT_REQ);
+	struct payload	*cp;
 	struct exchange	*exchange = msg->exchange;
 	struct certreq_aca *aca;
 
-	for (; cp; cp = TAILQ_NEXT(cp, link)) {
+	TAILQ_FOREACH(cp, &msg->payload[ISAKMP_PAYLOAD_CERT_REQ], link) {
 		cp->flags |= PL_MARK;
 		aca = certreq_decode(GET_ISAKMP_CERTREQ_TYPE(cp->p), cp->p +
 		    ISAKMP_CERTREQ_AUTHORITY_OFF, GET_ISAKMP_GEN_LENGTH(cp->p)

@@ -1,6 +1,6 @@
-#	$MirOS: src/sbin/isakmpd/Makefile,v 1.4 2005/04/26 15:42:37 tg Exp $
-#	$OpenBSD: Makefile,v 1.76 2005/04/08 21:09:36 deraadt Exp $
-#	$EOM: Makefile,v 1.78 2000/10/15 21:33:42 niklas Exp $
+# $MirOS: src/sbin/isakmpd/Makefile,v 1.5 2005/04/26 21:06:00 tg Exp $
+# $OpenBSD: Makefile,v 1.77 2005/05/18 20:15:22 hshoexer Exp $
+# $EOM: Makefile,v 1.78 2000/10/15 21:33:42 niklas Exp $
 
 #
 # Copyright (c) 1998, 1999, 2000, 2001 Niklas Hallqvist.  All rights reserved.
@@ -68,8 +68,6 @@ CPPFLAGS+=	-I.
 #CPPFLAGS+=		-DUSE_BOEHM_GC -DGC_DEBUG
 # You can also use Boehm's garbage collector as a means to find leaks.
 #  # setenv GC_FIND_LEAK
-
-SUBDIR=		apps
 
 .if make(install)
 #SUBDIR+=	samples

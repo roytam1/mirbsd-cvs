@@ -1,5 +1,5 @@
-.\"	$MirOS$
-.\"	$OpenBSD: sysctl.8,v 1.122 2004/05/07 21:58:14 millert Exp $
+.\"	$MirOS: src/sbin/sysctl/sysctl.8,v 1.2 2005/03/06 19:50:39 tg Exp $
+.\"	$OpenBSD: sysctl.8,v 1.126 2005/05/04 05:12:53 jaredy Exp $
 .\"	$NetBSD: sysctl.8,v 1.4 1995/09/30 07:12:49 thorpej Exp $
 .\"
 .\" Copyright (c) 1993
@@ -101,15 +101,18 @@ The information available from
 consists of integers, strings, and tables.
 The tabular information can only be retrieved by special
 purpose programs such as
-.Nm ps ,
-.Nm systat ,
+.Xr ps 1 ,
+.Xr systat 1 ,
 and
-.Nm netstat .
+.Xr netstat 1 .
 The string and integer information is summarized below.
 For a detailed description of these variables, see
 .Xr sysctl 3 .
 The changeable column indicates whether a process with appropriate
 privilege can change the value.
+.Pp
+Note:
+not all of the variables are relevant to all architectures.
 .Bl -column net.inet.ip.ipsec-expire-acquirexxxx integerxxx
 .It Sy Name	Type	Changeable
 .It kern.ostype	string	no
@@ -188,8 +191,12 @@ privilege can change the value.
 .It kern.watchdog.auto	integer	yes
 .It kern.emul.nemuls	integer	no
 .It kern.emul.other	integer	yes
-.It kern.maxclusters	integer	yes
 .It kern.emul_uname	string	yes
+.It kern.maxclusters	integer	yes
+.It kern.timecounter.tick	integer	no
+.It kern.timecounter.timestepwarnings	integer	no
+.It kern.timecounter.hardware	string	yes
+.It kern.timecounter.choice	string	no
 .It vm.vmmeter	struct	no
 .It vm.loadavg	struct	no
 .It vm.psstrings	struct	no
@@ -328,21 +335,21 @@ privilege can change the value.
 .It hw.cpuspeed	integer	no
 .It hw.setperf	integer	yes
 .It machdep.console_device	dev_t	no
-.It machdep.unaligned_print	integer	yes (alpha only)
-.It machdep.unaligned_fix	integer	yes (alpha only)
-.It machdep.unaligned_sigbus	integer	yes (alpha only)
-.It machdep.apmwarn	integer	yes (i386 only)
-.It machdep.apmhalt	integer	yes (i386 only)
-.It machdep.kbdreset	integer	yes (i386 only)
-.It machdep.userldt	integer	yes (i386 only)
-.It machdep.osxsfr	integer	no (i386 only)
-.It machdep.sse	integer	no (i386 only)
-.It machdep.sse2	integer	no (i386 only)
-.It machdep.xcrypt	integer	no (i386 only)
-.It machdep.allowaperture	integer	yes (XFree86)
-.It machdep.led_blink	integer	yes (sparc/sparc64)
-.It machdep.ceccerrs	integer	no (sparc64)
-.It machdep.cecclast	quad	no (sparc64)
+.It machdep.unaligned_print	integer	yes
+.It machdep.unaligned_fix	integer	yes
+.It machdep.unaligned_sigbus	integer	yes
+.It machdep.apmwarn	integer	yes
+.It machdep.apmhalt	integer	yes
+.It machdep.kbdreset	integer	yes
+.It machdep.userldt	integer	yes
+.It machdep.osxsfr	integer	no
+.It machdep.sse	integer	no
+.It machdep.sse2	integer	no
+.It machdep.xcrypt	integer	no
+.It machdep.allowaperture	integer	yes
+.It machdep.led_blink	integer	yes
+.It machdep.ceccerrs	integer	no
+.It machdep.cecclast	quad	no
 .It user.cs_path	string	no
 .It user.bc_base_max	integer	no
 .It user.bc_dim_max	integer	no
@@ -500,7 +507,7 @@ I/O requests on an NFS client machine:
 .Pp
 .Dl # sysctl vfs.nfs.iothreads=4
 .Pp
-The number of 4 is the default, 20 is the maximum.
+The default is 4; 20 is the maximum.
 See
 .Xr nfssvc 2
 and
