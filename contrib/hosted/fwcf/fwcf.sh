@@ -1,5 +1,5 @@
 #!/bin/sh
-# $MirOS: contrib/hosted/fwcf/fwcf.sh,v 1.17 2007/02/20 21:00:31 tg Exp $
+# $MirOS: contrib/hosted/fwcf/fwcf.sh,v 1.18 2007/02/20 21:06:02 tg Exp $
 #-
 # Copyright (c) 2006, 2007
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -167,7 +167,7 @@ if test $1 = commit; then
 fi
 
 if test $1 = status; then
-	rm -f /tmp/.fwcf/*_{status,files}
+	rm -f /tmp/.fwcf/*_status /tmp/.fwcf/*_files
 	rflag=0
 	q=printf	# or : (true) if -q
 	# XXX if we had mksh 'getopts' this would look nicer
@@ -222,7 +222,7 @@ if test $1 = status; then
 		test $q = : && break
 		$q '%32s %32s %s\n' "$oldsum" "$newsum" "$oldname"
 	done 3<sold_status 4<snew_status
-	rm -f /tmp/.fwcf/*_{status,files}
+	rm -f /tmp/.fwcf/*_status /tmp/.fwcf/*_files
 	exit $gotany
 fi
 
