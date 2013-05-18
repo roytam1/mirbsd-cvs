@@ -291,13 +291,13 @@ LsLBA:	mov	ah,0x42
 	.type	bktbl,@object
 bktbl:	.long	0xCAFEBABE
 
-#ifdef USE_PTAB
+	/* ensure we have space for a partition table */
 	. = _start + 0x01BE
-#else
+	.byte	0
+
+	/* bxinst requires bktbl to end at 510 */
 	. = _start + 0x01FE
-#endif
+	/* bkend is required by installboot(8) still */
 	.globl	bkend
 	.type	bkend,@object
-bkend:
-	. = _start + 0x01FE
-	.word	0xAA55
+bkend:	.word	0xAA55

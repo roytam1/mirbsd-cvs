@@ -1,5 +1,5 @@
 #!/bin/mksh
-rcsid='$MirOS: src/sys/arch/i386/stand/bootxx/mkbxinst.sh,v 1.16 2009/06/07 11:30:23 tg Exp $'
+rcsid='$MirOS: src/sys/arch/i386/stand/bootxx/mkbxinst.sh,v 1.17 2009/06/07 12:09:31 tg Exp $'
 #-
 # Copyright (c) 2007, 2008, 2009
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -83,7 +83,7 @@ cat <<'EOF'
 typeset -Uui8 thecode
 
 typeset -Uui16 curptr=begptr
-typeset -i wnum=0 wofs=0 wrec=0 bkend=510
+typeset -i wnum=0 wofs=0 wrec=0 bkend=0x1FE
 
 function do_record {
 	typeset -i blk=$1 cnt=$2 n
@@ -128,9 +128,10 @@ function record_block {
 	fi
 }
 
-typeset -i partp=0 numheads=0 numsecs=0 sscale=0 bsh=9
+typeset -i partp=0 numheads=0 numsecs=0 sscale=0 bsh=9 mbrpno=0
+set -A g_code 0 0 0
 
-while getopts ":0:1AB:h:p:S:s:" ch; do
+while getopts ":0:1AB:g:h:M:p:S:s:" ch; do
 	case $ch {
 	(0)	;;
 	(1)	;;
@@ -142,9 +143,21 @@ while getopts ":0:1AB:h:p:S:s:" ch; do
 			exit 1
 		fi
 		;;
+	(g)	if [[ $OPTARG != +([0-9]):+([0-9]):+([0-9]) ]]; then
+			print -u2 Error: invalid geometry code "'$OPTARG'"
+			exit 1
+		fi
+		saveIFS=$IFS
+		IFS=:
+		set -A g_code -- $OPTARG
+		IFS=$saveIFS ;;
 	(h)	if (( (numheads = OPTARG) < 1 || OPTARG > 256 )); then
 			print -u2 warning: invalid head count "'$OPTARG'"
 			numheads=0
+		fi ;;
+	(M)	if (( (mbrpno = OPTARG) < 1 || OPTARG > 4 )); then
+			print -u2 warning: invalid partition number "'$OPTARG'"
+			mbrpno=0
 		fi ;;
 	(p)	if (( (partp = OPTARG) < 1 || OPTARG > 255 )); then
 			print -u2 warning: invalid partition type "'$OPTARG'"
@@ -159,13 +172,46 @@ while getopts ":0:1AB:h:p:S:s:" ch; do
 			numsecs=0
 		fi ;;
 	(*)	print -u2 'Syntax:
-	bxinst [-1A] [-B blocksize] [-h heads] [-p partitiontype] [-S scale]
-	    [-s sectors] <sectorlist | dd of=image conv=notrunc
-Default values: blocksize=9 heads=16 sectors=63 partitiontype=0x27 scale=0'
+	bxinst [-1A] [-B blocksize] [-g C:H:S] [-h heads] [-M partno(1..4)]
+	    [-p partitiontype] [-S scale] [-s sectors] <sectorlist | \\
+	    dd of=image conv=notrunc
+Default values: blocksize=9 heads=16 sectors=63 partitiontype=0x27 scale=0
+    partno=4 if -g (create MBR partition) is given; -A = auto boot geometry'
 		exit 1 ;;
 	}
 done
 shift $((OPTIND - 1))
+
+typeset -Ui psz=0	# must be unsigned
+if (( g_code[0] )); then
+	# bounds check partition table values, calculate total sectors
+	if (( g_code[0] < 1 || g_code[1] < 1 || g_code[1] > 256 ||
+	    g_code[2] < 1 || g_code[2] > 63 )); then
+		print -u2 Invalid geometry, values out of bounds.
+	elif [[ $(print "(${g_code[0]} * ${g_code[1]} * {g_code[2]})" \
+	    "> 4294967295" | bc) = 1 ]]; then
+		print -u2 Invalid geometry, more than 2 TiB of data.
+	else
+		# we know it's <= 2^32-1
+		(( psz = g_code[0] * g_code[1] * g_code[2] ))
+	fi
+fi
+if (( psz )); then
+	print -u2 geometry is $psz sectors \($(print \
+	    "$psz * $((1 << bsh))" | bc) bytes\) in ${g_code[0]} cylinders, \
+	    ${g_code[1]} heads, ${g_code[2]} sectors per track
+	if (( numsecs == 0 || (numsecs != 99 && numheads == 0) )); then
+		print -u2 warning: using these values for C/H/S boot
+		numheads=${g_code[1]}
+		numsecs=${g_code[2]}
+	fi
+	(( mbrpno )) || mbrpno=4	# default partition number
+fi
+if (( mbrpno )); then
+	bkend=0x1BE
+	(( psz )) || print -u2 warning: no geometry given, will not \
+	    create an MBR partition table entry
+fi
 
 if (( numsecs == 99 )); then
 	numheads=0
@@ -214,6 +260,28 @@ thecode[511]=0xAA
 (( thecode[ofs_partp] = partp ))
 print -u2 "using sectors of 2^$bsh = $((1 << bsh)) bytes"
 (( thecode[ofs_secsz] = (1 << (bsh - 8)) ))
+
+# create an MBR partition if desired
+if (( psz )); then
+	(( mbrpno = 0x1BE + ((mbrpno - 1) * 16) ))
+	thecode[mbrpno++]=0x80
+	thecode[mbrpno++]=0
+	thecode[mbrpno++]=1
+	thecode[mbrpno++]=0
+	(( thecode[mbrpno++] = (partp ? partp : 0x27) ))
+	(( thecode[mbrpno++] = g_code[1] - 1 ))
+	(( cylno = g_code[0] > 1023 ? 1023 : g_code[0] ))
+	(( thecode[mbrpno++] = g_code[2] | ((cylno & 0x0300) >> 2) ))
+	(( thecode[mbrpno++] = cylno & 0x00FF ))
+	thecode[mbrpno++]=0
+	thecode[mbrpno++]=0
+	thecode[mbrpno++]=0
+	thecode[mbrpno++]=0
+	(( thecode[mbrpno++] = psz & 0xFF ))
+	(( thecode[mbrpno++] = (psz >> 8) & 0xFF ))
+	(( thecode[mbrpno++] = (psz >> 16) & 0xFF ))
+	(( thecode[mbrpno++] = (psz >> 24) & 0xFF ))
+fi
 
 # create the output string
 ostr=
