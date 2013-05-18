@@ -4,7 +4,7 @@
 mws_setname ports "The MirPorts Framework"
 mws_subdir 0
 mws_setheadline MirPorts: The MirOS Ports Framework
-mws_putheader '$MirOS: www/src/ports.hts,v 1.10 2011/02/09 19:03:27 bsiegert Exp $'
+mws_putheader '$MirOS: www/src/ports.hts,v 1.11 2011/02/09 19:51:50 tg Exp $'
 mws_content <<'EOF'
 <p>(The official MirPorts homepage can always be reached at <a
  href="http://mirbsd.de/ports">http://mirbsd.de/ports</a> which
@@ -12,22 +12,9 @@ mws_content <<'EOF'
 
 <p>On this page:</p>
 
-<ul>
- <li><a href="#intro">Introduction</a></li>
- <li><a href="#install">Set-up instructions</a>
-  <ul>
-   <li><a href="#installsystem">System-wide installation</a></li>
-   <li><a href="#installuser">Installation as an unprivileged user</a></li>
-  </ul></li>
- <li><a href="#platforms">Platform-specific notes</a>
-  <ul>
-   <li><a href="#miros">MirOS BSD</a></li>
-   <li><a href="#darwin">Mac OS X</a></li>
-   <li><a href="#mnbsd">MidnightBSD</a></li>
-   <li><a href="#obsd">OpenBSD</a></li>
-  </ul></li>
-  <li><a href="#using">Using the MirPorts Framework</a></li>
-</ul>
+EOF
+mws_maketoc
+mws_content <<EOF
 
 <h2 id="intro">Introduction</h2>
 
