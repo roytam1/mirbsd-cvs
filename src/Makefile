@@ -1,4 +1,4 @@
-# $MirOS: src/Makefile,v 1.118 2007/10/18 19:40:26 tg Exp $
+# $MirOS: src/Makefile,v 1.119 2007/10/21 13:25:54 tg Exp $
 # $OpenBSD: Makefile,v 1.103 2004/05/03 15:18:18 drahn Exp $
 
 .if defined(MAKECONF) && exists(${MAKECONF})
@@ -113,58 +113,25 @@ release:
 	${SUDO} rm -f ${_STFILE_DEST}
 
 do-htman:
-	-rm -rf ${BSDOBJDIR}/htman
-	mkdir -p ${BSDOBJDIR}/htman/{man,htm}
-	cd ${BSDOBJDIR}/htman && env WRITEDIR=${BSDOBJDIR:Q}/htman \
-	    ${SHELL} ${BSDSRCDIR}/scripts/systrace.mk ${MAKE} ${SHELL}
-.for _set _dir in x11 X11R6 base share
-	cd ${BSDRELDIR}/${_set}/usr/${_dir}/man && \
-	    find * -type f -o -type l | cpio -pdlu ${BSDOBJDIR}/htman/man
-.endfor
-	cd ${BSDOBJDIR}/htman && tar xzf \
-	    ${BSDRELDIR}/rel/ports${OSrev}.ngz usr/ports/Setup.sh.8 && \
-	    ${NROFF} -mdoc usr/ports/Setup.sh.8 \
-	    >${BSDOBJDIR}/htman/man/cat8/Setup.sh.0
-	cd ${BSDOBJDIR}/htman && tar xzf \
-	    ${BSDRELDIR}/rel/pkgutl${OSrev}.ngz usr/mpkg/man/cat?/*.0
-	cd ${BSDOBJDIR}/htman/usr/mpkg/man && \
-	    find * -type f -o -type l | cpio -pdlu ${BSDOBJDIR}/htman/man
-.for _doc in papers psd smm usd
-	mkdir -p ${BSDOBJDIR}/htman/papers/${_doc}
-	cd ${BSDOBJDIR}/htman/papers/${_doc} && \
-	    lndir ${BSDRELDIR}/base/usr/share/doc/${_doc} && \
-	    ${_STCMD_HTMAN} ${MAKE}
-.endfor
-	mkdir -p ${BSDOBJDIR}/htman/texinfo
-	cd ${BSDOBJDIR} && env WRITEDIR=${BSDOBJDIR:Q} \
-	    ${SHELL} ${BSDSRCDIR}/scripts/systrace.mk ${MAKE} ${SHELL}
-	cd ${.CURDIR} && ${_STCMD_OBJ} ${MAKE} do-htinfo
-	-rm -f ${BSDOBJDIR}/.policy.mk
-	cp ${BSDOBJDIR}/share/doc/legal/LICENCE-BSD.0 \
-	    ${BSDOBJDIR}/htman/man/cat7/BSD-Licence.0
+	-${SUDO} rm -rf ${BSDOBJDIR}/htman ${BSDRELDIR}/htman
+	${SUDO} mkdir -p ${BSDOBJDIR}/htman ${BSDRELDIR}/htman
+	${SUDO} chown $$(id -u) ${BSDOBJDIR}/htman ${BSDRELDIR}/htman
 	BSDOBJDIR=${BSDOBJDIR:Q} BSDSRCDIR=${BSDSRCDIR:Q} \
+	    BSDRELDIR=${BSDRELDIR:Q} OSrev=${OSrev:Q} \
 	    ${SHELL} ${.CURDIR}/scripts/genhtman.sh
-	. ${.CURDIR}/scripts/roff2htm; output_htaccess >${BSDOBJDIR}/htman/H
-	-rm -f ${BSDOBJDIR}/htman/.policy.mk
-	${SUDO} mkdir -p ${BSDRELDIR}/htman/man{DOCS,INFO}
-	cd ${BSDOBJDIR}/htman/htm && \
-	    find * -type f -o -type l | ${SUDO} cpio -pdlu ${BSDRELDIR}/htman/
-	cd ${BSDOBJDIR}/htman/texinfo && \
-	    ${SUDO} pax -rw *.html ${BSDRELDIR}/htman/manINFO/
-	cd ${BSDRELDIR}/base/usr/share/doc/html && \
-	    ${SUDO} pax -rw * ${BSDRELDIR}/htman/manDOCS/
-	cd ${BSDRELDIR}/htman/manDOCS && ${SUDO} rm -f \
-	    $$(find . -type f -a ! -name '*.htm' -a \
-		! -name '*.html' -a ! -name '*.jpg')
-	cd ${BSDOBJDIR}/htman && \
-	    ${SUDO} cp H ${BSDRELDIR}/htman/.htaccess && \
-	    ${SUDO} cp H ${BSDRELDIR}/htman/manDOCS/.htaccess && \
-	    print "AddType 'text/html; charset=iso-8859-1' html" >>H && \
-	    ${SUDO} cp H ${BSDRELDIR}/htman/manINFO/.htaccess
 	${SUDO} chown -R 0:0 ${BSDRELDIR}/htman/*
 	${SUDO} chmod -R a=rX ${BSDRELDIR}/htman/*
 
-do-htinfo:
+do-htinfopapers:
+	cd ${BSDOBJDIR} && env WRITEDIR=${BSDOBJDIR:Q} \
+	    ${SHELL} ${BSDSRCDIR}/scripts/systrace.mk ${MAKE} ${SHELL}
+.for _doc in papers psd smm usd
+	cd ${BSDOBJDIR}/htman/papers/${_doc} && ${_STCMD_OBJ} ${MAKE}
+.endfor
+	cd ${.CURDIR} && ${_STCMD_OBJ} ${MAKE} _do-htinfo
+	-rm -f ${BSDOBJDIR}/.policy.mk
+
+_do-htinfo:
 	cd ${BSDOBJDIR}/gnu/usr.bin/binutils/bfd/doc && \
 	    rm -f {bfd,bfdint}.html && \
 	    makeinfo --no-split --html -I ${BSDSRCDIR}/gnu/usr.bin/binutils/bfd/doc \
