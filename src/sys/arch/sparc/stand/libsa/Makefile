@@ -1,4 +1,4 @@
-# $MirOS: src/sys/arch/sparc/stand/libsa/Makefile,v 1.7 2008/08/01 18:45:41 tg Exp $
+# $MirOS: src/sys/arch/sparc/stand/libsa/Makefile,v 1.8 2008/08/03 21:02:04 tg Exp $
 # $OpenBSD: Makefile,v 1.3 2004/07/13 21:03:39 marc Exp $
 
 .include "${.CURDIR}/../Makefile.inc"
@@ -13,7 +13,7 @@ S=		${.CURDIR}/../../../..
 SADIR=		${.CURDIR}/..
 DIR_SA=		$S/lib/libsa
 DIR_KERN=	$S/lib/libkern
-CPPFLAGS+=	-I${S} -I${S}/stand/boot
+CPPFLAGS+=	-I$S/stand/boot -I$S/lib/libsa
 CPPFLAGS+=	-D__INTERNAL_LIBSA_CREAD #-DCOMPAT_UFS
 DEBUGLIBS=	No
 KERNSTAND=	#defined
