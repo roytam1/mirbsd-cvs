@@ -1,4 +1,4 @@
-/* $MirOS: src/lib/libc/hash/tiger.c,v 1.4 2006/12/28 04:06:03 tg Exp $ */
+/* $MirOS: src/lib/libc/hash/tiger.c,v 1.5 2007/08/19 12:03:13 tg Exp $ */
 
 /*-
  * Copyright (c) 2006
@@ -28,7 +28,7 @@
 #include <string.h>
 #include <tiger.h>
 
-__RCSID("$MirOS: src/lib/libc/hash/tiger.c,v 1.4 2006/12/28 04:06:03 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/hash/tiger.c,v 1.5 2007/08/19 12:03:13 tg Exp $");
 
 void
 TIGERInit(TIGER_CTX *ctx)
@@ -649,14 +649,14 @@ TIGERTransform(uint64_t *state, const uint8_t *data)
 	b = state[1];
 	c = state[2];
 
-	letoh64u(x0, data + 0);
-	letoh64u(x1, data + 1);
-	letoh64u(x2, data + 2);
-	letoh64u(x3, data + 3);
-	letoh64u(x4, data + 4);
-	letoh64u(x5, data + 5);
-	letoh64u(x6, data + 6);
-	letoh64u(x7, data + 7);
+	letoh64u(x0, data + 0 * 8);
+	letoh64u(x1, data + 1 * 8);
+	letoh64u(x2, data + 2 * 8);
+	letoh64u(x3, data + 3 * 8);
+	letoh64u(x4, data + 4 * 8);
+	letoh64u(x5, data + 5 * 8);
+	letoh64u(x6, data + 6 * 8);
+	letoh64u(x7, data + 7 * 8);
 
 	for (i = 0; i < 3; ++i) {
 		uint64_t tmpa;
