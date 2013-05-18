@@ -1,4 +1,4 @@
-# $MirOS: src/usr.bin/sudo/noexec/Makefile,v 1.4 2005/11/23 20:38:24 tg Exp $
+# $MirOS: src/usr.bin/sudo/noexec/Makefile,v 1.5 2006/09/29 22:00:41 tg Exp $
 # $OpenBSD: Makefile,v 1.1 2004/09/28 15:10:51 millert Exp $
 
 .PATH:		${.CURDIR}/..
@@ -10,6 +10,7 @@ SRCS=		sudo_noexec.c
 LIBDIR=		/usr/libexec
 
 DEBUGLIBS=	no
+SHLIB_VERSION=	-
 SHLIB_SONAME=	libsudo_noexec.so
 CLEANFILES+=	${SHLIB_SONAME}
 
