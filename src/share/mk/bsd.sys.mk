@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/bsd.sys.mk,v 1.22 2008/12/10 21:38:56 tg Exp $
+# $MirOS: src/share/mk/bsd.sys.mk,v 1.23 2009/11/17 19:21:07 tg Exp $
 # $OpenBSD: bsd.sys.mk,v 1.8 2000/07/06 23:12:41 millert Exp $
 # $NetBSD: bsd.sys.mk,v 1.2 1995/12/13 01:25:07 cgd Exp $
 
@@ -34,10 +34,12 @@ CC:=		env GCC_HONOUR_COPTS=2 ${CC}
 _ORIG_CC?=	${CC}
 
 .  if defined(DESTDIR) && !empty(DESTDIR)				#mmk-3(
-CPPFLAGS+=	-nostdinc -isystem ${DESTDIR}/usr/include
-CXXFLAGS+=	-isystem ${DESTDIR}/usr/include/gxx \
-		-isystem ${DESTDIR}/usr/include/gxx/${OStriplet} \
-		-isystem ${DESTDIR}/usr/include/gxx/backward
+CPPFLAGS+=	-nostdinc
+CPPFLAGS+=	-isystem ${DESTDIR}/usr/lib/gcc/${OStriplet}/${OSgccver}/include
+CPPFLAGS+=	-isystem ${DESTDIR}/usr/include
+CXXFLAGS+=	-isystem ${DESTDIR}/usr/lib/gcc/${OStriplet}/${OSgccver}/include/c++
+CXXFLAGS+=	-isystem ${DESTDIR}/usr/lib/gcc/${OStriplet}/${OSgccver}/include/c++/${OStriplet}
+CXXFLAGS+=	-isystem ${DESTDIR}/usr/lib/gcc/${OStriplet}/${OSgccver}/include/c++/backward
 LDFLAGS+=	-Wl,-rpath-link -Wl,${DESTDIR}/usr/lib
 .  endif\
 									#mmk-3)

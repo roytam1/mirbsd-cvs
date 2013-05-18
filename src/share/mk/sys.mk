@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/sys.mk,v 1.154 2009/09/12 09:47:34 tg Exp $
+# $MirOS: src/share/mk/sys.mk,v 1.155 2009/11/22 21:05:35 tg Exp $
 # $OpenBSD: sys.mk,v 1.45 2005/03/07 00:06:00 deraadt Exp $
 # $NetBSD: sys.mk,v 1.27 1996/04/10 05:47:19 mycroft Exp $
 # @(#)sys.mk	5.11 (Berkeley) 3/13/91
@@ -21,15 +21,16 @@ OStype=		MirBSD
 # Sync these with <sys/param.h>
 unix=		We run ${OStype}.
 OSrev=		10		# MirOS version (major)
-OSrpl=		170		# MirOS patchlevel
+OSrpl=		171		# MirOS patchlevel
 OScompat=	3.5		# OpenBSD compatibility revision
 .if !defined(OSNAME) || empty(OSNAME)
 OSNAME!=	uname -s
 .endif
 OSname=		${OSNAME:L}
 OStriplet?=	${MACHINE_ARCH}-ecce-${OSname}${OSrev}
+OSgccver?=	3.4.6
 _MIRMAKE_EXE=	/usr/bin/make
-_MIRMAKE_VER=	20091122
+_MIRMAKE_VER=	20091212
 
 .SUFFIXES:	.out .a .ln .o .lo .s .S .c .m .cc .C .cxx .cpp .F .f .y .l .i .h .sh .m4
 .LIBS:		.a
