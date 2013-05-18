@@ -1,10 +1,8 @@
-./docs/curses
 ./docs/curses/NCURSES-Programming-HOWTO.html
 ./docs/curses/announce.html
 ./docs/curses/hackguide.html
 ./docs/curses/index.html
 ./docs/curses/ncurses-intro.html
-./docs/milter
 ./docs/milter/api.html
 ./docs/milter/design.html
 ./docs/milter/figure1.jpg

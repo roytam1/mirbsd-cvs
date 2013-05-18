@@ -1,3 +1,10 @@
+./docs
+./docs/curses
+./docs/lynx_help
+./docs/lynx_help/keystrokes
+./docs/lynx_help/samples
+./docs/lynx_help/test
+./docs/milter
 ./man1
 ./man2
 ./man3
