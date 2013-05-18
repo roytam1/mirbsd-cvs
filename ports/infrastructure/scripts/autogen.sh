@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: ports/infrastructure/scripts/autogen.sh,v 1.2 2006/02/05 17:22:23 tg Exp $
+# $MirOS: ports/infrastructure/scripts/autogen.sh,v 1.1 2006/02/05 17:16:40 tg Exp $
 #-
 # Copyright (c) 2004, 2005, 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -43,11 +43,11 @@ done
 
 set -e
 set -x
-aclocal -I . $ACLOCAL_FLAGS
+aclocal -I .
 f=configure.ac
 [[ ! -e $f ]] && f=configure.in
 if fgrep -q -e AC_CONFIG_HEADER -e AM_CONFIG_HEADER $f; then
-	[[ -n $NO_AUTOHEADER ]] || autoheader $AUTOHEADER_FLAGS
+	[[ -n $NO_AUTOHEADER ]] || autoheader
 fi
 set +e
 [[ ! -e Makefile.am ]] || automake --foreign -i

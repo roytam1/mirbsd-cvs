@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/gnu.port.mk,v 1.12 2006/02/05 17:16:40 tg Exp $
+# $MirOS: ports/infrastructure/mk/gnu.port.mk,v 1.13 2006/02/05 17:20:03 tg Exp $
 # $OpenBSD: gnu.port.mk,v 1.19 2004/06/06 11:49:08 espie Exp $
 
 AUTOCONF_NEW?=		No
@@ -23,10 +23,11 @@ REGRESS_TARGET?=	check
 AUTOCONF?=		autoconf
 AUTOUPDATE?=		autoupdate
 AUTOHEADER?=		autoheader
-AUTOCONF_ENV+=		PATH=${PORTPATH:Q} PORTSDIR=${PORTSDIR:Q} \
+# missing ?= not an oversight
+AUTOCONF_ENV=		PATH=${PORTPATH:Q} PORTSDIR=${PORTSDIR:Q} \
 			M4=${M4:Q} \
-			AUTOCONF_VERSION=${AUTOCONF_VERSION:Q} \
-			AUTOMAKE_VERSION=${AUTOMAKE_VERSION:Q}
+			AUTOCONF_VERSION=${AUTOCONF_VERSION} \
+			AUTOMAKE_VERSION=${AUTOMAKE_VERSION}
 
 MODGNU_AUTOMAKE_DEPS=	::devel/metaauto ::devel/automake/${AUTOMAKE_VERSION}
 MODGNU_AUTOCONF_DEPS=	::devel/metaauto ::devel/autoconf/${AUTOCONF_VERSION}
