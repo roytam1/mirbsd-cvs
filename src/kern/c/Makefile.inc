@@ -1,4 +1,4 @@
-# $MirOS: src/kern/c/Makefile.inc,v 1.6 2007/02/06 18:58:06 tg Exp $
+# $MirOS: src/kern/c/Makefile.inc,v 1.7 2007/02/07 02:29:23 tg Exp $
 
 .ifndef _KERNBASE_C_MAKEFILE_INC
 _KERNBASE_C_MAKEFILE_INC=	#defined
@@ -22,6 +22,16 @@ _KERNBASE_C_MAKEFILE_INC=	#defined
 # SRCS, UNIFDEF_SRCS:	kernel, userland, bootloader
 # KUSRCS, UIF_KUSRCS:	kernel, userland
 # LSRCS, UIF_LSRCS:	lint libraries (userland)
+
+UIF_KUSRCS+=	tai_isleap.c taitime.c -DL_tai_isleap
+UIF_KUSRCS+=	tai_timet2tai.c taitime.c -DL_timet2tai
+UIF_KUSRCS+=	tai_tai2timet.c taitime.c -DL_tai2timet
+UIF_KUSRCS+=	tai_utc2tai.c taitime.c -DL_utc2tai
+UIF_KUSRCS+=	tai_tai2utc.c taitime.c -DL_tai2utc
+UIF_KUSRCS+=	tai_mjd2tai.c taitime.c -DL_mjd2tai
+UIF_KUSRCS+=	tai_tai2mjd.c taitime.c -DL_tai2mjd
+UIF_KUSRCS+=	tai_mjd2tm.c taitime.c -DL_mjd2tm
+UIF_KUSRCS+=	tai_tm2mjd.c taitime.c -DL_tm2mjd
 
 # …
 

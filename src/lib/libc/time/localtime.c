@@ -1,38 +1,34 @@
-/* $MirOS: src/lib/libc/time/localtime.c,v 1.10 2005/12/18 16:36:53 tg Exp $ */
+/* $MirOS: src/share/misc/licence.template,v 1.20 2006/12/11 21:04:56 tg Rel $ */
 
 /*-
- * Copyright (c) 2004, 2005
- *	Thorsten "mirabile" Glaser <tg@66h.42h.de>
+ * Copyright (c) 2004, 2005, 2007
+ *	Thorsten Glaser <tg@mirbsd.de>
  * Based upon work placed in the public domain 1996-06-05 by
  *	Arthur David Olson (arthur_david_olson@nih.gov)
  *
- * Licensee is hereby permitted to deal in this work without restric-
- * tion, including unlimited rights to use, publicly perform, modify,
- * merge, distribute, sell, give away or sublicence, provided all co-
- * pyright notices above, these terms and the disclaimer are retained
- * in all redistributions or reproduced in accompanying documentation
- * or other materials provided with binary redistributions.
+ * Provided that these terms and disclaimer and all copyright notices
+ * are retained or reproduced in an accompanying document, permission
+ * is granted to deal in this work without restriction, including un-
+ * limited rights to use, publicly perform, distribute, sell, modify,
+ * merge, give away, or sublicence.
  *
  * Advertising materials mentioning features or use of this work must
  * display the following acknowledgement:
  *	This product includes material provided by Thorsten Glaser.
  *
- * Licensor offers the work "AS IS" and WITHOUT WARRANTY of any kind,
- * express, or implied, to the maximum extent permitted by applicable
- * law, without malicious intent or gross negligence; in no event may
- * licensor, an author or contributor be held liable for any indirect
- * or other damage, or direct damage except proven a consequence of a
- * direct error of said person and intended use of this work, loss or
- * other issues arising in any way out of its use, even if advised of
- * the possibility of such damage or existence of a defect.
- *-
- * based upon public domain implementation from
- * 1996-06-05 by Arthur David Olson (arthur_david_olson@nih.gov)
+ * This work is provided "AS IS" and WITHOUT WARRANTY of any kind, to
+ * the utmost extent permitted by applicable law, neither express nor
+ * implied; without malicious intent or gross negligence. In no event
+ * may a licensor, author or contributor be held liable for indirect,
+ * direct, other damage, loss, or other issues arising in any way out
+ * of dealing in the work, even if advised of the possibility of such
+ * damage or existence of a defect, except proven that it results out
+ * of said person's immediate fault when using the work as intended.
  */
 
 #include <sys/param.h>
 __SCCSID("@(#)localtime.c	7.80");
-__RCSID("$MirOS: src/lib/libc/time/localtime.c,v 1.10 2005/12/18 16:36:53 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/time/localtime.c,v 1.11 2006/11/01 20:01:21 tg Exp $");
 
 /*
 ** Leap second handling from Bradley White (bww@k.gp.cs.cmu.edu).
@@ -42,6 +38,8 @@ __RCSID("$MirOS: src/lib/libc/time/localtime.c,v 1.10 2005/12/18 16:36:53 tg Exp
 
 /* LINTLIBRARY */
 
+#include <sys/taitime.h>
+#include <stdbool.h>
 #include "private.h"
 #include "tzfile.h"
 #include "fcntl.h"
@@ -183,6 +181,11 @@ static int tzload(const char *name, struct state *sp);
 static int tzparse(const char *name, struct state *sp, int lastditch);
 time_t *tm_getleaps(void);
 void _initialise_leaps(void);
+
+/* private interface; sync with tailibc.c */
+extern bool _leaps_initialised;
+extern tai64_t _leaps[];
+extern void _pushleap(time_t);
 
 static struct state lclmem;
 static struct state gmtmem;
@@ -1047,21 +1050,17 @@ tzset_basic(void)
 
 /*
 ** This function also cleans the leap second table first.
-** The externs are a private interface; sync with taitime.c
 */
 void
 tzset(void)
 {
-	extern int _leaps_initialised;
-	extern tai64_t _leaps[];
-
 	_THREAD_PRIVATE_MUTEX_LOCK(lcl);
 	tzset_basic();
 	_THREAD_PRIVATE_MUTEX_UNLOCK(lcl);
 
 	if (!_leaps_initialised) {
 		_leaps[0] = (tai64_t)0;
-		_leaps_initialised = 1;
+		_leaps_initialised = true;
 		_initialise_leaps();
 	}
 }
@@ -1710,8 +1709,6 @@ timeoff(tmp, offset)
 void
 _initialise_leaps(void)
 {
-	extern int _leaps_initialised;
-	extern void _pushleap(time_t);
 	struct state sp;
 	int i;
 
@@ -1721,7 +1718,7 @@ _initialise_leaps(void)
 	/* sanity */
 	if ((!sp.leapcnt) || (sp.lsis[0].ls_trans != 78796800)
 	    || (sp.leapcnt > TZ_MAX_LEAPS)) {
-		_leaps_initialised = 0;
+		_leaps_initialised = false;
 		return;
 	}
 

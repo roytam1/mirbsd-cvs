@@ -1,4 +1,4 @@
-/* $MirOS: src/share/misc/licence.template,v 1.20 2006/12/11 21:04:56 tg Rel $ */
+/* $MirOS: src/sys/sys/taitime.h,v 1.1 2007/02/07 18:55:47 tg Exp $ */
 
 /*-
  * Copyright (c) 2007
@@ -22,8 +22,6 @@
 
 #ifndef _SYS_TAITIME_H_
 #define _SYS_TAITIME_H_
-
-#include <sys/cdefs.h>
 
 /*
  * Represents the current date and time of day in seconds
@@ -65,6 +63,7 @@ struct tm {
 
 #if defined(_KERNEL) || __OPENBSD_VISIBLE
 __BEGIN_DECLS
+/* leap second array management */
 tai64_t *tai_leaps(void);
 int tai_isleap(tai64_t);
 

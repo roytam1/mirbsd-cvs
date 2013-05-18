@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/dev/ic/mk48txx.c,v 1.2 2005/03/06 21:27:40 tg Exp $ */
+/**	$MirOS: src/sys/dev/ic/mk48txx.c,v 1.3 2005/10/19 18:10:14 tg Exp $ */
 /*	$OpenBSD: mk48txx.c,v 1.4 2002/06/09 00:07:10 nordin Exp $	*/
 /*	$NetBSD: mk48txx.c,v 1.7 2001/04/08 17:05:10 tsutsui Exp $ */
 /*-
@@ -45,11 +45,11 @@
 #include <sys/param.h>
 #include <sys/malloc.h>
 #include <sys/systm.h>
+#include <sys/taitime.h>
 #include <sys/errno.h>
 
 #include <machine/bus.h>
 #include <dev/clock_subr.h>
-#include <lib/libkern/taitime.h>
 
 
 struct mk48txx {

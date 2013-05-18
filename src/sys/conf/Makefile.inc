@@ -1,4 +1,4 @@
-# $MirOS: src/sys/conf/Makefile.inc,v 1.23 2007/02/06 23:10:00 tg Exp $
+# $MirOS: src/sys/conf/Makefile.inc,v 1.24 2007/02/07 05:15:56 tg Exp $
 #-
 # Copyright (c) 2005, 2006, 2007
 #	Thorsten "mirabilos" Glaser <tg@mirbsd.de>
@@ -54,7 +54,7 @@ STRIPFLAGS=	-g -X -x -R .comment
 #	${SYSTEM_LD_HEAD}
 #	${SYSTEM_LD} swapxxx.o
 #	${SYSTEM_LD_TAIL}
-SYSTEM_OBJ?=	locore.o tai_leaps.o init_ssp.o \
+SYSTEM_OBJ?=	locore.o init_ssp.o \
 		param.o ioconf.o ${OBJS} ${LIBKERN} ${LIBCOMPAT}
 SYSTEM_DEP?=	Makefile ${SYSTEM_OBJ}
 SYSTEM_LD_HEAD?=rm -f $@
@@ -115,7 +115,7 @@ HOSTED_C=	${HOSTCC} ${HOSTCFLAGS} ${HOSTCPPFLAGS} -c $<
 .MAIN: all
 
 # these are 'make depend'ed
-_COMMON_SRCS=	param.c ioconf.c tai_leaps.c
+_COMMON_SRCS=	param.c ioconf.c
 SRCS?=		${_MDINC}/locore.s ${_COMMON_SRCS} ${CFILES} ${SFILES}
 
 # Propolice init
@@ -139,13 +139,6 @@ param.c: $S/conf/param.c
 
 param.o: param.c Makefile
 	${NORMAL_C_C}
-
-tai_leaps.o: tai_leaps.c
-	${NORMAL_C}
-
-tai_leaps.c: $S/lib/libkern/tai_make.c
-	${HOSTCC} ${HOSTCFLAGS} ${HOSTCPPFLAGS} -o tai_make $>
-	./tai_make >$@ || (rm -f $@; false)
 
 # depend on root or device configuration
 autoconf.o conf.o: Makefile

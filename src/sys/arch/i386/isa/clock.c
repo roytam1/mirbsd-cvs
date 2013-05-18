@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/isa/clock.c,v 1.8 2006/02/15 05:20:24 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/isa/clock.c,v 1.9 2006/10/17 20:51:35 tg Exp $ */
 /*	$OpenBSD: clock.c,v 1.31 2004/02/27 21:07:49 grange Exp $	*/
 /*	$NetBSD: clock.c,v 1.39 1996/05/12 23:11:54 mycroft Exp $	*/
 
@@ -92,6 +92,7 @@ WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 #include <sys/time.h>
 #include <sys/kernel.h>
 #include <sys/device.h>
+#include <sys/taitime.h>
 #include <sys/timeout.h>
 
 #include <machine/cpu.h>
@@ -104,8 +105,6 @@ WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 #include <dev/ic/mc146818reg.h>
 #include <i386/isa/nvram.h>
 #include <i386/isa/timerreg.h>
-
-#include <lib/libkern/taitime.h>
 
 #include "pcppi.h"
 #if (NPCPPI > 0)
