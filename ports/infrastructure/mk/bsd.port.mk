@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.161 2007/03/02 01:10:34 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.162 2007/03/02 01:38:30 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -448,7 +448,8 @@ CXXFLAGS+=		${CXXDIAGFLAGS}
 .endif
 # cf. http://libtorrent.rakshasa.no/wiki/LibTorrentKnownIssues#Badcodeproducedwith-fomit-frame-pointer
 CXXFLAGS+=		-fno-omit-frame-pointer
-LDFLAGS+=		-Wl,--library-after=${LOCALBASE}/lib ${LDSTATIC}
+LDFLAGS+=		${LDSTATIC} -Wl,-rpath -Wl,${LOCALBASE}/lib \
+			-Wl,--library-after=${LOCALBASE}/lib
 
 NO_CXX?=		No	# inhibit use of C++ ports
 .if ${USE_CXX:L} == "yes"
@@ -1061,7 +1062,8 @@ IGNORE+=		"is not an interactive port"
 .    if !exists(${X11BASE})
 IGNORE+=		"uses X11, but ${X11BASE} not found"
 .    else
-LDFLAGS+=		-Wl,--library-after=${X11BASE}/lib
+LDFLAGS+=		-Wl,-rpath -Wl,${X11BASE}/lib \
+			-Wl,--library-after=${X11BASE}/lib
 .    endif
 .  endif
 .  if ${USE_CXX:L} == "yes" && ${NO_CXX:L} != "no"
@@ -1114,7 +1116,7 @@ DEPENDS_TARGET=		install
 .endif
 
 #.if exists(${.SYSMK}/libmirmake.a)
-#LDFLAGS+=		-Wl,--library-after=${X11BASE}/lib -lmirmake
+#LDFLAGS+=		-Wl,--library-after=${.SYSMK} -lmirmake
 #.endif
 
 ################################################################
