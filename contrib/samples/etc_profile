@@ -1,7 +1,10 @@
-# $MirOS: contrib/samples/etc_profile,v 1.10 2008/05/07 12:16:11 tg Exp $
+# $MirOS: contrib/samples/etc_profile,v 1.11 2009/10/03 17:38:10 tg Exp $
 #-
 # Initialisation file for MirOS ksh (pdksh, sh), (s)ash and GNU bash
 # Fallback mode only for non-Korn-shells, though.
+
+echo >&2 sample, not maintained since 2005, please adjust
+exit 1
 
 [ -s "${HOME}/.profile.preinit" ] && . ${HOME}/.profile.preinit
 
