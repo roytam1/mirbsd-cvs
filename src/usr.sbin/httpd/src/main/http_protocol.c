@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.sbin/httpd/src/main/http_protocol.c,v 1.8 2006/10/13 18:23:50 tg Exp $ */
+/**	$MirOS: src/usr.sbin/httpd/src/main/http_protocol.c,v 1.9 2008/03/19 23:07:20 tg Exp $ */
 /*	$OpenBSD: http_protocol.c,v 1.32 2008/01/24 11:56:29 krw Exp $ */
 /* ====================================================================
  * The Apache Software License, Version 1.1
@@ -1149,6 +1149,17 @@ API_EXPORT(request_rec *) ap_read_request(conn_rec *conn)
     r->the_request     = NULL;
 
     r->ctx = ap_ctx_new(r->pool);
+
+    switch (conn->remote_addr.ss_family) {
+    case AF_INET:
+	ap_table_setn(r->notes, "address-family", "IPv4");
+	break;
+#ifdef INET6
+    case AF_INET6:
+	ap_table_setn(r->notes, "address-family", "IPv6");
+	break;
+#endif
+    }
 
     /* Get the request... */
 
