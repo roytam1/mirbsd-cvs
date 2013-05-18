@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.175 2009/03/28 22:03:50 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.176 2009/03/29 17:45:54 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -3540,7 +3540,7 @@ Tag: latex
 First column &amp; Temperature (°C) &amp; $D$ (nm)\\
 \midrule
 Foo &amp; 210 &amp; 10\\
-Bar &amp; 300 &amp; 15\\ 
+Bar &amp; 300 &amp; 15\\
 \bottomrule
 \end{tabular*}
 \caption{\label{tbl:mylabel} This is the table caption, where you
@@ -3643,6 +3643,7 @@ Tag: security
 Author: tg@
 Title: Mein erster FTF
 Date: 29.03.2009 17:43
+Language: de
 Tag: geocache
 
 <p>Anläßlich meines ersten FTF (ein OC-Only natürlich, weil, sonst
@@ -3655,4 +3656,38 @@ Tag: geocache
  <img src="https://call.mirbsd.org/sp.cgi?tc" alt="Rare Jewels" />
  <img src="https://call.mirbsd.org/sp.cgi?nc" alt="Broken Webpages²" />
  <br />Zwei mehr, auch wenn ich für einen was länger brauchte…</p>
+----
+Author: tg@
+Title: [rant] FreeBSD® sucks!
+Date: 29.03.2009 22:28
+Tag: bug mksh
+
+<p style="margin-bottom:0px;">How about this:</p>
+<div style="border:4px ridge blue; margin:0px 24px 0px 24px; padding:12px;">
+ <pre>
+	tg@herc:~ $ /bin/sh -c 'echo "0=($0) 1=($1) 2=($2) 3=($3)"' -- a "b c"
+	0=(--) 1=(a) 2=(b c) 3=()
+	tg@herc:~ $ nbsh -c 'echo "0=($0) 1=($1) 2=($2) 3=($3)"' -- a "b c"
+	0=(--) 1=(a) 2=(b c) 3=()
+ </pre>
+</div><p style="margin-top:0px;">Heck, not just NetBSD® ash, and almost
+ any shell Debian can dig out (bash pdksh ksh93 zsh dash posh) behaves
+ the same as mksh.</p>
+<p style="margin-bottom:0px;">MidnightBSD (DragonFly and FreeBSD too):</p>
+<div style="border:4px ridge blue; margin:0px 24px 0px 24px; padding:12px;">
+ <pre>
+	tg@mnbsd:~ $ /bin/sh -c 'echo "0=($0) 1=($1) 2=($2) 3=($3)"' -- a "b c"
+	0=(a) 1=(b c) 2=() 3=()
+ </pre>
+</div><p style="margin-top:0px;">And the best thing of all: I am to "fix"
+ this in mksh, as the old FreeBSD® ash is documented to have that weird
+ behaviour. (Well, there's always <tt>-DMKSH_BINSHREDUCED</tt>...)</p>
+<p>This is not a fault of MidnightBSD (except they could fix mports to
+ behave more POSIXish; after all, I had to do that to MirBSD and MirPorts
+ often enough), don't get me wrong. It just surprised me, and since I'm
+ glad <a href="@@RELPATH@@permalinks/news_e20090329-tg-g10003.htm">they
+ switched to mksh as <tt>/bin/sh</tt></a> I basically had to debug it.</p>
+<p>I don't remember any more what NetBSD® 1.5 did that its <tt>/bin/sh</tt>
+ could not be replaced by mksh, but they fixed it in 1.6 &ndash; Kubuntu
+ (the LTS version) fscks up similarily...</p>
 ----
