@@ -1,4 +1,4 @@
-# $MirOS: src/sys/arch/sparc/stand/bootxx/Makefile,v 1.19 2009/04/16 13:26:00 tg Exp $
+# $MirOS: src/sys/arch/sparc/stand/bootxx/Makefile,v 1.20 2009/04/16 14:04:09 tg Exp $
 # $OpenBSD: Makefile,v 1.7 2003/08/11 06:35:45 deraadt Exp $
 # $NetBSD: Makefile,v 1.2 1995/09/30 21:43:38 pk Exp $
 
@@ -22,7 +22,7 @@ ${PROG}: ${PROG}.elf
 	elf2aout ${PROG}.elf ${PROG} -b
 
 bxinst: ${.CURDIR}/mkbxinst.sh ${PROG}
-	${MKSH} ${.CURDIR}/mkbxinst.sh ${PROG} >$@
+	BSDSRCDIR=${BSDSRCDIR:Q} ${MKSH} ${.CURDIR}/mkbxinst.sh ${PROG} >$@
 
 srt0.o: srt0.S
 	${CC} ${CFLAGS} ${CPPFLAGS} -D_LOCORE -c ${.IMPSRC}

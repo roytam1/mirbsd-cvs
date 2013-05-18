@@ -1,5 +1,5 @@
 #!/bin/mksh
-rcsid='$MirOS: src/sys/arch/sparc/stand/bootxx/mkbxinst.sh,v 1.21 2010/01/16 21:30:32 tg Exp $'
+rcsid='$MirOS: src/sys/arch/sparc/stand/bootxx/mkbxinst.sh,v 1.22 2010/01/16 21:39:54 tg Exp $'
 #-
 # Copyright (c) 2007, 2008, 2009, 2010
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -63,7 +63,7 @@ print "# $rcsid"
 print "# \$miros:${rcsid#*:}"
 cat <<'EOF'
 #-
-# Copyright (c) 2007, 2008, 2009
+# Copyright (c) 2007, 2008, 2009, 2010
 #	Thorsten Glaser <tg@mirbsd.org>
 #
 # Provided that these terms and disclaimer and all copyright notices
@@ -85,10 +85,21 @@ cat <<'EOF'
 # Reads a list of extents (firstblock lastblock) from standard input
 # and writes bootxx to standard output, which can subsequentially be
 # stored past the SunOS disklabel directly on the disc.
+# Other mode creates ustarfs leader from self and /usr/mdec/boot.fd.
+
+EOF
+sed -e '/\$Mir''OS: /s/MirOS/miros/p' \
+    -e '/^function tarcksum/,/^}/p' \
+    -n $BSDSRCDIR/sys/arch/i386/stand/bootxx_ustarfs/tarcksum
+print
+typeset -i ustar_keep=$((sym__ustar_keep - sym_start + fofs_text ))
+(( ustar_keep < 100 )) || die 1 ustar_keep is too large
+print typeset -i  outsz=$outsz ustar_keep=$ustar_keep
+cat <<'EOF'
 
 set -A pbs_thecode 0x66 0x31 0xC0 0x66 0x50 0x66 0x9D 0x05 0xA0 0x07 0x8E 0xD0 0xBC 0xFC 0xFF 0xFB 0x50 0x68 0x24 0x00 0x8E 0xD8 0x8E 0xC0 0x31 0xFF 0xBE 0x00 0x02 0xB9 0x80 0x00 0xF3 0x66 0xA5 0xCB 0xB8 0x01 0x02 0xBB 0x00 0x02 0xB9 0x19 0x00 0xB6 0x00 0x60 0xCD 0x13 0x61 0x73 0x08 0x60 0x31 0xC0 0xCD 0x13 0x61 0xEB 0xF2 0xEA 0x00 0x7C 0x00 0x00
 typeset -Uui8 pbs_thecode
-typeset -i pbs_ofs_sector=43 pbs_curptr=66
+typeset -i pbs_ofs_sector=43 pbs_curptr=66 ustarmode=0
 
 function pbs_output {
 	typeset ostr=
@@ -96,6 +107,17 @@ function pbs_output {
 
 	# fill the block table
 	(( pbs_thecode[pbs_ofs_sector] = $1 + 1 ))
+	if (( ustarmode )); then
+		pbs_curptr=0
+		pbs_thecode[pbs_curptr++]=1#u
+		pbs_thecode[pbs_curptr++]=1#s
+		pbs_thecode[pbs_curptr++]=1#t
+		pbs_thecode[pbs_curptr++]=1#a
+		pbs_thecode[pbs_curptr++]=1#r
+		pbs_thecode[pbs_curptr++]=1#f
+		pbs_thecode[pbs_curptr++]=1#s
+		pbs_thecode[pbs_curptr++]=0
+	fi
 	while (( pbs_curptr < 126 )); do
 		(( pbs_thecode[pbs_curptr++] = RANDOM & 0xFF ))
 	done
@@ -135,18 +157,29 @@ function pbs_output {
 	    pbs_thecode[474] = (psz >> 8) & 0xFF ))
 	(( pbs_thecode[451] = pbs_thecode[459] = pbs_thecode[467] = \
 	    pbs_thecode[475] = psz & 0xFF ))
+	# sparc partition h (for ustarfs)
+	let psz--
+	pbs_thecode[503]=1
+	(( pbs_thecode[504] = (psz >> 24) & 0xFF ))
+	(( pbs_thecode[505] = (psz >> 16) & 0xFF ))
+	(( pbs_thecode[506] = (psz >> 8) & 0xFF ))
+	(( pbs_thecode[507] = psz & 0xFF ))
+	let psz++
 	# i386 partition
 	pbs_thecode[478]=0x80
-	pbs_thecode[480]=1
+	(( pbs_thecode[480] = ustarmode ? 2 : 1 ))
 	pbs_thecode[482]=0x96
 	(( pbs_thecode[483] = g_code[1] - 1 ))
 	(( cylno = g_code[0] > 1024 ? 1023 : g_code[0] - 1 ))
 	(( pbs_thecode[484] = g_code[2] | ((cylno & 0x0300) >> 2) ))
 	(( pbs_thecode[485] = cylno & 0x00FF ))
+	(( ustarmode )) && pbs_thecode[486]=1
+	(( ustarmode )) && let psz--
 	(( pbs_thecode[490] = psz & 0xFF ))
 	(( pbs_thecode[491] = (psz >> 8) & 0xFF ))
 	(( pbs_thecode[492] = (psz >> 16) & 0xFF ))
 	(( pbs_thecode[493] = (psz >> 24) & 0xFF ))
+	(( ustarmode )) && let psz++
 	# magic
 	pbs_thecode[508]=0xDA
 	pbs_thecode[509]=0xBE
@@ -184,18 +217,110 @@ function out_int32 {
 	print -n "\\0${ba#8#}\\0${bb#8#}\\0${bc#8#}\\0${bd#8#}"
 }
 
+function out_int8 {
+	typeset -Uui8 b
+
+	(( b = $1 & 0xFF ))
+	print -n "\\0${b#8#}"
+}
+
+# Output the following:
+# • 512 bytes: Sun disklabel
+# • outsz bytes: bootxx (where first 512 bytes is ustar header)
+# • pad until end of sector: random bytes
+# • variable number of bytes: second stage bootloader
+# • pad until end of sector: undefined
+# A real ustar archive containing the kernel can be appended.
+# Layout on disc (only 0‥k are written):
+# • 0: Sun disklabel
+# • 1: ustar header 1‥k
+# • 2‥i: first stage bootloader
+# • j‥k: second stage bootloader
+# • k+1: next ustar header or 1024 NUL-bytes
+# i = 1 + (outsz_padded / 512) - 1
+# j = i + 1
+# k = j + (stage2size_padded / 512) - 1
+function do_ustar {
+	typeset me=$1 mdecboot=$2
+
+	# round up to whole of 512 bytes
+	(( outsz = (outsz + 511) & ~511 ))
+
+	# we need this later
+	if ! T=$(mktemp -d /tmp/bootxx.XXXXXXXXXX); then
+		print -u2 Error: cannot create temporary directory
+		exit 1
+	fi
+	cd "$T"
+
+	# output modified Sun disklabel
+	pbs_output 0 >label
+
+	# copy over second stage bootloader
+	dd if="$mdecboot" of=stage2 2>/dev/null
+	stage2size=$(stat -f %z stage2)
+	(( stage2size = (stage2size + 511) & ~511 ))
+
+	(( i = 1 + (outsz / 512) - 1 ))
+	(( j = i + 1 ))
+	(( k = j + (stage2size / 512) - 1 ))
+
+	# create bootxx by using myself and calculated values
+	print $j $k | mksh "$me" >stage1
+
+	# copy tarball content (stage1 + stage2) together
+	dd if=stage1 of=content obs=512 conv=osync 2>/dev/null
+	if (( $(stat -f %z content) != outsz )); then
+		print -u2 Internal error
+		cd /
+		rm -rf "$T"
+		exit 255
+	fi
+	cat stage2 >>content
+
+	# split content into file (f) and ustar header (h)
+	dd if=content of=f bs=512 skip=1 2>/dev/null
+	x=0
+	while (( x++ < 100 )); do
+		out_int8 $RANDOM
+	done >h
+	dd if=content bs=$ustar_keep count=1 conv=notrunc of=h 2>/dev/null
+
+	# create an ustar archive
+	tarprog=$(whence -p mirtar || whence -p tar)
+	$tarprog -b 1 -M dist -cf a.tar f
+	tarsize=$(stat -f %z a.tar)
+	if (( tarsize != (outsz + stage2size + 1024) )); then
+		print -u2 Error: tar output size $tarsize wrong, want \
+		    $((outsz + stage2size + 1024))
+		cd /
+		rm -rf "$T"
+		exit 1
+	fi
+
+	# patch its header
+	dd if=h bs=100 count=1 conv=notrunc of=a.tar 2>/dev/null
+	print -n "$(tarcksum a.tar)\\0" | \
+	    dd of=a.tar bs=1 seek=148 conv=notrunc 2>/dev/null
+
+	# output the result
+	print -u2 created $((tarsize - 512)) bytes of ustarfs/sparc lead
+	dd if=a.tar bs=512 count=$(((tarsize - 1024)/512)) 2>/dev/null | \
+	    cat label -
+
+	# clean up
+	cd /
+	rm -rf "$T"
+}
+
 EOF
-typeset -i ustar_keep=$((sym__ustar_keep - sym_start + fofs_text ))
-(( ustar_keep < 100 )) || die 1 ustar_keep is too large
-print typeset -i ustar_keep=$ustar_keep \#XXX
-print typeset -i outsz=$outsz
 print typeset -i blktblsz=$tblsz
 cat <<'EOF'
 set -A blktblent
 typeset -i blktblent blktblnum=0 firstblock lastblock i=0 sscale=0 chainsec=-1
 set -A g_code 2048 1 640
 
-while getopts ":0:g:N:S:" ch; do
+while getopts ":0:g:N:S:T:" ch; do
 	case $ch {
 	(0)	if (( (chainsec = OPTARG) < 0 || OPTARG > 62 )); then
 			print -u2 Error: invalid chain sector "'$OPTARG'"
@@ -214,13 +339,29 @@ while getopts ":0:g:N:S:" ch; do
 			print -u2 Error: invalid sector scale "'$OPTARG'"
 			exit 1
 		fi ;;
+	(T)	if [[ ! -s $OPTARG ]]; then
+			print -u2 Error: "'$OPTARG'" not found
+			exit 1
+		fi
+		ustarfile=$OPTARG
+		ustarmode=1 ;;
 	(*)	print -u2 'Syntax:
 	bxinst [-0 secno [-g C:H:S]] [-S scale] <blocklist >loader
+	(bxinst -g C:H:S -T .../boot; tar -b 1 -M dist -cf - bsd) >floppy.tar
 Default scale=0, geometry: 2048 cyls 1 head 640 secs, suggest secno=24'
 		exit 1 ;;
 	}
 done
 shift $((OPTIND - 1))
+
+if (( ustarmode )); then
+	if [[ ${g_code[*]} = "2048 1 640" ]]; then
+		print -u2 Error: Use option -g C:H:S as well
+		exit 1
+	fi
+	do_ustar "$(realpath "$0")" "$(realpath "$ustarfile")"
+	exit 0
+fi
 
 # if desired, output chain sector (MBR) including partition and Sun disklabel
 (( chainsec >= 0 )) && pbs_output $chainsec
@@ -268,12 +409,10 @@ print -r "print -n '$part2'"
 cat <<'EOF'
 
 # Pad with random octets until end of sector
-typeset -Uui8 x
 while (( outsz++ & 511 )); do
-	(( x = RANDOM & 0xFF ))
-	print -n "\\0${x#8#}"
+	out_int8 $RANDOM
 done
-let outsz--
+#let outsz--
 
 exit 0
 EOF
