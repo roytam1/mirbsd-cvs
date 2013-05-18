@@ -1,6 +1,6 @@
-# $MirOS: contrib/hosted/tg/code/BSD::arc4random/Makefile.PL,v 1.3 2009/09/08 16:43:01 tg Exp $
+# $MirOS: contrib/hosted/tg/code/BSD::arc4random/Makefile.PL,v 1.4 2009/11/22 20:04:06 tg Exp $
 #-
-# Copyright (c) 2008, 2009
+# Copyright (c) 2008, 2009, 2011
 #	Thorsten Glaser <tg@mirbsd.org>
 #
 # Provided that these terms and disclaimer and all copyright notices
@@ -49,7 +49,7 @@ if ($cfg eq 'auto') {
 		$defs .= ' -DHAVE_SYS_SYSCTL_H=0 -DHAVE_STDINT_H=1';
 		$defs .= ' -DNEED_ARC4RANDOM_DECL';
 	}
-	if (($^O eq 'cygwin') ||
+	if (($^O eq 'cygwin') || ($^O eq 'MSWin32') ||
 	    ($^O eq 'solaris')) {
 		# Cygwin, Solaris: use arc4random.c contributed file
 		# XXX the presence of arc4random.c here is a KLUDGE going away!
