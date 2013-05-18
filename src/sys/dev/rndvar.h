@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/dev/rndvar.h,v 1.28 2010/09/24 19:59:10 tg Exp $ */
+/**	$MirOS: src/sys/dev/rndvar.h,v 1.29 2010/09/24 20:35:13 tg Exp $ */
 /*	$OpenBSD: rndvar.h,v 1.19 2003/11/03 18:24:28 tedu Exp $	*/
 
 /*
@@ -68,7 +68,7 @@ struct rndstats {
 	quad_t lopool_enq;	/* calls to lopool enqueue */
 	quad_t lopool_bytes;	/* bytes added during lopool enqueue */
 
-	quad_t rnd_pad[2];
+	quad_t rnd_pad_who_this_uses_is_stupid[2];
 
 	quad_t rnd_waits;	/* sleeps for data */
 	quad_t rnd_enqs;	/* enqueue calls */

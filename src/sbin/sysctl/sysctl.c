@@ -1,4 +1,4 @@
-/**	$MirOS: src/sbin/sysctl/sysctl.c,v 1.3 2005/11/23 16:44:10 tg Exp $ */
+/**	$MirOS: src/sbin/sysctl/sysctl.c,v 1.4 2005/11/23 18:12:09 tg Exp $ */
 /*	$OpenBSD: sysctl.c,v 1.123 2005/07/20 16:56:12 miod Exp $	*/
 /*	$NetBSD: sysctl.c,v 1.9 1995/09/30 07:12:50 thorpej Exp $	*/
 
@@ -30,12 +30,6 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
-
-#ifndef lint
-static const char copyright[] =
-"@(#) Copyright (c) 1993\n\
-	The Regents of the University of California.  All rights reserved.\n";
-#endif /* not lint */
 
 #include <sys/param.h>
 #include <sys/mount.h>
@@ -109,8 +103,10 @@ static const char copyright[] =
 #include <machine/biosvar.h>
 #endif
 
+__COPYRIGHT("@(#) Copyright (c) 1993\n\
+	The Regents of the University of California.  All rights reserved.\n");
 __SCCSID("@(#)sysctl.c	8.5 (Berkeley) 5/9/95");
-__RCSID("$MirOS: src/sbin/sysctl/sysctl.c,v 1.3 2005/11/23 16:44:10 tg Exp $");
+__RCSID("$MirOS: src/sbin/sysctl/sysctl.c,v 1.4 2005/11/23 18:12:09 tg Exp $");
 
 struct ctlname topname[] = CTL_NAMES;
 struct ctlname kernname[] = CTL_KERN_NAMES;
@@ -851,38 +847,13 @@ parse(char *string, int flags)
 		return;
 	}
 	if (special & RNDSTATS) {
-		struct rndstats *rndstats = (struct rndstats *)buf;
+		quad_t *rndstats = (quad_t *)buf;
 		int i;
 
 		if (!nflag)
 			(void)printf("%s%s", string, equ);
-		(void)printf(
-		"%llu %llu %llu %llu %llu %llu %llu %llu %llu %llu %llu %llu %llu %llu %llu %llu",
-		    (unsigned long long)rndstats->rnd_total,
-		    (unsigned long long)rndstats->rnd_used,
-		    (unsigned long long)rndstats->rnd_reads,
-		    (unsigned long long)rndstats->arc4_reads,
-		    (unsigned long long)rndstats->arc4_nstirs,
-		    (unsigned long long)rndstats->arc4_stirs,
-		    (unsigned long long)rndstats->rnd_pad[0],
-		    (unsigned long long)rndstats->rnd_pad[1],
-		    (unsigned long long)rndstats->rnd_pad[2],
-		    (unsigned long long)rndstats->rnd_pad[3],
-		    (unsigned long long)rndstats->rnd_pad[4],
-		    (unsigned long long)rndstats->rnd_waits,
-		    (unsigned long long)rndstats->rnd_enqs,
-		    (unsigned long long)rndstats->rnd_deqs,
-		    (unsigned long long)rndstats->rnd_drops,
-		    (unsigned long long)rndstats->rnd_drople);
-		for (i = 0; i < sizeof(rndstats->rnd_ed)/sizeof(rndstats->rnd_ed[0]);
-		    i++)
-			(void)printf(" %llu", (unsigned long long)rndstats->rnd_ed[i]);
-		for (i = 0; i < sizeof(rndstats->rnd_sc)/sizeof(rndstats->rnd_sc[0]);
-		    i++)
-			(void)printf(" %llu", (unsigned long long)rndstats->rnd_sc[i]);
-		for (i = 0; i < sizeof(rndstats->rnd_sb)/sizeof(rndstats->rnd_sb[0]);
-		    i++)
-			(void)printf(" %llu", (unsigned long long)rndstats->rnd_sb[i]);
+		for (i = 0; i < sizeof(struct rndstats) / sizeof(quad_t); ++i)
+			printf(i ? " %llu" : "%llu", rndstats[i]);
 		printf("\n");
 		return;
 	}
