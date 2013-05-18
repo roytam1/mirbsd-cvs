@@ -38,7 +38,7 @@
 #include "ntpd.h"
 #include "ntp.h"
 
-__RCSID("$MirOS: src/usr.sbin/ntpd/ntp.c,v 1.6 2006/12/23 06:05:05 tg Exp $");
+__RCSID("$MirOS: src/usr.sbin/ntpd/ntp.c,v 1.7 2007/07/31 20:32:46 tg Exp $");
 
 #define	PFD_PIPE_MAIN	0
 #define	PFD_MAX		1
@@ -484,6 +484,9 @@ priv_adjtime(void)
 			    &peers[offset_cnt / 2]->addr->ss)->sin_addr.s_addr;
 		else
 			conf->status.refid = conf->status.refid4;
+		if (peers[offset_cnt / 2]->update.status.stratum < 1)
+			conf->status.refid =
+			    peers[offset_cnt / 2]->update.status.refid;
 	}
 
 	free(peers);
