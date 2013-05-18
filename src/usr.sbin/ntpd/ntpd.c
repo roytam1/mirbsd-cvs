@@ -1,7 +1,7 @@
 /*	$OpenBSD: ntpd.c,v 1.40 2005/09/06 21:27:10 wvdputte Exp $ */
 
 /*-
- * Copyright (c) 2004, 2005, 2007
+ * Copyright (c) 2004, 2005, 2007, 2008
  *	Thorsten "mirabilos" Glaser <tg@66h.42h.de>
  * Copyright (c) 2003, 2004 Henning Brauer <henning@openbsd.org>
  *
@@ -35,7 +35,7 @@
 
 #include "ntpd.h"
 
-__RCSID("$MirOS: src/usr.sbin/ntpd/ntpd.c,v 1.16 2007/09/26 12:44:47 tg Exp $");
+__RCSID("$MirOS: src/usr.sbin/ntpd/ntpd.c,v 1.17 2008/05/13 20:50:00 tg Exp $");
 
 void		sighdlr(int);
 __dead void	usage(void);
@@ -49,6 +49,7 @@ void		ntpd_settime(double);
 volatile sig_atomic_t	 quit = 0;
 volatile sig_atomic_t	 reconfig = 0;
 volatile sig_atomic_t	 sigchld = 0;
+volatile sig_atomic_t	 sigusr1 = 0;
 struct imsgbuf		*ibuf;
 
 void
@@ -64,6 +65,9 @@ sighdlr(int sig)
 		break;
 	case SIGHUP:
 		reconfig = 1;
+		break;
+	case SIGUSR1:
+		sigusr1 = 1;
 		break;
 	}
 }
@@ -152,6 +156,7 @@ main(int argc, char *argv[])
 
 	setproctitle("[priv]");
 
+	signal(SIGUSR1, sighdlr);
 	signal(SIGTERM, sighdlr);
 	signal(SIGINT, sighdlr);
 	signal(SIGHUP, sighdlr);
@@ -205,6 +210,13 @@ main(int argc, char *argv[])
 			sigchld = 0;
 		}
 
+		if (sigusr1) {
+			int n = 0;	/* maybe use 1 for SIGHUP? */
+
+			log_info("throwing away all received deltas");
+			imsg_compose(ibuf, IMSG_RESET, 0, 0, &n, sizeof (n));
+			sigusr1 = 0;
+		}
 	}
 
 	signal(SIGCHLD, SIG_DFL);
@@ -314,6 +326,9 @@ dispatch_imsg(struct ntpd_conf *conf)
 					imsg_add(buf, &h->ss, sizeof(h->ss));
 
 			imsg_close(ibuf, buf);
+			break;
+		case IMSG_RESET:
+			log_warn("invalid IMSG_RESET received");
 			break;
 		default:
 			break;

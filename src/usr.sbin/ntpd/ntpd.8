@@ -1,4 +1,4 @@
-.\" $MirOS: src/usr.sbin/ntpd/ntpd.8,v 1.7 2007/09/26 12:44:47 tg Exp $
+.\" $MirOS: src/usr.sbin/ntpd/ntpd.8,v 1.8.2.1 2008/06/04 17:51:00 tg Exp $
 .\" $OpenBSD: ntpd.8,v 1.14 2005/06/21 19:55:18 deraadt Exp $
 .\"
 .\" Copyright (c) 2003, 2004 Henning Brauer <henning@openbsd.org>
@@ -15,7 +15,7 @@
 .\" AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT
 .\" OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 .\"
-.Dd $Mdocdate: September 26 2007 $
+.Dd $Mdocdate: June 4 2008 $
 .Dt NTPD 8
 .Os
 .Sh NAME
@@ -113,6 +113,11 @@ default
 .Nm
 configuration file
 .El
+.Pp
+.Nm
+throws away all previously received replies from all peers and
+sends out two queries quickly to re-sync when it receives
+.Dv SIGUSR1 .
 .Sh SEE ALSO
 .Xr date 1 ,
 .Xr adjtime 2 ,
@@ -147,5 +152,7 @@ The
 and
 .Fl S
 options were removed
-in
+and
+.Dv SIGUSR1
+handling was added in
 .Mx 11 .

@@ -38,7 +38,7 @@
 #include "ntpd.h"
 #include "ntp.h"
 
-__RCSID("$MirOS: src/usr.sbin/ntpd/ntp.c,v 1.20 2008/05/13 20:58:02 tg Exp $");
+__RCSID("$MirOS: src/usr.sbin/ntpd/ntp.c,v 1.21 2008/05/13 21:08:00 tg Exp $");
 
 #define	PFD_PIPE_MAIN	0
 #define	PFD_MAX		1
@@ -133,6 +133,7 @@ ntp_main(int pipe_prnt[2], struct ntpd_conf *nconf)
 	signal(SIGTERM, ntp_sighdlr);
 	signal(SIGINT, ntp_sighdlr);
 	signal(SIGPIPE, SIG_IGN);
+	signal(SIGUSR1, SIG_IGN);
 	signal(SIGHUP, SIG_IGN);
 
 	close(pipe_prnt[0]);
@@ -371,6 +372,23 @@ ntp_dispatch_imsg(void)
 				peer_remove(peer);
 			else
 				client_addr_init(peer);
+			break;
+		case IMSG_RESET:
+#if 0	/* XXX maybe use type 1 (n == 1) for SIGHUP? */
+			memcpy(&n, imsg.data, sizeof(n));
+			if (n) {
+				log_warn("invalid IMSG_RESET(%u) received", n);
+				break;
+			}
+#endif
+			conf->scale = 1;
+			TAILQ_FOREACH(peer, &conf->ntp_peers, entry) {
+				bzero(peer->reply, sizeof (peer->reply));
+				peer->shift = 0;
+				if (peer->trustlevel > TRUSTLEVEL_RESET)
+					peer->trustlevel = TRUSTLEVEL_RESET;
+				set_next(peer, -1);
+			}
 			break;
 		default:
 			break;
