@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.372 2011/10/29 21:09:13 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.373 2011/11/22 19:10:17 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -8813,4 +8813,34 @@ Tag: debian mksh news pcli release
  vendors (DR DOS Editor, Turbo Pascal, Borland C++ for Windows, …)</p>
 <p>ObPromise: a posting to raise the level of <em>ferrophility</em>
  on the Planet aggregators this wlog reaches (got pix)</p>
+----
+Date: 18.12.2011
+Author: bsiegert@
+Title: pkgsrc-2011Q3 binary packages for MirBSD-current
+Tag: pkgsrc news
+
+<p>This is a very late announcement. Binary packages for pkgsrc-2011Q3
+ are now available on <a
+ href="ftp://ftp.netbsd.org/pub/pkgsrc/packages/MirBSD/i386/10uAE_2011Q3/">ftp://ftp.netbsd.org/pub/pkgsrc/packages/MirBSD/i386/10uAE_2011Q3/</a>.
+ The repository contains 5330 packages built on MirOS-current. Any MirOS
+ BSD version from 2011 should work.</p>
+
+<p>The packages are self-contained in <tt>/usr/pkg</tt>: The VARBASE has
+ been set to <tt>/usr/pkg/var</tt>, and the package database is in
+ <tt>/usr/pkg/db</tt>. This matches the MirPorts defaults and
+ facilitates using pkgsrc and MirPorts side by side.</p>
+
+<p>In this quarterly release, the new default for MirBSD is to use
+ “modular” X11, i.e. install Xorg libraries and programs as packages
+ instead of using the system X libs. This improves the compatibility
+ with many newer programs, which expect for example that the X libraries
+ have pkg-config files. This should not change anything for the user,
+ however.</p>
+
+<p>For more information on how to use these packages, consult the
+ <a href="@@RELPATH@@pkgsrc.htm">pkgsrc page on mirbsd.org</a>
+ or the
+ <a href="http://www.netbsd.org/docs/pkgsrc/using.html#using-pkg">relevant
+ section of the pkgsrc guide</a>.
+</p>
 ----
