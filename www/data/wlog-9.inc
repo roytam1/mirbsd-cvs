@@ -2008,3 +2008,18 @@ Date: 10.09.2007
  some totally bogus paper, it is almost always published by Elsevier.
  Why is that? Discuss.</p>
 ----
+Date: 12.09.2007
+Author: tg@
+
+<p>Just to not strain the poor packagers, there will be no mksh minor
+ release tomorrow ☺ At least, I hope there’ll be no more late real life
+ bug reports for problems I deem important enough.</p>
+<p>I “found” my 10<sup>th</sup> <img alt="Virtual Geocacheing is fun too"
+ src="http://www.opencaching.de/statpics/106521.jpg" /> Geocache, which
+ means that, on OpenCaching.de, the website I prefer for being devoid of
+ the capitalistic attitude which prevails on GeoCaching.com, despite most
+ other CacheWolf involved seem to not like, use or even know it, I can
+ mark one cache as favoured. I did. Nice view from there…</p>
+<p>Woo-hoo! Even homsn got his arse moved, Arch GNU/Linux now has mksh
+ R31c, like Fedora, Gentoo, soon Fink. World domination, anyone?</p>
+----

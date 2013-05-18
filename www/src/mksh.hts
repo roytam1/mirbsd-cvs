@@ -1,10 +1,10 @@
-# $MirOS: www/src/mksh.hts,v 1.59 2007/09/11 18:38:28 tg Exp $
+# $MirOS: www/src/mksh.hts,v 1.60 2007/09/12 02:25:00 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.59 2007/09/11 18:38:28 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.60 2007/09/12 02:25:00 tg Exp $'
 mws_content <<'EOF'
 <h1>mksh(1) R31c</h1>
 <p>This is the website of the MirBSD™ Korn Shell, an actively developed free
@@ -438,6 +438,18 @@ mws_content <<'EOF'
  (via EPEL) now officially contain mksh. There are some <a
  href="http://fedoraproject.org/wiki/EPEL/FAQ#head-fc43191402d7242da15ebb282c1a7dc948f6c852">Instructions</a>
  for activating EPEL (RHEL only), then just type <tt>yum install mksh</tt>.</li>
+<li>The <a href="http://en.opensuse.org/Build_Service">OpenSuSE Build
+ Service</a> provides an mksh package inside the <a
+ href="http://software.opensuse.org/download/shells/">shells repo</a>,
+ thanks to Pascal “loki” Bleser and Marcus “darix” Rückert; the RPMs are
+ available for various instances of SuSE, OpenSuSE and Redhat/Fedora Core
+ as well as as SRPM (source RPM). There used to be a repository by <a
+ href="http://ftp.skynet.be/pub/suser-guru/rpm/packages/System/mksh/">loki</a>
+ in the past.</li>
+<li>An <a href="http://www.mirbsd.org/MirOS/dist/mir/mksh/ports/mksh-31-2.src.rpm">inofficial
+ <em>portable</em> SRPM</a> (created on Debian GNU/kFreeBSD) is available
+ as well. This one contains the <tt>arc4random.c</tt> support routines for
+ operating systems from clueless vendors (GNU, Sun, etc).</li>
 <li><a href="http://finkproject.org/">Fink</a> delivers an <a
  href="http://pdb.finkproject.org/pdb/package.php/mksh">mksh package</a>
  from Andreas “gecko2” Gockel.</li>
@@ -458,16 +470,6 @@ mws_content <<'EOF'
  href="http://grml.org/">grml</a> (and grml64) Live-CD, and other Debian
  derivates also have an mksh package; Knoppix, SIDUX, and grml-small do
  <em>not</em> contain or offer mksh.</li>
-<li>The <a href="http://en.opensuse.org/Build_Service">OpenSuSE Build
- Service</a> provides an mksh package inside the <a
- href="http://software.opensuse.org/download/shells/">shells repo</a>,
- thanks to Pascal “loki” Bleser and Marcus “darix” Rückert; the RPMs are
- available for various instances of SuSE, OpenSuSE and Redhat/Fedora Core
- as well as as SRPM (source RPM). There used to be a repository by <a
- href="http://ftp.skynet.be/pub/suser-guru/rpm/packages/System/mksh/">loki</a>
- in the past. An <a href="http://www.mirbsd.org/MirOS/dist/mir/mksh/ports/mksh-31-2.src.rpm">inofficial
- <em>portable</em> SRPM</a> (created on Debian GNU/kFreeBSD) is available
- as well.</li>
 <li><a href="http://www.archlinux.org/">Arch GNU/Linux</a> users can install
  an <a href="http://aur.archlinux.org/packages.php?do_Details=1&amp;ID=3431">mksh
  package</a> by Daniel “homsn” Hommel.</li>
