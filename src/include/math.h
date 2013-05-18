@@ -1,6 +1,6 @@
 /**	$MirOS: src/include/math.h,v 1.9 2008/11/11 03:57:17 tg Exp $ */
+/*	$NetBSD: math.h,v 1.58 2012/05/05 22:07:57 christos Exp $	*/
 /*	$OpenBSD: math.h,v 1.14 2006/07/12 07:26:07 brad Exp $	*/
-/*	$NetBSD: math.h,v 1.44 2006/03/25 16:41:11 xtraeme Exp $	*/
 
 /*
  * ====================================================
@@ -69,8 +69,12 @@ union __long_double_u {
  * ANSI/POSIX
  */
 /* 7.12#3 HUGE_VAL, HUGELF, HUGE_VALL */
+#if __GNUC_PREREQ__(3, 3)
+#define HUGE_VAL	__builtin_huge_val()
+#else
 extern const union __double_u __infinity;
 #define HUGE_VAL	__infinity.__val
+#endif
 
 /*
  * ISO C99
@@ -82,6 +86,10 @@ extern const union __double_u __infinity;
     ((_XOPEN_SOURCE  - 0) >= 600) || \
     defined(_ISOC99_SOURCE) || defined(_NETBSD_SOURCE) || __OPENBSD_VISIBLE
 /* 7.12#3 HUGE_VAL, HUGELF, HUGE_VALL */
+#if __GNUC_PREREQ__(3, 3)
+#define	HUGE_VALF	__builtin_huge_valf()
+#define	HUGE_VALL	__builtin_huge_vall()
+#else
 extern const union __float_u __infinityf;
 #define	HUGE_VALF	__infinityf.__val
 
@@ -89,18 +97,25 @@ extern const union __float_u __infinityf;
 extern const union __long_double_u __infinityl;
 #define	HUGE_VALL	__infinityl.__val
 #endif
+#endif
 
 /* 7.12#4 INFINITY */
-#ifdef __INFINITY
+#if defined(__INFINITY)
 #define	INFINITY	__INFINITY	/* float constant which overflows */
+#elif __GNUC_PREREQ__(3, 3)
+#define	INFINITY	__builtin_inff()
 #else
 #define	INFINITY	HUGE_VALF	/* positive infinity */
 #endif /* __INFINITY */
 
 /* 7.12#5 NAN: a quiet NaN, if supported */
 #ifdef __HAVE_NANF
+#if __GNUC_PREREQ__(3,3)
+#define	NAN	__builtin_nanf("")
+#else
 extern const union __float_u __nanf;
 #define	NAN		__nanf.__val
+#endif
 #endif /* __HAVE_NANF */
 
 /* 7.12#6 number classification macros */
@@ -364,7 +379,7 @@ float	remainderf(float, float);
 double	remquo(double, double, int *);
 float	remquof(float, float, int *);
 
-/* 7.2.11 manipulation */
+/* 7.12.11 manipulation */
 
 float	copysignf(float, float);
 double	nan(const char *);
