@@ -1,7 +1,8 @@
-# $MirOS: ports/net/mcabber/Makefile,v 1.6 2008/04/03 21:28:11 tg Exp $
+# $MirOS: ports/net/mcabber/Makefile,v 1.7 2008/06/25 18:16:57 tg Exp $
 
 COMMENT=		curses-based jabber client implementation
 DISTNAME=		mcabber-0.9.7
+DASH_VER=		1
 CATEGORIES=		net
 EXTRACT_SUFX=		.tar.bz2
 HOMEPAGE=		http://www.lilotux.net/~mikael/mcabber/
@@ -40,5 +41,6 @@ post-install:
 	    ${PREFIX}/share/doc/mcabber/ && \
 	    ${INSTALL_DATA} mcabberrc.example \
 	    ${PREFIX}/share/examples/mcabber/mcabberrc
+	mv ${PREFIX}/man/man1/mcabber.1 ${PREFIX}/man/man1/mcabber.tbl
 
 .include <bsd.port.mk>
