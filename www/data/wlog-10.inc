@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.143 2009/01/20 18:31:28 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.144 2009/01/21 08:48:19 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -108,6 +108,7 @@ Title: The Unicode Release
 ----
 Date: 19.03.2008
 Author: tg@
+Tag: geocache
 
 <p>In addition to my primary geocaching site, OpenCaching.de, and the
  commercial crap site, GeoCaching.com, which has most users, I now also
@@ -352,6 +353,7 @@ Author: tg@
 Date: 12.04.2008 21:59:14
 Author: tg@
 Title: a few news items
+Tag: geocache
 
 <p>As you can <a href="@@RELPATH@@permalinks/news_e20080412-tg.htm">read</a>,
  quite a few new versions of our portable software has been released. Well,
@@ -443,6 +445,7 @@ Title: my first advisory
 Date: 17.04.2008 20:47
 Author: tg@
 Title: Geocacheing in Basel
+Tag: geocache
 
 <p>This time I <em>did</em> find a geocache far away from home…</p>
 <p><img src="http://img.geocaching.com/stats/img.aspx?txt=Gr&#xFC;ezi+&#x2F;+Salut+&#x2F;+Bonjour!&amp;uid=d6aaa6ad-797c-419a-91b3-8cf6a5b40658"
@@ -659,6 +662,7 @@ Title: sometimes, ranting doesn’t help…
 Date: 29.04.2008 22:02
 Author: tg@
 Title: be careful what you wish for…
+Tag: geocache
 
 <p>… as you could get it. This is because gecko2@ asked for some more cvs
  commit eMail “spam” ☺</p>
@@ -694,6 +698,7 @@ Title: be careful what you wish for…
 Date: 04.05.2008 00:10
 Author: tg@
 Title: MirEwe on MirDarwin?
+Tag: geocache
 
 <p>On an unrelated note, <a href="@@RELPATH@@mksh.htm">mksh</a> needs
  people running the current development version, to prevent mishaps like
@@ -1036,6 +1041,7 @@ Title: "Requesting inclusion of mksh (shell) into Mac OS X"
 Date: 14.07.2008 00:00
 Author: tg@
 Title: Inclusion of the MirBSD Korn Shell
+Tag: geocache
 
 <p>As <a href="http://marc.info/?m=121469556601834">requested</a>, <a
  href="@@RELPATH@@permalinks/wlog-10_e20080712-bsiegert.htm">Benny</a>
@@ -1102,6 +1108,7 @@ Title: mksh on… platforms
 Date: 17.07.2008 21:43
 Author: tg@
 Title: mksh – The iShell [updated 2 times]
+Tag: geocache mksh
 
 <h3><a href="@@RELPATH@@mksh.htm">mksh</a> – The iShell</h3>
 <p style="margin-bottom:0px;">Try this:</p>
@@ -1389,6 +1396,7 @@ Title: Cats, Rivella, other nice things, and… yuck
 Date: 16.08.2008 22:19
 Author: tg@
 Title: X11, etc.
+Tag: geocache
 
 <p>Don’t wonder if I appear online less often these days and commit weird
  and plain ugly things. I’m young and need the money&lt;/asr&gt;</p>
@@ -1446,7 +1454,7 @@ Tag: event
 Date: 25.08.2008 13:02
 Author: tg@
 Title: FrOSCon redux
-Tag: event
+Tag: event geocache
 
 <p>Hum. This year’s FrOSCon… sucks. At least the catering, which was
  so much better last year (remembering the Chili con Carne, as well
@@ -1576,7 +1584,7 @@ Tag: bug
 Date: 09.09.2008 18:50
 Author: tg@
 Title: Aus gegebenem Anlaß^Hss
-Tag: event
+Tag: event geocache
 
 <p>Wir haben jetzt ein Blumenkohl-Icon fürs iPhone, Dank an die RUBIs.</p>
 <p>Google ist definitiv evil. Ich vermeide sie auch so wie es eben geht,
@@ -1757,7 +1765,7 @@ Tag: mksh
 Date: 19.10.2008 20:20
 Author: tg@
 Title: Getting closer
-Tag: bug
+Tag: bug geocache
 
 <p>I’ve built i386 and sparc intermediate snapshots. We’ve been fixing
  things lately, so that another combined DuaLive CD is not so far off,
@@ -2906,4 +2914,16 @@ Tag: event
  help with that. gecko2@ is going for a youth hostel though, as usual, as
  he has a membership anyway. Benny and I are already hotel’d.</p>
 <p style="font-size:small;">Now if I were on Plänet Debilian…</p>
+----
+Tag: geocache
+Author: tg@
+Title: Cachers Sättigungsbeilage
+Date: 21.01.2009 13:08
+
+<p>Heute mit einem Kollegen in der Mittagspause aufm Weg zum Chinesen:<br />
+ <img src="https://call.mirbsd.org/sp.cgi?oc" alt="OpenCaching.de" />
+ <img src="https://call.mirbsd.org/sp.cgi?gc" alt="The Frog Site" />
+ <img src="https://call.mirbsd.org/sp.cgi?tc" alt="Rare Jewels" />
+ <img src="https://call.mirbsd.org/sp.cgi?nc" alt="Broken Webpages²" />
+ <br />Incr(Caches);</p>
 ----
