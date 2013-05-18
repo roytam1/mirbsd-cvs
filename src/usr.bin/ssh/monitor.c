@@ -1,4 +1,4 @@
-/* $OpenBSD: monitor.c,v 1.90 2007/02/19 10:45:58 dtucker Exp $ */
+/* $OpenBSD: monitor.c,v 1.91 2007/05/17 20:52:13 djm Exp $ */
 /*
  * Copyright 2002 Niels Provos <provos@citi.umich.edu>
  * Copyright 2002 Markus Friedl <markus@openbsd.org>
@@ -71,7 +71,7 @@
 #include "compat.h"
 #include "ssh2.h"
 
-__RCSID("$MirOS: src/usr.bin/ssh/monitor.c,v 1.8 2006/11/09 02:42:05 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/monitor.c,v 1.9 2007/03/08 10:09:32 tg Exp $");
 
 /* Imports */
 extern ServerOptions options;
@@ -320,6 +320,7 @@ monitor_child_postauth(struct monitor *pmonitor)
 	monitor_set_child_handler(pmonitor->m_pid);
 	signal(SIGHUP, &monitor_child_handler);
 	signal(SIGTERM, &monitor_child_handler);
+	signal(SIGINT, &monitor_child_handler);
 
 	if (compat20) {
 		mon_dispatch = mon_dispatch_postauth20;

@@ -1,4 +1,4 @@
-/* $OpenBSD: log.c,v 1.39 2006/08/18 09:13:25 deraadt Exp $ */
+/* $OpenBSD: log.c,v 1.40 2007/05/17 07:50:31 djm Exp $ */
 /*
  * Author: Tatu Ylonen <ylo@cs.hut.fi>
  * Copyright (c) 1995 Tatu Ylonen <ylo@cs.hut.fi>, Espoo, Finland
@@ -42,12 +42,13 @@
 #include <string.h>
 #include <syslog.h>
 #include <unistd.h>
+#include <errno.h>
 #include <vis.h>
 
 #include "xmalloc.h"
 #include "log.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.bin/ssh/log.c,v 1.4 2006/09/20 21:40:59 tg Exp $");
 
 static LogLevel log_level = SYSLOG_LEVEL_INFO;
 static int log_on_stderr = 1;
@@ -279,6 +280,7 @@ do_log(LogLevel level, const char *fmt, va_list args)
 	char fmtbuf[MSGBUFSIZ];
 	const char *txt = NULL;
 	int pri = LOG_INFO;
+	int saved_errno = errno;
 
 	if (level > log_level)
 		return;
@@ -332,4 +334,5 @@ do_log(LogLevel level, const char *fmt, va_list args)
 		syslog_r(pri, &sdata, "%.500s", fmtbuf);
 		closelog_r(&sdata);
 	}
+	errno = saved_errno;
 }
