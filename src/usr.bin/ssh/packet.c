@@ -74,7 +74,7 @@
 #include "ssh.h"
 #include "roaming.h"
 
-__RCSID("$MirOS: src/usr.bin/ssh/packet.c,v 1.15 2009/03/22 15:01:17 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/packet.c,v 1.16 2009/10/04 14:29:05 tg Exp $");
 
 const char NULs[8] = { 0, 0, 0, 0, 0, 0, 0, 0 };
 
@@ -840,8 +840,7 @@ packet_send2_wrapped(void)
 	u_char type, *cp, *macbuf = NULL;
 	u_char padlen, pad;
 	u_int packet_length = 0;
-	u_int i, len;
-	u_int32_t rnd = 0;
+	u_int len;
 	Enc *enc   = NULL;
 	Mac *mac   = NULL;
 	Comp *comp = NULL;
@@ -902,12 +901,7 @@ packet_send2_wrapped(void)
 	cp = buffer_append_space(&active_state->outgoing_packet, padlen);
 	if (enc && !active_state->send_context.plaintext) {
 		/* random padding */
-		for (i = 0; i < padlen; i++) {
-			if (i % 4 == 0)
-				rnd = arc4random();
-			cp[i] = rnd & 0xff;
-			rnd >>= 8;
-		}
+		arc4random_buf(cp, padlen);
 	} else {
 		/* clear padding */
 		memset(cp, 0, padlen);
@@ -1944,6 +1938,5 @@ packet_consume_ignoremsg(void)
 	if ((b = packet_get_raw(&n)) == NULL)
 		return;
 
-	if (n != 0)
-		arc4random_pushb(b, n);
+	arc4random_pushb_fast(b, n);
 }

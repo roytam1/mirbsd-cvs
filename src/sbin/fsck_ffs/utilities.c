@@ -51,7 +51,7 @@
 #include "extern.h"
 
 __SCCSID("@(#)utilities.c	8.1 (Berkeley) 6/5/93");
-__RCSID("$MirOS: src/sbin/fsck_ffs/utilities.c,v 1.2 2005/03/06 19:49:56 tg Exp $");
+__RCSID("$MirOS: src/sbin/fsck_ffs/utilities.c,v 1.3 2007/03/18 04:14:56 tg Exp $");
 
 long	diskreads, totalreads;	/* Disk cache statistics */
 
@@ -258,8 +258,8 @@ ckfini(int markclean)
 #ifdef	__MirBSD__
 	{
 		int i = fsmodified;
-		sblock.fs_firstfield = arc4random();
-		sblock.fs_unused_1 = arc4random();
+		arc4random_buf(sblock.fs_historic_start,
+		    sizeof(sblock.fs_historic_start));
 		sbdirty();
 #endif
 	sblock.fs_flags &= ~(0x80); /* XXX for openbsd compat */

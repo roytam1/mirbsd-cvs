@@ -47,7 +47,7 @@
 __COPYRIGHT("@(#) Copyright (c) 1993\n\
 	The Regents of the University of California.  All rights reserved.\n");
 __SCCSID("@(#)jot.c	8.1 (Berkeley) 6/6/93");
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.bin/jot/jot.c,v 1.2 2006/10/04 01:59:22 tg Exp $");
 
 #define	REPS_DEF	100
 #define	BEGIN_DEF	1
@@ -132,7 +132,7 @@ main(int argc, char *argv[])
 				errx(1, "Bad s value:  %s", argv[3]);
 			mask |= 01;
 			if (randomize)
-				arc4random_pushb(&s, sizeof (s));
+				arc4random_pushb_fast(&s, sizeof(s));
 		}
 	case 3:
 		if (!is_default(argv[2])) {

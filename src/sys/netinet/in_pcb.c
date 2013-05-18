@@ -320,7 +320,7 @@ portloop:
 			 */
 			if (loopcount == 0) {	/* only do this once. */
 				old = first;
-				first -= (arc4random() % (first - last));
+				first -= arc4random_uniform(first - last);
 			}
 			count = first - last;
 			*lastport = first;		/* restart each time */
@@ -347,7 +347,7 @@ portloop:
 			 */
 			if (loopcount == 0) {	/* only do this once. */
 				old = first;
-				first += (arc4random() % (last - first));
+				first += arc4random_uniform(last - first);
 			}
 			count = last - first;
 			*lastport = first;		/* restart each time */

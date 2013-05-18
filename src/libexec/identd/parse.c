@@ -26,6 +26,8 @@
 
 #include "identd.h"
 
+__RCSID("$MirOS$");
+
 #define IO_TIMEOUT	30	/* Timeout I/O operations after N seconds */
 
 int check_noident(char *);
@@ -106,9 +108,9 @@ gentoken(char *buf, int len)
 		return;
 	for (p = buf; len > 1; p++, len--) {
 		if (p == buf)
-			*p = token0cnv[arc4random() % (sizeof token0cnv-1)];
+			*p = token0cnv[arc4random_uniform(sizeof(token0cnv) - 1)];
 		else
-			*p = tokencnv[arc4random() % (sizeof tokencnv-1)];
+			*p = tokencnv[arc4random_uniform(sizeof(tokencnv) - 1)];
 	}
 	*p = '\0';
 }

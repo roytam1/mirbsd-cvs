@@ -440,11 +440,7 @@ GenerateAuthData (char *auth, int len)
     return 1;
 #else /* !XDMAUTH */
 #ifdef ARC4_RANDOM
-    CARD32 *rnd = (CARD32 *)auth;
-    int i;
-
-    for (i = 0; i < len; i += 4)
-	rnd[i / 4] = arc4random();
+    arc4random_buf(auth, len);
     return 1;
 #else /* !ARC4_RANDOM */
     CARD32 tmp[4] = { 0x67452301, 0xefcdab89, 0x98badcfe, 0x10325476 };

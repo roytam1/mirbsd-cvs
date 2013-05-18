@@ -57,7 +57,7 @@
 
 #include "pkcs5_pbkdf2.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/sbin/mount_vnd/mount_vnd.c,v 1.2 2008/06/12 21:53:44 tg Exp $");
 __RCSID("$OpenBSD: mount_vnd.c,v 1.4 2007/09/29 07:10:09 fkr Exp $");
 __RCSID("Utah $Hdr: vnconfig.c 1.1 93/12/15$");
 __SCCSID("@(#)vnconfig.c	8.1 (Berkeley) 12/15/93");
@@ -212,9 +212,7 @@ get_pkcs_key(char *arg, char *saltopt)
 			if (fd == -1)
 				err(1, "Unable to create salt file: '%s'",
 				    saltfile);
-			for (s = (int *)saltbuf;
-			    s < (int *)(saltbuf + sizeof(saltbuf)); s++)
-				*s = arc4random();
+			arc4random_buf(saltbuf, sizeof(saltbuf));
 			if (write(fd, saltbuf, sizeof(saltbuf))
 			    != sizeof(saltbuf))
 				err(1, "Unable to write salt file: '%s'", saltfile);

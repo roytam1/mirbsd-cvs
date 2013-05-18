@@ -45,7 +45,7 @@
 #include <errno.h>
 #include <rpc/pmap_clnt.h>
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/lib/libc/rpc/clnt_udp.c,v 1.3 2009/11/09 21:30:53 tg Exp $");
 
 /*
  * UDP bases client side rpc operations
@@ -104,7 +104,7 @@ struct cu_data {
  */
 CLIENT *
 clntudp_bufcreate(struct sockaddr_in *raddr, u_long program, u_long version,
-    struct timeval wait, int *sockp, u_int sendsz, u_int recvsz)
+    struct timeval wait_, int *sockp, u_int sendsz, u_int recvsz)
 {
 	CLIENT *cl;
 	struct cu_data *cu = NULL;
@@ -142,7 +142,7 @@ clntudp_bufcreate(struct sockaddr_in *raddr, u_long program, u_long version,
 	cl->cl_private = (caddr_t)cu;
 	cu->cu_raddr = *raddr;
 	cu->cu_rlen = sizeof (cu->cu_raddr);
-	cu->cu_wait = wait;
+	cu->cu_wait = wait_;
 	cu->cu_total.tv_sec = -1;
 	cu->cu_total.tv_usec = -1;
 	cu->cu_sendsz = sendsz;
@@ -188,10 +188,10 @@ fooy:
 
 CLIENT *
 clntudp_create(struct sockaddr_in *raddr, u_long program, u_long version,
-    struct timeval wait, int *sockp)
+    struct timeval wait_, int *sockp)
 {
 
-	return(clntudp_bufcreate(raddr, program, version, wait, sockp,
+	return(clntudp_bufcreate(raddr, program, version, wait_, sockp,
 	    UDPMSGSIZE, UDPMSGSIZE));
 }
 

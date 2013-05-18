@@ -49,7 +49,7 @@ static char sccsid[] = "@(#)mkfs.c	8.11 (Berkeley) 5/3/95";
 #else
 #ifdef __RCSID
 __RCSID("$NetBSD: mkfs.c,v 1.21 2004/12/20 20:51:42 jmc Exp $");
-__IDSTRING(mbsdid, "$MirOS: src/usr.sbin/makefs/ffs/mkfs.c,v 1.8 2008/10/31 23:04:09 tg Exp $");
+__IDSTRING(mbsdid, "$MirOS: src/usr.sbin/makefs/ffs/mkfs.c,v 1.9 2010/03/06 21:29:08 tg Exp $");
 #endif
 #endif
 #endif /* not lint */
@@ -567,8 +567,8 @@ ffs_write_superblock(struct fs *fs, const fsinfo_t *fsopts)
 	if (fsopts->needswap)
 		ffs_sb_swap(fs, (struct fs*)writebuf);
 #ifdef __MirBSD__
-	((struct fs *)writebuf)->fs_firstfield = arc4random();
-	((struct fs *)writebuf)->fs_unused_1 = arc4random();
+	arc4random_buf(((struct fs *)writebuf)->fs_historic_start,
+	    sizeof(((struct fs *)writebuf)->fs_historic_start));
 #endif
 	ffs_wtfs(fs->fs_sblockloc / sectorsize, sbsize, writebuf, fsopts);
 

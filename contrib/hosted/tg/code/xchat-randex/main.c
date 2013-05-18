@@ -1,5 +1,5 @@
 /*-
- * Copyright (c) 2009
+ * Copyright (c) 2009, 2010
  *	Thorsten Glaser <tg@mirbsd.org>
  *
  * Provided that these terms and disclaimer and all copyright notices
@@ -26,9 +26,9 @@
  *	- other than that, the protocol is fully supported
  *	- additional CTCP RANDOM returns plugin status and version
  *
- * On MirBSD (arc4random_pushk) and Win32, the entropy received will be fed
- * back to the operating system; on other OSes, this plugin acts mostly as
- * a pool which can be accessed by the protocol and the /RANDOM command.
+ * On MirBSD (arc4random_pushb_fast) and Win32, the entropy received will be
+ * fed back to the operating system; on other OSes, this plugin acts mostly
+ * as a pool which can be accessed by the protocol and the /RANDOM command.
  *
  * Additional features over other implementations:
  *	- /RANDOM (output a random number, like /eval print $RANDOM in sirc)
@@ -42,7 +42,7 @@
  */
 
 static const char __rcsid[] =
-    "$MirOS: contrib/hosted/tg/code/xchat-randex/main.c,v 1.9 2009/10/24 18:28:24 tg Exp $";
+    "$MirOS: contrib/hosted/tg/code/xchat-randex/main.c,v 1.10 2009/11/22 20:39:04 tg Exp $";
 
 #include <sys/types.h>
 #if defined(HAVE_STDINT_H) && HAVE_STDINT_H
@@ -64,18 +64,26 @@ static const char __rcsid[] =
 #define MIN(a,b)	(((a) < (b)) ? (a) : (b))
 #endif
 
-#ifndef arc4random_pushk
+#if defined(arc4random_pushb_fast)
+#define dopush		arc4random_pushb_fast
+#define slowpush	arc4random_pushb_fast
+#define RELEASE_PAPI	"pfast"
+#elif !defined(arc4random_pushk)
 extern u_int32_t arc4random(void);
 extern void arc4random_stir(void);
 #if defined(__CYGWIN__) || defined(WIN32)
 extern uint32_t arc4random_pushb(const void *, size_t);
-#define arc4random_pushk arc4random_pushb
+#define dopush		arc4random_pushb
+#define slowpush	arc4random_addrandom
 #define RELEASE_PAPI	"Win32"
 #else
-#define arc4random_pushk(b,n) arc4random_addrandom((void *)(b), (int)(n))
+#define dopush(b,n)	arc4random_addrandom((void *)(b), (int)(n))
+#define slowpush	arc4random_addrandom
 #define RELEASE_PAPI	"none"
 #endif
 #else
+#define dopush		arc4random_pushk
+#define slowpush	arc4random_addrandom
 #define RELEASE_PAPI	"pushk"
 #endif
 
@@ -88,7 +96,7 @@ static char buf[128];
 /* The XChat Plugin API 2.0 is not const clean */
 static char randex_name[] = "randex";
 static char randex_desc[] = "MirOS RANDomness EXchange protocol support";
-static char randex_vers[] = "1.11";
+static char randex_vers[] = "1.11+CVS";
 static char null[] = "";
 
 int xchat_plugin_init(xchat_plugin *, char **, char **, char **, char *);
@@ -123,8 +131,9 @@ xchat_plugin_init(xchat_plugin *handle, char **name, char **desc,
 	ph = handle;
 	xchat_plugin_get_info(name, desc, version, NULL);
 
+	/* XXX use oaat ipv adler32 */
 	i = adler32(arc4random() | 1, (const void *)__rcsid, sizeof(__rcsid));
-	arc4random_pushk(&i, sizeof(i));
+	dopush(&i, sizeof(i));
 
 	xchat_hook_server(ph, "RAW LINE", XCHAT_PRI_HIGHEST,
 	    hookfn_rawirc, NULL);
@@ -202,7 +211,7 @@ hookfn_rawirc(char *word[], char *word_eol[], void *user_data)
 	i = adler32(adler32(1, (const void *)&v, sizeof(v)),
 	    (const void *)word_eol[1], strlen(word_eol[1]));
 	v = time(NULL) ^ (time_t)i;
-	arc4random_addrandom((void *)&v, sizeof(v));
+	slowpush((void *)&v, sizeof(v));
 	return (XCHAT_EAT_NONE);
 }
 
@@ -213,7 +222,7 @@ entropyio(void *p, size_t len)
 	uint32_t v;
 	int i;
 
-	arc4random_pushk(p, len);
+	dopush(p, len);
 	for (i = 0; i < 7; ++i) {
 		v = arc4random();
 		*cp++ = '!' + (v & 0x3F);
@@ -378,7 +387,7 @@ cmdfn_randfile(char *word[], char *word_eol[], void *user_data)
 	if ((f = fopen(fn, "rb")) != NULL) {
 		do {
 			if ((n = fread(pb, 1, sizeof(pb), f)))
-				arc4random_addrandom((void *)pb, n);
+				slowpush((void *)pb, n);
 		} while (n);
 		fclose(f);
 		(void)arc4random();

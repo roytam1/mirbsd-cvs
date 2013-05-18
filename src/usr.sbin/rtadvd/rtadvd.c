@@ -65,7 +65,7 @@
 #include "config.h"
 #include "dump.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.sbin/rtadvd/rtadvd.c,v 1.2 2007/07/09 18:10:21 tg Exp $");
 
 struct msghdr rcvmhdr;
 static u_char *rcvcmsgbuf;
@@ -826,7 +826,7 @@ rs_input(int len, struct nd_router_solicit *rs,
 		 * delay and send the advertisement at the
 		 * already-scheduled time. RFC-2461 6.2.6
 		 */
-		delay = arc4random() % MAX_RA_DELAY_TIME;
+		delay = arc4random_uniform(MAX_RA_DELAY_TIME);
 		interval.tv_sec = 0;
 		interval.tv_usec = delay;
 		rest = rtadvd_timer_rest(ra->timer);
@@ -1610,7 +1610,7 @@ ra_timer_update(void *data, struct timeval *tm)
 	 * MaxRtrAdvInterval (RFC2461 6.2.4).
 	 */
 	interval = rai->mininterval; 
-	interval += arc4random() % (rai->maxinterval - rai->mininterval);
+	interval += arc4random_uniform(rai->maxinterval - rai->mininterval);
 
 	/*
 	 * For the first few advertisements (up to

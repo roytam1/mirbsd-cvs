@@ -1,10 +1,11 @@
-# $MirOS: ports/net/openvpn/Makefile,v 1.14 2007/02/22 22:57:55 tg Exp $
+# $MirOS: ports/net/openvpn/Makefile,v 1.15 2008/03/09 17:23:19 tg Exp $
 # $OpenBSD: Makefile,v 1.2 2003/12/30 21:29:53 sturm Exp $
 
 COMMENT=		easy-to-use, robust, highly configurable VPN solution
 VERSION=		2.0.9
+DASH_VER=		1
 DISTNAME=		openvpn-${VERSION}
-PKGNAME=		openvpn-${VERSION:S/_//}-0
+PKGNAME=		openvpn-${VERSION:S/_//}-${DASH_VER}
 CATEGORIES=		net security
 HOMEPAGE=		http://openvpn.net/
 MASTER_SITES=		${HOMEPAGE}release/

@@ -50,7 +50,7 @@
 #include "readconf.h"
 #include "uidswap.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.bin/ssh/ssh-keysign.c,v 1.4 2006/09/20 21:41:05 tg Exp $");
 
 /* XXX readconf.c needs these */
 uid_t original_real_uid;
@@ -188,8 +188,7 @@ main(void)
 		fatal("could not open any host key");
 
 	SSLeay_add_all_algorithms();
-	for (i = 0; i < 256; i++)
-		rnd[i] = arc4random();
+	arc4random_buf(rnd, sizeof(rnd));
 	RAND_seed(rnd, sizeof(rnd));
 
 	found = 0;

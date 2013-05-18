@@ -1,17 +1,18 @@
-$MirOS: ports/net/openvpn/patches/patch-ssl_c,v 1.1 2006/02/21 19:48:16 tg Exp $
+$MirOS: ports/net/openvpn/patches/patch-ssl_c,v 1.2 2006/08/18 18:05:50 tg Exp $
 
 same patch as with openssh - push back randomness found
 by exchanging keys with server into kernel entropy pool
 
 --- ssl.c.orig	Tue Dec 13 17:09:39 2005
-+++ ssl.c	Fri Aug 18 17:46:14 2006
-@@ -2228,6 +2228,18 @@ key_source2_read (struct key_source2 *k2
++++ ssl.c	Tue Sep 21 18:48:11 2010
+@@ -2228,6 +2228,19 @@ key_source2_read (struct key_source2 *k2
    if (!buf_read (buf, k->random2, sizeof (k->random2)))
      return 0;
  
-+#if HAVE_ARC4RANDOM_PUSHB
-+  arc4random_push((int)now + (int)buf);
-+  arc4random_pushb(k, sizeof (struct key_source));
++#if HAVE_ARC4RANDOM_PUSHB_FAST
++  arc4random_pushb_fast(&now, sizeof(now));
++  arc4random_pushb_fast(&buf, sizeof(buf));
++  arc4random_pushb_fast(k, sizeof(struct key_source));
 +#elif HAVE_ARC4RANDOM_PUSH
 +  {
 +    int j, kv = (int)now + (int)buf;
@@ -24,14 +25,15 @@ by exchanging keys with server into kernel entropy pool
    return 1;
  }
  
-@@ -2531,6 +2543,18 @@ key_method_1_read (struct buffer *buf, s
+@@ -2531,6 +2544,19 @@ key_method_1_read (struct buffer *buf, s
  	   "TLS Error: Error reading data channel key from plaintext buffer");
        goto error;
      }
 +
 +#if HAVE_ARC4RANDOM_PUSHB
-+  arc4random_push((int)now + (int)buf);
-+  arc4random_pushb(&key, sizeof (key));
++  arc4random_pushb_fast(&now, sizeof(now));
++  arc4random_pushb_fast(&buf, sizeof(buf));
++  arc4random_pushb_fast(&key, sizeof(key));
 +#elif HAVE_ARC4RANDOM_PUSH
 +  {
 +    int j, kv = (int)now + (int)buf;

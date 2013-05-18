@@ -1,4 +1,4 @@
-/**	$MirOS: src/include/stdlib.h,v 1.24 2010/09/12 17:10:38 tg Exp $ */
+/**	$MirOS: src/include/stdlib.h,v 1.25 2010/09/15 22:48:37 tg Exp $ */
 /*	$OpenBSD: stdlib.h,v 1.34 2005/05/27 17:45:56 millert Exp $	*/
 /*	$NetBSD: stdlib.h,v 1.25 1995/12/27 21:19:08 jtc Exp $	*/
 
@@ -240,34 +240,53 @@ long	 nrand48(unsigned short[3]);
 unsigned short *seed48(unsigned short[3]);
 void	 srand48(long);
 
-u_int32_t arc4random(void);
-void	arc4random_stir(void);
-u_int32_t arc4random_uniform(u_int32_t);
-void arc4random_buf(void *, size_t)
-	__attribute__((__bounded__ (__string__,1,2)));
-#undef arc4random_pushb_fast
-#define arc4random_pushb_fast arc4random_pushb_fast
-void arc4random_pushb_fast(const void *, size_t)
-	__attribute__((bounded (string, 1, 2)));
+/* starting with MirOS 0AAD define the entire arc4random API as cpp macros */
 
-/* deprecated */
-void	arc4random_addrandom(unsigned char *, int)
-	__attribute__((__bounded__ (__string__,1,2)));
+/* core API */
+#undef arc4random
+#undef arc4random_stir
+/* core API, deprecated in favour of arc4random_pushb_fast */
+#undef arc4random_addrandom
+/* useful OpenBSD extension */
+#undef arc4random_buf
+#undef arc4random_uniform
+/* current MirBSD extension */
+#undef arc4random_pushb_fast
+/* deprecated MirBSD extension */
 #undef arc4random_push
 #undef arc4random_pushb
 #undef arc4random_pushk
-void	arc4random_push(int);
-uint32_t arc4random_pushb(const void *, size_t)
+
+u_int32_t arc4random(void);
+void	arc4random_stir(void);
+void arc4random_buf(void *, size_t)
+	__attribute__((__bounded__ (__string__,1,2)));
+u_int32_t arc4random_uniform(u_int32_t);
+void arc4random_pushb_fast(const void *, size_t)
 	__attribute__((bounded (string, 1, 2)));
-#define arc4random_push(n) do {				\
+
+#define arc4random		arc4random
+#define arc4random_stir		arc4random_stir
+#define arc4random_buf		arc4random_buf
+#define arc4random_uniform	arc4random_uniform
+#define arc4random_pushb_fast	arc4random_pushb_fast
+
+void	arc4random_addrandom(unsigned char *, int)
+	__attribute__((__bounded__ (__string__,1,2)));
+#define arc4random_addrandom	arc4random_addrandom
+void	arc4random_push(int);
+#define arc4random_push(n)	do {			\
 	int arc4random_push_n = (n);			\
 	arc4random_pushb_fast(&arc4random_push_n,	\
 	    sizeof(arc4random_push_n));			\
 } while (/* CONSTCOND */ 0)
-#define arc4random_pushb(buf,len) \
-	(arc4random_pushb_fast((buf),(len)), arc4random())
-#define arc4random_pushk(buf,len) \
-	(arc4random_pushb_fast((buf),(len)), arc4random())
+uint32_t arc4random_pushb(const void *, size_t)
+	__attribute__((bounded (string, 1, 2)));
+#define arc4random_pushb(buf,n)	\
+	(arc4random_pushb_fast((buf),(n)), arc4random())
+#define arc4random_pushk(buf,n)	\
+	(arc4random_pushb_fast((buf),(n)), arc4random())
+
 
 void	setprogname(const char *);
 const char *getprogname(void);

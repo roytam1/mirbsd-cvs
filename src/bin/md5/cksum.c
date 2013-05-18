@@ -59,7 +59,7 @@
 
 extern const uint8_t RFC1321_padding[64];
 
-__RCSID("$MirOS: src/bin/md5/cksum.c,v 1.10 2009/11/09 17:29:03 tg Exp $");
+__RCSID("$MirOS: src/bin/md5/cksum.c,v 1.11 2009/11/09 21:36:35 tg Exp $");
 
 #define MAX_DIGEST_LEN			128
 
@@ -1276,8 +1276,11 @@ SYSVSUM_End(SYSVSUM_CTX *ctx, char *outstr)
 }
 
 void
-cksum_addpool(const char *s __attribute__((unused)))
+cksum_addpool(const char *s)
 {
+#if defined(arc4random_pushb_fast)
+	arc4random_pushb_fast(s, strlen(s) + 1);
+#else
 	ADLER32_CTX tmp;
 
 	ADLER32Update(&tmp, (const uint8_t *)s, strlen(s));
@@ -1285,5 +1288,6 @@ cksum_addpool(const char *s __attribute__((unused)))
 	arc4random_pushk(&tmp, sizeof (ADLER32_CTX));
 #elif defined(MirBSD) && (MirBSD > 0x09A1)
 	arc4random_pushb(&tmp, sizeof (ADLER32_CTX));
+#endif
 #endif
 }

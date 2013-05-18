@@ -111,7 +111,7 @@
 
 #ifdef MBSD_CB_ARND
 #include <sys/param.h>
-#include <sys/sysctl.h>
+#include <string.h>
 #endif
 #define NON_MAIN
 #include "apps.h"
@@ -119,7 +119,7 @@
 #include <openssl/bio.h>
 #include <openssl/rand.h>
 
-__RCSID("$MirOS: src/lib/libssl/src/apps/app_rand.c,v 1.2 2008/07/06 15:43:18 tg Exp $");
+__RCSID("$MirOS: src/lib/libssl/src/apps/app_rand.c,v 1.3 2008/07/06 16:08:02 tg Exp $");
 
 static int seeded = 0;
 static int egdsocket = 0;
@@ -225,19 +225,17 @@ void app_RAND_allow_write_file(void)
 void app_RAND_pushback(uint32_t x1, uint32_t x2, uint32_t x3, uint32_t x4)
 	{
 #ifdef MBSD_CB_ARND
-	union {
-		uint8_t byone[16];
-		uint32_t byfour[4];
-	} oldentropy;
-	uint32_t newentropy;
+	uint32_t x[4];
 
-	RAND_bytes(oldentropy.byone, sizeof (oldentropy));
-	oldentropy.byfour[0] ^= x1;
-	oldentropy.byfour[1] ^= x2;
-	oldentropy.byfour[2] ^= x3;
-	oldentropy.byfour[3] ^= x4;
-	newentropy = arc4random_pushb(oldentropy.byone, sizeof (oldentropy));
-	RAND_add(&newentropy, 4, 3.9);
+	RAND_bytes((void *)x, sizeof(x));
+	x[0] ^= x1;
+	x[1] ^= x2;
+	x[2] ^= x3;
+	x[3] ^= x4;
+	arc4random_pushb_fast(x, sizeof(x));
+	arc4random_buf(x, sizeof(x));
+	RAND_add(x, sizeof(x), sizeof(x) - 0.5);
+	bzero(x, sizeof(x));
 #elif defined(LINT)
 	x1=x2;
 	x3=x4;

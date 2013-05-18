@@ -122,6 +122,7 @@
 #include <sys/times.h>
 #include <sys/stat.h>
 #include <fcntl.h>
+#include <stdlib.h>
 #include <unistd.h>
 #include <time.h>
 #if defined(OPENSSL_SYS_LINUX) /* should actually be available virtually everywhere */
@@ -132,37 +133,14 @@
 # define FD_SETSIZE (8*sizeof(fd_set))
 #endif
 
-#ifdef __MirBSD__
-#include <sys/param.h>
-#include <sys/sysctl.h>
-
-__RCSID("$MirOS: src/lib/libssl/src/crypto/rand/rand_unix.c,v 1.3 2007/09/28 12:41:53 tg Exp $");
-#endif
+__RCSID("$MirOS: src/lib/libssl/src/crypto/rand/rand_unix.c,v 1.4 2008/05/22 22:00:41 tg Exp $");
 
 #ifdef __OpenBSD__
 int RAND_poll(void)
 {
-	u_int32_t rnd = 0;
-	size_t i = 0;
 	unsigned char buf[ENTROPY_NEEDED];
 
-#ifdef __MirBSD__
-	int mib[2];
-
-	rnd = arc4random_pushb(buf, sizeof (buf));
-	RAND_add((u_char *)&rnd, 4, 3.9);
-	mib[0] = CTL_KERN;
-	mib[1] = KERN_ARND;
-	i = sizeof (buf);
-	if (sysctl(mib, 2, buf, &i, NULL, 0) < 0)
-		i = 0;
-#endif
-	for ( ; i < sizeof(buf); i++) {
-		if (i % 4 == 0)
-			rnd = arc4random();
-		buf[i] = rnd;
-		rnd >>= 8;
-	}
+	arc4random_buf(buf, sizeof(buf));
 	RAND_add(buf, sizeof(buf), ENTROPY_NEEDED);
 	memset(buf, 0, sizeof(buf));
 

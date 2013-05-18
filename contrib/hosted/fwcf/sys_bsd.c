@@ -1,4 +1,4 @@
-/* $MirOS: contrib/hosted/fwcf/sys_bsd.c,v 1.5 2008/07/06 16:25:33 tg Exp $ */
+/* $MirOS: contrib/hosted/fwcf/sys_bsd.c,v 1.6 2008/07/06 16:26:44 tg Exp $ */
 
 /*-
  * Copyright (c) 2006, 2007
@@ -27,7 +27,7 @@
 #include "defs.h"
 #include "sysdeps.h"
 
-__RCSID("$MirOS: contrib/hosted/fwcf/sys_bsd.c,v 1.5 2008/07/06 16:25:33 tg Exp $");
+__RCSID("$MirOS: contrib/hosted/fwcf/sys_bsd.c,v 1.6 2008/07/06 16:26:44 tg Exp $");
 
 void
 pull_rndata(uint8_t *buf, size_t n)
@@ -70,7 +70,9 @@ push_rndata(uint8_t *buf, size_t n)
 #ifdef RND_DEBUG
 	size_t i;
 #endif
-#ifdef __MirBSD__
+#if defined(arc4random_pushb_fast)
+	arc4random_pushb_fast(buf, n);
+#elif defined(__MirBSD__)
 	arc4random_pushb(buf, n);
 #else
 	int fd;

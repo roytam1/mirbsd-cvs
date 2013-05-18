@@ -1,7 +1,7 @@
-/**	$MirOS: src/usr.sbin/vnconfig/vnconfig.c,v 1.13 2006/09/21 21:48:43 tg Exp $ */
+/**	$MirOS: src/usr.sbin/vnconfig/vnconfig.c,v 1.14 2007/08/08 22:20:17 tg Exp $ */
 /*	$OpenBSD: vnconfig.c,v 1.16 2004/09/14 22:35:51 deraadt Exp $	*/
 /*
- * Copyright (c) 2006 Thorsten Glaser
+ * Copyright (c) 2006, 2010 Thorsten Glaser
  * Copyright (c) 1993 University of Utah.
  * Copyright (c) 1990, 1993
  *	The Regents of the University of California.  All rights reserved.
@@ -63,7 +63,7 @@
 #include <openssl/pem.h>
 #endif
 
-__RCSID("$MirOS: src/usr.sbin/vnconfig/vnconfig.c,v 1.13 2006/09/21 21:48:43 tg Exp $");
+__RCSID("$MirOS: src/usr.sbin/vnconfig/vnconfig.c,v 1.14 2007/08/08 22:20:17 tg Exp $");
 
 #define DEFAULT_VND	"vnd0"
 
@@ -316,8 +316,8 @@ make_key(const char *algo, FILE *fp, const char *key2)
 			    " %zu characters!\n", strlen(key2), kbuflen);
 		memcpy(kbuf, key2, kbuflen);
 		fprintf(stderr, "WARNING: not using random bits as key!\n");
-	} else for (i = 0; i < KBUF_ELEM; ++i)
-		kbuf[i] = arc4random();
+	} else
+		arc4random_buf(kbuf, sizeof(kbuf));
 
 	i = ASN1_STRING_set(aos, kbuf, kbuflen);
 	bzero(kbuf, sizeof (kbuf));

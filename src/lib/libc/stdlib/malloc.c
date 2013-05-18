@@ -52,7 +52,7 @@
 #include "thread_private.h"
 
 __IDSTRING(malloc_type, "@(#) mmap malloc 1.84 (OpenBSD)");
-__RCSID("$MirOS: src/lib/libc/stdlib/malloc.c,v 1.5 2006/10/03 19:51:09 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/stdlib/malloc.c,v 1.6 2006/10/31 03:46:40 tg Exp $");
 
 /*
  * The basic parameters you can tweak.
@@ -1142,7 +1142,7 @@ malloc_bytes(size_t size)
 
 	if (malloc_guard) {
 		/* Walk to a random position. */
-		i = arc4random() % bp->free;
+		i = arc4random_uniform(bp->free);
 		while (i > 0) {
 			u += u;
 			k++;
@@ -1689,7 +1689,7 @@ free_bytes(void *ptr)
 
 
 	/* delay return, returning a random something from before instead */
-	tmpidx = arc4random() % 16;
+	tmpidx = arc4random() & 15;
 	tmpptr = chunk_buffer[tmpidx];
 	chunk_buffer[tmpidx] = ptr;
 	ptr = tmpptr;

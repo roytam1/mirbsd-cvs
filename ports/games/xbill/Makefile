@@ -1,11 +1,11 @@
-# $MirOS: ports/games/xbill/Makefile,v 1.3 2006/12/30 22:56:56 tg Exp $
+# $MirOS: ports/games/xbill/Makefile,v 1.4 2008/03/09 19:15:53 tg Exp $
 # $OpenBSD: Makefile,v 1.15 2002/10/26 20:44:39 naddy Exp $
 
 ONLY_FOR_PLATFORM=	MirBSD:*:* OpenBSD:*:*
 
 COMMENT=		save your computers from the evil clutches of Bill
 DISTNAME=		xbill-2.0
-DASH_VER=		1
+DASH_VER=		2
 CATEGORIES=		games x11
 MASTER_SITES=		${MASTER_SITE_XCONTRIB:=games/}
 EXTRACT_SUFX=		.tgz

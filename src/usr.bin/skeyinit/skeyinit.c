@@ -34,6 +34,8 @@
 #include <skey.h>
 #include <bsd_auth.h>
 
+__RCSID("$MirOS$");
+
 #ifndef SKEY_NAMELEN
 #define SKEY_NAMELEN    4
 #endif
@@ -52,7 +54,6 @@ main(int argc, char **argv)
 	char	seed[SKEY_MAX_SEED_LEN + 1];
 	char    buf[256], key[SKEY_BINKEY_SIZE], filename[PATH_MAX], *ht;
 	char    lastc, me[UT_NAMESIZE + 1], *p, *auth_type;
-	u_int32_t noise;
 	struct skey skey;
 	struct passwd *pp;
 
@@ -71,11 +72,8 @@ main(int argc, char **argv)
 		} else if (isdigit(hostname[i]))
 			*p++ = hostname[i];
 	}
-	noise = arc4random();
-	for (i = 0; i < 5; i++) {
-		*p++ = (noise % 10) + '0';
-		noise /= 10;
-	}
+	for (i = 0; i < 5; i++)
+		*p++ = arc4random_uniform(10) + '0';
 	*p = '\0';
 
 	if ((pp = getpwuid(getuid())) == NULL)

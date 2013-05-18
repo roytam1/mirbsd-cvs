@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.sbin/httpd/src/main/http_protocol.c,v 1.11 2008/11/08 23:32:30 tg Exp $ */
+/**	$MirOS: src/usr.sbin/httpd/src/main/http_protocol.c,v 1.12 2008/11/08 23:36:01 tg Exp $ */
 /*	$OpenBSD: http_protocol.c,v 1.32 2008/01/24 11:56:29 krw Exp $ */
 /* ====================================================================
  * The Apache Software License, Version 1.1
@@ -81,7 +81,7 @@
 #include "util_md5.h"           /* For digestAuth */
 #include "ap_sha1.h"
 
-__RCSID("$MirOS: src/usr.sbin/httpd/src/main/http_protocol.c,v 1.11 2008/11/08 23:32:30 tg Exp $");
+__RCSID("$MirOS: src/usr.sbin/httpd/src/main/http_protocol.c,v 1.12 2008/11/08 23:36:01 tg Exp $");
 
 #define SET_BYTES_SENT(r) \
   do { if (r->sent_bodyct) \
@@ -300,9 +300,7 @@ API_EXPORT(int) ap_set_byterange(request_rec *r)
      * caller will perform if we return 1.
      */
     r->range = range;
-    for (u = 0; u < sizeof(rbuf)/sizeof(rbuf[0]); u++)
-        rbuf[u] = htonl(arc4random());
-
+    arc4random_buf(rbuf, sizeof(rbuf));
     bbuf = ap_palloc(r->pool, ap_base64encode_len(sizeof(rbuf)));
     ap_base64encode(bbuf, (const unsigned char *)rbuf, sizeof(rbuf));
     for (b = bbuf; *b != '\0'; b++) {
@@ -3046,10 +3044,10 @@ static AP_SHA1_CTX baseCtx;
 
 int ap_create_etag_state(pool *pconf)
 {
-    u_int32_t rnd;
     unsigned int u;
     int fd;
     char *filename;
+    unsigned char rnd[16];
 
     filename = ap_server_root_relative(pconf, "logs/etag-state");
     ap_server_strip_chroot(filename, 0);
@@ -3068,13 +3066,11 @@ int ap_create_etag_state(pool *pconf)
     }
 
     /* generate random bytes and write them */
-    for (u = 0; u < 4; u++) {
-        rnd = arc4random();
-        if (write(fd, &rnd, sizeof(rnd)) == -1) {
+    arc4random_buf(rnd, sizeof(rnd));
+    if (write(fd, &rnd, sizeof(rnd)) != 16) {
             ap_log_error(APLOG_MARK, APLOG_CRIT, NULL,
               "could not write to %s", filename);
             exit(-1);
-        }
     }
 
     close (fd);
@@ -3084,10 +3080,10 @@ int ap_create_etag_state(pool *pconf)
 int ap_read_etag_state(pool *pconf)
 {
     struct stat st;
-    u_int32_t rnd;
     unsigned int u;
     int fd;
     char *filename;
+    unsigned char rnd[16];
 
     ap_SHA1Init(&baseCtx);
 
@@ -3109,18 +3105,16 @@ int ap_read_etag_state(pool *pconf)
         exit(-1);
     }
 
-    if (st.st_size != sizeof(rnd)*4) {
+    if (st.st_size != sizeof(rnd)) {
 	return (-1);
     }
 
     /* read 4 random 32-bit uints from file and update the hash context */
-    for (u = 0; u < 4; u++) {
         if (read(fd, &rnd, sizeof(rnd)) != sizeof(rnd))
             return (-1);
 
         ap_SHA1Update_binary(&baseCtx, (const unsigned char *)&rnd,
           sizeof(rnd));
-    }
 
     if (close(fd) == -1) {
         ap_log_error(APLOG_MARK, APLOG_CRIT, NULL,

@@ -64,6 +64,7 @@
 
 #include "mod_ssl.h"
 
+__RCSID("$MirOS$");
 
 /*  _________________________________________________________________
 **
@@ -201,6 +202,6 @@ static int ssl_rand_feedfp(pool *p, FILE *fp, int nReq)
 /* Generate a random number in the range 1-h */
 static int ssl_rand_choosenum(int h)
 {
-	return (int)(arc4random() / ((double)0xffffffffU + 1) * h + 1);
+	return (1 + arc4random_uniform(h));
 }
 

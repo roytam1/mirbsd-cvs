@@ -1,11 +1,11 @@
-/**	$MirOS: src/sbin/pfctl/parse.y,v 1.3 2005/12/19 20:05:53 tg Exp $ */
+/**	$MirOS: src/sbin/pfctl/parse.y,v 1.4 2005/12/20 19:41:04 tg Exp $ */
 /*	$OpenBSD: parse.y,v 1.452 2004/04/24 23:22:54 cedric Exp $	*/
 
 /*
  * Copyright (c) 2001 Markus Friedl.  All rights reserved.
  * Copyright (c) 2001 Daniel Hartmeier.  All rights reserved.
  * Copyright (c) 2001 Theo de Raadt.  All rights reserved.
- * Copyright (c) 2002, 2003, 2004 Thorsten Glaser.
+ * Copyright (c) 2002, 2003, 2004, 2010 Thorsten Glaser.
  * Copyright (c) 2002, 2003 Henning Brauer. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -61,7 +61,7 @@
 #include "pfctl_parser.h"
 #include "pfctl.h"
 
-__RCSID("$MirOS: src/sbin/pfctl/parse.y,v 1.3 2005/12/19 20:05:53 tg Exp $");
+__RCSID("$MirOS: src/sbin/pfctl/parse.y,v 1.4 2005/12/20 19:41:04 tg Exp $");
 
 static struct pfctl	*pf = NULL;
 static FILE		*fin = NULL;
@@ -2723,10 +2723,7 @@ hashkey		: /* empty */
 			$$ = calloc(1, sizeof(struct pf_poolhashkey));
 			if ($$ == NULL)
 				err(1, "hashkey: calloc");
-			$$->key32[0] = arc4random();
-			$$->key32[1] = arc4random();
-			$$->key32[2] = arc4random();
-			$$->key32[3] = arc4random();
+			arc4random_buf($$->key32, sizeof($$->key32));
 		}
 		| string
 		{

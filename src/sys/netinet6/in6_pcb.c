@@ -347,7 +347,7 @@ in6_pcbsetport(laddr, inp, p)
 		 */
 		count = first - last;
 		if (count)
-			*lastport = first - (arc4random() % count);
+			*lastport = first - arc4random_uniform(count);
 
 		do {
 			if (count-- < 0)	/* completely used? */
@@ -365,7 +365,7 @@ in6_pcbsetport(laddr, inp, p)
 		 */
 		count = last - first;
 		if (count)
-			*lastport = first + (arc4random() % count);
+			*lastport = first + arc4random_uniform(count);
 
 		do {
 			if (count-- < 0)	/* completely used? */

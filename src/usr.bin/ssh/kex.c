@@ -46,7 +46,7 @@
 #include "dispatch.h"
 #include "monitor.h"
 
-__RCSID("$MirOS: src/usr.bin/ssh/kex.c,v 1.8 2008/12/16 22:13:28 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/kex.c,v 1.9 2009/10/04 14:29:03 tg Exp $");
 
 extern const EVP_MD *evp_ssh_sha256(void);
 
@@ -155,9 +155,7 @@ kex_finish(Kex *kex)
 void
 kex_send_kexinit(Kex *kex)
 {
-	u_int32_t rnd = 0;
 	u_char *cookie;
-	u_int i;
 
 	if (kex == NULL) {
 		error("kex_send_kexinit: no kex, cannot rekey");
@@ -173,12 +171,7 @@ kex_send_kexinit(Kex *kex)
 	if (buffer_len(&kex->my) < KEX_COOKIE_LEN)
 		fatal("kex_send_kexinit: kex proposal too short");
 	cookie = buffer_ptr(&kex->my);
-	for (i = 0; i < KEX_COOKIE_LEN; i++) {
-		if (i % 4 == 0)
-			rnd = arc4random();
-		cookie[i] = rnd;
-		rnd >>= 8;
-	}
+	arc4random_buf(cookie, KEX_COOKIE_LEN);
 	packet_start(SSH2_MSG_KEXINIT);
 	packet_put_raw(buffer_ptr(&kex->my), buffer_len(&kex->my));
 	packet_send();

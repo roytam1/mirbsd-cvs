@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/net/pf.c,v 1.8 2005/12/20 19:41:31 tg Exp $ */
+/**	$MirOS: src/sys/net/pf.c,v 1.9 2009/04/12 12:00:05 tg Exp $ */
 /*	$OpenBSD: pf.c,v 1.433.2.8 2005/02/19 22:47:44 brad Exp $ */
 
 /*
@@ -1804,29 +1804,29 @@ pf_map_addr(sa_family_t af, struct pf_rule *r, struct pf_addr *saddr,
 			switch (af) {
 #ifdef INET
 			case AF_INET:
-				rpool->counter.addr32[0] = htonl(arc4random());
+				rpool->counter.addr32[0] = arc4random();
 				break;
 #endif /* INET */
 #ifdef INET6
 			case AF_INET6:
 				if (rmask->addr32[3] != 0xffffffff)
 					rpool->counter.addr32[3] =
-					    htonl(arc4random());
+					    arc4random();
 				else
 					break;
 				if (rmask->addr32[2] != 0xffffffff)
 					rpool->counter.addr32[2] =
-					    htonl(arc4random());
+					    arc4random();
 				else
 					break;
 				if (rmask->addr32[1] != 0xffffffff)
 					rpool->counter.addr32[1] =
-					    htonl(arc4random());
+					    arc4random();
 				else
 					break;
 				if (rmask->addr32[0] != 0xffffffff)
 					rpool->counter.addr32[0] =
-					    htonl(arc4random());
+					    arc4random();
 				break;
 #endif /* INET6 */
 			}
@@ -1938,7 +1938,7 @@ pf_get_sport(sa_family_t af, u_int8_t proto, struct pf_rule *r,
 				high = tmp;
 			}
 			/* low < high */
-			cut = htonl(arc4random()) % (1 + high - low) + low;
+			cut = arc4random_uniform((1 + high - low) + low);
 			/* low <= cut <= high */
 			for (tmp = cut; tmp <= high; ++(tmp)) {
 				key.gwy.port = htons(tmp);
@@ -2613,7 +2613,7 @@ cleanup:
 		if ((th->th_flags & (TH_SYN|TH_ACK)) == TH_SYN &&
 		    r->keep_state == PF_STATE_MODULATE) {
 			/* Generate sequence number modulator */
-			while ((s->src.seqdiff = htonl(arc4random())) == 0)
+			while ((s->src.seqdiff = arc4random()) == 0)
 				;
 			pf_change_a(&th->th_seq, &th->th_sum,
 			    htonl(s->src.seqlo + s->src.seqdiff), 0);
@@ -2691,7 +2691,7 @@ cleanup:
 					    bport, 0, af);
 				}
 			}
-			s->src.seqhi = htonl(arc4random());
+			s->src.seqhi = arc4random();
 			/* Find mss option */
 			mss = pf_get_mss(m, off, th->th_off, af);
 			mss = pf_calc_mss(saddr, af, mss);
@@ -3662,7 +3662,7 @@ pf_test_state_tcp(struct pf_state **state, int direction, struct pfi_kif *kif,
 				return (PF_DROP);
 			(*state)->src.max_win = MAX(ntohs(th->th_win), 1);
 			if ((*state)->dst.seqhi == 1)
-				(*state)->dst.seqhi = htonl(arc4random());
+				(*state)->dst.seqhi = arc4random();
 			pf_send_tcp((*state)->rule.ptr, pd->af, &src->addr,
 			    &dst->addr, src->port, dst->port,
 			    (*state)->dst.seqhi, 0, TH_SYN, 0,
@@ -3726,7 +3726,7 @@ pf_test_state_tcp(struct pf_state **state, int direction, struct pfi_kif *kif,
 
 		/* Deferred generation of sequence number modulator */
 		if (dst->seqdiff && !src->seqdiff) {
-			while ((src->seqdiff = htonl(arc4random())) == 0)
+			while ((src->seqdiff = arc4random()) == 0)
 				;
 			ack = ntohl(th->th_ack) - dst->seqdiff;
 			pf_change_a(&th->th_seq, &th->th_sum, htonl(seq +

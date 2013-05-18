@@ -35,7 +35,7 @@
 
 #ifdef _KERNEL
 
-#define MLD_RANDOM_DELAY(X)	(arc4random() % (X) + 1)
+#define MLD_RANDOM_DELAY(X)	(arc4random_uniform(X) + 1)
 
 /*
  * States for MLD stop-listening processing

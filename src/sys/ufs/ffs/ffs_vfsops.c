@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/ufs/ffs/ffs_vfsops.c,v 1.12 2010/09/12 18:20:06 tg Exp $ */
+/**	$MirOS: src/sys/ufs/ffs/ffs_vfsops.c,v 1.13 2010/09/21 17:42:56 tg Exp $ */
 /*	$OpenBSD: ffs_vfsops.c,v 1.70 2005/07/03 20:14:02 drahn Exp $	*/
 /*	$NetBSD: ffs_vfsops.c,v 1.19 1996/02/09 22:22:26 christos Exp $	*/
 
@@ -442,9 +442,9 @@ success:
 			else
 				fs->fs_flags &= ~FS_DOSOFTDEP;
 		}
-		/* Add entropy, in case it's remount r/o */
-		fs->fs_firstfield = arc4random();
-		fs->fs_unused_1 = arc4random();
+		/* add entropy, in case it's remount r/o */
+		arc4random_buf(fs->fs_historic_start,
+		    sizeof(fs->fs_historic_start));
 		ffs_sbupdate(ump, MNT_WAIT);
 	}
 	return (0);
@@ -676,11 +676,9 @@ ffs_mountfs(devvp, mp, p)
 	 * MirOS ffs specific: add true (first two) and pseudo (last)
 	 * randomness from superblock
 	 */
-	rnd_lopool_addv(fs->fs_firstfield);
-	rnd_lopool_addv(fs->fs_unused_1);
+	rnd_lopool_add(fs->fs_historic_start, sizeof(fs->fs_historic_start));
 	rnd_lopool_addh(fs, SBSIZE);
-	fs->fs_firstfield = arc4random();
-	fs->fs_unused_1 = arc4random();
+	arc4random_buf(fs->fs_historic_start, sizeof(fs->fs_historic_start));
 
 	if (fs->fs_magic != FS_UFS1_MAGIC || (u_int)fs->fs_bsize > MAXBSIZE ||
 	    fs->fs_bsize < sizeof(struct fs) ||
@@ -907,8 +905,7 @@ ffs_unmount(mp, mntflags, p)
 	fs = ump->um_fs;
 
 	/* MirOS specific: write random data into superblock (entropy seed) */
-	fs->fs_firstfield = arc4random();
-	fs->fs_unused_1 = arc4random();
+	arc4random_buf(fs->fs_historic_start, sizeof(fs->fs_historic_start));
 
 	if (mp->mnt_flag & MNT_SOFTDEP)
 		error = softdep_flushfiles(mp, flags, p);

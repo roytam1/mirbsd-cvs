@@ -1,4 +1,4 @@
-/**	$MirOS: src/libexec/ftpd/ftpd.c,v 1.6 2005/11/23 16:03:58 tg Exp $ */
+/**	$MirOS: src/libexec/ftpd/ftpd.c,v 1.7 2008/10/19 12:11:13 tg Exp $ */
 /*	$OpenBSD: ftpd.c,v 1.184 2008/09/12 16:12:08 moritz Exp $	*/
 /*	$NetBSD: ftpd.c,v 1.15 1995/06/03 22:46:47 mycroft Exp $	*/
 
@@ -60,12 +60,6 @@
  * SUCH DAMAGE.
  */
 
-#ifndef lint
-static const char copyright[] =
-"@(#) Copyright (c) 1985, 1988, 1990, 1992, 1993, 1994\n\
-	The Regents of the University of California.  All rights reserved.\n";
-#endif /* not lint */
-
 /*
  * FTP server.
  */
@@ -117,8 +111,10 @@ static const char copyright[] =
 #include "extern.h"
 #include "monitor.h"
 
+__COPYRIGHT("@(#) Copyright (c) 1985, 1988, 1990, 1992, 1993, 1994\n\
+	The Regents of the University of California.  All rights reserved.\n");
 __SCCSID("@(#)ftpd.c	8.4 (Berkeley) 4/16/94");
-__RCSID("$MirOS: src/libexec/ftpd/ftpd.c,v 1.6 2005/11/23 16:03:58 tg Exp $");
+__RCSID("$MirOS: src/libexec/ftpd/ftpd.c,v 1.7 2008/10/19 12:11:13 tg Exp $");
 
 static char version[] = "Version 6.6/MirOS";
 
@@ -906,7 +902,7 @@ pass(char *passwd)
 			useconds_t us;
 
 			/* Sleep between 1 and 3 seconds to emulate a crypt. */
-			us = arc4random() % 3000000;
+			us = arc4random_uniform(3000000);
 			usleep(us);
 			if (as != NULL) {
 				auth_close(as);

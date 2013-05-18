@@ -54,7 +54,7 @@
 #include "hostfile.h"
 #include "log.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.bin/ssh/hostfile.c,v 1.4 2006/09/20 21:40:58 tg Exp $");
 
 static int
 extract_salt(const char *s, u_int l, char *salt, size_t salt_len)
@@ -110,14 +110,13 @@ host_hash(const char *host, const char *name_from_hostfile, u_int src_len)
 	HMAC_CTX mac_ctx;
 	char salt[256], result[256], uu_salt[512], uu_result[512];
 	static char encoded[1024];
-	u_int i, len;
+	u_int len;
 
 	len = EVP_MD_size(md);
 
 	if (name_from_hostfile == NULL) {
 		/* Create new salt */
-		for (i = 0; i < len; i++)
-			salt[i] = arc4random();
+		arc4random_buf(salt, len);
 	} else {
 		/* Extract salt from known host entry */
 		if (extract_salt(name_from_hostfile, src_len, salt,

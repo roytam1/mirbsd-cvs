@@ -45,7 +45,7 @@
 #include "hostfile.h"
 #include "auth.h"
 
-__RCSID("$MirOS: src/usr.bin/ssh/sshconnect1.c,v 1.8 2006/09/20 21:41:07 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/sshconnect1.c,v 1.9 2006/11/09 02:42:07 tg Exp $");
 
 /* Session id for the current session. */
 u_char session_id[16];
@@ -487,7 +487,6 @@ ssh_kex(char *host, struct sockaddr *hostaddr)
 	u_char cookie[8];
 	u_int supported_ciphers;
 	u_int server_flags, client_flags;
-	u_int32_t rnd = 0;
 
 	debug("Waiting for server public key.");
 
@@ -549,12 +548,7 @@ ssh_kex(char *host, struct sockaddr *hostaddr)
 	 * random number, interpreted as a 32-byte key, with the least
 	 * significant 8 bits being the first byte of the key.
 	 */
-	for (i = 0; i < 32; i++) {
-		if (i % 4 == 0)
-			rnd = arc4random();
-		session_key[i] = rnd & 0xff;
-		rnd >>= 8;
-	}
+	arc4random_buf(session_key, sizeof(session_key));
 
 	/*
 	 * According to the protocol spec, the first byte of the session key

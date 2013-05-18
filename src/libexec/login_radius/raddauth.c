@@ -87,6 +87,7 @@
 #include <md5.h>
 #include "login_radius.h"
 
+__RCSID("$MirOS$");
 
 #define	MAXPWNETNAM		64	/* longest username */
 #define MAXSECRETLEN		128	/* maximum length of secret */
@@ -150,7 +151,6 @@ raddauth(char *username, char *class, char *style, char *challenge,
 	char vector[AUTH_VECTOR_LEN+1], _pwstate[1024], *p, *v;
 	int i;
 	login_cap_t *lc;
-	u_int32_t r;
 	struct servent *svp;
 	struct sockaddr_in sin;
 	struct sigaction sa;
@@ -241,11 +241,7 @@ raddauth(char *username, char *class, char *style, char *challenge,
 		userstyle = username;
 
 	/* generate random vector */
-	for (i = 0; i < AUTH_VECTOR_LEN;) {
-		r = arc4random();
-		memcpy(&vector[i], &r, sizeof(r));
-		i += sizeof(r);
-	}
+	arc4random_buf(vector, AUTH_VECTOR_LEN);
 	vector[AUTH_VECTOR_LEN] = '\0';
 
 	sigemptyset(&sa.sa_mask);

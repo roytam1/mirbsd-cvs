@@ -1,4 +1,4 @@
-/**	$MirOS: src/sbin/fdisk/cmd.c,v 1.5 2006/09/20 20:03:30 tg Exp $	*/
+/**	$MirOS: src/sbin/fdisk/cmd.c,v 1.6 2008/04/07 05:57:16 tg Exp $	*/
 /*	$OpenBSD: cmd.c,v 1.42 2006/07/27 04:06:13 ray Exp $	*/
 
 /*
@@ -42,7 +42,7 @@
 #include "part.h"
 #include "cmd.h"
 
-__RCSID("$MirOS: src/sbin/fdisk/cmd.c,v 1.5 2006/09/20 20:03:30 tg Exp $");
+__RCSID("$MirOS: src/sbin/fdisk/cmd.c,v 1.6 2008/04/07 05:57:16 tg Exp $");
 
 int
 Xreinit(cmd_t *cmd, disk_t *disk, mbr_t *mbr, mbr_t *tt, int offset)
@@ -381,7 +381,8 @@ Xupdate(cmd_t *cmd, disk_t *disk, mbr_t *mbr, mbr_t *tt, int offset)
 	    (tt->code[MBR_DISKSIG_OFF + 2] == 0x00) &&
 	    (tt->code[MBR_DISKSIG_OFF + 3] == 0x00)) {
 		disksig_r = true;
-		disksig_val = arc4random_pushk(mbr, sizeof (mbr_t));
+		arc4random_pushb_fast(mbr, sizeof(mbr_t));
+		disksig_val = arc4random();
 	}
 	/* Update code */
 	memcpy(mbr->code, tt->code, MBR_CODE_SIZE);

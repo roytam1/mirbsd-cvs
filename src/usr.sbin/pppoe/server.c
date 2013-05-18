@@ -145,12 +145,7 @@ server_mode(int bpffd, u_int8_t *sysname, u_int8_t *srvname,
 void
 key_gen(void)
 {
-	u_int32_t r;
-
-	r = arc4random();
-	memcpy(ac_cookie_key, &r, sizeof(r));
-	r = arc4random();
-	memcpy(ac_cookie_key + sizeof(r), &r, sizeof(r));
+	arc4random_buf(ac_cookie_key, sizeof(ac_cookie_key));
 }
 
 u_int8_t *

@@ -1,4 +1,4 @@
-/* $MirOS: src/bin/rm/rm.c,v 1.6 2008/03/30 20:05:47 tg Exp $ */
+/* $MirOS: src/bin/rm/rm.c,v 1.7 2009/01/17 11:27:05 tg Exp $ */
 /* $NetBSD: rm.c,v 1.46 2007/06/24 17:59:31 christos Exp $ */
 /* $OpenBSD: rm.c,v 1.18 2005/06/14 19:15:35 millert Exp $ */
 
@@ -36,7 +36,7 @@ __COPYRIGHT("@(#) Copyright (c) 1990, 1993, 1994\n\
 	The Regents of the University of California.  All rights reserved.\n");
 __SCCSID("@(#)rm.c	8.8 (Berkeley) 4/27/95");
 __RCSID("$NetBSD: rm.c,v 1.46 2007/06/24 17:59:31 christos Exp $");
-__RCSID("$MirOS: src/bin/rm/rm.c,v 1.6 2008/03/30 20:05:47 tg Exp $");
+__RCSID("$MirOS: src/bin/rm/rm.c,v 1.7 2009/01/17 11:27:05 tg Exp $");
 
 #include <sys/param.h>
 #include <sys/stat.h>
@@ -148,13 +148,13 @@ main(int argc, char *argv[])
 	/* for fun: push back hash of original pathname */	\
 	while (dcount--)					\
 		dhash += (fn)[dcount] * dcount;			\
-	arc4random_pushb(&dhash, sizeof (dhash));		\
+	arc4random_pushb_fast(&dhash, sizeof(dhash));		\
 								\
 	/* try to rename entry randomly before removal */	\
 	do {							\
 		if ((size_t)snprintf(dname, sizeof (dname),	\
 		    "%s/rm.%08X", dirname(fn),			\
-		    arc4random()) >= (sizeof (dname) + 5)) {	\
+		    arc4random()) >= (sizeof(dname) + 5)) {	\
 			/* resulting path would be too long */	\
 			memcpy(dname, (fn), strlen(fn) + 1);	\
 			break;					\
@@ -433,12 +433,9 @@ rm_overwrite(char *file, struct stat *sbp)
 	if (mode == THIS_BYTE)						\
 		memset(buf, byte, bufsz);				\
 	for (len = sbp->st_size; len > 0; len -= wlen) {		\
-		if (mode == RAND_BYTES) {				\
-			i = 0;						\
-			while (i < (bufsz / sizeof (u_int32_t)))	\
-				qbuf[i++] = arc4random();		\
-		}							\
 		wlen = MIN(len, bufsz);					\
+		if (mode == RAND_BYTES)					\
+			arc4random_buf(buf, wlen);			\
 		if ((size_t)write(fd, buf, wlen) != wlen)		\
 			goto err;					\
 	}								\

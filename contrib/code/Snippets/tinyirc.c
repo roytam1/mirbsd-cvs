@@ -23,24 +23,15 @@
 #else
 #define RELEASE_OS	"unknown OS"
 #endif
-#if defined(__CYGWIN__) || defined(WIN32)
-#define RELEASE_PAPI	"Win32"
-#elif defined(__MirBSD__)
-#define RELEASE_PAPI	"pushb"
-#elif defined(arc4random_pushk)
-#define RELEASE_PAPI	"pushk"
-#else
-#define RELEASE_PAPI	"none"
-#endif
 
-#define RELEASE_VER	"TinyIRC 20091227"
+#define RELEASE_VER	"TinyIRC 20100921"
 #define RELEASE_L	RELEASE_VER " (" RELEASE_OS ") MirOS-contrib"
 #define RELEASE_S	RELEASE_VER " MirOS"
 
 /*-
    TinyIRC - MirOS Fork
    Copyright (C) 1994 Nathan I. Laredo <laredo@gnu.org>
-   Copyright (c) 1999-2009 Thorsten Glaser <tg@mirbsd.org>
+   Copyright (c) 1999-2010 Thorsten Glaser <tg@mirbsd.org>
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License Version 1
@@ -95,7 +86,7 @@
 #define	__RCSID(x)	static const char __rcsid[] __attribute__((used)) = (x)
 #endif
 
-__RCSID("$MirOS: contrib/code/Snippets/tinyirc.c,v 1.37 2009/11/29 15:21:20 tg Exp $");
+__RCSID("$MirOS: contrib/code/Snippets/tinyirc.c,v 1.38 2009/12/27 22:25:58 tg Exp $");
 
 #ifndef __dead
 #define __dead
@@ -104,13 +95,20 @@ __RCSID("$MirOS: contrib/code/Snippets/tinyirc.c,v 1.37 2009/11/29 15:21:20 tg E
 #if defined(__CYGWIN__) || defined(WIN32)
 u_int32_t arc4random(void);
 uint32_t arc4random_pushb(const void *, size_t);
-#elif !defined(__MirBSD__)
-#ifdef arc4random_pushk
-#define arc4random_pushb arc4random_pushk
+#define RELEASE_PAPI	"Win32"
+#define dopush		arc4random_pushb
+#elif defined(arc4random_pushb_fast)
+#define RELEASE_PAPI	"pfast"
+#define dopush		arc4random_pushb_fast
+#elif defined(__MirBSD__)
+#define RELEASE_PAPI	"pushb"
+#define dopush		arc4random_pushb
+#elif defined(arc4random_pushk)
+#define RELEASE_PAPI	"pushk"
+#define dopush		arc4random_pushk
 #else
-#define arc4random_pushb(buf, len) arc4random_addrandom((u_char *)(buf), \
-	    (int)(len))
-#endif
+#define RELEASE_PAPI	"none"
+#define dopush(buf,n)	arc4random_addrandom((u_char *)(buf), (int)(n))
 #endif
 
 struct dlist {
@@ -220,7 +218,7 @@ void arc4hashpush_(const uint8_t *buf)
 	h += h << 15;
 
 	pv = h;
-	arc4random_pushb(&pv, sizeof(pv));
+	dopush(&pv, sizeof(pv));
 }
 
 int my_stricmp(const char *str1, const char *str2)
@@ -441,7 +439,7 @@ static int doprivmsg(void)
 	ctcp[i++ - 1] = 0;
 	tok_in[3][strlen(tok_in[3]) - 1] = 0;
 	if (!strcmp(ctcp, "ENTROPY")) {
-		arc4random_pushb(serverdata, sizeof(serverdata));
+		dopush(serverdata, sizeof(serverdata));
 		snprintf(bp, sizeof(bp),
 		    "%s initiated the RANDEX protocol with %s",
 		    tok_in[0], *tok_in[2] == '#' ? tok_in[2] : "you");
@@ -459,7 +457,7 @@ static int doprivmsg(void)
 		strlcat(lineout, "\001\n", LINELEN);
 		sendline();
 	} else if (!strcmp(ctcp, "RANDOM")) {
-		arc4random_pushb(serverdata, sizeof(serverdata));
+		dopush(serverdata, sizeof(serverdata));
 		snprintf(bp, sizeof(bp),
 		    "%s queried RANDEX protocol information from %s",
 		    tok_in[0], *tok_in[2] == '#' ? tok_in[2] : "you");

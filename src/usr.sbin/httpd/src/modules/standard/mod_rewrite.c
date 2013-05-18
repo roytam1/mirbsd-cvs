@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.sbin/httpd/src/modules/standard/mod_rewrite.c,v 1.7 2006/09/20 23:45:10 tg Exp $ */
+/**	$MirOS: src/usr.sbin/httpd/src/modules/standard/mod_rewrite.c,v 1.8 2007/07/03 06:36:32 tg Exp $ */
 /*	$OpenBSD: mod_rewrite.c,v 1.25 2006/07/28 13:52:30 henning Exp $ */
 
 /* ====================================================================
@@ -100,7 +100,7 @@
 #include <sys/types.h>
 #include <sys/uio.h>
 
-__RCSID("$MirOS: src/usr.sbin/httpd/src/modules/standard/mod_rewrite.c,v 1.7 2006/09/20 23:45:10 tg Exp $");
+__RCSID("$MirOS: src/usr.sbin/httpd/src/modules/standard/mod_rewrite.c,v 1.8 2007/07/03 06:36:32 tg Exp $");
 
 /*
 ** +-------------------------------------------------------+
@@ -3173,13 +3173,7 @@ static char *rewrite_mapfunc_unescape(request_rec *r, char *key)
 
 static int rewrite_rand(int l, int h)
 {
-    /* Get [0,1) and then scale to the appropriate range. Note that using
-     * a floating point value ensures that we use all bits of the arc4random()
-     * result. Doing an integer modulus would yield a non-uniformly distibuted
-     * result, because MAX_UINT may not be divisble by the size of the
-     * interval.
-     */
-    return (int)(arc4random() / ((double)0xffffffffU + 1) * (h - l + 1) + l);
+    return (l + arc4random_uniform(h - l + 1));
 }
 
 static char *select_random_value_part(request_rec *r, char *value)

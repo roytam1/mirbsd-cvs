@@ -110,6 +110,7 @@
  */
 
 #include <stdio.h>
+#include <string.h>
 #include "ssl_locl.h"
 #include <openssl/comp.h>
 #include <openssl/evp.h>
@@ -120,7 +121,7 @@
 #include <openssl/rand.h>
 #endif
 
-__RCSID("$MirOS: src/lib/libssl/src/ssl/t1_enc.c,v 1.5 2007/09/28 12:41:54 tg Exp $");
+__RCSID("$MirOS: src/lib/libssl/src/ssl/t1_enc.c,v 1.6 2008/05/22 22:00:41 tg Exp $");
 
 static void tls1_P_hash(const EVP_MD *md, const unsigned char *sec,
 			int sec_len, unsigned char *seed, int seed_len,
@@ -676,7 +677,6 @@ int tls1_final_finish_mac(SSL *s, EVP_MD_CTX *in1_ctx, EVP_MD_CTX *in2_ctx,
 	unsigned char buf[TLS_MD_MAX_CONST_SIZE+MD5_DIGEST_LENGTH+SHA_DIGEST_LENGTH];
 #ifndef OPENSSL_NO_ARC4PUSH
 	unsigned char *q,buf2[12+16],buf3[12+16];
-	uint32_t buf4;
 #else
 	unsigned char *q,buf2[12];
 #endif
@@ -696,10 +696,12 @@ int tls1_final_finish_mac(SSL *s, EVP_MD_CTX *in1_ctx, EVP_MD_CTX *in2_ctx,
 #ifndef OPENSSL_NO_ARC4PUSH
 	tls1_PRF(s->ctx->md5,s->ctx->sha1,buf,(int)(q-buf),
 		s->session->master_key,s->session->master_key_length,
-		buf3,buf2,sizeof buf2);
+		buf3,buf2,sizeof(buf2));
 	memcpy(out,buf3,12);
-	buf4 = arc4random_pushb(buf3 + 12, 16);
-	RAND_add((u_char *)&buf4, 4, 3.9);
+	arc4random_pushb_fast(buf3 + 12, 16);
+	arc4random_buf(buf3 + 12, 16);
+	RAND_add(buf3 + 12, 16, 15.5);
+	bzero(buf3, sizeof(buf3));
 #else
 	tls1_PRF(s->ctx->md5,s->ctx->sha1,buf,(int)(q-buf),
 		s->session->master_key,s->session->master_key_length,

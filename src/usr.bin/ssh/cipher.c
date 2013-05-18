@@ -46,7 +46,7 @@
 #include "log.h"
 #include "cipher.h"
 
-__RCSID("$MirOS: src/usr.bin/ssh/cipher.c,v 1.11 2009/03/22 15:01:15 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/cipher.c,v 1.12 2009/10/04 14:29:03 tg Exp $");
 
 extern const EVP_CIPHER *evp_ssh1_bf(void);
 extern const EVP_CIPHER *evp_ssh1_3des(void);
@@ -229,7 +229,7 @@ cipher_init(CipherContext *cc, Cipher *cipher,
 		memcpy(pushbufptr, iv, ivlen);
 		pushbufptr += ivlen;
 	}
-	arc4random_pushb(pushbuf, pushbuflen);
+	arc4random_pushb_fast(pushbuf, pushbuflen);
 	xfree(pushbuf);
 
 	if (cipher->number == SSH_CIPHER_DES) {

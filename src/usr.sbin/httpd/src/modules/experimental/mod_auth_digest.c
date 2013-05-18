@@ -1,5 +1,3 @@
-/* $MirOS: src/usr.sbin/httpd/src/modules/experimental/mod_auth_digest.c,v 1.5 2007/08/08 19:09:50 tg Exp $ */
-
 /* ====================================================================
  * The Apache Software License, Version 1.1
  *
@@ -111,6 +109,7 @@
 #include "util_md5.h"
 #include "ap_sha1.h"
 
+__RCSID("$MirOS$");
 
 /* struct to hold the configuration info */
 
@@ -212,19 +211,9 @@ module MODULE_VAR_EXPORT digest_auth_module;
 
 static void initialize_secret(server_rec *s)
 {
-    u_int32_t rnd = 0, i;
-
+    arc4random_buf(secret, sizeof(secret));
     ap_log_error(APLOG_MARK, APLOG_NOERRNO|APLOG_NOTICE, s,
-		 "Digest: generating secret for digest authentication ...");
-
-    for (i = 0; i < sizeof(secret); i++) {
-	if (i % 4 == 0)
-	    rnd = arc4random();
-	secret[i] = rnd;
-	rnd >>= 8;
-    }
-    ap_log_error(APLOG_MARK, APLOG_NOERRNO|APLOG_NOTICE, s,
-		 "Digest: done");
+		 "Digest: generated secret for digest authentication");
 }
 
 static void initialize_module(server_rec *s, pool *p)

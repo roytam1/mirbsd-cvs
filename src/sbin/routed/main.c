@@ -29,15 +29,6 @@
  * SUCH DAMAGE.
  */
 
-char copyright[] =
-"@(#) Copyright (c) 1983, 1988, 1993\n\
-	The Regents of the University of California.  All rights reserved.\n";
-#if !defined(lint)
-static char sccsid[] = "@(#)main.c	8.1 (Berkeley) 6/5/93";
-#else
-static char rcsid[] = "$OpenBSD: main.c,v 1.19 2005/03/23 18:06:07 jmc Exp $";
-#endif
-
 #include "defs.h"
 #include "pathnames.h"
 #ifdef sgi
@@ -47,6 +38,11 @@ static char rcsid[] = "$OpenBSD: main.c,v 1.19 2005/03/23 18:06:07 jmc Exp $";
 #include <fcntl.h>
 #include <err.h>
 #include <signal.h>
+
+__COPYRIGHT("@(#) Copyright (c) 1983, 1988, 1993\n\
+	The Regents of the University of California.  All rights reserved.\n");
+__SCCSID("@(#)main.c	8.1 (Berkeley) 6/5/93");
+__RCSID("$MirOS$");
 
 pid_t	mypid;
 
@@ -766,8 +762,8 @@ intvl_random(struct timeval *tp,	/* put value here */
 {
 	tp->tv_sec = (time_t)(hi == lo
 			      ? lo
-			      : (lo + arc4random() % ((1 + hi - lo))));
-	tp->tv_usec = arc4random() % 1000000;
+			      : (lo + arc4random_uniform(1 + hi - lo)));
+	tp->tv_usec = arc4random_uniform(1000000);
 }
 
 

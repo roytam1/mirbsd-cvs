@@ -1,4 +1,4 @@
-/**	$MirOS: src/sbin/ping6/ping6.c,v 1.2 2005/03/06 19:50:32 tg Exp $	*/
+/**	$MirOS: src/sbin/ping6/ping6.c,v 1.3 2005/11/23 16:44:03 tg Exp $	*/
 /*	$OpenBSD: ping6.c,v 1.59 2004/09/14 22:12:27 deraadt Exp $	*/
 /*	$KAME: ping6.c,v 1.163 2002/10/25 02:19:06 itojun Exp $	*/
 
@@ -72,7 +72,7 @@ static char copyright[] =
 "@(#) Copyright (c) 1989, 1993\n\
 	The Regents of the University of California.  All rights reserved.\n";
 static char sccsid[] = "@(#)ping.c	8.1 (Berkeley) 6/5/93";
-__RCSID("$MirOS: src/sbin/ping6/ping6.c,v 1.2 2005/03/06 19:50:32 tg Exp $");
+__RCSID("$MirOS: src/sbin/ping6/ping6.c,v 1.3 2005/11/23 16:44:03 tg Exp $");
 #endif /* not lint */
 
 /*
@@ -714,9 +714,7 @@ main(int argc, char *argv[])
 			*datap++ = i;
 
 	ident = getpid() & 0xFFFF;
-	memset(nonce, 0, sizeof(nonce));
-	for (i = 0; i < sizeof(nonce); i += sizeof(u_int32_t))
-		*((u_int32_t *)&nonce[i]) = arc4random();
+	arc4random_buf(nonce, sizeof(nonce));
 
 	hold = 1;
 

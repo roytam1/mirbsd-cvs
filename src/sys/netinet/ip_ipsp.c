@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/netinet/ip_ipsp.c,v 1.2 2005/03/06 21:28:19 tg Exp $ */
+/**	$MirOS: src/sys/netinet/ip_ipsp.c,v 1.3 2005/12/19 22:22:12 tg Exp $ */
 /*	$OpenBSD: ip_ipsp.c,v 1.164 2005/11/24 12:08:16 pedro Exp $	*/
 /*
  * The authors of this code are John Ioannidis (ji@tla.org),
@@ -225,7 +225,7 @@ reserve_spi(u_int32_t sspi, u_int32_t tspi, union sockaddr_union *src,
 		if (sspi == tspi)  /* Specific SPI asked. */
 			spi = tspi;
 		else    /* Range specified */
-			spi = sspi + (arc4random() % (tspi - sspi));
+			spi = sspi + arc4random_uniform(tspi - sspi);
 
 		/* Don't allocate reserved SPIs.  */
 		if (spi >= SPI_RESERVED_MIN && spi <= SPI_RESERVED_MAX)

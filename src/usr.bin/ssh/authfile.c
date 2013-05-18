@@ -63,7 +63,7 @@
 #include "misc.h"
 #include "atomicio.h"
 
-__RCSID("$MirOS: src/usr.bin/ssh/authfile.c,v 1.6 2006/09/20 21:40:56 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/authfile.c,v 1.7 2008/12/16 22:13:27 tg Exp $");
 
 /* Version identification string for SSH v1 identity files. */
 static const char authfile_id_string[] =
@@ -85,7 +85,6 @@ key_save_private_rsa1(Key *key, const char *filename, const char *passphrase,
 	int fd, i, cipher_num;
 	CipherContext ciphercontext;
 	Cipher *cipher;
-	u_int32_t rnd;
 
 	/*
 	 * If the passphrase is empty, use SSH_CIPHER_NONE to ease converting
@@ -100,9 +99,7 @@ key_save_private_rsa1(Key *key, const char *filename, const char *passphrase,
 	buffer_init(&buffer);
 
 	/* Put checkbytes for checking passphrase validity. */
-	rnd = arc4random();
-	buf[0] = rnd & 0xff;
-	buf[1] = (rnd >> 8) & 0xff;
+	arc4random_buf(buf, 2);
 	buf[2] = buf[0];
 	buf[3] = buf[1];
 	buffer_append(&buffer, buf, 4);

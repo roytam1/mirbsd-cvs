@@ -56,7 +56,7 @@
 #include <pwd.h>
 #include <blf.h>
 
-__RCSID("$MirOS: src/lib/libc/crypt/bcrypt.c,v 1.3 2006/07/04 12:51:50 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/crypt/bcrypt.c,v 1.4 2010/01/07 22:34:49 tg Exp $");
 
 /* This implementation is adaptable to current computing power.
  * You can have up to 2^31 rounds which should be enough for some
@@ -151,21 +151,13 @@ char *
 bcrypt_gensalt(u_int8_t log_rounds)
 {
 	u_int8_t csalt[BCRYPT_MAXSALT];
-	u_int16_t i;
-	u_int32_t seed = 0;
-
-	for (i = 0; i < BCRYPT_MAXSALT; i++) {
-		if (i % 4 == 0)
-			seed = arc4random();
-		csalt[i] = seed & 0xff;
-		seed = seed >> 8;
-	}
 
 	if (log_rounds < 4)
 		log_rounds = 4;
 	else if (log_rounds > 31)
 		log_rounds = 31;
 
+	arc4random_buf(csalt, sizeof(csalt));
 	encode_salt(gsalt, csalt, BCRYPT_MAXSALT, log_rounds);
 	return gsalt;
 }

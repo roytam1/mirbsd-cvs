@@ -50,7 +50,7 @@
 #include "thread_private.h"
 
 __IDSTRING(malloc_type, "@(#) brk malloc 1.71 (OpenBSD)");
-__RCSID("$MirOS: src/lib/libc/stdlib/malloc_brk.c,v 1.1 2006/03/30 18:36:02 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/stdlib/malloc_brk.c,v 1.2 2006/10/03 19:51:10 tg Exp $");
 
 /*
  * The basic parameters you can tweak.
@@ -793,7 +793,7 @@ malloc_bytes(size_t size)
     
     if (malloc_guard) {
 	/* Walk to a random position. */
-	i = arc4random() % bp->free;
+	i = arc4random_uniform(bp->free);
 	while (i > 0) {
 	    u += u;
 	    k++;

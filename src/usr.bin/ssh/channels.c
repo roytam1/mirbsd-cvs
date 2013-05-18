@@ -74,7 +74,7 @@
 #include "authfd.h"
 #include "pathnames.h"
 
-__RCSID("$MirOS: src/usr.bin/ssh/channels.c,v 1.14 2009/10/04 14:29:02 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/channels.c,v 1.15 2009/10/04 16:35:25 tg Exp $");
 
 /* -- channel core */
 
@@ -3335,7 +3335,6 @@ x11_request_forwarding_with_spoofing(int client_session_id, const char *disp,
 	char *new_data;
 	int screen_number;
 	const char *cp;
-	u_int32_t rnd = 0;
 
 	if (x11_saved_display == NULL)
 		x11_saved_display = xstrdup(disp);
@@ -3366,12 +3365,9 @@ x11_request_forwarding_with_spoofing(int client_session_id, const char *disp,
 			if (sscanf(data + 2 * i, "%2x", &value) != 1)
 				fatal("x11_request_forwarding: bad "
 				    "authentication data: %.100s", data);
-			if (i % 4 == 0)
-				rnd = arc4random();
 			x11_saved_data[i] = value;
-			x11_fake_data[i] = rnd & 0xff;
-			rnd >>= 8;
 		}
+		arc4random_buf(x11_fake_data, data_len);
 		x11_saved_data_len = data_len;
 		x11_fake_data_len = data_len;
 	}

@@ -35,7 +35,7 @@ THIS SOFTWARE.
 #include "awk.h"
 #include "awkgram.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.bin/awk/run.c,v 1.2 2007/04/28 00:12:47 tg Exp $");
 
 #define tempfree(x)	if (istemp(x)) tfree(x); else
 
@@ -1515,7 +1515,7 @@ Cell *bltin(Node **a, int n)	/* builtin functions. a[0] is type, a[1] is arg lis
 		break;
 	case FRAND:
 		if (use_arc4)
-			u = (Awkfloat) (arc4random() % RAND_MAX) / RAND_MAX;
+			u = (Awkfloat) arc4random_uniform(RAND_MAX) / RAND_MAX;
 		else
 			u = (Awkfloat) (random() % RAND_MAX) / RAND_MAX;
 		break;
