@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/usr.bin/oldroff/nrcon/nrcon,v 1.7 2007/01/22 15:56:38 tg Exp $
+# $MirOS: src/usr.bin/oldroff/nrcon/nrcon,v 1.8 2007/01/22 15:58:12 tg Exp $
 #-
 # Copyright (c) 2003, 2004, 2005, 2007
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -50,5 +50,5 @@ if [[ $1 = -8 || $1 = -e ]]; then
 	    /usr/bin/iconv -f latin1 -t utf-8 | \
 	    LC_ALL=utf-8 /usr/bin/col -x
 else
-	/usr/bin/nroff -B -Tcol "$@" | /usr/bin/col
+	/usr/bin/nroff -B -Tcol "$@" | LC_ALL=C /usr/bin/col
 fi
