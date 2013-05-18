@@ -148,6 +148,8 @@ void zx_setcolor(void *, u_int, u_int8_t, u_int8_t, u_int8_t);
 void zx_reset(struct zx_softc *, u_int);
 void zx_burner(void *, u_int, u_int);
 
+extern void rasops_unpack_attr(void *, long, int *, int *, int *);
+
 struct wsdisplay_accessops zx_accessops = {
 	zx_ioctl,
 	zx_mmap,
