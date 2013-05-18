@@ -1,8 +1,0 @@
-mws_setname subprojects/randex "The RANDEX Protocol"
-mws_setheadline "RANDEX – Entropy exchange via IRC/CTCP"
-mws_putheader '$MirOS$'
-mws_content <<'EOF'
-<p>Sorry, nothing here yet (dummy page).</p>
-EOF
-mws_putfooter
-exit 0
