@@ -27,6 +27,7 @@
  */
 /* $XFree86: xc/programs/Xserver/hw/xfree86/os-support/bsd/libusb/usb.h,v 1.1 2000/02/11 18:06:51 dawes Exp $ */
 
+#undef _DIAGASSERT
 #define _DIAGASSERT(e) assert(e)
 
 typedef struct report_desc *report_desc_t;

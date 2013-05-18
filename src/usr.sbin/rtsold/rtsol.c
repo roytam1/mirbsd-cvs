@@ -57,6 +57,8 @@
 #include <syslog.h>
 #include "rtsold.h"
 
+__RCSID("$MirOS$");
+
 #define ALLROUTER "ff02::2"
 
 static struct msghdr rcvmhdr;
@@ -267,7 +269,7 @@ rtsol_input(int s)
 
 	if (i < sizeof(struct nd_router_advert)) {
 		warnmsg(LOG_ERR, __func__,
-		    "packet size(%d) is too short", i);
+		    "packet size(%zd) is too short", i);
 		return;
 	}
 

@@ -44,8 +44,8 @@
 .Nm rasops_reconfig
 .Nd raster display operations
 .Sh SYNOPSIS
-.Fd #include \*[Lt]dev/wscons/wsdisplayvar.h\*[Gt]
-.Fd #include \*[Lt]dev/rasops/rasops.h\*[Gt]
+.Fd #include \*(Ltdev/wscons/wsdisplayvar.h\*(Gt
+.Fd #include \*(Ltdev/rasops/rasops.h\*(Gt
 .Ft int
 .Fn rasops_init "struct rasops_info *ri" "int wantrows" "int wantcols"
 .Ft int
@@ -111,7 +111,7 @@ struct rasops_info {
 	u_char  *ri_origbits;	/* where screen bits actually start */
 	int	ri_xorigin;	/* where ri_bits begins (x) */
 	int	ri_yorigin;	/* where ri_bits begins (y) */
-	int32_t	ri_devcmap[16]; /* color -\*[Gt] framebuffer data */
+	int32_t	ri_devcmap[16]; /* color -\*(Gt framebuffer data */
 
 	/*
 	 * The emulops you need to use, and the screen caps for wscons
@@ -175,7 +175,7 @@ and
 are the number of rows and columns we'd like.
 If calling
 .Fn rasops_reconfig
-to change the font and ri_wsfcookie \*[Ge] 0, you must call
+to change the font and ri_wsfcookie \*(Ge 0, you must call
 .Fn wsfont_unlock
 on it, and reset it to -1 (or a new, valid cookie).
 .El

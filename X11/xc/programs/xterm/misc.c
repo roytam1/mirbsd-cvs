@@ -958,7 +958,7 @@ timestamp_filename(char *dst, const char *src)
     tstruct = localtime(&tstamp);
     sprintf(dst, TIMESTAMP_FMT,
 	    src,
-	    tstruct->tm_year + 1900,
+	    (int)tstruct->tm_year + 1900,
 	    tstruct->tm_mon + 1,
 	    tstruct->tm_mday,
 	    tstruct->tm_hour,

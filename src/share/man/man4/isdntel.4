@@ -89,7 +89,7 @@ parameters are available:
 do no A-law/mu-law audio format conversion. The conversion path looks like
 this:
 .Pp
-USER \*[Lt]--\*[Gt] bitreversing \*[Lt]--\*[Gt] ISDN-line
+USER \*(Lt--\*(Gt bitreversing \*(Lt--\*(Gt ISDN-line
 .Pp
 .It Ar CVT_ALAW2ULAW
 set set audio format conversion to do an audio conversion from A-law
@@ -98,13 +98,13 @@ The
 .Xr read 2
 conversion path looks like this:
 .Pp
-USER \*[Lt]-- mu-law/A-law \*[Lt]-- bitreversing \*[Lt]-- ISDN-line
+USER \*(Lt-- mu-law/A-law \*(Lt-- bitreversing \*(Lt-- ISDN-line
 .Pp
 and the
 .Xr write 2
 conversion path looks like this:
 .Pp
-USER --\*[Gt] mu-law/A-law --\*[Gt] bitreversing --\*[Gt] ISDN-line
+USER --\*(Gt mu-law/A-law --\*(Gt bitreversing --\*(Gt ISDN-line
 .Pp
 .It Ar CVT_ULAW2ALAW
 set set audio format conversion to do an audio conversion from mu-law
@@ -113,13 +113,13 @@ The
 .Xr read 2
 conversion path looks like this:
 .Pp
-USER \*[Lt]-- A-law/mu-law \*[Lt]-- bitreversing \*[Lt]-- ISDN-line
+USER \*(Lt-- A-law/mu-law \*(Lt-- bitreversing \*(Lt-- ISDN-line
 .Pp
 and the
 .Xr write 2
 conversion path looks like this:
 .Pp
-USER --\*[Gt] A-law/mu-law --\*[Gt] bitreversing --\*[Gt] ISDN-line
+USER --\*(Gt A-law/mu-law --\*(Gt bitreversing --\*(Gt ISDN-line
 .Pp
 .El
 .Sh SEE ALSO

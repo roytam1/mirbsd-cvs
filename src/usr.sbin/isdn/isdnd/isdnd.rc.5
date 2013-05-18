@@ -705,7 +705,7 @@ The rate entry used from the rates file.
 .br
 For example, ratetype=0 selects lines beginning "ra0" in /etc/isdn/isdnd.rates;
 (typically ra0 lines are a set of tables for local call rates on different
-days of the week \*[Am] times per day).
+days of the week \*(Am times per day).
 .It Li recoverytime
 The time in seconds to wait between dial retries.
 (optional)
@@ -905,14 +905,14 @@ and
 .Em idletime-outgoing
 must be greater than 0 (zero);
 .Em earlyhangup
-must be \*[Ge] 0 (zero).
+must be \*(Ge 0 (zero).
 .Bd -literal
-|\*[Lt]unchecked-window\*[Gt]|\*[Lt]checkwindow\*[Gt]|\*[Lt]safetywindow\*[Gt]|
+|\*(Ltunchecked-window\*(Gt|\*(Ltcheckwindow\*(Gt|\*(Ltsafetywindow\*(Gt|
 |                  |             |              |
 +------------------+-------------+--------------+
 |                  |             |              |
-|                  |\*[Lt]-idle-time-\*[Gt]|\*[Lt]earlyhangup-\*[Gt]|
-|\*[Lt]--------------unitlength---------------------\*[Gt]|
+|                  |\*(Lt-idle-time-\*(Gt|\*(Ltearlyhangup-\*(Gt|
+|\*(Lt--------------unitlength---------------------\*(Gt|
 .Ed
 .Pp
 During the unchecked window which is (unitlength - (idle-time+earlyhangup))
@@ -961,10 +961,10 @@ period if there is no traffic for
 seconds the call is disconnected.
 .Pp
 .Bd -literal
-|\*[Lt]---unchecked------------------\*[Gt]|\*[Lt]------checked------\*[Gt]
+|\*(Lt---unchecked------------------\*(Gt|\*(Lt------checked------\*(Gt
 +------------------+-------------+
-|                  |\*[Lt]-idle-time-\*[Gt]|
-|\*[Lt]--------------unitlength-------\*[Gt]|
+|                  |\*(Lt-idle-time-\*(Gt|
+|\*(Lt--------------unitlength-------\*(Gt|
 .Ed
 .Pp
 Experience shows that useful values for idle-time are from 15 to 30 seconds.
