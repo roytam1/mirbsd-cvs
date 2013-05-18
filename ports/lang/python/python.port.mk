@@ -1,5 +1,7 @@
-# $MirOS: ports/lang/python/python.port.mk,v 1.3 2007/07/19 20:34:48 bsiegert Exp $
+# $MirOS: ports/lang/python/python.port.mk,v 1.4 2008/05/02 15:10:40 tg Exp $
 # $OpenBSD: python.port.mk,v 1.10 2004/08/06 07:33:19 xsa Exp $
+
+CATEGORIES+=		lang/python
 
 MODPY_VERSION?=		2.3
 MODPY_MINPKG?=		2.3.5-1
@@ -21,7 +23,7 @@ MODPY_INCDIR=		${LOCALBASE}/include/python${MODPY_VERSION}
 MODPY_LIBDIR=		${LOCALBASE}/lib/python${MODPY_VERSION}
 MODPY_SITEPKG=		${MODPY_LIBDIR}/site-packages
 
-SUBST_VARS+=		MODPY_VERSION
+SUBST_VARS:=		MODPY_EGG_VERSION MODPY_VERSION ${SUBST_VARS}
 
 MODPY_USE_DISTUTILS?=	Yes
 
