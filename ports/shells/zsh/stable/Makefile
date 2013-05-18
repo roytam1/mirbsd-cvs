@@ -17,9 +17,7 @@ MASTER_SITES_ZSH=	ftp://ftp.zsh.org/zsh/ \
 			ftp://ftp.uit.no/pub/unix/shells/zsh/
 MASTER_SITES+=		${MASTER_SITES_ZSH:=old/}
 MASTER_SITES+=		${MASTER_SITES_ZSH}
-
 HOMEPAGE=		http://www.zsh.org/
-
 
 PERMIT_PACKAGE_CDROM=	Yes
 PERMIT_PACKAGE_FTP=	Yes
@@ -36,6 +34,7 @@ FLAVOR?=
 .endif
 
 CONFIGURE_STYLE=	autoconf
+AUTOCONF_NEW=		Yes
 CONFIGURE_ARGS+=	--enable-zsh-mem \
 			--enable-zsh-secure-free \
 			--enable-maildir-support
