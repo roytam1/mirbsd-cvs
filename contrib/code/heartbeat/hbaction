@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: contrib/code/heartbeat/hbaction,v 1.2 2006/03/20 00:23:31 tg Exp $
+# $MirOS: contrib/code/heartbeat/hbaction,v 1.3 2006/03/20 02:05:06 tg Exp $
 #-
 # Copyright (c) 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -36,14 +36,8 @@ myinfo=
 function make_it
 {
 	# insert your desired action here, e.g. send a NOTIFY request
-	if [[ $myinfo = MirDNSv3* ]]; then
-		./make.sh all dist
-	else
-		print triggered make_it "<$myinfo>" \
-		    | /usr/bin/logger -t hbaction
-	fi
-	# end of action
-	myinfo=
+	# Attention: this should not take more than a second or so.
+	./make.sh all dist
 }
 
 function do_call
@@ -64,7 +58,8 @@ function triggerup
 	sleep 32 & wait %sleep
 	trap - USR1
 	mydown=
-	make_it &
+	make_it
+	myinfo=
 }
 
 function do_quit
