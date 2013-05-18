@@ -1,9 +1,10 @@
-# $MirOS: src/gnu/usr.sbin/sendmail/doc/op/Makefile,v 1.2 2005/03/13 15:11:44 tg Exp $
+# $MirOS: src/gnu/usr.sbin/sendmail/doc/op/Makefile,v 1.3 2008/05/07 13:15:17 tg Exp $
 # @(#)Makefile	8.2 (Berkeley) 2/28/1994
 
 DIR=	smm/08.sendmailop
 SRCS=	op.me
 MACROS=	-me
+EXTRA=	README
 
 paper.ps: ${SRCS}
 	${PIC} ${SRCS} | ${EQN} | ${ROFF} > ${.TARGET}

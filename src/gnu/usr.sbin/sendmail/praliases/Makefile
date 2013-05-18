@@ -1,8 +1,8 @@
-# $MirOS: src/gnu/usr.sbin/sendmail/praliases/Makefile,v 1.2 2005/03/13 15:11:50 tg Exp $
+# $MirOS: src/gnu/usr.sbin/sendmail/praliases/Makefile,v 1.3 2008/05/07 13:15:23 tg Exp $
 #	$OpenBSD: Makefile,v 1.4 2001/09/11 19:02:49 millert Exp $
 
 PROG=	praliases
-MAN=	praliases.1
+MAN=	praliases.8
 ENVDEF=	-DNOT_SENDMAIL
 BINDIR=	/usr/sbin
 
