@@ -1,4 +1,4 @@
-/**	$MirOS: src/lib/libc/gen/setmode.c,v 1.9 2007/10/25 15:13:39 tg Exp $ */
+/**	$MirOS: src/lib/libc/gen/setmode.c,v 1.10 2008/04/19 16:27:23 tg Exp $ */
 /*	$OpenBSD: setmode.c,v 1.17 2005/08/08 08:05:34 espie Exp $	*/
 /*	$NetBSD: setmode.c,v 1.15 1997/02/07 22:21:06 christos Exp $	*/
 
@@ -57,7 +57,7 @@
 #endif
 
 __SCCSID("@(#)setmode.c	8.2 (Berkeley) 3/25/94");
-__RCSID("$MirOS: src/lib/libc/gen/setmode.c,v 1.9 2007/10/25 15:13:39 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/gen/setmode.c,v 1.10 2008/04/19 16:27:23 tg Exp $");
 
 /* for mksh */
 #ifdef ksh_isdigit
@@ -73,9 +73,9 @@ __RCSID("$MirOS: src/lib/libc/gen/setmode.c,v 1.9 2007/10/25 15:13:39 tg Exp $")
 #define	SET_LEN_INCR	4	/* # of bitcmd structs to add as needed */
 
 typedef struct bitcmd {
+	mode_t	bits;
 	char	cmd;
 	char	cmd2;
-	mode_t	bits;
 } BITCMD;
 
 #define	CMD2_CLR	0x01
