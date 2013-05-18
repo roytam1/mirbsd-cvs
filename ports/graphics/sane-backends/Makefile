@@ -1,5 +1,7 @@
-# $MirOS: ports/graphics/sane-backends/Makefile,v 1.4 2007/04/07 14:38:38 bsiegert Exp $
+# $MirOS: ports/graphics/sane-backends/Makefile,v 1.5 2008/03/09 17:22:54 tg Exp $
 # Original from: Antoine Jacoutot <ajacoutot@lphp.org>
+
+BROKEN=		unfetchable distfile
 
 COMMENT=	API for accessing scanners, backends
 

@@ -1,6 +1,8 @@
 # $OpenBSD: Makefile,v 1.26 2004/01/20 13:50:53 todd Exp $
 # Uses pthreads
 
+BROKEN=			unfetchable distfile
+
 COMMENT=			Generic Graphics Library
 DISTNAME=	libggi-2.0.4
 CATEGORIES=	graphics

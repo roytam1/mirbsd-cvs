@@ -1,5 +1,7 @@
 # $OpenBSD: Makefile,v 1.4 2004/03/19 07:22:18 sturm Exp $
 
+BROKEN=			unfetchable distfile
+
 COMMENT=			Exif Jpeg camera setting parser and thumbnail remover
 
 DISTNAME=	jhead-2.1
