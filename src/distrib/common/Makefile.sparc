@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/Makefile.sparc,v 1.6 2007/08/12 21:17:58 tg Exp $
+# $MirOS: src/distrib/common/Makefile.sparc,v 1.7 2007/10/01 20:53:45 tg Exp $
 # $OpenBSD: Makefile.inc,v 1.14 2002/05/01 19:21:28 mickey Exp $
 
 #INSTALLBOOT?=	${DESTDIR}/usr/mdec/installboot
@@ -13,6 +13,7 @@ FLOPPY=		no
 cdrom-mdcopy:
 	cp ${BOOTXX} ${WRKDIR}/v${OSrev}/${MACHINE}/
 	ln ${WRKDIR}/v${OSrev}/${MACHINE}/bsd.rd ${WRKDIR}/vmunix # for kicks
+	ln ${WRKDIR}/v${OSrev}/${MACHINE}/bsd.rd ${WRKDIR}/bsd	# no comment…
 
 # XXX is this really necessary?
 cdrom-mdboot:
