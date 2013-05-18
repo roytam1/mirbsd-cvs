@@ -84,6 +84,7 @@ static const char __vcsid[] = "@(#) MirOS contributed arc4random.c (old)"
 static uint8_t w32_buf[16*16384];	/* force reseed */
 static uint8_t w32_hklm[80];		/* registry key (MS, Admin) */
 static uint8_t w32_hkcu[256];		/* registry key (per user) */
+static struct timeval w32_last;		/* last time CGR was used */
 
 static char w32_subkey[] = "SOFTWARE\\Microsoft\\Cryptography\\RNG";
 #endif
@@ -325,6 +326,7 @@ arc4_writeback(uint8_t *buf, size_t len, char do_rd)
 	DWORD ksz;
 	char rc = 6, has_rkey = 0, w32_a4b[16];
 	size_t i, j, xlen;
+	struct timeval tv;
 
 	for (i = 0; i < sizeof(w32_a4b); ++i)
 		w32_a4b[i] = arc4_getbyte();
@@ -360,6 +362,14 @@ arc4_writeback(uint8_t *buf, size_t len, char do_rd)
 			w32_hkcu[i % sizeof(w32_hkcu)] ^= w32_buf[i % ksz];
 	}
 
+	if (has_rkey && gettimeofday(&tv, NULL) == 0) {
+		/* we have registry key; rate-limit CryptGenRandom */
+		if (tv.tv_sec - w32_last.tv_sec < 128 + (arc4_getbyte() & 127))
+			goto nogen_out;
+		/* nope, more than 2-4 minutes, call it */
+		w32_last.tv_sec = tv.tv_sec;
+	}
+
 	if (!has_provider) {
 		if (!CryptAcquireContext(&p, NULL, NULL, PROV_RSA_FULL, 0)) {
 			if ((HRESULT)GetLastError() != NTE_BAD_KEYSET)
@@ -374,6 +384,7 @@ arc4_writeback(uint8_t *buf, size_t len, char do_rd)
 	while (i < 256)
 		w32_buf[i++] = arc4_getbyte();
 	if (!CryptGenRandom(p, sizeof(w32_buf), w32_buf)) {
+		w32_last.tv_sec = 0;
  nogen_out:
 		rc |= 1;
 		memset(w32_buf, '\0', 256);
