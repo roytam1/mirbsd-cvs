@@ -43,9 +43,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
+#define vstrchr strchr
 #endif
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.bin/printf/printf.c,v 1.15 2010/07/17 22:09:29 tg Exp $");
 
 static int	 print_escape_str(const char *);
 static int	 print_escape(const char *);
@@ -187,7 +189,7 @@ real_main(char *format, const char *argv[])
 				}
 
 				/* skip to field width */
-				for (; strchr(SKIP1, *fmt); ++fmt)
+				for (; vstrchr(SKIP1, *fmt); ++fmt)
 					;
 				if (*fmt == '*') {
 					++fmt;
@@ -196,7 +198,7 @@ real_main(char *format, const char *argv[])
 					fieldwidth = 0;
 
 				/* skip to field precision */
-				for (; strchr(SKIP2, *fmt); ++fmt)
+				for (; vstrchr(SKIP2, *fmt); ++fmt)
 					;
 				precision = 0;
 				if (*fmt == '.') {
@@ -205,7 +207,7 @@ real_main(char *format, const char *argv[])
 						++fmt;
 						precision = getinteger();
 					}
-					for (; strchr(SKIP2, *fmt); ++fmt)
+					for (; vstrchr(SKIP2, *fmt); ++fmt)
 						;
 				}
 
