@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.bin/locale/locale.c,v 1.6 2006/11/03 01:18:26 tg Exp $ */
+/**	$MirOS: src/usr.bin/locale/locale.c,v 1.7 2007/02/02 19:22:38 tg Exp $ */
 /*	$NetBSD: locale.c,v 1.5 2006/02/16 19:19:49 tnozaki Exp $	*/
 
 /*-
@@ -31,7 +31,7 @@
  */
 
 #include <sys/cdefs.h>
-__RCSID("$MirOS: src/usr.bin/locale/locale.c,v 1.6 2006/11/03 01:18:26 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/locale/locale.c,v 1.7 2007/02/02 19:22:38 tg Exp $");
 __RCSID("$NetBSD: locale.c,v 1.5 2006/02/16 19:19:49 tnozaki Exp $");
 
 /*
@@ -311,11 +311,11 @@ list_locales(void)
 {
 	/* Hard-coded on MirOS:
 	 * C		Standard 7-bit (8-bit clean) single-byte locale
-	 * xx_XX.CESU-8	The only other locale (multi-byte LC_CTYPE)
-	 * en_US.UTF-8	Since nobody knows what CESU-8 is, we use this…
+	 * xx_XX.OPTU-8	The only other locale (multi-byte LC_CTYPE)
+	 * en_US.UTF-8	Since nobody knows what OPTU-8 or even CESU-8 is, we use this…
 	 * POSIX	This one is mandated by SUSv3
 	 */
-	printf("C\nen_US.CESU-8\nen_US.UTF-8\nPOSIX\n");
+	printf("C\nen_US.OPTU-8\nen_US.UTF-8\nPOSIX\n");
 }
 
 /*

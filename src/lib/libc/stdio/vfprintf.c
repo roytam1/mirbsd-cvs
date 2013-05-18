@@ -1,4 +1,4 @@
-/* $MirOS: src/lib/libc/stdio/vfprintf.c,v 1.6 2007/04/13 21:11:07 tg Exp $ */
+/* $MirOS: src/lib/libc/stdio/vfprintf.c,v 1.7 2008/04/03 18:02:53 tg Exp $ */
 
 /*-
  * Copyright (c) 2007, 2008
@@ -74,7 +74,7 @@
 #include "local.h"
 #include "fvwrite.h"
 
-__RCSID("$MirOS: src/lib/libc/stdio/vfprintf.c,v 1.6 2007/04/13 21:11:07 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/stdio/vfprintf.c,v 1.7 2008/04/03 18:02:53 tg Exp $");
 
 static void __find_arguments(const char *fmt0, va_list ap, va_list **argtable,
     size_t *argtablesiz);
@@ -716,10 +716,10 @@ vfprintf(FILE *fp, const char *fmt0, _BSD_VA_LIST_ ap)
 				 * last byte to be printed is a continuation
 				 * character and wind back until it isn't; a
 				 * trick that can only work on already vali-
-				 * dated NUL-terminated pure CESU-8 strings.
+				 * dated NUL-terminated pure OPTU-8 strings.
 				 */
 #if !defined(__STDC_ISO_10646__) || (__STDC_ISO_10646__ != 200009L)
-#error This code assumes CESU-8 intrinsics from MirBSD
+#error This code assumes OPTU-8 intrinsics from MirBSD
 #endif
 				while (size && ((cp[size] & 0xC0) == 0x80))
 					--size;
