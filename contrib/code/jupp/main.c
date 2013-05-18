@@ -1,4 +1,4 @@
-/* $MirOS$ */
+/* $MirOS: contrib/code/jupp/main.c,v 1.4 2008/05/13 13:08:23 tg Exp $ */
 /*
  *	Editor startup and main edit loop
  *	Copyright
@@ -32,7 +32,7 @@
 #include "charmap.h"
 #include "syntax.h"
 
-extern int mid, dspasis, force, help, pgamnt, nobackups, lightoff, exask, skiptop, noxon, lines, staen, columns, Baud, dopadding, marking, beep;
+extern int mid, dspasis, force, help, pgamnt, nobackups, lightoff, exask, skiptop, noxon, lines, staen, columns, Baud, dopadding, marking, dobeep;
 
 extern int idleout;		/* Clear to use /dev/tty for screen */
 extern unsigned char *joeterm;
