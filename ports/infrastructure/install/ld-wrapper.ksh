@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: ports/infrastructure/install/ld-wrapper.ksh,v 1.1 2006/07/23 17:42:34 tg Exp $
+# $MirOS: ports/infrastructure/install/ld-wrapper.ksh,v 1.2 2006/07/23 18:04:27 tg Exp $
 #-
 # Copyright (c) 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -35,5 +35,5 @@ for arg in "$@"; do
 	fi
 	libafter="$libafter -L${arg#--library-after=}"
 done
-[[ -n $LDVERBOSE ]] || print -r "/usr/bin/ld ${args[*]} $libafter"
+[[ -z $LDVERBOSE ]] || print -r "/usr/bin/ld ${args[*]} $libafter"
 exec /usr/bin/ld "${args[@]}" $libafter
