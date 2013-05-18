@@ -1,4 +1,4 @@
-# $MirOS: src/share/misc/licence.template,v 1.20 2006/12/11 21:04:56 tg Rel $
+# $MirOS: src/distrib/baselive/rc.netselect.common,v 1.5 2006/12/20 18:01:04 tg Exp $
 #-
 # Copyright (c) 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -33,7 +33,7 @@ function show_info
 	print 'ATTENTION: this Live CD contains possibly non-free or'
 	print 'otherwise restricted components! These are:'
 	(head -1 /NONFREE.TXT 2>&-; head -1 /nonfree.txt 2>&-) | \
-	    fold -sw70 | sed 's!^!| '
+	    fold -sw70 | sed 's!^!| !'
 	print 'Please read /NONFREE.TXT for further information.'
 	print
 	print 'Press the RETURN key to continue...'
