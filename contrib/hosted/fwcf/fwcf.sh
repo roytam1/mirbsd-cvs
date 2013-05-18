@@ -1,5 +1,5 @@
 #!/bin/sh
-# $MirOS: src/share/misc/licence.template,v 1.20 2006/12/11 21:04:56 tg Rel $
+# $MirOS: contrib/hosted/fwcf/fwcf.sh,v 1.13 2007/02/12 20:35:39 tg Exp $
 #-
 # Copyright (c) 2006, 2007
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -82,6 +82,13 @@ if test $1 = setup; then
 		echo -n >/tmp/.fwcf/temp/.fwcf_unclean
 		echo unclean startup | logger -t 'fwcf setup'
 	fi
+	if test -e /tmp/.fwcf/temp/.fwcf_deleted; then
+		# this is safe even in ash (I hope)
+		while IFS= read -r file; do
+			rm -f "/tmp/.fwcf/temp/$file"
+		done </tmp/.fwcf/temp/.fwcf_deleted
+		rm -f /tmp/.fwcf/temp/.fwcf_deleted
+	fi
 	rm -f /tmp/.fwcf/temp/.fwcf_done
 	if test -e /tmp/.fwcf/temp/.fwcf_done; then
 		echo 'fwcf: fatal: this is not Kansas any more' >&2
@@ -130,10 +137,16 @@ if test $1 = commit; then
 	mount -t tmpfs swap /tmp/.fwcf/temp
 	(cd /etc; tar cf - .) | (cd /tmp/.fwcf/temp; tar xpf -)
 	cd /tmp/.fwcf/root
+	rm -f /tmp/.fwcf/temp/.fwcf_deleted
 	find . -type f | while read f; do
-		x=$(md5sum "${f#./}" 2>&-)
-		y=$(cd ../temp; md5sum "${f#./}" 2>&-)
-		test x"$x" = x"$y" && rm "../temp/${f#./}"
+		f=${f#./}
+		if ! test -e "/tmp/.fwcf/temp/$f"; then
+			printf '%s\n' "$f" >>/tmp/.fwcf/temp/.fwcf_deleted
+			continue
+		fi
+		x=$(md5sum "$f" 2>&-)
+		y=$(cd ../temp; md5sum "$f" 2>&-)
+		test x"$x" = x"$y" && rm "../temp/$f"
 	done
 	rv=0
 	if ! ( fwcf.helper -M /tmp/.fwcf/temp | mtd -F write - fwcf ); then
