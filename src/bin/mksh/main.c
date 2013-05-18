@@ -13,7 +13,7 @@
 #include <locale.h>
 #endif
 
-__RCSID("$MirOS: src/bin/mksh/main.c,v 1.67.2.3 2007/03/03 23:38:37 tg Exp $");
+__RCSID("$MirOS: src/bin/mksh/main.c,v 1.67.2.4 2007/03/03 23:45:14 tg Exp $");
 
 extern char **environ;
 
@@ -347,7 +347,7 @@ main(int argc, const char *argv[])
 	}
 
 	if (restricted) {
-		static const char *const restr_com[] = {
+		static const char *restr_com[] = {
 			"typeset", "-r", "PATH",
 			"ENV", "SHELL",
 			NULL
