@@ -1,4 +1,4 @@
-# $MirOS: src/etc/Makefile,v 1.23 2006/06/17 16:21:18 tg Exp $
+# $MirOS: src/etc/Makefile,v 1.24 2006/06/17 21:37:44 tg Exp $
 # $OpenBSD: Makefile,v 1.226 2005/05/26 23:06:06 mcbride Exp $
 
 TZDIR=		/usr/share/zoneinfo
@@ -85,11 +85,8 @@ etc-files:
 	${INSTALL} -c -o root -g wheel -m 600 pf.conf ${DESTDIR}/etc/
 	${INSTALL} -c -o ${BINOWN} -g ${BINGRP} -m 555 \
 	    etc.${MACHINE}/MAKEDEV ${DESTDIR}/dev/
-	cd root; \
-		${INSTALL} -c -o root -g wheel -m 644 dot.profile \
-		    ${DESTDIR}/root/.profile; \
-		rm -f ${DESTDIR}/.profile; \
-		ln ${DESTDIR}/root/.profile ${DESTDIR}/.profile
+	${INSTALL} -c -o root -g staff -m 600 root.profile ${DESTDIR}/.profile
+	cd ${DESTDIR}/root; rm -f .profile; ln ${DESTDIR}/.profile
 	cd skel; \
 		${INSTALL} -c -o root -g wheel -m 644 ssh.known_hosts \
 		    ${DESTDIR}/root/.etc/ssh/known_hosts; \
@@ -174,8 +171,6 @@ etc-files:
 	cd ../gnu/usr.bin/anoncvs && exec ${MAKE} distribution
 .    endif
 .  endif
-	${INSTALL} -c -o root -g wheel -m 600 root/root.mail \
-		${DESTDIR}/var/mail/root
 	${INSTALL} -c -o root -g wheel -m 440 ../usr.bin/sudo/sudoers \
 		${DESTDIR}/etc/sudoers
 	cd ${DESTDIR}/etc/ssl/certs && ${SHELL} ${.CURDIR}/ssl.certs.shar && \
@@ -259,7 +254,7 @@ install-generated:
 DHSIZE=	1024 1536 2048 3072 4096
 update-moduli:
 	{ \
-		echo '# $$MirOS: src/etc/Makefile,v 1.23 2006/06/17 16:21:18 tg Exp $$'; \
+		echo '# $$MirOS: src/etc/Makefile,v 1.24 2006/06/17 21:37:44 tg Exp $$'; \
 		echo '# Time Type Tests Tries Size Generator Modulus'; \
 		for i in ${DHSIZE}; do \
 			ssh-keygen -b $$i -G /dev/stdout; \
