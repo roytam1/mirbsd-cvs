@@ -1,4 +1,4 @@
-rcsid_inc2rss='$MirOS: www/mk/inc2rss,v 1.32 2011/07/25 10:16:07 tg Exp $'
+rcsid_inc2rss='$MirOS: www/mk/inc2rss,v 1.33 2011/08/26 19:42:11 tg Exp $'
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -35,10 +35,13 @@ function rss_putheader {
 		 <managingEditor>tg@mirbsd.org (The MirOS Project)</managingEditor>
 		 <webMaster>bsiegert@mirbsd.org (The MirOS Project)</webMaster>
 		 <copyright>All content Copyright © by The MirOS Project or its respective
-		  writers. Permission to reproduce wlog entries in unmodified form without
-		  notice is granted provided they are not used to endorse or promote any
-		  products or opinions. For everything else you need to obtain written
-		  permission from the copyright owner.</copyright>
+		  writers. Permission to reproduce news and wlog entries and other RSS feed
+		  content in unmodified form without notice is granted provided they are not
+		  used to endorse or promote any products or opinions (other than what was
+		  expressed by the author) and without taking them out of context. Written
+		  permission from the copyright owner must be obtained for everything else.
+
+		  Impressum: https://www.mirbsd.org/imprint.htm</copyright>
 		 <dc:language>en</dc:language>
 		 <ttl>${rssttl:-1440}</ttl>
 		 <generator>MirOS Website, written in mksh; RCS IDs:

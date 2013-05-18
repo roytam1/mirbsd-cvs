@@ -1,4 +1,4 @@
-rcsid_htsconv='$MirOS: www/mk/htsconv,v 1.58 2011/02/18 22:37:28 tg Exp $'
+rcsid_htsconv='$MirOS: www/mk/htsconv,v 1.59 2011/03/21 16:18:48 tg Exp $'
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -253,9 +253,9 @@ function mws_putfooter {
 		 href="mailto:junk@mirsolutions.de">junk@mirsolutions.de</a> –
 		 it won’t do any good to you.</p>
 		<p>• <a
-		 href="mailto:miros-discuss@mirbsd.org">eMail</a> contact to
-		 The MirOS Project • This website is (supposed to be) <a
-		 href="http://validator.w3.org/check/referer">Valid HTML</a>! •
+		 href="mailto:miros-discuss@mirbsd.org">eMail</a> contact to The MirOS Project
+		 • <a href="@@RELPATH@@imprint.htm">Impressum</a> • This website is (supposed
+		 to be) <a href="http://validator.w3.org/check/referer">Valid HTML</a>! •
 		</p>
 		@@HEADER@@
 		</div></div>

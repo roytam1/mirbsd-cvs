@@ -1,23 +1,24 @@
 mws_setname imprint "Impressum (imprint)"
 mws_setheadline "Impressum (imprint)"
-mws_putheader '$MirOS: www/src/imprint.hts,v 1.1 2012/05/07 16:22:48 tg Exp $'
+mws_putheader '$MirOS: www/src/imprint.hts,v 1.2 2012/05/07 16:25:56 tg Exp $'
 mws_content <<'EOF'
 <h2>Legal information</h2>
 <p>All content of the website mirbsd.de including the main content mirrors,
- whose master is www.mirbsd.org (miros.unixforge.de), is licenced content and
- property of the MirOS Project and Thorsten Glaser. In no event content
- posted to the MirWiki or contained in the website as defined above may
+ whose master is www.mirbsd.org, is licenced content and property of
+ The MirOS Project. In no event content may material from the website as
+ defined above
  be included into material which is not licenced under an <a
  href="http://www.opensource.org/docs/definition.php">OSD</a> and <a
  href="http://www.debian.org/social_contract#guidelines">DFSG</a> compliant
- or otherwise unfree (as deemed by the MirOS Project) licence, such as the
+ or otherwise unfree (as deemed by The MirOS Project) licence, such as the
  GNU so-called “Free” Documentation License. All content, if not
- explicitly marked, is covered by <a href="@@ABSPATH@@/MirOS-Licence">the
- MirOS licence</a> template. The look and
- feel of the MirOS website is licenced differently, please refer to the
- <a href="@@ABSPATH@@/LICENCE">website licence</a> for further
- information (<a href="http://www.mirbsd.org/newsite/LICENCE">licence
- for the new website</a>).</p>
+ marked explicitly, is covered by <a href="@@ABSPATH@@/MirOS-Licence">The
+ MirOS Licence</a>. The look and feel of the MirOS website is licenced
+ differently, please refer to the <a href="@@ABSPATH@@/LICENCE">website
+ licence overview</a> for further information. The webpages share a domain
+ with The MirOS Project source code, wherefore BSD-Licence(7) contains the
+ Terms and Conditions. The choice of law/court is especially applicable.</p>
+
 <h2>Impressum</h2>
 <p>Aufgrund geltenden deutschen Rechtes sind die im folgenden genannten
  Personen Anbieter im Sinne des Teledienstegesetzes für die Webseiten
@@ -36,31 +37,37 @@ mws_content <<'EOF'
  Deutschland (Germany / Allemagne)</li>
 </ul>
 <p>Verantwortlicher im Sinne des Pressegesetzes (<b>V.i.S.d.P.</b>) ist
- für die Webseiten „mirbsd.de“ und „www.mirbsd.org“
- (inklusive Mirrors) Thorsten Glaser; für die neue Homepage (zur Zeit
- experimentiell unter http://www.mirbsd.org/newsite/ erreichbar) und die
- Flyer Benny Siegert. Inhalte auf den Mailinglisten und anderen
- öffentlichen Bereichen (wie dem ex-MirWiki) sind Eigentum der Autoren;
- V.i.S.d.P. ist auch hier Thorsten Glaser &ndash; es wird darauf hingewiesen,
- daß Mailinglisten nicht redigierbar sind.</p>
+ für die Webseiten „mirbsd.de“ und „www.mirbsd.org“ (inklusive Mirrors)
+ Thorsten Glaser; für die Flyer Benny Siegert. Inhalte auf den Mailinglisten
+ und anderen öffentlichen Bereichen (wie dem ehemaligen MirWiki) sind Eigentum
+ der jeweiligen Autoren; V.i.S.d.P. ist auch hier Thorsten Glaser &ndash; es
+ wird darauf hingewiesen, daß Mailinglisten nicht redigierbar sind.</p>
+
 <h2>Urheberrechte</h2>
 <p>Das Urheberrecht für die genannten Webseiten liegt bei den jeweiligen
- Autoren bzw. dem MirOS-Projekt. Genaueres findest Du <a
- href="@@ABSPATH@@//LICENCE">in der Webseiten-Lizenz</a> (auch
- <a href="http://www.mirbsd.org/newsite/LICENCE">auf der neuen Seite</a>).</p>
+ Autoren bzw. dem MirOS-Projekt. Genaueres findest Du in der <a
+ href="@@ABSPATH@@/LICENCE">MirOS Webseiten-Lizenz</a>. Die Webseite hat
+ Überschneidungen mit dem Quellkodebereich des MirOS-Projektes, dessen
+ Lizenz unter BSD-Licence(7) hinterlegt ist; insbesondere ist die Wahl
+ deutschen Rechtes und des Gerichtsstands anwendbar.</p>
+
 <h2>Transferdienste</h2>
+
 <h3>Allgemeines</h3>
 <p>Die Seiten des MirOS-Projektes werden von einer Vielzahl verschiedener
- Anbieter bereitgestellt, eine Integrität und Aktualität kann
- daher nicht gewährleistet werden. Eine Vielzahl von Personen und
- Leitungseinflüssen können Daten verfälschen, und wir sind
- aufwandsmäßig nicht in der Lage, sämtliche Spiegel
- dauerhaft zu überprüfen. Bei Problemem bitten wir um
- Benachrichtigung.</p>
+ Anbieter bereitgestellt, eine Integrität und Aktualität kann daher nicht
+ gewährleistet werden. Eine Vielzahl von Personen und Leitungseinflüssen
+ können Daten verfälschen, und wir sind aufwandsmäßig nicht in der Lage,
+ sämtliche Spiegel dauerhaft zu überprüfen. Bei Problemem jedweger Art
+ bitten wir um Benachrichtigung und die Möglichkeit zur Korrektur.</p>
 <p>Es wird zum Teil auf fremde Webseiten verwiesen, bei denen die Inhalte
  noch weniger kontrollierbar sind &ndash; auch hier bitten wir um einen
  Hinweis, falls es zu Problemen mit den Hypertextverweisen oder den Inhalten
- der verlinkten Seiten kommen sollte.</p>
+ der verlinkten Seiten kommen sollte. Eine Prüfung fremder Inhalte kann
+ aufwandsmäßig nicht fortlaufend geschehen, sondern maximal bei Einstellung
+ und sporadisch/stichprobenartig; sollten Probleme auftauchen, werden wir
+ diese analysieren und eine einvernehmliche Lösung anstreben.</p>
+
 <h3>DNS, Webhosting</h3>
 <p>Die Seiten des MirOS-Projektes werden von einigen Mirrors bereitgestellt,
  die sich in verschiedenen Ländern befinden und nicht von uns betreut
@@ -68,8 +75,8 @@ mws_content <<'EOF'
  Externe diese bereitstellen. Wir befreien hiermit die Anbieter von Mirrors
  unserer Webseiten davon, für deren durch uns bereitgestellten Inhalt zu
  haften, weisen aber gleichzeitig darauf hin, daß der Inhalt des Mirrors
- nicht notwendigerweise mit dem vom Projekt gewünschten Inhalt
- übereinstimmt.</p>
+ nicht notwendigerweise mit dem vom Projekt gewünschten/bereitgestellten
+ Inhalt übereinstimmt und übernehmen demfalls keine Haftung.</p>
 EOF
 mws_putfooter
 exit 0
