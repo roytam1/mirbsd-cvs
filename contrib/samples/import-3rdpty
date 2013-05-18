@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: contrib/samples/import-3rdpty,v 1.24 2008/10/05 16:26:15 tg Exp $
+# $MirOS: contrib/samples/import-3rdpty,v 1.25 2008/11/18 19:05:45 tg Exp $
 #-
 # Copyright (c) 2004, 2005, 2006, 2007, 2008
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -19,7 +19,7 @@
 # damage or existence of a defect, except proven that it results out
 # of said person's immediate fault when using the work as intended.
 
-print -ru2 -- '========= $MirOS: contrib/samples/import-3rdpty,v 1.24 2008/10/05 16:26:15 tg Exp $ ========='
+print -ru2 -- '========= $MirOS: contrib/samples/import-3rdpty,v 1.25 2008/11/18 19:05:45 tg Exp $ ========='
 
 ignlist=0
 force=0
@@ -439,6 +439,7 @@ case $module {
 		WWW/Library/Implementation/HTVMS_WaisUI.c \
 		WWW/Library/Implementation/HTVMS_WaisUI.h \
 		WWW/Library/Implementation/index.html \
+		WWW/Library/Implementation/tidy_tls.h \
 		WWW/Library/VMS \
 		WWW/Library/djgpp \
 		WWW/Library/index.html \
@@ -447,21 +448,7 @@ case $module {
 		config.guess \
 		config.sub \
 		descrip.mms \
-		docs/CHANGES* \
-		docs/IBMPC-charsets.announce \
-		docs/OS-390* \
-		docs/README.defines \
-		docs/README.jp \
-		docs/README.rootcerts \
-		docs/README.ssl \
-		docs/SOCKETSHR.announce \
-		docs/TCPWARE.announce \
-		docs/VMSWAIS.announce \
-		docs/djgpp.key \
-		docs/index.html \
-		docs/pdcurses.key \
-		docs/slang.key \
-		docs/win-386.announce \
+		docs \
 		fixed512.com \
 		install-sh \
 		install.sh \
@@ -498,7 +485,10 @@ case $module {
 		src/index.html \
 		src/makefile.{dos,dsl,wsl} \
 		src/mktime.c \
+		src/parsdate.c \
+		src/parsdate.h \
 		src/strstr.c \
+		src/tidy_tls.c \
 		test/index.html \
 	"
 	vendor=lynx
