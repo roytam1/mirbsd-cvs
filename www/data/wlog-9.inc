@@ -2422,3 +2422,17 @@ Author: tg@
  seem to tend to crash more often under low-ram, much-I/O situations.
  No data was lost, though.</p>
 ----
+Date: 23.10.2007
+Author: tg@
+
+<p>Working on two OS projects has very nice synergy effects. Today, as
+ yesterday, it affected manual page availability for both projects in
+ a very positive way.</p>
+<p>Damn. pax(1) has a bug on FreeWRT on the targets themselves. (And
+ my WL-500g still doesn’t have any network on trunk, this seems to be
+ a different bug.) And I have no idea yet as to why.</p>
+<p>When Dr. Pfeffer doesn’t want to go geocaching, I do. They amount
+ to 26 now, although 1 isn’t listed at the <img alt="ad-infested"
+ src="http://img.geocaching.com/stats/img.aspx?txt=Hacking+MirBSD+since+2002&uid=d6aaa6ad-797c-419a-91b3-8cf6a5b40658" />
+ commercial site, and 2 aren’t listed at the open site.</p>
+----
