@@ -2483,3 +2483,25 @@ Date: 28.10.2007
  for our channel motto <i>Technik ist schei&szlig;e und funktioniert
  nicht.</i> How right.</p>
 ----
+Date: 29.10.2007
+Author: tg@
+
+<p>gcc is crap, and I have no idea how to figure out where the cause of
+ today’s herc/rant outage, kern_sysctl + 0x2f6, is, since it seems to
+ have reordered the functions. Damn it.</p>
+<p>I managed to get Dr. Pfeffer to go cache hunting with me again, and we
+ didn’t find one (the most easy one), but the other two (at 18:00 and at
+ 19:00 local time, almost exactly). And at 16:00 I had the cache near his
+ home location ☺ This makes, considering not both sites list all caches,
+ a total of 29 (an offset of 3 at <img alt="freely caching is more fun!"
+ src="http://www.opencaching.de/statpics/106521.jpg" />OC, and 2 at <img
+ src="http://img.geocaching.com/stats/img.aspx?txt=FreeWRT+Project+Leader&amp;uid=d6aaa6ad-797c-419a-91b3-8cf6a5b40658"
+ alt="travel bugs only here" />GC. Now I dropped a TB at an OC-only cache
+ and am still trying to sort out THIS mess ☺</p>
+<p>It’s raining now. Shit, considering I left my bike at Dr. Pfeffer’s
+ place yesterday (due to me staying at some other place over night, where
+ we did the caches), and I need it tomorrow (or rather not, if it’s still
+ raining by then).</p>
+<p>As usual, no data got lost (at HERC/RANT), and I held the cache in my
+ hand almost immediately.</p>
+----
