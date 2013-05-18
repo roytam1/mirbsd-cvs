@@ -1,5 +1,5 @@
 #! /bin/sh
-# $MirOS: src/gnu/usr.bin/perl/Configure,v 1.4 2006/06/30 23:15:02 tg Exp $
+# $MirOS: src/gnu/usr.bin/perl/Configure,v 1.5 2006/10/28 18:58:31 tg Exp $
 # If these # comments don't work, trim them. Don't worry about any other
 # shell scripts, Configure will trim # comments from them for you.
 #
@@ -7911,10 +7911,10 @@ if "$useshrplib"; then
 	solaris)
 		xxx="-R $shrpdir"
 		;;
-	freebsd|mirbsd|netbsd|openbsd|interix)
+	freebsd|netbsd|openbsd|interix)
 		xxx="-Wl,-R$shrpdir"
 		;;
-	bsdos|linux|irix*|dec_osf|gnu*)
+	bsdos|mirbsd|linux|irix*|dec_osf|gnu*)
 		xxx="-Wl,-rpath,$shrpdir"
 		;;
 	next)

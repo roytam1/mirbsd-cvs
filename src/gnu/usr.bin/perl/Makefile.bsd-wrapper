@@ -1,4 +1,4 @@
-# $MirOS: src/gnu/usr.bin/perl/Makefile.bsd-wrapper,v 1.25 2008/08/02 14:17:47 tg Exp $
+# $MirOS: src/gnu/usr.bin/perl/Makefile.bsd-wrapper,v 1.26 2008/12/13 22:54:39 tg Exp $
 # $OpenBSD: Makefile.bsd-wrapper,v 1.75 2007/11/26 11:12:29 espie Exp $
 #
 # Build wrapper for Perl 5.8.8
@@ -6,18 +6,24 @@
 
 .include <bsd.own.mk>
 
-# To build a threaded perl.  Not stable on all platforms...
+TARGET_MACHINE_ARCH?=	$(MACHINE_ARCH)
+
+# To build a threaded perl, uncomment this.  Not stable on all platforms...
 #THREADED_PERL=	Yes
 THREADED_PERL?=	No
 
-TARGET_MACHINE_ARCH?=	${MACHINE_ARCH}
+# Perl builds with -fno-strict-aliasing, we want libperl to do the same
+COPTS+=		-fno-strict-aliasing
+.if ${USE_GCC3:L} == "yes"
+COPTS+=		-fno-delete-null-pointer-checks
+.endif
 
+# Arguments passed to Configure...
 .if ${THREADED_PERL:L} == "yes"
 CONFIGURE_ARGS+=-Dusethreads
 CFLAGS+=	-pthread
 .endif
 
-# Arguments passed to Configure...
 XFLAGS=		${CFLAGS} -Werror-maybe-reset
 CONFIGURE_ARGS+=-dsE -D${OSname}_distribution=defined \
 		-Doptimize=${XFLAGS:N-g*:M*:Q}
@@ -28,6 +34,7 @@ FLAGS_TO_PASS=	USEDL=n
 FLAGS_TO_PASS=	USEDL=y
 .endif
 FLAGS_TO_PASS+=	CC=${CC:Q} CPP=${CPP:Q} CFLAGS=${XFLAGS:M*:Q} SHELL=${SHELL:Q}
+FLAGS_TO_PASS+=	PATH="/usr/dbin:/bin:/usr/bin:/usr/dsbin:/sbin:/usr/sbin"
 
 # Our lndir is hacked; specify a full path to avoid potential conflicts
 # with the one installed with X11.
@@ -36,6 +43,7 @@ LNDIR=		/usr/bin/lndir
 H2PH=		/usr/bin/h2ph
 
 LIB=	perl
+
 SRCS=	perl.c gv.c toke.c perly.c op.c pad.c regcomp.c dump.c util.c mg.c \
 	reentr.c hv.c av.c run.c pp_hot.c sv.c pp.c scope.c pp_ctl.c pp_sys.c \
 	doop.c doio.c regexec.c utf8.c taint.c deb.c universal.c xsutils.c \
@@ -75,26 +83,24 @@ man.build: perl.build
 beforedepend:	config.sh config.h Makefile makedepend x2p/Makefile writemain
 	cd ${.OBJDIR} && exec ${MAKE} depend
 
-perl.lib:	${GENERATED} .WAIT lib${LIB}.a
-
 perl.build:	perl.lib
 	cd ${.OBJDIR} && ${FLAGS_TO_PASS} exec ${MAKE}
 
 config.sh:	${.OBJDIR}/config.over
-	cd ${.OBJDIR} && PATH="/bin:/usr/bin:/sbin:/usr/sbin" GCC_NO_WERROR=1 \
-	    ${FLAGS_TO_PASS} exec ${SHELL} Configure ${CONFIGURE_ARGS}
+	cd ${.OBJDIR} && GCC_NO_WERROR=1 ${FLAGS_TO_PASS} \
+	    exec ${SHELL} Configure ${CONFIGURE_ARGS}
 
-Makefile cflags makeaperl makedepend makedir myconfig writemain:	
+Makefile cflags makeaperl makedepend makedir myconfig writemain:
 	cd ${.OBJDIR} && ${FLAGS_TO_PASS} exec /bin/sh $@.SH
 
 Policy.sh:
 	cd ${.OBJDIR} && ${FLAGS_TO_PASS} exec ${SHELL} Policy_sh.SH
 
-config.h: 
+config.h:
 	cd ${.OBJDIR} && ${FLAGS_TO_PASS} exec /bin/sh config_h.SH
 
 pod/Makefile:
-	cd ${.OBJDIR}/pod && exec ${SHELL} Makefile.SH
+	cd ${.OBJDIR}/pod && ${FLAGS_TO_PASS} exec ${SHELL} Makefile.SH
 
 x2p/Makefile:
 	cd ${.OBJDIR}/x2p && ${FLAGS_TO_PASS} exec ${SHELL} Makefile.SH
@@ -107,10 +113,7 @@ perly.c perly.h: perly.y
 	-@true
 
 install: install.lib install.perl maninstall
-
-install.lib:
-	${INSTALL} ${INSTALL_COPY} -o ${LIBOWN} -g ${LIBGRP} -m ${LIBMODE} \
-	    lib${LIB}.a ${DESTDIR}${LIBDIR}/
+	-chmod -R a+rX ${DESTDIR}/usr/libdata/perl5
 
 install.perl:
 	cd ${.OBJDIR}; INSTALL=${INSTALL} INSTALL_COPY=${INSTALL_COPY} \
@@ -144,9 +147,33 @@ maninstall:
 	@cd ${.CURDIR} && exec ${MAKE} -f Makefile.bsd-wrapper1 maninstall
 .endif
 
-# Must be last
-
-NOPIC:=yes
 .include <bsd.lib.mk>
+
+# These have to come after the inclusion of <bsd.lib.mk>
+
+# Need -fPIC, not -fpic on sparc
+.if ($(TARGET_MACHINE_ARCH) == sparc)
+PICFLAG=	-fPIC
+.endif
+
+perl.lib:	${GENERATED} .WAIT ${_LIBS}
+
+install.lib:
+	${INSTALL} ${INSTALL_COPY} -o ${LIBOWN} -g ${LIBGRP} -m ${LIBMODE} \
+	    lib${LIB}.a ${DESTDIR}${LIBDIR}/
+.if ${NOPIC:L} == "no"
+.  ifdef SHLIB_SONAME
+	${INSTALL} ${INSTALL_COPY} -o ${LIBOWN} -g ${LIBGRP} -m 600 \
+	    ${SHLIB_SONAME} ${DESTDIR}${LIBDIR}/${SHLIB_SONAME}~
+.    if !defined(MKC_DEBG) || ${MKC_DEBG:L} == "no"
+	${STRIP} ${_SODISCARD} ${DESTDIR}${LIBDIR}/${SHLIB_SONAME}~
+.    endif
+	cd ${DESTDIR}${LIBDIR} && \
+	    chmod ${LIBMODE} ${SHLIB_SONAME}~ && \
+	    mv -f ${SHLIB_SONAME}~ ${SHLIB_SONAME}
+.  endif
+	${INSTALL} ${INSTALL_COPY} -o ${LIBOWN} -g ${LIBGRP} -m ${LIBMODE} \
+	    lib${LIB}_pic.a ${DESTDIR}${LIBDIR}/
+.endif
 
 .PHONY: perl.lib install.lib perl.build install.perl man.build mansrc.build

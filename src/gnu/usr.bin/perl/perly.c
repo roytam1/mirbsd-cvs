@@ -3,6 +3,7 @@
 #endif
 #include <stdlib.h>
 #include <string.h>
+__RCSID("$MirOS$");
 #define YYBYACC 1
 #line 25 "perly.y"
 #include "EXTERN.h"
