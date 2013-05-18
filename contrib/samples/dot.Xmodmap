@@ -1,4 +1,4 @@
-! $MirOS: contrib/samples/dot.Xmodmap,v 1.24.4.5 2012/08/03 17:36:33 tg Exp $
+! $MirOS: contrib/samples/dot.Xmodmap,v 1.24.4.6 2013/03/28 12:15:55 tg Exp $
 !-
 ! Copyright © 2004, 2007, 2008, 2010, 2012, 2013
 !	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
@@ -179,7 +179,7 @@ keycode	0x68 =	KP_Enter	Return
 
 keycode	0x25 =	Control_L	Control_L
 keycode	0x85 =	Alt_L		Alt_L
-keycode	0x40 =	Mode_switch	Meta_L
+keycode	0x40 =	Mode_switch	Mode_switch
 keycode	0x41 =	space		space		U00A0		U3000
 keycode	0x6C =	Alt_R		Alt_R
 keycode	0x86 =	Meta_R		Meta_R
