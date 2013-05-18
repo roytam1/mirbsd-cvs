@@ -348,3 +348,40 @@ Author: tg@
 <p>Ah, and BOINC is running stable on MirBSD. MidnightBSD has some
  issues, mainly due to the fucked-up FreeBSD kernel and brandelf.</p>
 ----
+Date: 12.04.2008
+Author: tg@
+Title: a few news items
+
+<p>As you can <a href="@@RELPATH@@permalinks/news_e20080412-tg.htm">read</a>,
+ quite a few new versions of our portable software has been released. Well,
+ sort-of-portable, but for nroff I plan on improving, and MirMake 2 will be
+ a lot better too, kinda like <a href="@@RELPATH@@mksh.htm">mksh</a>.</p>
+<p>Geocacheing continues:
+ <img src="https://call.mirbsd.org/sp.cgi?oc" alt="OpenCaching.de" />
+ <img src="https://call.mirbsd.org/sp.cgi?gc" alt="The Frog Site" />
+ <img src="https://call.mirbsd.org/sp.cgi?tc" alt="Rare Jewels" />
+ <img src="https://call.mirbsd.org/sp.cgi?nc" alt="Broken Webpages²" />
+ <br />
+ Even Jonathan got hooked now. We found another (his first) two today.</p>
+<p>As we’re sort of a big family, you’ll occasionally find German-language
+ postings here. Don’t wonder. We have people who especially read that.</p>
+<p>I’ll be in Switzerland (Cōnfœderatio Helvetica) next week, while Benny
+ happens to be on vacation on Mallorca (hopefully not near the war zone
+ called Ballermann). Development may slow down a little due to that (no
+ more 100+ CVS spa^H^H^Hmails per day, yay!) but will not stall.</p>
+----
+Date: 12.04.2008
+Author: tg@
+Title: Willkommen, Schweiz!
+Language: de
+
+<p>Da wir ja alle eine große <a href="https://www.symlink.ch/">Familie</a>
+ sind, möchte ich hiermit Grüße (Grüsse?) an die Schweizer Leser, die dieses
+ Weblog (nein, ist kein Blog) auf <a href="http://planet.symlink.ch/">Planet
+ Symlink</a> entdecken, senden.</p>
+<p xml:lang="la">Ad auditorēs qui nōn possunt legere linguam germanicam:
+ Salvete amici Cōnfœderationis Helveticæ!</p>
+<p>Ich bin übrigens Mitte der Woche in Basel zu Besuch, Benny ist leider zur
+ Zeit auf Mallorca, Urlaub machen. (Hoffentlich fernab vom Kampfgebiet, äh,
+ Ballermann und so.)</p>
+----

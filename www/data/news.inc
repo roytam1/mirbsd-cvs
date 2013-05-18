@@ -772,3 +772,43 @@ Author: tg@
 <p>UPDATE 02.04.2008: <a href="@@RELPATH@@mksh.htm#r33c">mksh R33c</a> is
  out, with a bugfix and a new fully supported OS (ULTRIX 4.5).</p>
 ----
+Title: mksh, mirmake, pkgtools upgraded
+Date: 12.04.2008
+Author: tg@
+
+<p>The <a href="@@RELPATH@@mksh.htm">MirBSD Korn Shell R33d</a> has been
+ released, mostly containing a security fix for the <tt>-T</tt> option,
+ see the <a href="@@RELPATH@@mksh.htm#r33d">Changelog</a> for details.</p>
+<p>A new MirMake version has been issued, to fix problems compiling C++
+ code with strange file extensions (.cpp as on Microsoft® Windows®, and
+ .C as BOINC uses). MirMake is a sort-of-portable version of the MirOS
+ make(1) utility, a few header files and a libmirmake.a containing helper
+ functions, and some supporting utilities: install(1) lndir(1) lorder(1)
+ mkdep(1) readlink(1) tsort(1)</p>
+<p>The MirPorts Package Tools have been updated as well, as Lucas “laffer1”
+ Holt, the MidnightBSD founder, has implemented <tt>ldconfig(8) -U</tt> too,
+ and the use of this option by pkg_create(1) is now required for a lot of
+ packages (since GNU libiconv, expat and libpng use their own fake-pkgview
+ <a href="http://marc.info/?m=120759746718862">subdirectories</a>.</p>
+<p>Hashes of our current distfiles:</p><ul>
+ <li>RMD160 (gzsigkey.cer) = 0a24e416b26e4753eee4cbfe8f1dc74f2486eb6e <em>gzsig(1) distribution sign key</em></li>
+ <li>RMD160 (fwcf-1.05b.tar.gz) = 355e1a46ef384b4ca26cccb7892a2f60eff2ffe2 <em>for FreeWRT</em></li>
+ <li>RMD160 (libnointl-20070726.tar.gz) = 3b97197a9bd8f693bebd8b528dd0d5c942e83e64</li>
+ <li>RMD160 (arc4random.c) = ad0ef189b7ffe80b9224b1f3886377847341bac5</li>
+ <li>RMD160 (joe-3.1jupp8.cpio.gz) = bbcc42ff82fd7a47feb51579864a487f31ca3a91</li>
+ <li>RMD160 (cksum-20080314.cgz) = 7566313c6db3182a99437eb6543b0da6abbed5bd</li>
+ <li>RMD160 (paxmirabilis-20080314.cpio.gz) = 3966925c2d87838b0b55e2a0c715f027df3d965b</li>
+ <li>RMD160 (ed-20060924.tar.gz) = 7d41e76e169caa73c8bbd043ad40b2b84339761a</li>
+ <li>RMD160 (mirmake-20080411.cpio.gz) = e18bd36bc6c260332ab5df008f30b57a9849bc50</li>
+ <li>RMD160 (mksh-R33d.cpio.gz) = d810a705b01e146f9addd184c168798a22a36d38</li>
+ <li>RMD160 (mpczar-20061119.cgz) = cccf88ae27225c808f327ae7d56dbd9f2c053249</li>
+ <li>RMD160 (mirmtree-20050912.cpio.gz) = b4de12ddfd022538732b2c14dad60c2351b3011c</li>
+ <li>RMD160 (mirnroff-20050912.cpio.gz) = 5063466a267a64b3f088c86a29e011b5ad712c4a <em>for Interix ONLY</em></li>
+ <li>RMD160 (sitetmac-20071023.tar.gz) = 107e5b64ecbf1214e19681f6fc0add6599fef25d <em>temporary</em></li>
+ <li>RMD160 (tmacmbsd-20071003.tar.gz) = 223c38916e489469703627b189f6fc16b9a36e27 <em>temporary</em></li>
+ <li>RMD160 (patch-20051110.cpio.gz) = ac32b2b0a1e7203256ec4bd255c7525053afb3ed <em>for Interix</em></li>
+ <li>RMD160 (pkgtools-20080411.cgz) = edf320a3798aa40c015e57c579310df754f28820</li>
+ <li>RMD160 (rdate-20070817.tar.gz) = 3501ae05c05d7c4f39ccb1c76dd51663c2b91e34</li>
+ <li>RMD160 (mirsort-20050912.cpio.gz) = 69a1a632c7343c09ca7bab39f6359667bb461c1c</li>
+</ul>
+----
