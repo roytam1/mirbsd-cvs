@@ -1,4 +1,4 @@
-# $MirOS: src/usr.sbin/openssl/Makefile,v 1.8 2006/07/09 00:01:31 tg Exp $
+# $MirOS: src/usr.sbin/openssl/Makefile,v 1.9 2006/09/20 20:38:15 tg Exp $
 # $OpenBSD: Makefile,v 1.17 2005/04/29 05:42:55 djm Exp $
 
 PROG=		openssl
@@ -11,12 +11,10 @@ SSLEAYDIST=	lib/libssl/src
 SSLEAY_SRC_TOP=	${BSDSRCDIR}/${SSLEAYDIST}
 SSLEAY_SRC=	${SSLEAY_SRC_TOP}/apps
 
-CPPFLAGS+=	-DMONOLITH -DTERMIOS -DANSI_SOURCE
+CPPFLAGS+=	-DMONOLITH
 CPPFLAGS+=	-I${SSLEAY_SRC_TOP} -I${SSLEAY_SRC}
 
-.if ${MKC_USAP:L} == "yes"
-CPPFLAGS+=	-DOPENSSL_NO_RC5 -DOPENSSL_NO_MDC2 -DOPENSSL_NO_IDEA
-.endif
+.include "${SSLEAY_SRC_TOP}/../Makefile.inc"
 
 SRCS=	verify.c asn1pars.c req.c dgst.c dh.c enc.c passwd.c gendh.c errstr.c \
 	pkcs7.c crl2p7.c crl.c ca.c \
@@ -28,7 +26,6 @@ SRCS=	verify.c asn1pars.c req.c dgst.c dh.c enc.c passwd.c gendh.c errstr.c \
 
 .PATH:	${SSLEAY_SRC}
 
-CPPFLAGS+=	-DUSE_ASN1OCTETSTREAM
 SRCS+=		asn1octetstream.c
 
 .include <bsd.prog.mk>

@@ -117,7 +117,7 @@
 #include <openssl/md5.h>
 #include <openssl/fips.h>
 
-__RCSID("$MirOS: src/lib/libssl/src/ssl/t1_enc.c,v 1.2 2006/03/27 18:28:07 tg Exp $");
+__RCSID("$MirOS: src/lib/libssl/src/ssl/t1_enc.c,v 1.3 2006/08/18 18:05:47 tg Exp $");
 
 static void tls1_P_hash(const EVP_MD *md, const unsigned char *sec,
 			int sec_len, unsigned char *seed, int seed_len,
@@ -671,7 +671,7 @@ int tls1_final_finish_mac(SSL *s, EVP_MD_CTX *in1_ctx, EVP_MD_CTX *in2_ctx,
 	unsigned int i;
 	EVP_MD_CTX ctx;
 	unsigned char buf[TLS_MD_MAX_CONST_SIZE+MD5_DIGEST_LENGTH+SHA_DIGEST_LENGTH];
-#ifdef ARC4PUSH
+#ifndef OPENSSL_NO_ARC4PUSH
 	unsigned char *q,buf2[12+16],buf3[12+16];
 #else
 	unsigned char *q,buf2[12];
@@ -689,7 +689,7 @@ int tls1_final_finish_mac(SSL *s, EVP_MD_CTX *in1_ctx, EVP_MD_CTX *in2_ctx,
 	EVP_DigestFinal_ex(&ctx,q,&i);
 	q+=i;
 
-#ifdef ARC4PUSH
+#ifndef OPENSSL_NO_ARC4PUSH
 	tls1_PRF(s->ctx->md5,s->ctx->sha1,buf,(int)(q-buf),
 		s->session->master_key,s->session->master_key_length,
 		buf3,buf2,sizeof buf2);
