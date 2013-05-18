@@ -491,7 +491,7 @@ static int HTLoadHTTP(const char *arg,
     char *msg = NULL;
     int status_sslcertcheck;
     char *ssl_dn_start;
-    char *ssl_all_cns;
+    char *ssl_all_cns = NULL;
 
 #ifdef USE_GNUTLS_INCL
     int ret;
@@ -725,7 +725,6 @@ static int HTLoadHTTP(const char *arg,
 	/* initialise status information */
 	status_sslcertcheck = 0;	/* 0 = no CN found in DN */
 	ssl_dn_start = ssl_dn;
-	ssl_all_cns = NULL;
 	/* get host we're connecting to */
 	ssl_host = HTParse(url, "", PARSE_HOST);
 	/* strip port number or extract hostname component */
@@ -797,6 +796,7 @@ static int HTLoadHTTP(const char *arg,
 					cert_host[j] = '\0';
 				} else
 					continue;
+				status_sslcertcheck = 1;	/* got at least one */
 				/* verify this SubjectAltName (see above) */
 				if ((p = strchr(cert_host,
 				    (cert_host[0] == '[') ? ']' : ':')) != NULL)
@@ -853,7 +853,7 @@ static int HTLoadHTTP(const char *arg,
 	    }
 	    HTSprintf0(&msg,
 		       gettext("UNVERIFIED connection to %s (cert=%s)"),
-		       ssl_host, ssl_all_cns);
+		       ssl_host, ssl_all_cns ? ssl_all_cns : "NONE");
 	    _HTProgress(msg);
 	    FREE(msg);
 	}
