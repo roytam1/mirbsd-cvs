@@ -118,6 +118,7 @@ Author: tg@
  alt="TC" /></p>
 <p>Of course, I didn’t find any TCxxxxx caches yet. I need to get fully
  registered (“sponsored”) at the site first. This isn’t a big issue tho.</p>
+<p>Update: I’m in. Nearest caches are in Blankenheim, Neuwied and België…</p>
 ----
 Date: 19.03.2008
 Author: tg@
@@ -137,4 +138,5 @@ Author: tg@
  direct link helped. Sorry for the inconvenience at both gecko2 and our
  downloaders – but then, to the latter group: You should’ve used
  <a href="http://f.scarywater.net/miros/">BitTorrent</a> anyway.</p>
+<p>Oops. Changed the wrong link. 923 downloads…</p>
 ----

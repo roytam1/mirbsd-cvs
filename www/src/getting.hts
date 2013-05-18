@@ -1,10 +1,10 @@
-# $MirOS: www/src/getting.hts,v 1.6 2008/03/15 23:34:36 tg Exp $
+# $MirOS: www/src/getting.hts,v 1.7 2008/03/19 16:27:57 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname getting "Get MirOS!"
-mws_putheader '$MirOS: www/src/getting.hts,v 1.6 2008/03/15 23:34:36 tg Exp $'
+mws_putheader '$MirOS: www/src/getting.hts,v 1.7 2008/03/19 16:27:57 tg Exp $'
 mws_content <<'EOF'
 <h1>Get MirOS!</h1>
 
@@ -55,7 +55,7 @@ mws_content <<'EOF'
    <p>Contains the CVS repository and a few binary packages.</p>
    <p>Released 16.03.2008 (<a href="ann-10.htm">Release
     announcement</a>).</p></td>
-  <td><p>via HTTP: <a href="/MirOS/ISOs/MIR80316.ISO">ISO</a> &ndash;
+  <td><p>via HTTP: <a href="http://pub.allbsd.org/MirOS/ISOs/MIR80316.ISO">ISO</a> &ndash;
    <a href="/MirOS/v10/">NetInstall</a> &ndash;
    <a href="http://f.scarywater.net/miros/">via BitTorrent</a></p>
    <p>Netinstall: go to one of the mirrors listed below and pull from
@@ -64,7 +64,7 @@ mws_content <<'EOF'
   <td><p><b>MirOS #9semel (stable, i386)</b></p>
    <p>Released 25.06.2006 (<a href="http://marc.info/?m=115110448632235">Release
     announcement</a>).</p></td>
-  <td><p><a href="http://pub.allbsd.org/MirOS/ISOs/MIR60625.ISO">via HTTP</a> &ndash;
+  <td><p><a href="/MirOS/ISOs/MIR60625.ISO">via HTTP</a> &ndash;
    <a href="http://f.scarywater.net/miros/">via BitTorrent</a></p></td>
  </tr><tr>
   <td><p><b>MirOS #8semel (stable, i386)</b></p>
