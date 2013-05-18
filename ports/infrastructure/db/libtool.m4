@@ -1,5 +1,5 @@
-# $MirOS: contrib/gnu/libtool/libtool.m4,v 1.66+1 2008/05/03 21:52:43 tg Exp $
-# $miros: contrib/gnu/libtool/libtool.m4,v 1.67 2008/10/05 20:26:10 tg Exp $
+# $MirOS: contrib/gnu/libtool/libtool.m4,v 1.68 2008/10/13 21:08:02 tg Exp $
+# $miros: contrib/gnu/libtool/libtool.m4,v 1.68 2008/10/13 21:08:02 tg Exp $
 #-
 # libtool.m4 - Configure libtool for the host system. -*-Autoconf-*-
 ## Copyright 1996, 1997, 1998, 1999, 2000, 2001, 2003, 2004, 2005, 2006, 2007,
@@ -4748,9 +4748,7 @@ LTCC=$lt_LTCC
 LTCFLAGS=$lt_LTCFLAGS
 
 # A language-specific compiler.
-ifelse([$1], [], [: \${CC=$lt_[]_LT_AC_TAGVAR(compiler, $1)}],
-ifelse([$1], [CXX], [CC=\${CXX-$lt_[]_LT_AC_TAGVAR(compiler, $1)}],
-[CC=$lt_[]_LT_AC_TAGVAR(compiler, $1)]))
+CC=$lt_[]_LT_AC_TAGVAR(compiler, $1)
 
 # Is the compiler the GNU C compiler?
 with_gcc=$_LT_AC_TAGVAR(GCC, $1)
