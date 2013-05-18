@@ -1,4 +1,3 @@
-/**	$MirOS: src/sbin/fdisk/fdisk.c,v 1.3 2005/11/23 16:43:53 tg Exp $ */
 /*	$OpenBSD: fdisk.c,v 1.43 2006/07/27 04:53:27 ray Exp $	*/
 
 /*
@@ -43,9 +42,9 @@ static unsigned char builtin_mbr[] = {
 #include "mbrcode.h"
 };
 
-__RCSID("$MirOS: src/sbin/fdisk/fdisk.c,v 1.3 2005/11/23 16:43:53 tg Exp $");
+__RCSID("$MirOS: src/sbin/fdisk/fdisk.c,v 1.4 2006/09/20 20:03:30 tg Exp $");
 
-static void
+static __dead void
 usage(void)
 {
 	extern char * __progname;
@@ -72,9 +71,9 @@ main(int argc, char *argv[])
 	disk_t disk;
 	DISK_metrics *usermetrics;
 #if defined(__amd64__) || defined(__i386__) || defined (__powerpc__)
-	char *mbrfile = _PATH_MBR;
+	const char *mbrfile = _PATH_MBR;
 #else
-	char *mbrfile = NULL;
+	const char *mbrfile = NULL;
 #endif
 	mbr_t mbr;
 	char mbr_buf[DEV_BSIZE];
@@ -96,9 +95,9 @@ main(int argc, char *argv[])
 			mbrfile = optarg;
 			break;
 		case 'c':
-			c_arg = strtonum(optarg, 1, 262144, &errstr);
+			c_arg = strtonum(optarg, 1, 2097151, &errstr);
 			if (errstr)
-				errx(1, "Cylinder argument %s [1..262144].",
+				errx(1, "Cylinder argument %s [1..2097151].",
 				    errstr);
 			break;
 		case 'h':
