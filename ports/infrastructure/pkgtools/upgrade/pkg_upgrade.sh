@@ -1,5 +1,5 @@
 #!/usr/bin/env mksh
-# $MirOS: ports/infrastructure/pkgtools/upgrade/pkg_upgrade.sh,v 1.33 2008/10/05 16:10:06 tg Exp $
+# $MirOS: ports/infrastructure/pkgtools/upgrade/pkg_upgrade.sh,v 1.34 2008/10/12 15:28:49 tg Exp $
 #-
 # Copyright (c) 2006, 2007, 2008
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -124,7 +124,7 @@ force=0
 quiet=0
 stubs=0
 fv=
-while getopts "afhqs" option; do
+while getopts "afhqsv" option; do
 	case $option {
 	(a)	auto=1 ;;
 	(f)	force=1 ;;
