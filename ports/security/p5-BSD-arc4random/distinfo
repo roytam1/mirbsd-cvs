@@ -1,7 +1,7 @@
 $MirOS$
 
-MD5 (BSD-arc4random-1.43.tar.gz) = dfc0323f56aa157e5ccedd23060697d3
-RMD160 (BSD-arc4random-1.43.tar.gz) = cef0f789f9ec426480e5203ed17a8105a8165d97
-SHA1 (BSD-arc4random-1.43.tar.gz) = 3379c82378d3b1fac5d55f7dc53d097e082fa587
-SIZE (BSD-arc4random-1.43.tar.gz) = 13712
-TIGER (BSD-arc4random-1.43.tar.gz) = a706df55e15a31ef1abe80c0d5abbd28e6af70833f95e7d9
+MD5 (BSD-arc4random-1.50.tar.gz) = 0393e1a852ef4e72fcd16a738d4e6f19
+RMD160 (BSD-arc4random-1.50.tar.gz) = 794d4f799e769b7d11ccc79ba733c190868df664
+SHA1 (BSD-arc4random-1.50.tar.gz) = d7472ce6306572965f041d37437b8be3446294da
+SIZE (BSD-arc4random-1.50.tar.gz) = 14432
+TIGER (BSD-arc4random-1.50.tar.gz) = f098fe24bcdeb155503016672b16229d7f88d4fe61ac923e
