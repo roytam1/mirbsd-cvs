@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/sbin/dhclient/dhclient-script,v 1.5 2005/11/23 16:43:51 tg Exp $
+# $MirOS: src/sbin/dhclient/dhclient-script,v 1.6 2006/09/20 20:03:31 tg Exp $
 # $OpenBSD: dhclient-script,v 1.10 2006/06/03 19:30:06 mpf Exp $
 #
 # Copyright (c) 2004, 2005
@@ -42,8 +42,8 @@ add_new_address() {
 
 delete_old_alias() {
 	if [ -n "$alias_ip_address" ]; then
-		ifconfig $interface inet $alias_ip_address delete >/dev/null 2>&1
-		route -n delete -inet $alias_ip_address 127.0.0.1 >/dev/null 2>&1
+		ifconfig $interface inet $alias_ip_address delete > /dev/null 2>&1
+		route -n delete -inet $alias_ip_address 127.0.0.1 > /dev/null 2>&1
 	fi
 }
 
