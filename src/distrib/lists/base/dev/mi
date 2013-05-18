@@ -1590,7 +1590,7 @@
 ./usr/lib/libssl.a
 ./usr/lib/libstdc++.a
 ./usr/lib/libstdc++.la
-./usr/lib/libstdc++.so.37.0
+./usr/lib/libstdc++.so.38.0
 ./usr/lib/libsupc++.a
 ./usr/lib/libsupc++.la
 ./usr/lib/libtermcap.a
