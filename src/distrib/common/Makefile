@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/Makefile,v 1.25 2007/10/01 20:50:49 tg Exp $
+# $MirOS: src/distrib/common/Makefile,v 1.26 2007/10/01 20:53:45 tg Exp $
 
 .include <bsd.own.mk>
 
@@ -69,6 +69,7 @@ FLOPPYTYPE?=	floppy3
 INSTALLBOOT?=	${DESTDIR}/usr/mdec/installboot -h 2 -s ${FLOPPYSECS}
 BOOT?=		${DESTDIR}/usr/mdec/boot
 BOOTXX?=	${DESTDIR}/usr/mdec/bootxx
+BOOTSH?=	${DESTDIR}/usr/mdec/bootxx.sh
 
 # compact disc image (set to no to disable)
 CDROM?=		cdrom${OSrev}.iso
@@ -190,7 +191,7 @@ ${FLOPPY}: bsd.st
 	${SUDO} vnconfig -v -u ${VND}
 	${SUDO} rm -rf ${TMPMOUNT} ${WRKDIR}
 
-${CDROM}: cdrom-prepare cdrom-mdcopy cdrom-generate cdrom-mdboot cdrom-finish
+${CDROM}: cdrom-prepare cdrom-mdcopy cdrom-generate
 
 cdrom-prepare: bsd.rd
 	${SUDO} rm -rf ${WRKDIR}
@@ -203,7 +204,7 @@ cdrom-prepare: bsd.rd
 	fi
 	cp ${BOOT} ${WRKDIR}/b_${MACHINE}.ldr
 	cp ${TOPDIR}/common/boot.cfg.${MACHINE} ${WRKDIR}/boot.cfg
-	cp bsd.rd ${WRKDIR}/v${OSrev}/${MACHINE}/
+	cp bsd.rd ${BOOTSH} ${WRKDIR}/v${OSrev}/${MACHINE}/
 	cp ${TOPDIR}/common/00-README ${WRKDIR}/
 	chmod -R u+w ${WRKDIR}
 
@@ -215,8 +216,9 @@ cdrom-generate:
 	    -V 'MirOS #${OSrev} BSD/${MACHINE} boot-only CD' \
 	    -volset "$$(uname -slm) Setup" -sysid "MirOSBSD" \
 	    -pad -o ${CDROM} ${WRKDIR} 2>&1 | tee mkisofs.log
-
-cdrom-finish:
+	fgrep ${WRKDIR}/b_${MACHINE}.ldr mkisofs.log | \
+	    ${MKSH} ${BOOTSH} -0 -S 2 | \
+	    dd of=${CDROM} conv=notrunc 2>/dev/null
 	-rm -rf ${WRKDIR}
 
 .include <bsd.obj.mk>
