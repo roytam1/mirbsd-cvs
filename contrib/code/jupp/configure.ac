@@ -1,4 +1,4 @@
-# $MirOS: contrib/code/jupp/configure.ac,v 1.20 2009/10/18 17:54:54 tg Exp $
+# $MirOS: contrib/code/jupp/configure.ac,v 1.21 2010/04/08 15:31:01 tg Exp $
 #-
 # Process this file with autoconf to produce a configure script.
 
@@ -31,7 +31,12 @@ case "$host" in
 		CPPFLAGS="$CPPFLAGS -I/usr/local/include"
 		LDFLAGS="$LDFLAGS -L/usr/local/lib -R/usr/local/lib"
 		;;
-	*)	;;
+esac
+
+case $host in
+*-*-mirbsd* | *-*-openbsd*)
+	AC_DEFINE(HAVE_GCC_ATTRIBUTE_BOUNDED, 1, [Define if GCC has Anil's bounds checker])
+	;;
 esac
 
 # Checks for libraries.
