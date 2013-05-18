@@ -1,5 +1,5 @@
 #!/bin/sh
-# $MirOS: ports/Setup.sh,v 1.18 2005/12/03 22:01:22 tg Exp $
+# $MirOS: ports/Setup.sh,v 1.19 2005/12/17 05:46:17 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -62,14 +62,8 @@ export isinterix
 #%%BEGIN sync Setup.sh with setup.ksh %% paths
 if test $isinterix = no; then
 	p=$localbase/bin
-	for a in /usr/local/bin $xfbase/bin /usr/X11R6/bin /usr/bin /bin; do
-		case :$p: in
-		*:$a:*)	continue ;;
-		esac
-		test -d $a && p=$p:$a
-	done
-	p=$p:$localbase/sbin
-	for a in /usr/local/sbin /usr/sbin /sbin; do
+	for a in /usr/local/bin /usr/bin /bin $xfbase/bin /usr/X11R6/bin \
+	    /usr/sbin /sbin $localbase/sbin; do
 		case :$p: in
 		*:$a:*)	continue ;;
 		esac
@@ -80,14 +74,8 @@ else
 	# On Interix, /usr/bin is /bin; gzip lives in /usr/contrib/bin;
 	# gcc has yet its own directory; we have X11R5 as well
 	p=$localbase/bin
-	for a in /usr/local/bin /opt/gcc.3.3/bin /usr/contrib/bin /bin; do
-		case :$p: in
-		*:$a:*)	continue ;;
-		esac
-		test -d $a && p=$p:$a
-	done
-	p=$p:$localbase/sbin
-	for a in /usr/local/sbin /usr/sbin /sbin $xfbase/bin /usr/X11R6/bin; do
+	for a in /usr/local/bin /opt/gcc.3.3/bin /usr/contrib/bin /bin \
+	    /usr/sbin /sbin $localbase/sbin $xfbase/bin /usr/X11R6/bin; do
 		case :$p: in
 		*:$a:*)	continue ;;
 		esac

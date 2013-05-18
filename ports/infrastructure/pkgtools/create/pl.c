@@ -1,4 +1,4 @@
-/**	$MirOS: ports/infrastructure/pkgtools/create/pl.c,v 1.16 2005/11/23 17:41:06 bsiegert Exp $ */
+/**	$MirOS: ports/infrastructure/pkgtools/create/pl.c,v 1.17 2005/12/17 02:36:26 tg Exp $ */
 /*	$OpenBSD: pl.c,v 1.11 2003/08/15 00:03:22 espie Exp $	*/
 
 /*
@@ -29,7 +29,7 @@
 #include <md5.h>
 #include <unistd.h>
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/create/pl.c,v 1.16 2005/11/23 17:41:06 bsiegert Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/create/pl.c,v 1.17 2005/12/17 02:36:26 tg Exp $");
 
 ld_type_t LdType = LD_STATIC;
 
@@ -200,7 +200,9 @@ check_list(char *home, package_t *pkg, bool syshack)
 				break;
 			len = strlen(p->name);
 			tmp = NULL;
-			if (syshack && !strncmp(p->name, "man/", 4)) {
+			if (syshack &&
+			    (!strncmp(p->name, "man/", 4))
+			    || (!strncmp(p->name, "info/", 5))) {
 				cp = strconcat("share/", p->name);
 				free(p->name);
 				p->name = copy_string(cp);

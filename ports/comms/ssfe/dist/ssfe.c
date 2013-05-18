@@ -15,6 +15,15 @@
    it under the terms of the GNU General Public License as published by
    the Free Software Foundation. See the file
    /usr/share/doc/legal/COPYING-2 for details.
+
+   Licensor offers the work "AS IS" and WITHOUT WARRANTY of any kind,
+   express, or implied, to the maximum extent permitted by applicable
+   law, without malicious intent or gross negligence; in no event may
+   licensor, an author or contributor be held liable for any indirect
+   or other damage, or direct damage except proven a consequence of a
+   direct error of said person and intended use of this work, loss or
+   other issues arising in any way out of its use, even if advised of
+   the possibility of such damage or existence of a nontrivial bug.
 */
 
 #include <sys/types.h>
@@ -42,10 +51,10 @@
 #include <sys/select.h>
 #endif
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: ports/comms/ssfe/dist/ssfe.c,v 1.3 2005/09/01 19:38:02 tg Exp $");
 
-#define BUF_SIZE 512
-#define MAX_COLS 512
+#define BUF_SIZE 4096
+#define MAX_COLS 4096
 
 unsigned char *statusline;
 int ystatus, yinput;     /* line number of the status line, input line */
@@ -87,7 +96,7 @@ struct tabinfo {
 int tabLines=0;
 struct tabinfo *curtabt=NULL, *curtabr=NULL, *oldest=NULL;
 
-#define MAX_HIST_LINES 50
+#define MAX_HIST_LINES 128
 struct histinfo {
   unsigned char string[BUF_SIZE+20];
   int len, plen;

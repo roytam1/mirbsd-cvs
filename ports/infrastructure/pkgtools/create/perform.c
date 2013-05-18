@@ -1,4 +1,4 @@
-/* $MirOS: ports/infrastructure/pkgtools/create/perform.c,v 1.4 2005/09/12 22:59:54 tg Exp $ */
+/* $MirOS: ports/infrastructure/pkgtools/create/perform.c,v 1.5 2005/12/17 02:36:26 tg Exp $ */
 /* $OpenBSD: perform.c,v 1.17 2003/08/27 06:51:26 jolan Exp $	*/
 
 /*
@@ -33,7 +33,7 @@
 #include <signal.h>
 #include <unistd.h>
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/create/perform.c,v 1.4 2005/09/12 22:59:54 tg Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/create/perform.c,v 1.5 2005/12/17 02:36:26 tg Exp $");
 
 static void sanity_check(void);
 static void make_dist(char *, char *, const char *, package_t *);
@@ -147,12 +147,18 @@ pkg_perform(char **pkgs)
 	if (BaseDir) {
 	    char *pf = copy_string(strconcat(BaseDir, Prefix));
 	    char *s = copy_string(strconcat(pf, "/man"));
-	    if (!pf || !s)
+	    char *s2 = copy_string(strconcat(pf, "/info"));
+	    if (!pf || !s || !s2)
 		err(1, "cannot copy_string");
-	    if (!isdir(s))
+	    if (!isdir(s) && !isdir(s2))
 		hackmandir = false;
-	    else if (rename(s, strconcat(pf, "/share/man")))
-		err(1, "cannot rename %s to share/man", s);
+	    else {
+		if (rename(s, strconcat(pf, "/share/man")))
+		    err(1, "cannot rename %s to ...%s", s, "/share/man");
+		if (rename(s2, strconcat(pf, "/share/info")))
+		    err(1, "cannot rename %s to ...%s", s2, "/share/info");
+	    }
+	    free(s2);
 	    free(s);
 	    free(pf);
 	}

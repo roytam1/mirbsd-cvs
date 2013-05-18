@@ -1,53 +1,17 @@
-# $MirOS: gcc/Makefile.inc,v 1.21 2005/12/06 20:18:31 tg Exp $
+# $MirOS: gcc/Makefile.inc,v 1.22 2005/12/06 23:11:58 tg Exp $
 
 .ifndef _MODGCC_MAKEFILE_INC
 _MODGCC_MAKEFILE_INC=1
 
-.if ${OStype} == "MirBSD"
-.  if ${MACHINE} == "i386"
-NO_ADA?=	No
-NO_CXX?=	No
-NO_OBJC?=	No
-NO_JAVA?=	No
-NO_PASCAL?=	No
-NO_THREADS?=	No	# mainly needed for gcj
-.  elif ${MACHINE} == "macppc"
-NO_ADA?=	Yes
-NO_CXX?=	Yes
-NO_OBJC?=	Yes
-NO_JAVA?=	Yes
-NO_PASCAL?=	Yes
-NO_THREADS?=	Yes
-.  else
-NO_ADA?=	Yes
-NO_CXX?=	Yes
-NO_OBJC?=	Yes
-NO_JAVA=	Yes
-NO_PASCAL?=	Yes
-NO_THREADS=	Yes
-.  endif
-.else
-GCC_NATIVE=	No
-NO_ADA?=	Yes	# helps bootstrapping
-NO_JAVA=	Yes	# never
-NO_THREADS=	Yes
-NO_BOEHMGC=	Yes
+.include "Makefile.lang"
+
+.if ${OStype} != "MirBSD"
 .  if ${OStype} == "Darwin"
 GMAKE?=		/usr/bin/make
 .  endif
 .endif
 
-.if defined(NO_CXX) && ${NO_CXX:L} != "no"
-NO_JAVA=	Yes #implied
-.endif
-
-.if defined(NO_OBJC) && defined(NO_JAVA) \
-    && ${NO_OBJC:L} != "no" && ${NO_JAVA:L} != "no"
-NO_BOEHMGC=	Yes
-.endif
-
 GCC_NATIVE?=	Yes
-NO_BOEHMGC?=	No
 GMAKE?=		/usr/mpkg/bin/gmake
 CPP=		${CC} -E
 

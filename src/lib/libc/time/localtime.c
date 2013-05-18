@@ -1,4 +1,4 @@
-/* $MirOS: src/lib/libc/time/localtime.c,v 1.8 2005/12/17 05:46:15 tg Exp $ */
+/* $MirOS: src/lib/libc/time/localtime.c,v 1.9 2005/12/18 01:04:32 tg Exp $ */
 
 /*-
  * Copyright (c) 2004, 2005
@@ -30,7 +30,7 @@
 
 #include <sys/param.h>
 __SCCSID("@(#)localtime.c	7.80");
-__RCSID("$MirOS: src/lib/libc/time/localtime.c,v 1.8 2005/12/17 05:46:15 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/time/localtime.c,v 1.9 2005/12/18 01:04:32 tg Exp $");
 
 /*
 ** Leap second handling from Bradley White (bww@k.gp.cs.cmu.edu).
@@ -1708,6 +1708,7 @@ timeoff(tmp, offset)
 void
 _initialise_leaps(void)
 {
+	extern int _leaps_initialised;
 	extern void _pushleap(time_t);
 	struct state sp;
 	int i;

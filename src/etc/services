@@ -1,4 +1,4 @@
-# $MirOS: src/etc/services,v 1.2 2005/03/06 19:05:54 tg Exp $
+# $MirOS: src/etc/services,v 1.3 2005/07/24 16:34:33 tg Exp $
 # $OpenBSD: services,v 1.58 2004/12/27 11:02:31 jmc Exp $
 # $FreeBSD: services,v 1.96 2003/09/18 09:21:09 dougb Exp $
 #
@@ -1208,6 +1208,8 @@ nfa		1155/tcp	# Network File Access
 nfa		1155/udp
 phone		1167/udp	# conference calling
 skkserv		1178/tcp	# SKK (kanji input)
+openvpn		1194/tcp
+openvpn		1194/udp	# OpenVPN
 lupa		1212/tcp
 lupa		1212/udp
 nerv		1222/tcp	# SNI R&D network

@@ -2973,7 +2973,6 @@
 ./var/anoncvs/anoncvs/dev
 ./var/anoncvs/anoncvs/etc
 ./var/anoncvs/anoncvs/tmp
-./var/anoncvs/anoncvs/usr
 ./var/anoncvs/anoncvs/var
 ./var/audit
 ./var/authpf

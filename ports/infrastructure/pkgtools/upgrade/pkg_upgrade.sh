@@ -1,5 +1,5 @@
 #!/usr/bin/env mksh
-# $MirOS: ports/infrastructure/pkgtools/upgrade/pkg_upgrade.sh,v 1.8 2005/12/16 16:41:04 tg Exp $
+# $MirOS: ports/infrastructure/pkgtools/upgrade/pkg_upgrade.sh,v 1.9 2005/12/18 05:40:16 tg Exp $
 #-
 # Copyright (c) 2005
 #	Benny Siegert <bsiegert@66h.42h.de>
@@ -104,6 +104,6 @@ else
 	pkg_delete $OLDPKGS && pkg_add $1
 fi
 
-if [[ -f $TMPDIR/$OLDPKGS/+REQUIRED_BY && -d $PKG_DBDIR/$PKGNAME ]] ; then
-	mv $TMPDIR/$OLDPKGS/+REQUIRED_BY $PKG_DBDIR/$PKGNAME
+if [[ -f $TMPDIR/+REQUIRED_BY && -d $PKG_DBDIR/$PKGNAME ]] ; then
+	mv $TMPDIR/+REQUIRED_BY $PKG_DBDIR/$PKGNAME
 fi

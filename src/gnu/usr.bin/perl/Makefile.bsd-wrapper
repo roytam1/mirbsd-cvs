@@ -1,4 +1,4 @@
-# $MirOS: src/gnu/usr.bin/perl/Makefile.bsd-wrapper,v 1.6 2005/10/21 10:46:27 tg Exp $
+# $MirOS: src/gnu/usr.bin/perl/Makefile.bsd-wrapper,v 1.8 2005/12/18 04:52:25 tg Exp $
 # $OpenBSD: Makefile.bsd-wrapper,v 1.69 2005/01/15 21:30:17 millert Exp $
 #
 # Build wrapper for Perl 5.8.6
@@ -668,13 +668,17 @@ maninstall:
 .endif
 
 install: install.lib install.perl maninstall
+
+do-h2ph:
 	-mkdir -p ${DESTDIR}/usr/libdata/perl5/site_perl/${MACHINE_ARCH}-${OSname}
 	(cd ${DESTDIR}/usr/include; ${H2PH} \
 		-d ${DESTDIR}/usr/libdata/perl5/site_perl/${MACHINE_ARCH}-${OSname} \
 		$$(find . -name '*.h'); \
 		pax -rw $$(find . -type l \! -name '*.h' | sed 's/^..//') \
 		${DESTDIR}/usr/libdata/perl5/site_perl/${MACHINE_ARCH}-${OSname})
-	-chmod -R a+rX ${DESTDIR}/usr/libdata/perl5
+	-chown -R ${BINOWN}:${BINGRP} ${DESTDIR}/usr/libdata/perl5
+	-find ${DESTDIR}/usr/libdata/perl5 -type f | xargs chmod a=r
+	-find ${DESTDIR}/usr/libdata/perl5 -type d | xargs chmod u=rwx,go=rx
 
 install.perl:
 	cd ${.OBJDIR}; INSTALL=${INSTALL} INSTALL_COPY=${INSTALL_COPY} \

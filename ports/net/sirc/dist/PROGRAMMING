@@ -1,3 +1,5 @@
+$MirOS$
+
                     programming your sirc client
 	            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -312,6 +314,11 @@ command      *	activated by the user typing a command (regardless of
 		interpreted.
 		setting $skip=1 in the hook will make sirc ignore the
 		command
+
+capab        *	activated on a reply to an &send_capab('FOO') with
+		$capab_cmd set to 'FOO' and $capab_response set to
+		the answer from the server. (These two variables are
+		also available as arguments, in this order.)
 
 chat_disconnect activated when a dcc chat is lost (but not when the
 		user closes one with DCC CLOSE CHAT)

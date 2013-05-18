@@ -10,6 +10,12 @@ and in iso-8859-1 to the terminal. Control characters are
 stripped off.
 The client has also support for sending iso-8859-1 on the wire
 and any character set supported by p5-Encode to the terminal.
+Overlong lines are split automatically to smaller chunks.
 
 This IRC client supports IPv6: http://www.feyrer.de/IPv6/
 DCC support is totally broken, though.
+
+The new command ACCEPT from ratbox-ircd (Freeforge et al.) is
+supported as well as the CAPAB IDENTIFY-MSG from dancer-ircd
+(Freenode/OPN et al.) which is invoked automatically and shows
+messages from identified users with different hooks («»[[¬]]).

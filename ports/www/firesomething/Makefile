@@ -1,5 +1,7 @@
-# $MirOS: ports/www/firesomething/Makefile,v 1.4 2005/04/10 21:51:25 tg Exp $
+# $MirOS: ports/www/firesomething/Makefile,v 1.6 2005/07/06 19:21:37 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.10 2004/08/08 17:19:36 robert Exp $
+
+BROKEN=			Kaput. I suggest ports/www/opera (BSD), K-Meleon (Win), Safari (Mac)
 
 ONLY_FOR_PLATFORM=	*:*:alpha *:*:i386 *:*:sparc *:*:sparc64 *:*:amd64 *:*:powerpc
 COMMENT=		"one of the successors to the Netscape browser engine"

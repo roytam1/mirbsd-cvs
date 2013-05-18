@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.84 2005/12/17 04:29:13 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.85 2005/12/18 05:40:16 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -81,6 +81,7 @@ PKG_CMD_DELETE?=	${PKG_CMDDIR}/pkg_delete
 PKG_CMD_INFO?=		${PKG_CMDDIR}/pkg_info
 PKG_CMD_PKG?=		${PKG_CMDDIR}/pkg
 PKG_CMD_UPGRADE?=	${PKG_CMDDIR}/pkg_upgrade
+_UPGRADE_FLAGS?=	-a
 
 .if ${MACHINE_ARCH} != ${ARCH}
 PKG_ARCH?=		${MACHINE_ARCH},${ARCH}
@@ -420,7 +421,7 @@ CHECKSUM_FILE?=		${.CURDIR}/distinfo
 # Don't touch!!! Used for generating checksums.
 _CIPHERS=		rmd160 sha1 md5
 
-_PORTPATH?=		${LOCALBASE}/bin:/usr/bin:/bin:${LOCALBASE}/sbin:/usr/sbin:/sbin:${X11BASE}/bin
+_PORTPATH?=		${LOCALBASE}/bin:/usr/local/bin:/usr/bin:/bin:${X11BASE}/bin:/usr/sbin:/sbin:${LOCALBASE}/sbin
 PORTPATH?=		${WRKDIR}/bin:${_PORTPATH}
 
 # Add any COPTS to CFLAGS.
@@ -2158,7 +2159,7 @@ fetch-all:
 ${FULLDISTDIR}/${_CVS_DISTF${_i:S/-//}}:
 	@[[ -e ${FULLDISTDIR}/${_CVS_DISTF${_i:S/-//}} ]] || { \
 		cd ${.CURDIR}; ${MAKE} fetch-depends; \
-		${_CVS_FETCH${_i:S/-//}}; \
+		PATH=${_PORTPATH} ${_CVS_FETCH${_i:S/-//}}; \
 		file=${@:S@^${DISTDIR}/@@}; \
 		ck=$$(cd ${DISTDIR} && ${_size_fragment}); \
 		if grep -qe "^$$ck\$$" \
@@ -2941,6 +2942,9 @@ uninstall deinstall:
 	@${SUDO} ${SETENV} PATH=${PKG_CMDDIR:Q}:$$PATH \
 	    ${PKG_CMD_DELETE} ${FULLPKGNAME${SUBPACKAGE}}
 
+reupgrade:
+	exec env _UPGRADE_FLAGS="${_UPGRADE_FLAGS} -f" ${MAKE} upgrade
+
 upgrade: _upgrade_pkgs .WAIT _upgrade ${_UPGRADE_DEPS}
 
 _upgrade_pkgs:
@@ -2950,7 +2954,7 @@ _upgrade_pkgs:
 	@${ECHO_MSG} "===>  Upgrading for ${FULLPKGNAME}${_MASTER}"
 
 _upgrade:
-	${SUDO} ${PKG_CMD_UPGRADE} -a ${PKGFILE${SUBPACKAGE}}
+	${SUDO} ${PKG_CMD_UPGRADE} ${_UPGRADE_FLAGS} ${PKGFILE${SUBPACKAGE}}
 
 .if defined(ERRORS)
 .BEGIN:
@@ -2993,7 +2997,7 @@ _upgrade:
 	pre-regress print-build-depends print-run-depends \
 	_print-uses readmes rebuild \
 	regress regress-depends \
-	reinstall repackage run-depends \
+	reinstall repackage reupgrade run-depends \
 	run-depends-list run-dir-depends show \
 	uninstall unlink-categories update-patches update-plist \
 	upgrade _upgrade _upgrade_pkgs unconfigure \

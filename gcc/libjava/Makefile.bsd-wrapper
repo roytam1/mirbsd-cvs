@@ -1,4 +1,4 @@
-# $MirOS: gcc/libjava/Makefile.bsd-wrapper,v 1.18 2005/10/06 22:22:00 tg Exp $
+# $MirOS: gcc/libjava/Makefile.bsd-wrapper,v 1.19 2005/12/17 06:01:01 tg Exp $
 
 .include <bsd.own.mk>
 .include "${GNUSYSTEM_AUX_DIR}/locations.mk"
@@ -53,18 +53,6 @@ post-install:
 	chmod ${LIBMODE} \
 	    ${DESTDIR}/usr/lib/lib${_i}.{so.${LIBGCJ_REV}*,a,la}
 .endfor
-.if ${DEBUGPROGS:L} == "yes"
-.  for _i in ${INSTPROGS}
-	-rm -f ${DESTDIR}/usr/bin/${_i}.dbg
-	cd ${DESTDIR}/usr/bin && \
-	    chmod 0600 ${_i} && \
-	    objcopy --only-keep-debug ${_i} ${_i}.dbg && \
-	    objcopy --strip-debug --add-gnu-debuglink=${_i}.dbg ${_i} && \
-	    chmod ${BINMODE} ${_i} && \
-	    chmod ${SHAREMODE} ${_i}.dbg && \
-	    chown ${BINOWN}:${BINGRP} ${_i} ${_i}.dbg
-.  endfor
-.endif
 
 .include <bsd.cfwrap.mk>
 

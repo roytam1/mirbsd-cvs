@@ -1,4 +1,4 @@
-# $MirOS: src/Makefile,v 1.22 2005/06/14 13:04:39 tg Exp $
+# $MirOS: src/Makefile,v 1.23 2005/12/05 16:06:01 tg Exp $
 # $OpenBSD: Makefile,v 1.103 2004/05/03 15:18:18 drahn Exp $
 
 .include <bsd.own.mk>
@@ -132,7 +132,18 @@ _DISTS=	base
 _DISTS=	base x11 htman
 .endif
 
+.ifdef QUICK_DIST
+.  include "gcc/Makefile.lang"
+.endif
+
 do-dist:
+.ifdef QUICK_DIST
+.  if ${NO_JAVA:L} == "no"
+	@[[ -e /usr/X11R6/include/X11/X.h && -e /usr/X11R6/lib/libX11.a ]] \
+	    || { print 'To build gcc/libjava you must have X11 installed!'; \
+		 exit 1; }
+.  endif
+.endif
 	@echo Initialising sudo as ${SUDO:Q}
 	${SUDO} true
 	@echo "============================================================"
@@ -158,8 +169,10 @@ do-dist:
 .endif
 	@date
 	cd ${.CURDIR}/gcc && exec ${MAKE} b-r
+	cd ${.CURDIR}/gnu/usr.bin/perl && exec ${SUDO} ${MAKE} \
+	    -f Makefile.bsd-wrapper DESTDIR=${BSDRELDIR}/base do-h2ph
 	cd ${.CURDIR}/gnu/usr.bin/texinfo && exec ${SUDO} ${MAKE} \
-	    -f Makefile.bsd-wrapper mkinfodir DESTDIR=${BSDRELDIR}/base
+	    -f Makefile.bsd-wrapper DESTDIR=${BSDRELDIR}/base mkinfodir
 .ifndef QUICK_DIST
 	@date
 	cd ${.CURDIR} && exec ${MAKE} do-htman

@@ -1,13 +1,23 @@
 #!/usr/bin/perl
-# $MirOS: ports/net/sirc/dist/dsircp,v 1.2 2005/09/01 20:38:50 tg Exp $
+# $MirOS: ports/net/sirc/dist/dsircp,v 1.3 2005/12/15 13:10:24 tg Exp $
 #-
 # dsircp: dumb-mode small irc client in perl
 # by orabidoo <roger.espel.llima@pobox.com>
 #
 # Copyright (C) 1995-1997 Roger Espel Llima
 # Copyright (c) 2002-2003 Hubert Feyrer
-# Copyright (c) 2001-2004 Thorsten Glaser
+# Copyright (c) Phil Stracchino
+# Copyright (c) 2001-2005 Thorsten Glaser
 #
+# Licensor offers the work "AS IS" and WITHOUT WARRANTY of any kind,
+# express, or implied, to the maximum extent permitted by applicable
+# law, without malicious intent or gross negligence; in no event may
+# licensor, an author or contributor be held liable for any indirect
+# or other damage, or direct damage except proven a consequence of a
+# direct error of said person and intended use of this work, loss or
+# other issues arising in any way out of its use, even if advised of
+# the possibility of such damage or existence of a nontrivial bug.
+#-
 # for a full-screen termcap interface, use this with ssfe
 #
 # use: dsircp [options] [nick [server[:port[:password]]]]
@@ -44,7 +54,10 @@
 
 $version='2.211-MirPorts';
 $date='01 Sep 2005';
-$add_ons='+[mirabile-20050901]';
+$add_ons='+[mirabile-@DIST_DATE@]';
+$msgchannel = '';
+$has_capab = 0; $capab_cmd = ''; $capab_response = '';
+$has_identifymsg = 0; $unverified = 1; $unverified_m = 0;
 
 $libdir=$ENV{"SIRCLIB"} || "@PREFIX@/share/sirc/";
 push(@INC, $libdir, $ENV{"HOME"}."/.etc/sirc");
@@ -76,7 +89,7 @@ use Encode;
 &Getopts('n:s:p:u:i:l:L:H:rqQR78UC:X');
 
 %set=("LOGFILE", "", "LOG", "off", "PRINTUH", "none", "PRINTCHAN", "off",
- 	"LOCALHOST", "", "CTCP", "no", "SENDAHEAD", 4096,
+	"LOCALHOST", "", "CTCP", "no", "SENDAHEAD", 4096,
 	"USERINFO", "", "FINGER", "", "IRCNAME", "", "EIGHT_BIT", "on",
 	"LOADPATH", join(":", @loadpath), "CTRL_T", "/next", "UTF", "on",
 	"CHARSET", "iso-8859-1");
@@ -87,7 +100,7 @@ $server=$opt_s || $ARGV[1] || $ENV{"SIRCSERVER"} || $ENV{"IRCSERVER"} ||
 		"irc.66h.42h.de";
 $port0=$opt_p || $ENV{"SIRCPORT"} || $ENV{"IRCPORT"} || 6667;
 $username=$opt_u || $ENV{"SIRCUSER"} || $ENV{"IRCUSER"} || (getpwuid($<))[0] ||
-                $ENV{"USER"} || "blah";
+		$ENV{"USER"} || "blah";
 $set{"IRCNAME"}=$opt_i || $ENV{"SIRCNAME"} || $ENV{"IRCNAME"} || "/whois your father?";
 $nick=$opt_n || $ARGV[0] || $ENV{"SIRCNICK"} || $ENV{"IRCNICK"} || $username;
 $set{"FINGER"}=$ENV{"IRCFINGER"} || "keep your fingers to yourself";
@@ -162,16 +175,16 @@ sub resolve {
   } elsif ($_[0] =~ /^(\d+)\.(\d+)\.(\d+)\.(\d+)$/) {
     return pack("c4", $1, $2, $3, $4);
   } else {
-      local $rc;
+    local $rc;
 
-      $rc = (gethostbyname2($_[0], AF_INET6))[4];
+    $rc = (gethostbyname2($_[0], AF_INET6))[4];
 
-      if ($rc) {
-	  $use_ipv6 = 1;
-	  return $rc;
-      } else {
-	  return (gethostbyname($_[0]))[4];
-      }
+    if ($rc) {
+      $use_ipv6 = 1;
+      return $rc;
+    } else {
+      return (gethostbyname($_[0]))[4];
+    }
   }
 }
 
@@ -184,21 +197,21 @@ sub connect {
   $_[0]=&newfh;
   local($fh, $host, $port)=@_;
   local($adr, $otherend)=&resolve($host);
-  &tell("*\cbE\cb* Hostname `$host' not found"), return 0 unless $adr;
+  &tell("*\cbE\cb* Hostname '$host' not found"), return 0 unless $adr;
   if ($use_ipv6) {
-      $otherend=pack_sockaddr_in6($port, $adr);
-      &print("*\cbE\cb* Out of file descriptors"), return 0
-	  unless socket($fh, &PF_INET6, &SOCK_STREAM, 0);
+    $otherend=pack_sockaddr_in6($port, $adr);
+    &print("*\cbE\cb* Out of file descriptors"), return 0
+     unless socket($fh, &PF_INET6, &SOCK_STREAM, 0);
   } else {
-      $otherend=pack_sockaddr_in($port, $adr);
-      &print("*\cbE\cb* Out of file descriptors"), return 0
-	  unless socket($fh, &PF_INET, &SOCK_STREAM, 0);
+    $otherend=pack_sockaddr_in($port, $adr);
+    &print("*\cbE\cb* Out of file descriptors"), return 0
+     unless socket($fh, &PF_INET, &SOCK_STREAM, 0);
   }
   if (! $use_ipv6) {
-      if ($set{"LOCALHOST"}) {
-	  bind($fh, pack("S n a4 x8", &AF_INET, 0, $bindaddr)) ||
-	      &tell("*\cbE\cb* Warning: can't bind to sirc host ".$set{'LOCALHOST'});
-      }
+    if ($set{"LOCALHOST"}) {
+      bind($fh, pack("S n a4 x8", &AF_INET, 0, $bindaddr)) ||
+       &tell("*\cbE\cb* Warning: can't bind to sirc host ".$set{'LOCALHOST'});
+    }
   }
   $trysock=$fh;
   $SIG{'QUIT'}='sigquit';
@@ -222,12 +235,12 @@ sub listen {
       $bindaddr=pack_sockaddr_in6(0, 0) unless $bindaddr;
       $thisend=pack_sockaddr_in6($port+0, $bindaddr);
       &tell("*\cbE\cb* Out of file descriptors"), return 0
-	  unless socket($fh, &PF_INET6, &SOCK_STREAM, 0);
+       unless socket($fh, &PF_INET6, &SOCK_STREAM, 0);
   } else {
       $bindaddr=pack_sockaddr_in(0, 0) unless $bindaddr;
       $thisend=pack_sockaddr_in($port+0, $bindaddr);
       &tell("*\cbE\cb* Out of file descriptors"), return 0
-	  unless socket($fh, &PF_INET, &SOCK_STREAM, 0);
+       unless socket($fh, &PF_INET, &SOCK_STREAM, 0);
   }
   &tell("*\cbE\cb* Can't bind local socket!"), close $fh, return 0
     unless bind($fh, $thisend);
@@ -246,7 +259,7 @@ sub accept {
 }
 
 sub bindtoserver {
-  @channels=(); $talkchannel=''; $use_ipv6=0;
+  @channels=(); $talkchannel=''; $talkserver = ''; $use_ipv6=0;
   %mode=(); $umode=''; %limit=(); %haveops=(); %chankey=(); $away='';
   $listmin=0; $listmax=100000; $listpat='';
   @waituh=(); @douh=(); @erruh=(); $invited='';
@@ -254,7 +267,7 @@ sub bindtoserver {
   &tell("*** Connecting to $server, port $port...");
   &connect($S, $server, $port) || return;
   $connected=1;
-  $server1=$server;
+  $talkserver=$server1=$server;
   &sl("PASS $pass") if $pass;
   &sl("USER $username blah blah :".$set{'IRCNAME'});
   &sl("NICK $nick");
@@ -341,28 +354,48 @@ sub print {
   &dohooks("print", $what);
   return if $skip;
   $what =~ s/\s+$//;
+  if ($unverified_m) {
+    local $AB = Encode::encode($set{"CHARSET"}, "\x{AB}", 0);
+    local $AC = Encode::encode($set{"CHARSET"}, "\x{AC}", 0);
+    local $BB = Encode::encode($set{"CHARSET"}, "\x{BB}", 0);
+    if ($what =~ /^\*/) {
+      $what =~ s/</$AB/;
+      $what =~ s/>/$BB/;
+    } elsif ($what =~ /^(\<|\[|\-)(\S+)(\>|\]|\-)\s/) {
+      $what =~ s/^<(\S+)> /$AB$1$BB /;
+      $what =~ s/^\[(\S+)\] /[[$1]] /;
+      $what =~ s/^-(\S+)- /$AC$1$AC /;
+    }
+    $unverified_m = 0;
+  }
   # windows-1252 and broken (not converted) utf-8 => latin-1
-#  $what =~ tr/\x80-\x9F/e ,f,.tT\^×S<ö Z  ''""·\-\-\~Ts>ö zÿ/;
+# $what =~ tr/\x80-\x9F/e ,f,.tT\^×S<ö Z  ''""·\-\-\~Ts>ö zÿ/;
   # thanks to Toy (wacren@obspm.fr) for this translation
   $what =~ tr/\x80-\xff/\x00-\x1f !cLxY|$_ca<\-\-R_o+23\'mp.,1o>123?AAAAAAACEEEEIIIIDNOOOOO*0UUUUYPBaaaaaaaceeeeiiiidnooooo:0uuuuypy/
     if $set{"EIGHT_BIT"} ne 'on';
   $logging && print LOG $what."\n";
+  $what = &sortnames($what) if ($what =~ /Users on #\w+:/);
   if ($raw_mode) {
     print $what, "\n" || &exit;
   } elsif ($ansi) {
-    # this is buggy if you combine effects
     $what =~ s/([\ca\cc-\ch\cj-\cu\cw-\c^])/&enhance($1)/eg;
-    while ($what =~ /\cb/) {
-      ($what =~ s/\cb([^\cb]*)\cb/$bold$1$normal/) ||
-      $what =~ s/\cb/$bold/g;
-    }
-    while ($what =~ /\c_/) {
-      ($what =~ s/\c_([^\c_]*)\c_/$underline$1$normal/) ||
-      $what =~ s/\c_/$underline/g;
-    }
-    while ($what =~ /\cv/) {
-      ($what =~ s/\cv([^\cv]*)\cv/$reverse$1$normal/) ||
-      $what =~ s/\cv/$reverse/g;
+    # this should be better
+    my ($is_bold,$is_ul,$is_rev) = (0,0,0);
+    my $ansi_code = [[["\c[[m","\c[[7m"],
+		      ["\c[[4m","\c[[4;7m"]],
+		     [["\c[[1m","\c[[1;7m"],
+		      ["\c[[1;4m","\c[[1;4;7m"]]];
+
+    while ($what =~ /(\c[bv_])/) {
+      if ($1 = "\cb") {
+	$is_bold = $is_bold ? 0 : 1;
+      } elsif ($1 = "\c_") {
+	$is_ul = $is_ul ? 0 : 1;
+      } elsif ($1 = "\cv") {
+	$is_rev = $is_rev ? 0 : 1;
+       }
+      my $code = $ansi_code->[$is_bold][$is_ul][$is_rev];
+      $what =~ s/\c[bv_]/$code/;
     }
     print $what, $normal, "\n" || &exit;
   } else {
@@ -371,8 +404,39 @@ sub print {
   }
 }
 
+sub nocase {
+  uc($a) cmp uc($b);
+}
+
+sub sortnames {
+  my ($what) = @_;
+  my ($head,$tail) = split(/:\s+/,$what,2);
+  $what = join(': ', $head, join(' ',sort nocase (split(/\s+/,$tail))));
+  return ($what);
+}
+
 sub tell {
   $silent || &print;
+}
+
+sub tell_i {
+  if (!$has_identifymsg) {
+    $unverified_m = 0;
+  } elsif ($unverified) {
+    $unverified_m = 0;
+  } else {
+    $unverified_m = 1;
+  }
+  $silent || &print;
+}
+
+sub strip_idmsg {
+  $unverified = 1;
+  if ($args =~ /^([-+])/) {
+    $unverified = 0 if ($1 ne '-');
+    $args =~ s/^[-+]//;
+  }
+  $args =~ s/\s+$//;
 }
 
 sub dohooks {
@@ -415,6 +479,7 @@ sub dgsclose {
 
 sub msg {
   local($towho, $what)=@_;
+  $what =~ s/\s+$//;
   if ($ssfe) {
     local($x)=0;
     if ($query) {
@@ -439,19 +504,43 @@ sub msg {
       &tell("*\cbE\cb* No active DCC chat with $towho");
     }
   } elsif ($connected>1) {
-    $what=substr($what, 0, 485);
     &dohooks("send_text", $towho, $what);
-    if (&eq($towho, $talkchannel) && !$printchan) {
-      &tell("<\c_${nick}\c_> $what");
-    } elsif ($towho =~ /^[\&\#\+]/) {
-      &tell("<\c_$nick\c_:$towho> $what");
-    } else {
-      &tell(">\cb${towho}\cb< $what");
+    foreach my $output (&splitoutl($what)) {
+      if (&eq($towho, $talkchannel) && !$printchan) {
+	&tell("<\c_${nick}\c_> $output");
+      } elsif ($towho =~ /^[\&\#\+]/) {
+	&tell("<\c_$nick\c_:$towho> $output");
+      } else {
+	&tell(">\cb${towho}\cb< $output");
+      }
+      &sl("PRIVMSG $towho :$output");
     }
-    &sl("PRIVMSG $towho :$what");
   } else {
     &tell("*** You're not connected to a server");
   }
+}
+
+sub splitoutl {
+  my ($line) = @_;
+  my $width = 448;
+  my ($p, @split);
+
+  while (length($line) > $width) {
+    $p = rindex($line, ' ', $width);
+    if ($p == $width) {
+      push (@split, substr($line, 0, $p));
+      $line = substr($line, $p+1);
+    } elsif ($p > 0) {
+      push (@split, substr($line, 0, $p));
+      $line = substr($line, $p+1);
+    } else {
+      push (@split, substr($line, 0, $width-2) . '-');
+      $line = substr($line, $width-1);
+    }
+  }
+  push (@split, $line) if (length($line));
+
+  return (@split);
 }
 
 sub say {
@@ -466,12 +555,13 @@ sub notice {
   local($towho, $what)=@_;
   $what=substr($what, 0, 485);
   &dohooks("send_notice", $towho, $what);
-  &tell("-> -${towho}- $what");
+  &tell("-> -\cb${towho}\cb- $what");
   &sl("NOTICE $towho :$what");
 }
 
 sub describe {
   local($towho, $what)=@_;
+  $msgchannel = $towho;
   $what=substr($what, 0, 480);
   &dohooks("send_action", $towho, $what);
   if (&eq($towho, $talkchannel) && !$printchan) {
@@ -524,6 +614,7 @@ sub reply {
 
 sub ctcp {
   local($towho, $to, $what)=$_[0];
+  $msgchannel = $towho;
   ($what, $args)=split(/ +/, $_[1], 2);
   $what =~ tr/a-z/A-Z/;
   &dohooks("ctcp", $towho, $what, $args);
@@ -532,20 +623,28 @@ sub ctcp {
   $a && ($a=' '.$a);
   $to = (&eq($towho, $nick) ? "you" : $towho);
   &tell("*** $who$puh1 did a CTCP $what$a to $to")
-    unless $what =~ /^(ACTION|PING|DCC)$/;
+#   unless $what =~ /^(ACTION|PING|DCC)$/;
+    unless $what =~ /^(ACTION|PING)$/;
   if ($what eq 'ACTION') {
     &dohooks("action", $towho, $args);
     if (&eq($towho, $nick)) {
-      &tell("*> \cb${who}\cb$puh1 $args");
+      &tell_i("[*] \cb${who}\cb$puh1 $args");
     } elsif (&eq($towho, $talkchannel) && !$printchan) {
-      &tell("* $who $args");
+      &tell($unverified
+	? "* $who $args"
+	: "# $who $args"
+      );
     } else {
-      &tell("* $who$puh2:$towho $args");
+      &tell($unverified
+	? "* $who$puh2:$towho $args"
+	: "# $who$puh2:$towho $args"
+      );
     }
   } elsif ($what eq 'TIME') {
     &reply("TIME ".&date(time));
   } elsif ($what eq 'CLIENTINFO') {
-    &reply("CLIENTINFO ACTION, CLIENTINFO, DCC, ECHO, ERRMSG, FINGER, PING, TIME, USERINFO, VERSION");
+#   &reply("CLIENTINFO ACTION, CLIENTINFO, DCC, ECHO, ERRMSG, FINGER, PING, TIME, USERINFO, VERSION");
+    &reply("CLIENTINFO ACTION, CLIENTINFO, ECHO, ERRMSG, FINGER, PING, TIME, USERINFO, VERSION");
   } elsif ($what eq 'FINGER') {
     &reply("FINGER ".$set{"FINGER"});
   } elsif ($what eq 'USERINFO') {
@@ -561,7 +660,7 @@ sub ctcp {
     &tell("*** $who$puh1 did a CTCP PING to $to");
   } elsif ($what eq 'ECHO' || $what eq 'ERRMSG') {
     &reply("$what $args");
-  } elsif ($what eq 'DCC') {
+  } elsif (0) { #$what eq 'DCC') {
     &getarg;
     if ($newarg eq 'CHAT' || $newarg eq 'SEND' && !$restrict) {
       local($dfile, $dhost, $dport, $dsize)=split(/ +/, $args, 4);
@@ -569,26 +668,26 @@ sub ctcp {
       $dfile =~ s/^\./_/;
       if ($dhost==2130706433 || !$dport>1024 || $dhost !~ /^\d+$/ ||
 	  $dport !~ /^\d+$/) {
-	&tell("*\cbE\cb* DCC $newarg ($dfile) from $who$puh1 rejected");
+	&tell_i("*\cbE\cb* DCC $newarg ($dfile) from <$who$puh1> rejected");
       } elsif ($newarg eq 'CHAT' && grep (&eq($who, $dcwait{$_}),
 		keys(%dcwait))) {
-	&tell("*\cbD\cb* DCC chat already requested from $who, connecting...");
+	&tell_i("*\cbD\cb* DCC chat already requested from <$who>, connecting...");
 	local ($wfh)=(grep(&eq($dcwait{$_}, $who), keys(%dcwait)));
 	local ($n, $fh)=$who;
 	delete $dcwait{$wfh};
 	close($wfh);
 	&connect($fh, $dhost, $dport) || return;
 	$dcnick{$fh}=$who;
-	&tell("*\cbD\cb* DCC CHAT with $who established");
+	&tell_i("*\cbD\cb* DCC CHAT with <$who> established");
 	$n =~ tr/A-Z/a-z/;
 	$dcvol{$n}=0;
 	$dcfh{$n}=$fh;
 	print "`#ssfe#t/m =$who \n" if $ssfe;
       } elsif ($newarg eq 'CHAT' && grep(&eq($who, $_), keys(%dcfh))) {
-	&tell("*\cbD\cb* DCC chat from $who$puh1 ignored (already established)");
+	&tell_i("*\cbD\cb* DCC chat from <$who$puh1> ignored (already established)");
       } else {
-	&tell("*\cbD\cb* DCC $newarg ($dfile) from $who$puh1 ".
-	      ($dsize ? "(size: $dsize) " : "")."[$dhost, $dport]");
+	&tell_i("*\cbD\cb* DCC $newarg ($dfile) from <$who$puh1> ".
+	 ($dsize ? "(size: $dsize) " : "")."[$dhost, $dport]");
 	if ($newarg eq 'CHAT') {
 	  $dcoffered{$who}="$dhost $dport";
 	  &dohooks("dcc_request", "CHAT", $dhost, $dport);
@@ -684,7 +783,10 @@ sub ctcpreply {
   local($ctcp, $rest)=split(/ +/, $_[1], 2);
   $ctcp =~ tr/a-z/A-Z/;
   &dohooks("ctcp_reply", $_[0], $ctcp, $rest);
-  $rest=(time-$rest)." seconds" if $ctcp eq 'PING';
+  if ($ctcp eq 'PING') {
+    $rest = (time-$rest);
+    $rest .= ($rest == 1) ? " second" : " seconds";
+  }
   if (&eq($_[0], $nick)) {
     &tell("*** CTCP $ctcp reply from $who$puh1: $rest");
   } else {
@@ -864,10 +966,10 @@ sub docommand {
       $newarg =~ s/\*/\.\*/g;
       $newarg =~ s/([^\.\*\\\w])/\\$1/g;
       if ($d) {
-        &tell("*** Removing $p from the ignore list");
+	&tell("*** Removing $p from the ignore list");
 	@ignore=grep(!&eq($_, $newarg), @ignore);
       } else {
-        &tell("*** Ignoring $p ... what a relief!");
+	&tell("*** Ignoring $p ... what a relief!");
 	push(@ignore, $newarg);
       }
     }
@@ -916,7 +1018,7 @@ sub docommand {
       &tilde($newarg);
       chdir($newarg) || &tell("*\cbE\cb* Can't chdir to $newarg");
     }
-    local($cwd); chop($cwd=`pwd`);
+    local($cwd); chop($cwd=qx/pwd/);
     &tell("*** Current directory is $cwd");
   } elsif ($cmd eq 'SYSTEM') {
     &restrict || return;
@@ -964,7 +1066,9 @@ sub docommand {
     }
   } elsif ($cmd eq 'DCC') {
     &getarg;
-    if ($newarg =~ /^chat$/i) {
+    if (1) {
+      &tell("*\cbE\cb* Uh, better not...");
+    } elsif ($newarg =~ /^chat$/i) {
       &getarg;
       local($n)=grep(&eq($newarg, $_), keys(%dcoffered));
       if ($n) {
@@ -1071,7 +1175,7 @@ sub docommand {
 	}
 	&tell("*\cbE\cb* No DCC GET connection with $newarg") unless $found;
       } elsif ($newarg =~ /^send$/i) {
-        &getarg;
+	&getarg;
 	local($n, $found, $fh)=($newarg, '');
 	&getarg;
 	$newarg =~ s/(\W)/\\$1/g;
@@ -1159,15 +1263,15 @@ sub docommand {
 	&tell("*\cbD\cb* DCC GET $i offered by $dgoffered{$i}");
       }
       foreach $s (keys(%dgrfh)) {
-        local($f)=$dgrfh{$s};
+	local($f)=$dgrfh{$s};
 	&tell("*\cbD\cb* DCC GET \"$dfile{$f}\" established with $dnick{$s}, $dtransferred{$s} bytes read in ".(time-$dstarttime{$f})." seconds.");
       }
       foreach $s (keys(%dswait)) {
-        local($f)=$dswait{$s};
+	local($f)=$dswait{$s};
 	&tell("*\cbD\cb* DCC SEND \"$dfile{$f}\" offered to $dnick{$s}");
       }
       foreach $s (keys(%dsrfh)) {
-        local($f)=$dsrfh{$s};
+	local($f)=$dsrfh{$s};
 	&tell("*\cbD\cb* DCC SEND \"$dfile{$f}\" established with $dnick{$s}, $dtransferred{$s} bytes sent in ".(time-$dstarttime{$f})." seconds.");
       }
     } elsif ($newarg =~ /^send$/i) {
@@ -1425,13 +1529,19 @@ sub docommand {
     &getarg;
     &sl("SQUIT $newarg :$args");
   } elsif ($cmd eq 'WHOWAS' || $cmd eq 'ADMIN' || $cmd eq 'STATS' ||
-           $cmd eq 'INFO' || $cmd eq 'LUSERS' || $cmd eq 'SQUIT' ||
+	   $cmd eq 'INFO' || $cmd eq 'LUSERS' || $cmd eq 'SQUIT' ||
 	   $cmd eq 'REHASH' || $cmd eq 'DIE' || $cmd eq 'LINKS' ||
 	   $cmd eq 'NOTE' || $cmd eq 'WALLOPS' || $cmd eq 'NICK' ||
 	   $cmd eq 'MOTD' || $cmd eq 'TIME' || $cmd eq 'TRACE' ||
 	   $cmd eq 'USERS' || $cmd eq 'SILENCE' || $cmd eq 'MAP' ||
 	   $cmd eq 'UPING') {
     &sl($line);
+  } elsif ($cmd eq 'ACCEPT') {
+    if ($args eq '') {
+      $args = '*';
+    }
+    $args =~ s/ /,/g;
+    &sl("ACCEPT $args");
   } else {
     &tell("*\cbE\cb* Unknown command: $cmd");
   }
@@ -1522,7 +1632,7 @@ sub remsel {
 	"server_notice", "notify_signoff", "notify_signon", "public",
 	"raw_irc", "send_action", "send_dcc_chat", "send_text", "send_notice",
 	"signoff", "topic", "disconnect", "status", "print", "command",
-	"chat_disconnect", "dcc_disconnect", "send_ctcp");
+	"chat_disconnect", "dcc_disconnect", "send_ctcp", "capab");
 
 sub addhook {
   local($type, $name)=@_;
@@ -1566,10 +1676,10 @@ sub deltimer {
     # delete the timer if it exists
     for ($i=0; $i<=$#trefs; $i++) {
       if ($trefs[$i]==$ref) {
-        splice(@trefs,$i,1);
-        splice(@timers,$i,1);
-        splice(@timeactions,$i,1);
-        last;
+	splice(@trefs,$i,1);
+	splice(@timers,$i,1);
+	splice(@timeactions,$i,1);
+	last;
       }
     }
   }
@@ -1725,6 +1835,34 @@ sub getnick {
   &dostatus;
 }
 
+sub parse_capab {
+  local $skip=0;
+  &dohooks("capab", $capab_cmd, $capab_response);
+  if (!$skip) {
+    if ($capab_response eq '') {
+      &tell("*\cbE\cb* Unknown capability $capab_cmd");
+    } elsif ($capab_response ne $capab_cmd) {
+      &tell("*\cbE\cb* Expected reply for capability $capab_cmd");
+      &tell("*\cbE\cb* Processing capability $capab_response instead");
+    }
+    if ($capab_response eq 'IDENTIFY-MSG') {
+      $has_identifymsg = 1;
+      &tell("*** Messages by identified users will be marked specially");
+    }
+  }
+}
+
+sub send_capab {
+  $capab_cmd = $_[0];
+  &sl("CAPAB $capab_cmd");
+}
+
+sub login_cmds {
+  if ($has_capab) {
+    &send_capab('IDENTIFY-MSG');
+  }
+}
+
 sub donumeric {
   local($from)=($who eq $myserver ? '' : " (from ${who})");
   if ($cmd eq '401') {
@@ -1871,6 +2009,8 @@ sub donumeric {
     } elsif ($newarg>=60) {
       &tell("*** $n has been ".int($newarg/60)." minutes and ".
 	    ($newarg%60)." seconds idle");
+    } elsif ($newarg==1) {
+      &tell("*** $n has been $newarg second idle");
     } else {
       &tell("*** $n has been $newarg seconds idle");
     }
@@ -1923,7 +2063,7 @@ sub donumeric {
     local($d)=&date($t);
     &tell("*\cbT\cb* Topic for $c set by $n on $d");
   } elsif ($cmd eq '318' || $cmd eq '315' || $cmd eq '369' ||
-	   $cmd eq '321' || $cmd eq '366' || $cmd eq '376' ||
+	   $cmd eq '321' || $cmd eq '366' ||
 	   $cmd eq '365' || $cmd eq '368' || $cmd eq '374' ||
 	   $cmd eq '219' || $cmd eq '007') {
     #nothing!
@@ -1959,6 +2099,21 @@ sub donumeric {
   } elsif ($cmd eq '375' || $cmd eq '372' || $cmd =~ /^25/) {
     &yetonearg;
     &tell("*** $args");
+  } elsif ($cmd eq '005') {
+    &yetonearg;
+    if ($args =~ /\bCAPAB\b/) {
+      $has_capab = 1;
+    }
+    &tell("*** $args");
+  } elsif ($cmd eq '290') {
+    &yetonearg;
+    $capab_response = $args;
+    &parse_capab;
+  } elsif ($cmd eq '376') {
+    &login_cmds;
+  } elsif ($cmd eq '281') {
+    &yetonearg;
+    &tell("*** Accept list is: $args");
   } else {
     &yetonearg;
     #$args =~ s/ :/ /;
@@ -2129,41 +2284,45 @@ while (1) {
       &donumeric;
     } elsif ($cmd eq 'PING') {
       &sl("PONG $args");
-    } elsif  ($cmd eq 'PRIVMSG') {
+    } elsif ($cmd eq 'PRIVMSG') {
       &yetonearg;
+      $msgchannel = $newarg;
+      &strip_idmsg;
       if ($args =~ /^\001([^\001]*)\001$/ && $set{'CTCP'} ne 'none') {
 	&ctcp($newarg, $1);
       } elsif (!$printchan && &eq($newarg, $talkchannel)) {
 	&dohooks("public", $newarg, $args);
-	&tell("<${who}> $args");
+	&tell_i("<${who}> $args");
       } elsif ($newarg =~ /^[\#\&\+]/) {
 	&dohooks("public", $newarg, $args);
-	&tell("<${who}:${newarg}> $args");
+	&tell_i("<${who}:${newarg}> $args");
       } elsif (&eq ($newarg, $nick)) {
 	print "`#ssfe#t/m $who \n" if $ssfe;
 	print "`#ssfe#o[$who$puh1] $args\n" if $ssfe;
 	&dohooks("msg", $args);
-	&tell("[\cb${who}\cb${puh1}] $args");
+	&tell_i("[\cb${who}\cb${puh1}] $args");
       } else {
-	&tell("[\cb${who}\cb${puh1}:${newarg}\cb] $args");
+	&tell_i("[\cb${who}\cb${puh1}:${newarg}\cb] $args");
       }
     } elsif ($cmd eq 'NOTICE') {
       &yetonearg;
+      &strip_idmsg;
       if ($args =~ /^\001([^\001]*)\001$/) {
 	&ctcpreply($newarg, $1);
       } elsif ($newarg =~ /^[\#\&\+]/) {
 	&dohooks("notice", $newarg, $args);
-	&tell("-${who}/${newarg}- $args");
+	$msgchannel = $newarg;
+	&tell_i("-${who}/${newarg}- $args");
       } elsif ($who =~ /\./) {
 	&dohooks("server_notice", $args);
-        $args="*** ".$args unless ($args =~ /^\*/);
+	$args="*** ".$args unless ($args =~ /^\*/);
 	&tell($args);
       } elsif (&eq($newarg, $nick)) {
 	&dohooks("notice", $newarg, $args);
-	&tell("-\cb${who}\cb${puh1}- $args");
+	&tell_i("-\cb${who}\cb${puh1}- $args");
       } else {
 	&dohooks("notice", $newarg, $args);
-	&tell("-\cb$who$puh1:${newarg}\cb- $args");
+	&tell_i("-\cb$who$puh1:${newarg}\cb- $args");
       }
     } elsif ($cmd eq 'KICK') {
       &yetonearg;
