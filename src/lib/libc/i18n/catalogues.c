@@ -1,4 +1,4 @@
-/* $MirOS: src/share/misc/licence.template,v 1.20 2006/12/11 21:04:56 tg Rel $ */
+/* $MirOS: src/lib/libc/i18n/catalogues.c,v 1.8 2007/02/02 21:06:20 tg Exp $ */
 
 /*-
  * Copyright (c) 2005
@@ -25,9 +25,13 @@
 #include <langinfo.h>
 #include <nl_types.h>
 
-__RCSID("$MirOS: src/lib/libc/i18n/catalogues.c,v 1.7 2006/11/01 20:01:18 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/i18n/catalogues.c,v 1.8 2007/02/02 21:06:20 tg Exp $");
 
 /* fake NLS support */
+
+#undef catopen
+#undef catgets
+#undef catclose
 
 nl_catd _catopen(const char *, int);
 /* const because of gcc warnings */
