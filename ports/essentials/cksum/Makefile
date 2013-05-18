@@ -1,4 +1,4 @@
-# $MirOS: ports/essentials/cksum/Makefile,v 1.10 2005/11/16 17:20:24 tg Exp $
+# $MirOS: ports/essentials/cksum/Makefile,v 1.11 2006/01/01 02:46:00 tg Exp $
 
 .if ${.SYSMK} == "/usr/share/mk"
 IGNORE+=		"only works with MirMake"
@@ -6,7 +6,7 @@ IGNORE+=		"only works with MirMake"
 
 COMMENT=		"MirOS cksum(1)"
 CATEGORIES=		essentials
-DISTNAME=		cksum-20051116
+DISTNAME=		cksum-20060526
 EXTRACT_SUFX=		.cgz
 HOMEPAGE=		http://wiki.mirbsd.de/MirCksum
 RESPONSIBLE=		Thorsten Glaser <tg@66h.42h.de>
