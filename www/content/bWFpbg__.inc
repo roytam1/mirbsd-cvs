@@ -1,5 +1,5 @@
 <!-- PageID: main -->
-<small class="rcsid">$MirOS: www/content/bWFpbg__.inc,v 1.53 2006/07/30 20:33:10 bsiegert Exp $</small>
+<small class="rcsid">$MirOS: www/content/bWFpbg__.inc,v 1.54 2006/07/30 21:18:36 tg Exp $</small>
 
 <h1>Welcome to the MirOS Project!</h1>
 
@@ -29,31 +29,31 @@
  well.</p>
 
 <div class="newsentry"> <!-- have to add this to css -->
-<h3>25.07.2006: MirPorts heads-up</h3>
-<p>Due to the introduction of a new ld wrapper, you will have to re-do
- "make setup" (or invoke Setup.sh(8) manually in a similar manner) after
- updating the infrastructure from CVS.</p>
+ <h3>25.07.2006: MirPorts heads-up</h3>
+ <p>Due to the introduction of a new ld wrapper, you will have to re-do
+  "make setup" (or invoke Setup.sh(8) manually in a similar manner) after
+  updating the infrastructure from CVS.</p>
 </div>
 
 <div class="newsentry"> <!-- have to add this to css -->
-<h3>05.07.2006: New web server</h3>
-<p>We changed our web server. The former mirsolutions server is no longer.
- gecko2 hosts the box behind www.mirbsd.org now. waldi's
- Zope is still operational and helps a lot.</p>
+ <h3>05.07.2006: New web server</h3>
+ <p>We changed our web server. The former mirsolutions server is no longer.
+  gecko2 hosts the box behind www.mirbsd.org now. waldi's
+  Zope is still operational and helps a lot.</p>
 </div>
 
 <div class="newsentry">
-<h3>01.04.2006: MirOS #8 released</h3>
-<p><a href="/?ann-8">MirOS #8</a> is available via our <a
- href="http://f.scarywater.net/miros/">BitTorrent tracker</a>. There is
- also an <a href="/MirOS/v8/">HTTP(S)</a> download/netinstall
- option.</p>
-<p>Please read the <a href="/?errata">errata</a>.</p>
+ <h3>01.04.2006: MirOS #8 released</h3>
+ <p><a href="/?ann-8">MirOS #8</a> is available via our <a
+  href="http://f.scarywater.net/miros/">BitTorrent tracker</a>. There is
+  also an <a href="/MirOS/v8/">HTTP(S)</a> download/netinstall
+  option.</p>
+ <p>Please read the <a href="/?errata">errata</a>.</p>
 </div>
 
 <div class="newsentry">
-<h3>27.03.2006: Some bad CDs distributed on FOSDEM</h3>
-<p>In case you have acquired a MirOS CD-ROM "FOSDEM 2006"
- edition please verify the checksums of the data on the CD. Some of
- the CDs we distributed at FOSDEM were burned from a bad ISO.</p>
+ <h3>27.03.2006: Some bad CDs distributed on FOSDEM</h3>
+ <p>In case you have acquired a MirOS CD-ROM "FOSDEM 2006"
+  edition please verify the checksums of the data on the CD. Some of
+  the CDs we distributed at FOSDEM were burned from a bad ISO.</p>
 </div>
