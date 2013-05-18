@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/share/misc/licence.template,v 1.14 2006/08/09 19:35:23 tg Rel $
+# $MirOS: src/distrib/baselive/munge_it.sh,v 1.2 2006/08/18 22:18:25 tg Exp $
 #-
 # Copyright (c) 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -72,7 +72,7 @@ ed -s etc/ntpd.conf <<-'EOF'
 EOF
 ed -s etc/rc <<-'EOF'
 	1i
-		# $MirOS: src/distrib/baselive/munge_it.sh,v 1.1 2006/08/17 19:58:00 tg Exp $
+		# $MirOS: src/distrib/baselive/munge_it.sh,v 1.2 2006/08/18 22:18:25 tg Exp $
 	.
 	/shutdown request/ka
 	/^fi/a
@@ -111,6 +111,7 @@ ed -s etc/rc <<-'EOF'
 		    cp /stand/locate.database /var/db/locate.database
 	.
 	/openssl genrsa/s/4096/1024/
+	%g!/etc/ttys\.gen!s!!/etc/ttys!g
 	wq
 EOF
 ed -s etc/rc.securelevel <<-'EOF'
@@ -135,12 +136,6 @@ EOF
 	/^.machdep.kbdreset/s/^.//
 	/^.kern.emul.linux/s/^.//
 	/^.kern.emul.openbsd/s/^.//
-	wq
-EOF
-print -u2 XXX replace etc/ttys stuff with etc/rc stuff
-[[ $MACHINE = i386 ]] && ed -s etc/ttys <<-'EOF'
-	/^tty00/s/unknown/vt220/
-	s/off/on secure/
 	wq
 EOF
 ed -s usr/bin/ftp <<-'EOF'
