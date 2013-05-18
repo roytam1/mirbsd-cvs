@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.239 2008/11/10 01:59:21 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.240 2008/11/10 20:34:55 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -405,7 +405,7 @@ LDFLAGS+=		-Wl,-rpath -Wl,${LOCALBASE}/lib
 .endif
 
 _DEFCOPTS_pcc?=		-O
-_DEFCOPTS_llvm?=	-O2 -fno-strict-aliasing -fwrapv -std=gnu99
+_DEFCOPTS_llvm?=	-O2 -Wformat -fno-strict-aliasing -fwrapv
 
 NO_CXX?=		No	# inhibit use of C++ ports
 .if ${USE_CXX:L} == "yes"
