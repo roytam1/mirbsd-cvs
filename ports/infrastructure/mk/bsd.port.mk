@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.115 2006/06/25 01:48:36 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.116 2006/06/25 02:24:08 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -1189,7 +1189,7 @@ _upgrade-${_i}:
 
 MODSIMPLE_configure= \
 	cd ${WRKCONF} && ${_SYSTRACE_CMD} ${SETENV} REALOS=${OStype:Q} \
-	    ac_cv_path_CC=${CC:Q} LDFLAGS=${LDFLAGS:Q} \
+	    ac_cv_path_CC=${CC:Q} LDFLAGS=${LDFLAGS:Q} MKSH=${MKSH:Q} \
 	    ac_cv_path_CXX=${CXX:Q} CPPFLAGS=${CPPFLAGS:Q} \
 	    CC=${CC:Q} CFLAGS="$$(print -nr -- '${CFLAGS}' | \
 		sed -e 's${CPPFLAGS:S\\\\\\g}g' -e 's/[ 	]*$$//')" \
