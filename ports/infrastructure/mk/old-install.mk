@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/old-install.mk,v 1.6 2005/12/20 19:57:54 tg Exp $
+# $MirOS: ports/infrastructure/mk/old-install.mk,v 1.7 2006/09/13 22:07:12 tg Exp $
 # $OpenBSD: old-install.mk,v 1.10 2002/06/27 12:47:23 mpech Exp $
 # Stuff that is needed for old, pre-fake, port installations.
 
@@ -125,7 +125,7 @@ fake-pkg: ${_PKG_PREREQ}
 			cp ${WRKPKG}/DEINSTALL${SUBPACKAGE} ${PKG_DBDIR}/${FULLPKGNAME}/+DEINSTALL; \
 		fi; \
 		if [ -f ${WRKPKG}/REQ${SUBPACKAGE} ]; then \
-			cp ${WRKPKG}}/REQ${SUBPACKAGE} ${PKG_DBDIR}/${FULLPKGNAME}/+REQ; \
+			cp ${WRKPKG}/REQ${SUBPACKAGE} ${PKG_DBDIR}/${FULLPKGNAME}/+REQ; \
 		fi; \
 		if [ -f ${WRKPKG}/MESSAGE${SUBPACKAGE} ]; then \
 			cp ${WRKPKG}/MESSAGE${SUBPACKAGE} ${PKG_DBDIR}/${FULLPKGNAME}/+DISPLAY; \
