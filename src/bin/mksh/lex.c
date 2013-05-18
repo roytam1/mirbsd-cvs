@@ -272,8 +272,8 @@ yylex(int cf)
 				statep->nparen++;
 			else if (c == ')')
 				statep->nparen--;
-			else if (statep->nparen == 0 &&
-			    (c == /*{*/ '}' || c == statep->ls_adelim.delimiter)) {
+			else if (statep->nparen == 0 && (c == /*{*/ '}' ||
+			    c == (int)statep->ls_adelim.delimiter)) {
 				*wp++ = ADELIM;
 				*wp++ = c;
 				if (c == /*{*/ '}' || --statep->ls_adelim.num == 0)

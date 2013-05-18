@@ -1015,7 +1015,7 @@ dbtestp_isa(Test_env *te, Test_meta meta)
 		    db_close)) ? TO_NONNULL : TO_NONOP;
 	if (ret != TO_NONOP) {
 		ACCEPT;
-		if (meta < NELEM(dbtest_tokens))
+		if ((unsigned int)meta < NELEM(dbtest_tokens))
 			save = wdcopy(dbtest_tokens[(int)meta], ATEMP);
 		if (save)
 			XPput(*te->pos.av, save);
