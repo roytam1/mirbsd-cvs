@@ -2,7 +2,7 @@
 
 #include "sh.h"
 
-__RCSID("$MirOS: src/bin/mksh/exec.c,v 1.22.2.4 2007/03/03 22:51:18 tg Exp $");
+__RCSID("$MirOS: src/bin/mksh/exec.c,v 1.22.2.5 2007/03/03 23:38:35 tg Exp $");
 
 static int comexec(struct op *, struct tbl *volatile, const char **,
     int volatile);
@@ -694,14 +694,14 @@ scriptexec(struct op *tp, const char **ap)
 }
 
 int
-shcomexec(char **wp)
+shcomexec(const char **wp)
 {
 	struct tbl *tp;
 
 	tp = ktsearch(&builtins, *wp, hash(*wp));
 	if (tp == NULL)
 		internal_errorf(1, "shcomexec: %s", *wp);
-	return (call_builtin(tp, (const char **)wp));
+	return (call_builtin(tp, wp));
 }
 
 /*
