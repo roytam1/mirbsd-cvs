@@ -1,4 +1,4 @@
-/* $MirOS: gcc/gcc/c-format.c,v 1.4 2005/05/14 16:21:56 tg Exp $ */
+/* $MirOS: gcc/gcc/c-format.c,v 1.5 2006/09/20 18:07:39 tg Exp $ */
 
 /* Check calls to formatted I/O functions (-Wformat).
    Copyright (C) 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000,
@@ -968,7 +968,7 @@ static const format_char_info time_char_table[] =
   { "kls",		0, STD_EXT, NOLENGTHS, "-_0Ow",  ""   },
   { "P",		0, STD_EXT, NOLENGTHS, "",       ""   },
   /* BSD conversion specifiers.  */
-  { "+v",		0, STD_EXT, NOLENGTHS, "",       ""   },
+  { "+vJ",		0, STD_EXT, NOLENGTHS, "",       ""   },
   { NULL,		0, 0, NOLENGTHS, NULL, NULL }
 };
 
