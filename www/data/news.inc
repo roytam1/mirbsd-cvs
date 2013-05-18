@@ -233,3 +233,23 @@ Date: 22.06.2007
 <p>On unrelated news, bsiegert@ has continued his work on bringing the GNOME
  ports into shape for the impending release of MirOS #10.</p>
 ----
+Title: More mksh features, Download issues
+Date: 06.07.2007
+
+<p>We've finally implemented another bash-compatible feature in <a
+ href="@@RELPATH@@mksh.htm">mksh</a>, namely variable substitution
+ with substrings. Try <tt>print ${var:2:3}</tt>. The first character
+ after the (first) colon must be numeric, an opening parenthesis, a
+ dollar sign or a space right now; use <tt>${var: n: m}</tt> for the
+ bash <tt>${var:n:m}</tt> (or <tt>${var:$n:m}</tt> or even
+ <tt>${var:(n):m}</tt>). All of these are bash-compatible. This doesn't
+ nest in either mksh or bash.</p>
+<p>More features are to follow ☺</p>
+<p>To install MirOS BSD, please use a <a href="/MirOS/current/">direct
+ download</a> (or even netinstall from the same place) at the moment.
+ We will provide MirOS #10RC2 as a Live+Install ISO image again at some
+ time in the future (give us 1-2 weeks); MirOS #10RC1 contained a bug
+ regarding the live CD part which went for a few days undetected; the
+ creation of the ISO fell into that timeframe.</p>
+<p>On a side note, the series of GNOME port updates is continuing.</p>
+----
