@@ -1,4 +1,4 @@
-@c $MirOS: gcc/gcc/doc/invoke.texi,v 1.15 2007/01/25 10:35:10 tg Exp $
+@c $MirOS: gcc/gcc/doc/invoke.texi,v 1.16 2009/01/03 14:31:24 tg Exp $
 @c
 @c Copyright (C) 1988, 1989, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999,
 @c 2000, 2001, 2002, 2003, 2004, 2005, 2007, 2009
@@ -11,7 +11,7 @@
 Copyright @copyright{} 1988, 1989, 1992, 1993, 1994, 1995, 1996, 1997,
 1998, 1999, 2000, 2001, 2002, 2003, 2004, 2005 Free Software Foundation, Inc.
 Copyright @copyright{} 1998-2004 Hiroaki Etoh, assigned to the FSF.
-Copyright @copyright{} 2004-2007 Thorsten Glaser, assigned to the FSF.
+Copyright @copyright{} 2004-2007, 2009 Thorsten Glaser, assigned to the FSF.
 
 Permission is granted to copy, distribute and/or modify this document
 under the terms of the GNU Free Documentation License, Version 1.2 or
@@ -3723,6 +3723,14 @@ optimizations designed to reduce code size.
 If you use multiple @option{-O} options, with or without level numbers,
 the last such option is the one that is effective.
 @end table
+
+FSF releases default to @option{-fident} instead of @option{-fno-ident}
+like MirOS releases; furthermore, they enable trampolines by default
+instead of requiring @option{-ftrampolines}, do not have stack protection,
+bounds checking, stack frame size limit warnings; the optimisation options
+@option{-fdelete-null-pointer-checks} and @option{-fstrict-aliasing} are
+enabled at @option{-O2} and @option{-Os} already in FSF versions instead of
+at @option{-O3} only like in MirOS versions.
 
 Options of the form @option{-f@var{flag}} specify machine-independent
 flags.  Most flags have both positive and negative forms; the negative
