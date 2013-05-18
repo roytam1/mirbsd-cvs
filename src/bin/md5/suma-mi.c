@@ -1,8 +1,8 @@
-/* $MirOS: src/bin/md5/suma-mi.c,v 1.3 2005/11/16 17:08:47 tg Exp $ */
+/* $MirOS: src/share/misc/licence.template,v 1.7 2006/04/09 22:08:49 tg Rel $ */
 
 /*-
- * Copyright (c) 2005
- *	Thorsten "mirabile" Glaser <tg@66h.42h.de>
+ * Copyright (c) 2006
+ *	Thorsten Glaser <tg@mirbsd.de>
  *
  * Licensee is hereby permitted to deal in this work without restric-
  * tion, including unlimited rights to use, publicly perform, modify,
@@ -10,6 +10,10 @@
  * pyright notices above, these terms and the disclaimer are retained
  * in all redistributions or reproduced in accompanying documentation
  * or other materials provided with binary redistributions.
+ *
+ * All advertising materials mentioning features or use of this soft-
+ * ware must display the following acknowledgement:
+ *	This product includes material provided by Thorsten Glaser.
  *
  * Licensor offers the work "AS IS" and WITHOUT WARRANTY of any kind,
  * express, or implied, to the maximum extent permitted by applicable
@@ -23,6 +27,7 @@
 
 #include <sys/param.h>
 #include <err.h>
+#include <stdbool.h>
 #include <stdio.h>
 #include "suma.h"
 
@@ -34,15 +39,69 @@ SUMA_Init(SUMA_CTX *ctx)
 }
 
 void
-SUMA_Update(SUMA_CTX *ctx __attribute__((unused)),
-    const u_int8_t *data __attribute__((unused)),
-    size_t len __attribute__((unused)))
+SUMA_Update(SUMA_CTX *ctx, const u_int8_t *data, size_t len)
 {
-	errx(1, "SUMA_Update not implemented");
+	size_t cnt;
+	uint32_t crc, eax;
+	int i;
+	bool cf;
+
+	if ((len == 0) || (ctx == NULL) || (data == NULL))
+		return;
+
+	crc = *ctx;
+	cnt = len >> 2;
+	while (cnt--) {
+		eax = (*(data + 3) << 24) |
+		    (*(data + 2) << 16) |
+		    (*(data + 1) << 8) | *data;
+		data += 4;
+		for (i = 32; i; --i) {
+			cf = !!(crc & 0x80000000);
+			crc <<= 1;
+			if (eax & 0x80000000)
+				++crc;
+			eax <<= 1;
+			if (cf)
+				crc ^= 0x04563521;
+		}
+	}
+	cnt = len & 3;
+	if (cnt--) {
+		eax = *data++;
+		if (cnt--)
+			eax |= (*data++) << 8;
+		if (cnt--)
+			eax |= (*data++) << 16;
+		for (i = 32; i; --i) {
+			cf = !!(crc & 0x80000000);
+			crc <<= 1;
+			if (eax & 0x80000000)
+				++crc;
+			eax <<= 1;
+			if (cf)
+				crc ^= 0x04563521;
+		}
+	}
+	*ctx = crc;
 }
 
 void
-SUMA_Final(SUMA_CTX *ctx __attribute__((unused)))
+SUMA_Final(SUMA_CTX *ctx)
 {
-	errx(1, "SUMA_Final not implemented");
+	uint32_t crc;
+	int i;
+	bool cf;
+
+	if (ctx == NULL)
+		return;
+
+	crc = *ctx;
+	for (i = 32; i; --i) {
+		cf = !!(crc & 0x80000000);
+		crc <<= 1;
+		if (cf)
+			crc ^= 0x04563521;
+	}
+	*ctx = crc;
 }
