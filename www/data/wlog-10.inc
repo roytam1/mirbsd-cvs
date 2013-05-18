@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.129 2009/01/01 17:26:25 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.130 2009/01/01 17:30:26 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -2564,4 +2564,19 @@ Title: Useful GSM tricks
  <li><tt>##62#</tt>: disable redirections if unreachable (Akku leer, …)</li>
  <li><tt>##67#</tt>: disable redirections if busy (besetzt)</li>
 </ul>
+----
+Date: 02.01.2009 00:16
+Author: tg@
+Title: SYSLINUX, the horrors
+
+<p style="font-size:small;">Hmm… where is bsiegert@’s promised entry?</p>
+<p>SYSLINUX creates an <tt>ldlinux.bin</tt> file from source code which
+ is composed of two parts: a bootsector (FAT PBR) and the rest of the
+ code, later written to <tt>A:LDLINUX.SYS</tt>. However, the later code
+ not only makes assumptions about which bootsector loads it, but also
+ jumps into it at will for unimportant things like loading more sectors
+ (like the configuration file) from the disc. Bah! Impossible to do, as
+ the bootsector is cut off before ldlinux.sys is written. Worse than even
+ Microsoft®, who at least don’t go back to the bootsector once the first
+ 2048 bytes of IO.SYS in DOS 7.10 are loaded.</p>
 ----
