@@ -1,4 +1,4 @@
-# $MirOS: ports/sysutils/daemontools/Makefile,v 1.11 2008/03/17 02:19:37 tg Exp $
+# $MirOS: ports/sysutils/daemontools/Makefile,v 1.12 2008/10/04 19:03:41 tg Exp $
 
 COMMENT=		collection of tools for managing unix services
 CATEGORIES=		sysutils
@@ -37,7 +37,8 @@ do-build:
 		    >${WRKSRC}/admin/${DISTNAME}/src/conf-ld; \
 		print -r -- ${PREFIX:Q} >${WRKSRC}/admin/${DISTNAME}/src/home; \
 	fi
-	cd ${WRKSRC}/admin/${DISTNAME}/src && ${MAKE_PROGRAM} it
+	cd ${WRKSRC}/admin/${DISTNAME}/src && \
+	    ${SETENV} ${MAKE_ENV} ${MAKE_PROGRAM} it
 
 do-install:
 .for i in ${BINLIST}
