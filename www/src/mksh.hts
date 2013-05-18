@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.370 2011/01/09 21:57:20 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.371 2011/01/21 22:49:23 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -1110,7 +1110,8 @@ exec /usr/bin/ld "${args[@]}"</pre>
  <li>[tg] The character width table is now in sync with Unicode 6.0.0</li>
  <li>[tg] MKSH_SMALL doesn’t imply HAVE_REVOKE=0 any longer</li>
  <li>[tg] Ignore a ‘$’ preceding ‘"…"’ (like bash, ksh93)</li>
- <li>[tg] Make “foo=<<EOF” a direct assignment of here document to string</li>
+ <li>[tg] Make “foo=&lt;&lt;EOF” a direct assignment of here document (or
+  here string) to string variable</li>
  <li>[tg] Add KSHEGID, KSHGID, KSHUID variables (idea from Richard K.)</li>
  <li>[tg] Option -d to read specifies a delimiter, like ksh93 (10x Dave)</li>
  <li>[tg] Extension ${foo@#} expands to hash of $foo (mksh specific)</li>
