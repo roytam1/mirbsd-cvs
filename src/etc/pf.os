@@ -1,4 +1,5 @@
-# $OpenBSD: pf.os,v 1.19 2005/05/25 08:15:12 david Exp $
+# $MirOS$
+# $OpenBSD: pf.os,v 1.21 2006/07/28 21:51:12 david Exp $
 # passive OS fingerprinting
 # -------------------------
 #
@@ -298,12 +299,12 @@ S22:64:1:52:M*,N,N,S,N,W0:	Linux:2.2:ts:Linux 2.2 w/o timestamps
 # ----------------- OpenBSD -----------------
 
 16384:64:0:60:M*,N,W0,N,N,T:		OpenBSD:2.6::NetBSD 1.3 (or OpenBSD 2.6)
-16384:64:1:64:M*,N,N,S,N,W0,N,N,T:	OpenBSD:3.0-3.7::OpenBSD 3.0-3.7
-16384:64:0:64:M*,N,N,S,N,W0,N,N,T:	OpenBSD:3.0-3.7:no-df:OpenBSD 3.0-3.7 (scrub no-df)
-57344:64:1:64:M*,N,N,S,N,W0,N,N,T:	OpenBSD:3.3-3.7::OpenBSD 3.3-3.7
-57344:64:0:64:M*,N,N,S,N,W0,N,N,T:	OpenBSD:3.3-3.7:no-df:OpenBSD 3.3-3.7 (scrub no-df)
+16384:64:1:64:M*,N,N,S,N,W0,N,N,T:	OpenBSD:3.0-4.0::OpenBSD 3.0-4.0
+16384:64:0:64:M*,N,N,S,N,W0,N,N,T:	OpenBSD:3.0-4.0:no-df:OpenBSD 3.0-4.0 (scrub no-df)
+57344:64:1:64:M*,N,N,S,N,W0,N,N,T:	OpenBSD:3.3-4.0::OpenBSD 3.3-4.0
+57344:64:0:64:M*,N,N,S,N,W0,N,N,T:	OpenBSD:3.3-4.0:no-df:OpenBSD 3.3-4.0 (scrub no-df)
 
-65535:64:1:64:M*,N,N,S,N,W0,N,N,T:	OpenBSD:3.0-3.7:opera:OpenBSD 3.0-3.7 (Opera)
+65535:64:1:64:M*,N,N,S,N,W0,N,N,T:	OpenBSD:3.0-4.0:opera:OpenBSD 3.0-4.0 (Opera)
 16384:64:1:60:M*,N,W0,S,T:		OpenBSD:3.8:mm-obsd:OpenBSD or MirBSD (MunARi)
 
 # ----------------- Solaris -----------------
@@ -320,7 +321,7 @@ S44:255:1:44:M*:			Solaris:2.7::Solaris 7
 4096:64:0:44:M1460:			SunOS:4.1::SunOS 4.1.x
 
 S34:64:1:52:M*,N,W0,N,N,S:		Solaris:10:beta:Solaris 10 (beta)
-32850:64:1:64:M*,N,N,T,N,W1,N,N,S:   	Solaris:10::Solaris 10 1203
+32850:64:1:64:M*,N,N,T,N,W1,N,N,S:	Solaris:10::Solaris 10 1203
 
 # ----------------- IRIX --------------------
 
@@ -683,5 +684,3 @@ S12:64:0:44:M1452:			AXIS:5600:v5.64:AXIS Printer Server 5600 v5.64
 *:128:1:48:M536,N,N,S:			@Windows:98::Windows 98
 *:128:1:48:M*,N,N,S:			@Windows:XP::Windows XP/2000
 *:128:1:48:M*,N,N,S:			@Windows:2000::Windows XP/2000
-
-
