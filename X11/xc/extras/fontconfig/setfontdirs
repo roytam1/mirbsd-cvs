@@ -1,5 +1,6 @@
 #!/bin/sh
 #
+# $MirOS$
 # $XFree86: xc/extras/fontconfig/setfontdirs,v 1.2 2003/06/04 16:29:38 dawes Exp $
 #
 LC_ALL=C
@@ -21,7 +22,7 @@ if [ $? -ne 0 ]; then
 fi
 $EDITOR fonts.conf << EOF
 /FONTPATH_END/a
-<!-- Font directory list configured on `date` -->
+<!-- Font directory list configured automatically -->
 .
 +r $FONTDIRS
 a
