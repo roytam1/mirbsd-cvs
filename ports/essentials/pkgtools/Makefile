@@ -1,13 +1,14 @@
-# $MirOS: ports/essentials/pkgtools/Makefile,v 1.25 2006/10/13 19:20:39 tg Exp $
+# $MirOS: ports/essentials/pkgtools/Makefile,v 1.26 2006/11/08 18:05:52 tg Exp $
 #-
 # This port should contain no patches.
 
 COMMENT=		MirPorts Framework package tools
 CATEGORIES=		essentials infrastructure
 CVS_DISTREPO=		${_MIROS_ANONCVS}
-CVS_DISTDATE=		2006/11/08 18:00
+CVS_DISTDATE=		2006/11/19 14:00
 CVS_DISTMODS=		ports/infrastructure/pkgtools
 CVS_DISTFILE=		pkgtools
+_MKMCZ_OPTS=		-C
 PKGNAME=		${_CVS_DISTF:R}-0
 # well it's Benny Siegert <bsiegert@> for the package tools themselves
 RESPONSIBLE=		Thorsten Glaser <tg@mirbsd.de>
@@ -33,3 +34,5 @@ do-configure:
 	@cd ${WRKBUILD} && exec ${MAKE_PROGRAM} ${MAKE_FLAGS} obj
 
 .include <bsd.port.mk>
+
+_CIPHERS+=		cksum
