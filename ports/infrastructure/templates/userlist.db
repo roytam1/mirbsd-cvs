@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/templates/userlist.db,v 1.7 2007/05/17 18:53:22 tg Exp $
+# $MirOS: ports/infrastructure/templates/userlist.db,v 1.8 2007/06/18 21:13:29 tg Exp $
 #
 # List of users and groups for the MirPorts infrastructure.
 # Format: three columns, separated by one or more tabs or spaces
@@ -24,6 +24,7 @@
 9	wsrc		NO
 10	users		NO
 11	auth		NO
+13	games		!13::0:0:score files:/var/games:/sbin/nologin
 13	games		NO
 20	staff		NO,root
 25	smmsp		Sendmail Message Submission Programme

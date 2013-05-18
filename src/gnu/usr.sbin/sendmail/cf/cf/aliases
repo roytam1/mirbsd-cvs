@@ -1,5 +1,5 @@
 # $Id$
-# $MirOS: src/gnu/usr.sbin/sendmail/cf/cf/aliases,v 1.5 2007/02/08 22:10:25 tg Exp $
+# $MirOS: src/gnu/usr.sbin/sendmail/cf/cf/aliases,v 1.6 2007/02/17 03:52:16 tg Exp $
 #
 #  Aliases in this file will NOT be expanded in the header from Mail,
 #  but WILL be visible over networks or from /usr/libexec/mail.local.
@@ -17,6 +17,7 @@ postmaster:	root
 daemon:		root
 operator:	root
 bin:		/dev/null
+games:		/dev/null
 smmsp:		/dev/null
 popa3d:		/dev/null
 sshd:		/dev/null
@@ -153,7 +154,6 @@ tty:		/dev/null
 wsrc:		/dev/null
 users:		/dev/null
 auth:		/dev/null
-games:		/dev/null
 staff:		/dev/null
 guest:		/dev/null
 _sshagnt:	/dev/null

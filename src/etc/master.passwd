@@ -2,6 +2,7 @@ root:*:0:0:daemon:0:0:Charlie &:/root:/bin/sh
 daemon:*:1:1::0:0:the devil himself:/root:/sbin/nologin
 operator:*:2:5::0:0:system &:/operator:/sbin/nologin
 bin:*:3:7::0:0:Binaries Commands and Source:/:/sbin/nologin
+games:*:13:13::0:0:score files:/var/games:/sbin/nologin
 smmsp:*:25:25::0:0:Sendmail Message Submission Programme:/nonexistent:/sbin/nologin
 popa3d:*:26:26::0:0:POP3 Daemon:/var/empty:/sbin/nologin
 sshd:*:27:27::0:0:Secure Shell Daemon:/var/empty:/sbin/nologin
@@ -119,7 +120,7 @@ _milter-greylist:*:568:568::0:0:MirPorts -- mail/milter-greylist:/nonexistent:/s
 _dkim-milter:*:569:569::0:0:MirPorts -- mail/dkim-milter:/nonexistent:/sbin/nologin
 _mdefang:*:570:570::0:0:MirPorts -- mail/mimedefang:/nonexistent:/sbin/nologin
 _courier:*:571:571::0:0:MirPorts -- mail/maildrop:/nonexistent:/sbin/nologin
-_dbus:*:572:572::0:0:MirPorts -- x11/dbus:/nonexistent:/sbin/nologin
+_dbus:*:572:572::0:0:MirPorts -- sysutils/dbus:/nonexistent:/sbin/nologin
 _perdition:*:573:573::0:0:MirPorts -- mail/perdition:/nonexistent:/sbin/nologin
 _siproxd:*:574:574::0:0:MirPorts -- telephony/siproxd:/nonexistent:/sbin/nologin
 _netflow:*:575:575::0:0:MirPorts -- net/flow-tools:/nonexistent:/sbin/nologin
