@@ -1,8 +1,8 @@
-/* $MirOS: contrib/gnu/aux/_gplwarn.c,v 1.5 2005/04/26 18:59:42 tg Exp $ */
+/* $MirOS: src/share/misc/licence.template,v 1.7 2006/04/09 22:08:49 tg Rel $ */
 
 /*-
  * Copyright (c) 2004, 2005
- *	Thorsten "mirabile" Glaser <tg@66h.42h.de>
+ *	Thorsten Glaser <tg@mirbsd.de>
  *
  * Licensee is hereby permitted to deal in this work without restric-
  * tion, including unlimited rights to use, publicly perform, modify,
@@ -10,6 +10,16 @@
  * pyright notices above, these terms and the disclaimer are retained
  * in all redistributions or reproduced in accompanying documentation
  * or other materials provided with binary redistributions.
+ *
+ * All advertising materials mentioning features or use of this soft-
+ * ware must display the following acknowledgement:
+ *	This product includes material provided by Thorsten Glaser.
+ * This acknowledgement does not need to be reprinted if this work is
+ * linked into a bigger work whose licence does not allow such clause
+ * and the author of this work is given due credit in the bigger work
+ * or its documentation. Specifically, re-using this code in any work
+ * covered by the GNU General Public License version 1 or Library Ge-
+ * neral Public License (any version) is permitted.
  *
  * Licensor offers the work "AS IS" and WITHOUT WARRANTY of any kind,
  * express, or implied, to the maximum extent permitted by applicable
@@ -19,11 +29,6 @@
  * direct error of said person and intended use of this work, loss or
  * other issues arising in any way out of its use, even if advised of
  * the possibility of such damage or existence of a nontrivial bug.
- *
- * The author hereby permits this work to be distributed according to
- * the GNU General Public License, Version 1 or any later version di-
- * stributed by the Free Software Foundation Europe, and in accordan-
- * ce with the terms of the GPL.
  */
 
 #ifdef GPLVER
@@ -67,7 +72,7 @@
 
 
 __SECTSTRING(".comment", rcsid,
-    "$MirOS: contrib/gnu/aux/_gplwarn.c,v 1.5 2005/04/26 18:59:42 tg Exp $");
+    "$MirOS: contrib/gnu/aux/_gplwarn.c,v 1.6 2005/12/17 05:46:10 tg Exp $");
 
 __SECTSTRING(".gnu.warning.*main", warntext,
     "Linking with " MYNAME " infects the result\\n\\t"
