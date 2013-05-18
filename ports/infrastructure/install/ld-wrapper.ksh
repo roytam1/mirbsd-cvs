@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: ports/infrastructure/install/ld-wrapper.ksh,v 1.2 2006/07/23 18:04:27 tg Exp $
+# $MirOS: src/share/misc/licence.template,v 1.14 2006/08/09 19:35:23 tg Rel $
 #-
 # Copyright (c) 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -11,8 +11,8 @@
 # in all redistributions or reproduced in accompanying documentation
 # or other materials provided with binary redistributions.
 #
-# All advertising materials mentioning features or use of this soft-
-# ware must display the following acknowledgement:
+# Advertising materials mentioning features or use of this work must
+# display the following acknowledgement:
 #	This product includes material provided by Thorsten Glaser.
 #
 # Licensor offers the work "AS IS" and WITHOUT WARRANTY of any kind,
@@ -22,9 +22,12 @@
 # or other damage, or direct damage except proven a consequence of a
 # direct error of said person and intended use of this work, loss or
 # other issues arising in any way out of its use, even if advised of
-# the possibility of such damage or existence of a nontrivial bug.
+# the possibility of such damage or existence of a defect.
 #-
-# Enhance ld(1) by new functionality
+# Enhance ld(1) (and libtool(1) on Darwin) by new functionality
+
+_LD=/usr/bin/ld
+[[ $0 = *(*/)libtool ]] && _LD=/usr/bin/libtool
 
 set -A args
 libafter=
@@ -35,5 +38,5 @@ for arg in "$@"; do
 	fi
 	libafter="$libafter -L${arg#--library-after=}"
 done
-[[ -z $LDVERBOSE ]] || print -r "/usr/bin/ld ${args[*]} $libafter"
-exec /usr/bin/ld "${args[@]}" $libafter
+[[ -z $LDVERBOSE ]] || print -r "${_LD} ${args[*]} $libafter"
+exec ${_LD} "${args[@]}" $libafter
