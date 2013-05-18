@@ -1,4 +1,4 @@
-# $MirOS: src/gnu/usr.bin/perl/Makefile.bsd-wrapper,v 1.15 2006/09/21 23:22:40 tg Exp $
+# $MirOS: src/gnu/usr.bin/perl/Makefile.bsd-wrapper,v 1.16 2006/09/22 05:00:03 tg Exp $
 # $OpenBSD: Makefile.bsd-wrapper,v 1.70 2006/03/28 19:22:56 millert Exp $
 #
 # Build wrapper for Perl 5.8.8
@@ -593,6 +593,8 @@ man.build: ${MANALL} ${PSALL}
 
 beforedepend:	config.sh config.h
 
+perl.lib:	${GENERATED} .WAIT lib${LIB}.a
+
 perl.build:	perl.lib
 	cd ${.OBJDIR} && ${FLAGS_TO_PASS} exec ${MAKE}
 
@@ -647,6 +649,10 @@ maninstall:
 
 install: install.lib install.perl maninstall
 
+install.lib:
+	${INSTALL} ${INSTALL_COPY} -o ${LIBOWN} -g ${LIBGRP} -m ${LIBMODE} \
+	    lib${LIB}.a ${DESTDIR}${LIBDIR}/
+
 install.perl:
 	cd ${.OBJDIR}; INSTALL=${INSTALL} INSTALL_COPY=${INSTALL_COPY} \
 	 STRIPFLAGS=${STRIPFLAGS} INSTALLFLAGS=-o NOLIBINSTALL=1 \
@@ -666,14 +672,9 @@ cleandir:
 	    rm -f ${CLEANFILES}; \
 	fi
 
+# Must be last
+
+NOPIC:=yes
 .include <bsd.lib.mk>
-
-# These have to come after the inclusion of <bsd.lib.mk>
-
-perl.lib:	${GENERATED} ${_LIBS}
-
-install.lib:
-	${INSTALL} ${INSTALL_COPY} -o ${LIBOWN} -g ${LIBGRP} -m ${LIBMODE} \
-	    lib${LIB}.a ${DESTDIR}${LIBDIR}/
 
 .PHONY: perl.lib install.lib perl.build install.perl man.build mansrc.build
