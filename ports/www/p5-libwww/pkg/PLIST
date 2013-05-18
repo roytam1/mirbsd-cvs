@@ -1,12 +1,14 @@
-@comment $MirOS$
+@comment $MirOS: ports/www/p5-libwww/pkg/PLIST,v 1.2 2006/03/25 13:30:06 bsiegert Exp $
 @comment $OpenBSD: PLIST,v 1.13 2003/12/20 19:51:26 naddy Exp $
 bin/lwp-download
+bin/lwp-dump
 bin/lwp-mirror
 bin/lwp-request
 bin/lwp-rget
 ${P5SITE}/Bundle/LWP.pm
 ${P5SITE}/File/Listing.pm
 ${P5SITE}/HTML/Form.pm
+${P5SITE}/HTTP/Config.pm
 ${P5SITE}/HTTP/Cookies.pm
 ${P5SITE}/HTTP/Cookies/Microsoft.pm
 ${P5SITE}/HTTP/Cookies/Netscape.pm
@@ -56,16 +58,17 @@ ${P5SITE}/Net/HTTP/NB.pm
 ${P5SITE}/Net/HTTPS.pm
 ${P5SITE}/WWW/RobotRules.pm
 ${P5SITE}/WWW/RobotRules/AnyDBM_File.pm
-@comment ${P5ARCH}/auto/LWP/.packlist
 ${P5SITE}/lwpcook.pod
 ${P5SITE}/lwptut.pod
 man/man1/lwp-download.1
+man/man1/lwp-dump.1
 man/man1/lwp-mirror.1
 man/man1/lwp-request.1
 man/man1/lwp-rget.1
 man/man3/Bundle::LWP${P5MAN3EXT}
 man/man3/File::Listing${P5MAN3EXT}
 man/man3/HTML::Form${P5MAN3EXT}
+man/man3/HTTP::Config${P5MAN3EXT}
 man/man3/HTTP::Cookies${P5MAN3EXT}
 man/man3/HTTP::Cookies::Microsoft${P5MAN3EXT}
 man/man3/HTTP::Cookies::Netscape${P5MAN3EXT}
@@ -83,7 +86,6 @@ man/man3/LWP${P5MAN3EXT}
 man/man3/LWP::Authen::Ntlm${P5MAN3EXT}
 man/man3/LWP::ConnCache${P5MAN3EXT}
 man/man3/LWP::Debug${P5MAN3EXT}
-man/man3/LWP::DebugFile${P5MAN3EXT}
 man/man3/LWP::MediaTypes${P5MAN3EXT}
 man/man3/LWP::MemberMixin${P5MAN3EXT}
 man/man3/LWP::Protocol${P5MAN3EXT}
@@ -96,9 +98,6 @@ man/man3/WWW::RobotRules${P5MAN3EXT}
 man/man3/WWW::RobotRules::AnyDBM_File${P5MAN3EXT}
 man/man3/lwpcook${P5MAN3EXT}
 man/man3/lwptut${P5MAN3EXT}
-@dirrm ${P5ARCH}/auto/LWP
-@dirrm ${P5ARCH}/auto
-@dirrm ${P5ARCH}
 @dirrm ${P5SITE}/WWW/RobotRules
 @dirrm ${P5SITE}/WWW
 @dirrm ${P5SITE}/Net/HTTP

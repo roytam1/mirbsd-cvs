@@ -1,77 +1,15 @@
 $MirOS$
---- Makefile.PL.orig	Thu Nov  3 17:26:17 2005
-+++ Makefile.PL	Sat Mar 25 13:23:02 2006
-@@ -25,19 +25,7 @@ unless (getopts("n")) {
- @programs_to_install = () if $opt_n || grep /^LIB=/, @ARGV;
- 
- # Check if we should try to run tests that talk to ourself
--system(qq("$^X" talk-to-ourself));
--if ($?) {
--    print <<EOT;
--
--You appear to have a misconfigured system, so I will disable tests
--that try to talk HTTP to a local server.
--EOT
-     unlink("t/CAN_TALK_TO_OURSELF");
--}
--else {
--    open(CAN_TALK_TO_OURSELF, ">t/CAN_TALK_TO_OURSELF") || die "Can't create CAN_TALK_TO_OURSELF: $!";
--    close(CAN_TALK_TO_OURSELF);
--}
- 
- # Check if we should try to run the live tests
- open(CHANGES, "Changes") || die "Can't open Changes: $!";
-@@ -56,13 +44,11 @@ my $some_time_ago = sprintf "%04d-%02d-%
-           sub { ($_[5]+1900, $_[4]+1, $_[3])}->(localtime(time - 45 * 24*60*60));
- if ($some_time_ago lt $release_date) {
-     # Check if we have internet connection
--    require IO::Socket;
--    my $s = IO::Socket::INET->new(PeerAddr => "www.google.com:80",
--				  Timeout  => 10,
--				 );
-+
-+my $s = 0;
-+
-     if ($s) {
- 	# XXX could try to send a GET to it???
--	close($s);
- 
- 	print <<EOT;
- 
-@@ -110,34 +96,14 @@ to install in $Config{installscript}.
- EOT
-     my @tmp;
-     for (@programs_to_install) {
--	if (prompt("Do you want to install $_?", "y") =~ /^y/) {
-+	if (1) {
- 	    push(@tmp, $_);
- 	}
+--- Makefile.PL.orig	Sat Mar 27 17:37:25 2010
++++ Makefile.PL	Sat Mar 27 17:39:37 2010
+@@ -26,9 +26,8 @@ if ($opt{'aliases'} && grep(/lwp-request
      }
-     @programs_to_install = @tmp;
  }
  
--if (grep($_ eq 'lwp-request', @programs_to_install) && @request_aliases) {
--    print <<EOT;
--
--The lwp-request program will use the name it is invoked with to
--determine what HTTP method to use.  I can set up alias for the most
--common HTTP methods.  These alias are also installed in
--$Config{installscript}.
--
--EOT
--    my @tmp;
--    for my $alias (@request_aliases) {
--	my $default = "n";
--	if (prompt("Do you want to install the $alias alias?", $default) =~ /^y/) {
--	    push(@tmp, $alias);
--	}
--    }
--    @request_aliases = @tmp;
--}
--else {
--    @request_aliases = ();
--}
-+@request_aliases = ();
+-system($^X, "talk-to-ourself");
+-flag_file("t/CAN_TALK_TO_OURSELF", $? == 0);
+-flag_file("t/live/ENABLED", $opt{'live-tests'});
++flag_file("t/CAN_TALK_TO_OURSELF", 0);
++flag_file("t/live/ENABLED", 0);
  
- # Check for non-standard modules that are used by this library.
- $| = 1;
+ WriteMakefile(
+     NAME => 'LWP',
