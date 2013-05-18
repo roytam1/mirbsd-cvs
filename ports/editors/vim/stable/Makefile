@@ -1,30 +1,33 @@
-# $MirOS: ports/editors/vim/stable/Makefile,v 1.13 2007/04/11 17:05:31 bsiegert Exp $
+# $MirOS: ports/editors/vim/stable/Makefile,v 1.14 2007/05/07 22:58:20 tg Exp $
 # $OpenBSD: Makefile,v 1.93 2004/06/09 18:43:16 lebel Exp $
 
 COMMENT=		vi clone, many additional features
 COMMENT-lang=		vi clone, NLS subpackage
 
-DISTNAME=		vim-6.3
-REVISION=		090
-VERSION=		6.3.${REVISION}
+DISTNAME=		vim-7.1
+REVISION=		266
+VERSION=		7.1.${REVISION}
 PKGNAME=		vim-${VERSION}-${DASH_VER}
 P=			${DISTNAME:C/[-\.]//g}
 CATEGORIES=		editors
 MASTER_SITES=		ftp://ftp.vim.org/pub/vim/unix/ \
 			ftp://ftp.home.vim.org/pub/vim/unix/ \
 			ftp://ftp.berlin.de.vim.org/unix/
-MASTER_SITES0=		${MASTER_SITES:S/unix/patches\/6.3/}
+MASTER_SITES0=		${MASTER_SITES:S/unix/patches\/7.1/}
 MASTER_SITES1=		${MASTER_SITES:S/unix/extra/}
 DISTFILES=		${DISTNAME}.tar.bz2 \
 			${DISTNAME}-extra.tar.gz:1 \
 			${DISTNAME}-lang.tar.gz:1
-DIST_SUBDIR=		vim6
+DIST_SUBDIR=		vim7
 HOMEPAGE=		http://www.vim.org/
 
-PATCHFILES=		#
-_patches!=		jot -w%03d - 1 ${REVISION} 1
+PATCHFILES=		7.1.001-100.gz:0
+PATCHFILES+=		7.1.101-200.gz:0
+
+# WTF?
+_patches!=		jot -w%03d - 201 ${REVISION} 1
 .for p in ${_patches}
-PATCHFILES+=		6.3.${p}:0
+PATCHFILES+=		7.1.${p}:0
 .endfor
 
 # allow vim to build on m68k and vax
