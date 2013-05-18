@@ -1,4 +1,4 @@
-/* $MirOS$ */
+/* $MirOS: contrib/code/libhaible/wcwidth.c,v 1.5 2006/05/30 12:11:49 tg Exp $ */
 /* $XTermId: wcwidth.c,v 1.17 2006/03/20 00:36:19 tom Exp $ */
 /* $XFree86: xc/programs/xterm/wcwidth.c,v 1.8 2006/03/20 00:36:19 dickey Exp $ */
 
@@ -12,7 +12,7 @@
 
 #include <wchar.h>
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: contrib/code/libhaible/wcwidth.c,v 1.5 2006/05/30 12:11:49 tg Exp $");
 
 struct interval {
 	wint_t first;
@@ -91,10 +91,8 @@ int
 wcwidth(wchar_t c)
 {
 	/* test for 8-bit control characters */
-	if (c == 0)
-		return 0;
 	if (c < 32 || (c >= 0x7f && c < 0xa0))
-		return -1;
+		return (c ? -1 : 0);
 
 	/* binary search in table of non-spacing characters */
 	if (bisearch(c, combining,
