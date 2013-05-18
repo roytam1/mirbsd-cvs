@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/special/mksh/Makefile,v 1.40 2010/09/14 21:26:03 tg Exp $
+# $MirOS: src/distrib/special/mksh/Makefile,v 1.41 2010/10/08 17:56:59 tg Exp $
 #-
 # Copyright (c) 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -28,7 +28,7 @@ SRCDIR=		${BSDSRCDIR}/bin/mksh
 PROG=		mksh
 SRCS=		edit.c eval.c exec.c expr.c funcs.c histrap.c jobs.c \
 		lalloc.c lex.c main.c misc.c shf.c syn.c tree.c var.c
-# env: HAVE_MKNOD=x HAVE_REVOKE=x
+# env: HAVE_MKNOD=x
 CPPFLAGS+=	-DMKSH_ASSUME_UTF8 -DMKSH_SMALL \
 		-DHAVE_ATTRIBUTE_BOUNDED=1 -DHAVE_ATTRIBUTE_FORMAT=1 \
 		-DHAVE_ATTRIBUTE_NONNULL=1 -DHAVE_ATTRIBUTE_NORETURN=1 \
