@@ -1,4 +1,4 @@
-/* $MirOS: src/bin/rm/rm.c,v 1.5 2008/03/02 20:20:45 tg Exp $ */
+/* $MirOS: src/bin/rm/rm.c,v 1.6 2008/03/30 20:05:47 tg Exp $ */
 /* $NetBSD: rm.c,v 1.46 2007/06/24 17:59:31 christos Exp $ */
 /* $OpenBSD: rm.c,v 1.18 2005/06/14 19:15:35 millert Exp $ */
 
@@ -36,7 +36,7 @@ __COPYRIGHT("@(#) Copyright (c) 1990, 1993, 1994\n\
 	The Regents of the University of California.  All rights reserved.\n");
 __SCCSID("@(#)rm.c	8.8 (Berkeley) 4/27/95");
 __RCSID("$NetBSD: rm.c,v 1.46 2007/06/24 17:59:31 christos Exp $");
-__RCSID("$MirOS: src/bin/rm/rm.c,v 1.5 2008/03/02 20:20:45 tg Exp $");
+__RCSID("$MirOS: src/bin/rm/rm.c,v 1.6 2008/03/30 20:05:47 tg Exp $");
 
 #include <sys/param.h>
 #include <sys/stat.h>
@@ -153,7 +153,7 @@ main(int argc, char *argv[])
 	/* try to rename entry randomly before removal */	\
 	do {							\
 		if ((size_t)snprintf(dname, sizeof (dname),	\
-		    "%s/.rm.%08X", dirname(fn),			\
+		    "%s/rm.%08X", dirname(fn),			\
 		    arc4random()) >= (sizeof (dname) + 5)) {	\
 			/* resulting path would be too long */	\
 			memcpy(dname, (fn), strlen(fn) + 1);	\
@@ -332,9 +332,9 @@ rm_file(char **argv)
  * non-snapshotted FFS filesystems using fsdb(8).  Really.  No more.  Only
  * regular files are deleted, directories will remain.
  * However, names are no longer recoverable as any entries deleted with -P
- * are renamed to an entry with the basename “.rm.XXXXXXXX” (where ‘X’ are
+ * are renamed to entries with the basename “rm.XXXXXXXX” (where ‘X’en are
  * generated randomly) in the same parent directory first if the length of
- * the entire pathname (including the “/.rm.XXXXXXXX”) is smaller than the
+ * the entire pathname (including that “/rm.XXXXXXXX”) is smaller than the
  * maximum allowed pathname length, i.e. 1024 on MirBSD.
  * Also, this assumes a fixed-block file system (like FFS, or a V7 or a
  * System V file system).  In a logging file system, you'll have to have
