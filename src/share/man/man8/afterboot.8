@@ -1,4 +1,4 @@
-.\"	$MirOS: src/share/man/man8/afterboot.8,v 1.3 2005/07/07 13:39:38 tg Exp $
+.\"	$MirOS: src/share/man/man8/afterboot.8,v 1.4 2005/07/24 13:08:04 tg Exp $
 .\"	$OpenBSD: afterboot.8,v 1.110 2005/07/14 21:12:17 jmc Exp $
 .\"
 .\" Copyright (c) 1997 Marshall M. Midden
@@ -70,7 +70,7 @@ which you \fBshould really\fR read, type:
 .Pp
 Within
 .Xr less 1 ,
-type \? for help and q to quit.
+type \&? for help and q to quit.
 .Pp
 Other important files to read include
 .Pa /usr/share/doc/legal/LICENCE ,
@@ -81,7 +81,7 @@ outlined in these files to use this product.
 By the time that you have installed your system, it is quite likely that
 bugs in the release have been found.
 Most significant and easily fixed problems will be reported at
-.Pa https://mirbsd.bsdadvocacy.org/?errata .
+.Pa http://mirbsd.mirsolutions.de/?errata .
 The web page will mention if a problem is security related.
 It is recommended that you check this page regularly.
 .Ss Login
@@ -537,8 +537,9 @@ to
 .Pa master
 and editing it and creating other maps as needed.
 Alternatively, you can get your maps with YP.
-.Ss BIND name server (DNS)
-If you are using the BIND name server, check the
+.Ss Name server (DNS)
+If you are using a name server from MirPorts (djbdns or BIND 9),
+check the
 .Pa /etc/resolv.conf
 file.
 It may look something like:
@@ -551,14 +552,12 @@ lookup file bind
 .Ed
 .Pp
 If using a caching name server, add the line "nameserver 127.0.0.1" first.
-To get a local caching name server to run
+To get a local BIND instance to run,
 you will need to set
 .Va named_flags
 in
 .Pa /etc/rc.conf.local .
-The same holds true if the machine is going to be a
-name server for your domain.
-In both these cases, make sure that
+In this case, make sure that
 .Xr named 8
 is running
 (otherwise there are long waits for resolver timeouts).
@@ -657,40 +656,6 @@ you will need to have this line in
 .Pa /etc/rc.conf.local :
 .Pp
 .Dl portmap=YES
-.Ss YP setup
-Check the YP domain name with the
-.Xr domainname 1
-command.
-If necessary, correct it by editing the
-.Pa /etc/defaultdomain
-file (see
-.Xr defaultdomain 5 ) .
-The
-.Pa /etc/netstart
-script reads this file on bootup to determine and set the domain name.
-You may also set the running system's domain name with the
-.Xr domainname 1
-command.
-To start YP client services, simply run
-.Ic ypbind ,
-then perform the remaining
-YP activation as described in
-.Xr passwd 5
-and
-.Xr group 5 .
-.Pp
-In particular, to enable YP passwd support, you'll need to add the following
-line to
-.Pa /etc/master.passwd :
-.Pp
-.Dl +:*::::::::
-.Pp
-You do this by using
-.Xr vipw 8 .
-.Pp
-There are many more YP man pages available to help you.
-You can find more information by starting with
-.Xr yp 8 .
 .Ss Daily, weekly, monthly scripts
 Look at and possibly edit the
 .Pa /etc/daily , /etc/weekly ,
@@ -811,11 +776,6 @@ and
 as needed.
 .Ss Packages
 Install your own packages.
-The MirPorts framework includes a large set of third-party software.
-A lot of it is available as binary packages that you can download from
-.Pa http://benz.mine.nu/
-or a mirror, and install using
-.Xr pkg_add 1 .
 See
 .Xr ports 7
 and
@@ -838,7 +798,7 @@ past problems that people have encountered will result in a fix posted.
 .Sh COMPILING A KERNEL
 Note:
 The standard
-.Ox
+.Mx
 kernel configuration (GENERIC) is suitable for most purposes.
 Use of an alternative kernel configuration is not recommended.
 .Pp
