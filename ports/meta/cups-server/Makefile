@@ -1,4 +1,4 @@
-# $MirOS: ports/meta/gnome2/Makefile,v 1.2 2005/07/06 19:21:32 bsiegert Exp $
+# $MirOS: ports/meta/cups-server/Makefile,v 1.1 2006/11/09 18:18:57 bsiegert Exp $
 
 COMMENT=		meta package for a CUPS server
 VERSION=		2.6
@@ -16,6 +16,7 @@ PERMIT_PACKAGE_FTP=     Yes
 PERMIT_DISTFILES_CDROM= Yes
 PERMIT_DISTFILES_FTP=   Yes
 
+NO_CHECKSUM=		Yes
 NO_BUILD=		Yes
 PKG_ARCH=		*
 
