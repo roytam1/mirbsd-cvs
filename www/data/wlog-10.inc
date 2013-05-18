@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.337 2011/06/06 22:05:51 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.338 2011/07/11 20:59:34 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -7861,7 +7861,9 @@ Author: tg@
 Title: “Big Brother”, or: Help wanted – arguments against monitoring employees
 Tag: debian rant
 
-<p style="font-size:small;">English version of this posting</p>
+<p style="font-size:small;">English version of this posting • lese
+ stattdessen <a href="@@RELPATH@@permalinks/wlog-10_e20110711-tg-g10042.htm">die
+ deutsche Version</a></p>
 <p>The head system administrator of a henceforth unnamed company
  I happen to be employed at wants to force us to use the shell’s
  persistent history feature – disabled by default in <a
@@ -7894,7 +7896,9 @@ Title: Hilfe gesucht: Mitarbeiterüberwachung
 Tag: debian rant
 Language: de_DE-1901
 
-<p style="font-size:small;">Deutsche Version dieses Postings</p>
+<p style="font-size:small;">Deutsche Version dieses Postings • read the <a
+ href="@@RELPATH@@permalinks/wlog-10_e20110711-tg-g10041.htm">English
+ Version</a> instead</p>
 <p>Der Leiter der Abteilung Systemadministration einer Firma, welche
  in diesem Artikel ungenannt bleiben soll, wo der Zufall es will, daß
  ich für sie arbeite, möchte uns Mitarbeiter dazu zwingen, das Feature
