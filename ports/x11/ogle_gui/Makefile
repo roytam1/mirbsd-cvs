@@ -1,8 +1,8 @@
-# $MirOS: ports/x11/ogle_gui/Makefile,v 1.5 2007/05/07 19:48:16 bsiegert Exp $
+# $MirOS: ports/x11/ogle_gui/Makefile,v 1.6 2008/03/09 17:23:44 tg Exp $
 # $OpenBSD: Makefile,v 1.8 2004/04/02 19:07:05 sturm Exp $
 
 
-COMMENT=			GUI for ogle
+COMMENT=	GUI for ogle
 DISTNAME=	ogle_gui-0.9.2
 HOMEPAGE=	http://www.dtek.chalmers.se/groups/dvd/
 # Authors can be reached at dvd@dtek.chalmers.se
@@ -18,7 +18,7 @@ PERMIT_PACKAGE_CDROM=Yes
 PERMIT_PACKAGE_FTP=Yes
 
 LIB_DEPENDS=	dvdcontrol.9,msgevents.6::x11/ogle \
-		xml2::textproc/libxml \
+		xml2::textproc/libxml
 USE_X11=	Yes
 
 FLAVOURS=gtk1
