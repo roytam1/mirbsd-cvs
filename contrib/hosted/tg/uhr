@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: contrib/hosted/tg/uhr,v 1.7 2012/11/26 22:49:47 tg Exp $
+# $MirOS: contrib/hosted/tg/uhr,v 1.8 2012/11/26 23:09:20 tg Exp $
 #-
 # Copyright © 2012
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -265,22 +265,27 @@ retrace lc M_CC F_CC
 refresh "${px[@]}"; set -A px
 
 set -A do -- -1 -1 -1
+isfirst=1
 while (( !got_sigwinch )); do
-	(( tosleep = 1000000 - ${EPOCHREALTIME#*.} ))
-	if (( tosleep > 999999 )); then
-		sleep 0.2
-		(( tosleep = 1000000 - ${EPOCHREALTIME#*.} ))
-	fi
-	if (( tosleep > 999999 )); then
-		# huh… maybe no gettimeofday(2) here
-		while :; do
-			d=$(date +'%H %M %S,%d %b %Y')
-			set -A dt $d
-			(( dt[2] == do[2] )) || break
-			sleep 0.1
-		done
+	if (( isfirst )); then
+		isfirst=0
 	else
-		sleep 0.$tosleep
+		(( tosleep = 1000000 - ${EPOCHREALTIME#*.} ))
+		if (( tosleep > 999999 )); then
+			sleep 0.2
+			(( tosleep = 1000000 - ${EPOCHREALTIME#*.} ))
+		fi
+		if (( tosleep > 999999 )); then
+			# huh… maybe no gettimeofday(2) here
+			while :; do
+				d=$(date +'%H %M %S,%d %b %Y')
+				set -A dt $d
+				(( dt[2] == do[2] )) || break
+				sleep 0.1
+			done
+		else
+			sleep 0.$tosleep
+		fi
 	fi
 
 	d=$(date +'%H %M %S,%d %b %Y')
