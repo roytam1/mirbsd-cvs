@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/baselive/Makefile,v 1.42 2008/11/06 23:03:02 tg Exp $
+# $MirOS: src/distrib/baselive/Makefile,v 1.43 2009/01/17 11:58:37 tg Exp $
 
 .include <bsd.own.mk>
 
@@ -69,6 +69,10 @@ CDROM_OPTS+=	volumeid=$$(uname -sl | tr -- '- \#' :_):DuaLive
 CDROM_OPTS+=	volumeid=$$(uname -slm | tr -- '- \#' :_):BaseLive
 .endif
 #CDROM_OPTS+=	v=1
+
+.if ${DUALIVE:L} != "no"
+LIVEBOOT_ARGS+=	DUALIVE=Yes
+.endif
 
 all install:
 
@@ -189,8 +193,6 @@ nukefiles:
 .endif
 
 makeimg: cdrom-prepare cdrom-generate
-
-#LIVEBOOT_ARGS+=	…
 
 cdrom-prepare: bsd.gz
 	${SUDO} dd if=bsd.gz obs=2048 conv=osync of=${WRKDIR}/bsd

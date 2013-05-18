@@ -1,4 +1,4 @@
-/* $MirOS: src/sys/arch/i386/stand/liveboot/hook.S,v 1.21 2009/01/15 22:11:56 tg Exp $ */
+/* $MirOS: src/sys/arch/i386/stand/liveboot/hook.S,v 1.22 2009/01/17 11:54:34 tg Exp $ */
 
 /*-
  * Copyright (c) 2006, 2007, 2009
@@ -30,7 +30,14 @@ lbl_mayskip:
 	.ascii	"On a WRAP/Soekris, press 4 (Live) or 7 (Setup)"
 	.asciz	" for serial console @38k4,8N1.\n\r"
 lbl_title:
-	.asciz	"MirOS #10-current Setup/DuaLive CD"
+	.ascii	"MirOS #"
+	.ascii	mbsd_major
+	.ascii	mbsd_type
+#if defined(HAVE_DUALIVE)
+	.asciz	" Setup/DuaLive CD"
+#else
+	.asciz	"/i386 Setup/Live CD"
+#endif
 lbl_menus:
 	.byte	10
 	.long	lbl_menu0 - SA_LINKADDR
