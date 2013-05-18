@@ -1,11 +1,11 @@
-# $MirOS: www/src/jupp.hts,v 1.13 2009/08/02 18:23:57 tg Exp $
+# $MirOS: www/src/jupp.hts,v 1.14 2009/08/02 18:32:13 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/juppp "jupp – Programmer’s Editor"
 mws_setheadline jupp – the Editor which sucks less
-mws_putheader '$MirOS: www/src/jupp.hts,v 1.13 2009/08/02 18:23:57 tg Exp $'
+mws_putheader '$MirOS: www/src/jupp.hts,v 1.14 2009/08/02 18:32:13 tg Exp $'
 mws_content <<'EOF'
 <p>The current version is <em>joe-2.8jupp1</em> for MS-DOS® compatible systems,
  and <em>joe-3.1jupp11</em> for Unix/GNU compatible systems. This page is
@@ -52,7 +52,7 @@ mws_content <<'EOF'
  <li>visibled spaces</li>
 </ul>
 
-<h2 id="docs">Documentation</a>
+<h2 id="docs">Documentation</h2>
 <p>We have a <a href="@@ABSPATH@@/MirOS/dist/jupp/joe.pdf">PDF manpage</a>,
  <a href="@@ABSPATH@@/MirOS/dist/jupp/joe.htm">HTML manpage</a>, and you
  can use <a href="@@RELPATH@@cvs.cgi/jupp">CVSweb</a> to browse the source
