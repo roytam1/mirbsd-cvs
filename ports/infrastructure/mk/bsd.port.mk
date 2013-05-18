@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.173 2007/05/07 22:34:56 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.174 2007/05/07 22:37:10 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -284,51 +284,6 @@ ERRORS+=		"Subpackage ${SUBPACKAGE} does not exist."
 # Support architecture and flavour dependent packing lists
 SED_PLIST?=
 
-# Build FLAVOR_EXT, checking that no flavours are misspelled
-FLAVOR_EXT:=
-# _FLAVOR_EXT2 is used internally for working directories.
-# It encodes flavours and pseudo-flavours.
-_FLAVOR_EXT2:=
-
-# Create the basic sed substitution pipeline for fragments
-# (applies only to PLIST for now)
-.if !empty(FLAVORS)
-.  for _i in ${FLAVORS:L}
-.    if empty(FLAVOR:L:M${_i})
-SED_PLIST+=	|sed \
-		-e '/^!%%${_i}%%$$/r${PKGDIR}/PFRAG.no-${_i}${SUBPACKAGE}' \
-		-e '//d' \
-		-e '/^%%${_i}%%$$/d'
-.    else
-_FLAVOR_EXT2:=	${_FLAVOR_EXT2}-${_i}
-.    if empty(PSEUDO_FLAVORS:L:M${_i})
-FLAVOR_EXT:=	${FLAVOR_EXT}-${_i}
-.    endif
-SED_PLIST+=	|sed \
-		-e '/^!%%${_i}%%$$/d' \
-		-e '/^%%${_i}%%$$/r${PKGDIR}/PFRAG.${_i}${SUBPACKAGE}' \
-		-e '//d'
-.    endif
-.  endfor
-.endif
-
-.if !empty(FLAVORS:M[0-9]*)
-ERRORS+=		"Flavour cannot start with a digit."
-.endif
-
-.if !empty(FLAVOR)
-.  if !empty(FLAVORS)
-.    for _i in ${FLAVOR:L}
-.      if empty(FLAVORS:L:M${_i})
-ERRORS+=		"Unknown flavour: ${_i}"
-ERRORS+=		"Possible flavours are: ${FLAVORS}"
-.      endif
-.    endfor
-.  else
-ERRORS+=		"No flavours for this port."
-.  endif
-.endif
-
 DASH_VER?=		0
 .if defined(DIST_NAME) && defined(DIST_DATE)
 PKGNAME?=		${DIST_NAME}-${DIST_DATE}-${DASH_VER}
@@ -519,6 +474,51 @@ MODULES+=		${_i}
 .if defined(MODULES)
 _MODULES_DONE=
 .  include "${PORTSDIR}/infrastructure/mk/modules.port.mk"
+.endif
+
+# Build FLAVOR_EXT, checking that no flavours are misspelled
+FLAVOR_EXT:=
+# _FLAVOR_EXT2 is used internally for working directories.
+# It encodes flavours and pseudo-flavours.
+_FLAVOR_EXT2:=
+
+# Create the basic sed substitution pipeline for fragments
+# (applies only to PLIST for now)
+.if !empty(FLAVORS)
+.  for _i in ${FLAVORS:L}
+.    if empty(FLAVOR:L:M${_i})
+SED_PLIST+=	|sed \
+		-e '/^!%%${_i}%%$$/r${PKGDIR}/PFRAG.no-${_i}${SUBPACKAGE}' \
+		-e '//d' \
+		-e '/^%%${_i}%%$$/d'
+.    else
+_FLAVOR_EXT2:=	${_FLAVOR_EXT2}-${_i}
+.    if empty(PSEUDO_FLAVORS:L:M${_i})
+FLAVOR_EXT:=	${FLAVOR_EXT}-${_i}
+.    endif
+SED_PLIST+=	|sed \
+		-e '/^!%%${_i}%%$$/d' \
+		-e '/^%%${_i}%%$$/r${PKGDIR}/PFRAG.${_i}${SUBPACKAGE}' \
+		-e '//d'
+.    endif
+.  endfor
+.endif
+
+.if !empty(FLAVORS:M[0-9]*)
+ERRORS+=		"Flavour cannot start with a digit."
+.endif
+
+.if !empty(FLAVOR)
+.  if !empty(FLAVORS)
+.    for _i in ${FLAVOR:L}
+.      if empty(FLAVORS:L:M${_i})
+ERRORS+=		"Unknown flavour: ${_i}"
+ERRORS+=		"Possible flavours are: ${FLAVORS}"
+.      endif
+.    endfor
+.  else
+ERRORS+=		"No flavours for this port."
+.  endif
 .endif
 
 ###
