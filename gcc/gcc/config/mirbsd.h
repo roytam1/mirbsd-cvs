@@ -1,8 +1,8 @@
-/* $MirOS: gcc/gcc/config/mirbsd.h,v 1.24 2009/12/06 18:22:38 tg Exp $ */
+/* $MirOS: gcc/gcc/config/mirbsd.h,v 1.25 2009/12/12 19:40:42 tg Exp $ */
 
 /* Base configuration file for all MirOS BSD targets.
    Copyright (C) 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2005, 2006, 2007,
-   2008, 2009
+   2008, 2009, 2010
    Free Software Foundation, Inc.
    Contributed by Thorsten “mirabilos” Glaser <tg@mirbsd.org>
 
@@ -32,6 +32,8 @@ Boston, MA 02111-1307, USA.  */
 #define MIRBSD_OS_CPP_BUILTINS()			\
   do							\
     {							\
+      builtin_define ("__MirOS__");			\
+      builtin_define ("__MirBSD_kernel__");		\
       builtin_define ("__MirBSD__");			\
       builtin_define ("__OpenBSD__");			\
       builtin_define ("__unix__");			\
