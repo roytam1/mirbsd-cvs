@@ -1,4 +1,4 @@
-# $MirOS: contrib/hosted/tg/code/BSD::arc4random/Makefile.PL,v 1.4 2009/11/22 20:04:06 tg Exp $
+# $MirOS: contrib/hosted/tg/code/BSD::arc4random/Makefile.PL,v 1.5 2011/06/05 22:50:05 tg Exp $
 #-
 # Copyright (c) 2008, 2009, 2011
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -50,8 +50,10 @@ if ($cfg eq 'auto') {
 		$defs .= ' -DNEED_ARC4RANDOM_DECL';
 	}
 	if (($^O eq 'cygwin') || ($^O eq 'MSWin32') ||
+	    ($^O eq 'irix') ||
 	    ($^O eq 'solaris')) {
 		# Cygwin, Solaris: use arc4random.c contributed file
+		# IRIX: the same, except we don't know if it works there
 		# XXX the presence of arc4random.c here is a KLUDGE going away!
 		# XXX Solaris 10 has <stdint.h> but Cygwin and Solaris 8 don't.
 		$objs = 'arc4random.o';
