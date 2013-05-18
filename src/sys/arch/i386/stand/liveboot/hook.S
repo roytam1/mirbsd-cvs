@@ -1,4 +1,4 @@
-/* $MirOS: src/sys/arch/i386/stand/liveboot/hook.S,v 1.18 2007/07/15 19:48:04 tg Exp $ */
+/* $MirOS: src/sys/arch/i386/stand/liveboot/hook.S,v 1.19 2007/08/25 10:51:23 tg Exp $ */
 
 /*-
  * Copyright (c) 2006, 2007
@@ -37,16 +37,16 @@ lbl_title:
 	.asciz	"MirOS #10 Setup/Live CD"
 lbl_menus:
 	.byte	10
-	.word	lbl_menu0
-	.word	lbl_menu1
-	.word	lbl_menu2
-	.word	lbl_menu3
-	.word	lbl_menu4
-	.word	lbl_menu5
-	.word	lbl_menu6
-	.word	lbl_menu7
-	.word	lbl_menu8
-	.word	lbl_menu9
+	.long	lbl_menu0 - SA_LINKADDR
+	.long	lbl_menu1 - SA_LINKADDR
+	.long	lbl_menu2 - SA_LINKADDR
+	.long	lbl_menu3 - SA_LINKADDR
+	.long	lbl_menu4 - SA_LINKADDR
+	.long	lbl_menu5 - SA_LINKADDR
+	.long	lbl_menu6 - SA_LINKADDR
+	.long	lbl_menu7 - SA_LINKADDR
+	.long	lbl_menu8 - SA_LINKADDR
+	.long	lbl_menu9 - SA_LINKADDR
 lbl_menu0:
 	.asciz	"Continue to normal /boot\n"
 lbl_menu1:
@@ -118,7 +118,7 @@ Llens:	mov	di,si
 	call	outchc
 
 #define OUTS(s,col) \
-	mov	si,offset s; \
+	mov	esi,offset s - SA_LINKADDR; \
 	mov	bx,((col) & 0xFF); \
 	call	Louts
 
@@ -147,7 +147,7 @@ Lsget:
 #endif
 
 Lhook:	/* if any shift key pressed, skip all of this, return 0 */
-	mov	si,offset lbl_mayskip
+	mov	esi,offset lbl_mayskip - SA_LINKADDR
 	lodsb
 Lhookp:	mov	ah,0x0E
 	mov	bx,7
@@ -177,7 +177,7 @@ Lhook0:	/* clear screen */
 	OUTCH(32,7)		/* -> newline at Lquit has this colour */
 	LOCATE(0,0)
 	OUTCH(201,15)
-	mov	si,offset lbl_title
+	mov	esi,offset lbl_title - SA_LINKADDR
 	call	Llens
 	inc	cx
 	inc	cx
@@ -201,7 +201,8 @@ Lhook2:	OUTCH(205,15)
 	OUTCH(188,15)
 
 	GETTICK(219 /* 12 * 18.2 */)
-	mov	[Ltick],ecx
+	mov	ebx,offset Ltick - SA_LINKADDR
+	mov	[bx],ecx
 Lmlp0:	/* display the menu */
 	call	Ldspm
 Lmlp1:	/* read keypress (if any) */
@@ -209,7 +210,8 @@ Lmlp1:	/* read keypress (if any) */
 	int	0x16
 	jnz	Lmlp2
 	/* checking time? */
-	mov	ebp,[Ltick]
+	mov	ebx,offset Ltick - SA_LINKADDR
+	mov	ebp,[bx]
 	or	ebp,ebp
 	jz	Lmlp1
 	/* get current ticks */
@@ -221,36 +223,44 @@ Lmlp1:	/* read keypress (if any) */
 	mov	ax,13
 	jmp	Lmlp3
 Lmlp2:	/* we have a keypress event, disable timeout */
-	mov	dword ptr [Ltick],0
+	mov	ebx,offset Ltick - SA_LINKADDR
+	mov	dword ptr [bx],0
 	/* check which key */
 	xor	ax,ax
 	int	0x16
 Lmlp3:	cmp	ax,0x4800	/* cursor up */
 	jne	Lmlp4
-	mov	al,[lbl_menus]
+	mov	ebx,offset lbl_menus - SA_LINKADDR
+	mov	al,[bx]
 	dec	ax
-	xchg	al,[Lmenu]
+	mov	ebx,offset Lmenu - SA_LINKADDR
+	xchg	al,[bx]
 	or	al,al
 	je	Lmlp0
 	dec	al
-	mov	[Lmenu],al
+	mov	[bx],al
 	jmp	Lmlp0
 Lmlp4:	cmp	ax,0x5000	/* cursor down */
 	jne	Lmlp5
-	xchg	al,[Lmenu]
+	mov	ebx,offset Lmenu - SA_LINKADDR
+	xchg	al,[bx]
 	inc	ax
-	cmp	al,[lbl_menus]
+	mov	ebx,offset lbl_menus - SA_LINKADDR
+	cmp	al,[bx]
 	jnb	Lmlp0
-	mov	[Lmenu],al
+	mov	ebx,offset Lmenu - SA_LINKADDR
+	mov	[bx],al
 	jmp	Lmlp0
 Lmlp5:	sub	al,13		/* return */
 	jb	Lmlp1		/* <13: illegal */
 	je	Ldone
 	sub	al,0x30-13	/* '0' */
 	jb	Lmlp1
-	cmp	al,[lbl_menus]
+	mov	ebx,offset lbl_menus - SA_LINKADDR
+	cmp	al,[bx]
 	jae	Lmlp1
-	mov	[Lmenu],al
+	mov	ebx,offset Lmenu - SA_LINKADDR
+	mov	[bx],al
 Ldone:	/* choice in [Lmenu] */
 	mov	ah,2
 	mov	bh,0
@@ -265,22 +275,24 @@ Lquit:	/* issue a newline (colour 7, because it's the final one) */
 	int	0x10
 	/* return choice */
 	xor	eax,eax
-	mov	al,[Lmenu]
+	mov	ebx,offset Lmenu - SA_LINKADDR
+	mov	al,[bx]
 	ret
 
 Ldspm:	/* lines 0, 1, 2 = banner, 3 = empty, start at 4 */
 	LOCATE(4,0)
-	mov	si,offset lbl_menus
+	mov	esi,offset lbl_menus - SA_LINKADDR
 	xor	ax,ax
 	lodsb
 	mov	bp,ax	/* count left */
 	xor	di,di	/* which item */
-Ldspm0:	mov	ax,[Lmenu]
+Ldspm0:	mov	ebx,offset Lmenu - SA_LINKADDR
+	mov	ax,[bx]
 	mov	bx,7
 	cmp	ax,di
 	jne	Ldspm1
 	mov	bl,0x70
-Ldspm1:	lodsw
+Ldspm1:	lodsd
 	push	si
 	push	di
 	push	bp
