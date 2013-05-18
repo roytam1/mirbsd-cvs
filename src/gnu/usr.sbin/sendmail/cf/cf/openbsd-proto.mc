@@ -1,6 +1,6 @@
 divert(-1)dnl
 #
-# $MirOS: src/gnu/usr.sbin/sendmail/cf/cf/openbsd-proto.mc,v 1.2 2005/03/13 15:11:42 tg Exp $
+# $MirOS: src/gnu/usr.sbin/sendmail/cf/cf/openbsd-proto.mc,v 1.4 2006/03/23 13:20:21 tg Exp $
 #
 # Copyright (c) 2002, 2003, 2004, 2005
 #	Thorsten "mirabile" Glaser <tg@MirBSD.org>
@@ -19,7 +19,8 @@ divert(-1)dnl
 #
 
 divert(0)dnl
-VERSIONID(`$MirOS: src/gnu/usr.sbin/sendmail/cf/cf/openbsd-proto.mc,v 1.2 2005/03/13 15:11:42 tg Exp $')dnl
+VERSIONID(`$MirOS: src/gnu/usr.sbin/sendmail/cf/cf/openbsd-proto.mc,v 1.4 2006/03/23 13:20:21 tg Exp $')dnl
+dnl VERSIONID(`@(#)openbsd-proto.mc $Revision$')dnl
 OSTYPE(openbsd)dnl
 dnl
 dnl If you have a non-static IP address you may wish to forward outgoing mail
@@ -33,7 +34,7 @@ dnl
 dnl Disable EXPN and VRFY to help thwart address harvesters and require
 dnl senders to say hello.
 dnl
-define(`confPRIVACY_FLAGS', `authwarnings,needmailhelo,noexpn,novrfy')dnl
+define(`confPRIVACY_FLAGS', `authwarnings,needmailhelo,noexpn,novrfy,nobodyreturn')dnl
 dnl
 dnl
 dnl We wish to make the existence of the local-host-names and
