@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/stand/boot/cmd.c,v 1.6 2008/08/01 11:56:10 tg Exp $	*/
+/**	$MirOS: src/sys/stand/boot/cmd.c,v 1.7 2008/08/01 12:39:09 tg Exp $	*/
 /*	$OpenBSD: cmd.c,v 1.59 2007/04/27 10:08:34 tom Exp $	*/
 
 /*
@@ -35,6 +35,9 @@
 #define CTRL(c)	((c)&0x1f)
 
 static int Xboot(void);
+#ifndef SMALL_BOOT
+static int Xcat(void);
+#endif
 static int Xecho(void);
 static int Xhelp(void);
 #ifndef SMALL_BOOT
@@ -61,6 +64,9 @@ extern const struct cmd_table cmd_set[];
 const struct cmd_table cmd_table[] = {
 	{"#",      CMDT_CMD, Xnop},  /* XXX must be first */
 	{"boot",   CMDT_CMD, Xboot},
+#ifndef SMALL_BOOT
+	{"cat",    CMDT_CMD, Xcat},
+#endif
 	{"echo",   CMDT_CMD, Xecho},
 	{"env",    CMDT_CMD, Xenv},
 	{"help",   CMDT_CMD, Xhelp},
@@ -536,3 +542,28 @@ Xreboot(void)
 	exit();
 	return 0; /* just in case */
 }
+
+#ifndef SMALL_BOOT
+static int
+Xcat(void)
+{
+	int fd, rc = 0;
+	char abuf[80];
+
+	if (!cmd.argv[1])
+		return (0);
+	if ((fd = open(qualify(cmd.argv[1]), 0)) < 0) {
+		printf("open(%s): %s\n", cmd.argv[1], strerror(errno));
+		return (0);
+	}
+
+	while ((rc = read(fd, abuf, 79)) > 0) {
+		abuf[rc] = 0;
+		printf("%s", abuf);
+	}
+	putchar('\n');
+
+	close(fd);
+	return (0);
+}
+#endif
