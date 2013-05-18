@@ -193,7 +193,10 @@ ded dump can be recompressed with the tool on the build system.
 While the dump itself is tar → compressed → asz encoded, “asz”
 itself is not a compressing format, just a storage container –
 which stores one octet stream, plus size and checksum informa-
-tion only.
+tion only. Because many compressors have no idea about the un-
+compressed size, the actual encoded data is prefixed by a lit-
+tle endian unsigned 32-bit integer of the uncompressed length;
+the resulting larger buffer is then passed to the asz encoder.
 
 
 2.6. Operation of ‘fwcf restore’ (NEW IN 1.03)
@@ -431,4 +434,4 @@ They are provided as hint only and not part of the specifi-
 cation itself. They may change without notice.
 
 ⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼
-$MirOS: contrib/hosted/fwcf/fwcf.txt,v 1.32 2007/03/02 05:42:27 tg Exp $
+$MirOS: contrib/hosted/fwcf/fwcf.txt,v 1.33 2007/03/09 21:10:28 tg Exp $
