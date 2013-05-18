@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/etc/cronrun,v 1.5 2007/07/11 09:07:31 tg Exp $
+# $MirOS: src/etc/cronrun,v 1.6 2007/08/03 20:14:00 tg Exp $
 #-
 # Copyright (c) 2007
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -42,6 +42,8 @@ function tm_chk {
 	fi
 
 	[[ -s /var/log/$job.out.gz ]] || return 1
+	chown 0:0 /var/log/$job.out.gz
+	chmod 0640 /var/log/$job.out.gz
 	local line=$(gzip -dc /var/log/$job.out.gz | head -n 1) || return 1
 	[[ $line = @(RUNTIME=)+([0-9]).+([0-9]) ]] || return 1
 	local dft=$(print "($(date +%J)-${line##RUNTIME=})*24" | bc)
@@ -88,6 +90,8 @@ else
 	    mail -s "$(hostname) $jobname output" root
 	rm -f "/var/log/$jobname.out.gz"
 	gzip -n9 "/var/log/$jobname.out"
+	chown 0:0 /var/log/$jobname.out.gz
+	chmod 0640 /var/log/$jobname.out.gz
 fi
 
 [[ $nolock = 1 ]] || rm -f /var/run/cron.maintenance

@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/etc/anacron,v 1.2 2007/06/26 23:20:59 tg Exp $
+# $MirOS: src/etc/anacron,v 1.3 2007/07/11 09:07:31 tg Exp $
 #-
 # Copyright (c) 2007
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -48,6 +48,8 @@ function tryjob {
 		gzip -n9 /var/log/$job.out
 	fi
 	if [[ -s /var/log/$job.out.gz ]]; then
+		chown 0:0 /var/log/$job.out.gz
+		chmod 0640 /var/log/$job.out.gz
 		line=$(gzip -dc /var/log/$job.out.gz | head -n 1)
 		if [[ $line = @(RUNTIME=)+([0-9]).+([0-9]) ]]; then
 			time=$(date +%J)
