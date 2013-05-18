@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/bsd.cfwrap.mk,v 1.13 2006/06/17 20:03:31 tg Exp $
+# $MirOS: src/share/mk/bsd.cfwrap.mk,v 1.14 2006/06/17 20:08:08 tg Exp $
 
 .if !defined(BSD_CFWRAP_MK)
 BSD_CFWRAP_MK=1
@@ -48,9 +48,9 @@ FSFMARGS+=	-f ${FSFMAKEFILE}
 .endif
 
 .if ${DEBUGLIBS:L} == "yes"
-FSFCFLAGS+=	-g1
-FSFCXXFLAGS+=	-g1
-FSFHOSTCFLAGS+=	-g1
+FSFCFLAGS+=	-g1 -fno-omit-frame-pointer
+FSFCXXFLAGS+=	-g1 -fno-omit-frame-pointer
+FSFHOSTCFLAGS+=	-g1 -fno-omit-frame-pointer
 .endif
 
 HOSTCFLAGS?=	${CFLAGS} ${COPTS}

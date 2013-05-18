@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/bsd.lib.mk,v 1.43 2006/08/27 01:08:59 tg Exp $
+# $MirOS: src/share/mk/bsd.lib.mk,v 1.44 2006/09/16 07:27:41 tg Exp $
 # $OpenBSD: bsd.lib.mk,v 1.43 2004/09/20 18:52:38 espie Exp $
 # $NetBSD: bsd.lib.mk,v 1.67 1996/01/17 20:39:26 mycroft Exp $
 # @(#)bsd.lib.mk	5.26 (Berkeley) 5/2/91
@@ -145,7 +145,7 @@ CXXFLAGS+=	${CXXOPTS}
 HOSTCFLAGS?=	${CFLAGS}
 
 .if ${DEBUGLIBS:L} == "yes"
-DEBUG?=		-g1
+DEBUG?=		-g1 -fno-omit-frame-pointer
 _DISCARD=	-X
 .else
 _DISCARD=	-x
