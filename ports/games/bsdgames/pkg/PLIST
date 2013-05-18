@@ -1,4 +1,4 @@
-@comment $MirOS: ports/games/bsdgames/pkg/PLIST,v 1.3 2006/03/02 01:42:16 tg Exp $
+@comment $MirOS: ports/games/bsdgames/pkg/PLIST,v 1.4 2007/03/02 01:47:16 tg Exp $
 games/adventure
 games/arithmetic
 games/atc
@@ -87,6 +87,8 @@ share/games/fortune/de.misc
 share/games/fortune/de.misc.dat
 share/games/fortune/en.misc
 share/games/fortune/en.misc.dat
+share/games/fortune/farber
+share/games/fortune/farber.dat
 share/games/fortune/fh-brs
 share/games/fortune/fh-brs.dat
 share/games/fortune/fortunes
@@ -107,6 +109,12 @@ share/games/fortune/limerick
 share/games/fortune/limerick.dat
 share/games/fortune/martin.piskernig
 share/games/fortune/martin.piskernig.dat
+share/games/fortune/netbsd
+share/games/fortune/netbsd-o
+share/games/fortune/netbsd-o.dat
+share/games/fortune/netbsd-tips
+share/games/fortune/netbsd-tips.dat
+share/games/fortune/netbsd.dat
 share/games/fortune/norbert.tretkowski
 share/games/fortune/norbert.tretkowski.dat
 share/games/fortune/rainer.weikusat
@@ -121,6 +129,8 @@ share/games/fortune/thomas.ogrisegg
 share/games/fortune/thomas.ogrisegg.dat
 share/games/fortune/tretkowski
 share/games/fortune/tretkowski.dat
+share/games/fortune/unamerican-o
+share/games/fortune/unamerican-o.dat
 share/games/fortune/zippy
 share/games/fortune/zippy.dat
 share/games/quiz.db/africa

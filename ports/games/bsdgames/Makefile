@@ -1,8 +1,8 @@
-# $MirOS: ports/games/bsdgames/Makefile,v 1.17 2008/05/25 20:56:38 tg Exp $
+# $MirOS: ports/games/bsdgames/Makefile,v 1.18 2008/10/04 19:03:07 tg Exp $
 
 COMMENT=		BSD base system games
 CATEGORIES=		games
-DASH_VER=		2
+DASH_VER=		3
 CVS_DISTREPO=		:ext:anoncvs@anoncvs.ca.openbsd.org:/cvs
 CVS_DISTDATE=		2007/02/22
 CVS_DISTMODS=		src/games
@@ -25,9 +25,11 @@ EXTRA_MAKE_FLAGS=	HOSTCC=${_PASS_CC:Q}
 EXTRA_FAKE_FLAGS=	MANDIR=${PREFIX:Q}/share/man/cat
 
 EXTRA_FORTUNES=		alexander.griesser alexander.talos andreas.krennmair \
-			at.linux at.statistik de.misc en.misc fvl fvl_vendor \
-			larry.wall martin.piskernig norbert.tretkowski \
-			rainer.weikusat rss thomas.ogrisegg tretkowski fh-brs
+			at.linux at.statistik de.misc en.misc farber fh-brs \
+			fvl fvl_vendor larry.wall martin.piskernig netbsd \
+			netbsd-o netbsd-tips norbert.tretkowski \
+			rainer.weikusat rss thomas.ogrisegg tretkowski \
+			unamerican-o
 .if (${OStype} == "Interix") || (${OStype} == "OpenBSD")
 FORTUNE_COPY=		cat	# crippled OS
 .else
