@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.385 2012/03/03 21:44:47 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.386 2012/03/20 20:54:07 bsiegert Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -9013,4 +9013,39 @@ Title: blog @ TNF
 </p>
 
 <!-- tg: DON'T change the link above. Don't even think about it. -->
+----
+Date: 19.05.2012 22:35
+Author: tg@
+Title: MirBSD goes webservice – manpages and WTF‽
+Tag: debian mksh news pcli tip
+
+<p>While wtf(1) always has been a bit central to <a
+ href="@@RELPATH@@main.htm">MirBSD</a>, and the <a
+ href="@@RELPATH@@acronyms" type="text/plain; charset=utf-8"
+ title="MirBSD WTF acronym database">acronym database</a>
+ has been accessible by <a href="@@ABSPATH@@/cvs.cgi">CVSweb</a>,
+ what we never had was a DAU compatible (and shellsnippets
+ compatible) lookup. This has now changed: the above link to
+ the acronyms file is a persistent link to its latest version
+ (well, latest when the website was last recompiled), tooltips
+ may very well follow soon, and we’ve got an <a
+ href="@@RELPATH@@wtf.htm">online WTF lookup service</a>.</p>
+<p>Not to stop there, our <a href="@@RELPATH@@man.htm">online
+ HTML manpage search</a> is also new, shiny, and should replace
+ the “<tt>!mbsdman</tt>” DuckDuckGo hash-bang shortly. (Both of
+ these services offer a DDG search as fallback. Note that DDG is
+ an external service included herein by linking, under their
+ request to spread it, and not affiliated with The MirOS Project.
+ They do, however, donate some advertising money to Debian.)</p>
+<p>And because writing all that perl(1) made me ill, not to
+ mention I don’t even <em>know</em> that language, I’ve hacked
+ a bit more in the mir﻿make(1) and mksh(1) parts of the
+ MirWebsite, finally implementing pointing out where in the
+ navigation sidebar the visitor currently is.</p>
+<p>We also have exciting <a href="@@RELPATH@@mksh.htm">mksh</a>
+ porting news involving RT trying a larger number of ancient
+ platforms than I dare count, me fixing bugs in Linux klibc and
+ diving into other things, learning more about why I consider me
+ lucky for hacking a BSD operating system… sorry, I want to keep
+ this short as it’s mostly an announcement.</p>
 ----
