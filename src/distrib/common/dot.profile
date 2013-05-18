@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/dot.profile,v 1.24 2008/03/04 23:48:58 tg Exp $
+# $MirOS: src/distrib/common/dot.profile,v 1.24.2.1 2008/03/12 19:11:20 tg Exp $
 # $OpenBSD: dot.profile,v 1.4 2002/09/13 21:38:47 deraadt Exp $
 # $NetBSD: dot.profile,v 1.1 1995/12/18 22:54:43 pk Exp $
 #
@@ -57,7 +57,7 @@ sshd() {
 	fi
 }
 
-export PATH=/sbin:/bin:/usr/bin:/usr/sbin:/ PS1='$PWD # '
+export PATH=/sbin:/bin:/usr/bin:/usr/sbin:/ PS1='$PWD # ' HOME=/
 umask 022
 
 if [[ -z $NEED_UNICODE ]]; then
