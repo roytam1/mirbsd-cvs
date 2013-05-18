@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/news.inc,v 1.141 2011/02/08 22:13:28 bsiegert Exp $
+RCSID: $MirOS: www/data/news.inc,v 1.142 2011/02/12 23:14:44 tg Exp $
 Title: Older news from the MirOS Project
 Date: 01.03.2006
 
@@ -1949,4 +1949,13 @@ Author: bsiegert@
 <p>Even if only a small number of packages has been tested on MirOS so
  far, the adoption of pkgsrc will give users access to vast,
  well-maintained archive of third-party software.</p>
+----
+Title: bsiegert@ is now NetBSD developer
+Date: 11.03.2011 18:48
+Author: bsiegert@
+Tag: pkgsrc
+
+<p>bsiegert@ now has direct commit access to the pkgsrc repository, with
+ a mandate to improve the MirBSD support in pkgsrc. This should lead to
+ pkgsrc becoming a viable alternative and/or complement to MirPorts.</p>
 ----

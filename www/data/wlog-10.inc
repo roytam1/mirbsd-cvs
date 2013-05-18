@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.324 2011/03/06 02:06:15 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.325 2011/03/07 20:42:12 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -7489,4 +7489,19 @@ Tag: debian mksh news
  users have been provided with somewhat well-tested mksh-current snapshots
  for a while already, and Gentoo users can use the “live ebuild”; there’s
  always compiling from source too…</p>
+----
+Title: I am now a NetBSD developer!
+Date: 11.03.2011 18:40
+Tags: pkgsrc
+Author: bsiegert@
+
+<p>Since 2011-03-09, I am now a NetBSD developer. My allocated work area
+ is <b>MirBSD support for pkgsrc</b>. This is now much simpler, as I have
+ direct commit access to the repo.</p>
+
+<p>My sponsors are Guillaume Lasmayous (glc) and Alistair G. Crooks (agc).
+ The whole thing would never have happened if Marc Ballmer had not started
+ the new-developer process during FOSDEM 2011. A big “Thank you” goes out
+ to these three persons in particular as well as to all those that warmly
+ welcomed me on the NetBSD developer mailing list.</p>
 ----
