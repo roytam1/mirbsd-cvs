@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/dev/rndvar.h,v 1.9 2008/04/09 05:45:42 tg Exp $ */
+/**	$MirOS: src/sys/dev/rndvar.h,v 1.10 2008/06/13 12:57:27 tg Exp $ */
 /*	$OpenBSD: rndvar.h,v 1.19 2003/11/03 18:24:28 tedu Exp $	*/
 
 /*
@@ -83,26 +83,23 @@ struct rndstats {
 extern struct rndstats rndstats;
 
 extern uint32_t rnd_addpool_buf[];
-extern uint32_t rnd_addpool_num;
-extern uint32_t rnd_addpool_allow;
-#define	rnd_addpool_add(x)						\
-	do {								\
-		if (rnd_addpool_allow) {				\
-			rnd_addpool_buf[rnd_addpool_num++] ^= (x);	\
-			if (rnd_addpool_num == rnd_addpool_size)	\
-				rnd_addpool_num = 0;			\
-		}							\
-	} while (/*CONSTCOND*/0)
-
+extern int rnd_addpool_num;	/* ring buffer write pointer */
 extern int rnd_bootpool_done;	/* has it been drained already? */
-#define rnd_bootpool_add(area, len) do {				\
-	if (rnd_bootpool_done)						\
-		rnd_addpool_add(adler32(arc4random(),			\
-		    (const uint8_t *)(area), (len)));			\
-	else								\
-		rnd_bootpool = adler32(rnd_bootpool,			\
-		    (const uint8_t *)(area), (len));			\
-} while (0)
+
+#define	rnd_addpool_add(x) do {					\
+	rnd_addpool_buf[rnd_addpool_num++] ^= (x);		\
+	if (rnd_addpool_num == rnd_addpool_size)		\
+		rnd_addpool_num = 0;				\
+} while (/* CONSTCOND */ 0)
+
+#define rnd_bootpool_add(area, len) do {			\
+	if (rnd_bootpool_done)					\
+		rnd_addpool_add(adler32(arc4random(),		\
+		    (const uint8_t *)(area), (len)));		\
+	else							\
+		rnd_bootpool = adler32(rnd_bootpool,		\
+		    (const uint8_t *)(area), (len));		\
+} while (/* CONSTCOND */ 0)
 
 #define	add_true_randomness(d)	enqueue_randomness(RND_SRC_TRUE,  (int)(d))
 #define	add_timer_randomness(d)	enqueue_randomness(RND_SRC_TIMER, (int)(d))

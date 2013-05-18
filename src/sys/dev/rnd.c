@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/dev/rnd.c,v 1.37 2008/03/22 22:58:41 tg Exp $ */
+/**	$MirOS: src/sys/dev/rnd.c,v 1.38 2008/04/09 05:45:41 tg Exp $ */
 /*	$OpenBSD: rnd.c,v 1.78 2005/07/07 00:11:24 djm Exp $	*/
 
 /*
@@ -427,7 +427,7 @@ struct filterops rndwrite_filtops =
 	{ 1, NULL, filt_rndwdetach, filt_rndwrite};
 
 uint32_t rnd_addpool_buf[rnd_addpool_size], rnd_bootpool = 1 /* adler32 */;
-uint32_t rnd_addpool_num = 0, rnd_addpool_allow = 1;
+int rnd_addpool_num = 0, rnd_addpool_allow = 1;
 static int rnd_attached;
 static int arc4random_initialised;
 struct rndstats rndstats;
@@ -1188,8 +1188,7 @@ randomwrite(dev_t dev, struct uio *uio, int flags)
 	if (securelevel > 1)
 		return (EPERM);
 
-	if (minor(dev) == RND_RND ||
-	    ((minor(dev) == RND_PRND) && !rnd_addpool_allow))
+	if (minor(dev) == RND_RND)
 		return (ENXIO);
 
 	if (uio->uio_resid == 0)

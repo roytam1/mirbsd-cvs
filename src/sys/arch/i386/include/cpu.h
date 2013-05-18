@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/include/cpu.h,v 1.7 2008/04/09 04:58:12 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/include/cpu.h,v 1.8 2008/04/09 05:07:02 tg Exp $ */
 /*	$OpenBSD: cpu.h,v 1.59 2004/04/02 22:28:41 tedu Exp $	*/
 /*	$NetBSD: cpu.h,v 1.35 1996/05/05 19:29:26 christos Exp $	*/
 
@@ -113,7 +113,7 @@ extern u_quad_t pentium_base_tsc;
 #define CPU_HARDCLOCKENT_DECL						\
 	static u_quad_t cpu_hce_tsc
 #define CPU_HARDCLOCKENT() do {						\
-	if (pentium_mhz && rnd_addpool_allow) {				\
+	if (pentium_mhz) {						\
 		u_quad_t cpu_hce_val = cpu_hce_tsc;			\
 									\
 		__asm __volatile("cli\n"				\

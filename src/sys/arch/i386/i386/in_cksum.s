@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/i386/in_cksum.s,v 1.3 2005/07/04 03:35:56 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/i386/in_cksum.s,v 1.4 2006/05/28 23:51:18 tg Exp $ */
 /*	$OpenBSD: in_cksum.s,v 1.7 2005/05/21 19:13:55 brad Exp $	*/
 /*	$NetBSD: in_cksum.S,v 1.2 2003/08/07 16:27:54 agc Exp $	*/
 
@@ -357,8 +357,6 @@ ENTRY(in_cksum)
 .Ldone:
 	/* rnd_addpool_add(unfolded sum) */
 	.intel_syntax noprefix
-	cmp	dword ptr [rnd_addpool_allow], 0
-	je	.Laddbufn
 	mov	ebx,[rnd_addpool_num]	# random pool pointer
 	xor	[rnd_addpool_buf+4*ebx],eax
 	inc	ebx			# write and increment
@@ -367,7 +365,6 @@ ENTRY(in_cksum)
 	xor	ebx,ebx			# ringbuffer starts at 0 again
 .Laddbufw:
 	mov	[rnd_addpool_num],bl	# write back pointer
-.Laddbufn:
 	.att_syntax
 	/* now fold and return */
 	UNSWAP
