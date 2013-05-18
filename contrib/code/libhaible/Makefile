@@ -1,4 +1,4 @@
-# $MirOS: contrib/code/libhaible/Makefile,v 1.14 2006/05/30 13:31:00 tg Exp $
+# $MirOS: contrib/code/libhaible/Makefile,v 1.15 2006/05/30 18:26:47 tg Exp $
 
 LIB=	haible
 NOPIC=	Yes	# for now
@@ -78,5 +78,28 @@ MLINKS+=	iswalnum.3 iswblank.3 \
 		iswalnum.3 iswpunct.3 \
 		iswalnum.3 iswspace.3 \
 		iswalnum.3 iswxdigit.3
+
+# changed wmemstr manual page. copied:
+MAN+=		wmemstr.3
+MLINKS+=wmemchr.3 wmemcmp.3
+MLINKS+=wmemchr.3 wmemcpy.3
+MLINKS+=wmemchr.3 wmemmove.3
+MLINKS+=wmemchr.3 wmemset.3
+MLINKS+=wmemchr.3 wcscat.3
+MLINKS+=wmemchr.3 wcschr.3
+MLINKS+=wmemchr.3 wcscmp.3
+MLINKS+=wmemchr.3 wcscpy.3
+MLINKS+=wmemchr.3 wcscspn.3
+MLINKS+=wmemchr.3 wcslcat.3
+MLINKS+=wmemchr.3 wcslcpy.3
+MLINKS+=wmemchr.3 wcslen.3
+MLINKS+=wmemchr.3 wcsncat.3
+MLINKS+=wmemchr.3 wcsncmp.3
+MLINKS+=wmemchr.3 wcsncpy.3
+MLINKS+=wmemchr.3 wcspbrk.3
+MLINKS+=wmemchr.3 wcsrchr.3
+MLINKS+=wmemchr.3 wcsspn.3
+MLINKS+=wmemchr.3 wcsstr.3
+# added:
 
 .include <bsd.lib.mk>
