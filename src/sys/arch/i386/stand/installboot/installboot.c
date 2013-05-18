@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/stand/installboot/installboot.c,v 1.20 2007/02/26 02:57:37 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/stand/installboot/installboot.c,v 1.21 2007/02/26 03:14:16 tg Exp $ */
 /*	$OpenBSD: installboot.c,v 1.47 2004/07/15 21:44:16 tom Exp $	*/
 /*	$NetBSD: installboot.c,v 1.5 1995/11/17 23:23:50 gwr Exp $ */
 
@@ -88,7 +88,7 @@
 #include <unistd.h>
 #include <util.h>
 
-__RCSID("$MirOS: src/sys/arch/i386/stand/installboot/installboot.c,v 1.20 2007/02/26 02:57:37 tg Exp $");
+__RCSID("$MirOS: src/sys/arch/i386/stand/installboot/installboot.c,v 1.21 2007/02/26 03:14:16 tg Exp $");
 
 extern	char *__progname;
 int	verbose, nowrite, nheads, nsectors, userspec = 0;
@@ -381,11 +381,6 @@ main(int argc, char *argv[])
 		}
 	}
 
-	if (nheads == -1 || nsectors == -1)
-		fprintf(stderr, "warning: Unable to get BIOS geometry, "
-		    "must/should specify -h and -s\nwarning: the drive "
-		    "may not boot in non-LBA mode\n");
-
 	/* Extract and load block numbers */
 	if (loadblocknums(boot, devfd, &dl) != 0)
 		exit(1);
@@ -440,8 +435,23 @@ main(int argc, char *argv[])
 	}
 
  do_write:
+	if (nheads == -1 || nsectors == -1) {
+		fprintf(stderr, "warning: Unable to get BIOS geometry, "
+		    "must/should specify -h and -s\nwarning: the drive "
+		    "may not boot in non-LBA mode\n");
+		if (nheads == -1)
+			nheads = dl.d_secpercyl / dl.d_nsectors;
+		if (nsectors == -1)
+			nsectors = dl.d_nsectors;
+	}
+
 	fprintf(stderr, "writing bootblock to sector %ld (0x%lX)\n",
 	    (long) startoff, (unsigned long)startoff);
+	if (verbose)
+		fprintf(stderr, "using disc geometry of %d heads, %d sectors"
+		    " per track\nreading %s at a time from the disc\n",
+		    nheads, nsectors, flag_oneonly ? "only one sector" :
+		    "as many sectors as possible");
 	startoff *= imaofs ? 512 : dl.d_secsize;
 
 	*num_heads_p = nheads;
