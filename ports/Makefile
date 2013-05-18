@@ -1,4 +1,4 @@
-# $MirOS: ports/Makefile,v 1.16 2006/02/14 22:02:38 tg Exp $
+# $MirOS: ports/Makefile,v 1.17 2006/02/21 18:04:47 tg Exp $
 # $OpenBSD: Makefile,v 1.43 2003/12/15 17:56:40 espie Exp $
 # $FreeBSD: Makefile,v 1.36 1997/10/04 15:54:31 jkh Exp $
 #-
@@ -141,7 +141,8 @@ setup: Setup.sh
 	print '/@@local/d\ni\n    usr\n\tmpkg\n.\n%p\nQ' | \
 	    ed -s ${.CURDIR}/infrastructure/templates/fake.mtree | \
 	    ${SUDO} mtree -U -e -d -n -p /
-	if [[ -d /usr/mpkg/lib/X11/app-defaults ]]; then \
+	[[ -L /usr/mpkg/lib/X11/app-defaults ]] || \
+	    if [[ -d /usr/mpkg/lib/X11/app-defaults ]]; then \
 		${SUDO} mv /usr/mpkg/lib/X11/app-defaults/* \
 		    /etc/X11/app-defaults/ || true; \
 		${SUDO} rmdir /usr/mpkg/lib/X11/app-defaults; \
