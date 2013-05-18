@@ -1,4 +1,6 @@
-/* THIS IS A GENERATED FILE */
+/* THIS IS A GENERATED and patched FILE */
+static const char __MirPorts_RCSID[] __attribute__((used)) =
+    "@(#) $MirOS: ports/essentials/ca-certificates/certdata.c,v 1.2 2011/03/30 10:27:54 tg Exp $";
 /* ***** BEGIN LICENSE BLOCK *****
  * Version: MPL 1.1/GPL 2.0/LGPL 2.1
  *
@@ -35,7 +37,10 @@
  *
  * ***** END LICENSE BLOCK ***** */
 #ifdef DEBUG
-static const char CVS_ID[] = "@(#) $MirOS: ports/essentials/ca-certificates/certdata.txt,v 1.6 2012/05/30 18:09:13 tg Exp $""; @(#) $RCSfile$ $Revision$ $Date$";
+static const char CVS_ID[] =
+    "@(#) $MirOS: ports/essentials/ca-certificates/certdata.c,v 1.3 2011/09/03 16:39:09 tg Exp $"
+"\n\t@(#) $miros: ports/essentials/ca-certificates/certdata.txt,v 1.6 2012/05/30 18:09:13 tg Exp $"
+"\n\t@(#) $RCSfile$ $Revision$ $Date$";
 #endif /* DEBUG */
 
 #ifndef BUILTINS_H
@@ -2408,7 +2413,7 @@ static const NSSItem nss_builtins_items_0 [] = {
   { (void *)&ck_false, (PRUint32)sizeof(CK_BBOOL) },
   { (void *)"CVS ID", (PRUint32)7 },
   { (void *)"NSS", (PRUint32)4 },
-  { (void *)"@(#) $MirOS: ports/essentials/ca-certificates/certdata.txt,v 1.6 2012/05/30 18:09:13 tg Exp $""; @(#) $RCSfile$ $Revision$ $Date$", (PRUint32)175 }
+  { (void *)"@(#) $MirOS: ports/essentials/ca-certificates/certdata.c,v 1.3 2011/09/03 16:39:09 tg Exp $; @(#) $miros: ports/essentials/ca-certificates/certdata.txt,v 1.6 2012/05/30 18:09:13 tg Exp $; @(#) $RCSfile$ $Revision$ $Date$", (PRUint32)268 }
 };
 #endif /* DEBUG */
 static const NSSItem nss_builtins_items_1 [] = {
