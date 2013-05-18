@@ -251,7 +251,7 @@ do
 	esac
 done
 
-SRCS="aalloc.c edit.c eval.c exec.c expr.c funcs.c histrap.c"
+SRCS="alloc.c edit.c eval.c exec.c expr.c funcs.c histrap.c"
 SRCS="$SRCS jobs.c lex.c main.c misc.c shf.c syn.c tree.c var.c"
 
 if test x"$srcdir" = x"."; then
