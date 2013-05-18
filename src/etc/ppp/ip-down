@@ -1,6 +1,0 @@
-#!/bin/mksh
-# $MirSecuCron$
-# $MirOS: src/etc/ppp/ip-down,v 1.4 2009/03/29 13:04:17 tg Exp $
-
-# This script is called after your ppp(8) or pppd(8)
-# connection has gone down.
