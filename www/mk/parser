@@ -1,4 +1,4 @@
-rcsid_parser='$MirOS: www/mk/parser,v 1.12 2008/12/04 18:20:02 tg Exp $'
+rcsid_parser='$MirOS: www/mk/parser,v 1.13 2008/12/04 18:23:19 tg Exp $'
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -11,14 +11,16 @@ nl='
 '
 save_IFS=$IFS
 integer entry=0
-integer guid=10000
-ids=:
-integer state=1
+integer guid
+integer state
 integer tai
 typeset -l parser_lctmp
-rcsid_parsed=
 
 for srcf in $name; do
+	guid=10000
+	ids=:
+	state=1
+	rcsid_parsed=
 	while IFS= read -r line; do
 		if [[ $line = RCSID:* && -z $rcsid_parsed ]]; then
 			rcsid_parsed=${line##RCSID:*([	 ])}
