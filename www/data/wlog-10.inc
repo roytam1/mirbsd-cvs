@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.89 2008/10/24 22:36:37 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.90 2008/10/26 22:46:45 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -1925,4 +1925,42 @@ Title: new developer
  either. Headaches started at about 20³⁰, which I consider good, even though
  I now cannot comply with Jonathan’s wish of having a look at llvm-gcc for
  spotting a bug in libobjfw.</p>
+----
+Date: 01.11.2008 00:36
+Author: tg@
+Title: WTF we have a symlink
+
+<p>Much closer to a new DuaLive CD. Reading Ecma 119 (ISO 9660), El Torito,
+ and IEEE P1282 (Rock Ridge). Fixing bugs in makefs(8) as if there were no
+ tomorrow. Even ifdef’d MirBSD deps, so that they™ can take everything back.
+ Finding bugs in the kernel (one harmless, one deadly), and amusing myself
+ over certain students. (Bit 0 == 2⁰ == 0x01 not 0x00…)</p>
+<p>What’s left? Actual testing (qemu, real hardware), and I suspect that
+ the RR_MOVED creation code does not split the directory correctly at 2048
+ byte sector boundaries, like all the others. (How many damn academics did
+ work on this part of the code, anyway? Modularisation sucks, major arse.)
+ Being paranoid and using calloc(3) has saved me from most other illnesses
+ since.</p>
+<p>Leider mußte ich den Federroten heute alleine trinken, aber immerhin
+ konnte ich wbx@ überzeugen, sich zur <a href="@@RELPATH@@mksh.htm">mksh</a>
+ zu bekennen – sie kann UTF-8 und überhaupt Umlaute in der Shell, schön mit
+ nur einmal Rücktaste drücken und so. Und seinen GNU screen hab ich ihm auch
+ noch gefixt. Dafür bin ich den Sharp Zaurus SL-C3200 (und somit auch meine
+ einzige OpenBSD-Testkiste) wieder los… eventuell nutzt er ja MirPorts, denn
+ <em>unser</em> screen weiß, obs in einem Unicode- oder 8-Bit-Terminal rennt,
+ wsconfig/chkuterm sei dank.</p>
+<p>Warum sagt mir eigentlich niemand, daß mor…^Wheute die Geschäfte zuhaben?
+ Ich bin ja mal <strong>voll</strong> für
+ <tt>src/usr.bin/calendar/calendars/de_DE/calendar.ladenöffnungszeiten.<i>$bundesland</i></tt>
+ (das geht ja sonst mal gar nicht)!</p>
+<p>I discovered that the CD drive in my docking station – namely a
+ <tt>cd0 at scsibus0 targ 0 lun 0: &lt;HL-DT-ST, DVD-ROM GDR8083N, 0K04&gt; SCSI0 5/cdrom removable</tt>
+ – neither is removable (the docking station is not exactly hot-pluggable)
+ nor can it write. It can read various kinds of DVDs, CD-ROM, CD-R, CD-RW,
+ but not burn any ☹ And since the lid seems to be custom-fit, I probably
+ cannot simply take odem’s DVD-ROM/CD-RW slim drive either. That said, the
+ sparc still cannot read CD-RW either… must discover some CD-R media…</p>
+<p>I had a good laugh at J�rg “schily” Schilling learning English:
+ <tt>&amp;dp[14] /* Hunreds of a Seconds */</tt> – That he doesn’t grok
+ licencing is already well-known, so no need to bash that again.</p>
 ----
