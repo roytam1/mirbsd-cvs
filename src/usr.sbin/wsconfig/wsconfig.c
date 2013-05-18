@@ -1,4 +1,4 @@
-/* $MirOS: src/usr.sbin/wsconfig/wsconfig.c,v 1.10 2007/02/11 00:59:00 tg Exp $ */
+/* $MirOS: src/usr.sbin/wsconfig/wsconfig.c,v 1.11 2007/02/18 01:15:11 tg Exp $ */
 
 /*-
  * Copyright (c) 2006, 2007
@@ -35,7 +35,7 @@
 #include <termios.h>
 #include <unistd.h>
 
-__RCSID("$MirOS: src/usr.sbin/wsconfig/wsconfig.c,v 1.10 2007/02/11 00:59:00 tg Exp $");
+__RCSID("$MirOS: src/usr.sbin/wsconfig/wsconfig.c,v 1.11 2007/02/18 01:15:11 tg Exp $");
 
 #define DEFDEV	"/dev/ttyCcfg"
 
@@ -234,6 +234,14 @@ main(int argc, char **argv)
 			warn("write\r");
 			goto tios_err;
 		}
+		/* delay for 50 ms */
+		{
+			struct timeval t;
+
+			t.tv_sec = 0;
+			t.tv_usec = 50 * 1000;
+			select(0, NULL, NULL, NULL, &t);
+		}
 		nr = read(wsfd, buf, sizeof (buf));
 		rv = /* unknown */ 1;
 		if (nr > 5 && buf[0] == 033 && buf[1] == '[') {
@@ -248,7 +256,9 @@ main(int argc, char **argv)
 		}
 		write(wsfd, "\r      \r", 8);
  tios_err:
-		if (tcsetattr(wsfd, TCSAFLUSH, &otio))
+		if (tcflush(wsfd, TCIOFLUSH))
+			warn("tcflush");
+		if (tcsetattr(wsfd, TCSANOW, &otio))
 			err(3, "tcsetattr");
 #ifndef SMALL
 		if (!q)

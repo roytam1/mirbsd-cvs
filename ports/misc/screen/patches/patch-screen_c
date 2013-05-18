@@ -1,7 +1,7 @@
-$MirOS: ports/misc/screen/patches/patch-screen_c,v 1.6 2007/03/02 04:54:56 tg Exp $
+$MirOS: ports/misc/screen/patches/patch-screen_c,v 1.7 2007/03/02 05:20:05 tg Exp $
 $OpenBSD: shmpatch-screen_c,v 1.1 2003/11/22 00:56:58 espie Exp $
 --- screen.c.orig	Mon Sep  8 14:26:19 2003
-+++ screen.c	Fri Mar  2 04:57:19 2007
++++ screen.c	Sun Mar  4 19:47:45 2007
 @@ -71,6 +71,12 @@
  #if (defined(AUX) || defined(_AUX_SOURCE)) && defined(POSIX)
  # include <compat.h>
@@ -110,7 +110,7 @@ $OpenBSD: shmpatch-screen_c,v 1.1 2003/11/22 00:56:58 espie Exp $
  	      break;
  	    case 'a':
  	      sprintf(p, tm->tm_hour >= 12 ? "pm" : "am");
-@@ -3174,3 +3227,51 @@ char *p;
+@@ -3174,3 +3227,53 @@ char *p;
    return 0;
  }
  
@@ -118,8 +118,8 @@ $OpenBSD: shmpatch-screen_c,v 1.1 2003/11/22 00:56:58 espie Exp $
 +
 +#if defined(ENCODINGS) && defined(UTF8) && defined(POSIX)
 +static const char sfe_qs[] = "\030\032\r\xE2\x82\xAC.\033[6n";
-+__RCSID("$miros: src/usr.sbin/wsconfig/wsconfig.c,v 1.11 2007/02/18 01:15:11 tg Exp $");
-+__RCSID("$MirOS: ports/misc/screen/patches/patch-screen_c,v 1.3 2007/02/11 01:41:30 tg Exp $");
++__RCSID("$miros: src/usr.sbin/wsconfig/wsconfig.c,v 1.12 2007/03/04 20:00:51 tg Exp $");
++__RCSID("$MirOS: ports/misc/screen/patches/patch-screen_c,v 1.7 2007/03/02 05:20:05 tg Exp $");
 +
 +int
 +scan_for_encoding(fd)
@@ -138,6 +138,7 @@ $OpenBSD: shmpatch-screen_c,v 1.1 2003/11/22 00:56:58 espie Exp $
 +		goto out;
 +	if ((size_t)write(fd, sfe_qs, strlen(sfe_qs)) != strlen(sfe_qs))
 +		goto out;
++	sleep1000(50 /* ms */);
 +	i = read(fd, sbuf, sizeof (sbuf));
 +	if (i > 5 && sbuf[0] == 033 && sbuf[1] == '[') {
 +		j = 2;
@@ -158,7 +159,8 @@ $OpenBSD: shmpatch-screen_c,v 1.1 2003/11/22 00:56:58 espie Exp $
 +	}
 +	write(fd, "\r      \r", 8);
 + out:
-+	tcsetattr(fd, TCSAFLUSH, &otio);
++	tcflush(fd, TCIOFLUSH);
++	tcsetattr(fd, TCSANOW, &otio);
 +	return (j);
 +}
 +#endif

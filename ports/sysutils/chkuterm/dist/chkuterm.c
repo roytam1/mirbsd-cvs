@@ -1,4 +1,4 @@
-/* $MirOS: ports/sysutils/chkuterm/dist/chkuterm.c,v 1.6 2007/02/11 00:49:44 tg Exp $ */
+/* $MirOS: ports/sysutils/chkuterm/dist/chkuterm.c,v 1.7 2007/02/11 00:58:58 tg Exp $ */
 
 /*-
  * Copyright (c) 2006, 2007
@@ -32,8 +32,8 @@
 #include <unistd.h>
 
 #ifdef __RCSID
-__RCSID("$miros: src/usr.sbin/wsconfig/wsconfig.c,v 1.10 2007/02/11 00:59:00 tg Exp $");
-__RCSID("$MirOS: ports/sysutils/chkuterm/dist/chkuterm.c,v 1.6 2007/02/11 00:49:44 tg Exp $");
+__RCSID("$miros: src/usr.sbin/wsconfig/wsconfig.c,v 1.14 2007/04/17 23:41:01 tg Exp $");
+__RCSID("$MirOS: ports/sysutils/chkuterm/dist/chkuterm.c,v 1.7 2007/02/11 00:58:58 tg Exp $");
 #endif
 
 /* query string sent to the terminal for LC_CTYPE detection */
@@ -89,6 +89,14 @@ main(int argc, char **argv)
 		warn("write\r");
 		goto tios_err;
 	}
+	/* delay for 50 ms */
+	{
+		struct timeval t;
+
+		t.tv_sec = 0;
+		t.tv_usec = 50 * 1000;
+		select(0, NULL, NULL, NULL, &t);
+	}
 	nr = read(wsfd, buf, sizeof (buf));
 	rv = /* unknown */ 1;
 	if (nr > 5 && buf[0] == 033 && buf[1] == '[') {
@@ -103,7 +111,9 @@ main(int argc, char **argv)
 	}
 	write(wsfd, "\r      \r", 8);
  tios_err:
-	if (tcsetattr(wsfd, TCSAFLUSH, &otio))
+	if (tcflush(wsfd, TCIOFLUSH))
+		warn("tcflush");
+	if (tcsetattr(wsfd, TCSANOW, &otio))
 		err(3, "tcsetattr");
 	if (!q)
 		printf("LC_CTYPE=%s; export LC_CTYPE\n",
