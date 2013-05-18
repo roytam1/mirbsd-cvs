@@ -2,7 +2,7 @@
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.205 2009/02/23 20:07:03 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.206 2009/02/23 23:40:48 tg Exp $'
 mws_content <<'EOF'
 <h1>mksh(1) R36b</h1>
 <p>This is the website of the MirBSD™ Korn Shell, an actively developed free
@@ -1006,10 +1006,13 @@ mws_content <<'EOF'
  horizontally scrolled one is finally (with R28) bug-free even with
  multiline and very long prompts optionally with embedded newlines,
  and more suitable for small terminals)</li>
+<li>Introduce <tt>mksh_ari_t</tt> and <tt>mksh_uari_t</tt> and ensure
+ that current arithmetics is limited to 32 bit by it; later, ensure
+ that current arithmetics will be bound to this type for easy switching</li>
 <li>I’d like to switch the internal integer type to 64 bits
  signed (any takers?). This includes 2⁶⁴-1 (not 2³¹-1) as
- maximum valid array index; typeset -i&lt;number&gt; is unsigned
- (or probably not? stay signed in most places for compatibility)</li>
+ maximum valid array index. Maybe make it a compile time option,
+ seeing as some systems (DEC?) may not have a 64 bit type</li>
 <li>Adding <tt>goto</tt> and <tt>label</tt> keywords/commands</li>
 <li>Adding builtins <tt>fstat</tt>, <tt>lstat</tt>, <tt>traverse</tt>, …</li>
 <li>for a b in …; do (like make(1) does)</li>
