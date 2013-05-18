@@ -1,10 +1,10 @@
-# $MirOS: ports/net/openvpn/Makefile,v 1.10 2006/08/18 18:05:49 tg Exp $
+# $MirOS: ports/net/openvpn/Makefile,v 1.11 2006/09/14 00:12:00 tg Exp $
 # $OpenBSD: Makefile,v 1.2 2003/12/30 21:29:53 sturm Exp $
 
-COMMENT=			easy-to-use, robust, highly configurable VPN solution
-VERSION=		2.0.7
+COMMENT=		easy-to-use, robust, highly configurable VPN solution
+VERSION=		2.0.9
 DISTNAME=		openvpn-${VERSION}
-PKGNAME=		openvpn-${VERSION:S/_//}-1
+PKGNAME=		openvpn-${VERSION:S/_//}-0
 CATEGORIES=		net security
 HOMEPAGE=		http://openvpn.net/
 MASTER_SITES=		${HOMEPAGE}release/
@@ -18,12 +18,15 @@ PERMIT_DISTFILES_FTP=	Yes
 FLAVORS=		no_lzo static
 FLAVOR?=
 
-.if ${FLAVOR:L:Mstatic}
-LDSTATIC=		-static
-.endif
-
 .if !${FLAVOR:L:Mno_lzo}
 LIB_DEPENDS+=		lzo2:lzo->=2.*:archivers/lzo
+.endif
+
+.if ${FLAVOR:L:Mstatic}
+LDSTATIC=		-static
+BUILD_DEPENDS+=		${LIB_DEPENDS}
+LIB_DEPENDS:=
+RUN_DEPENDS:=
 .endif
 
 USE_GMAKE=		Yes
