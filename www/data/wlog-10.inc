@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.103 2008/11/22 14:37:38 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.104 2008/11/23 17:35:51 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -2105,4 +2105,33 @@ Title: pcc and OPTU – and just how much Mirzilla Firetapir sucks
 <p>And if he wouldn’t document this in a wlog entry, I do ☻☺</p>
 <p>But then, I don’t believe him totally unaware:</p>
 <pre>14:09⎜«benz» The name "Minefield" is strangely appropriate</pre>
+----
+Date: 25.11.2008 17:57
+Author: tg@
+Title: pcc and Win32
+
+<p style="margin-bottom:0px;">I think I’m quite finished with the Unicode
+ stuff. You can now do really weird things like this:</p>
+<div style="border:4px ridge blue; margin:0px 24px 0px 24px; padding:12px;">
+ <pre>void
+今日は(const struct person *$kunde)
+{
+        printf("Γεια σου %ls!", $kunde->имя);
+}</pre></div><p style="margin-top:0px;">ISO C99 permits it.</p>
+<p>On the other hand, pcc on Win32 appears broken, cannot be compiled
+ either natively (e.g. due to use of “long long” and other bogus things
+ which may be C99 but not MS-C90) nor cross from GNU/Cygwin32 (because
+ the Win32 port seems to be orphaned and, even if I try to fix these
+ things, it doesn’t work for me). So I couldn't get it to build a simple
+ MessageBoxW() hello world programme.</p>
+<p>I wonder what the reception of my patch will be. I wish support for
+ wchar_t were a release goal, then I could try to tap into that BSD func
+ *smile* but anyway, I was just bored, and we need wchar_t support in
+ pcc anyway, and better I do it than some ISO-2022-JP fanboy. And that
+ above example… well, three more lines of code, so that you can actually
+ write “int blöd;” ipv “int bl\u00F6d;” ☻☺ I think it’s worth it, even
+ if such can confuse the hell out of people trying to read your code.</p>
+<p><a href="http://thread.gmane.org/gmane.comp.compilers.pcc/1220">This
+ thread</a> contains the patches (three versions, until now… use today’s
+ please), in case you want to help testing.</p>
 ----
