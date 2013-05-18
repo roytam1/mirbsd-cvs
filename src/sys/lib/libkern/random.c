@@ -40,7 +40,7 @@
  * and whatever else we might use it for.  The result is uniform on
  * [0, 2^31 - 1].
  */
-u_long _randseed = 1;
+extern uint32_t _randseed;
 
 u_long
 random(void)

@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/sparc/stand/common/promdev.c,v 1.6 2009/08/11 13:24:00 tg Exp $ */
+/**	$MirOS: src/sys/arch/sparc/stand/common/promdev.c,v 1.7 2010/01/16 20:56:07 tg Exp $ */
 /*	$OpenBSD: promdev.c,v 1.9 2003/08/14 17:13:57 deraadt Exp $	*/
 /*	$NetBSD: promdev.c,v 1.16 1995/11/14 15:04:01 pk Exp $ */
 
@@ -48,9 +48,6 @@
 #include <sparc/stand/common/promdev.h>
 
 void bzero(void *, size_t);
-
-/* u_long	_randseed = 1; */
-
 
 int	obp_close(struct open_file *);
 int	obp_strategy(void *, int, daddr_t, size_t, void *, size_t *);

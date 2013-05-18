@@ -1,4 +1,4 @@
-/* $MirOS: src/sys/arch/i386/i386/random.s,v 1.3 2005/12/17 05:46:24 tg Exp $ */
+/* $MirOS: src/sys/arch/i386/i386/random.s,v 1.4 2007/09/28 18:33:24 tg Exp $ */
 
 /*-
  * Copyright (c) 2001, 2003, 2004
@@ -32,11 +32,6 @@
 #include <machine/asm.h>
 
 	.intel_syntax noprefix
-
-	.data
-	.globl	_C_LABEL(_randseed)
-_C_LABEL(_randseed):
-	.long	0x00000001
 
 	.text
 ENTRY(random)

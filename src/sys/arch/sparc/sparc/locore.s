@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/sparc/sparc/locore.s,v 1.3 2006/06/11 00:15:10 tg Exp $ */
+/**	$MirOS: src/sys/arch/sparc/sparc/locore.s,v 1.4 2007/08/09 20:48:14 tg Exp $ */
 /*	$OpenBSD: locore.s,v 1.57 2003/04/29 21:19:25 miod Exp $	*/
 /*	$NetBSD: locore.s,v 1.73 1997/09/13 20:36:48 pk Exp $	*/
 
@@ -6064,10 +6064,6 @@ Lumul_shortway:
  * Number Generator", David G. Carta, Communications of the ACM, Jan 1990,
  * Vol 33 No 1.
  */
-	.data
-	.globl	_C_LABEL(_randseed)
-_C_LABEL(_randseed):
-	.word	1
 	.text
 ENTRY(random)
 	sethi	%hi(16807), %o1

@@ -75,6 +75,10 @@
 #define PROTO
 #endif
 
+#ifdef __MirBSD__
+#undef RAND
+#endif
+
 #ifdef RAND
 #define srandom(s) srand(s)
 #define random rand
