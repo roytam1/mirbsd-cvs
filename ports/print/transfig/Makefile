@@ -1,10 +1,11 @@
-# $MirOS: ports/print/transfig/Makefile,v 1.5 2006/10/30 18:52:12 tg Exp $
+# $MirOS: ports/print/transfig/Makefile,v 1.6 2007/03/31 21:48:39 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.25 2003/04/04 14:28:36 naddy Exp $
 
 COMMENT=	tools to convert Xfig's .fig files
-VERSION=	3.2.4
+VERSION=	3.2.5
 DISTNAME=	transfig.${VERSION}
-PKGNAME=	transfig-${VERSION}-0
+DASH_VER=	0
+PKGNAME=	transfig-${VERSION}-${DASH_VER}
 CATEGORIES=	print
 MASTER_SITES=	ftp://www-epb.lbl.gov/xfig/ \
 		ftp://www-epb.lbl.gov/xfig/previous_versions/
@@ -21,13 +22,6 @@ PERMIT_DISTFILES_FTP=	Yes
 
 CONFIGURE_STYLE=	imake
 USE_X11=		Yes
-
-FLAVORS=		a4
-FLAVOR?=		a4
-
-.if ${FLAVOR:L:Ma4}
-PATCH_LIST=		patch-* a4-*
-.endif
 
 NO_REGRESS=		Yes
 
