@@ -1,4 +1,4 @@
-# $MirOS: src/etc/rc,v 1.19 2006/04/05 23:56:54 tg Exp $
+# $MirOS: src/etc/rc,v 1.20 2006/06/11 23:41:26 tg Exp $
 # $OpenBSD: rc,v 1.277 2006/01/12 21:54:15 deraadt Exp $
 #-
 # System startup script run by init on autoboot or after single-user.
@@ -574,20 +574,20 @@ fi
 
 # patch /etc/motd
 v=$(sysctl -n kern.version | sed 1q)
-if [[ -s /etc/motd ]]; then
-	[[ "$(head -1 /etc/motd)" != $v ]] && ed -s /etc/motd <<-EOF
-		1,/^\$/d
-		0a
-			$v
+[[ -s /etc/motd && "$([[ "$(head -1 /etc/motd)" != $v ]] && \
+    ed -s /etc/motd 2>&1 <<-EOF
+	1,/^\$/d
+	0a
+		$v
 
-		.
-		wq
-	EOF
-else
+	.
+	wq
+EOF)" = @(?) ]] && rm -f /etc/motd
+if [[ ! -s /etc/motd ]]; then
 	install -c -o root -g wheel -m 664 /dev/null /etc/motd
 	print "$v\n" >/etc/motd
 fi
-unset y
+unset v
 
 if [[ -f /var/account/acct ]]; then
 	echo turning on accounting;	accton /var/account/acct
