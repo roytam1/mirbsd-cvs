@@ -1983,3 +1983,28 @@ Author: tg@
  the Debian upgrade was already done. On the other hand, lintian did
  bitch a little, so Debian accumulates two “nice to have” fixes now.</p>
 ----
+Author: bsiegert@
+Date: 10.09.2007
+
+<p>I am doing pretty much nothing for MirOS these days as I have only
+ three weeks left for my diploma thesis. Hopefully, in a month or so, I
+ will be a real <i>Diplom-Chemiker</i>. We will see what happens
+ then.</p>
+
+<p>I spent a very relaxing weekend at my girlfriend's place. On the way
+ there, I got so bored that I almost finished a research paper ;).
+ Writing a paper is nicer than writing a thesis because you pick one
+ specific subject and try to make a concise statement. It also makes you
+ realise which experiments are still missing ;).</p>
+
+<p>And the paper is in English. I discovered that writing scientific
+ texts in English is easier for me than in German because the majority
+ of existing literature is also in English. After a while, you get used
+ to the typical style, and it sucks when you cannot reproduce that in
+ German. I also have some problems with terms for which I do not know
+ the correct German expression :/.</p>
+
+<p>Question to the interested reader: it seems that if you encounter
+ some totally bogus paper, it is almost always published by Elsevier.
+ Why is that? Discuss.</p>
+----
