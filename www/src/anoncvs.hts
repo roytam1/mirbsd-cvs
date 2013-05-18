@@ -3,7 +3,7 @@
 
 mws_setname legacy/anoncvs "MirOS Legacy Content"
 mws_setheadline Anonymous CVS access to the MirOS repository
-mws_putheader '$MirOS: www/src/anoncvs.hts,v 1.2 2008/12/10 18:40:18 tg Exp $'
+mws_putheader '$MirOS: www/src/anoncvs.hts,v 1.3 2009/06/21 11:01:22 tg Exp $'
 mws_content <<'EOF'
 <h3 id="what">What is anonCVS?</h3>
 <p>#include &lt;nice_blurb_about_what_anoncvs_is.h&gt;<br />
@@ -31,7 +31,7 @@ mws_content <<'EOF'
  excessive use of the rsync command, since it imposes a lot of traffic.
 <br />
  Please consider using a <a
- href="@@ABSPATH@@/MirOS/CVS/cvsrepo-20080722.cgz">recent (2008-07-22) snapshot</a>
+ href="@@ABSPATH@@/MirOS/CVS/cvsrepo-20091101.cgz">recent (2009-11-01) snapshot</a>
  tarball (gzsig(1)d)
  of the CVS Repository (or for the old CVSROOT, the final snapshot from <a
  href="@@ABSPATH@@/MirOS/CVS/cvsroot-historic.cgz">2006-01-20</a>)

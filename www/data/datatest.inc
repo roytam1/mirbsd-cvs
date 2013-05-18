@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/datatest.inc,v 1.1 2009/10/31 15:54:10 tg Exp $
+RCSID: $MirOS: www/data/datatest.inc,v 1.2 2009/10/31 17:02:38 tg Exp $
 Title: A test posting
 Date: 28.10.2009 12:34
 Author: tg@
@@ -13,9 +13,9 @@ Title: Pitcher test
 Date: 31.10.2009
 Author: tg@
 Pictures: 0 1:20 2:20 3:12
-Picture0: wtf is hallowe’en
-Picture1: MirGRML "Hello, Wien!" 2009.10
-Picture2: MirBSD "Samhain" 2009-10-31
+Picture0: wtf ist hallowe’en
+Picture1: MirGRML “Hello, Wien!” 2009.10
+Picture2: MirBSD „Samhain“ 2009-10-31
 Picture3: Look" <ma> • & Entities
 
 <h3 class="revbox">@!PICTURE0!@</h3>

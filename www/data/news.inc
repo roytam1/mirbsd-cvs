@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/news.inc,v 1.124 2009/10/20 21:36:58 tg Exp $
+RCSID: $MirOS: www/data/news.inc,v 1.125 2009/10/30 17:05:30 tg Exp $
 Title: Older news from the MirOS Project
 Date: 01.03.2006
 
@@ -1744,4 +1744,67 @@ Tag: bug mksh
  convenience already and will be integrated (after testing) into both The
  MirPorts Framework and <a href="https://www.freewrt.org/">FreeWRT</a> as
  soon as we get to it, probably tomorrow.</p>
+----
+Title: New MirOS snapshots (BSD, CVS, grml, ISO)
+Date: 31.10.2009 22:09
+Author: tg@
+Tag: event grml release security snapshot
+Pictures: 0 1:20 2:20 3:20
+Picture0: wtf ist hallowe’en
+Picture1: MirGRML “Hello, Wien!” 2009.10
+Picture2: MirBSD „Samhain“ 2009-10-31
+Picture3: Allerheiligen 2009-11-01
+
+<h3 class="revbox">@!PICTURE0!@</h3>
+<pre>Gee...  I don’t know what “hallowe’en” means…</pre>
+<p>Does this match what you’re thinking? Well, there <em>is</em> a new
+ MirOS snapshot, with several components, (as usual) out on <a
+ href="@@RELPATH@@bt.htm#s91031">BitTorrent</a>.</p>
+<p>This is the combination of an ISO 9660 filesystem image with the
+ “Samhain” edition of MirBSD and the “Hello, Wien!” edition of <a
+ href="http://grml.org/2009/10/31/">grml GNU/Linux</a>, Triforce (as
+ usual), and the „Allerheiligen“ CVS snapshot. And a tribute to UF.</p>
+<h3 class="revbox">@!PICTURE1!@</h3>
+<p>MirGRML 2009.10 is based on grml-small 2009.10-rc3 and contains a
+ couple more programmes, and, as usual, is fitted to match the rest
+ of The MirOS Project’s offers, for instance by not using a framebuffer
+ by default, having <a href="@@RELPATH@@mksh.htm">mksh</a> as login
+ shell, etc.<br />This time, all (required) source code is available
+ either from our CVS or from <tt>sources.grml.org</tt>.</p>
+<p>The Steffl-and-Pumpkin background comes from Christoph Prokop, and
+ was used in our desktop wallpaper with permission from Mika.</p>
+<h3 class="revbox">@!PICTURE2!@</h3>
+<p>MirOS BSD, both i486 and sparc architectures. Most recent snapshot,
+ compiled 2009-10-30, with an updated kernel for a <strong>security
+ fix</strong> from 2009-10-31 we <em>urge</em> people to upgrade to,
+ even if running older versions. Hence, MirOS-current snapshots are
+ now recommended over MirOS #10-RELEASE, updates for which we have
+ been unable to provide regularily due to lack of time. (Sorry.) This
+ snapshot could have been released as MirOS #11 if it were not for our
+ release plans (so please consider it a new stable release, albeit one
+ without intentions to release binary incremental security updates, but
+ then, we can’t do so for #10 either, so you still win).</p>
+<p>MirBSD/i386 is called MirOS BSD/i486 above. We <em>might</em> produce
+ a MirOS BSD/i386 platform with user-space soft-float (like ARM), for a
+ SoC device, if we want and have the time to play with such platforms.
+ What is currently MirBSD/i386 requires an Intel 80486DX or compatible,
+ such as a Cyrix 80486DLC (the one in <tt>nwt</tt>, see my wlog entries
+ for details). Neither 80386 compatibles nor FPU-less systems will work
+ with this release.<br />MirBSD/sparc is still compiled for v8 CPUs, with
+ optimisation for HyperSPARC turned on. It is possible to compile your
+ own variant for a v7 CPU (sun4 or sun4c system), though.</p>
+<p>This Live CD comes with IceWM, Dillo 2 and a couple of other tools
+ installed and partially preconfigured (you can even run MirBSD inside
+ MirBSD, as qemu is shipped). Enjoy!</p>
+<h3 class="revbox">@!PICTURE3!@</h3>
+<p>Once this release is done, I will create a cpio-with-crc-ball of the
+ CVS repository again, for initial extraction purposes, to speed up an
+ rsync mirror process. It will be available from our usual web mirrors.
+ <a href="@@ABSPATH@@/MirOS/CVS/cvsrepo-20091101.cgz">(Link)</a></p>
+<p>You can also pull <tt>/cvs</tt> directly, and <tt>/MirOS</tt> and
+ <tt>/Pkgs</tt>. We plan to make <em>all</em> distfiles used to build
+ MirPorts packages available as well, but currently lack disc space on
+ some of the boxen involved (they are still usually available from the
+ original mirrors, as well as on request directly from bsiegert@/tg@,
+ plus we fully intend on making binary packages the viable option).</p>
 ----

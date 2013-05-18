@@ -3,7 +3,7 @@
 
 mws_setname bt 'BitTorrent information'
 mws_setheadline BitTorrent information
-mws_putheader '$MirOS: www/src/bt.hts,v 1.9 2009/06/21 11:01:22 tg Exp $'
+mws_putheader '$MirOS: www/src/bt.hts,v 1.10 2009/07/07 19:13:37 tg Exp $'
 mws_content <<'EOF'
 <!-- http://www.mirbsd.org/bt.htm#id -->
 <p><strong>Warning:</strong> Not finished yet.</p>
@@ -53,13 +53,14 @@ mws_content <<'EOF'
 <h4 id="r8semel">MirOS #8</h4>
 <h4 id="r7quater">#7quater</h4>
 <h3>Snapshots</h3>
-<h4 id="s90425">2009-04-25 (Easter 2009)</h4>
+<h4 id="s91031">2009-10-31 (Samhain 2009)</h4>
 <p>MirOS BSD #10-current Triforce ISO 9660 image containing the full
- <tt>/MirOS/current/{i386,sparc}/</tt> 2009-04-17/24 snapshot (build
+ <tt>/MirOS/current/{i386,sparc}/</tt> 2009-10-30/31 snapshot (build
  logs, COM1:9600,8N1 and COM1:38400,8N1 and COM1:115200,8N1 ISO
  images, Midi-ISO plus 4 floppies for normal and three speed serial
  operation, ports snapshot, HTML manpages), but no pkgsrc® snapshot.
- Also contains MirGRML 2009.01 for rescue purposes.</p>
+ Also contains MirGRML “Hello, Wien!” 2009.10 for rescue purposes,
+ and MirCVS „Allerheiligen“ 2009-11-01 for source code.</p>
 <h4 id="fallback">Fallback…</h4>
 <p>You could always (after checking which is more recent) use <a
  href="@@ABSPATH@@/MirOS/current/i386/">NetInstall (i386)</a>, and

@@ -3,7 +3,7 @@
 
 mws_setname legacy/overview "MirOS Legacy Content"
 mws_setheadline Quick Overview – All in one page
-mws_putheader '$MirOS: www/src/overview.hts,v 1.4 2008/12/10 18:40:18 tg Exp $'
+mws_putheader '$MirOS: www/src/overview.hts,v 1.5 2009/06/21 11:01:26 tg Exp $'
 mws_content <<'EOF'
 <h2>Maintenance</h2>
 <p>The <a href="@@RELPATH@@fornow.htm">&quot;For Now Page&quot;</a> has replaced
@@ -67,7 +67,7 @@ mws_content <<'EOF'
   <li><a href="http://mirbsd.de/fornow">http://mirbsd.de/fornow</a></li>
  </ul></li>
  <li>CVS Repositories<ul>
-  <li><a href="@@ABSPATH@@/MirOS/CVS/cvsrepo-20080722.cgz">/cvs</a> (4th, current)</li>
+  <li><a href="@@ABSPATH@@/MirOS/CVS/cvsrepo-20091101.cgz">/cvs</a> (4th, current)</li>
   <li><a href="@@ABSPATH@@/MirOS/dist/hosted/other/ewe-rcsfiles.cgz">MirEwe</a> (orphaned subproject)</li>
   <li><a href="@@ABSPATH@@/MirOS/CVS/cvsroot-historic.cgz">/ncvs /ocvs /lcvs</a> (1st, 2nd, 3rd combined, historic, final)</li>
  </ul></li>

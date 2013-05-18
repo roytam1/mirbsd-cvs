@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.246 2009/10/28 12:33:42 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.247 2009/10/30 17:05:30 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -5241,4 +5241,26 @@ Tag: mksh rant
  BitTorrent by end of the month. Mika is also trying to put a new <a
  href="http://grml.org/">Grml</a> release out by then, of course with
  an up-to-date <tt>MirOS bsd4grml</tt> ☺</p>
+----
+Title: Bittorrent trackers, …
+Date: 31.10.2009 22:24
+Author: tg@
+Tag: rant
+Pictures: 0
+Picture0: wtf ist hallowe’en
+
+<p>TPB has never been a viable tracker for us… h33t lost my login data…
+ I hope Scarywater still holds up, we’ll be adding Openbittorrent to
+ the mix… oh yikes, Demonoid is down. How great… NOT!</p>
+<p>At least I finally managed to release things in time, and during the
+ night, both ISO and CVS tarball, forming the torrent, will be available
+ to the general public. I also already know of some interested parties,
+ from remote areas like Romania and Mauritius.</p>
+<h3 class="revbox">@!PICTURE0!@</h3>
+<p>The <a href="@@RELPATH@@permalinks/news_e20091031-tg.htm">explanation</a>
+ is on the front page, of course. This link is for the benefit of RSS or
+ aggregator (like <a href="http://planet.symlink.ch/">Plänet Sümlink</a>)
+ readers.</p>
+<p>The files <em>will</em> take some time until they are up. I do have an
+ ADSL internet connection only and they’re huge.</p>
 ----
