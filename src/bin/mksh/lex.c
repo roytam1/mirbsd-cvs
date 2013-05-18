@@ -2,7 +2,7 @@
 
 #include "sh.h"
 
-__RCSID("$MirOS: src/bin/mksh/lex.c,v 1.38 2007/07/05 23:48:53 tg Exp $");
+__RCSID("$MirOS: src/bin/mksh/lex.c,v 1.39 2007/07/06 01:53:36 tg Exp $");
 
 /* Structure to keep track of the lexing state and the various pieces of info
  * needed for each particular state. */
@@ -287,7 +287,7 @@ yylex(int cf)
 						*wp++ = CHAR, *wp++ = c;
 						c = getsc();
 						if (c == ':') {
-							*wp++ = CHAR;
+							*wp++ = QCHAR;
 							*wp++ = '0';
 							*wp++ = ADELIM;
 							*wp++ = ':';
@@ -296,10 +296,11 @@ yylex(int cf)
 							statep->ls_sadelim.num = 1;
 							break;
 						} else if (ksh_isdigit(c) ||
-						    c == '('/*)*/ ||
+						    c == '('/*)*/ || c == ' ' ||
 						    c == '$' /* XXX what else? */) {
 							/* substring subst. */
-							ungetsc(c);
+							*wp++ = QCHAR;
+							*wp++ = c;
 							PUSH_STATE(SADELIM);
 							statep->ls_sadelim.delimiter = ':';
 							statep->ls_sadelim.num = 2;

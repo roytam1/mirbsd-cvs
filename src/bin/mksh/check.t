@@ -7,7 +7,7 @@
 # http://www.research.att.com/~gsf/public/ifs.sh
 
 expected-stdout:
-	@(#)MIRBSD KSH R29 2007/07/01
+	@(#)MIRBSD KSH R29 2007/07/05
 description:
 	Check version of shell.
 category: pdksh
@@ -4068,11 +4068,30 @@ stdin:
 	typeset -i 16 z=123456789	# 16#75bcd15
 	n=2
 	print a ${x:$n:3} ${y:$n:3} ${z:$n:3} a
-	print b ${x:n:3} ${y:n:3} ${z:n:3} b
+	print b ${x:(n):3} ${y:(n):3} ${z:(n):3} b
 	print c ${x:(-2):1} ${y:(-2):1} ${z:(-2):1} c
-expected-fail: yes
+	print d t${x: n:2} ${y: n:3} ${z: n:3} d
 expected-stdout:
 	a cde 345 #75 a
 	b cde 345 #75 b
 	c h 8 1 c
+	d tcd 345 #75 d
+---
+name: varexpand-substr-3
+description:
+	Check that some things that work in bash fail.
+	This is by design.
+stdin:
+	export x=abcdefghi n=2
+	"$0" -c 'print v${x:(n)}x'
+	"$0" -c 'print w${x: n}x'
+	"$0" -c 'print x${x:n}x'
+	"$0" -c 'print y${x:}x'
+	"$0" -c 'print z${x}x'
+expected-stdout:
+	vcdefghix
+	wcdefghix
+	zabcdefghix
+expected-stderr-pattern:
+	/x:n.*bad substitution.*\n.*bad substitution/
 ---
