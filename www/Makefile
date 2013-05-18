@@ -1,4 +1,4 @@
-# $MirOS: www/Makefile,v 1.50 2009/04/23 18:13:02 tg Exp $
+# $MirOS: www/Makefile,v 1.51 2009/04/23 18:13:49 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -96,6 +96,7 @@ clean:
 	-rm -f ${CLEANFILES} site.tgz *.tmp *~
 
 cleandir: clean
+	-rm -rf hashed
 	-rm -f .depend ${CLEANFILES:M*~:S/~$//}
 
 deinstall:
@@ -120,6 +121,7 @@ WLOG_LATEST:=${_i}
 _reinstall:
 	-rm -rf dst
 	mkdir dst dst/permalinks
+	pax -rw -pe -v hashed dst/
 	pax -rw -pe -dv ${OBJS:Nstamp_*:S/htm~$/htm/} dst/
 .for _i in ${GENSRCS}
 	pax -rw -pe -dv $$(<${_i}) dst/
