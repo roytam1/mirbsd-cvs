@@ -1,4 +1,4 @@
-# $MirOS: ports/essentials/pkgtools/Makefile,v 1.52 2009/08/02 10:27:01 tg Exp $
+# $MirOS: ports/essentials/pkgtools/Makefile,v 1.53 2009/08/30 18:14:07 tg Exp $
 #-
 # This port should contain no patches, to aid the installer,
 # and have no dependencies, to aid the upgrading sysop.
@@ -6,7 +6,7 @@
 COMMENT=		MirPorts Framework package tools
 CATEGORIES=		essentials infrastructure
 DISTNAME=		pkgtools-${_VERSION}
-CVS_DISTDATE=		2009/08/28
+CVS_DISTDATE=		2009/10/24
 # actually it’s Benny Siegert <bsiegert@> for the package tools themselves
 RESPONSIBLE=		Thorsten Glaser <tg@mirbsd.org>
 HOMEPAGE=		http://mirbsd.de/ports
