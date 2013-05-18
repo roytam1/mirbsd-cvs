@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/scripts/import-3rdpty,v 1.20 2005/10/21 11:40:44 tg Exp $
+# $MirOS: src/scripts/import-3rdpty,v 1.21 2005/10/21 21:46:15 tg Exp $
 #-
 # Copyright (c) 2004, 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -23,7 +23,7 @@
 # rect or other, however caused, arising in any way out of the usage
 # of this work, even if advised of the possibility of such damage.
 
-print -r -- '========= $MirOS: src/scripts/import-3rdpty,v 1.20 2005/10/21 11:40:44 tg Exp $ ========='
+print -r -- '========= $MirOS: src/scripts/import-3rdpty,v 1.21 2005/10/21 21:46:15 tg Exp $ ========='
 
 ignlist=0
 force=0
@@ -903,7 +903,7 @@ case $vendor {
   freeb*)	B=1.1.9;   V=freebsd	;; # The FreeBSD uhm...
   fsf|FSF)	B=1.1.101; V=FSF	;; # The Free Software Foundation
   [xX]@(11|c|f86)) B=1.1.103; V=xwindow	;; # X Consortium / XFree86(TM)
-# expat)	B=1.1.105; V=expat	;; # expat developer team
+  expat)	B=1.1.105; V=expat	;; # expat developer team
   ?(lib)png)	B=1.1.107; V=libpng	;; # libpng whatever project
   lynx|cdk)	B=1.1.109; V=lynx	;; # Thomas Dickey (lynx, cdk)
   gpc)		B=1.1.111; V=gpc	;; # GNU Pascal
