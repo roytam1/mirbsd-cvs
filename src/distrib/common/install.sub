@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/install.sub,v 1.37 2008/07/09 23:32:02 tg Exp $
+# $MirOS: src/distrib/common/install.sub,v 1.38 2008/07/18 14:28:33 tg Exp $
 # $OpenBSD: install.sub,v 1.388 2005/07/02 00:55:48 uwe Exp $
 # $NetBSD: install.sub,v 1.5.2.8 1996/09/02 23:25:02 pk Exp $
 #
@@ -1617,6 +1617,9 @@ finish_up() {
 			    /mnt/sbin/swapctl -a $_dev >/dev/null 2>&1
 		done </mnt/etc/fstab
 	fi
+
+	[[ ! -s /mnt/etc/ttys && -s /mnt/etc/ttys.dist ]] && \
+	    cp /mnt/etc/ttys.dist /mnt/etc/ttys
 
 	if grep -qs '^rtsol' /mnt/etc/hostname.*; then
 		sed -e "/^#\(net\.inet6\.ip6\.accept_rtadv\)/s//\1/" \
