@@ -1,3 +1,4 @@
+/* $MirOS$ */
 /*
  *	Search & Replace system
  *	Copyright

@@ -1,3 +1,4 @@
+/* $MirOS$ */
 /*
  * 	TERMCAP/TERMINFO header file
  *	Copyright

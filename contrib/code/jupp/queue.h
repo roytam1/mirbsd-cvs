@@ -1,3 +1,4 @@
+/* $MirOS$ */
 /*
  *	Doubly linked list primitives
  *	Copyright

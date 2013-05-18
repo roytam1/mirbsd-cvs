@@ -1,3 +1,5 @@
+/* $MirOS$ */
+
 #ifndef _Ii18n
 #define _Ii18n 1
 

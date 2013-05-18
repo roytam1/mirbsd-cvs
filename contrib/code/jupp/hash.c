@@ -1,3 +1,4 @@
+/* $MirOS$ */
 /*
  *	Simple hash table
  *	Copyright

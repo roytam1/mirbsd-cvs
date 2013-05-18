@@ -1,3 +1,4 @@
+/* $MirOS$ */
 /*
  *	Single-key query windows
  *	Copyright

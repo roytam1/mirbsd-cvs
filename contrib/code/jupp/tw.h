@@ -1,3 +1,4 @@
+/* $MirOS$ */
 /*
  *	Text editing windows
  *	Copyright

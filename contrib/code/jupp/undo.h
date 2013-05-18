@@ -1,3 +1,4 @@
+/* $MirOS$ */
 /*
  *	UNDO system
  *	Copyright

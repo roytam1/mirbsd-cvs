@@ -1,3 +1,4 @@
+/* $MirOS$ */
 /*
  *	Basic user edit functions
  *	Copyright

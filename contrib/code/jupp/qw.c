@@ -1,3 +1,4 @@
+/* $MirOS$ */
 /*
  *	Query windows
  *	Copyright

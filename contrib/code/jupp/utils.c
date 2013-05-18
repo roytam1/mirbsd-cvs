@@ -1,3 +1,4 @@
+/* $MirOS$ */
 /*
  *	Various utilities
  *	Copyright

@@ -1,3 +1,5 @@
+dnl $MirOS$
+dnl
 dnl ------------------
 dnl Check for properly working isblank()
 dnl ------------------

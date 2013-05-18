@@ -1,3 +1,5 @@
+# $MirOS$
+
 AUTOMAKE_OPTIONS = foreign
 
 EXTRA_DIST = COPYING INFO LIST NEWS README README.cvs TODO docs/help-system.html \

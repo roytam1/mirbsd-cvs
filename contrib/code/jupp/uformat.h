@@ -1,3 +1,4 @@
+/* $MirOS$ */
 /*
  * 	User text formatting functions
  * 	Copyright

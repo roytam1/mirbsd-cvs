@@ -1,3 +1,4 @@
+/* $MirOS$ */
 /*
  *	UTF-8 Utilities
  *	Copyright

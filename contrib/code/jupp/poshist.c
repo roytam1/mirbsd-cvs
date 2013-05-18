@@ -1,3 +1,4 @@
+/* $MirOS$ */
 /*
  *	Position history
  *	Copyright

@@ -1,3 +1,4 @@
+/* $MirOS$ */
 /*
  * Example code to show how to copy the security context from one file to
  * another.

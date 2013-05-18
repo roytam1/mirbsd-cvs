@@ -1,3 +1,4 @@
+/* $MirOS$ */
 /*
  *	Dynamic string library
  *	Copyright

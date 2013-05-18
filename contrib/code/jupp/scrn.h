@@ -1,3 +1,4 @@
+/* $MirOS$ */
 /*
  *	Device independant tty interface for JOE
  *	Copyright

@@ -1,3 +1,4 @@
+/* $MirOS$ */
 /*
  *	TTY interface header file
  *	Copyright

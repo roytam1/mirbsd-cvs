@@ -1,3 +1,4 @@
+/* $MirOS$ */
 /*
  *	Prompt windows
  *	Copyright

@@ -1,3 +1,4 @@
+/* $MirOS$ */
 /*
  *	Editor engine
  *	Copyright

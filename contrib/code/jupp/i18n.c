@@ -1,3 +1,4 @@
+/* $MirOS$ */
 /*
  *	UNICODE/ISO-10646 functions for JOE
  *	Copyright

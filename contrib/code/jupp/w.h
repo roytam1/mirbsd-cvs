@@ -1,3 +1,4 @@
+/* $MirOS$ */
 /*
  *	Window management
  *	Copyright

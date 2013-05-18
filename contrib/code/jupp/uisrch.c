@@ -1,3 +1,4 @@
+/* $MirOS$ */
 /*
  *	Incremental search
  *	Copyright

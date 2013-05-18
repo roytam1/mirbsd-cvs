@@ -1,3 +1,4 @@
+/* $MirOS$ */
 /*
  *	Software virtual memory system
  *	Copyright

@@ -1,3 +1,4 @@
+/* $MirOS$ */
 /*
  *	Menu selection window
  *	Copyright

@@ -1,3 +1,4 @@
+/* $MirOS$ */
 /*
  *	Variable length arrays of strings
  *	Copyright

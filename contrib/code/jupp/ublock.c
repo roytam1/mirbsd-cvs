@@ -1,3 +1,4 @@
+/* $MirOS$ */
 /*
  * 	Highlighted block functions
  *	Copyright

@@ -1,3 +1,4 @@
+/* $MirOS$ */
 /*
  * 	User file operations
  *	Copyright

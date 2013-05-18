@@ -1,3 +1,4 @@
+/* $MirOS$ */
 /*
  *	Compiler error handler
  *	Copyright

@@ -1,3 +1,4 @@
+/* $MirOS$ */
 /*
  *	Shell-window functions
  *	Copyright

@@ -1,3 +1,4 @@
+/* $MirOS$ */
 /* 
  *	Directory and path functions
  *	Copyright

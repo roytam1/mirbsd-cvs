@@ -1,4 +1,5 @@
-.\" $MirOS: contrib/code/jupp/joe.1.in,v 1.5 2006/01/26 23:46:03 tg Exp $
+.\" $MirOS: contrib/code/jupp/joe.1.in,v 1.6 2006/11/11 01:51:20 tg Exp $
+.\"-
 .TH JOE 1
 .SH Name
 joe \- Joe's Own Editor

@@ -1,3 +1,4 @@
+/* $MirOS$ */
 /*
  *	Program to generate termcap index file
  *	Copyright

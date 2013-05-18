@@ -1,3 +1,4 @@
+/* $MirOS$ */
 /*
  *	Directory package for older UNIXs
  *	Copyright

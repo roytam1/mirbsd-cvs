@@ -1,3 +1,4 @@
+/* $MirOS$ */
 /*
  *	Command execution
  *	Copyright

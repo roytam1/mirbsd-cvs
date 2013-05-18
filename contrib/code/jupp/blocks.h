@@ -1,3 +1,4 @@
+/* $MirOS$ */
 /*
  *	Fast block move/copy subroutines
  *	Copyright

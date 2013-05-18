@@ -1,3 +1,5 @@
+/* $MirOS$ */
+
 #ifndef _Isyntax
 #define _Isyntax 1
 

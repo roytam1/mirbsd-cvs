@@ -1,3 +1,4 @@
+/* $MirOS$ */
 /*
  *	UNIX Tty and Process interface
  *	Copyright

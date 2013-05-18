@@ -1,3 +1,4 @@
+/* $MirOS$ */
 /*
  *	tags file symbol lookup
  *	Copyright

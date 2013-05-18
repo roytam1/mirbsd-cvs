@@ -1,3 +1,4 @@
+/* $MirOS$ */
 /*
  *	Edit buffer window generation
  *	Copyright

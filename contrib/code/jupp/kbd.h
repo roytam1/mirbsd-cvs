@@ -1,3 +1,4 @@
+/* $MirOS$ */
 /*
  *	Key-map handler
  *	Copyright

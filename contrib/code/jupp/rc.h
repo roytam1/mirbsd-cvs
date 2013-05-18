@@ -1,3 +1,4 @@
+/* $MirOS$ */
 /*
  *	*rc file parser
  *	Copyright

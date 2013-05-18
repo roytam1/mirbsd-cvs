@@ -1,3 +1,4 @@
+/* $MirOS$ */
 /*
  *	Regular expression subroutines
  *	Copyright

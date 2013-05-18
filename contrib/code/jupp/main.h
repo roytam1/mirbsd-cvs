@@ -1,3 +1,4 @@
+/* $MirOS$ */
 /*
  *	Editor startup and edit loop
  *	Copyright

@@ -1,3 +1,4 @@
+/* $MirOS$ */
 /*
  *	Syntax highlighting DFA interpreter
  *	Copyright

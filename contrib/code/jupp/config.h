@@ -1,3 +1,5 @@
+/* $MirOS$ */
+
 #ifndef _JOE_CONFIG_H
 #define _JOE_CONFIG_H
 

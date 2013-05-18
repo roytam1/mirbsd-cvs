@@ -1,3 +1,4 @@
+/* $MirOS$ */
 /*
  *	Keyboard macros
  *	Copyright

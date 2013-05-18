@@ -1,3 +1,4 @@
+/* $MirOS$ */
 /*
  *	Math
  *	Copyright
