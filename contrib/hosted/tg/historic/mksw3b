@@ -1,3 +1,10 @@
+# $MirOS$
+
+if stat --help >/dev/null 2>&1; then
+	statcmd='stat -c %s'	# GNU stat
+else
+	statcmd='stat -f %z'	# BSD stat (or so we assume)
+fi
 integer i=1
 cp $1 y1
 # rotate
@@ -35,7 +42,7 @@ for file in y*; do
 				foo[i]=${foo[j]}
 				foo[j]=$k
 				mirpax -w -x cpio -b 512 -M dist ${foo[*]} | gzip -n9 >mksh4.cgz
-				integer newsize=$(stat -f %z mksh4.cgz)
+				integer newsize=$($statcmd mksh4.cgz)
 				print "$newsize\t${foo[*]}"
 				foo[j]=${foo[i]}
 				foo[i]=$k
@@ -49,7 +56,7 @@ for file in y*; do
 			let ++i
 		done
 		mirpax -w -x cpio -b 512 -M dist ${foo[*]} | gzip -n9 >mksh4.cgz
-		integer newsize=$(stat -f %z mksh4.cgz)
+		integer newsize=$($statcmd mksh4.cgz)
 		print "$newsize\t${foo[*]}"
 		if (( newsize < xsize )); then
 			cp mksh4.cgz mksh4.x
@@ -61,7 +68,7 @@ for file in y*; do
 		[[ " ${sums[*]} " = *@(" $newsum ")* ]] && break
 		let sums[serial]=newsum
 	done
-	integer innersize=$(stat -f %z mksh4.x)
+	integer innersize=$($statcmd mksh4.x)
 	if (( innersize < outersize )); then
 		outersize=innersize
 		cp mksh4.x mksh4.y
