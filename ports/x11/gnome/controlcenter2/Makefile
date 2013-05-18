@@ -1,4 +1,4 @@
-# $MirOS: ports/x11/gnome/controlcenter2/Makefile,v 1.4 2007/04/18 20:05:04 bsiegert Exp $
+# $MirOS: ports/x11/gnome/controlcenter2/Makefile,v 1.5 2007/07/14 21:27:16 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.12 2004/12/15 13:57:56 alek Exp $
 
 COMMENT=		GNOME control center
@@ -37,6 +37,7 @@ CONFIGURE_ARGS+=	--sysconfdir="${SYSCONFDIR}/gnome"
 CONFIGURE_ARGS+=	--with-gconf-schema-file-dir=${LOCALBASE}/share/schemas/control-center2
 CONFIGURE_ARGS+=	--disable-gstreamer
 CONFIGURE_ARGS+=	--disable-hal
+EXTRA_XAKE_FLAGS+=	mkinstalldirs=${SHELL}\ ${PORTSDIR}/infrastructure/db/mkinstalldirs
 
 post-patch:
 	ln -s $$(whence -p true) ${WRKDIR}/bin/scrollkeeper-update
