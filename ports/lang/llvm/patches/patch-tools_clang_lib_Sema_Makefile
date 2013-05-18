@@ -1,9 +1,0 @@
-$MirOS$
---- tools/clang/lib/Sema/Makefile.orig	Thu Jan  1 01:00:00 1970
-+++ tools/clang/lib/Sema/Makefile	Fri Dec  4 22:37:38 2009
-@@ -21,3 +21,5 @@ CPPFLAGS += -I$(PROJ_SRC_DIR)/../../incl
- 
- include $(LEVEL)/Makefile.common
- 
-+# ICE in -fstack-protector here, MirOS gcc 3.4.6
-+CompileCommonOpts += -fno-stack-protector
