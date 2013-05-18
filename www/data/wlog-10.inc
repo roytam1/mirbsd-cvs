@@ -719,3 +719,48 @@ Title: MirEwe on MirDarwin?
 <p>Ah, damnit. It freezes the usbserial (Prolific) driver when accessing
  the serial port. Well, Apple… they don’t even use GNU as(1) either.</p>
 ----
+Date: 12.05.2008 23:50
+Author: tg@
+Title: all hardware sucks, all software sucks...
+
+<p>Happy birthday, <a href="http://www.midnightbsd.org/">laffer1</a>!</p>
+<p>Whew. We have a new qemu port, but it doesn't boot MirBSD/i386 any more.
+ It almost boots MirBSD/sparc now though. Luckily I could backport the new
+ port's ability to use kqemu. Thanks to Fabrice Bellard and the OpenBSD ports
+ guys for this.</p>
+<p>The Zaurus... SL-C3200... it's a neat device, but after I managed to get
+ the pl2303 LKM cross-built (bah!), along with the usual tools mksh(1) and <a
+ href="@@RELPATH@@jupp.htm">jupp</a> as well as pax(1)mirabilis for the ability
+ to extract my CacheWolf profile onto a (FAT) filesystem - did I mention just
+ how much busybox sucks? - Ewe doesn't work. Meh. Go to OpenBSD/zaurus, enter
+ a SIGBUS in gtk+1.2 - exactly what I want. The gtk+2 version works, but now,
+ X.org plus GTK+2 plus Ewe (Java&trade; Ranz!) eat up all of the 64 MiB RAM
+ plus initially 4 to 8, later 20 to 40, MiB swap. Not nice. (Some people are
+ said to use a CF card for swap due to it being faster than the internal HDD,
+ a microdrive. Geez.) If I'm cycling with more than say 5 km/h, the moving map
+ hinders parsing the GPS symbols... NMEA 0183 at 4800 bps. But I managed to
+ find another cache before going totally crazy.</p>
+<p>After Linux (grml, FrOScon edition) has destroyed my NTFS partition, now
+ the ext2fs driver has managed to impale quite some of my FFS filesystems
+ again. This time, Linux isn't even at fault. (Hm, fsck_ffs(8) and e2fsck seem
+ to have a common ancestor.) The downside however is that my encrypted home is
+ now gone. Totally gone, as in, fsck deleted the dirent, inode, and allocation
+ of blocks.<br />Yeah, I have backups, but only for the most important things,
+ not for everything, and quite old ones. I have had to restructure my storage
+ use anyway, now's a good time for it. Hah! And that after I chose to use
+ ext2fs ipv msdos for a common data xfer partition between BSD and Win2k due
+ to msdosfs eating up long filenames when a directory has a lot of them, even
+ on OpenBSD 4.3/zaurus FWIW.</p>
+<p>While I was quite reluctant to hack anyway recently, or even to idle in
+ IRC or, worse, Jabber, I guess this'll throw me back even more. MirBSD isn't
+ affected, except in further development becoming delayed.</p>
+<p>There will most probably be a snapshot of MirBSD-current really soon. But
+ other work (mksh R34, mirmake in Debian, MirEwe, ports, gcc) is postponed;
+ I will try to focus on the more important things (AES vnd(4), improvements
+ for CAcert, merging OpenBSD-current maybe even, but that not before the
+ migration to <tt>tear</tt> is complete). OTOH, for both MirPorts on !MirBSD
+ and pkgsrc&reg; on MirBSD, I have laid foundation for others to build upon.
+ Maybe they will.</p>
+<p>Just a side question: why don't things just work every once in a while?
+ And why, oh Murphy, do things go wrong the worst way possible, always?</p>
+----
