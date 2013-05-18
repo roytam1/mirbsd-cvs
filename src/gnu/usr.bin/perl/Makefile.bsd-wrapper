@@ -1,4 +1,4 @@
-# $MirOS: src/gnu/usr.bin/perl/Makefile.bsd-wrapper,v 1.16 2006/09/22 05:00:03 tg Exp $
+# $MirOS: src/gnu/usr.bin/perl/Makefile.bsd-wrapper,v 1.17 2006/09/22 05:34:08 tg Exp $
 # $OpenBSD: Makefile.bsd-wrapper,v 1.70 2006/03/28 19:22:56 millert Exp $
 #
 # Build wrapper for Perl 5.8.8
@@ -655,8 +655,13 @@ install.lib:
 
 install.perl:
 	cd ${.OBJDIR}; INSTALL=${INSTALL} INSTALL_COPY=${INSTALL_COPY} \
-	 STRIPFLAGS=${STRIPFLAGS} INSTALLFLAGS=-o NOLIBINSTALL=1 \
-	 LD_LIBRARY_PATH=${.OBJDIR} exec ./perl installperl --destdir=${DESTDIR} -o STRIPFLAGS=${STRIPFLAGS}
+	    STRIPFLAGS=${STRIPFLAGS} INSTALLFLAGS=-o NOLIBINSTALL=1 \
+	    LD_LIBRARY_PATH=${.OBJDIR} exec ./perl installperl \
+	    --destdir=${DESTDIR} -o STRIPFLAGS=${STRIPFLAGS}
+	printf '%s\n%s\n%s\nwq\n' '/^optimize=/g/-Werror-maybe-reset/s///' \
+	    '/^optimize=/g/-Werror/s///' "/^optimize=/g/  *'/s//'/" | \
+	    ed -s ${DESTDIR}$$(perl -e 'use Config; print \
+	    $$Config{installarchlib};')/Config_heavy.pl
 
 test:
 	-@if [ -e Makefile ]; then ${MAKE} test; fi
