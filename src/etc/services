@@ -1,5 +1,5 @@
-# $MirOS$
-# $OpenBSD: services,v 1.63 2005/11/20 19:15:11 reyk Exp $
+# $MirOS: src/etc/services,v 1.5 2006/05/08 19:54:34 tg Exp $
+# $OpenBSD: services,v 1.66 2007/03/04 12:46:25 jmc Exp $
 #
 # Network services, Internet style
 #
@@ -160,6 +160,7 @@ nntps		563/udp		snntp
 9pfs		564/tcp				# plan 9 file service
 9pfs		564/udp
 submission	587/tcp		msa		# mail message submission
+asf-rmcp	623/udp				# ASF/IPMI Proto
 ipp		631/tcp				# Internet Printing Protocol
 ipp		631/udp				# Internet Printing Protocol
 ldaps		636/tcp				# LDAP over SSL
@@ -322,6 +323,7 @@ ircd		6667/tcp		# IRC daemon (unofficial)
 ircd-tls	6668/tcp	sirc	# IRC over SSL/TLS (unofficial)
 icb		7326/tcp		# Internet Citizen's Band
 spamd		8025/tcp		# spamd(8)
+spamd-sync	8025/udp		# spamd(8) synchronisation
 spamd-cfg	8026/tcp		# spamd(8) configuration
 wnn4_Cn		22289/tcp		# Wnn4 (Chinese input)
 wnn6_Cn		22289/tcp

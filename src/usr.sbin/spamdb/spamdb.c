@@ -1,5 +1,5 @@
-/**	$MirOS: src/usr.sbin/spamdb/spamdb.c,v 1.4 2006/06/30 20:58:59 tg Exp $ */
-/*	$OpenBSD: spamdb.c,v 1.19 2007/01/04 21:41:37 beck Exp $	*/
+/**	$MirOS: src/usr.sbin/spamdb/spamdb.c,v 1.5 2007/02/17 03:28:30 tg Exp $ */
+/*	$OpenBSD: spamdb.c,v 1.22 2007/02/27 16:22:11 otto Exp $	*/
 
 /*
  * Copyright (c) 2004 Bob Beck.  All rights reserved.
@@ -34,7 +34,7 @@
 
 #include "grey.h"
 
-__RCSID("$MirOS: src/usr.sbin/spamdb/spamdb.c,v 1.4 2006/06/30 20:58:59 tg Exp $");
+__RCSID("$MirOS: src/usr.sbin/spamdb/spamdb.c,v 1.5 2007/02/17 03:28:30 tg Exp $");
 
 /* things we may add/delete from the db */
 #define WHITE 0
@@ -213,26 +213,38 @@ dblist(DB *db)
 				break;
 			}
 		} else {
-			char *from, *to;
+			char *helo, *from, *to;
 
 			/* greylist entry */
 			*cp = '\0';
-			from = cp + 1;
-			to = strchr(from, '\n');
-			if (to == NULL) {
+			helo = cp + 1;
+			from = strchr(helo, '\n');
+			if (from == NULL) {
 				warnx("No from part in grey key %s", a);
 				free(a);
 				goto bad;
 			}
-			*to = '\0';
-			to++;
-#ifdef _BSD_TIME_T_IS_64_BIT
-			printf("GREY|%s|%s|%s|%lld|%lld|%lld|%d|%d\n",
-#else
-			printf("GREY|%s|%s|%s|%d|%d|%d|%d|%d\n",
-#endif
-			    a, from, to, gd.first, gd.pass, gd.expire,
-			    gd.bcount, gd.pcount);
+			*from = '\0';
+			from++;
+			to = strchr(from, '\n');
+			if (to == NULL) {
+				/* probably old format - print it the
+				 * with an empty HELO field instead 
+				 * of erroring out.
+				 */			  
+				printf("GREY|%s|%s|%s|%s|%lld|%lld|%lld|%d|%d\n",
+				    a, "", helo, from, (int64_t)gd.first,
+				    (int64_t)gd.pass, (int64_t)gd.expire,
+				    gd.bcount, gd.pcount);
+			
+			} else {
+				*to = '\0';
+				to++;
+				printf("GREY|%s|%s|%s|%s|%lld|%lld|%lld|%d|%d\n",
+				    a, helo, from, to, (int64_t)gd.first,
+				    (int64_t)gd.pass, (int64_t)gd.expire,
+				    gd.bcount, gd.pcount);
+			}
 		}
 		free(a);
 	}
@@ -285,17 +297,20 @@ main(int argc, char **argv)
 	}
 	argc -= optind;
 	argv += optind;
+	if (action == 0 && type != WHITE)
+		usage();
 	
 	memset(&hashinfo, 0, sizeof(hashinfo));
-	db = dbopen(PATH_SPAMD_DB, O_EXLOCK|O_RDWR, 0600, DB_HASH,
-	    &hashinfo);
+	db = dbopen(PATH_SPAMD_DB, O_EXLOCK | (action ? O_RDWR : O_RDONLY),
+	    0600, DB_HASH, &hashinfo);
 	if (db == NULL) {
 		if (errno == EFTYPE)	
 			err(1,
 			    "%s is old, run current spamd to convert it",
 			    PATH_SPAMD_DB);
 		else 
-			err(1, "cannot open %s for writing", PATH_SPAMD_DB);
+			err(1, "cannot open %s for %s", PATH_SPAMD_DB,
+			    action ? "writing" : "reading");
 	}
 
 	switch (action) {

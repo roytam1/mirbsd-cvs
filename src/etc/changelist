@@ -1,5 +1,5 @@
-# $MirOS: src/etc/changelist,v 1.9 2006/03/18 18:36:35 tg Exp $
-# $OpenBSD: changelist,v 1.42 2005/02/07 06:45:17 david Exp $
+# $MirOS: src/etc/changelist,v 1.10 2006/10/13 19:18:03 tg Exp $
+# $OpenBSD: changelist,v 1.52 2007/02/28 01:37:15 david Exp $
 #
 # List of files which the security script backs up and checks
 # for modifications.
@@ -20,6 +20,7 @@
 /etc/ccd.conf
 /etc/changelist
 /etc/changelist.local
+/etc/chio.conf
 /etc/crontab
 /etc/csh.cshrc
 /etc/csh.login
@@ -33,6 +34,7 @@
 /etc/disktab
 /etc/distfile
 /etc/dumpdates
+/etc/dvmrpd.conf
 /etc/ethers
 /etc/exports
 /etc/fbtab
@@ -42,13 +44,17 @@
 /etc/ftpwelcome
 /etc/gettytab
 /etc/group
+/etc/hostapd.conf
 /etc/hosts
 /etc/hosts.allow
 /etc/hosts.deny
 /etc/hosts.equiv
 /etc/hosts.lpd
+/etc/hoststated.conf
 /etc/ifstated.conf
 /etc/inetd.conf
+/etc/ipsec.conf
+/etc/isakmpd/local.pub
 +/etc/isakmpd/private/local.key
 /etc/isakmpd/private/local.pub
 /etc/isdn/isdnd.rc
@@ -70,6 +76,7 @@
 /etc/mail/relay-domains
 /etc/mail/sendmail.cf
 /etc/mail/service.switch
+/etc/mail/spamd.conf
 /etc/mail/submit.cf
 /etc/mail/trusted-users
 /etc/mail/virtusertable
@@ -83,6 +90,8 @@
 /etc/motd
 /etc/mrouted.conf
 /etc/mtree/4.4BSD.dist
+/etc/mtree/BSD.local.dist
+/etc/mtree/BSD.x11.dist
 /etc/mtree/special
 /etc/myname
 /etc/netgroup
@@ -111,8 +120,10 @@
 /etc/remote
 /etc/resolv.conf
 /etc/resolv.conf.tail
+/etc/ripd.conf
 +/etc/rndc.key
 /etc/rpc
+/etc/sasyncd.conf
 /etc/security
 /etc/sensorsd.conf
 /etc/services

@@ -43,6 +43,8 @@
 #include "grey.h"
 #include "sync.h"
 
+__RCSID("$MirOS$");
+
 extern time_t passtime, greyexp, whiteexp, trapexp;
 extern struct syslog_data sdata;
 extern struct passwd *pw;
@@ -678,7 +680,7 @@ twupdate(char *dbname, char *what, char *ip, char *source, char *expires)
 
 	now = time(NULL);
 	/* expiry times have to be in the future */
-	expire = strtonum(expires, now, UINT_MAX, NULL);
+	expire = strtonum(expires, now, LLONG_MAX, NULL);
 	if (expire == 0)
 		return(-1);
 

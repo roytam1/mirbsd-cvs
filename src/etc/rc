@@ -1,4 +1,4 @@
-# $MirOS: src/etc/rc,v 1.58 2007/02/08 21:53:08 tg Exp $
+# $MirOS: src/etc/rc,v 1.59 2007/02/13 15:03:01 tg Exp $
 # $OpenBSD: rc,v 1.277 2006/01/12 21:54:15 deraadt Exp $
 #-
 # System startup script run by init on autoboot or after single-user.
@@ -705,10 +705,10 @@ if [[ $sshd_flags != NO ]]; then
 fi
 
 if [[ $spamd_flags != NO ]]; then
-	[[ $spamd_grey != NO ]] && spamd_flags="$spamd_flags -g"
+	[[ $spamd_black != NO ]] && spamd_flags="$spamd_flags -b"
 	echo -n ' spamd';		eval /usr/libexec/spamd $spamd_flags
 	/usr/libexec/spamd-setup
-	if [[ $spamd_grey != NO ]]; then
+	if [[ $spamd_black = NO ]]; then
 		echo -n ' spamlogd'
 		/usr/libexec/spamlogd
 	fi

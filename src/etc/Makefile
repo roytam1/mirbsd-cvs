@@ -1,4 +1,4 @@
-# $MirOS: src/etc/Makefile,v 1.29 2006/10/28 21:27:13 tg Exp $
+# $MirOS: src/etc/Makefile,v 1.30 2006/11/17 13:58:12 tg Exp $
 # $OpenBSD: Makefile,v 1.226 2005/05/26 23:06:06 mcbride Exp $
 
 TZDIR=		/usr/share/zoneinfo
@@ -21,8 +21,7 @@ BIN1=	ccd.conf changelist daily dhclient.conf dhcpd.conf \
 	myname netstart networks newsyslog.conf ntpd.conf \
 	pf.os phones printcap profile protocols rbootd.conf \
 	rc rc.conf rc.local rc.securelevel rc.shutdown remote \
-	rpc security sensorsd.conf services shells spamd.conf \
-	weekly wsconsctl.conf
+	rpc security sensorsd.conf services shells weekly wsconsctl.conf
 
 # machine dependent parts
 BINMD=	make.cfg syslog.conf
@@ -171,9 +170,11 @@ etc-files:
 .    endif
 .  endif
 	${INSTALL} -c -o root -g wheel -m 440 ../usr.bin/sudo/sudoers \
-		${DESTDIR}/etc/sudoers
+	    ${DESTDIR}/etc/sudoers
 	cd ${DESTDIR}/etc/ssl/certs && ${SHELL} ${.CURDIR}/ssl.certs.shar && \
-		chown ${BINOWN}:${CONFGRP} * && chmod 444 *
+	    chown ${BINOWN}:${CONFGRP} * && chmod 444 *
+	${INSTALL} -c -o ${BINOWN} -g ${CONFGRP} -m 644 spamd.conf \
+	    ${DESTDIR}/etc/mail/
 .endif # destdir
 
 snap_md:
@@ -253,7 +254,7 @@ install-generated:
 DHSIZE=	1024 1536 2048 3072 4096
 update-moduli:
 	{ \
-		echo '# $$MirOS: src/etc/Makefile,v 1.29 2006/10/28 21:27:13 tg Exp $$'; \
+		echo '# $$MirOS: src/etc/Makefile,v 1.30 2006/11/17 13:58:12 tg Exp $$'; \
 		echo '# Time Type Tests Tries Size Generator Modulus'; \
 		for i in ${DHSIZE}; do \
 			ssh-keygen -b $$i -G /dev/stdout; \
