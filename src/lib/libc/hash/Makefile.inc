@@ -1,4 +1,4 @@
-# $MirOS: src/lib/libc/hash/Makefile.inc,v 1.7 2009/11/09 21:36:39 tg Exp $
+# $MirOS: src/lib/libc/hash/Makefile.inc,v 1.8 2010/01/07 22:34:51 tg Exp $
 # $OpenBSD: Makefile.inc,v 1.17 2004/05/03 17:30:14 millert Exp $
 
 # hash functions
@@ -7,7 +7,7 @@
 HELPER=	md4hl.c md5hl.c rmd160hl.c sha1hl.c sha256hl.c sha384hl.c sha512hl.c \
 	adler32hl.c sfvhl.c sumahl.c tigerhl.c whirlpoolhl.c
 SRCS+=	adh32.c md4.c md5.c rmd160.c sfv.c sha1.c sha2.c tiger.c whirlpool.c \
-	${HELPER} digits.c hashpad.c
+	${HELPER}
 MAN+=	adler32.3 md4.3 md5.3 rmd160.3 sfv.3 sha1.3 sha2.3 suma.3 tiger.3 \
 	whirlpool.3
 

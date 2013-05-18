@@ -1,4 +1,4 @@
-# $MirOS: src/kern/c/Makefile.inc,v 1.25 2011/07/17 17:21:02 tg Exp $
+# $MirOS: src/kern/c/Makefile.inc,v 1.26 2011/11/20 04:57:09 tg Exp $
 
 .ifndef _KERNBASE_C_MAKEFILE_INC
 _KERNBASE_C_MAKEFILE_INC=	#defined
@@ -48,6 +48,14 @@ UIF_KUSRCS+=	mjd_explode.c mirtime.c -DL_mjd_explode
 UIF_KUSRCS+=	mjd_implode.c mirtime.c -DL_mjd_implode
 UIF_KUSRCS+=	mirtime_isleap.c mirtime.c -DL_mirtime_isleap
 UIF_KUSRCS+=	mirtime_macrobodies.c mirtime.c -DL_mirtime_macrobodies
+
+UIF_KUSRCS+=	mbsd_digits_dec.c miscdata.c -DL_mbsd_digits_dec
+UIF_KUSRCS+=	mbsd_digits_hex.c miscdata.c -DL_mbsd_digits_hex
+UIF_KUSRCS+=	mbsd_digits_HEX.c miscdata.c -DL_mbsd_digits_HEX
+UIF_KUSRCS+=	mbsd_digits_base64.c miscdata.c -DL_mbsd_digits_base64
+UIF_KUSRCS+=	RFC1321_padding.c miscdata.c -DL_RFC1321_padding
+UIF_KUSRCS+=	mbsd_digits_md5crypt.c miscdata.c -DL_mbsd_digits_md5crypt
+UIF_KUSRCS+=	mbsd_digits_bcrypt.c miscdata.c -DL_mbsd_digits_bcrypt
 
 UIF_XSRCS+=	strlcpy.c strlfun.c -DL_strlcpy
 UIF_XSRCS+=	strlcat.c strlfun.c -DL_strlcat
