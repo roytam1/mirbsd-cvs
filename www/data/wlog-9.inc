@@ -2802,7 +2802,7 @@ Author: tg@
 <p>Note: new kernels and old <tt>/sbin/sysctl</tt> and
  <tt>/usr/bin/uname</tt>, and vice versa, will not have the
  <tt>kern.ospatchlevel</tt> entry, which is required to build
- XFree86® and/or imake(1) with MirOS.</p
+ XFree86® and/or imake(1) with MirOS.</p>
 ----
 Author: bsiegert@
 Date: 06.03.2008
@@ -2813,7 +2813,7 @@ Date: 06.03.2008
 <p>For the last six months, we always distributed the same snapshot on
  exhibitions. I am almost ashamed to admit that the CDs we had at <a
  href="http://www.fosdem.org/2008/">FOSDEM 2008</a> were burned from the
- <a href="http://www.froscon.org/">FROSCON 2007</a> ISO image that I had
+ <a href="http://www.froscon.org/">FrOSCon 2007</a> ISO image that I had
  lying around on the showcase box, schaaf.mirbsd.org. So my radical
  proposal was: the code we have has had a lot of testing already and has
  shown no show-stopper bugs (except on the new Intel Macs, but that is
