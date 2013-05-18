@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: ports/infrastructure/install/setup.ksh,v 1.36 2005/12/17 02:57:13 tg Exp $
+# $MirOS: ports/infrastructure/install/setup.ksh,v 1.37 2005/12/17 05:46:19 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -623,7 +623,11 @@ else
 	print Please add the required users to your system manually.
 fi
 
-print Should be done now... have fun. Issue one of the following commands:
-print "% source $localbase/db/SetEnv.csh"
-print "\$ . $localbase/db/SetEnv.sh"
+if [[ $ismirbsd = yes && $myuid = root && $localbase = /usr/mpkg ]]; then
+	print Finished first-time setup... have fun.
+else
+	print Should be done now... have fun. Issue one of these commands:
+	print "% source $localbase/db/SetEnv.csh"
+	print "\$ . $localbase/db/SetEnv.sh"
+fi
 exit 0
