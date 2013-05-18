@@ -1,13 +1,13 @@
-# $MirOS: ports/security/pgp+/Makefile,v 1.5 2005/11/07 20:38:44 tg Exp $
+# $MirOS: ports/security/pgp+/Makefile,v 1.6 2006/09/14 00:13:15 tg Exp $
 
-COMMENT=			Pretty Good Privacy 2.6.3in
-DISTNAME=	pgp263in010323
-CATEGORIES=	security
-PKGNAME=	pgp-2.6.3in-1
-EXTRACT_SUFX=	.tgz
-HOMEPAGE=	ftp://ftp.iks-jena.de/pub/mitarb/lutz/crypt/software/pgp/pgp263in/
-RESPONSIBLE=	Thorsten "mirabile" Glaser <tg@66h.42h.de>
-MASTER_SITES=	${HOMEPAGE}
+COMMENT=		Pretty Good Privacy 2.6.3in
+DISTNAME=		pgp263in010323
+CATEGORIES=		security
+PKGNAME=		pgp-2.6.3in-2
+EXTRACT_SUFX=		.tgz
+HOMEPAGE=		ftp://ftp.iks-jena.de/pub/mitarb/lutz/crypt/software/pgp/pgp263in/
+RESPONSIBLE=		Thorsten Glaser <tg@66h.42h.de>
+MASTER_SITES=		${HOMEPAGE}
 
 # see ${FILESDIR}/README.MirPorts for details
 PERMIT_PACKAGE_CDROM=	"no commercial use of the IDEA patent"

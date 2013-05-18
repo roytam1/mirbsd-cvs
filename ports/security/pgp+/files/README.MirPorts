@@ -1,4 +1,4 @@
-$MirOS: ports/security/pgp+/files/README.MirPorts,v 1.1.7.1 2005/03/18 15:51:41 tg Exp $
+$MirOS: ports/security/pgp+/files/README.MirPorts,v 1.2 2005/11/07 20:15:47 tg Exp $
 
 This is a programme derived from Philip Zimmermann's PGP (Pretty Good
 Privacy) Version 2.6.2; called pgp-2.6.3in (international use).
@@ -67,8 +67,8 @@ The IDEA cipher is patented in:
    Netherlands, Sweden, Switzerland and the United Kingdom
 
 Ascom Tech has granted an unlimited licence for non-commercial,
-personal use of the IDEA cipher with PGP derivates, see
- http://www.mediacrypt.com/engl/Content/licensing_policy.htm
+personal use of the IDEA cipher with PGP and other freeware, see
+ http://www.mediacrypt.com/_contents/10_idea/102040_li_nc.asp
 for further information about this.
 
 
