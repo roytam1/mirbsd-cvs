@@ -1,3 +1,5 @@
+/* $MirOS$ */
+
 #ifndef _JOE_TYPES_H
 #define _JOE_TYPES_H
 
@@ -128,6 +130,7 @@ struct options {
 	MACRO	*mold;		/* Macro to execute for existing files */
 	MACRO	*msnew;		/* Macro to execute before saving new files */
 	MACRO	*msold;		/* Macro to execute before saving existing files */
+	int	vispace;	/* Set to make spaces visible */
 };
 
 struct macro {
