@@ -1,4 +1,4 @@
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.110 2008/04/22 19:45:34 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.111 2008/05/02 22:46:28 tg Exp $'
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -930,6 +930,12 @@ mws_content <<'EOF'
  <li>Simplify <tt>dot.mkshrc</tt> sample file: licence is merged into the main
   copyright file; AT&amp;T ksh93 compatibility was improved</li>
  <li>Fix a display problem regarding fullwidth characters (e.g. CJK)</li>
+ <li>Set the “C” locale in <tt>Build.sh</tt> for tool execution; otherwise,
+  certain OEs behave strange; thanks to Adam “replaced” Hoka for spotting</li>
+ <li>Use <tt>en_US.utf8</tt> as UTF-8 locale for the testsuite for now</li>
+ <li>If <tt>setlocale(LC_CTYPE, "")</tt> is not available, look at the
+  environment variables ourselves – brings UTF-8 support to poor OSes</li>
+ <li>Remove some now-dead code; speed up configuration process; shrink</li>
 </ul>
 <p id="r33d">mksh R33d is a quick security-update with these changes:</p><ul>
  <li>Move a portability define from <tt>sh.h</tt> to the <tt>setmode.c</tt>
