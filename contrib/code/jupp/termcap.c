@@ -1,4 +1,4 @@
-/* $MirOS: contrib/code/jupp/termcap.c,v 1.5 2012/06/08 16:55:27 tg Exp $ */
+/* $MirOS: contrib/code/jupp/termcap.c,v 1.6 2012/06/08 17:05:12 tg Exp $ */
 /*
  *	TERMCAP/TERMINFO database interface
  *	Copyright
@@ -301,7 +301,7 @@ CAP *getcap(unsigned char *name, unsigned int baud, void (*out) (unsigned char *
 		y = cap->sortlen;
 		z = -1;
 		if (!y) {
-			z = 0;
+			/* dead store: z = 0; */
 			goto in;
 		}
 		while (z != (x + y) / 2) {

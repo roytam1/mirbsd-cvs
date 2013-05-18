@@ -1,11 +1,11 @@
-# $MirOS: www/src/jupp.hts,v 1.39 2012/12/20 22:31:29 tg Exp $
+# $MirOS: www/src/jupp.hts,v 1.40 2012/12/20 22:55:07 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/juppp "jupp – Programmer’s Editor"
 mws_setheadline jupp – the Editor which sucks less
-mws_putheader '$MirOS: www/src/jupp.hts,v 1.39 2012/12/20 22:31:29 tg Exp $'
+mws_putheader '$MirOS: www/src/jupp.hts,v 1.40 2012/12/20 22:55:07 tg Exp $'
 mws_content <<'EOF'
 <p>The current version is <em>joe-2.8jupp2</em> for MS-DOS® compatible systems,
  and <em>joe-3.1jupp22</em> for Unix/GNU compatible systems. This page is
@@ -287,7 +287,7 @@ $ $SUDO make install</pre>
 </ul>
 
 <h2 id="clog">ChangeLog for Unix</h2>
-<p>[2012-12-20] Changes in the current development version:</p><ul>
+<p>[2012-12-21] Changes in the current development version:</p><ul>
  <li>Recognise more Python keywords in syntax highlighting
   (patch contributed by Eike Jesinghaus)</li>
  <li>Allow building against bionic libc (for Android)</li>
@@ -305,6 +305,8 @@ $ $SUDO make install</pre>
   and scratch (with præfix) as ^K- in jupprc</li>
  <li>^KE no longer trashes buffers cloned by ^KO (therefore, ^K; does
   not need to split the screen before ctags(1) search any more)</li>
+ <li>Address a clang-3.2 found bug and most scan-build warnings,
+  though those mostly with pointless workarounds (and ignore some)</li>
 </ul>
 <p id="r3_1j22">[2012-09-02] Changes for joe-3.1jupp22:</p><ul>
  <li>Fix ternary operator PHP syntax highlighting hiccup</li>
