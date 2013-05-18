@@ -870,3 +870,15 @@ Author: tg@
  <tt>RMD160 (fixes10.ngz) = 6c85c3e8eb4a5046b5b45373a0996cee2a3208b7</tt>
 </p>
 ----
+Title: CVE-2008-1447
+Date: 08.07.2008 22:19
+
+<p>The <a href="http://cert.uni-stuttgart.de/ticker/article.php?mid=1476">CVE-2008-1447</a>
+ does not, according to various sources, affect systems that randomise
+ their source port. MirOS libc’s integrated resolver, according to some
+ OpenBSD developers, does this, as does DJBDNS. The net/bind mirport is
+ affected, but by using pf(4) to NAT yourself (thanks to Vutral for the
+ suggestion), you can randomise these ports too. According to RUS-CERT,
+ only using DNSSEC is a fix… I wonder if this is truth or advertising
+ for a technique without wide-spread use.</p>
+----
