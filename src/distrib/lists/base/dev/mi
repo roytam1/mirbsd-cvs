@@ -627,6 +627,15 @@
 ./usr/include/dev/sbus/stp4020var.h
 ./usr/include/dev/sbus/uperf_sbusreg.h
 ./usr/include/dev/sbus/zxreg.h
+./usr/include/dev/sdmmc
+./usr/include/dev/sdmmc/sdhcreg.h
+./usr/include/dev/sdmmc/sdhcvar.h
+./usr/include/dev/sdmmc/sdmmc_ioreg.h
+./usr/include/dev/sdmmc/sdmmc_scsi.h
+./usr/include/dev/sdmmc/sdmmcchip.h
+./usr/include/dev/sdmmc/sdmmcdevs.h
+./usr/include/dev/sdmmc/sdmmcreg.h
+./usr/include/dev/sdmmc/sdmmcvar.h
 ./usr/include/dev/sequencervar.h
 ./usr/include/dev/sun
 ./usr/include/dev/sun/disklabel.h
