@@ -1090,7 +1090,7 @@ cstrerror(int errnum)
 
 #if HAVE_SYS_ERRLIST
 #if !HAVE_SYS_ERRLIST_DECL
-extern int sys_nerr;
+extern const int sys_nerr;
 extern const char * const sys_errlist[];
 #endif
 #endif

@@ -1566,12 +1566,12 @@ fi
 test x"NetBSD" = x"$TARGET_OS" && $e Ignore the compatibility warning.
 
 ac_testn sys_errlist '' "the sys_errlist[] array and sys_nerr" <<-'EOF'
-	extern int sys_nerr;
+	extern const int sys_nerr;
 	extern const char * const sys_errlist[];
 	int main(void) { return (*sys_errlist[sys_nerr - 1]); }
 EOF
 ac_testn _sys_errlist '!' sys_errlist 0 "the _sys_errlist[] array and _sys_nerr" <<-'EOF'
-	extern int _sys_nerr;
+	extern const int _sys_nerr;
 	extern const char * const _sys_errlist[];
 	int main(void) { return (*_sys_errlist[_sys_nerr - 1]); }
 EOF
