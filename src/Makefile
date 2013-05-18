@@ -1,4 +1,4 @@
-# $MirOS: src/Makefile,v 1.115 2007/10/02 18:42:11 tg Exp $
+# $MirOS: src/Makefile,v 1.116 2007/10/16 22:24:36 tg Exp $
 # $OpenBSD: Makefile,v 1.103 2004/05/03 15:18:18 drahn Exp $
 
 .if defined(MAKECONF) && exists(${MAKECONF})
@@ -510,7 +510,7 @@ _do-dist:
 	@echo ============================================================
 	@echo Done with MirOS Build.
 .if ${DIST_RESTART} != 0
-	@${SUDO} touch ${BSDRELDIR}/rel/'Not an official release!'
+	@${SUDO} touch ${BSDRELDIR}/rel/Not_an_official_release!
 .endif
 	@/bin/ls -Fl ${BSDRELDIR}/rel
 .if !defined(NO_LIVECD)
