@@ -1,4 +1,4 @@
-# $MirOS: X11/Makefile,v 1.25 2006/07/01 20:18:13 tg Exp $
+# $MirOS: X11/Makefile,v 1.26 2006/07/01 20:47:00 tg Exp $
 
 .include <bsd.own.mk>
 .include "${BSDSRCDIR}/Makefile.inc"
@@ -47,7 +47,7 @@ b-r:
 compile:
 	mkdir -p ${SUBOBJDIR}/xc/exports/{bin,include,lib}
 	cd ${.CURDIR}/depends && ${MAKE} depend && ${MAKE} && \
-	    exec ${MAKE} install X11BASE=${SUBOBJDIR}/xc/exports
+	    exec ${SUDO} ${MAKE} install X11BASE=${SUBOBJDIR}/xc/exports
 	rm -f ${CONFHOSTDEF}
 	${INSTALL} ${HOSTDEF} ${CONFHOSTDEF}
 .if defined(NOFONTS) && ${NOFONTS:L} != "no"
