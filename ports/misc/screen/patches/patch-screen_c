@@ -1,89 +1,78 @@
-$MirOS: ports/misc/screen/patches/patch-screen_c,v 1.2 2007/02/11 01:33:46 tg Exp $
---- screen.c.orig	Mon Sep  8 14:26:19 2003
-+++ screen.c	Sun Feb 11 01:15:30 2007
-@@ -152,6 +152,9 @@ static char *pad_expand __P((char *, cha
- #ifdef DEBUG
- static void  fds __P((void));
+$MirOS: ports/misc/screen/patches/patch-screen_c,v 1.3 2007/02/11 01:41:30 tg Exp $
+$OpenBSD: shmpatch-screen_c,v 1.1 2003/11/22 00:56:58 espie Exp $
+--- screen.c.orig	Wed Feb 28 15:13:54 2007
++++ screen.c	Wed Feb 28 15:13:55 2007
+@@ -71,6 +71,12 @@
+ #if (defined(AUX) || defined(_AUX_SOURCE)) && defined(POSIX)
+ # include <compat.h>
  #endif
-+#if defined(ENCODINGS) && defined(UTF8) && defined(POSIX)
-+static int   scan_for_encoding __P((int));
++
++#ifdef IPC_EXPORT_IMAGE
++# include <sys/ipc.h>
++# include <sys/shm.h>
 +#endif
- 
- int nversion;	/* numerical version, used for secondary DA */
- 
-@@ -1223,6 +1226,10 @@ char **av;
-       if (MakeDisplay(LoginName, attach_tty, attach_term, n, getppid(), &attach_Mode) == 0)
- 	Panic(0, "Could not alloc display");
- #ifdef ENCODINGS
-+#if defined(UTF8) && defined(POSIX)
-+      D_encoding = scan_for_encoding(n);
-+      if (D_encoding < 0)
-+#endif
-       D_encoding = nwin_options.encoding > 0 ? nwin_options.encoding : 0;
-       debug1("D_encoding = %d\n", D_encoding);
++
+ #if defined(USE_LOCALE) || defined(ENCODINGS)
+ # include <locale.h>
  #endif
-@@ -2428,10 +2435,10 @@ int rec;
+@@ -78,6 +84,11 @@
+ # include <langinfo.h>
  #endif
- 	      break;
- 	    case 'y':
--	      sprintf(p, "%02d", tm->tm_year % 100);
-+	      sprintf(p, "%02d", (int)(tm->tm_year % 100));
- 	      break;
- 	    case 'Y':
--	      sprintf(p, "%04d", tm->tm_year + 1900);
-+	      sprintf(p, "%04ld", (long)(tm->tm_year + 1900));
- 	      break;
- 	    case 'a':
- 	      sprintf(p, tm->tm_hour >= 12 ? "pm" : "am");
-@@ -3174,3 +3181,51 @@ char *p;
-   return 0;
- }
  
-+/* Copyright (c) 2007 Thorsten Glaser <tg@mirbsd.de> */
-+
-+#if defined(ENCODINGS) && defined(UTF8) && defined(POSIX)
-+static const char sfe_qs[] = "\030\032\r\xE2\x82\xAC.\033[6n";
-+__RCSID("$miros: src/usr.sbin/wsconfig/wsconfig.c,v 1.10 2007/02/11 00:59:00 tg Exp $");
-+__RCSID("$MirOS: ports/misc/screen/patches/patch-screen_c,v 1.2 2007/02/11 01:33:46 tg Exp $");
-+
-+static int
-+scan_for_encoding(fd)
-+int fd;
-+{
-+	struct termios tio, otio;
-+	char sbuf[64];
-+	int i, j = -1;
-+
-+	if (tcgetattr(fd, &otio))
-+		return (-1);
-+	tio = otio;
-+	cfmakeraw(&tio);
-+	tcflush(fd, TCIOFLUSH);
-+	if (tcsetattr(fd, TCSANOW, &tio))
-+		goto out;
-+	if ((size_t)write(fd, sfe_qs, strlen(sfe_qs)) != strlen(sfe_qs))
-+		goto out;
-+	i = read(fd, sbuf, sizeof (sbuf));
-+	if (i > 5 && sbuf[0] == 033 && sbuf[1] == '[') {
-+		j = 2;
-+		while (j < (i - 2))
-+			if (sbuf[j++] == ';')
-+				break;
-+		if (sbuf[j - 1] == ';')
-+			debug2("scan_for_encoding: at column %c%c\n",
-+			    sbuf[j], sbuf[j + 1]);
-+		else
-+			debug("scan_for_encoding: invalid response\n");
-+		if (sbuf[j - 1] == ';' &&
-+		    (sbuf[j] == '3' || sbuf[j] == '4') &&
-+		    (sbuf[j + 1] < '0' || sbuf[j + 1] > '9'))
-+			j = sbuf[j] == '4' ? 0 : UTF8;
-+		else
-+			j = -1;
-+	}
-+	write(fd, "\r      \r", 8);
-+ out:
-+	tcsetattr(fd, TCSAFLUSH, &otio);
-+	return (j);
-+}
++#ifdef IPC_EXPORT_IMAGE
++# include <sys/ipc.h>
++# include <sys/shm.h>
 +#endif
++
+ #include "screen.h"
+ #ifdef HAVE_BRAILLE
+ # include "braille.h"
+@@ -237,6 +248,10 @@ struct win *console_window;
+ 
+ 
+ 
++#ifdef IPC_EXPORT_IMAGE
++char *shm;              /* pointer to shared memory segment */
++#endif
++
+ /*
+  * Do this last
+  */
+@@ -462,6 +477,37 @@ char **av;
+ #ifdef ZMODEM
+   zmodem_sendcmd = SaveStr("!!! sz -vv -b ");
+   zmodem_recvcmd = SaveStr("!!! rz -vv -b -E");
++#endif
++
++#ifdef IPC_EXPORT_IMAGE
++  {
++    key_t key = 0xBACD072F;     /* random static IPC key */
++    int shmid;
++
++    /* Allocation of shared mem for 18000 bytes (screen text and attributes
++     * + few coord.).  We supose no screen will be wider than 132x66.
++     * 0x1C0 = [rwx------].
++     */
++    shmid = shmget( key, 18000, IPC_CREAT | 0x1C0 );
++    if( shmid < 0 )
++      {
++        Panic( errno, "shmget" );
++        /* NOTRECHED */
++      }
++    shm = shmat( shmid, 0, 0);
++    if ( shm == (void*)-1 )
++      {
++        Panic( errno, "shmat" );
++        /* NOTRECHED */
++      }
++    /* minimal initialisation just to have valid data */
++    shm[0] = 80;   /* scrdim x */
++    shm[1] = 1;    /* scrdim y */
++    shm[2] = 0;    /* csrpos x */
++    shm[3] = 0;    /* csrpos y */
++    strcpy( shm+4, "screen is initializing..." );
++    memset( shm+4+strlen(shm+4), ' ', 80);
++  }
+ #endif
+ 
+ #ifdef COPY_PASTE
