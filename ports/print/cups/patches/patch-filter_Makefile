@@ -1,7 +1,7 @@
-$MirOS: ports/print/cups/patches/patch-filter_Makefile,v 1.4 2006/11/08 18:25:45 bsiegert Exp $
---- filter/Makefile.orig	Sun Dec 17 02:43:58 2006
-+++ filter/Makefile	Thu Mar 15 19:18:39 2007
-@@ -180,7 +180,7 @@ apihelp:
+$MirOS: ports/print/cups/patches/patch-filter_Makefile,v 1.5 2007/03/15 19:22:40 bsiegert Exp $
+--- filter/Makefile.orig	Sat Sep  6 02:30:16 2008
++++ filter/Makefile	Tue Oct 21 23:40:58 2008
+@@ -177,7 +177,7 @@ apihelp:
  
  formtops:	$(FORMOBJS) common.o ../cups/$(LIBCUPS)
  	echo Linking $@...
@@ -10,7 +10,7 @@ $MirOS: ports/print/cups/patches/patch-filter_Makefile,v 1.4 2006/11/08 18:25:45
  
  
  #
-@@ -189,7 +189,7 @@ formtops:	$(FORMOBJS) common.o ../cups/$
+@@ -186,7 +186,7 @@ formtops:	$(FORMOBJS) common.o ../cups/$
  
  gziptoany:	gziptoany.o ../Makedefs ../cups/$(LIBCUPS)
  	echo Linking $@...
@@ -19,7 +19,7 @@ $MirOS: ports/print/cups/patches/patch-filter_Makefile,v 1.4 2006/11/08 18:25:45
  
  
  #
-@@ -198,7 +198,7 @@ gziptoany:	gziptoany.o ../Makedefs ../cu
+@@ -195,7 +195,7 @@ gziptoany:	gziptoany.o ../Makedefs ../cu
  
  hpgltops:	$(HPGLOBJS) common.o ../cups/$(LIBCUPS)
  	echo Linking $@...
@@ -28,7 +28,7 @@ $MirOS: ports/print/cups/patches/patch-filter_Makefile,v 1.4 2006/11/08 18:25:45
  
  
  #
-@@ -290,8 +290,8 @@ libcupsimage.a:	$(IMAGEOBJS)
+@@ -288,8 +288,8 @@ libcupsimage.a:	$(IMAGEOBJS)
  
  testimage:	testimage.o libcupsimage.a ../Makedefs
  	echo Linking $@...
@@ -39,7 +39,7 @@ $MirOS: ports/print/cups/patches/patch-filter_Makefile,v 1.4 2006/11/08 18:25:45
  
  
  #
-@@ -301,7 +301,7 @@ testimage:	testimage.o libcupsimage.a ..
+@@ -299,7 +299,7 @@ testimage:	testimage.o libcupsimage.a ..
  imagetops:	imagetops.o common.o $(LIBCUPSIMAGE) \
  		../cups/$(LIBCUPS)
  	echo Linking $@...
@@ -48,7 +48,7 @@ $MirOS: ports/print/cups/patches/patch-filter_Makefile,v 1.4 2006/11/08 18:25:45
  		$(IMGLIBS) $(LIBS)
  
  
-@@ -312,7 +312,7 @@ imagetops:	imagetops.o common.o $(LIBCUP
+@@ -310,7 +310,7 @@ imagetops:	imagetops.o common.o $(LIBCUP
  imagetoraster:	imagetoraster.o common.o $(LIBCUPSIMAGE) \
  		../cups/$(LIBCUPS)
  	echo Linking $@...
@@ -57,7 +57,7 @@ $MirOS: ports/print/cups/patches/patch-filter_Makefile,v 1.4 2006/11/08 18:25:45
  		$(IMGLIBS) $(LIBS)
  
  
-@@ -322,7 +322,7 @@ imagetoraster:	imagetoraster.o common.o 
+@@ -320,7 +320,7 @@ imagetoraster:	imagetoraster.o common.o 
  
  pstops:	pstops.o common.o ../cups/$(LIBCUPS)
  	echo Linking $@...
@@ -66,7 +66,7 @@ $MirOS: ports/print/cups/patches/patch-filter_Makefile,v 1.4 2006/11/08 18:25:45
  
  
  #
-@@ -331,7 +331,7 @@ pstops:	pstops.o common.o ../cups/$(LIBC
+@@ -329,7 +329,7 @@ pstops:	pstops.o common.o ../cups/$(LIBC
  
  rastertolabel:	rastertolabel.o ../cups/$(LIBCUPS) $(LIBCUPSIMAGE)
  	echo Linking $@...
@@ -75,7 +75,7 @@ $MirOS: ports/print/cups/patches/patch-filter_Makefile,v 1.4 2006/11/08 18:25:45
  
  
  #
-@@ -340,7 +340,7 @@ rastertolabel:	rastertolabel.o ../cups/$
+@@ -338,7 +338,7 @@ rastertolabel:	rastertolabel.o ../cups/$
  
  rastertoepson:	rastertoepson.o ../cups/$(LIBCUPS) $(LIBCUPSIMAGE)
  	echo Linking $@...
@@ -84,7 +84,7 @@ $MirOS: ports/print/cups/patches/patch-filter_Makefile,v 1.4 2006/11/08 18:25:45
  
  
  #
-@@ -349,17 +349,17 @@ rastertoepson:	rastertoepson.o ../cups/$
+@@ -347,17 +347,17 @@ rastertoepson:	rastertoepson.o ../cups/$
  
  rastertohp:	rastertohp.o ../cups/$(LIBCUPS) $(LIBCUPSIMAGE)
  	echo Linking $@...
@@ -100,24 +100,27 @@ $MirOS: ports/print/cups/patches/patch-filter_Makefile,v 1.4 2006/11/08 18:25:45
 +testraster:	testraster.o ../cups/$(LIBCUPS) $(LIBCUPSIMAGE)
  	echo Linking $@...
 -	$(CC) $(LDFLAGS) -o $@ testraster.o libcupsimage.a ../cups/libcups.a \
--		$(IMGLIBS) $(DSOLIBS) $(LIBS)
+-		$(IMGLIBS) $(DSOLIBS) $(COMMONLIBS) $(SSLLIBS) $(LIBGSSAPI)
 +	$(LIBTOOL) --mode=link $(CC) $(LDFLAGS) -o $@ testraster.o $(LINKCUPSIMAGE) \
-+		$(IMGLIBS) $(LIBS)
++		$(IMGLIBS) $(COMMONLIBS) $(SSLLIBS) $(LIBGSSAPI)
  
  
  #
-@@ -368,7 +368,7 @@ testraster:	testraster.o ../cups/libcups
+@@ -366,17 +366,16 @@ testraster:	testraster.o ../cups/libcups
  
- rasterbench:	rasterbench.o raster.o
+ rasterbench:	rasterbench.o libcupsimage.a
  	echo Linking $@...
--	$(CC) $(LDFLAGS) -o $@ rasterbench.o raster.o
-+	$(LIBTOOL) --mode=link $(CC) $(LDFLAGS) -o $@ rasterbench.o raster.o
+-	$(CC) $(LDFLAGS) -o $@ rasterbench.o libcupsimage.a $(LIBS)
++	$(LIBTOOL) --mode=link $(CC) $(LDFLAGS) -o $@ rasterbench.o libcupsimage.a $(LIBS)
  
  
  #
-@@ -378,7 +378,7 @@ rasterbench:	rasterbench.o raster.o
- texttops:	texttops.o textcommon.o common.o \
- 		../cups/$(LIBCUPS)
+ # texttops
+ #
+ 
+-texttops:	texttops.o textcommon.o common.o \
+-		../cups/$(LIBCUPS)
++texttops:	texttops.o textcommon.o common.o ../cups/$(LIBCUPS)
  	echo Linking $@...
 -	$(CC) $(LDFLAGS) -o $@ texttops.o textcommon.o common.o $(LIBS)
 +	$(LIBTOOL) --mode=link $(CC) $(LDFLAGS) -o $@ texttops.o textcommon.o common.o $(LIBS)

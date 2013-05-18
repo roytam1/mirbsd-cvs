@@ -1,7 +1,7 @@
-$MirOS: ports/print/cups/patches/patch-cgi-bin_admin_c,v 1.2 2006/06/21 19:25:33 bsiegert Exp $
---- cgi-bin/admin.c.orig	Mon May 22 18:46:46 2006
-+++ cgi-bin/admin.c	Tue Jul  4 17:55:16 2006
-@@ -720,7 +720,7 @@ do_am_printer(http_t *http,		/* I - HTTP
+$MirOS: ports/print/cups/patches/patch-cgi-bin_admin_c,v 1.3 2006/07/07 16:31:03 bsiegert Exp $
+--- cgi-bin/admin.c.orig	Fri Sep 26 17:30:06 2008
++++ cgi-bin/admin.c	Tue Oct 21 22:56:22 2008
+@@ -896,7 +896,7 @@ do_am_printer(http_t *http,		/* I - HTTP
          break;
        else
        {

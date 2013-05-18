@@ -1,7 +1,7 @@
-$MirOS: ports/print/cups/patches/patch-berkeley_lpr_c,v 1.1.7.1 2005/03/18 15:51:00 tg Exp $
---- berkeley/lpr.c.orig	Mon Mar  6 13:02:00 2006
-+++ berkeley/lpr.c	Tue May  9 17:39:25 2006
-@@ -299,7 +299,7 @@ main(int  argc,				/* I - Number of comm
+$MirOS: ports/print/cups/patches/patch-berkeley_lpr_c,v 1.2 2006/06/21 19:25:33 bsiegert Exp $
+--- berkeley/lpr.c.orig	Sat Jul 12 00:48:26 2008
++++ berkeley/lpr.c	Tue Oct 21 22:56:22 2008
+@@ -290,7 +290,7 @@ main(int  argc,				/* I - Number of comm
  	      num_copies = atoi(argv[i]);
  	    }
  

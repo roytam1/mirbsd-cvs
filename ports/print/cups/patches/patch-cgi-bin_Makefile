@@ -1,7 +1,7 @@
-$MirOS$
---- cgi-bin/Makefile.orig	Mon Jun 19 19:55:12 2006
-+++ cgi-bin/Makefile	Mon Jun 19 19:55:30 2006
-@@ -93,7 +93,7 @@ libcgi.a:	$(LIBOBJS)
+$MirOS: ports/print/cups/patches/patch-cgi-bin_Makefile,v 1.1 2006/06/21 19:25:33 bsiegert Exp $
+--- cgi-bin/Makefile.orig	Wed Jul 11 23:46:19 2007
++++ cgi-bin/Makefile	Tue Oct 21 23:34:53 2008
+@@ -90,7 +90,7 @@ libcgi.a:	$(LIBOBJS)
  
  admin.cgi:	admin.o ../Makedefs ../cups/$(LIBCUPS) libcgi.a
  	echo Linking $@...
@@ -10,7 +10,7 @@ $MirOS$
  
  
  #
-@@ -102,7 +102,7 @@ admin.cgi:	admin.o ../Makedefs ../cups/$
+@@ -99,7 +99,7 @@ admin.cgi:	admin.o ../Makedefs ../cups/$
  
  classes.cgi:	classes.o ../Makedefs ../cups/$(LIBCUPS) libcgi.a
  	echo Linking $@...
@@ -19,7 +19,7 @@ $MirOS$
  
  
  #
-@@ -111,7 +111,7 @@ classes.cgi:	classes.o ../Makedefs ../cu
+@@ -108,7 +108,7 @@ classes.cgi:	classes.o ../Makedefs ../cu
  
  help.cgi:	help.o ../Makedefs libcgi.a
  	echo Linking $@...
@@ -28,7 +28,7 @@ $MirOS$
  
  
  #
-@@ -120,7 +120,7 @@ help.cgi:	help.o ../Makedefs libcgi.a
+@@ -117,7 +117,7 @@ help.cgi:	help.o ../Makedefs libcgi.a
  
  jobs.cgi:	jobs.o ../Makedefs ../cups/$(LIBCUPS) libcgi.a
  	echo Linking $@...
@@ -37,7 +37,7 @@ $MirOS$
  
  
  #
-@@ -129,7 +129,7 @@ jobs.cgi:	jobs.o ../Makedefs ../cups/$(L
+@@ -126,7 +126,7 @@ jobs.cgi:	jobs.o ../Makedefs ../cups/$(L
  
  printers.cgi:	printers.o ../Makedefs ../cups/$(LIBCUPS) libcgi.a
  	echo Linking $@...
@@ -46,30 +46,30 @@ $MirOS$
  
  
  #
-@@ -138,7 +138,7 @@ printers.cgi:	printers.o ../Makedefs ../
+@@ -135,7 +135,7 @@ printers.cgi:	printers.o ../Makedefs ../
  
  testcgi:	testcgi.o ../Makedefs libcgi.a ../cups/libcups.a
  	echo Linking $@...
 -	$(CC) $(LDFLAGS) -o $@ testcgi.o libcgi.a ../cups/libcups.a \
 +	$(LIBTOOL) --mode=link $(CC) $(LDFLAGS) -o $@ testcgi.o libcgi.a ../cups/libcups.a \
- 		$(COMMONLIBS) $(SSLLIBS) $(LIBZ)
+ 		$(COMMONLIBS) $(SSLLIBS) $(LIBZ) $(LIBGSSAPI)
  
  
-@@ -148,7 +148,7 @@ testcgi:	testcgi.o ../Makedefs libcgi.a 
+@@ -145,7 +145,7 @@ testcgi:	testcgi.o ../Makedefs libcgi.a 
  
  testhi:	testhi.o ../Makedefs libcgi.a ../cups/libcups.a
  	echo Linking $@...
 -	$(CC) $(LDFLAGS) -o $@ testhi.o libcgi.a ../cups/libcups.a \
 +	$(LIBTOOL) --mode=link $(CC) $(LDFLAGS) -o $@ testhi.o libcgi.a ../cups/libcups.a \
- 		$(COMMONLIBS) $(SSLLIBS) $(LIBZ)
+ 		$(COMMONLIBS) $(SSLLIBS) $(LIBZ) $(LIBGSSAPI)
  
  
-@@ -158,7 +158,7 @@ testhi:	testhi.o ../Makedefs libcgi.a ..
+@@ -155,7 +155,7 @@ testhi:	testhi.o ../Makedefs libcgi.a ..
  
  testtemplate:	testtemplate.o ../Makedefs libcgi.a ../cups/libcups.a
  	echo Linking $@...
 -	$(CC) $(LDFLAGS) -o $@ testtemplate.o libcgi.a ../cups/libcups.a \
 +	$(LIBTOOL) --mode=link $(CC) $(LDFLAGS) -o $@ testtemplate.o libcgi.a ../cups/libcups.a \
- 		$(COMMONLIBS) $(SSLLIBS) $(LIBZ)
+ 		$(COMMONLIBS) $(SSLLIBS) $(LIBZ) $(LIBGSSAPI)
  
  

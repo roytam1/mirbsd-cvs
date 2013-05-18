@@ -1,7 +1,7 @@
-$MirOS: ports/print/cups/patches/patch-pdftops_PSOutputDev_cxx,v 1.4 2007/03/15 19:22:40 bsiegert Exp $
---- pdftops/PSOutputDev.cxx.orig	Tue May  8 18:29:36 2007
-+++ pdftops/PSOutputDev.cxx	Sat May 19 14:36:39 2007
-@@ -1704,7 +1704,7 @@ void PSOutputDev::setupFont(GfxFont *fon
+$MirOS: ports/print/cups/patches/patch-pdftops_PSOutputDev_cxx,v 1.5 2007/05/19 12:50:37 bsiegert Exp $
+--- pdftops/PSOutputDev.cxx.orig	Mon Jul 14 19:53:01 2008
++++ pdftops/PSOutputDev.cxx	Tue Oct 21 22:56:23 2008
+@@ -1702,7 +1702,7 @@ void PSOutputDev::setupFont(GfxFont *fon
      setupEmbeddedCIDTrueTypeFont(font, &fontFileID, psName, gTrue);
  
    } else if (font->getType() == fontType3) {
@@ -10,7 +10,7 @@ $MirOS: ports/print/cups/patches/patch-pdftops_PSOutputDev_cxx,v 1.4 2007/03/15 
  	    font->getID()->num, font->getID()->gen);
      psName = new GString(type3Name);
      setupType3Font(font, psName, parentResDict);
-@@ -1821,7 +1821,7 @@ void PSOutputDev::setupFont(GfxFont *fon
+@@ -1819,7 +1819,7 @@ void PSOutputDev::setupFont(GfxFont *fon
  	if (font->getType() == fontTrueType &&
  	    !subst &&
  	    !((Gfx8BitFont *)font)->getHasEncoding()) {
@@ -19,7 +19,7 @@ $MirOS: ports/print/cups/patches/patch-pdftops_PSOutputDev_cxx,v 1.4 2007/03/15 
  	  charName = buf;
  	} else {
  	  charName = ((Gfx8BitFont *)font)->getCharName(i+j);
-@@ -2072,7 +2072,7 @@ void PSOutputDev::setupEmbeddedTrueTypeF
+@@ -2070,7 +2070,7 @@ void PSOutputDev::setupEmbeddedTrueTypeF
    for (i = 0; i < fontFileIDLen; ++i) {
      if (fontFileIDs[i].num == id->num &&
  	fontFileIDs[i].gen == id->gen) {
@@ -28,7 +28,7 @@ $MirOS: ports/print/cups/patches/patch-pdftops_PSOutputDev_cxx,v 1.4 2007/03/15 
        psName->append(unique);
        break;
      }
-@@ -2124,7 +2124,7 @@ void PSOutputDev::setupExternalTrueTypeF
+@@ -2122,7 +2122,7 @@ void PSOutputDev::setupExternalTrueTypeF
    fileName = font->getExtFontFile();
    for (i = 0; i < fontFileNameLen; ++i) {
      if (!fontFileNames[i]->cmp(fileName)) {
@@ -37,7 +37,7 @@ $MirOS: ports/print/cups/patches/patch-pdftops_PSOutputDev_cxx,v 1.4 2007/03/15 
        psName->append(unique);
        break;
      }
-@@ -2222,7 +2222,7 @@ void PSOutputDev::setupEmbeddedCIDTrueTy
+@@ -2220,7 +2220,7 @@ void PSOutputDev::setupEmbeddedCIDTrueTy
    for (i = 0; i < fontFileIDLen; ++i) {
      if (fontFileIDs[i].num == id->num &&
  	fontFileIDs[i].gen == id->gen) {
@@ -46,7 +46,7 @@ $MirOS: ports/print/cups/patches/patch-pdftops_PSOutputDev_cxx,v 1.4 2007/03/15 
        psName->append(unique);
        break;
      }
-@@ -2331,10 +2331,10 @@ void PSOutputDev::setupType3Font(GfxFont
+@@ -2329,10 +2329,10 @@ void PSOutputDev::setupType3Font(GfxFont
        charProc.free();
        if (t3String) {
  	if (t3Cacheable) {
@@ -59,7 +59,7 @@ $MirOS: ports/print/cups/patches/patch-pdftops_PSOutputDev_cxx,v 1.4 2007/03/15 
  	}
  	(*outputFunc)(outputStream, buf, strlen(buf));
  	(*outputFunc)(outputStream, t3String->getCString(),
-@@ -4907,7 +4907,7 @@ void PSOutputDev::writePSFmt(const char 
+@@ -4909,7 +4909,7 @@ void PSOutputDev::writePSFmt(const char 
    char buf[512];
  
    va_start(args, fmt);
@@ -68,7 +68,7 @@ $MirOS: ports/print/cups/patches/patch-pdftops_PSOutputDev_cxx,v 1.4 2007/03/15 
    va_end(args);
    if (t3String) {
      t3String->append(buf);
-@@ -4934,7 +4934,7 @@ void PSOutputDev::writePSString(GString 
+@@ -4936,7 +4936,7 @@ void PSOutputDev::writePSString(GString 
        writePSChar((char)*p);
        line += 2;
      } else if (*p < 0x20 || *p >= 0x80) {
@@ -77,7 +77,7 @@ $MirOS: ports/print/cups/patches/patch-pdftops_PSOutputDev_cxx,v 1.4 2007/03/15 
        writePS(buf);
        line += 4;
      } else {
-@@ -4984,7 +4984,7 @@ GString *PSOutputDev::filterPSName(GStri
+@@ -4986,7 +4986,7 @@ GString *PSOutputDev::filterPSName(GStri
  	c == '(' || c == ')' || c == '<' || c == '>' ||
  	c == '[' || c == ']' || c == '{' || c == '}' ||
  	c == '/' || c == '%') {

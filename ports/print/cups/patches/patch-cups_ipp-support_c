@@ -1,7 +1,7 @@
-$MirOS: ports/print/cups/patches/patch-cups_ipp-support_c,v 1.1.7.1 2005/03/18 15:51:00 tg Exp $
---- cups/ipp-support.c.orig	Wed Mar  8 13:21:46 2006
-+++ cups/ipp-support.c	Tue May  9 17:54:02 2006
-@@ -188,7 +188,7 @@ ippErrorString(ipp_status_t error)	/* I 
+$MirOS: ports/print/cups/patches/patch-cups_ipp-support_c,v 1.2 2006/06/21 19:25:34 bsiegert Exp $
+--- cups/ipp-support.c.orig	Sat Jul 12 00:48:26 2008
++++ cups/ipp-support.c	Tue Oct 21 22:56:23 2008
+@@ -182,7 +182,7 @@ ippErrorString(ipp_status_t error)	/* I 
    * No, build an "unknown-xxxx" error string...
    */
  

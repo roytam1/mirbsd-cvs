@@ -1,7 +1,7 @@
-$MirOS: ports/print/cups/patches/patch-cgi-bin_template_c,v 1.2 2006/06/21 19:25:33 bsiegert Exp $
---- cgi-bin/template.c.orig	Fri May 19 19:39:05 2006
-+++ cgi-bin/template.c	Tue Jul  4 17:55:16 2006
-@@ -324,9 +324,9 @@ cgi_copy(FILE *out,			/* I - Output file
+$MirOS: ports/print/cups/patches/patch-cgi-bin_template_c,v 1.3 2006/07/07 16:31:03 bsiegert Exp $
+--- cgi-bin/template.c.orig	Sat Jul 12 00:48:26 2008
++++ cgi-bin/template.c	Tue Oct 21 22:56:23 2008
+@@ -322,9 +322,9 @@ cgi_copy(FILE *out,			/* I - Output file
  	*/
  
          if (name[1])

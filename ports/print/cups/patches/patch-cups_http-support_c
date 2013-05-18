@@ -1,7 +1,7 @@
-$MirOS: ports/print/cups/patches/patch-cups_http-support_c,v 1.1 2006/11/03 12:33:26 bsiegert Exp $
---- cups/http-support.c.orig	Mon Oct 23 02:26:29 2006
-+++ cups/http-support.c	Wed Nov  8 18:01:54 2006
-@@ -679,7 +679,7 @@ httpGetDateString2(time_t t,		/* I - UNI
+$MirOS: ports/print/cups/patches/patch-cups_http-support_c,v 1.2 2006/11/08 18:25:44 bsiegert Exp $
+--- cups/http-support.c.orig	Sat Jul 12 00:48:26 2008
++++ cups/http-support.c	Tue Oct 21 22:56:23 2008
+@@ -672,7 +672,7 @@ httpGetDateString2(time_t t,		/* I - UNI
    tdate = gmtime(&t);
    snprintf(s, slen, "%s, %02d %s %d %02d:%02d:%02d GMT",
             http_days[tdate->tm_wday], tdate->tm_mday,

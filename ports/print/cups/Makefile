@@ -1,9 +1,9 @@
-# $MirOS: ports/print/cups/Makefile,v 1.17 2007/12/13 19:48:49 bsiegert Exp $
+# $MirOS: ports/print/cups/Makefile,v 1.18 2007/12/21 23:37:08 bsiegert Exp $
 
 COMMENT=		Common Unix Printing System
 
-VERSION=		1.2.11
-DASH_VER=		3
+VERSION=		1.3.9
+DASH_VER=		0
 DISTNAME=		cups-${VERSION}-source
 PKGNAME=		${DISTNAME:S/-source//}-${DASH_VER}
 CATEGORIES=		print sysutils
@@ -24,24 +24,27 @@ MASTER_SITES+=		${MASTER_SITE_SOURCEFORGE:=cups/}
 			
 EXTRACT_SUFX=		.tar.bz2
 
-LIB_DEPENDS=		jpeg::graphics/jpeg \
-			tiff::graphics/tiff
+LIB_DEPENDS+=		jpeg::graphics/jpeg
+LIB_DEPENDS+=		tiff::graphics/tiff
+LIB_DEPENDS+=		ldap,lber::databases/openldap
+LIB_DEPENDS+=		dbus-1::sysutils/dbus
 MODULES+=		graphics/png
 
 EXTRA_XAKE_FLAGS+=	BINMODE=${BINMODE} \
-			SHAREMODE=${SHAREMODE} \
-			top_builddir=${WRKBUILD}
+			SHAREMODE=${SHAREMODE}
 
 CONFIGURE_STYLE=	autoconf no-autoheader dest
 AUTOCONF_NEW=		Yes
 CONFIGURE_ARGS+=	--with-cups-user=_cups \
 			--with-cups-group=_cups \
 			${CONFIGURE_SHARED} \
-			--localstatedir=/var \
+			--localstatedir=${PREFIX}/var \
+			--with-cachedir=\${DESTDIR}${PREFIX}/var/cache/cups \
 			--without-php \
 			--enable-ssl
 
 CONFIGURE_ENV=		DSOFLAGS="-L${LOCALBASE}/lib"
+#COPTS+=			-idirafter ${WRKSRC}
 
 WRKDIST=		${WRKDIR}/${DISTNAME:S/-source//}
 
@@ -65,6 +68,7 @@ post-configure:
 post-install:
 	@${INSTALL_DATA_DIR} ${PREFIX}/share/examples/cups
 	@cd ${WRKINST}${SYSCONFDIR}/cups && cp -Rp * ${PREFIX}/share/examples/cups
+	${INSTALL_DATA} ${WRKSRC}/packaging/cups-dbus.conf ${PREFIX}/share/examples/cups
 	@${INSTALL_DATA} ${WRKBUILD}/init/cups.sh ${PREFIX}/share/cups
 	@${INSTALL_DATA} ${FILESDIR}/README.MirBSD ${PREFIX}/share/doc/cups
 .for file in cups-enable cups-disable

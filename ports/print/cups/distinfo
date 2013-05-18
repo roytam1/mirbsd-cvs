@@ -1,5 +1,7 @@
-MD5 (cups-1.2.11-source.tar.bz2) = 2742f1eec38abb04472b86627da8e493
-RMD160 (cups-1.2.11-source.tar.bz2) = c5471c205a6ebb7ba0c2067b89769282e1a044a1
-SHA1 (cups-1.2.11-source.tar.bz2) = 4635dc423e3fc061df10d6af5ba60aaceb03d34b
-SIZE (cups-1.2.11-source.tar.bz2) = 3774113
-TIGER (cups-1.2.11-source.tar.bz2) = 937c0169ae878f7f75c9958b3f0021b1e98352d92070c505
+$MirOS$
+
+MD5 (cups-1.3.9-source.tar.bz2) = cf63f451c356e6cabb08972d4d11c365
+RMD160 (cups-1.3.9-source.tar.bz2) = ec8bd9fc6ee45648b6eb22949f44fc4cf2defd4e
+SHA1 (cups-1.3.9-source.tar.bz2) = c1a596b355201320456b393446286fe3947bce16
+SIZE (cups-1.3.9-source.tar.bz2) = 3993875
+TIGER (cups-1.3.9-source.tar.bz2) = 5c72b3b34193708154a2f95cdd9fb504ecc73d3cc13b4cd4

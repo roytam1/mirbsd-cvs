@@ -1,7 +1,7 @@
-$MirOS$
---- scheduler/log.c.orig	Tue Oct 31 18:11:29 2006
-+++ scheduler/log.c	Tue Oct 31 18:11:16 2006
-@@ -94,7 +94,7 @@ cupsdGetDateTime(time_t t)		/* I - Time 
+$MirOS: ports/print/cups/patches/patch-scheduler_log_c,v 1.1 2006/11/03 12:33:26 bsiegert Exp $
+--- scheduler/log.c.orig	Sat Jul 12 00:48:26 2008
++++ scheduler/log.c	Tue Oct 21 22:56:23 2008
+@@ -93,7 +93,7 @@ cupsdGetDateTime(time_t t)		/* I - Time 
      date = localtime(&t);
  
      snprintf(s, sizeof(s), "[%02d/%s/%04d:%02d:%02d:%02d %+03ld%02ld]",
