@@ -105,6 +105,10 @@ OR PERFORMANCE OF THIS SOFTWARE.
 #include <stdarg.h>
 #include <stdlib.h>	/* for malloc() */
 #include <errno.h>
+#ifdef __MirBSD__
+#include <sys/wait.h>
+#include <unistd.h>
+#endif
 
 #include "site.h"
 #include "opaque.h"
@@ -170,6 +174,10 @@ LogInit(const char *fname, const char *backup)
 {
     char *logFileName = NULL;
     size_t len1, len2;
+#ifdef __MirBSD__
+    pid_t pid;
+    int status;
+#endif
 
     if (fname && *fname) {
 	/* xalloc() can't be used yet. */
@@ -203,6 +211,15 @@ LogInit(const char *fname, const char *backup)
 		    FatalError("Cannot move old log file (\"%s\" to \"%s\"\n",
 			       logFileName, oldLog);
 		}
+#ifdef __MirBSD__
+		if ((pid = fork()) == 0) {
+			execl("/usr/bin/env", "env", "gzip", "-f", "-n",
+			    "-9", oldLog, NULL);
+			_exit(1);
+		} else if (pid > 0)
+			while (waitpid(-1, &status, 0) != -1)
+				;
+#endif
 		free(oldLog);
 	    }
 	}

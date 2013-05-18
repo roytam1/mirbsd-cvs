@@ -1,4 +1,4 @@
-# $MirOS: src/etc/crontab,v 1.17 2007/03/01 22:59:47 tg Exp $
+# $MirOS: src/etc/crontab,v 1.18 2007/03/09 13:05:10 tg Exp $
 # $OpenBSD: crontab,v 1.15 2007/02/27 16:04:16 beck Exp $
 #
 # /var/cron/tabs/root - root's crontab
@@ -18,9 +18,9 @@ HOME=/var/log
 #1-59	*	*	*	*	/usr/bin/newsyslog -m
 #
 # do daily/weekly/monthly maintenance
-30	1	*	*	*	umask 077; /usr/bin/nice /bin/mksh /etc/daily 2>&1 | tee /var/log/daily.out | mail -s "$(/bin/hostname) daily output" root
-30	3	*	*	6	umask 077; /usr/bin/nice /bin/mksh /etc/weekly 2>&1 | tee /var/log/weekly.out | mail -s "$(/bin/hostname) weekly output" root
-30	5	1	*	*	umask 077; /usr/bin/nice /bin/mksh /etc/monthly 2>&1 | tee /var/log/monthly.out | mail -s "$(/bin/hostname) monthly output" root
+30	1	*	*	*	umask 077; /usr/bin/nice /bin/mksh /etc/daily 2>&1 | tee /var/log/daily.out | mail -s "$(/bin/hostname) daily output" root; /usr/bin/gzip -n9 /var/log/daily.out
+30	3	*	*	6	umask 077; /usr/bin/nice /bin/mksh /etc/weekly 2>&1 | tee /var/log/weekly.out | mail -s "$(/bin/hostname) weekly output" root; /usr/bin/gzip -n9 /var/log/weekly.out
+30	5	1	*	*	umask 077; /usr/bin/nice /bin/mksh /etc/monthly 2>&1 | tee /var/log/monthly.out | mail -s "$(/bin/hostname) monthly output" root; /usr/bin/gzip -n9 /var/log/monthly.out
 #0	*	*	*	*	/usr/libexec/spamd-setup
 #
 # store random seed to disc every three hours
