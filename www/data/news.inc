@@ -944,7 +944,6 @@ Author: tg@
  OpenBSD, DEC ULTRIX, Mac OSX, HP Tru64, HP-UX, Solaris, Debian GNU/HURD,
  Cygwin, and various GNU/Linux systems; using gcc, pcc, SUNWcc, llvm-gcc,
  Compaq C, HP aCC, TenDRA; on a variety of hardware architectures.</p>
-</p>
 <p>Online manual: <a href="@@RELPATH@@htman/i386/man1/mksh.htm">HTML</a>,
  <a href="/MirOS/dist/mir/mksh/mksh.pdf">PDF</a> (<a
  href="http://www.cl.cam.ac.uk/~mgk25/iso-paper.html">ISO A4 paper</a>, we
