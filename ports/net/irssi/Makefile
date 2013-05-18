@@ -1,10 +1,10 @@
-# $MirOS: ports/net/irssi/Makefile,v 1.3 2005/04/10 21:50:39 tg Exp $
+# $MirOS: ports/net/irssi/Makefile,v 1.4 2006/09/14 00:11:49 tg Exp $
 # $OpenBSD: Makefile,v 1.24 2004/05/13 07:11:56 pvalchev Exp $
 
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
-COMMENT=			modular IRC client with many features (ipv6,socks,proxy)
-DISTNAME=	irssi-0.8.9
+COMMENT=	modular IRC client with many features (ipv6,socks,proxy)
+DISTNAME=	irssi-0.8.10
 CATEGORIES=	net
 MASTER_SITES=	${HOMEPAGE}/files/ \
 		http://nl.irssi.org/files/ \

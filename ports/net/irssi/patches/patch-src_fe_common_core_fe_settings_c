@@ -1,7 +1,7 @@
 $OpenBSD: patch-src_fe_common_core_fe_settings_c,v 1.1 2004/03/08 03:11:03 pvalchev Exp $
---- src/fe-common/core/fe-settings.c.orig	Wed Mar  3 15:15:39 2004
-+++ src/fe-common/core/fe-settings.c	Wed Mar  3 15:16:47 2004
-@@ -83,6 +83,10 @@
+--- src/fe-common/core/fe-settings.c.orig	Thu Dec  8 18:32:22 2005
++++ src/fe-common/core/fe-settings.c	Wed Apr 18 22:36:36 2007
+@@ -83,6 +83,10 @@ static void cmd_set(char *data)
  			    "set", &optlist, &key, &value))
  		return;
  
