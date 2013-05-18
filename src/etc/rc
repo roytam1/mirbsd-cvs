@@ -1,4 +1,4 @@
-# $MirOS: src/etc/rc,v 1.91 2008/11/13 03:30:55 tg Exp $
+# $MirOS: src/etc/rc,v 1.92 2008/11/29 17:03:51 tg Exp $
 # $OpenBSD: rc,v 1.277 2006/01/12 21:54:15 deraadt Exp $
 #-
 # System startup script run by init on autoboot or after single-user.
@@ -86,7 +86,7 @@ wsconsctl_conf() {
 	set -- $(stripcom /etc/wsconsctl.conf)
 	IFS=$save_IFS
 	while [ $# -ge 1 ]; do
-		eval wsconsctl -w $1
+		eval wsconsctl -k /dev/wskbd -w $1
 		shift
 	done
 }
