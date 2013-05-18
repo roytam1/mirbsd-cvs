@@ -40,14 +40,6 @@
  *	midnight January 1st 1900.
  */
 
-#ifndef lint
-#if 0
-from: static char rcsid[] = "$NetBSD: rdate.c,v 1.3 1996/02/22 06:59:18 thorpej Exp $";
-#else
-static const char rcsid[] = "$OpenBSD: rfc868time.c,v 1.6 2004/02/16 21:25:41 jakob Exp $";
-#endif
-#endif				/* lint */
-
 #include <sys/param.h>
 #include <sys/socket.h>
 #include <sys/time.h>
@@ -60,6 +52,12 @@ static const char rcsid[] = "$OpenBSD: rfc868time.c,v 1.6 2004/02/16 21:25:41 ja
 #include <netdb.h>
 #include <unistd.h>
 #include <time.h>
+
+__RCSID("$MirOS$");
+#ifdef MirBSD
+__RCSID("$NetBSD: rdate.c,v 1.3 1996/02/22 06:59:18 thorpej Exp $");
+__RCSID("$OpenBSD: rfc868time.c,v 1.6 2004/02/16 21:25:41 jakob Exp $");
+#endif
 
 /* seconds from midnight Jan 1900 - 1970 */
 #define DIFFERENCE 2208988800UL

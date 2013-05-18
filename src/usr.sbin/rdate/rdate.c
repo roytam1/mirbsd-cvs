@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.sbin/rdate/rdate.c,v 1.6 2006/08/28 13:15:44 tg Exp $ */
+/**	$MirOS: src/usr.sbin/rdate/rdate.c,v 1.7 2007/05/14 22:06:52 tg Exp $ */
 /*	$OpenBSD: rdate.c,v 1.22 2004/02/18 20:10:53 jmc Exp $	*/
 /*	$NetBSD: rdate.c,v 1.4 1996/03/16 12:37:45 pk Exp $	*/
 
@@ -57,16 +57,16 @@
 #ifndef	NO_UTIL
 #include <util.h>
 #else
-#define	logwtmp(a,b,c)
+#define	logwtmp(a,b,c)	/* nothing */
 #endif
 
-__RCSID("$MirOS: src/usr.sbin/rdate/rdate.c,v 1.6 2006/08/28 13:15:44 tg Exp $");
+__RCSID("$MirOS: src/usr.sbin/rdate/rdate.c,v 1.7 2007/05/14 22:06:52 tg Exp $");
 
 void rfc868time_client(const char *, int, struct timeval *, struct timeval *);
 void ntp_client(const char *, int, struct timeval *, struct timeval *);
 static void usage(void) __attribute__((noreturn));
 
-extern char *__progname;
+extern const char *__progname;
 int debug = 0;
 
 static void

@@ -1,4 +1,4 @@
-/* $MirOS: src/usr.sbin/rdate/ntpleaps.c,v 1.6 2006/06/09 20:58:09 tg Exp $ */
+/* $MirOS: src/usr.sbin/rdate/ntpleaps.c,v 1.7 2007/05/14 22:06:52 tg Exp $ */
 
 /*-
  * Copyright (c) 2006
@@ -26,11 +26,9 @@
 #include <inttypes.h>
 #include <time.h>
 
-#ifndef __RCSID
-#define	__RCSID(x)	static const char __rcsid[] __attribute__((used)) = (x)
-#endif
+__RCSID("$MirOS: src/usr.sbin/rdate/ntpleaps.c,v 1.7 2007/05/14 22:06:52 tg Exp $");
 
-__RCSID("$MirOS: src/usr.sbin/rdate/ntpleaps.c,v 1.6 2006/06/09 20:58:09 tg Exp $");
+time_t tick2utc(time_t);
 
 /*
  * Converts a time_t measured in kernel ticks into a UTC time_t
