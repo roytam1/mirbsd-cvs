@@ -1,4 +1,4 @@
-# $MirOS: ports/net/centericq/Makefile,v 1.16 2006/05/28 20:23:55 tg Exp $
+# $MirOS: ports/net/centericq/Makefile,v 1.17 2006/06/25 01:51:07 tg Exp $
 # $OpenBSD: Makefile,v 1.24 2004/02/03 08:37:55 brad Exp $
 
 # bus error on start
@@ -47,7 +47,7 @@ CONFIGURE_ARGS+=	--with-openssl \
 			--with-libjpeg \
 			--without-gpgme \
 			--disable-nls
-CPPOPTS+=		-DPORT_VERSION=\"${V}-${PL}\"
+CPPFLAGS+=		-DPORT_VERSION=\"${V}-${PL}\"
 
 .if ${FLAVOR:L:Mno_msn}
 CONFIGURE_ARGS+=	--disable-msn
