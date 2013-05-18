@@ -1,4 +1,4 @@
-/* $MirOS: src/usr.bin/nc/netcat.c,v 1.4 2005/11/23 18:04:11 tg Exp $ */
+/* $MirOS: src/usr.bin/nc/netcat.c,v 1.5 2005/11/23 20:38:22 tg Exp $ */
 /* $OpenBSD: netcat.c,v 1.81 2005/05/28 16:57:48 marius Exp $ */
 /*
  * Copyright (c) 2004 Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -54,7 +54,7 @@
 #include <fcntl.h>
 #include "atomicio.h"
 
-__RCSID("$MirOS: src/usr.bin/nc/netcat.c,v 1.4 2005/11/23 18:04:11 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/nc/netcat.c,v 1.5 2005/11/23 20:38:22 tg Exp $");
 
 #undef BUFSIZ
 #define BUFSIZ 4096
@@ -527,7 +527,7 @@ remote_connect(const char *host, const char *port, struct addrinfo hints)
 		s = -1;
 	} while ((res0 = res0->ai_next) != NULL);
 
-	if (Iflag)
+	if (Iflag && res0)
 		prepend_peer(res0->ai_addr);
 
 	freeaddrinfo(res);
