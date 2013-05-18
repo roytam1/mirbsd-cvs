@@ -707,7 +707,7 @@ Date: 20.03.2008
 <p>You can also switch to one of the following mirrors:</p><ul>
  <li><a href="http://pub.allbsd.org/MirOS/ISOs/MIR80316.ISO">Japan</a></li>
  <li><a href="http://server.leveldown.de/~nezza/MIR80316.ISO">Germany 2</a></li>
- <li>I’ll link back to the Germany 1 mirror once traffic has gone down.</li>
+ <li><a href="http://www.mirbsd.org/MirOS/ISOs/MIR80316.ISO">Germany 1</a></li>
 </ul>
 <p>Due to popular request: the SFV (CRC32) of the ISO is 76D0638A, more
  hashes are <a href="/MirOS/v10/CKSUM.gz">here</a>, and for these who
@@ -738,4 +738,22 @@ Date: 27.03.2008
 <p>The <a href="@@RELPATH@@errata10.htm#binup">Errata page</a> lists
  a binary update for the Sendmail and Apache security flaws and a
  shortcoming in the &lt;bsd.lkm.mk&gt; file. We advise to upgrade.</p>
+----
+Title: MirOS #10 Serial Console NetInstall ISOs available
+Date: 27.03.2008
+Author: tg@
+
+<p>I thought these might come in handy for poor i386 users:</p><ul>
+ <li><a href="/MirOS/v10/cdrom10-9600,8n1.iso">COM1:9600,8,N,1</a></li>
+ <li><a href="/MirOS/v10/cdrom10-57600,8n1.iso">COM1:57600,8,N,1</a></li>
+</ul><p>The ISOs itself (both El Torito and Live-HD/CF boot) as well as
+ the included 1440 KiB Floppy images have been adjusted to automatically
+ boot from serial console. To accomodate broken BIOSes (like the one from
+ my VIA C7 server, or the Soekris COMBIOS), the bootloader does not wait
+ for input, but instead directly boots into the kernel. This prevents you
+ from using “boot -c”, but you can patch <tt>boot.cfg</tt> in the top
+ directory of the ISO or floppy to achieve that.</p>
+<p>Users of the sparc architecture just <tt>setenv input-device ttya</tt>
+ and <tt>setenv output-device ttya</tt> instead; OpenBOOT can handle a
+ serial console just fine out of the box and provides the speed as well.</p>
 ----
