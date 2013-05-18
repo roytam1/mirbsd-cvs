@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/stand/boot/cmd.c,v 1.2 2005/03/06 21:28:33 tg Exp $	*/
+/**	$MirOS: src/sys/stand/boot/cmd.c,v 1.3 2006/08/19 12:45:48 tg Exp $	*/
 /*	$OpenBSD: cmd.c,v 1.52 2003/11/08 19:17:28 jmc Exp $	*/
 
 /*
@@ -31,7 +31,6 @@
 #include <sys/param.h>
 #include <libsa.h>
 #include <sys/reboot.h>
-#include <lib/libkern/funcs.h>
 #include "cmd.h"
 
 #define CTRL(c)	((c)&0x1f)

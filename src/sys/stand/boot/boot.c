@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/stand/boot/boot.c,v 1.8 2006/08/19 12:45:48 tg Exp $	*/
+/**	$MirOS: src/sys/stand/boot/boot.c,v 1.9 2006/10/13 19:18:04 tg Exp $	*/
 /*	$OpenBSD: boot.c,v 1.30 2004/01/29 00:54:08 tom Exp $	*/
 
 /*
@@ -35,7 +35,6 @@
 #include <sys/stat.h>
 #include <libsa.h>
 #include <lib/libsa/loadfile.h>
-#include <lib/libkern/funcs.h>
 #ifdef IN_PXEBOOT
 #include <pxe.h>
 

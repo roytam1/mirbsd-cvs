@@ -30,7 +30,6 @@
 #include <sys/param.h>
 #include <libsa.h>
 #include <sys/reboot.h>
-#include <lib/libkern/funcs.h>
 #include "cmd.h"
 
 extern char prog_ident[];

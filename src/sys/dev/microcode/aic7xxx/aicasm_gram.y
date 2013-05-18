@@ -1913,20 +1913,21 @@ static void
 add_version(const char *verstring)
 {
 	const char prefix[] = " * ";
-	int newlen;
+	int newlen1, newlen2;
 	int oldlen;
 
-	newlen = strlen(verstring) + strlen(prefix);
+	newlen1 = strlen(verstring);
+	newlen2 = strlen(prefix);
 	oldlen = 0;
 	if (versions != NULL)
 		oldlen = strlen(versions);
-	versions = realloc(versions, newlen + oldlen + 2);
+	versions = realloc(versions, newlen1 + newlen2 + oldlen + 2);
 	if (versions == NULL)
 		stop("Can't allocate version string", EX_SOFTWARE);
-	strcpy(&versions[oldlen], prefix);
-	strcpy(&versions[oldlen + strlen(prefix)], verstring);
-	versions[newlen + oldlen] = '\n';
-	versions[newlen + oldlen + 1] = '\0';
+	memcpy(&versions[oldlen], prefix, newlen2);
+	memcpy(&versions[oldlen + newlen2], verstring, newlen1);
+	versions[newlen1 + newlen2 + oldlen] = '\n';
+	versions[newlen1 + newlen2 + oldlen + 1] = '\0';
 }
 
 void

@@ -699,7 +699,7 @@ daic_register_port(struct daic_softc *sc, int port)
 	if (sc->sc_cardtype == DAIC_TYPE_QUAD)
 		sprintf(devname, "%s port %d", sc->sc_dev.dv_xname, port);
 	else
-		strcpy(devname, sc->sc_dev.dv_xname);
+		strlcpy(devname, sc->sc_dev.dv_xname, sizeof (devname));
 	sprintf(cardname, "EICON.Diehl %s", cardtypename(sc->sc_cardtype));
 	l3drv = isdn_attach_bri(
 	    devname, cardname, &sc->sc_port[port], &daic_l3_functions);
@@ -998,7 +998,7 @@ daic_connect_request(struct call_desc *cd)
 		*p++ = IEI_CALLINGPN;
 		*p++ = strlen(cd->src_telno)+1;
 		*p++ = NUMBER_TYPEPLAN;
-		strcpy(p, cd->src_telno);
+		strlcpy(p, cd->src_telno, sizeof (parms) - (p - parms));
 		p += strlen(p);
 	}
 	if (cd->channelid == CHAN_B1 || cd->channelid == CHAN_B2) {
@@ -1030,7 +1030,7 @@ daic_connect_request(struct call_desc *cd)
 	cpn[0] = IEI_CALLEDPN;
 	cpn[1] = len+1;
 	cpn[2] = NUMBER_TYPEPLAN;
-	strcpy(cpn+3, cd->dst_telno);
+	strlcpy(cpn + 3, cd->dst_telno, sizeof (cpn) - 3);
 #ifdef DAIC_DEBUG
 	daic_dump_request(sc, port, DAIC_REQ_CALL, id, len+4, cpn);
 #endif

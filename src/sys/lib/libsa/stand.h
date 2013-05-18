@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/lib/libsa/stand.h,v 1.3 2005/11/23 19:24:36 tg Exp $	*/
+/**	$MirOS: src/sys/lib/libsa/stand.h,v 1.4 2006/06/16 21:52:54 tg Exp $	*/
 /*	$OpenBSD: stand.h,v 1.43 2004/01/03 14:08:53 espie Exp $	*/
 /*	$NetBSD: stand.h,v 1.18 1996/11/30 04:35:51 gwr Exp $	*/
 
@@ -149,9 +149,12 @@ __dead void	_rtt(void) __attribute__((noreturn));
 void	*memmove(void *, const void *, size_t);
 int	memcmp(const void *, const void *, size_t);
 char	*strncpy(char *, const char *, size_t);
-char	*strcpy(char *, const char *);
 int	strncmp(const char *, const char *, size_t);
 int	strcmp(const char *, const char *);
+size_t strlcpy(char *, const char *, int)
+	__attribute__ ((__bounded__(__string__,1,3)));
+size_t strlcat(char *, const char *, int)
+	__attribute__ ((__bounded__(__string__,1,3)));
 size_t	strlen(const char *);
 long	strtol(const char *, char **, int);
 char	*strchr(const char *, int);
