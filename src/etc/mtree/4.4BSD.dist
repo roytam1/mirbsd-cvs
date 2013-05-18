@@ -1,4 +1,4 @@
-# $MirOS: src/etc/mtree/4.4BSD.dist,v 1.8 2005/09/23 10:51:07 tg Exp $
+# $MirOS: src/etc/mtree/4.4BSD.dist,v 1.9 2005/09/23 10:52:53 tg Exp $
 # $OpenBSD: 4.4BSD.dist,v 1.176 2005/06/03 22:25:50 deraadt Exp $
 
 /set type=dir uname=root gname=wheel mode=0755
@@ -267,7 +267,7 @@ arpa		gname=bin uname=root mode=0755
 ..
 
 # ./usr/include/libmilter
-libmilter		gname=bin uname=root mode=0755
+libmilter	gname=bin uname=root mode=0755
 # ./usr/include/libmilter
 ..
 
@@ -335,7 +335,7 @@ ssh
 libexec
 
 # ./usr/libexec/auth
-auth		type=dir uname=root gname=auth mode=0750
+auth		uname=root gname=auth mode=0750
 # ./usr/libexec/auth
 ..
 
@@ -366,7 +366,7 @@ lpr
 ..
 
 # ./usr/libexec/sendmail
-sendmail	type=dir uname=root gname=wheel mode=0755
+sendmail	uname=root gname=wheel mode=0755
 # ./usr/libexec/sendmail
 ..
 
@@ -1456,29 +1456,29 @@ vi.recover	mode=01777
 ..
 
 # ./www
-www		type=dir uname=root gname=daemon mode=755
+www		uname=root gname=daemon mode=755
 
 # ./www/icons
-icons		type=dir uname=root gname=daemon mode=755
+icons		uname=root gname=daemon mode=755
 # ./www/icons
 ..
 
 #./www/cgi-bin
-cgi-bin		type=dir uname=root gname=daemon mode=755
+cgi-bin		uname=root gname=daemon mode=755
 #./www/cgi-bin
 ..
 
 #./www/htdocs
-htdocs		type=dir uname=root gname=daemon mode=755
+htdocs		uname=root gname=daemon mode=755
 
 #./www/htdocs/manual
-manual		type=dir uname=root gname=daemon mode=755
+manual		uname=root gname=daemon mode=755
 
 #./www/htdocs/manual/mod
-mod		type=dir uname=root gname=daemon mode=755
+mod		uname=root gname=daemon mode=755
 
 #./www/htdocs/manual/mod/mod_ssl
-mod_ssl		type=dir uname=root gname=daemon mode=755
+mod_ssl		uname=root gname=daemon mode=755
 #./www/htdocs/manual/mod/mod_ssl
 ..
 
@@ -1486,27 +1486,27 @@ mod_ssl		type=dir uname=root gname=daemon mode=755
 ..
 
 #./www/htdocs/manual/images
-images		type=dir uname=root gname=daemon mode=755
+images		uname=root gname=daemon mode=755
 #./www/htdocs/manual/images
 ..
 
 #./www/htdocs/manual/vhosts
-vhosts		type=dir uname=root gname=daemon mode=755
+vhosts		uname=root gname=daemon mode=755
 #./www/htdocs/manual/vhosts
 ..
 
 #./www/htdocs/manual/misc
-misc		type=dir uname=root gname=daemon mode=755
+misc		uname=root gname=daemon mode=755
 #./www/htdocs/manual/misc
 ..
 
 #./www/htdocs/manual/howto
-howto		type=dir uname=root gname=daemon mode=755
+howto		uname=root gname=daemon mode=755
 #./www/htdocs/manual/howto
 ..
 
 #./www/htdocs/manual/programs
-programs	type=dir uname=root gname=daemon mode=755
+programs	uname=root gname=daemon mode=755
 #./www/htdocs/manual/programs
 ..
 
@@ -1517,17 +1517,17 @@ programs	type=dir uname=root gname=daemon mode=755
 ..
 
 #./www/logs
-logs		type=dir uname=root gname=daemon mode=755
+logs		uname=root gname=daemon mode=755
 #./www/logs
 ..
 
 #./www/conf
-conf		type=dir uname=root gname=daemon mode=755
+conf		uname=root gname=daemon mode=755
 #./www/conf
 ..
 
 #./www/users
-users		type=dir uname=root gname=daemon mode=755
+users		uname=root gname=daemon mode=755
 #./www/users
 ..
 
@@ -1535,38 +1535,38 @@ users		type=dir uname=root gname=daemon mode=755
 ..
 
 #./var/audit
-audit		type=dir uname=root gname=wheel mode=2770
+audit		uname=root gname=wheel mode=2770
 #./var/audit
 ..
 
 #./var/anoncvs
-anoncvs		type=dir uname=root gname=wheel mode=755
+anoncvs		uname=root gname=wheel mode=755
 
 #./var/anoncvs/anoncvs
-anoncvs		type=dir uname=root gname=wheel mode=755
+anoncvs		uname=root gname=wheel mode=755
 
 #./var/anoncvs/anoncvs/bin
-bin		type=dir uname=root gname=wheel mode=755
+bin		uname=root gname=wheel mode=755
 #./var/anoncvs/anoncvs/bin
 ..
 
 #./var/anoncvs/anoncvs/cvs
-cvs		type=dir uname=root gname=wsrc mode=775 nochange
+cvs		uname=root gname=wsrc mode=775 nochange
 #./var/anoncvs/anoncvs/cvs
 ..
 
 #./var/anoncvs/anoncvs/dev
-dev		type=dir uname=root gname=wheel mode=755
+dev		uname=root gname=wheel mode=755
 #./var/anoncvs/anoncvs/dev
 ..
 
 #./var/anoncvs/anoncvs/etc
-etc		type=dir uname=root gname=wheel mode=755
+etc		uname=root gname=wheel mode=755
 #./var/anoncvs/anoncvs/etc
 ..
 
 #./var/anoncvs/anoncvs/tmp
-tmp		type=dir uname=root gname=wheel mode=1777
+tmp		uname=root gname=wheel mode=1777
 #./var/anoncvs/anoncvs/tmp
 ..
 
