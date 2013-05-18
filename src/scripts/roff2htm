@@ -1,5 +1,4 @@
-#!/bin/mksh
-# $MirOS: src/scripts/roff2htm,v 1.43 2007/02/18 04:38:54 tg Exp $
+# $MirOS: src/scripts/roff2htm,v 1.44 2007/02/19 18:05:05 tg Exp $
 # $ekkoBSD: catman2html.sh,v 1.2 2004/03/07 03:02:53 stephen Exp $
 #-
 # Copyright (c) 2004, 2005, 2006, 2007
@@ -38,8 +37,7 @@
 
 gendate=$(date +"%F %T")		# current time
 
-do_convert()
-{
+function do_convert {
 	integer ws=0
 	sed -e 's/[	 ]*$//g'					\
 	    -e '/-$/N
@@ -104,8 +102,7 @@ s/\([0-9A-z][-.,0-9A-z]*\)-\n\(  *\)\([0-9A-z][-.,0-9A-z]*([1-9][A-z]*)\)\([^ ]*
 	done
 }
 
-output_header()
-{
+function output_header {
 	print '<?xml version="1.0" encoding="utf-8" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
  "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
@@ -117,10 +114,9 @@ output_header()
 <h1>MirOS Manual: <a href="../man'$2/$1'.htm"><tt>'$1\($2')</tt></a></h1>'
 }
 
-output_footer()
-{
+function output_footer {
 	print '<hr /><p style="font-size:xx-small;">Generated on' $gendate 'by
- $MirOS: src/scripts/roff2htm,v 1.43 2007/02/18 04:38:54 tg Exp $</p>
+ $MirOS: src/scripts/roff2htm,v 1.44 2007/02/19 18:05:05 tg Exp $</p>
 <p>These manual pages are copyrighted by their respective writers; their
  source is available at our <a href="http://cvs.mirbsd.de/">CVSweb</a>.
  The rest is Copyright © 2002-2007 <a href="http://www.mirbsd.org/">The
@@ -132,24 +128,21 @@ output_footer()
 </body></html>'
 }
 
-do_conversion()
-{
+function do_conversion {
 	output_header ${1:-missing-pagename} ${2:-0}
 	do_convert ${2:-0}
 	output_footer
 }
 
 # do_conversion_verbose title section infile outfile
-do_conversion_verbose()
-{
+function do_conversion_verbose {
 	print -nru2 -- $3 -\> $4
 	do_conversion $1 $2 <$3 >$4
 	print -u2
 }
 
 # convert_page /path/to/man.cat1 /targetpath
-convert_page()
-{
+function convert_page {
 	fn=$1				# filename
 	bn=${fn##*/}			# basename
 	page=${bn%.0}			# manual page name
@@ -162,15 +155,13 @@ convert_page()
 }
 
 # output_htaccess >.../.htaccess
-output_htaccess()
-{
+function output_htaccess {
 	print DirectoryIndex /dev/null
 	print "AddType 'text/html; charset=utf-8' htm"
 }
 
 # convert_all /path/to/share/man /targetpath
-convert_all()
-{
+function convert_all {
 	tp=${2:-$(pwd)/mbsdman}		# target basepath
 
 	find ${1:-/usr/share/man}/cat{1,2,3,3p,4,5,6,7,8,9} -name \*.0 |&
