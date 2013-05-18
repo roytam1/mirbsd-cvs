@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/stand/libsa/dev_i386.c,v 1.5 2008/08/01 11:24:59 tg Exp $	*/
+/**	$MirOS: src/sys/arch/i386/stand/libsa/dev_i386.c,v 1.6 2008/08/01 12:39:08 tg Exp $	*/
 /*	$OpenBSD: dev_i386.c,v 1.30 2007/06/27 20:29:37 mk Exp $	*/
 
 /*
@@ -92,6 +92,9 @@ void
 devboot(dev_t bootdev, char *p)
 {
 #ifndef SMALL_BOOT
+	extern int i386_bootdev;
+
+	i386_bootdev = bootdev;
 	if ((tori_bootflag) && (bootdev == (tori_bootflag & 0xFF))) {
 		*p++ = 'c';
 		*p++ = 'd';

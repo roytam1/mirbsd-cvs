@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/stand/boot/cmd.c,v 1.10 2008/12/28 20:43:13 tg Exp $	*/
+/**	$MirOS: src/sys/stand/boot/cmd.c,v 1.11 2008/12/31 16:38:35 tg Exp $	*/
 /*	$OpenBSD: cmd.c,v 1.59 2007/04/27 10:08:34 tom Exp $	*/
 
 /*
@@ -95,7 +95,6 @@ static void ls(char *, struct stat *);
 static int readline(char *, size_t, int);
 char *nextword(char *);
 static char *whatcmd(const struct cmd_table **ct, char *);
-static char *qualify(char *);
 
 char cmd_buf[CMD_BUFF_SIZE];
 
@@ -542,7 +541,7 @@ Xboot(void)
  * Qualifies the path adding necessary dev
  */
 
-static char *
+char *
 qualify(char *name)
 {
 	char *p;

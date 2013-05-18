@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/stand/boot/cmd.h,v 1.3 2006/10/13 19:18:04 tg Exp $ */
+/**	$MirOS: src/sys/stand/boot/cmd.h,v 1.4 2008/08/01 11:25:05 tg Exp $ */
 /*	$OpenBSD: cmd.h,v 1.16 2007/06/13 02:17:32 drahn Exp $	*/
 
 /*
@@ -66,3 +66,4 @@ int bootparse(int);
 void boot(dev_t);
 
 int docmd(void);		/* No longer static: needed by regress test */
+char *qualify(char *);		/* No longer static: needed by cmd_*.c */
