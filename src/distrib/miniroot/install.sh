@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/distrib/miniroot/install.sh,v 1.9 2005/12/21 17:52:13 tg Exp $
+# $MirOS: src/distrib/miniroot/install.sh,v 1.10 2005/12/28 15:11:16 tg Exp $
 # $OpenBSD: install.sh,v 1.152 2005/04/21 21:41:33 krw Exp $
 # $NetBSD: install.sh,v 1.5.2.8 1996/08/27 18:15:05 gwr Exp $
 #
@@ -469,7 +469,7 @@ $_rootuser:*:$_rootuid:
 .
 wq
 EOF
-print "/^@ROOT@/s//$_rootuser/\nwq" | ed -s /mnt/etc/sudoers
+print "%g/@ROOT@/s//$_rootuser/\nwq" | ed -s /mnt/etc/sudoers
 cp -r /mnt/etc/skel /mnt/home/$_rootuser
 chmod 711 /mnt/home/$_rootuser
 chown -R $_rootuid:$_rootuid /mnt/home/$_rootuser

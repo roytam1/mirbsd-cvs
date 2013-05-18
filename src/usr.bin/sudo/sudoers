@@ -1,4 +1,4 @@
-# $MirOS: src/usr.bin/sudo/sudoers,v 1.2 2005/03/13 18:33:37 tg Exp $
+# $MirOS: src/usr.bin/sudo/sudoers,v 1.3 2005/12/18 01:55:45 tg Exp $
 # sudoers file.
 #
 # This file MUST be edited with the 'visudo' command as root.
@@ -13,6 +13,7 @@
 # Defaults specification
 Defaults:root	!syslog
 Defaults:daemon	!syslog
+Defaults:@ROOT@	passwd_timeout=0
 
 # Runas alias specification
 
