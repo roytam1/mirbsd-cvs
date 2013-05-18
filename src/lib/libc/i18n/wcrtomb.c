@@ -1,4 +1,4 @@
-/* $MirOS: src/lib/libc/i18n/wcrtomb.c,v 1.12 2006/10/27 15:52:28 tg Exp $ */
+/* $MirOS: src/lib/libc/i18n/wcrtomb.c,v 1.13 2006/11/01 20:01:19 tg Exp $ */
 
 /*-
  * Copyright (c) 2005, 2006
@@ -24,11 +24,13 @@
  * other issues arising in any way out of its use, even if advised of
  * the possibility of such damage or existence of a defect.
  *-
- * THIS FUNCTION VIOLATES THE INTERFACE DEFINITION!
- * If the 'ps' argument contains a conversion state, at maximum, five
- * bytes (two from the 'ps', three (= MB_CUR_MAX) from the 'wc' argu-
- * ment) are stored. We changed MB_LEN_MAX and MB_CUR_MAX on 20061027
- * to accomodate this fact.
+ * CAVEAT: The interface definition of this function is fuzzy!
+ * If the 'ps' argument contains a conversion state, more octets than
+ * expected can be written, specifically, (MB_CUR_MAX * 2 - 1) bytes:
+ * up to real_MB_CUR_MAX from 'wc' and up to real_MB_CUR_MAX - 1 from
+ * 'ps'. The definitions of MB_LEN_MAX and MB_CUR_MAX were changed in
+ * MirOS on 20061027 to accomodate this fact, which was cheap, due to
+ * us having a real_MB_LEN_MAX of 3 (UTF-8 BMP, CESU-8 externally).
  */
 
 #include <errno.h>
@@ -36,7 +38,7 @@
 
 #include "mir18n.h"
 
-__RCSID("$MirOS: src/lib/libc/i18n/wcrtomb.c,v 1.12 2006/10/27 15:52:28 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/i18n/wcrtomb.c,v 1.13 2006/11/01 20:01:19 tg Exp $");
 
 size_t
 wcrtomb(char *__restrict__ src, wchar_t wc, mbstate_t *__restrict__ ps)
