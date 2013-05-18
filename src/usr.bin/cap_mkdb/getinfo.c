@@ -1,5 +1,5 @@
-/**	$MirOS: src/usr.bin/cap_mkdb/getinfo.c,v 1.3 2006/10/31 01:57:05 tg Exp $ */
-/*	$OpenBSD: getinfo.c,v 1.7 2003/06/10 22:20:45 deraadt Exp $	*/
+/**	$MirOS: src/usr.bin/cap_mkdb/getinfo.c,v 1.4 2006/10/31 02:52:38 tg Exp $ */
+/*	$OpenBSD: getinfo.c,v 1.10 2006/03/18 03:55:09 ray Exp $	*/
 
 /*-
  * Copyright (c) 1992, 1993
@@ -42,7 +42,7 @@
 #include <string.h>
 #include <unistd.h>
 
-__RCSID("$MirOS: src/usr.bin/cap_mkdb/getinfo.c,v 1.3 2006/10/31 01:57:05 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/cap_mkdb/getinfo.c,v 1.4 2006/10/31 02:52:38 tg Exp $");
 
 #define	BFRAG		1024
 #define	BSIZE		1024
@@ -62,7 +62,7 @@ static int	 igetclose(void);
 int	igetnext(char **, char **);
 
 /*
- * Cgetcap searches the capability record buf for the capability cap with
+ * Igetcap searches the capability record buf for the capability cap with
  * type `type'.  A pointer to the value of cap is returned on success, NULL
  * if the requested capability couldn't be found.
  *
@@ -466,7 +466,7 @@ getent(char **cap, u_int *len, char **db_array, int fd, char *name, int depth)
 }
 
 /*
- * Cgetmatch will return 0 if name is one of the names of the capability
+ * Igetmatch will return 0 if name is one of the names of the capability
  * record buf, -1 if not.
  */
 static int
@@ -524,7 +524,7 @@ igetclose(void)
 }
 
 /*
- * Cgetnext() gets either the first or next entry in the logical database
+ * Igetnext() gets either the first or next entry in the logical database
  * specified by db_array.  It returns 0 upon completion of the database, 1
  * upon returning an entry with more remaining, and -1 if an error occurs.
  */
@@ -543,14 +543,15 @@ igetnext(char **bp, char **db_array)
 		(void)igetclose();
 		return (-1);
 	}
-	for(;;) {
+	for (;;) {
 		line = fgetln(pfp, &len);
-		if (line == NULL && pfp) {
-			(void)fclose(pfp);
+		if (line == NULL) {
 			if (ferror(pfp)) {
 				(void)igetclose();
 				return (-1);
 			} else {
+				(void)fclose(pfp);
+				pfp = NULL;
 				if (*++dbp == NULL) {
 					(void)igetclose();
 					return (0);
@@ -562,7 +563,7 @@ igetnext(char **bp, char **db_array)
 					continue;
 			}
 		} else
-			line[len - 1] = '\0';
+			line[len - 1] = '\0';/* XXX - assumes newline */
 		if (len == 1) {
 			slash = 0;
 			continue;
@@ -603,13 +604,20 @@ igetnext(char **bp, char **db_array)
 				break;
 			} else { /* name field extends beyond the line */
 				line = fgetln(pfp, &len);
-				if (line == NULL && pfp) {
-					(void)fclose(pfp);
+				if (line == NULL) {
 					if (ferror(pfp)) {
 						(void)igetclose();
 						return (-1);
 					}
+					/* Move on to next file. */
+					(void)fclose(pfp);
+					pfp = NULL;
+					++dbp;
+					/* NUL terminate nbuf. */
+					*np = '\0';
+					break;
 				} else
+					/* XXX - assumes newline */
 					line[len - 1] = '\0';
 			}
 		}
