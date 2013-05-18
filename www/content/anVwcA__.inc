@@ -1,8 +1,8 @@
 <!-- PageID: jupp -->
-<small class="rcsid">$MirOS: www/content/anVwcA__.inc,v 1.9 2006/01/27 10:35:23 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/anVwcA__.inc,v 1.10 2006/03/19 21:23:19 tg Exp $</small>
 <h1>jupp &ndash; the Editor</h1>
 <p>
- The current version is <em>joe-3.1jupp5</em>.
+ The current version is <em>joe-3.1jupp6</em>.
  This page is accessible under <a href="http://mirbsd.de/jupp">http://mirbsd.de/jupp</a> usually.
 </p>
 
@@ -18,6 +18,11 @@
 </p>
 
 <h3>ChangeLog</h3>
+
+<p>Changes for joe-3.1jupp6:<br />
+ Non-code (documentation) updates.
+ Regenerate externally fetched files and autotools stuff.
+</p>
 
 <p>Changes for joe-3.1jupp5:<br />
  Documentation updates.
@@ -67,9 +72,10 @@
 <ul>
  <li>Please use gzsig(1) to verify
   the integrity of the distfile instead!</li>
- <li>RMD160 (joe-3.1jupp5.cpio.gz) = ef4aea18031ed6886a9dd589b7aa94224f2df78d</li>
- <li>1995370055 392643 /MirOS/dist/jupp/joe-3.1jupp5.cpio.gz</li>
- <li>MD5 (joe-3.1jupp5.cpio.gz) = 6e2a0302fd577f7b0e2ed116a0da004b</li>
+ <li>RMD160 (joe-3.1jupp6.cpio.gz) = 2140048edef4fcc36d1480d8b29d04073b45c655</li>
+ <li>3394796773 398142 /MirOS/dist/jupp/joe-3.1jupp6.cpio.gz</li>
+ <li>MD5 (joe-3.1jupp6.cpio.gz) = 89d6c4aa5ca3d3d07029ed617c082ea4</li>
+ <li>TIGER (joe-3.1jupp6.cpio.gz) = f4ed0c47b8abbdaf9169898f4712bfc8a2b76b957439a524</li>
 </ul>
 
 <h3>Unpacking</h3>
@@ -82,9 +88,9 @@
 <p>
  This is just another GNU autotools programme, so doing
 </p><ul>
- <li>$SHELL ./configure</li>
- <li>make CFLAGS='-O2 yourcflagshere'</li>
- <li>make install</li>
+ <li>CFLAGS='-O2 yourcflagshere' $SHELL ./configure</li>
+ <li>make</li>
+ <li>$SUDO make install</li>
 </ul><p>
  should be fine - it even works with BSD make on MirOS without
  further patching. I'd be interested though if UTF-8 support
