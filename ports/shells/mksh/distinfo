@@ -1,9 +1,9 @@
 $MirOS$
 
-3018305415 268074 mksh-R37c.cpio.gz
-MD5 (mksh-R37c.cpio.gz) = ecd6b95dbdb5ead1fc065a3044142379
-RMD160 (mksh-R37c.cpio.gz) = 3403ae2195a1f369df2ee64fbb3ec2a4c62d2212
-SHA1 (mksh-R37c.cpio.gz) = 7c231b7add0317a427aa0829e9d13f28333d1549
-SHA256 (mksh-R37c.cpio.gz) = afa977849d1134ac96f8efdcfe4a7fbdb1c7220ce1ec9b4e0adb96b58eb1b52f
-SIZE (mksh-R37c.cpio.gz) = 268074
-TIGER (mksh-R37c.cpio.gz) = d06fd072a26d552047d4597e0f65f5aaa1d1fb38d21014ce
+3205774625 276123 mksh-R38.cpio.gz
+MD5 (mksh-R38.cpio.gz) = e2fa1f50690abf763cc3e4d8e1612728
+RMD160 (mksh-R38.cpio.gz) = 90f1a119ca8d6e048facab53d876600bba60c6f8
+SHA1 (mksh-R38.cpio.gz) = 8435ad446a1d393063495e42b8648b06974bac71
+SHA256 (mksh-R38.cpio.gz) = 62bb093f059be24b62823097c7f47f3ff863038f70a393a705bc569a2cf1ee0f
+SIZE (mksh-R38.cpio.gz) = 276123
+TIGER (mksh-R38.cpio.gz) = b896a964170bea97704ab86056b074d605eb220aa95d40c7

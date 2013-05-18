@@ -4,7 +4,7 @@ milar to the original AT&T Korn shell; mksh is the only pdksh
 derivate currently being actively developed.  It includes bug
 fixes and feature improvements, in order to produce a modern,
 robust shell good for interactive and especially script use.
-mksh has UTF-8 support (e.g. in the emacs editing mode); R37c
+mksh has UTF-8 support (e.g. in the emacs editing mode); R38a
 corresponds to OpenBSD 4.5-current ksh (without GNU bash-like
 $PS1 and fancy character classes).  The code has throughoutly
 been cleaned up and simplified, bugs fixed, standards compli‐
