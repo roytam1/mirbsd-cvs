@@ -96,7 +96,7 @@
 #include "scard.h"
 #endif
 
-__RCSID("$MirOS: src/usr.bin/ssh/ssh.c,v 1.27 2009/10/02 16:58:49 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/ssh.c,v 1.28 2009/10/04 14:29:11 tg Exp $");
 
 extern char *__progname;
 
@@ -595,8 +595,13 @@ main(int ac, char **av)
 			fatal("Can't open user config file %.100s: "
 			    "%.100s", config, strerror(errno));
 	} else {
-		r = snprintf(buf, sizeof buf, "%s/%s", pw->pw_dir,
-		    _PATH_SSH_USER_CONFFILE);
+		if (!pw->pw_dir || !pw->pw_dir[0] || (pw->pw_dir[0] == '/' &&
+		    !pw->pw_dir[1]))
+			r = snprintf(buf, sizeof(buf), "%s",
+			    _PATH_SSH_ROOT_CONFFILE);
+		else
+			r = snprintf(buf, sizeof(buf), "%s/%s", pw->pw_dir,
+			    _PATH_SSH_USER_CONFFILE);
 		if (r > 0 && (size_t)r < sizeof(buf))
 			(void)read_config_file(buf, host, &options, 1);
 
@@ -606,7 +611,7 @@ main(int ac, char **av)
 	}
 
 	/* Fill configuration defaults. */
-	fill_default_options(&options);
+	fill_default_options(&options, pw);
 
 	channel_set_af(options.address_family);
 

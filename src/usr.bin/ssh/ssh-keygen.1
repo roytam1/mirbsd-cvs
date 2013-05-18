@@ -1,4 +1,4 @@
-.\"	$MirOS: src/usr.bin/ssh/ssh-keygen.1,v 1.11 2007/06/16 15:41:51 tg Exp $
+.\"	$MirOS: src/usr.bin/ssh/ssh-keygen.1,v 1.12 2008/12/16 20:55:29 tg Exp $
 .\"	$OpenBSD: ssh-keygen.1,v 1.79 2008/07/24 23:55:30 sthen Exp $
 .\"
 .\"  -*- nroff -*-
@@ -417,6 +417,9 @@ The contents of this file should be added to
 .Po or Pa ~/.ssh/authorized_keys Pc
 on all machines
 where the user wishes to log in using RSA authentication.
+If the user is the superuser and his home directory the root or unset,
+.Pa /etc/ssh/root:authorised_keys
+is used instead.
 There is no need to keep the contents of this file secret.
 .It Pa ~/.etc/ssh/id_dsa
 Contains the protocol version 2 DSA authentication identity of the user.
@@ -436,6 +439,9 @@ The contents of this file should be added to
 .Po or Pa ~/.ssh/authorized_keys Pc
 on all machines
 where the user wishes to log in using public key authentication.
+If the user is the superuser and his home directory the root or unset,
+.Pa /etc/ssh/root:authorised_keys
+is used instead.
 There is no need to keep the contents of this file secret.
 .It Pa ~/.etc/ssh/id_rsa
 Contains the protocol version 2 RSA authentication identity of the user.
@@ -455,6 +461,9 @@ The contents of this file should be added to
 .Po or Pa ~/.ssh/authorized_keys Pc
 on all machines
 where the user wishes to log in using public key authentication.
+If the user is the superuser and his home directory the root or unset,
+.Pa /etc/ssh/root:authorised_keys
+is used instead.
 There is no need to keep the contents of this file secret.
 .It Pa /etc/moduli
 Contains Diffie-Hellman groups used for DH-GEX.

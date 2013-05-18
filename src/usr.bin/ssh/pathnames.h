@@ -1,4 +1,4 @@
-/* $MirOS: src/usr.bin/ssh/pathnames.h,v 1.4 2006/07/23 14:19:27 tg Exp $ */
+/* $MirOS: src/usr.bin/ssh/pathnames.h,v 1.5 2009/03/22 15:01:18 tg Exp $ */
 /* $OpenBSD: pathnames.h,v 1.17 2008/12/29 02:23:26 stevesk Exp $ */
 
 /*
@@ -52,6 +52,9 @@
  */
 #define _PATH_SSH_USER_DIR		".etc/ssh"
 
+/* Prefix for configuration files for root, if his HOME is "/" */
+#define _PATH_SSH_ROOT_PFX		SSHDIR "/root:"
+
 /*
  * Per-user file containing host keys of known hosts.  This file need not be
  * readable by anyone except the user him/herself, though this does not
@@ -60,6 +63,9 @@
 #define _PATH_SSH_USER_HOSTFILE		"~/.etc/ssh/known_hosts"
 /* backward compat for protocol 2 */
 #define _PATH_SSH_USER_HOSTFILE2	"~/.etc/ssh/known_hosts2"
+
+/* for root with HOME=/ */
+#define _PATH_SSH_ROOT_HOSTFILE		_PATH_SSH_ROOT_PFX "known_hosts"
 
 /*
  * Name of the default file containing client-side authentication key. This
@@ -77,6 +83,9 @@
  */
 #define _PATH_SSH_USER_CONFFILE		".etc/ssh/config"
 
+/* for root with HOME=/ */
+#define _PATH_SSH_ROOT_CONFFILE		_PATH_SSH_ROOT_PFX "config"
+
 /*
  * File containing a list of those rsa keys that permit logging in as this
  * user.  This file need not be readable by anyone but the user him/herself,
@@ -89,6 +98,9 @@
 
 /* rarely known feature */
 #define _PATH_SSH_USER_PERMITTED_KEYS2	".ssh/authorized_keys"
+
+/* for root with HOME=/ */
+#define _PATH_SSH_ROOT_PERMITTED_KEYS	_PATH_SSH_ROOT_PFX "authorised_keys"
 
 /*
  * Per-user and system-wide ssh "rc" files.  These files are executed with

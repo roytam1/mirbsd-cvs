@@ -44,7 +44,7 @@
 #include "monitor_wrap.h"
 #include "pathnames.h"
 
-__RCSID("$MirOS: src/usr.bin/ssh/auth2-hostbased.c,v 1.5 2008/12/16 20:55:19 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/auth2-hostbased.c,v 1.6 2008/12/16 22:13:26 tg Exp $");
 
 /* import */
 extern ServerOptions options;
@@ -171,7 +171,12 @@ hostbased_key_allowed(struct passwd *pw, const char *cuser, char *chost,
 
 	host_status = check_key_in_hostfiles(pw, key, lookup,
 	    _PATH_SSH_SYSTEM_HOSTFILE,
-	    options.ignore_user_known_hosts ? NULL : _PATH_SSH_USER_HOSTFILE);
+	    options.ignore_user_known_hosts ? NULL :
+#ifdef _PATH_SSH_ROOT_HOSTFILE
+	    (!pw->pw_dir || !pw->pw_dir[0] || (pw->pw_dir[0] == '/' &&
+	    !pw->pw_dir[1])) ? _PATH_SSH_ROOT_HOSTFILE :
+#endif
+	    _PATH_SSH_USER_HOSTFILE);
 
 	/* backward compat if no key has been found. */
 	if (host_status == HOST_NEW)

@@ -1,5 +1,5 @@
 # $MirSecuCron$
-# $MirOS: src/etc/rc,v 1.111 2010/07/11 17:35:09 tg Exp $
+# $MirOS: src/etc/rc,v 1.112 2010/10/01 17:22:05 tg Exp $
 # $OpenBSD: rc,v 1.277 2006/01/12 21:54:15 deraadt Exp $
 #-
 # System startup script run by init on autoboot or after single-user.
@@ -824,16 +824,15 @@ EOF
 x=$(dd if=/dev/rrd0c count=16 2>/dev/wrandom | cksum -a adler32)
 [[ $x = 1B32098C ]] && swapctl -ap0 /dev/rd0c
 
-if [[ $sshagent_autostart != NO ]]; then
-	echo Setting up ssh-agent directories...
-	mkdir -m 0755 /var/run/ssh-agent
-	chown root:daemon /var/run/ssh-agent
-	for luser in $sshagent_autostart; do
-		mkdir -m 0700 /var/run/ssh-agent/$luser
-		chown $luser /var/run/ssh-agent/$luser
-		rm -f /var/run/ssh-agent/$luser/agent
-	done
-fi
+[[ $sshagent_autostart = NO ]] && sshagent_autostart=
+echo Setting up ssh-agent directories...
+mkdir -m 0755 /var/run/ssh-agent
+chown root:daemon /var/run/ssh-agent
+for luser in 0 $sshagent_autostart; do
+	mkdir -m 0700 /var/run/ssh-agent/$luser
+	chown $luser /var/run/ssh-agent/$luser
+	rm -f /var/run/ssh-agent/$luser/agent
+done
 
 echo -n standard daemons:
 # don't run daemon if $food_flags == NO or /usr/sbin/food doesn't exist

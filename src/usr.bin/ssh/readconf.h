@@ -1,4 +1,4 @@
-/* $MirOS: src/usr.bin/ssh/readconf.h,v 1.12 2009/03/22 15:01:19 tg Exp $ */
+/* $MirOS: src/usr.bin/ssh/readconf.h,v 1.13 2009/10/04 14:29:06 tg Exp $ */
 /* $OpenBSD: readconf.h,v 1.79 2009/06/27 09:35:06 andreas Exp $ */
 
 /*
@@ -132,8 +132,10 @@ typedef struct {
 #define SSHCTL_MASTER_ASK	3
 #define SSHCTL_MASTER_AUTO_ASK	4
 
+struct passwd;	/* in case this was not imported */
+
 void     initialize_options(Options *);
-void     fill_default_options(Options *);
+void     fill_default_options(Options *, struct passwd *);
 int	 read_config_file(const char *, const char *, Options *, int);
 int	 parse_forward(Forward *, const char *, int, int);
 

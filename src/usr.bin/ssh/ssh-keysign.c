@@ -50,7 +50,7 @@
 #include "readconf.h"
 #include "uidswap.h"
 
-__RCSID("$MirOS: src/usr.bin/ssh/ssh-keysign.c,v 1.4 2006/09/20 21:41:05 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/ssh-keysign.c,v 1.5 2010/09/21 21:24:38 tg Exp $");
 
 /* XXX readconf.c needs these */
 uid_t original_real_uid;
@@ -179,7 +179,7 @@ main(void)
 	/* verify that ssh-keysign is enabled by the admin */
 	initialize_options(&options);
 	(void)read_config_file(_PATH_HOST_CONFIG_FILE, "", &options, 0);
-	fill_default_options(&options);
+	fill_default_options(&options, pw);
 	if (options.enable_ssh_keysign != 1)
 		fatal("ssh-keysign not enabled in %s",
 		    _PATH_HOST_CONFIG_FILE);

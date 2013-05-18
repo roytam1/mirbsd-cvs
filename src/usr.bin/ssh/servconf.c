@@ -40,7 +40,7 @@
 #include "channels.h"
 #include "groupaccess.h"
 
-__RCSID("$MirOS: src/usr.bin/ssh/servconf.c,v 1.22 2009/03/22 15:01:19 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/servconf.c,v 1.23 2009/10/04 14:29:07 tg Exp $");
 
 static void add_listen_addr(ServerOptions *, char *, int);
 static void add_one_listen_addr(ServerOptions *, char *, int);
@@ -109,7 +109,7 @@ initialize_server_options(ServerOptions *options)
 	options->use_dns = -1;
 	options->client_alive_interval = -1;
 	options->client_alive_count_max = -1;
-	options->authorised_keys_file = NULL;
+	options->authorised_keys_file1 = NULL;
 	options->authorised_keys_file2 = NULL;
 	options->num_accept_env = 0;
 	options->permit_tun = -1;
@@ -221,14 +221,14 @@ fill_default_server_options(ServerOptions *options)
 	if (options->client_alive_count_max == -1)
 		options->client_alive_count_max = 3;
 	if (options->authorised_keys_file2 == NULL) {
-		/* authorised_keys_file2 falls back to authorised_keys_file */
-		if (options->authorised_keys_file != NULL)
-			options->authorised_keys_file2 = options->authorised_keys_file;
+		/* authorised_keys_file2 falls back to authorised_keys_file1 */
+		if (options->authorised_keys_file1 != NULL)
+			options->authorised_keys_file2 = options->authorised_keys_file1;
 		else
 			options->authorised_keys_file2 = (char *)_PATH_SSH_USER_PERMITTED_KEYS2;
 	}
-	if (options->authorised_keys_file == NULL)
-		options->authorised_keys_file = (char *)_PATH_SSH_USER_PERMITTED_KEYS;
+	if (options->authorised_keys_file1 == NULL)
+		options->authorised_keys_file1 = (char *)_PATH_SSH_USER_PERMITTED_KEYS;
 	if (options->permit_tun == -1)
 		options->permit_tun = SSH_TUNMODE_NO;
 	if (options->zero_knowledge_password_authentication == -1)
@@ -1092,7 +1092,7 @@ process_server_config_line(ServerOptions *options, char *line,
 	case sAuthorisedKeysFile:
 	case sAuthorisedKeysFile2:
 		charptr = (opcode == sAuthorisedKeysFile) ?
-		    &options->authorised_keys_file :
+		    &options->authorised_keys_file1 :
 		    &options->authorised_keys_file2;
 		goto parse_filename;
 
@@ -1522,7 +1522,7 @@ dump_config(ServerOptions *o)
 	dump_cfg_string(sCiphers, o->ciphers);
 	dump_cfg_string(sMacs, o->macs);
 	dump_cfg_string(sBanner, o->banner);
-	dump_cfg_string(sAuthorisedKeysFile, o->authorised_keys_file);
+	dump_cfg_string(sAuthorisedKeysFile, o->authorised_keys_file1);
 	dump_cfg_string(sAuthorisedKeysFile2, o->authorised_keys_file2);
 	dump_cfg_string(sForceCommand, o->adm_forced_command);
 

@@ -34,9 +34,9 @@
 .\" (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
 .\" THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .\"
-.\" $MirOS: src/usr.bin/ssh/ssh.1,v 1.27 2009/03/22 15:01:21 tg Exp $
+.\" $MirOS: src/usr.bin/ssh/ssh.1,v 1.28 2009/10/02 16:58:49 tg Exp $
 .\" $OpenBSD: ssh.1,v 1.283 2009/03/19 15:15:09 jmc Exp $
-.Dd $Mdocdate: March 22 2009 $
+.Dd $Mdocdate: October 2 2009 $
 .Dt SSH 1
 .Os
 .Sh NAME
@@ -260,6 +260,9 @@ the system-wide configuration file
 will be ignored.
 The default for the per-user configuration file is
 .Pa ~/.etc/ssh/config .
+If the user is the superuser and his home directory the root or unset,
+.Pa /etc/ssh/root:config
+is used instead.
 .It Fl f
 Requests
 .Nm
@@ -740,6 +743,8 @@ contains a brief discussion of the two algorithms.
 .Pp
 The file
 .Pa ~/.etc/ssh/authorised_keys
+or, if the user is the superuser and his home directory the root or unset,
+.Pa /etc/ssh/root:authorised_keys
 (or, portably,
 .Pa ~/.ssh/authorized_keys )
 lists the public keys that are permitted for logging in.
@@ -776,6 +781,9 @@ to
 (or, portably,
 .Pa ~/.ssh/authorized_keys )
 in his/her home directory on the remote machine.
+If the user is the superuser and his home directory the root or unset,
+/etc/ssh/root:authorised_keys
+is used instead.
 The
 .Pa authorised_keys
 file corresponds to the conventional
@@ -813,7 +821,9 @@ automatically maintains and checks a database containing
 identification for all hosts it has ever been used with.
 Host keys are stored in
 .Pa ~/.etc/ssh/known_hosts
-in the user's home directory.
+in the user's home directory and
+.Pa /etc/ssh/root:known_hosts
+if the user is the superuser and his home directory the root or unset.
 Additionally, the file
 .Pa /etc/ssh/ssh_known_hosts
 is automatically checked for known hosts.
@@ -1287,6 +1297,9 @@ manual page.
 This file is not highly sensitive, but the recommended
 permissions are read/write for the user, and not accessible by others.
 .Pp
+.It /etc/ssh/root:authorised_keys
+The same, for the superuser, if his home is the root directory or unset.
+.Pp
 .It ~/.ssh/authorized_keys
 Portable name for the above file.
 .Pp
@@ -1296,6 +1309,9 @@ The file format and configuration options are described in
 .Xr ssh_config 5 .
 Because of the potential for abuse, this file must have strict permissions:
 read/write for the user, and not accessible by others.
+.Pp
+.It /etc/ssh/root:config
+The same, for the superuser, if his home is the root directory or unset.
 .Pp
 .It ~/.etc/ssh/environment
 Contains additional definitions for environment variables; see
@@ -1328,6 +1344,9 @@ that are not already in the systemwide list of known host keys.
 See
 .Xr sshd 8
 for further details of the format of this file.
+.Pp
+.It /etc/ssh/root:known_hosts
+The same, for the superuser, if his home is the root directory or unset.
 .Pp
 .It ~/.etc/ssh/rc
 Commands in this file are executed by

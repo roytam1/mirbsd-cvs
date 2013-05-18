@@ -52,8 +52,9 @@
 #include "misc.h"
 #include "packet.h"
 #include "monitor_wrap.h"
+#include "pathnames.h"
 
-__RCSID("$MirOS: src/usr.bin/ssh/auth.c,v 1.10 2008/12/16 22:13:26 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/auth.c,v 1.11 2009/10/04 14:29:01 tg Exp $");
 
 /* import */
 extern ServerOptions options;
@@ -259,7 +260,10 @@ expand_authorised_keys(const char *filename, struct passwd *pw)
 char *
 authorised_keys_file(struct passwd *pw)
 {
-	return expand_authorised_keys(options.authorised_keys_file, pw);
+	if (!pw->pw_dir || !pw->pw_dir[0] || (pw->pw_dir[0] == '/' &&
+	    !pw->pw_dir[1]))
+		return (xstrdup(_PATH_SSH_ROOT_PERMITTED_KEYS));
+	return expand_authorised_keys(options.authorised_keys_file1, pw);
 }
 
 char *

@@ -1,4 +1,4 @@
-# $MirOS: src/etc/Makefile,v 1.45 2009/09/06 15:08:00 tg Exp $
+# $MirOS: src/etc/Makefile,v 1.47 2009/10/29 00:47:45 tg Exp $
 # $OpenBSD: Makefile,v 1.226 2005/05/26 23:06:06 mcbride Exp $
 
 TZDIR=		/usr/share/zoneinfo
@@ -153,6 +153,8 @@ etc-files:
 	    ${DESTDIR}/etc/mail/
 	${INSTALL} -c -o ${BINOWN} -g ${CONFGRP} -m 644 ssh_known_hosts \
 	    ${DESTDIR}/etc/ssh/
+	${INSTALL} -c -o 0 -g 0 -m 644 ssh_root_config \
+	    ${DESTDIR}/etc/ssh/root:config
 .endif # destdir
 
 MAKEDEVARCHS+= i386
@@ -229,7 +231,7 @@ install-generated:
 DHSIZE=	1024 1536 2048 3072 4096
 update-moduli:
 	{ \
-		echo '# $$MirOS: src/etc/Makefile,v 1.45 2009/09/06 15:08:00 tg Exp $$'; \
+		echo '# $$MirOS: src/etc/Makefile,v 1.47 2009/10/29 00:47:45 tg Exp $$'; \
 		echo '# Time Type Tests Tries Size Generator Modulus'; \
 		for i in ${DHSIZE}; do \
 			ssh-keygen -b $$i -G /dev/stdout; \

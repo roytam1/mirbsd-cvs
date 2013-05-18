@@ -45,7 +45,7 @@
 #include "scard.h"
 #endif
 
-__RCSID("$MirOS: src/usr.bin/ssh/ssh-keygen.c,v 1.21 2009/03/22 15:01:21 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/ssh-keygen.c,v 1.22 2009/10/04 14:29:10 tg Exp $");
 
 /* Number of bits in the RSA/DSA key.  This value can be set on the command line. */
 #define DEFAULT_BITS		2048
@@ -725,7 +725,12 @@ do_known_hosts(struct passwd *pw, const char *name)
 	int c, skip = 0, inplace = 0, num = 0, invalid = 0, has_unhashed = 0;
 
 	if (!have_identity) {
-		cp = tilde_expand_filename(_PATH_SSH_USER_HOSTFILE, pw->pw_uid);
+		cp = tilde_expand_filename(
+#ifdef _PATH_SSH_ROOT_HOSTFILE
+		    (!pw->pw_dir || !pw->pw_dir[0] || (pw->pw_dir[0] == '/' &&
+		    !pw->pw_dir[1])) ? _PATH_SSH_ROOT_HOSTFILE :
+#endif
+		    _PATH_SSH_USER_HOSTFILE, pw->pw_uid);
 		if (strlcpy(identity_file, cp, sizeof(identity_file)) >=
 		    sizeof(identity_file))
 			fatal("Specified known hosts path too long");

@@ -21,6 +21,7 @@
 #include <ctype.h>
 #include <errno.h>
 #include <netdb.h>
+#include <pwd.h>
 #include <signal.h>
 #include <stdio.h>
 #include <string.h>
@@ -40,7 +41,7 @@
 #include "kex.h"
 #include "mac.h"
 
-__RCSID("$MirOS: src/usr.bin/ssh/readconf.c,v 1.18 2009/10/02 16:58:48 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/readconf.c,v 1.19 2009/10/04 14:29:06 tg Exp $");
 
 /* Format of the configuration file:
 
@@ -983,7 +984,7 @@ read_config_file(const char *filename, const char *host, Options *options,
  */
 
 void
-initialize_options(Options * options)
+initialize_options(Options *options)
 {
 	memset(options, 'X', sizeof(*options));
 	options->forward_agent = -1;
@@ -1061,7 +1062,7 @@ initialize_options(Options * options)
  */
 
 void
-fill_default_options(Options * options)
+fill_default_options(Options *options, struct passwd *pw)
 {
 	int len;
 
@@ -1148,7 +1149,12 @@ fill_default_options(Options * options)
 	if (options->system_hostfile == NULL)
 		options->system_hostfile = (char *)_PATH_SSH_SYSTEM_HOSTFILE;
 	if (options->user_hostfile == NULL)
-		options->user_hostfile = (char *)_PATH_SSH_USER_HOSTFILE;
+		options->user_hostfile =
+#ifdef _PATH_SSH_ROOT_HOSTFILE
+		    (!pw->pw_dir || !pw->pw_dir[0] || (pw->pw_dir[0] == '/' &&
+		    !pw->pw_dir[1])) ? (char *)_PATH_SSH_ROOT_HOSTFILE :
+#endif
+		    (char *)_PATH_SSH_USER_HOSTFILE;
 	if (options->system_hostfile2 == NULL)
 		options->system_hostfile2 = (char *)_PATH_SSH_SYSTEM_HOSTFILE2;
 	if (options->user_hostfile2 == NULL)

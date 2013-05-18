@@ -30,7 +30,7 @@
 #include "canohost.h"
 #include "monitor_wrap.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.bin/ssh/auth-rh-rsa.c,v 1.3 2008/12/16 20:55:18 tg Exp $");
 
 /* import */
 extern ServerOptions options;
@@ -47,7 +47,12 @@ auth_rhosts_rsa_key_allowed(struct passwd *pw, char *cuser, char *chost,
 
 	host_status = check_key_in_hostfiles(pw, client_host_key,
 	    chost, _PATH_SSH_SYSTEM_HOSTFILE,
-	    options.ignore_user_known_hosts ? NULL : _PATH_SSH_USER_HOSTFILE);
+	    options.ignore_user_known_hosts ? NULL :
+#ifdef _PATH_SSH_ROOT_HOSTFILE
+	    (!pw->pw_dir || !pw->pw_dir[0] || (pw->pw_dir[0] == '/' &&
+	    !pw->pw_dir[1])) ? _PATH_SSH_ROOT_HOSTFILE :
+#endif
+	    _PATH_SSH_USER_HOSTFILE);
 
 	return (host_status == HOST_OK);
 }

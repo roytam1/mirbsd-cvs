@@ -34,7 +34,7 @@
 .\" (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
 .\" THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .\"
-.\" $MirOS: src/usr.bin/ssh/sshd.8,v 1.18 2009/03/22 15:01:25 tg Exp $
+.\" $MirOS: src/usr.bin/ssh/sshd.8,v 1.19 2009/10/04 14:29:12 tg Exp $
 .\" $OpenBSD: sshd.8,v 1.248 2009/03/26 08:38:39 sobrado Exp $
 .Dd $Mdocdate: October 4 2009 $
 .Dt SSHD 8
@@ -437,6 +437,9 @@ specifies the file containing public keys for
 public key authentication;
 if none is specified, the default is
 .Pa ~/.etc/ssh/authorised_keys .
+If the user is the superuser and his home directory the root or unset,
+/etc/ssh/root:authorised_keys
+is used instead.
 Each line of the file contains one
 key (empty lines and lines starting with a
 .Ql #
@@ -588,6 +591,9 @@ The
 .Pa /etc/ssh/ssh_known_hosts
 and
 .Pa ~/.etc/ssh/known_hosts
+and
+.Pa /etc/ssh/root:known_hosts ,
+if the user is the superuser and his home directory the root or unset,
 files contain host public keys for all known hosts.
 The global file should
 be prepared by the administrator (optional), and the per-user file is
@@ -722,6 +728,9 @@ will not allow it to be used unless the
 option has been set to
 .Dq no .
 .Pp
+.It /etc/ssh/root:authorised_keys
+The same, for the superuser, if his home is the root directory or unset.
+.Pp
 .It ~/.ssh/authorized_keys
 Portable name for the above file.
 .Pp
@@ -743,6 +752,9 @@ that are not already in the systemwide list of known host keys.
 The format of this file is described above.
 This file should be writable only by root/the owner and
 can, but need not be, world-readable.
+.Pp
+.It /etc/ssh/root:known_hosts
+The same, for the superuser, if his home is the root directory or unset.
 .Pp
 .It ~/.etc/ssh/rc
 Contains initialization routines to be run before

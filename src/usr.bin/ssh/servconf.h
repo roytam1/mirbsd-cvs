@@ -1,4 +1,4 @@
-/* $MirOS: src/usr.bin/ssh/servconf.h,v 1.11 2008/12/16 20:55:26 tg Exp $ */
+/* $MirOS: src/usr.bin/ssh/servconf.h,v 1.12 2009/03/22 15:01:19 tg Exp $ */
 /* $OpenBSD: servconf.h,v 1.87 2009/01/22 10:02:34 djm Exp $ */
 
 /*
@@ -127,8 +127,8 @@ typedef struct {
 					 * disconnect the session
 					 */
 
-	char   *authorised_keys_file;	/* File containing public keys */
-	char   *authorised_keys_file2;
+	char   *authorised_keys_file1;	/* File containing public keys */
+	char   *authorised_keys_file2;	/* Same; note not used for root */
 
 	char   *adm_forced_command;
 
