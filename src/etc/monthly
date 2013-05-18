@@ -1,8 +1,8 @@
 #!/bin/mksh
-# $MirOS: src/etc/monthly,v 1.5 2006/01/03 03:54:56 tg Exp $
+# $MirOS: src/etc/monthly,v 1.6 2006/05/15 12:13:56 tg Exp $
 # $OpenBSD: monthly,v 1.5 1998/02/02 23:08:57 millert Exp $
 
-export TZ=UTC
+export TZ=UTC PATH=/bin:/usr/bin:/sbin:/usr/sbin:/usr/local/bin:/usr/mpkg/bin
 cd /
 
 if [ -f /etc/monthly.local ];then
