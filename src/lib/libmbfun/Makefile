@@ -1,4 +1,4 @@
-# $MirOS: src/lib/libmbfun/Makefile,v 1.1 2010/08/14 20:53:05 tg Exp $
+# $MirOS: src/lib/libmbfun/Makefile,v 1.2 2010/08/14 21:10:18 tg Exp $
 
 LIB=		mbfun
 HDRS=		mbfun.h
@@ -15,7 +15,14 @@ UNIFDEF_SRCS+=	${_src}.c ${_dst}.c -DL_${_dst}
 MLINKS+=	${_src}.3 ${_dst}.3
 .endfor
 
-.for _z _q _s in ${UNIFDEF_SRCS} ${UIF_LSRCS}
+KERNNOGCC=		#defined
+KERNPICKSRCS=		Yes
+KERNBASE?=		${.CURDIR}/../../kern
+.include "${KERNBASE}/c/Makefile.inc"
+SRCS+=			${KXSRCS}
+UNIFDEF_SRCS+=		${UIF_KXSRCS}
+
+.for _z _q _s in ${UNIFDEF_SRCS}
 CLEANFILES+=	${_z}
 
 ${_z}: ${_q}

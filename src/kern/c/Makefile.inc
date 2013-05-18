@@ -1,4 +1,4 @@
-# $MirOS: src/kern/c/Makefile.inc,v 1.22 2011/01/03 19:02:48 tg Exp $
+# $MirOS: src/kern/c/Makefile.inc,v 1.23 2011/07/06 22:22:07 tg Exp $
 
 .ifndef _KERNBASE_C_MAKEFILE_INC
 _KERNBASE_C_MAKEFILE_INC=	#defined
@@ -24,7 +24,8 @@ _KERNBASE_C_MAKEFILE_INC=	#defined
 .PATH: ${KERNBASE}/c/${MACHINE_ARCH}
 .PATH: ${KERNBASE}/c
 
-# XSRCS, UNIFDEF_SRCS:	kernel, userland, bootloader
+# XSRCS, UIF_XSRCS:	kernel, userland, bootloader
+# KXSRCS, UIF_KXSRCS:	kernel, libmbfun, bootloader
 # KUSRCS, UIF_KUSRCS:	kernel, userland
 # NUSRCS, UIF_NUSRCS:	userland
 # LSRCS, UIF_LSRCS:	lint libraries (userland)
@@ -39,17 +40,17 @@ UIF_KUSRCS+=	tai_tai2mjd.c taitime.c -DL_tai2mjd
 UIF_KUSRCS+=	tai_mjd2tm.c taitime.c -DL_mjd2tm
 UIF_KUSRCS+=	tai_tm2mjd.c taitime.c -DL_tm2mjd
 
-UNIFDEF_SRCS+=	strlcpy.c strlfun.c -DL_strlcpy
-UNIFDEF_SRCS+=	strlcat.c strlfun.c -DL_strlcat
-UNIFDEF_SRCS+=	strxfrm.c strlfun.c -DL_strxfrm
+UIF_XSRCS+=	strlcpy.c strlfun.c -DL_strlcpy
+UIF_XSRCS+=	strlcat.c strlfun.c -DL_strlcat
+UIF_XSRCS+=	strxfrm.c strlfun.c -DL_strxfrm
 UIF_NUSRCS+=	wcslcpy.c strlfun.c -DL_strlcpy,-DWIDEC
 UIF_NUSRCS+=	wcslcat.c strlfun.c -DL_strlcat,-DWIDEC
 UIF_NUSRCS+=	wcsxfrm.c strlfun.c -DL_strxfrm,-DWIDEC
 
 UIF_NUSRCS+=	wcscmp.c strcmp.c -DWIDEC
 
-UNIFDEF_SRCS+=	strcasecmp.c strcasecmpfun.c -DSTRCASECMP
-UNIFDEF_SRCS+=	strncasecmp.c strcasecmpfun.c -DSTRNCASECMP
+UIF_XSRCS+=	strcasecmp.c strcasecmpfun.c -DSTRCASECMP
+UIF_XSRCS+=	strncasecmp.c strcasecmpfun.c -DSTRNCASECMP
 UIF_NUSRCS+=	wcscasecmp.c strcasecmpfun.c -DWCSCASECMP
 UIF_NUSRCS+=	wcsncasecmp.c strcasecmpfun.c -DWCSNCASECMP
 
@@ -76,21 +77,24 @@ KUSRCS+=	arcfour_ksa256.c
 
 .ifndef KERNSTAND
 XSRCS+=		${KUSRCS}
-UNIFDEF_SRCS+=	${UIF_KUSRCS}
+UIF_XSRCS+=	${UIF_KUSRCS}
 .endif
 
 .ifdef KERNISUSR
 XSRCS+=		${NUSRCS}
-UNIFDEF_SRCS+=	${UIF_NUSRCS}
+UIF_XSRCS+=	${UIF_NUSRCS}
+.else
+XSRCS+=		${KXSRCS}
+UIF_XSRCS+=	${UIF_KXSRCS}
 .endif
 
-.for _z _q _s in ${UNIFDEF_SRCS}
+.for _z _q _s in ${UIF_XSRCS}
 XSRCS+=		${_z}
 .endfor
 .for _z _q _s in ${UIF_LSRCS}
 LSRCS+=		${_z}
 .endfor
-.for _z _q _s in ${UNIFDEF_SRCS} ${UIF_LSRCS}
+.for _z _q _s in ${UIF_XSRCS} ${UIF_LSRCS}
 CLEANFILES+=	${_z}
 
 ${_z}: ${_q}
