@@ -1,10 +1,11 @@
-# $MirOS: src/usr.bin/sudo/noexec/Makefile,v 1.3 2005/04/10 20:33:09 tg Exp $
+# $MirOS: src/usr.bin/sudo/noexec/Makefile,v 1.4 2005/11/23 20:38:24 tg Exp $
 # $OpenBSD: Makefile,v 1.1 2004/09/28 15:10:51 millert Exp $
 
 .PATH:		${.CURDIR}/..
 
 LIB=		noexec
 NOMAN=		yes
+_LIBS_STATIC=	No
 SRCS=		sudo_noexec.c
 LIBDIR=		/usr/libexec
 
