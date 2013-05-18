@@ -65,6 +65,8 @@
 #include <openssl/buffer.h>
 #include <openssl/err.h>
 
+__RCSID("$MirOS$");
+
 static int asn1_check_eoc(unsigned char **in, long len);
 static int asn1_find_end(unsigned char **in, long len, char inf);
 static int asn1_collect(BUF_MEM *buf, unsigned char **in, long len, char inf, int tag, int aclass);
@@ -474,7 +476,6 @@ static int asn1_template_ex_d2i(ASN1_VALUE **val, unsigned char **in, long inlen
 
 	err:
 	ASN1_template_free(val, tt);
-	*val = NULL;
 	return 0;
 }
 
@@ -574,7 +575,6 @@ static int asn1_template_noexp_d2i(ASN1_VALUE **val, unsigned char **in, long le
 
 	err:
 	ASN1_template_free(val, tt);
-	*val = NULL;
 	return 0;
 }
 
