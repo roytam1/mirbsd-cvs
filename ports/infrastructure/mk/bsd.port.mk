@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.141 2006/11/04 00:27:19 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.142 2006/11/04 00:29:15 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -1119,7 +1119,7 @@ DEPENDS_TARGET=		install
 # Various dependency styles
 
 _build_depends_fragment= \
-	if ${PKG_CMD_PKG} dependencies check "$$pkg"; then \
+	if ${PKG_CMD_INFO} -qe "$$pkg"; then \
 		found=true; \
 	fi
 _run_depends_fragment=${_build_depends_fragment}
@@ -2178,7 +2178,7 @@ install-binpkg:
 .    endif
 .  endfor
 .  if ${TRUST_PACKAGES:L} == "yes"
-	@if ${PKG_CMD_PKG} dependencies check \
+	@if ${PKG_CMD_INFO} -qe \
 	    ${FULLPKGNAME${SUBPACKAGE}}; then \
 		echo "Package ${FULLPKGNAME${SUBPACKAGE}} is already installed"; \
 	else \
@@ -2860,7 +2860,7 @@ _recurse-solve-package-depends:
 		X)	pkg=$$(echo $$default | sed -e 's,-[0-9].*,-*,');; \
 		esac; \
 		newdep=; comma=; \
-		if ${PKG_CMD_PKG} dependencies check $$pkg; then \
+		if ${PKG_CMD_INFO} -qe $$pkg; then \
 			listlibs='ls /usr/lib $$shdir 2>/dev/null'; \
 		else \
 			listlibs='ls /usr/lib 2>/dev/null'; \

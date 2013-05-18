@@ -1,5 +1,5 @@
 #!/usr/bin/perl
-# $MirOS: ports/infrastructure/pkgtools/pkg/pkg.pl,v 1.1.7.1 2005/03/18 15:47:18 tg Exp $
+# $MirOS: ports/infrastructure/pkgtools/pkg/pkg.pl,v 1.2 2005/07/05 19:45:10 bsiegert Exp $
 # $OpenBSD: pkg.pl,v 1.7 2001/11/17 10:42:11 espie Exp $
 #
 # Copyright (c) 2001 Marc Espie.
@@ -436,6 +436,8 @@ if (defined $legacy{$cmd}) {
 } elsif ($cmd eq 'dependencies') {
 	my $sub = shift;
 	if ($sub eq 'check') {
+		print "Warning: 'pkg dependencies check' is deprecated. ";
+		print "Update bsd.port.mk.\n";
 		if (check_dependencies(shift)) {
 			exit(0);
 		} else {
