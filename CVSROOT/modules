@@ -1,4 +1,4 @@
-# $MirOS: CVSROOT/modules,v 1.29 2009/05/17 13:03:50 tg Exp $
+# $MirOS: CVSROOT/modules,v 1.30 2009/06/29 19:20:36 tg Exp $
 # from $OpenBSD: modules,v 1.17 1998/07/12 04:44:24 todd Exp $
 #-
 # Three different line formats are valid:
@@ -67,7 +67,9 @@ rdate		src/usr.sbin/rdate
 # Hosted projects
 bsd-arc4random	contrib/hosted/tg/code/BSD::arc4random
 fwcf		contrib/hosted/fwcf
+kwalletcli	contrib/hosted/tg/code/kwalletcli
 libnointl	contrib/hosted/libnointl
+xchat-randex	contrib/hosted/tg/code/xchat-randex
 
 # committers’ private projects
 cpr-ahoka	contrib/hosted/ahoka
