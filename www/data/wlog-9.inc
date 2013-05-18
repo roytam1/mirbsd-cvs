@@ -2865,3 +2865,23 @@ Author: tg@
  sparc side. Afterwards, we’ll switch to wlog-10, and back up the repo to
  get it all on one CD (i386, sparc, source, CVS).</p>
 ----
+Date: 10.03.2008
+Author: tg@
+
+<p>The i386 part of the #10semel release is already built, but, oh WTF we
+ don’t have a codename for this release yet. Well, the sparc part is still
+ compiling, which leaves us another few days to think of one. I’m already
+ uploading part of the sets, so that the distribution process will be
+ quicker later. (Some of the files will change later on, though.)</p>
+<p>Benny already has written a release announcement draft. Like I said, he
+ <em>is</em> my best man. He didn’t even attempt to list the changes, which
+ might even be the better approach… In the meantime, I’m updating some of
+ the web pages already – you can, in theory, netinstall #10 now, but some
+ links will have to be fixed later.</p>
+<p>I still <strong>urgently</strong> need a SCSI host adapter for my new
+ server <tt>tear</tt>, U160 or U320, SCA LVD, 32-bit PCI, no RAID, supported
+ by MirBSD (i.e. OpenBSD 3.5), as the current one, donated by wbx@, has <a
+ href="http://marc.info/?m=119299679527756">issues</a>. Or a fix. Plans to
+ migrate to <tt>tear</tt> have been postponed due to this problem, which
+ makes the progress in the project seriously suffer.</p>
+----
