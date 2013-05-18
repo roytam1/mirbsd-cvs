@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.264 2009/12/17 14:52:15 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.265 2009/12/26 16:35:49 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -5736,4 +5736,26 @@ Tag: snapshot
 <p>Benny is at 26C3, but there’s probably no official MirOS presence.
  You’re still cordially invited to talk to him and gecko2@ who’s there
  as well.</p>
+----
+Title: Just another Office suite
+Author: tg@
+Date: 26.12.2009 17:14
+
+<p>In addition to <a href="http://www.openoffice.org/">OpenOffice</a>
+ 2.0 (Linux-i386 on MirBSD) and the Lotus SmartSuite Millennium, I
+ downloaded <a href="http://www.loadandhelp.de/">SoftMaker Office 2008</a>
+ for Linux-i386 (on MirBSD) and Windows® (free serial numbers until end
+ of 2009, since SoftMaker Office 2010 (for Windows®) is out). This was
+ pretty easy: extract tarball, throw away installer, extract the second
+ tarball in <tt>/opt/SMo</tt> (along with <tt>/opt/OOo</tt>), and it
+ Just Works™ (with <tt>ports/emulators/fedora</tt> installed).</p>
+<p>So now I have three choices for creating documents (although I won’t
+ use OOo for it, I think it’s unreadable), and three for reading files
+ in MS Office format, and two (OOo and SMo) for reading documents in
+ some weird .ZIP-like format (OASIS or something), if they get sent to
+ me. I’ll toy around with SoftMaker Office 2008 on both platforms and
+ will see how it compares to Lotus WordPro.</p>
+<p>So this is basically positive press to show another Linux-i386 blob
+ that works as-is on MirBSD/i386 with compat_linux(8) – thanks! Others
+ make this much more difficult.</p>
 ----
