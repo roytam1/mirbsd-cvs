@@ -1,4 +1,4 @@
-# $MirOS: ports/security/gnupg/Makefile,v 1.19 2008/03/09 17:23:29 tg Exp $
+# $MirOS: ports/security/gnupg/Makefile,v 1.20 2008/04/01 15:47:02 tg Exp $
 # $OpenBSD: Makefile,v 1.52 2005/05/17 15:08:34 martin Exp $
 
 COMMENT=		GNU privacy guard - PGP replacement under GPL
@@ -16,7 +16,7 @@ MASTER_SITES=		http://ftp.gnupg.org/gcrypt/gnupg/ \
 MASTER_SITES0=		http://www.gnupg.dk/contrib-dk/ \
 			ftp://ftp.gnupg.dk/pub/contrib-dk/
 
-# GPL
+# GPLv3
 PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 PERMIT_PACKAGE_CDROM=	Yes
