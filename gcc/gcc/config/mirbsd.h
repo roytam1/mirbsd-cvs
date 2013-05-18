@@ -224,8 +224,8 @@ Boston, MA 02111-1307, USA.  */
  *	DEFAULT_TARGET_VERSION = “3.4.6”
  */
 #undef MIRBSD_RDIR
-#define MIRBSD_RDIR	"%R" STANDARD_EXEC_PREFIX DEFAULT_TARGET_MACHINE \
-			"/" DEFAULT_TARGET_VERSION
+#define MIRBSD_RDIR	STANDARD_EXEC_PREFIX DEFAULT_TARGET_MACHINE "/" \
+			DEFAULT_TARGET_VERSION
 
 /* Provide a LINK_SPEC appropriate for MirOS BSD.  Here we provide
    support for the special GCC options -assert, -R, -rpath, -shared,
@@ -236,7 +236,7 @@ Boston, MA 02111-1307, USA.  */
 
 #define MIRBSD_LINK_SPEC			\
   "%{assert*} %{R*} %{rpath*}			\
-   -L" MIRBSD_RDIR " -rpath " MIRBSD_RDIR "	\
+   -L%R" MIRBSD_RDIR " -rpath " MIRBSD_RDIR "	\
    %{!shared:					\
      -dc -dp					\
      %{!nostdlib:%{!r*:%{!e*:-e __start}}}	\
