@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/stand/boot/cmd.c,v 1.23 2009/01/31 22:43:26 tg Exp $	*/
+/**	$MirOS: src/sys/stand/boot/cmd.c,v 1.24 2009/10/24 14:16:52 tg Exp $	*/
 /*	$OpenBSD: cmd.c,v 1.59 2007/04/27 10:08:34 tom Exp $	*/
 
 /*
@@ -107,8 +107,6 @@ static void ls(char *, struct stat *);
 static int readline(char *, size_t, int);
 char *nextword(char *);
 static char *whatcmd(const struct cmd_table **ct, char *);
-
-char cmd_buf[CMD_BUFF_SIZE];
 
 int
 getcmd(void)

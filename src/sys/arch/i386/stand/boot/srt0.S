@@ -1,4 +1,4 @@
-/* $MirOS: src/sys/arch/i386/stand/boot/srt0.S,v 1.76 2009/08/09 19:39:40 tg Exp $ */
+/* $MirOS: src/sys/arch/i386/stand/boot/srt0.S,v 1.77 2009/10/24 14:16:51 tg Exp $ */
 
 /*-
  * Copyright (c) 2003, 2004, 2005, 2006, 2007, 2008, 2009
@@ -502,8 +502,12 @@ pxecall_plus:
 	.globl	biosdev_lba_buf
 	.size	biosdev_lba_buf, 16
 
+	cmd_buf = biosdev_lba_buf + 16
+	.globl	cmd_buf
+	.size	cmd_buf, CMD_BUFF_SIZE
+
 	/* last; size unknown (<0x1000) */
-	cmd = biosdev_lba_buf + 16
+	cmd = cmd_buf + CMD_BUFF_SIZE
 	.globl	cmd
 	.size	cmd, CMD_STRUCT_SIZE
 

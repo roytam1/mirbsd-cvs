@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/stand/boot/cmd.h,v 1.12 2009/10/04 18:13:44 tg Exp $ */
+/**	$MirOS: src/sys/stand/boot/cmd.h,v 1.13 2009/10/24 14:16:52 tg Exp $ */
 /*	$OpenBSD: cmd.h,v 1.16 2007/06/13 02:17:32 drahn Exp $	*/
 
 /*
@@ -66,6 +66,7 @@ struct cmd_state {
 #endif
 };
 extern struct cmd_state cmd;
+extern char cmd_buf[CMD_BUFF_SIZE];
 
 int getcmd(void);
 int read_conf(void);
