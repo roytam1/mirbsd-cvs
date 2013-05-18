@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/stand/boot/cmd.c,v 1.18 2009/01/11 22:52:34 tg Exp $	*/
+/**	$MirOS: src/sys/stand/boot/cmd.c,v 1.19 2009/01/12 18:31:58 tg Exp $	*/
 /*	$OpenBSD: cmd.c,v 1.59 2007/04/27 10:08:34 tom Exp $	*/
 
 /*
@@ -54,6 +54,9 @@ static int Xtime(void);
 static int Xmachine(void);
 extern const struct cmd_table MACHINE_CMD[];
 #endif
+#ifndef SMALL_BOOT
+static int Xmacro(void);
+#endif
 extern int Xset(void);
 #ifndef SMALL_BOOT
 extern int Xenv(void);
@@ -64,7 +67,7 @@ extern int CHECK_SKIP_CONF(void);
 #endif
 
 extern const struct cmd_table cmd_set[];
-const struct cmd_table cmd_table[] = {
+struct cmd_table cmd_table[] = {
 	{"#",      CMDT_CMD, Xnop},  /* XXX must be first */
 	{"boot",   CMDT_CMD, Xboot},
 #ifndef SMALL_BOOT
@@ -81,13 +84,21 @@ const struct cmd_table cmd_table[] = {
 #ifdef MACHINE_CMD
 	{"machine",CMDT_MDC, Xmachine},
 #endif
+#ifndef SMALL_BOOT
+	{"macro",  CMDT_CMD, Xmacro},
+#endif
 	{"reboot", CMDT_CMD, Xreboot},
 	{"set",    CMDT_SET, Xset},
 	{"stty",   CMDT_CMD, Xstty},
 #ifndef SMALL_BOOT
 	{"time",   CMDT_CMD, Xtime},
+	/* space for four macros */
+	{NULL,     CMDT_MAC, NULL},
+	{NULL,     CMDT_MAC, NULL},
+	{NULL,     CMDT_MAC, NULL},
+	{NULL,     CMDT_MAC, NULL},
 #endif
-	{NULL, 0},
+	{NULL,     CMDT_EOL, NULL}
 };
 
 #ifndef SMALL_BOOT
@@ -217,6 +228,13 @@ docmd(void)
 		if (ct == NULL) {
 			cmd.argc++;
 			ct = cmd_table;
+#ifndef SMALL_BOOT
+		} else if (ct->cmd_type == CMDT_MAC) {
+			memcpy((p = cmd_buf), (void *)ct->cmd_exec,
+			    strlen((char *)ct->cmd_exec) + 1);
+			cmd.argc = 1;
+			goto cmdparse_loop;
+#endif
 		} else if (ct->cmd_type == CMDT_SET && p != NULL) {
 			cs = cmd_set;
 #ifdef MACHINE_CMD
@@ -266,10 +284,13 @@ whatcmd(const struct cmd_table **ct, char *p)
 	for (l = 0; p[l]; l++)
 		;
 
-	while ((*ct)->cmd_name != NULL && strncmp(p, (*ct)->cmd_name, l))
-		(*ct)++;
+	while ((*ct)->cmd_type != CMDT_EOL)
+		if ((*ct)->cmd_name != NULL && !strncmp(p, (*ct)->cmd_name, l))
+			break;
+		else
+			(*ct)++;
 
-	if ((*ct)->cmd_name == NULL)
+	if ((*ct)->cmd_type == CMDT_EOL)
 		*ct = NULL;
 
 	return q;
@@ -609,6 +630,62 @@ Xcat(void)
 	putchar('\n');
 
 	close(fd);
+	return (0);
+}
+
+static int
+Xmacro(void)
+{
+	struct cmd_table *ct = cmd_table, *ft;
+	char ch, *cp, *s;
+	int i;
+
+	if (cmd.argc == 1) {
+		printf("macros:");
+		while (ct->cmd_type != CMDT_EOL) {
+			if (ct->cmd_type == CMDT_MAC && ct->cmd_name)
+				printf(" %s", ct->cmd_name);
+			++ct;
+		}
+		putchar('\n');
+	} else {
+		ft = NULL;
+		while (ct->cmd_type != CMDT_EOL) {
+			if (ct->cmd_type == CMDT_MAC) {
+				if (ct->cmd_name == NULL)
+					ft = ct;
+				else if (!strcmp(ct->cmd_name, cmd.argv[1]))
+					break;
+			}
+			++ct;
+		}
+		if (cmd.argc == 2) {
+			if (ct->cmd_type != CMDT_EOL) {
+				free(ct->cmd_name, 0);
+				free(ct->cmd_exec, CMD_BUFF_SIZE);
+				ct->cmd_name = NULL;
+			}
+			return (0);
+		}
+		if (ct->cmd_type == CMDT_EOL && (ct = ft) == NULL) {
+			printf("macro: no free entries\n");
+			return (0);
+		}
+		ct->cmd_name = alloc((i = strlen(cmd.argv[1]) + 1));
+		memcpy(ct->cmd_name, cmd.argv[1], i);
+		ct->cmd_exec = alloc(CMD_BUFF_SIZE);
+		i = 2;
+		cp = (char *)ct->cmd_exec;
+		while ((s = cmd.argv[i])) {
+			if (i > 2)
+				*cp++ = ' ';
+			while ((ch = *s++))
+				/* macro text ~ is a newline */
+				*cp++ = ch == '~' ? '`' : ch;
+			++i;
+		}
+		*cp = '\0';
+	}
 	return (0);
 }
 #endif

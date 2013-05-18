@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/stand/boot/cmd.h,v 1.8 2009/01/12 17:36:04 tg Exp $ */
+/**	$MirOS: src/sys/stand/boot/cmd.h,v 1.9 2009/01/14 21:22:10 tg Exp $ */
 /*	$OpenBSD: cmd.h,v 1.16 2007/06/13 02:17:32 drahn Exp $	*/
 
 /*
@@ -39,6 +39,8 @@ struct cmd_table {
 #define CMDT_VAR 1
 #define CMDT_SET 2
 #define CMDT_MDC 3
+#define CMDT_MAC 4
+#define CMDT_EOL 5
 	int (*cmd_exec)(void);
 };
 
