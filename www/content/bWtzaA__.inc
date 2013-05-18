@@ -1,5 +1,5 @@
 <!-- PageID: mksh -->
-<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.59 2006/09/18 20:14:34 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.60 2006/09/19 11:50:10 tg Exp $</small>
 
 <h1>mksh(1) R28</h1>
 <p>This is the MirBSD&trade; Korn Shell, a more or less portable
@@ -35,9 +35,17 @@
 <p>Changes in the current (unreleased) development version:</p><ul>
  <li>Begin porting mksh to the <a href="http://9fans.net/">Plan 9</a>
   ANSI'n'POSIX Environment (not finished)</li>
- <li>Fix portability of regression tests using fgrep(1)</li>
+ <li>Plan porting mksh to <a href="http://www.minix3.org/">Minix 3</a>
+  (not codified yet)</li>
+ <li>Plan porting to other UNIX&reg;-like systems via HP Testdrive</li>
+ <li>Fix portability of regression tests using fgrep(1), twice</li>
  <li>Fix description of $RANDOM in manual page</li>
  <li>Fix build under OpenSolaris Build 47 (reported in IRC)</li>
+ <li>Use easier __RCSID() stuff from MirOS #9-current</li>
+ <li>Don't shebang with spaces in test.sh creation</li>
+ <li>Remove -fno-strength-reduce from default CFLAGS, the compiler bug
+  was fixed between gcc 2.7.2 and gcc 2.7.2.1&#8230;</li>
+ <li>avoid unaligned memory access causing SIGBUS on IA-64 on Debian</li>
 </ul>
 <p>Upgrading to mksh R28 with these changes is highly recommended:</p><ul>
  <li>For these who build software as root, the regression testsuite
@@ -462,7 +470,7 @@
   <li>Debian GNU/Linux 3.1-testing 2.6.17-2-vserver-s390x (s390x)</li>
   <li>Debian GNU/Linux 3.1-stable 2.4.27-2-k7 (i386)</li>
   <li>Darwin 8.7.0 Mac OSX 10.4 (powerpc)</li>
-  <li>Debian GNU/Linux 3.1-unstable (all architectures) &ndash; debianised</li>
+  <li>Debian GNU/Linux 3.1-unstable (all architectures except ia64) &ndash; debianised</li>
   <li>OpenBSD 3.9 (sparc64) &ndash; via <a href="http://www.mirbsd.org/GBG/mksh-obsdport.tgz">contributed port</a></li>
   <li>Debian GNU/Linux 3.1-stable 2.4.27-2-k7 (i386) &ndash; via an experimental pkgsrc&reg; package</li>
   <li>CYGWIN_NT-5.0 1.5.19(0.150/4/2) 2006-01-20 13:28 (i386) &ndash; testsuite not run</li>
@@ -474,6 +482,7 @@
   <li>FreeBSD (unknown) &ndash; part of FreeBSD Ports: not tried</li>
   <li>Gentoo GNU/Linux (i386 powerpc) &ndash; part of Portage: not tried</li>
   <li>CRUX GNU/Linux (i386) &ndash; via Han Boetes' repository: not tested</li>
+  <li>Sourcemage GNU/Linux (amd64) &ndash; via test grimoire: not tried</li>
   <li>generic pkgsrc&reg; &ndash; not tested; ONLY_FOR_PLATFORMS not honoured</li>
  </ul></li>
  <li>mksh R28&szlig;<ul>
