@@ -133,13 +133,14 @@
 # define FD_SETSIZE (8*sizeof(fd_set))
 #endif
 
-__RCSID("$MirOS: src/lib/libssl/src/crypto/rand/rand_unix.c,v 1.4 2008/05/22 22:00:41 tg Exp $");
+__RCSID("$MirOS: src/lib/libssl/src/crypto/rand/rand_unix.c,v 1.5 2010/09/21 21:24:11 tg Exp $");
 
 #ifdef __OpenBSD__
 int RAND_poll(void)
 {
 	unsigned char buf[ENTROPY_NEEDED];
 
+	arc4random_stir();
 	arc4random_buf(buf, sizeof(buf));
 	RAND_add(buf, sizeof(buf), ENTROPY_NEEDED);
 	memset(buf, 0, sizeof(buf));
