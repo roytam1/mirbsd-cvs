@@ -1,5 +1,7 @@
-MD5 (pango-1.15.4.tar.bz2) = 02c8ea6d3851e44520b131f509bea9ff
-RMD160 (pango-1.15.4.tar.bz2) = fffc6e6420eb7c696329ebc16e635e3084268fa1
-SHA1 (pango-1.15.4.tar.bz2) = f88871afa4472c5079a77e0473b9a529193f3c39
-SIZE (pango-1.15.4.tar.bz2) = 1349541
-TIGER (pango-1.15.4.tar.bz2) = 327857d5f25d82dea963da74fb0143375db2b7938ff318fd
+$MirOS$
+
+MD5 (pango-1.18.4.tar.bz2) = 5f4a24eb03789746a13e41beb7044776
+RMD160 (pango-1.18.4.tar.bz2) = 73213249d86f9344572d27ce0720ee574b8cdecd
+SHA1 (pango-1.18.4.tar.bz2) = 6a72db90bf82b151e18bd83d25f0844129cc93d6
+SIZE (pango-1.18.4.tar.bz2) = 1406821
+TIGER (pango-1.18.4.tar.bz2) = e230e3e017e58a4a3825becccf254fdb16fc2f4e8061d399

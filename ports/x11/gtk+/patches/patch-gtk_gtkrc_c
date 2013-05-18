@@ -1,7 +1,7 @@
 $OpenBSD: patch-gtk_gtkrc_c,v 1.1 2003/12/08 06:08:43 marcm Exp $
---- gtk/gtkrc.c.orig	Mon Sep  4 13:24:54 2006
-+++ gtk/gtkrc.c	Tue Jul 10 19:56:22 2007
-@@ -447,7 +447,7 @@ gtk_rc_get_im_module_file (void)
+--- gtk/gtkrc.c.orig	Sat Sep 13 02:00:16 2008
++++ gtk/gtkrc.c	Thu Nov 25 13:16:58 2010
+@@ -450,7 +450,7 @@ gtk_rc_get_im_module_file (void)
        if (im_module_file)
  	result = g_strdup (im_module_file);
        else

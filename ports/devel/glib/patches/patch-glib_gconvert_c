@@ -1,7 +1,7 @@
-$MirOS: ports/devel/glib/patches/patch-glib_gconvert_c,v 1.1 2006/06/04 20:57:15 bsiegert Exp $
---- glib/gconvert.c.orig	Mon Dec 18 04:20:16 2006
-+++ glib/gconvert.c	Thu Mar  6 21:59:28 2008
-@@ -41,13 +41,6 @@
+$MirOS: ports/devel/glib/patches/patch-glib_gconvert_c,v 1.2 2008/03/06 22:08:24 tg Exp $
+--- glib/gconvert.c.orig	Fri Sep 12 19:55:28 2008
++++ glib/gconvert.c	Thu Nov 25 12:24:44 2010
+@@ -48,13 +48,6 @@
  
  #include "glibintl.h"
  
@@ -15,7 +15,7 @@ $MirOS: ports/devel/glib/patches/patch-glib_gconvert_c,v 1.1 2006/06/04 20:57:15
  #include "galias.h"
  
  GQuark 
-@@ -728,6 +721,9 @@ g_convert (const gchar *str,
+@@ -735,6 +728,9 @@ g_convert (const gchar *str,
    g_return_val_if_fail (to_codeset != NULL, NULL);
    g_return_val_if_fail (from_codeset != NULL, NULL);
    

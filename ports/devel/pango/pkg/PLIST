@@ -1,4 +1,4 @@
-@comment $MirOS: ports/devel/pango/pkg/PLIST,v 1.4 2007/01/06 16:30:18 bsiegert Exp $
+@comment $MirOS: ports/devel/pango/pkg/PLIST,v 1.5 2008/07/26 13:09:45 bsiegert Exp $
 @comment $OpenBSD: PLIST,v 1.10 2004/12/10 20:34:00 marcm Exp $
 bin/pango-querymodules
 bin/pango-view
@@ -16,6 +16,7 @@ include/pango-1.0/pango/pango-glyph-item.h
 include/pango-1.0/pango/pango-glyph.h
 include/pango-1.0/pango/pango-gravity.h
 include/pango-1.0/pango/pango-item.h
+include/pango-1.0/pango/pango-language.h
 include/pango-1.0/pango/pango-layout.h
 include/pango-1.0/pango/pango-matrix.h
 include/pango-1.0/pango/pango-modules.h
@@ -32,13 +33,10 @@ include/pango-1.0/pango/pangofc-font.h
 include/pango-1.0/pango/pangofc-fontmap.h
 include/pango-1.0/pango/pangoft2.h
 include/pango-1.0/pango/pangox.h
-include/pango-1.0/pango/pangoxft-render.h
-include/pango-1.0/pango/pangoxft.h
 lib/libpango-1.0.la
 lib/libpangocairo-1.0.la
 lib/libpangoft2-1.0.la
 lib/libpangox-1.0.la
-lib/libpangoxft-1.0.la
 lib/pango/1.6.0/modules/pango-arabic-fc.la
 lib/pango/1.6.0/modules/pango-arabic-lang.la
 lib/pango/1.6.0/modules/pango-basic-fc.la
@@ -55,7 +53,6 @@ lib/pkgconfig/pango.pc
 lib/pkgconfig/pangocairo.pc
 lib/pkgconfig/pangoft2.pc
 lib/pkgconfig/pangox.pc
-lib/pkgconfig/pangoxft.pc
 man/man1/pango-querymodules.1
 @sample ${SYSCONFDIR}/pango/
 share/examples/pango/pango.modules
@@ -68,19 +65,21 @@ share/gtk-doc/html/pango/PangoFcDecoder.html
 share/gtk-doc/html/pango/PangoFcFont.html
 share/gtk-doc/html/pango/PangoFcFontMap.html
 share/gtk-doc/html/pango/PangoMarkupFormat.html
+share/gtk-doc/html/pango/PangoRenderer.html
 share/gtk-doc/html/pango/home.png
+share/gtk-doc/html/pango/index-1.10.html
+share/gtk-doc/html/pango/index-1.12.html
+share/gtk-doc/html/pango/index-1.14.html
+share/gtk-doc/html/pango/index-1.16.html
+share/gtk-doc/html/pango/index-1.18.html
+share/gtk-doc/html/pango/index-1.2.html
+share/gtk-doc/html/pango/index-1.4.html
+share/gtk-doc/html/pango/index-1.6.html
+share/gtk-doc/html/pango/index-1.8.html
+share/gtk-doc/html/pango/index-all.html
+share/gtk-doc/html/pango/index-deprecated.html
 share/gtk-doc/html/pango/index.html
 share/gtk-doc/html/pango/index.sgml
-share/gtk-doc/html/pango/ix01.html
-share/gtk-doc/html/pango/ix02.html
-share/gtk-doc/html/pango/ix03.html
-share/gtk-doc/html/pango/ix04.html
-share/gtk-doc/html/pango/ix05.html
-share/gtk-doc/html/pango/ix06.html
-share/gtk-doc/html/pango/ix07.html
-share/gtk-doc/html/pango/ix08.html
-share/gtk-doc/html/pango/ix09.html
-share/gtk-doc/html/pango/ix10.html
 share/gtk-doc/html/pango/layout.gif
 share/gtk-doc/html/pango/left.png
 share/gtk-doc/html/pango/lowlevel.html
@@ -95,7 +94,6 @@ share/gtk-doc/html/pango/pango-Layout-Objects.html
 share/gtk-doc/html/pango/pango-Miscellaneous-Utilities.html
 share/gtk-doc/html/pango/pango-Modules.html
 share/gtk-doc/html/pango/pango-OpenType-Font-Handling.html
-share/gtk-doc/html/pango/pango-PangoRenderer.html
 share/gtk-doc/html/pango/pango-Scripts.html
 share/gtk-doc/html/pango/pango-Tab-Stops.html
 share/gtk-doc/html/pango/pango-Text-Attributes.html
@@ -105,6 +103,7 @@ share/gtk-doc/html/pango/pango-Vertical-Text.html
 share/gtk-doc/html/pango/pango-Win32-Fonts-and-Rendering.html
 share/gtk-doc/html/pango/pango-X-Fonts-and-Rendering.html
 share/gtk-doc/html/pango/pango-Xft-Fonts-and-Rendering.html
+share/gtk-doc/html/pango/pango-hierarchy.html
 share/gtk-doc/html/pango/pango-querymodules.html
 share/gtk-doc/html/pango/pango.devhelp
 share/gtk-doc/html/pango/pango.devhelp2
