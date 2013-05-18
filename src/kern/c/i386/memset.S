@@ -20,15 +20,18 @@
 
 #include <machine/asm.h>
 
-RCSID("$MirOS: src/kern/c/i386/memset.S,v 1.4 2009/01/15 21:51:43 tg Exp $")
+RCSID("$MirOS: src/kern/c/i386/memset.S,v 1.5 2009/01/15 21:52:26 tg Exp $")
 
 	.intel_syntax noprefix
 	.text
 
+/* the kernel has sse_pagezero and friends */
+#ifndef _KERNEL
 ENTRY(bzero)
 	mov	edx,8[esp]
 	xor	eax,eax
 	jmp	1f
+#endif
 
 ENTRY(memset)
 	mov	edx,12[esp]
