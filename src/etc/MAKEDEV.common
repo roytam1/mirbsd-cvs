@@ -1,4 +1,4 @@
-vers(a, {-$MirOS: src/etc/MAKEDEV.common,v 1.10 2009/02/22 11:56:48 tg Exp $-})dnl
+vers(a, {-$MirOS: src/etc/MAKEDEV.common,v 1.11 2009/08/17 20:18:24 tg Exp $-})dnl
 vers(a, {-$OpenBSD: MAKEDEV.common,v 1.19 2005/06/29 18:23:26 todd Exp $-})dnl
 divert(1)dnl
 dnl
@@ -339,7 +339,7 @@ _mkdev(wsmux, wsmux|wsmouse|wskbd, {-M wsmouse c major_wsmux_c 0 600
 __devitem(pcons, console, PROM console)dnl
 __devtitle(point, Pointing devices)dnl
 __devitem(wsmouse, wsmouse*, wscons mice)dnl
-_mkdev(wsmouse, wsmouse*, {-M wsmouse$U c major_wsmouse_c $U 600-})dnl
+_mkdev(wsmouse, wsmouse[0-9]*, {-M wsmouse$U c major_wsmouse_c $U 600-})dnl
 __devtitle(pty, Pseudo terminals)dnl
 __devitem(ptm, ptm, pty master device)dnl
 _mkdev(ptm, ptm, {-M ptm c major_ptm_c 0 666-})dnl
