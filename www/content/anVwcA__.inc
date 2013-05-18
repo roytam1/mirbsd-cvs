@@ -1,5 +1,5 @@
 <!-- PageID: jupp -->
-<small class="rcsid">$MirOS: www/content/anVwcA__.inc,v 1.10 2006/03/19 21:23:19 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/anVwcA__.inc,v 1.11 2006/10/18 01:12:53 tg Exp $</small>
 <h1>jupp &ndash; the Editor</h1>
 <p>
  The current version is <em>joe-3.1jupp6</em>.
@@ -98,7 +98,21 @@
 </p>
 
 <h2>Binaries</h2>
-<p>Currently, there are no precompiled binaries available.</p>
+<p>Currently, there are no precompiled binaries for Unix&reg;ish
+ systems available. But we offer the following:</p><ul>
+ <li><a href="http://mira.66h.42h.de/pub/jdos16.exe">JUPP 2.8 for
+  MS-DOS&reg;</a> (16-bit, should work on 8086), self-extracting
+  LHarc archive, copy jupp.exe and jupprc to your DOS directory (<a
+  href="http://mira.66h.42h.de/pub/jdos16.exe.asc">OpenPGP
+  signature</a>)</li>
+ <li><a href="http://mira.66h.42h.de/pub/jupp-w32.exe">JUPP 3.1.6
+  for Windows&reg;</a> (cygwin stand-alone compiled, comes with its
+  own copy of cygwin1.dll and a .inf file for easy installation),
+  self-extracting LHarc archive, right-click on <tt>setup.inf</tt>,
+  select <u>I</u>nstall, wait a few seconds, remove directory (<a
+  href="http://mira.66h.42h.de/pub/jupp-w32.exe.asc">OpenPGP
+  signature</a>)</li>
+</ul>
 <!-- p>
  <em>NEW!</em> Precompiled Mac OSX and MS Interix/SFU 3.5 binaries are at
 </p><ul>

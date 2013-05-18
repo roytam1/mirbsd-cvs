@@ -1,5 +1,5 @@
 <!-- PageID: wlog-9 -->
-<small class="rcsid">$MirOS: www/content/d2xvZy05.inc,v 1.52 2006/10/22 14:17:29 bsiegert Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy05.inc,v 1.53 2006/10/23 13:28:16 bsiegert Exp $</small>
 <h1>MirBSD &ndash; WTF is Verpeilungsfaktor?</h1>
 <p><small><a href="#eof">bottom</a> or <a href="/?older">older</a>
  editions</small></p>
@@ -946,6 +946,48 @@ plot [150:200] 	"bs06.4Kmin.txt" using 1:3 with lines title "exc{\350}s en chlor
   Be patient.</p>
  <p>If you want to discuss this, please use the miros-discuss mailing
   list.</p>
+</div>
+
+<div class="wlentry">
+ <h3 id="e2006104">24.10.2006 by tg@</h3>
+ <p>After the odds and ends from last time, now the Health End: I'll not
+  be available/online for a few days &ndash; I have an appointment at my
+  dentist (ouch!) tomorrow, for 1&#189; hours. I'll be recovering at the
+  best grandmother ever's place for a while afterwards.</p>
+ <p>Stuff like Te&#935; above isn't off-topic, this is open for personal
+  ramblings after all, dear Benny. But I must say we prefer non-bzip2'd,
+  i.e. gzip(1)ped or compress(1)ed, distfiles (zip, lzh are even better,
+  because bzip2 is dead slow and memory hungry), but for e.g. iceweasel,
+  it's okay to use bzip2 distfiles because nobody's going to compile it,
+  at least not on a machine below 2 GHz, anyway.</p>
+ <p>If I can concentrate at all, I've got a few projects I could work at
+  during the next days. One of these is an ncursesw mirport (including a
+  "wide" flavour for the lynx mirport), another would be to re-work the,
+  at least i386, bootloader interna (see below). Also, I've got an idea,
+  sorry Benny, how to do a new website for us, which I could code first,
+  propose then. Maybe I'll hack a bit on it. It uses a totally different
+  approach than both www and web modules.</p>
+ <p>Bootloader&#8230; yeah. A few ideas: make stuff like PBR/bootxx, and
+  the two MBRs, shell scripts that install themselves, nuke installboot.
+  We need a C language helper for looking up block numbers (for ffs) but
+  e.g. CD-ROM or raw disc image installs can do without. I'll try to not
+  add MirOS specifics, so it could be run on e.g. GNU/Linux too. Also, I
+  want a micro-PBR which just loads another PBR from say, sector 15 of a
+  CD-ROM, which fits into the first 128 bytes of the first sector, so it
+  can coexist with a Sun disklabel. Then, the bootloader could determine
+  by reading a sector from the disc whether it's El Torito or not, so we
+  won't need mkisofs(8)' -boot-info-table option any more and can use an
+  unified bootloader for Live-CD and Live-HDD ;-) boots. That one could,
+  then, also make use of MBR partitions &ndash, for example so we have a
+  "boot hd0a:/bsd" as usual, "boot hd0,3:/bsd" for MBR partition (that's
+  the only way to boot off a FAT partition if the disklabel doesn't have
+  a slice for that filesystem), "boot hd0,2,0:/bsd" for extended ones. A
+  "machine partinfo" command to display MBR and disklabel entries would,
+  of course, make sense and complete that all. Finally, if I get the new
+  installboot(8) replacement to be endian-independent and to convert the
+  sparc one as well, dual-boot CDs will be much easier. (The sparc stuff
+  needs a fake disklabel, but we could even hardcode that, much like the
+  hardcoded MBR for macppc.)</p>
 </div>
 
 <p id="eof">Good luck, have fun, take care etc.pp</p>
