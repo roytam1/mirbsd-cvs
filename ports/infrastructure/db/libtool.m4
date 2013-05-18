@@ -1,5 +1,5 @@
 # libtool.m4 - Configure libtool for the host system. -*-Autoconf-*-
-# $MirOS: ports/infrastructure/db/libtool.m4,v 1.25 2008/03/14 19:57:21 tg Exp $
+# $MirOS: ports/infrastructure/db/libtool.m4,v 1.26 2008/05/02 11:38:07 tg Exp $
 # $miros: contrib/gnu/libtool/libtool.m4,v 1.58 2008/03/14 19:56:54 tg Exp $
 ## Copyright 1996, 1997, 1998, 1999, 2000, 2001, 2003, 2004, 2005, 2006
 ## Free Software Foundation, Inc.
@@ -250,6 +250,15 @@ AC_LIBTOOL_OBJDIR
 
 AC_REQUIRE([_LT_AC_SYS_COMPILER])dnl
 _LT_AC_PROG_ECHO_BACKSLASH
+
+ifelse(AC_AUTOCONF_VERSION, [2.13], [
+dnl From Autoconf 2.61
+if ( (MAIL=60; unset MAIL) || exit) >/dev/null 2>&1; then
+  as_unset=unset
+else
+  as_unset=false
+fi
+])dnl
 
 case $host_os in
 aix3*)
