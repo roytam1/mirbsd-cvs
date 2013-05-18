@@ -1,4 +1,4 @@
-/* $MirOS: src/lib/libssl/src/apps/s_client.c,v 1.3 2005/04/29 13:52:28 tg Exp $ */
+/* $MirOS: src/lib/libssl/src/apps/s_client.c,v 1.4 2005/07/27 14:35:06 tg Exp $ */
 
 /* apps/s_client.c */
 /* Copyright (C) 1995-1998 Eric Young (eay@cryptsoft.com)
@@ -122,7 +122,7 @@
 #define APPS_WIN16
 #endif
 
-__RCSID("$MirOS: src/lib/libssl/src/apps/s_client.c,v 1.3 2005/04/29 13:52:28 tg Exp $");
+__RCSID("$MirOS: src/lib/libssl/src/apps/s_client.c,v 1.4 2005/07/27 14:35:06 tg Exp $");
 
 /* With IPv6, it looks like Digital has mixed up the proper order of
    recursive header file inclusion, resulting in the compiler complaining
@@ -247,6 +247,7 @@ int MAIN(int argc, char **argv)
 	char *cbuf=NULL,*sbuf=NULL,*mbuf=NULL;
 	int cbuf_len,cbuf_off;
 	int sbuf_len,sbuf_off;
+	int mbuf_len,mbuf_off;
 	fd_set readfds,writefds;
 	char *port=PORT_STR;
 	int full_log=1;
@@ -295,7 +296,7 @@ int MAIN(int argc, char **argv)
 
 	if (	((cbuf=OPENSSL_malloc(BUFSIZZ)) == NULL) ||
 		((sbuf=OPENSSL_malloc(BUFSIZZ)) == NULL) ||
-		((mbuf=OPENSSL_malloc(BUFSIZZ)) == NULL))
+		((mbuf=OPENSSL_malloc(BUFSIZZ + 1)) == NULL))	/* NUL byte */
 		{
 		BIO_printf(bio_err,"out of memory\n");
 		goto end;
@@ -430,7 +431,7 @@ int MAIN(int argc, char **argv)
 			else if (strcmp(*argv,"pop3") == 0)
 				starttls_proto = 2;
 			else if (strcmp(*argv,"esmtp") == 0)
-				starttls_proto = 0x1001;
+				starttls_proto = 1;
 			else if (strcmp(*argv,"simple") == 0)
 				starttls_proto = 0x1002;
 			else
@@ -604,36 +605,52 @@ re_start:
 	cbuf_off=0;
 	sbuf_len=0;
 	sbuf_off=0;
+	mbuf_len=0;
+	mbuf_off=0;
 
 	/* This is an ugly hack that does a lot of assumptions */
 	if (starttls_proto == 1)
 		{
-		BIO_read(sbio,mbuf,BUFSIZZ);
+		mbuf_off = mbuf_len = BIO_read(sbio,mbuf,BUFSIZZ);
+		if (mbuf_len == -1)
+			{
+			BIO_printf(bio_err,"BIO_read failed\n");
+			goto end;
+			}
 		BIO_printf(sbio,"EHLO some.host.name\r\n");
-		BIO_read(sbio,mbuf,BUFSIZZ);
+		mbuf_len = BIO_read(sbio,mbuf + mbuf_off,BUFSIZZ - mbuf_off);
+		if (mbuf_len == -1)
+			{
+			BIO_printf(bio_err,"BIO_read failed\n");
+			goto end;
+			}
 		BIO_printf(sbio,"STARTTLS\r\n");
 		BIO_read(sbio,sbuf,BUFSIZZ);
 		}
 	if (starttls_proto == 2)
 		{
-		BIO_read(sbio,mbuf,BUFSIZZ);
+		mbuf_len = BIO_read(sbio,mbuf,BUFSIZZ);
+		if (mbuf_len == -1)
+			{
+			BIO_printf(bio_err,"BIO_read failed\n");
+			goto end;
+			}
 		BIO_printf(sbio,"STLS\r\n");
-		BIO_read(sbio,sbuf,BUFSIZZ);
-		}
-	if (starttls_proto == 0x1001)
-		{
-		BIO_read(sbio,mbuf,BUFSIZZ);
-		BIO_printf(sbio,"EHLO openssl\r\n");
-		BIO_read(sbio,sbuf,BUFSIZZ);
-		BIO_printf(sbio,"STARTTLS\r\n");
 		BIO_read(sbio,sbuf,BUFSIZZ);
 		}
 	if (starttls_proto == 0x1002)
 		{
-		BIO_read(sbio,mbuf,BUFSIZZ);
+		mbuf_len = BIO_read(sbio,mbuf,BUFSIZZ);
+		if (mbuf_len == -1)
+			{
+			BIO_printf(bio_err,"BIO_read failed\n");
+			goto end;
+			}
 		BIO_printf(sbio,"STARTTLS\r\n");
 		BIO_read(sbio,sbuf,BUFSIZZ);
 		}
+
+	mbuf[mbuf_off + mbuf_len] = '\0';
 
 	for (;;)
 		{
