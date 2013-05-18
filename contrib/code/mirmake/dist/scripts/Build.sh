@@ -1,7 +1,7 @@
 #!/bin/mksh
-# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.74 2006/08/26 16:45:27 tg Exp $
+# $MirOS: src/share/misc/licence.template,v 1.14 2006/08/09 19:35:23 tg Rel $
 #-
-# Copyright (c) 2004, 2005, 2006
+# Copyright (c) 2006
 #	Thorsten Glaser <tg@mirbsd.de>
 #
 # Licensee is hereby permitted to deal in this work without restric-
@@ -23,35 +23,34 @@
 # direct error of said person and intended use of this work, loss or
 # other issues arising in any way out of its use, even if advised of
 # the possibility of such damage or existence of a defect.
-#-
-# _Really_ build MirMake. Called from mirbsdksh.
 
+function scnfunc
+{
+	name=$1
+	args=$2
+	extra_hdrs=$3
+	extra_defs=$4
 
-# Functions
-
-# Call: testfunc 'proto' 'call' 'opt_include' 'opt_decl;'
-# Return: 1 if found, 0 otherwise (inverse logic)
-function testfunc {
-	rv=0
-	mkdir $d_build/testfunc
-	cat >$d_build/testfunc/Makefile <<-'EOF'
-		PROG=	testfunc
-		.include <bsd.prog.mk>
-	EOF
-	cat >$d_build/testfunc/testfunc.c <<-EOF
-		$3
-		$1;
-		int main() {
-			$4
-			$2;
-			return 0;
-		}
-	EOF
-	( cd $d_build/testfunc && ${d_build}/bmake -m ${d_build}/mk \
-	    NOMAN=yes NOOBJ=yes ) 2>&1 | sed 's!^![ !'
-	[[ -x $d_build/testfunc/testfunc ]] && rv=1
-	rm -rf $d_build/testfunc
-	return $rv
+	print ... $name
+	typeset -u nameu=$name
+	rm -f scn.c
+	for header in $extra_hdrs; do
+		print "#include <$header>" >>scn.c
+	done
+	print "int main(int argc, char *argv[]) {" >>scn.c
+	print "$extra_defs" >>scn.c
+	print "(void)$name($args);" >>scn.c
+	print "return (0); }" >>scn.c
+	$d_build/bmake -m $d_build/mk PROG=scn -f $d_build/mk/bsd.prog.mk
+	if [[ -x scn ]]; then
+		local res=yes
+		eval HAVE_$nameu=1
+	else
+		local res=no
+		eval HAVE_$nameu=0
+	fi
+	rm -f scn.c scn.o scn
+	print "==> $name... $res"
 }
 
 # Get parameters
@@ -70,7 +69,7 @@ if [ -z "$new_mirksh" ]; then
 	exit 255
 fi
 
-export SHELL=$new_mirksh
+export SHELL=$new_mirksh MKSH=$new_mirksh
 
 [[ -n $BASH_VERSION ]] && shopt -s extglob
 [[ -z $OLDMAKE ]] && OLDMAKE=make
@@ -79,7 +78,6 @@ export SHELL=$new_mirksh
 top=$(cd $(dirname $0)/../..; pwd)
 mkdir $top/tmpx
 export PATH=$top/tmpx:$PATH
-export LDFLAGS="$LDFLAGS -L$top/tmpx -lmirmake"
 d_script=$top/dist/scripts
 d_src=$top/dist/src
 d_build=$top/build
@@ -108,7 +106,8 @@ Darwin:*:*)
 Interix:*:*)
 	[[ -z $new_binids ]] && new_binids=-
 	[[ $new_macarc = i[3456789x]86 ]] && new_macarc=i386
-	/usr/bin/install -c -m 555 $top/dist/contrib/mktemp.sh $top/tmpx/mktemp
+	cp $top/dist/contrib/mktemp.sh $top/tmpx/mktemp
+	chmod 755 $top/tmpx/mktemp
 	;;
 *:*:i[3456789x]86)
 	new_macarc=i386
@@ -119,7 +118,6 @@ case $new_machos in
 Darwin)
 	_obfm=Mach-O
 	_rtld=dyld
-	CPPFLAGS="$CPPFLAGS -DHAVE_STRLCPY -DHAVE_STRLCAT"
 	;;
 *Interix)
 	_obfm=PE
@@ -132,7 +130,7 @@ BSD)
 	_rtld=BSD
 
 	# OpenBSD
-	if fgrep ELF_TOOLCHAIN /usr/share/mk/bsd.own.mk >/dev/null 2>&1; then
+	if fgrep ELF_TOOLCHAIN /usr/share/mk/bsd.own.mk >&- 2>&-; then
 		if ! T=$(mktemp /tmp/mmake.XXXXXXXXXX); then
 			print -u2 Error: cannot mktemp
 			exit 1
@@ -157,12 +155,13 @@ esac
 
 : ${CC:=gcc} ${NROFF:=nroff}
 COPTS=${CFLAGS:--O2 -fno-strength-reduce -fno-strict-aliasing}
-CPPFLAGS="$CPPFLAGS -D_MIRMAKE_DEFNS -isystem $d_build/F -include $d_build/F/mirmake.h"
+CPPFLAGS="$CPPFLAGS -D_MIRMAKE_DEFNS -isystem $d_build/F\
+ -include $d_build/F/mirmake.h"
 CFLAGS="$COPTS $CPPFLAGS"
 echo | $NROFF -v 2>&1 | grep GNU >&- 2>&- && NROFF="$NROFF -c"
-export CC COPTS CPPFLAGS CFLAGS NROFF
-
-echo 'void dummy(void) { }' >$top/tmpx/dummy.c
+LDFLAGS=$(echo " $LDFLAGS "|sed -e 's/ -lmirmake //' -e 's/^ *//' -e 's/ *$//')
+export CC COPTS CPPFLAGS CFLAGS LDFLAGS NROFF
+unset LDADD DPADD LIBS
 
 . $d_script/Version.sh
 
@@ -178,21 +177,23 @@ else
 fi
 if [[ $binown = - ]]; then
 	ug=
+	binown=$(id -un)
+	[[ $binown = *@( )* ]] && binown=$(id -u)
+	bingrp=$(id -gn)
+	[[ $bingrp = *@( )* ]] && bingrp=$(id -g)
 else
 	ug="\"-o $binown -g $bingrp\""
 fi
 
-if ! gnuos=$($SHELL $top/dist/contrib/gnu/config/config.guess); then
+if ! gnuos=$($MKSH $top/dist/contrib/gnu/config/config.guess); then
 	print -u2 Please report also to the MirMake maintainers.
 	exit 1
 fi
 
-mkdir -p $d_build/mk $d_build/F
-
 sed_exp="-e 's#@@machine@@#${new_machin}#g' \
 	 -e 's#@@march@@#${new_macarc}#g' \
 	 -e 's#@@machos@@#${new_machos}#g' \
-	 -e 's#@@mksh@@#${new_mirksh}#g' \
+	 -e 's#@@mksh@@#${MKSH}#g' \
 	 -e 's#@@ostype@@#${new_ostype}#g' \
 	 -e 's#@@shmk@@#${dt_mk}#g' \
 	 -e 's#@@binmk@@#${dt_bin}#g' \
@@ -204,15 +205,34 @@ sed_exp="-e 's#@@machine@@#${new_machin}#g' \
 	 -e 's#@@rtld@@#${_rtld}#g' \
 	 -e 's#@@bmake@@#${new_exenam}#g'"
 
-
 # Copy sources
+rm -rf $d_build
+mkdir -p $d_build/{F,mk,libmirmake}
 (cd $d_src/usr.bin/make; find . | cpio -pdlu $d_build)
 (cd $d_src/lib/libc; find ohash | cpio -pdlu $d_build)
-cp $d_src/lib/libc/stdlib/getopt_long.c $d_src/lib/libc/string/strlfun.c \
+(cd $d_src/usr.bin; find readlink tsort xinstall | cpio -pdlu $d_build)
+cp  $d_src/lib/libc/stdlib/getopt_long.c $d_src/lib/libc/string/strlfun.c \
     $d_src/include/*.h $d_src/usr.bin/mkdep/mkdep.sh $d_build/
-cp $d_src/share/mk/*.mk $d_build/mk/
-cp $d_src/include/{getopt,md4,md5,rmd160,sha1,sha2}.h \
-    $d_script/../contrib/mirmake.h $d_build/F/
+cp  $d_src/share/mk/*.mk $d_build/mk/
+cp  $d_src/include/{getopt,md4,md5,rmd160,sha1,sha2,stdbool,sysexits}.h \
+    $top/dist/contrib/mirmake.h $d_build/F/
+cp  $d_src/lib/libc/hash/{md4,md5,rmd160,sha1,sha2}.c \
+    $d_src/lib/libc/string/strlfun.c \
+    $d_src/lib/libc/stdlib/{getopt_long,strtoll}.c \
+    $d_src/lib/libc/stdio/{{,v}asprintf,mktemp}.c \
+    $top/dist/contrib/*.c $d_build/libmirmake/
+for lc in md4 md5 rmd160 sha1; do
+	typeset -u uc=$lc
+	sed -e "s/hashinc/$lc.h/g" -e "s/HASH/$uc/g" \
+	    <$d_src/lib/libc/hash/helper.c >$d_build/libmirmake/${lc}hl.c
+done
+for lc in sha256 sha384 sha512; do
+	typeset -u uc=$lc
+	sed -e "s/hashinc/sha2.h/g" -e "s/HASH_\{0,1\}/$uc_/g" \
+	    <$d_src/lib/libc/hash/helper.c >$d_build/libmirmake/${lc}hl.c
+done
+cp $d_script/Makefile.lib $d_build/libmirmake/Makefile
+chmod -R u+w $d_build
 
 # Patch sources
 for ps in make.1 mk/{bsd.own.mk,bsd.prog.mk,bsd.sys.mk,sys.mk} mkdep.sh; do
@@ -225,293 +245,150 @@ for ps in make.1 mk/{bsd.own.mk,bsd.prog.mk,bsd.sys.mk,sys.mk} mkdep.sh; do
 		exit 1
 	fi
 done
+ed -s $d_build/mk/bsd.own.mk <<-EOF
+	/^BINOWN/s/root/$binown/p
+	/^BINGRP/s/bin/$bingrp/p
+	wq
+EOF
 
-if [[ $binown = - ]]; then
-	binown=$(id -un)
-	[[ $binown = *@( )* ]] && binown=$(id -u)
-	bingrp=$(id -gn)
-	[[ $bingrp = *@( )* ]] && bingrp=$(id -g)
-fi
-print "/^BINOWN/s/root/$binown/p\n/^BINGRP/s/bin/$bingrp/p\nwq" \
-    | ed -s $d_build/mk/bsd.own.mk
-
-# Build dummy libmirmake
-export LDFLAGS="$LDFLAGS -L$top/tmpx -lmirmake"
+# Install shell-based helpers in temporary location (in our PATH)
 cd $top/tmpx
-echo 'void dummy(void) { }' >dummy.c
-$CC -c dummy.c
-rm -f libmirmake.a
-ar rcs libmirmake.a dummy.o
+cp $d_build/mkdep.sh mkdep
+cp $d_src/usr.bin/lorder/lorder.sh lorder
+chmod 755 mkdep lorder
 
 # Build bmake
 cd $d_build
-if ! $OLDMAKE -f Makefile.boot bmake CC="$CC" MACHINE="${new_machin}" \
+$OLDMAKE -f Makefile.boot bmake CC="$CC" MACHINE="${new_machin}" \
     MACHINE_ARCH="${new_macarc}" MACHINE_OS="${new_machos}" \
-    MKSH="${new_mirksh}"; then
-	echo "Error: build failure" >&2
+    MKSH="$MKSH" && test -x bmake || {
+	print -u2 "Error: build failure"
 	exit 1
-fi
+}
+rm $d_build/F/stdbool.h
 
 # Build libmirmake
+cd $d_build/libmirmake
+print Scanning for functions...
+scnfunc strlcpy 'dst,src,1' 'stdlib.h' 'char src[] = "test", dst[4];'
+scnfunc strlcat 'dst,src,1' 'stdlib.h' 'char src[] = "test", dst[4] = "";'
+scnfunc fgetln 'stdin,&x' 'stdio.h' 'size_t x;'
+scnfunc arc4random '' 'stdlib.h'
+scnfunc arc4random_pushb 'buf,arc4random()' 'stdlib.h' 'char buf[] = "test";'
+unset HAVE_EXIT
+scnfunc exit 't==false' 'stdbool.h' 'bool t = true;'
+if 1 = $HAVE_EXIT; then
+	HAS_STDBOOL_H=1
+else
+	HAS_STDBOOL_H=0
+	cp $d_src/include/stdbool.h $d_build/F/
+fi
+unset HAVE_EXIT
+EXTRA_SRCS=
+[[ $HAVE_STRLCPY$HAVE_STRLCAT = 11 ]] || EXTRA_SRCS="$EXTRA_SRCS strlfun.c"
+[[ $HAVE_FGETLN = 1 ]] || EXTRA_SRCS="$EXTRA_SRCS fgetln.c"
+[[ $HAVE_ARC4RANDOM = 1 ]] || CPPFLAGS="$CPPFLAGS -D_ARC4RANDOM_WRAP"
+[[ $HAVE_ARC4RANDOM_PUSHB = 1 ]] || EXTRA_SRCS="$EXTRA_SRCS arc4random.c"
+export EXTRA_SRCS NOMAN=yes NOOBJ=yes
+print ... done
+$d_build/bmake -m $d_build/mk libmirmake.a
+rm -f $top/tmpx/libmirmake.a
+cp libmirmake.a $top/tmpx/
+export LDADD="-L$top/tmpx -lmirmake"
+cd $top
 
-# Build the paper
+# Build helper programmes
+for prog in readlink tsort xinstall; do
+	cd $d_build/$prog
+	CPPFLAGS="$CPPFLAGS -I$d_src/include" $d_build/bmake -m $d_build/mk
+	export PATH=$d_build/$prog:$PATH
+done
+
+# Rebuild bmake
 cd $d_build
-pic <PSD.doc/tutorial.ms >PSD12.make.ms.tbl 2>/dev/null \
-    || cp PSD.doc/tutorial.ms PSD12.make.ms.tbl
-tbl <PSD12.make.ms.tbl >PSD12.make.ms 2>/dev/null \
-    || cp PSD12.make.ms.tbl PSD12.make.ms
-$NROFF -ms PSD12.make.ms >PSD12.make.txt 2>/dev/null \
-    || rm PSD12.make.txt
+$d_build/bmake -m $d_build/mk MAKE_BOOTSTRAP=Yes \
+    MKFEATURES=-D_PATH_DEFSYSPATH=\\\"${dt_mk}\\\" clean
+$d_build/bmake -m $d_build/mk MAKE_BOOTSTRAP=Yes \
+    MKFEATURES=-D_PATH_DEFSYSPATH=\\\"${dt_mk}\\\" depend
+$d_build/bmake -m $d_build/mk MAKE_BOOTSTRAP=Yes \
+    MKFEATURES=-D_PATH_DEFSYSPATH=\\\"${dt_mk}\\\"
 
-# Generate installer
+# Rebuild libmirmake (this time shared)
+unset LDADD
+cd $d_build/libmirmake
+$d_build/make -m $d_build/mk clean
+$d_build/make -m $d_build/mk depend
+$d_build/make -m $d_build/mk
+
+# Build the make(1) paper and a variety of manual pages
+cd $d_build
+pic <PSD.doc/tutorial.ms >PSD12.make.ms.tbl 2>&- \
+    || cp PSD.doc/tutorial.ms PSD12.make.ms.tbl
+tbl <PSD12.make.ms.tbl >PSD12.make.ms 2>&- \
+    || cp PSD12.make.ms.tbl PSD12.make.ms
+$NROFF -ms PSD12.make.ms >PSD12.make.txt 2>&- \
+    || rm PSD12.make.txt
+for mansrc in make.1 $d_src/usr.bin/mkdep/mkdep.1 \
+    $d_src/usr.bin/lorder/lorder.1 $d_src/usr.bin/readlink/readlink.1 \
+    $d_src/usr.bin/tsort/tsort.1 $d_src/usr.bin/xinstall/install.1; do
+	mandst=$(basename $mansrc | sed 's/\./.cat/')
+	[[ $is_catman = 1 ]] && if ! $NROFF -mandoc $mansrc >$mandst; then
+		print -u2 Warning: manpage build failure.
+		is_catman=0
+	fi
+done
+
+# Finally, generate the installer
 cd $top
 cat >Install.sh <<EOF
-#!${new_mirksh}
+#!$MKSH
 
 i=\${1:-install}
+s=\${INSTALL_STRIP:--s}
 ug=$ug
 set -x
 mkdir -p \$DESTDIR$dt_bin \$DESTDIR$dt_man \$DESTDIR$dt_mk
-\$i -c -s \$ug -m 555 ${d_build}/make \$DESTDIR${dt_bin}/${new_exenam}
-\$i -c \$ug -m 555 ${d_build}/mkdep.sh \$DESTDIR${dt_bin}/mkdep
-\$i -c \$ug -m 555 $d_src/usr.bin/lorder/lorder.sh \$DESTDIR${dt_bin}/lorder
-\$i -c \$ug -m 444 $d_build/F/*.h \$DESTDIR${dt_mk}/
-\$i -c \$ug -m 444 $d_src/include/sysexits.h \$DESTDIR${dt_mk}/
+\$i -c \$s \$ug -m 555 $d_build/make \$DESTDIR$dt_bin/$new_exenam
+\$i -c \$ug -m 555 $top/tmpx/mkdep $top/tmpx/lorder \$DESTDIR$dt_bin/
+\$i -c \$ug -m 444 $d_build/F/*.h $d_build/mk/*.mk \$DESTDIR$dt_mk/
+progs="libmirmake readlink tsort"
+sfu=:
 EOF
-for f in ${d_build}/mk/*.mk; do
+[[ $new_machos = Interix ]] && cat >>Install.sh <<EOF
+\$i -c \$ug -m 555 $top/tmpx/mktemp \$DESTDIR$dt_bin/
+progs="\$progs xinstall"
+sfu=
+EOF
+[[ -s $d_build/PSD12.make.txt ]] && cat >>Install.sh <<EOF
+\$i -c \$ug -m 444 $d_build/PSD12.make.txt \$DESTDIR$dt_mk/
+EOF
+if [[ $is_catman = 0 ]]; then
 	cat >>Install.sh <<EOF
-\$i -c \$ug -m 444 $f \$DESTDIR${dt_mk}/
+\$i -c \$ug -m 444 $d_build/make.1 \$DESTDIR$dt_man/$new_exenam.1
+\$i -c \$ug -m 444 $d_src/usr.bin/mkdep/mkdep.1 \$DESTDIR$dt_man/mkdep.1
+\$i -c \$ug -m 444 $d_src/usr.bin/lorder/lorder.1 \$DESTDIR$dt_man/lorder.1
+\$i -c \$ug -m 444 $d_build/readlink/readlink.1 \$DESTDIR$dt_man/readlink.1
+\$i -c \$ug -m 444 $d_build/tsort/tsort.1 \$DESTDIR$dt_man/tsort.1
+\$sfu \$i -c \$ug -m 444 $d_build/xinstall/install.1 \$DESTDIR$dt_man/install.1
 EOF
+else
+	cat >>Install.sh <<EOF
+\$i -c \$ug -m 444 $d_build/make.cat1 \$DESTDIR$dt_man/$new_exenam.0
+\$i -c \$ug -m 444 $d_build/mkdep.cat1 \$DESTDIR$dt_man/mkdep.0
+\$i -c \$ug -m 444 $d_build/lorder.cat1 \$DESTDIR$dt_man/lorder.0
+\$i -c \$ug -m 444 $d_build/readlink.cat1 \$DESTDIR$dt_man/readlink.0
+\$i -c \$ug -m 444 $d_build/tsort.cat1 \$DESTDIR$dt_man/tsort.0
+\$sfu \$i -c \$ug -m 444 $d_build/install.cat1 \$DESTDIR$dt_man/install.0
+EOF
+fi
+cat >>Install.sh <<EOF
+for prog in \$progs; do
+	(cd $d_build/\$prog; $d_build/make -m $d_build/mk \\
+	    NOOBJ=yes NOMAN=yes INSTALL_STRIP=\$s \\
+	    DESTDIR="\$DESTDIR" BINDIR=$dt_bin LIBDIR=$dt_mk install)
 done
-# build make manpage
-if [[ $is_catman = 1 ]]; then
-	cd $d_build
-	if ! $NROFF -mandoc make.1 >make.cat1; then
-		echo "Warning: manpage build failure." >&2
-		is_catman=0
-	fi
-	cd $top
-fi
-if [[ $is_catman = 0 ]]; then
-	cat >>Install.sh <<EOF
-\$i -c \$ug -m 444 ${d_build}/make.1 \$DESTDIR${dt_man}/${new_exenam}.1
 EOF
-else
-	cat >>Install.sh <<EOF
-\$i -c \$ug -m 444 ${d_build}/make.cat1 \$DESTDIR${dt_man}/${new_exenam}.0
-EOF
-fi
-# build mkdep manpage
-if [[ $is_catman = 1 ]]; then
-	cd $d_build
-	if ! $NROFF -mandoc $d_src/usr.bin/mkdep/mkdep.1 >mkdep.cat1; then
-		echo "Warning: manpage build failure." >&2
-		is_catman=0
-	fi
-	cd $top
-fi
-if [[ $is_catman = 0 ]]; then
-	cat >>Install.sh <<EOF
-\$i -c \$ug -m 444 $d_src/usr.bin/mkdep/mkdep.1 \$DESTDIR${dt_man}/mkdep.1
-EOF
-else
-	cat >>Install.sh <<EOF
-\$i -c \$ug -m 444 ${d_build}/mkdep.cat1 \$DESTDIR${dt_man}/mkdep.0
-EOF
-fi
-# build lorder manpage
-if [[ $is_catman = 1 ]]; then
-	cd $d_build
-	if ! $NROFF -mandoc $d_src/usr.bin/lorder/lorder.1 >lorder.cat1; then
-		echo "Warning: manpage build failure." >&2
-		is_catman=0
-	fi
-	cd $top
-fi
-if [[ $is_catman = 0 ]]; then
-	cat >>Install.sh <<EOF
-\$i -c \$ug -m 444 $d_src/usr.bin/lorder/lorder.1 \$DESTDIR${dt_man}/lorder.1
-EOF
-else
-	cat >>Install.sh <<EOF
-\$i -c \$ug -m 444 ${d_build}/lorder.cat1 \$DESTDIR${dt_man}/lorder.0
-EOF
-fi
-# build make documentation
-if [[ -e $d_build/PSD12.make.txt ]]; then
-	cat >>Install.sh <<EOF
-\$i -c \$ug -m 444 $d_build/PSD12.make.txt \$DESTDIR${dt_mk}/
-EOF
-fi
 
-# check for fgetln, strlcpy/strlcat, stdbool.h
-add_fgetln=
-if testfunc 'char *fgetln(FILE *, size_t *)' 'fgetln(stdin, &x)' \
-    '#include <stdio.h>' 'size_t x;'; then
-	add_fgetln=$d_build/fgetln.o
-fi
-add_strlfun=
-if testfunc 'size_t strlcpy(char *, const char *, size_t)' \
-    'strlcpy(dst, src, 1)' '#include <stddef.h>' \
-    'char src[3] = "Hi", dst[3];'; then
-	add_strlfun=strlfun.c
-fi
-stdboolh=
-if ! testfunc 'void exit(int)' 'exit(t == false)' \
-    '#include <stdbool.h>' 'bool t = true;'; then
-	stdboolh=-DHAS_STDBOOL_H
-fi
-
-# build readlink
-rm -rf $d_build/readlink
-cd $d_src/usr.bin; find readlink | cpio -pdlu $d_build
-cd $d_build/readlink
-${d_build}/bmake -m ${d_build}/mk NOMAN=yes NOOBJ=yes
-export PATH=${d_build}/readlink:$PATH
-cd $top
-cat >>Install.sh <<EOF
-\$i -c -s \$ug -m 555 ${d_build}/readlink/readlink \$DESTDIR${dt_bin}/
-EOF
-if [[ $is_catman = 1 ]]; then
-	cd $d_build/readlink
-	if ! $NROFF -mandoc readlink.1 >readlink.cat1; then
-		echo "Warning: manpage build failure." >&2
-		is_catman=0
-	fi
-	cd $top
-fi
-if [[ $is_catman = 0 ]]; then
-	cat >>Install.sh <<EOF
-\$i -c \$ug -m 444 ${d_build}/readlink/readlink.1 \$DESTDIR${dt_man}/readlink.1
-EOF
-else
-	cat >>Install.sh <<EOF
-\$i -c \$ug -m 444 ${d_build}/readlink/readlink.cat1 \$DESTDIR${dt_man}/readlink.0
-EOF
-fi
-
-# build tsort
-rm -rf $d_build/tsort
-cd $d_src/usr.bin; find tsort | cpio -pdlu $d_build
-cd $d_build/tsort
-${d_build}/bmake -m ${d_build}/mk NOMAN=yes NOOBJ=yes \
-    INCS="-I $d_build" LIBS="$d_build/ohash/libohash.a $add_fgetln"
-export PATH=${d_build}/tsort:$PATH
-cd $top
-cat >>Install.sh <<EOF
-\$i -c -s \$ug -m 555 ${d_build}/tsort/tsort \$DESTDIR${dt_bin}/
-EOF
-if [[ $is_catman = 1 ]]; then
-	cd $d_build/tsort
-	if ! $NROFF -mandoc tsort.1 >tsort.cat1; then
-		echo "Warning: manpage build failure." >&2
-		is_catman=0
-	fi
-	cd $top
-fi
-if [[ $is_catman = 0 ]]; then
-	cat >>Install.sh <<EOF
-\$i -c \$ug -m 444 ${d_build}/tsort/tsort.1 \$DESTDIR${dt_man}/tsort.1
-EOF
-else
-	cat >>Install.sh <<EOF
-\$i -c \$ug -m 444 ${d_build}/tsort/tsort.cat1 \$DESTDIR${dt_man}/tsort.0
-EOF
-fi
-
-if [[ $new_machos = Interix ]]; then
-	# build xinstall
-	rm -rf $d_build/xinstall
-	cd $d_src/usr.bin; find xinstall | cpio -pdlu $d_build
-	cd $d_build/xinstall
-	CPPFLAGS="$CPPFLAGS -I$d_src/include" \
-	    ${d_build}/bmake -m ${d_build}/mk NOMAN=yes NOOBJ=yes
-	cd $top
-	cat >>Install.sh <<EOF
-\$i -c -s \$ug -m 555 ${d_build}/xinstall/xinstall \$DESTDIR${dt_bin}/
-mv \$DESTDIR${dt_bin}/xinstall \$DESTDIR${dt_bin}/install
-EOF
-	if [[ $is_catman = 1 ]]; then
-		cd $d_build/xinstall
-		if ! $NROFF -mandoc install.1 >install.cat1; then
-			echo "Warning: manpage build failure." >&2
-			is_catman=0
-		fi
-		cd $top
-	fi
-	if [[ $is_catman = 0 ]]; then
-		cat >>Install.sh <<EOF
-\$i -c \$ug -m 444 ${d_build}/xinstall/install.1 \$DESTDIR${dt_man}/install.1
-EOF
-	else
-		cat >>Install.sh <<EOF
-\$i -c \$ug -m 444 ${d_build}/xinstall/install.cat1 \$DESTDIR${dt_man}/install.0
-EOF
-	fi
-fi
-
-# build libmirmake (hash stuff and necessities)
-rm -rf $d_build/libmirmake
-mkdir $d_build/libmirmake
-cd $d_build/libmirmake
-sed -e 's/hashinc/md4.h/g' -e 's/HASH/MD4/g' \
-    $d_src/lib/libc/hash/helper.c >md4hl.c
-sed -e 's/hashinc/md5.h/g' -e 's/HASH/MD5/g' \
-    $d_src/lib/libc/hash/helper.c >md5hl.c
-sed -e 's/hashinc/rmd160.h/g' -e 's/HASH/RMD160/g' \
-    $d_src/lib/libc/hash/helper.c >rmd160hl.c
-sed -e 's/hashinc/sha1.h/g' -e 's/HASH/SHA1/g' \
-    $d_src/lib/libc/hash/helper.c >sha1hl.c
-sed -e 's/hashinc/sha2.h/g' -e 's/HASH_\{0,1\}/SHA256_/g' \
-    $d_src/lib/libc/hash/helper.c >sha256hl.c
-sed -e 's/hashinc/sha2.h/g' -e 's/HASH_\{0,1\}/SHA384_/g' \
-    $d_src/lib/libc/hash/helper.c >sha384hl.c
-sed -e 's/hashinc/sha2.h/g' -e 's/HASH_\{0,1\}/SHA512_/g' \
-    $d_src/lib/libc/hash/helper.c >sha512hl.c
-cp  $d_src/lib/libc/hash/{md4,md5,rmd160,sha1,sha2}.c \
-    $d_src/lib/libc/string/strlfun.c \
-    $d_src/lib/libc/stdlib/{getopt_long,strtoll}.c \
-    $d_src/lib/libc/stdio/{{,v}asprintf,mktemp}.c \
-    $d_script/../contrib/*.c .
-EXTRA_SRCS="${add_fgetln%.[co]}.c $add_strlfun"
-if testfunc 'uint32_t arc4random_pushb(const void *, size_t)' \
-    'arc4random_pushb(buf, 4)' '#include <stddef.h>' \
-    'char buf[] = "test";'; then
-	EXTRA_SRCS="$EXTRA_SRCS arc4random.c"
-	if ! testfunc 'void arc4random_addrandom(unsigned char *, int)' \
-	    'arc4random_addrandom(buf, 4)' '' \
-	    'char buf[] = "test";'; then
-		CPPFLAGS="$CPPFLAGS -D_ARC4RANDOM_WRAP"
-	fi
-fi
-${d_build}/bmake -m ${d_build}/mk -f $d_script/Makefile.lib NOOBJ=yes \
-    EXTRA_SRCS="$EXTRA_SRCS" clean
-${d_build}/bmake -m ${d_build}/mk -f $d_script/Makefile.lib NOOBJ=yes \
-    EXTRA_SRCS="$EXTRA_SRCS"
-cd $top
-if [[ -s $d_build/libmirmake/libmirmake.a ]]; then
-	cat >>Install.sh <<EOF
-\$i -c \$ug -m 600 $d_build/libmirmake/libmirmake.a \$DESTDIR${dt_mk}/
-ranlib \$DESTDIR${dt_mk}/libmirmake.a
-chmod 444 \$DESTDIR${dt_mk}/libmirmake.a
-EOF
-fi
-
-# re-build bmake
-cd ${d_build}
-mkf="$stdboolh -D_PATH_DEFSYSPATH=\\\"${dt_mk}\\\""
-${d_build}/bmake -m ${d_build}/mk NOMAN=yes NOOBJ=yes \
-    MAKE_BOOTSTRAP=Yes MKFEATURES="$mkf" \
-    LIBS=$d_build/libmirmake/libmirmake.a clean
-${d_build}/bmake -m ${d_build}/mk NOMAN=yes NOOBJ=yes \
-    MAKE_BOOTSTRAP=Yes MKFEATURES="$mkf" \
-    MKDEP_SH="${new_mirksh} ${d_build}/mkdep.sh" \
-    LIBS=$d_build/libmirmake/libmirmake.a depend
-${d_build}/bmake -m ${d_build}/mk NOMAN=yes NOOBJ=yes \
-    MAKE_BOOTSTRAP=Yes MKFEATURES="$mkf" \
-    LIBS=$d_build/libmirmake/libmirmake.a make
-
-chmod 555 $top/Install.sh
-
+chmod 755 Install.sh
 echo "Call $top/Install.sh to install ${new_exenam}!"
 exit 0

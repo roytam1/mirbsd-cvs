@@ -1,7 +1,7 @@
-/* $MirOS: contrib/code/mirmake/dist/contrib/mirmake.h,v 1.22 2006/07/30 23:33:41 tg Exp $ */
+/* $MirOS: src/share/misc/licence.template,v 1.14 2006/08/09 19:35:23 tg Rel $ */
 
 /*-
- * Copyright (c) 2005
+ * Copyright (c) 2005, 2006
  *	Thorsten Glaser <tg@mirbsd.de>
  * Based upon some code
  * Copyright (c) 1991, 1993
@@ -16,15 +16,13 @@
  * in all redistributions or reproduced in accompanying documentation
  * or other materials provided with binary redistributions.
  *
- * All advertising materials mentioning features or use of this soft-
- * ware must display the following acknowledgement:
+ * Advertising materials mentioning features or use of this work must
+ * display the following acknowledgement:
  *	This product includes material provided by Thorsten Glaser.
  * This acknowledgement does not need to be reprinted if this work is
  * linked into a bigger work whose licence does not allow such clause
  * and the author of this work is given due credit in the bigger work
- * or its documentation. Specifically, re-using this code in any work
- * covered by the GNU General Public License version 1 or Library Ge-
- * neral Public License (any version) is permitted.
+ * or its documentation.
  *
  * Licensor offers the work "AS IS" and WITHOUT WARRANTY of any kind,
  * express, or implied, to the maximum extent permitted by applicable
@@ -33,7 +31,7 @@
  * or other damage, or direct damage except proven a consequence of a
  * direct error of said person and intended use of this work, loss or
  * other issues arising in any way out of its use, even if advised of
- * the possibility of such damage or existence of a nontrivial bug.
+ * the possibility of such damage or existence of a defect.
  *-
  * Add here: macros not defined on every operating system, for easier
  * patching of ported apps. Same for definitions of libmirmake, these
@@ -52,6 +50,7 @@
 
 #include <sys/cdefs.h>
 #include <sys/types.h>
+#include <sys/param.h>
 
 /* Undefining */
 
@@ -223,8 +222,10 @@ void arc4random_stir(void);
 void arc4random_addrandom(unsigned char *, int)
     __attribute__((bounded (string, 1, 2)));
 #endif
-#if !defined(__MirBSD__) || (MirBSD < 0x0982)
+#if !defined(__MirBSD__) || (MirBSD < 0x0880)
 void arc4random_push(int);
+#endif
+#if !defined(__MirBSD__) || (MirBSD < 0x0982)
 uint32_t arc4random_pushb(const void *, size_t)
     __attribute__((bounded (string, 1, 2)));
 #endif
@@ -232,4 +233,4 @@ uint32_t arc4random_pushb(const void *, size_t)
 __END_DECLS
 #endif
 
-#endif /* ndef _MIRMAKE_H && ndef _ASM_SOURCE */
+#endif

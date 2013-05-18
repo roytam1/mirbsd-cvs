@@ -1,8 +1,8 @@
 #!/bin/ksh
-# $MirOS: contrib/code/mirmake/dist/contrib/mktemp.sh,v 1.4 2005/11/10 12:47:10 tg Exp $
+# $MirOS: src/share/misc/licence.template,v 1.14 2006/08/09 19:35:23 tg Rel $
 #-
 # Copyright (c) 2005
-#	Thorsten "mirabile" Glaser <tg@66h.42h.de>
+#	Thorsten Glaser <tg@mirbsd.de>
 #
 # Licensee is hereby permitted to deal in this work without restric-
 # tion, including unlimited rights to use, publicly perform, modify,
@@ -11,8 +11,8 @@
 # in all redistributions or reproduced in accompanying documentation
 # or other materials provided with binary redistributions.
 #
-# All advertising materials mentioning features or use of this soft-
-# ware must display the following acknowledgement:
+# Advertising materials mentioning features or use of this work must
+# display the following acknowledgement:
 #	This product includes material provided by Thorsten Glaser.
 #
 # Licensor offers the work "AS IS" and WITHOUT WARRANTY of any kind,
@@ -22,16 +22,16 @@
 # or other damage, or direct damage except proven a consequence of a
 # direct error of said person and intended use of this work, loss or
 # other issues arising in any way out of its use, even if advised of
-# the possibility of such damage or existence of a nontrivial bug.
+# the possibility of such damage or existence of a defect.
 #-
-# *INSECURE* mktemp(1) replacement. DO NOT USE. Needs pdksh.
+# *INSECURE* mktemp(1) replacement for SFU. DO NOT USE. Needs pdksh.
 
 # Globals
 
 set -A chars 0 1 2 3 4 5 6 7 8 9 a b c d e f g h i j k l m n o p q r s \
     t u v w x y z A B C D E F G H I J K L M N O P Q R S T U V W X Y Z
 
-let RAN=$$
+integer RAN=$$
 me=${0##*/}
 
 # Functions
@@ -52,7 +52,7 @@ function getrndc
 
 function getrnd
 {
-	let x=$1
+	integer x=$1
 	while (( x > 0 )); do
 		getrndc
 		let --x
@@ -101,28 +101,28 @@ fi
 
 saveumask=$(umask)
 umask 077
-let numx=0
+integer numx=0
 while [[ $template != ${template%X} ]]; do
 	let numx++
 	template=${template%X}
 done
 
-let gotit=0
+integer gotit=0
 while (( gotit == 0 )); do
 	n=${template}$(getrnd $numx)
 	[[ -e $n ]] && continue
 
 	if (( d == 1 )); then
-		if /bin/mkdir -pm 0700 "$n" 2>/dev/null; then
+		if /bin/mkdir -pm 0700 "$n" 2>&-; then
 			if [[ -d $n && -O $n ]]; then
-				let gotit=1
+				gotit=1
 				(( u == 1 )) && /bin/rmdir "$n"
 			fi
 		fi
 	else
-		if (print -n >"$n") 2>/dev/null; then
+		if (print -n >"$n") 2>&-; then
 			if [[ -f $n && -O $n ]]; then
-				let gotit=1
+				gotit=1
 				(( u == 1 )) && /bin/rm -f "$n"
 			fi
 		fi
