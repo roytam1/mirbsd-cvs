@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/news.inc,v 1.109 2009/04/11 18:35:41 tg Exp $
+RCSID: $MirOS: www/data/news.inc,v 1.110 2009/04/12 12:43:46 tg Exp $
 Title: Older news from the MirOS Project
 Date: 01.03.2006
 
@@ -1545,4 +1545,28 @@ Tag: bug snapshot
  upgrade instructions</a> were also updated wrt. the new kernel.</p>
 <p>Thanks to bsiegert@ for noticing this so timely!</p>
 <p>Other than that… happy Ostara!</p>
+----
+Date: 22.04.2009 19:51
+Author: tg@
+Title: RELIABILITY ADVISORY – [#8, #9, #10, -current] ext2fs support
+Tag: bug
+
+<p>MirOS #10-current: support code for 256 byte inodes has been
+ reverted (backed out) due to regressions wrt. 128 byte inode
+ filesystems.</p>
+<p><strong>MirOS #8, #9, #10, #10-current:</strong> It is advised
+ to <span style="text-decoration:underline;">refrain from using the
+ <tt>ext2fs</tt> filesystem</span>, especially in read-write mode,
+ because symlink code is broken. The filesystem, and all processes
+ accessing it, become unresponsive (hang in D state) upon creation
+ of a symbolic link or access of a filesystem where such a broken
+ symlink(7) is created. MirOS #7 can be used to access filesystems
+ such as these, but the broken symlinks can still not be accessed
+ by penalty of a kernel panic(9).</p>
+<p>MirOS #10-current: ext2fs can only be mounted read-only for now,
+ starting today, until these problems are fixed.</p>
+<p>MirOS (recent but unknown versions): the <tt>async</tt> mount
+ flag ceased to work as it did before, says bsiegert@</p>
+<hr />
+<p><strong>MirOS #7quater:</strong> Not affected.</p>
 ----
