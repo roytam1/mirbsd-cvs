@@ -233,6 +233,7 @@ xmemdup(void const *p, size_t s)
 #endif
 
 __RCSID("$MirOS: www/mk/getdate.c,v 1.1 2007/06/09 23:29:53 tg Exp $");
+__RCSID("$miros: src/gnu/usr.bin/cvs/lib/getdate.y,v 1.6.2.3 2007/03/10 23:18:15 tg Exp $");
 
 /* Shift A right by B bits portably, by dividing A by 2**B and
    truncating towards minus infinity.  A and B should be free of side
