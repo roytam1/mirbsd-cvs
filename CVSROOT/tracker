@@ -1,5 +1,5 @@
 #!/usr/bin/env mksh
-# $MirOS: src/share/misc/licence.template,v 1.20 2006/12/11 21:04:56 tg Rel $
+# $MirOS: CVSROOT/tracker,v 1.9 2008/07/03 17:24:31 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -27,11 +27,19 @@
 repo=$1
 id=$2
 dir=$3
+if [[ -z $id || $id = @(-|%I) ]]; then
+	if (( PGRP )); then
+		id=$PGRP	# mksh pre-R24 or post-R33
+	else
+		id=$(perl -e 'print getpgrp();' 2>&-) || id=
+	fi
+	[[ -z $id || $id -eq 0 ]] && exit 255
+fi
 
 [[ -e $repo/.tmp/do-dump ]] && {
 	local argv
 	set -A argv -- "$0" "$@"
-	print "BEGIN calling information"
+	print "BEGIN calling information for commit $id"
 	integer i=0
 	while (( i < ${#argv[*]} )); do
 		print -nr -- "[$i]<${argv[i++]}> "
