@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/distrib/i386/livecd/munge_it.sh,v 1.7 2006/04/06 00:16:31 tg Exp $
+# $MirOS: src/distrib/i386/livecd/munge_it.sh,v 1.8 2006/04/06 00:18:46 tg Exp $
 #-
 # Copyright (c) 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -63,7 +63,7 @@ ed -s etc/ntpd.conf <<-'EOF'
 EOF
 ed -s etc/rc <<-'EOF'
 	1i
-		# $MirOS: src/distrib/i386/livecd/munge_it.sh,v 1.7 2006/04/06 00:16:31 tg Exp $
+		# $MirOS: src/distrib/i386/livecd/munge_it.sh,v 1.8 2006/04/06 00:18:46 tg Exp $
 	.
 	/^rm.*fastboot$/a
 
@@ -83,7 +83,9 @@ ed -s etc/rc <<-'EOF'
 		sleep 1
 		do_mfsmount home
 		print ' done'
+		print -n 'creating device nodes (takes a long time)...'
 		(cd /dev; mksh ./MAKEDEV all)
+		print done
 		sleep 1
 		cp -r etc/skel home/live
 		chown -R 32762:32762 home/live
