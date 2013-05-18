@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.283 2009/10/02 17:38:08 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.284 2009/10/02 18:06:25 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -428,6 +428,17 @@ mws_content <<'EOF'
 <h5 id="oe_muc">Compiler: DEC ucode (MIPS CC)</h5>
 <p>Since mksh R33c, ucode on Ultrix is fully supported.</p>
 
+<h5 id="oe_adk">Distribution: FreeWRT, OpenADK</h5>
+<p>These distributions provide the same support cross-platform,
+ with µClibc and/or eglibc, and thus should behave the same on
+ all supported targets.</p>
+
+<h5 id="oe_android">Platform: Android</h5>
+<p>Supported with OpenADK (static eglibc) and NDK (although the build
+ process is currently not feasible with an Android.mk file but possible
+ if the CPPFLAGS and signames.inc are pregenerated; sys_signame[] has
+ been pushed upstream and is currently under evaluation).</p>
+
 <h5 id="oe_diet">Toolchain: dietlibc</h5>
 <p>Fefe’s dietlibc works in mksh R34, although his opinion towards certain
  standards, such as <tt>caddr_t</tt>, strcasecmp(3), etc. are weird.</p>
@@ -447,6 +458,10 @@ mws_content <<'EOF'
 
 <h5 id="oe_bsi">OS: BSDi BSD/OS</h5>
 <p>BSD/OS 3.1 works fine with mksh R33.</p>
+
+<h5 id="oe_dos">OS: MS-DOS, DR DOS, FreeDOS</h5>
+<p>DJGPP’s bash.exe fails to run Build.sh, thus this is currently not
+ supported. (We tried!)</p>
 
 <h5 id="oe_cyg">OS: GNU/Cygwin</h5>
 <p>This operating environment is supported as much as it adheres to standard
@@ -1005,6 +1020,8 @@ mws_content <<'EOF'
  <li>[tg, Clint Adams] Begin a shared testsuite for mksh and posh</li>
  <li>[tg] Document (via check.t) another posh bug affecting mksh, #445651</li>
  <li>[tg] Rename <tt>set -o posix</tt> (kludge) to <tt>set -o sh</tt></li>
+ <li>[tg] Make 「((foo) || bar)」 and 「((foo) | (bar))」 work</li>
+ <li>[tg] Fix lazy evaluation of assignments by ternary operator, #445651</li>
 </ul>
 <p id="r39">mksh R39 evolved into these through various means:</p><ul>
  <li>[tg] Shut up a bogus gcc warning during configuration process</li>
