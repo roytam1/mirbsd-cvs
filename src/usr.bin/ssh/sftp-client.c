@@ -1,4 +1,4 @@
-/* $OpenBSD: sftp-client.c,v 1.65 2006/04/16 00:54:10 djm Exp $ */
+/* $OpenBSD: sftp-client.c,v 1.74 2006/08/03 03:34:42 deraadt Exp $ */
 /*
  * Copyright (c) 2001-2004 Damien Miller <djm@openbsd.org>
  *
@@ -19,15 +19,22 @@
 /* XXX: remove all logging, only return status codes */
 /* XXX: copy between two remote sites */
 
-#include "includes.h"
-__RCSID("$MirOS: src/usr.bin/ssh/sftp-client.c,v 1.8 2006/02/22 02:16:48 tg Exp $");
-
+#include <sys/param.h>
 #include <sys/queue.h>
 #include <sys/stat.h>
+#include <sys/time.h>
+#include <sys/uio.h>
 
-#include "buffer.h"
-#include "bufaux.h"
+#include <errno.h>
+#include <fcntl.h>
+#include <signal.h>
+#include <stdio.h>
+#include <string.h>
+#include <unistd.h>
+#include <stdarg.h>
+
 #include "xmalloc.h"
+#include "buffer.h"
 #include "log.h"
 #include "atomicio.h"
 #include "progressmeter.h"
@@ -36,6 +43,8 @@ __RCSID("$MirOS: src/usr.bin/ssh/sftp-client.c,v 1.8 2006/02/22 02:16:48 tg Exp 
 #include "sftp.h"
 #include "sftp-common.h"
 #include "sftp-client.h"
+
+__RCSID("$MirOS$");
 
 extern volatile sig_atomic_t interrupted;
 extern int showprogress;
@@ -67,7 +76,7 @@ send_msg(int fd, Buffer *m)
 	iov[0].iov_len = sizeof(mlen);
 	iov[1].iov_base = buffer_ptr(m);
 	iov[1].iov_len = buffer_len(m);
-	
+
 	if (atomiciov(writev, fd, iov, 2) != buffer_len(m) + sizeof(mlen))
 		fatal("Couldn't send packet: %s", strerror(errno));
 

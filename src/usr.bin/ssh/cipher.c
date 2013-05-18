@@ -1,4 +1,4 @@
-/* $OpenBSD: cipher.c,v 1.79 2006/03/25 13:17:01 djm Exp $ */
+/* $OpenBSD: cipher.c,v 1.81 2006/08/03 03:34:42 deraadt Exp $ */
 /*
  * Author: Tatu Ylonen <ylo@cs.hut.fi>
  * Copyright (c) 1995 Tatu Ylonen <ylo@cs.hut.fi>, Espoo, Finland
@@ -35,14 +35,18 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "includes.h"
-__RCSID("$MirOS: src/usr.bin/ssh/cipher.c,v 1.7 2006/08/18 18:05:49 tg Exp $");
+#include <sys/types.h>
+
+#include <openssl/md5.h>
+
+#include <string.h>
+#include <stdarg.h>
 
 #include "xmalloc.h"
 #include "log.h"
 #include "cipher.h"
 
-#include <md5.h>
+__RCSID("$MirOS$");
 
 extern const EVP_CIPHER *evp_ssh1_bf(void);
 extern const EVP_CIPHER *evp_ssh1_3des(void);
@@ -195,8 +199,7 @@ cipher_init(CipherContext *cc, Cipher *cipher,
 	int klen;
 	u_char *junk, *discard;
 
-	arc4random_push((((uint32_t)getpid() * (uint32_t)getppid())
-	    ^ (intptr_t)cc ^ (intptr_t)cipher) + do_encrypt);
+	arc4random_push(((intptr_t)cc ^ (intptr_t)cipher) + do_encrypt);
 	if (key && keylen)
 		arc4random_pushb(key, keylen);
 	if (iv && ivlen)
@@ -279,9 +282,9 @@ cipher_set_key_string(CipherContext *cc, Cipher *cipher,
 	MD5_CTX md;
 	u_char digest[16];
 
-	MD5Init(&md);
-	MD5Update(&md, (const u_char *)passphrase, strlen(passphrase));
-	MD5Final(digest, &md);
+	MD5_Init(&md);
+	MD5_Update(&md, (const u_char *)passphrase, strlen(passphrase));
+	MD5_Final(digest, &md);
 
 	cipher_init(cc, cipher, digest, 16, NULL, 0, do_encrypt);
 

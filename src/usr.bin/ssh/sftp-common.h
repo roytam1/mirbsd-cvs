@@ -1,5 +1,5 @@
-/* $MirOS$ */
-/* $OpenBSD: sftp-common.h,v 1.8 2006/03/25 22:22:43 djm Exp $ */
+/* $MirOS: src/usr.bin/ssh/sftp-common.h,v 1.2 2006/04/19 10:40:53 tg Exp $ */
+/* $OpenBSD: sftp-common.h,v 1.10 2006/08/03 03:34:42 deraadt Exp $ */
 
 /*
  * Copyright (c) 2001 Markus Friedl.  All rights reserved.
@@ -25,8 +25,6 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-
-#include <sys/stat.h>
 
 /* Maximum packet that we are willing to send/accept */
 #define SFTP_MAX_MSG_LENGTH	(256 * 1024)

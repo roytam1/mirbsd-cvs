@@ -1,4 +1,4 @@
-/* $OpenBSD: monitor.c,v 1.77 2006/03/30 11:40:21 dtucker Exp $ */
+/* $OpenBSD: monitor.c,v 1.88 2006/08/12 20:46:46 miod Exp $ */
 /*
  * Copyright 2002 Niels Provos <provos@citi.umich.edu>
  * Copyright 2002 Markus Friedl <markus@openbsd.org>
@@ -25,25 +25,35 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "includes.h"
-__RCSID("$MirOS: src/usr.bin/ssh/monitor.c,v 1.4 2006/02/22 01:23:49 tg Exp $");
-
+#include <sys/param.h>
 #include <sys/wait.h>
+#include <sys/socket.h>
+#include <sys/tree.h>
 
+#include <openssl/dh.h>
+
+#include <errno.h>
+#include <fcntl.h>
 #include <paths.h>
+#include <pwd.h>
 #include <signal.h>
+#include <stdlib.h>
+#include <string.h>
 
 #ifdef SKEY
 #include <skey.h>
 #endif
 
-#include <openssl/dh.h>
-
+#include "xmalloc.h"
 #include "ssh.h"
+#include "key.h"
+#include "buffer.h"
+#include "hostfile.h"
 #include "auth.h"
+#include "cipher.h"
 #include "kex.h"
 #include "dh.h"
-#include "zlib.h"
+#include <zlib.h>
 #include "packet.h"
 #include "auth-options.h"
 #include "sshpty.h"
@@ -57,12 +67,11 @@ __RCSID("$MirOS: src/usr.bin/ssh/monitor.c,v 1.4 2006/02/22 01:23:49 tg Exp $");
 #include "monitor_mm.h"
 #include "monitor_wrap.h"
 #include "monitor_fdpass.h"
-#include "xmalloc.h"
 #include "misc.h"
-#include "buffer.h"
-#include "bufaux.h"
 #include "compat.h"
 #include "ssh2.h"
+
+__RCSID("$MirOS$");
 
 /* Imports */
 extern ServerOptions options;
@@ -1028,7 +1037,7 @@ mm_session_close(Session *s)
 {
 	debug3("%s: session %d pid %ld", __func__, s->self, (long)s->pid);
 	if (s->ttyfd != -1) {
-		debug3("%s: tty %s ptyfd %d",  __func__, s->tty, s->ptyfd);
+		debug3("%s: tty %s ptyfd %d", __func__, s->tty, s->ptyfd);
 		session_pty_cleanup2(s);
 	}
 	s->used = 0;
@@ -1088,7 +1097,7 @@ mm_answer_pty(int sock, Buffer *m)
 	/* no need to dup() because nobody closes ptyfd */
 	s->ptymaster = s->ptyfd;
 
-	debug3("%s: tty %s ptyfd %d",  __func__, s->tty, s->ttyfd);
+	debug3("%s: tty %s ptyfd %d", __func__, s->tty, s->ttyfd);
 
 	return (0);
 

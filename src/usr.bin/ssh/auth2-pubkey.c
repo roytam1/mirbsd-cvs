@@ -1,4 +1,4 @@
-/* $OpenBSD: auth2-pubkey.c,v 1.12 2006/03/25 13:17:01 djm Exp $ */
+/* $OpenBSD: auth2-pubkey.c,v 1.15 2006/08/03 03:34:41 deraadt Exp $ */
 /*
  * Copyright (c) 2000 Markus Friedl.  All rights reserved.
  *
@@ -23,28 +23,32 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "includes.h"
-__RCSID("$MirOS: src/usr.bin/ssh/auth2-pubkey.c,v 1.4 2006/04/19 10:40:44 tg Exp $");
-
+#include <sys/param.h>
 #include <sys/stat.h>
 
+#include <pwd.h>
+#include <stdio.h>
+#include <stdarg.h>
+
+#include "xmalloc.h"
 #include "ssh.h"
 #include "ssh2.h"
-#include "xmalloc.h"
 #include "packet.h"
 #include "buffer.h"
 #include "log.h"
 #include "servconf.h"
 #include "compat.h"
-#include "bufaux.h"
-#include "auth.h"
 #include "key.h"
+#include "hostfile.h"
+#include "auth.h"
 #include "pathnames.h"
 #include "uidswap.h"
 #include "auth-options.h"
 #include "canohost.h"
 #include "monitor_wrap.h"
 #include "misc.h"
+
+__RCSID("$MirOS$");
 
 /* import */
 extern ServerOptions options;

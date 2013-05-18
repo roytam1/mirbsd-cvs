@@ -1,4 +1,4 @@
-/* $OpenBSD: ssh-keygen.c,v 1.144 2006/05/17 12:43:34 markus Exp $ */
+/* $OpenBSD: ssh-keygen.c,v 1.154 2006/08/03 03:34:42 deraadt Exp $ */
 /*
  * Author: Tatu Ylonen <ylo@cs.hut.fi>
  * Copyright (c) 1994 Tatu Ylonen <ylo@cs.hut.fi>, Espoo, Finland
@@ -12,14 +12,21 @@
  * called by a name other than "ssh" or "Secure Shell".
  */
 
-#include "includes.h"
-__RCSID("$MirOS: src/usr.bin/ssh/ssh-keygen.c,v 1.12 2006/04/19 10:40:54 tg Exp $");
-
+#include <sys/param.h>
 #include <sys/stat.h>
+#include <sys/socket.h>
 
 #include <openssl/evp.h>
 #include <openssl/pem.h>
 #include <openssl/err.h>
+
+#include <errno.h>
+#include <fcntl.h>
+#include <pwd.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
 
 #include "xmalloc.h"
 #include "key.h"
@@ -27,17 +34,18 @@ __RCSID("$MirOS: src/usr.bin/ssh/ssh-keygen.c,v 1.12 2006/04/19 10:40:54 tg Exp 
 #include "authfile.h"
 #include "uuencode.h"
 #include "buffer.h"
-#include "bufaux.h"
 #include "pathnames.h"
 #include "log.h"
 #include "misc.h"
 #include "match.h"
 #include "hostfile.h"
+#include "dns.h"
 
 #ifdef SMARTCARD
 #include "scard.h"
 #endif
-#include "dns.h"
+
+__RCSID("$MirOS$");
 
 /* Number of bits in the RSA/DSA key.  This value can be set on the command line. */
 #define DEFAULT_BITS		2048

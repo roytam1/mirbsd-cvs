@@ -1,4 +1,4 @@
-/* $OpenBSD: packet.c,v 1.131 2006/03/30 09:58:16 djm Exp $ */
+/* $OpenBSD: packet.c,v 1.144 2006/09/16 19:53:37 djm Exp $ */
 /*
  * Author: Tatu Ylonen <ylo@cs.hut.fi>
  * Copyright (c) 1995 Tatu Ylonen <ylo@cs.hut.fi>, Espoo, Finland
@@ -37,35 +37,43 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "includes.h"
-__RCSID("$MirOS: src/usr.bin/ssh/packet.c,v 1.7 2006/06/02 20:50:48 tg Exp $");
-
+#include <sys/param.h>
 #include <sys/queue.h>
+#include <sys/socket.h>
+#include <sys/time.h>
 
 #include <netinet/in_systm.h>
+#include <netinet/in.h>
 #include <netinet/ip.h>
+
+#include <errno.h>
+#include <stdarg.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
+#include <signal.h>
 
 #include "xmalloc.h"
 #include "buffer.h"
 #include "packet.h"
-#include "bufaux.h"
 #include "crc32.h"
-
 #include "compress.h"
 #include "deattack.h"
 #include "channels.h"
-
 #include "compat.h"
 #include "ssh1.h"
 #include "ssh2.h"
-
 #include "cipher.h"
+#include "key.h"
 #include "kex.h"
 #include "mac.h"
 #include "log.h"
 #include "canohost.h"
 #include "misc.h"
 #include "ssh.h"
+
+__RCSID("$MirOS$");
 
 #ifdef PACKET_DEBUG
 #define DBG(x) x
@@ -663,7 +671,7 @@ set_newkeys(int mode)
 
 /*
  * Delayed compression for SSH2 is enabled after authentication:
- * This happans on the server side after a SSH2_MSG_USERAUTH_SUCCESS is sent,
+ * This happens on the server side after a SSH2_MSG_USERAUTH_SUCCESS is sent,
  * and on the client side after a SSH2_MSG_USERAUTH_SUCCESS is received.
  */
 static void
@@ -987,9 +995,16 @@ packet_read_poll1(void)
 	 * (C)1998 CORE-SDI, Buenos Aires Argentina
 	 * Ariel Futoransky(futo@core-sdi.com)
 	 */
-	if (!receive_context.plaintext &&
-	    detect_attack(buffer_ptr(&input), padded_len) == DEATTACK_DETECTED)
-		packet_disconnect("crc32 compensation attack: network attack detected");
+	if (!receive_context.plaintext) {
+		switch (detect_attack(buffer_ptr(&input), padded_len)) {
+		case DEATTACK_DETECTED:
+			packet_disconnect("crc32 compensation attack: "
+			    "network attack detected");
+		case DEATTACK_DOS_DETECTED:
+			packet_disconnect("deattack denial of "
+			    "service detected");
+		}
+	}
 
 	/* Decrypt data to incoming_packet. */
 	buffer_clear(&incoming_packet);

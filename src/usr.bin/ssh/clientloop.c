@@ -1,4 +1,4 @@
-/* $OpenBSD: clientloop.c,v 1.163 2006/05/16 09:00:00 markus Exp $ */
+/* $OpenBSD: clientloop.c,v 1.175 2006/08/03 03:34:42 deraadt Exp $ */
 /*
  * Author: Tatu Ylonen <ylo@cs.hut.fi>
  * Copyright (c) 1995 Tatu Ylonen <ylo@cs.hut.fi>, Espoo, Finland
@@ -59,28 +59,36 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "includes.h"
 
+#include <sys/types.h>
 #include <sys/ioctl.h>
 #include <sys/stat.h>
+#include <sys/socket.h>
+#include <sys/time.h>
+#include <sys/param.h>
 
 #include <ctype.h>
+#include <errno.h>
 #include <paths.h>
 #include <signal.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 #include <termios.h>
+#include <pwd.h>
+#include <unistd.h>
 
+#include "xmalloc.h"
 #include "ssh.h"
 #include "ssh1.h"
 #include "ssh2.h"
-#include "xmalloc.h"
 #include "packet.h"
 #include "buffer.h"
 #include "compat.h"
 #include "channels.h"
 #include "dispatch.h"
-#include "buffer.h"
-#include "bufaux.h"
 #include "key.h"
+#include "cipher.h"
 #include "kex.h"
 #include "log.h"
 #include "readconf.h"
@@ -920,12 +928,16 @@ process_cmdline(void)
 
 	if (*s == 'h' || *s == 'H' || *s == '?') {
 		logit("Commands:");
-		logit("      -Lport:host:hostport    Request local forward");
-		logit("      -Rport:host:hostport    Request remote forward");
-		logit("      -KRhostport             Cancel remote forward");
+		logit("      -L[bind_address:]port:host:hostport    "
+		    "Request local forward");
+		logit("      -R[bind_address:]port:host:hostport    "
+		    "Request remote forward");
+		logit("      -KR[bind_address:]port                 "
+		    "Cancel remote forward");
 		if (!options.permit_local_command)
 			goto out;
-		logit("      !args                   Execute local command");
+		logit("      !args                                  "
+		    "Execute local command");
 		goto out;
 	}
 
@@ -986,9 +998,12 @@ process_cmdline(void)
 				goto out;
 			}
 		} else {
-			channel_request_remote_forwarding(fwd.listen_host,
+			if (channel_request_remote_forwarding(fwd.listen_host,
 			    fwd.listen_port, fwd.connect_host,
-			    fwd.connect_port);
+			    fwd.connect_port) < 0) {
+				logit("Port forwarding failed.");
+				goto out;
+			}
 		}
 
 		logit("Forwarding port.");

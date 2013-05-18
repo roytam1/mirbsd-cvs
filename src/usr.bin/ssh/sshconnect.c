@@ -1,4 +1,4 @@
-/* $OpenBSD: sshconnect.c,v 1.185 2006/06/14 10:50:42 djm Exp $ */
+/* $OpenBSD: sshconnect.c,v 1.199 2006/08/03 03:34:42 deraadt Exp $ */
 /*
  * Author: Tatu Ylonen <ylo@cs.hut.fi>
  * Copyright (c) 1995 Tatu Ylonen <ylo@cs.hut.fi>, Espoo, Finland
@@ -13,17 +13,27 @@
  * called by a name other than "ssh" or "Secure Shell".
  */
 
-#include "includes.h"
-__RCSID("$MirOS: src/usr.bin/ssh/sshconnect.c,v 1.6 2006/06/02 20:50:52 tg Exp $");
-
+#include <sys/types.h>
 #include <sys/wait.h>
 #include <sys/stat.h>
+#include <sys/socket.h>
+#include <sys/time.h>
+
+#include <netinet/in.h>
 
 #include <ctype.h>
+#include <errno.h>
+#include <netdb.h>
 #include <paths.h>
+#include <signal.h>
+#include <pwd.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
 
-#include "ssh.h"
 #include "xmalloc.h"
+#include "ssh.h"
 #include "rsa.h"
 #include "buffer.h"
 #include "packet.h"
@@ -37,6 +47,9 @@ __RCSID("$MirOS: src/usr.bin/ssh/sshconnect.c,v 1.6 2006/06/02 20:50:52 tg Exp $
 #include "atomicio.h"
 #include "misc.h"
 #include "dns.h"
+#include "version.h"
+
+__RCSID("$MirOS$");
 
 char *client_version_string = NULL;
 char *server_version_string = NULL;
@@ -502,13 +515,17 @@ confirm(const char *prompt)
  * check whether the supplied host key is valid, return -1 if the key
  * is not valid. the user_hostfile will not be updated if 'readonly' is true.
  */
+#define RDRW	0
+#define RDONLY	1
+#define ROQUIET	2
 static int
-check_host_key(char *host, struct sockaddr *hostaddr, Key *host_key,
-    int readonly, const char *user_hostfile, const char *system_hostfile)
+check_host_key(char *hostname, struct sockaddr *hostaddr, u_short port,
+    Key *host_key, int readonly, const char *user_hostfile,
+    const char *system_hostfile)
 {
 	Key *file_key;
 	const char *type = key_type(host_key);
-	char *ip = NULL;
+	char *ip = NULL, *host = NULL;
 	char hostline[1000], *hostp, *fp;
 	HostStatus host_status;
 	HostStatus ip_status;
@@ -555,7 +572,7 @@ check_host_key(char *host, struct sockaddr *hostaddr, Key *host_key,
 		if (getnameinfo(hostaddr, hostaddr->sa_len, ntop, sizeof(ntop),
 		    NULL, 0, NI_NUMERICHOST) != 0)
 			fatal("check_host_key: getnameinfo failed");
-		ip = xstrdup(ntop);
+		ip = put_host_port(ntop, port);
 	} else {
 		ip = xstrdup("<no hostip for proxy command>");
 	}
@@ -563,18 +580,21 @@ check_host_key(char *host, struct sockaddr *hostaddr, Key *host_key,
 	 * Turn off check_host_ip if the connection is to localhost, via proxy
 	 * command or if we don't have a hostname to compare with
 	 */
-	if (options.check_host_ip &&
-	    (local || strcmp(host, ip) == 0 || options.proxy_command != NULL))
+	if (options.check_host_ip && (local ||
+	    strcmp(hostname, ip) == 0 || options.proxy_command != NULL))
 		options.check_host_ip = 0;
 
 	/*
-	 * Allow the user to record the key under a different name. This is
-	 * useful for ssh tunneling over forwarded connections or if you run
-	 * multiple sshd's on different ports on the same machine.
+	 * Allow the user to record the key under a different name or
+	 * differentiate a non-standard port.  This is useful for ssh
+	 * tunneling over forwarded connections or if you run multiple
+	 * sshd's on different ports on the same machine.
 	 */
 	if (options.host_key_alias != NULL) {
-		host = options.host_key_alias;
+		host = xstrdup(options.host_key_alias);
 		debug("using hostkeyalias: %s", host);
+	} else {
+		host = put_host_port(hostname, port);
 	}
 
 	/*
@@ -643,6 +663,15 @@ check_host_key(char *host, struct sockaddr *hostaddr, Key *host_key,
 		}
 		break;
 	case HOST_NEW:
+		if (options.host_key_alias == NULL && port != 0 &&
+		    port != SSH_DEFAULT_PORT) {
+			debug("checking without port identifier");
+			if (check_host_key(hostname, hostaddr, 0, host_key, 2,
+			    user_hostfile, system_hostfile) == 0) {
+				debug("found matching key w/out port");
+				break;
+			}
+		}
 		if (readonly)
 			goto fail;
 		/* The host is new. */
@@ -722,6 +751,8 @@ check_host_key(char *host, struct sockaddr *hostaddr, Key *host_key,
 			    "list of known hosts.", hostp, type);
 		break;
 	case HOST_CHANGED:
+		if (readonly == ROQUIET)
+			goto fail;
 		if (options.check_host_ip && host_ip_differ) {
 			char *key_msg;
 			if (ip_status == HOST_NEW)
@@ -760,7 +791,7 @@ check_host_key(char *host, struct sockaddr *hostaddr, Key *host_key,
 		/*
 		 * If strict host key checking has not been requested, allow
 		 * the connection but without MITM-able authentication or
-		 * agent forwarding.
+		 * forwarding.
 		 */
 		if (options.password_authentication) {
 			error("Password authentication is disabled to avoid "
@@ -794,6 +825,11 @@ check_host_key(char *host, struct sockaddr *hostaddr, Key *host_key,
 			    "man-in-the-middle attacks.");
 			options.num_local_forwards =
 			    options.num_remote_forwards = 0;
+		}
+		if (options.tun_open != SSH_TUNMODE_NO) {
+			error("Tunnel forwarding is disabled to avoid "
+			    "man-in-the-middle attacks.");
+			options.tun_open = SSH_TUNMODE_NO;
 		}
 		/*
 		 * XXX Should permit the user to change to use the new id.
@@ -836,10 +872,12 @@ check_host_key(char *host, struct sockaddr *hostaddr, Key *host_key,
 	}
 
 	xfree(ip);
+	xfree(host);
 	return 0;
 
 fail:
 	xfree(ip);
+	xfree(host);
 	return -1;
 }
 
@@ -873,12 +911,13 @@ verify_host_key(char *host, struct sockaddr *hostaddr, Key *host_key)
 	/* return ok if the key can be found in an old keyfile */
 	if (stat(options.system_hostfile2, &st) == 0 ||
 	    stat(options.user_hostfile2, &st) == 0) {
-		if (check_host_key(host, hostaddr, host_key, /*readonly*/ 1,
-		    options.user_hostfile2, options.system_hostfile2) == 0)
+		if (check_host_key(host, hostaddr, options.port, host_key,
+		    RDONLY, options.user_hostfile2,
+		    options.system_hostfile2) == 0)
 			return 0;
 	}
-	return check_host_key(host, hostaddr, host_key, /*readonly*/ 0,
-	    options.user_hostfile, options.system_hostfile);
+	return check_host_key(host, hostaddr, options.port, host_key,
+	    RDRW, options.user_hostfile, options.system_hostfile);
 }
 
 /*

@@ -1,4 +1,4 @@
-/* $OpenBSD: ssh.c,v 1.276 2006/04/25 08:02:27 dtucker Exp $ */
+/* $OpenBSD: ssh.c,v 1.293 2006/08/03 03:34:42 deraadt Exp $ */
 /*
  * Author: Tatu Ylonen <ylo@cs.hut.fi>
  * Copyright (c) 1995 Tatu Ylonen <ylo@cs.hut.fi>, Espoo, Finland
@@ -40,30 +40,38 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "includes.h"
-__RCSID("$MirOS: src/usr.bin/ssh/ssh.c,v 1.13 2006/08/12 13:57:11 tg Exp $");
-
+#include <sys/types.h>
+#include <sys/time.h>
 #include <sys/resource.h>
 #include <sys/ioctl.h>
+#include <sys/socket.h>
 #include <sys/un.h>
 #include <sys/stat.h>
 
 #include <ctype.h>
+#include <errno.h>
+#include <fcntl.h>
+#include <netdb.h>
 #include <paths.h>
+#include <pwd.h>
 #include <signal.h>
+#include <stddef.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
 
 #include <openssl/evp.h>
 #include <openssl/err.h>
 
+#include "xmalloc.h"
 #include "ssh.h"
 #include "ssh1.h"
 #include "ssh2.h"
 #include "compat.h"
 #include "cipher.h"
-#include "xmalloc.h"
 #include "packet.h"
 #include "buffer.h"
-#include "bufaux.h"
 #include "channels.h"
 #include "key.h"
 #include "authfd.h"
@@ -82,10 +90,13 @@ __RCSID("$MirOS: src/usr.bin/ssh/ssh.c,v 1.13 2006/08/12 13:57:11 tg Exp $");
 #include "msg.h"
 #include "monitor_fdpass.h"
 #include "uidswap.h"
+#include "version.h"
 
 #ifdef SMARTCARD
 #include "scard.h"
 #endif
+
+__RCSID("$MirOS$");
 
 extern char *__progname;
 
@@ -172,7 +183,7 @@ usage(void)
 "           [-i identity_file] [-L [bind_address:]port:host:hostport]\n"
 "           [-l login_name] [-m mac_spec] [-O ctl_cmd] [-o option] [-p port]\n"
 "           [-R [bind_address:]port:host:hostport] [-S ctl_path]\n"
-"           [-w tunnel:tunnel] [user@]hostname [command]\n"
+"           [-w local_tun[:remote_tun]] [user@]hostname [command]\n"
 	);
 	exit(255);
 }
@@ -798,6 +809,8 @@ ssh_init_forwarding(void)
 		    options.local_forwards[i].connect_port,
 		    options.gateway_ports);
 	}
+	if (i > 0 && success != i && options.exit_on_forward_failure)
+		fatal("Could not request local forwarding.");
 	if (i > 0 && success == 0)
 		error("Could not request local forwarding.");
 
@@ -810,11 +823,17 @@ ssh_init_forwarding(void)
 		    options.remote_forwards[i].listen_port,
 		    options.remote_forwards[i].connect_host,
 		    options.remote_forwards[i].connect_port);
-		channel_request_remote_forwarding(
+		if (channel_request_remote_forwarding(
 		    options.remote_forwards[i].listen_host,
 		    options.remote_forwards[i].listen_port,
 		    options.remote_forwards[i].connect_host,
-		    options.remote_forwards[i].connect_port);
+		    options.remote_forwards[i].connect_port) < 0) {
+			if (options.exit_on_forward_failure)
+				fatal("Could not request remote forwarding.");
+			else
+				logit("Warning: Could not request remote "
+				    "forwarding.");
+		}
 	}
 }
 
@@ -996,9 +1015,16 @@ client_global_request_reply_fwd(int type, u_int32_t seq, void *ctxt)
 	    options.remote_forwards[i].listen_port,
 	    options.remote_forwards[i].connect_host,
 	    options.remote_forwards[i].connect_port);
-	if (type == SSH2_MSG_REQUEST_FAILURE)
-		logit("Warning: remote port forwarding failed for listen "
-		    "port %d", options.remote_forwards[i].listen_port);
+	if (type == SSH2_MSG_REQUEST_FAILURE) {
+		if (options.exit_on_forward_failure)
+			fatal("Error: remote port forwarding failed for "
+			    "listen port %d",
+			    options.remote_forwards[i].listen_port);
+		else
+			logit("Warning: remote port forwarding failed for "
+			    "listen port %d",
+			    options.remote_forwards[i].listen_port);
+	}
 }
 
 static void
@@ -1182,7 +1208,7 @@ load_public_identity_files(void)
 
 	if (options.smartcard_device != NULL &&
 	    options.num_identity_files < SSH_MAX_IDENTITY_FILES &&
-	    (keys = sc_get_keys(options.smartcard_device, NULL)) != NULL ) {
+	    (keys = sc_get_keys(options.smartcard_device, NULL)) != NULL) {
 		int count = 0;
 		for (i = 0; keys[i] != NULL; i++) {
 			count++;
@@ -1209,7 +1235,7 @@ load_public_identity_files(void)
 		cp = tilde_expand_filename(options.identity_files[i],
 		    original_real_uid);
 		filename = percent_expand(cp, "d", pw->pw_dir,
-		    "u", pw->pw_name, "l", thishost, "h", host, 
+		    "u", pw->pw_name, "l", thishost, "h", host,
 		    "r", options.user, (char *)NULL);
 		xfree(cp);
 		public = key_load_public(filename, NULL);
@@ -1237,15 +1263,14 @@ control_client_sigrelay(int signo)
 static int
 env_permitted(char *env)
 {
-	int i;
+	int i, ret;
 	char name[1024], *cp;
 
-	if (strlcpy(name, env, sizeof(name)) >= sizeof(name))
-		fatal("env_permitted: name too long");
-	if ((cp = strchr(name, '=')) == NULL)
+	if ((cp = strchr(env, '=')) == NULL || cp == env)
 		return (0);
-
-	*cp = '\0';
+	ret = snprintf(name, sizeof(name), "%.*s", (int)(cp - env), env);
+	if (ret <= 0 || (size_t)ret >= sizeof(name))
+		fatal("env_permitted: name '%.100s...' too long", env);
 
 	for (i = 0; i < options.num_send_env; i++)
 		if (match_pattern(name, options.send_env[i]))

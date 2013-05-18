@@ -1,4 +1,4 @@
-/* $OpenBSD: dispatch.c,v 1.19 2006/04/20 09:27:09 djm Exp $ */
+/* $OpenBSD: dispatch.c,v 1.21 2006/08/03 03:34:42 deraadt Exp $ */
 /*
  * Copyright (c) 2000 Markus Friedl.  All rights reserved.
  *
@@ -23,8 +23,10 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "includes.h"
-__RCSID("$MirOS: src/usr.bin/ssh/dispatch.c,v 1.3 2006/04/19 10:40:47 tg Exp $");
+#include <sys/types.h>
+
+#include <signal.h>
+#include <stdarg.h>
 
 #include "ssh1.h"
 #include "ssh2.h"
@@ -32,6 +34,8 @@ __RCSID("$MirOS: src/usr.bin/ssh/dispatch.c,v 1.3 2006/04/19 10:40:47 tg Exp $")
 #include "dispatch.h"
 #include "packet.h"
 #include "compat.h"
+
+__RCSID("$MirOS$");
 
 #define DISPATCH_MIN	0
 #define DISPATCH_MAX	255

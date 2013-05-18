@@ -1,4 +1,4 @@
-/* $OpenBSD: sshconnect1.c,v 1.65 2006/04/25 08:02:27 dtucker Exp $ */
+/* $OpenBSD: sshconnect1.c,v 1.69 2006/08/03 03:34:42 deraadt Exp $ */
 /*
  * Author: Tatu Ylonen <ylo@cs.hut.fi>
  * Copyright (c) 1995 Tatu Ylonen <ylo@cs.hut.fi>, Espoo, Finland
@@ -13,30 +13,39 @@
  * called by a name other than "ssh" or "Secure Shell".
  */
 
-#include "includes.h"
-__RCSID("$MirOS: src/usr.bin/ssh/sshconnect1.c,v 1.6 2006/04/19 10:40:56 tg Exp $");
+#include <sys/types.h>
+#include <sys/socket.h>
 
 #include <openssl/bn.h>
 #include <md5.h>
 
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <signal.h>
+#include <pwd.h>
+
+#include "xmalloc.h"
 #include "ssh.h"
 #include "ssh1.h"
-#include "xmalloc.h"
 #include "rsa.h"
 #include "buffer.h"
 #include "packet.h"
+#include "key.h"
+#include "cipher.h"
 #include "kex.h"
 #include "uidswap.h"
 #include "log.h"
 #include "readconf.h"
-#include "key.h"
 #include "authfd.h"
 #include "sshconnect.h"
 #include "authfile.h"
 #include "misc.h"
-#include "cipher.h"
 #include "canohost.h"
+#include "hostfile.h"
 #include "auth.h"
+
+__RCSID("$MirOS$");
 
 /* Session id for the current session. */
 u_char session_id[16];

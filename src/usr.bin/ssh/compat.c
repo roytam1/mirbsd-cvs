@@ -1,4 +1,4 @@
-/* $OpenBSD: compat.c,v 1.73 2006/03/25 13:17:01 djm Exp $ */
+/* $OpenBSD: compat.c,v 1.76 2006/08/03 03:34:42 deraadt Exp $ */
 /*
  * Copyright (c) 1999, 2000, 2001, 2002 Markus Friedl.  All rights reserved.
  *
@@ -23,15 +23,20 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "includes.h"
-__RCSID("$MirOS: src/usr.bin/ssh/compat.c,v 1.2 2006/02/22 02:16:45 tg Exp $");
+#include <sys/types.h>
 
+#include <stdlib.h>
+#include <string.h>
+#include <stdarg.h>
+
+#include "xmalloc.h"
 #include "buffer.h"
 #include "packet.h"
-#include "xmalloc.h"
 #include "compat.h"
 #include "log.h"
 #include "match.h"
+
+__RCSID("$MirOS$");
 
 int compat13 = 0;
 int compat20 = 0;

@@ -1,4 +1,4 @@
-/* $OpenBSD: dns.c,v 1.19 2006/03/25 22:22:43 djm Exp $ */
+/* $OpenBSD: dns.c,v 1.23 2006/08/03 03:34:42 deraadt Exp $ */
 
 /*
  * Copyright (c) 2003 Wesley Griffin. All rights reserved.
@@ -25,15 +25,19 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "includes.h"
-__RCSID("$MirOS: src/usr.bin/ssh/dns.c,v 1.2 2006/02/22 02:16:45 tg Exp $");
+#include <sys/types.h>
+#include <sys/socket.h>
 
 #include <netdb.h>
+#include <stdio.h>
+#include <string.h>
 
 #include "xmalloc.h"
 #include "key.h"
 #include "dns.h"
 #include "log.h"
+
+__RCSID("$MirOS$");
 
 static const char *errset_text[] = {
 	"success",		/* 0 ERRSET_SUCCESS */

@@ -1,5 +1,5 @@
-/**	$MirOS: src/usr.bin/yacc/skeleton.c,v 1.2 2005/03/13 18:34:13 tg Exp $ */
-/*	$OpenBSD: skeleton.c,v 1.24 2005/06/10 16:40:45 pvalchev Exp $	*/
+/**	$MirOS: src/usr.bin/yacc/skeleton.c,v 1.3 2005/11/23 18:04:33 tg Exp $ */
+/*	$OpenBSD: skeleton.c,v 1.26 2006/04/20 16:51:32 deraadt Exp $	*/
 /*	$NetBSD: skeleton.c,v 1.10 1996/03/25 00:36:18 mrg Exp $	*/
 
 /*
@@ -36,14 +36,10 @@
 
 #include <sys/cdefs.h>
 __SCCSID("@(#)skeleton.c	5.8 (Berkeley) 4/29/95");
-__RCSID("$MirOS: src/usr.bin/yacc/skeleton.c,v 1.2 2005/03/13 18:34:13 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/yacc/skeleton.c,v 1.3 2005/11/23 18:04:33 tg Exp $");
 
 #include "defs.h"
 
-/*  The definition of yysccsid in the banner should be replaced with	*/
-/*  a #pragma ident directive if the target C compiler supports		*/
-/*  #pragma ident directives.						*/
-/*									*/
 /*  If the skeleton is changed, the banner should be changed so that	*/
 /*  the altered version can be easily distinguished from the original.	*/
 /*									*/
@@ -54,9 +50,10 @@ __RCSID("$MirOS: src/usr.bin/yacc/skeleton.c,v 1.2 2005/03/13 18:34:13 tg Exp $"
 
 char *banner[] =
 {
+    "/* From $MirOS$ */",
     "#include <stdlib.h>",
     "__SCCSID(\"@(#)yaccpar	1.9 (Berkeley) 02/21/93\");",
-    "__RCSID(\"$MirOS: src/usr.bin/yacc/skeleton.c,v 1.2 2005/03/13 18:34:13 tg Exp $\");",
+    "__RCSID(\"$MirOS: src/usr.bin/yacc/skeleton.c,v 1.3 2005/11/23 18:04:33 tg Exp $\");",
     "#define YYBYACC 1",
     "#define YYMAJOR 1",
     "#define YYMINOR 9",
@@ -124,6 +121,7 @@ char *header[] =
     "#endif",
     "#endif",
     "#define YYINITSTACKSIZE 200",
+    "/* LINTUSED */",
     "int yydebug;",
     "int yynerrs;",
     "int yyerrflag;",

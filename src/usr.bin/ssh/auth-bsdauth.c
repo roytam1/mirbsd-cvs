@@ -1,4 +1,4 @@
-/* $OpenBSD: auth-bsdauth.c,v 1.9 2006/03/25 13:17:01 djm Exp $ */
+/* $OpenBSD: auth-bsdauth.c,v 1.10 2006/08/03 03:34:41 deraadt Exp $ */
 /*
  * Copyright (c) 2001 Markus Friedl.  All rights reserved.
  *
@@ -23,14 +23,18 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "includes.h"
-__RCSID("$MirOS: src/usr.bin/ssh/auth-bsdauth.c,v 1.2 2006/02/22 02:16:43 tg Exp $");
+#include <sys/types.h>
 
 #ifdef BSD_AUTH
 #include "xmalloc.h"
+#include "key.h"
+#include "hostfile.h"
 #include "auth.h"
 #include "log.h"
+#include "buffer.h"
 #include "monitor_wrap.h"
+
+__RCSID("$MirOS$");
 
 static void *
 bsdauth_init_ctx(Authctxt *authctxt)

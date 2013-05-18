@@ -1,4 +1,4 @@
-/* $OpenBSD: readconf.c,v 1.151 2006/03/25 13:17:02 djm Exp $ */
+/* $OpenBSD: readconf.c,v 1.159 2006/08/03 03:34:42 deraadt Exp $ */
 /*
  * Author: Tatu Ylonen <ylo@cs.hut.fi>
  * Copyright (c) 1995 Tatu Ylonen <ylo@cs.hut.fi>, Espoo, Finland
@@ -12,24 +12,35 @@
  * called by a name other than "ssh" or "Secure Shell".
  */
 
-#include "includes.h"
-__RCSID("$MirOS: src/usr.bin/ssh/readconf.c,v 1.10 2006/04/19 10:40:50 tg Exp $");
-
+#include <sys/types.h>
 #include <sys/stat.h>
+#include <sys/socket.h>
+
+#include <netinet/in.h>
 
 #include <ctype.h>
+#include <errno.h>
+#include <netdb.h>
+#include <signal.h>
+#include <stdio.h>
+#include <string.h>
+#include <unistd.h>
 
-#include "ssh.h"
 #include "xmalloc.h"
+#include "ssh.h"
 #include "compat.h"
 #include "cipher.h"
 #include "pathnames.h"
 #include "log.h"
+#include "key.h"
 #include "readconf.h"
 #include "match.h"
 #include "misc.h"
+#include "buffer.h"
 #include "kex.h"
 #include "mac.h"
+
+__RCSID("$MirOS$");
 
 /* Format of the configuration file:
 
@@ -99,6 +110,7 @@ __RCSID("$MirOS: src/usr.bin/ssh/readconf.c,v 1.10 2006/04/19 10:40:50 tg Exp $"
 typedef enum {
 	oBadOption,
 	oForwardAgent, oForwardX11, oForwardX11Trusted, oGatewayPorts,
+	oExitOnForwardFailure,
 	oPasswordAuthentication, oRSAAuthentication,
 	oChallengeResponseAuthentication, oXAuthLocation,
 	oIdentityFile, oHostName, oPort, oCipher, oRemoteForward, oLocalForward,
@@ -129,6 +141,7 @@ static struct {
 	{ "forwardagent", oForwardAgent },
 	{ "forwardx11", oForwardX11 },
 	{ "forwardx11trusted", oForwardX11Trusted },
+	{ "exitonforwardfailure", oExitOnForwardFailure },
 	{ "xauthlocation", oXAuthLocation },
 	{ "gatewayports", oGatewayPorts },
 	{ "useprivilegedport", oUsePrivilegedPort },
@@ -369,6 +382,10 @@ parse_flag:
 
 	case oGatewayPorts:
 		intptr = &options->gateway_ports;
+		goto parse_flag;
+
+	case oExitOnForwardFailure:
+		intptr = &options->exit_on_forward_failure;
 		goto parse_flag;
 
 	case oUsePrivilegedPort:
@@ -964,6 +981,7 @@ initialize_options(Options * options)
 	options->forward_agent = -1;
 	options->forward_x11 = -1;
 	options->forward_x11_trusted = -1;
+	options->exit_on_forward_failure = -1;
 	options->xauth_location = NULL;
 	options->gateway_ports = -1;
 	options->use_privileged_port = -1;
@@ -1042,6 +1060,8 @@ fill_default_options(Options * options)
 		options->forward_x11 = 0;
 	if (options->forward_x11_trusted == -1)
 		options->forward_x11_trusted = 0;
+	if (options->exit_on_forward_failure == -1)
+		options->exit_on_forward_failure = 0;
 	if (options->xauth_location == NULL)
 		options->xauth_location = (char *)_PATH_XAUTH;
 	if (options->gateway_ports == -1)

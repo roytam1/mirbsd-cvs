@@ -1,6 +1,6 @@
 #!/bin/mksh
-# $MirOS$
-# $OpenBSD: diff3.ksh,v 1.2 2003/07/31 11:16:58 millert Exp $
+# $MirOS: src/usr.bin/diff3/diff3.ksh,v 1.2 2005/07/07 13:39:43 tg Exp $
+# $OpenBSD: diff3.ksh,v 1.4 2006/02/22 22:35:11 jmc Exp $
 #
 # Copyright (c) 2003 Todd C. Miller <Todd.Miller@courtesan.com>
 #
@@ -26,7 +26,7 @@ OPTIND=1		# force getopts to reset itself
 
 export PATH=/bin:/usr/bin
 diff3prog=/usr/libexec/diff3prog
-USAGE="usage: diff3 [-aexEX3] file1 file2 file3"
+USAGE="usage: diff3 [-3aEeXx] file1 file2 file3"
 
 # Pull out any command line flags (some for diff, some for diff3)
 dflags=
@@ -59,7 +59,7 @@ if [ $? -ne 0 ]; then
 	exit 1
 fi
 trap "/bin/rm -f $TMP1 $TMP2" 0 1 2 13 15
-diff $dflags $1 $3 > $TMP1
-diff $dflags $2 $3 > $TMP2
-$diff3prog $d3flags $TMP1 $TMP2 $1 $2 $3
+diff $dflags -- $1 $3 > $TMP1
+diff $dflags -- $2 $3 > $TMP2
+$diff3prog $d3flags -- $TMP1 $TMP2 $1 $2 $3
 exit $?

@@ -1,4 +1,4 @@
-/* $OpenBSD: auth-rsa.c,v 1.67 2006/03/25 18:29:35 deraadt Exp $ */
+/* $OpenBSD: auth-rsa.c,v 1.71 2006/08/03 03:34:41 deraadt Exp $ */
 /*
  * Author: Tatu Ylonen <ylo@cs.hut.fi>
  * Copyright (c) 1995 Tatu Ylonen <ylo@cs.hut.fi>, Espoo, Finland
@@ -14,29 +14,35 @@
  * called by a name other than "ssh" or "Secure Shell".
  */
 
-#include "includes.h"
-__RCSID("$MirOS: src/usr.bin/ssh/auth-rsa.c,v 1.6 2006/04/19 10:40:43 tg Exp $");
-
+#include <sys/types.h>
 #include <sys/stat.h>
 
 #include <openssl/rsa.h>
 #include <md5.h>
 
+#include <pwd.h>
+#include <stdio.h>
+#include <string.h>
+
+#include "xmalloc.h"
 #include "rsa.h"
 #include "packet.h"
-#include "xmalloc.h"
 #include "ssh1.h"
 #include "uidswap.h"
 #include "match.h"
+#include "buffer.h"
 #include "auth-options.h"
 #include "pathnames.h"
 #include "log.h"
 #include "servconf.h"
-#include "auth.h"
+#include "key.h"
 #include "hostfile.h"
+#include "auth.h"
 #include "monitor_wrap.h"
 #include "ssh.h"
 #include "misc.h"
+
+__RCSID("$MirOS$");
 
 /* import */
 extern ServerOptions options;

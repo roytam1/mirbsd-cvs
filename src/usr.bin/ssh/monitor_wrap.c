@@ -1,4 +1,4 @@
-/* $OpenBSD: monitor_wrap.c,v 1.45 2006/03/30 09:58:15 djm Exp $ */
+/* $OpenBSD: monitor_wrap.c,v 1.54 2006/08/12 20:46:46 miod Exp $ */
 /*
  * Copyright 2002 Niels Provos <provos@citi.umich.edu>
  * Copyright 2002 Markus Friedl <markus@openbsd.org>
@@ -25,33 +25,43 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "includes.h"
-__RCSID("$MirOS: src/usr.bin/ssh/monitor_wrap.c,v 1.3 2005/06/22 16:11:39 tg Exp $");
+#include <sys/types.h>
+#include <sys/uio.h>
 
 #include <openssl/bn.h>
 #include <openssl/dh.h>
 
+#include <errno.h>
+#include <pwd.h>
+#include <signal.h>
+#include <stdio.h>
+#include <string.h>
+#include <unistd.h>
+
+#include "xmalloc.h"
 #include "ssh.h"
 #include "dh.h"
+#include "buffer.h"
+#include "key.h"
+#include "cipher.h"
 #include "kex.h"
+#include "hostfile.h"
 #include "auth.h"
 #include "auth-options.h"
-#include "buffer.h"
-#include "bufaux.h"
 #include "packet.h"
 #include "mac.h"
 #include "log.h"
-#include "zlib.h"
+#include <zlib.h>
 #include "monitor.h"
 #include "monitor_wrap.h"
-#include "xmalloc.h"
 #include "atomicio.h"
 #include "monitor_fdpass.h"
 #include "misc.h"
 
-#include "auth.h"
 #include "channels.h"
 #include "session.h"
+
+__RCSID("$MirOS$");
 
 /* Imports */
 extern int compat20;
@@ -786,9 +796,8 @@ mm_skey_query(void *ctx, char **name, char **infotxt,
    u_int *numprompts, char ***prompts, u_int **echo_on)
 {
 	Buffer m;
-	int len;
 	u_int success;
-	char *p, *challenge;
+	char *challenge;
 
 	debug3("%s: entering", __func__);
 

@@ -1,4 +1,4 @@
-/* $OpenBSD: cipher-3des1.c,v 1.4 2006/03/25 13:17:01 djm Exp $ */
+/* $OpenBSD: cipher-3des1.c,v 1.6 2006/08/03 03:34:42 deraadt Exp $ */
 /*
  * Copyright (c) 2003 Markus Friedl.  All rights reserved.
  *
@@ -23,12 +23,16 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "includes.h"
-__RCSID("$MirOS: src/usr.bin/ssh/cipher-3des1.c,v 1.2 2006/02/22 02:16:45 tg Exp $");
+#include <sys/types.h>
 
 #include <openssl/evp.h>
+
+#include <string.h>
+
 #include "xmalloc.h"
 #include "log.h"
+
+__RCSID("$MirOS$");
 
 /*
  * This is used by SSH1:

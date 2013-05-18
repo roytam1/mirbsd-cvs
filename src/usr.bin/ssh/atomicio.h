@@ -1,5 +1,5 @@
-/* $MirOS$ */
-/* $OpenBSD: atomicio.h,v 1.8 2006/04/16 00:52:55 djm Exp $ */
+/* $MirOS: src/usr.bin/ssh/atomicio.h,v 1.2 2006/04/19 10:40:43 tg Exp $ */
+/* $OpenBSD: atomicio.h,v 1.10 2006/08/03 03:34:41 deraadt Exp $ */
 
 /*
  * Copyright (c) 2006 Damien Miller.  All rights reserved.
@@ -29,9 +29,6 @@
 
 #ifndef _ATOMICIO_H
 #define _ATOMICIO_H
-
-#include <unistd.h>
-#include <sys/uio.h>
 
 /*
  * Ensure all of data on socket comes through. f==read || f==vwrite

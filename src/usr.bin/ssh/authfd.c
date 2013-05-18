@@ -1,4 +1,4 @@
-/* $OpenBSD: authfd.c,v 1.74 2006/03/30 09:58:15 djm Exp $ */
+/* $OpenBSD: authfd.c,v 1.80 2006/08/03 03:34:41 deraadt Exp $ */
 /*
  * Author: Tatu Ylonen <ylo@cs.hut.fi>
  * Copyright (c) 1995 Tatu Ylonen <ylo@cs.hut.fi>, Espoo, Finland
@@ -35,18 +35,23 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "includes.h"
-__RCSID("$MirOS: src/usr.bin/ssh/authfd.c,v 1.3 2006/02/22 02:16:44 tg Exp $");
-
+#include <sys/param.h>
 #include <sys/un.h>
+#include <sys/socket.h>
 
 #include <openssl/evp.h>
 
+#include <openssl/crypto.h>
+#include <fcntl.h>
+#include <stdlib.h>
+#include <signal.h>
+#include <string.h>
+#include <unistd.h>
+
+#include "xmalloc.h"
 #include "ssh.h"
 #include "rsa.h"
 #include "buffer.h"
-#include "bufaux.h"
-#include "xmalloc.h"
 #include "key.h"
 #include "authfd.h"
 #include "cipher.h"
@@ -55,6 +60,8 @@ __RCSID("$MirOS: src/usr.bin/ssh/authfd.c,v 1.3 2006/02/22 02:16:44 tg Exp $");
 #include "log.h"
 #include "atomicio.h"
 #include "misc.h"
+
+__RCSID("$MirOS$");
 
 static int agent_present = 0;
 

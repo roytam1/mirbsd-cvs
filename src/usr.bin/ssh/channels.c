@@ -1,4 +1,4 @@
-/* $OpenBSD: channels.c,v 1.250 2006/04/16 00:48:52 djm Exp $ */
+/* $OpenBSD: channels.c,v 1.266 2006/08/29 10:40:18 djm Exp $ */
 /*
  * Author: Tatu Ylonen <ylo@cs.hut.fi>
  * Copyright (c) 1995 Tatu Ylonen <ylo@cs.hut.fi>, Espoo, Finland
@@ -39,27 +39,38 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "includes.h"
-
+#include <sys/types.h>
 #include <sys/ioctl.h>
 #include <sys/un.h>
+#include <sys/socket.h>
+#include <sys/time.h>
 
+#include <netinet/in.h>
+#include <arpa/inet.h>
+
+#include <errno.h>
+#include <netdb.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 #include <termios.h>
+#include <unistd.h>
+#include <stdarg.h>
 
+#include "xmalloc.h"
 #include "ssh.h"
 #include "ssh1.h"
 #include "ssh2.h"
 #include "packet.h"
-#include "xmalloc.h"
 #include "log.h"
 #include "misc.h"
+#include "buffer.h"
 #include "channels.h"
 #include "compat.h"
 #include "canohost.h"
 #include "key.h"
 #include "authfd.h"
 #include "pathnames.h"
-#include "bufaux.h"
 
 /* -- channel core */
 
@@ -96,11 +107,18 @@ typedef struct {
 	u_short listen_port;		/* Remote side should listen port number. */
 } ForwardPermission;
 
-/* List of all permitted host/port pairs to connect. */
+/* List of all permitted host/port pairs to connect by the user. */
 static ForwardPermission permitted_opens[SSH_MAX_FORWARDS_PER_DIRECTION];
 
-/* Number of permitted host/port pairs in the array. */
+/* List of all permitted host/port pairs to connect by the admin. */
+static ForwardPermission permitted_adm_opens[SSH_MAX_FORWARDS_PER_DIRECTION];
+
+/* Number of permitted host/port pairs in the array permitted by the user. */
 static int num_permitted_opens = 0;
+
+/* Number of permitted host/port pair in the array permitted by the admin. */
+static int num_adm_permitted_opens = 0;
+
 /*
  * If this is true, all opens are permitted.  This is the case on the server
  * on which we have to trust the client anyway, and the user could do
@@ -718,12 +736,14 @@ typedef void chan_fn(Channel *c, fd_set *readset, fd_set *writeset);
 chan_fn *channel_pre[SSH_CHANNEL_MAX_TYPE];
 chan_fn *channel_post[SSH_CHANNEL_MAX_TYPE];
 
+/* ARGSUSED */
 static void
 channel_pre_listener(Channel *c, fd_set *readset, fd_set *writeset)
 {
 	FD_SET(c->sock, readset);
 }
 
+/* ARGSUSED */
 static void
 channel_pre_connecting(Channel *c, fd_set *readset, fd_set *writeset)
 {
@@ -778,6 +798,7 @@ channel_pre_open(Channel *c, fd_set *readset, fd_set *writeset)
 		FD_SET(c->ctl_fd, readset);
 }
 
+/* ARGSUSED */
 static void
 channel_pre_input_draining(Channel *c, fd_set *readset, fd_set *writeset)
 {
@@ -790,6 +811,7 @@ channel_pre_input_draining(Channel *c, fd_set *readset, fd_set *writeset)
 	}
 }
 
+/* ARGSUSED */
 static void
 channel_pre_output_draining(Channel *c, fd_set *readset, fd_set *writeset)
 {
@@ -919,6 +941,7 @@ channel_pre_x11_open(Channel *c, fd_set *readset, fd_set *writeset)
 }
 
 /* try to decode a socks4 header */
+/* ARGSUSED */
 static int
 channel_decode_socks4(Channel *c, fd_set *readset, fd_set *writeset)
 {
@@ -997,6 +1020,7 @@ channel_decode_socks4(Channel *c, fd_set *readset, fd_set *writeset)
 #define SSH_SOCKS5_CONNECT	0x01
 #define SSH_SOCKS5_SUCCESS	0x00
 
+/* ARGSUSED */
 static int
 channel_decode_socks5(Channel *c, fd_set *readset, fd_set *writeset)
 {
@@ -1008,7 +1032,7 @@ channel_decode_socks5(Channel *c, fd_set *readset, fd_set *writeset)
 	} s5_req, s5_rsp;
 	u_int16_t dest_port;
 	u_char *p, dest_addr[255+1];
-	u_int have, i, found, nmethods, addrlen, af;
+	u_int have, need, i, found, nmethods, addrlen, af;
 
 	debug2("channel %d: decode socks5", c->self);
 	p = buffer_ptr(&c->input);
@@ -1024,7 +1048,7 @@ channel_decode_socks5(Channel *c, fd_set *readset, fd_set *writeset)
 			return 0;
 		/* look for method: "NO AUTHENTICATION REQUIRED" */
 		for (found = 0, i = 2 ; i < nmethods + 2; i++) {
-			if (p[i] == SSH_SOCKS5_NOAUTH ) {
+			if (p[i] == SSH_SOCKS5_NOAUTH) {
 				found = 1;
 				break;
 			}
@@ -1069,7 +1093,10 @@ channel_decode_socks5(Channel *c, fd_set *readset, fd_set *writeset)
 		debug2("channel %d: bad socks5 atyp %d", c->self, s5_req.atyp);
 		return -1;
 	}
-	if (have < 4 + addrlen + 2)
+	need = sizeof(s5_req) + addrlen + 2;
+	if (s5_req.atyp == SSH_SOCKS5_DOMAIN)
+		need++;
+	if (have < need)
 		return 0;
 	buffer_consume(&c->input, sizeof(s5_req));
 	if (s5_req.atyp == SSH_SOCKS5_DOMAIN)
@@ -1144,6 +1171,7 @@ channel_pre_dynamic(Channel *c, fd_set *readset, fd_set *writeset)
 }
 
 /* This is our fake X11 server socket. */
+/* ARGSUSED */
 static void
 channel_post_x11_listener(Channel *c, fd_set *readset, fd_set *writeset)
 {
@@ -1269,6 +1297,7 @@ channel_set_reuseaddr(int fd)
 /*
  * This socket is listening for connections to a forwarded TCP/IP port.
  */
+/* ARGSUSED */
 static void
 channel_post_port_listener(Channel *c, fd_set *readset, fd_set *writeset)
 {
@@ -1326,6 +1355,7 @@ channel_post_port_listener(Channel *c, fd_set *readset, fd_set *writeset)
  * This is the authentication agent socket listening for connections from
  * clients.
  */
+/* ARGSUSED */
 static void
 channel_post_auth_listener(Channel *c, fd_set *readset, fd_set *writeset)
 {
@@ -1359,6 +1389,7 @@ channel_post_auth_listener(Channel *c, fd_set *readset, fd_set *writeset)
 	}
 }
 
+/* ARGSUSED */
 static void
 channel_post_connecting(Channel *c, fd_set *readset, fd_set *writeset)
 {
@@ -1405,6 +1436,7 @@ channel_post_connecting(Channel *c, fd_set *readset, fd_set *writeset)
 	}
 }
 
+/* ARGSUSED */
 static int
 channel_handle_rfd(Channel *c, fd_set *readset, fd_set *writeset)
 {
@@ -1446,6 +1478,7 @@ channel_handle_rfd(Channel *c, fd_set *readset, fd_set *writeset)
 	return 1;
 }
 
+/* ARGSUSED */
 static int
 channel_handle_wfd(Channel *c, fd_set *readset, fd_set *writeset)
 {
@@ -1573,6 +1606,7 @@ channel_handle_efd(Channel *c, fd_set *readset, fd_set *writeset)
 	return 1;
 }
 
+/* ARGSUSED */
 static int
 channel_handle_ctl(Channel *c, fd_set *readset, fd_set *writeset)
 {
@@ -1635,6 +1669,7 @@ channel_post_open(Channel *c, fd_set *readset, fd_set *writeset)
 	channel_check_window(c);
 }
 
+/* ARGSUSED */
 static void
 channel_post_output_drain_13(Channel *c, fd_set *readset, fd_set *writeset)
 {
@@ -2457,7 +2492,7 @@ channel_setup_remote_fwd_listener(const char *listen_address,
  * the secure channel to host:port from local side.
  */
 
-void
+int
 channel_request_remote_forwarding(const char *listen_host, u_short listen_port,
     const char *host_to_connect, u_short port_to_connect)
 {
@@ -2501,7 +2536,6 @@ channel_request_remote_forwarding(const char *listen_host, u_short listen_port,
 			success = 1;
 			break;
 		case SSH_SMSG_FAILURE:
-			logit("Warning: Server denied remote port forwarding.");
 			break;
 		default:
 			/* Unknown packet */
@@ -2515,6 +2549,7 @@ channel_request_remote_forwarding(const char *listen_host, u_short listen_port,
 		permitted_opens[num_permitted_opens].listen_port = listen_port;
 		num_permitted_opens++;
 	}
+	return (success ? 0 : -1);
 }
 
 /*
@@ -2554,12 +2589,13 @@ channel_request_rforward_cancel(const char *host, u_short port)
 /*
  * This is called after receiving CHANNEL_FORWARDING_REQUEST.  This initates
  * listening for the port, and sends back a success reply (or disconnect
- * message if there was an error).  This never returns if there was an error.
+ * message if there was an error).
  */
-void
+int
 channel_input_port_forward_request(int is_root, int gateway_ports)
 {
 	u_short port, host_port;
+	int success = 0;
 	char *hostname;
 
 	/* Get arguments from the packet. */
@@ -2579,11 +2615,13 @@ channel_input_port_forward_request(int is_root, int gateway_ports)
 		packet_disconnect("Dynamic forwarding denied.");
 
 	/* Initiate forwarding */
-	channel_setup_local_fwd_listener(NULL, port, hostname,
+	success = channel_setup_local_fwd_listener(NULL, port, hostname,
 	    host_port, gateway_ports);
 
 	/* Free the argument string. */
 	xfree(hostname);
+
+	return (success ? 0 : -1);
 }
 
 /*
@@ -2602,7 +2640,7 @@ void
 channel_add_permitted_opens(char *host, int port)
 {
 	if (num_permitted_opens >= SSH_MAX_FORWARDS_PER_DIRECTION)
-		fatal("channel_request_remote_forwarding: too many forwards");
+		fatal("channel_add_permitted_opens: too many forwards");
 	debug("allow port forwarding to host %s port %d", host, port);
 
 	permitted_opens[num_permitted_opens].host_to_connect = xstrdup(host);
@@ -2610,6 +2648,19 @@ channel_add_permitted_opens(char *host, int port)
 	num_permitted_opens++;
 
 	all_opens_permitted = 0;
+}
+
+int
+channel_add_adm_permitted_opens(char *host, int port)
+{
+	if (num_adm_permitted_opens >= SSH_MAX_FORWARDS_PER_DIRECTION)
+		fatal("channel_add_adm_permitted_opens: too many forwards");
+	debug("config allows port forwarding to host %s port %d", host, port);
+
+	permitted_adm_opens[num_adm_permitted_opens].host_to_connect
+	     = xstrdup(host);
+	permitted_adm_opens[num_adm_permitted_opens].port_to_connect = port;
+	return ++num_adm_permitted_opens;
 }
 
 void
@@ -2621,7 +2672,17 @@ channel_clear_permitted_opens(void)
 		if (permitted_opens[i].host_to_connect != NULL)
 			xfree(permitted_opens[i].host_to_connect);
 	num_permitted_opens = 0;
+}
 
+void
+channel_clear_adm_permitted_opens(void)
+{
+	int i;
+
+	for (i = 0; i < num_adm_permitted_opens; i++)
+		if (permitted_adm_opens[i].host_to_connect != NULL)
+			xfree(permitted_adm_opens[i].host_to_connect);
+	num_adm_permitted_opens = 0;
 }
 
 /* return socket to remote host, port */
@@ -2700,7 +2761,7 @@ channel_connect_by_listen_address(u_short listen_port)
 int
 channel_connect_to(const char *host, u_short port)
 {
-	int i, permit;
+	int i, permit, permit_adm = 1;
 
 	permit = all_opens_permitted;
 	if (!permit) {
@@ -2709,9 +2770,19 @@ channel_connect_to(const char *host, u_short port)
 			    permitted_opens[i].port_to_connect == port &&
 			    strcmp(permitted_opens[i].host_to_connect, host) == 0)
 				permit = 1;
-
 	}
-	if (!permit) {
+
+	if (num_adm_permitted_opens > 0) {
+		permit_adm = 0;
+		for (i = 0; i < num_adm_permitted_opens; i++)
+			if (permitted_adm_opens[i].host_to_connect != NULL &&
+			    permitted_adm_opens[i].port_to_connect == port &&
+			    strcmp(permitted_adm_opens[i].host_to_connect, host)
+			    == 0)
+				permit_adm = 1;
+	}
+
+	if (!permit || !permit_adm) {
 		logit("Received request to connect to host %.100s port %d, "
 		    "but the request was denied.", host, port);
 		return -1;
@@ -2958,6 +3029,7 @@ x11_connect_display(void)
  * with either SSH_MSG_OPEN_CONFIRMATION or SSH_MSG_OPEN_FAILURE.
  */
 
+/* ARGSUSED */
 void
 x11_input_open(int type, u_int32_t seq, void *ctxt)
 {
@@ -3001,6 +3073,7 @@ x11_input_open(int type, u_int32_t seq, void *ctxt)
 }
 
 /* dummy protocol handler that denies SSH-1 requests (agent/x11) */
+/* ARGSUSED */
 void
 deny_input_open(int type, u_int32_t seq, void *ctxt)
 {
@@ -3047,9 +3120,7 @@ x11_request_forwarding_with_spoofing(int client_session_id, const char *disp,
 		return;
 	}
 
-	cp = disp;
-	if (disp)
-		cp = strchr(disp, ':');
+	cp = strchr(disp, ':');
 	if (cp)
 		cp = strchr(cp, '.');
 	if (cp)

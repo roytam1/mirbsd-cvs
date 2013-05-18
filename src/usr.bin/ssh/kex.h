@@ -1,5 +1,5 @@
-/* $MirOS: src/usr.bin/ssh/kex.h,v 1.3 2006/04/19 10:40:48 tg Exp $ */
-/* $OpenBSD: kex.h,v 1.42 2006/04/20 09:27:09 djm Exp $ */
+/* $MirOS: src/usr.bin/ssh/kex.h,v 1.4 2006/06/02 20:50:48 tg Exp $ */
+/* $OpenBSD: kex.h,v 1.44 2006/08/03 03:34:42 deraadt Exp $ */
 
 /*
  * Copyright (c) 2000, 2001 Markus Friedl.  All rights reserved.
@@ -28,9 +28,6 @@
 #define KEX_H
 
 #include <openssl/evp.h>
-#include "buffer.h"
-#include "cipher.h"
-#include "key.h"
 
 #define	KEX_DH1			"diffie-hellman-group1-sha1"
 #define	KEX_DH14		"diffie-hellman-group14-sha1"

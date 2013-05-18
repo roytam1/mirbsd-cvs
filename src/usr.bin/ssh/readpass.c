@@ -1,4 +1,4 @@
-/* $OpenBSD: readpass.c,v 1.39 2006/06/08 14:45:49 markus Exp $ */
+/* $OpenBSD: readpass.c,v 1.47 2006/08/03 03:34:42 deraadt Exp $ */
 /*
  * Copyright (c) 2001 Markus Friedl.  All rights reserved.
  *
@@ -23,13 +23,18 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "includes.h"
-__RCSID("$MirOS: src/usr.bin/ssh/readpass.c,v 1.4 2006/04/19 10:40:51 tg Exp $");
-
+#include <sys/types.h>
 #include <sys/wait.h>
 
+#include <errno.h>
+#include <fcntl.h>
 #include <paths.h>
 #include <readpassphrase.h>
+#include <stdarg.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
 
 #include "xmalloc.h"
 #include "misc.h"
@@ -37,6 +42,8 @@ __RCSID("$MirOS: src/usr.bin/ssh/readpass.c,v 1.4 2006/04/19 10:40:51 tg Exp $")
 #include "log.h"
 #include "ssh.h"
 #include "uidswap.h"
+
+__RCSID("$MirOS$");
 
 static char *
 ssh_askpass(char *askpass, const char *msg)

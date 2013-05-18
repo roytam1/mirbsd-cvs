@@ -1,4 +1,4 @@
-/* $OpenBSD: auth2-hostbased.c,v 1.8 2006/03/25 13:17:01 djm Exp $ */
+/* $OpenBSD: auth2-hostbased.c,v 1.11 2006/08/03 03:34:41 deraadt Exp $ */
 /*
  * Copyright (c) 2000 Markus Friedl.  All rights reserved.
  *
@@ -23,22 +23,27 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "includes.h"
-__RCSID("$MirOS: src/usr.bin/ssh/auth2-hostbased.c,v 1.2 2006/02/22 02:16:44 tg Exp $");
+#include <sys/types.h>
 
-#include "ssh2.h"
+#include <pwd.h>
+#include <string.h>
+#include <stdarg.h>
+
 #include "xmalloc.h"
+#include "ssh2.h"
 #include "packet.h"
 #include "buffer.h"
 #include "log.h"
 #include "servconf.h"
 #include "compat.h"
-#include "bufaux.h"
-#include "auth.h"
 #include "key.h"
+#include "hostfile.h"
+#include "auth.h"
 #include "canohost.h"
 #include "monitor_wrap.h"
 #include "pathnames.h"
+
+__RCSID("$MirOS$");
 
 /* import */
 extern ServerOptions options;

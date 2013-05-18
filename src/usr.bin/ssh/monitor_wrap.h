@@ -1,5 +1,5 @@
-/* $MirOS$ */
-/* $OpenBSD: monitor_wrap.h,v 1.16 2006/03/25 22:22:43 djm Exp $ */
+/* $MirOS: src/usr.bin/ssh/monitor_wrap.h,v 1.3 2006/04/19 10:40:49 tg Exp $ */
+/* $OpenBSD: monitor_wrap.h,v 1.20 2006/08/03 03:34:42 deraadt Exp $ */
 
 /*
  * Copyright 2002 Niels Provos <provos@citi.umich.edu>
@@ -28,8 +28,6 @@
 
 #ifndef _MM_WRAP_H_
 #define _MM_WRAP_H_
-#include "key.h"
-#include "buffer.h"
 
 extern int use_privsep;
 #define PRIVSEP(x)	(use_privsep ? mm_##x : x)
@@ -38,7 +36,6 @@ enum mm_keytype {MM_NOKEY, MM_HOSTKEY, MM_USERKEY, MM_RSAHOSTKEY, MM_RSAUSERKEY}
 
 struct monitor;
 struct mm_master;
-struct passwd;
 struct Authctxt;
 
 int mm_is_monitor(void);
@@ -88,4 +85,4 @@ void *mm_zalloc(struct mm_master *, u_int, u_int);
 void mm_zfree(struct mm_master *, void *);
 void mm_init_compression(struct mm_master *);
 
-#endif /* _MM_H_ */
+#endif /* _MM_WRAP_H_ */

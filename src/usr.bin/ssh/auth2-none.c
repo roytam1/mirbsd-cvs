@@ -1,4 +1,4 @@
-/* $OpenBSD: auth2-none.c,v 1.10 2006/03/25 13:17:01 djm Exp $ */
+/* $OpenBSD: auth2-none.c,v 1.13 2006/08/05 07:52:52 dtucker Exp $ */
 /*
  * Copyright (c) 2000 Markus Friedl.  All rights reserved.
  *
@@ -23,20 +23,27 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "includes.h"
-__RCSID("$MirOS: src/usr.bin/ssh/auth2-none.c,v 1.3 2006/02/22 02:16:44 tg Exp $");
-
+#include <sys/types.h>
 #include <sys/stat.h>
+#include <sys/uio.h>
 
-#include "auth.h"
+#include <fcntl.h>
+#include <unistd.h>
+
 #include "xmalloc.h"
+#include "key.h"
+#include "hostfile.h"
+#include "auth.h"
 #include "packet.h"
 #include "log.h"
+#include "buffer.h"
 #include "servconf.h"
 #include "atomicio.h"
 #include "compat.h"
 #include "ssh2.h"
 #include "monitor_wrap.h"
+
+__RCSID("$MirOS$");
 
 /* import */
 extern ServerOptions options;

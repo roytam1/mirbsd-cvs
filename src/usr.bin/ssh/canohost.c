@@ -1,4 +1,4 @@
-/* $OpenBSD: canohost.c,v 1.53 2006/03/25 13:17:01 djm Exp $ */
+/* $OpenBSD: canohost.c,v 1.61 2006/08/03 03:34:41 deraadt Exp $ */
 /*
  * Author: Tatu Ylonen <ylo@cs.hut.fi>
  * Copyright (c) 1995 Tatu Ylonen <ylo@cs.hut.fi>, Espoo, Finland
@@ -12,15 +12,25 @@
  * called by a name other than "ssh" or "Secure Shell".
  */
 
-#include "includes.h"
-__RCSID("$MirOS: src/usr.bin/ssh/canohost.c,v 1.2 2006/02/22 02:16:44 tg Exp $");
+#include <sys/types.h>
+#include <sys/socket.h>
+
+#include <netinet/in.h>
 
 #include <ctype.h>
+#include <errno.h>
+#include <netdb.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <stdarg.h>
 
-#include "packet.h"
 #include "xmalloc.h"
+#include "packet.h"
 #include "log.h"
 #include "canohost.h"
+
+__RCSID("$MirOS$");
 
 static void check_ip_options(int, char *);
 
