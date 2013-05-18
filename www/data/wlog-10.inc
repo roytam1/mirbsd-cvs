@@ -1,4 +1,4 @@
-RCSID: $MirOS: wlog 10 $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.60 2008/07/24 12:34:47 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -1253,4 +1253,24 @@ Title: Trumping OpenBSD, once again ☺
  And while V9 CPUs in V8+ mode shouldn’t be a problem, there’s no interest
  from the OpenBSD camp to run the sparc (not sparc64) port on sun4u or even
  sun4v machines, so no fast build machines yet… *snief*</p>
+----
+Date: 25.07.2008 16:22:34
+Author: tg@
+Title: Katze müßte man sein…
+
+<p>… oder: de vitae felidae</p>
+<hr />
+<p>Katze müßte man sein, oder Kater halt, je nachdem. Den ganzen Tag sich
+ faul in der Sonne räkeln, unter dem Heck eines Autos liegen und ab und
+ zu den an ihr vorbeiradelnden Zweibeinern zuzwinkern und sie mit dem Kopf
+ verfolgen; wenn man Hunger hat, reicht es, den Dosenöffner auf zwei Beinen
+ mitleiderregend anzuschauen und/oder zu -miauen… manche haben sogar ein <a
+ href="http://henrythecat.livejournal.com/">eigenes Blog</a> oder gar ein <a
+ href="http://midnightcat.livejournal.com/">BSD nach einem benannt</a>; wem
+ das nicht reicht hält sich den Nachbar des eigenen Dosenöffners, nämlich
+ homsn, als zusätzlichen Hausmensch (sowas wie wir uns Haustiere, also Hunde,
+ halten)… der krault einen dann, und man muß nichtmals hingehen.</p>
+<hr />
+<p>I just coined a new term: IMACS. The connotation is: I’ll hack the ukbd(4)
+ driver to alloe inmetaaltctrlshifting entropy into the kernel too, soon.</p>
 ----
