@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/news.inc,v 1.103 2009/02/13 21:01:45 bsiegert Exp $
+RCSID: $MirOS: www/data/news.inc,v 1.104 2009/02/13 21:15:47 tg Exp $
 Title: Older news from the MirOS Project
 Date: 01.03.2006
 
@@ -1452,4 +1452,22 @@ Tag: event talk
  href="http://www.slideshare.net/bsiegert/painless-perl-ports-with-cpan2port">The
  slides for bsiegert@'s talk at FOSDEM 2009 are now available on
  slideshare.</a> Please note they require a Macrobe Flash player.</p>
+----
+Author: tg@
+Date: 29.03.2009 11:36
+Title: [current] /usr/dbin and /usr/dsbin removed
+
+<p>With sincere apologies to Han Boetes, the dynamically linked copies of
+ the system binaries have been removed from the system due to performance
+ and manageability issues. For the <tt>sysutils/fakeroot</tt> port, there
+ is a documented way to recompile these yourself, dynamically linked; you
+ <strong>better be sure</strong> to only do that if <tt>/usr</tt> isn’t a
+ separate filesystem, because otherwise, the programmes will be unable to
+ find the dynamic link libraries or interpreter.</p>
+<p>During an upgrade to the next snapshot, the files in these directories
+ will be replaced by symbolic links. However, it is usually not instantly
+ safe to remove them, because, for example, the <tt>/etc</tt> scripts use
+ them, your user shell will be <tt>/usr/dbin/mksh</tt>, and the likes. So
+ be careful wrt that directory. – A fresh MirOS installation however will
+ no longer contain it.</p>
 ----
