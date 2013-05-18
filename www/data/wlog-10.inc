@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.386 2012/03/20 20:54:07 bsiegert Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.387 2012/05/19 22:36:30 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -9014,7 +9014,7 @@ Title: blog @ TNF
 
 <!-- tg: DON'T change the link above. Don't even think about it. -->
 ----
-Date: 19.05.2012 22:35
+Date: 19.05.2012 22:40
 Author: tg@
 Title: MirBSD goes webservice – manpages and WTF‽
 Tag: debian mksh news pcli tip
@@ -9048,4 +9048,8 @@ Tag: debian mksh news pcli tip
  diving into other things, learning more about why I consider me
  lucky for hacking a BSD operating system… sorry, I want to keep
  this short as it’s mostly an announcement.</p>
+<p>The <a href="@@ABSPATH@@/cvs.cgi/www/">MirWebsite source code</a>
+ is, of course, also available. Improvements welcome. Except for
+ these three CGIs, our website is fully statically precompiled,
+ and that’s a good thing. Please help in making the CGIs secure.</p>
 ----
