@@ -20,7 +20,11 @@
 
 #include <libckern.h>
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/kern/c/memcpy.c,v 1.1 2008/08/03 21:02:00 tg Exp $");
+
+#ifdef L_mempcpy
+#define memmove mempcpy
+#endif
 
 void *
 memmove(void *dst, const void *src, size_t len)
@@ -38,9 +42,14 @@ memmove(void *dst, const void *src, size_t len)
 			while (len--)
 				*d++ = *s++;
 	}
+#ifdef L_mempcpy
+	return (d);
+#else
 	return (dst);
+#endif
 }
 
+#ifndef L_mempcpy
 #ifndef SMALL
 void
 bcopy(const void *src, void *dst, size_t len)
@@ -57,4 +66,5 @@ memcpy(void *dst, const void *src, size_t len)
 }
 #else
 __strong_alias(memcpy, memmove);
+#endif
 #endif

@@ -20,11 +20,12 @@
 
 #include <machine/asm.h>
 
-RCSID("$MirOS$")
+RCSID("$MirOS: src/kern/c/i386/memcpy.S,v 1.1 2008/08/03 21:02:02 tg Exp $")
 
 	.intel_syntax noprefix
 	.text
 
+#ifndef L_mempcpy
 ENTRY(bcopy)
 	push	esi
 	push	edi
@@ -34,18 +35,25 @@ ENTRY(bcopy)
 
 NENTRY(memcpy)
 ENTRY(memmove)
+#else
+ENTRY(mempcpy)
+#endif
 	push	esi
 	push	edi
 	mov	edi,12[esp]
 	mov	esi,16[esp]
+#ifndef L_mempcpy
 	_ALIGN_TEXT
+#endif
 Lmove:	mov	ecx,20[esp]
 	/* check for overlap / null op */
 	jecxz	Lnull
 	/* check if src == dst */
 	cmp	esi,edi
 	je	Lnull
+#ifndef L_mempcpy
 	push	edi
+#endif
 	mov	edx,ecx
 	jb	Lbkwd	/* CF set from cmp esi,edi */
 	/* copy forwards, source > dest */
@@ -57,8 +65,15 @@ Lmove:	mov	ecx,20[esp]
 	mov	cl,dl
 	and	cl,3
 	rep	movsb
+#ifndef L_mempcpy
 	pop	eax
-Lnull:	pop	edi
+	pop	edi
+	pop	esi
+	ret
+#endif
+
+Lnull:	mov	eax,edi
+	pop	edi
 	pop	esi
 	ret
 
@@ -68,6 +83,9 @@ Lbkwd:	/* copy backwards, source < dest */
 	/* start at the end */
 	add	esi,ecx
 	add	edi,ecx
+#ifdef L_mempcpy
+	push	edi
+#endif
 	/* fractional bytes first, whole dwords last */
 	and	ecx,3
 	dec	esi
