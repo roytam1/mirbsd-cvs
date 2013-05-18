@@ -567,3 +567,16 @@ Subject: more rants
  but for totally different reasons) and 18.3ms to google.com (also suckers,
  for a couple of yet another reasons I think I already elaborated).</p>
 ----
+Date: 21.04.2008 11:36
+Author: tg@
+Subject: when ranting helps
+
+<p>Today’s <a href="http://pcc.ludd.ltu.se/">pcc</a> from anoncvs bootstraps
+ successfully and builds mksh just fine, and is amazingly fast (almost en
+ par with Microsoft’s compiler). Wow, they fixed all the things I ranted
+ about in my earlier postings. Congratulations, pcc team.</p>
+<p>Now tcc and TenDRA/Ten15 (schizo) are next (mainstream compilers failing).
+ And LLVM/clang and ACK deserve testing.</p>
+<p>I wish ranting would help with my internet connection… gotta fight with
+ the ISP/Telco now.</p>
+----
