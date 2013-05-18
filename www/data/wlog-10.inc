@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.78 2008/09/14 15:40:18 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.79 2008/09/17 22:02:41 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -1636,4 +1636,33 @@ Author: tg@
 <p>While here, I’d like to invite you to try out mksh-current from CVS, as
  several (minor) bugs have been fixed. There are still some new features
  pending for another release.</p>
+----
+Title: code age
+Date: 20.09.2008 19:19
+Author: tg@
+
+<p>Today, I hacked some more on <a href="@@RELPATH@@mksh.htm">mksh</a>’s
+ command line editing modi. They were probably written independently, so
+ Benny’s request for vi mode cursor keys is unfulfillable reasonablily.
+ I’m not quite done, there are some more patches to create, including one
+ to the mksh(1) manual page, but that will come. It’s a hard job, and on
+ a headache-clouded november day like this (no pun, look at the weather!)
+ getting a hacking mood, as well as anything else done, is difficult. I
+ did manage to catch a few sun rays, but… not much. Besides, sitting in
+ front of a monitor all day makes you wish you had learned something else,
+ even if everthing else goes smoothly – which it usually doesn’t…</p>
+<p>I tried to make pax(1) compile without the -DLONG_OFF_T define… turns
+ out that all the quad_t types and defines are not existant on Debian.
+ Autoconfiguration and <tt>#ifdef</tt>s suck if you can do it without,
+ but this will take some more time.</p>
+<p>I had an interesting discussion about light bulbs with the MidnightBSD
+ people yesternight. Mine mostly changed to power saving ones I got for
+ free for switching to online invoices from our local provider. Neat. I
+ do keep traditional bulbs in the places where light is needed only for
+ very short times, like the entrance area, and frequently at that.<br />
+ We often have interesting topics to discuss, e.g. languages, chocolate,
+ things that suck… not only computing things, mind you ;)</p>
+<p>I just use <a href="@@RELPATH@@wlog.htm">…/wlog.htm</a> as my “blog”
+ URI now if someone asks, <strong>even though this is <em>not</em> a
+ blog</strong>. Symlinks rock.</p>
 ----
