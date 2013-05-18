@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.sbin/httpd/src/modules/standard/mod_rewrite.c,v 1.4 2005/05/04 18:31:07 tg Exp $ */
+/**	$MirOS: src/usr.sbin/httpd/src/modules/standard/mod_rewrite.c,v 1.5 2006/04/03 20:54:48 tg Exp $ */
 /*	$OpenBSD: mod_rewrite.c,v 1.24 2005/02/09 12:13:10 henning Exp $ */
 
 /* ====================================================================
@@ -103,7 +103,7 @@
 #ifndef __RCSID
 #define	__RCSID(x)	static const char __rcsid[] = (x)
 #endif
-__RCSID("$MirOS: src/usr.sbin/httpd/src/modules/standard/mod_rewrite.c,v 1.4 2005/05/04 18:31:07 tg Exp $");
+__RCSID("$MirOS: src/usr.sbin/httpd/src/modules/standard/mod_rewrite.c,v 1.5 2006/04/03 20:54:48 tg Exp $");
 
 /*
 ** +-------------------------------------------------------+
@@ -2767,7 +2767,7 @@ static char *escape_absolute_uri(ap_pool *p, char *uri, unsigned scheme)
             int c = 0;
 
             token[0] = cp = ap_pstrdup(p, cp);
-            while (*cp && c < 5) {
+            while (*cp && c < 4) {
                 if (*cp == '?') {
                     token[++c] = cp + 1;
                     *cp = '\0';
