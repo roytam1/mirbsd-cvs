@@ -1,4 +1,4 @@
-/* $MirOS$ */
+/* $MirOS: src/bin/rm/rm.c,v 1.3 2008/03/02 19:45:04 tg Exp $ */
 /* $NetBSD: rm.c,v 1.46 2007/06/24 17:59:31 christos Exp $ */
 /* $OpenBSD: rm.c,v 1.18 2005/06/14 19:15:35 millert Exp $ */
 
@@ -36,7 +36,7 @@ __COPYRIGHT("@(#) Copyright (c) 1990, 1993, 1994\n\
 	The Regents of the University of California.  All rights reserved.\n");
 __SCCSID("@(#)rm.c	8.8 (Berkeley) 4/27/95");
 __RCSID("$NetBSD: rm.c,v 1.46 2007/06/24 17:59:31 christos Exp $");
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/bin/rm/rm.c,v 1.3 2008/03/02 19:45:04 tg Exp $");
 
 #include <sys/param.h>
 #include <sys/stat.h>
@@ -47,6 +47,7 @@ __RCSID("$MirOS$");
 #include <fcntl.h>
 #include <fts.h>
 #include <grp.h>
+#include <libgen.h>
 #include <locale.h>
 #include <pwd.h>
 #include <stdio.h>
@@ -220,15 +221,53 @@ rm_tree(char **argv)
 		switch (p->fts_info) {
 		case FTS_DP:
 		case FTS_DNR:
-			rval = rmdir(p->fts_accpath);
+			if (Pflag) {
+				char dname[MAXPATHLEN];
+
+				do {
+					/* rename directory before unlinking,
+					 * unless the pathname is too long
+					 */
+					if ((size_t)snprintf(dname,
+					    sizeof (dname),
+					    "%s/.rm.%08X",
+					    dirname(p->fts_accpath),
+					    arc4random()) >= sizeof (dname)) {
+						memcpy(dname, p->fts_accpath,
+						    strlen(p->fts_accpath) + 1);
+						break;
+					}
+				} while (rename(p->fts_accpath, dname));
+				rval = rmdir(dname);
+			} else
+				rval = rmdir(p->fts_accpath);
 			if (rval != 0 && fflag && errno == ENOENT)
 				continue;
 			break;
 
 		default:
-			if (Pflag && rm_overwrite(p->fts_accpath, NULL))
-				continue;
-			rval = unlink(p->fts_accpath);
+			if (Pflag) {
+				char dname[MAXPATHLEN];
+
+				if (rm_overwrite(p->fts_accpath, NULL))
+					continue;
+				do {
+					/* rename file before unlinking,
+					 * unless the pathname is too long
+					 */
+					if ((size_t)snprintf(dname,
+					    sizeof (dname),
+					    "%s/.rm.%08X",
+					    dirname(p->fts_accpath),
+					    arc4random()) >= sizeof (dname)) {
+						memcpy(dname, p->fts_accpath,
+						    strlen(p->fts_accpath) + 1);
+						break;
+					}
+				} while (rename(p->fts_accpath, dname));
+				rval = unlink(dname);
+			} else
+				rval = unlink(p->fts_accpath);
 			if (rval != 0 && fflag && NONEXISTENT(errno))
 				continue;
 			break;
@@ -272,14 +311,49 @@ rm_file(char **argv)
 		}
 		if (!fflag && !check(f, f, &sb))
 			continue;
-		else if (S_ISDIR(sb.st_mode))
-			rval = rmdir(f);
-		else {
+		else if (S_ISDIR(sb.st_mode)) {
 			if (Pflag) {
+				char dname[MAXPATHLEN];
+
+				do {
+					/* rename directory before unlinking,
+					 * unless the pathname is too long
+					 */
+					if ((size_t)snprintf(dname,
+					    sizeof (dname),
+					    "%s/.rm.%08X",
+					    dirname(f),
+					    arc4random()) >= sizeof (dname)) {
+						memcpy(dname, f,
+						    strlen(f) + 1);
+						break;
+					}
+				} while (rename(f, dname));
+				rval = rmdir(dname);
+			} else
+				rval = rmdir(f);
+		} else {
+			if (Pflag) {
+				char dname[MAXPATHLEN];
+
 				if (rm_overwrite(f, &sb))
 					continue;
-			}
-			rval = unlink(f);
+				do {
+					/* rename file before unlinking,
+					 * unless the pathname is too long
+					 */
+					if ((size_t)snprintf(dname,
+					    sizeof (dname),
+					    "%s/.rm.%08X",
+					    dirname(f),
+					    arc4random()) >= sizeof (dname)) {
+						memcpy(dname, f, strlen(f) + 1);
+						break;
+					}
+				} while (rename(f, dname));
+				rval = unlink(dname);
+			} else
+				rval = unlink(f);
 		}
 		if (rval && (!fflag || !NONEXISTENT(errno))) {
 			warn("%s", f);
@@ -296,7 +370,12 @@ rm_file(char **argv)
  *
  * This is an expensive way to keep people from recovering files from your
  * non-snapshotted FFS filesystems using fsdb(8).  Really.  No more.  Only
- * regular files are deleted, directories (and therefore names) will remain.
+ * regular files are deleted, directories will remain.
+ * However, names are no longer recoverable as any entries deleted with -P
+ * are renamed to an entry with the basename “.rm.XXXXXXXX” (where ‘X’ are
+ * generated randomly) in the same parent directory first if the length of
+ * the entire pathname (including the “/.rm.XXXXXXXX”) is smaller than the
+ * maximum allowed pathname length, i.e. 1024 on MirBSD.
  * Also, this assumes a fixed-block file system (like FFS, or a V7 or a
  * System V file system).  In a logging file system, you'll have to have
  * kernel support.

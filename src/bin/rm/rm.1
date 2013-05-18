@@ -1,4 +1,4 @@
-.\"	$MirOS$
+.\"	$MirOS: src/bin/rm/rm.1,v 1.2 2008/03/02 19:45:04 tg Exp $
 .\"	$NetBSD: rm.1,v 1.24 2006/09/02 23:28:32 wiz Exp $
 .\"	$OpenBSD: rm.1,v 1.25 2005/06/14 19:15:35 millert Exp $
 .\"
@@ -34,7 +34,7 @@
 .\"
 .\"	@(#)rm.1	8.5 (Berkeley) 12/5/94
 .\"
-.Dd $Mdocdate$
+.Dd $Mdocdate: March 2 2008 $
 .Dt RM 1
 .Os
 .Sh NAME
@@ -90,10 +90,19 @@ on log-structured filesystems or if any block-journaling scheme is
 in use, this option is completely useless.
 If the file cannot be
 overwritten, it will not be removed.
+.Pp
 Files with multiple links will not be overwritten.
 If the
 .Fl f
-option is given, they will still be removed.
+option is given, they will still be removed,
+otherwise, they will remain untouched.
+.Pp
+Entries are renamed to the basename
+.Dq Li .rm.XXXXXXXX
+.Pq where So X Sc are generated randomly
+within the same parent directory before removing,
+if the length of the generated total pathname will not overflow the buffer.
+This prevents recovery of (almost) all basenames as well.
 .It Fl R
 Attempt to remove the file hierarchy rooted in each file argument.
 The
@@ -168,6 +177,7 @@ or
 .Xr rmdir 1 ,
 .\".Xr undelete 2 ,
 .Xr unlink 2 ,
+.Xr arc4random 3 ,
 .Xr fts 3 ,
 .Xr getopt 3 ,
 .Xr symlink 7
@@ -232,6 +242,12 @@ An
 .Nm
 command appeared in
 .At v1 .
+.Pp
+Modification of the
+.Fl P
+option to overwrite with random content and rename entries
+to random filenames before removal appeared in
+.Mx 10 .
 .Sh BUGS
 The
 .Fl P
