@@ -1,4 +1,4 @@
-# $MirOS: src/share/misc/bsdstats,v 1.1 2006/09/13 01:08:21 tg Exp $
+# $MirOS: src/share/misc/bsdstats,v 1.2 2006/09/13 01:45:59 tg Exp $
 
 function uri_escape
 {
@@ -30,7 +30,34 @@ if (( (now - 909) < stats_token_time )); then
 fi
 if (( stats_report_time <= (now - (28 * 86400) + 7200) )); then
 	integer ok=1
-	uri="http://bsdstats.org/scripts/report_system.php?key=$stats_token&rel=$(uname -r)&arch=$(uname -m)&opsys=$(uname -s)$stats_sysadd"
+	if [[ -n $stats_sysadd ]]; then
+		version=$(uname -r)$stats_sysadd
+	else
+		version=$(uname -l)
+		version=${version#\#}
+		version=${version%%-*}
+		typeset -i10 pl=0x${version##*[a-z]}
+		version=${version%%[a-z]*}
+		if (( pl < 128 )); then
+			version=$version-beta
+		elif (( pl == 159 )); then
+			version=$version-finite
+		elif (( pl >= 160 )); then
+			version=$version-current
+		elif (( (pl % 2) == 1 )); then
+			version=$version-stable
+		else
+			case $pl {
+			(128)	version=${version}semel ;;
+			(130)	version=${version}bis ;;
+			(132)	version=${version}ter ;;
+			(134)	version=${version}quater ;;
+			(136)	version=${version}quinquies ;;
+			(*)	version=${version}num.$((pl/2-63))ies ;;
+			}
+		fi
+	fi
+	uri="http://bsdstats.org/scripts/report_system.php?key=$stats_token&rel=$(uri_escape $version)&arch=$(uname -m)&opsys=$(uname -s)"
 	sleep $((RANDOM % 120))
 	res=$(ftp -V -o - "$uri" 2>&-)
 	print -r "system report $uri -> ${res:-ERROR}"
