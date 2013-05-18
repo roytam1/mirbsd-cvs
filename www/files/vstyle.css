@@ -1,4 +1,4 @@
-/* $MirOS: www/files/vstyle.css,v 1.5 2007/12/28 17:52:12 bsiegert Exp $ */
+/* $MirOS: www/files/vstyle.css,v 1.6 2008/02/22 21:58:37 tg Exp $ */
 /*-
  * The MirOS Project - Webpages
  * Copyrighted material; read LICENCE for terms of use.
@@ -149,7 +149,7 @@ h2 a {
 	margin: 0px;
 }
 
-table {
+table {
 	border-collapse: collapse;
 }
 
@@ -160,4 +160,8 @@ th {
 
 td {
 	border-bottom: 2px solid #FFFFFF;
+}
+
+tt {
+	white-space:nowrap;
 }
