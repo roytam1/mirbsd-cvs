@@ -3191,6 +3191,7 @@
 ./man3/cbreak.htm
 ./man3/cbrt.htm
 ./man3/cbrtf.htm
+./man3/cdblockedread.htm
 ./man3/ceil.htm
 ./man3/ceilf.htm
 ./man3/cfgetispeed.htm
