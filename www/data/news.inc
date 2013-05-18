@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/news.inc,v 1.79 2008/09/17 21:12:16 tg Exp $
+RCSID: $MirOS: www/data/news.inc,v 1.80 2008/10/25 18:26:54 tg Exp $
 Title: Older news from the MirOS Project
 Date: 01.03.2006
 
@@ -1036,4 +1036,22 @@ Tag: mksh
  and Macports (former Darwinports) do not carry mksh either. My earlier
  <a href="@@RELPATH@@permalinks/wlog-10_e20081021-tg-g10008.htm">Minix
  3</a> problem persists, as do the Plan 9 and Syllable Desktop ones.</p>
+----
+Title: paxmirabilis-20081030 (MirCPIO) released
+Date: 29.10.2008 18:31
+Author: tg@
+Tag: cpio
+
+<p><tt>RMD160 (<a href="@@RELPATH@@MirOS/dist/mir/cpio/paxmirabilis-20081030.cpio.gz">paxmirabilis-20081030.cpio.gz</a>) = 34c9a5913c9e69c8451d27d6ceeaa07cce6d3fef</tt></p>
+<p>Everyone who has been using the portable version of the MirBSD cpio(1),
+ pax(1), tar(1) combined utility should upgrade, as the new version not
+ only allows the executables to be called, for example, <tt>mirtar</tt>
+ (to avoid breaking tools such as dpkg-source and lintian when they are
+ in the <tt>$PATH</tt>), but also contains fixes regarding certain types
+ of broken archives, such as these found in the Fedora Core 4 RPMs, which
+ do not store the data content of hard-linked files packed with the first
+ archive member but a later (the last). Furthermore, the ‘-v’ option may
+ now be given multiple times to the cpio and pax, not only tar, frontend.</p>
+<p>paxmirabilis is used, among others, in MirOS BSD, the MirPorts Framework,
+ FreeWRT Embedded GNU/Linux ADK.</p>
 ----
