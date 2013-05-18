@@ -1,4 +1,4 @@
-/* $MirOS: contrib/code/mirmake/dist/contrib/mirmake.h,v 1.28 2008/02/12 20:35:23 bsiegert Exp $ */
+/* $MirOS: contrib/code/mirmake/dist/contrib/mirmake.h,v 1.29 2008/03/09 13:42:51 tg Exp $ */
 
 /*-
  * Copyright (c) 2005, 2006, 2008
@@ -43,7 +43,7 @@
 #if !defined(_MIRMAKE_H) && !defined(_ASM_SOURCE)
 #define _MIRMAKE_H
 
-#ifdef __INTERIX
+#if defined(__INTERIX)
 /* stock Interix/SFU needs this, MirInterix not */
 #define _ALL_SOURCE
 #endif
@@ -60,7 +60,8 @@
 
 /* Undefining */
 
-#ifdef __INTERIX
+#if defined(__INTERIX) || defined(__APPLE__)
+/* neither Interix nor Darwin get these right… */
 #undef __dead
 #undef __pure
 #endif
