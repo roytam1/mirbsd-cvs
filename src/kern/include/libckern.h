@@ -1,4 +1,4 @@
-/* $MirOS: src/kern/include/libckern.h,v 1.19 2008/12/28 05:10:31 tg Exp $ */
+/* $MirOS: src/kern/include/libckern.h,v 1.20 2008/12/29 20:24:14 tg Exp $ */
 
 /*-
  * Copyright (c) 2008
@@ -109,6 +109,10 @@ void *mempcpy(void *, const void *, size_t)
     __attribute__((bounded (buffer, 2, 3)));
 void *memset(void *, int, size_t)
     __attribute__((bounded (buffer, 1, 3)));
+
+uint32_t OAAT0Update(register uint32_t, register const uint8_t *,
+    register size_t) __attribute__((bounded (string, 2, 3)));
+uint32_t OAAT0Final(register uint32_t);
 
 size_t optu16to8(char * __restrict__, wchar_t, mbstate_t * __restrict__)
     __attribute__((bounded (minbytes, 1, 5)));

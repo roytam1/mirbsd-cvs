@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/dev/rnd.c,v 1.53 2009/11/09 19:49:27 tg Exp $ */
+/**	$MirOS: src/sys/dev/rnd.c,v 1.54 2009/11/09 20:11:56 tg Exp $ */
 /*	$OpenBSD: rnd.c,v 1.78 2005/07/07 00:11:24 djm Exp $	*/
 
 /*
@@ -263,11 +263,6 @@
 #include <dev/rndioctl.h>
 
 extern int hz;
-
-/* these will be in <libckern.h> (included via <sys/systm.h>) some day */
-extern uint32_t _oaat_update(register uint32_t, register const uint8_t *,
-    register size_t) __attribute__((bounded (string, 2, 3)));
-extern uint32_t _oaat_final(register uint32_t);
 
 #ifdef	RNDEBUG
 int	rnd_debug = 0x0000;
@@ -1473,7 +1468,7 @@ rnd_bootpool_add(const void *vp, size_t n)
 		fs.u.tv.tv_usec = time.tv_usec;
 	}
 
-	h = _oaat_final(_oaat_update(_oaat_update(h, vp, n),
+	h = OAAT0Final(OAAT0Update(OAAT0Update(h, vp, n),
 	    (void *)&fs, sizeof(fs)));
 	rnd_addpool_add(h);
 }

@@ -1,8 +1,8 @@
-# $MirOS: contrib/code/mirmake/dist/scripts/Makefile.lib,v 1.20 2008/03/09 13:42:52 tg Exp $
+# $MirOS: contrib/code/mirmake/dist/scripts/Makefile.lib,v 1.21 2008/03/09 14:16:07 tg Exp $
 
 LIB=		mirmake
 SRCS+=		adh32.c md4.c md5.c rmd160.c sfv.c \
-		sha1.c sha2.c tiger.c whirlpool.c \
+		sha1.c sha2.c tiger.c whirlpool.c hashpad.c \
 		adler32hl.c md4hl.c md5hl.c rmd160hl.c sfvhl.c \
 		sha1hl.c sha256hl.c sha384hl.c sha512hl.c \
 		sumahl.c tigerhl.c whirlpoolhl.c \

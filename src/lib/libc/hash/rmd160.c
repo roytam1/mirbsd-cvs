@@ -30,7 +30,9 @@
 #include <sys/types.h>
 #include <rmd160.h>
 
-__RCSID("$MirOS: src/lib/libc/hash/rmd160.c,v 1.3 2005/09/22 20:09:06 tg Exp $");
+extern const uint8_t RFC1321_padding[64];
+
+__RCSID("$MirOS: src/lib/libc/hash/rmd160.c,v 1.4 2009/11/09 17:43:37 tg Exp $");
 
 #define PUT_64BIT_LE(cp, value) do {                                    \
 	(cp)[7] = (value) >> 56;                                        \
@@ -82,14 +84,6 @@ __RCSID("$MirOS: src/lib/libc/hash/rmd160.c,v 1.3 2005/09/22 20:09:06 tg Exp $")
 	} while(0)
 
 #define X(i)	x[i]
-
-/* XXX this should be non-static and exported */
-static const uint8_t RFC1321_padding[64] = {
-	0x80, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
-};
 
 void
 RMD160Init(RMD160_CTX *ctx)

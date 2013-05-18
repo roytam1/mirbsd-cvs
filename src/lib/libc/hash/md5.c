@@ -21,7 +21,9 @@
 #include <string.h>
 #include <md5.h>
 
-__RCSID("$MirOS$");
+extern const uint8_t RFC1321_padding[64];
+
+__RCSID("$MirOS: src/lib/libc/hash/md5.c,v 1.2 2009/11/09 17:43:36 tg Exp $");
 
 #define PUT_64BIT_LE(cp, value) do {					\
 	(cp)[7] = (value) >> 56;					\
@@ -38,14 +40,6 @@ __RCSID("$MirOS$");
 	(cp)[2] = (value) >> 16;					\
 	(cp)[1] = (value) >> 8;						\
 	(cp)[0] = (value); } while (0)
-
-/* XXX this should be non-static and exported */
-static const uint8_t RFC1321_padding[64] = {
-	0x80, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
-};
 
 /*
  * Start MD5 accumulation.  Set bit count to 0 and buffer to mysterious

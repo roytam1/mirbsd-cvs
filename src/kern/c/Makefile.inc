@@ -1,4 +1,4 @@
-# $MirOS: src/kern/c/Makefile.inc,v 1.16 2008/12/28 05:10:30 tg Exp $
+# $MirOS: src/kern/c/Makefile.inc,v 1.17 2009/09/15 16:27:33 tg Exp $
 
 .ifndef _KERNBASE_C_MAKEFILE_INC
 _KERNBASE_C_MAKEFILE_INC=	#defined
@@ -57,6 +57,7 @@ XSRCS+=		__main.c
 .endif
 
 XSRCS+=		hdump.c
+KUSRCS+=	oaat.c
 KUSRCS+=	optu16to8.c optu8to16.c
 
 # …

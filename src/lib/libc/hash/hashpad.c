@@ -16,40 +16,15 @@
  * of dealing in the work, even if advised of the possibility of such
  * damage or existence of a defect, except proven that it results out
  * of said person's immediate fault when using the work as intended.
- *-
- * This can be used to implement Bob Jenkins' one-at-a-time hash:
- *
- * uint32_t OAAT0String(const void *cp, size_t buflen = strlen(cp)) {
- *	return OAAT0Final(OAAT0Update(0, cp, buflen));
- * }
- *
- * Note that an initialisation value of 0x100 can count initial NULs,
- * but the original version uses 0 instead. (Anything is fine as long
- * as the lowest byte is 0x00 though.)
  */
 
-#include <libckern.h>
+#include <sys/types.h>
 
-__RCSID("$MirOS: src/kern/c/oaat.c,v 1.1 2009/11/09 19:43:43 tg Exp $");
+__RCSID("$MirOS: src/share/misc/licence.template,v 1.28 2008/11/14 15:33:44 tg Rel $");
 
-uint32_t
-OAAT0Update(register uint32_t h, register const uint8_t *s, register size_t n)
-{
-	while (n--) {
-		h += *s++;
-		h += h << 10;
-		h ^= h >> 6;
-	}
-
-	return (h);
-}
-
-uint32_t
-OAAT0Final(register uint32_t h)
-{
-	h += h << 3;
-	h ^= h >> 11;
-	h += h << 15;
-
-	return (h);
-}
+const uint8_t RFC1321_padding[64] = {
+	0x80, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+};

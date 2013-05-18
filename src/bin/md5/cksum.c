@@ -57,7 +57,9 @@
 #include <tiger.h>
 #include <whirlpool.h>
 
-__RCSID("$MirOS: src/bin/md5/cksum.c,v 1.9 2009/08/27 18:04:54 tg Exp $");
+extern const uint8_t RFC1321_padding[64];
+
+__RCSID("$MirOS: src/bin/md5/cksum.c,v 1.10 2009/11/09 17:29:03 tg Exp $");
 
 #define MAX_DIGEST_LEN			128
 
@@ -1040,14 +1042,6 @@ OAAT_Final(OAATS_CTX *ctx)
 	h += h << 15;
 	ctx->h = h;
 }
-
-/* XXX this should be in libc/libmirmake */
-static const uint8_t RFC1321_padding[64] = {
-	0x80, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
-};
 
 char *
 OAAT1S_End(OAATS_CTX *ctx, char *digest)
