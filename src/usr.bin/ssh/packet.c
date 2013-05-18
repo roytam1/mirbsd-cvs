@@ -1,4 +1,4 @@
-/* $OpenBSD: packet.c,v 1.148 2007/06/07 19:37:34 pvalchev Exp $ */
+/* $OpenBSD: packet.c,v 1.151 2008/02/22 20:44:02 dtucker Exp $ */
 /*
  * Author: Tatu Ylonen <ylo@cs.hut.fi>
  * Copyright (c) 1995 Tatu Ylonen <ylo@cs.hut.fi>, Espoo, Finland
@@ -73,7 +73,7 @@
 #include "misc.h"
 #include "ssh.h"
 
-__RCSID("$MirOS: src/usr.bin/ssh/packet.c,v 1.10 2006/10/02 23:25:04 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/packet.c,v 1.11 2007/06/16 15:41:50 tg Exp $");
 
 #ifdef PACKET_DEBUG
 #define DBG(x) x
@@ -132,6 +132,8 @@ static int server_side = 0;
 
 /* Set to true if we are authenticated. */
 static int after_authentication = 0;
+
+int keep_alive_timeouts = 0;
 
 /* Session key information for Encryption and MAC */
 Newkeys *newkeys[MODE_MAX];
@@ -1187,12 +1189,14 @@ packet_read_poll_seqnr(u_int32_t *seqnr_p)
 	for (;;) {
 		if (compat20) {
 			type = packet_read_poll2(seqnr_p);
+			keep_alive_timeouts = 0;
 			if (type) {
 				DBG(debug("received packet type %d", type));
 			}
 			switch (type) {
 			case SSH2_MSG_IGNORE:
 				packet_consume_ignoremsg();
+				debug3("Received SSH2_MSG_IGNORE");
 				break;
 			case SSH2_MSG_DEBUG:
 				packet_get_char();

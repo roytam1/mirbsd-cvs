@@ -1,5 +1,5 @@
-/* $MirOS: src/usr.bin/ssh/servconf.h,v 1.8 2006/09/21 21:47:31 tg Exp $ */
-/* $OpenBSD: servconf.h,v 1.80 2007/02/19 10:45:58 dtucker Exp $ */
+/* $MirOS: src/usr.bin/ssh/servconf.h,v 1.9 2007/03/08 10:09:33 tg Exp $ */
+/* $OpenBSD: servconf.h,v 1.82 2008/02/13 22:38:17 djm Exp $ */
 
 /*
  * Author: Tatu Ylonen <ylo@cs.hut.fi>
@@ -36,6 +36,9 @@
 #define	PERMIT_YES		3
 
 #define DEFAULT_AUTH_FAIL_MAX	6	/* Default for MaxAuthTries */
+
+/* Magic name for internal sftp-server */
+#define INTERNAL_SFTP_NAME	"internal-sftp"
 
 typedef struct {
 	u_int num_ports;
@@ -127,6 +130,8 @@ typedef struct {
 	int	permit_tun;
 
 	int	num_permitted_opens;
+
+	char   *chroot_directory;
 }       ServerOptions;
 
 void	 initialize_server_options(ServerOptions *);

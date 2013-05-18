@@ -1,5 +1,5 @@
-/* $MirOS: src/usr.bin/ssh/readconf.h,v 1.8 2006/08/12 13:57:11 tg Exp $ */
-/* $OpenBSD: readconf.h,v 1.71 2006/08/03 03:34:42 deraadt Exp $ */
+/* $MirOS: src/usr.bin/ssh/readconf.h,v 1.9 2006/09/20 21:41:01 tg Exp $ */
+/* $OpenBSD: readconf.h,v 1.72 2008/01/19 23:09:49 djm Exp $ */
 
 /*
  * Author: Tatu Ylonen <ylo@cs.hut.fi>
@@ -99,7 +99,7 @@ typedef struct {
 	int	clear_forwardings;
 
 	int	enable_ssh_keysign;
-	int	rekey_limit;
+	int64_t rekey_limit;
 	int	no_host_authentication_for_localhost;
 	int	identities_only;
 	int	server_alive_interval;

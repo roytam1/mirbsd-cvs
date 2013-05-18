@@ -1,4 +1,4 @@
-/* $OpenBSD: auth-bsdauth.c,v 1.10 2006/08/03 03:34:41 deraadt Exp $ */
+/* $OpenBSD: auth-bsdauth.c,v 1.11 2007/09/21 08:15:29 djm Exp $ */
 /*
  * Copyright (c) 2001 Markus Friedl.  All rights reserved.
  *
@@ -34,7 +34,7 @@
 #include "buffer.h"
 #include "monitor_wrap.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.bin/ssh/auth-bsdauth.c,v 1.4 2006/09/20 21:40:55 tg Exp $");
 
 static void *
 bsdauth_init_ctx(Authctxt *authctxt)

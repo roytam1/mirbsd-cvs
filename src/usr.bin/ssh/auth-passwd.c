@@ -1,4 +1,4 @@
-/* $OpenBSD: auth-passwd.c,v 1.42 2007/08/23 02:55:51 djm Exp $ */
+/* $OpenBSD: auth-passwd.c,v 1.43 2007/09/21 08:15:29 djm Exp $ */
 /*
  * Author: Tatu Ylonen <ylo@cs.hut.fi>
  * Copyright (c) 1995 Tatu Ylonen <ylo@cs.hut.fi>, Espoo, Finland
@@ -54,7 +54,7 @@
 #include "auth.h"
 #include "auth-options.h"
 
-__RCSID("$MirOS: src/usr.bin/ssh/auth-passwd.c,v 1.7 2006/09/22 12:29:00 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/auth-passwd.c,v 1.8 2007/09/02 18:53:12 tg Exp $");
 
 extern Buffer loginmsg;
 extern ServerOptions options;

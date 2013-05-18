@@ -1,4 +1,4 @@
-/* $OpenBSD: monitor.c,v 1.92 2007/09/04 03:21:03 djm Exp $ */
+/* $OpenBSD: monitor.c,v 1.94 2007/10/29 04:08:08 dtucker Exp $ */
 /*
  * Copyright 2002 Niels Provos <provos@citi.umich.edu>
  * Copyright 2002 Markus Friedl <markus@openbsd.org>
@@ -40,9 +40,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-#ifdef SKEY
-#include <skey.h>
-#endif
 
 #include "xmalloc.h"
 #include "ssh.h"
@@ -71,7 +68,7 @@
 #include "compat.h"
 #include "ssh2.h"
 
-__RCSID("$MirOS: src/usr.bin/ssh/monitor.c,v 1.10 2007/05/19 22:22:26 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/monitor.c,v 1.11 2007/09/13 13:52:53 tg Exp $");
 
 /* Imports */
 extern ServerOptions options;
@@ -171,10 +168,6 @@ struct mon_table mon_dispatch_proto20[] = {
     {MONITOR_REQ_BSDAUTHQUERY, MON_ISAUTH, mm_answer_bsdauthquery},
     {MONITOR_REQ_BSDAUTHRESPOND, MON_AUTH, mm_answer_bsdauthrespond},
 #endif
-#ifdef SKEY
-    {MONITOR_REQ_SKEYQUERY, MON_ISAUTH, mm_answer_skeyquery},
-    {MONITOR_REQ_SKEYRESPOND, MON_AUTH, mm_answer_skeyrespond},
-#endif
     {MONITOR_REQ_KEYALLOWED, MON_ISAUTH, mm_answer_keyallowed},
     {MONITOR_REQ_KEYVERIFY, MON_AUTH, mm_answer_keyverify},
     {0, 0, NULL}
@@ -201,10 +194,6 @@ struct mon_table mon_dispatch_proto15[] = {
 #ifdef BSD_AUTH
     {MONITOR_REQ_BSDAUTHQUERY, MON_ISAUTH, mm_answer_bsdauthquery},
     {MONITOR_REQ_BSDAUTHRESPOND, MON_AUTH, mm_answer_bsdauthrespond},
-#endif
-#ifdef SKEY
-    {MONITOR_REQ_SKEYQUERY, MON_ISAUTH, mm_answer_skeyquery},
-    {MONITOR_REQ_SKEYRESPOND, MON_AUTH, mm_answer_skeyrespond},
 #endif
     {0, 0, NULL}
 };
@@ -552,11 +541,11 @@ mm_answer_pwnamallow(int sock, Buffer *m)
 	buffer_put_cstring(m, pwent->pw_class);
 	buffer_put_cstring(m, pwent->pw_dir);
 	buffer_put_cstring(m, pwent->pw_shell);
+
+ out:
 	buffer_put_string(m, &options, sizeof(options));
 	if (options.banner != NULL)
 		buffer_put_cstring(m, options.banner);
-
- out:
 	debug3("%s: sending MONITOR_ANS_PWNAM: %d", __func__, allowed);
 	mm_request_send(sock, MONITOR_ANS_PWNAM, m);
 
@@ -696,53 +685,6 @@ mm_answer_bsdauthrespond(int sock, Buffer *m)
 }
 #endif
 
-#ifdef SKEY
-int
-mm_answer_skeyquery(int sock, Buffer *m)
-{
-	struct skey skey;
-	char challenge[1024];
-	u_int success;
-
-	success = skeychallenge(&skey, authctxt->user, challenge) < 0 ? 0 : 1;
-
-	buffer_clear(m);
-	buffer_put_int(m, success);
-	if (success)
-		buffer_put_cstring(m, challenge);
-
-	debug3("%s: sending challenge success: %u", __func__, success);
-	mm_request_send(sock, MONITOR_ANS_SKEYQUERY, m);
-
-	return (0);
-}
-
-int
-mm_answer_skeyrespond(int sock, Buffer *m)
-{
-	char *response;
-	int authok;
-
-	response = buffer_get_string(m, NULL);
-
-	authok = (options.challenge_response_authentication &&
-	    authctxt->valid &&
-	    skey_haskey(authctxt->pw->pw_name) == 0 &&
-	    skey_passcheck(authctxt->pw->pw_name, response) != -1);
-
-	xfree(response);
-
-	buffer_clear(m);
-	buffer_put_int(m, authok);
-
-	debug3("%s: sending authenticated: %d", __func__, authok);
-	mm_request_send(sock, MONITOR_ANS_SKEYRESPOND, m);
-
-	auth_method = "skey";
-
-	return (authok != 0);
-}
-#endif
 
 static void
 mm_append_debug(Buffer *m)

@@ -1,4 +1,4 @@
-/* $OpenBSD: auth2.c,v 1.115 2007/04/14 22:01:58 stevesk Exp $ */
+/* $OpenBSD: auth2.c,v 1.116 2007/09/29 00:25:51 dtucker Exp $ */
 /*
  * Copyright (c) 2000 Markus Friedl.  All rights reserved.
  *
@@ -43,7 +43,7 @@
 #include "pathnames.h"
 #include "monitor_wrap.h"
 
-__RCSID("$MirOS: src/usr.bin/ssh/auth2.c,v 1.6 2007/03/08 10:09:31 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/auth2.c,v 1.7 2007/04/29 20:23:12 tg Exp $");
 
 /* import */
 extern ServerOptions options;

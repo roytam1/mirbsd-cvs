@@ -1,4 +1,4 @@
-/* $OpenBSD: canohost.c,v 1.61 2006/08/03 03:34:41 deraadt Exp $ */
+/* $OpenBSD: canohost.c,v 1.62 2007/12/27 14:22:08 dtucker Exp $ */
 /*
  * Author: Tatu Ylonen <ylo@cs.hut.fi>
  * Copyright (c) 1995 Tatu Ylonen <ylo@cs.hut.fi>, Espoo, Finland
@@ -29,8 +29,9 @@
 #include "packet.h"
 #include "log.h"
 #include "canohost.h"
+#include "misc.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.bin/ssh/canohost.c,v 1.4 2006/09/20 21:40:57 tg Exp $");
 
 static void check_ip_options(int, char *);
 
@@ -231,7 +232,7 @@ get_socket_address(int sock, int remote, int flags)
 	if ((r = getnameinfo((struct sockaddr *)&addr, addrlen, ntop,
 	    sizeof(ntop), NULL, 0, flags)) != 0) {
 		error("get_socket_address: getnameinfo %d failed: %s", flags,
-		    r == EAI_SYSTEM ? strerror(errno) : gai_strerror(r));
+		    ssh_gai_strerror(r));
 		return NULL;
 	}
 	return xstrdup(ntop);
@@ -327,7 +328,7 @@ get_sock_port(int sock, int local)
 	if ((r = getnameinfo((struct sockaddr *)&from, fromlen, NULL, 0,
 	    strport, sizeof(strport), NI_NUMERICSERV)) != 0)
 		fatal("get_sock_port: getnameinfo NI_NUMERICSERV failed: %s",
-		    r == EAI_SYSTEM ? strerror(errno) : gai_strerror(r));
+		    ssh_gai_strerror(r));
 	return atoi(strport);
 }
 

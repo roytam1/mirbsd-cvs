@@ -1,5 +1,5 @@
-/* $MirOS$ */
-/* $OpenBSD: packet.h,v 1.45 2006/03/25 22:22:43 djm Exp $ */
+/* $MirOS: src/usr.bin/ssh/packet.h,v 1.3 2006/04/19 10:40:50 tg Exp $ */
+/* $OpenBSD: packet.h,v 1.46 2008/02/22 20:44:02 dtucker Exp $ */
 
 /*
  * Author: Tatu Ylonen <ylo@cs.hut.fi>
@@ -87,6 +87,7 @@ void	 tty_make_modes(int, struct termios *);
 void	 tty_parse_modes(int, int *);
 
 extern u_int max_packet_size;
+extern int keep_alive_timeouts;
 int	 packet_set_maxsize(u_int);
 #define  packet_get_maxsize() max_packet_size
 

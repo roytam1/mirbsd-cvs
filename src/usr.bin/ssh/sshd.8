@@ -34,9 +34,9 @@
 .\" (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
 .\" THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .\"
-.\" $MirOS: src/usr.bin/ssh/sshd.8,v 1.12 2007/04/29 20:23:14 tg Exp $
-.\" $OpenBSD: sshd.8,v 1.237 2007/06/07 19:37:34 pvalchev Exp $
-.Dd $Mdocdate: June 16 2007 $
+.\" $MirOS: src/usr.bin/ssh/sshd.8,v 1.13 2007/06/16 15:41:52 tg Exp $
+.\" $OpenBSD: sshd.8,v 1.239 2008/02/11 07:58:28 jmc Exp $
+.Dd $Mdocdate: March 2 2008 $
 .Dt SSHD 8
 .Os
 .Sh NAME
@@ -663,6 +663,13 @@ This file is used in exactly the same way as
 but allows host-based authentication without permitting login with
 rlogin/rsh.
 .Pp
+.It ~/.etc/ssh/
+This directory is the default location for all user-specific configuration
+and authentication information.
+There is no general requirement to keep the entire contents of this directory
+secret, but the recommended permissions are read/write/execute for the user,
+and not accessible by others.
+.Pp
 .It ~/.etc/ssh/authorised_keys
 Lists the public keys (RSA/DSA) that can be used for logging in as this user.
 The format of this file is described above.
@@ -680,7 +687,7 @@ will not allow it to be used unless the
 option has been set to
 .Dq no .
 The recommended permissions can be set by executing
-.Dq chmod go-w ~/ ~/.ssh ~/.ssh/authorized_keys .
+.Dq chmod go-w ~/ ~/.etc ~/.etc/ssh ~/.etc/ssh/authorised_keys .
 .Pp
 .It ~/.ssh/authorized_keys
 Portable name for the above file.

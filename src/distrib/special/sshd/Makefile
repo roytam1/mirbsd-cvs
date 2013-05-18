@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/special/sshd/Makefile,v 1.4 2006/09/22 12:28:56 tg Exp $
+# $MirOS: src/distrib/special/sshd/Makefile,v 1.5 2007/07/05 22:48:52 tg Exp $
 # $OpenBSD: Makefile,v 1.64 2004/08/23 14:26:39 dtucker Exp $
 #
 # Yes, this is _without_ BSD auth.
@@ -19,7 +19,7 @@ SRCS=	sshd.c auth-rhosts.c auth-passwd.c auth-rsa.c auth-rh-rsa.c \
 	sshpty.c sshlogin.c servconf.c serverloop.c \
 	auth.c auth1.c auth2.c auth-options.c session.c \
 	auth-chall.c auth2-chall.c groupaccess.c \
-	auth-skey.c auth-bsdauth.c auth2-hostbased.c auth2-kbdint.c \
+	auth-bsdauth.c auth2-hostbased.c auth2-kbdint.c \
 	auth2-none.c auth2-passwd.c auth2-pubkey.c \
 	monitor_mm.c monitor.c monitor_wrap.c \
 	kexdhs.c kexgexs.c
