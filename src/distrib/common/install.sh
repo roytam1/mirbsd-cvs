@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/distrib/common/install.sh,v 1.24 2009/09/23 16:12:40 tg Exp $
+# $MirOS: src/distrib/common/install.sh,v 1.25 2009/11/15 12:02:31 tg Exp $
 # $OpenBSD: install.sh,v 1.152 2005/04/21 21:41:33 krw Exp $
 # $NetBSD: install.sh,v 1.5.2.8 1996/08/27 18:15:05 gwr Exp $
 #
@@ -501,6 +501,7 @@ cat >/mnt/etc/rc.once <<-'EOF'
 	    https://call.mirbsd.org/rn.cgi?runonce,whoami=$(uname -a | \
 	    tr ' ' '_'),seed=$(dd if=/dev/arandom bs=57 count=1 | \
 	    b64encode -r - | tr '+=/' '._-')) >/dev/wrandom 2>&1 &
+	[[ -x /usr/libexec/ekeyrng ]] && /usr/libexec/ekeyrng
 	newaliases 2>&1 | logger -t rc.once
 	# back up base configuration, dotfiles, etc.
 	(for f in .* var/anoncvs/.*; do

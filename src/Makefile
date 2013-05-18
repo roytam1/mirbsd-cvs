@@ -1,4 +1,4 @@
-# $MirOS: src/Makefile,v 1.142 2009/08/08 14:14:35 tg Exp $
+# $MirOS: src/Makefile,v 1.143 2009/09/15 15:33:41 tg Exp $
 # $OpenBSD: Makefile,v 1.103 2004/05/03 15:18:18 drahn Exp $
 
 .if defined(MAKECONF) && exists(${MAKECONF})
@@ -220,6 +220,10 @@ base-distbuild:
 
 base-distinstall:
 	cd ${.CURDIR} && exec ${MAKE} mksystrace-dest
+.if (${MACHINE_ARCH} == "i386")
+	${INSTALL} -c -o ${BINOWN} -g ${BINGRP} -m ${BINMODE} \
+	    ${.CURDIR}/distrib/common/ekeyrng ${DESTDIR}/usr/libexec/
+.endif
 	-rm -rf ${_STFILE_OBJ} ${DESTDIR}/snapshot
 	${INSTALL} -d -o root -g wheel -m 755 ${DESTDIR}/snapshot
 	cd ${DESTDIR} && for file in usr/mdec/*{boot,mbr}*; do \

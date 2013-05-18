@@ -5,6 +5,7 @@
 ./usr/bin/pctr
 ./usr/lib/gcc/i386-ecce-mirbsd10
 ./usr/lib/gcc/i386-ecce-mirbsd10/3.4.6
+./usr/libexec/ekeyrng
 ./usr/mdec/mbrldr
 ./usr/mdec/mbrmgr
 ./usr/sbin/apm
