@@ -1,6 +1,6 @@
-.\" $MirOS$
+.\" $MirOS: src/share/man/man9/style.9,v 1.11 2008/12/27 20:10:05 tg Exp $
 .\"-
-.\" Copyright (c) 2002-2008 The MirOS Project.
+.\" Copyright (c) 2002-2009 The MirOS Project.
 .\" Copyright (c) ? OpenBSD
 .\" Copyright (c) 1995 FreeBSD Inc.
 .\" All rights reserved.
@@ -33,12 +33,14 @@
 .Os
 .Sh NAME
 .Nm style
-.Nd "Kernel source file style guide (KNF)"
+.Nd BSD style guide for C source code
 .Sh DESCRIPTION
-This file specifies the preferred style for kernel source files in the
+This manual page specifies the preferred style for C source files in the
 .Mx
 source tree.
-It is also a guide for preferred userland code style.
+For historical reasons, it's still called
+.Dq Kernel source file style guide (KNF) ,
+although it has been applied to userland code for almost forever.
 These guidelines should be followed for all new code.
 In general, code can be considered
 .Dq new code
@@ -57,7 +59,7 @@ current style guidelines.
  */
 
 /* almost all small single-line comments look like this */
-/* Others are sentences, thus end with a full stop. */
+/* A few others are sentences, thus end with a full stop. */
 
 /*
  * Multi-line comments look like this. Make them real sentences,
@@ -137,7 +139,9 @@ identification block.
 Add the CVS (or RCS) ID(s) of the file and, if taking over old source code,
 the SCCS ID and __COPYRIGHT as well; place another blank line after that.
 It is discouraged listing RCS IDs as comments at the beginning of
-files if it's possible (this excludes e.g. header files) to use
+files if it's possible (this excludes most header files, although some
+use a technique to define their ID to a macro which is expanded by the
+main source file or somesuch) to use
 these macros; copy them over, the macros are safe to be used more
 than once in the same file in
 .Mx .
@@ -171,6 +175,14 @@ separate header file, e.g.,
 .Dq Pa extern.h .
 This file is allowed to precede the, otherwise sorted, list of
 local include files.
+Do not use the same names as other well-known header files, such
+as these in
+.Pa /usr/include ,
+used by library dependencies or part of other applications that
+are often pulled in by the
+.Xr make 1
+.Dq .PATH
+command.
 .Pp
 Use of the
 .Li __P
@@ -216,11 +228,12 @@ Use gcc attributes extensively to catch programming errors, e.g.,
 wchar_t *ambsntowcs(const char *, size_t)
     __attribute__((nonnull (1)))
     __attribute__((bounded (string, 1, 2)));
+/* use of an argument mandated by function pointer API */
+static int x_del_char(int __unused);
 .Ed
 .Pp
-In header files, put function prototypes within
-.Dv __BEGIN_DECLS / __END_DECLS
-matching pairs.
+In header files, put function prototypes within matching pairs of
+.Dv __BEGIN_DECLS / __END_DECLS .
 This makes the header file usable from languages like C++.
 .Pp
 Labels start at the second column, i.e. are prefixed with only a single
@@ -248,7 +261,7 @@ Do not forget the
 .Li CONSTCOND
 .Xr lint 1
 command.
-Any final statement-terminating semicolon ought to be
+Any final statement-terminating semicolon shall be
 supplied by the macro invocation rather than the macro, to make parsing easier
 for pretty-printers and editors.
 .Bd -literal -offset indent
@@ -268,6 +281,7 @@ enum enumtype {
 .Pp
 When declaring variables in structures, declare them sorted by use, then
 by size (largest to smallest), then by alphabetical order.
+You may attempt to optimise for structure padding to avoid wasting space.
 The first category normally doesn't apply, but there are exceptions.
 Each one gets its own line.
 It is strongly recommended to not line them up either.
@@ -390,14 +404,15 @@ Use a space after keywords
 .Li while ,
 .Li for ,
 .Li return ,
-.Li sizeof ,
-.Li switch ) .
-It is okay to omit the space only after the
-.Li sizeof
-keyword and only if the code is to be shared with other BSD operating systems.
+.Li switch )
+but not unary operators like
+.Li sizeof .
 It is recommended to put parentheses around the
 .Li return
 argument as well, although this is not a strict requirement.
+It helps when debugging (define
+.Li return
+to a debug expression) though, except for void functions.
 .Pp
 No braces are
 used for control statements with zero or only a single statement unless that
@@ -550,6 +565,9 @@ comes with a sample
 .Pa .indent.pro
 which understands most of these rules, starting from
 .Mx 9 .
+As of
+.Mx 11 ,
+it will also be installed into the user home skeleton directory.
 .Pp
 Use of the
 .Dq register
@@ -592,7 +610,7 @@ Failure to do so may result in improper code generation when optimisation
 is enabled.
 Note that for pointers, the location of
 .Dq volatile
-specifies if the type-qualifier applies to the pointer, or the thing being
+specifies if the type-qualifier applies to the pointer or the thing being
 pointed to.
 A volatile pointer is declared with
 an optional extra space and
@@ -611,6 +629,7 @@ is volatile, but
 is not.
 To make
 .Dq *foo
+.Pq the thing being pointed to
 volatile use the syntax
 .Bd -literal -offset indent
 volatile char *foo;
@@ -680,6 +699,10 @@ Routines returning
 should not have their return values cast to any pointer type.
 Functions used as procedures should not have their return
 value explicitly cast to void, either.
+The exception are function-like macros like
+.Xr sigaddset 3 ,
+where failure to do so may result in compiler warnings
+about unused LHS in comma operations.
 .Pp
 You can assume that pointers to variables and function pointers share the
 same address space and have the same size as
@@ -691,7 +714,7 @@ or
 .Xr warn 3 ,
 don't roll your own!
 .Bd -literal -offset indent
-	if ((four = malloc(sizeof (struct foo))) == NULL)
+	if ((four = malloc(sizeof(struct foo))) == NULL)
 		err(1, NULL);
 	if ((six = (int *)overflow()) == NULL)
 		errx(1, "Number overflowed.");
@@ -819,10 +842,10 @@ Licence preferred for new code.
 .Pa \*(TI/.indent.pro
 should contain at least the following items:
 .Pp
-.Fl bs
 .Fl c0
 .Fl ci4
 .Fl di0
+.Fl nbs
 .Fl ncsp
 .Fl nfc1
 .Fl nlp

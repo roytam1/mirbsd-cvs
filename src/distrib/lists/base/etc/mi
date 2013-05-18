@@ -95,6 +95,7 @@
 ./etc/shells
 ./etc/skel/.Xresources
 ./etc/skel/.etc/calendar/calendar
+./etc/skel/.indent.pro
 ./etc/skel/.mailrc
 ./etc/skel/.mkshrc
 ./etc/sliphome/slip.hosts

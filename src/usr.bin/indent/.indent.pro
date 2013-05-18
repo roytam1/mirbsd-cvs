@@ -1,7 +1,7 @@
--bs
 -c0
 -ci4
 -di0
+-nbs
 -ncsp
 -nfc1
 -nlp
