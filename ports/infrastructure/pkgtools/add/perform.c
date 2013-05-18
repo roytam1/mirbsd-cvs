@@ -1,4 +1,4 @@
-/* $MirOS: ports/infrastructure/pkgtools/add/perform.c,v 1.12 2006/11/19 22:16:35 bsiegert Exp $ */
+/* $MirOS: ports/infrastructure/pkgtools/add/perform.c,v 1.13 2006/11/19 22:34:06 tg Exp $ */
 /* $OpenBSD: perform.c,v 1.32 2003/08/21 20:24:56 espie Exp $	*/
 
 /*
@@ -29,7 +29,7 @@
 #include <signal.h>
 #include <errno.h>
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/add/perform.c,v 1.12 2006/11/19 22:16:35 bsiegert Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/add/perform.c,v 1.13 2006/11/19 22:34:06 tg Exp $");
 
 static int pkg_do(char *);
 static int sanity_check(char *);
@@ -560,28 +560,15 @@ static void
 register_dep(char *pkg, char *dep)
 {
     char *cp;
-    char buf[FILENAME_MAX];
-    int len;
 
     if (!pkg || !dep)
 	return;
 
-    if (!PkgDeps) {
-	if (asprintf(&PkgDeps, "%s\n", dep) < 0) {
+    if (asprintf(&cp, "%s%s\n", PkgDeps ? PkgDeps : "", dep) < 0)
 	    pwarnx("cannot allocate memory for PkgDeps list!\n"
 		    "dependency registration is incomplete");
-	}
-    } else {
-	(void) snprintf(buf, sizeof(buf), "%s\n", basename(dep));
-	len = strlen(PkgDeps) + strlen(buf) + 1;
-	if ((cp = (char *) realloc(PkgDeps, len)) == NULL) {
-	    pwarnx("cannot allocate more memory for PkgDeps list!\n"
-		    "dependency registration is incomplete");
-	} else {
-	    (void) strlcat(cp, buf, len);
+	else
 	    PkgDeps = cp;
-	}
-    }
 }
 
 /* write the dependencies of a package into its dbdir and register them */
