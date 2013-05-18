@@ -1,7 +1,7 @@
-# $MirOS: ports/net/mbrowse/Makefile,v 1.3 2005/03/30 18:13:40 bsiegert Exp $
+# $MirOS: ports/net/mbrowse/Makefile,v 1.4 2006/09/14 00:11:53 tg Exp $
 # $OpenBSD: Makefile,v 1.1.1.1 2003/06/22 22:34:57 jcs Exp $
 
-COMMENT=			graphical MIB browser
+COMMENT=	graphical MIB browser
 
 DISTNAME=	mbrowse-0.3.1
 CATEGORIES=	net
@@ -16,6 +16,7 @@ PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
+USE_X11=	Yes
 CONFIGURE_STYLE= gnu
 CONFIGURE_ARGS+= --with-snmp-style=ucd \
 		--with-snmp-prefix=${LOCALBASE} \

@@ -1,4 +1,4 @@
-# $MirOS: ports/multimedia/mjpegtools/Makefile,v 1.4 2006/02/09 11:12:11 tg Exp $
+# $MirOS: ports/multimedia/mjpegtools/Makefile,v 1.5 2006/09/14 00:11:27 tg Exp $
 # $OpenBSD: Makefile,v 1.1.1.1 2004/07/09 11:58:39 sturm Exp $
 
 COMMENT=			tools to edit/modify/encode video streams
@@ -22,7 +22,8 @@ LIB_DEPENDS=		SDL.2:sdl-*-!no_x11:devel/sdl \
 			jpeg.62::graphics/jpeg
 MODULES+=		devel/pkgconfig graphics/png
 
-AUTOCONF_NEW=	Yes
+USE_X11=		Yes # depends on libdv, which needs X11
+AUTOCONF_NEW=		Yes
 CONFIGURE_STYLE=	autoconf
 CONFIGURE_ARGS+=	${CONFIGURE_SHARED}
 CONFIGURE_ARGS+=	--with-x --enable-xfree-ext \

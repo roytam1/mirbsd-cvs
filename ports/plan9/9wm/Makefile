@@ -1,7 +1,7 @@
-# $MirOS: ports/plan9/9wm/Makefile,v 1.3 2006/08/12 13:54:45 bsiegert Exp $
+# $MirOS: ports/plan9/9wm/Makefile,v 1.4 2006/09/14 00:12:34 tg Exp $
 # $OpenBSD: Makefile,v 1.19 2002/10/28 02:13:21 naddy Exp $
 
-COMMENT=			8 1/2-like Window Manager for X11
+COMMENT=	8 1/2-like Window Manager for X11
 
 PKGNAME=	9wm-1.2pre-1
 DISTNAME=	pre-9wm-1.2
@@ -19,6 +19,7 @@ PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
 CONFIGURE_STYLE= imake
+USE_X11=	Yes
 
 WRKDIST=	${WRKDIR}
 

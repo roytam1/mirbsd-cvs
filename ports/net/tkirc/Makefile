@@ -1,10 +1,10 @@
-# $MirOS: ports/net/tkirc/Makefile,v 1.3 2005/07/07 21:25:06 bsiegert Exp $
+# $MirOS: ports/net/tkirc/Makefile,v 1.4 2006/09/14 00:12:23 tg Exp $
 # $OpenBSD: Makefile,v 1.8 2004/02/02 17:35:01 sturm Exp $
 
-COMMENT=			ircII internet relay chat client
+COMMENT=	ircII internet relay chat client
 V=		2.46
 DISTNAME=	tkirc$V
-PKGNAME=	tkirc-$V-0
+PKGNAME=	tkirc-$V-${DASH_VER}
 CATEGORIES=	net
 HOMEPAGE=	http://netsplit.de/tkirc2/
 
@@ -18,6 +18,7 @@ MASTER_SITES=	ftp://ftp.netsplit.de/pub/tcltk/
 RUN_DEPENDS=	:ircII-*:net/ircII \
 		:tk-8.4.*:x11/tk/8.4
 
+USE_X11=	Yes
 NO_BUILD=	Yes
 NO_REGRESS=	Yes
 PKG_ARCH=	*

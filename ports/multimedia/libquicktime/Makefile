@@ -1,10 +1,10 @@
-# $MirOS: ports/multimedia/libquicktime/Makefile,v 1.3 2006/02/09 11:12:10 tg Exp $
+# $MirOS: ports/multimedia/libquicktime/Makefile,v 1.4 2006/09/14 00:11:26 tg Exp $
 # $OpenBSD: Makefile,v 1.1.1.1 2004/07/09 07:30:17 sturm Exp $
 # $FreeBSD: ports/multimedia/libquicktime/Makefile,v 1.19 2004/03/16 04:23:53 edwin Exp $
 
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
-COMMENT=			library for reading and writing quicktime files
+COMMENT=		library for reading and writing quicktime files
 DISTNAME=		libquicktime-0.9.2
 CATEGORIES=		multimedia
 
@@ -23,6 +23,7 @@ LIB_DEPENDS=		vorbis.3,vorbisfile.4,vorbisenc.2::audio/libvorbis \
 			dv.4::multimedia/libdv
 MODULES+=		graphics/png
 
+USE_X11=		Yes # depends on libdv, which needs X11
 USE_GMAKE=		Yes
 VMEM_WARNING=		Yes
 

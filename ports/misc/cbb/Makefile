@@ -1,6 +1,7 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.24 2003/08/29 15:07:24 naddy Exp $
 
-COMMENT=			checkbook balancing tool
+COMMENT=	checkbook balancing tool
 
 DISTNAME=	cbb-0.73
 CATEGORIES=	misc
@@ -20,6 +21,7 @@ RUN_DEPENDS=	:tk-8.0.*:x11/tk/8.0 \
 
 NO_BUILD=       Yes
 NO_REGRESS=	Yes
+USE_X11=	Yes
 
 pre-configure:
 	@mv ${WRKSRC}/install.pl ${WRKSRC}/install.pl.in

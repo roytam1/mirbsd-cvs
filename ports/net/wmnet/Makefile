@@ -1,10 +1,11 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.8 2003/10/30 21:10:43 jolan Exp $
 
-COMMENT=			little X dock.app network monitor
+COMMENT=	little X dock.app network monitor
 
 DISTNAME=	wmnet-1.06
-PKGNAME=	${DISTNAME}-1
-CATEGORIES=	net x11 x11/windowmaker
+DASH_VER=	1
+CATEGORIES=	net x11
 HOMEPAGE=	http://www.digitalkaos.net/linux/wmnet/
 MASTER_SITES=	${HOMEPAGE}download/
 
@@ -16,6 +17,7 @@ PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
 CONFIGURE_STYLE= imake
+USE_X11=	Yes
 
 NO_REGRESS=	Yes
 
