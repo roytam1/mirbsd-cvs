@@ -1,11 +1,11 @@
-# $MirOS: www/src/projects.hts,v 1.6 2009/06/21 11:01:26 tg Exp $
+# $MirOS: www/src/projects.hts,v 1.7 2009/09/25 18:23:36 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname projects "Project Ideas"
 mws_setheadline Project Ideas
-mws_putheader '$MirOS: www/src/projects.hts,v 1.6 2009/06/21 11:01:26 tg Exp $'
+mws_putheader '$MirOS: www/src/projects.hts,v 1.7 2009/09/25 18:23:36 tg Exp $'
 mws_content <<'EOF'
 <p>The following project ideas can be submitted to the MirOS Project
  by everybody who feels like having the necessary skills.
@@ -28,10 +28,10 @@ mws_content <<'EOF'
 
 <p class="boxhead">The first bug you should look at is even exposed when using -O1:</p>
 <div class="boxtext">
-	On a side note: does anyone who is experienced in C
-	and gdb (I'm not familiar with the latter...) want to
-	fix the bugs in src/usr.bin/oldroff/nroff/ which make
-	it show
+ On a side note: does anyone who is experienced in C
+ and gdb (I'm not familiar with the latter...) want to
+ fix the bugs in src/usr.bin/oldroff/nroff/ which make
+ it show
 <pre>The options that operate on the names of files or archive members
 (-c,-i, -n, -s, -u, -v, -D, -G, -T, -U, -Y, and -Z) interact as follows.</pre>
 in the pax(1) manual page, instead of (hand-edited)
@@ -40,10 +40,10 @@ in the pax(1) manual page, instead of (hand-edited)
 or, depending on the line length,
 <pre>The options that operate on the names of files or archive members
 (-c, -i, -n, -s, -u, -v, -D, -G, -T, -U, -Y, and -Z) interact as follows.</pre>
-	This is .Po and .Pc, all others (.Qo/.Qc and so on) are
-	broken the same way, and it gets worse if you build nroff
-	with -O2/-Os instead of -O1 (-funit-at-a-time also exhibits
-	the bug, but this time I'm convinced it's a bug in nroff).
+ This is .Po and .Pc, all others (.Qo/.Qc and so on) are
+ broken the same way, and it gets worse if you build nroff
+ with -O2/-Os instead of -O1 (-funit-at-a-time also exhibits
+ the bug, but this time I'm convinced it's a bug in nroff).
 </div>
 <p class="boxfoot">(from an eMail)</p>
 

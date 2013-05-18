@@ -1,4 +1,4 @@
-rcsid_htsconv='$MirOS: www/mk/htsconv,v 1.57 2011/02/12 23:52:00 tg Exp $'
+rcsid_htsconv='$MirOS: www/mk/htsconv,v 1.58 2011/02/18 22:37:28 tg Exp $'
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -9,7 +9,7 @@ rcsid_htsconv='$MirOS: www/mk/htsconv,v 1.57 2011/02/12 23:52:00 tg Exp $'
 mws__pagename=
 mws__header=
 mws__rss=
-mws__difftag=MBSD_HTSCONV_GENDATE_TAG_14701
+mws__difftag=MBSD_HTSCONV_GENDATE_TAG_11353
 unset mws__srcfile
 unset mws__abspath
 unset mws__relpath
@@ -129,7 +129,7 @@ function mws_makepiclink {
 }
 
 function mws_putheader {
-	local rcsid=$1 hpic
+	local rcsid=$1
 
 	if [[ -z $mws__canonpath ]]; then
 		print -u2 Internal error: mws_basepath not called!
@@ -244,7 +244,7 @@ function mws_moveifchange {
 }
 
 function mws_putfooter {
-	mws_content <<-'EOF'
+	mws_content_keeptabs <<-'EOF'
 		</div>
 		<div class="footer">
 		<p style="display: none;">Do <em>not</em> send any eMail to <a
@@ -275,7 +275,31 @@ function mws_content {
 	mws__content "$@"
 }
 
+function mws_content_keeptabs {
+	if [[ -z $mws__header ]]; then
+		print -u2 Internal error: mws_putheader not called!
+		exit 1
+	fi
+	mws__content_keeptabs "$@"
+}
+
 function mws__content {
+	sed \
+	    -e 's\([0-9A-z][-.,0-9A-z]*\)(\(DOCS\))<a href="@@RELPATH@@htman/i386/man\2/\1.htm" class="manlink">&</a>g' \
+	    -e 's\([0-9A-z][-.,0-9A-z]*\)(\(PAPERS\))<a href="@@RELPATH@@htman/i386/man\2/\1.htm" class="manlink">&</a>g' \
+	    -e 's\([0-9A-z][-.,0-9A-z]*\)(GNU)<a href="@@RELPATH@@htman/i386/manINFO/\1.html" class="manlink">&</a>g' \
+	    -e 's\([0-9A-z][-.,0-9A-z]*\)(\([PSU][MS][DM]\))<a href="@@RELPATH@@htman/i386/man\2/\1.htm" class="manlink">&</a>g' \
+	    -e 's\([0-9A-z][-.,0-9A-z]*\)(\([1-9]\)/[Ss][Pp][Aa][Rr][Cc])<a href="@@RELPATH@@htman/sparc/man\2/\1.htm" class="manlink">&</a>g' \
+	    -e 's\([0-9A-z][-.,0-9A-z]*\)(\([1-9]\)/[Ii]386)<a href="@@RELPATH@@htman/i386/man\2/\1.htm" class="manlink">&</a>g' \
+	    -e 's\([0-9A-z][-.,0-9A-z]*\)(\([1-9]\))<a href="@@RELPATH@@htman/i386/man\2/\1.htm" class="manlink">&</a>g' \
+	    -e 's^	<span style="display:none;">	</span>' \
+	    -e "s@@ABSPATH@@$mws__abspathg" \
+	    -e "s@@RELPATH@@$mws__relpathg" \
+	    -e "s@@HEADER@@$mws__headerg" \
+	    -e "s@@RSS@@$mws__rssg"
+}
+
+function mws__content_keeptabs {
 	sed \
 	    -e 's\([0-9A-z][-.,0-9A-z]*\)(\(DOCS\))<a href="@@RELPATH@@htman/i386/man\2/\1.htm" class="manlink">&</a>g' \
 	    -e 's\([0-9A-z][-.,0-9A-z]*\)(\(PAPERS\))<a href="@@RELPATH@@htman/i386/man\2/\1.htm" class="manlink">&</a>g' \

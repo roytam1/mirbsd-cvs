@@ -4,8 +4,8 @@
 mws_setname oldnews "Old News and Weblog"
 mws_subdir 0
 mws_setheadline Older News and Weblogs
-mws_putheader '$MirOS: www/src/oldnews.hts,v 1.7 2009/06/21 11:01:26 tg Exp $'
-mws_content <<'EOF'
+mws_putheader '$MirOS: www/src/oldnews.hts,v 1.8 2009/07/19 15:34:44 tg Exp $'
+mws_content_keeptabs <<'EOF'
 <h2 id="owlog">Old Weblog</h2><ul>
 <li><a href="@@RELPATH@@wlog-0.htm">From the beginning to December 2002</a> after
  the first BSD-mirabilos snapshot ever (derived from OpenBSD-current-mirabilos)

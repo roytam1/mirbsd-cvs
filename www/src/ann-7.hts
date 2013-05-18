@@ -3,7 +3,7 @@
 
 mws_setname legacy/ann-7 "MirOS Legacy Content"
 mws_setheadline 'MirOS #7quinquies'
-mws_putheader '$MirOS: www/src/ann-7.hts,v 1.3 2009/06/21 11:01:21 tg Exp $'
+mws_putheader '$MirOS: www/src/ann-7.hts,v 1.4 2009/07/19 15:34:44 tg Exp $'
 mws_content <<'EOF'
 <p>The MirOS Team is proud to announce the immediate release of MirOS BSD
 #quinquies. This release is the fifth in the stable #7 branch. It is a
@@ -138,13 +138,12 @@ project.</p>
  which facilitates booting the default partition, a chosen primary partition
  on the first hard disc, or chaining to the first floppy drive. After a
  time-out of 10 seconds it boots the default partition.<br />The
- non-bootmanager MBR code can be installed by executing:<pre>
-
-		# fdisk -ef /nonexistent wd0
-		fdisk: 1&gt; u
-		fdisk: 1&gt; w
-		fdisk: 1&gt; q
- </pre></li>
+ non-bootmanager MBR code can be installed by executing:<div class="boxtext"><pre>
+	# fdisk -ef /nonexistent wd0
+	fdisk: 1&gt; u
+	fdisk: 1&gt; w
+	fdisk: 1&gt; q
+ </pre></div></li>
 <li>Network-bootable bsd.rd.net kernel for SPARC, eliminating the need for
  more than a RARP and TFTP d&aelig;mon on the source side.</li>
 <li>Support for nearly everything the GENERIC kernel supports on the CD-ROM
@@ -285,7 +284,7 @@ to <tt>ksh</tt> - using tcsh or GNU bash is not officially supported.</p>
 <p>Please read the full stuff at <a href="@@RELPATH@@about.htm">About MirOS</a>.</p>
 
 <pre>
-# $MirOS: www/src/ann-7.hts,v 1.3 2009/06/21 11:01:21 tg Exp $
+# $MirOS: www/src/ann-7.hts,v 1.4 2009/07/19 15:34:44 tg Exp $
 # $OpenBSD: COPYRIGHT,v 1.2 2001/01/29 02:11:07 niklas Exp $
 # @(#)COPYRIGHT	5.1 (Berkeley) 7/1/91
 

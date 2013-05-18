@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.328 2011/03/16 21:21:07 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.329 2011/03/19 05:12:31 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -5035,19 +5035,19 @@ Tag: mksh snippet
  in making it work with, say, Debian etch mksh R28, eMail me. Note: that
  → character is a literal Tab (the "[→·]" Tab-Space occurs often).</p>
 <div class="boxtext"><pre>
-ca=$(print -n '\001'); ce=$(print -n '\033'); cm=$(print -n '\r')
-: ${HOSTNAME:=$(ulimit -c 0; hostname -s 2&gt;&amp;-)}
-[[ $HOSTNAME = @(localhost|*([→·])) ]] &amp;&amp; \
-    HOSTNAME=$(ulimit -c 0; hostname 2&gt;&amp;-)
-: ${USER:=$(ulimit -c 0; id -un 2&gt;&amp;- || print \?)}
-if (( USER_ID )); then PS1='$'; else PS1='#'; fi
+	ca=$(print -n '\001'); ce=$(print -n '\033'); cm=$(print -n '\r')
+	: ${HOSTNAME:=$(ulimit -c 0; hostname -s 2&gt;&amp;-)}
+	[[ $HOSTNAME = @(localhost|*([→·])) ]] &amp;&amp; \
+	    HOSTNAME=$(ulimit -c 0; hostname 2&gt;&amp;-)
+	: ${USER:=$(ulimit -c 0; id -un 2&gt;&amp;- || print \?)}
+	if (( USER_ID )); then PS1='$'; else PS1='#'; fi
 
-function twd {
-	typeset d=${PWD:-?} p=~
+	function twd {
+		typeset d=${PWD:-?} p=~
 
-	[[ $p = ?(*/) ]] || d=${d/#$p/~}
-	print -nr -- "$d"
-}
+		[[ $p = ?(*/) ]] || d=${d/#$p/~}
+		print -nr -- "$d"
+	}
 </pre></div><p class="boxfoot">If you do not need exactly the effect
  of "\w" (tilde unexpansion), use <tt>$PWD</tt> ipv <tt>$(twd)</tt> below.
  Note that $USER and $HOSTNAME are usually evaluated only once; escape them
@@ -5055,25 +5055,25 @@ function twd {
 <ol>
  <li>Show Happy face upon successful execution
 <div class="boxtext"><pre>
-bash$ PS1="\`if [ \$? = 0 ]; then
-	echo \[\e[33m\]^_^\[\e[0m\]
-else
-	echo \[\e[31m\]O_O\[\e[0m\]
-fi\`[\u@\h:\w]\$ "
+	bash$ PS1="\`if [ \$? = 0 ]; then
+		echo \[\e[33m\]^_^\[\e[0m\]
+	else
+		echo \[\e[31m\]O_O\[\e[0m\]
+	fi\`[\u@\h:\w]\$ "
 
-mksh$ PS1="$ca$cm"'$(if (( $? )); then
-	print "'"$ca$ce[31m$caO_O$ca$ce[0m$ca"'"
-else
-	print "'"$ca$ce[33m$ca^_^$ca$ce[0m$ca"'"
-fi)'"[$USER@$HOSTNAME:\$(twd)]$PS1 "
+	mksh$ PS1="$ca$cm"'$(if (( $? )); then
+		print "'"$ca$ce[31m$caO_O$ca$ce[0m$ca"'"
+	else
+		print "'"$ca$ce[33m$ca^_^$ca$ce[0m$ca"'"
+	fi)'"[$USER@$HOSTNAME:\$(twd)]$PS1 "
 </pre></div>
  <br />I do think Unicode makes things more fun though:
 <div class="boxtext"><pre>
-mksh$ PS1="$ca$cm$ca$ce["'$(if (( $? )); then
-	print "'"31m$ca☹"'"
-else
-	print "'"33m$ca☺"'"
-fi)'"$ca$ce[0m$ca[$USER@$HOSTNAME:\$(twd)]$PS1 "
+	mksh$ PS1="$ca$cm$ca$ce["'$(if (( $? )); then
+		print "'"31m$ca☹"'"
+	else
+		print "'"33m$ca☺"'"
+	fi)'"$ca$ce[0m$ca[$USER@$HOSTNAME:\$(twd)]$PS1 "
 </pre></div>
  </li>
  <li>Change color on bad command
@@ -7612,4 +7612,17 @@ Tag: debian event geocache grml
 <p>Will drive to <a href="http://www.google.com/webhp?hl=la&amp;q=Chemnitzer+Linuxtage">Chemnitz</a>
  now. Maybe meet me there. No booth, just visiting to meet everyone
  again, rather spontaneous.</p>
+----
+Date: 21.03.2011 15:50
+Author: tg@
+Title: ’M back.
+Tag: debian event geocache
+
+<p>Two DNF out of four geocaches, well… one was too muggled, the other was
+ no longer there, judging from the previous visitors’ log entries. Cached
+ with natureshadow and bought his book on how not to cycle across Germany.</p>
+<p>CLT was a blast, and it’s refreshing to attend an event without having
+ to drive a booth of our own. Talked to <em>lots</em> of people. Since the
+ boss was paying, even did some mingling in that area.</p>
+<p>My ADSL line has been hiccupping ☹</p>
 ----
