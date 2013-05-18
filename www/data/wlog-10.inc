@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.273 2010/01/01 20:46:20 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.274 2010/01/03 19:42:16 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -5994,4 +5994,79 @@ Tag: debian snapshot
  I wonder when OgreBSD will upgrade… I could do it myself again, but this
  time it’s not <em>that</em> urgent. Still waiting for the TLS extension,
  though…</p>
+----
+Title: Various topics, and, at least *some* people think!
+Author: tg@
+Date: 20.01.2010 17:31
+Tag: debian event mksh rant snapshot
+
+<p><a href="http://www.pro-linux.de/NB3/news/1/15197/">Marc Fleury, JBoss
+ founder</a> joins the ranks of <a href="http://nosec.ch">Tonnerre</a>,
+ me, and other people requesting that MySQL (and MariaDB!) <em>please</em>
+ finally die. Everyone, don't even fork it. Use <a
+ href="http://www.microsoft.com/sql">a</a> <a
+ href="http://ingres.com/">real</a> <a
+ href="http://www.postgresql.org/">database</a> instead. Or, at least, <a
+ href="http://sqlite.org/">SQLite</a>. Really.</p>
+<p>We're going to <a href="http://www.fosdem.org/">FOSDEM</a> 2010 (of
+ course &ndash; I've been at every FOSDEM that was not just an OSDEM,
+ Benny and gecko2 are regular attendees as well, as are other projects
+ of mine such as FreeWRT and Debian GNU/kFreeBSD, by proxy). There will
+ be a recent MirBSD snapshot I've yet got to build, with the new floppy
+ format ustarfs (idea, but no single line of their stinking ridiculously
+ huge code, stolen from NetBSD®) and other improvements (albeit less than
+ I wanted to get done by then). The days before, I'll attend the first <a
+ href="http://roland.entierement.nu/blog/2010/01/15/fusionforge-developersusers-meeting-coming-up.html">FusionForge
+ meeting</a> to break up the French Cabal, with my work hat on. That is
+ also my first time in France (outside of the Elsaß). People, make a good
+ impression on me to overcome the classic prejudices ;-)</p>
+<p><a href="http://wiki.debian.org/BSP2010/Moenchengladbach">This
+ weekend</a> I'm going to meet my Debian Application Manager zack, have
+ some good beer (ugh... first this, then Paris, then good belgian beer...)
+ and fix some bugs, all while learning even more. Sounds like fun, but I
+ almost feel overwhelmed, in contrast to the years of much less travelling
+ from my past. I've also started sort-of mentoring Simon, one of our
+ apprentices at work, into the Debian processes. (On an unrelated side
+ note, formorer recently said bpo will become bp.d.o soon. Great!)</p>
+<p>Please don't laugh at <a href="@@RELPATH@@kwalletcli.htm">this excuse
+ for a webpage</a>, as I've yet to fill it in, but my CLI for the KDE
+ Wallet is hereby deemed ready for public consumption, with a bug-fix
+ release <tt>2.01</tt> (bugs actually found during preparation of a
+ port to Debian sid and KDE 4, which is much much worse than KDE 3, plus
+ it looks so absolutely disgusting I'm not even sure Windows® Mistda is
+ worse). I hope the package will end up in NEW soon (and once progressed
+ to testing I may be able to make the KDE 3 variant official via lenny
+ backports; <a href="https://eurynome.mirbsd.org/debs/debidx.htm">my WTF
+ <tt>*.deb</tt> repo</a> will hold them until then.</p>
+<p style="font-size:small">There are more webpages I need to fill in...
+ mksh's TaC, arc4random (which needs some major redesign as well) and
+ BSD::arc4random, the RANDEX protocol (entropy exchange over IRC) and
+ its plugins and patches, ...</p>
+<p>Not just <a href="@@RELPATH@@permalinks/wlog-10_e20080712-bsiegert.htm">Mac
+ OSX</a> (and, I hope, iPhoneOS) will soon come with mksh(1), but also
+ Android (I prepared patches to make it <tt>/bin/sh</tt>, which works
+ quite well &ndash; although I need to find out how to make a hardlink
+ so that <tt>#!/bin/mksh</tt> scripts will run) and Maemo, for which I
+ wrote an <a href="@@RELPATH@@mksh.htm">mksh</a> package in a <a
+ href="https://garage.maemo.org/projects/mksh/">garage project</a>,
+ which also needs some love w.r.t. testing on actual devices, menu
+ integration, etc. (Please contact me if you can help with either of
+ the three.) We also have <tt>«lewellyn:#ksh»</tt> making a package
+ for the new OpenSolaris system (thanks again). People persuading
+ Apple to put it on the jesusPhone are also welcome. (This does not
+ mean I endorse any of these &ndash; right now, I'd probably get the
+ most of a WinCE PDA with built-in GPSr, WLAN and maybe GSM/GPRS.)</p>
+<p>English and French native speakers, please review, and Dutch native
+ speakers may contribute a translation of, our <a
+ href="@@ABSPATH@@/MirOS/PR/">flyers</a>. (Source code for these is
+ <em>not</em> available, sorry. Benny makes them in Quark on System 7
+ in Basilisk II, used to be Classic until Apple yanked it. But still,
+ they use only free fonts, free imagery or such the MirOS Project is
+ allowed to use, and beat every single other FOSS project flyer I've
+ ever seen by far!)</p>
+<p>There's probably more I could write, I bet I forgot half of it
+ anyway, but I'll leave it at that for now. Get yourself a nice cup
+ of hot chocolate, pour an Espresso into it, and enjoy the mix with
+ a piece of cake (I'd say strawberry or mousse-pear but all they had
+ was cassis-créme) and pity me for not knowing any French next month.</p>
 ----
