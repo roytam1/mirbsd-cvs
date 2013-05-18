@@ -558,7 +558,7 @@ evalexpr(Expr_state *es, int prec)
 				if (vasn->flag & INTEGER)
 					setint_v(vasn, vr, es->arith);
 				else
-					setint(vasn, (mksh_ari_t)res);
+					setint(vasn, vr->val.i);
 			}
 			vl = vr;
 		} else
