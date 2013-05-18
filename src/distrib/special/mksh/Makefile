@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/special/mksh/Makefile,v 1.30 2008/11/02 22:42:38 tg Exp $
+# $MirOS: src/distrib/special/mksh/Makefile,v 1.31 2008/12/13 17:02:18 tg Exp $
 # $miros: src/bin/mksh/Makefile,v 1.29 2007/01/18 16:05:05 tg Exp $
 
 .include <bsd.own.mk>
@@ -7,8 +7,8 @@ SRCDIR=		${BSDSRCDIR}/bin/mksh
 .PATH: ${SRCDIR}
 
 PROG=		mksh
-SRCS=		alloc.c edit.c eval.c exec.c expr.c funcs.c histrap.c \
-		jobs.c lex.c main.c misc.c shf.c syn.c tree.c var.c
+SRCS=		edit.c eval.c exec.c expr.c funcs.c histrap.c jobs.c \
+		lalloc.c lex.c main.c misc.c shf.c syn.c tree.c var.c
 # env: HAVE_MKNOD=1 HAVE_REALPATH=1 HAVE_REVOKE=1
 CPPFLAGS+=	-DMKSH_ASSUME_UTF8 -DMKSH_SMALL \
 		-DHAVE_ATTRIBUTE=1 -DHAVE_ATTRIBUTE_BOUNDED=1 \
