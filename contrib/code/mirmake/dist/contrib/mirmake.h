@@ -1,4 +1,4 @@
-/* $MirOS: contrib/code/mirmake/dist/contrib/mirmake.h,v 1.31 2008/03/09 16:19:49 tg Exp $ */
+/* $MirOS: contrib/code/mirmake/dist/contrib/mirmake.h,v 1.32 2008/03/12 21:58:00 tg Exp $ */
 
 /*-
  * Copyright (c) 2005, 2006, 2008
@@ -54,11 +54,9 @@
 
 /* Undefining */
 
-#if defined(__INTERIX) || defined(__APPLE__) || defined(__MidnightBSD__)
-/* neither Interix nor Darwin get these right… */
-/* quell a warning about __pure redefined on MidnightBSD */
+#if defined(__INTERIX) || defined(__APPLE__)
+/* neither Interix nor Darwin get __dead and __pure right… */
 #undef __dead
-#undef __pure
 #endif
 
 /* Redefining */
@@ -102,6 +100,7 @@
 #endif
 
 #ifndef __dead
+#undef __pure
 #if !__GNUC_PREREQ__(2, 5)
 #define	__attribute__(x)	/* delete __attribute__ if no or old gcc */
 #if defined(__GNUC__) && !defined(__STRICT_ANSI__)
