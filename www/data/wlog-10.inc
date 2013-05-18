@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.260 2009/12/07 20:41:28 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.261 2009/12/11 17:37:38 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -5605,4 +5605,26 @@ Language: de_DE-1901
  Existenz zu... kaputt, das ist mir meine Zeit nicht wert).</p>
 <p>Naja, mal die Kündigungsbestätigung aus den Altunterlagen raussuchen,
  um deren Zusendung ich letztes Jahr gebeten hatte. Warum wohl?</p>
+----
+Title: I smell an antitrust case coming up
+Author: tg@
+Date: 12.12.2009 21:03
+Tag: mksh rant security
+
+<p>Oh the joy…</p>
+<p>20:54⎜«smultron» <i>mira</i>: i just upgraded the big server from 10.5
+ to 10.6... and apparently the upgrade script removed /bin/mksh... now I
+ don't have a shell and quits immediately... any ideas?</p>
+<p>My suggestion – <tt>ssh -t servername /bin/bash --login</tt> – doesn’t
+ seem to help:</p>
+<p>20:59⎜«smultron» oh great<br />
+   20:59⎜«smultron» ssh just keeps asking for the password<br />
+   20:59⎜«smultron» then gives this:<br />
+   20:59⎜«smultron» Permission denied
+ (publickey,gssapi-keyex,gssapi-with-mic,keyboard-interactive).</p>
+<p>Maybe gecko2@ can help… or bsiegert@… who knows.</p>
+<p>In other news, no reaction <em>at all</em> on the Android front on <a
+ href="http://groups.google.com/group/android-platform/browse_thread/thread/413d8e10ec68b9fa">my
+ proposal</a> to get <a href="@@RELPATH@@mksh.htm">mksh</a> either to
+ replace NetBSD® 0.x ash, or, at least, add it for developers.</p>
 ----
