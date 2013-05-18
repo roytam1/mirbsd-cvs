@@ -1,5 +1,5 @@
 #!/bin/mksh
-rcsid='$MirOS: src/sys/arch/i386/stand/bootxx/mkbxinst.sh,v 1.11 2009/01/31 18:59:18 tg Exp $'
+rcsid='$MirOS: src/sys/arch/i386/stand/bootxx/mkbxinst.sh,v 1.12 2009/02/01 15:50:09 tg Exp $'
 #-
 # Copyright (c) 2007, 2008, 2009
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -86,13 +86,12 @@ typeset -Uui16 curptr=begptr
 typeset -i wnum=0 wofs=0 wrec=0
 
 function do_record {
-	typeset -i blk=$1 cnt=$2
-	typeset -i n=cnt+100
+	typeset -i blk=$1 cnt=$2 n
 	typeset -Uui16 x=blk y
 
 	(( blk && cnt )) || return
 
-	print -u2 "$wrec @0x${curptr#16#}: ${n#1} @$blk (0x${x#16#})"
+	print -u2 "$wrec @0x${curptr#16#}: $cnt @$blk (0x${x#16#})"
 
 	while (( cnt )); do
 		let wrec++
