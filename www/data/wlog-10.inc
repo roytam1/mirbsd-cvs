@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.195 2009/05/27 13:37:19 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.196 2009/05/30 00:33:28 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -4072,4 +4072,29 @@ Tag: mksh
  into Mac OSX, Minix, pkgsrc® (as bootstrap shell) and QNX by default,
  and the usual world domination in general. Hey, I'm fixing dietlibc
  bugs on Launchpad now, so low I've sunk, so gimme some rest.</p>
+----
+Date: 31.05.2009 12:54
+Author: tg@
+Title: On BSD derivates and ports frameworks
+
+<p>Random musings, devised on the best place ever to think (the one
+ in the house where there will be no computer, at most a telephone;
+ insiders know where it is, afk): I wonder what <a
+ href="http://www.aeriebsd.org/">ÆrieBSD</a> will do regarding ports.
+ Sure, granted as long as they don’t change their uname(1) away from
+ <tt>OpenBSD</tt> (and retain Perl, gcc and the obsd perl espietools)
+ they can continue using OpenBSD ports. But as soon as… we (bsiegert@
+ and I) know the pain, the autotools tricks, have an infrastructure in
+ place to deal with it, etc. Of course, there is also pkgsrc®, but they
+ aren’t exactly easy to deal with, and pretty over-engineered in most
+ parts while lacking in others (even though they catch up in a few of
+ these). I wonder…</p>
+<p>Okay, The MirPorts Framework assumes Perl, most individual ports
+ haven’t been tested with pcc, I have yet to see a constantly working
+ <a href="http://pcc.ludd.ltu.se/">pcc</a> as well, and XFree86® (or
+ Xenocara in /usr/X11R6, should work too) is depended upon for X11.
+ But it should be easier, even if mksh and mirmake are required, than
+ starting from scratch. Heck, even MidnightBSD would probably have
+ jumped on the MirPorts wagon if they had not had such success with
+ mports at that time already.</p>
 ----
