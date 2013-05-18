@@ -1,4 +1,4 @@
-# $MirOS: ports/devel/libgsf/Makefile,v 1.3 2005/07/07 21:19:11 bsiegert Exp $
+# $MirOS: ports/devel/libgsf/Makefile,v 1.4 2006/02/09 11:11:24 tg Exp $
 # $OpenBSD: Makefile,v 1.7 2004/12/10 20:33:59 marcm Exp $
 
 COMMENT=		"GNOME Structured File library"
@@ -6,7 +6,8 @@ COMMENT-gnome=		"GNOME specific extensions to libgsf"
 
 VERSION=		1.11.1
 DISTNAME=		libgsf-${VERSION}
-PKGNAME-gnome=		libgsf-gnome-${VERSION}-0
+PKGNAME=		libgsf-${VERSION}-1
+PKGNAME-gnome=		libgsf-gnome-${VERSION}-1
 CATEGORIES=		devel
 
 HOMEPAGE=		http://www.gnome.org/
@@ -24,7 +25,7 @@ EXTRACT_SUFX=		.tar.bz2
 MODULES=		devel/gettext devel/pkgconfig
 
 LIB_DEPENDS=		bz2.10.2::archivers/bzip2 \
-			xml2.8.4::textproc/libxml \
+			xml2.2.6::textproc/libxml \
 			glib-2.0.0.11,gobject-2.0.0.11::devel/glib
 
 USE_GMAKE=		Yes

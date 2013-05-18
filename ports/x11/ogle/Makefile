@@ -1,10 +1,11 @@
-# $MirOS: ports/x11/ogle/Makefile,v 1.2 2005/04/10 21:51:54 tg Exp $
+# $MirOS: ports/x11/ogle/Makefile,v 1.3 2005/04/11 15:57:42 tg Exp $
 # $OpenBSD: Makefile,v 1.27 2004/02/29 08:12:56 pvalchev Exp $
 
 COMMENT=		"DVD player"
 
 CATEGORIES=		x11
 DISTNAME=		ogle-0.9.2
+PKGNAME=		${DISTNAME}-1
 HOMEPAGE=		http://www.dtek.chalmers.se/groups/dvd/
 # Authors can be reached at dvd@dtek.chalmers.se
 MASTER_SITES=		${HOMEPAGE}dist/
@@ -19,7 +20,7 @@ PERMIT_PACKAGE_FTP=	Yes
 
 LIB_DEPENDS=		a52::audio/liba52 \
 			dvdread.3.0::devel/libdvdread \
-			xml2.6.19:libxml->=2.4.19:textproc/libxml \
+			xml2.2.6:libxml->=2.4.19:textproc/libxml \
 			jpeg.62::graphics/jpeg \
 			mad.2::audio/libmad
 

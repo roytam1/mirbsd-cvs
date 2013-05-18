@@ -1,15 +1,17 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.7 2004/05/19 18:04:37 lebel Exp $
 
 COMMENT=		"command-line WebDAV client"
 
 VERSION=		0.22.2
 DISTNAME=		cadaver-${VERSION}
+PKGNAME=		${DISTNAME}-1
 CATEGORIES=     	net www
 
 HOMEPAGE=		http://www.webdav.org/cadaver/
 
 
-LIB_DEPENDS=		xml2.6:libxml->=2.4.8:textproc/libxml
+LIB_DEPENDS=		xml2.2.6:libxml->=2.4.8:textproc/libxml
 MODULES=		converters/libiconv
 
 # GPL

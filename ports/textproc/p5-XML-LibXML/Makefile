@@ -1,3 +1,4 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.18 2004/01/17 15:58:10 naddy Exp $
 
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
@@ -6,13 +7,13 @@ COMMENT=	"perl interface to the libxml2 library"
 
 VERSION=	1.54
 DISTNAME=	XML-LibXML-${VERSION}
-PKGNAME=	p5-${DISTNAME}-0
+PKGNAME=	p5-${DISTNAME}-1
 CATEGORIES=	textproc perl5
 
 MASTER_SITES=	${MASTER_SITE_PERL_CPAN:=XML/}
 
 
-LIB_DEPENDS=	xml2.6::textproc/libxml
+LIB_DEPENDS=	xml2.2.6::textproc/libxml
 RUN_DEPENDS=	::textproc/p5-LibXML-Common \
 		:p5-XML-SAX-*:textproc/p5-XML-SAX
 BUILD_DEPENDS=	${RUN_DEPENDS}

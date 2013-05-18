@@ -1,9 +1,10 @@
-# $MirOS: ports/education/drgeo/Makefile,v 1.2 2005/03/25 23:13:47 bsiegert Exp $
+# $MirOS: ports/education/drgeo/Makefile,v 1.3 2006/02/09 11:11:32 tg Exp $
 # $OpenBSD: Makefile,v 1.1.1.1 2004/02/21 12:31:02 espie Exp $
 
 COMMENT=	"interactive geometry program"
 
 DISTNAME=	drgeo-0.9.12
+PKGNAME=	${DISTNAME}-1
 CATEGORIES=	education math
 
 HOMEPAGE=	http://www.ofset.org/drgeo/	
@@ -20,7 +21,7 @@ DISTFILES=	${DISTNAME}.tar.gz
 
 MODULES=	devel/gettext devel/pkgconfig
 
-LIB_DEPENDS=	xml2.6::textproc/libxml \
+LIB_DEPENDS=	xml2.2.6::textproc/libxml \
 		glade-2.0.0.0::devel/libglade \
 		guile::lang/guile
 

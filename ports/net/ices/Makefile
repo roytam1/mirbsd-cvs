@@ -1,8 +1,10 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.2 2003/07/26 13:34:40 sturm Exp $
 
 COMMENT=	"icecast source for streaming MP3"
 
 DISTNAME=	ices-0.3
+PKGNAME=	${DISTNAME}-1
 CATEGORIES=	net audio
 
 HOMEPAGE=	http://www.icecast.org/
@@ -23,7 +25,7 @@ CONFIGURE_ARGS=	--with-docdir=${LOCALBASE}/share/doc/ices \
 
 LIB_DEPENDS=	mp3lame.0:lame-*:audio/lame,no_x11 \
 		shout.3::net/libshout \
-		xml2.7::textproc/libxml
+		xml2.2.6::textproc/libxml
 
 FLAVORS=	python
 FLAVOR?=

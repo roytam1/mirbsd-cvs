@@ -1,4 +1,4 @@
-# $MirOS: ports/x11/xfce4/plugins/Makefile.inc,v 1.2 2005/05/01 13:59:51 bsiegert Exp $
+# $MirOS: ports/x11/xfce4/plugins/Makefile.inc,v 1.3 2006/02/09 11:15:58 tg Exp $
 
 V?=		4.0.5
 CATEGORIES?=	x11 x11/xfce4 x11/xfce4-plugins
@@ -29,7 +29,7 @@ GUI=	xfcegui4.1.6::x11/xfce4/libraries/libxfcegui4
 MCS=	xfce4mcs-client.1.1,xfce4mcs-manager.1.1::x11/xfce4/libraries/libxfce4mcs
 PANEL=	:xfce4-panel-*:x11/xfce4/desktop/xfce4-panel
 STARTUP=startup-notification-1.0.0::devel/startup-notification
-XML2=	xml2.7.10::textproc/libxml
+XML2=	xml2.2.6::textproc/libxml
 
 BUILD_DEPENDS?=	${PANEL}
 RUN_DEPENDS?=	${PANEL}

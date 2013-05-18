@@ -1,11 +1,11 @@
-# $MirOS: ports/x11/gnome/librsvg/Makefile,v 1.4 2006/02/09 09:36:23 tg Exp $
+# $MirOS: ports/x11/gnome/librsvg/Makefile,v 1.5 2006/02/09 11:15:45 tg Exp $
 # $OpenBSD: Makefile,v 1.12 2004/12/23 05:03:09 marcm Exp $
 
 COMMENT=		"SAX-based render library for SVG files"
 
 VERSION=		2.8.1
 DISTNAME=		librsvg-${VERSION}
-PKGNAME=		${DISTNAME}-1
+PKGNAME=		${DISTNAME}-2
 CATEGORIES=		devel x11/gnome
 
 HOMEPAGE=		http://www.gnome.org
@@ -30,7 +30,7 @@ LIB_DEPENDS=		art_lgpl_2.5::graphics/libart \
 			pangoft2-1.0.0.0::devel/pango \
 			popt.0.3::devel/popt \
 			croco-0.6.3.0::textproc/libcroco \
-			xml2.6::textproc/libxml
+			xml2.2.6::textproc/libxml
 MODULES+=		devel/pkgconfig
 
 USE_X11=		Yes

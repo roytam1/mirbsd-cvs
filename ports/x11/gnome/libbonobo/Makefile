@@ -1,9 +1,10 @@
-# $MirOS: ports/x11/gnome/libbonobo/Makefile,v 1.3 2005/10/12 19:43:46 bsiegert Exp $
+# $MirOS: ports/x11/gnome/libbonobo/Makefile,v 1.4 2006/02/09 11:15:43 tg Exp $
 # $OpenBSD: Makefile,v 1.11 2004/12/15 13:57:56 alek Exp $
 
 COMMENT=		"GNOME component and compound document system" 
 
 DISTNAME=		libbonobo-2.10.1
+PKGNAME=		${DISTNAME}-1
 CATEGORIES=		devel
 
 HOMEPAGE=		http://www.gnome.org/
@@ -22,7 +23,7 @@ MODULES=		devel/gettext devel/pkgconfig
 
 BUILD_DEPENDS=		:p5-XML-Parser-*:textproc/p5-XML-Parser
 LIB_DEPENDS=		ORBit-2,ORBitCosNaming-2::devel/ORBit \
-			xml2.6::textproc/libxml
+			xml2.2.6::textproc/libxml
 
 USE_GMAKE=		Yes
 CONFIGURE_STYLE=	autoconf old

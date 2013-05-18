@@ -1,9 +1,11 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.6 2004/05/08 06:46:45 sturm Exp $
 # $RuOBSD: Makefile,v 1.7 2002/03/26 19:14:05 grange Exp $
 
 COMMENT=		"Free Unix Spectrum Emulator"
 
 DISTNAME=		fuse-0.6.2.1
+PKGNAME=		${DISTNAME}-1
 CATEGORIES=		emulators
 
 HOMEPAGE=		http://fuse-emulator.sourceforge.net/
@@ -22,7 +24,7 @@ USE_X11=		Yes
 LIB_DEPENDS=		glib-2.0.0.8,gmodule-2.0.0.8,gobject-2.0.0.8::devel/glib \
 			spectrum.3::devel/libspectrum \
 			765.3::devel/lib765 \
-			xml2.7::textproc/libxml
+			xml2.2.6::textproc/libxml
 MODULES+=		devel/pkgconfig graphics/png
 
 CONFIGURE_STYLE=	gnu

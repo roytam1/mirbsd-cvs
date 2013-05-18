@@ -1,17 +1,18 @@
-# $MirOS: ports/mailnews/pan/Makefile,v 1.3 2005/05/01 13:50:51 bsiegert Exp $
+# $MirOS: ports/mailnews/pan/Makefile,v 1.4 2006/02/09 11:12:00 tg Exp $
 # $OpenBSD: Makefile,v 1.13 2004/04/02 19:07:05 sturm Exp $
 
 COMMENT=	"powerful Gtk+2 newsreader"
 
 VER=		0.14.2
 DISTNAME=	pan-${VER}
+PKGNAME=	${DISTNAME}-1
 CATEGORIES=	news x11
 MASTER_SITES=	http://pan.rebelbase.com/download/releases/${VER}/SOURCE/
 
 LIB_DEPENDS=	gdk_pixbuf-2.0.0.0,gdk-x11-2.0.0.5::x11/gtk+ \
 		gtk-x11-2.0.0.5::x11/gtk+ \
 		gthread-2.0.0.0::devel/glib \
-		xml2.6.22::textproc/libxml \
+		xml2.2.6::textproc/libxml \
 		gnet-2.0.0.3::net/gnet
 MODULES+=	devel/pkgconfig
 
