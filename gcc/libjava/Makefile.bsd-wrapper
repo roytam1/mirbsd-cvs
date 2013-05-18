@@ -1,4 +1,4 @@
-# $MirOS: gcc/libjava/Makefile.bsd-wrapper,v 1.19 2005/12/17 06:01:01 tg Exp $
+# $MirOS: gcc/libjava/Makefile.bsd-wrapper,v 1.20 2005/12/18 16:36:51 tg Exp $
 
 .include <bsd.own.mk>
 .include "${GNUSYSTEM_AUX_DIR}/locations.mk"
@@ -35,19 +35,6 @@ INSTPROGS=	gij jv-convert rmic rmiregistry
 
 post-install:
 .for _i in ${INSTLIBS}
-	chmod 600 ${DESTDIR}/usr/lib/lib${_i}.{a,so.${LIBGCJ_REV}}
-.  if ${DEBUGLIBS:L} == "yes"
-	strip --strip-debug ${DESTDIR}/usr/lib/lib${_i}.a
-	-rm -f ${DESTDIR}/usr/lib/lib${_i}.so.${LIBGCJ_REV}.dbg
-	cd ${DESTDIR}/usr/lib && \
-	    objcopy --only-keep-debug lib${_i}.so.${LIBGCJ_REV} \
-	    lib${_i}.so.${LIBGCJ_REV}.dbg && \
-	    objcopy --strip-all \
-	    --add-gnu-debuglink=lib${_i}.so.${LIBGCJ_REV}.dbg \
-	    lib${_i}.so.${LIBGCJ_REV}
-.  else
-	strip --strip-all ${DESTDIR}/usr/lib/lib${_i}.so.${LIBGCJ_REV}
-.  endif
 	chown -h ${LIBOWN}:${LIBGRP} \
 	    ${DESTDIR}/usr/lib/lib${_i}.{so.${LIBGCJ_REV}*,a,la}
 	chmod ${LIBMODE} \
