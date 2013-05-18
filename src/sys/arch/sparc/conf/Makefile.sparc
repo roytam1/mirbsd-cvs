@@ -1,4 +1,4 @@
-# $MirOS: src/sys/arch/sparc/conf/Makefile.sparc,v 1.5 2005/05/04 22:01:08 tg Exp $
+# $MirOS: src/sys/arch/sparc/conf/Makefile.sparc,v 1.6 2005/07/07 13:39:40 tg Exp $
 # $OpenBSD: Makefile.sparc,v 1.33 2003/11/20 08:38:52 espie Exp $
 # $NetBSD: Makefile.sparc,v 1.32.4.1 1996/06/12 20:26:32 pk Exp $
 
@@ -24,68 +24,29 @@
 
 .include <bsd.own.mk>
 
-MKDEP?=	mkdep
-SIZE?=	size
-STRIP?=	strip
-
 # source tree is located via $S relative to the compilation directory
 .ifndef S
-S!=	cd ../../../..; pwd
+S!=	readlink -nf ../../../..
 .endif
 SPARC=	$S/arch/sparc
 
 .include "${SPARC}/Makefile.reloc"
 
-INCLUDES=	-nostdinc -I. -I$S/arch -I$S
-CPPFLAGS=	${INCLUDES} ${IDENT} -D_KERNEL -Dsparc
+.include "$S/conf/Makefile.inc"
 
-CDIAGFLAGS=	-Werror -Wall -Wstrict-prototypes -Wmissing-prototypes \
-		-Wno-uninitialized -Wno-format -Wno-main -ffreestanding
+CPPFLAGS=	${INCLUDES} ${IDENT} -D_KERNEL -Dsparc
 
 .if ${IDENT:M-DSUN*} == ${IDENT:M-DSUN4M}
 CMACHFLAGS=	-mcpu=supersparc
 .else
 CMACHFLAGS=
 .endif
-.if ${IDENT:M-DNO_PROPOLICE}
-CMACHFLAGS+=	-fno-stack-protector
-.endif
-CMACHFLAGS+=	-fno-builtin-printf -fno-builtin-log
 
-COPTS?=		-Os
 CFLAGS=		${DEBUG} ${CDIAGFLAGS} ${CMACHFLAGS} \
 		${COPTS:S/-g//} ${PIPE} ${CSYS}
-AFLAGS=		-x assembler-with-cpp -traditional-cpp -D_LOCORE
 LINKFLAGS=	-N -e start -Ttext F8004000
-STRIPFLAGS=	-g -X -x
 
-HOSTCC=		${CC}
-HOSTED_CPPFLAGS=${CPPFLAGS:S/^-nostdinc$//}
-HOSTED_CFLAGS=	${CFLAGS}
-
-### find out what to use for libkern
-.include "$S/lib/libkern/Makefile.inc"
-LIBKERN=	${KERNLIB}
-
-### find out what to use for libcompat
-.include "$S/compat/common/Makefile.inc"
-LIBCOMPAT=	${COMPATLIB}
-
-# compile rules: rules are named ${TYPE}_${SUFFIX}${CONFIG_DEP}
-# where TYPE is NORMAL or DRIVER; SUFFIX is the file suffix,
-# capitalized (e.g. C for a .c file), and CONFIG_DEP is _C if the file
-# is marked as config-dependent.
-
-NORMAL_C=	${CC} ${CFLAGS} ${CPPFLAGS} -c $<
-NORMAL_C_C=	${CC} ${CFLAGS} ${CPPFLAGS} ${PARAM} -c $<
-
-DRIVER_C=	${CC} ${CFLAGS} ${CPPFLAGS} -c $<
-DRIVER_C_C=	${CC} ${CFLAGS} ${CPPFLAGS} ${PARAM} -c $<
-
-NORMAL_S=	${CC} ${AFLAGS} ${CPPFLAGS} -c $<
-NORMAL_S_C=	${CC} ${AFLAGS} ${CPPFLAGS} ${PARAM} -c $<
-
-HOSTED_C=	${HOSTCC} ${HOSTED_CFLAGS} ${HOSTED_CPPFLAGS} -c $<
+### included rules
 
 %OBJS
 
@@ -131,53 +92,6 @@ assym.h: $S/kern/genassym.sh ${SPARC}/sparc/genassym.cf Makefile
 	    ${PARAM} <${SPARC}/sparc/genassym.cf >assym.h.tmp && \
 	    mv -f assym.h.tmp assym.h
 
-param.c: $S/conf/param.c
-	rm -f param.c
-	cp $S/conf/param.c .
-
-param.o: param.c Makefile
-	${NORMAL_C_C}
-
-ioconf.o: ioconf.c
-	${NORMAL_C}
-
-newvers: ${SYSTEM_DEP} ${SYSTEM_SWAP_DEP}
-	${SHELL} $S/conf/newvers.sh "${OSrev}" "${OSrpl}" \
-	    "${OSREV:C/^${OSrev}.//}" "${OScompat}"
-	${CC} ${CFLAGS} ${CPPFLAGS} -c vers.c
-
-install:
-	@if [[ -e /bsd ]]; then \
-		echo Move /bsd out of the way!; \
-		exit 1; \
-	elif [[ ! -e /bsd.old ]]; then \
-		echo Back up your old kernel to /bsd.old!; \
-		exit 1; \
-	else \
-		set -x; \
-		${SUDO} install -c -o root -g daemon -m 400 bsd /; \
-	fi
-
-clean::
-	rm -f eddep *bsd *bsd.gdb tags *.[io] [a-z]*.s \
-	    [Ee]rrs linterrs makelinks genassym genassym.o assym.h
-
-lint:
-	@lint -hbxncez -DGENERIC -Dvolatile= ${CPPFLAGS} ${PARAM} -UKGDB \
-	    ${CFILES} ioconf.c param.c | \
-	    grep -v 'static function .* unused'
-
-tags:
-	@echo "see $S/kern/Makefile for tags"
-
-links:
-	egrep '#if' ${CFILES} | sed -f $S/conf/defines | \
-	  sed -e 's/:.*//' -e 's/\.c/.o/' | sort -u >dontlink
-	echo ${CFILES} | tr -s ' ' '\12' | sed 's/\.c/.o/' | \
-	  sort -u | comm -23 - dontlink | \
-	  sed 's,../.*/\(.*.o\),rm -f \1; ln -s ../GENERIC/\1 \1,' >makelinks
-	${SHELL} makelinks && rm -f dontlink
-
 SRCS=	${SPARC}/sparc/locore.s \
 	param.c ioconf.c ${CFILES} ${SFILES}
 depend:: .depend
@@ -193,14 +107,8 @@ depend:: .depend
 	@rm -f assym.dep
 
 
-# depend on root or device configuration
-autoconf.o conf.o: Makefile
-
 # depend on network or filesystem configuration
 uipc_proto.o vfs_conf.o: Makefile
-
-# depend on maxusers
-machdep.o: Makefile
 
 # depend on CPU configuration
 bwtwo.o cgsix.o cgthree.o cgtwo.o cons.o dma.o esp.o fb.o if_ie.o: Makefile
