@@ -39,7 +39,7 @@
 #include <sys/cdefs.h>
 #if defined(__RCSID) && !defined(__lint)
 __RCSID("$NetBSD: cd9660_eltorito.c,v 1.12 2008/07/27 10:29:32 reinoud Exp $");
-__IDSTRING(mbsdid, "$MirOS: src/usr.sbin/makefs/cd9660/cd9660_eltorito.c,v 1.8 2010/03/06 21:29:06 tg Exp $");
+__IDSTRING(mbsdid, "$MirOS: src/usr.sbin/makefs/cd9660/cd9660_eltorito.c,v 1.9 2010/03/06 23:32:16 tg Exp $");
 #endif  /* !__lint */
 
 #ifdef DEBUG
@@ -497,7 +497,7 @@ cd9660_write_boot(FILE *fd)
 {
 	struct boot_catalog_entry *e;
 	struct cd9660_boot_image *t;
-	fpos_t oofs, fofs;
+	long oofs, fofs;
 
 	/* write boot catalog */
 	fseek(fd, diskStructure.boot_catalog_sector * diskStructure.sectorSize,
@@ -531,20 +531,20 @@ cd9660_write_boot(FILE *fd)
 		if (t->infoTable) {
 			if (diskStructure.verbose_level > 0)
 				printf("Writing boot info table into image... ");
-			fgetpos(fd, &oofs);
+			oofs = ftell(fd);
 			fseek(fd, t->sector * diskStructure.sectorSize, SEEK_SET);
-			fgetpos(fd, &fofs);
+			fofs = ftell(fd);
 			if (oofs - fofs < 64)
 				printf("failed: boot image too small\n");
 			else {
 				uint32_t cksum_val = 0;
-				fpos_t cofs = fofs + 64;
+				long cofs = fofs + 64;
 				unsigned char cksum_buf[4];
 				unsigned char bitable[56];
 				volume_descriptor *vd;
 
 				memset(bitable, 0, sizeof(bitable));
-				fsetpos(fd, &cofs);
+				fseek(fd, cofs, SEEK_SET);
 
 				while (cofs < oofs) {
 					if (fread(cksum_buf, 1, 4, fd) != 4 ||
@@ -573,8 +573,7 @@ cd9660_write_boot(FILE *fd)
 				cd9660_731(oofs - fofs, bitable + 16 - 8);
 				cd9660_731(cksum_val, bitable + 20 - 8);
 
-				cofs = fofs + 8;
-				fsetpos(fd, &cofs);
+				fseek(fd, fofs + 8, SEEK_SET);
 				fwrite(bitable, 1, 56, fd);
 
 				if (ferror(fd))
@@ -586,7 +585,7 @@ cd9660_write_boot(FILE *fd)
 					    (uint32_t)t->sector, cksum_val);
 			}
 
-			fsetpos(fd, &oofs);
+			fseek(fd, oofs, SEEK_SET);
 		}
 	}
 
