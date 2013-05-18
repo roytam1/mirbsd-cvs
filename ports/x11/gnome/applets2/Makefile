@@ -1,18 +1,18 @@
-# $MirOS: ports/x11/gnome/applets2/Makefile,v 1.7 2006/09/14 00:15:14 tg Exp $
+# $MirOS: ports/x11/gnome/applets2/Makefile,v 1.8 2007/04/18 20:05:03 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.19 2004/12/25 19:58:21 marcm Exp $
 
 COMMENT=		applets for use with the GNOME panel
 COMMENT-battstat=	GNOME applet for monitoring battery level
 
-VERSION=		2.8.2
+VERSION=		2.18.0
 DISTNAME=		gnome-applets-${VERSION}
-PKGNAME=		gnome-applets2-${VERSION}-1
-PKGNAME-battstat=	gnome-applets2-battstat-${VERSION}-1
+PKGNAME=		gnome-applets2-${VERSION}-${DASH_VER}
+PKGNAME-battstat=	gnome-applets2-battstat-${VERSION}-${DASH_VER}
 CATEGORIES=		x11 x11/gnome
 
 HOMEPAGE=		http://www.gnome.org
 
-MASTER_SITES=		${MASTER_SITE_GNOME:=sources/gnome-applets/2.8/}
+MASTER_SITES=		${MASTER_SITE_GNOME:=sources/gnome-applets/2.18/}
 EXTRACT_SUFX=           .tar.bz2
 
 # LGPL
@@ -29,7 +29,7 @@ RUN_DEPENDS=		:scrollkeeper-*:textproc/scrollkeeper
 LIB_DEPENDS=		panel-applet-2.0::x11/gnome/panel \
 			gailutil.17::x11/gnome/gail \
 			gtop-2.0.4.0::devel/libgtop \
-			xklavier.8::x11/libxklavier1
+			xklavier.11:libxklavier->=3.0:x11/libxklavier
 
 FLAVOR?=
 
