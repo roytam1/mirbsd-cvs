@@ -1,4 +1,4 @@
-# $MirOS: src/etc/profile,v 1.38 2007/01/06 00:32:22 tg Exp $
+# $MirOS: src/etc/profile,v 1.39 2007/01/09 01:30:52 tg Exp $
 #-
 umask 022
 [ -z "$KSH_VERSION" ] && alias print='echo -e'
@@ -99,6 +99,7 @@ alias lo='la -lo'
 test x"$_shellok" = x"1" || return
 unset _shellok
 [[ -x /emul/linux/bin/bash ]] && alias lx='/emul/linux/bin/bash --login'
+whence -p rot13 >&- || alias rot13='tr A-Za-z N-ZA-Mn-za-m'
 function bye
 {
 	[[ $1 = k ]] && ssh-agent -k
