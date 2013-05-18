@@ -1,4 +1,4 @@
-/* $MirOS: src/share/misc/licence.template,v 1.20 2006/12/11 21:04:56 tg Rel $ */
+/* $MirOS: src/include/wchar.h,v 1.14 2007/02/02 21:13:40 tg Exp $ */
 
 /*-
  * Copyright (c) 2007
@@ -233,6 +233,22 @@ __END_DECLS
 	char *__WC_s = (s);				\
 	(__WC_s ? wcrtomb(__WC_s, (c), &__WC_ps) : 0);	\
 })
+/* initialise/set/reset a mbstate_t to empty */
+#define mbsreset(ps)	do {			\
+		mbstate_t *__WC_s = (ps);	\
+		if (ps != NULL)			\
+			ps->count = 0;		\
+	} while (0)
+/* roll back the middle char of a mis-done 3-byte mb->wc conversion */
+#define mbrtowc_rollback(ps)	__extension__({		\
+		const mbstate_t *__WC_s = (ps);		\
+		int __WC_rv = EOF;			\
+		if (__WC_s->count == 1 &&		\
+		    __WC_s->value >= 0x20)		\
+			__WC_rv = 0x80 |		\
+			    (__WC_s->value & 0x3F);	\
+		(__WC_rv);				\
+	})
 #endif
 
 #endif
