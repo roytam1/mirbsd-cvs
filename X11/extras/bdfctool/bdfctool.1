@@ -1,4 +1,4 @@
-.\" $MirOS: X11/extras/bdfctool/bdfctool.1,v 1.4 2012/08/23 17:13:56 tg Exp $
+.\" $MirOS: X11/extras/bdfctool/bdfctool.1,v 1.6 2012/08/23 19:36:21 tg Exp $
 .\"-
 .\" Copyright © 2012
 .\"	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
@@ -170,8 +170,6 @@ Compress the font from
 .Tn BDF
 or the bdfc edit form to bdfc, also sorting and weeding out
 any duplicates (later occurrence wins).
-This mode is able to operate on concatenated files, although
-the font header and properties need manual review afterwards.
 .It Fl e
 Expand selected glyphs inside the bdfc file into the edit form,
 which uses U+3000 and U+4DC0 to represent unset and set bits,
@@ -363,6 +361,8 @@ has its own ideas of how a
 font file should look like, and if you deviate from that,
 you might get an error; although, support for more features
 can surely be added.
+.Dq Li ENCODING \-1
+support is missing.
 .Pp
 The current practical limit on glyph width is 32.
 0-bit wide glyphs cause an error; those with height 0 are

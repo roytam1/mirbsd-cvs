@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: X11/extras/bdfctool/bdfctool.sh,v 1.5 2012/08/23 17:30:06 tg Exp $
+# $MirOS: X11/extras/bdfctool/bdfctool.sh,v 1.8 2012/08/23 19:36:21 tg Exp $
 #-
 # Copyright © 2012
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -136,11 +136,6 @@ function parse_bdfc_file {
 			state=1
 			return
 		elif [[ $line = '=bdfc 1' ]]; then
-			if (( strict )); then
-				print -ru2 "E: another begin of file" \
-				    "on line $lno"
-				exit 3
-			fi
 			continue
 		fi
 		last+=("$line")
@@ -216,12 +211,7 @@ function parse_bdfc_glyph {
 		(( ++lno ))
 		if [[ $line = . ]]; then
 			Fcomm+=("${last[@]}")
-			if (( strict )) && read x; then
-				print -ru2 "E: data '$x' past end of file" \
-				    "on line $lno"
-				exit 3
-			fi
-			state=3
+			state=0
 			return
 		fi
 		if [[ $line = \' || $line = "' "* ]]; then
@@ -257,11 +247,6 @@ function parse_bdfc_glyph {
 		fi
 		[[ ${f[4]} = "uni${ch#16#}" ]] && unset f[4]
 		if [[ ${f[0]} = e ]]; then
-			if (( strict )); then
-				print -ru2 "E: edit not allowed in strict" \
-				    "mode at U+${ch#16#}, line $lno: '$line'"
-				exit 3
-			fi
 			parse_bdfc_edit
 		else
 			if (( f[2] <= 8 )); then
@@ -295,17 +280,7 @@ function parse_bdfc {
 		case $state {
 		(0) parse_bdfc_file ;;
 		(1) parse_bdfc_glyph ;;
-		(2)
-			if (( strict )); then
-				print -ru2 "E: Unexpected EOF at line $lno"
-				exit 3
-			fi
-			return 0
-			;;
-		(3)
-			(( strict )) && return 0
-			state=0
-			;;
+		(2) return 0 ;;
 		}
 	done
 	print -ru2 "E: internal error (at line $lno), shouldn't happen"
@@ -524,7 +499,6 @@ if [[ $mode = c ]]; then
 	if [[ $line = 'STARTFONT 2.1' ]]; then
 		parse_bdf
 	elif [[ $line = '=bdfc 1' ]]; then
-		strict=0
 		parse_bdfc
 	else
 		print -ru2 "E: not BDF or bdfc at BOF: '$line'"
@@ -567,7 +541,6 @@ if [[ $line != '=bdfc 1' ]]; then
 	exit 2
 fi
 
-strict=1
 parse_bdfc
 
 # analyse data for BDF
