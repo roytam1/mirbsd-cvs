@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/scripts/import-3rdpty,v 1.28 2005/12/04 15:59:37 tg Exp $
+# $MirOS: src/scripts/import-3rdpty,v 1.29 2005/12/04 18:57:08 tg Exp $
 #-
 # Copyright (c) 2004, 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -23,7 +23,7 @@
 # rect or other, however caused, arising in any way out of the usage
 # of this work, even if advised of the possibility of such damage.
 
-print -r -- '========= $MirOS: src/scripts/import-3rdpty,v 1.28 2005/12/04 15:59:37 tg Exp $ ========='
+print -r -- '========= $MirOS: src/scripts/import-3rdpty,v 1.29 2005/12/04 18:57:08 tg Exp $ ========='
 
 ignlist=0
 force=0
@@ -281,6 +281,7 @@ cvs)
 		PROJECTS \
 		README.VMS \
 		TESTS \
+		build-aux \
 		build.com \
 		compile \
 		config.guess \
@@ -288,7 +289,9 @@ cvs)
 		config.sub \
 		contrib/.cvsignore \
 		contrib/ChangeLog \
+		contrib/pam \
 		cvs-format.el \
+		cvs.spec \
 		cvs.spec.in \
 		cvsnt.dep \
 		cvsnt.dsp \
@@ -298,15 +301,21 @@ cvs)
 		diff/.cvsignore \
 		diff/ChangeLog \
 		diff/build_diff.com \
+		diff/diagmeet.note \
 		diff/libdiff.dep \
 		diff/libdiff.dsp \
 		diff/libdiff.mak \
+		doc/*.info* \
+		doc/*.pdf \
 		doc/.cvsignore \
 		doc/ChangeLog \
 		doc/ChangeLog.fsf \
 		doc/cvs.1 \
+		doc/getdate-cvs.texi \
+		doc/i18n \
 		doc/mdate-sh \
 		doc/texinfo.tex \
+		emx \
 		install-sh \
 		lib/.cvsignore \
 		lib/ChangeLog \
@@ -340,6 +349,7 @@ cvs)
 		m4/md5.m4 \
 		m4/mktime.m4 \
 		m4/nls.m4 \
+		maint-aux \
 		man/.cvsignore \
 		man/ChangeLog \
 		man/cvsbug.8 \
@@ -347,6 +357,7 @@ cvs)
 		missing \
 		mkinstalldirs \
 		mktemp.sh \
+		os2 \
 		src/.cvsignore \
 		src/ChangeLog \
 		src/ChangeLog-9194 \
@@ -361,7 +372,12 @@ cvs)
 		src/kerberos4-client.h \
 		src/myndbm.c \
 		src/myndbm.h \
+		src/sanity* \
+		tools \
+		vms \
+		windows-NT \
 		ylwrap \
+		zlib \
 	"
 	vendor=FSF
 	vpath=src/gnu/usr.bin/cvs
@@ -1413,7 +1429,20 @@ binutils)
 		exit 1
 	fi
 	;;
-cdk|cvs|expat)
+cdk)
+	print -u2 not implemented yet
+	exit 1
+	;;
+cvs)
+	[[ $tag = cvs-[1-9]_+([0-9])_+([0-9]) ]] tagerr=1
+	realtag=$tag
+	tagformat=cvs-1_12_1x
+	if [[ ! -e doc/RCSFILES ]]; then
+		print Error: must be in src directory to commit.
+		exit 1
+	fi
+	;;
+expat)
 	print -u2 not implemented yet
 	exit 1
 	;;
