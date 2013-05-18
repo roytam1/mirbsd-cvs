@@ -1,6 +1,6 @@
-# $MirOS: www/files/.htaccess,v 1.6+1 2008/09/17 21:12:18 tg uncommitted $
+# $MirOS: www/files/.htaccess,v 1.7 2008/11/06 21:05:47 tg Exp $
 
-Options ExecCGI Indexes SymLinksIfOwnerMatch
+Options ExecCGI Indexes FollowSymLinks
 IndexOptions -FancyIndexing
 AddHandler cgi-script .cgi
 DirectoryIndex main.htm
