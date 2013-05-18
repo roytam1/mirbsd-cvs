@@ -245,7 +245,7 @@ _nc_parse_entry
 			(base == entryp->tterm.term_names)
 			? "primary name"
 			: "alias",
-			ptr - base, base);
+			(int)(ptr - base), base);
 	}
     }
 

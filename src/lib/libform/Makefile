@@ -1,3 +1,6 @@
+# $MirOS: src/lib/libform/Makefile,v 1.2 2005/03/06 20:29:07 tg Exp $
+
+SHLIB_VERSION?=	5.0
 LIB=	form
 SRCS=	fld_arg.c fld_attr.c fld_current.c fld_def.c fld_dup.c fld_ftchoice.c \
 	fld_ftlink.c fld_info.c fld_just.c fld_link.c fld_max.c fld_move.c \
@@ -7,7 +10,7 @@ SRCS=	fld_arg.c fld_attr.c fld_current.c fld_def.c fld_dup.c fld_ftchoice.c \
 	frm_req_name.c frm_scale.c frm_sub.c frm_user.c frm_win.c fty_alnum.c \
 	fty_alpha.c fty_enum.c fty_int.c fty_ipv4.c fty_num.c fty_regex.c
 HDRS=	form.h
-CFLAGS+=-I${.CURDIR}/../libmenu -I${.CURDIR}/../libcurses -DHAVE_CONFIG_H
+CPPFLAGS+=-I${.CURDIR}/../libmenu -I${.CURDIR}/../libcurses -DHAVE_CONFIG_H
 MAN=	form.3tbl form_cursor.3 form_data.3 form_driver.3 form_field.3 \
 	form_field_attributes.3 form_field_buffer.3 form_field_info.3 \
 	form_field_just.3 form_field_new.3 form_field_opts.3 \

@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: curses.h,v 1.59 2001/02/28 22:58:53 millert Exp $	*/
 
 /****************************************************************************
@@ -340,7 +341,7 @@ extern NCURSES_EXPORT_VAR(char) ttytype[];	/* needed for backward compatibility 
 extern NCURSES_EXPORT(char *) keybound (int, int);
 extern NCURSES_EXPORT(const char *) curses_version (void);
 extern NCURSES_EXPORT(int) assume_default_colors (int, int);
-extern NCURSES_EXPORT(int) define_key (char *, int);
+extern NCURSES_EXPORT(int) define_key (const char *, int);
 extern NCURSES_EXPORT(int) keyok (int, bool);
 extern NCURSES_EXPORT(int) resizeterm (int, int);
 extern NCURSES_EXPORT(int) use_default_colors (void);

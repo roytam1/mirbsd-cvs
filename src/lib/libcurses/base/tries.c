@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: tries.c,v 1.4 2001/01/22 18:01:48 millert Exp $	*/
 
 /****************************************************************************
@@ -42,6 +43,7 @@
 #include <curses.priv.h>
 
 MODULE_ID("$From: tries.c,v 1.14 2000/12/10 02:43:28 tom Exp $")
+__RCSID("$MirOS$");
 
 /*
  * Expand a keycode into the string that it corresponds to, returning null if
@@ -119,7 +121,7 @@ _nc_remove_key
  * true if the string was found/removed.
  */
 NCURSES_EXPORT(int)
-_nc_remove_string(struct tries **tree, char *string)
+_nc_remove_string(struct tries **tree, const char *string)
 {
     T((T_CALLED("_nc_remove_string(%p,%s)"), tree, _nc_visbuf(string)));
 
