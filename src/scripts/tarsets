@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/scripts/tarsets,v 1.10 2008/10/05 16:26:19 tg Exp $
+# $MirOS: src/scripts/tarsets,v 1.11 2009/08/08 14:14:36 tg Exp $
 #-
 # Copyright (c) 2004, 2006, 2007, 2009
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -44,7 +44,8 @@ if [[ $doz = [Nn]?([Oo]) ]]; then
 	extension=newc
 	zt=uncompressed
 else
-	compressor="gzip -n9"
+	[[ $doz = [1-9] ]] || doz=9
+	compressor="gzip -n$doz"
 	extension=ngz
 	zt="gzip'd"
 fi
