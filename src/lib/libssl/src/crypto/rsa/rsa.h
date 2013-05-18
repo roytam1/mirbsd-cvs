@@ -162,7 +162,7 @@ struct rsa_st
 # define OPENSSL_RSA_SMALL_MODULUS_BITS	3072
 #endif
 #ifndef OPENSSL_RSA_MAX_PUBEXP_BITS
-# define OPENSSL_RSA_MAX_PUBEXP_BITS	64 /* exponent limit enforced for "large" modulus only */
+# define OPENSSL_RSA_MAX_PUBEXP_BITS	64
 #endif
 
 #define RSA_3	0x3L

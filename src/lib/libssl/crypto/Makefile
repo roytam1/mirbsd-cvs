@@ -1,5 +1,5 @@
-# $MirOS: src/lib/libssl/crypto/Makefile,v 1.18 2007/05/08 22:38:59 tg Exp $
-# $OpenBSD: Makefile,v 1.45 2006/06/27 05:07:47 djm Exp $
+# $MirOS: src/lib/libssl/crypto/Makefile,v 1.19 2007/05/17 18:38:35 tg Exp $
+# $OpenBSD: Makefile,v 1.46 2006/10/14 19:43:57 drahn Exp $
 
 .include <bsd.own.mk>
 
