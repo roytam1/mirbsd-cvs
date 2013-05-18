@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/bsd.lib.mk,v 1.20 2005/08/28 19:39:01 tg Exp $
+# $MirOS: src/share/mk/bsd.lib.mk,v 1.21 2005/09/19 19:11:06 tg Exp $
 # $OpenBSD: bsd.lib.mk,v 1.43 2004/09/20 18:52:38 espie Exp $
 # $NetBSD: bsd.lib.mk,v 1.67 1996/01/17 20:39:26 mycroft Exp $
 # @(#)bsd.lib.mk	5.26 (Berkeley) 5/2/91
@@ -76,7 +76,6 @@ LINK.shlib?=	${LINKER} ${CFLAGS} ${SHLIB_FLAGS} -shared \
 # add some debugging flags to the .so file compiling.
 .if ${DEBUGLIBS:L} == "yes"
 PICFLAG+=	-g
-CLEANFILES+=	${SHLIB_SONAME}.dbg
 .endif
 
 # prefer .S to a .c, remove stuff not used in the BSD libraries.
@@ -217,11 +216,6 @@ ${SHLIB_SONAME}: ${SOBJS} ${CRTBEGIN} ${CRTEND} ${CRTI} ${CRTN} ${DPADD}
 .endif
 	@rm -f ${SHLIB_SONAME}
 	${LINK.shlib} -o $@
-.if ${DEBUGLIBS:L} == "yes"
-	objcopy --only-keep-debug $@ $@.dbg
-	objcopy --strip-debug $@
-	objcopy --add-gnu-debuglink=$@.dbg $@
-.endif
 .for _i in ${SHLIB_LINKS}
 	@rm -f ${_i}
 	ln -s ${SHLIB_SONAME} ${_i} || cp ${SHLIB_SONAME} ${_i}
@@ -264,24 +258,22 @@ realinstall:
 	@echo Relinking dynamic ${LIB} library
 	${LINK.shlib} -install_name ${LIBDIR}/${SHLIB_SONAME} \
 	    -o ${SHLIB_SONAME}
-.      if ${DEBUGLIBS:L} == "yes"
-	objcopy --only-keep-debug ${SHLIB_SONAME} ${SHLIB_SONAME}.dbg
-	objcopy --strip-debug ${SHLIB_SONAME}
-	objcopy --add-gnu-debuglink=${SHLIB_SONAME}.dbg ${SHLIB_SONAME}
-.      endif
 .    endif
 	${INSTALL} ${INSTALL_COPY} -o ${LIBOWN} -g ${LIBGRP} -m ${LIBMODE} \
 	    ${SHLIB_SONAME} ${DESTDIR}${LIBDIR}/
+.    if ${DEBUGLIBS:L} == "yes"
+	cd ${DESTDIR}${LIBDIR} && \
+	    objcopy --only-keep-debug ${SHLIB_SONAME} ${SHLIB_SONAME}.dbg && \
+	    objcopy --strip-debug --add-gnu-debuglink=${SHLIB_SONAME}.dbg \
+	    ${SHLIB_SONAME} && chmod ${SHAREMODE} ${SHLIB_SONAME}.dbg && \
+	    chown ${LIBOWN}:${LIBGRP} ${SHLIB_SONAME}.dbg
+.    endif
 .    for _i in ${SHLIB_LINKS}
 	@rm -f ${DESTDIR}${LIBDIR}/${_i}
 	cd ${DESTDIR}${LIBDIR} && if ! ln -s ${SHLIB_SONAME} ${_i}; then \
 		cp ${SHLIB_SONAME} ${_i}; \
 	fi
 .    endfor
-.    if ${DEBUGLIBS:L} == "yes"
-	${INSTALL} ${INSTALL_COPY} -o ${LIBOWN} -g ${LIBGRP} -m ${SHAREMODE} \
-	    ${SHLIB_SONAME}.dbg ${DESTDIR}${LIBDIR}/
-.    endif
 .  elif ${NOPIC:L} == "no"
 	${INSTALL} ${INSTALL_COPY} -o ${LIBOWN} -g ${LIBGRP} -m ${LIBMODE} \
 	    lib${LIB}_pic.a ${DESTDIR}${LIBDIR}/
