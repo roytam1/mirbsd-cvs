@@ -1,4 +1,4 @@
-# $MirOS: src/lib/libc/i18n/Makefile.inc,v 1.34 2008/11/22 14:14:19 tg Exp $
+# $MirOS: src/lib/libc/i18n/Makefile.inc,v 1.35 2008/11/30 13:20:38 tg Exp $
 
 .PATH: ${LIBCSRCDIR}/i18n
 .PATH: ${LIBCSRCDIR}/locale
@@ -86,7 +86,7 @@ UNIFDEF_SRCS+=	p9¾_utfrrune.c runestuff.c -DL_utfrrune
 UNIFDEF_SRCS+=	p9¾_utfrune.c runestuff.c -DL_utfrune
 UNIFDEF_SRCS+=	p9¾_utfutf.c runestuff.c -DL_utfutf
 
-.for _i in alnum alpha blank cntrl digit graph lower print punct space \\
+.for _i in alnum alpha blank cntrl digit graph lower print punct space \
     title upper xdigit
 MIRI18N_GEND+=	isw${_i}.c
 
