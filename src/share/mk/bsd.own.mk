@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/bsd.own.mk,v 1.44 2007/02/18 03:24:07 tg Exp $
+# $MirOS: src/share/mk/bsd.own.mk,v 1.45 2007/03/09 10:07:32 tg Exp $
 # $OpenBSD: bsd.own.mk,v 1.92 2005/01/18 00:28:42 mickey Exp $
 # $NetBSD: bsd.own.mk,v 1.24 1996/04/13 02:08:09 thorpej Exp $
 
@@ -24,7 +24,6 @@ EXPERIMENTAL=	Yes
 
 DEFFLAGS?=	Yes
 .if ${DEFFLAGS:L} != "no"
-CC?=		mgcc
 COPTS?=		${_DEFCOPTS} ${GCEXTRA}
 .else
 COPTS?=		# at least define it
