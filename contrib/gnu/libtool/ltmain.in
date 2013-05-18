@@ -1,4 +1,4 @@
-# $MirOS: contrib/gnu/libtool/ltmain.in,v 1.44 2008/05/02 23:42:40 tg Exp $
+# $MirOS: contrib/gnu/libtool/ltmain.in,v 1.45 2008/05/03 18:42:39 tg Exp $
 #-
 # ltmain.sh - Provide generalized library-building support services.
 # NOTE: Changing this file will not affect anything until you rerun configure.
@@ -1580,6 +1580,9 @@ EOF
 	  dir=`$echo "X$arg" | $Xsed -e 's/^-L//'`
 	  ;;
 	-Wl,--library-after=*)
+	  #XXX if a path (after realpathising) is an argument to
+	  #XXX both -L and -Wl,--library-after, the -L call must
+	  #XXX be removed from the list normally
 	  minus_l_command="-Wl,--library-after="
 	  dir=`$echo "X$arg" | $Xsed -e 's/[-_a-zA-Z0-9,]*=//'`
 	  ;;
