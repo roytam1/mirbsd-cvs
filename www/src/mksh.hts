@@ -2,7 +2,7 @@
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.190 2008/11/14 16:02:18 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.191 2008/12/04 18:11:24 tg Exp $'
 mws_content <<'EOF'
 <h1>mksh(1) R36</h1>
 <p>This is the website of the MirBSD™ Korn Shell, an actively developed free
@@ -1053,7 +1053,12 @@ mws_content <<'EOF'
  <li>[tg] Fix string/wdstring confusion preventing bashiop (&amp;&gt;foo)
   to work inside a function, add regression test, limit to 99 fds</li>
  <li>[tg] Rename <tt>-o utf8-hack</tt> to <tt>-o utf8-mode</tt> and change
-  regression tests to <tt>set -U</tt> or <tt>set +U</tt> instead</li>
+  regression tests to <tt>set -U</tt> or <tt>set +U</tt> instead, as well as
+  query using <tt>$-</tt> ipv <tt>$(set +o)</tt> (easier, more reliable)</li>
+ <li>[tg] Add comment to regression tests which can fail on slow machines
+  or Cygwin environments due to timing issues</li>
+ <li>[tg] Remove a lot of superfluous casts, improve type cleanliness</li>
+ <li>[tg] Insert a couple of <tt>/* CONSTCOND */</tt> for lint</li>
 </ul>
 <p id="r36">mksh R36 features the following changes:</p><ul>
  <li>Fix <tt>Build.sh</tt> invocation without ‘-r’, 10x Elias Pipping</li>
