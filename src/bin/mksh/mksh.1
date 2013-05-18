@@ -1863,6 +1863,16 @@ executed.
 .It Ev LINES
 Set to the number of lines on the terminal or window.
 Always set, defaults to 24.
+.It Ev MKSH_UNIXTIME
+Time since the epoch, as returned by
+.Xr gettimeofday 2 ,
+formatted as decimal
+.Va tv_sec
+followed by a dot
+.Pq Sq .\&
+and
+.Va tv_usec
+padded to exactly six decimal digits.
 .It Ev OLDPWD
 The previous working directory.
 Unset if
