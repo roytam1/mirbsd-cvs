@@ -1,5 +1,5 @@
 /*-
- * Copyright (c) 2009, 2010
+ * Copyright (c) 2009, 2010, 2011
  *	Thorsten Glaser <tg@mirbsd.org>
  *
  * Provided that these terms and disclaimer and all copyright notices
@@ -42,7 +42,7 @@
  */
 
 static const char __rcsid[] =
-    "$MirOS: contrib/hosted/tg/code/xchat-randex/main.c,v 1.10 2009/11/22 20:39:04 tg Exp $";
+    "$MirOS: contrib/hosted/tg/code/xchat-randex/main.c,v 1.11 2010/09/21 21:24:05 tg Exp $";
 
 #include <sys/types.h>
 #if defined(HAVE_STDINT_H) && HAVE_STDINT_H
@@ -122,6 +122,14 @@ xchat_plugin_get_info(char **name, char **desc, char **vers, void **resv)
 		*resv = NULL;
 }
 
+static void
+msg_condestruct(int con)
+{
+	/* goes to the current tab */
+	xchat_printf(ph, "%sstructed RANDEX plugin v%s\n",
+	    con ? "Con" : "De", randex_vers);
+}
+
 int
 xchat_plugin_init(xchat_plugin *handle, char **name, char **desc,
     char **version, char *arg)
@@ -146,8 +154,7 @@ xchat_plugin_init(xchat_plugin *handle, char **name, char **desc,
 	xchat_hook_command(ph, "RANDOM", XCHAT_PRI_NORM,
 	    cmdfn_random, "Show a random number", NULL);
 
-	/* goes to the current tab */
-	xchat_printf(ph, "%sstructed RANDEX plugin v%s\n", "Con", randex_vers);
+	msg_condestruct(1);
 	return (1);
 }
 
@@ -156,8 +163,7 @@ xchat_plugin_deinit(void)
 {
 	arc4random_stir();
 
-	/* goes to the current tab */
-	xchat_printf(ph, "%sstructed RANDEX plugin v%s\n", "De", randex_vers);
+	msg_condestruct(0);
 	return (1);
 }
 
@@ -328,7 +334,7 @@ adler32(unsigned long s1, const unsigned char *bp, unsigned len)
 static int
 do_randex(int is_req, char *rsrc, char *dst, char *line)
 {
-	int i, j;
+	int i;
 	char *cp, *src;
 
 	if ((cp = strchr(rsrc, '!')))
@@ -338,20 +344,16 @@ do_randex(int is_req, char *rsrc, char *dst, char *line)
 		*cp = '!';
 	if (!src)
 		src = rsrc;
-	if ((i = xchat_get_prefs(ph, "rand_quiet", NULL, &j)) != 1 &&
-	    i != 2)
-		j = 0;
-	if (!j)
-		/*
-		 * should go to the server tab, but there is no way
-		 * to do so even with xchat_find_context => doesn't
-		 */
-		xchat_printf(ph, is_req == 2 ?
-		    "%s queried RANDEX protocol information from %s\n" :
-		    is_req ?
-		    "%s initiated the RANDEX protocol with %s\n" :
-		    "RANDEX protocol reply from %s to %s, processing\n",
-		    src, dst);
+#ifndef BE_QUIET
+	/*
+	 * should go to the server tab, but there is no way
+	 * to do so even with xchat_find_context => doesn't
+	 */
+	xchat_printf(ph,
+	    is_req == 2 ? "%s queried RANDEX protocol information from %s\n" :
+	    is_req ? "%s initiated the RANDEX protocol with %s\n" :
+	    "RANDEX protocol reply from %s to %s, processing\n", src, dst);
+#endif
 	entropyio(line, strlen(line));
 	if (is_req == 2)
 		xchat_commandf(ph, "quote PRIVMSG %s :\001ACTION uses the"
