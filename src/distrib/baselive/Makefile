@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/baselive/Makefile,v 1.37 2008/10/21 21:05:12 tg Exp $
+# $MirOS: src/distrib/baselive/Makefile,v 1.38 2008/10/21 21:45:19 tg Exp $
 
 .include <bsd.own.mk>
 
@@ -42,7 +42,8 @@ BOOT?=		${WRKDIR}/v${OSrev}/i386/boot
 
 CDROM?=		livecd${OSrev}.iso
 .if ${DUALIVE:L} != "no"
-CDROM_PAD?=	16 * 32
+# no need as long as it's < 300 KiB and makefs -o no-trailing-padding isn't used
+#CDROM_PAD?=	16 * 32
 .endif
 CDROM_PAD?=	1
 CDROM_OPTS+=	applicationid=NetBSD_makefs

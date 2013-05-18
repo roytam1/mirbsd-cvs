@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/tools/Makefile,v 1.26 2008/10/21 19:54:36 tg Exp $
+# $MirOS: src/distrib/tools/Makefile,v 1.27 2008/10/21 19:57:37 tg Exp $
 
 all: sundsklbl
 
@@ -30,6 +30,7 @@ sundsklbl: sundsklbl.c
 	cd ${.CURDIR} && ${MAKE} -f ${.SYSMK}/bsd.prog.mk \
 	    PROG=$@ NOMAN=Yes EXPERIMENTAL=Yes
 
+# do *not* use no-trailing-padding
 CDROM_OPTS+=	applicationid=NetBSD_makefs
 CDROM_OPTS+=	bootimage=i386\;eltorito.loo
 CDROM_OPTS+=	no-emul-boot
@@ -70,8 +71,10 @@ makecdimage: .PHONY
 	cp ${.CURDIR}/../common/boot.cfg.i386 cddir/boot.cfg
 	makefs -t cd9660 -o "$$(print -r -- ${CDROM_OPTS} | tr ' ~' ', ')" \
 	    ${CDROM}~ cddir
-	# pad for a geometry of 8 heads, 16 sectors per track
-	dd if=${CDROM}~ of=${CDROM} obs=$$((8 * 16 * 512)) conv=osync
+	# pad for a geometry of 16 heads, 32 sectors per track
+	mv ${CDROM}~ ${CDROM}
+	#XXX not needed
+	#dd if=${CDROM}~ of=${CDROM} obs=$$((16 * 32 * 512)) conv=osync
 	getextent_cd9660 -f ${CDROM} b_i386.ldr | \
 	    ${MKSH} ${BSDSRCDIR}/usr.sbin/installboot/bxinst.i386 -B 11 | \
 	    dd of=${CDROM} conv=notrunc bs=2048 seek=$$(getextent_cd9660 \
@@ -81,7 +84,7 @@ makecdimage: .PHONY
 	    dd of=${CDROM} conv=notrunc bs=512 seek=${CHAINSECTOR} 2>/dev/null
 	getextent_cd9660 -f ${CDROM} b_sparc.ldr | \
 	    ${MKSH} ${BSDSRCDIR}/usr.sbin/installboot/bxinst.sparc \
-	    -g $$(($$(stat -f %z ${CDROM}) / (512 * 16 * 8))):8:16 \
+	    -g $$(($$(stat -f %z ${CDROM}) / (512 * 32 * 16))):16:32 \
 	    -0 ${CHAINSECTOR} -S 2 | \
 	    dd of=${CDROM} conv=notrunc 2>/dev/null
 

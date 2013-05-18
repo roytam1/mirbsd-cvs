@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/Makefile.sparc-big,v 1.7 2008/10/21 19:39:21 tg Exp $
+# $MirOS: src/distrib/common/Makefile.sparc-big,v 1.8 2008/10/21 19:57:37 tg Exp $
 # $OpenBSD: Makefile.inc,v 1.14 2002/05/01 19:21:28 mickey Exp $
 
 RAWLABEL=
@@ -6,7 +6,8 @@ IMAGESIZE=	3712
 IMAGETYPE=	ipldisc
 AOUT_BSDRD=	Yes
 FLOPPY=		no
-CDROM_PAD=	8 * 16
+# no need as long as it's < 300 KiB and makefs -o no-trailing-padding isn't used
+#CDROM_PAD=	16 * 32
 
 cdrom-mdcopy:
 	# fix path to default kernel file in second-stage boot loader
@@ -27,5 +28,5 @@ cdrom-mdcopy:
 
 cdrom-mdboot:
 	getextent_cd9660 -f ${CDROM} b_${MACHINE}.ldr | ${MKSH} ${BOOTSH} \
-	    -g $$(($$(stat -f %z ${CDROM}) / (512 * 16 * 8))):8:16 \
+	    -g $$(($$(stat -f %z ${CDROM}) / (512 * 32 * 16))):16:32 \
 	    -0 24 -S 2 | dd of=${CDROM} conv=notrunc 2>/dev/null
