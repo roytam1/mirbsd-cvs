@@ -1,17 +1,16 @@
-# $MirOS: ports/databases/openldap/Makefile,v 1.7 2006/09/14 00:07:50 tg Exp $
+# $MirOS: ports/databases/openldap/Makefile,v 1.8 2008/03/09 17:22:28 tg Exp $
 # $OpenBSD: Makefile,v 1.40 2004/04/04 21:53:37 jakob Exp $
 
-COMMENT=			Open source LDAP software (client)
-COMMENT-server=			Open source LDAP software (server)
-VERSION=	2.2.26
-PL=		1
+COMMENT=		Open source LDAP software (client)
+COMMENT-server=		Open source LDAP software (server)
+VERSION=		2.2.26
+DASH_VER=		2
 
-DISTNAME=	openldap-${VERSION}
-PKGNAME=	openldap-client-${VERSION}-${PL}
-FULLPKGNAME=	${PKGNAME}
-PKGNAME-server=	openldap-server-${VERSION}-${PL}
-CATEGORIES=	databases net
-HOMEPAGE=	http://www.openldap.org/
+DISTNAME=		openldap-${VERSION}
+FULLPKGNAME=		openldap-client-${VERSION}-${DASH_VER}
+PKGNAME-server=		openldap-server-${VERSION}-${DASH_VER}
+CATEGORIES=		databases net
+HOMEPAGE=		http://www.openldap.org/
 
 # OpenLDAP Public License (BSD-style, must contain copy of LICENSE)
 PERMIT_PACKAGE_CDROM=	Yes
@@ -41,8 +40,8 @@ LOCALSTATEDIR=		${LOCALBASE}/db/ldap
 SUBST_VARS+=		LOCALSTATEDIR
 
 CONFIGURE_ARGS+=	\
-			--localstatedir=${LOCALSTATEDIR} \
-			--sysconfdir=${SYSCONFDIR} \
+			--localstatedir=${LOCALSTATEDIR:Q} \
+			--sysconfdir=${SYSCONFDIR:Q} \
 			--enable-proctitle \
 			--with-threads \
 			--enable-debug \
@@ -80,7 +79,7 @@ SUBPACKAGE?=
 CONFIGURE_ARGS+=	--with-cyrus-sasl \
 			--enable-spasswd
 LIB_DEPENDS+=		sasl2::security/cyrus-sasl2
-CPPFLAGS+=		-I${LOCALBASE}/include/sasl
+CPPFLAGS+=		-I${LOCALBASE:Q}/include/sasl
 .else
 CONFIGURE_ARGS+=	--without-cyrus-sasl \
 			--disable-spasswd
@@ -89,17 +88,17 @@ CONFIGURE_ARGS+=	--without-cyrus-sasl \
 .if ${FLAVOUR:L:Mbdb}
 CONFIGURE_ARGS+=	--enable-bdb
 BUILD_DEPENDS+=   	:db-4.*:databases/db
-CPPFLAGS+=		-I${LOCALBASE}/include/db4
-LDFLAGS+=		-L${LOCALBASE}/lib/db4
+CPPFLAGS+=		-I${LOCALBASE:Q}/include/db4
+LDFLAGS+=		-L${LOCALBASE:Q}/lib/db4
 LIBS+=			-ldb
 .else
 CONFIGURE_ARGS+=	--disable-bdb
 .endif
 
-CONFIGURE_ENV+=		LIBS="${LIBS}"
+CONFIGURE_ENV+=		LIBS=${LIBS:Q}
 
 .if ${SUBPACKAGE} == "-server"
-RUN_DEPENDS=		openldap:openldap-client-${VERSION}:databases/openldap
+RUN_DEPENDS+=		openldap:openldap-client-${VERSION}:databases/openldap
 .endif
 
 post-configure:
