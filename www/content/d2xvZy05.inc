@@ -1,5 +1,5 @@
 <!-- PageID: wlog-9 -->
-<small class="rcsid">$MirOS: www/content/d2xvZy05.inc,v 1.30 2006/08/08 22:56:07 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy05.inc,v 1.31 2006/08/09 22:40:22 tg Exp $</small>
 <h1>MirBSD &ndash; WTF is Verpeilungsfaktor?</h1>
 <p><small><a href="#eof">bottom</a> or <a href="/?older">older</a>
  editions</small></p>
@@ -463,6 +463,8 @@
   shell again and got an old NetBSD&reg; PR (30842) finally fixed.</p>
  <p>I also cleaned up some of the stuff in src/etc/ (especially rc which
   should be faster and more reliable now). Works for me.</p>
+ <p>I've also started on reworking the text of the <a href="/?mksh">mksh
+  page</a>, but can't get myself to finish it. Call it summer hole.</p>
  <p>Although I'm still looking for employment I can't get myself around,
   sending out applications etc., because of these bad circumstances like
   the weather etc. If someone wants to pay 1000 &euro; netto (i.e. taxes
