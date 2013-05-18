@@ -1,4 +1,4 @@
-/* $MirOS: src/usr.bin/oldroff/nroff/n10.c,v 1.2 2005/04/13 18:21:17 tg Exp $ */
+/* $MirOS: src/usr.bin/oldroff/nroff/n10.c,v 1.3 2005/04/13 18:28:00 tg Exp $ */
 
 /*-
  * Copyright (c) 1979, 1980, 1981, 1986, 1988, 1990, 1991, 1992
@@ -53,7 +53,7 @@ extern
 #include "pathnames.h"
 
 __SCCSID("@(#)n10.c	4.6 (Berkeley) 4/18/91");
-__RCSID("$MirOS: src/usr.bin/oldroff/nroff/n10.c,v 1.2 2005/04/13 18:21:17 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/oldroff/nroff/n10.c,v 1.3 2005/04/13 18:28:00 tg Exp $");
 
 /*
 nroff10.c
@@ -158,7 +158,7 @@ ptout1()
 	register i, k;
 	register char *codep;
 	extern char *plot();
-	int *q, w, j, phyw;
+	int *q, w, j, phyw, eightbit;
 
 	for(q=oline; q<olinep; q++){
 	if((i = *q) & MOT){
@@ -177,6 +177,7 @@ ptout1()
 		continue;
 	}
 	codep = t.codetab[k-32];
+	eightbit = (k >= 0363) && (k <= 0365) ? k : 0;
 	w = t.Char * (*codep++ & 0177);
 	phyw = w;
 	if(i&ZBIT)w = 0;
@@ -194,14 +195,12 @@ ptout1()
 		}
 	}
 
-	if((xfont == ulfont) && !((k == 0364) || (k == 0365))){
+	if(xfont == ulfont){
 		for(k=w/t.Char;k>0;k--)oput('_');
 		for(k=w/t.Char;k>0;k--)oput('\b');
 	}
 	while(*codep != 0){
-		if((k >= 0363) && (k <= 0365)){
-			*obufp++ = *codep++;
-		}else if(*codep & 0200){
+		if ((*codep & 0200) && !eightbit){
 			codep = plot(codep);
 			oputs(t.plotoff);
 			oput(' ');
@@ -210,7 +209,8 @@ ptout1()
 			/*
 			 * simulate bold font as overstrike if no t.bdon
 			 */
-			if (xfont == 2 && !(*t.bdon & 0377)) {
+			if (xfont == 2 && !(*t.bdon & 0377) &&
+			    (!eightbit || eightbit == 0363)) {
 				oput(*codep);
 				oput('\b');
 			}
@@ -219,8 +219,6 @@ ptout1()
 /*			oput(*codep++);*/
 		}
 	}
-	if (k == 0363 && xfont == 2 && !(*t.bdon & 0377))
-		*obufp++ = 'b';
 	if(!w)for(k=phyw/t.Char;k>0;k--)oput('\b');
 	}
 }

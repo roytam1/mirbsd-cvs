@@ -1,11 +1,11 @@
-/**	$MirOS: src/share/tmac/tab/tabcol.c,v 1.1.7.1 2005/03/06 16:33:42 tg Exp $ */
+/* $MirOS: src/share/tmac/tab/tabcol.c,v 1.2 2005/04/16 04:18:39 tg Exp $ */
 
 /*-
  * Copyright (c) 1979, 1980, 1981, 1986, 1988, 1990, 1991, 1992
  *     The Regents of the University of California.
  * Copyright (C) Caldera International Inc.  2001-2002.
- * Copyright (c) 2003, 2004
- *	Thorsten "mirabile" Glaser <tg@66h.42h.de>
+ * Copyright (c) 2003, 2004, 2006
+ *	Thorsten "mirabilos" Glaser <tg@66h.42h.de>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms,
@@ -323,7 +323,7 @@ struct {
 "\001|",	/*right floor (rb of big bracket)*/
 "\001|",	/*left ceiling (lt of big bracket)*/
 "\001|",	/*right ceiling (rt of big bracket)*/
-"\001\241",	/*(a1) activate 8 bit passing*/
+"\201\241",	/*(a1) activate 8 bit passing*/
 "\000\253",	/*(ab) 8bit: bit is 0*/
 "\000\273"	/*(bb) 8bit: bit is 1*/
 };
