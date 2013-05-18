@@ -1,10 +1,11 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.3 2004/04/11 15:03:29 brad Exp $
 
-COMMENT=			perl interface to Adobe Font Metrics files
+COMMENT=		perl interface to Adobe Font Metrics files
 
-DISTNAME=	Font-AFM-1.19
-PKGNAME=	p5-${DISTNAME}-0
-CATEGORIES=	textproc perl5
+DISTNAME=		Font-AFM-1.19
+PKGNAME=		p5-${DISTNAME}-${DASH_VER}
+CATEGORIES=		textproc perl5
  
 # GPL/Artistic
 PERMIT_PACKAGE_CDROM=	Yes
