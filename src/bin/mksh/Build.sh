@@ -1,5 +1,5 @@
 #!/bin/sh
-# $MirOS: src/bin/mksh/Build.sh,v 1.31 2006/07/01 14:39:41 tg Exp $
+# $MirOS: src/bin/mksh/Build.sh,v 1.29 2006/05/27 20:33:01 tg Exp $
 #-
 # This script recognises CC, CFLAGS, CPPFLAGS, LDFLAGS, LIBS and NROFF.
 
@@ -72,6 +72,7 @@ SunOS)
 	CPPFLAGS="$CPPFLAGS -D_BSD_SOURCE -D_POSIX_C_SOURCE=200112L"
 	CPPFLAGS="$CPPFLAGS -D__EXTENSIONS__"
 	CPPFLAGS="$CPPFLAGS -D_FILE_OFFSET_BITS=64 -DNEED_COMPAT"
+	CFLAGS="$CFLAGS -Wno-char-subscripts"
 	LDSTATIC= # alternatively you need libdl... same suckage as above
 	;;
 esac
@@ -85,7 +86,7 @@ test -x mksh || exit 1
     || rm -f mksh.cat1
 [ $q = 1 ] || v size mksh
 echo '#!/bin/sh' >Test.sh
-echo "exec perl '$srcdir/check.pl' -s '$srcdir/check.t' -p '$curdir/mksh' -C pdksh \$*" >>Test.sh
+echo "exec perl '$srcdir/check.pl' -s '$srcdir/check.t' -p '$curdir/mksh' -C pdksh" >>Test.sh
 chmod 755 Test.sh
 $e
 $e To test mirbsdksh, execute ./Test.sh

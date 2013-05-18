@@ -1,4 +1,0 @@
-@comment $MirOS$
-@comment $OpenBSD: PFRAG.shared,v 1.2 2001/12/06 12:42:32 reinhard Exp $
-@lib lib/xnc/libxncaqua.so.0.0
-@lib lib/xnc/libxncfive.so.0.0
