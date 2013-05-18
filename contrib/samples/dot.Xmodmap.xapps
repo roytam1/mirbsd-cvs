@@ -1,4 +1,4 @@
-! $MirOS: contrib/samples/dot.Xmodmap.xapps,v 1.4 2006/01/26 22:59:22 tg Exp $
+! $MirOS: contrib/samples/dot.Xmodmap.xapps,v 1.5 2006/01/26 23:03:34 tg Rel $
 !-
 ! Copyright (c) 2006
 !	Thorsten Glaser <tg@mirbsd.de>
@@ -33,7 +33,7 @@
 ! * The < > | key generates Mode_switch	(emulates Meta for X apps)
 ! * The Win_R key generates Meta_R
 ! * The Win_M key generates Compose	(also for Unicode compose)
-! * The CapsLock key generates Euro, Trademark, Ellipsis and CheckedBox
+! * The CapsLock key generates Ellipsis, Trademark, Euro, CheckBox
 
 keycode	0x09 =	Escape		Escape		U009B		U009B
 keycode	0x43 =	F1		XF86_Switch_VT_1
@@ -96,7 +96,7 @@ keycode	0x50 =	KP_Up		KP_8
 keycode	0x51 =	KP_Prior	KP_9
 keycode	0x56 =	KP_Add		XF86_Next_VMode
 
-keycode	0x42 =	U20AC		U2122		U2026		U2611
+keycode	0x42 =	U2026		U2122		U20AC		U2611
 keycode	0x26 =	a		A		U00E1		U00C1
 keycode	0x27 =	s		S		U00F3		U00D3
 keycode	0x28 =	d		D		U00E4		U00C4
