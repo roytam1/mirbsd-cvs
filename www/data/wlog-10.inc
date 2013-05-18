@@ -175,3 +175,28 @@ Author: tg@
  mbrtowc(3), enough to follow – and I can totally understand that. Maybe a
  Unicode guru person like Markus Kuhn can help – I asked him.</p>
 ----
+Date: 21.03.2008
+Author: tg@
+
+<p>Happy Spring Equinōx to everyone!</p>
+<p>I merged the crypto improvements to HEAD: we now have improved Rĳndael
+ CBC code for UVM swapencrypt, and this code uses the VIA C3/C7 PadLock™
+ ACE if existing – whose code contained a now-fixed data corruption bug.</p>
+<p>Next on the TODO list is: make vnd(4)’s encryption use the same code
+ if AES is chosen as cipher algorithm. Allow selection of Blowfish (stay
+ compatible), AES-128, AES-192, AES-256; other algorithms may follow. We
+ will need a new keyfile format <em>and</em> stay backwards-compatible,
+ but this is not a problem.</p>
+<p>We got a PUA assignment from U+F900‥F97F (tentatively) for our encoding
+ proposal, and should use “one of the various non-characters” for the NUL
+ encoding. But: “Emoticon U+FDD0 is actually Unicode for the eye of the
+ basilisk…” – U+F000‥F7FF are now reserved for Linux’ straight-to-font map
+ (and some subranges are used by Windows® and Mac), and F800‥F89F for Mac
+ (and possibly, Linux). – Although I got scolded <em>again</em> for chosing
+ a 16 bit wide character type, I believe this compromise with all its good
+ and bad sides is the right way to go for us at the moment. As for how to
+ codify this, I still do not have a final answer, but I think using wrappers
+ for SUSv3 functions which cannot fully support the proposal is a good idea.
+ Most use cases should work with the SUSv3 functions, anyway.</p>
+<p>I still haven’t ported mksh to BSD/OS 3.1, OSF/1 V2.0 and Ultrix V4.5…</p>
+----
