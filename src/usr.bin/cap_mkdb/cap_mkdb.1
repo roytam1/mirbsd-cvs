@@ -1,3 +1,4 @@
+.\"	$MirOS$
 .\"	$OpenBSD: cap_mkdb.1,v 1.13 2003/06/03 02:56:06 millert Exp $
 .\"	$NetBSD: cap_mkdb.1,v 1.4 1995/03/26 03:59:36 glass Exp $
 .\"
@@ -38,8 +39,7 @@
 .Nd create capability database
 .Sh SYNOPSIS
 .Nm cap_mkdb
-.Op Fl i
-.Op Fl v
+.Op Fl civ
 .Op Fl f Ar outfile
 .Ar file1
 .Op Ar file2 ...
@@ -67,6 +67,18 @@ record is stored into the database.
 .Pp
 The options are as follows:
 .Bl -tag -width Ds
+.It Fl c
+The last
+.Pq Dq description
+field of the first capability of the record is not stored
+as an indirect record, following both the
+.Xr termcap 5
+and
+.Xr terminfo 5
+specifications.
+Do not use this option if processing other capability databases, such as the
+.Xr vgrind 1
+language descriptions, whose records' first field do not contain a comment.
 .It Fl f Ar outfile
 Specify a different database basename.
 .It Fl i
@@ -94,17 +106,6 @@ The second type is a key which consists of one of the names from the
 first capability of the record with a data field consisting a special
 byte followed by the first capability of the record.
 The special byte is a 2.
-.Pp
-Starting with
-.Mx 10 ,
-the last
-.Pq Dq description
-field of the first capability of the record is not stored
-as an indirect record any more, following both the
-.Xr termcap 5
-and
-.Xr terminfo 5
-specifications.
 .Pp
 In normal operation names are looked up in the database, resulting
 in a key/data pair of the second type.

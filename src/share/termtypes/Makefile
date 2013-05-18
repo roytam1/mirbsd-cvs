@@ -1,4 +1,4 @@
-# $MirOS: src/share/termtypes/Makefile,v 1.2 2005/03/06 19:38:49 tg Exp $
+# $MirOS: src/share/termtypes/Makefile,v 1.3 2006/06/16 22:55:10 tg Exp $
 # $OpenBSD: Makefile,v 1.15 2000/02/17 19:58:34 millert Exp $
 #
 # Take termcap/terminfo master file and generate termcap/terminfo .db files
@@ -29,7 +29,7 @@ terminfo.src: termtypes.master
 	fi
 
 terminfo.db: terminfo.src
-	cap_mkdb -i -f terminfo terminfo.src
+	cap_mkdb -cif terminfo terminfo.src
 
 termcap.src: termtypes.master
 	${TIC} -C -x ${.ALLSRC} | sed \
@@ -48,7 +48,7 @@ termcap.src: termtypes.master
 	fi
 
 termcap.db: termcap.src
-	cap_mkdb -f termcap termcap.src
+	cap_mkdb -cf termcap termcap.src
 
 realinstall:
 	${INSTALL} ${INSTALL_COPY} -o ${BINOWN} -g ${BINGRP} -m 444 terminfo.db \

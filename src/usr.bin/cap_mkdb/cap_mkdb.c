@@ -1,4 +1,4 @@
-/**	$MirOS$ */
+/**	$MirOS: src/usr.bin/cap_mkdb/cap_mkdb.c,v 1.2 2006/10/27 15:52:26 tg Exp $ */
 /*	$OpenBSD: cap_mkdb.c,v 1.13 2003/09/26 21:25:34 tedu Exp $	*/
 /*	$NetBSD: cap_mkdb.c,v 1.5 1995/09/02 05:47:12 jtc Exp $	*/
 
@@ -39,6 +39,7 @@
 #include <errno.h>
 #include <fcntl.h>
 #include <limits.h>
+#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -48,16 +49,17 @@
 __COPYRIGHT("@(#) Copyright (c) 1992, 1993\n\
 	The Regents of the University of California.  All rights reserved.\n");
 __SCCSID("@(#)cap_mkdb.c	8.2 (Berkeley) 4/27/95");
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.bin/cap_mkdb/cap_mkdb.c,v 1.2 2006/10/27 15:52:26 tg Exp $");
 
 void	 db_build(char **);
 void	 dounlink(void);
-void	 usage(void);
+__dead void usage(void);
 int	 igetnext(char **, char **);
 int	 main(int, char *[]);
 
 DB *capdbp;
 int info, verbose;
+bool commentfld = false;
 char *capname, buf[8 * 1024];
 
 HASHINFO openinfo = {
@@ -82,8 +84,11 @@ main(int argc, char *argv[])
 	int c;
 
 	capname = NULL;
-	while ((c = getopt(argc, argv, "f:iv")) != -1) {
+	while ((c = getopt(argc, argv, "cf:iv")) != -1) {
 		switch(c) {
+		case 'c':
+			commentfld = true;
+			break;
 		case 'f':
 			capname = optarg;
 			break;
@@ -262,7 +267,8 @@ db_build(char **ifiles)
 
 		/* Store references for other names. */
 		for (p = t = bp;; ++p) {
-			if (p > t && (*p == '|')) {
+			if ((p > t) && ((*p == '|') ||
+			    (commentfld && (*p == (info ? ',' : ':'))))) {
 				key.size = p - t;
 				key.data = t;
 				switch(capdbp->put(capdbp,
@@ -298,6 +304,6 @@ void
 usage(void)
 {
 	(void)fprintf(stderr,
-	    "usage: cap_mkdb [-iv] [-f outfile] file1 [file2 ...]\n");
+	    "usage: cap_mkdb [-civ] [-f outfile] file1 [file2 ...]\n");
 	exit(1);
 }
