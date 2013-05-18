@@ -1462,6 +1462,7 @@ struct source {
 #define SWORDSEP	6	/* string[] separator */
 #define SALIAS		7	/* alias expansion */
 #define SREREAD		8	/* read ahead to be re-scanned */
+#define SSTRINGCMDLINE	9	/* string from "mksh -c ..." */
 
 /* Source.flags values */
 #define SF_ECHO		BIT(0)	/* echo input to shlout */

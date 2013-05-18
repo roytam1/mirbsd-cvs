@@ -4085,8 +4085,10 @@ description:
 	(so quotes could also be used to hide hem).  The former is
 	easier, the later better...
 stdin:
-	echo $(echo \()
+	echo $(echo \( )
+	echo $(echo "(" )
 expected-stdout:
+	(
 	(
 ---
 name: regression-9
@@ -6394,6 +6396,17 @@ expected-stdout:
 	r='fc -e -'
 	source='PATH=$PATH:. command .'
 	type='whence -v'
+---
+name: aliases-cmdline
+description:
+	Check that aliases work from the command line (Debian #517009)
+	Note that due to the nature of the lexing process, defining
+	aliases in COMSUBs then immediately using them, and things
+	like 'alias foo=bar && foo', still fail.
+stdin:
+	"$__progname" -c $'alias a="echo OK"\na'
+expected-stdout:
+	OK
 ---
 name: aliases-funcdef-1
 description:
