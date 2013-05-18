@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/stand/libsa/cmd_i386.c,v 1.5 2008/08/01 11:33:41 tg Exp $	*/
+/**	$MirOS: src/sys/arch/i386/stand/libsa/cmd_i386.c,v 1.6 2008/08/01 12:39:07 tg Exp $	*/
 /*	$OpenBSD: cmd_i386.c,v 1.29 2006/09/18 21:14:15 mpf Exp $	*/
 
 /*
@@ -42,10 +42,12 @@
 
 extern const char version[];
 extern int i386_flag_oldbios;
+extern struct disklist_lh disklist;
 
 #ifndef SMALL_BOOT
 int Xboot(void);
 int Xdiskinfo(void);
+int Xlabel(void);
 #endif
 int Xmemory(void);
 #ifndef SMALL_BOOT
@@ -60,6 +62,7 @@ const struct cmd_table cmd_machine[] = {
 #ifndef SMALL_BOOT
 	{ "boot",	CMDT_CMD, Xboot },
 	{ "diskinfo",	CMDT_CMD, Xdiskinfo },
+	{ "label",	CMDT_CMD, Xlabel },
 #endif
 	{ "memory",	CMDT_CMD, Xmemory },
 #ifndef SMALL_BOOT
@@ -79,6 +82,55 @@ Xdiskinfo(void)
 	return 0;
 }
 
+int
+Xlabel(void)
+{
+	char *dname = cmd.bootdev;
+	struct diskinfo *dip;
+	int d = 0;
+
+	if (cmd.argc > 2) {
+		printf("machine label [{cd,fd,hd}<0123>]\n");
+		return (0);
+	} else if (cmd.argc == 2)
+		dname = cmd.argv[1];
+
+	if ((dname[0] != 'c' && dname[0] != 'f' && dname[0] != 'h') ||
+	    dname[1] != 'd' || dname[2] < '0' || dname[2] > '9') {
+		printf("Invalid device!\n");
+		return (0);
+	}
+
+	for (dip = TAILQ_FIRST(&disklist); dip; dip = TAILQ_NEXT(dip, list)) {
+		d = dip->bios_info.bios_number;
+
+		if ((((dip->bios_info.flags & BDI_EL_TORITO) ? 'c' :
+		    d & 0x80 ? 'h' : 'f') == dname[0]) &&
+		    (((dip->bios_info.flags & BDI_EL_TORITO) ? 0 :
+		    d & 0x7F) == (dname[2] - '0')))
+			break;
+	}
+	if (!dip) {
+		printf("Device for %c%d%c not found\n", dname[0], dname[2]);
+		return (0);
+	}
+	printf("Disklabel for device %x (%cd%c): ", d, dname[0], dname[2]);
+	if (dip->bios_info.flags & BDI_BADLABEL) {
+		printf("%s\n", "*none*");
+		return (0);
+	}
+	putchar('\n');
+	for (d = 0; d < dip->disklabel.d_npartitions; ++d)
+		if (dip->disklabel.d_partitions[d].p_fstype ||
+		    dip->disklabel.d_partitions[d].p_size ||
+		    dip->disklabel.d_partitions[d].p_offset)
+			printf("%c (%u): %u @ %u\n", 'a' + d,
+			    dip->disklabel.d_partitions[d].p_fstype,
+			    dip->disklabel.d_partitions[d].p_size,
+			    dip->disklabel.d_partitions[d].p_offset);
+	return (0);
+}
+
 #ifdef DEBUG
 int
 Xregs(void)
@@ -96,7 +148,7 @@ Xboot(void)
 	char buf[DEV_BSIZE], *dest = (void *)BOOTBIOS_ADDR;
 
 	if (cmd.argc != 2) {
-		printf("machine boot {fd,hd}<0123>[abcd]\n");
+		printf("machine boot {cd,fd,hd}<0123>[abcd]\n");
 		printf("Where [0123] is the disk number,"
 		    " and [abcd] is the partition.\n");
 		return 0;
