@@ -1,5 +1,5 @@
 #!/usr/bin/env perl
-# $MirOS: ports/net/sirc/dist/dsircp,v 1.25 2009/08/02 14:34:59 tg Exp $
+# $MirOS: ports/net/sirc/dist/dsircp,v 1.26 2010/03/30 21:03:06 tg Exp $
 #-
 # dsircp: dumb-mode small irc client in perl
 # by orabidoo <roger.espel.llima@pobox.com>
@@ -734,7 +734,7 @@ sub getarg {
 
 sub date {
   local($sec, $min, $hour, $mday, $mon, $year, $wday)=localtime($_[0]);
-  return sprintf("$weekdays[$wday] $months[$mon]  $mday %.2d:%.2d:%.2d %d",
+  return sprintf("$weekdays[$wday] $months[$mon] $mday %.2d:%.2d:%.2d %d",
 		 $hour, $min, $sec, $year+1900);
 }
 
