@@ -1,101 +1,63 @@
 $MirOS: ports/devel/pkgconfig/patches/patch-pkg_c,v 1.2 2005/12/28 15:49:35 tg Exp $
 $OpenBSD: patch-pkg_c,v 1.4 2003/09/23 05:59:34 marcm Exp $
---- pkg.c.orig	Thu Jan 16 21:06:47 2003
-+++ pkg.c	Fri Dec 26 15:33:06 2008
-@@ -41,6 +41,7 @@
- #ifdef HAVE_UNISTD_H
- #include <unistd.h>
- #endif
-+#include <stdbool.h>
- #include <stdlib.h>
- #include <ctype.h>
- 
-@@ -187,12 +188,7 @@ void
- package_init ()
- {
-   static gboolean initted = FALSE;
--  const char *pkglibdir;
- 
--  pkglibdir = g_getenv ("PKG_CONFIG_LIBDIR");
--  if (pkglibdir == NULL)
--    pkglibdir = PKGLIBDIR;
--
-   if (!initted)
-     {
-       initted = TRUE;
-@@ -202,7 +198,7 @@ package_init ()
-       path_positions = g_hash_table_new (g_str_hash, g_str_equal);
-       
-       g_slist_foreach (search_dirs, (GFunc)scan_dir, NULL);
--      scan_dir (pkglibdir);
-+      scan_dir ("/usr/libdata/pkgconfig");
-     }
- }
- 
-@@ -339,7 +335,62 @@ get_package (const char *name)
-   return internal_get_package (name, TRUE, TRUE);
+--- pkg.c.orig	2008-01-16 22:59:49.000000000 +0100
++++ pkg.c	2008-08-06 00:17:36.000000000 +0200
+@@ -393,6 +393,54 @@ get_package_quiet (const char *name)
+   return internal_get_package (name, FALSE, TRUE);
  }
  
 +/*
 +  If certain directories are present, move them to the end of the list
 +  to avoid conflicts.
 +*/
- static GSList*
++static GSList*
 +string_list_fix_local_I_dirs (GSList *list)
 +{
-+	GSList *iter;
-+	char *localbase, *x11base = NULL, *usrlocalbase = NULL;
-+	bool found_local = false, found_x11 = false, found_usrlocal = false;
++  GSList *iter;
++  GSList *local_I_dirs = NULL;
++  GSList *local_I_dir_iter = NULL;
++  GSList *found_dirs = NULL;
 +
-+	localbase = g_strdup_printf("-I%s/include", LOCALBASE);
-+	if (strcmp(LOCALBASE, X11BASE))
-+		x11base = g_strdup_printf("-I%s/include", X11BASE);
-+	if (strcmp(LOCALBASE, "/usr/local") && strcmp(X11BASE, "/usr/local"))
-+		usrlocalbase = g_strdup_printf("-I%s/include", "/usr/local");
++  iter = list;
 +
-+	iter = list;
-+	while (iter != NULL) {
-+		if (!strcmp(iter->data, localbase)) {
-+			debug_spew("List contains %s \"%s\" - "
-+			    "moving it to the end\n", (gchar *)"LOCALBASE",
-+			    (gchar *)iter->data);
-+			found_local = true;
-+			iter->data = NULL;
-+		} else if (x11base != NULL && !strcmp(iter->data, x11base)) {
-+			debug_spew("List contains %s \"%s\" - "
-+			    "moving it to the end\n", (gchar *)"X11BASE",
-+			    (gchar *)iter->data);
-+			found_x11 = true;
-+			iter->data = NULL;
-+		} else if (usrlocalbase != NULL && !strcmp(iter->data,
-+		    usrlocalbase)) {
-+			debug_spew("List contains %s \"%s\" - "
-+			    "moving it to the end\n", (gchar *)"/usr/local",
-+			    (gchar *)iter->data);
-+			found_usrlocal = true;
-+			iter->data = NULL;
-+		}
-+		iter = iter->next;
-+	}
++  local_I_dirs = g_slist_append (local_I_dirs, g_strdup_printf ("-I%s/include", LOCALBASE));
++  local_I_dirs = g_slist_append (local_I_dirs, g_strdup_printf ("-I%s/include", X11BASE));
 +
-+	if (found_local || found_x11 || found_usrlocal)
-+		list = g_slist_remove(list, NULL);
++  while (iter != NULL)
++    {
++      local_I_dir_iter = local_I_dirs;
++      while (local_I_dir_iter != NULL)
++        {
++          if (strcmp (local_I_dir_iter->data, iter->data) == 0)
++            {
++              debug_spew ("List contains \"%s\" - moving it to the end\n", (gchar *)iter->data);
++              found_dirs = g_slist_append (found_dirs, iter->data);
++              iter->data = NULL;
++              break;
++            }
++          local_I_dir_iter = local_I_dir_iter->next;
++        }
++      iter = iter->next;
++    }
 +
-+	if (found_local)
-+		list = g_slist_append(list, localbase);
-+	if (found_x11)
-+		list = g_slist_append(list, x11base);
-+	if (found_usrlocal)
-+		list = g_slist_append(list, usrlocalbase);
++  g_slist_free (local_I_dirs);
 +
-+	return (list);
++  while (found_dirs != NULL)
++    {
++      list = g_slist_remove (list, NULL);
++      list = g_slist_append (list, found_dirs->data);
++      found_dirs = found_dirs->next;
++    }
++
++  g_slist_free (found_dirs);
++
++  return list;
 +}
 +
-+static GSList*
+ static GSList*
  string_list_strip_duplicates (GSList *list)
  {
-   GHashTable *table;
-@@ -929,6 +980,8 @@ get_multi_merged (GSList *pkgs, GetListF
+@@ -979,6 +1027,8 @@ get_merged (Package *pkg, GetListFunc fu
  
    g_slist_free (dups_list);
    

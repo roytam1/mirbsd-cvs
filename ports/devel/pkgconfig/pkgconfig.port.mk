@@ -2,7 +2,7 @@
 #
 # module file for ports that use pkgconfig
 
-BUILD_DEPENDS+=		:pkgconfig->=0.15.0-2:devel/pkgconfig
+BUILD_DEPENDS+=		:pkgconfig->=0.23:devel/pkgconfig
 PKG_CONFIG_PATH?=	/usr/libdata/pkgconfig:${LOCALBASE}/libdata/pkgconfig:${LOCALBASE}/lib/pkgconfig:${X11BASE}/lib/pkgconfig
 CONFIGURE_ENV+=		PKG_CONFIG_PATH=${PKG_CONFIG_PATH:Q}
 MAKE_ENV+=		PKG_CONFIG_PATH=${PKG_CONFIG_PATH:Q}
