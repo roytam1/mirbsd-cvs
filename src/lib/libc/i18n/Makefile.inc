@@ -1,4 +1,4 @@
-# $MirOS: src/lib/libc/i18n/Makefile.inc,v 1.35 2008/11/30 13:20:38 tg Exp $
+# $MirOS: src/lib/libc/i18n/Makefile.inc,v 1.36 2008/11/30 13:34:56 tg Exp $
 
 .PATH: ${LIBCSRCDIR}/i18n
 .PATH: ${LIBCSRCDIR}/locale
@@ -40,51 +40,51 @@ SRCS+=	wctrans.c
 SRCS+=	wctype.c
 SRCS+=	wcwidth.c
 
-UNIFDEF_SRCS+=	mbsnrtowcs.c mbsrtowcs.c -DMBSNRTOWCS
-UNIFDEF_SRCS+=	mbsnrtowcsvis.c mbsrtowcs.c -DMBSNRTOWCSVIS
-UNIFDEF_SRCS+=	wcsnrtombs.c wcsrtombs.c -DWCSNRTOMBS
+UIF_NUSRCS+=	mbsnrtowcs.c mbsrtowcs.c -DMBSNRTOWCS
+UIF_NUSRCS+=	mbsnrtowcsvis.c mbsrtowcs.c -DMBSNRTOWCSVIS
+UIF_NUSRCS+=	wcsnrtombs.c wcsrtombs.c -DWCSNRTOMBS
 
 SRCS+=		ambstowcs.c
 SRCS+=		awcstombs.c
-UNIFDEF_SRCS+=	ambsntowcs.c ambstowcs.c -DL_ambsntowcs
-UNIFDEF_SRCS+=	awcsntombs.c awcstombs.c -DL_awcsntombs
+UIF_NUSRCS+=	ambsntowcs.c ambstowcs.c -DL_ambsntowcs
+UIF_NUSRCS+=	awcsntombs.c awcstombs.c -DL_awcsntombs
 MAN+=		ambstowcs.3
 MLINKS+=	ambstowcs.3 awcstombs.3
 MLINKS+=	ambstowcs.3 ambsntowcs.3
 MLINKS+=	ambstowcs.3 awcsntombs.3
 
 # MirOS reimplementation of the Plan 9 rune stuff API
-UNIFDEF_SRCS+=	p9¾_chartorune.c runestuff.c -DL_chartorune
-UNIFDEF_SRCS+=	p9¾_fullrune.c runestuff.c -DL_fullrune
-UNIFDEF_SRCS+=	p9¾_isalpharune.c runestuff.c -DL_isalpharune
-UNIFDEF_SRCS+=	p9¾_islowerrune.c runestuff.c -DL_islowerrune
-UNIFDEF_SRCS+=	p9¾_isspacerune.c runestuff.c -DL_isspacerune
-UNIFDEF_SRCS+=	p9¾_istitlerune.c runestuff.c -DL_istitlerune
-UNIFDEF_SRCS+=	p9¾_isupperrune.c runestuff.c -DL_isupperrune
-UNIFDEF_SRCS+=	p9¾_runelen.c runestuff.c -DL_runelen
-UNIFDEF_SRCS+=	p9¾_runenlen.c runestuff.c -DL_runenlen
-UNIFDEF_SRCS+=	p9¾_runestrcat.c runestuff.c -DL_runestrcat
-UNIFDEF_SRCS+=	p9¾_runestrchr.c runestuff.c -DL_runestrchr
-UNIFDEF_SRCS+=	p9¾_runestrcmp.c runestuff.c -DL_runestrcmp
-UNIFDEF_SRCS+=	p9¾_runestrcpy.c runestuff.c -DL_runestrcpy
-UNIFDEF_SRCS+=	p9¾_runestrdup.c runestuff.c -DL_runestrdup
-UNIFDEF_SRCS+=	p9¾_runestrecpy.c runestuff.c -DL_runestrecpy
-UNIFDEF_SRCS+=	p9¾_runestrlen.c runestuff.c -DL_runestrlen
-UNIFDEF_SRCS+=	p9¾_runestrncat.c runestuff.c -DL_runestrncat
-UNIFDEF_SRCS+=	p9¾_runestrncmp.c runestuff.c -DL_runestrncmp
-UNIFDEF_SRCS+=	p9¾_runestrncpy.c runestuff.c -DL_runestrncpy
-UNIFDEF_SRCS+=	p9¾_runestrrchr.c runestuff.c -DL_runestrrchr
-UNIFDEF_SRCS+=	p9¾_runestrstr.c runestuff.c -DL_runestrstr
-UNIFDEF_SRCS+=	p9¾_runetochar.c runestuff.c -DL_runetochar
-UNIFDEF_SRCS+=	p9¾_tolowerrune.c runestuff.c -DL_tolowerrune
-UNIFDEF_SRCS+=	p9¾_totitlerune.c runestuff.c -DL_totitlerune
-UNIFDEF_SRCS+=	p9¾_toupperrune.c runestuff.c -DL_toupperrune
-UNIFDEF_SRCS+=	p9¾_utfecpy.c runestuff.c -DL_utfecpy
-UNIFDEF_SRCS+=	p9¾_utflen.c runestuff.c -DL_utflen
-UNIFDEF_SRCS+=	p9¾_utfnlen.c runestuff.c -DL_utfnlen
-UNIFDEF_SRCS+=	p9¾_utfrrune.c runestuff.c -DL_utfrrune
-UNIFDEF_SRCS+=	p9¾_utfrune.c runestuff.c -DL_utfrune
-UNIFDEF_SRCS+=	p9¾_utfutf.c runestuff.c -DL_utfutf
+UIF_NUSRCS+=	p9¾_chartorune.c runestuff.c -DL_chartorune
+UIF_NUSRCS+=	p9¾_fullrune.c runestuff.c -DL_fullrune
+UIF_NUSRCS+=	p9¾_isalpharune.c runestuff.c -DL_isalpharune
+UIF_NUSRCS+=	p9¾_islowerrune.c runestuff.c -DL_islowerrune
+UIF_NUSRCS+=	p9¾_isspacerune.c runestuff.c -DL_isspacerune
+UIF_NUSRCS+=	p9¾_istitlerune.c runestuff.c -DL_istitlerune
+UIF_NUSRCS+=	p9¾_isupperrune.c runestuff.c -DL_isupperrune
+UIF_NUSRCS+=	p9¾_runelen.c runestuff.c -DL_runelen
+UIF_NUSRCS+=	p9¾_runenlen.c runestuff.c -DL_runenlen
+UIF_NUSRCS+=	p9¾_runestrcat.c runestuff.c -DL_runestrcat
+UIF_NUSRCS+=	p9¾_runestrchr.c runestuff.c -DL_runestrchr
+UIF_NUSRCS+=	p9¾_runestrcmp.c runestuff.c -DL_runestrcmp
+UIF_NUSRCS+=	p9¾_runestrcpy.c runestuff.c -DL_runestrcpy
+UIF_NUSRCS+=	p9¾_runestrdup.c runestuff.c -DL_runestrdup
+UIF_NUSRCS+=	p9¾_runestrecpy.c runestuff.c -DL_runestrecpy
+UIF_NUSRCS+=	p9¾_runestrlen.c runestuff.c -DL_runestrlen
+UIF_NUSRCS+=	p9¾_runestrncat.c runestuff.c -DL_runestrncat
+UIF_NUSRCS+=	p9¾_runestrncmp.c runestuff.c -DL_runestrncmp
+UIF_NUSRCS+=	p9¾_runestrncpy.c runestuff.c -DL_runestrncpy
+UIF_NUSRCS+=	p9¾_runestrrchr.c runestuff.c -DL_runestrrchr
+UIF_NUSRCS+=	p9¾_runestrstr.c runestuff.c -DL_runestrstr
+UIF_NUSRCS+=	p9¾_runetochar.c runestuff.c -DL_runetochar
+UIF_NUSRCS+=	p9¾_tolowerrune.c runestuff.c -DL_tolowerrune
+UIF_NUSRCS+=	p9¾_totitlerune.c runestuff.c -DL_totitlerune
+UIF_NUSRCS+=	p9¾_toupperrune.c runestuff.c -DL_toupperrune
+UIF_NUSRCS+=	p9¾_utfecpy.c runestuff.c -DL_utfecpy
+UIF_NUSRCS+=	p9¾_utflen.c runestuff.c -DL_utflen
+UIF_NUSRCS+=	p9¾_utfnlen.c runestuff.c -DL_utfnlen
+UIF_NUSRCS+=	p9¾_utfrrune.c runestuff.c -DL_utfrrune
+UIF_NUSRCS+=	p9¾_utfrune.c runestuff.c -DL_utfrune
+UIF_NUSRCS+=	p9¾_utfutf.c runestuff.c -DL_utfutf
 
 .for _i in alnum alpha blank cntrl digit graph lower print punct space \
     title upper xdigit

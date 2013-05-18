@@ -1,4 +1,4 @@
-# $MirOS: src/lib/libc/string/Makefile.inc,v 1.26 2010/01/10 20:18:52 tg Exp $
+# $MirOS: src/lib/libc/string/Makefile.inc,v 1.27 2011/01/03 19:02:47 tg Exp $
 # $OpenBSD: Makefile.inc,v 1.17 2005/05/26 12:56:01 otto Exp $
 
 # string sources
@@ -28,10 +28,10 @@ CFLAGS_wcswcs.o+= -Wno-cast-qual
 CFLAGS_wmemchr.o+= -Wno-cast-qual
 .endif
 
-UNIFDEF_SRCS+=	wcswcs.c wcsstr.c -DWCSWCS
+UIF_NUSRCS+=	wcswcs.c wcsstr.c -DWCSWCS
 
 SRCS+=		strndup.c
-UNIFDEF_SRCS+=	wcsndup.c strndup.c -DWIDEC
+UIF_NUSRCS+=	wcsndup.c strndup.c -DWIDEC
 
 # machine-dependent net sources
 # m-d Makefile.inc must include sources for:
