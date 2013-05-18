@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/distrib/i386/livecd/munge_it.sh,v 1.29 2006/04/12 23:42:33 tg Exp $
+# $MirOS: src/distrib/i386/livecd/munge_it.sh,v 1.30 2006/04/12 23:57:46 tg Exp $
 #-
 # Copyright (c) 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -77,7 +77,7 @@ ed -s etc/ntpd.conf <<-'EOF'
 EOF
 ed -s etc/rc <<-'EOF'
 	1i
-		# $MirOS: src/distrib/i386/livecd/munge_it.sh,v 1.29 2006/04/12 23:42:33 tg Exp $
+		# $MirOS: src/distrib/i386/livecd/munge_it.sh,v 1.30 2006/04/12 23:57:46 tg Exp $
 	.
 	/shutdown request/ka
 	/^fi/a
@@ -121,7 +121,7 @@ ed -s etc/rc <<-'EOF'
 	wq
 EOF
 ed -s etc/rc.conf <<-'EOF'
-	/^rarpd_flags/s/NO/-an/
+	/^rarpd_flags/s/NO/-a/
 	/^bootparamd_flags/s/NO/-s/
 	/^ntpd_flags/s/NO/""/
 	/^wsmoused_flags/s/NO/"-2"/
