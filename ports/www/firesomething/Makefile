@@ -1,9 +1,9 @@
-# $MirOS: ports/www/firesomething/Makefile,v 1.9 2006/05/11 20:55:40 bsiegert Exp $
+# $MirOS: ports/www/firesomething/Makefile,v 1.10 2006/06/07 09:35:54 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.41 2005/11/15 09:21:52 wilfried Exp $
 
 ONLY_FOR_PLATFORM=	*:*:alpha *:*:i386 *:*:sparc *:*:sparc64 *:*:amd64 *:*:powerpc
 COMMENT=		"one of the successors to the Netscape browser engine"
-VER=			1.5.0.4
+VER=			1.5.0.5
 DASH_VER=		-0
 DISTNAME=		mozilla
 PKGNAME=		firesomething-${VER}${DASH_VER}
@@ -18,7 +18,8 @@ PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
-MASTER_SITES=		http://ftp.eu.mozilla.org/pub/mozilla.org/firefox/releases/${VER}/source/ \
+MASTER_SITES=		http://releases.mozilla.org/pub/mozilla.org/firefox/releases/${VER}/source/ \
+			http://ftp.eu.mozilla.org/pub/mozilla.org/firefox/releases/${VER}/source/ \
 			http://ftp.mozilla.org/pub/mozilla.org/firefox/releases/${VER}/source/
 DISTFILES=		firefox-${VER}-source.tar.bz2
 
