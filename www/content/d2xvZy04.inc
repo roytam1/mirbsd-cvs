@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/d2xvZy04.inc,v 1.13 2006/01/15 22:42:38 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy04.inc,v 1.14 2006/01/17 23:19:46 tg Exp $</small>
 <h1>MirBSD &ndash; WTF, We Have a Release!?</h1>
 <p><small><a href="#eof">bottom</a> or <a href="/?older">older</a>
  editions</small></p>
@@ -209,6 +209,32 @@ celebrate this event, rotate the wlog and start a new one.</p>
  <p><tt>*.mirsolutions.de</tt> works, once again. Costly phone call to
   the provider sponsored by yours truly. Now go and click some ads, or
   better, <a href="/?danke">donate</a> some money via PayPal.</p>
+ <p><a href="http://article.gmane.org/gmane.os.miros.general/1635">The
+  comment</a> on the GPLv3 actually got modded <tt>+1, Insightful</tt>
+  on <a href="http://symlink.lu/">Symlink</a>, the German slashdot.org
+  equivalent (which, in contrast to its English counterpart, still can
+  be accessed with Lynx correctly).</p>
+ <p>A new <a href="http://www.froscon.org/wiki/CallforPapers">Call for
+  papers</a> by the <a href="http://www.froscon.de/">FROSCON</a> Orga.
+  This is dubbed the &quot;LinuxTag Bonn&quot; and replaces the former
+  LinuxTag Karlsruhe (now Wiesbaden, where ever that may be) for us...
+  we've organised a BSD room (the orga team are drinking mates of mine
+  so it wasn't too difficult). DragonFly BSD will come (per Joerg) and
+  Wim will obviously attend. NetBSD&reg; hopefully will appear too; as
+  for FreeBSD&reg; I couldn't ask them since they weren't there (again
+  as usual) at 22C3. <a href="http://undeadly.org/cgi?action=article&amp;sid=20060117101506&amp;mode=expanded">The
+  OpenBSD magazine</a> has it too (as does Symlink).</p>
+ <p>Did I mention our kernels are now always gzip'd? And we now got <a
+  href="http://article.gmane.org/gmane.os.miros.general/1628">a permit
+  to use GNU FDLd sources</a> in CVS by RMS himself (please read my <a
+  href="http://article.gmane.org/gmane.os.miros.general/1626">enquiry,
+  with definition of &quot;IT&quot;</a>, too).</p>
+ <p>I tried to ask the Opera guys for a statically linked native Linux
+  binary or even (preferred) an OpenBSD binary. They told me some info
+  about glibc and Linux incompatibilities, I'll try...</p>
+ <p>Older mailing list activity includes: an analysis of handling this
+  year's leap second (FreeBSD 0, MirOS 2), FOSDEM, user enquiries, and
+  spam. I suggest you read it for yourself.</p>
 </div>
 
 <p id="eof">Good luck, have fun, take care etc.pp</p>
