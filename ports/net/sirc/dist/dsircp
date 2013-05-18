@@ -1,5 +1,5 @@
 #!/usr/bin/env perl
-# $MirOS: ports/net/sirc/dist/dsircp,v 1.27 2010/05/14 20:35:49 tg Exp $
+# $MirOS: ports/net/sirc/dist/dsircp,v 1.28 2011/12/16 15:50:24 tg Exp $
 #-
 # dsircp: dumb-mode small irc client in perl
 # by orabidoo <roger.espel.llima@pobox.com>
@@ -99,40 +99,61 @@ couldn't be found. Have you even bothered to run 'install'?\n";
 }
 use Encode;
 use POSIX ":sys_wait_h";
-use BSD::arc4random qw(arc4random arc4random_pushb arc4random_bytes);
+use BSD::arc4random;
 
-my $running_sum = arc4random();
+sub NZATUpdate($$) {
+	my ($h, $s) = @_;
 
-sub
-adler32
-{
-	my ($n, $buf) = @_;
-	my ($s1, $s2);
-
-	$s1 = $n & 0xFFFF;
-	$s2 = ($n >> 16) & 0xFFFF;
-
-	$n = 0;
-	foreach my $ch (unpack("C*", $buf)) {
-		$s1 += $ch;
-		$s2 += $s1;
-		if ($n == 5552) {
-			$s1 %= 65521;
-			$s2 %= 65521;
-			$n = 0;
-		}
+	foreach my $c (unpack("C*", $s)) {
+		$h = ($h + $c + 1) * 1025;
+		$h %= 2**32;
+		$h ^= $h >> 6;
 	}
-
-	$n = ($s1 % 65521) | (($s2 % 65521) << 16);
-	return ($n);
+	return ($h);
 }
 
-sub arc4adlerpush {
-  my $s = $_;
+sub NZAATFinish($) {
+	my $h = shift;
 
-  $running_sum = adler32($running_sum, pack("w", arc4random()) . $s);
-  $s = pack("w", time) . pack("L", $running_sum);
-  BSD::arc4random::arc4random_addrandom($s);
+	$h += $h << 10;
+	$h %= 2**32;
+	$h ^= $h >> 6;
+	$h %= 2**32;
+	$h += $h << 3;
+	$h %= 2**32;
+	$h ^= $h >> 11;
+	$h %= 2**32;
+	$h += $h << 15;
+	$h %= 2**32;
+
+	return ($h);
+}
+
+my $lrhash_v = 0;
+sub lrhash_timer {
+	my $v;
+
+	$v = NZAATFinish($lrhash_v);
+	$lrhash_v = NZATUpdate(0,
+	    pack("w", BSD::arc4random::arc4random_pushb($v)));
+	&timer(600, "&lrhash_timer;");
+}
+&lrhash_timer;
+
+sub lrhash_add($$) {
+	my ($direction, $s) = @_;
+
+	$s = pack("w", time) . pack("w", BSD::arc4random::arc4random()) . $s;
+	$lrhash_v = NZATUpdate($lrhash_v,
+	    $direction . pack("w", length($s)) . $s);
+}
+sub arandom_add($) {
+	my $s = shift;
+	my $v;
+
+	$v = NZAATFinish($lrhash_v);
+	$lrhash_v = NZATUpdate($lrhash_v,
+	    pack("w", BSD::arc4random::arc4random_pushb(pack("w", $v) . $s)));
 }
 
 sub parseserver {
@@ -219,6 +240,9 @@ if (open(H, "$libdir/sirc.help") || ((-f "$libdir/sirc.help.gz") &&
 }
 
 sub exit {
+  arandom_add("exit");
+  $logging && print LOG "*\cbL\cb* " . sprintf("Final entropy [%08X]",
+    NZAATFinish($lrhash_v)) . ", terminating on " . &date(time) . "\n";
   close(LOG) if $logging;
   exit 0;
 }
@@ -445,14 +469,18 @@ sub gl {
   local($buf)='';
   local($buf2)='';
   if (sysread($_[0], $buf, 4096)) {
-    arc4adlerpush($buf);
     if ($_[0] eq $S) {
+      lrhash_add("I", $buf);
       $buf =~ s/\ca([<>])\ca/\cb$1\cb/g;
       $buf =~ s/\cc((1[0-5]|0?[0-9])(,(1[0-5]|0?[0-9]))?)?//g;
       $buf2 .= Encode::decode("utf8", $buf, Encode::FB_QUIET);
       $buf2 .= Encode::decode("windows-1252", $buf, Encode::FB_QUIET);
       $buffer{$_[0]} .= Encode::encode($set{"CHARSET"}, $buf2, 0);
     } else {
+      my $ioport = "U";
+      $ioport = "S" if (($ssl_efd ne '') && ($_[0] eq $ssl_efd));
+      $ioport = "K" if ($_[0] eq 'STDIN');
+      lrhash_add($ioport, $buf);
       $buffer{$_[0]} .= $buf;
     }
     if ($buffer{$_[0]} =~ /^([^\n\r]*)\r?\n\r?/) {
@@ -478,7 +506,7 @@ sub sl {
   } else {
     $buf3 = Encode::encode("windows-1252", $buf2, 0);
   }
-  arc4adlerpush($buf3);
+  lrhash_add("O", $buf3);
   &print("*\cbE\cb* Error writing to server: $!") unless print $S $buf3."\n";
 }
 
@@ -796,12 +824,13 @@ sub ctcp {
   } elsif ($what eq 'ECHO' || $what eq 'ERRMSG') {
     &reply("$what $args");
   } elsif ($what eq 'ENTROPY') {
-    my $evalue = pack("u", arc4random_bytes(32, "$who$puh1$towho$args"));
+    arandom_add("init $who,$puh1;$towho,$args");
+    my $evalue = pack("u", BSD::arc4random::arc4random_bytes(32));
     chop($evalue);
     &tell("*** $who$puh1 initiated the RANDEX protocol with $to");
     &reply("RANDOM $evalue");
   } elsif ($what eq 'RANDOM') {
-    arc4random_pushb("$who$puh1$towho$args");
+    arandom_add("info $who,$puh1;$towho,$args");
     &tell("*** $who$puh1 queried RANDEX protocol information from $to");
     if ($set{"CTCP"} ne 'noreply') {
       my $papi = (BSD::arc4random::have_kintf() ? "Perl" : "none");
@@ -904,7 +933,7 @@ sub ctcpreply {
     $rest .= ($rest == 1) ? " second" : " seconds";
   } elsif ($ctcp eq 'RANDOM') {
     my $t = (BSD::arc4random::have_kintf() ? "" : "not ") . "pushing to kernel";
-    $running_sum = arc4random_pushb("$who$puh1$towho$rest") | 1;
+    arandom_add("recv $who,$puh1;$towho,$rest");
     &tell("*** RANDEX protocol reply from $who$puh1 to $towho, ${t}");
     $vis = 0;
   }
@@ -1280,7 +1309,8 @@ sub docommand {
   } elsif ($cmd eq 'RANDEX') {
     &dosplat;
     if ($args) {
-      local($t) = pack("u", arc4random_bytes(32, "send to $args"));
+      arandom_add("send $args");
+      local($t) = pack("u", BSD::arc4random::arc4random_bytes(32));
       chop($t);
       &getarg;
       &sl("PRIVMSG $newarg :\caENTROPY $t\ca");
