@@ -1,4 +1,4 @@
-rcsid_parser='$MirOS: www/mk/parser,v 1.16 2008/12/04 18:34:05 tg Exp $'
+rcsid_parser='$MirOS: www/mk/parser,v 1.17 2008/12/04 18:49:00 tg Exp $'
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -16,7 +16,6 @@ save_IFS=$IFS
 integer entry=0
 integer guid
 integer state
-integer tai
 typeset -l parser_lctmp
 
 for srcf in $name; do
@@ -48,7 +47,6 @@ for srcf in $name; do
 			done
 			ei_srcf[entry]=$srcf
 			ids=$ids${e_id[entry]}:
-			ei_indir[entry]=$entry
 			let ++entry
 			state=2
 		elif (( state > 0 )); then
@@ -59,6 +57,8 @@ for srcf in $name; do
 			elif [[ -z $line ]]; then
 				state=0
 				continue
+			elif [[ $line = \#* ]]; then
+				continue	# ignore comment
 			else
 				print -u2 "Unknown header in data/$srcf.inc:" \
 				    "$line"
@@ -100,3 +100,18 @@ for srcf in $name; do
 	fi
 done
 integer entries=entry
+if [[ -n $notimesort ]]; then
+	entry=-1
+	while (( ++entry < entries )); do
+		ei_indir[entry]=$entry
+	done
+else
+	( integer e=-1; while (( ++e < entries )); do
+		print ${ei_time[e]} $e
+	  done | tee /tmp/x1 | sort -nbk1,1 -k2,2 -k3,3 -k4,4 -k5,5 -k6,6 | tee /tmp/x2 ) |&
+	state=0
+	while read -p y m d H M S entry; do
+		ei_indir[state++]=$entry
+	done
+fi
+return 0
