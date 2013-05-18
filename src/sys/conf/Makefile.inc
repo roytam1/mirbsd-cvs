@@ -1,4 +1,4 @@
-# $MirOS: src/sys/conf/Makefile.inc,v 1.7 2006/01/31 10:17:47 tg Exp $
+# $MirOS: src/sys/conf/Makefile.inc,v 1.8 2006/01/31 10:41:29 tg Exp $
 #-
 # Copyright (c) 2005, 2006
 #	Thorsten "mirabile" Glaser <tg@mirbsd.de>
@@ -44,7 +44,7 @@ AFLAGS=		-x assembler-with-cpp -traditional-cpp -D_LOCORE
 STRIPFLAGS=	-g -X -x
 
 .ifndef NO_GZIP
-SYSTEM_LD_GZIP=	echo gzip -9 $@; rm -f $@.gz; gzip -9 $@; mv $@.gz $@
+SYSTEM_LD_GZIP=	echo gzip -n9 $@; rm -f $@.gz; gzip -n9 $@; mv $@.gz $@
 .endif
 
 .if ${MKC_USAP:L} == "yes"
