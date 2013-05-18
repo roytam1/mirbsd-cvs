@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.290 2010/04/03 16:27:39 bsiegert Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.291 2010/04/03 17:48:07 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -6469,4 +6469,54 @@ Date: 03.04.2010 17:27
  expert, so I need to push him into looking at it.) Speaking of
  MirWorldDomination, <tt>/system/bin/sh</tt> on Android-x86 is an
  mksh(1) already ☺</p>
+----
+Title: New pkgtools stuff
+Author: bsiegert@
+Date: 13.05.2010 18:42
+
+<p>The <i>bsiegert-cfgfile</i> branch of the MirPorts package tools is
+ coming along nicely. Today I committed a patch to info/perform.c that
+ puts its logic from the head on its feet, making the function more
+ readable and, incidentally, getting rid of two gotos. The header of the
+ information has become a little more informative. Watch:</p>
+
+<pre><code>% pkg_info foo
+pkg_info(foo): cannot find package 'foo' installed or in a file!
+
+% pkg_info tiff | head -4
+Information for tiff-3.7.4-1 (installed):
+
+Comment:
+library routines for working with TIFF images
+</code></pre>
+
+<p>Something new that I got working is support for giving the name of an
+ uninstalled package in a repository mentioned in the new
+ <tt>/etc/pkgtools/pkgtools.conf</tt> file. This works for both local
+ and remote repos:</p>
+
+<pre><code>% pkg_info tiff-cxx | head -4
+Information for /usr/ports/Packages/tiff-cxx-3.7.4-1.cgz:
+
+Comment:
+C++ API for working with TIFF images
+
+% pkg_info mc | head -4
+>>> ftp -o - http://www.mirbsd.org/MirOS/Pkgs/current/i386//mc-4.6.1-16.cgz
+Information for /var/folders/Xk/XkVpSyd8F0WZnoK9NwgsWU+++TI/-Tmp-//instmp.4OV2INPVOK:
+
+Comment:
+free Norton Commander clone with many useful features
+</code></pre>
+
+<p>Actually, in the last case, the output could be improved some more
+ :). You can also give it a package specification such as "tiff->=3.0".
+ If more than one package matches the specification given, then a menu
+ is displayed from which you choose one. This happens, for instance, if
+ you have an older version built locally and a newer version of the
+ same package in a remote repo, or if several flavours of the package
+ are available.</p>
+
+<p>The changes are not in the HEAD branch yet, I will merge them when I
+ consider it "done".</p>
 ----
