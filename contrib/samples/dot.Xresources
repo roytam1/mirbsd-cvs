@@ -1,4 +1,4 @@
-! $MirOS: contrib/samples/dot.Xresources,v 1.4 2006/04/12 12:13:13 tg Exp $
+! $MirOS: contrib/samples/dot.Xresources,v 1.5 2007/03/08 09:09:21 tg Exp $
 !-
 ! Copyright (c) 2003, 2004, 2005, 2006, 2007
 !	Thorsten "mirabilos" Glaser <tg@66h.42h.de>
@@ -181,7 +181,7 @@ VXTerm*VT100*color14:		cyan
 VXTerm*VT100*color15:		white
 VXTerm*VT100*colorUL:		yellow
 VXTerm*VT100*colorBD:		white
-TXTerm*VT100*utf8:		0
+VXTerm*VT100*utf8:		0
 VXTerm*visualBell:		true
 
 !--- generic utf-8 XTerm settings ---
