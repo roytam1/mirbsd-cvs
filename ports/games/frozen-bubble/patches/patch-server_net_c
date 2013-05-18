@@ -1,0 +1,14 @@
+$MirOS$
+--- server/net.c.orig	Fri Oct 27 10:29:50 2006
++++ server/net.c	Sat Nov  4 01:54:02 2006
+@@ -46,6 +46,10 @@
+ #include "log.h"
+ #include "net.h"
+ 
++#ifndef MSG_NOSIGNAL
++#define MSG_NOSIGNAL 0
++#endif
++
+ /* this is set in game.c and used here for answering with
+  * the requested command without passing this additional arg */
+ char* current_command;
