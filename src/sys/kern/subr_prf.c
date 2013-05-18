@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/kern/subr_prf.c,v 1.3 2006/10/18 00:52:26 tg Exp $ */
+/**	$MirOS: src/sys/kern/subr_prf.c,v 1.4 2006/12/13 00:24:07 tg Exp $ */
 /*	$OpenBSD: subr_prf.c,v 1.61 2005/04/14 21:58:50 krw Exp $	*/
 /*	$NetBSD: subr_prf.c,v 1.45 1997/10/24 18:14:25 chuck Exp $	*/
 
@@ -1098,31 +1098,3 @@ overflow:
 	return (ret);
 	/* NOTREACHED */
 }
-
-#if __GNUC_PREREQ__(2,96) && (__STDC_HOSTED__ == 1)
-/*
- * XXX - these functions shouldn't be in the kernel, but gcc 3.X feels like
- *       translating some printf calls to puts and since it doesn't seem
- *       possible to just turn off parts of those optimizations (some of
- *       them are really useful), we have to provide a dummy puts and putchar
- *	 that are wrappers around printf.
- */
-int	puts(const char *);
-int	putchar(int c);
-
-int
-puts(const char *str)
-{
-	printf("%s\n", str);
-
-	return (0);
-}
-
-int
-putchar(int c)
-{
-	printf("%c", c);
-
-	return (c);
-}
-#endif
