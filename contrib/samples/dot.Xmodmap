@@ -1,4 +1,4 @@
-! $MirOS: contrib/samples/dot.Xmodmap,v 1.17 2008/08/26 19:11:20 tg Exp $
+! $MirOS: contrib/samples/dot.Xmodmap,v 1.18 2008/08/26 19:15:09 tg Exp $
 !-
 ! Copyright © 2004, 2007, 2008
 !	Thorsten “mirabilos” Glaser <tg@mirbsd.de>
@@ -44,6 +44,7 @@
 ! The following behavioural differences can be seen on X11 platform:
 ! • The IBM Thinkpad X40 Page_Left key is an alias for Mode_switch
 ! • The IBM Thinkpad X40 Page_Right key can be used as Compose key
+! • In unshifted states, Escape and U+0060 (`) have switched place
 ! • The ModeSwitch-F1 combination generates U+263B (☻) good smiley
 ! • The ModeSwitch-F2 combination generates U+263A (☺) dark smiley
 ! • The ModeSwitch-F3 combination generates U+2639 (☹) down smiley
@@ -74,7 +75,7 @@
 !   parentheses: (unshift/shift) 〈〉 《》 / 〔〕 【】/ 「」 『』 
 ! Note: ☁ = available for reassignment
 
-keycode	0x09 =	Escape		Escape
+keycode	0x09 =	grave		Escape			U00E0	U009B
 keycode	0x43 =	F1		XF86_Switch_VT_1	U263B	U250C
 keycode	0x44 =	F2		XF86_Switch_VT_2	U263A	U2500
 keycode	0x45 =	F3		XF86_Switch_VT_3	U2639	U2510
@@ -91,7 +92,7 @@ keycode	0x6F =	Print		Sys_Req
 keycode	0x4E =	Scroll_Lock	Pointer_Accelerate
 keycode	0x6E =	Pause		Break
 
-keycode	0x31 =	grave		asciitilde	U00E0		U00FE
+keycode	0x31 =	Escape		asciitilde	U009B		U00FE
 keycode	0x0A =	1		exclam		U00B1		U00A1
 keycode	0x0B =	2		at		U00B2		U00C0
 keycode	0x0C =	3		numbersign	U00B3		U00A3
