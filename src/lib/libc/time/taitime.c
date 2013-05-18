@@ -1,9 +1,10 @@
-/* $MirOS: src/lib/libc/time/taitime.c,v 1.5 2006/06/12 21:41:31 tg Exp $ */
+/* $MirOS: src/lib/libc/time/taitime.c,v 1.6 2006/06/12 21:50:11 tg Exp $ */
 
 /*-
  * Copyright (c) 2004, 2005, 2006
  *	Thorsten Glaser <tg@mirbsd.de>
- * Based upon code placed into the public domain by Dan J. Bernstein.
+ * Based upon code placed into the public domain by
+ *	Dan J. Bernstein <djb@cr.yp.to>
  *
  * Licensee is hereby permitted to deal in this work without restric-
  * tion, including unlimited rights to use, publicly perform, modify,
@@ -12,8 +13,8 @@
  * in all redistributions or reproduced in accompanying documentation
  * or other materials provided with binary redistributions.
  *
- * All advertising materials mentioning features or use of this soft-
- * ware must display the following acknowledgement:
+ * Advertising materials mentioning features or use of this work must
+ * display the following acknowledgement:
  *	This product includes material provided by Thorsten Glaser.
  *
  * Licensor offers the work "AS IS" and WITHOUT WARRANTY of any kind,
@@ -23,7 +24,7 @@
  * or other damage, or direct damage except proven a consequence of a
  * direct error of said person and intended use of this work, loss or
  * other issues arising in any way out of its use, even if advised of
- * the possibility of such damage or existence of a nontrivial bug.
+ * the possibility of such damage or existence of a defect.
  */
 
 #include <sys/param.h>
@@ -31,7 +32,7 @@
 #include "private.h"
 #include "tzfile.h"
 
-__RCSID("$MirOS: src/lib/libc/time/taitime.c,v 1.5 2006/06/12 21:41:31 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/time/taitime.c,v 1.6 2006/06/12 21:50:11 tg Exp $");
 
 /* private interface */
 void _pushleap(time_t);

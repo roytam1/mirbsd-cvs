@@ -1,4 +1,4 @@
-/* $MirOS: src/lib/libc/stdlib/getprogname.c,v 1.2 2005/04/17 01:42:55 tg Exp $ */
+/* $MirOS: src/lib/libc/stdlib/getprogname.c,v 1.3 2005/12/17 05:46:15 tg Exp $ */
 
 /*-
  * Copyright (c) 2005
@@ -11,8 +11,8 @@
  * in all redistributions or reproduced in accompanying documentation
  * or other materials provided with binary redistributions.
  *
- * All advertising materials mentioning features or use of this soft-
- * ware must display the following acknowledgement:
+ * Advertising materials mentioning features or use of this work must
+ * display the following acknowledgement:
  *	This product includes material provided by Thorsten Glaser.
  *
  * Licensor offers the work "AS IS" and WITHOUT WARRANTY of any kind,
@@ -22,13 +22,13 @@
  * or other damage, or direct damage except proven a consequence of a
  * direct error of said person and intended use of this work, loss or
  * other issues arising in any way out of its use, even if advised of
- * the possibility of such damage or existence of a nontrivial bug.
+ * the possibility of such damage or existence of a defect.
  */
 
 #include <stdlib.h>
 #include <string.h>
 
-__RCSID("$MirOS: src/lib/libc/stdlib/getprogname.c,v 1.2 2005/04/17 01:42:55 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/stdlib/getprogname.c,v 1.3 2005/12/17 05:46:15 tg Exp $");
 
 extern char *__progname;
 

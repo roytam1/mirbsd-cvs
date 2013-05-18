@@ -1,4 +1,4 @@
-/* $MirOS: src/lib/libc/i18n/wcsftime.c,v 1.1 2006/06/02 12:53:17 tg Exp $ */
+/* $MirOS: src/lib/libc/i18n/wcsftime.c,v 1.2 2006/06/02 19:49:12 tg Exp $ */
 
 /*-
  * Copyright (c) 2006
@@ -18,14 +18,14 @@
  * or other damage, or direct damage except proven a consequence of a
  * direct error of said person and intended use of this work, loss or
  * other issues arising in any way out of its use, even if advised of
- * the possibility of such damage or existence of a nontrivial bug.
+ * the possibility of such damage or existence of a defect.
  *-
  * stub only
  */
 
 #include <wchar.h>
 
-__RCSID("$MirOS: src/lib/libc/i18n/wcsftime.c,v 1.1 2006/06/02 12:53:17 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/i18n/wcsftime.c,v 1.2 2006/06/02 19:49:12 tg Exp $");
 
 size_t	__weak_wcsftime(wchar_t *__restrict__, size_t,
     const wchar_t *__restrict__, const struct tm *__restrict__);

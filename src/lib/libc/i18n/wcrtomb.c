@@ -1,4 +1,4 @@
-/* $MirOS: src/lib/libc/i18n/wcrtomb.c,v 1.11 2006/06/03 13:43:50 tg Exp $ */
+/* $MirOS: src/lib/libc/i18n/wcrtomb.c,v 1.12 2006/10/27 15:52:28 tg Exp $ */
 
 /*-
  * Copyright (c) 2005, 2006
@@ -11,8 +11,8 @@
  * in all redistributions or reproduced in accompanying documentation
  * or other materials provided with binary redistributions.
  *
- * All advertising materials mentioning features or use of this soft-
- * ware must display the following acknowledgement:
+ * Advertising materials mentioning features or use of this work must
+ * display the following acknowledgement:
  *	This product includes material provided by Thorsten Glaser.
  *
  * Licensor offers the work "AS IS" and WITHOUT WARRANTY of any kind,
@@ -22,7 +22,7 @@
  * or other damage, or direct damage except proven a consequence of a
  * direct error of said person and intended use of this work, loss or
  * other issues arising in any way out of its use, even if advised of
- * the possibility of such damage or existence of a nontrivial bug.
+ * the possibility of such damage or existence of a defect.
  *-
  * THIS FUNCTION VIOLATES THE INTERFACE DEFINITION!
  * If the 'ps' argument contains a conversion state, at maximum, five
@@ -36,7 +36,7 @@
 
 #include "mir18n.h"
 
-__RCSID("$MirOS: src/lib/libc/i18n/wcrtomb.c,v 1.11 2006/06/03 13:43:50 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/i18n/wcrtomb.c,v 1.12 2006/10/27 15:52:28 tg Exp $");
 
 size_t
 wcrtomb(char *__restrict__ src, wchar_t wc, mbstate_t *__restrict__ ps)

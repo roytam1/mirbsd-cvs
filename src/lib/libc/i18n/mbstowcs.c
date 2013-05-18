@@ -1,4 +1,4 @@
-/* $MirOS: src/lib/libc/i18n/mbstowcs.c,v 1.1 2006/06/01 22:17:20 tg Exp $ */
+/* $MirOS: src/lib/libc/i18n/mbstowcs.c,v 1.2 2006/06/03 22:03:32 tg Exp $ */
 
 /*-
  * Copyright (c) 2006
@@ -18,12 +18,12 @@
  * or other damage, or direct damage except proven a consequence of a
  * direct error of said person and intended use of this work, loss or
  * other issues arising in any way out of its use, even if advised of
- * the possibility of such damage or existence of a nontrivial bug.
+ * the possibility of such damage or existence of a defect.
  */
 
 #include <wchar.h>
 
-__RCSID("$MirOS: src/lib/libc/i18n/mbstowcs.c,v 1.1 2006/06/01 22:17:20 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/i18n/mbstowcs.c,v 1.2 2006/06/03 22:03:32 tg Exp $");
 
 size_t
 mbstowcs(wchar_t *__restrict__ pwcs, const char *__restrict__ s, size_t n)

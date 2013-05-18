@@ -1,8 +1,10 @@
-/* $MirOS: src/lib/libc/time/localtime.c,v 1.9 2005/12/18 01:04:32 tg Exp $ */
+/* $MirOS: src/lib/libc/time/localtime.c,v 1.10 2005/12/18 16:36:53 tg Exp $ */
 
 /*-
  * Copyright (c) 2004, 2005
  *	Thorsten "mirabile" Glaser <tg@66h.42h.de>
+ * Based upon work placed in the public domain 1996-06-05 by
+ *	Arthur David Olson (arthur_david_olson@nih.gov)
  *
  * Licensee is hereby permitted to deal in this work without restric-
  * tion, including unlimited rights to use, publicly perform, modify,
@@ -11,8 +13,8 @@
  * in all redistributions or reproduced in accompanying documentation
  * or other materials provided with binary redistributions.
  *
- * All advertising materials mentioning features or use of this soft-
- * ware must display the following acknowledgement:
+ * Advertising materials mentioning features or use of this work must
+ * display the following acknowledgement:
  *	This product includes material provided by Thorsten Glaser.
  *
  * Licensor offers the work "AS IS" and WITHOUT WARRANTY of any kind,
@@ -22,7 +24,7 @@
  * or other damage, or direct damage except proven a consequence of a
  * direct error of said person and intended use of this work, loss or
  * other issues arising in any way out of its use, even if advised of
- * the possibility of such damage or existence of a nontrivial bug.
+ * the possibility of such damage or existence of a defect.
  *-
  * based upon public domain implementation from
  * 1996-06-05 by Arthur David Olson (arthur_david_olson@nih.gov)
@@ -30,7 +32,7 @@
 
 #include <sys/param.h>
 __SCCSID("@(#)localtime.c	7.80");
-__RCSID("$MirOS: src/lib/libc/time/localtime.c,v 1.9 2005/12/18 01:04:32 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/time/localtime.c,v 1.10 2005/12/18 16:36:53 tg Exp $");
 
 /*
 ** Leap second handling from Bradley White (bww@k.gp.cs.cmu.edu).

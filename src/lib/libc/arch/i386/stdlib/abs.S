@@ -1,4 +1,4 @@
-/* $MirOS: src/lib/libc/arch/i386/stdlib/abs.S,v 1.3 2005/03/06 21:48:03 tg Exp $ */
+/* $MirOS: src/lib/libc/arch/i386/stdlib/abs.S,v 1.4 2005/12/17 05:46:14 tg Exp $ */
 
 /*-
  * Copyright (c) 2004
@@ -18,14 +18,14 @@
  * or other damage, or direct damage except proven a consequence of a
  * direct error of said person and intended use of this work, loss or
  * other issues arising in any way out of its use, even if advised of
- * the possibility of such damage or existence of a nontrivial bug.
+ * the possibility of such damage or existence of a defect.
  */
 
 #include <machine/asm.h>
 
 	.intel_syntax noprefix
 	.section .comment
-	.asciz	"$MirOS: src/lib/libc/arch/i386/stdlib/abs.S,v 1.3 2005/03/06 21:48:03 tg Exp $"
+	.asciz	"$MirOS: src/lib/libc/arch/i386/stdlib/abs.S,v 1.4 2005/12/17 05:46:14 tg Exp $"
 	.text
 
 NENTRY(abs)

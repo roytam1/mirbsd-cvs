@@ -1,4 +1,4 @@
-/* $MirOS: src/lib/libc/i18n/btowc.c,v 1.14 2006/06/09 20:27:37 tg Exp $ */
+/* $MirOS: src/lib/libc/i18n/btowc.c,v 1.15 2006/06/14 20:30:18 tg Exp $ */
 
 /*-
  * Copyright (c) 2006
@@ -11,8 +11,8 @@
  * in all redistributions or reproduced in accompanying documentation
  * or other materials provided with binary redistributions.
  *
- * All advertising materials mentioning features or use of this soft-
- * ware must display the following acknowledgement:
+ * Advertising materials mentioning features or use of this work must
+ * display the following acknowledgement:
  *	This product includes material provided by Thorsten Glaser.
  *
  * Licensor offers the work "AS IS" and WITHOUT WARRANTY of any kind,
@@ -22,14 +22,14 @@
  * or other damage, or direct damage except proven a consequence of a
  * direct error of said person and intended use of this work, loss or
  * other issues arising in any way out of its use, even if advised of
- * the possibility of such damage or existence of a nontrivial bug.
+ * the possibility of such damage or existence of a defect.
  */
 
 #include <wchar.h>
 
 #include "mir18n.h"
 
-__RCSID("$MirOS: src/lib/libc/i18n/btowc.c,v 1.14 2006/06/09 20:27:37 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/i18n/btowc.c,v 1.15 2006/06/14 20:30:18 tg Exp $");
 
 wint_t
 btowc(int c)

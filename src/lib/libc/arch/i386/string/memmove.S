@@ -1,4 +1,4 @@
-/* $MirOS: src/lib/libc/arch/i386/string/memmove.S,v 1.5 2005/04/29 20:55:43 tg Exp $ */
+/* $MirOS: src/lib/libc/arch/i386/string/memmove.S,v 1.6 2005/12/17 05:46:14 tg Exp $ */
 
 /*-
  * Copyright (c) 2005
@@ -18,12 +18,12 @@
  * or other damage, or direct damage except proven a consequence of a
  * direct error of said person and intended use of this work, loss or
  * other issues arising in any way out of its use, even if advised of
- * the possibility of such damage or existence of a nontrivial bug.
+ * the possibility of such damage or existence of a defect.
  */
 
 #include <machine/asm.h>
 
-RCSID("$MirOS: src/lib/libc/arch/i386/string/memmove.S,v 1.5 2005/04/29 20:55:43 tg Exp $")
+RCSID("$MirOS: src/lib/libc/arch/i386/string/memmove.S,v 1.6 2005/12/17 05:46:14 tg Exp $")
 
 	.intel_syntax noprefix
 	.text

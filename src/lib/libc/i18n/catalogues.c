@@ -1,4 +1,4 @@
-/* $MirOS: src/lib/libc/i18n/catalogues.c,v 1.5 2005/12/17 05:46:14 tg Exp $ */
+/* $MirOS: src/lib/libc/i18n/catalogues.c,v 1.6 2006/05/30 20:28:17 tg Exp $ */
 
 /*-
  * Copyright (c) 2005
@@ -18,7 +18,7 @@
  * or other damage, or direct damage except proven a consequence of a
  * direct error of said person and intended use of this work, loss or
  * other issues arising in any way out of its use, even if advised of
- * the possibility of such damage or existence of a nontrivial bug.
+ * the possibility of such damage or existence of a defect.
  */
 
 #include <sys/param.h>
@@ -26,7 +26,7 @@
 #include <langinfo.h>
 #include <nl_types.h>
 
-__RCSID("$MirOS: src/lib/libc/i18n/catalogues.c,v 1.5 2005/12/17 05:46:14 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/i18n/catalogues.c,v 1.6 2006/05/30 20:28:17 tg Exp $");
 
 /* fake NLS support */
 
