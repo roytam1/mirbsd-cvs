@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.282 2009/09/25 18:28:31 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.283 2009/10/02 17:38:08 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -78,7 +78,7 @@ mws_content <<'EOF'
  and <a href="http://www.opensource.org/docs/osd">OSD</a>-compliant (and OSI
  approved)
  successor to pdksh, developed as part of <a href="http://mirbsd.de/">the
- MirOS Project</a> as native bourne/POSIX/korn shell for MirOS BSD, but also
+ MirOS Project</a> as native Bourne/POSIX/korn shell for MirOS BSD, but also
  to be readily available under other UNIX®-like operating systems.</p>
 <p id="lic">The source code for mksh is available at the MirOS Project mirrors
  as well as these of other operating system projects due to being <a
@@ -103,7 +103,7 @@ mws_content <<'EOF'
  href="@@RELPATH@@permalinks/news_e20081114-nn.htm">OSI Certified <img
  src="@@RELPATH@@pics/open_source_button.png" alt="Open Source Software™" />
  </a> and its <a href="@@ABSPATH@@/man/mksh.1">manual</a> Open Knowledge.</p>
-<p>To compile mksh, you will need a bourne or POSIX shell (Solaris
+<p>To compile mksh, you will need a Bourne or POSIX shell (Solaris
  <tt>/bin/sh</tt> is enough, and the Z shell should work), a C compiler (at
  the moment, only the one from the <a href="http://gcc.gnu.org/">GNU Compiler
  Collection</a> works, but we’re attempting to change this), system and C
@@ -202,9 +202,9 @@ mws_content <<'EOF'
  should work. Relative paths can be used too, for example, instead of cd(1)ing
  to the source directory, you could’ve done<br />
  <tt>% mkdir build; cd build; /bin/sh ../mksh/Build.sh</tt></p>
-<p>The build script requires a bourne shell (Solaris <tt>/bin/sh</tt>, the <a
+<p>The build script requires a Bourne shell (Solaris <tt>/bin/sh</tt>, the <a
  href="http://heirloom.sourceforge.net/sh.html">Heirloom sh</a>, DEC OSF/1
- V2.0 <tt>/bin/sh</tt>), korn shell (ksh, ksh88, ksh93, pdksh, mksh, oksh,
+ V2.0 <tt>/bin/sh</tt>), Korn shell (ksh, ksh88, ksh93, pdksh, mksh, oksh,
  maybe the MKS ksh), POSIX shell (posh, <tt>/usr/xpg4/bin/sh</tt>, ash,
  dash), or a super-set (GNU bash) to work; the Z Shell sometimes works as
  well, but the ULTRIX <tt>/bin/sh</tt> or the C shell (csh, tcsh) or “bsh”
@@ -257,14 +257,16 @@ mws_content <<'EOF'
 <li><tt>-DMKSH_ASSUME_UTF8</tt> – do not use setlocale(3) or
  nl_langinfo(CODESET); assume the terminal is always in UTF-8 mode</li>
 <li><tt>-DMKSH_BINSHREDUCED</tt> – include code to automatically “set -o
- posix” to reduce functionality if called as <tt>sh</tt> or <tt>-sh</tt></li>
+ posix” (mksh R40+: “set -o sh”) to reduce functionality if called as
+ <tt>sh</tt> or <tt>-sh</tt></li>
 <li><tt>-DMKSH_CLS_STRING</tt> – the string to send to the terminal to clear
  the window (default: <tt>"\033[;H\033[J"</tt>)</li>
 <li><tt>-DMKSH_CONSERVATIVE_FDS</tt> – use less filedescriptors (32/10 ipv
  56/24), e.g. if the system supports few (mksh R37c and up)</li>
 <li><tt>-DMKSH_MIDNIGHTBSD01ASH_COMPAT</tt> – parse “--” on the shell command
  line like MidnightBSD 0.1 <tt>/bin/sh</tt> (different from all other shells);
- <em>requires</em> <tt>-DMKSH_BINSHREDUCED</tt> or “-o posix” (R38+)</li>
+ <em>requires</em> <tt>-DMKSH_BINSHREDUCED</tt> or “-o posix” (R38+) / “-o sh”
+ (R40+)</li>
 <li><tt>-DMKSH_NOPWNAM</tt> – omit getpwnam(3) calls (<tt>~foo/</tt> expansion)
  in order to not pull in the nsswitch or PAM libraries</li>
 <li><tt>-DMKSH_NOVI</tt> – omit the Vi command line editing mode, which is
@@ -1002,6 +1004,7 @@ mws_content <<'EOF'
  <li>[Clint Adams] Fix typos in the testsuite</li>
  <li>[tg, Clint Adams] Begin a shared testsuite for mksh and posh</li>
  <li>[tg] Document (via check.t) another posh bug affecting mksh, #445651</li>
+ <li>[tg] Rename <tt>set -o posix</tt> (kludge) to <tt>set -o sh</tt></li>
 </ul>
 <p id="r39">mksh R39 evolved into these through various means:</p><ul>
  <li>[tg] Shut up a bogus gcc warning during configuration process</li>
