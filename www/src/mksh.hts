@@ -3,9 +3,9 @@
 
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.243 2009/06/08 20:34:36 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.244 2009/06/08 20:52:32 tg Exp $'
 mws_content <<'EOF'
-<h1>mksh(1) R38b</h1>
+<h1>mksh(1) R38c</h1>
 <p>This is the website of the MirBSD™ Korn Shell, an actively developed free
  implementation of the Korn Shell programming language and a successor to the
  Public Domain Korn Shell (pdksh).</p>
@@ -37,8 +37,8 @@ mws_content <<'EOF'
 </ul>
 
 <h2 id="prefetch">Introduction</h2>
-<p>The current version of mksh is <strong>mksh R38b</strong> from
- <em>31 May 2009</em>.</p>
+<p>The current version of mksh is <strong>mksh R38c</strong> from
+ <em>10 June 2009</em>.</p>
 <p>Thanks to “Der Verein <a href="http://www.trash.net/verein/">trash.net</a>”
  for sponsoring access to a Solaris 8 box. Thanks to HP TestDrive, which helps
  in keeping mksh portable to several Unixes and compilers, and track down some
@@ -164,14 +164,14 @@ mws_content <<'EOF'
  extract from the CPIO distfile and is available even on a stock Microsoft®
  Windows® installation.</p>
 <h3 id="mirrors">Known Mirrors</h3><ul>
- <li><a href="https://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R38b.cpio.gz">https://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R38b.cpio.gz</a></li>
- <li><a href="http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R38b.cpio.gz">http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R38b.cpio.gz</a></li>
+ <li><a href="https://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R38c.cpio.gz">https://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R38c.cpio.gz</a></li>
+ <li><a href="http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R38c.cpio.gz">http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R38c.cpio.gz</a></li>
 </ul>
 <h3 id="hashes">Checksums and Hashes</h3><ul>
- <li>RMD160 (mksh-R38b.cpio.gz) = 02fbe51e6330c3dab49e6bf273573fb5fb282451</li>
- <li>TIGER (mksh-R38b.cpio.gz) = b79bcf07ddd58a332b7ec43cf884819655f0c56f6289c318</li>
- <li>1779631716 276680 /MirOS/dist/mir/mksh/mksh-R38b.cpio.gz</li>
- <li>MD5 (mksh-R38b.cpio.gz) = 7a9353648b6f4008b1bbcfffdffff333</li>
+ <li>RMD160 (mksh-R38c.cpio.gz) = d2a5f00a992e359f985b9023d9780c5283adb2e5</li>
+ <li>TIGER (mksh-R38c.cpio.gz) = 8857775db4e60f66b03337f85a212f266890a71b5a284a54</li>
+ <li>860103691 276630 /MirOS/dist/mir/mksh/mksh-R38c.cpio.gz</li>
+ <li>MD5 (mksh-R38c.cpio.gz) = 692192a6468b5f5c5e559756f1851766</li>
  <li style="list-style:none;">All official distfiles are gzsig(1)d.</li>
 </ul>
 
@@ -184,9 +184,9 @@ mws_content <<'EOF'
 <p>The first example is using BSD paxtar (MirOS BSD, OpenBSD, NetBSD®), or
  “bsdtar” (DragonFly); the second and third use cpio(1) or pax(1) and are
  for most operating systems; the fourth is for Debian.</p><ul>
-<li>$ tar xzf mksh-R38b.cpio.gz &amp;&amp; cd mksh</li>
-<li>$ gzip -dc mksh-R38b.cpio.gz | cpio -mid &amp;&amp; cd mksh</li>
-<li>$ gzip -dc mksh-R38b.cpio.gz | pax -r &amp;&amp; cd mksh</li>
+<li>$ tar xzf mksh-R38c.cpio.gz &amp;&amp; cd mksh</li>
+<li>$ gzip -dc mksh-R38c.cpio.gz | cpio -mid &amp;&amp; cd mksh</li>
+<li>$ gzip -dc mksh-R38c.cpio.gz | pax -r &amp;&amp; cd mksh</li>
 </ul>
 
 <h3 id="compile">Compilation</h3>
@@ -398,8 +398,9 @@ mws_content <<'EOF'
  standards, such as <tt>caddr_t</tt>, strcasecmp(3), etc. are weird.</p>
 
 <h5 id="oe_klcc">Toolchain: klibc</h5>
-<p>klibc (with stock klcc as compiler wrapper) is currently missing a
- few syscalls, but the Debian unstable version with these added worls.</p>
+<p>klibc (with stock klcc as compiler wrapper) works if the <a
+ href="http://bugs.debian.org/516294">patch from the Debian bug reports</a>
+ is applied and <tt>-DMKSH_NO_LIMITS</tt> is used to build mksh(1).</p>
 
 <h5 id="oe_aix">OS: AIX</h5>
 <p>Support for AIX with xlC appeared in mksh R30.</p>
@@ -440,9 +441,9 @@ mws_content <<'EOF'
  (ex-FSSTND) does; please convince your distributor to move ed to /bin/ed if
  not already done. Manual page installation paths are not standardised in
  older distributions either.</p>
-<p>Besides glibc (GNU libc), dietlibc (from Fefe), µClibc (embedded), and
- libc5 (on Linux 2.0.38) work, but locale detection is not automatic.
- Support for klibc is work in progress (on the klibc side).</p>
+<p>Besides glibc (GNU libc), dietlibc (from Fefe), µClibc (embedded),
+ klibc (for initramfs) and libc5 (on Linux 2.0.38) work, but locale
+ detection is not automatic for some of them.</p>
 <p>mksh can be used as /bin/sh on Debian and similarly strict distributions,
  which allow to use e.g. ash/dash there as well.</p>
 
@@ -1008,6 +1009,8 @@ mws_content <<'EOF'
   limits in a single invocation from oksh (thanks millert) -->
  <li>[ahoka] Begin porting to <a href="http://www.haiku-os.org/">Haiku</a>
   and, implicitly, BeOS (not finished yet)</li>
+</ul>
+<p id="r38c">mksh R38c contains the following fixes:</p><ul>
  <li>[tg] Fix regression tests on OSes insisting on a shebang (Cygwin)</li>
  <li>[Sean Boudreau] QNX 6.4.2 ed(1) is said to have the bugs fixed</li>
  <li>[tg] <tt>Build.sh</tt> bugfixes: <tt>-DMKSH_BINSHREDUCED</tt> can also
@@ -1016,11 +1019,13 @@ mws_content <<'EOF'
   <tt>-DMKSH_SMALL</tt> disables them by default, like mknod already did</li>
  <li>[tg] <tt>-DMKSH_ASSUME_UTF8=0</tt> skips the environment checks, like
   <tt>-DMKSH_ASSUME_UTF8=1</tt>, but disables the <tt>utf8-mode</tt></li>
- <li>[tg] Apply some more KNF – style(9) – to the source (mechanically)</li>
+ <li>[tg] Apply some more KNF – style(9) – to the source; clean it up
+  and further optimise for small size</li>
  <li>[OpenBSD] Fix segfaults caused by missing check for end of input
   in the tokeniser on “let --” and other input</li>
  <li>[OpenBSD] Make Vi editing mode <tt>^W</tt> behave like Emacs mode’s</li>
  <li>[tg] If no killpg(3) is avaiable, use kill(2) and hope it works</li>
+ <li>[tg] <tt>-DMKSH_NO_LIMITS</tt> skips trying to build the ulimit code</li>
 </ul>
 <p id="r38b">mksh R38b fixes the following problems:</p><ul>
  <li>[André Wösten] Add __NO_EXT_QNX to avoid picking up the wrong
@@ -1028,7 +1033,6 @@ mws_content <<'EOF'
  <li>[tg] Plug memory corruption issue introduced in R38</li>
  <li>[tg] Amend <tt>dot.mkshrc</tt> with a base64 en-/decoder in shell</li>
  <li>[tg] Import a manpage fix via OpenBSD from Alan R. S. Bueno</li>
- <li>[tg] <tt>-DMKSH_NO_LIMITS</tt> skips trying to build the ulimit code</li>
 </ul>
 <p id="r38">mksh R38 comes with these changes and fixes applied:</p><ul>
  <li>[tg] Improve regression test output debugging</li>
