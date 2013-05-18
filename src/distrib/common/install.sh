@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/distrib/common/install.sh,v 1.8 2007/06/04 08:36:37 tg Exp $
+# $MirOS: src/distrib/common/install.sh,v 1.9 2007/06/16 22:36:47 tg Exp $
 # $OpenBSD: install.sh,v 1.152 2005/04/21 21:41:33 krw Exp $
 # $NetBSD: install.sh,v 1.5.2.8 1996/08/27 18:15:05 gwr Exp $
 #
@@ -500,7 +500,7 @@ EOF
 echo -n "done.\nGenerating initial host.random file..."
 ( ( dd if=/dev/prandom bs=64 count=1; \
     dd if=/dev/arandom bs=64 count=8; \
-    dd if=/dev/urandom bs=64 count=55; \
+    dd if=/dev/urandom bs=64 count=54; \
   ) 2>/dev/wrandom | dd of=/mnt/var/db/host.random; \
     chown 0:0 /mnt/var/db/host.random; \
     chmod 600 /mnt/var/db/host.random) \
@@ -509,3 +509,6 @@ echo "done."
 
 # Perform final steps common to both an install and an upgrade.
 finish_up
+
+# Since the finishing takes some time, append one little block here.
+dd if=/dev/urandom bs=64 count=1 >>/mnt/var/db/host.random 2>/dev/wrandom
