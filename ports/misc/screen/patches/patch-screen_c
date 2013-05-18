@@ -1,7 +1,7 @@
-$MirOS: ports/misc/screen/patches/patch-screen_c,v 1.12 2007/05/10 13:02:23 tg Exp $
+$MirOS: ports/misc/screen/patches/patch-screen_c,v 1.13 2008/10/13 20:52:28 tg Exp $
 $OpenBSD: shmpatch-screen_c,v 1.1 2003/11/22 00:56:58 espie Exp $
 --- screen.c.orig	Mon Sep  8 14:26:19 2003
-+++ screen.c	Mon Oct 13 20:51:46 2008
++++ screen.c	Mon Oct 13 20:57:47 2008
 @@ -27,6 +27,19 @@
   * Free Software Foundation, Inc.,
   * 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA
@@ -22,7 +22,7 @@ $OpenBSD: shmpatch-screen_c,v 1.1 2003/11/22 00:56:58 espie Exp $
   ****************************************************************
   */
  
-@@ -71,6 +84,16 @@
+@@ -71,6 +84,12 @@
  #if (defined(AUX) || defined(_AUX_SOURCE)) && defined(POSIX)
  # include <compat.h>
  #endif
@@ -32,14 +32,10 @@ $OpenBSD: shmpatch-screen_c,v 1.1 2003/11/22 00:56:58 espie Exp $
 +# include <sys/shm.h>
 +#endif
 +
-+#if !defined(__MirBSD__)
-+#include <mirmake.h>	/* for __RCSID() */
-+#endif
-+
  #if defined(USE_LOCALE) || defined(ENCODINGS)
  # include <locale.h>
  #endif
-@@ -78,6 +101,11 @@
+@@ -78,6 +97,11 @@
  # include <langinfo.h>
  #endif
  
@@ -51,7 +47,7 @@ $OpenBSD: shmpatch-screen_c,v 1.1 2003/11/22 00:56:58 espie Exp $
  #include "screen.h"
  #ifdef HAVE_BRAILLE
  # include "braille.h"
-@@ -152,6 +180,9 @@ static char *pad_expand __P((char *, cha
+@@ -152,6 +176,9 @@ static char *pad_expand __P((char *, cha
  #ifdef DEBUG
  static void  fds __P((void));
  #endif
@@ -61,7 +57,7 @@ $OpenBSD: shmpatch-screen_c,v 1.1 2003/11/22 00:56:58 espie Exp $
  
  int nversion;	/* numerical version, used for secondary DA */
  
-@@ -234,6 +265,10 @@ struct win *console_window;
+@@ -234,6 +261,10 @@ struct win *console_window;
  
  
  
@@ -72,7 +68,7 @@ $OpenBSD: shmpatch-screen_c,v 1.1 2003/11/22 00:56:58 espie Exp $
  /*
   * Do this last
   */
-@@ -377,8 +412,11 @@ char **av;
+@@ -377,8 +408,11 @@ char **av;
  #ifdef DEBUG
    opendebug(1, 0);
  #endif
@@ -85,7 +81,7 @@ $OpenBSD: shmpatch-screen_c,v 1.1 2003/11/22 00:56:58 espie Exp $
    nversion = REV * 10000 + VERS * 100 + PATCHLEVEL;
    debug2("-- screen debug started %s (%s)\n", *av, version);
  #ifdef POSIX
-@@ -461,6 +499,37 @@ char **av;
+@@ -461,6 +495,37 @@ char **av;
    zmodem_recvcmd = SaveStr("!!! rz -vv -b -E");
  #endif
  
@@ -123,7 +119,7 @@ $OpenBSD: shmpatch-screen_c,v 1.1 2003/11/22 00:56:58 espie Exp $
  #ifdef COPY_PASTE
    CompileKeys((char *)0, 0, mark_key_tab);
  #endif
-@@ -1223,6 +1292,10 @@ char **av;
+@@ -1223,6 +1288,10 @@ char **av;
        if (MakeDisplay(LoginName, attach_tty, attach_term, n, getppid(), &attach_Mode) == 0)
  	Panic(0, "Could not alloc display");
  #ifdef ENCODINGS
@@ -134,7 +130,7 @@ $OpenBSD: shmpatch-screen_c,v 1.1 2003/11/22 00:56:58 espie Exp $
        D_encoding = nwin_options.encoding > 0 ? nwin_options.encoding : 0;
        debug1("D_encoding = %d\n", D_encoding);
  #endif
-@@ -2428,10 +2501,10 @@ int rec;
+@@ -2428,10 +2497,10 @@ int rec;
  #endif
  	      break;
  	    case 'y':
@@ -147,14 +143,14 @@ $OpenBSD: shmpatch-screen_c,v 1.1 2003/11/22 00:56:58 espie Exp $
  	      break;
  	    case 'a':
  	      sprintf(p, tm->tm_hour >= 12 ? "pm" : "am");
-@@ -3174,3 +3247,83 @@ char *p;
+@@ -3174,3 +3243,83 @@ char *p;
    return 0;
  }
  
 +#if defined(ENCODINGS) && defined(UTF8) && defined(POSIX)
 +__RCSID("$miros: src/usr.sbin/wsconfig/wsconfig.c,v 1.16 2007/05/10 13:02:21 tg Exp $");
 +__RCSID("$miros: ports/sysutils/chkuterm/dist/chkuterm.c,v 1.11 2007/05/10 13:02:22 tg Exp $");
-+__RCSID("$MirOS: ports/misc/screen/patches/patch-screen_c,v 1.12 2007/05/10 13:02:23 tg Exp $");
++__RCSID("$MirOS: ports/misc/screen/patches/patch-screen_c,v 1.13 2008/10/13 20:52:28 tg Exp $");
 +static const char sfe_qs[] = "\030\032\r\xE2\x82\xAC.\033[6n";
 +
 +int
