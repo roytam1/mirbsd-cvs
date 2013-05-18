@@ -88,7 +88,7 @@ static int x_vi(char *, size_t);
 #endif
 
 #define x_flush()	shf_flush(shl_out)
-#ifdef MKSH_SMALL
+#if defined(MKSH_SMALL) && !defined(MKSH_SMALL_BUT_FAST)
 #define x_putc(c)	x_putcf(c)
 #else
 #define x_putc(c)	shf_putc((c), shl_out)

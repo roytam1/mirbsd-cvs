@@ -23,7 +23,7 @@
 
 #include "sh.h"
 
-__RCSID("$MirOS: src/bin/mksh/lex.c,v 1.163 2012/05/04 22:44:33 tg Exp $");
+__RCSID("$MirOS: src/bin/mksh/lex.c,v 1.164 2012/06/28 20:05:07 tg Exp $");
 
 /*
  * states while lexing word
@@ -131,7 +131,7 @@ short subshell_nesting_level = 0;
 	return (cev);					\
 }
 
-#ifdef MKSH_SMALL
+#if defined(MKSH_SMALL) && !defined(MKSH_SMALL_BUT_FAST)
 static int getsc(void);
 
 static int
