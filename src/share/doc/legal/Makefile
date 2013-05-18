@@ -1,4 +1,4 @@
-# $MirOS: src/share/doc/legal/Makefile,v 1.4 2007/01/22 06:30:58 tg Exp $
+# $MirOS: src/share/doc/legal/Makefile,v 1.5 2008/05/01 00:58:24 tg Exp $
 
 BINDIR=	${DOCDIR}/legal
 NROFF=	nrcon -e ${MACROS} ${PAGES}
@@ -20,6 +20,13 @@ LICENCE-BSD.0: ${ROFFS}
 	    >$@ || (rm -f $@; false)
 
 LICENCE-BSD: LICENCE-BSD.0
+	col -b <${.ALLSRC} >$@
+
+grml.0: ${ROFFS}
+	( cd ${.CURDIR} && ${NROFF} -rg1 ${.CURDIR}/lbsd.mdoc ) \
+	    >$@ || (rm -f $@; false)
+
+grml: grml.0
 	col -b <${.ALLSRC} >$@
 
 beforeinstall:
