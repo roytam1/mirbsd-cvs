@@ -1,5 +1,5 @@
 #!/usr/bin/perl
-# $MirOS: ports/infrastructure/pkgtools/pkg/pkg.pl,v 1.2 2005/07/05 19:45:10 bsiegert Exp $
+# $MirOS: ports/infrastructure/pkgtools/pkg/pkg.pl,v 1.3 2006/11/08 16:51:22 bsiegert Exp $
 # $OpenBSD: pkg.pl,v 1.7 2001/11/17 10:42:11 espie Exp $
 #
 # Copyright (c) 2001 Marc Espie.
@@ -249,7 +249,7 @@ sub check_lib_specs
 	my $base = shift;
 	my $dir;
 	for my $spec (split(/,/, shift)) {
-		print "checking $spec " if $verbose;
+		print "  libspec $spec: " if $verbose;
 		if ($spec =~ m|.*/|) {
 			$dir = "$base/$&";
 			$spec = $';
@@ -265,7 +265,7 @@ sub check_lib_specs
 			my @candidates =
 			    grep { (/^lib\Q$libname\E\.so\.$major\.(\d+)$/
 			    	&& $1 >= $minor) ||
-				(/^lib\Q$libname\E}.$major\.(\d+)\.\d+\.dylib$/
+				(/^lib\Q$libname\E.$major\.(\d+)\.\d+\.dylib$/
 				&& $1 >= $minor) }
 			    readdir(DIRECTORY);
 			close(DIRECTORY);
@@ -339,8 +339,8 @@ sub solve_dependencies
 	for my $check (@todo) {
 		print "pkg: Handling dependencies for $check\n" if $verbose;
 		for my $dep (@{$verify{$check}}) {
-			print "  checking ", $dep->[0], " (", $dep->[1],
-			    ") -> " if $verbose;
+			print " dependency on ", $dep->[0], " (default ",
+			    $dep->[1], ") -> " if $verbose;
 			my $r = pattern_match($dep->[0], \@list);
 			if ($r) {
 			    print "$r\n" if $verbose;
@@ -352,6 +352,7 @@ sub solve_dependencies
 			# the default package
 			if (@{$dep} > 2) {
 				unless (check_lib_specs($prefix, $dep->[2])) {
+					print "  reverting to default -- this is bound to fail\n" if $verbose;
 					$r = '';
 				}
 			}
