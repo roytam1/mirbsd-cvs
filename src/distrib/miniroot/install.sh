@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/distrib/miniroot/install.sh,v 1.10 2005/12/28 15:11:16 tg Exp $
+# $MirOS: src/distrib/miniroot/install.sh,v 1.11 2006/01/11 20:48:06 tg Exp $
 # $OpenBSD: install.sh,v 1.152 2005/04/21 21:41:33 krw Exp $
 # $NetBSD: install.sh,v 1.5.2.8 1996/08/27 18:15:05 gwr Exp $
 #
@@ -309,26 +309,6 @@ __EOT
 fi
 
 mount_fs "-o async"
-
-# Seed from random if exists
-if [ -e /mnt/var/db/host.random ]; then
-	dd if=/dev/prandom bs=256 count=1 >/tmp/rand
-	dd if=/dev/arandom bs=256 count=94 >>/tmp/rand
-	SUMS="$(cksum /tmp/rand) $RANDOM $(ls -lR /) $PPID $SECONDS $$ $(dd if=/dev/srandom bs=8 count=1)"
-	RANDOM=$(echo "$SUMS" | cksum -o 1 | while read a b; do echo $a; done)
-	dd if=/dev/prandom bs=256 count=1 >>/tmp/rand
-	dd if=/dev/urandom bs=256 count=96 >>/tmp/rand
-	cat /mnt/var/db/host.random >/dev/arandom
-	dd if=/dev/arandom bs=256 count=1 >>/tmp/rand
-	dd if=/dev/urandom bs=1024 count=63 >>/tmp/rand
-	SUMS="$(cksum /mnt/var/db/host.random) $RANDOM $(cksum -o 1 /tmp/rand)"
-	cat /tmp/rand >/var/db/host.random
-	dd if=/dev/prandom bs=256 count=1 >/tmp/rand
-	dd if=/dev/urandom bs=256 count=1 >>/tmp/rand
-	echo "$SUMS" >>/tmp/rand
-	cat /tmp/rand >/dev/arandom
-	rm /tmp/rand
-fi
 
 # Set hostname.
 #
