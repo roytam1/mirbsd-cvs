@@ -1,9 +1,0 @@
-@comment $MirOS: ports/net/bind/pkg/PLIST-client,v 1.1.7.1 2005/03/18 15:49:24 tg Exp $
-bin/dig
-@comment bin/host
-bin/nslookup
-bin/nsupdate
-man/man1/dig.1
-@comment man/man1/host.1
-man/man1/nslookup.1
-man/man8/nsupdate.8

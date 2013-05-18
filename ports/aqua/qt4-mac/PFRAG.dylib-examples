@@ -1,4 +1,0 @@
-@comment $MirOS$
-qt4/examples/tools/echoplugin/plugin/libechoplugin_debug.dylib
-qt4/examples/tools/plugandpaint/plugins/libpnp_extrafilters_debug.dylib
-qt4/examples/tools/styleplugin/styles/libsimplestyleplugin.dylib

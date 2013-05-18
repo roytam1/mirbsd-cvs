@@ -1,5 +1,0 @@
-# $MirOS$
-
-# yes a conflict is correct here as this works on etch
-# (and possibly sarge)
-arngc: conflicts-with-version stunnel4 (<= 3:4.29-1~~)
