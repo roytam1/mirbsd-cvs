@@ -1,4 +1,4 @@
-rcsid_inc2rss='$MirOS: www/mk/inc2rss,v 1.17 2008/11/19 03:47:29 tg Exp $'
+rcsid_inc2rss='$MirOS: www/mk/inc2rss,v 1.18 2008/12/04 13:45:45 tg Exp $'
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -71,7 +71,7 @@ function rss_output {
 	eid=$2
 	rpath=$3
 	efe="${mws__abspath}${rpath}${name}_${eid}.htm#$eid"
-	pubdate=$(strftm "$DATE_RSS" ${e_time[ent]})
+	pubdate=$(strftm "$DATE_RSS" ${ei_time[ent]})
 	if [[ -n ${e_title[ent]} ]]; then
 		title="${e_title[ent]}"
 	else
@@ -109,7 +109,7 @@ function rss_output {
 		print "<author>${eauthor}</author>\n"
 	fi
 	print "<description>"
-	mws_content <<<"${e_body[ent]%%@(<!-- RSS stop -->)*}" | \
+	mws_content <<<"${ei_body[ent]%%@(<!-- RSS stop -->)*}" | \
 	    sed -e 's&\&amp;g' -e 's<\&lt;g' -e 's>\&gt;g'
 	print "</description></item>"
 }

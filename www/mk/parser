@@ -1,11 +1,11 @@
-rcsid_parser='$MirOS: www/mk/parser,v 1.8 2008/11/08 16:28:45 tg Exp $'
+rcsid_parser='$MirOS: www/mk/parser,v 1.9 2008/12/04 13:23:35 tg Exp $'
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
 
 set -A e_author
 set -A e_id
-set -A e_body
+set -A ei_body
 
 nl='
 '
@@ -65,7 +65,7 @@ while IFS= read -r line; do
 			typeset -i -Z4 e_tmpy=10#0${e_tmp[2]}
 			e_date[entry]=$e_tmpd.$e_tmpm.$e_tmpy
 			# make sure there are no leading zeroes
-			e_time[entry]="$((e_tmpy)) $((e_tmpm)) $((e_tmpd)) \
+			ei_time[entry]="$((e_tmpy)) $((e_tmpm)) $((e_tmpd)) \
 			    $((10#0${e_tmp[3]})) $((10#0${e_tmp[4]})) $((10#0${e_tmp[5]}))"
 		elif [[ $parser_lctmp = tag ]]; then
 			parser_lctmp=${e_tag[entry]}
@@ -82,7 +82,7 @@ while IFS= read -r line; do
 			done
 		fi
 	else
-		e_body[entry]=${e_body[entry]}${e_body[entry]+$nl}$line
+		ei_body[entry]=${ei_body[entry]}${ei_body[entry]+$nl}$line
 	fi
 done <"$TOP/data/$name.inc"
 if (( state != 2 )); then
