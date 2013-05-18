@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/sys/cdefs.h,v 1.18 2008/06/17 22:35:32 tg Exp $ */
+/**	$MirOS: src/sys/sys/cdefs.h,v 1.19 2008/06/21 22:37:18 tg Exp $ */
 /*	$OpenBSD: cdefs.h,v 1.18 2005/05/27 21:28:12 millert Exp $	*/
 /*	$NetBSD: cdefs.h,v 1.16 1996/04/03 20:46:39 christos Exp $	*/
 
@@ -212,7 +212,7 @@
 #define __unused		__attribute__((unused))
 #endif
 
-#if defined(__ELF__) && defined(__GNUC__)
+#if defined(__ELF__) && defined(__GNUC__) && !defined(__llvm__)
 #define __IDSTRING(prefix, string)				\
 	__asm__(".section .comment"				\
 	"\n	.ascii	\"@(\"\"#)" #prefix ": \""		\
