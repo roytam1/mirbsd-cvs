@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/list,v 1.2 2006/08/18 20:32:37 tg Exp $
+# $MirOS: src/distrib/common/list,v 1.3 2006/08/18 20:48:46 tg Exp $
 
 # standard tools in the crunched binary
 COPY	${OBJDIR}/instbin			instbin
@@ -73,7 +73,7 @@ SYMLINK	/tmp/hosts				etc/hosts
 COPY	${TOPDIR}/common/protocols		etc/protocols
 SYMLINK	/tmp/resolv.conf.shadow			etc/resolv.conf
 COPY	${TOPDIR}/common/services		etc/services
-COPY	${TOPDIR}/common/shells		etc/shells
+COPY	${TOPDIR}/common/shells			etc/shells
 COPY	${DESTDIR}/etc/spwd.db			etc/spwd.db
 
 # install stuff

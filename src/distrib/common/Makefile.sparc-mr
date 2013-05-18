@@ -1,0 +1,19 @@
+# $MirOS$
+
+RAWLABEL=
+
+LISTS=		${TOPDIR}/common/listbeg.${MACHINE} ${TOPDIR}/common/list \
+		${TOPDIR}/common/listend.${MACHCONF}
+
+IMAGE=		miniroot${OSrev}.fs
+IMAGESIZE=	12288
+IMAGETYPE=	miniroot
+IMAGE_PREP=	${SUDO} ${DESTDIR}/usr/mdec/installboot -v \
+		    ${TMPMOUNT}/boot ${BOOTXX} ${VND_CRDEV}
+
+KERNEL_BUILD=	No
+KERNEL_BSDRD=	No
+FLOPPY=		No
+CDROM=		No
+
+INST_FILES=	${IMAGE}

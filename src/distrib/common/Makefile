@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/Makefile,v 1.3 2006/08/17 14:17:46 tg Exp $
+# $MirOS: src/distrib/common/Makefile,v 1.4 2006/08/18 20:48:46 tg Exp $
 
 .include <bsd.own.mk>
 
@@ -43,6 +43,7 @@ IMAGE?=		ramdisk${OSrev}.fs
 IMAGESIZE?=	8192
 IMAGEOPTS?=	minfree=0,optimization=space,bsize=4096,fsize=512,density=3072
 IMAGETYPE?=	rdroot
+IMAGE_PREP?=	@:
 
 # kernel (build one, create bsd.rd)
 RAMDISK?=	RAMDISK
@@ -134,6 +135,7 @@ ${IMAGE}: ${CBIN}
 	@echo ""
 	@df -i ${TMPMOUNT}
 	@echo ""
+	${IMAGE_PREP}
 	${SUDO} umount ${TMPMOUNT}
 	${SUDO} fsck -fy ${VND_RDEV}
 	${SUDO} vnconfig -v -u ${VND}
