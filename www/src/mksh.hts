@@ -2,7 +2,7 @@
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.192 2008/12/13 17:20:30 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.193 2008/12/13 21:53:36 tg Exp $'
 mws_content <<'EOF'
 <h1>mksh(1) R36b</h1>
 <p>This is the website of the MirBSD™ Korn Shell, an actively developed free
@@ -1027,6 +1027,13 @@ mws_content <<'EOF'
  <li>[tg] Prepare code for new memory allocator (unfinished)</li>
  <li>[tg] Use a (nmemb, size) API for allocation to check for overflows</li>
  <li>[tg] Rename <tt>-o utf8-hack</tt> to <tt>-o utf8-mode</tt></li>
+ <li>[tg] Fix spacing mode error (pasto) in the mdoc(7) format manpage</li>
+ <li>[tg] Document that, currently, shell integer variables are limited
+  to the size of the compiler <tt>long</tt> type in most places, and to
+  32 bit in some (few) places, so that reliable results are only obtained
+  on a platform with 32-bit longs for now</li>
+ <li>[tg] Implement <tt>$((#…))</tt> unsigned arithmetic calculation,
+  needed for arc4random_uniform(3)-in-korn-shell implementation</li>
 </ul>
 <p id="r36b">mksh R36b is a compatible, major bug-fix update:</p><ul>
  <li>[tg] Add check for naming the output file “scn” instead of “a.out” or
