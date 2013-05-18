@@ -1,5 +1,0 @@
-OS=OpenBSD
-XINC=/usr/X11R6/include
-XLIB=/usr/X11R6/lib
-DEFS=-DBSD -DFREEBSD -DREAL_RESOURCES -DMAPALERT -DXTERM_SCROLL -DTTYTAB=\"/etc/ttys\"
-UTMP=/var/run/utmp
