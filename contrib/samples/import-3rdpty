@@ -1,7 +1,7 @@
 #!/bin/mksh
-# $MirOS: contrib/samples/import-3rdpty,v 1.19 2007/05/20 09:32:39 tg Exp $
+# $MirOS: contrib/samples/import-3rdpty,v 1.20 2007/06/16 15:38:12 tg Exp $
 #-
-# Copyright (c) 2004, 2005, 2006
+# Copyright (c) 2004, 2005, 2006, 2007
 #	Thorsten Glaser <tg@mirbsd.de>
 #
 # Provided that these terms and disclaimer and all copyright notices
@@ -23,40 +23,38 @@
 # damage or existence of a defect, except proven that it results out
 # of said person's immediate fault when using the work as intended.
 
-print -ru2 -- '========= $MirOS: contrib/samples/import-3rdpty,v 1.19 2007/05/20 09:32:39 tg Exp $ ========='
+print -ru2 -- '========= $MirOS: contrib/samples/import-3rdpty,v 1.20 2007/06/16 15:38:12 tg Exp $ ========='
 
 ignlist=0
 force=0
 while getopts "fhnp" option; do
 	case $option {
-	f)	force=1
+	(f)	force=1
 		;;
-	h)	print -u2 Syntax:
+	(h)	print -u2 Syntax:
 		print -u2 "\t$0 [-fnp] module tag"
 		print -u2 "\t$0 [-fnp] - path vendor tag"
 		print -u2 modules: binutils cdk cvs expat lynx openbsd png
 		print -u2 \\trcs texinfo -
 		exit 0
 		;;
-	n)	DO_CVS="print -- \$ cvs"
+	(n)	DO_CVS="print -- \$ cvs"
 		;;
-	p)	ignlist=1
+	(p)	ignlist=1
 		;;
 	}
 done
 shift $((OPTIND - 1))
 
-module="$1"; shift
+module=$1; shift
 
 case $module {
-binutils)
-
+(binutils)
 	# take them from
 	#	ftp://sourceware.org/pub/binutils/snapshots/
 	#		e.g.	binutils-050605.tar.bz2
 	#	ftp://sources.redhat.com/pub/gdb/snapshots/current/
 	#		e.g.	gdb-6.3.50.20050605.tar.bz2
-
 	IGNORELIST="\
 		bfd/COPYING \
 		bfd/ChangeLog* \
@@ -239,7 +237,7 @@ binutils)
 	vendor=FSF
 	vpath=src/gnu/usr.bin/binutils
 	;;
-cdk)
+(cdk)
 	IGNORELIST="\
 		CHANGES \
 		COPYING \
@@ -268,7 +266,7 @@ cdk)
 	vendor=cdk
 	vpath=src/lib/libcdk
 	;;
-cvs)
+(cvs)
 	IGNORELIST="\
 		.cvsignore \
 		ABOUT-NLS \
@@ -382,7 +380,7 @@ cvs)
 	vendor=FSF
 	vpath=src/gnu/usr.bin/cvs
 	;;
-expat)
+(expat)
 	IGNORELIST="\
 		Changes \
 		MANIFEST \
@@ -421,19 +419,23 @@ expat)
 	vendor=expat
 	vpath=src/lib/libexpat
 	;;
-lynx)
+(lynx)
 	IGNORELIST="\
 		*.com \
 		ABOUT-NLS \
 		AUTHORS \
+		BUILD \
 		CHANGES \
 		COPYHEADER* \
 		COPYING* \
 		INSTALLATION \
+		PACKAGE \
 		PROBLEMS \
 		README \
 		VMSPrint.com \
 		WWW/FreeofCharge.html \
+		WWW/Library/Implementation/HTDOS.c \
+		WWW/Library/Implementation/HTDOS.h \
 		WWW/Library/Implementation/HTVMSUtils.c \
 		WWW/Library/Implementation/HTVMSUtils.h \
 		WWW/Library/Implementation/HTVMS_WaisProt.c \
@@ -450,12 +452,19 @@ lynx)
 		config.sub \
 		descrip.mms \
 		docs/CHANGES* \
+		docs/IBMPC-charsets.announce \
 		docs/OS-390* \
+		docs/README.defines \
+		docs/README.jp \
+		docs/README.rootcerts \
+		docs/README.ssl \
 		docs/SOCKETSHR.announce \
 		docs/TCPWARE.announce \
 		docs/VMSWAIS.announce \
 		docs/djgpp.key \
 		docs/index.html \
+		docs/pdcurses.key \
+		docs/slang.key \
 		docs/win-386.announce \
 		fixed512.com \
 		install-sh \
@@ -474,14 +483,20 @@ lynx)
 		po \
 		samples/*VMS* \
 		samples/index.html \
+		samples/lynx-demo.cfg \
+		samples/lynx.bat \
 		samples/lynx.com \
 		scripts/index.html \
+		scripts/man2hlp.sh \
+		scripts/tbl2html.pl \
 		src/*.opt \
+		src/LYVMSdef.h \
 		src/Xsystem.c \
 		src/chrtrans/*.com \
 		src/chrtrans/index.html \
 		src/chrtrans/make-msc.bat \
 		src/chrtrans/makefile.{bcb,dos,msc} \
+		src/chrtrans/makehdrs.bat \
 		src/chrtrans/makew32.bat \
 		src/descrip.mms \
 		src/index.html \
@@ -493,7 +508,7 @@ lynx)
 	vendor=lynx
 	vpath=src/gnu/usr.bin/lynx
 	;;
-openbsd)
+(openbsd)
 	IGNORELIST="\
 		Makefile.cross \
 		bin/chio \
@@ -1174,7 +1189,7 @@ openbsd)
 	vendor=openbsd
 	vpath=src
 	;;
-png)
+(png)
 	IGNORELIST="\
 		ANNOUNCE \
 		CHANGES \
@@ -1212,7 +1227,7 @@ png)
 	vendor=png
 	vpath=src/lib/libpng
 	;;
-rcs)
+(rcs)
 	IGNORELIST="\
 		COPYING \
 		CREDITS \
@@ -1245,7 +1260,7 @@ rcs)
 	vendor=FSF
 	vpath=src/gnu/usr.bin/rcs
 	;;
-texinfo)
+(texinfo)
 	IGNORELIST="\
 		ABOUT-NLS \
 		AUTHORS \
@@ -1325,17 +1340,17 @@ texinfo)
 	vendor=FSF
 	vpath=src/gnu/usr.bin/texinfo
 	;;
--)
+(-)
 	IGNORELIST=
-	case $1 in
-	gcc)
+	case $1 {
+	(gcc)
 		if [[ -e gcc/gcc ]]; then
 			print -u2 'Do you know what you are doing?'
 			pwd
 			abort=1
 		fi
 		vpath="$1" ;;
-	@(ports|contrib|testing|gcc)*)
+	(@(ports|contrib|testing|gcc)*)
 		if [[ -e $1 && $force != 1 ]]; then
 			print -u2 'Do you know what you are doing?'
 			pwd
@@ -1349,7 +1364,7 @@ texinfo)
 			abort=1
 		fi
 		vpath="$1" ;;
-	[xX]11)
+	([xX]11)
 		if [ ! -e xc ]; then
 			print -u2 'Do you know what you are doing?'
 			pwd
@@ -1360,7 +1375,7 @@ texinfo)
 			abort=1
 		fi
 		vpath="X11" ;;
-	@(x11|X11)*)
+	(@(x11|X11)*)
 		if [[ -e $1 ]]; then
 			print -u2 'Do you know what you are doing?'
 			pwd
@@ -1371,7 +1386,7 @@ texinfo)
 			abort=1
 		fi
 		vpath="X11${1#@(x11|X11)}" ;;
-	src*)
+	(src*)
 		if [[ -e $1 && $force != 1 ]]; then
 			print -u2 'Do you know what you are doing?'
 			pwd
@@ -1387,12 +1402,12 @@ texinfo)
 		else
 			vpath="$1"
 		fi ;;
-	*)
+	(*)
 		if [[ $force != 1 ]]; then
 			print -u2 Error: you do not want to import here!
 			abort=1
 		fi ;;
-	esac
+	}
 	[[ $abort = 1 ]] && exit 1
 	shift
 	vendor=$1
@@ -1402,7 +1417,7 @@ texinfo)
 	fi
 	shift
 	;;
-*)
+(*)
 	print -u2 Error: unknown module "'$module'"
 	exec $0 -h
 	;;
@@ -1414,35 +1429,35 @@ if [[ $ignlist = 1 ]]; then
 fi
 
 case $vendor {
-  openbsd)	B=1.1.1;   V=openbsd	;; # The OpenBSD project
-  tnf|netb*)	B=1.1.3;   V=netbsd	;; # The NetBSD(TM) foundation
-  ekkobsd)	B=1.1.5;   V=ekkobsd	;; # The ekkoBSD project
-  mirbsd)	B=1.1.7;   V=mirbsd	;; # Old MirBSD/MirOS content
-  freeb*)	B=1.1.9;   V=freebsd	;; # The FreeBSD uhm...
-  fsf|FSF)	B=1.1.101; V=FSF	;; # The Free Software Foundation
-  [xX]@(11|c|f86)) B=1.1.103; V=xwindow	;; # X Consortium / XFree86(TM)
-  expat)	B=1.1.105; V=expat	;; # expat developer team
-  ?(lib)png)	B=1.1.107; V=libpng	;; # libpng whatever project
-  lynx|cdk)	B=1.1.109; V=lynx	;; # Thomas Dickey (lynx, cdk)
-  gpc)		B=1.1.111; V=gpc	;; # GNU Pascal
-  freetype)	B=1.1.115; V=freetype	;; # freetype.org
-  libz|zlib)	B=1.1.117; V=libz	;; # zlib stuff
-  tg)		B=1.1.201; V=tg		;; # Thorsten Glaser
-  bsiegert)	B=1.1.203; V=bsiegert	;; # Benny Siegert
-# wbx)		B=1.1.205; V=wbx	;; # Waldemar Brodkorb
-# cnuke)	B=1.1.207; V=cnuke	;; # Jupp (Josef) Söntgen
-# dave)		B=1.1.209; V=dave	;; # Dave Steinberg
-# sap|stephen)	B=1.1.211; V=sap	;; # Stephen Paskaluk
-# tyler)	B=1.1.215; V=tyler	;; # R. Tyler Ballance
-  *)		print -ru2 -- Error: Vendor Branch $branch non-existant.
+ (openbsd)	B=1.1.1;   V=openbsd	;; # The OpenBSD project
+ (tnf|netb*)	B=1.1.3;   V=netbsd	;; # The NetBSD(TM) foundation
+ (ekkobsd)	B=1.1.5;   V=ekkobsd	;; # The ekkoBSD project
+ (mirbsd)	B=1.1.7;   V=mirbsd	;; # Old MirBSD/MirOS content
+ (freeb*)	B=1.1.9;   V=freebsd	;; # The FreeBSD uhm...
+ (fsf|FSF)	B=1.1.101; V=FSF	;; # The Free Software Foundation
+ ([xX]@(11|c|f86)) B=1.1.103; V=xwindow	;; # X Consortium / XFree86(TM)
+ (expat)	B=1.1.105; V=expat	;; # expat developer team
+ (?(lib)png)	B=1.1.107; V=libpng	;; # libpng whatever project
+ (lynx|cdk)	B=1.1.109; V=lynx	;; # Thomas Dickey (lynx, cdk)
+ (gpc)		B=1.1.111; V=gpc	;; # GNU Pascal
+ (freetype)	B=1.1.115; V=freetype	;; # freetype.org
+ (libz|zlib)	B=1.1.117; V=libz	;; # zlib stuff
+ (tg)		B=1.1.201; V=tg		;; # Thorsten Glaser
+ (bsiegert)	B=1.1.203; V=bsiegert	;; # Benny Siegert
+#(wbx)		B=1.1.205; V=wbx	;; # Waldemar Brodkorb
+#(cnuke)	B=1.1.207; V=cnuke	;; # Jupp (Josef) SÃ¶ntgen
+#(dave)		B=1.1.209; V=dave	;; # Dave Steinberg
+#(sap|stephen)	B=1.1.211; V=sap	;; # Stephen Paskaluk
+#(tyler)	B=1.1.215; V=tyler	;; # R. Tyler Ballance
+ (*)		print -ru2 -- Error: Vendor Branch $branch non-existant.
 		exit 1			;;
 }
 
-tag="$1"
+tag=$1
 tagerr=0
 
 case $module {
-binutils)
+(binutils)
 	[[ $tag = [0-9][0-9]@(0[1-9]|1[0-2])@(0[1-9]|[1-2][0-9]|3[01]) ]] || tagerr=1
 	realtag=binutils-20$tag
 	tagformat=YYMMDD
@@ -1455,11 +1470,11 @@ binutils)
 		exit 1
 	fi
 	;;
-cdk)
+(cdk)
 	print -u2 not implemented yet
 	exit 1
 	;;
-cvs)
+(cvs)
 	[[ $tag = cvs-[1-9]_+([0-9])_+([0-9]) ]] || tagerr=1
 	realtag=$tag
 	tagformat=cvs-1_12_1x
@@ -1468,7 +1483,7 @@ cvs)
 		exit 1
 	fi
 	;;
-expat)
+(expat)
 	[[ $tag = expat-[1-9]_+([0-9])_+([0-9]) ]] || tagerr=1
 	realtag=$tag
 	tagformat=expat-1_95_8
@@ -1477,7 +1492,7 @@ expat)
 		exit 1
 	fi
 	;;
-lynx)
+(lynx)
 	[[ $tag = lynx-[2-9]_+([0-9])_+([0-9])?(@(dev|pre)_+([0-9])?([a-z])) ]] \
 	    || tagerr=1
 	realtag=$tag
@@ -1487,7 +1502,7 @@ lynx)
 		exit 1
 	fi
 	;;
-openbsd)
+(openbsd)
 	[[ $tag = 20[0-9][0-9]@(0[1-9]|1[0-2])@(0[1-9]|[1-2][0-9]|3[01])@([01][0-9]|2[0-3])[0-5][0-9] ]] \
 	    || tagerr=1
 	realtag=cvs-$tag
@@ -1497,15 +1512,15 @@ openbsd)
 		exit 1
 	fi
 	;;
-png|rcs)
+(png|rcs)
 	print -u2 not implemented yet
 	exit 1
 	;;
-texinfo)
+(texinfo)
 	print -u2 not implemented yet
 	exit 1
 	;;
--)
+(-)
 	if [[ $tag = 20[0-9][0-9]@(0[1-9]|1[0-2])@(0[1-9]|[1-2][0-9]|3[01])@([01][0-9]|2[0-3])[0-5][0-9] ]]; then
 		realtag=cvs-$tag
 	elif [[ $tag = -* ]]; then
@@ -1523,7 +1538,7 @@ if [[ $tagerr = 1 ]]; then
 fi
 
 case $module {
-binutils)
+(binutils)
 	for f in .* *; do
 		[[ -f $f ]] && rm "$f"
 	done
