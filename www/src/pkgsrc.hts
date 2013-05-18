@@ -4,7 +4,7 @@
 mws_setname pkgsrc "pkgsrc on MirOS"
 mws_subdir 0
 mws_setheadline pkgsrc on MirOS
-mws_putheader '$MirOS$'
+mws_putheader '$MirOS: www/src/pkgsrc.hts,v 1.1 2011/02/08 22:13:28 bsiegert Exp $'
 mws_content <<'EOF'
 <p>pkgsrc is a “ports tree” developed by the NetBSD project and portable
  to several other operating systems. Support for MirOS has existed since
@@ -31,19 +31,19 @@ mws_content <<'EOF'
 
 <h2>Needed patches</h2>
 
-<p>At the moment, these patches must be manually applied.</p>
+<p>At the moment, this patch must be manually applied before
+ bootstrapping pkgsrc.</p>
 
 <ul>
  <li><a
   href="http://dl.dropbox.com/u/17617299/MirOS/bmake.diff">bmake.diff</a>:
   this patch fixes the bmake test suite so that bootstrap can
   succeed.</li>
- <li><a
-  href="http://dl.dropbox.com/u/17617299/MirOS/pkgsrc-libtool-miros-2.diff">pkgsrc-libtool-miros-2.diff</a>:
-  work-in-progress version of MirOS support for libtool-2.2.6b. Without
-  this, packages using libtool only build static libraries.</li>
 </ul>
 
+<p>Since 2011-05-14, MirBSD support for libtool has been integrated into
+ pkgsrc, so the libtool patch that used to be here is no longer
+ necessary.</p>
 
 EOF
 mws_putfooter
