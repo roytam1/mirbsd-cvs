@@ -135,9 +135,6 @@ extern int __cdecl setegid(gid_t);
 # define EXTERN_DEFINED
 #endif
 
-#define EXECSHELL	"/bin/mksh"
-#define EXECSHELL_STR	"EXECSHELL"
-
 #define	NELEM(a)	(sizeof (a) / sizeof ((a)[0]))
 #define	sizeofN(typ, n)	(sizeof (typ) * (n))
 #define	BIT(i)		(1 << (i))	/* define bit in flag */
