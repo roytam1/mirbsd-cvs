@@ -1,5 +1,5 @@
 <!-- PageID: wlog-8 -->
-<small class="rcsid">$MirOS: www/content/d2xvZy04.inc,v 1.73 2006/05/28 20:18:07 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy04.inc,v 1.74 2006/05/28 21:08:59 tg Exp $</small>
 <h1>MirBSD &ndash; WTF, We Have a Release!?</h1>
 <p><small><a href="#eof">bottom</a> or <a href="/?older">older</a>
  editions</small></p>
@@ -1324,6 +1324,16 @@ celebrate this event, rotate the wlog and start a new one.</p>
   a little BSD spirit. The reasons for him leaving have been outlined <a
   href="http://www.openbsd-geek.de/archives/224-An-open-letter-to-the-OpenWrt-community.html">in
   his blog</a> as well.</p>
+</div>
+
+<div class="wlentry">
+ <h3 id="e20060602">02.06.2006 by tg@</h3>
+ <p>This is available under <a href="http://miros.unixforge.de/?wlog-8">
+  http://miros.unixforge.de/?wlog-8</a></p>
+ <p>MirOS now has I18N support. Totally untested. Please test whether it
+  "works", the manual pages don't disagree with SUSv3 and ISO 9899:1999,
+  the code adheres to the manual pages, the code is bug-free; write some
+  more (missing) manual pages, etc.</p>
 </div>
 
 <p id="eof">Good luck, have fun, take care etc.pp</p>
