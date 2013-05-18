@@ -1,4 +1,4 @@
-# $MirOS: src/etc/ssl.certs.shar,v 1.4 2006/09/20 18:54:41 tg Exp $
+# $MirOS: src/etc/ssl.certs.shar,v 1.5 2006/10/02 23:34:31 tg Exp $
 #
 # The certificates belong to their respecive owners, but are
 # freely available. The distributor has invested some effort
@@ -8,31 +8,6 @@
 # This is a shell archive.  Save it in a file, remove anything before
 # this line, and then unpack it by entering "sh file".
 #
-echo x - 00869212.0
-sed 's/^X//' >00869212.0 << 'END-of-00869212.0'
-X-----BEGIN CERTIFICATE-----
-XMIIDoTCCAwqgAwIBAgIBADANBgkqhkiG9w0BAQQFADCBmDELMAkGA1UEBhMCVVMx
-XEzARBgNVBAgTCkNhbGlmb3JuaWExEzARBgNVBAcTCkVtZXJ5dmlsbGUxFTATBgNV
-XBAoTDGdzaGFwaXJvLm5ldDEeMBwGA1UEAxMVQ2VydGlmaWNhdGUgQXV0aG9yaXR5
-XMSgwJgYJKoZIhvcNAQkBFhljZXJ0aWZpY2F0ZXNAZ3NoYXBpcm8ubmV0MB4XDTAy
-XMDEwMTA0Mzk1NFoXDTA2MTIzMTA0Mzk1NFowgZgxCzAJBgNVBAYTAlVTMRMwEQYD
-XVQQIEwpDYWxpZm9ybmlhMRMwEQYDVQQHEwpFbWVyeXZpbGxlMRUwEwYDVQQKEwxn
-Xc2hhcGlyby5uZXQxHjAcBgNVBAMTFUNlcnRpZmljYXRlIEF1dGhvcml0eTEoMCYG
-XCSqGSIb3DQEJARYZY2VydGlmaWNhdGVzQGdzaGFwaXJvLm5ldDCBnzANBgkqhkiG
-X9w0BAQEFAAOBjQAwgYkCgYEAqt2i/jv6L1w98eHUHVUEJ2sBYgDXAst0R2mE18bF
-XcVV5NTqozt5II1OAPM1ULun+sXZavsv9LdyjNsXHHk7vdvBVj6Cl+AfFUh2iQoFN
-XishCP/MBgPlGNaa8wJufM4tJmx2HjxlIFSEjV99uTQPtrp8LkbepR2bxDRscXbRX
-XYMcCAwEAAaOB+DCB9TAdBgNVHQ4EFgQUoG3gBq9hlLTGhBW0i3QiZ0pDYMowgcUG
-XA1UdIwSBvTCBuoAUoG3gBq9hlLTGhBW0i3QiZ0pDYMqhgZ6kgZswgZgxCzAJBgNV
-XBAYTAlVTMRMwEQYDVQQIEwpDYWxpZm9ybmlhMRMwEQYDVQQHEwpFbWVyeXZpbGxl
-XMRUwEwYDVQQKEwxnc2hhcGlyby5uZXQxHjAcBgNVBAMTFUNlcnRpZmljYXRlIEF1
-XdGhvcml0eTEoMCYGCSqGSIb3DQEJARYZY2VydGlmaWNhdGVzQGdzaGFwaXJvLm5l
-XdIIBADAMBgNVHRMEBTADAQH/MA0GCSqGSIb3DQEBBAUAA4GBAIcn0io63ATN7+h7
-XHDRHLhM0pQj5Td/Y4W3mmts47iBtSq5vHrxxYaS01kAk7mXK6YFa7+5iV3AFRpFr
-X0Mam6ThlrupQs1wnxHq9lYzLRe/8/JnlamHDRHfYH9a0F0QVmrwmW+xOKV39z2Hz
-XvpGkO1Hmc1sXgp1aVixjwvHWokxa
-X-----END CERTIFICATE-----
-END-of-00869212.0
 echo x - 052e396b.0
 sed 's/^X//' >052e396b.0 << 'END-of-052e396b.0'
 X-----BEGIN CERTIFICATE-----
