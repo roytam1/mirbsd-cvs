@@ -1,10 +1,9 @@
-# $MirOS$
+# $MirOS: ports/shells/zsh/Makefile,v 1.2 2009/09/06 16:31:09 tg Exp $
 # $OpenBSD: Makefile,v 1.50 2009/06/03 14:35:48 pea Exp $
-
-BROKEN=			see ${.CURDIR}/SECURITY for why
 
 COMMENT=		Z shell, Bourne shell-compatible
 VSN=			4.3.10
+DASH_VER=		1
 DISTNAME=		zsh-${VSN}
 CATEGORIES=		shells
 HOMEPAGE=		http://www.zsh.org/
@@ -37,7 +36,7 @@ CONFIGURE_ARGS+=	${CONFIGURE_SHARED:S/shared/dynamic/} \
 			--enable-etcdir=${SYSCONFDIR:Q} \
 			--enable-maildir-support \
 			--with-tcsetpgrp \
-			--enable-multibyte \
+			--disable-multibyte \
 			--enable-pcre \
 			--disable-gdbm
 
