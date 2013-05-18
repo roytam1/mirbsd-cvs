@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/dev/rnd.c,v 1.56 2010/01/06 17:52:33 tg Exp $ */
+/**	$MirOS: src/sys/dev/rnd.c,v 1.57 2010/01/06 19:11:53 tg Exp $ */
 /*	$OpenBSD: rnd.c,v 1.78 2005/07/07 00:11:24 djm Exp $	*/
 
 /*
@@ -911,7 +911,9 @@ enqueue_randomness(int xstate, int val)
 		p->last_time = xtime;
 		p->last_delta  = delta3;
 		p->last_delta2 = delta2;
-	} else if (p->max_entropy)
+	} else if (xstate == RND_SRC_POOL)
+		nbits = 1;
+	else if (p->max_entropy)
 		nbits = 8 * sizeof (val);
 
 	s = splhigh();
