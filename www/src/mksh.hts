@@ -1,10 +1,10 @@
-# $MirOS: www/src/mksh.hts,v 1.33 2007/07/26 19:54:50 tg Exp $
+# $MirOS: www/src/mksh.hts,v 1.34 2007/07/26 20:32:36 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.33 2007/07/26 19:54:50 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.34 2007/07/26 20:32:36 tg Exp $'
 mws_content <<'EOF'
 <h1>mksh(1) R30</h1>
 <p>This is the website of the MirBSD™ Korn Shell, an actively developed free
@@ -21,6 +21,7 @@ mws_content <<'EOF'
  <li><a href="#prefetch">Introduction</a> and Licence</li>
  <li><a href="#irc">Support</a> (IRC, manual page, mailing lists, …)</li>
  <li><a href="#build">Installation</a></li>
+ <li><a href="#upgrade">Upgrade</a> your packages from older mksh</li>
  <li>Inclusion in <a href="#otheros">operating systems</a></li>
  <li><a href="#contrib">comparision</a> with other shells</li>
  <li><a href="#regress">Testsuite Results</a></li>
@@ -31,9 +32,8 @@ mws_content <<'EOF'
 </ul>
 
 <h2 id="prefetch">Introduction</h2>
-<p>The current version of mksh is <strong>mksh R29g</strong> from
- <em>9 July 2007</em>. This page already documents mksh R30β which
- is about to be released RSN.</p>
+<p>The current version of mksh is <strong>mksh R30</strong> from
+ <em>26 July 2007</em>.</p>
 <p>Thanks to “Der Verein <a href="http://www.trash.net/verein/">trash.net</a>”
  for sponsoring access to a Solaris 8 box. Thanks to HP TestDrive, which helps
  in keeping mksh portable to several Unixes and compilers, and track down some
@@ -125,14 +125,14 @@ mws_content <<'EOF'
  extract from the CPIO distfile and is available even on a stock Microsoft®
  Windows® installation.</p>
 <h3 id="mirrors">Known Mirrors</h3><ul>
- <li><a href="http://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R29g.cpio.gz">http://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R29g.cpio.gz</a></li>
- <li><a href="http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R29g.cpio.gz">http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R29g.cpio.gz</a></li>
+ <li><a href="http://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R30.cpio.gz">http://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R30.cpio.gz</a></li>
+ <li><a href="http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R30.cpio.gz">http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R30.cpio.gz</a></li>
 </ul>
 <h3 id="hashes">Checksums and Hashes</h3><ul>
- <li>RMD160 (mksh-R29g.cpio.gz) = d8eb1ee7ab1d441dfdba2f346cdcc5e9bfe4513f</li>
- <li>TIGER (mksh-R29g.cpio.gz) = 03bfa3a33193f08ad5c10b40831e8e5315c4131793bb22de</li>
- <li>3035995291 240746 /MirOS/dist/mir/mksh/mksh-R29g.cpio.gz</li>
- <li>MD5 (mksh-R29g.cpio.gz) = 324ea1a4a1d2fc3e37744e48586535e1</li>
+ <li>RMD160 (mksh-R30.cpio.gz) = a23a1df6d7158e78283422d64db19a15f10e81b8</li>
+ <li>TIGER (mksh-R30.cpio.gz) = e5e8cdd8edc7530a8b486c5fc00b551aafe396954c147a95</li>
+ <li>1122404631 245700 /MirOS/dist/mir/mksh/mksh-R30.cpio.gz</li>
+ <li>MD5 (mksh-R30.cpio.gz) = 184a63aa5b1450581dc463148f3d245e</li>
 </ul>
 
 <h3 id="decomp">Decompression</h3>
@@ -144,10 +144,10 @@ mws_content <<'EOF'
 <p>The first example is using BSD paxtar (MirOS BSD, OpenBSD, NetBSD®), or
  “bsdtar” (DragonFly); the second and third use cpio(1) or pax(1) and are
  for most operating systems; the fourth is for Debian.</p><ul>
-<li>$ tar xzf mksh-R29g.cpio.gz &amp;&amp; cd mksh</li>
-<li>$ gzip -dc mksh-R29g.cpio.gz | cpio -mid &amp;&amp; cd mksh</li>
-<li>$ gzip -dc mksh-R29g.cpio.gz | pax -r &amp;&amp; cd mksh</li>
-<li>$ tar xzf mksh_29.7.orig.tar.gz &amp;&amp; cd mksh-29.7</li>
+<li>$ tar xzf mksh-R30.cpio.gz &amp;&amp; cd mksh</li>
+<li>$ gzip -dc mksh-R30.cpio.gz | cpio -mid &amp;&amp; cd mksh</li>
+<li>$ gzip -dc mksh-R30.cpio.gz | pax -r &amp;&amp; cd mksh</li>
+<li>$ tar xzf mksh_30.1.orig.tar.gz &amp;&amp; cd mksh-30.1</li>
 </ul>
 
 <h3 id="compile">Compilation</h3>
@@ -290,7 +290,7 @@ mws_content <<'EOF'
 
 <h5 id="oe_hpux">OS: HP-UX</h5>
 <p>Support for HP-UX with GCC appeared in mksh R29 and works with HP's C
- compiler and is no longer experimental in mksh R39. Please use stty(1) to
+ compiler and is no longer experimental in mksh R30. Please use stty(1) to
  make the terminal sanely usable.</p>
 <p>If passing custom CFLAGS, don't forget <tt>-mlp64</tt> (GCC) or
  <tt>+DD64</tt> on Itanium.</p>
@@ -322,9 +322,10 @@ mws_content <<'EOF'
  or worked around. Maybe peek at how ash/bash for PW32 do it. gcc works.</p>
 
 <h5 id="oe_openbsd">OS: OpenBSD</h5>
-<p>The setlocale(3) call in OpenBSD's libc is broken and will always return
- non-UTF8 even if run within an uxterm (xterm(1)) which comes with OpenBSD's
- base installation. Use a different setlocale library function like <a
+<p>The setlocale(3) call in OpenBSD's libc is broken until before 4.1 and
+ will always return non-UTF8 even if run within an uxterm (xterm(1)) which
+ comes with OpenBSD's base installation. If not upgrading to OpenBSD 4.1,
+ use a different setlocale library function like <a
  href="/cvs.cgi/contrib/code/Snippets/setlocale.c?rev=HEAD">this one</a>
  and pass its filename as $LIBS to <tt>Build.sh</tt>.</p>
 <p>mksh can replace /bin/ksh without any problems.</p>
@@ -369,6 +370,21 @@ mws_content <<'EOF'
  macros (either the BSD or the GNU groff version) to be installed during
  formatting time.</p>
 
+<h2 id="upgrade">For packagers: Upgrades</h2>
+<p>The syntax of <tt>Build.sh</tt> has changed: $CC now defaults to “cc”
+ instead of “gcc”, and the ‘-d’ and ‘-nd’ arguments are gone – if you
+ want to build a statically linked mksh, pass <tt>LDSTATIC=-static</tt>
+ (gcc+GNU ld, adjust for other OEs) to it. An “arc4random.c” is now
+ automatically included into the build if found in the source directory.
+ The $CPP variable is ignored, <tt>$CC -E</tt> is used instead.</p>
+<p>As a tribute to better POSIX compatibility, certain aliases (like
+ “stop”) are no longer predefined in “set -o posix” mode, which is invoked
+ automatically if the shell is run as <tt>-sh</tt>, <tt>/bin/sh</tt> or
+ similar, so that they can be used as function names.</p>
+<p>If defining <tt>MKSH_SMALL</tt>, the ‘vi’ editing mode is omitted,
+ which may surprise your users.</p>
+<p>Many compilers other than gcc are now supported as well as AIX.</p>
+
 <h2 id="otheros">Inclusion in other operating systems</h2><ul>
 <li><a href="http://crux.nu/">Crux GNU/Linux</a> has an mksh port contributed by
  <a href="http://www.xs4all.nl/~hanb/software/crux/han/mksh/">Han Boetes</a>.</li>
@@ -410,7 +426,7 @@ mws_content <<'EOF'
  available for various instances of SuSE, OpenSuSE and Redhat/Fedora Core
  as well as as SRPM (source RPM). There used to be a repository by <a
  href="http://ftp.skynet.be/pub/suser-guru/rpm/packages/System/mksh/">loki</a>
- in the past. An <a href="http://www.mirbsd.org/MirOS/dist/mir/mksh/ports/mksh-29f-1.src.rpm">inofficial
+ in the past. An <a href="http://www.mirbsd.org/MirOS/dist/mir/mksh/ports/mksh-30-1.src.rpm">inofficial
  <em>portable</em> SRPM</a> (created on Debian) is available as well.</li>
 <li><a href="http://www.archlinux.org/">Arch GNU/Linux</a> users can install
  an <a href="http://aur.archlinux.org/packages.php?do_Details=1&amp;ID=3431">mksh
@@ -545,11 +561,6 @@ mws_content <<'EOF'
   <li>FreeBSD 6.2-RELEASE (IA64 gcc3.4.6)</li>
   <li>Mac OSX Tiger 10.4.10 Darwin 8.10.0 (macppc gcc4.0.1 Apple build 5363)</li>
   <li>Mac OSX Tiger 10.???? Darwin 8.10.1 (i386 gcc4.0.1 Apple build 5367)</li>
- </ul></li>
- <li>mksh R29g<ul>
-  <li>MirOS #10 RC2 (i386 gcc3.4.6)</li>
-  <li>Solaris 8 Generic_117350-41 (sparc,V8+ sun4u gcc3.4.3)</li>
-  <li>Debian GNU/Linux 4.0 etch 2.6.18-4-686 (i386 gcc4.1.1-21)</li>
  </ul></li>
 </ul>
 
