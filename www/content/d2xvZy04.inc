@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/d2xvZy04.inc,v 1.18 2006/01/20 13:08:10 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy04.inc,v 1.19 2006/01/24 22:31:44 tg Exp $</small>
 <h1>MirBSD &ndash; WTF, We Have a Release!?</h1>
 <p><small><a href="#eof">bottom</a> or <a href="/?older">older</a>
  editions</small></p>
@@ -263,6 +263,24 @@ celebrate this event, rotate the wlog and start a new one.</p>
   and the zlib API sucks. compress(1)' implementation also sucks.</p>
  <p>All hardware sucks, all software sucks... but actually the overall
   suckage of MirOS is pretty darn low.</p>
+</div>
+
+<div class="wlentry">
+ <h3>26.01.2006 by tg@</h3>
+ <p>Oh, already last day of the semester? (Well, tomorrow. Luckily, so
+  I've still a minimal chance to be allowed to take exams this time...
+  I better should; on 30th of January, the first one is scheduled). In
+  English I graduated with an 1.3 (that's like 96%), and Economics was
+  taken for granted.</p>
+ <p>I fixed php5-core but encountered a package tools bug which Benny,
+  hopefully, will fix. I've also redesigned my keyboard layout since I
+  don't read Japanese anyway, but having Umlauts (Meta-style) in Opera
+  is more important (and I've got back my Ellipsis ;). I get &auml; by
+  pressing either Meta-d or Mode_switch-d (and not Mode_switch-a which
+  was used by dot.Xmodmap.light for DAUs) as I'm used to from the text
+  console, wscons(4).</p>
+ <p>I was thrown out of Netzladen today... no idea if I'll continue to
+  hang around there. Probably not, saves me 4 &euro; monthly.</p>
 </div>
 
 <p id="eof">Good luck, have fun, take care etc.pp</p>
