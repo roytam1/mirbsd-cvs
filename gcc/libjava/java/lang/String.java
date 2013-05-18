@@ -649,7 +649,7 @@ public final class String implements Serializable, Comparable, CharSequence
    * <code>Character.toUpperCase()</code>, not on multi-character
    * capitalization expansions.
    *
-   * @param ignoreCase true if case should be ignored in comparision
+   * @param ignoreCase true if case should be ignored in comparison
    * @param toffset index to start comparison at for this String
    * @param other String to compare region to this String
    * @param oofset index to start comparison at for other

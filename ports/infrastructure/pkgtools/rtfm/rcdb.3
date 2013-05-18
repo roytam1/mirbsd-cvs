@@ -1,4 +1,4 @@
-.\" $MirOS: ports/infrastructure/pkgtools/rtfm/rcdb.3,v 1.8 2009/11/22 15:48:47 tg Exp $
+.\" $MirOS: ports/infrastructure/pkgtools/rtfm/rcdb.3,v 1.9 2009/11/22 18:23:36 tg Exp $
 .\"-
 .\" Copyright (c) 2004, 2005, 2008
 .\"	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
@@ -351,7 +351,7 @@ is returned.
 If the record is found, its number is returned, else zero.
 So-called opaque records, these on which
 .Xr rcdb_split 3
-returns EFTYPE, that is, are skipped during the comparision
+returns EFTYPE, that is, are skipped during the comparison
 and do not constitute an error.
 .It Fn rcdb_retrieve handle nr value key
 retrieves the record with the number

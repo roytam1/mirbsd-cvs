@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: ports/infrastructure/scripts/update-patches,v 1.5 2006/06/15 19:18:43 tg Exp $
+# $MirOS: ports/infrastructure/scripts/update-patches,v 1.6 2008/11/08 23:03:45 tg Exp $
 #-
 # Copyright (c) 2003, 2004, 2005
 #	Thorsten "mirabilos" Glaser <tg@MirBSD.de>
@@ -73,7 +73,7 @@ while read -p file; do
 		# Patch found. Is this the one?
 		if grep "^--- $file$PATCHORIG" "$i" >/dev/null; then
 			accounted="$accounted $i"
-			# found it, copy preamble before comparision
+			# found it, copy preamble before comparison
 			esc="$(print -r -- "$file" | sed -e 's#/#\\/#g')"
 			( sed -e "/^--- $esc$PATCHORIG/,\$d" <$i; \
 			  cd $WRKDIST && ${DIFFPROG} -adup \

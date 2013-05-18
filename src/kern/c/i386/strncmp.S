@@ -112,7 +112,7 @@ L2:	jz	L4			/* strings are equal */
 #if !defined(SMALL_KERNEL) && defined(_STANDALONE)
 	.align 2,0x90
 #endif
-L3:	movzbl	(%eax),%eax		/* unsigned comparision */
+L3:	movzbl	(%eax),%eax		/* unsigned comparison */
 	movzbl	(%ecx),%ecx
 	subl	%ecx,%eax
 	popl	%ebx

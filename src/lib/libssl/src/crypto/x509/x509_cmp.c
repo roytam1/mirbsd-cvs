@@ -162,7 +162,7 @@ int X509_cmp(const X509 *a, const X509 *b)
 #endif
 
 
-/* Case insensitive string comparision */
+/* Case insensitive string comparison */
 static int nocase_cmp(const ASN1_STRING *a, const ASN1_STRING *b)
 {
 	int i;
@@ -183,7 +183,7 @@ static int nocase_cmp(const ASN1_STRING *a, const ASN1_STRING *b)
 	return 0;
 }
 
-/* Case insensitive string comparision with space normalization 
+/* Case insensitive string comparison with space normalization 
  * Space normalization - ignore leading, trailing spaces, 
  *       multiple spaces between characters are replaced by single space  
  */

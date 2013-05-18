@@ -96,7 +96,7 @@
     If specifier is a character range, it evaluates to true if character in the stream is greater
     or equal to <first_character> and less or equal to <second_character>. In that situation 
     the stream pointer is advanced to point to next character in the stream. All C-style escape
-    sequences are supported although trigraph sequences are not. The comparisions are performed
+    sequences are supported although trigraph sequences are not. The comparisons are performed
     on 8-bit unsigned integers.
 
     Character specifier is in the form:

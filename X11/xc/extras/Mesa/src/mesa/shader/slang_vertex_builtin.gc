@@ -164,7 +164,7 @@ vec4 ftransform () {
 // 
 // If a non-shadow texture call is made to a sampler whose texture has depth comparisons enabled,
 // then results are undefined. If a shadow texture call is made to a sampler whose texture does not
-// have depth comparisions enabled, the results are also undefined.
+// have depth comparisons enabled, the results are also undefined.
 // 
 // In all functions below, the bias parameter is optional for fragment shaders. The bias parameter
 // is not accepted in a vertex shader. For a fragment shader, if bias is present, it is added to

@@ -167,7 +167,7 @@ struct brl_node {
 	struct ether_addr	brl_dst;	/* destination mac address */
 	u_int16_t		brl_tag;	/* pf tag ID */
 	u_int8_t		brl_action;	/* what to do with match */
-	u_int8_t		brl_flags;	/* comparision flags */
+	u_int8_t		brl_flags;	/* comparison flags */
 };
 
 struct bridge_timer {

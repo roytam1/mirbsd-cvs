@@ -660,7 +660,7 @@ int ap_proxy_cache_conditional(request_rec *r, cache_req *c, BUFF *cachefp)
          * 
          * we check if the Etag on the cached file is in the list of Etags in
          * the If-Match field. The comparison must be a strong comparison, so
-         * the Etag cannot be marked as weak. If the comparision fails we
+         * the Etag cannot be marked as weak. If the comparison fails we
          * return 412 Precondition Failed.
          * 
          * if If-Match is specified AND If-Match is not a "*" AND Etag is
@@ -730,7 +730,7 @@ int ap_proxy_cache_conditional(request_rec *r, cache_req *c, BUFF *cachefp)
          * we check if the Etag on the cached file is in the list of Etags in
          * the If-None-Match field. The comparison must be a strong
          * comparison, so the Etag cannot be marked as weak. If the
-         * comparision fails we return 412 Precondition Failed.
+         * comparison fails we return 412 Precondition Failed.
          * 
          * if If-None-Match is specified: if If-None-Match is a "*" THEN 304
          * else if Etag is specified AND we get a match THEN 304 else if Weak

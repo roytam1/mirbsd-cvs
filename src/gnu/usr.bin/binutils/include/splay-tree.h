@@ -1,4 +1,4 @@
-/* $MirOS: src/gnu/usr.bin/binutils/include/splay-tree.h,v 1.3 2005/03/28 21:25:10 tg Exp $ */
+/* $MirOS: src/gnu/usr.bin/binutils/include/splay-tree.h,v 1.4 2005/06/05 21:24:35 tg Exp $ */
 
 /* A splay-tree datatype.  
    Copyright 1998, 1999, 2000, 2002, 2005
@@ -100,7 +100,7 @@ struct splay_tree_s GTY(())
   /* The root of the tree.  */
   splay_tree_node GTY ((use_params (""))) root;
 
-  /* The comparision function.  */
+  /* The comparison function.  */
   splay_tree_compare_fn comp;
 
   /* The deallocate-key function.  NULL if no cleanup is necessary.  */

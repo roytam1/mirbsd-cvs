@@ -412,7 +412,7 @@ typedef struct _SyncTrigger {
     SyncCounter *pCounter;
     CARD64	wait_value;	/* wait value */
     unsigned int value_type;     /* Absolute or Relative */
-    unsigned int test_type;	/* transition or Comparision type */
+    unsigned int test_type;	/* transition or comparison type */
     CARD64	test_value;	/* trigger event threshold value */
     Bool	(*CheckTrigger)(
 				struct _SyncTrigger * /*pTrigger*/,

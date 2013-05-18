@@ -77,7 +77,7 @@ destination.  this is a simple translation.
 */
 /** Optimized for drawing pixmaps into windows, especially when drawing into
  ** unobscured windows.  Calls to the general-purpose region code were
- ** replaced with rectangle-to-rectangle clipping comparisions.  This is
+ ** replaced with rectangle-to-rectangle clipping comparisons.  This is
  ** possible, since the pixmap is a single rectangle.  In an unobscured
  ** window, the destination clip is also a single rectangle, and region
  ** code can be avoided entirely.  This is a big savings, since the region

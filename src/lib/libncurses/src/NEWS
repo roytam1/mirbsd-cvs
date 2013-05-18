@@ -5380,7 +5380,7 @@ Changes since 1.9.9e are recorded by Thomas Dickey.
 	+ Enhance form/frm_driver.c:  Allow growth of dynamic fields also on
 	  navigation requests.
 	+ Fixed a bug in form/fty_enum.c:  wrong position of postincrement in
-	  case-insensitiva comparision routine.
+	  case-insensitiva comparison routine.
 	+ Enhanced form/lib_adabind.c with function _nc_get_field() to get a
 	  forms field by index.
 	+ Enhanced menu/m_adabind.c with function _nc_get_item() to get a menus

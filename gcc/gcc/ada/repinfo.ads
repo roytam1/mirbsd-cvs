@@ -156,12 +156,12 @@ package Repinfo is
    Truth_Or_Expr    : constant TCode := 19; -- Boolean or               2
    Truth_Xor_Expr   : constant TCode := 20; -- Boolean xor              2
    Truth_Not_Expr   : constant TCode := 21; -- Boolean not              1
-   Lt_Expr          : constant TCode := 22; -- comparision <            2
-   Le_Expr          : constant TCode := 23; -- comparision <=           2
-   Gt_Expr          : constant TCode := 24; -- comparision >            2
-   Ge_Expr          : constant TCode := 25; -- comparision >=           2
-   Eq_Expr          : constant TCode := 26; -- comparision =            2
-   Ne_Expr          : constant TCode := 27; -- comparision /=           2
+   Lt_Expr          : constant TCode := 22; -- comparison <             2
+   Le_Expr          : constant TCode := 23; -- comparison <=            2
+   Gt_Expr          : constant TCode := 24; -- comparison >             2
+   Ge_Expr          : constant TCode := 25; -- comparison >=            2
+   Eq_Expr          : constant TCode := 26; -- comparison =             2
+   Ne_Expr          : constant TCode := 27; -- comparison /=            2
 
    --  The following entry is used to represent a discriminant value in
    --  the tree. It has a special tree code that does not correspond

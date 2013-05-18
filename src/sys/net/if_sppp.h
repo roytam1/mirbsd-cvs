@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/net/if_sppp.h,v 1.2 2005/03/06 21:28:15 tg Exp $ */
+/**	$MirOS: src/sys/net/if_sppp.h,v 1.3 2005/04/29 18:35:03 tg Exp $ */
 /*	$OpenBSD: if_sppp.h,v 1.9 2005/03/23 00:26:06 canacar Exp $	*/
 /*	$NetBSD: if_sppp.h,v 1.2.2.1 1999/04/04 06:57:39 explorer Exp $	*/
 
@@ -90,7 +90,7 @@ struct sauth {
 
 /*
  * Don't change the order of this.  Ordering the phases this way allows
- * for a comparision of ``pp_phase >= PHASE_AUTHENTICATE'' in order to
+ * for a comparison of ``pp_phase >= PHASE_AUTHENTICATE'' in order to
  * know whether LCP is up.
  */
 enum ppp_phase {

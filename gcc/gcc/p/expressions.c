@@ -2688,7 +2688,7 @@ build_binary_op (enum tree_code code, tree op0, tree op1)
                   != COMPLETE_OR_VOID_TYPE_P (TREE_TYPE (type1)))
                 pedwarn ("comparison of complete and incomplete pointers");
               else if (pedantic && TREE_CODE (TREE_TYPE (type0)) == FUNCTION_TYPE)
-                warning ("ordered comparision of pointers to routines");
+                warning ("ordered comparison of pointers to routines");
             }
           else
             {

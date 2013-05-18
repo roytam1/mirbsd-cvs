@@ -252,7 +252,7 @@ sub mselect
     }
 }
 
-# Description: Allow UDP source endpoint comparision to be
+# Description: Allow UDP source endpoint comparison to be
 #              skipped for those remote interfaces that do
 #              not response from the same endpoint.
 
