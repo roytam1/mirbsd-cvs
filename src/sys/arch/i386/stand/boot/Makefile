@@ -1,4 +1,4 @@
-# $MirOS: src/sys/arch/i386/stand/boot/Makefile,v 1.19 2009/01/10 13:41:17 tg Exp $
+# $MirOS: src/sys/arch/i386/stand/boot/Makefile,v 1.20 2009/01/10 14:49:03 tg Exp $
 
 .include "${.CURDIR}/../Makefile.inc"
 
@@ -58,9 +58,9 @@ ${PROG}:	$(OBJS) $(DPADD)
 	@-rm -f ${PROG}.tmp
 
 testmkr: ${PROG}
-	cat /usr/mdec/mbrldr ${PROG} | dd conv=osync of=$@
-	let size=$$(stat -f %z $@); /usr/mdec/installboot -v -i 1 \
-	    $$(( (size - 1) / 512)) /usr/mdec/bootxx $@
+	print 1 $$(( size = ($$(stat -f %z ${PROG}) + 511) / 512 )) | \
+	    ${MKSH} $$(realpath ${.OBJDIR})/../bootxx/bxinst | \
+	    cat - ${PROG} | dd conv=osync of=$@
 
 .else
 NOPROG=		Yes
