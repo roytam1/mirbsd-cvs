@@ -70,7 +70,7 @@ Author: tg@
 <p>We have a new “p5” port module, which must now be referenced by any
  users of ${P5ARCH} which do not include the “perl” module.</p>
 <p>pvalchev@obsd replied to my issues with the UMAC64 hash that I might
- want to report the bug in lingcc’s umoddi3 implementation upstream.
+ want to report the bug in libgcc’s umoddi3 implementation upstream.
  This shall be my TODO, someone please remember me to do it (check how
  to reproduce on $common_os, with $latest_gcc, etc).</p>
 <p>miod@openbsd is helping me with the tvtwo(4) card – unluckily, I’m
