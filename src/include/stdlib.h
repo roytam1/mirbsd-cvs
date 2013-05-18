@@ -1,4 +1,4 @@
-/**	$MirOS: src/include/stdlib.h,v 1.15 2006/10/27 15:52:56 tg Exp $ */
+/**	$MirOS: src/include/stdlib.h,v 1.16 2007/02/02 21:06:16 tg Exp $ */
 /*	$OpenBSD: stdlib.h,v 1.34 2005/05/27 17:45:56 millert Exp $	*/
 /*	$NetBSD: stdlib.h,v 1.25 1995/12/27 21:19:08 jtc Exp $	*/
 
@@ -254,5 +254,11 @@ int	mbtowc(wchar_t *__restrict__, const char *__restrict__, size_t);
 size_t	wcstombs(char *__restrict__, const wchar_t *__restrict__, size_t);
 int	wctomb(char *, const wchar_t);
 __END_DECLS
+
+#if defined(_SVID_SOURCE) && !defined(__STRICT_ANSI__)
+__BEGIN_DECLS
+int rpmatch(const char *);
+__END_DECLS
+#endif
 
 #endif /* _STDLIB_H_ */
