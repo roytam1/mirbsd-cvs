@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: contrib/samples/import-3rdpty,v 1.32 2009/10/18 16:33:06 tg Exp $
+# $MirOS: contrib/samples/import-3rdpty,v 1.33 2009/10/19 20:43:48 tg Exp $
 #-
 # Copyright (c) 2004, 2005, 2006, 2007, 2008, 2009
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -19,7 +19,7 @@
 # damage or existence of a defect, except proven that it results out
 # of said person's immediate fault when using the work as intended.
 
-print -ru2 -- '========= $MirOS: contrib/samples/import-3rdpty,v 1.32 2009/10/18 16:33:06 tg Exp $ ========='
+print -ru2 -- '========= $MirOS: contrib/samples/import-3rdpty,v 1.33 2009/10/19 20:43:48 tg Exp $ ========='
 
 ignlist=0
 force=0
@@ -1440,6 +1440,7 @@ case $vendor {
  (pcc|ragge)	B=1.1.121; V=pcc	;; # pcc &c.
  (tz)		B=1.1.123; V=tz		;; # elsie.nci.nih.gov
  (debian)	B=1.1.125; V=debian	;; # Debian Project
+ (sendmail)	B=1.1.127; V=sendmail	;; # Sendmail
  (tg)		B=1.1.201; V=tg		;; # Thorsten Glaser
  (bsiegert)	B=1.1.203; V=bsiegert	;; # Benny Siegert
 #(wbx)		B=1.1.205; V=wbx	;; # Waldemar Brodkorb
