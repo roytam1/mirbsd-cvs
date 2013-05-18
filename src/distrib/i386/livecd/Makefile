@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/i386/livecd/Makefile,v 1.13 2006/04/06 21:58:48 tg Exp $
+# $MirOS: src/distrib/i386/livecd/Makefile,v 1.14 2006/04/06 22:05:35 tg Exp $
 
 .include <bsd.own.mk>
 
@@ -48,7 +48,7 @@ bsd.gz: ${REALOBJDIR}/../generic/bsd
 
 nukefiles:
 	cd workdir/usr && ${SUDO} rm -rf \
-	    X11R6/{lib/X11/doc,man} {,share/}{doc,info,man}
+	    X11R6/{lib/X11/doc,man} {,share/}{doc,info,man} releng
 
 makeimg: bsd.gz
 	${SUDO} dd if=bsd.gz obs=2048 conv=osync of=workdir/bsd
