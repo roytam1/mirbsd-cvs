@@ -1,4 +1,4 @@
-# $MirOS: src/lib/Makefile,v 1.12 2007/06/16 15:56:45 tg Exp $
+# $MirOS: src/lib/Makefile,v 1.13 2007/08/07 21:21:26 tg Exp $
 # $OpenBSD: Makefile,v 1.49 2003/05/14 01:46:51 hin Exp $
 # $NetBSD: Makefile,v 1.20.4.1 1996/06/14 17:22:38 cgd Exp $
 
@@ -12,7 +12,7 @@
 .endif
   SUBDIR+= libcompat
   SUBDIR+= libdes
-  SUBDIR+= libedit		# depends: libotermcap (for test programme)
+  SUBDIR+= libedit		# depends: (test) libotermcap
   SUBDIR+= libevent
   SUBDIR+= libexpat
   SUBDIR+= libform
@@ -32,7 +32,7 @@
   SUBDIR+= librpcsvc
   SUBDIR+= libsectok
   SUBDIR+= libskey
-  SUBDIR+= libssl		# depends: libz libssl/libcrypto
+  SUBDIR+= libssl		# depends: libz (libssl/ssl) libssl/crypto
   SUBDIR+= libusbhid
   SUBDIR+= libutil
   SUBDIR+= liby
