@@ -1,5 +1,5 @@
 <!-- PageID: mksh -->
-<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.93 2007/04/03 21:12:02 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.94 2007/04/15 12:52:47 tg Exp $</small>
 
 <h1>mksh(1) R29</h1>
 <p>This is the MirBSD&trade; Korn Shell, a more or less portable
@@ -104,6 +104,13 @@
  <li>Strip off and ignore an UTF-8 Byte Order Mark (U+FEFF, 0xEF 0xBB 0xBF)
   at the beginning of input (file, -c option, stdin, interactive, eval)
   and when processing shebang lines and enable utf8 mode if encountered</li>
+ <li>Enhancements to the <tt>dot.mkshrc</tt> file, whose status (in MirBSD
+  itself) is now upgraded from “sample file for portable mksh to show off to
+  other OSes” to “used as skeleton file in the default installation” – gets
+  us rid of duplicating this stuff in /etc/profile (MirBSD native) a̲n̲d̲ makes
+  sure that users of portable mksh also have the latest goodies</li>
+ <li>When doing shebang parsing, accept not only LF and NUL but also CR as
+  markers for end of the (first) line</li>
 </ul>
 <p>Immediately upgrade to mksh R29b please:</p><ul>
  <li>Bugfix: display UTF-8 control characters (U+0080..U+009F, i.e.
