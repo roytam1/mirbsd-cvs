@@ -1,6 +1,6 @@
 <!-- PageID: errata -->
 
-<small class="rcsid">$MirOS: www/content/ZXJyYXRh.inc,v 1.3 2006/01/27 00:14:28 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/ZXJyYXRh.inc,v 1.4 2006/04/01 12:47:11 bsiegert Exp $</small>
 
 <h1>Errata for MirOS #8</h1>
 
@@ -35,8 +35,7 @@
 
 <p>The update contains an updated version of sendmail. After installing, you should recreate the databases by issuing the command:</p>
 
-<blockquote><pre>cd /usr/share/sendmail/cf &amp;&amp; sudo make
- regen-databases</pre></blockquote>
+<blockquote><pre>cd /usr/share/sendmail/cf &amp;&amp; sudo make regen-databases</pre></blockquote>
 
 <p>You can also install the updated configuration files in <tt>/etc</tt>.
  To do this, copy <tt>/usr/share/sendmail/cf/openbsd-proto.mc</tt> to
