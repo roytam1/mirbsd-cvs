@@ -1,9 +1,10 @@
-# $MirOS: src/libexec/ld.so/Makefile,v 1.7 2006/06/30 18:15:28 tg Exp $
+# $MirOS: src/libexec/ld.so/Makefile,v 1.8 2007/04/18 20:59:02 tg Exp $
 # $OpenBSD: Makefile,v 1.34 2006/05/11 22:03:22 deraadt Exp $
 
-SUBDIR=	ldconfig ldd
-#SUBDIR+=prebind
-VPATH=	${.CURDIR}/../../lib/libc/string
+SUBDIR=		ldconfig ldd
+#SUBDIR+=	prebind
+LIBCSRCDIR?=	${.CURDIR}/../../lib/libc
+VPATH=		${LIBCSRCDIR}/string
 
 SRCS=	ldasm.S loader.c resolve.c dlfcn.c dl_printf.c rtld_machine.c
 SRCS+=	util.c sod.c strsep.c strtol.c dir.c library_subr.c dl_prebind.c
@@ -13,7 +14,9 @@ SRCS+=	library_mquery.c
 SRCS+=	library.c
 .endif
 
-PROG=	ld.so
+PROG=		ld.so
+DPADD+=		${LIBMDSUP}
+LDADD+=		-lmdsup_pic
 
 .include "Makefile.inc"
 .include "${.CURDIR}/${MACHINE_ARCH}/Makefile.inc"
