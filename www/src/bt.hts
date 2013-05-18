@@ -3,7 +3,7 @@
 
 mws_setname bt 'BitTorrent information'
 mws_setheadline BitTorrent information
-mws_putheader '$MirOS: www/src/bt.hts,v 1.8 2009/04/26 18:12:26 tg Exp $'
+mws_putheader '$MirOS: www/src/bt.hts,v 1.9 2009/06/21 11:01:22 tg Exp $'
 mws_content <<'EOF'
 <!-- http://www.mirbsd.org/bt.htm#id -->
 <p><strong>Warning:</strong> Not finished yet.</p>
@@ -15,7 +15,10 @@ mws_content <<'EOF'
  statistics server, and the admin doesn't always seem to notice if
  it's down again. Thus, even if you see zero peers, try the torrent,
  maybe you're lucky and someone's online and just not shown. Also,
- most of the recent torrents are multi-tracked.</p>
+ most of the recent torrents are multi-tracked. We've been using
+ alternative Torrent sites such as Demonoid for a while, with more
+ coming; <a href="http://openbittorrent.com/">OpenBitTorrent - An open
+ tracker project</a> (thanks smultron for the link) coming next.</p>
 <p>The last field in the table denotes the architectures the torrent's
  contents are for: i386, sparc, d(ua)live or dual(-arch). Releases are always
  labelled #&lt;versionnumber&gt;&lt;additional info&gt; while snapshots
