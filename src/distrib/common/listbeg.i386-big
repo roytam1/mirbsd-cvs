@@ -1,6 +1,11 @@
-# $MirOS: src/distrib/common/listbeg.i386-big,v 1.3 2006/08/18 20:48:46 tg Exp $
+# $MirOS: src/distrib/common/listbeg.i386-big,v 1.4 2006/08/19 14:39:43 tg Exp $
 
 SRCDIRS	sys/arch/i386/stand usr.bin/ssh usr.sbin/isdn
 SRCDIRS	bin sbin usr.bin usr.sbin libexec
+
+CRUNCHSPECIAL init	srcdir distrib/special/init
+CRUNCHSPECIAL less	srcdir distrib/special/less
+CRUNCHSPECIAL ppp	srcdir distrib/special/ppp
+CRUNCHSPECIAL sshd	srcdir distrib/special/sshd
 
 LIBS	-L${BSDOBJDIR}/usr.bin/ssh/lib -lssh -lssl -lcrypto -ldes -lkvm -ledit -lutil -locurses -lm -lz

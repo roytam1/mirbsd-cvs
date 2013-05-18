@@ -1,10 +1,4 @@
-# $MirOS: src/distrib/common/listend.i386-big,v 1.10 2007/01/26 18:18:00 tg Exp $
-
-# adjust for SRCDIRS omission (for when we want full tools)
-CRUNCHSPECIAL init	srcdir distrib/special/init
-CRUNCHSPECIAL less	srcdir distrib/special/less
-CRUNCHSPECIAL ppp	srcdir distrib/special/ppp
-CRUNCHSPECIAL sshd	srcdir distrib/special/sshd
+# $MirOS: src/distrib/common/listend.i386-big,v 1.11 2007/01/26 19:05:09 tg Exp $
 
 # extra programmes
 LINK	instbin					bin/ps
