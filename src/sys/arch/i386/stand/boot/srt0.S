@@ -1,4 +1,4 @@
-/* $MirOS: src/sys/arch/i386/stand/boot/srt0.S,v 1.30 2009/01/02 05:16:33 tg Exp $ */
+/* $MirOS: src/sys/arch/i386/stand/boot/srt0.S,v 1.31 2009/01/02 05:30:54 tg Exp $ */
 
 /*-
  * Copyright (c) 2003, 2004, 2005, 2006, 2007, 2008, 2009
@@ -83,6 +83,7 @@
 	.globl	_start
 	.globl	_C_LABEL(bios_bootdev)
 	.globl	_C_LABEL(bios_bootpte)
+	.globl	_C_LABEL(i386_toridev)
 	.globl	_C_LABEL(boot)
 	.globl	_C_LABEL(edata)
 	.globl	_C_LABEL(end)
