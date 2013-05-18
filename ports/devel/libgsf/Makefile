@@ -1,13 +1,13 @@
-# $MirOS: ports/devel/libgsf/Makefile,v 1.5 2006/06/03 16:02:39 bsiegert Exp $
+# $MirOS: ports/devel/libgsf/Makefile,v 1.7 2007/04/11 17:06:20 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.7 2004/12/10 20:33:59 marcm Exp $
 
 COMMENT=		GNOME Structured File library
 COMMENT-gnome=		GNOME specific extensions to libgsf
 
-VERSION=		1.11.1
+VERSION=		1.14.4
 DISTNAME=		libgsf-${VERSION}
-PKGNAME=		libgsf-${VERSION}-1
-PKGNAME-gnome=		libgsf-gnome-${VERSION}-1
+PKGNAME=		libgsf-${VERSION}-${DASH_VER}
+PKGNAME-gnome=		libgsf-gnome-${VERSION}-${DASH_VER}
 CATEGORIES=		devel
 
 HOMEPAGE=		http://www.gnome.org/
@@ -18,7 +18,7 @@ PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
-MASTER_SITES=		${MASTER_SITE_GNOME:=sources/libgsf/1.11/}
+MASTER_SITES=		${MASTER_SITE_GNOME:=sources/libgsf/1.14/}
 EXTRACT_SUFX=		.tar.bz2
 
 MODULES=		devel/gettext devel/pkgconfig
