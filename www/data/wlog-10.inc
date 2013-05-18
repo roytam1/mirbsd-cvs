@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.189 2009/04/23 18:19:26 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.190 2009/04/26 18:12:24 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -3923,7 +3923,7 @@ Tag: snapshot
 Date: 26.04.2009 18:09
 Author: tg@
 Title: MirOS-current Triforce snapshot on BT
-Tag: snapshot
+Tag: news snapshot
 
 <p>The <a href="@@RELPATH@@bt.htm#s90425">Ostara 2009</a> snapshot of
  MirOS BSD #10-current (DuaLive™ technology and MirGRML 2009.01 making
@@ -3932,4 +3932,20 @@ Tag: snapshot
  others for diversity (and so that they do have some legal content).</p>
 <p>It's also available for <a href="@@ABSPATH@@/MirOS/current/">NetInstall</a> on both
  architectures.</p>
+----
+Date: 27.04.2009 13:04
+Author: tg@
+Title: WTF *.deb repo now has (emulated) m68k too
+
+<p>As <a href="@@RELPATH@@permalinks/wlog-10_e20090418-tg.htm">before</a>,
+ I amended my WTF *.deb repository (link to the WTF repository <a
+ href="https://eurynome.mirbsd.org/debs/debidx.htm">overview page</a>),
+ this time by <a href="http://wiki.debian.org/Aranym/Quick">emulated
+ m68k</a> packages.</p>
+<p>The mirmake package definitively needs upstream work, but I don’t
+ even know off-hand what MACHINE and MACHINE_ARCH are correct for the
+ Atari Falcon on m68k… need to peek at the other BSDs for that.</p>
+<p><strong>Rant:</strong> the Debian sendmail package <em>sucks</em>,
+ I wonder how anyone can use it… I’ll go by scp(1)ing the configuration
+ from MirBSD again…</p>
 ----
