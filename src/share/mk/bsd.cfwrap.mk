@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/bsd.cfwrap.mk,v 1.15 2006/09/25 22:09:21 tg Exp $
+# $MirOS: src/share/mk/bsd.cfwrap.mk,v 1.16 2006/09/29 22:05:58 tg Exp $
 
 .if !defined(BSD_CFWRAP_MK)
 BSD_CFWRAP_MK=1
@@ -50,7 +50,7 @@ FSFMARGS+=	-f ${FSFMAKEFILE}
 HOSTCFLAGS?=	${CFLAGS} ${COPTS}
 
 FSFCFLAGS+=	${CFLAGS} ${COPTS}
-FSFCXXFLAGS+=	${CXXFLAGS} ${CXXOPTS}
+FSFCXXFLAGS+=	${CXXFLAGS} ${CXXOPTS} -fno-omit-frame-pointer
 FSFHOSTCFLAGS+=	${HOSTCFLAGS}
 
 .if ${FSFCFLAGS:M*Werror*} || ${FSFCXXFLAGS:M*Werror*}
@@ -61,7 +61,7 @@ FSFHOSTCFLAGS+=	-Werror-maybe-reset
 
 .if ${DEBUGLIBS:L} == "yes"
 FSFCFLAGS+=	-g1 -fno-omit-frame-pointer
-FSFCXXFLAGS+=	-g1 -fno-omit-frame-pointer
+FSFCXXFLAGS+=	-g1
 FSFHOSTCFLAGS+=	-g1 -fno-omit-frame-pointer
 .endif
 

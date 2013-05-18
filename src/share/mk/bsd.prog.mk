@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/bsd.prog.mk,v 1.23 2006/06/17 20:08:08 tg Exp $
+# $MirOS: src/share/mk/bsd.prog.mk,v 1.24 2006/07/03 01:36:36 tg Exp $
 # $OpenBSD: bsd.prog.mk,v 1.44 2005/04/15 17:18:57 espie Exp $
 # $NetBSD: bsd.prog.mk,v 1.55 1996/04/08 21:19:26 jtc Exp $
 # @(#)bsd.prog.mk	5.26 (Berkeley) 6/25/91
@@ -23,7 +23,7 @@ CXXFLAGS+=	${CXXDIAGFLAGS}
 .if !${COPTS:M-fhonour-copts} || !${CFLAGS:M-fhonour-copts}
 CFLAGS+=	${COPTS}
 .endif
-CXXFLAGS+=	${CXXOPTS}
+CXXFLAGS+=	${CXXOPTS} -fno-omit-frame-pointer
 HOSTCFLAGS?=	${CFLAGS}
 
 .if defined(PROG) && !empty(PROG)
