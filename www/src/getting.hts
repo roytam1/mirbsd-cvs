@@ -1,10 +1,10 @@
-# $MirOS: www/src/getting.hts,v 1.10 2008/03/24 19:59:49 tg Exp $
+# $MirOS: www/src/getting.hts,v 1.11 2008/03/28 02:50:16 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname getting "Get MirOS!"
-mws_putheader '$MirOS: www/src/getting.hts,v 1.10 2008/03/24 19:59:49 tg Exp $'
+mws_putheader '$MirOS: www/src/getting.hts,v 1.11 2008/03/28 02:50:16 tg Exp $'
 mws_content <<'EOF'
 <h1>Get MirOS!</h1>
 
@@ -58,9 +58,10 @@ mws_content <<'EOF'
   <td>
    <p>use the <a href="f/MirBSD-10semel.metalink">Metalink</a> file</p>
    <p>via HTTP: ISO @ <a
-    href="http://www.mirbsd.org/MirOS/ISOs/MIR80316.ISO">Germany 1</a> / <a
-    href="http://server.leveldown.de/~nezza/MIR80316.ISO">Germany 2</a> / <a
-    href="http://pub.allbsd.org/MirOS/ISOs/MIR80316.ISO">Japan</a> – <a
+    href="http://www.mirbsd.org/MirOS/ISOs/MIR80316.ISO">Germany 1 (IPv4/IPv6)</a> / <a
+    href="http://miros.unixforge.de/MirOS/ISOs/MIR80316.ISO">Germany 1 (IPv4 only)</a> / <a
+    href="http://server.leveldown.de/~nezza/MIR80316.ISO">Germany 2 (IPv4 only)</a> / <a
+    href="http://pub.allbsd.org/MirOS/ISOs/MIR80316.ISO">Japan (IPv4/IPv6)</a> – <a
     href="/MirOS/v10/">NetInstall directory</a> – <a
     href="/MirOS/v10/cdrom10.iso">NetInstall ISO</a> / <a
     href="/MirOS/v10/cdrom10-9600,8n1.iso">serial console @9600,8N1</a> / <a
@@ -95,6 +96,7 @@ mws_content <<'EOF'
 <p>Mirrors for netinstall:</p><ul>
  <li><a href="http://www.mirbsd.org/MirOS/">http://www.mirbsd.org/MirOS/</a>…</li>
  <li><a href="http://pub.allbsd.org/MirOS/">http://pub.allbsd.org/MirOS/</a>…</li>
+ <li><a href="http://miros.unixforge.de/MirOS/">http://miros.unixforge.de/MirOS/</a>…</li>
  <li><a href="/MirOS/">local mirror</a> (if exists)</li>
 </ul><p>For netinstall, first get the CD image (<tt>cdrom10.iso</tt>, usually
  about 4-5 MiB large) or a (net)bootable kernel (i386: <tt>pxeboot</tt> plus
@@ -120,6 +122,10 @@ mws_content <<'EOF'
 <dl>
  <dt>CVSROOT</dt>
  <dd><tt>anoncvs@anoncvs.mirbsd.org:/cvs</tt></dd>
+ <dt>CVSROOT (IPv4 only)</dt>
+ <dd><tt>anoncvs@anoncvs4.mirbsd.org:/cvs</tt></dd>
+ <dt>CVSROOT (IPv6 only)</dt>
+ <dd><tt>anoncvs@anoncvs6.mirbsd.org:/cvs</tt></dd>
 <dt>Password</dt>
 <dd>anoncvs</dd>
 </dl>
