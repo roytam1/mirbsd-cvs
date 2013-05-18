@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/baselive/Makefile,v 1.43 2009/01/17 11:58:37 tg Exp $
+# $MirOS: src/distrib/baselive/Makefile,v 1.44 2009/01/17 12:04:25 tg Exp $
 
 .include <bsd.own.mk>
 
@@ -8,6 +8,11 @@ TOPDIR?=	${.CURDIR}/..
 
 DUALIVE?=	No
 BATCH?=		No
+GRML?=		No
+
+.if ${GRML:L} != "no"
+BATCH=		No
+.endif
 
 .if ${DUALIVE:L} == "no"
 STUFFDIR=	${BSDRELDIR}/rel
@@ -73,6 +78,18 @@ CDROM_OPTS+=	volumeid=$$(uname -slm | tr -- '- \#' :_):BaseLive
 .if ${DUALIVE:L} != "no"
 LIVEBOOT_ARGS+=	DUALIVE=Yes
 .endif
+.if ${GRML:L} != "no"
+LIVEBOOT_ARGS+=	GRML=Yes
+.endif
+
+BOOTCFG_SRCS=	${TOPDIR}/common/boot.cfg.i386
+.if ${GRML:L} != "no"
+BOOTCFG_SRCS+=	${.CURDIR}/boot.cfg.grml
+.endif
+.if ${DUALIVE:L} != "no"
+BOOTCFG_SRCS+=	${.CURDIR}/boot.cfg.dual
+.endif
+BOOTCFG_SRCS+=	${.CURDIR}/boot.cfg.tail
 
 all install:
 
@@ -99,14 +116,11 @@ unpack:
 .endif
 	${SUDO} chown -R 0:0 ${WRKDIR}/v${OSrev}
 	cp ${TOPDIR}/common/{00-README,01-3RDPTY} ${WRKDIR}/
-.if ${DUALIVE:L} != "no"
-	cat ${TOPDIR}/common/boot.cfg.i386 ${.CURDIR}/boot.cfg.dual \
-	    ${.CURDIR}/boot.cfg.tail | sudo dd of=${WRKDIR}/boot.cfg
-.else
-	cat ${TOPDIR}/common/boot.cfg.i386 ${.CURDIR}/boot.cfg.tail | \
-	    sudo dd of=${WRKDIR}/boot.cfg
-.endif
+	cat ${BOOTCFG_SRCS} | sudo dd of=${WRKDIR}/boot.cfg
 	${SUDO} cp ${.CURDIR}/i386/boot.* ${WRKDIR}/
+.if ${GRML:L} == "no"
+	${SUDO} rm -f ${WRKDIR}/boot.9
+.endif
 
 ${IMAGE}:
 	test ! -e ${TMPMOUNT} || (cd ${.CURDIR}; ${MAKE} unconfig)

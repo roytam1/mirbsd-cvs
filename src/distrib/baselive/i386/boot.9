@@ -1,6 +1,6 @@
-# $MirOS: src/distrib/baselive/i386/boot.6,v 1.1 2007/07/11 14:11:48 tg Exp $
+# $MirOS$
 #-
 echo
-echo Booting the MirOS Setup Programme
+echo Switching to GNU GRUB for loading MirGRML
 echo
-boot /v10/i386/bsd.rd
+machine exec grub /grml/stage2

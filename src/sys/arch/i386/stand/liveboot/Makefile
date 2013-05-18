@@ -1,4 +1,4 @@
-# $MirOS: src/sys/arch/i386/stand/liveboot/Makefile,v 1.4 2007/03/18 04:46:22 tg Exp $
+# $MirOS: src/sys/arch/i386/stand/liveboot/Makefile,v 1.5 2009/01/17 12:04:26 tg Exp $
 
 BOOTSELECT_HOOK=yes
 BOOTLDR_PATH=	${.CURDIR}/../boot
@@ -7,6 +7,11 @@ NOMAN=		yes
 DUALIVE?=	No
 .if ${DUALIVE:L} == "yes"
 CPPFLAGS+=	-DHAVE_DUALIVE
+.endif
+
+GRML?=		No
+.if ${GRML:L} == "yes"
+CPPFLAGS+=	-DHAVE_GRML
 .endif
 
 CPPFLAGS+=	-Dmbsd_major=\"${OSrev:Q}\"

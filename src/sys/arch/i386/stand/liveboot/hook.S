@@ -1,4 +1,4 @@
-/* $MirOS: src/sys/arch/i386/stand/liveboot/hook.S,v 1.22 2009/01/17 11:54:34 tg Exp $ */
+/* $MirOS: src/sys/arch/i386/stand/liveboot/hook.S,v 1.23 2009/01/17 12:04:26 tg Exp $ */
 
 /*-
  * Copyright (c) 2006, 2007, 2009
@@ -33,13 +33,30 @@ lbl_title:
 	.ascii	"MirOS #"
 	.ascii	mbsd_major
 	.ascii	mbsd_type
-#if defined(HAVE_DUALIVE)
-	.asciz	" Setup/DuaLive CD"
-#else
-	.asciz	"/i386 Setup/Live CD"
+#ifndef HAVE_DUALIVE
+	.ascii	"/i386"
 #endif
+	.ascii	" Setup/Rescue/"
+#ifndef HAVE_DUALIVE
+#ifndef HAVE_GRML
+	.ascii	"Live"
+#else
+	.ascii	"Live/GRML"
+#endif
+#else
+#ifndef HAVE_GRML
+	.ascii	"DuaLive"
+#else
+	.ascii	"Triforce"
+#endif
+#endif
+	.asciz	" CD"
 lbl_menus:
+#ifdef HAVE_GRML
 	.byte	10
+#else
+	.byte	9
+#endif
 	.long	lbl_menu0 - SA_LINKADDR
 	.long	lbl_menu1 - SA_LINKADDR
 	.long	lbl_menu2 - SA_LINKADDR
@@ -49,9 +66,11 @@ lbl_menus:
 	.long	lbl_menu6 - SA_LINKADDR
 	.long	lbl_menu7 - SA_LINKADDR
 	.long	lbl_menu8 - SA_LINKADDR
+#ifdef HAVE_GRML
 	.long	lbl_menu9 - SA_LINKADDR
+#endif
 lbl_menu0:
-	.asciz	"Continue to normal /boot\n"
+	.asciz	"Continue to normal /boot installer/rescue\n"
 lbl_menu1:
 	.asciz	"Boot into the Live-CD\n"
 lbl_menu2:
@@ -68,15 +87,17 @@ lbl_menu7:
 	.asciz	"Installer, serial console at COM1:38400,8N1\n"
 lbl_menu8:
 	.asciz	"Installer, serial console at COM1:115200,8N1\n"
+#ifdef HAVE_GRML
 lbl_menu9:
-	.asciz	"Boot the MirOS installer\n"
+	.asciz	"Switch to GNU GRUB for booting into grml\n"
+#endif
 lbl_ask:
 	.ascii	"\nUse the cursor up/down keys to navigate\n"
 	.ascii	"and press return to activate the selected item\n"
 	.asciz	"or enter the number of the entry to boot: "
 lbl_widmung:
-	.ascii	"This MirBSD Setup/Live-CD ISO image is proudly presented by\n"
-	.asciz	"The MirOS Project developers and contributors."
+	.ascii	"This MirBSD Setup/Rescue/Triforce/DuaLive-CD ISO image is proudly\n"
+	.asciz	"presented by The MirOS Project developers and contributors."
 
 Ltick:	.long	0	/* end tick for timeout */
 Lmenu:	.word	0	/* which menu point has been chosen (MBZ) */

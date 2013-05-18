@@ -1,0 +1,8 @@
+# $MirOS$
+#-
+# added at the bottom of the MD boot.cfg file from cdromX.iso
+#
+macro grml machine exec grub /grml/stage2
+echo To switch to GNU GRUB for loading into grml MirOS edition
+echo type the command 'grml' below.
+echo
