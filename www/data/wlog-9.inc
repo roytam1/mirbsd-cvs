@@ -1309,6 +1309,26 @@ Author: tg@
  make it even more than OpenBSD's OpenSSH. Yay! (bsiegert@ thinks so too.)
  Eat this ☻</p>
 ----
+Date: 08.07.2007
+Author: bsiegert@
+Title: On dependencies, once more
+
+<p>As part of the GNOME update to 2.18, I added a python flavour to
+ libxml2. This seems to confuse pkg_add and triggers a bug (one more)
+ in the dependency handling code. Incidentally, the code in question is
+ written in Perl by Marc Espie.</p>
+
+<p>To completely fix the bug requires removing pkg(1) completely, which
+ I will not be able to do before MirOS #10. As a first step, the verbose
+ output of pkg is now more meaningful, allowing (hopefully) to debug
+ the issue.</p>
+
+<p>The way dependencies are handled is deeply flawed and is one of the
+ biggest weaknesses in the current MirPorts framework. pkg(1) converts
+ the dependencies into static @pkgdep lines of the form "@pkgdep
+ libxml-2.6.14-2". If a libspec cannot be resolved, the adding almost
+ certainly fails *sigh*.</p>
+----
 Date: 09.07.2007
 Author: tg@
 
