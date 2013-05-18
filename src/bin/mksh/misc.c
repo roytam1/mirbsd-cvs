@@ -445,11 +445,9 @@ parse_args(const char **argv,
 		qsort(&argv[go.optind], i - go.optind, sizeof(void *),
 		    xstrcmp);
 	}
-	if (arrayset) {
-		set_array(array, arrayset > 0 ? true : false, argv + go.optind);
-		for (; argv[go.optind]; go.optind++)
-			;
-	}
+	if (arrayset)
+		go.optind += set_array(array, arrayset > 0 ? true : false,
+		    argv + go.optind);
 
 	return (go.optind);
 }
