@@ -1,10 +1,10 @@
-# $MirOS: www/src/mksh.hts,v 1.13 2007/06/30 22:26:08 tg Exp $
+# $MirOS: www/src/mksh.hts,v 1.14 2007/06/30 22:34:48 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.13 2007/06/30 22:26:08 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.14 2007/06/30 22:34:48 tg Exp $'
 mws_content <<'EOF'
 <h1>mksh(1) R29</h1>
 <p>This is the website of the MirBSD™ Korn Shell, an actively developed free
@@ -220,6 +220,12 @@ mws_content <<'EOF'
 <p>Since mksh uses ProPolice, the Stack-Smashing Protector, some GCC versions'
  compilates require additional shared libaraies.</p>
 
+<h5 id="oe_hpc">Compiler: HP C/aC++</h5>
+<p>HP's C compiler (/usr/bin/cc on HP-UX) is supported in mksh R30 and above;
+ on IA64, only the LP64 model can be used; mksh segfaults in the ILP32 module
+ (or rather, the system libraries do, I think), so it is default. PA-RISC too
+ works fine.</p>
+
 <h5 id="oe_icc">Compiler: Intel C/C++/Fortran</h5>
 <p>ICC emulates GCC quite well (too well for my taste), is fully supported in
  mksh R30 and above on several platforms, but spits out <strong>lots</strong>
@@ -227,12 +233,6 @@ mws_content <<'EOF'
  not going to work around these; let Intel fix their compiler instead.</p>
 <p>mksh enables the ICC stack protector option automaticaly. Compilates
  usually require the Intel shared libraries to be around.</p>
-
-<h5 id="oe_hpc">Compiler: HP C/aC++</h5>
-<p>HP's C compiler (/usr/bin/cc on HP-UX) is supported in mksh R30 and above;
- on IA64, only the LP64 model can be used; mksh segfaults in the ILP32 module
- (or rather, the system libraries do, I think), so it is default. PA-RISC too
- works fine.</p>
 
 <h5 id="oe_sun">Compiler: SUNpro</h5>
 <p>Support for the <a href="http://developer.sun.com/sunstudio">SUN Studio
