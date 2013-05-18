@@ -1,4 +1,4 @@
-/* $MirOS: X11/xc/lib/font/FreeType/module/ftstdlib.h,v 1.3 2006/07/01 21:05:57 tg Exp $ */
+/* $MirOS: X11/xc/lib/font/FreeType/module/ftstdlib.h,v 1.4 2008/02/29 17:40:52 bsiegert Exp $ */
 /* ftstdlib.h -- modified for XFree86. */
 /* $XFree86: xc/lib/font/FreeType/module/ftstdlib.h,v 1.3 2004/12/31 02:56:03 tsi Exp $ */
 
@@ -195,12 +195,6 @@
 #else
 #define FT_ULONG_MAX  4294967295UL
 #endif
-
-#define ft_isalnum   xf86isalnum
-#define ft_isupper   xf86isupper
-#define ft_islower   xf86islower
-#define ft_isdigit   xf86isdigit
-#define ft_isxdigit  xf86isxdigit
 
 #define ft_memchr    xf86memchr
 #define ft_memcmp    xf86memcmp
