@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: contrib/samples/import-3rdpty,v 1.3 2006/06/29 18:34:15 tg Exp $
+# $MirOS: contrib/samples/import-3rdpty,v 1.4 2006/06/30 18:11:02 tg Exp $
 #-
 # Copyright (c) 2004, 2005, 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -24,7 +24,7 @@
 # other issues arising in any way out of its use, even if advised of
 # the possibility of such damage or existence of a nontrivial bug.
 
-print -ru2 -- '========= $MirOS: contrib/samples/import-3rdpty,v 1.3 2006/06/29 18:34:15 tg Exp $ ========='
+print -ru2 -- '========= $MirOS: contrib/samples/import-3rdpty,v 1.4 2006/06/30 18:11:02 tg Exp $ ========='
 
 ignlist=0
 force=0
@@ -495,39 +495,7 @@ openbsd)
 		bin/test/TEST.csh \
 		bin/test/TEST.sh \
 		bin/test/test.c \
-		distrib/alpha \
-		distrib/amd64 \
-		distrib/cats \
-		distrib/common/rdsetroot.c \
-		distrib/crunch \
-		distrib/hp300 \
-		distrib/hppa \
-		distrib/hppa64 \
-		distrib/i386/Makefile.inc \
-		distrib/i386/cdfs \
-		distrib/i386/cdfs-emu \
-		distrib/i386/ramdiskA \
-		distrib/i386/ramdiskB \
-		distrib/i386/ramdiskC \
-		distrib/i386/ramdisk_cd \
-		distrib/luna88k \
-		distrib/mac68k \
-		distrib/macppc \
-		distrib/mvme68k \
-		distrib/mvme88k \
-		distrib/mvmeppc \
-		distrib/notes \
-		distrib/sets \
-		distrib/sgi \
-		distrib/sparc64 \
-		distrib/special/ccdconfig \
-		distrib/special/dhclient \
-		distrib/special/gzip \
-		distrib/special/ifconfig \
-		distrib/special/kbd \
-		distrib/special/rsh \
-		distrib/vax \
-		distrib/zaurus \
+		distrib \
 		etc/afs \
 		etc/amd \
 		etc/bgpd.conf \
