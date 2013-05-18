@@ -61,7 +61,7 @@
 #include <tiger.h>
 #include <whirlpool.h>
 
-__RCSID("$MirOS: src/bin/md5/cksum.c,v 1.3 2007/05/07 16:15:55 tg Exp $");
+__RCSID("$MirOS: src/bin/md5/cksum.c,v 1.4 2007/07/07 18:05:05 tg Exp $");
 
 #define MAX_DIGEST_LEN			128
 
@@ -1074,5 +1074,7 @@ cksum_addpool(const char *s __attribute__((unused)))
 	ADLER32_CTX tmp;
 
 	ADLER32Update(&tmp, (const uint8_t *)s, strlen(s));
+#if defined(MirBSD) && (MirBSD > 0x09A1)
 	arc4random_pushb(&tmp, sizeof (ADLER32_CTX));
+#endif
 }
