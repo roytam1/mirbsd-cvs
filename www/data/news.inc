@@ -832,7 +832,7 @@ Author: tg@
  more recent MirPorts Framework.</p>
 ----
 Title: ssh host key changes for anoncvs mirror
-Date: 15.05.2008
+Date: 15.05.2008 15:42
 Author: tg@
 
 <p>Our anoncvs mirror has changed its ssh host keys due to a Debian-specific
@@ -849,4 +849,24 @@ Author: tg@
  both servers) or by an eMail request.</p>
 <p>Yesterday's snapshot does <em>not</em> yet include the new public host
  keys, as they were generated only today.</p>
+----
+Title: update for 2008-05-14 snapshot available
+Date: 15.05.2008 16:24
+Author: tg@
+
+<p>The <a href="/MirOS/current/i386/fixes10.ngz">fixes10.ngz</a> set, of
+ course gzsig(1)d, contains an updated <a href="@@RELPATH@@mksh.htm">mksh</a>
+ binary and <tt>dot.mkshrc</tt> as well as <tt>/.profile</tt> (root) and
+ <tt>/etc/profile</tt> (user) files, which speed up logins, as well as an
+ updated <tt>/etc/ssh/ssh_known_hosts</tt> file. It can be directly applied
+ from the installer, or untarred in <tt>/</tt> (do not forget the 'h' and
+ 'p' options to tar(1)). Note that this will <em>overwrite</em> any existing
+ changes to these files:</p><ul>
+ <li><tt>/.profile</tt></li>
+ <li><tt>/etc/profile</tt></li>
+ <li><tt>/etc/skel/.mkshrc</tt></li>
+ <li><tt>/etc/ssh/ssh_known_hosts</tt></li>
+</ul><p>Use this for integrity checking:<br />
+ <tt>RMD160 (fixes10.ngz) = 6c85c3e8eb4a5046b5b45373a0996cee2a3208b7</tt>
+</p>
 ----
