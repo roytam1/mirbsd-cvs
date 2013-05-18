@@ -53,9 +53,9 @@ done
 
 cd "$DST/.dep"
 for file in *; do
-	while IFS= read -r name; do
+	sort -u "$file" | while IFS= read -r name; do
 		print "DEPS_$file+=\t$name"
-	done <"$file"
+	done
 done >"$DST/.depend.tmp"
 cd "$DST"
 cat .depend.tmp2 >>.depend.tmp
