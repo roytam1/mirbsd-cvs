@@ -1,4 +1,4 @@
-/* $MirOS: src/sys/arch/i386/stand/boot/srt0.S,v 1.6 2006/04/10 19:11:52 tg Exp $ */
+/* $MirOS: src/sys/arch/i386/stand/boot/srt0.S,v 1.7 2006/04/10 20:54:46 tg Exp $ */
 
 /*-
  * Copyright (c) 2003, 2004, 2005, 2006
@@ -90,8 +90,10 @@
 	.globl	_C_LABEL(edata)
 	.globl	_C_LABEL(end)
 	.globl	_ASM_LABEL(pmm_init)
+#ifndef FFS_ONLY
 	.globl	_C_LABEL(tori_bootflag)
 	.globl	_C_LABEL(tori_pblk)
+#endif
 
 _start:	cli
 	jmp	_star2
@@ -155,6 +157,7 @@ LisRel:	UD(5)			/** E: done reloc, or not needed */
  * Stuff which MUST NOT be placed in the .bss section
  */
 
+#ifndef FFS_ONLY
 _C_LABEL(tori_bootflag):
 	.long	0
 _C_LABEL(tori_pblk):
@@ -164,6 +167,9 @@ Lbdev:	.byte	0		/* local copy of BIOS boot device */
 Llba:	.word	0x0010		/* LBA parameter block */
 	.word	0x0001
 	.long	0,0,0
+#else
+Lbdev:	.byte	0		/* local copy of BIOS boot device */
+#endif
 
 /*
  * Code which can assume sane location
@@ -195,6 +201,9 @@ L..e1:	mov	al,dl
 	mov	[Lofsd],esi
 #endif
 
+#ifdef FFS_ONLY
+	jmp	L..12
+#else
 #ifdef	WANT_ELTORITO_CHECK
 	/* check for El Torito */
 	mov	ax,0x4B01
@@ -292,6 +301,7 @@ L..37a:	pop	si
 	jmp	0xF000,0xFFF0
 #endif
 L..37:	jmp	LpreCD		/* prepare boot from CD */
+#endif /* !FFS_ONLY */
 
 #ifdef	LOUD
 Lotxt:	lodsb
@@ -307,6 +317,7 @@ Lsrt0:	.ascii	"MirOS boot v"
 	.asciz	" srt0 initialising\r\n"
 #endif
 
+#ifndef FFS_ONLY
 LcdLDS:	pusha
 	push	eax
 	UDX(4)
@@ -401,6 +412,7 @@ L..36:	pop	si
 	pop	eax
 	mov	[4+Ltblk],eax
 	jmp	LisCD		/* and be it the devil */
+#endif /* !FFS_ONLY */
 
 	/* "real" floppy boot */
 L..12:	UD(12)			/** L: floppy boot */
@@ -409,11 +421,13 @@ L..12:	UD(12)			/** L: floppy boot */
 #endif
 	jmp	LpreFD
 
+#ifndef FFS_ONLY
 LpreCD:	UD(13)			/** M: cd-rom boot */
 #ifdef	LOUD
 	call	LdebCD		/* debug msgs */
 #endif
 	/* FALL-THROUGH */
+#endif
 
 LpreFD:	/* prepare booting */
 #ifdef BOOTSELECT_HOOK
@@ -453,6 +467,7 @@ LdebFD:	/* debug message for floppy/hdd boot */
 	mov	si,offset LisfdM
 	jmp	Lotxt
 
+#ifndef FFS_ONLY
 LdebCD:	/* debug message for El Torito boot */
 	mov	di,offset Liscd0
 	mov	al,[Lbdev]
@@ -468,6 +483,7 @@ LdebCD:	/* debug message for El Torito boot */
 	call	LpDW
 	mov	si,offset LiscdM
 	jmp	Lotxt
+#endif
 
 /* the formatting routines */
 
