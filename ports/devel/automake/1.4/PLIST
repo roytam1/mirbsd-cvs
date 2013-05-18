@@ -1,8 +1,8 @@
-@comment $MirOS$
+@comment $MirOS: ports/devel/automake/1.4/pkg/PLIST,v 1.1.7.1 2005/03/18 15:44:28 tg Exp $
 @comment $OpenBSD: PLIST,v 1.14 2004/02/25 00:03:13 brad Exp $
 @option no-default-conflict
 @pkgcfl automake${SUFFIX}*
-@unexec install-info --delete --info-dir=%D/info %D/info/automake${SUFFIX}.info
+@unexec install-info --delete --info-dir=%D/info %D/info/automake-1.4.info
 bin/aclocal${SUFFIX}
 bin/automake${SUFFIX}
 info/automake${SUFFIX}.info
@@ -83,4 +83,4 @@ share/automake${SUFFIX}/texinfos.am
 share/automake${SUFFIX}/ylwrap
 @dirrm share/automake${SUFFIX}
 @dirrm share/aclocal${SUFFIX}
-@exec install-info --info-dir=%D/info %D/info/automake${SUFFIX}.info
+@exec install-info --info-dir=%D/info %D/info/automake-1.4.info
