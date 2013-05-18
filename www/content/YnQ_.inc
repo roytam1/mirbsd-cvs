@@ -1,5 +1,5 @@
 <!-- PageID: bt -->
-<small class="rcsid">$MirOS: www/content/YnQ_.inc,v 1.1 2006/06/25 23:25:14 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/YnQ_.inc,v 1.2 2006/07/05 05:01:24 tg Exp $</small>
 <!-- http://www.mirbsd.org/?bt#id -->
 <h1>BitTorrent information</h1>
 <p><strong>Warning:</strong> Not finished yet.</p>
@@ -28,7 +28,7 @@
 <h4 id="r8semel">MirOS #8</h4>
 <h4 id="r7quater">#7quater</h4>
 <h3>Snapshots</h3>
-<h4 id="s200607xx">2006-07-xx</h4>
+<h4 id="s20060706">2006-07-06</h4>
 <p>First inofficial sparc snapshot, just to publish what I've been
  done for two weeks on a 75 MHz HyperSPARC after cross-compiling the
  whole mess. No X11, miniroot, Live-CD, testing. Most manpages, but

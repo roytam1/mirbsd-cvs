@@ -1,5 +1,5 @@
 <!-- PageID: wlog-9 -->
-<small class="rcsid">$MirOS: www/content/d2xvZy05.inc,v 1.8 2006/07/04 02:52:47 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy05.inc,v 1.9 2006/07/05 05:12:31 tg Exp $</small>
 <h1>MirBSD &ndash; WTF is Verpeilungsfaktor?</h1>
 <p><small><a href="#eof">bottom</a> or <a href="/?older">older</a>
  editions</small></p>
@@ -180,6 +180,29 @@
   miniroot, and maybe even a text-only live CD) beforehand, as to unveil
   pending MI bugs.</p>
  <p>Is anyone reading this here anyway?</p>
+</div>
+
+<div class="wlentry">
+ <h3 id="e20060705">05.07.2006 by tg@</h3>
+ <p>Originally I had decided to go to bed earlier today, but somehow I'm
+  fascinated by the just-finishing (tarmk stage) sparc snapshot build. I
+  will publish that snapshot on BT now and afterwards try to hack on the
+  miniroot and live CD (text-only for now) so it won't matter if I break
+  stuff. Then I'll put a bigger HDD into the sparc and reinstall.</p>
+ <p>Some of that old code is <em>so</em> scary&#8230;</p>
+ <p>makefs(8) from TNF has appeared, and I already have filed the bug <a
+  href="http://www.NetBSD.org/cgi-bin/query-pr-single.pl?number=33924">toolchain/33924</a>
+  in their gnats ;) I hope they'll help improving it so we might someday
+  get rid of mkisofs(8) in base.</p>
+ <p>I haven't been able to work much on ports, as expected. Benny on the
+  other hand is currently trying to buy internet access via a modem. Yes
+  a (USB-attached soft)modem, that analog phone line thingie. He'll work
+  a little on ports then, but don't expect too much from him either.</p>
+ <p>I might also have some real-life things to take care of. I still am,
+  additionally, looking for a job. Offers and donations welcome.</p>
+ <p>IPv6 tunnel providers suck. All of them. And perl(1) sucks more.</p>
+ <p>It finally cooled down today with a thunderstorm. Problem: both soil
+  and air are wetter now, so if the sun comes back, it'll be sticky.</p>
 </div>
 
 <p id="eof">Good luck, have fun, take care etc.pp</p>
