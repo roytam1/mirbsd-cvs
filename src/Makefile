@@ -1,4 +1,4 @@
-# $MirOS: src/Makefile,v 1.52 2006/06/09 01:21:28 tg Exp $
+# $MirOS: src/Makefile,v 1.53 2006/06/09 01:23:35 tg Exp $
 # $OpenBSD: Makefile,v 1.103 2004/05/03 15:18:18 drahn Exp $
 
 .if defined(MAKECONF) && exists(${MAKECONF})
@@ -228,11 +228,6 @@ _do-dist:
 .endif
 	${SUDO} rm -rf ${BSDRELDIR}/rel
 	mkdir ${BSDRELDIR}/rel
-.ifndef QUICK_DIST
-	@date
-	SUDO=${SUDO:Q} OSrev=${OSrev:Q} BSDRELDIR=${BSDRELDIR:Q} \
-	    CVSROOT=${CVSROOT:Q} ${MKSH} ${BSDSRCDIR}/scripts/tarports
-.endif
 	@date
 	@echo "============================================================"
 	@for f in ${BSDSRCDIR}/*${OSrev}.ngz ${BSDSRCDIR}/*.cgz; do \
@@ -256,6 +251,12 @@ _do-dist:
 	@echo "============================================================"
 .ifndef BATCH
 	@read a?'Press Return to continue...'
+.endif
+	@date
+.ifndef QUICK_DIST
+	test -f ${BSDRELDIR}/rel/ports${OSrev}.ngz || env SUDO=${SUDO:Q} \
+	    OSrev=${OSrev:Q} BSDRELDIR=${BSDRELDIR:Q} \
+	    CVSROOT=${CVSROOT:Q} ${MKSH} ${BSDSRCDIR}/scripts/tarports
 .endif
 	cd ${BSDRELDIR}/base/snapshot && ${SUDO} ${INSTALL} -c \
 	    -o root -g wheel -m 444 * ${BSDRELDIR}/rel/
