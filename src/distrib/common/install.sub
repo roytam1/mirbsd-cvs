@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/install.sub,v 1.58 2009/08/27 19:24:02 tg Exp $
+# $MirOS: src/distrib/common/install.sub,v 1.59 2009/09/13 16:57:01 tg Exp $
 # $OpenBSD: install.sub,v 1.388 2005/07/02 00:55:48 uwe Exp $
 # $NetBSD: install.sub,v 1.5.2.8 1996/09/02 23:25:02 pk Exp $
 #
@@ -388,7 +388,7 @@ rmel() {
 bsort() {
 	typeset _l _a=$1 _b
 
-	[[ $# -gt 0 ]] || return
+	(( $# > 0 )) || return
 
 	shift
 	for _b; do
@@ -812,12 +812,17 @@ enable_network() {
 		# Now parse the hostname.* file
 		while :; do
 			if [ "$cmd2" ]; then
-				# we are carrying over from the 'read dt dtaddr' last time
-				set -- $cmd2
-				af=$1 name=$2 mask=$3 bcaddr=$4 ext1=$5 cmd2=
-				# make sure and get any remaining args in ext2, like the read below
-				i=1; while [ i -lt 6 -a -n "$1" ]; do shift; let i=i+1; done
-				ext2="$@"
+				# we are carrying over from the
+				# 'read dt dtaddr' last time
+				set -A i -- $cmd2
+				af=${i[0]}
+				name=${i[1]}
+				mask=${i[2]}
+				bcaddr=${i[3]}
+				ext1=${i[4]}
+				unset i[0] i[1] i[2] i[3] i[4]
+				ext2="${i[*]}"
+				cmd2=
 			else
 				# read the next line or exit the while loop
 				read af name mask bcaddr ext1 ext2 || break
@@ -1084,7 +1089,10 @@ install_url() {
 			# as a line number in $SERVERLIST.
 			[[ -s $SERVERLIST ]] || continue
 			set -- $(sed -ne "${resp}p" $SERVERLIST)
-			[[ $# -lt 1 ]] && { echo "There is no line $resp."; continue; }
+			if (( $# < 1 )); then
+				echo "There is no line $resp."
+				continue
+			fi
 			echo "Using	$*"
 			eval _${_url_type}_server_ip=${1%%/*}
 			eval _${_url_type}_server_dir=${1#*/}/$SETDIR
@@ -1261,9 +1269,9 @@ install_tape() {
 		ask_until "Skip how many files? (or 'done')" 0
 		[[ $resp = done ]] && return
 		[[ $resp = +([0-9]) ]] || continue
-		(($resp < 0)) && continue
+		(( resp < 0 )) && continue
 
-		if (($resp > 0)); then
+		if (( resp > 0 )); then
 			echo -n "Skipping $resp file(s)..."
 			mt fsf $resp || return
 			echo "done."
@@ -1771,7 +1779,7 @@ __EOT
 fi
 
 set -- $DKDEVS
-[[ $# -gt 1 ]] && _defdsk=done
+(( $# > 1 )) && _defdsk=done
 
 ask_which "disk" "is the root disk" "$DKDEVS" "$_defdsk"
 [[ $resp = done ]] && exit

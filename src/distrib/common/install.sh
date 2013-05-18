@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/distrib/common/install.sh,v 1.22 2009/08/11 10:14:33 tg Exp $
+# $MirOS: src/distrib/common/install.sh,v 1.23 2009/08/30 16:35:12 tg Exp $
 # $OpenBSD: install.sh,v 1.152 2005/04/21 21:41:33 krw Exp $
 # $NetBSD: install.sh,v 1.5.2.8 1996/08/27 18:15:05 gwr Exp $
 #
@@ -151,7 +151,7 @@ if [ ! -f /etc/fstab ]; then
 					_mount_points[$_i]=$_mp
 				done </tmp/fstab.$DISK
 			fi
-			: $(( _i += 1 ))
+			let _i++
 		done </tmp/disklabel.$DISK
 
 		if [[ $DISK = $ROOTDISK && -z $(grep "^$ROOTDEV /$" $FILESYSTEMS) ]]; then
@@ -161,7 +161,7 @@ if [ ! -f /etc/fstab ]; then
 		fi
 
 		# If there are no BSD partitions go on to next disk.
-		[[ ${#_partitions[*]} -gt 0 ]] || continue
+		(( ${#_partitions[*]} > 0 )) || continue
 
 		# Now prompt the user for the mount points.
 		_i=0
@@ -189,7 +189,7 @@ if [ ! -f /etc/fstab ]; then
 						if [[ $_i -ne $_j ]]; then
 							[[ $resp = ${_mount_points[$_j]} ]] && break
 						fi
-						: $(( _j += 1 ))
+						let _j++
 					done
 				fi
 				if [[ -n $_pp ]]; then
@@ -205,8 +205,7 @@ if [ ! -f /etc/fstab ]; then
 
 			_mount_points[$_i]=$_mp
 
-			: $(( _i += 1))
-			[ $_i -ge ${#_partitions[*]} ] && _i=0
+			(( ++_i < ${#_partitions[*]} )) || _i=0
 		done
 
 		# Append mount information to $FILESYSTEMS
@@ -214,7 +213,7 @@ if [ ! -f /etc/fstab ]; then
 		for _pp in ${_partitions[*]}; do
 			_mp=${_mount_points[$_i]}
 			[ "$_mp" ] && echo "$_pp $_mp" >>$FILESYSTEMS
-			: $(( _i += 1 ))
+			let _i++
 		done
 	done
 
@@ -241,7 +240,7 @@ __EOT
 
 		_partitions[$_i]=$_pp
 		_mount_points[$_i]=$_mp
-		: $(( _i += 1 ))
+		let _i++
 	done <$FILESYSTEMS
 
 	# Write fstab entries to /tmp/fstab in mount point alphabetic
@@ -296,7 +295,7 @@ __EOT
 					echo " 1 2"
 				fi
 			fi
-			: $(( _i += 1 ))
+			let _i++
 		done
 	done >>/tmp/fstab
 
