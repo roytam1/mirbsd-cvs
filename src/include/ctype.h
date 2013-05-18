@@ -1,4 +1,4 @@
-/* $MirOS: src/include/ctype.h,v 1.11 2007/02/02 21:06:16 tg Exp $ */
+/* $MirOS: src/include/ctype.h,v 1.12 2007/02/02 21:09:06 tg Exp $ */
 
 /*-
  * Copyright (c) 2006, 2007
@@ -92,12 +92,12 @@ extern const unsigned char __C_attribute_table_pg[256];
 
 #ifdef __GNUC__
 #define tolower(c)	__extension__({			\
-	char __CTYPE_Tl = (c);				\
+	int __CTYPE_Tl = (c);				\
 	(__CTYPE_Tl >= 'A') && (__CTYPE_Tl <= 'Z') ?	\
 	    __CTYPE_Tl - 'A' + 'a' : __CTYPE_Tl;	\
 })
 #define toupper(c)	__extension__({			\
-	char __CTYPE_Tu = (c);				\
+	int __CTYPE_Tu = (c);				\
 	(__CTYPE_Tu >= 'a') && (__CTYPE_Tu <= 'z') ?	\
 	    __CTYPE_Tu - 'a' + 'A' : __CTYPE_Tu;	\
 })
