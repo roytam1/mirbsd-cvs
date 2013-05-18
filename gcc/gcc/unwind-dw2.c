@@ -40,6 +40,7 @@
 #include "unwind-pe.h"
 #include "unwind-dw2-fde.h"
 #include "gthr.h"
+#include <string.h>
 
 
 #ifndef __USING_SJLJ_EXCEPTIONS__

@@ -1,4 +1,4 @@
-# $MirOS: gcc/gcc/Makefile.bsd-wrapper,v 1.32 2006/03/01 13:21:35 tg Exp $
+# $MirOS: gcc/gcc/Makefile.bsd-wrapper,v 1.33 2006/03/01 13:26:32 tg Exp $
 
 .include <bsd.own.mk>
 .include "${GNUSYSTEM_AUX_DIR}/locations.mk"
@@ -55,9 +55,13 @@ CPPFLAGS+=	-I${GNU_LIBIBERTY_INC}
 XARGS+=		BISON=yacc LIBIBERTY_HDRS="${GNU_LIBIBERTY_INC}" \
 		extrapartsdir='${GCC_PREFIX}/lib' BOOT_CFLAGS="${BOOT_CFLAGS}" \
 		CFLAGS="${FSFCFLAGS}" GNATLIBCFLAGS="${BOOT_CFLAGS}" \
-		HOST_CC="${HOSTCC}" HOST_CFLAGS="${HOSTCFLAGS}" \
-		VALGRIND_DRIVER_DEFINES="-DNO_SHARED_LIBGCC_MULTILIB" \
-		TCFLAGS="${FSFCFLAGS}" MAKEINFOFLAGS=--no-split
+		HOST_CC="${HOSTCC}" MAKEINFOFLAGS=--no-split \
+		VALGRIND_DRIVER_DEFINES="-DNO_SHARED_LIBGCC_MULTILIB"
+.ifdef _CROSSBUILD
+XARGS+=		TCFLAGS="${CROSSCFLAGS}"
+.else
+XARGS+=		TCFLAGS="${FSFCFLAGS}"
+.endif
 .if ${GCC_NATIVE:L} == "yes"
 CPPFLAGS+=	-DMIRBSD_NATIVE
 XARGS+=		BUILD_LIBIBERTY="-liberty" LIBIBERTY="-liberty" \
@@ -161,7 +165,11 @@ pre-clean:
 .include <bsd.cfwrap.mk>
 
 .ifdef _CROSSBUILD
+CFARGS+=--with-gnu-as=${GCC_PREFIX}/${GCCTARGET}/bin/as \
+	--with-gnu-ld=${GCC_PREFIX}/${GCCTARGET}/bin/ld \
+	--disable-shared
 XVARS+=	GCC_NO_WERROR=1 GCC_HONOUR_COPTS=0
-CFARGS+=--with-gnu-as=${GCC_PREFIX}/bin/as \
-	--with-gnu-ld=${GCC_PREFIX}/bin/ld
+XARGS+=	AR_FOR_TARGET=${GCC_PREFIX}/${GCCTARGET}/bin/ar \
+	NM_FOR_TARGET=${GCC_PREFIX}/${GCCTARGET}/bin/nm \
+	RANLIB_FOR_TARGET=${GCC_PREFIX}/${GCCTARGET}/bin/ranlib
 .endif

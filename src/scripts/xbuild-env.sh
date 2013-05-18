@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/scripts/xbuild-env.sh,v 1.12 2006/03/01 14:15:14 tg Exp $
+# $MirOS: src/scripts/xbuild-env.sh,v 1.13 2006/03/01 14:16:11 tg Exp $
 #-
 # Copyright (c) 2004, 2005, 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -107,16 +107,17 @@ print -r -- "$HOST" >$CROSSDIR/H_CANON
     MAKEOBJDIR=obj.$MACHINE \
     make obj )
 
-CROSSCPPFLAGS="$CROSSCPPFLAGS -nostdinc -I${CROSSDIR}/usr/include"
+CROSSCPPFLAGS="$CROSSCPPFLAGS -nostdinc -isystem ${CROSSDIR}/usr/include"
 BUILDLDFLAGS="$CROSSLDFLAGS -L${CROSSDIR}/usr/lib -static"
 CROSSLDFLAGS="$CROSSLDFLAGS -nostdlib -L${CROSSDIR}/usr/lib -static"
-CROSSCFLAGS="-O2 $CROSSCFLAGS $CROSSCPPFLAGS"
+[[ -z $CROSSCFLAGS ]] && CROSSCFLAGS="-O2 -fhonour-copts"
 
 cat >$CROSSDIR/T_BASEENV <<-EOF
 	BINOWN='$BINOWN'
 	BINGRP='$BINGRP'
 	BSDSRCDIR='$BSDSRCDIR'
 	BSDOBJDIR='$CROSSDIR/usr/obj'
+	CROSSCFLAGS='$CROSSCFLAGS $CROSSCPPFLAGS'
 	CROSSDIR='$CROSSDIR'
 	HOST='$HOST'
 	MACHINE='$MACHINE'
@@ -130,7 +131,7 @@ cat >$CROSSDIR/T_ENV <<-EOF
 	AR='$CROSSDIR/usr/$TARGET/bin/ar'
 	AS='$CROSSDIR/usr/$TARGET/bin/as'
 	CC='$CROSSDIR/usr/$TARGET/bin/cc'
-	CFLAGS=''$CROSSCFLAGS''
+	CFLAGS='$CROSSCFLAGS $CROSSCPPFLAGS'
 	CPP=/usr/bin/cpp
 	CPPFLAGS='$CROSSCPPFLAGS'
 	CROSS_MODE=yes
@@ -140,7 +141,6 @@ cat >$CROSSDIR/T_ENV <<-EOF
 	HOSTLDFLAGS='$LDFLAGS'
 	LD='$CROSSDIR/usr/$TARGET/bin/ld'
 	LDFLAGS='$CROSSLDFLAGS'
-	LDSTATIC=-static
 	LORDER=/usr/bin/lorder
 	NM='$CROSSDIR/usr/$TARGET/bin/nm'
 	NOMAN=yes
@@ -155,7 +155,7 @@ EOF
 cat >$CROSSDIR/T_MAKE <<EOF
 #!/bin/mksh
 exec env \\
-	CFLAGS='$CROSSCFLAGS' \\
+	CFLAGS='$CROSSCFLAGS $CROSSCPPFLAGS' \\
 	CPPFLAGS='$CROSSCPPFLAGS' \\
 	HOSTCFLAGS='$CFLAGS -Wno-error' \\
 	MACHINE='$MACHINE' \\
@@ -173,12 +173,16 @@ exec env \\
 	CC='$CROSSDIR/usr/$TARGET/bin/cc' \\
 	CPP=/usr/bin/cpp \\
 	CROSS_MODE=yes \\
+	CRTI='' \\
+	CRTBEGIN='' \\
+	LIBCRT0='' \\
+	CRTEND='' \\
+	CRTN='' \\
 	DESTDIR='$CROSSDIR' \\
 	HOSTCC=/usr/bin/mgcc \\
 	HOSTLDFLAGS='$LDFLAGS' \\
 	LD='$CROSSDIR/usr/$TARGET/bin/ld' \\
 	LDFLAGS='$BUILDLDFLAGS' \\
-	LDSTATIC=-static \\
 	LORDER=/usr/bin/lorder \\
 	NM='$CROSSDIR/usr/$TARGET/bin/nm' \\
 	NOMAN=yes \\

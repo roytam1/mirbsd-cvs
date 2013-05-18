@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/scripts/xbuild-gcc.sh,v 1.6 2006/03/01 13:28:34 tg Exp $
+# $MirOS: src/scripts/xbuild-gcc.sh,v 1.7 2006/03/01 14:04:08 tg Exp $
 #-
 # Copyright (c) 2004, 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -65,6 +65,7 @@ set -x
 ( cd $BSDSRCDIR/gcc; \
     BSDSRCDIR=$BSDSRCDIR \
     BSDOBJDIR=$CROSSDIR/usr/obj \
+    CROSSCFLAGS=$CROSSCFLAGS \
     OStriplet=$HOST \
     MACHINE=$MACHINE \
     MACHINE_ARCH=$MARCH \
@@ -83,7 +84,6 @@ set -x
 	GCC_INFODIR=$CROSSDIR/usr/share/info \
 	GCC_MANDIR=$CROSSDIR/usr/share/man \
 	NOPIC=Yes \
-	LDSTATIC=-static \
 	_CROSSBUILD=defined \
 	all install )
 

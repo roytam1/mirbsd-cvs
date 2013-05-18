@@ -1,3 +1,5 @@
+/* $MirOS$ */
+
 /* More subroutines needed by GCC output code on some machines.  */
 /* Compile this one with gcc.  */
 /* Copyright (C) 1989, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999,
@@ -1772,6 +1774,7 @@ func_ptr __DTOR_LIST__[2];
 
 long __guard[8] = {0, 0, 0, 0, 0, 0, 0, 0};
 static void __guard_setup (void) __attribute__ ((constructor));
+void __stack_smash_handler (char *, int);
 
 static void
 __guard_setup (void)
