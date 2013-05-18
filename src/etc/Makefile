@@ -1,4 +1,4 @@
-# $MirOS: src/etc/Makefile,v 1.22 2006/06/17 00:45:00 tg Exp $
+# $MirOS: src/etc/Makefile,v 1.23 2006/06/17 16:21:18 tg Exp $
 # $OpenBSD: Makefile,v 1.226 2005/05/26 23:06:06 mcbride Exp $
 
 TZDIR=		/usr/share/zoneinfo
@@ -185,7 +185,6 @@ etc-files:
 snap_md:
 # nothing here -- look in the machine-dependent Makefile.inc
 
-MAKEDEVARCHS+= amd64
 MAKEDEVARCHS+= i386
 MAKEDEVARCHS+= sparc
 
@@ -260,7 +259,7 @@ install-generated:
 DHSIZE=	1024 1536 2048 3072 4096
 update-moduli:
 	{ \
-		echo '# $$MirOS: src/etc/Makefile,v 1.22 2006/06/17 00:45:00 tg Exp $$'; \
+		echo '# $$MirOS: src/etc/Makefile,v 1.23 2006/06/17 16:21:18 tg Exp $$'; \
 		echo '# Time Type Tests Tries Size Generator Modulus'; \
 		for i in ${DHSIZE}; do \
 			ssh-keygen -b $$i -G /dev/stdout; \
