@@ -1,3 +1,5 @@
+# $MirOS$
+#
 # Setting the normal and default types lets us keep (almost) the same colors
 # whether the terminal's default colors are white-on-black or black-on-white.
 # It is not exact since the default "white" is not necessarily the same color
@@ -113,3 +115,6 @@ span.htmlsrc_badseq:normal:		red
 span.htmlsrc_badtag:normal:		red
 span.htmlsrc_badattr:normal:		red
 span.htmlsrc_sgmlspecial:normal:	yellow
+
+# Workarounds for specific sites
+div.storytext: normal
