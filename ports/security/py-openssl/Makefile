@@ -1,18 +1,16 @@
-# $OpenBSD: Makefile,v 1.2 2004/01/29 17:13:37 sturm Exp $
+# $MirOS$
+# $OpenBSD: Makefile,v 1.14 2010/11/20 17:22:45 espie Exp $
 
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
-COMMENT=			Python interface to the OpenSSL library
+COMMENT=		Python interface to the OpenSSL library
+MODPY_EGG_VERSION=	0.9
+DISTNAME=		pyOpenSSL-${MODPY_EGG_VERSION}
+PKGNAME=		py-openssl-${MODPY_EGG_VERSION}-${DASH_VER}
+CATEGORIES=    		security devel
+HOMEPAGE=		http://www.sourceforge.net/projects/pyopenssl/
 
-VERSION=	0.5.1
-DISTNAME=	pyOpenSSL-${VERSION}
-PKGNAME=	py-openssl-${VERSION}-0
-CATEGORIES=    	security devel
-
-HOMEPAGE=	http://www.sourceforge.net/projects/pyopenssl/
-
-
-# LGPL
+# LGPLv2.1
 PERMIT_PACKAGE_CDROM=	Yes
 PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_CDROM= Yes

@@ -1,3 +1,7 @@
-MD5 (pyOpenSSL-0.5.1.tar.gz) = 4b27570a24eb21664e8c033394496a0e
-RMD160 (pyOpenSSL-0.5.1.tar.gz) = f4453a88300c93724ffc889eb4de17635af17e01
-SHA1 (pyOpenSSL-0.5.1.tar.gz) = d65639255f9266b8ebeb86661a46567624b68b69
+$MirOS$
+
+MD5 (pyOpenSSL-0.9.tar.gz) = 5bf282b2d6a03af921920c34079580f2
+RMD160 (pyOpenSSL-0.9.tar.gz) = fec72e02a922ffb37a9c66ed809c573b778138db
+SHA1 (pyOpenSSL-0.9.tar.gz) = d39eeb26c73e4b96804e1e403e2136062910b6c2
+SIZE (pyOpenSSL-0.9.tar.gz) = 197981
+TIGER (pyOpenSSL-0.9.tar.gz) = 822db8fb3455f33dc9c105e187c2160df8fcfe2c8604ca21
