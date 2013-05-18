@@ -1,11 +1,13 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.9 2004/04/18 00:36:22 jolan Exp $
 
 COMMENT=	"audio/video converter and streamer with bktr(4) support"
-DISTNAME=	ffmpeg-0.4.8
-PKGNAME=	${DISTNAME}-1
-SV=		${DISTNAME:S/ffmpeg-0.//}
+DISTNAME=	ffmpeg-0.4.9-pre1
+PKGNAME=	${DISTNAME:S/-pre/pre/}-0
 CATEGORIES=	graphics x11
 MASTER_SITES=	${MASTER_SITE_SOURCEFORGE:=ffmpeg/}
+# XXX needs to be changed back on next update, including configure
+SV=		4.9 
 
 HOMEPAGE=	http://ffmpeg.sourceforge.net/
 
@@ -16,14 +18,15 @@ PERMIT_DISTFILES_FTP=	Yes
 PERMIT_PACKAGE_CDROM=	Yes
 PERMIT_PACKAGE_FTP=	Yes
 
-LIB_DEPENDS=	SDL.2.0::devel/sdl \
+LIB_DEPENDS=	SDL::devel/sdl \
 		a52::audio/liba52 \
-		mp3lame.0.1::audio/lame \
-		vorbis.3.0,vorbisenc.2.0::audio/libvorbis \
+		mp3lame::audio/lame \
+		vorbis,vorbisenc::audio/libvorbis \
 
 NO_REGRESS=	Yes	# Possible to adapt with some work
 USE_GMAKE=	Yes
 USE_X11=	Yes
+EXTRA_XAKE_FLAGS+=	TRUEPREFIX=${TRUEPREFIX:Q}
 
 # It's either this or disable mmx so postprocess_template.c will build.
 .if ${MACHINE_ARCH} == "i386"
@@ -41,7 +44,10 @@ CONFIGURE_ARGS+=${CONFIGURE_SHARED} \
 		--enable-mp3lame \
 		--enable-vorbis \
 		--enable-a52bin \
-		--disable-debug
+		--disable-debug \
+		--disable-vhook \
+		--disable-debug \
+		--enable-gpl
 
 # bktr(4) support
 .if ${MACHINE_ARCH} != "i386" && ${MACHINE_ARCH} != "powerpc"

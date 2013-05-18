@@ -1,21 +1,30 @@
-$MirOS$
+$MirOS: ports/graphics/ffmpeg/patches/patch-configure,v 1.1.7.1 2005/03/18 15:46:48 tg Exp $
 $OpenBSD: patch-configure,v 1.6 2004/04/18 00:36:22 jolan Exp $
---- configure.orig	2003-09-28 15:26:17.000000000 +0000
-+++ configure	2004-06-26 13:12:50.000000000 +0000
-@@ -155,6 +155,12 @@ dv1394="no"
- make="gmake"
- LDFLAGS="$LDFLAGS -export-dynamic"
+--- configure.orig	Mon Jul  5 18:05:54 2004
++++ configure	Sat Jun 24 23:23:29 2006
+@@ -160,7 +160,7 @@ vhook="default"
+ dlfcn="no"
+ dlopen="no"
+ mpegaudio_hp="yes"
+-SHFLAGS=-shared
++SHFLAGS="-shared -Wl,-rpath,\$(TRUEPREFIX)/lib"
+ netserver="no"
+ need_inet_aton="no"
+ ffserver="yes"
+@@ -232,6 +232,12 @@ make="gmake"
+ CFLAGS="-pthread"
+ LDFLAGS="$LDFLAGS -export-dynamic -pthread"
  ;;
 +OpenBSD|MirBSD|ekkoBSD)
 +strip="echo"
 +extralibs="$extralibs -lossaudio"
 +source_path="`echo $0 | sed -e 's#/configure##'`"
-+SLIBSUF=.so`grep '#define FFMPEG_VERSION ' $source_path/libavcodec/avcodec.h | cut -d '"' -f 2 | cut -d '0' -f 2`
++SLIBSUF=.so.4.9
 +;;
  BSD/OS)
  v4l="no"
  audio_oss="yes"
-@@ -236,7 +242,7 @@ esac
+@@ -307,7 +313,7 @@ esac
  # of AltiVec on PowerPC
  TARGET_OS=`( uname -s ) 2>&1`
    case "$TARGET_OS" in
@@ -24,7 +33,7 @@ $OpenBSD: patch-configure,v 1.6 2004/04/18 00:36:22 jolan Exp $
      ;;
    IRIX*)
      TARGET_OS=IRIX
-@@ -276,9 +282,9 @@ for opt do
+@@ -347,9 +353,9 @@ for opt do
    ;;
    --make=*) make=`echo $opt | cut -d '=' -f 2`
    ;;
@@ -36,7 +45,7 @@ $OpenBSD: patch-configure,v 1.6 2004/04/18 00:36:22 jolan Exp $
    ;;
    --extra-libs=*) extralibs=${opt#--extra-libs=}
    ;;
-@@ -621,6 +627,7 @@ done
+@@ -796,6 +802,7 @@ done
  # test gcc version to see if vector builtins can be used
  # currently only used on i386 for MMX builtins
  cat > $TMPC << EOF
