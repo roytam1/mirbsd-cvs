@@ -1,7 +1,8 @@
-/**	$MirOS: src/usr.bin/locale/locale.c,v 1.2 2006/11/01 23:27:02 tg Exp $ */
+/**	$MirOS: src/usr.bin/locale/locale.c,v 1.3 2006/11/01 23:39:05 tg Exp $ */
 /*	$NetBSD: locale.c,v 1.5 2006/02/16 19:19:49 tnozaki Exp $	*/
 
 /*-
+ * Copyright (c) 2006 Thorsten Glaser <tg@mirbsd.de>
  * Copyright (c) 2002, 2003 Alexey Zelkin <phantom@FreeBSD.org>
  * All rights reserved.
  *
@@ -30,7 +31,7 @@
  */
 
 #include <sys/cdefs.h>
-__RCSID("$MirOS: src/usr.bin/locale/locale.c,v 1.2 2006/11/01 23:27:02 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/locale/locale.c,v 1.3 2006/11/01 23:39:05 tg Exp $");
 __RCSID("$NetBSD: locale.c,v 1.5 2006/02/16 19:19:49 tnozaki Exp $");
 
 /*
@@ -331,37 +332,35 @@ void
 showlocale(void)
 {
 	size_t	i;
-	const char *lang, *vval, *eval;
+	const char *lang, *vval, *eval, *lcallval;
 
 	setlocale(LC_ALL, "");
 
 	lang = getenv("LANG");
-	if (lang == NULL)
+	if (lang == NULL) {
 		printf("LANG=\n");
-	else
+		lang = "C";
+	} else
 		printf("LANG=\"%s\"\n", lang);
-	/* XXX: if LANG is null, then set it to "C" to get implied values? */
+
+	lcallval = getenv("LC_ALL");
 
 	for (i = 0; i < NLCINFO; i++) {
 		vval = setlocale(lcinfo[i].id, NULL);
 		eval = getenv(lcinfo[i].name);
-		if (eval != NULL && !strcmp(eval, vval)
-				&& strcmp(lang, vval)) {
-			/*
-			 * Appropriate environment variable set, its value
-			 * is valid and not overriden by LC_ALL
-			 */
+		if (lcallval || (eval == NULL) || strcmp(eval, vval)) {
+			/* overridden by LC_ALL, not set, or invalid */
+			printf("%s=\"%s\"\n", lcinfo[i].name, vval);
+		} else if (strcmp(lang, vval)) {
+			/* set and not implied, and valid */
 			printf("%s=%s\n", lcinfo[i].name, vval);
 		} else {
+			/* set but implied */
 			printf("%s=\"%s\"\n", lcinfo[i].name, vval);
 		}
 	}
 
-	vval = getenv("LC_ALL");
-	if (vval == NULL)
-		printf("LC_ALL=\n");
-	else
-		printf("LC_ALL=\"%s\"\n", vval);
+	printf("LC_ALL=%s\n", lcallval ? lcallval : "");
 }
 
 /*
