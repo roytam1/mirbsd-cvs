@@ -1,9 +1,9 @@
-# $MirOS: ports/print/cups/Makefile,v 1.15 2007/05/19 12:50:37 bsiegert Exp $
+# $MirOS: ports/print/cups/Makefile,v 1.16 2007/11/26 20:05:40 bsiegert Exp $
 
 COMMENT=		Common Unix Printing System
 
 VERSION=		1.2.11
-DASH_VER=		1
+DASH_VER=		2
 DISTNAME=		cups-${VERSION}-source
 PKGNAME=		${DISTNAME:S/-source//}-${DASH_VER}
 CATEGORIES=		print sysutils
@@ -24,8 +24,8 @@ MASTER_SITES+=		${MASTER_SITE_SOURCEFORGE:=cups/}
 			
 EXTRACT_SUFX=		.tar.bz2
 
-LIB_DEPENDS=		jpeg.62::graphics/jpeg \
-			tiff.35::graphics/tiff
+LIB_DEPENDS=		jpeg::graphics/jpeg \
+			tiff::graphics/tiff
 MODULES+=		graphics/png
 
 EXTRA_XAKE_FLAGS+=	BINMODE=${BINMODE} \
