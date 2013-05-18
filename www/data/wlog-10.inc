@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.225 2009/08/10 15:49:20 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.226 2009/08/11 21:18:16 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -4683,4 +4683,44 @@ Tag: bug snapshot
 
 <p>Woohoo, MirOS #10-current (20090811) i386;sparc is out, and with
  only a glurpzillion problems that arose during its compilation…</p>
+----
+Title: Manche Sachen übersetzt man einfach nicht!
+Date: 12.08.2009 14:33
+Author: tg@
+Language: de
+
+<p>NLS, I18N (Internationalisierung), L&lt;Zahl&gt;N (Lokalisierung)
+ und so mögen ja alle schön und gut sein… (gcc verwendet immerhin bei
+ LC_MESSAGES=en_GB.UTF-8 „<span xml:lang="en">the Queen’s English</span>“
+ (so halbwegs) und statt U+0060 (‘`’, muß sterben) typographisch korrekte
+ Anführungszeichen (‘’). Aber… man kann sich bei „span xml:lang="en">tab
+ completion</span>“ <em>leicht</em> auf „Tab-Vervollständigung“ einigen,
+ alles muß man jedoch nicht übersetzen. Auf der Webseite (nicht im RSS)
+ gibt’s ein Bild dazu.</p><!-- RSS stop -->
+<p><img src="https://serverop.de/~tek/images/nlssucks.jpg"
+ alt="NLS sucks" /><br />(danke an &lt;teK_:#grml&gt;, der sich zu
+ erinnern meint, daß das SuSE verbrochen habe)</p>
+----
+Title: finally, a new snapshot – Episode 2: the b0rken
+Date: 12.08.2009 14:34
+Author: tg@
+Tag: bug snapshot
+
+<p>Yeah, a new snapshot. I wanted to update MirOS bsd4grml in the <a
+ href="http://git.grml.org/?p=grml-live.git;a=summary">grml-live</a>
+ repository too. Like a good developer, I read my “git diff” before
+ “git commit -a”ing. What do I see, the ‘-’ in the manpage is missing.
+ Search. Search more. Curse. I mean, fuck. The whole 20090811 “David”
+ snapshot has broken manpages because of a faulty merge-from-OpenBSD,
+ who decided, in their infinite wisdom, to use “\(en”, a GNU groff
+ extension. While Kristaps Džonsons (ha, jmc, <strong>I</strong> can
+ spell that right!) is correct in that an en dash should be used at
+ that position (separating name from short description), nroff(1) only
+ has “\(em” in that place. Luckily, we already define “\*(en” in our
+ compatibility stuff (and mircvs://contrib/samples/portmdoc), so we
+ can use that instead.</p>
+<p>The only annoying thing is that I have to rebuild the i386 part
+ of the snapshot again. Anyway, as soon as it’s up (probably tomorrow
+ afternoon, as it has to be uploaded from here first), have fun.
+ I’ll change the <a href="@@RELPATH@@irc.htm">channel</a> topic.</p>
 ----
