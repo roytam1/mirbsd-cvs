@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.236 2008/11/02 19:21:31 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.237 2008/11/10 01:41:00 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -2541,7 +2541,7 @@ _delete-package-links:
 
 clean:
 .if ${_clean:L:Mdepends} && ${_CLEANDEPENDS:L} == "yes"
-	@${MAKE} all-dir-depends | tsort -r | while read dir; do \
+	@${MAKE} all-dir-depends | tsort -rq | while read dir; do \
 		unset FLAVOUR SUBPACKAGE || true; \
 		${_flavour_fragment}; \
 		eval $$toset ${MAKE} _CLEANDEPENDS=No clean; \
@@ -2971,7 +2971,7 @@ print-depends: print-build-depends print-run-depends
 
 .for _i in build all run
 full-${_i}-depends:
-	@${MAKE} ${_i}-dir-depends | tsort -r | sed -e '$$d' \
+	@${MAKE} ${_i}-dir-depends | tsort -rq | sed -e '$$d' \
 	    | while read dir; do \
 		unset FLAVOUR SUBPACKAGE || true; \
 		${_flavour_fragment}; \
@@ -2979,7 +2979,7 @@ full-${_i}-depends:
 	done
 
 for-${_i}-depends:
-	@${MAKE} ${_i}-dir-depends | tsort -r | sed -e '$$d' \
+	@${MAKE} ${_i}-dir-depends | tsort -rq | sed -e '$$d' \
 	    | while read dir; do \
 		unset FLAVOUR SUBPACKAGE || true; \
 		${_flavour_fragment}; \
@@ -2990,7 +2990,7 @@ for-${_i}-depends:
 relevant-checks:
 .if ${PERMIT_PACKAGE_CDROM:L} == "yes" || ${PERMIT_PACKAGE_FTP:L} == "yes" \
     || ${USE_CXX:L} == "yes" || ${USE_X11:L} == "yes"
-	@${MAKE} all-dir-depends | tsort -r | sed -e '$$d' \
+	@${MAKE} all-dir-depends | tsort -rq | sed -e '$$d' \
 	    | while read dir; do \
 		unset FLAVOUR SUBPACKAGE || true; \
 		${_flavour_fragment}; \
