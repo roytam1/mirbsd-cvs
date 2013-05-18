@@ -1,3 +1,0 @@
-@comment $OpenBSD: PLIST,v 1.1.1.1 2000/07/20 10:05:38 jakob Exp $
-sbin/thttpd
-man/man8/thttpd.8
