@@ -1,4 +1,4 @@
-/**	$MirOS: src/lib/libc/crypt/arc4random.c,v 1.9 2007/02/07 21:16:58 tg Exp $ */
+/**	$MirOS: src/lib/libc/crypt/arc4random.c,v 1.10 2007/08/09 17:13:09 tg Exp $ */
 /*	$OpenBSD: arc4random.c,v 1.14 2005/06/06 14:57:59 kjell Exp $	*/
 
 /*
@@ -46,7 +46,7 @@
 #include <string.h>
 #include <unistd.h>
 
-__RCSID("$MirOS: src/lib/libc/crypt/arc4random.c,v 1.9 2007/02/07 21:16:58 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/crypt/arc4random.c,v 1.10 2007/08/09 17:13:09 tg Exp $");
 
 #ifdef __GNUC__
 #define inline __inline
@@ -79,7 +79,7 @@ arc4_init(struct arc4_stream *as)
 }
 
 static inline void
-arc4_addrandom(struct arc4_stream *as, u_char *dat, int datlen)
+arc4_addrandom(struct arc4_stream *as, uint8_t *dat, int datlen)
 {
 	int     n;
 	u_int8_t si;
@@ -100,29 +100,34 @@ arc4_stir(struct arc4_stream *as)
 {
 	int     mib[2];
 	size_t	i, len;
-	u_char rnd[128] __attribute__((aligned (16)));
+	union {
+		uint8_t charbuf[128];
+		uint32_t intbuf[32];
+		struct {
+			tai64na_t thetime;
+			pid_t thepid;
+		} alignedbuf;
+	} sbuf;
 
-	len = sizeof (tai64na_t);
-	taina_time((tai64na_t *)&rnd);
-	*((pid_t *)(rnd + len)) = arc4_stir_pid = getpid();
-	len += sizeof (pid_t);
-	arc4_addrandom(as, rnd, len);
+	taina_time(&sbuf.alignedbuf.thetime);
+	sbuf.alignedbuf.thepid = arc4_stir_pid = getpid();
+	arc4_addrandom(as, sbuf.charbuf, sizeof (tai64na_t) + sizeof (pid_t));
 
 	mib[0] = CTL_KERN;
 	mib[1] = KERN_ARND;
 
-	len = sizeof(rnd);
-	if (sysctl(mib, 2, rnd, &len, NULL, 0) == -1) {
-		for (i = 0; i < sizeof(rnd) / sizeof(u_int); i ++) {
-			len = sizeof(u_int);
-			if (sysctl(mib, 2, &rnd[i * sizeof(u_int)], &len,
+	len = 128;
+	if (sysctl(mib, 2, &sbuf.charbuf, &len, NULL, 0) == -1) {
+		for (i = 0; i < 32; i++) {
+			len = 4;
+			if (sysctl(mib, 2, &sbuf.intbuf[i], &len,
 			    NULL, 0) == -1)
 				break;
 		}
 	}
 	/* discard by a randomly fuzzed factor as well */
 	len = 256 + (arc4_getbyte(as) & 0x0F);
-	arc4_addrandom(as, rnd, sizeof(rnd));
+	arc4_addrandom(as, sbuf.charbuf, sizeof (sbuf));
 
 	/*
 	 * Discard early keystream, as per recommendations in:
@@ -214,9 +219,10 @@ arc4random_pushb(const void *buf, size_t len)
 	mib[1] = KERN_ARND;
 	j = sizeof (i);
 
-	if (sysctl(mib, 2, &i, &j, sbuf, len) != 0)
-		i = (((v & 1) + 1) * (rand() & 0xFF)) ^ arc4random() ^
-		    *((uint32_t *)(sbuf + (len - 4)));
+	if (sysctl(mib, 2, &i, &j, sbuf, len) != 0) {
+		memcpy(&i, sbuf + len - 1 - sizeof (i), sizeof (i));
+		i ^= (((v & 1) + 1) * (rand() & 0xFF)) ^ arc4random();
+	}
 
 	memcpy(sbuf, &v, sizeof (uint32_t));
 	memcpy(sbuf + sizeof (uint32_t), &i, sizeof (uint32_t));
