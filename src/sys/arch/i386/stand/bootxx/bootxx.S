@@ -1,4 +1,4 @@
-/* $MirOS: src/share/misc/licence.template,v 1.28 2008/11/14 15:33:44 tg Rel $ */
+/* $MirOS: src/sys/arch/i386/stand/bootxx/bootxx.S,v 1.12 2009/01/10 18:15:10 tg Exp $ */
 
 /*-
  * Copyright (c) 2003, 2004, 2005, 2007, 2009
@@ -24,6 +24,7 @@
 	.code16
 	.text
 
+	.type	_start, @function
 	.globl	_start
 _start:
 	xor	ax,ax
@@ -53,21 +54,25 @@ Lcrlf:	.asciz	"\r\n"
 
 #define BLKCNT	(blkend - blktbl)
 	.size	blkcnt, 1
+	.type	blkcnt, @object
 	.globl	blkcnt
 blkcnt:	.byte	BLKCNT
 
 Lldp:	.word	LsLBA
 
 	.size	partp, 1
+	.type	partp, @object
 	.globl	partp
 partp:	.byte	0		/* must be Ldrv - 1 */
 Ldrv:	.byte	0x80
 
 	.size	bpbspt, 2
+	.type	bpbspt, @object
 	.globl	bpbspt
 bpbspt:	.word	18
 
 	.size	bpbtpc, 2
+	.type	bpbtpc, @object
 	.globl	bpbtpc
 bpbtpc:	.word	2
 
@@ -282,6 +287,7 @@ LsIN0:	pusha
 	popa
 	jmp	LsIN0
 
+	.type	blktbl, @object
 	.globl	blktbl
 blktbl:
 	/* free space for block table till end of sector */
