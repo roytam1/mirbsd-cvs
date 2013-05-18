@@ -1,5 +1,5 @@
 vers(__file__,
-	{-$MirOS: src/etc/etc.i386/MAKEDEV.md,v 1.9 2006/06/17 16:28:21 tg Exp $-})dnl
+	{-$MirOS: src/etc/etc.i386/MAKEDEV.md,v 1.10 2007/10/26 23:08:22 tg Exp $-})dnl
 vers(__file__,
 	{-$OpenBSD: MAKEDEV.md,v 1.32 2005/06/29 18:23:27 todd Exp $-},
 etc.MACHINE)dnl
@@ -23,6 +23,8 @@ __devitem(apm, apm, Power management device)dnl
 dnl #notyet#__devitem(acpi, acpi, Advanced Configuration and Power Interface)dnl
 dnl #notyet#__devitem(nvram, nvram, NVRAM access)dnl
 _mkdev(nvram, nvram, {-M nvram c major_nvram_c 0 440 kmem-})dnl
+__devitem(tpm, tpm, Trusted Platform Module)dnl
+_mkdev(tpm, tpm, {-M tpm c major_tpm_c 0 660 operator-})dnl
 _TITLE(make)
 _DEV(all)
 _DEV(ramdisk)
@@ -96,6 +98,7 @@ _DEV(rnd, 45)
 _DEV(speak, 27)
 _DEV(ss, 19)
 _DEV(systrace, 78)
+_DEV(tpm, 83)
 _DEV(tun, 40)
 _DEV(tuner, 49)
 _DEV(uk, 20)
@@ -135,6 +138,7 @@ twrget(all, flo, fd, 1, 1B, 1C, 1D, 1E, 1F, 1G, 1H)dnl
 target(all, pty, 0)dnl
 target(all, bpf, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9)dnl
 target(all, bio)dnl
+target(all, tpm)dnl
 target(all, tun, 0, 1, 2, 3)dnl
 target(all, xy, 0, 1, 2, 3)dnl
 target(all, rd, 0)dnl

@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: ichpcib.c,v 1.2 2004/05/07 04:35:59 grange Exp $	*/
 /*
  * Copyright (c) 2004 Alexander Yurchenko <grange@openbsd.org>
@@ -18,7 +19,8 @@
 /*
  * Special driver for the Intel ICHx/ICHx-M LPC bridges that attaches
  * instead of pcib(4). In addition to the core pcib(4) functionality this
- * driver provides support for the Intel SpeedStep technology.
+ * driver provides support for the Intel SpeedStep technology and allows
+ * the tpm(4) interface to plug.
  */
 
 #include <sys/param.h>
@@ -33,6 +35,12 @@
 #include <dev/pci/pcivar.h>
 
 #include <dev/pci/ichreg.h>
+
+#include "tpm.h"
+#if !defined(SMALL_KERNEL) && (NTPM > 0)
+extern void ichpcib_attach_tpm(struct device *, struct device *,
+    struct pci_attach_args *);
+#endif
 
 struct ichpcib_softc {
 	struct device sc_dev;
@@ -129,6 +137,9 @@ corepcib:
 #endif	/* !SMALL_KERNEL */
 	/* Provide core pcib(4) functionality */
 	pcibattach(parent, self, aux);
+#if !defined(SMALL_KERNEL) && (NTPM > 0)
+	ichpcib_attach_tpm(parent, self, pa);
+#endif
 }
 
 #ifndef SMALL_KERNEL
