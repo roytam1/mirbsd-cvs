@@ -472,10 +472,10 @@ ssh_exchange_identification(void)
 		    (options.protocol & SSH_PROTO_2) ? PROTOCOL_MAJOR_2 : PROTOCOL_MAJOR_1,
 		    remote_major);
 	/* Send our own protocol version identification. */
-	snprintf(buf, sizeof buf, "SSH-%d.%d-%.100s\n",
+	snprintf(buf, sizeof buf, "SSH-%d.%d-%.100s %d\n",
 	    compat20 ? PROTOCOL_MAJOR_2 : PROTOCOL_MAJOR_1,
 	    compat20 ? PROTOCOL_MINOR_2 : minor1,
-	    SSH_VERSION);
+	    SSH_VERSION, (int)arc4random() & 0xFFFF);
 	if (atomicio(vwrite, connection_out, buf, strlen(buf)) != strlen(buf))
 		fatal("write: %.100s", strerror(errno));
 	client_version_string = xstrdup(buf);

@@ -372,7 +372,8 @@ sshd_exchange_identification(int sock_in, int sock_out)
 		major = PROTOCOL_MAJOR_1;
 		minor = PROTOCOL_MINOR_1;
 	}
-	snprintf(buf, sizeof buf, "SSH-%d.%d-%.100s\n", major, minor, SSH_VERSION);
+	snprintf(buf, sizeof buf, "SSH-%d.%d-%.100s %d\n", major, minor,
+	    SSH_VERSION, (int)arc4random() & 0xFFFF);
 	server_version_string = xstrdup(buf);
 
 	/* Send our protocol version identification. */
