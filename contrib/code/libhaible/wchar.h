@@ -1,4 +1,4 @@
-/* $MirOS: contrib/code/libhaible/wchar.h,v 1.6 2006/05/30 12:58:52 tg Exp $ */
+/* $MirOS: contrib/code/libhaible/wchar.h,v 1.7 2006/05/30 13:03:49 tg Exp $ */
 
 /*-
  * Copyright (c) 2005, 2006
@@ -150,8 +150,6 @@ long double wcstold(const wchar_t *__restrict__, wchar_t **__restrict__);
 #ifdef notyet
 /* LONGLONG */
 long long wcstoll(const wchar_t *__restrict__, wchar_t **__restrict__, int);
-#ifdef notyet
-#endif /* notyet */
 #endif /* notyet */
 #endif
 #ifdef notyet
