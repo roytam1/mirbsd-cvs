@@ -1,4 +1,4 @@
-.\"	$MirOS: src/share/tmac/mdoc/doc-nroff,v 1.5 2006/06/15 19:18:51 tg Exp $
+.\"	$MirOS: src/share/tmac/mdoc/doc-nroff,v 1.6 2006/11/04 03:46:51 tg Exp $
 .\"	$OpenBSD: doc-nroff,v 1.7 2004/06/06 22:38:10 jmc Exp $
 .\"
 .\" Copyright (c) 2005
@@ -105,7 +105,7 @@
 .ds Rq \&"
 .ds Lq \&"
 .ds ua ^
-.ds aa \´
+.ds aa \'
 .ds ga \`
 .ds sL '
 .ds sR '
