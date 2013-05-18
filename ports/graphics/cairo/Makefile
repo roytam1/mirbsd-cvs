@@ -1,6 +1,6 @@
-# $MirOS: ports/graphics/cairo/Makefile,v 1.6 2006/08/26 23:34:11 tg Exp $
+# $MirOS: ports/graphics/cairo/Makefile,v 1.7 2006/09/14 00:09:48 tg Exp $
 
-COMMENT=			vector graphics library
+COMMENT=		vector graphics library
 
 DISTNAME=		cairo-1.0.0
 PKGNAME=		${DISTNAME}-2
@@ -29,6 +29,8 @@ CONFIGURE_STYLE=	autoconf
 AUTOCONF_NEW=		Yes
 
 CONFIGURE_ARGS=		--enable-static \
+			--disable-dependency-tracking \
+			--disable-libtool-lock \
 			${CONFIGURE_SHARED}
 
 .include <mirports.sys.mk>

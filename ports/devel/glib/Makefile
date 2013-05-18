@@ -1,4 +1,4 @@
-# $MirOS: ports/devel/glib/Makefile,v 1.9 2006/06/04 20:57:14 bsiegert Exp $
+# $MirOS: ports/devel/glib/Makefile,v 1.10 2006/09/14 00:08:12 tg Exp $
 # $OpenBSD: Makefile,v 1.19 2004/12/22 06:31:05 espie Exp $
 
 COMMENT=			general-purpose utility library
@@ -41,5 +41,7 @@ CONFIGURE_STYLE=	autoconf
 AUTOCONF_NEW=		Yes
 CONFIGURE_ARGS+=	${CONFIGURE_SHARED}
 CONFIGURE_ARGS+=	--enable-static
+CONFIGURE_ARGS+=	--disable-dependency-tracking \
+			--disable-libtool-lock \
 
 .include <bsd.port.mk>
