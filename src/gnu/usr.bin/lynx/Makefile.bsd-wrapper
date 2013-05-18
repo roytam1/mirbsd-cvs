@@ -1,4 +1,4 @@
-# $MirOS: src/gnu/usr.bin/lynx/Makefile.bsd-wrapper,v 1.19 2008/03/09 18:19:37 tg Exp $
+# $MirOS: src/gnu/usr.bin/lynx/Makefile.bsd-wrapper,v 1.20 2008/12/17 00:24:43 tg Exp $
 # $OpenBSD: Makefile.bsd-wrapper,v 1.12 2003/05/01 18:59:36 avsm Exp $
 
 MAN=		lynx.1
@@ -15,7 +15,7 @@ CFARGS+=	--prefix=/usr \
 		--enable-warnings \
 		--disable-nls \
 		--disable-full-paths \
-		--with-ssl=/usr \
+		--with-ssl \
 		--without-gnutls \
 		--without-socks \
 		--without-socks5 \
@@ -63,7 +63,8 @@ CFVARS+=	ac_cv_path_TELNET=telnet \
 		ac_cv_path_RM=rm \
 		ac_cv_path_UUDECODE=uudecode \
 		ac_cv_path_ZCAT=zcat \
-		ac_cv_path_ZIP=zip
+		ac_cv_path_ZIP=zip \
+		ac_cv_path_PKG_CONFIG=none
 
 HTMLDIR=	/usr/share/doc/html
 HTMLFILES=	Lynx_users_guide.html about_lynx.html help_files.txt \

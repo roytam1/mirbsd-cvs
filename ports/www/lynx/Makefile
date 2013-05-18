@@ -1,8 +1,9 @@
-# $MirOS: ports/www/lynx/Makefile,v 1.22 2008/03/12 12:05:25 tg Exp $
+# $MirOS: ports/www/lynx/Makefile,v 1.23 2008/12/17 00:24:39 tg Exp $
 
 COMMENT=		standard text-mode world wide web browser
 CATEGORIES=		www essentials
 VERSION=		2.8.7dev.11a
+DASH_VER=		1
 DISTNAME=		lynx${VERSION:C/[a-z]$//}
 .if ${VERSION} != ${VERSION:C/[a-z]$//}
 .  ifdef notdef		# no patchfile exists for 2.8.7dev.11a
@@ -39,7 +40,7 @@ CONFIGURE_ARGS+=	--enable-vertrace \
 			--enable-warnings \
 			--disable-nls \
 			--disable-full-paths \
-			--with-ssl=/usr \
+			--with-ssl \
 			--without-gnutls \
 			--without-socks \
 			--without-socks5 \
@@ -81,7 +82,8 @@ CONFIGURE_ENV+=		ac_cv_path_TELNET=telnet \
 			ac_cv_path_RM=rm \
 			ac_cv_path_UUDECODE=uudecode \
 			ac_cv_path_ZCAT=zcat \
-			ac_cv_path_ZIP=zip
+			ac_cv_path_ZIP=zip \
+			ac_cv_path_PKG_CONFIG=none
 
 .if ${MACHINE_OS} == "Interix"
 CONFIGURE_ARGS+=	--disable-ipv6
