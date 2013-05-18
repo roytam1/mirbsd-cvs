@@ -1,7 +1,7 @@
-$MirOS: ports/www/opera/patches/patch-install_sh,v 1.4 2006/06/20 18:20:37 tg Exp $
+$MirOS: ports/www/opera/patches/patch-install_sh,v 1.5 2006/08/09 15:00:25 tg Exp $
 $OpenBSD: patch-install_sh,v 1.14 2005/11/22 21:44:22 sturm Exp $
---- install.sh.orig	Fri Jul 28 13:10:21 2006
-+++ install.sh	Wed Aug  9 14:52:53 2006
+--- install.sh.orig	Tue Sep 19 13:40:24 2006
++++ install.sh	Thu Sep 21 14:33:02 2006
 @@ -84,7 +84,7 @@ guess_os()
  	FreeBSD|NetBSD|DragonFly) os=AnyBSD;;
  	SunOS*) os=SunOS;;
@@ -47,7 +47,7 @@ $OpenBSD: patch-install_sh,v 1.14 2005/11/22 21:44:22 sturm Exp $
  wrapper_contain="${wrapper_contain}
  
  # Make sure the compat libraries are found
-@@ -1338,7 +1338,7 @@ run_install()
+@@ -1342,7 +1342,7 @@ run_install()
      then
  	# System wide configuration files
  	config_dir="/etc"
@@ -56,7 +56,7 @@ $OpenBSD: patch-install_sh,v 1.14 2005/11/22 21:44:22 sturm Exp $
  	then
  	    echo
  	    echo "System wide configuration files:"
-@@ -1368,7 +1368,7 @@ run_install()
+@@ -1372,7 +1372,7 @@ run_install()
  	then
  	    echo
  	    echo "Shortcut icons will be ignored if installed with the prefix \"$prefix\"."
