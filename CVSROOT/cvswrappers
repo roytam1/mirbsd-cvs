@@ -1,4 +1,4 @@
-# $MirOS: CVSROOT/cvswrappers,v 1.10 2009/11/22 22:06:23 tg Exp $
+# $MirOS: CVSROOT/cvswrappers,v 1.11 2009/11/22 22:07:27 tg Exp $
 #-
 # This file affects handling of files based on their names.
 #
@@ -130,6 +130,8 @@
 *.tbz2 -k 'b'
 *.TGZ -k 'b'
 *.tgz -k 'b'
+*.TORRENT -k 'b'
+*.torrent -k 'b'
 *.TTC -k 'b'
 *.ttc -k 'b'
 *.TTF -k 'b'

@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/news.inc,v 1.136 2010/03/03 11:47:52 tg Exp $
+RCSID: $MirOS: www/data/news.inc,v 1.137 2010/08/15 13:00:12 tg Exp $
 Title: Older news from the MirOS Project
 Date: 01.03.2006
 
@@ -1903,4 +1903,23 @@ Tag: mksh
  user-visible changes.</p>
 <p>We are proud to announce that the android-x86 project's <tt>/bin/sh</tt>
  is now an mksh(1) as well.</p>
+----
+Title: [BT] MirOS #10-current (FrOSCon) ISO
+Date: 19.08.2010 18:40
+Author: tg@
+Tag: event snapshot
+
+<p>The <a href="http://froscon.de/">FrOSCon</a> Edition “Federrosé” ISO
+ is <a href="@@RELPATH@@f/MirOS%20%2310-current%20%28FrOSCon%202010%29%20%5B2C7AF16C%5D.torrent">now
+ available</a> for download using BitTorrent. Because our usual tracker
+ Scarywater is down, the file is now hosted here and tracked using <a
+ href="http://openbittorrent.com/">OpenBitTorrent</a> primarily.</p>
+<!-- RSS stop --><ul>
+ <li>MD5 (MIRA0819.ISO) = 3ecab5f91e042580cf38571119b01fff</li>
+ <li>RMD160 (MIRA0819.ISO) = c78ca3d2b1414c869ae15fd285cd2544b6eab6b1</li>
+ <li>SHA1 (MIRA0819.ISO) = a9f343b019a238456ae6152191e06bdeff8ecca3</li>
+ <li>SIZE (MIRA0819.ISO) = 713031680</li>
+ <li>TIGER (MIRA0819.ISO) = 56dc76dbd112fe70eee5f393b5d90c097f60fb6211c31ced</li>
+</ul>
+<p>Enjoy!</p>
 ----
