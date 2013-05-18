@@ -1,9 +1,0 @@
-$MirOS$
---- libexif/libexif.pc.in.orig	Thu Mar 17 15:57:56 2005
-+++ libexif/libexif.pc.in	Thu Dec 29 21:39:58 2005
-@@ -8,4 +8,4 @@ Description: Library for easy access to 
- Requires:
- Version: @VERSION@
- Libs: -L${libdir} -lexif -lm
--Cflags: -I${includedir}
-+Cflags: -I${includedir} -I${includedir}/libexif
