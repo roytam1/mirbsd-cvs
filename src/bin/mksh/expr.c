@@ -478,11 +478,6 @@ exprtoken(Expr_state *es)
 	} else if (c == '1' && cp[1] == '#') {
 		utf_cptradj(cp + 2, &cp);
 		tvar = str_nsave(es->tokp, cp - es->tokp, ATEMP);
-		if (*cp) {
-			*tvar = '\0';	/* produce an artificial error */
-			while (*cp)	/* and skip until end of expr */
-				++cp;
-		}
 		goto process_tvar;
 	} else if (ksh_isdigit(c)) {
 		while (c != '_' && (ksh_isalnux(c) || c == '#'))
