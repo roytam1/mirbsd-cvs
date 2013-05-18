@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.415 2013/01/17 20:36:29 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.416 2013/02/20 14:04:19 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -9764,4 +9764,49 @@ Tag: debian rant
 <p>Couldn’t comment on your blog, but felt strongly enough about this I
  took the effort of writing a full post of my own.</p>
 <p>(But thanks for the book recommendation.)</p>
+----
+Date: 23.02.2013 20:27
+Author: tg@
+Title: Too much
+Tag: personal
+
+<p>I’ve been doing too much lately, which has led to reduced performance
+ and enjoyment. Also I’ve not been able to work the full hours of my
+ dayjob, reducing what I had on my overtime account. I’ll be taking a
+ step back and try to un-load. This is my notice, I’m not explicit on
+ where, and I’m not cancelling anything special (not even those mentioned
+ in the next paragraphs).</p>
+<p>I’m disappointed with Google/Nianticproject Ingress. It’s frustrating
+ (nothing lasts; also read <a
+ href="https://plus.google.com/+KristianK%C3%B6hntopp/posts/gyV1wRnuwyo">this
+ posting</a>), buggy, battery-draining, sometimes too time-consuming
+ (especially with only GPRS) and I don’t get warm with the Android 2.3
+ based Cyanogenmod on the borrowed device. Using it without a <em>big</em>
+ screen device having the Intel map next to you is futile. I could go into
+ detail but won’t. I won’t stop playing, as it’s a good excuse to go outside
+ and combines somewhat with geocaching (unless you’re trying to actually
+ play Ingress, in which case you’ll just be walking/cycling/driving between
+ portals at maximum speed). And there’s that connection with Liferay…</p>
+<p>Fun is important in securing volunteer work; bugs and <a
+ href="http://article.gmane.org/gmane.linux.debian.ports.68k/10993">other
+ random happenings</a> (example) can drain the fun.</p>
+<p>To end on a positive note, I’m absolutely, totally happy with <a
+ href="@@RELPATH@@mksh.htm">mksh</a> user and distributor feedback,
+ including the bug reports and feature requests, how well almost all
+ people deal with feature rejection, and the speed of integration of
+ mksh(1) updates lately. The only thing I’m unhappy wrt. mksh is my
+ own lack of speed regarding implementing the cool new things I’ve
+ been, as an mksh <em>user</em>, waiting for because I want and even
+ <em>need</em> them for some cool programs written in mksh I would
+ love to write, so I can use them.</p>
+<p>I’ve got roughly 350 mails in my INBOX (all read, but most of them
+ being action items; some due… before this weekend, evilly enough, the
+ one I’m thinking of is GnuPG/MIME encrypted, which means extra effort
+ to read it). Just so you know. (And a couple of other things that
+ really could use some fixing, which I can, in theory, do. And lots of
+ requests for spending real life time with.)</p>
+<p>I’m still reachable via eMail and IRC (mostly), will respond, will
+ try to persuade my employer to send me to CLT 2013 next month… just,
+ don’t deadline me right now. I’m not taking a VACation either (though
+ I probably should, had I money).</p>
 ----
