@@ -1,5 +1,6 @@
-/**	$MirOS$ */
-/*	$OpenBSD: dir.c,v 1.43 2005/06/26 15:19:12 mickey Exp $ */
+/**	$MirOS: src/usr.bin/make/dir.c,v 1.3 2005/11/24 13:20:32 tg Exp $ */
+/*	$OpenPackages$ */
+/*	$OpenBSD: dir.c,v 1.45 2007/01/18 17:49:51 espie Exp $ */
 /*	$NetBSD: dir.c,v 1.14 1997/03/29 16:51:26 christos Exp $	*/
 
 /*
@@ -63,12 +64,12 @@
  */
 
 #include <sys/param.h>
-#include <sys/types.h>
 #include <sys/stat.h>
 #include <dirent.h>
 #include <limits.h>
 #include <stddef.h>
 #include <stdio.h>
+#include <stdint.h>
 #include <stdlib.h>
 #include <string.h>
 #include "config.h"
@@ -85,7 +86,7 @@
 #include "str.h"
 #include "timestamp.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.bin/make/dir.c,v 1.3 2005/11/24 13:20:32 tg Exp $");
 
 typedef struct Path_ {
     int 	  refCount;	/* Number of paths with this directory */
@@ -210,7 +211,7 @@ static struct ohash_info dir_info = { offsetof(Path, name),
 static void add_file(Path *, const char *);
 /* n = find_file_hashi(p, name, end, hv): retrieve name in a path hash
  * 	structure. */
-static char *find_file_hashi(Path *, const char *, const char *, u_int32_t);
+static char *find_file_hashi(Path *, const char *, const char *, uint32_t);
 
 /* stamp = find_stampi(name, end): look for (name, end) in the global
  *	cache. */
@@ -281,7 +282,7 @@ add_file(Path *p, const char *file)
 }
 
 static char *
-find_file_hashi(Path *p, const char *file, const char *efile, u_int32_t hv)
+find_file_hashi(Path *p, const char *file, const char *efile, uint32_t hv)
 {
     struct ohash 	*h = &p->files;
 
@@ -635,7 +636,8 @@ Dir_Expandi(const char *word, const char *eword, Lst path, Lst expansions)
  *	that directory later on.
  */
 char *
-Dir_FindFilei(const char *name, const char *ename, Lst path)
+Dir_FindFileComplexi(const char *name, const char *ename, Lst path, 
+    bool checkCurdirFirst)
 {
     Path		*p;	/* current path member */
     char		*p1;	/* pointer into p->name */
@@ -647,7 +649,7 @@ Dir_FindFilei(const char *name, const char *ename, Lst path)
     bool		hasSlash;
     struct stat 	stb;	/* Buffer for stat, if necessary */
     struct file_stamp	*entry; /* Entry for mtimes table */
-    u_int32_t		hv;	/* hash value for last component in file name */
+    uint32_t		hv;	/* hash value for last component in file name */
     char		*q;	/* Str_dupi(name, ename) */
 
     /* Find the final component of the name and note whether name has a
@@ -665,10 +667,10 @@ Dir_FindFilei(const char *name, const char *ename, Lst path)
 
     if (DEBUG(DIR))
 	printf("Searching for %s...", name);
-    /* No matter what, we always look for the file in the current directory
-     * before anywhere else and we always return exactly what the caller
-     * specified. */
-    if ((!hasSlash || (cp - name == 2 && *name == '.')) &&
+    /* Unless checkCurDirFirst is false, we always look for 
+     * the file in the current directory before anywhere else 
+     * and we always return exactly what the caller specified. */
+    if (checkCurdirFirst && (!hasSlash || (cp - name == 2 && *name == '.')) &&
 	find_file_hashi(dot, cp, ename, hv) != NULL) {
 	    if (DEBUG(DIR))
 		printf("in '.'\n");

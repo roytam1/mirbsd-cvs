@@ -1,13 +1,14 @@
-# $MirOS: src/usr.bin/make/Makefile,v 1.15 2006/08/26 21:37:11 tg Exp $
-# $OpenBSD: Makefile,v 1.38 2004/01/28 02:50:28 espie Exp $
+# $MirOS: src/usr.bin/make/Makefile,v 1.16 2006/08/27 00:39:07 tg Exp $
+# $OpenBSD: Makefile,v 1.40 2007/03/18 15:37:06 mickey Exp $
 
 .include <bsd.own.mk>
 
 PROG=		make
-CDIAGFLAGS=	-Wall -W -Wno-char-subscripts -Wstrict-prototypes -pedantic \
+CDIAGFLAGS+=	-Wall -W -Wno-char-subscripts -Wstrict-prototypes -pedantic \
 		-Wmissing-prototypes -Werror -Wno-cast-qual
 #CPPFLAGS+=	-DHAS_STATS	# Throw out statistics after running
-CPPFLAGS+=	-I. -DMACHINE=\"${MACHINE}\" -DMACHINE_ARCH=\"${MACHINE_ARCH}\"
+CPPFLAGS+=	-DMACHINE=\"${MACHINE}\" -DMACHINE_ARCH=\"${MACHINE_ARCH}\"
+CPPFLAGS+=	-I. -I${.CURDIR}
 
 SRCS=	arch.c buf.c cmd_exec.c compat.c cond.c dir.c error.c for.c \
 	init.c job.c lowparse.c main.c make.c memory.c parse.c \

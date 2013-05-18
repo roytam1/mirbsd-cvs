@@ -1,5 +1,6 @@
-/**	$MirOS$ */
-/*	$OpenBSD: targ.c,v 1.39 2004/04/07 13:11:36 espie Exp $ */
+/**	$MirOS: src/usr.bin/make/targ.c,v 1.2 2005/11/24 13:20:34 tg Exp $ */
+/*	$OpenPackages$ */
+/*	$OpenBSD: targ.c,v 1.40 2006/01/20 23:10:19 espie Exp $ */
 /*	$NetBSD: targ.c,v 1.11 1997/02/20 16:51:50 christos Exp $	*/
 
 /*
@@ -98,10 +99,10 @@
  *				print something for suffixes, too, but...
  */
 
-#include <sys/types.h>
 #include <limits.h>
 #include <stddef.h>
 #include <stdio.h>
+#include <stdint.h>
 #include <string.h>
 #include "config.h"
 #include "defines.h"
@@ -119,7 +120,7 @@
 #include <stdlib.h>
 #endif
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.bin/make/targ.c,v 1.2 2005/11/24 13:20:34 tg Exp $");
 
 static struct ohash targets;	/* a hash table of same */
 static struct ohash_info gnode_info = {

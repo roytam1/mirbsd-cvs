@@ -1,5 +1,6 @@
-/**	$MirOS: src/usr.bin/make/generate.c,v 1.4 2005/11/17 20:58:17 tg Exp $ */
-/*	$OpenBSD: generate.c,v 1.5 2002/06/11 21:12:11 espie Exp $ */
+/**	$MirOS: src/usr.bin/make/generate.c,v 1.5 2005/11/24 13:20:33 tg Exp $ */
+/*	$OpenPackages$ */
+/*	$OpenBSD: generate.c,v 1.6 2006/01/20 23:10:19 espie Exp $ */
 
 /*
  * Copyright (c) 2001 Marc Espie.
@@ -28,6 +29,7 @@
 
 #include <stddef.h>
 #include <stdio.h>
+#include <stdint.h>
 #include <stdlib.h>
 
 #include "stats.h"
@@ -36,7 +38,7 @@
 #include "var_int.h"
 #include "defines.h"
 
-__RCSID("$MirOS: src/usr.bin/make/generate.c,v 1.4 2005/11/17 20:58:17 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/make/generate.c,v 1.5 2005/11/24 13:20:33 tg Exp $");
 
 #define M(x)	x, #x
 const char *table_var[] = {
@@ -97,10 +99,10 @@ const char **table[] = {
 int
 main(int argc, char *argv[])
 {
-	u_int32_t i;
-	u_int32_t v;
-	u_int32_t h;
-	u_int32_t slots;
+	uint32_t i;
+	uint32_t v;
+	uint32_t h;
+	uint32_t slots;
 	const char *e;
 	const char **occupied;
 	const char **t;
