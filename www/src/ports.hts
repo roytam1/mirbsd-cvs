@@ -4,7 +4,7 @@
 mws_setname ports "The MirPorts Framework"
 mws_subdir 0
 mws_setheadline MirPorts: The MirOS Ports Framework
-mws_putheader '$MirOS: www/src/ports.hts,v 1.10 2011/02/09 19:01:59 bsiegert Exp $'
+mws_putheader '$MirOS: www/src/ports.hts,v 1.10 2011/02/09 19:03:27 bsiegert Exp $'
 mws_content <<'EOF'
 <p>(The official MirPorts homepage can always be reached at <a
  href="http://mirbsd.de/ports">http://mirbsd.de/ports</a> which
@@ -194,11 +194,12 @@ $ mmake search name=foo
 </pre></li>
  <li>To show all flavours of a given port, run:<pre>
 $ mmake show=FLAVOURS
-</pre><p>To install the package with, say, the “foo” and without the
+</pre></li>
+ <li>To install the package with, say, the “foo” and without the
   “bar” flavour, run:<pre>
 $ env FLAVOUR='foo no-bar' mmake install clean
-</pre><p>Note that you must not place the assignment after the mmake
- invocation.</p></li>
+</pre>Note that you must not place the assignment after the mmake
+ invocation.</li>
 </ul>
 EOF
 mws_putfooter
