@@ -518,14 +518,16 @@ Title: Back home again
  and the cable length (230m) isn’t an issue either. Testing today (as per the
  salesman I should have it May 1st, per the acknowledgement mail April 15th)
  I’ve got about 6 Mbit/s down, but my upstream speed is even reduced! WTF?</p>
+<p>Argh! Later on this night, my network connection is <em>so</em> flakey…</p>
 ----
-Title: <a href="http://pcc.ludd.ltu.se/">pcc</a> sucks
+Title: pcc sucks
 Author: tg@
-Date: 20.04.2008 03:37
+Date: 20.04.2008 03:52
 
-<p>I probably could compile mksh on pcc again… if pcc would compile itself.
- Hey, this one is about the contrary of OpenBSD, where development versions
- are stable… pcc should warn before cvs upping.</p>
+<p>I probably could compile mksh on <a href="http://pcc.ludd.ltu.se/">pcc</a>
+ again… if pcc would compile itself. Hey, this one is about the contrary of
+ OpenBSD or lynx, where development versions are stable… pcc should warn
+ before cvs upping.</p>
 <p>Every time I try to build <a href="@@RELPATH@@mksh.htm">mksh</a> with
  pcc, either it’s totally b0rked or I have to fix it. Today: ragge doesn’t
  understand autotools. (He added a test to configure.ac which ① gives a
