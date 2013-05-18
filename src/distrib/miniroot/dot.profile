@@ -1,8 +1,8 @@
-# $MirOS: src/distrib/miniroot/dot.profile,v 1.7 2006/04/10 12:22:19 tg Exp $
+# $MirOS: src/distrib/miniroot/dot.profile,v 1.8 2006/04/11 09:04:32 tg Exp $
 # $OpenBSD: dot.profile,v 1.4 2002/09/13 21:38:47 deraadt Exp $
 # $NetBSD: dot.profile,v 1.1 1995/12/18 22:54:43 pk Exp $
 #
-# Copyright (c) 2003, 2004, 2005
+# Copyright (c) 2003, 2004, 2005, 2006
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
 # Copyright (c) 1995 Jason R. Thorpe
 # Copyright (c) 1994 Christopher G. Demetriou
@@ -68,9 +68,8 @@ if [ ! -f /.profile.done ]; then
 	mount_mfs -s $(($(sysctl -n hw.usermem)/512-8192)) swap /tmp
 
 	# basic HD randomness reads (doesn't matter if they break)
-	dd if=/dev/rwd0c count=126 >/dev/prandom 2>&1
-	dd if=/dev/rsd0c count=126 >/dev/prandom 2>&1
-	cat /var/db/host.random >/dev/arandom 2>&1
+	(dd if=/dev/rwd0c count=126; dd if=/dev/rsd0c count=126; dd \
+	    if=/var/db/host.random) 2>&1 | /bin/cksum -ba sha512 >/dev/urandom
 
 	# say hello and legalese
 	echo '
