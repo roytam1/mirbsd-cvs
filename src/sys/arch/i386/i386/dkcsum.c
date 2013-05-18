@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/i386/dkcsum.c,v 1.5 2006/05/26 13:40:57 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/i386/dkcsum.c,v 1.6 2006/06/11 00:15:08 tg Exp $ */
 /*	$OpenBSD: dkcsum.c,v 1.19 2005/08/01 16:46:55 krw Exp $	*/
 
 /*-
@@ -149,7 +149,7 @@ dkcsumattach(void)
 			    ^ (int)bdi);
 			/* Skip non-harddrives and bootable CD-ROMs */
 			if ((!(bdi->bios_number & 0x80)) ||
-			    (bdi->flags & BDI_ELTORITO))
+			    (bdi->flags & BDI_EL_TORITO))
 				continue;
 			if (bdi->checksum != csum)
 				continue;

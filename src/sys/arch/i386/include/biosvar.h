@@ -1,4 +1,3 @@
-/**	$MirOS: src/sys/arch/i386/include/biosvar.h,v 1.2 2005/03/06 21:26:59 tg Exp $ */
 /*	$OpenBSD: biosvar.h,v 1.42 2003/11/27 00:31:55 espie Exp $	*/
 
 /*
@@ -159,7 +158,7 @@ typedef struct _bios_diskinfo {
 #define BDI_INVALID	0x00000001	/* I/O error during checksumming */
 #define BDI_GOODLABEL	0x00000002	/* Had SCSI or ST506/ESDI disklabel */
 #define BDI_BADLABEL	0x00000004	/* Had another disklabel */
-#define BDI_ELTORITO	0x00010000	/* Not a BIOS/ProtMode device */
+#define BDI_EL_TORITO	0x00000008	/* 2,048-byte sectors */
 #define BDI_PICKED	0x80000000	/* kernel-only: cksum matched */
 
 } bios_diskinfo_t;
@@ -193,6 +192,13 @@ typedef struct _bios_consdev {
 	dev_t	consdev;
 	int	conspeed;
 } bios_consdev_t;
+
+#define BOOTARG_SMPINFO 6		/* struct mp_float[] */
+
+#define BOOTARG_BOOTMAC	7
+typedef struct _bios_bootmac {
+	char	mac[6];
+} bios_bootmac_t;
 
 #if defined(_KERNEL) || defined (_STANDALONE)
 

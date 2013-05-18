@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/stand/libsa/diskprobe.c,v 1.5 2006/08/19 14:20:30 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/stand/libsa/diskprobe.c,v 1.6 2008/08/01 11:24:59 tg Exp $ */
 /*	$OpenBSD: diskprobe.c,v 1.29 2007/06/18 22:11:20 krw Exp $	*/
 
 /*
@@ -115,7 +115,7 @@ hardprobe(void)
 		dip = alloc(sizeof(struct diskinfo));
 		memset(dip, 0, sizeof(*dip));
 		dip->bios_info.bsd_dev = MAKEBOOTDEV(6, 0, 0, 0, RAW_PART);
-		dip->bios_info.flags |= (BDI_INVALID | BDI_ELTORITO);
+		dip->bios_info.flags |= (BDI_INVALID | BDI_EL_TORITO);
 		dip->bios_info.bios_number = tori_bootflag & 0xFF;
 		TAILQ_INSERT_TAIL(&disklist, dip, list);
 	}
@@ -314,7 +314,7 @@ dklookup(int dev)
 
 	for(dip = TAILQ_FIRST(&disklist); dip; dip = TAILQ_NEXT(dip, list))
 		if((dip->bios_info.bios_number == dev) &&
-		    !(dip->bios_info.flags & BDI_ELTORITO))
+		    !(dip->bios_info.flags & BDI_EL_TORITO))
 			return(dip);
 
 	return NULL;
@@ -333,8 +333,8 @@ dump_diskinfo(void)
 		int d = bdi->bios_number;
 
 		printf("%cd%d\t0x%X\t%s\t%d\t%d\t%d\t0x%X\t0x%X\n",
-		    (bdi->flags & BDI_ELTORITO) ? 'c' : ((d & 0x80)?'h':'f'),
-		    (bdi->flags & BDI_ELTORITO) ?  0  : d & 0x7F, d,
+		    (bdi->flags & BDI_EL_TORITO) ? 'c' : ((d & 0x80)?'h':'f'),
+		    (bdi->flags & BDI_EL_TORITO) ?  0  : d & 0x7F, d,
 			(bdi->flags & BDI_BADLABEL)?"*none*":"label",
 		    bdi->bios_cylinders, bdi->bios_heads, bdi->bios_sectors,
 		    bdi->flags, bdi->checksum);
