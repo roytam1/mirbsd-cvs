@@ -1,4 +1,4 @@
-/* $MirOS: contrib/code/libhaible/mbsrtowcs.c,v 1.6 2006/05/30 21:44:03 tg Exp $ */
+/* $MirOS: contrib/code/libhaible/mbsrtowcs.c,v 1.7 2006/05/30 21:52:32 tg Exp $ */
 
 /*-
  * Copyright (c) 2006
@@ -25,7 +25,7 @@
 
 #include "mir18n.h"
 
-__RCSID("$MirOS: contrib/code/libhaible/mbsrtowcs.c,v 1.6 2006/05/30 21:44:03 tg Exp $");
+__RCSID("$MirOS: contrib/code/libhaible/mbsrtowcs.c,v 1.7 2006/05/30 21:52:32 tg Exp $");
 
 size_t
 mbsrtowcs(wchar_t *__restrict__ pwcs, const char **__restrict__ s,
@@ -100,10 +100,10 @@ mbsrtowcs(wchar_t *__restrict__ pwcs, const char **__restrict__ s,
 			goto bad_input;
 		}
 	}
-	*s = src;
+	if (pwcs != NULL)
+		*s = (const char *)src;
 	return (rv);
  bad_input:
-	*s = src;
 	errno = EILSEQ;
 	return ((size_t)(-1));
 }
