@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/i386/ramdisk/list.local,v 1.6 2005/07/14 22:26:47 tg Exp $
+# $MirOS: src/distrib/i386/ramdisk/list.local,v 1.7 2005/12/21 17:52:13 tg Exp $
 
 # extra
 
@@ -11,12 +11,12 @@ SPECIAL	chmod 755 upgrade
 COPY	${DESTDIR}/usr/share/man/cat1/ed.0	ed.hlp
 SPECIAL	chmod 444 ed.hlp
 
-SPECIAL	cd dev; /bin/mksh MAKEDEV rambig
+SPECIAL	cd dev; ./MAKEDEV rambig
 
 COPY	${DESTDIR}/etc/ppp/ppp.conf.sample	etc/ppp/ppp.conf
 
 COPY	${DESTDIR}/etc/isdn/isdnd.sppp.sample	etc/isdn/isdnd.rc
-SPECIAL	cd dev; /bin/mksh MAKEDEV isdns
+SPECIAL	cd dev; ./MAKEDEV isdns
 
 COPY	${DESTDIR}/etc/dhcpd.conf		etc/dhcpd.conf
 COPY	${CURDIR}/inetd.conf			etc/inetd.conf
