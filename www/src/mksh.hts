@@ -1,10 +1,10 @@
-# $MirOS: www/src/mksh.hts,v 1.35 2007/07/26 22:03:40 tg Exp $
+# $MirOS: www/src/mksh.hts,v 1.36 2007/07/26 22:08:30 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.35 2007/07/26 22:03:40 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.36 2007/07/26 22:08:30 tg Exp $'
 mws_content <<'EOF'
 <h1>mksh(1) R30</h1>
 <p>This is the website of the MirBSD™ Korn Shell, an actively developed free
@@ -440,6 +440,9 @@ mws_content <<'EOF'
  Andreas “ankon” Kohn and kept up to date by Martin “miwi” Wilke. It is
  unknown if this applies to <a href="http://www.pcbsd.org/">PC-BSD</a> too,
  but there's no mksh PBI (yet?).</li>
+<li><a href="http://www.midnightbsd.org/">MidnightBSD</a> uses <a
+ href="http://cvsweb.midnightbsd.org/mports/shells/mksh/">mports</a>, a
+ derivate of FreeBSD® ports. Naturally, they deliver mksh as well.</li>
 <li><a href="http://www.pkgsrc.org/">NetBSD® pkgsrc®</a> (native also on recent
  DragonFly BSD; available for many other operating systems as well) has a <a
  href="http://cvsweb.netbsd.org/bsdweb.cgi/pkgsrc/shells/mksh/">package</a>
@@ -564,7 +567,9 @@ mws_content <<'EOF'
   <li>OpenBSD 4.1-current GENERIC#1241 May 17, 2007 (sparc64 gcc3.3.5)</li>
   <li>FreeBSD 6.2-RELEASE (IA64 gcc3.4.6)</li>
   <li>Mac OSX Tiger 10.4.10 Darwin 8.10.0 (macppc gcc4.0.1 Apple build 5363)</li>
-  <li>Mac OSX Tiger 10.???? Darwin 8.10.1 (i386 gcc4.0.1 Apple build 5367)</li>
+  <li>Mac OSX Tiger 10.4.10 (build 8R2232) Darwin 8.10.1 (i386 gcc4.0.1 Apple build 5367)</li>
+  <li>– tests by third parties –</li>
+  <li>MidnightBSD 0.2-CURRENT (i386 gcc3.4.4 20050518)</li>
  </ul></li>
 </ul>
 
