@@ -1594,6 +1594,7 @@
 ./usr/include/varargs.h
 ./usr/include/vis.h
 ./usr/include/wchar.h
+./usr/include/wctype.h
 ./usr/include/zconf.h
 ./usr/include/zlib.h
 ./usr/lib/crt0.o
@@ -6271,6 +6272,10 @@
 ./usr/share/man/cat3/ispunct.0
 ./usr/share/man/cat3/isspace.0
 ./usr/share/man/cat3/isupper.0
+./usr/share/man/cat3/iswalnum.0
+./usr/share/man/cat3/iswalpha.0
+./usr/share/man/cat3/iswlower.0
+./usr/share/man/cat3/iswupper.0
 ./usr/share/man/cat3/isxdigit.0
 ./usr/share/man/cat3/item_count.0
 ./usr/share/man/cat3/item_description.0
@@ -6418,7 +6423,11 @@
 ./usr/share/man/cat3/malloc.0
 ./usr/share/man/cat3/math.0
 ./usr/share/man/cat3/mathf.0
+./usr/share/man/cat3/mblen.0
 ./usr/share/man/cat3/mbrtowc.0
+./usr/share/man/cat3/mbsinit.0
+./usr/share/man/cat3/mbstowcs.0
+./usr/share/man/cat3/mbtowc.0
 ./usr/share/man/cat3/mcprint.0
 ./usr/share/man/cat3/md4.0
 ./usr/share/man/cat3/md5.0
@@ -7580,6 +7589,8 @@
 ./usr/share/man/cat3/touchline.0
 ./usr/share/man/cat3/touchwin.0
 ./usr/share/man/cat3/toupper.0
+./usr/share/man/cat3/towlower.0
+./usr/share/man/cat3/towupper.0
 ./usr/share/man/cat3/tparam.0
 ./usr/share/man/cat3/tparm.0
 ./usr/share/man/cat3/tputs.0
@@ -7693,7 +7704,9 @@
 ./usr/share/man/cat3/wcsspn.0
 ./usr/share/man/cat3/wcsstr.0
 ./usr/share/man/cat3/wcstok.0
+./usr/share/man/cat3/wcstombs.0
 ./usr/share/man/cat3/wctob.0
+./usr/share/man/cat3/wctomb.0
 ./usr/share/man/cat3/wcursyncup.0
 ./usr/share/man/cat3/wdelch.0
 ./usr/share/man/cat3/wdeleteln.0

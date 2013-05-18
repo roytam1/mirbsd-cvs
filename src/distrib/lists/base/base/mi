@@ -466,7 +466,7 @@
 ./usr/lib/i18n/libmapper_serial.so.4.4
 ./usr/lib/i18n/libmapper_std.so.4.4
 ./usr/lib/i18n/libmapper_zone.so.4.4
-./usr/lib/libc.so.38.2
+./usr/lib/libc.so.38.3
 ./usr/lib/libcdk.so.2.0
 ./usr/lib/libcrypto.so.13.1
 ./usr/lib/libcurses.so.12.0
