@@ -1,5 +1,5 @@
 # ltmain.sh - Provide generalized library-building support services.
-# $MirOS: contrib/gnu/libtool/ltmain.in,v 1.39 2007/02/22 22:30:37 tg Exp $
+# $MirOS: contrib/gnu/libtool/ltmain.in,v 1.40 2007/05/07 17:19:01 tg Exp $
 # NOTE: Changing this file will not affect anything until you rerun configure.
 #
 # Copyright (C) 1996, 1997, 1998, 1999, 2000, 2001, 2003, 2004, 2005, 2006
@@ -495,14 +495,14 @@ warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE."
     echo "\
 
 MirLibtool contributed to the FSF by Thorsten Glaser for the MirOS Project.
-Licensor offers the work "AS IS" and WITHOUT WARRANTY of any kind,
-express, or implied, to the maximum extent permitted by applicable
-law, without malicious intent or gross negligence; in no event may
-licensor, an author or contributor be held liable for any indirect
-or other damage, or direct damage except proven a consequence of a
-direct error of said person and intended use of this work, loss or
-other issues arising in any way out of its use, even if advised of
-the possibility of such damage or existence of a defect."
+This work is provided "AS IS" and WITHOUT WARRANTY of any kind, to
+the utmost extent permitted by applicable law, neither express nor
+implied; without malicious intent or gross negligence. In no event
+may a licensor, author or contributor be held liable for indirect,
+direct, other damage, loss, or other issues arising in any way out
+of dealing in the work, even if advised of the possibility of such
+damage or existence of a defect, except proven that it results out
+of said person's immediate fault when using the work as intended."
     exit $?
     ;;
 
