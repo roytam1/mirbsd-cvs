@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/tools/Makefile,v 1.36 2009/08/11 15:30:47 tg Exp $
+# $MirOS: src/distrib/tools/Makefile,v 1.37 2009/08/11 21:12:28 tg Exp $
 
 all: sundsklbl
 
@@ -69,7 +69,10 @@ makecdimage: .PHONY
 	ln cddir/v${OSrev}/sparc/bsd.rd cddir/vmunix		# for kicks
 	cp ${.CURDIR}/../common/00-README cddir/
 .if defined(SERIALSPEED)
-	sed 's/@/${SERIALSPEED}/g' ${.CURDIR}/boot.cfg.serial >cddir/boot.cfg
+	sed \
+	    -e 's!^boot .*$!boot /v${OSrev}/i386/bsd.rd!' \
+	    -e 's/@/${SERIALSPEED}/g' \
+	    ${.CURDIR}/boot.cfg.serial >cddir/boot.cfg
 .else
 	cp ${.CURDIR}/../common/boot.cfg.i386 cddir/boot.cfg
 .endif
