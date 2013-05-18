@@ -1,13 +1,13 @@
-# $MirOS: src/gnu/usr.bin/Makefile,v 1.10 2007/06/12 18:44:28 tg Exp $
+# $MirOS: src/gnu/usr.bin/Makefile,v 1.11 2007/06/12 21:11:22 tg Exp $
 
 .include <bsd.own.mk>
 
   SUBDIR+= binutils
 .if ${CROSS_MODE:L} != "yes"
   SUBDIR+= cvs anoncvs
-.endif
-.if ${NOPIC:L} == "no"
+.  if ${NOPIC:L} == "no"
   SUBDIR+= lynx
+.  endif
 .endif
   SUBDIR+= mkisofs
 .if ${CROSS_MODE:L} != "yes"
