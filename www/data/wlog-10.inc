@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.205 2009/07/06 19:32:49 bsiegert Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.206 2009/07/07 18:35:26 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -4248,4 +4248,71 @@ Author: tg@
 <p>NetBSD® makefs(8) overwrote meaningful data with padding if you
  told it to not pad (fixed), and one of its header files comes with
  CR-LF (DOS) line endings. Nice, eh?</p>
+----
+Title: don't procrastinate!
+Date: 07.07.2009 19:00
+Author: tg@
+Tag: event
+
+<p>Hell yeah. I promised a wlog entry about the Linuxtag 2009 visit.
+ I planned on making it somewhat detailed, enumerating a couple of
+ things I did other than catching a few geocaches with a company's
+ EeePC and MirBSD and CacheWolf on a USB stick, and getting ill.</p>
+<p>Alas, things often are not as desired, and I had to work last week,
+ while still slightly ill, and I just never came around doing it. I
+ arguably could write up something now, but I forgot most(!) of it
+ already, don't want to publish incomplete things out of fear from
+ (accidental) omissions, sit on nwt (my dear 80486DLC laptop) and...
+ well, procrastinated too much. And I had a long work day and am very
+ much enjoying my AfriCola+SchlösserAlt beer, thank you very much.</p>
+<p>So, without further ado (why the fuck do Amis tend to have trouble
+ with homophones, by the way?), comrad's pictures:<br /><a
+ href="@@RELPATH@@pics/LinuxTag_2009/booth.jpg"><img
+ alt="The BSD booth setting (overview picture; mira says hello"
+ src="@@RELPATH@@pics/LinuxTag_2009/booth_s.jpg" /></a><br /><a
+ href="@@RELPATH@@pics/LinuxTag_2009/merchandise.jpg"><img
+ alt="MirOS merchandise, grml and fun buttons, etc."
+ src="@@RELPATH@@pics/LinuxTag_2009/merchandise_s.jpg" /></a></p>
+<p>It definitively wasn't as technical an event as FOSDEM, and much
+ less people asked about <a href="@@RELPATH@@mksh.htm">mksh</a>, but
+ at least now I got my OpenPGP signed by two more Debian Developers
+ who <em>do not</em> intend on switching keys in the next couple of
+ months... *sigh* Anyway, world domination coming, this is required
+ for I am still a DM, but wouldn't say no to DD status either. Why,
+ à propos, do I have <tt>&lt;tg@d.o&gt;</tt> and only realise that
+ because of spam mails sent there? Anyway, met formorer from grml
+ in real life, quite nice too. We got some donations for the buttons
+ and grml CDs, but the money got distributed among many people.</p>
+<p>Hah! These CentOS guys! They made me promise to say CentOS rocks
+ if it included mksh; they were going to file a bug at RHEL for its
+ inclusion. I looked today, they didn't. So I won't say it rocks. It
+ rather annoys, truth be told. Especially since it comes without a <a
+ href="@@RELPATH@@mksh.htm">decent shell</a>, and I had to make an RPM
+ of OpenNTPD myself! Imagine that!</p>
+----
+Title: RFH: mksh development
+Date: 07.07.2009 19:07
+Author: tg@
+Tag: mksh
+
+<p><a href="@@RELPATH@@mksh.htm">mksh</a> development is mostly done by
+ a single person, "the mksh team" (as seen on Ubuntu forums, out of all
+ places!), a.k.a. me, myself and I. Sometimes, actual users report bugs
+ or even send in patches. I keep track of oksh's development as well, of
+ course. But there are times I would like to get feedback on <a
+ href="http://marc.info/?m=124689308408723">issues</a> from other people
+ working on pdksh or its descendants. I mailed, for that specific issue
+ in question, the Debian developer who created the original patch which
+ addressed the scenario except for a corner case (interestingly, as the
+ world is small, discovered in a Debian(!) init script from a package
+ maintained by aforementioned formorer, on a DomU running Lenny at <a
+ href="http://www.tarent.com/">work</a> - don't underestimate the effect
+ of synergy) but would really like to talk to some of the OpenBSD devs
+ about it; they mostly know what they're doing, even if I worked on ksh
+ for longer than most of them, many eyes do help, and most of the time
+ I do <strong>not</strong> know what I'm doing XD</p>
+<p>So if you're interested in the further development of MirBSD, The
+ MirOS Project, one of its subprojects, such as The MirPorts Framework,
+ mksh(1), MirMake, even jupp-2.8 or jupp-3.x, please talk to me.</p>
+<p>Thanks in advance.</p>
 ----
