@@ -110,7 +110,7 @@
 #include <netinet/in6.h>
 #endif
 
-__RCSID("$MirOS: src/lib/libevent/evdns.c,v 1.2 2007/05/17 16:48:20 tg Exp $");
+__RCSID("$MirOS: src/lib/libevent/evdns.c,v 1.3 2007/05/17 17:15:34 tg Exp $");
 
 #ifdef WIN32
 typedef int socklen_t;
@@ -280,7 +280,7 @@ struct server_request {
 // Given a pointer to an evdns_server_request, get the corresponding
 // server_request.
 #define TO_SERVER_REQUEST(base_ptr)										\
-	((struct server_request*)											\
+	((struct server_request*)(void *)											\
 	 (((char*)(base_ptr) - OFFSET_OF(struct server_request, base))))
 
 // The number of good nameservers that we have
@@ -542,7 +542,8 @@ nameserver_up(struct nameserver *const ns) {
 static void
 request_trans_id_set(struct request *const req, const u16 trans_id) {
 	req->trans_id = trans_id;
-	*((u16 *) req->request) = htons(trans_id);
+	req->request[0] = trans_id >> 8;
+	req->request[1] = trans_id & 0xFF;
 }
 
 // Called to remove a request from a list and dealloc it.
