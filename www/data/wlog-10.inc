@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.119 2008/12/24 11:53:56 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.120 2008/12/25 18:36:30 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -2346,4 +2346,24 @@ Tag: event
  href="@@RELPATH@@rss.htm#lists">mailing list</a> if you have any
  questions.</p>
 <p>To these who do: happy celebrating!</p>
+----
+Date: 27.12.2008 22:17
+Author: tg@
+
+<p>Today, we gained arc4random_buf(3), arc4random_uniform(3) in
+ libc and arc4random_atexit(), which is undocumented, but called
+ from _exit(2) and all exec-style functions via execve(2) and
+ exect(2). Since o‍malloc(3) needs arc4random(3) anyway, it
+ is no real overhead, but a great way to make modelling the pool
+ stuff even more difficult. Thusly, arc4random_pushk(3) retires
+ in favour of arc4random_pushb(3) but stays as cpp(1) define.</p>
+<p>Riding on the minor bump, mempcpy(3) stpcpy(3) stpncpy(3) GNU
+ style were added as well.</p>
+<p>Next plans are: rewrite src/lib/csu for pcc, make a port of
+ uw-imapd with libc-client.so (maybe LTMIRMAKE?), make the pine
+ and alpine ports use it, make the php-imap extension work with
+ it again, further improve src/kern/ stuff and maybe www/mk/</p>
+<p>More deep changes are however still postponed until OpenBSD
+ is merged better.</p>
+<p>I also fixed makefs(8) again ☺</p>
 ----
