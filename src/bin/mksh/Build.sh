@@ -1564,18 +1564,6 @@ ac_test setgroups setresugid 0 <<-'EOF'
 	int main(void) { gid_t gid = 0; return (setgroups(0, &gid)); }
 EOF
 
-ac_test strcasestr <<-'EOF'
-	#include <sys/types.h>
-	#include <stddef.h>
-	#include <string.h>
-	#if HAVE_STRINGS_H
-	#include <strings.h>
-	#endif
-	int main(int ac, char *av[]) {
-		return ((int)(ptrdiff_t)(void *)strcasestr(*av, av[ac]));
-	}
-EOF
-
 ac_test strlcpy <<-'EOF'
 	#include <string.h>
 	int main(int ac, char *av[]) { return (strlcpy(*av, av[1],
