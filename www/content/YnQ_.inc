@@ -1,5 +1,5 @@
 <!-- PageID: bt -->
-<small class="rcsid">$MirOS: www/content/YnQ_.inc,v 1.2 2006/07/05 05:01:24 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/YnQ_.inc,v 1.3 2006/07/06 00:12:18 tg Exp $</small>
 <!-- http://www.mirbsd.org/?bt#id -->
 <h1>BitTorrent information</h1>
 <p><strong>Warning:</strong> Not finished yet.</p>
@@ -28,6 +28,10 @@
 <h4 id="r8semel">MirOS #8</h4>
 <h4 id="r7quater">#7quater</h4>
 <h3>Snapshots</h3>
+<h4 id="s20061004">2006-10-04</h4>
+<p>i386 Live and Installation CD (ISO, gzip(1)ped, bootable via El
+ Torito, bootable as &quot;Live Hard Disc&quot;). No source cpioballs.
+ Highly recommended security fix pack.</p>
 <h4 id="s20060706">2006-07-06</h4>
 <p>First inofficial sparc snapshot, just to publish what I've been
  done for two weeks on a 75 MHz HyperSPARC after cross-compiling the

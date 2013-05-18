@@ -1,5 +1,5 @@
 <!-- PageID: main -->
-<small class="rcsid">$MirOS: www/content/bWFpbg__.inc,v 1.55 2006/07/30 21:19:04 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bWFpbg__.inc,v 1.56 2006/08/09 16:19:46 tg Exp $</small>
 
 <h1>Welcome to the MirOS Project!</h1>
 
@@ -28,6 +28,15 @@
 
 <p>Please read the <a href="/?irc">FreeForge IRC network information</a> as
  well.</p>
+
+<div class="newsentry"> <!-- have to add this to css -->
+ <h3>04.10.2006: MirOS #9-current (i386) snapshot: Security Fix</h3>
+ <p>The <a href="http://f.scarywater.net/miros/">BitTorrent
+  Tracker</a> offers a Live and Install CD ISO image of the
+  current development branch for download. This snapshot contains
+  security fixes for at least OpenSSL, OpenSSH, httpd, the kernel,
+  as well as bugfixes for ftp, lynx, and many others.</p>
+</div>
 
 <div class="newsentry"> <!-- have to add this to css -->
  <h3>25.07.2006: MirPorts heads-up</h3>
