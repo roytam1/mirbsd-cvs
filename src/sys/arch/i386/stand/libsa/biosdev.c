@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/stand/libsa/biosdev.c,v 1.21 2009/01/03 16:14:24 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/stand/libsa/biosdev.c,v 1.22 2009/01/03 16:16:08 tg Exp $ */
 /*	$OpenBSD: biosdev.c,v 1.74 2008/06/25 15:32:18 reyk Exp $	*/
 
 /*
@@ -389,11 +389,9 @@ const char *
 bios_getdisklabel(bios_diskinfo_t *bd, struct disklabel *label)
 {
 	daddr_t off = 0;
-	char *buf;
-	struct dos_mbr mbr;
+	struct dos_mbr *mbr = (struct dos_mbr *)bounce_buf;
 	int error, i;
 	long mbrofs;
-	const char *rv;
 
 	/* Sanity check */
 	if (bd->bios_heads == 0 || bd->bios_sectors == 0)
@@ -403,74 +401,72 @@ bios_getdisklabel(bios_diskinfo_t *bd, struct disklabel *label)
 	if (bd->bios_number & 0x80) {
 		/* Read MBR */
 		mbrofs = DOSBBSECTOR;
-loop:		error = biosd_io(F_READ, bd, mbrofs, 1, &mbr);
+ loop:
+		error = biosd_io(F_READ, bd, mbrofs, 1, NULL);
 		if (error)
 			return (biosdisk_err(error));
 
 		/* check mbr signature */
-		if (mbr.dmbr_sign != DOSMBR_SIGNATURE)
+		if (mbr->dmbr_sign != DOSMBR_SIGNATURE)
 			return "bad MBR signature\n";
 
 		/* Search for MirBSD partition */
 		if (userpt) for (i = 0; off == 0 && i < NDOSPART; i++) {
-			mbr.dmbr_parts[i].dp_start += mbrofs;
-			if (mbr.dmbr_parts[i].dp_typ == userpt)
+			mbr->dmbr_parts[i].dp_start += mbrofs;
+			if (mbr->dmbr_parts[i].dp_typ == userpt)
 				off = i + 1;
 		}
 		if (!off) for (i = 0; off == 0 && i < NDOSPART; i++)
-			if (mbr.dmbr_parts[i].dp_typ == DOSPTYP_MIRBSD)
+			if (mbr->dmbr_parts[i].dp_typ == DOSPTYP_MIRBSD)
 				off = i + 1;
 
 		/* just in case */
 		if (!off) for (i = 0; off == 0 && i < NDOSPART; i++)
-			if (mbr.dmbr_parts[i].dp_typ == DOSPTYP_OPENBSD)
+			if (mbr->dmbr_parts[i].dp_typ == DOSPTYP_OPENBSD)
 				off = i + 1;
 
 		/* just in case */
 		if (!off) for (i = 0; off == 0 && i < NDOSPART; i++)
-			if (mbr.dmbr_parts[i].dp_typ == DOSPTYP_NETBSD)
+			if (mbr->dmbr_parts[i].dp_typ == DOSPTYP_NETBSD)
 				off = i + 1;
 
 		/* just in case */
 		if (!off) {
 		    for (i = 0; off == 0 && i < NDOSPART; i++)
-			if (mbr.dmbr_parts[i].dp_typ == DOSPTYP_EXTEND) {
-				mbrofs = mbr.dmbr_parts[i].dp_start;
+			if (mbr->dmbr_parts[i].dp_typ == DOSPTYP_EXTEND) {
+				mbrofs = mbr->dmbr_parts[i].dp_start;
 				goto loop;
 			}
 		    for (i = 0; off == 0 && i < NDOSPART; i++)
-			if (mbr.dmbr_parts[i].dp_typ == DOSPTYP_EXTENDL) {
-				mbrofs = mbr.dmbr_parts[i].dp_start;
+			if (mbr->dmbr_parts[i].dp_typ == DOSPTYP_EXTENDL) {
+				mbrofs = mbr->dmbr_parts[i].dp_start;
 				goto loop;
 			}
 		    for (i = 0; off == 0 && i < NDOSPART; i++)
-			if (mbr.dmbr_parts[i].dp_typ == DOSPTYP_EXTENDLX) {
-				mbrofs = mbr.dmbr_parts[i].dp_start;
+			if (mbr->dmbr_parts[i].dp_typ == DOSPTYP_EXTENDLX) {
+				mbrofs = mbr->dmbr_parts[i].dp_start;
 				goto loop;
 			}
 		}
 	}
 	if (off) {
-		off = mbr.dmbr_parts[off - 1].dp_start + LABELSECTOR;
+		off = mbr->dmbr_parts[off - 1].dp_start + LABELSECTOR;
 	} else
 		off = LABELSECTOR;
 
 	/* Load BSD disklabel */
-	buf = alloc(DEV_BSIZE);
 #ifdef BIOS_DEBUG
 	if (debug)
 		printf("loading disklabel @ %u\n", off);
 #endif
 	/* read disklabel */
-	if ((error = biosd_io(F_READ, bd, off, 1, buf))) {
-		free(buf, DEV_BSIZE);
+	error = biosd_io(F_READ, bd, off, 1, NULL);
+
+	if (error)
 		return ("failed to read disklabel");
-	}
 
 	/* Fill in disklabel */
-	rv = getdisklabel(buf, label);
-	free(buf, DEV_BSIZE);
-	return (rv);
+	return (getdisklabel(bounce_buf, label));
 }
 
 int
@@ -722,7 +718,7 @@ disk_trylabel(struct diskinfo *dip)
 	const char *st = NULL;
 #ifndef SMALL_BOOT
 	bios_diskinfo_t *bd = &dip->bios_info;
-	struct dos_mbr mbr;
+	struct dos_mbr *mbr = (struct dos_mbr *)bounce_buf;
 	int i, totsiz;
 
 	if (dip->bios_info.flags & BDI_GOODLABEL)
@@ -748,23 +744,23 @@ disk_trylabel(struct diskinfo *dip)
 
 		if (bd->bios_number & 0x80) {
 			/* read MBR */
-			i = biosd_io(F_READ, bd, DOSBBSECTOR, 1, &mbr);
+			i = biosd_io(F_READ, bd, DOSBBSECTOR, 1, NULL);
 			if (i)
 				goto nombr;
-			if (mbr.dmbr_sign != DOSMBR_SIGNATURE)
+			if (mbr->dmbr_sign != DOSMBR_SIGNATURE)
 				goto nombr;
 			for (i = 0; i < NDOSPART; i++)
-				if (mbr.dmbr_parts[i].dp_typ &&
-				    (mbr.dmbr_parts[i].dp_start +
-				    mbr.dmbr_parts[i].dp_size > totsiz))
-					totsiz = mbr.dmbr_parts[i].dp_start +
-					    mbr.dmbr_parts[i].dp_size;
+				if (mbr->dmbr_parts[i].dp_typ &&
+				    (mbr->dmbr_parts[i].dp_start +
+				    mbr->dmbr_parts[i].dp_size > totsiz))
+					totsiz = mbr->dmbr_parts[i].dp_start +
+					    mbr->dmbr_parts[i].dp_size;
 			goto mbrok;
 		} else
 			bzero(bios_bootpte, 16);
  nombr:
 		for (i = 0; i < NDOSPART; i++)
-			mbr.dmbr_parts[i].dp_typ = 0;
+			mbr->dmbr_parts[i].dp_typ = 0;
  mbrok:
 
 		dip->disklabel.d_secsize = 512;
@@ -809,12 +805,12 @@ disk_trylabel(struct diskinfo *dip)
 		dip->disklabel.d_partitions[RAW_PART].p_fstype = FS_UNUSED;
 
 		for (i = 0; i < NDOSPART; i++) {
-			if (!mbr.dmbr_parts[i].dp_typ)
+			if (!mbr->dmbr_parts[i].dp_typ)
 				continue;
 			dip->disklabel.d_partitions[RAW_PART+i+1].p_offset =
-			    mbr.dmbr_parts[i].dp_start;
+			    mbr->dmbr_parts[i].dp_start;
 			dip->disklabel.d_partitions[RAW_PART+i+1].p_size =
-			    mbr.dmbr_parts[i].dp_size;
+			    mbr->dmbr_parts[i].dp_size;
 			dip->disklabel.d_partitions[RAW_PART+i+1].p_fstype =
 			    FS_MANUAL;
 			if (dip->disklabel.d_partitions[0].p_fstype ==
@@ -822,9 +818,9 @@ disk_trylabel(struct diskinfo *dip)
 				continue;
 			/* 'a' partition covering the first partition */
 			dip->disklabel.d_partitions[0].p_offset =
-			    mbr.dmbr_parts[i].dp_start;
+			    mbr->dmbr_parts[i].dp_start;
 			dip->disklabel.d_partitions[0].p_size =
-			    mbr.dmbr_parts[i].dp_size;
+			    mbr->dmbr_parts[i].dp_size;
 			dip->disklabel.d_partitions[0].p_fstype = FS_MANUAL;
 		}
 
