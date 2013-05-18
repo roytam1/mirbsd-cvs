@@ -1,5 +1,5 @@
 <!-- PageID: wlog-8 -->
-<small class="rcsid">$MirOS: www/content/d2xvZy04.inc,v 1.30 2006/02/01 00:02:37 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy04.inc,v 1.31 2006/02/01 00:17:44 tg Exp $</small>
 <h1>MirBSD &ndash; WTF, We Have a Release!?</h1>
 <p><small><a href="#eof">bottom</a> or <a href="/?older">older</a>
  editions</small></p>
@@ -368,6 +368,13 @@ celebrate this event, rotate the wlog and start a new one.</p>
  <p>Seems as if Benny is sleeping... weird, he said his exams period was
   over... fixed build of base system, so I could do a snapshot again, if
   I wanted (and ports were ready - damn pkgtools bug).</p>
+ <p>h2ph(1) was indeed used, but it seems to be minor. gcc now builds as
+  well (non-C languages just ignore -fhonour-copts which seems easier to
+  me), except libjava which I didn't test due to tiredness (lack of time
+  and sleep).</p>
+ <p>I somehow expect iconv(3) and nl_langinfo(3) CODESET support to have
+  some impact on something... but nothing until now. Wait to see whether
+  we rename libcitrus_iconv to libiconv (selection via -L works).</p>
 </div>
 
 <p id="eof">Good luck, have fun, take care etc.pp</p>
