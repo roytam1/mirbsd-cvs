@@ -24,7 +24,7 @@ mws_content <<'EOF'
  <li>information about <a href="mksh_old.htm">old versions</a></li>
 </ul>
 
-<h2>mksh(1) R40f</h2>
+<h2>mksh(1) R41</h2>
 
 <p>This is the website of the MirBSD™ Korn Shell, an actively developed free
  implementation of the Korn Shell programming language and a successor to the
@@ -45,8 +45,8 @@ mws_content <<'EOF'
  href="@@ABSPATH@@/TaC-mksh.txt">full licence terms</a> overview.</p>
 
 <h2 class="cr" id="prefetch">Introduction</h2>
-<p>The current version of mksh is <strong>mksh R40f</strong> from
- <em>6 April 2012</em>.</p>
+<p>The current version of mksh is <strong>mksh R41</strong> from
+ <em>30 November 2012</em>.</p>
 <p>Thanks to “Der Verein <a href="http://www.trash.net/verein/">trash.net</a>”
  for sponsoring access to a Solaris 8 box. Thanks to Julian “yofuh” Wiesener
  for just another account on a Sun E420 on Solaris 11β. Thanks to someone who
@@ -175,42 +175,26 @@ mws_content <<'EOF'
 <p>First off, you have to download the source code from any of the mirrors
  listed below, or any other mirror you know of. Alternatively, use the <a
  href="#getcvs">development version</a> from CVS. Official source code
- distributions are a cpio(1) compressed “old-style” (portable octal) archive,
- compressed with gzip(1) (zlib’s deflate algorithm) and digitally signed with
- gzsig(1) using the MirOS Project’s <a href="/gzsigkey.cer">current signature
- key</a>. Please verify the signature <em>as well as</em> the hashes and/or
- checksums below, so you’re sure the content is intact and the version number
- on the archive is correct. If you require source code in tar(1)’s “ustar”
- format, check the Debian Project for availability, although they often do
- not carry the latest version. The pax(1) utility (the POSIX Archiver) can
- extract from the CPIO distfile and is available even on a stock Microsoft®
- Windows® installation (<tt>\WINNT\SYSTEM32\PAX.EXE</tt>).</p>
+ distributions are digitally signed with gzsig(1) using the MirOS Project’s <a
+ href="/gzsigkey.cer">current signature key</a>. Please verify the signature
+ <em>as well as</em> the hashes and/or checksums below, so you’re sure the
+ content is intact and the version number on the archive is correct.</p>
 <h3 id="mirrors">Known Mirrors</h3><ul>
- <li><a href="https://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R40f.cpio.gz">https://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R40f.cpio.gz</a></li>
- <li><a href="http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R40f.cpio.gz">http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R40f.cpio.gz</a></li>
+ <li><a href="https://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R41.tgz">https://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R41.tgz</a></li>
+ <li><a href="http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R41.tgz">http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R41.tgz</a></li>
 </ul>
 <h3 id="hashes">Checksums and Hashes</h3><ul>
- <li>RMD160 (mksh-R40f.cpio.gz) = 774fabd492f3c8a998cf242710b662f808a403bc</li>
- <li>TIGER (mksh-R40f.cpio.gz) = fa5d9a1346dd0a9694c0788ec7191de98b4280f9eca2f01a</li>
- <li>2194354791 331196 /MirOS/dist/mir/mksh/mksh-R40f.cpio.gz</li>
- <li>MD5 (mksh-R40f.cpio.gz) = 22c9570660c2efadf36de7b620d06966</li>
+ <li>RMD160 (mksh-R41.tgz) = 68823b689b7c8a6ddd38034a72282e9f50b78565</li>
+ <li>TIGER (mksh-R41.tgz) = 71c320511c9ac277aba7a3dfa69998ea3ea83dd3ef034e69</li>
+ <li>1055458593 341489 /MirOS/dist/mir/mksh/mksh-R41.tgz</li>
+ <li>MD5 (mksh-R41.tgz) = 70eca50d9340412714ef09b7060ebde9</li>
  <li style="list-style:none;">All official distfiles are gzsig(1)d. with our
   <a href="/gzsigkey.cer">current signature key</a>.</li>
 </ul>
 
 <h3 id="decomp">Decompression</h3>
-<p>Use any of the following syntaxes to extract the distfile; you’ll get the
- idea soon. Some web browsers (prominently, Mozilla® and its derivates as well
- as Microsoft® Internet Explorer®) already inflate the distfile during
- download but do not remove the “.gz” extension; replace “gzip -dc” (gzcat)
- with “cat” if that happens for you.</p>
-<p>The first example is using BSD paxtar (MirOS BSD, OpenBSD, NetBSD®), or
- “bsdtar” (DragonFly); the second and third use cpio(1) or pax(1) and are
- for most operating systems; the fourth is for Debian.</p><ul>
-<li>$ paxtar xzf mksh-R40f.cpio.gz &amp;&amp; cd mksh</li>
-<li>$ gzip -dc mksh-R40f.cpio.gz | cpio -idm &amp;&amp; cd mksh</li>
-<li>$ gzip -dc mksh-R40f.cpio.gz | pax -r &amp;&amp; cd mksh</li>
-</ul>
+<p>We’re using gzip(1)-compressed POSIX us<!-- -->tar(1) distfiles nowadays,
+ so a simple <tt>tar xzf mksh-R41.tgz</tt> will work.</p>
 
 <h3 id="vendorpatching">Patching</h3>
 <p>If you’re a packager/vendor and need to patch mksh and deviate from the

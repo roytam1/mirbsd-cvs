@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/ksh-chan.inc,v 1.11 2012/11/11 12:36:01 tg Exp $
+RCSID: $MirOS: www/data/ksh-chan.inc,v 1.14 2012/11/20 18:22:09 tg Exp $
 Title: Homepage of the original Korn Shell
 Link: http://www.kornshell.com/
 
@@ -13,6 +13,11 @@ Title: AT&amp;T Beta Downloads
 Link: http://www2.research.att.com/sw/download/beta/
 
 Beta versions of the original Korn Shell can often be found here.
+----
+Title: AT&amp;T Alpha Downloads
+Link: http://www2.research.att.com/sw/download/alpha/
+
+Alpha versions of the original Korn Shell can often be found here.
 ----
 Title: Homepage of the MirBSD Korn Shell
 Link: @@RELPATH@@mksh.htm

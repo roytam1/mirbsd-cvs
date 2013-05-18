@@ -1,7 +1,7 @@
-# $MirOS: ports/shells/mksh/Makefile,v 1.57 2012/04/07 00:10:09 tg Exp $
+# $MirOS: ports/shells/mksh/Makefile,v 1.58 2012/09/02 15:07:28 tg Exp $
 
 COMMENT=		MirBSD Korn Shell
-DISTNAME=		mksh-R40i20120901
+DISTNAME=		mksh-R41
 PKGNAME=		${DISTNAME:S/-R/-/}-${DASH_VER}
 CATEGORIES=		shells
 HOMEPAGE=		http://mirbsd.de/mksh
@@ -12,7 +12,7 @@ PERMIT_DISTFILES_FTP=	Yes
 PERMIT_PACKAGE_CDROM=	Yes
 PERMIT_PACKAGE_FTP=	Yes
 
-MASTER_SITES=		${_MASTER_SITE_MIRBSD:distfiles/=dist/mir/mksh/snapshot/}
+MASTER_SITES=		${_MASTER_SITE_MIRBSD:distfiles/=dist/mir/mksh/}
 EXTRACT_SUFX=		.tgz
 WRKDIST=		${WRKDIR}/mksh
 
