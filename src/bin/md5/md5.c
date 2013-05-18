@@ -1,4 +1,4 @@
-/**	$MirOS: src/bin/md5/md5.c,v 1.11 2006/05/26 12:34:37 tg Exp $ */
+/**	$MirOS: src/bin/md5/md5.c,v 1.12 2006/06/04 11:46:50 tg Exp $ */
 /*	$OpenBSD: md5.c,v 1.32 2004/12/29 17:32:44 millert Exp $	*/
 
 /*
@@ -41,7 +41,7 @@
 #include "adler32.h"
 #include "suma.h"
 
-__RCSID("$MirOS: src/bin/md5/md5.c,v 1.11 2006/05/26 12:34:37 tg Exp $");
+__RCSID("$MirOS: src/bin/md5/md5.c,v 1.12 2006/06/04 11:46:50 tg Exp $");
 
 #define MAX_DIGEST_LEN	128
 
@@ -339,6 +339,7 @@ digest_string(char *string, struct hash_functions **hashes)
 		hf->update(&context, (const unsigned char *)string,
 		    (unsigned int)strlen(string));
 		(void)hf->end(&context, digest);
+		cksum_addpool(digest);
 		hf->printstr(hf->name, string, digest);
 	}
 }
@@ -404,6 +405,7 @@ digest_file(const char *file, struct hash_functions **hashes, int echo,
 	for (hfp = hashes; *hfp != NULL; hfp++) {
 		(void)(*hfp)->end((*hfp)->ctx, digest);
 		free((*hfp)->ctx);
+		cksum_addpool(digest);
 		if (dobin)
 			(*hfp)->printbin(digest);
 		else if (fd == STDIN_FILENO)
@@ -543,6 +545,7 @@ digest_filelist(const char *file, struct hash_functions *defhash)
 		}
 		close(fd);
 		(void)hf->end(&context, digest);
+		cksum_addpool(digest);
 
 		if (strcmp(checksum, digest) == 0)
 			(void)printf("(%s) %s: OK\n", algorithm, filename);

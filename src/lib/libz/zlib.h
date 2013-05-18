@@ -1,4 +1,4 @@
-/**	$MirOS: src/lib/libz/zlib.h,v 1.7 2006/01/24 19:41:51 tg Exp $ */
+/**	$MirOS: src/lib/libz/zlib.h,v 1.8 2006/01/31 10:32:00 tg Exp $ */
 /*	$OpenBSD: zlib.h,v 1.9 2005/07/20 15:56:41 millert Exp $	*/
 /* zlib.h -- interface of the 'zlib' general purpose compression library
   version 1.2.3, July 18th, 2005
@@ -1249,6 +1249,7 @@ ZEXTERN void ZEXPORT gzclearerr OF((gzFile file));
    compression library.
 */
 
+#define ZLIB_HAS_ADLERPUSH
 ZEXTERN uLong ZEXPORT adler32 OF((uLong adler, const Bytef *buf, uInt len));
 /*
      Update a running Adler-32 checksum with the bytes buf[0..len-1] and

@@ -1,4 +1,4 @@
-/* $MirOS: src/share/misc/licence.template,v 1.7 2006/04/09 22:08:49 tg Rel $ */
+/* $MirOS: src/bin/md5/adler32.c,v 1.1 2006/05/26 11:55:16 tg Exp $ */
 
 /*-
  * Copyright (c) 2006
@@ -23,6 +23,8 @@
 
 #include <sys/param.h>
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 #include <zlib.h>
 #include "adler32.h"
 
@@ -54,4 +56,12 @@ ADLER32_End(ADLER32_CTX *ctx, char *res)
 		res = NULL;
 
 	return (res);
+}
+
+void
+cksum_addpool(const char *x __attribute__((unused)))
+{
+#ifdef ZLIB_HAS_ADLERPUSH
+	adler32(arc4random(), (const uint8_t *)x, strlen(x));
+#endif
 }
