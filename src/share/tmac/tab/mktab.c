@@ -1,4 +1,6 @@
 /*-
+ * Copyright (c) 2012
+ *	Thorsten "mirabilos" Glaser <tg@mirbsd.org>
  * Copyright (c) 1989 The Regents of the University of California.
  * All rights reserved.
  *
@@ -51,16 +53,16 @@
 __COPYRIGHT("Copyright (c) 1989 The Regents of the University of California.\n\
  All rights reserved.\n");
 __SCCSID("@(#)mktab.c	5.2 (Berkeley) 4/18/91");
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/share/tmac/tab/mktab.c,v 1.2 2007/08/24 14:20:07 tg Exp $");
 
 int
-main()
+main(void)
 {
 	static struct fake_exec {
 		int bogus[8];	/* bogus[2] == a_data */
 	} fe;
 	register int *bip;
-	register char **tip;
+	register const char **tip;
 	register int offset = sizeof t;
 	int buf[sizeof t / sizeof (int)];
 	int twbase = (int *) &t.twinit - &t.bset;

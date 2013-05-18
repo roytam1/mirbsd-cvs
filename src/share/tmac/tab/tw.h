@@ -1,10 +1,10 @@
-/* $MirOS: src/share/tmac/tab/tw.h,v 1.1.7.1 2005/03/06 16:33:42 tg Exp $ */
+/* $MirOS: src/share/tmac/tab/tw.h,v 1.2 2008/11/08 22:24:22 tg Exp $ */
 
 /*-
  * Copyright (c) 1979, 1980, 1981, 1986, 1988, 1990, 1991, 1992
  *     The Regents of the University of California.
  * Copyright (C) Caldera International Inc.  2001-2002.
- * Copyright (c) 2003, 2004
+ * Copyright (c) 2003, 2004, 2012
  *	Thorsten "mirabilos" Glaser <tg@mirbsd.org>
  * All rights reserved.
  *
@@ -55,20 +55,20 @@ struct {
 	int Em;
 	int Halfline;
 	int Adj;
-	char *twinit;
-	char *twrest;
-	char *twnl;
-	char *hlr;
-	char *hlf;
-	char *flr;
-	char *bdon;
-	char *bdoff;
-	char *ploton;
-	char *plotoff;
-	char *up;
-	char *down;
-	char *right;
-	char *left;
-	char *codetab[256-32];
-	char *zzz;
+	const char *twinit;
+	const char *twrest;
+	const char *twnl;
+	const char *hlr;
+	const char *hlf;
+	const char *flr;
+	const char *bdon;
+	const char *bdoff;
+	const char *ploton;
+	const char *plotoff;
+	const char *up;
+	const char *down;
+	const char *right;
+	const char *left;
+	const char *codetab[256-32];
+	const char *zzz;
 } t;

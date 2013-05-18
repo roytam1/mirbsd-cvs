@@ -1,10 +1,10 @@
-/* $MirOS: src/share/tmac/tab/code.aj833,v 1.1.7.1 2005/03/06 16:33:42 tg Exp $ */
+/* $MirOS: src/share/tmac/tab/code.aj833,v 1.2 2008/11/08 22:24:19 tg Exp $ */
 
 /*-
  * Copyright (c) 1979, 1980, 1981, 1986, 1988, 1990, 1991, 1992
  *     The Regents of the University of California.
  * Copyright (C) Caldera International Inc.  2001-2002.
- * Copyright (c) 2003, 2004
+ * Copyright (c) 2003, 2004, 2012
  *	Thorsten "mirabilos" Glaser <tg@mirbsd.org>
  * All rights reserved.
  *
@@ -254,5 +254,4 @@
 "\001\200|\303\202-\343\242",		/*left floor (lb of big bracket)*/
 "\001\200|\303\242-\343\202",		/*right floor (rb of ")*/
 "\001\200|\344\202-\304\242",		/*left ceiling (lt of ")*/
-"\001\200|\344\242-\304\202"		/*right ceiling (rt of ")*/
-};
+"\001\200|\344\242-\304\202",		/*right ceiling (rt of ")*/

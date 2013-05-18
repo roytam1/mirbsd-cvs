@@ -1,10 +1,10 @@
-/* $MirOS: src/share/tmac/tab/tabcol.c,v 1.3 2007/01/22 17:40:05 tg Exp $ */
+/* $MirOS: src/share/tmac/tab/tabcol.c,v 1.4 2008/11/08 22:24:21 tg Exp $ */
 
 /*-
  * Copyright (c) 1979, 1980, 1981, 1986, 1988, 1990, 1991, 1992
  *     The Regents of the University of California.
  * Copyright (C) Caldera International Inc.  2001-2002.
- * Copyright (c) 2003, 2004, 2006
+ * Copyright (c) 2003, 2004, 2006, 2012
  *	Thorsten "mirabilos" Glaser <tg@mirbsd.org>
  * All rights reserved.
  *
@@ -61,21 +61,21 @@ struct {
 	int Em;
 	int Halfline;
 	int Adj;
-	char *twinit;
-	char *twrest;
-	char *twnl;
-	char *hlr;
-	char *hlf;
-	char *flr;
-	char *bdon;
-	char *bdoff;
-	char *ploton;
-	char *plotoff;
-	char *up;
-	char *down;
-	char *right;
-	char *left;
-	char *codetab[256-32];
+	const char *twinit;
+	const char *twrest;
+	const char *twnl;
+	const char *hlr;
+	const char *hlf;
+	const char *flr;
+	const char *bdon;
+	const char *bdoff;
+	const char *ploton;
+	const char *plotoff;
+	const char *up;
+	const char *down;
+	const char *right;
+	const char *left;
+	const char *codetab[256-32];
 	int zzz;
 	} t = {
 /*bset*/	0,
@@ -111,7 +111,7 @@ struct {
 /*down*/	"",
 /*right*/	"",
 /*left*/	"",
-/*codetab*/
+/*codetab*/	{
 "\001 ",	/*space*/
 "\001!",	/*!*/
 "\001\"",	/*"*/
@@ -325,5 +325,7 @@ struct {
 "\001|",	/*right ceiling (rt of big bracket)*/
 "\201\241",	/*(a1) activate 8 bit passing*/
 "\000\253",	/*(ab) 8bit: bit is 0*/
-"\000\273"	/*(bb) 8bit: bit is 1*/
+"\000\273",	/*(bb) 8bit: bit is 1*/
+ },
+ 0
 };

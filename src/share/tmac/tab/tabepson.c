@@ -1,10 +1,10 @@
-/* $MirOS: src/share/tmac/tab/tabepson.c,v 1.1.7.1 2005/03/06 16:33:42 tg Exp $ */
+/* $MirOS: src/share/tmac/tab/tabepson.c,v 1.2 2008/11/08 22:24:21 tg Exp $ */
 
 /*-
  * Copyright (c) 1979, 1980, 1981, 1986, 1988, 1990, 1991, 1992
  *     The Regents of the University of California.
  * Copyright (C) Caldera International Inc.  2001-2002.
- * Copyright (c) 2003, 2004
+ * Copyright (c) 2003, 2004, 2012
  *	Thorsten "mirabilos" Glaser <tg@mirbsd.org>
  * All rights reserved.
  *
@@ -84,21 +84,21 @@ struct {
           int Em;                 /* em size                      */
           int Halfline;           /* length of half line feed     */
           int Adj;                /* white size increment         */
-          char *twinit;           /* initialize string to printer */
-          char *twrest;           /* reset string to printer      */
-          char *twnl;             /* newline string               */
-          char *hlr;              /* half-line-feed-reverse       */
-          char *hlf;              /* half-line-feed-forward       */
-          char *flr;              /* full-line-feed-reverse       */
-          char *bdon;             /* bold-on string               */
-          char *bdoff;            /* bold-off string              */
-          char *ploton;           /* plot on string               */
-          char *plotoff;          /* plot off string              */
-          char *up;               /* these strings move as        */
-          char *down;             /*     indicated in plot mode   */
-          char *right;            /*     in best available        */
-          char *left;             /*     resolution               */
-          char *codetab[256-32];  /* see the table                */
+          const char *twinit;     /* initialize string to printer */
+          const char *twrest;     /* reset string to printer      */
+          const char *twnl;       /* newline string               */
+          const char *hlr;        /* half-line-feed-reverse       */
+          const char *hlf;        /* half-line-feed-forward       */
+          const char *flr;        /* full-line-feed-reverse       */
+          const char *bdon;       /* bold-on string               */
+          const char *bdoff;      /* bold-off string              */
+          const char *ploton;     /* plot on string               */
+          const char *plotoff;    /* plot off string              */
+          const char *up;         /* these strings move as        */
+          const char *down;       /*     indicated in plot mode   */
+          const char *right;      /*     in best available        */
+          const char *left;       /*     resolution               */
+          const char *codetab[256-32];  /* see the table          */
           int zzz;
           } t = {
 /*bset*/	0,
@@ -124,7 +124,7 @@ struct {
 /*down*/	"",
 /*right*/	"",
 /*left*/	"",
-
+/*codetab*/	{
 "\001 ",	/*space*/
 "\001!",	/*!*/
 "\001\"",	/*"*/
@@ -327,4 +327,6 @@ struct {
 "\001O",	/*circle*/
 "\000\033G",	/* FX80 set Double Strike */	/* \(lt */
 "\000\033H",	/* FX80 cancels D.S.  */	/* \(lb */
+ },
+ 0
 };
