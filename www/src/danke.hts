@@ -3,7 +3,7 @@
 
 mws_setname irc "Internet Relay Chat: synchronously communicating with developers"
 mws_subdir 0
-mws_putheader '$MirOS: www/content/ZGFua2U_.inc,v 1.8 2006/04/10 12:44:46 tg Exp $'
+mws_putheader '$MirOS: www/src/danke.hts,v 1.1 2007/08/30 09:37:13 tg Exp $'
 mws_content <<'EOF'
 <h1>Donating to the MirOS Project</h1>
 <h2>Considering to donate?</h2>
@@ -16,7 +16,7 @@ mws_content <<'EOF'
 <p>After a successful donation, you may be listed below &ndash; this
  is an opt-in, and you must explicitly state that. Please note that
  some persons who donate webhosting, domains etc. are not listed
- on this page; they can be found <a href="/?devel#sponsors">here</a>
+ on this page; they can be found <a href="devel.htm#sponsors">here</a>
  instead..</p>
 
 <h2>Support through partnership</h2>
