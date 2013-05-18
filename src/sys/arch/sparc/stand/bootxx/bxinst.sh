@@ -1,5 +1,5 @@
 #!/usr/bin/env mksh
-# $MirOS: src/sys/arch/sparc/stand/bootxx/bxinst.sh,v 1.8 2007/10/16 22:28:21 tg Exp $
+# $MirOS: src/sys/arch/sparc/stand/bootxx/bxinst.sh,v 1.9 2007/10/16 22:44:43 tg Exp $
 #-
 # Copyright (c) 2007
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -41,7 +41,19 @@ function out_int32 {
 
 integer blktblsz=@@TBLSZ@@
 set -A blktblent
-integer blktblnum=0 firstblock lastblock i=0
+integer blktblnum=0 firstblock lastblock i=0 sscale=0
+
+while getopts ":S:" ch; do
+	case $ch {
+	(S)	if (( (sscale = OPTARG) < 0 || OPTARG > 24 )); then
+			print -u2 Error: invalid sector scale "'$OPTARG'"
+			exit 1
+		fi ;;
+	(*)	print -u2 "Syntax: bxinst [-S scale] <blocklist >loader"
+		exit 1 ;;
+	}
+done
+shift $((OPTIND - 1))
 
 # zero-initialise the block array
 while (( i < blktblsz )); do
@@ -51,7 +63,7 @@ done
 # read in the extents
 while read firstblock lastblock junk; do
 	while (( firstblock <= lastblock )); do
-		let blktblent[blktblnum++]=firstblock++
+		(( blktblent[blktblnum++] = firstblock++ << sscale ))
 	done
 	if (( blktblnum > blktblsz )); then
 		print -u2 Error: too many blocks, maximum $blktblsz
@@ -61,7 +73,7 @@ done
 
 # verbose output
 let i=0
-print -nu2 "using $blktblnum blocks: "
+print -nu2 "using $blktblnum blocks of size $((512 << sscale)): "
 while (( i < blktblnum )); do
 	print -nu2 "${blktblent[i++]} "
 done
@@ -71,10 +83,8 @@ print -u2 .
 print -n '\01\03\01\07\060\0200\0\07@@PARTONE@@'
 
 # The Block Table
-# note: currently, MI installboot(8) assumes 512-byte blocks, maybe
-#       do an optimisation similar to the i386 first-stage bootloader
 out_int32 $blktblnum
-out_int32 512		# XXX size of filesystem blocks
+out_int32 $((512 << sscale))
 let i=0
 while (( i < blktblsz )); do
 	out_int32 ${blktblent[i++]}
