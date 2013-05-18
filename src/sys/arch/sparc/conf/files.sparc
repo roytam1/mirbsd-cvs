@@ -1,4 +1,4 @@
-#	$MirOS: src/sys/arch/sparc/conf/files.sparc,v 1.3 2006/06/11 00:15:09 tg Exp $
+#	$MirOS: src/sys/arch/sparc/conf/files.sparc,v 1.4 2007/06/10 18:21:20 tg Exp $
 #	$OpenBSD: files.sparc,v 1.59 2004/02/29 21:44:12 miod Exp $
 #	$NetBSD: files.sparc,v 1.44 1997/08/31 21:29:16 pk Exp $
 
@@ -319,7 +319,7 @@ include "../../../compat/openbsd/files.openbsd"
 
 # Magma Serial/Parallel boards
 device magma {}
-attach magma at sbus                                 
+attach magma at sbus
 device mtty
 attach mtty at magma
 device mbpp
@@ -383,3 +383,7 @@ file	dev/sbus/stp4020.c		stp
 file	arch/sparc/dev/stp_sbus.c	stp_sbus
 
 include	"dev/pcmcia/files.pcmcia"
+
+file	conf/locc.c
+file	conf/scanc.c
+file	conf/skpc.c

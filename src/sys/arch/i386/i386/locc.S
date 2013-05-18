@@ -30,7 +30,11 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "DEFS.h"
+#include <machine/asm.h>
+
+RCSID("$MirOS$")
+
+	.text
 
 ENTRY(locc)
 	pushl	%edi
