@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: src/distrib/i386/livecd/Makefile,v 1.1 2006/04/05 23:14:40 tg Exp $
 
 .include <bsd.own.mk>
 
@@ -7,7 +7,7 @@ REALOBJDIR!=	readlink -nf ${.OBJDIR}
 
 all install:
 
-cd: ${CDROM}
+it: ${CDROM}
 
 ${CDROM}: unpack prepimg makeimg
 
@@ -35,7 +35,7 @@ makeimg:
 	    -no-emul-boot -boot-load-size 4 -boot-info-table \
 	    -o ${CDROM} workdir
 
-.PHONY: cd unpack prepimg makeimg
+.PHONY: it unpack prepimg makeimg
 
 clean cleandir cleannobsd:
 	-rm -rf ${CDROM} workdir
