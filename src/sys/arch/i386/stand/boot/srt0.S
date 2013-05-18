@@ -1,4 +1,4 @@
-/* $MirOS: src/sys/arch/i386/stand/boot/srt0.S,v 1.36 2009/01/02 07:35:31 tg Exp $ */
+/* $MirOS: src/sys/arch/i386/stand/boot/srt0.S,v 1.37 2009/01/02 07:43:23 tg Exp $ */
 
 /*-
  * Copyright (c) 2003, 2004, 2005, 2006, 2007, 2008, 2009
@@ -393,6 +393,7 @@ Lmbrun:	mov	edx,[ebx+12]		/* boot_device */
 	xor	eax,eax
 	push	eax
 	popfd
+	/* Note: GRUB does not support loading below 1 MiB */
 	mov	esi,0x00100000
 	mov	edi,SA_LINKADDR
 	mov	ecx,0x4000		/* 64 KiB in dwords */
