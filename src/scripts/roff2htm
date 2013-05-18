@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/scripts/roff2htm,v 1.6 2005/03/29 17:27:31 tg Exp $
+# $MirOS: src/scripts/roff2htm,v 1.7 2005/07/07 13:06:38 tg Exp $
 # $ekkoBSD: catman2html.sh,v 1.2 2004/03/07 03:02:53 stephen Exp $
 #-
 # Copyright (c) 2004, 2005
@@ -70,6 +70,7 @@ s/\([0-9A-z][-.,0-9A-z]*\)-\n\(  *\)\([0-9A-z][-.,0-9A-z]*([1-9][A-z]*)\)\([^ ]*
 									\
 	    -e '/^[A-Z]/s#.##g'					\
 	    -e 's#^[A-Z][ ,A-Z]*$#</pre><h2>&</h2><pre>#'		\
+	    -e 's#^  \([A-Z][ ,A-Z]*\)#</pre><h3>\1</h3><pre>#'	\
 									\
 	    -e 's#_\(.\)#<i>\1</i>#g'					\
 	    -e 's#.\(.\)#<b>\1</b>#g'					\
@@ -88,6 +89,7 @@ s/\([0-9A-z][-.,0-9A-z]*\)-\n\(  *\)\([0-9A-z][-.,0-9A-z]*([1-9][A-z]*)\)\([^ ]*
 	    -e 's#<b>+</b>\( *\)<b>o</b># \1\&bull;#'			\
 	    -e 's#<b>+</b>#\&bull;#'					\
 	    -e 's#</\([bi]\)><\1>##g'					\
+	    -e 's#<h3><b>#<h3>#g' -e 's#</b></h3>#</h3>#g'		\
 									\
 	    -e 's##\&amp;#g'						\
 	    -e 's#Å#\&lt;#g'						\
@@ -116,7 +118,7 @@ output_header()
 </head><body>
 <h1>MirOS Manual: <a href="../man${2}/${1}.htm"><tt>${1}(${2})</tt></a></h1>
 <p style="font-size:xx-small;">Generated on ${gendate} by
- \$MirOS: src/scripts/roff2htm,v 1.6 2005/03/29 17:27:31 tg Exp $</p>
+ \$MirOS: src/scripts/roff2htm,v 1.7 2005/07/07 13:06:38 tg Exp $</p>
 <hr />
 EOF
 }
