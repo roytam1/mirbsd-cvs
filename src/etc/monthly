@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/etc/monthly,v 1.13 2007/07/11 09:07:31 tg Exp $
+# $MirOS: src/etc/monthly,v 1.14 2007/07/11 09:08:03 tg Exp $
 # $OpenBSD: monthly,v 1.5 1998/02/02 23:08:57 millert Exp $
 
 umask 022
@@ -7,9 +7,9 @@ export TZ=UTC PATH=/bin:/usr/bin:/sbin:/usr/sbin:/usr/local/bin:/usr/mpkg/bin
 cd /
 
 print RUNTIME=$(date +%J)
+print
 
 if [ -f /etc/monthly.local ];then
-	print
 	print "Running monthly.local:"
 	. /etc/monthly.local
 else
