@@ -1,0 +1,14 @@
+$MirOS$
+--- src/rrd_dump.c.orig	Mon Apr 25 21:03:22 2005
++++ src/rrd_dump.c	Wed Nov 12 20:01:50 2008
+@@ -39,8 +39,8 @@ rrd_dump(int argc, char **argv)    
+ #else
+ # error "Need strftime"
+ #endif
+-    printf("\t<lastupdate> %ld </lastupdate> <!-- %s -->\n\n",
+-	   rrd.live_head->last_up,somestring);
++    printf("\t<lastupdate> %lld </lastupdate> <!-- %s -->\n\n",
++	   (int64_t)rrd.live_head->last_up,somestring);
+     for(i=0;i<rrd.stat_head->ds_cnt;i++){
+ 	printf("\t<ds>\n");
+ 	printf("\t\t<name> %s </name>\n",rrd.ds_def[i].ds_nam);
