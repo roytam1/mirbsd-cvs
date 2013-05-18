@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.173 2009/03/22 12:25:21 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.174 2009/03/22 18:56:39 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -3628,4 +3628,15 @@ Tag: mksh
 <p>We're in a feature freeze; people <strong>please test</strong> <a
  href="@@RELPATH@@permalinks/wlog-10_e20081013-tg.htm">mksh-current</a>
  on your system to make <em>R37</em> rock!</p>
+----
+Author: tg@
+Title: Fixes, current and upcoming
+Date: 28.03.2009 21:56
+Tag: security
+
+<p>Benny has upgraded Mirzilla Firetapir (ports/www/firesomething).</p>
+<p>Some time ago I already upgraded libpng (base and port).</p>
+<p>Pending fixes: libc (fts), and probably some subset of the recent
+ OpenSSL things.</p>
+<p>mksh R37 is scheduled to be released RSN.</p>
 ----
