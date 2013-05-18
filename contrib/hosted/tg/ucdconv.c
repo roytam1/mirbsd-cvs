@@ -33,7 +33,7 @@ NOMAN=		Yes
 #include <string.h>
 #include <wchar.h>
 
-__RCSID("$MirOS: contrib/hosted/tg/ucdconv.c,v 1.13 2010/12/11 20:38:26 tg Exp $");
+__RCSID("$MirOS: contrib/hosted/tg/ucdconv.c,v 1.14 2010/12/11 20:55:03 tg Exp $");
 
 struct unicode_attribute {
   const char* name;           /* Character name */
@@ -584,7 +584,8 @@ static void output_attribute_table (void)
         fprintf(f, "\n");
       }
       fprintf(f, "};\n");
-      fprintf(f, "\n");
+      if (p)
+        fprintf(f, "\n");
     }
   fprintf(f, "const unsigned char * const attribute_table[0x100] = {\n");
   for (p1 = 0; p1 < 0x80; p1++) {
