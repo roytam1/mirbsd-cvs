@@ -2,7 +2,7 @@
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.121 2008/06/03 11:13:34 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.122 2008/06/03 18:05:10 tg Exp $'
 mws_content <<'EOF'
 <h1>mksh(1) R33d</h1>
 <p>This is the website of the MirBSD™ Korn Shell, an actively developed free
@@ -505,7 +505,8 @@ mws_content <<'EOF'
  some platforms. If we do not assume UTF-8, disabling lets mksh employ
  the <tt>LANG</tt> and <tt>LC_*</tt> environment variables for codeset
  determination. Also, a new builtin is included depending on existence
- of the readlink(3) function, disabled by default if MKSH_SMALL.</p>
+ of the readlink(3) function, disabled by default if MKSH_SMALL. The
+ “pdksh” check category is no longer persistent.</p>
 <p>No changes in mksh R33c except for Ultrix support. None in R33d.</p>
 <p>In mksh R33b, much more compilers are detected, even if not all of
  them are supported. The OE (OS and CC/LD) versions are now dumped too.
@@ -741,14 +742,14 @@ mws_content <<'EOF'
  <li>HP-UX 11i v2 B.11.23 U ia64 (IA64 gcc3.4.3)</li>
  <li>HP-UX 11i v3 B.11.31 U PA-RISC 9000/800 (hppa aCC HP92453-01 B.11.X.36086-36089-36092.GP, ld 92453-07 B.11.60 070209)</li>
  <li>Mac OSX Leopard 10.5.2 Darwin 9.2.0 (i386 gcc4.0.1 Apple Inc. build 5465)</li>
- <li>Mac OSX Leopard 10.5.2 Darwin 9.2.0 (i386 gcc4.2.1 Apple Inc. build 5531)</li>
+ <li>Mac OSX Leopard 10.5.3 (9D34) Darwin 9.3.0 (i386 gcc4.2.1 Apple Inc. build 5558)</li>
  <li>Mac OSX Leopard Server 10.5.2 Darwin 9.2.0 (macppc gcc3.3 20030304 Apple Computer, Inc. build 1823, ld64-77)</li>
  <li>Mac OSX Leopard Server 10.5.2 Darwin 9.2.0 (macppc gcc4.0.1 Apple Inc. build 5465)</li>
  <li>Solaris 8 Generic_117350-41 (sparc,V8+ sun4u gcc3.4.3)</li>
  <li>Solaris 8 Generic_117350-41 (sparc64,V9 sun4u gcc3.4.3)</li>
  <li>Solaris 10 Generic_125100-04 (sparc,V8+ sun4u gcc3.4.6)</li>
  <li>Solaris 10 Generic_125100-04 (sparc64,V9 sun4u gcc3.4.6)</li>
- <li>Solaris 10 Generic_125100-04 (sparc,V8+ sun4u SUNcc5.9 124867-01, ld 5.10-1.486)</li>
+ <li>Solaris 10 Generic_127111-10 (sparc,V8+ sun4u SUNcc5.9 124867-02 2007/11/27, ld 5.10-1.489)</li>
  <li>Solaris 10 Generic_125100-04 (sparc64,V9 sun4u SUNcc5.9 124867-01, ld 5.10-1.486)</li>
  <li>Interix 3.5 SP-8.0.1969.1 (i386 gcc3.3 win2k)</li>
  <li>Interix 3.5 SP-8.0.1969.1 (i386 msc CL.EXE 13.00.9466 (standard), LINK.EXE 7.00.9466)</li>
@@ -975,7 +976,13 @@ mws_content <<'EOF'
  <li>Optimise the code somewhat by making use of possible assumptions</li>
  <li>Set the “C” locale in <tt>test.sh</tt> as well to quell warnings</li>
  <li>Split the regression tests that use locale between <tt>en_US.utf8</tt>
-  and <tt>en_US.UTF-8</tt>, since not all OSes support either one</li>
+  and <tt>en_US.UTF-8</tt>, since not all OSes support either one, and
+  make Solaris and Darwin use the latter</li>
+ <li>Fix kill, mknod(8) builtin usage msg, from Igor Sobrado via oksh</li>
+ <li>Use proper <tt>ptrdiff_t</tt> casts for pointer arithmetics, inspired
+  by an oksh commit from Federico Schwindt</li>
+ <li>Remove check category “pdksh” from <tt>check.t</tt> and test script</li>
+ <li>Improve SUNpro version reporting</li>
 </ul>
 <p id="r33d">mksh R33d is a quick security-update with these changes:</p><ul>
  <li>Move a portability define from <tt>sh.h</tt> to the <tt>setmode.c</tt>
