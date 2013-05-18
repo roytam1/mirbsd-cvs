@@ -1,4 +1,4 @@
-# $MirOS: src/Makefile,v 1.103 2007/06/07 02:11:04 tg Exp $
+# $MirOS: src/Makefile,v 1.104 2007/06/07 02:31:18 tg Exp $
 # $OpenBSD: Makefile,v 1.103 2004/05/03 15:18:18 drahn Exp $
 
 .if defined(MAKECONF) && exists(${MAKECONF})
@@ -127,10 +127,11 @@ do-htman:
 	    && ${_STCMD} -f ${BSDOBJDIR}/htman/.policy.mk ${MAKE}
 .endfor
 	mkdir -p ${BSDOBJDIR}/htman/texinfo
-	cd ${.CURDIR} && ${_STCMD} -f ${BSDOBJDIR}/htman/.policy.mk \
+	cd ${BSDOBJDIR} && env WRITEDIR=${BSDOBJDIR:Q} \
+	    ${SHELL} ${BSDSRCDIR}/scripts/systrace.mk ${MAKE} ${SHELL}
+	cd ${.CURDIR} && ${_STCMD} -f ${BSDOBJDIR}/.policy.mk \
 	    ${MAKE} do-htinfo
-	cd ${BSDSRCDIR}/gnu/usr.bin/cvs/obj/doc && \
-	    makeinfo --no-split --html -I /usr/src/gnu/usr.bin/cvs/doc /usr/src/gnu/usr.bin/cvs/doc/cvs.texinfo
+	-rm -f ${BSDOBJDIR}/.policy.mk
 	cp ${BSDOBJDIR}/share/doc/legal/LICENCE-BSD.0 \
 	    ${BSDOBJDIR}/htman/man/cat7/BSD-Licence.0
 	BSDOBJDIR=${BSDOBJDIR:Q} BSDSRCDIR=${BSDSRCDIR:Q} \
@@ -142,7 +143,7 @@ do-htman:
 	cd ${BSDOBJDIR}/htman/htm && \
 	    find man* -type f | ${SUDO} cpio -pdlu ${BSDRELDIR}/htman/
 	cd ${BSDOBJDIR}/htman/texinfo && \
-	    find *.htm | ${SUDO} cpio -pdlu ${BSDRELDIR}/htman/manINFO/
+	    find *.html | ${SUDO} cpio -pdlu ${BSDRELDIR}/htman/manINFO/
 	cd ${BSDRELDIR}/base/usr/share/doc/html && \
 	    ${SUDO} pax -rw * ${BSDRELDIR}/htman/docs/
 	cd ${BSDRELDIR}/htman/docs && ${SUDO} rm -f \
@@ -169,7 +170,7 @@ do-htinfo:
 	    cp binutils.html ${BSDOBJDIR}/htman/texinfo/
 	cd ${BSDOBJDIR}/gnu/usr.bin/binutils/gas/doc && \
 	    makeinfo --no-split --html -I ${BSDSRCDIR}/gnu/usr.bin/binutils/gas/doc \
-	    ${BSDSRCDIR}/gnu/usr.bin/binutils/bfd/doc/as.texinfo && \
+	    ${BSDSRCDIR}/gnu/usr.bin/binutils/gas/doc/as.texinfo && \
 	    cp as.html ${BSDOBJDIR}/htman/texinfo/
 	cd ${BSDOBJDIR}/gnu/usr.bin/binutils/gdb/doc && \
 	    makeinfo --no-split --html \
@@ -380,9 +381,11 @@ _do-dist:
 .  endif
 .endif
 	@date
+.if ${DIST_RESTART} < 6
 	cd ${.CURDIR} && exec ${MAKE} base-distbuild DESTDIR=${BSDRELDIR}/base
 	cd ${.CURDIR} && exec ${SUDO} ${MAKE} base-distinstall \
 	    DESTDIR=${BSDRELDIR}/base
+.endif
 .ifndef QUICK_DIST
 	@date
 	t=0; cd ${BSDRELDIR}; \
