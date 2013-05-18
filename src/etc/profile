@@ -1,4 +1,4 @@
-# $MirOS: src/etc/profile,v 1.10 2005/12/18 03:39:16 tg Exp $
+# $MirOS: src/etc/profile,v 1.11 2005/12/18 04:53:12 tg Exp $
 
 umask 022
 [ -z "$KSH_VERSION" ] && alias print='echo -e'
@@ -142,7 +142,8 @@ function Lretrocfg	# retrieve kernel config file
 if [ -O /tmp/.ssh-agent/$USER_ID ]; then
 	# If the agent is not running, remove stale files
 	[ ! -e /tmp/.ssh-agent/$USER_ID/socket ] \
-	    && rm -f /tmp/.ssh-agent/$USER_ID/{agent,keyread}
+	    && rm -f /tmp/.ssh-agent/$USER_ID/{agent,keyread} \
+	    ~/.etc/ssh/.{ctl,pid}.*
 	# Start ssh-agent if it is not already started
 	if [ ! -e /tmp/.ssh-agent/$USER_ID/agent ]; then
 		ssh-agent -s -a /tmp/.ssh-agent/$USER_ID/socket \
