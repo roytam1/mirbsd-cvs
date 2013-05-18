@@ -1,7 +1,13 @@
 <!-- PageID: news -->
-<small class="rcsid">$MirOS: www/content/bmV3cw__.inc,v 1.53 2006/01/27 00:29:25 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bmV3cw__.inc,v 1.54 2006/01/31 20:06:19 tg Exp $</small>
 
 <h1>Current MirOS News</h1><ul>
+
+<li>15.02.2006<br />Help test a <a href="/MirOS/current/i386-20060215">new
+	snapshot</a> with all the features below (attention: ssh/scp(1) is
+	not updated regarding CVE-2006-0225 yet). There is also a new repo
+	seed. Ports of this snapshot are not used to update #8 because the
+	overall quality is in an unknown state.</li>
 
 <li>30.01.2006<br />We now have an iconv(3) implementation by Citrus (from
 	NetBSD&reg;) in the base system, used by lynx(1). There is also an

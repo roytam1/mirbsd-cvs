@@ -1,5 +1,5 @@
 <!-- PageID: anoncvs -->
-<small class="rcsid">$MirOS: www/content/YW5vbmN2cw__.inc,v 1.10 2006/01/24 22:31:44 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/YW5vbmN2cw__.inc,v 1.11 2006/01/27 00:14:27 tg Exp $</small>
 <h1>Anonymous CVS access to the MirOS repository</h1>
 
 <h3 id="what">What is anonCVS?</h3>
@@ -28,8 +28,8 @@
  excessive use of the rsync command, since it imposes a lot of traffic.
 <br />
  Please consider using a <a
- href="/MirOS/CVS/cvsrepo-20050505.cgz">recent (2005-05-05) snapshot</a>
- tarball (<a href="/MirOS/CVS/cvsrepo-20050505.cgz.asc">PGP signature</a>)
+ href="/MirOS/CVS/cvsrepo-20060215.cgz">recent (2006-02-15) snapshot</a>
+ tarball (gzsig(1)d)
  of the CVS Repository (or for the old CVSROOT, the final snapshot from <a
  href="/MirOS/CVS/cvsroot-historic.cgz">2006-01-20</a>)
  as a base for rsync use in order to speed up the initial

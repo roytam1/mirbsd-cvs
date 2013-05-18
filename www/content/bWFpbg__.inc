@@ -1,5 +1,5 @@
 <!-- PageID: main -->
-<small class="rcsid">$MirOS: www/content/bWFpbg__.inc,v 1.41 2006/01/22 11:53:18 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bWFpbg__.inc,v 1.42 2006/01/27 00:14:29 tg Exp $</small>
 <h1>MirBSD &nbsp; MirLinux &nbsp; MirPorts &nbsp; &mdash; &nbsp; Main Page</h1>
 <h2>Welcome to the MirOS Project!</h2>
 <p>This project is driven by a small number of people, that's why this
@@ -23,28 +23,30 @@
  in order to prevent abuse of our name and provide integrity of distfiles.</p>
 <p>Go to <a href="/?news">the main news page</a>.</p>
 <h3 style="color:red;">Latest Releases</h3>
-<!-- p>CURRENT: January 13th, 2006: #8-current snapshot available via our <a
- href="http://f.scarywater.net/miros/">BitTorrent</a> tracker.</p -->
-<p>CURRENT: January 13th, 2006: #8-current snapshot available for <a
- href="/MirOS/current/i386-20060113/">download</a> via the usual mirrors.</p>
+<p>CURRENT: February 15th, 2006: #8-current snapshot available via our <a
+ href="http://f.scarywater.net/miros/">BitTorrent</a> tracker.</p>
+<p>CURRENT: February 15th, 2006: #8-current snapshot available for <a
+ href="/MirOS/current/i386-20060215/">download</a> via the usual mirrors.</p>
+<p>PORTS: February 15th, 2006: We are in the progress of &quot;doing things
+ the right way&quot; so a few more ports may be broken at the moment &ndash;
+ we're undergoing effort to fix them and mark every port which is broken as
+ ${BROKEN} so you don't waste effort trying to build it (this is however not
+ completed yet, bulk builds take a while).<br />At the moment, you can
+ install the <a href="/?ports">MirPorts Framework</a> as regular user (or as
+ root user by means of sudo(8) as &quot;system ports tree&quot; on MirOS),
+ but only MirOS #8, OpenBSD and Darwin/Mac OSX are supported; Interix support
+ is not totally complete yet. <em>You must now use <tt>mmake</tt> as make(1)
+ programme.</em> The existing documentation may be inaccurate in parts.</p>
 <p>STABLE: December 24th, 2005: <a href="/?ann-8">MirOS #8</a> is
  available via our <a href="http://f.scarywater.net/miros/">BitTorrent
  tracker</a>. <small>There is also an <a
  href="/MirOS/v8/">HTTP(S)</a> download/netinstall option.</small></p>
-<p>PORTS: December 22th, 2005: The great reorganisation has settled down; you
- can install the <a href="/?ports">MirPorts Framework</a> as regular user,
- all pre-requisites including a recent enough <tt>mksh</tt> are being taken
- care of automatically. This is for MirOS #8, OpenBSD and Darwin only at the
- moment; Interix support is not yet (but almost) complete. <em>You must now
- use <tt>mmake</tt> as make(1) programme.</em> The existing
- documentation is inaccurate, especially the (former) MirWiki.
- Package upgrades are now available, yet still experimental.</p>
 <p>MERCHANDISING: There are still T-Shirts up for order. Contact <a
  href="mailto:tg@66h.42h.de">tg@</a> for purchase information. ONLY ONE
  WHITE "LinuxTag 2004" T-SHIRT LEFT, NO REPRINTS. BUY THIS RARITY!
  <b>Meet us at <a href="http://www.fosdem.org/">FOSDEM</a> 2006!</b></p>
-<p><a href="/MirOS/CVS/cvsrepo-20051207.cgz">CVSREPO</a>: December 7th, 2005:
- seed file (150.5 MiB, gzsig(1)d) for reducing the initial transfer costs.
+<p><a href="/MirOS/CVS/cvsrepo-20060215.cgz">CVSREPO</a>: February 15th, 2006:
+ seed file (ca. 160 MiB, gzsig(1)d) for reducing the initial transfer costs.
  We'd like to offer CTM; it is available on request but nobody asked yet.</p>
 <p><a href="/MirOS/CVS/cvsroot-historic.cgz">CVSROOT</a>: January 20th, 2006:
  final and complete seed file (473 MiB) for all three historic old CVS

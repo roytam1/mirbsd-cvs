@@ -1,13 +1,13 @@
 <!-- PageID: overview -->
-<small class="rcsid">$MirOS: www/content/b3ZlcnZpZXc_.inc,v 1.14 2006/01/20 13:08:09 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/b3ZlcnZpZXc_.inc,v 1.15 2006/01/27 00:14:29 tg Exp $</small>
 <h1>Quick Overview &ndash; All in one page</h1>
 
 <h2>Status</h2><p>
  <a href="/?ann-8">MirOS #8</a> is the latest release.
  MirOS #8-stable has been opened, but there have not been any updates released yet.
- The <a href="/MirOS/current/i386/">latest snapshot</a> of the current development version (i386) is from 2006-01-13.
+ The <a href="/MirOS/current/i386/">latest snapshot</a> of the current development version (i386) is from 2006-02-15.
  MirPorts infrastructure and new installer (<a href="/?ports">docs</a>) are stable (note to use <tt>mmake</tt> as make(1) binary).
- We expect a large percentage of individual ports to be broken or out of date due to lack of manpower.
+ We expect quite a percentage of individual ports to be broken or out of date due to lack of manpower.
 </p>
 
 <h2>Mailing lists</h2><ul>
@@ -38,7 +38,7 @@
  <li>CVSweb<ul>
   <li><a href="http://cvsweb.allbsd.org/cvsweb.cgi/?cvsroot=mirbsd">http://cvsweb.allbsd.org/cvsweb.cgi/?cvsroot=mirbsd</a></li>
   <li><a href="http://cvs.mirbsd.de/">http://cvs.mirbsd.de/</a> (should always work)</li>
-  <li><a href="https://mirbsd.mirsolutions.de:445/cvs.cgi/">http://mirbsd.mirsolutions.de/cvs.cgi/</a></li>
+  <!-- li><a href="https://mirbsd.mirsolutions.de:445/cvs.cgi/">http://mirbsd.mirsolutions.de/cvs.cgi/</a></li -->
  </ul></li>
  <li>Release<ul>
   <li><a href="http://f.scarywater.net/miros/BSD-8semel-full--i386-source.ISO.torrent">ISO (BitTorrent)</a> #8semel (i386)</li>
@@ -50,10 +50,14 @@
  </ul></li>
  <li>Snapshots<ul>
   <li><a href="http://f.scarywater.net/miros/">Please use our BitTorrent tracker</a> to download if available</li>
-  <li><a href="http://www.66h.42h.de/MirOS/current/i386-20060113/">MirOS BSD #8-current/i386, 2006-01-13</a> (binary only)</li>
+  <li><a href="http://www.66h.42h.de/MirOS/current/i386-20060215/">MirOS BSD #8-current/i386, 2006-02-15</a> (binary only)</li>
  </ul></li>
  <li>Website<ul>
   <li><a href="http://www.66h.42h.de/">http://www.66h.42h.de/</a></li>
+ </ul></li>
+ <li>CVS Repositories<ul>
+  <li><a href="/MirOS/CVS/cvsrepo-20060215.cgz">/cvs</a> (4th, current)</li>
+  <li><a href="/MirOS/CVS/cvsroot-historic.cgz">/ncvs /ocvs /lcvs</a> (1st, 2nd, 3rd combined, historic, final)</li>
  </ul></li>
 </ul>
 

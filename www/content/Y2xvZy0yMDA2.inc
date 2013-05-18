@@ -1,5 +1,5 @@
 <!-- PageID: clog-2006 -->
-<small class="rcsid">$MirOS: www/content/Y2xvZy0yMDA2.inc,v 1.6 2006/01/27 00:14:27 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/Y2xvZy0yMDA2.inc,v 1.7 2006/01/31 20:06:19 tg Exp $</small>
 <!--
  Full list of release focuses in freshmeat.net-compatible format:
 	N/A
@@ -16,18 +16,27 @@
 <h1>2006 snapshots of MirOS-current</h1>
 <h3>Infos &ndash; <a href="#eof">bottom</a></h3>
 
-<!--
+<p id="snap0215">15.02.2006<br />Changes relative to the <a
+ href="#snap0113">2006-01-13 snapshot</a> below:</p><ul>
  <li>base: /etc/ppp/ip-up: don't flush all states, only ppp</li>
  <li>base: /etc/rc: do not generate isakmpd(8) keys any more</li>
- <li>base: /etc/rc: use the same RSA private key for httpd(8), sendmail(8), sshd(8), increase its size to 4 Kibit</li>
+ <li>base: /etc/rc: use the same RSA private key for httpd(8), sendmail(8),
+  sshd(8), increase its size to 4 Kibit</li>
  <li>base: /etc/skel/ssh/known_hosts aliases sync with reality</li>
  <li>base: add Citrus iconv(3) implementation, from NetBSD&reg;</li>
  <li>base: libc: don't build libc.tags any more</li>
- <li>base: libc: implement (weak but working) nl_langinfo(CODESET), requires the user to use our (weak) setlocale(3)</li>
+ <li>base: libc: fix ENOCOFFEE errno</li>
+ <li>base: libc: implement (weak but working) nl_langinfo(CODESET), requires
+  the user to use our (weak) setlocale(3)</li>
  <li>base: libc: mmap(2) malloc(3), enjoy and complain about breakage ;)</li>
  <li>base: mksh(1) update to R26c</li>
  <li>base: savecore(8) handles gzip(1)d kernels</li>
  <li>base: ssh-keygen(1) and gzsig(1) now read more formats</li>
+ <li>base: tbl(1): fix buffer underrun cought by mmap(2) malloc(3)</li>
+ <li>base: tbl(1): while there fix potential overrun too</li>
+ <li>build: cope for missing h2ph(1) files</li>
+ <li>build: kernels and ramdisk kernels are always gzip(1)d</li>
+ <li>build: restructure order of execution (cf. CID 10043F2407C51151E2F)</li>
  <li>build: roff2man now generates correct manual pages again</li>
  <li>cvs: correct handling of backslash escapes in log messages</li>
  <li>cvs: save space in commit messages with unexpand(1)</li>
@@ -37,13 +46,20 @@
  <li>kernel: documentation fixes</li>
  <li>kernel: experimential TCP/IP improvements (MunARi)</li>
  <li>kernel: fix OpenBSD 3.8 Errata 002, 004_i386</li>
+ <li>kernel: recalibrating cycle counter fix one second delay impact</li>
  <li>lynx: display japanese (SJIS and EUC) on uxterm via iconv(3)</li>
  <li>lynx: do not add .com .org etc. to failing URIs any more</li>
  <li>perl: don't h2ph(1) any more</li>
  <li>perl: import fixed perl(1) from OpenBSD</li>
  <li>ports: display fixes for sirc/ssfe</li>
+ <li>ports: infrastructure bulk build: make possible</li>
  <li>ports: infrastructure fixes</li>
+ <li>ports: infrastructure make setup: fix</li>
+ <li>ports: infrastructure network.conf: remove broken mirrors</li>
  <li>ports: make axfrdns in djbdns work with inetd(8)</li>
+ <li>ports: redo linuxulator ports</li>
+ <li>ports: sirc: strip mIRC colour codes</li>
+ <li>ports: use libiconv from base (citrus on MirOS, gnu on Darwin)</li>
  <li>samples: fixes for the heartbeat client implementation</li>
  <li>samples: new keymap which contains Meta emulation for Opera/M*zilla</li>
  <li>samples: new multi-server heartbeat client</li>
@@ -51,7 +67,14 @@
  <li>www: remove ads</li>
  <li>x11: do not ssh-agent in xinitrc, we do it in /etc/profile</li>
  <li>zlib: add new gzfopen(3) API</li>
--->
+</ul><p>This snapshot primarily adds new features, such as libiconv
+ in the base system (and its fallout), removal of precompiled header
+ files, gzfopen(3) to cope with gzipped kernel changes, etc. It also
+ contains some changes in base and ports infrastructure to &quot;do
+ things the right way&quot;. Attention: scp(1) CVE-2006-0225 is not
+ yet fixed in this snapshot. HTML manual pages are finally correct
+ again. We expect this snapshot to behave better than MirOS #8 in
+ most regards, except for being very experimental (esp. ports).</p>
 
 <p id="snap0113">13.01.2006<br />Changes relative to the <a
  href="#snap0103">2006-01-03 snapshot</a> below:</p><ul>

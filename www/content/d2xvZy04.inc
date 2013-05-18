@@ -1,5 +1,5 @@
 <!-- PageID: wlog-8 -->
-<small class="rcsid">$MirOS: www/content/d2xvZy04.inc,v 1.36 2006/02/10 00:44:02 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy04.inc,v 1.37 2006/02/14 21:00:10 tg Exp $</small>
 <h1>MirBSD &ndash; WTF, We Have a Release!?</h1>
 <p><small><a href="#eof">bottom</a> or <a href="/?older">older</a>
  editions</small></p>
@@ -457,6 +457,14 @@ celebrate this event, rotate the wlog and start a new one.</p>
  <p>Ports are in a rather questionable state, I'm prepared having to fix
   everything on maou prior to installing. Someone ought to continue bulk
   build and break work.</p>
+</div>
+
+<div class="wlentry">
+ <h3 id="e20060215">15.02.2006 by tg@</h3>
+ <p>Built a snapshot in an overnighter. Have fun, help testing. Caution,
+  ports are a mess.</p>
+ <p>No idea how I can tell Benny by different means... we've got a place
+  to stay in Leuven &ndash; 2 developers, 2 Trittbrettfahrer.</p>
 </div>
 
 <p id="eof">Good luck, have fun, take care etc.pp</p>
