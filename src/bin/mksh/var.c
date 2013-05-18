@@ -27,7 +27,7 @@
 #include <sys/sysctl.h>
 #endif
 
-__RCSID("$MirOS: src/bin/mksh/var.c,v 1.152 2012/07/01 15:38:09 tg Exp $");
+__RCSID("$MirOS: src/bin/mksh/var.c,v 1.153 2012/07/30 21:37:17 tg Exp $");
 
 /*-
  * Variables
@@ -260,7 +260,7 @@ global(const char *n)
 				vp->flag &= ~(ISSET|INTEGER);
 			break;
 		case '?':
-			vp->val.i = exstat;
+			vp->val.i = exstat & 0xFF;
 			break;
 		case '#':
 			vp->val.i = l->argc;
