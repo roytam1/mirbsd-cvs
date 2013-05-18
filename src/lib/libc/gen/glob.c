@@ -76,7 +76,7 @@
 #include <string.h>
 #include <unistd.h>
 
-__RCSID("$MirOS: src/lib/libc/gen/glob.c,v 1.6 2010/10/08 20:34:36 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/gen/glob.c,v 1.7 2011/12/04 22:12:22 tg Exp $");
 
 #define	GLOB_LIMIT_MALLOC	65536
 #define	GLOB_LIMIT_STAT		128
@@ -622,13 +622,14 @@ glob3(Char *pathbuf, Char *pathbuf_last, Char *pathend, Char *pathend_last,
 	errno = 0;
 
 	if ((dirp = g_opendir(pathbuf, pglob)) == NULL) {
-		/* TODO: don't call for ENOENT or ENOTDIR? */
 		if (pglob->gl_errfunc) {
 			if (g_Ctoc(pathbuf, buf, sizeof(buf)))
 				return(GLOB_ABORTED);
 			if (pglob->gl_errfunc(buf, errno))
 				return(GLOB_ABORTED);
-		} else if (pglob->gl_flags & GLOB_ERR)
+		}
+		/* GNU CVS requires this to be done for ENOENT, too */
+		if (pglob->gl_flags & GLOB_ERR)
 			return (GLOB_ABORTED);
 		return(0);
 	}
