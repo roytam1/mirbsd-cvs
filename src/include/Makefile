@@ -1,4 +1,4 @@
-# $MirOS: src/include/Makefile,v 1.19 2006/10/28 19:07:31 tg Exp $
+# $MirOS: src/include/Makefile,v 1.20 2007/05/07 14:06:06 tg Exp $
 # $OpenBSD: Makefile,v 1.135 2005/07/10 06:53:44 grange Exp $
 # $NetBSD: Makefile,v 1.59 1996/05/15 21:36:43 jtc Exp $
 # @(#)Makefile	5.45.1.1 (Berkeley) 5/6/91
@@ -18,10 +18,10 @@ FILES=	a.out.h ar.h assert.h bitstring.h blf.h bm.h bsd_auth.h cast.h \
 	mpool.h ndbm.h netdb.h netgroup.h nl_types.h nlist.h ohash.h \
 	olf_abi.h paths.h poll.h pwd.h ranlib.h re_comp.h \
 	readpassphrase.h regex.h resolv.h rmd160.h search.h setjmp.h \
-	sgtty.h sha1.h sha2.h signal.h skipjack.h stab.h stdbool.h \
+	sfv.h sgtty.h sha1.h sha2.h signal.h skipjack.h stab.h stdbool.h \
 	stddef.h stdint.h stdio.h stdlib.h string.h strings.h struct.h \
-	sysexits.h tar.h tiger.h time.h ttyent.h tzfile.h unistd.h utime.h \
-	utmp.h vis.h wchar.h wctype.h whirlpool.h
+	suma.h sysexits.h tar.h tiger.h time.h ttyent.h tzfile.h unistd.h \
+	utime.h utmp.h vis.h wchar.h wctype.h whirlpool.h
 
 MFILES=	float.h frame.h
 LFILES=	errno.h fcntl.h syslog.h termios.h stdarg.h varargs.h

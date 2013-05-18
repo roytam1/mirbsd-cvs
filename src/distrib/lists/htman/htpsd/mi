@@ -695,6 +695,14 @@
 ./man3/RSA_size.htm
 ./man3/RSA_verify.htm
 ./man3/RSA_verify_ASN1_OCTET_STRING.htm
+./man3/SFVData.htm
+./man3/SFVEnd.htm
+./man3/SFVFile.htm
+./man3/SFVFileChunk.htm
+./man3/SFVFinal.htm
+./man3/SFVInit.htm
+./man3/SFVPad.htm
+./man3/SFVUpdate.htm
 ./man3/SHA1.htm
 ./man3/SHA1Data.htm
 ./man3/SHA1End.htm
@@ -984,6 +992,14 @@
 ./man3/SSLeay.htm
 ./man3/SSLeay_add_ssl_algorithms.htm
 ./man3/SSLeay_version.htm
+./man3/SUMAData.htm
+./man3/SUMAEnd.htm
+./man3/SUMAFile.htm
+./man3/SUMAFileChunk.htm
+./man3/SUMAFinal.htm
+./man3/SUMAInit.htm
+./man3/SUMAPad.htm
+./man3/SUMAUpdate.htm
 ./man3/TAILQ_EMPTY.htm
 ./man3/TAILQ_END.htm
 ./man3/TAILQ_ENTRY.htm
@@ -3386,6 +3402,7 @@
 ./man3/setusershell.htm
 ./man3/setvbuf.htm
 ./man3/sevenbit.htm
+./man3/sfv.htm
 ./man3/sha1.htm
 ./man3/sha2.htm
 ./man3/show_panel.htm
@@ -3517,6 +3534,7 @@
 ./man3/stty.htm
 ./man3/subpad.htm
 ./man3/subwin.htm
+./man3/suma.htm
 ./man3/svc_destroy.htm
 ./man3/svc_fds.htm
 ./man3/svc_fdset.htm

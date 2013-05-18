@@ -1,4 +1,4 @@
-/**	$MirOS: src/bin/md5/md5.c,v 1.16 2007/04/29 22:17:46 tg Exp $ */
+/**	$MirOS: src/bin/md5/md5.c,v 1.17 2007/05/07 14:06:04 tg Exp $ */
 /*	$OpenBSD: md5.c,v 1.32 2004/12/29 17:32:44 millert Exp $	*/
 
 /*
@@ -38,14 +38,15 @@
 #include <md4.h>
 #include <md5.h>
 #include <rmd160.h>
+#include <sfv.h>
 #include <sha1.h>
 #include <sha2.h>
+#include <suma.h>
 #include <tiger.h>
 #include <whirlpool.h>
 #include "crc.h"
-#include "suma.h"
 
-__RCSID("$MirOS: src/bin/md5/md5.c,v 1.16 2007/04/29 22:17:46 tg Exp $");
+__RCSID("$MirOS: src/bin/md5/md5.c,v 1.17 2007/05/07 14:06:04 tg Exp $");
 
 #define MAX_DIGEST_LEN	128
 
@@ -138,10 +139,30 @@ struct hash_functions {
 		"SUMA",
 		SUMA_DIGEST_LENGTH * 2,
 		NULL,
-		(void (*)(void *))SUMA_Init,
-		(void (*)(void *, const unsigned char *, unsigned int))SUMA_Update,
-		(char *(*)(void *, char *))SUMA_End,
+		(void (*)(void *))SUMAInit,
+		(void (*)(void *, const unsigned char *, unsigned int))SUMAUpdate,
+		(char *(*)(void *, char *))SUMAEnd,
 		digest_printbin_stringle,
+		digest_print,
+		digest_print_string
+	}, {
+		"SFV",
+		SFV_DIGEST_LENGTH * 2,
+		NULL,
+		(void (*)(void *))SFVInit,
+		(void (*)(void *, const unsigned char *, unsigned int))SFVUpdate,
+		(char *(*)(void *, char *))SFVEnd,
+		digest_printbin_stringle,
+		digest_print_sfv,
+		digest_print_sfv
+	}, {
+		"SIZE",
+		16,
+		NULL,
+		(void (*)(void *))SIZE_Init,
+		(void (*)(void *, const unsigned char *, unsigned int))SIZE_Update,
+		(char *(*)(void *, char *))SIZE_End,
+		digest_printbin_pad,
 		digest_print,
 		digest_print_string
 	}, {
@@ -215,16 +236,6 @@ struct hash_functions {
 		digest_print,
 		digest_print_string
 	}, {
-		"SFV",
-		SFV_DIGEST_LENGTH * 2,
-		NULL,
-		(void (*)(void *))SFV_Init,
-		(void (*)(void *, const unsigned char *, unsigned int))SFV_Update,
-		(char *(*)(void *, char *))SFV_End,
-		digest_printbin_stringle,
-		digest_print_sfv,
-		digest_print_sfv
-	}, {
 		"TIGER",
 		TIGER_DIGEST_LENGTH * 2,
 		NULL,
@@ -242,16 +253,6 @@ struct hash_functions {
 		(void (*)(void *, const unsigned char *, unsigned int))WHIRLPOOLUpdate,
 		(char *(*)(void *, char *))WHIRLPOOLEnd,
 		digest_printbin_string,
-		digest_print,
-		digest_print_string
-	}, {
-		"SIZE",
-		16,
-		NULL,
-		(void (*)(void *))SIZE_Init,
-		(void (*)(void *, const unsigned char *, unsigned int))SIZE_Update,
-		(char *(*)(void *, char *))SIZE_End,
-		digest_printbin_pad,
 		digest_print,
 		digest_print_string
 	}, {
@@ -507,8 +508,12 @@ digest_filelist(const char *file, struct hash_functions *defhash)
 		return(1);
 	}
 
-	if (defhash < &functions[4])
-		defhash = NULL;	/* No GNU format for sum, cksum, sysvsum, suma */
+	if (defhash < &functions[7])
+		/*
+		 * no GNU format for sum, cksum, sysvsum, suma,
+		 * adler32, size, sfv
+		 */
+		defhash = NULL;
 
 	algorithm_max = algorithm_min = strlen(functions[0].name);
 	for (hf = &functions[1]; hf->name != NULL; hf++) {

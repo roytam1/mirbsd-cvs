@@ -1,31 +1,28 @@
-/* $MirOS: src/share/misc/licence.template,v 1.14 2006/08/09 19:35:23 tg Rel $ */
-
 /*-
  * Copyright (c) 2006
  *	Thorsten Glaser <tg@mirbsd.de>
  *
- * Licensee is hereby permitted to deal in this work without restric-
- * tion, including unlimited rights to use, publicly perform, modify,
- * merge, distribute, sell, give away or sublicence, provided all co-
- * pyright notices above, these terms and the disclaimer are retained
- * in all redistributions or reproduced in accompanying documentation
- * or other materials provided with binary redistributions.
+ * Provided that these terms and disclaimer and all copyright notices
+ * are retained or reproduced in an accompanying document, permission
+ * is granted to deal in this work without restriction, including un-
+ * limited rights to use, publicly perform, distribute, sell, modify,
+ * merge, give away, or sublicence.
  *
- * Licensor offers the work "AS IS" and WITHOUT WARRANTY of any kind,
- * express, or implied, to the maximum extent permitted by applicable
- * law, without malicious intent or gross negligence; in no event may
- * licensor, an author or contributor be held liable for any indirect
- * or other damage, or direct damage except proven a consequence of a
- * direct error of said person and intended use of this work, loss or
- * other issues arising in any way out of its use, even if advised of
- * the possibility of such damage or existence of a defect.
+ * This work is provided "AS IS" and WITHOUT WARRANTY of any kind, to
+ * the utmost extent permitted by applicable law, neither express nor
+ * implied; without malicious intent or gross negligence. In no event
+ * may a licensor, author or contributor be held liable for indirect,
+ * direct, other damage, loss, or other issues arising in any way out
+ * of dealing in the work, even if advised of the possibility of such
+ * damage or existence of a defect, except proven that it results out
+ * of said person's immediate fault when using the work as intended.
  */
 
-#include <sys/param.h>
-#include <stdio.h>
-#include "crc.h"
+#include <sys/types.h>
+#include <string.h>
+#include <sfv.h>
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/bin/md5/sfv.c,v 1.1 2006/09/17 19:28:57 tg Exp $");
 
 static const uint32_t tab[256] = {
 	0x00000000U, 0x77073096U, 0xee0e612cU, 0x990951baU,
@@ -95,14 +92,14 @@ static const uint32_t tab[256] = {
 };
 
 void
-SFV_Init(SFV_CTX *ctx)
+SFVInit(SFV_CTX *ctx)
 {
 	ctx->crc = 0xFFFFFFFF;
 	ctx->len = 0;
 }
 
 void
-SFV_Update(SFV_CTX *ctx, const uint8_t *buf, size_t len)
+SFVUpdate(SFV_CTX *ctx, const uint8_t *buf, size_t len)
 {
 	ctx->len += len;
 	while (len--)
@@ -110,21 +107,16 @@ SFV_Update(SFV_CTX *ctx, const uint8_t *buf, size_t len)
 }
 
 void
-SFV_Final(SFV_CTX *ctx)
+SFVPad(SFV_CTX *ctx)
 {
 	ctx->crc = ~ctx->crc;
 }
 
-char *
-SFV_End(SFV_CTX *ctx, char *outstr)
+void
+SFVFinal(uint8_t *dst, SFV_CTX *ctx)
 {
-	SFV_Final(ctx);
-
-	if (outstr == NULL) {
-		if (asprintf(&outstr, "%08X", ctx->crc) == -1)
-			return (NULL);
-	} else
-		snprintf(outstr, SFV_DIGEST_STRING_LENGTH, "%08X", ctx->crc);
-
-	return (outstr);
+	SFVPad(ctx);
+	if (dst)
+		*((uint32_t *)dst) = htobe32(ctx->crc);
+	bzero(ctx, sizeof (SFV_CTX));
 }

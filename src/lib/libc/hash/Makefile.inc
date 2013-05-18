@@ -1,13 +1,19 @@
-# $MirOS: src/lib/libc/hash/Makefile.inc,v 1.3 2006/09/17 19:28:58 tg Exp $
+# $MirOS: src/lib/libc/hash/Makefile.inc,v 1.4 2007/05/07 14:06:07 tg Exp $
 # $OpenBSD: Makefile.inc,v 1.17 2004/05/03 17:30:14 millert Exp $
 
 # hash functions
 .PATH: ${LIBCSRCDIR}/hash
 
 HELPER=	md4hl.c md5hl.c rmd160hl.c sha1hl.c sha256hl.c sha384hl.c sha512hl.c \
-	tigerhl.c whirlpoolhl.c
-SRCS+=	md4.c md5.c rmd160.c sha1.c sha2.c tiger.c whirlpool.c ${HELPER}
-MAN+=	md4.3 md5.3 rmd160.3 sha1.3 sha2.3 tiger.3 whirlpool.3
+	sfvhl.c sumahl.c tigerhl.c whirlpoolhl.c
+SRCS+=	md4.c md5.c rmd160.c sfv.c sha1.c sha2.c tiger.c whirlpool.c ${HELPER}
+MAN+=	md4.3 md5.3 rmd160.3 sfv.3 sha1.3 sha2.3 suma.3 tiger.3 whirlpool.3
+
+.if exists(suma-${MACHINE_ARCH}.S)
+SRCS+=	suma-${MACHINE_ARCH}.S
+.else
+SRCS+=	suma.c
+.endif
 
 MLINKS+=md4.3 MD4Transform.3 md4.3 MD4Init.3 md4.3 MD4Final.3
 MLINKS+=md4.3 MD4Update.3    md4.3 MD4End.3  md4.3 MD4File.3
@@ -18,6 +24,10 @@ MLINKS+=md5.3 MD5FileChunk.3 md5.3 MD5Pad.3  md5.3 MD5Data.3
 MLINKS+=rmd160.3 RMD160Transform.3 rmd160.3 RMD160Init.3 rmd160.3 RMD160Final.3
 MLINKS+=rmd160.3 RMD160Update.3    rmd160.3 RMD160End.3  rmd160.3 RMD160File.3
 MLINKS+=rmd160.3 RMD160FileChunk.3 rmd160.3 RMD160Pad.3  rmd160.3 RMD160Data.3
+MLINKS+=sfv.3 SFVInit.3        sfv.3 SFVUpdate.3
+MLINKS+=sfv.3 SFVPad.3         sfv.3 SFVData.3
+MLINKS+=sfv.3 SFVFinal.3       sfv.3 SFVEnd.3
+MLINKS+=sfv.3 SFVFile.3        sfv.3 SFVFileChunk.3
 MLINKS+=sha1.3 SHA1Transform.3 sha1.3 SHA1Init.3 sha1.3 SHA1Final.3
 MLINKS+=sha1.3 SHA1Update.3    sha1.3 SHA1End.3  sha1.3 SHA1File.3
 MLINKS+=sha1.3 SHA1FileChunk.3 sha1.3 SHA1Pad.3  sha1.3 SHA1Data.3
@@ -30,6 +40,10 @@ MLINKS+=sha2.3 SHA384_Pad.3  sha2.3 SHA384_FileChunk.3
 MLINKS+=sha2.3 SHA512_Init.3 sha2.3 SHA512_Update.3 sha2.3 SHA512_Final.3
 MLINKS+=sha2.3 SHA512_End.3  sha2.3 SHA512_File.3   sha2.3 SHA512_Data.3
 MLINKS+=sha2.3 SHA512_Pad.3  sha2.3 SHA512_FileChunk.3
+MLINKS+=suma.3 SUMAInit.3    suma.3 SUMAUpdate.3
+MLINKS+=suma.3 SUMAPad.3     suma.3 SUMAData.3
+MLINKS+=suma.3 SUMAFinal.3   suma.3 SUMAEnd.3
+MLINKS+=suma.3 SUMAFile.3    suma.3 SUMAFileChunk.3
 MLINKS+=tiger.3 TIGERInit.3  tiger.3 TIGERUpdate.3    tiger.3 TIGERPad.3
 MLINKS+=tiger.3 TIGERFinal.3 tiger.3 TIGERTransform.3 tiger.3 TIGEREnd.3
 MLINKS+=tiger.3 TIGERFile.3  tiger.3 TIGERFileChunk.3 tiger.3 TIGERData.3
@@ -58,6 +72,9 @@ md5hl.c:	helper.c
 rmd160hl.c:	helper.c
 	sed -e 's/hashinc/rmd160.h/g' -e 's/HASH/RMD160/g' $> > $@
 
+sfvhl.c:	helper.c
+	sed -e 's/hashinc/sfv.h/g' -e 's/HASH/SFV/g' $> > $@
+
 sha1hl.c:	helper.c
 	sed -e 's/hashinc/sha1.h/g' -e 's/HASH/SHA1/g' $> > $@
 
@@ -69,6 +86,9 @@ sha384hl.c:	helper.c
 
 sha512hl.c:	helper.c
 	sed -e 's/hashinc/sha2.h/g' -e 's/HASH_\{0,1\}/SHA512_/g' $> > $@
+
+sumahl.c:	helper.c
+	sed -e 's/hashinc/suma.h/g' -e 's/HASH/SUMA/g' $> > $@
 
 tigerhl.c:	helper.c
 	sed -e 's/hashinc/tiger.h/g' -e 's/HASH/TIGER/g' $> > $@

@@ -1328,6 +1328,7 @@
 ./usr/include/sectok.h
 ./usr/include/semaphore.h
 ./usr/include/setjmp.h
+./usr/include/sfv.h
 ./usr/include/sgtty.h
 ./usr/include/sha1.h
 ./usr/include/sha2.h
@@ -1347,6 +1348,7 @@
 ./usr/include/string.h
 ./usr/include/strings.h
 ./usr/include/struct.h
+./usr/include/suma.h
 ./usr/include/sys
 ./usr/include/sys/acct.h
 ./usr/include/sys/agpio.h
@@ -4740,6 +4742,14 @@
 ./usr/share/man/cat3/RSA_size.0
 ./usr/share/man/cat3/RSA_verify.0
 ./usr/share/man/cat3/RSA_verify_ASN1_OCTET_STRING.0
+./usr/share/man/cat3/SFVData.0
+./usr/share/man/cat3/SFVEnd.0
+./usr/share/man/cat3/SFVFile.0
+./usr/share/man/cat3/SFVFileChunk.0
+./usr/share/man/cat3/SFVFinal.0
+./usr/share/man/cat3/SFVInit.0
+./usr/share/man/cat3/SFVPad.0
+./usr/share/man/cat3/SFVUpdate.0
 ./usr/share/man/cat3/SHA1.0
 ./usr/share/man/cat3/SHA1Data.0
 ./usr/share/man/cat3/SHA1End.0
@@ -5029,6 +5039,14 @@
 ./usr/share/man/cat3/SSLeay.0
 ./usr/share/man/cat3/SSLeay_add_ssl_algorithms.0
 ./usr/share/man/cat3/SSLeay_version.0
+./usr/share/man/cat3/SUMAData.0
+./usr/share/man/cat3/SUMAEnd.0
+./usr/share/man/cat3/SUMAFile.0
+./usr/share/man/cat3/SUMAFileChunk.0
+./usr/share/man/cat3/SUMAFinal.0
+./usr/share/man/cat3/SUMAInit.0
+./usr/share/man/cat3/SUMAPad.0
+./usr/share/man/cat3/SUMAUpdate.0
 ./usr/share/man/cat3/TAILQ_EMPTY.0
 ./usr/share/man/cat3/TAILQ_END.0
 ./usr/share/man/cat3/TAILQ_ENTRY.0
@@ -6832,6 +6850,7 @@
 ./usr/share/man/cat3/setusershell.0
 ./usr/share/man/cat3/setvbuf.0
 ./usr/share/man/cat3/sevenbit.0
+./usr/share/man/cat3/sfv.0
 ./usr/share/man/cat3/sha1.0
 ./usr/share/man/cat3/sha2.0
 ./usr/share/man/cat3/show_panel.0
@@ -6963,6 +6982,7 @@
 ./usr/share/man/cat3/stty.0
 ./usr/share/man/cat3/subpad.0
 ./usr/share/man/cat3/subwin.0
+./usr/share/man/cat3/suma.0
 ./usr/share/man/cat3/svc_destroy.0
 ./usr/share/man/cat3/svc_fds.0
 ./usr/share/man/cat3/svc_fdset.0

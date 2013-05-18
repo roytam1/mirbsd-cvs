@@ -1,4 +1,4 @@
-/**	$MirOS: src/bin/md5/crc.h,v 1.2 2006/09/17 19:28:57 tg Exp $ */
+/**	$MirOS: src/bin/md5/crc.h,v 1.3 2007/04/29 22:17:46 tg Exp $ */
 /*	$OpenBSD: crc.h,v 1.1 2004/05/02 17:53:29 millert Exp $	*/
 
 /*
@@ -41,14 +41,6 @@ typedef struct SYSVSUMContext {
 	off_t len;
 } SYSVSUM_CTX;
 
-#define	SFV_DIGEST_LENGTH		4
-#define	SFV_DIGEST_STRING_LENGTH	(8 + 1)
-
-typedef struct SFVContext {
-	uint64_t len;
-	uint32_t crc;
-} SFV_CTX;
-
 #define	ADLER32_DIGEST_LENGTH		4
 #define	ADLER32_DIGEST_STRING_LENGTH	(ADLER32_DIGEST_LENGTH * 2 + 1)
 
@@ -71,11 +63,6 @@ void	 SYSVSUM_Update(SYSVSUM_CTX *, const u_int8_t *, size_t);
 void	 SYSVSUM_Final(SYSVSUM_CTX *);
 char    *SYSVSUM_End(SYSVSUM_CTX *, char *);
 char    *SYSVSUM_Data(const u_int8_t *, size_t, char *);
-
-void	 SFV_Init(SFV_CTX *);
-void	 SFV_Update(SFV_CTX *, const uint8_t *, size_t);
-void	 SFV_Final(SFV_CTX *);
-char    *SFV_End(SFV_CTX *, char *);
 
 void	 ADLER32_Init(ADLER32_CTX *);
 void	 ADLER32_Update(ADLER32_CTX *, const uint8_t *, size_t)
