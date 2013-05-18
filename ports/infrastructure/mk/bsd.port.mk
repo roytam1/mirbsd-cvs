@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.194 2008/03/12 23:43:12 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.195 2008/03/14 15:25:22 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -1271,7 +1271,7 @@ REORDER_DEPENDENCIES?=
 
 .if defined(_STAT_SIZE)
 _size_fragment=		stat -f 'SIZE (%N) = %z' $$file
-.elif ${HAS_CKSUM:L} != "no"
+.elif ${HAS_CKSUM:L} == "yes"
 _size_fragment=		${CKSUM_CMD} -a size $$file
 .else
 _size_fragment=		print "SIZE ($$file) =" $$(wc -c <"$$file")
@@ -1645,13 +1645,23 @@ checksum: fetch
 			(cd ${DISTDIR}; \
 			if [[ ${HAS_CKSUM:L} == no ]]; then \
 				${CKSUM_CMD} ${_CKSUMFILES}; \
+			elif [[ ${HAS_CKSUM:L} == @(old|md) ]]; then \
+				cksum ${_CKSUMFILES}; \
+				md5 ${_CKSUMFILES}; \
+				[[ ${HAS_CKSUM:L} == md ]] || \
+				    rmd160 ${_CKSUMFILES}; \
 			else \
 				${CKSUM_CMD} \
 				    ${_CIPHERS:S/^/-a /} ${_CKSUMFILES}; \
 			fi) >${WRKDIR}/.sums; \
 		fi; \
-		cd ${DISTDIR}; OK=true; list=; allciphers="${_CIPHERS}"; \
-		[[ ${HAS_CKSUM:L} != no ]] || allciphers=cksum; \
+		cd ${DISTDIR}; OK=true; list=; \
+		case ${HAS_CKSUM:L} { \
+		(md)	allciphers="cksum md5" ;; \
+		(no)	allciphers="cksum" ;; \
+		(old)	allciphers="cksum md5 rmd160" ;; \
+		(yes)	allciphers="${_CIPHERS}" ;; \
+		}; \
 		for file in ${_CKSUMFILES}; do \
 			match=; \
 			for cipher in $$allciphers; do \

@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/mirports.sys.mk,v 1.46 2008/03/12 23:44:57 tg Exp $
+# $MirOS: ports/infrastructure/mk/mirports.sys.mk,v 1.47 2008/03/14 15:25:22 tg Exp $
 #-
 # Copyright (c) 2005, 2006, 2008
 #	Thorsten “mirabilos” Glaser <tg@mirbsd.de>
@@ -65,6 +65,7 @@ CPPFLAGS+=		-D__unix__=1
 LDFLAGS+=		-specs=${LOCALBASE}/db/specs
 NOPIC=			No	# XXX
 LDCONFIG=
+HAS_CKSUM?=		md
 NO_SYSTRACE=		not on Darwin
 FETCH_CMD?=		/usr/bin/ftp
 TAR=			${LOCALBASE}/bin/tar
@@ -101,6 +102,7 @@ PATCH?=			${LOCALBASE}/bin/patch
 #---
 
 .if ${OStype} == "OpenBSD"
+HAS_CKSUM?=		old
 MKC_USAP?=		Yes
 PKG_ARGS_ADD+=		-Z
 PKG_SUFX=		.tgz
@@ -123,6 +125,7 @@ LDFLAGS+=		-specs=${LOCALBASE}/db/specs
 .  ifndef BOOTSTRAP	# Install these first
 M4=			${LOCALBASE}/bin/gm4
 .  endif
+HAS_CKSUM?=		old
 NO_SYSTRACE=		not on MidnightBSD
 FETCH_CMD?=		/usr/bin/ftp
 PATCH?=			${LOCALBASE}/bin/patch
@@ -175,7 +178,7 @@ PKG_SUFX?=		.cgz
 _GDIFFLAG?=
 _SYSTRACE_ARGS?=	-i -a -e
 
-.if ${HAS_CKSUM:L} != "no"
+.if ${HAS_CKSUM:L} == "yes"
 CKSUM_CMD?=		${LOCALBASE}/bin/cksum
 .endif
 CKSUM_CMD?=		cksum
