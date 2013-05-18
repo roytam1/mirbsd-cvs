@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/share/misc/licence.template,v 1.14 2006/08/09 19:35:23 tg Rel $
+# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.76 2006/08/26 22:46:43 tg Exp $
 #-
 # Copyright (c) 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -284,12 +284,15 @@ else
 	cp $d_src/include/stdbool.h $d_build/F/
 fi
 unset HAVE_EXIT
-EXTRA_SRCS=
-[[ $HAVE_STRLCPY$HAVE_STRLCAT = 11 ]] || EXTRA_SRCS="$EXTRA_SRCS strlfun.c"
-[[ $HAVE_FGETLN = 1 ]] || EXTRA_SRCS="$EXTRA_SRCS fgetln.c"
+SRCS="md4hl.c md5hl.c rmd160hl.c sha1hl.c sha256hl.c sha384hl.c sha512hl.c"
+SRCS="getopt_long.c md4.c md5.c rmd160.c sha1.c sha2.c $SRCS"
+[[ $new_machos = Interix ]] && \
+    SRCS="$SRCS asprintf.c mktemp.c strtoll.c vasprintf.c"
+[[ $HAVE_STRLCPY$HAVE_STRLCAT = 11 ]] || SRCS="$SRCS strlfun.c"
+[[ $HAVE_FGETLN = 1 ]] || SRCS="$SRCS fgetln.c"
 [[ $HAVE_ARC4RANDOM = 1 ]] || CPPFLAGS="$CPPFLAGS -D_ARC4RANDOM_WRAP"
-[[ $HAVE_ARC4RANDOM_PUSHB = 1 ]] || EXTRA_SRCS="$EXTRA_SRCS arc4random.c"
-export EXTRA_SRCS NOMAN=yes NOOBJ=yes
+[[ $HAVE_ARC4RANDOM_PUSHB = 1 ]] || SRCS="$SRCS arc4random.c"
+export SRCS NOMAN=yes NOOBJ=yes
 print ... done
 $d_build/bmake -m $d_build/mk libmirmake.a
 rm -f $top/tmpx/libmirmake.a
