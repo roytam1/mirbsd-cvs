@@ -1,4 +1,4 @@
-/* $MirOS: src/include/ctype.h,v 1.5 2006/11/02 01:35:48 tg Exp $ */
+/* $MirOS: src/include/ctype.h,v 1.6 2006/11/02 13:36:31 tg Exp $ */
 
 /*-
  * Copyright (c) 2006
@@ -110,8 +110,8 @@ int	toascii(int);
 #define toascii(c)	((c) & 0177)
 
 /* SUSv3 says these are always macros */
-#define _tolower(c)	((c) - 'A' + 'a')
-#define _toupper(c)	((c) - 'a' + 'A')
+#define _tolower(c)	(((c) >= 'A') && ((c) <= 'Z') ? (c) - 'A' + 'a' : (c))
+#define _toupper(c)	(((c) >= 'a') && ((c) <= 'z') ? (c) - 'a' + 'A' : (c))
 
 #endif /* !_ANSI_SOURCE && !_POSIX_SOURCE */
 
