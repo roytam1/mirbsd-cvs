@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.341 2011/07/12 18:12:18 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.342 2011/07/17 00:40:15 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -7855,100 +7855,6 @@ Tag: debian mksh
  two people, independent from each other, when I’ll upload it to
  Debian proper, instead of the private-repo packaging. Maybe I
  should indeed do that, comments?</p>
-----
-Date: 11.07.2011 20:42
-Author: tg@
-Title: [Update] “Big Brother”, or: Help wanted – arguments against monitoring employees
-Tag: debian rant
-
-<p style="font-size:small;">English version of this posting • lese
- stattdessen <a href="@@RELPATH@@permalinks/wlog-10_e20110711-tg-g10042.htm">die
- deutsche Version</a></p>
-<p>The head system administrator of a henceforth unnamed company
- I happen to be employed at wants to force us to use the shell’s
- persistent history feature – disabled by default in <a
- href="@@RELPATH@@mksh.htm">mksh</a> as is sensible, for privacy
- reasons – on <em>all</em> systems, so he can retrace what we do
- (of course, his wording was more like, “so he can reconstruct how
- I fixed a problem the last time it occurred” – yeah, sure).</p>
-<p>Now I’ve escalated this to the boss, since this just cannot
- happen, what’ll be next, video monitoring our offices or what…
- and the boss said he sees my concerns and would like a meeting
- to get an agreement between all parties involved. Most sysadmin
- coworkers actually don’t even think about this, they are <a
- href="https://duckduckgo.com/?kp=-1&amp;kl=wt-wt&amp;kb=t&amp;kh=1&amp;kj=g2&amp;km=l&amp;ka=monospace&amp;ku=1&amp;ko=s&amp;k1=-1&amp;kv=1&amp;q=sheeple">sheeple</a>,
- really; but my project manager (for when I’m not a sysadmin but
- a programmer) and the leaderess of our QA department agree with
- me, luckily.</p>
-<p>Now I’m in dire need of <strong>arguments</strong>, especially
- German-Legalese, to fight this total surveillance of employees,
- mostly targetted at these who use the command line almost exclusively,
- which I’m a prime example of. Please mail me at my address, which is
- not <tt>junk@mirbsd.org</tt> but with “tg” instead of the waste part
- here to catch address grabbers (sending mail to that address yields
- a 24-hour total blacklist of your IPv4 address – I’ve yet to get
- enough spam via IPv6 to say filtering it is worth the cost).</p>
-<p>Thanks in advance!</p>
-<hr />
-<p><strong>Update</strong> 2011-07-12: We talked, and it was agreed to
- not force a shell history; instead I will now put problem solutions
- into smallish scripts and commit them into the sysadmin SCM. It was
- not solved using legal arguments, as many people commented would have
- been difficult; instead, they acknowledged that I was concerned with
- this, and we searched for a different solution to the head sysadmin’s
- original concerns (apparently, to figure out how to fix things without
- reinventing the fix every time, and to find out what was changed on a
- server in case it breaks).</p>
-----
-Date: 11.07.2011 20:49
-Author: tg@
-Title: [Update] Hilfe gesucht: Mitarbeiterüberwachung
-Tag: debian rant
-Language: de_DE-1901
-
-<p style="font-size:small;">Deutsche Version dieses Postings • read the <a
- href="@@RELPATH@@permalinks/wlog-10_e20110711-tg-g10041.htm">English
- Version</a> instead</p>
-<p>Der Leiter der Abteilung Systemadministration einer Firma, welche
- in diesem Artikel ungenannt bleiben soll, wo der Zufall es will, daß
- ich für sie arbeite, möchte uns Mitarbeiter dazu zwingen, das Feature
- der persistenten Historie (also einen niedergeschriebenen Verlauf der
- abgesetzten Befehle) der Shell (Kommandozeile) auf <em>allen</em> Systemen
- zu benutzen. Nun hat die <a href="@@RELPATH@@mksh.htm">mksh</a> dies
- vernünftigerweise, während immer noch verfügbar, standardmäßig aus Gründen
- der Privatsphäre deaktiviert, und ich finde, dies sollte sich nicht ändern.
- Es kann ja nicht sein, daß man mir beim Arbeiten über die Schulter guckt;
- was kommt als nächstes, Videoüberwachung der Büros? (Seine Argumentation
- läuft darauf hinaus, daß er nachvollziehen/verstehen kann, wie ich (ha!
- ich! nicht die anderen, nein, ich!) ein Problem das letzte Mal gelöst
- habe; es ist aber nichts anderes als rekonstruïeren zu können, wer wann
- was eingetippt/gemacht hat. Naja, Argumentationen sind eh’ relativ,
- andere jagen Flugzeuge in ihre eigenen Verteidigungsministerien, welche
- gerade zufällig umgebaut werden…)</p>
-<p>Ich habe dies natürlich in die Führungsetage eskaliert, und unser
- Geschäftsführer versteht meine Bedenken und möchte nun ein Gespräch
- anraunen, um eine Lösung zu finden. Die meisten meiner Kollegen im
- Bereich Systemadministration denken leider nichtmals drüber nach,
- obschon ich in anderen Bereichen Gleichgesinnte gefunden habe. Einen
- Betriebsrat haben wir auch – großer Fehler, ich weiß – nicht (aber
- ich säße eh’ nicht drin, ich hasse Politik jeder Art).</p>
-<p>Dies läßt mich in dringender Not, <strong>Argumente</strong> wider
- diese Totalüberwachung aller (insbesondere auf der Kommandozeile
- arbeitenden… also besonders mich) Kollegen zu finden, idealerweise
- solche, die durch deutsches Recht gestützt sind. Wenn ihr solche
- habt, <em>bitte</em> mailt die schnell an meine eMail-Adresse, welche
- da nicht <tt>junk@mirbsd.org</tt> lautet, sondern mit einem „tg“ vor
- dem Klammeraffen (dies dient der Abwehr unerwünschter Werbemails).</p>
-<p>Vielen Dank bereits im Voraus!</p>
-<p><strong>Update</strong> 12.07.2011: Wir haben geredet, und – wie
- viele kommentierten – keine Lösung auf rechtlicher Ebene gefunden,
- sondern stattdessen, nachdem wir festgestellt hatten, daß mir dieses
- Problem sehr am Herzen liegt, nach anderen Lösungen für das eigentliche
- Ziel des Chefadmins gesucht; dies zählt als ein Entgegenkommen auf
- Seiten der Firma. Ich habe zugestimmt, meine Lösungen in kleine Skripte
- zu verpacken und ins VCS zu committen – für das Herausfinden, wann was
- auf einem Server geändert wurde, im Fehlerfall, denken wir uns gerade
- ohnehin was aus. Danke an alle, die kommentiert haben!</p>
 ----
 Date: 17.07.2011 00:40
 Author: tg@
