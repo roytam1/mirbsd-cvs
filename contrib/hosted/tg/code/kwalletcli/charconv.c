@@ -23,7 +23,7 @@
 #include "kwalletcli.h"
 
 const char __rcsid_charconv_c[] =
-    "$MirOS: src/share/misc/licence.template,v 1.28 2008/11/14 15:33:44 tg Rel $";
+    "$MirOS: contrib/hosted/tg/code/kwalletcli/charconv.c,v 1.1 2011/04/09 21:44:56 tg Exp $";
 
 /* From MirOS: contrib/hosted/tg/code/any2utf8/wide.c,v 1.1 2009/08/02 17:12:07 tg Exp */
 
@@ -68,7 +68,7 @@ size_t
 utf_8to32(const char *src, unsigned int *dst)
 {
 	const unsigned char *s = (const unsigned char *)src;
-	unsigned int wc, w2, count = 0;
+	unsigned int wc, count = 0;
 	unsigned char c;
 
 	wc = *s++;
