@@ -1,4 +1,4 @@
-/* $MirOS: src/usr.bin/oldroff/tbl/te.c,v 1.1.7.1 2005/03/06 16:56:02 tg Exp $ */
+/* $MirOS: src/usr.bin/oldroff/tbl/te.c,v 1.2 2006/02/03 21:03:38 tg Exp $ */
 
 /*-
  * Copyright (c) 1979, 1980, 1981, 1986, 1988, 1990, 1991, 1992
@@ -42,12 +42,12 @@
  * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef lint
-static char sccsid[] = "@(#)te.c	4.3 (Berkeley) 4/18/91";
-#endif /* not lint */
+/* te.c: error message control, input line count */
 
- /* te.c: error message control, input line count */
 # include "t..c"
+__SCCSID("@(#)te.c	4.3 (Berkeley) 4/18/91");
+__RCSID("$MirOS$");
+
 error(s)
 	char *s;
 {

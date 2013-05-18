@@ -51,8 +51,8 @@
 
 #include "thread_private.h"
 
-__IDSTRING(__malloc_type, "@(#) mmap malloc 1.80 (OpenBSD)");
-__RCSID("$MirOS: src/lib/libc/stdlib/malloc.c,v 1.3 2006/01/31 12:31:57 tg Exp $");
+__IDSTRING(malloc_type, "@(#) mmap malloc 1.80 (OpenBSD)");
+__RCSID("$MirOS: src/lib/libc/stdlib/malloc.c,v 1.4 2006/03/30 18:36:02 tg Exp $");
 
 /*
  * The basic parameters you can tweak.

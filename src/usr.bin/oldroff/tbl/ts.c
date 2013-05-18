@@ -1,4 +1,4 @@
-/* $MirOS$ */
+/* $MirOS: src/usr.bin/oldroff/tbl/ts.c,v 1.1.7.1 2005/03/06 16:56:02 tg Exp $ */
 
 /*-
  * Copyright (c) 1979, 1980, 1981, 1986, 1988, 1990, 1991, 1992
@@ -42,11 +42,12 @@
  * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef lint
-static char sccsid[] = "@(#)ts.c	4.3 (Berkeley) 4/18/91";
-#endif /* not lint */
+#include <sys/cdefs.h>
+__SCCSID("@(#)ts.c	4.3 (Berkeley) 4/18/91");
+__RCSID("$MirOS$");
 
- /* ts.c: minor string processing subroutines */
+/* ts.c: minor string processing subroutines */
+
 match (s1, s2)
 	char *s1, *s2;
 {

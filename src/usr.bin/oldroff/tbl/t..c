@@ -1,4 +1,4 @@
-/* $MirOS: src/usr.bin/oldroff/tbl/t..c,v 1.1.7.1 2005/03/06 16:56:02 tg Exp $ */
+/* $MirOS: src/usr.bin/oldroff/tbl/t..c,v 1.2 2006/10/03 19:31:20 tg Exp $ */
 
 /*-
  * Copyright (c) 1979, 1980, 1981, 1986, 1988, 1990, 1991, 1992
@@ -40,9 +40,10 @@
  * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE
  * OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
  * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- *
- *	@(#)t..c	4.5 (Berkeley) 4/18/91
  */
+
+#define T__C_SCCSID	"@(#)t..c	4.5 (Berkeley) 4/18/91"
+#define T__C_RCSID	"$MirOS$"
 
 /* t..c : external declarations */
 

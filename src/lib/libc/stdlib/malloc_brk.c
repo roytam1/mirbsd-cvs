@@ -49,8 +49,8 @@
 
 #include "thread_private.h"
 
-__IDSTRING(__malloc_type, "@(#) brk malloc 1.71 (OpenBSD)");
-__RCSID("$MirOS: src/lib/libc/stdlib/malloc.c,v 1.2 2005/11/21 20:40:40 tg Exp $");
+__IDSTRING(malloc_type, "@(#) brk malloc 1.71 (OpenBSD)");
+__RCSID("$MirOS: src/lib/libc/stdlib/malloc_brk.c,v 1.1 2006/03/30 18:36:02 tg Exp $");
 
 /*
  * The basic parameters you can tweak.

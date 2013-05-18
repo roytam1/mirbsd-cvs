@@ -1,4 +1,4 @@
-/* $MirOS: src/usr.bin/oldroff/tbl/t3.c,v 1.2 2006/02/03 20:52:17 tg Exp $ */
+/* $MirOS: src/usr.bin/oldroff/tbl/t3.c,v 1.3 2006/10/03 19:31:20 tg Exp $ */
 
 /*-
  * Copyright (c) 1979, 1980, 1981, 1986, 1988, 1990, 1991, 1992
@@ -42,12 +42,12 @@
  * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef lint
-static char sccsid[] = "@(#)t3.c	4.3 (Berkeley) 4/18/91";
-#endif /* not lint */
+/* t3.c: interpret commands affecting whole table */
 
- /* t3.c: interpret commands affecting whole table */
 # include "t..c"
+__SCCSID("@(#)t3.c	4.3 (Berkeley) 4/18/91");
+__RCSID("$MirOS$");
+
 struct optstr {char *optnam; int *optadd;} options [] = {
 	"expand", &expflg,
 	"EXPAND", &expflg,

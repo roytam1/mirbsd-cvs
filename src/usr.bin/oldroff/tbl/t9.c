@@ -1,4 +1,4 @@
-/* $MirOS$ */
+/* $MirOS: src/usr.bin/oldroff/tbl/t9.c,v 1.1.7.1 2005/03/06 16:56:02 tg Exp $ */
 
 /*-
  * Copyright (c) 1979, 1980, 1981, 1986, 1988, 1990, 1991, 1992
@@ -42,12 +42,12 @@
  * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef lint
-static char sccsid[] = "@(#)t9.c	4.4 (Berkeley) 4/18/91";
-#endif /* not lint */
+/* t9.c: write lines for tables over 200 lines */
 
- /* t9.c: write lines for tables over 200 lines */
 # include "t..c"
+__SCCSID("@(#)t9.c	4.4 (Berkeley) 4/18/91");
+__RCSID("$MirOS$");
+
 static useln;
 yetmore()
 {

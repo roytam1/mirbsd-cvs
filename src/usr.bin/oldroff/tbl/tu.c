@@ -1,4 +1,4 @@
-/* $MirOS$ */
+/* $MirOS: src/usr.bin/oldroff/tbl/tu.c,v 1.1.7.1 2005/03/06 16:56:03 tg Exp $ */
 
 /*-
  * Copyright (c) 1979, 1980, 1981, 1986, 1988, 1990, 1991, 1992
@@ -42,12 +42,12 @@
  * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef lint
-static char sccsid[] = "@(#)tu.c	4.4 (Berkeley) 4/18/91";
-#endif /* not lint */
+/* tu.c: draws horizontal lines */
 
- /* tu.c: draws horizontal lines */
 # include "t..c"
+__SCCSID("@(#)tu.c	4.4 (Berkeley) 4/18/91");
+__RCSID("$MirOS$");
+
 makeline(i,c,lintype)
 {
 int cr, type, shortl;
