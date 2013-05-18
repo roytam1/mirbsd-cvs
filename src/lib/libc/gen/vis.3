@@ -1,3 +1,5 @@
+.\"	$MirOS$
+.\"	$NetBSD: vis.3,v 1.22 2006/04/09 15:24:34 jschauma Exp $
 .\"	$OpenBSD: vis.3,v 1.23 2005/08/28 19:51:27 millert Exp $
 .\"
 .\" Copyright (c) 1989, 1991, 1993
@@ -27,14 +29,18 @@
 .\" OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 .\" SUCH DAMAGE.
 .\"
-.Dd August 8, 2005
+.Dd May 7, 2007
 .Dt VIS 3
 .Os
 .Sh NAME
 .Nm vis ,
 .Nm strvis ,
 .Nm strnvis ,
-.Nm strvisx
+.Nm strvisx ,
+.Nm svis ,
+.Nm strsvis ,
+.Nm strnsvis ,
+.Nm strsvisx
 .Nd visually encode characters
 .Sh SYNOPSIS
 .Fd #include <stdlib.h>
@@ -47,6 +53,14 @@
 .Fn strnvis "char *dst" "const char *src" "size_t size" "int flag"
 .Ft int
 .Fn strvisx "char *dst" "const char *src" "size_t len" "int flag"
+.Ft char *
+.Fn svis "char *dst" "int c" "int flag" "int nextc" "const char *extra"
+.Ft int
+.Fn strsvis "char *dst" "const char *src" "int flag" "const char *extra"
+.Ft int
+.Fn strnsvis "char *dst" "const char *src" "size_t size" "int flag" "const char *extra"
+.Ft int
+.Fn strsvisx "char *dst" "const char *src" "size_t len" "int flag" "const char *extra"
 .Sh DESCRIPTION
 The
 .Fn vis
@@ -145,6 +159,28 @@ the return value of
 must not be used without checking it against
 .Fa size .
 .Pp
+The functions
+.Fn svis ,
+.Fn strsvis ,
+.Fn strnsvis
+and
+.Fn strsvisx
+correspond to
+.Fn vis ,
+.Fn strvis ,
+.Fn strnvis ,
+and
+.Fn strvisx
+but have an additional argument
+.Fa extra ,
+pointing to a
+.Dv NUL
+terminated list of characters.
+These characters will be copied encoded or backslash-escaped into
+.Fa dst .
+These functions are useful e.g. to remove the special meaning
+of certain characters to shells.
+.Pp
 The encoding is a unique, invertible representation composed entirely of
 graphic characters; it can be decoded back into the original form using
 the
@@ -154,7 +190,13 @@ or
 functions.
 .Pp
 There are two parameters that can be controlled: the range of
-characters that are encoded, and the type
+characters that are encoded (applies only to
+.Fn vis ,
+.Fn strvis ,
+.Fn strnvis ,
+and
+.Fn strvisx ) ,
+and the type
 of representation used.
 By default, all non-graphic characters
 except space, tab, and newline are encoded
@@ -195,11 +237,29 @@ tab, newline, backspace, bell, and return -- in addition
 to all graphic characters -- unencoded.
 .El
 .Pp
-There are three forms of encoding.
+(The above flags have no effect for
+.Fn svis ,
+.Fn strsvis ,
+.Fn strnsvis ,
+and
+.Fn strsvisx .
+When using these functions, place all graphic characters to be
+encoded in an array pointed to by
+.Fa extra .
+In general, the backslash character should be included in this array, see the
+warning on the use of the
+.Dv VIS_NOSLASH
+flag below).
+.Pp
+There are four forms of encoding.
 All forms use the backslash
 .Ql \e
 character to introduce a special
-sequence; two backslashes are used to represent a real backslash.
+sequence; two backslashes are used to represent a real backslash,
+except
+.Dv VIS_HTTPSTYLE
+which uses
+.Ql % .
 These are the visual formats:
 .Bl -tag -width VIS_CSTYLE
 .It (default)
@@ -285,6 +345,13 @@ The form is
 where
 .Ar d
 represents an octal digit.
+.It Dv VIS_HTTPSTYLE
+Use URI encoding as described in RFC 1738.
+The form is
+.Ql %xx
+where
+.Em x
+represents a hexadecimal digit.
 .El
 .Pp
 There is one additional flag,
@@ -304,6 +371,12 @@ ambiguous and non-invertible.
 .Xr snprintf 3 ,
 .Xr strlcpy 3 ,
 .Xr unvis 3
+.Pp
+.Rs
+.%A T. Berners-Lee
+.%T Uniform Resource Locators (URL)
+.%O RFC1738
+.Re
 .Sh HISTORY
 The
 .Fn vis ,
@@ -316,3 +389,14 @@ The
 .Fn strnvis
 function first appeared in
 .Ox 2.9 .
+The
+.Fn svis ,
+.Fn strsvis ,
+and
+.Fn strsvisx
+functions appeared in
+.Nx 1.5 .
+The
+.Fn strnsvis
+function appeared in
+.Mx 10 .
