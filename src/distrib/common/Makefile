@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/Makefile,v 1.49 2010/01/07 20:56:07 tg Exp $
+# $MirOS: src/distrib/common/Makefile,v 1.50 2010/01/10 21:09:54 tg Exp $
 
 .include <bsd.own.mk>
 
@@ -170,9 +170,9 @@ bsd.rd: bsd.uc
 	-rm -f $@
 	${BSDRD_COMPR} <$> >$@
 
-#bsd.st: bsd.uc
-#	cp -f $> $@
-#	${STRIP} ${STRIP_KERNEL} $@
+bsd.st: bsd.uc
+	cp -f $> $@
+	${STRIP} ${STRIP_KERNEL} $@
 
 bsd.rd.net: bsd.st
 	-rm -f $@
