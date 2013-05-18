@@ -518,6 +518,7 @@
 ./usr/libexec/auth/login_snk
 ./usr/libexec/auth/login_token
 ./usr/libexec/cpp
+./usr/libexec/cprng
 ./usr/libexec/diff3prog
 ./usr/libexec/fingerd
 ./usr/libexec/ftpd
