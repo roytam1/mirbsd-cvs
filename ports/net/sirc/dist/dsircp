@@ -1,5 +1,5 @@
 #!/usr/bin/perl
-# $MirOS: ports/net/sirc/dist/dsircp,v 1.10 2007/01/09 00:51:17 tg Exp $
+# $MirOS: ports/net/sirc/dist/dsircp,v 1.11 2007/03/01 21:34:15 tg Exp $
 #-
 # dsircp: dumb-mode small irc client in perl
 # by orabidoo <roger.espel.llima@pobox.com>
@@ -102,7 +102,7 @@ $raw_mode=$opt_r || (!-t STDOUT);
 $ansi=!$raw_mode && $ENV{"TERM"} =~ /^vt|^xterm|^ansi/i;
 $ssl_args = $ENV{'SIRCSSL'} || '-CApath /etc/ssl/certs';
 $server=$opt_s || $ARGV[1] || $ENV{"SIRCSERVER"} || $ENV{"IRCSERVER"} ||
-		"irc.66h.42h.de";
+		"chat.freenode.net";
 $port0=$opt_p || $ENV{"SIRCPORT"} || $ENV{"IRCPORT"} || 6667;
 $username=$opt_u || $ENV{"SIRCUSER"} || $ENV{"IRCUSER"} || (getpwuid($<))[0] ||
 		$ENV{"USER"} || "blah";
