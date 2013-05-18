@@ -1,4 +1,4 @@
-.\"	$MirOS: ports/infrastructure/pkgtools/add/pkg_add.1,v 1.13 2009/11/22 15:48:44 tg Exp $
+.\"	$MirOS: ports/infrastructure/pkgtools/add/pkg_add.1,v 1.14 2009/11/22 18:23:31 tg Exp $
 .\"	$OpenBSD: pkg_add.1,v 1.32 2003/07/14 13:38:24 jmc Exp $
 .\"
 .\" FreeBSD install - a package for the installation and maintenance
@@ -233,7 +233,12 @@ Be sure the specified package(s) are from trusted sources.
 The options are as follows:
 .Bl -tag -width Ds
 .It Fl d
-Use the displaying mode for showing messages:
+Determines the pager to be called when a package installation needs to
+show a message.
+This overrides a
+.Cm Pager
+directive in the configuration file
+.Pq see Xr pkgtools.conf 5 .
 .Bl -tag -width Ds
 .It e
 Use the environment variable
@@ -247,7 +252,7 @@ is the pager.
 .It l
 .Xr less 1
 is the pager.
-This implies a stop (waiting for q) on every port.
+This implies a stop (waiting for q) on every port with a DISPLAY file.
 .It c
 .Xr cat 1
 is the pager.
