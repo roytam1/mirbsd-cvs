@@ -1,11 +1,11 @@
-$MirOS$
+$MirOS: ports/mailnews/alpine/patches/patch-configure_ac,v 1.1 2008/05/07 22:28:40 tg Exp $
 
 	Note: BSG (midniGhtBSd) and BSM (MirBSd) are defined in the
 	port’s Makefile as CONFIGURE_ARGS; these below are just for
 	some half-way sane defaults and suitable for upstream
 
---- configure.ac.orig	Fri Mar 14 18:15:15 2008
-+++ configure.ac	Wed May  7 21:01:16 2008
+--- configure.ac.orig	2008-08-08 19:11:31.000000000 +0200
++++ configure.ac	2009-02-02 20:57:22.000000000 +0100
 @@ -17,7 +17,7 @@ AC_PREREQ([2.57])
  AC_REVISION([$Id$])
  
@@ -15,7 +15,7 @@ $MirOS$
  
  AC_CONFIG_SRCDIR([include/system.h])
  AC_CONFIG_HEADERS([include/config.h])
-@@ -1389,14 +1389,14 @@ case "$host" in
+@@ -1397,14 +1397,14 @@ case "$host" in
      alpine_mode_readonly="(0600)"
      alpine_c_client_target="bsi"
      ;;
@@ -32,17 +32,16 @@ $MirOS$
      systype="BSO"
      alpine_path_delim="/"
      alpine_mode_readonly="(0600)"
-@@ -1482,13 +1482,6 @@ else
-     certdir="${alpine_SSLDIR}/certs"
-   else
-     AC_MSG_NOTICE([SSL Problem: certificate directory not found])
--  fi
--
+@@ -1499,12 +1499,6 @@ else
+     fi
+   fi
+ 
 -  if test ! -f ${certdir}/factory.pem ; then
 -    AC_MSG_NOTICE([* * * SSL file "${certdir}/factory.pem" is missing.])
 -    AC_MSG_NOTICE([* * *   This might indicate that CA certs did not get properly])
 -    AC_MSG_NOTICE([* * *   installed.  If you get certificate validation failures])
 -    AC_MSG_NOTICE([* * *   in Alpine, this might be the reason for them.])
-   fi
+-  fi
  
    if test -z "`ls ${certdir} | $EGREP '^@<:@0-9A-Fa-f@:>@{8}\.@<:@0-9@:>@'`" ; then
+     AC_MSG_NOTICE([* * * No 8-hexdigit symlinks in certificate directory "${certdir}".])

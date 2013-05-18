@@ -1,12 +1,12 @@
-$MirOS: ports/mailnews/pine/patches/patch-imap_src_imapd_imapd_c,v 1.2 2005/05/04 23:37:39 tg Exp $
---- imap/src/c-client/mail.h.orig	Fri Feb 15 19:04:22 2008
-+++ imap/src/c-client/mail.h	Wed May  7 20:54:28 2008
+$MirOS: ports/mailnews/alpine/patches/patch-imap_src_c-client_mail_h,v 1.1 2008/05/07 22:28:40 tg Exp $
+--- imap/src/c-client/mail.h.orig	2008-08-08 19:34:22.000000000 +0200
++++ imap/src/c-client/mail.h	2009-02-02 20:58:00.000000000 +0100
 @@ -26,7 +26,7 @@
  
  /* The Version */
  
--#define CCLIENTVERSION "2007a"
-+#define CCLIENTVERSION "2007aL"
+-#define CCLIENTVERSION "2007c"
++#define CCLIENTVERSION "2007cL"
  
  /* Build parameters */
  

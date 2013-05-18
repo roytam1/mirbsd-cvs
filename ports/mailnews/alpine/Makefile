@@ -1,4 +1,4 @@
-# $MirOS: ports/mailnews/alpine/Makefile,v 1.4 2008/05/07 22:34:00 tg Exp $
+# $MirOS: ports/mailnews/alpine/Makefile,v 1.5 2008/05/07 22:48:30 tg Exp $
 
 ONLY_FOR_PLATFORM=	Darwin:*:*
 
@@ -11,9 +11,9 @@ COMMENT-pico=		small text editor embedded in alpine
 COMMENT-pilot=		file system browser embedded in alpine
 CATEGORIES=		devel editors mail mailnews net news sysutils
 HOMEPAGE=		http://www.washington.edu/alpine/
-VERSION=		1.10
-CCLIENT_VERSION=	2007a
-PICO_VERSION=		5.01
+VERSION=		2.00
+CCLIENT_VERSION=	2007c
+PICO_VERSION=		5.04
 PILOT_VERSION=		2.99
 DASH_VER=		0	# must be the highest out of these
 DASH_VER-cclient=	0
