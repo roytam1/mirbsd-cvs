@@ -1,4 +1,4 @@
-/* $MirOS: src/sys/lib/libsa/fat.c,v 1.5 2008/11/08 23:04:24 tg Exp $ */
+/* $MirOS: src/sys/lib/libsa/fat.c,v 1.6 2008/12/28 05:17:16 tg Exp $ */
 
 /*-
  * Copyright (c) 2005
@@ -79,10 +79,10 @@ rd(struct open_file *f, void *buf, daddr_t blk, size_t size)
 	twiddle();
 	if ((rv = (f->f_dev->dv_strategy)(f->f_devdata, F_READ,
 	    blk, size, buf, &buflen)))
-		return (rv);
-	if (buflen != size)
-		return (EINVAL);
-	return (0);
+		;
+	else if (buflen != size)
+		rv = EINVAL;
+	return (rv);
 }
 
 static uint32_t
