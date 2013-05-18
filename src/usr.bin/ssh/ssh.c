@@ -96,7 +96,7 @@
 #include "scard.h"
 #endif
 
-__RCSID("$MirOS: src/usr.bin/ssh/ssh.c,v 1.17 2007/01/25 16:18:38 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/ssh.c,v 1.18 2007/06/16 15:41:52 tg Exp $");
 
 extern char *__progname;
 
@@ -1470,7 +1470,7 @@ control_client(const char *path)
 		debug2("Received exit status from master %d", exitval[0]);
 
 	if (tty_flag && options.log_level != SYSLOG_LEVEL_QUIET)
-		fprintf(stderr, "Shared connection to %s closed.\r\n", host);
+		fprintf(stderr, "Shared connection to %s master closed.\r\n", host);
 
 	exit(exitval[0]);
 }
