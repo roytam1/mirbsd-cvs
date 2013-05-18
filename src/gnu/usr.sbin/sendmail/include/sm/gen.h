@@ -6,7 +6,7 @@
  * forth in the LICENSE file which can be found at the top level of
  * the sendmail distribution.
  *
- *	$MirOS: src/gnu/usr.sbin/sendmail/include/sm/gen.h,v 1.4 2006/09/29 21:39:22 tg Exp $
+ *	$MirOS: src/gnu/usr.sbin/sendmail/include/sm/gen.h,v 1.6 2008/05/07 13:15:20 tg Exp $
  *	$Sendmail: gen.h,v 1.23 2003/11/04 18:51:54 ca Exp $
  */
 
@@ -27,13 +27,19 @@
 **  macros used to embed RCS and SCCS identification strings in object files.
 */
 
+#ifdef __MirBSD__
+# include <sys/cdefs.h>
+# define SM_RCSID(str)		__RCSID(str);
+# define SM_IDSTR(id,str)	__IDSTRING(id,str);
+#else
 # ifdef lint
 #  define SM_RCSID(str)
 #  define SM_IDSTR(id,str)
-# else
-#  define SM_RCSID(str)		__RCSID(str);
-#  define SM_IDSTR(id,str)	__IDSTRING(id,str);
+# else /* lint */
+#  define SM_RCSID(str) SM_UNUSED(static const char RcsId[]) = str;
+#  define SM_IDSTR(id,str) SM_UNUSED(static const char id[]) = str;
 # endif /* lint */
+#endif
 
 /*
 **  Define NULL and offsetof (from the C89 standard)

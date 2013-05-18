@@ -1,8 +1,9 @@
 divert(-1)
 #
-# $MirOS: src/gnu/usr.sbin/sendmail/cf/cf/openbsd-localhost.mc,v 1.6 2007/01/05 16:49:47 tg Exp $
+# $MirOS: src/gnu/usr.sbin/sendmail/cf/cf/openbsd-localhost.mc,v 1.8 2008/05/07 13:15:16 tg Exp $
+# @(#)openbsd-localhost.mc $Revision$
 #
-# Copyright (c) 2004, 2005, 2007
+# Copyright (c) 2004, 2005, 2007, 2008
 #	Thorsten "mirabilos" Glaser <tg@MirBSD.de>
 # Copyright (c) 1998 Sendmail, Inc.  All rights reserved.
 # Copyright (c) 1983 Eric P. Allman.  All rights reserved.
@@ -22,7 +23,7 @@ divert(-1)
 #
 
 divert(0)dnl
-VERSIONID(`$MirOS: src/gnu/usr.sbin/sendmail/cf/cf/openbsd-localhost.mc,v 1.6 2007/01/05 16:49:47 tg Exp $')
+VERSIONID(`$MirOS: src/gnu/usr.sbin/sendmail/cf/cf/openbsd-localhost.mc,v 1.8 2008/05/07 13:15:16 tg Exp $')
 OSTYPE(openbsd)dnl
 FEATURE(nouucp, `reject')dnl
 FEATURE(`accept_unresolvable_domains')dnl
@@ -36,7 +37,7 @@ DAEMON_OPTIONS(`Family=inet6, Address=::1, Port=587, Name=MSA6, M=O, M=E')dnl
 CLIENT_OPTIONS(`Family=inet6, Address=::')dnl
 CLIENT_OPTIONS(`Family=inet, Address=0.0.0.0')dnl
 dnl
-dnl Some broken nameservers will return SERVFAIL (a temporary failure)
+dnl Some broken nameservers will return SERVFAIL (a temporary failure) 
 dnl on T_AAAA (IPv6) lookups.
 define(`confBIND_OPTS', `WorkAroundBrokenAAAA')dnl
 define(`confSEVEN_BIT_INPUT', `True')dnl

@@ -1,8 +1,9 @@
 divert(-1)
 #
-# $MirOS: src/gnu/usr.sbin/sendmail/cf/cf/submit.mc,v 1.6 2006/11/17 02:48:51 tg Exp $
+# $MirOS: src/gnu/usr.sbin/sendmail/cf/cf/submit.mc,v 1.8 2008/05/07 13:15:16 tg Exp $
+# $Sendmail: submit.mc,v 8.14 2006/04/05 05:54:41 ca Exp $
 #
-# Copyright (c) 2004, 2005, 2006
+# Copyright (c) 2004, 2005, 2006, 2008
 #	Thorsten "mirabilos" Glaser <tg@MirBSD.de>
 # Copyright (c) 2001-2003 Sendmail, Inc. and its suppliers.
 #	All rights reserved.
@@ -19,8 +20,7 @@ divert(-1)
 #
 
 divert(0)dnl
-VERSIONID(`$MirOS: src/gnu/usr.sbin/sendmail/cf/cf/submit.mc,v 1.6 2006/11/17 02:48:51 tg Exp $')
-VERSIONID(`$Sendmail: submit.mc,v 8.14 2006/04/05 05:54:41 ca Exp $')
+VERSIONID(`$MirOS: src/gnu/usr.sbin/sendmail/cf/cf/submit.mc,v 1.8 2008/05/07 13:15:16 tg Exp $')
 define(`confCF_VERSION', `Submit')dnl
 define(`__OSTYPE__',`')dnl dirty hack to keep proto.m4 from complaining
 define(`_USE_DECNET_SYNTAX_', `1')dnl support DECnet

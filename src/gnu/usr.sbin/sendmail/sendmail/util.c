@@ -13,7 +13,8 @@
 
 #include <sendmail.h>
 
-SM_RCSID("@(#)$Sendmail: util.c,v 8.410 2006/12/18 18:36:44 ca Exp $")
+SM_RCSID("$MirOS: src/gnu/usr.sbin/sendmail/sendmail/util.c,v 1.5 2008/05/07 13:15:30 tg Exp $")
+SM_RCSID("@(#)$Sendmail: util.c,v 8.414 2007/11/02 17:30:38 ca Exp $")
 
 #include <sm/sendmail.h>
 #include <sysexits.h>
@@ -2107,6 +2108,7 @@ prog_open(argv, pfd, e)
 	if (ProgMailer != NULL && ProgMailer->m_rootdir != NULL)
 	{
 		expand(ProgMailer->m_rootdir, buf, sizeof(buf), e);
+		get_random();
 		if (chroot(buf) < 0)
 		{
 			syserr("prog_open: cannot chroot(%s)", buf);
@@ -2823,9 +2825,10 @@ count_open_connections(hostaddr)
 		return 0;
 
 	/*
-	**  Initialize to 1 instead of 0 because this code gets called
-	**  before proc_list_add() gets called, so we (the daemon child
-	**  for this connection) don't count ourselves.
+	**  This code gets called before proc_list_add() gets called,
+	**  so we (the daemon child for this connection) have not yet
+	**  counted ourselves.  Hence initialize the counter to 1
+	**  instead of 0 to compensate.
 	*/
 
 	n = 1;

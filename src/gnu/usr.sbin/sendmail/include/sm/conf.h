@@ -10,7 +10,8 @@
  * the sendmail distribution.
  *
  *
- *	$Sendmail: conf.h,v 1.132 2007/03/21 23:56:18 ca Exp $
+ *	$MirOS: src/gnu/usr.sbin/sendmail/include/sm/conf.h,v 1.4 2008/05/07 13:15:19 tg Exp $
+ *	$Sendmail: conf.h,v 1.134 2007/09/24 23:05:37 ca Exp $
  */
 
 /*
@@ -2908,6 +2909,9 @@ typedef void		(*sigfunc_t) __P((int));
 # endif /* ! SM_CONF_GETOPT */
 
 /* random routine -- set above using #ifdef _osname_ or in Makefile */
+#ifdef __OpenBSD__
+#  define get_random()	((long) arc4random() & 0x7FFFFFFF)
+#else
 # if HASRANDOM
 #  define get_random()	random()
 # else /* HASRANDOM */
@@ -2916,6 +2920,7 @@ typedef void		(*sigfunc_t) __P((int));
 #   define RANDOMSHIFT	8
 #  endif /* ! RANDOMSHIFT */
 # endif /* HASRANDOM */
+#endif /* __OpenBSD__ (i.e., arc4random(3) exists) */
 
 /*
 **  Default to using scanf in readcf.

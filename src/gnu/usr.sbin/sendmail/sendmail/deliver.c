@@ -14,7 +14,8 @@
 #include <sendmail.h>
 #include <sm/time.h>
 
-SM_RCSID("@(#)$Sendmail: deliver.c,v 8.1012 2007/03/29 21:20:15 ca Exp $")
+SM_RCSID("$MirOS: src/gnu/usr.sbin/sendmail/sendmail/deliver.c,v 1.4 2008/05/07 13:15:25 tg Exp $")
+SM_RCSID("@(#)$Sendmail: deliver.c,v 8.1015 2007/10/17 21:35:30 ca Exp $")
 
 #if HASSETUSERCONTEXT
 # include <login_cap.h>
@@ -2535,6 +2536,7 @@ tryhost:
 				if (tTd(11, 20))
 					sm_dprintf("openmailer: chroot %s\n",
 						   cbuf);
+				get_random();
 				if (chroot(cbuf) < 0)
 				{
 					syserr("openmailer: Cannot chroot(%s)",
@@ -5432,6 +5434,7 @@ mailfile(filename, mailer, ctladdr, sfflags, e)
 			*realfile = '\0';
 			if (tTd(11, 20))
 				sm_dprintf("mailfile: chroot %s\n", targetfile);
+			get_random();
 			if (chroot(targetfile) < 0)
 			{
 				syserr("mailfile: Cannot chroot(%s)",

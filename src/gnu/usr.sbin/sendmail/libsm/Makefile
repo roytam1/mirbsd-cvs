@@ -1,4 +1,5 @@
-#       $Sendmail: Makefile,v 1.2 2006/08/16 21:06:30 ca Exp $
+# $MirOS: src/gnu/usr.sbin/sendmail/libsm/Makefile,v 1.6 2008/05/07 13:15:21 tg Exp $
+# $Sendmail: Makefile,v 1.2 2006/08/16 21:06:30 ca Exp $
 
 LIB=	sm
 SRCS=	assert.c debug.c errstring.c exc.c heap.c match.c rpool.c strdup.c \

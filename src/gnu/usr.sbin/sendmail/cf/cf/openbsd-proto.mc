@@ -1,8 +1,9 @@
 divert(-1)dnl
 #
-# $MirOS: src/gnu/usr.sbin/sendmail/cf/cf/openbsd-proto.mc,v 1.5 2006/06/15 19:18:47 tg Exp $
+# $MirOS: src/gnu/usr.sbin/sendmail/cf/cf/openbsd-proto.mc,v 1.7 2008/05/07 13:15:16 tg Exp $
+# @(#)openbsd-proto.mc $Revision$
 #
-# Copyright (c) 2002, 2003, 2004, 2005, 2007
+# Copyright (c) 2002, 2003, 2004, 2005, 2007, 2008
 #	Thorsten "mirabilos" Glaser <tg@MirBSD.de>
 # Copyright (c) 1998 Sendmail, Inc.  All rights reserved.
 # Copyright (c) 1983 Eric P. Allman.  All rights reserved.
@@ -19,8 +20,7 @@ divert(-1)dnl
 #
 
 divert(0)dnl
-VERSIONID(`$MirOS: src/gnu/usr.sbin/sendmail/cf/cf/openbsd-proto.mc,v 1.5 2006/06/15 19:18:47 tg Exp $')dnl
-dnl VERSIONID(`@(#)openbsd-proto.mc $Revision$')dnl
+VERSIONID(`$MirOS: src/gnu/usr.sbin/sendmail/cf/cf/openbsd-proto.mc,v 1.7 2008/05/07 13:15:16 tg Exp $')dnl
 OSTYPE(openbsd)dnl
 dnl
 dnl If you have a non-static IP address you may wish to forward outgoing mail
@@ -30,19 +30,16 @@ dnl mail.myisp.net with the hostname of your ISP's mail server.
 dnl
 dnl define(`SMART_HOST', `mail.myisp.net')dnl
 dnl
-dnl
 dnl Disable EXPN and VRFY to help thwart address harvesters and require
 dnl senders to say hello.
 dnl
 define(`confPRIVACY_FLAGS', `authwarnings,needmailhelo,noexpn,novrfy,nobodyreturn')dnl
-dnl
 dnl
 dnl We wish to make the existence of the local-host-names and
 dnl trusted-users files optional, hence the "-o" below.
 dnl
 define(`confCW_FILE', `-o MAIL_SETTINGS_DIR`'local-host-names')dnl
 define(`confCT_FILE', `-o MAIL_SETTINGS_DIR`'trusted-users')dnl
-dnl
 dnl
 dnl Use of UUCP-style addresses in the modern internet are generally
 dnl an error (and sometimes used by spammers) so disable support for them.
@@ -59,35 +56,29 @@ dnl
 FEATURE(`access_db', `hash -o -T<TMPF> MAIL_SETTINGS_DIR`'access')dnl
 FEATURE(`blacklist_recipients')dnl
 dnl
-dnl
 dnl Enable support for /etc/mail/local-host-names.
 dnl Contains hostnames that should be considered local.
 dnl
 FEATURE(`use_cw_file')dnl
 dnl
-dnl
 dnl Enable support for /etc/mail/mailertable.
 dnl
 FEATURE(`mailertable', `hash -o MAIL_SETTINGS_DIR`'mailertable')dnl
-dnl
 dnl
 dnl Enable support for /etc/mail/trusted-users.
 dnl Users listed herein may spoof mail from other users.
 dnl
 FEATURE(`use_ct_file')dnl
 dnl
-dnl
 dnl Enable support for /etc/mail/virtusertable.
 dnl Used to do N -> N address mapping.
 dnl
 FEATURE(`virtusertable', `hash -o MAIL_SETTINGS_DIR`'virtusertable')dnl
 dnl
-dnl
 dnl Rewrite (unqualified) outgoing email addresses using the
 dnl mapping listed in /etc/mail/genericstable
 dnl
 FEATURE(`genericstable', `hash -o MAIL_SETTINGS_DIR`'genericstable')dnl
-dnl
 dnl
 dnl Normally only local addresses are rewritten.  By using
 dnl generics_entire_domain and either GENERICS_DOMAIN
@@ -98,22 +89,18 @@ dnl FEATURE(`generics_entire_domain')dnl
 dnl GENERICS_DOMAIN(`othercompany.com')dnl
 dnl GENERICS_DOMAIN_FILE(`MAIL_SETTINGS_DIR`'generics-domains')dnl
 dnl
-dnl
 dnl Include the local host domain even on locally delivered mail
 dnl (which would otherwise contain only the username).
 FEATURE(`always_add_domain')dnl
-dnl
 dnl
 dnl Bounce messages addressed to "address.REDIRECT".  This allows the
 dnl admin to alias a user who has moved to "new_address.REDIRECT" so
 dnl that senders will know the user's new address.
 FEATURE(`redirect')dnl
 dnl
-dnl
 dnl Reject envelope sender addresses whose domain part resolves to
 dnl a "bad" MX record (loopback, etc.)
 FEATURE(`badmx')dnl
-dnl
 dnl
 dnl Accept incoming connections on any IPv4 or IPv6 interface for ports
 dnl 25 (SMTP) and 587 (MSA).
@@ -128,7 +115,6 @@ dnl Use either IPv4 or IPv6 for outgoing connections.
 dnl
 CLIENT_OPTIONS(`Family=inet, Address=0.0.0.0')dnl
 CLIENT_OPTIONS(`Family=inet6, Address=::')dnl
-dnl
 dnl
 dnl Some broken nameservers will return SERVFAIL (a temporary failure)
 dnl on T_AAAA (IPv6) lookups.
@@ -156,7 +142,6 @@ dnl Please see the "MASQUERADING AND RELAYING" section of
 dnl /usr/share/sendmail/README for details.
 dnl
 dnl MASQUERADE_AS(`mycompany.com')dnl
-dnl
 dnl
 dnl Masquerade the envelope From in addition to the From: header.
 dnl
