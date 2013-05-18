@@ -2071,3 +2071,48 @@ Date: 14.09.2007
  smaller, checkouts are faster, mirroring is easier, they claim. Let's
  see.</p>
 ----
+Date: 24.09.2007
+Author: tg@
+
+<p>Besides bumping the number of <img alt="A cachetour and nice weather"
+ src="http://www.opencaching.de/statpics/106521.jpg" /> geocaches up, to
+ 18 caches found, three geocoins found, and only one DNF, I admit having
+ been a tad lazy lately.</p>
+<p>At the moment, we’re testing the current HEAD code intensively, and I
+ think that, despite theoretically being able to release any time now, a
+ good chance to find bugs (like these which led to mksh R31b, or that my
+ vnd(4) encrypted home works more reliably now) shouldn’t pass unnoticed
+ (and Benny is still fixing ports).</p>
+<p>I will probably get my new server tomorrow. It will replace herc, and
+ – sadly – its hostname too, since a Micro-ATX board only comes with two
+ PCI slots (at least one too few for me anyway) and no ISA slots. But it
+ is a fast machine, I already got the dmesg, has one Gig RAM, and at the
+ moment, the Padlock AES/RNG stuff isn’t yet recognised (some hacking to
+ do – but solidly setting it up is what counts now). Well, this opens an
+ opportunity to use some spare Pentium Ⅰ board to write a framebuffer in
+ the kernel for the Hercules card (and compatibles). If I get time.</p>
+<p>You wouldn’t believe it: at work, I’m writing a user-friendly (woah!)
+ front-end using dialog (yes, me!) for BIND (me the djbdns user)… and it
+ is still sort of fun (sure, I’m using mksh for both the main programme,
+ input loop and all, and parsing the zone file (slightly more restricted
+ format than default, but good enough for us). It runs ssh as coroutine.
+ (That’s why MirPorts’ misc/dialog is more recent than Debian sid…) When
+ my boss sees it, I want to see his face. I bet it’ll be not unlike that
+ of Benny when he first saw the Baselive-CD preboot selection menu.</p>
+<p>Is this called summer laziness? I’m actually not really interested in
+ hacking at the moment, even though we could use a release, and I could,
+ as well, make use of my nmeadecode(8) project, since herc is now a pool
+ server for Germany and Europe at the NTP Pool project. Quite a good one
+ with a score of 20.0 at the moment, and an average offset of -53 ms (to
+ the pool tester, which is an SNTP client), with a consistent and rather
+ low standard deviation (0‥-100 ms), in contrast to Hephaistos, whose is
+ pretty unpredictable. And nobody bitched for me using OpenNTPD.</p>
+<p>Ah, yes, the dual-arch boot CD issue. I have plans. Stay tuned. Is is
+ possible after all, I just need to get my SPARCstation 20 to boot off a
+ CD-RW to test it…</p>
+<p>Spam to the company mail account sucks.</p>
+<p>Ah yes, and I better not respond to Benny’s above posting. But I will
+ see if svk can be of use to access svn repositories, since I’m bound to
+ use them in a couple of projects of mine. Well, not my projects, since,
+ obviously, they would be using CVS then, but which I work on.</p>
+----
