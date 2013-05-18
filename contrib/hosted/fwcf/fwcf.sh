@@ -1,8 +1,8 @@
 #!/bin/mksh
-# $MirOS: contrib/hosted/fwcf/fwcf.sh,v 1.34 2007/07/16 15:29:31 tg Exp $
+# $MirOS: contrib/hosted/fwcf/fwcf.sh,v 1.35 2007/07/16 16:56:30 tg Exp $
 #-
-# Copyright (c) 2006, 2007
-#	Thorsten Glaser <tg@mirbsd.de>
+# Copyright (c) 2006, 2007, 2009
+#	Thorsten Glaser <tg@mirbsd.org>
 #
 # Provided that these terms and disclaimer and all copyright notices
 # are retained or reproduced in an accompanying document, permission
@@ -260,7 +260,9 @@ if test $1 = status; then
 	while getopts "rq" ch; do
 		case $ch {
 		(r)	rflag=1 ;;
+		(+r)	rflag=0 ;;
 		(q)	q=: ;;
+		(+q)	q=printf ;;
 		}
 	done
 	shift $((OPTIND - 1))

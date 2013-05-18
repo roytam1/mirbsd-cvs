@@ -1,7 +1,7 @@
 #!/bin/mksh
-# $MirOS: src/sbin/route/route_print.sh,v 1.3 2005/12/17 05:46:22 tg Exp $
+# $MirOS: src/sbin/route/route_print.sh,v 1.4 2008/11/08 23:04:01 tg Exp $
 #-
-# Copyright (c) 2005
+# Copyright (c) 2005, 2009
 #	Thorsten "mirabilos" Glaser <tg@mirbsd.org>
 #
 # Licensee is hereby permitted to deal in this work without restric-
@@ -84,18 +84,19 @@ while getopts "dho:rq" opt; do
 	case $opt {
 	d)	dynrt=1
 		;;
-	h)	print "Usage:\tmksh route_print [-d] | column -t"
-		print "\tmksh route_print -[d]r"
-		print "\tnetstat -rnvf inet[6] | fgrep ..." \
-		    "| mksh route_print -[dr]o inet[6]"
-		exit 1
-		;;
+	# h = help, *) case
 	o)	imode=o
 		proto=$OPTARG
 		;;
 	r)	disp=r
 		;;
 	q)	q=1
+		;;
+	*)	print "Usage:\tmksh route_print [-d] | column -t"
+		print "\tmksh route_print -[d]r"
+		print "\tnetstat -rnvf inet[6] | fgrep ..." \
+		    "| mksh route_print -[dr]o inet[6]"
+		exit 1
 		;;
 	}
 done

@@ -1,8 +1,8 @@
 #!/bin/ksh
-# $MirOS: src/share/misc/licence.template,v 1.24 2008/04/22 11:43:31 tg Rel $
+# $MirOS: contrib/code/mirmake/dist/contrib/mktemp.sh,v 1.7 2008/05/03 01:09:29 tg Exp $
 #-
-# Copyright (c) 2005
-#	Thorsten Glaser <tg@mirbsd.de>
+# Copyright (c) 2005, 2009
+#	Thorsten Glaser <tg@mirbsd.org>
 #
 # Provided that these terms and disclaimer and all copyright notices
 # are retained or reproduced in an accompanying document, permission
@@ -69,7 +69,7 @@ while getopts "dp:qtu" opt; do
 	q)	let q=1 ;;
 	t)	let t=1 ;;
 	u)	let u=1 ;;
-	\?)	usage ;;
+	*)	usage ;;
 	}
 done
 shift $((OPTIND - 1))

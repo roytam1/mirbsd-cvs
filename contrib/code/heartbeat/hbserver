@@ -1,8 +1,8 @@
 #!/bin/mksh
-# $MirOS: contrib/code/heartbeat/hbserver,v 1.4 2006/03/20 00:16:54 tg Exp $
+# $MirOS: contrib/code/heartbeat/hbserver,v 1.6 2006/03/20 02:05:06 tg Exp $
 #-
-# Copyright (c) 2004, 2006
-#	Thorsten Glaser <tg@mirbsd.de>
+# Copyright (c) 2004, 2006, 2009
+#	Thorsten Glaser <tg@mirbsd.org>
 #
 # Licensee is hereby permitted to deal in this work without restric-
 # tion, including unlimited rights to use, publicly perform, modify,
@@ -216,7 +216,7 @@ while getopts ":c:h" opt; do
 		;;
 	h)	usage
 		;;
-	\?)	usage
+	*)	usage
 		;;
 	}
 done

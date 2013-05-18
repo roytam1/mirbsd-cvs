@@ -1,8 +1,8 @@
 #!/bin/mksh
-# $MirOS: src/scripts/xbuild-gcc.sh,v 1.18 2007/06/10 16:47:34 tg Exp $
+# $MirOS: src/scripts/xbuild-gcc.sh,v 1.19 2007/06/12 22:54:36 tg Exp $
 #-
-# Copyright (c) 2004, 2006, 2007
-#	Thorsten Glaser <tg@mirbsd.de>
+# Copyright (c) 2004, 2006, 2007, 2009
+#	Thorsten Glaser <tg@mirbsd.org>
 #
 # Provided that these terms and disclaimer and all copyright notices
 # are retained or reproduced in an accompanying document, permission
@@ -32,6 +32,8 @@ nopic=Yes
 while getopts "ad" c; do
 	case $c {
 	(a)	no_Ada=No ;;
+	(+a)	no_Ada=Yes ;;
+	(+d)	nopic=Yes ;;
 	(d)	nopic=No ;;
 	}
 done

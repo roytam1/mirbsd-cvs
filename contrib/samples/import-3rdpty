@@ -1,8 +1,8 @@
 #!/bin/mksh
-# $MirOS: contrib/samples/import-3rdpty,v 1.31 2009/08/09 15:46:16 tg Exp $
+# $MirOS: contrib/samples/import-3rdpty,v 1.32 2009/10/18 16:33:06 tg Exp $
 #-
-# Copyright (c) 2004, 2005, 2006, 2007, 2008
-#	Thorsten Glaser <tg@mirbsd.de>
+# Copyright (c) 2004, 2005, 2006, 2007, 2008, 2009
+#	Thorsten Glaser <tg@mirbsd.org>
 #
 # Provided that these terms and disclaimer and all copyright notices
 # are retained or reproduced in an accompanying document, permission
@@ -19,7 +19,7 @@
 # damage or existence of a defect, except proven that it results out
 # of said person's immediate fault when using the work as intended.
 
-print -ru2 -- '========= $MirOS: contrib/samples/import-3rdpty,v 1.31 2009/08/09 15:46:16 tg Exp $ ========='
+print -ru2 -- '========= $MirOS: contrib/samples/import-3rdpty,v 1.32 2009/10/18 16:33:06 tg Exp $ ========='
 
 ignlist=0
 force=0
@@ -37,6 +37,8 @@ while getopts "fhnp" option; do
 	(n)	DO_CVS="print -- \$ cvs"
 		;;
 	(p)	ignlist=1
+		;;
+	(*)	exit 1
 		;;
 	}
 done
