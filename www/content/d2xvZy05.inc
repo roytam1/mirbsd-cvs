@@ -1,5 +1,5 @@
 <!-- PageID: wlog-9 -->
-<small class="rcsid">$MirOS: www/content/d2xvZy05.inc,v 1.21 2006/07/22 05:24:37 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy05.inc,v 1.22 2006/07/24 01:18:33 tg Exp $</small>
 <h1>MirBSD &ndash; WTF is Verpeilungsfaktor?</h1>
 <p><small><a href="#eof">bottom</a> or <a href="/?older">older</a>
  editions</small></p>
@@ -384,7 +384,7 @@
   d&aelig;mon (URANDOM$), so&#8230; Benny, now please get and install <a
   href="http://www.drdos.net/">some DOS</a> or my well-known image.</p>
  <p>That MS-DOS shell above has got most (not all tho) mksh(1) features!
-  Yay for the Korn Shell!</p>
+  Yay for <a href="/?mksh">the Korn Shell</a>!</p>
  <p>If you update MirPorts, don't forget to re-run Setup.sh(8)</p>
  <p>I've finally got my lazy arse around to start the redesign and sparc
   enhancement of <tt>src/distrib/</tt>, but couldn't yet finish the work

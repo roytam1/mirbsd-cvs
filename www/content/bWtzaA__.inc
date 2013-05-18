@@ -1,5 +1,5 @@
 <!-- PageID: mksh -->
-<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.35 2006/07/23 14:36:10 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.36 2006/07/24 01:18:32 tg Exp $</small>
 
 <h1>mksh(1) R27e</h1>
 <p>This is the MirBSD&trade; Korn Shell, a more or less portable
@@ -485,3 +485,5 @@
  mksh author (mirabilos) acknowledges the contributions of
  these people who dedicated pdksh to the public, and asserts
  a collective copyright on the code.</p>
+<p>The MirBSD Korn shell is not related to the <a
+ href="http://www.kornshell.com/">original Korn Shell</a>.</p>
