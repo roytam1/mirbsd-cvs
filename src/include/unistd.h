@@ -1,4 +1,4 @@
-/**	$MirOS: src/include/unistd.h,v 1.3 2005/07/25 19:16:10 tg Exp $ */
+/**	$MirOS: src/include/unistd.h,v 1.4 2005/11/21 19:31:54 tg Exp $ */
 /*	$OpenBSD: unistd.h,v 1.53 2005/05/27 17:45:56 millert Exp $ */
 /*	$NetBSD: unistd.h,v 1.26.4.1 1996/05/28 02:31:51 mrg Exp $	*/
 
@@ -132,7 +132,7 @@ ssize_t  pwrite(int, const void *, size_t, off_t);
 #endif
 
 int	 acct(const char *);
-char	*brk(const char *);
+int	 brk(void *);
 int	 chroot(const char *);
 #if !defined(_XOPEN_SOURCE)
 int	 closefrom(int);
@@ -190,7 +190,7 @@ int	 rresvport(int *);
 int	 rresvport_af(int *, int);
 int	 ruserok(const char *, int, const char *, const char *);
 int	 quotactl(const char *, int, int, char *);
-char	*sbrk(int);
+void	 sbrk(intptr_t);
 
 #if !defined(_XOPEN_SOURCE)
 int	 select(int, fd_set *, fd_set *, fd_set *, struct timeval *);
