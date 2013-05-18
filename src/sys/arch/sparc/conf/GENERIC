@@ -1,11 +1,11 @@
-# $MirOS: src/sys/arch/sparc/conf/GENERIC,v 1.20 2008/10/20 19:09:51 tg Exp $
+# $MirOS: src/sys/arch/sparc/conf/GENERIC,v 1.21 2008/10/22 21:48:59 tg Exp $
 # $OpenBSD: GENERIC,v 1.75 2004/03/09 15:24:27 miod Exp $
 # $NetBSD: GENERIC,v 1.48 1997/08/23 19:19:01 mjacob Exp $
 
 # Machine architecture; required by config(8)
 machine		sparc			# arch, used by config; REQUIRED
 
-# $miros: src/sys/arch/i386/conf/GENERIC,v 1.38 2008/10/22 21:48:58 tg Exp $
+# $miros: src/sys/arch/i386/conf/GENERIC,v 1.39 2008/11/16 20:12:50 tg Exp $
 # $OpenBSD: GENERIC,v 1.112 2004/11/28 23:39:45 canacar Exp $
 #
 # Machine-independent option; used by all architectures.
@@ -47,6 +47,7 @@ option		SYSVSHM			# System V-like memory sharing
 
 option		COMPAT_OSSAUDIO		# source compatibility with OSS/Lite
 #option		COMPAT_OPENBSD		# binary compatibility with OpenBSD
+#option		POOLWORDS=1024		# size of entropy pool (DANGEROUS)
 
 option		FFS			# UFS
 option		FFS_SOFTUPDATES		# Soft updates
@@ -114,6 +115,11 @@ pseudo-device	sl			# CSLIP
 pseudo-device	tun			# network tunneling over tty
 pseudo-device	vlan 			# IEEE 802.1Q VLAN
 
+maxusers	64			# estimated number of users
+
+# Generic swap; second partition of root disk or network.
+config		bsd	swap generic
+
 #--- end of machine independent config
 
 # Options for variants of the Sun SPARC architecture.
@@ -125,14 +131,10 @@ option		SUN4M		# sun4m - SS10, SS20, Classic, etc.
 
 #option		MMU_3L		# 3-level MMU on sun4/400
 
+# remote debugger support - disable DDB if enabling this
 #option		KGDB		# support for kernel gdb
 #option		KGDBDEV=0xc01	# kgdb device number (dev_t)
 #option		KGDBRATE=38400	# baud rate
-
-maxusers	64		# estimated number of users
-
-# Generic swap; second partition of root disk or network.
-config		bsd	swap generic
 
 # Main bus and CPU – all systems.
 mainbus0 at root
