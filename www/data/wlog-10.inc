@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.400 2012/12/01 20:31:28 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.401 2012/12/01 20:43:35 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -9331,7 +9331,7 @@ Tag: golang
 <p>Go 1.1, which is expected for January 2013, will support NetBSD on
  x86 officially.</p>
 ----
-Date: 01.12.2012 20:02
+Date: 01.12.2012 21:24
 Author: tg@
 Title: Proposed extensions to the JSON specification
 
@@ -9367,8 +9367,11 @@ Title: Proposed extensions to the JSON specification
  impose a nesting depth limit that may be user-defined, and in the face
  of which, cyclic checking may be ignored by an encoder. I emit nesting
  depth overflows as literalnull, but it may also throw an error.</p>
+<p>For my forth proposal, backslash-escape U+007F‥U+009F always. It may
+ upset humans, editors, databases, etc. (This paragraph is newly added,
+ after some <a href="@@RELPATH@@irc.htm">IRC</a> discussion.)</p>
 <p>All these do not permit anything that wasn’t accepted to be accepted
- afterwards. I’ve got a forth proposal which changes acceptance rules –
+ afterwards. I’ve got a fifth proposal which changes acceptance rules –
  but only for a subset of parsers: formally JSON is defined in ECMA-262
  as industry standard that, in contrast to RFC 4627, always allowed any
  Value as top-level element of a JSON text. I’d like to make it so, and
@@ -9378,22 +9381,22 @@ Title: Proposed extensions to the JSON specification
  (This is done by the NUL octet pattern in the first four octets.)</p>
 <p>JSON has only taken off because it’s a tightly defined simple format
  that can be used “everywhere” and isn’t too awful for humans (escaping
- not needed for U+0020‥U+D7FF and U+E000‥U+FFFD after all, though I was
- almost adding a recommendation to escape U+007F‥U+009F always; thought
- on this is welcome via <a href="@@RELPATH@@irc.htm">IRC</a> or eMail).
+ not needed for U+0020‥U+D7FF and U+E000‥U+FFFD after all, although I’d
+ also take the C1 control characters out, see my forth proposal above).
  I’ve started to use a trailing comma in indexed and associative arrays
  in code I write at work, when the array values are one a line, to help
  version control systems to do their diffs, but refrain from asking for
  a JSON extension to permit that in order to not endanger compatibility
  any (no comment needed, it’s just not worth it), but I’d like my above
  proposals to be followed by implementators (and I’m one of them).</p>
-<p style="font-size:small;">Some more on the U+007F‥U+009F issue: might
- want to always escape them. ECMA says to never escape them; an idea is
- to escape them only if indenting (so <tt>{"foo":"bar"}</tt> gets those
- C1 control characters as-is, <tt>{↵  "foo": "bar"↵}</tt> escapes them)
- but we might pass the condensed (nōn-indented) form to e.g. a database
- which may or may not like them. This isn’t about binary (as JSON isn’t
- binary-safe anyway; probably best to just use base64 and let the outer
- layers worry about compression) but C1 control characters – C0 already
- are always escaped.</p>
+<p>Some more discussion with Jonathan pointed out that JSON5 allows for
+ trailing commata in Object and Array; IMHO the only feature of it that
+ is not bad or outright harmful. I’ll probably keep from accepting them
+ because, on their own, they’re not <em>that</em> useful, and I usually
+ would run JSON texts, even configs, through a parser/encoder roundtrip
+ to pretty-print them which would lose them anyway.</p>
+<p>As for binary-safeness: probably best to just use base64 and let the
+ outer layers worry about compression. The data is usually unrelated to
+ the JSON-encoded structure, and even if it’s related to other data the
+ base64 representation is usually similar (unless misaligned).</p>
 ----
