@@ -1,10 +1,10 @@
-/**	$MirOS: src/usr.bin/make/compat.c,v 1.5 2005/11/24 13:20:32 tg Exp $ */
+/**	$MirOS: src/usr.bin/make/compat.c,v 1.6 2007/06/21 14:17:06 tg Exp $ */
 /*	$OpenPackages$ */
 /*	$OpenBSD: compat.c,v 1.51 2007/01/04 17:55:35 espie Exp $	*/
 /*	$NetBSD: compat.c,v 1.14 1996/11/06 17:59:01 christos Exp $	*/
 
 /*
- * Copyright (c) 2005 Thorsten Glaser
+ * Copyright (c) 2005, 2009 Thorsten Glaser
  * Copyright (c) 1988, 1989, 1990 The Regents of the University of California.
  * Copyright (c) 1988, 1989 by Adam de Boor
  * Copyright (c) 1989 by Berkeley Softworks
@@ -68,7 +68,7 @@
 #include "lst.h"
 #include "pathnames.h"
 
-__RCSID("$MirOS: src/usr.bin/make/compat.c,v 1.5 2005/11/24 13:20:32 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/make/compat.c,v 1.6 2007/06/21 14:17:06 tg Exp $");
 
 /* The following array is used to make a fast determination of which
  * characters are interpreted specially by the shell.  If a command
@@ -111,10 +111,11 @@ shellneed(char **av)
 {
 	const char **p;
 	const char *runsh[] = {
-		"alias", "builtin", "cd", "eval", "exec", "exit", "export",
-		"let", "print", "read", "readonly", "set", "times", "trap",
-		"typeset", "ulimit", "unalias", "unset", "wait", "whence",
-		NULL
+		".", ":", "[[", "alias", "bg", "bind", "break", "builtin",
+		"cd", "command", "eval", "exec", "exit", "export", "fc", "fg",
+		"getopts", "jobs", "let", "print", "read", "readonly",
+		"return", "set", "shift", "times", "trap", "typeset",
+		"ulimit", "unalias", "unset", "wait", "whence", NULL
 	};
 
 	/* FIXME most of these ARE actual no-ops */
