@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.265 2009/11/22 15:34:11 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.266 2009/11/22 20:34:40 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -1541,7 +1541,7 @@ ${WRKPKG}/PLIST${SUBPACKAGE}: ${PLIST} ${WRKPKG}/depends${SUBPACKAGE}
 	echo "@comment @tag permit ftp" >>$@.tmp
 .endif
 	echo "@comment @tag cc ${USE_COMPILER:L}" >>$@.tmp
-.if ${NO_CXX:L} != "no"
+.if ${NO_CXX:L} == "no"
 	echo "@comment @tag dep cxx" >>$@.tmp
 .endif
 .if ${USE_X11:L} == "yes"
