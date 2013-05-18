@@ -80,7 +80,7 @@
 #define	__RCSID(x)	static const char __rcsid[] __attribute__((used)) = (x)
 #endif
 
-__RCSID("$MirOS: contrib/code/Snippets/tinyirc.c,v 1.29 2008/12/29 21:52:53 tg Exp $");
+__RCSID("$MirOS: contrib/code/Snippets/tinyirc.c,v 1.30 2008/12/29 22:07:07 tg Exp $");
 
 #ifndef __dead
 #define __dead
@@ -884,20 +884,7 @@ void userinput(void)
 	parseinput();
 	putchar('\n');
     } else {
-	ssize_t rv;
-
- again:
-	rv = read(stdinfd, &ch, 1);
-	if (sigwinch) {
-		dowinsz(1);
-		sigwinch = 0;
-	}
-	if (rv == -1 && errno == EINTR)
-		goto again;
-	if (rv < 1 || ch == 3) {
-		beenden = 1;
-		return;
-	}
+	read(stdinfd, &ch, 1);
 	if (ch == '\177')
 	    ch = '\10';
 	if (ch != '\t')
@@ -935,6 +922,9 @@ void userinput(void)
 		printpartial((curx / maxcol) * maxcol);
 	    else
 		tputs_x(tgoto(cap_cm, curx % maxcol, maxlin));
+	    break;
+	case '\3':		/* C-c */
+	    beenden = 1;
 	    break;
 	case '\5':		/* C-e */
 	    curx = curli;
@@ -1162,13 +1152,19 @@ main(int argc, char *argv[])
 	    time_out.tv_sec = 61;
 	    time_out.tv_usec = 0;
 	}
-	if (select(FD_SETSIZE, &readfs, NULL, NULL, (dumb ? NULL : &time_out))) {
+	i = select(FD_SETSIZE, &readfs, NULL, NULL, (dumb ? NULL : &time_out));
+	if (i < 0 && errno != EINTR)
+	    beenden = 1;
+	else if (i > 0) {
 	    if (FD_ISSET(stdinfd, &readfs))
 		userinput();
 	    if (FD_ISSET(sockfd, &readfs))
 		sok = serverinput();
 	    if (!wasdate)
 		updatestatus();
+	} else if (sigwinch) {
+	    dowinsz(1);
+	    sigwinch = 0;
 	} else
 	    updatestatus();
 	if (!dumb) {
