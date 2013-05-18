@@ -1,4 +1,4 @@
-/* $MirOS: src/usr.sbin/wsconfig/wsconfig.c,v 1.1 2006/08/16 23:12:06 tg Exp $ */
+/* $MirOS: src/usr.sbin/wsconfig/wsconfig.c,v 1.2 2006/08/16 23:13:02 tg Exp $ */
 
 /*-
  * Copyright (c) 2006
@@ -33,7 +33,7 @@
 #include <string.h>
 #include <unistd.h>
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.sbin/wsconfig/wsconfig.c,v 1.2 2006/08/16 23:13:02 tg Exp $");
 
 #define DEFDEV	"/dev/ttyCcfg"
 
@@ -48,10 +48,13 @@ main(int argc, char **argv)
 	wsdev = DEFDEV;
 	action = 0;
 
-	while ((c = getopt(argc, argv, "f:s:")) != -1)
+	while ((c = getopt(argc, argv, "f:Ss:")) != -1)
 		switch (c) {
 		case 'f':
 			wsdev = optarg;
+			break;
+		case 'S':
+			action = 2;
 			break;
 		case 's':
 			action = 1;
@@ -77,6 +80,13 @@ main(int argc, char **argv)
 			usage();
 		if (ioctl(wsfd, VT_ACTIVATE, nr) == -1)
 			err(3, "ioctl VT_ACTIVATE %d", nr);
+		break;
+	case 2:
+		if (argc)
+			usage();
+		if (ioctl(wsfd, VT_GETACTIVE, &nr) == -1)
+			err(3, "ioctl VT_GETACTIVE");
+		printf("%d\n", nr);
 		break;
 	default:
 		usage();
