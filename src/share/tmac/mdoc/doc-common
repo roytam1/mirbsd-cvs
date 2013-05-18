@@ -1,7 +1,7 @@
-.\"	$MirOS: src/share/tmac/mdoc/doc-common,v 1.11 2006/08/10 23:42:47 tg Exp $
+.\"	$MirOS: src/share/tmac/mdoc/doc-common,v 1.12 2006/09/24 17:48:34 tg Exp $
 .\"	$OpenBSD: doc-common,v 1.44 2005/04/02 17:16:03 jmc Exp $
 .\"
-.\" Copyright (c) 2003, 2004, 2006
+.\" Copyright (c) 2003, 2004, 2006, 2007
 .\"	Thorsten "mirabile" Glaser <tg@66h.42h.de>
 .\" Copyright (c) 1991
 .\"	The Regents of the University of California.
@@ -381,13 +381,13 @@
 .Pp
 ..
 .de LP
-.tm Not a \-mdoc command: .LP
+.tm Not a -mdoc command: .LP
 ..
 .de PP
-.tm Not a \-mdoc command: .PP
+.tm Not a -mdoc command: .PP
 ..
 .de pp
-.tm Not a \-mdoc command: .pp
+.tm Not a -mdoc command: .pp
 ..
 .de Nd
 \&\-\& \\$1 \\$2 \\$3 \\$4 \\$5 \\$6 \\$7 \\$8 \\$9
