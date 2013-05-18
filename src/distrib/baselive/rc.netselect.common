@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/baselive/rc.netselect.common,v 1.11 2007/08/01 21:37:53 tg Exp $
+# $MirOS: src/distrib/baselive/rc.netselect.common,v 1.12 2007/08/01 21:56:03 tg Exp $
 #-
 # Copyright (c) 2006, 2007
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -98,6 +98,8 @@ function get_passwd {
 function set_hostname {
 	typeset -Uui36 rndval=$(date +%s)
 	rndpfx=${rndval#36#}
+	set -o arc4random
+	RANDOM=$(dd if=/dev/urandom bs=4 count=1 2>&- | hexdump -e '1/4 "%08u"')
 	while (( ${#rndpfx} < 36 )); do
 		typeset -Uui36 'rndval=( (RANDOM << 15 | RANDOM) % 60466176)'
 		rndpfx=${rndval#36#}$rndpfx

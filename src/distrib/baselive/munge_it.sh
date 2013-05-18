@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/distrib/baselive/munge_it.sh,v 1.24 2007/07/14 15:44:25 tg Exp $
+# $MirOS: src/distrib/baselive/munge_it.sh,v 1.25 2007/07/24 09:21:55 tg Exp $
 #-
 # Copyright (c) 2006, 2007
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -72,7 +72,7 @@ ed -s etc/ntpd.conf <<-'EOMD'
 EOMD
 ed -s etc/rc <<-'EOMD'
 	1i
-		# $MirOS: src/distrib/baselive/munge_it.sh,v 1.24 2007/07/14 15:44:25 tg Exp $
+		# $MirOS: src/distrib/baselive/munge_it.sh,v 1.25 2007/07/24 09:21:55 tg Exp $
 	.
 	/shutdown request/ka
 	/^fi/a
@@ -86,9 +86,9 @@ ed -s etc/rc <<-'EOMD'
 		     ; done; dd if=/var/db/host.random of=/dev/arandom; dmesg; sysctl\
 		     -a; eeprom) 2>&1 | cksum -a cksum -a sha512 -a suma -a tiger -a \
 		     rmd160 -a adler32 -b >/dev/wrandom) &)
+		/usr/libexec/cprng -pr32 >/dev/urandom &
 		(cd /dev; ln -s $(sysctl -n kern.root_device) root; rm -f .rs)
 		print \#\\tThis product includes material provided by Thorsten Glaser.
-		/usr/libexec/cprng -pr32 >/dev/urandom &
 	.
 	/^raidctl.*all/s/^/#/
 	/^umount/a
