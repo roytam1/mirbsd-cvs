@@ -12,3 +12,6 @@ requests on to the remote FAM.
 FAM can also notify its clients when a file starts and stops execution.
 (The IRIX Interactive Desktop uses this to change a program's icon while
 it's running, for example.)
+
+This product includes software developed by the University of
+California, Berkeley and its contributors.
