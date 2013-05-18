@@ -937,8 +937,8 @@ X6HfZKBF+N4dKlArJQOk1pTr7ZD7yXxZ683bXzu4/RB1Fql8RqlMcOh9SUWJUD6OQ
 XNc9Nb7rHviwJ8TX4Absk3TC8SA/u2Q==
 X-----END CERTIFICATE-----
 END-of-2e8714cb.0
-echo x - 2edf7016.0.untrusted
-sed 's/^X//' >2edf7016.0.untrusted << 'END-of-2edf7016.0.untrusted'
+echo x - 2edf7016.0
+sed 's/^X//' >2edf7016.0 << 'END-of-2edf7016.0'
 X-----BEGIN CERTIFICATE-----
 XMIICPTCCAaYCEQDNun9W8N/kvFT+IqyzcqpVMA0GCSqGSIb3DQEBAgUAMF8xCzAJ
 XBgNVBAYTAlVTMRcwFQYDVQQKEw5WZXJpU2lnbiwgSW5jLjE3MDUGA1UECxMuQ2xh
@@ -954,7 +954,7 @@ XEWx8QszznC7EBz8UsA9P/5CSdvnivErpj82ggAr3xSnxgiJduLHdgSOjeyUVRjB5
 XFvjqBUuUfx3CHMjjt/QQQDwTw18fU+hI5Ia0e6E1sHslurjTjqs/OJ0ANACY89Fx
 XlA==
 X-----END CERTIFICATE-----
-END-of-2edf7016.0.untrusted
+END-of-2edf7016.0
 echo x - 2fa87019.0
 sed 's/^X//' >2fa87019.0 << 'END-of-2fa87019.0'
 X-----BEGIN CERTIFICATE-----
@@ -2893,8 +2893,8 @@ Xl2D4kF501KKaU73yqWjgom7C12yxow+ev+to51byrvLjKzg6CYG1a4XXvi3tPxq3
 XsmPi9WIsgtRqAEFQ8TmDn5XpNpaYbg==
 X-----END CERTIFICATE-----
 END-of-75680d2e.0
-echo x - 7651b327.0.untrusted
-sed 's/^X//' >7651b327.0.untrusted << 'END-of-7651b327.0.untrusted'
+echo x - 7651b327.0
+sed 's/^X//' >7651b327.0 << 'END-of-7651b327.0'
 X-----BEGIN CERTIFICATE-----
 XMIICPDCCAaUCEHC65B0Q2Sk0tjjKewPMur8wDQYJKoZIhvcNAQECBQAwXzELMAkG
 XA1UEBhMCVVMxFzAVBgNVBAoTDlZlcmlTaWduLCBJbmMuMTcwNQYDVQQLEy5DbGFz
@@ -2909,7 +2909,7 @@ XCSqGSIb3DQEBAgUAA4GBALtMEivPLCYATxQT3ab7/AoRhIzzKBxnki98tsX63/Do
 Xlbwdj2wsqFHMc9ikwFPwTtYmwHYBV4GSXiHx0bH/59AhWM1pF+NEHJwZRDmJXNyc
 XAA9WjQKZ7aKQRUzkuxCkPfAyAw7xzvjoyVGM5mKf5p/AfbdynMk2OmufTqj/ZA1k
 X-----END CERTIFICATE-----
-END-of-7651b327.0.untrusted
+END-of-7651b327.0
 echo x - 76579174.0
 sed 's/^X//' >76579174.0 << 'END-of-76579174.0'
 X-----BEGIN CERTIFICATE-----
@@ -4332,8 +4332,8 @@ XZPsxuhW8QXidQYNiua1h7XUUiPiERLDLWZmfY6dxGrHXjSTx3shHNaQM0qkDs9gS
 X6UK8uWJN2bf2YBnvGmzy0IQvx5wDCH7h8AdaBD6DgIG1
 X-----END CERTIFICATE-----
 END-of-b5dc6fc1.0
-echo x - b5f329fa.0.untrusted
-sed 's/^X//' >b5f329fa.0.untrusted << 'END-of-b5f329fa.0.untrusted'
+echo x - b5f329fa.0
+sed 's/^X//' >b5f329fa.0 << 'END-of-b5f329fa.0'
 X-----BEGIN CERTIFICATE-----
 XMIICPDCCAaUCEC0b/EoXjaOR6+f/9YtFvgswDQYJKoZIhvcNAQECBQAwXzELMAkG
 XA1UEBhMCVVMxFzAVBgNVBAoTDlZlcmlTaWduLCBJbmMuMTcwNQYDVQQLEy5DbGFz
@@ -4348,7 +4348,7 @@ XCSqGSIb3DQEBAgUAA4GBAIobK/o5wXTXXtgZZKJYSi034DNHD6zt96rbHuSLBlxg
 XJ8pFUs4W7z8GZOeUaHxgMxURaa+dYo2jA1Rrpr7l7gUYYAS/QoD90KioHgE796Nc
 Xr6Pc5iaAIzy4RHT3Cq5Ji2F4zCS/iIqnDupzGUH9TQPwiNHleI2lKk/2lw0Xd8rY
 X-----END CERTIFICATE-----
-END-of-b5f329fa.0.untrusted
+END-of-b5f329fa.0
 echo x - b66387a6.0
 sed 's/^X//' >b66387a6.0 << 'END-of-b66387a6.0'
 X-----BEGIN CERTIFICATE-----
@@ -5699,8 +5699,8 @@ Xdx+2/iU94aI+A6mB0i1sR/WWRowiq8jMDQ6XXotBtDvECgZAHd1G9AHduoIuPD14
 XcJ58GNCr+Lh3B0Zx8coLY1xq+XKU1QFPoNtC
 X-----END CERTIFICATE-----
 END-of-f64d9715.0.untrusted
-echo x - f73e89fd.0.untrusted
-sed 's/^X//' >f73e89fd.0.untrusted << 'END-of-f73e89fd.0.untrusted'
+echo x - f73e89fd.0
+sed 's/^X//' >f73e89fd.0 << 'END-of-f73e89fd.0'
 X-----BEGIN CERTIFICATE-----
 XMIICNDCCAaECEAKtZn5ORf5eV288mBle3cAwDQYJKoZIhvcNAQECBQAwXzELMAkG
 XA1UEBhMCVVMxIDAeBgNVBAoTF1JTQSBEYXRhIFNlY3VyaXR5LCBJbmMuMS4wLAYD
@@ -5715,7 +5715,7 @@ XhvcNAQECBQADfgBl3X7hsuyw4jrg7HFGmhkRuNPHoLQDQCYCPgmc4RKz0Vr2N6W3
 XYQO2WxZpO8ZECAyIUwxrl0nHPjXcbLm7qt9cuzovk2C2qUtN8iD3zV9/ZHuO3ABc
 X1/p3yjkWWW8O6tO1g39NTUJWdrTJXwT4OPjr0l91X817/OWOgHz8UA==
 X-----END CERTIFICATE-----
-END-of-f73e89fd.0.untrusted
+END-of-f73e89fd.0
 echo x - f950ccc2.0
 sed 's/^X//' >f950ccc2.0 << 'END-of-f950ccc2.0'
 X-----BEGIN CERTIFICATE-----

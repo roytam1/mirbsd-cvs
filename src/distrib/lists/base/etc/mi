@@ -136,7 +136,7 @@
 ./etc/ssl/certs/2d047263.0
 ./etc/ssl/certs/2d752da0.0
 ./etc/ssl/certs/2e8714cb.0
-./etc/ssl/certs/2edf7016.0.untrusted
+./etc/ssl/certs/2edf7016.0
 ./etc/ssl/certs/2fa87019.0
 ./etc/ssl/certs/2fb1850a.0
 ./etc/ssl/certs/31044350.0
@@ -203,7 +203,7 @@
 ./etc/ssl/certs/74c26bd0.0.untrusted
 ./etc/ssl/certs/755f7420.0
 ./etc/ssl/certs/75680d2e.0
-./etc/ssl/certs/7651b327.0.untrusted
+./etc/ssl/certs/7651b327.0
 ./etc/ssl/certs/76579174.0
 ./etc/ssl/certs/76d6205a.0
 ./etc/ssl/certs/788c9bfc.0
@@ -255,7 +255,7 @@
 ./etc/ssl/certs/b0f3e76e.0
 ./etc/ssl/certs/b3fec4ff.0
 ./etc/ssl/certs/b5dc6fc1.0
-./etc/ssl/certs/b5f329fa.0.untrusted
+./etc/ssl/certs/b5f329fa.0
 ./etc/ssl/certs/b66387a6.0
 ./etc/ssl/certs/b737b221.0
 ./etc/ssl/certs/b73ee09e.0
@@ -302,7 +302,7 @@
 ./etc/ssl/certs/f3cf1e8e.0
 ./etc/ssl/certs/f4996e82.0
 ./etc/ssl/certs/f64d9715.0.untrusted
-./etc/ssl/certs/f73e89fd.0.untrusted
+./etc/ssl/certs/f73e89fd.0
 ./etc/ssl/certs/f950ccc2.0
 ./etc/ssl/certs/f9e6b500.0
 ./etc/ssl/certs/facacbc6.0
