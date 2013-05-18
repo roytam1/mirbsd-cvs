@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.398 2011/05/06 19:50:19 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.399 2011/05/07 00:55:03 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -1211,6 +1211,15 @@ exec /usr/bin/ld "${args[@]}"</pre>
  <li>[tg] Drop the pre-POSIX ability to “test -t” without specifying “fd”</li>
  <li>[tg] Defer dropping an alias in favour of a POSIX function to when the
   function is actually defined and check for the closing parenthesis too</li>
+ <li>[tg, Kacper Kornet] Implement a new regression test attribute
+  <tt>need-pass: {yes|no}</tt> and exit 1 if unexpected fails occur</li>
+ <li>[tg] Add <tt>;&amp;</tt> and <tt>;|</tt> for <tt>case</tt></li>
+ <li>[tg] Rewrite the <tt>read</tt> builtin and its documentation;
+  adding <tt>-A</tt> (read IFS words into array), <tt>-a</tt> (read
+  octets/wide characters into array), <tt>-N</tt>/<tt>-n</tt> (read
+  only / up to <i>z</i> bytes), <tt>-t</tt> (read with timeout)</li>
+ <li>[tg] Add <tt>-e</tt> option to <tt>cd -P</tt> (POSIX 2011)</li>
+ <li>[tg] Update <tt>dot.mkshrc</tt> to use the new features</li>
 </ul>
 <p id="r39c">mksh R39c is an important minor bugfix release:</p><ul>
  <li>[tg] Build system, code, docs and testsuite cleanup, also style(9)</li>
@@ -1457,26 +1466,15 @@ exec /usr/bin/ld "${args[@]}"</pre>
 <li>Can not [[ or (( yield the inode of a file, if we don’t get
  a stat(1) builtin? (For hashes by file.) Maybe make a builtin
  that expands <tt>struct stat</tt> into an associative array?</li>
-<li>Add read with timeout, fractional timeouts like the sleep builtin.</li>
-<li>The c_read() builtin will probably need a <em>full</em> rewrite.</li>
-<li>Implement <tt>+=</tt> for at least arrays, if not scalar variables.
- Consider changing <tt>=(…)</tt>, and maybe <tt>set -A</tt> (if ksh93
- matches), to not unset the array, but merely empty it (<tt>unset A[*]</tt>),
- to protect its locality (typeset). Partially done.</li>
-<li>Consider <tt>read -n</tt> and <tt>read -N</tt> from ksh93, especially
- in combination with <tt>-a</tt>.</li>
-<li>Implement <tt>read -A</tt> (from ksh93), <tt>read -a</tt> (dump octets
- or wide characters, depending on <tt>set ±U</tt>, into an array which is
- its (only) argument, from stdin as if using hd(1), from ksh93</li>
 <li>Build with more platforms’ native tools or other compilers
  – ACK, kencc, ICC/UWIN, egcs/UWIN, tcc</li>
 <li>Build and actually work on more platforms – DJGPP, PW32,
  Plan 9, Syllable – debug these</li>
 <li>Bugfix for suspending <tt>a &amp;&amp; b</tt> chain</li>
 <li>echo diff &lt;(echo 1) &lt;(echo 2)</li>
-<li>;&amp; and ;;&amp; in case like zsh</li>
 <li>associative arrays</li>
 <li>whence -p -a foo</li>
+<li>read -e (or something): use the edit.c stuff for inputting</li>
 <li><a href="mksh_old.htm#plans">older/unrealistic plans</a></li>
 </ul>
 EOF
