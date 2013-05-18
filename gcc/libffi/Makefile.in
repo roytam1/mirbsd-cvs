@@ -38,12 +38,10 @@ POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
 target_triplet = @target@
-DIST_COMMON = $(srcdir)/../config.guess $(srcdir)/../config.sub \
-	ChangeLog $(srcdir)/Makefile.in $(srcdir)/Makefile.am \
-	$(top_srcdir)/configure $(am__configure_deps) \
-	$(srcdir)/fficonfig.h.in $(srcdir)/../mkinstalldirs \
-	$(srcdir)/../ltmain.sh $(srcdir)/../config.guess \
-	$(srcdir)/../config.sub
+DIST_COMMON = config.guess config.sub ChangeLog $(srcdir)/Makefile.in \
+	$(srcdir)/Makefile.am $(top_srcdir)/configure \
+	$(am__configure_deps) $(srcdir)/fficonfig.h.in mkinstalldirs \
+	ltmain.sh config.guess config.sub
 subdir = .
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/acinclude.m4 \

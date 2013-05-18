@@ -1,4 +1,4 @@
-/* config.in.  Generated from configure.in by autoheader.  */
+/* config.in.  Generated from configure.in by autoheader 2.60-MirPorts-2.  */
 
 /* Additional extension a shared object might have. */
 #undef EXTRA_SHLIB_EXTENSION

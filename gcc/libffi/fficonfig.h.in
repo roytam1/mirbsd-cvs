@@ -1,4 +1,4 @@
-/* fficonfig.h.in.  Generated from configure.in by autoheader.  */
+/* fficonfig.h.in.  Generated from configure.in by autoheader 2.60-MirPorts-2.  */
 
 /* 1234 = LIL_ENDIAN, 4321 = BIGENDIAN */
 #undef BYTEORDER
