@@ -1,5 +1,5 @@
 <!-- PageID: wlog-8 -->
-<small class="rcsid">$MirOS: www/content/d2xvZy04.inc,v 1.34 2006/02/02 02:46:28 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy04.inc,v 1.35 2006/02/02 20:54:41 tg Exp $</small>
 <h1>MirBSD &ndash; WTF, We Have a Release!?</h1>
 <p><small><a href="#eof">bottom</a> or <a href="/?older">older</a>
  editions</small></p>
@@ -415,6 +415,33 @@ celebrate this event, rotate the wlog and start a new one.</p>
   list and autojoin.</p>
  <p>Tomorrow I'll have to do a few different things over the day, so may
   not have the time to work on MirOS.</p>
+</div>
+
+<div class="wlentry">
+ <h3 id="e20060209">09.02.2006 by tg@</h3>
+ <p>Still trouble with my life cycle. Getting up early nearly killed me,
+  so I slept during noon a little while. But at least there are a few of
+  my friends still not leaving me.</p>
+ <p>I must admit that I'm spending a larger amount than I used to or I'd
+  like to, even, on "common" internet activity &ndash; chatting (Jabber,
+  ICQ, MSN, Yahoo, IRC) and web-based message boards (with Opera). It is
+  not what I'd like to do but there are a few persons I got to know over
+  time. Besides, with Benny spending time with a girlfriend... which I'm
+  still hoping to eventually acquire as well.</p>
+ <p>I started a bulk build and, annoyed by the crap we took over from "a
+  BSD focusing on clean code", did some major commits. This probably has
+  broken some more stuff but I'm doing bulk builds to see where. I won't
+  fix ports which don't build (except for the easy cases) just mark them
+  as ${BROKEN}, so we at least know.</p>
+ <p>Does anyone still have wishes for the next snapshot? I'm about ready
+  to build one. Except for ports, as usual. Lack of communication can be
+  quite annoying.</p>
+ <p>With mmap(2) malloc(3) we need the OpenBSD X11 fixes ported. I asked
+  ciruZ already, but if someone volunteers, please say so since it's not
+  yet clear whether he will try it at least.</p>
+ <p>That's all, folks. If I got more feedback I'd write more, besides, I
+  don't even know which topics are of interest to you.</p>
+ <p>homsn (Daniel Hommel) has packaged mksh(1) for Arch GNU/Linux!</p>
 </div>
 
 <p id="eof">Good luck, have fun, take care etc.pp</p>
