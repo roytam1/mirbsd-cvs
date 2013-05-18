@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/i386/livecd/rc.netselect,v 1.7 2006/04/12 23:11:25 tg Exp $
+# $MirOS: src/distrib/i386/livecd/rc.netselect,v 1.8 2006/04/12 23:27:30 tg Exp $
 #-
 # Copyright (c) 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -110,6 +110,7 @@ function do_netconf
 		print portmap=YES >>/etc/rc.conf.local
 		print nfs_server=YES >>/etc/rc.conf.local
 		print bootparamd_flags=-s >>/etc/rc.conf.local
+		print rarpd_flags=-an >>/etc/rc.conf.local
 		print -n >/tmp/try_rnd
 	fi
 }
