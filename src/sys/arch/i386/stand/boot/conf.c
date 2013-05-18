@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/stand/boot/conf.c,v 1.16 2009/01/10 14:49:03 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/stand/boot/conf.c,v 1.17 2009/01/10 22:18:52 tg Exp $ */
 /*	$OpenBSD: conf.c,v 1.39 2008/04/19 23:20:22 weingart Exp $	*/
 
 /*
@@ -38,6 +38,7 @@
 #include <lib/libsa/cd9660.h>
 #ifndef SMALL_BOOT
 #include <lib/libsa/fat.h>
+#include <lib/libsa/lmbmfs.h>
 #ifdef USE_PXE
 #include <lib/libsa/nfs.h>
 #include <lib/libsa/tftp.h>
@@ -57,6 +58,10 @@
 void pxecheck(void);
 #endif
 
+#ifndef SMALL_BOOT
+void lmbmfs_check(void);
+#endif
+
 const char version[] = __BOOT_VER;
 int debug = 1;
 
@@ -71,6 +76,9 @@ void (*i386_probe1[])(void) = {
 	memprobe
 };
 void (*i386_probe2[])(void) = {
+#ifndef SMALL_BOOT
+	lmbmfs_check,
+#endif
  	diskprobe
 };
 #ifdef USE_PXE
@@ -91,6 +99,9 @@ int nibprobes = NENTS(probe_list);
 
 struct fs_ops file_system[] = {
 #ifndef SMALL_BOOT
+#define O_LMBMFS 0
+	{ lmbmfs_open, lmbmfs_close, lmbmfs_read, lmbmfs_write, lmbmfs_seek,
+	  lmbmfs_stat, lmbmfs_readdir },
 	{ cd9660_open, cd9660_close, cd9660_read, cd9660_write, cd9660_seek,
 	  cd9660_stat, cd9660_readdir },
 #endif
@@ -118,17 +129,33 @@ struct devsw	devsw[] = {
 };
 int ndevs = NENTS(devsw);
 
-#ifdef USE_PXE
-/* must match file_system[] */
-const char *fs_name[] = {
-	NULL, NULL, NULL, "tftp", "nfs"
+#ifndef SMALL_BOOT
+struct devsw lmbmsw[] = {
+	{ "lmbm", lmbm_strategy, lmbm_open, lmbm_close, lmbm_ioctl }
 };
-int nfsname = NENTS(fs_name);
-
-struct devsw	netsw[] = {
+#ifdef USE_PXE
+struct devsw netsw[] = {
 	{ "net",  net_strategy, net_open, net_close, net_ioctl },
 };
+#endif
 
+/* must match file_system[] */
+const char *fs_name[] = {
+	"lmbm", NULL, NULL, NULL,
+#ifdef USE_PXE
+	"tftp", "nfs"
+#endif
+};
+struct devsw *fs_type[] = {
+	&lmbmsw[0], NULL, NULL, NULL,
+#ifdef USE_PXE
+	&netsw[0], &netsw[0]
+#endif
+};
+int nfsname = NENTS(fs_name);
+#endif
+
+#ifdef USE_PXE
 struct netif_driver	*netif_drivers[] = {
 };
 int n_netif_drivers = NENTS(netif_drivers);
@@ -165,6 +192,21 @@ pxecheck(void)
 #if 0
 		ndevs -= 1;
 #endif
+	}
+}
+#endif
+
+#ifndef SMALL_BOOT
+void
+lmbmfs_check(void)
+{
+	if (lmbmfs_init() == 0) {
+		start_dip = alloc(sizeof (struct diskinfo));
+		bzero(start_dip, sizeof (struct diskinfo));
+		memcpy(start_dip->name, "lmbm", 5);
+		start_dip->ops = &file_system[O_LMBMFS];
+		start_dip->bios_info.flags = BDI_NOTADISK;
+		TAILQ_INSERT_TAIL(&disklist, start_dip, list);
 	}
 }
 #endif

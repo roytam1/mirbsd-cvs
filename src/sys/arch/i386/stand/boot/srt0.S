@@ -1,4 +1,4 @@
-/* $MirOS: src/sys/arch/i386/stand/boot/srt0.S,v 1.73 2009/03/15 17:14:14 tg Exp $ */
+/* $MirOS: src/sys/arch/i386/stand/boot/srt0.S,v 1.74 2009/03/15 17:27:44 tg Exp $ */
 
 /*-
  * Copyright (c) 2003, 2004, 2005, 2006, 2007, 2008, 2009
@@ -47,6 +47,8 @@
 	.globl	pxe_bang
 	.globl	pxe_plus
 	.globl	pxecall_addr
+	.globl	lmbm_num
+	.globl	lmbm_ofs
 
 _start:	cli
 	call	Linit
@@ -89,6 +91,12 @@ bios_bootpte:
 pxecall_addr:
 	.size	pxecall_addr,4
 	.long	0		/* PXE RM entry point (FAR pointer) */
+lmbm_num:
+	.size	lmbm_num,4
+	.long	0		/* number of Loadable MultiBoot Modules */
+lmbm_ofs:
+	.size	lmbm_ofs,4
+	.long	0		/* address of LMBM table, if loaded */
 
 #ifndef SMALL_BOOT
 	/* Multiboot header */
@@ -362,8 +370,7 @@ Lsta32:	.code32
 #ifndef SMALL_BOOT
 	/* Multiboot entry point */
 	.p2align 4,0x90
-Lmbrun:	mov	edx,[ebx+12]		/* boot_device */
-	mov	esp,0x0003FFFC
+Lmbrun:	mov	esp,0x0003FFFC
 	xor	eax,eax
 	push	eax
 	popfd
@@ -375,6 +382,7 @@ Lmbrun:	mov	edx,[ebx+12]		/* boot_device */
 	jmp	eax
 	/* relocated */
 Lmb2rm:	mov	edi,offset Ldrvi
+	mov	edx,[ebx+12]		/* boot_device */
 	shr	edx,16
 	mov	eax,edx
 	mov	al,[edi]	/* user partition type */
@@ -389,6 +397,15 @@ Lmb2rm:	mov	edi,offset Ldrvi
 #ifdef USE_PXE
 	mov	[have_pxe],eax	/* do not even try */
 #endif
+
+	mov	eax,[ebx]
+	and	eax,(1 << 3)	/* do we have modules? */
+	jz	Lnombm		/* nope */
+	mov	eax,[ebx+20]	/* how many? */
+	mov	[lmbm_num],eax
+	mov	eax,[ebx+24]	/* module information */
+	mov	[lmbm_ofs],eax
+Lnombm:
 
 	lgdt	Gdtr
 	call	prot_to_real	/* converts stack */
