@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.387 2012/05/19 22:36:30 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.388 2012/05/19 22:40:22 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -9014,7 +9014,7 @@ Title: blog @ TNF
 
 <!-- tg: DON'T change the link above. Don't even think about it. -->
 ----
-Date: 19.05.2012 22:40
+Date: 19.05.2012 23:07
 Author: tg@
 Title: MirBSD goes webservice – manpages and WTF‽
 Tag: debian mksh news pcli tip
@@ -9024,19 +9024,30 @@ Tag: debian mksh news pcli tip
  href="@@RELPATH@@acronyms" type="text/plain; charset=utf-8"
  title="MirBSD WTF acronym database">acronym database</a>
  has been accessible by <a href="@@ABSPATH@@/cvs.cgi">CVSweb</a>,
- what we never had was a DAU compatible (and shellsnippets
+ what we never had was a DAU compatible (and <a
+ href="https://evolvis.org/projects/shellsnippets/">shellsnippets</a>
  compatible) lookup. This has now changed: the above link to
  the acronyms file is a persistent link to its latest version
  (well, latest when the website was last recompiled), tooltips
  may very well follow soon, and we’ve got an <a
- href="@@RELPATH@@wtf.htm">online WTF lookup service</a>.</p>
+ href="@@RELPATH@@wtf.htm">online WTF lookup service</a>.<br />
+ Contributions to the acronym database are welcome, of course;
+ just eMail them to <tt>tg＠mirbsd．org</tt>.</p>
 <p>Not to stop there, our <a href="@@RELPATH@@man.htm">online
  HTML manpage search</a> is also new, shiny, and should replace
  the “<tt>!mbsdman</tt>” DuckDuckGo hash-bang shortly. (Both of
  these services offer a DDG search as fallback. Note that DDG is
  an external service included herein by linking, under their
  request to spread it, and not affiliated with The MirOS Project.
- They do, however, donate some advertising money to Debian.)</p>
+ They do, however, donate some advertising money to Debian.)<br />
+ For all those who didn’t know: only manpages for software in the
+ MirOS BSD base system and for the MirPorts Framework package tools
+ are listed, not for third-party applications installable using <a
+ href="@@RELPATH@@ports.htm">ports</a> or, recently, <a
+ href="@@RELPATH@@pkgsrc.htm">pkgsrc®</a>. Still, if you want to have
+ a peek at a modern classic BSD’s documentation, you’re welcome. (Not
+ to mention content like re_format(7) and style(9) and that some of
+ our documentation is much more legible than others.)</p>
 <p>And because writing all that perl(1) made me ill, not to
  mention I don’t even <em>know</em> that language, I’ve hacked
  a bit more in the mir﻿make(1) and mksh(1) parts of the
