@@ -1,4 +1,4 @@
-mws_putheader '$MirOS: www/src/clog11.hts,v 1.1 2008/03/22 20:38:16 tg Exp $'
+mws_putheader '$MirOS: www/src/clog11.hts,v 1.2 2008/03/22 23:27:48 tg Exp $'
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -10,6 +10,7 @@ mws_content <<'EOF'
  and subprojects are listed. Changes to individual ports or changes which are
  not related to the base system in subprojects, or www/contrib are not.</p>
 <ul>
+<li>mksh(1): support dæmonisation (<tt>mksh -T- script</tt>)</li>
 <li>kernel: improve arandom(4) by using Yarrow’s two-pool idea, add some
  built-in entropy at boot (improves arc4random(3) as well)</li>
 <li>wtf(1): improve, unicodify</li>

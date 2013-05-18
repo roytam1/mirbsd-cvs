@@ -1,4 +1,4 @@
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.93 2008/03/14 21:34:55 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.94 2008/03/23 21:51:45 tg Exp $'
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -793,6 +793,8 @@ mws_content <<'EOF'
  <li>Port to <a href="http://www.syllable.org/">Syllable</a> (much
   improved; support now en par with Plan 9’s, thanks to Anthony Morphett
   &lt;awmorp@gmail.com&gt; – maybe the rest is a kernel bug?)</li>
+ <li>New <tt>-T-</tt> option for dæmonisation, cf. man page</li>
+ <li>Port to BSDi BSD/OS 3.1 (gcc 1.42 and gcc 2.7.2.1 supported)</li>
  <li>Simplify the <tt>dot.mkshrc</tt> file and make it more robust</li>
  <li>Report OE and <tt>$CC</tt> version in <tt>Build.sh</tt>, for logs</li>
  <li>Fix look’n’feel of the mksh(1) manual page, so that it still looks
