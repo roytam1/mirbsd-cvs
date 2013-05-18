@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.384 2011/03/06 01:54:48 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.385 2011/03/06 17:22:07 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -47,7 +47,8 @@ mws_content <<'EOF'
 
 <h2 class="cr" id="prefetch">Introduction</h2>
 <p>The current version of mksh is <strong>mksh R39c</strong> from
- <em>25 February 2010</em>.</p>
+ <em>25 February 2010</em>. (We’re working on mksh R40 and will
+ feature freeze it soonish.)</p>
 <p>Thanks to “Der Verein <a href="http://www.trash.net/verein/">trash.net</a>”
  for sponsoring access to a Solaris 8 box. Thanks to HP TestDrive/PvP, which
  helps in keeping mksh portable to several Unixes and compilers, and track down
@@ -1104,7 +1105,8 @@ exec /usr/bin/ld "${args[@]}"</pre>
   if it is missing; rather let sh.h define the types appropriately and fix
   related compiler warnings</li>
  <li>[tg] Add “cat” builtin (defers to external if options are given)</li>
- <li>[tg] Reduce size by improved string pooling</li>
+ <li>[tg] Reduce size by improved string pooling, improving struct packing,
+  lowering size of some allocation chunks, and better code</li>
  <li>[tg] Document 「x=$(eval $(cat)) &lt;&lt;'EOF'」 workaround for the <a
   href="https://bugzilla.redhat.com/show_bug.cgi?id=496791">$(…)
   parsing bug</a> in the mksh(1) manual page and on the Red Hat Bugzilla</li>
@@ -1112,7 +1114,6 @@ exec /usr/bin/ld "${args[@]}"</pre>
  <li>[tg] Correct some error messages and typos</li>
  <li>[Jeff Hamilton] Don’t alias stop, suspend on Android (system specific
   conflict for stop; suspend just joined the boat)</li>
- <li>[tg] Add size optimisations, ifdef’d, mostly for Android</li>
  <li>[tg] Address what few concerns Chris Palmer (Android security team) had:
   check all multiplications and some additions for integer overflows, mostly
   in allocation context, and check setres{u,g}id/setuid for EAGAIN iff the
