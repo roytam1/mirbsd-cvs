@@ -1,6 +1,8 @@
-# $MirOS: ports/emulators/bochs/Makefile,v 1.2 2006/09/14 00:09:08 tg Exp $
+# $MirOS: ports/emulators/bochs/Makefile,v 1.3 2008/03/09 17:22:39 tg Exp $
 # $OpenBSD: Makefile,v 1.36 2004/05/12 22:40:11 pedro Exp $
 # $NetBSD: Makefile,v 1.2 1998/09/22 06:11:36 garbled Exp $
+
+BROKEN=		fails to build
 
 COMMENT=			x86 machine simulator
 DISTNAME=	bochs-2.1.1
