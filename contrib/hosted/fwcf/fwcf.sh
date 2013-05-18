@@ -1,31 +1,44 @@
 #!/bin/sh
-# $MirOS: contrib/hosted/fwcf/fwcf.sh,v 1.11 2006/10/07 18:52:32 tg Exp $
+# $MirOS: src/share/misc/licence.template,v 1.20 2006/12/11 21:04:56 tg Rel $
 #-
-# Copyright (c) 2006
+# Copyright (c) 2006, 2007
 #	Thorsten Glaser <tg@mirbsd.de>
 #
-# Licensee is hereby permitted to deal in this work without restric-
-# tion, including unlimited rights to use, publicly perform, modify,
-# merge, distribute, sell, give away or sublicence, provided all co-
-# pyright notices above, these terms and the disclaimer are retained
-# in all redistributions or reproduced in accompanying documentation
-# or other materials provided with binary redistributions.
+# Provided that these terms and disclaimer and all copyright notices
+# are retained or reproduced in an accompanying document, permission
+# is granted to deal in this work without restriction, including un-
+# limited rights to use, publicly perform, distribute, sell, modify,
+# merge, give away, or sublicence.
 #
-# Licensor offers the work "AS IS" and WITHOUT WARRANTY of any kind,
-# express, or implied, to the maximum extent permitted by applicable
-# law, without malicious intent or gross negligence; in no event may
-# licensor, an author or contributor be held liable for any indirect
-# or other damage, or direct damage except proven a consequence of a
-# direct error of said person and intended use of this work, loss or
-# other issues arising in any way out of its use, even if advised of
-# the possibility of such damage or existence of a defect.
+# This work is provided "AS IS" and WITHOUT WARRANTY of any kind, to
+# the utmost extent permitted by applicable law, neither express nor
+# implied; without malicious intent or gross negligence. In no event
+# may a licensor, author or contributor be held liable for indirect,
+# direct, other damage, loss, or other issues arising in any way out
+# of dealing in the work, even if advised of the possibility of such
+# damage or existence of a defect, except proven that it results out
+# of said person's immediate fault when using the work as intended.
+#-
+# Possible return values:
+# 0 - everything ok
+# 1 - syntax error
+# 1 - no 'fwcf' mtd partition found
+# 1 - fwcf erase: failed
+# 1 - fwcf setup: already run
+# 3 - fwcf setup: mount --bind problems
+# 4 - fwcf setup: can't create or write to temporary filesystem
+# 5 - fwcf setup: can't bind the tmpfs to /etc
+# 6 - fwcf commit: cannot write to mtd
+# 7 - fwcf commit: won't write to flash because of unclean setup
+# 255 - fwcf erase: failed
+# 255 - internal error
 
 export PATH=/bin:/sbin:/usr/bin:/usr/sbin
 
 case $1 in
 setup|commit|erase) ;;
 *)	cat >&2 <<EOF
-FreeWRT Configuration Filesytem (fwcf), Version 1.01
+FreeWRT Configuration Filesytem (fwcf), Version 1.02
 Copyright © 2006 by Thorsten Glaser <tg@freewrt.org>
 
 Syntax:
@@ -66,10 +79,8 @@ if test $1 = setup; then
 	test x"$x" = x"FWCF" || fwcf.helper -Me | mtd -F write - fwcf
 	if ! fwcf.helper -U /tmp/.fwcf/temp <"$part"; then
 		echo 'fwcf: error: cannot extract' >&2
-		umount /tmp/.fwcf/temp
-		umount /tmp/.fwcf/root
-		rm -rf /tmp/.fwcf
-		exit 2
+		echo -n >/tmp/.fwcf/temp/.fwcf_unclean
+		echo unclean startup | logger -t 'fwcf setup'
 	fi
 	rm -f /tmp/.fwcf/temp/.fwcf_done
 	if test -e /tmp/.fwcf/temp/.fwcf_done; then
@@ -91,7 +102,12 @@ if test $1 = setup; then
 	if test ! -e /etc/.fwcf_done; then
 		umount /etc
 		echo 'fwcf: fatal: binding to /etc failed' >&2
-		echo 'fwcf: configuration is preserved in /tmp/.fwcf/temp' >&2
+		if test -e /tmp/.fwcf/temp/.fwcf_unclean; then
+			umount /tmp/.fwcf/temp
+		else
+			echo 'fwcf: configuration is preserved' \
+			    'in /tmp/.fwcf/temp' >&2
+		fi
 		exit 5
 	fi
 	umount /tmp/.fwcf/temp
@@ -101,6 +117,16 @@ fi
 
 if test $1 = commit; then
 	umount /tmp/.fwcf/temp >&- 2>&-
+	if test -e /etc/.fwcf_unclean; then
+		cat >&2 <<-EOF
+			fwcf: error: unclean startup!
+			explanation: during boot, the FWCF filesystem could not
+			    be extracted; saving the current /etc to flash will
+			    result in data loss; to override this check, remove
+			    the file /etc/.fwcf_unclean and try again.
+		EOF
+		exit 7
+	fi
 	mount -t tmpfs swap /tmp/.fwcf/temp
 	(cd /etc; tar cf - .) | (cd /tmp/.fwcf/temp; tar xpf -)
 	cd /tmp/.fwcf/root

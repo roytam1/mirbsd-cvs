@@ -3,10 +3,10 @@
 
                       Specification Document
 
-                                   Version 1.01 - 20 December 2006
+                                   Version 1.02 - 12 February 2007
 
 
-Copyright (c) 2006
+Copyright (c) 2006, 2007
 	Thorsten Glaser <tg@mirbsd.de>
 
 Provided that these terms and disclaimer and all copyright notices
@@ -81,7 +81,7 @@ to /tmp/.fwcf/root. Then, it will create a memory filesystem (tmpfs)
 at /tmp/.fwcf/temp and populate it with all files from /tmp/.fwcf/root.
 Now, the fwcf flash partition will be read, the format and checksum
 verified and data extracted to /tmp/.fwcf/temp, possibly overwriting
-pre-existing files. Then, the /tmp/.fwcf/temp filesystem will be re-
+pre-existing files(*). Then, the /tmp/.fwcf/temp filesystem will be re-
 bound to /etc and, finally, the mountpoint at /tmp/.fwcf/temp unloaded.
 
 Data from the end of the fwcf data in the flash partition to the
@@ -91,6 +91,12 @@ to /dev/urandom.
 If the "fwcf" mtd partition does not start with the four letters
 FWCF on invoking 'fwcf setup', it is erased (i.e. populated with
 an empty FWCF filesystem).
+
+(*) NEW IN 1.02: If this fails, but the "fwcf" mtd partition starts
+with FWCF, i.e. we cannot read the flash filesystem, possibly because
+it's from an incompatible format or unknown compressor, a flag file
+is created as /etc/.fwcf_unclean to prevent a following commit which
+would lead to data loss. The user must remove this file to override.
 
 
 2.2. Operation of 'fwcf commit'
@@ -326,4 +332,4 @@ They are provided as hint only and not part of the specifi-
 cation itself. They may change without notice.
 
 ________________________________________________________________________
-$MirOS: contrib/hosted/fwcf/fwcf.txt,v 1.18 2007/01/25 19:00:43 tg Exp $
+$MirOS: contrib/hosted/fwcf/fwcf.txt,v 1.19 2007/01/26 20:38:31 tg Exp $
