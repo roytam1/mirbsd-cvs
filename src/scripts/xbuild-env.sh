@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/scripts/xbuild-env.sh,v 1.7 2006/03/01 13:32:42 tg Exp $
+# $MirOS: src/scripts/xbuild-env.sh,v 1.8 2006/03/01 13:40:11 tg Exp $
 #-
 # Copyright (c) 2004, 2005, 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -122,29 +122,29 @@ cat >$CROSSDIR/T_BASEENV <<-EOF
 EOF
 
 cat >$CROSSDIR/T_ENV <<-EOF
-	AR='$CROSSDIR/usr/bin/ar'
-	AS='$CROSSDIR/usr/bin/as'
-	CC='$CROSSDIR/usr/bin/cc'
+	AR='$CROSSDIR/usr/$TARGET/bin/ar'
+	AS='$CROSSDIR/usr/$TARGET/bin/as'
+	CC='$CROSSDIR/usr/$TARGET/bin/cc'
 	CFLAGS=''$CROSSCFLAGS''
-	CPP='$CROSSDIR/usr/bin/cpp'
+	CPP=/usr/bin/cpp
 	CPPFLAGS='$CROSSCPPFLAGS'
 	CROSS_MODE=yes
 	DESTDIR='$CROSSDIR'
 	HOSTCC=/usr/bin/mgcc
 	HOSTCFLAGS='$CFLAGS -Wno-error'
 	HOSTLDFLAGS='$LDFLAGS'
-	LD='$CROSSDIR/usr/bin/ld'
+	LD='$CROSSDIR/usr/$TARGET/bin/ld'
 	LDFLAGS='$CROSSLDFLAGS'
-	LDSTATIC='-static'
-	LORDER='/usr/bin/lorder'
-	NM='$CROSSDIR/usr/bin/nm'
+	LDSTATIC=-static
+	LORDER=/usr/bin/lorder
+	NM='$CROSSDIR/usr/$TARGET/bin/nm'
 	NOMAN=yes
 	NOPIC=yes
-	OBJCOPY='$CROSSDIR/usr/bin/objcopy'
-	OBJDUMP='$CROSSDIR/usr/bin/objdump'
-	RANLIB='$CROSSDIR/usr/bin/ranlib'
-	SIZE='$CROSSDIR/usr/bin/size'
-	STRIP='$CROSSDIR/usr/bin/strip'
+	OBJCOPY='$CROSSDIR/usr/$TARGET/bin/objcopy'
+	OBJDUMP='$CROSSDIR/usr/$TARGET/bin/objdump'
+	RANLIB='$CROSSDIR/usr/$TARGET/bin/ranlib'
+	SIZE='$CROSSDIR/usr/$TARGET/bin/size'
+	STRIP='$CROSSDIR/usr/$TARGET/bin/strip'
 EOF
 
 cat >$CROSSDIR/T_MAKE <<-EOF
@@ -163,26 +163,26 @@ exec env \
 	BSDSRCDIR='$BSDSRCDIR \'
 	BSDOBJDIR='$CROSSDIR/usr/obj \'
 	HOST='$HOST \'
-	AR='$CROSSDIR/usr/bin/ar \'
-	AS='$CROSSDIR/usr/bin/as \'
-	CC='$CROSSDIR/usr/bin/cc \'
-	CPP='$CROSSDIR/usr/bin/cpp \'
+	AR='$CROSSDIR/usr/$TARGET/bin/ar \'
+	AS='$CROSSDIR/usr/$TARGET/bin/as \'
+	CC='$CROSSDIR/usr/$TARGET/bin/cc \'
+	CPP=/usr/bin/cpp \
 	CROSS_MODE=yes \
 	DESTDIR='$CROSSDIR \'
 	HOSTCC=/usr/bin/mgcc \
 	HOSTLDFLAGS='$LDFLAGS' \
-	LD='$CROSSDIR/usr/bin/ld \'
+	LD='$CROSSDIR/usr/$TARGET/bin/ld \'
 	LDFLAGS='$BUILDLDFLAGS' \
-	LDSTATIC='-static \'
-	LORDER='/usr/bin/lorder \'
-	NM='$CROSSDIR/usr/bin/nm \'
+	LDSTATIC=-static \
+	LORDER=/usr/bin/lorder \
+	NM='$CROSSDIR/usr/$TARGET/bin/nm \'
 	NOMAN=yes \
 	NOPIC=yes \
-	OBJCOPY='$CROSSDIR/usr/bin/objcopy \'
-	OBJDUMP='$CROSSDIR/usr/bin/objdump \'
-	RANLIB='$CROSSDIR/usr/bin/ranlib \'
-	SIZE='$CROSSDIR/usr/bin/size \'
-	STRIP='$CROSSDIR/usr/bin/strip \'
+	OBJCOPY='$CROSSDIR/usr/$TARGET/bin/objcopy \'
+	OBJDUMP='$CROSSDIR/usr/$TARGET/bin/objdump \'
+	RANLIB='$CROSSDIR/usr/$TARGET/bin/ranlib \'
+	SIZE='$CROSSDIR/usr/$TARGET/bin/size \'
+	STRIP='$CROSSDIR/usr/$TARGET/bin/strip \'
     "\$@"
 EOF
 chmod 755 $CROSSDIR/T_MAKE

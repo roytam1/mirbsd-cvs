@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/scripts/xbuild-gcc.sh,v 1.5 2006/02/28 22:13:25 tg Exp $
+# $MirOS: src/scripts/xbuild-gcc.sh,v 1.6 2006/03/01 13:28:34 tg Exp $
 #-
 # Copyright (c) 2004, 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -87,7 +87,7 @@ set -x
 	_CROSSBUILD=defined \
 	all install )
 
-ln -f ${CROSSDIR}/usr/bin/$TARGET-gcc ${CROSSDIR}/usr/bin/cc
+ln -f ${CROSSDIR}/usr/bin/$TARGET-gcc ${CROSSDIR}/usr/$TARGET/bin/cc
 
 set +x
 print
