@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/dev/rnd.c,v 1.29 2007/07/26 10:16:21 tg Exp $ */
+/**	$MirOS: src/sys/dev/rnd.c,v 1.30 2007/08/24 14:15:05 tg Exp $ */
 /*	$OpenBSD: rnd.c,v 1.78 2005/07/07 00:11:24 djm Exp $	*/
 
 /*
@@ -1049,6 +1049,9 @@ randomread(dev_t dev, struct uio *uio, int ioflag)
 			arc4maybeinit();
 			while (cp < end)
 				*cp++ = arc4_getbyte();
+			i = arc4_getbyte() % 3;
+			while (i--)
+				(void)arc4_getbyte();
 			break;
 		}
 		default:
