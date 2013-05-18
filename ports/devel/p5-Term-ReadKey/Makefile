@@ -1,12 +1,13 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.11 2004/01/17 15:58:08 naddy Exp $
 
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
-COMMENT=			change terminal modes, and perform non-blocking reads
+COMMENT=		change terminal modes, and perform non-blocking reads
 
-V=			2.21
+V=			2.30
 DISTNAME=		TermReadKey-${V}
-PKGNAME=		p5-Term-ReadKey-${V}-0
+PKGNAME=		p5-Term-ReadKey-${V}-${DASH_VER}
 CATEGORIES=		devel perl5
 
 
