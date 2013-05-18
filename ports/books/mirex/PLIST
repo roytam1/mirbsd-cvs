@@ -1,6 +1,9 @@
-@comment $MirOS: ports/books/mirex/PLIST,v 1.1 2008/08/26 19:18:56 tg Exp $
+@comment $MirOS: ports/books/mirex/PLIST,v 1.2 2008/10/16 20:01:17 tg Exp $
 share/examples/mirex/MirOS-Licence
+share/examples/mirex/RCStags
 share/examples/mirex/acronyms
+share/examples/mirex/cvs_automerge
+share/examples/mirex/cvs_bugs
 share/examples/mirex/daemon.png
 share/examples/mirex/devel-keys
 share/examples/mirex/dot.Xmodmap
@@ -10,6 +13,7 @@ share/examples/mirex/etc_profile
 share/examples/mirex/getopt
 share/examples/mirex/gzsigkey.1
 share/examples/mirex/gzsigkey.2
+share/examples/mirex/import-3rdpty
 share/examples/mirex/kana
 share/examples/mirex/kbd-layout
 share/examples/mirex/licence.template

@@ -1,10 +1,10 @@
-# $MirOS: ports/books/mirex/Makefile,v 1.22 2008/12/07 18:37:46 tg Exp $
+# $MirOS: ports/books/mirex/Makefile,v 1.23 2008/12/07 18:57:48 tg Exp $
 
 COMMENT=		MirOS sample files, keys and information
 CATEGORIES=		books
 MCZ_FETCH=		Yes
 CVS_DISTREPO=		${_MIROS_ANONCVS}
-CVS_DISTDATE=		2008/12/07
+CVS_DISTDATE=		2010/01/26
 CVS_DISTMODS=		contrib/samples \
 			src/share/doc/README \
 			src/share/misc \
