@@ -141,6 +141,7 @@ rindent		Indent to the right
 Help
 ----
 help		Turn help on or off
+helpcard	Turn help on at selected screen
 hnext		Switch to next help screen
 hprev		Switch to previous help screen
 
