@@ -1,4 +1,4 @@
-# $MirOS: src/Makefile,v 1.89 2006/12/22 21:14:03 tg Exp $
+# $MirOS: src/Makefile,v 1.90 2006/12/23 04:36:22 tg Exp $
 # $OpenBSD: Makefile,v 1.103 2004/05/03 15:18:18 drahn Exp $
 
 .if defined(MAKECONF) && exists(${MAKECONF})
@@ -191,18 +191,25 @@ _do-dist:
 	mkdir -p ${HOME}/.etc/systrace
 .ifdef QUICK_DIST2
 .  if ${NO_JAVA:L} == "no"
-	@[[ -e /usr/X11R6/include/X11/X.h && -e /usr/X11R6/lib/libX11.a ]] \
-	    || { print 'To build gcc/libjava you must have X11 installed!'; \
-		 ${SUDO} rm -rf ${HOME}; \
-		 exit 1; }
+	@[[ -e /usr/X11R6/include/X11/X.h && -e /usr/X11R6/lib/libX11.a ]] || \
+	    {	print 'To build gcc/libjava you must have X11 installed!'; \
+		${SUDO} rm -rf ${HOME}; \
+		exit 1; \
+	}
 .  endif
 .endif
+	@[[ -x /usr/mpkg/bin/gmake ]] || { \
+		print 'To build gcc you must have GNU make installed!'; \
+		{SUDO} rm -rf ${HOME}; \
+		exit 1; \
+	}
 .ifndef QUICK_DIST
-	@c='${CVSROOT}'; [[ $$c = *@(@)*@(:/)* || -e $$c/CVSROOT/config ]] \
-	    || { print 'To build a full release CVSROOT must point to the'; \
-		 print 'locally mounted MirOS /cvs or a remote repository'; \
-		 ${SUDO} rm -rf ${HOME}; \
-		 exit 1; }
+	@c='${CVSROOT}'; [[ $$c = *@(@)*@(:/)* || -e $$c/CVSROOT/config ]] || \
+	    {	print 'To build a full release CVSROOT must point to the'; \
+		print 'locally mounted MirOS /cvs or a remote repository'; \
+		${SUDO} rm -rf ${HOME}; \
+		exit 1; \
+	}
 .endif
 	@echo Initialising sudo as ${SUDO:Q}
 	${SUDO} true
