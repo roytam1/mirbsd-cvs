@@ -1,5 +1,3 @@
-/* $MirOS: src/libexec/cprng/cprng.c,v 1.1 2007/07/07 20:32:06 tg Exp $ */
-
 /*-
  * Copyright (c) 2007
  *	Thorsten Glaser <tg@mirbsd.de>
@@ -44,7 +42,7 @@
 __RCSID("$MirOS: src/libexec/cprng/cprng.c,v 1.1 2007/07/07 20:32:06 tg Exp $");
 
 volatile sig_atomic_t glocke;
-useconds_t littlesleep = 20000;
+useconds_t littlesleep = 2000;
 uint8_t obuf[1024];
 
 static void laeuten(int);
@@ -146,16 +144,15 @@ main(int argc, char *argv[])
 	close(2);
 
  main_loop:
-	getent(obuf, 17);
-	write(c, obuf, 16);
+	getent(obuf, 12 + 1);
+	write(c, obuf, 12);
 	usleep(littlesleep);
 	read(c, obuf, 1);
-	sleep(((obuf[0] ^ obuf[16]) & 0x0F) + 12);
-	littlesleep = ((unsigned)((obuf[0] ^ obuf[16]) & 0xF0) << 4) + 20000;
+	sleep(((obuf[0] ^ obuf[12]) & 0x0F) + 7);
+	littlesleep = ((unsigned)((obuf[0] ^ obuf[12]) & 0xF0) << 4) + 42000;
 	goto main_loop;
 
  out_bytes:
-	littlesleep = 2000;
 	if ((c = argv[1][2]) > '0' && c <= '9') {
 		num = c - '0';
 		if ((c = argv[1][3]) >= '0' && c <= '9') {
