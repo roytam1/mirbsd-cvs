@@ -1,7 +1,6 @@
-.\"	$NetBSD: isinff.3,v 1.6 2010/05/14 03:10:24 joerg Exp $
-.\"
-.\" Copyright (c) 1991, 1993
-.\"	The Regents of the University of California.  All rights reserved.
+.\"	$NetBSD: fegetround.3,v 1.1 2010/07/31 21:47:53 joerg Exp $
+.\" Copyright (c) 2004 David Schultz <das@FreeBSD.org>
+.\" All rights reserved.
 .\"
 .\" Redistribution and use in source and binary forms, with or without
 .\" modification, are permitted provided that the following conditions
@@ -11,14 +10,11 @@
 .\" 2. Redistributions in binary form must reproduce the above copyright
 .\"    notice, this list of conditions and the following disclaimer in the
 .\"    documentation and/or other materials provided with the distribution.
-.\" 3. Neither the name of the University nor the names of its contributors
-.\"    may be used to endorse or promote products derived from this software
-.\"    without specific prior written permission.
 .\"
-.\" THIS SOFTWARE IS PROVIDED BY THE REGENTS AND CONTRIBUTORS ``AS IS'' AND
+.\" THIS SOFTWARE IS PROVIDED BY THE AUTHOR AND CONTRIBUTORS ``AS IS'' AND
 .\" ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
 .\" IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
-.\" ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS OR CONTRIBUTORS BE LIABLE
+.\" ARE DISCLAIMED.  IN NO EVENT SHALL THE AUTHOR OR CONTRIBUTORS BE LIABLE
 .\" FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
 .\" DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
 .\" OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
@@ -27,50 +23,62 @@
 .\" OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 .\" SUCH DAMAGE.
 .\"
-.\"     from: @(#)isinf.3	8.2 (Berkeley) 1/29/94
-.\"	from: NetBSD: isinf.3,v 1.5 1998/08/02 04:52:54 mycroft Exp
-.\"
-.Dd August 16, 1999
-.Dt ISINFF 3
+.Dd May 8, 2004
+.Dt FEGETROUND 3
 .Os
 .Sh NAME
-.Nm isinff ,
-.Nm isnanf
-.Nd test for infinity or not-a-number
+.Nm fegetround ,
+.Nm fesetround
+.Nd floating-point rounding control
 .Sh LIBRARY
 .Lb libm
 .Sh SYNOPSIS
-.In math.h
+.In fenv.h
+.Fd "#pragma STDC FENV_ACCESS ON"
 .Ft int
-.Fn isinff float
+.Fn fegetround void
 .Ft int
-.Fn isnanf float
+.Fn fesetround "int round"
 .Sh DESCRIPTION
 The
-.Fn isinff
-function
-returns 1 if the number is
-.Dq \*(If ,
-otherwise 0.
-.Pp
+.Fn fegetround
+function determines the current floating-point rounding mode,
+and the
+.Fn fesetround
+function sets the current rounding mode to
+.Fa round .
+The rounding mode is one of
+.Dv FE_TONEAREST , FE_DOWNWARD , FE_UPWARD ,
+or
+.Dv FE_TOWARDZERO ,
+as described in
+.Xr fenv 3 .
+.Sh RETURN VALUES
 The
-.Fn isnanf
-function
-returns 1 if the number is
-.Dq not-a-number ,
-otherwise 0.
+.Fn fegetround
+routine returns the current rounding mode.
+The
+.Fn fesetround
+function returns 0 on success and non-zero otherwise;
+however, the present implementation always succeeds.
 .Sh SEE ALSO
-.Xr isinf 3 ,
-.Xr isnan 3 ,
-.Xr math 3
-.Rs
-.%T "IEEE Standard for Binary Floating-Point Arithmetic"
-.%Q ANSI
-.%R Std 754-1985
-.Re
-.Sh BUGS
-Neither the
-.Tn VAX
-nor the Tahoe floating point have distinguished values
-for either infinity or not-a-number.
-These routines always return 0 on those architectures.
+.Xr fenv 3 ,
+.Xr fpgetround 3 ,
+.Xr fpsetround 3
+.Sh STANDARDS
+The
+.Fn fegetround
+and
+.Fn fesetround
+functions conform to
+.St -isoC-99 .
+.Sh HISTORY
+These routines first appeared in
+.Fx 5.3
+and
+.Nx 6.0 .
+They supersede the non-standard
+.Xr fpgetround 3
+and
+.Xr fpsetround 3
+functions.

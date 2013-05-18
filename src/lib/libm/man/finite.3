@@ -1,7 +1,5 @@
-.\"	$NetBSD: isinff.3,v 1.6 2010/05/14 03:10:24 joerg Exp $
-.\"
-.\" Copyright (c) 1991, 1993
-.\"	The Regents of the University of California.  All rights reserved.
+.\" Copyright (c) 1985, 1991 Regents of the University of California.
+.\" All rights reserved.
 .\"
 .\" Redistribution and use in source and binary forms, with or without
 .\" modification, are permitted provided that the following conditions
@@ -27,50 +25,58 @@
 .\" OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 .\" SUCH DAMAGE.
 .\"
-.\"     from: @(#)isinf.3	8.2 (Berkeley) 1/29/94
-.\"	from: NetBSD: isinf.3,v 1.5 1998/08/02 04:52:54 mycroft Exp
+.\"     from: @(#)ieee.3	6.4 (Berkeley) 5/6/91
+.\"	$NetBSD: finite.3,v 1.2 2011/08/06 11:09:22 wiz Exp $
 .\"
-.Dd August 16, 1999
-.Dt ISINFF 3
+.Dd July 28, 2011
+.Dt FINITE 3
 .Os
 .Sh NAME
-.Nm isinff ,
-.Nm isnanf
-.Nd test for infinity or not-a-number
+.Nm finite ,
+.Nm finitef
+.Nd tests for finite values
 .Sh LIBRARY
 .Lb libm
 .Sh SYNOPSIS
 .In math.h
 .Ft int
-.Fn isinff float
+.Fn finite "double x"
 .Ft int
-.Fn isnanf float
+.Fn finitef "float x"
 .Sh DESCRIPTION
 The
-.Fn isinff
-function
-returns 1 if the number is
-.Dq \*(If ,
-otherwise 0.
+.Fn finite
+function returns the value 1 when
+.Bd -ragged -offset indent
+\-\*(If \*(Lt
+.Fa x
+\*(Lt +\*(If.
+.Ed
 .Pp
-The
-.Fn isnanf
-function
-returns 1 if the number is
-.Dq not-a-number ,
-otherwise 0.
+Otherwise a zero is returned
+(that is,
+.Pf \*(Ba Ns Fa x Ns \*(Ba
+= \*(If or
+.Fa x
+is \*(Na).
 .Sh SEE ALSO
-.Xr isinf 3 ,
-.Xr isnan 3 ,
+.Xr isfinite 3 ,
 .Xr math 3
-.Rs
-.%T "IEEE Standard for Binary Floating-Point Arithmetic"
-.%Q ANSI
-.%R Std 754-1985
-.Re
-.Sh BUGS
-Neither the
-.Tn VAX
-nor the Tahoe floating point have distinguished values
-for either infinity or not-a-number.
-These routines always return 0 on those architectures.
+.Sh STANDARDS
+The described functions conform to
+.St -ieee754 .
+Note that unlike
+.Xr isfinite 3 ,
+neither function is present in the
+.Dv ISO
+C-language standards or in the
+.Dv IEEE
+.Dv POSIX
+standards.
+.Sh HISTORY
+The
+.Nm finite
+and
+.Fn finitef
+functions first appeared in
+.Bx 4.3 .
