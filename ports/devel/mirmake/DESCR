@@ -8,4 +8,6 @@ It runs on any BSD, and is supposed to run on GNU/Linux,
 Apple Mac OSX, and Microsoft Interix 3.5 as well. There
 is a “BSD compatibility” library, libmirmake. MirMake is
 also part of the FreeWRT Embedded GNU/Linux (µClibc) ADK
-(Appliance Development Kit) buildsystem’s host tools.
+(Appliance Development Kit) buildsystem’s host tools. An
+experimental Debian package exists as well, although the
+use of “__unused” by Linux and eglibc headers troubles.
