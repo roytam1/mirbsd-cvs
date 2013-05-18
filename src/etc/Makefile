@@ -1,4 +1,4 @@
-# $MirOS: src/etc/Makefile,v 1.21 2006/04/13 01:55:30 tg Exp $
+# $MirOS: src/etc/Makefile,v 1.22 2006/06/17 00:45:00 tg Exp $
 # $OpenBSD: Makefile,v 1.226 2005/05/26 23:06:06 mcbride Exp $
 
 TZDIR=		/usr/share/zoneinfo
@@ -157,18 +157,22 @@ etc-files:
 .  endif
 	cd ../usr.bin/ssh && exec ${MAKE} distribution
 	cd ../lib/libssl && exec ${MAKE} distribution
-.  for _i in usr.sbin/httpd gnu/usr.bin/lynx
-.    if defined(SKIPDIR) && ${SKIPDIR:M${_i}}
+.  if ${CROSS_MODE:L} != "yes"
+.    for _i in usr.sbin/httpd gnu/usr.bin/lynx
+.      if defined(SKIPDIR) && ${SKIPDIR:M${_i}}
 	@echo "Warning: skipping ${_i}"
-.    else
+.      else
 	cd ../${_i} && exec ${MAKE} -f Makefile.bsd-wrapper distribution
-.    endif
-.  endfor
+.      endif
+.    endfor
+.  endif
 	cd ../usr.bin/mail && exec ${MAKE} distribution
-.  if defined(SKIPDIR) && ${SKIPDIR:Mgnu/usr.bin/anoncvs}
+.  if ${CROSS_MODE:L} != "yes"
+.    if defined(SKIPDIR) && ${SKIPDIR:Mgnu/usr.bin/anoncvs}
 	@echo "Warning: skipping anoncvs"
-.  else
+.    else
 	cd ../gnu/usr.bin/anoncvs && exec ${MAKE} distribution
+.    endif
 .  endif
 	${INSTALL} -c -o root -g wheel -m 600 root/root.mail \
 		${DESTDIR}/var/mail/root
@@ -256,7 +260,7 @@ install-generated:
 DHSIZE=	1024 1536 2048 3072 4096
 update-moduli:
 	{ \
-		echo '# $$MirOS: src/etc/Makefile,v 1.21 2006/04/13 01:55:30 tg Exp $$'; \
+		echo '# $$MirOS: src/etc/Makefile,v 1.22 2006/06/17 00:45:00 tg Exp $$'; \
 		echo '# Time Type Tests Tries Size Generator Modulus'; \
 		for i in ${DHSIZE}; do \
 			ssh-keygen -b $$i -G /dev/stdout; \
