@@ -1,4 +1,4 @@
-@comment $MirOS: ports/net/irssi/pkg/PLIST,v 1.1.7.1 2005/03/18 15:48:26 tg Exp $
+@comment $MirOS: ports/net/irssi/pkg/PLIST,v 1.2 2007/05/07 19:19:08 bsiegert Exp $
 @comment $OpenBSD: PLIST,v 1.12 2004/01/12 00:17:45 brad Exp $
 bin/irssi
 include/irssi/config.h
@@ -123,18 +123,18 @@ ${P5ARCH}/Irssi.pm
 ${P5ARCH}/Irssi/Irc.pm
 ${P5ARCH}/Irssi/TextUI.pm
 ${P5ARCH}/Irssi/UI.pm
-${P5ARCH}/auto/Irssi/.packlist
-${P5ARCH}/auto/Irssi/Irc/.packlist
+@comment ${P5ARCH}/auto/Irssi/.packlist
+@comment ${P5ARCH}/auto/Irssi/Irc/.packlist
 ${P5ARCH}/auto/Irssi/Irc/Irc.bs
-${P5ARCH}/auto/Irssi/Irc/Irc.so
+${P5ARCH}/auto/Irssi/Irc/Irc${P5DLEXT}
 ${P5ARCH}/auto/Irssi/Irssi.bs
-${P5ARCH}/auto/Irssi/Irssi.so
-${P5ARCH}/auto/Irssi/TextUI/.packlist
+${P5ARCH}/auto/Irssi/Irssi${P5DLEXT}
+@comment ${P5ARCH}/auto/Irssi/TextUI/.packlist
 ${P5ARCH}/auto/Irssi/TextUI/TextUI.bs
-${P5ARCH}/auto/Irssi/TextUI/TextUI.so
-${P5ARCH}/auto/Irssi/UI/.packlist
+${P5ARCH}/auto/Irssi/TextUI/TextUI${P5DLEXT}
+@comment ${P5ARCH}/auto/Irssi/UI/.packlist
 ${P5ARCH}/auto/Irssi/UI/UI.bs
-${P5ARCH}/auto/Irssi/UI/UI.so
+${P5ARCH}/auto/Irssi/UI/UI${P5DLEXT}
 ${P5ARCH}/perllocal.pod
 man/man1/irssi.1
 @sample ${SYSCONFDIR}/irssi/
@@ -282,6 +282,7 @@ share/irssi/scripts/mail.pl
 share/irssi/scripts/mlock.pl
 share/irssi/scripts/msg-event.pl
 share/irssi/scripts/quitmsg.pl
+share/irssi/scripts/randex.pl
 share/irssi/scripts/redirect.pl
 share/irssi/scripts/scriptassist.pl
 share/irssi/scripts/splitlong.pl
