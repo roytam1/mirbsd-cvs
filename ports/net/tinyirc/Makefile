@@ -1,7 +1,7 @@
-# $MirOS: ports/net/tinyirc/Makefile,v 1.2 2008/12/29 22:49:03 tg Exp $
+# $MirOS: ports/net/tinyirc/Makefile,v 1.3 2009/01/08 20:25:14 tg Exp $
 
 COMMENT=		minimalistic IRC client
-VERSION=		2009/01/08
+VERSION=		2009/08/02
 DISTNAME=		${CVS_DISTFILE}-${VERSION:S!/!!g}
 CATEGORIES=		net
 MCZ_FETCH=		Yes
