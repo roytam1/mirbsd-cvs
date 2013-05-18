@@ -1,7 +1,7 @@
 $MirOS$
 
-MD5 (glib-2.12.13.tar.bz2) = d76124236e4e216e8c0861341e967a76
-RMD160 (glib-2.12.13.tar.bz2) = 0d13e73cb2173e7d63ce188fdb77746cca3b04d6
-SHA1 (glib-2.12.13.tar.bz2) = 81ce0e53f5583be970623d12523c785a392647bf
-SIZE (glib-2.12.13.tar.bz2) = 2938164
-TIGER (glib-2.12.13.tar.bz2) = 3334effb5f8fac9638e721f9af80c9ebf9df6af88d2c3f21
+MD5 (glib-2.21.3.tar.bz2) = 8ed8d959a131e295ce75c8ebe867014e
+RMD160 (glib-2.21.3.tar.bz2) = 9ce861f2ddd9a17d7f281d25c7af88493d3c649d
+SHA1 (glib-2.21.3.tar.bz2) = ffcd13ac97787106ce943396d250cfa593d47345
+SIZE (glib-2.21.3.tar.bz2) = 5355354
+TIGER (glib-2.21.3.tar.bz2) = 19b869edf7125bf45daf8f7a0caa24b83409f20237c729f2

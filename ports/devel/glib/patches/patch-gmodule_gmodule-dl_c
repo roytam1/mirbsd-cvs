@@ -1,8 +1,8 @@
-$MirOS$
+$MirOS: ports/devel/glib/patches/patch-gmodule_gmodule-dl_c,v 1.1.7.1 2005/03/18 15:44:37 tg Exp $
 $OpenBSD: patch-gmodule_gmodule-dl_c,v 1.1 2004/12/07 06:16:21 marcm Exp $
---- gmodule/gmodule-dl.c.orig	Thu Dec  2 20:46:34 2004
-+++ gmodule/gmodule-dl.c	Thu Dec  2 20:47:44 2004
-@@ -106,6 +106,7 @@ _g_module_open (const gchar *file_name,
+--- gmodule/gmodule-dl.c.orig	2009-04-01 01:04:20.000000000 +0200
++++ gmodule/gmodule-dl.c	2009-07-14 20:28:31.000000000 +0200
+@@ -107,6 +107,7 @@ _g_module_open (const gchar *file_name,
  static gpointer
  _g_module_self (void)
  {
@@ -10,7 +10,7 @@ $OpenBSD: patch-gmodule_gmodule-dl_c,v 1.1 2004/12/07 06:16:21 marcm Exp $
    gpointer handle;
    
    /* to query symbols from the program itself, special link options
-@@ -117,6 +118,9 @@ _g_module_self (void)
+@@ -118,6 +119,9 @@ _g_module_self (void)
      g_module_set_error (fetch_dlerror (TRUE));
    
    return handle;

@@ -1,10 +1,11 @@
-# $MirOS: ports/devel/glib/Makefile,v 1.18 2009/03/02 20:12:12 bsiegert Exp $
+# $MirOS: ports/devel/glib/Makefile,v 1.19 2009/07/07 18:08:01 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.19 2004/12/22 06:31:05 espie Exp $
 
 COMMENT=		general-purpose utility library
 COMMENT-docs=		glib2 documentation
-VERSION=		2.12.13
-DASH_VER=		1
+VERSION=		2.21.3
+V=			${VERSION:R}
+DASH_VER=		0
 DISTNAME=		glib-${VERSION}
 PKGNAME=		glib2-${VERSION}-${DASH_VER}
 PKGNAME-docs=		glib2-docs-${VERSION}-${DASH_VER}
@@ -17,7 +18,7 @@ PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
-MASTER_SITES=		ftp://ftp.gtk.org/pub/glib/2.12/
+MASTER_SITES=		ftp://ftp.gtk.org/pub/glib/${V}/
 EXTRACT_SUFX=		.tar.bz2
 
 MULTI_PACKAGES=		-docs
