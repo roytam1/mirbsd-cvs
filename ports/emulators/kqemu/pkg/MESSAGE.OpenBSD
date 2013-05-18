@@ -4,7 +4,7 @@
 | following lines to /etc/rc.securelevel before the line which
 | echoes a simple dot:
 |
-| if nm /dev/ksyms | fgrep -q mp_lock; then
+| [[ ! -s /bsd ]] || if nm /dev/ksyms | fgrep -q mp_lock; then
 |	if [ -s ${INSTDIR}/kqemu_mp.o ]; then
 |		echo ' kqemu'; /sbin/modload ${INSTDIR}/kqemu_mp.o
 |	fi

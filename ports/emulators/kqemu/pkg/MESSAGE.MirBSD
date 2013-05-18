@@ -6,7 +6,7 @@
 | following lines to /etc/rc.securelevel before the line which
 | echoes a simple dot:
 |
-| if [[ -s ${INSTDIR}/kqemu.ko ]]; then
+| if [[ -s /bsd && -s ${INSTDIR}/kqemu.ko ]]; then
 |	echo ' kqemu'; /sbin/modload ${INSTDIR}/kqemu.ko
 | fi
 |

@@ -1,4 +1,4 @@
-# $MirOS: ports/emulators/kqemu/Makefile,v 1.2 2008/05/11 19:28:11 tg Exp $
+# $MirOS: ports/emulators/kqemu/Makefile,v 1.3 2008/10/04 19:03:05 tg Exp $
 # $OpenBSD: Makefile,v 1.5 2008/04/29 20:38:03 todd Exp $
 
 ONLY_FOR_PLATFORMS=	\
@@ -8,7 +8,7 @@ ONLY_FOR_PLATFORMS=	\
 
 COMMENT=		QEMU accelerator module
 DISTNAME=		kqemu-1.3.0pre11
-DASH_VER=		1
+DASH_VER=		2
 CATEGORIES=		emulators
 HOMEPAGE=		http://fabrice.bellard.free.fr/qemu/
 MASTER_SITES=		${HOMEPAGE}
