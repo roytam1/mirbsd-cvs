@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/distrib/miniroot/install.sh,v 1.4 2005/07/01 13:31:29 tg Exp $
+# $MirOS: src/distrib/miniroot/install.sh,v 1.5 2005/07/24 16:24:23 tg Exp $
 # $OpenBSD: install.sh,v 1.152 2005/04/21 21:41:33 krw Exp $
 # $NetBSD: install.sh,v 1.5.2.8 1996/08/27 18:15:05 gwr Exp $
 #
@@ -101,7 +101,7 @@ if [ ! -f /etc/fstab ]; then
 		else
 			# Force the user to think and type in a disk name by
 			# making 'done' the default choice.
-			ask_which "disk" "do you wish to initialize" "$_DKDEVS" done "No more disks to initialize"
+			ask_which "disk" "do you wish to initialise" "$_DKDEVS" done "No more disks to initialise"
 			[[ $resp == done ]] && break
 		fi
 

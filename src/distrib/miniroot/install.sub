@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/miniroot/install.sub,v 1.11 2005/11/19 21:50:38 tg Exp $
+# $MirOS: src/distrib/miniroot/install.sub,v 1.12 2005/12/06 12:42:19 tg Exp $
 # $OpenBSD: install.sub,v 1.388 2005/07/02 00:55:48 uwe Exp $
 # $NetBSD: install.sub,v 1.5.2.8 1996/09/02 23:25:02 pk Exp $
 #
@@ -531,8 +531,8 @@ configure_ifs() {
 	local _IFDEVS=$IFDEVS _ifs _name _media _hn
 
 	while :; do
-		ask_which "interface" "do you wish to initialize" "$_IFDEVS" \
-			"" "No more interfaces to initialize"
+		ask_which "interface" "do you wish to initialise" "$_IFDEVS" \
+			"" "No more interfaces to initialise"
 		[[ $resp == done ]] && break
 
 		_ifs=$resp
@@ -1676,7 +1676,7 @@ welcome
 if [[ $MODE == install && ! -f /etc/fstab ]]; then
 	cat <<__EOT
 
-You will now initialize the disk(s) that MirBSD will use. To enable all
+You will now initialise the disk(s) that MirBSD will use. To enable all
 available security features you should configure the disk(s) to allow the
 creation of separate filesystems for /, /tmp, /var, /usr, and /home.
 
