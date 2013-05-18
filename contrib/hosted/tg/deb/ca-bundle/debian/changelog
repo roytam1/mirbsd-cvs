@@ -1,3 +1,9 @@
+ca-bundle (20101212+1) xunstable; urgency=low
+
+  * KDE 3 uses /opt/trinity in their .deb packages now… /* */
+
+ -- Thorsten Glaser <tg@mirbsd.de>  Mon, 13 Dec 2010 09:37:49 +0001
+
 ca-bundle (20101212) unstable; urgency=low
 
   * Update MirBSD source pointer
