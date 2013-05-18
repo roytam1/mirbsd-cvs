@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/scripts/tarmk,v 1.3 2005/06/05 15:22:56 tg Exp $
+# $MirOS: src/scripts/tarmk,v 1.4 2005/12/17 05:46:23 tg Exp $
 #-
 # Copyright (c) 2004
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -56,7 +56,8 @@ cd "$src"
 for set in $lists; do
 	print -n "${set}..."
 	( cd "$cwd"; $SHELL "${0%/*}/tarsets" "$set" -u ) \
-	    | sed -n 's!^\.//*!!p' | cpio -oC512 -Hsv4cpio \
+	    | sed -n 's!^\.//*!!p' \
+	    | cpio -oC512 -Hsv4cpio -Mset \
 	    | gzip -n9 >"$dst/$set${rel}.ngz"
 	print "done."
 done
