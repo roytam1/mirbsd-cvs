@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.72 2006/08/26 15:40:13 tg Exp $
+# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.73 2006/08/26 15:47:46 tg Exp $
 #-
 # Copyright (c) 2004, 2005, 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -339,7 +339,8 @@ if testfunc 'char *fgetln(FILE *, size_t *)' 'fgetln(stdin, &x)' \
 fi
 add_strlfun=
 if testfunc 'size_t strlcpy(char *, const char *, size_t)' \
-    'strlcpy(dst, src, 1)' '' 'char src[3] = "Hi", dst[3];'; then
+    'strlcpy(dst, src, 1)' '#include <stddef.h>' \
+    'char src[3] = "Hi", dst[3];'; then
 	add_strlfun=strlfun.c
 fi
 stdboolh=
@@ -457,11 +458,23 @@ sed -e 's/hashinc/sha2.h/g' -e 's/HASH_\{0,1\}/SHA512_/g' \
 cp  $d_src/lib/libc/hash/{md4,md5,rmd160,sha1,sha2}.c \
     $d_src/lib/libc/string/strlfun.c \
     $d_src/lib/libc/stdlib/{getopt_long,strtoll}.c \
-    $d_src/lib/libc/stdio/{{,v}asprintf,mktemp}.c .
+    $d_src/lib/libc/stdio/{{,v}asprintf,mktemp}.c \
+    $d_script/../contrib/*.c .
+EXTRA_SRCS="${add_fgetln%.[co]}.c $add_strlfun"
+if testfunc 'uint32_t arc4random_pushb(const void *, size_t)' \
+    'arc4random_pushb(buf, 4)' '#include <stddef.h>' \
+    'char buf[] = "test";'; then
+	EXTRA_SRCS="$EXTRA_SRCS arc4random.c"
+	if ! testfunc 'void arc4random_addrandom(unsigned char *, int)' \
+	    'arc4random_addrandom(buf, 4)' '' \
+	    'char buf[] = "test";'; then
+		CPPFLAGS="$CPPFLAGS -D_ARC4RANDOM_WRAP"
+	fi
+fi
 ${d_build}/bmake -m ${d_build}/mk -f $d_script/Makefile.lib NOOBJ=yes \
-    EXTRA_SRCS="${add_fgetln%.[co]}.c $add_strlfun" clean
+    EXTRA_SRCS="$EXTRA_SRCS" clean
 ${d_build}/bmake -m ${d_build}/mk -f $d_script/Makefile.lib NOOBJ=yes \
-    EXTRA_SRCS="${add_fgetln%.[co]}.c $add_strlfun"
+    EXTRA_SRCS="$EXTRA_SRCS"
 cd $top
 if [[ -s $d_build/libmirmake/libmirmake.a ]]; then
 	cat >>Install.sh <<EOF

@@ -1,4 +1,4 @@
-/* $MirOS: contrib/code/mirmake/dist/contrib/mirmake.h,v 1.21 2006/06/25 05:39:09 tg Exp $ */
+/* $MirOS: contrib/code/mirmake/dist/contrib/mirmake.h,v 1.22 2006/07/30 23:33:41 tg Exp $ */
 
 /*-
  * Copyright (c) 2005
@@ -215,6 +215,18 @@ int	 asprintf(char **, const char *, ...)
 int	 vasprintf(char **, const char *, __builtin_va_list)
 		__attribute__((__format__ (printf, 2, 0)))
 		__attribute__((__nonnull__ (2)));
+#endif
+
+#if !defined(BSD) && !defined(__INTERIX)
+u_int32_t arc4random(void);
+void arc4random_stir(void);
+void arc4random_addrandom(unsigned char *, int)
+    __attribute__((bounded (string, 1, 2)));
+#endif
+#if !defined(__MirBSD__) || (MirBSD < 0x0982)
+void arc4random_push(int);
+uint32_t arc4random_pushb(const void *, size_t)
+    __attribute__((bounded (string, 1, 2)));
 #endif
 
 __END_DECLS

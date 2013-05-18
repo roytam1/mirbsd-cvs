@@ -1,12 +1,12 @@
-# $MirOS: contrib/code/mirmake/dist/scripts/Makefile.lib,v 1.10 2005/11/24 11:41:33 tg Exp $
+# $MirOS: contrib/code/mirmake/dist/scripts/Makefile.lib,v 1.11 2005/11/24 19:30:05 tg Exp $
 
 LIB=		mirmake
+SHLIB_VERSION=	1.0
 SRCS=		md4.c md5.c rmd160.c sha1.c sha2.c \
 		md4hl.c md5hl.c rmd160hl.c sha1hl.c \
 		sha256hl.c sha384hl.c sha512hl.c \
 		getopt_long.c ${EXTRA_SRCS}
 
-NOPIC=		yes
 CPPFLAGS+=	-D_LIBMIRMAKE
 
 .include <bsd.own.mk>
