@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/templates/userlist.db,v 1.9 2007/07/09 09:24:53 tg Exp $
+# $MirOS: ports/infrastructure/templates/userlist.db,v 1.10 2008/05/07 12:05:08 tg Exp $
 #-
 # List of users and groups for MirOS base and the MirPorts infrastructure.
 # Format: three columns, separated by one or more tabs or spaces
@@ -179,6 +179,7 @@
 580	_puppet		sysutils/ruby-puppet
 581	_gonzui		textproc/gonzui
 582	_tabled		sysutils/tabled
+597	_kqemu		NO
 ### system users (registry: OpenBSD)
 32766	nogroup		NO
 32767	nobody		Unprivileged User

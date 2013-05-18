@@ -1,0 +1,4 @@
+@comment $MirOS$
+lib/kqemu/kqemu.o
+lib/kqemu/kqemu_mp.o
+@dirrm lib/kqemu
