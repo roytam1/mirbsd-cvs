@@ -2,7 +2,7 @@
 
 #include "sh.h"
 
-__RCSID("$MirOS: src/bin/mksh/var.c,v 1.37 2007/03/04 03:04:28 tg Exp $");
+__RCSID("$MirOS: src/bin/mksh/var.c,v 1.38 2007/05/13 17:51:24 tg Exp $");
 
 /*
  * Variables
@@ -953,7 +953,8 @@ setspec(struct tbl *vp)
 	case V_PATH:
 		if (path)
 			afree(path, APERM);
-		path = str_save(str_val(vp), APERM);
+		s = str_val(vp);
+		path = str_save(s, APERM);
 		flushcom(1);	/* clear tracked aliases */
 		break;
 	case V_IFS:
