@@ -1,8 +1,4 @@
-# $MirOS: ports/essentials/cksum/Makefile,v 1.13 2006/05/27 19:54:01 tg Exp $
-
-.if ${.SYSMK} == "/usr/share/mk"
-IGNORE+=		"only works with MirMake"
-.endif
+# $MirOS: ports/essentials/cksum/Makefile,v 1.14 2006/06/23 15:30:14 tg Exp $
 
 COMMENT=		"MirOS cksum(1)"
 CATEGORIES=		essentials
@@ -22,7 +18,6 @@ PERMIT_PACKAGE_FTP=	Yes
 
 WRKDIST=		${WRKDIR}/cksum
 CPPFLAGS+=		-isystem ${.SYSMK} -D_MIRMAKE_DEFNS
-LDADD+=			-L${.SYSMK} -lmirmake
 
 .if ${OBJECT_FMT} == "PE"
 MAKE_ENV+=		AFLAGS=-DUNDERSCORES
