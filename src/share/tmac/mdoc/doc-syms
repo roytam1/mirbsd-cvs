@@ -1,4 +1,4 @@
-.\"	$MirOS: src/share/tmac/mdoc/doc-syms,v 1.4 2005/07/24 13:08:06 tg Exp $
+.\"	$MirOS: src/share/tmac/mdoc/doc-syms,v 1.5 2006/08/11 00:12:01 tg Exp $
 .\"	$OpenBSD: doc-syms,v 1.57 2005/06/05 19:39:27 jmc Exp $
 .\"
 .\" Copyright (c) 2003, 2004
@@ -156,6 +156,8 @@
 .		if "\\*(A\\n(aP"1.6"    .as b1 \&NetBSD\ 1.6\\*(aa
 .		if "\\*(A\\n(aP"1.6.2"  .as b1 \&NetBSD\ 1.6.2\\*(aa
 .		if "\\*(A\\n(aP"2.0"    .as b1 \&NetBSD\ 2.0\\*(aa
+.		if "\\*(A\\n(aP"3.0"    .as b1 \&NetBSD\ 3.0\\*(aa
+.		if "\\*(A\\n(aP"4.0"    .as b1 \&NetBSD\ 4.0\\*(aa
 .		ie \\n(aC>\\n(aP \{\
 .			nr aP \\n(aP+1
 .			nR
@@ -262,7 +264,7 @@
 .	if "\\$1"v5"  \&Version 5 \\*(tNAT&T UNIX\\*(aa\\$2
 .	if "\\$1"v6"  \&Version 6 \\*(tNAT&T UNIX\\*(aa\\$2
 .	if "\\$1"v7"  \&Version 7 \\*(tNAT&T UNIX\\*(aa\\$2
-.	if "\\$1"V"  \&\\*(tNAT&T\\*(aa System V \\*(tNUNIX\\*(aa\\$2
+.	if "\\$1"V"    \&\\*(tNAT&T\\*(aa System V \\*(tNUNIX\\*(aa\\$2
 .	if "\\$1"V.1"  \&\\*(tNAT&T\\*(aa System V.1 \\*(tNUNIX\\*(aa\\$2
 .	if "\\$1"V.2"  \&\\*(tNAT&T\\*(aa System V.2 \\*(tNUNIX\\*(aa\\$2
 .	if "\\$1"V.3"  \&\\*(tNAT&T\\*(aa System V.3 \\*(tNUNIX\\*(aa\\$2
@@ -277,7 +279,7 @@
 .	if "\\$1"v5"  \&Version 5 \\*(tNAT&T UNIX\\*(aa
 .	if "\\$1"v6"  \&Version 6 \\*(tNAT&T UNIX\\*(aa
 .	if "\\$1"v7"  \&Version 7 \\*(tNAT&T UNIX\\*(aa
-.	if "\\$1"V"  \&\\*(tNAT&T\\*(aa System V \\*(tNUNIX\\*(aa
+.	if "\\$1"V"    \&\\*(tNAT&T\\*(aa System V \\*(tNUNIX\\*(aa
 .	if "\\$1"V.1"  \&\\*(tNAT&T\\*(aa System V.1 \\*(tNUNIX\\*(aa
 .	if "\\$1"V.2"  \&\\*(tNAT&T\\*(aa System V.2 \\*(tNUNIX\\*(aa
 .	if "\\$1"V.3"  \&\\*(tNAT&T\\*(aa System V.3 \\*(tNUNIX\\*(aa
@@ -336,12 +338,12 @@
 .	if "\\*(A\\n(aP"-p1003.1-2001" \{\
 .		ds b1 \&\\*(tNIEEE Std \\*(aa1003.1-2001\\*(sV
 .		as b1 ("\\*(tN\\*(Px\\*(aa")
-.       \}
-.       if "\\*(A\\n(aP"-p1003.1-2004" \{\
+.	\}
+.	if "\\*(A\\n(aP"-p1003.1-2004" \{\
 .		ds b1 \&\\*(tNIEEE Std \\*(aa1003.1-2004\\*(sV
 .		as b1 ("\\*(tN\\*(Px\\*(aa")
-.       \}
-.       if "\\*(A\\n(aP"-p1003.1" \{\
+.	\}
+.	if "\\*(A\\n(aP"-p1003.1" \{\
 .		ds b1 \&\\*(tNIEEE Std \\*(aa1003.1\\*(sV
 .		as b1 ("\\*(tN\\*(Px\\*(aa")
 .	\}
