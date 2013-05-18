@@ -1,12 +1,37 @@
-mws_putheader '$MirOS$'
+mws_putheader '$MirOS: www/src/clog11.hts,v 1.1 2008/03/22 20:38:16 tg Exp $'
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname clog/11 "Changelog for MirOS #11"
 mws_content <<'EOF'
-<h1>Changes in MirOS #10-current</h1><ul>
-
+<h1>Changes in MirOS #10-current</h1>
+<p>Only changes to the base system, gcc, X11, and infrastructure for MirPorts
+ and subprojects are listed. Changes to individual ports or changes which are
+ not related to the base system in subprojects, or www/contrib are not.</p>
+<ul>
+<li>kernel: improve arandom(4) by using Yarrow’s two-pool idea, add some
+ built-in entropy at boot (improves arc4random(3) as well)</li>
+<li>wtf(1): improve, unicodify</li>
+<li>sendmail(8): use arc4random(3) in more places</li>
+<li>sendmail(8): fix SIGSEGVs occuring e.g. when using STARTTLS</li>
+<li>kernel: implement efficient rijndael_cbc_*_fast API with a software and
+ a VIA C3/C7 backend; use it for UVM swapencrypt</li>
+<li>kernel: fix VIA C3/C7 ACE (hardware accelerated AES) data corruption</li>
+<li>kernel build: don’t error out when NO_GZIP is set</li>
+<li>tvtwo(4/sparc): handle two-register cards, from miod@obsd</li>
+<li>etc/rc: handle partial SSL/SSH key regeneration better, for upgraders</li>
+<li>mk files: fix LKM building</li>
+<li>compress(1): add zless as zmore(1) alias</li>
+<li>calendar: add more entries, still a lot missing, need volunteers</li>
+<li>installer: prevent coredumps</li>
+<li>mirports: correct autotools dependencies</li>
+<li>mirports: new MODULES+=p5</li>
+<li>manpages: fix a lot of them wrt. <tt>.Mx</tt>, nroff vs groff</li>
+<li>config.guess/sub, cksum(1), mirmake, pkgtools, mirports, pax(1),
+ mirlibtool, some individual ports: support MidnightBSD</li>
+<li>security: fix ppp(8), httpd(8), gcc/fastjar vulnerabilities</li>
+<li>kernel: fix i386 ABI wrt. signal handlers and direction flag</li>
 </ul>
 <p>See also: <a href="wlog-10.htm">Developers’ Weblog</a></p>
 EOF
