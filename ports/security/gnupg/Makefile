@@ -1,10 +1,10 @@
-# $MirOS: ports/security/gnupg/Makefile,v 1.9 2006/09/13 20:54:58 tg Exp $
+# $MirOS: ports/security/gnupg/Makefile,v 1.10 2006/09/14 00:12:59 tg Exp $
 # $OpenBSD: Makefile,v 1.52 2005/05/17 15:08:34 martin Exp $
 
-COMMENT=			GNU privacy guard - a GPL'd PGP replacement
+COMMENT=		GNU privacy guard - a GPL'd PGP replacement
 VERSION=		1.4.5
 DISTNAME=		gnupg-${VERSION}
-PKGNAME=		${DISTNAME}-2
+PKGNAME=		${DISTNAME}-3
 CATEGORIES=		security
 HOMEPAGE=		http://www.gnupg.org/
 MASTER_SITES=		ftp://ftp.gnupg.org/gcrypt/gnupg/ \
@@ -25,36 +25,46 @@ PERMIT_PACKAGE_FTP=	Yes
 
 MODULES+=		converters/libiconv
 LIB_DEPENDS+=		bz2::archivers/bzip2
-LIB_DEPENDS+=		curl::net/curl
+LIB_DEPENDS+=		usb::devel/libusb
+BUILD_DEPENDS+=		::archivers/mircpio
+RUN_DEPENDS+=		::archivers/mircpio
 CONFIGURE_STYLE=	autogen
 AUTOCONF_NEW=		Yes
 AUTOMAKE_VERSION=	1.9
 AUTOGEN=		${SHELL} ${WRKSRC}/scripts/autogen.sh
-CONFIGURE_ARGS+=	--disable-ldap
-CONFIGURE_ARGS+=	--disable-dependency-tracking
-CONFIGURE_ARGS+=	--enable-noexecstack
-CONFIGURE_ARGS+=	--disable-nls
+CONFIGURE_ARGS+=	--enable-static-rnd=linux \
+			--disable-ldap \
+			--disable-generic \
+			--disable-dependency-tracking \
+			--disable-nls \
+			--enable-noexecstack \
+			--without-included-zlib \
+			--without-libcurl \
+			--without-included-regex \
+			--with-tar=${LOCALBASE:Q}/bin/tar
 .if ${MACHINE_ARCH} == "m68k"
 CONFIGURE_ARGS+=	--disable-asm
 .endif
+# libedit is *not* enough here.
+CONFIGURE_ARGS+=	--without-readline
 
-FLAVORS=		idea card
-FLAVOR?=
+FLAVORS=		no-idea
 
-.if ${FLAVOR:L:Midea}
-PERMIT_DISTFILES_CDROM=	http://www.mediacrypt.com/engl/Content/licensing_policy.htm
-PERMIT_PACKAGE_CDROM=	"patented algorithm"
-DISTFILES=		${DISTNAME}${EXTRACT_SUFX} idea.c.gz:0
-CONFIGURE_ARGS+=	--enable-idea
+.include <mirports.sys.mk>
+
+.if ${MKC_USAP:L} == "yes"
+FLAVOR?=		no-idea
 .else
-SUPDISTFILES=		idea.c.gz:0
-CONFIGURE_ARGS+=	--disable-idea
+FLAVOR?=
 .endif
 
-.if ${FLAVOR:L:Mcard}
-LIB_DEPENDS+=		usb::devel/libusb
+.if ${FLAVOR:L:Mno-idea}
+SUPDISTFILES=		idea.c.gz:0
+CONFIGURE_ARGS+=	--disable-idea
 .else
-CONFIGURE_ARGS+=	--disable-card-support --without-libusb
+PERMIT_PACKAGE_CDROM=	http://www.mediacrypt.com/engl/Content/licensing_policy.htm
+DISTFILES=		${DISTNAME}${EXTRACT_SUFX} idea.c.gz:0
+CONFIGURE_ARGS+=	--enable-idea
 .endif
 
 post-extract:

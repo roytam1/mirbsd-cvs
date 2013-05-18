@@ -1,6 +1,11 @@
-GnuPG is a complete and free replacement for PGP. Because it does
-not use IDEA or RSA it can be used without any restrictions. GnuPG
-is nearly in compliance with RFC2440 (OpenPGP).
+GnuPG is the GNU project's complete and free implementation of the
+OpenPGP standard as defined by RFC2440. GnuPG allows to encrypt and
+sign your data and communication, features a versatile key managment
+system as well as access modules for all kind of public key
+directories. GnuPG, also known as GPG, is a command line tool with
+features for easy integration with other applications. A wealth of
+frontend applications and libraries are available.
 
 It has more security bugs than PGP 2.6.* and is only compatible with
-it if you use the IDEA flavour.
+the latter (e.g. in security/pgp+) if you don't use the no_idea
+flavour.
