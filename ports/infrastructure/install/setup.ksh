@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: ports/infrastructure/install/setup.ksh,v 1.41 2005/12/20 19:57:53 tg Exp $
+# $MirOS: ports/infrastructure/install/setup.ksh,v 1.42 2005/12/20 20:13:21 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -516,7 +516,7 @@ EOF
 EOF
 
 warn_makecfg=0
-[[ -s $localbase/db/mmake.cfg && ! -s $localbase/db/make.cfg ]] \
+[[ -s $localbase/db/make.cfg && ! -s $localbase/db/mmake.cfg ]] \
     && mv $localbase/db/make.cfg $localbase/db/mmake.cfg
 [[ -s $localbase/db/mmake.cfg ]] && warn_makecfg=1
 if [[ ! -s $localbase/db/mmake.cfg ]]; then
@@ -555,11 +555,9 @@ if [[ ! -s $localbase/db/mmake.cfg ]]; then
 fi
 
 f_ver=$(<$portsdir/infrastructure/pkgtools/VERSION)
-        if [[ $(cd $localbase/db/pkg && echo mirmake-*) != "mirmake-*" ]]; then
-
 if [[ $(cd $localbase/db/pkg && echo pkgtools-$f_ver-*) \
     != "pkgtools-$f_ver-*" ]]; then
-	# Current package tools are already installed
+	: # Current package tools are already installed
 elif [[ $(cd $localbase/db/pkg && echo pkgtools-*) != "pkgtools-*" ]]; then
 	print -u2 Error: upgrade pkgtools via ports.
 	exit 1
