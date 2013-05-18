@@ -8749,9 +8749,15 @@ argument for the commands which accept it) instead of the
 default @dfn{head} revision.  As well as arbitrary tags defined
 with the @code{tag} or @code{rtag} command, two special tags are
 always available: @samp{HEAD} refers to the most recent version
-available in the repository, and @samp{BASE} refers to the
+available in the repository (also known as the tip of the @samp{MAIN}
+branch, also known as trunk; the name of a branch refers to its tip;
+this version of @sc{cvs} introduces @samp{.bhead}, but only for the
+@sc{diff} command, for the same), and @samp{BASE} refers to the
 revision you last checked out into the current working directory.
 
+@c fixed: HEAD is changed now; .bhead is the name of the branch,
+@c but added for cases where it is unknown.
+@c --mirabilos
 @c FIXME: What does HEAD really mean?  I believe that
 @c the current answer is the head of the default branch
 @c for all cvs commands except diff.  For diff, it
