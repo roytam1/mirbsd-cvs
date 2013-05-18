@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/etc/daily,v 1.6 2005/07/07 13:39:22 tg Exp $
+# $MirOS: src/etc/daily,v 1.7 2005/09/23 09:26:09 tg Exp $
 # $OpenBSD: daily,v 1.50 2005/03/17 18:16:52 millert Exp $
 # From: @(#)daily	8.2 (Berkeley) 1/25/94
 
@@ -127,7 +127,7 @@ fi
 
 echo ""
 echo "disks:"
-df -kl
+df -kli
 echo ""
 dump W
 echo ""
