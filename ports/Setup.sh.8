@@ -1,4 +1,4 @@
-.\" $MirOS: ports/Setup.sh.8,v 1.16 2006/08/16 20:00:50 tg Exp $
+.\" $MirOS: ports/Setup.sh.8,v 1.17 2006/08/16 20:02:24 tg Exp $
 .\"-
 .\" Copyright (c) 2005, 2006
 .\"	Thorsten Glaser <tg@mirbsd.de>
@@ -58,7 +58,7 @@
 .\}
 ..
 .\" Now, the manual page
-.Dd August 16, 2006
+.Dd October 6, 2006
 .Dt SETUP.SH 8
 .Os MirPorts\ Framework
 .Sh NAME
@@ -243,7 +243,9 @@ Semi-Upgrade Mode.
 Do not install any software (if the system has already been
 set up correctly before), only rewrite the configuration files.
 Use with care.
-Better don't use.
+Better don't use (see
+.Sx CAVEATS
+below).
 .It Fl U Ar user Ns Op Ar :group
 Use its arguments as
 .Ev BINOWN
@@ -556,6 +558,17 @@ bootstrapping, because ports/packages honour ${CC}, ${CFLAGS}
 and stuff like that.
 Also, on Interix, mksh and MirMake are usually built without
 any manual pages being installed during bootstrapping.
+.Pp
+When installing the MirPorts Framework without sudo, i.e. using the
+.Fl u
+or
+.Fl U
+options to
+.Nm ,
+some applications may misbehave or introduce potential security
+risks by using set-uid or set-gid bits on executables, handling
+them only properly if suid-root or sgid-wheel though.
+If possible, avoid installing MirPorts as regular user.
 .Sh BUGS
 Probably many.
 Report them to

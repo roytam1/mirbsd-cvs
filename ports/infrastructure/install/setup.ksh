@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: ports/infrastructure/install/setup.ksh,v 1.62 2006/08/16 19:46:25 tg Exp $
+# $MirOS: ports/infrastructure/install/setup.ksh,v 1.63 2006/09/20 22:24:49 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -262,6 +262,19 @@ case $(uname -s 2>/dev/null || uname) {
 	exit 1
 	;;
 }
+
+if [[ $ismirbsd$isopenbsd = *yes* && $user != root:bin ]]; then
+	print -u2 WARNING: Using the MirPorts Framework without sudo is
+	print -u2 highly discouraged if you do not need to do so. Several
+	print -u2 applications install programmes with setuid/setgid bits
+	print -u2 set, leading to potential exploits of your user account.
+	print -u2 In contrast, they handle suid-root and sgid-wheel properly.
+	print -u2
+	if [[ $isopenbsd = yes ]]; then
+		print -u2 Even on OpenBSD, you should install MirPorts with sudo.
+		print -u2
+	fi
+fi
 
 newmanpath=${MANPATH:-$defmanpath}
 [[ :$newmanpath: = *:$localbase/man:* ]] || \
