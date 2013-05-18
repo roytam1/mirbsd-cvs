@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/news.inc,v 1.83 2008/11/07 00:49:37 tg Exp $
+RCSID: $MirOS: www/data/news.inc,v 1.84 2008/11/08 22:24:32 tg Exp $
 Title: Older news from the MirOS Project
 Date: 01.03.2006
 
@@ -1100,4 +1100,23 @@ Author: tg@
  but has been built using newer makefs(8) and baselive infrastructure.</p>
 <p>This is the first snapshot with working startx(1) because we can now
  write symlink(7)s using Rock Ridge onto the filesystem image.</p>
+----
+Title: www.mirbsd.org now running on MirOS httpd
+Date: 08.11.2008 23:42:37
+Author: tg@
+
+<p>We are proud to announce the migration of the httpd(8) vhost
+ <tt>www.mirbsd.org</tt> to <tt>eurynome</tt>, the VM already mentioned
+ in the Developers’ Weblog. The MirOS website is now accessible <a
+ href="https://www.mirbsd.org/">via HTTPS</a> (this includes downloads
+ in a secure fashion), using IPv4 or IPv6. Due to no longer being hosted
+ on a foreign operating system, operation should be much more smooth.
+ CVSweb, AnonCVS and AnonRSYNC are now provided from a central place,
+ and you can even retrieve the full website via rsync.</p>
+<p>The links in the <tt>mirbsd.de</tt> Zope kindly hosted by waldi also
+ have been changed to use SSL now.</p>
+<p>All links to the <tt>66h.42h.de</tt> domain have also been changed to
+ point to <tt>mirbsd.de</tt> or <tt>mirbsd.org</tt>, as the latter is now
+ under sort of our control, and the former being phased out to reduce the
+ possible points of failure.</p>
 ----
