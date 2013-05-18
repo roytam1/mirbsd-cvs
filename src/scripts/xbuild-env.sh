@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/scripts/xbuild-env.sh,v 1.8 2006/03/01 13:40:11 tg Exp $
+# $MirOS: src/scripts/xbuild-env.sh,v 1.9 2006/03/01 14:04:07 tg Exp $
 #-
 # Copyright (c) 2004, 2005, 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -153,36 +153,36 @@ exec env \
 	CFLAGS='$CROSSCFLAGS' \
 	CPPFLAGS='$CROSSCPPFLAGS' \
 	HOSTCFLAGS='$CFLAGS -Wno-error' \
-	MACHINE='$MACHINE \'
-	MACHINE_ARCH='$MARCH \'
-	OStriplet='$HOST \'
-	GCCHOST='$TARGET \'
-	GCCTARGET='$TARGET \'
+	MACHINE='$MACHINE' \
+	MACHINE_ARCH='$MARCH' \
+	OStriplet='$HOST' \
+	GCCHOST='$TARGET' \
+	GCCTARGET='$TARGET' \
     make MAKE=\$0 \
-	__objdir='obj.$MACHINE \'
-	BSDSRCDIR='$BSDSRCDIR \'
-	BSDOBJDIR='$CROSSDIR/usr/obj \'
-	HOST='$HOST \'
-	AR='$CROSSDIR/usr/$TARGET/bin/ar \'
-	AS='$CROSSDIR/usr/$TARGET/bin/as \'
-	CC='$CROSSDIR/usr/$TARGET/bin/cc \'
+	__objdir='obj.$MACHINE' \
+	BSDSRCDIR='$BSDSRCDIR' \
+	BSDOBJDIR='$CROSSDIR/usr/obj' \
+	HOST='$HOST' \
+	AR='$CROSSDIR/usr/$TARGET/bin/ar' \
+	AS='$CROSSDIR/usr/$TARGET/bin/as' \
+	CC='$CROSSDIR/usr/$TARGET/bin/cc' \
 	CPP=/usr/bin/cpp \
 	CROSS_MODE=yes \
-	DESTDIR='$CROSSDIR \'
+	DESTDIR='$CROSSDIR' \
 	HOSTCC=/usr/bin/mgcc \
 	HOSTLDFLAGS='$LDFLAGS' \
-	LD='$CROSSDIR/usr/$TARGET/bin/ld \'
+	LD='$CROSSDIR/usr/$TARGET/bin/ld' \
 	LDFLAGS='$BUILDLDFLAGS' \
 	LDSTATIC=-static \
 	LORDER=/usr/bin/lorder \
-	NM='$CROSSDIR/usr/$TARGET/bin/nm \'
+	NM='$CROSSDIR/usr/$TARGET/bin/nm' \
 	NOMAN=yes \
 	NOPIC=yes \
-	OBJCOPY='$CROSSDIR/usr/$TARGET/bin/objcopy \'
-	OBJDUMP='$CROSSDIR/usr/$TARGET/bin/objdump \'
-	RANLIB='$CROSSDIR/usr/$TARGET/bin/ranlib \'
-	SIZE='$CROSSDIR/usr/$TARGET/bin/size \'
-	STRIP='$CROSSDIR/usr/$TARGET/bin/strip \'
+	OBJCOPY='$CROSSDIR/usr/$TARGET/bin/objcopy' \
+	OBJDUMP='$CROSSDIR/usr/$TARGET/bin/objdump' \
+	RANLIB='$CROSSDIR/usr/$TARGET/bin/ranlib' \
+	SIZE='$CROSSDIR/usr/$TARGET/bin/size' \
+	STRIP='$CROSSDIR/usr/$TARGET/bin/strip' \
     "\$@"
 EOF
 chmod 755 $CROSSDIR/T_MAKE
