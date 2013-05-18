@@ -1,18 +1,14 @@
-#!/bin/mksh
-# $MirOS: src/share/misc/licence.template,v 1.20 2006/12/11 21:04:56 tg Rel $
+#!/usr/bin/env mksh
+# $MirOS: src/share/misc/licence.template,v 1.24 2008/04/22 11:43:31 tg Rel $
 #-
-# Copyright (c) 2004, 2005, 2007
-#	Thorsten Glaser <tg@mirbsd.de>
+# Copyright (c) 2004, 2005, 2007, 2008
+#	Thorsten Glaser <tg@mirbsd.org>
 #
 # Provided that these terms and disclaimer and all copyright notices
 # are retained or reproduced in an accompanying document, permission
 # is granted to deal in this work without restriction, including un-
 # limited rights to use, publicly perform, distribute, sell, modify,
 # merge, give away, or sublicence.
-#
-# Advertising materials mentioning features or use of this work must
-# display the following acknowledgement:
-#	This product includes material provided by Thorsten Glaser.
 #
 # This work is provided "AS IS" and WITHOUT WARRANTY of any kind, to
 # the utmost extent permitted by applicable law, neither express nor
@@ -79,6 +75,7 @@ tmp=$(mktemp /tmp/mkdep.XXXXXXXXXX) || exit 1
 trap 'rm -f $tmp; trap 2; kill -2 $$' 1 2 3 5 13 15
 
 # process
+export CCACHE_DISABLE=1
 if [[ -z $of ]]; then
 	$CC -D__IN_MKDEP -M "$@"
 else
