@@ -39,7 +39,7 @@
 #include <signal.h>
 #include <unistd.h>
 
-__RCSID("$MirOS: src/libexec/cprng/cprng.c,v 1.3 2007/07/09 00:13:37 tg Exp $");
+__RCSID("$MirOS: src/libexec/cprng/cprng.c,v 1.4 2007/07/09 07:37:08 tg Exp $");
 
 volatile sig_atomic_t glocke;
 useconds_t littlesleep = 2000;
@@ -50,9 +50,11 @@ static int getbits(void);
 static void getent(uint8_t *, size_t)
     __attribute__((bounded (string, 1, 2)));
 
+#ifdef __MirBSD__
 /* to keep us small */
 void exit(int);
 int atexit(void (*)(void));
+#endif
 
 static void
 laeuten(int s __attribute__((unused)))
@@ -173,6 +175,7 @@ main(int argc, char *argv[])
 	return (0);
 }
 
+#ifdef __MirBSD__
 void
 exit(int status)
 {
@@ -187,3 +190,4 @@ atexit(void (*function)(void) __attribute__((unused)))
 {
 	return (-1);
 }
+#endif
