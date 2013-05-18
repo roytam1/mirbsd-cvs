@@ -1,4 +1,4 @@
-# $MirOS: ports/net/BitTorrent/Makefile,v 1.5 2006/09/14 00:11:30 tg Exp $
+# $MirOS: ports/net/BitTorrent/Makefile,v 1.6 2007/05/16 22:23:37 tg Exp $
 # $OpenBSD: Makefile,v 1.4 2004/04/15 03:41:14 jolan Exp $
 
 # note to porters: if you want to add a new version of mainline bittorrent
@@ -18,6 +18,7 @@ PERMIT_DISTFILES_FTP=	Yes
 PERMIT_PACKAGE_CDROM=	Yes
 PERMIT_PACKAGE_FTP=	Yes
 
+MODPY_VERSION=		2.3	# broken with 2.5
 MODULES+=		lang/python
 
 post-configure:
