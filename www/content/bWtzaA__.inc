@@ -1,5 +1,5 @@
 <!-- PageID: mksh -->
-<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.94 2007/04/15 12:52:47 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.95 2007/04/17 23:54:29 tg Exp $</small>
 
 <h1>mksh(1) R29</h1>
 <p>This is the MirBSD&trade; Korn Shell, a more or less portable
@@ -100,7 +100,7 @@
   isn't bourne sh or posix sh compatible, but I didn't find any severe
   problems with using it to build mksh yet, it's a weird shell though)</li>
  <li>If execve(2) fails with ENOEXEC, try and parse a shebang line
-  ourselves, in case the kernel can do less than we do</li>
+  ourselves, in case the kernel can do less than we do, unless MKSH_SMALL</li>
  <li>Strip off and ignore an UTF-8 Byte Order Mark (U+FEFF, 0xEF 0xBB 0xBF)
   at the beginning of input (file, -c option, stdin, interactive, eval)
   and when processing shebang lines and enable utf8 mode if encountered</li>
