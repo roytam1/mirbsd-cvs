@@ -1,10 +1,10 @@
-# $MirOS: ports/devel/glib/Makefile,v 1.16 2007/02/22 22:57:47 tg Exp $
+# $MirOS: ports/devel/glib/Makefile,v 1.17 2008/03/06 22:08:23 tg Exp $
 # $OpenBSD: Makefile,v 1.19 2004/12/22 06:31:05 espie Exp $
 
 COMMENT=		general-purpose utility library
 COMMENT-docs=		glib2 documentation
-VERSION=		2.12.6
-DASH_VER=		1
+VERSION=		2.12.13
+DASH_VER=		0
 DISTNAME=		glib-${VERSION}
 PKGNAME=		glib2-${VERSION}-${DASH_VER}
 PKGNAME-docs=		glib2-docs-${VERSION}-${DASH_VER}
@@ -35,6 +35,7 @@ CONFIGURE_ARGS+=	--disable-threads
 .else
 CONFIGURE_ARGS+=	--with-threads=posix
 .endif
+CONFIGURE_ARGS+=	--disable-rebuilds
 
 USE_GMAKE=		Yes
 CONFIGURE_STYLE=	autoconf
