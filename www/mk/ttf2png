@@ -1,7 +1,7 @@
 <?php
-// $MirOS: www/mk/ttf2png,v 1.5 2009/06/22 11:01:00 tg Exp $
-
 /*-
+ * $MirOS$
+ *-
  * Copyright (c) 2009
  *	Thorsten Glaser <tg@mirbsd.org>
  *
@@ -70,5 +70,5 @@ imagetruecolortopalette($im, FALSE, 256);
 
 // Output created image
 imagepng($im, NULL, 9);
-exit;
-?>
+
+exit(0);
