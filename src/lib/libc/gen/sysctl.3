@@ -1,4 +1,4 @@
-.\"	$MirOS: src/lib/libc/gen/sysctl.3,v 1.2 2005/03/06 20:28:41 tg Exp $
+.\"	$MirOS: src/lib/libc/gen/sysctl.3,v 1.3 2005/09/22 20:40:00 tg Exp $
 .\"	$OpenBSD: sysctl.3,v 1.144 2005/07/22 03:16:58 jaredy Exp $
 .\"
 .\" Copyright (c) 1993
@@ -379,7 +379,6 @@ information.
 .It Dv KERN_PROC No "	struct kinfo_proc	no"
 .It Dv KERN_PROC2 No "	struct kinfo_proc2	no"
 .It Dv KERN_PROC_ARGS No "	node	not applicable"
-.It Dv KERN_PROF No "	node	not applicable"
 .It Dv KERN_PUSHRAND No "	integer	yes"
 .It Dv KERN_RAWPARTITION No "	integer	no"
 .It Dv KERN_RND No "	struct rndstats	no"
@@ -395,7 +394,6 @@ information.
 .It Dv KERN_SYSVMSG No "	integer	no"
 .It Dv KERN_SYSVSEM No "	integer	no"
 .It Dv KERN_SYSVSHM No "	integer	no"
-.It Dv KERN_TIMECOUNTER No "	node	not applicable"
 .It Dv KERN_TTY No "	node	not applicable"
 .It Dv KERN_TTYCOUNT No "	integer	no"
 .It Dv KERN_USERASYMCRYPTO No "	integer	yes"
@@ -667,45 +665,6 @@ in the argv or env array.
 returns the argv array and
 .Dv KERN_PROC_ENV
 returns the environ array.
-.It Dv KERN_PROF
-Return profiling information about the kernel.
-If the kernel is not compiled for profiling,
-attempts to retrieve any of the
-.Dv KERN_PROF
-values will fail with
-.Er EOPNOTSUPP .
-The third level names for the string and integer profiling information
-are detailed below.
-The changeable column shows whether a process with appropriate
-privileges may change the value.
-.Bl -column "GPROFXGMONPARAMXXX" "struct gmonparamXXX" -offset indent
-.It Sy Third level name	Type	Changeable
-.It Dv GPROF_COUNT No "	u_short[]	yes"
-.It Dv GPROF_FROMS No "	u_short[]	yes"
-.It Dv GPROF_GMONPARAM No "	struct gmonparam	no"
-.It Dv GPROF_STATE No "	integer	yes"
-.It Dv GPROF_TOS No "	struct tostruct	yes"
-.El
-.Pp
-The variables are as follows:
-.Bl -tag -width "123456"
-.It Dv GPROF_COUNT
-Array of statistical program counter counts.
-.It Dv GPROF_FROMS
-Array indexed by program counter of call-from points.
-.It Dv GPROF_GMONPARAM
-Structure giving the sizes of the above arrays.
-.It Dv GPROF_STATE
-Returns
-.Dv GMON_PROF_ON
-or
-.Dv GMON_PROF_OFF
-to show that profiling is running or stopped.
-.It Dv GPROF_TOS
-Array of
-.Li struct tostruct
-describing destination of calls and their counts.
-.El
 .It Dv KERN_PUSHRAND
 If set to 0, disallow userland randomness push into kernel,
 as well as using the randomness from FFS filesystems and
@@ -884,33 +843,6 @@ system, otherwise 0.
 .It Dv KERN_SYSVSHM
 Returns 1 if System V style shared memory functionality is available on this
 system, otherwise 0.
-.It Dv KERN_TIMECOUNTER
-Return statistics information about the kernel time counter.
-The third level names information is detailed below.
-The changeable column shows whether a process with appropriate
-privileges may change the value.
-.Bl -column "KERN_TIMECOUNTER_TIMESTEPWARNINGS" "integer" -offset indent
-.It Sy Third level name	Type	Changeable
-.It Dv KERN_TIMECOUNTER_CHOICE No "	string	no"
-.It Dv KERN_TIMECOUNTER_HARDWARE No "	string	yes"
-.It Dv KERN_TIMECOUNTER_TICK No "	integer	no"
-.It Dv KERN_TIMECOUNTER_TIMESTEPWARNINGS No "	integer	no"
-.El
-.Pp
-The variables are as follows:
-.Bl -tag -width "123456"
-.It Dv KERN_TIMECOUNTER_CHOICE
-Get the list of kernel time counter sources and their claimed
-quality (higher is better).
-.It Dv KERN_TIMECOUNTER_HARDWARE
-Get or set the kernel time counter source by name.
-.It Dv KERN_TIMECOUNTER_TICK
-Get the number of times we have reset the kernel time counter
-information.
-.It Dv KERN_TIMECOUNTER_TIMESTEPWARNINGS
-Get or set a flag to log a message when the kernel time is
-stepped.
-.El
 .It Dv KERN_TTY
 Return statistics information about tty input/output.
 The third level names information is detailed below.
@@ -2047,8 +1979,6 @@ definitions for top level identifiers, second level kernel and hardware
 identifiers, and user level identifiers
 .It Aq Pa sys/socket.h
 definitions for second level network identifiers
-.It Aq Pa sys/gmon.h
-definitions for third level profiling identifiers
 .It Aq Pa ufs/ffs/ffs_extern.h
 definitions for third level virtual file system identifiers
 .Pq ffs
