@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/distrib/common/install.sh,v 1.21 2009/03/29 13:04:14 tg Exp $
+# $MirOS: src/distrib/common/install.sh,v 1.22 2009/08/11 10:14:33 tg Exp $
 # $OpenBSD: install.sh,v 1.152 2005/04/21 21:41:33 krw Exp $
 # $NetBSD: install.sh,v 1.5.2.8 1996/08/27 18:15:05 gwr Exp $
 #
@@ -496,9 +496,9 @@ cat >/mnt/etc/rc.once <<-'EOF'
 	sleep 1
 	( (
 		print running daily, weekly and monthly cronjobs
-		mksh /etc/cronrun -n daily &
-		mksh /etc/cronrun -n weekly &
-		mksh /etc/cronrun -n monthly &
+		mksh /etc/cronrun -n daily
+		mksh /etc/cronrun -n weekly
+		mksh /etc/cronrun -n monthly
 		wait
 		print done, cleaning up
 		sync
