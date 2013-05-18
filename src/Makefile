@@ -1,4 +1,4 @@
-# $MirOS: src/Makefile,v 1.56 2006/06/16 22:55:09 tg Exp $
+# $MirOS: src/Makefile,v 1.57 2006/06/25 05:39:48 tg Exp $
 # $OpenBSD: Makefile,v 1.103 2004/05/03 15:18:18 drahn Exp $
 
 .if defined(MAKECONF) && exists(${MAKECONF})
@@ -90,13 +90,8 @@ b-r:
 	cd ${.CURDIR} && exec ${MAKE} obj
 	cd ${.CURDIR} && exec ${MAKE} build-pre DESTDIR=
 	cd ${.CURDIR} && exec ${MAKE} contbuild DESTDIR=
-	cd ${.CURDIR} && exec ${MAKE} contrelease DESTDIR=${BSDRELDIR}/base
 
-cont-b-r:
-	cd ${.CURDIR} && exec ${MAKE} contbuild DESTDIR=
-	cd ${.CURDIR} && exec ${MAKE} contrelease DESTDIR=${BSDRELDIR}/base
-
-contrelease:
+release:
 	mkdir -p ${DESTDIR} || ${SUDO} mkdir -p ${DESTDIR}
 	cd ${.CURDIR} && exec ${MAKE} mksystrace-dest
 	cd ${.CURDIR} && exec ${SUDO} ${_STCMD_DEST} ${MAKE} install
@@ -210,12 +205,19 @@ _do-dist:
 	${SUDO} rm -rf ${BSDOBJDIR} ${BSDRELDIR}
 	cd ${.CURDIR} && exec ${MAKE} distrib-dirs DESTDIR=
 	cd ${.CURDIR} && exec ${MAKE} b-r
-.ifndef QUICK_DIST
 	@date
 	cd ${.CURDIR}/X11 && exec ${MAKE} b-r
 .endif
 	@date
 	cd ${.CURDIR}/gcc && exec ${MAKE} b-r
+	@date
+	cd ${.CURDIR} && exec ${MAKE} release DESTDIR=${BSDRELDIR}/base
+	cd ${.CURDIR}/gcc && \
+	    exec ${SUDO} ${MAKE} install DESTDIR=${BSDRELDIR}/base
+.ifndef QUICK_DIST
+	cd ${.CURDIR}/X11 && \
+	    exec ${SUDO} ${MAKE} release DESTDIR=${BSDRELDIR}/x11
+.endif
 	@date
 	cd ${.CURDIR} && exec ${MAKE} base-distbuild DESTDIR=${BSDRELDIR}/base
 	cd ${.CURDIR} && exec ${SUDO} ${MAKE} base-distinstall \
@@ -291,7 +293,7 @@ cvsup:
 	cd ${.CURDIR} && cvs -Rqz3 -d ${CVSROOT} up -PAd [!BCXcptw]!(*cc) .*
 
 .PHONY:	beforeinstall afterinstall mksystrace mksystrace-obj mksystrace-dest \
-	build-pre contbuild distrib-dirs b-r cont-b-r contrelease do-htman \
+	build-pre contbuild distrib-dirs b-r release do-htman \
 	base-distbuild base-distinstall dist-q dist _do-dist cvsup cleandir
 
 .include <bsd.subdir.mk>

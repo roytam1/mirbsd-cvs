@@ -1,4 +1,4 @@
-# $MirOS: X11/Makefile,v 1.22 2006/06/29 20:59:53 tg Exp $
+# $MirOS: X11/Makefile,v 1.23 2006/06/30 23:18:03 tg Exp $
 
 .include <bsd.own.mk>
 .include "${BSDSRCDIR}/Makefile.inc"
@@ -43,7 +43,6 @@ b-r:
 	touch ${BSDOBJDIR}/permissions.test && rm ${BSDOBJDIR}/permissions.test
 	cd ${.CURDIR} && ${MAKE} obj && exec ${MAKE} check-objdir
 	cd ${.CURDIR} && exec ${MAKE} build
-	cd ${.CURDIR} && exec ${MAKE} release
 
 compile:
 	cd ${.CURDIR}/depends && ${MAKE} depend && exec ${MAKE}
@@ -110,9 +109,6 @@ dist:
 	cd ${.CURDIR} && exec ${MAKE} perms
 
 release:
-	cd ${.CURDIR} && exec ${SUDO} ${MAKE} do-rel DESTDIR=${BSDRELDIR}/x11
-
-do-rel:
 	mkdir -p ${DESTDIR} ${BSDRELDIR}/rel
 	${INSTALL} -d -o ${DIROWN} -g ${DIRGRP} -m ${DIRMODE} \
 	    ${DESTDIR}/etc ${DESTDIR}/etc/X11 \
@@ -147,4 +143,4 @@ check-objdir:
 	fi
 
 .PHONY: all b-r build check-objdir clean compile dist distclean \
-	do-install do-rel fix-appd install mrproper perms release
+	do-install fix-appd install mrproper perms release

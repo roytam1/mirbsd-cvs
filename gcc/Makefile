@@ -1,4 +1,4 @@
-# $MirOS: gcc/Makefile,v 1.19 2006/03/01 14:20:25 tg Exp $
+# $MirOS: gcc/Makefile,v 1.20 2006/03/01 20:08:09 tg Exp $
 
 .include <bsd.own.mk>
 .include "${GNUSYSTEM_AUX_DIR}/locations.mk"
@@ -96,7 +96,6 @@ b-r: .PHONY
 	cd ${.CURDIR} && exec ${BSDMAKE} obj
 	cd ${.CURDIR} && exec ${BSDMAKE}
 	cd ${.CURDIR} && exec ${SUDO} ${BSDMAKE} install
-	cd ${.CURDIR} && exec ${BSDMAKE} release BSDRELDIR=${BSDRELDIR}
 
 release: .PHONY
 	mkdir -p ${BSDRELDIR}/base || ${SUDO} mkdir -p ${BSDRELDIR}/base
