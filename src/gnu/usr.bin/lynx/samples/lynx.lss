@@ -1,5 +1,5 @@
 # $MirSecuCron$
-# $MirOS: src/gnu/usr.bin/lynx/samples/lynx.lss,v 1.5 2008/10/14 00:40:50 tg Exp $
+# $MirOS: src/gnu/usr.bin/lynx/samples/lynx.lss,v 1.6 2009/07/18 14:09:14 tg Exp $
 #
 # Setting the normal and default types lets us keep (almost) the same colors
 # whether the terminal's default colors are white-on-black or black-on-white.
@@ -125,3 +125,4 @@ span.user_italic:	bold:		brightblue
 span.user_underlined:	underline:	brown
 div.user_quote:		normal:		white
 div.user_quote_name:	normal:		yellow
+u:			underline
