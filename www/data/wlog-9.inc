@@ -1,4 +1,4 @@
-RCSID: $MirOS: wlog 9 $
+RCSID: $MirOS: www/data/wlog-9.inc,v 1.93 2008/07/24 12:34:48 tg Exp $
 Date: 25.06.2006
 Author: tg@
 
@@ -258,7 +258,7 @@ Author: tg@
   geocacheing session for the first time, with his Windows&reg; PDA that
   can do GPS. It took us <em>quite</em> some time, but it was helluv fun
   and I hope we'll continue the journey.</p>
- <p>Thie image: <img src="http://www.opencaching.de/statpics/106521.jpg"
+ <p>The image: <img src="http://www.opencaching.de/statpics/106521.jpg"
   alt="statistics" /> will show the hopefully increasing number although
   I won't join the hype. I don't like hypes.</p>
 
