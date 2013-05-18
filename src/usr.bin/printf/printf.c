@@ -47,7 +47,7 @@
 #define vstrchr strchr
 #endif
 
-__RCSID("$MirOS: src/usr.bin/printf/printf.c,v 1.15 2010/07/17 22:09:29 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/printf/printf.c,v 1.16 2011/03/13 01:14:16 tg Exp $");
 
 static int	 print_escape_str(const char *);
 static int	 print_escape(const char *);
@@ -186,6 +186,8 @@ real_main(char *format, const char *argv[])
 						return (rval);
 					}
 					break;
+				} else if (!*fmt) {
+					goto synerr;
 				}
 
 				/* skip to field width */
@@ -194,6 +196,8 @@ real_main(char *format, const char *argv[])
 				if (*fmt == '*') {
 					++fmt;
 					fieldwidth = getinteger();
+				} else if (!*fmt) {
+					goto synerr;
 				} else
 					fieldwidth = 0;
 
@@ -207,11 +211,14 @@ real_main(char *format, const char *argv[])
 						++fmt;
 						precision = getinteger();
 					}
+					if (!*fmt)
+						goto synerr;
 					for (; vstrchr(SKIP2, *fmt); ++fmt)
 						;
 				}
 
 				if (!*fmt) {
+ synerr:
 					uwarnx(UWARNX "missing format character");
 					return (1);
 				}
@@ -521,7 +528,7 @@ getinteger(void)
 	if (!*gargv)
 		return (0);
 
-	if (vstrchr(number, **gargv))
+	if (**gargv && vstrchr(number, **gargv))
 		return (atoi(*gargv++));
 
 	return (0);
