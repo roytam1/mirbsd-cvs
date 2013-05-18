@@ -1,3 +1,4 @@
+RCSID: $MirOS$
 Title: Why don't I have colours on the console?
 
 <p>The first virtual terminal is the system console, unless the
@@ -8,4 +9,23 @@ Title: Why don't I have colours on the console?
  console on wsfb-using devices. You can, however, simply “export
  TERM=wsvtg” there, as the sparc system console, wsdisplay(4),
  emulates a colourful VT100/VT220 as well, in MirOS #10.</p>
+----
+Title: Where do I place my SSH public keys?
+Section: Common ssh(1) and sshd(8) problems	XXX do this differently!
+
+<p>sshd(8): The name is <tt>~/.etc/ssh/authorised_keys</tt> (british
+ spelling), but <tt>~/.ssh/authorized_keys</tt> (upstream standard
+ location) ought to work as well, for compatibility reasons.</p>
+----
+Title: SSH host key verification fails for your servers, e.g. on “cvs up”
+Section: Common ssh(1) and sshd(8) problems	XXX do this differently!
+
+<p>ssh(1): The <tt>anoncvs.mirbsd.org,85.214.23.162</tt> host entry
+ in the MirOS #10 (RELEASE) default ssh <tt>known_hosts</tt> file is
+ our old server, which ran on a Debian virtual host and, as such, was
+ victim to the “private keys with only 15 bits of entropy” problem.
+ A <a href="@@RELPATH@@overview.htm#ssh_host">list of SSH host keys</a>
+ used by our publicly accessible servers contains the currently valid
+ entries; <a href="@@RELPATH@@permalinks/news_e20080515-tg.htm">we
+ reported the problem</a> earlier in the news.</p>
 ----
