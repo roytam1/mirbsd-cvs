@@ -1,14 +1,14 @@
-# $MirOS: ports/textproc/scrollkeeper/Makefile,v 1.3 2006/02/09 11:15:30 tg Exp $
+# $MirOS: ports/textproc/scrollkeeper/Makefile,v 1.4 2006/09/14 00:14:23 tg Exp $
 # $OpenBSD: Makefile,v 1.15 2004/12/07 00:23:23 alek Exp $
 
-COMMENT=			Scrollkeeper Open Documentation Cataloging System
+COMMENT=		open documentation cataloging system
 
 VERSION=		0.3.14
 DISTNAME=		scrollkeeper-${VERSION}
-PKGNAME=		${DISTNAME}-1
+DASH_VER=		2
 CATEGORIES=		textproc
 
-HOMEPAGE=		http://scrollkeeper.sourceforge.net
+HOMEPAGE=		http://scrollkeeper.sourceforge.net/
 
 
 MASTER_SITES=		${MASTER_SITE_GNOME:=sources/scrollkeeper/0.3/}
@@ -26,17 +26,20 @@ BUILD_DEPENDS=		:docbook->=4.2-1:textproc/docbook \
 			:p5-XML-Parser-*:textproc/p5-XML-Parser
 RUN_DEPENDS=		:docbook->=4.2-1:textproc/docbook \
 			:libxml->=2.5.7-1:textproc/libxml
-LIB_DEPENDS=		xml::textproc/libxml \
+LIB_DEPENDS=		xml2::textproc/libxml \
 			xslt::textproc/libxslt
 
 USE_GMAKE=		Yes
 CONFIGURE_STYLE= 	autoconf
 AUTOCONF_NEW=		Yes
 CONFIGURE_ARGS+= 	${CONFIGURE_SHARED}
+CONFIGURE_ARGS+= 	--enable-static
 CONFIGURE_ARGS+= 	--localstatedir=/var
 CONFIGURE_ARGS+=	--with-omfdirs=${LOCALBASE}/share/omf
-CONFIGURE_ARGS+=	--with-xml-catalog=/var/db/xmlcatalog
+CONFIGURE_ARGS+=	--with-xml-catalog=${LOCALBASE}/db/xmlcatalog
 CONFIGURE_ARGS+=	--with-partial-db-dir=db/scrollkeeper
+CONFIGURE_ARGS+= 	--disable-dependency-tracking
+CONFIGURE_ARGS+= 	--disable-libtool-lock
 
 post-install:
 	@${INSTALL_DATA_DIR} ${PREFIX}/share/examples/scrollkeeper; \

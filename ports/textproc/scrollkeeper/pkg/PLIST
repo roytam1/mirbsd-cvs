@@ -1,4 +1,4 @@
-@comment $MirOS$
+@comment $MirOS: ports/textproc/scrollkeeper/pkg/PLIST,v 1.2 2005/12/29 23:20:24 bsiegert Exp $
 @comment $OpenBSD: PLIST,v 1.11 2004/11/05 08:20:43 espie Exp $
 bin/scrollkeeper-config
 bin/scrollkeeper-extract
@@ -103,9 +103,9 @@ share/scrollkeeper/stylesheets/index.xsl
 share/scrollkeeper/stylesheets/toc.xsl
 share/xml/scrollkeeper/dtds/scrollkeeper-cl.dtd
 share/xml/scrollkeeper/dtds/scrollkeeper-omf.dtd
-@exec %D/bin/xmlcatalog --noout --add "public" "-//OMF//DTD Scrollkeeper OMF Variant V1.0//EN" "file://%D/share/xml/scrollkeeper/dtds/scrollkeeper-omf.dtd" /var/db/xmlcatalog
+@exec %D/bin/xmlcatalog --noout --add "public" "-//OMF//DTD Scrollkeeper OMF Variant V1.0//EN" "file://%D/share/xml/scrollkeeper/dtds/scrollkeeper-omf.dtd" %D/db/xmlcatalog
 @exec %D/bin/scrollkeeper-rebuilddb -q
-@unexec xmlcatalog --noout --del "-//OMF//DTD Scrollkeeper OMF Variant V1.0//EN" /var/db/xmlcatalog
+@unexec xmlcatalog --noout --del "-//OMF//DTD Scrollkeeper OMF Variant V1.0//EN" %D/db/xmlcatalog
 @extraunexec rm -rf /var/db/scrollkeeper/
 @extraunexec rm -f /var/log/scrollkeeper.log*
 @dirrm share/xml/scrollkeeper/dtds
