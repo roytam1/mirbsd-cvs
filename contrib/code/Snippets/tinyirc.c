@@ -77,7 +77,7 @@
 #define	__RCSID(x)	static const char __rcsid[] __attribute__((used)) = (x)
 #endif
 
-__RCSID("$MirOS: contrib/code/Snippets/tinyirc.c,v 1.23 2008/12/09 20:37:12 tg Exp $");
+__RCSID("$MirOS: contrib/code/Snippets/tinyirc.c,v 1.24 2008/12/20 16:58:22 tg Exp $");
 
 #ifndef __dead
 #define __dead
@@ -1167,8 +1167,8 @@ pushlastchan(char *cname)
 PROG=		tinyirc
 NOMAN=		Yes
 
-LDADD+=		-lotermcap
-DPADD+=		${LIBOTERMCAP}
+LDADD+=		-ltermcap
+DPADD+=		${LIBTERMCAP}
 
 .include <bsd.prog.mk>
 #endif
