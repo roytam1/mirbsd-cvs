@@ -1,4 +1,4 @@
-# $MirOS: ports/sysutils/daemontools/Makefile,v 1.9 2006/11/16 20:45:41 tg Exp $
+# $MirOS: ports/sysutils/daemontools/Makefile,v 1.10 2008/03/17 02:10:50 tg Exp $
 
 COMMENT=		collection of tools for managing unix services
 CATEGORIES=		sysutils
@@ -31,11 +31,11 @@ BINLIST=		envdir envuidgid fghack multilog pgrphack \
 
 do-build:
 	if [[ ! -e ${WRKSRC}/admin/${DISTNAME}/src/home ]]; then \
-		echo ${CC:Q} ${CFLAGS:M*:Q} \
+		print -r -- ${CC:Q} ${CFLAGS:M*:Q} \
 		    >${WRKSRC}/admin/${DISTNAME}/src/conf-cc; \
-		echo ${CC:Q} ${CFLAGS:M*:Q} ${LDFLAGS:M*:Q} \
+		print -r -- ${CC:Q} ${CFLAGS:M*:Q} ${LDFLAGS:M*:Q} \
 		    >${WRKSRC}/admin/${DISTNAME}/src/conf-ld; \
-		echo ${PREFIX:Q} >${WRKSRC}/admin/${DISTNAME}/src/home; \
+		print -r -- ${PREFIX:Q} >${WRKSRC}/admin/${DISTNAME}/src/home; \
 	fi
 	cd ${WRKSRC}/admin/${DISTNAME}/src && ${MAKE_PROGRAM} it
 
@@ -46,10 +46,10 @@ do-install:
 	for a in ${WRKSRC}/admin/${DISTNAME}/src/svscanboot \
 	    ${WRKDIR}/daemontools-man/svscanboot.8; do \
 		chmod u+w $$a; \
-		print '%g!/usr/local!s!!${TRUEPREFIX}!g\nwq' | ed -s $$a; \
+		print ',g!/usr/local!s!!${TRUEPREFIX}!g\nwq' | ed -s $$a; \
 	done
-	print '%g!^/command!s!!${TRUEPREFIX}/bin!\nwq' \
-	    | ed -s ${WRKSRC}/admin/${DISTNAME}/src/svscanboot
+	print ',g!^/command!s!!${TRUEPREFIX}/bin!\nwq' | \
+	    ed -s ${WRKSRC}/admin/${DISTNAME}/src/svscanboot
 	${INSTALL_SCRIPT} ${WRKSRC}/admin/${DISTNAME}/src/svscanboot \
 	    ${PREFIX}/bin/
 .for i in ${MAN8LIST}
