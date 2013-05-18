@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/news.inc,v 1.100 2009/01/31 22:22:40 tg Exp $
+RCSID: $MirOS: www/data/news.inc,v 1.101 2009/02/08 21:23:59 tg Exp $
 Title: Older news from the MirOS Project
 Date: 01.03.2006
 
@@ -1422,4 +1422,14 @@ Ready to install sets? [yes] <em>«Enter»</em>
  the Parallels Desktop BIOS bug workaround’s creation. Remember, if you
  already have an (unbootable) installation, you can do all this by booting
  from the CD again (into the installer/rescue kernel).</p>
+----
+Title: MirOS-current (post FOSDEM) heads-up
+Date: 09.02.2009 11:42
+Author: tg@
+Tag: security snapshot
+
+<p>Note: the <tt>/etc/security</tt> daily cronjob has been adjusted to
+ <strong>no longer warn</strong> about empty passwords for the anoncvs
+ and anonrsync users: “anoncvs”, “_anoncvs”, “rsync”, “_rsync”, and by
+ chance, “__anoncvs” and other versions with more underscores, too.</p>
 ----
