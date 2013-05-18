@@ -1,4 +1,4 @@
-.\" $MirOS: X11/extras/bdfctool/bdfctool.1,v 1.7 2012/08/23 20:26:15 tg Exp $
+.\" $MirOS: X11/extras/bdfctool/bdfctool.1,v 1.8 2012/09/01 18:42:58 tg Exp $
 .\"-
 .\" Copyright © 2012
 .\"	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
@@ -57,7 +57,7 @@
 .\" with -mandoc, it might implement .Mx itself, but we want to
 .\" use our own definition. And .Dd must come *first*, always.
 .\"
-.Dd $Mdocdate: August 23 2012 $
+.Dd $Mdocdate: September 1 2012 $
 .\"
 .\" Check which macro package we use, and do other -mdoc setup.
 .\"
@@ -381,8 +381,12 @@ has its own ideas of how a
 font file should look like, and if you deviate from that,
 you might get an error; although, support for more features
 can surely be added.
+.Pp
 .Dq Li ENCODING \-1
 support is missing.
+The glyph encoding is currently treated as the primary key;
+values from 0000 to FFFF inclusive are valid, the zero-padding
+is mandatory.
 .Pp
 The current practical limit on glyph width is 32.
 0-bit wide glyphs cause an error; those with height 0 are
