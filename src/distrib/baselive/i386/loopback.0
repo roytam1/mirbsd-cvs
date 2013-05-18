@@ -1,11 +1,11 @@
-# $MirOS: src/distrib/baselive/i386/loopback.0,v 1.2 2010/08/07 16:00:04 tg Exp $
+# $MirOS: src/distrib/baselive/i386/loopback.0,v 1.3 2011/01/03 17:49:39 tg Exp $
 #
 set image /bsd
 set timeout 12
 macro serial stty com0 9600~set tty com0~boot
 echo
 echo ==================================================================
-echo # MirOS BSD #10-current (i386) | (c) 2002-2011 The MirOS Project #
+echo # MirOS BSD #10-current (i386) | (c) 2002-2012 The MirOS Project #
 echo ==================================================================
 echo
 echo To boot the MirOS installation system, from which you can
