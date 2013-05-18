@@ -1,4 +1,4 @@
-# $MirOS: src/Makefile,v 1.93 2007/01/26 18:57:06 tg Exp $
+# $MirOS: src/Makefile,v 1.94 2007/01/27 14:54:37 tg Exp $
 # $OpenBSD: Makefile,v 1.103 2004/05/03 15:18:18 drahn Exp $
 
 .if defined(MAKECONF) && exists(${MAKECONF})
@@ -131,9 +131,14 @@ do-htman:
 	    ${_STCMD} -f ${BSDOBJDIR}/htman/.policy.mk \
 	    ${SHELL} ${.CURDIR}/scripts/genhtman.sh
 	-rm -f ${BSDOBJDIR}/htman/.policy.mk
-	${SUDO} mkdir -p ${BSDRELDIR}/htman
-	cd ${BSDOBJDIR}/htman/htm \
-	    && find man* -type f | ${SUDO} cpio -pdlu ${BSDRELDIR}/htman/
+	${SUDO} mkdir -p ${BSDRELDIR}/htman/docs
+	cd ${BSDOBJDIR}/htman/htm && \
+	    find man* -type f | ${SUDO} cpio -pdlu ${BSDRELDIR}/htman/
+	cd ${BSDRELDIR}/base/usr/share/doc/html && \
+	    ${SUDO} pax -rw * ${BSDRELDIR}/htman/docs/
+	cd ${BSDRELDIR}/htman/docs && ${SUDO} rm -f \
+	    $$(find . -type f -a ! -name '*.htm' -a \
+		! -name '*.html' -a ! -name '*.jpg')
 	${SUDO} chown -R 0:0 ${BSDRELDIR}/htman/*
 	${SUDO} chmod -R a=rX ${BSDRELDIR}/htman/*
 
