@@ -1,5 +1,5 @@
 <!-- PageID: wlog-8 -->
-<small class="rcsid">$MirOS: www/content/d2xvZy04.inc,v 1.47 2006/02/27 20:52:03 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy04.inc,v 1.48 2006/03/02 00:25:20 tg Exp $</small>
 <h1>MirBSD &ndash; WTF, We Have a Release!?</h1>
 <p><small><a href="#eof">bottom</a> or <a href="/?older">older</a>
  editions</small></p>
@@ -578,7 +578,9 @@ celebrate this event, rotate the wlog and start a new one.</p>
 
 <div class="wlentry">
  <h3 id="e20060301">01.03.2006 by tg@</h3>
- <p>Really should make a <tt>/?features</tt> out of the following...</p>
+ <p style="margin-bottom:0px;">I really ought to make a new page, out of
+ the following, called <tt>/?features</tt>...</p>
+ <div style="border:4px ridge blue; margin:0px 24px 0px 24px; padding:12px;">
  <!-- begin -->
 	<h2 id="diffmir">Differences to MirOS #7</h2>
 
@@ -664,8 +666,8 @@ celebrate this event, rotate the wlog and start a new one.</p>
 	<li>Support for hardcoding ARP table entries at boot in /etc/arp.conf</li>
 	<li>Many more ports which are not in OpenBSD for political reasons</li>
 	</ul>
- <!-- end; -->
- <p>... and more.</p>
+ <!-- end; --></div>
+ <p style="margin-top:0px;">... and more.</p>
  <p>Built a cross-compiler to i386-gnu-linux-gnu with Debian GNU/Linux's
   libs and headers. Built printf(1) - all other tools I attempted didn't
   work: sh(1) mksh(1) date(1) id(1) and maybe more. GCC also builds okay
