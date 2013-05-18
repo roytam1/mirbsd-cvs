@@ -1,4 +1,4 @@
-/* $MirOS: src/usr.bin/make/fgetln.c,v 1.1 2005/11/24 13:26:56 tg Exp $ */
+/* $MirOS: src/usr.bin/make/fgetln.c,v 1.2 2005/11/24 13:50:40 tg Exp $ */
 
 /*-
  * Copyright (c) 2005 Thorsten Glaser.
@@ -31,7 +31,11 @@
 #include <stdlib.h>
 #include <string.h>
 
-__RCSID("$MirOS: src/usr.bin/make/fgetln.c,v 1.1 2005/11/24 13:26:56 tg Exp $");
+#ifdef IN_MIRMAKE
+#include "defines.h"
+#endif
+
+__RCSID("$MirOS: src/usr.bin/make/fgetln.c,v 1.2 2005/11/24 13:50:40 tg Exp $");
 
 char *fgetln(FILE *, size_t *);
 

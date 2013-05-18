@@ -1,4 +1,4 @@
-# $MirOS: src/usr.bin/make/Makefile.boot,v 1.7 2005/11/24 12:49:37 tg Exp $
+# $MirOS: src/usr.bin/make/Makefile.boot,v 1.8 2005/11/24 13:26:56 tg Exp $
 # $OpenPackages: Makefile.boot,v 1.5 2001/04/06 00:09:55 will Exp $
 # $OpenBSD: Makefile.boot,v 1.8 2001/05/29 12:41:18 espie Exp $
 #
@@ -36,7 +36,8 @@ INCLDIR=	/usr/src/include
 
 CFLAGS= -Iohash -I. ${DEFS} ${DEFS_RE} ${COPTS} -DMACHINE=\"${MACHINE}\" \
 	-DMACHINE_ARCH=\"${MACHINE_ARCH}\" -DMACHINE_OS=\"${MACHINE_OS}\" \
-	-D_PATH_MIRBSDKSH=\"${MKSH}\" -D_PATH_DEFSYSPATH=\"/usr/share/mk\"
+	-D_PATH_MIRBSDKSH=\"${MKSH}\" -D_PATH_DEFSYSPATH=\"/usr/share/mk\" \
+	-DIN_MIRMAKE
 LIBS=	ohash/libohash.a
 
 OBJ=	arch.o buf.o compat.o cond.o dir.o for.o job.o main.o make.o \

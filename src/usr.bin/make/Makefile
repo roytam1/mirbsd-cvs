@@ -1,4 +1,4 @@
-# $MirOS: src/usr.bin/make/Makefile,v 1.8 2005/11/24 13:32:07 tg Exp $
+# $MirOS: src/usr.bin/make/Makefile,v 1.9 2005/11/24 13:32:32 tg Exp $
 # $OpenBSD: Makefile,v 1.38 2004/01/28 02:50:28 espie Exp $
 
 .include <bsd.own.mk>
@@ -29,7 +29,7 @@ SRCS+=		ohash_create_entry.c ohash_delete.c ohash_do.c \
 .else
 MKFEATURES?=	-DUSE_TIMESPEC
 .endif
-CPPFLAGS+=	${MKFEATURES} -D_PATH_MIRBSDKSH=\"${MKSH}\"
+CPPFLAGS+=	${MKFEATURES} -D_PATH_MIRBSDKSH=\"${MKSH}\" -DIN_MIRMAKE
 
 .if !exists(${MKSH})
 .BEGIN:
