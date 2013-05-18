@@ -1,4 +1,4 @@
-.\"	$MirOS: src/share/tmac/mdoc/doc-common,v 1.3 2005/03/15 16:13:48 tg Exp $
+.\"	$MirOS: src/share/tmac/mdoc/doc-common,v 1.4 2005/07/24 13:08:06 tg Exp $
 .\"	$OpenBSD: doc-common,v 1.44 2005/04/02 17:16:03 jmc Exp $
 .\"
 .\" Copyright (c) 2003, 2004
@@ -300,6 +300,8 @@
 .	if "\\$2"3.5"  .as oS \03.5
 .	if "\\$2"3.6"  .as oS \03.6
 .	if "\\$2"3.7"  .as oS \03.7
+.	if "\\$2"3.8"  .as oS \03.8
+.	if "\\$2"3.9"  .as oS \03.9
 .\}
 .if "\\*(oS"Null" .ds oS \0\\$1
 .if "\\*(aa"Non-Null" .as oS \0\\$2

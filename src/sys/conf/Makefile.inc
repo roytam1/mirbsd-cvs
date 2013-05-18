@@ -1,4 +1,4 @@
-# $MirOS: src/sys/conf/Makefile.inc,v 1.1 2005/12/18 02:20:39 tg Exp $
+# $MirOS: src/sys/conf/Makefile.inc,v 1.2 2005/12/19 20:12:32 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@mirbsd.de>
@@ -104,8 +104,7 @@ tai_make.o: $S/lib/libkern/tai_make.c
 .depend: crc32.h inffixed.h trees.h
 
 newvers: ${SYSTEM_DEP} ${SYSTEM_SWAP_DEP}
-	${SHELL} $S/conf/newvers.sh "${OSrev}" "${OSrpl}" \
-	    "${OSREV:C/^${OSrev}.//}" "${OScompat}"
+	${SHELL} $S/conf/newvers.sh "${OSrev}" "${OSrpl}" "${OScompat}"
 	${CC} ${CFLAGS} ${CPPFLAGS} -c vers.c
 
 install:
