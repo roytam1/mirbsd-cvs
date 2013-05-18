@@ -1,4 +1,4 @@
-# $MirOS: src/sys/arch/i386/conf/RAMDISK,v 1.16 2009/04/25 15:29:16 tg Exp $
+# $MirOS: src/sys/arch/i386/conf/RAMDISK,v 1.17 2010/01/17 01:15:48 tg Exp $
 # $miros: src/sys/arch/i386/conf/GENERIC,v 1.42 2009/02/16 21:21:01 tg Exp $
 
 machine		i386			# arch, used by config; REQUIRED
@@ -265,7 +265,7 @@ pcmcia*	at pcic? controller ? socket ?
 #radio*	at udsbr?			# USB radio
 #ugen*	at uhub? port ? configuration ? # USB Generic driver
 
-puc*	at pci?				# PCI "universal" communication device
+#puc*	at pci?				# PCI "universal" communication device
 
 npx0	at isa? port 0xf0 irq 13	# math coprocessor (required)
 isadma0	at isa?
@@ -311,7 +311,7 @@ pccom2	at isa? port 0x3e8 irq 5
 #pccom*	at hsq? slave ?
 pccom*	at pcmcia? function ?		# PCMCIA modems/serial ports
 pccom*	at isapnp?
-pccom*	at puc? port ?
+#pccom*	at puc? port ?
 
 # option for using CD1400 handshaking for incoming data
 # requires a special cable that exchanges the RTS and DTR lines
@@ -323,7 +323,7 @@ pccom*	at puc? port ?
 lpt0	at isa? port 0x378 irq 7	# standard PC parallel ports
 lpt1	at isa? port 0x278 irq 5
 lpt2	at isa? port 0x3bc		# Hercules cards don't have an IRQ
-lpt*	at puc? port ?
+#lpt*	at puc? port ?
 
 #lms0	at isa? port 0x23c irq 5	# Logitech bus mouse
 #lms1	at isa? port 0x238 irq 5
@@ -468,7 +468,7 @@ tx*	at pci? dev ? function ?		# SMC 83C170 EPIC ethernet
 tl*	at pci? dev ? function ?		# Compaq Thunderlan ethernet
 vr*	at pci? dev ? function ?		# VIA Rhine ethernet
 wb*	at pci? dev ? function ?		# Winbond W89C840F ethernet
-sf*	at pci? dev ? function ?		# Adaptec AIC-6915 ethernet
+#sf*	at pci? dev ? function ?		# Adaptec AIC-6915 ethernet
 sis*	at pci? dev ? function ?		# SiS 900/7016 ethernet
 ste*	at pci? dev ? function ?		# Sundance ST201 ethernet
 dc*	at pci? dev ? function ?		# 21143, "tulip" clone ethernet
@@ -483,7 +483,7 @@ dc*	at pci? dev ? function ?		# 21143, "tulip" clone ethernet
 #stge*	at pci? dev ? function ?		# Sundance TC9021 GigE
 #lge*	at pci? dev ? function ?		# Level1 LXT1001 GigE
 #hme*	at pci? dev ? function ?		# Sun Happy Meal
-bce*	at pci? dev ? function ?		# Broadcom BCM4401
+#bce*	at pci? dev ? function ?		# Broadcom BCM4401
 #re*	at pci?					# Realtek 8169/8169S/8110S
 #re*	at cardbus?
 #vge*	at pci?					# VIA VT612x
