@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/i386/livecd/Makefile,v 1.11 2006/04/06 11:40:42 tg Exp $
+# $MirOS: src/distrib/i386/livecd/Makefile,v 1.12 2006/04/06 21:19:18 tg Exp $
 
 .include <bsd.own.mk>
 
@@ -53,11 +53,10 @@ nukefiles:
 makeimg: bsd.gz
 	${SUDO} dd if=bsd.gz obs=2048 conv=osync of=workdir/bsd
 	${SUDO} dd if=workdir/usr/mdec/boot obs=2048 conv=osync \
-	    of=workdir/etc/boot.386
+	    of=workdir/etc/boot.x86
 	${SUDO} mkisofs -R -T -L -d -D -N -v -v \
-	    -b etc/boot.386 -c etc/boot.cat \
+	    -b etc/boot.x86 -c etc/boot.cat -p "Thorsten Glaser" \
 	    -P "The http://MirBSD.org/ team and its contributors" \
-	    -p "Copyright © 2002-2006 by The MirOS Project" \
 	    -V "MirOS #${OSrev} BSD/${MACHINE} Live CD" \
 	    -volset "$$(uname -slm) Live" -sysid "MirOSBSD" \
 	    -no-emul-boot -boot-load-size 4 -boot-info-table \
