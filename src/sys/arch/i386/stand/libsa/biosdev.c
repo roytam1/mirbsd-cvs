@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/stand/libsa/biosdev.c,v 1.40 2009/02/01 14:39:19 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/stand/libsa/biosdev.c,v 1.42 2009/02/03 00:02:02 tg Exp $ */
 /*	$OpenBSD: biosdev.c,v 1.74 2008/06/25 15:32:18 reyk Exp $	*/
 
 /*
@@ -399,7 +399,7 @@ biosopen(struct open_file *f, ...)
 	if (debug) {
 		printf("BIOS geometry: heads=%u, s/t=%u; EDD=%s\n",
 		    dip->bios_info.bios_heads, dip->bios_info.bios_sectors,
-		    bd->flags & BDI_LBA ? "on" : "off");
+		    dip->bios_info.flags & BDI_LBA ? "on" : "off");
 	}
 #endif
 
