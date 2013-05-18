@@ -1,4 +1,4 @@
-/* $MirOS: src/share/misc/licence.template,v 1.14 2006/08/09 19:35:23 tg Rel $ */
+/* $MirOS: src/usr.bin/host/host.c,v 1.3 2006/09/21 03:46:52 tg Exp $ */
 
 /*-
  * Copyright (c) 2001, 2002, 2003, 2004, 2006
@@ -128,7 +128,7 @@ char *version = "961113-MirOS";
 #include <unistd.h>
 
 __SCCSID("@(#)host.c	e07@nikhef.nl (Eric Wassenaar) 961013");
-__RCSID("$MirOS: src/usr.bin/host/host.c,v 1.2 2005/12/17 05:46:27 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/host/host.c,v 1.3 2006/09/21 03:46:52 tg Exp $");
 
 #ifndef NO_DATA
 #define NO_DATA	NO_ADDRESS	/* used here only in case authoritative */
@@ -6744,7 +6744,7 @@ input int answerlen;			/* length of answer buffer */
 	if (bp->tc)
 	{
 		if (answerlen > sizeof(querybuf))
-			printf(" (truncated to %ld)", sizeof (querybuf));
+			printf(" (truncated to %zu)", sizeof (querybuf));
 		else
 			printf(" (truncated)");
 	}

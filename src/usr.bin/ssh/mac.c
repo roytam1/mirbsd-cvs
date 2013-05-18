@@ -39,7 +39,7 @@
 #include "mac.h"
 #include "misc.h"
 
-__RCSID("$MirOS: src/usr.bin/ssh/mac.c,v 1.4 2006/09/20 21:40:59 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/mac.c,v 1.5 2007/06/16 15:41:50 tg Exp $");
 
 #include "umac.h"
 
@@ -126,7 +126,7 @@ mac_compute(Mac *mac, u_int32_t seqno, u_char *data, int datalen)
 	u_char b[4], nonce[8];
 
 	if (mac->mac_len > sizeof(m))
-		fatal("mac_compute: mac too long %u %lu",
+		fatal("mac_compute: mac too long %u %zu",
 		    mac->mac_len, sizeof(m));
 
 	switch (mac->type) {

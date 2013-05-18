@@ -39,6 +39,8 @@
 #include <string.h>
 #include <unistd.h>
 
+__RCSID("$MirOS$");
+
 struct {
 	char	*name;
 	int		val;
@@ -136,7 +138,7 @@ mrgetall(int memfd, int *nmr)
 	*nmr = mro.mo_arg[0];
 	mrd = malloc(*nmr * sizeof(struct mem_range_desc));
 	if (mrd == NULL)
-		errx(1, "can't allocate %ld bytes for %d range descriptors",
+		errx(1, "can't allocate %zu bytes for %d range descriptors",
 		     *nmr * sizeof(struct mem_range_desc), *nmr);
 
 	mro.mo_arg[0] = *nmr;

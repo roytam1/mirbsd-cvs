@@ -96,7 +96,7 @@
 #include "scard.h"
 #endif
 
-__RCSID("$MirOS: src/usr.bin/ssh/ssh.c,v 1.18 2007/06/16 15:41:52 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/ssh.c,v 1.19 2007/07/07 22:46:27 tg Exp $");
 
 extern char *__progname;
 
@@ -1458,7 +1458,7 @@ control_client(const char *path)
 	close(sock);
 	leave_raw_mode();
 	if (i > (int)sizeof(int))
-		fatal("%s: master returned too much data (%d > %lu)",
+		fatal("%s: master returned too much data (%d > %zu)",
 		    __func__, i, sizeof(int));
 	if (control_client_terminate) {
 		debug2("Exiting on signal %d", control_client_terminate);

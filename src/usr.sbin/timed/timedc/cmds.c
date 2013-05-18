@@ -43,7 +43,7 @@
 #include <unistd.h>
 
 __SCCSID("@(#)cmds.c	5.1 (Berkeley) 5/11/93");
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.sbin/timed/timedc/cmds.c,v 1.3 2006/09/21 21:48:43 tg Exp $");
 
 #define TSPTYPES
 #include <protocols/timed.h>
@@ -358,7 +358,7 @@ msite(int argc, char *argv[])
 
 			if (cc < sizeof(struct tsp)) {
 				fprintf(stderr,
-				    "short packet (%u/%lu bytes) from %s\n",
+				    "short packet (%u/%zu bytes) from %s\n",
 				    cc, sizeof(struct tsp),
 				    inet_ntoa(from.sin_addr));
 				continue;
@@ -534,7 +534,7 @@ tracing(int argc, char *argv[])
 		}
 		siginterrupt(SIGINT, 0);
 		if (cc < sizeof(struct tsp)) {
-			fprintf(stderr, "short packet (%u/%lu bytes) from %s\n",
+			fprintf(stderr, "short packet (%u/%zu bytes) from %s\n",
 			    cc, sizeof(struct tsp), inet_ntoa(from.sin_addr));
 			goto bail;
 		}

@@ -34,7 +34,7 @@
 #include "tag.h"
 
 __SCCSID("@(#)ex_cscope.c	10.13 (Berkeley) 9/15/96");
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.bin/vi/ex/ex_cscope.c,v 1.2 2006/09/21 21:48:41 tg Exp $");
 
 #define	CSCOPE_DBFILE		"cscope.out"
 #define	CSCOPE_PATHS		"cscope.tpath"
@@ -493,7 +493,7 @@ cscope_find(sp, cmdp, pattern)
 		 * search cscope command character and a leading space
 		 * there.)
 		 */
-		(void)fprintf(csc->to_fp, "%ld%s\n", search, tqp->tag + 2);
+		(void)fprintf(csc->to_fp, "%zu%s\n", search, tqp->tag + 2);
 		(void)fflush(csc->to_fp);
 
 		/* Read the output. */

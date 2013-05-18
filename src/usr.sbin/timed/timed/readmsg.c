@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.sbin/timed/timed/readmsg.c,v 1.3 2006/09/21 21:48:43 tg Exp $ */
+/**	$MirOS: src/usr.sbin/timed/timed/readmsg.c,v 1.4 2006/11/04 05:57:45 tg Exp $ */
 /*	$OpenBSD: readmsg.c,v 1.15 2003/11/19 19:17:59 dhartmei Exp $	*/
 
 /*-
@@ -33,7 +33,7 @@
 #include "globals.h"
 
 __SCCSID("@(#)readmsg.c	5.1 (Berkeley) 5/11/93");
-__RCSID("$MirOS: src/usr.sbin/timed/timed/readmsg.c,v 1.3 2006/09/21 21:48:43 tg Exp $");
+__RCSID("$MirOS: src/usr.sbin/timed/timed/readmsg.c,v 1.4 2006/11/04 05:57:45 tg Exp $");
 
 extern char *tsptype[];
 
@@ -205,7 +205,7 @@ again:
 			exit(1);
 		}
 		if (n < sizeof(struct tsp)) {
-			syslog(LOG_NOTICE, "short packet (%zd/%lu bytes) from %s",
+			syslog(LOG_NOTICE, "short packet (%zd/%zu bytes) from %s",
 			    n, sizeof(struct tsp), inet_ntoa(from.sin_addr));
 			continue;
 		}

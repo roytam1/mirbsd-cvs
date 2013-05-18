@@ -71,6 +71,8 @@
 #include <stdlib.h>
 #include <stddef.h>
 
+__RCSID("$MirOS$");
+
 /* ---------------------------------------------------------------------- */
 /* --- Primitive Data Types ---                                           */
 /* ---------------------------------------------------------------------- */
@@ -541,6 +543,7 @@ static void nh_transform(nh_ctx *hc, UINT8 *buf, UINT32 nbytes)
 
 /* ---------------------------------------------------------------------- */
 
+#if (__LITTLE_ENDIAN__)
 static void endian_convert(void *buf, UWORD bpw, UINT32 num_bytes)
 /* We endian convert the keys on little-endian computers to               */
 /* compensate for the lack of big-endian memory reads during hashing.     */
@@ -563,7 +566,6 @@ static void endian_convert(void *buf, UWORD bpw, UINT32 num_bytes)
         } while (--iters);
     }
 }
-#if (__LITTLE_ENDIAN__)
 #define endian_convert_if_le(x,y,z) endian_convert((x),(y),(z))
 #else
 #define endian_convert_if_le(x,y,z) do{}while(0)  /* Do nothing */

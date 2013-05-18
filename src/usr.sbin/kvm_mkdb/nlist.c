@@ -60,7 +60,7 @@
 #endif
 
 __SCCSID("@(#)nlist.c	8.1 (Berkeley) 6/6/93");
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.sbin/kvm_mkdb/nlist.c,v 1.2 2006/09/21 21:48:42 tg Exp $");
 
 typedef struct nlist NLIST;
 #define	_strx	n_un.n_strx
@@ -315,7 +315,7 @@ __elf_knlist(int fd, DB *db, int ksyms)
 
 	sh = (Elf_Shdr *)malloc(sizeof(Elf_Shdr) * eh.e_shnum);
 	if (sh == NULL)
-		errx(1, "cannot allocate %ld bytes for symbol header",
+		errx(1, "cannot allocate %zu bytes for symbol header",
 		    sizeof(Elf_Shdr) * eh.e_shnum);
 
 	if (fseek (fp, eh.e_shoff, SEEK_SET) < 0) {
