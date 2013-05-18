@@ -1,4 +1,4 @@
-/* $MirOS: src/share/misc/licence.template,v 1.20 2006/12/11 21:04:56 tg Rel $ */
+/* $MirOS: src/usr.sbin/wsconfig/wsconfig.c,v 1.14 2007/04/17 23:41:01 tg Exp $ */
 
 /*-
  * Copyright (c) 2006, 2007
@@ -82,10 +82,10 @@ main(int argc, char **argv)
 	struct termios tio, otio;
 	fd_set fds;
 	struct timeval tv;
+	FILE *wsf;
 #ifndef SMALL
 	struct wsdisplay_font f;
 	int q = 0;
-	FILE *wsf;
 
 	wsdev = DEFDEV;
 	while ((c = getopt(argc, argv, "f:I:o:qSs:U")) != -1)
