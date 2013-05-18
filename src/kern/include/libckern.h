@@ -1,4 +1,4 @@
-/* $MirOS: src/kern/include/libckern.h,v 1.16 2008/11/22 12:33:26 tg Exp $ */
+/* $MirOS: src/kern/include/libckern.h,v 1.17 2008/12/27 20:10:06 tg Exp $ */
 
 /*-
  * Copyright (c) 2008
@@ -97,6 +97,9 @@ void *memcpy(void *, const void *, size_t)
     __attribute__((bounded (buffer, 1, 3)))
     __attribute__((bounded (buffer, 2, 3)));
 void *memmove(void *, const void *, size_t)
+    __attribute__((bounded (buffer, 1, 3)))
+    __attribute__((bounded (buffer, 2, 3)));
+void *mempcpy(void *, const void *, size_t)
     __attribute__((bounded (buffer, 1, 3)))
     __attribute__((bounded (buffer, 2, 3)));
 void *memset(void *, int, size_t)

@@ -1,4 +1,4 @@
-# $MirOS: src/lib/libc/string/Makefile.inc,v 1.23 2008/08/02 14:28:35 tg Exp $
+# $MirOS: src/lib/libc/string/Makefile.inc,v 1.24 2008/08/04 19:10:53 tg Exp $
 # $OpenBSD: Makefile.inc,v 1.17 2005/05/26 12:56:01 otto Exp $
 
 # string sources
@@ -10,6 +10,7 @@ SRCS+=	bm.c memccpy.c strcasestr.c strdup.c \
 	wcsncat.c wcsncmp.c wcsncpy.c wcspbrk.c wcsrchr.c wcsspn.c \
 	wcsstr.c wmemchr.c wmemcmp.c wmemcpy.c \
 	wmemmove.c wmemset.c
+SRCS+=	stpcpy.c stpncpy.c
 
 SRCS+=	wcsdup.c
 SRCS+=	wcstok.c

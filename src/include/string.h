@@ -1,4 +1,4 @@
-/**	$MirOS: src/include/string.h,v 1.7 2007/06/15 16:00:03 tg Exp $ */
+/**	$MirOS: src/include/string.h,v 1.8 2007/06/16 21:05:13 tg Exp $ */
 /*	$OpenBSD: string.h,v 1.15 2005/03/30 03:04:16 deraadt Exp $	*/
 /*	$NetBSD: string.h,v 1.6 1994/10/26 00:56:30 cgd Exp $	*/
 
@@ -122,5 +122,16 @@ char	*strsep(char **, const char *);
 char	*strsignal(int);
 #endif
 __END_DECLS
+
+#if defined(_GNU_SOURCE) && !defined(__STRICT_ANSI__)
+__BEGIN_DECLS
+char *stpcpy(char *, const char *);
+char *stpncpy(char *, const char *, size_t)
+    __attribute__((bounded (string, 1, 3)));
+void *mempcpy(void *, const void *, size_t)
+    __attribute__((bounded (buffer, 1, 3)))
+    __attribute__((bounded (buffer, 2, 3)));
+__END_DECLS
+#endif
 
 #endif /* _STRING_H_ */
