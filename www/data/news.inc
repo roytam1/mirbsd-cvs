@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/news.inc,v 1.81 2008/10/29 18:35:22 tg Exp $
+RCSID: $MirOS: www/data/news.inc,v 1.82 2008/10/30 18:49:53 tg Exp $
 Title: Older news from the MirOS Project
 Date: 01.03.2006
 
@@ -1084,4 +1084,20 @@ Author: tg@
 <p>As of now, there are no binary packages compiled specifically for
  this snapshot; however, binary packages for older snapshots and even
  MirOS #10 RELEASE generally work.</p>
+----
+Title: MirOS-current DuaLive snapshot on BT
+Date: 07.11.2008 00:45
+Author: tg@
+
+<p>The <a href="@@RELPATH@@bt.htm#s81106">2008-11-06</a> snapshot of
+ MirOS BSD/i386 #10-current has been released as a new-style dualive CD
+ image (BaseLive + Install CD for i386, Install CD for sparc, build logs) on
+ the <a href="http://f.scarywater.net/miros/">usual BitTorrent tracker</a>,
+ multi-tracked with a major BT site for these who pick it up there.</p>
+<p>It's also available for <a href="@@ABSPATH@@/MirOS/current/">NetInstall</a> on both
+ architectures. Note that this snapshot is identical to the <a
+ href="@@RELPATH@@permalinks/news_e20081030-tg.htm">2008-30-10</a> one,
+ but has been built using newer makefs(8) and baselive infrastructure.</p>
+<p>This is the first snapshot with working startx(1) because we can now
+ write symlink(7)s using Rock Ridge onto the filesystem image.</p>
 ----
