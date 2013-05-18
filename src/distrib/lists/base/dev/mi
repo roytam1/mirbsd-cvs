@@ -3940,6 +3940,13 @@
 ./usr/share/doc/psd/23.Cknr/cman6
 ./usr/share/doc/psd/Makefile
 ./usr/share/doc/psd/Title
+./usr/share/info/gpc-hr.info
+./usr/share/info/gpc.info
+./usr/share/info/gpcs-de.info
+./usr/share/info/gpcs-hr.info
+./usr/share/info/gpcs.info
+./usr/share/man/cat1/gpc-run.0
+./usr/share/man/cat1/gpc.0
 ./usr/share/man/cat2/WCOREDUMP.0
 ./usr/share/man/cat2/WIFCONTINUED.0
 ./usr/share/man/cat2/WIFEXITED.0

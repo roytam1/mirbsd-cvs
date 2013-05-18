@@ -133,6 +133,8 @@
 ./man1/getopt.htm
 ./man1/glxgears.htm
 ./man1/glxinfo.htm
+./man1/gpc-run.htm
+./man1/gpc.htm
 ./man1/grep.htm
 ./man1/groups.htm
 ./man1/gtf.htm
@@ -7490,8 +7492,10 @@
 ./manINFO/gnat-style.html
 ./manINFO/gnat_rm.html
 ./manINFO/gnat_ugn_unw.html
+./manINFO/gpc-hr.html
 ./manINFO/gpc.html
 ./manINFO/gpcs-de.html
+./manINFO/gpcs-hr.html
 ./manINFO/gpcs.html
 ./manINFO/ld.html
 ./manINFO/ldint.html
