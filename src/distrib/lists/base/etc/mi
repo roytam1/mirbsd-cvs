@@ -3,6 +3,7 @@
 ./etc/ccd.conf
 ./etc/changelist
 ./etc/cronrun
+./etc/csh.login
 ./etc/daily
 ./etc/dhclient.conf
 ./etc/dhcpd.conf
