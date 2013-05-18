@@ -1,9 +1,9 @@
-# $MirOS$
+# $MirOS: ports/textproc/p5-XML-Simple/Makefile,v 1.4 2007/06/21 17:43:08 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.12 2004/04/11 15:16:07 brad Exp $
 
 COMMENT=	trivial perl API for reading/writing XML
 
-DISTNAME=	XML-Simple-2.16
+DISTNAME=	XML-Simple-2.18
 PKGNAME=	p5-${DISTNAME}-${DASH_VER}
 CATEGORIES=	textproc perl5
 MASTER_SITES=	${MASTER_SITE_PERL_CPAN:=XML/}

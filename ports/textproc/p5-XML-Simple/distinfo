@@ -1,5 +1,7 @@
-MD5 (XML-Simple-2.16.tar.gz) = 80c0980ff63d77b871de41acc7175df7
-RMD160 (XML-Simple-2.16.tar.gz) = fe46bffdd31d83c9cfb9d55995c329e91dbc17c4
-SHA1 (XML-Simple-2.16.tar.gz) = f4166d7632542c80933e3d684ddc452ac08e44ab
-SIZE (XML-Simple-2.16.tar.gz) = 69084
-TIGER (XML-Simple-2.16.tar.gz) = 618da46d87c46ce53ca8b42b76925add6e2314b4341a1cb1
+$MirOS$
+
+MD5 (XML-Simple-2.18.tar.gz) = 593aa8001e5c301cdcdb4bb3b63abc33
+RMD160 (XML-Simple-2.18.tar.gz) = 815f8e2ccb7f6763f76c9014eee82aad14d6c519
+SHA1 (XML-Simple-2.18.tar.gz) = 81d38dd9fd955b0322ac64099f2d116c296267d1
+SIZE (XML-Simple-2.18.tar.gz) = 71129
+TIGER (XML-Simple-2.18.tar.gz) = d2c40cabc60396c0df8e6bc2a04d687f3bcfd6ebaebe6f99
