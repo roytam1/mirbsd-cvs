@@ -1,11 +1,11 @@
-/* $MirOS: src/lib/libc/i18n/tbl_attr.c,v 1.1 2006/06/01 22:03:16 tg Exp $ */
+/* $MirOS: src/lib/libc/i18n/tbl_attr.c,v 1.2 2006/11/01 19:49:33 tg Exp $ */
 
-#include <sys/cdefs.h>
+#include <wchar.h>
 
 #define mir18n_attributes
 #include "mir18n.h"
 
-__RCSID("$MirOS: src/lib/libc/i18n/tbl_attr.c,v 1.1 2006/06/01 22:03:16 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/i18n/tbl_attr.c,v 1.2 2006/11/01 19:49:33 tg Exp $");
 
 /* generated automatically from UnicodeData-5.0.0d10.txt (BMP) */
 
