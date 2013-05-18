@@ -1,5 +1,5 @@
 <!-- PageID: wlog-9 -->
-<small class="rcsid">$MirOS: www/content/d2xvZy05.inc,v 1.16 2006/07/16 13:22:45 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy05.inc,v 1.17 2006/07/17 02:29:29 tg Exp $</small>
 <h1>MirBSD &ndash; WTF is Verpeilungsfaktor?</h1>
 <p><small><a href="#eof">bottom</a> or <a href="/?older">older</a>
  editions</small></p>
@@ -312,5 +312,38 @@
   of now? Besides&#8230; someone tell the FSF that case-insensitive file
   systems are <em>not</em> only occuring on DOS/Windows&reg;!</p>
 </div>
+
+<div class="wlentry">
+ <h3 id="b20060719">19.07.2006 by bsiegert@</h3>
+ <p>It has been a rather long time since I have written something here.
+  In the meantime, I moved to Saint-Louis and begun my summer
+  internship. I am working on explosives, and dangerous ones at that.
+  But the people at the institute are very nice and let me work freely
+  on my subject. There is not much to do in the evening, as the town
+  is small. Even if Switzerland and Basel are only a few hundred metres
+  away (really!), I don't go there too often.</p>
+ <p>After all the interesting talk with Uriel on FrOSCon, I really installed
+  Plan 9 on two machines and tried to work with it. In fact, I am writing
+  this in the acme editor on Plan 9. I managed to get my own user
+  environment as well as TeX running. There is even a web browser
+  called Abaco, which does about as much as dillo but has only 5000
+  lines of code. It even does tabbed windows, acme-style. The only
+  downside is that I cannot commit from Plan 9 as the ssh client only
+  does ssh1.</p>
+ <p>But even with all the other stuff, I still do MirOS and MirPorts
+  development. I am on a modem line here so don't expect stuff that
+  requires huge downloads. I have been working on wxGTK 2.6.3 with
+  the libtool patch from pkgsrc. So far, I got segfaults in gcc and even
+  in /bin/sh during the build. I don't know why but the Makefiles
+  expect <tt>$(top_builddir)</tt> to end with a slash, which terribly
+  confuses the poor shell. I also have distfiles for cairo 1.2 and gtk+
+  2.10 on my machine, so this might come in the not-too-distant
+  future. I finally put something into the aqua category: AquaTerm.
+  However, there are no other ports that use it at the moment.
+  math/gnuplot will pick it up if it is installed, I am changing that.</p>
+ <p>I am getting slower with all the typing because I am constantly
+  changing keyboards between German, French and US&mdash;the
+  latter for example here in Plan 9 because I don't know how to
+  change the keyboard layout ...</p>
 
 <p id="eof">Good luck, have fun, take care etc.pp</p>
