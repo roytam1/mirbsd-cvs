@@ -39,7 +39,7 @@ ifeq (0,gmake ignores from here)
 #define __RCSID(x)		static const char __rcsid[] = x
 #endif
 
-__RCSID("$MirOS: src/kern/c/strlfun.c,v 1.2 2011/04/09 16:28:47 tg Exp $");
+__RCSID("$MirOS: src/kern/c/strlfun.c,v 1.3 2011/07/02 22:28:33 tg Exp $");
 
 #ifdef WIDEC
 #ifdef OUTSIDE_OF_LIBKERN
@@ -160,8 +160,13 @@ fn_cpy(char_t *dst, const char_t *src, size_t siz)
 #if 0 /* gcc ignored from here; gmake stops ignoring */
 endif
 
+USE_WIDEC?=	1
+
 LIB=		libstrlfun.a
-OBJS=		strlcpy.o strlcat.o wcslcpy.o wcslcat.o
+OBJS=		strlcpy.o strlcat.o
+ifeq (1,$(strip $(USE_WIDEC)))
+OBJS+=		wcslcpy.o wcslcat.o
+endif
 DEFS=		-DOUTSIDE_OF_LIBKERN
 DEFS_strlcpy.o=	-DL_strlcpy
 DEFS_strlcat.o=	-DL_strlcat
