@@ -2,7 +2,7 @@
 
 #include "sh.h"
 
-__RCSID("$MirOS: src/bin/mksh/jobs.c,v 1.37 2008/10/13 23:06:03 tg Exp $");
+__RCSID("$MirOS: src/bin/mksh/jobs.c,v 1.38 2008/10/26 21:51:26 ahoka Exp $");
 
 /* Order important! */
 #define PRUNNING	0
@@ -120,10 +120,10 @@ static int		kill_job(Job *, int);
 void
 j_init(int mflagset)
 {
-	sigemptyset(&sm_default);
+	(void)sigemptyset(&sm_default);
 	sigprocmask(SIG_SETMASK, &sm_default, NULL);
 
-	sigemptyset(&sm_sigchld);
+	(void)sigemptyset(&sm_sigchld);
 	sigaddset(&sm_sigchld, SIGCHLD);
 
 	setsig(&sigtraps[SIGCHLD], j_sigchld,
