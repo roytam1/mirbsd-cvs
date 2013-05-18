@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.380 2011/02/13 21:18:53 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.381 2011/02/18 22:42:15 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -76,6 +76,8 @@ mws_content <<'EOF'
  porting to Haiku, which was continued at CLT 2010 with help from Stephan
  Aßmus. Thanks to André “naaina” Wösten for ssh on a QNX box. Thanks to
  Olivier Duchateau for testing on Slackware and Zenwalk GNU/Linux.
+ Thanks to Winston W. for spotting musl, and thanks to maximilian attems
+ and H. Peter Anvin for fixing klibc.
  (Did I miss anyone? Mail me if so. Some of these are past, anyway.)</p>
 <p>What is mksh(1)? – Short answer: The MirBSD Korn Shell. Okay, but what
  exactly does it do, or why another shell? These questions will be answered
@@ -521,9 +523,16 @@ exec /usr/bin/ld "${args[@]}"</pre>
  standards, such as <tt>caddr_t</tt>, strcasecmp(3), etc. are weird.</p>
 
 <h5 class="cr" id="oe_klcc">Toolchain: klibc</h5>
-<p>klibc (with stock klcc as compiler wrapper) works if the <a
- href="http://bugs.debian.org/516294">patch from the Debian bug reports</a>
- is applied and <tt>-DMKSH_NO_LIMITS</tt> is used to build mksh(1).</p>
+<p>klibc needs <tt>-DMKSH_NO_LIMITS</tt> and can then use stock klcc as
+ compiler wrapper (CC=klcc). Then, mkstemp(3) must be added to klibc,
+ and we’re hunting down a signal delivery problem (currently, with
+ <tt>-DMKSH_NOPROSPECTOFWORK</tt> it works).</p>
+
+<h5 class="cr" id="oe_musl">Toolchain: musl</h5>
+<p>Has broken <tt>-D_GNU_SOURCE</tt>, needs <tt>-D_BSD_SOURCE</tt> too,
+ so figure out a new set of forced <tt>CPPFLAGS</tt> for this. Compiler
+ wrapper is broken with many gcc versions. Signals are broken but with
+ <tt>-DMKSH_NOPROSPECTOFWORK</tt> it works.</p>
 
 <h5 class="cr" id="oe_aix">OS: AIX</h5>
 <p>Support for AIX with xlC appeared in mksh R30.</p>
@@ -654,7 +663,8 @@ exec /usr/bin/ld "${args[@]}"</pre>
  it did not return to the prompt after running a non-builtin command; this
  is job control issues, and patches are welcome. (Note this is for R37 and
  below; R37b might actually work, but someone would have to test this.)</p>
-<p>Due to the unavailability of ttys, job control will never be supported.</p>
+<p>Due to the unavailability of ttys, job control will never be supported.
+ With <tt>-DMKSH_NOPROSPECTOFWORK</tt> it will probably work.</p>
 <p>The APE (ANSI’n’POSIX Environment) is required to build mksh; I don’t
  remember which compiler I used, but I think it was GCC.</p>
 
@@ -683,7 +693,8 @@ exec /usr/bin/ld "${args[@]}"</pre>
 <p>This does not yet work due to a signal passing bug in the AtheOS kernel,
  we were told by their developers. However, mksh R33 is at the same level
  of support as Plan 9 now.</p>
-<p>Chances are a more recent mksh works with a more recent Syllable.</p>
+<p>Chances are a more recent mksh works with a more recent Syllable.
+ With <tt>-DMKSH_NOPROSPECTOFWORK</tt> it will probably work.</p>
 <p>Syllable Server will work, as it is, <em>at the moment</em>, “just” a
  GNU/Linux distribution with a different GUI. This may change though.</p>
 
@@ -1119,7 +1130,7 @@ exec /usr/bin/ld "${args[@]}"</pre>
   editing commands were run in between; repeat calling works, even together
   with arguments, now; arguments are 0-based (Debian Closes: #603801)</li>
  <li>[tg] Introduce MKSH_NOPROSPECTOFWORK which implies MKSH_UNEMPLOYED
-  and additionally disables job signals, sigprocmask(2), etc.</li>
+  and additionally disables job signals, |&amp;, sigprocmask(2), etc.</li>
  <li>[tg] POSIX: <tt>trap 'echo foo' UNKNOWN</tt> is not a syntax error</li>
  <li>[tg] Do not use <tt>&lt;sys/file.h&gt;</tt> unless it exists</li>
  <li>[tg] <tt>dot.mkshrc</tt>: When we set a UTF-8 locale (e.g. for the
