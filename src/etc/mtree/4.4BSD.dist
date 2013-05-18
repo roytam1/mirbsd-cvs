@@ -1,4 +1,4 @@
-# $MirOS: src/etc/mtree/4.4BSD.dist,v 1.12 2006/01/31 14:22:43 tg Exp $
+# $MirOS: src/etc/mtree/4.4BSD.dist,v 1.13 2006/01/31 14:35:34 tg Exp $
 # $OpenBSD: 4.4BSD.dist,v 1.176 2005/06/03 22:25:50 deraadt Exp $
 
 /set type=dir uname=root gname=wheel mode=0755
@@ -1087,6 +1087,22 @@ usd
 
 # ./usr/share/i18n
 i18n
+
+# ./usr/share/i18n/csmapper
+csmapper
+# ./usr/share/i18n/csmapper
+..
+
+# ./usr/share/i18n/esdb
+esdb
+# ./usr/share/i18n/esdb
+..
+
+# ./usr/share/i18n/iconv
+iconv
+# ./usr/share/i18n/iconv
+..
+
 # ./usr/share/i18n
 ..
 
