@@ -2550,6 +2550,9 @@ Date: 26.12.2007
  was a bit more cumbersome than usual though: our ICE train was replaced
  by an InterCity. No reservations, not enough space and worst of all: no
  coffee.</p>
+
+<p>Update (20.02.2008 tg@): Read <a
+ href="@@RELPATH@@permalinks/wlog-9_e20080220-tg.htm">this</a>.</p>
 ----
 Author: bsiegert@
 Date: 31.12.2007
@@ -2573,6 +2576,9 @@ Title: mksh bug
 
 <p>I think I will leave this here for tg@'s return. It will be up to
  him to decide.</p>
+
+<p>Update (20.02.2008 tg@): Read <a
+ href="@@RELPATH@@permalinks/wlog-9_e20080220-tg.htm">this</a>.</p>
 
 <p>Oh well, today is december 31. Happy new year 2008, everyone!</p>
 ----
@@ -2630,4 +2636,50 @@ Date: 19.02.2008
 <pre>MD5 (mirmake-20080218.cpio.gz) = 5e6ecc4432b61e39e9907737d
 SHA1 (mirmake-20080218.cpio.gz) = 17251b1db87ceed85bd82dc52ca7ace7f7c77786
 </pre>
+----
+Author: tg@
+Date: 20.02.2008
+Title: mksh not buggy
+
+<p>As an update to Benny's <a
+ href="@@RELPATH@@permalinks/wlog-9_e20071226-bsiegert.htm">first wlog entry</a>
+ mentioning <a href="@@RELPATH@@permalinks/wlog-9_e20071231-bsiegert.htm">a
+ possible mksh bug</a> I have to say that this was fixed in <a
+ href="@@RELPATH@@mksh.htm">mksh R31b</a>: <i>The “unset” builtin always
+ returns zero, even if the variable was already unset, as per SUSv3
+ (reported by Arkadiusz Miskiewicz via pld-linux → oksh)</i></p>
+----
+Author: tg@
+Date: 20.02.2008
+
+<p>As a side note, sorry for the inconvenience. As you might have already
+ read, “herc” had a hardware failure (broken keyboard controller chip, due
+ to a screw short-circuiting it), and it was “resurrected” inside of “rant”,
+ which cannot, however, be easily booted (as the discs were IDE, and it can
+ only boot from SCSI or – via the fxp(4) card – PXE). Due to my away time, I
+ was unable to restart the box after it hung up. I was, as of now, unable to
+ finally transfer services to “tear”, the new box (VIA C7), because I still
+ need a working SCSI U320 (or U160) controller. The planned-impending (but
+ then delayed) transfer of services to “tear” caused me to not fix the “herc”
+ hardware first (as it would not be worth the effort).</p>
+<p>We will be working on restoring all services onto “herc”/“rant” within
+ the next days, try to get a SCSI HA ASAP, and build an improved (and
+ possibly more failsafe) infrastructure.</p>
+<p>The unplanned away time causes a late #10 release, and it will not be in
+ time for <a href="http://www.fosdem.org/">FOSDEM</a>, but it will come.
+ Also, some things (nroff, Unicode) have been thought through once again,
+ with interesting results, which will lead to further improvements in these
+ areas in the future.</p>
+----
+Author: tg@
+Date: 22.02.2008
+
+<p>Today, I merged back the cvs repository from hephaistos and tweaked both
+ the ChangeLog and idcache as well as the ,v files to have sort of correct
+ Commit IDs. I'll have to go through a few files worth of diff, but that'll
+ follow next. Benny has done good work, and also thanks a lot to gecko2.</p>
+<p>The process group IDs have been preserved in the lower 32 bit of the new
+ commit ids, the upper 44 bit are, as usual, the time.</p>
+<p>We'll resume normal-heavy operation very soon, so keep your INBOXen ready
+ :)</p>
 ----

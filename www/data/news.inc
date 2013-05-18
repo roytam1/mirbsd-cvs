@@ -589,3 +589,9 @@ Date: 20.02.2008
  href="/permalinks/wlog-9_e20080219-bsiegert.htm">release notes
  here</a>.</p>
 ----
+Title: MirOS @ FOSDEM 2008
+Date: 22.02.2008
+
+<p>bsiegert@ currently sits at the Early Bird beer event in Bruxelles,
+ tg@ and gecko2@ will follow tomorrow and man the MirOS booth ☻</p>
+----
