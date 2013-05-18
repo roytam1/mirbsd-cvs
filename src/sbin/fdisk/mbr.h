@@ -1,4 +1,4 @@
-/**	$MirOS$ */
+/**	$MirOS: src/sbin/fdisk/mbr.h,v 1.2 2005/03/06 19:49:54 tg Exp $ */
 /*	$OpenBSD: mbr.h,v 1.11 2003/06/03 01:13:19 weingart Exp $	*/
 
 /*
@@ -35,10 +35,10 @@
 #define	MBR_CODE_SIZE		0x1BE	/* all of boot code */
 #define	MBR_SMALLCODE_SIZE	0x1B7	/* not the fdef flag and NT magic */
 #define	MBR_PART_SIZE		0x10	/* size of one PTBL entry */
+#define	MBR_FORCE_DEFPART	0x1B7	/* offset of the fdef flag */
+#define	MBR_DISKSIG_OFF		0x1B8	/* offset of the disc signature */
 #define	MBR_PART_OFF		0x1BE	/* offset of first PTBL entry */
-#define	MBR_SIG_OFF		0x1FE
-#define	MBR_FORCE_DEFPART	0x01B7	/* offset of the fdef flag */
-
+#define	MBR_SIG_OFF		0x1FE	/* offset of the 55AA signature */
 
 /* MBR type */
 typedef struct _mbr_t {

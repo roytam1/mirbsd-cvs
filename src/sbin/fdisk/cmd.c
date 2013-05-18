@@ -1,4 +1,4 @@
-/**	$MirOS: src/sbin/fdisk/cmd.c,v 1.4 2005/04/30 22:54:19 tg Exp $	*/
+/**	$MirOS: src/sbin/fdisk/cmd.c,v 1.5 2006/09/20 20:03:30 tg Exp $	*/
 /*	$OpenBSD: cmd.c,v 1.42 2006/07/27 04:06:13 ray Exp $	*/
 
 /*
@@ -32,6 +32,7 @@
 #include <stdio.h>
 #include <ctype.h>
 #include <memory.h>
+#include <stdbool.h>
 #include <stdlib.h>
 #include <unistd.h>
 #include <signal.h>
@@ -41,7 +42,7 @@
 #include "part.h"
 #include "cmd.h"
 
-__RCSID("$MirOS: src/sbin/fdisk/cmd.c,v 1.4 2005/04/30 22:54:19 tg Exp $");
+__RCSID("$MirOS: src/sbin/fdisk/cmd.c,v 1.5 2006/09/20 20:03:30 tg Exp $");
 
 int
 Xreinit(cmd_t *cmd, disk_t *disk, mbr_t *mbr, mbr_t *tt, int offset)
@@ -328,14 +329,8 @@ Xwrite(cmd_t *cmd, disk_t *disk, mbr_t *mbr, mbr_t *tt, int offset)
 
 /* ARGSUSED */
 int
-Xquit(cmd, disk, r, tt, offset)
-	cmd_t *cmd;
-	disk_t *disk;
-	mbr_t *r;
-	mbr_t *tt;
-	int offset;
+Xquit(cmd_t *cmd, disk_t *disk, mbr_t *r, mbr_t *tt, int offset)
 {
-
 	/* Nothing to do here */
 	return (CMD_SAVE);
 }
@@ -377,11 +372,26 @@ Xhelp(cmd_t *cmd, disk_t *disk, mbr_t *mbr, mbr_t *tt, int offset)
 int
 Xupdate(cmd_t *cmd, disk_t *disk, mbr_t *mbr, mbr_t *tt, int offset)
 {
+	bool disksig_r = false;
+	uint32_t disksig_val;
+
+	if ((tt->code[MBR_FORCE_DEFPART] == 0xFF) &&
+	    (tt->code[MBR_DISKSIG_OFF + 0] == 0x00) &&
+	    (tt->code[MBR_DISKSIG_OFF + 1] == 0x00) &&
+	    (tt->code[MBR_DISKSIG_OFF + 2] == 0x00) &&
+	    (tt->code[MBR_DISKSIG_OFF + 3] == 0x00)) {
+		disksig_r = true;
+		disksig_val = arc4random_pushk(mbr, sizeof (mbr_t));
+	}
 	/* Update code */
 	memcpy(mbr->code, tt->code, MBR_CODE_SIZE);
 	mbr->signature = DOSMBR_SIGNATURE;
 	printf("Full machine boot code updated.\n");
-	printf("Microsoft NT might rescan partitions now.\n");
+	if (disksig_r) {
+		memcpy(&mbr->code[MBR_DISKSIG_OFF], &disksig_val, 4);
+		printf("Disk Signature randomised.\n");
+	} else
+		printf("Disk Signature possibly touched.\n");
 	return (CMD_DIRTY);
 }
 
@@ -464,7 +474,7 @@ Xflag(cmd_t *cmd, disk_t *disk, mbr_t *mbr, mbr_t *tt, int offset)
 int
 Xmanual(cmd_t *cmd, disk_t *disk, mbr_t *mbr, mbr_t *tt, int offset)
 {
-	char *pager = "/usr/bin/less";
+	const char *pager = "/usr/bin/less";
 	char *p;
 	sig_t opipe;
 	extern const unsigned char manpage[];
