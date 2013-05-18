@@ -39,7 +39,7 @@
 #include "ntpd.h"
 #include "ntp.h"
 
-__RCSID("$MirOS: src/usr.sbin/ntpd/ntp.c,v 1.25 2010/09/21 21:24:46 tg Exp $");
+__RCSID("$MirOS: src/usr.sbin/ntpd/ntp.c,v 1.26 2010/09/24 22:19:22 tg Exp $");
 
 #define	PFD_PIPE_MAIN	0
 #define	PFD_MAX		1
@@ -97,7 +97,6 @@ ntp_main(int pipe_prnt[2], struct ntpd_conf *nconf)
 
 	/* force re-stir directly after fork, before chroot */
 	arc4random_stir();
-	(void)arc4random();
 	nextstir = time(NULL) + 5400;
 
 	if ((se = getservbyname("ntp", "udp")) == NULL)
