@@ -1,5 +1,5 @@
 #!/usr/bin/make -f
-# $MirOS: contrib/hosted/tg/deb/ca-bundle/debian/rules,v 1.7 2011/11/12 00:11:22 tg Exp $
+# $MirOS: contrib/hosted/tg/deb/ca-bundle/debian/rules,v 1.8 2012/05/30 19:42:01 tg Exp $
 
 build-arch:
 build build-indep: generated/.build_stamp
@@ -18,7 +18,7 @@ generated/.build_stamp:
 		    sed 's/^subject= //')"; \
 		fgrep -v -- ----- $$f | tr -d '\n'; echo; echo; \
 	done >generated/ksslcalist
-	touch $@
+	@:>$@
 
 clean:
 	dh_testdir
@@ -28,7 +28,7 @@ clean:
 binary-indep: build-indep
 	dh_testdir
 	dh_testroot
-	dh_clean -k
+	if test -x "$$(which dh_prep)"; then dh_prep; else dh_clean -k; fi
 	dh_installchangelogs
 	dh_installdocs
 	dh_install

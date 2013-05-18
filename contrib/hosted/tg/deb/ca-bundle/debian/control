@@ -2,7 +2,7 @@ Source: ca-bundle
 Origin: WTF
 Bugs: mailto:wtf@mirbsd.org
 Section: misc
-Priority: optional
+Priority: extra
 Maintainer: Thorsten Glaser <tg@mirbsd.de>
 Build-Depends: debhelper (>= 4), ed, openssl
 Standards-Version: 3.9.3
