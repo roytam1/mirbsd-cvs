@@ -33,7 +33,7 @@
 # endif
 #endif
 
-__RCSID("$MirOS: src/gnu/usr.bin/cvs/src/rcs.c,v 1.6 2007/03/10 23:53:42 tg Exp $");
+__RCSID("$MirOS: src/gnu/usr.bin/cvs/src/rcs.c,v 1.7 2007/06/06 13:46:48 tg Exp $");
 
 /* The RCS -k options, and a set of enums that must match the array.
    These come first so that we can use enum kflag in function
@@ -3556,7 +3556,7 @@ mdoc_date (const char *rcs_date)
 {
     int year, mon, mday, hour, min, sec;
     char buf[100];
-    const char *months[] = { "January", "Febuary", "March", "April",
+    const char *months[] = { "January", "February", "March", "April",
 	"May", "June", "July", "August",
 	"September", "October", "November", "December",
 	"corrupt" };
