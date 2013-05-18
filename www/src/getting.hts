@@ -1,10 +1,10 @@
-# $MirOS: www/src/getting.hts,v 1.1 2007/08/28 19:23:44 bsiegert Exp $
+# $MirOS: www/src/getting.hts,v 1.2 2007/08/28 23:14:27 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname getting "Get MirOS!"
-mws_putheader '$MirOS: www/src/getting.hts,v 1.1 2007/08/28 19:23:44 bsiegert Exp $'
+mws_putheader '$MirOS: www/src/getting.hts,v 1.2 2007/08/28 23:14:27 tg Exp $'
 mws_content <<'EOF'
 <h1>Get MirOS!</h1>
 
@@ -24,6 +24,10 @@ mws_content <<'EOF'
  <li><a href="http://www.ccc.de/congress/">Chaos Communication Congress</a>, Berlin,
   .de</li>
  <li><a href="http://www.fosdem.org/">FOSDEM</a>, Bruxelles, .be</li>
+ <li><a href="http://www.linuxtag.org/">LinuxTag</a>, Berlin, .de</li>
+ <li><a href="http://www.come2linux.org/">come2linux</a> – Linuxtage in
+  Essen, .de</li>
+ <li>… and maybe more; feel free to donate to make up for travel costs</li>
 </ul>
 
 <p>You can also ask <a href="mailto:tg@66h.42h.de">Thorsten</a> for install
@@ -85,6 +89,24 @@ mws_content <<'EOF'
 
 <p>On non-MirOS operating systems, you may need to use a command like
  <tt>export CVS_RSH=ssh</tt> before attempting to connect.</p>
+
+<p>The following tags are used in the CVS repository:</p><ul>
+ <li>The <tt>ports</tt> module is never tagged, as MirPorts-current
+  should work with the last few MirOS versions.</li>
+ <li>The <tt>contrib</tt>, <tt>www</tt> and the orphaned <tt>web</tt>
+  modules are never tagged, because they are not part of a release.</li>
+ <li>The <tt>src</tt>, <tt>gcc</tt> and <tt>X11</tt> modules all bear
+  a static tag <tt>MIRBSD_10_BASE</tt>, which marks the souce code that
+  corresponds to MirOS #10semel (RELEASE).</li>
+ <li>The <tt>src</tt> module and, if necessary, the other two modules,
+  bear a branch tag <tt>MIRBSD_10</tt>, which marks the MirOS #10-stable
+  branch, introducing (mostly) security fixes. You can use MirPorts-HEAD
+  together with MirOS #10-stable, and, unless we feel the need to open a
+  stable branch for the <tt>gcc</tt> and <tt>X11</tt> modules, you either
+  do not need to update these or can use their respective HEAD tags.</li>
+ <li>Some subdirectories of the <tt>contrib</tt> module contain software
+  developed in subprojects; these bear their own versioning tags.</li>
+</ul>
 EOF
 mws_putfooter
 exit 0
