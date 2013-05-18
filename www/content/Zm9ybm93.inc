@@ -1,5 +1,5 @@
 <!-- PageID: fornow -->
-<small class="rcsid">$MirOS: www/content/Zm9ybm93.inc,v 1.1 2006/05/08 20:52:16 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/Zm9ybm93.inc,v 1.2 2006/05/08 20:59:09 tg Exp $</small>
 <h1>MirOS Website (for now)</h1>
 
 <h2>About this page</h2>
@@ -57,4 +57,10 @@
 <li><a href="http://mirbsd.de/irc">irc</a> info</li>
 <li><a href="http://mirbsd.de/root">root</a> = standard page (redirector)</li>
 <li><a href="http://mirbsd.de/fornow">fornow</a> (this page)</li>
+</ul>
+
+<h2>Other useful links</h2><ul>
+<li><a href="http://mira.66h.42h.de/pub/jdos16.exe">Jupp 2.8 for MS-DOS&reg;</a></li>
+<li><a href="http://mira.66h.42h.de/pub/KBDmir1U.exe">Keyboard driver with Meta key for Windows NT&reg;/2000</a> and up</li>
+<li><a href="http://mira.66h.42h.de/pub/openntpd-3.7p1-leapsecs.diff">Leap second diff against portable OpenNTPD 3.7p1</a> (see <a href="http://www.openntpd.org/">OpenNTPD homepage</a>)</li>
 </ul>
