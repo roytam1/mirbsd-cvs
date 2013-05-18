@@ -33,7 +33,7 @@
 # endif
 #endif
 
-__RCSID("$MirOS: src/gnu/usr.bin/cvs/src/rcs.c,v 1.11 2010/09/19 19:43:08 tg Exp $");
+__RCSID("$MirOS: src/gnu/usr.bin/cvs/src/rcs.c,v 1.12 2011/06/10 22:43:03 tg Exp $");
 
 /* The RCS -k options, and a set of enums that must match the array.
    These come first so that we can use enum kflag in function
@@ -7396,17 +7396,14 @@ RCS_deltas (RCSNode *rcs, FILE *fp, struct rcsbuffer *rcsbuf,
 	    else
 	        isversion = 0;
 
-	    if ((op == RCS_ANNOTATE_BACKWARDS) && STREQ (version, key)) {
-		if (onbranch) {
-		    unsigned int ln;
+	    /* If we are going back and up a branch, and this is
+	       the version we should start annotating, we need to
+	       clear out all accumulated annotations.  */
+	    if ((op == RCS_ANNOTATE_BACKWARDS) && onbranch && STREQ (version, key)) {
+		unsigned int ln;
 
-		    for (ln = 0; ln < curlines.nlines; ++ln)
-			curlines.vector[ln]->vers = NULL;
-		} else {
-		    foundhead = 1;
-		    linevector_copy (&headlines, &curlines);
-		    break;
-		}
+		for (ln = 0; ln < curlines.nlines; ++ln)
+		    curlines.vector[ln]->vers = NULL;
 	    }
 	}
 
@@ -7464,6 +7461,14 @@ RCS_deltas (RCSNode *rcs, FILE *fp, struct rcsbuffer *rcsbuf,
 
 	if (isversion)
 	{
+	    /* If we're going backwards and not up a branch, and we
+	       reached the version to start at, we're done.  */
+	    if ((op == RCS_ANNOTATE_BACKWARDS) && !onbranch && STREQ (version, key)) {
+		foundhead = 1;
+		linevector_copy (&headlines, &curlines);
+		break;
+	    }
+
 	    /* This is either the version we want, or it is the
                branchpoint to the version we want.  */
 	    if (STREQ (branchversion, version))
