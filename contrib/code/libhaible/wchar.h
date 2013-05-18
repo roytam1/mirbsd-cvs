@@ -1,4 +1,4 @@
-/* $MirOS: contrib/code/libhaible/wchar.h,v 1.13 2006/05/30 21:29:48 tg Exp $ */
+/* $MirOS: contrib/code/libhaible/wchar.h,v 1.14 2006/05/30 23:25:39 tg Exp $ */
 
 /*-
  * Copyright (c) 2005, 2006
@@ -70,10 +70,6 @@ wchar_t	*fgetws(wchar_t *__restrict__, int, FILE *__restrict__);
 wint_t	fputwc(wchar_t, FILE *);
 int	fputws(const wchar_t *__restrict__, FILE *__restrict__);
 int	fwide(FILE *, int);
-#ifdef notyet
-int	fwprintf(FILE * __restrict__, const wchar_t * __restrict__, ...);
-int	fwscanf(FILE *__restrict__, const wchar_t *__restrict__, ...);
-#endif
 wint_t	getwc(FILE *);
 wint_t	getwchar(void);
 size_t	mbrlen(const char *__restrict__, size_t, mbstate_t *__restrict__);
@@ -84,23 +80,7 @@ size_t	mbsrtowcs(wchar_t *__restrict__, const char **__restrict__, size_t,
 	    mbstate_t *__restrict__);
 wint_t	putwc(wchar_t, FILE *);
 wint_t	putwchar(wchar_t);
-#ifdef notyet
-int	swprintf(wchar_t * __restrict__, size_t, const wchar_t * __restrict__,
-	    ...);
-int	swscanf(const wchar_t *__restrict__, const wchar_t *__restrict__, ...);
-#endif
 wint_t	ungetwc(wint_t, FILE *);
-#ifdef notyet
-int	vfwprintf(FILE * __restrict__, const wchar_t * __restrict__,
-	    _BSD_VA_LIST_);
-int	vfwscanf(FILE *__restrict__, const wchar_t *__restrict__, _BSD_VA_LIST_);
-int	vswprintf(wchar_t * __restrict__, const wchar_t * __restrict__,
-	    _BSD_VA_LIST_);
-int	vswscanf(const wchar_t *__restrict__, const wchar_t *__restrict__,
-	    _BSD_VA_LIST_);
-int	vwprintf(const wchar_t * __restrict__, _BSD_VA_LIST_);
-int	vwscanf(const wchar_t *__restrict__, _BSD_VA_LIST_);
-#endif
 size_t	wcrtomb(char *__restrict__, wchar_t, mbstate_t *__restrict__);
 int	wcscasecmp(const wchar_t *, const wchar_t *);
 wchar_t	*wcscat(wchar_t *__restrict__, const wchar_t *__restrict__);
@@ -110,10 +90,6 @@ int	wcscoll(const wchar_t *, const wchar_t *);
 wchar_t	*wcscpy(wchar_t *__restrict__, const wchar_t *__restrict__);
 size_t	wcscspn(const wchar_t *, const wchar_t *);
 wchar_t *wcsdup(const wchar_t *);
-#ifdef notyet
-size_t	wcsftime(wchar_t *__restrict__, size_t, const wchar_t *__restrict__,
-	    const struct tm *__restrict__);
-#endif
 size_t	wcslcat(wchar_t *, const wchar_t *, size_t);
 size_t	wcslcpy(wchar_t *, const wchar_t *, size_t);
 size_t	wcslen(const wchar_t *);
@@ -157,7 +133,23 @@ int	wmemcmp(const wchar_t *, const wchar_t *, size_t);
 wchar_t	*wmemcpy(wchar_t *__restrict__, const wchar_t *__restrict__, size_t);
 wchar_t	*wmemmove(wchar_t *, const wchar_t *, size_t);
 wchar_t	*wmemset(wchar_t *, wchar_t, size_t);
-#ifdef notyet
+
+/* these functions are currently not implemented */
+#if 0
+int	fwprintf(FILE * __restrict__, const wchar_t * __restrict__, ...);
+int	fwscanf(FILE *__restrict__, const wchar_t *__restrict__, ...);
+int	swprintf(wchar_t * __restrict__, size_t, const wchar_t * __restrict__,
+	    ...);
+int	swscanf(const wchar_t *__restrict__, const wchar_t *__restrict__, ...);
+int	vfwprintf(FILE * __restrict__, const wchar_t * __restrict__,
+	    _BSD_VA_LIST_);
+int	vfwscanf(FILE *__restrict__, const wchar_t *__restrict__, _BSD_VA_LIST_);
+int	vswprintf(wchar_t * __restrict__, const wchar_t * __restrict__,
+	    _BSD_VA_LIST_);
+int	vswscanf(const wchar_t *__restrict__, const wchar_t *__restrict__,
+	    _BSD_VA_LIST_);
+int	vwprintf(const wchar_t * __restrict__, _BSD_VA_LIST_);
+int	vwscanf(const wchar_t *__restrict__, _BSD_VA_LIST_);
 int	wprintf(const wchar_t * __restrict__, ...);
 int	wscanf(const wchar_t *__restrict__, ...);
 #endif
