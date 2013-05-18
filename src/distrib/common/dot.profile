@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/dot.profile,v 1.33 2008/10/20 19:29:20 tg Exp $
+# $MirOS: src/distrib/common/dot.profile,v 1.34 2008/11/01 18:37:17 tg Exp $
 # $OpenBSD: dot.profile,v 1.4 2002/09/13 21:38:47 deraadt Exp $
 # $NetBSD: dot.profile,v 1.1 1995/12/18 22:54:43 pk Exp $
 #
@@ -84,8 +84,9 @@ rootdisk=/dev/${rootdisk:-rd0a}
 
 if [ ! -f /.profile.done ]; then
 	# first of all, we need a /tmp - use all memory minus 4 MiB
-	integer avmem="$(sysctl -n hw.usermem) / 512"
-	(( avmem < 8200 )) || mount_mfs -s $((avmem - 8192)) swap /tmp
+	integer avmem=$(sysctl -n hw.usermem)
+	(( avmem = avmem > 536870912 ? 1048576 : avmem / 512 - 8192 ))
+	(( avmem < 8200 )) || mount_mfs -s $avmem swap /tmp
 	unset avmem
 
 	# on sparc, use the nvram to provide some additional entropy
