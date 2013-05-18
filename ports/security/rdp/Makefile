@@ -1,11 +1,12 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.16 2004/02/01 07:12:39 pvalchev Exp $
 
-COMMENT=			ICMP router discovery protocol spoofer
+COMMENT=	ICMP router discovery protocol spoofer
 
 DISTNAME=	rdp
 PKGNAME=	rdp-1.0-0
 CATEGORIES=	security
-MASTER_SITES=	http://www.atstake.com/research/tools/
+MASTER_SITES=	${MASTER_SITE_OPENBSD}
 
 LIB_DEPENDS=	net::net/libnet
 
