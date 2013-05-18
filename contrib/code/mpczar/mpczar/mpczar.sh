@@ -1,8 +1,8 @@
 #!/bin/mksh
-# $MirOS: contrib/code/mpczar/mpczar/mpczar.sh,v 1.6 2005/11/16 22:44:02 tg Stab $
+# $MirOS: src/share/misc/licence.template,v 1.8 2006/06/16 23:03:39 tg Rel $
 #-
-# Copyright (c) 2005
-#	Thorsten "mirabile" Glaser <tg@66h.42h.de>
+# Copyright (c) 2005, 2006
+#	Thorsten Glaser <tg@mirbsd.de>
 #
 # Licensee is hereby permitted to deal in this work without restric-
 # tion, including unlimited rights to use, publicly perform, modify,
@@ -23,7 +23,6 @@
 # direct error of said person and intended use of this work, loss or
 # other issues arising in any way out of its use, even if advised of
 # the possibility of such damage or existence of a nontrivial bug.
-#-
 
 function usage
 {
@@ -94,7 +93,7 @@ done
 
 [[ $outf != - && $outf != *@(.mcz) ]] && outf=${outf}.mcz
 
-( whattopack | whattoignore | cpio $v -oHv4norm ) |&
+( whattopack | whattoignore | cpio $v -oC512 -Hsv4crc -M0x0F ) |&
 exec 3<&p
 $helper "$outf" <&3 || rv=2
 wait % || rv=1
