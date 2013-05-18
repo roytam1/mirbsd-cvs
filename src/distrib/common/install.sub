@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/install.sub,v 1.35 2008/06/03 17:37:39 tg Exp $
+# $MirOS: src/distrib/common/install.sub,v 1.36 2008/06/13 19:39:00 tg Exp $
 # $OpenBSD: install.sub,v 1.388 2005/07/02 00:55:48 uwe Exp $
 # $NetBSD: install.sub,v 1.5.2.8 1996/09/02 23:25:02 pk Exp $
 #
@@ -1561,19 +1561,6 @@ questions() {
 		echo "ntpd_flags=		# enabled during install" \
 		    >>/mnt/etc/rc.conf.local
 		echo "rdate_flags='-nv ntp.mirbsd.org'" >>/mnt/etc/rc.conf.local
-	fi
-
-	echo 'To keep an estimate of the installed user base and to support'
-	echo 'the hardware MirOS runs on better, the system reports monthly'
-	echo 'to bsdstats.org, a site run by volunteers and not affiliated'
-	echo 'with the MirOS Project, the operating system version, type and'
-	echo 'number of CPU(s) in use.' # and PCI device types.
-	echo 'The information is tied to an anonymous key and not employed'
-	echo 'to collect any personal data about MirOS users.'
-	ask_yn 'Do you want to *disable* sending hardware information?'
-	if [[ $resp = y ]]; then
-		echo "bsdstats_flags=		# disabled during install" \
-		    >>/mnt/etc/rc.conf.local
 	fi
 
 	if [[ -n $MDXAPERTURE ]]; then

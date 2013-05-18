@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/distrib/common/install.sh,v 1.14 2008/03/27 13:48:26 tg Exp $
+# $MirOS: src/distrib/common/install.sh,v 1.15 2008/06/15 14:14:16 tg Exp $
 # $OpenBSD: install.sh,v 1.152 2005/04/21 21:41:33 krw Exp $
 # $NetBSD: install.sh,v 1.5.2.8 1996/08/27 18:15:05 gwr Exp $
 #
@@ -486,18 +486,11 @@ cat >/mnt/etc/rc.once <<-'EOF'
 	newaliases 2>&1 | logger -t rc.once
 	sync
 	( (
-		print running BSDstats script
-		stats_sysadd=-firstrun mksh /usr/share/misc/bsdstats
 		print running daily, weekly and monthly cronjobs
-		# prevent BSDstats script from being run _again_
-		[[ -s /usr/share/misc/bsdstats ]] && \
-		    mv /usr/share/misc/bsdstats /usr/share/misc/bsdstats-
 		mksh /etc/cronrun -n daily &
 		mksh /etc/cronrun -n weekly &
 		mksh /etc/cronrun -n monthly &
 		wait
-		[[ -s /usr/share/misc/bsdstats- ]] && \
-		    mv /usr/share/misc/bsdstats- /usr/share/misc/bsdstats
 		print done, cleaning up
 		sync
 		rm -f /var/run/cron.maintenance /etc/rc.once

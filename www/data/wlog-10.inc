@@ -978,3 +978,20 @@ Title: Configuring name-based apache vhosts with SSL and IPv6…
  to fix things. Apache is definitively historic ballast, but still common
  enough on todays Unices.</p>
 ----
+Date: 09.07.2008 23:31
+Author: tg@
+Title: continuity
+
+<p>Since quite a while I’ve had anger about BSDstats – their ports reporting
+ stopped including ours (MirPorts Framework, NetBSD® pkgsrc®, OpenBSD ports
+ tree, Debian dpkg), the maintainer was rarely reachable, at most by eMail,
+ and the entire system had issues. Now, the site no longer exists, apparently
+ nobody knows why, and our systems error out. Well, I have disabled BSDstats,
+ this will probably make MirOS appeal more to privacy-conscious geeks again,
+ and save us from getting more errors in our logfiles, especially the Live CD
+ reporting was already totally broken due to weird User-Agent tricks.</p>
+<p>I’ll now count on people just using <a href="@@RELPATH@@irc.htm">IRC</a>
+ or so to say hi to us if they’re using MirOS, are happy or tell us things we
+ could improve. Or meet us at <a href="http://www.froscon.de/">conferences</a>
+ and pay for our beer ☺ and other beverages (we’re not BeerFSD after all).</p>
+----

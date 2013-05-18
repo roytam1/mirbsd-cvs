@@ -1,5 +1,5 @@
 mws_setname about 'About MirOS'
-mws_putheader '$MirOS$'
+mws_putheader '$MirOS: www/src/about.hts,v 1.1 2008/06/28 20:42:45 bsiegert Exp $'
 mws_content <<'EOF'
 
 <h1>About MirOS</h1>
@@ -79,8 +79,6 @@ to elaborate more -->
   format; support for new formats in cpio</li>
  <li>Improved support for UTF-8 and the Unicode BMP, including wide
   character support for libncurses ("libncursesw") and friends</li>
- <li>Out-of-the-box support for the <a href="http://bsdstats.org/">BSDstats
-  Project</a></li>
 </ul>
 
 <h3 id="livecd">Live CD</h3>
