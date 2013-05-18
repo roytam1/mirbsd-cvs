@@ -1,10 +1,10 @@
-/**	$MirOS: src/sbin/disklabel/disklabel.c,v 1.5 2007/09/18 20:14:25 tg Exp $ */
+/**	$MirOS: src/sbin/disklabel/disklabel.c,v 1.6 2008/11/08 23:03:58 tg Exp $ */
 /*	$OpenBSD: disklabel.c,v 1.95 2005/04/30 07:09:37 deraadt Exp $	*/
 
 /*
  * Copyright (c) 1987, 1993
  *	The Regents of the University of California.  All rights reserved.
- * Copyright (c) 2004
+ * Copyright (c) 2004, 2010
  *	Thorsten "mirabilos" Glaser <tg@mirbsd.org>
  *
  * This code is derived from software contributed to Berkeley by
@@ -60,7 +60,7 @@
 
 __COPYRIGHT("@(#) Copyright (c) 1987, 1993\n\
 	The Regents of the University of California.  All rights reserved.\n");
-__RCSID("$MirOS: src/sbin/disklabel/disklabel.c,v 1.5 2007/09/18 20:14:25 tg Exp $");
+__RCSID("$MirOS: src/sbin/disklabel/disklabel.c,v 1.6 2008/11/08 23:03:58 tg Exp $");
 
 /*
  * Disklabel: read and write disklabels.
@@ -116,7 +116,6 @@ struct dos_partition *readmbr(int);
 
 void	makedisktab(FILE *, struct disklabel *);
 void	makelabel(char *, char *, struct disklabel *);
-int	writelabel(int, char *, struct disklabel *);
 void	l_perror(char *);
 int	edit(struct disklabel *, int);
 int	editit(void);
@@ -127,6 +126,7 @@ int	cmplabel(struct disklabel *, struct disklabel *);
 void	setbootflag(struct disklabel *);
 void	usage(void);
 u_int32_t getnum(char *, u_int32_t, u_int32_t, const char **);
+ssize_t cdblockedread(int, void *, size_t, off_t);
 
 int
 main(int argc, char *argv[])
@@ -445,13 +445,10 @@ writelabel(int f, char *boot, struct disklabel *lp)
 		if (!installboot) {
 			struct disklabel tlab;
 
-			if (lseek(f, sectoffset, SEEK_SET) < 0) {
-				perror("lseek");
-				return (1);
-			}
 			tlab = *lp;
-			if (read(f, boot, tlab.d_bbsize) != tlab.d_bbsize) {
-				perror("read");
+			if (cdblockedread(f, boot, tlab.d_bbsize, sectoffset) !=
+			    tlab.d_bbsize) {
+				perror("lseek+read");
 				return (1);
 			}
 			*lp =tlab;
@@ -567,11 +564,10 @@ l_perror(char *s)
 int
 read_pt(int f, long offs, int *target)
 {
-	if (lseek(f, (off_t)offs * DEV_BSIZE, SEEK_SET) < 0)
-		return -1;
-	if (read(f, target, DEV_BSIZE) < DEV_BSIZE)
-		return -1;
-	return 0;
+	if (cdblockedread(f, target, DEV_BSIZE, (off_t)offs * DEV_BSIZE) !=
+	    DEV_BSIZE)
+		return (-1);
+	return (0);
 }
 
 /* scan partition table for BIOS partition of given type */
@@ -710,8 +706,7 @@ readlabel(int f)
 			    (long long)sectoffset/DEV_BSIZE,
 			    sectoffset/DEV_BSIZE +
 			    (LABELSECTOR * DEV_BSIZE) + LABELOFFSET);
-		if (lseek(f, sectoffset, SEEK_SET) < 0 ||
-		    read(f, bootarea, BBSIZE) < BBSIZE)
+		if (cdblockedread(f, bootarea, BBSIZE, sectoffset) != BBSIZE)
 			err(4, "%s", specname);
 
 		lp = (struct disklabel *)(bootarea +
@@ -1807,4 +1802,45 @@ usage(void)
 	    "For procedures specific to this architecture see: %s\n", SEEALSO);
 #endif
 	exit(1);
+}
+
+/* support routine for lseek+read to make 2048-byte aligned I/O */
+ssize_t
+cdblockedread(int fd, void *dst, size_t len, off_t ofs)
+{
+	off_t begsec, nlong;
+	size_t begsecofs, n;
+	ssize_t res;
+	char *buf;
+
+	begsec = ofs & ~2047;			/* start cdsector */
+	nlong = (ofs + len + 2047) & ~2047;	/* end+1 cdsector */
+	nlong -= begsec;			/* num. bytes to read */
+	begsecofs = (size_t)(ofs & 2047);	/* start in sector */
+	n = (size_t)nlong;
+	if (nlong != (off_t)n) {
+		errno = EINVAL;			/* truncation */
+		return (-1);
+	}
+	if ((buf = malloc(n)) == NULL)
+		return (-1);
+	nlong = lseek(fd, begsec, SEEK_SET);
+	if (nlong != begsec)
+		goto err;
+	if ((res = read(fd, buf, n)) == -1)
+		goto err;
+	if (n != (size_t)res) {
+		errno = EIO;			/* short read */
+		goto err;
+	}
+	memcpy(dst, buf + begsecofs, len);
+	free(buf);
+	/* correctly position seek pointer */
+	ofs += len;
+	nlong = lseek(fd, ofs, SEEK_SET);
+	return (nlong == ofs ? (ssize_t)len : -1);
+
+err:
+	free(buf);
+	return (-1);
 }

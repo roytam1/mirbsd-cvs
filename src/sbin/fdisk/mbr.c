@@ -1,7 +1,9 @@
-/**	$MirOS: src/sbin/fdisk/mbr.c,v 1.2 2005/03/06 19:49:54 tg Exp $ */
+/**	$MirOS: src/sbin/fdisk/mbr.c,v 1.3 2006/09/20 20:03:30 tg Exp $ */
 /*	$OpenBSD: mbr.c,v 1.22 2006/05/29 05:09:36 ray Exp $	*/
 
 /*
+ * Copyright (c) 2010
+ *	Thorsten Glaser <tg@mirbsd.org>
  * Copyright (c) 1997 Tobias Weingartner
  * All rights reserved.
  *
@@ -30,6 +32,7 @@
 #include <errno.h>
 #include <util.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <unistd.h>
 #include <memory.h>
 #include <sys/fcntl.h>
@@ -44,7 +47,9 @@
 #include "mbr.h"
 #include "part.h"
 
-__RCSID("$MirOS: src/sbin/fdisk/mbr.c,v 1.2 2005/03/06 19:49:54 tg Exp $");
+__RCSID("$MirOS: src/sbin/fdisk/mbr.c,v 1.3 2006/09/20 20:03:30 tg Exp $");
+
+ssize_t cdblockedread(int, void *, size_t, off_t);
 
 void
 MBR_init(disk_t *disk, mbr_t *mbr)
@@ -133,24 +138,52 @@ MBR_print(mbr_t *mbr, char *units)
 		PRT_print(i, &mbr->part[i], units, mbr->code[MBR_FORCE_DEFPART]);
 }
 
+/* support routine for lseek+read to make 2048-byte aligned I/O */
+ssize_t
+cdblockedread(int fd, void *dst, size_t len, off_t ofs)
+{
+	off_t begsec, nlong;
+	size_t begsecofs, n;
+	ssize_t res;
+	char *buf;
+
+	begsec = ofs & ~2047;			/* start cdsector */
+	nlong = (ofs + len + 2047) & ~2047;	/* end+1 cdsector */
+	nlong -= begsec;			/* num. bytes to read */
+	begsecofs = (size_t)(ofs & 2047);	/* start in sector */
+	n = (size_t)nlong;
+	if (nlong != (off_t)n) {
+		errno = EINVAL;			/* truncation */
+		return (-1);
+	}
+	if ((buf = malloc(n)) == NULL)
+		return (-1);
+	nlong = lseek(fd, begsec, SEEK_SET);
+	if (nlong != begsec)
+		goto err;
+	if ((res = read(fd, buf, n)) == -1)
+		goto err;
+	if (n != (size_t)res) {
+		errno = EIO;			/* short read */
+		goto err;
+	}
+	memcpy(dst, buf + begsecofs, len);
+	free(buf);
+	/* correctly position seek pointer */
+	ofs += len;
+	nlong = lseek(fd, ofs, SEEK_SET);
+	return (nlong == ofs ? (ssize_t)len : -1);
+
+err:
+	free(buf);
+	return (-1);
+}
+
 int
 MBR_read(int fd, off_t where, char *buf)
 {
-	off_t off;
-	ssize_t len;
-
-	where *= DEV_BSIZE;
-	off = lseek(fd, where, SEEK_SET);
-	if (off != where)
+	if (cdblockedread(fd, buf, DEV_BSIZE, where * DEV_BSIZE) != DEV_BSIZE)
 		return (-1);
-	len = read(fd, buf, DEV_BSIZE);
-	if (len == -1)
-		return (-1);
-	if (len != DEV_BSIZE) {
-		/* short read */
-		errno = EIO;
-		return (-1);
-	}
 	return (0);
 }
 
