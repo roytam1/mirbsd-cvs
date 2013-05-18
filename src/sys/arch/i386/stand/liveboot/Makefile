@@ -1,4 +1,4 @@
-# $MirOS: src/sys/arch/i386/stand/liveboot/Makefile,v 1.6 2009/01/17 12:18:23 tg Exp $
+# $MirOS: src/sys/arch/i386/stand/liveboot/Makefile,v 1.7 2009/02/01 10:44:17 tg Exp $
 
 BOOTSELECT_HOOK=yes
 BOOTLDR_PATH=	${.CURDIR}/../boot
@@ -10,6 +10,7 @@ DUALIVE=	No
 GRML=		No
 CPPFLAGS+=	-DFORGRML
 MBSD_PREFIX=	/boot/mirbsd
+NOMAN=		No
 .endif
 
 DUALIVE?=	No
@@ -46,3 +47,10 @@ install:
 
 .PATH: ${BOOTLDR_PATH}
 .include "${BOOTLDR_PATH}/Makefile"
+
+.if ${BSD4GRML:L} == "yes"
+all: ldbsd.txt
+
+ldbsd.txt: __MANALL
+	col -bx <boot.cat8 >$@ || (rm -f $@; exit 1)
+.endif
