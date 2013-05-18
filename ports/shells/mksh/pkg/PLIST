@@ -1,5 +1,7 @@
-@comment $MirOS: ports/shells/mksh/pkg/PLIST,v 1.1 2005/06/09 21:14:46 tg Exp $
+@comment $MirOS: ports/shells/mksh/pkg/PLIST,v 1.2 2005/11/18 00:08:29 tg Exp $
 @option base-package
 bin/mksh
 @sample /bin/mksh
 man/cat1/mksh.0
+share/examples/mksh/dot.mkshrc
+@dirrm share/examples/mksh

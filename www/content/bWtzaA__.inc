@@ -1,7 +1,7 @@
 <!-- PageID: mksh -->
-<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.49 2006/08/13 22:47:43 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.50 2006/08/18 22:51:07 tg Exp $</small>
 
-<h1>mksh(1) R27e</h1>
+<h1>mksh(1) R28</h1>
 <p>This is the MirBSD&trade; Korn Shell, a more or less portable
  version of the pdksh derivate which comes, as an alternative to
  the default (and not used by anyone sane) C Shell, or (ancient)
@@ -31,13 +31,17 @@
 
 <h2 id="clog">Recent Changes</h2>
 <p>Changes in the current (unreleased) development version:</p><ul>
+ <li>Begin porting mksh to the <a href="http://9fans.net/">Plan 9</a>
+  ANSI'n'POSIX Environment (not finished)</li>
+</ul>
+<p>Upgrading to mksh R28 with these changes is highly recommended:</p><ul>
  <li>For these who build software as root, the regression testsuite
   has been adapted to pass when using a priviledgued shell. You have
   been warned, though. Do not compile software as root.</li>
  <li>Fix some more <tt>-Wchar-subscripts</tt> on NetBSD&reg;</li>
  <li>Adjust manual page to the fact that mksh can be used as
   <tt>/bin/sh</tt> although it's not specifically designed to</li>
- <li>Simplify nroff macro load in manual page</li>
+ <li>Simplify mdoc/nroff macro load in manual page</li>
  <li>Add sample file: <tt>dot.mkshrc</tt></li>
  <li>Correct and enhance book citation list in the manual page</li>
  <li>Bring back the "version" editing command in both emacs and
@@ -45,8 +49,8 @@
  <li>Fix typo which resulted in the wrong names for signals being
   printed (error codes were used instead) on GNU/Linux, Solaris
   and GNU/Cygwin. Ease changing signame/siglist sources.</li>
- <li>Some more code cleanup</li>
- <li>Merge OpenBSD changes, yielding better multiline prompt
+ <li>Some more code cleanup and redundancy removal</li>
+ <li>Merge a few OpenBSD changes, yielding better multiline prompt
   support and textual improvements in the manual page</li>
  <li>Adjust $PS1 sizing, printing, and redrawal routines
   for mksh behaviour and single- and multiline prompts</li>
@@ -56,8 +60,8 @@
   are printable &ndash; fixes platforms without non-printable
   characters (Interix, Cygwin) and prompt size calculation</li>
  <li>Calculate length of prompt in lines and columns-of-last-line
-  instead of using some tricks to skip the beginning of the prompt.
-  Results in correct redrawing of prompts with ANSI colour codes.</li>
+  instead of using some tricks to skip the beginning of the prompt,
+  resulting in correct redrawing of prompts with ANSI colour codes</li>
  <li>Correct displaying of prompts spanning more than one line
   and/or with embedded newlines or carriage returns; correct
   documentation of $PS1 and the redraw editing command</li>
@@ -79,23 +83,29 @@
  <li>Correct the manual page regarding the 'abort' command, its
   interaction with 'search-history' and how to exit the latter</li>
  <li>Bring back "set -o posix" turning off 'braceexpand'</li>
- <li>Mention IRC channel in manual page</li>
+ <li>Mention IRC channel <tt>#mksh</tt>/Freenode in manual page</li>
  <li>Merge <tt>gensigs.sh</tt> into <tt>Build.sh</tt>, eliminating
   the need for <tt>$SHELL</tt> and making it more robust to broken
   user shells such as zsh, use the mksh just built for <tt>Test.sh</tt>;
   simplify CPPFLAGS and reduce size of generated table</li>
  <li>Run the signal name generator only if needed</li>
  <li>Use the -c option to GNU nroff, always</li>
- <li>Improve bundled sample file</li>
  <li>Make the &quot;last command of a pipeline is executed in a
   subshell&quot; issue a dependable mksh feature</li>
  <li>Improve regression test comments and a few tests</li>
- <li>Begin porting mksh to the <a href="http://9fans.net/">Plan 9</a>
-  ANSI'n'POSIX Environment (not finished)</li>
  <li>If $RANDOM is generated from arc4random(3), display at
   most 31 bits of it like nbsh(1), instead of only 15 bits.</li>
+ <li>Rename the regression test script from Test.sh to test.sh</li>
+ <li>Improve Build.sh output regarding other files than the binary</li>
+ <li>Mention <tt>#ksh</tt>/Freenode in the manual page, since its
+  founder (twkm) said it's okay and on-topic as well</li>
+ <li>Fix persistent history, add regression test</li>
+ <li>Check for arc4random(3) and arc4random_push(3) by using
+  the compiler instead of hardcoding OSes which have and which
+  don't, because that's not always true</li>
+ <li>Fix some regression tests (based upon user feedback too)</li>
 </ul>
-<p>We recommend mksh <b>R27e</b> to be used:</p><ul>
+<p>We recommended mksh <b>R27e</b> to be used:</p><ul>
  <li>Allow <tt>Test.sh</tt> to be passed parameters (-v)</li>
  <li>Fix all <tt>-Wchar-subscripts</tt> on Solaris/sparc64
   and NetBSD&reg;/alpha and remove <tt>-Wno-char-subscripts</tt>
@@ -287,18 +297,18 @@
 <h2 id="fetch">Getting The Source</h2>
 
 <p>The current version is <a
- href="http://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R27e.cpio.gz">http://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R27e.cpio.gz</a></p>
+ href="http://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R28.cpio.gz">http://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R28.cpio.gz</a></p>
 <ul>
  <li>Please use gzsig(1) to verify the integrity of the distfile instead!
   Hashes are only so you know which distfile you want.</li>
- <li>RMD160 (mksh-R27e.cpio.gz) = b34047aa96366bdba79f99a0c7cdc9fc944be3b4</li>
- <li>3239984152 229752 /MirOS/dist/mir/mksh/mksh-R27e.cpio.gz</li>
- <li>MD5 (mksh-R27e.cpio.gz) = 2eeb5c5fab32cc7a20ca3c7c2c6fda46</li>
+ <li>RMD160 (mksh-R28.cpio.gz) = 511926e621b73be23e0ae48fe1c09c2e1bfa7500</li>
+ <li>3110135037 230291 /MirOS/dist/mir/mksh/mksh-R28.cpio.gz</li>
+ <li>MD5 (mksh-R28.cpio.gz) = 1869f79961c365c65116974706a56c67</li>
 </ul>
 
 <h2>Installation</h2>
 <p>If you ever sit in front of an unfriendly operating
- environment such as FreeBSD or the default Interix,
+ environment such as GNU, FreeBSD or the default Interix,
  first, do not use the sh or ksh which comes with them.
  Use the C shell instead. (Kidding? No.)
  Then, try wget, ftp(1) or
@@ -306,16 +316,17 @@
  usually, one of them succeeds.
  If you must use a web browser for downloading the file,
  please note that most of them, seen on Mozilla&reg; and
- its derivates as well as Microsoft Internet Explorer,
+ its derivates as well as Microsoft&reg; Internet Explorer,
  have a bug where the file is saved correctly
- as <em>mksh-R27e.cpio.gz</em> but already decompressed.</p>
+ as <em>mksh-R28.cpio.gz</em> but already decompressed.</p>
 
 <h3 id="extract">Unpacking</h3>
-<p>On decent systems, you can just use <tt>tar xzf mksh-R27e.cpio.gz</tt>
- to extract the file. On quite damaged systems such as everything which
- is not MirOS or anything else with <a href="/?MirCpio">MirCpio</a>
+<p>On decent systems, you can just use <tt>tar xzf mksh-R28.cpio.gz</tt>
+ to extract the file. On quite damaged systems such as basically everything
+ which is not MirOS or anything else with <a href="/?MirCpio">MirCpio</a>
  (paxmirabilis) or some other kind of paxtar, use <tt>gzip -dc
- mksh-R27e.cpio.gz | cpio -mid</tt></p>
+ mksh-R28.cpio.gz | cpio -mid</tt> or <tt>gzip -dc mksh-R28.cpio.gz |
+ pax -r</tt> instead.</p>
 <p>Of course, skip the gzip stage (use cat) or the 'z' flag
  if your browser already decompressed the file.</p>
 
@@ -338,10 +349,11 @@
  current directory, not the source directory, if these are different.</p>
 <h3 id="buildbsd">Most operating systems (BSD)</h3>
 <ul>
- <li>cd mksh; env SHELL=/bin/sh sh Build.sh &amp;&amp; ./Test.sh</li>
+ <li>cd mksh; env SHELL=/bin/sh sh Build.sh &amp;&amp; ./test.sh</li>
  <li>install -c -s -o root -g bin -m 555 mksh /bin/mksh</li>
  <li>echo /bin/mksh &gt;&gt;/etc/shells</li>
  <li>install -c -o root -g bin -m 444 mksh.cat1 /usr/share/man/cat1/mksh.0</li>
+ <li>install -c -o root -g bin -m 644 dot.mkshrc /etc/skel/.mkshrc</li>
 </ul>
 <p style="margin-bottom:0px;">Attention: NetBSD 1.6.1/pmax (for example
  on a DECstation 5000/260) does not come with a <em>stdbool.h</em> &ndash;
@@ -364,7 +376,7 @@
 <p>Tonnerre LOMBARD has made it possible to build and
  test (from time to time) mksh on a Solaris 10 box.</p>
 <ul>
- <li>cd mksh; env SHELL=/bin/sh sh Build.sh -r &amp;&amp; ./Test.sh</li>
+ <li>cd mksh; env SHELL=/bin/sh sh Build.sh -r &amp;&amp; ./test.sh</li>
  <li>/usr/ucb/install -c -s -o root -g bin -m 555 mksh ~/.bin/mksh</li>
 </ul>
 <p>If you get a <em>mksh</em> binary, install it to a place of your likes.
@@ -373,9 +385,10 @@
 
 <h3 id="buildgnu">Mac OSX, GNU/Linux (and possibly others)</h3>
 <ul>
- <li>cd mksh; env SHELL=/bin/sh sh Build.sh -r &amp;&amp; ./Test.sh</li>
+ <li>cd mksh; env SHELL=/bin/sh sh Build.sh -r &amp;&amp; ./test.sh</li>
  <li>install -c -s -o root -g bin -m 555 mksh /bin/mksh</li>
  <li>echo /bin/mksh &gt;&gt;/etc/shells</li>
+ <li>install -c -o root -g bin -m 444 dot.mkshrc /usr/share/doc/mksh/examples/</li>
  <li><em>and one of</em> (usually the first one on non-GNU/Linux)</li>
  <li>install -c -o root -g bin -m 444 mksh.1 /usr/share/man/man1/mksh.1</li>
  <li>install -c -o root -g bin -m 444 mksh.1 /usr/man/man1/mksh.1</li>
@@ -405,7 +418,7 @@
  <li>% mv /bin/ksh /bin/msksh</li>
  <li>% cd mksh</li>
  <li>% env SHELL=/bin/msksh /bin/msksh Build.sh -r</li>
- <li>% /bin/msksh Test.sh</li>
+ <li>% ./test.sh</li>
  <li>% install -c -s -m 555 mksh /bin/mksh</li>
  <li><em>(optionally)</em></li>
  <li>% cd /bin</li>
@@ -423,20 +436,25 @@
 
 <p>The MirOS Project has tested mksh on the following operating systems:</p>
 <ul>
- <li>mksh R28&szlig;<ul>
+ <li>mksh R28<ul>
   <li>MirOS BSD #9-stable (i386)</li>
+  <li>Solaris 8 (sun4u)</li>
+  <li>NetBSD 3.0_STABLE (i386)</li>
+  <li>DragonFly BSD 1.3-Preview (i386)</li>
+  <li>Debian GNU/Linux 3.1-testing 2.6.16-2-686 (i386)</li>
+  <li>Debian GNU/Linux 3.1-testing 2.6.17-2-vserver-s390x (s390x)</li>
+  <li>NetBSD ? (mac68k) &ndash; tested by Jonathan "ciruZ" Schleifer</li>
+  <li>FreeWRT GNU/Linux SVN 2.4-BRCM (mipsel) &ndash; part of FreeWRT:
+   builds, not tested</li>
+ </ul></li>
+ <li>mksh R28&szlig;<ul>
   <li>NetBSD 1.6.1 (pmax)</li>
   <li>Debian GNU/Linux 3.1-stable (i386)</li>
-  <li>Debian GNU/Linux 3.1-testing (s390x)</li>
-  <li>DragonFly BSD 1.3-Preview (i386)</li>
-  <li>NetBSD 3.0_STABLE (i386)</li>
-  <li>Solaris 8 (sun4u)</li>
   <li>Mac OSX Tiger (powerpc) &ndash; tested by Angelo Laub</li>
    <!-- missing:
   <li>MirOS BSD #9-stable (sparc)</li>
   <li>MirOS BSD #7-stable (sparc)</li>
   <li>Debian GNU/Linux 3.1-testing (i386, S/390) &ndash; debianised</li>
-  <li>FreeWRT GNU/Linux svn (mipsel) &ndash; part of FreeWRT</li>
   <li>CRUX GNU/Linux (i386) &ndash; not tested, via Han Boetes</li>
   <li>Solaris 10 (?) &ndash; tested by Tonnerre Lombard</li>
   <li>FreeBSD &ndash; not tested, via FreeBSD Ports Tree</li>
@@ -509,11 +527,7 @@
 
 <h3>Official samples</h3>
 
-<p>The Debian package comes with a sample <tt>~/.mkshrc</tt> since
- mksh 27.4-1 (mksh R27e). The MirPort and FreeWRT package both
- contain the same sample &ndash; the MirPort has it in the <a
- href="http://cvs.mirbsd.de/ports/shells/mksh/pkg/DESCR">package
- description</a>, FreeWRT amends <tt>/etc/profile</tt> in postinstall.
+<p>mksh R28 and up come with a sample dot.mkshrc file.
  For more ideas what one can do with <strong>mksh</strong> I recommend
  one to look at both the -rHEAD revision and the revision history of
  the files shown below.</p>
@@ -550,7 +564,8 @@
  You're also welcome on <a href="#irc">IRC</a>.</p>
 
 <h2 id="manual">The Manual Page</h2>
-<p>Online manpage: mksh(1)</p>
+<p>Online manpage: mksh(1) or <a
+ href="http://www.mirbsd.org/GBG/mksh.pdf">mksh.pdf</a></p>
 
 <h2 id="irc">Internet Relay Chat</h2>
 
@@ -558,7 +573,9 @@
  the Freenode IRC network (irc.freenode.net:6667 non-SSL). However,
  you will find more activity in the channel <tt>#mirbsd</tt> in the
  Freeforge IRC network (irc.mirbsd.org:6668 SSL, irc.mirbsd.org:6666
- non-SSL) instead, where mksh discussions are on topic as well.</p>
+ non-SSL) instead, where mksh discussions are on topic as well. For
+ generic Korn Shell discussion (AT&amp;T and mksh both on-topic), go
+ to <tt>#ksh</tt> on Freenode (see above).</p>
 
 <p>Read our <a href="/?irc">MirOS IRC page</a> for detailled information
  about the networks.</p>
