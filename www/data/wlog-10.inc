@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.141 2009/01/18 20:49:52 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.142 2009/01/18 21:04:17 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -2837,4 +2837,56 @@ Title: So much for a weekend
 <p>Woohoo. replaced commits, n0-1 (FreeWRT) joins the RANDEX contributors
  club and joins <tt>##/dev/arandom</tt>. Just Benny was on vacation, and,
  again, I didn’t know of it ☺</p>
+----
+Date: 20.01.2009 18:03
+Author: tg@
+Title: SCSI-induzierter Rückschlag
+Tag: bug event hardware snapshot
+
+<p>Heute hat mein Rückschlag, wenn man von den leichten Kopfschmerzen und
+ der arbeitsinduzierten Müdigkeit absieht, einen Namen: SCSI. Ich wollte,
+ damit wir mit dem neuen Snapshot endlich mal weiterkommen, <tt>tear</tt>
+ aufsetzen (hey, ich schreib ja immer noch im Blocksatz im HTML-Quelltext
+ ohne Mühe oder es zu wollen oder zu schummeln, wow) und dann kompilieren
+ (quasi als Abnahmemessung). Dummerweise habe ich, auch dank gecko2@, nun
+ eine Idee, woher die SCSI-Fehler kommen könnten, denn die Plattenprüfung
+ im BIOS zeigt keine Fehler an. Ich fürchte, daß das LVD-Kabel kaputt ist
+ (i386-Hardware ist eh doof, ein Kabel, ein Terminator und fünf Konverter
+ von SCA auf UW-SCSI sind nötig, wo meine SPARCstation 20 das bereits als
+ Backplane hat).</p>
+<p>Es läuft vermutlich darauf hinaus, daß ich <tt>odem</tt>s 2.5″ 80G IDE
+ Platte nehme. Bonus: ältere cvs und Distfiles sind schon drauf, sodaß es
+ mit einem schnellen rsync sowie einem erneuten Checkout (da ich / ja eh’
+ plattmache mit dem letzten Zwischensnapshot) gehen sollte, und ich sogar
+ ein paar Pakete (zumindest IceWM) für den LiveCD-Teil backen könnte.</p>
+<p>Toll. Ich habe sogar schon ein vorläufiges ISO zum MirGRML testen, bin
+ aber irgendwie platt und auch von Technik mal wieder angenervt. So komme
+ ich nie zu was… ich glaube, ich fang morgen mal so früh wie geht an, und
+ bin dann ausnahmsweise schon wo’s hell ist zu Hause.</p>
+<p>Also: Am Snapshot wird gearbeitet; mbsd4grml kommt direkt im Anschluß;
+ grml-mir muß noch getuned (Konfigs), aktualisiert (lynx-cur UTF-8 Bug wo
+ ich vorgestern drüber schrieb) und getestet werden; den sparc-Teil nehme
+ ich vom letzten Snapshot; für DuaLive™ haben wir somit alles, Extrazeugs
+ mache ich nur wenig und nur für i386, und für Triforce™ siehts gut aus –
+ eine offizielle Ankündigung kommt auch irgendwann, wenn für beide Seiten
+ alles funktioniert und integriert ist. Die <tt>tear</tt>-Migration ist –
+ leider – hingegen auf unbestimmte Zeit verschoben. (Damn!)</p>
+<p>Bißchen malen müßte ich noch, damit die FOSDEM Edition CDs auch sowohl
+ das grml-Logo (habe ein OK von mika), den Shilouetten-Dæmon (altbekannt,
+ mit OK von rcollette und mckusick), und ein Triforce haben. Es paßt mir,
+ ausnahmsweise, auf Arbeit einen KDE-Desktop mit gimp und Inkscape nutzen
+ zu „dürfen“ (peu à peu krieg ich den weniger nervig konfiguriert, und ㈠
+ kenn ich KDE 1 schon auf ecce!GNU/Linux 1.0 und ㈡ mag ich kmahjongg eh’
+ und konqueror besser als M*zilla Schrott, also ruhe da!, auch wenn ciruZ
+ mir GNOME verkaufen will). Mal sehen, was ich da so hinbekomme. Wobei, à
+ propos Bildchen: wann lernen die Leute eigentlich, daß man keine Formate
+ wie JPEG ob ihrer verlustbehafteten Kompressionsverfahren herumschickt –
+ zumindest zum Bearbeiten? *seufz*… Zumindest denke ich, daß ich das ganz
+ gut hinkriegen werde, hab da was im Kopf, sogar ohne smultron, lediglich
+ die Schrift könnte knapp werden, kA ob der schwarze Hintergrund in dünne
+ Linien reinläuft. Mal Daniel fragen…</p>
+<p>Ha! Laufend mehr Leute krieg ich vom RANDEX-Protokoll und den Vorzügen
+ des Entropieaustauschs, Zufall allgemein, usw. überzeugt. Way to go! Nun
+ bin ich gespannt, ob Vutral mal was zu APS findet und was man mit Mumble
+ und <i>randomness</i> so machen kann.</p>
 ----
