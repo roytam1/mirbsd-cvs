@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/stand/installboot/installboot.c,v 1.25 2007/03/02 03:03:32 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/stand/installboot/installboot.c,v 1.26 2007/03/02 03:07:08 tg Exp $ */
 /*	$OpenBSD: installboot.c,v 1.47 2004/07/15 21:44:16 tom Exp $	*/
 /*	$NetBSD: installboot.c,v 1.5 1995/11/17 23:23:50 gwr Exp $ */
 
@@ -88,7 +88,7 @@
 #include <unistd.h>
 #include <util.h>
 
-__RCSID("$MirOS: src/sys/arch/i386/stand/installboot/installboot.c,v 1.25 2007/03/02 03:03:32 tg Exp $");
+__RCSID("$MirOS: src/sys/arch/i386/stand/installboot/installboot.c,v 1.26 2007/03/02 03:07:08 tg Exp $");
 
 extern	char *__progname;
 int	verbose, nowrite, nheads, nsectors, userspec = 0;
@@ -112,6 +112,7 @@ u_int8_t *block_table_p;	/* block number array in prototype image */
 u_int8_t *num_heads_p;		/* number of tracks per cylinder */
 u_int8_t *num_secs_p;		/* number of sectors per track */
 uint8_t  *partp_p;		/* user defined partition type */
+u_int8_t *bblkend;		/* end of boot block table (+1) */
 int	maxblocklen;		/* size of this array */
 int	curblocklen = 0;	/* actually used up bytes */
 int	force_mbr = 0;		/* install into MBR */
@@ -344,7 +345,7 @@ main(int argc, char *argv[])
 		}
 		bt += record_block(bt, 0, 0);
 
-		if (bt > (block_table_p + maxblocklen))
+		if ((bblkend = bt) > (block_table_p + maxblocklen))
 			errx(1, "Too many blocks");
 
 		if (verbose)
@@ -435,6 +436,9 @@ main(int argc, char *argv[])
 	}
 
  do_write:
+	while (bblkend < (block_table_p + maxblocklen))
+		*bblkend++ = arc4random() & 0xFF;
+
 	if (nheads == -1 || nsectors == -1) {
 		fprintf(stderr, "warning: Unable to get BIOS geometry, "
 		    "must/should specify -h and -s\nwarning: the drive "
@@ -738,7 +742,7 @@ loadblocknums(char *boot, int devfd, struct disklabel *dl)
 
 	bt += record_block(bt, 0, 0);
 
-	if (bt > (block_table_p + maxblocklen))
+	if ((bblkend = bt) > (block_table_p + maxblocklen))
 		errx(1, "Too many blocks");
 
 	if (verbose)
