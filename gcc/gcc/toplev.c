@@ -1,4 +1,4 @@
-/* $MirOS: gcc/gcc/toplev.c,v 1.6 2005/11/20 13:21:51 tg Exp $ */
+/* $MirOS: gcc/gcc/toplev.c,v 1.7 2005/11/20 16:43:57 tg Exp $ */
 
 /* Top level of GCC compilers (cc1, cc1plus, etc.)
    Copyright (C) 1987, 1988, 1989, 1992, 1993, 1994, 1995, 1996, 1997, 1998,
@@ -926,12 +926,7 @@ int flag_instrument_function_entry_exit = 0;
 /* Nonzero means ignore `#ident' directives.  0 means handle them.
    On SVR4 targets, it also controls whether or not to emit a
    string identifying the compiler.  */
-
-#ifdef MIRBSD_NATIVE
 int flag_no_ident = 1;
-#else
-int flag_no_ident = 0;
-#endif
 
 /* This will perform a peephole pass before sched2.  */
 int flag_peephole2 = 0;

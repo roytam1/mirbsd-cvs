@@ -1,4 +1,4 @@
-/* $MirOS: gcc/gcc/config/mirbsd.h,v 1.13 2006/11/09 02:20:48 tg Exp $ */
+/* $MirOS: gcc/gcc/config/mirbsd.h,v 1.14 2006/11/09 02:22:57 tg Exp $ */
 
 /* Base configuration file for all MirOS BSD targets.
    Copyright (C) 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2005, 2006
@@ -55,9 +55,9 @@ Boston, MA 02111-1307, USA.  */
 #define AS_NEEDS_DASH_FOR_PIPED_INPUT
 
 /* MIRBSD_NATIVE is defined when gcc is integrated into the MirOS
-   source tree so it can be configured appropriately.  */
-
-#ifdef MIRBSD_NATIVE
+   source tree so it can be configured appropriately.  The same
+   applies for MIRBSD_CROSS, except it's used in cross-compiling.  */
+#if defined(MIRBSD_NATIVE) || defined(MIRBSD_CROSS)
 
 /* Look for the include files in the system-defined places.  */
 
