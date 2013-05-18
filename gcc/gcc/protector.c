@@ -1,4 +1,4 @@
-/* $MirOS$ */
+/* $MirOS: gcc/gcc/protector.c,v 1.3 2005/03/25 19:29:10 tg Exp $ */
 
 /* RTL buffer overflow protection function for GNU C compiler
    Copyright (C) 2003, 2005
@@ -52,6 +52,7 @@ Software Foundation, 59 Temple Place - Suite 330, Boston, MA
 #include "reload.h"
 #include "protector.h"
 
+__RCSID("$MirOS$");
 
 /* Round a value to the lowest integer less than it that is a multiple of
    the required alignment.  Avoid using division in case the value is
@@ -870,7 +871,9 @@ rtl_epilogue (rtx insn)
   rtx _val;
   rtx funcname;
   tree funcstr;
+#ifdef HAVE_return
   int  flag_have_return = FALSE;
+#endif
 		
   start_sequence ();
 

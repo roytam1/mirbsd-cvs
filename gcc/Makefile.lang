@@ -1,4 +1,4 @@
-# $MirOS: gcc/Makefile.lang,v 1.4 2006/06/30 23:18:04 tg Exp $
+# $MirOS: gcc/Makefile.lang,v 1.5 2006/07/03 01:27:12 tg Exp $
 
 .ifndef _MODGCC_MAKEFILE_LANG
 _MODGCC_MAKEFILE_LANG=1
@@ -6,7 +6,7 @@ _MODGCC_MAKEFILE_LANG=1
 .include <bsd.own.mk>
 
 .if ${OStype} == "MirBSD"
-.  if ${MACHINE_ARCH} == "i386"
+.  if (${MACHINE_ARCH} == "i386") || (${MACHINE_ARCH} == "sparc")
 NO_CXX?=	No
 NO_OBJC?=	No
 NO_PASCAL?=	No
