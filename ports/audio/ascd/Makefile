@@ -5,6 +5,7 @@ ONLY_FOR_PLATFORM=	MirBSD:*:* OpenBSD:*:*
 
 COMMENT=		cd player for Afterstep or Window Maker
 DISTNAME=		ascd-0.13.2
+DASH_VER=		1
 CATEGORIES=		audio x11 x11/windowmaker
 
 HOMEPAGE=		http://worldserver.oleane.com/rsn/ascd-en.html
