@@ -68,10 +68,19 @@ int	toascii(int);
 
 #if !defined(_ANSI_LIBRARY) && !defined(lint)
 
-#define __CTYPE_IMPL(c,t)						     \
-	((((unsigned)(c)) > 255) ? 0 :					     \
-	 ((__C_attribute_table_pg[((unsigned)(c))] & (_ctp_ ## t & 0xFF)) && \
-	 !(__C_attribute_table_pg[((unsigned)(c))] & (_ctp_ ## t >> 8))))
+#ifdef __GNUC__
+#define __CTYPE_IMPL(c,t) __extension__({				\
+	unsigned __CTYPE_Ic = (c);					\
+	(__CTYPE_Ic > 255) ? 0 :					\
+	 ((__C_attribute_table_pg[__CTYPE_Ic] & (_ctp_ ## t & 0xFF)) &&	\
+	 !(__C_attribute_table_pg[__CTYPE_Ic] & (_ctp_ ## t >> 8)));	\
+})
+#else
+#define __CTYPE_IMPL(c,t)						\
+	(((((int)(c)) < 0) || (((int)(c)) > 255)) ? 0 :			\
+	 ((__C_attribute_table_pg[((int)(c))] & (_ctp_ ## t & 0xFF)) &&	\
+	 !(__C_attribute_table_pg[((int)(c))] & (_ctp_ ## t >> 8))))
+#endif
 
 #define isalnum(c)	__CTYPE_IMPL((c),alnum)
 #define isalpha(c)	__CTYPE_IMPL((c),alpha)
