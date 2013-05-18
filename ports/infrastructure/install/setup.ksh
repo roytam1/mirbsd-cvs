@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: ports/infrastructure/install/setup.ksh,v 1.69 2006/11/17 00:18:46 tg Exp $
+# $MirOS: ports/infrastructure/install/setup.ksh,v 1.70 2006/12/23 04:17:50 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -631,7 +631,7 @@ else
 		mkdir -p $T/ports/infrastructure/pkgtools
 		cd $T/ports/infrastructure/pkgtools
 		lndir $portsdir/infrastructure/pkgtools
-		f_ver=20061223	# hardcoded here, update manually and seldom
+		f_ver=20061227	# hardcoded here, update manually and seldom
 	fi
 	export LOCALBASE=$localbase PORTSDIR=$portsdir
 	set -e
