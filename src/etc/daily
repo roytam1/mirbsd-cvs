@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/etc/daily,v 1.17 2007/06/18 01:58:17 tg Exp $
+# $MirOS: src/etc/daily,v 1.18 2008/03/27 13:48:26 tg Exp $
 # $OpenBSD: daily,v 1.50 2005/03/17 18:16:52 millert Exp $
 # From: @(#)daily	8.2 (Berkeley) 1/25/94
 
@@ -124,11 +124,13 @@ ls -lao /var/tmp/
 echo ""
 echo "Checking subsystem status:"
 
-if [ -d /service -a -x /usr/mpkg/bin/svstat ]; then
+whence -p svstat >/dev/null && for f in /service/*; do
+	[[ -d $f || -h $f ]] || break
 	echo ""
 	echo "supervise:"
 	svstat /service/*
-fi
+	break
+done
 
 echo ""
 echo "disks:"
