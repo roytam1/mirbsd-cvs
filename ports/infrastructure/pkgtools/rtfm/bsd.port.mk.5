@@ -1,4 +1,4 @@
-.\" $MirOS: ports/infrastructure/pkgtools/rtfm/bsd.port.mk.5,v 1.21 2008/05/07 22:50:06 tg Exp $
+.\" $MirOS: ports/infrastructure/pkgtools/rtfm/bsd.port.mk.5,v 1.22 2008/05/25 20:56:38 tg Exp $
 .\" $OpenBSD: bsd.port.mk.5,v 1.134 2004/02/18 13:39:02 xsa Exp $
 .\"
 .\" Copyright (c) 2007, 2008 Thorsten Glaser
@@ -63,7 +63,7 @@
 .\" with -mandoc, it might implement .Mx itself, but we want to
 .\" use our own definition. And .Dd must come *first*, always.
 .\"
-.Dd $Mdocdate: May 7 2008 $
+.Dd $Mdocdate: May 25 2008 $
 .\"
 .\" Implement .Mx (MirBSD)
 .\"
@@ -759,6 +759,12 @@ and whose configure script supports these options.
 .It Ev CONFIGURE_STYLE
 Set to style of configuration that needs to happen.
 .Bl -tag -width automake
+.It Ar bmake
+Run
+.Nm make Ar obj
+as configure script and
+.Nm make Ar depend
+at pre-build time.
 .It Ar perl
 Assume
 .Xr perl 1
@@ -766,6 +772,10 @@ Assume
 style.
 This is the style used by most Perl modules with a
 .Pa Makefile.PL .
+.It Ar p5
+Same as
+.Ar perl ,
+but does not create any targets, just the variables.
 .It Ar modbuild
 Perl modules using
 .Xr Module::Build 3 ,
