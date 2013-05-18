@@ -1,10 +1,10 @@
-# $MirOS: src/sbin/isakmpd/Makefile,v 1.5 2005/04/26 21:06:00 tg Exp $
+# $MirOS: src/sbin/isakmpd/Makefile,v 1.6 2005/11/23 16:43:57 tg Exp $
 # $OpenBSD: Makefile,v 1.77 2005/05/18 20:15:22 hshoexer Exp $
 # $EOM: Makefile,v 1.78 2000/10/15 21:33:42 niklas Exp $
 
 #
 # Copyright (c) 1998, 1999, 2000, 2001 Niklas Hallqvist.  All rights reserved.
-# Copyright (c) 2000, 2001 Håkan Olsson.  All rights reserved.
+# Copyright (c) 2000, 2001 HÃ¥kan Olsson.  All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions

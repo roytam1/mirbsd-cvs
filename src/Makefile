@@ -1,4 +1,4 @@
-# $MirOS: src/Makefile,v 1.119 2007/10/21 13:25:54 tg Exp $
+# $MirOS: src/Makefile,v 1.120 2007/10/21 15:43:48 tg Exp $
 # $OpenBSD: Makefile,v 1.103 2004/05/03 15:18:18 drahn Exp $
 
 .if defined(MAKECONF) && exists(${MAKECONF})
@@ -27,6 +27,8 @@ ANONCVSROOT?=	anoncvs@anoncvs.mirbsd.org:/cvs
   SUBDIR+= sbin
   SUBDIR+= usr.bin
   SUBDIR+= usr.sbin
+  SUBDIR+= distrib/dbins
+  SUBDIR+= distrib/dbinsuid
   SUBDIR+= share
   SUBDIR+= gnu
   SUBDIR+= sys

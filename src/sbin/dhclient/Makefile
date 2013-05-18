@@ -43,6 +43,6 @@ CFLAGS+=-Wall
 
 beforeinstall:
 	${INSTALL} ${INSTALL_COPY} -o ${BINOWN} -g ${BINGRP} -m ${BINMODE} \
-		${.CURDIR}/dhclient-script ${DESTDIR}/sbin/dhclient-script
+	    ${.CURDIR}/dhclient-script ${DESTDIR}/sbin/dhclient-script
 
 .include <bsd.prog.mk>
