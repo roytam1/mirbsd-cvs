@@ -1,4 +1,4 @@
-# $MirOS: src/Makefile,v 1.49 2006/05/26 20:01:12 tg Exp $
+# $MirOS: src/Makefile,v 1.50 2006/05/26 20:02:22 tg Exp $
 # $OpenBSD: Makefile,v 1.103 2004/05/03 15:18:18 drahn Exp $
 
 .if defined(MAKECONF) && exists(${MAKECONF})
@@ -243,8 +243,8 @@ _do-dist:
 .endif
 	@date
 	@echo "============================================================"
-	@for f in ${BSDSRCDIR}/*${OSrev}.ngz; do \
-		[[ -e $$f ]] || break; \
+	@for f in ${BSDSRCDIR}/*${OSrev}.ngz ${BSDSRCDIR}/*.cgz; do \
+		[[ -e $$f ]] || continue; \
 		${SUDO} ln $$f ${BSDRELDIR}/rel/ || \
 		    ${SUDO} cp $$f ${BSDRELDIR}/rel/; \
 	done
