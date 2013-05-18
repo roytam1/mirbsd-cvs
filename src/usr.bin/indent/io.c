@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.bin/indent/io.c,v 1.4 2005/05/19 22:59:36 tg Exp $ */
+/**	$MirOS: src/usr.bin/indent/io.c,v 1.5 2005/11/23 17:36:15 tg Exp $ */
 /*	$OpenBSD: io.c,v 1.10 2005/05/15 03:27:04 millert Exp $	*/
 
 /*
@@ -41,7 +41,7 @@
 #include "indent_globs.h"
 
 __SCCSID("@(#)io.c	8.1 (Berkeley) 6/6/93");
-__RCSID("$MirOS: src/usr.bin/indent/io.c,v 1.4 2005/05/19 22:59:36 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/indent/io.c,v 1.5 2005/11/23 17:36:15 tg Exp $");
 
 
 int         comment_open;
@@ -147,9 +147,11 @@ dump_line(void)
 	    }
 	    cur_col = pad_output(cur_col, target_col);
 	    for (p = s_code; p < e_code; p++)
+#if 0
 		if (*p == (char) 0200)
 		    fprintf(output, "%d", target_col * 7);
 		else
+#endif
 		    putc(*p, output);
 	    cur_col = count_spaces(cur_col, s_code);
 	}
