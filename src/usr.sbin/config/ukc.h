@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.sbin/config/ukc.h,v 1.3 2006/04/06 10:50:38 tg Exp $ */
+/**	$MirOS: src/usr.sbin/config/ukc.h,v 1.4 2008/06/13 15:12:33 tg Exp $ */
 /*	$OpenBSD: ukc.h,v 1.11 2003/06/25 21:10:12 deraadt Exp $ */
 
 /*
@@ -53,7 +53,8 @@
 #define I_SHMMAXPGS	22
 #define I_ROOTDEV	23
 #define I_ROOTDEV_OV	24
-#define NLENTRIES	25
+#define P_ENTROPY	25
+#define NLENTRIES	26
 
 #ifdef UKC_MAIN
 struct nlist nl[] = {
@@ -82,6 +83,7 @@ struct nlist nl[] = {
 	{ "_shmmaxpgs" },
 	{ "_rootdev" },
 	{ "_rootdev_override" },
+	{ "_initial_entropy" },
 	{ NULL },
 };
 struct nlist knl[] = {
@@ -110,6 +112,7 @@ struct nlist knl[] = {
 	{ "_shmmaxpgs" },
 	{ "_rootdev" },
 	{ "_rootdev_override" },
+	{ "_initial_entropy" },
 	{ NULL },
 };
 int	maxdev = 0;

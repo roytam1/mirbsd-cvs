@@ -41,7 +41,7 @@
 #include "ukc.h"
 #include "exec.h"
 
-__RCSID("$MirOS: src/usr.sbin/config/ukc.c,v 1.3 2007/02/19 03:24:55 tg Exp $");
+__RCSID("$MirOS: src/usr.sbin/config/ukc.c,v 1.4 2008/06/13 15:12:33 tg Exp $");
 
 void	init(void);
 void	usage(void);
@@ -77,6 +77,9 @@ ukc(char *file, char *outfile, int uflag, int force)
 	loadkernel(file);
 
 	ret = nlist(file, nl);
+
+	if (nl[P_ENTROPY].n_type != 0)
+		arc4random_pushb((char *)adjust((caddr_t)nl[P_ENTROPY].n_value), 16);
 
 	if (uflag) {
 		if ((kd = kvm_openfiles(NULL,NULL,NULL,O_RDONLY, errbuf)) == 0)
@@ -169,11 +172,22 @@ WARNING this kernel doesn't support pseudo devices.\n");
 			outfile = file;
 		if (ukc_mod_kernel == 0) {
 			fprintf(stderr, "Kernel not modified\n");
-			exit(1);
-		} else {
-			printf ("Saving modified kernel.\n");
-			savekernel(outfile);
+			if (nl[P_ENTROPY].n_type == 0)
+				exit(1);
+			printf("Saving randomised kernel.\n");
+		} else
+			printf("Saving modified kernel.\n");
+		if (nl[P_ENTROPY].n_type != 0) {
+			char *cp = adjust((caddr_t)nl[P_VERSION].n_value);
+			uint32_t eb[4];
+
+			eb[0] = arc4random_pushb(cp, strlen(cp));
+			eb[1] = arc4random();
+			eb[2] = arc4random();
+			eb[3] = arc4random();
+			memcpy(adjust((caddr_t)nl[P_ENTROPY].n_value), eb, 16);
 		}
+		savekernel(outfile);
 	}
 	return(0);
 }
