@@ -198,6 +198,12 @@ yesno:		if (sysctl(mib, namelen, &value, &len, NULL, 0) == -1)
 		    KERN_SEMINFO_SEMMNS : KERN_SEMINFO_SEMVMX;
 		namelen = 3;
 		break;
+
+/* 1003.1c */
+	case _SC_GETPW_R_SIZE_MAX:
+	case _SC_GETGR_R_SIZE_MAX:
+		return (-1);
+
 	default:
 		errno = EINVAL;
 		return (-1);

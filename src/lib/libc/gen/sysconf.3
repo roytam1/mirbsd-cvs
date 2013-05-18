@@ -148,6 +148,12 @@ does not support the Semaphores Option.
 .It Li _SC_SEM_VALUE_MAX
 The maximum value a semaphore may have or \-1 if the system
 does not support the Semaphores Option.
+.It Li _SC_GETGR_R_SIZE_MAX
+The maximum length of a group entry buffer.
+Returns \-1 as there is no safe maximum.
+.It Li _SC_GETPW_R_SIZE_MAX
+The maximum length of a password entry buffer.
+Returns \-1 as there is no safe maximum.
 .El
 .Sh RETURN VALUES
 If the call to

@@ -117,10 +117,11 @@
 #define	_SC_SEM_NSEMS_MAX	31
 #define	_SC_SEM_VALUE_MAX	32
 
-#ifdef notyet
 /* P1003.1c */
-#define _SC_GETGR_R_SIZE_MAX
-#define _SC_GETPW_R_SIZE_MAX
+#define _SC_GETGR_R_SIZE_MAX	33
+#define _SC_GETPW_R_SIZE_MAX	34
+
+#ifdef notyet
 #define _SC_LOGIN_NAME_MAX
 #define _SC_THREAD_DESTRUCTOR_ITERATIONS
 #define _SC_THREAD_KEYS_MAX
