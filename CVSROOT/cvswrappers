@@ -1,4 +1,4 @@
-# $MirOS: CVSROOT/cvswrappers,v 1.5 2007/08/30 19:54:51 tg Exp $
+# $MirOS: CVSROOT/cvswrappers,v 1.6 2007/08/30 20:18:38 tg Exp $
 #-
 # This file affects handling of files based on their names.
 #
@@ -32,10 +32,14 @@
 *.cbz -k 'b'
 *.CGZ -k 'b'
 *.cgz -k 'b'
+*.CLASS -k 'b'
+*.class -k 'b'
 *.CPIO -k 'b'
 *.cpio -k 'b'
 *.EPS -k 'b'
 *.eps -k 'b'
+*.EWE -k 'b'
+*.ewe -k 'b'
 *.EXE -k 'b'
 *.exe -k 'b'
 *.FNT -k 'b'
