@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.263 2009/08/02 17:54:53 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.264 2009/08/02 18:00:48 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -34,8 +34,8 @@ mws_content <<'EOF'
  href="http://mirbsd.de/mksh-fornow">the backup page</a> will provide basic
  information. The <a href="http://directory.fsf.org/mksh.html">FSF/UNESCO
  directory of Free Software</a> lists mksh, too. There also is an <a
- href="https://www.ohloh.net/p/mksh">mksh project page on ohlol</a>. Get
- the Logo (<a href="@@RELPATH@@pics/mksh.svg">SVG</a>).</p>
+ href="https://www.ohloh.net/p/mksh">mksh project page on ohlol</a>, a
+ statistics site. Get the Logo (<a href="@@RELPATH@@pics/mksh.svg">SVG</a>).</p>
 </td><td style="width:160px;"><object data="@@RELPATH@@pics/mksh.svg"
  type="image/svg+xml" width="128" height="100"><img alt="mksh Logo"
  src="@@RELPATH@@pics/mksh128x100.png" /></object></td></tr></table>
