@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/news.inc,v 1.85 2008/11/08 23:41:15 tg Exp $
+RCSID: $MirOS: www/data/news.inc,v 1.86 2008/11/11 01:53:56 tg Exp $
 Title: Older news from the MirOS Project
 Date: 01.03.2006
 
@@ -1119,4 +1119,35 @@ Author: tg@
  point to <tt>mirbsd.de</tt> or <tt>mirbsd.org</tt>, as the latter is now
  under sort of our control, and the former being phased out to reduce the
  possible points of failure.</p>
+----
+Title: MirOS Licence got OSI blessing
+Date: 14.11.2008
+
+<p>The <a href="@@ABSPATH@@/MirOS-Licence">MirOS Licence</a> is now, after
+ quite some years, <a href="http://opensource.org/">OSI</a> approved, which
+ not only implies an official certification that it conforms to the Open
+ Source Definition, but also allows <a href="@@RELPATH@@mksh.htm">mksh</a>
+ to be advertised as “OSI Certified Open Source Software”™, and has other
+ benefits, for example qualifying for being hosted by certain projects, or
+ fulfilling certain gouvernment restrictions.</p>
+<p>While there has always been cōnsensus that The MirOS Licence is <a
+ href="http://www.debian.org/social_contract#guidelines">DFSG</a> and <a
+ href="http://www.opensource.org/docs/osd">OSD</a> and, recently, <a
+ href="http://www.opendefinition.org/1.0">OKD</a> conformant, only <a
+ href="http://www.ifross.de/ifross_html/lizenzcenter.html">some</a> lists
+ actually included it – <a href="http://www.opendefinition.org/licenses">the
+ OKFN</a> was quick to do so, but while it qualifies as both <a
+ href="http://www.gnu.org/philosophy/free-sw.html">Free Software</a> and <a
+ href="http://www.gnu.org/philosophy/free-doc.html">Free Documentation</a>
+ licence as per the FSF definition, they have yet to respond to my enquiry,
+ and the <a href="http://opensource.org/licenses/miros.html">OSI list</a>
+ has only been updated last night (and could use some UTF-8 fixing, or, in
+ this case certainly better, a downgrade to the ASCII version dubbed the <a
+ href="@@ABSPATH@@/cvs.cgi/src/share/misc/licence.template?rev=HEAD;content-type=text/plain">licence
+ template</a> initially).</p>
+<p>Still we’re glad that the OSI, although not encouraging people to actually
+ <em>use</em> the licence, given their stance on “licence proliferation”, has
+ done this step. It would be the first approved “copycenter” (as per Marshall
+ Kirk McKusick’s definition) style licence with EU jurisdiction in mind while
+ remaining generally usable.</p>
 ----
