@@ -1,4 +1,7 @@
-# $MirOS: www/.htaccess,v 1.5 2006/03/30 13:07:19 tg Exp $
+# $MirOS: www/.htaccess,v 1.6 2006/04/01 01:28:44 tg Exp $
+
+Options ExecCGI
+AddHandler cgi-script .cgi
 
 # custom 404 document
 ErrorDocument 404 /404.php
