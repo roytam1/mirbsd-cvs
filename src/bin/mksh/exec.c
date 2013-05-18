@@ -2,7 +2,7 @@
 
 #include "sh.h"
 
-__RCSID("$MirOS: src/bin/mksh/exec.c,v 1.46 2008/11/12 00:54:47 tg Exp $");
+__RCSID("$MirOS: src/bin/mksh/exec.c,v 1.47 2008/11/12 00:55:31 tg Exp $");
 
 static int comexec(struct op *, struct tbl *volatile, const char **,
     int volatile);
@@ -72,7 +72,7 @@ execute(struct op *volatile t,
 	flags &= ~XTIME;
 
 	if (t->ioact != NULL || t->type == TPIPE || t->type == TCOPROC) {
-		e->savefd = alloc(NUFILE, sizeof (short), ATEMP);
+		e->savefd = alloc(NUFILE * sizeof (short), ATEMP);
 		/* initialise to not redirected */
 		memset(e->savefd, 0, NUFILE * sizeof (short));
 	}
