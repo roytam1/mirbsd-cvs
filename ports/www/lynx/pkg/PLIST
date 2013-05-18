@@ -1,4 +1,4 @@
-@comment $MirOS$
+@comment $MirOS: ports/www/lynx/pkg/PLIST,v 1.6 2007/05/20 12:06:20 tg Exp $
 bin/lynx
 bin/oldlynx
 man/man1/lynx.1
@@ -38,22 +38,29 @@ share/doc/lynx/lynx_doc/docs/win-386.announce
 share/doc/lynx/lynx_doc/samples/blue-background.lss
 share/doc/lynx/lynx_doc/samples/bright-blue.lss
 share/doc/lynx/lynx_doc/samples/cernrules.txt
+share/doc/lynx/lynx_doc/samples/home.htm
 @comment share/doc/lynx/lynx_doc/samples/index.html
 share/doc/lynx/lynx_doc/samples/installdirs.html
+share/doc/lynx/lynx_doc/samples/jumps.htm
 share/doc/lynx/lynx_doc/samples/jumpsUnix.html
 @comment share/doc/lynx/lynx_doc/samples/jumpsVMS.html
 share/doc/lynx/lynx_doc/samples/keepviewer
+share/doc/lynx/lynx_doc/samples/lynx-demo.cfg
 share/doc/lynx/lynx_doc/samples/lynx-keymaps
+@comment share/doc/lynx/lynx_doc/samples/lynx.bat
 @comment share/doc/lynx/lynx_doc/samples/lynx.com
 @comment share/doc/lynx/lynx_doc/samples/lynx.lss
 @comment share/doc/lynx/lynx_doc/samples/lynx.lss.orig
+share/doc/lynx/lynx_doc/samples/lynx_bookmarks.htm
 share/doc/lynx/lynx_doc/samples/lynxdump
 share/doc/lynx/lynx_doc/samples/mailcap
 share/doc/lynx/lynx_doc/samples/mailto-form.pl
+share/doc/lynx/lynx_doc/samples/midnight.lss
 share/doc/lynx/lynx_doc/samples/mild-colors.lss
 share/doc/lynx/lynx_doc/samples/mime.types
 @comment share/doc/lynx/lynx_doc/samples/oldlynx
 @comment share/doc/lynx/lynx_doc/samples/oldlynx.orig
+share/doc/lynx/lynx_doc/samples/opaque.lss
 share/doc/lynx/lynx_doc/test/ALT88592.html
 share/doc/lynx/lynx_doc/test/ISO_LATIN1_test.html
 share/doc/lynx/lynx_doc/test/README.txt
