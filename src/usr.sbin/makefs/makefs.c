@@ -48,7 +48,7 @@
 #include <sys/cdefs.h>
 #if defined(__RCSID) && !defined(__lint)
 __RCSID("$NetBSD: makefs.c,v 1.26 2006/10/22 21:11:56 christos Exp $");
-__IDSTRING(mbsdid, "$MirOS: src/usr.sbin/makefs/makefs.c,v 1.11 2010/03/06 23:24:14 tg Exp $");
+__IDSTRING(mbsdid, "$MirOS: src/usr.sbin/makefs/makefs.c,v 1.12 2010/03/07 00:02:17 tg Exp $");
 #endif	/* !__lint */
 
 #include <sys/param.h>
@@ -118,7 +118,9 @@ main(int argc, char *argv[])
 	}
 #endif
 
+#ifdef __NetBSD__
 	setprogname(argv[0]);
+#endif
 
 	debug = 0;
 	if ((fstype = get_fstype(DEFAULT_FSTYPE)) == NULL)
@@ -335,14 +337,19 @@ get_fstype(const char *type)
 static void
 usage(void)
 {
+#ifdef __NetBSD__
 	const char *prog;
 
 	prog = getprogname();
+#define __progname prog
+#else
+	extern const char *__progname;
+#endif
 	fprintf(stderr,
 "usage: %s [-t fs-type] [-o fs-options] [-d debug-mask] [-B endian]\n"
 "\t[-S sector-size] [-M minimum-size] [-m maximum-size] [-s image-size]\n"
 "\t[-b free-blocks] [-f free-files] [-F mtree-specfile] [-x]\n"
 "\t[-N userdb-dir] image-file directory\n",
-	    prog);
+	    __progname);
 	exit(1);
 }

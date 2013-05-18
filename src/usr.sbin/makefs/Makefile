@@ -1,4 +1,4 @@
-# $MirOS: src/usr.sbin/makefs/Makefile,v 1.21 2010/03/06 21:29:02 tg Exp $
+# $MirOS: src/usr.sbin/makefs/Makefile,v 1.22 2010/03/15 17:20:39 tg Exp $
 # $NetBSD: Makefile,v 1.25 2009/04/22 15:23:05 lukem Exp $
 
 WARNS?=	3	# XXX -Wsign-compare
@@ -13,6 +13,10 @@ SRCS=	cd9660.c ffs.c \
 	spec.c \
 	walk.c
 MAN=	makefs.8
+
+.ifdef FEDORA
+DEBIAN=		implied
+.endif
 
 OStype?=	unknown
 .if (${OStype} == "MirBSD") || defined(DEBIAN)
@@ -45,7 +49,7 @@ CPPFLAGS+=	-I${NETBSDSRCDIR}/sys \
 		${BSDSRCDIR}/sbin/mknod ${BSDSRCDIR}/usr.sbin/mtree
 .endif
 
-.ifdef DEBIAN
+.if defined(DEBIAN) && !defined(FEDORA)
 LDADD+=		-lbsd
 .endif
 
@@ -70,6 +74,21 @@ SRCS+=		fparseln.c
 .  else
 SRCS+=		stat_flags.c
 .PATH: ${NETBSDSRCDIR}/lib/libutil
+.  endif
+
+.  ifdef FEDORA
+CPPFLAGS+=	-DFEDORA -I${BSDSRCDIR}/include
+SRCS+=		unvis.c
+.PATH: ${BSDSRCDIR}/lib/libc/gen
+
+SRCS+=		setmode.c
+.PATH: ${BSDSRCDIR}/bin/mksh
+
+SRCS+=		fgetln.c
+.PATH: ${BSDSRCDIR}/../contrib/code/mirmake/dist/contrib
+
+SRCS+=		strlfun.c
+.PATH: ${BSDSRCDIR}/../contrib/code/jupp
 .  endif
 .endif
 
