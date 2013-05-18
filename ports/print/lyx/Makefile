@@ -1,6 +1,7 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.32 2004/04/25 15:34:08 sturm Exp $
 
-COMMENT=			graphical frontend for LaTeX (nearly WYSIWYG)
+COMMENT=	graphical frontend for LaTeX (nearly WYSIWYG)
 
 DISTNAME=	lyx-1.3.4
 CATEGORIES=	print
@@ -21,7 +22,7 @@ PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
-MODULES=		devel/gettext
+MODULES=	devel/gettext
 
 BUILD_DEPENDS+=	:teTeX_base-*:print/teTeX/base
 RUN_DEPENDS+=	:teTeX_base-*:print/teTeX/base \
@@ -32,6 +33,7 @@ FLAVORS=	qt xforms
 FLAVOR?=	qt
 
 .if ${FLAVOR:L} == "qt"
+USE_CXX=	Yes
 MODULES+=	x11/qt3
 MODQT_MT=	Yes
 CONFIGURE_ARGS=	--with-frontend=qt ${MODQT_CONFIGURE_ARGS}

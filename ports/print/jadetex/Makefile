@@ -1,7 +1,7 @@
-# $MirOS: ports/print/jadetex/Makefile,v 1.1.7.1 2005/03/18 15:51:06 tg Exp $
+# $MirOS: ports/print/jadetex/Makefile,v 1.2 2006/09/14 00:12:42 tg Exp $
 # $OpenBSD: Makefile,v 1.13 2004/04/18 09:22:53 sturm Exp $
 
-COMMENT=			macros for the OpenJade DSSSL TeX backend
+COMMENT=		macros for the OpenJade DSSSL TeX backend
 
 DISTNAME=		jadetex-3.11
 CATEGORIES=     	print
@@ -26,6 +26,7 @@ ALL_TARGET=		jadetex.fmt pdfjadetex.fmt
 TEXMFLOC=		${PREFIX}/share/texmf-local
 
 USE_X11=		Yes
+USE_CXX=		Yes # depends on teTeX, which uses CXX
 NO_REGRESS=		Yes
 
 pre-fake:

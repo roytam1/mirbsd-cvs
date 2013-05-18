@@ -1,7 +1,7 @@
-# $MirOS: ports/print/foiltex/Makefile,v 1.2 2005/07/07 21:25:27 bsiegert Exp $
+# $MirOS: ports/print/foiltex/Makefile,v 1.3 2006/09/14 00:12:40 tg Exp $
 # $OpenBSD: Makefile,v 1.6 2003/03/31 17:16:52 sturm Exp $
 
-COMMENT=			LaTeX2e class for overhead transparencies
+COMMENT=	LaTeX2e class for overhead transparencies
 
 DISTNAME=	foiltex-2.1.4a
 PKGNAME=	${DISTNAME}-1
@@ -24,6 +24,7 @@ BUILD_DEPENDS=	${RUN_DEPENDS}
 RUN_DEPENDS=	:teTeX_base-*:print/teTeX/base
 
 USE_X11=	Yes
+USE_CXX=	Yes # depends on teTeX-base, which uses CXX
 
 CLS_DIR=	${PREFIX}/share/texmf-local/tex/latex/foiltex
 DOC_DIR=	${PREFIX}/share/texmf-local/doc/latex/foiltex

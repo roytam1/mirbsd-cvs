@@ -1,7 +1,7 @@
-# $MirOS: ports/security/gnupg/Makefile,v 1.16 2007/03/11 20:41:15 tg Exp $
+# $MirOS: ports/security/gnupg/Makefile,v 1.17 2007/04/01 23:06:55 tg Exp $
 # $OpenBSD: Makefile,v 1.52 2005/05/17 15:08:34 martin Exp $
 
-COMMENT=		GNU privacy guard - a GPL'd PGP replacement
+COMMENT=		GNU privacy guard - PGP replacement under GPL
 VERSION=		1.4.7
 DISTNAME=		gnupg-${VERSION}
 CATEGORIES=		security
@@ -27,6 +27,7 @@ MODULES+=		converters/libiconv
 LIB_DEPENDS+=		bz2::archivers/bzip2
 LIB_DEPENDS+=		usb::devel/libusb
 B_R_DEPENDS+=		::archivers/mircpio
+USE_CXX=		Yes # depends on libusb, which uses CXX
 CONFIGURE_STYLE=	autogen
 AUTOCONF_NEW=		Yes
 AUTOMAKE_VERSION=	1.9
