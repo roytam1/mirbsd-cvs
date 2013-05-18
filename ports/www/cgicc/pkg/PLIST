@@ -1,3 +1,4 @@
+@comment $MirOS$
 @comment $OpenBSD: PLIST,v 1.3 2002/08/18 15:48:50 shell Exp $
 bin/cgicc-config
 include/cgicc/CgiDefs.h
@@ -24,7 +25,6 @@ include/cgicc/HTTPRedirectHeader.h
 include/cgicc/HTTPResponseHeader.h
 include/cgicc/HTTPStatusHeader.h
 include/cgicc/MStreamable.h
-lib/libcgicc.a
 lib/libcgicc.la
 share/doc/cgicc/COPYING-source.html
 share/doc/cgicc/COPYING_8DOC-source.html
@@ -176,6 +176,5 @@ share/doc/cgicc/test_8cpp.html
 share/doc/cgicc/tutorial_8tmpl-source.html
 share/doc/cgicc/upload_8cpp-source.html
 share/doc/cgicc/upload_8cpp.html
-%%SHARED%%
 @dirrm share/doc/cgicc
 @dirrm include/cgicc
