@@ -1,4 +1,4 @@
-/* $MirOS: src/sys/arch/i386/stand/liveboot/hook.S,v 1.7 2006/04/10 23:35:07 tg Exp $ */
+/* $MirOS: src/sys/arch/i386/stand/liveboot/hook.S,v 1.8 2006/04/10 23:38:05 tg Exp $ */
 
 /*-
  * Copyright (c) 2006
@@ -49,6 +49,9 @@ lbl_ask:
 	.ascii	"\nUse the cursor up/down keys to navigate\n"
 	.ascii	"and press return to activate the selected item\n"
 	.asciz	"or enter the number of the entry to boot: "
+lbl_widmung:
+	.ascii	"This MirOS Setup/Live-CD ISO image is proudly presented by\n"
+	.asciz	"Thorsten Glaser and Benny Siegert, and their contributors."
 
 Ltick:	.long	0	/* end tick for timeout */
 Lmenu:	.word	0	/* which menu point has been chosen */
@@ -120,6 +123,8 @@ Lhook:
 	mov	ax,3
 	int	0x10
 	/* print banner */
+	LOCATE(20,0)
+	OUTS(lbl_widmung,4)
 	LOCATE(0,0)
 	OUTCH(201,15)
 	mov	si,offset lbl_title
