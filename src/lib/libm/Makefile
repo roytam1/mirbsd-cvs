@@ -1,4 +1,4 @@
-#  $MirOS: src/lib/libm/Makefile,v 1.12 2011/11/21 09:39:24 tg Exp $
+#  $MirOS: src/lib/libm/Makefile,v 1.14 2012/09/04 18:16:12 tg Exp $
 #  $NetBSD: Makefile,v 1.120 2011/09/17 10:51:52 jruoho Exp $
 #
 #  @(#)Makefile 5.1beta 93/09/24
@@ -102,7 +102,7 @@ COMMON_SRCS+= e_acos.c e_acosf.c e_acosh.c e_acoshf.c e_asin.c e_asinf.c \
 	w_pow.c w_powf.c w_remainder.c w_remainderf.c w_scalb.c w_scalbf.c \
 	w_sinh.c w_sinhf.c w_sqrt.c w_sqrtf.c \
 	lrint.c lrintf.c llrint.c llrintf.c lround.c lroundf.c llround.c \
-	llroundf.c s_frexp.c s_ldexp.c s_modf.c \
+	llroundf.c \
 	s_fmax.c s_fmaxf.c s_fmin.c s_fminf.c s_fdim.c
 
 .PATH:	${.CURDIR}/compat
