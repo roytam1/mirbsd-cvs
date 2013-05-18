@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/bsd.prog.mk,v 1.18 2005/11/19 12:34:57 tg Exp $
+# $MirOS: src/share/mk/bsd.prog.mk,v 1.19 2005/12/15 01:28:38 tg Exp $
 # $OpenBSD: bsd.prog.mk,v 1.44 2005/04/15 17:18:57 espie Exp $
 # $NetBSD: bsd.prog.mk,v 1.55 1996/04/08 21:19:26 jtc Exp $
 # @(#)bsd.prog.mk	5.26 (Berkeley) 6/25/91
@@ -36,14 +36,9 @@ LINKER?=	${CXX}
 LINKER?=	${CC}
 .  endif
 
-.if defined(LDADD_CYCLIC) && defined(LDADD) && !empty(LDADD)
-# This has "a significant performance cost", cf. ld(texinfo)
-LDADD:=		-Wl,--start-group ${LDADD} -Wl,--end-group
-.endif
-
 .  if defined(OBJS) && !empty(OBJS)
 LINK.prog?=	${LINKER} ${LDFLAGS} ${LDSTATIC} \
-		${OBJS} ${LDADD}
+		${OBJS} -Wl,--start-group ${LDADD} -Wl,--end-group
 
 ${PROG}: ${LIBCRT0} ${OBJS} ${LIBC} ${CRTBEGIN} ${CRTEND} ${CRTI} ${CRTN} ${DPADD}
 	${LINK.prog} -o $@
