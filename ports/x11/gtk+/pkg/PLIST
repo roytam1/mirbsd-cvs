@@ -1,5 +1,6 @@
 @comment $OpenBSD: PLIST,v 1.19 2004/12/07 06:20:46 marcm Exp $
-@comment $MirOS: ports/x11/gtk+/pkg/PLIST,v 1.2 2005/09/25 15:45:57 bsiegert Exp $
+@comment $MirOS: ports/x11/gtk+/pkg/PLIST,v 1.3 2007/01/06 16:30:20 bsiegert Exp $
+%%cups%%
 bin/gdk-pixbuf-csource
 bin/gdk-pixbuf-query-loaders
 bin/gtk-demo
@@ -255,7 +256,7 @@ lib/gtk-2.0/2.10.0/immodules/im-cedilla.la
 lib/gtk-2.0/2.10.0/immodules/im-cyrillic-translit.la
 lib/gtk-2.0/2.10.0/immodules/im-inuktitut.la
 lib/gtk-2.0/2.10.0/immodules/im-ipa.la
-lib/gtk-2.0/2.10.0/immodules/im-thai-broken.la
+lib/gtk-2.0/2.10.0/immodules/im-thai.la
 lib/gtk-2.0/2.10.0/immodules/im-ti-er.la
 lib/gtk-2.0/2.10.0/immodules/im-ti-et.la
 lib/gtk-2.0/2.10.0/immodules/im-viqr.la
@@ -344,12 +345,16 @@ share/locale/ang/LC_MESSAGES/gtk20-properties.mo
 share/locale/ang/LC_MESSAGES/gtk20.mo
 share/locale/ar/LC_MESSAGES/gtk20-properties.mo
 share/locale/ar/LC_MESSAGES/gtk20.mo
+share/locale/as/LC_MESSAGES/gtk20-properties.mo
+share/locale/as/LC_MESSAGES/gtk20.mo
 share/locale/az/LC_MESSAGES/gtk20-properties.mo
 share/locale/az/LC_MESSAGES/gtk20.mo
 share/locale/az_IR/LC_MESSAGES/gtk20-properties.mo
 share/locale/az_IR/LC_MESSAGES/gtk20.mo
 share/locale/be/LC_MESSAGES/gtk20-properties.mo
 share/locale/be/LC_MESSAGES/gtk20.mo
+share/locale/be@latin/LC_MESSAGES/gtk20-properties.mo
+share/locale/be@latin/LC_MESSAGES/gtk20.mo
 share/locale/bg/LC_MESSAGES/gtk20-properties.mo
 share/locale/bg/LC_MESSAGES/gtk20.mo
 share/locale/bn/LC_MESSAGES/gtk20-properties.mo
@@ -378,6 +383,8 @@ share/locale/en_CA/LC_MESSAGES/gtk20-properties.mo
 share/locale/en_CA/LC_MESSAGES/gtk20.mo
 share/locale/en_GB/LC_MESSAGES/gtk20-properties.mo
 share/locale/en_GB/LC_MESSAGES/gtk20.mo
+share/locale/eo/LC_MESSAGES/gtk20-properties.mo
+share/locale/eo/LC_MESSAGES/gtk20.mo
 share/locale/es/LC_MESSAGES/gtk20-properties.mo
 share/locale/es/LC_MESSAGES/gtk20.mo
 share/locale/et/LC_MESSAGES/gtk20-properties.mo
@@ -466,6 +473,8 @@ share/locale/ru/LC_MESSAGES/gtk20-properties.mo
 share/locale/ru/LC_MESSAGES/gtk20.mo
 share/locale/rw/LC_MESSAGES/gtk20-properties.mo
 share/locale/rw/LC_MESSAGES/gtk20.mo
+share/locale/si/LC_MESSAGES/gtk20-properties.mo
+share/locale/si/LC_MESSAGES/gtk20.mo
 share/locale/sk/LC_MESSAGES/gtk20-properties.mo
 share/locale/sk/LC_MESSAGES/gtk20.mo
 share/locale/sl/LC_MESSAGES/gtk20-properties.mo
@@ -572,6 +581,8 @@ share/themes/Raleigh/gtk-2.0/gtkrc
 @dirrm share/locale/sl
 @dirrm share/locale/sk/LC_MESSAGES
 @dirrm share/locale/sk
+@dirrm share/locale/si/LC_MESSAGES
+@dirrm share/locale/si
 @dirrm share/locale/rw/LC_MESSAGES
 @dirrm share/locale/rw
 @dirrm share/locale/ru/LC_MESSAGES
@@ -660,6 +671,8 @@ share/themes/Raleigh/gtk-2.0/gtkrc
 @dirrm share/locale/et
 @dirrm share/locale/es/LC_MESSAGES
 @dirrm share/locale/es
+@dirrm share/locale/eo/LC_MESSAGES
+@dirrm share/locale/eo
 @dirrm share/locale/en_GB/LC_MESSAGES
 @dirrm share/locale/en_GB
 @dirrm share/locale/en_CA/LC_MESSAGES
@@ -688,12 +701,16 @@ share/themes/Raleigh/gtk-2.0/gtkrc
 @dirrm share/locale/bn
 @dirrm share/locale/bg/LC_MESSAGES
 @dirrm share/locale/bg
+@dirrm share/locale/be@latin/LC_MESSAGES
+@dirrm share/locale/be@latin
 @dirrm share/locale/be/LC_MESSAGES
 @dirrm share/locale/be
 @dirrm share/locale/az_IR/LC_MESSAGES
 @dirrm share/locale/az_IR
 @dirrm share/locale/az/LC_MESSAGES
 @dirrm share/locale/az
+@dirrm share/locale/as/LC_MESSAGES
+@dirrm share/locale/as
 @dirrm share/locale/ar/LC_MESSAGES
 @dirrm share/locale/ar
 @dirrm share/locale/ang/LC_MESSAGES
