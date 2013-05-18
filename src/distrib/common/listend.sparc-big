@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/listend.sparc-big,v 1.2 2008/07/12 23:05:11 tg Exp $
+# $MirOS: src/distrib/common/listend.sparc-big,v 1.3 2008/07/12 23:07:17 tg Exp $
 
 # extra programmes
 LINK	instbin					bin/mt
@@ -20,3 +20,8 @@ SPECIAL	cd dev; ./MAKEDEV ramdisk
 SCRIPT	${TOPDIR}/common/install.sparc		install.md
 SCRIPT	${TOPDIR}/common/upgrade.sh		upgrade
 SPECIAL	chmod 755 install.md upgrade
+
+# misc stuff
+SPECIAL	chmod 600 usr/mdec/boot
+SPECIAL	strip --target=a.out-sunos-big usr/mdec/boot
+SPECIAL	chmod 555 usr/mdec/boot

@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/list.sparc-fdd,v 1.4 2008/07/13 22:47:19 tg Exp $
+# $MirOS: src/distrib/common/list.sparc-fdd,v 1.5 2008/07/13 23:53:54 tg Exp $
 
 SRCDIRS	distrib/special sys/arch/sparc/stand
 SRCDIRS	bin sbin usr.bin usr.sbin libexec
@@ -84,6 +84,9 @@ SPECIAL	chmod 755 install
 # misc stuff
 COPY	${DESTDIR}/usr/mdec/boot		usr/mdec/boot
 COPY	${DESTDIR}/usr/mdec/bootxx		usr/mdec/bootxx
+SPECIAL	chmod 600 usr/mdec/boot
+SPECIAL	strip --target=a.out-sunos-big usr/mdec/boot
+SPECIAL	chmod 555 usr/mdec/boot
 
 # devices stuff
 SPECIAL	cd dev; ./MAKEDEV ramdisk
