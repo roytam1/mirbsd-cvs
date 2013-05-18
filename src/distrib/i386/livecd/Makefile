@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/i386/livecd/Makefile,v 1.34 2006/04/19 21:28:27 tg Exp $
+# $MirOS: src/distrib/i386/livecd/Makefile,v 1.35 2006/04/27 08:31:38 tg Exp $
 
 .include <bsd.own.mk>
 
@@ -41,7 +41,9 @@ mr.fs:
 	-${SUDO} umount tmpmnt
 	-${SUDO} vnconfig -u svnd0
 
-addcontrib:
+addcontrib: addjupp addtinyirc
+
+addjupp:
 	mkdir -p tempdir/jupp
 	@if [[ -s ${BSDSRCDIR}/contrib/code/jupp/jupprc ]]; then \
 		cd tempdir/jupp; \
@@ -58,6 +60,26 @@ addcontrib:
 		    ./configure --prefix=/usr --sysconfdir=/etc; \
 		make; \
 		${SUDO} make install DESTDIR="$$targpath"; \
+	fi
+
+addtinyirc:
+	mkdir -p tempdir/tinyirc
+	@if [[ -s ${BSDSRCDIR}/contrib/code/Snippets/tinyirc.c ]]; then \
+		cd tempdir/tinyirc; \
+		lndir ${BSDSRCDIR}/contrib/code/Snippets; \
+	else \
+		cd tempdir; \
+		cvs -Rqz3 -d _anoncvs@anoncvs.66h.42h.de:/cvs co \
+		    -PAdtinyirc contrib/code/Snippets/tinyirc.c \
+		    || rm -rf tinyirc; \
+	fi
+	@if [[ -d tempdir/tinyirc/tinyirc.c ]]; then \
+		targpath=$$(readlink -nf workdir); \
+		cd tempdir/tinyirc; \
+		${CC} ${CFLAGS} ${COPTS} ${CPPFLAGS} ${LDFLAGS} \
+		    ${LDSTATIC} tinyirc.c -ltermcap; \
+		install -c -s -o root -g bin -m 555 a.out \
+		    $$targpath/usr/bin/tinyirc; \
 	fi
 
 prepimg:
@@ -113,8 +135,8 @@ unconfig:
 	-${SUDO} umount -f /dev/svnd0a
 	-${SUDO} vnconfig -u svnd0
 
-.PHONY:	addcontrib clean cleandir cleannobsd cleanworkdir gendev it makeimg \
-	nukefiles prepimg tstmnt tstumnt unconfig unpack
+.PHONY:	addcontrib addjupp addtinyirc clean cleandir cleannobsd cleanworkdir \
+	gendev it makeimg nukefiles prepimg tstmnt tstumnt unconfig unpack
 
 clean cleandir cleannobsd: cleanworkdir
 	-rm -f ${CDROM} bsd{,.gz} mkisofs.log mr.fs rdsetroot
