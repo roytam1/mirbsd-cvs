@@ -1,4 +1,4 @@
-# $MirOS: src/etc/rc,v 1.18 2006/04/05 23:56:05 tg Exp $
+# $MirOS: src/etc/rc,v 1.19 2006/04/05 23:56:54 tg Exp $
 # $OpenBSD: rc,v 1.277 2006/01/12 21:54:15 deraadt Exp $
 #-
 # System startup script run by init on autoboot or after single-user.
@@ -573,16 +573,21 @@ if [[ -n $securelevel ]]; then
 fi
 
 # patch /etc/motd
-[[ -f /etc/motd ]] || install -c -o root -g wheel -m 664 /dev/null /etc/motd
-if T=$(mktemp /tmp/_motd.XXXXXXXXXX); then
-	sysctl -n kern.version | sed 1q >$T
-	echo >>$T
-	sed '1,/^$/d' </etc/motd >>$T
-	cmp -s $T /etc/motd || install -c -o root -g wheel -m 664 $T /etc/motd
-	rm -f $T
+v=$(sysctl -n kern.version | sed 1q)
+if [[ -s /etc/motd ]]; then
+	[[ "$(head -1 /etc/motd)" != $v ]] && ed -s /etc/motd <<-EOF
+		1,/^\$/d
+		0a
+			$v
+
+		.
+		wq
+	EOF
 else
-	echo 'warning: mktemp(1) failed. Please check for possible reasons.'
+	install -c -o root -g wheel -m 664 /dev/null /etc/motd
+	print "$v\n" >/etc/motd
 fi
+unset y
 
 if [[ -f /var/account/acct ]]; then
 	echo turning on accounting;	accton /var/account/acct
