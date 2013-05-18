@@ -1,4 +1,4 @@
-/* $OpenBSD: ssh-keygen.c,v 1.155 2006/11/06 21:25:28 markus Exp $ */
+/* $OpenBSD: ssh-keygen.c,v 1.156 2006/11/14 19:41:04 deraadt Exp $ */
 /*
  * Author: Tatu Ylonen <ylo@cs.hut.fi>
  * Copyright (c) 1994 Tatu Ylonen <ylo@cs.hut.fi>, Espoo, Finland
@@ -45,7 +45,7 @@
 #include "scard.h"
 #endif
 
-__RCSID("$MirOS: src/usr.bin/ssh/ssh-keygen.c,v 1.14 2006/09/20 21:41:05 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/ssh-keygen.c,v 1.15 2006/11/09 02:42:06 tg Exp $");
 
 /* Number of bits in the RSA/DSA key.  This value can be set on the command line. */
 #define DEFAULT_BITS		2048
@@ -1131,7 +1131,7 @@ usage(void)
  * Main program for key management.
  */
 int
-main(int ac, char **av)
+main(int argc, char **argv)
 {
 	char dotsshdir[MAXPATHLEN], comment[1024], *passphrase1, *passphrase2;
 	char out_file[MAXPATHLEN], *reader_id = NULL;
@@ -1151,7 +1151,7 @@ main(int ac, char **av)
 	sanitise_stdfd();
 
 	SSLeay_add_all_algorithms();
-	log_init(av[0], SYSLOG_LEVEL_INFO, SYSLOG_FACILITY_USER, 1);
+	log_init(argv[0], SYSLOG_LEVEL_INFO, SYSLOG_FACILITY_USER, 1);
 
 	/* we need this for the home * directory.  */
 	pw = getpwuid(getuid());
@@ -1164,7 +1164,7 @@ main(int ac, char **av)
 		exit(1);
 	}
 
-	while ((opt = getopt(ac, av,
+	while ((opt = getopt(argc, argv,
 	    "a:Bb:cC:dD:EeF:f:G:gHIilM:N:pP:qR:r:S:T:t:U:vW:Xxy")) != -1) {
 		switch (opt) {
 		case 'b':
@@ -1303,9 +1303,9 @@ main(int ac, char **av)
 	}
 
 	/* reinit */
-	log_init(av[0], log_level, SYSLOG_FACILITY_USER, 1);
+	log_init(argv[0], log_level, SYSLOG_FACILITY_USER, 1);
 
-	if (optind < ac) {
+	if (optind < argc) {
 		printf("Too many arguments.\n");
 		usage();
 	}

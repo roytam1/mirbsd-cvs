@@ -1,4 +1,4 @@
-/* $OpenBSD: sftp.c,v 1.93 2006/09/30 17:48:22 ray Exp $ */
+/* $OpenBSD: sftp.c,v 1.94 2006/11/23 01:35:11 ray Exp $ */
 /*
  * Copyright (c) 2001-2004 Damien Miller <djm@openbsd.org>
  *
@@ -42,7 +42,7 @@
 #include "sftp-common.h"
 #include "sftp-client.h"
 
-__RCSID("$MirOS: src/usr.bin/ssh/sftp.c,v 1.12 2006/09/20 21:41:04 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/sftp.c,v 1.13 2006/10/02 23:26:01 tg Exp $");
 
 /* File to read commands from */
 FILE* infile;
@@ -287,11 +287,11 @@ static char *
 path_append(char *p1, char *p2)
 {
 	char *ret;
-	int len = strlen(p1) + strlen(p2) + 2;
+	size_t len = strlen(p1) + strlen(p2) + 2;
 
 	ret = xmalloc(len);
 	strlcpy(ret, p1, len);
-	if (p1[strlen(p1) - 1] != '/')
+	if (p1[0] != '\0' && p1[strlen(p1) - 1] != '/')
 		strlcat(ret, "/", len);
 	strlcat(ret, p2, len);
 
