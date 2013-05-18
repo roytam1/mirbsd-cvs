@@ -3,7 +3,7 @@
 
 #include "sh.h"
 
-__RCSID("$MirOS: src/bin/mksh/histrap.c,v 1.43 2007/03/03 21:36:07 tg Exp $");
+__RCSID("$MirOS: src/bin/mksh/histrap.c,v 1.39.2.1 2007/03/03 21:37:56 tg Exp $");
 
 Trap sigtraps[NSIG + 1];
 static struct sigaction Sigact_ign, Sigact_trap;
@@ -35,7 +35,7 @@ static int	hsize;
 #endif
 
 int
-c_fc(char **wp)
+c_fc(const char **wp)
 {
 	struct shf *shf;
 	struct temp *tf = NULL;
