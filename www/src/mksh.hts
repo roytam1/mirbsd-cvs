@@ -1,4 +1,4 @@
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.116 2008/05/15 15:24:08 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.117 2008/05/15 15:47:05 tg Exp $'
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -948,6 +948,12 @@ mws_content <<'EOF'
  <li>New shell integer variable <tt>USER_ID</tt> set to the geteuid(2) and
   used by <tt>dot.mkshrc</tt> to speed up logins, saves a spawn of id(1),
   mentioned by and realisation planned with Andreas "gecko2" Gockel</li>
+ <li>Fix <tt>dot.mkshrc</tt> tilde replacement in both <tt>$PS1</tt> and the
+  pushd/popd/dirs implementation when the home directory is empty, the root
+  directory, or ends with a slash (disable replacement in that case)</li>
+ <li>Do not use LDFLAGS and LIBS while compiling with <tt>-c</tt></li>
+ <li>Add realpath(3) builtin, to further speed up logins and chdirs</li>
+ <li>Optimise the code somewhat by making use of possible assumptions</li>
 </ul>
 <p id="r33d">mksh R33d is a quick security-update with these changes:</p><ul>
  <li>Move a portability define from <tt>sh.h</tt> to the <tt>setmode.c</tt>

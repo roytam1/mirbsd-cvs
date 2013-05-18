@@ -1,4 +1,4 @@
-mws_putheader '$MirOS: www/src/clog11.hts,v 1.4 2008/03/23 22:13:40 tg Exp $'
+mws_putheader '$MirOS: www/src/clog11.hts,v 1.5 2008/05/17 12:01:51 tg Exp $'
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -9,6 +9,7 @@ mws_content <<'EOF'
 <p>Only changes to the base system, gcc, X11, and infrastructure for MirPorts
  and subprojects are listed. Changes to individual ports or changes which are
  not related to the base system in subprojects, or www/contrib are not.</p>
+<p>Changes to <a href="mksh.htm#clog">mksh</a> are not listed here, either.</p>
 <ul>
 <li>ntpd(8): improve the adjustment delta calculation algorithm, debugging</li>
 <li>hier(7): change root’s home directory to ‘/’</li>
@@ -30,7 +31,6 @@ mws_content <<'EOF'
 <li>kernel: log invalid syscall numbers</li>
 <li>base: add /usr/dbin (= /bin) and /usr/dsbin (= /sbin) containing versions
  of these executables which are dynamically linked, for fakeroot</li>
-<li>mksh(1): support dæmonisation (<tt>mksh -T- script</tt>)</li>
 <li>libpng: update to 1.2.25</li>
 <li>kernel: improve arandom(4) by using Yarrow’s two-pool idea, add some
  built-in entropy at boot (improves arc4random(3) as well)</li>
