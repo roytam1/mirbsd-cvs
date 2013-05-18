@@ -6279,14 +6279,12 @@
 ./man4/icmp6.htm
 ./man4/icsphy.htm
 ./man4/idp.htm
-./man4/ie.htm
 ./man4/ifmedia.htm
 ./man4/ifpci.htm
 ./man4/iha.htm
 ./man4/inet.htm
 ./man4/inet6.htm
 ./man4/inphy.htm
-./man4/intro.htm
 ./man4/iop.htm
 ./man4/iophy.htm
 ./man4/ioprbs.htm
@@ -6314,11 +6312,9 @@
 ./man4/kbd.htm
 ./man4/keyboard.htm
 ./man4/keynote.htm
-./man4/kmem.htm
 ./man4/ksyms.htm
 ./man4/kue.htm
 ./man4/lc.htm
-./man4/le.htm
 ./man4/lge.htm
 ./man4/lkm.htm
 ./man4/lm.htm
@@ -6328,7 +6324,6 @@
 ./man4/lpt.htm
 ./man4/lxtphy.htm
 ./man4/maestro.htm
-./man4/mem.htm
 ./man4/microtouch.htm
 ./man4/midi.htm
 ./man4/mii.htm
@@ -6650,7 +6645,6 @@
 ./man7/symlink.htm
 ./man7/term.htm
 ./man8/.htaccess
-./man8/MAKEDEV.htm
 ./man8/Setup.sh.htm
 ./man8/UKC.htm
 ./man8/ac.htm
@@ -6716,7 +6710,6 @@
 ./man8/ifwatchd.htm
 ./man8/inetd.htm
 ./man8/init.htm
-./man8/installboot.htm
 ./man8/intro.htm
 ./man8/iostat.htm
 ./man8/isakmpd.htm
