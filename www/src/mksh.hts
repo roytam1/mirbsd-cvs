@@ -1,10 +1,10 @@
-# $MirOS: www/src/mksh.hts,v 1.42 2007/08/03 00:02:31 tg Exp $
+# $MirOS: www/src/mksh.hts,v 1.43 2007/08/09 21:46:34 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.42 2007/08/03 00:02:31 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.43 2007/08/09 21:46:34 tg Exp $'
 mws_content <<'EOF'
 <h1>mksh(1) R30</h1>
 <p>This is the website of the MirBSD™ Korn Shell, an actively developed free
@@ -641,9 +641,15 @@ mws_content <<'EOF'
   ANSI'n'POSIX Environment (not finished)</li>
  <li>Plan porting mksh to <a href="http://www.minix3.org/">Minix 3</a>
   (not finished yet)</li>
- <li>Support the TenDRA compiler (and, possibly, Ten15 too).</li>
- <li>Begin supporting Fabrice Bellard's Tiny C Compiler.</li>
+ <li>Support the TenDRA compiler (possibly also Ten15, not tried)</li>
+ <li>Begin supporting Fabrice Bellard's Tiny C Compiler (tcc on Debian
+  cannot link due to duplicate symbols in GNU libc, thus unfinished)</li>
  <li>Add new bindable command “clear-screen” e.g. for <tt>^L</tt> key.</li>
+ <li>Support building for MidnightBSD</li>
+ <li>Add new shell alias “source”, semantics like the GNU bash builtin</li>
+ <li>Add new shell option “set -o arc4random”, controlling whether rand(3) or
+  arc4random(3) is used for the $RANDOM value, use arc4random_pushb(3)</li>
+ <li>Improve some mirtoconf checks (most notably, mknod(2) and macros)</li>
 </ul>
 <p>A milestone in development: mksh R30 can do this:</p><ul>
  <li>Build on and for Solaris, Linux and MirBSD with Sun's C compiler</li>
