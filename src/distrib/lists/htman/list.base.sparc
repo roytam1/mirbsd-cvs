@@ -17,10 +17,15 @@ cat4/daadio.0
 cat4/esp.0
 cat4/fga.0
 cat4/fvme.0
+cat4/ie.0
+cat4/intro.0
+cat4/kmem.0
+cat4/le.0
 cat4/lebuffer.0
 cat4/led.0
 cat4/ledma.0
 cat4/magma.0
+cat4/mem.0
 cat4/mgx.0
 cat4/openprom.0
 cat4/pninek.0
@@ -45,5 +50,7 @@ cat4/zs.0
 cat4/zskbd.0
 cat4/zstty.0
 cat4/zx.0
+cat8/MAKEDEV.0
 cat8/boot_sparc.0
 cat8/eeprom.0
+cat8/installboot.0

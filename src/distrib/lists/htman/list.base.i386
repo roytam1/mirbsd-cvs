@@ -14,10 +14,15 @@ cat4/elansc.0
 cat4/geodesc.0
 cat4/gus.0
 cat4/ichpcib.0
+cat4/ie.0
+cat4/intro.0
 cat4/iy.0
 cat4/joy.0
+cat4/kmem.0
+cat4/le.0
 cat4/lms.0
 cat4/mcd.0
+cat4/mem.0
 cat4/mms.0
 cat4/mtrr.0
 cat4/npx.0
@@ -34,6 +39,7 @@ cat4/wt.0
 cat5/isdnd.acct.0
 cat5/isdnd.rates.0
 cat5/isdnd.rc.0
+cat8/MAKEDEV.0
 cat8/ancontrol.0
 cat8/apm.0
 cat8/apmd.0
@@ -41,6 +47,7 @@ cat8/boot.0
 cat8/boot.cfg.0
 cat8/boot_i386.0
 cat8/fdisk.0
+cat8/installboot.0
 cat8/iopctl.0
 cat8/isdnd.0
 cat8/isdnmonitor.0
