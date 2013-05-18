@@ -2385,4 +2385,14 @@ Author: tg@
 <p>I’m still waiting for half of the equipment I ordered, but tear can
  finally be installed now (I’ll just change the internal cabling a bit
  beforehand though, to make my nerves more at ease).</p>
+<p>UPDATE: Changing the cabling wasn’t easily possible, but I cleaned
+ up the inside a little. But RAID initialisation definitively took too
+ long, and afterwards I filled /dev/rsd0b with /dev/arandom at about
+ 80 KiB/s, which is most truly not enough for an U160 SCSI device, not
+ to speak about the U320 devices I also have in there. So I need a new
+ SCSI HBA, which is supported by MirBSD and handles U320 LVD drives.
+ This sucks. And it postpones usage of my new server quite a bit. The
+ devices almost all share IRQ 11, which sucks even more. I gather from
+ Xen/Linux console output that ACPI devices have 256 IRQ lines? This
+ would be the one and only reason for me to adopt it…</p>
 ----
