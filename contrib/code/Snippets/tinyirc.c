@@ -22,7 +22,7 @@
 #else
 #define RELEASE_OS	"unknown OS"
 #endif
-#define RELEASE_VER	"TinyIRC 20090117"
+#define RELEASE_VER	"TinyIRC 20090118"
 #define RELEASE_L	RELEASE_VER " (" RELEASE_OS ") MirOS-contrib"
 #define RELEASE_S	RELEASE_VER " MirOS"
 /*-
@@ -80,7 +80,7 @@
 #define	__RCSID(x)	static const char __rcsid[] __attribute__((used)) = (x)
 #endif
 
-__RCSID("$MirOS: contrib/code/Snippets/tinyirc.c,v 1.33 2009/01/08 20:23:32 tg Exp $");
+__RCSID("$MirOS: contrib/code/Snippets/tinyirc.c,v 1.34 2009/01/17 14:08:22 tg Exp $");
 
 #ifndef __dead
 #define __dead
@@ -1114,7 +1114,8 @@ main(int argc, char *argv[])
 	fprintf(stderr, "*** %s connection refused, aborting\n", hostname);
 	exit(0);
     }
-    gethostname(localhost, sizeof (hostname));
+    if (gethostname(localhost, sizeof (hostname)) || !*localhost)
+	strlcpy(localhost, "localhost", sizeof (hostname));
     snprintf(lineout, LINELEN, "USER %s %s %s :%s\n", ircusername,
 	localhost, hostname, ircgecosname);
     sendline();
