@@ -2454,3 +2454,32 @@ Author: tg@
  Users are giving actual feedback. People (e.g. developers of other projects)
  are helping pro bono. The world is a good place still. Despite…</p>
 ----
+Author: bsiegert@
+Date: 28.10.2007
+
+<p>The svk port is alive and kicking at <tt>devel/svk</tt>. I have used
+ it for some simple RCS and merging scenarios with my gf's diploma
+ thesis, and it seems to be working very well, better than subversion
+ even. Startup time is very long (up to 10 seconds, even for <tt>svk
+ help</tt>) but once it gets going, the operations themselves are
+ quicker. And smerge is just very cool: you can merge one branch into
+ another without manually keeping track of branch points and the like.
+ It seems to me that svk can replace CVS's vendor branches easily,
+ something Subversion does not do. Nice.</p>
+
+<p>I should be starting my PhD thesis in november but I am still
+ struggling with the bureaucrats. The problem is that I do not have the
+ diploma itself, i.e. the peace of paper, as the evaluation of the
+ thesis is not finished. So my employer told me to get a "provisional
+ attestation" (?). Now, suddenly they tell me that they cannot take the
+ one I sent them into account because my thesis is not yet noted. Great.
+ Grr.</p>
+
+<p>I tried to install my <i>T-Com Speedport W701V</i> router at my
+ parents' place, only to have it crashing on me. It seems that the thing
+ is stuck in an endless reset loop. The action of mine that brought it
+ into this state was clicking "Step-by-step DSL installation". So much
+ for T-Com (that does not exist as a brand any more anyway, I think) and
+ for our channel motto <i>Technik ist schei&szlig;e und funktioniert
+ nicht.</i> How right.</p>
+----
