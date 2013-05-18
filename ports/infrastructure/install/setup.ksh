@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: ports/infrastructure/install/setup.ksh,v 1.78 2007/04/30 13:07:35 tg Exp $
+# $MirOS: ports/infrastructure/install/setup.ksh,v 1.79 2008/02/24 10:38:08 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -328,7 +328,10 @@ ed -s $localbase/bin/ld <<-EOF
 	wq
 EOF
 chmod 555 $localbase/bin/ld
-[[ $isdarwin = *yes* ]] && ln -f $localbase/bin/ld $localbase/db/libtool
+if [[ $isdarwin = *yes* ]]; then
+	ln -f $localbase/bin/ld $localbase/db/libtool
+	ln -f $localbase/bin/ld $localbase/db/collect2
+fi
 
 
 # Check if we need to install mirmake

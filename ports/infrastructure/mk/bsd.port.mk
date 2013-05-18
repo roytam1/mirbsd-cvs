@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.189 2007/10/26 21:45:53 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.191 2008/02/22 21:43:43 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -2541,11 +2541,14 @@ ${LOCALBASE}/db/specs: ${CC_SPECS}
 		print -u2 Error: cannot make temporary file; \
 		exit 1; \
 	fi; \
-	if ! ${CC} -dumpspecs | sed \
-	    's#/usr/bin/libtool#${LOCALBASE}/db/libtool#g' >$$t; then \
-		print -u2 Error: cannot create specs file; \
-		rm -f $$t; \
-		exit 1; \
+	${CC} -dumpspecs >$$t; \
+	if fgrep -q /usr/bin/libtool $$t; then \
+		print 'g!/usr/bin/libtool!s!!${LOCALBASE}/db/libtool!g\nwq' | \
+		    ed -s $$t; \
+	else \
+		reallinker=$$(${CC} -print-prog-name=collect2); \
+		print '/^\*linker:$$/+1s!^collect2!${LOCALBASE}/db/collect2' \
+		    "-Ww,collect2 $$reallinker!\nwq" | ed -s $$t; \
 	fi; \
 	if ! ${SUDO} ${INSTALL} ${INSTALL_COPY} -o ${BINOWN} -g ${BINGRP} \
 	    -m ${NONBINMODE} $$t $@; then \

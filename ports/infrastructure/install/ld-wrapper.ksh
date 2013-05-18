@@ -1,4 +1,4 @@
-#!/bin/mksh
+#!/usr/bin/env mksh
 # $MirOS: ports/infrastructure/install/ld-wrapper.ksh,v 1.4 2006/08/16 19:43:53 tg Exp $
 #-
 # Copyright (c) 2006, 2008
@@ -24,10 +24,18 @@
 # other issues arising in any way out of its use, even if advised of
 # the possibility of such damage or existence of a defect.
 #-
-# Enhance ld(1) (and libtool(1) on Darwin) by new functionality
+# Enhance ld(1) (and libtool(1) on Darwin, with tweaks for Leopard's
+# weird gcc) by new functionality
 
 _LD=/usr/bin/ld
 [[ $0 = *(*/)libtool ]] && _LD=/usr/bin/libtool
+[[ $0 = *(*/)collect2 ]] && if [[ $1 = -Ww,collect2 ]]; then
+	_LD=$2
+	shift
+	shift
+else
+	_LD=$(gcc -print-prog-name=collect2)
+fi
 
 set -A args
 libafter=
