@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: src/etc/root/dot.profile,v 1.7 2006/03/29 13:37:34 tg Exp $
 #-
 # initialisation for bourne shell (worst case)
 
@@ -24,7 +24,7 @@ fi
 #<...> insert local stuff here
 
 # exit if sh/ash/sash
-test -n $KSH_VERSION || test -n $BASH_VERSION || return
+test -n "$KSH_VERSION" || test -n "$BASH_VERSION" || return
 
 # mksh/bash only
 function Lretrocfg	# retrieve kernel config file
