@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.64 2008/07/30 00:22:01 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.65 2008/07/30 00:25:26 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -1303,4 +1303,28 @@ Title: Get me some beer, Wine sucks
  href="http://blog.pas-un-geek-en-tant-que-tel.ch/archives/2008/07/23/Subversion_-_tales_from_a_failed_migration/">rid
  of Subversion</a>, luckily. (I wonder about said “new” developer’s preference
  as I’d rather use CVS for everything…)</p>
+----
+Date: 02.08.2008 00:12
+Author: tg@
+Title: HEAD may be broken, but improvements coming, OPTU-8 charset
+
+<p>I started hacking on the bootloader issue, decided to move out the
+ various libraries into <tt>src/kern/</tt> first, and completed that
+ for zlib, began it for the rest. The other places – <tt>src/lib/libc/</tt>
+ <tt>src/sys/lib/</tt> <tt>src/sys/arch/*/stand/lib*</tt> – now look much
+ cleaner already, and in fact can do some better. I also merged bootloader
+ and other improvements from OpenBSD before beginning the file move dance,
+ but it still worked for me in qemu for testing, so I didn’t expect much
+ breakage.</p>
+<p>Furthermore, MirOS now officially has OPTU-8 locale (no more CESU-8),
+ even if masqueraded as “en_US.UTF-8” for better application support. The
+ CSUR had already, as posted about quite a few times, allocated us a PUA
+ range, which <a href="@@RELPATH@@mksh.htm">mksh</a> was already using,
+ and now the base system and libc are beginning to catch up. Thanks to a
+ pen and paper “game” I have sort of a defined finite machine modelling
+ the conversion states, and found out I can get by with the mbstate_t we
+ already were using. tr(1) already doesn’t wreck ISO-8859-1 accents any
+ more (nor binary files), although that definitively needs some testing.</p>
+<p>I’d just like to warn people that HEAD (MirOS-current) is a pretty
+ moving target at the moment.</p>
 ----
