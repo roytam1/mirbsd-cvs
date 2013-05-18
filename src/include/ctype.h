@@ -1,4 +1,4 @@
-/* $MirOS: src/include/ctype.h,v 1.10 2007/02/02 19:22:37 tg Exp $ */
+/* $MirOS: src/include/ctype.h,v 1.11 2007/02/02 21:06:16 tg Exp $ */
 
 /*-
  * Copyright (c) 2006, 2007
@@ -40,9 +40,6 @@
 #define _ctp_xdigit	0x0008
 
 __BEGIN_DECLS
-extern const unsigned char __C_attribute_table_pg[256];
-
-#if defined(__GNUC__) || defined(_ANSI_LIBRARY) || defined(lint)
 int	isalnum(int);
 int	isalpha(int);
 int	iscntrl(int);
@@ -63,9 +60,9 @@ int	isblank(int);
 int	toascii(int);
 #endif /* !_ANSI_SOURCE && !_POSIX_SOURCE */
 
-#endif /* __GNUC__ || _ANSI_LIBRARY || lint */
+#if !defined(lint)
 
-#if !defined(_ANSI_LIBRARY) && !defined(lint)
+extern const unsigned char __C_attribute_table_pg[256];
 
 #ifdef __GNUC__
 #define __CTYPE_IMPL(c,t) __extension__({				\
@@ -116,10 +113,9 @@ int	toascii(int);
 
 #define _tolower(c)	((c) - 'A' + 'a')
 #define _toupper(c)	((c) - 'a' + 'A')
-
 #endif /* !_ANSI_SOURCE && !_POSIX_SOURCE */
 
-#endif /* !_ANSI_LIBRARY && !lint */
+#endif /* !lint */
 
 __END_DECLS
 
