@@ -1,4 +1,4 @@
-# $MirOS: src/share/misc/bsdstats,v 1.11 2006/10/04 07:59:37 tg Exp $
+# $MirOS: src/share/misc/bsdstats,v 1.12 2006/10/07 03:23:23 tg Exp $
 # $FreeBSD: /repoman/r/pcvs/ports/sysutils/bsdstats/files/300.statistics,v 1.30 2006/10/02 12:07:30 scrappy Exp $
 
 rpt='http://rpt.bsdstats.org/scripts/'
@@ -7,6 +7,15 @@ function uri_escape
 {
 	print -nr -- "$*" | hexdump -ve '1/1 "-%02x"' | sed s/-/%/g
 }
+
+host=${rpt#http://}
+host=${host%%/*}
+# do it twice in case DNS is slow
+res=$(host -t a $host 2>&-; sleep 3; host -t a $host 2>&-)
+if [[ $res != *$host* ]]; then
+	print not connecting to $host: cannot resolve
+	return 0
+fi
 
 stats_token=
 integer stats_token_time=0
