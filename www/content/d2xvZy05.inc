@@ -1,5 +1,5 @@
 <!-- PageID: wlog-9 -->
-<small class="rcsid">$MirOS: www/content/d2xvZy05.inc,v 1.2 2006/06/27 14:20:57 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy05.inc,v 1.3 2006/06/28 00:49:59 tg Exp $</small>
 <h1>MirBSD &ndash; WTF is Verpeilungsfaktor?</h1>
 <p><small><a href="#eof">bottom</a> or <a href="/?older">older</a>
  editions</small></p>
@@ -33,6 +33,22 @@
   128 MiB, in contrast to i386's 1 GiB? Bumped to 320 MiB in order to be
   able to build gcc&#8230; kernel really seems stable now, compiled both
   cross and natively.</p>
+</div>
+
+<div class="wlentry">
+ <h3 id="e20060629">29.06.2006 by tg@</h3>
+ <p>I've built MirOS (base and gcc) entirely on the sparc and have fixed
+  the GNU Debugger in the progress as well. I'll have to change a little
+  code in order to silent gcc, but that's not much left.</p>
+ <p>In order to fix a few security leaks, I updated libpng and freetype2
+  as well. I yet have to re-build the entire X-Windowing system in order
+  to test whether this actually does not break anything. Neither has the
+  XFree86 environment been ported to the new sparc system.</p>
+ <p>After the bump of autoconf to version 2.60 everything must be tested
+  and libtool ought to be bumped as well.</p>
+ <p>Finally, I must make sure that distrib/ works on sparc and release a
+  first snapshot &ndash; optimally as live-cd :) but I'm not going there
+  yet.</p>
 </div>
 
 <p id="eof">Good luck, have fun, take care etc.pp</p>
