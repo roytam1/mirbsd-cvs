@@ -1,4 +1,4 @@
-! $MirOS: contrib/samples/dot.Xmodmap,v 1.9 2007/06/15 19:52:23 tg Exp $
+! $MirOS: contrib/samples/dot.Xmodmap,v 1.10 2007/06/15 21:38:59 tg Exp $
 !-
 ! Copyright © 2004, 2007
 !	Thorsten “mirabilos” Glaser <tg@mirbsd.de>
@@ -52,6 +52,8 @@
 ! • The ModeSwitch-F4 combination generates U+1E9E (ẞ) majuscle sz
 ! • The ModeSwitch-F5 combination generates U+FFFD (�) replacement
 ! • The ModeSwitch-F6 combination generates U+2260 (≠) <not equal>
+! • The ModeSwitch-F7 combination generates U+2018 (‘) left squote
+! • The ModeSwitch-F8 combination generates U+2019 (’) right squot
 ! • The ModeSwitch-Shift-F1 combination generates U+250C (┌) up-lf
 ! • The ModeSwitch-Shift-F2 combination generates U+2500 (─) horiz
 ! • The ModeSwitch-Shift-F3 combination generates U+2510 (┐) up-rt
@@ -66,8 +68,8 @@ keycode	0x45 =	F3		XF86_Switch_VT_3	U2639	U2510
 keycode	0x46 =	F4		XF86_Switch_VT_4	U1E9E	U2502
 keycode	0x47 =	F5		XF86_Switch_VT_5	UFFFD	U2514
 keycode	0x48 =	F6		XF86_Switch_VT_6	U2260	U2518
-keycode	0x49 =	F7		XF86_Switch_VT_7
-keycode	0x4A =	F8		XF86_Switch_VT_8
+keycode	0x49 =	F7		XF86_Switch_VT_7	U2018
+keycode	0x4A =	F8		XF86_Switch_VT_8	U2019
 keycode	0x4B =	F9		XF86_Switch_VT_9
 keycode	0x4C =	F10		XF86_Switch_VT_10
 keycode	0x5F =	F11		XF86_Switch_VT_11
