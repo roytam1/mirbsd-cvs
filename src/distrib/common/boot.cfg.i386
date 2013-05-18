@@ -1,6 +1,4 @@
-# $MirOS: src/distrib/common/boot.cfg.i386,v 1.2 2006/09/24 17:48:32 tg Exp $
-#-
-# Note this file is processed in the IBM-CP437 charset!
+# $MirOS: src/distrib/common/boot.cfg.i386,v 1.3 2007/01/30 22:42:05 tg Exp $
 #
 set image /v9/i386/bsd.rd
 set timeout 12
