@@ -43,23 +43,24 @@
 #include <lib/libsa/nfs.h>
 #include <lib/libsa/tftp.h>
 #include <lib/libsa/netif.h>
+#include <sys/disklabel.h>
 #endif
 #endif
 #include <biosdev.h>
 #include <dev/cons.h>
 #include "debug.h"
 #ifdef USE_PXE
+#include "disk.h"
 #include "pxeboot.h"
 #include "pxe_net.h"
+#endif
 
-#include <sys/disklabel.h>
-#include "disk.h"
-
-void pxecheck(void);
+#ifdef USE_PXE
+static void pxecheck(void);
 #endif
 
 #ifndef SMALL_BOOT
-void lmbmfs_check(void);
+static void lmbmfs_check(void);
 #endif
 
 const char version[] = __BOOT_VER;
@@ -97,69 +98,32 @@ struct i386_boot_probes probe_list[] = {
 };
 int nibprobes = NENTS(probe_list);
 
+/* filesystems applying to generic devices, not pseudodevices */
 struct fs_ops file_system[] = {
 #ifndef SMALL_BOOT
-#define O_LMBMFS 0
-	{ lmbmfs_open, lmbmfs_close, lmbmfs_read, lmbmfs_write, lmbmfs_seek,
-	  lmbmfs_stat, lmbmfs_readdir },
 	{ cd9660_open, cd9660_close, cd9660_read, cd9660_write, cd9660_seek,
-	  cd9660_stat, cd9660_readdir },
+	  cd9660_stat, cd9660_readdir, "cd9660" },
 #endif
 	{ ufs_open,    ufs_close,    ufs_read,    ufs_write,    ufs_seek,
-	  ufs_stat,    ufs_readdir    },
+	  ufs_stat,    ufs_readdir,    "ufs" },
 #ifndef SMALL_BOOT
 	{ fat_open,    fat_close,    fat_read,    fat_write,    fat_seek,
-	  fat_stat,    fat_readdir    },
-#endif
-#ifdef USE_PXE
-#define O_TFTP 4
-	{ tftp_open,   tftp_close,   tftp_read,   tftp_write,   tftp_seek,
-	  tftp_stat,   tftp_readdir   },
-	{ nfs_open,    nfs_close,    nfs_read,    nfs_write,    nfs_seek,
-	  nfs_stat,    nfs_readdir    },
+	  fat_stat,    fat_readdir,    "fat" },
 #endif
 };
 int nfsys = NENTS(file_system);
 
-struct devsw	devsw[] = {
+struct devsw devsw[] = {
 	{ "BIOS", biosstrategy, biosopen, biosclose, biosioctl },
-#if 0
-	{ "TFTP", tftpstrategy, tftpopen, tftpclose, tftpioctl },
-#endif
-};
-int ndevs = NENTS(devsw);
-
 #ifndef SMALL_BOOT
-struct devsw lmbmsw[] = {
-	{ "lmbm", lmbm_strategy, lmbm_open, lmbm_close, lmbm_ioctl }
-};
+#define DEVSW_LMBM 1
+	{ "lmbm", lmbm_strategy, lmbm_open, lmbm_close, lmbm_ioctl },
 #ifdef USE_PXE
-struct devsw netsw[] = {
-	{ "net",  net_strategy, net_open, net_close, net_ioctl },
-};
+#define DEVSW_NET 2
+	{ "PXE", net_strategy, net_open, net_close, net_ioctl },
 #endif
-
-/* must match file_system[] */
-const char *fs_name[] = {
-	"lmbm", NULL, NULL, NULL,
-#ifdef USE_PXE
-	"tftp", "nfs"
 #endif
 };
-struct devsw *fs_type[] = {
-	&lmbmsw[0], NULL, NULL, NULL,
-#ifdef USE_PXE
-	&netsw[0], &netsw[0]
-#endif
-};
-int nfsname = NENTS(fs_name);
-#endif
-
-#ifdef USE_PXE
-struct netif_driver	*netif_drivers[] = {
-};
-int n_netif_drivers = NENTS(netif_drivers);
-#endif
 
 struct consdev constab[] = {
 	{ pc_probe, pc_init, pc_getc, pc_putc },
@@ -169,6 +133,18 @@ struct consdev constab[] = {
 struct consdev *cn_tab = constab;
 
 #ifdef USE_PXE
+static struct fs_ops tftp_fs_ops[] = {
+	{ tftp_open,   tftp_close,   tftp_read,   tftp_write,   tftp_seek,
+	  tftp_stat,   tftp_readdir, "tftp" },
+};
+static struct fs_ops nfs_fs_ops[] = {
+	{ nfs_open,    nfs_close,    nfs_read,    nfs_write,    nfs_seek,
+	  nfs_stat,    nfs_readdir,  "nfs" }
+};
+struct netif_driver *netif_drivers[] = {
+};
+int n_netif_drivers = NENTS(netif_drivers);
+
 void
 pxecheck(void)
 {
@@ -177,7 +153,7 @@ pxecheck(void)
 			start_dip = alloc(sizeof (struct diskinfo));
 			bzero(start_dip, sizeof (struct diskinfo));
 			memcpy(start_dip->name, "tftp", 5);
-			start_dip->ops = &file_system[O_TFTP];
+			start_dip->ops = tftp_fs_ops;
 			start_dip->bios_info.flags = BDI_NOTADISK;
 			TAILQ_INSERT_TAIL(&disklist, start_dip, list);
 		}
@@ -187,16 +163,16 @@ pxecheck(void)
 	} else {
 		have_pxe = 0;
 		nibprobes -= 1;
-		nfsys -= 2;
-		nfsname -= 2;
-#if 0
-		ndevs -= 1;
-#endif
 	}
 }
 #endif
 
 #ifndef SMALL_BOOT
+static struct fs_ops lmbm_fs_ops[] = {
+	{ lmbmfs_open, lmbmfs_close, lmbmfs_read, lmbmfs_write, lmbmfs_seek,
+	  lmbmfs_stat, lmbmfs_readdir, "lmbmfs" }
+};
+
 void
 lmbmfs_check(void)
 {
@@ -204,9 +180,21 @@ lmbmfs_check(void)
 		start_dip = alloc(sizeof (struct diskinfo));
 		bzero(start_dip, sizeof (struct diskinfo));
 		memcpy(start_dip->name, "lmbm", 5);
-		start_dip->ops = &file_system[O_LMBMFS];
+		start_dip->ops = lmbm_fs_ops;
 		start_dip->bios_info.flags = BDI_NOTADISK;
 		TAILQ_INSERT_TAIL(&disklist, start_dip, list);
 	}
 }
 #endif
+
+struct devsw_prefix_match devsw_match[] = {
+#ifndef SMALL_BOOT
+	{ &devsw[DEVSW_LMBM], lmbm_fs_ops, "lmbm", 0, 1 },
+#ifdef USE_PXE
+	{ &devsw[DEVSW_NET], tftp_fs_ops, "tftp", 1, 1 },
+	{ &devsw[DEVSW_NET], nfs_fs_ops, "nfs", 1, 1 },
+#endif
+#endif
+	{ &devsw[0], NULL, "", 0, 0 },
+	{ NULL, NULL, "", 0, 0 }
+};

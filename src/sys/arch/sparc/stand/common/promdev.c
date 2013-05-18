@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/sparc/stand/common/promdev.c,v 1.4 2009/02/01 16:12:31 tg Exp $ */
+/**	$MirOS: src/sys/arch/sparc/stand/common/promdev.c,v 1.5 2009/04/17 18:57:08 tg Exp $ */
 /*	$OpenBSD: promdev.c,v 1.9 2003/08/14 17:13:57 deraadt Exp $	*/
 /*	$NetBSD: promdev.c,v 1.16 1995/11/14 15:04:01 pk Exp $ */
 
@@ -99,8 +99,6 @@ struct devsw devsw[] = {
 	{ "prom0", prom0_strategy, prom_open, prom0_close, prom_ioctl },
 	{ "prom", obp_strategy, prom_open, obp_close, prom_ioctl }
 };
-
-int	ndevs = (sizeof(devsw)/sizeof(devsw[0]));
 
 char	*prom_bootdevice;
 char	*prom_bootfile;

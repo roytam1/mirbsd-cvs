@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/lib/libsa/stand.h,v 1.12 2008/08/04 19:10:54 tg Exp $	*/
+/**	$MirOS: src/sys/lib/libsa/stand.h,v 1.13 2009/01/03 13:43:31 tg Exp $	*/
 /*	$OpenBSD: stand.h,v 1.46 2007/05/04 21:44:07 reyk Exp $	*/
 /*	$NetBSD: stand.h,v 1.18 1996/11/30 04:35:51 gwr Exp $	*/
 
@@ -63,6 +63,7 @@ struct fs_ops {
 	off_t	(*seek)(struct open_file *f, off_t offset, int where);
 	int	(*stat)(struct open_file *f, struct stat *sb);
 	int	(*readdir)(struct open_file *f, char *);
+	char	name[8];
 };
 
 extern struct fs_ops file_system[];
@@ -85,7 +86,6 @@ struct devsw {
 };
 
 extern struct devsw devsw[];	/* device array */
-extern int ndevs;		/* number of elements in devsw[] */
 
 extern struct consdev constab[];
 extern struct consdev *cn_tab;

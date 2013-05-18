@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/stand/libsa/dev_i386.c,v 1.15 2009/08/09 18:51:43 tg Exp $	*/
+/**	$MirOS: src/sys/arch/i386/stand/libsa/dev_i386.c,v 1.14 2009/01/11 00:32:40 tg Exp $	*/
 /*	$OpenBSD: dev_i386.c,v 1.30 2007/06/27 20:29:37 mk Exp $	*/
 
 /*
@@ -44,15 +44,8 @@
 
 extern int debug;
 
-#ifndef SMALL_BOOT
-extern const char *fs_name[];
-extern struct devsw *fs_type[];
-extern int nfsname;
-#endif
-
 #ifdef USE_PXE
-extern struct devsw netsw[];
-extern char *bootmac;		/* gets passed to kernel for network boot */
+extern char use_bootmac;
 #endif
 
 /* XXX use slot for 'rd' for 'hd' pseudo-device */
@@ -72,92 +65,92 @@ const int ncdevs = NENTS(cdevs);
 int
 devopen(struct open_file *f, const char *fname, char **file)
 {
-	struct devsw *dp = devsw;
-#ifndef SMALL_BOOT
-	char *p, *stripdev;
-#endif
-	int i, rc = 1;
+	char *cp;
+	int rc = 1;
+	struct devsw_prefix_match *dm;
 
-	*file = (char *)fname;
+	*file = cp = (char *)fname;
 
 #ifdef DEBUG
 	if (debug)
 		printf("devopen(%s):", fname);
 #endif
 
-#ifndef SMALL_BOOT
-	/* make sure we have a prefix, e.g. hd0a: or tftp: */
-	for (p = (char *)fname; *p != ':' && *p != '\0'; ) p++;
-	if (*p != ':')
-		goto do_local;
-	stripdev = p + 1;
+	/* get the colon-separated device prefix */
+	while (*cp && *cp != ':')
+		++cp;
 
-	for (i = 0; i < nfsname; i++) {
-		if ((fs_name[i] != NULL) &&
-		    (strncmp(fname, fs_name[i], p - fname) == 0)) {
-
-			/* Force oopen() etc to use this filesystem. */
-			f->f_ops = &file_system[i];
-			f->f_dev = dp = fs_type[i];
-
-			rc = (*dp->dv_open)(f, NULL);
-			if (rc == 0)
-				*file = stripdev;
-			else
-				f->f_dev = NULL;
-#ifdef DEBUG
-			if (debug)
-				printf("(%s)\n", *file);
-#endif
-#ifdef USE_PXE
-			if (fs_type[i] != &netsw[0])
-				bootmac = NULL;
-#endif
-			return rc;
-		}
-	}
-
-	/*
-	 * Assume that any network filesystems would be caught by the
-	 * code above, so that the next phase of devopen() is only for
-	 * local devices.
-	 *
-	 * Clear bootmac, to signal that we loaded this file from a
-	 * non-network device.
+	/**
+	 * (*file) = "pref:rest"
+	 * cp ------------^
 	 */
- do_local:
-#ifdef USE_PXE
-	bootmac = NULL;
-#endif
-#endif
+#ifdef DEBUG
+	if (debug) {
+		if (*cp) {
+			char *pp = *file;
 
-	for (i = 0; i < ndevs && rc != 0; dp++, i++) {
+			printf(" pfx:[");
+			while (pp < cp)
+				putchar(*pp++);
+			putchar(']');
+		} else
+			printf(" {no prefix}");
+	}
+#endif
+	for (dm = devsw_match; dm->devops; ++dm) {
 #ifdef DEBUG
 		if (debug)
-			printf(" %s: ", dp->dv_name);
+			printf(" match?[%s%s%s]", dm->devops->dv_name,
+			    dm->prefix[0] ? "?" : "", dm->prefix);
 #endif
-		if ((rc = (*dp->dv_open)(f, file)) == 0) {
-			f->f_dev = dp;
+		if (dm->prefix[0])
+			/*
+			 * want a prefix; loop if the file has none
+			 * or it does not match
+			 */
+			if (!*cp || strncmp(*file, dm->prefix, cp - *file)) {
 #ifdef DEBUG
-			printf("ok(%s)\n", *file);
+				if (debug)
+					printf("=NO");
 #endif
-			return 0;
+				continue;
+			}
+		/* prefix matches or is not requested */
+		f->f_ops = dm->fsops;
+		f->f_dev = dm->devops;
+		*file = dm->strip && *cp ? cp + 1 : (char *)fname;
+		if ((rc = (*f->f_dev->dv_open)(f, file)) == 0) {
+#ifdef USE_PXE
+			use_bootmac = dm->networked;
+#endif
+#ifdef DEBUG
+			if (debug)
+				printf("=OK(%s) net=%d dev=%s fs=%s\n", *file,
+				    dm->networked,
+				    f->f_dev ? f->f_dev->dv_name : "(NULL)",
+				    f->f_ops ? f->f_ops->name : "(NULL)");
+#endif
+			return (0);
 		}
 #ifdef DEBUG
-		else if (debug)
-			printf("%d", rc);
+		if (debug)
+			printf("=%u", rc);
 #endif
-
 	}
+
+	*file = (char *)fname;
+	f->f_ops = NULL;
+	if (f->f_flags & F_NODEV)
+		f->f_dev = NULL;
+	else
+		/* XXX why? and is this correct? */
+		f->f_dev = &devsw[0];
 #ifdef DEBUG
 	if (debug)
-		putchar('\n');
+		printf(" FAIL %s%s\n", f->f_dev ? "dev=" : "nodev",
+		    f->f_dev ? f->f_dev->dv_name : "");
 #endif
-
-	if ((f->f_flags & F_NODEV) == 0)
-		f->f_dev = dp;
-
-	return rc;
+	return (rc);
 }
 
 void

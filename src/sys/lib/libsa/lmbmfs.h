@@ -1,4 +1,4 @@
-/* $MirOS: src/sys/lib/libsa/fat.h,v 1.2 2005/12/17 05:46:26 tg Exp $ */
+/* $MirOS: src/sys/lib/libsa/lmbmfs.h,v 1.1 2009/08/09 18:51:44 tg Exp $ */
 
 #ifndef _SYS_LIB_LIBSA_LMBMFS_H
 #define _SYS_LIB_LIBSA_LMBMFS_H
@@ -21,6 +21,5 @@ int lmbm_ioctl(struct open_file *, u_long, void *);
 int lmbmfs_init(void);
 
 extern uint32_t lmbm_num;
-extern struct lmbm_modinfo *lmbm_ofs;
 
 #endif

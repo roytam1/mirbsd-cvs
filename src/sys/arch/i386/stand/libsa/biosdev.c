@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/stand/libsa/biosdev.c,v 1.42 2009/02/03 00:02:02 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/stand/libsa/biosdev.c,v 1.43 2009/08/11 10:53:35 tg Exp $ */
 /*	$OpenBSD: biosdev.c,v 1.74 2008/06/25 15:32:18 reyk Exp $	*/
 
 /*
@@ -348,8 +348,11 @@ biosopen(struct open_file *f, ...)
 	int i;
 
 	va_start(ap, f);
-	cp = *(file = va_arg(ap, char **));
+	file = va_arg(ap, char **);
 	va_end(ap);
+
+	if (file == NULL || (cp = *file) == NULL)
+		return (EINVAL);
 
 #ifdef BIOS_DEBUG
 	if (debug)

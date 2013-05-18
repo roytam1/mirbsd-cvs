@@ -41,6 +41,7 @@ typedef void (*startfuncp)(int, int, int, int, int, int, int, int)
     __attribute__ ((noreturn));
 
 char *bootmac = NULL;
+char use_bootmac = 1;
 
 void
 run_loadfile(u_long *marks, int howto)
@@ -59,7 +60,7 @@ run_loadfile(u_long *marks, int howto)
 	cd.conspeed = com_speed;
 	addbootarg(BOOTARG_CONSDEV, sizeof(cd), &cd);
 
-	if (bootmac != NULL)
+	if (bootmac != NULL && use_bootmac)
 		addbootarg(BOOTARG_BOOTMAC, sizeof(bios_bootmac_t), bootmac);
 
 	/* Pass memory map to the kernel */

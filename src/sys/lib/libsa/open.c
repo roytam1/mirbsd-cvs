@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: open.c,v 1.10 2003/08/11 06:23:09 deraadt Exp $	*/
 /*	$NetBSD: open.c,v 1.12 1996/09/30 16:01:21 ws Exp $	*/
 
@@ -63,6 +64,8 @@
 
 #include "stand.h"
 
+extern int debug;
+
 struct open_file files[SOPEN_MAX];
 
 /*
@@ -80,11 +83,20 @@ oopen(const char *fname, int mode)
 	int fd, i, error;
 	char *file;
 
+#ifdef DEBUG
+	if (debug)
+		printf("oopen(%s):", fname);
+#endif
+
 	/* find a free file descriptor */
 	for (fd = 0, f = files; fd < SOPEN_MAX; fd++, f++)
 		if (f->f_flags == 0)
 			goto fnd;
 	errno = EMFILE;
+#ifdef DEBUG
+	if (debug)
+		printf("EMFILE\n");
+#endif
 	return (-1);
  fnd:
 	/*
@@ -95,7 +107,15 @@ oopen(const char *fname, int mode)
 	f->f_dev = (struct devsw *)0;
 	f->f_ops = (struct fs_ops *)0;
 	file = (char *)0;
+#ifdef DEBUG
+	if (debug)
+		putchar('<');
+#endif
 	error = devopen(f, fname, &file);
+#ifdef DEBUG
+	if (debug)
+		putchar('>');
+#endif
 	if (error ||
 	    (((f->f_flags & F_NODEV) == 0) && f->f_dev == (struct devsw *)0))
 		goto err;
@@ -103,27 +123,56 @@ oopen(const char *fname, int mode)
 	/* see if we opened a raw device; otherwise, 'file' is the file name. */
 	if (file == (char *)0 || *file == '\0') {
 		f->f_flags |= F_RAW;
+#ifdef DEBUG
+		if (debug)
+			printf("=raw(%d)\n", fd);
+#endif
 		return (fd);
 	}
 
 	/* allow f->f_ops to be set by devopen routine */
 	if (f->f_ops != NULL) {
+#ifdef DEBUG
+		if (debug)
+			printf("=>dev:ops(%s)", f->f_ops->name);
+#endif
 		error = f->f_ops->open(file, f);
-		if (error == 0)
+		if (error == 0) {
+#ifdef DEBUG
+			if (debug)
+				printf("=>ok(%d)\n", fd);
+#endif
 			return (fd);
+		}
 	}
 
 	/* pass file name to the different filesystem open routines */
 	for (i = 0; i < nfsys; i++) {
+#ifdef DEBUG
+		if (debug)
+			printf(" try(%s)", file_system[i].name);
+#endif
 		/* convert mode (0,1,2) to FREAD, FWRITE. */
 		error = (file_system[i].open)(file, f);
 		if (error == 0) {
 			f->f_ops = &file_system[i];
+#ifdef DEBUG
+			if (debug)
+				printf("=>ok(%d)\n", fd);
+#endif
 			return (fd);
 		}
+#ifdef DEBUG
+		if (debug)
+			printf("=>err(%u)", error);
+#endif
 		if (error == ENOENT || error == ENOTDIR)
 			break;
 	}
+#ifdef DEBUG
+	if (debug)
+		printf(" no match");
+#endif
 	if (!error)
 		error = ENOENT;
 
@@ -131,6 +180,10 @@ oopen(const char *fname, int mode)
  err:
 	f->f_ops = NULL;
 	f->f_flags = 0;
+#ifdef DEBUG
+	if (debug)
+		printf("=>err(%u)\n", error);
+#endif
 	errno = error;
 	return (-1);
 }

@@ -25,14 +25,14 @@
 #include <lib/libsa/stand.h>
 #include <lib/libsa/lmbmfs.h>
 
-__RCSID("$MirOS: src/sys/lib/libsa/fat.c,v 1.15 2009/03/13 20:40:58 tg Exp $");
+__RCSID("$MirOS: src/sys/lib/libsa/lmbmfs.c,v 1.1 2009/08/09 18:51:43 tg Exp $");
 
-struct lmbm_modinfo {
+extern struct lmbm_modinfo {
 	void *mod_start;
 	void *mod_end;
 	char *mod_string;
 	void *mod_reserved;
-};
+} *lmbm_ofs;
 
 static struct lmbm_item {
 	char *name;
