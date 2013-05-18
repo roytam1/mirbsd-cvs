@@ -1,4 +1,4 @@
-/* $MirOS: src/share/misc/licence.template,v 1.20 2006/12/11 21:04:56 tg Rel $ */
+/* $MirOS: src/lib/libc/time/taitime.c,v 1.8 2006/12/20 17:09:42 tg Exp $ */
 
 /*-
  * Copyright (c) 2004, 2005, 2006
@@ -31,7 +31,7 @@
 #include "private.h"
 #include "tzfile.h"
 
-__RCSID("$MirOS: src/lib/libc/time/taitime.c,v 1.7 2006/11/01 20:01:21 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/time/taitime.c,v 1.8 2006/12/20 17:09:42 tg Exp $");
 
 /* private interface */
 tai64_t _leaps[TZ_MAX_LEAPS + 1] = {0};
@@ -69,8 +69,8 @@ extern void _initialise_leaps(void);
 tai64_t
 tai_time(tai64_t *v)
 {
+	register int64_t t;
 	struct timeval tv;
-	register int64_t t = __TAI64_BIAS;
 
 	/*
 	 * We expect the kernel to count absolute seconds
@@ -78,7 +78,7 @@ tai_time(tai64_t *v)
 	 */
 	gettimeofday(&tv, NULL);
 
-	t += tv.tv_sec;
+	t = tv.tv_sec + __TAI64_BIAS;
 	if (__predict_false(v != NULL))
 		*v = t;
 
@@ -167,11 +167,10 @@ void
 _pushleap(time_t leap)
 {
 	tai64_t *t = _leaps;
-	tai64_t i = timet2tai(leap);
 
 	while (__predict_true(*t))
 		++t;
-	*t++ = i;
+	*t++ = timet2tai(leap);
 	*t = 0;
 }
 
