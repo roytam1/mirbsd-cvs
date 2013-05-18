@@ -1,4 +1,4 @@
-/* $MirOS: www/files/vstyle.css,v 1.19 2009/09/25 18:33:27 tg Exp $ */
+/* $MirOS: www/files/vstyle.css,v 1.20 2009/09/25 19:09:25 tg Exp $ */
 
 /*-
  * The MirOS Project - Webpages
@@ -84,7 +84,7 @@ body,p,.content {
 	line-height:130%;
 }
 
-b strong {
+b,strong {
 	font-family:"Gentium Basic", "Gentium", Helvetica, sans-serif;
 	font-weight:bold;
 }
@@ -157,19 +157,6 @@ h1 {
 	line-height:1.2em;
 	color:#FFFFFF;
 	z-index:2;
-}
-
-h1 a {
-	color:#FFFFFF;
-	border:none;
-}
-
-h1 a:hover {
-	color:#FFFFFF;
-}
-
-h1 a:visited {
-	border:none;
 }
 
 ul.lv1 {
