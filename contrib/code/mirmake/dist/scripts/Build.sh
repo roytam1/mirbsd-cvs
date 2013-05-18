@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.76 2006/08/26 22:46:43 tg Exp $
+# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.77 2006/08/26 22:50:50 tg Exp $
 #-
 # Copyright (c) 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -31,7 +31,7 @@ function scnfunc
 	extra_hdrs=$3
 	extra_defs=$4
 
-	print ... $name
+	print ... ${5:-$name}
 	typeset -u nameu=$name
 	rm -f scn.c
 	for header in $extra_hdrs; do
@@ -160,7 +160,7 @@ CPPFLAGS="$CPPFLAGS -D_MIRMAKE_DEFNS -isystem $d_build/F\
 CFLAGS="$COPTS $CPPFLAGS"
 echo | $NROFF -v 2>&1 | grep GNU >&- 2>&- && NROFF="$NROFF -c"
 LDFLAGS=$(echo " $LDFLAGS "|sed -e 's/ -lmirmake //' -e 's/^ *//' -e 's/ *$//')
-export CC COPTS CPPFLAGS CFLAGS LDFLAGS NROFF
+export CC COPTS CPPFLAGS CFLAGS LDFLAGS NROFF NOMAN=yes NOOBJ=yes
 unset LDADD DPADD LIBS
 
 . $d_script/Version.sh
@@ -276,13 +276,8 @@ scnfunc fgetln 'stdin,&x' 'stdio.h' 'size_t x;'
 scnfunc arc4random '' 'stdlib.h'
 scnfunc arc4random_pushb 'buf,arc4random()' 'stdlib.h' 'char buf[] = "test";'
 unset HAVE_EXIT
-scnfunc exit 't==false' 'stdbool.h' 'bool t = true;'
-if 1 = $HAVE_EXIT; then
-	HAS_STDBOOL_H=1
-else
-	HAS_STDBOOL_H=0
-	cp $d_src/include/stdbool.h $d_build/F/
-fi
+scnfunc exit 't==false' 'stdbool.h' 'bool t = true;' stdbool.h
+test 1 = $HAVE_EXIT || cp $d_src/include/stdbool.h $d_build/F/
 unset HAVE_EXIT
 SRCS="md4hl.c md5hl.c rmd160hl.c sha1hl.c sha256hl.c sha384hl.c sha512hl.c"
 SRCS="getopt_long.c md4.c md5.c rmd160.c sha1.c sha2.c $SRCS"
@@ -292,9 +287,8 @@ SRCS="getopt_long.c md4.c md5.c rmd160.c sha1.c sha2.c $SRCS"
 [[ $HAVE_FGETLN = 1 ]] || SRCS="$SRCS fgetln.c"
 [[ $HAVE_ARC4RANDOM = 1 ]] || CPPFLAGS="$CPPFLAGS -D_ARC4RANDOM_WRAP"
 [[ $HAVE_ARC4RANDOM_PUSHB = 1 ]] || SRCS="$SRCS arc4random.c"
-export SRCS NOMAN=yes NOOBJ=yes
 print ... done
-$d_build/bmake -m $d_build/mk libmirmake.a
+SRCS=$SRCS $d_build/bmake -m $d_build/mk libmirmake.a
 rm -f $top/tmpx/libmirmake.a
 cp libmirmake.a $top/tmpx/
 export LDADD="-L$top/tmpx -lmirmake"
