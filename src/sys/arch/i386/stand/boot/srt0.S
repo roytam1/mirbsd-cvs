@@ -1,4 +1,4 @@
-/* $MirOS: src/sys/arch/i386/stand/boot/srt0.S,v 1.16 2008/12/28 16:18:08 tg Exp $ */
+/* $MirOS: src/sys/arch/i386/stand/boot/srt0.S,v 1.17 2008/12/28 17:32:18 tg Exp $ */
 
 /*-
  * Copyright (c) 2003, 2004, 2005, 2006, 2007, 2008
@@ -86,6 +86,7 @@
 	.globl	_rval
 	.globl	_start
 	.globl	_C_LABEL(bios_bootdev)
+	.globl	_C_LABEL(bios_bootpart)
 	.globl	_C_LABEL(boot)
 	.globl	_C_LABEL(edata)
 	.globl	_C_LABEL(end)
@@ -105,6 +106,8 @@ Lbdev:	.byte	0		/* local copy of BIOS boot device */
 _C_LABEL(tori_bootflag):
 	.long	0
 #endif
+_C_LABEL(bios_bootpart):
+	.long	0, 0
 #ifndef SMALL_BOOT
 	.p2align 4
 Ltblk:	.long	0x13,0,0,0	/* El Torito parameter block */
