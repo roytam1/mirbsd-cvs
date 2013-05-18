@@ -1,4 +1,4 @@
-/* $MirOS: gcc/gcc/opts.c,v 1.7 2006/02/01 01:28:39 tg Exp $ */
+/* $MirOS: gcc/gcc/opts.c,v 1.8 2006/09/25 22:01:17 tg Exp $ */
 
 /* Command line option handling.
    Copyright (C) 2002, 2003, 2004, 2005, 2006
@@ -1561,6 +1561,13 @@ common_handle_option (size_t scode, const char *arg,
     case OPT_w:
       inhibit_warnings = true;
       break;      
+
+    /* MirDummies */
+    case OPT_Wbounded:
+    case OPT_Wformat:
+    case OPT_std_gnu99:
+      /* Do nothing.  */
+      break;
     }
 
   return 1;

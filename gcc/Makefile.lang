@@ -1,4 +1,4 @@
-# $MirOS: gcc/Makefile.lang,v 1.7 2006/12/11 20:46:46 tg Exp $
+# $MirOS: gcc/Makefile.lang,v 1.8 2007/01/01 19:16:39 tg Exp $
 
 .ifndef _MODGCC_MAKEFILE_LANG
 _MODGCC_MAKEFILE_LANG=1
@@ -7,13 +7,14 @@ _MODGCC_MAKEFILE_LANG=1
 
 .if ${OStype} == "MirBSD"
 .  if (${MACHINE_ARCH} == "i386") || (${MACHINE_ARCH} == "sparc")
+NO_ADA?=	No
 NO_CXX?=	No
 NO_OBJC?=	No
 NO_PASCAL?=	No
 .  endif
-# Ada is known to work but not included due to size constraints.
+# Ada is known to work, but large and slow to build.
 NO_ADA?=	Yes
-# C++ is known to be stable, better than OpenBSD gcc/gxx 3.3
+# C++ is known to be stable, beats OpenBSD gcc/gxx 3.3 easily.
 NO_CXX?=	Yes
 # Objective-C is known to sort of work, nobody sane uses it
 # though. libobjc_gc is known to at least not break things.

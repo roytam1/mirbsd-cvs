@@ -1,4 +1,4 @@
-; $MirOS: gcc/gcc/common.opt,v 1.5 2006/02/01 00:34:56 tg Exp $
+; $MirOS: gcc/gcc/common.opt,v 1.6 2006/09/25 22:01:17 tg Exp $
 ;
 ; Options for the language- and target-independent parts of the compiler.
 ; Copyright (C) 2003, 2005, 2006
@@ -59,6 +59,10 @@ Waggregate-return
 Common
 Warn about returning structures, unions or arrays
 
+Wbounded
+Common
+; Documented in c.opt
+
 Wcast-align
 Common
 Warn about pointer casts which increase alignment
@@ -82,6 +86,10 @@ If environment variable GCC_NO_WERROR is set, act as -Wno-error
 Wextra
 Common
 Print extra (possibly unwanted) warnings
+
+Wformat
+Common
+; Documented in c.opt
 
 Winline
 Common
@@ -826,6 +834,10 @@ Like -pedantic but issue them as errors
 quiet
 Common
 Do not display functions compiled or elapsed time
+
+std=gnu99
+Common
+; Documented in c.opt
 
 version
 Common
