@@ -1,10 +1,10 @@
-# $MirOS$
+# $MirOS: contrib/gnu/libtool/libtool.m4,v 1.59 2008/05/02 23:39:30 tg Exp $
 #-
 # libtool.m4 - Configure libtool for the host system. -*-Autoconf-*-
 ## Copyright 1996, 1997, 1998, 1999, 2000, 2001, 2003, 2004, 2005, 2006
 ## Free Software Foundation, Inc.
 ## Originally by Gordon Matzigkeit <gord@gnu.ai.mit.edu>, 1996
-## MirLibtool patches contributed 2004, 2005, 2006 by
+## MirLibtool patches contributed 2004, 2005, 2006, 2008 by
 ## Thorsten Glaser <tg@66h.42h.de> for the MirOS Project
 ##
 ## This file is free software; the Free Software Foundation gives
@@ -23,6 +23,7 @@ dnl ------------------------------------------------------------------------
 builtin([define], [NOACLOCAL_DEFUN], defn([AC_DEFUN]))dnl
 
 dnl Support using MirLibtool with Autoconf 2.13 and 2.6x
+dnl This requires using the MirPorts autoconf-* versions
 dnl ----------------------------------------------------
 ifelse(AC_AUTOCONF_VERSION, [2.13],
 [dnl Autoconf 2.13

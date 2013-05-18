@@ -1,6 +1,7 @@
 divert(-1)#                                                  -*- Autoconf -*-
+# $MirOS$
+#-
 # This file is part of Autoconf.
-# $MirOS: contrib/gnu/libtool/m4sugar.inc,v 1.5 2006/06/12 19:10:32 tg Exp $
 # Base M4 layer.
 # Hacked for MirOS m4.
 #

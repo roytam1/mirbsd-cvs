@@ -1,40 +1,29 @@
 divert(-1)dnl
-# $MirOS: src/share/misc/licence.template,v 1.14 2006/08/09 19:35:23 tg Rel $
+# $MirOS: src/share/misc/licence.template,v 1.24 2008/04/22 11:43:31 tg Rel $
 #-
-# Copyright (c) 2004, 2005, 2006
+# Copyright (c) 2004, 2005, 2006, 2008
 #	Free Software Foundation, Inc.
 # Contributed under copyright assignment by:
 #	Thorsten Glaser <tg@mirbsd.de>
 #
-# Licensee is hereby permitted to deal in this work without restric-
-# tion, including unlimited rights to use, publicly perform, modify,
-# merge, distribute, sell, give away or sublicence, provided all co-
-# pyright notices above, these terms and the disclaimer are retained
-# in all redistributions or reproduced in accompanying documentation
-# or other materials provided with binary redistributions.
+# Provided that these terms and disclaimer and all copyright notices
+# are retained or reproduced in an accompanying document, permission
+# is granted to deal in this work without restriction, including un-
+# limited rights to use, publicly perform, distribute, sell, modify,
+# merge, give away, or sublicence.
 #
-# Advertising materials mentioning features or use of this work must
-# display the following acknowledgement:
-#	This product includes material provided by Thorsten Glaser.
-# This acknowledgement does not need to be reprinted if this work is
-# linked into a bigger work whose licence does not allow such clause
-# and the author of this work is given due credit in the bigger work
-# or its documentation. Specifically, re-using this code in any work
-# covered by the GNU General Public License version 1 or Library Ge-
-# neral Public License (any version) is permitted.
-#
-# Licensor offers the work "AS IS" and WITHOUT WARRANTY of any kind,
-# express, or implied, to the maximum extent permitted by applicable
-# law, without malicious intent or gross negligence; in no event may
-# licensor, an author or contributor be held liable for any indirect
-# or other damage, or direct damage except proven a consequence of a
-# direct error of said person and intended use of this work, loss or
-# other issues arising in any way out of its use, even if advised of
-# the possibility of such damage or existence of a defect.
+# This work is provided "AS IS" and WITHOUT WARRANTY of any kind, to
+# the utmost extent permitted by applicable law, neither express nor
+# implied; without malicious intent or gross negligence. In no event
+# may a licensor, author or contributor be held liable for indirect,
+# direct, other damage, loss, or other issues arising in any way out
+# of dealing in the work, even if advised of the possibility of such
+# damage or existence of a defect, except proven that it results out
+# of said person's immediate fault when using the work as intended.
 #-
 # m4salt - include m4sugar (from Autoconf 2.60) for Autoconf 2.13 as
 # well as enough magic to make GNU Libtool 1.5 work with Autoconf in
-# both the 2.13 and 2.60 version. Provide a way for libtool.m4 later
+# both the 2.13 and 2.61 version. Provide a way for libtool.m4 later
 # on to distinguish whether stuff has been fnordified or not.
 
 define([AC_m4salt_INIT],
