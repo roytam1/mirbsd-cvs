@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/i386/disksubr.c,v 1.6 2008/11/08 23:04:04 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/i386/disksubr.c,v 1.7 2009/02/09 11:26:41 tg Exp $ */
 /*	$OpenBSD: disksubr.c,v 1.44 2004/03/17 14:16:04 miod Exp $	*/
 /*	$NetBSD: disksubr.c,v 1.21 1996/05/03 19:42:03 christos Exp $	*/
 
@@ -357,8 +357,9 @@ readdisklabel(dev_t dev, void (*strat)(struct buf *), struct disklabel *lp,
 		if (dlp->d_magic != DISKMAGIC || dlp->d_magic2 != DISKMAGIC) {
 			if (msg == NULL)
 				msg = "no disk label";
-		} else if (dlp->d_npartitions > MAXPARTITIONS ||
-			   dkcksum(dlp) != 0)
+		} else if (dkcksum(dlp) ||
+		    dlp->d_npartitions > MAXPARTITIONS ||
+		    dlp->d_secpercyl == 0)
 			msg = "disk label corrupted";
 		else {
 			*lp = *dlp;

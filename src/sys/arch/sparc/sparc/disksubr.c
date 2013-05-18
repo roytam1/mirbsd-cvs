@@ -202,8 +202,10 @@ readdisklabel(dev, strat, lp, clp, spoofonly)
 
 	/* Check for a native disk label (PROM can not boot it). */
 	dlp = (struct disklabel *) (clp->cd_block + LABELOFFSET);
-	if (dlp->d_magic == DISKMAGIC) {
-		if (dkcksum(dlp))
+	if (dlp->d_magic == DISKMAGIC && dlp->d_magic2 == DISKMAGIC) {
+		if (dkcksum(dlp) ||
+		    dlp->d_npartitions > MAXPARTITIONS ||
+		    dlp->d_secpercyl == 0)
 			return ("disk label corrupted");
 		if (dlp->d_secsize < DEV_BSIZE) {
 			/* retain working sector size */
