@@ -2,7 +2,7 @@
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.132 2008/07/08 22:24:02 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.133 2008/07/09 19:56:17 tg Exp $'
 mws_content <<'EOF'
 <h1>mksh(1) R33d</h1>
 <p>This is the website of the MirBSD™ Korn Shell, an actively developed free
@@ -719,16 +719,16 @@ mws_content <<'EOF'
  <li style="list-style:none;">– tests by the project, using Makefile –</li>
  <li>MirOS #10-current (i386 gcc3.4.6)</li>
  <li style="list-style:none;">– tests by the project, using Build.sh –</li>
+ <li>MirOS #10-current (i386 pcc-20080709)</li>
 </ul>
 <h3 id="regress_dev">Development Versions</h3>
 <ul>
  <li style="list-style:none;">– tests by the project, using Makefile –</li>
  <li>MirOS #10-current (i386 gcc3.4.6)</li>
- <li>MirOS #10-current (i386 pcc-20080502-MirPorts-0)</li>
- <li>MirOS #10-current (i386 pcc-20080621)</li>
  <li>MirOS #10-current (sparc gcc3.4.6)</li>
  <li style="list-style:none;">– tests by the project, using Build.sh –</li>
  <li>MirOS #10-current (i386 gcc3.4.6)</li>
+ <li>MirOS #10-current (i386 pcc-20080502-MirPorts-0)</li>
  <li>MirOS #10 RC8 (i386 SUNcc5.9 Linux_i386 2007/05/03, GNU ld 2.13.90.0.2 20020802)</li>
  <li>MirOS #7-stable (sparc gcc2.95.3-078E)</li>
  <li>BSDi BSD/OS 3.1 #4 M300-043 (i386 gcc2.7.2.1)</li>
@@ -1015,6 +1015,10 @@ mws_content <<'EOF'
  <li>Do not spin if unlink(2) fails on $HISTFILE, from Decklin Foster</li>
  <li>Dump the perl(1) <tt>$^O</tt> variable in <tt>test.sh</tt> to logs</li>
  <li>Pull in latest fixes from oksh</li>
+ <li>Allow white space between a here string indicator and the string</li>
+ <li>Allow fd specifications outside the 0‥9 range for I/O redirections,
+  and bounds check them to be lower than the <tt>FDBASE</tt> definition,
+  currently still 10 if MKSH_SMALL, 100 otherwise (unportable)</li>
 </ul>
 <p id="r33d">mksh R33d is a quick security-update with these changes:</p><ul>
  <li>Move a portability define from <tt>sh.h</tt> to the <tt>setmode.c</tt>
