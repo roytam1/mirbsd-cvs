@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/etc/monthly,v 1.6 2006/05/15 12:13:56 tg Exp $
+# $MirOS: src/etc/monthly,v 1.7 2006/10/07 22:21:40 tg Exp $
 # $OpenBSD: monthly,v 1.5 1998/02/02 23:08:57 millert Exp $
 
 export TZ=UTC PATH=/bin:/usr/bin:/sbin:/usr/sbin:/usr/local/bin:/usr/mpkg/bin
@@ -13,8 +13,8 @@ else
 	echo "Nothing to do!"
 fi
 
-echo ""
-echo "Doing login accounting for the past month:"
-ac -pw /var/log/wtmp.0 | sort -nr +1
-
-echo "."
+if [[ -e /var/log/wtmp.0 ]]; then
+	echo ""
+	echo "Doing login accounting for the past month:"
+	ac -pw /var/log/wtmp.0 | sort -nr +1
+fi
