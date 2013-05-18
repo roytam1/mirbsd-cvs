@@ -1,5 +1,5 @@
 <!-- PageID: mksh -->
-<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.17 2006/01/13 03:49:36 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.18 2006/01/27 00:14:29 tg Exp $</small>
 
 <h1>mksh R26</h1>
 <p>This is the MirBSD&trade; Korn Shell, a more or less portable
@@ -24,6 +24,14 @@
 </ul>
 
 <h2 id="clog">Recent Changes</h2>
+<p>Changes in the current (unreleased) development version:</p><ul>
+ <li>Makeup changes to copyright file (change comment leader)</li>
+ <li>Sync licence with MirOS template (disclaimer changed a little)</li>
+ <li>When building, generate a <tt>./Test.sh</tt> on the fly which
+  can be used instead of having to copy and paste a long line to run
+  the regression test suite (still no way to run ifs.sh as we cannot
+  distribute it, though).</li>
+</ul>
 <p>New major version <b>R26</b> changed this, relative to R25b:</p><ul>
  <li>Change the behaviour of <tt>\"</tt> in here documents to
   adhere SUSv3 (inspired by OpenBSD, most code by tg@)</li>
