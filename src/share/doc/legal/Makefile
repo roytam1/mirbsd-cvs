@@ -1,6 +1,7 @@
-# $MirOS: src/share/doc/legal/Makefile,v 1.2 2005/03/20 18:38:37 tg Exp $
+# $MirOS: src/share/doc/legal/Makefile,v 1.3 2005/12/21 23:57:01 tg Exp $
 
 BINDIR=	${DOCDIR}/legal
+NROFF=	nrcon -e ${MACROS} ${PAGES}
 
 FILES=	1stREAD COPYING-1 COPYING-2 COPYING.LIB-2 COPYING.LIB-2_1 \
 	LICENCE LICENCE-GNU
