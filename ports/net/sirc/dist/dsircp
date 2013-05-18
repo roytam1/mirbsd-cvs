@@ -1,5 +1,5 @@
 #!/usr/bin/perl
-# $MirOS: ports/net/sirc/dist/dsircp,v 1.9.2.4 2007/01/09 00:05:23 tg Exp $
+# $MirOS: ports/net/sirc/dist/dsircp,v 1.9.2.7 2007/01/09 00:23:30 tg Exp $
 #-
 # dsircp: dumb-mode small irc client in perl
 # by orabidoo <roger.espel.llima@pobox.com>
@@ -60,7 +60,7 @@ $msgchannel = '';
 $has_capab = 0; $capab_cmd = ''; $capab_response = '';
 $has_identifymsg = 0; $unverified = 1; $unverified_m = 0;
 
-$libdir=$ENV{"SIRCLIB"} || "/usr/mpkg/share/sirc/";
+$libdir=$ENV{"SIRCLIB"} || "@PREFIX@/share/sirc/";
 push(@INC, $libdir, $ENV{"HOME"}."/.etc/sirc");
 @loadpath=($ENV{"HOME"}."/.etc/sirc", $libdir, ".");
 
@@ -98,6 +98,7 @@ use POSIX ":sys_wait_h";
 
 $raw_mode=$opt_r || (!-t STDOUT);
 $ansi=!$raw_mode && $ENV{"TERM"} =~ /^vt|^xterm|^ansi/i;
+$ssl_args = $ENV{'SIRCSSL'} || '-CApath /etc/ssl/certs';
 $server=$opt_s || $ARGV[1] || $ENV{"SIRCSERVER"} || $ENV{"IRCSERVER"} ||
 		"irc.66h.42h.de";
 $port0=$opt_p || $ENV{"SIRCPORT"} || $ENV{"IRCPORT"} || 6667;
@@ -251,6 +252,8 @@ sub connect {
       return 0;
     }
     if ($pid = fork) {
+      my $cmd = "openssl s_client -quiet -connect ${host}:${port} $ssl_args";
+      &tell("*\cbI\cb* Spawning: $cmd");
       close($spfh);
       close($spe);
       shutdown($sce, 0);
@@ -259,7 +262,7 @@ sub connect {
       open(STDERR, ">&$sce");
       select(STDERR); $| = 1;
       select(STDOUT); $| = 1;
-      exec "openssl s_client -quiet -connect ${host}:${port}";
+      exec $cmd;
     }
     if (!defined $pid) {
       &tell("*\cbE\cb* Cannot fork: $!");
