@@ -1,4 +1,4 @@
-/* $OpenBSD: auth2.c,v 1.114 2007/03/01 10:28:02 dtucker Exp $ */
+/* $OpenBSD: auth2.c,v 1.115 2007/04/14 22:01:58 stevesk Exp $ */
 /*
  * Copyright (c) 2000 Markus Friedl.  All rights reserved.
  *
@@ -43,7 +43,7 @@
 #include "pathnames.h"
 #include "monitor_wrap.h"
 
-__RCSID("$MirOS: src/usr.bin/ssh/auth2.c,v 1.5 2006/09/20 21:40:56 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/auth2.c,v 1.6 2007/03/08 10:09:31 tg Exp $");
 
 /* import */
 extern ServerOptions options;
@@ -225,8 +225,6 @@ userauth_finish(Authctxt *authctxt, int authenticated, char *method)
 		xfree(methods);
 	}
 }
-
-#define	DELIM	","
 
 static char *
 authmethods_get(void)

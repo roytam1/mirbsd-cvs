@@ -93,13 +93,13 @@
 ./etc/shells
 ./etc/skel/.Xresources
 ./etc/skel/.etc/calendar/calendar
-./etc/skel/.etc/ssh/known_hosts
 ./etc/skel/.mailrc
 ./etc/skel/.mkshrc
 ./etc/sliphome/slip.hosts
 ./etc/sliphome/slip.login
 ./etc/spwd.db
 ./etc/ssh/ssh_config
+./etc/ssh/ssh_known_hosts
 ./etc/ssh/sshd_config
 ./etc/ssl/certs/0481cb65.0
 ./etc/ssl/certs/052e396b.0

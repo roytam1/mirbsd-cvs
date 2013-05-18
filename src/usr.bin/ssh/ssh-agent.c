@@ -1,4 +1,4 @@
-/* $OpenBSD: ssh-agent.c,v 1.154 2007/02/28 00:55:30 dtucker Exp $ */
+/* $OpenBSD: ssh-agent.c,v 1.155 2007/03/19 12:16:42 dtucker Exp $ */
 /*
  * Author: Tatu Ylonen <ylo@cs.hut.fi>
  * Copyright (c) 1995 Tatu Ylonen <ylo@cs.hut.fi>, Espoo, Finland
@@ -64,7 +64,7 @@
 #include "log.h"
 #include "misc.h"
 
-__RCSID("$MirOS: src/usr.bin/ssh/ssh-agent.c,v 1.9 2006/10/13 18:40:50 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/ssh-agent.c,v 1.10 2007/03/08 10:09:33 tg Exp $");
 
 #ifdef SMARTCARD
 #include "scard.h"
@@ -107,6 +107,7 @@ int max_fd = 0;
 
 /* pid of shell == parent of agent */
 pid_t parent_pid = -1;
+u_int parent_alive_interval = 0;
 
 /* pathname and directory for AUTH_SOCKET */
 char socket_name[MAXPATHLEN];
@@ -407,10 +408,11 @@ process_remove_all_identities(SocketEntry *e, int version)
 	buffer_put_char(&e->output, SSH_AGENT_SUCCESS);
 }
 
-static void
+/* removes expired keys and returns number of seconds until the next expiry */
+static u_int
 reaper(void)
 {
-	u_int now = time(NULL);
+	u_int deadline = 0, now = time(NULL);
 	Identity *id, *nxt;
 	int version;
 	Idtab *tab;
@@ -419,14 +421,22 @@ reaper(void)
 		tab = idtab_lookup(version);
 		for (id = TAILQ_FIRST(&tab->idlist); id; id = nxt) {
 			nxt = TAILQ_NEXT(id, next);
-			if (id->death != 0 && now >= id->death) {
+			if (id->death == 0)
+				continue;
+			if (now >= id->death) {
 				debug("expiring key '%s'", id->comment);
 				TAILQ_REMOVE(&tab->idlist, id, next);
 				free_identity(id);
 				tab->nentries--;
-			}
+			} else
+				deadline = (deadline == 0) ? id->death :
+				    MIN(deadline, id->death);
 		}
 	}
+	if (deadline == 0 || deadline <= now)
+		return 0;
+	else
+		return (deadline - now);
 }
 
 static void
@@ -812,10 +822,12 @@ new_socket(sock_type type, int fd)
 }
 
 static int
-prepare_select(fd_set **fdrp, fd_set **fdwp, int *fdl, u_int *nallocp)
+prepare_select(fd_set **fdrp, fd_set **fdwp, int *fdl, u_int *nallocp,
+    struct timeval **tvpp)
 {
-	u_int i, sz;
+	u_int i, sz, deadline;
 	int n = 0;
+	static struct timeval tv;
 
 	for (i = 0; i < sockets_alloc; i++) {
 		switch (sockets[i].type) {
@@ -858,6 +870,17 @@ prepare_select(fd_set **fdrp, fd_set **fdwp, int *fdl, u_int *nallocp)
 		default:
 			break;
 		}
+	}
+	deadline = reaper();
+	if (parent_alive_interval != 0)
+		deadline = (deadline == 0) ? parent_alive_interval :
+		    MIN(deadline, parent_alive_interval);
+	if (deadline == 0) {
+		*tvpp = NULL;
+	} else {
+		tv.tv_sec = deadline;
+		tv.tv_usec = 0;
+		*tvpp = &tv;
 	}
 	return (1);
 }
@@ -966,19 +989,14 @@ cleanup_handler(int sig __attribute__((unused)))
 	_exit(2);
 }
 
-/*ARGSUSED*/
 static void
-check_parent_exists(int sig)
+check_parent_exists(void)
 {
-	int save_errno = errno;
-
 	if (parent_pid != -1 && kill(parent_pid, 0) < 0) {
 		/* printf("Parent has died - Authentication agent exiting.\n"); */
-		cleanup_handler(sig); /* safe */
+		cleanup_socket();
+		_exit(2);
 	}
-	signal(SIGALRM, check_parent_exists);
-	alarm(10);
-	errno = save_errno;
 }
 
 static __dead void
@@ -1009,7 +1027,7 @@ main(int ac, char **av)
 	struct rlimit rlim;
 	pid_t pid;
 	char pidstrbuf[1 + 3 * sizeof pid];
-	struct timeval tv;
+	struct timeval *tvp = NULL;
 
 	/* Ensure that fds 0, 1 and 2 are open or directed to /dev/null */
 	sanitise_stdfd();
@@ -1196,10 +1214,8 @@ main(int ac, char **av)
 
 skip:
 	new_socket(AUTH_SOCKET, sock);
-	if (ac > 0) {
-		signal(SIGALRM, check_parent_exists);
-		alarm(10);
-	}
+	if (ac > 0)
+		parent_alive_interval = 10;
 	idtab_init();
 	if (!d_flag)
 		signal(SIGINT, SIG_IGN);
@@ -1209,12 +1225,12 @@ skip:
 	nalloc = 0;
 
 	while (1) {
-		tv.tv_sec = 10;
-		tv.tv_usec = 0;
-		prepare_select(&readsetp, &writesetp, &max_fd, &nalloc);
-		result = select(max_fd + 1, readsetp, writesetp, NULL, &tv);
+		prepare_select(&readsetp, &writesetp, &max_fd, &nalloc, &tvp);
+		result = select(max_fd + 1, readsetp, writesetp, NULL, tvp);
 		saved_errno = errno;
-		reaper();	/* remove expired keys */
+		if (parent_alive_interval != 0)
+			check_parent_exists();
+		(void) reaper();	/* remove expired keys */
 		if (result < 0) {
 			if (saved_errno == EINTR)
 				continue;

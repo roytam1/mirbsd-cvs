@@ -1,4 +1,4 @@
-/* $OpenBSD: sftp-server.c,v 1.71 2007/01/03 07:22:36 stevesk Exp $ */
+/* $OpenBSD: sftp-server.c,v 1.72 2007/04/18 01:12:43 stevesk Exp $ */
 /*
  * Copyright (c) 2000-2004 Markus Friedl.  All rights reserved.
  *
@@ -39,7 +39,7 @@
 #include "sftp.h"
 #include "sftp-common.h"
 
-__RCSID("$MirOS: src/usr.bin/ssh/sftp-server.c,v 1.5 2006/09/20 21:41:04 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/sftp-server.c,v 1.6 2007/01/25 16:18:37 tg Exp $");
 
 /* helper */
 #define get_int64()			buffer_get_int64(&iqueue);
@@ -315,7 +315,8 @@ handle_log_close(int handle, char *emsg)
 		logit("%s%sclose \"%s\" bytes read %llu written %llu",
 		    emsg == NULL ? "" : emsg, emsg == NULL ? "" : " ",
 		    handle_to_name(handle),
-		    handle_bytes_read(handle), handle_bytes_write(handle));
+		    (unsigned long long)handle_bytes_read(handle),
+		    (unsigned long long)handle_bytes_write(handle));
 	} else {
 		logit("%s%sclosedir \"%s\"",
 		    emsg == NULL ? "" : emsg, emsg == NULL ? "" : " ",
@@ -698,7 +699,8 @@ process_setstat(void)
 	a = get_attrib();
 	debug("request %u: setstat name \"%s\"", id, name);
 	if (a->flags & SSH2_FILEXFER_ATTR_SIZE) {
-		logit("set \"%s\" size %llu", name, a->size);
+		logit("set \"%s\" size %llu",
+		    name, (unsigned long long)a->size);
 		ret = truncate(name, a->size);
 		if (ret == -1)
 			status = errno_to_portable(errno);
@@ -750,7 +752,8 @@ process_fsetstat(void)
 		char *name = handle_to_name(handle);
 
 		if (a->flags & SSH2_FILEXFER_ATTR_SIZE) {
-			logit("set \"%s\" size %llu", name, a->size);
+			logit("set \"%s\" size %llu",
+			    name, (unsigned long long)a->size);
 			ret = ftruncate(fd, a->size);
 			if (ret == -1)
 				status = errno_to_portable(errno);

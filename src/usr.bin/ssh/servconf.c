@@ -1,4 +1,4 @@
-/* $OpenBSD: servconf.c,v 1.171 2007/03/09 05:20:06 dtucker Exp $ */
+/* $OpenBSD: servconf.c,v 1.172 2007/04/23 10:15:39 dtucker Exp $ */
 /*
  * Copyright (c) 1995 Tatu Ylonen <ylo@cs.hut.fi>, Espoo, Finland
  *                    All rights reserved
@@ -38,7 +38,7 @@
 #include "channels.h"
 #include "groupaccess.h"
 
-__RCSID("$MirOS: src/usr.bin/ssh/servconf.c,v 1.16 2007/03/08 10:09:32 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/servconf.c,v 1.17 2007/03/18 04:27:34 tg Exp $");
 
 static void add_listen_addr(ServerOptions *, char *, u_short);
 static void add_one_listen_addr(ServerOptions *, char *, u_short);
@@ -527,7 +527,6 @@ match_cfg_line(char **condition, int line, const char *user, const char *host,
 				debug("connection from %.100s matched 'Host "
 				    "%.100s' at line %d", host, arg, line);
 		} else if (strcasecmp(attrib, "address") == 0) {
-			debug("address '%s' arg '%s'", address, arg);
 			if (!address) {
 				result = 0;
 				continue;
