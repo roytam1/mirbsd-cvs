@@ -1,5 +1,5 @@
 <!-- PageID: news -->
-<small class="rcsid">$MirOS: www/content/bmV3cw__.inc,v 1.51 2006/01/26 23:40:48 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bmV3cw__.inc,v 1.52 2006/01/27 00:14:29 tg Exp $</small>
 
 <h1>Current MirOS News</h1><ul>
 
@@ -8,7 +8,8 @@
 	href="http://mirbsd.de/mksh">mksh</a> these are redirections which
 	are hosted in waldi's Zope and (usually) point to a working mirror
 	just like for <a href="http://mirbsd.de/">MirOS itself</a> and the
-	<a href="http://cvs.mirbsd.de/">MirOS CVSweb</a> redirection.</li>
+	<a href="http://cvs.mirbsd.de/">MirOS CVSweb</a> redirector.<br />
+	There is also a new version of jupp released, joe-3.1jupp5.</li>
 
 <li>24.01.2006<br />Progress is being made both in ports as in base. A new
 	snapshot is scheduled to be uploaded in a few days also fixing the
