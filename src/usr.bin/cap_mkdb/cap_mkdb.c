@@ -1,8 +1,10 @@
-/**	$MirOS: src/usr.bin/cap_mkdb/cap_mkdb.c,v 1.4 2006/10/28 19:34:43 tg Exp $ */
+/**	$MirOS: src/usr.bin/cap_mkdb/cap_mkdb.c,v 1.5 2006/10/30 23:52:28 tg Exp $ */
 /*	$OpenBSD: cap_mkdb.c,v 1.13 2003/09/26 21:25:34 tedu Exp $	*/
 /*	$NetBSD: cap_mkdb.c,v 1.5 1995/09/02 05:47:12 jtc Exp $	*/
 
 /*-
+ * Copyright (c) 2006
+ *	Thorsten Glaser <tg@mirbsd.de>
  * Copyright (c) 1992, 1993
  *	The Regents of the University of California.  All rights reserved.
  *
@@ -49,7 +51,7 @@
 __COPYRIGHT("@(#) Copyright (c) 1992, 1993\n\
 	The Regents of the University of California.  All rights reserved.\n");
 __SCCSID("@(#)cap_mkdb.c	8.2 (Berkeley) 4/27/95");
-__RCSID("$MirOS: src/usr.bin/cap_mkdb/cap_mkdb.c,v 1.4 2006/10/28 19:34:43 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/cap_mkdb/cap_mkdb.c,v 1.5 2006/10/30 23:52:28 tg Exp $");
 
 void	 db_build(char **);
 void	 dounlink(void);
@@ -62,6 +64,19 @@ int info, verbose;
 bool commentfld = false;
 char *capname, buf[8 * 1024];
 
+#ifdef DEBUG
+#define DB_TYPE DB_RECNO
+RECNOINFO openinfo = {
+	0,		/* flags */
+	2048 * 1024,	/* cachesize */
+	4096,		/* psize */
+	0,		/* lorder */
+	0,		/* reclen */
+	'\n',		/* bval */
+	NULL		/* bfname */
+};
+#else
+#define DB_TYPE DB_HASH
 HASHINFO openinfo = {
 	4096,		/* bsize */
 	16,		/* ffactor */
@@ -70,6 +85,7 @@ HASHINFO openinfo = {
 	NULL,		/* hash() */
 	0		/* lorder */
 };
+#endif
 
 /*
  * cap_mkdb creates a capability hash database for quick retrieval of capability
@@ -117,7 +133,7 @@ main(int argc, char *argv[])
 	if ((capname = strdup(buf)) == NULL)
 		err(1, NULL);
 	if ((capdbp = dbopen(capname, O_CREAT | O_TRUNC | O_RDWR,
-	    DEFFILEMODE, DB_HASH, &openinfo)) == NULL)
+	    DEFFILEMODE, DB_TYPE, &openinfo)) == NULL)
 		err(1, "%s", buf);
 
 	if (atexit(dounlink))
@@ -186,6 +202,10 @@ db_build(char **ifiles)
 			warnx("no name field: %.*s", (int)MIN(len, 20), bp);
 			continue;
 		}
+
+#ifdef DEBUG
+		bzero(data.data, bplen);
+#endif
 
 		/* First byte of stored record indicates status. */
 		switch(st) {
@@ -261,6 +281,10 @@ db_build(char **ifiles)
 		/* If only one name, ignore the rest. */
 		if ((p = strchr(bp, '|')) == NULL)
 			continue;
+
+#ifdef DEBUG
+		bzero(data.data, bplen);
+#endif
 
 		/* The rest of the names reference the entire name. */
 		((char *)(data.data))[0] = SHADOW;

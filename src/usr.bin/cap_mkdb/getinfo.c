@@ -1,10 +1,11 @@
-/**	$MirOS$ */
+/**	$MirOS: src/usr.bin/cap_mkdb/getinfo.c,v 1.2 2005/03/13 18:32:46 tg Exp $ */
 /*	$OpenBSD: getinfo.c,v 1.7 2003/06/10 22:20:45 deraadt Exp $	*/
 
 /*-
  * Copyright (c) 1992, 1993
  *	The Regents of the University of California.
  * Copyright (c) 1996 SigmaSoft, Th. Lockert <tholo@sigmasoft.com>
+ * Copyright (c) 2006 Thorsten Glaser <tg@mirbsd.de>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -41,7 +42,7 @@
 #include <string.h>
 #include <unistd.h>
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.bin/cap_mkdb/getinfo.c,v 1.2 2005/03/13 18:32:46 tg Exp $");
 
 #define	BFRAG		1024
 #define	BSIZE		1024
@@ -54,7 +55,7 @@ __RCSID("$MirOS$");
 #define	SHADOW	(char)2
 
 static int 	 getent(char **, u_int *, char **, int, char *, int);
-static char	*igetcap(char *, char *, int);
+static char	*igetcap(char *, const char *, int);
 static int	 igetmatch(char *, char *);
 static int	 igetclose(void);
 
@@ -73,9 +74,10 @@ int	igetnext(char **, char **);
  * return NULL.
  */
 static char *
-igetcap(char *buf, char *cap, int type)
+igetcap(char *buf, const char *cap, int type)
 {
-	char *bp, *cp;
+	char *bp;
+	const char *cp;
 
 	bp = buf;
 	for (;;) {
