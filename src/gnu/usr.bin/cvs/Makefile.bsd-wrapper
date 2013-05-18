@@ -1,7 +1,7 @@
-# $MirOS: src/gnu/usr.bin/cvs/Makefile.bsd-wrapper,v 1.26 2011/07/28 15:54:32 tg Exp $
+# $MirOS: src/gnu/usr.bin/cvs/Makefile.bsd-wrapper,v 1.27 2011/08/13 22:31:23 tg Exp $
 # $OpenBSD: Makefile.bsd-wrapper,v 1.44 2004/01/02 09:01:24 millert Exp $
 
-# in sync with MirPorts-12 rev. - MirOS patchlevel tracked in configure{.in,}
+# MirOS patchlevel tracked in configure{.in,}
 
 MAN=		contrib/rcs2log.1 doc/cvs.1 man/cvs.5
 INST_TARGET=	INSTALL_MAN= install
