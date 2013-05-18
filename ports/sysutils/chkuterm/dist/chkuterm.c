@@ -32,7 +32,7 @@
 #include <unistd.h>
 
 #ifdef __RCSID
-__RCSID("$miros: src/usr.sbin/wsconfig/wsconfig.c,v 1.8 2007/01/10 00:01:06 tg Exp $");
+__RCSID("$miros: src/usr.sbin/wsconfig/wsconfig.c,v 1.9 2007/02/11 00:48:24 tg Exp $");
 __RCSID("$MirOS: ports/sysutils/chkuterm/dist/chkuterm.c,v 1.4 2007/01/10 00:03:24 tg Exp $");
 #endif
 
