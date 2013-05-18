@@ -1,7 +1,7 @@
 /*	$OpenBSD: ntp.c,v 1.92 2006/10/21 07:30:58 henning Exp $ */
 
 /*
- * Copyright (c) 2006, 2007 Thorsten Glaser <tg@mirbsd.de>
+ * Copyright (c) 2006, 2007, 2008 Thorsten Glaser <tg@mirbsd.de>
  * Copyright (c) 2003, 2004 Henning Brauer <henning@openbsd.org>
  * Copyright (c) 2004 Alexander Guy <alexander.guy@andern.org>
  *
@@ -38,7 +38,7 @@
 #include "ntpd.h"
 #include "ntp.h"
 
-__RCSID("$MirOS: src/usr.sbin/ntpd/ntp.c,v 1.17 2007/10/03 22:50:58 tg Exp $");
+__RCSID("$MirOS: src/usr.sbin/ntpd/ntp.c,v 1.18 2007/10/09 13:28:09 tg Exp $");
 
 #define	PFD_PIPE_MAIN	0
 #define	PFD_MAX		1
@@ -402,8 +402,7 @@ priv_adjtime(void)
 	int		  offset_cnt = 0, i = 0;
 	struct ntp_peer	**peers;
 	double		  offset_median;
-	double weight_cnt = 0.0;
-	int weight_half = 0;
+	int		  weight_cnt, weight_half;
 
 	TAILQ_FOREACH(p, &conf->ntp_peers, entry) {
 		if (conf->trace > 5)
@@ -462,25 +461,40 @@ priv_adjtime(void)
 			    peers[i]->update.offset * 1000.,
 			    log_sockaddr((struct sockaddr *)&peers[i]->addr->ss));
 
-	offset_median = 0.0;
+	weight_cnt = 0;
+	weight_half = 0;
+	offset_median = peers[offset_cnt / 2]->update.offset;
 	for (i = 0; i < offset_cnt; ++i) {
-		double j = (i + 1) * (offset_cnt - i);
-		double k = peers[offset_cnt / 2]->update.offset;
+		int peer_weight = (i + 1) * (offset_cnt - i);
+		double peer_delta;
+
 		if (weight_half) {
-			j += weight_half;
+			/* even number of samples, II. median sample */
+			peer_weight += weight_half;
 			weight_half = 0;
 		} else if ((i + 1) * 2 == offset_cnt) {
+			/* even number of samples, I. median sample */
 			weight_half = weight_cnt;
-			j += weight_half;
-		} else if (i * 2 + 1 == offset_cnt)
-			j += 2.0 * weight_cnt;
-		k -= peers[i]->update.offset;
-		if (k > 1. || k < -1.)
-			continue;	/* ignore false-tickers */
-		offset_median += j * peers[i]->update.offset;
-		weight_cnt += j;
+			peer_weight += weight_half;
+		} else if (i * 2 + 1 == offset_cnt) {
+			/* uneven number of samples, median sample */
+			peer_weight += 2 * weight_cnt;
+		}
+
+		/* ignore false-tickers (off by a second from median) */
+		peer_delta = offset_median - peers[i]->update.offset;
+		if (peer_delta > 1. || peer_delta < 1.)
+			peer_weight = 0;
+
+		/* this is safe here despite shallow copy */
+		peers[i]->update.good = peer_weight;
+		weight_cnt += peer_weight;
 	}
-	offset_median /= weight_cnt;
+	offset_median = 0.0;
+	for (i = 0; i < offset_cnt; ++i)
+		if (peers[i]->update.good)
+			offset_median += peers[i]->update.offset *
+			    ((double)(peers[i]->update.good) / weight_cnt);
 
 	if (offset_cnt > 1 && offset_cnt % 2 == 0) {
 		conf->status.rootdelay =

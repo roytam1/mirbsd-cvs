@@ -1,8 +1,8 @@
-/**	$MirOS: src/usr.sbin/ntpd/ntpd.h,v 1.13 2007/10/03 22:52:58 tg Exp $ */
+/**	$MirOS: src/usr.sbin/ntpd/ntpd.h,v 1.14 2007/10/08 12:04:33 tg Exp $ */
 /*	$OpenBSD: ntpd.h,v 1.70 2006/06/04 18:58:13 otto Exp $ */
 
 /*
- * Copyright (c) 2007 Thorsten Glaser <tg@mirbsd.org>
+ * Copyright (c) 2007, 2008 Thorsten Glaser <tg@mirbsd.org>
  * Copyright (c) 2003, 2004 Henning Brauer <henning@openbsd.org>
  *
  * Permission to use, copy, modify, and distribute this software for any
@@ -105,7 +105,7 @@ struct ntp_offset {
 	double			delay;
 	double			error;
 	time_t			rcvd;
-	u_int8_t		good;
+	int			good;
 };
 
 struct ntp_peer {
