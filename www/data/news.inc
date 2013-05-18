@@ -347,3 +347,64 @@ Date: 18.08.2007
  also like to encourage other operating system developers to follow this
  example and integrate mksh (or, like OpenSolaris, AT&amp;T ksh93).</p>
 ----
+Title: Hardware problems
+Date: 21.08.2007
+
+<p>Our main cvs and mailing list server, <tt>herc.mirbsd.org</tt>, has some
+ hardware problems at the moment. This means that the mailing lists
+ are down until further notice. Anonymous CVS access (not from allbsd.org),
+ this website, and BitTorrent are working fine though.</p>
+
+<p>Read/write CVS access to CVS for developers will be restored in one
+ or two days, making tg@’s SPARCstation the temporary CVS master.</p>
+
+<p>Waldemar Brodkorb (wbx@) has donated hardware to act as a supplemental
+ AnonCVS/AnonRSYNC server, which is being initialised and tested right
+ now, as the hosting site only accepts boxen that have passed a typical
+ stress test. Eventually, this box will act as a secondary mail server
+ as well.</p>
+
+<p>For now, please use <a href="irc://irc.freenode.net/MirBSD">IRC</a>
+ for bug reports, feature requests, feedback, etc.</p>
+
+<p><strong>Update</strong> (2007-08-24): We’re almost back to normal,
+ the server hardware has changed a little until proper replacement can
+ be used (with proper, I mean replacing the IDE crap with SCSI, etc.
+ while we’re at replacing anyway, and actually investing some – well, a
+ lot of – money and effort). Mailing lists work again, and commits will
+ be enabled for developers during short timeframes a few times per day,
+ with immediate rsync actions being taken afterwards just to be on the
+ safe side. This however means: FrOSCon CDs will contain older versions
+ of MirOS, big financial loss for us, and MirOS #10 will be delayed for
+ a yet unknown amount of time (but sparc is finally ready since 23rd).</p>
+----
+Title: MirOS #10-rc4 (i386) released, with a known bug
+Date: 22.08.2007
+
+<p>MirOS BSD #10 is coming near. The fourth release candidate for i386
+ has been released. Grab it via HTTP for the <a
+ href="http://www.mirbsd.org/MirOS/current/i386/">i386</a> or <a
+ href="http://www.mirbsd.org/MirOS/current/sparc/">sparc</a> platform,
+ or do a network installation.</p>
+
+<p><strong>Caveat</strong>: There is a bug in some of the <tt>fonts.alias</tt>
+ files from the xbase set. If X fails to start, enter the following
+ commands to fix the problem:</p>
+
+<pre>$ sudo ed /usr/X11R6/lib/X11/fonts/misc/fonts.alias
+%s/iso8859-1$/iso10646-1/
+wq</pre>
+
+<p>Note: this affects both the i386 and sparc snapshots!</p>
+----
+Title: FrOSCon 2007
+Date: 24.08.2007
+
+<p>Note the <a href="@@RELPATH@@permalinks/wlog-9_e20070824-tg.htm">wlog
+ entry</a> about FrOSCon – more entries will follow, stay tuned.</p>
+<p>The CDs to distribute are <em>still</em> not done, sorry… it’ll be an
+ adjusted LinuxTag edition, no more, not even more recent dist sets, due
+ to all the trouble we had.</p>
+<p>tg@ and bsiegert@ are appearing at the FH site later this evening and
+ are open for food’n’beer suggestions from donators ☻</p>
+----

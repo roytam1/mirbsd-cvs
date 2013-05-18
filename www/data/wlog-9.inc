@@ -1649,3 +1649,16 @@ Author: tg@
  way too much content from his talk. He said he needed 1:06 hrs and didn’t
  even mention everything… too bad, it really was great stuff.</p>
 ----
+Title: FrOSCon 2007, Day 0
+Date: 24.08.2007
+Author: tg@
+
+<p>This is day 0 of <a href="http://www.froscon.org/">FrOSCon 2007</a>, the
+ event whose planning of a “LinuxTag Bonn” started out during some car ride
+ to FOSDEM. I’m not yet there, because I am committed to committing all the
+ local Ms from my various source trees first, as “herc” (or rather rant) is
+ a little working right now (after rebuilding the RAID several times during
+ last night, which made me sleepy…) and I’d rather get it done now.</p>
+<p>Expect a wlog entry per day per developer (well, at least me), and these
+ are constantly updated (maybe, we’re lazy slackers after all).</p>
+----
