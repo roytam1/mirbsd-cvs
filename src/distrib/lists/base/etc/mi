@@ -502,6 +502,7 @@
 ./var/anoncvs/cvs
 ./var/anoncvs/etc/group
 ./var/anoncvs/etc/hosts
+./var/anoncvs/etc/localtime
 ./var/anoncvs/etc/passwd
 ./var/anoncvs/etc/protocols
 ./var/anoncvs/etc/pwd.db

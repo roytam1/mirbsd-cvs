@@ -1,4 +1,4 @@
-# $MirOS: src/gnu/usr.bin/anoncvs/Makefile,v 1.9 2008/11/29 17:03:52 tg Exp $
+# $MirOS: src/gnu/usr.bin/anoncvs/Makefile,v 1.10 2009/01/29 17:16:08 tg Exp $
 
 CBIN=		anoncvsbin
 BINDIR=		/var/anoncvs
@@ -48,6 +48,8 @@ distribution:
 	    ${DESTDIR}/etc/services ${DESTDIR}${BINDIR}/etc/
 	install -c -o ${BINOWN} -g ${CONFGRP} -m ${NONBINMODE} \
 	    ${DESTDIR}/etc/ttys.dist ${DESTDIR}${BINDIR}/etc/ttys
+	install -c -o ${BINOWN} -g ${CONFGRP} -m ${NONBINMODE} \
+	    ${DESTDIR}/usr/share/zoneinfo/UTC ${DESTDIR}${BINDIR}/etc/localtime
 .else
 distribution:
 	@echo "Error: doing make distribution here is a great cause"
