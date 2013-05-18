@@ -1,4 +1,4 @@
-# $MirOS: src/sys/conf/Makefile.inc,v 1.4 2006/01/11 12:15:16 tg Exp $
+# $MirOS: src/sys/conf/Makefile.inc,v 1.5 2006/01/11 12:21:08 tg Exp $
 #-
 # Copyright (c) 2005, 2006
 #	Thorsten "mirabile" Glaser <tg@mirbsd.de>
@@ -40,6 +40,10 @@ CDIAGFLAGS+=	-fno-builtin-printf -fno-builtin-log
 COPTS?=		-O2
 AFLAGS=		-x assembler-with-cpp -traditional-cpp -D_LOCORE
 STRIPFLAGS=	-g -X -x
+
+.ifndef NO_GZIP
+SYSTEM_LD_GZIP=	echo gzip -9 $@; rm -f $@.gz; gzip -9 $@; mv $@.gz $@
+.endif
 
 .if ${MKC_USAP:L} == "yes"
 CPPFLAGS+=	-DMSDOSFS_NO_LFN

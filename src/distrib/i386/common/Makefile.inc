@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/i386/common/Makefile.inc,v 1.4 2005/07/01 11:51:42 tg Exp $
+# $MirOS: src/distrib/i386/common/Makefile.inc,v 1.5 2005/07/24 16:44:13 tg Exp $
 # $OpenBSD: Makefile.inc,v 1.15 2004/11/25 22:02:08 deraadt Exp $
 
 .ifndef _MODSRC_DISTRIB_I386_COMMON_MAKEFILE_INC
@@ -83,7 +83,7 @@ bsd.gz: ${DO_BSDRD_NAME}
 	gzip -nc9 bsd.strip >bsd.gz
 
 ${DO_BSDRD_NAME}:	${IMAGE} bsd rdsetroot
-	cp bsd ${DO_BSDRD_NAME}
+	gzip -d <bsd >${DO_BSDRD_NAME}
 	${.OBJDIR}/rdsetroot ${DO_BSDRD_NAME} <${IMAGE}
 
 .ifndef KERNEL_LOCAL_BUILD
