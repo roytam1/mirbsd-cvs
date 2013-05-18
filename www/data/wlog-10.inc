@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.231 2009/08/16 15:48:15 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.232 2009/08/19 16:31:46 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -4870,4 +4870,24 @@ Tag: news
  published, but, I am ashamed, haven’t quite gotten around to doing so.</p>
 <!-- RSS stop --><p>Today, it's only been 29°C, and I died. What will I do
  tomorrow, where it is supposed to climb up to 35°C over today's 32°C?</p>
+----
+Title: Hot!
+Date: 20.08.2009 15:18
+Author: tg@
+Tag: rant snapshot
+
+<p>It’s <strong>hot</strong>! The weather forecast said 35°C, one of the
+ apothecaries’ thermometres says 40°C, and my body says I’m ill. I also
+ nurse quite some headaches again. So I won’t do/write much. It was hard
+ enough to go outside to buy breakfast.</p>
+<p>On the other hand, the SS5 built a mock-snapshot (QUICK_DIST2, so only
+ base+gcc, no X11/ports/htman/…) just fine (with some fixes). Does anybody
+ have any RAM suitable for a SPARCstation 5 for me? I cannot use that from
+ the SS20s because they use different kinds of RAM. I won’t publish this,
+ but instead use it to build another one for real, possibly combined with
+ another i386 snapshot, with all the /etc/* changes after 20090812, and
+ maybe fixing what we will have learned to be broken in the meantime. And
+ Benny’s ports fixes (he got GNOME except nautilus – which has unsafe code
+ in signal handlers – working, part of (or all?) Xfce too, etc).</p>
+<p>Luckily, tomorrow is more like 22°C</p>
 ----
