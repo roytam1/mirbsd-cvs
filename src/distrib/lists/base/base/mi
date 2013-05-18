@@ -645,6 +645,7 @@
 ./usr/local/share/examples
 ./usr/mdec
 ./usr/mdec/boot
+./usr/mdec/bootxx
 ./usr/mdec/installboot
 ./usr/obj
 ./usr/ports
