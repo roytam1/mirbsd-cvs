@@ -1,5 +1,5 @@
 #!/usr/bin/env mksh
-# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.119 2008/07/11 11:34:27 tg Exp $
+# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.120 2008/10/05 16:32:50 tg Exp $
 #-
 # Copyright (c) 2006, 2008
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -206,7 +206,7 @@ sed_exp="-e 's#@@machine@@#${new_machin}#g' \
 # Copy sources
 (cd $d_src/usr.bin/make; find . | cpio -pdlu $d_build)
 (cd $d_src/lib/libc; find ohash | cpio -pdlu $d_build)
-cp $d_src/lib/libc/stdlib/getopt_long.c $d_src/lib/libc/string/strlfun.c \
+cp $d_src/lib/libc/stdlib/getopt_long.c $d_src/kern/c/strlfun.c \
     $d_src/include/*.h $d_src/usr.bin/mkdep/mkdep.sh $d_build/
 cp $d_src/share/mk/*.mk $d_build/mk/
 cp $d_src/include/{getopt,adler32,md4,md5,rmd160,sfv,sha1,sha2,suma,tiger,whirlpool}.h \
@@ -370,7 +370,7 @@ fi
 add_strlfun=
 if testfunc 'size_t strlcpy(char *, const char *, size_t)' \
     'strlcpy(dst, src, 1)' '' 'char src[3] = "Hi", dst[3];'; then
-	add_strlfun=$d_src/lib/libc/string/strlfun.c
+	add_strlfun=$d_src/kern/c/strlfun.c
 fi
 add_arcfour=
 if testfunc 'uint32_t arc4random_pushb(const void *, size_t)' \
