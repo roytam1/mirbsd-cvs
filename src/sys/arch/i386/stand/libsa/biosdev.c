@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/stand/libsa/biosdev.c,v 1.33 2009/01/11 13:58:07 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/stand/libsa/biosdev.c,v 1.34 2009/01/11 17:08:29 tg Exp $ */
 /*	$OpenBSD: biosdev.c,v 1.74 2008/06/25 15:32:18 reyk Exp $	*/
 
 /*
@@ -162,14 +162,20 @@ biosd_io(int rw, bios_diskinfo_t *bd, daddr_t off, int nsect, void *buf)
 	volatile int c, h, s; /* fsck gcc, uninitialised it is not */
 
 	/* we do all I/O in 512 byte sectors, the El Torito BIOS doesn't */
-	ssh = bd->flags & BDI_EL_TORITO ? 2 : 0;	/* sector shift */
+	if ((ssh = bd->flags & BDI_EL_TORITO ? 2 : 0))	/* sector shift */
+#ifndef SMALL_BOOT
+		if ((off & 3) || (nsect & 3))
+			printf("panic: El Torito odd read %d@%d\n", nsect, off)
+#endif
+		;
 
  loop:
 	n = i386_flag_oldbios ? 1 << ssh : MIN(nsect, 4096/512);
 	if (!(bd->flags & BDI_LBA)) {
-		btochs(off >> ssh, c, h, s, bd->bios_heads, bd->bios_sectors);
+		/* note: BDI_EL_TORITO implies BDI_LBA, d/w about ssh here */
+		btochs(off, c, h, s, bd->bios_heads, bd->bios_sectors);
 		if (s + n >= bd->bios_sectors)
-			n = ssh ? 1 << ssh : bd->bios_sectors - s;
+			n = bd->bios_sectors - s;
 	}
 	if (buf && rw != F_READ)
 		memcpy(bounce_buf, buf, n * 512);
@@ -193,10 +199,10 @@ biosd_io(int rw, bios_diskinfo_t *bd, daddr_t off, int nsect, void *buf)
 #if 0
 			printf(" trying biosdev_CHS(%X, %X, %d, %d, %d, %d)",
 			    rw == F_READ ? 0x02 : 0x03, bd->bios_number,
-			    c, h, s, n >> ssh);
+			    c, h, s, n);
 #endif
 			rv = biosdev_CHS(rw == F_READ ? 0x02 : 0x03,
-			    bd->bios_number, c, h, s, n >> ssh);
+			    bd->bios_number, c, h, s, n);
 		}
 /*		printf(" => %X\n", rv);	*/
 		switch (rv) {
