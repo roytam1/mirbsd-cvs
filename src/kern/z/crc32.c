@@ -28,7 +28,9 @@
 
 #include "zutil.h"      /* for STDC and FAR definitions */
 
-zRCSID("$MirOS: src/kern/z/crc32.c,v 1.3 2008/08/01 14:59:57 tg Exp $")
+zRCSID("$MirOS: src/kern/z/crc32.c,v 1.4 2008/08/01 15:12:13 tg Exp $")
+
+#ifndef L_crc32_combine
 
 #define local static
 
@@ -71,10 +73,15 @@ typedef __PTRDIFF_TYPE__ ptrdiff_t;
 #  define TBLS 1
 #endif /* BYFOUR */
 
+#else
+
 /* Local functions for crc concatenation */
 local unsigned long gf2_matrix_times OF((unsigned long *mat,
                                          unsigned long vec));
 local void gf2_matrix_square OF((unsigned long *square, unsigned long *mat));
+
+#endif
+#ifndef L_crc32_combine
 
 #ifdef DYNAMIC_CRC_TABLE
 
@@ -347,6 +354,8 @@ local unsigned long crc32_big(crc, buf, len)
 
 #endif /* BYFOUR */
 
+#else
+
 #define GF2_DIM 32      /* dimension of GF(2) vectors (length of CRC) */
 
 /* ========================================================================= */
@@ -435,3 +444,4 @@ uLong ZEXPORT crc32_combine(crc1, crc2, len2)
     zADDRND(crc1);
     return crc1;
 }
+#endif
