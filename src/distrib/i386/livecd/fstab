@@ -1,4 +1,4 @@
-/dev/cd0a  /                   cd9660  ro,noauto,noatime            0  0
+/dev/root  /                   cd9660  ro,noauto,noatime            0  0
 /dev/rd0a  /dev                ffs     rw,noauto                    0  0
 swap       /etc                mfs     rw,noauto,noatime,-s=20480   0  0
 swap       /home               mfs     rw,noauto,noatime,-s=300000  0  0
