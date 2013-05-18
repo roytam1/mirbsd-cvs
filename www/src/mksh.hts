@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.336 2010/04/27 21:58:43 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.337 2010/04/28 14:19:39 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -946,6 +946,17 @@ exec /usr/bin/ld "${args[@]}"</pre>
  <li>[tg, oksh] Fix "${x#?}" expansion when quoted (quotes, space)</li>
  <li>[tg] Make default temporary directory configurable at compile time</li>
  <li>[tg] Fix performance deficiencies in the built-in realpath function</li>
+ <li>[tg] Deprecate Build.sh <tt>-longoptions</tt> in favour of short ones:
+  <tt>-valgrind</tt> becomes <tt>-g</tt> (like debug), <tt>-combine</tt> and
+  <tt>-llvm</tt> become <tt>-c {combine,llvm}</tt> and the LLVM optimiser
+  flags are passed via <tt>-O</tt> = <tt>-o -std-compile-opts</tt></tt>
+ <li>[tg] New Build.sh options <tt>-c dragonegg</tt> (for using the LLVM <a
+  href="http://dragonegg.llvm.org/">plugin</a> to GCC 4.5 with inter-module
+  optimisation), <tt>-v</tt> (version)</li>
+ <li>[tg] Document another way to get a coloured PS1 in the manpage</li>
+ <li>[tg] Disallow some more kinds to trim a vector; Debian #581867</li>
+ <li>[oksh] Simplify some code; RCSID and comment sync with OpenBSD ksh</li>
+ <li>[oksh] Apply diff from manuel giraud to keep track of LINENO in a trap</li>
 </ul>
 <p id="r39c">mksh R39c is an important minor bugfix release:</p><ul>
  <li>[tg] Build system, code, docs and testsuite cleanup, also style(9)</li>
