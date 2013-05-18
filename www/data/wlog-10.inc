@@ -118,11 +118,14 @@ Author: tg@
  alt="TC" /></p>
 <p>Of course, I didn’t find any TCxxxxx caches yet. I need to get fully
  registered (“sponsored”) at the site first. This isn’t a big issue tho.</p>
-<hr />
+----
+Date: 19.03.2008
+Author: tg@
+
 <p>gecko2@ just called me. He operates <tt>www.mirbsd.org</tt> and got
  a little surprise on his daily traffic report. Summing it up, his server
  and myself, and a friend of mine, together, adding HTTP and BitTorrent
- transfers, have had about 500 GiB traffic in the 2½ days the #10 release
+ transfers, have had about 500 GiB traffic in the 3½ days the #10 release
  is now available. Alone the HTTP direct downloads of clients that got the
  ISO in one piece (not HTTP 206) number sits at 861 at the time of this
  writing (850 five minutes ago, 825 ¼h ago).</p>
@@ -130,4 +133,8 @@ Author: tg@
  offline for traffic limit trespassing, I redirected to allbsd.org for
  direct downloads on getting.htm and suggested him to install bandwidth
  throttling/limiting for apache. Don’t be surprised.</p>
+<p>Update: half an hour later, it’s at 867, so I think the change of the
+ direct link helped. Sorry for the inconvenience at both gecko2 and our
+ downloaders – but then, to the latter group: You should’ve used
+ <a href="http://f.scarywater.net/miros/">BitTorrent</a> anyway.</p>
 ----
