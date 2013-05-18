@@ -14,7 +14,7 @@
 
 @SET_MAKE@
 
-# $MirOS: src/gnu/usr.bin/binutils/ld/Makefile.am,v 1.10 2005/07/07 16:23:10 tg Exp $
+# $MirOS: src/gnu/usr.bin/binutils/ld/Makefile.in,v 1.11 2005/12/20 22:20:06 tg Exp $
 
 srcdir = @srcdir@
 top_srcdir = @top_srcdir@
@@ -315,7 +315,7 @@ ld_TEXINFOS = configdoc.texi ldver.texi
 man_MANS = ld.1
 AM_MAKEINFOFLAGS = --no-split -I $(srcdir) -I $(BFDDIR)/doc
 TEXI2DVI = texi2dvi -I $(srcdir) -I $(BFDDIR)/doc
-INCLUDES = -D_GNU_SOURCE -I. -I$(srcdir) -I../bfd -I$(BFDDIR) -I$(INCDIR) $(HDEFINES) $(CFLAGS)
+INCLUDES = -D_GNU_SOURCE -I. -I$(srcdir) -I../bfd -I$(BFDDIR) -I$(INCDIR) $(HDEFINES)
 BFDLIB = ../bfd/libbfd.la
 ALL_EMULATIONS = \
 	ea29k.o \
