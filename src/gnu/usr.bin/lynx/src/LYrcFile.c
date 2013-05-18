@@ -1,4 +1,4 @@
-/* $LynxId: LYrcFile.c,v 1.74 2008/08/31 23:28:15 tom Exp $ */
+/* $LynxId: LYrcFile.c,v 1.81 2009/06/07 17:11:00 tom Exp $ */
 #include <HTUtils.h>
 #include <HTFTP.h>
 #include <LYUtils.h>
@@ -24,6 +24,14 @@ static Config_Enum tbl_DTD_recovery[] = {
     { "sortasgml",	TRUE },
     { "tagsoup",	FALSE },
     { NULL,		-1 },
+};
+
+static Config_Enum tbl_bad_html[] = {
+    { "ignore",		BAD_HTML_IGNORE	 },
+    { "trace",		BAD_HTML_TRACE	 },
+    { "message",	BAD_HTML_MESSAGE },
+    { "warn",		BAD_HTML_WARN	 },
+    { NULL,		-1		 }
 };
 
 #ifdef DIRED_SUPPORT
@@ -179,7 +187,7 @@ BOOL LYgetEnum(Config_Enum * table, char *name,
 
     if (len != 0) {
 	while (table->name != 0) {
-	    if (!strncasecomp(table->name, name, len)) {
+	    if (!strncasecomp(table->name, name, (int) len)) {
 		found = table;
 		if (!strcasecomp(table->name, name)) {
 		    match = 1;
@@ -329,6 +337,8 @@ Lynx will use the personal email address.  Set anonftp_password\n\
 to a different value if you choose.\n\
 ")),
 #endif
+    MAYBE_ENU(RC_BAD_HTML,              cfg_bad_html,      tbl_bad_html,
+	      MSG_ENABLE_LYNXRC),
     PARSE_STR(RC_BOOKMARK_FILE,         bookmark_page,     N_("\
 bookmark_file specifies the name and location of the default bookmark\n\
 file into which the user can paste links for easy access at a later\n\
@@ -519,6 +529,7 @@ of checkboxes for the OPTIONs.  A value of \"on\" will set popup menus\n\
 as the default while a value of \"off\" will set use of radio boxes.\n\
 The default can be overridden via the -popup command line toggle.\n\
 ")),
+    MAYBE_SET(RC_SEND_USERAGENT,        LYSendUserAgent,   MSG_ENABLE_LYNXRC),
     MAYBE_SET(RC_SET_COOKIES,           LYSetCookies,      MSG_ENABLE_LYNXRC),
     PARSE_ENU(RC_SHOW_COLOR,            LYrcShowColor,     tbl_show_colors, N_("\
 show_color specifies how to set the color mode at startup.  A value of\n\
@@ -603,6 +614,7 @@ in the Visited Links Page.\n\
     MAYBE_SET(RC_AUTO_SESSION,		LYAutoSession,	MSG_ENABLE_LYNXRC),
     MAYBE_STR(RC_SESSION_FILE,		LYSessionFile,	MSG_ENABLE_LYNXRC),
 #endif
+    MAYBE_SET(RC_NO_PAUSE,		no_pause,	MSG_ENABLE_LYNXRC),
 
     PARSE_NIL
 };
@@ -683,7 +695,7 @@ void read_rc(FILE *fp)
 	if (tbl->name == 0) {
 	    const char *special = RC_MULTI_BOOKMARK;
 
-	    if (!strncasecomp(name, special, strlen(special))) {
+	    if (!strncasecomp(name, special, (int) strlen(special))) {
 		tbl = lookup_config(special);
 	    }
 	    /* lynx ignores unknown keywords */
@@ -1006,7 +1018,7 @@ BOOL will_save_rc(const char *name)
 {
     Config_Type *tbl = lookup_config(name);
 
-    return tbl->name != 0;
+    return (BOOL) (tbl->name != 0);
 }
 
 int enable_lynxrc(char *value)

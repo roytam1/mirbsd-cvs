@@ -1,5 +1,5 @@
 /*
- * $LynxId: LYMain.c,v 1.194 2008/12/30 01:01:34 Paul.Gilmartin Exp $
+ * $LynxId: LYMain.c,v 1.204 2009/06/30 08:35:34 tom Exp $
  */
 #include <HTUtils.h>
 #include <HTTP.h>
@@ -57,7 +57,7 @@
 #include <io.h>
 #endif
 
-#ifdef LOCALE
+#if defined(LOCALE) && !defined(HAVE_LIBINTL_H)
 #undef gettext			/* Solaris locale.h prototypes gettext() */
 #include <locale.h>
 #ifndef HAVE_GETTEXT
@@ -101,6 +101,8 @@ char *ftp_format = NULL;	/* LONG_LIST formatting mask */
 char *syslog_txt = NULL;	/* syslog arb text for session */
 BOOLEAN syslog_requested_urls = TRUE;
 #endif
+
+int cfg_bad_html = BAD_HTML_WARN;
 
 #ifdef DIRED_SUPPORT
 BOOLEAN lynx_edit_mode = FALSE;
@@ -372,6 +374,7 @@ BOOLEAN LYNoRefererForThis = FALSE;	/* No Referer header for this URL? */
 BOOLEAN LYNoRefererHeader = FALSE;	/* Never send Referer header?     */
 BOOLEAN LYRawMode;
 BOOLEAN LYSelectPopups = USE_SELECT_POPUPS;
+BOOLEAN LYSendUserAgent = SEND_USERAGENT;	/* send Lynx User-Agent header? */
 BOOLEAN LYSetCookies = SET_COOKIES;	/* Process Set-Cookie headers? */
 BOOLEAN LYUseDefSelPop = TRUE;	/* Command line -popup toggle */
 BOOLEAN LYUseDefaultRawMode = TRUE;
@@ -388,6 +391,7 @@ BOOLEAN more_text = FALSE;	/* is there more text to display? */
 BOOLEAN more_links = FALSE;	/* Links beyond a displayed page with no links? */
 BOOLEAN no_list = FALSE;
 BOOLEAN no_margins = FALSE;
+BOOLEAN no_pause = FALSE;
 BOOLEAN no_title = FALSE;
 BOOLEAN no_url_redirection = FALSE;	/* Don't follow URL redirections */
 BOOLEAN pseudo_inline_alts = MAKE_PSEUDO_ALTS_FOR_INLINES;
@@ -530,7 +534,7 @@ int LYHiddenLinks = HIDDENLINKS_SEPARATE;	/* Show hidden links? */
 char *SSL_cert_file = NULL;	/* Default CA CERT file */
 
 int Old_DTD = NO;
-static BOOL DTD_recovery = NO;
+static BOOLEAN DTD_recovery = NO;
 
 #ifndef NO_LYNX_TRACE
 FILE *LYTraceLogFP = NULL;	/* Pointer for TRACE log  */
@@ -559,7 +563,7 @@ int connect_timeout = 18000; /*=180000*0.1 - used in HTDoConnect.*/
 int reading_timeout = 18000; /*=180000*0.1 - used in HTDoConnect.*/
 
 #ifdef EXP_JUSTIFY_ELTS
-BOOL ok_justify = FALSE;
+BOOLEAN ok_justify = FALSE;
 int justify_max_void_percent = 35;
 #endif
 
@@ -576,11 +580,11 @@ int scrsize_x = 0;
 int scrsize_y = 0;
 #endif
 
-BOOL force_empty_hrefless_a = FALSE;
+BOOLEAN force_empty_hrefless_a = FALSE;
 
 #ifdef TEXTFIELDS_MAY_NEED_ACTIVATION
 BOOL textfields_need_activation = FALSE;
-BOOL textfields_activation_option = FALSE;
+BOOLEAN textfields_activation_option = FALSE;
 #endif
 
 BOOLEAN textfield_prompt_at_left_edge = FALSE;
@@ -1840,14 +1844,14 @@ int main(int argc,
      * Check the -popup command line toggle.  - FM
      */
     if (LYUseDefSelPop == FALSE) {
-	LYSelectPopups = !LYSelectPopups;
+	LYSelectPopups = (BOOLEAN) !LYSelectPopups;
     }
 
     /*
      * Check the -show_cursor command line toggle.  - FM
      */
     if (LYUseDefShoCur == FALSE) {
-	LYShowCursor = !LYShowCursor;
+	LYShowCursor = (BOOLEAN) !LYShowCursor;
     }
 
     /*
@@ -2360,19 +2364,10 @@ void reload_read_cfg(void)
 }
 #endif /* !NO_CONFIG_INFO */
 
-static void disable_pausing(void)
-{
-    AlertSecs = 0;
-    DebugSecs = 0;
-    InfoSecs = 0;
-    MessageSecs = 0;
-    ReplaySecs = 0;
-}
-
 static void force_dump_mode(void)
 {
     dump_output_immediately = TRUE;
-    disable_pausing();
+    no_pause = TRUE;
     LYcols = DFT_COLS;
 }
 
@@ -2823,7 +2818,7 @@ static int nocolor_fun(char *next_arg GCC_UNUSED)
 /* -nopause */
 static int nopause_fun(char *next_arg GCC_UNUSED)
 {
-    disable_pausing();
+    no_pause = TRUE;
     return 0;
 }
 
@@ -4126,6 +4121,7 @@ static BOOL parse_arg(char **argv,
 
 #if EXTENDED_STARTFILE_RECALL
     static BOOLEAN no_options_further = FALSE;	/* set to TRUE after '--' argument */
+    static int nof_index = 0;	/* set the index of -- argument */
 #endif
 
     arg_name = argv[0];
@@ -4147,7 +4143,7 @@ static BOOL parse_arg(char **argv,
      */
     if (*arg_name != '-'
 #if EXTENDED_OPTION_LOGIC
-	|| no_options_further == TRUE
+	|| (no_options_further == TRUE && nof_index < (*countp))
 #endif
 	) {
 #if EXTENDED_STARTFILE_RECALL
@@ -4183,6 +4179,7 @@ static BOOL parse_arg(char **argv,
 #if EXTENDED_OPTION_LOGIC
     if (strcmp(arg_name, "--") == 0) {
 	no_options_further = TRUE;
+	nof_index = *countp;
 	return TRUE;
     }
 #endif
@@ -4279,7 +4276,7 @@ static BOOL parse_arg(char **argv,
 	    if ((q->int_value != 0) && (next_arg != 0)) {
 		float ival;
 
-		if (1 == sscanf(next_arg, "%f", &ival)) {
+		if (1 == LYscanFloat(next_arg, &ival)) {
 		    *(q->int_value) = (int) SECS2Secs(ival);
 		}
 	    }

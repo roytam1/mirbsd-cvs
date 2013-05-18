@@ -1,5 +1,5 @@
 /*
- * $LynxId: userdefs.h,v 1.239 2008/12/26 21:02:32 tom Exp $
+ * $LynxId: userdefs.h,v 1.246 2009/05/28 21:37:22 tom Exp $
  *
  * Lynx - Hypertext navigation system
  *
@@ -893,6 +893,12 @@
  */
 #define SET_COOKIES TRUE
 
+/********************************
+ * If SEND_USERAGENT is set FALSE, Lynx will not send a user-agent string.
+ * You can override this in the 'O'ptions menu.
+ */
+#define SEND_USERAGENT TRUE
+
 /*******************************
  * If ACCEPT_ALL_COOKIES is set TRUE, and SET_COOKIES is TRUE, Lynx will
  * accept all cookies.
@@ -1422,14 +1428,22 @@
  * ignore it. - kw */
 /* $Format: "#define LYNX_VERSION \"$ProjectVersion$\""$ */
 #ifndef LYNX_VERSION
-#define LYNX_VERSION "2.8.7dev.12"
+#define LYNX_VERSION "2.8.7rel.1"
 #endif
 #define LYNX_WWW_HOME "http://lynx.isc.org/"
 #define LYNX_WWW_DIST "http://lynx.isc.org/current/"
 /* $Format: "#define LYNX_DATE \"$ProjectDate$\""$ */
-#define LYNX_DATE "Wed, 31 Dec 2008 17:22:26 -0800"
+#define LYNX_DATE "Sun, 05 Jul 2009 16:52:33 -0700"
 #define LYNX_DATE_OFF 5		/* truncate the automatically-generated date */
 #define LYNX_DATE_LEN 11	/* truncate the automatically-generated date */
+
+#ifdef UNICODE
+#define W32_STRING(s) L##s
+#else
+#define W32_STRING(s) s
+#endif
+
+#define LYNX_SUBKEY W32_STRING("Software\\Lynx")
 
 #define LINESIZE 1024		/* max length of line to read from file */
 #define MAXLINKS 1024		/* max links on one screen */
