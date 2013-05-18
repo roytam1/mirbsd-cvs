@@ -19,11 +19,11 @@ MASTER_SITES=	ftp://ftp.berlios.de/pub/sdd/
 USE_GMAKE=	Yes
 MAKE_ENV=	MAKEPROG="${MAKE_PROGRAM}" CCOM=${_PASS_CC:T:Q} COPTX=${CFLAGS:Q}
 
-.if ${MACHINE} != "i386" || ${_PASS_CC:T:Q} != "cc"
+#.if ${MACHINE} != "i386" || ${_PASS_CC:T:Q} != "cc"
 do-configure:
 	@ln -sf ${WRKSRC}/RULES/i386-openbsd-cc.rul \
 		${WRKSRC}/RULES/${MACHINE}-openbsd-${_PASS_CC:T:Q}.rul
-.endif
+#.endif
 
 NO_REGRESS=	Yes
 
