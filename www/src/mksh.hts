@@ -1,10 +1,10 @@
-# $MirOS: www/src/mksh.hts,v 1.22 2007/07/17 11:41:03 tg Exp $
+# $MirOS: www/src/mksh.hts,v 1.23 2007/07/17 13:56:51 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.22 2007/07/17 11:41:03 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.23 2007/07/17 13:56:51 tg Exp $'
 mws_content <<'EOF'
 <h1>mksh(1) R29</h1>
 <p>This is the website of the MirBSD™ Korn Shell, an actively developed free
@@ -788,6 +788,7 @@ LINK.EXE: Microsoft (R) Incremental Linker Version 7.00.9466
  <li>Give the lexer a bigger state stack if !MKSH_SMALL</li>
  <li>Prepare for addition of make(1)-style search/replace operations;
   correct the code for other substitution expansion operations</li>
+ <li>Default $CC to cc not gcc, this is no non-unix-ware ☺</li>
 </ul>
 <p>In mksh R29g we MFCd the following changes:</p><ul>
  <li>Some optimisations from above; no longer execute foreign objects</li>
