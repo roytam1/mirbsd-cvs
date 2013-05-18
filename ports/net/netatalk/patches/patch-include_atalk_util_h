@@ -1,6 +1,10 @@
+$MirOS$
 $OpenBSD: patch-include_atalk_util_h,v 1.2 2003/08/22 11:18:19 naddy Exp $
+
+XXX we need some way to check if RTLD_NOW works and from what version on
+
 --- include/atalk/util.h.orig	Fri Feb  1 07:03:27 2002
-+++ include/atalk/util.h	Sun Aug 13 01:09:00 2006
++++ include/atalk/util.h	Sun Aug 13 01:35:31 2006
 @@ -39,12 +39,16 @@ extern void mod_close    __P((void *));
  #define RTLD_NOW 1
  #endif /* ! RTLD_NOW */

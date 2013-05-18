@@ -1,3 +1,4 @@
+@comment $MirOS$
 @comment $OpenBSD: PLIST,v 1.3 2004/04/14 18:59:08 xsa Exp $
 bin/achfile
 bin/acleandir.rc
@@ -40,10 +41,12 @@ include/atalk/aep.h
 include/atalk/afp.h
 include/atalk/asp.h
 include/atalk/atp.h
+include/atalk/boolean.h
 include/atalk/cnid.h
 include/atalk/compat.h
 include/atalk/ddp.h
 include/atalk/dsi.h
+include/atalk/logger.h
 include/atalk/nbp.h
 include/atalk/netddp.h
 include/atalk/pap.h
@@ -53,22 +56,11 @@ include/atalk/server_child.h
 include/atalk/uam.h
 include/atalk/util.h
 include/atalk/zip.h
-lib/libatalk.a
 lib/libatalk.la
-lib/netatalk/uams/uams_clrtxt.so
-lib/netatalk/uams/uams_dhx.so
-lib/netatalk/uams/uams_dhx_passwd.a
 lib/netatalk/uams/uams_dhx_passwd.la
-lib/netatalk/uams/uams_dhx_passwd.so
-lib/netatalk/uams/uams_guest.a
 lib/netatalk/uams/uams_guest.la
-lib/netatalk/uams/uams_guest.so
-lib/netatalk/uams/uams_passwd.a
 lib/netatalk/uams/uams_passwd.la
-lib/netatalk/uams/uams_passwd.so
-lib/netatalk/uams/uams_randnum.a
 lib/netatalk/uams/uams_randnum.la
-lib/netatalk/uams/uams_randnum.so
 man/man1/achfile.1
 man/man1/acleandir.1
 man/man1/aecho.1
@@ -110,6 +102,7 @@ man/man8/psf.8
 man/man8/timelord.8
 sbin/afpd
 sbin/atalkd
+@comment sbin/etc2ps.sh
 sbin/ifmpap
 sbin/ifmpaprev
 sbin/ifpap
@@ -146,15 +139,18 @@ share/examples/netatalk/atalkd.conf
 share/examples/netatalk/netatalk.conf
 share/examples/netatalk/papd.conf
 share/examples/netatalk/rc.atalk
+share/netatalk/pagecount.ps
 share/nls/netatalk/maccode.437
 share/nls/netatalk/maccode.850
 share/nls/netatalk/maccode.iso8859-1
 share/nls/netatalk/maccode.iso8859-1.adapted
-share/netatalk/pagecount.ps
+share/nls/netatalk/maccode.koi8-r
+@dirrm share/nls/netatalk
+@dirrm share/nls
 @dirrm share/netatalk
 @dirrm share/examples/netatalk
-@dirrm share/nls/netatalk
 @dirrm share/doc/netatalk
+@dirrm share/aclocal
 @dirrm lib/netatalk/uams
 @dirrm lib/netatalk
 @dirrm include/atalk

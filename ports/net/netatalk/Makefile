@@ -1,24 +1,23 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.5 2003/08/22 11:18:19 naddy Exp $
 
-COMMENT=	"AFP file and print services for AppleTalk/IP networks"
-
-DISTNAME=	netatalk-1.6.3
-CATEGORIES=	net
-HOMEPAGE=	http://netatalk.sourceforge.net/
+COMMENT=		"AFP file and print services for AppleTalk/IP networks"
+DISTNAME=		netatalk-1.6.3
+PKGNAME=		${DISTNAME}-1
+CATEGORIES=		net
+HOMEPAGE=		http://netatalk.sourceforge.net/
+MASTER_SITES=		${MASTER_SITE_SOURCEFORGE:=netatalk/}
 
 # According to http://netatalk.sourceforge.net/
 # now under GPL but the copyright shipping with
 # the distribution is still BSD. What gives?
-
 PERMIT_PACKAGE_CDROM=		Yes
 PERMIT_PACKAGE_FTP=		Yes
 PERMIT_DISTFILES_CDROM=		Yes
 PERMIT_DISTFILES_FTP=		Yes
 
-MASTER_SITES=	${MASTER_SITE_SOURCEFORGE:=netatalk/}
-
-
-CONFIGURE_STYLE=	gnu
+CONFIGURE_STYLE=	autoconf
+AUTOCONF_NEW=		Yes
 
 CONFDIR=		${SYSCONFDIR}/netatalk
 SUBST_VARS=		CONFDIR
@@ -27,12 +26,18 @@ SUBST_VARS=		CONFDIR
 # LIB_DEPENDS=	db.3::databases/db
 # CONFIGURE_ARGS+=	--with-db3=${LOCALBASE}
 
-CONFIGURE_ARGS+=	${CONFIGURE_SHARED} 
+CONFIGURE_ARGS+=	${CONFIGURE_SHARED}
+CONFIGURE_ARGS+=	--disable-dependency-tracking
+CONFIGURE_ARGS+=	--disable-libtool-lock
 CONFIGURE_ARGS+=	--with-ssl=/usr
 CONFIGURE_ARGS+=	--with-config-dir=${CONFDIR}
 CONFIGURE_ARGS+=	--with-pkgconfdir=${CONFDIR}
 CONFIGURE_ARGS+=	--with-uams-path=${PREFIX}/lib/netatalk/uams
+.if (${OStype} == "MirBSD") || (${OStype} == "Interix")
+CONFIGURE_ARGS+=	--without-tcp-wrappers
+.else
 CONFIGURE_ARGS+=	--with-tcp-wrappers
+.endif
 CONFIGURE_ARGS+=	--disable-overwrite
 CONFIGURE_ARGS+=	--with-did=last
 
@@ -64,5 +69,5 @@ post-install:
 	${INSTALL_DATA} ${WRKSRC}/doc/$i \
 		${PREFIX}/share/doc/netatalk
 .endfor
- 
+
 .include <bsd.port.mk>
