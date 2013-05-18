@@ -1,4 +1,4 @@
-# $MirOS: ports/Makefile,v 1.13 2005/12/28 17:28:57 tg Exp $
+# $MirOS: ports/Makefile,v 1.14 2006/01/02 03:29:12 tg Exp $
 # $OpenBSD: Makefile,v 1.43 2003/12/15 17:56:40 espie Exp $
 # $FreeBSD: Makefile,v 1.36 1997/10/04 15:54:31 jkh Exp $
 #-
@@ -72,7 +72,8 @@ index:
 
 ${.CURDIR}/INDEX:
 	@echo "Generating INDEX..."
-	@${MAKE} describe ECHO_MSG="echo 1>&2" > ${.CURDIR}/INDEX
+	@USE_ICONV=port \
+	    ${MAKE} describe ECHO_MSG="echo 1>&2" >${.CURDIR}/INDEX
 	@echo "Done."
 
 print-index:	${.CURDIR}/INDEX
