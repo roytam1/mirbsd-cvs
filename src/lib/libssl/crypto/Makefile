@@ -1,4 +1,4 @@
-# $MirOS: src/lib/libssl/crypto/Makefile,v 1.19 2007/05/17 18:38:35 tg Exp $
+# $MirOS: src/lib/libssl/crypto/Makefile,v 1.20 2007/06/16 15:23:17 tg Exp $
 # $OpenBSD: Makefile,v 1.46 2006/10/14 19:43:57 drahn Exp $
 
 .include <bsd.own.mk>
@@ -7,6 +7,7 @@ SHLIB_VERSION?=	14.1
 LIB=		crypto
 DPADD+=		${LIBZ}
 LDADD+=		-lz
+LDFLAGS+=	-Wl,-Bsymbolic
 
 SSLEAYDIST=	src
 SSL_SRC=	${.CURDIR}/../${SSLEAYDIST}
