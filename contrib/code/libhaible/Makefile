@@ -1,4 +1,4 @@
-# $MirOS: contrib/code/libhaible/Makefile,v 1.16 2006/05/30 18:28:38 tg Exp $
+# $MirOS: contrib/code/libhaible/Makefile,v 1.17 2006/05/30 18:41:21 tg Exp $
 
 LIB=	haible
 NOPIC=	Yes	# for now
@@ -80,7 +80,7 @@ MLINKS+=	iswalnum.3 iswblank.3 \
 		iswalnum.3 iswxdigit.3
 
 # changed wmemstr manual page. copied:
-MAN+=		wmemstr.3
+MAN+=		wmemchr.3
 MLINKS+=wmemchr.3 wmemcmp.3
 MLINKS+=wmemchr.3 wmemcpy.3
 MLINKS+=wmemchr.3 wmemmove.3
