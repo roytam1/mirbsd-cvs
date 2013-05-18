@@ -1,5 +1,5 @@
 ! $MirSecuCron$
-! $MirOS: contrib/samples/dot.Xresources,v 1.14 2010/01/21 11:00:55 tg Exp $
+! $MirOS: contrib/samples/dot.Xresources,v 1.15 2010/01/27 11:29:21 tg Exp $
 !-
 ! Copyright © 2003, 2004, 2005, 2006, 2007, 2009, 2010
 !	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
@@ -164,6 +164,7 @@ VXTerm*backarrowKeyIsErase:	true
 VXTerm*deleteIsDEL:		false
 VXTerm*fontMenu.Label:		Fonts
 VXTerm*VT100.font:		-misc-vga-bold-r-normal--14-110-96-96-c-80-ibm-cp437
+VXTerm*VT100.boldFont:		-misc-vga-bold-r-normal--14-110-96-96-c-80-ibm-cp437
 VXTerm*fontMenu*font1*Label:	Small
 VXTerm*VT100.font1:		6x10
 VXTerm*fontMenu*font2*Label:	Large
@@ -186,8 +187,6 @@ VXTerm*VT100*boldColors:	true
 VXTerm*VT100*boldMode:		false
 VXTerm*VT100*dynamicColors:	true
 VXTerm*VT100*utf8:		0
-VXTerm*font:			-misc-vga-bold-r-normal--14-110-96-96-c-80-ibm-cp437
-VXTerm*boldFont:		-misc-vga-bold-r-normal--14-110-96-96-c-80-ibm-cp437
 VXTerm*VT100*color0:		black
 VXTerm*VT100*color1:		red3
 VXTerm*VT100*color2:		green3
