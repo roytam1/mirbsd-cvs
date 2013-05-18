@@ -1,4 +1,4 @@
-@comment $MirOS: ports/lang/python/2.5/pkg/PLIST,v 1.10 2008/10/05 00:21:32 tg Exp $
+@comment $MirOS: ports/lang/python/2.5/pkg/PLIST,v 1.11 2009/05/30 20:38:27 tg Exp $
 @option no-default-conflict
 @pkgcfl python-2.5*
 bin/pydoc${VERSION}
@@ -1801,7 +1801,7 @@ lib/python${VERSION}/lib-dynload/datetime.so
 lib/python${VERSION}/lib-dynload/dbm.so
 lib/python${VERSION}/lib-dynload/dl.so
 lib/python${VERSION}/lib-dynload/fcntl.so
-@comment lib/python${VERSION}/lib-dynload/gdbm.so
+lib/python${VERSION}/lib-dynload/gdbm.so
 lib/python${VERSION}/lib-dynload/grp.so
 lib/python${VERSION}/lib-dynload/imageop.so
 lib/python${VERSION}/lib-dynload/itertools.so
