@@ -1,23 +1,21 @@
-/**	$MirOS: ports/infrastructure/pkgtools/lib/exec.c,v 1.9 2008/11/02 18:56:29 tg Exp $ */
-/*	$OpenBSD: exec.c,v 1.8 2003/09/05 19:40:42 tedu Exp $	*/
-
-/*
- * FreeBSD install - a package for the installation and maintainance
- * of non-core utilities.
+/*-
+ * Copyright (c) 2006, 2007
+ *	Benny Siegert <bsiegert@mirbsd.org>
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
- * 1. Redistributions of source code must retain the above copyright
- *    notice, this list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright
- *    notice, this list of conditions and the following disclaimer in the
- *    documentation and/or other materials provided with the distribution.
+ * Provided that these terms and disclaimer and all copyright notices
+ * are retained or reproduced in an accompanying document, permission
+ * is granted to deal in this work without restriction, including un-
+ * limited rights to use, publicly perform, distribute, sell, modify,
+ * merge, give away, or sublicence.
  *
- * Jordan K. Hubbard
- * 18 July 1993
- *
- * Miscellaneous system routines.
+ * This work is provided "AS IS" and WITHOUT WARRANTY of any kind, to
+ * the utmost extent permitted by applicable law, neither express nor
+ * implied; without malicious intent or gross negligence. In no event
+ * may a licensor, author or contributor be held liable for indirect,
+ * direct, other damage, loss, or other issues arising in any way out
+ * of dealing in the work, even if advised of the possibility of such
+ * damage or existence of a defect, except proven that it results out
+ * of said person's immediate fault when using the work as intended.
  */
 
 #include <err.h>
@@ -26,7 +24,7 @@
 #include "lib.h"
 #include <sys/wait.h>
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/exec.c,v 1.9 2008/11/02 18:56:29 tg Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/exec.c,v 1.10 2008/11/02 19:05:49 tg Exp $");
 
 #ifdef AS_USER
 static bool PrivsDropped = false;
