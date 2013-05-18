@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.108 2008/03/27 17:42:43 tg Exp $
+# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.109 2008/04/06 22:00:14 tg Exp $
 #-
 # Copyright (c) 2006, 2008
 #	Thorsten “mirabilos” Glaser <tg@mirbsd.de>
@@ -286,7 +286,7 @@ cd $top
 cat >Install.sh <<EOF
 #!${new_mirksh}
 
-i=\${1:-${d_build}/xinstall/install}
+i=\${1:-${d_build}/xinstall/xinstall}
 ug=$ug
 set -x
 mkdir -p \$DESTDIR$dt_bin \$DESTDIR$dt_man \$DESTDIR$dt_mk
