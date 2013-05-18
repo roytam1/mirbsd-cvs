@@ -1,7 +1,7 @@
-# $MirOS: ports/archivers/lzo/Makefile,v 1.3 2006/02/09 09:35:35 tg Exp $
+# $MirOS: ports/archivers/lzo/Makefile,v 1.4 2006/09/14 00:06:48 tg Exp $
 # $OpenBSD: Makefile,v 1.31 2004/02/23 00:33:34 naddy Exp $
 
-COMMENT=			portable speedy lossless data compression library
+COMMENT=		portable speedy lossless data compression library
 DISTNAME=		lzo-2.02
 CATEGORIES=		archivers devel
 MASTER_SITES=		${HOMEPAGE}download/
@@ -16,10 +16,10 @@ PERMIT_DISTFILES_FTP=	Yes
 CONFIGURE_STYLE=	autoconf
 AUTOCONF_NEW=		Yes
 CONFIGURE_ARGS+=	${CONFIGURE_SHARED} \
-			--enable-static
-
+			--enable-static \
+			--disable-dependency-tracking \
+			--disable-libtool-lock
 REGRESS_TARGET=		test
-
 DOCFILES=		NEWS doc/LZO.FAQ doc/LZO.TXT doc/LZOAPI.TXT
 
 post-install:
