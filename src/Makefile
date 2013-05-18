@@ -1,4 +1,4 @@
-# $MirOS: src/Makefile,v 1.36 2006/02/15 10:14:48 tg Exp $
+# $MirOS: src/Makefile,v 1.37 2006/02/15 13:20:34 tg Exp $
 # $OpenBSD: Makefile,v 1.103 2004/05/03 15:18:18 drahn Exp $
 
 .if defined(MAKECONF) && exists(${MAKECONF})
@@ -51,7 +51,9 @@ build-pre:
 	cd ${.CURDIR}/include \
 	    && ${_STCMD_OBJ} ${MAKE} prereq \
 	    && exec ${SUDO} ${_STCMD_DEST} ${MAKE} includes
-	cd ${.CURDIR} && ${SUDO} ${_STCMD_OBJ} ${MAKE} cleandir
+	rm -rf ${BSDOBJDIR}/{lib,sys}
+	cd ${.CURDIR}/lib && ${MAKE} obj
+	cd ${.CURDIR}/sys && ${MAKE} obj
 	cd ${.CURDIR}/lib \
 	    && ${_STCMD_OBJ} ${MAKE} depend \
 	    && ${_STCMD_OBJ} ${MAKE} \
