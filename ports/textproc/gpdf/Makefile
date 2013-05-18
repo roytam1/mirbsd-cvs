@@ -1,6 +1,7 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.3 2004/04/08 06:22:34 marcm Exp $
 
-COMMENT=			PDF viewer for GNOME
+COMMENT=		PDF viewer for GNOME
 
 DISTNAME=		gpdf-0.112
 CATEGORIES=		textproc x11/gnome
@@ -24,6 +25,8 @@ LIB_DEPENDS=		gnomeui-2::x11/gnome/libgnomeui \
 			gnomeprintui-2-2::x11/gnome/libgnomeprintui
 
 USE_GMAKE=		Yes
+USE_CXX=		Yes # depends on fam, which uses CXX
+USE_X11=		Yes
 CONFIGURE_STYLE=	gnu
 
 .include <bsd.port.mk>

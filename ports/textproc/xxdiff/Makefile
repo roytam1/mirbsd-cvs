@@ -1,6 +1,7 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.14 2003/02/02 16:37:56 sturm Exp $
 
-COMMENT=			graphical file comparator and merge tool
+COMMENT=	graphical file comparator and merge tool
 
 DISTNAME=	xxdiff-2.9.1
 PKGNAME=	${DISTNAME}-1
@@ -19,6 +20,7 @@ PERMIT_DISTFILES_FTP=   Yes
 BUILD_DEPENDS=	:bison-*:devel/bison \
 		:tmake->=1.10:devel/tmake
 MODULES=	x11/qt3
+USE_CXX=	Yes
 MODQT_MT=	Yes
 
 WRKDIST=	${WRKDIR}/${DISTNAME}/src

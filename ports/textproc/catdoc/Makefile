@@ -1,6 +1,7 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.21 2004/03/02 20:56:09 ish Exp $
 
-COMMENT=			MS Word ==> ASCII or TeX, Tk viewer included
+COMMENT=	MS Word -> ASCII or TeX, Tk viewer included
 
 DISTNAME=	catdoc-0.91.4
 CATEGORIES=	textproc
@@ -20,6 +21,7 @@ FLAVOR?=
 
 .if ${FLAVOR:L:Mtk}
 RUN_DEPENDS=	::x11/tk/8.0
+USE_X11=	Yes
 .else
 CONFIGURE_ARGS+=--disable-wordview
 .endif
