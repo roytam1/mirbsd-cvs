@@ -1,8 +1,9 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.1.1.1 2004/05/03 19:13:28 naddy Exp $
 
-COMMENT=			commandline shell and file manager
+COMMENT=		command line shell and file manager
 
-DISTNAME=		clex-3.1.9
+DISTNAME=		clex-3.18
 CATEGORIES=		misc
 
 HOMEPAGE=		http://www.clex.sk/
@@ -15,7 +16,6 @@ PERMIT_DISTFILES_CDROM= Yes
 PERMIT_DISTFILES_FTP=	Yes
 
 MASTER_SITES=		${HOMEPAGE:=download/}
-EXTRACT_SUFX=		.src.tar.gz
 
 CONFIGURE_STYLE=	gnu
 
