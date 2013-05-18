@@ -1,4 +1,4 @@
-/* $MirOS: src/sys/arch/i386/stand/bootxx/bootxx.S,v 1.5 2007/02/26 03:53:00 tg Exp $ */
+/* $MirOS: src/sys/arch/i386/stand/bootxx/bootxx.S,v 1.6 2007/02/26 04:08:56 tg Exp $ */
 
 /*-
  * Copyright (c) 2003, 2004, 2005, 2007
@@ -115,7 +115,7 @@ LTENTRY(Lmain)
 	call	Lotxt
 	/* check for single-block CHS */
 	mov	ax,offset LsBRK
-	xchg	bh,[bpbtpc+1]
+	xchg	bh,[bpbspt+1]
 	and	bh,0x80
 	jnz	LbCHS		/* yep, hardcoded via bootloader */
 	push	ax

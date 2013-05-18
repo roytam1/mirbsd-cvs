@@ -1,4 +1,4 @@
-.\"	$MirOS: src/sys/arch/i386/stand/installboot/installboot.8,v 1.10 2006/07/23 23:41:28 tg Exp $
+.\"	$MirOS: src/sys/arch/i386/stand/installboot/installboot.8,v 1.11 2007/02/26 02:52:46 tg Exp $
 .\"	$OpenBSD: installboot.8,v 1.26 2003/06/06 21:45:33 jmc Exp $
 .\"
 .\" Copyright (c) 1997 Michael Shalayeff
@@ -86,19 +86,21 @@ Used to specify the sectors-per-track value if the drive has
 sector translation activated, and
 .Nm
 is unable to determine the translated geometry.
-.\" If not specified, this defaults to d_nsectors from the disklabel.
+If not specified, this defaults to d_nsectors from the disklabel.
 If not specified, this defaults to the value retrieved from the BIOS
 at boot time, available via
 .Xr sysctl 8 .
+Valid are values from 1 to 63, inclusive.
 .It Fl h Ar tracks-per-cyl
 Used to specify the tracks-per-cylinder value if the drive has
 sector translation activated, and
 .Nm
 is unable to determine the translated geometry.
-.\" If not specified, this defaults to d_ntracks from the disklabel.
+If not specified, this defaults to d_ntracks from the disklabel.
 If not specified, this defaults to the value retrieved from the BIOS
 at boot time, available via
 .Xr sysctl 8 .
+Valid are values from 1 to 256, inclusive.
 .It Fl P Ar partition-type
 Use the
 .Ar partition-type

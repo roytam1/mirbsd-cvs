@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/stand/installboot/installboot.c,v 1.22 2007/02/26 03:32:18 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/stand/installboot/installboot.c,v 1.23 2007/02/26 16:47:46 tg Exp $ */
 /*	$OpenBSD: installboot.c,v 1.47 2004/07/15 21:44:16 tom Exp $	*/
 /*	$NetBSD: installboot.c,v 1.5 1995/11/17 23:23:50 gwr Exp $ */
 
@@ -88,7 +88,7 @@
 #include <unistd.h>
 #include <util.h>
 
-__RCSID("$MirOS: src/sys/arch/i386/stand/installboot/installboot.c,v 1.22 2007/02/26 03:32:18 tg Exp $");
+__RCSID("$MirOS: src/sys/arch/i386/stand/installboot/installboot.c,v 1.23 2007/02/26 16:47:46 tg Exp $");
 
 extern	char *__progname;
 int	verbose, nowrite, nheads, nsectors, userspec = 0;
@@ -454,12 +454,13 @@ main(int argc, char *argv[])
 		    "as many sectors as possible");
 	startoff *= imaofs ? 512 : dl.d_secsize;
 
-	*num_heads_p = nheads;
-	*num_secs_p = nsectors;
+	*num_heads_p = nheads & 255;
+	*(num_heads_p + 1) = nheads >> 8;
+	*num_secs_p = nsectors & 63;
 	*partp_p = userpt;
 
 	if (flag_oneonly)
-		num_heads_p[1] = 0x80;
+		num_secs_p[1] = 0x80;
 
 	if (!nowrite) {
 		if (lseek(devfd, startoff, SEEK_SET) < 0 ||
