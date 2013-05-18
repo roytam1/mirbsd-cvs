@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/special/mksh/Makefile,v 1.47 2011/11/25 23:29:29 tg Exp $
+# $MirOS: src/distrib/special/mksh/Makefile,v 1.48 2011/11/26 00:39:51 tg Exp $
 #-
 # Copyright (c) 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -29,7 +29,7 @@ PROG=		mksh
 SRCS=		edit.c eval.c exec.c expr.c funcs.c histrap.c jobs.c \
 		lalloc.c lex.c main.c misc.c shf.c syn.c tree.c var.c
 # env: HAVE_MKNOD=x
-CPPFLAGS+=	-DMKSH_ASSUME_UTF8 -DMKSH_SMALL \
+CPPFLAGS+=	-DMKSH_ASSUME_UTF8 -DMKSH_DISABLE_DEPRECATED -DMKSH_SMALL \
 		-DHAVE_ATTRIBUTE_BOUNDED=1 -DHAVE_ATTRIBUTE_FORMAT=1 \
 		-DHAVE_ATTRIBUTE_NONNULL=1 -DHAVE_ATTRIBUTE_NORETURN=1 \
 		-DHAVE_ATTRIBUTE_UNUSED=1 -DHAVE_ATTRIBUTE_USED=1 \
@@ -57,7 +57,7 @@ regress: ${PROG} check.pl check.t
 	echo export FNORD=666 >regress-dir/.mkshrc
 	HOME=$$(realpath regress-dir) perl ${SRCDIR}/check.pl \
 	    -s ${SRCDIR}/check.t -v -p ./${PROG} \
-	    -C smksh,convfds,no-histfile,fastbox
+	    -C smksh,convfds,nodeprecated,no-histfile,fastbox
 
 cleandir: clean-extra
 
