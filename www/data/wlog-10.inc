@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.368 2011/10/06 22:51:53 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.369 2011/10/06 22:59:50 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -6081,7 +6081,7 @@ Tag: debian
  and fixing some bugs and technicalities, or so.) Thanks to everyone involved,
  I learned a lot already. Oh, and I had a look into madduck's book (the old
  sarge edition, which I got for free recently) and found a nice graphic
- explaining what non-native english speakers (I even had latin first, and 3
+ explaining what non-native English speakers (I even had Latin first, and 3
  programming languages!) don't, from the Debian constitution.</p>
 <p>Congratulations <a href="http://fsinfo.cs.uni-sb.de/~abe/Links/">XTaran</a>
  for making it as well, even visible on the website already!</p>

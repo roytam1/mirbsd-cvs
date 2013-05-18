@@ -1,15 +1,15 @@
-# $MirOS: www/src/mksh_old.hts,v 1.42 2011/06/12 18:59:39 tg Exp $
+# $MirOS: www/src/mksh_old.hts,v 1.43 2011/07/17 00:40:20 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/mksh/old "mksh – old versions"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh_old.hts,v 1.42 2011/06/12 18:59:39 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh_old.hts,v 1.43 2011/07/17 00:40:20 tg Exp $'
 mws_content <<'EOF'
 <h2><a href="mksh.htm">mksh</a> – old versions</h2>
 
-<p>This page lists information about mksh(1) R37c and earlier.</p>
+<p>This page lists information about versions of mksh(1) earlier than R40.</p>
 
 <h2>Old instructions</h2>
 <h3 id="compile">Compilation</h3>
@@ -50,7 +50,7 @@ mws_content <<'EOF'
  should be compiled in or not instead; has been removed past R31c</li>
 </ul>
 <p>The build script also honours the following environment variables:</p><ul>
-<li><tt>CPP</tt> ($CC -E -) – the C præprocessor used</li>
+<li><tt>CPP</tt> ($CC -E -) – the C preprocessor used</li>
 </ul>
 
 <h2 id="contrib">Other Shells and more</h2>
@@ -81,7 +81,7 @@ mws_content <<'EOF'
  ksh with it (optionally retaining that GNU bash-like $PS1 stuff). The
  <tt>set -o emacs-usemeta</tt> command is no longer needed because the
  emacs editing mode has been changed for Unicode/UTF-8 mode, which adds a
- new <tt>set -o utf8-hack</tt> mode. The <tt>set -o sh</tt> command has
+ new <tt>set -o utf8-mode</tt> flag. The <tt>set -o sh</tt> command has
  been completely removed, <tt>set -o posix</tt> merely turns off brace
  expansion as side effect. There is no limit (well, 2³² – for now…) on
  array sizes any more. Many bugs and security holes have been closed in
@@ -815,7 +815,8 @@ mws_content <<'EOF'
   helper, as it’s <em>only</em> needed there, and we want to use the latter
   from MirMake as well</li>
  <li>SECURITY: when spawning mksh on a new terminal, for example with
-  <tt>sudo mksh -lT/dev/ttyC7</tt>, flush all of that tty’s I/O first</li>
+  <tt>sudo mksh -lT/dev/ttyC7</tt>, flush all of that tty’s I/O first
+  (CVE-2008-1845)</li>
  <li><tt>dot.mkshrc</tt>: ensure “ls” is no alias, don’t hardcode its path</li>
 </ul>
 <p id="r33c">mksh R33c issues fixes for the following issues:</p><ul>

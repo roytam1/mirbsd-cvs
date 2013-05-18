@@ -1,4 +1,4 @@
-# $MirOS: www/src/main.hts,v 1.15 2009/06/21 11:01:24 tg Exp $
+# $MirOS: www/src/main.hts,v 1.16 2011/06/04 16:41:34 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -7,7 +7,7 @@ mws_setname main "Welcome at The MirOS Project"
 mws_setrss "news.rss"
 mws_subdir 0
 mws_setheadline Welcome to the MirOS Project!
-mws_putheader '$MirOS: www/src/main.hts,v 1.15 2009/06/21 11:01:24 tg Exp $'
+mws_putheader '$MirOS: www/src/main.hts,v 1.16 2011/06/04 16:41:34 tg Exp $'
 mws_content <<'EOF'
 <p class="rcsid">MirOS BSD &amp; MirPorts Framework – a wonderful
  operating system for a world of peace</p>
@@ -29,8 +29,8 @@ mws_content <<'EOF'
  href="@@RELPATH@@about.htm">About MirOS</a> page or read our <a
  href="@@ABSPATH@@/MirOS/PR/advertisement.pdf">advertisement</a> or <a
  href="@@ABSPATH@@/MirOS/PR/flyer_en.pdf">flyer</a> (<a
- href="@@ABSPATH@@/MirOS/PR/flyer_de.pdf">deutsch/german</a>, <a
- href="@@ABSPATH@@/MirOS/PR/flyer_fr.pdf">français/french</a>).
+ href="@@ABSPATH@@/MirOS/PR/flyer_de.pdf">deutsch/German</a>, <a
+ href="@@ABSPATH@@/MirOS/PR/flyer_fr.pdf">français/French</a>).
  Please note the BSD-Licence(7), especially the advertising clauses.</p>
 
 <h2>Translations</h2>
