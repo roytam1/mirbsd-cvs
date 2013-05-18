@@ -1,4 +1,4 @@
-# $MirOS: src/etc/mtree/special,v 1.13 2006/10/28 20:07:01 tg Exp $
+# $MirOS: src/etc/mtree/special,v 1.14 2006/10/28 21:22:27 tg Exp $
 # $OpenBSD: special,v 1.66 2005/06/08 20:11:38 deraadt Exp $
 # $NetBSD: special,v 1.4 1996/05/08 21:30:18 pk Exp $
 # @(#)special	8.2 (Berkeley) 1/23/94
@@ -47,10 +47,18 @@ master.passwd	type=file mode=0600 uname=root gname=wheel
 monthly		type=file mode=0644 uname=root gname=wheel
 monthly.local	type=file mode=0644 uname=root gname=wheel optional
 mail		type=dir mode=0755 uname=root gname=wheel
-aliases		type=file mode=0640 uname=root gname=wheel optional
-aliases.db	type=file mode=0640 uname=root gname=wheel optional
-sendmail.cf	type=file mode=0644 uname=root gname=wheel optional
-submit.cf	type=file mode=0644 uname=root gname=wheel optional
+access.db		type=file mode=0640 uname=root gname=wheel optional
+aliases			type=file mode=0640 uname=root gname=wheel optional
+aliases.db		type=file mode=0640 uname=root gname=wheel
+genericstable.db	type=file mode=0640 uname=root gname=wheel optional
+local-host-names	type=file mode=0640 uname=root gname=wheel
+mailertable.db		type=file mode=0640 uname=root gname=wheel optional
+relay-domains		type=file mode=0640 uname=root gname=wheel optional
+sendmail.cf		type=file mode=0644 uname=root gname=wheel optional
+submit.cf		type=file mode=0644 uname=root gname=wheel optional
+trusted-users		type=file mode=0640 uname=root gname=wheel optional
+userdb.db		type=file mode=0640 uname=root gname=wheel optional
+virtusertable.db	type=file mode=0640 uname=root gname=wheel optional
 ..	#mail
 mtree		type=dir mode=0755 uname=root gname=wheel
 special		type=file mode=0600 uname=root gname=wheel
@@ -162,7 +170,7 @@ authlog		type=file mode=0640 uname=root gname=wheel optional
 secure		type=file mode=0600 uname=root gname=wheel optional
 wtmp		type=file mode=0640 uname=root gname=wheel
 lastlog		type=file mode=0644 uname=root gname=wheel optional
-shareddirs.db	type=file mode=0644 uname=root gname=wheel optional
+sendmail.st	type=file mode=0640 uname=root gname=wheel optional
 ..	#var/log
 mail		type=dir mode=1777 uname=root gname=wheel ignore
 ..	#var/mail

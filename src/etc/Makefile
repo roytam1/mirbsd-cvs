@@ -1,4 +1,4 @@
-# $MirOS: src/etc/Makefile,v 1.27 2006/10/28 19:54:55 tg Exp $
+# $MirOS: src/etc/Makefile,v 1.28 2006/10/28 20:07:01 tg Exp $
 # $OpenBSD: Makefile,v 1.226 2005/05/26 23:06:06 mcbride Exp $
 
 TZDIR=		/usr/share/zoneinfo
@@ -138,7 +138,7 @@ etc-files:
 		${DESTDIR}/var/db/locate.database
 	${INSTALL} -c -o ${BINOWN} -g wheel -m 640 /dev/null \
 		${DESTDIR}/var/log/messages
-	${INSTALL} -c -o ${BINOWN} -g wheel -m 664 /dev/null \
+	${INSTALL} -c -o ${BINOWN} -g wheel -m 640 /dev/null \
 		${DESTDIR}/var/log/sendmail.st
 	${INSTALL} -c -o ${BINOWN} -g wheel -m 640 /dev/null \
 		${DESTDIR}/var/log/wtmp
@@ -253,7 +253,7 @@ install-generated:
 DHSIZE=	1024 1536 2048 3072 4096
 update-moduli:
 	{ \
-		echo '# $$MirOS: src/etc/Makefile,v 1.27 2006/10/28 19:54:55 tg Exp $$'; \
+		echo '# $$MirOS: src/etc/Makefile,v 1.28 2006/10/28 20:07:01 tg Exp $$'; \
 		echo '# Time Type Tests Tries Size Generator Modulus'; \
 		for i in ${DHSIZE}; do \
 			ssh-keygen -b $$i -G /dev/stdout; \
