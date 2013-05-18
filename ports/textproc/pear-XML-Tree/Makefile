@@ -1,4 +1,4 @@
-# $MirOS: ports/textproc/pear-XML-Tree/Makefile,v 1.3 2005/07/07 21:27:22 bsiegert Exp $
+# $MirOS: ports/textproc/pear-XML-Tree/Makefile,v 1.4 2006/09/14 00:14:20 tg Exp $
 # $OpenBSD: Makefile,v 1.1.1.1 2003/05/23 21:13:15 avsm Exp $
 
 COMMENT=			classes to represent XML data in PHP
@@ -14,8 +14,8 @@ EXTRACT_SUFX=	.tgz
 MODULES=	www/php/pear
 
 # PHP License
-PERMIT_PACKAGE_CDROM=	Yes
-PERMIT_PACKAGE_FTP=	Yes
+PERMIT_PACKAGE_CDROM=	dependency www/php/core is not allowed for CDROM
+PERMIT_PACKAGE_FTP=	dependency www/php/core is not allowed for FTP
 PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
