@@ -1,5 +1,5 @@
 #!/bin/sh
-# $MirOS: src/share/misc/licence.template,v 1.20 2006/12/11 21:04:56 tg Rel $
+# $MirOS: ports/Setup.sh,v 1.32 2006/12/28 00:51:01 tg Exp $
 #-
 # Copyright (c) 2005, 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -263,7 +263,7 @@ fi
 rm -f $MKSH.$tpfx.1
 if test $badp = 1; then
 	echo 'You need superuser privilegues to continue installation.' >&2
-	echo 'Ask your system operator to install a recent mksh (R28),' >&2
+	echo 'Ask your system operator to install a recent mksh (R29),' >&2
 	echo 'or call this script with MKSH=/path/to/mksh (is compiled' >&2
 	echo 'if it does not exist, but the path must exist).' >&2
 	cd

@@ -1,7 +1,7 @@
 <!-- PageID: mksh -->
-<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.87 2007/03/05 01:41:43 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.88 2007/03/05 01:57:53 tg Exp $</small>
 
-<h1>mksh(1) R28</h1>
+<h1>mksh(1) R29</h1>
 <p>This is the MirBSD&trade; Korn Shell, a more or less portable
  version of the pdksh derivate which comes, as an alternative to
  the default (and not used by anyone sane) C Shell, or (ancient)
@@ -455,12 +455,10 @@
 <li>Adding <tt>goto</tt> and <tt>label</tt> keywords/commands.</li>
 <li>Adding builtins <tt>realpath</tt>, <tt>fstat</tt>, <tt>lstat</tt>,
  <tt>traverse</tt>.</li>
-<li>More autoconfiguration</li>
 <li>A sensible website</li>
 </ul>
 
 <h2 id="prefetch">Requirements</h2>
-
 <p>Of course, your system must be operational for compiling
  programmes. You will need some sort of bourne compatible
  shell, compiler, assembler, linker (has not been tested with
@@ -468,8 +466,9 @@
  the following operating systems are supported: any recent BSD
  UNIX&reg;, Darwin and Apple Mac OSX, GNU/Cygwin, Interix aka
  Microsoft&reg; Services for Unix 3.5, GNU/Linux at least with
- glibc and uClibc, Sun Solaris 8 and 9 (other versions might
- work; OpenSolaris requires mksh-current). Not supported are
+ libc5, glibc, uClibc, Sun Solaris 8 (other versions, especially
+ 9, 10, and OpenSolaris (with GCC) might work), Debian GNU/HURD,
+ Debian GNU/kFreeBSD. Not supported are
  basically any others. Patches to add support for compilers
  other than GCC and platforms other than these listed above,
  especially these supported by NetBSD&reg; pkgsrc&reg;, are
@@ -494,21 +493,15 @@
 
 <h2 id="fetch">Getting The Source</h2>
 
-<p>The current version is <a
- href="http://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R28.cpio.gz">http://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R28.cpio.gz</a></p>
-<ul>
+<p>The current version is:</p><ul>
+ <li><a href="http://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R29.cpio.gz">http://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R29.cpio.gz</a></li>
+ <li><a href="http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R29.cpio.gz">http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R29.cpio.gz</a></li>
  <li>Please use gzsig(1) to verify the integrity of the distfile instead!
   Hashes are only so you know which distfile you want.</li>
- <li>RMD160 (mksh-R28.cpio.gz) = 511926e621b73be23e0ae48fe1c09c2e1bfa7500</li>
- <li>3110135037 230291 /MirOS/dist/mir/mksh/mksh-R28.cpio.gz</li>
- <li>MD5 (mksh-R28.cpio.gz) = 1869f79961c365c65116974706a56c67</li>
+ <li>RMD160 (mksh-R29.cpio.gz) = a84319c9407f7a36861b580e4196b0e7787c7e86</li>
+ <li>1557967472 237759 /MirOS/dist/mir/mksh/mksh-R29.cpio.gz</li>
+ <li>MD5 (mksh-R29.cpio.gz) = 77d6eba538d68d957bb97065f2b4d895</li>
 </ul>
-
-<p>There is a <a href="http://users.unixforge.de/~tglaser/mksh_28.9.20070218.dsc">Debian
- experimental source package</a> (<b>dget</b>table) of mksh-current as of 2007/02/18,
- GnuPG-signed as the Debian guys want. (Just in case, cksum is
- 1182209055 972 and tiger is b4b9f01a495e98b038464df3b777ba95f2bfd6d5848544bc.)
- The .tar.gz is gzsig(1)d, though.</p>
 
 <h2>Installation</h2>
 <p>If you ever sit in front of an unfriendly operating
@@ -522,14 +515,14 @@
  please note that most of them, seen on Mozilla&reg; and
  its derivates as well as Microsoft&reg; Internet Explorer,
  have a bug where the file is saved correctly
- as <em>mksh-R28.cpio.gz</em> but already decompressed.</p>
+ as <em>mksh-R29.cpio.gz</em> but already decompressed.</p>
 
 <h3 id="extract">Unpacking</h3>
-<p>On decent systems, you can just use <tt>tar xzf mksh-R28.cpio.gz</tt>
+<p>On decent systems, you can just use <tt>tar xzf mksh-R29.cpio.gz</tt>
  to extract the file. On quite damaged systems such as basically everything
  which is not MirOS or anything else with <a href="/?MirCpio">MirCpio</a>
  (paxmirabilis) or some other kind of paxtar, use <tt>gzip -dc
- mksh-R28.cpio.gz | cpio -mid</tt> or <tt>gzip -dc mksh-R28.cpio.gz |
+ mksh-R29.cpio.gz | cpio -mid</tt> or <tt>gzip -dc mksh-R29.cpio.gz |
  pax -r</tt> instead.</p>
 <p>Of course, skip the gzip stage (use cat) or the 'z' flag
  if your browser already decompressed the file.</p>
@@ -537,7 +530,7 @@
 <h3 id="build">Building</h3>
 <p>You might have to take advantage of the AT&amp;T ksh, pdksh or GNU
  bash which comes with the operating system. With hard effort,
- Solaris <tt>/bin/sh</tt> could be made to suffice.</p>
+ Solaris <tt>/bin/sh</tt> and even ash could be made to suffice.</p>
 <p>Different operating systems used to require different flags,
  but the syntax shown below should work on every system supported.</p>
 <p>Manpage generation fails on systems which are not mdoc aware,
@@ -563,16 +556,6 @@
  href="/cvs.cgi/contrib/code/Snippets/setlocale.c?rev=HEAD">different
  setlocale() implementation</a> than the one provided with the system
  for proper unicode auto-detection/initialisation support.</p>
-<p style="margin-bottom:0px;">Attention: NetBSD 1.6.1/pmax (for example
- on a DECstation 5000/260) does not come with a <em>stdbool.h</em> &ndash;
- simply write one yourself (not required for mksh R29 and up):</p>
-<div style="border:4px ridge blue; margin:0px 24px 0px 24px; padding:12px;">
- <pre>
-	typedef int bool;
-	#define true 1
-	#define false 0
- </pre>
-</div><p style="margin-top:0px;">This is pretty simple but enough for mksh.</p>
 
 <h3 id="buildsol">Solaris</h3>
 <p>The Solaris port of mksh is sponsored by Der Verein <a
@@ -621,7 +604,10 @@
  to webinterface)</a>, which is hosted at at least two mirrors, a <a
  href="http://ftp.gwdg.de/pub/linux/misc/suser-guru/rpm/packages/System/mksh/">primary</a>
  and a <a href="http://ftp.skynet.be/pub/suser-guru/rpm/packages/System/mksh/">fast</a>
- site. Arch GNU/Linux is said to also package mksh.
+ site. Arch GNU/Linux is said to also package mksh. <strong>NOTE:</strong>
+ These packages usually have <em>not</em> been provided and/or tested by
+ the mksh developers and are not guaranteed to work properly; also, they
+ might deliver an older version.
 </p>
 
 <h3 id="buildsfu">Microsoft Services for Unix</h3>
@@ -658,6 +644,18 @@
 <p>The MirOS Project has tested mksh on the following operating systems,
  asked people to test, and hunted mksh down in these packaging systems:</p>
 <ul>
+ <li>mksh R29 &ndash; release candidate<ul>
+  <li>MirOS #7-stable (sparc gcc2.95), #9-current (i386 gcc3.4.6)</li>
+  <li>Linux 2.0 (i386 libc5 gcc2.7.2.3), 2.4 (mipsel uClibc gcc3.4.4),
+   2.6 (i386 glibc gcc4.1.2pre, s390x glibc gcc4.1.2pre)</li>
+  <li>Solaris 8 (sun4u gcc3.4.3)</li>
+  <li>Mac OSX 10.4 [I think] (macppc gcc4.0.2apple)</li>
+  <li>NetBSD 3.0-stable (i386 gcc3.3.3)</li>
+  <li>DragonFly 1.9-dev (i386 gcc3.4.6)</li>
+  <li>OpenBSD 4.0 (sparc64 gcc3.3.5)</li>
+  <li>Cygwin 1.5.19(0.150/4/2) 2006-01-20 13:28 (i386 gcc3.4.4 win2k)</li>
+  <li>Interix 3.5 (i386 gcc3.3 win2k)</li>
+ </ul></li>
  <li>mksh-2007-02-18<ul>
   <li>MirOS #9uAC (i386, gcc 3.4.6+SSP), as part of base system, as part
    of installer, run with stand-alone Build.sh</li>
@@ -699,6 +697,17 @@
    test grimoire</a>: not tried</li>
   <li>generic pkgsrc&reg; &ndash; not tested; ONLY_FOR_PLATFORMS not honoured</li>
  </ul></li>
+ <li><p style="margin-bottom:0px;">Attention: NetBSD 1.6.1/pmax (for example
+   on a DECstation 5000/260) does not come with a <em>stdbool.h</em> &ndash;
+   simply write one yourself (not required for mksh R29 and up):</p>
+  <div style="border:4px ridge blue; margin:0px 24px 0px 24px; padding:12px;">
+   <pre>
+	typedef int bool;
+	#define true 1
+	#define false 0
+   </pre>
+  </div><p style="margin-top:0px;">This is pretty simple but enough for mksh.</p>
+ </li>
  <li>mksh R28&szlig;<ul>
   <li>NetBSD 1.6.1 (pmax)</li>
    <!-- missing:
