@@ -1,4 +1,4 @@
-# $MirOS: src/sys/arch/sparc/stand/bootxx/Makefile,v 1.6 2007/10/16 20:29:32 tg Exp $
+# $MirOS: src/sys/arch/sparc/stand/bootxx/Makefile,v 1.7 2007/10/16 20:45:28 tg Exp $
 # $OpenBSD: Makefile,v 1.7 2003/08/11 06:35:45 deraadt Exp $
 # $NetBSD: Makefile,v 1.2 1995/09/30 21:43:38 pk Exp $
 
@@ -33,13 +33,13 @@ ${PROG}: ${OBJS}
 
 CLEANFILES+=	${PROG}.bin ${PROG}.ofs
 mkbin: .PHONY ${PROG}
-	eval $$(nm --target=a.out-sunos-big ${PROG} | \
-	    sed -n '/_start$$/s/^\([0-9a-fA-F]*\) . \(_.*\)$$/\2=0x\1/p'); \
-	typeset -Uui16 ofs; \
-	print $$((ofs = _block_start - _start + 32)) 0x$${ofs#16#} >${PROG}.ofs
 	strip -F a.out-sunos-big -s -o ${PROG}.bin ${PROG}
 	print -n '\01\03\01\07\060\0200\0\07' | \
 	    dd of=${PROG}.bin conv=notrunc 2>/dev/null
+	eval $$(nm --target=a.out-sunos-big ${PROG} | \
+	    sed -n '/_start$$/s/^\([0-9a-fA-F]*\) . \(_.*\)$$/\2=0x\1/p'); \
+	typeset -Uui16 ofs; ((ofs = _block_start - _start + 32)); \
+	print $$((ofs)) 0x$${ofs#16#} >${PROG}.ofs
 
 srt0.o: srt0.S
 	${CC} ${CFLAGS} ${CPPFLAGS} -D_LOCORE -c ${.IMPSRC}
