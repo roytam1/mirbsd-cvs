@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/dev/rndvar.h,v 1.21 2010/09/12 12:24:30 tg Exp $ */
+/**	$MirOS: src/sys/dev/rndvar.h,v 1.22 2010/09/12 17:10:45 tg Exp $ */
 /*	$OpenBSD: rndvar.h,v 1.19 2003/11/03 18:24:28 tedu Exp $	*/
 
 /*
@@ -36,9 +36,6 @@
 
 #ifndef POOLWORDS
 #define POOLWORDS 1024	/* Power of 2 - note that this is 32-bit words */
-#endif
-#ifndef rnd_addpool_size
-#define	rnd_addpool_size 32	/* Power of 2 – 32-bit words; don't change */
 #endif
 
 #ifndef _ASM_SOURCE
@@ -89,13 +86,6 @@ struct rndstats {
 #ifdef _KERNEL
 extern struct rndstats rndstats;
 
-extern uint32_t rnd_addpool_buf[];
-extern int rnd_addpool_num;	/* ring buffer write pointer (wrapping) */
-
-#define	rnd_addpool_add(x) do {						\
-	rnd_addpool_buf[rnd_addpool_num++ % rnd_addpool_size] ^= (x);	\
-} while (/* CONSTCOND */ 0)
-
 #define	add_true_randomness(d)	enqueue_randomness(RND_SRC_TRUE,  (int)(d))
 #define	add_timer_randomness(d)	enqueue_randomness(RND_SRC_TIMER, (int)(d))
 #define	add_mouse_randomness(d)	enqueue_randomness(RND_SRC_MOUSE, (int)(d))
@@ -114,6 +104,10 @@ void rnd_bootpool_add(const void *, size_t)
 void arc4random_bytes(void *, size_t)
     __attribute__((bounded (string, 1, 2)));
 u_int32_t arc4random(void);
+
+void rnd_lopool_add(const void *, size_t)
+    __attribute__((bounded (buffer, 1, 2)));
+void rnd_lopool_addv(unsigned long);
 
 #endif /* _KERNEL */
 #endif /* !_ASM_SOURCE */

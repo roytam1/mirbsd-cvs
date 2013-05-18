@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/i386/dkcsum.c,v 1.7 2008/08/01 11:32:53 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/i386/dkcsum.c,v 1.8 2009/11/09 19:43:44 tg Exp $ */
 /*	$OpenBSD: dkcsum.c,v 1.19 2005/08/01 16:46:55 krw Exp $	*/
 
 /*-
@@ -172,7 +172,7 @@ dkcsumattach(void)
 			s.csum = csum;
 			if (hit)
 				s.bios_number = hit->bios_number;
-			rnd_bootpool_add(&s, sizeof(s));
+			rnd_lopool_add(&s, sizeof(s));
 		}
 
 		/*

@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/netipx/ipx_cksum.c,v 1.2 2005/03/06 21:28:23 tg Exp $	*/
+/**	$MirOS: src/sys/netipx/ipx_cksum.c,v 1.3 2006/05/28 23:27:54 tg Exp $	*/
 /*	$OpenBSD: ipx_cksum.c,v 1.6 2003/12/10 07:22:43 itojun Exp $	*/
 
 /*-
@@ -195,7 +195,7 @@ commoncase:
 		}
 		FOLD(sum);
 	}
-	rnd_addpool_add(sum);
+	rnd_lopool_addv(sum);
 	if (mlen == -1) {
 		/* We had an odd number of bytes to sum; assume a garbage
 		   byte of zero and clean up */

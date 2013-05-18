@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/i386/machdep.c,v 1.22 2009/03/01 12:12:09 ahoka Exp $ */
+/**	$MirOS: src/sys/arch/i386/i386/machdep.c,v 1.23 2010/07/25 16:37:57 tg Exp $ */
 /*	$OpenBSD: machdep.c,v 1.310 2004/11/02 21:20:59 miod Exp $	*/
 /*	$NetBSD: machdep.c,v 1.214 1996/11/10 03:16:17 thorpej Exp $	*/
 
@@ -1431,7 +1431,7 @@ intel686_cpu_setup(const char *cpu_device, int model, int step)
 		/* privacy */
 		while (i < 8)
 			ser_regs[i] += random();
-		rnd_bootpool_add(ser_regs, sizeof (ser_regs));
+		rnd_lopool_add(ser_regs, sizeof(ser_regs));
 
 		/* make it so they can't read it again before reset */
 		msr119 = rdmsr(MSR_BBL_CR_CTL);

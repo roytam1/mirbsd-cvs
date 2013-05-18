@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/i386/in_cksum.s,v 1.5 2008/06/13 13:11:49 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/i386/in_cksum.s,v 1.6 2009/03/02 17:56:56 tg Exp $ */
 /*	$OpenBSD: in_cksum.s,v 1.7 2005/05/21 19:13:55 brad Exp $	*/
 /*	$NetBSD: in_cksum.S,v 1.2 2003/08/07 16:27:54 agc Exp $	*/
 
@@ -355,18 +355,21 @@ ENTRY(in_cksum)
 	jnz	.Lmbuf_loop_2
 
 .Ldone:
-	/* rnd_addpool_add(unfolded sum) */
 	.intel_syntax noprefix
-	mov	ebx,[rnd_addpool_num]		/* random pool pointer */
-	and	ebx,(rnd_addpool_size - 1)	/* size (power of two) */
-	xor	[rnd_addpool_buf+4*ebx],eax	/* xor into the pool */
-	inc	ebx				/* increment and … */
-	mov	[rnd_addpool_num],ebx		/* … write back pointer */
+	push	eax			/* for later */
 	.att_syntax
 	/* now fold and return */
 	UNSWAP
 	REDUCE
 	notw	%ax
+	.intel_syntax noprefix
+	pop	ebx			/* value to push */
+	push	eax			/* return value */
+	push	ebx			/* value to push */
+	call	rnd_lopool_addv
+	pop	eax			/* dummy */
+	pop	eax			/* return value */
+	.att_syntax
 
 .Lreturn:
 	popl	%esi

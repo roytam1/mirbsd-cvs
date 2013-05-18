@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/kern/kern_clock.c,v 1.5 2008/04/09 05:07:01 tg Exp $ */
+/**	$MirOS: src/sys/kern/kern_clock.c,v 1.6 2008/04/09 06:06:43 tg Exp $ */
 /*	$OpenBSD: kern_clock.c,v 1.42 2003/06/02 23:28:05 millert Exp $	*/
 /*	$NetBSD: kern_clock.c,v 1.34 1996/06/09 04:51:03 briggs Exp $	*/
 
@@ -69,8 +69,8 @@ static u_quad_t hce_value;
 			if (hce_value & hce_mask)			\
 				hce_entropy++;				\
 		}							\
-	rnd_addpool_add(hce_entropy);					\
-} while (0)
+	rnd_lopool_addv(hce_entropy);					\
+} while (/* CONSTCOND */ 0)
 #endif
 
 /*

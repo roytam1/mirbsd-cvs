@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/kern/init_main.c,v 1.25 2009/11/09 19:43:46 tg Exp $ */
+/**	$MirOS: src/sys/kern/init_main.c,v 1.26 2010/01/06 18:52:19 tg Exp $ */
 /*	$OpenBSD: init_main.c,v 1.120 2004/11/23 19:08:55 miod Exp $	*/
 /*	$NetBSD: init_main.c,v 1.84.4.1 1996/06/02 09:08:06 mrg Exp $	*/
 /*	$OpenBSD: kern_xxx.c,v 1.9 2003/08/15 20:32:18 tedu Exp $	*/
@@ -211,7 +211,7 @@ main(/* XXX should go away */ void *framep)
 	config_init();		/* init autoconfiguration data structures */
 	consinit();
 	printf("%s\n", copyright);
-	rnd_addpool_add(ticks);
+	rnd_lopool_addv(ticks);
 
 	uvm_init();
 	disk_init();		/* must come before autoconfiguration */
@@ -366,7 +366,7 @@ main(/* XXX should go away */ void *framep)
 	for (pdev = pdevinit; pdev->pdev_attach != NULL; pdev++)
 		if (pdev->pdev_count > 0)
 			(*pdev->pdev_attach)(pdev->pdev_count);
-	rnd_addpool_add(ticks);
+	rnd_lopool_addv(ticks);
 
 #ifdef	CRYPTO
 	swcr_init();
@@ -488,7 +488,7 @@ main(/* XXX should go away */ void *framep)
 
 #if defined(I586_CPU) || defined(I686_CPU)
 	/* this adds the TSC too, if pentium_mhz!=0 */
-	rnd_bootpool_add(&pentium_mhz, sizeof(pentium_mhz));
+	rnd_lopool_add(&pentium_mhz, sizeof(pentium_mhz));
 #endif
 
 	srandom(arc4random());

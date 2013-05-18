@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/kern/kern_sysctl.c,v 1.15 2008/06/13 13:07:36 tg Exp $ */
+/**	$MirOS: src/sys/kern/kern_sysctl.c,v 1.16 2008/06/13 14:13:57 tg Exp $ */
 /*	$NetBSD: kern_sysctl.c,v 1.146 2003/09/28 13:24:48 dsl Exp $	*/
 /*	$OpenBSD: kern_sysctl.c,v 1.126 2005/06/04 05:10:40 tedu Exp $	*/
 /*	$NetBSD: kern_sysctl.c,v 1.17 1996/05/20 17:49:05 mrg Exp $	*/
@@ -115,7 +115,6 @@ static int do_cpu_setperf(int);
 int perflevel = 100;
 
 extern char root_devname[];
-extern int rnd_addpool_allow;
 
 /*
  * Lock to avoid too many processes vslocking a large amount of memory
@@ -428,16 +427,13 @@ kern_sysctl(name, namelen, oldp, oldlenp, newp, newlen, p)
 	case KERN_ARND:
 	{
 		uint32_t buf[64];
-		int i;
 
 		if (newlen > sizeof (buf))
 			newlen = sizeof (buf);
 		if (newp && newlen) {
 			if ((error = copyin(newp, buf, newlen)))
 				return (error);
-			i = (newlen + 3) / 4;
-			while (i--)
-				rnd_addpool_add(buf[i]);
+			rnd_lopool_add(buf, newlen);
 		}
 
 		if (*oldlenp > sizeof(buf))
@@ -583,9 +579,6 @@ kern_sysctl(name, namelen, oldp, oldlenp, newp, newlen, p)
 		    root_devname);
 	case KERN_ROOT_PARTITION:
 		return sysctl_rdint(oldp, oldlenp, newp, DISKPART(rootdev));
-	case KERN_PUSHRAND:
-		return sysctl_int(oldp, oldlenp, newp, newlen,
-		    &rnd_addpool_allow);
 	case KERN_MAXCLUSTERS:
 		error = sysctl_int(oldp, oldlenp, newp, newlen, &nmbclust);
 		if (!error)

@@ -1,4 +1,4 @@
-.\"	$MirOS: src/lib/libc/gen/sysctl.3,v 1.5 2006/10/18 00:52:25 tg Exp $
+.\"	$MirOS: src/lib/libc/gen/sysctl.3,v 1.6 2009/02/22 16:26:43 tg Exp $
 .\"	$OpenBSD: sysctl.3,v 1.144 2005/07/22 03:16:58 jaredy Exp $
 .\"
 .\" Copyright (c) 1993
@@ -28,7 +28,7 @@
 .\" OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 .\" SUCH DAMAGE.
 .\"
-.Dd $Mdocdate$
+.Dd $Mdocdate: February 22 2009 $
 .Dt SYSCTL 3
 .Os
 .Sh NAME
@@ -384,7 +384,6 @@ information.
 .It Dv KERN_PROC No "	struct kinfo_proc	no"
 .It Dv KERN_PROC2 No "	struct kinfo_proc2	no"
 .It Dv KERN_PROC_ARGS No "	node	not applicable"
-.It Dv KERN_PUSHRAND No "	integer	yes"
 .It Dv KERN_RAWPARTITION No "	integer	no"
 .It Dv KERN_RND No "	struct rndstats	no"
 .It Dv KERN_SAVED_IDS No "	integer	no"
@@ -670,11 +669,6 @@ in the argv or env array.
 returns the argv array and
 .Dv KERN_PROC_ENV
 returns the environ array.
-.It Dv KERN_PUSHRAND
-If set to 0, disallow userland randomness push into kernel,
-as well as using the randomness from FFS filesystems and
-the IP/TCP/UDP checksums.
-If set to 1 (default), all these are enabled.
 .It Dv KERN_RAWPARTITION
 The raw partition of a disk (a == 0).
 .It Dv KERN_RND

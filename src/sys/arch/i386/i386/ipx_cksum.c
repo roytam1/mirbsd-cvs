@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/i386/ipx_cksum.c,v 1.2 2005/03/06 21:26:57 tg Exp $	*/
+/**	$MirOS: src/sys/arch/i386/i386/ipx_cksum.c,v 1.3 2006/05/28 23:27:46 tg Exp $	*/
 /*	$OpenBSD: ipx_cksum.c,v 1.3 2003/06/02 23:27:47 millert Exp $	*/
 
 /*-
@@ -168,7 +168,7 @@ ipx_cksum(m, len)
 	if (byte_swapped) {
 		UNSWAP;
 	}
-	rnd_addpool_add(sum);
+	rnd_lopool_addv(sum);
 	REDUCE;
 	ADDCARRY;
 	return (sum ^ 0xffff);

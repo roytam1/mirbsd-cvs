@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/sys/sysctl.h,v 1.5 2007/05/16 20:50:49 tg Exp $ */
+/**	$MirOS: src/sys/sys/sysctl.h,v 1.6 2008/02/24 14:41:53 tg Exp $ */
 /*	$NetBSD: sysctl.h,v 1.99 2003/09/28 13:02:19 dsl Exp $	*/
 /*	$OpenBSD: sysctl.h,v 1.77 2004/04/19 22:52:33 tedu Exp $	*/
 /*	$NetBSD: sysctl.h,v 1.16 1996/04/09 20:55:36 cgd Exp $	*/
@@ -185,7 +185,7 @@ struct ctlname {
 #define	KERN_ROOT_DEVICE	68	/* string: root device */
 #define	KERN_ROOT_PARTITION	69	/* int: root partition */
 #define	KERN_PROC2		70	/* struct: process entries */
-#define	KERN_PUSHRAND		71	/* int: allow rnd_addpool_add() API */
+/*define gap			71	*/
 #define	KERN_MAXCLUSTERS	72	/* number of mclusters */
 #define	KERN_EMULUNAME		73	/* uname for the linuxulator */
 #define	KERN_OSPATCHLEVEL	74	/* string: system patchlevel */
@@ -263,7 +263,7 @@ struct ctlname {
 	{ "root_device", CTLTYPE_STRING }, \
 	{ "root_partition", CTLTYPE_INT }, \
  	{ "proc2", CTLTYPE_STRUCT }, \
-	{ "pushrand", CTLTYPE_INT }, \
+	{ "gap", 0 }, \
  	{ "maxclusters", CTLTYPE_INT }, \
 	{ "emul_uname", CTLTYPE_STRING }, \
 	{ "ospatchlevel", CTLTYPE_STRING }, \

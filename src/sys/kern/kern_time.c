@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/kern/kern_time.c,v 1.7 2008/04/09 06:06:58 tg Exp $ */
+/**	$MirOS: src/sys/kern/kern_time.c,v 1.8 2009/11/09 19:43:46 tg Exp $ */
 /*	$OpenBSD: kern_time.c,v 1.39 2004/02/15 02:34:14 tedu Exp $	*/
 /*	$NetBSD: kern_time.c,v 1.20 1996/02/18 11:57:06 fvdl Exp $	*/
 
@@ -68,7 +68,7 @@ settime(struct timeval *tv)
 	struct timeval delta;
 	int s;
 
-	rnd_bootpool_add(tv, sizeof (struct timeval));
+	rnd_lopool_add(tv, sizeof(struct timeval));
 
 	/*
 	 * Don't allow the time to be set forward so far it will wrap
@@ -372,7 +372,7 @@ sys_adjtime(p, v, retval)
 	    sizeof(struct timeval))))
 		return (error);
 
-	rnd_bootpool_add(&atv, sizeof (struct timeval));
+	rnd_lopool_add(&atv, sizeof(struct timeval));
 
 	/*
 	 * Compute the total correction and the rate at which to apply it.

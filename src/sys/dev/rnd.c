@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/dev/rnd.c,v 1.58 2010/01/28 23:00:45 tg Exp $ */
+/**	$MirOS: src/sys/dev/rnd.c,v 1.59 2010/09/12 12:24:30 tg Exp $ */
 /*	$OpenBSD: rnd.c,v 1.78 2005/07/07 00:11:24 djm Exp $	*/
 
 /*
@@ -162,17 +162,6 @@
  * try to estimate how many bits of randomness are in a particular
  * randomness source.  They do this by keeping track of the first and
  * second order deltas of the event timings.
- *
- *	rnd_addpool_add(uint32_t n)
- *
- * This macro xors its argument into a temporary pool, if that pool is
- * not already full. The pool itself is poured once about every minute
- * into the random pool using add_true_randomness() if it contains data.
- * The pool is sized at 32 (rnd_addpool_size) uint32_ts FOR A REASON!
- *
- * This function can be disabled using the "kern.pushrand" sysctl.
- * The buffer can be filled with writes to /dev/wrandom unless the
- * sysctl has the value 0 (zero).
  *
  * Ensuring unpredictability at system startup
  * ============================================
@@ -405,7 +394,7 @@ struct rand_event {
 	u_int re_val;
 };
 
-struct timeout rnd_timeout, rnd_addpool_timeout;
+struct timeout rnd_timeout;
 struct timeout arc4reinit_timeout, arc4add_timeout;
 struct random_bucket random_state;
 struct arc4_stream arc4random_state;
@@ -427,9 +416,6 @@ int filt_rndwrite(struct knote *kn, long hint);
 struct filterops rndwrite_filtops =
 	{ 1, NULL, filt_rndwdetach, filt_rndwrite};
 
-uint32_t rnd_addpool_buf[rnd_addpool_size];
-int rnd_addpool_num = 0, rnd_addpool_allow = 1;
-static int rnd_addpool_ptr;
 static int rnd_attached;
 static int arc4random_initialised;
 struct rndstats rndstats;
@@ -503,7 +489,6 @@ static void arc4_addrandom(register const uint8_t *, size_t)
 void arc4_stir(void);
 void arc4_reinit(void *v);
 static void arc4maybeinit(void);
-static void rnd_addpool_reinit(void *);
 static void arc4_depool(void *);
 void rnd_shutdown(void);
 
@@ -666,7 +651,6 @@ randomattach(void)
 	timeout_set(&rnd_timeout, dequeue_randomness, &random_state);
 	timeout_set(&arc4reinit_timeout, arc4_reinit, NULL);
 	timeout_set(&arc4add_timeout, arc4_depool, NULL);
-	timeout_set(&rnd_addpool_timeout, rnd_addpool_reinit, NULL);
 
 	random_state.add_ptr = 0;
 	random_state.entropy_count = 0;
@@ -704,7 +688,6 @@ randomattach(void)
 	bzero(initial_entropy, 16);
 	initial_entropy_ptr = 0;
 
-	timeout_add(&rnd_addpool_timeout, hz);
 	timeout_add(&arc4add_timeout, hz << 6);
 }
 
@@ -1211,14 +1194,14 @@ randomwrite(dev_t dev, struct uio *uio, int flags)
 
 		ret = uiomove((caddr_t)buf, n, uio);
 		if (!ret) {
-			while (n % sizeof (u_int32_t))
-				((u_int8_t *) buf)[n++] = arc4_getbyte();
-			n /= sizeof (uint32_t);
 			if (minor(dev) == RND_PRND)
-				while (n)
-					rnd_addpool_add(buf[--n]);
-			else
+				rnd_lopool_add(buf, n);
+			else {
+				while (n % sizeof (u_int32_t))
+					((u_int8_t *)buf)[n++] = arc4_getbyte();
+				n /= sizeof (uint32_t);
 				add_entropy_words(buf, n);
+			}
 		}
 	}
 
@@ -1302,34 +1285,6 @@ randomioctl(dev_t dev, u_long cmd, caddr_t data, int flag, struct proc *p)
 }
 
 static void
-rnd_addpool_reinit(void *v)
-{
-	register uint32_t j;
-
-#ifdef DIAGNOSTIC
-	if (!rnd_attached) {
-		printf("random: premature call of rnd_addpool_reinit\n");
-		timeout_add(&rnd_addpool_timeout, hz << 6);
-		return;
-	}
-#endif
-
-	if (!rnd_addpool_allow) {
-		/* reschedule to try again in ~four minutes if disabled */
-		timeout_add(&rnd_addpool_timeout, hz << 8);
-		return;
-	}
-
-	j = rnd_addpool_buf[rnd_addpool_ptr];
-	rnd_addpool_buf[rnd_addpool_ptr] = 0;
-	rnd_addpool_ptr = (rnd_addpool_ptr + 1) % rnd_addpool_size;
-	if (j && ++j)	/* don't add all zeroes or all ones */
-		enqueue_randomness(RND_SRC_POOL, j ^ arc4random());
-
-	timeout_add(&rnd_addpool_timeout, (hz >> 1) + arc4random_uniform(hz));
-}
-
-static void
 arc4_depool(void *v __attribute__((unused)))
 {
 	if (rnd_attached &&
@@ -1380,8 +1335,8 @@ rnd_shutdown(void)
 	int s;
 
 	s = splhigh();
-	arc4_addrandom((void *)rnd_addpool_buf,
-	    rnd_addpool_size * sizeof (uint32_t));
+//	arc4_addrandom((void *)rnd_addpool_buf,
+//	    rnd_addpool_size * sizeof (uint32_t));
 	arc4_reinit(NULL);
 	splx(s);
 }
@@ -1391,7 +1346,6 @@ rnd_bootpool_add(const void *vp, size_t n)
 {
 	register uint32_t h;
 	struct {
-		uint8_t theone, thenul, thernd, adelim;
 		union {
 			struct timeval tv;
 #if defined(I586_CPU) || defined(I686_CPU)
@@ -1400,17 +1354,13 @@ rnd_bootpool_add(const void *vp, size_t n)
 		} u;
 		const void *sp, *dp;
 		size_t sz;
+		uint32_t h;
 	} fs;
 
 	do {
 		h = arc4random() & 0xFFFFFF00;
 	} while (!h);
 
-	fs.theone = 0x80;
-	fs.thenul = fs.adelim = 0;
-	do {
-		fs.thernd = arc4random() & 0xFF;
-	} while (!fs.thernd);
 	fs.sp = &fs;
 	fs.dp = vp;
 	fs.sz = n;
@@ -1426,7 +1376,18 @@ rnd_bootpool_add(const void *vp, size_t n)
 		fs.u.tv.tv_usec = time.tv_usec;
 	}
 
-	h = OAAT0Final(OAAT0Update(OAAT0Update(h, vp, n),
-	    (void *)&fs, sizeof(fs)));
-	rnd_addpool_add(h);
+	h = OAAT0Final(OAAT0Update(h, vp, n));
+	fs.h = h;
+	rnd_lopool_add(&fs, sizeof(fs));
+}
+
+void
+rnd_lopool_add(const void *buf, size_t len)
+{
+}
+
+void
+rnd_lopool_addv(unsigned long v)
+{
+	rnd_lopool_add(&v, sizeof(v));
 }

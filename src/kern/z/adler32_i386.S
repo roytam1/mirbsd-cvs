@@ -31,7 +31,7 @@
 #include <dev/rndvar.h>
 #endif
 
-RCSID("$MirOS: src/kern/z/adler32_i386.S,v 1.10 2008/07/06 16:44:45 tg Exp $")
+RCSID("$MirOS: src/kern/z/adler32_i386.S,v 1.11 2008/08/01 13:46:08 tg Exp $")
 
 #define BASE	65521	/* largest prime smaller than 65536 */
 #define NMAX	5552	/* largest n: 255n(n+1)/2 + (n+1)(BASE-1) <= 2^32-1 */
@@ -87,26 +87,17 @@ ENTRY(adler32)
 .L4:	/* return */
 	shl	edi,16
 	lea	eax,[edi+ebx]
-#if defined(_KERNEL)
-	mov	ebx,[rnd_addpool_num]	/* where are we at? */
-	xor	[rnd_addpool_buf+4*ecx],eax
-	inc	ebx
-	cmp	bl,rnd_addpool_size	/* ring buffer wraparound? */
-	jb	.Ladrw
-	xor	ebx,ebx
-.Ladrw:	mov	[rnd_addpool_num],bl
-#elif !defined(_STANDALONE)
+#if defined(_KERNEL) || !defined(_STANDALONE)
 	push	eax			/* return value */
-#ifdef DONT_USE_PUSHK	/* for use if arc4random_pushk is not a C function */
-	push	eax			/* function argument */
-	call	_C_LABEL(arc4random_push)
-#else
 	lea	eax,[esp]		/* == function argument */
 	push	4			/* size */
 	push	eax			/* address */
-	call	_C_LABEL(arc4random_pushk)
-	pop	eax			/* dummy */
+#ifdef _KERNEL
+	call	rnd_lopool_add
+#else
+	call	arc4random_pushb_fast
 #endif
+	pop	eax			/* dummy */
 	pop	eax			/* dummy */
 	pop	eax			/* return value */
 #endif
