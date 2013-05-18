@@ -1,8 +1,8 @@
 #!/bin/mksh
-# $MirOS: src/gnu/usr.bin/autogen.sh,v 1.14 2008/05/03 00:59:00 tg Exp $
+# $MirOS: src/gnu/usr.bin/autogen.sh,v 1.15 2009/03/29 13:04:17 tg Exp $
 #-
-# Copyright (c) 2004, 2005, 2006, 2008
-#	Thorsten Glaser <tg@mirbsd.de>
+# Copyright (c) 2004, 2005, 2006, 2008, 2009
+#	Thorsten Glaser <tg@mirbsd.org>
 #
 # Provided that these terms and disclaimer and all copyright notices
 # are retained or reproduced in an accompanying document, permission
@@ -51,7 +51,7 @@ set -x
 ACLOCAL_AMFLAGS=
 [[ -e Makefile.am ]] && ACLOCAL_AMFLAGS=$(grep '^[:space:]*ACLOCAL_AMFLAGS' \
     Makefile.am | cut -d '=' -f 2)
-aclocal -I . $ACLOCAL_AMFLAGS
+[[ -n $NO_ACLOCAL ]] || aclocal -I . $ACLOCAL_AMFLAGS
 f=configure.ac
 [[ ! -e $f ]] && f=configure.in
 [[ -n $NO_AUTOHEADER ]] || if fgrep -q \
