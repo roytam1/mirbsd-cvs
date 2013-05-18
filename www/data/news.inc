@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/news.inc,v 1.137 2010/08/15 13:00:12 tg Exp $
+RCSID: $MirOS: www/data/news.inc,v 1.138 2010/08/19 18:48:41 tg Exp $
 Title: Older news from the MirOS Project
 Date: 01.03.2006
 
@@ -1279,7 +1279,7 @@ Tag: grml mksh snapshot
  <a href="http://beastiebox.sourceforge.net/">Beastiebox Project</a>
  (10x <a href="http://www.feyrer.de/NetBSD/blog.html/nb_20081229_2302.html">hubertf@TNF</a>
  for mentioning) has added mksh(1) today, and the latest project of
- CcSsNET, <a href="http://os.ccssr.net/">CcSsLIVE</a>, will include
+ CcSsNET, CcSsLIVE (broken link removed 20100916), will include
  it soonish as well. Nicely, he already links to MirBSD, for he sits
  in our <a href="@@RELPATH@@irc.htm">IRC</a> channel usually and is
  one of the sparc users.</p>
