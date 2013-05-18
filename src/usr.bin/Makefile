@@ -1,4 +1,4 @@
-# $MirOS: src/usr.bin/Makefile,v 1.7 2005/10/21 11:33:45 tg Exp $
+# $MirOS: src/usr.bin/Makefile,v 1.8 2005/11/03 22:29:55 tg Exp $
 # $OpenBSD: Makefile,v 1.90 2004/05/02 17:55:09 millert Exp $
 
 .include <bsd.own.mk>
@@ -40,7 +40,6 @@
   SUBDIR+= env
   SUBDIR+= expand
   SUBDIR+= false
-  SUBDIR+= fdialog
   SUBDIR+= file
   SUBDIR+= file2c
   SUBDIR+= find
