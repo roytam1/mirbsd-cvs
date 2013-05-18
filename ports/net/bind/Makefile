@@ -1,5 +1,8 @@
-# $MirOS: ports/net/bind/Makefile,v 1.8 2008/05/07 22:48:32 tg Exp $
+# $MirOS: ports/net/bind/Makefile,v 1.9 2008/05/25 20:56:38 tg Exp $
 # $OpenBSD: Makefile,v 1.42 2003/04/10 18:08:56 jsyn Exp $
+
+BROKEN+=		distfile fetch problem
+BROKEN+=		netaddr.c:136: error: conflicting types for 'isc_netaddr_format'
 
 COMMENT=		ISC BIND 9 libraries, audited OpenBSD version
 COMMENT-server=		ISC BIND 9 server, audited OpenBSD version
