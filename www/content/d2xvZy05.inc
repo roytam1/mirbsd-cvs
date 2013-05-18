@@ -1,5 +1,5 @@
 <!-- PageID: wlog-9 -->
-<small class="rcsid">$MirOS: www/content/d2xvZy05.inc,v 1.28 2006/07/30 21:40:43 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy05.inc,v 1.29 2006/08/03 14:43:08 tg Exp $</small>
 <h1>MirBSD &ndash; WTF is Verpeilungsfaktor?</h1>
 <p><small><a href="#eof">bottom</a> or <a href="/?older">older</a>
  editions</small></p>
@@ -442,6 +442,18 @@
  <p>I did some major cool mksh(1) work. Please test the beta. Details in
   <tt>#mksh</tt> (freenode).</p>
  <p>I'm off for the weekend.</p>
+</div>
+
+<div class="wlentry">
+ <h3 id="e20060808">08.08.2006 by tg@</h3>
+ <p>I just came back from a prolonged weekend at my best friend's place.
+  That's why there hasn't been much activity, except Benny's starting an
+  update on documentation.</p>
+ <p><a href="http://www.feyrer.de/NetBSD/blog.html/nb_20060808_0118.html">Hubert</a>
+  should just always use <tt>cvs -Rq up -PAd</tt> like every CVS user in
+  the world (according to MirOS docs). I did think of implementing a tag
+  in the output for sticky files for him, but I don't think it's worth a
+  try because stickiness can actually be useful (tracking branches).</p>
 </div>
 
 <p id="eof">Good luck, have fun, take care etc.pp</p>
