@@ -1,4 +1,4 @@
-# $MirOS: contrib/code/libhaible/Makefile,v 1.10 2006/05/30 12:58:52 tg Exp $
+# $MirOS: contrib/code/libhaible/Makefile,v 1.11 2006/05/30 13:07:43 tg Exp $
 
 LIB=	haible
 NOPIC=	Yes	# for now
@@ -59,5 +59,24 @@ SRCS+=	${GENERATED}
 CLEANFILES+=	${GENERATED}
 
 beforedepend: ${GENERATED}
+
+# manual pages
+
+# reachover for libc
+LIBCSRCDIR?=	${BSDSRCDIR}/lib/libc
+.PATH: ${LIBCSRCDIR}/string
+MAN+=		wcstok.3
+.PATH: ${LIBCSRCDIR}/locale
+MAN+=		iswctype.3 towctrans.3 wctrans.3 wctype.3
+# not yet
+#MAN+=		mbrlen.3 mbsrtowcs.3 wcsrtombs.3
+MLINKS+=	iswalnum.3 iswblank.3 \
+		iswalnum.3 iswcntrl.3 \
+		iswalnum.3 iswdigit.3 \
+		iswalnum.3 iswgraph.3 \
+		iswalnum.3 iswprint.3 \
+		iswalnum.3 iswpunct.3 \
+		iswalnum.3 iswspace.3 \
+		iswalnum.3 iswxdigit.3
 
 .include <bsd.lib.mk>
