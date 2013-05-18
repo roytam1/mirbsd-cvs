@@ -1,4 +1,4 @@
-RCSID: $MirOS: news $
+RCSID: $MirOS: www/data/news.inc,v 1.76 2008/07/24 12:34:47 tg Exp $
 Title: Older news from the MirOS Project
 Date: 01.03.2006
 
@@ -980,4 +980,26 @@ Author: tg@
  have a beer, fun, whatever.</p>
 <p>This year, one of the two <a href="http://www.xfree86.org/">XFree86®</a>
  developers will also attend; you can probably meet him at our booth.</p>
+----
+Title: Bugs in the current snapshot
+Date: 26.07.2008 18:42
+Author: tg@
+
+<p>The following bugs are known in the MirOS #10-current snapshot, dated
+ 2008-07-22:</p><ul>
+ <li>The user shell for the default “live” user is <tt>/usr/dbin/mksh</tt>,
+  which however has been optimised away. This is a bug in the production of
+  this one snapshot and easy to fix in future issues. Workaround: while the
+  rc.netselect script runs, choose ‘9’ to escape to a shell, and change the
+  “live” user’s shell using vipw(8) – <tt>chsh -s /bin/mksh live</tt> might
+  also work, but has not been tested.</li>
+ <li>Running “startx” does not work because <tt>/usr/X11R6/bin/X</tt> is no
+  symbolic link but a copy of the XFree86® server itself (on other baselive
+  CDs it was a hard link instead of a copy; the change is due to production
+  differences, but both break startx(1) and xinit(1)). Workaround is to use
+  xdm(1) instead or try: <tt>startx -- /usr/X11R6/bin/XFree86 :0</tt></li>
+ <li>The X11 server may not switch to graphics mode on the ALIX.1c board.</li>
+</ul>
+<p>We apologise for the inconvenience caused, and will try to solve these
+ issues in the next development snapshot.</p>
 ----
