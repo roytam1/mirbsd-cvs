@@ -1,4 +1,4 @@
-# $MirOS: ports/lang/python/python.port.mk,v 1.7 2008/09/01 09:25:07 tg Exp $
+# $MirOS: ports/lang/python/python.port.mk,v 1.8 2008/10/04 19:10:09 tg Exp $
 # $OpenBSD: python.port.mk,v 1.10 2004/08/06 07:33:19 xsa Exp $
 
 CATEGORIES+=		lang/python
@@ -7,7 +7,7 @@ MODPY_VERSION?=		2.5
 .if ${MODPY_VERSION} == "2.3"
 MODPY_MINPKG?=		2.3.5-1
 .elif ${MODPY_VERSION} == "2.5"
-MODPY_MINPKG?=		2.5.2-8
+MODPY_MINPKG?=		2.5.2-9
 .else
 MODPY_MINPKG?=		${MODPY_VERSION}
 .endif
