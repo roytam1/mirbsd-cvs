@@ -1,4 +1,4 @@
-/* $MirOS: src/include/wchar.h,v 1.16 2007/02/07 17:34:05 tg Exp $ */
+/* $MirOS: src/include/wchar.h,v 1.17 2007/05/07 13:05:16 tg Exp $ */
 
 /*-
  * Copyright (c) 2007
@@ -106,6 +106,7 @@ wchar_t	*wcsncat(wchar_t *__restrict__, const wchar_t *__restrict__, size_t);
 int	wcsncmp(const wchar_t *, const wchar_t *, size_t);
 wchar_t	*wcsncpy(wchar_t *__restrict__, const wchar_t *__restrict__, size_t);
 #if __OPENBSD_VISIBLE
+wchar_t *wcsndup(const wchar_t *, size_t);
 size_t	wcsnrtombs(char *__restrict__, const wchar_t **__restrict__,
 	    size_t, size_t, mbstate_t *__restrict__);
 #endif

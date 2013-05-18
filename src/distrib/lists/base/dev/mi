@@ -7300,6 +7300,7 @@
 ./usr/share/man/cat3/wcsncat.0
 ./usr/share/man/cat3/wcsncmp.0
 ./usr/share/man/cat3/wcsncpy.0
+./usr/share/man/cat3/wcsndup.0
 ./usr/share/man/cat3/wcsnrtombs.0
 ./usr/share/man/cat3/wcspbrk.0
 ./usr/share/man/cat3/wcsrchr.0

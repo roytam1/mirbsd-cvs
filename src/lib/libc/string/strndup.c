@@ -20,20 +20,34 @@
 
 #include <sys/param.h>
 #include <stdlib.h>
+#ifdef WIDEC
+#include <wchar.h>
+#else
 #include <string.h>
+#endif
 
-__RCSID("$MirOS: src/lib/libc/string/strndup.c,v 1.1 2007/06/15 16:00:03 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/string/strndup.c,v 1.2 2007/06/16 19:45:52 tg Exp $");
 
-char *
-strndup(const char *s, size_t max)
+#ifdef WIDEC
+#define strndup	wcsndup
+#define strlen	wcslen
+#define char_t	wchar_t
+#define NUL	L'\0'
+#else
+#define char_t	char
+#define NUL	'\0'
+#endif
+
+char_t *
+strndup(const char_t *s, size_t max)
 {
-	size_t n;
-	char *cp;
+	register size_t n;
+	char_t *cp;
 
 	n = strlen(s);
-	n = MAX(n, max) + 1;
-	if ((cp = malloc(n)) != NULL)
-		memcpy(cp, s, n);
-	cp[n - 1] = '\0';
+	n = MAX(n, max);
+	if ((cp = calloc(n + 1, sizeof (char_t))) != NULL)
+		memcpy(cp, s, n * sizeof (char_t));
+	cp[n] = NUL;
 	return (cp);
 }

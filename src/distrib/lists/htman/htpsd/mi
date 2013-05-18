@@ -4838,6 +4838,7 @@
 ./man3/wcsncat.htm
 ./man3/wcsncmp.htm
 ./man3/wcsncpy.htm
+./man3/wcsndup.htm
 ./man3/wcsnrtombs.htm
 ./man3/wcspbrk.htm
 ./man3/wcsrchr.htm

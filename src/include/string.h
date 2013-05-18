@@ -1,4 +1,4 @@
-/**	$MirOS: src/include/string.h,v 1.6 2005/11/21 19:31:54 tg Exp $ */
+/**	$MirOS: src/include/string.h,v 1.7 2007/06/15 16:00:03 tg Exp $ */
 /*	$OpenBSD: string.h,v 1.15 2005/03/30 03:04:16 deraadt Exp $	*/
 /*	$NetBSD: string.h,v 1.6 1994/10/26 00:56:30 cgd Exp $	*/
 
@@ -115,12 +115,11 @@ size_t	 strlcpy(char *, const char *, size_t)
 		__attribute__ ((__bounded__(__string__,1,3)));
 void	 strmode(mode_t, char *);
 int	 strncasecmp(const char *, const char *, size_t);
+#if __OPENBSD_VISIBLE
+char	*strndup(const char *, size_t);
+#endif
 char	*strsep(char **, const char *);
 char	*strsignal(int);
-
-#if __OPENBSD_VISIBLE
-char *strndup(const char *, size_t);
-#endif /* __OPENBSD_VISIBLE */
 #endif
 __END_DECLS
 

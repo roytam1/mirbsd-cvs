@@ -1,10 +1,10 @@
-# $MirOS: src/lib/libc/string/Makefile.inc,v 1.18 2007/02/06 16:24:41 tg Exp $
+# $MirOS: src/lib/libc/string/Makefile.inc,v 1.19 2007/06/15 16:00:03 tg Exp $
 # $OpenBSD: Makefile.inc,v 1.17 2005/05/26 12:56:01 otto Exp $
 
 # string sources
 .PATH: ${LIBCSRCDIR}/arch/${MACHINE_ARCH}/string ${LIBCSRCDIR}/string
 
-SRCS+=	bm.c memccpy.c strcasestr.c strdup.c strndup.c \
+SRCS+=	bm.c memccpy.c strcasestr.c strdup.c \
 	strerror.c strerror_r.c strmode.c strsignal.c strtok.c \
 	wcscat.c wcschr.c wcscmp.c wcscpy.c wcscspn.c \
 	wcsncat.c wcsncmp.c wcsncpy.c wcspbrk.c wcsrchr.c wcsspn.c \
@@ -42,6 +42,9 @@ UNIFDEF_SRCS+=	wcsncasecmp.c strcasecmpfun.c -DWCSNCASECMP
 UNIFDEF_SRCS+=	strcoll.c strcmp.c -DSTRCOLL
 UNIFDEF_SRCS+=	wcscoll.c wcscmp.c -DWCSCOLL
 UNIFDEF_SRCS+=	wcswcs.c wcsstr.c -DWCSWCS
+
+SRCS+=		strndup.c
+UNIFDEF_SRCS+=	wcsndup.c strndup.c -DWIDEC
 
 # machine-dependent net sources
 # m-d Makefile.inc must include sources for:
@@ -146,6 +149,7 @@ MLINKS+=wmemchr.3 wcsncasecmp.3
 MLINKS+=wmemchr.3 wcsncat.3
 MLINKS+=wmemchr.3 wcsncmp.3
 MLINKS+=wmemchr.3 wcsncpy.3
+MLINKS+=wmemchr.3 wcsndup.3
 MLINKS+=wmemchr.3 wcspbrk.3
 MLINKS+=wmemchr.3 wcsrchr.3
 MLINKS+=wmemchr.3 wcsspn.3
