@@ -1,9 +1,9 @@
-# $MirOS: ports/www/firesomething/Makefile,v 1.6 2005/07/06 19:21:37 bsiegert Exp $
+# $MirOS: ports/www/firesomething/Makefile,v 1.9 2006/05/11 20:55:40 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.41 2005/11/15 09:21:52 wilfried Exp $
 
 ONLY_FOR_PLATFORM=	*:*:alpha *:*:i386 *:*:sparc *:*:sparc64 *:*:amd64 *:*:powerpc
 COMMENT=		"one of the successors to the Netscape browser engine"
-VER=			1.5.0.3
+VER=			1.5.0.4
 DASH_VER=		-0
 DISTNAME=		mozilla
 PKGNAME=		firesomething-${VER}${DASH_VER}
@@ -22,7 +22,7 @@ MASTER_SITES=		http://ftp.eu.mozilla.org/pub/mozilla.org/firefox/releases/${VER}
 			http://ftp.mozilla.org/pub/mozilla.org/firefox/releases/${VER}/source/
 DISTFILES=		firefox-${VER}-source.tar.bz2
 
-MODULES=		devel/gettext
+MODULES+=		devel/gettext devel/pkgconfig
 RUN_DEPENDS=		:esound-*:audio/esound
 BUILD_DEPENDS=		:libIDL-*:devel/libIDL \
 			:zip->=2.3:archivers/zip \
@@ -68,8 +68,7 @@ CONFIGURE_ARGS+=	--enable-application=browser
 MAKE_ENV=		MOZ_CO_PROJECT=browser \
 			LD_LIBRARY_PATH="${WRKSRC}/dist/bin" \
 			SO_VERSION="${SO_VERSION}"
-CONFIGURE_ENV=		${MAKE_ENV} \
-			PKG_CONFIG_PATH="${LOCALBASE}/lib/pkgconfig:${X11BASE}/lib/pkgconfig"
+CONFIGURE_ENV=		${MAKE_ENV}
 
 MOB=			${WRKSRC}/dist/bin
 MOZ=			${PREFIX}/firesomething
@@ -83,7 +82,6 @@ post-patch:
 .endfor
 
 pre-configure:
-#	@cd ${WRKSRC}/nsprpub && ${SETENV} ${AUTOCONF_ENV} ${AUTOCONF}
 	@perl -pi -e 's|_LOCALBASE_|${LOCALBASE}|g; s|_X11BASE_|${X11BASE}|g' \
 		${WRKSRC}/browser/app/mozilla.in
 	@perl -pi -e 's|_SO_VERSION_|${SO_VERSION}|g' \
