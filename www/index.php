@@ -1,5 +1,5 @@
 <?php
-/* $MirOS: www/index.php,v 1.16 2006/01/13 03:49:38 tg Exp $ */
+/* $MirOS: www/index.php,v 1.17 2006/01/19 01:23:57 tg Exp $ */
 /*-
  * The MirOS Project - Webpages
  * Copyrighted material; read LICENCE for terms of use.
@@ -14,7 +14,7 @@
 		$rq = urldecode($qs);
 		$qs = "?".$qs;
 	} else {
-		$rq = "main";
+		$rq = "fornow";
 		$qs = "";
 	}
 	$ridx="content/".mybase64($rq).".index";
