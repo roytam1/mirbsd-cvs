@@ -1,4 +1,4 @@
-/* $MirOS: src/lib/libc/string/strcasecmpfun.c,v 1.1 2006/11/21 01:25:10 tg Exp $ */
+/* $MirOS: src/lib/libc/string/strcasecmpfun.c,v 1.2 2006/11/21 02:38:32 tg Exp $ */
 
 /*-
  * Copyright (c) 2006
@@ -41,20 +41,14 @@
 #define strcasecmp	wcscasecmp
 #define strncasecmp	wcsncasecmp
 #else
-#if defined(_KERNEL) || defined(_STANDALONE)
-#include <lib/libkern/libkern.h>
-#else
 #include <ctype.h>
 #include <string.h>
-#endif
 #define	CHAR		char
 #define	LC		/* nothing */
 #define	x_tolower	_tolower
 #endif
 
-#if !defined(_KERNEL) && !defined(_STANDALONE)
-__RCSID("$MirOS: src/lib/libc/string/strcasecmpfun.c,v 1.1 2006/11/21 01:25:10 tg Exp $");
-#endif
+__RCSID("$MirOS: src/lib/libc/string/strcasecmpfun.c,v 1.2 2006/11/21 02:38:32 tg Exp $");
 
 #if defined(STRCASECMP) || defined(WCSCASECMP)
 int

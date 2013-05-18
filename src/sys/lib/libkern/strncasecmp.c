@@ -1,4 +1,4 @@
-/* $MirOS: src/sys/lib/libkern/strncasecmp.c,v 1.3 2006/11/21 02:28:26 tg Exp $ */
+/* $MirOS: src/sys/lib/libkern/strncasecmp.c,v 1.4 2006/11/21 02:38:33 tg Exp $ */
 
 /*-
  * Copyright (c) 2006
@@ -25,27 +25,17 @@
  * the possibility of such damage or existence of a defect.
  */
 
-#if defined(_KERNEL) || defined(_STANDALONE)
 #include <lib/libkern/libkern.h>
-#else
-#include <ctype.h>
-#include <string.h>
-#endif
-#define	CHAR		char
-#define	LC		/* nothing */
-#define	x_tolower	_tolower
 
-#if !defined(_KERNEL) && !defined(_STANDALONE)
-__RCSID("$MirOS: src/sys/lib/libkern/strncasecmp.c,v 1.3 2006/11/21 02:28:26 tg Exp $");
-#endif
+#define x_tolower(c)	(((c) >= 'A') && ((c) <= 'Z') ? (c) - 'A' + 'a' : (c))
 
 int
-strncasecmp(const CHAR *s1, const CHAR *s2, size_t n)
+strncasecmp(const char *s1, const char *s2, size_t n)
 {
 	while (n--) {
 		if (x_tolower(*s1) != x_tolower(*s2))
 			return (x_tolower(*s1) - x_tolower(*s2));
-		if (*s1++ == LC '\0')
+		if (*s1++ == '\0')
 			break;
 		s2++;
 	}

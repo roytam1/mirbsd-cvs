@@ -1,4 +1,4 @@
-/**	$MirOS$ */
+/**	$MirOS: src/sys/lib/libkern/libkern.h,v 1.2 2006/11/21 00:13:45 tg Exp $ */
 /*	$OpenBSD: libkern.h,v 1.22 2004/08/07 00:38:32 deraadt Exp $	*/
 /*	$NetBSD: libkern.h,v 1.7 1996/03/14 18:52:08 christos Exp $	*/
 
@@ -178,8 +178,5 @@ char	*strrchr(const char *, int);
 extern u_int8_t const __bcd2bin[], __bin2bcd[];
 #define	bcd2bin(b)	(__bcd2bin[(b)&0xff])
 #define	bin2bcd(b)	(__bin2bcd[(b)&0xff])
-
-#define _tolower(c)	(((c) >= 'A') && ((c) <= 'Z') ? (c) - 'A' + 'a' : (c))
-#define _toupper(c)	(((c) >= 'a') && ((c) <= 'z') ? (c) - 'a' + 'A' : (c))
 
 #endif /* __LIBKERN_H__ */
