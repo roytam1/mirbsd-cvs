@@ -1,4 +1,4 @@
-/* $MirOS: src/lib/libc/i18n/wcrtomb.c,v 1.5 2006/05/21 12:30:47 tg Exp $ */
+/* $MirOS: src/lib/libc/i18n/wcrtomb.c,v 1.6 2006/05/21 12:50:36 tg Exp $ */
 
 /*-
  * Copyright (c) 2005, 2006
@@ -30,7 +30,7 @@
 
 #include "mir18n.h"
 
-__RCSID("$MirOS: src/lib/libc/i18n/wcrtomb.c,v 1.5 2006/05/21 12:30:47 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/i18n/wcrtomb.c,v 1.6 2006/05/21 12:50:36 tg Exp $");
 
 size_t __weak_wcrtomb(char *__restrict__, wchar_t, mbstate_t *__restrict__);
 
@@ -50,8 +50,8 @@ __weak_wcrtomb(char *__restrict__ sb, wchar_t wc, mbstate_t *__restrict__ ps)
 	}
 
 	if (__predict_true(!__locale_is_utf8)) {
-		if (wc < 0x0100) {
-			*sb = wc;
+		if (wc <= MIR18N_SB_CVT) {
+			*s = wc;
 			return (1);
 		}
  ilseq:
@@ -70,7 +70,7 @@ __weak_wcrtomb(char *__restrict__ sb, wchar_t wc, mbstate_t *__restrict__ ps)
 	} else if (wc < 0x0800) {
 		ps->count = 1;
 		*s++ = (wc >> 6) | 0xC0;
-	} else if (__predict_false(wc > 0xFFFD)) {
+	} else if (__predict_false(wc > MIR18N_MB_MAX)) {
 		goto ilseq;
 	} else {
 		ps->count = 2;

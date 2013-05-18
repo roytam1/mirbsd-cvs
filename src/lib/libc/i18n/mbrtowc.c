@@ -1,4 +1,4 @@
-/* $MirOS: src/lib/libc/i18n/mbrtowc.c,v 1.5 2006/05/21 12:30:47 tg Exp $ */
+/* $MirOS: src/lib/libc/i18n/mbrtowc.c,v 1.6 2006/05/21 12:50:36 tg Exp $ */
 
 /*-
  * Copyright (c) 2005, 2006
@@ -30,7 +30,7 @@
 
 #include "mir18n.h"
 
-__RCSID("$MirOS: src/lib/libc/i18n/mbrtowc.c,v 1.5 2006/05/21 12:30:47 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/i18n/mbrtowc.c,v 1.6 2006/05/21 12:50:36 tg Exp $");
 
 size_t __weak_mbrtowc(wchar_t *__restrict__, const char *__restrict__, size_t,
 	    mbstate_t *__restrict__);
@@ -39,9 +39,8 @@ __weak_mbrtowc(wchar_t *__restrict__ pwc, const char *__restrict__ sb,
     size_t n, mbstate_t *__restrict__ ps)
 {
 	static mbstate_t internal_mbstate = { 0, 0 };
-	unsigned char c;
 	const unsigned char *s = (const unsigned char *)sb;
-	wchar_t w;
+	wint_t c, w;
 	size_t num;
 
 	if (__predict_false(ps == NULL))
@@ -60,14 +59,17 @@ __weak_mbrtowc(wchar_t *__restrict__ pwc, const char *__restrict__ sb,
 		goto not_enough;
 	c = *s++;
 
-	if (__predict_true(!__locale_is_utf8))
+	if (__predict_true(!__locale_is_utf8)) {
+		if (__predict_false(c > MIR18N_SB_CVT))
+			goto ilseq;
 		goto one_char;
+	}
 
 	if (__predict_true(ps->count == 0)) {
 		if (c < 0x80) {
  one_char:
 			if (pwc != NULL)
-				*pwc = (wchar_t)c;
+				*pwc = c;
 			return (c ? 1 : 0);
 		} else if (c < 0xC2) {
 			/* < 0xC0: spurious second byte */
@@ -75,10 +77,10 @@ __weak_mbrtowc(wchar_t *__restrict__ pwc, const char *__restrict__ sb,
 			goto ilseq;
 		} else if (c < 0xE0) {
 			num = 1; /* one byte follows */
-			w = (wchar_t)(c & 0x1F) << 6;
+			w = (c & 0x1F) << 6;
 		} else if (c < 0xF0) {
 			num = 2; /* two bytes follow */
-			w = (wchar_t)(c & 0x0F) << 12;
+			w = (c & 0x0F) << 12;
 		} else {
 			/* we don't support more than UCS-2 */
 			goto ilseq;
@@ -102,11 +104,11 @@ __weak_mbrtowc(wchar_t *__restrict__ pwc, const char *__restrict__ sb,
 		goto ilseq;
 	c &= 0x3F;
 
-	w |= (wchar_t)c << (6 * --num);
+	w |= c << (6 * --num);
 
 	if (__predict_true(!num)) {
 		ps->count = 0;
-		if (__predict_false(w > 0xFFFD))
+		if (__predict_false(w > MIR18N_MB_MAX))
 			goto ilseq;
 		if (pwc != NULL)
 			*pwc = w;
