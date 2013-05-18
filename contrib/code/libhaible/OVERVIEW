@@ -1,102 +1,108 @@
-$MirOS: contrib/code/libhaible/OVERVIEW,v 1.6 2006/05/30 18:26:47 tg Exp $
+$MirOS: contrib/code/libhaible/OVERVIEW,v 1.7 2006/05/30 18:41:21 tg Exp $
 $function name		header		manpage		source location
 $ 
 $ Info: # = commented out
 $  
-__mb_cur_max		 stdlib.h	-
-btowc			 wchar.h	C:btowc
-catclose		 nl_types.h	-
-catgets			 nl_types.h	-
-catopen			 nl_types.h	-
-fgetwc			 wchar.h	C:getwc
-fgetws			 wchar.h	C:fgetws
-fputwc			 wchar.h	C:putwc
-fputws			 wchar.h	C:fputws
-fwide			 wchar.h	C:fwide
+__mb_cur_max		 stdlib.h	-		i18n/isutf8.c
+btowc			 wchar.h	C:btowc		i18n/btowc.c
+catclose		 nl_types.h	-		i18n/catalogues.c
+catgets			 nl_types.h	-		i18n/catalogues.c
+catopen			 nl_types.h	-		i18n/catalogues.c
+fgetwc			 wchar.h	C:getwc		stdio/fgetwc.c
+fgetws			 wchar.h	C:fgetws	stdio/fgetws.c
+fputwc			 wchar.h	C:putwc		stdio/fputwc.c
+fputws			 wchar.h	C:fputws	stdio/fputws.c
+fwide			 wchar.h	C:fwide		stdio/fwide.c
 fwprintf		#wchar.h	-
 fwscanf			#wchar.h	-
-getwc			 wchar.h	C:getwc
-getwchar		 wchar.h	C:getwc
-iswalnum		 wctype.h	C:iswalnum
-iswalpha		 wctype.h	C:iswalnum
-iswblank		 wctype.h	C:iswalnum
-iswcntrl		 wctype.h	C:iswalnum
-iswctype		 wctype.h	H:iswctype
-iswdigit		 wctype.h	C:iswalnum
-iswgraph		 wctype.h	C:iswalnum
-iswlower		 wctype.h	C:iswalnum
-iswprint		 wctype.h	C:iswalnum
-iswpunct		 wctype.h	C:iswalnum
-iswspace		 wctype.h	C:iswalnum
-iswupper		 wctype.h	C:iswalnum
-iswxdigit		 wctype.h	C:iswalnum
-localeconv		 locale.h	C:setlocale
-mblen			 stdlib.h	C:mblen
+getwc			 wchar.h	C:getwc		stdio/getwc.c
+getwchar		 wchar.h	C:getwc		stdio/getwchar.c
+iswalnum		 wctype.h	C:iswalnum	STUB! i18n/multibyte.c
+iswalnum		 wctype.h	C:iswalnum	libhaible/iswTYPE.c
+iswalpha		 wctype.h	C:iswalnum	STUB! i18n/multibyte.c
+iswalpha		 wctype.h	C:iswalnum	libhaible/iswTYPE.c
+iswblank		 wctype.h	C:iswalnum	libhaible/iswTYPE.c
+iswcntrl		 wctype.h	C:iswalnum	libhaible/iswTYPE.c
+iswctype		 wctype.h	H:iswctype	libhaible/iswctype.c
+iswdigit		 wctype.h	C:iswalnum	libhaible/iswTYPE.c
+iswgraph		 wctype.h	C:iswalnum	libhaible/iswTYPE.c
+iswlower		 wctype.h	C:iswalnum	STUB! i18n/multibyte.c
+iswlower		 wctype.h	C:iswalnum	libhaible/iswTYPE.c
+iswprint		 wctype.h	C:iswalnum	libhaible/iswTYPE.c
+iswpunct		 wctype.h	C:iswalnum	libhaible/iswTYPE.c
+iswspace		 wctype.h	C:iswalnum	libhaible/iswTYPE.c
+iswupper		 wctype.h	C:iswalnum	STUB! i18n/multibyte.c
+iswupper		 wctype.h	C:iswalnum	libhaible/iswTYPE.c
+iswxdigit		 wctype.h	C:iswalnum	libhaible/iswTYPE.c
+localeconv		 locale.h	C:setlocale	i18n/langinfo.c
+mblen			 stdlib.h	C:mblen		STUB! i18n/multibyte.c
 mbrlen			#wchar.h	#:mbrlen
-mbrtowc			 wchar.h	C:mbrtowc
-mbsinit			 wchar.h	C:mbsinit
+mbrtowc			 wchar.h	C:mbrtowc	i18n/mbrtowc.c
+mbsinit			 wchar.h	C:mbsinit	i18n/mbsinit.c
 mbsrtowcs		#wchar.h	#:mbsrtowcs
-mbstowcs		 stdlib.h	C:mbstowcs
-mbtowc			 stdlib.h	C:mbtowc
-nl_langinfo		 langinfo.h	C:nl_langinfo
-putwc			 wchar.h	C:putwc
-putwchar		 wchar.h	C:putwc
-setlocale		 locale.h	C:setlocale
+mbstowcs		 stdlib.h	C:mbstowcs	STUB! i18n/multibyte.c
+mbtowc			 stdlib.h	C:mbtowc	STUB! i18n/multibyte.c
+nl_langinfo		 langinfo.h	C:nl_langinfo	i18n/langinfo.c
+putwc			 wchar.h	C:putwc		stdio/putwc.c
+putwchar		 wchar.h	C:putwc		stdio/putwchar.c
+setlocale		 locale.h	C:setlocale	i18n/charsets.c
 swprintf		#wchar.h	-
 swscanf			#wchar.h	-
-towctrans		 wctype.h	H:towctrans
-towlower		 wctype.h	C:towlower
-towupper		 wctype.h	C:towlower
-ungetwc			 wchar.h	C:ungetwc
+towctrans		 wctype.h	H:towctrans	libhaible/towctrans.c
+towlower		 wctype.h	C:towlower	STUB! i18n/multibyte.c
+towlower		 wctype.h	C:towlower	libhaible/towlower.c
+towupper		 wctype.h	C:towlower	STUB! i18n/multibyte.c
+towupper		 wctype.h	C:towlower	libhaible/towupper.c
+ungetwc			 wchar.h	C:ungetwc	stdio/ungetwc.c
 vfwprintf		#wchar.h	-
 vfwscanf		#wchar.h	-
 vswprintf		#wchar.h	-
 vswscanf		#wchar.h	-
 vwprintf		#wchar.h	-
 vwscanf			#wchar.h	-
-wcrtomb			 wchar.h	C:wcrtomb
-wcscasecmp		 wchar.h	H:wmemchr
-wcscat			 wchar.h	C:wmemchr
-wcschr			 wchar.h	C:wmemchr
-wcscmp			 wchar.h	C:wmemchr
+wcrtomb			 wchar.h	C:wcrtomb	i18n/wcrtomb.c
+wcscasecmp		 wchar.h	H:wmemchr	libhaible/wcscasecmp.c
+wcscat			 wchar.h	C:wmemchr	string/wcscat.c
+wcschr			 wchar.h	C:wmemchr	string/wcschr.c
+wcscmp			 wchar.h	C:wmemchr	string/wcscmp.c
 wcscoll			#wchar.h	H:wmemchr
-wcscpy			 wchar.h	C:wmemchr
-wcscspn			 wchar.h	C:wmemchr
-wcsdup			 wchar.h	H:wmemchr
+wcscpy			 wchar.h	C:wmemchr	string/wcscpy.c
+wcscspn			 wchar.h	C:wmemchr	string/wcscspn.c
+wcsdup			 wchar.h	H:wmemchr	libhaible/wcsdup.c
 wcsftime		#wchar.h	H:wmemchr
-wcslcat			 wchar.h	C:wmemchr
-wcslcpy			 wchar.h	C:wmemchr
-wcslen			 wchar.h	C:wmemchr
-wcsncasecmp		 wchar.h	H:wmemchr
-wcsncat			 wchar.h	C:wmemchr
-wcsncmp			 wchar.h	C:wmemchr
-wcsncpy			 wchar.h	C:wmemchr
-wcspbrk			 wchar.h	C:wmemchr
-wcsrchr			 wchar.h	C:wmemchr
+wcslcat			 wchar.h	C:wmemchr	string/wcslfun.c
+wcslcpy			 wchar.h	C:wmemchr	string/wcslfun.c
+wcslen			 wchar.h	C:wmemchr	string/wcslen.c
+wcsncasecmp		 wchar.h	H:wmemchr	libhaible/wcsncasecmp.c
+wcsncat			 wchar.h	C:wmemchr	string/wcsncat.c
+wcsncmp			 wchar.h	C:wmemchr	string/wcsncmp.c
+wcsncpy			 wchar.h	C:wmemchr	string/wcsncpy.c
+wcspbrk			 wchar.h	C:wmemchr	string/wcspbrk.c
+wcsrchr			 wchar.h	C:wmemchr	string/wcsrchr.c
 wcsrtombs		#wchar.h	#:wcsrtombs
-wcsspn			 wchar.h	C:wmemchr
-wcsstr			 wchar.h	C:wmemchr
+wcsspn			 wchar.h	C:wmemchr	string/wcsspn.c
+wcsstr			 wchar.h	C:wmemchr	string/wcsstr.c
 wcstod			#wchar.h	-
 wcstof			#wchar.h	-
-wcstok			 wchar.h	C:wcstok
+wcstok			 wchar.h	C:wcstok	libhaible/wcstok.c
 wcstol			#wchar.h	-
 wcstold			#wchar.h	-
 wcstoll			#wchar.h	-
-wcstombs		 stdlib.h	C:wcstombs
+wcstombs		 stdlib.h	C:wcstombs	STUB! i18n/multibyte.c
 wcstoul			#wchar.h	-
 wcstoull		#wchar.h	-
-wcswcs			 wchar.h	H:wmemchr
-wcswidth		 wchar.h	-
+wcswcs			 wchar.h	H:wmemchr	string/wcsstr.c
+wcswidth		 wchar.h	-		libhaible/wcswidth.c
 wcsxfrm			#wchar.h	H:wmemchr
-wctob			 wchar.h	C:wctob
-wctomb			 stdlib.h	C:wctomb
-wctrans			 wctype.h	H:wctrans
-wctype			 wchar.h	H:wctype
-wcwidth			 wchar.h	-
-wmemchr			 wchar.h	C:wmemchr
-wmemcmp			 wchar.h	C:wmemchr
-wmemcpy			 wchar.h	C:wmemchr
-wmemmove		 wchar.h	C:wmemchr
-wmemset			 wchar.h	C:wmemchr
+wctob			 wchar.h	C:wctob		i18n/wctob.c
+wctomb			 stdlib.h	C:wctomb	STUB! i18n/multibyte.c
+wctrans			 wctype.h	H:wctrans	libhaible/wctrans.c
+wctype			 wchar.h	H:wctype	libhaible/wctype.c
+wcwidth			 wchar.h	-		libhaible/wcwidth.c
+wmemchr			 wchar.h	C:wmemchr	string/wmemchr.c
+wmemcmp			 wchar.h	C:wmemchr	string/wmemcmp.c
+wmemcpy			 wchar.h	C:wmemchr	string/wmemcpy.c
+wmemmove		 wchar.h	C:wmemchr	string/wmemmove.c
+wmemset			 wchar.h	C:wmemchr	string/wmemset.c
 wprintf			#wchar.h	-
 wscanf			#wchar.h	-
