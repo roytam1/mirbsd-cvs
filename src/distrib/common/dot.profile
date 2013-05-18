@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/dot.profile,v 1.29 2008/07/12 22:06:13 tg Exp $
+# $MirOS: src/distrib/common/dot.profile,v 1.30 2008/10/19 19:27:50 tg Exp $
 # $OpenBSD: dot.profile,v 1.4 2002/09/13 21:38:47 deraadt Exp $
 # $NetBSD: dot.profile,v 1.1 1995/12/18 22:54:43 pk Exp $
 #
@@ -33,20 +33,24 @@
 # (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
 # THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+set +o posix -o braceexpand
+export PATH=/sbin:/bin:/usr/bin:/usr/sbin:/ PS1='$PWD # ' HOME=/
+umask 022
+ulimit -c 0
+
 sshd() {
 	if grep -q '^root:x:' /etc/master.passwd 2>/dev/null; then
 		print -u2 error: you must passwd root first
 		return 1
 	fi
 	if [[ ! -f /etc/ssh/ssh_host_rsa_key ]]; then
-		(ulimit -T 60; exec /usr/bin/ftp -mvo /dev/arandom \
+		(ulimit -T 60; exec ftp -mvo /dev/arandom \
 		    https://call.mirbsd.org/rn.cgi?bsdrdskg,$(dd \
 		    if=/dev/arandom bs=57 count=1 2>&- | \
 		    b64encode -r - | tr '+=/' '._-')) >/dev/wrandom 2>&1
 		print -n "ssh-keygen: generating new RSA host key... "
 		sleep 3
-		if /usr/bin/ssh-keygen -q -t rsa \
-		    -f /etc/ssh/ssh_host_rsa_key -N ''; then
+		if ssh-keygen -qt rsa -f /etc/ssh/ssh_host_rsa_key -N ''; then
 			print done.
 		else
 			print failed.
@@ -54,21 +58,14 @@ sshd() {
 		fi
 	fi
 	if [[ -f /etc/ssh/ssh_host_rsa_key ]]; then
-		/usr/bin/ssh-keygen -l -f /etc/ssh/ssh_host_rsa_key
+		ssh-keygen -lf /etc/ssh/ssh_host_rsa_key
 		/usr/sbin/sshd "$@"
 	fi
 }
 
-export PATH=/sbin:/bin:/usr/bin:/usr/sbin:/ PS1='$PWD # ' HOME=/
-umask 022
-ulimit -c 0
-
 if [[ -z $NEED_UNICODE ]]; then
-	chkuterm; NEED_UNICODE=$?	# 0 = UTF-8; >0 = ISO-8859-1
-	if (( NEED_UNICODE )); then
-		export NEED_UNICODE	# don't try this twice
-		exec script -lns	# latin1, no typescript, login shell
-	fi
+	chkuterm; export NEED_UNICODE=$?	# 0 = UTF-8; >0 = ISO-8859-1
+	(( NEED_UNICODE )) && exec script -lns	# no typescript, login shell
 fi
 unset NEED_UNICODE
 
@@ -123,8 +120,8 @@ This work is provided "AS IS" and WITHOUT WARRANTY of any kind.\n'
 	# don't run this twice
 	print -n >/.profile.done
 
-	# reset arandom(4)
-	( typeset -i8 x='RANDOM & 255'; print -n "\0${x#8#}" >/dev/arandom )
+	# reset arandom(4) – in a subshell for arc4_stir_pid
+	(typeset -i1 x=RANDOM; print -n "${x#1#}" >/dev/arandom)
 
 	# try to spawn a second shell
 	mksh -lT1 >/dev/null 2>&1
@@ -137,13 +134,10 @@ This work is provided "AS IS" and WITHOUT WARRANTY of any kind.\n'
 		print -n ' or (S)hell? '
 		read _forceloop
 		case $_forceloop {
-		([Ii]*)	/install
-			;;
-		([Uu]*)	/upgrade
-			;;
+		([Ii]*)	/install ;;
+		([Uu]*)	/upgrade ;;
 		([Ss]*)	;;
-		(*)	_forceloop=
-			;;
+		(*)	_forceloop= ;;
 		}
 	done
 else
