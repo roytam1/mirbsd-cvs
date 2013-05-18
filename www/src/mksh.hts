@@ -2,7 +2,7 @@
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.128 2008/06/29 19:56:26 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.129 2008/07/06 23:43:30 tg Exp $'
 mws_content <<'EOF'
 <h1>mksh(1) R33d</h1>
 <p>This is the website of the MirBSD™ Korn Shell, an actively developed free
@@ -765,8 +765,8 @@ mws_content <<'EOF'
  <li>Interix 3.5 SP-8.0.1969.1 (i386 msc CL.EXE 14.00.50727.42 (optimising), LINK.EXE 8.00.50727.42)</li>
  <li>Debian GNU 4.0 sid GNU-Mach 1.3.99/Hurd-0.3 i686-AT386 (i386 gcc3.4.6-5)</li>
  <li>Debian GNU 4.0 sid GNU-Mach 1.3.99/Hurd-0.3 i686-AT386 (i386 gcc4.0.4-1)</li>
- <li>Debian GNU 4.0 sid GNU-Mach 1.3.99/Hurd-0.3 i686-AT386 (i386 gcc4.1.2-18)</li>
- <li>Debian GNU 4.0 sid GNU-Mach 1.3.99/Hurd-0.3 i686-AT386 (i386 gcc4.2.2-4)</li>
+ <li>Debian GNU 4.0 sid GNU-Mach 1.3.99/Hurd-0.3 i686-AT386 (i386 gcc4.1.2-23)</li>
+ <li>Debian GNU 4.0 sid GNU-Mach 1.3.99/Hurd-0.3 i686-AT386 (i386 gcc4.2.4-2)</li>
  <li>Cygwin_NT-5.0 1.5.25(0.156/4/2) 2008-04-17 12:11 i586 (i386 gcc3.4.4 win2k)</li>
  <li>Ångström GNU/Linux spitz 2.6.20.6 PREEMPT (armv5tel glibc2.5 gcc4.1.2)</li>
  <li>Debian GNU/Linux 4.0 etch 2.6.18-5-alpha-generic (alpha gcc1:3.3.6-15)</li>
