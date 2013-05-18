@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.sbin/makefs/cd9660.c,v 1.21 2008/11/06 23:45:17 tg Exp $ */
+/**	$MirOS: src/usr.sbin/makefs/cd9660.c,v 1.22 2008/11/06 23:49:40 tg Exp $ */
 /*	$NetBSD: cd9660.c,v 1.22 2008/10/30 18:43:13 ahoka Exp $	*/
 
 /*
@@ -108,7 +108,7 @@
 #include <sys/cdefs.h>
 #if defined(__RCSID) && !defined(__lint)
 __RCSID("$NetBSD: cd9660.c,v 1.22 2008/10/30 18:43:13 ahoka Exp $");
-__IDSTRING(mbsdid, "$MirOS: src/usr.sbin/makefs/cd9660.c,v 1.21 2008/11/06 23:45:17 tg Exp $");
+__IDSTRING(mbsdid, "$MirOS: src/usr.sbin/makefs/cd9660.c,v 1.22 2008/11/06 23:49:40 tg Exp $");
 #endif  /* !__lint */
 
 #include <string.h>
@@ -201,6 +201,7 @@ cd9660_allocate_cd9660node(void)
 }
 
 int cd9660_defaults_set = 0;
+int rrip_squash_ugid = 0;
 
 /**
 * Set default values for cd9660 extension to makefs
@@ -421,6 +422,8 @@ cd9660_parse_opts(const char *option, fsinfo_t *fsopts)
 		diskStructure.rock_ridge_enabled = 1;
 	else if (CD9660_IS_COMMAND_ARG_DUAL(var, "K", "keep-bad-images"))
 		diskStructure.keep_bad_images = 1;
+	else if (CD9660_IS_COMMAND_ARG(var, "rr-squash-ugid"))
+		rrip_squash_ugid = 1;
 	else if (CD9660_IS_COMMAND_ARG(var, "hide-rr-moved"))
 		diskStructure.hide_rr_moved = 1;
 	else if (CD9660_IS_COMMAND_ARG(var, "allow-deep-trees"))
