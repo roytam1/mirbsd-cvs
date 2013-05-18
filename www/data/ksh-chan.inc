@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/ksh-chan.inc,v 1.14 2012/11/20 18:22:09 tg Exp $
+RCSID: $MirOS: www/data/ksh-chan.inc,v 1.15 2012/11/30 21:57:34 tg Exp $
 Title: Homepage of the original Korn Shell
 Link: http://www.kornshell.com/
 
@@ -30,6 +30,14 @@ floating point arithmetic, will not be provided, even though
 the aim is as generic as ksh93’s (interactive and script use;
 embedding is not yet possible) and to be very portable, also
 to include some extensions of its own. It’s Unicode aware.
+----
+Title: mksh snapshot downloads
+Link: https://www.mirbsd.org/MirOS/dist/mir/mksh/
+
+Snapshots of the MirBSD Korn Shell can often be found here.
+Versions with an “i” before the date (yyyymmdd) are of the
+MAIN development branch, all others are of the stable bugfix
+branch.
 ----
 Title: Homepage of the Public Domain Korn Shell
 Link: http://www.cs.mun.ca/~michael/pdksh/
