@@ -1,40 +1,43 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.25 2003/10/26 23:49:31 naddy Exp $
 
-COMMENT=			MIDI to WAV renderer and player
-DISTNAME=	timidity-0.2i
-CATEGORIES=	audio
+COMMENT=		MIDI to WAV renderer and player
+DISTNAME=		timidity-0.2i
+CATEGORIES=		audio
 
-MASTER_SITES=	http://www.goice.co.jp/member/mo/timidity/dist/
-MASTER_SITES0=	ftp://ftp.kiarchive.ru/pub/misc/hardware/soundcard/gus/
-TIINS=	goemon.tgz
-DISTFILES=	${TIINS}:0 ${DISTNAME}.tar.gz
-EXTRACT_ONLY=	${DISTNAME}.tar.gz
+MASTER_SITES=		http://www.goice.co.jp/member/mo/timidity/dist/
+MASTER_SITES0=		ftp://ftp.kiarchive.ru/pub/misc/hardware/soundcard/gus/
+TIINS=			goemon.tgz
+DISTFILES=		${TIINS}:0 ${DISTNAME}.tar.gz
+EXTRACT_ONLY=		${DISTNAME}.tar.gz
 
 PERMIT_PACKAGE_CDROM=	"copyrighted patches"
 PERMIT_PACKAGE_FTP=	"copyrighted patches"
 PERMIT_DISTFILES_CDROM=	"copyrighted patches"
 PERMIT_DISTFILES_FTP=	"copyrighted patches"
 
-
-FLAVORS=motif curses slang
-FLAVOR?=motif
+FLAVORS=		motif curses slang
+FLAVOR?=		motif
 
 .if ${FLAVOR:L:Mcurses}
-MAKE_FLAGS+=-DCURSES
+MAKE_FLAGS+=		-DCURSES
 .endif
-.if ${FLAVOR:L:Mmotif} || ${FLAVOR:L:Mlesstif}
-MAKE_FLAGS+=-DMOTIF
-USE_MOTIF=	any
+.if ${FLAVOR:Mopenmotif} || ${FLAVOR:Mlesstif}
+FLAVOR+=		motif
+.endif
+.if ${FLAVOR:L:Mmotif}
+MAKE_FLAGS+=		-DMOTIF
+USE_MOTIF=		any
 .endif
 .if ${FLAVOR:L:Mslang}
-MAKE_FLAGS+=-DSLANG
-LIB_DEPENDS+=slang.::devel/libslang
+MAKE_FLAGS+=		-DSLANG
+LIB_DEPENDS+=		slang::devel/libslang
 .endif
 
-NO_REGRESS=	Yes
+NO_REGRESS=		Yes
 
-INSTALL_TARGET= install.all
-EXTRA_FAKE_FLAGS=PREFIX=${PREFIX} DESTDIR=${WRKINST}
+INSTALL_TARGET=		install.all
+EXTRA_FAKE_FLAGS=	PREFIX=${PREFIX} DESTDIR=${WRKINST}
 
 post-install:
 	${INSTALL_MAN} ${WRKSRC}/timidity.1 ${PREFIX}/man/man1

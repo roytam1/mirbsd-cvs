@@ -1,4 +1,6 @@
 gtk
 gtk2
-no_x11
 huge no_x11 perl
+lesstif
+no_x11
+openmotif

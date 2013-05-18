@@ -2,7 +2,7 @@
 #
 # Many variables moved to ../Makefile.inc
 
-COMMENT=			test-bed browser/authoring tool of the W3C
+COMMENT=		test-bed browser/authoring tool of the W3C
 
 AMAYA_VERSION=		5.1
 DISTNAME=		amaya-src-${AMAYA_VERSION}
@@ -14,6 +14,10 @@ FLAVORS=		motif gtk
 FLAVOR?=		motif
 
 LIB_DEPENDS+=	 	expat.2::textproc/expat
+
+.if ${FLAVOR:Mopenmotif} || ${FLAVOR:Mlesstif}
+FLAVOR+=		motif
+.endif
 
 .if ${FLAVOR:L} == "gtk"
 

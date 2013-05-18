@@ -1,4 +1,4 @@
-# $MirOS: ports/editors/vim/stable/Makefile,v 1.12 2007/04/01 01:14:29 tg Exp $
+# $MirOS: ports/editors/vim/stable/Makefile,v 1.13 2007/04/11 17:05:31 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.93 2004/06/09 18:43:16 lebel Exp $
 
 COMMENT=		vi clone, many additional features
@@ -61,6 +61,10 @@ FLAVOR?=		gtk
 
 CONFIGURE_STYLE=	gnu
 CONFIGURE_ARGS+=	--with-tlib="curses" --enable-multibyte
+
+.if ${FLAVOR:Mopenmotif} || ${FLAVOR:Mlesstif}
+FLAVOR+=		motif
+.endif
 
 .if ${FLAVOR:L:Mhuge}
 CONFIGURE_ARGS+=	--with-features=huge
