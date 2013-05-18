@@ -1,5 +1,5 @@
 # $MirSecuCron$
-# $MirOS: src/etc/services,v 1.8 2009/07/18 14:09:07 tg Exp $
+# $MirOS: src/etc/services,v 1.9 2009/07/19 19:36:04 tg Exp $
 # $OpenBSD: services,v 1.66 2007/03/04 12:46:25 jmc Exp $
 #
 # Network services, Internet style
@@ -7,7 +7,7 @@
 # Note that it is presently the policy of IANA to assign a single well-known
 # port number for both TCP and UDP; hence, most entries here have two entries
 # even if the protocol doesn't support UDP operations.
-# Updated from RFC 1340, ``Assigned Numbers'' (July 1992).  Not all ports
+# Updated from RFC 1340, "Assigned Numbers" (July 1992).  Not all ports
 # are included, only the more common ones.
 # See also http://www.iana.org/assignments/port-numbers
 #
@@ -32,10 +32,10 @@ ftp		21/tcp
 ssh		22/tcp
 ssh		22/udp
 telnet		23/tcp
-# 24 - private
+#24		24/*				# private
 smtp		25/tcp		mail
-# 26 - unassigned
-# 35 - any private printer server
+#26		26/*				# unassigned
+#35		35/*				# any private printer server
 time		37/tcp		timserver
 time		37/udp		timserver
 rlp		39/udp		resource	# resource location
@@ -58,10 +58,10 @@ finger		79/tcp
 www		80/tcp		http	# WorldWideWeb HTTP
 www		80/udp			# HyperText Transfer Protocol
 link		87/tcp		ttylink
-kerberos	88/udp		kerberos-sec	# Kerberos 5 UDP
 kerberos	88/tcp		kerberos-sec	# Kerberos 5 TCP
+kerberos	88/udp		kerberos-sec	# Kerberos 5 UDP
 supdup		95/tcp
-# 100 - reserved
+#100		100/*				# reserved
 hostnames	101/tcp		hostname	# usually from sri-nic
 iso-tsap	102/tcp		tsap		# part of ISODE.
 x400		103/tcp			# ISO E-mail
@@ -129,7 +129,13 @@ ipx		213/tcp				# IPX
 ipx		213/udp
 imap3		220/tcp				# Interactive Mail Access
 imap3		220/udp				# Protocol v3
-# 249..255 - reserved
+#249		249/*				# 249..255: reserved
+#250		250/*				# 249..255: reserved
+#251		251/*				# 249..255: reserved
+#252		252/*				# 249..255: reserved
+#253		253/*				# 249..255: reserved
+#254		254/*				# 249..255: reserved
+#255		255/*				# 249..255: reserved
 codaauth2	370/tcp
 codaauth2	370/udp
 ulistserv	372/tcp		ulistproc	# Unix Listserv
@@ -161,12 +167,12 @@ nntps		563/udp		snntp
 9pfs		564/tcp				# plan 9 file service
 9pfs		564/udp
 submission	587/tcp		msa		# mail message submission
+submission	587/udp		msa		# mail message submission
 asf-rmcp	623/udp				# ASF/IPMI Proto
 ipp		631/tcp				# Internet Printing Protocol
 ipp		631/udp				# Internet Printing Protocol
 ldaps		636/tcp				# LDAP over SSL
 ldaps		636/udp
-submission	587/udp		msa		# mail message submission
 ftps-data	989/tcp				# ftp, data, over TLS/SSL
 ftps-data	989/udp
 ftps		990/tcp				# ftp, control, over TLS/SSL
@@ -180,8 +186,8 @@ pop3s		995/udp		spop3		# pop3 protocol over TLS/SSL
 #
 # UNIX specific services
 #
-exec		512/tcp
 biff		512/udp		comsat
+exec		512/tcp
 login		513/tcp
 who		513/udp		whod
 shell		514/tcp		cmd		# no passwords used
@@ -201,16 +207,16 @@ uucp		540/tcp		uucpd		# uucp daemon
 remotefs	556/tcp		rfs_server rfs	# Brunhoff remote filesystem
 silc		706/tcp				# Secure Live Internet Conferencing
 silc		706/udp
-kerberos-adm	749/udp				# Kerberos 5 kadmin
 kerberos-adm	749/tcp				# Kerberos 5 kadmin
-kerberos-iv	750/udp		kdc		# Kerberos authentication--udp
+kerberos-adm	749/udp				# Kerberos 5 kadmin
 kerberos-iv	750/tcp		kdc		# Kerberos authentication--tcp
-kerberos_master 751/udp				# Kerberos 4 kadmin
+kerberos-iv	750/udp		kdc		# Kerberos authentication--udp
 kerberos_master 751/tcp				# Kerberos 4 kadmin
+kerberos_master 751/udp				# Kerberos 4 kadmin
 krb_prop	754/tcp		hprop		# Kerberos slave propagation
 krbupdate	760/tcp		kreg		# BSD Kerberos registration
 #
-# From ``Assigned Numbers'':
+# From "Assigned Numbers":
 #
 #> The Registered Ports are not controlled by the IANA and on most systems
 #> can be used by ordinary user processes or programs executed by ordinary
@@ -242,8 +248,8 @@ pptp		1723/tcp			# Point-to-Point Tunneling Protocol
 pptp		1723/udp			# Point-to-Point Tunneling Protocol
 ssdp		1900/tcp			# SSDP
 ssdp		1900/udp			# SSDP
-nfsd		2049/udp	nfs		# NFS server
 nfsd		2049/tcp	nfs		# NFS server
+nfsd		2049/udp	nfs		# NFS server
 eklogin		2105/tcp			# Kerberos encrypted rlogin
 rkinit		2108/tcp			# Kerberos remote kinit
 kf		2110/tcp			# forward credentials
