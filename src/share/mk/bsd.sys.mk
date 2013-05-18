@@ -13,7 +13,7 @@ CFLAGS+=	-Werror
 COMPILE.c:=	GCC_HONOUR_COPTS=2 ${COMPILE.c}
 .  endif
 
-.  if defined(DESTDIR) && (!defined(CROSS_MODE) || ${CROSS_MODE:L} != "yes")
+.  if defined(DESTDIR)
 CPPFLAGS+=	-nostdinc -isystem ${DESTDIR}/usr/include
 CXXFLAGS+=	-isystem ${DESTDIR}/usr/include/gxx \
 		-isystem ${DESTDIR}/usr/include/gxx/${OStriplet} \
