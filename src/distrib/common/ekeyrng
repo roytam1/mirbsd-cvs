@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/share/misc/licence.template,v 1.28 2008/11/14 15:33:44 tg Rel $
+# $MirOS: src/distrib/common/ekeyrng,v 1.1 2009/11/05 22:48:00 tg Exp $
 #-
 # Copyright (c) 2009
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -68,6 +68,7 @@ if [[ $1 = -R && -n $2 && -c $2 ]]; then
 fi
 
 # the "real" main
+myself=$(realpath "$0")
 
 # get a temporary file for dmesg first
 if ! T=$(mktemp /tmp/ekeyrng.XXXXXXXXXX); then
@@ -98,5 +99,5 @@ if [[ ! -c /dev/ttyU$((ucomdev)) ]]; then
 fi
 # run myself detached, as dæmon (see above)
 cd /
-mksh -T- "$0" -R /dev/ttyU$((ucomdev))
+mksh -T- "$myself" -R /dev/ttyU$((ucomdev))
 exit 0
