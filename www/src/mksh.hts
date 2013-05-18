@@ -3,7 +3,7 @@
 
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.241 2009/06/07 14:51:03 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.242 2009/06/07 22:35:04 tg Exp $'
 mws_content <<'EOF'
 <h1>mksh(1) R38b</h1>
 <p>This is the website of the MirBSD™ Korn Shell, an actively developed free
@@ -440,7 +440,8 @@ mws_content <<'EOF'
  not already done. Manual page installation paths are not standardised in
  older distributions either.</p>
 <p>Besides glibc (GNU libc), dietlibc (from Fefe), µClibc (embedded), and
- libc5 (on Linux 2.0.38) work, but locale detection is not automatic.</p>
+ libc5 (on Linux 2.0.38) work, but locale detection is not automatic.
+ Support for klibc is work in progress (on the klibc side).</p>
 <p>mksh can be used as /bin/sh on Debian and similarly strict distributions,
  which allow to use e.g. ash/dash there as well.</p>
 
@@ -584,7 +585,8 @@ mws_content <<'EOF'
  changes in the build system (<tt>Build.sh</tt> and friends, compiler
  support, packaging conventions, bad examples, etc).</p>
 <p>mksh R38c adds QNX fixes, build system fixes, and the ability to
- use <tt>-DMKSH_ASSUME_UTF8=0</tt> to skip the environment checks.</p>
+ use <tt>-DMKSH_ASSUME_UTF8=0</tt> to skip the environment checks
+ (leading to one (supposedly un-)expected regression test failure).</p>
 <p>mksh R38b works on QNX 6.4 out of the box.</p>
 <p>mksh R38 offers <tt>-DMKSH_MIDNIGHTBSD01ASH_COMPAT</tt> and users
  should be warned about the “!string” line and UTF-8 mode changes.</p>
@@ -1012,6 +1014,11 @@ mws_content <<'EOF'
   <tt>-DMKSH_SMALL</tt> disables them by default, like mknod already did</li>
  <li>[tg] <tt>-DMKSH_ASSUME_UTF8=0</tt> skips the environment checks, like
   <tt>-DMKSH_ASSUME_UTF8=1</tt>, but disables the <tt>utf8-mode</tt></li>
+ <li>[tg] Apply some more KNF – style(9) – to the source (mechanically)</li>
+ <li>[OpenBSD] Fix segfaults caused by missing check for end of input
+  in the tokeniser on “let --” and other input</li>
+ <li>[OpenBSD] Make Vi editing mode <tt>^W</tt> behave like Emacs mode’s</li>
+ <li>[tg] If no killpg(3) is avaiable, use kill(2) and hope it works</li>
 </ul>
 <p id="r38b">mksh R38b fixes the following problems:</p><ul>
  <li>[André Wösten] Add __NO_EXT_QNX to avoid picking up the wrong
