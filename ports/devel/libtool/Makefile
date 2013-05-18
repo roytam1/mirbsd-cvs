@@ -1,8 +1,8 @@
-# $MirOS: ports/devel/libtool/Makefile,v 1.12 2008/05/03 22:21:04 tg Exp $
+# $MirOS: ports/devel/libtool/Makefile,v 1.13 2008/10/05 20:26:11 tg Exp $
 
 COMMENT=		complete GNU libtool with MirLibtool patches added
 CATEGORIES=		devel
-DASH_VER=		1
+DASH_VER=		2
 CVS_DISTREPO=		:pserver:anonymous@cvs.sv.gnu.org:/sources/libtool
 CVS_DISTDATE=		2008/05/03
 CVS_DISTTAGS=		branch-1-5
@@ -22,6 +22,8 @@ AUTOGEN=		${WRKSRC}/bootstrap
 CONFIGURE_ARGS+=	${CONFIGURE_SHARED}
 AUTOCONF_NEW=		Yes
 AUTOMAKE_VERSION=	1.9
+
+CONFIGURE_ARGS+=	CC=${_ORIG_CC:Q} CXX=${_ORIG_CXX:Q}
 
 FLAVOURS=		no_cxx
 FLAVOUR?=
