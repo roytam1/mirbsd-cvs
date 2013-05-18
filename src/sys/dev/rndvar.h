@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/dev/rndvar.h,v 1.27 2010/09/21 17:42:52 tg Exp $ */
+/**	$MirOS: src/sys/dev/rndvar.h,v 1.28 2010/09/24 19:59:10 tg Exp $ */
 /*	$OpenBSD: rndvar.h,v 1.19 2003/11/03 18:24:28 tedu Exp $	*/
 
 /*
@@ -54,6 +54,8 @@
 #define	RND_SRC_IMACS	7
 /* size of stats structure */
 #define	RND_SRC_NUM	8
+/* internal-use quirk */
+#define	RND_SRC_LPC	24
 
 struct rndstats {
 	quad_t rnd_total;	/* total bits of entropy generated */

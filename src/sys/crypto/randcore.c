@@ -1,4 +1,4 @@
-/* $MirOS: src/sys/crypto/randcore.c,v 1.2 2010/09/21 17:42:51 tg Exp $ */
+/* $MirOS: src/sys/crypto/randcore.c,v 1.3 2010/09/24 19:59:08 tg Exp $ */
 
 /*-
  * Copyright © 2010
@@ -254,9 +254,11 @@ randomattach(void)
 
 	arcfour_init(&lopool_collapse);
 	arcfour_ksa(&lopool_collapse, initial_entropy, 12);
-	add_true_randomness((initial_entropy[12] << 24) |
-	    (initial_entropy[13] << 16) | (initial_entropy[14] << 8) |
-	    initial_entropy[15]);
+	enqueue_randomness(RND_SRC_LPC, (int)(
+	    ((uint32_t)initial_entropy[12] << 24) |
+	    ((uint32_t)initial_entropy[13] << 16) |
+	    ((uint32_t)initial_entropy[14] << 8) |
+	    (uint32_t)initial_entropy[15]));
 
 	rnd_attached = 1;
 	/* initialises both lopool and arc4random timeouts */

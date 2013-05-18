@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/dev/rnd.c,v 1.63 2010/09/19 18:55:34 tg Exp $ */
+/**	$MirOS: src/sys/dev/rnd.c,v 1.64 2010/09/24 19:59:09 tg Exp $ */
 /*	$OpenBSD: rnd.c,v 1.78 2005/07/07 00:11:24 djm Exp $	*/
 
 /*
@@ -565,14 +565,15 @@ add_entropy_words(buf, n)
  *
  */
 void
-enqueue_randomness(state, val)
-	int	state, val;
+enqueue_randomness(int ustate, int val)
 {
 	register struct timer_rand_state *p;
 	register struct rand_event *rep;
 	struct timeval	tv;
 	u_int	time_, nbits;
-	int s;
+	int s, state;
+
+	state = ustate == RND_SRC_LPC ? RND_SRC_TRUE : ustate;
 
 	/* XXX on i386 and maybe sparc we get here before randomattach() */
 	if (!rnd_attached) {
@@ -666,7 +667,7 @@ enqueue_randomness(state, val)
 		p->last_delta  = delta3;
 		p->last_delta2 = delta2;
 	} else if (p->max_entropy)
-		nbits = 8 * sizeof(val) - 1;
+		nbits = (ustate == RND_SRC_LPC) ? 24 : (8 * sizeof(val) - 1);
 
 	s = splhigh();
 	if ((rep = rnd_put()) == NULL) {
