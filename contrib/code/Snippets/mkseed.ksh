@@ -1,7 +1,7 @@
 #!/bin/mksh
-# $MirOS: src/share/misc/licence.template,v 1.24 2008/04/22 11:43:31 tg Rel $
+# $MirOS: contrib/code/Snippets/mkseed.ksh,v 1.3 2008/05/03 01:09:24 tg Exp $
 #-
-# Copyright (c) 2007
+# Copyright (c) 2007, 2008
 #	Thorsten Glaser <tg@mirbsd.de>
 #
 # Provided that these terms and disclaimer and all copyright notices
@@ -68,8 +68,8 @@ if ! T3=$(mktemp /tmp/mkseed.XXXXXXXXXX); then
 	print -u2 $me: cannot create temporary file
 	exit 1
 fi
-trap 'rm -f $T1 $T2 $T3; exit 0' 0
-trap 'rm -f $T1 $T2 $T3; exit 1' 1 2 3 5 13 15
+trap 'rm -Pf $T1 $T2 $T3; rm -f $T1 $T2 $T3; exit 0' 0
+trap 'rm -Pf $T1 $T2 $T3; rm -f $T1 $T2 $T3; exit 1' 1 2 3 5 13 15
 
 print -n >$T1
 integer fsiz=0; print -n "0 ..."
