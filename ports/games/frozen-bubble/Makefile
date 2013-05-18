@@ -1,8 +1,8 @@
-# $MirOS: ports/games/frozen-bubble/Makefile,v 1.7 2006/11/17 18:31:41 tg Exp $
+# $MirOS: ports/games/frozen-bubble/Makefile,v 1.8 2006/12/11 22:59:20 tg Exp $
 # $NetBSD: Makefile,v 1.16 2005/05/22 20:08:01 jlam Exp $
 
 COMMENT=		Pop the frozen bubbles
-DISTNAME=		frozen-bubble-2.0.0
+DISTNAME=		frozen-bubble-2.1.0
 CATEGORIES=		games
 EXTRACT_SUFX=		.tar.bz2
 HOMEPAGE=		http://www.frozen-bubble.org/
@@ -17,11 +17,13 @@ MASTER_SITES=		http://www.frozen-bubble.org/data/
 LIB_DEPENDS+=		SDL_Pango:sdl-pango->=0.1.2-2:devel/sdl-pango
 B_R_DEPENDS+=		:p5-SDL->=1.20.0-2:devel/p5-SDL \
 			:sdl-mixer->=1.2.2:devel/sdl-mixer
+LDFLAGS+=		-Wl,-rpath,${LOCALBASE}/lib
 
 USE_GMAKE=		Yes
 CONFIGURE_STYLE=	perl
 MODPERL_SRC=		${WRKSRC}/c_stuff
 EXTRA_XAKE_FLAGS+=	PREFIX=${PREFIX:Q}
+EXTRA_XAKE_FLAGS+=	MANDIR=${PREFIX:Q}/man
 
 post-install:
 	cd ${PREFIX}/share; \

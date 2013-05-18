@@ -1,4 +1,4 @@
-@comment $MirOS: ports/games/frozen-bubble/pkg/PLIST,v 1.4 2006/11/04 04:12:04 tg Exp $
+@comment $MirOS: ports/games/frozen-bubble/pkg/PLIST,v 1.5 2006/11/06 19:16:43 tg Exp $
 bin/frozen-bubble
 bin/frozen-bubble-editor
 lib/frozen-bubble/fb-server
@@ -16,12 +16,18 @@ man/man6/frozen-bubble.6
 share/frozen-bubble/data/demo1.bz2
 share/frozen-bubble/data/demo2.bz2
 share/frozen-bubble/data/demo3.bz2
+share/frozen-bubble/data/demo4.bz2
+share/frozen-bubble/data/demo5.bz2
 share/frozen-bubble/data/levels
 share/frozen-bubble/data/plasma.raw
 share/frozen-bubble/gfx/attack_rp1.png
 share/frozen-bubble/gfx/attack_rp2.png
 share/frozen-bubble/gfx/attack_rp3.png
 share/frozen-bubble/gfx/attack_rp4.png
+share/frozen-bubble/gfx/attackme_rp1.png
+share/frozen-bubble/gfx/attackme_rp2.png
+share/frozen-bubble/gfx/attackme_rp3.png
+share/frozen-bubble/gfx/attackme_rp4.png
 share/frozen-bubble/gfx/back_hiscores.png
 share/frozen-bubble/gfx/back_multiplayer.png
 share/frozen-bubble/gfx/back_netgame.png
@@ -44,13 +50,21 @@ share/frozen-bubble/gfx/balls/bubble-7-mini.png
 share/frozen-bubble/gfx/balls/bubble-7.gif
 share/frozen-bubble/gfx/balls/bubble-8-mini.png
 share/frozen-bubble/gfx/balls/bubble-8.gif
+share/frozen-bubble/gfx/balls/bubble-colourblind-1-mini.png
 share/frozen-bubble/gfx/balls/bubble-colourblind-1.gif
+share/frozen-bubble/gfx/balls/bubble-colourblind-2-mini.png
 share/frozen-bubble/gfx/balls/bubble-colourblind-2.gif
+share/frozen-bubble/gfx/balls/bubble-colourblind-3-mini.png
 share/frozen-bubble/gfx/balls/bubble-colourblind-3.gif
+share/frozen-bubble/gfx/balls/bubble-colourblind-4-mini.png
 share/frozen-bubble/gfx/balls/bubble-colourblind-4.gif
+share/frozen-bubble/gfx/balls/bubble-colourblind-5-mini.png
 share/frozen-bubble/gfx/balls/bubble-colourblind-5.gif
+share/frozen-bubble/gfx/balls/bubble-colourblind-6-mini.png
 share/frozen-bubble/gfx/balls/bubble-colourblind-6.gif
+share/frozen-bubble/gfx/balls/bubble-colourblind-7-mini.png
 share/frozen-bubble/gfx/balls/bubble-colourblind-7.gif
+share/frozen-bubble/gfx/balls/bubble-colourblind-8-mini.png
 share/frozen-bubble/gfx/balls/bubble-colourblind-8.gif
 share/frozen-bubble/gfx/balls/bubble_lose-mini.png
 share/frozen-bubble/gfx/balls/bubble_lose.png
@@ -752,6 +766,7 @@ share/frozen-bubble/gfx/net_lose_rp1.png
 share/frozen-bubble/gfx/net_lose_rp2.png
 share/frozen-bubble/gfx/net_lose_rp3.png
 share/frozen-bubble/gfx/net_lose_rp4.png
+share/frozen-bubble/gfx/netspot-playing.png
 share/frozen-bubble/gfx/netspot-self-1.png
 share/frozen-bubble/gfx/netspot-self-2.png
 share/frozen-bubble/gfx/netspot-self-3.png
