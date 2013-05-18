@@ -1,6 +1,7 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.5 2002/10/27 00:03:16 naddy Exp $
 
-COMMENT=			S10sh - a Canon PowerShot digital camera driver
+COMMENT=	S10sh - a Canon PowerShot digital camera driver
 
 DISTNAME=	s10sh-0.2.0
 CATEGORIES=	graphics
@@ -17,6 +18,7 @@ PERMIT_DISTFILES_FTP=	Yes
 
 DOCDIR=		${PREFIX}/share/doc/s10sh
 
+USE_CXX=	Yes # depends on libusb, which uses C++
 LIB_DEPENDS=	usb::devel/libusb
 
 CONFIGURE_STYLE= simple

@@ -1,7 +1,7 @@
-# $MirOS: ports/graphics/sane-backends/Makefile,v 1.2 2006/02/09 11:11:52 tg Exp $
+# $MirOS: ports/graphics/sane-backends/Makefile,v 1.3 2006/09/14 00:10:06 tg Exp $
 # Original from: Antoine Jacoutot <ajacoutot@lphp.org>
 
-COMMENT=			API for accessing scanners, backends
+COMMENT=	API for accessing scanners, backends
 
 DISTNAME=	sane-backends-1.0.14
 CATEGORIES=	graphics
@@ -21,6 +21,7 @@ MODULES=	devel/gettext
 LIB_DEPENDS=	usb.7::devel/libusb \
 		jpeg.62::graphics/jpeg
 
+USE_CXX=		Yes # depends on libusb, which uses C++
 USE_GMAKE=		Yes
 AUTOCONF_NEW=		Yes
 CONFIGURE_STYLE=	autoconf

@@ -1,4 +1,4 @@
-# $MirOS: ports/graphics/libgphoto2/Makefile,v 1.6 2007/01/08 17:59:15 tg Exp $
+# $MirOS: ports/graphics/libgphoto2/Makefile,v 1.7 2007/02/22 22:57:51 tg Exp $
 # $OpenBSD: Makefile,v 1.4 2004/04/14 18:39:57 brad Exp $
 
 COMMENT=		digital camera library
@@ -20,6 +20,7 @@ AUTOCONF_NEW=		Yes
 MODGNU_CONFIG_GUESS_DIRS= ${WRKSRC} ${WRKSRC}/libgphoto2_port
 CONFIGURE_ARGS+=	--disable-nls
 
+USE_CXX=		Yes # depends on libusb, which uses C++
 SUBST_VARS+=		VERSION
 MODULES+=		devel/pkgconfig
 LIB_DEPENDS+=		exif:libexif->=0.6.13-1:graphics/libexif \
