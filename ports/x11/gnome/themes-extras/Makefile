@@ -1,10 +1,10 @@
-# $MirOS: ports/x11/gnome/themes-extras/Makefile,v 1.3 2006/02/09 11:15:48 tg Exp $
+# $MirOS: ports/x11/gnome/themes-extras/Makefile,v 1.4 2006/09/14 00:15:22 tg Exp $
 
-COMMENT=			themes collection for GNOME
+COMMENT=		themes collection for GNOME
 
 VERSION=		0.4
-DASH_VER=		-0
-DISTNAME=		gnome-themes-extras-${VERSION}${DASH_VER}
+# XXX is this correct?
+DISTNAME=		gnome-themes-extras-${VERSION}-${DASH_VER}
 CATEGORIES=		x11 x11/gnome
 
 HOMEPAGE=		http://www.gnome.org
