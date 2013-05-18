@@ -1,9 +1,9 @@
-# $MirOS: ports/multimedia/mplayer/Makefile,v 1.12 2005/12/28 21:02:13 tg Exp $
+# $MirOS: ports/multimedia/mplayer/Makefile,v 1.13 2006/02/09 11:12:11 tg Exp $
 # $OpenBSD: Makefile,v 1.83 2005/05/09 12:24:38 biorn Exp $
 
 # May not be hard to add more.
 # <mira> waldi: in mplayer sind mehr LP64 bugs pro KB source drin als in pine
-ONLY_FOR_PLATFORM=	*:*:i386 *:*:macppc OpenBSD:*:arm OpenBSD:*:amd64 #XXX
+ONLY_FOR_PLATFORM=	*:*:i386 *:*:powerpc OpenBSD:*:arm OpenBSD:*:amd64 #XXX
 
 COMMENT=		"Movie player supporting MPEG, DivX, AVI, ASF, MOV & more"
 DISTNAME=		MPlayer-1.0pre7
