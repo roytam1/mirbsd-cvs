@@ -745,7 +745,6 @@
 ./usr/sbin/syslogc
 ./usr/sbin/syslogd
 ./usr/sbin/tcpdrop
-./usr/sbin/tcpdump
 ./usr/sbin/timed
 ./usr/sbin/timedc
 ./usr/sbin/tokenadm
@@ -2516,7 +2515,6 @@
 ./usr/share/man/cat8/syslogd.0
 ./usr/share/man/cat8/talkd.0
 ./usr/share/man/cat8/tcpdrop.0
-./usr/share/man/cat8/tcpdump.0
 ./usr/share/man/cat8/tftpd.0
 ./usr/share/man/cat8/timed.0
 ./usr/share/man/cat8/timedc.0

@@ -1,4 +1,4 @@
-# $MirOS: src/usr.sbin/Makefile,v 1.19 2006/07/08 21:42:55 tg Exp $
+# $MirOS: src/usr.sbin/Makefile,v 1.20 2006/08/16 23:12:05 tg Exp $
 # $OpenBSD: Makefile,v 1.110 2004/05/04 23:27:21 deraadt Exp $
 
 .include <bsd.own.mk>
@@ -90,7 +90,6 @@
   SUBDIR+= syslogc
   SUBDIR+= syslogd
   SUBDIR+= tcpdrop
-  SUBDIR+= tcpdump
   SUBDIR+= timed
   SUBDIR+= tokenadm
   SUBDIR+= tokeninit
