@@ -1,4 +1,4 @@
-# $MirOS: www/Makefile,v 1.70 2010/04/09 19:29:16 tg Exp $
+# $MirOS: www/Makefile,v 1.71 2010/05/13 19:04:14 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -37,6 +37,7 @@ SRCS+=		main.hts
 SRCS+=		makefs.hts
 SRCS+=		mksh.hts mksh_bld.hts mksh_old.hts
 SRCS+=		oldnews.hts
+SRCS+=		pkgsrc.hts
 SRCS+=		ports.hts
 SRCS+=		projects.hts
 SRCS+=		randex.hts

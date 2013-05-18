@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/news.inc,v 1.139 2010/09/16 21:29:35 tg Exp $
+RCSID: $MirOS: www/data/news.inc,v 1.140 2011/01/28 22:28:45 tg Exp $
 Title: Older news from the MirOS Project
 Date: 01.03.2006
 
@@ -1934,4 +1934,19 @@ Tag: debian mksh
  released versions… Android-x86 and AOSP have had it for a while, but
  this sees the general adoption of mksh(1) as the only POSIX/Korn Shell
  on the Android OS! Thanks to those who helped to make this reality.</p>
+----
+Title: MirOS support added to pkgsrc
+Date: 08.02.2011 21:20
+Author: bsiegert@
+
+<p>On January 23, an initial set of patches for MirOS support has been
+ committed to pkgsrc by Alistair Crooks. As a part of these is still on
+ hold for the moment, some <a href="@@RELPATH@@pkgsrc.htm">patches</a>
+ are still necessary for successfully bootstrapping. You can bootstrap
+ pkgsrc as root, installing for example into /usr/pkg, or as an
+ unprivileged user. MirPorts and pkgsrc can be used in parallel.</p>
+
+<p>Even if only a small number of packages has been tested on MirOS so
+ far, the adoption of pkgsrc will give users access to vast,
+ well-maintained archive of third-party software.</p>
 ----
