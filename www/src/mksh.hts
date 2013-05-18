@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.359 2010/09/05 20:09:23 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.360 2010/09/14 21:30:56 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -1051,9 +1051,9 @@ exec /usr/bin/ld "${args[@]}"</pre>
  <li>[oksh] Simplify some code; RCSID and comment sync with OpenBSD ksh</li>
  <li>[oksh] Apply diff from manuel giraud to keep track of LINENO in a trap</li>
  <li>[tg] Remove arc4random(3) functionality; seed an LCG depending on the
-  OS doing Address Space Layout Randomisation; speed up (on MirBSD/OpenBSD,
-  sysctl(3) KERN_ARND will still be used during seeding; with -DMKSH_A4PB,
-  use of arc4random_pushb(3) e.g. for seeding on Cygwin can be forced)</li>
+  OS doing Address Space Layout Randomisation; speed up (we will use either
+  arc4random_pushb_fast(3) if it exists or arc4random_pushb(3) if forced by
+  the user with <tt>-DMKSH_A4PB</tt> e.g. on Cygwin)</li>
  <li>[tg] Fix spelling in <tt>dot.mkshrc</tt></li>
  <li>[tg] Implement “live” window resize for the Emacs editing mode</li>
  <li>[tg] More fixes for bugs found by Valgrind and LLVM+Clang scan-build</li>
@@ -1094,6 +1094,7 @@ exec /usr/bin/ld "${args[@]}"</pre>
   check all multiplications and some additions for integer overflows, mostly
   in allocation context, and check setres{u,g}id/setuid for EAGAIN iff the
   target OS is known to be returning it (Linux only, right now)</li>
+ <li>[OpenBSD] Some small manpage fixes</li>
 </ul>
 <p id="r39c">mksh R39c is an important minor bugfix release:</p><ul>
  <li>[tg] Build system, code, docs and testsuite cleanup, also style(9)</li>
