@@ -1,6 +1,7 @@
+$MirOS$
 $OpenBSD: patch-src_lhext_c,v 1.1 2004/05/06 23:07:57 naddy Exp $
---- src/lhext.c.orig	2000-10-04 16:57:38.000000000 +0200
-+++ src/lhext.c	2004-05-07 01:00:10.000000000 +0200
+--- src/lhext.c.orig	Wed Oct  4 14:57:16 2000
++++ src/lhext.c	Sat Feb 10 20:37:27 2007
 @@ -190,8 +190,13 @@ extract_one(afp, hdr)
  		q = (char *) rindex(hdr->name, '/') + 1;
  	}
@@ -24,10 +25,12 @@ $OpenBSD: patch-src_lhext_c,v 1.1 2004/05/06 23:07:57 naddy Exp $
  				l_code = symlink(bb2, bb1);
  				if (l_code < 0) {
  					if (quiet != TRUE)
-@@ -419,6 +425,33 @@ cmd_extract()
- 	return;
- }
+@@ -417,6 +423,33 @@ cmd_extract()
+ 	fclose(afp);
  
+ 	return;
++}
++
 +int
 +is_directory_traversal(char *string)
 +{
@@ -53,8 +56,6 @@ $OpenBSD: patch-src_lhext_c,v 1.1 2004/05/06 23:07:57 naddy Exp $
 +  } /* while */
 +
 +  return (type == 1);
-+}
-+
+ }
+ 
  /* Local Variables: */
- /* mode:c */
- /* tab-width:4 */
