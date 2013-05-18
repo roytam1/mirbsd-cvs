@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/stand/libsa/cmd_i386.c,v 1.11 2009/01/01 22:53:43 tg Exp $	*/
+/**	$MirOS: src/sys/arch/i386/stand/libsa/cmd_i386.c,v 1.12 2009/01/01 22:59:35 tg Exp $	*/
 /*	$OpenBSD: cmd_i386.c,v 1.29 2006/09/18 21:14:15 mpf Exp $	*/
 
 /*
@@ -46,12 +46,14 @@ extern struct disklist_lh disklist;
 
 #ifndef SMALL_BOOT
 extern uint32_t bios_bootpte[4];
+int i386_bootdev;
 #endif
 
 #ifndef SMALL_BOOT
 int Xboot(void);
 int Xdiskinfo(void);
 int Xlabel(void);
+int Xmdexec(void);
 #endif
 int Xmemory(void);
 #ifndef SMALL_BOOT
@@ -66,6 +68,7 @@ const struct cmd_table cmd_machine[] = {
 #ifndef SMALL_BOOT
 	{ "boot",	CMDT_CMD, Xboot },
 	{ "diskinfo",	CMDT_CMD, Xdiskinfo },
+	{ "exec",	CMDT_CMD, Xmdexec },
 	{ "label",	CMDT_CMD, Xlabel },
 #endif
 	{ "memory",	CMDT_CMD, Xmemory },
@@ -277,3 +280,53 @@ Xoldbios(void)
 
 	return 0;
 }
+
+#ifndef SMALL_BOOT
+int
+Xmdexec(void)
+{
+	int fd, sz, type = 0;
+	char *buf;
+	uint32_t baddr;
+
+	if (cmd.argc != 3) {
+ synerr:
+		printf("machine exec <type> <file>\n");
+		printf("	types: sector\n");
+		return (0);
+	}
+
+	if (!strcmp(cmd.argv[1], "sector"))
+		type = 1;
+	else
+		goto synerr;
+
+	if ((fd = open(qualify(cmd.argv[2]), 0)) < 0) {
+		printf("open(%s): %s\n", cmd.argv[2], strerror(errno));
+		return (0);
+	}
+
+	buf = alloc(65295);
+	baddr = (intptr_t)buf;
+	baddr = (baddr + 15) & ~15;
+	buf = (void *)((intptr_t)baddr);
+
+	if ((sz = read(fd, buf, 65280)) < 0) {
+		printf("read error\n");
+		close(fd);
+		return(0);
+	}
+
+	close(fd);
+	printf("Loaded %d bytes for %s %s\n", sz, cmd.argv[1], cmd.argv[2]);
+
+	switch (type) {
+	case 1:
+		baddr = 0x00007C00;
+		break;
+	}
+
+	gateA20(0);
+	bootbuf(buf, sz, i386_bootdev, baddr);
+}
+#endif
