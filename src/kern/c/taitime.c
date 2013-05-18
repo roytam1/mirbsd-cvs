@@ -2,7 +2,7 @@
 
 /*-
  * Copyright (c) 2004, 2005, 2006, 2007, 2011
- *	Thorsten Glaser <tg@mirbsd.org>
+ *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
  * Based upon code placed into the public domain by
  *	Dan J. Bernstein <djb@cr.yp.to>
  *
@@ -43,12 +43,6 @@ int
 tai_isleap(tai64_t x)
 {
 	tai64_t *t;
-
-#ifdef __TAI_CAN_BE_64BIT
-	/* shortcut, also to protect wraparounds */
-	if (TT(x) < 0)
-		return (0);
-#endif
 
 	t = tai_leaps();
 	while (__predict_true(*t))
