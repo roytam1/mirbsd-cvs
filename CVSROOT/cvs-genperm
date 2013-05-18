@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: CVSROOT/cvs-genperm,v 1.24 2006/08/22 21:25:15 tg Exp $
+# $MirOS: CVSROOT/cvs-genperm,v 1.25 2006/09/12 22:58:08 tg Exp $
 #-
 # Copyright (c) 2003, 2004, 2005, 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -109,6 +109,7 @@ find "$CVSROOT"$fr | while IFS= read pname; do
 				    $name = src/gnu/usr.bin/Makefile* || \
 				    $name = src/gnu/usr.bin/anoncvs@(|/*) || \
 				    $name = src/gnu/usr.bin/autogen.sh || \
+				    $name = src/gnu/usr.bin/lynx@(|/*) || \
 				    $name = src/gnu/usr.bin/mkisofs@(|/*) || \
 				    $name = src/gnu/usr.bin/perl@(|/*) ]] \
 				    && M=miros-cvssrc
