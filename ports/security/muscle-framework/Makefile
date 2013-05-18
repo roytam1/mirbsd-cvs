@@ -1,6 +1,6 @@
-# $MirOS: ports/security/muscle-framework/Makefile,v 1.4 2006/09/14 00:13:05 tg Exp $
+# $MirOS: ports/security/muscle-framework/Makefile,v 1.5 2007/03/31 22:02:08 tg Exp $
 
-COMMENT=			Smartcard access framework
+COMMENT=		Smartcard access framework
 DISTNAME=		muscleframework-1.1.5
 PKGNAME=		${DISTNAME}-1
 CATEGORIES=		security
@@ -20,6 +20,7 @@ MODGNU_CONFIG_GUESS_DIRS= ${WRKSRC}/CFlexPlugin ${WRKSRC}/MCardPlugin \
 			${WRKSRC}/libmusclepkcs11
 CONFIGURE_STYLE=	autoconf no-autoheader
 AUTOCONF_NEW=		yes
+USE_CXX=		Yes # depends on libusb, which uses CXX
 
 .include <mirports.sys.mk>
 CFLAGS+=		-pthread
