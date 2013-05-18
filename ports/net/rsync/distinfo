@@ -1,7 +1,7 @@
 $MirOS$
 
-MD5 (rsync-3.0.1pre3.tar.gz) = 16b0efdc78fa08c65053b4c9a122d91c
-RMD160 (rsync-3.0.1pre3.tar.gz) = 5856285d7633695f1842110b80aa58c1216b347a
-SHA1 (rsync-3.0.1pre3.tar.gz) = 933acefe9f92bcdc30bdc510794f711f233cf0a8
-SIZE (rsync-3.0.1pre3.tar.gz) = 765960
-TIGER (rsync-3.0.1pre3.tar.gz) = 2dea9d85b7ebcbd10316817f3bf418814425342d91642b02
+MD5 (rsync-3.0.2.tar.gz) = fd4c5d77d8cb7bb86ab209076fa214d9
+RMD160 (rsync-3.0.2.tar.gz) = 8f7872e20ea3e243bf0c44c02a583d579e1a0d19
+SHA1 (rsync-3.0.2.tar.gz) = 0d1e69c28ee57a6cca6b9a52b18c7fb835ca7a2e
+SIZE (rsync-3.0.2.tar.gz) = 765732
+TIGER (rsync-3.0.2.tar.gz) = dd3676d0ad8883729d6fb43f23c096351031caa4f3aa41d8
