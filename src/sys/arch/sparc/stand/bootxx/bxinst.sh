@@ -1,5 +1,5 @@
 #!/usr/bin/env mksh
-# $MirOS: src/sys/arch/sparc/stand/bootxx/bxinst.sh,v 1.2 2007/10/16 21:40:58 tg Exp $
+# $MirOS: src/sys/arch/sparc/stand/bootxx/bxinst.sh,v 1.3 2007/10/16 21:48:58 tg Exp $
 #-
 # Copyright (c) 2007
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -32,7 +32,6 @@ function out_int32 {
 	typeset -Uui16 value=$1
 	typeset -Uui8 ba bb bc bd
 
-	#print -u2 debug: writing value 0x${value#16#}
 	(( ba = (value >> 24) & 0xFF ))
 	(( bb = (value >> 16) & 0xFF ))
 	(( bc = (value >> 8) & 0xFF ))
@@ -51,10 +50,8 @@ done
 
 # read in the extents
 while read blockno numblocks; do
-	#print -u2 Recording $numblocks blocks @$blockno ...
 	while (( numblocks )); do
 		let blktblent[blktblnum++]=blockno++
-		#print -u2 \\tblock \#$((blktblnum-1)): ${blktblent[blktblnum-1]}, $((blktblsz-blktblnum)) left
 		let numblocks--
 	done
 	if (( blktblnum > blktblsz )); then
@@ -62,6 +59,14 @@ while read blockno numblocks; do
 		exit 1
 	fi
 done
+
+# verbose output
+let i=0
+print -nu2 "using blocks: "
+while (( i < blktblnum )); do
+	print -nu2 "${blktblent[i++]} "
+done
+print -u2 .
 
 # Part 1
 print -n '\01\03\01\07\060\0200\0\07@@PARTONE@@'

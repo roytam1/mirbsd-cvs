@@ -1,4 +1,4 @@
-# $MirOS: src/sys/arch/sparc/stand/bootxx/Makefile,v 1.10 2007/10/16 21:26:22 tg Exp $
+# $MirOS: src/sys/arch/sparc/stand/bootxx/Makefile,v 1.11 2007/10/16 21:40:58 tg Exp $
 # $OpenBSD: Makefile,v 1.7 2003/08/11 06:35:45 deraadt Exp $
 # $NetBSD: Makefile,v 1.2 1995/09/30 21:43:38 pk Exp $
 
@@ -54,3 +54,7 @@ bxinst: ${PROG}.bin bxinst.sh
 
 srt0.o: srt0.S
 	${CC} ${CFLAGS} ${CPPFLAGS} -D_LOCORE -c ${.IMPSRC}
+
+afterinstall:
+	${INSTALL} ${INSTALL_COPY} ${INSTALL_STRIP} -o ${BINOWN} -g ${BINGRP} \
+	    -m ${BINMODE} bxinst ${DESTDIR}${BINDIR}/bxinst.sparc
