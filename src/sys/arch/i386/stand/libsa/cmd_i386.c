@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/stand/libsa/cmd_i386.c,v 1.4 2008/08/01 11:24:59 tg Exp $	*/
+/**	$MirOS: src/sys/arch/i386/stand/libsa/cmd_i386.c,v 1.5 2008/08/01 11:33:41 tg Exp $	*/
 /*	$OpenBSD: cmd_i386.c,v 1.29 2006/09/18 21:14:15 mpf Exp $	*/
 
 /*
@@ -75,9 +75,7 @@ const struct cmd_table cmd_machine[] = {
 int
 Xdiskinfo(void)
 {
-#ifndef _TEST
 	dump_diskinfo();
-#endif
 	return 0;
 }
 
@@ -93,7 +91,6 @@ Xregs(void)
 int
 Xboot(void)
 {
-#ifndef _TEST
 	int dev, part, st;
 	bios_diskinfo_t *bd = NULL;
 	char buf[DEV_BSIZE], *dest = (void *)BOOTBIOS_ADDR;
@@ -150,7 +147,6 @@ Xboot(void)
 
 bad:
 	printf("Invalid device!\n");
-#endif
 	return 0;
 }
 #endif

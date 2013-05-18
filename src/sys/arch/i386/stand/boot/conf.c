@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/stand/boot/conf.c,v 1.8 2007/05/24 21:38:04 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/stand/boot/conf.c,v 1.9 2008/08/01 11:24:58 tg Exp $ */
 /*	$OpenBSD: conf.c,v 1.39 2008/04/19 23:20:22 weingart Exp $	*/
 
 /*
@@ -39,7 +39,6 @@
 #include <lib/libsa/tftp.h>
 #include <lib/libsa/netif.h>
 #endif
-#include <lib/libsa/unixdev.h>
 #include <biosdev.h>
 #include <dev/cons.h>
 #include "debug.h"
@@ -78,23 +77,15 @@ struct fs_ops file_system[] = {
 	{ nfs_open,    nfs_close,    nfs_read,    nfs_write,    nfs_seek,
 	  nfs_stat,    nfs_readdir    },
 #endif
-#ifdef _TEST
-	{ null_open,   null_close,   null_read,   null_write,   null_seek,
-	  null_stat,   null_readdir   }
-#endif
 #endif
 };
 int nfsys = NENTS(file_system);
 
 struct devsw	devsw[] = {
-#ifdef _TEST
-	{ "UNIX", unixstrategy, unixopen, unixclose, unixioctl },
-#else
 #ifndef SMALL_BOOT
 	{ "TORI", toristrategy, toriopen, toriclose, toriioctl },
 #endif
 	{ "BIOS", biosstrategy, biosopen, biosclose, biosioctl },
-#endif
 #if 0
 	{ "TFTP", tftpstrategy, tftpopen, tftpclose, tftpioctl },
 #endif
@@ -109,12 +100,8 @@ int n_netif_drivers = NENTS(netif_drivers);
 #endif
 
 struct consdev constab[] = {
-#ifdef _TEST
-	{ unix_probe, unix_init, unix_getc, unix_putc },
-#else
 	{ pc_probe, pc_init, pc_getc, pc_putc },
 	{ com_probe, com_init, com_getc, com_putc },
-#endif
 	{ NULL }
 };
 struct consdev *cn_tab = constab;

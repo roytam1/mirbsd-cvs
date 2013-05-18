@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/stand/pxeboot/conf.c,v 1.6 2007/05/24 21:38:05 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/stand/pxeboot/conf.c,v 1.7 2008/08/01 11:25:01 tg Exp $ */
 /*	$OpenBSD: conf.c,v 1.16 2008/04/19 23:20:22 weingart Exp $	*/
 
 /*
@@ -39,7 +39,6 @@
 #include <lib/libsa/nfs.h>
 #include <lib/libsa/tftp.h>
 #include <lib/libsa/netif.h>
-#include <lib/libsa/unixdev.h>
 #include <biosdev.h>
 #include <dev/cons.h>
 #include "debug.h"
@@ -49,11 +48,7 @@
 const char version[] = __BOOT_VER "-PXE";
 int	debug = 1;
 
-#undef _TEST
-
-
 void (*sa_cleanup)(void) = pxe_shutdown;
-
 
 void (*i386_probe1[])(void) = {
 	ps2probe, gateA20on, /* debug_init, */ cninit, apmprobe,
@@ -93,19 +88,11 @@ struct fs_ops file_system[] = {
 	{ cd9660_open, cd9660_close, cd9660_read, cd9660_write, cd9660_seek,
 	  cd9660_stat, cd9660_readdir },
 #endif
-#ifdef _TEST
-	{ null_open,   null_close,   null_read,   null_write,   null_seek,
-	  null_stat,   null_readdir   }
-#endif
 };
 int nfsys = NENTS(file_system);
 
 struct devsw	devsw[] = {
-#ifdef _TEST
-	{ "UNIX", unixstrategy, unixopen, unixclose, unixioctl },
-#else
 	{ "BIOS", biosstrategy, biosopen, biosclose, biosioctl },
-#endif
 };
 int ndevs = NENTS(devsw);
 
@@ -118,12 +105,8 @@ struct netif_driver	*netif_drivers[] = {
 int n_netif_drivers = NENTS(netif_drivers);
 
 struct consdev constab[] = {
-#ifdef _TEST
-	{ unix_probe, unix_init, unix_getc, unix_putc },
-#else
 	{ pc_probe, pc_init, pc_getc, pc_putc },
 	{ com_probe, com_init, com_getc, com_putc },
-#endif
 	{ NULL }
 };
 struct consdev *cn_tab = constab;

@@ -1,4 +1,4 @@
-# $MirOS: src/sys/arch/i386/stand/boot/Makefile,v 1.12 2007/05/24 21:03:53 tg Exp $
+# $MirOS: src/sys/arch/i386/stand/boot/Makefile,v 1.13 2008/08/01 11:24:58 tg Exp $
 
 .include "${.CURDIR}/../Makefile.inc"
 
@@ -28,14 +28,9 @@ LDFLAGS+=	-nostdlib -Bstatic --no-undefined
 INSTALL_STRIP=
 .PATH:		${S}/stand/boot
 
-.if defined(DEBUGFLAGS) && !empty(DEBUGFLAGS:M-D_TEST)
-CLEANFILES+=	srt0.o
-SRCS=		crt0.c
-.else
 LDFLAGS+=	-Ttext $(LINKADDR) -N -x -noinhibit-exec
 CLEANFILES+=	crt0.o
 SRCS=		srt0.S
-.endif
 
 .ifdef BOOTSELECT_HOOK
 SRCS+=		hook.S

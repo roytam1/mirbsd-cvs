@@ -289,7 +289,6 @@ badprobe(bios_memmap_t *mp)
 }
 
 bios_memmap_t bios_memmap[32];	/* This is easier */
-#ifndef _TEST
 void
 memprobe(void)
 {
@@ -358,7 +357,6 @@ memprobe(void)
 	/* Check if gate A20 is on */
 	printf("a20=o%s] ", checkA20()? "n" : "ff!");
 }
-#endif
 
 void
 dump_biosmem(bios_memmap_t *tm)

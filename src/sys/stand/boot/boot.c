@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/stand/boot/boot.c,v 1.12 2008/08/01 11:25:04 tg Exp $	*/
+/**	$MirOS: src/sys/stand/boot/boot.c,v 1.13 2008/08/01 11:56:10 tg Exp $	*/
 /*	$OpenBSD: boot.c,v 1.36 2007/06/26 10:34:41 tom Exp $	*/
 
 /*
@@ -165,12 +165,3 @@ boot(dev_t bootdev)
 	/* exec */
 	run_loadfile(marks, cmd.boothowto);
 }
-
-#ifdef _TEST
-int
-main()
-{
-	boot(0);
-	return 0;
-}
-#endif

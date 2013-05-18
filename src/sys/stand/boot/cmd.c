@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/stand/boot/cmd.c,v 1.5 2008/08/01 11:25:05 tg Exp $	*/
+/**	$MirOS: src/sys/stand/boot/cmd.c,v 1.6 2008/08/01 11:56:10 tg Exp $	*/
 /*	$OpenBSD: cmd.c,v 1.59 2007/04/27 10:08:34 tom Exp $	*/
 
 /*
@@ -223,12 +223,7 @@ docmd(void)
 	}
 	cmd.argv[cmd.argc] = NULL;
 
-#ifdef REGRESS
-	printf("%s %s\n", cmd.argv[0],
-	    (cmd.argv[1] == NULL) ? "(null)" : cmd.argv[1]);
-#else
 	return (*cmd.cmd->cmd_exec)();
-#endif
 }
 
 static char *

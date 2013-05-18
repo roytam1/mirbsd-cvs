@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/stand/libsa/dev_i386.c,v 1.4 2006/08/19 14:20:30 tg Exp $	*/
+/**	$MirOS: src/sys/arch/i386/stand/libsa/dev_i386.c,v 1.5 2008/08/01 11:24:59 tg Exp $	*/
 /*	$OpenBSD: dev_i386.c,v 1.30 2007/06/27 20:29:37 mk Exp $	*/
 
 /*
@@ -91,14 +91,6 @@ devopen(struct open_file *f, const char *fname, char **file)
 void
 devboot(dev_t bootdev, char *p)
 {
-#ifdef _TEST
-	*p++ = '/';
-	*p++ = 'd';
-	*p++ = 'e';
-	*p++ = 'v';
-	*p++ = '/';
-	*p++ = 'r';
-#endif
 #ifndef SMALL_BOOT
 	if ((tori_bootflag) && (bootdev == (tori_bootflag & 0xFF))) {
 		*p++ = 'c';

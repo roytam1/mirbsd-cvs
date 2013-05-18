@@ -1,4 +1,4 @@
-# $MirOS: src/sys/lib/libsa/Makefile,v 1.3 2005/07/21 21:52:23 tg Exp $
+# $MirOS: src/sys/lib/libsa/Makefile,v 1.4 2005/08/07 15:37:42 tg Exp $
 # $OpenBSD: Makefile,v 1.22 2005/05/24 22:25:46 millert Exp $
 # $NetBSD: Makefile,v 1.13 1996/10/02 16:19:51 ws Exp $
 
@@ -38,9 +38,6 @@ SRCS+=	divdi3.c qdivrem.c
 SRCS+=	close.c closeall.c dev.c disklabel.c dkcksum.c cons.c ioctl.c \
 	lseek.c open.c nullfs.c read.c stat.c fstat.c write.c readdir.c
 
-# unix device
-# SRCS+=	unixdev.c
-
 # boot filesystems
 SRCS+=	ufs.c cd9660.c fat.c
 
@@ -61,7 +58,6 @@ SRCS+=	bootp.c rarp.c bootparam.c
 # C flags
 CFLAGS+=-DNO_NET
 .endif
-
 
 NOPIC=	yes
 OBJMACHINE=

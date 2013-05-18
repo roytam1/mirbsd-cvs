@@ -1,4 +1,4 @@
-# $MirOS: src/sys/arch/i386/stand/libsa/Makefile,v 1.12 2007/03/02 03:13:26 tg Exp $
+# $MirOS: src/sys/arch/i386/stand/libsa/Makefile,v 1.13 2008/08/01 11:24:59 tg Exp $
 # $OpenBSD: Makefile,v 1.47 2007/05/30 01:25:43 tom Exp $
 
 .include "${.CURDIR}/../Makefile.inc"
@@ -24,20 +24,11 @@ SMALL=		#defined
 SRCS+=	machdep.c dev_i386.c exec_i386.c cmd_i386.c loadfile.c elf32.c
 #SRCS+=	elf64.c
 
-.if defined(DEBUGFLAGS) && !empty(DEBUGFLAGS:M-D_TEST)
-SRCS+=	unixdev.c unixsys.S nullfs.c memprobe.c
-CLEANFILES+=	gidt.o debug_i386.o alloca.o toridev.o \
-	biosdev.o bioscons.o gateA20.o apmprobe.o \
-	cpuprobe.o memprobe.o diskprobe.o smpprobe.o \
-	time.o biosprobe.o
-.else
 SRCS+=	gidt.S debug_i386.S alloca.S toridev.c \
 	biosdev.c bioscons.c gateA20.c apmprobe.c \
 	memprobe.c diskprobe.c pciprobe.c smpprobe.c \
 	cpuprobe.c time.c biosprobe.c memcpy.c \
 	ps2probe.c pxe.c pxe_net.c pxe_call.S
-CLEANFILES+=	unixdev.o unixsys.o nullfs.o
-.endif
 
 # stand routines
 SRCS+=	alloc.c exit.c getfile.c gets.c globals.c strcmp.c strlen.c \

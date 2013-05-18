@@ -34,7 +34,7 @@
 
 volatile struct BIOS_regs	BIOS_regs;
 
-#if defined(DEBUG) && !defined(_TEST)
+#if defined(DEBUG)
 #define CKPT(c)	(*(u_int16_t*)0xb8148 = 0x4700 + (c))
 #else
 #define CKPT(c) /* c */

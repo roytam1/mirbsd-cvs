@@ -46,7 +46,6 @@ void
 run_loadfile(u_long *marks, int howto)
 {
 	u_long entry;
-#ifndef _TEST
 	dev_t bootdev = bootdev_dip->bootdev;
 	size_t ac = BOOTARG_LEN;
 	caddr_t av = (caddr_t)BOOTARG_OFF;
@@ -75,5 +74,4 @@ run_loadfile(u_long *marks, int howto)
 	(*(startfuncp)entry)(howto, bootdev, BOOTARG_APIVER,
 	    marks[MARK_END], extmem, cnvmem, ac, (int)av);
 	/* not reached */
-#endif
 }

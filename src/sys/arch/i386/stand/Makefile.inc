@@ -1,4 +1,4 @@
-# $MirOS: src/sys/arch/i386/stand/Makefile.inc,v 1.14 2008/08/01 11:56:55 tg Exp $
+# $MirOS: src/sys/arch/i386/stand/Makefile.inc,v 1.15 2008/08/01 12:21:34 tg Exp $
 # $OpenBSD: Makefile.inc,v 1.40 2007/11/26 10:26:02 deraadt Exp $
 
 .ifndef MODSRC_SYS_ARCH_I386_STAND_MAKEFILE_INC
@@ -30,7 +30,6 @@ DEBUGFLAGS=
 # DEBUGFLAGS+=-DBIOS_DEBUG
 # DEBUGFLAGS+=-DEXEC_DEBUG
 # DEBUGFLAGS+=-DALLOC_TRACE
-# DEBUGFLAGS+=-g -D_TEST
 # DEBUGFLAGS+=-DUNIX_DEBUG
 # DEBUGFLAGS+=-DBOOTP_DEBUG -DNETIF_DEBUG -DETHER_DEBUG
 # DEBUGFLAGS+=-DNFS_DEBUG -DRPC_DEBUG -DRARP_DEBUG
@@ -45,10 +44,8 @@ CPPFLAGS+=	-DSA_LINKADDR=${LINKADDR} -DSA_LOADADDR=${LOADADDR}
 
 CLEANFILES+=	machine
 
-.if empty(DEBUGFLAGS:M-D_TEST)
 SACFLAGS+=	-nostdinc -fno-builtin -fpack-struct
 SACFLAGS+=	-Dmemcmp=__builtin_memcmp -Dmemset=__builtin_memset
-.endif
 
 .if !make(libdep) && !make(sadep) && !make(salibdir) && !make(kernlibdir) && !make(obj)
 .BEGIN:
