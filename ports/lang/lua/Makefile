@@ -1,5 +1,8 @@
-# $MirOS: ports/lang/lua/Makefile,v 1.6 2009/08/29 12:41:12 tg Exp $
+# $MirOS: ports/lang/lua/Makefile,v 1.7 2009/08/29 12:59:55 tg Exp $
 # $OpenBSD: Makefile,v 1.36 2009/06/24 14:19:06 jolan Exp $
+
+# I'm fixing it right now
+NOT_FOR_PLATFORM+=	Darwin:*:*
 
 COMMENT=		powerful, light-weight programming language
 DISTNAME=		lua-5.1.4
