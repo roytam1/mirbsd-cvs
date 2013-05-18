@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.329 2011/03/19 05:12:31 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.330 2011/03/21 16:18:44 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -7625,4 +7625,18 @@ Tag: debian event geocache
  to drive a booth of our own. Talked to <em>lots</em> of people. Since the
  boss was paying, even did some mingling in that area.</p>
 <p>My ADSL line has been hiccupping ☹</p>
+----
+Date: 24.03.2011 18:39
+Author: tg@
+Title: Debugging PPPoE
+
+<p class="boxhead">⸘Did you know…</p><div class="boxtext">
+ <pre>
+	sudo tail -f /var/log/messages &amp;
+	sudo tcpdump -ovvlns1500 -eine3 &amp;
+	sudo ifconfig pppoe0 debug up
+ </pre>
+</div><p class="boxfoot">… still no network ☹ but at least
+ I got some more information, and the L-Technicians will
+ have a look at it tomorrow as well.</p>
 ----
