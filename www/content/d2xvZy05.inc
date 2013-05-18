@@ -1,5 +1,5 @@
 <!-- PageID: wlog-9 -->
-<small class="rcsid">$MirOS: www/content/d2xvZy05.inc,v 1.12 2006/07/06 13:40:40 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy05.inc,v 1.13 2006/07/09 00:37:42 tg Exp $</small>
 <h1>MirBSD &ndash; WTF is Verpeilungsfaktor?</h1>
 <p><small><a href="#eof">bottom</a> or <a href="/?older">older</a>
  editions</small></p>
@@ -240,7 +240,10 @@
   bottle of Met and bottles of beer shared among us at yofuh's place. It
   is HOT!</p>
  <p>I also fixed contrib/samples/etc_profile for foreign hexdump(1) that
-  doesn't support %_aX, added some acronymes, and benz did cups.</p>
+  doesn't support %_aX, added some acronymes, and benz did cups. The web
+  page of <a href="/?mksh">mksh</a> got pushed up to -current and a text
+  about its requirements.</p>
+ <p>Adding the above functionality is a milestone, btw.</p>
 </div>
 
 <p id="eof">Good luck, have fun, take care etc.pp</p>
