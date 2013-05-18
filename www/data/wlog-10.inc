@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.359 2011/08/26 20:20:45 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.360 2011/08/26 20:35:34 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -8425,4 +8425,36 @@ Tag: debian pcli security
  -fn -misc-fixed-medium-r-normal--18-120-100-100-c-90-iso10646-1
  -fw -misc-fixed-medium-r-normal-ko-18-120-100-100-c-180-iso10646-1
  on XFree86® optimised. Your browser might not do combining.</p>
+----
+Date: 27.08.2011 19:24
+Author: tg@
+Title: FrOSCon 2011, Day 0 and 2
+Tag: debian event geocache
+
+<p>On Day 0, we were at my favourite Jugoslawian restaurant, and
+ during eating and <i>verpeiling</i>, Andi took some pictures:<br /><a
+ href="@@RELPATH@@pics/FrOSCon_2011/fc11-jj.jpg"><img
+ alt="Jana und Jupp “ich habe die Macht” cnuke@"
+ src="@@RELPATH@@pics/FrOSCon_2011/fc11_jj.jpg" /></a> <a
+ href="@@RELPATH@@pics/FrOSCon_2011/fc11-hc.jpg"><img
+ alt="Henni und ciruZ (Jonathan)"
+ src="@@RELPATH@@pics/FrOSCon_2011/fc11_hc.jpg" /></a> <a
+ href="@@RELPATH@@pics/FrOSCon_2011/fc11-gb.jpg"><img
+ alt="gecko2@ “geh weg” und bsiegert@ “waaah!” deer in the headlights"
+ src="@@RELPATH@@pics/FrOSCon_2011/fc11_gb.jpg" /></a><br />
+ Take special note of the fun expressions everyone has…</p>
+<p>Day 2, nothing of note at the conference itself – according to
+ Jana, the only interesting talk (that tcpdump(8) GUI) was cancelled,
+ and everything else was PHP and Web 2.0 crap. The food also was
+ different, at least what I got, from Day 1. But it wasn’t <em>as</em>
+ hot as on the previous day, and we did more socialising. I also
+ managed to get the MirBSD ISO distributed some more.</p>
+<p>Then I took my fellow DDs Enrico and madamezou geocaching for
+ their first time, together with benz; they then took a Travelbug
+ I found on Day 1 (with rsc) to Italy so it’ll end up in Rome, a
+ next step on its mission.</p>
+<p>Other rarely-seen people, such as Dr. Pfeffer, made an appearance,
+ but overall the second day was quite relaxed. Ah, and Benny is a
+ Doctor in Germany now as well.</p>
+<p>On Monday, I slept quite a bit ☺</p>
 ----

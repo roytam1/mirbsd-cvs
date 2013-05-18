@@ -1,4 +1,4 @@
-$MirOS: www/LICENCE,v 1.20 2011/02/18 22:37:29 tg Exp $
+$MirOS: www/LICENCE,v 1.21 2011/03/11 17:57:42 bsiegert Exp $
 
 This is the source code for the generated part of the new
 website of the MirOS Project. The source code is licenced
@@ -27,7 +27,7 @@ The MirOS Project web site source code is
 Copyright © 2007, 2008, 2009, 2011
 	Thorsten “mirabilos” Glaser <tg@mirbsd.de>
 Copyright © 2006, 2008, 2011
-	Benny Siegert <bsiegert@mirbsd.org>
+	Dr. Benny Siegert <bsiegert@mirbsd.org>
 This source code is available under the terms of the stan-
 dard MirOS licence, see files/MirOS-Licence for a template
 or request specific information from the project developer
