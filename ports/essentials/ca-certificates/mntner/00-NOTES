@@ -13,7 +13,7 @@ Stamps:
 
 • ca-certificates_20090814+nmu3
 • ca-certificates-java_20100412
-• certdata.txt,v 1.71 > tip 1.64.2.6 = 0f28e112a6b6
+• certdata.txt,v 1.83 > tip 1.82 = b0904160af18
 • certs.opera.com @20100722 (22-Jul-2010)
 • Opera (Browser) 10.10b1
 • MS SST: rootsupd.exe March 2011
@@ -28,4 +28,4 @@ EC certificates (to be removed from JKS Keystore for old keytool versions):
 * ccc52f49.0
 
 ___________________________________________________________________________________________
-$MirOS$
+$MirOS: ports/essentials/ca-certificates/mntner/00-NOTES,v 1.6 2011/03/30 10:16:28 tg Exp $
