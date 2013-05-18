@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.sbin/makefs/nbsrc/sys/ufs/ffs/fs.h,v 1.4 2008/10/31 21:24:26 tg Exp $ */
+/**	$MirOS: src/usr.sbin/makefs/nbsrc/sys/ufs/ffs/fs.h,v 1.5 2010/03/06 20:35:43 tg Exp $ */
 /*	$NetBSD: fs.h,v 1.55 2010/01/31 10:54:10 mlelstv Exp $	*/
 
 /*
@@ -255,8 +255,9 @@ struct csum_total {
  * Super block for an FFS file system in memory.
  */
 struct fs {
-	int32_t	 fs_firstfield;		/* historic file system linked list, */
-	int32_t	 fs_unused_1;		/*     used for incore super blocks */
+	int32_t	fs_historic_start[2];	/* used by MirBSD to store entropy */
+#define fs_firstfield	fs_historic_start[0]	/* file system linked list, */
+#define fs_unused_1	fs_historic_start[1]	/* used for incore superblk */
 	int32_t  fs_sblkno;		/* addr of super-block in filesys */
 	int32_t  fs_cblkno;		/* offset of cyl-block in filesys */
 	int32_t  fs_iblkno;		/* offset of inode-blocks in filesys */
