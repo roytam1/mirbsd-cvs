@@ -16,7 +16,6 @@ CONFIGURE_STYLE=gnu
 CONFIGURE_ARGS=	--sbindir=${PREFIX}/libexec/uucp \
 		--with-newconfigdir=${SYSCONFDIR}/uucp \
 		--with-oldconfigdir=${SYSCONFDIR}/uucp
-CONFIGURE_ENV=	MAKEINFO="makeinfo --no-split"
 
 post-extract:
 	@rm ${WRKSRC}/uucp.info*

@@ -1,4 +1,4 @@
-# $MirOS: ports/net/rtorrent/Makefile,v 1.3 2006/09/14 00:12:15 tg Exp $
+# $MirOS: ports/net/rtorrent/Makefile,v 1.4 2006/10/06 19:34:39 tg Exp $
 
 CATEGORIES=		net
 COMMENT=		BitTorrent ncurses client
@@ -23,9 +23,7 @@ CONFIGURE_STYLE=	autogen
 AUTOCONF_NEW=		Yes
 AUTOMAKE_VERSION=	1.9
 CONFIGURE_ARGS+=	--disable-debug \
-			--enable-ipv6 \
-			--disable-libtool-lock \
-			--disable-dependency-tracking
+			--enable-ipv6
 
 SAMPLEDIR=		${PREFIX}/share/examples/rtorrent
 

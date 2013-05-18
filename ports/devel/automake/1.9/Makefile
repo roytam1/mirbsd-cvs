@@ -1,4 +1,4 @@
-# $MirOS: ports/devel/automake/1.9/Makefile,v 1.8 2006/06/25 00:16:10 bsiegert Exp $
+# $MirOS: ports/devel/automake/1.9/Makefile,v 1.9 2006/09/14 00:08:04 tg Exp $
 # $OpenBSD: Makefile,v 1.27 2002/11/27 07:50:28 ish Exp $
 
 COMMENT=			experimental GNU automatic Makefile generator
@@ -18,7 +18,6 @@ PERMIT_DISTFILES_FTP=	Yes
 
 CONFIGURE_STYLE=	gnu
 CONFIGURE_ARGS+=	--infodir=${LOCALBASE}/info
-EXTRA_XAKE_FLAGS=	MAKEINFO="makeinfo --no-split"
 EXTRA_FAKE_FLAGS=	${DESTDIRNAME}="${WRKINST}"
 SUBST_VARS+=		SUFFIX
 

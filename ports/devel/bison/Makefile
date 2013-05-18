@@ -1,4 +1,4 @@
-# $MirOS: ports/devel/bison/Makefile,v 1.3 2006/06/16 22:33:25 tg Exp $
+# $MirOS: ports/devel/bison/Makefile,v 1.4 2006/09/14 00:08:04 tg Exp $
 # $OpenBSD: Makefile,v 1.34 2004/04/06 03:12:19 brad Exp $
 
 COMMENT=			GNU parser generator
@@ -18,7 +18,6 @@ CONFIGURE_STYLE=	autoconf
 AUTOCONF_NEW=		Yes
 CONFIGURE_ARGS+=	--disable-nls
 CONFIGURE_ARGS+=	--disable-yacc
-CONFIGURE_ARGS+=	--disable-dependency-tracking
 
 # Trust me on this one.
 BUILD_DEPENDS+=		:m4->=1.4.3:lang/m4

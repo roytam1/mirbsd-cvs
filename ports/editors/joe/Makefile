@@ -1,4 +1,4 @@
-# $MirOS: ports/editors/joe/Makefile,v 1.10 2006/11/11 02:00:48 tg Exp $
+# $MirOS: ports/editors/joe/Makefile,v 1.11 2007/02/18 23:13:24 tg Exp $
 
 COMMENT=		Joe's Own Editor (including jupp)
 CATEGORIES=		editors
@@ -16,7 +16,6 @@ PERMIT_PACKAGE_FTP=	Yes
 
 WRKDIST=		${WRKDIR}/jupp
 CONFIGURE_STYLE=	gnu
-CONFIGURE_ARGS+=	--disable-dependency-tracking
 EXTRA_FAKE_FLAGS=	sysconfdir=${TRUEPREFIX}/share/examples
 DOCS=			HINTS INFO LIST NEWS README TODO docs/help-system.html
 

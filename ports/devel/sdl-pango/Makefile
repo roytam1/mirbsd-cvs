@@ -1,4 +1,4 @@
-# $MirOS: ports/devel/sdl-pango/Makefile,v 1.5 2006/11/17 18:31:40 tg Exp $
+# $MirOS: ports/devel/sdl-pango/Makefile,v 1.6 2006/12/11 22:59:20 tg Exp $
 
 COMMENT=		SDL Pango fonts library
 DISTNAME=		SDL_Pango-0.1.2
@@ -24,8 +24,6 @@ LIB_DEPENDS+=		pango-1.0.0.0,pangoft2-1.0.0.0:pango->=1.2.0:devel/pango
 CONFIGURE_STYLE=	autoconf no-autoheader
 AUTOCONF_NEW=		Yes
 CONFIGURE_ARGS+=	${CONFIGURE_SHARED} \
-			--enable-static \
-			--disable-dependency-tracking \
-			--disable-libtool-lock
+			--enable-static
 
 .include <bsd.port.mk>

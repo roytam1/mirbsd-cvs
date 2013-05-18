@@ -1,4 +1,4 @@
-# $MirOS: ports/net/curl/Makefile,v 1.6 2006/09/14 00:11:37 tg Exp $
+# $MirOS: ports/net/curl/Makefile,v 1.7 2006/10/06 21:20:21 tg Exp $
 # $OpenBSD: Makefile,v 1.44 2004/05/18 23:30:45 brad Exp $
 
 COMMENT=		get files from FTP, Gopher, HTTP or HTTPS servers
@@ -22,10 +22,8 @@ PERMIT_DISTFILES_FTP=	Yes
 
 CONFIGURE_STYLE=	autoconf
 AUTOCONF_NEW=		yes
-CONFIGURE_ARGS+=	--disable-dependency-tracking \
-			${CONFIGURE_SHARED} \
+CONFIGURE_ARGS+=	${CONFIGURE_SHARED} \
 			--enable-static \
-			--disable-libtool-lock \
 			--enable-http \
 			--enable-ftp \
 			--enable-file \

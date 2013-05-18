@@ -1,4 +1,4 @@
-# $MirOS: ports/net/netatalk/Makefile,v 1.4 2006/08/26 14:31:33 tg Exp $
+# $MirOS: ports/net/netatalk/Makefile,v 1.5 2006/09/14 00:11:56 tg Exp $
 # $OpenBSD: Makefile,v 1.5 2003/08/22 11:18:19 naddy Exp $
 
 COMMENT=			AFP file and print services for AppleTalk/IP networks
@@ -27,8 +27,6 @@ SUBST_VARS=		CONFDIR
 # CONFIGURE_ARGS+=	--with-db3=${LOCALBASE}
 
 CONFIGURE_ARGS+=	${CONFIGURE_SHARED}
-CONFIGURE_ARGS+=	--disable-dependency-tracking
-CONFIGURE_ARGS+=	--disable-libtool-lock
 CONFIGURE_ARGS+=	--with-ssl=/usr
 CONFIGURE_ARGS+=	--with-config-dir=${CONFDIR}
 CONFIGURE_ARGS+=	--with-pkgconfdir=${CONFDIR}

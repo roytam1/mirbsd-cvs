@@ -1,4 +1,4 @@
-# $MirOS: ports/devel/sdl-image/Makefile,v 1.8 2006/11/03 22:01:59 tg Exp $
+# $MirOS: ports/devel/sdl-image/Makefile,v 1.9 2006/11/03 23:14:16 tg Exp $
 # $OpenBSD: Makefile,v 1.14 2003/05/12 08:23:46 jolan Exp $
 
 COMMENT=		SDL image library
@@ -25,7 +25,6 @@ USE_CXX=		Yes
 CONFIGURE_STYLE=	autoconf no-autoheader
 CONFIGURE_ARGS+=	${CONFIGURE_SHARED} \
 			--enable-static \
-			--disable-libtool-lock \
 			--enable-tif
 
 .include <bsd.port.mk>

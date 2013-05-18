@@ -1,4 +1,4 @@
-# $MirOS: ports/mailnews/fetchmail/Makefile,v 1.4 2006/09/14 00:10:34 tg Exp $
+# $MirOS: ports/mailnews/fetchmail/Makefile,v 1.5 2006/10/06 14:44:42 tg Exp $
 # $OpenBSD: Makefile,v 1.104 2005/10/27 21:58:51 bernd Exp $
 
 COMMENT=		mail retrieval utility for POP2, POP3, IMAP, and more
@@ -17,8 +17,7 @@ PERMIT_DISTFILES_FTP=	Yes
 
 CONFIGURE_STYLE=	autoconf
 AUTOCONF_NEW=		Yes
-CONFIGURE_ARGS+=	--disable-dependency-tracking \
-			--disable-nls \
+CONFIGURE_ARGS+=	--disable-nls \
 			--enable-NTLM \
 			--without-kerberos \
 			--with-ssl

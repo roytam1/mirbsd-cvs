@@ -1,4 +1,4 @@
-# $MirOS: ports/x11/fluxbox/Makefile,v 1.2 2006/02/02 01:41:58 tg Exp $
+# $MirOS: ports/x11/fluxbox/Makefile,v 1.3 2006/09/14 00:15:12 tg Exp $
 # $OpenBSD: Makefile,v 1.36 2006/01/25 03:57:43 david Exp $
 
 COMMENT=			window manager based on the original Blackbox code
@@ -16,9 +16,9 @@ PERMIT_DISTFILES_FTP=	Yes
 
 CONFIGURE_STYLE=	autoconf
 AUTOCONF_NEW=		Yes
-CONFIGURE_ARGS=		--enable-xinerama --enable-imlib2
-CONFIGURE_ARGS+=	--disable-nls --disable-dependency-tracking \
-			--disable-libtool-lock
+CONFIGURE_ARGS+=	--enable-xinerama \
+			--enable-imlib2 \
+			--disable-nls
 
 USE_CXX=		Yes
 USE_X11=		Yes

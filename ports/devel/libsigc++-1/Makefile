@@ -1,4 +1,4 @@
-# $MirOS: ports/devel/libsigc++/Makefile,v 1.1 2005/03/18 15:44:54 tg Exp $
+# $MirOS: ports/devel/libsigc++-1/Makefile,v 1.1 2006/10/07 03:19:08 tg Exp $
 # $OpenBSD: Makefile,v 1.13 2003/11/27 02:22:20 pvalchev Exp $
 
 COMMENT=		callback framework for C++
@@ -14,8 +14,7 @@ PERMIT_PACKAGE_FTP=	Yes
 
 CONFIGURE_STYLE=	autoconf
 CONFIGURE_ARGS+=	${CONFIGURE_SHARED} \
-			--enable-static \
-			--disable-libtool-lock
+			--enable-static
 USE_CXX=		Yes
 DOCDIR=			${PREFIX}/share/doc/libsigc++
 

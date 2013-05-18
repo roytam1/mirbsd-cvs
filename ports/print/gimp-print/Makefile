@@ -1,4 +1,4 @@
-# $MirOS: ports/print/gimp-print/Makefile,v 1.2 2005/07/07 21:25:32 bsiegert Exp $
+# $MirOS: ports/print/gimp-print/Makefile,v 1.3 2006/09/14 00:12:42 tg Exp $
 
 BROKEN=		incomplete port
 
@@ -19,7 +19,7 @@ PERMIT_DISTFILES_FTP=	Yes
 
 CONFIGURE_STYLE=	autoconf
 AUTOCONF_NEW=		Yes
-CONFIGURE_ARGS+=	--disable-dependency-tracking --with-gnu-ld \
+CONFIGURE_ARGS+=	--with-gnu-ld \
 			--without-foomatic --without-foomatic3
 
 FLAVORS=		cups gs gimp1 gimp2

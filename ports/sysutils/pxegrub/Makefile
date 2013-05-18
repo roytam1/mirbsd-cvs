@@ -1,4 +1,4 @@
-# $MirOS: ports/sysutils/pxegrub/Makefile,v 1.11 2006/08/26 23:34:50 tg Exp $
+# $MirOS: ports/sysutils/pxegrub/Makefile,v 1.12 2006/09/14 00:13:42 tg Exp $
 #
 # Although you can only netboot a kernel with this, it's still included.
 # Maybe one day someone will include the correct parametres for disc kernels.
@@ -30,7 +30,6 @@ PERMIT_DISTFILES_FTP=	Yes
 CONFIGURE_STYLE=	gnu
 USE_GMAKE=		Yes
 NO_REGRESS=		Yes
-CONFIGURE_ARGS+=	--disable-dependency-tracking
 
 GCC_VERSION!=		${CC} -v 2>&1 | fgrep "cc version" | sed 's!^.*cc version \([0-9\.]*\).*$!\1!'
 DEBUGLIBS=		no		# -g breaks (ICE)

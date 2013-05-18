@@ -1,4 +1,4 @@
-# $MirOS: ports/graphics/imlib/Makefile,v 1.9 2006/12/16 20:24:23 bsiegert Exp $
+# $MirOS: ports/graphics/imlib/Makefile,v 1.10 2006/12/22 21:15:52 tg Exp $
 # $OpenBSD: Makefile,v 1.46 2003/11/14 23:52:42 brad Exp $
 # $FreeBSD: Makefile,v 1.45 1999/03/09 01:08:57 nectar Exp $
 
@@ -29,8 +29,6 @@ AUTOCONF_NEW=		Yes
 CONFIGURE_ARGS+=	${CONFIGURE_SHARED}
 CONFIGURE_ARGS+=	--enable-modules
 CONFIGURE_ARGS+=	--disable-nls
-CONFIGURE_ARGS+=	--disable-dependency-tracking \
-			--disable-libtool-lock
 
 FLAVORS=		no_cxx
 FLAVOR?=

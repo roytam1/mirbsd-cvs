@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/textproc/gsed/Makefile,v 1.1 2006/11/24 02:03:07 tg Exp $
 
 COMMENT=		GNU version of the stream editor
 VERSION=		4.1.5
@@ -17,7 +17,6 @@ MASTER_SITES=		${MASTER_SITE_GNU:=sed/}
 
 CONFIGURE_STYLE=	gnu
 CONFIGURE_ARGS+=	--program-prefix=g \
-			--disable-dependency-tracking \
 			--disable-nls
 EXTRA_FAKE_FLAGS+=	mkinstalldirs='mkdir -p'
 

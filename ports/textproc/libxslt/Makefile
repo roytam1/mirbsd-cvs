@@ -1,4 +1,4 @@
-# $MirOS: ports/textproc/libxslt/Makefile,v 1.3 2006/09/14 00:14:09 tg Exp $
+# $MirOS: ports/textproc/libxslt/Makefile,v 1.4 2007/01/29 19:45:15 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.34 2004/04/08 06:32:43 marcm Exp $
 
 COMMENT=		XSLT C Library for GNOME
@@ -28,8 +28,5 @@ CONFIGURE_ARGS+=	${CONFIGURE_SHARED}
 CONFIGURE_ARGS+=	--enable-static
 CONFIGURE_ARGS+=	--with-libxml-include-prefix='${LOCALBASE}/include/'
 CONFIGURE_ARGS+=	--without-python
-CONFIGURE_ARGS+=	--disable-dependency-tracking
-CONFIGURE_ARGS+=	--disable-libtool-lock
-
 
 .include <bsd.port.mk>

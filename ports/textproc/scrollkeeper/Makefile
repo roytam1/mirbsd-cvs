@@ -1,4 +1,4 @@
-# $MirOS: ports/textproc/scrollkeeper/Makefile,v 1.4 2006/09/14 00:14:23 tg Exp $
+# $MirOS: ports/textproc/scrollkeeper/Makefile,v 1.5 2007/01/29 20:33:35 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.15 2004/12/07 00:23:23 alek Exp $
 
 COMMENT=		open documentation cataloging system
@@ -38,8 +38,6 @@ CONFIGURE_ARGS+= 	--localstatedir=/var
 CONFIGURE_ARGS+=	--with-omfdirs=${LOCALBASE}/share/omf
 CONFIGURE_ARGS+=	--with-xml-catalog=${LOCALBASE}/db/xmlcatalog
 CONFIGURE_ARGS+=	--with-partial-db-dir=db/scrollkeeper
-CONFIGURE_ARGS+= 	--disable-dependency-tracking
-CONFIGURE_ARGS+= 	--disable-libtool-lock
 
 post-install:
 	@${INSTALL_DATA_DIR} ${PREFIX}/share/examples/scrollkeeper; \

@@ -1,4 +1,4 @@
-# $MirOS: ports/devel/sdl-mixer/Makefile,v 1.9 2006/09/14 00:08:54 tg Exp $
+# $MirOS: ports/devel/sdl-mixer/Makefile,v 1.10 2006/11/03 23:14:17 tg Exp $
 # $OpenBSD: Makefile,v 1.20 2003/09/25 04:17:33 jolan Exp $
 
 COMMENT=		SDL multi-channel audio mixer library
@@ -25,7 +25,6 @@ LIB_DEPENDS+=		SDL::devel/sdl \
 CONFIGURE_STYLE=	autoconf no-autoheader
 CONFIGURE_ARGS+=	${CONFIGURE_SHARED} \
 			--enable-static \
-			--disable-libtool-lock \
 			--enable-music-native-midi-gpl
 
 post-install:

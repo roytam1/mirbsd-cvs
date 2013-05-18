@@ -1,4 +1,4 @@
-# $MirOS: ports/x11/gtkmm/Makefile,v 1.5 2006/09/14 00:15:26 tg Exp $
+# $MirOS: ports/x11/gtkmm/Makefile,v 1.6 2006/10/07 03:19:09 tg Exp $
 # $OpenBSD: Makefile,v 1.15 2004/02/04 07:39:19 sturm Exp $
 
 BROKEN=			/usr/ports/x11/gtkmm/w-gtkmm-1.2.10-0/gtkmm-1.2.10/src/gtk--/../gtk--/base.h:485: In member function 'interf* G_List_Cpp_Iterator<impl, interf>::operator*() const': error: 'wrap' is not a member of 'Gtk'
@@ -39,7 +39,6 @@ USE_GMAKE=		Yes
 CONFIGURE_STYLE=	autoconf
 CONFIGURE_ARGS+=	${CONFIGURE_SHARED} \
 			--enable-static \
-			--disable-libtool-lock \
 			--enable-docs
 
 post-install:

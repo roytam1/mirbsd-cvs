@@ -1,4 +1,4 @@
-# $MirOS: ports/devel/gmp/Makefile,v 1.2 2006/01/25 13:54:47 tg Exp $
+# $MirOS: ports/devel/gmp/Makefile,v 1.3 2006/09/14 00:08:13 tg Exp $
 # $OpenBSD: Makefile,v 1.11 2004/02/22 22:21:01 naddy Exp $
 
 COMMENT=			library for arbitrary precision arithmetic
@@ -18,10 +18,7 @@ AUTOCONF_NEW=		Yes
 CONFIGURE_ARGS+=	${CONFIGURE_SHARED} \
 			--with-readline=no \
 			--enable-mpbsd \
-			--enable-mpfr \
-			--enable-fast-install \
-			--disable-libtool-lock
-CONFIGURE_ENV+=		MAKEINFO="makeinfo --no-split"
+			--enable-mpfr
 
 post-extract:
 	rm -f ${WRKSRC}/gmp.info*

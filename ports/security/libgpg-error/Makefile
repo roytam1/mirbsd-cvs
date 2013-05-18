@@ -1,4 +1,4 @@
-# $MirOS: ports/security/libgpg-error/Makefile,v 1.3 2006/09/13 20:54:58 tg Exp $
+# $MirOS: ports/security/libgpg-error/Makefile,v 1.4 2006/09/14 00:13:02 tg Exp $
 # $OpenBSD: Makefile,v 1.1.1.1 2004/05/07 20:26:19 sturm Exp $
 
 COMMENT=			error codes for GnuPG related software
@@ -21,8 +21,6 @@ MASTER_SITES=		ftp://ftp.gnupg.org/gcrypt/libgpg-error/ \
 
 CONFIGURE_STYLE=	autoconf
 CONFIGURE_ARGS+=	${CONFIGURE_SHARED} \
-			--disable-dependency-tracking \
-			--disable-libtool-lock \
 			--disable-nls
 AUTOCONF_NEW=		Yes
 

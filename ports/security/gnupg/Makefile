@@ -1,4 +1,4 @@
-# $MirOS: ports/security/gnupg/Makefile,v 1.13 2006/11/28 12:47:13 tg Exp $
+# $MirOS: ports/security/gnupg/Makefile,v 1.14 2006/12/07 19:03:37 tg Exp $
 # $OpenBSD: Makefile,v 1.52 2005/05/17 15:08:34 martin Exp $
 
 COMMENT=		GNU privacy guard - a GPL'd PGP replacement
@@ -35,7 +35,6 @@ AUTOGEN=		${SHELL} ${WRKSRC}/scripts/autogen.sh
 CONFIGURE_ARGS+=	--enable-static-rnd=linux \
 			--disable-ldap \
 			--disable-generic \
-			--disable-dependency-tracking \
 			--disable-nls \
 			--enable-noexecstack \
 			--without-included-zlib \

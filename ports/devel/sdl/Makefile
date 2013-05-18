@@ -1,4 +1,4 @@
-# $MirOS: ports/devel/sdl/Makefile,v 1.8 2006/11/03 22:01:59 tg Exp $
+# $MirOS: ports/devel/sdl/Makefile,v 1.9 2006/11/04 04:24:46 tg Exp $
 # $OpenBSD: Makefile,v 1.32 2004/04/23 12:09:18 robert Exp $
 # Uses pthreads
 
@@ -29,8 +29,6 @@ CONFIGURE_ENV+=		ac_cv_header_usb_h=no
 .endif
 CONFIGURE_ARGS+=	${CONFIGURE_SHARED} \
 			--enable-static \
-			--disable-dependency-tracking \
-			--disable-libtool-lock \
 			--disable-oss \
 			--disable-alsa \
 			--disable-ltdl \

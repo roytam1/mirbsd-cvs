@@ -1,4 +1,4 @@
-# $MirOS: ports/devel/glib1/Makefile,v 1.8 2006/09/14 00:08:12 tg Exp $
+# $MirOS: ports/devel/glib1/Makefile,v 1.9 2006/11/03 22:01:59 tg Exp $
 # $OpenBSD: Makefile,v 1.52 2003/05/27 23:00:50 miod Exp $
 
 COMMENT=		useful routines for C programming
@@ -15,9 +15,7 @@ PERMIT_DISTFILES_FTP=	Yes
 
 CONFIGURE_STYLE=	autoconf
 CONFIGURE_ARGS+=	${CONFIGURE_SHARED} \
-			--enable-static \
-			--disable-libtool-lock
-
+			--enable-static
 NO_REGRESS=		Yes
 
 post-extract:

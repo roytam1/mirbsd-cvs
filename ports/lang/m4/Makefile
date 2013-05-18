@@ -1,4 +1,4 @@
-# $MirOS: ports/lang/m4/Makefile,v 1.4 2006/06/16 22:16:03 tg Exp $
+# $MirOS: ports/lang/m4/Makefile,v 1.5 2006/09/14 00:10:24 tg Exp $
 # $OpenBSD: Makefile,v 1.18 2002/12/29 20:19:11 fgsch Exp $
 # $FreeBSD: Makefile,v 1.7 1997/06/16 08:22:35 max Exp $
 #-
@@ -25,7 +25,6 @@ CONFIGURE_STYLE=	autoconf
 AUTOCONF_NEW=		Yes
 .endif
 CONFIGURE_ARGS=		--program-prefix="g"
-EXTRA_MAKE_FLAGS+=	MAKEINFO="makeinfo --no-split"
 
 post-extract:
 	-cd ${WRKSRC}/doc && rm -f m4.info*

@@ -1,4 +1,4 @@
-# $MirOS: ports/devel/libncursesw/Makefile,v 1.3 2006/10/27 17:21:05 tg Exp $
+# $MirOS: ports/devel/libncursesw/Makefile,v 1.4 2006/10/31 04:08:56 tg Exp $
 
 COMMENT=			new curses library (wide character version)
 COMMENT-data=			terminfo database for ncurses (multifile format)
@@ -29,7 +29,6 @@ CONFIGURE_ARGS+=		--program-transform-name='s,$$,w,' \
 				--with-libtool \
 				${CONFIGURE_SHARED} \
 				--enable-static \
-				--disable-libtool-lock \
 				--without-debug \
 				--without-profile \
 				--enable-rpath \

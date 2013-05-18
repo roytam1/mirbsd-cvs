@@ -1,4 +1,4 @@
-# $MirOS: ports/security/libgcrypt/Makefile,v 1.2 2006/02/09 09:36:15 tg Exp $
+# $MirOS: ports/security/libgcrypt/Makefile,v 1.3 2006/09/14 00:13:02 tg Exp $
 # $OpenBSD: Makefile,v 1.5 2004/05/08 06:41:47 sturm Exp $
 
 COMMENT=			crypto library based on code used in GnuPG
@@ -27,7 +27,6 @@ AUTOCONF_NEW=		Yes
 CONFIGURE_ARGS+=	${CONFIGURE_SHARED} \
 			--enable-static \
 			--disable-asm
-CONFIGURE_ENV+=		MAKEINFO="makeinfo --no-split"
 
 post-extract:
 	@rm -f ${WRKSRC}/doc/gcrypt.info

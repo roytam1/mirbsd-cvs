@@ -1,4 +1,4 @@
-# $MirOS: ports/audio/taglib/Makefile,v 1.2 2006/11/24 23:41:15 bsiegert Exp $
+# $MirOS: ports/audio/libnms/Makefile,v 1.1 2006/11/25 17:19:45 bsiegert Exp $
 
 COMMENT=		open media streaming client library
 
@@ -24,9 +24,6 @@ AUTOCONF_NEW=		Yes
 
 CONFIGURE_ARGS+=	${CONFIGURE_SHARED}
 CONFIGURE_ARGS+=	--enable-static
-CONFIGURE_ARGS+=	--disable-dependency-tracking
 CONFIGURE_ARGS+=	--enable-ipv6
-
-
 
 .include <bsd.port.mk>

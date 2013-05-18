@@ -1,4 +1,4 @@
-# $MirOS: ports/graphics/sng/Makefile,v 1.4 2006/09/14 00:10:07 tg Exp $
+# $MirOS: ports/graphics/sng/Makefile,v 1.5 2006/12/23 05:40:57 tg Exp $
 # $OpenBSD: Makefile,v 1.1.1.1 2003/04/28 09:25:42 wilfried Exp $
 
 COMMENT=		PNG to ASCII compiler and decompiler
@@ -19,9 +19,8 @@ USE_X11=		yes
 MODULES+=		graphics/png
 
 CONFIGURE_STYLE=	gnu
-CONFIGURE_ARGS+=	--with-png-inc=${LOCALBASE}/include/libpng \
-			--with-png-lib=${LOCALBASE}/lib \
-			--disable-dependency-tracking
+CONFIGURE_ARGS+=	--with-png-inc=${LOCALBASE:Q}/include/libpng \
+			--with-png-lib=${LOCALBASE:Q}/lib
 
 NO_REGRESS=		yes
 

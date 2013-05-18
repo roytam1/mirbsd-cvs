@@ -1,4 +1,4 @@
-# $MirOS: ports/graphics/aalib/Makefile,v 1.3 2006/09/14 00:09:47 tg Exp $
+# $MirOS: ports/graphics/aalib/Makefile,v 1.4 2006/11/03 22:02:00 tg Exp $
 # $OpenBSD: Makefile,v 1.18 2003/04/06 01:15:10 margarida Exp $
 
 COMMENT=		ascii art library
@@ -17,8 +17,7 @@ WRKDIST=		${WRKDIR}/aalib-1.4.0
 #CONFIGURE_STYLE=	autogen
 CONFIGURE_STYLE=	autoconf
 CONFIGURE_ARGS+=	--enable-static \
-			${CONFIGURE_SHARED} \
-			--disable-libtool-lock
+			${CONFIGURE_SHARED}
 
 FLAVORS=		no_x11
 FLAVOR?=

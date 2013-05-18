@@ -1,4 +1,4 @@
-# $MirOS: ports/databases/sqlite/Makefile,v 1.6 2006/09/14 00:07:59 tg Exp $
+# $MirOS: ports/databases/sqlite/Makefile,v 1.7 2006/10/06 21:01:21 tg Exp $
 
 COMMENT=		Embedded SQL implementation
 _V=			3.3.7
@@ -18,7 +18,6 @@ CONFIGURE_STYLE=	autoconf no-autoheader
 AUTOCONF_NEW=		Yes
 CONFIGURE_ARGS=		${CONFIGURE_SHARED} \
 			--enable-static \
-			--disable-libtool-lock \
 			--disable-tcl
 
 NO_REGRESS=		Yes

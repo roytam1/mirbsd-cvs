@@ -1,4 +1,4 @@
-# $MirOS: ports/multimedia/libtheora/Makefile,v 1.2 2005/12/28 16:38:03 tg Exp $
+# $MirOS: ports/multimedia/libtheora/Makefile,v 1.3 2006/09/14 00:11:27 tg Exp $
 # $OpenBSD: Makefile,v 1.4 2005/03/08 10:04:45 alek Exp $
 
 COMMENT=			Open video codec
@@ -23,7 +23,6 @@ USE_X11=		Yes
 CONFIGURE_STYLE=	autoconf
 AUTOCONF_NEW=		Yes
 CONFIGURE_ARGS+=	${CONFIGURE_SHARED} \
-			--disable-dependency-tracking \
 			--disable-player
 
 .include <bsd.port.mk>

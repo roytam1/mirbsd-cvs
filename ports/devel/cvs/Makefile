@@ -1,4 +1,4 @@
-# $MirOS: ports/devel/cvs/Makefile,v 1.1 2006/10/02 05:59:14 tg Exp $
+# $MirOS: ports/devel/cvs/Makefile,v 1.2 2007/02/01 23:29:33 tg Exp $
 
 COMMENT=		Concurrent Versions System
 CATEGORIES=		devel essentials
@@ -18,8 +18,7 @@ MASTER_SITES=		${MASTER_SITE_GNU:gnu/=non-gnu/cvs/source/feature/$V/}
 
 CONFIGURE_STYLE=	autoconf
 AUTOCONF_NEW=		Yes
-CONFIGURE_ARGS+=	--disable-dependency-tracking \
-			--disable-nls \
+CONFIGURE_ARGS+=	--disable-nls \
 			--enable-client \
 			--enable-password-authenticated-client \
 			--enable-server \

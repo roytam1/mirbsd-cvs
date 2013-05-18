@@ -1,4 +1,4 @@
-# $MirOS: ports/devel/libsigc++/Makefile,v 1.5 2006/10/06 19:34:37 tg Exp $
+# $MirOS: ports/devel/libsigc++/Makefile,v 1.6 2006/10/07 03:03:45 tg Exp $
 # $OpenBSD: Makefile,v 1.13 2003/11/27 02:22:20 pvalchev Exp $
 
 COMMENT=		callback framework for C++
@@ -29,10 +29,8 @@ USE_CXX=		yes
 MODULES+=		devel/pkgconfig
 CONFIGURE_STYLE=	autoconf no-autoheader
 AUTOCONF_NEW=		Yes
-CONFIGURE_ARGS+=	--disable-dependency-tracking \
-			${CONFIGURE_SHARED} \
-			--enable-static \
-			--disable-libtool-lock
+CONFIGURE_ARGS+=	${CONFIGURE_SHARED} \
+			--enable-static
 
 pre-install:
 	${INSTALL_DATA_DIR} ${PREFIX}/include/sigc++-2.0/sigc++/{,functors,adaptors{,/lambda}}/macros

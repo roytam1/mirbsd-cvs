@@ -1,4 +1,4 @@
-# $MirOS: ports/archivers/gtar/Makefile,v 1.3 2005/07/07 21:16:53 bsiegert Exp $
+# $MirOS: ports/archivers/gtar/Makefile,v 1.4 2006/09/14 00:06:48 tg Exp $
 # $OpenBSD: Makefile,v 1.29 2004/05/15 12:57:34 naddy Exp $
 
 COMMENT=			GNU version of the traditional tar archiver
@@ -24,7 +24,6 @@ CONFIGURE_ARGS=		--program-prefix=g \
 CONFIGURE_ENV+=		DEFAULT_ARCHIVE=/dev/rst0 \
 			ac_cv_func_working_mktime=yes \
 			DEFAULT_RMT_COMMAND=/etc/rmt
-EXTRA_MAKE_FLAGS=	MAKEINFO="/usr/bin/makeinfo --no-split"
 
 FLAVORS=		static
 FLAVOR?=

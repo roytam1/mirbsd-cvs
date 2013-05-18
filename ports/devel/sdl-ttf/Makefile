@@ -1,4 +1,4 @@
-# $MirOS: ports/devel/sdl-ttf/Makefile,v 1.8 2006/11/03 22:02:00 tg Exp $
+# $MirOS: ports/devel/sdl-ttf/Makefile,v 1.9 2006/11/03 23:14:18 tg Exp $
 # $OpenBSD: Makefile,v 1.17 2003/05/12 08:23:46 jolan Exp $
 
 COMMENT=		SDL TrueType fonts library
@@ -21,8 +21,6 @@ USE_CXX=		Yes
 
 CONFIGURE_STYLE=	autoconf no-autoheader
 AUTOCONF_NEW=		Yes
-CONFIGURE_ARGS+=	${CONFIGURE_SHARED} \
-			--disable-dependency-tracking \
-			--disable-libtool-lock
+CONFIGURE_ARGS+=	${CONFIGURE_SHARED}
 
 .include <bsd.port.mk>

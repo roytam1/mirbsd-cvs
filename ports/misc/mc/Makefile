@@ -1,4 +1,4 @@
-# $MirOS: ports/misc/mc/Makefile,v 1.14 2006/10/02 23:39:57 tg Exp $
+# $MirOS: ports/misc/mc/Makefile,v 1.15 2006/10/28 22:35:47 tg Exp $
 
 COMMENT=		free Norton Commander clone with many useful features
 DISTNAME=		mc-4.6.1
@@ -20,8 +20,7 @@ MODULES+=		converters/libiconv
 CONFIGURE_STYLE=	autoconf
 AUTOCONF_NEW=		Yes
 MODGNU_CONFIG_GUESS_DIRS=${WRKSRC} ${WRKSRC}/vfs/samba
-CONFIGURE_ARGS+=	--disable-dependency-tracking \
-			--disable-nls \
+CONFIGURE_ARGS+=	--disable-nls \
 			--disable-charset \
 			--disable-gcc-warnings \
 			--with-glib12 \

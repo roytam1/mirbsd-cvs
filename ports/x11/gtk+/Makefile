@@ -1,4 +1,4 @@
-# $MirOS: ports/x11/gtk+/Makefile,v 1.10 2006/12/20 15:32:53 tg Exp $
+# $MirOS: ports/x11/gtk+/Makefile,v 1.11 2007/01/06 16:30:19 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.14 2004/03/30 15:48:29 sturm Exp $
 
 NOT_FOR_PLATFORM=		${NOPIC_PLATFORMS}
@@ -46,7 +46,5 @@ AUTOCONF_NEW=			Yes
 CONFIGURE_ARGS+=		--enable-static
 CONFIGURE_ARGS+=		${CONFIGURE_SHARED}
 CONFIGURE_ARGS+= 		--disable-gtk-doc
-CONFIGURE_ARGS+= 		--disable-dependency-tracking
-CONFIGURE_ARGS+= 		--disable-libtool-lock
 
 .include <bsd.port.mk>

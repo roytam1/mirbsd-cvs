@@ -1,4 +1,4 @@
-# $MirOS: ports/devel/smpeg/Makefile,v 1.9 2006/09/14 00:08:56 tg Exp $
+# $MirOS: ports/devel/smpeg/Makefile,v 1.10 2006/11/03 20:20:57 tg Exp $
 # $OpenBSD: Makefile,v 1.16 2003/12/29 13:45:30 espie Exp $
 
 COMMENT=		mpeg video player library with sound support
@@ -23,7 +23,6 @@ USE_CXX=		Yes
 
 CONFIGURE_STYLE=	autogen no-autoheader
 CONFIGURE_ARGS+=	${CONFIGURE_SHARED} \
-			--disable-libtool-lock \
 			--disable-gtk-player
 
 post-install:

@@ -1,4 +1,4 @@
-# $MirOS: ports/x11/windowmaker/Makefile,v 1.9 2006/04/26 12:50:24 bsiegert Exp $
+# $MirOS: ports/x11/windowmaker/Makefile,v 1.10 2006/09/14 00:15:41 tg Exp $
 # $OpenBSD: Makefile,v 1.57 2003/08/16 19:06:07 tedu Exp $
 
 COMMENT=			window manager that emulates NEXTSTEP(tm)
@@ -29,7 +29,6 @@ CONFIGURE_ARGS+=	${CONFIGURE_SHARED} \
 			--enable-static \
 			--with-pixmapdir="${PREFIX}/share/WindowMaker/Pixmaps" \
 			--with-nlsdir="${LOCALBASE}/share/locale" \
-			--disable-dependency-tracking \
 			--enable-gnome \
 			--enable-kde
 CONFIGURE_ENV=		LINGUAS='bg cs da de el es et fi fr gl hr hu it ja ko ms nl no pl pt ro ru sk sv tr zh_CN zh_TW'

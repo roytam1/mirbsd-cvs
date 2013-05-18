@@ -1,4 +1,4 @@
-# $MirOS: ports/audio/audacious/player/Makefile,v 1.2 2007/01/07 16:20:12 bsiegert Exp $
+# $MirOS: ports/audio/audacious/player/Makefile,v 1.3 2007/01/07 16:58:37 tg Exp $
 
 # Port contributed by Jonathan Schleifer <js@h3c.de>
 
@@ -12,7 +12,6 @@ LIB_DEPENDS=		gdk-x11-2.0.0.0,gdk_pixbuf-2.0.0.0,gtk-x11-2.0.0.0::x11/gtk+ \
 
 CONFIGURE_ARGS+=	${CONFIGURE_SHARED}
 CONFIGURE_ARGS+=	--enable-ipv6
-CONFIGURE_ARGS+=	--disable-dependency-tracking
 CONFIGURE_ARGS+=	--disable-nls
 CONFIGURE_ARGS+=	--with-rc-path=.etc/audacious
 

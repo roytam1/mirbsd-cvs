@@ -1,4 +1,4 @@
-# $MirOS: ports/devel/popt/Makefile,v 1.5 2006/09/14 00:08:49 tg Exp $
+# $MirOS: ports/devel/popt/Makefile,v 1.6 2006/12/28 19:30:04 tg Exp $
 # $OpenBSD: Makefile,v 1.12 2003/07/15 16:50:22 jolan Exp $
 
 COMMENT=		getopt(3)-like library with a number of enhancements
@@ -20,8 +20,6 @@ CONFIGURE_STYLE=	autoconf
 AUTOCONF_NEW=		Yes
 CONFIGURE_ARGS+=	${CONFIGURE_SHARED}
 CONFIGURE_ARGS+=	--disable-nls
-CONFIGURE_ARGS+=	--disable-dependency-tracking \
-			--disable-libtool-lock
 MODULES+=		converters/libiconv
 
 .include <bsd.port.mk>

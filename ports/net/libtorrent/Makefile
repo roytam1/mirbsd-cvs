@@ -1,4 +1,4 @@
-# $MirOS: ports/net/libtorrent/Makefile,v 1.3 2006/09/14 00:11:52 tg Exp $
+# $MirOS: ports/net/libtorrent/Makefile,v 1.4 2006/10/06 19:34:38 tg Exp $
 
 CATEGORIES=		net
 COMMENT=		BitTorrent client back-end library
@@ -24,8 +24,6 @@ AUTOMAKE_VERSION=	1.9
 CONFIGURE_ARGS+=	${CONFIGURE_SHARED} \
 			--enable-static \
 			--disable-debug \
-			--disable-dependency-tracking \
-			--disable-libtool-lock \
 			--enable-ipv6 \
 			--with-openssl=/usr
 

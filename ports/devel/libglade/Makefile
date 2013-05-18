@@ -1,4 +1,4 @@
-# $MirOS: ports/devel/libglade/Makefile,v 1.8 2007/01/07 00:29:49 bsiegert Exp $
+# $MirOS: ports/devel/libglade/Makefile,v 1.9 2007/01/26 12:37:06 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.7 2004/12/22 06:31:05 espie Exp $
 
 COMMENT=		library for loading GLADE interface files at runtime
@@ -25,8 +25,6 @@ CONFIGURE_STYLE= 	autoconf
 AUTOCONF_NEW=		Yes
 CONFIGURE_ARGS+= 	${CONFIGURE_SHARED}
 CONFIGURE_ARGS+= 	--enable-static
-CONFIGURE_ARGS+= 	--disable-dependency-tracking
-CONFIGURE_ARGS+= 	--disable-libtool-lock
 CONFIGURE_ARGS+= 	--with-xml-catalog=${LOCALBASE}/db/xmlcatalog
 
 # Build the libglade-convert script even if we don't have Python.

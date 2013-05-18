@@ -1,4 +1,4 @@
-# $MirOS: ports/security/sysjail/Makefile,v 1.1 2006/08/26 14:32:59 tg Exp $
+# $MirOS: ports/security/sysjail/Makefile,v 1.2 2006/08/26 14:36:20 tg Exp $
 
 ONLY_FOR_PLATFORM=		MirBSD:*:* OpenBSD:*:*
 
@@ -17,8 +17,7 @@ PERMIT_PACKAGE_FTP=		Yes
 CONFIGURE_STYLE=		autogen
 AUTOCONF_NEW=			Yes
 AUTOMAKE_VERSION=		1.9
-CONFIGURE_ARGS+=		--disable-dependency-tracking \
-				--disable-doxygen-doc \
+CONFIGURE_ARGS+=		--disable-doxygen-doc \
 				--disable-doxygen-dot
 
 .include <bsd.port.mk>

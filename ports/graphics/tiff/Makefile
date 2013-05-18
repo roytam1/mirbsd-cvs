@@ -1,4 +1,4 @@
-# $MirOS: ports/graphics/tiff/Makefile,v 1.12 2006/10/01 03:31:47 tg Exp $
+# $MirOS: ports/graphics/tiff/Makefile,v 1.13 2006/12/20 15:31:25 tg Exp $
 # $OpenBSD: Makefile,v 1.29 2004/05/18 23:35:35 brad Exp $
 
 COMMENT=		library routines for working with TIFF images
@@ -33,8 +33,6 @@ SUBST_VARS+=		V _V
 
 CONFIGURE_ARGS+=	${CONFIGURE_SHARED}
 CONFIGURE_ARGS+=	--enable-old-jpeg
-CONFIGURE_ARGS+=	--disable-dependency-tracking
-CONFIGURE_ARGS+=	--disable-libtool-lock
 CONFIGURE_ARGS+=	--enable-rpath
 
 .if ${FLAVOR:L:Mno_cxx}

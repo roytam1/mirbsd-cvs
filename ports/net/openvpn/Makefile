@@ -1,4 +1,4 @@
-# $MirOS: ports/net/openvpn/Makefile,v 1.12 2006/10/13 16:15:50 tg Exp $
+# $MirOS: ports/net/openvpn/Makefile,v 1.13 2006/11/16 19:25:08 tg Exp $
 # $OpenBSD: Makefile,v 1.2 2003/12/30 21:29:53 sturm Exp $
 
 COMMENT=		easy-to-use, robust, highly configurable VPN solution
@@ -33,7 +33,6 @@ LDSTATIC=		-static
 USE_GMAKE=		Yes
 CONFIGURE_STYLE=	autoconf
 AUTOCONF_NEW=		Yes
-CONFIGURE_ARGS+=	--disable-dependency-tracking
 .if ${FLAVOR:L:Mno_lzo}
 CONFIGURE_ARGS+=	--disable-lzo
 .else

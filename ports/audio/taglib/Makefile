@@ -1,4 +1,4 @@
-# $MirOS: ports/audio/taglib/Makefile,v 1.1 2006/11/24 23:15:51 bsiegert Exp $
+# $MirOS: ports/audio/taglib/Makefile,v 1.2 2006/11/24 23:41:15 bsiegert Exp $
 
 COMMENT=		audio metadata library
 
@@ -28,7 +28,6 @@ AUTOCONF_NEW=		Yes
 
 CONFIGURE_ARGS+=	${CONFIGURE_SHARED}
 CONFIGURE_ARGS+=	--enable-static
-CONFIGURE_ARGS+=	--disable-dependency-tracking
 
 pre-patch:
 	print "/^# libtool.m4/,$$ d\nwq" | ed -s ${WRKSRC}/acinclude.m4

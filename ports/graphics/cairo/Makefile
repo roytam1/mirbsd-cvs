@@ -1,4 +1,4 @@
-# $MirOS: ports/graphics/cairo/Makefile,v 1.9 2006/11/03 22:55:27 tg Exp $
+# $MirOS: ports/graphics/cairo/Makefile,v 1.10 2007/01/06 16:30:18 bsiegert Exp $
 
 COMMENT=		vector graphics library
 
@@ -29,8 +29,6 @@ AUTOCONF_NEW=		Yes
 
 CONFIGURE_ARGS+=	${CONFIGURE_SHARED}
 CONFIGURE_ARGS+=	--enable-static
-CONFIGURE_ARGS+=	--disable-dependency-tracking
-CONFIGURE_ARGS+=	--disable-libtool-lock
 CONFIGURE_ARGS+=	--enable-pdf=yes
 # enabling those introduces a circular dependency
 CONFIGURE_ARGS+=	--enable-svg=no

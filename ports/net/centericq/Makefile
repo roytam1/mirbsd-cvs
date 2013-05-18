@@ -1,4 +1,4 @@
-# $MirOS: ports/net/centericq/Makefile,v 1.25 2007/01/23 13:28:23 tg Exp $
+# $MirOS: ports/net/centericq/Makefile,v 1.26 2007/02/08 19:34:58 tg Exp $
 # $OpenBSD: Makefile,v 1.24 2004/02/03 08:37:55 brad Exp $
 
 # bus error on start
@@ -42,8 +42,7 @@ USE_CXX=		Yes
 
 CONFIGURE_STYLE=	autoconf no-autoheader
 AUTOCONF_NEW=		Yes
-CONFIGURE_ARGS+=	--disable-dependency-tracking \
-			--enable-locales-fix \
+CONFIGURE_ARGS+=	--enable-locales-fix \
 			--disable-nls \
 			--without-fribidi \
 			--with-openssl \

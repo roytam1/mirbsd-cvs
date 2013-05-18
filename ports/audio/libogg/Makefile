@@ -1,4 +1,4 @@
-# $MirOS: ports/audio/libogg/Makefile,v 1.5 2006/09/14 00:07:04 tg Exp $
+# $MirOS: ports/audio/libogg/Makefile,v 1.6 2006/11/03 23:14:14 tg Exp $
 # $OpenBSD: Makefile,v 1.13 2003/12/14 00:52:21 naddy Exp $
 
 COMMENT=		Ogg bitstream (container file format) library
@@ -19,8 +19,6 @@ CONFIGURE_STYLE=	autogen
 AUTOCONF_NEW=		Yes
 AUTOMAKE_VERSION=	1.9
 CONFIGURE_ARGS+=	${CONFIGURE_SHARED} \
-			--enable-static \
-			--disable-dependency-tracking \
-			--disable-libtool-lock
+			--enable-static
 
 .include <bsd.port.mk>

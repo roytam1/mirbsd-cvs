@@ -1,4 +1,4 @@
-# $MirOS: ports/devel/gettext/Makefile,v 1.5 2006/09/14 00:08:11 tg Exp $
+# $MirOS: ports/devel/gettext/Makefile,v 1.6 2006/12/22 23:33:45 tg Exp $
 # $FreeBSD: Makefile,v 1.4 1998/11/18 15:09:35 vanilla Exp $
 # $OpenBSD: Makefile,v 1.29 2004/01/31 21:41:56 brad Exp $
 
@@ -19,7 +19,6 @@ MODULES=		converters/libiconv
 CONFIGURE_STYLE=	autoconf
 CONFIGURE_ARGS+=	${CONFIGURE_SHARED} \
 			--enable-static \
-			--disable-libtool-lock \
 			--with-included-gettext
 
 post-extract:

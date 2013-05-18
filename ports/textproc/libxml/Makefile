@@ -1,4 +1,4 @@
-# $MirOS: ports/textproc/libxml/Makefile,v 1.10 2006/10/11 15:27:47 bsiegert Exp $
+# $MirOS: ports/textproc/libxml/Makefile,v 1.11 2007/01/25 21:54:43 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.76 2004/04/21 04:42:26 robert Exp $
 
 COMMENT=		XML parsing library
@@ -31,8 +31,6 @@ CONFIGURE_ARGS+=	--with-zlib
 CONFIGURE_ARGS+=	--without-python
 CONFIGURE_ARGS+=	--without-readline
 CONFIGURE_ARGS+=	--without-threads
-CONFIGURE_ARGS+=	--disable-dependency-tracking
-CONFIGURE_ARGS+=	--disable-libtool-lock
 
 CPPFLAGS+=		-DMIRPORTS_LOCALBASE=\"${LOCALBASE:Q}\"
 

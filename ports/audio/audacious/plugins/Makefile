@@ -1,4 +1,4 @@
-# $MirOS: ports/audio/audacious/plugins/Makefile,v 1.1 2006/11/25 23:21:54 bsiegert Exp $
+# $MirOS: ports/audio/audacious/plugins/Makefile,v 1.2 2006/11/28 13:04:37 bsiegert Exp $
 
 COMMENT=		plugins package for audacious
 DISTNAME=		audacious-plugins-1.2.5
@@ -19,7 +19,6 @@ LIB_DEPENDS+=		curl::net/curl
 
 CONFIGURE_ARGS+=	${CONFIGURE_SHARED}
 CONFIGURE_ARGS+=	--enable-ipv6
-CONFIGURE_ARGS+=	--disable-dependency-tracking
 CONFIGURE_ARGS+=	--disable-pulse
 CONFIGURE_ARGS+=	--disable-lirc
 CONFIGURE_ARGS+=	--disable-modplug
