@@ -1,4 +1,4 @@
-/**	$MirOS: src/include/stddef.h,v 1.4 2005/11/21 19:31:53 tg Exp $ */
+/**	$MirOS: src/include/stddef.h,v 1.5 2006/08/23 17:41:16 tg Exp $ */
 /*	$OpenBSD: stddef.h,v 1.8 2005/05/11 18:44:12 espie Exp $	*/
 /*	$NetBSD: stddef.h,v 1.4 1994/10/26 00:56:26 cgd Exp $	*/
 
@@ -69,7 +69,9 @@ typedef	__WINT_TYPE__	wint_t;
 #endif
 
 #ifndef offsetof
-#ifdef __cplusplus
+#if defined(__GNUC__) && (__GNUC__ > 3)
+#define offsetof(s, e)	__builtin_offsetof(s, e)
+#elif defined(__cplusplus)
 #define offsetof(s, e)	(__offsetof__ (reinterpret_cast <size_t>	\
 			    (&reinterpret_cast <const volatile char &>	\
 			    (static_cast<s *> (0)->e))))
