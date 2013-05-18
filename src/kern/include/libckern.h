@@ -1,4 +1,4 @@
-/* $MirOS: src/kern/include/libckern.h,v 1.28 2011/07/17 17:21:03 tg Exp $ */
+/* $MirOS: src/kern/include/libckern.h,v 1.29 2011/07/18 07:56:25 tg Exp $ */
 
 /*-
  * Copyright (c) 2008, 2010, 2011
@@ -247,9 +247,6 @@ __END_DECLS
 	(abs_j < 0 ? -abs_j : abs_j);			\
 })
 #endif
-
-#define __strong_alias(alias,sym)			\
-	__asm__(".globl " __STRING(alias) "; " __STRING(alias) " = " __STRING(sym))
 
 #endif /* __GNUC__ */
 
