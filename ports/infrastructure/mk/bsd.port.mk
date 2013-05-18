@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.98 2006/02/05 17:02:21 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.99 2006/02/09 09:35:58 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -2662,7 +2662,7 @@ ${_i:L}-depends-list:
 
 # Print list of all libraries that we may depend upon.
 _recurse-lib-depends-check:
-.for _i in  ${LIB_DEPENDS}
+.for _i in ${LIB_DEPENDS}
 	@unset FLAVOR SUBPACKAGE  || true; \
 	echo ${_i:Q} | { \
 		IFS=:; read dep pkg dir target; \
@@ -2740,8 +2740,10 @@ _recurse-solve-package-depends:
 			comma=; dep="$$newdep"; \
 		fi; \
 		if [[ -n $$newdep ]]; then \
-			eval $$toset ${MAKE} \
-			    ${PKGREPOSITORY}/$$default${PKG_SUFX}; \
+			( unset PACKAGING || true; \
+			  eval $$toset ${MAKE} \
+			    ${PKGREPOSITORY}/$$default${PKG_SUFX} \
+			); \
 			listlibs='${SETENV} PATH=${PKG_CMDDIR:Q}:$$PATH \
 			    ${PKG_CMD_INFO} -L \
 			    ${PKGREPOSITORY}/$$default${PKG_SUFX} \
