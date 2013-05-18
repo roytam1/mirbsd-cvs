@@ -1,4 +1,4 @@
-# $MirOS: ports/sysutils/pxegrub/Makefile,v 1.15 2008/10/04 19:03:42 tg Exp $
+# $MirOS: ports/sysutils/pxegrub/Makefile,v 1.16 2008/11/08 23:04:08 tg Exp $
 #
 # Although you can only netboot a kernel with this, it's still included.
 # Maybe one day someone will include the correct parametres for disc kernels.
@@ -12,9 +12,9 @@
 
 ONLY_FOR_PLATFORM=	OpenBSD:*:i386 MirBSD:*:i386
 
-COMMENT=			GNU GRUB with support for booting bsd.rd and netboot
+COMMENT=		GNU GRUB with support for booting bsd.rd and netboot
 DISTNAME=       	grub-0.96
-PKGNAME=		${DISTNAME}-1
+DASH_VER=		2
 CATEGORIES=		sysutils
 MASTER_SITES=		ftp://alpha.gnu.org/gnu/grub/
 RESPONSIBLE=		Thorsten Glaser <tg@mirbsd.org>
@@ -31,7 +31,7 @@ CONFIGURE_STYLE=	gnu
 USE_GMAKE=		Yes
 NO_REGRESS=		Yes
 
-GCC_VERSION!=		${_ORIG_CC} -v 2>&1 | fgrep "cc version" | sed 's!^.*cc version \([0-9\.]*\).*$!\1!'
+GCC_VERSION!=		${CC} -v 2>&1 | fgrep "cc version" | sed 's!^.*cc version \([0-9\.]*\).*$$!\1!'
 DEBUGLIBS=		no		# -g breaks (ICE)
 CPPFLAGS+=		-D_MIRMAKE_H	# do not include in freestanding code
 COPTS+=			-fno-stack-protector
