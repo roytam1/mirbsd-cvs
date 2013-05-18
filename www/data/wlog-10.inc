@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.238 2009/09/25 18:23:33 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.239 2009/09/25 19:14:29 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -5120,7 +5120,7 @@ Author: tg@
  <li><b>b bold</b></li>
  <li><strong>strong bold</strong></li>
  <li><i>i italic</i></li>
- <li><em>em italic</i></li>
+ <li><em>em italic</em></li>
  <li><b><i>bold italic</i></b></li>
 </ul>
 <p>Please do report any bugs (possibly with patches) again ☺ Things
