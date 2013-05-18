@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.237 2009/09/13 17:03:49 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.238 2009/09/25 18:23:33 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -5105,4 +5105,24 @@ Tag: snapshot
  from R39 (see <a href="@@RELPATH@@mksh.htm#clog">the changelog</a>).</p>
 <!-- RSS stop --><p>I feel like I'm going ill again, bed day for me. This
  sucks. And I even don't know why.</p>
+----
+Title: Improved CSS and Font Embedding
+Date: 25.09.2009 19:10
+Author: tg@
+
+<p>I tried to improve the Font Embedding as well as the CSS on this
+ website again. The fonts actually used should be Gentium Regular,
+ Gentium Italic, Gentium Basic Bold, Gentium Basic Bold Italic. If
+ you have only the Book variants installed, they are fallback. Both
+ CSS3 and IE/EOT embedding styles should work. (Bolding seems to be
+ broken in my Opera-Linux 9.27 though…)</p>
+<ul>
+ <li><b>b bold</b></li>
+ <li><strong>strong bold</strong></li>
+ <li><i>i italic</i></li>
+ <li><em>em italic</i></li>
+ <li><b><i>bold italic</i></b></li>
+</ul>
+<p>Please do report any bugs (possibly with patches) again ☺ Things
+ still look great in Lynx, so I̲ am content in any case…</p>
 ----
