@@ -1,3 +1,4 @@
+@comment $MirOS$
 @comment $OpenBSD: PLIST,v 1.19 2004/04/10 19:13:50 couderc Exp $
 bin/sylpheed
 share/locale/bg/LC_MESSAGES/sylpheed.mo
@@ -14,6 +15,7 @@ share/locale/hu/LC_MESSAGES/sylpheed.mo
 share/locale/it/LC_MESSAGES/sylpheed.mo
 share/locale/ja/LC_MESSAGES/sylpheed.mo
 share/locale/ko/LC_MESSAGES/sylpheed.mo
+share/locale/lt/LC_MESSAGES/sylpheed.mo
 share/locale/nl/LC_MESSAGES/sylpheed.mo
 share/locale/pl/LC_MESSAGES/sylpheed.mo
 share/locale/pt_BR/LC_MESSAGES/sylpheed.mo
@@ -25,8 +27,9 @@ share/locale/sr/LC_MESSAGES/sylpheed.mo
 share/locale/sv/LC_MESSAGES/sylpheed.mo
 share/locale/tr/LC_MESSAGES/sylpheed.mo
 share/locale/uk/LC_MESSAGES/sylpheed.mo
+share/locale/vi/LC_MESSAGES/sylpheed.mo
 share/locale/zh_CN/LC_MESSAGES/sylpheed.mo
-share/locale/zh_TW.Big5/LC_MESSAGES/sylpheed.mo
+share/locale/zh_TW/LC_MESSAGES/sylpheed.mo
 share/sylpheed/faq/de/sylpheed-faq-1.html
 share/sylpheed/faq/de/sylpheed-faq-2.html
 share/sylpheed/faq/de/sylpheed-faq-3.html
@@ -81,6 +84,8 @@ share/sylpheed/manual/ja/sylpheed-18.html
 share/sylpheed/manual/ja/sylpheed-19.html
 share/sylpheed/manual/ja/sylpheed-2.html
 share/sylpheed/manual/ja/sylpheed-20.html
+share/sylpheed/manual/ja/sylpheed-21.html
+share/sylpheed/manual/ja/sylpheed-22.html
 share/sylpheed/manual/ja/sylpheed-3.html
 share/sylpheed/manual/ja/sylpheed-4.html
 share/sylpheed/manual/ja/sylpheed-5.html
@@ -100,7 +105,62 @@ share/sylpheed/manual/ja/sylpheed.sgml
 @dirrm share/sylpheed/faq/de
 @dirrm share/sylpheed/faq
 @dirrm share/sylpheed
+@dirrm share/locale/zh_TW/LC_MESSAGES
+@dirrm share/locale/zh_TW
 @dirrm share/locale/zh_CN/LC_MESSAGES
 @dirrm share/locale/zh_CN
+@dirrm share/locale/vi/LC_MESSAGES
+@dirrm share/locale/vi
+@dirrm share/locale/uk/LC_MESSAGES
+@dirrm share/locale/uk
+@dirrm share/locale/tr/LC_MESSAGES
+@dirrm share/locale/tr
+@dirrm share/locale/sv/LC_MESSAGES
+@dirrm share/locale/sv
+@dirrm share/locale/sr/LC_MESSAGES
+@dirrm share/locale/sr
+@dirrm share/locale/sl/LC_MESSAGES
+@dirrm share/locale/sl
+@dirrm share/locale/sk/LC_MESSAGES
+@dirrm share/locale/sk
+@dirrm share/locale/ru/LC_MESSAGES
+@dirrm share/locale/ru
+@dirrm share/locale/ro/LC_MESSAGES
+@dirrm share/locale/ro
+@dirrm share/locale/pt_BR/LC_MESSAGES
+@dirrm share/locale/pt_BR
+@dirrm share/locale/pl/LC_MESSAGES
+@dirrm share/locale/pl
+@dirrm share/locale/nl/LC_MESSAGES
+@dirrm share/locale/nl
+@dirrm share/locale/lt/LC_MESSAGES
+@dirrm share/locale/lt
+@dirrm share/locale/ko/LC_MESSAGES
+@dirrm share/locale/ko
+@dirrm share/locale/ja/LC_MESSAGES
+@dirrm share/locale/ja
+@dirrm share/locale/it/LC_MESSAGES
+@dirrm share/locale/it
+@dirrm share/locale/hu/LC_MESSAGES
+@dirrm share/locale/hu
+@dirrm share/locale/hr/LC_MESSAGES
+@dirrm share/locale/hr
+@dirrm share/locale/gl/LC_MESSAGES
+@dirrm share/locale/gl
+@dirrm share/locale/fr/LC_MESSAGES
+@dirrm share/locale/fr
+@dirrm share/locale/et/LC_MESSAGES
+@dirrm share/locale/et
+@dirrm share/locale/es/LC_MESSAGES
+@dirrm share/locale/es
+@dirrm share/locale/el/LC_MESSAGES
+@dirrm share/locale/el
+@dirrm share/locale/de/LC_MESSAGES
+@dirrm share/locale/de
+@dirrm share/locale/da/LC_MESSAGES
+@dirrm share/locale/da
+@dirrm share/locale/cs/LC_MESSAGES
+@dirrm share/locale/cs
 @dirrm share/locale/bg/LC_MESSAGES
 @dirrm share/locale/bg
+@dirrm share/locale

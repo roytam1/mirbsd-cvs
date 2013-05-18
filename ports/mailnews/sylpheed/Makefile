@@ -1,14 +1,13 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.48 2004/04/10 19:13:50 couderc Exp $
 
-COMMENT=	"mail/news client in gtk+"
+COMMENT=		"mail/news client in gtk+"
 
-VERSION=	0.9.10
-DISTNAME=	sylpheed-${VERSION}
-CATEGORIES=    	mail news x11
-HOMEPAGE=	http://sylpheed.good-day.net
+VERSION=		2.2.4
+DISTNAME=		sylpheed-${VERSION}
+CATEGORIES=    		mailnews x11
+HOMEPAGE=		http://sylpheed.good-day.net
 
-
-LIB_DEPENDS=	gdk_pixbuf.2::graphics/gdk-pixbuf
 
 # GPL
 PERMIT_PACKAGE_CDROM=	Yes
@@ -16,12 +15,12 @@ PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
-MASTER_SITES=	${HOMEPAGE}/sylpheed/
-
+MASTER_SITES=		${HOMEPAGE}/sylpheed/v2.2/
+EXTRACT_SUFX=		.tar.bz2
 USE_CXX=		Yes
-CONFIGURE_STYLE=	gnu
-CONFIGURE_ARGS=		--enable-ssl --enable-ipv6 \
-			--disable-imlib
+CONFIGURE_STYLE=	autoconf
+AUTOCONF_NEW=		Yes
+MODULES+=		devel/pkgconfig converters/libiconv
 
 FLAVORS=	compface gpgme ldap
 FLAVOR?=
