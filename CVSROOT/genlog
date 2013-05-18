@@ -1,8 +1,8 @@
 #!/usr/bin/env mksh
-# $MirOS: CVSROOT/genlog,v 1.12 2008/08/05 06:07:32 tg Exp $
+# $MirOS: src/share/misc/licence.template,v 1.28 2008/11/14 15:33:44 tg Rel $
 #-
-# Copyright (c) 2004, 2005, 2006
-#	Thorsten "mirabilos" Glaser <tg@mirbsd.de>
+# Copyright (c) 2004, 2005, 2006, 2009
+#	Thorsten Glaser <tg@mirbsd.org>
 #
 # Provided that these terms and disclaimer and all copyright notices
 # are retained or reproduced in an accompanying document, permission
@@ -62,18 +62,19 @@ if (( s >= (362496 - 512) )); then
 	mv $h $h.${t#16#1}
 	if [[ -e $h.lock ]]; then
 		typeset -ui16 dt=$(date +%s)
-		print "%${dt#16#}|$USER|.|CVSROOT|continuing|$h.${t#16#1}" >$h.lock
+		print "%${dt#16#}|$USER|.|CVSROOT|continuing|$h.${t#16#1}" \
+		    >$h.lock
 		if [[ -e $h ]]; then
 			print '[genlog] danger, history appeared'
 		else
 			mv $h.lock $h
 		fi
 	else
-		print -n >>$h
+		:>>$h
 		print '[genlog] danger, lock vanished in history'
 	fi
 	chmod 666 $h
-	/bin/ls -l $h{,.${t#16#1}}
+	ls -l $h{,.${t#16#1}}
 fi
 
 rm -f $h.lock
@@ -112,13 +113,13 @@ if (( s >= (730112 - 512) )); then
 			print "%${dt#16#}|$USER|.|Logs|rotated:old|$f" >>$h
 		fi
 	else
-		print -n >>$f
+		:>>$f
 		print '[genlog] danger, lock vanished'
 	fi
 	chmod 664 $f
 	typeset -ui16 dt=$(date +%s)
 	print "%${dt#16#}|$USER|.|Logs|rotated:new|$f.${t#16#1}" >>$h
-	/bin/ls -l $f{,.${t#16#1}}
+	ls -l $f{,.${t#16#1}}
 fi
 
 rm -f $f.lock
