@@ -2,7 +2,7 @@
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname legacy/mail "MirOS Legacy Content"
-mws_putheader '$MirOS: www/src/mail.hts,v 1.1 2008/09/17 21:12:26 tg Exp $'
+mws_putheader '$MirOS: www/src/mail.hts,v 1.2 2008/11/08 22:24:38 tg Exp $'
 mws_content <<'EOF'
 <h1>The Mailing Lists</h1>
 
@@ -29,6 +29,7 @@ mws_content <<'EOF'
 
 <p>Do <em>not</em> send mail to <a
  href="mailto:junk@mirbsd.de">junk@mirbsd.de</a>, <a
+ href="mailto:junk@mirsolutions.de">junk@mirsolutions.de</a>, <a
  href="mailto:junk@mirbsd.org">junk@mirbsd.org</a> or <a
  href="mailto:junk@mirbsd.org">junk@mirbsd.org</a>.
  It won't do good to you.</p>
