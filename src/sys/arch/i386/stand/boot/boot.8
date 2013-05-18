@@ -1,4 +1,4 @@
-.\" $MirOS: src/sys/arch/i386/stand/boot/boot.8,v 1.17 2009/01/20 21:30:58 tg Exp $
+.\" $MirOS: src/sys/arch/i386/stand/boot/boot.8,v 1.18 2009/02/01 10:31:15 tg Exp $
 .\"-
 .\" Copyright (c) 2009
 .\"	Thorsten Glaser <tg@mirbsd.org>
@@ -18,7 +18,7 @@
 .\" damage or existence of a defect, except proven that it results out
 .\" of said person's immediate fault when using the work as intended.
 .\"-
-.Dd $Mdocdate: January 20 2009 $
+.Dd $Mdocdate: February 1 2009 $
 .Dt BOOT 8 i386
 .Os
 .Sh NAME
@@ -37,7 +37,8 @@ aims to load the system kernel into core memory from disc or network
 and run it, as well as do some auxiliary functions, while dealing
 with the problems arising from the history of the i386 architecture
 since 1978, incompatibilities, extensions, bugs, El Torito booting,
-Intel's Preboot Execution Environment (PXE) for network boot, etc.
+Intel's Preboot Execution Environment (PXE) for network boot, the
+Multiboot Specification, etc.
 .Mx
 floppies use a specially limited version optimised for size, lacking
 support for any filesystem other than 4.2FFS and most commands.
@@ -59,11 +60,13 @@ EXTLINUX, ISOLINUX, PXELINUX) or MS-DOS\(rg (unless DOS occupies the HMA).
 Once loaded, it can be used, in a more or less limited fashion, to boot a
 .Mx
 kernel from a supported filesystem (4.2FFS, ISO 9660, FAT12, FAT16, FAT28,
-TFTP, NFS), inspect the filesystems, get or set machine information, or
+TFTP, NFS, and a pseudo filesystem called lmbmfs), inspect the filesystems,
+get or set machine information, or
 load other bootloaders (see below for details).
 It can inflate
 .Xr gzip 1
-compressed files, set up serial console, and provides an interactive prompt.
+compressed files (with LZMA compression planned), set up serial console,
+and provides an interactive prompt.
 .Pp
 Basic operation procedure is as follows:
 .Pp
@@ -119,6 +122,13 @@ drive, partition, or PXE; the UNDI and PXE stacks are kept active if any.
 We request to be loaded to 0x00100000 (the HMA) due to GNU GRUB's
 limitations, save the boot device off the MBI structure, copy ourselves
 to the final location, and switch back to Real Mode.
+Modules passed to us by the Multiboot compliant boot loader will be moved
+off to just above 20 MiB in memory; their dirnames as well as any command
+lines (to the Multiboot OS kernel, i.e. this bootloader, as well as to the
+Multiboot modules) are discarded.
+The modules are made available as regular files using the virtual lmbm
+.Pq Loadable Multiboot Modules
+device and filesystem (in-RAM file store, really).
 .El
 .Pp
 During the initial operation, the stack is located about 80 KiB behind
@@ -126,7 +136,8 @@ the start of our own memory area, and switched to the final location if
 the position in memory is known to be correct early.
 .It
 System information (boot drive, potential partition table entry,
-PXENV+ and !PXE structure pointers) are stored in safe locations.
+PXENV+ and !PXE structure pointers, multiboot module information) are
+stored in safe locations.
 .It
 The code is relocated to the final address once or twice if needed.
 The final address is 4000:0000h with the stack beginning at 3000:FFFCh.
@@ -140,8 +151,6 @@ The heap begins after the bss section and grows up to just short of 9000:0000h.
 If the bootloader is compiled to do so, for example on a Live CD, it displays
 a boot menu unless the shift key is pressed, and retains the numeric return
 value for later, to replace the cfg suffix of the configuration file with it.
-.It
-The IDT for the Protected Mode is set up.
 .It
 The system is switched to Protected Mode.
 .It
@@ -159,14 +168,24 @@ in case the BIOS reports wrong information.
 APM support
 .It
 PXE support
+.It
+Loadable Multiboot Modules (if any, they are moved off to safe locations
+and the virtual lmbm device and lmbmfs are set up)
+.It
+Floppy disc drives
+.It
+Hard disc drives, including El Torito CD-ROM drives
 .El
 .It
 Unless a control key is held, the files
 .Pa /x.x.x.x/boot.cfg
+if loaded via PXE
 .Pq where x.x.x.x is our own IPv4 address
 and
-.Pa /boot.cfg
-.Pq with cfg possibly replaced from the menu
+.Pa /boot.cfg ,
+with
+.Dq cfg
+possibly replaced from the Live CD menu,
 are read and executed as if the commands had been entered on the loader prompt.
 .It
 The bootloader prompt
@@ -242,7 +261,7 @@ Output is paginated every 24 lines.
 .Pp
 The cd9660, tftp and nfs filesystems do not support this command.
 They will either always fail or always succeed with sane but unusable results.
-The FAT12, FAt16 and FAT28 filesystems have hardcoded perms and uid/gid.
+The FAT12, FAT16 and FAT28 filesystems have hardcoded perms and uid/gid.
 .It machine Op Ar command
 Issues machine-specific commands:
 .Bl -tag -width diskinfo
@@ -406,7 +425,19 @@ hd0o:/bsd.rd
 /
 .Pq for Dq Cm ls
 .It
+hd0a:/
+.Pq for Dq Cm ls
+.It
+lmbm:/
+.Pq for Dq Cm ls
+.It
 cd0a:/boot/grub/stage2
+.It
+tftp:/bsd.rd.i386
+.It
+lmbm:/bsd4grml
+.It
+/bsd
 .El
 .Pp
 Disklabels are read from hard discs (BIOS drive >= 80h) by searching
@@ -571,6 +602,11 @@ option.
 .%D September 20, 1999
 .%A Intel Corporation
 .Re
+.Rs
+.%T Multiboot Specification
+.%N Version 0.6.93
+.%A Free Software Foundation, Inc.
+.Re
 .Sh HISTORY
 This bootloader is based on code written by
 .An Michael Shalayeff
@@ -598,7 +634,7 @@ appeared in
 and went away for
 .Mx 10 .
 The separate versions got merged into one bootloader,
-DOS, COMBOOT, Multiboot support, pagination, macros, the
+DOS, COMBOOT, Multiboot support (including modules), pagination, macros, the
 .Cm machine exec
 and
 .Cm cat
@@ -606,9 +642,36 @@ commands, working chainbooting of bootsectors and GNU GRUB,
 faked disklabels (if none exist on disc), FAT filesystem support,
 and many more things were added or rewritten for
 .Mx 11
-and grml by
+and MirOS bsd4grml by
 .An Thorsten Glaser .
 .Sh CAVEATS
 The default location of the kernels and the
 .Pa boot.cfg
 file can be changed at compile time.
+.Ss FILESYSTEM SPECIFIC NOTES
+.Bl -tag -width tftpxxnfs
+.It ISO 9660
+Filesystems above 4 GiB in size definitively do not work.
+We do not know at this time if there is a 2 GiB or 4 GiB limit,
+nor if this affects any other filesystems.
+.Pp
+The
+.Cm ls
+command does not work.
+.It lmbmfs
+This filesystem and device will only appear if loaded via a Multiboot
+compliant boot loader, masquerading as Multiboot compliant OS kernel,
+and when modules are passed.
+.Cm ls
+is possible only on the root directory
+.Po Do / Dc , Do /. Dc Pc .
+Files keep the names passed by the Multiboot boot loader, but have the
+directory part stripped, and can be accessed with any directory leading.
+If they have no names, they are given an enumerated hex number as name.
+.It tftp, nfs
+These filesystems and devices will only appear of loaded via PXE.
+They obviously do not support
+.Cm ls .
+.It ustarfs
+This filesystem will be implemented soon.
+.El
