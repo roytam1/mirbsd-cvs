@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/distrib/miniroot/install.sh,v 1.5 2005/07/24 16:24:23 tg Exp $
+# $MirOS: src/distrib/miniroot/install.sh,v 1.6 2005/12/06 12:44:02 tg Exp $
 # $OpenBSD: install.sh,v 1.152 2005/04/21 21:41:33 krw Exp $
 # $NetBSD: install.sh,v 1.5.2.8 1996/08/27 18:15:05 gwr Exp $
 #
@@ -434,10 +434,9 @@ w
 q" | ed /mnt/etc/master.passwd 2>/dev/null
 /mnt/usr/sbin/pwd_mkdb -p -d /mnt/etc /etc/master.passwd
 
-echo -n "done.\nGenerating initial host.random file..."
-( cd /mnt/var/db
-/mnt/bin/dd if=/mnt/dev/urandom of=host.random bs=1024 count=64 >/dev/null 2>&1
-chmod 600 host.random >/dev/null 2>&1 )
+echo "done.\nGenerating initial host.random file..."
+dd if=/dev/urandom of=/mnt/var/db/host.random bs=1024 count=64
+chmod 600 /mnt/var/db/host.random
 echo "done."
 
 set_timezone
