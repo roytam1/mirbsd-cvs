@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/stand/libsa/diskprobe.c,v 1.14 2009/01/10 23:05:28 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/stand/libsa/diskprobe.c,v 1.15 2009/01/10 23:43:08 tg Exp $ */
 /*	$OpenBSD: diskprobe.c,v 1.29 2007/06/18 22:11:20 krw Exp $	*/
 
 /*
@@ -155,7 +155,7 @@ hardprobe_one(int i)
 
 	/* Try to find the label, to figure out device type */
 	if ((bios_getdisklabel(&dip->bios_info, &dip->disklabel)) ) {
-		if (dip->name[0] == 'c') {
+		if (dip->bios_info.flags & BDI_EL_TORITO) {
 			bsdunit = dip->name[2] - '0';
 			type = 6;	/* CD-ROM */
 		} else {
@@ -258,7 +258,7 @@ dump_diskinfo(void)
 		}
 		printf("%s\t0x%X\t%s\t%d\t%d\t%d\t0x%X\t0x%X\n",
 		    dip->name, bdi->bios_number,
-		    (bdi->flags & BDI_BADLABEL)?"*none*":"label",
+		    (bdi->flags & BDI_BADLABEL) ? "*none*" : "label",
 		    bdi->bios_cylinders, bdi->bios_heads, bdi->bios_sectors,
 		    bdi->flags, bdi->checksum);
 	}

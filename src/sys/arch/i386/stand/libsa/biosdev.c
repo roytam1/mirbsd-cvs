@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/stand/libsa/biosdev.c,v 1.26 2009/01/10 22:18:53 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/stand/libsa/biosdev.c,v 1.27 2009/01/10 23:43:08 tg Exp $ */
 /*	$OpenBSD: biosdev.c,v 1.74 2008/06/25 15:32:18 reyk Exp $	*/
 
 /*
@@ -317,9 +317,7 @@ real_io(int rw, bios_diskinfo_t *bd, daddr_t off, int nsect, void *buf)
 	int dev = bd->bios_number;
 	int j, error;
 
-	if (bd->flags & BDI_EL_TORITO) {	/* It's a CD device */
-		dev &= 0xff;			/* Mask out this flag bit */
-
+	if (bd->flags & BDI_EL_TORITO) {
 		/*
 		 * sys/lib/libsa/cd9600.c converts 2,048-byte CD sectors
 		 * to DEV_BSIZE blocks before calling the device strategy
@@ -489,7 +487,7 @@ biosopen(struct open_file *f, ...)
 
 #ifdef BIOS_DEBUG
 	if (debug)
-		printf("%s\n", cp);
+		printf("biosopen(%s)\n", cp);
 #endif
 
 	f->f_devdata = NULL;
@@ -711,6 +709,9 @@ disk_trylabel(struct diskinfo *dip)
 
 		totsiz = 2880;
 
+		if (!(bd->bios_number & 0x80) || bd->flags & BDI_EL_TORITO ||
+		    (*((char *)bios_bootpte) & 0x7F))
+			bzero(bios_bootpte, 16);
 		if (bd->bios_number & 0x80) {
 			/* read MBR */
 			i = biosd_io(F_READ, bd, DOSBBSECTOR, 1, NULL);
@@ -725,8 +726,7 @@ disk_trylabel(struct diskinfo *dip)
 					totsiz = mbr->dmbr_parts[i].dp_start +
 					    mbr->dmbr_parts[i].dp_size;
 			goto mbrok;
-		} else
-			bzero(bios_bootpte, 16);
+		}
  nombr:
 		for (i = 0; i < NDOSPART; i++)
 			mbr->dmbr_parts[i].dp_typ = 0;
@@ -757,7 +757,7 @@ disk_trylabel(struct diskinfo *dip)
 		    sizeof (dip->disklabel.d_partitions));
 
 		if (bios_bootpte[2] || bios_bootpte[3]) {
-			/* 'a' partition passed from SYSLINUX */
+			/* 'a' partition passed from MBR/SYSLINUX */
 			dip->disklabel.d_partitions[0].p_offset = bios_bootpte[2];
 			dip->disklabel.d_partitions[0].p_size = bios_bootpte[3];
 			dip->disklabel.d_partitions[0].p_fstype = FS_MANUAL;

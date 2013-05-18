@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/stand/libsa/dev_i386.c,v 1.12 2009/01/10 22:18:53 tg Exp $	*/
+/**	$MirOS: src/sys/arch/i386/stand/libsa/dev_i386.c,v 1.13 2009/01/10 23:05:28 tg Exp $	*/
 /*	$OpenBSD: dev_i386.c,v 1.30 2007/06/27 20:29:37 mk Exp $	*/
 
 /*
@@ -156,7 +156,9 @@ devboot(dev_t bootdev, char *p)
 		cp = start_dip->name;
 		while ((*p++ = *cp++))
 			;
-		p[-1] = 'a';
+		--p;
+		if (p[-1] >= '0' && p[-1] <= '9')
+			*p++ = 'a';
 	}
 	*p = '\0';
 }

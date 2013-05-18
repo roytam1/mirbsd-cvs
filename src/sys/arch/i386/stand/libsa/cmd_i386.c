@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/stand/libsa/cmd_i386.c,v 1.21 2009/01/10 20:28:28 tg Exp $	*/
+/**	$MirOS: src/sys/arch/i386/stand/libsa/cmd_i386.c,v 1.22 2009/01/10 22:18:53 tg Exp $	*/
 /*	$OpenBSD: cmd_i386.c,v 1.29 2006/09/18 21:14:15 mpf Exp $	*/
 
 /*
@@ -110,7 +110,8 @@ Xlabel(void)
 		printf("Device for %cd%c not found\n", dname[0], dname[2]);
 		return (0);
 	}
-	printf("Disklabel for device %x (%cd%c): ", d, dname[0], dname[2]);
+	printf("Disklabel for device %x (%cd%c): ", dip->bios_info.bios_number,
+	    dname[0], dname[2]);
 	if ((dip->bios_info.flags & BDI_BADLABEL) &&
 	    (d = disk_trylabel(dip)))
 		return (0);
@@ -164,8 +165,13 @@ Xboot(void)
 
 	printf("Booting from %s ", cmd.argv[1]);
 
-	dev = (cmd.argv[1][0] == 'h')?0x80:0;
-	dev += (cmd.argv[1][2] - '0');
+	for (dip = TAILQ_FIRST(&disklist); dip; dip = TAILQ_NEXT(dip, list))
+		if (!strncmp(cmd.argv[1], dip->name, 3))
+			break;
+	if (!dip)
+		goto bad;
+
+	dev = dip->bios_info.bios_number;
 	part = (cmd.argv[1][3] - 'a');
 
 	if (part >= 0)
@@ -180,11 +186,6 @@ Xboot(void)
 	buf = (void *)((intptr_t)baddr);
 
 	/* Read boot sector from device */
-	for (dip = TAILQ_FIRST(&disklist); dip; dip = TAILQ_NEXT(dip, list))
-		if (!strncmp(cmd.argv[1], dip->name, 3))
-			break;
-	if (!dip)
-		goto bad;
 	bd = &dip->bios_info;
 	st = biosd_io(F_READ, bd, 0, 1, buf);
 	if (st)
