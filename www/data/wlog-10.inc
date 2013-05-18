@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.174 2009/03/22 18:56:39 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.175 2009/03/28 22:03:50 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -3639,4 +3639,20 @@ Tag: security
 <p>Pending fixes: libc (fts), and probably some subset of the recent
  OpenSSL things.</p>
 <p>mksh R37 is scheduled to be released RSN.</p>
+----
+Author: tg@
+Title: Mein erster FTF
+Date: 29.03.2009 17:43
+Tag: geocache
+
+<p>Anläßlich meines ersten FTF (ein OC-Only natürlich, weil, sonst
+ kriegt man die Benachrichtigung ja nie pünktlich von der drecks
+ Kommerzseite) habe ich <tt>src/share/misc/acronyms</tt> für wtf(1)
+ mal um entsprechenden Jargon erweitert.</p><!-- RSS stop -->
+<p>Hier dann die aktuellen „Statistiken“:<br />
+ <img src="https://call.mirbsd.org/sp.cgi?oc" alt="OpenCaching.de" />
+ <img src="https://call.mirbsd.org/sp.cgi?gc" alt="The Frog Site" />
+ <img src="https://call.mirbsd.org/sp.cgi?tc" alt="Rare Jewels" />
+ <img src="https://call.mirbsd.org/sp.cgi?nc" alt="Broken Webpages²" />
+ <br />Zwei mehr, auch wenn ich für einen was länger brauchte…</p>
 ----
