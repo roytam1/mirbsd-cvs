@@ -1098,6 +1098,28 @@ sm_ldap_results(lmap, msgid, flags, delim, rpool, result,
 
 	if (ret == 0)
 		save_errno = ETIMEDOUT;
+	else if (ret == LDAP_RES_SEARCH_RESULT)
+	{
+		/*
+		**  We may have gotten an LDAP_RES_SEARCH_RESULT response
+		**  with an error inside it, so we have to extract that
+		**  with ldap_parse_result().  This can happen when talking
+		**  to an LDAP proxy whose backend has gone down.
+		*/
+
+		if (lmap->ldap_res == NULL)
+			save_errno = LDAP_UNAVAILABLE;
+		else
+		{
+			int rc;
+
+			save_errno = ldap_parse_result(lmap->ldap_ld,
+					lmap->ldap_res, &rc, NULL, NULL,
+					NULL, NULL, 0);
+			if (save_errno == LDAP_SUCCESS)
+				save_errno = rc;
+		}
+	}
 	else
 	{
 		int rc;

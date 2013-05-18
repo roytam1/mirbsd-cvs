@@ -1,6 +1,6 @@
 divert(-1)dnl
 #
-# $MirOS: src/gnu/usr.sbin/sendmail/cf/cf/openbsd-proto.mc,v 1.8 2008/11/11 19:00:33 tg Exp $
+# $MirOS: src/gnu/usr.sbin/sendmail/cf/cf/openbsd-proto.mc,v 1.9 2009/09/24 17:02:08 tg Exp $
 # @(#)openbsd-proto.mc $Revision$
 #
 # Copyright (c) 2002, 2003, 2004, 2005, 2007, 2008
@@ -20,7 +20,7 @@ divert(-1)dnl
 #
 
 divert(0)dnl
-VERSIONID(`$MirOS: src/gnu/usr.sbin/sendmail/cf/cf/openbsd-proto.mc,v 1.8 2008/11/11 19:00:33 tg Exp $')dnl
+VERSIONID(`$MirOS: src/gnu/usr.sbin/sendmail/cf/cf/openbsd-proto.mc,v 1.9 2009/09/24 17:02:08 tg Exp $')dnl
 OSTYPE(openbsd)dnl
 dnl
 dnl If you have a non-static IP address you may wish to forward outgoing mail
@@ -108,8 +108,13 @@ dnl Accept incoming connections on any IPv4 or IPv6 interface for ports
 dnl 25 (SMTP) and 587 (MSA).
 dnl
 FEATURE(`no_default_msa')dnl
+ifdef(`LOCALHOST_ONLY', `
+DAEMON_OPTIONS(`Family=inet, address=127.0.0.1, Name=MTA')dnl
+DAEMON_OPTIONS(`Family=inet6, address=::1, Name=MTA6, M=O')dnl
+',`
 DAEMON_OPTIONS(`Family=inet, Address=0.0.0.0, Name=MTA')dnl
 DAEMON_OPTIONS(`Family=inet6, Address=::, Name=MTA6, M=O')dnl
+')dnl
 dnl
 dnl Do not configure an MSA by default, due to our rather
 dnl restrictively enforced 7-bit security checks. Submissions

@@ -14,7 +14,7 @@
 #include <sendmail.h>
 #include <sm/time.h>
 
-SM_RCSID("$MirOS: src/gnu/usr.sbin/sendmail/sendmail/deliver.c,v 1.5 2009/11/18 08:53:38 tg Exp $")
+SM_RCSID("$MirOS: src/gnu/usr.sbin/sendmail/sendmail/deliver.c,v 1.6 2010/12/19 17:18:21 tg Exp $")
 SM_RCSID("@(#)$Id$")
 
 #if HASSETUSERCONTEXT
@@ -6115,12 +6115,13 @@ starttls(m, mci, e)
 		return EX_TEMPFAIL;
 
 # if USE_OPENSSL_ENGINE
-	if (!SSL_set_engine(NULL))
+	if (!SSLEngineInitialized && !SSL_set_engine(NULL))
 	{
 		sm_syslog(LOG_ERR, NOQID,
 			  "STARTTLS=client, SSL_set_engine=failed");
 		return EX_TEMPFAIL;
 	}
+	SSLEngineInitialized = true;
 # endif /* USE_OPENSSL_ENGINE */
 
 	smtpmessage("STARTTLS", m, mci);

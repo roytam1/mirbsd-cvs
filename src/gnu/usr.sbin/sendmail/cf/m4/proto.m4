@@ -14,7 +14,7 @@ divert(-1)
 #
 divert(0)
 
-VERSIONID(`$MirOS: src/gnu/usr.sbin/sendmail/cf/m4/proto.m4,v 1.4 2009/01/30 09:40:13 tg Exp $')
+VERSIONID(`$MirOS: src/gnu/usr.sbin/sendmail/cf/m4/proto.m4,v 1.5 2010/12/19 17:17:59 tg Exp $')
 VERSIONID(`$Id$')
 
 # level CF_LEVEL config file format

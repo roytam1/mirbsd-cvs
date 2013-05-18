@@ -13,7 +13,7 @@
 
 #include <sendmail.h>
 
-SM_RCSID("$MirOS: src/gnu/usr.sbin/sendmail/sendmail/conf.c,v 1.11 2008/05/07 11:57:06 tg Exp $")
+SM_RCSID("$MirOS: src/gnu/usr.sbin/sendmail/sendmail/conf.c,v 1.12 2010/12/19 17:18:19 tg Exp $")
 SM_RCSID("@(#)$Id$")
 
 #include <sm/sendmail.h>
@@ -4872,6 +4872,7 @@ load_if_names()
 		switch (af)
 		{
 		  case AF_INET6:
+			SETV6LOOPBACKADDRFOUND(*sa);
 #  ifdef __KAME__
 			/* convert into proper scoped address */
 			if ((IN6_IS_ADDR_LINKLOCAL(&sa->sin6.sin6_addr) ||
@@ -5071,6 +5072,7 @@ load_if_names()
 
 #   if NETINET6
 		  case AF_INET6:
+			SETV6LOOPBACKADDRFOUND(*sa);
 #    ifdef __KAME__
 			/* convert into proper scoped address */
 			if ((IN6_IS_ADDR_LINKLOCAL(&sa->sin6.sin6_addr) ||
@@ -6029,6 +6031,9 @@ char	*OsCompileOptions[] =
 #ifdef USESYSCTL
 	"USESYSCTL",
 #endif /* USESYSCTL */
+#if USE_OPENSSL_ENGINE
+	"USE_OPENSSL_ENGINE",
+#endif /* USE_OPENSSL_ENGINE */
 #if USING_NETSCAPE_LDAP
 	"USING_NETSCAPE_LDAP",
 #endif /* USING_NETSCAPE_LDAP */
