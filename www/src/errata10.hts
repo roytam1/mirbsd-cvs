@@ -1,4 +1,4 @@
-mws_putheader '$MirOS: www/src/errata10.hts,v 1.5 2008/03/30 20:09:07 tg Exp $'
+mws_putheader '$MirOS: www/src/errata10.hts,v 1.6 2008/04/02 19:03:57 tg Exp $'
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -12,7 +12,17 @@ mws_content <<'EOF'
 <h2 id="cvsup">Source updates</h2>
 <p>By upgrading to the <tt>MIRBSD_10</tt> branch on CVS in the
  <tt>src</tt> module, you gain the following fixes:</p><ul>
+<!-- TODO:
+ * sendmail
+-->
 <li>
+ Merge OpenSSH 5.0 and some OpenSSL security fixes from OpenBSD
+</li><li>
+ Work around one of the CVE-2008-1391 cases in strtod(3), add some
+ more overflow checking in the printf(3) function suite
+</li><li>
+ Add support for the <tt>fixes10.ngz</tt> dist set in the installer
+</li><li>
  Plug a memory leak in normally unused <tt>-P</tt> option in rm(1)
 </li><li>
  Fix SIGSEGV in sendmail(8) occuring under certain occations

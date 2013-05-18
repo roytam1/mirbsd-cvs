@@ -1,4 +1,4 @@
-mws_putheader '$MirOS: www/src/clog11.hts,v 1.3 2008/03/23 22:12:38 tg Exp $'
+mws_putheader '$MirOS: www/src/clog11.hts,v 1.4 2008/03/23 22:13:40 tg Exp $'
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -10,6 +10,26 @@ mws_content <<'EOF'
  and subprojects are listed. Changes to individual ports or changes which are
  not related to the base system in subprojects, or www/contrib are not.</p>
 <ul>
+<li>ntpd(8): improve the adjustment delta calculation algorithm, debugging</li>
+<li>hier(7): change root’s home directory to ‘/’</li>
+<li>sendmail(8): update to 8.14.3 and sync with OpenBSD’s version</li>
+<li>gnu: update files in GNUSYSTEM_AUX_DIR (e.g. libtool) from upstream</li>
+<li>libpthread: properly align stack to prevent SSE2 crashes, from OpenBSD</li>
+<li>wtf: add more acronyms</li>
+<li>libc: add support for %h, %hh, %j modifiers to scanf(3) suite</li>
+<li>global: begin removing own advertising clauses</li>
+<li>kernel: add cprng(8)-like entropy gathering method using 80586 TSC</li>
+<li>libpng: update to 1.2.26 <!-- TODO: 1.2.29 is out --></li>
+<li>i386: have fdisk(8) randomise the NT disc serial number on code updates</li>
+<li>db(1): add from NetBSD</li>
+<li>sparc: fix potential mis-alignment (too much) in asm code (macros)</li>
+<li>libc: new arc4random_pushk(3), used by some</li>
+<li>OpenSSL: pull security fixes from OpenBSD</li>
+<li>sshd(8): update to OpenSSH 5.0</li>
+<li>libc: work around CVE-2008-1391 in strtod(3)</li>
+<li>kernel: log invalid syscall numbers</li>
+<li>base: add /usr/dbin (= /bin) and /usr/dsbin (= /sbin) containing versions
+ of these executables which are dynamically linked, for fakeroot</li>
 <li>mksh(1): support dæmonisation (<tt>mksh -T- script</tt>)</li>
 <li>libpng: update to 1.2.25</li>
 <li>kernel: improve arandom(4) by using Yarrow’s two-pool idea, add some
