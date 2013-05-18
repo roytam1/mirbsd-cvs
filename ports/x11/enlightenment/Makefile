@@ -1,6 +1,7 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.33 2004/02/26 01:42:25 brad Exp $
 
-COMMENT=			themed window manager
+COMMENT=	themed window manager
 
 DISTNAME=	enlightenment-0.16.6
 CATEGORIES=	x11
@@ -21,6 +22,7 @@ PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
 USE_X11=	Yes
+USE_CXX=	Yes # depends on libungif and fnlib, which use CXX
 USE_GMAKE=	Yes
 CONFIGURE_STYLE= gnu
 CONFIGURE_ARGS=	--enable-fsstd

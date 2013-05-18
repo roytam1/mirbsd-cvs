@@ -1,7 +1,7 @@
-# $MirOS: ports/x11/e16keyedit/Makefile,v 1.2 2005/03/30 18:13:54 bsiegert Exp $
+# $MirOS: ports/x11/e16keyedit/Makefile,v 1.3 2006/09/14 00:15:11 tg Exp $
 # $OpenBSD: Makefile,v 1.4 2003/10/08 17:13:15 sturm Exp $
 
-COMMENT=			edit enlightenment's keybindings
+COMMENT=		edit enlightenment\'s keybindings
 
 DISTNAME=		e16keyedit-0.2
 CATEGORIES=     	x11
@@ -20,6 +20,7 @@ LIB_DEPENDS=		gdk_imlib.19::graphics/imlib \
 RUN_DEPENDS=		:enlightenment-0.16*:x11/enlightenment
 
 USE_X11=		Yes
+USE_CXX=		Yes # depends on enlightenment, whose dependencies use CXX
 NO_REGRESS=		Yes
 
 .include <bsd.port.mk>

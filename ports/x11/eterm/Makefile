@@ -1,8 +1,8 @@
-# $MirOS: ports/x11/eterm/Makefile,v 1.2 2005/07/07 21:28:39 bsiegert Exp $
+# $MirOS: ports/x11/eterm/Makefile,v 1.3 2006/09/14 00:15:11 tg Exp $
 # $OpenBSD: Makefile,v 1.18 2003/10/08 17:13:16 sturm Exp $
 
-COMMENT=			color X11 terminal emulator with transparency support
-COMMENT-kanji=			color japanese terminal emulator with transparency support
+COMMENT=		color X11 terminal emulator with transparency support
+COMMENT-kanji=		color japanese terminal emulator with transparency support
 PKGNAME=		eterm-0.8.10-0
 FULLPKGNAME-kanji=	ja-eterm-0.8.10-0
 DISTNAME=		Eterm-0.8.10
@@ -20,6 +20,7 @@ PERMIT_DISTFILES_CDROM=	"may not sell"
 PERMIT_DISTFILES_FTP=	Yes
 
 USE_X11=		Yes
+USE_CXX=		Yes # depends on libungif, which uses CXX
 CONFIGURE_STYLE=	autoconf
 CONFIGURE_ARGS+=	${CONFIGURE_SHARED}
 CONFIGURE_ARGS+=	--enable-static

@@ -1,6 +1,7 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.11 2003/10/08 17:13:15 sturm Exp $
 
-COMMENT=			X keygrabber for blackbox
+COMMENT=	X keygrabber for blackbox
 
 DISTNAME=	bbkeys-0.8.4
 CATEGORIES=	x11
@@ -16,6 +17,7 @@ PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
 USE_X11=	Yes
+USE_CXX=	Yes # depends on blackbox, which uses CXX
 
 RUN_DEPENDS=	::x11/blackbox
 

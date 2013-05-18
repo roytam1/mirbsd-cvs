@@ -1,9 +1,9 @@
-# $MirOS: ports/x11/fvwm2/Makefile,v 1.4 2006/02/09 09:36:22 tg Exp $
+# $MirOS: ports/x11/fvwm2/Makefile,v 1.5 2006/09/14 00:15:13 tg Exp $
 # $OpenBSD: Makefile,v 1.31 2004/02/04 07:39:19 sturm Exp $
 
-COMMENT=			multiple virtual desktop window manager, with icons
-COMMENT-fvicons=			multiple virtual desktop window manager icons
-COMMENT-fvwm2=			multiple virtual desktop window manager, without icons
+COMMENT=		multiple virtual desktop window manager, with icons
+COMMENT-fvicons=	multiple virtual desktop window manager icons
+COMMENT-fvwm2=		multiple virtual desktop window manager, without icons
 
 VERSION=	2.4.16
 DISTNAME=	fvwm-${VERSION}
@@ -61,6 +61,7 @@ PKG_ARCH=	*
 SUBST_VARS=	VERSION
 
 USE_X11=	Yes
+USE_CXX=	Yes # depends on libungif, which uses CXX
 
 CONFIGURE_STYLE= gnu
 CONFIGURE_ARGS+= --enable-extras \

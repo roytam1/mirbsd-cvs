@@ -1,6 +1,7 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.7 2003/10/08 17:13:15 sturm Exp $
 
-COMMENT=			displays the date and resembles the toolbar
+COMMENT=	displays the date and resembles the toolbar
 
 DISTNAME=	bbdate-0.2.3
 CATEGORIES=	x11
@@ -16,6 +17,7 @@ PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
 USE_X11=	Yes
+USE_CXX=	Yes # depends on blackbox, which uses CXX
 
 RUN_DEPENDS=	::x11/blackbox
 

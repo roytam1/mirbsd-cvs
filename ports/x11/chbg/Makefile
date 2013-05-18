@@ -1,6 +1,7 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.6 2004/03/13 15:40:01 sturm Exp $
 
-COMMENT=		Desktop wallpaper manager and X11 screensaver
+COMMENT=		desktop wallpaper manager and X11 screensaver
 DISTNAME=		chbg-1.5
 DASH_VER=		1
 CATEGORIES=     	x11
@@ -28,6 +29,7 @@ FAKE_FLAGS=		${DESTDIRNAME}=${WRKINST} \
 			GNOME_PREFIX=${PREFIX}
 
 USE_X11=		Yes
+USE_CXX=		Yes # depends on libungif, which uses CXX
 CONFIGURE_STYLE=	gnu
 
 .if ${MACHINE_ARCH} == "sparc64"
