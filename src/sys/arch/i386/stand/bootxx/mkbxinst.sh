@@ -1,5 +1,5 @@
 #!/bin/mksh
-rcsid='$MirOS: src/sys/arch/i386/stand/bootxx/mkbxinst.sh,v 1.9 2009/01/02 05:01:46 tg Exp $'
+rcsid='$MirOS: src/sys/arch/i386/stand/bootxx/mkbxinst.sh,v 1.10 2009/01/31 18:51:19 tg Exp $'
 #-
 # Copyright (c) 2007, 2008, 2009
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -100,8 +100,10 @@ function do_record {
 		    blk < 0x00010000 ? 1 :
 		    blk < 0x01000000 ? 2 : 3 ))
 		(( x = cnt < 33 ? cnt : 32 ))
-		(( thecode[curptr++] = (n++ << 5) | (x - 1) ))
 		(( y = blk ))
+		print -u2 " - 0x${curptr#16#}: $((x)) (0x${x#16#}) @ $blk" \
+		    "(0x${y#16#})"
+		(( thecode[curptr++] = (n++ << 5) | (x - 1) ))
 		(( blk += x ))
 		(( cnt -= x ))
 		while (( n-- )); do
@@ -116,21 +118,7 @@ function record_block {
 
 	if (( !blk || (wofs && blk != (wofs + wnum)) )); then
 		# flush the blocks from the cache
-		if (( wnum )); then
-			if (( (sv = wofs % numsecs) < (numsecs - 1) )); then
-				(( sv = numsecs - sv ))
-				(( sv = sv > wnum ? wnum : sv ))
-				do_record $wofs $sv
-				let wofs+=sv wnum-=sv
-			fi
-
-			while (( wnum > numsecs )); do
-				do_record $wofs $numsecs
-				let wofs+=numsecs wnum-=numsecs
-			done
-
-			(( wnum )) && do_record $wofs $wnum
-		fi
+		(( wnum )) && do_record $wofs $wnum
 		wofs=0
 		wnum=0
 	fi
