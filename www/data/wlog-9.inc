@@ -2885,3 +2885,18 @@ Author: tg@
  migrate to <tt>tear</tt> have been postponed due to this problem, which
  makes the progress in the project seriously suffer.</p>
 ----
+Date: 11.03.2008
+Author: tg@
+
+<p>This is probably the last entry in this wlog. If you are using the RSS
+ feeds, you might either want to subscribe to <a
+ href="@@RELPATH@@wlog-10.rss">http://www.mirbsd.org/wlog-10.rss</a>, or
+ change your subscription to the new (as of yesterday) feed at <a
+ href="@@RELPATH@@wlog.rss">http://www.mirbsd.org/wlog.rss</a>, which is
+ a symbolic link to the current developers’ weblog.</p>
+<p>A fix for the ppp(8) security vulnerability has been committed to
+ MirOS #10-stable already. This is still in time for the release, and
+ will be included in the source10.ngz dist set as well as in both i386
+ and sparc base10.ngz dist sets. Thanks to TNF’s replaced, who mentioned
+ the issue to me in the <tt>#!/bin/mksh</tt> channel in IRC.</p>
+----
