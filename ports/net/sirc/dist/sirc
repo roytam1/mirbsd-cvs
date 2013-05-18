@@ -1,7 +1,7 @@
 #!@SHELL@
-# $MirOS: ports/net/sirc/dist/sirc,v 1.5 2007/01/03 23:27:47 tg Exp $
+# $MirOS: ports/net/sirc/dist/sirc,v 1.6 2007/01/03 23:30:29 tg Exp $
 #-
-# Copyright (c) 2002, 2003, 2004, 2005, 2007
+# Copyright (c) 2002, 2003, 2004, 2005, 2007, 2008
 #	Thorsten Glaser <tg@mirbsd.de>
 #
 # Provided that these terms and disclaimer and all copyright notices
@@ -30,7 +30,8 @@ if [[ $1 = -d ]]; then
 fi
 
 DASH_X=
-x=$(locale charmap 2>/dev/null) || x=${LC_ALL:-${LC_CTYPE:-${LANG}}}
-[[ $x = @(UTF|utf)?(-)8 ]] && DASH_X=-X
+x=$(locale charmap 2>/dev/null) || x=
+[[ -n $x ]] || x=${LC_ALL:-${LC_CTYPE:-${LANG}}}
+[[ $x = *@(UTF|utf)?(-)8* ]] && DASH_X=-X
 
 eval exec ssfe $SSFE $PERL $SKRIPT $DASH_X $SIRCOPTS \"\$@\"
