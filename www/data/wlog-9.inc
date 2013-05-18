@@ -1389,3 +1389,28 @@ Author: tg@
  the http mirrors (heph and allbsd.org) soon, in <tt>/MirOS/current/</tt>,
  as usual.</p>
 ----
+Date: 26.07.2007
+Author: tg@
+
+<p>Yesterday, I talked some with the MidnightBSD people. I think that they
+ are quite okay and invited them over for FrOSCon. Maybe at least one from
+ that bunch comes, then we'll finally have all BSDs at once.</p>
+<p>My dayjob is really keeping me busy, I'm almost only home for sleeping;
+ but that's okay, I even get to do mksh stuff at work since it's the shell
+ of choice in FreeWRT Trunk (to be 1.1), which is what we use and develop.
+ Speaking of mksh, I'd like to release R30 rather sooner than later.</p>
+<p>Benny's busy coding WinAPI at work, poor lad, but it could be worse, as
+ STL or MFC or so. On the other hand, he <em>does</em> still fix ports and
+ package tools (we have a security updated BIND now, for instance). Thanks
+ Benny, we really appreciate that.</p>
+<p>Speaking of MirPorts – the MidnightBSD people have “mports”, which seem
+ to be FreeBSD ports based (*grins* I wonder why they didn't use pkgsrc®…)
+ and I suggested them to use MirPorts as a second choice (like pkgsrc® for
+ us), after Archite (coming from OgreBSD) couldn't persuade them to choose
+ only MirPorts he'll probably look into that now. We'll help, but we can't
+ maintain it. I just wish dfjoerg would commit the MirBSD bits in pkgsrc®,
+ since otherwise I wonder why I did all that work if nobody's going to use
+ it due to missing upstream inclusion. Lazy git. mksh's still at R29f.</p>
+<p>From time to time, I'm uploading a new snapshot to the netinstall dir –
+ it pays off to look there. Today's one was tested on a WRAP board.</p>
+----
