@@ -1,4 +1,4 @@
-/* $MirOS: src/sys/arch/i386/stand/boot/srt0.S,v 1.63 2009/01/12 17:04:03 tg Exp $ */
+/* $MirOS: src/sys/arch/i386/stand/boot/srt0.S,v 1.64 2009/01/12 17:36:03 tg Exp $ */
 
 /*-
  * Copyright (c) 2003, 2004, 2005, 2006, 2007, 2008, 2009
@@ -333,6 +333,11 @@ Lsta32:	.code32
 	sub	ecx,edi
 	rep	stosb
 
+	/* zero out stack segment lower parts */
+	mov	edi,offset ssbss_beg
+	mov	ecx,offset ssbss_end - offset ssbss_beg
+	rep	stosb
+
 #ifdef BOOTSELECT_HOOK
 	/* store user choice */
 	pop	dword ptr [hook_value]
@@ -402,3 +407,6 @@ Lmb2rm:	mov	edi,offset Ldrvi
 	cmd = biosdev_lba_buf + 16
 	.globl	cmd
 	.size	cmd, 0x0900	/* approx. 0x8C8 */
+
+	ssbss_beg = bounce_buf
+	ssbss_end = cmd + 0x0900
