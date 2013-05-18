@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.146 2009/01/21 20:29:19 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.147 2009/01/24 13:24:14 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -3001,4 +3001,53 @@ Title: miscellany
 <p>Anyway, I’d better stop concocting some text here, and instead bring
  the mock-<tt>tear</tt> installation into working state and get it to
  start rsynching, cvs(1) co(1)ing, and compiling…</p>
+----
+Author: tg@
+Title: 2009-01-24 snapshot compiled, pending validation
+Date: 25.01.2009 15:01
+Tag: snapshot
+
+<p>Yesternight, I built an i386 snapshot (including a bsd4grml). This
+ is already uploaded on <tt>/MirOS/current/i386/</tt> but beware, it
+ is pending validation, and some things (like the serial console or
+ combined i386+sparc ISOs) are missing. Note that there will be, due
+ to time constraints, no new sparc snapshot, we’ll just use the last
+ one I built.</p>
+<p>If <strong>people who actually use MirOS/sparc</strong> were to
+ <em>talk</em> to us, this situation might improve.</p>
+<p>It’s still a couple of days until the Triforce™ ISO and CD label
+ are due, but we’d appreciate independent test results, as usual.</p>
+<p>Plans for the FOSDEM Edition Triforce™ (MirOS DuaLive™ + MirGRML)
+ CD-ROM are to add a few packages to the usual baseLive image: IceWM,
+ screen, rsync(GPLv2), mc, sirc (inclusing ssfe, BSD::arc4random and
+ RANDEX protocol support); possibly ent, lzmadec</p>
+<p>Watch the <a href="@@RELPATH@@main.htm">news</a> for announcements
+ about usability of the 2009-01-24 snapshot.</p>
+----
+Author: tg@
+Title: Das Wetter bessert sich
+Date: 25.01.2009 15:02
+Tag: geocache
+
+<p>Heute mal wieder das Vélo aus- und mich gut eingepackt:<br />
+ <img src="https://call.mirbsd.org/sp.cgi?oc" alt="OpenCaching.de" />
+ <img src="https://call.mirbsd.org/sp.cgi?gc" alt="The Frog Site" />
+ <img src="https://call.mirbsd.org/sp.cgi?tc" alt="Rare Jewels" />
+ <img src="https://call.mirbsd.org/sp.cgi?nc" alt="Broken Webpages²" />
+ <br />        inc     dword ptr ds:[caches]</p>
+<p>Diesen hatte ich auch schon länger auf’m Kieker, allerdings nie die
+ Muße, dort hinzufahren, bei dem Wetter, und der FTF lockte auch nicht,
+ weil er – mal wieder – auf der Kommerzseite <em>Tage</em> bevor er auf
+ der freien Seite zu finden war geloggt wurde. *grml*…</p>
+<p>Liebe <a href="http://planet.symlink.ch/">Plänet Sümlink</a> Leser,
+ weil so viele von euch zu &lt;zensiert /&gt; sind, sich das <a
+ href="http://www.cacert.org/index.php?id=3&amp;lang=de_DE">CAcert.org
+ Root CA Certificate</a> zu installieren, und die Bloatzilla-Leute ihren
+ A^H^H^H^H Hinterteil auch nicht bewegt kriegen, editiert der XTaran das
+ https in ein http. Zu dumm, daß ich auf vielen Seiten nur noch SSL
+ erlaube. Nutzt also den „Mehr...“-Hyperlink, um die Statistikbildchen zu
+ sehen, und hofft, daß die neue CAcert-Root bald live <em>und</em> in die
+ Brauser geht. MirPorts Framework Nutzer habens natürlich einfacher…</p>
+<p>Gleich geht’s erst mal zu meinem Stammrestaurant, einem Jugoslawen,
+ ääh Kroaten (Primošten oder auch Dalmatien Grill) mit bogus…</p>
 ----
