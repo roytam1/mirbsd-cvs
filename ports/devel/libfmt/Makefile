@@ -1,6 +1,9 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.2 2003/03/02 21:38:18 pvalchev Exp $
 
-COMMENT=			Extensible formatted print C library
+ONLY_FOR_PLATFORMS= OpenBSD:*:* MirBSD:*:*
+
+COMMENT=	extensible formatted print C library
 
 VERSION=	2.0
 DISTNAME=	libfmt-${VERSION}
@@ -22,5 +25,6 @@ REGRESS_DEPENDS=${BUILD_DEPENDS}
 
 pre-build:
 	@cp ${FILESDIR}/Make.OpenBSD ${WRKSRC}
+	@cp ${FILESDIR}/Make.OpenBSD ${WRKSRC}/Make.MirBSD
 
 .include <bsd.port.mk>
