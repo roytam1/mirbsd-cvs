@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.114 2008/12/17 00:43:08 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.115 2008/12/17 23:22:51 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -2309,5 +2309,8 @@ Tag: mksh
  well as cvs(1) GNU CVS, for rcsfile(5) handling). For more information, see
  the included help as well as the commit message.</p>
 <p>If you have any improvements or requests regarding this script, please
- contact me or the <tt>miros-discuss@</tt> mailing list.</p>
+ contact me or the <tt>miros-discuss@</tt> mailing list. There is a <a
+ href="http://thread.gmane.org/gmane.os.miros.general/8673">discussion
+ thread</a> for it.</p>
+<p>In case you didn’t, read cvs(GNU) a.k.a. The Cederqvist!</p>
 ----
