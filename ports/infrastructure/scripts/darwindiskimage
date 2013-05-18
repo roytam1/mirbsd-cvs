@@ -1,26 +1,25 @@
-#!/bin/bash
-# $MirOS: ports/infrastructure/scripts/darwindiskimage,v 1.1 2006/10/02 04:01:47 tg Exp $
+#!/usr/bin/env bash
+# $MirOS: ports/infrastructure/scripts/darwindiskimage,v 1.2 2006/10/09 20:38:07 tg Exp $
 # $NetBSD: darwindiskimage,v 1.2 2006/08/30 04:36:10 schmonz Exp $
 #-
 # Copyright (c) 2006
 #	Thorsten Glaser <tg@mirbsd.de>
 # Derived from NetBSD(R) pkgsrc(R)
 #
-# Licensee is hereby permitted to deal in this work without restric-
-# tion, including unlimited rights to use, publicly perform, modify,
-# merge, distribute, sell, give away or sublicence, provided all co-
-# pyright notices above, these terms and the disclaimer are retained
-# in all redistributions or reproduced in accompanying documentation
-# or other materials provided with binary redistributions.
+# Provided that these terms and disclaimer and all copyright notices
+# are retained or reproduced in an accompanying document, permission
+# is granted to deal in this work without restriction, including un-
+# limited rights to use, publicly perform, distribute, sell, modify,
+# merge, give away, or sublicence.
 #
-# Licensor offers the work "AS IS" and WITHOUT WARRANTY of any kind,
-# express, or implied, to the maximum extent permitted by applicable
-# law, without malicious intent or gross negligence; in no event may
-# licensor, an author or contributor be held liable for any indirect
-# or other damage, or direct damage except proven a consequence of a
-# direct error of said person and intended use of this work, loss or
-# other issues arising in any way out of its use, even if advised of
-# the possibility of such damage or existence of a defect.
+# This work is provided "AS IS" and WITHOUT WARRANTY of any kind, to
+# the utmost extent permitted by applicable law, neither express nor
+# implied; without malicious intent or gross negligence. In no event
+# may a licensor, author or contributor be held liable for indirect,
+# direct, other damage, loss, or other issues arising in any way out
+# of dealing in the work, even if advised of the possibility of such
+# damage or existence of a defect, except proven that it results out
+# of said person's immediate fault when using the work as intended.
 #-
 # Use this to create a disk image, for use with a MirPorts Framework
 # installation on a default case-insensitive Mac OSX installation.
@@ -48,23 +47,19 @@
 # Have fun...
 
 
-_getdevice_and_halfway_mount()
-{
+_getdevice_and_halfway_mount() {
 	hdid -nomount "$1" | _getdevicebasename | tail -1
 }
 
-_getdevicebasename()
-{
+_getdevicebasename() {
 	awk '{print $1}' | sed -e 's|^/dev/||'
 }
 
-_normalize_filename()
-{
+_normalise_filename() {
 	echo "$1" | sed -e 's|\.dmg$||' -e 's|$|.dmg|'
 }
 
-dmg_create()
-{
+dmg_create() {
 	local fstype fs osmajor file mountedname megabytes device
 	[ $# -eq 2 ] || die 1 "Usage: $0 create <file> <megabytes>"
 
@@ -77,7 +72,7 @@ dmg_create()
 		fs='HFSX'
 	fi
 
-	file="`_normalize_filename \"$1\"`"
+	file="`_normalise_filename \"$1\"`"
 	mountedname="`basename \"${file}\" .dmg`"
 	megabytes=$2
 
@@ -92,19 +87,17 @@ dmg_create()
 	hdiutil eject -quiet "${device}"
 }
 
-dmg_mount()
-{
+dmg_mount() {
 	local file device exitcode
 	[ $# -eq 1 ] || die 1 "Usage: $0 mount <file>"
 
-	file="`_normalize_filename \"$1\"`"
+	file="`_normalise_filename \"$1\"`"
 
 	hdiutil mount ${file}
 }
 
 
-dmg_umount()
-{
+dmg_umount() {
 	local mountpoint device
 	[ $# -eq 1 ] || die 1 "Usage: $0 umount <mount-point>"
 
@@ -116,38 +109,34 @@ dmg_umount()
 	hdiutil eject -quiet "${device}"
 }
 
-die()
-{
+die() {
 	local exitcode
 	exitcode=$1; shift
 	warn "$@"
 	exit ${exitcode}
 }
 
-warn()
-{
+warn() {
 	echo >&2 "$@"
 }
 
-try()
-{
+try() {
 	exitcode=$1; shift
 	action=$1; shift
 	error=`"${action}" "$@" 2>&1` || die ${exitcode} "${error}"
 }
 
-main()
-{
+main() {
 	[ $# -eq 0 ] && die 1 "Usage: $0 <create|mount|umount>"
 	ACTION="$1"; shift
 	case ${ACTION} in
-		create|mount|umount)
-			try 1 "dmg_${ACTION}" "$@"
-			return 0
-			;;
-		*)
-			die 1 "Usage: $0 <create|mount|umount>"
-			;;
+	create|mount|umount)
+		try 1 "dmg_${ACTION}" "$@"
+		return 0
+		;;
+	*)
+		die 1 "Usage: $0 <create|mount|umount>"
+		;;
 	esac
 }
 
