@@ -1,5 +1,5 @@
 <!-- PageID: wlog-8 -->
-<small class="rcsid">$MirOS: www/content/d2xvZy04.inc,v 1.66 2006/04/09 22:28:36 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy04.inc,v 1.67 2006/04/11 19:08:24 tg Exp $</small>
 <h1>MirBSD &ndash; WTF, We Have a Release!?</h1>
 <p><small><a href="#eof">bottom</a> or <a href="/?older">older</a>
  editions</small></p>
@@ -1164,6 +1164,37 @@ celebrate this event, rotate the wlog and start a new one.</p>
   at D&aelig;monnews</a> (and hope the word spreads). I fleshed out bugs
   (at least these I could find) and shrinked the size again.</p>
  <p>Benny is in Dresden, GDR, by the way.</p>
+</div>
+
+<div class="wlentry">
+ <h3 id="e20060412">12.04.2006 by tg@</h3>
+ <p>I've fixed a lot more things in the live CD, created a /cvs snapshot
+  and started to change more things (e.g. NFS exporting the live / for a
+  method to easily pxeboot other live CDs as live NFSes).</p>
+ <p>After Zapata has closed early (mother of the cook fell ill) and we'd
+  eaten at the Croatian again, cnuke@ and I are sitting at Jannis' place
+  and I tried to pxeboot his IBM X41 (failed due to his Broadcom NIC). I
+  think it works, though. Met (honey wine) is tasting good tho. They are
+  playing StarCraft (a fun game, but with a weird custom map) and I grin
+  in the background, not really knowing what to do (except drinking some
+  (admittedly <em>too</em> much) honey wine).</p>
+ <p>I found out that one can't post to the GNU Pascal lists via GMane (a
+  bad thing since I was advertising for them). I wonder if the other few
+  things I noted to the people will be fixed soon (enough).</p>
+ <p>gcc 4.1 looks promising but I haven't started porting efforts yet. I
+  currently wonder whether I even want to do it before #9 (whose release
+  criterium was OpenBSD 3.9 being merged in). I look like I want it, but
+  I think I better shan't. We definitively need someone to work on ports
+  for the release, too, though. And I'd better fix sparc. (Sadly, my new
+  CD-boot and sparc dual-boot don't combine.)</p>
+ <p>NetBSD&reg; makefs(8) will hopefully replace mkisofs(8). Even if I'm
+  to patch in -boot-info-table support by myself. Schily must die.</p>
+ <p>At the moment, I'm building MirOS snapshots (and auto-live-CDs) like
+  exemplars of Ford Model T. Trying to improve, I suppose. I don't see a
+  lot of rough edges left (though a rewritten boot loader could e.g. say
+  which root device the kernel to use).</p>
+ <p>Yay! Freeforge is growing. Even though &#39764;&#29579; froze today,
+  again (BitTorrent was running, but the crash was during an rsync).</p>
 </div>
 
 <p id="eof">Good luck, have fun, take care etc.pp</p>
