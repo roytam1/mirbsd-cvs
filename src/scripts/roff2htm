@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/scripts/roff2htm,v 1.40 2007/01/25 11:26:11 tg Exp $
+# $MirOS: src/scripts/roff2htm,v 1.41 2007/01/25 11:34:23 tg Exp $
 # $ekkoBSD: catman2html.sh,v 1.2 2004/03/07 03:02:53 stephen Exp $
 #-
 # Copyright (c) 2004, 2005, 2006, 2007
@@ -40,10 +40,8 @@ gendate=$(date +"%F %T")		# current time
 
 do_convert()
 {
-	integer isblank=0
-	set +e
-	expand | sed							\
-	    -e '/-$/N
+	integer ws=0
+	sed -e '/-$/N
 {
 s/\([0-9A-z][-.,0-9A-z]*\)-\n\(  *\)\([0-9A-z][-.,0-9A-z]*([1-9][A-z]*)\)\([^ ]*\) /\1\3\4\
 \2/
@@ -94,48 +92,44 @@ s/\([0-9A-z][-.,0-9A-z]*\)-\n\(  *\)\([0-9A-z][-.,0-9A-z]*([1-9][A-z]*)\)\([^ ]*
 	    -e '$s#$#</pre>#'						\
 	    -e 's#<pre></pre>##g'					\
 	    -e 's#</pre><pre>##g'					\
-	    -e "s#<a href=\"../man${1:-0}/#<a href=\"#g"		\
+	    -e 's#<a href="../man'${1:-0}'/#<a href="#g'		\
 	| while IFS= read -r line; do
-		if [[ $line = *@([!	 �])* ]]; then
+		case $line {
+		(*[!\	\ ]*)
 			print -r -- "$line"
-			let isblank=0
-		elif (( isblank == 0 )); then
-			print
-			let isblank++
-		fi
+			ws=0 ;;
+		(*)
+			(( !ws++ )) && print ;;
+		}
 	done
 }
 
 output_header()
 {
-	cat <<-EOF
-		<?xml version="1.0" encoding="utf-8" ?>
-		<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
-		 "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
-		<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"><head>
-		 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-		 <title>RTFM ${1}(${2})</title>
-		 <meta name="robots" content="index, follow" />
-		</head><body>
-		<h1>MirOS Manual: <a href="../man${2}/${1}.htm"><tt>${1}(${2})</tt></a></h1>
-	EOF
+	print '<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+ "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"><head>
+ <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+ <title>RTFM '$1\($2')</title>
+ <meta name="robots" content="index, follow" />
+</head><body>
+<h1>MirOS Manual: <a href="../man'$2/$1'.htm"><tt>'$1\($2')</tt></a></h1>'
 }
 
 output_footer()
 {
-	cat <<-EOF
-		<hr /><p style="font-size:xx-small;">Generated on ${gendate} by
-		 \$MirOS: src/scripts/roff2htm,v 1.40 2007/01/25 11:26:11 tg Exp $</p>
-		<p>These manual pages are copyrighted by their respective writers; their
-		 source is available at our <a href="http://cvs.mirbsd.de/">CVSweb</a>.
-		 The rest is Copyright © 2002-2007 <a href="http://www.mirbsd.org/">The
-		 MirOS Project</a>, Germany. <i style="font-size:3pt;"><br />
-		 This product includes material provided by Thorsten Glaser.</i></p>
-		<p style="font-size:x-small;">This manual page's HTML representation
-		 is supposed to be <a href="http://validator.w3.org/check/referer">valid
-		 XHTML/1.1</a>; if not, please send a bug report – diffs preferred.</p>
-		</body></html>
-	EOF
+	print '<hr /><p style="font-size:xx-small;">Generated on' $gendate 'by
+ $MirOS: src/scripts/roff2htm,v 1.41 2007/01/25 11:34:23 tg Exp $</p>
+<p>These manual pages are copyrighted by their respective writers; their
+ source is available at our <a href="http://cvs.mirbsd.de/">CVSweb</a>.
+ The rest is Copyright © 2002-2007 <a href="http://www.mirbsd.org/">The
+ MirOS Project</a>, Germany. <i style="font-size:3pt;"><br />
+ This product includes material provided by Thorsten Glaser.</i></p>
+<p style="font-size:x-small;">This manual page'\''s HTML representation
+ is supposed to be <a href="http://validator.w3.org/check/referer">valid
+ XHTML/1.1</a>; if not, please send a bug report – diffs preferred.</p>
+</body></html>'
 }
 
 do_conversion()
