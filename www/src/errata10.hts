@@ -2,7 +2,7 @@
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname errata/10 "Errata for MirOS #10"
-mws_putheader '$MirOS: www/src/errata10.hts,v 1.10 2008/05/19 22:01:06 tg Exp $'
+mws_putheader '$MirOS: www/src/errata10.hts,v 1.11 2008/06/03 18:05:10 tg Exp $'
 mws_content <<'EOF'
 <h1>Errata for MirOS #10</h1>
 
@@ -12,6 +12,15 @@ mws_content <<'EOF'
 <p>By upgrading to the <tt>MIRBSD_10</tt> branch on CVS in the
  <tt>src</tt> module, you gain the following fixes:</p><ul>
 <li>
+ Data passed to the KERN_ARND sysctl(3) (sysctl(8) kern.arandom)
+ was improperly read, leading to out-of-bounds kernel memory access
+</li><li>
+ The installer now uses rdate(8)+ntpd(8) instead of the deprecated
+ <tt>-s</tt> flag to ntpd(8), disables core dumps, and defaults the
+ aperture driver – xf86(4) – to enabled if an X server is installed
+</li><li>
+ ntpd(8) <tt>-s</tt> (and <tt>-S</tt>) options are now deprecated
+</li><li>
  Use CPUID for FPU detection (from OpenBSD), to enable GeodeLX CPUs to work
 </li><li>
  Pull up mksh-R34(beta), new <tt>/etc/skel/.mkshrc</tt>, fixed profile
