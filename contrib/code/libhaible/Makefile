@@ -1,4 +1,4 @@
-# $MirOS: contrib/code/libhaible/Makefile,v 1.26 2006/05/31 00:25:51 tg Exp $
+# $MirOS: contrib/code/libhaible/Makefile,v 1.27 2006/05/31 00:41:04 tg Exp $
 
 LIB=	haible
 NOPIC=	Yes	# for now
@@ -9,7 +9,7 @@ SRCS+=	mbrlen.c
 SRCS+=	mbsrtowcs.c
 SRCS+=	mbstowcs.c
 SRCS+=	mbtowc.c
-SRCS+=	tow_nop.c
+SRCS+=	tow_nop.c towl_tbl.c towu_tbl.c
 SRCS+=	towctrans.c
 SRCS+=	towlower.c
 SRCS+=	towupper.c
