@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.316 2010/01/29 10:54:35 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.317 2010/01/29 18:27:31 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -17,6 +17,7 @@ mws_content <<'EOF'
  <li><a href="mksh_bld.htm">Testsuite Results</a> (regression tests)</li>
  <li><a href="mksh_old.htm#vsn">on version numbers</a> – for packagers</li>
  <li><a href="mksh_old.htm#plans">future plans</a></li>
+ <li><a href="#caveat">Upgrade Caveat</a> – for users</li>
  <li><a href="#clog">ChangeLog</a></li>
  <li>information about <a href="mksh_old.htm">old versions</a></li>
 </ul>
@@ -148,9 +149,10 @@ mws_content <<'EOF'
  archive</a> (or <a href="http://news.gmane.org/gmane.os.miros.general">GMane
  Loom</a>) as well.
  Joining the IRC channel at <a href="http://freenode.net/">Freenode</a>
- (irc.freenode.net:6667) <tt>#!/bin/mksh</tt> (no joke, this is really the
- channel’s name) and <tt>#ksh</tt> (where you must distinguish AT&amp;T ksh from
- mksh though) is recommended as well.</p>
+ (irc.freenode.net, SSL port 7000 or port 7070, insecure port 6667)
+ <tt>#!/bin/mksh</tt> (no joke, this is really the channel’s name) and
+ <tt>#ksh</tt> (where you must distinguish AT&amp;T ksh from mksh though)
+ is recommended as well.</p>
 
 <h2 id="build">Installation</h2>
 <p>Skip to the section about being <a href="#otheros">included in operating
@@ -169,8 +171,8 @@ mws_content <<'EOF'
  extract from the CPIO distfile and is available even on a stock Microsoft®
  Windows® installation (<tt>\WINNT\SYSTEM32\PAX.EXE</tt>).</p>
 <h3 id="mirrors">Known Mirrors</h3><ul>
- <li><a href="https://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R39.cpio.gz">https://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R39.cpio.gz</a></li>
- <li><a href="http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R39.cpio.gz">http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R39.cpio.gz</a></li>
+ <li><a href="https://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R39b.cpio.gz">https://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R39b.cpio.gz</a></li>
+ <li><a href="http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R39b.cpio.gz">http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R39b.cpio.gz</a></li>
 </ul>
 <h3 id="hashes">Checksums and Hashes</h3><ul>
  <li>RMD160 (mksh-R39b.cpio.gz) = 5f7a5ff75700b229f0886521a069de46001e6a8e</li>
@@ -189,9 +191,9 @@ mws_content <<'EOF'
 <p>The first example is using BSD paxtar (MirOS BSD, OpenBSD, NetBSD®), or
  “bsdtar” (DragonFly); the second and third use cpio(1) or pax(1) and are
  for most operating systems; the fourth is for Debian.</p><ul>
-<li>$ tar xzf mksh-R39.cpio.gz &amp;&amp; cd mksh</li>
-<li>$ gzip -dc mksh-R39.cpio.gz | cpio -mid &amp;&amp; cd mksh</li>
-<li>$ gzip -dc mksh-R39.cpio.gz | pax -r &amp;&amp; cd mksh</li>
+<li>$ tar xzf mksh-R39b.cpio.gz &amp;&amp; cd mksh</li>
+<li>$ gzip -dc mksh-R39b.cpio.gz | cpio -mid &amp;&amp; cd mksh</li>
+<li>$ gzip -dc mksh-R39b.cpio.gz | pax -r &amp;&amp; cd mksh</li>
 </ul>
 
 <h3 id="compile">Compilation</h3>
@@ -201,6 +203,12 @@ mws_content <<'EOF'
  should work. Relative paths can be used too, for example, instead of cd(1)ing
  to the source directory, you could’ve done<br />
  <tt>% mkdir build; cd build; /bin/sh ../mksh/Build.sh</tt></p>
+<p>It is optionally possible to place files, such as <tt>printf.c</tt> and <a
+ href="@@RELPATH@@a4rcontrb.htm"><tt>arc4random.c</tt></a> into either the
+ current or the source directory. The former will need a compile option (see
+ below) to be activated; the latter will be pulled in automatically if the
+ arc4random(3) functions are not provided by the OE. <tt>printf.c</tt> is
+ undesirable because it uses stdio, floating point and bloats.</p>
 <p>The build script requires a Bourne shell (Solaris <tt>/bin/sh</tt>, the <a
  href="http://heirloom.sourceforge.net/sh.html">Heirloom sh</a>, DEC OSF/1
  V2.0 <tt>/bin/sh</tt>), Korn shell (ksh, ksh88, ksh93, pdksh, mksh, oksh,
@@ -214,10 +222,12 @@ mws_content <<'EOF'
 <li><tt>-j</tt> – parallel build (mksh R31d and up)</li>
 <li><tt>-llvm[=…]</tt> – compile to bytecode; option arguments (or, if none
  given, ‘-std-compile-opts’) are passed to LLVM opt (mksh R36b and up)</li>
-<li><tt>-M</tt> – instead of compiling, create <tt>Makefrag.inc</tt> (R39b+)</li>
+<li><tt>-M</tt> – do not compile but create <tt>Makefrag.inc</tt> (R39b+)</li>
 <li><tt>-Q</tt> – be (only) a little less verbose</li>
 <li><tt>-r</tt> – don’t try to build a pre-formatted version
  of the manual page using nroff(1) if found – <em>recommended</em></li>
+<li><tt>-valgrind</tt> – append <tt>-DDEBUG -g3 -fno-builtin</tt> which are
+ required to work around gcc/valgrind and clang/scan-build bugs (R39b+)</li>
 </ul>
 <p>Note on <tt>-combine</tt> vs <tt>-j</tt> vs <tt>-llvm</tt> vs
  <tt>-M</tt>: these four are mutually exclusive. The least preferred of
@@ -226,12 +236,11 @@ mws_content <<'EOF'
  optimisations). It is sometimes possible to use <tt>-j</tt> together
  with <tt>-llvm</tt> to parallelise LLVM Bytecode generation, though.</p>
 <p>The build script also honours the following environment variables:</p><ul>
-<li><tt>CC</tt> (gcc) – the C compiler used</li>
-<li><tt>CFLAGS</tt> (-O2 / -xO2; on HP-UX/IA64 also -mlp64 / +DD64) –
- optimiser and other compiler flags used</li>
+<li><tt>CC</tt> (cc) – the C compiler used</li>
+<li><tt>CFLAGS</tt> (-O2 / -xO2) – optimiser and other compiler flags used</li>
 <li><tt>CPPFLAGS</tt> (no default) – additional cpp(1) flags</li>
 <li><tt>LDFLAGS</tt> (set on AIX for libcrypt) – additional CCLD flags</li>
-<li><tt>LIBS</tt> (-lcrypt on Interix; empty otherwise) – additional
+<li><tt>LIBS</tt> (-lcrypt on AIX and Interix; empty otherwise) – additional
  libraries to pull in</li>
 <li><tt>NOWARN</tt> (-Wno-error / -errwarn=%none) – $CC option to disable
  bailing out at errors; used during mirtoconf checks</li>
@@ -276,6 +285,7 @@ mws_content <<'EOF'
 <li><tt>-DMKSH_S_NOVI=0</tt> – do not omit the Vi editing mode (R39b+)</li>
 <li><tt>-DMKSH_S_NOVI=1</tt> – omit the Vi command line editing mode (" ")</li>
 <li><tt>-DMKSH_UNEMPLOYED</tt> – compile without job control (R37b+)</li>
+<li><tt>-DNO_STRTOD</tt> – (printf.c) disable floating point</li>
 <li><tt>-DUSE_REALLOC_MALLOC=0</tt> – if <tt>realloc(NULL, n)</tt> is not
  equivalent to <tt>malloc(n)</tt> (n &gt; 0) as ANSI C89 prescribes</li>
 </ul>
@@ -283,11 +293,10 @@ mws_content <<'EOF'
  like <tt>HAVE_REVOKE=0</tt> (default for Linux) – if these are set to 0 or 1,
  the values are used; if unset, the values are probed (unless overridden by a
  different check, such as MKSH_SMALL), if set to ‘x’ the probe is forced.<br />
- Useful items to enable/disable are HAVE_MKNOD and HAVE_READLINE (set to 0 to
- disable, set to x to re-enable for MKSH_SMALL), HAVE_SETLOCALE_CTYPE (set to
- 0 if you know that it won’t ever return UTF-8), HAVE_PERSISTENT_HISTORY (0 to
- not include this feature), HAVE_FLOCK_EX (if flock or mmap do not work on
- files), HAVE_EXPSTMT (if <tt>({</tt> expression statements are buggy).</p>
+ Useful items to enable/disable are HAVE_MKNOD (set to 0 to disable, set to x
+ to re-enable for MKSH_SMALL), HAVE_SETLOCALE_CTYPE (set to 0 if you know that
+ it won’t ever return UTF-8), HAVE_PERSISTENT_HISTORY (0 to not include this
+ feature), HAVE_FLOCK_EX (if flock or mmap do not work on files).</p>
 <p>Defining <tt>MKSH_SMALL</tt> will disable persistent history (to re-enable,
  env HAVE_PERSISTENT_HISTORY=x), try to compile with <tt>-fno-inline</tt>,
  disable the mknod(2), realpath(3)[mksh R39 and below] and revoke(2) externs (to re-enable these,
@@ -295,7 +304,7 @@ mws_content <<'EOF'
  filedescriptor usage, MKSH_NOPWNAM; omits shebang checking in scripts, the Vi
  command line editing mode (mksh R39b and up can re-enable it by defining
  <tt>-DMKSH_S_NOVI=0</tt>), certain verbose error messages, the entire ‘-T’
- command line option, the fancy <tt>$RANDOM</tt> handling; replaces inlines
+ command line option; replaces inlines
  with separate functions for size over speed optimisation, etc. (In R39b and
  up, it disables a whole lot more things than in earlier versions.)</p>
 
@@ -342,7 +351,8 @@ mws_content <<'EOF'
  recommend to build mksh with <tt>CC=cc</tt> (gcc1) instead of <tt>CC=gcc</tt>
  or <tt>CC=gcc2</tt> there instead.</p>
 <p>Since mksh uses ProPolice, the Stack-Smashing Protector, some GCC versions’
- compilates require additional shared libraries.</p>
+ compilates require additional shared libraries. To disable this, pass
+ <tt>HAVE_CAN_FSTACKPROTECTORALL=0</tt> in the build environment.</p>
 <p>GCC and Valgrind do not always play well together, hence the build option
  <tt>-valgrind</tt> adding <tt>-fno-builtin</tt> to avoid gcc producing code
  that can access memory past the end of the allocation.</p>
@@ -419,7 +429,7 @@ mws_content <<'EOF'
  12</a> compiler (cc 5.9) as well as cc 5.8 appeared in mksh R30; other
  versions might be supported as well. This compiler is a primary choice.</p>
 <h6>Using SUNWcc on MirBSD</h6>
-<pre> $ SP=/home/tg/Misc/suncc/sunstudio12
+<pre> $ SP=/opt/SUNWcc/sunstudio12
  $ LD_LIBRARY_PATH=$SP/prod/lib/sys:$SP/prod/lib CC=$SP/prod/bin/cc \
    LDFLAGS="-Yl,$SP/S" sh /usr/src/bin/mksh/Build.sh -r</pre>
 
@@ -438,7 +448,7 @@ mws_content <<'EOF'
 <h5 id="oe_muc">Compiler: DEC ucode (MIPS CC)</h5>
 <p>Since mksh R33c, ucode on Ultrix is fully supported.</p>
 
-<h5 id="oe_adk">Distribution: FreeWRT, OpenADK</h5>
+<h5 id="oe_adk">Distribution: FreeWRT, OpenADK, OpenWrt</h5>
 <p>These distributions provide the same support cross-platform,
  with µClibc and/or eglibc, and thus should behave the same on
  all supported targets.</p>
@@ -617,6 +627,8 @@ mws_content <<'EOF'
 <h5 id="oe_bsu">OS: ULTRIX</h5>
 <p>Even on ULTRIX 4.5, mksh R33c works fine. The system ksh must be used
  for running the <tt>Build.sh</tt> script, though.</p>
+<p>I could not get networking on ULTRIX 4.0 (SIMH) to work, so I could
+ not test it there.</p>
 <p>You however must pass the <tt>-YPOSIX</tt> option to the ucode compiler,
  as the default <tt>-YBSD</tt> profile produces a broken executable (spins
  instead of starting up), and the <tt>-YSYSTEM_FIVE</tt> profile does not
@@ -660,7 +672,20 @@ mws_content <<'EOF'
 <p><strong>Note:</strong> This is <em>not</em> <a href="#clog">the
  ChangeLog</a>, these are the packager-visible upgrade notes regarding
  changes in the build system (<tt>Build.sh</tt> and friends, compiler
- support, packaging conventions, bad examples, etc).</p>
+ support, packaging conventions, bad examples, etc). This is also <em>not</em>
+ <a href="#caveat">the users' upgrade caveat list</a>.</p>
+<p>mksh R39b now has a separate <a href="#caveat">caveat</a> section listing
+ the most relevant user-visible changes, split off this packagers' list.
+ The optional, undesirable, unsupported printf(1) builtin is now documented
+ in the manpage. The chdir builtin is an alias for cd. The realpath builtin
+ is now always provided. <tt>MKSH_SMALL</tt> removes much more functionality
+ than it used to. <tt>MKSH_NOVI=1</tt> is now <tt>MKSH_S_NOVI=[0|1]</tt>.
+ <tt>$RANDOM</tt> handling is greatly simplified. There's now both “±o sh”
+ and “±o posix”, and they differ; <tt>MKSH_MIDNIGHTBSD01ASH_COMPAT</tt> needs
+ the former. New build flags <tt>-M</tt>, <tt>-valgrind</tt>. The default on
+ HP-UX on IA64 is no longer to default to building with <tt>-mlp64</tt> (gcc)
+ or <tt>+DD64</tt> (HP aCC). SUNWcc tries <tt>-xipo</tt> (but requires the
+ packager to use <tt>-xO4</tt> or up manually).</p>
 <p>mksh R39 has user-visible changes regarding “set -u” (“set -o nounset”)
  and alias/function name conflicts regarding whitespace before parenthesēs,
  as well as a much enhanced <tt>dot.mkshrc</tt> sample file I urge to install.
@@ -728,7 +753,8 @@ mws_content <<'EOF'
  Appliance Development Kit (meta distribution)</a>, the <a
  href="https://www.freewrt.org/svn/trunk/freewrt/package/mksh/">mksh
  package</a> is maintained by us. mksh is also the default shell in FreeWRT
- trunk (soon to be 1.1) and above.</li>
+ trunk (soon to be 1.1) and above. <a href="http://openadk.org/">OpenADK</a>
+ (a FreeWRT 1.0 fork) also contains mksh as an optional package.</li>
 <li><a href="http://openwrt.org/">OpenWrt Embedded GNU/Linux Distribution</a>
  also <a href="https://dev.openwrt.org/browser/packages/utils/mksh">provides
  mksh</a> on ADSL/WLAN routers thanks to Felix “nbd” Fietkau.</li>
@@ -740,7 +766,7 @@ mws_content <<'EOF'
  URLs to the packages for these, can anyone provide any?</li>
 <li><a href="http://www.archlinux.org/">Arch GNU/Linux</a> users can install
  an <a href="http://aur.archlinux.org/packages.php?do_Details=1&amp;ID=3431">mksh
- package</a> by Daniel “homsn” Hommel.</li>
+ package</a> by Daniel “homsn” Hommel. No idea about Arch Hurd, though.</li>
 <li><a href="http://www.freebsd.org/">FreeBSD®</a> Ports (for FreeBSD, very old
  <a href="http://www.dragonflybsd.org/">DragonFly BSD</a> versions and <a
  href="http://www.desktopbsd.net/">DesktopBSD</a>) also have a <a
@@ -786,9 +812,46 @@ mws_content <<'EOF'
  lists mksh, just like the FSF/UNESCO directory.</li>
 <li>The <a href="@@ABSPATH@@/MirOS/dist/mir/mksh/ports/">ports directory</a>
  may contain additional ports in source and/or binary form.</li>
+<li><strong>Missing packaging:</strong> Redhat and SuSE native (use OBS for
+ both or EPEL for RHEL), MacPorts (none at all), Mandriva (use OBS; being
+ worked on), iPhoneOS (compile yourself; being worked on), Knoppix and
+ SIDUX (just add them), Nexenta (need a contact person), Arch native (use
+ AUR), PC-BSD (use pkgsrc® or so; need a contact person for PBI), OpenSolaris
+ (being worked on), OpenBSD (use unofficial port), BeOS/Haiku (broken),
+ Plan 9 (slightly broken), Syllable Desktop (broken, kernel issue, may have
+ been fixed in the meantime), ...</li>
 </ul>
 <p>These packages are not official and have not always been tested by mksh
  developers; please keep this in mind.</p>
+
+<h2 id="caveat">Users' Upgrade Caveat</h2>
+<p>This does not necessarily list new features, only these which users
+ should be aware of for existing scripts.</p>
+<p id="c39b">R39b: Due to a lot of bugfixes and some enhancements, take
+ care when upgrading. The realpath builtin is now always available. There
+ are now both “±o sh” and “±o posix”, and they <a href="#r39b">differ</a>
+ (scroll down to almost the end of the R39b changelog). In numeric expressions,
+ “'a'” is an alternative to “1#a” like in ksh93; “$'…'” expanded strings are
+ now also supported. Some constructs parse more loosely, and things like
+ “function stop () {” work now. <tt>MKSH_SMALL</tt> removes <em>much</em>
+ more functionality than it used to. <tt>set +o arc4random</tt> is no longer
+ possible (either it's there and used, or it's not). "mksh /tmp/horsies" now
+ exits 127 ipv 1 (ENOENT). 「((foo) || bar)」 and 「((foo) | (bar))」 work
+ now. Lazy evaluation of ternary operations is fixed. In '-o sh' mode, echo
+ does not expand backslashes any more. In '+o sh' mode, “set -- $(false)”
+ POSIXly correctly returns 0 (and breaks getopt(1) in traditional usage
+ mode). Changes of variables inside Bourne style functions affect the
+ caller's environment. “eval $(false)” also returns 0. “±U” is now honoured
+ on an interactive shell's command line. Finally, the getopts builtin now
+ behaves standards-compliant: even on an unknown option, <tt>OPTIND</tt>
+ is incremented (think “getopts "ab:c" ch” and “script -a -I foo bar” in
+ contrast to “script -a -- -I foo bar” – mkdep(1) was <a
+ href="http://marc.info/?m=125598551928046">affected</a>, as will be <a
+ href="http://marc.info/?m=125598548027997">every script</a> that does not
+ abort in the <tt>(\?)</tt> or <tt>(*)</tt> case).</p>
+<p id="c39">mksh R39 has user-visible changes regarding “set -u” (“set -o
+ nounset”) and alias/function name conflicts regarding whitespace before
+ parenthesēs.</p>
 
 <h2 id="clog">Recent Changes</h2>
 <p>Changes in the current (unreleased) development version:</p><ul>

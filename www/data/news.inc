@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/news.inc,v 1.130 2009/12/12 21:06:54 tg Exp $
+RCSID: $MirOS: www/data/news.inc,v 1.131 2010/01/29 18:27:30 tg Exp $
 Title: Older news from the MirOS Project
 Date: 01.03.2006
 
@@ -1851,4 +1851,33 @@ Tag: mksh
  bug fixes, a number of caveats users should be aware of when upgrading;
  these shall be documented on the webpage RSN. (In fact I simply do not
  have the time to do so now, but will do it later.)</p>
+----
+Title: mksh R39b released (for real), etc.
+Date: 14.02.2010 19:28
+Author: tg@
+Tag: debian event mksh
+
+<p>The <a href="@@RELPATH@@mksh.htm#r39b">MirBSD Korn Shell R39b</a> has
+ been released. This upgrade is strongly recommended for everyone. While
+ being a stable series release there are, due to standards compliance and
+ bug fixes, a number of <a href="@@RELPATH@@mksh.htm#c39b">caveats</a>
+ users should be aware of when upgrading. Also new, the list of <a
+ href="@@ABSPATH@@/TaC-mksh.txt">full terms and conditions</a> applying
+ to it. Users (and distributors intending to support mksh for their own
+ customers) should definitively read the caveats, although only corner
+ cases are incompatible (ask for details).</p>
+<p>The <a href="@@RELPATH@@a4rcontrb.htm">arc4random.c page</a> now at
+ least has some content, and a lot of links, too.</p>
+<p>The <a href="@@RELPATH@@kwalletcli.htm">kwalletcli page</a> has been
+ completely written by now. I'm proud to announce the availability of
+ the CLI for the KDE Wallet, as distfile, as Debian squeeze/sid package
+ (it's already in testing, yes), and as Debian lenny package, soon to be
+ in backports (currently only in my own play repo, as I'm waiting for bpo
+ upload rights – apparently, my PGP key wrecked the software).</p>
+<p>I would like to apologise for the delay; I've been more-than-busy at
+ first (preparing MirBSD for FOSDEM), then in foreign countries where <a
+ href="@@RELPATH@@permalinks/wlog-10_e20100205-tg.htm">people</a> talk <a
+ href="http://www.buch.de/buch/00904/572_franzoesisch_wort_fuer_wort__kauderwelsch__band_40.html">in
+ weird tongues</a>, then ill. I'm still not totally recovered, and there
+ is also much catching-up work to do.</p>
 ----
