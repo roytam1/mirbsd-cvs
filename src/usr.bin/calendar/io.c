@@ -419,7 +419,7 @@ opencal(void)
 			(void)dup2(fderr, STDERR_FILENO);
 			(void)close(fderr);
 		}
-		execl(_PATH_CPP, "cpp", "-t",
+		execl(_PATH_CPP, "cpp", "-traditional", "-undef", "-U__GNUC__",
 #ifdef UNICODE
 		    "-DUNICODE",
 #endif
