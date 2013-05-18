@@ -32,6 +32,12 @@
  * SUCH DAMAGE.
  */
 
+#include <machine/asm.h>
+
+RCSID("$MirOS$")
+
+	.text
+
 /*
  * Signed multiply, from Appendix E of the Sparc Version 8
  * Architecture Manual.
@@ -42,7 +48,6 @@
  * This code optimizes short (less than 13-bit) multiplies.
  */
 
-#include "DEFS.h"
 #ifndef STRONG_SPARC
 .weak .mul
 #else
@@ -99,7 +104,7 @@ FUNC(.mul)
 	bge	1f
 	rd	%y, %o0
 
-	! %o0 was indeed negative; fix upper 32 bits of result by subtracting 
+	! %o0 was indeed negative; fix upper 32 bits of result by subtracting
 	! %o1 (i.e., return %o4 - %o1 in %o1).
 	retl
 	 sub	%o4, %o1, %o1
