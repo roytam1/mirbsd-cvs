@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/sys.mk,v 1.163 2012/01/14 22:28:43 tg Exp $
+# $MirOS: src/share/mk/sys.mk,v 1.164 2012/09/02 11:02:19 tg Exp $
 # $OpenBSD: sys.mk,v 1.45 2005/03/07 00:06:00 deraadt Exp $
 # $NetBSD: sys.mk,v 1.27 1996/04/10 05:47:19 mycroft Exp $
 # @(#)sys.mk	5.11 (Berkeley) 3/13/91
@@ -21,7 +21,7 @@ OStype=		MirBSD
 # Sync these with <sys/param.h>
 unix=		We run ${OStype}.
 OSrev=		10		# MirOS version (major)
-OSrpl=		177		# MirOS patchlevel
+OSrpl=		178		# MirOS patchlevel
 OScompat=	3.5		# OpenBSD compatibility revision
 .if !defined(OSNAME) || empty(OSNAME)
 OSNAME!=	uname -s
