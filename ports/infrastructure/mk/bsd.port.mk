@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.204 2008/06/12 19:50:55 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.205 2008/06/15 14:52:00 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -1538,7 +1538,63 @@ ${WRKDIR}/.${_DEP}${_i:C,[|:./<=>*],-,g}: ${_WRKDIR_COOKIE}
 .    endfor
 .  endif
 ${_DEP}-depends: ${_DEP${_DEP}_COOKIES}
+
+whatif-${_DEP}-depends: .PHONY
+.  if defined(${_DEP:U}_DEPENDS) && !empty(${_DEP:U}_DEPENDS) && \
+    ${NO_DEPENDS:L} == "no"
+.    for _i in ${${_DEP:U}_DEPENDS}
+	@unset PACKAGING DEPENDS_TARGET FLAVOUR SUBPACKAGE \
+	    _MASTER WRKDIR|| true; \
+	echo ${_i:Q}|{ \
+		IFS=:; read dep pkg dir target; \
+		${_flavour_fragment}; defaulted=false; \
+		case "X$$target" in X) target=${DEPENDS_TARGET};; esac; \
+		case "X$$target" in \
+		Xinstall|Xreinstall) early_exit=false;; \
+		Xpackage) early_exit=true;; \
+		*) \
+			early_exit=true; mkdir -p ${WRKDIR}/$$dir; \
+			toset="$$toset \
+			    _MASTER='[${FULLPKGNAME${SUBPACKAGE}}]${_MASTER}' \
+			    WRKDIR=${WRKDIR}/$$dir"; \
+			dep="/nonexistent";; \
+		esac; \
+		case "X$$pkg" in \
+		X)	pkg=$$(eval $$toset ${MAKE} _print-packagename | sed -e 's,-[0-9].*,-*,'); \
+			defaulted=true;; \
+		esac; \
+		for abort in x; do \
+			found=false; \
+			what=$$pkg; \
+			whattype=; \
+			case "$$dep" in \
+			"/nonexistent") ;; \
+			*)  \
+				${_${_DEP}_depends_fragment}; \
+				if $$found; then \
+					${ECHO_MSG} "===>  ${FULLPKGNAME${SUBPACKAGE}}${_MASTER} depends on: $$what$$whattype - found"; \
+					break; \
+				else \
+					: $${msg:= not found}; \
+					${ECHO_MSG} "===>  ${FULLPKGNAME${SUBPACKAGE}}${_MASTER} depends on: $$what$$whattype -$$msg"; \
+				fi;; \
+			esac; \
+			if [[ -z $$dir ]]; then \
+				${ECHO_MSG} "===>  Please install $$what manually."; \
+				${ECHO_MSG} "      There is no MirPort available for this dependency."; \
+				exit 1; \
+			fi; \
+			${ECHO_MSG} "===>  Verifying $$target for $$what in $$dir"; \
+			eval $$toset ${MAKE} whatif-depends; \
+		done; \
+	}
+	@${_MAKE_COOKIE} $@
+.    endfor
+.  endif
 .endfor
+
+whatif-depends: .PHONY whatif-fetch-depends whatif-build-depends \
+    whatif-lib-depends whatif-run-depends #whatif-regress-depends
 
 # Do a brute-force ldd/objdump on all files under WRKINST.
 _CHECK_LIBS_SCRIPT=	${PORTSDIR}/infrastructure/scripts/check-libs-elf
