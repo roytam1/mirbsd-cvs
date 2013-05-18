@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/Makefile,v 1.5 2006/08/18 21:08:02 tg Exp $
+# $MirOS: src/distrib/common/Makefile,v 1.6 2006/08/18 21:36:29 tg Exp $
 
 .include <bsd.own.mk>
 
@@ -132,10 +132,10 @@ ${IMAGE}: ${CBIN}
 	${SUDO} vnconfig -v -c ${VND} ${IMAGE}
 	${SUDO} disklabel -w ${RAWLABEL} ${VND} ${IMAGETYPE}
 	${SUDO} mount -r ${VND_DEV} ${TMPMOUNT}
+	${IMAGE_PREP}
 	@echo ""
 	@df -i ${TMPMOUNT}
 	@echo ""
-	${IMAGE_PREP}
 	${SUDO} umount ${TMPMOUNT}
 	${SUDO} fsck -fy ${VND_RDEV}
 	${SUDO} vnconfig -v -u ${VND}
@@ -170,10 +170,10 @@ ${FLOPPY}: bsd.st
 	${SUDO} vnconfig -v -c ${VND} ${FLOPPY}
 	${SUDO} disklabel -w ${RAWLABEL} ${VND} ${FLOPPYTYPE}
 	${SUDO} mount -r ${VND_DEV} ${TMPMOUNT}
+	${SUDO} ${INSTALLBOOT} -v ${TMPMOUNT}/boot ${BOOTXX} ${VND_CRDEV}
 	@echo ""
 	@df -i ${TMPMOUNT}
 	@echo ""
-	${SUDO} ${INSTALLBOOT} -v ${TMPMOUNT}/boot ${BOOTXX} ${VND_CRDEV}
 	${SUDO} umount ${TMPMOUNT}
 	${SUDO} fsck -fy ${VND_RDEV}
 	${SUDO} vnconfig -v -u ${VND}
