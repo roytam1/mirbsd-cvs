@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.239 2009/09/25 19:14:29 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.240 2009/09/25 19:41:15 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -4909,8 +4909,8 @@ Tag: news snapshot
 <p class="boxhead">An experimental MirOS bsd4me bootable
  image is available as well:</p>
 <div class="boxtext"><pre>
-gPXE&gt; <b>autoboot</b>
-gPXE&gt; <b>chain http://netboot.me/2032</b>
+gPXE&gt; <span class="textu">autoboot</span>
+gPXE&gt; <span class="textu">chain http://netboot.me/2032</span>
 </pre></div><p class="boxfoot">This will be loaded via plain,
  unencrypted HTTP from our main webserver. It’s the usual &lt;5 MiB
  Mini-ISO for the i386 architecture and contains a full installer,
