@@ -12,7 +12,7 @@
  */
 
 #include "includes.h"
-RCSID("$MirOS: src/usr.bin/ssh/ssh-keygen.c,v 1.7 2005/12/20 19:57:36 tg Exp $");
+RCSID("$MirOS: src/usr.bin/ssh/ssh-keygen.c,v 1.8 2006/01/30 15:21:47 tg Exp $");
 
 #include <openssl/evp.h>
 #include <openssl/pem.h>
@@ -426,6 +426,7 @@ do_convert_from_ossl(struct passwd *pw)
 	Key *k;
 	struct stat st;
 	FILE *fp;
+	X509 *x;
 
 	if (!have_identity)
 		ask_filename(pw, "Enter file in which the key is");
@@ -441,7 +442,17 @@ do_convert_from_ossl(struct passwd *pw)
 	k = key_new_private(KEY_RSA);
 	if (k != NULL) {
 		RSA_free(k->rsa);
-		k->rsa = PEM_read_RSA_PUBKEY(fp, NULL, NULL, NULL);
+		k->rsa = NULL;
+		x = PEM_read_X509(fp, NULL, NULL, NULL);
+		if (x != NULL) {
+			EVP_PKEY *pkey;
+			if ((pkey = X509_get_pubkey(x)) != NULL)
+				k->rsa = pkey->pkey.rsa;
+		}
+		if (k->rsa == NULL) {
+			rewind(fp);
+			k->rsa = PEM_read_RSA_PUBKEY(fp, NULL, NULL, NULL);
+		}
 	}
 	if (k == NULL || k->rsa == NULL) {
 		unsigned long e;
