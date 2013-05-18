@@ -1,4 +1,4 @@
-/* $MirOS: src/sys/arch/i386/stand/bootxx/bootxx.S,v 1.12 2009/01/10 18:15:10 tg Exp $ */
+/* $MirOS: src/sys/arch/i386/stand/bootxx/bootxx.S,v 1.13 2009/01/10 23:52:48 tg Exp $ */
 
 /*-
  * Copyright (c) 2003, 2004, 2005, 2007, 2009
@@ -34,7 +34,6 @@ _start:
 	add	ax,0x07C0
 	mov	ss,ax
 	mov	sp,0xFFFC
-	sti
 	push	ds
 	push	si
 	push	ax		/* for retf */
