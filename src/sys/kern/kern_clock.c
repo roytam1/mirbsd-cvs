@@ -1,4 +1,4 @@
-/**	$MirOS$ */
+/**	$MirOS: src/sys/kern/kern_clock.c,v 1.4 2008/04/09 04:58:11 tg Exp $ */
 /*	$OpenBSD: kern_clock.c,v 1.42 2003/06/02 23:28:05 millert Exp $	*/
 /*	$NetBSD: kern_clock.c,v 1.34 1996/06/09 04:51:03 briggs Exp $	*/
 
@@ -56,6 +56,21 @@
 
 #ifdef CPU_HARDCLOCKENT_DECL
 CPU_HARDCLOCKENT_DECL;
+static u_quad_t hce_value;
+#define HARDCLOCKENT_APPLY(newvalue) do {				\
+	u_quad_t hce_mask, hce_delta = hce_value, hce_entropy = 0;	\
+									\
+	hce_value = (newvalue);						\
+	hce_delta = hce_value - hce_delta;				\
+	for (hce_mask = 1; hce_mask; hce_mask <<= 1)			\
+		if (hce_delta & hce_mask) {				\
+			hce_entropy <<= 1;				\
+			if (hce_value & hce_mask)			\
+				hce_entropy++;				\
+		}							\
+	rnd_addpool_add((uint32_t)(hce_entropy & 0xFFFFFFFF));		\
+	rnd_addpool_add((uint32_t)(hce_entropy >> 32));			\
+} while (0)
 #endif
 
 /*
