@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/i386/conf.c,v 1.5 2005/10/21 12:54:32 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/i386/conf.c,v 1.6 2009/02/16 21:10:58 tg Exp $ */
 /*	$OpenBSD: conf.c,v 1.111 2005/07/31 06:39:07 dlg Exp $	*/
 /*	$NetBSD: conf.c,v 1.75 1996/05/03 19:40:20 christos Exp $	*/
 
@@ -162,13 +162,6 @@ int	nblkdev = sizeof(bdevsw) / sizeof(bdevsw[0]);
 	(dev_type_stop((*))) enodev, 0, (dev_type_poll((*))) enodev, \
 	(dev_type_mmap((*))) enodev }
 
-/* open, close, read, write */
-#define	cdev_tpm_init(c,n) { \
-	dev_init(c,n,open), dev_init(c,n,close), dev_init(c,n,read), \
-	dev_init(c,n,write), (dev_type_ioctl((*)))enodev, \
-	(dev_type_stop((*)))enodev, 0, (dev_type_poll((*)))enodev, \
-	(dev_type_mmap((*))) enodev }
-
 
 #define	mmread	mmrw
 #define	mmwrite	mmrw
@@ -232,8 +225,6 @@ cdev_decl(isdnbchan);
 cdev_decl(isdntrc);
 #include "isdntel.h"
 cdev_decl(isdntel);
-#include "tpm.h"
-cdev_decl(tpm);
 
 /* XXX -- this needs to be supported by config(8)! */
 #if (NCOM > 0) && (NPCCOM > 0)
@@ -351,7 +342,6 @@ struct cdevsw	cdevsw[] =
 	cdev_ch_init(NGPR,gpr),		/* 80: GPR400 SmartCard reader */
 	cdev_notdef(),			/* 81: hotplug(4) */
 	cdev_ptm_init(NPTY,ptm),	/* 82: pseudo-tty ptm device */
-	cdev_tpm_init(NTPM,tpm),	/* 83: trusted platform module */
 };
 int	nchrdev = sizeof(cdevsw) / sizeof(cdevsw[0]);
 
