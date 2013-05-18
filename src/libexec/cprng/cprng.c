@@ -37,13 +37,16 @@
 #include <sys/types.h>
 #include <sys/time.h>
 #include <sys/ioctl.h>
+#if defined(__OpenBSD__)
+#include <dev/rndioctl.h>
+#endif
 #include <fcntl.h>
 #include <signal.h>
 #include <stdbool.h>
 #include <stdint.h>
 #include <unistd.h>
 
-__RCSID("$MirOS: src/libexec/cprng/cprng.c,v 1.9 2007/08/06 09:52:24 tg Exp $");
+__RCSID("$MirOS: src/libexec/cprng/cprng.c,v 1.10 2007/09/28 19:47:52 tg Exp $");
 
 #ifndef MAYPROF
 #if defined(SIGPROF) && defined(ITIMER_PROF)
@@ -200,6 +203,8 @@ main(int argc, char *argv[])
  main_loop:
 	getent(obuf, 12 + 1);
 	write(c, obuf, 12);
+	u = 94;
+	ioctl(c, RNDADDTOENTCNT, &u);
 	usleep(littlesleep);
 	if (!intropy)
 		read(c, &intropy, sizeof (intropy));
