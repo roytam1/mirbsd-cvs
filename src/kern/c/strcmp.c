@@ -20,7 +20,7 @@
 
 #include <libckern.h>
 
-__RCSID("$MirOS: src/kern/c/strcmp.c,v 1.1 2008/08/01 18:09:17 tg Exp $");
+__RCSID("$MirOS: src/kern/c/strcmp.c,v 1.2 2008/08/03 21:02:00 tg Exp $");
 
 #ifdef WIDEC
 #define NUL L'\0'
@@ -53,6 +53,7 @@ strcoll(const char *s1, const char *s2)
 {
 	return (strcmp(s1, s2));
 }
+#endif
 #else /* lint */
 #ifdef WIDEC
 __strong_alias(wcscoll, wcscmp);
