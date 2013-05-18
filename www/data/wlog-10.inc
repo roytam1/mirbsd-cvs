@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.349 2011/08/18 17:27:34 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.351 2011/08/18 22:00:58 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -8372,4 +8372,13 @@ Tag: news snapshot
 </ul>
 <p>We’ll also have it with us at FrOSCon. Maybe on CDs, but on a
  laptop ready for netboot and netinstall is a promise.</p>
+<p><strong>Update</strong> 20.08.2011 – we’ve got an ISO:</p><ul>
+ <li>MD5 (MIRB0818.ISO) = 805c4a34bae523ef5d838e79ecdcdad8</li>
+ <li>RMD160 (MIRB0818.ISO) = 93df98d24b2d877502e7be8af580907311d2d8cc</li>
+ <li>SHA1 (MIRB0818.ISO) = 6dacb045675184c06a00401357a0a510dd3e6edb</li>
+ <li>SIZE (MIRB0818.ISO) = 727711744</li>
+ <li>TIGER (MIRB0818.ISO) = ff0c145b93988c306530963fd881ad7972d5eb2d2e0ce298</li>
+ <li style="list-style:none;"><a href="@@RELPATH@@bt.htm#s110818">BitTorrent
+  download</a> is <a href="@@RELPATH@@f/MIRB0818.torrent">available</a></li>
+</ul>
 ----

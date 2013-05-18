@@ -3,7 +3,7 @@
 
 mws_setname bt 'BitTorrent information'
 mws_setheadline BitTorrent information
-mws_putheader '$MirOS: www/src/bt.hts,v 1.14 2010/10/08 21:02:55 tg Exp $'
+mws_putheader '$MirOS: www/src/bt.hts,v 1.15 2011/02/09 19:07:07 bsiegert Exp $'
 mws_content <<'EOF'
 <!-- http://www.mirbsd.org/bt.htm#id -->
 <p>The <tt>f.scarywater.net</tt> tracker no longer exists; this is a
@@ -23,13 +23,8 @@ mws_content <<'EOF'
   single file <tt>MIR60625.ISO</tt> [81ECE929] FrOSCon 2006</li>
  <li><a href="@@RELPATH@@f/MIR80316.torrent">2008-03-16 #10semel</a>
   single file <tt>MIR80316.ISO</tt> [76D0638A]</li>
- <li><a href="@@RELPATH@@f/MIR91031.torrent">2009-10-31 snapshot</a>
-  subdirectory <tt>MirOS #10-current (Samhain 2009)</tt> containing
-  checksums, build logs (i386 + sparc), gzipped ISO, CVS repo</li>
- <li><a href="@@RELPATH@@f/MIRA0131.torrent">2010-01-31 snapshot</a>
-  single file <tt>MIRA0131.ISO</tt> [6DE59E85] FOSDEM 2010</li>
- <li><a href="@@RELPATH@@f/MIRA0819.torrent">2010-08-19 snapshot</a>
-  single file <tt>MIRA0819.ISO</tt> [2C7AF16C] FrOSCon 2010</li>
+ <li><a href="@@RELPATH@@f/MIRB0818.torrent">2011-08-18 snapshot</a>
+  single file <tt>MIRB0818.ISO</tt> [26FCBF55] FrOSCon 2011</li>
 </ul>
 <p>The 32-bit hex numbers in square brackets are the CRC32 or SFV
  checksum of the files, as usual for the Anime Torrent scene ☺</p>
@@ -81,14 +76,16 @@ mws_content <<'EOF'
 <h4 id="r8semel">MirOS #8</h4>
 <h4 id="r7quater">#7quater</h4>
 <h3>Snapshots</h3>
-<h4 id="s91031">2009-10-31 (Samhain 2009)</h4>
-<p>MirOS BSD #10-current Triforce ISO 9660 image containing the full
- <tt>/MirOS/current/{i386,sparc}/</tt> 2009-10-30/31 snapshot (build
- logs, COM1:9600,8N1 and COM1:38400,8N1 and COM1:115200,8N1 ISO
- images, Midi-ISO plus 4 floppies for normal and three speed serial
- operation, ports snapshot, HTML manpages), but no pkgsrc® snapshot.
- Also contains MirGRML “Hello, Wien!” 2009.10 for rescue purposes,
- and MirCVS „Allerheiligen“ 2009-11-01 for source code.</p>
+<h4 id="s110818">2011-08-18 (FrOSCon 2011)</h4>
+<p>The “Dear Orga, can plz have let sleep longer?” release.<br />
+ MirOS BSD #10-current Triforce ISO 9660 image containing the full
+ <tt>/MirOS/current/{i386,sparc}/</tt> snapshot (2011-08-18 i386,
+ 2010-01-25(?) sparc), build logs, COM1:9600,8N1 and COM1:38400,8N1
+ and COM1:115200,8N1 ISO images, Midi-ISO plus 4 floppies for normal
+ and three speed serial operation, ports snapshot, HTML manpages),
+ with some binary packages installed, but no pkgsrc® snapshot.
+ (This is being integrated into pkgsrc® itself.) Also contains
+ MirGRML “Hello, Wien!” 2009.10 for rescue purposes.</p>
 <h4 id="fallback">Fallback…</h4>
 <p>You could always (after checking which is more recent) use <a
  href="@@ABSPATH@@/MirOS/current/i386/">NetInstall (i386)</a>, and
