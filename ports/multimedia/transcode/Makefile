@@ -1,5 +1,7 @@
-# $MirOS: ports/multimedia/transcode/Makefile,v 1.8 2007/04/13 19:38:18 bsiegert Exp $
+# $MirOS: ports/multimedia/transcode/Makefile,v 1.9 2008/03/09 17:23:14 tg Exp $
 # $OpenBSD: Makefile,v 1.2 2004/06/24 19:27:00 sturm Exp $
+
+BROKEN=			unfetchable distfile
 
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 

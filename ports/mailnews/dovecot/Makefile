@@ -4,7 +4,7 @@ COMMENT=			compact IMAP/POP3 server
 
 DISTNAME=	dovecot-0.99.10.5
 CATEGORIES=	mail
-MASTER_SITES=	${HOMEPAGE}
+MASTER_SITES=	http://dovecot.org/releases/0.9/
 
 HOMEPAGE=	http://dovecot.org/
 

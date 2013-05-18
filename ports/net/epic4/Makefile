@@ -1,7 +1,9 @@
 # $OpenBSD: Makefile,v 1.52 2004/02/25 02:35:04 brad Exp $
 # $FreeBSD: Makefile,v 1.13 1999/03/01 16:18:30 mph Exp $
 
-COMMENT=			(E)nhanced (P)rogrammable (I)RC-II (C)lient
+BROKEN=			unfetchable distfiles
+
+COMMENT=		(E)nhanced (P)rogrammable (I)RC-II (C)lient
 
 VERSION=	2.0
 HELP_DATE=	20030114

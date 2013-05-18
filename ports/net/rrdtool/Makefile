@@ -1,5 +1,7 @@
-# $MirOS: ports/net/rrdtool/Makefile,v 1.5 2008/03/09 17:23:22 tg Exp $
+# $MirOS: ports/net/rrdtool/Makefile,v 1.6 2008/05/07 22:48:38 tg Exp $
 # $OpenBSD: Makefile,v 1.24 2004/02/15 20:59:58 sturm Exp $
+
+BROKEN=			unfetchable distfile
 
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 COMMENT=			system to store and display time-series data

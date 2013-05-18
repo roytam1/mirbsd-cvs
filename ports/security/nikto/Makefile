@@ -1,6 +1,8 @@
 # $OpenBSD $
 
-COMMENT=			Web and CGI vulnerability scanner with SSL support
+BROKEN=			unfetchable distfile
+
+COMMENT=		Web and CGI vulnerability scanner with SSL support
 
 DISTNAME=	nikto-1.32
 CATEGORIES=	security www

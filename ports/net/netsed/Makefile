@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.1.1.1 2003/04/11 08:48:42 jsyn Exp $
 
-COMMENT=			network sed
+COMMENT=		network sed
 
 DISTNAME=		netsed
 PKGNAME=		${DISTNAME}-0.01c-0
@@ -8,7 +8,7 @@ CATEGORIES=    		net
 EXTRACT_SUFX=		.tgz
 
 HOMEPAGE=		http://lcamtuf.coredump.cx/
-
+DIST_SUBDIR=		netsed-0.01c
 
 # GPL
 PERMIT_PACKAGE_CDROM=	Yes

@@ -1,5 +1,7 @@
 # $OpenBSD: Makefile,v 1.21 2004/05/07 13:32:52 sturm Exp $
 
+BROKEN=			distfile is unfetchable, homepage vanished
+
 COMMENT=			POP3 mail retriever
 
 DISTNAME=	getmail-3.2.4

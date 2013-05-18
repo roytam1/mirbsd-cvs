@@ -1,7 +1,9 @@
-# $MirOS: ports/net/nmap/Makefile,v 1.4 2008/03/09 17:23:19 tg Exp $
+# $MirOS: ports/net/nmap/Makefile,v 1.5 2008/05/07 22:48:37 tg Exp $
 # $OpenBSD: Makefile,v 1.49 2004/05/16 08:38:12 jolan Exp $
 
-COMMENT=			scan ports and fingerprint stack of network hosts
+BROKEN=			unfetchable distfile
+
+COMMENT=		scan ports and fingerprint stack of network hosts
 DISTNAME=	nmap-3.50
 CATEGORIES=	net security
 MASTER_SITES=	${HOMEPAGE}dist/

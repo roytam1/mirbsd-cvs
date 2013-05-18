@@ -1,6 +1,8 @@
 # $OpenBSD: Makefile,v 1.16 2003/10/26 23:49:41 naddy Exp $
 
-COMMENT=			convert text into the Doc format used by PalmPilots
+BROKEN=			unfetchable distfile
+
+COMMENT=		convert text into the Doc format used by PalmPilots
 
 PKGNAME=	pilot_makedoc-0.7-0
 CATEGORIES=	textproc palm

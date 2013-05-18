@@ -1,5 +1,7 @@
-# $MirOS: ports/mailnews/xfaces/Makefile,v 1.3 2007/04/12 20:20:04 bsiegert Exp $
+# $MirOS: ports/mailnews/xfaces/Makefile,v 1.4 2008/03/09 19:16:02 tg Exp $
 # $OpenBSD: Makefile,v 1.21 2002/10/27 17:21:40 naddy Exp $
+
+BROKEN=			unfetchable distfiles
 
 ONLY_FOR_PLATFORM=	MirBSD:*:* OpenBSD:*:*
 

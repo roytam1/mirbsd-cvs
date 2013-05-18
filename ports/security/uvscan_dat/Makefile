@@ -1,9 +1,11 @@
 # $OpenBSD: Makefile,v 1.25 2004/01/14 19:20:39 jakob Exp $
 # $NetBSD: Makefile,v 1.2 2000/06/19 14:30:02 rh Exp $
 
+BROKEN=			unfetchable distfiles
+
 ONLY_FOR_PLATFORM=	OpenBSD:*:i386 MirBSD:*:i386
 
-COMMENT=			AntiVirus DAT file for uvscan
+COMMENT=		AntiVirus DAT file for uvscan
 
 VERSION=	4312
 DISTNAME=	dat-${VERSION}

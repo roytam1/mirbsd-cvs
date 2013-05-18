@@ -1,9 +1,12 @@
 # $OpenBSD: Makefile,v 1.5 2004/02/12 14:09:49 kevlo Exp $
 
-COMMENT=			perl scripts for migrating system information to LDAP
+BROKEN=			unfetchable distfile
+
+COMMENT=		perl scripts for migrating system information to LDAP
 
 DISTNAME=	MigrationTools
 PKGNAME=	migrationtools-45-0
+DIST_SUBDIR=		migrationtools-45
 CATEGORIES=	misc
 
 MASTER_SITES=   ${_MASTER_SITE_MIRBSD}

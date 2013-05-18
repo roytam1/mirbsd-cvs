@@ -1,8 +1,10 @@
-# $MirOS: ports/security/muscle-framework/Makefile,v 1.6 2007/04/13 20:16:12 bsiegert Exp $
+# $MirOS: ports/security/muscle-framework/Makefile,v 1.7 2008/05/07 22:48:40 tg Exp $
+
+BROKEN=			unfetchable distfile
 
 COMMENT=		Smartcard access framework
 DISTNAME=		muscleframework-1.1.5
-PKGNAME=		${DISTNAME}-1
+DASH_VER=		1
 CATEGORIES=		security
 MASTER_SITES=		http://alioth.debian.org/download.php/463/
 HOMEPAGE=		http://www.linuxnet.com/musclecard/index.html

@@ -1,6 +1,8 @@
 # $OpenBSD: Makefile,v 1.9 2004/05/15 12:55:06 sturm Exp $
 
-COMMENT=			front-end to ssh-agent
+BROKEN=			unfetchable distfiles
+
+COMMENT=		front-end to ssh-agent
 
 DISTNAME=		keychain-2.3.0
 CATEGORIES=		security

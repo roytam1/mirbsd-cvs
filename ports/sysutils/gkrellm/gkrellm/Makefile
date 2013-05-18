@@ -1,12 +1,12 @@
-# $MirOS: ports/sysutils/gkrellm/gkrellm/Makefile,v 1.8 2008/03/09 17:23:33 tg Exp $
+# $MirOS: ports/sysutils/gkrellm/gkrellm/Makefile,v 1.9 2008/03/23 11:52:44 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.10 2004/05/18 14:49:56 naddy Exp $
 
-BROKEN=		Distfile unavailable
+BROKEN=			unfetchable distfile
 
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
-COMMENT=			single process stack of system monitors for GTK+2 (server)
-COMMENT-client=			single process stack of system monitors for GTK+2
+COMMENT=		single process stack of system monitors for GTK+2 (server)
+COMMENT-client=		single process stack of system monitors for GTK+2
 
 V=		2.2.0
 DISTNAME=	gkrellm-${V}

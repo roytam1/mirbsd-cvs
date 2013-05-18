@@ -1,7 +1,8 @@
-# $MirOS: ports/net/dss/Makefile,v 1.6 2007/04/13 19:38:45 bsiegert Exp $
+# $MirOS: ports/net/dss/Makefile,v 1.7 2008/10/04 19:03:20 tg Exp $
 # $OpenBSD: Makefile,v 1.4 2003/10/26 23:49:37 naddy Exp $
 
-BROKEN=			security issues
+BROKEN=			unfetchable distfile
+#BROKEN=			security issues
 
 ONLY_FOR_PLATFORM=	OpenBSD:*:i386 MirBSD:*:i386
 

@@ -1,11 +1,12 @@
-# $MirOS$
+# $MirOS: ports/print/memoir/Makefile,v 1.3 2007/04/13 19:32:38 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.2 2004/05/27 18:21:00 sturm Exp $
+
+RBROKEN=		unfetchable distfiles
 
 COMMENT=	typeset fiction, non-fiction and mathematical books
 
 DISTNAME=	memoir-1.61p0
 CATEGORIES=	print
-
 
 # LPPL
 PERMIT_PACKAGE_CDROM=	Yes

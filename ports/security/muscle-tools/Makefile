@@ -1,4 +1,6 @@
-# $MirOS: ports/security/muscle-tools/Makefile,v 1.4 2007/03/31 22:02:08 tg Exp $
+# $MirOS: ports/security/muscle-tools/Makefile,v 1.5 2007/04/13 20:16:13 bsiegert Exp $
+
+BROKEN=			unfetchable distfile
 
 COMMENT=		Smartcard access tools
 DISTNAME=		muscleTools-0.9.2

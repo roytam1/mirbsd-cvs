@@ -1,6 +1,8 @@
-# $MirOS: ports/multimedia/xvidcore/Makefile,v 1.1.7.1 2005/03/18 15:50:46 tg Exp $
+# $MirOS: ports/multimedia/xvidcore/Makefile,v 1.2 2006/09/14 00:11:29 tg Exp $
 
-COMMENT=			ISO MPEG-4 compliant video codec
+BROKEN=			unfetchable distfile, mastersite disappeared from DNS
+
+COMMENT=		ISO MPEG-4 compliant video codec
 DISTNAME=		xvidcore-1.0.1
 CATEGORIES=		multimedia
 HOMEPAGE=		http://www.xvid.org/

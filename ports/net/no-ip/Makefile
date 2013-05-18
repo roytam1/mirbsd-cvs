@@ -1,6 +1,8 @@
 # $OpenBSD: Makefile,v 1.7 2004/01/13 14:46:11 wilfried Exp $
 
-COMMENT=			No-IP.com Dynamic DNS client
+BROKEN=			unfetchable distfile
+
+COMMENT=		No-IP.com Dynamic DNS client
 
 V=			2.1.1
 DISTNAME=		noip-${V}

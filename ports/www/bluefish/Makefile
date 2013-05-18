@@ -1,5 +1,7 @@
-# $MirOS$
+# $MirOS: ports/www/bluefish/Makefile,v 1.5 2007/04/16 19:27:39 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.31 2004/04/02 19:07:05 sturm Exp $
+
+BROKEN=			unfetchable distfile
 
 COMMENT=	HTML editor for experienced web designers
 

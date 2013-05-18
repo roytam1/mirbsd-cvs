@@ -1,6 +1,8 @@
-# $MirOS: ports/net/freenet-project/Makefile,v 1.4 2006/01/01 05:25:29 tg Exp $
+# $MirOS: ports/net/freenet-project/Makefile,v 1.5 2006/09/14 00:11:42 tg Exp $
 
-COMMENT=			fully anonymous distributed storage system
+BROKEN=			unfetchable distfile
+
+COMMENT=		fully anonymous distributed storage system
 VERSION=	0.5.2-rc2
 # If you want an update, make sunjdk-1.4.1 work first ;-)
 PKGNAME=	freenet-${VERSION:S/-/./}-0

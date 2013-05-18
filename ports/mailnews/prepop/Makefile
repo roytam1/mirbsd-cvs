@@ -1,6 +1,8 @@
 # $OpenBSD: Makefile,v 1.6 2002/10/27 17:21:39 naddy Exp $
 
-COMMENT=			simple interactive POP3 client
+BROKEN=			unfetchable distfile
+
+COMMENT=		simple interactive POP3 client
 
 DISTNAME=	prepop-0.1b7
 CATEGORIES=	mail

@@ -9,8 +9,8 @@ EXTRACT_SUFX=	.tgz
 
 PERMIT_PACKAGE_CDROM=	"commercial. licensing restrictions."
 PERMIT_PACKAGE_FTP=	"commercial. licensing restrictions."
-PERMIT_DISTFILES_CDROM=	"commercial. licensing restrictions."
-PERMIT_DISTFILES_FTP=	"commercial. licensing restrictions."
+PERMIT_DISTFILES_CDROM=	Yes
+PERMIT_DISTFILES_FTP=	Yes
 
 CONFIGURE_STYLE= gnu dest old
 

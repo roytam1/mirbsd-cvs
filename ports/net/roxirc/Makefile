@@ -1,5 +1,7 @@
-# $MirOS$
+# $MirOS: ports/net/roxirc/Makefile,v 1.3 2007/04/13 19:27:52 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.8 2004/02/02 17:35:01 sturm Exp $
+
+BROKEN=			unfetchable distfile
 
 COMMENT=	Tcl/Tk irc client
 

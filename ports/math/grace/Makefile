@@ -1,8 +1,10 @@
-# $MirOS: ports/math/grace/Makefile,v 1.4 2008/03/09 17:23:11 tg Exp $
+# $MirOS: ports/math/grace/Makefile,v 1.5 2008/05/07 22:48:31 tg Exp $
 # $OpenBSD: Makefile,v 1.17 2004/01/11 11:12:52 sturm Exp $
 # $FreeBSD: ports/math/grace/Makefile,v 1.18 2001/04/25 05:59:19 lkoeller Exp $
 
-COMMENT=			GRaphing, Advanced Computation and Exploration of data
+BROKEN=			unfetchable distfile
+
+COMMENT=		GRaphing, Advanced Computation and Exploration of data
 DISTNAME=	grace-5.1.14
 CATEGORIES=	math
 HOMEPAGE=	http://plasma-gate.weizmann.ac.il/Grace/

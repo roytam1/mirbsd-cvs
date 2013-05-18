@@ -1,9 +1,9 @@
-# $MirOS: ports/www/squid/Makefile,v 1.7 2008/03/09 17:23:39 tg Exp $
+# $MirOS: ports/www/squid/Makefile,v 1.8 2008/05/07 22:48:46 tg Exp $
 # $OpenBSD: Makefile,v 1.61 2004/04/21 11:11:19 brad Exp $
 
 COMMENT=			WWW and FTP proxy cache and accelerator
 DISTNAME=	squid-2.5.STABLE10
-PKGNAME=	${DISTNAME}-1
+DASH_VER=	2
 CATEGORIES=	www
 MASTER_SITES=	${HOMEPAGE}Versions/v2/2.5/
 MASTER_SITES0=	${HOMEPAGE}Versions/v2/2.5/bugs/
@@ -36,8 +36,9 @@ PATCHFILES=	${DISTNAME}-content_length.patch:0 \
 		${DISTNAME}-STORE_PENDING.patch:0 \
 		${DISTNAME}-ldap_auth-U.patch:0 \
 		${DISTNAME}-cacheClientTable.patch:0 \
-		${DISTNAME}-Solaris_IPFilter.patch:0 \
 		${DISTNAME}-mail_from.patch:0
+# unfetchable:
+#		${DISTNAME}-Solaris_IPFilter.patch:0 \
 
 HOMEPAGE=	http://www.squid-cache.org/
 

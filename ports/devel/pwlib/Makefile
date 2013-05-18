@@ -1,4 +1,6 @@
-# $MirOS: ports/devel/pwlib/Makefile,v 1.3 2006/09/14 00:08:49 tg Exp $
+# $MirOS: ports/devel/pwlib/Makefile,v 1.4 2008/04/07 19:20:04 tg Exp $
+
+BROKEN=			unable to fetch distfile
 
 COMMENT=		cross platform C++ socket and stuff library
 VERSION=		1.6.3

@@ -1,6 +1,8 @@
 # $OpenBSD: Makefile,v 1.9 2004/04/09 09:52:10 espie Exp $
 
-COMMENT=			ICQ console client with encryption support
+BROKEN=			unfetchable distfile
+
+COMMENT=		ICQ console client with encryption support
 
 DISTNAME=		ysmv7_2_9_2
 PKGNAME=		${DISTNAME:S/_/-/:S/_/./g}-0

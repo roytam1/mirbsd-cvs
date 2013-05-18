@@ -1,10 +1,12 @@
 # $OpenBSD: Makefile,v 1.44 2004/05/24 07:04:44 kevlo Exp $
 
-COMMENT=			shell-like command line ftp and sftp client
+BROKEN=			unfetchable distfile
+
+COMMENT=		shell-like command line ftp and sftp client
 
 DISTNAME=	lftp-3.0.3
 CATEGORIES=	net
-MASTER_SITES=	http://the.wiretapped.net/mirrors/lftp/ \
+xMASTER_SITES=	http://the.wiretapped.net/mirrors/lftp/ \
 		http://the.wiretapped.net/mirrors/lftp/old/ \
 		ftp://ftp.ayamura.org/pub/lftp/ \
 		ftp://ftp.ayamura.org/pub/lftp/old/ \

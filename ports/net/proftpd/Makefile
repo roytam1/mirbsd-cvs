@@ -1,4 +1,6 @@
-# $MirOS: ports/net/proftpd/Makefile,v 1.3 2006/09/14 00:12:11 tg Exp $
+# $MirOS: ports/net/proftpd/Makefile,v 1.4 2008/03/09 17:23:21 tg Exp $
+
+BROKEN=			unfetchable distfile
 
 COMMENT=			highly configurable ftp daemon
 DISTNAME=	proftpd-1.2.9

@@ -1,6 +1,8 @@
 # $OpenBSD: Makefile,v 1.4 2004/02/02 01:45:44 naddy Exp $
 
-COMMENT=			multi-window tail(1) utility
+BROKEN=			unfetchable distfiles
+
+COMMENT=		multi-window tail(1) utility
 
 DISTNAME=	multitail-3.0.6
 CATEGORIES=	sysutils

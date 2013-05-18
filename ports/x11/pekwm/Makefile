@@ -1,7 +1,9 @@
-# $MirOS: ports/x11/pekwm/Makefile,v 1.1.7.1 2005/03/18 16:00:49 tg Exp $
+# $MirOS: ports/x11/pekwm/Makefile,v 1.2 2006/09/14 00:15:33 tg Exp $
 # $OpenBSD: Makefile,v 1.4 2004/02/25 02:35:18 naddy Exp $
 
-COMMENT=			aewm++ based pretty themable window manager
+BROKEN=			unfetchable distfile
+
+COMMENT=		aewm++ based pretty themable window manager
 VERSION=	0.1.3
 DISTNAME=	pekwm-${VERSION}
 CATEGORIES=	x11

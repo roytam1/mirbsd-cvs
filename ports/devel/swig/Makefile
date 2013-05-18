@@ -1,5 +1,7 @@
-# $MirOS: ports/devel/swig/Makefile,v 1.5 2007/04/11 17:05:28 bsiegert Exp $
+# $MirOS: ports/devel/swig/Makefile,v 1.6 2008/05/07 22:47:58 tg Exp $
 # $OpenBSD: Makefile,v 1.27 2003/12/27 23:23:21 jose Exp $
+
+BROKEN=			distinfo checksum is for 1.3.21, Makefile for 1.3.11
 
 COMMENT=		simplified wrapper and interface generator
 COMMENT-examples=	examples for swig

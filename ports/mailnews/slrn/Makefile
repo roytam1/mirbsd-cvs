@@ -1,6 +1,8 @@
 # $OpenBSD: Makefile,v 1.34 2004/03/05 16:44:20 lebel Exp $
 
-COMMENT=			SLang-based newsreader
+BROKEN=			unfetchable distfiles
+
+COMMENT=		SLang-based newsreader
 
 VERSION=		0.9.8.0
 DISTNAME=		slrn-${VERSION}

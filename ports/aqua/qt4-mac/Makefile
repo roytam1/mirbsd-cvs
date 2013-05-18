@@ -1,4 +1,4 @@
-# $MirOS: ports/aqua/qt4-mac/Makefile,v 1.1 2008/07/02 18:49:41 bsiegert Exp $
+# $MirOS: ports/aqua/qt4-mac/Makefile,v 1.2 2008/09/14 16:10:28 bsiegert Exp $
 
 COMMENT=		Qt toolkit, Aqua version for Mac OS
 COMMENT-docs=		Qt documentation, Aqua version for Mac OS
@@ -15,7 +15,9 @@ CATEGORIES=		aqua devel
 EXTRACT_SUFX=		.tar.bz2
 
 HOMEPAGE=		http://trolltech.com/products/qt/homepage
-MASTER_SITES=		http://ftp.trolltech.com/qt/source/
+MASTER_SITES=		http://ftp.trolltech.com/qt/source/ \
+			http://gd.tuwien.ac.at/hci/qt/source/ \
+			http://www.qtopia.org.cn/ftp/mirror/ftp.trolltech.com/qt/source/
 
 # QPL
 PERMIT_PACKAGE_CDROM=	Yes

@@ -1,6 +1,8 @@
 # $OpenBSD: Makefile,v 1.3 2004/04/10 13:42:40 sturm Exp $
 
-COMMENT=			Change Background Image with GkrellM2
+BROKEN=			unfetchable distfile
+
+COMMENT=		Change Background Image with GkrellM2
 
 DISTNAME=	gkrellmbgchg2-0.1.0
 CATEGORIES=	x11 sysutils/gkrellm

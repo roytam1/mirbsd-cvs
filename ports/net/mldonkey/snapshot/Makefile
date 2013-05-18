@@ -1,7 +1,9 @@
-# $MirOS: ports/net/mldonkey/snapshot/Makefile,v 1.3 2006/09/14 00:11:54 tg Exp $
+# $MirOS: ports/net/mldonkey/snapshot/Makefile,v 1.4 2008/05/07 22:48:37 tg Exp $
 # $OpenBSD: Makefile,v 1.2 2004/04/19 08:42:25 espie Exp $
 
-COMMENT=			Filesharing client/server for multiple networks
+BROKEN=			unfetchable distfile
+
+COMMENT=		Filesharing client/server for multiple networks
 CATEGORIES=		net
 DISTNAME=		mldonkey-2.5.18
 HOMEPAGE=		http://savannah.nongnu.org/projects/mldonkey/
