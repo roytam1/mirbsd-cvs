@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/ramdisk/Makefile,v 1.4 2006/07/03 22:12:01 tg Exp $
+# $MirOS: src/distrib/ramdisk/Makefile,v 1.5 2006/07/03 23:17:50 tg Exp $
 # $OpenBSD: Makefile,v 1.26 2004/02/28 04:53:30 jolan Exp $
 
 CBIN=		instbin
@@ -6,6 +6,8 @@ ARCHDIR=	${.CURDIR}/../${MACHINE}/ramdisk
 REALOBJDIR!=	readlink -nf ${.OBJDIR} || ( cd ${.OBJDIR} && pwd )
 
 .include <bsd.own.mk>
+CFLAGS+=	${CDIAGFLAGS} ${COPTS}
+HOSTCFLAGS?=	${CFLAGS}
 
 .if exists(${ARCHDIR}/Makefile.inc)
 .  include "${ARCHDIR}/Makefile.inc"
