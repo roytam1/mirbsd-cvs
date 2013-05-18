@@ -1,12 +1,12 @@
-$MirOS$
+$MirOS: ports/devel/cvs/patches/patch-doc_cvs_texinfo,v 1.5 2010/09/15 20:56:58 tg Exp $
 --- doc/cvs.texinfo.orig	Fri Sep 23 02:02:31 2005
-+++ doc/cvs.texinfo	Wed Sep 15 19:55:44 2010
++++ doc/cvs.texinfo	Thu Sep 16 16:53:42 2010
 @@ -1,6 +1,8 @@
  \input texinfo  @c -*-texinfo-*-
  @comment Documentation for CVS.
  @setfilename cvs.info
 +@afourpaper
-+@comment $MirOS: ports/devel/cvs/patches/patch-doc_cvs_texinfo,v 1.4 2009/09/06 11:51:00 tg Exp $
++@comment $MirOS: ports/devel/cvs/patches/patch-doc_cvs_texinfo,v 1.5 2010/09/15 20:56:58 tg Exp $
  @macro copyleftnotice
  @noindent
  Copyright @copyright{} 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000,
@@ -103,7 +103,7 @@ $MirOS$
  major problem with using @samp{-kk} on merges.  Namely, @samp{-kk}
  overrode any default keyword expansion mode set in the archive file in
  the repository.  This could, unfortunately for some users, cause data
-@@ -7182,6 +7192,11 @@ See @ref{Configuring keyword expansion} 
+@@ -7182,6 +7192,15 @@ See @ref{Configuring keyword expansion} 
  @item $@splitrcskeyword{Date}$
  The date and time (UTC) the revision was checked in.
  
@@ -112,10 +112,14 @@ $MirOS$
 +The date (UTC) the revision was checked in, in a format suitable
 +for the Berkeley mdoc macro processing.
 +
++@example
++$Mdocdate$
++@end example
++
  @cindex Header keyword
  @item $@splitrcskeyword{Header}$
  A standard header containing the full pathname of the
-@@ -7551,12 +7566,13 @@ A list may be used. The this example:
+@@ -7551,12 +7570,13 @@ A list may be used. The this example:
  
  @example
          # Add a "MyBSD" keyword and restrict keyword
@@ -132,7 +136,7 @@ $MirOS$
  $@splitrcskeyword{Date}$ to be expanded.
  
  It is also possible to configure an exclusion list
-@@ -7742,7 +7758,7 @@ $ cd wdiff-0.05
+@@ -7742,7 +7762,7 @@ $ cd wdiff-0.05
  $ cvs import -m "Import of FSF v. 0.05" fsf/wdiff FSF_DIST WDIFF_0_05
  @end example
  
@@ -141,7 +145,7 @@ $MirOS$
  repository archives, files removed by an import may not be detected.}
  
  For files that have not been modified locally, the newly created
-@@ -7786,7 +7802,12 @@ should do a merge like this even if @cod
+@@ -7786,7 +7806,12 @@ should do a merge like this even if @cod
  
  You can also revert local changes completely and return
  to the latest vendor release by changing the `head'
@@ -155,7 +159,7 @@ $MirOS$
  example, if you have a checked-out copy of the sources
  in @file{~/work.d/wdiff}, and you want to revert to the
  vendor's version for all the files in that directory,
-@@ -7853,6 +7874,10 @@ one vendor, you may specify the @samp{-b
+@@ -7853,6 +7878,10 @@ one vendor, you may specify the @samp{-b
  @code{cvs import}.  It takes as an argument the vendor
  branch to import to.  The default is @samp{-b 1.1.1}.
  
@@ -166,7 +170,7 @@ $MirOS$
  For example, suppose that there are two teams, the red
  team and the blue team, that are sending you sources.
  You want to import the red team's efforts to branch
-@@ -8498,7 +8523,7 @@ option as in other commands.  (Other com
+@@ -8498,7 +8527,7 @@ option as in other commands.  (Other com
  which are listed with the individual commands, may have
  different behavior from one @sc{cvs} command to the other).
  
@@ -175,7 +179,7 @@ $MirOS$
  many options that conflict even with these standard options.}
  
  @table @code
-@@ -8523,7 +8548,7 @@ further updates in the same directory wi
+@@ -8523,7 +8552,7 @@ further updates in the same directory wi
  slightly different way; @pxref{history options}).
  
  For a complete description of the date formats accepted by @sc{cvs},
@@ -184,7 +188,7 @@ $MirOS$
  @c What other formats should we accept?  I don't want
  @c to start accepting a whole mess of non-standard
  @c new formats (there are a lot which are in wide use in
-@@ -8610,7 +8635,7 @@ give an error if you mistype a tag name.
+@@ -8610,7 +8639,7 @@ give an error if you mistype a tag name.
  @code{annotate}, @code{checkout}, @code{export},
  @code{rdiff}, @code{rtag}, and @code{update}.
  
@@ -193,7 +197,7 @@ $MirOS$
  commands also have a
  @samp{-f} option, but it has a different behavior for
  those commands.  See @ref{commit options}, and
-@@ -8631,7 +8656,7 @@ The @samp{-k} option is available with t
+@@ -8631,7 +8660,7 @@ The @samp{-k} option is available with t
  @code{checkout}, @code{diff}, @code{export}, @code{import},
  @code{rdiff}, and @code{update} commands.
  
@@ -202,7 +206,7 @@ $MirOS$
  overrode the @samp{-kb} indication for a binary file.  This could
  sometimes corrupt binary files.  @xref{Merging and keywords}, for
  more.}
-@@ -8660,7 +8685,7 @@ Do not run any tag program.  (A program 
+@@ -8660,7 +8689,7 @@ Do not run any tag program.  (A program 
  specified to run in the modules
  database (@pxref{modules}); this option bypasses it).
  
@@ -211,7 +215,7 @@ $MirOS$
  program option, which you can specify to the left of a cvs command!}
  
  Available with the @code{checkout}, @code{commit}, @code{export},
-@@ -8688,6 +8713,7 @@ and @code{watchers}.
+@@ -8688,6 +8717,7 @@ and @code{watchers}.
  @item -r @var{tag}[:@var{date}]
  @cindex HEAD, special tag
  @cindex BASE, special tag
@@ -219,7 +223,7 @@ $MirOS$
  Use the revision specified by the @var{tag} argument (and the @var{date}
  argument for the commands which accept it) instead of the
  default @dfn{head} revision.  As well as arbitrary tags defined
-@@ -8735,12 +8761,18 @@ When a command expects a specific revisi
+@@ -8735,12 +8765,18 @@ When a command expects a specific revisi
  the name of a branch is interpreted as the most recent
  revision on that branch.
  
@@ -239,14 +243,14 @@ $MirOS$
  which you can specify to the left of a @sc{cvs} command!}
  
  @samp{-r @var{tag}} is available with the @code{commit} and @code{history}
-@@ -9501,8 +9533,12 @@ that the argument file contains the log 
+@@ -9501,8 +9537,12 @@ that the argument file contains the log 
  
  At @code{commit}, a unique commitid is placed in the @sc{rcs}
  file inside the repository. All files committed at once
 -get the same commitid. The commitid can be retrieved with
 -the @code{log} and @code{status} command; see @ref{log},
 +get the same commitid, a string consisting only of hexadecimal
-+digits (usually 16 in GNU CVS, 19 in MirOS BSD and MirPorts GNU CVS).
++digits (usually 16 in GNU CVS, 19 in MirBSD and MirDebian GNU CVS).
 +FSF GNU CVS 1.11, MirOS GNU CVS 1.11, and OpenBSD OpenCVS do not
 +support commitids yet.
 +The commitid can be retrieved with
@@ -254,7 +258,7 @@ $MirOS$
  @ref{File status}.
  
  @menu
-@@ -9685,7 +9721,7 @@ compared.  If any directories are given,
+@@ -9685,7 +9725,7 @@ compared.  If any directories are given,
  under them will be compared.
  
  The exit status for diff is different than for other
@@ -263,7 +267,7 @@ $MirOS$
  
  @menu
  * diff options::                diff options
-@@ -10425,7 +10461,7 @@ all possible events to a single history 
+@@ -10425,7 +10465,7 @@ all possible events to a single history 
  (@file{$CVSROOT/CVSROOT/history}) with read and write permissions for all
  users (@pxref{Creating a repository}).
  
@@ -272,7 +276,7 @@ $MirOS$
  @samp{-n}, and @samp{-p} in ways that conflict with the
  normal use inside @sc{cvs} (@pxref{Common options}).}
  
-@@ -10805,7 +10841,7 @@ in local time at the client. This is typ
+@@ -10805,7 +10845,7 @@ in local time at the client. This is typ
  the @code{$TZ} environment variable, which can be set to
  govern how @code{log} displays dates.
  
@@ -281,7 +285,7 @@ $MirOS$
  with the normal use inside @sc{cvs} (@pxref{Common options}).}
  
  @menu
-@@ -11282,7 +11318,7 @@ Delete your working copy of the file if 
+@@ -11282,7 +11322,7 @@ Delete your working copy of the file if 
  succeeds.  If this flag is not given your files will
  remain in your working directory.
  
@@ -290,7 +294,7 @@ $MirOS$
  all directories and files recursively.  This
  has the very serious side-effect that any directory
  that you have created inside your checked-out sources,
-@@ -11730,6 +11766,7 @@ Keywords (@pxref{Keyword list}):
+@@ -11730,6 +11770,7 @@ Keywords (@pxref{Keyword list}):
  @example
  $@splitrcskeyword{Author}: joe $
  $@splitrcskeyword{Date}: 1993/12/09 03:21:13 $
@@ -298,7 +302,7 @@ $MirOS$
  $@splitrcskeyword{CVSHeader}: files/file1,v 1.1 1993/12/09 03:21:13 joe Exp harry $
  $@splitrcskeyword{Header}: /home/files/file1,v 1.1 1993/12/09 03:21:13 joe Exp harry $
  $@splitrcskeyword{Id}: file1,v 1.1 1993/12/09 03:21:13 joe Exp harry $
-@@ -11877,7 +11914,8 @@ Use head revision if tag/date not found.
+@@ -11877,7 +11918,8 @@ Use head revision if tag/date not found.
  @item -j @var{tag}[:@var{date}]
  Merge in the change specified by @var{tag}, or when @var{date} is specified
  and @var{tag} is a branch tag, the version from the branch @var{tag} as it
@@ -308,7 +312,7 @@ $MirOS$
  
  @item -k @var{kflag}
  Use @var{kflag} keyword expansion.  See
-@@ -11907,7 +11945,7 @@ behavior}.
+@@ -11907,7 +11949,7 @@ behavior}.
  @item -r @var{tag}[:@var{date}]
  Checkout the revision already tagged with @var{tag} or, when @var{date} is
  specified and @var{tag} is a branch tag, the version from the branch @var{tag}
@@ -317,7 +321,7 @@ $MirOS$
  
  @item -s
  Like -c, but include module status.  See @ref{checkout options}.
-@@ -12711,7 +12749,7 @@ U first-dir/sdir/sfile
+@@ -12711,7 +12753,7 @@ U first-dir/sdir/sfile
  @item @var{mname} [ options ] @var{dir} [ @var{files}@dots{} ]
  In the simplest case, this form of module definition
  reduces to @samp{@var{mname} @var{dir}}.  This defines
@@ -326,7 +330,7 @@ $MirOS$
  @var{dir} is a relative path (from @code{$CVSROOT}) to a
  directory of source in the source repository.  In this
  case, on checkout, a single directory called
-@@ -12975,7 +13013,7 @@ two versions of the files, and require t
+@@ -12975,7 +13017,7 @@ two versions of the files, and require t
  mechanisms outside @sc{cvs}, to insert any necessary
  changes.
  
@@ -335,15 +339,15 @@ $MirOS$
  @sc{cvs} 1.9 or earlier - such versions of @sc{cvs} will
  copy one version of your file over the other, wiping
  out the previous contents.}
-@@ -14442,6 +14480,7 @@ Unique Session ID of the @sc{cvs} proces
+@@ -14442,6 +14484,7 @@ Unique Session ID of the @sc{cvs} proces
  random string of printable characters of at least 16
  characters length. Users should assume that it may
  someday grow to at most 256 characters in length.
-+Currently, MirPorts GNU CVS uses 19 characters.
++Currently, MirBSD/MirDebian/MirPorts GNU CVS uses 19 characters.
  @end table
  
  If you want to pass a value to the administrative files
-@@ -14613,7 +14652,7 @@ all uses of @code{cvs import} on the rep
+@@ -14613,7 +14656,7 @@ all uses of @code{cvs import} on the rep
  @cindex KeywordExpand, in CVSROOT/config
  @item KeywordExpand=@var{value}
  Specify @samp{i} followed by a list of keywords to be expanded
@@ -352,7 +356,7 @@ $MirOS$
  or @samp{e} followed by a list of keywords not to be expanded
  (for example, @samp{KeywordExpand=eCVSHeader}).
  For more on keyword expansion, see @ref{Configuring keyword expansion}.
-@@ -14747,7 +14786,7 @@ that the file should be checked with the
+@@ -14747,7 +14790,7 @@ that the file should be checked with the
  @samp{stat()} function to see if it has changed (see warning below)
  before rereading.  The default value is @samp{always}.
  
@@ -361,7 +365,7 @@ $MirOS$
  one extra second per directory committed.  This can be less IO and
  CPU intensive but is not recommended for use with large repositories}
  
-@@ -15805,6 +15844,15 @@ The list of contributors here is not com
+@@ -15805,6 +15848,15 @@ The list of contributors here is not com
  complete list of who has contributed to this manual see
  the file @file{doc/ChangeLog} in the @sc{cvs} source
  distribution.

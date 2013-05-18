@@ -1,23 +1,75 @@
-$MirOS$
+$MirOS: ports/devel/cvs/patches/patch-doc_mkman_pl,v 1.1 2010/09/15 20:56:58 tg Exp $
 --- doc/mkman.pl.orig	Fri Apr 15 13:58:54 2005
-+++ doc/mkman.pl	Wed Sep 15 19:36:14 2010
++++ doc/mkman.pl	Thu Sep 16 17:00:33 2010
 @@ -1,4 +1,5 @@
  #! @PERL@
-+# $MirOS$
++# $MirOS: ports/devel/cvs/patches/patch-doc_mkman_pl,v 1.1 2010/09/15 20:56:58 tg Exp $
  #
  # Generate a man page from sections of a Texinfo manual.
  #
+@@ -62,7 +63,7 @@ sub keyword_mode
+ 		if $keyword =~ /^(strong|sc|code|file|samp)$/;
+ 	return "\\fI"
+ 		if $keyword =~ /^(emph|var|dfn)$/;
+-	die "no handler for keyword \`$keyword', found at line $. of file \`$file'\n";
++	die "no handler for keyword '$keyword', found at line $. of file '$file'\n";
+ }
+ 
+ 
 @@ -72,8 +73,12 @@ sub do_keyword
  {
  	my ($file, $parent, $keyword, $content) = @_;
  
-+	return "node \`$content\\(aq in the CVS manual"
-+		if $keyword =~ /^ref$/;
-+	return "See node \`$content\\(aq in the CVS manual"
-+		if $keyword =~ /^xref$/;
- 	return "see node \`$content\\(aq in the CVS manual"
+-	return "see node \`$content\\(aq in the CVS manual"
 -		if $keyword =~ /^(p?x)?ref$/;
++	return "node \\(aq$content\\(aq in the CVS manual"
++		if $keyword =~ /^ref$/;
++	return "See node \\(aq$content\\(aq in the CVS manual"
++		if $keyword =~ /^xref$/;
++	return "see node \\(aq$content\\(aq in the CVS manual"
 +		if $keyword =~ /^pxref$/;
  	return "\\fP\\fP$content"
  		if $keyword =~ /^splitrcskeyword$/;
+ 
+@@ -91,11 +96,11 @@ sub do_keyword
+ for my $file (@ARGV)
+ {
+ 	my $fh = new IO::File "< $file"
+-		or die "Failed to open file \`$file': $!";
++		or die "Failed to open file '$file': $!";
+ 
+ 	if ($file !~ /\.(texinfo|texi|txi)$/)
+ 	{
+-		print stderr "Passing \`$file' through unprocessed.\n";
++		print stderr "Passing '$file' through unprocessed.\n";
+ 		# Just cat any file that doesn't look like a Texinfo source.
+ 		while (my $line = $fh->getline)
+ 		{
+@@ -104,7 +109,7 @@ for my $file (@ARGV)
+ 		next;
+ 	}
+ 
+-	print stderr "Processing \`$file'.\n";
++	print stderr "Processing '$file'.\n";
+ 	$texi_num++;
+ 	my $gotone = 0;
+ 	my $inblank = 0;
+@@ -143,6 +148,9 @@ for my $file (@ARGV)
+ 		s/\@bullet({}|\b)/\\(bu/g;
+ 		s/\@dots({}|\b)/\\&.../g;
+ 
++		# Hack for GNU groff with nroff -Tutf8
++		s/-/\\-/g;
++
+ 		# Examples should be indented and otherwise untouched
+ 		if (/^\@example$/)
+ 		{
+@@ -356,7 +364,7 @@ for my $file (@ARGV)
+ 		s/\@([{}])/$1/g;
+ 
+ 		# Verify we haven't left commands unprocessed.
+-		die "Unprocessed command at line $. of file \`$file': "
++		die "Unprocessed command at line $. of file '$file': "
+ 		    . ($1 ? "$1\n" : "<EOL>\n")
+ 			if /^(?>(?:[^\@]|\@\@)*)\@(\w+|.|$)/;
  
