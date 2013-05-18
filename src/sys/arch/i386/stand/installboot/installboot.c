@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/stand/installboot/installboot.c,v 1.7 2006/04/06 11:07:31 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/stand/installboot/installboot.c,v 1.10 2006/04/07 23:25:29 tg Exp $ */
 /*	$OpenBSD: installboot.c,v 1.47 2004/07/15 21:44:16 tom Exp $	*/
 /*	$NetBSD: installboot.c,v 1.5 1995/11/17 23:23:50 gwr Exp $ */
 
@@ -88,7 +88,7 @@
 #include <unistd.h>
 #include <util.h>
 
-__RCSID("$MirOS: src/sys/arch/i386/stand/installboot/installboot.c,v 1.9 2006/04/07 22:46:45 tg Exp $");
+__RCSID("$MirOS: src/sys/arch/i386/stand/installboot/installboot.c,v 1.10 2006/04/07 23:25:29 tg Exp $");
 
 extern	char *__progname;
 int	verbose, nowrite, nheads, nsectors, userspec = 0;
@@ -339,12 +339,8 @@ main(int argc, char *argv[])
 			fprintf(stderr, "%s: %d entries total (%d bytes)\n",
 			    boot, block_count_p[0], curblocklen);
 
-		if (!nowrite) {
-			if (write(devfd, protostore, protosize) != protosize)
-				err(1, "write bootstrap");
-		}
-		close(devfd);
-		return (0);
+		startoff = 0;
+		goto do_write;
 	}
 
 	if (!S_ISCHR(sb.st_mode))
@@ -385,7 +381,7 @@ main(int argc, char *argv[])
 	if (dl.d_type != 0 && dl.d_type != DTYPE_FLOPPY &&
 	    dl.d_type != DTYPE_VND && !force_mbr) {
 		mbrofs = DOSBBSECTOR;
-loop:		if (read_pt(devfd, mbrofs, &mbr, dl.d_secsize))
+ loop:		if (read_pt(devfd, mbrofs, &mbr, dl.d_secsize))
 			err(4, "can't read partition table");
 
 		if (mbr.dmbr_sign != DOSMBR_SIGNATURE)
@@ -425,12 +421,14 @@ loop:		if (read_pt(devfd, mbrofs, &mbr, dl.d_secsize))
 		mbrofs = get_le(&dp[mbrpart].dp_start);
 		goto loop;
 
-found:		startoff = (off_t)get_le(&dp[mbrpart].dp_start);
+ found:		startoff = (off_t)get_le(&dp[mbrpart].dp_start);
 	}
 
+ do_write:
 	fprintf(stderr, "writing bootblock to sector %ld (0x%lX)\n",
 	    (long) startoff, (unsigned long)startoff);
-	startoff *= dl.d_secsize;
+	if (!imaofs)
+		startoff *= dl.d_secsize;
 
 	*num_heads_p = nheads;
 	*num_secs_p = nsectors;
