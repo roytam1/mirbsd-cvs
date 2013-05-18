@@ -1,5 +1,5 @@
-# $MirOS: src/sys/arch/sparc/conf/RAMDISK,v 1.4 2006/07/05 16:34:04 tg Exp $
-# _MirOS: src/sys/arch/sparc/conf/GENERIC,v 1.8 2006/06/17 19:57:20 tg Exp $
+# $MirOS: src/sys/arch/sparc/conf/RAMDISK,v 1.5 2006/07/05 22:49:15 tg Exp $
+# _MirOS: src/sys/arch/sparc/conf/GENERIC,v 1.10 2006/07/05 22:49:15 tg Exp $
 # $MirBSD: GENERIC,v 1.2.2.5 2003/11/19 16:39:58 tg Exp $
 # $OpenBSD: GENERIC,v 1.75 2004/03/09 15:24:27 miod Exp $
 # $NetBSD: GENERIC,v 1.48 1997/08/23 19:19:01 mjacob Exp $
