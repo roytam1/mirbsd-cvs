@@ -1,5 +1,5 @@
 #!/usr/bin/env mksh
-# $MirOS: src/distrib/baselive/munge_it.sh,v 1.42 2008/10/31 23:43:45 tg Exp $
+# $MirOS: src/distrib/baselive/munge_it.sh,v 1.43 2008/11/01 02:07:46 tg Exp $
 #-
 # Copyright (c) 2006, 2007, 2008
 #	Thorsten “mirabilos” Glaser <tg@mirbsd.de>
@@ -78,7 +78,7 @@ ed -s etc/ntpd.conf <<-'EOMD'
 EOMD
 ed -s etc/rc <<-'EOMD'
 	1i
-		# $MirOS: src/distrib/baselive/munge_it.sh,v 1.42 2008/10/31 23:43:45 tg Exp $
+		# $MirOS: src/distrib/baselive/munge_it.sh,v 1.43 2008/11/01 02:07:46 tg Exp $
 	.
 	/cprng.*pr16/d
 	i
@@ -137,10 +137,6 @@ ed -s etc/rc <<-'EOMD'
 EOMD
 ed -s etc/rc.securelevel <<-'EOMD'
 	/^securelevel/s/1/-1/
-	wq
-EOMD
-ed -s etc/sudoers <<-'EOMD'
-	%g/@ROOT@/s//live/
 	wq
 EOMD
 ed -s etc/sysctl.conf <<-'EOMD'
