@@ -37,7 +37,7 @@
 __COPYRIGHT("@(#) Copyright (c) 1989, 1993, 1994\n\
 	The Regents of the University of California.  All rights reserved.\n");
 __SCCSID("@(#)comm.c	8.4 (Berkeley) 5/4/95");
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.bin/comm/comm.c,v 1.2 2007/07/05 23:09:39 tg Exp $");
 
 #include <err.h>
 #include <limits.h>
@@ -70,7 +70,11 @@ main(int argc, char *argv[])
 #endif
 
 	flag1 = flag2 = flag3 = 1;
+#ifndef __MirBSD__
 	compare = strcoll;
+#else
+	compare = strcmp;
+#endif
 	while ((ch = getopt(argc, argv, "123f")) != -1)
 		switch(ch) {
 		case '1':

@@ -14,7 +14,7 @@
 #include <regex.h>
 #include <err.h>
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/bin/expr/expr.c,v 1.2 2007/07/05 23:09:32 tg Exp $");
 
 struct val	*make_int(int);
 struct val	*make_str(char *);
@@ -374,6 +374,10 @@ eval3(void)
 
 	return l;
 }
+
+#ifdef __MirBSD__
+#define strcoll	strcmp
+#endif
 
 /* Parse and evaluate comparison expressions */
 struct val *
