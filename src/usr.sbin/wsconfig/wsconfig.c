@@ -1,4 +1,4 @@
-/* $MirOS: src/usr.sbin/wsconfig/wsconfig.c,v 1.11 2007/02/18 01:15:11 tg Exp $ */
+/* $MirOS: src/usr.sbin/wsconfig/wsconfig.c,v 1.12 2007/03/04 20:00:51 tg Exp $ */
 
 /*-
  * Copyright (c) 2006, 2007
@@ -35,7 +35,7 @@
 #include <termios.h>
 #include <unistd.h>
 
-__RCSID("$MirOS: src/usr.sbin/wsconfig/wsconfig.c,v 1.11 2007/02/18 01:15:11 tg Exp $");
+__RCSID("$MirOS: src/usr.sbin/wsconfig/wsconfig.c,v 1.12 2007/03/04 20:00:51 tg Exp $");
 
 #define DEFDEV	"/dev/ttyCcfg"
 
@@ -78,6 +78,8 @@ main(int argc, char **argv)
 	int wsfd, c, rv = 0;
 	int action = 0, nr = 0;
 	struct termios tio, otio;
+	fd_set fds;
+	struct timeval tv;
 #ifndef SMALL
 	struct wsdisplay_font f;
 	int q = 0;
@@ -232,16 +234,14 @@ main(int argc, char **argv)
 		if ((size_t)write(wsfd, ctype_qstr, strlen(ctype_qstr)) !=
 		    strlen(ctype_qstr)) {
 			warn("write\r");
-			goto tios_err;
+			goto noin;
 		}
-		/* delay for 50 ms */
-		{
-			struct timeval t;
-
-			t.tv_sec = 0;
-			t.tv_usec = 50 * 1000;
-			select(0, NULL, NULL, NULL, &t);
-		}
+		FD_ZERO(&fds);
+		FD_SET(wsfd, &fds);
+		tv.tv_sec = 2;
+		tv.tv_usec = 0;
+		if (select(wsfd + 1, &fds, NULL, NULL, &tv) <= 0)
+			goto noin;
 		nr = read(wsfd, buf, sizeof (buf));
 		rv = /* unknown */ 1;
 		if (nr > 5 && buf[0] == 033 && buf[1] == '[') {
@@ -254,6 +254,7 @@ main(int argc, char **argv)
 		    !isdigit(buf[c + 1]))
 			rv = buf[c] == '4' ? /* latin1 */ 2 : /* utf-8 */ 0;
 		}
+ noin:
 		write(wsfd, "\r      \r", 8);
  tios_err:
 		if (tcflush(wsfd, TCIOFLUSH))

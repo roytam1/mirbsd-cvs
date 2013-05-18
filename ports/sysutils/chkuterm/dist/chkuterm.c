@@ -1,4 +1,4 @@
-/* $MirOS: ports/sysutils/chkuterm/dist/chkuterm.c,v 1.7 2007/02/11 00:58:58 tg Exp $ */
+/* $MirOS: ports/sysutils/chkuterm/dist/chkuterm.c,v 1.8 2007/03/04 20:00:51 tg Exp $ */
 
 /*-
  * Copyright (c) 2006, 2007
@@ -33,7 +33,7 @@
 
 #ifdef __RCSID
 __RCSID("$miros: src/usr.sbin/wsconfig/wsconfig.c,v 1.14 2007/04/17 23:41:01 tg Exp $");
-__RCSID("$MirOS: ports/sysutils/chkuterm/dist/chkuterm.c,v 1.7 2007/02/11 00:58:58 tg Exp $");
+__RCSID("$MirOS: ports/sysutils/chkuterm/dist/chkuterm.c,v 1.8 2007/03/04 20:00:51 tg Exp $");
 #endif
 
 /* query string sent to the terminal for LC_CTYPE detection */
@@ -52,6 +52,8 @@ main(int argc, char **argv)
 	int wsfd, c, rv = 0;
 	int nr = 0, q = 0;
 	struct termios tio, otio;
+	fd_set fds;
+	struct timeval tv;
 
 	while ((c = getopt(argc, argv, "qU")) != -1)
 		switch (c) {
@@ -87,16 +89,14 @@ main(int argc, char **argv)
 	if ((size_t)write(wsfd, ctype_qstr, strlen(ctype_qstr)) !=
 	    strlen(ctype_qstr)) {
 		warn("write\r");
-		goto tios_err;
+		goto noin;
 	}
-	/* delay for 50 ms */
-	{
-		struct timeval t;
-
-		t.tv_sec = 0;
-		t.tv_usec = 50 * 1000;
-		select(0, NULL, NULL, NULL, &t);
-	}
+	FD_ZERO(&fds);
+	FD_SET(wsfd, &fds);
+	tv.tv_sec = 2;
+	tv.tv_usec = 0;
+	if (select(wsfd + 1, &fds, NULL, NULL, &tv) <= 0)
+		goto noin;
 	nr = read(wsfd, buf, sizeof (buf));
 	rv = /* unknown */ 1;
 	if (nr > 5 && buf[0] == 033 && buf[1] == '[') {
@@ -109,6 +109,7 @@ main(int argc, char **argv)
 		    !isdigit(buf[c + 1]))
 			rv = buf[c] == '4' ? /* latin1 */ 2 : /* utf-8 */ 0;
 	}
+ noin:
 	write(wsfd, "\r      \r", 8);
  tios_err:
 	if (tcflush(wsfd, TCIOFLUSH))
