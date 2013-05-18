@@ -1,7 +1,0 @@
-@c Generated automatically from p-version.h
-@c DO NOT CHANGE THIS FILE MANUALLY!
-
-@set GPCMajor 2
-@set GPCMinor 1
-@set GPCVersion 20060325
-@set GCCVersion 2.8.1, 2.95.x, 3.2.x, 3.3.x or 3.4.x
