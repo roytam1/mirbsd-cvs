@@ -67,10 +67,6 @@
 ./man1/crunchgen.htm
 ./man1/crunchide.htm
 ./man1/ctags.htm
-./man1/ctm.htm
-./man1/ctm_dequeue.htm
-./man1/ctm_rmail.htm
-./man1/ctm_smail.htm
 ./man1/cu.htm
 ./man1/cut.htm
 ./man1/cvs.htm
@@ -109,7 +105,6 @@
 ./man1/fc-cache.htm
 ./man1/fc-list.htm
 ./man1/fdformat.htm
-./man1/fdialog.htm
 ./man1/fgrep.htm
 ./man1/file.htm
 ./man1/file2c.htm
@@ -1011,7 +1006,6 @@
 ./man5/changelist.htm
 ./man5/core.htm
 ./man5/crontab.htm
-./man5/ctm.htm
 ./man5/cvs.htm
 ./man5/dhclient.conf.htm
 ./man5/dhclient.leases.htm
@@ -1043,7 +1037,6 @@
 ./man5/info.htm
 ./man5/inode.htm
 ./man5/intro.htm
-./man5/ipsec.conf.htm
 ./man5/isakmpd.conf.htm
 ./man5/isakmpd.policy.htm
 ./man5/isdnd.acct.htm
@@ -1205,7 +1198,6 @@
 ./man8/httpd.htm
 ./man8/identd.htm
 ./man8/ifconfig.htm
-./man8/ifstated.htm
 ./man8/ifwatchd.htm
 ./man8/inetd.htm
 ./man8/init.htm
@@ -1213,8 +1205,6 @@
 ./man8/intro.htm
 ./man8/iopctl.htm
 ./man8/iostat.htm
-./man8/ipsecadm.htm
-./man8/ipsecctl.htm
 ./man8/isakmpd.htm
 ./man8/isdnd.htm
 ./man8/kbd.htm
@@ -1270,7 +1260,6 @@
 ./man8/ncheck.htm
 ./man8/ncheck_ffs.htm
 ./man8/ndp.htm
-./man8/netgroup_mkdb.htm
 ./man8/netstart.htm
 ./man8/newaliases.htm
 ./man8/newfs.htm

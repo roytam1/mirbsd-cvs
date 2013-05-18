@@ -104,8 +104,6 @@
 ./sbin/ifconfig
 ./sbin/init
 ./sbin/iopctl
-./sbin/ipsecadm
-./sbin/ipsecctl
 ./sbin/isakmpd
 ./sbin/kbd
 ./sbin/ldconfig
@@ -223,7 +221,6 @@
 ./usr/bin/ex
 ./usr/bin/expand
 ./usr/bin/false
-./usr/bin/fdialog
 ./usr/bin/fgrep
 ./usr/bin/file
 ./usr/bin/file2c
@@ -467,7 +464,6 @@
 ./usr/lib/i18n/libmapper_std.so.4.4
 ./usr/lib/i18n/libmapper_zone.so.4.4
 ./usr/lib/libc.so.38.4
-./usr/lib/libcdk.so.2.0
 ./usr/lib/libcrypto.so.13.1
 ./usr/lib/libcurses.so.12.0
 ./usr/lib/libdes.so.11.0
@@ -677,10 +673,6 @@
 ./usr/sbin/cron
 ./usr/sbin/cryptoadm
 ./usr/sbin/cryptoinit
-./usr/sbin/ctm
-./usr/sbin/ctm_dequeue
-./usr/sbin/ctm_rmail
-./usr/sbin/ctm_smail
 ./usr/sbin/dev_mkdb
 ./usr/sbin/dhcpd
 ./usr/sbin/dhcrelay
@@ -688,7 +680,6 @@
 ./usr/sbin/faithd
 ./usr/sbin/fdformat
 ./usr/sbin/httpd
-./usr/sbin/ifstated
 ./usr/sbin/ifwatchd
 ./usr/sbin/inetd
 ./usr/sbin/iostat
@@ -701,13 +692,11 @@
 ./usr/sbin/mailwrapper
 ./usr/sbin/map-mbone
 ./usr/sbin/memconfig
-./usr/sbin/mkctm
 ./usr/sbin/mrinfo
 ./usr/sbin/mrouted
 ./usr/sbin/mtrace
 ./usr/sbin/mtree
 ./usr/sbin/ndp
-./usr/sbin/netgroup_mkdb
 ./usr/sbin/ntpd
 ./usr/sbin/openssl
 ./usr/sbin/pac
@@ -1599,10 +1588,6 @@
 ./usr/share/man/cat1/crunchgen.0
 ./usr/share/man/cat1/crunchide.0
 ./usr/share/man/cat1/ctags.0
-./usr/share/man/cat1/ctm.0
-./usr/share/man/cat1/ctm_dequeue.0
-./usr/share/man/cat1/ctm_rmail.0
-./usr/share/man/cat1/ctm_smail.0
 ./usr/share/man/cat1/cu.0
 ./usr/share/man/cat1/cut.0
 ./usr/share/man/cat1/date.0
@@ -1628,7 +1613,6 @@
 ./usr/share/man/cat1/expr.0
 ./usr/share/man/cat1/false.0
 ./usr/share/man/cat1/fdformat.0
-./usr/share/man/cat1/fdialog.0
 ./usr/share/man/cat1/fgrep.0
 ./usr/share/man/cat1/file.0
 ./usr/share/man/cat1/file2c.0
@@ -2218,7 +2202,6 @@
 ./usr/share/man/cat5/changelist.0
 ./usr/share/man/cat5/core.0
 ./usr/share/man/cat5/crontab.0
-./usr/share/man/cat5/ctm.0
 ./usr/share/man/cat5/dhclient.conf.0
 ./usr/share/man/cat5/dhclient.leases.0
 ./usr/share/man/cat5/dhcp-options.0
@@ -2247,7 +2230,6 @@
 ./usr/share/man/cat5/inetd.conf.0
 ./usr/share/man/cat5/inode.0
 ./usr/share/man/cat5/intro.0
-./usr/share/man/cat5/ipsec.conf.0
 ./usr/share/man/cat5/isakmpd.conf.0
 ./usr/share/man/cat5/isakmpd.policy.0
 ./usr/share/man/cat5/isdnd.acct.0
@@ -2401,7 +2383,6 @@
 ./usr/share/man/cat8/httpd.0
 ./usr/share/man/cat8/identd.0
 ./usr/share/man/cat8/ifconfig.0
-./usr/share/man/cat8/ifstated.0
 ./usr/share/man/cat8/ifwatchd.0
 ./usr/share/man/cat8/inetd.0
 ./usr/share/man/cat8/init.0
@@ -2409,8 +2390,6 @@
 ./usr/share/man/cat8/intro.0
 ./usr/share/man/cat8/iopctl.0
 ./usr/share/man/cat8/iostat.0
-./usr/share/man/cat8/ipsecadm.0
-./usr/share/man/cat8/ipsecctl.0
 ./usr/share/man/cat8/isakmpd.0
 ./usr/share/man/cat8/isdnd.0
 ./usr/share/man/cat8/kbd.0
@@ -2462,7 +2441,6 @@
 ./usr/share/man/cat8/ncheck.0
 ./usr/share/man/cat8/ncheck_ffs.0
 ./usr/share/man/cat8/ndp.0
-./usr/share/man/cat8/netgroup_mkdb.0
 ./usr/share/man/cat8/netstart.0
 ./usr/share/man/cat8/newfs.0
 ./usr/share/man/cat8/newfs_msdos.0
@@ -2634,6 +2612,7 @@
 ./usr/share/misc/terminfo.db
 ./usr/share/misc/units.lib
 ./usr/share/misc/usb_hid_usages
+./usr/share/misc/utf-8-demo
 ./usr/share/misc/vgrindefs
 ./usr/share/misc/vgrindefs.db
 ./usr/share/misc/zipcodes
