@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/dev/rnd.c,v 1.48 2008/12/26 19:58:06 tg Exp $ */
+/**	$MirOS: src/sys/dev/rnd.c,v 1.49 2009/01/21 19:46:53 tg Exp $ */
 /*	$OpenBSD: rnd.c,v 1.78 2005/07/07 00:11:24 djm Exp $	*/
 
 /*
@@ -405,7 +405,8 @@ struct rand_event {
 	u_int re_val;
 };
 
-struct timeout rnd_timeout, arc4_timeout, rnd_addpool_timeout;
+struct timeout rnd_timeout, rnd_addpool_timeout;
+struct timeout arc4reinit_timeout, arc4add_timeout;
 struct random_bucket random_state;
 struct arc4_stream arc4random_state;
 struct timer_rand_state rnd_states[RND_SRC_NUM];
@@ -497,10 +498,13 @@ void extract_entropy(register u_int8_t *, int)
     __attribute__((bounded (string, 1, 2)));
 
 static u_int8_t arc4_getbyte(void);
+static void arc4_addrandom(register const uint8_t *, size_t)
+    __attribute__((bounded (string, 1, 2)));
 void arc4_stir(void);
 void arc4_reinit(void *v);
 static void arc4maybeinit(void);
 static void rnd_addpool_reinit(void *);
+static void arc4_depool(void *);
 
 /* Arcfour random stream generator.  This code is derived from section
  * 17.1 of Applied Cryptography, second edition, which describes a
@@ -547,7 +551,7 @@ void
 arc4_stir(void)
 {
 	u_int8_t buf[256];
-	register u_int8_t si, cf;
+	register u_int8_t cf;
 	register int n, s;
 	int len;
 
@@ -561,7 +565,6 @@ arc4_stir(void)
 	len += sizeof (struct timeval);
 
 	s = splhigh();
-	arc4random_state.i--;
 	if ((initial_entropy_ptr >= 0) /* initialised */ &&
 	    (initial_entropy_ptr < sizeof (initial_entropy)) /* not full */ &&
 	    (random_state.entropy_count > 8) /* some real entropy left */) {
@@ -584,15 +587,7 @@ arc4_stir(void)
 		bzero(initial_entropy, sizeof (initial_entropy));
 		initial_entropy_ptr = 0;
 	}
-	for (n = 0; n < 256; n++) {
-		arc4random_state.i++;
-		si = arc4random_state.s[arc4random_state.i];
-		arc4random_state.j += si + buf[n];
-		arc4random_state.s[arc4random_state.i] =
-		    arc4random_state.s[arc4random_state.j];
-		arc4random_state.s[arc4random_state.j] = si;
-	}
-	arc4random_state.j = arc4random_state.i;
+	arc4_addrandom(buf, sizeof (buf));
 	arc4random_state.cnt = 0;
 	rndstats.arc4_stirs += len;
 	rndstats.arc4_nstirs++;
@@ -613,7 +608,7 @@ static void
 arc4maybeinit(void)
 {
 	if (!arc4random_initialised && rnd_attached) {
-		timeout_add(&arc4_timeout, arc4random_seedfreq);
+		timeout_add(&arc4reinit_timeout, arc4random_seedfreq);
 		arc4random_initialised++;
 		arc4_stir();
 	}
@@ -711,7 +706,8 @@ randomattach(void)
 	}
 
 	timeout_set(&rnd_timeout, dequeue_randomness, &random_state);
-	timeout_set(&arc4_timeout, arc4_reinit, NULL);
+	timeout_set(&arc4reinit_timeout, arc4_reinit, NULL);
+	timeout_set(&arc4add_timeout, arc4_depool, NULL);
 	timeout_set(&rnd_addpool_timeout, rnd_addpool_reinit, NULL);
 
 	random_state.add_ptr = 0;
@@ -749,6 +745,7 @@ randomattach(void)
 	initial_entropy_ptr = 0;
 
 	timeout_add(&rnd_addpool_timeout, hz);
+	timeout_add(&arc4add_timeout, hz << 6);
 }
 
 int
@@ -1020,8 +1017,7 @@ extract_entropy(register u_int8_t *buf, int nbytes)
 			    1);
 			recursively_called = 0;
 			splx(s);
-		} else
-			arc4_reinit(NULL);
+		}
 	}
 
 	while (nbytes) {
@@ -1369,4 +1365,48 @@ rnd_addpool_reinit(void *v)
 		enqueue_randomness(RND_SRC_POOL, j ^ arc4random());
 
 	timeout_add(&rnd_addpool_timeout, (hz >> 1) + arc4random_uniform(hz));
+}
+
+static void
+arc4_depool(void *v __attribute__((unused)))
+{
+	if (rnd_attached &&
+	    arc4random_initialised /* otherwise we stir fully */ &&
+	    random_state.entropy_count > 256 /* >32 bytes left */) {
+		union {
+			uint8_t arr[1];
+			struct {
+				struct timeval tv;
+				uint8_t ent[8];
+			} st;
+		} buf;
+		int s;
+
+		microtime(&buf.st.tv);
+		get_random_bytes(buf.st.ent, sizeof (buf.st.ent));
+		s = splhigh();
+		arc4_addrandom(buf.arr, sizeof (buf));
+		splx(s);
+	}
+
+	/* 64 ±32 seconds */
+	timeout_add(&arc4add_timeout, (hz << 5) + arc4random_uniform(hz << 6));
+}
+
+static void
+arc4_addrandom(register const uint8_t *buf, size_t len)
+{
+	register uint8_t si;
+	register int n;
+
+	arc4random_state.i--;
+	for (n = 0; n < 256; n++) {
+		arc4random_state.i++;
+		si = arc4random_state.s[arc4random_state.i];
+		arc4random_state.j += si + buf[n % len];
+		arc4random_state.s[arc4random_state.i] =
+		    arc4random_state.s[arc4random_state.j];
+		arc4random_state.s[arc4random_state.j] = si;
+	}
+	arc4random_state.j = arc4random_state.i;
 }
