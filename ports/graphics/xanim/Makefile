@@ -1,6 +1,7 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.19 2003/04/23 08:30:05 sturm Exp $
 
-COMMENT=			X11 animation player with support for lots of formats
+COMMENT=	X11 animation player with support for lots of formats
 
 DISTNAME=xanim-2.80.1
 PKGNAME=${DISTNAME}-1
@@ -57,6 +58,7 @@ post-extract:
 post-configure:
 	ln ${WRKSRC}/docs/xanim.man ${WRKSRC}
 
+USE_X11=		Yes
 CONFIGURE_STYLE=	imake
 DOCDIR=${PREFIX}/share/doc/xanim
 

@@ -1,7 +1,7 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.23 2002/10/27 00:03:17 naddy Exp $
-# Original from: Marco S Hyman <marc@OpenBSD.ORG>
 
-COMMENT=			X11 image display and modification tool
+COMMENT=	X11 image display and modification tool
 
 DISTNAME=	xv-3.10a
 CATEGORIES=	graphics x11
@@ -34,6 +34,7 @@ PERMIT_DISTFILES_CDROM=	"Must buy license"
 PERMIT_DISTFILES_FTP=	Yes
 
 CONFIGURE_STYLE= imake
+USE_X11=	Yes
 
 pre-patch:
 	@${PATCH} ${PATCH_ARGS} -p1 < ${WRKDIR}/xcmap.diff
