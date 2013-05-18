@@ -1,20 +1,19 @@
-/* $MirOS: contrib/code/Snippets/tinyirc.c,v 1.1.7.1 2005/02/05 02:36:15 tg Exp $ */
+/* $MirOS: contrib/code/Snippets/tinyirc.c,v 1.2 2006/01/13 03:49:28 tg Exp $ */
 
 /* Configuration options */
-static char *DEFAULTSERVER = "217.160.142.142";
-/*			reads: irc6.oftc.net         */
+static char *DEFAULTSERVER = "irc.mirbsd.org";
 /* please change the default server to one near you. */
-#define DEFAULTPORT	6667
+#define DEFAULTPORT	6666
 #define COMMANDCHAR	'/'
 /* each line of history adds 512 bytes to resident size */
 #define HISTLEN		8
-#define RELEASE_L	"TinyIRC pre1.0-mirabile-MirOS-contrib"
+#define RELEASE_L	"TinyIRC 20060521 MirOS-contrib"
 #define RELEASE_S	"TinyIRC MirOS"
 /* tinyirc 1.0
 
    TinyIRC Alpha Release
    Copyright (C) 1994 Nathan I. Laredo
-   Copyright (c) 1999-2004 Thorsten Glaser
+   Copyright (c) 1999-2006 Thorsten Glaser
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License Version 1
@@ -25,6 +24,15 @@ static char *DEFAULTSERVER = "217.160.142.142";
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 
+   Licensor offers the work "AS IS" and WITHOUT WARRANTY of any kind,
+   express, or implied, to the maximum extent permitted by applicable
+   law, without malicious intent or gross negligence; in no event may
+   licensor, an author or contributor be held liable for any indirect
+   or other damage, or direct damage except proven a consequence of a
+   direct error of said person and intended use of this work, loss or
+   other issues arising in any way out of its use, even if advised of
+   the possibility of such damage or existence of a nontrivial bug.
+
    You should have received a copy of the GNU General Public License
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
@@ -34,9 +42,7 @@ static char *DEFAULTSERVER = "217.160.142.142";
    Plano, TX 75074, USA.  Any donations are welcome.
 
 
-   Please do not forget to donate to the OpenBSD project
-   at http://www.OpenBSD.org/ - the daemons will thank you.
-   While you're at it, visit the MirBSD project pages
+   Please visit the MirBSD project pages
    at http://mirbsd.de/ or http://mirbsd.org/
 
    Missing features:
@@ -84,7 +90,7 @@ static char *DEFAULTSERVER = "217.160.142.142";
 #define __RCSID(x)	static const char _rcsid[] = (x)
 #endif
 
-__RCSID("$MirOS: contrib/code/Snippets/tinyirc.c,v 1.1.7.1 2005/02/05 02:36:15 tg Exp $");
+__RCSID("$MirOS: contrib/code/Snippets/tinyirc.c,v 1.2 2006/01/13 03:49:28 tg Exp $");
 
 struct dlist {
     char name[64];
