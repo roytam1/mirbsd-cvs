@@ -1,3 +1,0 @@
-# $MirOS$
-
-LINK	instbin					sbin/mount_ext2fs
