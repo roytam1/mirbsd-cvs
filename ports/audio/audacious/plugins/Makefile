@@ -1,8 +1,8 @@
-# $MirOS: ports/audio/audacious/plugins/Makefile,v 1.3 2007/02/22 22:57:43 tg Exp $
+# $MirOS: ports/audio/audacious/plugins/Makefile,v 1.4 2007/03/20 19:44:27 bsiegert Exp $
 
 COMMENT=		plugins package for audacious
 DISTNAME=		audacious-plugins-1.2.5
-DASH_VER=		2
+DASH_VER=		3
 CATEGORIES=		audio
 
 LIB_DEPENDS+=		audacious.4.0::audio/audacious/player
@@ -12,9 +12,10 @@ LIB_DEPENDS+=		tag,tag_c::audio/taglib
 LIB_DEPENDS+=		ogg::audio/libogg
 LIB_DEPENDS+=		vorbis,vorbisfile::audio/libvorbis
 LIB_DEPENDS+=		nemesi::audio/libnms
-#LIB_DEPENDS+=		FLAC::audio/flac
+LIB_DEPENDS+=		FLAC::audio/flac
 LIB_DEPENDS+=		SDL::devel/sdl
 LIB_DEPENDS+=		audiofile::devel/libaudiofile
+LIB_DEPENDS+=		esd::audio/esound
 LIB_DEPENDS+=		curl::net/curl
 
 CONFIGURE_ARGS+=	${CONFIGURE_SHARED}

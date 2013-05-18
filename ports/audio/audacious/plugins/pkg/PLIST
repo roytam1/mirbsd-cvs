@@ -1,4 +1,4 @@
-@comment $MirOS: ports/audio/audacious/plugins/pkg/PLIST,v 1.1 2006/11/25 23:21:54 bsiegert Exp $
+@comment $MirOS: ports/audio/audacious/plugins/pkg/PLIST,v 1.2 2007/03/20 19:44:27 bsiegert Exp $
 lib/audacious/Container/libm3u.so
 lib/audacious/Container/libpls.so
 lib/audacious/Container/libxspf.so
@@ -15,7 +15,7 @@ lib/audacious/Input/libalac.so
 lib/audacious/Input/libcdaudio.so
 lib/audacious/Input/libconsole.so
 lib/audacious/Input/libcuesheet.so
-@comment lib/audacious/Input/libflac.so
+lib/audacious/Input/libflac.so
 lib/audacious/Input/libmpg123.so
 lib/audacious/Input/libsexypsf.so
 lib/audacious/Input/libtonegen.so
