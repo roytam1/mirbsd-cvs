@@ -1,4 +1,4 @@
-.\"	$MirOS: src/usr.sbin/rdate/rdate.8,v 1.4 2006/05/29 23:38:32 tg Exp $
+.\"	$MirOS: src/usr.sbin/rdate/rdate.8,v 1.5 2006/08/28 13:15:44 tg Exp $
 .\"	$OpenBSD: rdate.8,v 1.29 2004/07/09 19:33:08 jmc Exp $
 .\"	$NetBSD: rdate.8,v 1.4 1996/04/08 20:55:17 jtc Exp $
 .\"
@@ -31,7 +31,7 @@
 .\" (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
 .\" THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .\"
-.Dd August 28, 2006
+.Dd $Mdocdate$
 .Dt RDATE 8
 .Os
 .Sh NAME
@@ -40,6 +40,7 @@
 .Sh SYNOPSIS
 .Nm rdate
 .Op Fl 46adnprsv
+.Op Fl P Ar ntpport
 .Ar host
 .Sh DESCRIPTION
 .Nm
@@ -73,6 +74,13 @@ Debug the SNTP exchange.
 If given twice, debug each packet received.
 .It Fl n
 Use SNTP (RFC 2030) instead of the RFC 868 time protocol.
+.It Fl P Ar ntpport
+With
+.Fl n ,
+use the UDP port
+.Ar ntpport
+instead of the default
+.Dv 123 .
 .It Fl p
 Do not set, just print the remote time.
 .It Fl r

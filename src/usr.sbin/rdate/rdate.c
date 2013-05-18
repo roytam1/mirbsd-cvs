@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.sbin/rdate/rdate.c,v 1.8 2007/05/14 22:11:44 tg Exp $ */
+/**	$MirOS: src/usr.sbin/rdate/rdate.c,v 1.9 2007/07/08 15:00:30 tg Exp $ */
 /*	$OpenBSD: rdate.c,v 1.22 2004/02/18 20:10:53 jmc Exp $	*/
 /*	$NetBSD: rdate.c,v 1.4 1996/03/16 12:37:45 pk Exp $	*/
 
@@ -60,10 +60,10 @@
 #define	logwtmp(a,b,c)	/* nothing */
 #endif
 
-__RCSID("$MirOS: src/usr.sbin/rdate/rdate.c,v 1.8 2007/05/14 22:11:44 tg Exp $");
+__RCSID("$MirOS: src/usr.sbin/rdate/rdate.c,v 1.9 2007/07/08 15:00:30 tg Exp $");
 
 void rfc868time_client(const char *, int, struct timeval *, struct timeval *);
-void ntp_client(const char *, int, struct timeval *, struct timeval *);
+void ntp_client(const char *, int, struct timeval *, struct timeval *, int);
 static void usage(void) __attribute__((noreturn));
 
 extern const char *__progname;
@@ -73,7 +73,7 @@ static void
 usage(void)
 {
 	fprintf(stderr,
-	    "Usage: %s [-46acdnpsv] host\n"
+	    "Usage: %s [-46acdnpsv] [-P ntpport] host\n"
 #ifndef SMALL
 	    "	-4: use IPv4 only\n"
 	    "	-6: use IPv6 only\n"
@@ -93,14 +93,14 @@ int
 main(int argc, char **argv)
 {
 	int             pr = 0, silent = 0, ntp = 0, verbose = 0;
-	int		slidetime = 0, showremainder = 0;
+	int		slidetime = 0, showremainder = 0, portno = 0;
 	char           *hname;
 	int             c;
 	int		family = PF_UNSPEC;
 
 	struct timeval new, adjust, remainder;
 
-	while ((c = getopt(argc, argv, "46acdnprsv")) != -1)
+	while ((c = getopt(argc, argv, "46acdnP:prsv")) != -1)
 		switch (c) {
 		case '4':
 			family = PF_INET;
@@ -108,6 +108,12 @@ main(int argc, char **argv)
 
 		case '6':
 			family = PF_INET6;
+			break;
+
+		case 'P':
+			portno = atoi(optarg);
+			if (portno < 1 || portno > 65535)
+				errx(1, "port number %s out of range", optarg);
 			break;
 
 		case 'p':
@@ -151,7 +157,7 @@ main(int argc, char **argv)
 	hname = argv[optind];
 
 	if (ntp)
-		ntp_client(hname, family, &new, &adjust);
+		ntp_client(hname, family, &new, &adjust, portno);
 	else
 		rfc868time_client(hname, family, &new, &adjust);
 

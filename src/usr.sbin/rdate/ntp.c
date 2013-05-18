@@ -31,6 +31,7 @@
 
 #include <sys/param.h>
 #include <sys/socket.h>
+#include <sys/taitime.h>
 #include <sys/time.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
@@ -49,7 +50,7 @@
 #include <time.h>
 #include <unistd.h>
 
-__RCSID("$MirOS: src/usr.sbin/rdate/ntp.c,v 1.9 2007/05/14 22:06:51 tg Exp $");
+__RCSID("$MirOS: src/usr.sbin/rdate/ntp.c,v 1.10 2007/07/05 22:32:25 tg Exp $");
 
 /* This macro is not implemented on all operating systems */
 #ifndef	SA_LEN
@@ -125,7 +126,7 @@ struct ntp_data {
 	u_int64_t	xmitck;
 };
 
-void	ntp_client(const char *, int, struct timeval *, struct timeval *);
+void	ntp_client(const char *, int, struct timeval *, struct timeval *, int);
 int	sync_ntp(int, const struct sockaddr *, double *, double *);
 int	write_packet(int, struct ntp_data *);
 int	read_packet(int, struct ntp_data *, double *, double *);
@@ -139,11 +140,16 @@ extern int debug;
 
 void
 ntp_client(const char *hostname, int family, struct timeval *new,
-    struct timeval *adjust)
+    struct timeval *adjust, int sport)
 {
 	struct addrinfo hints, *res0, *res;
 	double offset, error;
 	int accepts = 0, ret, s, ierror;
+	union {
+		struct sockaddr *s_sa;
+		struct sockaddr_in *s_in;
+		struct sockaddr_in6 *s_in6;
+	} sun;
 
 	memset(&hints, 0, sizeof(hints));
 	hints.ai_family = family;
@@ -159,6 +165,18 @@ ntp_client(const char *hostname, int family, struct timeval *new,
 		s = socket(res->ai_family, res->ai_socktype, res->ai_protocol);
 		if (s < 0)
 			continue;
+
+		if (sport) {
+			sun.s_sa = res->ai_addr;
+			switch (sun.s_sa->sa_family) {
+			case AF_INET:
+				sun.s_in->sin_port = htons(sport);
+				break;
+			case AF_INET6:
+				sun.s_in6->sin6_port = htons(sport);
+				break;
+			}
+		}
 
 		ret = sync_ntp(s, res->ai_addr, &offset, &error);
 		if (ret < 0) {
