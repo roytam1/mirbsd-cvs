@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.271 2009/12/29 20:52:54 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.272 2010/01/01 14:17:08 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -5902,4 +5902,35 @@ Tag: debian
  staircase, I pity the neighbour’s cats) when one wants to hack… Finally,
  I *loathe* CDBS. Debhelper <a
  href="http://xana.scru.org/xana2/parabola/carhelper/">v5</a> rules!</p>
+<p>Oh, and I also was under the impression that “Firstname LASTNAME” was
+ a French thing, and to a much lesser extent Asian. (@bubulle)</p>
+----
+Title: catching up the TODO
+Author: tg@
+Date: 01.01.2010 20:46
+
+<p>Wow. Cleaned up <a href="@@RELPATH@@mksh.htm">mksh</a>, did NMUs for <a
+ href="https://nm.debian.org/nmstatus.php?email=tg%40mirbsd.org">T&amp;S
+ 1</a>, tested nwcc, validated mksh-current (what will be the base of R39b)
+ on HP-UX, but there’s still a lot of things I need to do. A new MirBSD
+ snapshot awaits, more ports fixes, new LLVM, I’ve got to fix the typos I
+ <a href="@@RELPATH@@permalinks/wlog-10_e20091227-tg.htm">found</a>, and
+ much more. And it’s already this late. At least I feel like I’ve achieved
+ somewhat much ☺ I somehow need to put an order or priorities to tasks.</p>
+<p>The 26C3 gang has also returned, with delays that seem funny to those
+ not involved… and tonight snow came back as well. Benny still works on
+ the pkgtools configuration stuff. I wonder how much effort it would be
+ to patch both pkgtools and apt to play together optionally… we wouldn’t
+ lose that what pkgtools already have as high-level functionality, gain
+ some of dpkg’s low-level functionality (must be reimplemented though),
+ and for these who want, a (GPL’d…) high-level tool for binary package
+ management.</p>
+<p><a href="https://www.freewrt.org/">FreeWRT</a> is also slowly gaining
+ a little more traction, even from its founder (who asserts that FreeWRT
+ 1.0-stable is the only OS for WRT-like devices that does WDS correctly,
+ and feeds us patches). I still think we need MirWRT ☺ with a ports-like
+ instead of buildroot-based system, but will never have enough time and
+ interest to do that…</p>
+<p>And: our <a href="@@ABSPATH@@/cvs.cgi/www/">website source code</a> is
+ in fact superiour to many others ☻ and quite extensible and flexible…</p>
 ----

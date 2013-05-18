@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.304 2009/12/12 22:41:05 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.305 2010/01/01 14:45:40 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -44,10 +44,10 @@ mws_content <<'EOF'
 <p>The current version of mksh is <strong>mksh R39</strong> from
  <em>2 August 2009</em>.</p>
 <p>Thanks to “Der Verein <a href="http://www.trash.net/verein/">trash.net</a>”
- for sponsoring access to a Solaris 8 box. Thanks to HP TestDrive, which helps
- in keeping mksh portable to several Unixes and compilers, and track down some
- architecture- or glibc-specific bugs. Thanks to Julian “yofuh” Wiesener for
- just another account on a Sun E420 on Solaris 11β. Thanks to someone who
+ for sponsoring access to a Solaris 8 box. Thanks to HP TestDrive/PvP, which
+ helps in keeping mksh portable to several Unixes and compilers, and track down
+ some architecture- or glibc-specific bugs. Thanks to Julian “yofuh” Wiesener
+ for just another account on a Sun E420 on Solaris 11β. Thanks to someone who
  prefers to stay anonymous due to tons of red tape for providing access to an
  AIX 5.3 system with gcc and xlC installed. Thanks to gnubber’s admin (Barry
  “bddebian” deFreese), as well as Samuel “youpi” Thibault, for providing shell
@@ -400,7 +400,8 @@ mws_content <<'EOF'
 
 <h5 id="oe_nwcc">Compiler: nwcc</h5>
 <p>Support for nwcc appeared in mksh R36b. nwcc 0.7.9 can build mksh
- R39; vendor is working on fixing the remaining non-critical issues.</p>
+ R39; vendor is working on fixing the remaining non-critical issues.
+ nwcc_0.8-091027 (unstable) and mksh R39b work well together.</p>
 
 <h5 id="oe_pcc">Compiler: PCC (BSD)</h5>
 <p>Support for the Caldera/SCO UNIX® based, BSD-licenced portable C compiler
@@ -775,78 +776,43 @@ mws_content <<'EOF'
  developers; please keep this in mind.</p>
 
 <h2 id="regress">Official Testing</h2>
-<p>The MirOS Project has tested mksh on the following operating systems,
- asked people to test, and hunted mksh down in these packaging systems:</p>
-<h3 id="regress_dev">Development Versions post release</h3>
-<ul>
-<li style="list-style:none;">– tests by the project, using Makefile –</li>
- <li>MirOS #10-current (i386 gcc3.4.6)</li>
- <li>MirOS #10-current (sparc gcc3.4.6)</li>
-<li style="list-style:none;">– tests by the project, using Build.sh –</li>
- <li>AIX 5.3 (powerpc gcc4.0.0_powerpc-ibm-aix5.1.0.0, LD 1.65 04/06/2005)</li>
- <li>AIX 5.3 32-bit (powerpc xlC9.0 070428, LD 1.65 04/06/2005)</li>
- <li>AIX 5.3 64-bit (powerpc xlC9.0 070428, LD 1.65 04/06/2005)</li>
- <li>HP-UX 11i v3 B.11.31 U ia64 (IA64 aCC B3910B A.06.15 [May 16 2007], ld B.12.49.02 92453-07) (64-bit)</li>
- <li>HP-UX 11i v3 B.11.31 U ia64 (IA64 aCC B3910B A.06.15 [May 16 2007], ld B.12.49.02 92453-07) (32-bit)</li>
- <li>HP-UX 11i v3 B.11.31 U ia64 (IA64 ccs B3910B A.06.12 [Oct 11 2006], ld B.12.49.02 92453-07) (32-bit)</li>
- <li>Solaris 10 Generic_137111-08 sun4u (sparc gcc3.4.6)</li>
- <li>Solaris 10 Generic_137111-08 sun4u (sparc64 gcc3.4.6)</li>
- <li>Solaris 10 Generic_137111-08 sun4u (sparc:V8+ SUNWcc5.9 124867-08 2008/10/07, ld 5.10-1.489)</li>
- <li>Solaris 10 Generic_137111-08 sun4u (sparc64 SUNWcc5.9 124867-08 2008/10/07, ld 5.10-1.489)</li>
- <li>Cygwin_NT-5.0 1.5.25(0.156/4/2) 2008-06-11 19:34 i586 win2kSP2 (i386 gcc3.4.4)</li>
- <li>Debian GNU sid GNU-Mach 1.3.99/Hurd-0.3 i686-AT386 (i386 gcc4.3.3-12)</li>
- <li>Android-3 GNU/Linux 1.5 (emulator) ARMv5TE Thumb (arm-eabi gcc4.2.1 +bionic) <em>without</em> testsuite check</li>
- <li>Debian GNU/Linux sid 2.6.18-6-686 (i386 gcc4.5.0-r150388 gcc-snapshot_20090803-1) <em>but <tt>-combine</tt> is _still_ broken again *sigh…*</em></li>
-<!--
-<li style="list-style:none;">– other build system integration –</li>
--->
-</ul>
-<h3 id="regress_rel">Current Release</h3>
+<p>The MirOS Project has tested various versions of mksh on the following
+ operating systems, asked people to test, and hunted mksh down in these
+ packaging systems:</p>
 <ul>
 <li style="list-style:none;">– tests by the project, using Makefile –</li>
  <li>MirOS #10-current (i386 gcc3.4.6)</li>
  <li>MirOS #10-current (sparc gcc3.4.6)</li>
 <li style="list-style:none;">– tests by the project, using Build.sh –</li>
  <li>MirOS #10-current (i386 gcc3.4.6)</li>
- <li>MirOS #7-stable (sparc gcc2.95.3-078E)</li>
- <li>DEC OSF/1 X2.0-8 (Rev. 155) (mips cc3.0 ucode ld3.0) <em>without</em> testsuite check</li>
- <li>DEC ULTRIX 4.5 0 RISC (mips cc3.0 ucode ld3.0)</li>
- <li>HP Tru64 OSF/1 V5.1B 2650 (alpha Compaq C V6.5-011 Rev. 2650)</li>
- <li>Debian GNU/Linux sid 2.6.18-6-686 (i386 gcc4.4.1-1)</li>
- <li>Debian GNU/Linux sid 2.6.18-6-686 (i386 nwcc0.7.9)</li>
- <li>Debian GNU/Linux sid 2.6.18-6-686 (i386 TenDRA-4.1.2-18)</li>
- <li>ecce!GNU/Linux 1.00 2.0.38a (i386 libc5 gcc2.7.2.3) <em>with</em> HAVE_SETLOCALE_CTYPE=0 (libc5)</li>
-<li style="list-style:none;">– tests by third parties (Build.sh) –</li>
- <li>Mac OSX Snow Leopard Server 10.6.1 (10B504) Darwin 10.0.0 (i386 gcc4.2.1-Apple_5646) by smultron@ (Lukas U.) <em>without</em> testsuite check</li>
- <li>Android + OpenADK GNU/Linux 2.6.27-00393-g6607056 ARMv6TEJ (armel gcc4.4.1-cross +eglibc-static) by wbx@ (Waldemar Brodkorb) <em>without</em> testsuite check</li>
-<li style="list-style:none;">– other build system integration –</li>
- <li>See the <a href="#otheros">Inclusion</a> section for general information</li>
- <li>Debian GNU/Linux sid 2.6.18-6-686 (i386 gcc4.3.3-15 +eglibc2.9-23) <em>via Debian package</em></li>
- <li>Debian GNU/Linux sid 2.6.18-6-686 (i386 gcc4.3.3-15 +dietlibc0.31-1.2) <em>via Debian package</em></li>
- <li>Debian GNU/Linux sid 2.6.18-6-686 (i386 gcc4.3.3-15 +klibc1.5.15-2~tg+1) <em>via Debian package</em></li>
-</ul>
-<h3 id="regress_old">Older Versions</h3>
-<ul>
-<!--
-<li style="list-style:none;">– tests by the project, using Makefile –</li>
--->
-<li style="list-style:none;">– tests by the project, using Build.sh –</li>
  <li>MirOS #10-current (i386 clang58935mp0 llvm58935mp0)</li>
  <li>MirOS #10-current (i386 clang58935mp0 opt+llc+llvm58935mp0)</li>
  <li>MirOS #10-current (i386 llvmgcc4.2.1-Apple_5627mp2 llvm58935mp0)</li>
  <li>MirOS #10-current (i386 llvmgcc4.2.1-Apple_5627mp2 opt+llc+llvm58935mp0)</li>
+ <li>MirOS #10-current (i386 nwcc0.8.99.091027)</li>
  <li>MirOS #10-current (i386 pcc20081028-MirPorts-1)</li>
  <li>MirOS #10-current (i386 pcc20090522-cvs)</li>
  <li>MirOS #10-current (i386 SUNWcc5.9 Linux_i386 2007/05/03, GNU ld 2.13.90.0.2 20020802)</li>
+ <li>MirOS #7-stable (sparc gcc2.95.3-078E)</li>
  <li>BSDi BSD/OS 3.1 #4 M300-043 (i386 gcc2.7.2.1)</li>
  <li>BSDi BSD/OS 3.1 #4 M300-043 (i386 gcc1.42)</li>
- <li>DragonFly 1.9-DEVELOPMENT Feb 17, 2007 (i386 gcc3.4.6)</li>
- <li>FreeBSD 6.2-RELEASE (i386 gcc3.4.6-20060305)</li>
  <li>MidnightBSD 0.2.1-RELEASE-p2 (i386 pcc20081028-MirPorts-0)</li>
+ <li>MidnightBSD 0.3-CURRENT (i386 gcc4.2.1-20070719)</li>
  <li>MidnightBSD 0.3-CURRENT (i386 gcc3.4.6-20080430)</li>
  <li>NetBSD 3.0_STABLE (i386 gcc3.3.3_nb3_20040520)</li>
  <li>OpenBSD 4.3 GENERIC#207 (zaurus gcc3.3.5)</li>
+ <li>AIX 5.3 (powerpc gcc4.0.0_powerpc-ibm-aix5.1.0.0, LD 1.65 04/06/2005)</li>
+ <li>AIX 5.3 32-bit (powerpc xlC9.0 070428, LD 1.65 04/06/2005)</li>
+ <li>AIX 5.3 64-bit (powerpc xlC9.0 070428, LD 1.65 04/06/2005)</li>
+ <li>DEC OSF/1 X2.0-8 (Rev. 155) (mips cc3.0 ucode ld3.0) <em>without</em> testsuite check</li>
+ <li>DEC ULTRIX 4.5 0 RISC (mips cc3.0 ucode ld3.0)</li>
+ <li>HP Tru64 OSF/1 V5.1B 2650 (alpha Compaq C V6.5-011 Rev. 2650)</li>
  <li>HP Tru64 OSF/1 V5.1B 2650 (alpha gcc2.97-tru64-010710 alphaev56)</li>
+ <li>HP-UX 11i v3 B.11.31 U ia64 (IA64 aCC B3910B A.06.15 [May 16 2007], ld B.12.49.02 92453-07) (64-bit)</li>
+ <li>HP-UX 11i v3 B.11.31 U ia64 (IA64 aCC B3910B A.06.15 [May 16 2007], ld B.12.49.02 92453-07) (32-bit)</li>
+ <li>HP-UX 11i v3 B.11.31 U ia64 (IA64 ccs B3910B A.06.12 [Oct 11 2006], ld B.12.49.02 92453-07) (32-bit)</li>
+ <li>Mac OSX Snow Leopard 10.6.2 (10C540) Darwin 10.2.0 (amd64 gcc4.2.1-Apple_5646_dot_1)</li>
+ <li>Mac OSX Snow Leopard 10.6.2 (10C540) Darwin 10.2.0 (i386 gcc4.0.1-Apple_5493)</li>
  <li>Mac OSX Leopard 10.5.5 (9F33) Darwin 9.5.0 (amd64 gcc4.0.1-Apple_5484)</li>
  <li>Mac OSX Leopard 10.5.5 (9F33) Darwin 9.5.0 (i386 llvmgcc4.2.1-Apple_5555-LLVM_2039)</li>
  <li>Mac OSX Leopard 10.5.4 (9E17) Darwin 9.4.0 (i386 gcc4.0.1-Apple_5480)</li>
@@ -856,23 +822,32 @@ mws_content <<'EOF'
  <li>Mac OSX Leopard Server 10.5.4 (9E17) Darwin 9.4.0 (macppc cross-llvmgcc4.2.1-Apple_5555-LLVM_2039)</li>
  <li>Max OSX iPhoneOS 2.0 (N82AP) Darwin 9.3.1 (arm cross-gcc4.0.1-Apple_5484 Apple SDK)</li>
  <li>Max OSX iPhoneOS 2.0 (N82AP) Darwin 9.3.1 (arm llvmgcc4.2.1-Apple_5555 Saurik iphone-gcc 4.2-20080604-1-8)</li>
- <li>Solaris 8 Generic_117350-41 sun4u (sparc gcc3.4.3)</li>
- <li>Solaris 8 Generic_117350-41 sun4u (sparc64 gcc3.4.3)</li>
- <li>QNX 6.3.2 2006/03/16-14:19:50EST (i386 gcc2.95.3)</li>
+ <li>Solaris 10 Generic_137111-08 sun4u (sparc gcc3.4.6)</li>
+ <li>Solaris 10 Generic_137111-08 sun4u (sparc64 gcc3.4.6)</li>
+ <li>Solaris 10 Generic_137111-08 sun4u (sparc:V8+ SUNWcc5.9 124867-08 2008/10/07, ld 5.10-1.489)</li>
+ <li>Solaris 10 Generic_137111-08 sun4u (sparc64 SUNWcc5.9 124867-08 2008/10/07, ld 5.10-1.489)</li>
+ <li>Solaris 8 Generic_117350-61 sun4u (sparc gcc3.4.3)</li>
+ <li>Solaris 8 Generic_117350-61 sun4u (sparc64 gcc3.4.3)</li>
+ <li>Cygwin_NT-5.0 1.5.25(0.156/4/2) 2008-06-11 19:34 i586 win2kSP2 (i386 gcc3.4.4)</li>
+ <li>Debian GNU sid GNU-Mach 1.3.99/Hurd-0.3 i686-AT386 (i386 gcc4.3.3-12)</li>
+ <li>Android-3 GNU/Linux 1.5 (emulator) ARMv5TE Thumb (arm-eabi gcc4.2.1 +bionic) <em>without</em> testsuite check</li>
  <li>CentOS GNU/Linux 5.2 2.6.18-92.1.18.el5xen (amd64 gcc4.1.2-44)</li>
- <li>Debian GNU/Linux 4.0 etch 2.6.18-6-686 (i386 gcc1:3.3.6-15)</li>
- <li>Debian GNU/Linux 4.0 etch 2.6.18-6-686 (i386 gcc4.1.1-21)</li>
+ <li>Debian GNU/Linux sid 2.6.18-6-686 (i386 gcc4.5.0-r155486 gcc-snapshot_20091228-2) <em>but <tt>-combine</tt> is _still_ broken again *sigh…*</em></li>
+ <li>Debian GNU/Linux sid 2.6.18-6-686 (i386 gcc4.4.2-8)</li>
+ <li>Debian GNU/Linux sid 2.6.18-6-686 (i386 nwcc0.7.9)</li>
+ <li>Debian GNU/Linux sid 2.6.18-6-686 (i386 TenDRA-4.1.2-18)</li>
  <li>Debian GNU/Linux 5.0 lenny 2.6.18-6-686 (i386 gcc4.1.2-25)</li>
  <li>Debian GNU/Linux 5.0 lenny 2.6.18-6-686 (i386 gcc4.3.2-1.1)</li>
- <li>Minix 3 3.1.4~r4203? (i386 ACK)</li>
- <li>Minix 3 3.1.4~r4203? (i386 gcc)</li>
-<li style="list-style:none;">– tests by third parties (Build.sh) –</li>
+ <li>Debian GNU/Linux 4.0 etch 2.6.18-6-686 (i386 gcc1:3.3.6-15)</li>
+ <li>Debian GNU/Linux 4.0 etch 2.6.18-6-686 (i386 gcc4.1.1-21)</li>
+ <li>ecce!GNU/Linux 1.00 2.0.38a (i386 libc5 gcc2.7.2.3) <em>with</em> HAVE_SETLOCALE_CTYPE=0 (libc5)</li>
  <li>AIX 5.2 (powerpc xlC7.0) by cnuke@ (Jupp Söntgen)</li>
- <li>SGI IRIX64 6.5 (mips:R10K mipspro7.4.4m) by Elias Pipping</li>
- <li>SGI IRIX64 6.5 (mips:R10K gcc3.4.1) by Elias Pipping</li>
  <li>Zenwalk GNU/Linux 2.6.25.4 (i386 gcc4.2.3) by Olivier Duchateau</li>
 <li style="list-style:none;">– other build system integration –</li>
  <li>See the <a href="#otheros">Inclusion</a> section for general information</li>
+ <li>Debian GNU/Linux sid 2.6.18-6-686 (i386 gcc4.3.3-15 +eglibc2.9-23) <em>via Debian package</em></li>
+ <li>Debian GNU/Linux sid 2.6.18-6-686 (i386 gcc4.3.3-15 +dietlibc0.31-1.2) <em>via Debian package</em></li>
+ <li>Debian GNU/Linux sid 2.6.18-6-686 (i386 gcc4.3.3-15 +klibc1.5.15-2~tg+1) <em>via Debian package</em></li>
  <li>Debian GNU/kFreeBSD sid 7.1-1-686 (i386 gcc4.3.3-5) <em>by ganymede1 buildd via Debian</em></li>
  <li>Debian GNU/kFreeBSD sid 7.1-1-amd64 (amd64 gcc4.3.3-5) <em>by ganymede2 buildd via Debian</em></li>
  <li>Debian GNU sid GNU-Mach 1.3.99/Hurd-0.3 i386-AT386 (i386 gcc4.3.3-5) <em>by mozart buildd via Debian</em></li>
@@ -937,10 +912,13 @@ mws_content <<'EOF'
  <li>See <a href="mksh_old.htm#regress">the old-mksh site</a></li>
  <li>MidnightBSD (amd64, sparc64) gcc</li>
  <li>HP-UX 11i (hppa, IA64) gcc, aCC</li>
+ <li>QNX gcc</li>
  <li>Interix 3.5 (i386 win2k), 6 (i386 Vista) gcc, msc</li>
  <li>UWIN-NT (i386) dmc, msc</li>
  <li>GNU/Linux (alpha, amd64, i386, macppc, s390) gcc, TenDRA, icc,
   llvm-gcc4.2, dietlibc, glibc, µClibc</li>
+ <li>Minix 3 ACK, gcc</li>
+ <li>IRIX MIPSpro, gcc (by Elias Pipping)</li>
 </ul>
 <h3 id="regress_fail">Known to FAIL Build or Test</h3>
 <ul>
@@ -1001,7 +979,8 @@ mws_content <<'EOF'
  <li>[tg, David Korn] Document more differences between mksh (and pdksh)
   and AT&amp;T ksh (or, more specific, ksh88, ksh93) in the manual page</li>
  <li>[tg] Support “'a'” as an alternative to “1#a”, like ksh93 does</li>
- <li>[tg] Add ksh’s “test -o ?foo”: true if “foo” is a valid shell option</li>
+ <li>[tg] Add ksh’s “test -o ?foo”: true if “foo” is a valid shell option,
+  where “foo” can be “xtrace” or “-x” or “+x” (these three are equivalent)</li>
  <li>[tg] Support “$'…'” backslash-expanding single-quoted strings, as
   requested by David G. Korn, with almost the same syntax and semantics</li>
  <li>[tg] Make printf(1) use “$'…'” mode if used as builtin, like ksh93</li>
@@ -1021,7 +1000,7 @@ mws_content <<'EOF'
  <li>[tg] Remove more functionality, such as Emacs command line editing mode
   bind key macros, and other extensions, from MKSH_SMALL to help floppies</li>
  <li>[tg] Make forking and subshells less expensive wrt. random state</li>
- <li>[tg] Build flags and source code fixes for / caught by SUNWcc, HP aCC</li>
+ <li>[tg] Build and source code fixes for / caught by SUNWcc, HP aCC, pcc</li>
  <li>[tg] Make undef/def MKSH_NOVI into 0/1 MKSH_S_NOVI build flag</li>
  <li>[tg] Get rid of "U getenv" in nm(1) output, we already import environ</li>
  <li>[tg] Simplify $RANDOM handling: reads are now either arc4random(3) (if
@@ -1071,7 +1050,8 @@ mws_content <<'EOF'
  <li>[tg] Make some globbing (<tt>${x%?}</tt>) operate on characters instead
   of octets; update manual page to reflect that others still do and remove
   wording that let people think we’d ever support POSuX character classes</li>
- <li>[tg] New <tt>${%foo}</tt> returning width of $foo in screen columns</li>
+ <li>[tg] New <tt>${%foo}</tt> returning width of $foo in screen columns,
+  or -1 if $foo contains an ASCII/latin1/Unicode C0/C1 control character</li>
  <li>[tg] Fix subtle possible portability problem wrt. <tt>CHILD_MAX</tt></li>
  <li>[tg] Honour <tt>±U</tt> on command line of an interactive shell</li>
  <li>[tg] Fix dead stores and other bugs pointed out by the Clang static
@@ -1084,6 +1064,7 @@ mws_content <<'EOF'
  <li>[tg] Rework <tt>__attribute__</tt> compiler capability check</li>
  <li>[tg] dot.mkshrc: Use [[ -o utf8-mode ]] instead of [[ $- = *U* ]]</li>
  <li>[tg] Apply errno save/restore related fix from (sync with) oksh</li>
+ <li>[tg] Switch hash table collision resolution algorithm to Python’s</li>
 </ul>
 <p id="r39">mksh R39 evolved into these through various means:</p><ul>
  <li>[tg] Shut up a bogus gcc warning during configuration process</li>
