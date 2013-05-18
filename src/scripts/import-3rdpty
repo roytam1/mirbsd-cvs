@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/scripts/import-3rdpty,v 1.14 2005/07/24 13:11:06 tg Exp $
+# $MirOS: src/scripts/import-3rdpty,v 1.15 2005/07/24 16:48:07 tg Exp $
 #-
 # Copyright (c) 2004, 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -23,7 +23,7 @@
 # rect or other, however caused, arising in any way out of the usage
 # of this work, even if advised of the possibility of such damage.
 
-print -r -- '========= $MirOS: src/scripts/import-3rdpty,v 1.14 2005/07/24 13:11:06 tg Exp $ ========='
+print -r -- '========= $MirOS: src/scripts/import-3rdpty,v 1.15 2005/07/24 16:48:07 tg Exp $ ========='
 
 ignlist=0
 force=0
@@ -407,6 +407,16 @@ openbsd)
 		lib/libc/arch/arm \
 		lib/libc/arch/hppa \
 		lib/libc/arch/hppa64 \
+		lib/libc/arch/i386/net/htons.S \
+		lib/libc/arch/i386/net/ntohl.S \
+		lib/libc/arch/i386/net/ntohs.S \
+		lib/libc/arch/i386/stdlib/labs.S \
+		lib/libc/arch/i386/stdlib/ldiv.S \
+		lib/libc/arch/i386/string/bcmp.S \
+		lib/libc/arch/i386/string/bcopy.S \
+		lib/libc/arch/i386/string/memcpy.S \
+		lib/libc/arch/i386/string/strchr.S \
+		lib/libc/arch/i386/string/strrchr.S \
 		lib/libc/arch/m68k \
 		lib/libc/arch/m88k \
 		lib/libc/arch/mips \
@@ -414,37 +424,25 @@ openbsd)
 		lib/libc/arch/powerpc \
 		lib/libc/arch/sparc64 \
 		lib/libc/arch/vax \
+		lib/libc/citrus \
 		lib/libc/db/README \
 		lib/libc/db/changelog \
 		lib/libc/db/db2netbsd \
 		lib/libc/db/hash/README \
 		lib/libc/db/mpool/README \
 		lib/libc/db/mpool/mpool.libtp \
+		lib/libc/gen/getdomainname.3 \
 		lib/libc/gmon \
 		lib/libc/locale \
 		lib/libc/md \
+		lib/libc/net/nsap_addr.c \
 		lib/libc/nls \
 		lib/libc/regex/WHATSNEW \
 		lib/libc/rpc/DISCLAIMER \
 		lib/libc/rpc/README \
-		lib/libc/stdio/fgetwc.c \
-		lib/libc/stdio/fgetws.3 \
-		lib/libc/stdio/fgetws.c \
-		lib/libc/stdio/fileext.h \
-		lib/libc/stdio/fputwc.c \
-		lib/libc/stdio/fputws.3 \
-		lib/libc/stdio/fputws.c \
-		lib/libc/stdio/fwide.3 \
-		lib/libc/stdio/fwide.c \
-		lib/libc/stdio/getwc.3 \
-		lib/libc/stdio/getwc.c \
-		lib/libc/stdio/getwchar.c \
-		lib/libc/stdio/putwc.3 \
-		lib/libc/stdio/putwc.c \
-		lib/libc/stdio/putwchar.c \
-		lib/libc/stdio/ungetwc.3 \
-		lib/libc/stdio/ungetwc.c \
-		lib/libc/stdio/wcio.h \
+		lib/libc/string/wcslcat.c \
+		lib/libc/string/wcslcpy.c \
+		lib/libc/string/wcstok.c \
 		lib/libc/yp \
 		lib/libcom_err \
 		lib/libcompat/regexp/COPYRIGHT \
