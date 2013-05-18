@@ -1,3 +1,0 @@
-@comment $MirOS: ports/graphics/png/pkg/PFRAG.shared,v 1.2 2005/04/23 13:47:43 bsiegert Exp $
-@comment $OpenBSD: PFRAG.shared,v 1.9 2003/12/18 00:09:48 espie Exp $
-@lib lib/libpng.so.7.1
