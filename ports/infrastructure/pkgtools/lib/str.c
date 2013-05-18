@@ -1,4 +1,4 @@
-/**	$MirOS: ports/infrastructure/pkgtools/lib/str.c,v 1.12 2009/11/15 15:53:33 bsiegert Exp $ */
+/**	$MirOS: ports/infrastructure/pkgtools/lib/str.c,v 1.13 2009/11/29 13:42:45 bsiegert Exp $ */
 /*	$OpenBSD: str.c,v 1.11 2003/07/04 17:31:19 avsm Exp $	*/
 
 /*
@@ -24,7 +24,7 @@
 #include <fnmatch.h>
 #include "lib.h"
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/str.c,v 1.12 2009/11/15 15:53:33 bsiegert Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/str.c,v 1.13 2009/11/29 13:42:45 bsiegert Exp $");
 
 /* Convert a filename (which can be relative to the current directory) to
  * an absolute one. Returns a pointer to a static internal buffer.
@@ -169,15 +169,6 @@ str_lowercase(char *str)
     }
 }
 
-
-enum deweycmp_ops {
-	GT,
-	GE,
-	LT,
-	LE,
-	NONE
-};
-
 /* match flavour part of a package against a flavour pattern
  * used by multiversion_match below
  */
@@ -215,7 +206,7 @@ flavourcmp(char *pkg_flavour, char *pattern)
 }
 
 /* compare two dewey decimal numbers */
-static int
+int
 deweycmp(char *a, enum deweycmp_ops op, char *b)
 {
 	int             ad;

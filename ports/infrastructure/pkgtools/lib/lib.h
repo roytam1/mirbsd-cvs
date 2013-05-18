@@ -1,4 +1,4 @@
-/**	$MirOS: ports/infrastructure/pkgtools/lib/lib.h,v 1.27 2009/12/08 20:51:05 bsiegert Exp $ */
+/**	$MirOS: ports/infrastructure/pkgtools/lib/lib.h,v 1.28 2009/12/11 22:16:14 bsiegert Exp $ */
 /*	$OpenBSD: lib.h,v 1.14 2003/08/21 20:24:57 espie Exp $	*/
 
 /*
@@ -133,6 +133,15 @@ typedef enum pkg_cmp_t {
 	COMP_XZ
 } pkg_cmp_t;
 
+/* operators for deweycmp */
+enum deweycmp_ops {
+	GT,
+	GE,
+	LT,
+	LE,
+	NONE
+};
+
 /* this structure describes a packing list entry */
 typedef struct plist_t {
 	struct plist_t	*prev;		/* previous entry */
@@ -186,6 +195,7 @@ int		pmatch(const char *, const char *);
 int		findmatchingname(const char *, const char *, matchfn, char *, int); /* doesn't really belong here */
 char		*findbestmatchingname(const char *, const char *); /* neither */
 int		ispkgpattern(const char *);
+int		deweycmp(char *, enum deweycmp_ops, char *);
 
 /* File */
 bool		fexists(const char *);
