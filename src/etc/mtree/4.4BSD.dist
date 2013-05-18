@@ -1,5 +1,5 @@
-# $MirOS: src/etc/mtree/4.4BSD.dist,v 1.22 2007/05/08 22:38:58 tg Exp $
-# $OpenBSD: 4.4BSD.dist,v 1.184 2007/01/01 21:30:46 aanriot Exp $
+# $MirOS: src/etc/mtree/4.4BSD.dist,v 1.23 2007/05/17 18:38:30 tg Exp $
+# $OpenBSD: 4.4BSD.dist,v 1.186 2007/05/23 07:28:15 hshoexer Exp $
 
 /set type=dir uname=root gname=wheel mode=0755
 # .
