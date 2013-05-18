@@ -1,4 +1,4 @@
-# $MirOS: www/files/.htaccess,v 1.10 2011/10/04 20:25:34 tg Exp $
+# $MirOS: www/files/.htaccess,v 1.11 2012/03/03 18:30:35 tg Exp $
 
 Options ExecCGI Indexes FollowSymLinks
 IndexOptions -FancyIndexing
@@ -66,15 +66,19 @@ RewriteRule \.htm$ - [T=application/xhtml+xml]
 
 # forced text files
 <Files LICENCE>
-  ForceType text/plain
+  ForceType 'text/plain; charset=utf-8'
 </Files>
 
 <Files ISC-Licence>
-  ForceType text/plain
+  ForceType 'text/plain; charset=utf-8'
 </Files>
 
 <Files MirOS-Licence>
-  ForceType text/plain
+  ForceType 'text/plain; charset=utf-8'
+</Files>
+
+<Files acronyms>
+  ForceType 'text/plain; charset=utf-8'
 </Files>
 
 # "hidden" files
