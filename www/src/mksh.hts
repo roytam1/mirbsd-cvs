@@ -1,10 +1,10 @@
-# $MirOS: www/src/mksh.hts,v 1.7 2007/06/22 23:34:39 tg Exp $
+# $MirOS: www/src/mksh.hts,v 1.8 2007/06/23 22:38:01 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.7 2007/06/22 23:34:39 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.8 2007/06/23 22:38:01 tg Exp $'
 mws_content <<'EOF'
 <h1>mksh(1) R29</h1>
 <p>This is the website of the MirBSD™ Korn Shell, an actively developed free
@@ -189,6 +189,8 @@ mws_content <<'EOF'
  builtin functionality from the binary</li>
 <li><tt>-DMKSH_NOPWNAM</tt> – if MKSH_SMALL is not set, still omit getpwnam(3)
  calls in order to not pull in the nsswitch or PAM libraries</li>
+<li><tt>-DMKSH_NOVI</tt> – if this or MKSH_SMALL is set, the vi command line
+ editing mode is omitted</li>
 </ul>
 <p>You can override certain mirtoconf checks by setting environment variables
  like <tt>HAVE_REVOKE=0</tt> (default for Linux) – if these are set to 0 or 1,
@@ -443,6 +445,34 @@ mws_content <<'EOF'
 <p>The MirOS Project has tested mksh on the following operating systems,
  asked people to test, and hunted mksh down in these packaging systems:</p>
 <ul>
+ <li>mksh R30β<ul>
+  <li>MirOS #10 RC2 (i386 gcc3.4.6)</li>
+  <li>MirOS #10 RC1 (i386 SUNcc5.9 Linux_i386 2007/05/03, GNU ld 2.13.90.0.2 20020802)</li>
+  <li>MirOS #7-stable (sparc gcc2.95)</li>
+  <li>HP-UX 11i B.11.11 (PA-RISC gcc3.4.2) <em>no regression test run</em></li>
+  <li>HP-UX 11i B.11.11 (PA-RISC hpC B.11.X.36086-36089-36092.GP, ld B.11.60 070209)</li>
+  <li>HP-UX 11i B.11.23 (IA64 gcc3.4.3)</li>
+  <li>HP-UX 11i B.11.31 (PA-RISC hpC B.11.X.36086-36089-36092.GP, ld B.11.60 070209)</li>
+  <li>HP-UX 11i B.11.31 (IA64 hpC B3910B A.06.14 [Feb 22 2007], ld B.12.43 92453-07)</li>
+  <li>Interix 3.5 (i386 gcc3.3 win2k) <em>with Perl from pkgsrc®</em></li>
+  <li>Cygwin 1.5.19(0.150/4/2) 2006-01-20 13:28 (i386 gcc3.4.4 win2k)</li>
+  <li>Solaris 8 Generic_117350-41 (sparc,V8+ sun4u gcc3.4.3)</li>
+  <li>Solaris 8 Generic_117350-41 (sparc64,V9 sun4u gcc3.4.3)</li>
+  <li>Solaris 10 Generic_125100-04 (sparc,V8+ sun4u gcc3.4.6)</li>
+  <li>Solaris 10 Generic_125100-04 (sparc64,V9 sun4u gcc3.4.6)</li>
+  <li>Solaris 10 Generic_125100-04 (sparc,V8+ sun4u SUNcc5.8 121015-04, ld 5.10-1.482)</li>
+  <li>Solaris 10 Generic_125100-04 (sparc64,V9 sun4u SUNcc5.8 121015-04, ld 5.10-1.482)</li>
+  <li>Debian GNU/Linux 3.1 sarge 2.6.8-3 (alpha gcc1:3.3.5-13)</li>
+  <li>Debian GNU/Linux 4.0 etch 2.6.18-4-686 (i386 gcc4.1.1-21)</li>
+  <li>Debian GNU/Linux 4.0 etch 2.6.18-4-686 (i386 icc9.1.042)</li>
+  <li>Debian GNU/Linux 4.0 etch 2.6.18-4-686 (i386 icc10.0.023)</li>
+  <li>Debian GNU/Linux 4.0 sid 5.4-1-486 (kfreebsd-i386 gcc4.1.2-12)</li>
+  <li>ecce!GNU/Linux 1.00 2.0.38a (i386 libc5 gcc2.7.2.3)</li>
+  <li>Mac OSX Tiger 10.4.10 Darwin 8.10.0 (macppc gcc4.0.1 Apple build 5363)</li>
+  <li>DragonFly 1.9-DEVELOPMENT Feb 20, 2007 (i386 gcc3.4.6)</li>
+  <li>NetBSD 3.0_STABLE (i386 gcc3.3.3)</li>
+  <li>OpenBSD 4.1-current GENERIC#1241 May 17, 2007 (sparc64 gcc3.3.5)</li>
+ </ul></li>
  <li>mksh R29d<ul>
   <li>Darwin 8.9.0 Mac OSX 10.4 (powerpc)</li>
   <li>AIX 5.3 ML05 – thanks Gurft</li>
