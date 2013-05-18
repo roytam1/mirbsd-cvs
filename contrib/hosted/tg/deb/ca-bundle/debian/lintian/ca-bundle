@@ -1,4 +1,4 @@
-# $MirOS: contrib/hosted/tg/deb/ca-bundle/debian/lintian/ca-bundle,v 1.3 2011/03/04 15:19:51 tg Exp $
+# $MirOS: contrib/hosted/tg/deb/ca-bundle/debian/lintian/ca-bundle,v 1.4 2011/04/24 17:02:38 tg Exp $
 
 # targetting etch as well
 ca-bundle: description-contains-homepage
@@ -18,40 +18,46 @@ ca-bundle: dir-or-file-in-opt opt/trinity/share/apps/kssl/
 ca-bundle: dir-or-file-in-opt opt/trinity/share/apps/kssl/ca-bundle.crt
 
 # the symlink target will be installed by us
-ca-bundle: package-contains-broken-symlink usr/lib/j2se/1.4/jre/javaws/cacerts /etc/ssl/certs/java/cacerts
-ca-bundle: package-contains-broken-symlink usr/lib/j2se/1.4/jre/lib/security/cacerts /etc/ssl/certs/java/cacerts
-ca-bundle: package-contains-broken-symlink usr/lib/jvm/ia32-java-1.5.0-sun-1.5.0.06/jre/lib/security/cacerts /etc/ssl/certs/java/cacerts
-ca-bundle: package-contains-broken-symlink usr/lib/jvm/ia32-java-1.5.0-sun-1.5.0.14/jre/lib/security/cacerts /etc/ssl/certs/java/cacerts
-ca-bundle: package-contains-broken-symlink usr/lib/jvm/ia32-java-1.5.0-sun-1.5.0.15/jre/lib/security/cacerts /etc/ssl/certs/java/cacerts
-ca-bundle: package-contains-broken-symlink usr/lib/jvm/ia32-java-1.5.0-sun-1.5.0.16/jre/lib/security/cacerts /etc/ssl/certs/java/cacerts
-ca-bundle: package-contains-broken-symlink usr/lib/jvm/ia32-java-1.5.0-sun-1.5.0.17/jre/lib/security/cacerts /etc/ssl/certs/java/cacerts
-ca-bundle: package-contains-broken-symlink usr/lib/jvm/ia32-java-1.5.0-sun-1.5.0.18/jre/lib/security/cacerts /etc/ssl/certs/java/cacerts
-ca-bundle: package-contains-broken-symlink usr/lib/jvm/ia32-java-1.5.0-sun-1.5.0.19/jre/lib/security/cacerts /etc/ssl/certs/java/cacerts
-ca-bundle: package-contains-broken-symlink usr/lib/jvm/ia32-java-1.5.0-sun-1.5.0.22/jre/lib/security/cacerts /etc/ssl/certs/java/cacerts
-ca-bundle: package-contains-broken-symlink usr/lib/jvm/ia32-java-6-sun-1.6.0.06/jre/lib/security/cacerts /etc/ssl/certs/java/cacerts
-ca-bundle: package-contains-broken-symlink usr/lib/jvm/ia32-java-6-sun-1.6.0.10/jre/lib/security/cacerts /etc/ssl/certs/java/cacerts
-ca-bundle: package-contains-broken-symlink usr/lib/jvm/ia32-java-6-sun-1.6.0.12/jre/lib/security/cacerts /etc/ssl/certs/java/cacerts
-ca-bundle: package-contains-broken-symlink usr/lib/jvm/ia32-java-6-sun-1.6.0.13/jre/lib/security/cacerts /etc/ssl/certs/java/cacerts
-ca-bundle: package-contains-broken-symlink usr/lib/jvm/ia32-java-6-sun-1.6.0.14/jre/lib/security/cacerts /etc/ssl/certs/java/cacerts
-ca-bundle: package-contains-broken-symlink usr/lib/jvm/ia32-java-6-sun-1.6.0.22/jre/lib/security/cacerts /etc/ssl/certs/java/cacerts
-ca-bundle: package-contains-broken-symlink usr/lib/jvm/java-1.5.0-gcj-4.2-1.5.0.0/jre/lib/security/cacerts /etc/ssl/certs/java/cacerts
-ca-bundle: package-contains-broken-symlink usr/lib/jvm/java-1.5.0-gcj-4.3-1.5.0.0/jre/lib/security/cacerts /etc/ssl/certs/java/cacerts
-ca-bundle: package-contains-broken-symlink usr/lib/jvm/java-1.5.0-gcj-4.4/jre/lib/cacerts /etc/ssl/certs/java/cacerts
-ca-bundle: package-contains-broken-symlink usr/lib/jvm/java-1.5.0-gcj-4.5/jre/lib/cacerts /etc/ssl/certs/java/cacerts
-ca-bundle: package-contains-broken-symlink usr/lib/jvm/java-1.5.0-sun-1.5.0.06/jre/lib/security/cacerts /etc/ssl/certs/java/cacerts
-ca-bundle: package-contains-broken-symlink usr/lib/jvm/java-1.5.0-sun-1.5.0.14/jre/lib/security/cacerts /etc/ssl/certs/java/cacerts
-ca-bundle: package-contains-broken-symlink usr/lib/jvm/java-1.5.0-sun-1.5.0.15/jre/lib/security/cacerts /etc/ssl/certs/java/cacerts
-ca-bundle: package-contains-broken-symlink usr/lib/jvm/java-1.5.0-sun-1.5.0.16/jre/lib/security/cacerts /etc/ssl/certs/java/cacerts
-ca-bundle: package-contains-broken-symlink usr/lib/jvm/java-1.5.0-sun-1.5.0.17/jre/lib/security/cacerts /etc/ssl/certs/java/cacerts
-ca-bundle: package-contains-broken-symlink usr/lib/jvm/java-1.5.0-sun-1.5.0.18/jre/lib/security/cacerts /etc/ssl/certs/java/cacerts
-ca-bundle: package-contains-broken-symlink usr/lib/jvm/java-1.5.0-sun-1.5.0.19/jre/lib/security/cacerts /etc/ssl/certs/java/cacerts
-ca-bundle: package-contains-broken-symlink usr/lib/jvm/java-1.5.0-sun-1.5.0.22/jre/lib/security/cacerts /etc/ssl/certs/java/cacerts
-ca-bundle: package-contains-broken-symlink usr/lib/jvm/java-6-cacao/jre/lib/security/cacerts /etc/ssl/certs/java/cacerts
-ca-bundle: package-contains-broken-symlink usr/lib/jvm/java-6-openjdk/jre/lib/security/cacerts /etc/ssl/certs/java/cacerts
-ca-bundle: package-contains-broken-symlink usr/lib/jvm/java-6-sun-1.6.0.06/jre/lib/security/cacerts /etc/ssl/certs/java/cacerts
-ca-bundle: package-contains-broken-symlink usr/lib/jvm/java-6-sun-1.6.0.10/jre/lib/security/cacerts /etc/ssl/certs/java/cacerts
-ca-bundle: package-contains-broken-symlink usr/lib/jvm/java-6-sun-1.6.0.12/jre/lib/security/cacerts /etc/ssl/certs/java/cacerts
-ca-bundle: package-contains-broken-symlink usr/lib/jvm/java-6-sun-1.6.0.13/jre/lib/security/cacerts /etc/ssl/certs/java/cacerts
-ca-bundle: package-contains-broken-symlink usr/lib/jvm/java-6-sun-1.6.0.14/jre/lib/security/cacerts /etc/ssl/certs/java/cacerts
-ca-bundle: package-contains-broken-symlink usr/lib/jvm/java-6-sun-1.6.0.22/jre/lib/security/cacerts /etc/ssl/certs/java/cacerts
-ca-bundle: package-contains-broken-symlink usr/share/jxplorer/security/cacerts /etc/ssl/certs/java/cacerts
+ca-bundle: package-contains-broken-symlink etc/ia32-java-1.5.0-sun/security/cacerts ../../ssl/certs/java/cacerts
+ca-bundle: package-contains-broken-symlink etc/ia32-java-6-sun/security/cacerts ../../ssl/certs/java/cacerts
+ca-bundle: package-contains-broken-symlink etc/j2se/1.4/security/cacerts ../../../ssl/certs/java/cacerts
+ca-bundle: package-contains-broken-symlink etc/java-1.5.0-sun/security/cacerts ../../ssl/certs/java/cacerts
+ca-bundle: package-contains-broken-symlink etc/java-6-openjdk/security/cacerts ../../ssl/certs/java/cacerts
+ca-bundle: package-contains-broken-symlink etc/java-6-sun/security/cacerts ../../ssl/certs/java/cacerts
+ca-bundle: package-contains-broken-symlink usr/lib/j2se/1.4/jre/javaws/cacerts etc/ssl/certs/java/cacerts
+ca-bundle: package-contains-broken-symlink usr/lib/j2se/1.4/jre/lib/security/cacerts etc/ssl/certs/java/cacerts
+ca-bundle: package-contains-broken-symlink usr/lib/jvm/ia32-java-1.5.0-sun-1.5.0.06/jre/lib/security/cacerts etc/ssl/certs/java/cacerts
+ca-bundle: package-contains-broken-symlink usr/lib/jvm/ia32-java-1.5.0-sun-1.5.0.14/jre/lib/security/cacerts etc/ssl/certs/java/cacerts
+ca-bundle: package-contains-broken-symlink usr/lib/jvm/ia32-java-1.5.0-sun-1.5.0.15/jre/lib/security/cacerts etc/ssl/certs/java/cacerts
+ca-bundle: package-contains-broken-symlink usr/lib/jvm/ia32-java-1.5.0-sun-1.5.0.16/jre/lib/security/cacerts etc/ssl/certs/java/cacerts
+ca-bundle: package-contains-broken-symlink usr/lib/jvm/ia32-java-1.5.0-sun-1.5.0.17/jre/lib/security/cacerts etc/ssl/certs/java/cacerts
+ca-bundle: package-contains-broken-symlink usr/lib/jvm/ia32-java-1.5.0-sun-1.5.0.18/jre/lib/security/cacerts etc/ssl/certs/java/cacerts
+ca-bundle: package-contains-broken-symlink usr/lib/jvm/ia32-java-1.5.0-sun-1.5.0.19/jre/lib/security/cacerts etc/ssl/certs/java/cacerts
+ca-bundle: package-contains-broken-symlink usr/lib/jvm/ia32-java-1.5.0-sun-1.5.0.22/jre/lib/security/cacerts etc/ssl/certs/java/cacerts
+ca-bundle: package-contains-broken-symlink usr/lib/jvm/ia32-java-6-sun-1.6.0.06/jre/lib/security/cacerts etc/ssl/certs/java/cacerts
+ca-bundle: package-contains-broken-symlink usr/lib/jvm/ia32-java-6-sun-1.6.0.10/jre/lib/security/cacerts etc/ssl/certs/java/cacerts
+ca-bundle: package-contains-broken-symlink usr/lib/jvm/ia32-java-6-sun-1.6.0.12/jre/lib/security/cacerts etc/ssl/certs/java/cacerts
+ca-bundle: package-contains-broken-symlink usr/lib/jvm/ia32-java-6-sun-1.6.0.13/jre/lib/security/cacerts etc/ssl/certs/java/cacerts
+ca-bundle: package-contains-broken-symlink usr/lib/jvm/ia32-java-6-sun-1.6.0.14/jre/lib/security/cacerts etc/ssl/certs/java/cacerts
+ca-bundle: package-contains-broken-symlink usr/lib/jvm/ia32-java-6-sun-1.6.0.22/jre/lib/security/cacerts etc/ssl/certs/java/cacerts
+ca-bundle: package-contains-broken-symlink usr/lib/jvm/java-1.5.0-gcj-4.2-1.5.0.0/jre/lib/security/cacerts etc/ssl/certs/java/cacerts
+ca-bundle: package-contains-broken-symlink usr/lib/jvm/java-1.5.0-gcj-4.3-1.5.0.0/jre/lib/security/cacerts etc/ssl/certs/java/cacerts
+ca-bundle: package-contains-broken-symlink usr/lib/jvm/java-1.5.0-gcj-4.4/jre/lib/cacerts etc/ssl/certs/java/cacerts
+ca-bundle: package-contains-broken-symlink usr/lib/jvm/java-1.5.0-gcj-4.5/jre/lib/cacerts etc/ssl/certs/java/cacerts
+ca-bundle: package-contains-broken-symlink usr/lib/jvm/java-1.5.0-sun-1.5.0.06/jre/lib/security/cacerts etc/ssl/certs/java/cacerts
+ca-bundle: package-contains-broken-symlink usr/lib/jvm/java-1.5.0-sun-1.5.0.14/jre/lib/security/cacerts etc/ssl/certs/java/cacerts
+ca-bundle: package-contains-broken-symlink usr/lib/jvm/java-1.5.0-sun-1.5.0.15/jre/lib/security/cacerts etc/ssl/certs/java/cacerts
+ca-bundle: package-contains-broken-symlink usr/lib/jvm/java-1.5.0-sun-1.5.0.16/jre/lib/security/cacerts etc/ssl/certs/java/cacerts
+ca-bundle: package-contains-broken-symlink usr/lib/jvm/java-1.5.0-sun-1.5.0.17/jre/lib/security/cacerts etc/ssl/certs/java/cacerts
+ca-bundle: package-contains-broken-symlink usr/lib/jvm/java-1.5.0-sun-1.5.0.18/jre/lib/security/cacerts etc/ssl/certs/java/cacerts
+ca-bundle: package-contains-broken-symlink usr/lib/jvm/java-1.5.0-sun-1.5.0.19/jre/lib/security/cacerts etc/ssl/certs/java/cacerts
+ca-bundle: package-contains-broken-symlink usr/lib/jvm/java-1.5.0-sun-1.5.0.22/jre/lib/security/cacerts etc/ssl/certs/java/cacerts
+ca-bundle: package-contains-broken-symlink usr/lib/jvm/java-6-cacao/jre/lib/security/cacerts etc/ssl/certs/java/cacerts
+ca-bundle: package-contains-broken-symlink usr/lib/jvm/java-6-openjdk/jre/lib/security/cacerts etc/ssl/certs/java/cacerts
+ca-bundle: package-contains-broken-symlink usr/lib/jvm/java-6-sun-1.6.0.06/jre/lib/security/cacerts etc/ssl/certs/java/cacerts
+ca-bundle: package-contains-broken-symlink usr/lib/jvm/java-6-sun-1.6.0.10/jre/lib/security/cacerts etc/ssl/certs/java/cacerts
+ca-bundle: package-contains-broken-symlink usr/lib/jvm/java-6-sun-1.6.0.12/jre/lib/security/cacerts etc/ssl/certs/java/cacerts
+ca-bundle: package-contains-broken-symlink usr/lib/jvm/java-6-sun-1.6.0.13/jre/lib/security/cacerts etc/ssl/certs/java/cacerts
+ca-bundle: package-contains-broken-symlink usr/lib/jvm/java-6-sun-1.6.0.14/jre/lib/security/cacerts etc/ssl/certs/java/cacerts
+ca-bundle: package-contains-broken-symlink usr/lib/jvm/java-6-sun-1.6.0.22/jre/lib/security/cacerts etc/ssl/certs/java/cacerts
+ca-bundle: package-contains-broken-symlink usr/share/jxplorer/security/cacerts etc/ssl/certs/java/cacerts

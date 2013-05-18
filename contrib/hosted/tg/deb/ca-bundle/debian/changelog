@@ -1,3 +1,10 @@
+ca-bundle (20110830) unstable; urgency=high
+
+  * Refresh CA list: remove DigiNotar root
+  * Update build system, lintian overrides
+
+ -- Thorsten Glaser <tg@mirbsd.de>  Tue, 30 Aug 2011 14:05:39 +0000
+
 ca-bundle (20110424) unstable; urgency=emergency
 
   * Add hashed symlinks for OpenSSL 1.0.0 changed subject_hash format
