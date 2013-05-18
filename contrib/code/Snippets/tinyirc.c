@@ -1,4 +1,4 @@
-/* $MirOS: contrib/code/Snippets/tinyirc.c,v 1.5 2006/05/21 11:10:51 tg Exp $ */
+/* $MirOS: contrib/code/Snippets/tinyirc.c,v 1.6 2006/05/29 15:56:56 tg Exp $ */
 
 /* Configuration options */
 static const char DEFAULTSERVER[] = "irc.mirbsd.org";
@@ -7,7 +7,7 @@ static const char DEFAULTSERVER[] = "irc.mirbsd.org";
 #define COMMANDCHAR	'/'
 /* each line of history adds 512 bytes to resident size */
 #define HISTLEN		8
-#define RELEASE_L	"TinyIRC 20060521 MirOS-contrib"
+#define RELEASE_L	"TinyIRC 20060529 MirOS-contrib"
 #define RELEASE_S	"TinyIRC MirOS"
 /* tinyirc 1.0
 
@@ -77,7 +77,7 @@ static const char DEFAULTSERVER[] = "irc.mirbsd.org";
 #define	__RCSID(x)	static const char __rcsid[] __attribute__((used)) = (x)
 #endif
 
-__RCSID("$MirOS: contrib/code/Snippets/tinyirc.c,v 1.5 2006/05/21 11:10:51 tg Exp $");
+__RCSID("$MirOS: contrib/code/Snippets/tinyirc.c,v 1.6 2006/05/29 15:56:56 tg Exp $");
 
 struct dlist {
     char name[64];
