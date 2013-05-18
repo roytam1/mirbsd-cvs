@@ -283,6 +283,28 @@ and
 .Fn localeconv
 functions first appeared in
 .Bx 4.4 .
+.Sh CAVEATS
+On current
+.Mx ,
+.Pa /etc/profile
+sets
+.Dv LC_CTYPE
+to either
+.Li "\&""en_US.UTF-8""
+or
+.Ns Li "\&""C"" ,
+depending on whether the terminal is UTF-8 capable or not.
+Even though this is not done if
+.Dv LC_CTYPE
+was already set and exported, certain other programmes, such as
+.Xr startx 1 ,
+may work around this behaviour.
+Therefore, it is recommended to set and export only
+.Dv LC_ALL ,
+or
+.Dv LANG
+if you want to override specific categories,
+in order to manually provide localisation information.
 .Sh BUGS
 The current implementation supports only the
 .Li "\&""C""
