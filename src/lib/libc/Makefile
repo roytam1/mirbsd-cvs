@@ -1,4 +1,4 @@
-# $MirOS: src/lib/libc/Makefile,v 1.20 2007/05/07 02:26:10 tg Exp $
+# $MirOS: src/lib/libc/Makefile,v 1.21 2007/05/16 22:03:52 tg Exp $
 # $OpenBSD: Makefile,v 1.23 2005/06/29 14:05:08 mickey Exp $
 #
 # All library objects contain sccsid strings by default; they may be
@@ -9,7 +9,7 @@
 
 .include <bsd.own.mk>
 
-# on major bump to 41 look at gen/uname.c
+# on major bump to 41 look at gen/uname.c and /sys/utsname.h
 SHLIB_VERSION?=		40.3	# note: If changes were made to the file
 #				# src/lib/libc/include/thread_private.h or
 #				# system calls have been added/changed,
