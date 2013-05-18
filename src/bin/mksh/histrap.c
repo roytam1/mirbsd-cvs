@@ -766,7 +766,6 @@ hist_init(Source *s)
 				goto hist_trunc_abort;
 			/* and of course the entries */
 			hp = history;
-			lines = s->line - (histptr - hp);
 			while (hp < histptr) {
 				if (!writehistline(fd,
 				    s->line - (histptr - hp), *hp))

@@ -709,7 +709,6 @@ typeset(const char *var, uint32_t set, uint32_t clr, int field, int base)
 	if (val == var)
 		return (NULL);
 	mkssert(var != NULL);
-	mkssert(*var != 0);
 	if (*val == '[') {
 		if (set_refflag != SRF_NOP)
 			errorf("%s: %s", var,
