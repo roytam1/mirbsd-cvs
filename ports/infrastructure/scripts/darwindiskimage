@@ -1,5 +1,5 @@
 #!/bin/bash
-# $MirOS: src/share/misc/licence.template,v 1.14 2006/08/09 19:35:23 tg Rel $
+# $MirOS: ports/infrastructure/scripts/darwindiskimage,v 1.1 2006/10/02 04:01:47 tg Exp $
 # $NetBSD: darwindiskimage,v 1.2 2006/08/30 04:36:10 schmonz Exp $
 #-
 # Copyright (c) 2006
@@ -25,24 +25,20 @@
 # Use this to create a disk image, for use with a MirPorts Framework
 # installation on a default case-insensitive Mac OSX installation.
 #
-# $ /usr/bin/cvs -d anoncvs@anoncvs.mirbsd.org:/cvs co osxports
+# $ /usr/bin/cvs -d anoncvs@anoncvs.mirbsd.org:/cvs co ports/infrastructure
 # $ cp ports/infrastructure/scripts/darwindiskimage ~
 # $ bash ~/darwindiskimage create ~/Documents/MirPorts 512
 #				# Mebibytes - season to taste
 # $ bash ~/darwindiskimage mount ~/Documents/MirPorts
 # $ sudo chown $(id -u):$(id -g) /Volumes/MirPorts
-# $ pax -rw ports /Volumes/MirPorts/; rm -rf ports
-# $ cd /Volumes/MirPorts/ports
+# $ cd /Volumes/MirPorts
+# $ /usr/bin/cvs -d anoncvs@anoncvs.mirbsd.org:/cvs co ports
 # $ bash ./Setup.sh -uel /Volumes/MirPorts/mpkg
 # $ . /Volumes/MirPorts/mpkg/db/SetEnv.sh
 # $ cd devel/cvs
 # $ mmake install clean
-# $ cd /Volumes/MirPorts
-# $ mv ports/Distfiles .
-# $ rm -rf ports
-# $ /Volumes/MirPorts/mpkg/bin/cvs -d anoncvs@anoncvs.mirbsd.org:/cvs \
-#	co -PA ports
-# $ cd ports; ln -s ../Distfiles .
+# $ cd ../..
+# $ /Volumes/MirPorts/mpkg/bin/cvs -Rq up -PAd
 #
 # To use:
 # $ bash ~/darwindiskimage mount ~/Documents/MirPorts
