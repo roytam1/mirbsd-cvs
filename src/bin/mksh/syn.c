@@ -22,7 +22,7 @@
 
 #include "sh.h"
 
-__RCSID("$MirOS: src/bin/mksh/syn.c,v 1.59 2011/03/26 15:32:37 tg Exp $");
+__RCSID("$MirOS: src/bin/mksh/syn.c,v 1.60 2011/04/09 15:14:54 tg Exp $");
 
 extern short subshell_nesting_level;
 
@@ -166,7 +166,7 @@ static struct ioword *
 synio(int cf)
 {
 	struct ioword *iop;
-	static struct ioword *nextiop = NULL;
+	static struct ioword *nextiop;
 	bool ishere;
 
 	if (nextiop != NULL) {
