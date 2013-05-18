@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/bsd.sys.mk,v 1.20 2008/08/01 15:35:14 tg Exp $
+# $MirOS: src/share/mk/bsd.sys.mk,v 1.21 2008/11/01 21:45:38 tg Exp $
 # $OpenBSD: bsd.sys.mk,v 1.8 2000/07/06 23:12:41 millert Exp $
 # $NetBSD: bsd.sys.mk,v 1.2 1995/12/13 01:25:07 cgd Exp $
 
@@ -27,9 +27,11 @@ LDFLAGS+=	-Wl,-O2		# optimise hash table
 .  if !defined(EXPERIMENTAL)
 CFLAGS+=	-Werror
 .    if !defined(BSD_CFWRAP_MK) && !make(depend)
+_ORIG_CC:=	${CC}
 CC:=		env GCC_HONOUR_COPTS=2 ${CC}
 .    endif
 .  endif
+_ORIG_CC?=	${CC}
 
 .  if defined(DESTDIR) && !empty(DESTDIR)
 CPPFLAGS+=	-nostdinc -isystem ${DESTDIR}/usr/include

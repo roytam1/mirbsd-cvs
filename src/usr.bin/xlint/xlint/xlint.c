@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.bin/xlint/xlint/xlint.c,v 1.5 2008/11/18 21:19:04 tg Exp $ */
+/**	$MirOS: src/usr.bin/xlint/xlint/xlint.c,v 1.6 2008/11/22 12:26:44 tg Exp $ */
 /*	$OpenBSD: xlint.c,v 1.16 2004/05/11 02:08:07 millert Exp $	*/
 /*	$NetBSD: xlint.c,v 1.3 1995/10/23 14:29:30 jpo Exp $	*/
 
@@ -50,7 +50,7 @@
 #include "lint.h"
 #include "pathnames.h"
 
-__RCSID("$MirOS: src/usr.bin/xlint/xlint/xlint.c,v 1.5 2008/11/18 21:19:04 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/xlint/xlint/xlint.c,v 1.6 2008/11/22 12:26:44 tg Exp $");
 
 /* directory for temporary files */
 static	const	char *tmpdir;
@@ -569,16 +569,35 @@ fname(name, last)
 
 	/* run cpp */
 
-	path = strdup("/usr/libexec/cpp");
-
+	path = strdup("env");
 	appcstrg(&args, path);
+
+	if ((path = getenv("CC")) == NULL || *path == '\0') {
+		path = NULL;
+		appcstrg(&args, strdup("/usr/libexec/cpp"));
+	} else {
+		appcstrg(&args, strdup(path));
+		appcstrg(&args, strdup("-E"));
+		if ((path = strrchr(name, '.')) != NULL &&
+		    strcasecmp(name, ".c") && strcmp(name, ".m") &&
+		    strcasecmp(name, ".h") && strcmp(name, ".cxx") &&
+		    strcasecmp(name, ".cpp") && strcmp(name, ".cc") &&
+		    strcasecmp(name, ".fpp") && strcmp(name, ".hh") &&
+		    strcmp(name, ".S") && strcmp(name, ".F")) {
+			appcstrg(&args, strdup("-x"));
+			appcstrg(&args, strdup("c"));
+		}
+		appcstrg(&args, strdup("-o"));
+		appcstrg(&args, cppout);
+	}
+
 	applst(&args, cppflags);
 	applst(&args, lcppflgs);
 	appcstrg(&args, name);
-	appcstrg(&args, cppout);
+	if (path == NULL)
+		appcstrg(&args, cppout);
 
-	error = runchild(path, args, cppout);
-	free(path);
+	error = runchild("/usr/bin/env", args, cppout);
 	freelst(&args);
 	if (error)
 		return;

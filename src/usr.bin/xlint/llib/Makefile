@@ -13,9 +13,9 @@ clean cleanall:
 	rm -f ${LIBS}
 
 llib-lposix.ln: llib-lposix
-	lint -Cposix ${.ALLSRC}
+	CC=${_ORIG_CC:Q} lint -Cposix ${.ALLSRC}
 
 llib-lstdc.ln: llib-lstdc
-	lint -Cstdc ${.ALLSRC}
+	CC=${_ORIG_CC:Q} lint -Cstdc ${.ALLSRC}
 
 .include <bsd.prog.mk>
