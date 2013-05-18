@@ -1,15 +1,11 @@
-# $MirOS: ports/x11/windowmaker/Makefile,v 1.7 2006/03/06 22:30:04 bsiegert Exp $
+# $MirOS: ports/x11/windowmaker/Makefile,v 1.8 2006/03/06 23:19:04 tg Exp $
 # $OpenBSD: Makefile,v 1.57 2003/08/16 19:06:07 tedu Exp $
-
-# ranlib: unable to copy file '/usr/ports/x11/windowmaker/w-windowmaker-0.92.0-0/fake-i386/usr/mpkg/lib/libWINGs.a' reason: Permission denied
-# fixed in automake-1.4p6-4
-BROKEN=			please convert this port to CONFIGURE_STYLE=automake
 
 COMMENT=		'window manager that emulates NEXTSTEP(tm)'
 COMMENT-lang=		"language subpackage for Window Maker"
 
 V=			0.92.0
-PL=			0
+PL=			1
 DISTNAME=		WindowMaker-${V}
 PKGNAME=		${DISTNAME:L}-${PL}
 CATEGORIES=		x11 x11/windowmaker
@@ -26,7 +22,8 @@ EXTRACT_SUFX=		.tar.bz2
 
 NO_REGRESS=		Yes
 USE_X11=		Yes
-CONFIGURE_STYLE=	autoconf
+CONFIGURE_STYLE=	autogen
+AUTOMAKE_VERSION=	1.4
 AUTOCONF_NEW=		Yes
 CONFIGURE_ARGS+=	${CONFIGURE_SHARED} \
 			--enable-static \
