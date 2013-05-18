@@ -70,6 +70,8 @@
 #include "ncp.h"
 #include "bundle.h"
 
+__RCSID("$MirOS$");
+
 /*
  * Documentation:
  *
@@ -552,7 +554,7 @@ MPPEInitOptsOutput(struct bundle *bundle, struct fsm_opt *o,
   if (!MPPE_MasterKeyValid) {
     log_Printf(LogCCP, "MPPE: MasterKey is invalid,"
                " MPPE is available only with CHAP81 authentication\n");
-    ua_htonl(0x0, o->data);
+    (*(u_int32_t *)(o->data) = 0;
     return;
   }
 

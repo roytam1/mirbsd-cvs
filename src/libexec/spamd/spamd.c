@@ -1,4 +1,4 @@
-/**	$MirOS: src/libexec/spamd/spamd.c,v 1.4 2005/04/17 03:09:44 tg Exp $ */
+/**	$MirOS: src/libexec/spamd/spamd.c,v 1.5 2005/11/23 16:04:02 tg Exp $ */
 /*	$OpenBSD: spamd.c,v 1.80 2005/11/12 02:20:37 deraadt Exp $	*/
 
 /*
@@ -49,7 +49,7 @@
 #include "sdl.h"
 #include "grey.h"
 
-__RCSID("$MirOS: src/libexec/spamd/spamd.c,v 1.4 2005/04/17 03:09:44 tg Exp $");
+__RCSID("$MirOS: src/libexec/spamd/spamd.c,v 1.5 2005/11/23 16:04:02 tg Exp $");
 
 struct con {
 	int fd;
@@ -991,8 +991,13 @@ main(int argc, char *argv[])
 			greylist = 1;
 			break;
 		case 'G':
+#ifdef _BSD_TIME_T_IS_64_BIT
 			if (sscanf(optarg, "%lld:%lld:%lld", &passtime,
 			    &greyexp, &whiteexp) != 3)
+#else
+			if (sscanf(optarg, "%d:%d:%d", &passtime,
+			    &greyexp, &whiteexp) != 3)
+#endif
 				usage();
 			/* convert to seconds from minutes */
 			passtime *= 60;

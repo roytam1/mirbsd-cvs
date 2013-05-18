@@ -1,4 +1,4 @@
-dnl $MirOS: src/gnu/usr.bin/lynx/configure.in,v 1.9 2006/06/02 19:32:50 tg Exp $
+dnl $MirOS: src/gnu/usr.bin/lynx/configure.in,v 1.10 2006/06/15 19:36:59 tg Exp $
 dnl
 dnl Process this file with autoconf to produce a configure script.
 dnl written jan/1997
@@ -161,7 +161,7 @@ AC_MSG_RESULT($with_warnings)
 if test "$with_warnings" = "yes"
 then
 	CF_GCC_ATTRIBUTES
-	CF_GCC_WARNINGS(Wno-cast-qual)
+	CF_GCC_WARNINGS(Wno-cast-qual Wno-cast-align)
 fi
 fi
 

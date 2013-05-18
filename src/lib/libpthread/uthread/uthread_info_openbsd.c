@@ -1,4 +1,4 @@
-/**	$MirOS$ */
+/**	$MirOS: src/lib/libpthread/uthread/uthread_info_openbsd.c,v 1.2 2005/03/06 20:29:20 tg Exp $ */
 /*	$OpenBSD: uthread_info_openbsd.c,v 1.9 2003/03/20 00:09:21 marc Exp $	*/
 
 /*
@@ -45,7 +45,7 @@
 #include <pthread.h>
 #include "pthread_private.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/lib/libpthread/uthread/uthread_info_openbsd.c,v 1.2 2005/03/06 20:29:20 tg Exp $");
 
 int _thread_dump_verbose = 0;
 
@@ -161,7 +161,7 @@ _thread_dump_entry(pthread_t pthread, int fd, int verbose)
 		TIMEVAL_TO_TIMESPEC(&now, &nows);
 		timespecsub(&pthread->wakeup_time, &nows, &delta);
 		snprintf(s, sizeof s, "%lld.%09ld slice ",
-			delta.tv_sec, delta.tv_nsec);
+			(int64_t)delta.tv_sec, delta.tv_nsec);
 		_thread_sys_write(fd, s, strlen(s));
 	}
 	if (pthread->slice_usec == -1)

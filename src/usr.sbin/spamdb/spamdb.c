@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.sbin/spamdb/spamdb.c,v 1.2 2005/03/13 19:17:27 tg Exp $ */
+/**	$MirOS: src/usr.sbin/spamdb/spamdb.c,v 1.3 2005/03/23 18:19:41 tg Exp $ */
 /*	$OpenBSD: spamdb.c,v 1.14 2005/03/11 23:45:45 beck Exp $	*/
 
 /*
@@ -33,7 +33,7 @@
 
 #include "grey.h"
 
-__RCSID("$MirOS: src/usr.sbin/spamdb/spamdb.c,v 1.2 2005/03/13 19:17:27 tg Exp $");
+__RCSID("$MirOS: src/usr.sbin/spamdb/spamdb.c,v 1.3 2005/03/23 18:19:41 tg Exp $");
 
 /* things we may add/delete from the db */
 #define WHITE 0
@@ -238,7 +238,11 @@ dblist(char *dbname)
 			}
 			*to = '\0';
 			to++;
+#ifdef _BSD_TIME_T_IS_64_BIT
 			printf("GREY|%s|%s|%s|%lld|%lld|%lld|%d|%d\n",
+#else
+			printf("GREY|%s|%s|%s|%d|%d|%d|%d|%d\n",
+#endif
 			    a, from, to, gd.first, gd.pass, gd.expire,
 			    gd.bcount, gd.pcount);
 		}

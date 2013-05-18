@@ -282,8 +282,8 @@ intpr(int interval, u_long ifnetaddr)
 				char netnum[8];
 
 				*(union ipx_net *)&net = sipx->sipx_addr.ipx_net;
-				snprintf(netnum, sizeof netnum, "%xH",
-				    ntohl(net));
+				snprintf(netnum, sizeof netnum, "%lxH",
+				    (unsigned long)ntohl(net));
 				upHex(netnum);
 				printf("ipx:%-8s", netnum);
 				printf("%-17s ",

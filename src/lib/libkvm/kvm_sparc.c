@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: kvm_sparc.c,v 1.10 2004/06/15 03:52:59 deraadt Exp $ */
 /*	$NetBSD: kvm_sparc.c,v 1.9 1996/04/01 19:23:03 cgd Exp $	*/
 
@@ -68,6 +69,7 @@ static char *rcsid = "$OpenBSD: kvm_sparc.c,v 1.10 2004/06/15 03:52:59 deraadt E
 
 #include "kvm_private.h"
 
+__RCSID("$MirOS$");
 
 static int cputyp = -1;
 static int pgshift;
@@ -174,7 +176,7 @@ _kvm_kvatop44c(kvm_t *kd, u_long va, u_long *pa)
 		return (kd->nbpg - off);
 	}
 err:
-	_kvm_err(kd, 0, "invalid address (%x)", va);
+	_kvm_err(kd, 0, "invalid address (%lx)", va);
 	return (0);
 }
 
@@ -209,7 +211,7 @@ _kvm_kvatop4m(kvm_t *kd, u_long va, u_long *pa)
 		return (0);
 
 	if (_kvm_pread(kd, kd->pmfd, (void *)&pte, sizeof(pte), foff) < 0) {
-		_kvm_err(kd, kd->program, "cannot read pte for %x", va);
+		_kvm_err(kd, kd->program, "cannot read pte for %lx", va);
 		return (0);
 	}
 
@@ -221,7 +223,7 @@ _kvm_kvatop4m(kvm_t *kd, u_long va, u_long *pa)
 		return (kd->nbpg - off);
 	}
 err:
-	_kvm_err(kd, 0, "invalid address (%x)", va);
+	_kvm_err(kd, 0, "invalid address (%lx)", va);
 	return (0);
 }
 
@@ -252,7 +254,7 @@ _kvm_pa2off(kvm_t *kd, u_long pa)
 		off += mp->size;
 	}
 	if (nmem < 0) {
-		_kvm_err(kd, 0, "invalid address (%x)", pa);
+		_kvm_err(kd, 0, "invalid address (%lx)", pa);
 		return (-1);
 	}
 

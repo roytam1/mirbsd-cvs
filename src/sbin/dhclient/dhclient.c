@@ -1,4 +1,4 @@
-/**	$MirOS: src/sbin/dhclient/dhclient.c,v 1.3 2005/04/17 04:24:11 tg Exp $ */
+/**	$MirOS: src/sbin/dhclient/dhclient.c,v 1.4 2005/11/23 16:43:51 tg Exp $ */
 /*	$OpenBSD: dhclient.c,v 1.76 2005/07/16 14:09:51 krw Exp $	*/
 
 /*
@@ -61,7 +61,7 @@
 
 #define	CLIENT_PATH "PATH=/usr/bin:/usr/sbin:/bin:/sbin"
 
-__RCSID("$MirOS: src/sbin/dhclient/dhclient.c,v 1.3 2005/04/17 04:24:11 tg Exp $");
+__RCSID("$MirOS: src/sbin/dhclient/dhclient.c,v 1.4 2005/11/23 16:43:51 tg Exp $");
 
 time_t cur_time;
 time_t default_lease_time = 43200; /* 12 hours... */
@@ -678,7 +678,7 @@ bind_lease(struct interface_info *ip)
 
 	note("bound to %s -- renewal in %lld seconds.",
 	    piaddr(ip->client->active->address),
-	    ip->client->active->renewal - cur_time);
+	    ip->client->active->renewal - (int64_t)cur_time);
 	ip->client->state = S_BOUND;
 	reinitialize_interfaces();
 	go_daemon();
@@ -1100,7 +1100,8 @@ again:
 
 	note("DHCPDISCOVER on %s to %s port %d interval %lld",
 	    ip->name, inet_ntoa(sockaddr_broadcast.sin_addr),
-	    ntohs(sockaddr_broadcast.sin_port), ip->client->interval);
+	    ntohs(sockaddr_broadcast.sin_port),
+	    (int64_t)(ip->client->interval));
 
 	/* Send out a packet. */
 	(void)send_packet(ip, &ip->client->packet, ip->client->packet_length,
@@ -1152,7 +1153,7 @@ state_panic(void *ipp)
 					ip->client->state = S_BOUND;
 					note("bound: renewal in %lld seconds.",
 					    ip->client->active->renewal -
-					    cur_time);
+					    (int64_t)cur_time);
 					add_timeout(ip->client->active->renewal,
 					    state_bound, ip);
 				} else {
