@@ -152,7 +152,7 @@ For all files in /etc, the ‘md5sum’ busybox applet is run, output
 stored in a temporary file and compared against the saved values
 from ‘fwcf setup’. If the ‘-q’ flag is not given, the differences
 are shown as “<oldmd5><space><newmd5><space><file>”, where the md5
-is expressed as shown by the busybox applet, or as padded “<NULL>”
+is expressed as shown by the busybox applet, or as padded¹ “<NULL>”
 if the file does not exist on either side, where “old” is the status
 at fwcf setup time (or the /etc from the root fs, if ‘-r’ is given),
 and “new” is the status of the current (tmpfs) /etc. If there are
@@ -161,6 +161,9 @@ no differences, the exit status is 0, non-0 otherwise.
 If the ‘-r’ flag is given, operation is done against the data that
 is stored in the ROM, without considering the contents of the FWCF
 filesystem, instead.
+
+¹) Every “MD5” value is padded to be 32 bytes long, at its left
+   side, with spaces (just to clarify).
 
 
 3. Structure of the fwcf data
@@ -371,4 +374,4 @@ They are provided as hint only and not part of the specifi-
 cation itself. They may change without notice.
 
 ⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼
-$MirOS: contrib/hosted/fwcf/fwcf.txt,v 1.27 2007/02/20 21:06:02 tg Exp $
+$MirOS: contrib/hosted/fwcf/fwcf.txt,v 1.28 2007/02/28 21:08:22 tg Exp $
