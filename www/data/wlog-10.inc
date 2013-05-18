@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.327 2011/03/12 14:16:23 bsiegert Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.328 2011/03/16 21:21:07 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -7603,4 +7603,13 @@ Tag: debian grml tip
  recognised” is <a
  href="https://answers.launchpad.net/canonical-identity-provider/+question/147960">expected</a>
  and worked on with low urgency (mostly cosmetical, I think).</p>
+----
+Date: 19.03.2011 04:45
+Author: tg@
+Title: Yawn.
+Tag: debian event geocache grml
+
+<p>Will drive to <a href="http://www.google.com/webhp?hl=la&amp;q=Chemnitzer+Linuxtage">Chemnitz</a>
+ now. Maybe meet me there. No booth, just visiting to meet everyone
+ again, rather spontaneous.</p>
 ----
