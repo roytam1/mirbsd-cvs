@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/bsd.own.mk,v 1.32 2005/12/29 23:17:04 tg Exp $
+# $MirOS: src/share/mk/bsd.own.mk,v 1.33 2006/06/10 23:21:18 tg Exp $
 # $OpenBSD: bsd.own.mk,v 1.92 2005/01/18 00:28:42 mickey Exp $
 # $NetBSD: bsd.own.mk,v 1.24 1996/04/13 02:08:09 thorpej Exp $
 
@@ -13,6 +13,8 @@ BSD_OWN_MK=1
 .endif
 
 SKEY?=		Yes	# no = avoid building with support for S/key auth
+DEBUGLIBS?=	No	# yes (snapshots), no (releases), removed (mirmake)
+MALLOC_TYPE?=	brk	# default: mmap
 
 CROSS_MODE?=	No
 .if make(obj)
@@ -43,8 +45,8 @@ CFLAGS+=	-Wall -Wextra -Wunused -Wdeclaration-after-statement -Wundef \
 
 # Set to yes to add CDIAGFLAGS to CFLAGS
 WARNINGS?=		No
-# Set to yes to build debugging versions of shared libraries
-DEBUGLIBS?=		Yes	# default: No for releases and MirMake
+# Set to yes to build shared libraries with basic debugging information
+DEBUGLIBS?=		No	# yes, we have this twice
 # Set to yes for a stricter patent policy (USA and OpenBSD only)
 MKC_USAP?=		No
 # Set to sudo to automatically switch to root and only if needed
