@@ -12,7 +12,7 @@
   <li><a href="/getting.htm">Download</a><!-- <ul class="lv2">
 	<li><a href="/?mirrors">Mirrors</a></li>
   </ul>--></li>
-  <li><a href="/?irc">IRC</a></li>
+  <li><a href="/irc.htm">IRC</a></li>
   <li><a href="/projects.htm">Project Ideas</a></li>
   <li><a href="/?danke">Donate</a></li>
   <li><a href="/cman/">Manpages</a></li>
