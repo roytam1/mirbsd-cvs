@@ -1,4 +1,4 @@
-@comment $MirOS: ports/essentials/ca-certificates/PLIST,v 1.8 2011/09/03 16:39:09 tg Exp $
+@comment $MirOS: ports/essentials/ca-certificates/PLIST,v 1.9 2012/05/30 19:12:07 tg Exp $
 share/ca-certificates/-VERSION
 share/ca-certificates/006016b6.0
 share/ca-certificates/00673b5b.0
@@ -10,7 +10,6 @@ share/ca-certificates/025c8f32.0
 share/ca-certificates/02a57f7e.0
 share/ca-certificates/02b73561.0
 share/ca-certificates/0337c6e3.0
-share/ca-certificates/039c618a.0
 share/ca-certificates/03e16f6c.0
 share/ca-certificates/03f0efa4.0
 share/ca-certificates/0435b7f0.0
@@ -104,7 +103,6 @@ share/ca-certificates/1f167f52.0
 share/ca-certificates/1f529211.0
 share/ca-certificates/201cada0.0
 share/ca-certificates/20d096ba.0
-share/ca-certificates/20d3f057.0
 share/ca-certificates/20e6f02d.0
 share/ca-certificates/219b8729.0
 share/ca-certificates/219d9499.0
@@ -130,7 +128,6 @@ share/ca-certificates/2b349938.0
 share/ca-certificates/2c3e3f84.0
 share/ca-certificates/2c543cd1.0
 share/ca-certificates/2cfc4974.0
-share/ca-certificates/2d752da0.0
 share/ca-certificates/2e4eed3c.0
 share/ca-certificates/2e5489c0.0
 share/ca-certificates/2e5ac55d.0
@@ -149,12 +146,10 @@ share/ca-certificates/343eb6cb.0
 share/ca-certificates/349f2832.0
 share/ca-certificates/34d760b2.0
 share/ca-certificates/3513523f.0
-share/ca-certificates/367b75c3.0
 share/ca-certificates/37557a5c.0
 share/ca-certificates/37621ded.0
 share/ca-certificates/381ce4dd.0
 share/ca-certificates/38257cf3.0
-share/ca-certificates/384f4870.0
 share/ca-certificates/38d751eb.0
 share/ca-certificates/396bf851.0
 share/ca-certificates/399e7759.0
@@ -190,18 +185,15 @@ share/ca-certificates/415660c1.1
 share/ca-certificates/4184de39.0
 share/ca-certificates/418595b9.0
 share/ca-certificates/4198459e.0
-share/ca-certificates/41e659c5.0
 share/ca-certificates/4203676b.0
 share/ca-certificates/42c52aa6.0
 share/ca-certificates/4304c5e5.0
 share/ca-certificates/442adcac.0
-share/ca-certificates/44fbeaf0.0
 share/ca-certificates/455f1b52.0
 share/ca-certificates/4597689c.0
 share/ca-certificates/45e0352d.0
 share/ca-certificates/46b242f2.0
 share/ca-certificates/46b2fd3b.0
-share/ca-certificates/46e49285.0
 share/ca-certificates/473f8d26.0
 share/ca-certificates/478dd9dc.0
 share/ca-certificates/478f55be.0
@@ -235,7 +227,6 @@ share/ca-certificates/522b8ca3.0
 share/ca-certificates/524d9b43.0
 share/ca-certificates/52918108.0
 share/ca-certificates/52d72fac.0
-share/ca-certificates/53729190.0
 share/ca-certificates/5409990f.0
 share/ca-certificates/546fe0be.0
 share/ca-certificates/5480ace1.0
@@ -243,7 +234,6 @@ share/ca-certificates/55a10908.0
 share/ca-certificates/5620c4aa.0
 share/ca-certificates/562ad774.0
 share/ca-certificates/56657bde.0
-share/ca-certificates/56b8a0b6.0
 share/ca-certificates/56e29e75.0
 share/ca-certificates/56e607f4.0
 share/ca-certificates/57692373.0
@@ -257,7 +247,6 @@ share/ca-certificates/58a44af1.0
 share/ca-certificates/58a44af1.1
 share/ca-certificates/58e371b4.0
 share/ca-certificates/590d426f.0
-share/ca-certificates/592c0a9a.0
 share/ca-certificates/594f1775.0
 share/ca-certificates/59cadd8a.0
 share/ca-certificates/59e78d53.0
@@ -268,7 +257,6 @@ share/ca-certificates/5a950642.0
 share/ca-certificates/5ad8a5d6.0
 share/ca-certificates/5ad8a5d6.1
 share/ca-certificates/5ad8a5d6.2
-share/ca-certificates/5b4e943a.0
 share/ca-certificates/5b61fb15.0
 share/ca-certificates/5bf5f3fa.0
 share/ca-certificates/5cc38bb7.0
@@ -336,7 +324,6 @@ share/ca-certificates/72fa7371.0
 share/ca-certificates/72fa7371.1
 share/ca-certificates/73132ac5.0
 share/ca-certificates/731f03a5.0
-share/ca-certificates/739ed441.0
 share/ca-certificates/73d8eedc.0
 share/ca-certificates/747d995c.0
 share/ca-certificates/74c26bd0.0
@@ -365,7 +352,6 @@ share/ca-certificates/7a481e66.0
 share/ca-certificates/7a4a2119.0
 share/ca-certificates/7a819ef2.0
 share/ca-certificates/7a9820c1.0
-share/ca-certificates/7ab06aff.0
 share/ca-certificates/7ae9d87b.0
 share/ca-certificates/7b2d086c.0
 share/ca-certificates/7b307bd3.0
@@ -393,7 +379,6 @@ share/ca-certificates/841ea79d.0
 share/ca-certificates/843b6c51.0
 share/ca-certificates/8470719d.0
 share/ca-certificates/847e15b6.0
-share/ca-certificates/84cba82f.0
 share/ca-certificates/85cde254.0
 share/ca-certificates/85fe6149.0
 share/ca-certificates/861a399d.0
@@ -406,7 +391,6 @@ share/ca-certificates/878cf4c6.0
 share/ca-certificates/87e17eb2.0
 share/ca-certificates/882de061.0
 share/ca-certificates/8867006a.0
-share/ca-certificates/88f89ea7.0
 share/ca-certificates/89087fe6.0
 share/ca-certificates/895cad1a.0
 share/ca-certificates/89c02a45.0
@@ -521,14 +505,12 @@ share/ca-certificates/b32163fc.0
 share/ca-certificates/b3d78cd6.0
 share/ca-certificates/b3fec4ff.0
 share/ca-certificates/b415d336.0
-share/ca-certificates/b5dc6fc1.0
 share/ca-certificates/b66938e9.0
 share/ca-certificates/b6bdac1f.0
 share/ca-certificates/b6c5745d.0
 share/ca-certificates/b6cec3e7.0
 share/ca-certificates/b727005e.0
 share/ca-certificates/b737b221.0
-share/ca-certificates/b73ee09e.0
 share/ca-certificates/b7a5b843.0
 share/ca-certificates/b7a5b843.1
 share/ca-certificates/b7db1890.0
@@ -539,7 +521,6 @@ share/ca-certificates/b807859f.0
 share/ca-certificates/b8db54bd.0
 share/ca-certificates/b8e83700.0
 share/ca-certificates/b8e83700.1
-share/ca-certificates/b92b0add.0
 share/ca-certificates/b936d1c6.0
 share/ca-certificates/b95d5958.0
 share/ca-certificates/ba386118.0
@@ -605,7 +586,6 @@ share/ca-certificates/ccc52f49.0
 share/ca-certificates/cd0ac66f.0
 share/ca-certificates/cd58d51e.0
 share/ca-certificates/cd8c0d63.0
-share/ca-certificates/ce013622.0
 share/ca-certificates/ce026bf8.0
 share/ca-certificates/cf701eeb.0
 share/ca-certificates/cfa1c2ee.0
@@ -625,7 +605,6 @@ share/ca-certificates/d537fba6.0
 share/ca-certificates/d59297b8.0
 share/ca-certificates/d593166d.0
 share/ca-certificates/d64f06f3.0
-share/ca-certificates/d66b55d9.0
 share/ca-certificates/d6b475b4.0
 share/ca-certificates/d6ba3584.0
 share/ca-certificates/d777342d.0
@@ -654,7 +633,6 @@ share/ca-certificates/de0164cf.0
 share/ca-certificates/e0a6b46e.0
 share/ca-certificates/e113c810.0
 share/ca-certificates/e1213163.0
-share/ca-certificates/e1737dc2.0
 share/ca-certificates/e268a4c5.0
 share/ca-certificates/e2799e36.0
 share/ca-certificates/e27f9b85.0
@@ -705,7 +683,6 @@ share/ca-certificates/f10dd942.0
 share/ca-certificates/f1c647bf.0
 share/ca-certificates/f20d5660.0
 share/ca-certificates/f2487e13.0
-share/ca-certificates/f2e83716.0
 share/ca-certificates/f3377b1b.0
 share/ca-certificates/f387163d.0
 share/ca-certificates/f39fc864.0
@@ -736,7 +713,6 @@ share/ca-certificates/fd98c7ab.0
 share/ca-certificates/fde84897.0
 share/ca-certificates/fe124ce2.0
 share/ca-certificates/fea60469.0
-share/ca-certificates/fee86ffe.0
 share/ca-certificates/ff588423.0
 share/ca-certificates/ff783690.0
 share/ca-certificates/ff8fd16b.0
