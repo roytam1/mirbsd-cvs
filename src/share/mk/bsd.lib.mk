@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/bsd.lib.mk,v 1.80 2009/08/30 16:21:20 tg Exp $
+# $MirOS: src/share/mk/bsd.lib.mk,v 1.81 2009/08/30 18:04:09 tg Exp $
 # $OpenBSD: bsd.lib.mk,v 1.43 2004/09/20 18:52:38 espie Exp $
 # $NetBSD: bsd.lib.mk,v 1.67 1996/01/17 20:39:26 mycroft Exp $
 # @(#)bsd.lib.mk	5.26 (Berkeley) 5/2/91
@@ -39,7 +39,7 @@ SHLIB_TYPE=	none
 .if defined(SHLIB_VERSION) && ${NOPIC:L} == "no"
 .  if ${RTLD_TYPE} == "dyld"
 .    if ${SHLIB_TYPE:L} == "plugin"
-_OSX_TYPE=	-dynamiclib -undefined error
+_OSX_TYPE=	-bundle -undefined dynamic_lookup
 .      if ${SHLIB_VERSION} == "-"
 # DyLD, unversioned plugin
 SHLIB_SONAME?=	lib${LIB}.bundle
@@ -48,7 +48,7 @@ SHLIB_SONAME?=	lib${LIB}.bundle
 SHLIB_SONAME?=	lib${LIB}.${SHLIB_VERSION}.0.bundle
 .      endif
 .    else
-_OSX_TYPE=	-bundle -undefined dynamic_lookup
+_OSX_TYPE=	-dynamiclib -undefined error
 .      if ${SHLIB_VERSION} == "-"
 # DyLD, unversioned DLL
 SHLIB_SONAME?=	lib${LIB}.dylib
@@ -407,7 +407,7 @@ realinstall:
 .      endif
 .    endif
 .    ifdef SHLIB_SONAME
-.      if ${OBJECT_FMT} == "Mach-O"
+.      if (${OBJECT_FMT} == "Mach-O") && (${SHLIB_TYPE:L} != "plugin")
 	@print -r Relinking dynamic ${LIB} library
 	${LINK.shlib} -install_name ${LIBDIR}/${SHLIB_SONAME} -o ${SHLIB_SONAME}
 .      endif
