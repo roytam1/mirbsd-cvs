@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/news.inc,v 1.138 2010/08/19 18:48:41 tg Exp $
+RCSID: $MirOS: www/data/news.inc,v 1.139 2010/09/16 21:29:35 tg Exp $
 Title: Older news from the MirOS Project
 Date: 01.03.2006
 
@@ -1922,4 +1922,16 @@ Tag: event snapshot
  <li>TIGER (MIRA0819.ISO) = 56dc76dbd112fe70eee5f393b5d90c097f60fb6211c31ced</li>
 </ul>
 <p>Enjoy!</p>
+----
+Title: mksh wins
+Date: 28.01.2011 22:24
+Author: tg@
+Tag: debian mksh
+
+<p>The <a href="http://www.heise.de/-1178064">Android 3.0 (Honeycomb)
+ Preview [German news]</a> comes with a <em>much</em> more sensible <a
+ href="@@RELPATH@@mksh.htm"><tt>/system/bin/sh</tt></a> than previous
+ released versions… Android-x86 and AOSP have had it for a while, but
+ this sees the general adoption of mksh(1) as the only POSIX/Korn Shell
+ on the Android OS! Thanks to those who helped to make this reality.</p>
 ----
