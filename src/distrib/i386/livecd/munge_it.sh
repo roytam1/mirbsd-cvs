@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/distrib/i386/livecd/munge_it.sh,v 1.32 2006/04/27 08:25:46 tg Exp $
+# $MirOS: src/distrib/i386/livecd/munge_it.sh,v 1.33 2006/04/27 08:31:39 tg Exp $
 #-
 # Copyright (c) 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -77,7 +77,7 @@ ed -s etc/ntpd.conf <<-'EOF'
 EOF
 ed -s etc/rc <<-'EOF'
 	1i
-		# $MirOS: src/distrib/i386/livecd/munge_it.sh,v 1.32 2006/04/27 08:25:46 tg Exp $
+		# $MirOS: src/distrib/i386/livecd/munge_it.sh,v 1.33 2006/04/27 08:31:39 tg Exp $
 	.
 	/shutdown request/ka
 	/^fi/a
@@ -90,6 +90,7 @@ ed -s etc/rc <<-'EOF'
 		rm -f /dev/.rs
 		print \#\\tThis product includes material provided by Thorsten Glaser.
 	.
+	/^raidctl.*all/s/^/#/
 	/^rm.*fastboot$/a
 
 		function do_mfsmount
