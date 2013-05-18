@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.115 2008/12/17 23:22:51 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.116 2008/12/17 23:44:47 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -2312,5 +2312,7 @@ Tag: mksh
  contact me or the <tt>miros-discuss@</tt> mailing list. There is a <a
  href="http://thread.gmane.org/gmane.os.miros.general/8673">discussion
  thread</a> for it.</p>
-<p>In case you didn’t, read cvs(GNU) a.k.a. The Cederqvist!</p>
+<p>In case you didn’t, read cvs(GNU) a.k.a. The Cederqvist! Another source
+ of <a href="http://www.stremler.net/Code/cvs_tricks/">CVS tricks</a> is
+ courtesy of «ThunderChicken:#cvs» and includes some from myself.</p>
 ----
