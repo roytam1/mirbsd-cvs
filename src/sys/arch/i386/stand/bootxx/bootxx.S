@@ -1,4 +1,4 @@
-/* $MirOS: src/sys/arch/i386/stand/bootxx/bootxx.S,v 1.6 2007/02/26 04:08:56 tg Exp $ */
+/* $MirOS: src/sys/arch/i386/stand/bootxx/bootxx.S,v 1.7 2007/02/26 17:39:10 tg Exp $ */
 
 /*-
  * Copyright (c) 2003, 2004, 2005, 2007
@@ -146,6 +146,7 @@ LbLBA:	xor	di,di
 	mov	si,offset blktbl
 	mov	cl,[blkcnt]
 Lmlp1:	/* main load loop */
+	xor	eax,eax
 	lodsb
 	/*
 	 * al contains bitmasked:
@@ -162,10 +163,10 @@ Lmlp1:	/* main load loop */
 	/* decode */
 	mov	dl,al
 	shr	dl,5
-	and	ax,0x1F
+	and	al,0x1F
 	inc	ax
 	inc	dx
-	stosd			/* high 16 bits of eax should be zero */
+	stosd
 
 	xchg	ax,bx		/* load segment */
 	stosw
