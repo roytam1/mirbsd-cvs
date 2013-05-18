@@ -1,5 +1,6 @@
 #!/usr/bin/env mksh
-# $MirOS: src/etc/daily,v 1.20 2008/07/09 23:32:02 tg Exp $
+# $Id$
+# $MirOS: src/etc/daily,v 1.21 2008/12/10 18:06:05 tg Exp $
 # $OpenBSD: daily,v 1.50 2005/03/17 18:16:52 millert Exp $
 # From: @(#)daily	8.2 (Berkeley) 1/25/94
 
@@ -7,6 +8,21 @@ umask 022
 export TZ=UTC PATH=/usr/dbin:/bin:/usr/bin:/usr/dsbin:/sbin:/usr/sbin:/usr/local/bin:/usr/mpkg/bin
 bak=/var/backups
 cd /
+
+if [[ -e /var/backups/_daily ]]; then
+	if [[ $DAILYSUM = delete ]]; then
+		rm -f /var/backups/_daily
+	elif [[ $DAILYSUM != $(rmd160 </etc/daily) || \
+	    $DAILYSUM != $(rmd160 </var/backups/_daily) ]]; then
+		exec env DAILYSUM=delete mksh /etc/daily
+	fi
+fi
+if [[ ! -e /var/backups/_daily ]]; then
+	cp /etc/daily /var/backups/_daily
+	exec env DAILYSUM=$(rmd160 </etc/daily) mksh /var/backups/_daily
+fi
+rm -f /var/backups/_security
+cp /etc/security /var/backups/_security
 
 print RUNTIME=$(date +%J)
 
@@ -178,7 +194,8 @@ fi
 	fsck -n | grep -v '^\*\* Phase'
 }
 
-mksh /etc/security >$OUT 2>&1
-if [[ -s $OUT ]]; then
-    mail -s "$(hostname) daily insecurity output" root <$OUT
-fi
+mksh /var/backups/_security >$OUT 2>&1
+[[ -s $OUT ]] && mail -s "$(hostname) daily insecurity output" root <$OUT
+
+(sleep 5; rm -f /var/backups/_{daily,security}) &
+exit 0
