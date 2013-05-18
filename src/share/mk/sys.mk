@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/sys.mk,v 1.64 2006/06/16 23:58:59 tg Exp $
+# $MirOS: src/share/mk/sys.mk,v 1.65 2006/06/17 17:12:33 tg Exp $
 # $OpenBSD: sys.mk,v 1.45 2005/03/07 00:06:00 deraadt Exp $
 # $NetBSD: sys.mk,v 1.27 1996/04/10 05:47:19 mycroft Exp $
 # @(#)sys.mk	5.11 (Berkeley) 3/13/91
@@ -55,6 +55,7 @@ COMPILE.c?=	${CC} ${CFLAGS} ${CPPFLAGS} -c
 LINK.c?=	${CC} ${CFLAGS} ${CPPFLAGS} ${LDFLAGS}
 
 HOSTCC?=	mgcc
+HOSTCFLAGS?=	${CFLAGS}
 
 CXX?=		c++
 CXXFLAGS?=	${CFLAGS}

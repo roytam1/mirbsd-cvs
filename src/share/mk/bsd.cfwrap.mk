@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/bsd.cfwrap.mk,v 1.11 2006/06/16 22:40:07 tg Exp $
+# $MirOS: src/share/mk/bsd.cfwrap.mk,v 1.12 2006/06/17 17:12:32 tg Exp $
 
 .if !defined(BSD_CFWRAP_MK)
 BSD_CFWRAP_MK=1
@@ -46,8 +46,6 @@ FSFOBJDIR!=	readlink -nf ${.OBJDIR}
 .if ${FSFMAKEFILE} != "Makefile"
 FSFMARGS+=	-f ${FSFMAKEFILE}
 .endif
-
-HOSTCFLAGS?=	${CFLAGS} ${COPTS}
 
 .if ${DEBUGLIBS:L} == "yes"
 FSFCFLAGS+=	-g1
