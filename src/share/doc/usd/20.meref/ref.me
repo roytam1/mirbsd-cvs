@@ -1913,9 +1913,9 @@ of the C/A/T phototypesetter roll.
 .ST *
 .DE
 Footnote number, actually
-.ST [ \c
+.ST ([* \c
 .NR ($f \c
-.ST ] .
+.ST (]* .
 This macro is incremented
 after each call to
 .b .)f .
@@ -1927,9 +1927,14 @@ Actually
 [\c
 .NR ($d ].
 .TL
-.ST [
+.ST ([*
 .DE
 Superscript.
+This used to be
+.ST [
+in the old
+.b \-me
+macros, but this has been changed for GNU GROFF compatibility.
 This string gives upward movement
 and a change to a smaller point size
 if possible,
@@ -1939,21 +1944,25 @@ otherwise it gives the left bracket character
 Extra space is left above the line
 to allow room for the superscript.
 .TL
-.ST ]
+.ST (]*
 .DE
 Unsuperscript.
+This used to be
+.ST ]
+in the old
+.b \-me
+macros, but this has been changed for GNU GROFF compatibility.
 Inverse to
-.ST [ .
+.ST ([* .
 For example,
 to produce a superscript
 you might type
 .b x \c
-.ST [ \c
+.ST ([* \c
 .b 2 \c
-.ST ] ,
+.ST (]* ,
 which will produce
-.ie \n(.g .b x\*[[]2\*] .
-.el .b x\*[2\*] .
+.b x\*([*2\*(]* .
 .TL
 .ST <
 .DE
@@ -2215,7 +2224,7 @@ NAME	TYPE	DESCRIPTION
 \&.TE	M	end table
 \&.TH	M	end header of table
 \&.TS	M	begin table
-\e*[	S	begin superscript
+\e*([*	S	begin superscript (formerly \e*[)
 \en(\&.$	R\(sc	number of arguments to macro
 \en(\&.i	R\(sc	current indent
 \en(\&.l	R\(sc	current line length
@@ -2224,7 +2233,7 @@ NAME	TYPE	DESCRIPTION
 \e*(\&\`	S	grave accent
 \e(\'	F\(sc	acute accent
 \e(\`	F\(sc	grave accent
-\e*]	S	end superscript
+\e*(]*	S	end superscript (formerly \e*])
 \e^	F\(sc	1/12 em narrow space
 \e*^	S	caret
 \&.ac	M	ACM mode

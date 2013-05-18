@@ -1,10 +1,10 @@
-.\" $MirOS$
+.\" $MirOS: src/share/tmac/tmac.s,v 1.1.7.1 2005/03/06 16:33:42 tg Exp $
 .\"
 .\" Copyright (c) 1979, 1980, 1981, 1986, 1988, 1990, 1991, 1992
 .\"     The Regents of the University of California.
 .\" Copyright (C) Caldera International Inc.  2001-2002.
-.\" Copyright (c) 2003, 2004
-.\"	Thorsten "mirabile" Glaser <tg@66h.42h.de>
+.\" Copyright (c) 2003, 2004, 2006
+.\"	Thorsten "mirabilos" Glaser <tg@66h.42h.de>
 .\" All rights reserved.
 .\"
 .\" Redistribution and use in source and binary forms,
@@ -776,7 +776,7 @@
 .rm CF
 ..
 .	\" \** - numbered footnote
-.ds * \\*[\\n+*\\*]
+.ds * \\*([*\\n+*\\*(]*
 .	\" FJ - replaces FS after cover
 .de FJ
 'ce 0
@@ -844,7 +844,7 @@
 .\}
 .if !\\n(FF \{\
 .	ie "\\$2"no" \\$1\0\c
-.	el \\*[\\$1\\*]\0\c
+.	el \\*([*\\$1\\*(]*\0\c
 .\}
 .if \\n(FF .if \\n(FF<3 \{\
 .	ie "\\$2"no" \\$1\0\c
@@ -977,10 +977,10 @@
 .rm @T
 ..
 .	\" footnote delimiters
-.if \n(.V>19 .ds [ \f1[
-.if \n(.V>19 .ds ] ]\fP
-.if \n(.V<20 .ds [ \f1\s-2\v'-.4m'
-.if \n(.V<20 .ds ] \v'.4m'\s+2\fP
+.if \n(.V>19 .ds [* \f1[
+.if \n(.V>19 .ds ]* ]\fP
+.if \n(.V<20 .ds [* \f1\s-2\v'-.4m'
+.if \n(.V<20 .ds ]* \v'.4m'\s+2\fP
 .	\" refer strings
 .if n .ds [. [
 .if t .ds [. \s-2\v'-.4m'\f1

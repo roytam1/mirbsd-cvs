@@ -1,4 +1,4 @@
-/* $MirOS: src/usr.bin/oldroff/nroff/n5.c,v 1.3 2005/04/13 18:28:00 tg Exp $ */
+/* $MirOS: src/usr.bin/oldroff/nroff/n5.c,v 1.4 2006/10/13 20:36:37 tg Exp $ */
 
 /*-
  * Copyright (c) 1979, 1980, 1981, 1986, 1988, 1990, 1991, 1992
@@ -44,7 +44,7 @@
 
 #include <sys/cdefs.h>
 __SCCSID("@(#)n5.c	4.4 (Berkeley) 5/2/91");
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.bin/oldroff/nroff/n5.c,v 1.4 2006/10/13 20:36:37 tg Exp $");
 
 #include "tdef.h"
 #include <termios.h>
@@ -147,6 +147,7 @@ extern int nmbits;
 extern int chbits;
 extern int tdelim;
 extern int xxx;
+extern int ecskip;
 int iflist[NIF];
 int ifx;
 
@@ -553,11 +554,11 @@ i1:
 		ch = i;
 		nflush++;
 	}else{
-		copyf++;
+		copyf++; ecskip++;
 		if(eat(LEFT) == LEFT){
 			while(eatblk(RIGHT,LEFT) != RIGHT)nlflg = 0;
 		}
-		copyf--;
+		copyf--; ecskip--;
 	}
 }
 eatblk(right,left)

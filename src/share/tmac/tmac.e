@@ -1,5 +1,5 @@
 .nr _0 \n(.c
-.\" $MirOS$
+.\" $MirOS: src/share/tmac/tmac.e,v 1.1.7.1 2005/03/06 16:33:41 tg Exp $
 .\"
 .\" Copyright (c) 1988 The Regents of the University of California.
 .\" All rights reserved.
@@ -957,7 +957,7 @@
 .\}
 .nr ?C 1
 .nr $f 1 1
-.ds * \\*[1\\*]\k*
+.ds * \\*([*1\\*(]*\k*
 .if \\n(?R \
 .	pn 1
 .bp
@@ -1106,15 +1106,15 @@
 .nr $s 4n			\" column separation
 .bd S B 3
 .\"		*** OTHER INITIALIZATION ***
-.ds [ \u\x'-0.25v'
-.ds ] \d
+.ds [* \u\x'-0.25v'
+.ds ]* \d
 .ds < \d\x'0.25v'
 .ds > \u
 .ds - --
 .if t \
 \{\
-.	ds [ \v'-0.4m'\x'-0.2m'\s-3
-.	ds ] \s0\v'0.4m'
+.	ds [* \v'-0.4m'\x'-0.2m'\s-3
+.	ds ]* \s0\v'0.4m'
 .	ds < \v'0.4m'\x'0.2m'\s-3
 .	ds > \s0\v'-0.4m'
 .	ds - \(em
@@ -1139,8 +1139,8 @@
 \{\
 .	if \n($T=1 \
 .		po 0
-.	ds [ [
-.	ds ] ]
+.	ds [* [
+.	ds ]* ]
 .	ds < <
 .	ds > >
 .\}
@@ -1169,7 +1169,7 @@
 .nr _L \n(.lu			\" line length of page
 .nr $c 1			\" current column number
 .nr $f 1 1			\" footnote number
-.ds * \*[1\*]\k*\"		\" footnote "name"
+.ds * \*([*1\*(]*\k*\"		\" footnote "name"
 .nr $d 1 1			\" delayed text number
 .ds # [1]\k#\"			\" delayed text "name"
 .nr _M 1			\" chapter mode is chapter

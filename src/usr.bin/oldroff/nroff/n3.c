@@ -1,4 +1,4 @@
-/* $MirOS: src/usr.bin/oldroff/nroff/n3.c,v 1.3 2006/11/03 18:02:04 tg Exp $ */
+/* $MirOS: src/usr.bin/oldroff/nroff/n3.c,v 1.5 2006/11/04 03:02:54 tg Exp $ */
 
 /*-
  * Copyright (c) 1979, 1980, 1981, 1986, 1988, 1990, 1991, 1992
@@ -68,7 +68,7 @@ extern
 #include "sdef.h"
 
 __SCCSID("@(#)n3.c	4.5 (Berkeley) 4/18/91");
-__RCSID("$MirOS: src/usr.bin/oldroff/nroff/n3.c,v 1.3 2006/11/03 18:02:04 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/oldroff/nroff/n3.c,v 1.5 2006/11/04 03:02:54 tg Exp $");
 
 /*
 troff3.c
@@ -77,6 +77,7 @@ macro and string routines, storage allocation
 */
 
 unsigned blist[NBLIST];
+int ecskip = 0;
 extern struct s *frame, *stk, *nxf;
 extern filep ip;
 extern filep offset;
@@ -114,8 +115,6 @@ extern int po;
 extern int *cp;
 extern int xxx;
 extern int groffmode;
-extern char *ibufp;
-extern char *eibuf;
 int pagech = '%';
 int strflg;
 extern struct contab {
@@ -554,9 +553,24 @@ getsn()
 
 	if ((i = getach()) == 0)
 		return(0);
+#ifdef backwards
 	if (groffmode && !copyf && (i == '['))
 		fprintf(stderr, "warning: request for long string"
 		    " in line %d denied!\n", v.cd+1);
+#else
+	if (/* groffmode && !copyf && */ !ecskip && (i == '[')) {
+		fputs("warning: request for long string [", stderr);
+		while ((i = getach())) {
+			putc(i, stderr);
+			if (i == ']')
+				break;
+		}
+		if (i != ']')
+			fputs("<NUL>]", stderr);
+		fprintf(stderr, " in line %d denied!\n", v.cd+1);
+		return (0);
+	}
+#endif
 	if (i == '(')
 		return(getrq());
 	else
