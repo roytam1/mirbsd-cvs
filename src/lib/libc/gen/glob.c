@@ -1,6 +1,6 @@
 /*	$OpenBSD: glob.c,v 1.33 2010/09/26 22:15:39 djm Exp $ */
 /*
- * Copyright (c) 2006, 2010
+ * Copyright (c) 2006, 2010, 2011
  *	Thorsten Glaser <tg@mirbsd.org>
  * Copyright (c) 1989, 1993
  *	The Regents of the University of California.  All rights reserved.
@@ -76,7 +76,7 @@
 #include <string.h>
 #include <unistd.h>
 
-__RCSID("$MirOS: src/lib/libc/gen/glob.c,v 1.5 2010/10/08 20:18:53 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/gen/glob.c,v 1.6 2010/10/08 20:34:36 tg Exp $");
 
 #define	GLOB_LIMIT_MALLOC	65536
 #define	GLOB_LIMIT_STAT		128
@@ -626,10 +626,10 @@ glob3(Char *pathbuf, Char *pathbuf_last, Char *pathend, Char *pathend_last,
 		if (pglob->gl_errfunc) {
 			if (g_Ctoc(pathbuf, buf, sizeof(buf)))
 				return(GLOB_ABORTED);
-			if (pglob->gl_errfunc(buf, errno) ||
-			    pglob->gl_flags & GLOB_ERR)
+			if (pglob->gl_errfunc(buf, errno))
 				return(GLOB_ABORTED);
-		}
+		} else if (pglob->gl_flags & GLOB_ERR)
+			return (GLOB_ABORTED);
 		return(0);
 	}
 
