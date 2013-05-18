@@ -152,7 +152,6 @@ ac_testn() {
 	    sed 's^\] scn.c:\([0-9]*\):\] mirtoconf(\1):'
 	test $tcfn = no && test -f a.out && tcfn=a.out
 	test $tcfn = no && test -f a.exe && tcfn=a.exe
-	test $tcfn = no && test -f linux386.exe && tcfn=linux386.exe
 	test $tcfn = no && test -f scn && tcfn=scn
 	if test -f $tcfn; then
 		test 1 = $fr || fv=1
@@ -237,8 +236,7 @@ if test -d mksh || test -d mksh.exe; then
 	echo "$me: Error: ./mksh is a directory!" >&2
 	exit 1
 fi
-rm -f a.exe* a.out* *core crypt.exp lft linux386.exe* \
-    mksh mksh.cat1 mksh.exe mksh.s \
+rm -f a.exe* a.out* *core crypt.exp lft mksh mksh.cat1 mksh.exe mksh.s \
     no *.o scn.c signames.inc stdint.h test.sh x
 
 curdir=`pwd` srcdir=`dirname "$0"` check_categories=
@@ -660,7 +658,7 @@ xlc)
 esac
 test x"$llvm" = x"NO" || test x"$llvm" = x"COMBINE" || vv '|' "llc -version"
 $e "$bi==> which compiler seems to be used...$ao $ui$ct$ao"
-rm -f scn.c scn.o scn a.out* a.exe* linux386.exe*
+rm -f scn.c scn.o scn a.out* a.exe*
 
 case $TARGET_OS in
 HP-UX)
