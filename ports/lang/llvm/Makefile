@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/lang/llvm/Makefile,v 1.1 2008/11/02 03:07:47 tg Exp $
 
 BROKEN=			porting in progress
 
@@ -29,7 +29,7 @@ AUTOGEN=		${SHELL} ${FILESDIR}/autogen.sh
 CONFIGURE_STYLE=	autogen
 AUTOCONF_NEW=		Yes
 AUTOMAKE_VERSION=	1.9
-MODSIMPLE_given_INSTALL=${INSTALL} -c
+MODSIMPLE_USE_INSTALL=	${INSTALL} -c
 CONFIGURE_ENV+=		ac_cv_path_GRAPHVIZ="echo Graphviz" \
 			ac_cv_path_DOT="echo dot" \
 			ac_cv_path_GV="echo gv" \
