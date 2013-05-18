@@ -1,4 +1,4 @@
-/**	$MirOS: contrib/code/libhaible/string/wcscoll.c,v 1.1 2006/05/30 23:25:41 tg Exp $ */
+/**	$MirOS: src/lib/libc/string/wcscoll.c,v 1.1 2006/06/01 21:54:47 tg Exp $ */
 /*	$OpenBSD: strcoll.c,v 1.5 2005/08/08 08:05:37 espie Exp $ */
 /*-
  * Copyright (c) 1990 The Regents of the University of California.
@@ -34,12 +34,16 @@
 
 #include <wchar.h>
 
+int	__weak_wcscoll(const wchar_t *, const wchar_t *);
+
 /*
  * Compare strings according to LC_COLLATE category of current locale.
  */
 int
-wcscoll(const wchar_t *s1, const wchar_t *s2)
+__weak_wcscoll(const wchar_t *s1, const wchar_t *s2)
 {
 	/* LC_COLLATE is unimplemented, hence always "C" */
 	return (wcscmp(s1, s2));
 }
+
+__weak_alias(wcscoll, __weak_wcscoll);
