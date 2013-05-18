@@ -1,5 +1,5 @@
 #!/bin/mksh
-rcsid='$MirOS: src/sys/arch/sparc/stand/bootxx/mkbxinst.sh,v 1.13 2009/02/01 16:18:51 tg Exp $'
+rcsid='$MirOS: src/sys/arch/sparc/stand/bootxx/mkbxinst.sh,v 1.14 2009/02/01 16:19:57 tg Exp $'
 #-
 # Copyright (c) 2007, 2008, 2009
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -180,7 +180,7 @@ function pbs_output {
 	done
 
 	lbl_curptr=0
-	lbl_curptr[134]=0x56	# magic
+	lbl_thecode[134]=0x56	# magic
 	while (( lbl_curptr < 136 )); do
 		(( lbl_thecode[136] ^= lbl_thecode[lbl_curptr++] ))
 		(( lbl_thecode[137] ^= lbl_thecode[lbl_curptr++] ))
