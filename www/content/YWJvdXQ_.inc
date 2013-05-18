@@ -1,5 +1,5 @@
 <!-- PageID: about -->
-<small class="rcsid">$MirOS: www/content/YWJvdXQ_.inc,v 1.13 2006/07/30 21:28:39 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/YWJvdXQ_.inc,v 1.14 2006/10/29 22:22:43 tg Exp $</small>
 
 <p>On this page:</p>
 
@@ -95,7 +95,8 @@ to elaborate more -->
 
 <p>For the full copyright statement of MirOS, please refer to the
  <a href="/cvs.cgi/src/share/doc/legal/">1stREAD and LICENCE</a>
- files and the <a href="/LICENCE">website licence</a>.
+ files, summarised in BSD-Licence(7) including the dreaded advertising
+ clauses, and the <a href="/LICENCE">website licence</a>.
  We prefer new code and documentation to be placed under our
  <a href="/MirOS-Licence">licence template</a> which is compliant to the
  Open Source Definition and conforms to the Debian Free Software
