@@ -1,10 +1,12 @@
-# $MirOS: src/share/mk/bsd.sys.mk,v 1.12 2007/04/04 21:48:14 tg Exp $
+# $MirOS: src/share/mk/bsd.sys.mk,v 1.13 2007/04/18 19:54:31 tg Exp $
 # $OpenBSD: bsd.sys.mk,v 1.8 2000/07/06 23:12:41 millert Exp $
 # $NetBSD: bsd.sys.mk,v 1.2 1995/12/13 01:25:07 cgd Exp $
 
 .if !defined(BSD_SYS_MK)
 BSD_SYS_MK=1
 
+# The "if" is in case we want the current directory to have
+# preference, due to gcc (GNU cpp, actually) brain-deadness
 .if !${CPPFLAGS:M-I${.CURDIR}}
 CPPFLAGS+=	-idirafter ${.CURDIR}
 .endif
