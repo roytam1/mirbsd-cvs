@@ -1,4 +1,4 @@
-/* $MirOS: src/gnu/usr.bin/lynx/src/chrtrans/makeuctb.c,v 1.2 2005/03/27 22:42:39 tg Exp $ */
+/* $MirOS: src/gnu/usr.bin/lynx/src/chrtrans/makeuctb.c,v 1.3 2006/09/13 19:18:39 tg Exp $ */
 
 /*
  *  makeuctb.c, derived from conmakehash.c   - kw
@@ -20,8 +20,10 @@
 
 #ifndef HAVE_CONFIG_H
 /* override HTUtils.h fallbacks for cross-compiling */
-#define HAVE_LSTAT
-#define NO_FILIO_H
+#undef HAVE_LSTAT
+#undef NO_FILIO_H
+#define HAVE_LSTAT 1
+#define NO_FILIO_H 1
 #endif
 
 #define DONT_USE_GETTEXT
