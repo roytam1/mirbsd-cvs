@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.137 2009/01/12 21:35:48 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.138 2009/01/14 19:43:24 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -2741,4 +2741,43 @@ O CACertFile=/etc/ssl/deflt-ca.cer
  edition of our <tt>bsd.rd</tt> kernel (rescue system mode). That and e3
  will make it; the bootloader needs macros (for calling grub), but that’s
  it probably. And I’ll try to get a MirGRML too. Maybe for FOSDEM.</p>
+----
+Date: 15.01.2009 21:15
+Author: tg@
+Tag: mksh
+Title: positive feedback
+
+<p>iMil of <a href="http://beastiebox.sourceforge.net/">Beastiebox</a> has
+ apparently lauded me for <a href="@@RELPATH@@mksh.htm">mksh</a> – someone
+ came into our IRC channel <tt>#!/bin/mksh</tt> by means of it. Thanks, it
+ is not often that people give feedback on things. According to them, code
+ quality is very good. While many things are inherited this shows that the
+ cleanup both OpenBSD and I did <em>did</em> pay off.</p>
+<p>Tonnerre thanked for a script of mine he put to good production use: <a
+ href="@@RELPATH@@permalinks/wlog-10_e20081217-tg-g10009.htm">svn2cvs</a>,
+ which I already talked about. Glad to be helpful!</p>
+<p>Sadly, at work we’d probably need cvs2svn. Not going to do. Besides, it
+ won’t work that easily – their CVS doesn’t use commit IDs, and svn has no
+ tools like rcs(1), ci(1), co(1) which are immensely useful.</p>
+----
+Date: 15.01.2009 21:22
+Author: tg@
+
+<p>Whew. A long day at work. FreeWRT, OpenNTPD… and that other NTP dæmon.
+ For sarge (first got to create a working <tt>sources.list</tt>…) and UCS
+ (Univention). No wonder I’m not doing much any more.</p>
+<p>Bootloader: cd9660 has no “ls”, ffs and fat (and maybe nfs) do, tftp’s
+ excused. But looking at the code… while adding it would not even add any
+ but just reshuffle it, it’s advertising clause infested and slightly odd
+ so a full rewrite based upon fat and getextent_cd9660(1) will do. Though
+ that not before the next snapshot.</p>
+<p>This leaves me with the new manpage for boot(8/i386) and the update to
+ lynx(1) and regenerating <tt>ports/INDEX</tt> (again).</p>
+<p>I also hacked some more wtf-debs and FreeWRT 1.0-stable packages (ARGH
+ THIS IS JUST SO… EVIL, but WDS doesn’t work in trunk sez wbx@).</p>
+<p>Mika says I’m going to get my MirGRML. I say he’s going to get his BSD
+ for grml. My colleagues say I’ll probably get some time off for FOSDEM –
+ a few hours of Friday and all of Monday (as a weekend shift is scheduled
+ soonish anyway). Just gecko2@ can’t get off early ☹ Daniel says we could
+ go for DVDs, but I estimate we won’t make it in time this time.</p>
 ----
