@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/baselive/rc.netselect.common,v 1.1 2006/09/30 20:59:00 tg Exp $
+# $MirOS: src/distrib/baselive/rc.netselect.common,v 1.2 2006/10/17 18:26:18 tg Exp $
 #-
 # Copyright (c) 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -46,7 +46,7 @@ function set_hostname
 	typeset -Uui36 rndval=$(date +%s)
 	rndpfx=${rndval#36#}
 	while (( ${#rndpfx} < 36 )); do
-		typeset -Uui36 'rndval=(RANDOM % 60466176)' # 36^5
+		typeset -Uui36 'rndval=( (RANDOM << 15 | RANDOM) % 60466176)'
 		rndpfx=${rndval#36#}$rndpfx
 	done
 	while (( ${#rndpfx} > 36 )); do
