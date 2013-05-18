@@ -1,9 +1,9 @@
-# $MirOS: src/lib/libssl/man/Makefile,v 1.5 2006/09/20 20:14:05 tg Exp $
+# $MirOS: src/lib/libssl/man/Makefile,v 1.6 2007/05/17 16:38:16 tg Exp $
 # $OpenBSD: Makefile,v 1.11 2006/11/09 09:45:17 markus Exp $
 
 .include <bsd.own.mk>		# for NOMAN
 
-POD2MAN=pod2man --official --release --center=OpenSSL
+POD2MAN=	pod2man --official --release --center=OpenSSL
 
 .if !defined(NOMAN) || ${NOMAN:L} == "no"
 MANALL=	\
@@ -182,9 +182,11 @@ MANALL=	\
 	rsa.cat3 \
 	ssl.cat3
 
-.if MANPS
-PSALL=	${MANALL:S/.cat1/.ps1/g:S/.cat2/.ps2/g:S/.cat3/.ps3/g:S/.cat4/.ps4/g:S/.cat5/.ps5/g:S/.cat6/.ps6/g:S/.cat7/.ps7/g:S/.cat8/.ps8/g:S/.cat9/.ps9/g}
-.endif
+.  if MANPS
+PSALL=		${MANALL:S/.cat1/.ps1/g:S/.cat2/.ps2/g:S/.cat3/.ps3/g:S/.cat4/.ps4/g:S/.cat5/.ps5/g:S/.cat6/.ps6/g:S/.cat7/.ps7/g:S/.cat8/.ps8/g:S/.cat9/.ps9/g}
+.  endif
+
+CLEANFILES+=	${MANALL:S/.cat1/.1/g:S/.cat2/.2/g:S/.cat3/.3/g:S/.cat4/.4/g:S/.cat5/.5/g:S/.cat6/.6/g:S/.cat7/.7/g:S/.cat8/.8/g:S/.cat9/.9/g}
 
 # these are a real problem, since they re-document functions described in
 # other pages.
@@ -244,14 +246,8 @@ PSALL=	${MANALL:S/.cat1/.ps1/g:S/.cat2/.ps2/g:S/.cat3/.ps3/g:S/.cat4/.ps4/g:S/.c
 	SHA1 sha \
 	des_random_key des
 
-${page}.cat3: ${src}.pod
-	${POD2MAN} --section=3 --name=${page:U} ${.ALLSRC} | \
-	    nroff -Tcol -mandoc | col >${.TARGET}
-.  if MANPS
-${page}.ps3: ${src}.pod
-	${POD2MAN} --section=3 --name=${page:U} ${.ALLSRC} | \
-	    nroff -Tps -mandoc >${.TARGET}
-.  endif
+${page}.3: ${src}.pod
+	${POD2MAN} --section=3 --name=${page:U} ${.ALLSRC} >$@
 .endfor
 
 MLINKS+=\
@@ -840,35 +836,31 @@ MLINKS+=\
 	lhash.3 lh_new.3 \
 	lhash.3 lh_retrieve.3
 
-.include <bsd.man.mk>
+.  include <bsd.man.mk>
 .else
 maninstall:
-
 .endif
 
 # XXX .PATH order is critical because of non-unique filenames
+# This one is for the openssltool(1) manual page, preferring apps
 .PATH: ${.CURDIR}/../src/doc/apps ${.CURDIR}/../src/doc/crypto ${.CURDIR}/../src/doc/ssl
 .SUFFIXES: .pod
 
 openssltool.pm: openssl.pod asn1octetstream.pod asn1parse.pod ca.pod ciphers.pod config.pod crl.pod crl2pkcs7.pod dgst.pod dhparam.pod dsa.pod dsaparam.pod enc.pod gendsa.pod genrsa.pod nseq.pod ocsp.pod passwd.pod pkcs12.pod pkcs7.pod pkcs8.pod rand.pod req.pod rsa.pod rsautl.pod s_client.pod s_server.pod sess_id.pod smime.pod speed.pod spkac.pod verify.pod version.pod x509.pod
-	cat ${.ALLSRC} >${.TARGET}
+	cat ${.ALLSRC} >$@
 
-openssltool.cat1: openssltool.pm
-	${POD2MAN} --section=1 --name=OpenSSLtool ${.ALLSRC} | \
-	    nroff -Tcol -mandoc | col >${.TARGET}
+openssltool.1: openssltool.pm
+	${POD2MAN} --section=1 --name=OpenSSLtool ${.ALLSRC} >$@
+
+CLEANFILES+=	openssltool.pm openssltool.1
 
 # XXX .PATH order is critical because of non-unique filenames
+# This one is for the rest of the manual pages, prefering libs
 .PATH: ${.CURDIR}/../src/doc/crypto ${.CURDIR}/../src/doc/ssl ${.CURDIR}/../src/doc/apps
 
 .for sect in 1 3 7
-
-.pod.cat${sect}:
-	${POD2MAN} --section=${sect} --name=${*:U} ${.ALLSRC} | \
-	    nroff -Tcol -mandoc | col >${.TARGET}
-
-.pod.ps${sect}:
-	${POD2MAN} --section=${sect} --name=${*:U} ${.ALLSRC} | \
-	    nroff -Tps -mandoc >${.TARGET}
+.pod.${sect}:
+	${POD2MAN} --section=${sect} --name=${*:U} ${.ALLSRC} >$@
 .endfor
 
 .include <bsd.obj.mk>
@@ -880,7 +872,6 @@ CLEANFILES+=\
 	HMAC.pm \
 	RC4.pm \
 	RIPEMD160.pm \
-	openssltool.pm \
 	SHA1.pm \
 	des_random_key.pm \
 	MD5.pm
