@@ -1,4 +1,4 @@
-# $MirOS: src/etc/root.profile,v 1.6 2007/08/01 13:07:37 tg Exp $
+# $MirOS: src/etc/root.profile,v 1.7 2008/03/27 13:48:27 tg Exp $
 #-
 # initialisation for bourne shell (worst case)
 
@@ -6,7 +6,6 @@
 if test -z "$USER_ID"; then
 	PATH=/sbin:/usr/sbin:/bin:/usr/bin:/usr/dbin:/usr/dsbin
 	HOME=/
-	test -d /root && HOME=/root
 	PS1='# '
 	export PATH HOME PS1
 	umask 022

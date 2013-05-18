@@ -1,4 +1,4 @@
-# $MirOS: contrib/samples/etc_profile,v 1.8 2006/08/28 01:59:34 tg Exp $
+# $MirOS: contrib/samples/etc_profile,v 1.9 2007/09/03 18:32:04 tg Exp $
 #-
 # Initialisation file for MirOS ksh (pdksh, sh), (s)ash and GNU bash
 # Fallback mode only for non-Korn-shells, though.
@@ -59,13 +59,13 @@ if [ -x /usr/bin/id ]; then
 else
 	USER_ID=0
 fi
-[ -z "$HOME" ] && HOME=/root
+[ -z "$HOME" ] && HOME=/
 export USER_ID HOME
 [ -n "$NOSETPATH" ] || if [ -z "$USER" ]; then
-	export PATH=/sbin:/bin:/usr/sbin:/usr/bin:/root/.etc/bin:/usr/local/bin
+	export PATH=/sbin:/bin:/usr/sbin:/usr/bin:/usr/local/bin
 	unset COLORTERM
 elif [ $USER_ID -eq 0 ]; then
-	export PATH=/root/.etc/bin:/usr/sbin:/sbin:/usr/bin:/bin:/usr/X11R6/bin:/usr/local/bin:/usr/games
+	export PATH=/usr/sbin:/sbin:/usr/bin:/bin:/usr/X11R6/bin:/usr/local/bin:/usr/games
 else
 	export PATH=~/.etc/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/X11R6/bin:/usr/local/bin:/usr/games
 fi

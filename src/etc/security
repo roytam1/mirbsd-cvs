@@ -1,6 +1,6 @@
 #!/bin/mksh
 # $Id$
-# $MirOS: src/etc/security,v 1.10 2006/10/07 22:22:14 tg Exp $
+# $MirOS: src/etc/security,v 1.11 2008/03/27 13:48:27 tg Exp $
 # $OpenBSD: security,v 1.71 2005/02/22 10:50:55 otto Exp $
 # from: @(#)security	8.1 (Berkeley) 6/9/93
 
@@ -132,7 +132,7 @@ fi
 # in other environments.  Once the shells have been modified to warn
 # of '.' in the path, the path tests should go away.
 > $OUTPUT
-rhome=/root
+rhome=/
 umaskset=no
 list="/etc/profile ${rhome}/.profile"
 for i in $list; do

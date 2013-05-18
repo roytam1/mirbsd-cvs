@@ -1,6 +1,6 @@
 umask 022
 [ -z "$KSH_VERSION" ] && alias print='echo -e'
-: ${HOME:=/root}
+: ${HOME:=/}
 [ -s "$HOME/.profile.preinit" ] && . $HOME/.profile.preinit
 
 [ -z "$TERM" -o x"$TERM" = x"unknown" ] && if [ -x /usr/bin/tset ]; then
@@ -16,10 +16,10 @@ USER_ID=
 [ -x /usr/bin/id ] && USER_ID=$(ulimit -c 0; /usr/bin/id -u 2>/dev/null)
 : ${USER_ID:=0}
 if [ -z "$USER" ]; then
-	PATH=/sbin:/bin:/usr/sbin:/usr/bin:/root/.etc/bin:/usr/dbin:/usr/dsbin:/usr/local/bin:/usr/mpkg/bin
+	PATH=/sbin:/bin:/usr/sbin:/usr/bin:/usr/dbin:/usr/dsbin:/usr/local/bin:/usr/mpkg/bin
 	PS1='SINGLE:$PWD # '
 elif [ $USER_ID -eq 0 ]; then
-	PATH=/root/.etc/bin:/usr/sbin:/usr/dsbin:/sbin:/usr/bin:/usr/dbin:/bin:/usr/X11R6/bin:/usr/local/bin:/usr/mpkg/bin
+	PATH=/usr/sbin:/usr/dsbin:/sbin:/usr/bin:/usr/dbin:/bin:/usr/X11R6/bin:/usr/local/bin:/usr/mpkg/bin
 else
 	PATH=~/.etc/bin:/usr/local/bin:/usr/mpkg/bin:/usr/bin:/usr/dbin:/bin:/usr/X11R6/bin:/usr/sbin:/usr/dsbin:/sbin:/usr/mpkg/sbin:/usr/games
 	PS1='$ '
@@ -96,4 +96,4 @@ if [ -O /var/run/ssh-agent/$USER_ID ]; then
 	unset _dir
 fi
 
-: $MirOS: src/etc/profile,v 1.54 2007/08/01 13:07:37 tg Exp $
+: $MirOS: src/etc/profile,v 1.55 2008/03/27 13:48:27 tg Exp $
