@@ -1,3 +1,0 @@
-Dialog is typically invoked from a shell script and puts nice
-yes-no/checklist/radio-button - menues on your screen.
-(Text is just passed on as arguments to dialog.)

@@ -1,8 +1,0 @@
-# $MirOS: src/distrib/ramdisk/Makefile.i386,v 1.2 2006/07/24 00:52:41 tg Exp $
-
-IMAGESIZE=	3072
-
-BOOT=		${BSDOBJDIR}/sys/arch/i386/stand/fdboot/boot
-
-CDROM=		no
-INST_FILES=	${FLOPPY}
