@@ -1,6 +1,6 @@
-$MirOS: ports/misc/mc/patches/patch-src_user_h,v 1.1 2005/03/18 15:50:29 tg Exp $
---- src/user.h.orig	2002-11-29 03:03:31.000000000 +0000
-+++ src/user.h	2003-09-01 18:56:58.000000000 +0000
+$MirOS: ports/misc/mc/patches/patch-src_user_h,v 1.3 2006/02/21 13:39:42 tg Exp $
+--- src/user.h.orig	Fri Nov 29 03:03:31 2002
++++ src/user.h	Tue Feb 21 14:04:14 2006
 @@ -21,10 +21,10 @@ int check_format_cd (const char *);
  #else
  #   define CEDIT_GLOBAL_MENU    "cedit.menu"

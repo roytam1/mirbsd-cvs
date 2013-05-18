@@ -1,6 +1,6 @@
-$MirOS: ports/misc/mc/patches/patch-src_subshell_c,v 1.1 2005/03/18 15:50:29 tg Exp $
---- src/subshell.c.orig	2003-09-01 17:58:20.000000000 +0000
-+++ src/subshell.c	2003-09-01 17:58:39.000000000 +0000
+$MirOS: ports/misc/mc/patches/patch-src_subshell_c,v 1.3 2006/02/21 13:39:41 tg Exp $
+--- src/subshell.c.orig	Fri Jan 24 21:37:06 2003
++++ src/subshell.c	Tue Feb 21 14:04:14 2006
 @@ -247,7 +247,7 @@ static void init_subshell_child (const c
      switch (subshell_type)
      {

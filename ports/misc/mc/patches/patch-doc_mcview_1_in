@@ -1,6 +1,6 @@
-$MirOS: ports/misc/mc/patches/patch-doc_mcview_1_in,v 1.1 2005/03/18 15:50:27 tg Exp $
---- doc/mcview.1.in.orig	2003-09-01 17:56:16.000000000 +0000
-+++ doc/mcview.1.in	2003-09-01 17:56:18.000000000 +0000
+$MirOS: ports/misc/mc/patches/patch-doc_mcview_1_in,v 1.3 2006/02/21 13:39:40 tg Exp $
+--- doc/mcview.1.in.orig	Mon Jan 20 14:08:00 2003
++++ doc/mcview.1.in	Tue Feb 21 14:04:14 2006
 @@ -68,14 +68,14 @@ The help file for the program.
  .I @prefix@/share/mc/mc.ini
  .IP

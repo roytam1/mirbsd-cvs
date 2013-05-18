@@ -1,6 +1,6 @@
-$MirOS: ports/misc/mc/patches/patch-src_setup_h,v 1.1 2005/03/18 15:50:29 tg Exp $
---- src/setup.h.orig	2003-09-01 17:57:34.000000000 +0000
-+++ src/setup.h	2003-09-01 17:57:38.000000000 +0000
+$MirOS: ports/misc/mc/patches/patch-src_setup_h,v 1.3 2006/02/21 13:39:41 tg Exp $
+--- src/setup.h.orig	Mon Nov 11 07:34:47 2002
++++ src/setup.h	Tue Feb 21 14:04:14 2006
 @@ -30,7 +30,7 @@ extern int verbose;
  #    define PROFILE_NAME     "mc.ini"
  #    define HOTLIST_FILENAME "mc.hot"

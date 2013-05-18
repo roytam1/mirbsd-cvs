@@ -1,6 +1,6 @@
-$MirOS: ports/misc/mc/patches/patch-lib_mc_menu,v 1.3 2005/11/17 23:37:14 tg Exp $
+$MirOS: ports/misc/mc/patches/patch-lib_mc_menu,v 1.5 2006/02/21 13:39:41 tg Exp $
 --- lib/mc.menu.orig	Sun Dec  8 01:11:57 2002
-+++ lib/mc.menu	Thu Nov 17 23:35:11 2005
++++ lib/mc.menu	Tue Feb 21 14:04:14 2006
 @@ -1,5 +1,37 @@
  shell_patterns=0
 += t r
@@ -39,7 +39,17 @@ $MirOS: ports/misc/mc/patches/patch-lib_mc_menu,v 1.3 2005/11/17 23:37:14 tg Exp
  @       Do something on the current file
  	CMD=%{Enter command}
  	$CMD %f
-@@ -20,7 +52,7 @@ shell_patterns=0
+@@ -14,13 +46,14 @@ shell_patterns=0
+ 	
+ 
+ 0       Edit a bug report and send it to root
+-        ${EDITOR-vi} /tmp/mail.$$
+-	test -r /tmp/mail.$$ && mail root < /tmp/mail.$$
+-	rm -f /tmp/mail.$$
++	I=`mktemp ${MC_TMPDIR:-/tmp}/mail.XXXXXX` || exit 1
++	${EDITOR-vi} $I
++	test -r $I && mail root < $I
++	rm -f $I
  
  =+ f \.1$ | f \.3$ | f \.4$ | f \.5$ | f \.6$ | f \.7$ | f \.8$ | f \.man$ & t r
  1       Display the file with roff -man
@@ -48,3 +58,55 @@ $MirOS: ports/misc/mc/patches/patch-lib_mc_menu,v 1.3 2005/11/17 23:37:14 tg Exp
  
  2       Call the info hypertext browser
          info
+@@ -100,6 +133,10 @@ D       Delete tagged files if a copy ex
+           fi
+         done
+ 
++m       View manual page
++	MAN=%{Enter manual name}
++	%view man -P cat $MAN
++
+ = f \.gz$ & t r
+ + ! t t
+ n       Inspect gzip'ed newsbatch file
+@@ -112,8 +149,9 @@ h       Strip headers from current newsa
+ 	CHECK=`awk '{print $1 ; exit}' %f` 2>/dev/null
+ 	case $CHECK in
+ 	  Newsgroups:|Path:)
+-	      cp %f /tmp/%f.$$ && sed '/^'"$CHECK"' /,/^$/d' /tmp/%f.$$ > %f
+-              [ "$?" = "0" ] && rm /tmp/%f.$$
++	      I=`mktemp ${MC_TMPDIR:-/tmp}/news.XXXXXX` || exit 1
++	      cp %f $I && sed '/^'"$CHECK"' /,/^$/d' $I > %f
++              [ "$?" = "0" ] && rm $I
+ 	      echo %f: header removed
+ 		;;
+ 	  *)
+@@ -126,7 +164,7 @@ H       Strip headers from the marked ne
+ 	set %t
+ 	while [ -n "$1" ]; do
+ 	  CHECK=`awk '{print $1 ; exit}' $1` 2>/dev/null
+-	  WFILE=/tmp/${1}.$$
++	  WFILE=`mktemp ${MC_TMPDIR:-/tmp}/news.XXXXXX` || exit 1
+ 	  case $CHECK in
+ 	    Newsgroups:|Path:)
+ 	      cp $1 $WFILE && sed '/^'"$CHECK"' /,/^$/d' $WFILE > $1
+@@ -268,7 +306,8 @@ Z       Extract compressed tar files to 
+ 
+ + f \.gz$ | f \.tgz$ | f \.tpz$ | f \.Z$ | f \.z$ | f \.bz2$ & t r & ! t t
+ c       Convert gz<->bz2, tar.gz<->tar.bz2 & tgz->tar.bz2
+-        unset D
++	unset D
++	unset EXT
+ 	case %f in
+ 	    *.tgz)	EXT=tgz;;
+ 	    *.tpz)	EXT=tpz;;
+@@ -293,7 +332,8 @@ C       Convert gz<->bz2, tar.gz<->tar.b
+ 	set %t
+ 	while [ -n "$1" ]
+         do
+-          unset D
++	  unset D
++	  unset EXT
+ 	  case $1 in
+ 	    *.tgz)	EXT=tgz;;
+ 	    *.tpz)	EXT=tpz;;

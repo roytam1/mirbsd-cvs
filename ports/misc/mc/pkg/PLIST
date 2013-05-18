@@ -1,4 +1,4 @@
-@comment $MirOS: ports/misc/mc/pkg/PLIST,v 1.1 2005/03/18 15:50:29 tg Exp $
+@comment $MirOS: ports/misc/mc/pkg/PLIST,v 1.3 2006/02/21 13:39:42 tg Exp $
 bin/mc
 bin/mcedit
 bin/mcmfmt
@@ -6,6 +6,12 @@ bin/mcview
 man/man1/mc.1
 man/man1/mcedit.1
 man/man1/mcview.1
+man/man8/mcserv.8
+sbin/mcserv
+@comment share/mc/bin/mc-wrapper.csh
+@comment share/mc/bin/mc-wrapper.sh
+@comment share/mc/bin/mc.csh
+@comment share/mc/bin/mc.sh
 share/mc/cedit.menu
 share/mc/edit.indent.rc
 share/mc/edit.spell.rc
@@ -34,8 +40,18 @@ share/mc/extfs/ulha
 share/mc/extfs/urar
 share/mc/extfs/uzip
 share/mc/extfs/uzoo
+share/mc/mc.charsets
 share/mc/mc.ext
 share/mc/mc.hint
+@comment share/mc/mc.hint.cs
+@comment share/mc/mc.hint.es
+@comment share/mc/mc.hint.hu
+@comment share/mc/mc.hint.it
+@comment share/mc/mc.hint.nl
+@comment share/mc/mc.hint.pl
+@comment share/mc/mc.hint.ru
+@comment share/mc/mc.hint.uk
+@comment share/mc/mc.hint.zh
 share/mc/mc.hlp
 share/mc/mc.lib
 share/mc/mc.menu
@@ -74,6 +90,17 @@ share/mc/syntax/tcl.syntax
 share/mc/syntax/texinfo.syntax
 share/mc/syntax/unknown.syntax
 share/mc/syntax/xml.syntax
+@comment share/mc/term/README.xterm
+@comment share/mc/term/ansi.ti
+@comment share/mc/term/linux.ti
+@comment share/mc/term/vt100.ti
+@comment share/mc/term/xterm.ad
+@comment share/mc/term/xterm.tcap
+@comment share/mc/term/xterm.ti
+@comment @dirrm share/mc/term
 @dirrm share/mc/syntax
 @dirrm share/mc/extfs
+@comment @dirrm share/mc/bin
 @dirrm share/mc
+@exec mkdir -p %D/lib/mc
+@dirrm lib/mc

@@ -1,12 +1,12 @@
-$MirOS: ports/misc/mc/patches/patch-edit_edit_h,v 1.1 2005/03/18 15:50:27 tg Exp $
---- edit/edit.h.orig	2003-09-01 17:56:38.000000000 +0000
-+++ edit/edit.h	2003-09-01 17:56:45.000000000 +0000
+$MirOS: ports/misc/mc/patches/patch-edit_edit_h,v 1.3 2006/02/21 13:39:40 tg Exp $
+--- edit/edit.h.orig	Mon Jan 27 15:59:50 2003
++++ edit/edit.h	Tue Feb 21 14:04:14 2006
 @@ -330,7 +330,7 @@ extern int edit_confirm_save;
  extern int column_highlighting;
  
  /* File names */
 -#define EDIT_DIR           PATH_SEP_STR ".mc" PATH_SEP_STR "cedit"
-+#define EDIT_DIR           PATH_SEP_STR ".etc/mc" PATH_SEP_STR "cedit"
++#define EDIT_DIR           PATH_SEP_STR ".etc" PATH_SEP_STR "mc" PATH_SEP_STR "cedit"
  #define SYNTAX_FILE        EDIT_DIR PATH_SEP_STR "Syntax"
  #define CLIP_FILE          EDIT_DIR PATH_SEP_STR "cooledit.clip"
  #define MACRO_FILE         EDIT_DIR PATH_SEP_STR "cooledit.macros"
