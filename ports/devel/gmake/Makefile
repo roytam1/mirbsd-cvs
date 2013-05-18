@@ -1,4 +1,4 @@
-# $MirOS: ports/devel/gmake/Makefile,v 1.6 2006/02/09 09:35:44 tg Exp $
+# $MirOS: ports/devel/gmake/Makefile,v 1.7 2006/06/16 15:33:41 tg Exp $
 # $OpenBSD: Makefile,v 1.29 2004/04/06 03:12:19 brad Exp $
 #-
 # This port must not have dependencies, or list them in CVSROOT/modules.
@@ -21,6 +21,7 @@ CONFIGURE_ARGS+=	--program-prefix="g"
 CONFIGURE_ARGS+=	--disable-nls
 .if ${OStype} == "Darwin"
 CONFIGURE_ARGS+=	--enable-case-insensitive-file-system
+CPPFLAGS+=		-Dstrcmpi=strcasecmp
 .endif
 CONFIGURE_ENV+=		MAKEINFO="makeinfo --no-split"
 
