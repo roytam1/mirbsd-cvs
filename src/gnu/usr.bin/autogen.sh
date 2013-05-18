@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/gnu/usr.bin/autogen.sh,v 1.15 2009/03/29 13:04:17 tg Exp $
+# $MirOS: src/gnu/usr.bin/autogen.sh,v 1.16 2009/12/06 13:03:58 tg Exp $
 #-
 # Copyright (c) 2004, 2005, 2006, 2008, 2009
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -37,10 +37,16 @@ AM_FLAGS="--miros --ignore-deps"
 [[ $AUTOMAKE_VERSION = 1.4 ]] && AM_FLAGS=
 [[ -n $flags ]] && AM_FLAGS=$flags
 
-for f in $files ChangeLog ltmain.sh; do
+for f in $files ltmain.sh; do
 	[[ -e $f ]] && continue
 	ln -s /dev/null $f
 done
+if [[ -e ChangeLog ]]; then
+	haveclog=1
+else
+	haveclog=0
+	:>ChangeLog
+fi
 
 for f in libtool.m4 m4salt.inc m4sugar.inc; do
 	[[ -s $f ]] || ln -sf "$GNUSYSTEM_AUX_DIR/$f" .
@@ -68,4 +74,5 @@ else
 fi
 rm -rf autom4te.cache
 find . -type l -print0 | xargs -0 rm
+(( haveclog )) || rm -f ChangeLog
 exit $rv
