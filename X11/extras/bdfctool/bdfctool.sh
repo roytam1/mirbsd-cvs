@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: X11/extras/bdfctool/bdfctool.sh,v 1.2 2012/08/18 16:44:30 tg Exp $
+# $MirOS: X11/extras/bdfctool/bdfctool.sh,v 1.5 2012/08/23 17:30:06 tg Exp $
 #-
 # Copyright © 2012
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -188,6 +188,7 @@ function parse_bdfc_edit {
 			    "at line $lno, U+${ch#16#}"
 			exit 2
 		fi
+		(( ++lno ))
 		linx=${line//　/.}
 		linx=${linx//䷀/#}
 		linx=${linx//▌/|}
@@ -457,9 +458,10 @@ function parse_bdf {
 			done
 			f[3]=${bmps%:}
 			if ! IFS= read -r line || [[ $line != ENDCHAR ]]; then
-				print -ru2 "E: expected ENDCHAR in line $lno"
+				print -ru2 "E: expected ENDCHAR after line $lno"
 				exit 2
 			fi
+			(( ++lno ))
 			Gdata[ch]="${f[*]}"
 			[[ -n $cc ]] && for line in "${cc[@]}"; do
 				Gcomm[ch]+=$line$'\n'
