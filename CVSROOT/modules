@@ -1,4 +1,4 @@
-# $MirOS: CVSROOT/modules,v 1.23 2007/06/25 16:51:41 tg Exp $
+# $MirOS: CVSROOT/modules,v 1.24 2007/08/10 23:53:35 tg Exp $
 # from $OpenBSD: modules,v 1.17 1998/07/12 04:44:24 todd Exp $
 #-
 # Three different line formats are valid:
@@ -61,5 +61,6 @@ pkgtools	ports/infrastructure/pkgtools
 rdate		src/usr.sbin/rdate
 
 # Hosted projects
+ewe		contrib/hosted/ewe
 fwcf		contrib/hosted/fwcf
 libnointl	contrib/hosted/libnointl
