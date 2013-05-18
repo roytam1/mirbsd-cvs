@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/distrib/baselive/munge_it.sh,v 1.23 2007/06/30 02:47:41 tg Exp $
+# $MirOS: src/distrib/baselive/munge_it.sh,v 1.24 2007/07/14 15:44:25 tg Exp $
 #-
 # Copyright (c) 2006, 2007
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -72,7 +72,7 @@ ed -s etc/ntpd.conf <<-'EOMD'
 EOMD
 ed -s etc/rc <<-'EOMD'
 	1i
-		# $MirOS: src/distrib/baselive/munge_it.sh,v 1.23 2007/06/30 02:47:41 tg Exp $
+		# $MirOS: src/distrib/baselive/munge_it.sh,v 1.24 2007/07/14 15:44:25 tg Exp $
 	.
 	/shutdown request/ka
 	/^fi/a
@@ -88,6 +88,7 @@ ed -s etc/rc <<-'EOMD'
 		     rmd160 -a adler32 -b >/dev/wrandom) &)
 		(cd /dev; ln -s $(sysctl -n kern.root_device) root; rm -f .rs)
 		print \#\\tThis product includes material provided by Thorsten Glaser.
+		/usr/libexec/cprng -pr32 >/dev/urandom &
 	.
 	/^raidctl.*all/s/^/#/
 	/^umount/a
@@ -102,6 +103,7 @@ ed -s etc/rc <<-'EOMD'
 		chown -R 32762:32762 home/live
 		[[ -s /stand/locate.database ]] && \
 		    cp /stand/locate.database /var/db/locate.database
+		wait
 		print ' done'
 
 	.
