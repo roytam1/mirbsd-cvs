@@ -1,4 +1,4 @@
-/**	$MirOS: src/lib/libc/crypt/arc4random.c,v 1.15 2008/04/07 20:57:52 tg Exp $ */
+/**	$MirOS: src/lib/libc/crypt/arc4random.c,v 1.16 2008/07/06 15:34:46 tg Exp $ */
 /*	$OpenBSD: arc4random.c,v 1.14 2005/06/06 14:57:59 kjell Exp $	*/
 
 /*
@@ -46,7 +46,7 @@
 #include <string.h>
 #include <unistd.h>
 
-__RCSID("$MirOS: src/lib/libc/crypt/arc4random.c,v 1.15 2008/04/07 20:57:52 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/crypt/arc4random.c,v 1.16 2008/07/06 15:34:46 tg Exp $");
 
 #ifdef __GNUC__
 #define inline __inline
@@ -99,7 +99,7 @@ static void
 arc4_stir(struct arc4_stream *as)
 {
 	int     mib[2];
-	size_t	i, len;
+	size_t len;
 	union {
 		uint8_t charbuf[128];
 		uint32_t intbuf[32];
@@ -124,6 +124,8 @@ arc4_stir(struct arc4_stream *as)
 
 	len = 128;
 	if (sysctl(mib, 2, &sbuf.charbuf, &len, NULL, 0) == -1) {
+		size_t i;
+
 		for (i = 0; i < 32; i++) {
 			len = 4;
 			if (sysctl(mib, 2, &sbuf.intbuf[i], &len,
@@ -132,14 +134,14 @@ arc4_stir(struct arc4_stream *as)
 		}
 	}
 	/* discard by a randomly fuzzed factor as well */
-	len = 256 + (arc4_getbyte(as) & 0x0F);
+	len = 256 * 4 + (arc4_getbyte(as) & 0x0F);
 	arc4_addrandom(as, sbuf.charbuf, sizeof (sbuf));
 
 	/*
 	 * Discard early keystream, as per recommendations in:
 	 * http://www.wisdom.weizmann.ac.il/~itsik/RC4/Papers/Rc4_ksa.ps
 	 */
-	for (i = 0; i < len; i++)
+	while (len--)
 		(void)arc4_getbyte(as);
 	arc4_count = 400000;
 }
