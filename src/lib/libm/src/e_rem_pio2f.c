@@ -15,8 +15,8 @@
 
 #include <sys/cdefs.h>
 #if defined(LIBM_SCCS) && !defined(lint)
-__RCSID("$MirOS$");
-__RCSID("$NetBSD: e_rem_pio2f.c,v 1.8 2002/05/26 22:01:52 wiz Exp $");
+__RCSID("$MirOS: src/lib/libm/src/e_rem_pio2f.c,v 1.2 2006/11/03 18:10:54 tg Exp $");
+__RCSID("$NetBSD: e_rem_pio2f.c,v 1.9 2009/01/19 06:00:30 lukem Exp $");
 #endif
 
 /* __ieee754_rem_pio2f(x,y)

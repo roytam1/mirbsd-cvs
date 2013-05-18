@@ -12,8 +12,8 @@
 
 #include <sys/cdefs.h>
 #if defined(LIBM_SCCS) && !defined(lint)
-__RCSID("$MirOS$");
-__RCSID("$NetBSD: s_floor.c,v 1.11 2002/05/26 22:01:56 wiz Exp $");
+__RCSID("$MirOS: src/lib/libm/src/s_floor.c,v 1.2 2006/11/03 18:10:59 tg Exp $");
+__RCSID("$NetBSD: s_floor.c,v 1.13 2009/02/16 01:27:36 lukem Exp $");
 #endif
 
 /*

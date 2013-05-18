@@ -12,8 +12,8 @@
 
 #include <sys/cdefs.h>
 #if defined(LIBM_SCCS) && !defined(lint)
-__RCSID("$MirOS$");
-__RCSID("$NetBSD: e_sqrt.c,v 1.12 2002/05/26 22:01:52 wiz Exp $");
+__RCSID("$MirOS: src/lib/libm/src/e_sqrt.c,v 1.2 2006/11/03 18:10:55 tg Exp $");
+__RCSID("$NetBSD: e_sqrt.c,v 1.13 2009/02/16 01:19:34 lukem Exp $");
 #endif
 
 /* __ieee754_sqrt(x)

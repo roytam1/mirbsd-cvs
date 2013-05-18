@@ -12,8 +12,8 @@
 
 #include <sys/cdefs.h>
 #if defined(LIBM_SCCS) && !defined(lint)
-__RCSID("$MirOS$");
-__RCSID("$NetBSD: e_pow.c,v 1.13 2004/06/30 18:43:15 drochner Exp $");
+__RCSID("$MirOS: src/lib/libm/src/e_pow.c,v 1.2 2006/11/03 18:10:54 tg Exp $");
+__RCSID("$NetBSD: e_pow.c,v 1.16 2010/04/23 19:17:07 drochner Exp $");
 #endif
 
 /* __ieee754_pow(x,y) return x**y
@@ -61,6 +61,7 @@ __RCSID("$NetBSD: e_pow.c,v 1.13 2004/06/30 18:43:15 drochner Exp $");
  * to produce the hexadecimal values shown.
  */
 
+#include "namespace.h"
 #include "math.h"
 #include "math_private.h"
 
@@ -130,7 +131,7 @@ __ieee754_pow(double x, double y)
 		k = (iy>>20)-0x3ff;	   /* exponent */
 		if(k>20) {
 		    j = ly>>(52-k);
-		    if((j<<(52-k))==(int32_t)ly) yisint = 2-(j&1);
+		    if((uint32_t)(j<<(52-k))==ly) yisint = 2-(j&1);
 		} else if(ly==0) {
 		    j = iy>>(20-k);
 		    if((j<<(20-k))==(int32_t)iy) yisint = 2-(j&1);

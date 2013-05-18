@@ -15,8 +15,8 @@
 
 #include <sys/cdefs.h>
 #if defined(LIBM_SCCS) && !defined(lint)
-__RCSID("$MirOS$");
-__RCSID("$NetBSD: s_rintf.c,v 1.8 2006/08/01 20:14:35 drochner Exp $");
+__RCSID("$MirOS: src/lib/libm/src/s_rintf.c,v 1.2 2006/11/03 18:11:01 tg Exp $");
+__RCSID("$NetBSD: s_rintf.c,v 1.9 2008/04/25 22:21:53 christos Exp $");
 #endif
 
 #include "math.h"

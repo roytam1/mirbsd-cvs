@@ -39,12 +39,13 @@ roundf(float x)
 
 	if (x >= 0.0) {
 		t = floorf(x);
-		if (t - x <= -0.5)
+		if (x - t >= 0.5)
 			t += 1.0;
 		return (t);
 	} else {
-		t = floorf(-x);
-		if (t + x <= -0.5)
+		x = -x;
+		t = floorf(x);
+		if (x - t >= 0.5)
 			t += 1.0;
 		return (-t);
 	}

@@ -1,4 +1,4 @@
-/* s_ldexpf.c -- float version of s_ldexp.c.
+/* s_ldexp0f.c -- float version of s_ldexp0.c.
  * Conversion to float by Ian Lance Taylor, Cygnus Support, ian@cygnus.com.
  */
 
@@ -15,19 +15,20 @@
 
 #include <sys/cdefs.h>
 #if defined(LIBM_SCCS) && !defined(lint)
-__RCSID("$MirOS$");
-__RCSID("$NetBSD: s_ldexpf.c,v 1.6 2002/05/26 22:01:57 wiz Exp $");
+__RCSID("$MirOS: src/lib/libm/src/s_ldexpf.c,v 1.2 2006/11/03 18:11:00 tg Exp $");
+__RCSID("$NetBSD: s_ldexpf.c,v 1.8 2010/04/23 19:17:07 drochner Exp $");
 #endif
 
+#include "namespace.h"
 #include "math.h"
 #include "math_private.h"
 #include <errno.h>
 
 float
-ldexpf(float value, int exparg)
+ldexpf(float value, int exp0)
 {
 	if(!finitef(value)||value==(float)0.0) return value;
-	value = scalbnf(value,exparg);
+	value = scalbnf(value,exp0);
 	if(!finitef(value)||value==(float)0.0) errno = ERANGE;
 	return value;
 }

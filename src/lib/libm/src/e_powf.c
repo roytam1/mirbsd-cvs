@@ -15,10 +15,11 @@
 
 #include <sys/cdefs.h>
 #if defined(LIBM_SCCS) && !defined(lint)
-__RCSID("$MirOS$");
-__RCSID("$NetBSD: e_powf.c,v 1.12 2006/03/19 20:46:25 christos Exp $");
+__RCSID("$MirOS: src/lib/libm/src/e_powf.c,v 1.2 2006/11/03 18:10:54 tg Exp $");
+__RCSID("$NetBSD: e_powf.c,v 1.15 2010/04/23 19:17:07 drochner Exp $");
 #endif
 
+#include "namespace.h"
 #include "math.h"
 #include "math_private.h"
 

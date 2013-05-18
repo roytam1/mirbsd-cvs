@@ -26,27 +26,22 @@
 .\" SUCH DAMAGE.
 .\"
 .\"     from: @(#)exp.3	6.12 (Berkeley) 7/31/91
-.\"	$NetBSD: exp.3,v 1.23 2005/07/21 12:58:22 wiz Exp $
+.\" $FreeBSD: src/lib/msun/man/exp.3,v 1.24 2008/01/18 21:43:00 das Exp $
+.\"	$NetBSD: exp.3,v 1.28 2011/09/17 10:52:52 jruoho Exp $
 .\"
-.Dd July 21, 2005
+.Dd September 13, 2011
 .Dt EXP 3
 .Os
 .Sh NAME
 .Nm exp ,
 .Nm expf ,
+.\" The sorting error is intentional.  exp and expf should be adjacent.
+.Nm exp2 ,
+.Nm exp2f ,
+.\" .Nm exp2l ,
 .Nm expm1 ,
 .Nm expm1f ,
-.Nm log ,
-.Nm logf ,
-.Nm log2 ,
-.Nm log2f ,
-.Nm log10 ,
-.Nm log10f ,
-.Nm log1p ,
-.Nm log1pf ,
-.Nm pow ,
-.Nm powf
-.Nd exponential, logarithm, power functions
+.Nd exponential functions
 .Sh LIBRARY
 .Lb libm
 .Sh SYNOPSIS
@@ -56,80 +51,48 @@
 .Ft float
 .Fn expf "float x"
 .Ft double
+.Fn exp2 "double x"
+.Ft float
+.Fn exp2f "float x"
+.\" .Ft long double
+.\" .Fn exp2l "long double x"
+.Ft double
 .Fn expm1 "double x"
 .Ft float
 .Fn expm1f "float x"
-.Ft double
-.Fn log "double x"
-.Ft float
-.Fn logf "float x"
-.Ft double
-.Fn log2 "double x"
-.Ft float
-.Fn log2f "float x"
-.Ft double
-.Fn log10 "double x"
-.Ft float
-.Fn log10f "float x"
-.Ft double
-.Fn log1p "double x"
-.Ft float
-.Fn log1pf "float x"
-.Ft double
-.Fn pow "double x" "double y"
-.Ft float
-.Fn powf "float x" "float y"
 .Sh DESCRIPTION
 The
 .Fn exp
-function computes the exponential value of the given argument
+and the
+.Fn expf
+functions compute the base
+.Ms e
+exponential value of the given argument
+.Fa x .
+.Pp
+The
+.Fn exp2 ,
+and
+.Fn exp2f
+.\" .Fn exp2f ,
+.\" and
+.\" .Fn exp2l
+functions compute the base 2 exponential of the given argument
 .Fa x .
 .Pp
 The
 .Fn expm1
-function computes the value exp(x)\-1 accurately even for tiny argument
-.Fa x .
-.Pp
-The
-.Fn log
-function computes the value of the natural logarithm of argument
-.Fa x .
-.Pp
-The
-.Fn log10
-function computes the value of the logarithm of argument
-.Fa x
-to base 10.
-.Pp
-The
-.Fn log1p
-function computes
-the value of log(1+x) accurately even for tiny argument
-.Fa x .
-.Pp
-The
-.Fn log2
 and the
-.Fn log2f
-functions compute the value of the logarithm of argument
-.Fa x
-to base 2.
-.Pp
-The
-.Fn pow
-computes the value
-of
-.Ar x
-to the exponent
-.Ar y .
+.Fn expm1f
+functions computes the value exp(x)\-1 accurately even for tiny argument
+.Fa x .
 .Sh RETURN VALUES
 These functions will return the appropriate computation unless an error
 occurs or an argument is out of range.
 The functions
-.Fn exp ,
-.Fn expm1
+.Fn exp
 and
-.Fn pow
+.Fn expm1
 detect if the computed value will overflow,
 set the global variable
 .Va errno
@@ -291,30 +254,24 @@ and infinite x, i.e., independently of x.
 .Xr math 3
 .Sh STANDARDS
 The
-.Fn exp ,
-.Fn log ,
-.Fn log10
-and
-.Fn pow
+.Fn exp
 functions conform to
 .St -ansiC .
-.Sh HISTORY
-A
-.Fn exp ,
-.Fn log
-and
-.Fn pow
-functions
-appeared in
-.At v6 .
-A
-.Fn log10
-function
-appeared in
-.At v7 .
 The
-.Fn log1p
+.Fn exp2 ,
+.Fn exp2f ,
+.Fn expf ,
+.Fn expm1 ,
 and
-.Fn expm1
+.Fn expm1f
+functions conform to
+.St -isoC-99 .
+.Sh HISTORY
+The
+.Fn exp
 functions appeared in
+.At v6 .
+The
+.Fn expm1
+function appeared in
 .Bx 4.3 .

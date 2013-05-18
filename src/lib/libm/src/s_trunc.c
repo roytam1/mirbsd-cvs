@@ -10,14 +10,13 @@
  * ====================================================
  */
 
-#if 0
 #include <sys/cdefs.h>
+#if 0
 __FBSDID("$FreeBSD: src/lib/msun/src/s_trunc.c,v 1.1 2004/06/20 09:25:43 das Exp $");
 #endif
-#include <sys/cdefs.h>
 #if defined(LIBM_SCCS) && !defined(lint)
-__RCSID("$MirOS$");
-__RCSID("$NetBSD: s_trunc.c,v 1.1 2006/03/25 16:41:12 xtraeme Exp $");
+__RCSID("$MirOS: src/lib/libm/src/s_trunc.c,v 1.2 2006/11/03 18:11:02 tg Exp $");
+__RCSID("$NetBSD: s_trunc.c,v 1.3 2008/04/25 22:21:53 christos Exp $");
 #endif
 
 /*

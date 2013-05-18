@@ -12,14 +12,14 @@
 
 #include <sys/cdefs.h>
 #if defined(LIBM_SCCS) && !defined(lint)
-__RCSID("$NetBSD: k_standard.c,v 1.12 2005/07/21 16:58:39 christos Exp $");
+__RCSID("$NetBSD: k_standard.c,v 1.17 2011/04/11 15:17:33 drochner Exp $");
 #endif
 
 #include "math.h"
 #include "math_private.h"
 #include <errno.h>
 
-__RCSID("$MirOS$\n" _MATH_H_);
+__RCSID("$MirOS: src/lib/libm/src/k_standard.c,v 1.3 2006/11/03 18:10:56 tg Exp $\n" _MATH_H_);
 
 #ifndef _USE_WRITE
 #include <stdio.h>			/* fputs(), stderr */
@@ -106,9 +106,10 @@ __kernel_standard(double x, double y, int type)
 		exc.type = DOMAIN;
 		exc.name = type < 100 ? "acos" : "acosf";
 		exc.retval = zero;
-		if (_LIB_VERSION == _POSIX_)
+		if (_LIB_VERSION == _POSIX_) {
+		  exc.retval = zero/zero;
 		  errno = EDOM;
-		else if (!matherr(&exc)) {
+		} else if (!matherr(&exc)) {
 		  if(_LIB_VERSION == _SVID_) {
 		    (void) WRITE2("acos: DOMAIN error\n", 19);
 		  }
@@ -121,9 +122,10 @@ __kernel_standard(double x, double y, int type)
 		exc.type = DOMAIN;
 		exc.name = type < 100 ? "asin" : "asinf";
 		exc.retval = zero;
-		if(_LIB_VERSION == _POSIX_)
+		if(_LIB_VERSION == _POSIX_) {
+		  exc.retval = zero/zero;
 		  errno = EDOM;
-		else if (!matherr(&exc)) {
+		} else if (!matherr(&exc)) {
 		  if(_LIB_VERSION == _SVID_) {
 		    	(void) WRITE2("asin: DOMAIN error\n", 19);
 		  }
@@ -138,9 +140,9 @@ __kernel_standard(double x, double y, int type)
 		exc.type = DOMAIN;
 		exc.name = type < 100 ? "atan2" : "atan2f";
 		exc.retval = zero;
-		if(_LIB_VERSION == _POSIX_)
-		  errno = EDOM;
-		else if (!matherr(&exc)) {
+		if(_LIB_VERSION == _POSIX_) {
+		  exc.retval = copysign(signbit(y) ? M_PI : zero, x);
+		} else if (!matherr(&exc)) {
 		  if(_LIB_VERSION == _SVID_) {
 			(void) WRITE2("atan2: DOMAIN error\n", 20);
 		      }
@@ -371,7 +373,7 @@ __kernel_standard(double x, double y, int type)
 		if (_LIB_VERSION == _SVID_)
 		  exc.retval = -HUGE;
 		else
-		  exc.retval = -HUGE_VAL;
+		  exc.retval = zero/zero;
 		if (_LIB_VERSION == _POSIX_)
 		  errno = EDOM;
 		else if (!matherr(&exc)) {
@@ -407,7 +409,7 @@ __kernel_standard(double x, double y, int type)
 		if (_LIB_VERSION == _SVID_)
 		  exc.retval = -HUGE;
 		else
-		  exc.retval = -HUGE_VAL;
+		  exc.retval = zero/zero;
 		if (_LIB_VERSION == _POSIX_)
 		  errno = EDOM;
 		else if (!matherr(&exc)) {
@@ -801,7 +803,7 @@ __kernel_standard(double x, double y, int type)
 		if (_LIB_VERSION == _SVID_)
 		  exc.retval = -HUGE;
 		else
-		  exc.retval = -HUGE_VAL;
+		  exc.retval = zero/zero;
 		if (_LIB_VERSION == _POSIX_)
 		  errno = EDOM;
 		else if (!matherr(&exc)) {

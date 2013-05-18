@@ -6,6 +6,8 @@
 
 #include <machine/asm.h>
 
+RCSID("$NetBSD: s_floor.S,v 1.9 2011/06/18 21:24:51 joerg Exp $")
+
 ENTRY(floor)
 	subl	$8,%esp
 
@@ -16,7 +18,7 @@ ENTRY(floor)
 	movw	%dx,(%esp)
 	fldcw	(%esp)		/* load modfied control word */
 
-	fldl	12(%esp);		/* round */
+	fldl	8(%ebp)			/* round */
 	frndint
 
 	fldcw	4(%esp)		/* restore original control word */

@@ -39,12 +39,13 @@ round(double x)
 
 	if (x >= 0.0) {
 		t = floor(x);
-		if (t - x <= -0.5)
+		if (x - t >= 0.5)
 			t += 1.0;
 		return (t);
 	} else {
-		t = floor(-x);
-		if (t + x <= -0.5)
+		x = -x;
+		t = floor(x);
+		if (x - t >= 0.5)
 			t += 1.0;
 		return (-t);
 	}

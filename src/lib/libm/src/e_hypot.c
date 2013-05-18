@@ -12,8 +12,8 @@
 
 #include <sys/cdefs.h>
 #if defined(LIBM_SCCS) && !defined(lint)
-__RCSID("$MirOS$");
-__RCSID("$NetBSD: e_hypot.c,v 1.12 2002/05/26 22:01:50 wiz Exp $");
+__RCSID("$MirOS: src/lib/libm/src/e_hypot.c,v 1.2 2006/11/03 18:10:53 tg Exp $");
+__RCSID("$NetBSD: e_hypot.c,v 1.13 2008/04/25 22:21:53 christos Exp $");
 #endif
 
 /* __ieee754_hypot(x,y)
