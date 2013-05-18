@@ -1,4 +1,4 @@
-# $MirOS: src/Makefile,v 1.133 2008/07/19 21:11:21 tg Exp $
+# $MirOS: src/Makefile,v 1.134 2008/07/26 20:21:08 tg Exp $
 # $OpenBSD: Makefile,v 1.103 2004/05/03 15:18:18 drahn Exp $
 
 .if defined(MAKECONF) && exists(${MAKECONF})
@@ -282,8 +282,9 @@ _do-dist:
 		exit 1; \
 	}
 .ifndef QUICK_DIST
-	@c='${CVSROOT}'; [[ $$c = *@(@)*@(:/)* || -e $$c/CVSROOT/config ]] || \
-	    {	print 'To build a full release CVSROOT must point to the'; \
+	@c='${CVSROOT}'; [[ $$c = @(:@(ext|pserver):|*@(@))*@(:/)* || \
+	    -e $$c/CVSROOT/config ]] || { \
+		print 'To build a full release CVSROOT must point to the'; \
 		print 'locally mounted MirOS /cvs or a remote repository'; \
 		${SUDO} rm -rf ${HOME}; \
 		exit 1; \
