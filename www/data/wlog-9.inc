@@ -2564,9 +2564,9 @@ Title: mksh bug
  behaviour seems to be the same for the other ksh instances such as
  pdksh. From the mksh(1) manpage:</p>
 
-<blockquote>Unset the named parameters (-v, the default) or functions
+<blockquote><p>Unset the named parameters (-v, the default) or functions
  (-f).  The exit status is non-zero if any of the parameters were
- already unset, zero otherwise.</blockquote>
+ already unset, zero otherwise.</p></blockquote>
 
 <p>However, SUSv3 clearly mandates that <tt>unset</tt> must return a
  zero exit state in this case. And it seems to be a sane thing
