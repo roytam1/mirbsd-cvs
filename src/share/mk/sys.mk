@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/sys.mk,v 1.32 2005/08/26 20:56:00 tg Exp $
+# $MirOS: src/share/mk/sys.mk,v 1.33 2005/09/01 23:44:28 tg Exp $
 # $OpenBSD: sys.mk,v 1.45 2005/03/07 00:06:00 deraadt Exp $
 # $NetBSD: sys.mk,v 1.27 1996/04/10 05:47:19 mycroft Exp $
 # @(#)sys.mk	5.11 (Berkeley) 3/13/91
@@ -6,7 +6,6 @@
 .if !defined(_SYS_MK)
 _SYS_MK=1
 
-MACHINE_OS?=	unknown
 .if ${MACHINE_OS} == "BSD"
 OStype=		MirBSD
 .else
