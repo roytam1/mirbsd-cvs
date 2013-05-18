@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/stand/boot/boot.c,v 1.11 2007/08/24 13:59:58 tg Exp $	*/
+/**	$MirOS: src/sys/stand/boot/boot.c,v 1.12 2008/08/01 11:25:04 tg Exp $	*/
 /*	$OpenBSD: boot.c,v 1.36 2007/06/26 10:34:41 tom Exp $	*/
 
 /*
@@ -129,7 +129,7 @@ boot(dev_t bootdev)
 		    cmd.bootdev, cmd.image);
 
 	while (1) {
-		/* no boot.conf, or no boot cmd in there */
+		/* no boot.cfg, or no boot cmd in there */
 		if (bootprompt && st <= 0)
 			do {
 				printf("boot> ");

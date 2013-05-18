@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/stand/boot/cmd.c,v 1.4 2006/11/21 02:53:39 tg Exp $	*/
+/**	$MirOS: src/sys/stand/boot/cmd.c,v 1.5 2008/08/01 11:25:05 tg Exp $	*/
 /*	$OpenBSD: cmd.c,v 1.59 2007/04/27 10:08:34 tom Exp $	*/
 
 /*
@@ -110,7 +110,7 @@ read_conf(void)
 
 #ifdef CHECK_SKIP_CONF
 	if (CHECK_SKIP_CONF()) {
-		printf("boot.conf processing skipped at operator request\n");
+		printf("boot.cfg processing skipped at operator request\n");
 		return -1;		/* Pretend file wasn't found */
 	}
 #endif
