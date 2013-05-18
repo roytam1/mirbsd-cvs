@@ -1,5 +1,5 @@
 #!/usr/bin/env mksh
-# $MirOS: CVSROOT/cvs-genperm,v 1.37 2008/10/26 21:23:00 tg Exp $
+# $MirOS: CVSROOT/cvs-genperm,v 1.38 2008/10/26 22:13:43 tg Exp $
 #-
 # Copyright (c) 2003, 2004, 2005, 2006, 2007, 2008
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -90,6 +90,7 @@ find "$CVSROOT"$fr | while IFS= read -r pname; do
 			M=775
 		elif [[ -f $pname ]]; then
 			M=444
+			[[ $pname = */debian/rules,v ]] && M=555
 		fi
 		if [[ $M = 0 ]]; then
 			print -r "Found non-file/dir '$name'"
