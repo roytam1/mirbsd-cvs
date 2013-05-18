@@ -1,6 +1,6 @@
 mws_setname subprojects/kwalletcli "kwalletcli – CLI for the KDE Wallet"
 mws_setheadline CLI for the KDE Wallet
-mws_putheader '$MirOS: www/src/kwalletcli.hts,v 1.4 2009/08/20 15:12:49 tg Exp $'
+mws_putheader '$MirOS: www/src/kwalletcli.hts,v 1.5 2009/08/20 16:09:05 tg Exp $'
 mws_content <<'EOF'
 
 <table width="100%"><tr><td>
@@ -19,7 +19,6 @@ mws_content <<'EOF'
  <li>MD5 (kwalletcli-1.00.tar.gz) = 76ef3c1d611a11ea13dc805d67d82208</li>
 </ul>
 
-<p style="margin-bottom: 500px">&nbsp;</p>
 <p>Do <em>not</em> send mail to <a
  href="mailto:junk@mirbsd.de">junk@mirbsd.de</a>, <a
  href="mailto:junk@mirsolutions.de">junk@mirsolutions.de</a>, <a

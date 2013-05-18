@@ -82,8 +82,9 @@
 
 body {
 	max-width:100%;
+	min-width:42em;
 	background-color:#DDDDDD;
-	padding:2px;
+	padding:0px;
 }
 
 body,p,.content {
@@ -107,10 +108,9 @@ a:visited {
 }
 
 .footer {
-	position:absolute;
-		left:0px; right:0px;
-	padding:7px;
-	margin-top:18px;
+	clear:both;
+	padding:2px;
+	margin-top:14px;
 	font-size:10pt;
 	border-top:2px solid #333333;
 }
@@ -136,15 +136,15 @@ img {
 }
 
 .index {
-	position:absolute;
-		top:127px; left:2px;
-		width:184px;
+	float:left;
+	margin:112px 0px 0px 0px;
+	padding:0px 0px 0px 0px;
+	width:184px;
 }
 
 .content {
-	margin-top:135px; margin-left:170px;
-	padding-left:16px;
-	min-height:500px;
+	margin:135px 0px 0px 170px;
+	padding:2px 2px 2px 12px;
 	border-left:5px solid #FFFFFF;
 }
 

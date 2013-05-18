@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.279 2009/09/23 19:12:02 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.280 2009/09/24 17:15:45 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -1072,7 +1072,6 @@ mws_content <<'EOF'
 </ul>
 <p><a href="mksh_old.htm#clog">older changes</a></p>
 
-<p style="margin-bottom: 500px">&nbsp;</p>
 <p>Do <em>not</em> send mail to <a
  href="mailto:junk@mirbsd.de">junk@mirbsd.de</a>, <a
  href="mailto:junk@mirsolutions.de">junk@mirsolutions.de</a>, <a

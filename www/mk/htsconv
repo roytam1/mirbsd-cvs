@@ -1,4 +1,4 @@
-rcsid_htsconv='$MirOS: www/mk/htsconv,v 1.36 2009/06/21 11:22:28 tg Exp $'
+rcsid_htsconv='$MirOS: www/mk/htsconv,v 1.37 2009/07/19 11:28:30 tg Exp $'
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -90,7 +90,7 @@ function mws_putheader {
 		  be simply copied into another work covered by an unfree (or otherwise
 		  mismatching) licence, such as the GNU Free Documentation License.
 		 -->
-		</head><body>
+		</head><body>$mws__headline
 		<div class="index">
 		 <ul class="lv1">
 		<li><a href="@@RELPATH@@main.htm">Main</a><ul class="lv2">
@@ -120,7 +120,7 @@ function mws_putheader {
 		</ul></li>
 		 </ul>
 		</div>
-		<div class="content">$mws__headline
+		<div class="content">
 	EOF
 	mws__header="<p class=\"rcsdiv\">Generated <!-- $mws__difftag --> on"
 	mws__header="$mws__header <span class=\"rcsid\">$(date +'%F %T')</span>"

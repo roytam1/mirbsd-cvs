@@ -1,4 +1,4 @@
-# $MirOS: www/src/rss.hts,v 1.9 2009/06/21 11:01:27 tg Exp $
+# $MirOS: www/src/rss.hts,v 1.10 2009/07/19 11:28:30 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -6,7 +6,7 @@
 mws_setname rss "RSS feeds, mailing lists"
 mws_subdir 0
 mws_setheadline MirOS RSS feeds
-mws_putheader '$MirOS: www/src/rss.hts,v 1.9 2009/06/21 11:01:27 tg Exp $'
+mws_putheader '$MirOS: www/src/rss.hts,v 1.10 2009/07/19 11:28:30 tg Exp $'
 mws_content <<'EOF'
 <h2 id="feeds">Website feeds</h2>
 <p>We offer the following RSS feeds, which can be subscribed to
@@ -53,7 +53,6 @@ mws_content <<'EOF'
  <em>do</em> employ certain tactics, such as greylisting, but do not
  inspect the content of any mails sent through our servers.</p>
 
-<p style="margin-bottom: 500px">&nbsp;</p>
 <p>Do <em>not</em> send mail to <a
  href="mailto:junk@mirbsd.de">junk@mirbsd.de</a>, <a
  href="mailto:junk@mirsolutions.de">junk@mirsolutions.de</a>, <a
