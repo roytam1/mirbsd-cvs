@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.105 2006/02/21 12:59:25 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.106 2006/03/02 01:17:37 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -2631,6 +2631,8 @@ relevant-checks:
 		${_flavour_fragment}; \
 		export _MASTER_PERMIT_CDROM=${PERMIT_PACKAGE_CDROM:Q} \
 		    _MASTER_PERMIT_FTP=${PERMIT_PACKAGE_FTP:Q} \
+		    _MASTER_BROKEN=${BROKEN:Q} \
+		    _MASTER_IGNORE=${IGNORE:Q} \
 		    _MASTER_USE_CXX=${USE_CXX:Q} \
 		    _MASTER_USE_X11=${USE_X11:Q}; \
 		eval $$toset ${MAKE} _relevant-checks; \
@@ -2638,6 +2640,14 @@ relevant-checks:
 .endif
 
 _relevant-checks:
+.if defined(_MASTER_BROKEN) && empty(_MASTER_BROKEN) \
+    && defined(BROKEN) && !empty(BROKEN)
+	@print -u2 "Warning: dependency ${PKGPATH} is marked BROKEN: ${BROKEN}"
+.endif
+.if defined(_MASTER_IGNORE) && empty(_MASTER_IGNORE) \
+    && defined(IGNORE) && !empty(IGNORE) && empty(BROKEN)
+	@print -u2 "Warning: dependency ${PKGPATH} is marked IGNORE:" ${IGNORE}
+.endif
 .for _i in FTP CDROM
 .  if defined(_MASTER_PERMIT_${_i}) \
     && ${_MASTER_PERMIT_${_i}:L} == "yes" && ${PERMIT_PACKAGE_${_i}:L} != "yes"
