@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: ports/infrastructure/install/setup.ksh,v 1.73 2006/12/28 02:33:13 tg Exp $
+# $MirOS: ports/infrastructure/install/setup.ksh,v 1.74 2006/12/28 03:11:33 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -242,6 +242,7 @@ case $(uname -s 2>/dev/null || uname) {
 (Darwin*)
 	isdarwin=yes
 	defmanpath='/usr/local/share/man:/usr/X11R6/man:/usr/share/man'
+	export BOOTSTRAP=yes
 	;;
 (Interix*)
 	defmanpath='/usr/share/man:/usr/X11R6/man:/usr/X11R5/man'
@@ -702,7 +703,7 @@ fi
 	mmake clean
 	cd $T
 fi
-[[ $isinterix = *yes* ]] && unset BOOTSTRAP
+[[ $isdarwin$isinterix = *yes* ]] && unset BOOTSTRAP
 
 
 # Check if we need to install GNU wget

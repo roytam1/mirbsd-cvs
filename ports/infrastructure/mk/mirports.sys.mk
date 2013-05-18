@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/mirports.sys.mk,v 1.39 2006/10/17 21:15:42 tg Exp $
+# $MirOS: ports/infrastructure/mk/mirports.sys.mk,v 1.40 2006/12/21 20:38:39 tg Exp $
 #-
 # Copyright (c) 2005, 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -61,7 +61,11 @@ CPPFLAGS+=		-D__unix__=1
 LDFLAGS+=		-specs=${LOCALBASE}/db/specs
 NOPIC=			No	# XXX
 LDCONFIG=
+.  ifndef BOOTSTRAP	# Install these first
+_CKSUM_A=		${LOCALBASE}/bin/cksum -a
+.  else
 _CKSUM_A=
+.  endif
 HAS_TIMET64=		No
 NO_SYSTRACE=		not on Darwin
 FETCH_CMD?=		/usr/bin/ftp
@@ -93,6 +97,8 @@ GZCAT?=			/usr/contrib/bin/gzip -dc
 .  ifndef BOOTSTRAP	# Install these first
 _CKSUM_A=		${LOCALBASE}/bin/cksum -a
 M4=			${LOCALBASE}/bin/gm4
+.  else
+_CKSUM_A=
 .  endif
 FETCH_CMD?=		${LOCALBASE}/bin/wget
 PATCH?=			${LOCALBASE}/bin/patch
