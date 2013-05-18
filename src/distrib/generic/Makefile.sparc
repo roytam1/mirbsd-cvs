@@ -1,18 +1,11 @@
-# $MirOS: src/distrib/generic/Makefile.sparc,v 1.2 2006/07/05 23:08:31 tg Exp $
+# $MirOS: src/distrib/generic/Makefile.sparc,v 1.3 2006/07/05 23:14:28 tg Exp $
 
-CLEANFILES+=	bsd.net{,.tmp} bsd.scsi3
+CLEANFILES+=	bsd.net{,.tmp}
 
-all: bsd.scsi3
-
-bsd.scsi3: bsd
-	gzip -dc bsd >$@
-	s=$$(print "find sd\nexit" | config -e $@ | fgrep scsibus | \
-	    awk '{print $$1}'); printf \
-	    "add sd0\n%s\n%s\nchange %s\ny\n3\n\n\nquit\n" $$s $$s $$s | \
-	    config -ef $@
+all: bsd.net
 
 install.md:
-	gzip -n9 <bsd.scsi3 >${DESTDIR}/snapshot/bsd.scsi3
+	cp bsd.net ${DESTDIR}/snapshot/bsd.net
 
 bsd.net: bsd
 	-rm -f $@.tmp
