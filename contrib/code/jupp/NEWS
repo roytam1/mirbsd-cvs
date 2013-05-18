@@ -18,6 +18,7 @@ JOE 3.1jupp23
   scratch+præfix as ^K- in jupprc
 - ^KE no longer trashes buffers cloned by ^KO and ^K; needs not split
 - jupp: ^[# inserts last math equation; ^[= its result
+- Use ${SHELL:-${EXECSHELL:-/bin/sh}} for all shells and check access
 
 JOE 3.1jupp22
 
