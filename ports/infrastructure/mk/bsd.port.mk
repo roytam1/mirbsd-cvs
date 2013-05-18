@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.214 2008/09/23 19:56:31 bsiegert Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.215 2008/10/04 18:37:31 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -1219,6 +1219,18 @@ _upgrade-${_i}:
 .  endfor
 .endif
 
+.if ${CONFIGURE_STYLE:L:Mbmake}
+MAKE_ENV+=		CPPFLAGS=${CPPFLAGS:Q}
+.endif
+
+MODBMAKE_configure=	cd ${WRKBUILD} && \
+			    exec ${_SYSTRACE_CMD} ${SETENV} ${MAKE_ENV} \
+			    ${MAKE_PROGRAM} ${MAKE_FLAGS} -f ${MAKE_FILE} obj
+
+MODBMAKE_pre_build=	cd ${WRKBUILD} && \
+			    exec ${_SYSTRACE_CMD} ${SETENV} ${MAKE_ENV} \
+			    ${MAKE_PROGRAM} ${MAKE_FLAGS} -f ${MAKE_FILE} depend
+
 MODSIMPLE_configure=	cd ${WRKCONF} && \
 			    ${_SYSTRACE_CMD} ${SETENV} \
 			    ${MODSIMPLE_configure_env} \
@@ -2143,6 +2155,11 @@ ${_BUILD_COOKIE}: ${_CONFIGURE_COOKIE}
 .  if target(pre-build)
 	@cd ${.CURDIR} && exec ${_SYSTRACE_CMD} ${MAKE} pre-build
 .  endif
+.  for _c in ${CONFIGURE_STYLE:L}
+.    if defined(MOD${_c:U}_pre_build)
+	@${MOD${_c:U}_pre_build}
+.    endif
+.  endfor
 .  if target(do-build)
 	@cd ${.CURDIR} && exec ${_SYSTRACE_CMD} ${MAKE} do-build
 .  else
