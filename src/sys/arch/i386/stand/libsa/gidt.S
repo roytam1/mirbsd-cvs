@@ -1,4 +1,4 @@
-/*	$MirOS: src/sys/arch/i386/stand/libsa/gidt.S,v 1.18 2009/01/10 13:41:19 tg Exp $ */
+/*	$MirOS: src/sys/arch/i386/stand/libsa/gidt.S,v 1.19 2009/01/10 13:58:58 tg Exp $ */
 /*	$OpenBSD: gidt.S,v 1.32 2006/12/26 19:30:44 tom Exp $	*/
 
 /*
@@ -255,88 +255,79 @@ IEMUENT(44); IEMUENT(45); IEMUENT(46); IEMUENT(47)
  *
  */
 	.globl	EMUh
-	.align	8, 0x90
+	.balign	8, 0x90
+	.intel_syntax noprefix
 EMUh:
-	/* save %eax */
-	mov	%eax, 3f
-	pop	%eax
+	xchg	[esp],eax
+	mov	[LemuNR],al
+	pop	eax
 
-	pusha
-	push	%ds
-	push	%es
-	push	%fs
-	push	%gs
+	push	ebx
+	push	ebp
+	push	esi
+	push	edi
+	push	ds
+	push	es
+	push	fs
+	push	gs
 
-	/* save BIOS int vector */
-	mov	%al, intno
+	push	eax
+	mov	eax,[BIOS_regs + BIOSR_DS]
+	push	eax
+	mov	eax,[BIOS_regs + BIOSR_ES]
+	push	eax
 
 	call	prot_to_real
 	.code16
 
-	push	%ds
+	pop	eax
+	mov	es,ax
+	pop	eax
+	mov	ds,ax
+	pop	eax
 
-	addr32  movw (_C_LABEL(BIOS_regs)+(BIOSR_ES) - SA_LINKADDR), %ax
-	movw	%ax, %es
-	addr32  movw (_C_LABEL(BIOS_regs)+(BIOSR_DS) - SA_LINKADDR), %ax
-	movw	%ax, %ds
+	int	0
+	LemuNR = . - 1
 
-	# data32 movl $Leax, %eax
-	.byte	0x66, 0xb8
-3:	.long	0x90909090
-
-	;sti
-	int	$0
-intno	= . - 1
-	;cli
-
-	pop	%ds
-
-	addr32 movl %ebx, (_C_LABEL(BIOS_regs)+(BIOSR_BX) - SA_LINKADDR)
-	movw	%es, %bx
-	addr32 movw %bx, (_C_LABEL(BIOS_regs)+(BIOSR_ES) - SA_LINKADDR)
-	movb	%ah, %bh
-	lahf
-	xchgb	%ah, %bh
-
-	addr32 movl %eax, (2f - SA_LINKADDR)
+	pushfd
+	push	eax
+	xor	eax,eax
+	mov	ax,es
+	push	eax
+	mov	ax,ds
+	push	eax
 
 	call	real_to_prot
 	.code32
 
-	# movl $Leax, %eax
-	.byte 0xb8
-2:	.long 0x90909090
+	mov	[BIOS_regs + BIOSR_CX],ecx
+	mov	[BIOS_regs + BIOSR_DX],edx
+	mov	[BIOS_regs + BIOSR_BX],ebx
+	mov	[BIOS_regs + BIOSR_BP],ebp
+	mov	[BIOS_regs + BIOSR_SI],esi
+	mov	[BIOS_regs + BIOSR_DI],edi
+	pop	eax
+	mov	[BIOS_regs + BIOSR_ES],eax
+	pop	eax
+	mov	[BIOS_regs + BIOSR_DS],eax
+	pop	eax
+	mov	[BIOS_regs + BIOSR_AX],eax
 
-	/* pass BIOS return values back to caller */
-	movl	%eax, 0xb*4(%esp)
-	movl	%ecx, 0xa*4(%esp)
-	movl	%edx, 0x9*4(%esp)
-	movb	%bh , 0xe*4(%esp)
+	pop	ebp
+	and	ebp,0xFFFFBFFF		/* clear NT flag */
+	push	ebp
+	popfd
 
-	/* clear NT flag in eflags */
-	/* Martin Fredriksson <martin@gbg.netman.se> */
-	pushf
-	pop	%eax
-	and	$0xffffbfff, %eax
-	push	%eax
-	popf
-
-	/* save registers into save area */
-	movl	%eax, _C_LABEL(BIOS_regs)+BIOSR_AX
-	movl	%ecx, _C_LABEL(BIOS_regs)+BIOSR_CX
-	movl	%edx, _C_LABEL(BIOS_regs)+BIOSR_DX
-	movl	%ebp, _C_LABEL(BIOS_regs)+BIOSR_BP
-	movl	%esi, _C_LABEL(BIOS_regs)+BIOSR_SI
-	movl	%edi, _C_LABEL(BIOS_regs)+BIOSR_DI
-
-	pop	%gs
-	pop	%fs
-	pop	%es
-	pop	%ds
-	popa
+	pop	gs
+	pop	fs
+	pop	es
+	pop	ds
+	pop	edi
+	pop	esi
+	pop	ebp
+	pop	ebx
 	iret
 
-	.intel_syntax noprefix
 #ifndef SMALL_BOOT
 /* Call buffer at 07c0:0000 in real mode to simulate a BIOS boot */
 ENTRY(bootbuf)
