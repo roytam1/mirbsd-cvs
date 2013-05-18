@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/distrib/baselive/munge_it.sh,v 1.25 2007/07/24 09:21:55 tg Exp $
+# $MirOS: src/distrib/baselive/munge_it.sh,v 1.26 2007/08/12 13:59:36 tg Exp $
 #-
 # Copyright (c) 2006, 2007
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -72,11 +72,10 @@ ed -s etc/ntpd.conf <<-'EOMD'
 EOMD
 ed -s etc/rc <<-'EOMD'
 	1i
-		# $MirOS: src/distrib/baselive/munge_it.sh,v 1.25 2007/07/24 09:21:55 tg Exp $
+		# $MirOS: src/distrib/baselive/munge_it.sh,v 1.26 2007/08/12 13:59:36 tg Exp $
 	.
-	/shutdown request/ka
-	/^fi/a
-
+	/cprng.*pr16/d
+	i
 		mount -fwo async,noatime /dev/rd0a /dev
 		cat /dev/.rs >/dev/arandom 2>&-
 		# on sparc, use the nvram to provide some additional entropy
