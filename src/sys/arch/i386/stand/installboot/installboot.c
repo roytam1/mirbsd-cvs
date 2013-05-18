@@ -1,30 +1,29 @@
-/**	$MirOS: src/sys/arch/i386/stand/installboot/installboot.c,v 1.17 2006/04/19 11:03:15 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/stand/installboot/installboot.c,v 1.18 2006/07/23 23:41:28 tg Exp $ */
 /*	$OpenBSD: installboot.c,v 1.47 2004/07/15 21:44:16 tom Exp $	*/
 /*	$NetBSD: installboot.c,v 1.5 1995/11/17 23:23:50 gwr Exp $ */
 
 /*-
- * Copyright (c) 2003, 2004, 2005, 2006
+ * Copyright (c) 2003, 2004, 2005, 2006, 2007
  *	Thorsten Glaser <tg@mirbsd.de>
  *
- * Licensee is hereby permitted to deal in this work without restric-
- * tion, including unlimited rights to use, publicly perform, modify,
- * merge, distribute, sell, give away or sublicence, provided all co-
- * pyright notices above, these terms and the disclaimer are retained
- * in all redistributions or reproduced in accompanying documentation
- * or other materials provided with binary redistributions.
+ * Provided that these terms and disclaimer and all copyright notices
+ * are retained or reproduced in an accompanying document, permission
+ * is granted to deal in this work without restriction, including un-
+ * limited rights to use, publicly perform, distribute, sell, modify,
+ * merge, give away, or sublicence.
  *
- * All advertising materials mentioning features or use of this soft-
- * ware must display the following acknowledgement:
+ * Advertising materials mentioning features or use of this work must
+ * display the following acknowledgement:
  *	This product includes material provided by Thorsten Glaser.
  *
- * Licensor offers the work "AS IS" and WITHOUT WARRANTY of any kind,
- * express, or implied, to the maximum extent permitted by applicable
- * law, without malicious intent or gross negligence; in no event may
- * licensor, an author or contributor be held liable for any indirect
- * or other damage, or direct damage except proven a consequence of a
- * direct error of said person and intended use of this work, loss or
- * other issues arising in any way out of its use, even if advised of
- * the possibility of such damage or existence of a nontrivial bug.
+ * This work is provided "AS IS" and WITHOUT WARRANTY of any kind, to
+ * the utmost extent permitted by applicable law, neither express nor
+ * implied; without malicious intent or gross negligence. In no event
+ * may a licensor, author or contributor be held liable for indirect,
+ * direct, other damage, loss, or other issues arising in any way out
+ * of dealing in the work, even if advised of the possibility of such
+ * damage or existence of a defect, except proven that it results out
+ * of said person's immediate fault when using the work as intended.
  */
 
 /*
@@ -82,13 +81,14 @@
 #include <sys/exec_elf.h>
 #include <fcntl.h>
 #include <nlist.h>
+#include <stdbool.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
 #include <unistd.h>
 #include <util.h>
 
-__RCSID("$MirOS: src/sys/arch/i386/stand/installboot/installboot.c,v 1.17 2006/04/19 11:03:15 tg Exp $");
+__RCSID("$MirOS: src/sys/arch/i386/stand/installboot/installboot.c,v 1.18 2006/07/23 23:41:28 tg Exp $");
 
 extern	char *__progname;
 int	verbose, nowrite, nheads, nsectors, userspec = 0;
@@ -191,15 +191,19 @@ main(int argc, char *argv[])
 	int mbrpart, usembrpart = 0;
 	/* do *not* use off_t */
 	u_long isoofs = 0, isolen = 0, imaofs = 0, imasec = 0;
+	bool flag_oneonly = false;
 
 	fprintf(stderr, "MirOS BSD installboot " __BOOT_VER "\n");
 
 	nsectors = nheads = -1;
-	while ((c = getopt(argc, argv, "h:I:i:MnP:pS:s:v")) != -1) {
+	while ((c = getopt(argc, argv, "1h:I:i:MnP:pS:s:v")) != -1) {
 		switch (c) {
+		case '1':
+			flag_oneonly = true;
+			break;
 		case 'h':
 			nheads = atoi(optarg);
-			if (nheads < 1 || nheads > 256) {
+			if (nheads < 1 || nheads > 255) {
 				warnx("invalid value for -h");
 				nheads = -1;
 			} else	userspec = 1;
@@ -381,6 +385,9 @@ main(int argc, char *argv[])
 		fprintf(stderr, "warning: Unable to get BIOS geometry, "
 		    "must/should specify -h and -s\nwarning: the drive "
 		    "may not boot in non-LBA mode\n");
+
+	if (flag_oneonly)
+		nheads |= 0x8000;
 
 	/* Extract and load block numbers */
 	if (loadblocknums(boot, devfd, &dl) != 0)

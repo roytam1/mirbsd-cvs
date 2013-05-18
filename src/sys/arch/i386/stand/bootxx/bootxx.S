@@ -1,4 +1,4 @@
-/* $MirOS: src/sys/arch/i386/stand/bootxx/bootxx.S,v 1.1 2007/02/26 02:11:33 tg Exp $ */
+/* $MirOS: src/sys/arch/i386/stand/bootxx/bootxx.S,v 1.2 2007/02/26 02:35:04 tg Exp $ */
 
 /*-
  * Copyright (c) 2003, 2004, 2005, 2007
@@ -115,8 +115,9 @@ LTENTRY(Lmain)
 	call	Lotxt
 	/* check for single-block CHS */
 	mov	ax,offset LsBRK
-	cmp	word ptr [bpbspt],1
-	je	LbCHS
+	xchg	bh,[bpbtpc+1]
+	and	bh,0x80
+	jnz	LbCHS
 	/* check for LBA vs. CHS */
 	mov	ah,0x41		/* LBA installation check */
 	mov	bx,0x55AA	/* magic */
