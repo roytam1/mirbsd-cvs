@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/i386/livecd/Makefile,v 1.31 2006/04/19 20:03:28 tg Exp $
+# $MirOS: src/distrib/i386/livecd/Makefile,v 1.32 2006/04/19 20:03:56 tg Exp $
 
 .include <bsd.own.mk>
 
@@ -80,6 +80,17 @@ makeimg: bsd.gz
 	${SUDO} dd if=${BSDOBJDIR}/sys/arch/i386/stand/liveboot/boot \
 	    obs=2048 conv=osync of=workdir/v${OSrev}/i386/boot.liv
 	cd workdir/v${OSrev}/i386 && ${SUDO} cp boot.liv boot.iso
+	sed 's!RMD160 (!&v${OSrev}/i386/!' <workdir/v${OSrev}/i386/RMD160 \
+	    >workdir/RMD160
+	touch workdir/boot.cat
+	cd workdir && rmd160 00-README boot.cat bsd stand/fsrw.cpio \
+	    tftpboot/bsd tftpboot/pxeboot v${OSrev}/i386/boot.iso \
+	    v${OSrev}/i386/boot.liv >>RMD160
+	rm -f workdir/boot.cat
+	sort -uo workdir/RMD160 workdir/RMD160
+	gzip -n9 <workdir/RMD160 >workdir/RMD160.gz
+	# pad for gzsig(1) application later on
+	dd if=/dev/zero count=2 >>workdir/RMD160.gz
 	-rm -f ${CDROM}
 	touch ${CDROM}
 	${SUDO} mkisofs -R -T -L -d -D -N -v -v -f \

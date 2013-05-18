@@ -1,4 +1,4 @@
-# $MirOS: src/Makefile,v 1.41 2006/04/10 21:35:28 tg Exp $
+# $MirOS: src/Makefile,v 1.42 2006/04/11 05:09:38 tg Exp $
 # $OpenBSD: Makefile,v 1.103 2004/05/03 15:18:18 drahn Exp $
 
 .if defined(MAKECONF) && exists(${MAKECONF})
@@ -167,7 +167,8 @@ _DISTS=	base
 _DISTS=	base x11 htman
 .endif
 
-_INDEX_FILES=	CKSUM RMD160 RMD160.gz source${OSrev}.ngz xfree${OSrev}.ngz
+_INDEX_FILES=	CKSUM RMD160 RMD160.gz boot.iso boot.liv \
+		source${OSrev}.ngz xfree${OSrev}.ngz
 
 .ifdef QUICK_DIST
 .  include "gcc/Makefile.lang"
@@ -270,10 +271,6 @@ _do-dist:
 .endfor
 	-cd ${BSDRELDIR}/rel && cksum * | ${SUDO} sort -k3 -uo CKSUM
 	-cd ${BSDRELDIR}/rel && rmd160 !(CKSUM) | ${SUDO} sort -uo RMD160
-	-gzip -n9 <${BSDRELDIR}/rel/RMD160 >${HOME}/RMD160.gz
-	# pad for gzsig(1) application later on
-	-dd if=/dev/zero bs=768 count=1 >>${HOME}/RMD160.gz
-	-${SUDO} mv ${HOME}/RMD160.gz ${BSDRELDIR}/rel/
 	@echo "============================================================"
 	@echo Done with MirOS Build.
 	@date
