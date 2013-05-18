@@ -4,7 +4,7 @@
 mws_setname pkgsrc "pkgsrc on MirOS"
 mws_subdir 0
 mws_setheadline pkgsrc on MirOS
-mws_putheader '$MirOS: www/src/pkgsrc.hts,v 1.5 2011/12/18 12:11:18 bsiegert Exp $'
+mws_putheader '$MirOS: www/src/pkgsrc.hts,v 1.6 2012/04/24 18:00:52 bsiegert Exp $'
 mws_content <<'EOF'
 <p>pkgsrc is a “ports tree” developed by the NetBSD project and portable
  to several other operating systems. Support for MirOS has existed since
@@ -27,16 +27,13 @@ mws_content <<'EOF'
  the MirPorts directories (normally /usr/mpkg/bin and /usr/mpkg/sbin)
  <b>must not</b> be in your PATH.</p>
 
-<p>Starting from pkgsrc-2011Q2, you no longer need to apply any
- MirBSD-specific patches to install pkgsrc.</p>
-
 <h2>Binary packages</h2>
 
 <p>Pre-built binary packages of the
- <b>pkgsrc-2012Q1 branch</b>
- (from April 2012), built for recent MirOS-current, are
+ <b>pkgsrc-2013Q1 branch</b>
+ (from April 2013), built for recent MirOS-current, are
  available. They can be used even if you did not install a compiler on
- the system. The binary repository contains about <b>5600 packages</b>.
+ the system. The binary repository contains about <b>7000 packages</b>.
  The packages have been built with
  <tt>/usr/pkg</tt>
  as the prefix and
@@ -51,7 +48,7 @@ mws_content <<'EOF'
 <ol>
  <li>Download the bootstrap kit: <br />
   <tt>ftp
-  ftp://ftp.netbsd.org/pub/pkgsrc/packages/MirBSD/i386/10uB0_2012Q1/bootstrap.tar.gz</tt></li>
+  ftp://ftp.netbsd.org/pub/pkgsrc/packages/MirBSD/i386/10uB0_2013Q1/bootstrap.tar.gz</tt></li>
  <li>Extract the file:<br />
   <tt>cd / ; tar xvpzf /path/to/bootstrap.tar.gz</tt></li>
  <li>Set the PATH to include /usr/pkg <i>before</i> any MirPorts
@@ -62,7 +59,7 @@ mws_content <<'EOF'
   <tt>export PATH=$(echo $PATH|sed s,mpkg,pkg,g)</tt></li>
  <li>Set the path to the binary packages:<br />
   <tt>export
-  PKG_PATH="ftp://ftp.netbsd.org/pub/pkgsrc/packages/MirBSD/i386/10uB0_2012Q1/All/"</tt></li>
+  PKG_PATH="ftp://ftp.netbsd.org/pub/pkgsrc/packages/MirBSD/i386/10uB0_2013Q1/All/"</tt></li>
  <li>Now you can easily install additional packages, for example:<br />
   <tt>pkg_add python27</tt></li>
 </ol>

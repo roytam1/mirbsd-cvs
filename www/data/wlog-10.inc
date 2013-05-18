@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.419 2013/03/24 16:24:17 bsiegert Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.420 2013/03/24 21:39:54 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -9934,4 +9934,19 @@ Tag: debian geocache
  virtually no work now had I done it initially. (And for fanfiction
  readers! I wish I’d kept a list of <em>read</em> fics, not just of
  these I currently read and/or are currently unfinished.)</p>
+----
+Date: 13.04.2013 17:05
+Author: bsiegert@
+Title: pkgsrc-2013Q1 binary packages available
+Tag: news pkgsrc
+
+<p>I uploaded a full bulk build of binary packages for MirBSD/i386
+ corresponding to the pkgsrc-2013Q1 release. About 7,000 binary packages
+ are available in this build, including the <b>pkgin</b> package manager
+ that makes installing binary packages as easy as apt.</p>
+
+<p>See the <a href="@@RELPATH@@pkgsrc.htm">pkgsrc page</a> for
+ instructions on how to install pkgsrc for MirBSD.
+ <a href="http://miros.s3.amazonaws.com/pbulk/20130329.2011/meta/report.html">Build
+ logs</a> are available on S3.</p>
 ----
