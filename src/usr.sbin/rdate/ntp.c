@@ -49,9 +49,9 @@
 #include <time.h>
 #include <unistd.h>
 
-#include "leapsecs.h"
+#include "ntpleaps.h"
 
-__RCSID("$MirOS: src/usr.sbin/rdate/ntp.c,v 1.5 2006/05/09 08:57:58 tg Exp $");
+__RCSID("$MirOS: src/usr.sbin/rdate/ntp.c,v 1.6 2006/05/29 23:38:31 tg Exp $");
 
 /* This macro is not implemented on all operating systems */
 #ifndef	SA_LEN
