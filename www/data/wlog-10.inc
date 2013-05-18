@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.132 2009/01/02 03:12:30 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.133 2009/01/02 05:15:12 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -2582,7 +2582,7 @@ Title: SYSLINUX, the horrors
 ----
 Date: 02.01.2009 03:07
 Author: tg@
-Title: GNU GRUB, the horrors
+Title: GNU GRUB, the horrors [updated 2 times]
 
 <p>We can use “machine exec grub /boot/grub/stage2” as well as “machine
  exec grub /boot/grub/core.img” to chain into GNU GRUB-Legacy or GRUB2
@@ -2603,4 +2603,10 @@ Title: GNU GRUB, the horrors
 <p><strong>Update:</strong> Yay! Our bootloader <em>is</em> now multiboot
  compliant, detects El Torito in a better way without the patch-the-code
  kludge, and can thusly survive boot ↔ grub cycles.</p>
+<p><strong>2. Update:</strong> It can also chain to itself, and can still
+ be used from MS-DOS® or as SYSLINUX (et al.) COMBOOT module. It just can’t
+ load SYSLINUX because you usually only have LDLINUX.SYS not LDLINUX.BIN,
+ see my earlier post. And it can’t load an MS-DOS® boot sector, however,
+ chaining to GRUB then from there to DOS works. (So much for my plans to
+ directly load an IO.SYS file.)</p>
 ----
