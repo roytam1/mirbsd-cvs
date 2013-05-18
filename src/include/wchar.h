@@ -1,4 +1,4 @@
-/* $MirOS: contrib/code/libhaible/wchar.h,v 1.16 2006/06/01 21:28:41 tg Exp $ */
+/* $MirOS: src/include/wchar.h,v 1.7 2006/06/01 23:00:41 tg Exp $ */
 
 #ifndef	_WCHAR_H_
 #define	_WCHAR_H_
@@ -51,8 +51,10 @@ size_t	mbrlen(const char *__restrict__, size_t, mbstate_t *__restrict__);
 size_t	mbrtowc(wchar_t *__restrict__, const char *__restrict__, size_t,
 	    mbstate_t *__restrict__);
 int	mbsinit(const mbstate_t *);
+size_t	mbslen(const char *);
 size_t	mbsrtowcs(wchar_t *__restrict__, const char **__restrict__, size_t,
 	    mbstate_t *__restrict__);
+int	mbswidth(const char *, size_t);
 wint_t	putwc(wchar_t, FILE *);
 wint_t	putwchar(wchar_t);
 wint_t	ungetwc(wint_t, FILE *);
@@ -65,6 +67,8 @@ int	wcscoll(const wchar_t *, const wchar_t *);
 wchar_t	*wcscpy(wchar_t *__restrict__, const wchar_t *__restrict__);
 size_t	wcscspn(const wchar_t *, const wchar_t *);
 wchar_t *wcsdup(const wchar_t *);
+size_t	wcsftime(wchar_t *__restrict__, size_t, const wchar_t *__restrict__,
+	    const struct tm *__restrict__);
 size_t	wcslcat(wchar_t *, const wchar_t *, size_t);
 size_t	wcslcpy(wchar_t *, const wchar_t *, size_t);
 size_t	wcslen(const wchar_t *);
@@ -80,10 +84,8 @@ size_t	wcsspn(const wchar_t *, const wchar_t *);
 wchar_t	*wcsstr(const wchar_t *__restrict__, const wchar_t *__restrict__);
 double	wcstod(const wchar_t *__restrict__, wchar_t **__restrict__);
 float	wcstof(const wchar_t *__restrict__, wchar_t **__restrict__);
-#if 0
 wchar_t	*wcstok(wchar_t *__restrict__, const wchar_t *__restrict__,
 	    wchar_t **__restrict__);
-#endif
 long	wcstol(const wchar_t *__restrict__, wchar_t **__restrict__, int);
 long double wcstold(const wchar_t *__restrict__, wchar_t **__restrict__);
 #if (!defined(_POSIX_C_SOURCE) && !defined(_XOPEN_SOURCE)) || \

@@ -1,4 +1,4 @@
-# $MirOS: src/lib/libc/string/Makefile.inc,v 1.8 2006/06/01 22:17:26 tg Exp $
+# $MirOS: src/lib/libc/string/Makefile.inc,v 1.9 2006/06/02 02:29:56 tg Exp $
 # $OpenBSD: Makefile.inc,v 1.17 2005/05/26 12:56:01 otto Exp $
 
 # string sources
@@ -17,6 +17,7 @@ SRCS+=	wcsncasecmp.c
 
 SRCS+=	wcscoll.c
 SRCS+=	wcsdup.c
+SRCS+=	wcstok.c
 SRCS+=	wcsxfrm.c
 
 CFLAGS_strcasestr.o+= -Wno-cast-qual
