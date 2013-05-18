@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.94 2007/10/25 16:01:21 tg Exp $
+# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.95 2008/02/17 15:42:16 bsiegert Exp $
 #-
 # Copyright (c) 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -83,7 +83,7 @@ dt_bin=$new_prefix/bin
 dt_man=$new_prefix/${new_manpth}1
 dt_mk=$new_prefix/share/${new_exenam}
 
-export HAVE_GETOPT=no
+HAVE_GETOPT=no
 
 if [[ $new_manpth = *@(cat)* ]]; then
 	is_catman=1
@@ -215,8 +215,8 @@ cp $d_src/lib/libc/string/strlfun.c \
 cp $d_src/share/mk/*.mk $d_build/mk/
 cp $d_src/include/{md4,md5,rmd160,sha1,sha2,tiger}.h \
     $d_script/../contrib/mirmake.h $d_build/F/
-if [[ "x$HAVE_GETOPT" != "xyes" ]]; then
-	cp  $d_src/lib/libc/stdlib/getopt_long.c $d_build/
+if [[ $HAVE_GETOPT != yes ]]; then
+	cp $d_src/lib/libc/stdlib/getopt_long.c $d_build/
 	cp $d_src/include/getopt.h $d_build/F/
 fi
 
@@ -248,7 +248,7 @@ EOF
 
 # Build bmake
 getopt_long_o=getopt_long.o
-if [[ "x$HAVE_GETOPT" = xyes ]]; then
+if [[ $HAVE_GETOPT = yes ]]; then
 	getopt_long_o=
 fi
 cd $d_build
@@ -492,7 +492,7 @@ sed -e 's/hashinc/tiger.h/g' -e 's/HASH/TIGER/g' \
 cp  $d_src/lib/libc/hash/{md4,md5,rmd160,sha1,sha2,tiger}.c \
     $d_src/lib/libc/stdlib/strtoll.c \
     $d_src/lib/libc/stdio/{{,v}asprintf,mktemp}.c .
-if [[ "x$HAVE_GETOPT" != xyes ]]; then
+if [[ $HAVE_GETOPT != yes ]]; then
 	cp $d_src/lib/libc/stdlib/getopt_long.c .
 fi
 SRCS="${add_fgetln%.[co]}.c $add_strlfun $add_arcfour" \
