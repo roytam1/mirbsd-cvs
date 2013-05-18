@@ -127,6 +127,8 @@
 #include <openssl/md5.h>
 #include <openssl/fips.h>
 
+__RCSID("$MirOS$");
+
 static SSL_METHOD *ssl3_get_server_method(int ver);
 static int ssl3_get_client_hello(SSL *s);
 static int ssl3_check_client_hello(SSL *s);
@@ -653,6 +655,13 @@ static int ssl3_get_client_hello(SSL *s)
 	SSL_CIPHER *c;
 	SSL_COMP *comp=NULL;
 	STACK_OF(SSL_CIPHER) *ciphers=NULL;
+
+	if (s->new_session)
+		{
+		al=SSL_AD_HANDSHAKE_FAILURE;
+		SSLerr(SSL_F_SSL3_GET_CLIENT_HELLO, SSL_R_NO_RENEGOTIATION);
+		goto f_err;
+		}
 
 	/* We do this so that we will respond with our native type.
 	 * If we are TLSv1 and we get SSLv3, we will respond with TLSv1,
