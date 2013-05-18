@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/Makefile.sparc-big,v 1.1 2008/07/12 22:06:13 tg Exp $
+# $MirOS: src/distrib/common/Makefile.sparc-big,v 1.2 2008/08/05 19:19:58 tg Exp $
 # $OpenBSD: Makefile.inc,v 1.14 2002/05/01 19:21:28 mickey Exp $
 
 RAWLABEL=
@@ -12,3 +12,6 @@ cdrom-mdcopy:
 	ln ${WRKDIR}/v${OSrev}/${MACHINE}/bsd.rd ${WRKDIR}/bsd	# no comment…
 
 cdrom-mdboot:
+	fgrep ${WRKDIR}/b_${MACHINE}.ldr mkisofs.log | \
+	    ${MKSH} ${BOOTSH} -0 24 -S 2 | \
+	    dd of=${CDROM} conv=notrunc 2>/dev/null

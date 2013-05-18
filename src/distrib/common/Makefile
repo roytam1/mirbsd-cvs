@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/Makefile,v 1.29 2008/03/15 22:23:04 tg Exp $
+# $MirOS: src/distrib/common/Makefile,v 1.30 2008/08/05 19:19:58 tg Exp $
 
 .include <bsd.own.mk>
 
@@ -216,9 +216,6 @@ cdrom-generate:
 	    -V 'MirOS #${OSrev} BSD/${MACHINE} boot-only CD' \
 	    -volset "$$(uname -slm) Setup" -sysid "MirOSBSD" \
 	    -pad -o ${CDROM} ${WRKDIR} 2>&1 | tee mkisofs.log
-	fgrep ${WRKDIR}/b_${MACHINE}.ldr mkisofs.log | \
-	    ${MKSH} ${BOOTSH} -0 24 -S 2 | \
-	    dd of=${CDROM} conv=notrunc 2>/dev/null
 	-rm -rf ${WRKDIR}
 
 .include <bsd.obj.mk>
