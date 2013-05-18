@@ -1,10 +1,10 @@
-# $MirOS: ports/print/ghostscript/artifex/Makefile,v 1.4 2006/10/06 16:33:40 tg Exp $
+# $MirOS: ports/print/ghostscript/artifex/Makefile,v 1.5 2006/10/06 17:55:19 tg Exp $
 # $OpenBSD: Makefile,v 1.20 2004/05/23 18:51:59 sturm Exp $
 
 COMMENT=		GPL'd PostScript interpreter
 VERSION=		8.54
 DISTNAME=		ghostscript-${VERSION}-gpl
-PKGNAME=		ghostscript-${VERSION}-1
+PKGNAME=		ghostscript-${VERSION}-1-artifex
 CATEGORIES=		print lang textproc
 DIR=			GPL/gs${VERSION:S/.//}
 MASTER_SITES=		${GS_SITES}
