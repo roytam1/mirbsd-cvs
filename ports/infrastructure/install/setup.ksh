@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: ports/infrastructure/install/setup.ksh,v 1.77 2007/04/01 01:24:04 tg Exp $
+# $MirOS: ports/infrastructure/install/setup.ksh,v 1.78 2007/04/30 13:07:35 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -527,6 +527,14 @@ EOF
 	unset INCLUDE LIB
 EOF
 
+cat >>$localbase/db/SetEnv.sh <<-'EOF'
+	if [ -z "$SSL_CERT_DIR" -a -d $LOCALBASE/share/ca-certificates/. ]; then
+		SSL_CERT_DIR=$LOCALBASE/share/ca-certificates
+		export SSL_CERT_DIR
+	fi
+	:
+EOF
+
 cat >$localbase/db/SetEnv.csh <<-EOF
 	setenv LOCALBASE '$localbase'
 	setenv PORTSDIR '$portsdir'
@@ -557,6 +565,15 @@ EOF
 [[ $isinterix = yes ]] && cat >>$localbase/db/SetEnv.csh <<-EOF
 	unsetenv INCLUDE
 	unsetenv LIB
+EOF
+
+cat >$localbase/db/SetEnv.csh <<-'EOF'
+	#XXX convert this to csh
+	#if [ -z "$SSL_CERT_DIR" -a -d $LOCALBASE/share/ca-certificates/. ]; then
+	#	SSL_CERT_DIR=$LOCALBASE/share/ca-certificates
+	#	export SSL_CERT_DIR
+	#fi
+	true
 EOF
 
 cat >$localbase/db/SetEnv.make <<-EOF
