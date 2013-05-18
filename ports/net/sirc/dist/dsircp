@@ -1,5 +1,5 @@
 #!/usr/bin/perl
-# $MirOS: ports/net/sirc/dist/dsircp,v 1.16 2008/07/15 13:15:29 tg Exp $
+# $MirOS: ports/net/sirc/dist/dsircp,v 1.17 2008/07/15 13:25:25 tg Exp $
 #-
 # dsircp: dumb-mode small irc client in perl
 # by orabidoo <roger.espel.llima@pobox.com>
@@ -59,6 +59,7 @@ $version='2.211-MirPorts-@DIST_DATE@';
 $date='01 Sep 2005';
 $add_ons='';
 $msgchannel = '';
+$interactive = 1;
 $has_capab = 0; $capab_cmd = ''; $capab_response = '';
 $has_identifymsg = 0; $unverified = 1; $unverified_m = 0;
 
@@ -1653,9 +1654,10 @@ sub selline {
   if (($ssl_efd ne '') && (defined $buffer{$ssl_efd})) {
     $leftover=1, return $ssl_efd if $buffer{$ssl_efd} =~ /\n/;
   }
-  foreach ('STDIN', keys(%sel_fds), keys(%buf_fds)) {
+  foreach (keys(%sel_fds), keys(%buf_fds)) {
     vec($rin, fileno($_), 1)=1;
   }
+  vec($rin, fileno('STDIN'), 1)=1 if $interactive;
   vec($rin, fileno($S), 1)=1 if $connected;
   vec($rin, fileno($ssl_efd), 1)=1 if ($ssl_efd ne '');
   if ($#timers<0 || $timers[0]>time+30) {
