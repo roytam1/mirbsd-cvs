@@ -1,4 +1,4 @@
-# $MirOS: ports/www/firesomething/Makefile,v 1.52 2010/07/22 15:10:31 tg Exp $
+# $MirOS: ports/www/firesomething/Makefile,v 1.53 2010/12/12 16:38:47 tg Exp $
 # $OpenBSD: Makefile,v 1.41 2005/11/15 09:21:52 wilfried Exp $
 
 # mnbsd/amd64, mnbsd/sparc64 missing
@@ -13,7 +13,7 @@ COMMENT-nssckbi=	X.509v3 CA certificate bundle for NSS (Mirzilla Firetapir)
 VER=			3.0.18
 DISTNAME=		mozilla
 PKGNAME=		firesomething-${VER}-${DASH_VER}
-FULLPKGNAME-nssckbi=	nssckbi-1.75-4
+FULLPKGNAME-nssckbi=	nssckbi-1.75-5
 CATEGORIES=		www
 HOMEPAGE=		http://www.mozilla.org/projects/firefox/
 
