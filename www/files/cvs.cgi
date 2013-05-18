@@ -46,7 +46,7 @@
 # OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 # SUCH DAMAGE.
 #
-# $MirOS: www/files/cvs.cgi,v 1.6 2011/11/14 21:48:27 tg Exp $
+# $MirOS: www/files/cvs.cgi,v 1.7 2011/11/14 21:49:18 tg Exp $
 # $FreeBSD: projects/cvsweb/cvsweb.cgi,v 1.291 2005/01/22 12:43:55 scop Exp $
 # $Id$
 # $Idaemons: /home/cvs/cvsweb/cvsweb.cgi,v 1.84 2001/10/07 20:50:10 knu Exp $
@@ -121,7 +121,7 @@ use constant HAS_EDIFF    => eval { require String::Ediff;  };
 
 BEGIN
 {
-  $VERSION = '3.0.5 + $MirOS: www/files/cvs.cgi,v 1.6 2011/11/14 21:48:27 tg Exp $';
+  $VERSION = '3.0.5 + $MirOS: www/files/cvs.cgi,v 1.7 2011/11/14 21:49:18 tg Exp $';
 
   $HTML_DOCTYPE =
     '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" ' .
@@ -3856,6 +3856,15 @@ sub navigateHeader($$$$$;$)
 $HTML_DOCTYPE
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
+ <meta name="MSSmartTagsPreventParsing" content="TRUE" />
+ <link rel="apple-touch-icon" href="pics/blumenkohl.png" />
+ <!--[if IE]>
+ <link rel="shortcut icon" type="image/x-icon" href="favicon.ico" />
+ <![endif]-->
+ <link rel="icon" type="image/png" href="favicon.png" />
+ <meta name="copyright" content="All rights reserved." />
+ <meta name="owner" content="The MirOS Project and The MirPorts Framework" />
+ <meta name="licence" content="see the source files in CVSWEB for details" />
 <title>$qpath$qfile - $title$trev</title>
 $HTML_META$CSS</head>
 <body class="src">
