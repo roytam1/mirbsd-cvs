@@ -1,9 +1,9 @@
-# $MirOS: ports/devel/mirmake/Makefile,v 1.24 2007/04/30 12:59:09 tg Exp $
+# $MirOS: ports/devel/mirmake/Makefile,v 1.25 2007/06/26 20:09:53 tg Exp $
 #-
 # This port should contain no patches.
 
 COMMENT=		portable MirOS make(1) variant
-DISTNAME=		mirmake-20070626
+DISTNAME=		mirmake-20070702
 CATEGORIES=		devel essentials
 RESPONSIBLE=		Thorsten Glaser <tg@mirbsd.de>
 MASTER_SITES=		${_MASTER_SITE_MIRBSD:distfiles/=dist/mir/make/}
