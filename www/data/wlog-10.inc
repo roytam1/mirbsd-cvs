@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.234 2009/08/30 22:30:44 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.235 2009/09/07 17:28:15 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -4954,4 +4954,132 @@ Tag: mksh
 <p>On an unrelated note, cvs(1), lynx(1), ncurses(3), some other things,
  and a lot of ports have also been worked on. The next snapshot is planned
  for mid to end of September, bi-arch. Stay tuned!</p>
+----
+Title: It's this time of the year again
+Date: 09.09.2009 19:41
+Author: tg@
+Tag: bug debian event geocache rant
+
+<p>Due to heavy load at work, as well as some minor things, I'm either
+ taking back interest altogether, involvement altogether, time spent on
+ projects, or any of these on aspects/particulars of projects.</p>
+<p>Sometimes, when you're burnt out, it's best to concentrate on living
+ and on core projects. <a href="@@RELPATH@@mksh.htm">mksh</a> is one of
+ these for me, as is keeping MirBSD userland and MirPorts infrastructure
+ working well, with small, evolving improvements (no big jumps). Other
+ things, no matter how nice, interesting or useful (to me as well as to
+ others) they are, need to stay back. I poured most of the last seven
+ years of my life into MirBSD.</p>
+<p>Sometimes, you want to give back, but it's too much effort, or you
+ cannot afford to spend more time on it. I'll close one of my Debian
+ ITP bugs for this reason. (I also rarely send in patches from ports
+ for this reason, but sometimes point upstream to our CVSweb.)</p>
+<p>Sometimes, people like Ulrich Drepper, Marco d'Itri, Gerrit Pape
+ let you realise that every project has its Theo de Raadt-alikes.
+ I've still not ported <a href="@@RELPATH@@jupp.htm">jupp</a>'s latest
+ release to Debian (but an OpenSuSE Buildservice SRPM exists), nor
+ uploaded the current mksh(1) version even to my own <tt>wtf</tt> repo.
+ I will do so, when I feel like spending private time with Debian again,
+ at least for the etch and lenny (and hardy &ndash; for work) branches,
+ as dash and mksh in sid have... issues I predicted ages ago. (For one,
+ I'm still waiting for Gerrit to contact me. Maybe our eMail systems
+ don't like each other? Waldi or formorer will probably pass on any
+ messages, as will the trusty BTS.) I'll probably not open any ITP
+ bugs again and send in much less of the bugs I notice, simply because
+ I don't like being ignored (or flamed, but sometimes, being ignored
+ is worse &ndash; which is why Benny works on MirPorts, btw). Maybe,
+ if I feel the need to, my <tt>wtf</tt> repo will grow instead; DDs
+ or DMs are free to take from there if they like.</p>
+<p>Sometimes, one realises that he just doesn't fit in. While <a
+ href="http://www.cachewolf.de/">Cachewolf</a> is a useful project,
+ working together with Java&trade; developers that communicate over
+ web fora <em>only</em> and don't even see the need for compatibility
+ with Unix or proper processes most of the time (<tt>svn:eol-style</tt>
+ comes to mind, and switching the source code to UTF-8 is something
+ I've given up to dream of &ndash; I would even have fixed bugs where
+ Ewe wouldn't do UTF-8 right, but I run into a wall of bliss ignorance
+ there) proved impossible for me. I won't budge either: web fora are
+ simply not for me to use. Period. This is my fault (for not fitting
+ in) as well as the fault of some of the rest of the team (for ignoring
+ years of experience, or for simply <span xml:lang="de_DE-1901">nicht
+ über den eigenen Tellerrand schauen</span> (however one says this in
+ English, I don't know) and not caring of these who do; for supporting
+ the commercial gc.com site over the three alternatives too). I will
+ continue to use it, maybe the iPAQ H3600 a colleague gave me proves
+ useful, otherwise, MirBSD will do just fine.</p>
+<p>So, when I leave or pull back a little, no prejudices. Sometimes
+ with reason, but mostly due to lack of available resources on my
+ part. I hope nobody who has been or will be noticing me ceasing to
+ contribute as much as usual thinks ill that's why.</p>
+----
+Title: 8 Useful and Interesting Bash^Wmksh Prompts
+Date: 10.09.2009 18:54
+Author: tg@
+Tag: mksh snippet
+
+<p>smultron, <a href="http://www.midnightbsd.org/">MidnightBSD</a>
+ developer and project member, and graphician / art master for the <a
+ href="@@RELPATH@@mksh.htm">MidnightBSD Korn Shell</a> (among other
+ things), has pointed me to a blog article: <a
+ href="http://maketecheasier.com/8-useful-and-interesting-bash-prompts/2009/09/04">8
+ Useful and Interesting Bash Prompts</a> and asked for an mksh(1)
+ translation. These will <em>not</em> be minimalistic (I can do quite
+ some things), but focus on containing no control characters or other
+ things not easily cut-and-past'able. Made more readable, too.</p>
+<p style="margin-bottom:0px;">Small note: <em>all</em> mksh examples assume
+ the following "setup code" in front of the PS1=... line. Yes, PS1 is set
+ twice (makes the code more readable and perform better). Most of this is
+ from the mksh(1) manpage or <tt>dot.mkshrc</tt> and relatively portable,
+ which is why some things seem more complicated than needed. They do,
+ however, use some rather recent mksh features; if there's real interest
+ in making it work with, say, Debian etch mksh R28, eMail me. Note: that
+ → character is a literal Tab (the "[→·]" Tab-Space occurs often).</p>
+<div style="border:4px ridge blue; margin:0px 24px 0px 24px; padding:12px;"><pre>
+	ca=$(print -n '\001'); ce=$(print -n '\033'); cm=$(print -n '\r')
+	: ${HOSTNAME:=$(ulimit -c 0; hostname -s 2&gt;&amp;-)}
+	[[ $HOSTNAME = @(localhost|*([→ ])) ]] &amp;&amp; \
+	    HOSTNAME=$(ulimit -c 0; hostname 2&gt;&amp;-)
+	: ${USER:=$(ulimit -c 0; id -un 2&gt;&amp;- || print \?)}
+	if (( USER_ID )); then PS1='$'; else PS1='#'; fi
+
+	function twd {
+		typeset d=${PWD:-?} p=~
+
+		[[ $p = ?(*/) ]] || d=${d/#$p/~}
+		print -nr -- "$d"
+	}
+</pre></div><p style="margin-top:0px;">If you do not need exactly the effect
+ of "\w" (tilde unexpansion), use <tt>$PWD</tt> ipv <tt>$(twd)</tt> below.
+ Note that $USER and $HOSTNAME are usually evaluated only once; escape them
+ if you need it evaluated every time.</p>
+<ol>
+ <li>Show Happy face upon successful execution
+<div style="border:4px ridge blue; margin:0px 24px 0px 24px; padding:12px;"><pre>
+bash$ PS1="\`if [ \$? = 0 ]; then echo \[\e[33m\]^_^\[\e[0m\]; else echo \[\e[31m\]O_O\[\e[0m\]; fi\`[\u@\h:\w]\$ "
+mksh$ PS1="$ca$cm"'$(if (( $? )); then
+	print "'"$ca$ce[31m$caO_O$ca$ce[0m$ca"'"
+else
+	print "'"$ca$ce[33m$ca^_^$ca$ce[0m$ca"'"
+fi)'"[$USER@$HOSTNAME:\$(twd)]$PS1 "
+</pre></div>
+ <br />I do think Unicode makes things more fun though:
+<div style="border:4px ridge blue; margin:0px 24px 0px 24px; padding:12px;"><pre>
+mksh$ PS1="$ca$cm$ca$ce["'$(if (( $? )); then
+	print "'"31m$ca☹"'"
+else
+	print "'"33m$ca☺"'"
+fi)'"$ca$ce[0m$ca[$USER@$HOSTNAME:\$(twd)]$PS1 "
+</pre></div>
+ </li>
+ <li>Change color on bad command
+  <br />Coming soon... colour changes are okay, but I wonder why anyone
+  would want the history number. I've got to discuss this a little, and
+  think about ways to use such information with mksh, and if I really
+  want to transcribe the prompts 1:1 (it's possible by just incrementing
+  a counter, but, hey, you don't want that). This is actually a csh
+  feature, and who'd really use csh? I'm on my 80486DLC notebook right
+  now, so my debugging methods are a little limited, but I promise a
+  larger article later. I just needed to get started.</li>
+</ol>
+<p>This article will be updated in-place.</p>
 ----
