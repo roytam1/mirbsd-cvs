@@ -25,7 +25,7 @@
 #include <lib/libsa/stand.h>
 #include <lib/libsa/fat.h>
 
-__RCSID("$MirOS: src/share/misc/licence.template,v 1.28 2008/11/14 15:33:44 tg Rel $");
+__RCSID("$MirOS: src/sys/lib/libsa/fat.c,v 1.9 2008/12/28 05:29:07 tg Exp $");
 
 #if BYTE_ORDER != LITTLE_ENDIAN
 #define getlew(ofs) (buf[(ofs)] + ((unsigned)buf[(ofs) + 1] << 8))
@@ -325,7 +325,10 @@ fat_read(struct open_file *f, void *buf, size_t size, size_t *resid)
 			break;
 
 		otmp = ff->nodeseekp % blksiz;
-		stmp = MIN(blksiz, ff->nodesize - ff->nodeseekp) - otmp;
+		stmp = blksiz;
+		if (ff->nodesize && (ff->nodesize - ff->nodeseekp) < stmp)
+			stmp = ff->nodesize - ff->nodeseekp;
+		stmp -= otmp;
 		if (stmp >= size)
 			stmp = size;
 		memmove(buf, ff->databuf + otmp, stmp);
