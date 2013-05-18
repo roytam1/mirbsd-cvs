@@ -2,7 +2,7 @@
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.129 2008/07/06 23:43:30 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.130 2008/07/08 20:04:55 tg Exp $'
 mws_content <<'EOF'
 <h1>mksh(1) R33d</h1>
 <p>This is the website of the MirBSD™ Korn Shell, an actively developed free
@@ -771,9 +771,9 @@ mws_content <<'EOF'
  <li>Ångström GNU/Linux spitz 2.6.20.6 PREEMPT (armv5tel glibc2.5 gcc4.1.2)</li>
  <li>Debian GNU/Linux 4.0 etch 2.6.18-5-alpha-generic (alpha gcc1:3.3.6-15)</li>
  <li>Debian GNU/Linux 4.0 etch 2.6.18-5-alpha-generic (alpha gcc4.1.1-21)</li>
+ <li>Debian GNU/Linux 4.0 etch 2.6.18-4-686 (i386 dietlibc-0.30-4 gcc4.1.1-21)</li>
  <li>Debian GNU/Linux 4.0 etch 2.6.18-4-k7 (i386 tcc0.9.23) <em>FAIL to link executable</em></li>
  <li>Debian GNU/Linux 4.0 etch 2.6.18-4-k7 (i386 TenDRA-4.1.2)</li>
- <li>Debian GNU/Linux 4.0 etch 2.6.18-4-k7 (i386 dietlibc-0.30-4 gcc4.1.1-21)</li>
  <li>Debian GNU/Linux 4.0 etch 2.6.18-6-mckinley (IA64 gcc4.1.1-21)</li>
  <li>Debian GNU/Linux 4.0 testing 2.6.22-3-686 (i386 gcc3.4.6-6)</li>
  <li>Debian GNU/Linux 4.0 testing 2.6.22-3-686 (i386 gcc4.1.2-18</li>
@@ -989,7 +989,7 @@ mws_content <<'EOF'
  <li>Set the “C” locale in <tt>test.sh</tt> as well to quell warnings</li>
  <li>Split the regression tests that use locale between <tt>en_US.utf8</tt>
   and <tt>en_US.UTF-8</tt>, since not all OSes support either one, and
-  make Solaris and Darwin use the latter</li>
+  make only HP-UX and GNU use the latter</li>
  <li>Fix kill, mknod(8) builtin usage msg, from Igor Sobrado via oksh</li>
  <li>Use proper <tt>ptrdiff_t</tt> casts for pointer arithmetics, inspired
   by an oksh commit from Federico Schwindt</li>
@@ -1001,6 +1001,7 @@ mws_content <<'EOF'
   “ccc” compiler driver; llvm-gcc worked as-is before already</li>
  <li>Better support for contributed <tt>arc4random.c</tt> file</li>
  <li>Do not spin if unlink(2) fails on $HISTFILE, from Decklin Foster</li>
+ <li>Dump the perl(1) <tt>$^O</tt> variable in <tt>test.sh</tt> to logs</li>
 </ul>
 <p id="r33d">mksh R33d is a quick security-update with these changes:</p><ul>
  <li>Move a portability define from <tt>sh.h</tt> to the <tt>setmode.c</tt>
