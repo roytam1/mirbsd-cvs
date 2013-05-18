@@ -1,4 +1,5 @@
-@comment $MirOS$
+@comment $MirOS: ports/devel/pcre/pkg/PLIST,v 1.3 2007/05/17 23:06:33 tg Exp $
+!%%no_cxx%%
 bin/pcre-config
 bin/pcregrep
 bin/pcretest
@@ -43,6 +44,7 @@ man/man3/pcreposix.3
 man/man3/pcreprecompile.3
 man/man3/pcresample.3
 man/man3/pcrestack.3
+man/man3/pcresyntax.3
 share/doc/pcre/AUTHORS
 @comment share/doc/pcre/COPYING
 share/doc/pcre/ChangeLog
@@ -85,12 +87,12 @@ share/doc/pcre/html/pcreposix.html
 share/doc/pcre/html/pcreprecompile.html
 share/doc/pcre/html/pcresample.html
 share/doc/pcre/html/pcrestack.html
+share/doc/pcre/html/pcresyntax.html
 share/doc/pcre/html/pcretest.html
 share/doc/pcre/pcre-config.txt
 share/doc/pcre/pcre.txt
 share/doc/pcre/pcregrep.txt
 share/doc/pcre/pcretest.txt
-!%%no_cxx%%
 @dirrm share/doc/pcre/html
 @dirrm share/doc/pcre
 @dirrm lib/pkgconfig
