@@ -25,7 +25,7 @@
 #include <lib/libsa/stand.h>
 #include <lib/libsa/fat.h>
 
-__RCSID("$MirOS: src/sys/lib/libsa/fat.c,v 1.10 2008/12/28 06:26:10 tg Exp $");
+__RCSID("$MirOS: src/sys/lib/libsa/fat.c,v 1.11 2008/12/28 21:25:12 tg Exp $");
 
 #if BYTE_ORDER != LITTLE_ENDIAN
 #define getlew(ofs) (buf[(ofs)] + ((unsigned)buf[(ofs) + 1] << 8))
@@ -242,8 +242,7 @@ fat_open(char *path, struct open_file *f)
 	/* found terminal component */
 	rv = 0;
  out:
-	if (buf)
-		free(buf, 512);
+	free(buf, 512);
 	if (rv) {
 		if (ff->fatbuf)
 			free(ff->fatbuf, (ff->type == FAT12) ? 1024 : 512);
