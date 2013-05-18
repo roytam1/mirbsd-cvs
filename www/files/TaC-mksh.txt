@@ -12,7 +12,7 @@ if any are found. We don't think so though.)
 All paths are relative to The MirOS Project's CVS repository.
 
 
-The following files form The MirBSD Korn Shell R39b:
+The following files form The MirBSD Korn Shell R39c:
 - build system, testsuite
   * mksh/Build.sh
   * mksh/check.pl
@@ -99,6 +99,8 @@ sired. These are not included in the mksh distfile:
     providing arc4random API on top of jrand48 for small size)
   * src/usr.bin/printf/printf.c (slightly modified UCB printf utili-
     ty code - for the optional, undesired printf(1) builtin)
+    *DO NOT* INCLUDE printf AS A SHELL BUILT-IN UNLESS YOU ABSOLUTE-
+    LY MUST (otherwise, the preferrable /usr/bin/printf is called)
 
 The arc4rootdom.c file is covered by the MirOS Licence (Appendix A).
 The klibc/arc4random.c file is also covered by The MirOS Licence but
@@ -253,4 +255,4 @@ and covered by the MirOS Licence (see Appendix A).
 
 
 _________________________________________________________________
-$MirOS$
+$MirOS: www/files/TaC-mksh.txt,v 1.2 2010/02/14 19:28:03 tg Exp $
