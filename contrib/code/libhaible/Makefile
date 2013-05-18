@@ -1,10 +1,7 @@
-# $MirOS: contrib/code/libhaible/Makefile,v 1.36 2006/06/01 22:47:36 tg Exp $
+# $MirOS: contrib/code/libhaible/Makefile,v 1.37 2006/06/01 22:55:37 tg Exp $
 
 LIB=	haible
 NOPIC=	Yes	# for now
-
-.PATH: ${.CURDIR}/string
-SRCS+=	wcstok.c
 
 # for "miri18n.h"
 CPPFLAGS+= -I${LIBCSRCDIR}/include
