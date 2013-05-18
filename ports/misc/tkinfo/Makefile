@@ -1,6 +1,7 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.17 2004/02/02 17:45:22 sturm Exp $
 
-COMMENT=			Tk script to read GNU info files and display them
+COMMENT=	Tk script to read GNU info files and display them
 
 DISTNAME=	tkinfo-2.6
 CATEGORIES=	misc 
@@ -15,6 +16,7 @@ PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
 RUN_DEPENDS=	:tk-8.4.*:x11/tk/8.4
+USE_X11=	Yes
 
 NO_BUILD=	Yes
 NO_REGRESS=	Yes

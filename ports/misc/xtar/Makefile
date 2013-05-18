@@ -1,6 +1,7 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.22 2002/10/27 21:07:54 naddy Exp $
 
-COMMENT=			view and manipulate contents of a tar file
+COMMENT=	view and manipulate contents of a tar file
 
 DISTNAME=	xtar-1.4
 CATEGORIES=	misc
@@ -15,6 +16,7 @@ PERMIT_DISTFILES_FTP=	Yes
 
 CONFIGURE_STYLE=	imake
 USE_MOTIF=	any
+USE_X11=	Yes
 MAKE_FLAGS=	EXTRA_LDOPTIONS=-L${WRKBUILD}/common
 
 NO_REGRESS=	Yes

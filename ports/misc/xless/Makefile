@@ -1,6 +1,7 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.15 2002/10/27 21:07:54 naddy Exp $
 
-COMMENT=			X11 viewer for text files
+COMMENT=	X11 viewer for text files
 
 DISTNAME=	xless-1.7
 CATEGORIES=	misc	
@@ -14,6 +15,7 @@ MASTER_SITES=	${MASTER_SITE_XCONTRIB:=applications/} \
 		ftp://ftp.cs.berkeley.edu/ucb/people/dglo/xless/
 
 CONFIGURE_STYLE=imake
+USE_X11=	Yes
 
 NO_REGRESS=	Yes
 
