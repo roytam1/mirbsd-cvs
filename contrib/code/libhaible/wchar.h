@@ -1,4 +1,4 @@
-/* $MirOS: contrib/code/libhaible/wchar.h,v 1.3 2006/05/30 11:34:21 tg Exp $ */
+/* $MirOS: contrib/code/libhaible/wchar.h,v 1.4 2006/05/30 12:11:49 tg Exp $ */
 
 /*-
  * Copyright (c) 2005, 2006
@@ -106,6 +106,7 @@ int	vwprintf(const wchar_t * __restrict__, _BSD_VA_LIST_);
 int	vwscanf(const wchar_t *__restrict__, _BSD_VA_LIST_);
 #endif
 size_t	wcrtomb(char *__restrict__, wchar_t, mbstate_t *__restrict__);
+int	wcscasecmp(const wchar_t *, const wchar_t *);
 wchar_t	*wcscat(wchar_t *__restrict__, const wchar_t *__restrict__);
 wchar_t	*wcschr(const wchar_t *, wchar_t);
 int	wcscmp(const wchar_t *, const wchar_t *);
@@ -121,6 +122,7 @@ size_t	wcsftime(wchar_t *__restrict__, size_t, const wchar_t *__restrict__,
 size_t	wcslcat(wchar_t *, const wchar_t *, size_t);
 size_t	wcslcpy(wchar_t *, const wchar_t *, size_t);
 size_t	wcslen(const wchar_t *);
+int	wcsncasecmp(const wchar_t *, const wchar_t *, size_t);
 wchar_t	*wcsncat(wchar_t *__restrict__, const wchar_t *__restrict__, size_t);
 int	wcsncmp(const wchar_t *, const wchar_t *, size_t);
 wchar_t	*wcsncpy(wchar_t *__restrict__, const wchar_t *__restrict__, size_t);
