@@ -33,7 +33,7 @@ NOMAN=		Yes
 #include <string.h>
 #include <wchar.h>
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: contrib/hosted/tg/ucdconv.c,v 1.13 2010/12/11 20:38:26 tg Exp $");
 
 struct unicode_attribute {
   const char* name;           /* Character name */
@@ -417,12 +417,8 @@ static void output_attribute_table (void)
   int pages[0x100];
   int p, q, p1, p2, i;
   unsigned int ch;
-  const char* filename = "tbl_attr.c";
-  FILE* f = fopen(filename, "w");
-  if (!f) {
-    fprintf(stderr, "error during fopen of `%s'\n", filename);
-    exit(1);
-  }
+  const char *filename = "tbl_att0.c";
+  FILE* f = NULL;
   for (ch = 0; ch < 0x10000; ch++) {
     int attributes = 0;
     if (unicode_attributes[ch].category &&
@@ -503,6 +499,15 @@ static void output_attribute_table (void)
   }
   for (p = 0; p < 0x100; p++)
     if (pages[p] < 0) {
+      if (p < 2) {
+        if (f)
+          fclose(f);
+        if (!(f = fopen(filename, "w"))) {
+          fprintf(stderr, "error during fopen of `%s'\n", filename);
+          exit(1);
+        }
+        filename = "tbl_attr.c";
+      }
       if (p)
 	fprintf(f, "static const unsigned char attribute_table_page%02X[256] = {\n", p);
       else
