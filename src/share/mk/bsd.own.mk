@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/bsd.own.mk,v 1.18 2005/08/21 11:26:19 tg Exp $
+# $MirOS: src/share/mk/bsd.own.mk,v 1.19 2005/08/21 11:45:50 tg Exp $
 # $OpenBSD: bsd.own.mk,v 1.92 2005/01/18 00:28:42 mickey Exp $
 # $NetBSD: bsd.own.mk,v 1.24 1996/04/13 02:08:09 thorpej Exp $
 
@@ -134,16 +134,9 @@ LDFLAGS+=	${STATIC}
 
 # MirOS is always ELF for now, although the possible choices
 # are: ELF a.out COFF Mach-O PE (consistent with nbsd)
-.if ${OStype} == "Darwin"
-OBJECT_FMT=	Mach-O
-RTLD_TYPE=	dyld
-.elif !empty(OStype:M*Interix)
-OBJECT_FMT=	PE
-RTLD_TYPE=	GNU
-.else
+# RTLD: dyld GNU BSD
 OBJECT_FMT=	ELF
 RTLD_TYPE=	BSD
-.endif
 
 .if ${OBJECT_FMT} == "Mach-O"
 PICFLAG=	-fno-common
