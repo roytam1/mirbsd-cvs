@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/stand/pxeboot/conf.c,v 1.8 2008/08/01 12:39:08 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/stand/pxeboot/conf.c,v 1.9 2009/01/02 04:58:42 tg Exp $ */
 /*	$OpenBSD: conf.c,v 1.16 2008/04/19 23:20:22 weingart Exp $	*/
 
 /*
@@ -45,7 +45,12 @@
 #include "pxeboot.h"
 #include "pxe_net.h"
 
+#define _ASM_SOURCE
+#include "stand/boot/cmd.h"
+#undef _ASM_SOURCE
+
 const char version[] = __BOOT_VER "-PXE";
+char cmd_buf[CMD_BUFF_SIZE];
 int	debug = 1;
 
 void (*sa_cleanup)(void) = pxe_shutdown;

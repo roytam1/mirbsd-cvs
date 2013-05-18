@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/stand/boot/cmd.h,v 1.5 2009/01/01 23:27:46 tg Exp $ */
+/**	$MirOS: src/sys/stand/boot/cmd.h,v 1.6 2009/01/10 14:21:11 tg Exp $ */
 /*	$OpenBSD: cmd.h,v 1.16 2007/06/13 02:17:32 drahn Exp $	*/
 
 /*
@@ -28,7 +28,8 @@
  *
  */
 
-#define CMD_BUFF_SIZE		133
+#define CMD_BUFF_SIZE		160
+#ifndef _ASM_SOURCE
 #define BOOTDEVLEN		64 /* 1024 */
 
 struct cmd_table {
@@ -67,3 +68,4 @@ void boot(dev_t);
 
 int docmd(void);		/* No longer static: needed by regress test */
 char *qualify(char *);		/* No longer static: needed by cmd_*.c */
+#endif

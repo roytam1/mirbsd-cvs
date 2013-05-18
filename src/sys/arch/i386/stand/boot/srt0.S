@@ -1,4 +1,4 @@
-/* $MirOS: src/sys/arch/i386/stand/boot/srt0.S,v 1.46 2009/01/10 13:41:18 tg Exp $ */
+/* $MirOS: src/sys/arch/i386/stand/boot/srt0.S,v 1.47 2009/01/10 13:58:57 tg Exp $ */
 
 /*-
  * Copyright (c) 2003, 2004, 2005, 2006, 2007, 2008, 2009
@@ -37,6 +37,7 @@
 
 #include <machine/asm.h>
 #include <assym.h>
+#include "stand/boot/cmd.h"
 
 	.intel_syntax noprefix
 	.text
@@ -194,7 +195,7 @@ Lirrf:	jnz	Lirrf		/* forever loop */
 	shr	ecx,4
 	sub	ax,cx		/* source */
 	mov	ss,ax
-	mov	esp,offset istackend - SA_LINKADDR
+	mov	esp,offset cmd_buf - SA_LINKADDR + CMD_BUFF_SIZE - 4
 	cmp	ax,SA_LINKSEG
 	je	LisRel
 	UD(2)			/** B: relocation needed */
@@ -217,7 +218,7 @@ Lirrf:	jnz	Lirrf		/* forever loop */
 	mov	ax,es		/* target -> new source */
 	lret
 Lrel1:	mov	ss,ax
-	mov	esp,offset istackend - SA_LINKADDR
+	mov	esp,offset cmd_buf - SA_LINKADDR + CMD_BUFF_SIZE - 4
 Lrel2:	mov	ds,ax		/* source (original or above) */
 	UD(4)			/** D: relocate once */
 	mov	ax,SA_LINKSEG
@@ -313,6 +314,9 @@ LnoCD:
 	mov	edi,offset _C_LABEL(edata)
 	sub	ecx,edi
 	rep	stosb
+	mov	edi,offset cmd_buf
+	mov	ecx,CMD_BUFF_SIZE
+	rep	stosb
 #ifdef BOOTSELECT_HOOK
 	/* store saved hook value */
 	pop	ecx
@@ -355,7 +359,8 @@ Lmbhdr:	.long	0x1BADB002		/* magic */
 
 Lmbrun:	mov	edx,[ebx+12]		/* boot_device */
 	shr	edx,24
-	mov	esp,offset istackend
+	mov	esp,offset cmd_buf + CMD_BUFF_SIZE - 4
+	and	esp,0xFFFFFFFC
 	/* relocate */
 	xor	eax,eax
 	push	eax
@@ -385,10 +390,11 @@ Lmb2rm:	lgdt	Gdtr
 #endif
 
 	.p2align 4
-istackbeg:
+	.globl	cmd_buf
+	.size	cmd_buf, CMD_BUFF_SIZE
+cmd_buf:
 	.long	0xDEADBEEF
-	. = istackbeg + 512
-istackend:
+	. = cmd_buf + CMD_BUFF_SIZE - 4
 	.long	0xCAFEBABE
 
 	.bss
