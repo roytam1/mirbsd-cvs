@@ -14,6 +14,7 @@ JOE 3.1jupp23
 - Securely make backup files using mkstemp(3), thanks Han Boetes
 - Print math results more precisely; if possible, as integer
 - Permit hexadecimal input in math expressions
+- Hook up GOTO “byte” offset command as ^QO in jupprc
 
 JOE 3.1jupp22
 
