@@ -5,12 +5,12 @@ derivate currently being actively developed.  It includes bug
 fixes and feature improvements, in order to produce a modern,
 robust shell good for interactive and especially script use.
 mksh has UTF-8 support (in substring operations and the Emacs
-editing mode) and, while R39a corresponds to OpenBSD 4.5-cur‐
+editing mode) and, while R39b corresponds to OpenBSD 4.6-cur‐
 rent ksh (without GNU bash-like PS1 and fancy character clas‐
-ses), adheres to SUSv3 and is much more robust.  The code has
+ses), adheres to SUSv4 and is much more robust.  The code has
 been cleaned up and simplified, bugs fixed, standards compli‐
 ance added, and several enhancements (for extended compatibi‐
 lity to other modern shells – as well as a couple of its own)
-have been placed.
+are available.
 
 A sample ~/.mkshrc is included in ${PREFIX}/share/examples/mksh/
