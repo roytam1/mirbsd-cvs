@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/tools/Makefile,v 1.30 2009/01/25 20:13:07 tg Exp $
+# $MirOS: src/distrib/tools/Makefile,v 1.31 2009/04/16 13:20:23 tg Exp $
 
 all: sundsklbl
 
@@ -56,7 +56,7 @@ makecdimage: .PHONY
 	done
 	dd if=/dev/arandom bs=2048 count=1 of=eltorito.loo 2>&-	# El Torito
 	# fix path to default kernel file in second-stage boot loader
-	set -A dump -- $$(dd if=${WRKDIR}/b_sparc.ldr bs=4 count=64 | \
+	set -A dump -- $$(dd if=cddir/b_sparc.ldr bs=4 count=64 | \
 	    hexdump -ve '1/1 "%02X"' | sed 's/\(........\)/ \1/g'); i=0; \
 	while (( i < 64 )); do [[ $${dump[i++]} = 2035560? ]] && break; done; \
 	if [[ $$i = 64 || $${dump[i-1]} != 20355601 ]]; then \
