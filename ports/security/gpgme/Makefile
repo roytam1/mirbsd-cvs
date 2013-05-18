@@ -1,11 +1,10 @@
-# $MirOS: ports/security/gpgme/Makefile,v 1.6 2006/11/17 18:31:43 tg Exp $
+# $MirOS: ports/security/gpgme/Makefile,v 1.7 2007/02/22 22:57:56 tg Exp $
 # $OpenBSD: Makefile,v 1.10 2003/05/27 14:16:48 couderc Exp $
 
 COMMENT=		GnuPG Made Easy
-DISTNAME=		gpgme-1.0.3
-PKGNAME=		${DISTNAME}-2
+DISTNAME=		gpgme-1.1.4
 CATEGORIES=     	security devel
-HOMEPAGE=		http://www.gnupg.org/gpgme.html
+HOMEPAGE=		http://www.gnupg.org/related_software/gpgme/
 
 # GPL
 PERMIT_PACKAGE_CDROM=	Yes
@@ -24,13 +23,16 @@ CONFIGURE_STYLE=	autogen
 AUTOCONF_NEW=		Yes
 AUTOMAKE_VERSION=	1.9
 CONFIGURE_ARGS+=	${CONFIGURE_SHARED} \
+			--enable-static \
+			--enable-fd-passing \
+			--disable-glib2 \
 			--without-gpgsm \
 			--without-pth
 # disable pthread
 CONFIGURE_ENV+=		ac_cv_lib_pthread_pthread_create=no
 
-B_R_DEPENDS+=		:gnupg->=1.2.2:security/gnupg
-LIB_DEPENDS+=		gpg-error::security/libgpg-error
+B_R_DEPENDS+=		:gnupg->=1.3.0:security/gnupg
+LIB_DEPENDS+=		gpg-error:libgpg-error->=1.4:security/libgpg-error
 
 post-extract:
 	@rm -f ${WRKSRC}/doc/gpgme.info*

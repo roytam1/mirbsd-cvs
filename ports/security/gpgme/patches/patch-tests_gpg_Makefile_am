@@ -1,25 +1,27 @@
-$MirOS$
---- tests/gpg/Makefile.am.orig	Thu Jun  2 23:02:20 2005
-+++ tests/gpg/Makefile.am	Sun Sep 17 20:25:06 2006
-@@ -25,10 +25,17 @@ TESTS_ENVIRONMENT = GNUPGHOME=. GPG_AGEN
+$MirOS: ports/security/gpgme/patches/patch-tests_gpg_Makefile_am,v 1.1 2006/09/17 20:35:08 tg Exp $
+--- tests/gpg/Makefile.am.orig	Fri Oct  7 13:16:12 2005
++++ tests/gpg/Makefile.am	Tue Mar 20 17:44:46 2007
+@@ -25,11 +25,19 @@ TESTS_ENVIRONMENT = GNUPGHOME=. GPG_AGEN
  
  # The keylist tests must come after the import and the edit test.
  noinst_HEADERS = t-support.h
 +if HAVE_PTHREAD
  TESTS = t-encrypt t-encrypt-sym t-encrypt-sign t-sign t-signers	\
- 	t-decrypt t-verify t-decrypt-verify \
+ 	t-decrypt t-verify t-decrypt-verify t-sig-notation \
  	t-export t-import t-trustlist t-eventloop t-edit \
- 	t-keylist t-keylist-sig t-thread1 t-wait
+ 	t-keylist t-keylist-sig t-thread1 t-wait t-encrypt-large \
+ 	t-file-name
 +else
 +TESTS = t-encrypt t-encrypt-sym t-encrypt-sign t-sign t-signers	\
-+	t-decrypt t-verify t-decrypt-verify \
++	t-decrypt t-verify t-decrypt-verify t-sig-notation \
 +	t-export t-import t-trustlist t-eventloop t-edit \
-+	t-keylist t-keylist-sig t-wait
++	t-keylist t-keylist-sig t-wait t-encrypt-large \
++	t-file-name
 +endif
  
  CLEANFILES = secring.gpg pubring.gpg trustdb.gpg
- DISTCLEANFILES = pubring.gpg~ random_seed
-@@ -40,7 +47,9 @@ INCLUDES = -I$(top_srcdir)/gpgme
+ DISTCLEANFILES = pubring.gpg~ random_seed gpg.conf
+@@ -41,7 +49,9 @@ INCLUDES = -I$(top_srcdir)/gpgme
  
  AM_CPPFLAGS = @GPG_ERROR_CFLAGS@
  LDADD = ../../gpgme/libgpgme.la
