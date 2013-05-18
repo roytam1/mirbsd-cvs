@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.369 2011/01/01 23:59:06 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.370 2011/01/09 21:57:20 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -1089,7 +1089,8 @@ exec /usr/bin/ld "${args[@]}"</pre>
   parsing bug</a> in the mksh(1) manual page and on the Red Hat Bugzilla</li>
  <li>[tg] Add support for handling a “--” argument to more builtins</li>
  <li>[tg] Correct some error messages</li>
- <li>[Jeff Hamilton] Don’t alias stop on Android (system specific conflict)</li>
+ <li>[Jeff Hamilton] Don’t alias stop, suspend on Android (system specific
+  conflict for stop; suspend just joined the boat)</li>
  <li>[tg] Add size optimisations, ifdef’d, mostly for Android</li>
  <li>[tg] Address what few concerns Chris Palmer (Android security team) had:
   check all multiplications and some additions for integer overflows, mostly
@@ -1110,6 +1111,11 @@ exec /usr/bin/ld "${args[@]}"</pre>
  <li>[tg] MKSH_SMALL doesn’t imply HAVE_REVOKE=0 any longer</li>
  <li>[tg] Ignore a ‘$’ preceding ‘"…"’ (like bash, ksh93)</li>
  <li>[tg] Make “foo=<<EOF” a direct assignment of here document to string</li>
+ <li>[tg] Add KSHEGID, KSHGID, KSHUID variables (idea from Richard K.)</li>
+ <li>[tg] Option -d to read specifies a delimiter, like ksh93 (10x Dave)</li>
+ <li>[tg] Extension ${foo@#} expands to hash of $foo (mksh specific)</li>
+ <li>[tg] Emacs prev-hist-word now resets the counter if other functions
+  were called in between (Debian Closes: #603801)</li>
 </ul>
 <p id="r39c">mksh R39c is an important minor bugfix release:</p><ul>
  <li>[tg] Build system, code, docs and testsuite cleanup, also style(9)</li>
@@ -1353,16 +1359,12 @@ exec /usr/bin/ld "${args[@]}"</pre>
 <p><a href="mksh_old.htm#clog">older changes</a></p>
 
 <h2 id="plans">Future Plans</h2><ul>
-<li><tt>${foo:#}</tt> to give $foo’s hash (same as used in assoc.arrays)</li>
 <li>Can not [[ or (( yield the inode of a file, if we don’t get
  a stat(1) builtin? (For hashes by file.) Maybe make a builtin
  that expands <tt>struct stat</tt> into an associative array?</li>
-<li>Expose real/effective user/group ID ($USER_ID already exists)</li>
 <li>Add read with timeout, sleep as builtin, fractional timeouts.
  I’m leaning towards ualarm(3) instead of select(2) at the moment…
  need to find out how to do this portably…</li>
-<li>Synchronise wide character width table with Unicode 6.1.</li>
-<li>Fix Debian #599484: keep errorlevel upon trap entry.</li>
 <li>Implement <tt>+=</tt> for at least arrays, if not scalar variables.
  Consider changing <tt>=(…)</tt>, and maybe <tt>set -A</tt> (if ksh93
  matches), to not unset the array, but merely empty it (<tt>unset A[*]</tt>),
@@ -1371,19 +1373,17 @@ exec /usr/bin/ld "${args[@]}"</pre>
  in combination with <tt>-a</tt>.</li>
 <li>Implement <tt>read -A</tt> (from ksh93), <tt>read -a</tt> (dump octets
  or wide characters, depending on <tt>set ±U</tt>, into an array which is
- its (only) argument, from stdin as if using hd(1), <tt>read -d</tt> (with
- delimiter the first octet of the OPTARG, NUL if empty) from ksh93</li>
+ its (only) argument, from stdin as if using hd(1), from ksh93</li>
 <li>Build with more platforms’ native tools or other compilers
  – ACK, kencc, ICC/UWIN, egcs/UWIN, tcc</li>
-<li>Add the ability to handle embedded NUL bytes in strings read,
- for example in the hexdump “utility” (regression test)
- <br />XXX this might be a bad idea actually, cf. php’s insecurity
- <br />will be implemented via read -a, I think, into arrays</li>
+<li>Build and actually work on more platforms – DJGPP, PW32,
+ Plan 9, Syllable – debug these</li>
 <li>Bugfix for suspending <tt>a &amp;&amp; b</tt> chain</li>
 <li>echo diff &lt;(echo 1) &lt;(echo 2)</li>
 <li>;&amp; and ;;&amp; in case like zsh</li>
 <li>associative arrays</li>
-<li><a href="mksh.htm#plans">older/unrealistic plans</a></li>
+<li>whence -p -a foo</li>
+<li><a href="mksh_old.htm#plans">older/unrealistic plans</a></li>
 </ul>
 EOF
 mws_putfooter
