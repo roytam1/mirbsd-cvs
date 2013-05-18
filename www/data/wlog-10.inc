@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.187 2009/04/22 17:27:56 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.188 2009/04/22 18:42:17 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -2139,7 +2139,7 @@ Tag: pcc unicode bug
 Date: 25.11.2008 17:57
 Author: tg@
 Title: pcc and Win32
-Tag: pcc unicode
+Tag: pcc snippet unicode
 
 <p style="margin-bottom:0px;">I think I’m quite finished with the Unicode
  stuff. You can now do really weird things like this:</p>
@@ -2679,6 +2679,7 @@ Title: bootloader… good so far
 Date: 14.01.2009 07:30
 Author: tg@
 Title: NetBSD® _also_ switches to 64 bit time_t; sendmail and SSL/TLS certificates; danGerOOus uGLy web2.0 Email; random musings [updated]
+Tag: snippet
 
 <p>We got reminded that NetBSD® switched to a 64 bit <tt>time_t</tt> by <a
  href="http://www.feyrer.de/NetBSD/bx/blosxom.cgi/nb_20090114_0121.html">Hubert
@@ -3518,7 +3519,7 @@ Tag: bug event geocache hardware
 Author: bsiegert@
 Title: Short LaTeX hint: correct tables for scientific documents
 Date: 15.03.2009 12:24
-Tag: latex
+Tag: latex snippet
 
 <p>One of the things you should pay attention to when writing a
  scientific paper is the layout of the tables. Never, I repeat never,
@@ -3660,7 +3661,7 @@ Tag: geocache
 Author: tg@
 Title: [rant] FreeBSD® sucks!
 Date: 29.03.2009 22:28
-Tag: bug mksh
+Tag: bug mksh snippet
 
 <p style="margin-bottom:0px;">How about this:</p>
 <div style="border:4px ridge blue; margin:0px 24px 0px 24px; padding:12px;">
@@ -3883,6 +3884,7 @@ Tag: bug mksh
 Date: 22.04.2009 16:07
 Author: tg@
 Title: perl and HTML entities
+Tag: snippet
 
 <p style="margin-bottom:0px;">I don’t even know perl(1), I just can RTFM…</p>
 <div style="border:4px ridge blue; margin:0px 24px 0px 24px; padding:12px;">
@@ -3899,6 +3901,7 @@ Title: perl and HTML entities
 Date: 22.04.2009 17:26
 Author: tg@
 Title: perl and quoted-printable
+Tag: snippet
 
 <p style="margin-bottom:0px;">While here anyway…</p>
 <div style="border:4px ridge blue; margin:0px 24px 0px 24px; padding:12px;">
@@ -3906,4 +3909,14 @@ Title: perl and quoted-printable
 <em>$</em> perl -pe 's/=(\n|[a-fA-F0-9]{2})/$1 eq "\n" ? "" : pack("C",hex($1))/eg'
  </pre>
 </div><p style="margin-top:0px;">Needed it once for SyGroup.</p>
+----
+Date: 23.04.2009 18:14
+Author: tg@
+Title: current snapshot delaying poll
+Tag: snapshot
+
+<p>As I built a 2009-04-17 snapshot but haven't yet come to publish it,
+ or especially create a DuaLive&trade; CD again, mostly due to real life
+ jumping in or immense (more than usual) headaches, I wonder if I should
+ build another one with the changes done afterwards in it. Comments?</p>
 ----
