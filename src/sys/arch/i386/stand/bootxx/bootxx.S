@@ -1,4 +1,4 @@
-/* $MirOS: src/share/misc/licence.template,v 1.20 2006/12/11 21:04:56 tg Rel $ */
+/* $MirOS: src/sys/arch/i386/stand/bootxx/bootxx.S,v 1.1 2007/02/26 02:11:33 tg Exp $ */
 
 /*-
  * Copyright (c) 2003, 2004, 2005, 2007
@@ -113,17 +113,22 @@ LTENTRY(Lmain)
 	/* say hello */
 	mov	si,offset Lmsg
 	call	Lotxt
-	/* check for LBA */
+	/* check for single-block CHS */
+	mov	ax,offset LsBRK
+	cmp	word ptr [bpbspt],1
+	je	LbCHS
+	/* check for LBA vs. CHS */
 	mov	ah,0x41		/* LBA installation check */
 	mov	bx,0x55AA	/* magic */
 	int	0x13
+	mov	ax,offset LsCHS
 	jc	LbCHS		/* CF set -> nope, use CHS */
 	cmp	bx,0xAA55	/* magic */
 	jne	LbCHS		/* bad magic -> nope, use CHS */
 	and	cl,1		/* API subset support bitmap */
 	jnz	LbLBA		/* extended disc access funcs supported */
 
-LbCHS:	mov	word ptr ds:[Lldp],offset LsCHS
+LbCHS:	mov	word ptr ds:[Lldp],ax
 LbLBA:	xor	di,di
 	mov	ax,0x0010
 	stosw
@@ -157,7 +162,7 @@ Lmlp1:	/* main load loop */
 
 	xchg	ax,bx		/* load segment */
 	stosw
-	shl	bx,(9-4)	/* number of sectors, times their size,
+	shl	bx,(9 - 4)	/* number of sectors, times their size,
 				   divided by size of one paragraph */
 	add	bx,ax		/* increment load addr. segment accordingly */
 	push	bx		/* and save for next round */
@@ -221,9 +226,7 @@ LsBR0:	push	dx
 	pop	dx
 	dec	dh
 	je	Lretn			/* loop one by one over the sectors */
-	mov	ax,es
-	add	ax,32			/* size of a sector in paragraphs */
-	mov	es,ax
+	add	word ptr ds:[6],32	/* size of a sector in paragraphs */
 	inc	dword ptr ds:[8]
 	jmp	LsBR0
 
@@ -252,8 +255,7 @@ LsCHS:	push	dx
 	/* call the interrupt */
 LsINT:	mov	bp,4			/* number of retries */
 LsIN0:	pusha
-	push	fs
-	pop	es
+	mov	es,ds:[6]
 	int	0x13
 	push	ds
 	pop	es
