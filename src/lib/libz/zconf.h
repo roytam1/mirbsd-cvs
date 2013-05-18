@@ -1,7 +1,7 @@
-/**	$MirOS: src/lib/libz/zconf.h,v 1.7 2005/12/06 01:14:31 tg Exp $ */
+/**	$MirOS: src/lib/libz/zconf.h,v 1.8 2006/01/31 10:32:00 tg Exp $ */
 /*	$OpenBSD: zconf.h,v 1.7 2005/07/20 15:56:41 millert Exp $	*/
 /* zconf.h -- configuration of the zlib compression library
- * Copyright (c) 2006 Thorsten Glaser
+ * Copyright (c) 2006-2007 Thorsten Glaser
  * Copyright (C) 1995-2005 Jean-loup Gailly.
  * For conditions of distribution and use, see copyright notice in zlib.h
  */
@@ -114,5 +114,9 @@ typedef uLong FAR uLongf;
 #undef ZLIB_FREESTANDING
 #endif
 #define z_off_t  off_t
+
+#ifndef ZCONST
+#define ZCONST	/* empty */
+#endif
 
 #endif /* ZCONF_H */

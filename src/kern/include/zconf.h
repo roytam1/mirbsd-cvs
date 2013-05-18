@@ -1,5 +1,6 @@
-/* $MirOS$ */
+/* $MirOS: src/kern/include/zconf.h,v 1.2 2007/02/06 20:21:48 tg Exp $ */
 /* zconf.h -- configuration of the zlib compression library
+ * Copyright (c) 2006-2007 Thorsten Glaser.
  * Copyright (C) 1995-2005 Jean-loup Gailly.
  * For conditions of distribution and use, see copyright notice in zlib.h
  */
@@ -337,6 +338,10 @@ typedef uLong FAR uLongf;
 #   pragma map(inflate_table,"INTABL")
 #   pragma map(inflate_fast,"INFA")
 #   pragma map(inflate_copyright,"INCOPY")
+#endif
+
+#ifndef ZCONST
+#define ZCONST	/* empty */
 #endif
 
 #endif /* ZCONF_H */
