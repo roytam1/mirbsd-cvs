@@ -1,4 +1,4 @@
-.\"	$MirOS: src/usr.sbin/rdate/rdate.8,v 1.3 2005/10/27 11:58:39 tg Exp $
+.\"	$MirOS: src/usr.sbin/rdate/rdate.8,v 1.4 2006/05/29 23:38:32 tg Exp $
 .\"	$OpenBSD: rdate.8,v 1.29 2004/07/09 19:33:08 jmc Exp $
 .\"	$NetBSD: rdate.8,v 1.4 1996/04/08 20:55:17 jtc Exp $
 .\"
@@ -31,7 +31,7 @@
 .\" (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
 .\" THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .\"
-.Dd April 30, 1994
+.Dd August 28, 2006
 .Dt RDATE 8
 .Os
 .Sh NAME
@@ -39,7 +39,7 @@
 .Nd set the system's date from a remote host
 .Sh SYNOPSIS
 .Nm rdate
-.Op Fl 46anprsv
+.Op Fl 46adnprsv
 .Ar host
 .Sh DESCRIPTION
 .Nm
@@ -68,6 +68,9 @@ Use the
 .Xr adjtime 2
 call to gradually skew the local time to the
 remote time rather than just hopping.
+.It Fl d
+Debug the SNTP exchange.
+If given twice, debug each packet received.
 .It Fl n
 Use SNTP (RFC 2030) instead of the RFC 868 time protocol.
 .It Fl p

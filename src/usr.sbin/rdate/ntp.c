@@ -51,7 +51,7 @@
 
 #include "ntpleaps.h"
 
-__RCSID("$MirOS: src/usr.sbin/rdate/ntp.c,v 1.6 2006/05/29 23:38:31 tg Exp $");
+__RCSID("$MirOS: src/usr.sbin/rdate/ntp.c,v 1.7 2006/06/09 20:58:09 tg Exp $");
 
 /* This macro is not implemented on all operating systems */
 #ifndef	SA_LEN
@@ -124,9 +124,9 @@ void	unpack_ntp(struct ntp_data *, u_char *);
 double	current_time(double);
 void	create_timeval(double, struct timeval *, struct timeval *);
 
-#ifdef DEBUG
-void	print_packet(const struct ntp_data *);
-#endif
+static void debug_packet(const struct ntp_data *);
+
+extern int debug;
 
 void
 ntp_client(const char *hostname, int family, struct timeval *new,
@@ -153,9 +153,8 @@ ntp_client(const char *hostname, int family, struct timeval *new,
 
 		ret = sync_ntp(s, res->ai_addr, &offset, &error);
 		if (ret < 0) {
-#ifdef DEBUG
-			fprintf(stderr, "try the next address\n");
-#endif
+			if (debug)
+				fprintf(stderr, "try the next address\n");
 			close(s);
 			s = -1;
 			continue;
@@ -166,9 +165,8 @@ ntp_client(const char *hostname, int family, struct timeval *new,
 	}
 	freeaddrinfo(res0);
 
-#ifdef DEBUG
-	fprintf(stderr, "Correction: %.6f +/- %.6f\n", offset, error);
-#endif
+	if (debug)
+		fprintf(stderr, "Correction: %.6f +/- %.6f\n", offset, error);
 
 	if (accepts < 1)
 		errx(1, "Unable to get a reasonable time estimate");
@@ -207,14 +205,14 @@ sync_ntp(int fd, const struct sockaddr *peer, double *offset, double *error)
 			return (-1);
 
 		ret = read_packet(fd, &data, &x, &y);
+		if (debug > 1)
+			debug_packet(&data);
 
 		if (ret < 0)
 			return (-1);
 		else if (ret > 0) {
-#ifdef DEBUG
-			print_packet(&data);
-#endif
-
+			if (debug == 1)
+				debug_packet(&data);
 			if (++rejects > MAX_QUERIES) {
 				warnx("Too many bad or lost packets");
 				return (-1);
@@ -223,9 +221,8 @@ sync_ntp(int fd, const struct sockaddr *peer, double *offset, double *error)
 		} else
 			++accepts;
 
-#ifdef DEBUG
-		fprintf(stderr, "Offset: %.6f +/- %.6f\n", x, y);
-#endif
+		if (debug)
+			fprintf(stderr, "Offset: %.6f +/- %.6f\n", x, y);
 
 		if ((a = x - *offset) < 0.0)
 			a = -a;
@@ -237,9 +234,9 @@ sync_ntp(int fd, const struct sockaddr *peer, double *offset, double *error)
 			*error = y;
 		}
 
-#ifdef DEBUG
-		fprintf(stderr, "Best: %.6f +/- %.6f\n", *offset, *error);
-#endif
+		if (debug)
+			fprintf(stderr, "Best: %.6f +/- %.6f\n", *offset,
+			    *error);
 
 		if (a > b) {
 			warnx("Inconsistent times received from NTP server");
@@ -479,9 +476,8 @@ create_timeval(double difference, struct timeval *new, struct timeval *adjust)
 	}
 }
 
-#ifdef DEBUG
 void
-print_packet(const struct ntp_data *data)
+debug_packet(const struct ntp_data *data)
 {
 	printf("status:      %u\n", data->status);
 	printf("version:     %u\n", data->version);
@@ -493,5 +489,4 @@ print_packet(const struct ntp_data *data)
 	printf("current:     %f\n", data->current);
 	printf("xmitck:      0x%0llX\n", data->xmitck);
 	printf("recvck:      0x%0llX\n", data->recvck);
-};
-#endif
+}

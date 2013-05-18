@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.sbin/rdate/rdate.c,v 1.4 2006/05/29 23:38:32 tg Exp $ */
+/**	$MirOS: src/usr.sbin/rdate/rdate.c,v 1.5 2006/06/04 01:06:19 tg Exp $ */
 /*	$OpenBSD: rdate.c,v 1.22 2004/02/18 20:10:53 jmc Exp $	*/
 /*	$NetBSD: rdate.c,v 1.4 1996/03/16 12:37:45 pk Exp $	*/
 
@@ -48,6 +48,7 @@
 #include <stdio.h>
 #include <ctype.h>
 #include <err.h>
+#include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
 #include <time.h>
@@ -59,26 +60,31 @@
 #define	logwtmp(a,b,c)
 #endif
 
-__RCSID("$MirOS: src/usr.sbin/rdate/rdate.c,v 1.4 2006/05/29 23:38:32 tg Exp $");
+__RCSID("$MirOS: src/usr.sbin/rdate/rdate.c,v 1.5 2006/06/04 01:06:19 tg Exp $");
 
 void rfc868time_client(const char *, int, struct timeval *, struct timeval *);
 void ntp_client(const char *, int, struct timeval *, struct timeval *);
-void usage(void);
+static __dead void usage(void);
 
 extern char *__progname;
+int debug = 0;
 
-void
+static void
 usage(void)
 {
-	(void) fprintf(stderr, "Usage: %s [-46acnpsv] host\n", __progname);
-	(void) fprintf(stderr, "  -4: use IPv4 only\n");
-	(void) fprintf(stderr, "  -6: use IPv6 only\n");
-	(void) fprintf(stderr, "  -a: use adjtime instead of instant change\n");
-	(void) fprintf(stderr, "  -n: use SNTP instead of RFC868 time protocol\n");
-	(void) fprintf(stderr, "  -p: just print, don't set\n");
-	(void) fprintf(stderr, "  -r: show remainder from last adjtime\n");
-	(void) fprintf(stderr, "  -s: just set, don't print (overrides -v)\n");
-	(void) fprintf(stderr, "  -v: verbose output (clears -s)\n");
+	fprintf(stderr,
+	    "Usage: %s [-46acdnpsv] host\n"
+	    "	-4: use IPv4 only\n"
+	    "	-6: use IPv6 only\n"
+	    "	-a: use adjtime instead of instant change\n"
+	    "	-d: debug SNTP exchange\n"
+	    "	-n: use SNTP instead of RFC868 time protocol\n"
+	    "	-p: just print, don't set\n"
+	    "	-r: show remainder from last adjtime\n"
+	    "	-s: just set, don't print (overrides -v)\n"
+	    "	-v: verbose output (clears -s)\n",
+	    __progname);
+	exit(1);
 }
 
 int
@@ -92,7 +98,7 @@ main(int argc, char **argv)
 
 	struct timeval new, adjust, remainder;
 
-	while ((c = getopt(argc, argv, "46acnprsv")) != -1)
+	while ((c = getopt(argc, argv, "46acdnprsv")) != -1)
 		switch (c) {
 		case '4':
 			family = PF_INET;
@@ -118,6 +124,13 @@ main(int argc, char **argv)
 			slidetime++;
 			break;
 
+		case 'c':
+			break;
+
+		case 'd':
+			debug++;
+			break;
+
 		case 'n':
 			ntp++;
 			break;
@@ -127,18 +140,12 @@ main(int argc, char **argv)
 			silent = 0;
 			break;
 
-		case 'c':
-			break;
-
 		default:
 			usage();
-			return 1;
 		}
 
-	if ((argc - 1) != optind) {
+	if ((argc - 1) != optind)
 		usage();
-		return 1;
-	}
 	hname = argv[optind];
 
 	if (ntp)
