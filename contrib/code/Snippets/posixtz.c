@@ -1,7 +1,7 @@
 #if 0 /* this line is a comment in mirmake */
 # @mgcc: ignore from here
 #-
-# $MirOS: src/share/misc/licence.template,v 1.20 2006/12/11 21:04:56 tg Rel $
+# $MirOS: contrib/code/Snippets/posixtz.c,v 1.1 2008/04/05 21:26:17 tg Exp $
 #-
 # Copyright (c) 2008
 #	Thorsten “mirabilos” Glaser <tg@mirbsd.de>
@@ -58,7 +58,7 @@ CLEANFILES+=	libposixtz.so
 #include <stdlib.h>
 #include <time.h>
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: contrib/code/Snippets/posixtz.c,v 1.1 2008/04/05 21:26:17 tg Exp $");
 
 /* import libc private interface – XXX subject to change without notice! */
 extern tai64_t _leaps[];
@@ -74,8 +74,12 @@ switch_to_posix(void)
 }
 
 #undef SKIP_LEAPSECS
+#undef SKIPPED_LEAPSECS
 #define SKIP_LEAPSECS 1
 #include "localtime.c"
+#ifndef SKIPPED_LEAPSECS
+# error your ${BSDSRCDIR}/lib/libc/time/localtime.c is too old
+#endif
 
 #if 0
 # @mirmake: end ignore
