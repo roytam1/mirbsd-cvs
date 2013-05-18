@@ -25,7 +25,7 @@
 #include <lib/libsa/stand.h>
 #include <lib/libsa/lmbmfs.h>
 
-__RCSID("$MirOS: src/sys/lib/libsa/lmbmfs.c,v 1.1 2009/08/09 18:51:43 tg Exp $");
+__RCSID("$MirOS: src/sys/lib/libsa/lmbmfs.c,v 1.2 2009/08/11 13:24:00 tg Exp $");
 
 extern struct lmbm_modinfo {
 	void *mod_start;
@@ -132,6 +132,7 @@ lmbmfs_open(char *path, struct open_file *f)
 	char *bp = path, *cp = path;
 	uint32_t i = 0;
 
+	twiddle();
 	/* find file */
 	while (*cp)
 		if (*cp++ == '/')
@@ -141,11 +142,13 @@ lmbmfs_open(char *path, struct open_file *f)
 	if (bp) {
 		/* not the (root) directory */
 
-		while (i < lmbm_num)
+		while (i < lmbm_num) {
+			twiddle();
 			if (!strcmp(bp, allitems[i].name))
 				break;
 			else
 				++i;
+		}
 		if (i == lmbm_num)
 			return (ENOENT);
 	}
@@ -178,6 +181,7 @@ lmbmfs_read(struct open_file *f, void *buf, size_t size, size_t *resid)
 	if (!ff->item)
 		return (EISDIR);
 
+	twiddle();
 	if (ff->nodeseekp >= ff->item->size)
 		n = 0;
 	else if ((n = ff->item->size - ff->nodeseekp) > size)
