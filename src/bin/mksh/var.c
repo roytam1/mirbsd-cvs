@@ -22,7 +22,7 @@
 
 #include "sh.h"
 
-__RCSID("$MirOS: src/bin/mksh/var.c,v 1.104 2010/01/28 20:26:52 tg Exp $");
+__RCSID("$MirOS: src/bin/mksh/var.c,v 1.105 2010/07/04 17:33:58 tg Exp $");
 
 /*
  * Variables
@@ -1440,6 +1440,10 @@ change_winsz(void)
 		x_cols = 80;
 	if (x_lins < MIN_LINS)
 		x_lins = 24;
+
+#ifdef SIGWINCH
+	got_winch = 0;
+#endif
 }
 
 uint32_t
