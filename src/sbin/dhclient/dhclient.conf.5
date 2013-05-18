@@ -1,5 +1,5 @@
-.\"	$MirOS$
-.\"	$OpenBSD: dhclient.conf.5,v 1.5 2004/11/01 23:10:18 henning Exp $
+.\"	$MirOS: src/sbin/dhclient/dhclient.conf.5,v 1.2 2005/03/06 19:49:50 tg Exp $
+.\"	$OpenBSD: dhclient.conf.5,v 1.11 2006/06/02 15:19:24 stevesk Exp $
 .\"
 .\" Copyright (c) 1997 The Internet Software Consortium.
 .\" All rights reserved.
@@ -144,7 +144,7 @@ The
 .Ic backoff-cutoff
 statement determines the maximum amount of time that the client is
 allowed to back off.
-It defaults to two minutes.
+It defaults to 15 seconds.
 .It Ic initial-interval Ar time ;
 The
 .Ic initial-interval
@@ -155,6 +155,13 @@ twice the current interval multiplied by a random number between zero and one.
 If it is greater than the backoff-cutoff amount, it is set to that
 amount.
 It defaults to ten seconds.
+.It Ic link-timeout Ar time ;
+The
+.Ic link-timeout
+statement sets the amount of time to wait for an interface link before timing
+out.
+The default value is 10 seconds, but the special value 0 requests that dhclient
+not wait for a link state change before timing out.
 .El
 .Sh LEASE REQUIREMENTS AND REQUESTS
 The DHCP protocol allows the client to request that the server send it
@@ -533,6 +540,7 @@ file \- the defaults are usually fine.
 .Pp
 RFC 2132, RFC 2131.
 .Sh AUTHORS
+.An -nosplit
 .Xr dhclient 8
 was written by
 .An Ted Lemon Aq mellon@vix.com

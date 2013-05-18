@@ -1,4 +1,4 @@
-# $MirOS: src/sbin/fdisk/Makefile,v 1.2 2005/03/06 19:49:54 tg Exp $
+# $MirOS: src/sbin/fdisk/Makefile,v 1.3 2005/03/14 22:16:09 tg Exp $
 
 .include <bsd.own.mk>
 
@@ -16,7 +16,7 @@ manpage.c: fdisk.cat8
 .endif
 
 manpage.c:
-	print 'char manpage[] = ' >$@
+	print 'const unsigned char manpage[] = ' >$@
 .if defined(NOMAN) && ${NOMAN:L} != "no"
 	print -r '"no manual\n"' >>$@
 .else

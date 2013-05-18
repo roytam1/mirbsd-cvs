@@ -1,5 +1,5 @@
-/**	$MirOS: src/sbin/fdisk/fdisk.c,v 1.2 2005/03/06 19:49:54 tg Exp $ */
-/*	$OpenBSD: fdisk.c,v 1.40 2005/05/01 20:53:38 jmc Exp $	*/
+/**	$MirOS: src/sbin/fdisk/fdisk.c,v 1.3 2005/11/23 16:43:53 tg Exp $ */
+/*	$OpenBSD: fdisk.c,v 1.43 2006/07/27 04:53:27 ray Exp $	*/
 
 /*
  * Copyright (c) 1997 Tobias Weingartner
@@ -43,7 +43,7 @@ static unsigned char builtin_mbr[] = {
 #include "mbrcode.h"
 };
 
-__RCSID("$MirOS: src/sbin/fdisk/fdisk.c,v 1.2 2005/03/06 19:49:54 tg Exp $");
+__RCSID("$MirOS: src/sbin/fdisk/fdisk.c,v 1.3 2005/11/23 16:43:53 tg Exp $");
 
 static void
 usage(void)
@@ -71,11 +71,17 @@ main(int argc, char *argv[])
 	int c_arg = 0, h_arg = 0, s_arg = 0;
 	disk_t disk;
 	DISK_metrics *usermetrics;
+#if defined(__amd64__) || defined(__i386__) || defined (__powerpc__)
 	char *mbrfile = _PATH_MBR;
+#else
+	char *mbrfile = NULL;
+#endif
 	mbr_t mbr;
 	char mbr_buf[DEV_BSIZE];
 
 	while ((ch = getopt(argc, argv, "ieuf:c:h:s:")) != -1) {
+		const char *errstr;
+
 		switch(ch) {
 		case 'i':
 			i_flag = 1;
@@ -90,22 +96,20 @@ main(int argc, char *argv[])
 			mbrfile = optarg;
 			break;
 		case 'c':
-			c_arg = atoi(optarg);
-			if (c_arg < 1 || c_arg > 262144)
-				errx(1, "Cylinder argument out of range "
-				    "[1..262144].");
+			c_arg = strtonum(optarg, 1, 262144, &errstr);
+			if (errstr)
+				errx(1, "Cylinder argument %s [1..262144].",
+				    errstr);
 			break;
 		case 'h':
-			h_arg = atoi(optarg);
-			if (h_arg < 1 || h_arg > 256)
-				errx(1, "Head argument out of range "
-				    "[1..256].");
+			h_arg = strtonum(optarg, 1, 256, &errstr);
+			if (errstr)
+				errx(1, "Head argument %s [1..256].", errstr);
 			break;
 		case 's':
-			s_arg = atoi(optarg);
-			if (s_arg < 1 || s_arg > 63)
-				errx(1, "Sector argument out of range "
-				    "[1..63].");
+			s_arg = strtonum(optarg, 1, 63, &errstr);
+			if (errstr)
+				errx(1, "Sector argument %s [1..63].", errstr);
 			break;
 		default:
 			usage();
@@ -146,9 +150,12 @@ main(int argc, char *argv[])
 		exit(USER_print_disk(&disk));
 
 	/* Parse mbr template, to pass on later */
-	if ((fd = open(mbrfile, O_RDONLY)) == -1) {
+	if (mbrfile != NULL && (fd = open(mbrfile, O_RDONLY)) == -1) {
 		warn("%s", mbrfile);
 		warnx("using builtin MBR");
+		mbrfile = NULL;
+	}
+	if (mbrfile == NULL) {
 		memcpy(mbr_buf, builtin_mbr, sizeof(mbr_buf));
 	} else {
 		MBR_read(fd, 0, mbr_buf);
@@ -158,7 +165,8 @@ main(int argc, char *argv[])
 
 	/* Now do what we are supposed to */
 	if (i_flag || u_flag)
-		USER_init(&disk, &mbr, u_flag);
+		if (USER_init(&disk, &mbr, u_flag) == -1)
+			err(1, "error initializing MBR");
 
 	if (m_flag)
 		USER_modify(&disk, &mbr, 0, 0);

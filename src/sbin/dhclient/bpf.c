@@ -50,6 +50,8 @@
 #include <netinet/udp.h>
 #include <netinet/if_ether.h>
 
+__RCSID("$MirOS$");
+
 #define BPF_FORMAT "/dev/bpf%d"
 
 /*
@@ -195,8 +197,10 @@ if_register_receive(struct interface_info *info)
 	if (ioctl(info->rfdesc, BIOCIMMEDIATE, &flag) < 0)
 		error("Can't set immediate mode on bpf device: %m");
 
+#ifdef BIOCSFILDROP
 	if (ioctl(info->rfdesc, BIOCSFILDROP, &flag) < 0)
 		error("Can't set filter-drop mode on bpf device: %m");
+#endif
 
 	/* Get the required BPF buffer length from the kernel. */
 	if (ioctl(info->rfdesc, BIOCGBLEN, &sz) < 0)

@@ -1,5 +1,5 @@
-/**	$MirOS$ */
-/*	$OpenBSD: memory.c,v 1.10 2004/09/21 04:07:04 david Exp $ */
+/**	$MirOS: src/usr.sbin/dhcpd/memory.c,v 1.2 2005/03/13 19:16:25 tg Exp $ */
+/*	$OpenBSD: memory.c,v 1.14 2006/08/09 22:23:53 cloder Exp $ */
 
 /*
  * Copyright (c) 1995, 1996, 1997, 1998 The Internet Software Consortium.
@@ -41,9 +41,9 @@
 
 #include "dhcpd.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.sbin/dhcpd/memory.c,v 1.2 2005/03/13 19:16:25 tg Exp $");
 
-static struct subnet *subnets;
+struct subnet *subnets;
 static struct shared_network *shared_networks;
 static struct hash_table *host_hw_addr_hash;
 static struct hash_table *host_uid_hash;
@@ -438,6 +438,7 @@ supersede_lease(struct lease *comp, struct lease *lease, int commit)
 {
 	int enter_uid = 0;
 	int enter_hwaddr = 0;
+	int do_pftable = 0;
 	struct lease *lp;
 
 	/* Static leases are not currently kept in the database... */
@@ -492,13 +493,16 @@ supersede_lease(struct lease *comp, struct lease *lease, int commit)
 		    comp->hardware_addr.hlen))) {
 			hw_hash_delete(comp);
 			enter_hwaddr = 1;
-		} else if (!comp->hardware_addr.htype)
+			do_pftable = 1;
+		} else if (!comp->hardware_addr.htype) {
 			enter_hwaddr = 1;
+			do_pftable = 1;
+		}
 
 		/* Copy the data files, but not the linkages. */
 		comp->starts = lease->starts;
 		if (lease->uid) {
-			if (lease->uid_len < sizeof (lease->uid_buf)) {
+			if (lease->uid_len <= sizeof (lease->uid_buf)) {
 				memcpy(comp->uid_buf, lease->uid, lease->uid_len);
 				comp->uid = &comp->uid_buf[0];
 				comp->uid_max = sizeof comp->uid_buf;
@@ -598,6 +602,10 @@ supersede_lease(struct lease *comp, struct lease *lease, int commit)
 		comp->ends = lease->ends;
 	}
 
+	pfmsg('L', lease); /* address is leased. remove from purgatory */
+	if (do_pftable) /* address changed hwaddr. remove from overload */
+		pfmsg('C', lease);
+
 	/* Return zero if we didn't commit the lease to permanent storage;
 	   nonzero if we did. */
 	return commit && write_lease(comp) && commit_leases();
@@ -642,6 +650,9 @@ abandon_lease(struct lease *lease, char *message)
 	lt.uid = NULL;
 	lt.uid_len = 0;
 	supersede_lease(lease, &lt, 1);
+
+	pfmsg('A', lease); /* address is abandoned. send to purgatory */
+	return;
 }
 
 /* Locate the lease associated with a given IP address... */

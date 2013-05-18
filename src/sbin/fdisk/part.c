@@ -1,5 +1,5 @@
-/**	$MirOS: src/sbin/fdisk/part.c,v 1.2 2005/03/06 19:49:54 tg Exp $	*/
-/*	$OpenBSD: part.c,v 1.40 2004/11/10 17:29:41 deraadt Exp $	*/
+/**	$MirOS: src/sbin/fdisk/part.c,v 1.3 2005/04/29 18:34:55 tg Exp $	*/
+/*	$OpenBSD: part.c,v 1.42 2006/06/09 17:01:47 deraadt Exp $	*/
 
 /*
  * Copyright (c) 1997 Tobias Weingartner
@@ -40,7 +40,7 @@
 #include "misc.h"
 #include "mbr.h"
 
-__RCSID("$MirOS: src/sbin/fdisk/part.c,v 1.2 2005/03/06 19:49:54 tg Exp $");
+__RCSID("$MirOS: src/sbin/fdisk/part.c,v 1.3 2005/04/29 18:34:55 tg Exp $");
 
 int	PRT_check_chs(prt_t *partn);
 
@@ -135,6 +135,8 @@ static const struct part_type {
 	{ 0xE3, "SpeedStor   "},   /* DOS R/O or SpeedStor or Storage Dimensions */
 	{ 0xE4, "SpeedStor   "},   /* SpeedStor 16-bit FAT extended partition < 1024 cyl. */
 	{ 0xEB, "BeOS/i386   "},   /* BeOS for Intel */
+	{ 0xEE, "EFI GPT     "},   /* EFI Protective Partition */
+	{ 0xEF, "EFI Sys     "},   /* EFI System Partition */
 	{ 0xF1, "SpeedStor   "},   /* SpeedStor or Storage Dimensions */
 	{ 0xF2, "DOS 3.3+ Sec"},   /* DOS 3.3+ Secondary */
 	{ 0xF4, "SpeedStor   "},   /* SpeedStor >1024 cyl. or LANstep or IBM PS/2 IML */
@@ -288,10 +290,10 @@ PRT_print(int num, prt_t *partn, char *units, int apart)
 
 	if (partn == NULL) {
 		printf("         Starting       Ending       LBA Info:\n");
-		printf(" #: id    C   H  S -    C   H  S [       start:      size   ]\n");
-		printf("------------------------------------------------------------------------\n");
+		printf(" #: id    C   H  S -    C   H  S [       start:      size    ]\n");
+		printf("--------------------------------------------------------------------------\n");
 	} else {
-		size = (double)partn->ns * DEV_BSIZE /
+		size = ((double)partn->ns * unit_types[SECTORS].conversion) /
 		    unit_types[i].conversion;
 		printf("%c%1d: %.2X %4u %3u %2u - %4u %3u %2u [%12u:%12.0f%s] %s\n",
 			(partn->flag == 0x80)?'*':(apart == num)?'!':' ',
@@ -299,7 +301,7 @@ PRT_print(int num, prt_t *partn, char *units, int apart)
 			partn->scyl, partn->shead, partn->ssect,
 			partn->ecyl, partn->ehead, partn->esect,
 			partn->bs, size,
-			unit_types[i].abbr,
+			unit_types[i].disp,
 			PRT_ascii_id(partn->id));
 	}
 }

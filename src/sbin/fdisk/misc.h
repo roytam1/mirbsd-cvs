@@ -1,5 +1,5 @@
-/**	$MirOS$ */
-/*	$OpenBSD: misc.h,v 1.11 2004/09/30 08:27:50 otto Exp $	*/
+/**	$MirOS: src/sbin/fdisk/misc.h,v 1.2 2005/03/06 19:49:54 tg Exp $ */
+/*	$OpenBSD: misc.h,v 1.12 2005/11/21 01:59:24 krw Exp $	*/
 
 /*
  * Copyright (c) 1997 Tobias Weingartner
@@ -33,16 +33,18 @@
 #include <machine/param.h>
 #include "cmd.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/sbin/fdisk/misc.h,v 1.2 2005/03/06 19:49:54 tg Exp $");
 
 /* typedefs */
 
 struct unit_type {
-	char	*abbr;
-	int	conversion;
-	char	*lname;
+	const char abbr;
+	const char *disp;
+	int conversion;
+	const char *lname;
 };
-extern const struct unit_type unit_types[];
+extern struct unit_type unit_types[];
+#define SECTORS	0	/* units are sectors/bytes/kbytes/mbytes/gbytes */
 
 /* Constants */
 #define ASK_HEX 0x01

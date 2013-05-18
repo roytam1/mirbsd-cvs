@@ -1,5 +1,5 @@
-/**	$MirOS: src/usr.sbin/dhcpd/dispatch.c,v 1.2 2005/03/13 19:16:25 tg Exp $ */
-/*	$OpenBSD: dispatch.c,v 1.16 2005/01/31 18:27:38 millert Exp $ */
+/**	$MirOS: src/usr.sbin/dhcpd/dispatch.c,v 1.3 2005/04/17 04:24:15 tg Exp $ */
+/*	$OpenBSD: dispatch.c,v 1.21 2006/05/30 23:43:46 ckuethe Exp $ */
 
 /*
  * Copyright (c) 1995, 1996, 1997, 1998, 1999
@@ -51,8 +51,8 @@
 
 struct interface_info *interfaces;
 struct protocol *protocols;
-struct timeout *timeouts;
-static struct timeout *free_timeouts;
+struct dhcpd_timeout *timeouts;
+static struct dhcpd_timeout *free_timeouts;
 static int interfaces_invalidated;
 void (*bootp_packet_handler)(struct interface_info *,
     struct dhcp_packet *, int, unsigned int, struct iaddr, struct hardware *);
@@ -65,14 +65,14 @@ static int interface_status(struct interface_info *ifinfo);
    subnet it's on, and add it to the list of interfaces. */
 
 void
-discover_interfaces(int state)
+discover_interfaces(void)
 {
 	struct interface_info *tmp;
 	struct interface_info *last, *next;
 	struct subnet *subnet;
 	struct shared_network *share;
 	struct sockaddr_in foo;
-	int ir;
+	int ir = 0;
 	struct ifreq *tif;
 	struct ifaddrs *ifap, *ifa;
 #ifdef ALIAS_NAMES_PERMUTED
@@ -82,15 +82,12 @@ discover_interfaces(int state)
 	if (getifaddrs(&ifap) != 0)
 		error("getifaddrs failed");
 
-	/* If we already have a list of interfaces, and we're running as
-	   a DHCP server, the interfaces were requested. */
-	if (interfaces && (state == DISCOVER_SERVER ||
-	    state == DISCOVER_RELAY || state == DISCOVER_REQUESTED))
-		ir = 0;
-	else if (state == DISCOVER_UNCONFIGURED)
-		ir = INTERFACE_REQUESTED | INTERFACE_AUTOMATIC;
-	else
-		ir = INTERFACE_REQUESTED;
+	/*
+	 * If we already have a list of interfaces, the interfaces were
+	 * requested.
+	 */
+	if (interfaces != NULL)
+		ir = 1;
 
 	/* Cycle through the list of interfaces looking for IP addresses. */
 	for (ifa = ifap; ifa != NULL; ifa = ifa->ifa_next) {
@@ -102,8 +99,7 @@ discover_interfaces(int state)
 		 */
 		if ((ifa->ifa_flags & IFF_LOOPBACK) ||
 		    (ifa->ifa_flags & IFF_POINTOPOINT) ||
-		    (!(ifa->ifa_flags & IFF_UP) &&
-		    state != DISCOVER_UNCONFIGURED))
+		    (!(ifa->ifa_flags & IFF_UP)))
 			continue;
 
 		/* See if we've seen an interface that matches this one. */
@@ -111,9 +107,13 @@ discover_interfaces(int state)
 			if (!strcmp(tmp->name, ifa->ifa_name))
 				break;
 
+		/* If we are looking for specific interfaces, ignore others. */
+		if (tmp == NULL && ir)
+			continue;
+
 		/* If there isn't already an interface by this name,
 		   allocate one. */
-		if (!tmp) {
+		if (tmp == NULL) {
 			tmp = ((struct interface_info *)dmalloc(sizeof *tmp,
 			    "discover_interfaces"));
 			if (!tmp)
@@ -121,7 +121,6 @@ discover_interfaces(int state)
 				    "record interface", ifa->ifa_name);
 			strlcpy(tmp->name, ifa->ifa_name, sizeof(tmp->name));
 			tmp->next = interfaces;
-			tmp->flags = ir;
 			tmp->noifmedia = tmp->dead = tmp->errors = 0;
 			interfaces = tmp;
 		}
@@ -204,48 +203,39 @@ discover_interfaces(int state)
 		}
 	}
 
-	/* Now cycle through all the interfaces we found, looking for
-	   hardware addresses. */
-
-	/* If we're just trying to get a list of interfaces that we might
-	   be able to configure, we can quit now. */
-	if (state == DISCOVER_UNCONFIGURED)
-		return;
-
-	/* Weed out the interfaces that did not have IP addresses. */
+	/* Discard interfaces we can't listen on. */
 	last = NULL;
 	for (tmp = interfaces; tmp; tmp = next) {
 		next = tmp->next;
-		if ((tmp->flags & INTERFACE_AUTOMATIC) &&
-		    state == DISCOVER_REQUESTED)
-			tmp->flags &=
-			    ~(INTERFACE_AUTOMATIC | INTERFACE_REQUESTED);
-		if (!tmp->ifp || !(tmp->flags & INTERFACE_REQUESTED)) {
-			if ((tmp->flags & INTERFACE_REQUESTED) != ir)
-				error("%s: not found", tmp->name);
+
+		if (!tmp->ifp) {
+			warning("Can't listen on %s - it has no IP address.",
+			    tmp->name);
+			/* Remove tmp from the list of interfaces. */
 			if (!last)
 				interfaces = interfaces->next;
 			else
 				last->next = tmp->next;
-
 			continue;
 		}
-		last = tmp;
 
 		memcpy(&foo, &tmp->ifp->ifr_addr, sizeof tmp->ifp->ifr_addr);
 
-		/* We must have a subnet declaration for each interface. */
-		if (!tmp->shared_network && (state == DISCOVER_SERVER)) {
-			warning("No subnet declaration for %s (%s).",
-			    tmp->name, inet_ntoa(foo.sin_addr));
-			warning("Please write a subnet declaration in your %s",
-			    "dhcpd.conf file for the");
-			error("network segment to which interface %s %s",
-			    tmp->name, "is attached.");
+		if (!tmp->shared_network) {
+			warning("Can't listen on %s - dhcpd.conf has no subnet "
+			    "declaration for %s.", tmp->name,
+			    inet_ntoa(foo.sin_addr));
+			/* Remove tmp from the list of interfaces. */
+			if (!last)
+				interfaces = interfaces->next;
+			else
+				last->next = tmp->next;
+			continue;
 		}
 
-		/* Find subnets that don't have valid interface
-		   addresses... */
+		last = tmp;
+
+		/* Find subnets that don't have valid interface addresses. */
 		for (subnet = (tmp->shared_network ? tmp->shared_network->subnets :
 		    NULL); subnet; subnet = subnet->next_sibling) {
 			if (!subnet->interface_address.len) {
@@ -263,6 +253,9 @@ discover_interfaces(int state)
 		if_register_receive(tmp);
 		if_register_send(tmp);
 	}
+
+	if (interfaces == NULL)
+		error("No interfaces to listen on.");
 
 	/* Now register all the remaining interfaces as protocols. */
 	for (tmp = interfaces; tmp; tmp = tmp->next)
@@ -305,7 +298,7 @@ dispatch(void)
 another:
 		if (timeouts) {
 			if (timeouts->when <= cur_time) {
-				struct timeout *t = timeouts;
+				struct dhcpd_timeout *t = timeouts;
 				timeouts = timeouts->next;
 				(*(t->func))(t->what);
 				t->next = free_timeouts;
@@ -379,7 +372,7 @@ got_one(struct protocol *l)
 	} u;
 	struct interface_info *ip = l->local;
 
-	if ((result = receive_packet (ip, u.packbuf, sizeof u,
+	if ((result = receive_packet(ip, u.packbuf, sizeof u,
 	    &from, &hfrom)) == -1) {
 		warning("receive_packet failed on %s: %s", ip->name,
 		    strerror(errno));
@@ -495,7 +488,7 @@ locate_network(struct packet *packet)
 void
 add_timeout(time_t when, void (*where)(void *), void *what)
 {
-	struct timeout *t, *q;
+	struct dhcpd_timeout *t, *q;
 
 	/* See if this timeout supersedes an existing timeout. */
 	t = NULL;
@@ -519,7 +512,7 @@ add_timeout(time_t when, void (*where)(void *), void *what)
 			q->func = where;
 			q->what = what;
 		} else {
-			q = (struct timeout *)malloc(sizeof (struct timeout));
+			q = (struct dhcpd_timeout *)malloc(sizeof (struct dhcpd_timeout));
 			if (!q)
 				error("Can't allocate timeout structure!");
 			q->func = where;
@@ -555,7 +548,7 @@ add_timeout(time_t when, void (*where)(void *), void *what)
 void
 cancel_timeout(void (*where)(void *), void *what)
 {
-	struct timeout *t, *q;
+	struct dhcpd_timeout *t, *q;
 
 	/* Look for this timeout on the list, and unlink it if we find it. */
 	t = NULL;

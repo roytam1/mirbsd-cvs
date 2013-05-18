@@ -1,5 +1,5 @@
-/**	$MirOS$ */
-/*	$OpenBSD: disk.c,v 1.22 2004/08/03 09:23:11 deraadt Exp $	*/
+/**	$MirOS: src/sbin/fdisk/disk.c,v 1.2 2005/03/06 19:49:54 tg Exp $ */
+/*	$OpenBSD: disk.c,v 1.24 2005/12/18 03:42:23 krw Exp $	*/
 
 /*
  * Copyright (c) 1997, 2001 Tobias Weingartner
@@ -98,6 +98,7 @@ DISK_getlabelmetrics(char *name)
 			lm->heads = dl.d_ntracks;
 			lm->sectors = dl.d_nsectors;
 			lm->size = dl.d_secperunit;
+			unit_types[SECTORS].conversion = dl.d_secsize;
 		}
 		DISK_close(fd);
 	}
@@ -197,9 +198,9 @@ DISK_getmetrics(disk_t *disk, DISK_metrics *user)
 
 		cyls = disk->label->size / (disk->bios->heads * disk->bios->sectors);
 		secs = cyls * (disk->bios->heads * disk->bios->sectors);
-		if ((disk->label->size - secs) < 0)
-			errx(1, "BIOS fixup botch (%d sectors)",
-			    disk->label->size - secs);
+		if (secs > disk->label->size)
+			errx(1, "BIOS fixup botch (secs (%d) > size (%d))",
+			    secs, disk->label->size);
 		disk->bios->cylinders = cyls;
 		disk->bios->size = secs;
 	}
@@ -231,7 +232,8 @@ DISK_printmetrics(disk_t *disk, char *units)
 	int i;
 	double size;
 	i = unit_lookup(units);
-	size = (double)disk->real->size * DEV_BSIZE / unit_types[i].conversion;
+	size = ((double)disk->real->size * unit_types[SECTORS].conversion) /
+	    unit_types[i].conversion;
 	printf("Disk: %s\t", disk->name);
 	if (disk->real)
 		printf("geometry: %d/%d/%d [%.0f %s]\n", disk->real->cylinders,

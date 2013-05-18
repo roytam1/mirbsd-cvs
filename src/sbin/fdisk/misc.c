@@ -1,5 +1,5 @@
-/**	$MirOS$ */
-/*	$OpenBSD: misc.c,v 1.15 2004/09/18 23:22:05 deraadt Exp $	*/
+/**	$MirOS: src/sbin/fdisk/misc.c,v 1.2 2005/03/06 19:49:54 tg Exp $ */
+/*	$OpenBSD: misc.c,v 1.16 2005/11/21 01:59:24 krw Exp $	*/
 
 /*
  * Copyright (c) 1997 Tobias Weingartner
@@ -37,34 +37,29 @@
 #include <limits.h>
 #include "misc.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/sbin/fdisk/misc.c,v 1.2 2005/03/06 19:49:54 tg Exp $");
 
-const struct unit_type unit_types[] = {
-	{" ", DEV_BSIZE		, "Sectors"},
-	{"b", 1			, "Bytes"},
-	{"Ki", 1024		, "Kibibytes"},
-	{"Mi", 1024 * 1024	, "Mebibytes"},
-	{"Gi", 1024 * 1024*1024	, "Gibibytes"},
-	{"K", 1000		, "Kilobytes"},
-	{"M", 1000 * 1000	, "Megabytes"},
-	{"G", 1000 * 1000 *1000	, "Gigabytes"},
-	{NULL, 0		, NULL },
+struct unit_type unit_types[] = {
+	{ ' ', "  ", DEV_BSIZE		, "Sectors" },
+	{ 'b', " b", 1			, "Bytes" },
+	{ 'k', "Ki", 1024		, "Kibibytes" },
+	{ 'm', "Mi", 1024 * 1024	, "Mebibytes" },
+	{ 'g', "Gi", 1024 * 1024 * 1024	, "Gibibytes" },
+	{   0, NULL, 0			, NULL }
 };
 
 int
 unit_lookup(char *units)
 {
-	int i = 0;
+	int i = -1;
 	if (units == NULL)
 		return (UNIT_TYPE_DEFAULT);
 
-	while (unit_types[i].abbr != NULL) {
-		if (strncasecmp(unit_types[i].abbr, units, 1) == 0)
+	while (unit_types[++i].abbr)
+		if ((*units | 0x20) == unit_types[i].abbr)
 			break;
-		i++;
-	}
 	/* default */
-	if (unit_types[i].abbr == NULL)
+	if (unit_types[i].abbr == 0)
 		return (UNIT_TYPE_DEFAULT);
 
 	return (i);
@@ -201,7 +196,7 @@ getuint(disk_t *disk, char *prompt, char *helpstring, u_int32_t oval,
 	char buf[BUFSIZ], *endptr, *p, operator = '\0';
 	u_int32_t rval = oval;
 	size_t n;
-	int mult = 1;
+	int mult = 1, secsize = unit_types[SECTORS].conversion;
 	double d;
 	int secpercyl;
 
@@ -241,22 +236,25 @@ getuint(disk_t *disk, char *prompt, char *helpstring, u_int32_t oval,
 					buf[--n] = '\0';
 					break;
 				case 'b':
-					mult = -DEV_BSIZE;
+					mult = -secsize;
 					buf[--n] = '\0';
 					break;
 				case 's':
 					buf[--n] = '\0';
 					break;
 				case 'k':
-					mult = 1024 / DEV_BSIZE;
+					if (secsize > 1024)
+						mult = -secsize / 1024;
+					else
+						mult = 1024 / secsize;
 					buf[--n] = '\0';
 					break;
 				case 'm':
-					mult = 1048576 / DEV_BSIZE;
+					mult = 1048576 / secsize;
 					buf[--n] = '\0';
 					break;
 				case 'g':
-					mult = 1073741824 / DEV_BSIZE;
+					mult = 1073741824 / secsize;
 					buf[--n] = '\0';
 					break;
 				}

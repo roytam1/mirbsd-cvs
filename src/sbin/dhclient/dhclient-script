@@ -1,6 +1,6 @@
 #!/bin/mksh
-# $MirOS: src/sbin/dhclient/dhclient-script,v 1.4 2005/07/07 13:39:35 tg Exp $
-# $OpenBSD: dhclient-script,v 1.8 2005/05/24 03:11:12 todd Exp $
+# $MirOS: src/sbin/dhclient/dhclient-script,v 1.5 2005/11/23 16:43:51 tg Exp $
+# $OpenBSD: dhclient-script,v 1.10 2006/06/03 19:30:06 mpf Exp $
 #
 # Copyright (c) 2004, 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -24,7 +24,7 @@
 
 delete_old_address() {
 	if [ -n "$old_ip_address" ]; then
-		ifconfig $interface inet -alias $old_ip_address $medium
+		ifconfig $interface inet $old_ip_address delete $medium
 		route -n delete -inet "$old_ip_address" 127.0.0.1 >/dev/null 2>&1
 	fi
 }
@@ -42,14 +42,14 @@ add_new_address() {
 
 delete_old_alias() {
 	if [ -n "$alias_ip_address" ]; then
-		ifconfig $interface inet -alias $alias_ip_address >/dev/null 2>&1
+		ifconfig $interface inet $alias_ip_address delete >/dev/null 2>&1
 		route -n delete -inet $alias_ip_address 127.0.0.1 >/dev/null 2>&1
 	fi
 }
 
 add_new_alias() {
 	if [ -n "$alias_ip_address" ]; then
-		ifconfig $interface inet alias $alias_ip_address netmask \
+		ifconfig $interface inet $alias_ip_address alias netmask \
 		    $alias_subnet_mask
 		route -n add -inet $alias_ip_address 127.0.0.1
 	fi
@@ -224,7 +224,7 @@ TIMEOUT)
 			fi
 		fi
 	fi
-	ifconfig $interface inet -alias $new_ip_address $medium
+	ifconfig $interface inet $new_ip_address delete $medium
 	# XXX Why not a delete_old_address as before all other invocations of
 	#     delete_old_routes?
 	delete_old_routes
