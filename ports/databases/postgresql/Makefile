@@ -1,4 +1,4 @@
-# $MirOS: ports/databases/postgresql/Makefile,v 1.8 2008/03/09 17:22:29 tg Exp $
+# $MirOS: ports/databases/postgresql/Makefile,v 1.9 2008/08/19 18:07:25 tg Exp $
 # $OpenBSD: Makefile,v 1.68 2004/02/04 07:39:18 sturm Exp $
 
 COMMENT=		PostgreSQL RDBMS clients and utilities
@@ -6,8 +6,7 @@ COMMENT-tcl=		PostgreSQL RDBMS tcl libraries and utilities
 COMMENT-server=		PostgreSQL RDBMS server software
 COMMENT-docs=		PostgreSQL RDBMS documentation
 
-VERSION=		8.2.3
-DASH_VER=		1
+VERSION=		8.2.9
 DISTNAME=		postgresql-${VERSION}
 PKGNAME-server=		postgresql-server-${VERSION}-${DASH_VER}
 PKGNAME-docs=		postgresql-docs-${VERSION}-${DASH_VER}
@@ -28,6 +27,7 @@ MASTER_SITES=	\
 	ftp://ftp4.de.postgresql.org/pub/mirrors/postgresql/source/v${VERSION}/ \
 	ftp://ftp7.de.postgresql.org/pub/ftp.postgresql.org/source/v${VERSION}/ \
 	ftp://ftp8.de.postgresql.org/pub/misc/pgsql/source/v${VERSION}/ \
+	ftp://ftp-archives.postgresql.org/pub/source/v${VERSION}/ \
 	ftp://ftp4.ar.postgresql.org/pub/mirrors/postgresql/source/v${VERSION}/ \
 	ftp://ftp.au.postgresql.org/pub/postgresql/source/v${VERSION}/ \
 	ftp://ftp2.au.postgresql.org/pub/postgresql/source/v${VERSION}/ \
@@ -125,6 +125,8 @@ MAKE_FILE=		GNUmakefile
 USE_GMAKE=		Yes
 CONFIGURE_STYLE=	autoconf no-autoheader
 AUTOCONF_NEW=		yes
+AUTOCONF_VERSION=	2.59
+MODGNU_TYPESCAN=	accept
 CONFIGURE_ENV+=		LIBS=-lcurses \
 			ac_cv_path_TAR=tar \
 			lt_cv_path_SED=sed

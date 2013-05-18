@@ -1,4 +1,4 @@
-@comment $MirOS: ports/databases/postgresql/pkg/PLIST,v 1.2 2005/03/27 22:55:05 bsiegert Exp $
+@comment $MirOS: ports/databases/postgresql/pkg/PLIST,v 1.3 2007/02/22 20:51:02 tg Exp $
 @comment $OpenBSD: PLIST-clients,v 1.8 2003/02/12 17:09:03 naddy Exp $
 @pkgcfl pgsql-[0-9]*
 @pkgcfl pgsql-clients-[0-9]*
@@ -530,7 +530,8 @@ share/doc/postgresql/COPYRIGHT
 share/doc/postgresql/FAQ
 share/doc/postgresql/FAQ_DEV
 share/doc/postgresql/FAQ_brazilian
-share/doc/postgresql/FAQ_chinese
+share/doc/postgresql/FAQ_chinese_simp
+share/doc/postgresql/FAQ_chinese_trad
 share/doc/postgresql/FAQ_czech
 share/doc/postgresql/FAQ_farsi
 share/doc/postgresql/FAQ_french
