@@ -1,5 +1,5 @@
 static const char __vcsid[] = "@(#) MirOS contributed arc4random.c (old)"
-    "\n	@(#)rcsid_master: $MirOS: contrib/code/Snippets/arc4random.c,v 1.22 2009/11/29 14:57:00 tg Exp $"
+    "\n	@(#)rcsid_master: $MirOS: contrib/code/Snippets/arc4random.c,v 1.23 2009/11/29 15:29:24 tg Exp $"
     ;
 
 /*-
@@ -124,7 +124,7 @@ static char arc4_writeback(uint8_t *, size_t, char);
 u_int32_t arc4random(void);
 void arc4random_addrandom(u_char *, int);
 void arc4random_stir(void);
-#ifdef USE_MS_CRYPTOAPI
+#if defined(USE_MS_CRYPTOAPI) || defined(OPPORTUNISTIC_ROOT_PUSHB)
 uint32_t arc4random_pushb(const void *, size_t);
 #endif
 #endif
@@ -481,7 +481,8 @@ arc4_writeback(uint8_t *buf, size_t len, char do_rd)
 #endif
 }
 
-#if defined(USE_MS_CRYPTOAPI) || defined(arc4random_pushk)
+#if defined(USE_MS_CRYPTOAPI) || defined(arc4random_pushk) || \
+    defined(OPPORTUNISTIC_ROOT_PUSHB)
 uint32_t
 arc4random_pushb(const void *src, size_t len)
 {
