@@ -1,4 +1,4 @@
-# $MirOS: www/Makefile,v 1.5 2007/06/21 16:14:22 tg Exp $
+# $MirOS: www/Makefile,v 1.6 2007/06/22 23:37:29 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -72,7 +72,7 @@ getdate: ${TOP}/mk/getdate.c
 site.tgz:
 	-rm -rf dst $@
 	mkdir dst dst/permalinks
-	cp ${OBJS:Nstamp_*} dst/
+	pax -rw -pe -dv ${OBJS:Nstamp_*} dst/
 .for _i in ${GENSRCS}
 	pax -rw -pe -dv $$(<${_i}) dst/
 .endfor
