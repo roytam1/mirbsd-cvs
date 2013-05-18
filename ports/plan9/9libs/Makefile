@@ -1,6 +1,7 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.4 2004/02/21 19:19:35 espie Exp $
 
-COMMENT=			Plan 9 compatibility libraries
+COMMENT=		Plan 9 compatibility libraries
 
 VERSION=		1.0
 DISTNAME=		9libs-${VERSION}
@@ -20,13 +21,15 @@ MASTER_SITES=		${HOMEPAGE}
 
 USE_X11=		Yes
 USE_GMAKE=		Yes
-CONFIGURE_STYLE=	gnu
+CONFIGURE_STYLE=	autogen
+AUTOCONF_NEW=		no
+AUTOMAKE_VERSION=	1.4
 
 CONFIGURE_ARGS+=        ${CONFIGURE_SHARED} \
 			--includedir=${PREFIX}/include/9libs
 
 # broken on colorinit() in test.c
-REGRESSION_IS_INTERACTIVE=Yes
+REGRESS_IS_INTERACTIVE=Yes
 SETENV=			env
 REGRESS_TARGET=		check
 
