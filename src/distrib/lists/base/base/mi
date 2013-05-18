@@ -66,6 +66,10 @@
 ./etc/skel/.etc/bin
 ./etc/skel/.etc/calendar
 ./etc/skel/.etc/ssh
+./etc/skel/.etc/xdg
+./etc/skel/.etc/xdg/cache
+./etc/skel/.etc/xdg/config
+./etc/skel/.etc/xdg/data
 ./etc/skel/mail
 ./etc/sliphome
 ./etc/ssh

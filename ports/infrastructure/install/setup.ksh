@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: ports/infrastructure/install/setup.ksh,v 1.74 2006/12/28 03:11:33 tg Exp $
+# $MirOS: ports/infrastructure/install/setup.ksh,v 1.75 2006/12/28 03:34:26 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -497,6 +497,11 @@ cat >$localbase/db/SetEnv.sh <<-EOF
 	INFOPATH='$INFOPATH'
 	PERL5LIB='$PERL5LIB'
 	XAPPLRESDIR='$localbase/lib/X11/app-defaults'
+	XDG_CACHE_HOME=\$HOME/.etc/xdg/cache
+	XDG_CONFIG_DIRS='$etc/xdg:/etc/xdg'
+	XDG_CONFIG_HOME=\$HOME/.etc/xdg/config
+	XDG_DATA_DIRS='$localbase/share/:/usr/local/share/:/usr/share/'
+	XDG_DATA_HOME=\$HOME/.etc/xdg/data
 EOF
 [[ $need_llp = yes ]] && \
     cat >>$localbase/db/SetEnv.sh <<-EOF
@@ -509,7 +514,8 @@ EOF
 cat >>$localbase/db/SetEnv.sh <<-EOF
 	export LOCALBASE PORTSDIR SYSCONFDIR X11BASE MAKECONF
 	export BINOWN BINGRP PATH LD_LIBRARY_PATH MKSH
-	export MANPATH INFOPATH PERL5LIB XAPPLRESDIR
+	export MANPATH INFOPATH PERL5LIB XAPPLRESDIR XDG_CACHE_HOME
+	export XDG_CONFIG_DIRS XDG_CONFIG_HOME XDG_DATA_DIRS XDG_DATA_HOME
 EOF
 [[ $isinterix = yes ]] && cat >>$localbase/db/SetEnv.sh <<-EOF
 	unset INCLUDE LIB
@@ -528,6 +534,11 @@ cat >$localbase/db/SetEnv.csh <<-EOF
 	setenv INFOPATH '$INFOPATH'
 	setenv PERL5LIB '$PERL5LIB'
 	setenv XAPPLRESDIR '$localbase/lib/X11/app-defaults'
+	setenv XDG_CACHE_HOME \$HOME/.etc/xdg/cache
+	setenv XDG_CONFIG_DIRS '$etc/xdg:/etc/xdg'
+	setenv XDG_CONFIG_HOME \$HOME/.etc/xdg/config
+	setenv XDG_DATA_DIRS '$localbase/share/:/usr/local/share/:/usr/share/'
+	setenv XDG_DATA_HOME \$HOME/.etc/xdg/data
 EOF
 [[ $need_llp = yes ]] && \
     cat >>$localbase/db/SetEnv.csh <<-EOF
