@@ -7407,9 +7407,14 @@
 ./manDOCS/lynx_help/test/ALT88592.html
 ./manDOCS/lynx_help/test/ISO_LATIN1_test.html
 ./manDOCS/lynx_help/test/TestComment.html
+./manDOCS/lynx_help/test/bad-html.html
 ./manDOCS/lynx_help/test/c1.html
+./manDOCS/lynx_help/test/cp-1252.html
+./manDOCS/lynx_help/test/cp-1252a.html
 ./manDOCS/lynx_help/test/iso-8859-1.html
+./manDOCS/lynx_help/test/iso-8859-1a.html
 ./manDOCS/lynx_help/test/iso-8859-2.html
+./manDOCS/lynx_help/test/iso-8859-2a.html
 ./manDOCS/lynx_help/test/koi8-r.html
 ./manDOCS/lynx_help/test/quickbrown.html
 ./manDOCS/lynx_help/test/raw8bit.html

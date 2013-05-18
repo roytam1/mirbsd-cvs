@@ -1210,9 +1210,14 @@
 ./usr/share/doc/html/lynx_help/test/ISO_LATIN1_test.html
 ./usr/share/doc/html/lynx_help/test/README.txt
 ./usr/share/doc/html/lynx_help/test/TestComment.html
+./usr/share/doc/html/lynx_help/test/bad-html.html
 ./usr/share/doc/html/lynx_help/test/c1.html
+./usr/share/doc/html/lynx_help/test/cp-1252.html
+./usr/share/doc/html/lynx_help/test/cp-1252a.html
 ./usr/share/doc/html/lynx_help/test/iso-8859-1.html
+./usr/share/doc/html/lynx_help/test/iso-8859-1a.html
 ./usr/share/doc/html/lynx_help/test/iso-8859-2.html
+./usr/share/doc/html/lynx_help/test/iso-8859-2a.html
 ./usr/share/doc/html/lynx_help/test/koi8-r.html
 ./usr/share/doc/html/lynx_help/test/quickbrown.html
 ./usr/share/doc/html/lynx_help/test/raw8bit.html
