@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.142 2009/01/18 21:04:17 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.143 2009/01/20 18:31:28 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -2889,4 +2889,21 @@ Tag: bug event hardware snapshot
  des Entropieaustauschs, Zufall allgemein, usw. überzeugt. Way to go! Nun
  bin ich gespannt, ob Vutral mal was zu APS findet und was man mit Mumble
  und <i>randomness</i> so machen kann.</p>
+----
+Date: 21.01.2009 09:45
+Author: tg@
+Title: We are going to FOSDEM 2009, have been for years!
+Tag: event
+
+<p><a href="http://www.fosdem.org/"><img
+ alt="FOSDEM, the Free and Open Source Software Developers' European Meeting"
+ src="http://www.fosdem.org/promo/fosdem/static" /></a></p>
+<p style="font-size:big;">Who’s not? ☺</p>
+<p>My boss approached me just this morning… looks as if gecko2@ and I can
+ use the bigger company car from here, expense paid, and take the other
+ two employees who are going to Bruxelles with us. I’m in the process of
+ organising them a hotel now though – maybe bsiegert@ the francophile can
+ help with that. gecko2@ is going for a youth hostel though, as usual, as
+ he has a membership anyway. Benny and I are already hotel’d.</p>
+<p style="font-size:small;">Now if I were on Plänet Debilian…</p>
 ----
