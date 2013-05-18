@@ -1,4 +1,4 @@
-/* $MirOS: contrib/code/libhaible/wchar.h,v 1.7 2006/05/30 13:03:49 tg Exp $ */
+/* $MirOS: contrib/code/libhaible/wchar.h,v 1.8 2006/05/30 13:28:48 tg Exp $ */
 
 /*-
  * Copyright (c) 2005, 2006
@@ -76,9 +76,7 @@ int	fwscanf(FILE *__restrict__, const wchar_t *__restrict__, ...);
 #endif
 wint_t	getwc(FILE *);
 wint_t	getwchar(void);
-#ifdef notyet
 size_t	mbrlen(const char *__restrict__, size_t, mbstate_t *__restrict__);
-#endif
 size_t	mbrtowc(wchar_t *__restrict__, const char *__restrict__, size_t,
 	    mbstate_t *__restrict__);
 int	mbsinit(const mbstate_t *);
