@@ -1,7 +1,23 @@
-$MirOS: ports/misc/screen/patches/patch-doc_screen_texinfo,v 1.1 2006/10/31 03:40:12 tg Exp $
+$MirOS: ports/misc/screen/patches/patch-doc_screen_texinfo,v 1.2 2007/02/11 01:33:45 tg Exp $
 --- doc/screen.texinfo.orig	Fri Dec  5 13:51:24 2003
-+++ doc/screen.texinfo	Sun Feb 11 01:20:09 2007
-@@ -78,7 +78,8 @@ by the Foundation.
++++ doc/screen.texinfo	Sat May 18 01:36:33 2013
+@@ -13,13 +13,8 @@
+ * Screen: (screen).             Full-screen window manager.
+ @end direntry
+ 
+-@c For examples, use a literal escape in info.
+-@ifinfo
+-@set esc 
+-@end ifinfo
+-@iftex
+-@set esc <ESC>
+-@end iftex
++@c Display Esc as ^[ no matter the medium.
++@set esc ^[
+ 
+ @ifinfo
+ This file documents the @code{Screen} virtual terminal manager.
+@@ -78,7 +73,8 @@ by the Foundation.
  @ifinfo
  @top Screen
  This file documents the @code{Screen} virtual terminal manager, version
@@ -11,7 +27,7 @@ $MirOS: ports/misc/screen/patches/patch-doc_screen_texinfo,v 1.1 2006/10/31 03:4
  @end ifinfo
  
  @menu
-@@ -2888,7 +2889,7 @@ h=^B:l=^F:$=^E} would set some keys to b
+@@ -2888,7 +2884,7 @@ h=^B:l=^F:$=^E} would set some keys to b
  users.
  If your terminal sends characters, that cause you to abort copy mode,
  then this command may help by binding these characters to do nothing.
