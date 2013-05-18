@@ -33,7 +33,7 @@
  * SUCH DAMAGE.
  */
 
-#if defined(HAVE_CONFIG_H) && (HAVE_CONFIG_H != 0)
+#if defined(HAVE_CONFIG_H) && HAVE_CONFIG_H
 /* usually when packaged with third-party software */
 #ifdef CONFIG_H_FILENAME
 #include CONFIG_H_FILENAME
@@ -56,7 +56,7 @@
 #endif
 
 __SCCSID("@(#)setmode.c	8.2 (Berkeley) 3/25/94");
-__RCSID("$MirOS: src/lib/libc/gen/setmode.c,v 1.11 2009/04/07 18:41:43 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/gen/setmode.c,v 1.12 2009/06/10 18:12:42 tg Exp $");
 
 /* for mksh */
 #ifdef ksh_isdigit
