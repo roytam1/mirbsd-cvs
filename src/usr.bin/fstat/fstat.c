@@ -1,5 +1,5 @@
-/**	$MirOS$ */
-/*	$OpenBSD: fstat.c,v 1.49 2004/01/08 19:28:56 millert Exp $	*/
+/**	$MirOS: src/usr.bin/fstat/fstat.c,v 1.2 2005/03/13 18:32:57 tg Exp $ */
+/*	$OpenBSD: fstat.c,v 1.52 2005/07/04 01:54:09 djm Exp $	*/
 
 /*-
  * Copyright (c) 1988, 1993
@@ -38,7 +38,7 @@ static char copyright[] =
 
 #ifndef lint
 /*static char sccsid[] = "from: @(#)fstat.c	8.1 (Berkeley) 6/6/93";*/
-static char *rcsid = "$OpenBSD: fstat.c,v 1.49 2004/01/08 19:28:56 millert Exp $";
+static char *rcsid = "$OpenBSD: fstat.c,v 1.52 2005/07/04 01:54:09 djm Exp $";
 #endif /* not lint */
 
 #include <sys/param.h>
@@ -63,7 +63,6 @@ static char *rcsid = "$OpenBSD: fstat.c,v 1.49 2004/01/08 19:28:56 millert Exp $
 #include <sys/file.h>
 #include <ufs/ufs/quota.h>
 #include <ufs/ufs/inode.h>
-#include <miscfs/nullfs/null.h>
 #undef _KERNEL
 #define NFS
 #include <nfs/nfsproto.h>
@@ -148,7 +147,6 @@ int ext2fs_filestat(struct vnode *, struct filestat *);
 int isofs_filestat(struct vnode *, struct filestat *);
 int msdos_filestat(struct vnode *, struct filestat *);
 int nfs_filestat(struct vnode *, struct filestat *);
-int null_filestat(struct vnode *, struct filestat *);
 void dofiles(struct kinfo_proc2 *);
 void getinetproto(int);
 void socktrans(struct socket *, int);
@@ -173,6 +171,7 @@ main(int argc, char *argv[])
 	char *memf, *nlistf;
 	char buf[_POSIX2_LINE_MAX];
 	int cnt;
+	gid_t gid;
 
 	arg = 0;
 	what = KERN_PROC_ALL;
@@ -224,16 +223,17 @@ main(int argc, char *argv[])
 	 * Discard setgid privileges if not the running kernel so that bad
 	 * guys can't print interesting stuff from kernel memory.
 	 */
-	if (nlistf != NULL || memf != NULL) {
-		setegid(getgid());
-		setgid(getgid());
-	}
+	gid = getgid();
+	if (nlistf != NULL || memf != NULL)
+		if (setresgid(gid, gid, gid) == -1)
+			err(1, "setresgid");
 
 	if ((kd = kvm_openfiles(nlistf, memf, NULL, O_RDONLY, buf)) == NULL)
 		errx(1, "%s", buf);
 
-	setegid(getgid());
-	setgid(getgid());
+	if (nlistf == NULL && memf == NULL)
+		if (setresgid(gid, gid, gid) == -1)
+			err(1, "setresgid");
 
 	if (*(argv += optind)) {
 		for (; *argv; ++argv) {
@@ -429,10 +429,6 @@ vtrans(struct vnode *vp, int i, int flag, off_t offset)
 			if (!msdos_filestat(&vn, &fst))
 				badtype = "error";
 			break;
-		case VT_NULL:
-			if (!null_filestat(&vn, &fst))
-				badtype = "error";
-			break;
 		default: {
 			static char unknown[30];
 			snprintf(badtype = unknown, sizeof unknown,
@@ -607,77 +603,6 @@ nfs_filestat(struct vnode *vp, struct filestat *fsp)
 	return 1;
 }
 
-int
-null_filestat(struct vnode *vp, struct filestat *fsp)
-{
-	struct null_node node;
-	struct filestat fst;
-	struct vnode vn;
-	int fail = 1;
-
-	memset(&fst, 0, sizeof fst);
-
-	if (!KVM_READ(VTONULL(vp), &node, sizeof (node))) {
-		dprintf("can't read node at %p for pid %ld",
-		    VTONULL(vp), (long)Pid);
-		return 0;
-	}
-
-	/*
-	 * Attempt to find information that might be useful.
-	 */
-	if (node.null_lowervp) {
-		if (!KVM_READ(node.null_lowervp, &vn, sizeof (vn))) {
-			dprintf("can't read vnode at %p for pid %ld",
-			    node.null_lowervp, (long)Pid);
-			return 0;
-		}
-
-		fail = 0;
-		if (vn.v_type == VNON || vn.v_tag == VT_NON)
-			fail = 1;
-		else if (vn.v_type == VBAD)
-			fail = 1;
-		else
-			switch (vn.v_tag) {
-			case VT_UFS:
-			case VT_MFS:
-				if (!ufs_filestat(&vn, &fst))
-					fail = 1;
-				break;
-			case VT_NFS:
-				if (!nfs_filestat(&vn, &fst))
-					fail = 1;
-				break;
-			case VT_EXT2FS:
-				if (!ext2fs_filestat(&vn, &fst))
-					fail = 1;
-				break;
-			case VT_ISOFS:
-				if (!isofs_filestat(&vn, &fst))
-					fail = 1;
-				break;
-			case VT_MSDOSFS:
-				if (!msdos_filestat(&vn, &fst))
-					fail = 1;
-				break;
-			default:
-				break;
-			}
-	}
-
-	fsp->fsid = (long)node.null_vnode;
-	if (fail)
-		fsp->fileid = (long)node.null_lowervp;
-	else
-		fsp->fileid = fst.fileid;
-	fsp->mode = fst.mode;
-	fsp->size = fst.mode;
-	fsp->rdev = fst.mode;
-
-	return 1;
-}
-
 char *
 getmnton(struct mount *m)
 {
@@ -798,11 +723,7 @@ inet6_addrstr(struct in6_addr *p)
 {
 	struct sockaddr_in6 sin6;
 	static char hbuf[NI_MAXHOST];
-#ifdef NI_WITHSCOPEID
-	const int niflags = NI_NUMERICHOST | NI_WITHSCOPEID;
-#else
-	const int niflags = NI_NUMERICHOST
-#endif
+	const int niflags = NI_NUMERICHOST;
 
 	memset(&sin6, 0, sizeof(sin6));
 	sin6.sin6_family = AF_INET6;

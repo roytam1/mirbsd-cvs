@@ -1,5 +1,5 @@
-/**	$MirOS$ */
-/*	$OpenBSD: lock.c,v 1.20 2003/06/03 02:56:10 millert Exp $	*/
+/**	$MirOS: src/usr.bin/lock/lock.c,v 1.2 2005/03/13 18:33:12 tg Exp $ */
+/*	$OpenBSD: lock.c,v 1.21 2005/07/14 14:42:28 jmc Exp $	*/
 /*	$NetBSD: lock.c,v 1.8 1996/05/07 18:32:31 jtc Exp $	*/
 
 /*
@@ -67,7 +67,7 @@ static char copyright[] =
 #include <bsd_auth.h>
 
 __SCCSID("@(#)lock.c	8.1 (Berkeley) 6/6/93");
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.bin/lock/lock.c,v 1.2 2005/03/13 18:33:12 tg Exp $");
 
 #define	TIMEOUT	15
 
@@ -129,7 +129,7 @@ main(int argc, char *argv[])
 		case '?':
 		default:
 			(void)fprintf(stderr,
-			    "usage: %s [-n] [-p] [-a style] [-t timeout]\n",
+			    "usage: %s [-np] [-a style] [-t timeout]\n",
 			    __progname);
 			exit(1);
 	}

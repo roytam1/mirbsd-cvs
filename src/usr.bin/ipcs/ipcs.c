@@ -1,5 +1,5 @@
-/**	$MirOS$ */
-/*	$OpenBSD: ipcs.c,v 1.20 2003/06/04 16:24:45 deraadt Exp $	*/
+/**	$MirOS: src/usr.bin/ipcs/ipcs.c,v 1.2 2005/03/13 18:33:04 tg Exp $ */
+/*	$OpenBSD: ipcs.c,v 1.21 2005/02/22 14:47:45 jmc Exp $	*/
 /*	$NetBSD: ipcs.c,v 1.25 2000/06/16 03:58:20 simonb Exp $	*/
 
 /*-
@@ -872,7 +872,7 @@ usage(void)
 	extern char *__progname;
 
 	fprintf(stderr,
-	    "usage: %s [-abcmopqstMQST] [-C corefile] [-N namelist]\n",
+	    "usage: %s [-abcMmopQqSsTt] [-C core] [-N system]\n",
 	    __progname);
 	exit(1);
 }

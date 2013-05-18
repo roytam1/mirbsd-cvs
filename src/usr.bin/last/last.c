@@ -1,5 +1,5 @@
-/**	$MirOS$ */
-/*	$OpenBSD: last.c,v 1.30 2004/01/08 13:36:52 otto Exp $	*/
+/**	$MirOS: src/usr.bin/last/last.c,v 1.2 2005/03/13 18:33:05 tg Exp $ */
+/*	$OpenBSD: last.c,v 1.32 2005/07/01 02:10:24 millert Exp $	*/
 /*	$NetBSD: last.c,v 1.6 1994/12/24 16:49:02 cgd Exp $	*/
 
 /*
@@ -53,7 +53,7 @@ static char copyright[] =
 #include <utmp.h>
 
 __SCCSID("@(#)last.c	8.2 (Berkeley) 4/2/94");
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.bin/last/last.c,v 1.2 2005/03/13 18:33:05 tg Exp $");
 
 #define	NO	0				/* false/no */
 #define	YES	1				/* true/yes */
@@ -106,14 +106,16 @@ void	 usage(void);
 int
 main(int argc, char *argv[])
 {
-	extern int optind;
-	extern char *optarg;
-	int ch;
+	const char *errstr;
 	char *p;
+	int ch, lastch, newarg, prevoptind;
 
 	maxrec = -1;
 	snaptime = 0;
-	while ((ch = getopt(argc, argv, "0123456789cf:h:st:d:T")) != -1)
+	lastch = '\0';
+	newarg = 1;
+	prevoptind = 1;
+	while ((ch = getopt(argc, argv, "0123456789cf:h:n:st:d:T")) != -1) {
 		switch (ch) {
 		case '0': case '1': case '2': case '3': case '4':
 		case '5': case '6': case '7': case '8': case '9':
@@ -121,15 +123,11 @@ main(int argc, char *argv[])
 			 * kludge: last was originally designed to take
 			 * a number after a dash.
 			 */
-			if (maxrec == -1) {
-				p = argv[optind - 1];
-				if (p[0] == '-' && p[1] == ch && !p[2])
-					maxrec = atol(++p);
-				else
-					maxrec = atol(argv[optind] + 1);
-				if (!maxrec)
-					exit(0);
-			}
+			if (newarg || !isdigit(lastch))
+				maxrec = 0;
+			else if (maxrec > INT_MAX / 10)
+				usage();
+			maxrec = (maxrec * 10) + (ch - '0');
 			break;
 		case 'c':
 			calculate++;
@@ -140,6 +138,14 @@ main(int argc, char *argv[])
 		case 'h':
 			hostconv(optarg);
 			addarg(HOST_TYPE, optarg);
+			break;
+		case 'n':
+			maxrec = strtonum(optarg, 0, LONG_MAX, &errstr);
+			if (errstr != NULL)
+				errx(1, "number of lines is %s: %s", errstr,
+				    optarg);
+			if (maxrec == 0)
+				exit(0);
 			break;
 		case 's':
 			seconds++;
@@ -153,10 +159,15 @@ main(int argc, char *argv[])
 		case 'T':
 			fulltime = 1;
 			break;
-		case '?':
 		default:
 			usage();
 		}
+		lastch = ch;
+		newarg = optind != prevoptind;
+		prevoptind = optind;
+	}
+	if (maxrec == 0)
+		exit(0);
 
 	if (argc) {
 		setlinebuf(stdout);
@@ -643,7 +654,7 @@ usage(void)
 	extern char *__progname;
 
 	fprintf(stderr,
-	    "usage: %s [-#] [-csT] [-f file] [-t tty] [-h host]"
+	    "usage: %s [-#] [-csT] [-f file] [-n #] [-t tty] [-h host]"
 	    " [-d [[[CC]YY]MMDD]hhmm[.SS]] [user ...]\n", __progname);
 	exit(1);
 }

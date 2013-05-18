@@ -1,4 +1,4 @@
-/*	$OpenBSD: du.c,v 1.14 2003/07/02 21:04:09 deraadt Exp $	*/
+/*	$OpenBSD: du.c,v 1.18 2005/04/17 12:27:23 jmc Exp $	*/
 /*	$NetBSD: du.c,v 1.11 1996/10/18 07:20:35 thorpej Exp $	*/
 
 /*
@@ -43,7 +43,7 @@ static char copyright[] =
 #if 0
 static char sccsid[] = "@(#)du.c	8.5 (Berkeley) 5/4/95";
 #else
-static char rcsid[] = "$OpenBSD: du.c,v 1.14 2003/07/02 21:04:09 deraadt Exp $";
+static char rcsid[] = "$OpenBSD: du.c,v 1.18 2005/04/17 12:27:23 jmc Exp $";
 #endif
 #endif /* not lint */
 
@@ -54,18 +54,17 @@ static char rcsid[] = "$OpenBSD: du.c,v 1.14 2003/07/02 21:04:09 deraadt Exp $";
 #include <err.h>
 #include <errno.h>
 #include <fts.h>
-#include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <sys/tree.h>
 #include <unistd.h>
+#include <util.h>
 
-typedef enum { NONE = 0, KILO, MEGA, GIGA, TERA, PETA /* , EXA */ } unit_t;
 
 int	 linkchk(FTSENT *);
 void	 prtout(quad_t, char *);
 void	 usage(void);
-unit_t	 unit_adjust(double *);
 
 int
 main(int argc, char *argv[])
@@ -214,67 +213,91 @@ main(int argc, char *argv[])
 	exit(rval);
 }
 
-typedef struct _ID {
-	dev_t	dev;
-	ino_t	inode;
-} ID;
+
+struct links_entry {
+	RB_ENTRY(links_entry) entry;
+	struct links_entry *fnext;
+	int	 links;
+	dev_t	 dev;
+	ino_t	 ino;
+};
+
+int
+links_cmp(struct links_entry *e1, struct links_entry *e2)
+{
+	if (e1->dev == e2->dev) {
+		if (e1->ino == e2->ino)
+			return (0);
+		else
+			return (e1->ino < e2->ino ? -1 : 1);
+	}
+	else
+		return (e1->dev < e2->dev ? -1 : 1);
+}
+
+RB_HEAD(ltree, links_entry) links = RB_INITIALIZER(&links);
+
+RB_GENERATE(ltree, links_entry, entry, links_cmp);
+
 
 int
 linkchk(FTSENT *p)
 {
-	static ID *files;
-	static int maxfiles, nfiles;
-	ID *fp, *start;
-	ino_t ino;
-	dev_t dev;
+	static struct links_entry *free_list = NULL;
+	static int stop_allocating = 0;
+	struct links_entry ltmp, *le;
+	struct stat *st;
 
-	ino = p->fts_statp->st_ino;
-	dev = p->fts_statp->st_dev;
-	if ((start = files) != NULL)
-		for (fp = start + nfiles - 1; fp >= start; --fp)
-			if (ino == fp->inode && dev == fp->dev)
-				return (1);
+	st = p->fts_statp;
 
-	if (nfiles == maxfiles && (files = realloc((char *)files,
-	    (u_int)(sizeof(ID) * (maxfiles += 128)))) == NULL)
-		err(1, "can't allocate memory");
-	files[nfiles].inode = ino;
-	files[nfiles].dev = dev;
-	++nfiles;
-	return (0);
-}
+	ltmp.ino = st->st_ino;
+	ltmp.dev = st->st_dev;
 
-/*
- * "human-readable" output: use 3 digits max.--put unit suffixes at
- * the end.  Makes output compact and easy-to-read. 
- */
-
-unit_t
-unit_adjust(double *val)
-{
-	double abval;
-	unit_t unit;
-
-	abval = fabs(*val);
-	if (abval < 1024)
-		unit = NONE;
-	else if (abval < 1048576ULL) {
-		unit = KILO;
-		*val /= 1024;
-	} else if (abval < 1073741824ULL) {
-		unit = MEGA;
-		*val /= 1048576;
-	} else if (abval < 1099511627776ULL) {
-		unit = GIGA;
-		*val /= 1073741824ULL;
-	} else if (abval < 1125899906842624ULL) {
-		unit = TERA;
-		*val /= 1099511627776ULL;
-	} else /* if (abval < 1152921504606846976ULL) */ {
-		unit = PETA;
-		*val /= 1125899906842624ULL;
+	le = RB_FIND(ltree, &links, &ltmp);
+	if (le != NULL) {
+		/*
+		 * Save memory by releasing an entry when we've seen
+		 * all of it's links.
+		 */
+		if (--le->links <= 0) {
+			RB_REMOVE(ltree, &links, le);
+			/* Recycle this node through the free list */
+			if (stop_allocating) {
+				free(le);
+			} else {
+				le->fnext = free_list;
+				free_list = le;
+			}
+		}
+		return (1);
 	}
-	return (unit);
+
+	if (stop_allocating)
+		return (0);
+
+	/* Add this entry to the links cache. */
+	if (free_list != NULL) {
+		/* Pull a node from the free list if we can. */
+		le = free_list;
+		free_list = le->fnext;
+	} else
+		/* Malloc one if we have to. */
+		le = malloc(sizeof(struct links_entry));
+
+	if (le == NULL) {
+		stop_allocating = 1;
+		warnx("No more memory for tracking hard links");
+		return (0);
+	}
+
+	le->dev = st->st_dev;
+	le->ino = st->st_ino;
+	le->links = st->st_nlink - 1;
+	le->fnext = NULL;
+
+	RB_INSERT(ltree, &links, le);
+
+	return (0);
 }
 
 void
@@ -288,6 +311,6 @@ usage(void)
 {
 
 	(void)fprintf(stderr,
-		"usage: du [-H | -L | -P] [-a | -s] [-ckrx] [file ...]\n");
+		"usage: du [-a | -s] [-ckrx] [-H | -L | -P] [file ...]\n");
 	exit(1);
 }

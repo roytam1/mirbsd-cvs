@@ -37,7 +37,7 @@
 #include <signal.h>
 #endif
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.bin/less/filename.c,v 1.2 2005/03/13 18:33:06 tg Exp $");
 
 #if HAVE_STAT
 #include <sys/stat.h>
@@ -826,9 +826,10 @@ open_altfile(filename, pf, pfd)
 	return (NULL);
 #else
 	char *lessopen;
-	char *cmd;
+	char *cmd, *cp;
 	FILE *fd;
-	size_t len;
+	size_t i, len;
+	int found;
 #if HAVE_FILENO
 	int returnfd = 0;
 #endif
@@ -855,9 +856,18 @@ open_altfile(filename, pf, pfd)
 #endif
 	}
 
-	len = strlen(lessopen) + strlen(filename) + 2;
+	/* strlen(filename) is guaranteed to be > 0 */
+	len = strlen(lessopen) + strlen(filename);
 	cmd = (char *) ecalloc(len, sizeof(char));
-	snprintf(cmd, len, lessopen, filename);
+	for (cp = cmd, i = 0, found = 0; i < strlen(lessopen); i++) {
+		if (!found && lessopen[i] == '%' && lessopen[i + 1] == 's') {
+			found = 1;
+			strlcat(cmd, filename, len);
+			cp += strlen(filename);
+			i++;
+		} else
+			*cp++ = lessopen[i];
+	}
 	fd = shellcmd(cmd);
 	free(cmd);
 	if (fd == NULL)
@@ -916,9 +926,10 @@ close_altfile(altfilename, filename, pipefd)
 #if HAVE_POPEN
 	char *lessclose;
 	FILE *fd;
-	char *cmd;
-	size_t len;
-
+	char *cmd, *cp;
+	size_t i, len;
+	int found;
+	
 	if (secure)
 		return;
 	if (pipefd != NULL)
@@ -934,9 +945,22 @@ close_altfile(altfilename, filename, pipefd)
 	}
 	if ((lessclose = lgetenv("LESSCLOSE")) == NULL)
 	     	return;
-	len = strlen(lessclose) + strlen(filename) + strlen(altfilename) + 2;
+	/* strlen(filename) is guaranteed to be > 0 */
+	len = strlen(lessclose) + strlen(filename) + strlen(altfilename);
 	cmd = (char *) ecalloc(len, sizeof(char));
-	snprintf(cmd, len, lessclose, filename, altfilename);
+	for (cp = cmd, i = 0, found = 0; i < strlen(lessclose); i++) {
+		if (found < 2 && lessclose[i] == '%' && lessclose[i + 1] == 's') {
+			if (++found == 1) {
+				strlcat(cmd, filename, len);
+				cp += strlen(filename);
+			} else {
+				strlcat(cmd, altfilename, len);
+				cp += strlen(altfilename);
+			}
+			i++;
+		} else
+			*cp++ = lessclose[i];
+	}
 	fd = shellcmd(cmd);
 	free(cmd);
 	if (fd != NULL)

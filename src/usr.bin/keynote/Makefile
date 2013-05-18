@@ -1,13 +1,13 @@
-# $MirOS$
-# $OpenBSD: Makefile,v 1.11 2004/01/05 02:55:28 espie Exp $
+# $MirOS: src/usr.bin/keynote/Makefile,v 1.2 2005/03/15 19:23:51 tg Exp $
+# $OpenBSD: Makefile,v 1.13 2004/06/28 18:36:05 msf Exp $
 
 PROG=	keynote
 SRCS=	keynote-sign.c keynote-keygen.c keynote-sigver.c keynote-verify.c \
 	keynote-main.c z.tab.c lex.kv.c
 CFLAGS+=	-Wall
-CPPFLAGS+=	-DCRYPTO -DHAVE_CONFIG_H -I. -I${.CURDIR}/../../lib/libkeynote
-LEXFLAGS2=	-Pkv -s -i
-YACCFLAGS2=	-d -p kv -b z
+CPPFLAGS+=	-I. -I${.CURDIR}/../../lib/libkeynote
+LEXFLAGS=	-Pkv -s -i
+YACCFLAGS=	-d -p kv -b z
 DPADD=		${LIBKEYNOTE} ${LIBM} ${LIBCRYPTO}
 LDADD=		-lkeynote -lm -lcrypto
 CLEANFILES+=	lex.kv.c z.tab.c z.tab.h
@@ -15,9 +15,9 @@ CLEANFILES+=	lex.kv.c z.tab.c z.tab.h
 .PATH:	${.CURDIR}/../../lib/libkeynote
 
 z.tab.c: keynote-ver.y
-	$(YACC.y) $(YACCFLAGS2) $>
+	${YACC.y} ${YACCFLAGS} ${.ALLSRC}
 
 lex.kv.c: keynote-ver.l
-	$(LEX.l) $(LEXFLAGS2) $>
+	${LEX.l} ${LEXFLAGS} ${.ALLSRC}
 
-.include<bsd.prog.mk>
+.include <bsd.prog.mk>

@@ -1,15 +1,15 @@
-# $MirOS$
+# $MirOS: src/usr.bin/kdump/Makefile,v 1.2 2005/03/13 18:33:04 tg Exp $
 # $OpenBSD: Makefile,v 1.8 2003/07/02 20:54:17 deraadt Exp $
 
 LDSTATIC=	${STATIC}
 PROG=		kdump
-CPPFLAGS+=	-I${.CURDIR}/../ktrace
+CPPFLAGS+=	-I${.CURDIR}/../ktrace -I${.CURDIR}/../../sys
 SRCS=		kdump.c ioctl.c subr.c
 .PATH:		${.CURDIR}/../ktrace
 CLEANFILES+=	ioctl.c
 
 ioctl.c: ${.CURDIR}/mkioctls
-	CC="${CC}" ${SHELL} ${.CURDIR}/mkioctls \
+	CC="${CC}" DESTDIR="${DESTDIR}" ${SHELL} ${.CURDIR}/mkioctls \
 	    ${DESTDIR}/usr/include/sys/ioctl.h \
 	    ${DESTDIR}/usr/include/sys/ioctl_compat.h \
 	    ${DESTDIR}/usr/include/crypto/cryptodev.h \
@@ -24,6 +24,7 @@ ioctl.c: ${.CURDIR}/mkioctls
 	    ${DESTDIR}/usr/include/net/bpf.h \
 	    ${DESTDIR}/usr/include/net/if_ieee80211.h \
 	    ${DESTDIR}/usr/include/net/if_ppp.h \
+	    ${DESTDIR}/usr/include/net/if_pppoe.h \
 	    ${DESTDIR}/usr/include/net/if_tun.h \
 	    ${DESTDIR}/usr/include/net/pfvar.h \
 	    ${DESTDIR}/usr/include/netinet6/in6_var.h \

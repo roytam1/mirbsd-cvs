@@ -1,5 +1,5 @@
-/**	$MirOS$ */
-/*	$OpenBSD: cmd2.c,v 1.14 2004/05/10 12:10:50 millert Exp $	*/
+/**	$MirOS: src/usr.bin/mail/cmd2.c,v 1.2 2005/03/13 18:33:14 tg Exp $ */
+/*	$OpenBSD: cmd2.c,v 1.15 2004/09/15 22:21:40 deraadt Exp $	*/
 /*	$NetBSD: cmd2.c,v 1.7 1997/05/17 19:55:10 pk Exp $	*/
 
 /*
@@ -31,13 +31,11 @@
  * SUCH DAMAGE.
  */
 
-#include <sys/cdefs.h>
-#include <sys/wait.h>
 #include "rcv.h"
 #include "extern.h"
 
 __SCCSID("@(#)cmd2.c	8.1 (Berkeley) 6/6/93");
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.bin/mail/cmd2.c,v 1.2 2005/03/13 18:33:14 tg Exp $");
 
 /*
  * Mail -- a mail program
@@ -253,7 +251,7 @@ snarf(char *linebuf, int *flag)
  * Delete messages.
  */
 int
-delete(void *v)
+deletecmd(void *v)
 {
 	int *msgvec = v;
 

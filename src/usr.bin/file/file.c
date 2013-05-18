@@ -1,6 +1,6 @@
-/**	$MirOS$ */
+/**	$MirOS: src/usr.bin/file/file.c,v 1.2 2005/03/13 18:32:56 tg Exp $ */
 /*	$OpenBSD: LEGAL.NOTICE,v 1.6 2003/06/13 18:31:14 deraadt Exp $	*/
-/*	$OpenBSD: file.c,v 1.15 2004/09/25 09:19:35 otto Exp $ */
+/*	$OpenBSD: file.c,v 1.16 2004/12/04 19:55:12 jaredy Exp $ */
 /*
  * Copyright (c) Ian F. Darwin 1986-1995.
  * Software written by Ian F. Darwin and others;
@@ -88,7 +88,8 @@ FILE_RCSID("@(#)$Id$")
 #define SYMLINKFLAG ""
 #endif
 
-# define USAGE  "Usage: %s [-bcik" SYMLINKFLAG "nNsvz] [-f namefile] [-F separator] [-m magicfiles] file...\n       %s -C -m magicfiles\n"
+#define USAGE	"Usage: %s [-bck" SYMLINKFLAG "Nnrsvz] [-F separator] [-f namefile] [-m magicfiles] file ...\n" \
+		"       %s [-m magicfiles] -C\n"
 
 #ifndef MAXPATHLEN
 #define	MAXPATHLEN	512
