@@ -1,4 +1,4 @@
-# $MirOS: X11/Makefile,v 1.32 2006/07/03 11:29:52 tg Exp $
+# $MirOS: X11/Makefile,v 1.33 2006/09/24 19:00:50 tg Exp $
 
 .include <bsd.own.mk>
 .include "${BSDSRCDIR}/Makefile.inc"
@@ -43,7 +43,14 @@ b-r:
 	cd ${.CURDIR} && exec ${MAKE} build
 
 compile:
-	mkdir -p ${SUBOBJDIR}/xc/exports/{bin,include,lib}
+	${INSTALL} -d -o 0 -g 0 -m ${DIRMODE} \
+	    ${SUBOBJDIR}/xc/exports/bin \
+	    ${SUBOBJDIR}/xc/exports/include \
+	    ${SUBOBJDIR}/xc/exports/include/{DPS,GL,X11,fontconfig,freetype2} \
+	    ${SUBOBJDIR}/xc/exports/lib \
+	    ${SUBOBJDIR}/xc/exports/lib/{X11,modules,pkgconfig} \
+	    ${SUBOBJDIR}/xc/exports/man \
+	    ${SUBOBJDIR}/xc/exports/man/cat{1,3,4,5,7}
 	cd ${.CURDIR}/depends && ${MAKE} depend && ${MAKE} && \
 	    exec ${SUDO} ${MAKE} install X11BASE=${SUBOBJDIR}/xc/exports
 	${SUDO} chown -R $$(id -u) ${SUBOBJDIR}/xc/exports
@@ -67,6 +74,14 @@ install:
 	sleep 1; rm ${_STFILE_DEST}
 
 do-install:
+	${INSTALL} -d -o 0 -g 0 -m ${DIRMODE} \
+	    ${DESTDIR}/usr/X11R6/bin \
+	    ${DESTDIR}/usr/X11R6/include \
+	    ${DESTDIR}/usr/X11R6/include/{DPS,GL,X11,fontconfig,freetype2} \
+	    ${DESTDIR}/usr/X11R6/lib \
+	    ${DESTDIR}/usr/X11R6/lib/{X11,modules,pkgconfig} \
+	    ${DESTDIR}/usr/X11R6/man \
+	    ${DESTDIR}/usr/X11R6/man/cat{1,3,4,5,7}
 	cd ${.CURDIR}/depends && exec ${MAKE} install
 	cd xc && ${MAKE} install CC="${CC}" && exec ${MAKE} install.man
 	cd xc/programs/rstart && ${MAKE} install CC="${CC}" \
@@ -121,7 +136,6 @@ release:
 	mkdir -p ${DESTDIR} ${BSDRELDIR}/rel
 	${INSTALL} -d -o 0 -g 0 -m ${DIRMODE} \
 	    ${DESTDIR}/etc ${DESTDIR}/etc/X11 \
-	    ${DESTDIR}/usr/X11R6/bin ${DESTDIR}/usr/X11R6/man/cat1 \
 	    ${DESTDIR}/usr/local ${DESTDIR}/usr/local/lib/X11
 	cd ${.CURDIR} && exec ${MAKE} install
 .if (${MACHINE_ARCH} == "macppc") || (${MACHINE_ARCH} == "sparc")

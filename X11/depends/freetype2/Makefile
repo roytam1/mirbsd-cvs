@@ -228,8 +228,7 @@ NOMAN=			Yes
   INCS+=		ttunpat.h
 
 beforeinstall:
-	@mkdir -p ${DESTDIR}${X11BASE}/{bin,lib/pkgconfig} \
-	    ${DESTDIR}${X11BASE}/include/freetype2/freetype/config
+	@mkdir -p ${DESTDIR}${X11BASE}/include/freetype2/freetype/config
 .for _i in ${INCS}
 	${INSTALL} ${INSTALL_COPY} -o ${BINOWN} -g ${BINGRP} -m ${NONBINMODE} \
 	    ${FT2_DIR}/include/freetype/${_i} \
