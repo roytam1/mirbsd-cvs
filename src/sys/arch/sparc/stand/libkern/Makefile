@@ -1,4 +1,4 @@
-# $MirOS: src/sys/arch/sparc/stand/libkern/Makefile,v 1.4 2007/02/05 20:16:15 tg Exp $
+# $MirOS: src/sys/arch/sparc/stand/libkern/Makefile,v 1.5 2007/02/05 23:48:03 tg Exp $
 # $OpenBSD: Makefile,v 1.3 2003/06/01 17:00:39 deraadt Exp $
 
 LIB=	kern
@@ -17,7 +17,7 @@ AFLAGS=	-x assembler-with-cpp -traditional-cpp -I${.CURDIR}/../include \
 	-I${.CURDIR}/../../../../lib/libkern/arch/sparc
 
 # kern routines
-SRCS=	__main.c ashrdi3.c bzero.S divdi3.c qdivrem.c strlen.S \
+SRCS=	__main.c ashrdi3.c bzero.S divdi3.c qdivrem.c \
 	strcmp.c strncmp.c umoddi3.c
 
 SRCS+=	umul.S mul.S rem.S sdiv.S udiv.S urem.S

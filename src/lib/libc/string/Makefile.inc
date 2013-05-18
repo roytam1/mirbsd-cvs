@@ -1,4 +1,4 @@
-# $MirOS: src/lib/libc/string/Makefile.inc,v 1.16 2006/11/21 01:38:57 tg Exp $
+# $MirOS: src/lib/libc/string/Makefile.inc,v 1.17 2007/02/06 15:52:00 tg Exp $
 # $OpenBSD: Makefile.inc,v 1.17 2005/05/26 12:56:01 otto Exp $
 
 # string sources
@@ -7,7 +7,7 @@
 SRCS+=	bm.c memccpy.c strcasestr.c strdup.c \
 	strerror.c strerror_r.c strmode.c strsignal.c strtok.c \
 	wcscat.c wcschr.c wcscmp.c wcscpy.c wcscspn.c \
-	wcslen.c wcsncat.c wcsncmp.c wcsncpy.c wcspbrk.c wcsrchr.c wcsspn.c \
+	wcsncat.c wcsncmp.c wcsncpy.c wcspbrk.c wcsrchr.c wcsspn.c \
 	wcsstr.c wcswcs.c wmemchr.c wmemcmp.c wmemcpy.c \
 	wmemmove.c wmemset.c
 
@@ -46,7 +46,7 @@ UNIFDEF_SRCS+=	wcswcs.c wcsstr.c -DWCSWCS
 # machine-dependent net sources
 # m-d Makefile.inc must include sources for:
 #	bcopy() bzero() ffs() index() memchr() memcmp() memset()
-#	rindex() strcat() strcmp() strcpy() strcspn() strlen()
+#	rindex() strcat() strcmp() strcpy() strcspn()
 #	strncat() strncmp() strncpy() strpbrk() strsep()
 #	strspn() strstr() swav()
 # m-d Makefile.inc may include sources for:

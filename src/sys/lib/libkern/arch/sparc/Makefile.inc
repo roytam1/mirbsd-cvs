@@ -1,11 +1,11 @@
-# $MirOS: src/sys/lib/libkern/arch/sparc/Makefile.inc,v 1.2 2005/03/14 22:39:48 tg Exp $
+# $MirOS: src/sys/lib/libkern/arch/sparc/Makefile.inc,v 1.3 2007/02/05 20:16:17 tg Exp $
 # $OpenBSD: Makefile.inc,v 1.11 2003/06/01 17:00:31 deraadt Exp $
 # $NetBSD: Makefile.inc,v 1.12 1996/04/23 23:05:22 christos Exp $
 
 SRCS+=  __main.c imax.c imin.c lmax.c lmin.c max.c min.c ulmax.c ulmin.c \
 	memchr.c memcmp.c memset.c \
 	bcmp.c bzero.S strcmp.c strlfun.c \
-	strlen.S strncmp.c \
+	strncmp.c \
 	strncpy.c scanc.c skpc.c \
 	strncasecmp.c
 

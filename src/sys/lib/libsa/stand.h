@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/lib/libsa/stand.h,v 1.5 2006/11/21 02:53:39 tg Exp $	*/
+/**	$MirOS: src/sys/lib/libsa/stand.h,v 1.6 2006/11/21 13:20:08 tg Exp $	*/
 /*	$OpenBSD: stand.h,v 1.43 2004/01/03 14:08:53 espie Exp $	*/
 /*	$NetBSD: stand.h,v 1.18 1996/11/30 04:35:51 gwr Exp $	*/
 
@@ -155,7 +155,6 @@ size_t	 strlcpy(char *, const char *, size_t)
 		__attribute__ ((__bounded__(__string__,1,3)));
 size_t	 strlcat(char *, const char *, size_t)
 		__attribute__ ((__bounded__(__string__,1,3)));
-size_t	strlen(const char *);
 long	strtol(const char *, char **, int);
 char	*strchr(const char *, int);
 void	*memset(void *, int, size_t);
@@ -212,5 +211,7 @@ off_t	olseek(int, off_t, int);
 int	devopen(struct open_file *, const char *, char **);
 void	machdep_start(char *, int, char *, char *, char *);
 time_t	getsecs(void);
+
+#include <libckern.h>
 
 #endif

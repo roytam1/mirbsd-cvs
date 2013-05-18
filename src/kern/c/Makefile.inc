@@ -1,4 +1,4 @@
-# $MirOS: src/kern/c/Makefile.inc,v 1.2 2007/02/05 23:48:00 tg Exp $
+# $MirOS: src/kern/c/Makefile.inc,v 1.3 2007/02/06 15:55:09 tg Exp $
 
 # imports:
 # ifdef(KERNSTAND)	-> bootloader, no kernel/libc only stuff
@@ -15,7 +15,20 @@
 .PATH: ${KERNBASE}/c/${MACHINE_ARCH}
 .PATH: ${KERNBASE}/c
 
+CPPFLAGS+=	-I${KERNBASE}/c
+
+# SRCS, UNIFDEF_SRCS: kernel, userland, bootloader
+# KUSRCS, UIF_KUSRCS: kernel, userland
+
+SRCS+=		strlen.c
+UIF_KUSRCS+=	wcslen.c strlen.c -DWIDEC
+
 # …
+
+.ifndef KERNSTAND
+SRCS+=		${KUSRCS}
+UNIFDEF_SRCS+=	${UIF_KUSRCS}
+.endif
 
 .for _z _q _s in ${UNIFDEF_SRCS}
 SRCS+=		${_z}
