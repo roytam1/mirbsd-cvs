@@ -1,13 +1,9 @@
-# $MirOS$
+# $MirOS: ports/archivers/bzip2/files/Makefile.bzip2recover,v 1.1 2005/05/21 12:54:56 bsiegert Exp $
 
 SRCDIR=		${.CURDIR}/..
-BINDIR=		${PREFIX}/bin
-MANDIR=		${PREFIX}/man/cat
 
 PROG=		bzip2recover
-SRCS=		bzip2recover.c
 LDADD+=		-L${SRCDIR}/lib -lbz2
-
 NOMAN=		Yes
 
 .PATH:		${SRCDIR}
