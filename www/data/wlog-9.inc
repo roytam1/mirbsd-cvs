@@ -2633,7 +2633,8 @@ Date: 19.02.2008
  href="/MirOS/dist/mir/make/">/MirOS/dist/mir/make</a> on this
  server. The file hashes are:</p>
 
-<pre>MD5 (mirmake-20080218.cpio.gz) = 5e6ecc4432b61e39e9907737d
+<pre>MD5 (mirmake-20080218.cpio.gz) = 5e6ecc4432b61e39e9907737d058309c
+RMD160 (mirmake-20080218.cpio.gz) = 75de9d3a51570948935b31fb8a280a3ad00757a7
 SHA1 (mirmake-20080218.cpio.gz) = 17251b1db87ceed85bd82dc52ca7ace7f7c77786
 </pre>
 ----
