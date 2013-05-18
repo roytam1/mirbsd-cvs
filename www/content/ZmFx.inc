@@ -1,5 +1,5 @@
 <!-- PageID: faq -->
-<small class="rcsid">$MirOS: www/content/ZmFx.inc,v 1.4 2006/01/03 03:44:28 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/ZmFx.inc,v 1.5 2006/01/27 00:14:28 tg Exp $</small>
 
 <h1>FAQ</h1>
 
@@ -23,6 +23,10 @@
  <li>...</li>
 </ul></li>
 <li><a href="#s_inst">Installation</a><ul>
+ <li>...</li>
+</ul></li>
+<li><a href="#s_user">Using the system</a><ul>
+ <li><a href="#promptelv">What about the number in my $PS1?</a></li>
  <li>...</li>
 </ul></li>
 <li><a href="#s_adm">Administration</a><ul>
@@ -61,6 +65,15 @@
 <small><a href="#toc">back</a></small>
 
 <h2 id="s_inst">Installation</h2>
+
+<h2 id="s_user">Using the system</h2>
+
+<h3 id="promptelv">What about the number in my prompt?</h3>
+<p>Starting with MirOS #9, if the last command did not exit
+ successfully (i.e. errorlevel 0, in *nix tongues), its exit
+ status is displayed as the first component of the prompt
+ ($PS1). If you want to clear that, enter a colon (:) and
+ hit return.</p>
 
 <h2 id="s_adm">Administration</h2>
 
