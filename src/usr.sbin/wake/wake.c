@@ -55,7 +55,7 @@
 #include <sysexits.h>
 #include <unistd.h>
 
-__RCSID("$MirOS: src/usr.sbin/wake/wake.c,v 1.2 2009/08/08 13:36:53 tg Exp $");
+__RCSID("$MirOS: src/usr.sbin/wake/wake.c,v 1.3 2010/01/03 19:21:10 tg Exp $");
 
 #ifndef SYNC_LEN
 #define SYNC_LEN 6
@@ -65,12 +65,13 @@ __RCSID("$MirOS: src/usr.sbin/wake/wake.c,v 1.2 2009/08/08 13:36:53 tg Exp $");
 #define DESTADDR_COUNT 16
 #endif
 
-#ifndef _PATH_BPF
-#define _PATH_BPF "/dev/bpf%d"
+#ifndef BPF_PATH_FORMAT
+#define BPF_PATH_FORMAT "/dev/bpf%u"
 #endif
 
 static __dead void usage(void);
 static int wake(int, const char *);
+static int get_bpf(void);
 static int bind_if_to_bpf(char const *, int);
 static int find_ether(char *, size_t);
 static int get_ether(char const *, struct ether_addr *);
@@ -188,6 +189,28 @@ send_wakeup(int bpf, struct ether_addr const *addr)
 	return 0;
 }
 
+static int
+get_bpf(void)
+{
+	unsigned int i = 0;
+	int fd;
+	char path[MAXPATHLEN];
+
+ getbpfdev:
+	if (snprintf(path, sizeof(path), BPF_PATH_FORMAT, i) == -1)
+		return (-1);
+
+	if ((fd = open(path, O_RDWR)) == -1) {
+		if (errno == EBUSY) {
+			++i;
+			if (i)
+				goto getbpfdev;
+		}
+	}
+
+	return (fd);
+}
+
 int
 main(int argc, char *argv[])
 {
@@ -197,8 +220,8 @@ main(int argc, char *argv[])
 	if (argc < 2)
 		usage();
 
-	if ((bpf = open(_PATH_BPF, O_RDWR)) == -1)
-		err(EXIT_FAILURE, "Cannot open bpf interface");
+	if ((bpf = get_bpf()) == -1)
+		err(EXIT_FAILURE, "Cannot open any bpf interface");
 
 	n = 2;
 	if (bind_if_to_bpf(argv[1], bpf) == -1) {
