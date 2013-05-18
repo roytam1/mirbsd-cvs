@@ -2,7 +2,7 @@
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname errata/10 "Errata for MirOS #10"
-mws_putheader '$MirOS: www/src/errata10.hts,v 1.13 2008/06/13 19:39:04 tg Exp $'
+mws_putheader '$MirOS: www/src/errata10.hts,v 1.14 2008/06/21 22:37:19 tg Exp $'
 mws_content <<'EOF'
 <h1>Errata for MirOS #10</h1>
 
@@ -12,6 +12,8 @@ mws_content <<'EOF'
 <p>By upgrading to the <tt>MIRBSD_10</tt> branch on CVS in the
  <tt>src</tt> module, you gain the following fixes:</p><ul>
 <li>
+ A positive leap second will be introduced at the end of December 2008.
+</li><li>
  Add support for <tt>__restrict__</tt> and <tt>__packed</tt> on PCC
 </li><li>
  Add support for the <tt>xsrv10.ngz</tt> dist set in the installer
