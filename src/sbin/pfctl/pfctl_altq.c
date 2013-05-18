@@ -1,4 +1,4 @@
-/**	$MirOS: src/sbin/pfctl/pfctl_altq.c,v 1.2 2005/03/06 19:50:31 tg Exp $	*/
+/**	$MirOS: src/sbin/pfctl/pfctl_altq.c,v 1.3 2005/12/19 20:05:55 tg Exp $	*/
 /*	$OpenBSD: pfctl_altq.c,v 1.86 2005/02/28 14:04:51 henning Exp $	*/
 
 /*
@@ -43,6 +43,8 @@
 
 #include "pfctl_parser.h"
 #include "pfctl.h"
+
+__RCSID("$MirOS$");
 
 #define is_sc_null(sc)	(((sc) == NULL) || ((sc)->m1 == 0 && (sc)->m2 == 0))
 
@@ -1087,9 +1089,9 @@ rate2str(double rate)
 		rate /= 1024;
 
 	if ((int)(rate * 100) % 100)
-		snprintf(buf, RATESTR_MAX, "%.2f%cb", rate, unit[i]);
+		snprintf(buf, RATESTR_MAX, "%.2f%sb", rate, unit(i));
 	else
-		snprintf(buf, RATESTR_MAX, "%d%cb", (int)rate, unit[i]);
+		snprintf(buf, RATESTR_MAX, "%d%sb", (int)rate, unit(i));
 
 	return (buf);
 }
