@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.362 2011/09/01 21:36:22 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.363 2011/09/03 17:34:11 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -8538,4 +8538,30 @@ Tag: debian fun geocache
  found, one not found due to not taking <em>any</em> hardware with me)
  the bigger guy lazed around in the bush next to where I usually park
  my bike. Lucky…</p>
+----
+Date: 04.09.2011 11:44
+Author: tg@
+Title: Cat weather
+Tag: debian fun
+
+<p class="mirbsdwebsitehidefromnonrss">Another cat posting,
+ about 100 KiB worth of images embedded so follow to the
+ main article to read it, I don’t want Planet readers to
+ suffer from traffic overuse.</p><!-- RSS stop -->
+<p>Hot and humid (it’s rained a bit overnight, but has almost dried
+ up quickly) seems to be cat weather. I went to buy breakfast at the
+ local bakery when three cats lay around the house door in a half
+ circle – my two black friends from the last posting and their human
+ can opener’s third owner. When I came back I wondered whether the
+ small guy wanted to travel:<br /><img
+ alt="cat car" src="@@RELPATH@@pics/wlog/cats-2.jpg" /><br /><img
+ alt="what could that human possibly want from me? (focus follows eyes)"
+ src="@@RELPATH@@pics/wlog/cats-3.jpg" /></p>
+<p>The big guy has hidden indoors, but needed only very little coaxing
+ to head back outside in a measured speed:<br /><a
+ href="@@RELPATH@@pics/wlog/cats-4.jpg"><img
+ alt="can you see me?" src="@@RELPATH@@pics/wlog/cats_4.jpg" /></a></p>
+<p>The car’s owner arrived when I closed the door behind that cat,
+ and not only did the little guy jump off… but also did the third
+ cat… get out from <em>under</em> the car. Huh…</p>
 ----
