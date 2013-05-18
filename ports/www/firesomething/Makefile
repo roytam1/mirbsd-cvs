@@ -1,10 +1,10 @@
-# $MirOS: ports/www/firesomething/Makefile,v 1.21 2008/03/28 20:26:29 bsiegert Exp $
+# $MirOS: ports/www/firesomething/Makefile,v 1.22 2008/03/31 21:33:55 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.41 2005/11/15 09:21:52 wilfried Exp $
 
 ONLY_FOR_PLATFORM=	*:*:alpha *:*:i386 *:*:sparc *:*:sparc64 *:*:amd64 *:*:powerpc
 COMMENT=		one of the successors to the Netscape browser engine
 VER=			1.5.0.10
-DASH_VER=		0
+DASH_VER=		1
 DISTNAME=		mozilla
 PKGNAME=		firesomething-${VER}-${DASH_VER}
 CATEGORIES=		www
@@ -80,7 +80,7 @@ post-extract:
 
 post-patch:
 .for dir in security/coreconf directory/c-sdk/config
-	cd ${WRKSRC}/${dir} && ln -s OpenBSD.mk MirBSD.mk
+	cd ${WRKSRC}/${dir} && ln -sf OpenBSD.mk MirBSD.mk
 .endfor
 
 pre-configure:
@@ -91,6 +91,8 @@ pre-configure:
 		${WRKSRC}/xpcom/components/nsNativeComponentLoader.cpp
 
 post-install:
-	ln -f ${PREFIX}/bin/firefox ${PREFIX}/bin/firesomething
+	cd ${PREFIX} && \
+	    mv -f bin/firefox bin/firesomething && \
+	    mv -f firesomething/firefox-bin firesomething/firesomething-bin
 
 .include <bsd.port.mk>
