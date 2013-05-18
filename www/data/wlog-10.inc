@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.333 2011/03/26 11:23:15 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.334 2011/05/21 15:31:26 bsiegert Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -7728,4 +7728,38 @@ Tag: pkgsrc
 <p>PS: My Go package,
  <a href="http://golang.org/pkg/image/tiff">image/tiff</a> is now part
  of the standard library. Yay!</p>
+----
+Date: 21.05.2011 15:56
+Author: tg@
+Title: Progress with other things
+
+<p>I’m still working on <a href="@@RELPATH@@mksh.htm">mksh</a> and
+ doing some MirBSD core and ports work in between. On the other hand,
+ since a lot of things suck so much, and other things become <a
+ href="http://git.kernel.org/?p=libs/klibc/klibc.git;a=commitdiff;h=e90552b6d78dd4d090d014024da00723e179df30">unacceptable</a>,
+ I’m seriously considering writing things like a libc (probably not
+ complete, not totally from scratch – no way I’m going to code sunrpc –
+ and not fast but at least correct. I’ve written quite some code for
+ the MirBSD libc already, as well as kernel and bootloader. Most of
+ it is shared between these, and I’ve digged in enough others (klibc,
+ dietlibc, µClibc, musl, glibc) to have seen more. I was thinking of
+ static linkage only at first, mostly for bootloader and compiler
+ support code and, later, to link mksh statically against it on some
+ OSes. But cnuke@ wanted a “correct” libc with dynamic linkage. Hmm…
+ (On the other hand, we all know that these are dreams and a RL job
+ can be time and will consuming.)</p>
+<p>Roland Mas is hacking on Alioth this weekend, which runs code from
+ me and some coworkers via FusionForge – more coverage ☺ I’m also
+ doing okay with Debian/m68k (still slowly of course, but then, as
+ BSD developer, I’m used to that <i>*g*</i>) and one of the old m68k
+ buildds may very well be resurrected soonish. (Still need to port
+ elfutils…) By the way, XHTML sucks, some things are hard to get right,
+ and writing <a href="https://evolvis.org/DTD/xhtml10t-rdfa10.dtd">a
+ DTD</a> should be obsolete…</p>
+<p>I took over cvs(1) in Debian and replaced it with my previously
+ private package of MirPorts’ cvs. Way to go! (Thanks to Steve for
+ handing over maintainership.) Now, everyone, please test it and
+ recheck whether your old bugs still apply. Oh, and send patches.
+ But pserver, PAM etc. are gone for good, don’t bother.</p>
+<p>PS: It’s still Google Go, Benny. (World of Google’s goo?)</p>
 ----
