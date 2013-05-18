@@ -1,10 +1,12 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.8 2003/12/27 23:37:02 jose Exp $
 
-COMMENT=			publishing and presentation tool
+COMMENT=	publishing and presentation tool
 
 VERSION=	1.1b9
+DASH_VER=	1
 DISTNAME=	imp${VERSION}
-PKGNAME=	impress-${VERSION}-0
+PKGNAME=	impress-${VERSION}-${DASH_VER}
 CATEGORIES=	misc
 
 MASTER_SITES=	${HOMEPAGE}
@@ -19,7 +21,7 @@ PERMIT_DISTFILES_FTP=   Yes
 
 RUN_DEPENDS=    ::x11/tk/8.4
 
-WRKDIST=        ${WRKDIR}/${PKGNAME}
+WRKDIST=        ${WRKDIR}/impress-${VERSION}
 
 NO_REGRESS=	Yes
 
