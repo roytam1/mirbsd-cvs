@@ -1,4 +1,4 @@
-# $MirOS: ports/converters/libiconv/Makefile,v 1.8 2006/09/14 00:07:40 tg Exp $
+# $MirOS: ports/converters/libiconv/Makefile,v 1.9 2006/10/02 01:18:51 tg Exp $
 # $OpenBSD: Makefile,v 1.16 2003/12/24 00:08:02 brad Exp $
 
 COMMENT=		character set conversion library
@@ -37,6 +37,7 @@ pre-patch:
 # we seem to need this ugly kludge (idea from old kde ports)
 post-install:
 	cd ${PREFIX}/lib; . ${PREFIX}/giconv/lib/libiconv.la; \
+	    [[ -n $$dlname ]] || dlname=libiconv.so.2.2; \
 	    ln -s ../giconv/lib/$$dlname \
 	    $$(echo $$dlname | sed s/libiconv/libgiconv/)
 
