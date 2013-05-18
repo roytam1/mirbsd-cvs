@@ -1,11 +1,12 @@
-/**	$MirOS$ */
-/*	$OpenBSD: strcoll.c,v 1.5 2005/08/08 08:05:37 espie Exp $ */
-/*-
- * Copyright (c) 1990 The Regents of the University of California.
- * All rights reserved.
- *
- * This code is derived from software contributed to Berkeley by
- * Chris Torek.
+/**	$MirOS: contrib/code/libhaible/wcsncasecmp.c,v 1.1 2006/05/30 12:28:50 tg Exp $ */
+/**	_MirOS: src/lib/libc/string/strcasecmp.c,v 1.2 2005/09/26 22:21:20 tg Exp $ */
+/*	$OpenBSD: strcasecmp.c,v 1.6 2005/08/08 08:05:37 espie Exp $	*/
+
+/*
+ * Copyright (c) 2006
+ *	Thorsten Glaser <tg@mirbsd.de>
+ * Copyright (c) 1987, 1993
+ *	The Regents of the University of California.  All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -32,14 +33,22 @@
  * SUCH DAMAGE.
  */
 
-#include <wchar.h>
+#include <wctype.h>
 
-/*
- * Compare strings according to LC_COLLATE category of current locale.
- */
+__RCSID("$MirOS: contrib/code/libhaible/wcsncasecmp.c,v 1.1 2006/05/30 12:28:50 tg Exp $");
+
 int
-wcscoll(const wchar_t *s1, const wchar_t *s2)
+wcsncasecmp(const wchar_t *s1, const wchar_t *s2, size_t n)
 {
-	/* LC_COLLATE is unimplemented, hence always "C" */
-	return (wcscmp(s1, s2));
+	wchar_t c;
+
+	if (n != 0) {
+		do {
+			if (towlower(*s1) != (c = towlower(*s2++)))
+				return (towlower(*s1) - c);
+			if (*s1++ == L'\0')
+				break;
+		} while (--n != 0);
+	}
+	return (0);
 }

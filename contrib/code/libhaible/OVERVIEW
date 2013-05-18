@@ -1,4 +1,4 @@
-$MirOS: contrib/code/libhaible/OVERVIEW,v 1.20 2006/05/31 00:56:12 tg Exp $
+$MirOS: contrib/code/libhaible/OVERVIEW,v 1.21 2006/06/01 21:30:49 tg Exp $
 $function name		header		manpage		source location
 $ 
 $ Info: #=commented out C=libc H=libhaible G=GPL/libhaible
@@ -55,19 +55,19 @@ vswscanf		#wchar.h	-
 vwprintf		#wchar.h	-
 vwscanf			#wchar.h	-
 wcrtomb			 wchar.h	C:wcrtomb	i18n/wcrtomb.c
-wcscasecmp		 wchar.h	H:wmemchr	libhaible/wcscasecmp.c
+wcscasecmp		 wchar.h	C:wmemchr	string/wcscasecmp.c
 wcscat			 wchar.h	C:wmemchr	string/wcscat.c
 wcschr			 wchar.h	C:wmemchr	string/wcschr.c
 wcscmp			 wchar.h	C:wmemchr	string/wcscmp.c
-wcscoll			 wchar.h	H:wmemchr	libhaible/wcscoll.c
+wcscoll			 wchar.h	C:wmemchr	string/wcscoll.c
 wcscpy			 wchar.h	C:wmemchr	string/wcscpy.c
 wcscspn			 wchar.h	C:wmemchr	string/wcscspn.c
-wcsdup			 wchar.h	H:wmemchr	libhaible/wcsdup.c
-wcsftime		-		H:wmemchr
+wcsdup			 wchar.h	C:wmemchr	string/wcsdup.c
+wcsftime		-		C:wmemchr
 wcslcat			 wchar.h	C:wmemchr	string/wcslfun.c
 wcslcpy			 wchar.h	C:wmemchr	string/wcslfun.c
 wcslen			 wchar.h	C:wmemchr	string/wcslen.c
-wcsncasecmp		 wchar.h	H:wmemchr	libhaible/wcsncasecmp.c
+wcsncasecmp		 wchar.h	C:wmemchr	string/wcsncasecmp.c
 wcsncat			 wchar.h	C:wmemchr	string/wcsncat.c
 wcsncmp			 wchar.h	C:wmemchr	string/wcsncmp.c
 wcsncpy			 wchar.h	C:wmemchr	string/wcsncpy.c
@@ -76,18 +76,18 @@ wcsrchr			 wchar.h	C:wmemchr	string/wcsrchr.c
 wcsrtombs		 wchar.h	H:wcsrtombs	libhaible/wcsrtombs.c
 wcsspn			 wchar.h	C:wmemchr	string/wcsspn.c
 wcsstr			 wchar.h	C:wmemchr	string/wcsstr.c
-wcstod			 wchar.h	H:wmemchr	locale/wcstod.c
-wcstof			 wchar.h	H:wmemchr	locale/wcstod.c
+wcstod			 wchar.h	C:wmemchr	locale/wcstod.c
+wcstof			 wchar.h	C:wmemchr	locale/wcstod.c
 wcstok		LGPL	 wchar.h	C:wcstok	libhaible/wcstok.c
-wcstol			 wchar.h	H:wmemchr	locale/wcstol.c
-wcstold			 wchar.h	H:wmemchr	locale/wcstod.c
-wcstoll			 wchar.h	H:wmemchr	locale/wcstoll.c
+wcstol			 wchar.h	C:wmemchr	locale/wcstol.c
+wcstold			 wchar.h	C:wmemchr	locale/wcstod.c
+wcstoll			 wchar.h	C:wmemchr	locale/wcstoll.c
 wcstombs		 stdlib.h	C:wcstombs	libhaible/wcstombs.c
-wcstoul			 wchar.h	H:wmemchr	locale/wcstoul.c
-wcstoull		 wchar.h	H:wmemchr	locale/wcstoull.c
-wcswcs			 wchar.h	H:wmemchr	string/wcsstr.c
+wcstoul			 wchar.h	C:wmemchr	locale/wcstoul.c
+wcstoull		 wchar.h	C:wmemchr	locale/wcstoull.c
+wcswcs			 wchar.h	C:wmemchr	string/wcsstr.c
 wcswidth		 wchar.h	G:wcswidth	libhaible/wcswidth.c
-wcsxfrm			 wchar.h	H:wmemchr	libhaible/wcsxfrm.c
+wcsxfrm			 wchar.h	C:wmemchr	libhaible/wcsxfrm.c
 wctob			 wchar.h	C:wctob		i18n/wctob.c
 wctomb			 stdlib.h	C:wctomb	libhaible/wctomb.c
 wctrans			 wctype.h	H:wctrans	libhaible/wctrans.c

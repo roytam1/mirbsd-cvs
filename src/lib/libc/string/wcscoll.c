@@ -1,12 +1,11 @@
-/**	$MirOS: src/lib/libc/string/strcasecmp.c,v 1.2 2005/09/26 22:21:20 tg Exp $ */
-/**	_MirOS: src/lib/libc/string/strcasecmp.c,v 1.2 2005/09/26 22:21:20 tg Exp $ */
-/*	$OpenBSD: strcasecmp.c,v 1.6 2005/08/08 08:05:37 espie Exp $	*/
-
-/*
- * Copyright (c) 2006
- *	Thorsten Glaser <tg@mirbsd.de>
- * Copyright (c) 1987, 1993
- *	The Regents of the University of California.  All rights reserved.
+/**	$MirOS: contrib/code/libhaible/string/wcscoll.c,v 1.1 2006/05/30 23:25:41 tg Exp $ */
+/*	$OpenBSD: strcoll.c,v 1.5 2005/08/08 08:05:37 espie Exp $ */
+/*-
+ * Copyright (c) 1990 The Regents of the University of California.
+ * All rights reserved.
+ *
+ * This code is derived from software contributed to Berkeley by
+ * Chris Torek.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -33,17 +32,14 @@
  * SUCH DAMAGE.
  */
 
-#include <wctype.h>
+#include <wchar.h>
 
-__RCSID("$MirOS$");
-
+/*
+ * Compare strings according to LC_COLLATE category of current locale.
+ */
 int
-wcscasecmp(const wchar_t *s1, const wchar_t *s2)
+wcscoll(const wchar_t *s1, const wchar_t *s2)
 {
-	wchar_t c;
-
-	while (towlower(*s1) == (c = towlower(*s2++)))
-		if (*s1++ == L'\0')
-			return (0);
-	return (towlower(*s1) - c);
+	/* LC_COLLATE is unimplemented, hence always "C" */
+	return (wcscmp(s1, s2));
 }

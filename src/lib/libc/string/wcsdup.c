@@ -1,4 +1,4 @@
-/* $MirOS: src/share/misc/licence.template,v 1.7 2006/04/09 22:08:49 tg Rel $ */
+/* $MirOS: contrib/code/libhaible/string/wcsdup.c,v 1.1 2006/05/30 12:58:54 tg Exp $ */
 
 /*-
  * Copyright (c) 2006
@@ -27,7 +27,7 @@
 
 #include <wchar.h>
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: contrib/code/libhaible/string/wcsdup.c,v 1.1 2006/05/30 12:58:54 tg Exp $");
 
 wchar_t *
 wcsdup(const wchar_t *s)

@@ -1,4 +1,4 @@
-/**	$MirOS: src/lib/libc/string/strcasecmp.c,v 1.2 2005/09/26 22:21:20 tg Exp $ */
+/**	$MirOS: contrib/code/libhaible/wcscasecmp.c,v 1.1 2006/05/30 12:28:50 tg Exp $ */
 /**	_MirOS: src/lib/libc/string/strcasecmp.c,v 1.2 2005/09/26 22:21:20 tg Exp $ */
 /*	$OpenBSD: strcasecmp.c,v 1.6 2005/08/08 08:05:37 espie Exp $	*/
 
@@ -35,20 +35,15 @@
 
 #include <wctype.h>
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: contrib/code/libhaible/wcscasecmp.c,v 1.1 2006/05/30 12:28:50 tg Exp $");
 
 int
-wcsncasecmp(const wchar_t *s1, const wchar_t *s2, size_t n)
+wcscasecmp(const wchar_t *s1, const wchar_t *s2)
 {
 	wchar_t c;
 
-	if (n != 0) {
-		do {
-			if (towlower(*s1) != (c = towlower(*s2++)))
-				return (towlower(*s1) - c);
-			if (*s1++ == L'\0')
-				break;
-		} while (--n != 0);
-	}
-	return (0);
+	while (towlower(*s1) == (c = towlower(*s2++)))
+		if (*s1++ == L'\0')
+			return (0);
+	return (towlower(*s1) - c);
 }
