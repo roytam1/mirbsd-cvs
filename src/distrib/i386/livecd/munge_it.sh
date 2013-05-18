@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/distrib/i386/livecd/munge_it.sh,v 1.33 2006/04/27 08:31:39 tg Exp $
+# $MirOS: src/distrib/i386/livecd/munge_it.sh,v 1.34 2006/04/29 21:40:09 tg Exp $
 #-
 # Copyright (c) 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -77,15 +77,15 @@ ed -s etc/ntpd.conf <<-'EOF'
 EOF
 ed -s etc/rc <<-'EOF'
 	1i
-		# $MirOS: src/distrib/i386/livecd/munge_it.sh,v 1.33 2006/04/27 08:31:39 tg Exp $
+		# $MirOS: src/distrib/i386/livecd/munge_it.sh,v 1.34 2006/04/29 21:40:09 tg Exp $
 	.
 	/shutdown request/ka
 	/^fi/a
 
 		mount /dev/rd0a /dev
 		test -e /dev/.rs && cat /dev/.rs >/dev/urandom
-		(dd if=/dev/rwd0c count=126; dd if=/dev/rsd0c count=126) \
-		    2>&1 | /bin/cksum -ba sha512 >/dev/urandom
+		( (dd if=/dev/rwd0c count=126; dd if=/dev/rsd0c count=126) \
+		    2>&1 | /bin/cksum -ba sha512 >/dev/urandom ) &
 		(cd /dev; ln -s $(sysctl -n kern.root_device) root)
 		rm -f /dev/.rs
 		print \#\\tThis product includes material provided by Thorsten Glaser.

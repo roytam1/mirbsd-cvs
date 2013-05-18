@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/miniroot/dot.profile,v 1.8 2006/04/11 09:04:32 tg Exp $
+# $MirOS: src/distrib/miniroot/dot.profile,v 1.9 2006/04/27 08:41:54 tg Exp $
 # $OpenBSD: dot.profile,v 1.4 2002/09/13 21:38:47 deraadt Exp $
 # $NetBSD: dot.profile,v 1.1 1995/12/18 22:54:43 pk Exp $
 #
@@ -68,8 +68,9 @@ if [ ! -f /.profile.done ]; then
 	mount_mfs -s $(($(sysctl -n hw.usermem)/512-8192)) swap /tmp
 
 	# basic HD randomness reads (doesn't matter if they break)
-	(dd if=/dev/rwd0c count=126; dd if=/dev/rsd0c count=126; dd \
-	    if=/var/db/host.random) 2>&1 | /bin/cksum -ba sha512 >/dev/urandom
+	( (dd if=/dev/rwd0c count=126; dd if=/dev/rsd0c count=126; dd \
+	    if=/var/db/host.random) 2>&1 | /bin/cksum -ba sha512 \
+	    >/dev/urandom ) &
 
 	# say hello and legalese
 	echo '
