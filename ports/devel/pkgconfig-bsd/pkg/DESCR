@@ -1,5 +1,0 @@
-The pkg-config utility retrieves metadata about the installation of
-software packages. This metadata includes version, compiler and linker
-flags, and dependency information.
-It is inspired by, and intended to operate as a drop-in replacement to,
-the program of the same name available from freedesktop.org.

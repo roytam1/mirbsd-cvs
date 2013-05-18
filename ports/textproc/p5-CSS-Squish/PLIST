@@ -1,9 +1,0 @@
-@comment $MirOS$
-${P5SITE}/CSS/Squish.pm
-@comment ${P5ARCH}/auto/CSS/Squish/.packlist
-man/man3/CSS::Squish${P5MAN3EXT}
-@dirrm ${P5ARCH}/auto/CSS/Squish
-@dirrm ${P5ARCH}/auto/CSS
-@dirrm ${P5ARCH}/auto
-@dirrm ${P5ARCH}
-@dirrm ${P5SITE}/CSS
