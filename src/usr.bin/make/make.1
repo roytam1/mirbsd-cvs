@@ -1,4 +1,4 @@
-.\"	$MirOS: src/usr.bin/make/make.1,v 1.14 2008/10/12 21:24:11 tg Exp $
+.\"	$MirOS: src/usr.bin/make/make.1,v 1.15 2009/11/22 15:55:25 tg Exp $
 .\"	$OpenBSD: make.1,v 1.68 2007/05/31 19:20:13 jmc Exp $
 .\"	$OpenPackages$
 .\"	$NetBSD: make.1,v 1.18 1997/03/10 21:19:53 christos Exp $
@@ -88,7 +88,7 @@
 .\" with -mandoc, it might implement .Mx itself, but we want to
 .\" use our own definition. And .Dd must come *first*, always.
 .\"
-.Dd $Mdocdate: November 17 2009 $
+.Dd $Mdocdate: November 22 2009 $
 .\"
 .\" Check which macro package we use
 .\"
@@ -322,7 +322,7 @@ flag is also specified.
 Specify a directory in which to search for
 .Pa sys.mk
 and makefiles included
-via the <...> style.
+via the \*(Lt...\*(Gt style.
 Multiple directories can be added to form a search path.
 This path will override the default system include path:
 .Pa /usr/share/mk .
@@ -485,7 +485,7 @@ has been specified.
 The command is always executed using
 .Pa @@MKSH@@
 in
-.Qq set -e
+.Qq set \-e
 mode.
 (Using the MirBSD Korn Shell,
 .Pa @@MKSH@@ ,
@@ -569,7 +569,7 @@ The name of the archive member (only valid for library rules).
 The name of the archive file (only valid for library rules).
 .It Va \&?
 The list of prerequisites for this target that were deemed out-of-date.
-.It Va \&<
+.It Va \&\*(Lt
 The name of the source from which this target is to be built, if a valid
 implied rule (suffix rule) is in scope.
 .It Va *
@@ -580,8 +580,8 @@ no suffix or preceding directory components.
 The six variables
 .Sq Va "@F" ,
 .Sq Va "@D" ,
-.Sq Va "<F" ,
-.Sq Va "<D" ,
+.Sq Va "\*(LtF" ,
+.Sq Va "\*(LtD" ,
 .Sq Va "*F" ,
 and
 .Sq Va "*D"
@@ -592,7 +592,7 @@ and
 parts of the corresponding macros.
 .Pp
 For maximum compatibility,
-.Sq Va \&<
+.Sq Va \&\*(Lt
 should only be used for actual implied rules.
 It is also set when there is an implied rule that matches the current
 dependency in scope.
@@ -600,7 +600,7 @@ That is, in
 .Bd -literal -offset indent
 \&.SUFFIXES: .c .o
 file.o: file.c
-	cmd1 $<
+	cmd1 $\*(Lt
 
 \&.c.o:
 	cmd2
@@ -615,21 +615,21 @@ As an extension,
 .Nm
 supports the following local variables:
 .Bl -tag -width ".ARCHIVE"
-.It Va \&>
+.It Va \&\*(Gt
 The list of all sources for this target.
-.It Va \&^
+.It Va \&\*(ha
 The GNU make equivalent of
-.Sq Va \&> .
+.Sq Va \&\*(Gt .
 Only recognised for compatibility, do not use.
 .It Va .ALLSRC
 Synonym for
-.Sq Va \&> .
+.Sq Va \&\*(Gt .
 .It Va .ARCHIVE
 Synonym for
 .Sq Va \&! .
 .It Va .IMPSRC
 Synonym for
-.Sq Va \&< .
+.Sq Va \&\*(Lt .
 .It Va .MEMBER
 Synonym for
 .Sq Va \&% .
@@ -681,7 +681,7 @@ was executed.
 A path to the directory where the targets are built.
 At startup,
 .Nm
-searches for an alternate directory to place target files -- it
+searches for an alternate directory to place target files \*(en it
 will attempt to change into this special directory.
 First, if
 .Ev MAKEOBJDIRPREFIX
@@ -868,7 +868,7 @@ is affected.
 If
 .Ar old_string
 begins with a caret
-.Pq Ql ^ ,
+.Pq Ql \*(ha ,
 .Ar old_string
 is anchored at the beginning of each word.
 If
@@ -883,7 +883,7 @@ an ampersand
 is replaced by
 .Ar old_string
 (without any
-.Ql ^
+.Ql \*(ha
 or
 .Ql \&$ ) .
 Any character may be used as a delimiter for the parts of the modifier
@@ -968,16 +968,16 @@ dot
 character.
 Whitespace characters may follow this dot, e.g.,
 .Bd -literal -offset indent
-\&.include <file>
+\&.include \*(Ltfile\*(Gt
 .Ed
 and
 .Bd -literal -offset indent -compact
-\&.   include <file>
+\&.   include \*(Ltfile\*(Gt
 .Ed
 .Pp
 are identical constructs.
 Files are included with either
-.Ql .include <file>
+.Ql .include \*(Ltfile\*(Gt
 or
 .Ql .include \*qfile\*q .
 Variables between the angle brackets or double quotes are expanded
@@ -1088,13 +1088,13 @@ The
 .Ar operator
 may be any one of the following:
 .Bl -tag -width "Cm XX"
-.It Cm \&|\&|
+.It Cm \*(Ba\*(Ba
 logical OR
 .It Cm \&&&
 Logical
 .Tn AND ;
 of higher precedence than
-.Dq \&|\&| .
+.Dq \*(Ba\*(Ba .
 .El
 .Pp
 As in C,
@@ -1195,7 +1195,7 @@ The syntax of a for loop is:
 .Ic in
 .Ar expression
 .Xc
-	<make-rules>
+	\*(Ltmake-rules\*(Gt
 .Ic \&.endfor
 .Ed
 .Pp

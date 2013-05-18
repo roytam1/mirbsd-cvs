@@ -1,4 +1,4 @@
-.\"	$MirOS: ports/infrastructure/pkgtools/add/pkg_add.1,v 1.12 2009/11/22 15:34:13 tg Exp $
+.\"	$MirOS: ports/infrastructure/pkgtools/add/pkg_add.1,v 1.13 2009/11/22 15:48:44 tg Exp $
 .\"	$OpenBSD: pkg_add.1,v 1.32 2003/07/14 13:38:24 jmc Exp $
 .\"
 .\" FreeBSD install - a package for the installation and maintenance
@@ -70,7 +70,7 @@
 .\" with -mandoc, it might implement .Mx itself, but we want to
 .\" use our own definition. And .Dd must come *first*, always.
 .\"
-.Dd $Mdocdate: November 17 2009 $
+.Dd $Mdocdate: November 22 2009 $
 .\"
 .\" Check which macro package we use
 .\"
@@ -195,7 +195,7 @@ will search for them in each directory named by the
 .Ev PKG_PATH
 environment variable.
 Specifying
-.Ql -
+.Ql \-
 as a package name causes
 .Nm
 to read from the standard input.
@@ -206,19 +206,19 @@ For example, the following works:
 .Bd -literal
 	$ ftp ftp://ftp.openbsd.org/pub/OpenBSD/2.7/packages/i386/
 	250 CWD command successful
-	ftp> ls m*
+	ftp\*(Gt ls m*
 	227 Entering Passive Mode (129,128,5,191,164,73)
 	150 Opening ASCII mode data connection for m*.
-	m4-1.4.tgz
-	metamail-2.7.tgz
-	mh-6.8.4.tgz
-	mm-1.0.12.tgz
-	mpeg_lib-1.2.1.tgz
-	mpeg_play-2.4.tgz
-	mpg123-0.59q.tgz
-	mutt-0.95.7i.tgz
+	m4\-1.4.tgz
+	metamail\-2.7.tgz
+	mh\-6.8.4.tgz
+	mm\-1.0.12.tgz
+	mpeg_lib\-1.2.1.tgz
+	mpeg_play\-2.4.tgz
+	mpg123\-0.59q.tgz
+	mutt\-0.95.7i.tgz
 	226 Transfer complete.
-	ftp> get m4-1.4.tgz "|pkg_add -v -"
+	ftp\*(Gt get m4\-1.4.tgz "\*(Bapkg_add \-v \-"
 .Ed
 .Pp
 .Sy Warning:
@@ -389,7 +389,7 @@ into a special staging directory in
 .Pa /var/tmp
 (or
 .Ev PKG_TMPDIR
-if set - see CAVEATS section)
+if set \*(en see CAVEATS section)
 and then runs through the following sequence to fully extract the contents
 of the package:
 .Bl -enum
@@ -443,7 +443,7 @@ script, it is executed with the following arguments:
 .Bl -tag -width indentindent
 .It Ar pkg-name
 The name of the package being installed.
-.It Cm PRE-INSTALL
+.It Cm PRE\-INSTALL
 Keyword denoting that the script is to perform any actions needed before
 the package is installed.
 .El
@@ -488,7 +488,7 @@ script exists for the package, it is executed with the following arguments:
 .Bl -tag -width indentindent
 .It Ar pkg_name
 The name of the package being installed.
-.It Cm POST-INSTALL
+.It Cm POST\-INSTALL
 Keyword denoting that the script is to perform any actions needed
 after the package has been installed.
 .El

@@ -1,4 +1,4 @@
-.\"	$MirOS: ports/infrastructure/pkgtools/create/pkg_create.1,v 1.8 2008/03/14 16:46:01 tg Exp $
+.\"	$MirOS: ports/infrastructure/pkgtools/create/pkg_create.1,v 1.9 2009/11/22 15:48:44 tg Exp $
 .\"	$OpenBSD: pkg_create.1,v 1.28 2003/08/21 20:24:56 espie Exp $
 .\"
 .\" FreeBSD install - a package for the installation and maintenance
@@ -80,7 +80,7 @@
 .\" with -mandoc, it might implement .Mx itself, but we want to
 .\" use our own definition. And .Dd must come *first*, always.
 .\"
-.Dd $Mdocdate: November 17 2009 $
+.Dd $Mdocdate: November 22 2009 $
 .\"
 .\" Check which macro package we use
 .\"
@@ -202,23 +202,23 @@ for package from the file
 or stdin if
 .Ar packinglist
 is a dash
-.Dq \&- .
-.It Fl c [ Ar \&- ] Ns Ar desc
+.Dq \- .
+.It Fl c [ Ar \- ] Ns Ar desc
 Fetch package
 .Dq one line description
 from file
 .Ar desc
 or, if preceded by
-.Dq \&- ,
+.Dq \- ,
 the argument itself.
 This string should also
 give some idea of which version of the product (if any) the package
 represents.
-.It Fl d [ Ar \&- ] Ns Ar desc
+.It Fl d [ Ar \- ] Ns Ar desc
 Fetch long description for package from file
 .Ar desc
 or, if preceded by
-.Dq \&- ,
+.Dq \- ,
 the argument itself.
 .It Fl Y
 Assume a default answer of
@@ -329,7 +329,7 @@ characters for
 Pass
 .Ar excludefile
 as a
-.Fl exclude-from
+.Fl \-exclude\-from
 argument to
 .Xr tar
 when creating final package.
@@ -338,7 +338,7 @@ See
 man page (or run
 .Xr tar
 with
-.Fl -help
+.Fl \-help
 flag) for further information on using this flag.
 .It Fl D Ar displayfile
 Display the file (using
@@ -427,9 +427,9 @@ Special version of the file entry for
 .Tn GNU
 info files.
 Automatically includes chapter files
-.Pq Ar filename Ns -*
+.Pq Ar filename Ns \-*
 and runs
-.Xr install-info 1
+.Xr install\-info 1
 as needed.
 .It Cm @man Ar filename
 Special version of the file entry for manpages.
@@ -636,21 +636,21 @@ may use
 .Xr fnmatch 3
 wildcards, csh-style alternates
 .Brq pkg1,pkg2
-or the operators <, <=, >, and >=.
+or the operators \*(Lt, \*(Lt=, \*(Gt, and \*(Gt=.
 As an example for the latter,
-.Cm subversion<1.4
+.Cm subversion\*(Lt1.4
 and
-.Cm subversion-<1.4.0-0
+.Cm subversion\-\*(Lt1.4.0\-0
 are equivalent.
 .It Cm @option Ar name
 Effects vary depending on
 .Ar name .
 .Bl -tag -width indent
-.It Ar no-default-conflict
+.It Ar no\-default\-conflict
 By default, a package conflicts with other versions of the same package.
 With this option, the older package version will still be noticed, but the
 installation will proceed anyway.
-.It Ar base-package
+.It Ar base\-package
 This is a base package, i.e. one that is so important that removing it
 will almost certainly break the system
 .Pq for example the Pa pkgtools No package .
@@ -664,7 +664,7 @@ Shared library names
 .Pq Cm @lib
 are automatically converted into dylib names.
 The links are also automatically added.
-.It Ar gnu-ld
+.It Ar gnu\-ld
 Enable support for GNU-style shared libraries, needed for example
 under Interix.
 Automatically adds the library links to the packing list and execute

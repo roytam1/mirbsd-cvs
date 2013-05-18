@@ -18,8 +18,133 @@
 .\" LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
 .\" OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 .\" SUCH DAMAGE.
+.\"-
+.\" Copyright (c) 2008, 2009
+.\"	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
+.\"-
+.\" Try to make GNU groff and AT&T nroff more compatible
+.\" * ` generates ‘ in gnroff, so use \`
+.\" * ' generates ’ in gnroff, \' generates ´, so use \*(aq
+.\" * - generates ‐ in gnroff, \- generates −, so .tr it to -
+.\"   thus use - for hyphens and \- for minus signs and option dashes
+.\" * ~ is size-reduced and placed atop in groff, so use \*(TI
+.\" * ^ is size-reduced and placed atop in groff, so use \*(ha
+.\" * \(en does not work in nroff, so use \*(en
+.\" The section after the "doc" macropackage has been loaded contains
+.\" additional code to convene between the UCB mdoc macropackage (and
+.\" its variant as BSD mdoc in groff) and the GNU mdoc macropackage.
 .\"
-.Dd July 23, 2003
+.ie \n(.g \{\
+.	if \*[.T]ascii .tr \-\N'45'
+.	if \*[.T]latin1 .tr \-\N'45'
+.	if \*[.T]utf8 .tr \-\N'45'
+.	ds <= \[<=]
+.	ds >= \[>=]
+.	ds Rq \[rq]
+.	ds Lq \[lq]
+.	ds sL \(aq
+.	ds sR \(aq
+.	if \*[.T]utf8 .ds sL `
+.	if \*[.T]ps .ds sL `
+.	if \*[.T]utf8 .ds sR '
+.	if \*[.T]ps .ds sR '
+.	ds aq \(aq
+.	ds TI \(ti
+.	ds ha \(ha
+.	ds en \(en
+.\}
+.el \{\
+.	ds aq '
+.	ds TI ~
+.	ds ha ^
+.	ds en \(em
+.\}
+.\"
+.\" Implement .Dd with the Mdocdate RCS keyword
+.\"
+.rn Dd xD
+.de Dd
+.ie \\$1$Mdocdate: \{\
+.	xD \\$2 \\$3, \\$4
+.\}
+.el .xD \\$1 \\$2 \\$3 \\$4 \\$5 \\$6 \\$7 \\$8
+..
+.\"
+.\" .Dd must come before definition of .Mx, because when called
+.\" with -mandoc, it might implement .Mx itself, but we want to
+.\" use our own definition. And .Dd must come *first*, always.
+.\"
+.Dd $Mdocdate: November 17 2009 $
+.\"
+.\" Check which macro package we use
+.\"
+.ie \n(.g \{\
+.	ie d volume-ds-1 .ds tT gnu
+.	el .ds tT bsd
+.\}
+.el .ds tT ucb
+.\"
+.\" Implement .Mx (MirBSD)
+.\"
+.ie "\*(tT"gnu" \{\
+.	eo
+.	de Mx
+.	nr curr-font \n[.f]
+.	nr curr-size \n[.ps]
+.	ds str-Mx \f[\n[curr-font]]\s[\n[curr-size]u]
+.	ds str-Mx1 \*[Tn-font-size]\%MirOS\*[str-Mx]
+.	if !\n[arg-limit] \
+.	if \n[.$] \{\
+.	ds macro-name Mx
+.	parse-args \$@
+.	\}
+.	if (\n[arg-limit] > \n[arg-ptr]) \{\
+.	nr arg-ptr +1
+.	ie (\n[type\n[arg-ptr]] == 2) \
+.	as str-Mx1 \~\*[arg\n[arg-ptr]]
+.	el \
+.	nr arg-ptr -1
+.	\}
+.	ds arg\n[arg-ptr] "\*[str-Mx1]
+.	nr type\n[arg-ptr] 2
+.	ds space\n[arg-ptr] "\*[space]
+.	nr num-args (\n[arg-limit] - \n[arg-ptr])
+.	nr arg-limit \n[arg-ptr]
+.	if \n[num-args] \
+.	parse-space-vector
+.	print-recursive
+..
+.	ec
+.	ds sP \s0
+.	ds tN \*[Tn-font-size]
+.\}
+.el \{\
+.	de Mx
+.	nr cF \\n(.f
+.	nr cZ \\n(.s
+.	ds aa \&\f\\n(cF\s\\n(cZ
+.	if \\n(aC==0 \{\
+.		ie \\n(.$==0 \&MirOS\\*(aa
+.		el .aV \\$1 \\$2 \\$3 \\$4 \\$5 \\$6 \\$7 \\$8 \\$9
+.	\}
+.	if \\n(aC>\\n(aP \{\
+.		nr aP \\n(aP+1
+.		ie \\n(C\\n(aP==2 \{\
+.			as b1 \&MirOS\ #\&\\*(A\\n(aP\\*(aa
+.			ie \\n(aC>\\n(aP \{\
+.				nr aP \\n(aP+1
+.				nR
+.			\}
+.			el .aZ
+.		\}
+.		el \{\
+.			as b1 \&MirOS\\*(aa
+.			nR
+.		\}
+.	\}
+..
+.\}
+.\"-
 .Dt PATCH 1
 .Os
 .Sh NAME
@@ -114,7 +239,7 @@ Forces
 to interpret the patch file as an
 .Xr ed 1
 script.
-.It Fl E , Fl Fl remove-empty-files
+.It Fl E , Fl Fl remove\-empty\-files
 Causes
 .Nm
 to remove output files that are empty after the patches have been applied.
@@ -148,7 +273,7 @@ the number of lines of context in the context diff, ordinarily 3.
 Causes the next argument to be interpreted as the input file name
 (i.e. a patchfile).
 This option may be specified multiple times.
-.It Fl l , Fl Fl ignore-whitespace
+.It Fl l , Fl Fl ignore\-whitespace
 Causes the pattern matching to be done loosely, in case the tabs and
 spaces have been munged in your input file.
 Any sequence of whitespace in the pattern line will match any sequence
@@ -209,7 +334,7 @@ Whatever you end up with is looked for either in the current directory,
 or the directory specified by the
 .Fl d
 option.
-.It Fl r , Fl Fl reject-file
+.It Fl r , Fl Fl reject\-file
 Causes the next argument to be interpreted as the reject file name.
 .It Fl R , Fl Fl reverse
 Tells
@@ -264,7 +389,7 @@ to interpret the patch file as a unified context diff (a unidiff).
 Causes
 .Nm
 to print out its revision header and patch level.
-.It Fl V , Fl Fl version-control
+.It Fl V , Fl Fl version\-control
 Causes the next argument to be interpreted as a method for creating
 backup file names.
 The type of backups made can also be given in the
@@ -283,7 +408,7 @@ and
 environment variables and the argument to the
 .Fl V
 option are like the GNU Emacs
-.Dq version-control
+.Dq version\-control
 variable; they also recognize synonyms that are more descriptive.
 The valid values are (unique abbreviations are accepted):
 .Bl -tag -width Ds -offset indent
@@ -397,11 +522,11 @@ file is specified in the line beginning with
 and the
 .Dq new
 file is specified in the line beginning with
-.Qq --- .
+.Qq \-\-\- .
 For a unified diff, the
 .Dq old
 file is specified in the line beginning with
-.Qq ---
+.Qq \-\-\-
 and the
 .Dq new
 file is specified in the line beginning with
@@ -471,7 +596,7 @@ will ask for confirmation before proceeding.
 The upshot of all this is that you should be able to say, while in a news
 interface, the following:
 .Pp
-.Dl | patch -d /usr/src/local/blurfl
+.Dl \*(Ba patch \-d /usr/src/local/blurfl
 .Pp
 and patch a file in the blurfl directory directly from the article containing
 the patch.

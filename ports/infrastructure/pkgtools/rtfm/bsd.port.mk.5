@@ -1,4 +1,4 @@
-.\" $MirOS: ports/infrastructure/pkgtools/rtfm/bsd.port.mk.5,v 1.33 2009/11/22 15:34:15 tg Exp $
+.\" $MirOS: ports/infrastructure/pkgtools/rtfm/bsd.port.mk.5,v 1.34 2009/11/22 15:48:45 tg Exp $
 .\" $OpenBSD: bsd.port.mk.5,v 1.134 2004/02/18 13:39:02 xsa Exp $
 .\"
 .\" Copyright (c) 2007, 2008, 2009 Thorsten Glaser
@@ -79,7 +79,7 @@
 .\" with -mandoc, it might implement .Mx itself, but we want to
 .\" use our own definition. And .Dd must come *first*, always.
 .\"
-.Dd $Mdocdate: November 17 2009 $
+.Dd $Mdocdate: November 22 2009 $
 .\"
 .\" Check which macro package we use
 .\"
@@ -173,33 +173,33 @@ Mostly because undocumented stuff has fuzzy semantics, and it hasn't been
 decided yet how to define it.
 .Sh TARGETS
 .Bl -tag -width do-configure
-.It Ar {build,run,all}-dir-depends
+.It Ar {build,run,all}\-dir\-depends
 Print all dependencies for a port in order to build it, run it,
 or both.
 The output is formatted as package specification pairs, in a form suitable
 for
 .Xr tsort 1 .
-.It Ar full-{build,run,all}-depends
+.It Ar full\-{build,run,all}\-depends
 Print all dependencies a package depends upon for building, running,
 or both, as a list of package names.
-.It Ar {build,lib,run}-depends-list
+.It Ar {build,lib,run}\-depends\-list
 Print a list of first level package specifications a port depends as
 build dependencies, library dependencies, or run dependencies.
-.It Ar print-{build,run}-depends
+.It Ar print\-{build,run}\-depends
 User convenience target that displays the result of
-.Ar full-{build,run}-depends
+.Ar full\-{build,run}\-depends
 in a more readable way.
-.It Ar {pre,do,post}-*
+.It Ar {pre,do,post}\-*
 Most standard targets can be specialized according to a given port's needs.
 If defined,
 the
-.Ar pre-*
+.Ar pre\-*
 hook will be invoked before running the normal action;
 the
-.Ar do-*
+.Ar do\-*
 hook will be invoked instead of the normal action;
 the
-.Ar post-*
+.Ar post\-*
 hook will be invoked after the normal action.
 Specialization hooks exist for
 .Ar build ,
@@ -223,10 +223,10 @@ Default target.
 Build the port.
 Essentially invoke
 .Bd -literal
-env -i ${MAKE_ENV} ${MAKE_PROGRAM} ${MAKE_FLAGS} \e
-	-f ${MAKE_FILE} ${ALL_TARGET}
+env \-i ${MAKE_ENV} ${MAKE_PROGRAM} ${MAKE_FLAGS} \e
+	\-f ${MAKE_FILE} ${ALL_TARGET}
 .Ed
-.It Ar build-depends
+.It Ar build\-depends
 Verify the ports mentioned in
 .Ev BUILD_DEPENDS ,
 by checking the corresponding packages are actually installed,
@@ -257,7 +257,7 @@ can be used to avoid all checksumming steps.
 Clean ports contents.
 By default, it will clean the work directory.
 It can be invoked as
-mmake clean='[depends bulk work fake flavours dist install sub package packages]'.
+mmake clean=\*(aq[depends bulk work fake flavours dist install sub package packages]\*(aq.
 .Bl -tag -width packages
 .It Va work
 Clean work directory.
@@ -287,7 +287,7 @@ clean subpackages as well.
 Short-hand for
 .Sq sub package .
 .El
-.It Ar clean-depends
+.It Ar clean\-depends
 Short hand for mmake clean=depends.
 .It Ar configure
 Configure the port.
@@ -298,10 +298,10 @@ and runs whatever configuration methods are recorded in
 .Ev CONFIGURE_STYLE .
 .It Ar depends
 Check all the port's dependencies, that is:
-.Ar build-depends ,
-.Ar lib-depends ,
-.Ar run-depends ,
-.Ar regress-depends .
+.Ar build\-depends ,
+.Ar lib\-depends ,
+.Ar run\-depends ,
+.Ar regress\-depends .
 .It Ar describe
 Prints a one-line index entry of the port, suitable for
 .Pa ${PORTSDIR}/INDEX .
@@ -323,25 +323,25 @@ Refer to
 .Ev EXTRACT_CASES
 for a complete description.
 Do not use
-.Ev pre-extract
+.Ev pre\-extract
 and
-.Ev do-extract
+.Ev do\-extract
 hooks.
 .It Ar fake
 Do a fake port installation, that is, simulate the port installation under
 ${WRKINST}.
 There is no
-.Ev do-fake
+.Ev do\-fake
 and
-.Ev post-fake
+.Ev post\-fake
 hooks.
 .Ar fake
 actually uses
-.Ev pre-fake ,
-.Ev pre-install ,
-.Ev do-install
+.Ev pre\-fake ,
+.Ev pre\-install ,
+.Ev do\-install
 and
-.Ev post-install .
+.Ev post\-install .
 Described in a separate section below.
 .It Ar fetch
 Fetch the distribution files and patchfiles, using ${FETCH_CMD}.
@@ -390,18 +390,18 @@ See
 Install the package after building.
 See the description of THE FAKE FRAMEWORK
 for the non-intuitive details of the way
-.Ar {pre,do,post}-install
+.Ar {pre,do,post}\-install
 hooks are actually used by the ports tree.
-.It Ar lib-depends
+.It Ar lib\-depends
 Verify that the library dependencies a port needs are actually there,
 by checking the library specifications.
-.It Ar lib-depends-check
+.It Ar lib\-depends\-check
 Verify that the
 .Ev LIB_DEPENDS
 hold all shared libraries used for the port.
 See
-.Xr library-specs 7 .
-.It Ar license-check
+.Xr library\-specs 7 .
+.It Ar license\-check
 Check that
 .Ev PERMIT_PACKAGE_*
 settings match:
@@ -409,20 +409,20 @@ if any dependency has a more restrictive setting, warn about it.
 This warning is advisory, because the automated license checking cannot
 figure out which ports were used only for building and did not taint
 the current port.
-.It Ar link-categories
+.It Ar link\-categories
 Create symbolic links in other directories that correspond to the port's
 .Ev CATEGORIES .
 Note that this does not affect bulk package building, since those links
 don't appear in the upper-level Makefiles.
 See also
-.Ar unlink-categories .
+.Ar unlink\-categories .
 .It Ar makesum
 Create the ${CHECKSUM_FILE} list of recorded checksums by running the
 cryptographic fingerprints sha1, md5 and rmd160 on ${ALLFILES} minus
 ${IGNOREFILES}.
 .Ev NO_CHECKSUM
 can be used to avoid all checksumming steps.
-.It Ar manpages-check
+.It Ar manpages\-check
 Verify that
 .Xr makewhatis 8
 can do a correct job with the port's manpages.
@@ -458,28 +458,28 @@ does not follow the exact same scheme other standard targets do.
 Namely,
 .Ar patch
 invokes
-.Ar pre-patch
+.Ar pre\-patch
 (if defined),
-.Ar do-patch ,
+.Ar do\-patch ,
 and
-.Ar post-patch ,
+.Ar post\-patch ,
 but the default
-.Ar do-patch
+.Ar do\-patch
 target invokes
 .Ar distpatch
 directly.
 So, if the
-.Ar do-patch
+.Ar do\-patch
 target is overridden, it should still begin by calling
 mmake distpatch, before applying
 .Ox
 specific patches.
 Accordingly, the exact sequence of hooks is:
-.Ar pre-patch ,
-.Ar do-distpatch ,
-.Ar post-distpatch ,
-.Ar do-patch ,
-.Ar post-patch .
+.Ar pre\-patch ,
+.Ar do\-distpatch ,
+.Ar post\-distpatch ,
+.Ar do\-patch ,
+.Ar post\-patch .
 If
 .Pa ${PATCHDIR}
 exists, the files described under
@@ -495,8 +495,8 @@ Force rebuild of the port.
 Run regression tests for the port.
 Essentially depend on a correct build and invoke
 .Bd -literal
-env -i ${MAKE_ENV} ${MAKE_PROGRAM} ${REGRESS_FLAGS} \e
-	-f ${MAKE_FILE} ${REGRESS_TARGET}
+env \-i ${MAKE_ENV} ${MAKE_PROGRAM} ${REGRESS_FLAGS} \e
+	\-f ${MAKE_FILE} ${REGRESS_TARGET}
 .Ed
 .Pp
 If a port needs some other ports installed to run regression tests,
@@ -506,16 +506,16 @@ If a port needs special configuration or build options to enable regression
 testing, define a
 .Sq regress
 .Ev FLAVOUR .
-.It Ar regress-depends
+.It Ar regress\-depends
 Verify packages needed for regression tests, using the same scheme as
-.Ar build-depends .
+.Ar build\-depends .
 Only invoked when regression tests are run, or explicitly through
 .Ar depends .
 .It Ar reinstall
 Force reinstallation of a port, by first cleaning the old installation.
 .It Ar repackage
 For rebuilding of the packages of a port, by first removing the old packages.
-.It Ar run-depends
+.It Ar run\-depends
 Verify the ports mentioned in
 .Ev RUN_DEPENDS ,
 by checking the corresponding packages are actually installed,
@@ -528,12 +528,12 @@ show the contents of ${name1} ${name2} ...,
 one variable value per line.
 Mostly used from recursive makes, or to know the contents of another
 port's variables without guessing wrongly.
-.It Ar unlink-categories
+.It Ar unlink\-categories
 Remove symbolic links in other directories that correspond to the port's
 .Ev CATEGORIES .
 See also
-.Ar link-categories .
-.It Ar update-patches
+.Ar link\-categories .
+.It Ar update\-patches
 Create or update patches for a port, using
 .Xr diff 1
 between
@@ -551,18 +551,18 @@ edited.
 After the target is invoked, the patches are placed under the
 patches/ directory.
 It moves existing patches from
-.Pa patch-file
+.Pa patch\-file
 to
-.Pa patch-file.orig
-.It Ar update-plist , Ar plist
+.Pa patch\-file.orig
+.It Ar update\-plist , Ar plist
 Update the packing lists for a port, using the fake installation and the
 existing packing lists.
-.Ar update-plist
+.Ar update\-plist
 should produce mostly correct
 .Pa PLIST ,
 .Pa PFRAG.shared
 and
-.Pa PFRAG.no-shared
+.Pa PFRAG.no\-shared
 files, handling shared libraries, GNU
 .Xr info 1
 files, setuid files, and empty directories.
@@ -570,7 +570,7 @@ It moves existing files to
 .Pa PLIST.orig ,
 .Pa PFRAG.shared.orig
 and
-.Pa PFRAG.no-shared.orig .
+.Pa PFRAG.no\-shared.orig .
 If the generated lists include files and directories that shouldn't be
 included, comment these like this:
 .Bd -literal
@@ -579,10 +579,10 @@ included, comment these like this:
 .Ed
 .Pp
 Subsequent calls to
-.Ar update-plist
+.Ar update\-plist
 will automatically recognize and handle such lines correctly.
 .Pp
-.Ar update-plist
+.Ar update\-plist
 does not handle flavour situations yet, so beware.
 .El
 .Sh USER SETTINGS
@@ -638,7 +638,7 @@ ${CFLAGS} ${COPTS} as CFLAGS.
 Supplementary options appended to ${CXXFLAGS} for building.
 .It Ev ECHO_MSG
 Used to display
-.Sq ===> Configuring for foo
+.Sq ===\*(Gt Configuring for foo
 and similar informative messages.
 Override to turn off, for instance.
 .It Ev FETCH_CMD
@@ -807,7 +807,7 @@ Set based on corresponding INSTALL_* variables.
 .It Ev BUILD_DEPENDS
 List of other ports the current port needs to build correctly.
 Each item has the form
-.Sq [legacy]:[pkgspec]:directory[,-subpackage][,flavour ...][:target] .
+.Sq [legacy]:[pkgspec]:directory[,\-subpackage][,flavour ...][:target] .
 .Sq target
 defaults to
 .Sq install
@@ -855,8 +855,8 @@ variables, see there for reference.
 List of descriptive categories into which this port falls.
 Mandatory.
 See
-.Ar link-categories ,
-.Ar unlink-categories .
+.Ar link\-categories ,
+.Ar unlink\-categories .
 .It Ev CDIAGFLAGS
 Flags appended to
 .Ev CFLAGS
@@ -897,12 +897,12 @@ Can be overridden on a per-${PKGPATH} basis,
 by setting CLEANDEPENDS_${PKGPATH}.
 .It Ev COMMENT
 Comment used for the package, and in the INDEX.
-.It Ev COMMENT-foo
+.It Ev COMMENT\-foo
 Comment used for sub package foo in a multi-package set up.
-.It Ev COMMENT-vanilla
+.It Ev COMMENT\-vanilla
 Comment used for a flavoured package, if the non-flavoured comment is
 inappropriate.
-.It Ev COMMENT-foo-vanilla
+.It Ev COMMENT\-foo\-vanilla
 Comment used for a sub-, flavoured package.
 .It Ev COMES_WITH
 .Pq deprecated
@@ -923,7 +923,7 @@ Set to name of script invoked by
 target, if appropriate.
 Should be relative to ${WRKSRC}.
 .It Ev CONFIGURE_SHARED
-Set to --enable-shared or --disable-shared, depending on whether the
+Set to \-\-enable\-shared or \-\-disable\-shared, depending on whether the
 architecture supports shared libraries.
 Should be appended to CONFIGURE_ARGS, for ports that build dynamic libraries
 and whose configure script supports these options.
@@ -963,8 +963,8 @@ correctly, and needs to be configured to add
 to prefixes
 .Pq see also Ev DESTDIRNAME .
 .It Ar old
-Add this if the port is an older autoconf port that does not recognize
---sysconfdir.
+Add this if the port is an older autoconf port that does not recognise
+\-\-sysconfdir.
 .It Ar autoconf
 .Cm autoheader
 and
@@ -973,7 +973,7 @@ needs to be rerun first
 .Pq implies Ar gnu .
 Before running the two, the autoconf infrastructure is updated to
 MirLibtool.
-.It Ar no-autoheader
+.It Ar no\-autoheader
 .Pq with Ar autoconf
 Do not run
 .Cm autoheader .
@@ -1041,12 +1041,12 @@ must be specified.
 .El
 .Pp
 For the full documentation for these variables, see
-.Xr cvs-distfiles 7 .
+.Xr cvs\-distfiles 7 .
 .Pp
 .Ev WRKDIST
 is set automatically to ${WRKDIR}/${CVS_DISTMODS}.
 .Ev PKGNAME
-defaults to ${_CVS_DISTF:R}-${DASH_VER}.
+defaults to ${_CVS_DISTF:R}\-${DASH_VER}.
 .It Ev CXXDIAGFLAGS
 Flags appended to
 .Ev CXXFLAGS
@@ -1122,7 +1122,7 @@ Defaults to
 Distinct from
 .Pa .orig
 to avoid confusing
-.Ar update-patches .
+.Ar update\-patches .
 .It Ev DIST_SUBDIR
 Optional subdirectory of ${DISTDIR} where the current port's distribution
 files and patchfiles will be located.
@@ -1152,28 +1152,28 @@ Fragments are automatically appended to extract tar and zip
 archives, so that the default case is equivalent to the following shell
 fragment:
 .Bd -literal
-set -e
+set \-e
 cd ${WRKDIR}
 for archive in ${EXTRACT_ONLY}
 do
     case $$archive in
 	*.zip)
-	  unzip -q ${FULLDISTDIR}/$$archive -d ${WRKDIR};;
+	  unzip \-q ${FULLDISTDIR}/$$archive \-d ${WRKDIR};;
 	*.tar.bz2)
-	  bzip2 -dc ${FULLDISTDIR}/$$archive| tar xf -;;
-	*.shar.gz|*.shar.Z|*.sh.Z|*.sh.gz)
-	  gzcat ${FULLDISTDIR}/$$archive | /bin/sh;;
-	*.shar|*.sh)
+	  bzip2 \-dc ${FULLDISTDIR}/$$archive \*(Ba tar xf \-;;
+	*.shar.gz\*(Ba*.shar.Z\*(Ba*.sh.Z\*(Ba*.sh.gz)
+	  gzcat ${FULLDISTDIR}/$$archive \*(Ba /bin/sh;;
+	*.shar\*(Ba*.sh)
 	  /bin/sh ${FULLDISTDIR}/$$archive;;
 	*.tar)
 	  tar xf ${FULLDISTDIR}/$$archive;;
 	*)
-	  gzip -dc ${FULLDISTDIR}/$$archive | tar xf -;;
+	  gzip \-dc ${FULLDISTDIR}/$$archive \*(Ba tar xf \-;;
     esac
 done
 .Ed
 .It Ev EXTRACT_ONLY
-Set if not all ${DISTFILES} should be extracted at do-extract stage.
+Set if not all ${DISTFILES} should be extracted at do\-extract stage.
 Default value is ${DISTFILES}.
 .It Ev EXTRACT_SUFX
 Used to set DISTFILES default value to ${DISTNAME}${EXTRACT_SUFX}.
@@ -1207,7 +1207,7 @@ In this case, set
 .Ev FETCH_MANUALLY
 to a list of strings that will be displayed, one per line, e.g.,
 .Bd -literal
-FETCH_MANUALLY= "You must fetch foo-1.0.tgz"
+FETCH_MANUALLY= "You must fetch foo\-1.0.tgz"
 FETCH_MANUALLY+="from http://www.fubar.com/ manually,"
 FETCH_MANUALLY+="after reading and agreeing to the license."
 .Ed
@@ -1233,7 +1233,7 @@ See
 .It Ev FULLPKGNAME
 Full name of the main created package, taking flavours into account.
 Defaults to ${PKGNAME}${FLAVOUR_EXT}.
-.It Ev FULLPKGNAME-foo
+.It Ev FULLPKGNAME\-foo
 Full package name for sub-package foo, if the default value is not
 appropriate.
 .It Ev FULLPKGPATH
@@ -1256,7 +1256,7 @@ These are also always build dependencies, and added to
 .Ev BUILD_DEPENDS
 automatically, if required.
 Each item has the form
-.Sq lib_specs:[pkgspec]:directory[,-subpackage][,flavour ...][:target] .
+.Sq lib_specs:[pkgspec]:directory[,\-subpackage][,flavour ...][:target] .
 Similar to BUILD_DEPENDS, except for
 .Sq lib_specs ,
 which is a comma-separated list of
@@ -1264,7 +1264,7 @@ which is a comma-separated list of
 of the form:
 .Sq libname.[version.[subversion]] .
 See
-.Xr library-specs 7
+.Xr library\-specs 7
 for more details.
 .Pp
 On architectures that use dynamic libraries,
@@ -1425,8 +1425,8 @@ scans for types of its arguments, to prevent bogus warnings
 such as:
 .Pp
 .Bd -literal
-conftest.c:141: error: conflicting types for 'recv'
-/usr/include/sys/socket.h:451: error: previous declaration of 'recv' was here
+conftest.c:141: error: conflicting types for \*(aqrecv\*(aq
+/usr/include/sys/socket.h:451: error: previous declaration of \*(aqrecv\*(aq was here
 .Ed
 .Pp
 These warnings are grepped from the
@@ -1440,14 +1440,14 @@ Set to the
 programme to use to copy files for installation.
 .Pp
 Default:
-.Li ${INSTALL} -c -o ${BINOWN} -g ${BINGRP}
+.Li ${INSTALL} \-c \-o ${BINOWN} \-g ${BINGRP}
 .It Ev MOTIFLIB
 Read-only.
 Correct incantation to link with motif.
 .It Ev MTREE_FILE
 .Xr mtree 8
 specification to check when creating a PLIST with the
-.Ar update-plist
+.Ar update\-plist
 target.
 .Ev MTREE_FILE
 can hold a list of file names, to which
@@ -1513,7 +1513,7 @@ Defaults to
 Suffix used by
 .Ar patch
 to rename original files, and
-.Ar update-patches
+.Ar update\-patches
 to re-generate
 .Pa ${PATCHDIR}/${PATCH_LIST}
 by looking for files using this suffix.
@@ -1532,21 +1532,21 @@ In the normal distpatch stage (when
 .Ev PATCHFILES
 is not empty), this is the contents of a case statement, used to apply
 distribution patches.
-Fragments are automatically appended to handle gzip'ed and bzip'ed
+Fragments are automatically appended to handle compressed
 patches, so that the default case is equivalent to the following shell
 fragment:
 .Bd -literal
-set -e
+set \-e
 cd ${FULLDISTDIR}
 for patchfile in ${_PATCHFILES}
 do
     case $$patchfile in
 	*.bz2)
-	  bzip2 -dc $$patchfile | ${PATCH} ${PATCH_DIST_ARGS};;
-	*.Z|*.gz)
-	  gzcat $$patchfile | ${PATCH} ${PATCH_DIST_ARGS};;
+	  bzip2 \-dc $$patchfile \*(Ba ${PATCH} ${PATCH_DIST_ARGS};;
+	*.Z\*(Ba*.gz)
+	  gzcat $$patchfile \*(Ba ${PATCH} ${PATCH_DIST_ARGS};;
 	*)
-	  ${PATCH} ${PATCH_DIST_ARGS} <$$patchfile;;
+	  ${PATCH} ${PATCH_DIST_ARGS} \*(Lt$$patchfile;;
     esac
 done
 .Ed
@@ -1584,20 +1584,20 @@ Full list of options used while applying distribution patches.
 .It Ev PATCH_DIST_STRIP
 Patch option used to strip directory levels while applying distribution
 patches.
-Defaults to -p0 .
+Defaults to \-p0 .
 .It Ev PATCH_LIST
-Wildcard pattern of patches to select under ${PATCHDIR} (default: patch-*).
-Note that filenames ending in .orig, or ~ are never applied.
+Wildcard pattern of patches to select under ${PATCHDIR} (default: patch\-*).
+Note that filenames ending in .orig or \*(TI are never applied.
 Note that
 .Ev PATCH_LIST
 can hold absolute pathnames, for instance to share patches among similar
 ports:
 .Bd -literal
-PATCH_LIST=${PORTSDIR}/x11/kde/libs2/patches/p-* patch-*
+PATCH_LIST=${PORTSDIR}/x11/kde/libs2/patches/p\-* patch\-*
 .Ed
 .It Ev PATCH_STRIP
 Patch option used to strip directory levels while applying port's patches.
-Defaults to -p0 .
+Defaults to \-p0 .
 .It Ev PKG_ARCH
 Comma-separated list of architectures on which this package may install.
 Defaults to ${MACHINE_ARCH},${ARCH}.
@@ -1662,15 +1662,15 @@ short description).
 Default: pkg.${ARCH} or pkg.
 .It Ev PKGNAME
 Name of the main created package.
-Default is ${DISTNAME}-${DASH_VER} for the main package,
-and ${DISTNAME}-${DASH_VER} for multi-package ports.
+Default is ${DISTNAME}\-${DASH_VER} for the main package,
+and ${DISTNAME}\-${DASH_VER} for multi-package ports.
 This does not take flavours into account.
 See
 .Ev FULLPKGNAME
 for that.
-Defaults to ${_CVS_DISTF:R}-${DASH_VER} for CVS distfiles
-and ${DIST_NAME}-${DIST_DATE}-${DASH_VER} for non-distfile ports.
-.It Ev PKGNAME-foo
+Defaults to ${_CVS_DISTF:R}\-${DASH_VER} for CVS distfiles
+and ${DIST_NAME}\-${DIST_DATE}\-${DASH_VER} for non-distfile ports.
+.It Ev PKGNAME\-foo
 Package name for sub-package foo, if the default value
 of ${PKGNAME}${SUBPACKAGE} is not appropriate.
 .It Ev PKGPATH
@@ -1764,12 +1764,12 @@ Revision to check out.
 .El
 .Pp
 For the full documentation for these variables, see
-.Xr cvs-distfiles 7 .
+.Xr cvs\-distfiles 7 .
 .Pp
 .Ev WRKDIST
 is set automatically to ${WRKDIR}/${SVN_DISTDIR}.
 .Ev PKGNAME
-defaults to ${SVN_DISTFILE}-${SVN_DISTREV}-${DASH_VER}.
+defaults to ${SVN_DISTFILE}\-${SVN_DISTREV}\-${DASH_VER}.
 .It Ev SUBPACKAGE
 Set to the sub package suffix when building a package in a multi-package port.
 Read-only.
@@ -1918,8 +1918,8 @@ will affect only the mozilla port.
 Where X11 has been installed (default: /usr/X11R6).
 .It Ev XMKMF
 Invocation of xmkmf for CONFIGURE_STYLE=imake port.
-Defaults to xmkmf -a -DPorts.
-The -DPorts is specific to
+Defaults to xmkmf \-a \-DPorts.
+The \-DPorts is specific to
 .Ox
 and is always appended.
 .It Ev YACC
@@ -1958,7 +1958,7 @@ Multi-package ports will use DESCR${SUBPACKAGE}.
 Specification used for populating ${WRKINST} at the start of
 .Ar fake .
 Use
-.Ar pre-fake
+.Ar pre\-fake
 if this is incomplete.
 .It Pa ${PORTSDIR}/Packages/CDROM
 Default setup of ${CDROM_PACKAGES}.
@@ -1978,23 +1978,23 @@ List of additional port specific filters, included automatically.
 .El
 .Sh OBSOLETE TARGETS
 .Bl -tag -width do-configure
-.It Ar cdrom-packages , ftp-packages
+.It Ar cdrom\-packages , ftp\-packages
 Links are now created during the
 .Ar package
 target.
-.It Ar depends-list
+.It Ar depends\-list
 Renamed into
-.Ar full-build-depends
-.It Ar {pre,do}-extract
+.Ar full\-build\-depends
+.It Ar {pre,do}\-extract
 Don't override.
 Set
 .Ev EXTRACT_ONLY
 to nothing and override
-.Ar post-extract
+.Ar post\-extract
 instead.
-.It Ar fetch-all , Ar fetch-list , Ar mirror-distfiles
+.It Ar fetch\-all , Ar fetch\-list , Ar mirror\-distfiles
 See
-.Xr mirroring-ports 7
+.Xr mirroring\-ports 7
 for more efficient and flexible ways to build mirrors.
 .It Ar obj
 Starting with
@@ -2005,18 +2005,18 @@ no longer creates a symlink between the current directory and
 a subdirectory of ${WRKOBJDIR}, so
 .Ar obj
 is no longer applicable.
-.It Ar print-depends
+.It Ar print\-depends
 Use
-.Ar print-build-depends
+.Ar print\-build\-depends
 and
-.Ar print-run-depends
+.Ar print\-run\-depends
 instead.
-.It Ar print-depends-list
+.It Ar print\-depends\-list
 Renamed into
-.Ar print-build-depends
-.It Ar print-package-depends
+.Ar print\-build\-depends
+.It Ar print\-package\-depends
 Renamed into
-.It Ar print-run-depends
+.It Ar print\-run\-depends
 .El
 .Sh OBSOLETE VARIABLES
 .Bl -tag -width MASTER_SITES
@@ -2109,7 +2109,7 @@ and
 .Ev PERMIT_DISTFILES_CDROM
 to determine which files can be mirrored instead.
 See
-.Xr mirroring-ports 7 .
+.Xr mirroring\-ports 7 .
 .It Ev NEED_VERSION
 Used to set a requirement on a specific revision of
 .Nm
@@ -2209,10 +2209,10 @@ does not give a specific name to the generated file.
 It is not recommended to try to access them directly.
 .It Ev PKGNAME
 Used to refer to the full package name, has been superseded by
-.Ev FULLPKGNAME-foo ,
+.Ev FULLPKGNAME\-foo ,
 for
 .Ev SUBPACKAGE
--foo .
+\-foo .
 .Ev PKGNAME
 now holds the package name, not taking multi-packages or flavours
 into account.
@@ -2280,11 +2280,11 @@ into the default
 Override
 .Ev CC
 to
-.Nm llvm-gcc
+.Nm llvm\-gcc
 and
 .Ev CXX
 to
-.Nm llvm-g++
+.Nm llvm\-g++
 and pull
 .Ev _DEFCOPTS_llvm
 into the default
@@ -2315,11 +2315,11 @@ Use mmake show=name instead of mmake show VARNAME=name.
 Renamed to
 .Pa distinfo
 to match other BSD, and save directories.
-.It Pa ${SCRIPTDIR}/{pre,do,post}-*
-Identical functionality can be obtained through a {pre,do,post}-* target,
+.It Pa ${SCRIPTDIR}/{pre,do,post}\-*
+Identical functionality can be obtained through a {pre,do,post}\-* target,
 invoking the script manually if necessary.
 .It Pa ${PKGDIR}/PLIST.noshared
-Use PFRAG.shared or PFRAG.no-shared instead.
+Use PFRAG.shared or PFRAG.no\-shared instead.
 PLIST.noshared was too easy to forget when updating ports.
 .It Pa ${PKGDIR}/PLIST.sed
 Use PLIST directly.
@@ -2374,25 +2374,25 @@ specification
 .Pa ${PORTSDIR}/infrastructure/db/fake.mtree .
 .Pp
 A
-.Ar pre-fake
+.Ar pre\-fake
 target may be used to complete that skeleton tree.
 For instance, a few ports may need supplementary stuff to be present (as
 it would be installed if the ports' dependencies were present).
 .Pp
-If {pre,do,post}-install overrides are present, they are used with some
+If {pre,do,post}\-install overrides are present, they are used with some
 important changes: PREFIX is set to ${WRKINST}${PREFIX}, ${DESTDIRNAME}
 is set to ${WRKINST}, and TRUEPREFIX is set to ${PREFIX}.
 Essentially, old install targets work transparently, except for a need to
 change PREFIX to TRUEPREFIX for symbolic links and similar path lookups.
 Specific traditional post install work can be simply removed, as it will
 be taken care of by the package itself (for instance, ldconfig, or
-texinfo's install-info).
+texinfo's install\-info).
 .Pp
-If no do-install override is present, the port is installed using
+If no do\-install override is present, the port is installed using
 .Bd -literal -offset 2n
-env -i ${MAKE_ENV}
+env \-i ${MAKE_ENV}
 PREFIX=${WRKINST}${PREFIX} ${DESTDIRNAME}=${WRKINST} TRUEPREFIX=${PREFIX}
-${MAKE_PROGRAM} ${FAKE_FLAGS} -f ${MAKE_FILE} ${FAKE_TARGET}
+${MAKE_PROGRAM} ${FAKE_FLAGS} \-f ${MAKE_FILE} ${FAKE_TARGET}
 .Ed
 .Pp
 Note that this does set both PREFIX and ${DESTDIRNAME}.
@@ -2416,7 +2416,7 @@ FLAVOURS and MULTI_PACKAGES.
 If a port can be compiled with several options, set FLAVOURS to the list of
 possible options in the Makefile.
 When building the port, set
-.Li "FLAVOUR='option1 option2...'"
+.Li "FLAVOUR=\*(aqoption1 option2...\*(aq"
 to build a specific flavour of the port.
 The Makefile should test the value of FLAVOUR as follows:
 .Bd -literal -offset indent
@@ -2442,8 +2442,8 @@ In recursive package building, flavours can be specified as a comma
 separated list after the package directory, e.g., SUBDIR+=vim,no_x11.
 .Pp
 Finally, packing information will use templates with the canonical package
-extension if they are available: if FLAVOUR='option1 option2' and both
-COMMENT and COMMENT-option1-option2 are available, COMMENT-option1-option2 will
+extension if they are available: if FLAVOUR=\*(aqoption1 option2\*(aq and both
+COMMENT and COMMENT\-option1\-option2 are available, COMMENT\-option1\-option2 will
 be used.
 .Pp
 If a port can generate several useful packages, set MULTI_PACKAGES
@@ -2451,7 +2451,7 @@ accordingly.
 Each extension of a MULTI_PACKAGES name should start with a dash, so that
 they cannot be confused with FLAVOURS.
 In dependency checking and recursive builds, a subpackage can be
-specified after a comma, e.g., SUBDIR+=quake,-server.
+specified after a comma, e.g., SUBDIR+=quake,\-server.
 MULTI_PACKAGES only affects the actual package building step (and the
 describe step, since a MULTI_PACKAGES port will produce several
 descriptions).
@@ -2459,16 +2459,16 @@ descriptions).
 If MULTI_PACKAGES is set, each element of MULTI_PACKAGES triggers a
 recursive mmake package, with SUBPACKAGE set to the right value, and
 PACKAGING defined.
-For instance, if MULTI_PACKAGES=-lib -server,
+For instance, if MULTI_PACKAGES=\-lib \-server,
 mmake package will work as follows:
 .Pp
 .Bl -bullet -compact
 .It
 Run env SUBPACKAGE= PACKAGING= mmake package,
 .It
-Run env SUBPACKAGE=-lib PACKAGING=-lib mmake package,
+Run env SUBPACKAGE=\-lib PACKAGING=\-lib mmake package,
 .It
-Run env SUBPACKAGE=-server PACKAGING=-server mmake package,
+Run env SUBPACKAGE=\-server PACKAGING=\-server mmake package,
 .El
 .Pp
 The port's Makefile can test the value of SUBPACKAGE to specialize
@@ -2479,7 +2479,7 @@ subpackages, and tests often only make sense during the packaging stage.
 All packing information is derived from
 templates with SUBPACKAGE appended.
 In the preceding example, the packing-list template for pkgname-foo
-must be in PLIST-foo.
+must be in PLIST\-foo.
 .Sh THE GENERATION OF PACKING INFORMATION
 Starting after
 .Ox 2.7
@@ -2502,10 +2502,10 @@ ${PKGDIR}/INSTALL${SUBPACKAGE}, ${PKGDIR}/DEINSTALL${SUBPACKAGE}, by
 substituting the variables in ${SUBST_VARS}, and by substituting
 ${FLAVOURS} with the canonical flavour extension for this port,
 e.g., if FLAVOURS=no_map gfx qt2, if FLAVOUR=gfx no_map, this is
-.Sq -no_map-gfx .
+.Sq \-no_map\-gfx .
 .It
 Generate the actual PLIST from the template ${PLIST},
-by inserting shared/no-shared fragments, applying a possible user-supplied
+by inserting shared/no\-shared fragments, applying a possible user-supplied
 pipeline, merging other fragments, applying the same variable
 substitutions as other packing information, and finally handling
 dynamic libraries macros.
@@ -2525,7 +2525,7 @@ or
 in the packing-list template trigger the inclusion of the
 .Pa ${PKGDIR}/PFRAG.shared${SUBPACKAGE}
 or
-.Pa ${PKGDIR}/PFRAG.no-shared${SUBPACKAGE} .
+.Pa ${PKGDIR}/PFRAG.no\-shared${SUBPACKAGE} .
 .Pp
 Similarly, if FLAVOURS lists flav1, then the line
 .Li "%%flav1%%"
@@ -2534,7 +2534,7 @@ Similarly, if FLAVOURS lists flav1, then the line
 will trigger the inclusion of
 .Pa ${PKGDIR}/PFRAG.flav1${SUBPACKAGE}
 (resp.
-.Pa ${PKGDIR}/PFRAG.no-flav1${SUBPACKAGE} )
+.Pa ${PKGDIR}/PFRAG.no\-flav1${SUBPACKAGE} )
 in the packing-list.
 Fragments that cannot be handled by these simple rules
 can always be specified in a custom SED_PLIST.
@@ -2562,7 +2562,7 @@ Note that libraries used only for
 do not need NEWDYNLIBDIR.
 .Pp
 The special
-.Ar update-plist
+.Ar update\-plist
 target does a fairly good job of automatically generating PLIST and
 PFRAG.shared fragments.
 .Pp
@@ -2578,8 +2578,8 @@ non-flavour version if there is no flavour-specific file around.
 or
 .Xr mmake 1 ,
 .Xr pkg_add 1 ,
-.Xr library-specs 7 ,
-.Xr packages-specs 7
+.Xr library\-specs 7 ,
+.Xr packages\-specs 7
 .Sh HISTORY
 The ports mechanism originally came from
 .Fx .

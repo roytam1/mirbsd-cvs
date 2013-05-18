@@ -1,4 +1,4 @@
-.\" $MirOS: ports/infrastructure/pkgtools/rtfm/packages.7,v 1.6 2008/06/12 19:41:44 tg Exp $
+.\" $MirOS: ports/infrastructure/pkgtools/rtfm/packages.7,v 1.7 2009/11/22 15:48:47 tg Exp $
 .\" $OpenBSD: packages.7,v 1.18 2003/12/25 18:35:00 espie Exp $
 .\"
 .\" Copyright (c) 2000 Marc Espie
@@ -80,7 +80,7 @@
 .\" with -mandoc, it might implement .Mx itself, but we want to
 .\" use our own definition. And .Dd must come *first*, always.
 .\"
-.Dd $Mdocdate: November 17 2009 $
+.Dd $Mdocdate: November 22 2009 $
 .\"
 .\" Check which macro package we use
 .\"
@@ -163,7 +163,7 @@ As an alternative, most of these ports are also available as binary
 packages.
 Adding a new package is as simple as
 .Pp
-.Dl pkg_add foo-1.0-0-vanilla.cgz
+.Dl pkg_add foo\-1.0\-0\-vanilla.cgz
 .Pp
 In appearance, packages seem to be .cgz archives, and as such, can be
 examined on almost any computer system, but there is a bit more to it:
@@ -302,7 +302,7 @@ install a basic
 package that holds those files, and is not useful as a stand-alone package.
 .Sh PACKAGE NAMING
 Most package names follow the pattern
-.Qq name-version-patchlevel-flavour ,
+.Qq name\-version\-patchlevel\-flavour ,
 where
 .Qq name
 is the actual package name,
@@ -321,7 +321,7 @@ does not allow several packages with the same name to be installed
 simultaneously, and prints an error message instead.
 .Pp
 There are some exceptions to this rule, i.e. packages that use the
-.Ar no-default-conflict
+.Ar no\-default\-conflict
 option. Examples are autoconf and the Tcl/Tk suite.
 .Pp
 Packages should contain correct annotations, and not allow themselves
@@ -363,7 +363,7 @@ usually mentioned at the end of installation, or in the package description.
 Some flavours are also explicitly provided to avoid having to depend on the
 kitchen sink.
 For instance, an
-.Nm emacs-no_x11
+.Nm emacs\-no_x11
 package is provided, which does not depend on X11 being installed to be
 functional.
 .Sh SEE ALSO
@@ -371,5 +371,5 @@ functional.
 .Xr pkg_delete 1 ,
 .Xr pkg_info 1 ,
 .Xr tar 1 ,
-.Xr packages-specs 7 ,
+.Xr packages\-specs 7 ,
 .Xr ports 7

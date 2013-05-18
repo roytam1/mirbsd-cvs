@@ -1,4 +1,4 @@
-.\" $MirOS: ports/infrastructure/pkgtools/rtfm/mirroring-ports.7,v 1.3 2008/04/05 18:24:33 tg Exp $
+.\" $MirOS: ports/infrastructure/pkgtools/rtfm/mirroring-ports.7,v 1.4 2009/11/22 15:48:46 tg Exp $
 .\" $OpenBSD: mirroring-ports.7,v 1.13 2004/04/27 12:00:03 jmc Exp $
 .\"
 .\" Copyright (c) 2000 Marc Espie
@@ -77,7 +77,7 @@
 .\" with -mandoc, it might implement .Mx itself, but we want to
 .\" use our own definition. And .Dd must come *first*, always.
 .\"
-.Dd $Mdocdate: November 17 2009 $
+.Dd $Mdocdate: November 22 2009 $
 .\"
 .\" Check which macro package we use
 .\"
@@ -148,17 +148,17 @@
 ..
 .\}
 .\"-
-.Dt MIRRORING-PORTS 7
+.Dt MIRRORING\-PORTS 7
 .Os
 .Sh NAME
-.Nm mirroring-ports
+.Nm mirroring\-ports
 .Nd how to build a mirror for ports distfiles
 .Sh DESCRIPTION
 The
 .Nm OpenBSD Ports Collection
 offers some powerful tools to mirror software sources.
 The ports infrastructure provides a
-.Ar mirror-maker
+.Ar mirror\-maker
 target that can be used to build a Makefile to facilitate mirroring
 distfiles.
 This target builds
@@ -174,13 +174,13 @@ if port dependencies  should also be recorded.
 .Pp
 A sample Makefile entry is formatted like this:
 .Bd -literal
-all:: audio/tracker/tracker-5.3
-\&.PHONY: audio/tracker/tracker-5.3
-audio/tracker/tracker-5.3:  tracker-5.3.tgz
+all:: audio/tracker/tracker\-5.3
+\&.PHONY: audio/tracker/tracker\-5.3
+audio/tracker/tracker\-5.3:  tracker\-5.3.tgz
 
-tracker-5.3.tgz: $F
+tracker\-5.3.tgz: $F
         @MAINTAINER="espie@openbsd.org" \\
-         SITES="ftp://ftp.uni-trier.de/pub/unix/audio/tracker/ " \\
+         SITES="ftp://ftp.uni\-trier.de/pub/unix/audio/tracker/ " \\
          CIPHER="sha1" CKSUM="b0973d6a9c363caebd3a71547412f42b0681f323" \\
          exec ${FETCH} "$@"
 
@@ -193,7 +193,7 @@ and
 .Ev F
 set on the command line, e.g.,
 .Bd -literal -offset indent
-cd mirror && mmake -k -j 5 -f path_to_makefile FETCH=fetch_script
+cd mirror && mmake \-k \-j 5 \-f path_to_makefile FETCH=fetch_script
 .Ed
 .Pp
 Targets are set up so that each port is referenced by its full name, and
@@ -265,7 +265,7 @@ Activities a proper mirror should offer (in order of decreasing importance):
 .Bl -tag -width XXXXXXXXX
 .It Mirror new files
 Use a proper fetch script to download missing files,
-.It Run Pa ${PORTSDIR}/infrastructure/fetch/link-checksums
+.It Run Pa ${PORTSDIR}/infrastructure/fetch/link\-checksums
 This script creates permanent hardlinks that preserve distfiles against
 checksum changes.
 .It Verify all checksums
@@ -295,11 +295,11 @@ directory.
 .Bl -tag -width XXXXXXXXX -compact
 .It Pa ${DISTDIR}/Makefile
 Main mirroring Makefile
-.It Pa ${PORTSDIR}/infrastructure/fetch/fetch-all
+.It Pa ${PORTSDIR}/infrastructure/fetch/fetch\-all
 Sample script usable to retrieve distfiles.
-.It Pa ${PORTSDIR}/infrastructure/fetch/check-all
+.It Pa ${PORTSDIR}/infrastructure/fetch/check\-all
 Sample script to check all distfiles checksums.
-.It Pa ${PORTSDIR}/infrastructure/fetch/link-checksums
+.It Pa ${PORTSDIR}/infrastructure/fetch/link\-checksums
 Populating checksums subdirectories with links, to guard against shifting
 checksums.
 .El
@@ -327,11 +327,11 @@ However, a more robust approach is also needed, so that ports users can
 depend on distfiles mirrors to carry what they need irrespective of those
 synchronization issues.
 The
-.Pa link-checksums
+.Pa link\-checksums
 script creates another access to the distfiles, indexed through the actual
 checksums that the files should match.
 Provided mirroring is run sufficiently often, together with
-.Pa link-checksums ,
+.Pa link\-checksums ,
 two versions of the same distfile with respective checksums cksum1 and cksum2
 will be available under the names
 .Pa ${DISTFILES}/sha1/cksum1/distfile

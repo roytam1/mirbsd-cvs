@@ -1,4 +1,4 @@
-.\" $MirOS: src/lib/libc/hash/suma.3,v 1.2 2007/05/07 16:15:57 tg Exp $
+.\" $MirOS: src/lib/libc/hash/suma.3,v 1.3 2009/11/22 16:05:51 tg Exp $
 .\"-
 .\" Copyright (c) 2007, 2009
 .\"	Thorsten Glaser <tg@mirbsd.org>
@@ -70,7 +70,7 @@
 .\" with -mandoc, it might implement .Mx itself, but we want to
 .\" use our own definition. And .Dd must come *first*, always.
 .\"
-.Dd $Mdocdate: November 17 2009 $
+.Dd $Mdocdate: November 22 2009 $
 .\"
 .\" Check which macro package we use
 .\"
@@ -218,9 +218,9 @@ SUMAFinal(result, &context);
 
 /* print the digest as one long sedecimal value */
 printf("0x");
-for (n = 0; n < SUMA_DIGEST_LENGTH; n++)
+for (n = 0; n \*(Lt SUMA_DIGEST_LENGTH; n++)
 	printf("%02X", result[n]);
-putchar('\en');
+putchar(\*(aq\en\*(aq);
 .Ed
 .Pp
 Alternately, the helper functions could be used in the following way:

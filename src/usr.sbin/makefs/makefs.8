@@ -1,4 +1,4 @@
-.\"	$MirOS: src/usr.sbin/makefs/makefs.8,v 1.6 2009/06/29 18:49:27 tg Exp $
+.\"	$MirOS: src/usr.sbin/makefs/makefs.8,v 1.7 2009/06/29 18:58:54 tg Exp $
 .\"	$NetBSD: makefs.8,v 1.30 2008/05/10 19:00:07 skrll Exp $
 .\"
 .\" Copyright (c) 2001-2003 Wasabi Systems, Inc.
@@ -264,21 +264,21 @@ and a value.
 The following keywords are supported:
 .Pp
 .Bl -tag -width omit-trailing-period -offset indent -compact
-.It Sy allow-deep-trees
+.It Sy allow\-deep\-trees
 Allow the directory structure to exceed the maximum specified in
 the spec.
-.\" .It Sy allow-illegal-chars
+.\" .It Sy allow\-illegal\-chars
 .\" Unknown
-.\" .It Sy allow-lowercase
+.\" .It Sy allow\-lowercase
 .\" Unknown
-.It Sy allow-max-name
+.It Sy allow\-max\-name
 Allow 37 instead of 33 characters for filenames by omitting the
 version id.
-.It Sy allow-multidot
+.It Sy allow\-multidot
 Allow multiple dots in a filename.
 .It Sy applicationid
 Application ID of the image.
-.It Sy boot-load-segment
+.It Sy boot\-load\-segment
 Set load segment for the boot image.
 .It Sy bootimage
 Filename of a boot image in the format
@@ -291,29 +291,29 @@ is one of
 .Ql macppc ,
 or
 .Ql powerpc .
-.It Sy generic-bootimage
+.It Sy generic\-bootimage
 Load a generic boot image into the first 32K of the cd9660 image.
-.It Sy hard-disk-boot
+.It Sy hard\-disk\-boot
 Boot image is a hard disk image.
-.It Sy hide-rr-moved
+.It Sy hide\-rr\-moved
 Assign the
 .Pa RR_MOVED
 directory a rock ridge name of the empty string instead of the default
 .Pa .rr_moved .
-.It Sy keep-bad-images
+.It Sy keep\-bad\-images
 Don't throw away images whose write was aborted due to an error.
 For debugging purposes.
 .It Sy label
 Label name of the image.
-.It Sy no-boot
+.It Sy no\-boot
 Boot image is not bootable.
-.It Sy no-emul-boot
+.It Sy no\-emul\-boot
 Boot image is a
 .Dq no emulation
 ElTorito image.
-.It Sy no-trailing-padding
+.It Sy no\-trailing\-padding
 Do not pad the image (apparently Linux needs the padding).
-.\" .It Sy omit-trailing-period
+.\" .It Sy omit\-trailing\-period
 .\" Unknown
 .It Sy preparer
 Preparer ID of the image.
@@ -321,7 +321,7 @@ Preparer ID of the image.
 Publisher ID of the image.
 .It Sy rockridge
 Use RockRidge extensions (for longer filenames, etc.).
-.It Sy rr-squash
+.It Sy rr\-squash
 Force uid 0, gid 0, and rationalised permission bits for RockRidge entries.
 .It Sy volumeid
 Volume set identifier of the image.

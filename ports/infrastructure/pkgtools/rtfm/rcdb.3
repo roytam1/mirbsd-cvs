@@ -1,4 +1,4 @@
-.\" $MirOS: ports/infrastructure/pkgtools/rtfm/rcdb.3,v 1.7 2008/11/08 23:03:43 tg Exp $
+.\" $MirOS: ports/infrastructure/pkgtools/rtfm/rcdb.3,v 1.8 2009/11/22 15:48:47 tg Exp $
 .\"-
 .\" Copyright (c) 2004, 2005, 2008
 .\"	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
@@ -70,7 +70,7 @@
 .\" with -mandoc, it might implement .Mx itself, but we want to
 .\" use our own definition. And .Dd must come *first*, always.
 .\"
-.Dd $Mdocdate: November 17 2009 $
+.Dd $Mdocdate: November 22 2009 $
 .\"
 .\" Check which macro package we use
 .\"
@@ -229,14 +229,14 @@ typedef struct {
 Direct access to the database, circumventing the
 .Nm
 routines, is possible via the
-.Va RCDB\->database
+.Va RCDB\-\*(Gtdatabase
 field, but this should be avoided if possible.
 You actually
 .Em can
 change the newline character, but the resulting database might
 not be binary-compatible.
 Optimally, the RCDB structure should be handled as opaque.
-The separator character, '|' by default, can appear within the key.
+The separator character, \*(aq\*(Ba\*(aq by default, can appear within the key.
 .Sh API LEVEL
 Within
 .Aq Pa db.h ,
@@ -282,7 +282,7 @@ Separated by the separator character, the second value until the end of
 the data string but before the end mark, is assumed to be the key.
 Appropriate space for the key is allocated using
 .Xr malloc 3 .
-If handle or handle\->dbt_data.data was
+If handle or handle\-\*(Gtdbt_data.data was
 .Dv NULL ,
 no action is performed at all.
 If an error occured, key is guaranteed to contain
@@ -311,7 +311,7 @@ is returned.
 takes an RCDB handle and tries to close the database and
 .Xr free 3
 the memory associated with it.
-If the RCDB pointer or the RCDB\->database pointer are already
+If the RCDB pointer or the RCDB\-\*(Gtdatabase pointer are already
 .Dv NULL ,
 no action is taken on them.
 If the database was open and the attempt to close it was successful,
@@ -321,18 +321,18 @@ In any case, the memory associated with the handle is freed.
 reads the record
 .Va nr
 from the database and stores a copy of its content in
-.Va \*bstr
+.Va *bstr
 unless
 .Va bstr
 is
 .Dv NULL
-(in which case you can use handle\->dbt_data to access the content).
+(in which case you can use handle\-\*(Gtdbt_data to access the content).
 On error, \-1 is returned and
-.Va \*bstr
+.Va *bstr
 is set to NULL if possible.
 .It Fn rcdb_rawrite handle nr bstr
 writes the data contained in the C string
-.Va \*bstr
+.Va *bstr
 into the database, overwriting record
 .Va nr
 unless
@@ -340,7 +340,7 @@ unless
 is zero, in which case a new record is created and
 appended at the end of the database text file.
 On error, \-1 is returned.
-.Va \*bstr
+.Va *bstr
 is never modified.
 .It Fn rcdb_lookup handle searchkey
 searches the database from beginning to the end for a record wirh the key
@@ -357,12 +357,12 @@ and do not constitute an error.
 retrieves the record with the number
 .Va nr
 and writes its key into
-.Va \*key
+.Va *key
 and its value into
-.Va \*value .
+.Va *value .
 If an error occurs, \-1 is returned, the content of
-.Va \*value
-is undefined, and \*key is most likely set to
+.Va *value
+is undefined, and *key is most likely set to
 .Dv NULL .
 If the operation was successful, 0 is returned.
 An invalid separator character causes an error of
@@ -374,9 +374,9 @@ is yielded if the record number is zero.
 retrieves the record with the recno
 .Va nr
 and writes its value into
-.Va \*value .
+.Va *value .
 If an error occurs, \-1 is returned and the content of
-.Va \*value
+.Va *value
 is undefined, else the result is 0.
 .It Fn rcdb_delete handle nr
 tries to delete the record

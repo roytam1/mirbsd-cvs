@@ -1,4 +1,4 @@
-.\"	$MirOS: src/bin/md5/cksum.1,v 1.26 2009/11/17 21:20:42 tg Exp $
+.\"	$MirOS: src/bin/md5/cksum.1,v 1.27 2009/11/17 21:28:25 tg Exp $
 .\"	$OpenBSD: cksum.1,v 1.5 2005/03/07 23:41:53 jmc Exp $
 .\"
 .\" Copyright (c) 2006, 2007, 2008, 2009
@@ -462,7 +462,7 @@ first.
 The smallest number of octets capable of representing this integer are used.
 .Pp
 M(x) is multiplied by x\*(ha32 (i.e., shifted left 32 bits) and divided by
-G(x) using mod 2 division, producing a remainder R(x) of degree <= 31.
+G(x) using mod 2 division, producing a remainder R(x) of degree \*(Lt= 31.
 .Pp
 The coefficients of R(x) are considered to be a 32-bit sequence.
 .Pp
@@ -493,7 +493,7 @@ The
 .Nm cksum
 and
 .Nm sum
-utilities exit 0 on success or >0 if an error occurred.
+utilities exit 0 on success or \*(Gt0 if an error occurred.
 .Sh SEE ALSO
 .Xr md5 1 ,
 .Xr rmd160 1 ,

@@ -1,4 +1,4 @@
-.\" $MirOS: ports/infrastructure/pkgtools/rtfm/ports.7,v 1.11 2009/10/17 21:51:43 tg Exp $
+.\" $MirOS: ports/infrastructure/pkgtools/rtfm/ports.7,v 1.12 2009/11/22 15:48:47 tg Exp $
 .\" $OpenBSD: ports.7,v 1.42 2004/04/16 21:23:08 jmc Exp $
 .\" $FreeBSD: ports.7,v 1.7 1998/06/23 04:38:50 hoek Exp $
 .\"-
@@ -81,7 +81,7 @@
 .\" with -mandoc, it might implement .Mx itself, but we want to
 .\" use our own definition. And .Dd must come *first*, always.
 .\"
-.Dd $Mdocdate: November 17 2009 $
+.Dd $Mdocdate: November 22 2009 $
 .\"
 .\" Check which macro package we use
 .\"
@@ -217,10 +217,10 @@ offers a few useful targets.
 .It Ar index
 rebuild the ports complete index,
 .Pa /usr/ports/INDEX
-.It Ar mirror-maker
+.It Ar mirror\-maker
 see
-.Xr mirroring-ports 7 ,
-.It Ar print-index
+.Xr mirroring\-ports 7 ,
+.It Ar print\-index
 display the contents of the index in a user-friendly way,
 .It Ar search
 invoked with a key, e.g.,
@@ -262,7 +262,7 @@ These are always specified relative to the root of the ports tree,
 and can contain a flavour or subpackage part
 .Po
 see
-.Xr packages-specs 7
+.Xr packages\-specs 7
 .Pc .
 .Pp
 In case of failure in a subdirectory, the shell fragment held in
@@ -279,11 +279,11 @@ The targets that do this are
 .Ar configure , extract , fake ,
 .Ar fetch , install , distclean ,
 .Ar deinstall , reinstall , package ,
-.Ar link-categories , unlink-categories ,
+.Ar link\-categories , unlink\-categories ,
 .Ar describe , show , regress ,
-.Ar lib-depends-check , homepage-links , manpages-check ,
-.Ar license-check , all-dir-depends , build-dir-depends ,
-.Ar run-dir-depends
+.Ar lib\-depends\-check , homepage\-links , manpages\-check ,
+.Ar license\-check , all\-dir\-depends , build\-dir\-depends ,
+.Ar run\-dir\-depends
 and
 .Ar readmes .
 .Pp
@@ -348,9 +348,9 @@ When called by the
 or
 .Ar fetch
 targets, this is run in scattered pieces as
-.Ar lib-depends , build-depends
+.Ar lib\-depends , build\-depends
 and
-.Ar run-depends .
+.Ar run\-depends .
 Defining
 .Ev NO_DEPENDS
 to
@@ -385,7 +385,7 @@ Install the resulting package.
 .Pp
 The following targets are not run during the normal install process.
 .Bl -tag -width fetch-list
-.It Ar print-build-depends print-run-depends
+.It Ar print\-build\-depends print\-run\-depends
 Print an ordered list of all the compile and run dependencies.
 .It Ar clean
 Remove the expanded source code.
@@ -401,12 +401,12 @@ This does not recurse to dependencies.
 .It Ar reinstall
 Use this to restore a port after using
 .Xr pkg_delete 1 .
-.It Ar link-categories
+.It Ar link\-categories
 Populate the ports tree with symbolic links for each category the port
 belongs to.
-.It Ar unlink-categories
+.It Ar unlink\-categories
 Remove the symbolic links created by
-.Ar link-categories .
+.Ar link\-categories .
 .El
 .Sh BULK PACKAGE BUILDING
 The ports tree contains some mechanisms to save space when building
@@ -477,7 +477,7 @@ the package name will be extended with a dash-separated list of
 the selected flavours.
 .Pp
 In this instance, the corresponding package will be called
-.Ic tcsh-6.13.00-0-static .
+.Ic tcsh\-6.13.00\-0\-static .
 .Pp
 To build a port with a specific flavour, just pass
 .Ev FLAVOUR
@@ -520,7 +520,7 @@ several smaller components referred to as subpackages.
 .Pp
 If a port is "subpackaged", in addition to the main package, each
 subpackage will have a corresponding description in the
-.Pa pkg/DESCR-subpackage
+.Pa pkg/DESCR\-subpackage
 file.
 .Pp
 For example, the database/mysql port comes with subpackages called
@@ -531,7 +531,7 @@ and
 In this instance, the build will yield multiple packages, one
 corresponding to each subpackage. In the case of our mysql example,
 the subpackages will be called
-.Ic mysql-tests-<version> and mysql-server-<version> .
+.Ic mysql\-tests\-<version> and mysql\-server\-<version> .
 .Pp
 When
 .Ic mmake install
@@ -547,8 +547,8 @@ in the environment of the
 .Xr make 1
 command during the install/deinstall phase:
 .Bd -literal -offset indent
-$ env SUBPACKAGE="-server" mmake install
-$ env SUBPACKAGE="-server" mmake deinstall
+$ env SUBPACKAGE="\-server" mmake install
+$ env SUBPACKAGE="\-server" mmake deinstall
 .Ed
 .Pp
 .Sh PORT VARIABLES
@@ -710,7 +710,7 @@ David O'Brien, from the
 .Fx
 project.
 .Sh BUGS
-Ports documentation is split over several places ---
+Ports documentation is split over several places \*(en
 .Xr bsd.port.mk 5 ,
 the
 .Dq Ports Collection

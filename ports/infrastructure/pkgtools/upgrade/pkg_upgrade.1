@@ -1,4 +1,4 @@
-.\" $MirOS: ports/infrastructure/pkgtools/upgrade/pkg_upgrade.1,v 1.7 2008/10/12 15:28:48 tg Exp $
+.\" $MirOS: ports/infrastructure/pkgtools/upgrade/pkg_upgrade.1,v 1.8 2009/11/22 15:48:48 tg Exp $
 .\"-
 .\" Copyright (c) 2006
 .\"	Benny Siegert <bsiegert@gmx.de>
@@ -70,7 +70,7 @@
 .\" with -mandoc, it might implement .Mx itself, but we want to
 .\" use our own definition. And .Dd must come *first*, always.
 .\"
-.Dd $Mdocdate: November 17 2009 $
+.Dd $Mdocdate: November 22 2009 $
 .\"
 .\" Check which macro package we use
 .\"
@@ -214,7 +214,7 @@ creates a
 from the installed package.
 Basically, the installed package is split in two.
 The old libraries are kept as a package named
-.Pa stub Ns - Ns Ar pkgname
+.Pa stub Ns \- Ns Ar pkgname
 while the rest is deleted and replaced by the new version.
 .Pp
 In the general case, this should work but you may still run into
