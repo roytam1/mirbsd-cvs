@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/distrib/i386/livecd/munge_it.sh,v 1.15 2006/04/07 13:05:43 tg Exp $
+# $MirOS: src/distrib/i386/livecd/munge_it.sh,v 1.16 2006/04/08 01:29:58 tg Exp $
 #-
 # Copyright (c) 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -30,7 +30,7 @@
 set -ex
 myplace=$(readlink -nf $(dirname "$0"))
 
-false && ed -s etc/X11/xdm/Xresources <<-'EOF'
+ed -s etc/X11/xdm/Xresources <<-'EOF'
 	/^xlogin.greeting:/s/CLIENTHOST/the MirOS BSD Live CD/
 	/^Chooser.label.label:/s/CLIENTHOST/Live-CD/
 	wq
@@ -64,7 +64,7 @@ ed -s etc/ntpd.conf <<-'EOF'
 EOF
 ed -s etc/rc <<-'EOF'
 	1i
-		# $MirOS: src/distrib/i386/livecd/munge_it.sh,v 1.15 2006/04/07 13:05:43 tg Exp $
+		# $MirOS: src/distrib/i386/livecd/munge_it.sh,v 1.16 2006/04/08 01:29:58 tg Exp $
 	.
 	/shutdown request/ka
 	/^fi/a
@@ -138,7 +138,7 @@ ed -s var/cron/tabs/root <<-'EOF'
 	wq
 EOF
 
-false && install -c -o root -g staff -m 644 $myplace/XF86Config etc/X11/XF86Config
+install -c -o root -g staff -m 644 $myplace/XF86Config etc/X11/XF86Config
 install -c -o root -g staff -m 644 $myplace/fstab etc/fstab
 install -c -o root -g staff -m 644 $myplace/rc.netselect etc/rc.netselect
 
