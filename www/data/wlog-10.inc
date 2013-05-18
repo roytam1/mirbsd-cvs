@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.96 2008/11/09 02:51:35 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.97 2008/11/10 21:48:45 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -2003,7 +2003,7 @@ Title: compilers
  4.2</a>, it can also peruse them to compile packages:</p><ul>
 <li><tt>$ mmake <i>USE_COMPILER=system</i></tt> # mgcc (C, C++), Default</li>
 <li><tt>$ mmake USE_COMPILER=pcc</tt> # pcc (C only)</li>
-<li><tt>$ mmake USE_COMPILER=llvm</a> # llvm-gcc (C, C++, Fortran 77/9x)</li>
+<li><tt>$ mmake USE_COMPILER=llvm</tt> # llvm-gcc (C, C++, Fortran 77/9x)</li>
 </ul><p>While clang cannot yet be used there really, the <tt>Build.sh</tt>
  script of <a href="@@RELPATH@@mksh.htm">mksh</a> can use its “ccc” compiler
  driver (which however is experimental) as well as llvm-gcc to build mksh(1)…
