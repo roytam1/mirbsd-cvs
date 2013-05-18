@@ -1,6 +1,6 @@
-$MirOS: ports/misc/mc/patches/patch-lib_mc_lib,v 1.5 2006/02/21 13:39:41 tg Exp $
---- lib/mc.lib.orig	Sat Aug 17 01:15:41 2002
-+++ lib/mc.lib	Tue Feb 21 14:04:14 2006
+$MirOS: ports/misc/mc/patches/patch-lib_mc_lib,v 1.4 2006/02/20 20:23:23 tg Exp $
+--- lib/mc.lib.orig	Fri Sep 10 09:23:22 2004
++++ lib/mc.lib	Tue Feb 21 14:37:06 2006
 @@ -1,8 +1,28 @@
 +# $MirOS: ports/misc/mc/patches/patch-lib_mc_lib,v 1.4 2006/02/20 20:23:23 tg Exp $
 +#-
@@ -113,7 +113,7 @@ $MirOS: ports/misc/mc/patches/patch-lib_mc_lib,v 1.5 2006/02/21 13:39:41 tg Exp 
  f11=\e[23~
  f12=\e[24~
  f13=\e[25~
-@@ -71,25 +97,22 @@ f17=\e[31~
+@@ -71,27 +97,22 @@ f17=\e[31~
  f18=\e[32~
  f19=\e[33~
  f20=\e[34~
@@ -142,38 +142,42 @@ $MirOS: ports/misc/mc/patches/patch-lib_mc_lib,v 1.5 2006/02/21 13:39:41 tg Exp 
 -home=\e[1~
 -home=\e[7~
 -end=\eOF
+-end=\e[F
 -end=\e[4~
 -end=\e[8~
 -home=\eOH
+-home=\e[H
 +kpppage=\eOy
 +kpright=\eOv
 +kpup=\eOx
  pgdn=\e[6~
  pgup=\e[5~
  
-@@ -105,8 +128,34 @@ f18=\e[19;2~
- f19=\e[20;2~
+@@ -108,14 +129,14 @@ f19=\e[20;2~
  f20=\e[21;2~
  
-+# Arrows for both keypad modes (application and normal).
-+down=\eOB
+ # Arrows for both keypad modes (application and normal).
+-up=\e[A
+-up=\eOA
+-down=\e[B
+ down=\eOB
+-right=\e[C
+-right=\eOC
+-left=\e[D
 +down=\e[B
-+left=\eOD
+ left=\eOD
 +left=\e[D
 +right=\eOC
 +right=\e[C
 +up=\eOA
 +up=\e[A
-+
-+[terminal:gnome]
-+copy=xterm
-+
-+[terminal:rxvt]
-+copy=xterm
-+
-+[terminal:xterm-new]
-+copy=xterm
-+
+ 
+ [terminal:gnome]
+ copy=xterm
+@@ -126,8 +147,15 @@ copy=xterm
+ [terminal:xterm-new]
+ copy=xterm
+ 
 +[terminal:xterm-xfree86]
 +copy=xterm
 +
@@ -187,7 +191,7 @@ $MirOS: ports/misc/mc/patches/patch-lib_mc_lib,v 1.5 2006/02/21 13:39:41 tg Exp 
  f11=\e[23~
  f12=\e[24~
  f13=\e[25~
-@@ -117,29 +166,27 @@ f17=\e[31~
+@@ -138,29 +166,27 @@ f17=\e[31~
  f18=\e[32~
  f19=\e[33~
  f20=\e[34~
@@ -230,7 +234,7 @@ $MirOS: ports/misc/mc/patches/patch-lib_mc_lib,v 1.5 2006/02/21 13:39:41 tg Exp 
  f11=\e[Y
  f12=\e[Z
  f13=\e[a
-@@ -150,8 +197,150 @@ f17=\e[e
+@@ -171,11 +197,9 @@ f17=\e[e
  f18=\e[f
  f19=\e[g
  f20=\e[h
@@ -241,18 +245,13 @@ $MirOS: ports/misc/mc/patches/patch-lib_mc_lib,v 1.5 2006/02/21 13:39:41 tg Exp 
  kpasterix=\e[*
 +kpminus=\e[-
 +kpplus=\e[+
-+
-+[terminal:cons25]
-+f11=\e[Y
-+f12=\e[Z
-+f13=\e[a
-+f14=\e[b
-+f15=\e[c
-+f16=\e[d
-+f17=\e[e
-+f18=\e[f
-+f19=\e[g
-+f20=\e[h
+ 
+ [terminal:cons25]
+ f11=\e[Y
+@@ -188,3 +212,135 @@ f17=\e[e
+ f18=\e[f
+ f19=\e[g
+ f20=\e[h
 +
 +# Sequences below are used in OpenBSD wscons, also via remote login
 +

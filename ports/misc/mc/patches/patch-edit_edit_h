@@ -1,7 +1,7 @@
-$MirOS: ports/misc/mc/patches/patch-edit_edit_h,v 1.3 2006/02/21 13:39:40 tg Exp $
---- edit/edit.h.orig	Mon Jan 27 15:59:50 2003
-+++ edit/edit.h	Tue Feb 21 14:04:14 2006
-@@ -330,7 +330,7 @@ extern int edit_confirm_save;
+$MirOS: ports/misc/mc/patches/patch-edit_edit_h,v 1.2 2006/02/20 20:23:22 tg Exp $
+--- edit/edit.h.orig	Fri May 27 14:18:56 2005
++++ edit/edit.h	Mon Feb 20 18:32:46 2006
+@@ -325,7 +325,7 @@ extern int edit_confirm_save;
  extern int column_highlighting;
  
  /* File names */

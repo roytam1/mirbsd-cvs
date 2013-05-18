@@ -1,29 +1,23 @@
-$MirOS: ports/misc/mc/patches/patch-src_subshell_c,v 1.3 2006/02/21 13:39:41 tg Exp $
---- src/subshell.c.orig	Fri Jan 24 21:37:06 2003
-+++ src/subshell.c	Tue Feb 21 14:04:14 2006
-@@ -247,7 +247,7 @@ static void init_subshell_child (const c
-     switch (subshell_type)
-     {
-         case BASH:
--	    init_file = ".mc/bashrc";
-+	    init_file = ".etc/mc/bashrc";
- 	    if (access (init_file, R_OK) == -1)
- 		init_file = ".bashrc";
+$MirOS: ports/misc/mc/patches/patch-src_subshell_c,v 1.2 2006/02/20 20:23:23 tg Exp $
+--- src/subshell.c.orig	Tue Jun  7 09:18:57 2005
++++ src/subshell.c	Mon Feb 20 18:32:46 2006
+@@ -225,7 +225,7 @@ init_subshell_child (const char *pty_nam
  
-@@ -255,13 +255,13 @@ static void init_subshell_child (const c
- 	    putenv ("HISTCONTROL=ignorespace");
+     switch (subshell_type) {
+     case BASH:
+-	init_file = ".mc/bashrc";
++	init_file = ".etc/mc/bashrc";
+ 	if (access (init_file, R_OK) == -1)
+ 	    init_file = ".bashrc";
  
- 	    /* Allow alternative readline settings for MC */
--	    if (access (".mc/inputrc", R_OK) == 0)
--		putenv ("INPUTRC=.mc/inputrc");
-+	    if (access (".etc/mc/inputrc", R_OK) == 0)
-+		putenv ("INPUTRC=.etc/mc/inputrc");
+@@ -233,8 +233,8 @@ init_subshell_child (const char *pty_nam
+ 	putenv ("HISTCONTROL=ignorespace");
  
- 	    break;
+ 	/* Allow alternative readline settings for MC */
+-	if (access (".mc/inputrc", R_OK) == 0)
+-	    putenv ("INPUTRC=.mc/inputrc");
++	if (access (".etc/mc/inputrc", R_OK) == 0)
++	    putenv ("INPUTRC=.etc/mc/inputrc");
  
- 	case TCSH:
--	    init_file = ".mc/tcshrc";
-+	    init_file = ".etc/mc/tcshrc";
- 	    if (access (init_file, R_OK) == -1)
- 		init_file += 3;
  	break;
+ 

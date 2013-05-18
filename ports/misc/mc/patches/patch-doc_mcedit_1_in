@@ -1,6 +1,6 @@
-$MirOS: ports/misc/mc/patches/patch-doc_mcedit_1_in,v 1.3 2006/02/21 13:39:40 tg Exp $
---- doc/mcedit.1.in.orig	Tue Jan 28 20:42:57 2003
-+++ doc/mcedit.1.in	Tue Feb 21 14:04:14 2006
+$MirOS: ports/misc/mc/patches/patch-doc_mcedit_1_in,v 1.2 2006/02/20 20:23:22 tg Exp $
+--- doc/mcedit.1.in.orig	Wed Jun  8 12:26:45 2005
++++ doc/mcedit.1.in	Mon Feb 20 18:32:46 2006
 @@ -73,13 +73,13 @@ In addition to that, Shift combined with
  (if supported by the terminal):
  .B Ctrl-Ins
@@ -44,19 +44,22 @@ $MirOS: ports/misc/mc/patches/patch-doc_mcedit_1_in,v 1.3 2006/02/21 13:39:40 tg
  .PP
  If some keys don't work, you can use
  .B Learn Keys
-@@ -137,9 +137,9 @@ menu.
+@@ -137,12 +137,12 @@ menu.
  supports syntax highlighting.  This means that keywords and contexts
  (like C comments, string constants, etc) are highlighted in different
  colors.  The following section explains the format of the file
 -.BR ~/.mc/cedit/Syntax .
 +.BR ~/.etc/mc/cedit/Syntax .
+ If this file is missing, system-wide
+ .B @prefix@/share/mc/syntax/Syntax
+ is used.
  The file
 -.B ~/.mc/cedit/Syntax
 +.B ~/.etc/mc/cedit/Syntax
  is rescanned on opening of a any new editor file.  The file contains
  rules for highlighting, each of which is given on a separate line, and
  define which keywords will be highlighted to what color.
-@@ -357,7 +357,7 @@ Most options can now be set from the edi
+@@ -359,7 +359,7 @@ Most options can now be set from the edi
  the
  .B Options
  menu.  The following options are defined in
@@ -65,7 +68,7 @@ $MirOS: ports/misc/mc/patches/patch-doc_mcedit_1_in,v 1.3 2006/02/21 13:39:40 tg
  and have obvious counterparts in the dialog box.  You can modify them to
  change the editor behavior, by editing the file.  Unless specified, a 1
  sets the option to on, and a 0 sets it to off, as is usual.
-@@ -465,24 +465,24 @@ The help file for the program.
+@@ -467,24 +467,24 @@ The help file for the program.
  .I @prefix@/share/mc/mc.ini
  .IP
  The default system-wide setup for GNU Midnight Commander, used only if
@@ -78,20 +81,20 @@ $MirOS: ports/misc/mc/patches/patch-doc_mcedit_1_in,v 1.3 2006/02/21 13:39:40 tg
 -affect all users, whether they have ~/.mc/ini or not.
 +affect all users, whether they have ~/.etc/mc/ini or not.
  .PP
--.I $HOME/.mc/ini
-+.I $HOME/.etc/mc/ini
+ .I @prefix@/share/mc/syntax/*
  .IP
- User's own setup.  If this file is present, the setup is loaded from
- here instead of the system-wide startup file.
+ The default system-wide syntax files for mcedit, used only if
+-the corresponding user's own ~/.mc/cedit/ file is missing.
++the corresponding user's own ~/.etc/mc/cedit/ file is missing.
  .PP
 -.I $HOME/.mc/ini
 +.I $HOME/.etc/mc/ini
  .IP
- User's own setup. If this file is present then the setup is loaded
- from here instead of the system-wide startup file.
+ User's own setup.  If this file is present then the setup is loaded
+ from here instead of the system-wide setup file.
  .PP
 -.I $HOME/.mc/cedit/
 +.I $HOME/.etc/mc/cedit/
  .IP
- User's own temporary directory where block commands are processed
- and saved.
+ User's own directory where block commands are processed and saved and
+ user's own syntax files are located.
