@@ -1,4 +1,4 @@
-# $MirOS: src/etc/rc,v 1.80 2008/03/27 13:48:27 tg Exp $
+# $MirOS: src/etc/rc,v 1.81 2008/03/27 13:49:53 tg Exp $
 # $OpenBSD: rc,v 1.277 2006/01/12 21:54:15 deraadt Exp $
 #-
 # System startup script run by init on autoboot or after single-user.
@@ -308,7 +308,13 @@ while (( i < ${#_mp[*]} )); do
 done
 mount -a -t nonfs
 # root on nfs may require this
-x=$(mount 2>/dev/null | fgrep ' on / ' 2>/dev/null)
+mount 2>/dev/null |&
+x=
+while read -p line; do
+	[[ $line = *@( on / )* ]] || continue
+	x=$line
+	break
+done
 [[ -z $x || $x = *\(*read-only* ]] && mount -uw /
 # root is now writable
 rm -f /fastboot
@@ -316,6 +322,9 @@ rm -f /fastboot
 # Gather some system-local entropy rather early if allowed and /usr now mounted
 [[ $cprng_flags != NO && -x /usr/libexec/cprng ]] && \
     /usr/libexec/cprng -pr32 >/dev/urandom &
+
+# enable running applications from /usr for now
+[[ -x /sbin/ldconfig && -d /var/run/. ]] && /sbin/ldconfig
 
 # set flags on ttys.  (do early, in case they use tty for SLIP in netstart)
 echo setting tty flags
@@ -396,11 +405,25 @@ rm -f /var/spool/uucp/STST/*
 rm -rf /var/{run,authpf}/*
 install -c -m 664 -g utmp /dev/null /var/run/utmp
 
+if [[ -f /sbin/ldconfig ]]; then
+	echo creating runtime link editor directory cache.
+	[[ -d /usr/local/lib ]] && shlib_dirs="/usr/local/lib $shlib_dirs"
+	[[ -d /usr/X11R6/lib ]] && shlib_dirs="/usr/X11R6/lib $shlib_dirs"
+	[[ -d /usr/mpkg/lib ]] && shlib_dirs="/usr/mpkg/lib $shlib_dirs"
+	ldconfig $shlib_dirs
+	PATH=/usr/dsbin:/sbin:/usr/dbin:/bin:/usr/sbin:/usr/bin
+fi
+
 # save a copy of the boot messages
 dmesg | tee /var/run/dmesg.boot | cksum -ba rmd160 >/dev/wrandom
 
 # reset arandom(4)
-( typeset -i8 x='RANDOM & 255'; print -n "\0${x#8#}" >/dev/arandom )
+let RANDOM=$(dd if=/dev/arandom bs=4 count=1 2>&- | hexdump -e '"%d"')
+set -o arc4random
+typeset -Uui16 a b c d
+let 'a = RANDOM & 0xFF' 'b = RANDOM & 0xFF' 'c = RANDOM & 0xFF' 'd = RANDOM & 0xFF'
+print -n "\x${a#16#}\x${b#16#}\x${c#16#}\x${d#16#}" >/dev/arandom
+unset a b c d
 
 echo starting system logger
 rm -f /dev/log
@@ -561,15 +584,6 @@ fi
 
 if [[ -f /var/account/acct ]]; then
 	echo turning on accounting;	accton /var/account/acct
-fi
-
-if [[ -f /sbin/ldconfig ]]; then
-	echo creating runtime link editor directory cache.
-	[[ -d /usr/local/lib ]] && shlib_dirs="/usr/local/lib $shlib_dirs"
-	[[ -d /usr/X11R6/lib ]] && shlib_dirs="/usr/X11R6/lib $shlib_dirs"
-	[[ -d /usr/mpkg/lib ]] && shlib_dirs="/usr/mpkg/lib $shlib_dirs"
-	ldconfig $shlib_dirs
-	PATH=/usr/dsbin:/sbin:/usr/dbin:/bin:/usr/sbin:/usr/bin
 fi
 
 if [[ -x /usr/libexec/vi.recover && -d /var/tmp/vi.recover ]]; then
