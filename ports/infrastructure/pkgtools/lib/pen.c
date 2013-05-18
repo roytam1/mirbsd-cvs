@@ -1,4 +1,4 @@
-/**	$MirOS: ports/infrastructure/pkgtools/lib/pen.c,v 1.4 2008/11/02 18:56:30 tg Exp $ */
+/**	$MirOS: ports/infrastructure/pkgtools/lib/pen.c,v 1.5 2008/11/02 19:57:31 tg Exp $ */
 /*	$OpenBSD: pen.c,v 1.13 2003/07/04 17:31:19 avsm Exp $	*/
 
 /*
@@ -29,7 +29,7 @@
 #endif
 #include <errno.h>
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/pen.c,v 1.4 2008/11/02 18:56:30 tg Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/pen.c,v 1.5 2008/11/02 19:57:31 tg Exp $");
 
 /* For keeping track of where we are */
 static char Current[FILENAME_MAX];
@@ -166,7 +166,7 @@ leave_playpen(char *save)
     errno = save_errno;
 }
 
-off_t
+size_t
 min_free(const char *tmpdir)
 {
 #ifdef __INTERIX
@@ -178,6 +178,8 @@ min_free(const char *tmpdir)
 	warn("statfs");
 	return -1;
     }
-    return (off_t)buf.f_bavail * (off_t)buf.f_bsize;
+    if (buf.f_bavail < 0 || buf.f_bsize < 0)
+	return 0;
+    return (size_t)buf.f_bavail * (size_t)buf.f_bsize;
 #endif
 }

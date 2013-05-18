@@ -1,4 +1,4 @@
-/**	$MirOS: ports/infrastructure/pkgtools/lib/lib.h,v 1.24 2008/12/06 13:18:07 tg Exp $ */
+/**	$MirOS: ports/infrastructure/pkgtools/lib/lib.h,v 1.25 2009/10/20 19:32:50 bsiegert Exp $ */
 /*	$OpenBSD: lib.h,v 1.14 2003/08/21 20:24:57 espie Exp $	*/
 
 /*
@@ -156,7 +156,7 @@ void		cleanup(int);
 char		*make_playpen(char *, size_t, size_t);
 char		*where_playpen(void);
 void		leave_playpen(char *);
-off_t		min_free(const char *);
+size_t		min_free(const char *);
 void            save_dirs(char **c, char **p);
 void            restore_dirs(char *c, char *p);
 void		drop_privs(void);
