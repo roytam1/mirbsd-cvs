@@ -1,4 +1,4 @@
-# $MirOS: src/bin/md5/Makefile,v 1.11 2007/05/07 15:46:23 tg Exp $
+# $MirOS: src/bin/md5/Makefile,v 1.12 2008/03/09 14:18:58 tg Exp $
 # $OpenBSD: Makefile,v 1.10 2005/05/24 21:57:47 millert Exp $
 
 PROG=	cksum
@@ -10,7 +10,8 @@ LINKS=	${BINDIR}/cksum ${BINDIR}/sha1 \
 MLINKS= cksum.1 sum.1
 
 .if exists(${.SYSMK}/libmirmake.a)
-LDADD+=	-L${.SYSMK} -lmirmake
+CPPFLAGS+=	-D_GNU_SOURCE -D_MIRMAKE_DEFNS
+LDADD+=		-L${.SYSMK} -lmirmake
 .endif
 
 .include <bsd.prog.mk>
