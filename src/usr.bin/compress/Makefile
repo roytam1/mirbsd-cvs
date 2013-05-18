@@ -1,5 +1,5 @@
-# $MirOS: src/usr.bin/compress/Makefile,v 1.7 2008/03/27 14:53:24 tg Exp $
-# $OpenBSD: Makefile,v 1.20 2007/01/24 10:53:43 jmc Exp $
+# $MirOS: src/usr.bin/compress/Makefile,v 1.8 2009/03/29 13:04:21 tg Exp $
+# $OpenBSD: Makefile,v 1.21 2007/05/20 00:27:27 jsg Exp $
 
 PROG=	compress
 SRCS=	main.c zopen.c gzopen.c nullopen.c

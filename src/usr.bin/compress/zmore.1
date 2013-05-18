@@ -1,4 +1,4 @@
-.\"	$OpenBSD: zmore.1,v 1.6 2007/01/24 10:53:43 jmc Exp $
+.\"	$OpenBSD: zmore.1,v 1.10 2009/08/16 09:41:08 sobrado Exp $
 .\"
 .\" Copyright (c) 2003 Todd C. Miller <Todd.Miller@courtesan.com>
 .\"
@@ -18,7 +18,7 @@
 .\" Agency (DARPA) and Air Force Research Laboratory, Air Force
 .\" Materiel Command, USAF, under agreement number F39502-99-1-0512.
 .\"
-.Dd $Mdocdate$
+.Dd $Mdocdate: March 19 2008 $
 .Dt ZMORE 1
 .Os
 .Sh NAME
@@ -28,7 +28,10 @@
 .Sh SYNOPSIS
 .Nm zmore
 .Op Ar flags
-.Op Ar file ...
+.Op Ar
+.Nm zless
+.Op Ar flags
+.Op Ar
 .Sh DESCRIPTION
 .Nm
 is a filter that allows the viewing of files compressed with Lempel-Ziv
@@ -54,9 +57,23 @@ If called as
 the default pager used is
 .Pa /usr/bin/less .
 .Pp
+.Nm zless
+is equivalent to
+.Nm zmore
+but uses
+.Xr less 1
+as a pager instead of
+.Xr more 1 .
+.Pp
 When multiple files are specified,
 .Nm
 will pause at the end of each file and present the following prompt to the user:
+.Bd -literal -offset indent
+--More--(Next file: next_file)
+.Ed
+.Pp
+.Nm zless
+will present the following prompt instead:
 .Bd -literal -offset indent
 prev_file (END) - Next: next_file
 .Ed
@@ -88,10 +105,12 @@ style compression since there is no suffix on which to make a decision.
 .It Ev PAGER
 Program used to display files.
 If unset,
-.Pa more
+.Pa /usr/bin/more
+is used
+.Pq Nm zmore
 or
-.Pa less
-is used.
+.Pa /usr/bin/less
+.Pq Nm zless .
 .El
 .Sh SEE ALSO
 .Xr compress 1 ,

@@ -1,5 +1,4 @@
-/**	$MirOS: src/usr.bin/compress/main.c,v 1.10 2006/07/05 21:35:14 tg Exp $ */
-/*	$OpenBSD: main.c,v 1.70 2007/04/04 13:29:45 millert Exp $	*/
+/*	$OpenBSD: main.c,v 1.75 2009/04/18 18:21:54 naddy Exp $	*/
 
 #ifndef SMALL
 static const char copyright[] =
@@ -53,7 +52,7 @@ static const char license[] =
 #include <paths.h>
 #include "compress.h"
 
-__RCSID("$MirOS: src/usr.bin/compress/main.c,v 1.10 2006/07/05 21:35:14 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/compress/main.c,v 1.11 2007/04/29 21:24:44 tg Exp $");
 
 #define min(a,b) ((a) < (b)? (a) : (b))
 
@@ -239,7 +238,7 @@ main(int argc, char *argv[])
 			break;
 		case 'l':
 			list++;
-			testmode++;
+			testmode = 1;
 			decomp++;
 			break;
 		case 'n':
@@ -635,6 +634,11 @@ dodecompress(const char *in, char *out, const struct compressor *method,
 		return (FAILURE);
 	}
 	if (storename && oldname[0] != '\0') {
+		char *cp = strrchr(out, '/');
+		if (cp != NULL) {
+			*(cp + 1) = '\0';
+			strlcat(out, oldname, MAXPATHLEN);
+		} else
 		strlcpy(out, oldname, MAXPATHLEN);
 		cat = 0;			/* XXX should -c override? */
 	}

@@ -1,5 +1,4 @@
-/**	$MirOS: src/usr.bin/compress/gzopen.c,v 1.5 2005/11/23 17:08:49 tg Exp $ */
-/*	$OpenBSD: gzopen.c,v 1.24 2007/03/19 13:02:18 pedro Exp $	*/
+/*	$OpenBSD: gzopen.c,v 1.25 2008/08/20 09:22:02 mpf Exp $	*/
 
 /*
  * Copyright (c) 1997 Michael Shalayeff
@@ -63,7 +62,7 @@
 #include <zlib.h>
 #include "compress.h"
 
-__RCSID("$MirOS: src/usr.bin/compress/gzopen.c,v 1.5 2005/11/23 17:08:49 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/compress/gzopen.c,v 1.6 2007/04/29 21:24:44 tg Exp $");
 
 /* gzip flag byte */
 #define ASCII_FLAG   0x01 /* bit 0 set: file probably ascii text */
@@ -430,6 +429,15 @@ gz_read(void *cookie, char *buf, int len)
 		}
 
 		error = inflate(&(s->z_stream), Z_NO_FLUSH);
+
+		if (error == Z_DATA_ERROR) {
+			errno = EINVAL;
+			return -1;
+		}
+		if (error == Z_BUF_ERROR) {
+			errno = EIO;
+			return -1;
+		}
 		if (error == Z_STREAM_END) {
 			/* Check CRC and original size */
 			s->z_crc = crc32(s->z_crc, start,
