@@ -1,9 +1,10 @@
-# $MirOS: ports/x11/gnome/vfs2/Makefile,v 1.9 2007/04/18 20:05:09 bsiegert Exp $
+# $MirOS: ports/x11/gnome/vfs2/Makefile,v 1.10 2007/06/20 19:57:03 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.14 2004/12/15 13:57:57 alek Exp $
 
 COMMENT=		GNOME Virtual File System
 
 VERSION=		2.18.1
+DASH_VER=		1
 DISTNAME=		gnome-vfs-${VERSION}
 CATEGORIES=		devel x11/gnome
 HOMEPAGE=		http://www.gnome.org/
@@ -16,7 +17,7 @@ MODULES=		devel/gettext devel/pkgconfig
 LIB_DEPENDS=		bonobo-2,bonobo-activation::x11/gnome/libbonobo \
 			bz2::archivers/bzip2 \
 			cdda_paranoia,cdda_interface::audio/cdparanoia \
-			gconf-2::devel/gconf \
+			gconf-2:gconf2->=2.18.0.1-1:devel/gconf \
 			fam::sysutils/fam \
 			dbus-1::sysutils/dbus \
 			dbus-glib-1::sysutils/dbus-glib
