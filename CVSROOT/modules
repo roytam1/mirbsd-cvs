@@ -1,4 +1,4 @@
-# $MirOS: CVSROOT/modules,v 1.39 2009/11/22 20:24:05 tg Exp $
+# $MirOS: CVSROOT/modules,v 1.40 2009/11/22 20:27:00 tg Exp $
 # from $OpenBSD: modules,v 1.17 1998/07/12 04:44:24 todd Exp $
 #-
 # Three different line formats are valid:
@@ -35,7 +35,11 @@ x11		-a X11
 
 # Collectives for hosted projects
 _makefs		-a src/usr.sbin/Makefile.inc src/usr.sbin/makefs \
-		   src/lib/libutil/fparseln.c src/sbin/mknod \
+		   contrib/code/jupp/strlfun.c \
+		   contrib/code/mirmake/dist/contrib/fgetln.c \
+		   src/bin/mksh/setmode.c src/include/vis.h \
+		   src/lib/libc/gen/unvis.c src/lib/libutil/fparseln.c \
+		   src/sbin/mknod \
 		   src/sys/isofs src/sys/ufs/ffs src/sys/ufs/ufs \
 		   src/usr.sbin/mtree
 _mirnroff	-a src/share/Makefile.inc src/share/tmac \
