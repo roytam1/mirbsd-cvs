@@ -1,4 +1,4 @@
-/* $MirOS: contrib/code/libhaible/wctrans.c,v 1.1 2006/05/30 11:34:21 tg Exp $ */
+/* $MirOS: src/lib/libc/i18n/wctrans.c,v 1.1 2006/06/01 22:17:21 tg Exp $ */
 
 /*-
  * Copyright (c) 2006
@@ -30,7 +30,7 @@
 #define mir18n_caseconv
 #include "mir18n.h"
 
-__RCSID("$MirOS: contrib/code/libhaible/wctrans.c,v 1.1 2006/05/30 11:34:21 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/i18n/wctrans.c,v 1.1 2006/06/01 22:17:21 tg Exp $");
 
 /* this is, admittedly, taken from libutf8 */
 struct trans_property {
@@ -46,10 +46,10 @@ static struct trans_property all_properties[] = {
 };
 
 static int
-trans_property_cmp(const void *s1, const void *s2)
+trans_property_cmp(const void *key, const void *item)
 {
-	return (strcmp(((const struct trans_property *)s1)->property,
-	    ((const struct trans_property *)s2)->property));
+	return (strcmp((const char *)key,
+	    ((const struct trans_property *)item)->property));
 }
 
 wctrans_t

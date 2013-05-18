@@ -1,4 +1,4 @@
-/* $MirOS: contrib/code/libhaible/wctype.c,v 1.1 2006/05/30 11:34:21 tg Exp $ */
+/* $MirOS: src/lib/libc/i18n/wctype.c,v 1.1 2006/06/01 22:17:21 tg Exp $ */
 
 /*-
  * Copyright (c) 2006
@@ -30,7 +30,7 @@
 #define mir18n_attributes
 #include "mir18n.h"
 
-__RCSID("$MirOS: contrib/code/libhaible/wctype.c,v 1.1 2006/05/30 11:34:21 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/i18n/wctype.c,v 1.1 2006/06/01 22:17:21 tg Exp $");
 
 /* this is, admittedly, taken from libutf8 */
 struct ctype_property {
@@ -60,10 +60,10 @@ static struct ctype_property all_properties[] = {
 };
 
 static int
-ctype_property_cmp(const void *s1, const void *s2)
+ctype_property_cmp(const void *key, const void *item)
 {
-	return (strcmp(((const struct ctype_property *)s1)->property,
-	    ((const struct ctype_property *)s2)->property));
+	return (strcmp((const char *)key,
+	    ((const struct ctype_property *)item)->property));
 }
 
 wctype_t
