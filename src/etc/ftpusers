@@ -35,6 +35,8 @@ _afs
 _ppp
 _ntp
 _ftp
+_ospfd
+_hostapd
 _anoncvs
 _rsync
 _dnscache
@@ -84,4 +86,14 @@ _cnupm
 _milter-spamd
 _jabberd
 _zope
+_symon
+_nostromo
+_maradns
+_vilter
+_clamav
+_dspam
+_flowd
+_cyrus
+_openldap
+_asterisk
 nobody

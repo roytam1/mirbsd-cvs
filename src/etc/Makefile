@@ -1,5 +1,5 @@
-# $MirOS: src/etc/Makefile,v 1.7 2005/07/04 12:43:41 tg Exp $
-# $OpenBSD: Makefile,v 1.206 2004/05/04 23:37:04 deraadt Exp $
+# $MirOS: src/etc/Makefile,v 1.8 2005/07/06 18:34:10 tg Exp $
+# $OpenBSD: Makefile,v 1.226 2005/05/26 23:06:06 mcbride Exp $
 
 TZDIR=		/usr/share/zoneinfo
 LOCALTIME?=	UTC
@@ -12,17 +12,18 @@ NOOBJ=		yes
 .include <bsd.own.mk>
 
 # -rw-r--r--
-BINOWN= root
-BINGRP= wheel
-BIN1=	changelist ccd.conf \
-	daily dhcpd.conf dhcpd.interfaces exports ftpusers \
-	ftpchroot gettytab group hosts hosts.lpd inetd.conf \
-	locate.rc man.conf monthly motd mrouted.conf \
+BINOWN=	root
+BINGRP=	wheel
+BIN1=	ccd.conf changelist daily dhclient.conf dhcpd.conf \
+	dhcpd.interfaces etc.${MACHINE}/disktab exports \
+	ftpchroot ftpusers gettytab group hosts hosts.lpd \
+	ifstated.conf inetd.conf locate.rc login.conf \
+	mailer.conf man.conf moduli monthly motd mrouted.conf \
 	myname netstart networks newsyslog.conf ntpd.conf \
-	phones printcap protocols rbootd.conf rc rc.conf rc.local \
-	rc.securelevel rc.shutdown remote rpc security services \
-	shells spamd.conf weekly etc.${MACHINE}/disktab profile \
-	dhclient.conf mailer.conf wsconsctl.conf
+	pf.os phones printcap profile protocols rbootd.conf \
+	rc rc.conf rc.local rc.securelevel rc.shutdown remote \
+	rpc security sensorsd.conf services shells spamd.conf \
+	weekly wsconsctl.conf
 
 # machine dependent parts
 BINMD=	mk.conf syslog.conf
@@ -65,7 +66,7 @@ distribution-etc-root-var distribution release snapshot:
 distribution-etc-root-var: distrib-dirs
 	${INSTALL} -c -o ${BINOWN} -g ${BINGRP} -m 644 ${BIN1} ${DESTDIR}/etc/
 	chmod 640 ${DESTDIR}/etc/inetd.conf
-	cat etc.${MACHINE}/ttys ttys.pty >${DESTDIR}/etc/ttys && \
+	${SHELL} ttys.pty | cat etc.${MACHINE}/ttys - >${DESTDIR}/etc/ttys && \
 	    chown ${BINOWN} ${DESTDIR}/etc/ttys && \
 	    chgrp ${BINGRP} ${DESTDIR}/etc/ttys && \
 	    chmod 644 ${DESTDIR}/etc/ttys
@@ -91,14 +92,9 @@ distribution-etc-root-var: distrib-dirs
 	${INSTALL} -c -o ${BINOWN} -g ${BINGRP} -m 664 ${BIN2} ${DESTDIR}/etc/
 	${INSTALL} -c -o root -g wheel -m 600 hosts.equiv ${DESTDIR}/etc/
 	${INSTALL} -c -o root -g wheel -m 600 crontab ${DESTDIR}/var/cron/tabs/root
-	${INSTALL} -c -o root -g wheel -m 644 login.conf ${DESTDIR}/etc/
 	${INSTALL} -c -o root -g wheel -m 600 master.passwd ${DESTDIR}/etc/
 	pwd_mkdb -p -d ${DESTDIR}/etc /etc/master.passwd
-	${INSTALL} -c -o root -g wheel -m 644 moduli ${DESTDIR}/etc/
-	${INSTALL} -c -o root -g wheel -m 600 bgpd.conf ${DESTDIR}/etc/
 	${INSTALL} -c -o root -g wheel -m 600 pf.conf ${DESTDIR}/etc/
-	${INSTALL} -c -o root -g wheel -m 644 pf.os ${DESTDIR}/etc/
-	${INSTALL} -c -o root -g wheel -m 644 sensorsd.conf ${DESTDIR}/etc/
 	${INSTALL} -c -o ${BINOWN} -g ${BINGRP} -m 555 \
 	    etc.${MACHINE}/MAKEDEV ${DESTDIR}/dev/
 	cd root; \
@@ -213,7 +209,7 @@ release-finish:
 		cat /var/tmp/.buildnotice; \
 		. /var/tmp/.buildnotice; \
 		rm -f /var/tmp/.buildnotice || true; \
-	 fi
+	fi
 
 snap_pre:
 	${SUDO} /bin/rm -rf ${DESTDIR}/snapshot
@@ -260,7 +256,6 @@ allarchs: ${MAKEDEVSRC} ${MAKEDEVDOC}
 distrib:
 	cd ${.CURDIR}/.. && ${MAKE} mksystrace-dest
 	cd ${.CURDIR}/../distrib \
-	    && ${_STCMD_OBJ} ${MAKE} cleandir \
 	    && ${_STCMD_OBJ} ${MAKE} \
 	    && exec ${SUDO} ${_STCMD_DEST} ${MAKE} install
 
@@ -305,15 +300,13 @@ install-generated:
 
 DHSIZE=	1024 1536 2048 3072 4096
 update-moduli:
-	( \
-		echo '#    $$MirOS: src/etc/Makefile,v 1.7 2005/07/04 12:43:41 tg Exp $$'; \
-		echo '#    $$OpenBSD: Makefile,v 1.206 2004/05/04 23:37:04 deraadt Exp $$'; \
+	{ \
+		echo '# $$MirOS: src/etc/Makefile,v 1.8 2005/07/06 18:34:10 tg Exp $$'; \
 		echo '# Time Type Tests Tries Size Generator Modulus'; \
-		( for i in ${DHSIZE}; do \
+		for i in ${DHSIZE}; do \
 			ssh-keygen -b $$i -G /dev/stdout; \
-		done) | \
-		ssh-keygen -T /dev/stdout \
-	) >moduli
+		done | ssh-keygen -T /dev/stdout; \
+	} >moduli
 
 .PHONY: distribution-etc-root-var distribution distrib-dirs release \
 	make-generated clean-generated install-generated update-moduli \

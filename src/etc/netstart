@@ -1,6 +1,21 @@
 #!/bin/mksh
-# $MirOS: src/etc/netstart,v 1.2 2005/03/06 19:05:54 tg Exp $
-# $OpenBSD: netstart,v 1.99 2004/12/04 00:17:05 itojun Exp $
+# $MirOS: src/etc/netstart,v 1.3 2005/07/07 13:39:22 tg Exp $
+# $OpenBSD: netstart,v 1.105 2005/05/22 08:56:08 todd Exp $
+
+# Strip comments (and leading/trailing whitespace if IFS is set)
+# from a file and spew to stdout
+stripcom() {
+	local _file="$1"
+	local _line
+
+	{
+		while read _line; do
+			_line=${_line%%#*}		# strip comments
+			test -z "$_line" && continue
+			echo $_line
+		done
+	} <$_file
+}
 
 # Returns true if $1 contains only alphanumerics
 isalphanumeric() {
@@ -136,6 +151,31 @@ ifstart() {
 	done </etc/hostname.$if
 }
 
+# Start multiple:
+#   start "$1" interfaces in order or all interfaces if empty
+#   don't start "$2" interfaces
+ifmstart() {
+	for sif in ${1:-ALL}; do
+		for hn in /etc/hostname.*; do
+			# Strip off /etc/hostname. prefix
+			if=${hn#/etc/hostname.}
+			test "$if" = "*" && continue
+	
+			# Skip unwanted ifs
+			s=""	
+			for xf in $2; do
+				test "$xf" = "${if%%[0-9]*}" && s="1" && break
+			done
+			test "$s" = "1" && continue
+
+			# Start wanted ifs
+			test "$sif" = "ALL" -o \
+			     "$sif" = "${if%%[0-9]*}" \
+				&& ifstart $if
+		done
+	done
+}
+
 # Start the $1 bridge
 bridgestart() {
 	# Interface names must be alphanumeric only.  We check to avoid
@@ -201,7 +241,7 @@ fi
 
 # /etc/myname contains my symbolic name
 if [ -f /etc/myname ]; then
-	hostname=$(</etc/myname)
+	hostname=$(stripcom /etc/myname)
 	hostname $hostname
 else
 	hostname=$(hostname)
@@ -262,28 +302,10 @@ fi
 # Now put back the DNS resolver config
 [[ $T = fail ]] || mv $T /etc/resolv.conf
 
-# Configure all the non-loopback interfaces which we know about.
+# Configure all the non-loopback interfaces which we know about, but
+# do not start interfaces which must be delayed.
 # Refer to hostname.if(5) and bridgename.if(5)
-for hn in /etc/hostname.*; do
-	# Strip off /etc/hostname. prefix
-	if=${hn#/etc/hostname.}
-	test "$if" = "*" && continue
-
-	case $if in
-	"carp"*|"gif"*|"gre"*|"pfsync"*)
-		# CARP, GIF, GRE and PFSYNC interfaces need the routes to be setup
-		# before they are configured.
-		continue
-		;;
-	local)
-		# A list of commands to be run after netstart.
-		continue
-		;;
-	*)
-		ifstart $if
-		;;
-	esac
-done
+ifmstart "" "carp gif gre pfsync pppoe local"
 
 if [[ $ip6kernel = YES && -n $rtsolif ]]; then
 	fw=$(sysctl -n net.inet6.ip6.forwarding)
@@ -299,6 +321,11 @@ if [[ $ip6kernel = YES ]]; then
 	# this is to make sure DAD is completed before going further.
 	sleep $(sysctl -n net.inet6.ip6.dad_count)
 fi
+
+# The pfsync interface needs to come up before carp.
+# Configure all the carp interfaces which we know about.
+# They must come up after pfsync but before default route.
+ifmstart "pfsync carp" "local"
 
 # Multicast routing.
 #
@@ -332,28 +359,10 @@ EOF
 	;;
 esac
 
-# The pfsync interface needs to come up before carp.
-if [ -f /etc/hostname.pfsync0 ]; then
-	ifstart pfsync0
-fi
 
-# Configure all the carp, gif and gre interfaces which we know about.
-# They were delayed because they require the routes to be set.
-for hn in /etc/hostname.*; do
-	# Strip off /etc/hostname. prefix
-	if=${hn#/etc/hostname.}
-	test "$if" = "*" && continue
-
-	case $if in
-	"carp"*|"gif"*|"gre"*)
-		ifstart $if
-		;;
-	*)
-		# Regular interfaces have already been configured.
-		continue
-		;;
-	esac
-done
+# Configure PPPoE, GIF, GRE interfaces, delayed because they require routes
+# to be set.  PPPoE must be first, as GIF and GRE may depend on it.
+ifmstart "pppoe gif gre" "local"
 
 # reject 127/8 other than 127.0.0.1
 route -qn add -net 127 127.0.0.1 -reject >/dev/null
@@ -367,7 +376,4 @@ for bn in /etc/bridgename.*; do
 	bridgestart $if
 done
 
-[[ -e /etc/hostname.local ]] && while read line; do
-	line=${line%%#*}		# strip comments
-	test -n "$line" && eval "$line"
-done </etc/hostname.local
+[[ -e /etc/hostname.local ]] && eval $(stripcom /etc/hostname.local)

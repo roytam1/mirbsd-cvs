@@ -50,6 +50,8 @@ _afs:*:81:
 _ppp:*:82:
 _ntp:*:83:
 _ftp:*:84:
+_ospfd:*:85:
+_hostapd:*:86:
 dialer:*:117:
 audio:*:250:
 _cvsadmin:*:251:
@@ -104,5 +106,15 @@ _cnupm:*:531:
 _milter-spamd:*:532:
 _jabberd:*:533:
 _zope:*:534:
+_symon:*:535:
+_nostromo:*:536:
+_maradns:*:537:
+_vilter:*:538:
+_clamav:*:539:
+_dspam:*:540:
+_flowd:*:542:
+_cyrus:*:543:
+_openldap:*:544:
+_asterisk:*:545:
 nogroup:*:32766:
 nobody:*:32767:

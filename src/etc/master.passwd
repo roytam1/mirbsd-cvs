@@ -31,6 +31,8 @@ _afs:*:81:81::0:0:AFS Daemon:/var/empty:/sbin/nologin
 _ppp:*:82:82::0:0:PPP Daemon:/var/empty:/sbin/nologin
 _ntp:*:83:83::0:0:Network Time Daemon:/var/empty:/sbin/nologin
 _ftp:*:84:84::0:0:FTP Daemon:/var/empty:/sbin/nologin
+_ospfd:*:85:85::0:0:OSPF Daemon:/var/empty:/sbin/nologin
+_hostapd:*:86:86::0:0:HostAP Daemon:/var/empty:/sbin/nologin
 _anoncvs:*:254:254::0:0:anonymous CVS and RSYNC:/var/anoncvs/anoncvs:/var/anoncvs/anoncvssh
 _rsync:*:255:255::0:0:former rsync server:/var/empty:/sbin/nologin
 _dnscache:*:256:256::0:0:MirPorts -- net/djbdns cache:/nonexistent:/sbin/nologin
@@ -80,4 +82,14 @@ _cnupm:*:531:531::0:0:MirPorts -- net/cnupm:/nonexistent:/sbin/nologin
 _milter-spamd:*:532:532::0:0:MirPorts -- mail/milter-spamd:/nonexistent:/sbin/nologin
 _jabberd:*:533:533::0:0:MirPorts -- net/jabberd:/nonexistent:/sbin/nologin
 _zope:*:534:534::0:0:MirPorts -- www/zope:/nonexistent:/sbin/nologin
+_symon:*:535:535::0:0:MirPorts -- sysutils/symon:/nonexistent:/sbin/nologin
+_nostromo:*:536:536::0:0:MirPorts -- www/nostromo:/nonexistent:/sbin/nologin
+_maradns:*:537:537::0:0:MirPorts -- net/maradns/stable:/nonexistent:/sbin/nologin
+_vilter:*:538:538::0:0:MirPorts -- mail/smtp-vilter:/nonexistent:/sbin/nologin
+_clamav:*:539:539::0:0:MirPorts -- security/clamav:/nonexistent:/sbin/nologin
+_dspam:*:540:540::0:0:MirPorts -- mail/dspam:/nonexistent:/sbin/nologin
+_flowd:*:542:542::0:0:MirPorts -- net/flowd:/nonexistent:/sbin/nologin
+_cyrus:*:543:543::0:0:MirPorts -- mail/cyrus-imapd:/nonexistent:/sbin/nologin
+_openldap:*:544:544::0:0:MirPorts -- databases/openldap:/nonexistent:/sbin/nologin
+_asterisk:*:545:545::0:0:MirPorts -- telephony/asterisk:/nonexistent:/sbin/nologin
 nobody:*:32767:32767::0:0:Unprivileged User:/nonexistent:/sbin/nologin
