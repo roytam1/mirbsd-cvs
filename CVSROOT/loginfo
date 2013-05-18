@@ -1,4 +1,4 @@
-# $MirOS: CVSROOT/loginfo,v 1.23 2008/11/07 19:39:47 tg Exp $
+# $MirOS: CVSROOT/loginfo,v 1.24 2009/05/16 14:49:12 tg Exp $
 #-
 # The "loginfo" file controls where "cvs commit" log information is
 # sent. The first entry on a line is a regular expression which must
@@ -40,26 +40,26 @@
 
 # normal operation
 ^contrib/hosted/fwcf\(/\|$\)		$CVSROOT/CVSROOT/mklogci %I -D -R freewrt-developers@freewrt.org -m miros-hosted-fwcf@mirbsd.org -f $CVSROOT/Logs/ChangeLog -C %r -p %p %{sVv}
-^contrib/hosted/ahoka\(/\|$\)		$CVSROOT/CVSROOT/mklogci %I -m ahoka@mirbsd.org -C %r -p %p %{sVv}
-^contrib/hosted/bsiegert\(/\|$\)	$CVSROOT/CVSROOT/mklogci %I -m bsiegert@mirbsd.org -C %r -p %p %{sVv}
-^contrib/hosted/cnuke\(/\|$\)		$CVSROOT/CVSROOT/mklogci %I -m cnuke@mirbsd.org -C %r -p %p %{sVv}
-^contrib/hosted/gecko2\(/\|$\)		$CVSROOT/CVSROOT/mklogci %I -m gecko2@mirbsd.org -C %r -p %p %{sVv}
-^contrib/hosted/sap\(/\|$\)		$CVSROOT/CVSROOT/mklogci %I -m sap@mirbsd.org -C %r -p %p %{sVv}
-^contrib/hosted/tg\(/\|$\)		$CVSROOT/CVSROOT/mklogci %I -m tg@mirbsd.org -C %r -p %p %{sVv}
-^contrib/hosted/tyler\(/\|$\)		$CVSROOT/CVSROOT/mklogci %I -m tyler@mirbsd.org -C %r -p %p %{sVv}
-^contrib/hosted/wbx\(/\|$\)		$CVSROOT/CVSROOT/mklogci %I -m wbx@mirbsd.org -C %r -p %p %{sVv}
+^contrib/hosted/ahoka\(/\|$\)		$CVSROOT/CVSROOT/mklogci %I -m ahoka@mirbsd.org -f $CVSROOT/Logs/.cpr.ahoka -C %r -p %p %{sVv}
+^contrib/hosted/bsiegert\(/\|$\)	$CVSROOT/CVSROOT/mklogci %I -m bsiegert@mirbsd.org -f $CVSROOT/Logs/.cpr.bsiegert -C %r -p %p %{sVv}
+^contrib/hosted/cnuke\(/\|$\)		$CVSROOT/CVSROOT/mklogci %I -m cnuke@mirbsd.org -f $CVSROOT/Logs/.cpr.cnuke -C %r -p %p %{sVv}
+^contrib/hosted/gecko2\(/\|$\)		$CVSROOT/CVSROOT/mklogci %I -m gecko2@mirbsd.org -f $CVSROOT/Logs/.cpr.gecko2 -C %r -p %p %{sVv}
+^contrib/hosted/sap\(/\|$\)		$CVSROOT/CVSROOT/mklogci %I -m sap@mirbsd.org -f $CVSROOT/Logs/.cpr.sap -C %r -p %p %{sVv}
+^contrib/hosted/tg\(/\|$\)		$CVSROOT/CVSROOT/mklogci %I -m tg@mirbsd.org -f $CVSROOT/Logs/.cpr.tg -C %r -p %p %{sVv}
+^contrib/hosted/tyler\(/\|$\)		$CVSROOT/CVSROOT/mklogci %I -m tyler@mirbsd.org -f $CVSROOT/Logs/.cpr.tyler -C %r -p %p %{sVv}
+^contrib/hosted/wbx\(/\|$\)		$CVSROOT/CVSROOT/mklogci %I -m wbx@mirbsd.org -f $CVSROOT/Logs/.cpr.wbx -C %r -p %p %{sVv}
 
 DEFAULT					$CVSROOT/CVSROOT/mklogci %I -I http://www.mirbsd.org/clogs/ChangeLog -R miros-discuss@mirbsd.org -m miros-changes@mirbsd.org -f $CVSROOT/Logs/ChangeLog -C %r -p %p %{sVv}
 
 # non-MirBSD operation
 #^contrib/hosted/fwcf\(/\|$\)		$CVSROOT/CVSROOT/mklogci - -D -R freewrt-developers@freewrt.org -m miros-hosted-fwcf@mirbsd.org -f $CVSROOT/Logs/ChangeLog -C %r -p %p %{sVv}
-#^contrib/hosted/ahoka\(/\|$\)		$CVSROOT/CVSROOT/mklogci - -m ahoka@mirbsd.org -C %r -p %p %{sVv}
-#^contrib/hosted/bsiegert\(/\|$\)	$CVSROOT/CVSROOT/mklogci - -m bsiegert@mirbsd.org -C %r -p %p %{sVv}
-#^contrib/hosted/cnuke\(/\|$\)		$CVSROOT/CVSROOT/mklogci - -m cnuke@mirbsd.org -C %r -p %p %{sVv}
-#^contrib/hosted/gecko2\(/\|$\)		$CVSROOT/CVSROOT/mklogci - -m gecko2@mirbsd.org -C %r -p %p %{sVv}
-#^contrib/hosted/sap\(/\|$\)		$CVSROOT/CVSROOT/mklogci - -m sap@mirbsd.org -C %r -p %p %{sVv}
-#^contrib/hosted/tg\(/\|$\)		$CVSROOT/CVSROOT/mklogci - -m tg@mirbsd.org -C %r -p %p %{sVv}
-#^contrib/hosted/tyler\(/\|$\)		$CVSROOT/CVSROOT/mklogci - -m tyler@mirbsd.org -C %r -p %p %{sVv}
-#^contrib/hosted/wbx\(/\|$\)		$CVSROOT/CVSROOT/mklogci - -m wbx@mirbsd.org -C %r -p %p %{sVv}
+#^contrib/hosted/ahoka\(/\|$\)		$CVSROOT/CVSROOT/mklogci - -m ahoka@mirbsd.org -f $CVSROOT/Logs/.cpr.ahoka -C %r -p %p %{sVv}
+#^contrib/hosted/bsiegert\(/\|$\)	$CVSROOT/CVSROOT/mklogci - -m bsiegert@mirbsd.org -f $CVSROOT/Logs/.cpr.bsiegert -C %r -p %p %{sVv}
+#^contrib/hosted/cnuke\(/\|$\)		$CVSROOT/CVSROOT/mklogci - -m cnuke@mirbsd.org -f $CVSROOT/Logs/.cpr.cnuke -C %r -p %p %{sVv}
+#^contrib/hosted/gecko2\(/\|$\)		$CVSROOT/CVSROOT/mklogci - -m gecko2@mirbsd.org -f $CVSROOT/Logs/.cpr.gecko2 -C %r -p %p %{sVv}
+#^contrib/hosted/sap\(/\|$\)		$CVSROOT/CVSROOT/mklogci - -m sap@mirbsd.org -f $CVSROOT/Logs/.cpr.sap -C %r -p %p %{sVv}
+#^contrib/hosted/tg\(/\|$\)		$CVSROOT/CVSROOT/mklogci - -m tg@mirbsd.org -f $CVSROOT/Logs/.cpr.tg -C %r -p %p %{sVv}
+#^contrib/hosted/tyler\(/\|$\)		$CVSROOT/CVSROOT/mklogci - -m tyler@mirbsd.org -f $CVSROOT/Logs/.cpr.tyler -C %r -p %p %{sVv}
+#^contrib/hosted/wbx\(/\|$\)		$CVSROOT/CVSROOT/mklogci - -m wbx@mirbsd.org -f $CVSROOT/Logs/.cpr.wbx -C %r -p %p %{sVv}
 #
 #DEFAULT				$CVSROOT/CVSROOT/mklogci - -I http://www.mirbsd.org/clogs/ChangeLog -R miros-discuss@mirbsd.org -m miros-changes@mirbsd.org -f $CVSROOT/Logs/ChangeLog -C %r -p %p %{sVv}

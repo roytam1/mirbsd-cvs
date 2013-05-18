@@ -1,5 +1,5 @@
 #!/usr/bin/env mksh
-# $MirOS: CVSROOT/cvs-genperm,v 1.40 2009/04/10 17:28:56 tg Exp $
+# $MirOS: CVSROOT/cvs-genperm,v 1.41 2009/04/10 17:53:17 tg Exp $
 #-
 # Copyright (c) 2003, 2004, 2005, 2006, 2007, 2008, 2009
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -72,9 +72,17 @@ print -r "Starting fixup of permissions on \$CVSROOT=${CVSROOT}"
 print -r "Logging to file '${N}'"
 print -- "------------------------------------------------------------"
 
+set -A committers -- ahoka bsiegert cnuke gecko2 sap tg tyler wbx
+
 touch CVSROOT/{history,val-tags} Logs/{ChangeLog,idcache}
 rm -rf .tmp
 mkdir .tmp
+
+for committer in ${committers[*]}; do
+	fn=Logs/.cpr.$committer
+	[[ -s $fn ]] || print '[ Welcome to the MirOS Committer' \
+	    "${committer}@'s" 'private project CVS log ]\n' >$fn
+done
 
 typeset -i cnt=42
 find "$CVSROOT"$fr | while IFS= read -r pname; do
@@ -116,7 +124,7 @@ find "$CVSROOT"$fr | while IFS= read -r pname; do
 				    M=tg
 				[[ $name = contrib/hosted/libnointl@(|/*) ]] && \
 				    M=miros-cvssrc
-				for committer in ahoka bsiegert cnuke gecko2 sap tg tyler wbx; do
+				for committer in ${committers[*]}; do
 					[[ $name = contrib/hosted/${committer}@(|/*) ]] || \
 					    continue
 					M=$committer
@@ -151,6 +159,10 @@ done 2>&1 | tee -i "$N"
 	chgrp miros-cvsall CVSROOT CVSROOT/{modules.db,history} \
 	    Logs Logs/{ChangeLog,idcache}
 	chown root:miros-cvsadm README* UP*
+	for committer in ${committers[*]}; do
+		fixperm 664 Logs/.cpr.${committer}
+		chown 0:$committer Logs/.cpr.${committer}*
+	done
 } 2>&1 | tee -ai "$N"
 
 cd "$WD"
