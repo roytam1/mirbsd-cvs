@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.bin/uudecode/uudecode.c,v 1.2 2005/03/13 18:33:51 tg Exp $ */
+/**	$MirOS: src/usr.bin/uudecode/uudecode.c,v 1.3 2007/07/05 23:09:44 tg Exp $ */
 /*	$OpenBSD: uudecode.c,v 1.14 2004/04/09 22:54:02 millert Exp $	*/
 /*	$FreeBSD: uudecode.c,v 1.49 2003/05/03 19:44:46 obrien Exp $	*/
 
@@ -58,13 +58,13 @@ __COPYRIGHT("@(#) Copyright (c) 1983, 1993\n\
 #include <unistd.h>
 
 __SCCSID("@(#)uudecode.c	8.2 (Berkeley) 4/2/94");
-__RCSID("$MirOS: src/usr.bin/uudecode/uudecode.c,v 1.2 2005/03/13 18:33:51 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/uudecode/uudecode.c,v 1.3 2007/07/05 23:09:44 tg Exp $");
 
 static const char *infile, *outfile;
 static FILE *infp, *outfp;
 static int base64, cflag, iflag, oflag, pflag, rflag, sflag;
 
-static void	usage(void);
+static void	usage(void) __dead;
 static int	decode(void);
 static int	decode2(void);
 static int	uu_decode(void);
@@ -414,7 +414,7 @@ static int
 base64_decode(void)
 {
 	int n;
-	char inbuf[MAXPATHLEN];
+	char inbuf[(MAXPATHLEN & ~3) + 1];
 	unsigned char outbuf[MAXPATHLEN * 4];
 
 	for (;;) {
