@@ -1,4 +1,4 @@
-# $MirOS: src/gnu/usr.bin/perl/Makefile.bsd-wrapper,v 1.20 2007/05/08 21:52:54 tg Exp $
+# $MirOS: src/gnu/usr.bin/perl/Makefile.bsd-wrapper,v 1.22 2007/06/07 16:51:53 tg Exp $
 # $OpenBSD: Makefile.bsd-wrapper,v 1.71 2006/11/09 21:31:12 millert Exp $
 #
 # Build wrapper for Perl 5.8.8
@@ -12,7 +12,6 @@ THREADED_PERL?=	No
 
 # Arguments passed to Configure...
 XFLAGS=		${CFLAGS} -Werror-maybe-reset
-EXPERIMENTAL=	Yes	# for now (the malloc wrap produces ugly warnings)
 CONFIGURE_ARGS=	-dsE -D${OSname}_distribution=defined \
 		-Doptimize=${XFLAGS:N-g*:M*:Q}
 .if ${THREADED_PERL:L} == "yes"
