@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/scripts/roff2htm,v 1.16 2005/11/15 20:59:00 tg Exp $
+# $MirOS: src/scripts/roff2htm,v 1.17 2005/11/15 21:01:05 tg Exp $
 # $ekkoBSD: catman2html.sh,v 1.2 2004/03/07 03:02:53 stephen Exp $
 #-
 # Copyright (c) 2004, 2005
@@ -26,7 +26,7 @@
 # rect or other, however caused, arising in any way out of the usage
 # of this work, even if advised of the possibility of such damage.
 #-
-# Parts of the regular expression set below is based upon work by:
+# Parts of the regular expression set below are based upon work by:
 # Copyright (c) 1995
 #	Panagiotis J. Christias <christia@theseas.ntua.gr>
 #-
@@ -129,9 +129,10 @@ output_header()
 		 <title>RTFM ${1}(${2})</title>
 		 <meta name="robots" content="index, follow" />
 		</head><body>
+		<p style="font-size:2pt;>This product includes material provided by Thorsten Glaser.</p>
 		<h1>MirOS Manual: <a href="../man${2}/${1}.htm"><tt>${1}(${2})</tt></a></h1>
 		<p style="font-size:xx-small;">Generated on ${gendate} by
-		 \$MirOS: src/scripts/roff2htm,v 1.16 2005/11/15 20:59:00 tg Exp $</p>
+		 \$MirOS: src/scripts/roff2htm,v 1.17 2005/11/15 21:01:05 tg Exp $</p>
 		<hr />
 	EOF
 }
