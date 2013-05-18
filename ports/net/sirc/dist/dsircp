@@ -214,13 +214,10 @@ $ssl_efd = '';
 
 sub ssl_cleanup {
   if ($ssl_efd ne '') {
-    while ((defined $buffer{$ssl_efd}) &&
-     ($buffer{$ssl_efd} =~ /^([^\n\r]*)\r?\n\r?/)) {
-      $buffer{$ssl_efd} = $';
-      &tell("*\cbE\cb* TLS: $1");
-    }
-    while (my $x = <$ssl_efd>) {
-      &tell("*\cbE\cb* TLS: $x");
+    while (&gl($ssl_efd)) {
+      last if $_ eq '';
+      chop;
+      &tell("*\cbE\cb* TLS: $_");
     }
     close($ssl_efd);
     delete $buffer{$ssl_efd};
