@@ -1567,3 +1567,37 @@ Author: tg@
  have two different line ending conventions in a windows-1252 encoded file
  and the docs are in the same charset except for some UTF-8+BOM…</p>
 ----
+Date: 17.08.2007
+Author: tg@
+
+<p>My SPARC is building XFree86® for the umptieth time, but I still expect
+ it to finish cleanly this time. We nuked all the cropped fonts, will only
+ install the full Unicode fonts now (needs some more RAM, but less overall
+ as you need some of them anyway, and reduces build time); on very low-mem
+ systems you would want to build your own font subset anyway.</p>
+<p>I invited the XFree86® developers to FrOSCon – all two of them – but it
+ looks like they can’t come. Too bad.</p>
+<p>I started writing “I’m” instead of “I'm” – typographically better, much
+ better in fixed-misc font even, but drives people crazy (and away from OS
+ without Unicode support such as OpenBSD and most Linuxes), funny. Oh, and
+ swishy, our IRC Kiwi, is using my keyboard layout now too. Strike!</p>
+<p>With MirOS BSD #10 we’ll release mksh R31, no big deal. It needs tests,
+ just like the sparc port, so please check it out of CVS and test it.</p>
+<p>No progress on the nmeadecode(8) front (yet), but fixed some endianness
+ bugs in OpenNTPD. I should call it MirNTPD, I suppose. And rdate(8).</p>
+<p>Finally weekend, I’m so happy. Benny today finished the slides for that
+ autotools presentation he’s going to hold at FrOSCon, 42 in total (wonder
+ why…) and is happy about the weekend too. Open source developers should –
+ in my opinion – get two hours a day off work to hack. (But I can’t really
+ complain, I’m off quite well with my company. Thanks to my bosses, if you
+ should happen to read this.)</p>
+<p>Oh yeah. FreeWRT. Zaurus/Ångström. Kernel modules. Packages. Linux JUST
+ SUCKS, get it. Things I take for granted just aren’t in there yet – worse
+ is that most of them won’t make it in since it’s a bunch of packages from
+ many authors, contributed with “here’s my code, please add it, have fun –
+ and someone should write the docs”. Sometimes, Theo is right. He’s also a
+ lot of right (can I say that?) regarding open source’d (what a word…) NIC
+ drivers from vendors, compared with getting specs and hardware and coding
+ one’s own drivers. Vendors suck. More than Theo, at least.</p>
+<p>Compared to other operating systems out there, we still suck least.</p>
+----
