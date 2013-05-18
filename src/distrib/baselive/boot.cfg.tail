@@ -1,9 +1,0 @@
-# $MirOS$
-#-
-# added at the bottom of the MD boot.cfg file from cdromX.fs
-#
-echo To run the Live CD enter the command 'boot /bsd' or, when
-echo you need to choose a different CD-ROM drive or other root
-echo filesystem medium, 'boot /bsd -a' instead. Specify the -c
-echo flag to run UKC(4) e.g. in case of hardware troubles.
-echo

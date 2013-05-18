@@ -1,7 +1,0 @@
-This is a meta-package. It does not include any files by itself, but it
-helps you to easily install the GNOME desktop.
-
-If you build this from source, you need not even install the resulting
-package because everything will have been installed as a build-time
-dependency. For binary packages, installing the package will pull in all
-the other packages as a run dependency.
