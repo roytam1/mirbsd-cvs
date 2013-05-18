@@ -112,6 +112,17 @@ variables may not be raised
 .It
 Filesystems may neither be mounted nor umounted.
 (Maybe other operations should be denied, too.)
+.It
+Writes to the random number generator devices, namely
+.Pa /dev/srandom ,
+.Pa /dev/urandom ,
+.Pa /dev/arandom ,
+and
+.Pa /dev/prandom ,
+are prohibited, as well as several IOCTLs.
+The addpool is still processed (there is an extra
+sysctl to disable it) but can be filled from userland
+only by writing to the KERN_ARND sysctl.
 .El
 .El
 .Sh DESCRIPTION

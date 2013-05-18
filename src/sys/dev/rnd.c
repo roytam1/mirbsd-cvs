@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/dev/rnd.c,v 1.11 2006/04/11 00:29:51 tg Exp $ */
+/**	$MirOS: src/sys/dev/rnd.c,v 1.12 2006/04/11 00:32:52 tg Exp $ */
 /*	$OpenBSD: rnd.c,v 1.78 2005/07/07 00:11:24 djm Exp $	*/
 
 /*
@@ -1135,6 +1135,9 @@ randomwrite(dev_t dev, struct uio *uio, int flags)
 	int		ret = 0;
 	u_int32_t	*buf;
 
+	if (securelevel > 1)
+		return (EPERM);
+
 	if (minor(dev) == RND_RND ||
 	    ((minor(dev) == RND_PRND) && !rnd_addpool_allow))
 		return ENXIO;
@@ -1193,6 +1196,9 @@ randomioctl(dev_t dev, u_long cmd, caddr_t data, int flag, struct proc *p)
 		splx(s);
 		break;
 	case RNDADDTOENTCNT:
+		if (securelevel > 1)
+			return (EPERM);
+
 		if (suser(p, 0) != 0)
 			ret = EPERM;
 		else {
@@ -1205,6 +1211,9 @@ randomioctl(dev_t dev, u_long cmd, caddr_t data, int flag, struct proc *p)
 		}
 		break;
 	case RNDZAPENTCNT:
+		if (securelevel > 1)
+			return (EPERM);
+
 		if (suser(p, 0) != 0)
 			ret = EPERM;
 		else {
@@ -1214,6 +1223,9 @@ randomioctl(dev_t dev, u_long cmd, caddr_t data, int flag, struct proc *p)
 		}
 		break;
 	case RNDSTIRARC4:
+		if (securelevel > 1)
+			return (EPERM);
+
 		if (suser(p, 0) != 0)
 			ret = EPERM;
 		else if (random_state.entropy_count < 64)
