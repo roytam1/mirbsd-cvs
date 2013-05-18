@@ -1,5 +1,5 @@
 <!-- PageID: wlog-8 -->
-<small class="rcsid">$MirOS: www/content/d2xvZy04.inc,v 1.33 2006/02/01 21:59:48 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy04.inc,v 1.34 2006/02/02 02:46:28 tg Exp $</small>
 <h1>MirBSD &ndash; WTF, We Have a Release!?</h1>
 <p><small><a href="#eof">bottom</a> or <a href="/?older">older</a>
  editions</small></p>
@@ -385,8 +385,9 @@ celebrate this event, rotate the wlog and start a new one.</p>
   respectively the porting framework, so that opera runs better.</p>
  <p>Should I really go to the exam tomorrow? Chances are I get 40% while
   to pass you need to have more than 50%.</p>
- <p>Soryu (&#x60e3;&#x6d41;&#x30fb;&#x30a2;&#x30b9;&#x30ab;&#x30fb;&#x30e9;&#x30f3;&#x30b0;&#x30ec;&#x30fc;)
-  (his nick) pointed me via <a href="http://mirbsd.de/irc">IRC</a> to an
+ <p>Soryu (&#x60e3;&#x6d41;&#x30fb;&#x30a2;&#x30b9;&#x30ab;&#x30fb;&#x30e9;&#x30f3;&#x30b0;&#x30ec;&#x30fc;
+  is his nickname, "Stanley Rost" is the real name according to his CMS'
+  copyright) pointed me via <a href="http://mirbsd.de/irc">IRC</a> to an
   ambiente stream at radioio.com &ndash; a site which offers two quality
   variants on the website (AM quality and FM quality, wtf?)<br />Now the
   fun part: Opera opens a pop-up and offers to download an m3u file when
@@ -400,6 +401,20 @@ celebrate this event, rotate the wlog and start a new one.</p>
   href="http://radioio.sc.llnwd.net:8610/">the stream</a> and will sleep
   (or at least try to). I decided that I have no chance to pass the exam
   scheduled for tomorrow, that's the only reason to still be awake.</p>
+</div>
+
+<div class="wlentry">
+ <h3 id="e20060202">02.02.2006 by tg@</h3>   
+ <p>So, I did sleep long and not take the exam. I would not have passed,
+  anyway.</p>
+ <p>Some lazy day today, but I'll continue hacking on various stuff. And
+  (as announced) I broke mySQL for there is no maintainer. We have real,
+  happy, users of MirOS who also appear in IRC, so I fixed a few things,
+  based upon their feedback. Also I persuaded a bunch of BSD guys to add
+  <tt>#bsd</tt> (or even <tt>#mirbsd</tt>) on Freeforge to their connect
+  list and autojoin.</p>
+ <p>Tomorrow I'll have to do a few different things over the day, so may
+  not have the time to work on MirOS.</p>
 </div>
 
 <p id="eof">Good luck, have fun, take care etc.pp</p>
