@@ -29,7 +29,7 @@
 # http://www.freebsd.org/cgi/cvsweb.cgi/src/tools/regression/bin/test/regress.sh?rev=HEAD
 
 expected-stdout:
-	@(#)MIRBSD KSH R40 2012/10/30
+	@(#)MIRBSD KSH R40 2012/11/12
 description:
 	Check version of shell.
 stdin:
@@ -38,7 +38,7 @@ name: KSH_VERSION
 category: shell:legacy-no
 ---
 expected-stdout:
-	@(#)LEGACY KSH R40 2012/10/30
+	@(#)LEGACY KSH R40 2012/11/12
 description:
 	Check version of legacy shell.
 stdin:
@@ -5612,6 +5612,24 @@ stdin:
 expected-stdout:
 	a=/sweet b=/sweet c=d~ /sweet
 	a=~ b=~ c=d~ /sweet
+---
+name: tilde-expand-2
+description:
+	Check tilde expansion works
+env-setup: !HOME=/sweet!
+stdin:
+	wd=$PWD
+	cd /
+	plus=$(print -r -- ~+)
+	minus=$(print -r -- ~-)
+	nix=$(print -r -- ~)
+	[[ $plus = / ]]; echo one $? .
+	[[ $minus = "$wd" ]]; echo two $? .
+	[[ $nix = /sweet ]]; echo nix $? .
+expected-stdout:
+	one 0 .
+	two 0 .
+	nix 0 .
 ---
 name: exit-err-1
 description:
