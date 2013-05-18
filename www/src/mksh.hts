@@ -1,10 +1,10 @@
-# $MirOS: www/src/mksh.hts,v 1.4 2007/06/19 09:16:45 tg Exp $
+# $MirOS: www/src/mksh.hts,v 1.5 2007/06/21 16:12:54 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.4 2007/06/19 09:16:45 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.5 2007/06/21 16:12:54 tg Exp $'
 mws_content <<'EOF'
 <h1>mksh(1) R29</h1>
 <p>This is the website of the MirBSD™ Korn Shell, an actively developed free
@@ -211,6 +211,11 @@ mws_content <<'EOF'
  reliability for benchmark-only speed increases, but because mksh developers
  do not use gcc 4.x this will have to be user-contributed.</p>
 
+<h5 id="oe_hpc">Compiler: HP C/aC++</h5>
+<p>HP's C compiler (/usr/bin/cc on HP-UX) is supported in mksh R30 and above;
+ on IA64, only the LP64 model can be used; mksh segfaults in the ILP32 module
+ (or rather, the system libraries do, I think), so it is default.</p>
+
 <h5 id="oe_sun">Compiler: SUNpro</h5>
 <p>Support for the <a href="http://developer.sun.com/sunstudio">SUN Studio
  12</a> compiler appeared in mksh R30; other versions
@@ -370,6 +375,11 @@ mws_content <<'EOF'
  developers or contributors. mksh is not affiliated with the AT&amp;T
  Korn Shell, its past or present owners, other than that both attempt
  to implement the Korn Shell programming language.</p>
+<p>mksh targets users who desire a compact, fast, reliable, secure
+ shell not cut off modern extensions; a shell with Unicode support;
+ an actively developed, current, and portable product; one with
+ developers that listen to their users' requests and implement them
+ if they actually make sense.</p>
 
 <h3 id="co-diffs">Differences</h3>
 <p>mksh is a direct descendant from the OpenBSD <tt>/bin/ksh</tt> and
