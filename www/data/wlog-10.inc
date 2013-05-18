@@ -7856,6 +7856,18 @@ Tag: debian mksh
  Debian proper, instead of the private-repo packaging. Maybe I
  should indeed do that, comments?</p>
 ----
+Deleted: 1
+Date: 11.07.2011 20:42
+Author: tg@
+
+-
+----
+Deleted: 1
+Date: 11.07.2011 20:49
+Author: tg@
+
+-
+----
 Date: 17.07.2011 00:40
 Author: tg@
 Title: mksh R40b; joe 3.1jupp16 and 2.8jupp2 released

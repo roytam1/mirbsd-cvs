@@ -1,4 +1,4 @@
-rcsid_inc2htm='$MirOS: www/mk/inc2htm,v 1.25 2009/07/19 15:21:36 tg Exp $'
+rcsid_inc2htm='$MirOS: www/mk/inc2htm,v 1.26 2009/10/31 17:02:39 tg Exp $'
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -140,6 +140,20 @@ while (( entryp >= 0 )); do
 		do_permalink=0
 		break
 	done
+	if [[ ${e_deleted[ent]} = 1 ]]; then
+		if (( do_permalink )); then
+			fe=permalinks/${ei_srcf[ent]}_${eid}.htm
+			print -r -- "$fe"
+			mws_push
+			mws_setname $whoami "$pname"
+			mws_subdir 1
+			mws_putheader >$fe~
+			mclose $fe
+			mws_pop
+		fi
+		let entryp--
+		continue
+	fi
 	if (( do_permalink )); then
 		fe=permalinks/${ei_srcf[ent]}_${eid}.htm
 		print -r -- "$fe"
