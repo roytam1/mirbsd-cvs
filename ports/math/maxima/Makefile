@@ -23,11 +23,11 @@ RUN_DEPENDS=		${BUILD_DEPENDS}
 
 SUBST_VARS=		VERSION
 
-FLAVORS=		no_x11
-FLAVOR?=
+FLAVOURS=		no_x11
+FLAVOUR?=
 
 CONFIGURE_ARGS+=	--enable-clisp 
-.if !${FLAVOR:L:Mno_x11}
+.if !${FLAVOUR:L:Mno_x11}
 USE_X11=		Yes
 LIB_DEPENDS+= 		tcl84::lang/tcl/8.4 \
 			tk84::x11/tk/8.4 

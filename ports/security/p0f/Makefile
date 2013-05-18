@@ -17,12 +17,12 @@ PERMIT_DISTFILES_FTP=	Yes
 MASTER_SITES=		${HOMEPAGE}
 EXTRACT_SUFX=		.tgz
 
-FLAVORS=		mysql
-FLAVOR?=
+FLAVOURS=		mysql
+FLAVOUR?=
 
 EXAMPLES=		p0f.fp
 
-.if ${FLAVOR:L} == "mysql"
+.if ${FLAVOUR:L} == "mysql"
 LIB_DEPENDS=		lib/mysql/mysqlclient.10::databases/mysql
 ALL_TARGET=		p0f-mysql
 EXAMPLES+=		mysql/db.sql mysql/p0f-mysql.conf
@@ -41,7 +41,7 @@ do-install:
 	${INSTALL_DATA} ${WRKSRC}/README ${PREFIX}/share/doc/p0f/README
 	${INSTALL_MAN} ${WRKSRC}/p0f.1 ${PREFIX}/man/man1/p0f.1
 .for file in ${EXAMPLES}
-.if ${FLAVOR:L} == "mysql"
+.if ${FLAVOUR:L} == "mysql"
 	${INSTALL_DATA_DIR} ${PREFIX}/share/examples/p0f/mysql
 .endif
 	${INSTALL_DATA} ${WRKSRC}/${file} ${PREFIX}/share/examples/p0f/${file}

@@ -1,4 +1,4 @@
-# $MirOS: ports/graphics/aalib/Makefile,v 1.4 2006/11/03 22:02:00 tg Exp $
+# $MirOS: ports/graphics/aalib/Makefile,v 1.5 2007/02/22 22:57:50 tg Exp $
 # $OpenBSD: Makefile,v 1.18 2003/04/06 01:15:10 margarida Exp $
 
 COMMENT=		ascii art library
@@ -19,10 +19,10 @@ CONFIGURE_STYLE=	autoconf
 CONFIGURE_ARGS+=	--enable-static \
 			${CONFIGURE_SHARED}
 
-FLAVORS=		no_x11
-FLAVOR?=
+FLAVOURS=		no_x11
+FLAVOUR?=
 
-.if ${FLAVOR:L} == "no_x11"
+.if ${FLAVOUR:L} == "no_x11"
 CONFIGURE_ARGS+=	--without-x
 .else
 USE_X11=		Yes

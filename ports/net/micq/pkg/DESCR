@@ -6,5 +6,5 @@ new version 8 of the ICQ protocol that became necessary, the
 internationalization, the file transfer and some restructuring of the
 code.
 
-Flavors:
+Flavours:
 	ssl - build with SSL support.

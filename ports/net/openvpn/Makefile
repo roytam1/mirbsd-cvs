@@ -1,4 +1,4 @@
-# $MirOS: ports/net/openvpn/Makefile,v 1.13 2006/11/16 19:25:08 tg Exp $
+# $MirOS: ports/net/openvpn/Makefile,v 1.14 2007/02/22 22:57:55 tg Exp $
 # $OpenBSD: Makefile,v 1.2 2003/12/30 21:29:53 sturm Exp $
 
 COMMENT=		easy-to-use, robust, highly configurable VPN solution
@@ -15,25 +15,25 @@ PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_CDROM= Yes
 PERMIT_DISTFILES_FTP=	Yes
 
-FLAVORS=		no_lzo static
-FLAVOR?=
+FLAVOURS=		no_lzo static
+FLAVOUR?=
 
-.if !${FLAVOR:L:Mno_lzo}
-.  if !${FLAVOR:L:Mstatic}
+.if !${FLAVOUR:L:Mno_lzo}
+.  if !${FLAVOUR:L:Mstatic}
 LIB_DEPENDS+=		lzo2::archivers/lzo
 RUN_DEPENDS+=		:lzo->=2.*:archivers/lzo
 .  endif
 BUILD_DEPENDS+=		:lzo->=2.*:archivers/lzo
 .endif
 
-.if ${FLAVOR:L:Mstatic}
+.if ${FLAVOUR:L:Mstatic}
 LDSTATIC=		-static
 .endif
 
 USE_GMAKE=		Yes
 CONFIGURE_STYLE=	autoconf
 AUTOCONF_NEW=		Yes
-.if ${FLAVOR:L:Mno_lzo}
+.if ${FLAVOUR:L:Mno_lzo}
 CONFIGURE_ARGS+=	--disable-lzo
 .else
 CONFIGURE_ARGS+=	--with-lzo-headers=${LOCALBASE}/include \

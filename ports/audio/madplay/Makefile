@@ -20,10 +20,10 @@ MASTER_SITES=	ftp://ftp.mars.org/pub/mpeg/ \
 MODULES=	devel/gettext
 LIB_DEPENDS=	id3tag::audio/libid3tag mad::audio/libmad
 
-FLAVORS=	esd
-FLAVOR?=
+FLAVOURS=	esd
+FLAVOUR?=
 
-.if ${FLAVOR:L:Mesd}
+.if ${FLAVOUR:L:Mesd}
 CONFIGURE_ARGS+= --with-esd
 LIB_DEPENDS+=   esd.2::audio/esound
 .else

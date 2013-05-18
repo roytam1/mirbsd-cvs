@@ -1,4 +1,4 @@
-# $MirOS: ports/sysutils/ntfsprogs/Makefile,v 1.2 2006/09/14 00:13:39 tg Exp $
+# $MirOS: ports/sysutils/ntfsprogs/Makefile,v 1.3 2007/04/29 23:10:59 tg Exp $
 # $NetBSD: Makefile,v 1.2 2004/10/09 10:29:12 kristerw Exp $
 
 COMMENT=		Linux-NTFS project utilities for the NT Filesystem (ntfs)
@@ -13,8 +13,8 @@ PERMIT_DISTFILES_FTP=	Yes
 PERMIT_PACKAGE_CDROM=	Yes
 PERMIT_PACKAGE_FTP=	Yes
 
-FLAVORS=		debug
-FLAVOR?=
+FLAVOURS=		debug
+FLAVOUR?=
 
 CONFIGURE_STYLE=	autoconf
 AUTOCONF_NEW=		Yes
@@ -26,7 +26,7 @@ CONFIGURE_ARGS+=	${CONFIGURE_SHARED} \
 # gnome pkgsrc and this could be a configurable option
 CONFIGURE_ARGS+=	--disable-gnome-vfs
 
-.if ${FLAVOR:Mdebug}
+.if ${FLAVOUR:Mdebug}
 CONFIGURE_ARGS+=	--enable-debug
 .else
 CONFIGURE_ARGS+=	--disable-debug

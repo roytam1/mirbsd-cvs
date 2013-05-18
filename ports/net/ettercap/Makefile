@@ -1,4 +1,4 @@
-# $MirOS: ports/net/ettercap/Makefile,v 1.4 2006/02/09 11:12:14 tg Exp $
+# $MirOS: ports/net/ettercap/Makefile,v 1.5 2006/09/14 00:11:42 tg Exp $
 # $OpenBSD: Makefile,v 1.26 2004/02/25 02:35:16 naddy Exp $
 
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
@@ -21,15 +21,15 @@ PERMIT_PACKAGE_FTP=     Yes
 PERMIT_DISTFILES_CDROM= Yes
 PERMIT_DISTFILES_FTP=   Yes
 
-FLAVORS=		no_x11
-FLAVOR?=
+FLAVOURS=		no_x11
+FLAVOUR?=
 
 MODULES+=		devel/pkgconfig
 
 CONFIGURE_STYLE=	gnu
 CONFIGURE_ARGS+=	--enable-https
 
-.if ${FLAVOR:L:Mno_x11}
+.if ${FLAVOUR:L:Mno_x11}
 CONFIGURE_ARGS+=	--enable-gtk=no
 .else
 USE_CXX=	Yes

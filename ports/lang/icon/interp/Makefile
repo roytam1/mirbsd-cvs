@@ -26,8 +26,8 @@ HOMEPAGE=	http://www.cs.arizona.edu/icon/
 
 #WRKDIST=	${WRKDIR}
 
-FLAVORS=	no_x11
-FLAVOR?=	
+FLAVOURS=	no_x11
+FLAVOUR?=	
 
 SCRIPTS_ENV=	ARCH="${MACHINE_ARCH}"
 MAKE_ENV=	ARCH="${MACHINE_ARCH}"
@@ -36,7 +36,7 @@ ALL_TARGET=	Icont Iconc
 
 LIBDIR=${TRUEPREFIX}/lib/icon
 
-.if ${FLAVOR:L:Mno_x11}
+.if ${FLAVOUR:L:Mno_x11}
 CONFIGURE_TARGET=Configure
 .else
 CONFIGURE_TARGET=X-Configure

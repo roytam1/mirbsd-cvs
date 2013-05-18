@@ -1,4 +1,4 @@
-# $MirOS: ports/emulators/fuse/Makefile,v 1.4 2006/06/03 16:02:40 bsiegert Exp $
+# $MirOS: ports/emulators/fuse/Makefile,v 1.5 2006/09/14 00:09:09 tg Exp $
 # $OpenBSD: Makefile,v 1.6 2004/05/08 06:46:45 sturm Exp $
 # $RuOBSD: Makefile,v 1.7 2002/03/26 19:14:05 grange Exp $
 
@@ -30,10 +30,10 @@ MODULES+=		devel/pkgconfig graphics/png
 CONFIGURE_STYLE=	gnu
 CONFIGURE_ENV=		LIBS="-lbz2"
 
-FLAVORS=gtk
-FLAVOR?=
+FLAVOURS=gtk
+FLAVOUR?=
 
-.if ${FLAVOR:L:Mgtk}
+.if ${FLAVOUR:L:Mgtk}
 LIB_DEPENDS+=		gdk-x11-2.0.0.0,gdk_pixbuf-2.0.0.0,gtk-x11-2.0.0.0::x11/gtk+2
 CONFIGURE_ARGS=		--with-gtk2
 .else

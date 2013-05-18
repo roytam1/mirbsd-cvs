@@ -1,4 +1,4 @@
-# $MirOS: ports/mailnews/pine/Makefile,v 1.22 2006/09/20 22:24:50 tg Exp $
+# $MirOS: ports/mailnews/alpine/Makefile,v 1.1 2008/02/17 15:29:32 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.56 2003/10/05 21:42:29 jakob Exp $
 
 ONLY_FOR_PLATFORM=	Darwin:*:*
@@ -20,10 +20,10 @@ PERMIT_DISTFILES_FTP=	Yes
 
 NO_REGRESS=		Yes
 
-FLAVORS=		tcl
-FLAVOR?=
+FLAVOURS=		tcl
+FLAVOUR?=
 
-.if ${FLAVOR:L:Mtcl}
+.if ${FLAVOUR:L:Mtcl}
 LIB_DEPENDS+=		tcl::lang/tcl/8.4
 .else
 CONFIGURE_ARGS+=	--without-tcl

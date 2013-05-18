@@ -18,14 +18,14 @@ PERMIT_DISTFILES_FTP=   Yes
 MASTER_SITES=	${MASTER_SITE_SOURCEFORGE:=zebedee/} \
 		http://www.winton.org.uk/zebedee/
 
-FLAVORS=	udp_spoof
-FLAVOR?=
+FLAVOURS=	udp_spoof
+FLAVOUR?=
 
 LIB_DEPENDS=	bz2::archivers/bzip2
 DEFINES_openbsd= -DHAVE_PTHREADS -DBUGGY_FORK_WITH_THREADS
 OSLIBS_openbsd=	-pthread
 
-.if ${FLAVOR:L:Mudp_spoof}
+.if ${FLAVOUR:L:Mudp_spoof}
 LIB_DEPENDS+=	net::net/libnet
 LIBNET_DEFS=	`libnet-config --defines`
 DEFINES_openbsd+= -DUSE_UDP_SPOOFING ${LIBNET_DEFS}

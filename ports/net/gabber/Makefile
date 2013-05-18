@@ -1,4 +1,4 @@
-# $MirOS: ports/net/gabber/Makefile,v 1.3 2006/09/14 00:11:43 tg Exp $
+# $MirOS: ports/net/gabber/Makefile,v 1.4 2007/03/31 22:02:06 tg Exp $
 # $OpenBSD: Makefile,v 1.5 2003/07/12 06:27:12 marcm Exp $
 # $RuOBSD: Makefile,v 1.9 2002/10/28 16:01:41 grange Exp $
 
@@ -38,10 +38,10 @@ CONFIGURE_ARGS=		--enable-ipv6
 
 NO_REGRESS=		Yes
 
-FLAVORS=		xmms
-FLAVOR?=
+FLAVOURS=		xmms
+FLAVOUR?=
 
-.if ${FLAVOR:L:Mxmms}
+.if ${FLAVOUR:L:Mxmms}
 LIB_DEPENDS+=		xmms.3::audio/xmms
 .else
 CONFIGURE_ARGS+=	--disable-xmms

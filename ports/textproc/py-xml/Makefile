@@ -27,12 +27,12 @@ MODPY_DISTUTILS_BUILDARGS=	--with-libexpat=${LOCALBASE}
 # pyexpat - use our own pyexpat.so
 # otherwise use the python-expat version
 
-FLAVORS=pyexpat
-FLAVOR?=
+FLAVOURS=pyexpat
+FLAVOUR?=
 
 LIB_DEPENDS=	expat.2::textproc/expat
 
-.if !${FLAVOR:L:Mpyexpat}
+.if !${FLAVOUR:L:Mpyexpat}
 BUILD_DEPENDS+=	:python-expat-${MODPY_VERSION}*:lang/python/${MODPY_VERSION},-expat
 .endif
 

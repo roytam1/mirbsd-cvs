@@ -20,10 +20,10 @@ MASTER_SITES=	${HOMEPAGE}source/ \
 
 EXTRACT_SUFX=	.tgz
 
-FLAVORS=	ssl
-FLAVOR?=
+FLAVOURS=	ssl
+FLAVOUR?=
 
-.if ${FLAVOR:L:Mssl}
+.if ${FLAVOUR:L:Mssl}
 LIB_DEPENDS=	gnutls.12::security/gnutls
 CONFIGURE_ARGS+= --enable-ssl
 .endif

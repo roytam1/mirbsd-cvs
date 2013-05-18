@@ -1,4 +1,4 @@
-# $MirOS: ports/textproc/libxml/Makefile,v 1.13 2007/06/22 22:29:41 bsiegert Exp $
+# $MirOS: ports/textproc/libxml/Makefile,v 1.14 2008/01/22 20:18:23 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.76 2004/04/21 04:42:26 robert Exp $
 
 COMMENT=		XML parsing library
@@ -18,8 +18,8 @@ PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
-FLAVORS=		python
-FLAVOR?=		
+FLAVOURS=		python
+FLAVOUR?=		
 
 MODULES=		converters/libiconv
 MODULES+=		devel/pkgconfig
@@ -37,7 +37,7 @@ CONFIGURE_ARGS+=	--without-threads
 
 CPPFLAGS+=		-DMIRPORTS_LOCALBASE=\"${LOCALBASE:Q}\"
 
-.if ${FLAVOR:L:Mpython}
+.if ${FLAVOUR:L:Mpython}
 CONFIGURE_ARGS+=	--with-python
 B_R_DEPENDS+=		::lang/python/2.3,no_cxx
 .else

@@ -13,6 +13,6 @@ Despite its simple GUI interface (available in many languages),
 it suports tables, figures, and hyperlinked cross-references, and
 best-of-breed math editor.
 
-Flavors:
+Flavours:
 	qt 	- build with a Qt GUI (open-source GPL library)
 	xforms 	- build with an XForms GUI (closed-source library)

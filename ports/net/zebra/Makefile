@@ -33,10 +33,10 @@ CONFIGURE_STYLE= gnu old
 CONFIGURE_ARGS+= --enable-vtysh --sysconfdir=${CONFDIR}
 CONFIGURE_ENV=	LIBS=-lcurses
 
-FLAVORS=	snmp
-FLAVOR?=
+FLAVOURS=	snmp
+FLAVOUR?=
 
-.if ${FLAVOR:L:Msnmp}
+.if ${FLAVOUR:L:Msnmp}
 LIB_DEPENDS=	snmp.42::net/ucd-snmp
 CONFIGURE_ARGS+= --enable-snmp
 .else

@@ -22,13 +22,13 @@ DIST_SUBDIR=			${PKGNAME}
 
 LIB_DEPENDS=			png.2.::graphics/png
 
-FLAVORS=			no_x11
-FLAVOR?=
+FLAVOURS=			no_x11
+FLAVOUR?=
 
 MAKE_FILE=			makefile
 WRKDIST=			${WRKDIR}/povray31/source/unix
 
-.if !${FLAVOR:L:Mno_x11}
+.if !${FLAVOUR:L:Mno_x11}
 ALL_TARGET=                     newxwin
 USE_X11=			Yes
 .endif
@@ -41,7 +41,7 @@ NO_REGRESS=			Yes
 
 do-install:
 	${INSTALL_PROGRAM} ${WRKDIST}/povray ${PREFIX}/bin
-.if !${FLAVOR:L:Mno_x11}
+.if !${FLAVOUR:L:Mno_x11}
 	${INSTALL_PROGRAM} ${WRKDIST}/x-povray ${PREFIX}/bin
 .endif
 	${INSTALL_MAN} ${WRKDIST}/povray.1 ${PREFIX}/man/man1

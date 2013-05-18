@@ -1,4 +1,4 @@
-# $MirOS: ports/net/rsync/Makefile,v 1.10 2007/02/17 20:49:06 tg Exp $
+# $MirOS: ports/net/rsync/Makefile,v 1.11 2007/09/02 19:55:51 tg Exp $
 # $OpenBSD: Makefile,v 1.41 2004/05/11 13:39:17 naddy Exp $
 
 COMMENT=		mirroring/synchronisation over low bandwidth links
@@ -10,8 +10,8 @@ RESPONSIBLE=		Thorsten Glaser <tg@66h.42h.de>
 PATCH_LIST=		patch-* *.diff
 DASH_VER=		1
 
-FLAVORS=		static
-FLAVOR?=
+FLAVOURS=		static
+FLAVOUR?=
 
 # GNU GPLv2
 PERMIT_PACKAGE_CDROM=	Yes
@@ -27,7 +27,7 @@ CONFIGURE_ARGS+=	--with-included-popt \
 			--with-rsh="ssh -T" \
 			--with-rsyncd-conf=${SYSCONFDIR:Q}/rsyncd.conf
 
-.if ${FLAVOR:L} == "static"
+.if ${FLAVOUR:L} == "static"
 # copy this to /var/anoncvs/anoncvs/bin/rsync, chmod 111
 CONFIGURE_ENV+=		ac_cv_header_iconv_h=no
 CONFIGURE_ARGS+=	--disable-debug \

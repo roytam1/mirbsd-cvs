@@ -1,4 +1,4 @@
-# $MirOS: ports/x11/gnome/libgnomeprint/Makefile,v 1.10 2007/04/18 20:05:06 bsiegert Exp $
+# $MirOS: ports/x11/gnome/libgnomeprint/Makefile,v 1.11 2007/07/05 21:00:51 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.9 2004/12/15 13:57:56 alek Exp $
 
 COMMENT=		printing framework for GNOME
@@ -29,11 +29,11 @@ LIB_DEPENDS=		art_lgpl_2.5::graphics/libart \
 			popt.0::devel/popt \
 			xml2.2.6::textproc/libxml
 
-PSEUDO_FLAVORS=		no_cups
-FLAVOR?=
+PSEUDO_FLAVOURS=		no_cups
+FLAVOUR?=
 
 MULTI_PACKAGES=
-.if ${FLAVOR:L:Mno_cups}
+.if ${FLAVOUR:L:Mno_cups}
 CONFIGURE_ARGS+=	--without-cups
 .else
 USE_CXX=		Yes # depends on cups, which uses CXX

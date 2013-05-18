@@ -1,4 +1,4 @@
-# $MirOS: ports/math/grace/Makefile,v 1.2 2006/02/09 11:12:04 tg Exp $
+# $MirOS: ports/math/grace/Makefile,v 1.3 2006/09/14 00:10:56 tg Exp $
 # $OpenBSD: Makefile,v 1.17 2004/01/11 11:12:52 sturm Exp $
 # $FreeBSD: ports/math/grace/Makefile,v 1.18 2001/04/25 05:59:19 lkoeller Exp $
 
@@ -32,14 +32,14 @@ LIB_DEPENDS=	jpeg.62::graphics/jpeg \
 		pdf.2::print/pdflib
 MODULES+=		graphics/png
 
-FLAVORS=	no_x11 fftw netcdf xmhtml
-FLAVOR?=
+FLAVOURS=	no_x11 fftw netcdf xmhtml
+FLAVOUR?=
 
-.if ${FLAVOR:L:Mno_x11}
+.if ${FLAVOUR:L:Mno_x11}
 CONFIGURE_ARGS+=	--without-x
 NO_REGRESS=		Yes
-.  if ${FLAVOR:L:Mxmhtml}
-ERRORS+=	"Fatal: Flavors 'no_x11' and 'xmhtml' are mutually exclusive."
+.  if ${FLAVOUR:L:Mxmhtml}
+ERRORS+=	"Fatal: Flavours 'no_x11' and 'xmhtml' are mutually exclusive."
 .  endif
 .else
 # 'make regress' needs X11 running
@@ -47,7 +47,7 @@ REGRESS_IS_INTERACTIVE=	Yes
 REGRESS_FLAGS=		DISPLAY=${DISPLAY}
 USE_X11=		Yes
 USE_MOTIF=		openmotif
-.  if ${FLAVOR:L:Mxmhtml}
+.  if ${FLAVOUR:L:Mxmhtml}
 LIB_DEPENDS+=		XmHTML.1::www/xmhtml
 CONFIGURE_ARGS+=	--enable-xmhtml
 .  else
@@ -55,14 +55,14 @@ CONFIGURE_ARGS+=	--disable-xmhtml
 .  endif
 .endif
 
-.if ${FLAVOR:L:Mfftw}
+.if ${FLAVOUR:L:Mfftw}
 LIB_DEPENDS+=		fftw.2::math/fftw
 CONFIGURE_ARGS+=	--with-fftw
 .else
 CONFIGURE_ARGS+=	--without-fftw
 .endif
 
-.if ${FLAVOR:L:Mnetcdf}
+.if ${FLAVOUR:L:Mnetcdf}
 LIB_DEPENDS+=		netcdf.1::math/netcdf
 CONFIGURE_ARGS+=	--enable-netcdf
 .else

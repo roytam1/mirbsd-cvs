@@ -1,4 +1,4 @@
-# $MirOS: ports/security/cyrus-sasl/Makefile,v 1.3 2006/02/09 11:15:19 tg Exp $
+# $MirOS: ports/security/cyrus-sasl/Makefile,v 1.4 2006/09/14 00:12:56 tg Exp $
 # $OpenBSD: Makefile,v 1.12 2004/02/17 03:26:02 kevlo Exp $
 
 BROKEN=		-I/usr/local/include/db4
@@ -38,10 +38,10 @@ CONFIGURE_ARGS+=	--with-saslauthd="/var/sasl2" \
 			--disable-ntlm \
 			--disable-sample
 
-FLAVORS=	db4
-FLAVOR?=
+FLAVOURS=	db4
+FLAVOUR?=
 
-.if ${FLAVOR:L} == "db4"
+.if ${FLAVOUR:L} == "db4"
 CONFIGURE_ARGS+=	--with-dblib=berkeley \
 			--with-bdb-libdir="${LOCALBASE}/lib/db4" \
 			--with-bdb-incdir="${LOCALBASE}/include/db4"

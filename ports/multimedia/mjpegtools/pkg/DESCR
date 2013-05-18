@@ -6,11 +6,11 @@ based on the Zoran ZR36067 MJPEG codec chip, the mjpegtools can easily
 be used to process and compress MJPEG video streams captured using
 xawtv using simple frame-buffer devices.
 
-There are two FLAVORs for this port:
+There are two FLAVOURs for this port:
 
-  optimized - This FLAVOR turns on processor specific compiler
-    optimizations.  Without this FLAVOR, these optimizations are
+  optimized - This FLAVOUR turns on processor specific compiler
+    optimizations.  Without this FLAVOUR, these optimizations are
     turned off.
 
-  quicktime - This FLAVOR allows the mjpegtools to read and write
+  quicktime - This FLAVOUR allows the mjpegtools to read and write
     Quicktime files.

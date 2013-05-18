@@ -1,4 +1,4 @@
-# $MirOS: ports/devel/libsoup/Makefile,v 1.5 2006/09/14 00:08:24 tg Exp $
+# $MirOS: ports/devel/libsoup/Makefile,v 1.6 2007/06/24 17:47:17 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.6 2004/11/23 21:34:27 espie Exp $
 
 COMMENT=		a SOAP implementation in C
@@ -32,10 +32,10 @@ CONFIGURE_ARGS+=	--disable-gtk-doc
 API_VERSION=		2.2
 SUBST_VARS=		API_VERSION
 
-FLAVORS=		ssl
-FLAVOR?=
+FLAVOURS=		ssl
+FLAVOUR?=
 
-.if ${FLAVOR:L:Mssl}
+.if ${FLAVOUR:L:Mssl}
 CONFIGURE_ARGS+=	--enable-ssl
 LIB_DEPENDS+=		gnutls.12::security/gnutls
 .else

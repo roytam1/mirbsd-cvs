@@ -184,7 +184,7 @@ system and version of Python.
 
    Solution: Install mailman with the following command:
 
-             % FLAVOR=postfix make install
+             % FLAVOUR=postfix make install
 
 
    Problem:  I send mail to the list, and get back mail saying,

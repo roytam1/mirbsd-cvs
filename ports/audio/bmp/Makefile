@@ -1,4 +1,4 @@
-# $MirOS: ports/audio/bmp/Makefile,v 1.4 2006/02/09 11:11:02 tg Exp $
+# $MirOS: ports/audio/bmp/Makefile,v 1.5 2006/09/14 00:06:58 tg Exp $
 # $OpenBSD: Makefile,v 1.3 2005/01/02 18:57:26 alek Exp $
 
 COMMENT=			gtk+2 media player based on XMMS
@@ -28,13 +28,13 @@ LIB_DEPENDS=	gdk_pixbuf-2.0.400.3,gdk-x11-2.0.400.3::x11/gtk+ \
 		glib-2.0.400.2,gthread-2.0.400.2::devel/glib
 
 MULTI_PACKAGES=
-PSEUDO_FLAVORS=	no_mp3 no_vorbis
-FLAVOR?=
+PSEUDO_FLAVOURS=	no_mp3 no_vorbis
+FLAVOUR?=
 
-.if !${FLAVOR:L:Mno_mp3}
+.if !${FLAVOUR:L:Mno_mp3}
 MULTI_PACKAGES+=-mp3
 .endif
-.if !${FLAVOR:L:Mno_vorbis}
+.if !${FLAVOUR:L:Mno_vorbis}
 MULTI_PACKAGES+=-vorbis
 .endif
 

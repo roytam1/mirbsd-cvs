@@ -1,4 +1,4 @@
-# $MirOS: ports/security/nessus/Makefile,v 1.3 2005/07/07 21:25:54 bsiegert Exp $
+# $MirOS: ports/security/nessus/Makefile,v 1.4 2006/09/14 00:13:05 tg Exp $
 # $OpenBSD: Makefile,v 1.35 2004/04/08 16:32:39 sturm Exp $
 
 IGNORE=		"might be broken, used to use Libtool"
@@ -38,8 +38,8 @@ PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
-FLAVORS=no_x11
-FLAVOR?=
+FLAVOURS=no_x11
+FLAVOUR?=
 
 # Can't do CONFIGURE_STYLE=autoconf because of configure wrapper
 # that builds each tarball in succession.
@@ -52,7 +52,7 @@ CONFIGURE_ARGS+=--localstatedir=/var --disable-nessuspcap \
 LIB_DEPENDS=	net::net/libnet
 BUILD_DEPENDS=	::devel/bison
 
-.if empty(FLAVOR:L:Mno_x11)
+.if empty(FLAVOUR:L:Mno_x11)
 LIB_DEPENDS+=	gtk.1.2,gdk.1.2::x11/gtk+1
 USE_X11=	Yes
 .else

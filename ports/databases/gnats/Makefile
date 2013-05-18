@@ -23,8 +23,8 @@ CONFIGURE_ENV+=	SEND_PR=/usr/bin/false
 
 INSTALL_TARGET=	install-gnats install-send-pr install-info
 
-FLAVORS=	www
-FLAVOR?=
+FLAVOURS=	www
+FLAVOUR?=
 
 post-install:
 	${INSTALL_DATA_DIR} ${PREFIX}/share/doc/gnats/
@@ -34,7 +34,7 @@ post-install:
 	sed "s%/var/lib%${TRUEPREFIX}/share%g" \
 		${WRKDIST}/gnats/gnats-db.conf > \
 		${PREFIX}/share/examples/gnats/gnats-db.conf
-.if ${FLAVOR:L:Mwww}
+.if ${FLAVOUR:L:Mwww}
 	${INSTALL_PROGRAM} ${WRKDIST}/contrib/gnatsweb/gnatsweb.pl \
 		${PREFIX}/lib/gnatsweb
 	${INSTALL_DATA} ${WRKDIST}/contrib/gnatsweb/gnats.pm \

@@ -20,10 +20,10 @@ CONFIGURE_STYLE=	gnu dest
 
 NO_REGRESS=		Yes
 
-FLAVORS=		snmp
-FLAVOR?=
+FLAVOURS=		snmp
+FLAVOUR?=
 
-.if ${FLAVOR:L} == "snmp"
+.if ${FLAVOUR:L} == "snmp"
 LIB_DEPENDS=		snmp::net/ucd-snmp
 CONFIGURE_ARGS+=	--with-snmp=${LOCALBASE}
 CONFIGURE_ENV+=		LIBS="-ldes"

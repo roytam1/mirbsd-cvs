@@ -27,10 +27,10 @@ CPPFLAGS+=		-DHAVE_VFSCANF
 ALL_TARGET=		hypermail
 MAKE_FLAGS=		WARNINGS=''
 
-FLAVORS=		gdbm
-FLAVOR?=
+FLAVOURS=		gdbm
+FLAVOUR?=
 
-.if ${FLAVOR:L} == "gdbm"
+.if ${FLAVOUR:L} == "gdbm"
 CONFIGURE_ARGS+=--with-gdbm=${LOCALBASE}
 LIB_DEPENDS+=	gdbm.::databases/gdbm
 .else

@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/mailnews/mutt/Makefile.inc,v 1.3 2007/03/19 15:19:14 tg Exp $
 # $OpenBSD: Makefile.inc,v 1.3 2004/04/06 12:43:46 brad Exp $
 
 DISTNAME=		mutt-${VERSION}i
@@ -18,8 +18,8 @@ PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
-FLAVORS=		slang mixmaster compressed
-FLAVOR?=
+FLAVOURS=		slang mixmaster compressed
+FLAVOUR?=
 
 CONFIGURE_STYLE=	autoconf old
 CONFIGURE_ARGS+=	--with-sharedir=${PREFIX:Q}/share/mutt \
@@ -34,7 +34,7 @@ CONFIGURE_ARGS+=	--with-sharedir=${PREFIX:Q}/share/mutt \
 			--sysconfdir=${CONFDIR:Q}
 CONFIGURE_ENV+=		ISPELL=${LOCALBASE:Q}/bin/ispell
 
-.if ${FLAVOR:L:Mslang}
+.if ${FLAVOUR:L:Mslang}
 LIB_DEPENDS+=		slang.14::devel/libslang
 CONFIGURE_ARGS+=	--with-slang=${PREFIX:Q}
 .else
@@ -43,7 +43,7 @@ CONFIGURE_ARGS+=	--with-curses
 
 # compressed folder support provided by
 # http://www.spinnaker.de/mutt/compressed/
-.if ${FLAVOR:L:Mcompressed}
+.if ${FLAVOUR:L:Mcompressed}
 PATCHFILES+=		patch-${VERSION}.rr.compressed.1.gz:0
 PATCH_DIST_STRIP=	-p1
 CONFIGURE_ARGS+=	--enable-compressed
@@ -52,7 +52,7 @@ CONFIGURE_STYLE+=	automake
 SUPDISTFILES+=		patch-${VERSION}.rr.compressed.1.gz:0
 .endif
 
-.if ${FLAVOR:L:Mmixmaster}
+.if ${FLAVOUR:L:Mmixmaster}
 CONFIGURE_ARGS+=	--with-mixmaster=${LOCALBASE:Q}/sbin/mixmaster
 RUN_DEPENDS+=		::mail/mixmaster
 .endif

@@ -7,6 +7,6 @@ with no scramble protection.  However, vlc will recognize and use an
 installed descrambling library (see converters/libdvdcss in the ports
 tree).
 
-FLAVORs:
+FLAVOURs:
 
 	no_dvd - disable dvd playing code

@@ -1,4 +1,4 @@
-# $MirOS: ports/graphics/tiff/Makefile,v 1.14 2007/02/22 22:57:51 tg Exp $
+# $MirOS: ports/graphics/tiff/Makefile,v 1.15 2008/02/17 15:40:28 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.29 2004/05/18 23:35:35 brad Exp $
 
 COMMENT=		library routines for working with TIFF images
@@ -24,8 +24,8 @@ PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
-PSEUDO_FLAVORS=		no_cxx
-FLAVOR?=
+PSEUDO_FLAVOURS=		no_cxx
+FLAVOUR?=
 
 CONFIGURE_STYLE=	autoconf
 AUTOCONF_NEW=		Yes
@@ -35,7 +35,7 @@ CONFIGURE_ARGS+=	${CONFIGURE_SHARED}
 CONFIGURE_ARGS+=	--enable-old-jpeg
 CONFIGURE_ARGS+=	--enable-rpath
 
-.if ${FLAVOR:L:Mno_cxx}
+.if ${FLAVOUR:L:Mno_cxx}
 CONFIGURE_ARGS+=	--enable-cxx=no
 .else
 CONFIGURE_ARGS+=	--enable-cxx

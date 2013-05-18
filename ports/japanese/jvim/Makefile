@@ -1,4 +1,4 @@
-# $MirOS: ports/japanese/jvim/Makefile,v 1.3 2006/09/14 00:10:14 tg Exp $
+# $MirOS: ports/japanese/jvim/Makefile,v 1.4 2007/04/12 20:21:22 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.20 2003/08/04 13:11:48 espie Exp $
 # $FreeBSD: Makefile,v 1.1.1.1 1998/07/10 14:05:19 kuriyama Exp $
 
@@ -18,10 +18,10 @@ PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
-FLAVORS=	wnn canna
-FLAVOR?=
+FLAVOURS=	wnn canna
+FLAVOUR?=
 
-.if ${FLAVOR:L:Mwnn}
+.if ${FLAVOUR:L:Mwnn}
 CHOICE=		wnn4
 INPUT_METHOD=	wnn4
 BUILD_DEPENDS+=	::japanese/Wnn
@@ -31,8 +31,8 @@ USE_X11=	Yes
 USE_CXX=	Yes # depends on groff, which uses CXX
 .endif
 
-.if ${FLAVOR:L:Mcanna}
-.  if ${FLAVOR:L:Mwnn}
+.if ${FLAVOUR:L:Mcanna}
+.  if ${FLAVOUR:L:Mwnn}
 INPUT_METHOD=	wnn4-canna
 CHOICE=		wnn4,canna
 .  else

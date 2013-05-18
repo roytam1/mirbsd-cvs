@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/x11/qvwm/Makefile,v 1.4 2007/05/07 19:48:40 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.8 2002/12/29 20:31:41 fgsch Exp $
 
 COMMENT=	Windows 95/98/NT like window manager
@@ -16,8 +16,8 @@ PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_CDROM=	Yes 
 PERMIT_DISTFILES_FTP=	Yes 
 
-FLAVORS=	esound imlib
-FLAVOR?=
+FLAVOURS=	esound imlib
+FLAVOUR?=
 
 USE_X11=	Yes
 
@@ -27,14 +27,14 @@ CONFIGURE_STYLE= gnu
 post-patch:
 	rm ${WRKDIST}/src/yaccsrc.{cc,h}
 
-.if ${FLAVOR:L:Mesound}
+.if ${FLAVOUR:L:Mesound}
 LIB_DEPENDS+=	esd.2.::audio/esound
 CONFIGURE_ARGS+= --with-esd-prefix=${LOCALBASE}
 .else
 CONFIGURE_ARGS+= --without-esd
 .endif
 
-.if ${FLAVOR:L:Mimlib}
+.if ${FLAVOUR:L:Mimlib}
 USE_CXX=	Yes # depends on libungif, which uses CXX
 LIB_DEPENDS+=	Imlib.19::graphics/imlib
 CONFIGURE_ARGS+= --with-imlib-prefix=${LOCALBASE}

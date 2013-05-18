@@ -1,4 +1,4 @@
-# $MirOS: ports/emulators/xmame/Makefile,v 1.7 2006/09/14 00:09:15 tg Exp $
+# $MirOS: ports/emulators/xmame/Makefile,v 1.8 2007/04/03 19:42:51 tg Exp $
 # $OpenBSD: Makefile,v 1.10 2003/10/11 01:37:55 brad Exp $
 
 COMMENT=		emulates arcade machines and old home computers
@@ -47,14 +47,14 @@ PKGNAME-mess=	xmess-${VERSION}-0
 
 VIDEOF=		x11 gl sdl
 
-FLAVORS=	${VIDEOF} esd
-FLAVOR?=	x11 
+FLAVOURS=	${VIDEOF} esd
+FLAVOUR?=	x11 
 
 EXFL?=
 EXFI?=
 
-# Video flavors are mutually exclusive
-.for i in ${FLAVOR:L}
+# Video flavours are mutually exclusive
+.for i in ${FLAVOUR:L}
 .  if ${VIDEOF:L:M${i}}
 EXFL+=		${i}
 .    if empty (EXFI)
@@ -63,26 +63,26 @@ EXFI+=		${i}
 .  endif
 .endfor
 .if   ${EXFL} != ${EXFI}
-ERRORS+=	"Fatal: Mutually exclusive flavors: ${EXFL}."
+ERRORS+=	"Fatal: Mutually exclusive flavours: ${EXFL}."
 DISPLAY_METHOD=
 .endif
 
-# Default video flavor is X11
+# Default video flavour is X11
 .if empty(EXFI)
-FLAVOR+=	x11
+FLAVOUR+=	x11
 .endif
 
-.if ${FLAVOR:L:Msdl}
+.if ${FLAVOUR:L:Msdl}
 DISPLAY_METHOD= SDL
 LIB_DEPENDS+=	SDL.:sdl-*-!no_x11:devel/sdl
-.elif ${FLAVOR:L:Mgl}
+.elif ${FLAVOUR:L:Mgl}
 DISPLAY_METHOD=	xgl
 LIB_DEPENDS+=	jpeg.::graphics/jpeg
 .else
 DISPLAY_METHOD=	x11
 .endif
 
-.if ${FLAVOR:L:Mesd}
+.if ${FLAVOUR:L:Mesd}
 MAKE_FLAGS+=	SOUND_ESOUND=1
 LIB_DEPENDS+=	esd::audio/esound
 .endif

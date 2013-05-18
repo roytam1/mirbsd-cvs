@@ -1,4 +1,4 @@
-# $MirOS: ports/net/rrdtool/Makefile,v 1.3 2006/02/09 11:15:06 tg Exp $
+# $MirOS: ports/net/rrdtool/Makefile,v 1.4 2006/09/14 00:12:15 tg Exp $
 # $OpenBSD: Makefile,v 1.24 2004/02/15 20:59:58 sturm Exp $
 
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
@@ -19,8 +19,8 @@ PERMIT_DISTFILES_FTP=	Yes
 
 SUBST_VARS=	VERSION
 
-FLAVORS=	tcl
-FLAVOR?=
+FLAVOURS=	tcl
+FLAVOUR?=
 
 MODULES+=		graphics/png
 CONFIGURE_STYLE= autoconf
@@ -29,7 +29,7 @@ CONFIGURE_ARGS+= ${CONFIGURE_SHARED} --enable-static \
 		--enable-local-zlib
 MODGNU_CONFIG_GUESS_DIRS= ${WRKSRC} ${WRKSRC}/config ${WRKSRC}/contrib/php4
 
-.if ${FLAVOR:L:Mtcl}
+.if ${FLAVOUR:L:Mtcl}
 LIB_DEPENDS+=	tcl84::lang/tcl/8.4
 USE_GMAKE=	Yes
 CONFIGURE_ARGS+= --with-tcllib="${LOCALBASE}/lib/tcl8.4"
@@ -38,7 +38,7 @@ CFLAGS+=	-I${LOCALBASE}/include/tcl8.4
 CONFIGURE_ARGS+= --without-tcllib
 .endif
 
-.if ${FLAVOR:L:Mtcl}
+.if ${FLAVOUR:L:Mtcl}
 post-install:
 	cd ${WRKSRC} && ${MAKE} site-tcl-install
 .endif

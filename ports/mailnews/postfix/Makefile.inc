@@ -36,29 +36,29 @@ LIB_DEPENDS+=	pcre::devel/pcre
 MAKE_CCARGS+=	-DHAS_PCRE -I${LOCALBASE}/include
 MAKE_AUXLIBS+=	-L${LOCALBASE}/lib -lpcre
 
-FLAVORS+=	sasl2 ldap mysql pgsql
-FLAVOR?=
+FLAVOURS+=	sasl2 ldap mysql pgsql
+FLAVOUR?=
 
-.if ${FLAVOR:L:Msasl2}
+.if ${FLAVOUR:L:Msasl2}
 LIB_DEPENDS+=	sasl2::security/cyrus-sasl
 MAKE_CCARGS+=	-I${LOCALBASE}/include -I${LOCALBASE}/include/sasl -DUSE_SASL_AUTH 
 MAKE_AUXLIBS+=	-L${LOCALBASE}/lib -lsasl2
 .endif
 
-.if ${FLAVOR:L:Mldap}
+.if ${FLAVOUR:L:Mldap}
 LIB_DEPENDS+=	ldap.2,lber:openldap-client-2.*:databases/openldap
 MAKE_CCARGS+=	-I${LOCALBASE}/include -DHAS_LDAP
 MAKE_AUXLIBS+=	-L${LOCALBASE}/lib -lldap -llber
 .endif
 
-.if ${FLAVOR:L:Mmysql}
+.if ${FLAVOUR:L:Mmysql}
 USE_CXX=	Yes
 LIB_DEPENDS+=	lib/mysql/mysqlclient.10::databases/mysql
 MAKE_CCARGS+=	-I${LOCALBASE}/include/mysql -DHAS_MYSQL
 MAKE_AUXLIBS+=	-L${LOCALBASE}/lib/mysql -lmysqlclient
 .endif
 
-.if ${FLAVOR:L:Mpgsql}
+.if ${FLAVOUR:L:Mpgsql}
 LIB_DEPENDS+=	pq.3:postgresql-clients-7.*:databases/postgresql
 MAKE_CCARGS+=	-I${LOCALBASE}/include/postgresql -DHAS_PGSQL
 MAKE_AUXLIBS+=	-L${LOCALBASE}/lib -lpq

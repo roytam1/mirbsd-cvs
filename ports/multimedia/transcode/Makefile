@@ -1,4 +1,4 @@
-# $MirOS: ports/multimedia/transcode/Makefile,v 1.7 2006/12/20 15:31:33 tg Exp $
+# $MirOS: ports/multimedia/transcode/Makefile,v 1.8 2007/04/13 19:38:18 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.2 2004/06/24 19:27:00 sturm Exp $
 
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
@@ -32,18 +32,18 @@ SED_PLIST+=		|sed -e '/^%%i386%%/r${PKGDIR}/PFRAG.i386' -e '//d'
 SED_PLIST+=		|sed -e '/^%%i386%%/d'
 .endif
 
-PSEUDO_FLAVORS=         no_dv no_mjpegtools no_xvidcore
-FLAVOR?=
+PSEUDO_FLAVOURS=         no_dv no_mjpegtools no_xvidcore
+FLAVOUR?=
 
 MULTI_PACKAGES=
-.if !${FLAVOR:L:Mno_dv}
+.if !${FLAVOUR:L:Mno_dv}
 MULTI_PACKAGES+=        -dv
 USE_X11=		Yes # depends on libdv, which needs X11
 .endif
-.if !${FLAVOR:L:Mno_mjpegtools}
+.if !${FLAVOUR:L:Mno_mjpegtools}
 MULTI_PACKAGES+=        -mjpegtools
 .endif
-.if !${FLAVOR:L:Mno_xvidcore}
+.if !${FLAVOUR:L:Mno_xvidcore}
 MULTI_PACKAGES+=        -xvidcore
 .endif
 
@@ -78,19 +78,19 @@ CONFIGURE_ARGS+=${CONFIGURE_SHARED} \
 		--without-qt \
 		--without-theora
 
-.if ${FLAVOR:L:Mno_dv}
+.if ${FLAVOUR:L:Mno_dv}
 CONFIGURE_ARGS+=        --without-dv
 .else
 CONFIGURE_ARGS+=        --with-dv
 .endif
 
-.if ${FLAVOR:L:Mno_mjpeg}
+.if ${FLAVOUR:L:Mno_mjpeg}
 CONFIGURE_ARGS+=        --disable-mjpeg
 .else
 CONFIGURE_ARGS+=        --enable-mjpeg
 .endif
 
-.if ${FLAVOR:L:Mno_xvidcore}
+.if ${FLAVOUR:L:Mno_xvidcore}
 CONFIGURE_ARGS+=        --without-xvidcore
 .else
 CONFIGURE_ARGS+=        --with-default-xvid=xvid4

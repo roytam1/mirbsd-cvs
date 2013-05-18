@@ -16,12 +16,12 @@ PERMIT_DISTFILES_FTP=	Yes
 MASTER_SITES=	ftp://ftp.cs.pdx.edu/pub/elvis/ \
 		ftp://ftp.fh-wedel.de/pub/elvis/
 
-FLAVORS=	no_x11
-FLAVOR?=
+FLAVOURS=	no_x11
+FLAVOUR?=
 
 CONFIGURE_STYLE= simple
 CONFIGURE_ARGS=	--bindir=${PREFIX}/bin --datadir=${PREFIX}/share/elvis
-.if ${FLAVOR:L:Mno_x11}
+.if ${FLAVOUR:L:Mno_x11}
 CONFIGURE_ARGS+= --with-x=no
 .else
 CONFIGURE_ARGS+= --with-x --x-includes=${X11BASE}/include \

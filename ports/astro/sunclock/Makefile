@@ -21,11 +21,11 @@ USE_X11=		Yes
 CONFIGURE_STYLE=	imake
 NO_REGRESS=		Yes
 
-PSEUDO_FLAVORS=	no_maps
-FLAVOR?=	no_maps
+PSEUDO_FLAVOURS=	no_maps
+FLAVOUR?=	no_maps
 
 MULTI_PACKAGES=
-.if !${FLAVOR:L:Mno_maps}
+.if !${FLAVOUR:L:Mno_maps}
 MULTI_PACKAGES+= -maps
 .endif
 SUBPACKAGE?=

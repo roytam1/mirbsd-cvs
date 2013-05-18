@@ -7,7 +7,7 @@ configuration adjustments.
 Starting with exim 4.50, the exiscan patch is included in the default
 exim distribution.
 
-This port can be built with the following flavors:
+This port can be built with the following flavours:
 
 * no_x11	- do not build eximon which requires X11
 * no_perl	- do not include perl support
@@ -18,4 +18,4 @@ This port can be built with the following flavors:
 * ldap		- support ldap (OpenLDAP) queries for lookups
 * iconv		- support character code conversions
 
-All these flavors are independent of one another.
+All these flavours are independent of one another.

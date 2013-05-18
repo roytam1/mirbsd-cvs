@@ -1,4 +1,4 @@
-# $MirOS: ports/archivers/gtar/Makefile,v 1.4 2006/09/14 00:06:48 tg Exp $
+# $MirOS: ports/archivers/gtar/Makefile,v 1.5 2007/02/22 22:57:42 tg Exp $
 # $OpenBSD: Makefile,v 1.29 2004/05/15 12:57:34 naddy Exp $
 
 COMMENT=			GNU version of the traditional tar archiver
@@ -25,10 +25,10 @@ CONFIGURE_ENV+=		DEFAULT_ARCHIVE=/dev/rst0 \
 			ac_cv_func_working_mktime=yes \
 			DEFAULT_RMT_COMMAND=/etc/rmt
 
-FLAVORS=		static
-FLAVOR?=
+FLAVOURS=		static
+FLAVOUR?=
 
-.if ${FLAVOR:L:Mstatic}
+.if ${FLAVOUR:L:Mstatic}
 LDSTATIC=		-static
 .else
 LDSTATIC=

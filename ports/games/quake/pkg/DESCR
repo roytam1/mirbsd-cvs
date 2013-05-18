@@ -3,6 +3,6 @@ user. This package holds binaries for Quake, QuakeWorld.
 
 Note that you must have quake datafiles from elsewhere.
 
-Flavors:
+Flavours:
 	sdl	uses sdl library, allows full screen.
 	ggi	uses ggi library, somewhat theoretical interest.

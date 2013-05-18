@@ -19,8 +19,8 @@ PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
-FLAVORS=	mysql postgresql
-FLAVOR?=
+FLAVOURS=	mysql postgresql
+FLAVOUR?=
 
 CONFIGURE_STYLE=	gnu
 CONFIGURE_ARGS+=	--with-apxs=/usr/sbin/apxs \
@@ -31,18 +31,18 @@ NO_REGRESS=	Yes
 EXAMPLESRC=	${WRKSRC}/support
 CONF=		${EXAMPLESRC}/mp3.conf
 
-.if ${FLAVOR:L:Mmysql} && ${FLAVOR:L:Mpostgresql}
-ERRORS+= "Fatal: mutually exclusive flavors: ${FLAVORS}"
+.if ${FLAVOUR:L:Mmysql} && ${FLAVOUR:L:Mpostgresql}
+ERRORS+= "Fatal: mutually exclusive flavours: ${FLAVOURS}"
 .endif
 
-.if ${FLAVOR:L:Mmysql}
+.if ${FLAVOUR:L:Mmysql}
 LIB_DEPENDS+=	lib/mysql/mysqlclient.10::databases/mysql
 CONFIGURE_ARGS+=	--with-mysql="${LOCALBASE}"
 CONF=	${EXAMPLESRC}/mp3_with_mysql.conf
 EXAMPLES+=	${EXAMPLESRC}/mysql_schema
 .endif
 
-.if ${FLAVOR:L:Mpostgresql}
+.if ${FLAVOUR:L:Mpostgresql}
 LIB_DEPENDS+=	pq.2::databases/postgresql
 CONFIGURE_ARGS+=	--with-postgres="${LOCALBASE}"
 CONF=	${FILESDIR}/mp3_with_postgresql.conf

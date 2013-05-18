@@ -19,10 +19,10 @@ PERMIT_DISTFILES_FTP=	Yes
 CONFIGURE_STYLE=	gnu
 USE_GMAKE=		Yes
 
-FLAVORS=		no_x11
-FLAVOR?=
+FLAVOURS=		no_x11
+FLAVOUR?=
 
-.if ${FLAVOR:Mno_x11}
+.if ${FLAVOUR:Mno_x11}
 CONFIGURE_ARGS+=	--disable-x11-textmode
 .else
 USE_X11=		Yes

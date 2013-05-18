@@ -1,4 +1,4 @@
-# $MirOS: ports/editors/xemacs21/Makefile,v 1.6 2006/09/14 00:09:06 tg Exp $
+# $MirOS: ports/editors/xemacs21/Makefile,v 1.7 2006/12/20 15:31:23 tg Exp $
 # $OpenBSD: Makefile,v 1.20 2003/07/06 18:34:48 naddy Exp $
 
 COMMENT=		heavily customizable and extensible editor
@@ -26,8 +26,8 @@ MASTER_SITES= 	ftp://ftp.xemacs.org/pub/xemacs/xemacs-21.4/ \
 		ftp://ftp.th-darmstadt.de/pub/editors/xemacs/xemacs-21.4/ \
       		ftp://ftp.funet.fi/pub/mirrors/ftp.xemacs.org/pub/tux/xemacs/xemacs-21.4/
 
-# Dependencies are very flavors-specific, you have
-# to select a flavor set to know them
+# Dependencies are very flavours-specific, you have
+# to select a flavour set to know them
 
 # build/configuration variables
 
@@ -76,27 +76,27 @@ GCCARCH=        ${OStriplet}
 CONFIGURE_ARGS+=	${GCCARCH}
 SUBST_VARS=	GCCARCH
 
-#### Flavors
+#### Flavours
 
-# generic flavors
-FLAVORS=	mule canna wnn
+# generic flavours
+FLAVOURS=	mule canna wnn
 
 # X11 Related
-FLAVORS+=	no_x11
+FLAVOURS+=	no_x11
 
-FLAVOR?=
+FLAVOUR?=
 
 #
 # X11-related
 #
 
-.if ${FLAVOR:L:Mno_x11}
+.if ${FLAVOUR:L:Mno_x11}
 
 CONFIGURE_ARGS+=--without-x11
 
 .else
 
-### X11-dependent flavors
+### X11-dependent flavours
 USE_X11=	Yes
 
 CONFIGURE_ARGS+=	--with-menubars=lucid
@@ -114,12 +114,12 @@ CONFIGURE_ARGS+=--with-png \
 LIB_DEPENDS+=	tiff.35::graphics/tiff
 CONFIGURE_ARGS+=--with-tiff
 
-. if ${FLAVOR:L:Mmule}
+. if ${FLAVOUR:L:Mmule}
 CONFIGURE_ARGS+=	--with-xim=xlib
 # prevents XEmacs from using motif's XIM which coredumps a lot
 . endif
 
-### end of X11 dependant flavors
+### end of X11 dependant flavours
 .endif
 
 #
@@ -127,17 +127,17 @@ CONFIGURE_ARGS+=	--with-xim=xlib
 # I18N
 #
 
-.if ${FLAVOR:L:Mmule}
+.if ${FLAVOUR:L:Mmule}
 CONFIGURE_ARGS+=--with-mule
 
-. if ${FLAVOR:L:Mcanna}
+. if ${FLAVOUR:L:Mcanna}
 LIB_DEPENDS+=	canna16::japanese/canna
 CONFIGURE_ARGS+=--with-canna
 . else
 CONFIGURE_ARGS+=--with-canna=no
 . endif
 
-. if ${FLAVOR:L:Mwnn}
+. if ${FLAVOUR:L:Mwnn}
 BUILD_DEPENDS+= ::japanese/Wnn
 CONFIGURE_ARGS+=--with-wnn
 . else
@@ -146,8 +146,8 @@ CONFIGURE_ARGS+=--with-wnn=no
 
 .else
 
-. if ${FLAVOR:L:Mcanna} || ${FLAVOR:L:Mwnn}
-ERRORS+= "Fatal: You cannot use MULE-dependant flavors without MULE support"
+. if ${FLAVOUR:L:Mcanna} || ${FLAVOUR:L:Mwnn}
+ERRORS+= "Fatal: You cannot use MULE-dependant flavours without MULE support"
 . endif
 
 CONFIGURE_ARGS+=--with-mule=no \

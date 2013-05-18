@@ -1,4 +1,4 @@
-@comment $MirOS$
+@comment $MirOS: ports/graphics/sane-backends/pkg/PLIST.gphoto2,v 1.1.7.1 2005/03/18 15:47:09 tg Exp $
 bin/gamma4scanimage
 bin/sane-config
 bin/sane-find-scanner
@@ -45,8 +45,8 @@ lib/sane/libsane-epson.a
 lib/sane/libsane-epson.la
 lib/sane/libsane-fujitsu.a
 lib/sane/libsane-fujitsu.la
-lib/sane/libsane${FLAVOR_EXT}.a
-lib/sane/libsane${FLAVOR_EXT}.la
+lib/sane/libsane${FLAVOUR_EXT}.a
+lib/sane/libsane${FLAVOUR_EXT}.la
 lib/sane/libsane-gt68xx.a
 lib/sane/libsane-gt68xx.la
 lib/sane/libsane-hp.a
@@ -142,7 +142,7 @@ man/man5/sane-dll.5
 man/man5/sane-dmc.5
 man/man5/sane-epson.5
 man/man5/sane-fujitsu.5
-man/man5/sane${FLAVOR_EXT}.5
+man/man5/sane${FLAVOUR_EXT}.5
 man/man5/sane-gt68xx.5
 man/man5/sane-hp.5
 man/man5/sane-hp5400.5

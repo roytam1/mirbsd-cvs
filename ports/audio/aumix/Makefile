@@ -1,8 +1,8 @@
-# $MirOS: ports/audio/aumix/Makefile,v 1.4 2006/09/14 00:06:57 tg Exp $
+# $MirOS: ports/audio/aumix/Makefile,v 1.5 2006/12/30 23:02:53 tg Exp $
 # $OpenBSD: Makefile,v 1.10 2004/04/13 18:36:57 naddy Exp $
 
-FLAVOR?=		no_x11
-.if !${FLAVOR:L:Mno_x11}
+FLAVOUR?=		no_x11
+.if !${FLAVOUR:L:Mno_x11}
 BROKEN=			the gtk+2 flavour is currently broken
 .endif
 
@@ -23,24 +23,24 @@ EXTRACT_SUFX=		.tar.bz2
 
 MODULES=		devel/gettext devel/pkgconfig
 
-FLAVORS=		no_x11 no_curses dummy
-FLAVOR?=
+FLAVOURS=		no_x11 no_curses dummy
+FLAVOUR?=
 
 CONFIGURE_STYLE=	gnu
 CONFIGURE_ARGS=		--enable-own-labels --without-gtk1
 
-.if ${FLAVOR:L:Mno_x11}
+.if ${FLAVOUR:L:Mno_x11}
 CONFIGURE_ARGS+=	--without-gtk
 .else
 LIB_DEPENDS+=		gdk-x11-2.0.0.14,gdk_pixbuf-2.0.0.14,gtk-x11-2.0.0.14::x11/gtk+
 USE_X11=		Yes
 .endif
 
-.if ${FLAVOR:L:Mno_curses}
+.if ${FLAVOUR:L:Mno_curses}
 CONFIGURE_ARGS+=	--without-ncurses
 .endif
 
-.if ${FLAVOR:L:Mdummy}
+.if ${FLAVOUR:L:Mdummy}
 CONFIGURE_ARGS+=	--enable-dummy-mixer
 .endif
 

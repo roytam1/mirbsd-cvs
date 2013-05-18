@@ -1,4 +1,4 @@
-# $MirOS: ports/plan9/rc/Makefile,v 1.4 2006/09/14 00:12:35 tg Exp $
+# $MirOS: ports/plan9/rc/Makefile,v 1.5 2006/12/20 15:31:35 tg Exp $
 # $OpenBSD: Makefile,v 1.13 2003/05/15 03:25:56 markus Exp $
 
 COMMENT=		clone of plan9 shell
@@ -17,14 +17,14 @@ PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
-FLAVORS=		static
-FLAVOR?=
+FLAVOURS=		static
+FLAVOUR?=
 
 CONFIGURE_STYLE=	autoconf
 AUTOCONF_NEW=		Yes
 CONFIGURE_ARGS+=	--with-history --with-editline
 
-.if ${FLAVOR:L} == "static"
+.if ${FLAVOUR:L} == "static"
 LDSTATIC=		-static
 .endif
 

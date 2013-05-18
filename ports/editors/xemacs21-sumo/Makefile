@@ -42,10 +42,10 @@ MASTER_SITES= 	ftp://ftp.xemacs.org/pub/xemacs/packages/ \
 # build/configuration variables
 
 
-FLAVORS=mule
-FLAVOR?=
+FLAVOURS=mule
+FLAVOUR?=
 
-.if ${FLAVOR:L:Mmule}
+.if ${FLAVOUR:L:Mmule}
 DISTFILES+= ${SUP_mule}
 .endif
 

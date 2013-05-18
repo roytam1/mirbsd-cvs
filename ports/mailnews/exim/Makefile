@@ -1,4 +1,4 @@
-# $MirOS: ports/mailnews/exim/Makefile,v 1.7 2006/09/14 00:10:33 tg Exp $
+# $MirOS: ports/mailnews/exim/Makefile,v 1.8 2007/04/12 20:22:18 bsiegert Exp $
 
 COMMENT=		flexible mail transfer agent
 VERSION=		4.62
@@ -20,8 +20,8 @@ PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
-FLAVORS=		no_x11 no_perl mysql pgsql ldap iconv
-FLAVOR?=
+FLAVOURS=		no_x11 no_perl mysql pgsql ldap iconv
+FLAVOUR?=
 
 EXIM_ROUTERS=		ACCEPT DNSLOOKUP IPLITERAL MANUALROUTE QUERYPROGRAM REDIRECT # IPLOOKUP
 EXIM_TRANSPORTS=	APPENDFILE AUTOREPLY PIPE SMTP # LMTP
@@ -29,18 +29,18 @@ EXIM_MAILBOX_FORMATS=	MAILDIR # MAILSTORE MBX
 EXIM_LOOKUP_METHODS=	DBM LSEARCH CDB DNSDB DSEARCH PASSWD
 EXIM_AUTH_MECHANISMS=	CRAM_MD5 PLAINTEXT SPA
 
-.if !${FLAVOR:L:Mno_x11}
+.if !${FLAVOUR:L:Mno_x11}
 USE_X11=		Yes
 .endif
 
-.if ${FLAVOR:L:Mmysql}
+.if ${FLAVOUR:L:Mmysql}
 LIB_DEPENDS+=		lib/mysql/mysqlclient.10:mysql-client-*:databases/mysql
 EXIM_LOOKUP_METHODS+=	MYSQL
 EXIM_LOOKUP_INCLUDE+=	-I${LOCALBASE}/include/mysql
 EXIM_LOOKUP_LIBS+=	-L${LOCALBASE}/lib/mysql -lmysqlclient
 .endif
 
-.if ${FLAVOR:L:Mpgsql}
+.if ${FLAVOUR:L:Mpgsql}
 LIB_DEPENDS+=		pq.2::databases/postgresql
 EXIM_LOOKUP_METHODS+=	PGSQL
 EXIM_LOOKUP_INCLUDE+=	-I${LOCALBASE}/include/postgresql
@@ -48,14 +48,14 @@ EXIM_LOOKUP_LIBS+=	-L${LOCALBASE}/lib/ -lpq
 PERMIT_PACKAGE_CDROM=	dependency databases/postgresql is not allowed for CDROM
 .endif
 
-.if ${FLAVOR:L:Mldap}
+.if ${FLAVOUR:L:Mldap}
 LIB_DEPENDS+=		ldap.2,lber:openldap-client-2.*:databases/openldap
 EXIM_LOOKUP_METHODS+=	LDAP
 EXIM_LOOKUP_INCLUDE+=	-I${LOCALBASE}/include
 EXIM_LOOKUP_LIBS+=	-L${LOCALBASE}/lib -lldap -llber
 .endif
 
-.if ${FLAVOR:L:Miconv}
+.if ${FLAVOUR:L:Miconv}
 MODULES+=		converters/libiconv
 EXIM_EXTRA_LIBS+=	-L${ICONV_PREFIX}/lib -liconv
 EXIM_CFLAGS+=		-I${ICONV_PREFIX}/include
@@ -105,19 +105,19 @@ do-configure:
 	@echo "LOOKUP_LIBS=${EXIM_LOOKUP_LIBS}" >> ${WRKSRC}/Local/Makefile
 	@echo "EXTRALIBS_EXIM=${EXIM_EXTRA_LIBS}" >> ${WRKSRC}/Local/Makefile
 	@echo "CFLAGS=${EXIM_CFLAGS}" >> ${WRKSRC}/Local/Makefile
-.if !${FLAVOR:L:Mno_x11}
+.if !${FLAVOUR:L:Mno_x11}
 	@echo "EXIM_MONITOR=eximon.bin" >> ${WRKSRC}/Local/Makefile
 	@cp ${WRKSRC}/exim_monitor/EDITME ${WRKSRC}/Local/eximon.conf
 .endif
 	@echo "SUPPORT_TLS=yes" >> ${WRKSRC}/Local/Makefile
 	@echo "TLS_LIBS=-lssl -lcrypto" >> ${WRKSRC}/Local/Makefile
-.if !${FLAVOR:L:Mno_perl}
+.if !${FLAVOUR:L:Mno_perl}
 	@echo "EXIM_PERL=perl.o" >> ${WRKSRC}/Local/Makefile
 .endif
-.if ${FLAVOR:L:Mldap}
+.if ${FLAVOUR:L:Mldap}
 	@echo "LDAP_LIB_TYPE=OPENLDAP2" >> ${WRKSRC}/Local/Makefile
 .endif
-.if ${FLAVOR:L:Miconv}
+.if ${FLAVOUR:L:Miconv}
 	@echo "HAVE_ICONV=yes" >> ${WRKSRC}/Local/Makefile
 .endif
 	@echo "CC=${CC}" >> ${WRKSRC}/Local/Makefile

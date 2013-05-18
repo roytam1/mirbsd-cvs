@@ -1,4 +1,4 @@
-# $MirOS: ports/databases/db/Makefile,v 1.11 2006/12/20 15:31:06 tg Exp $
+# $MirOS: ports/databases/db/Makefile,v 1.12 2007/08/16 20:46:23 bsiegert Exp $
 
 COMMENT=		Berkeley DB, revision 4
 COMMENT-doc=		Berkeley DB documentation, revision 4
@@ -49,11 +49,11 @@ CONFIGURE_ARGS+=	${CONFIGURE_SHARED}
 
 MODGNU_CONFIG_GUESS_DIRS= ${WRKSRC}/dist
 
-PSEUDO_FLAVORS=		no_tcl no_cxx
-FLAVOR?=
+PSEUDO_FLAVOURS=		no_tcl no_cxx
+FLAVOUR?=
 SUBPACKAGE?=
 
-.if ${FLAVOR:L:Mno_tcl}
+.if ${FLAVOUR:L:Mno_tcl}
 CONFIGURE_ARGS+=	--disable-tcl
 NO_REGRESS=		Yes
 .else
@@ -74,7 +74,7 @@ do-regress:
 
 .endif
 
-.if ${FLAVOR:L:Mno_cxx}
+.if ${FLAVOUR:L:Mno_cxx}
 CONFIGURE_ARGS+=	--disable-cxx
 .else
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}

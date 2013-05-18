@@ -14,7 +14,7 @@ NOTE:
 	A complete set of theses modules is bundled in the
 	"xemacs21-sumo" package.
 
-Flavors:
+Flavours:
 	mule 		- MUlti-Lingual Emacs
 	wnn 		- input method (needs mule) [1]
 	canna 		- another input method (needs mule) [1]

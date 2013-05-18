@@ -7,10 +7,10 @@ CATEGORIES=	games x11
 MASTER_SITES=	${HOMEPAGE}download/
 
 HOMEPAGE=	http://olofson.net/kobodl/
-FLAVORS=	harder
-FLAVOR?=
+FLAVOURS=	harder
+FLAVOUR?=
 
-.if ${FLAVOR:L:Mharder}
+.if ${FLAVOUR:L:Mharder}
 PATCH_LIST=patch-* extra-hard
 .endif
 

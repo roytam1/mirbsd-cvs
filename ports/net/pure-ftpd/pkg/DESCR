@@ -12,7 +12,7 @@ LDAP / MySQL / PostgreSQL-based authentication, fortune files, Apache-like
 log files, fast standalone mode, text / HTML / XML real-time status report,
 virtual users, virtual quotas, privilege separation and more.
 
-Flavors:
+Flavours:
 	     ldap - Build with LDAP support as an authentication source
 	    mysql - Build with MySQL support as an authentication source
        postgresql - Build with PostgreSQL support as an authentication source

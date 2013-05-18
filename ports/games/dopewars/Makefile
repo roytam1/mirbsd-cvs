@@ -29,10 +29,10 @@ CONFIGURE_ARGS+= --enable-nls \
 		 --disable-plugins \
 		 --disable-sdl
 
-FLAVORS=	no_x11
-FLAVOR?=
+FLAVOURS=	no_x11
+FLAVOUR?=
 
-.if ${FLAVOR:L:Mno_x11}
+.if ${FLAVOUR:L:Mno_x11}
 CONFIGURE_ARGS+= --disable-gui-client
 .else
 LIB_DEPENDS+=	gmodule-2.0.0.0,gobject-2.0.0.0::devel/glib \

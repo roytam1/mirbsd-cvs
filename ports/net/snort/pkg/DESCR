@@ -10,7 +10,7 @@ architecture.  Snort has a real-time alerting capability as well, incorporating
 alerting mechanisms for syslog, a user specified file, a UNIX socket, or
 WinPopup messages to Windows clients using Samba's smbclient. 
 
-Available flavors:
+Available flavours:
 	postgresql - enable postgresql database logging support
 	mysql	   - enable mysql database logging support
 	smbalert   - enable samba logging support

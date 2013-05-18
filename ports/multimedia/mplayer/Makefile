@@ -1,4 +1,4 @@
-# $MirOS: ports/multimedia/mplayer/Makefile,v 1.16 2007/03/31 22:02:05 tg Exp $
+# $MirOS: ports/multimedia/mplayer/Makefile,v 1.17 2007/04/03 19:45:05 tg Exp $
 # $OpenBSD: Makefile,v 1.83 2005/05/09 12:24:38 biorn Exp $
 
 # May not be hard to add more.
@@ -74,16 +74,16 @@ CONFIGURE_ARGS+=--enable-runtime-cpudetection
 CONFIGURE_ARGS+=--disable-altivec
 .endif
 
-FLAVORS=	esd sdl ggi debug mad no_x11 aa \
+FLAVOURS=	esd sdl ggi debug mad no_x11 aa \
 		no_live no_ungif no_lzo caca
-FLAVOR?=
+FLAVOUR?=
 
 .if ${MACHINE_ARCH:Marm}
 CONFIGURE_ARGS+=--disable-mp3lib
-FLAVOR+=	mad
+FLAVOUR+=	mad
 .endif
 
-.if ${FLAVOR:L:Mno_lzo}
+.if ${FLAVOUR:L:Mno_lzo}
 CONFIGURE_ARGS+=--disable-liblzo
 .else
 LIB_DEPENDS+=	lzo2:lzo->=2.*:archivers/lzo
@@ -91,7 +91,7 @@ CPPFLAGS+=	-I${LOCALBASE}/include/lzo
 CONFIGURE_ARGS+=--enable-liblzo
 .endif
 
-.if ${FLAVOR:L:Mno_live}
+.if ${FLAVOUR:L:Mno_live}
 CONFIGURE_ARGS+=--disable-live
 .else
 USE_CXX=	Yes
@@ -100,7 +100,7 @@ CONFIGURE_ARGS+=--enable-live \
 		--with-livelibdir=${PREFIX}/lib/live
 .endif
 
-.if ${FLAVOR:L:Mno_ungif}
+.if ${FLAVOUR:L:Mno_ungif}
 CONFIGURE_ARGS+=--disable-gif
 .else
 USE_CXX=	Yes
@@ -110,16 +110,16 @@ LIB_DEPENDS+=	ungif,gif::graphics/libungif
 
 CONFIGURE_ARGS+=--disable-arts
 
-.if ${FLAVOR:L:Mesd}
+.if ${FLAVOUR:L:Mesd}
 CONFIGURE_ARGS+=--enable-esd
 LIB_DEPENDS+=	esd::audio/esound
 .else
 CONFIGURE_ARGS+=--disable-esd
 .endif
 
-.if ${FLAVOR:L:Mno_x11}
-.  if ${FLAVOR:L:Msdl} || ${FLAVOR:L:Mggi} || ${FLAVOR:L:Mmad}
-ERRORS+=	"Fatal: nonsense combination of flavors"
+.if ${FLAVOUR:L:Mno_x11}
+.  if ${FLAVOUR:L:Msdl} || ${FLAVOUR:L:Mggi} || ${FLAVOUR:L:Mmad}
+ERRORS+=	"Fatal: nonsense combination of flavours"
 .  else
 CONFIGURE_ARGS+=--disable-gl \
 		--disable-xv \
@@ -134,7 +134,7 @@ CONFIGURE_ARGS+=--enable-gl \
 USE_X11=	Yes
 .endif
 
-.if ${FLAVOR:L:Msdl}
+.if ${FLAVOUR:L:Msdl}
 CONFIGURE_ARGS+=--enable-sdl \
 		--with-sdl-config=${LOCALBASE}/bin/sdl-config
 LIB_DEPENDS+=	SDL:sdl-1.2.4p1,>=1.2.5:devel/sdl
@@ -142,18 +142,18 @@ LIB_DEPENDS+=	SDL:sdl-1.2.4p1,>=1.2.5:devel/sdl
 CONFIGURE_ARGS+=--disable-sdl
 .endif
 
-.if ${FLAVOR:L:Mggi}
+.if ${FLAVOUR:L:Mggi}
 CONFIGURE_ARGS+=--enable-ggi
 LIB_DEPENDS+=	ggi::graphics/ggi
 .else
 CONFIGURE_ARGS+=--disable-ggi
 .endif
 
-.if ${FLAVOR:L:Mdebug}
+.if ${FLAVOUR:L:Mdebug}
 CONFIGURE_ARGS+=--enable-debug=3
 .endif
 
-.if ${FLAVOR:L:Mmad}
+.if ${FLAVOUR:L:Mmad}
 CONFIGURE_ARGS+=--enable-mad
 LIB_DEPENDS+=	mad.2::audio/libmad
 .else
@@ -174,9 +174,9 @@ CONFIGURE_ARGS+=--disable-win32 \
 		--disable-real
 .endif
 
-.if ${FLAVOR:L:Maa}
+.if ${FLAVOUR:L:Maa}
 CONFIGURE_ARGS+=--enable-aa
-.  if ${FLAVOR:L:Mno_x11}
+.  if ${FLAVOUR:L:Mno_x11}
 LIB_DEPENDS+=	aa::graphics/aalib,no_x11
 .  else
 LIB_DEPENDS+=	aa::graphics/aalib
@@ -185,9 +185,9 @@ LIB_DEPENDS+=	aa::graphics/aalib
 CONFIGURE_ARGS+=--disable-aa
 .endif
 
-.if ${FLAVOR:L:Mcaca}
+.if ${FLAVOUR:L:Mcaca}
 CONFIGURE_ARGS+=--enable-caca
-.  if ${FLAVOR:L:Mno_x11}
+.  if ${FLAVOUR:L:Mno_x11}
 BUILD_DEPENDS+=	::graphics/libcaca,no_x11
 .  else
 BUILD_DEPENDS+=	::graphics/libcaca

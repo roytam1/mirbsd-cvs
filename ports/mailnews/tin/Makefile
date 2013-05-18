@@ -35,10 +35,10 @@ CONFIGURE_ARGS+=	--with-ispell=${LOCALBASE}/bin/ispell \
 LIB_DEPENDS+=	pcre::devel/pcre \
 		utf8::misc/libutf8
 
-FLAVORS=	nntp_only
-FLAVOR?=
+FLAVOURS=	nntp_only
+FLAVOUR?=
 
-.if ${FLAVOR:L:Mnntp_only}
+.if ${FLAVOUR:L:Mnntp_only}
 CONFIGURE_ARGS+=	--enable-nntp-only
 .else
 CONFIGURE_ARGS+=	--with-libdir=${PREFIX}/lib/news \

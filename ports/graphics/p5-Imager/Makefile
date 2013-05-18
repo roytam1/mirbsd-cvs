@@ -20,10 +20,10 @@ PERMIT_DISTFILES_FTP=	Yes
 MASTER_SITES=	${MASTER_SITE_PERL_CPAN:=../by-authors/id/A/AD/ADDI/} \
 		http://www.eecs.umich.edu/~addi/perl/Imager/
 
-FLAVORS=	libs
-FLAVOR?=
+FLAVOURS=	libs
+FLAVOUR?=
 
-.if ${FLAVOR:L} == "libs"
+.if ${FLAVOUR:L} == "libs"
 LIB_DEPENDS=	t1.3::devel/t1lib \
 		png.2::graphics/png \
 		jpeg.62::graphics/jpeg \

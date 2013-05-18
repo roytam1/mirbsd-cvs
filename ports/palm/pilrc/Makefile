@@ -1,4 +1,4 @@
-# $MirOS: ports/palm/pilrc/Makefile,v 1.3 2005/07/07 21:25:18 bsiegert Exp $
+# $MirOS: ports/palm/pilrc/Makefile,v 1.4 2006/09/14 00:12:33 tg Exp $
 # $OpenBSD: Makefile,v 1.7 2002/12/29 20:31:39 fgsch Exp $
 
 COMMENT=			generate resources for PalmOS applications from text descr
@@ -18,14 +18,14 @@ PERMIT_DISTFILES_FTP=	Yes
 
 MASTER_SITES=	http://www.hig.se/~ardiri/download/palm/
 
-FLAVORS=	no_x11
-FLAVOR?=
+FLAVOURS=	no_x11
+FLAVOUR?=
 
 USE_GMAKE=	Yes
 NO_REGRESS=	Yes
 CONFIGURE_STYLE= gnu
 
-.if ${FLAVOR:L:Mno_x11}
+.if ${FLAVOUR:L:Mno_x11}
 CONFIGURE_ARGS=	--disable-pilrcui
 .else
 USE_X11=	Yes

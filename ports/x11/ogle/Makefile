@@ -1,4 +1,4 @@
-# $MirOS: ports/x11/ogle/Makefile,v 1.5 2006/06/23 22:33:03 bsiegert Exp $
+# $MirOS: ports/x11/ogle/Makefile,v 1.6 2006/09/14 00:15:31 tg Exp $
 # $OpenBSD: Makefile,v 1.27 2004/02/29 08:12:56 pvalchev Exp $
 
 COMMENT=			DVD player
@@ -29,10 +29,10 @@ CONFIGURE_STYLE=	autoconf no-autoheader
 AUTOCONF_NEW=		Yes
 CONFIGURE_ARGS+=	--disable-oss --disable-sunaudio --enable-obsdaudio
 
-FLAVORS=		altivec
-FLAVOR?=
+FLAVOURS=		altivec
+FLAVOUR?=
 
-.if ${FLAVOR:L} == "altivec"
+.if ${FLAVOUR:L} == "altivec"
 ONLY_FOR_PLATFORM=	*:*:powerpc
 CONFIGURE_ARGS+=	--enable-altivec
 .else

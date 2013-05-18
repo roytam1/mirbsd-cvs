@@ -1,4 +1,4 @@
-# $MirOS: ports/mailnews/mailcrypt/Makefile,v 1.3 2006/09/14 00:10:36 tg Exp $
+# $MirOS: ports/mailnews/mailcrypt/Makefile,v 1.4 2007/04/12 20:22:45 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.13 2004/02/21 00:59:01 pvalchev Exp $
 
 COMMENT=	emacs interface to PGP and GnuPG
@@ -17,21 +17,21 @@ PERMIT_DISTFILES_FTP=	Yes
 CONFIGURE_STYLE= gnu dest
 USE_CXX=	Yes
 
-FLAVORS=	gnupg pgp pgp5 
-FLAVOR?=	gnupg
+FLAVOURS=	gnupg pgp pgp5 
+FLAVOUR?=	gnupg
 
 BUILD_DEPENDS=	:emacs-21.*:editors/emacs
 
-.if ${FLAVOR:L:Mgnupg}
+.if ${FLAVOUR:L:Mgnupg}
 PERMIT_PACKAGE_CDROM=	dependency security/gnupg is not allowed for CDROM
 RUN_DEPENDS=	:gnupg-*:security/gnupg
 .endif
 
-.if ${FLAVOR:L:Mpgp}
+.if ${FLAVOUR:L:Mpgp}
 RUN_DEPENDS=	:pgp-2.*:security/pgp
 .endif
 
-.if ${FLAVOR:L:Mpgp5}
+.if ${FLAVOUR:L:Mpgp5}
 RUN_DEPENDS=	:pgp-5.*:security/pgp5
 .endif
 

@@ -1,4 +1,4 @@
-# $MirOS: ports/security/ccrypt/Makefile,v 1.2 2005/03/25 23:14:03 bsiegert Exp $
+# $MirOS: ports/security/ccrypt/Makefile,v 1.3 2006/09/14 00:12:52 tg Exp $
 # $OpenBSD: Makefile,v 1.9 2004/03/31 06:08:36 kevlo Exp $
 
 COMMENT=			encrypt and decrypt AES files and streams
@@ -19,10 +19,10 @@ MASTER_SITES=	${HOMEPAGE}/download/ \
 
 CONFIGURE_STYLE= gnu
 
-FLAVORS=	emacs
-FLAVOR?=
+FLAVOURS=	emacs
+FLAVOUR?=
 
-.if ${FLAVOR:L:Memacs21}
+.if ${FLAVOUR:L:Memacs21}
 BUILD_DEPENDS=	:emacs-21.*:editors/emacs
 .endif
 

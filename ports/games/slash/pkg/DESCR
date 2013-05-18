@@ -12,7 +12,7 @@ ${PREFIX}/lib/X11/fonts/hack to your fontpath, see xset(1) and Xserver(1), also
 - the tty with colors mode expects a black background and white foreground to 
 run properly, e.g., xterm -fg white -bg black
 
-Flavors:
+Flavours:
 no_x11
 	includes only the tty interface
 

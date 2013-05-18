@@ -4,10 +4,10 @@ icons. It gives a very good emulation of mwm. A nice button-bar
 can be used to provide convenient access to frequently used
 functions or programs.
 
-Packages can be built with additional FLAVORs:
+Packages can be built with additional FLAVOURs:
 
  rplay:	build with audio/rplay and provide sound support
-	This FLAVOR requires the rplay package.
+	This FLAVOUR requires the rplay package.
 
  debug:	turn on debugging messages
 

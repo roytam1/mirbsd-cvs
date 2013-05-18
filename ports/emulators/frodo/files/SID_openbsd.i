@@ -1,5 +1,5 @@
 /*
- * SID emulation, OpenBSD flavor
+ * SID emulation, OpenBSD flavour
  *
  *  Written by Marc Espie in 2000, based on SUN version.
  */

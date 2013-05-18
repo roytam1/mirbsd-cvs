@@ -1,4 +1,4 @@
-# $MirOS: ports/emulators/zsnes/Makefile,v 1.6 2005/10/03 22:23:40 tg Exp $
+# $MirOS: ports/emulators/zsnes/Makefile,v 1.7 2006/09/14 00:09:15 tg Exp $
 # $OpenBSD: Makefile,v 1.8 2002/12/29 15:06:49 fgsch Exp $
 
 ONLY_FOR_PLATFORM=	OpenBSD:*:i386 MirBSD:*:i386
@@ -18,8 +18,8 @@ PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_CDROM= Yes
 PERMIT_DISTFILES_FTP=	Yes
 
-FLAVORS=		debug
-FLAVOR?=
+FLAVOURS=		debug
+FLAVOUR?=
 
 BUILD_DEPENDS=		nasm::lang/nasm
 LIB_DEPENDS=		SDL.:sdl-*-!no_x11:devel/sdl \
@@ -39,7 +39,7 @@ CONFIGURE_ARGS+=	--with-sdl-prefix=${LOCALBASE} \
 			--with-png
 ALL_TARGET=		ALL
 
-.if ${FLAVOR:L:Mdebug}
+.if ${FLAVOUR:L:Mdebug}
 CONFIGURE_ARGS+=	--enable-debug
 .endif
 
@@ -49,7 +49,7 @@ post-extract:
 	rm -fr ${WRKSRC}/obj
 
 post-install:
-.if ${FLAVOR:L:Mdebug}
+.if ${FLAVOUR:L:Mdebug}
 	rm -f ${PREFIX}/bin/zsnes
 	mv ${PREFIX}/bin/zsnesd ${PREFIX}/bin/zsnes
 .endif

@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/devel/opencm/Makefile,v 1.5 2007/04/11 17:56:09 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.18 2004/02/04 07:39:18 sturm Exp $
 
 COMMENT=			OpenCM change management system
@@ -34,12 +34,12 @@ CONFIGURE_ENV=		vl_cv_lib_kerberos=1
 
 NO_REGRESS=	Yes
 
-PSEUDO_FLAVORS=	no_docs
-FLAVOR?=
+PSEUDO_FLAVOURS=	no_docs
+FLAVOUR?=
 
 MULTI_PACKAGES=
 
-.if ${FLAVOR:L:Mno_docs}
+.if ${FLAVOUR:L:Mno_docs}
 MAKE_FLAGS+=		TEXI2DVI=: DVIPS=:
 FAKE_FLAGS+=		TEXI2DVI=: DVIPS=:
 .else

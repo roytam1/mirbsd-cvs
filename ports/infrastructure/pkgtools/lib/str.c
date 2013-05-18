@@ -1,4 +1,4 @@
-/**	$MirOS: ports/infrastructure/pkgtools/lib/str.c,v 1.9 2006/11/19 22:34:07 tg Exp $ */
+/**	$MirOS: ports/infrastructure/pkgtools/lib/str.c,v 1.10 2007/05/02 21:24:14 bsiegert Exp $ */
 /*	$OpenBSD: str.c,v 1.11 2003/07/04 17:31:19 avsm Exp $	*/
 
 /*
@@ -24,7 +24,7 @@
 #include <fnmatch.h>
 #include "lib.h"
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/str.c,v 1.9 2006/11/19 22:34:07 tg Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/str.c,v 1.10 2007/05/02 21:24:14 bsiegert Exp $");
 
 /* Convert a filename (which can be relative to the current directory) to
  * an absolute one. Returns a pointer to a static internal buffer.
@@ -147,7 +147,7 @@ nuke_version(char *name, bool wildcard)
 /* Find the flavour in a package name.
  */
 char *
-find_flavor(const char *name)
+find_flavour(const char *name)
 {
     char *idx;
 
@@ -178,11 +178,11 @@ enum deweycmp_ops {
 	NONE
 };
 
-/* match flavor part of a package against a flavor pattern
+/* match flavour part of a package against a flavour pattern
  * used by multiversion_match below
  */
 static int
-flavorcmp(char *pkg_flavor, char *pattern)
+flavourcmp(char *pkg_flavour, char *pattern)
 {
 	char tmp[FILENAME_MAX];
 	char *token, *cp;		/* outer strsep loop */
@@ -191,20 +191,20 @@ flavorcmp(char *pkg_flavor, char *pattern)
 
 	if (!pattern)
 		return 1;
-	if (pkg_flavor)
-		pkg_flavor++; /* jump over '-' */
+	if (pkg_flavour)
+		pkg_flavour++; /* jump over '-' */
 	
 	token = pattern;
 	while ((cp = strsep(&token, ",")) != NULL) {
 		may_not_match = (*cp == '!');
 		if (may_not_match)
 			cp++;
-		/* check against all flavors of pkg */
-		if (pkg_flavor)
-			snprintf(tmp, sizeof(tmp), pkg_flavor);
+		/* check against all flavours of pkg */
+		if (pkg_flavour)
+			snprintf(tmp, sizeof(tmp), pkg_flavour);
 		else
 			*tmp = '\0';
-		pkg_token = pkg_flavor;
+		pkg_token = pkg_flavour;
 		while ((pkg_match = strsep(&pkg_token, "-")) != NULL)
 			did_match |= !strcmp(cp, pkg_match);
 		if ((may_not_match && did_match) ||
@@ -357,7 +357,7 @@ static int
 multiversion_match(const char *pattern, const char *pkg)
 {
 	char *cp, *ver, *token;
-	char *flavor = NULL;
+	char *flavour = NULL;
 	char name[FILENAME_MAX];
 	enum deweycmp_ops op;
 	int result = 0;
@@ -373,11 +373,11 @@ multiversion_match(const char *pattern, const char *pkg)
 	snprintf(name, sizeof(name), cp + 1);
 	token = name;
 
-	/* Does the match have a flavor part? */
-	flavor = find_flavor(name);
-	if (flavor) {
-		*flavor = '\0'; /* limit multiver match to non-flavor part */
-		flavor++;
+	/* Does the match have a flavour part? */
+	flavour = find_flavour(name);
+	if (flavour) {
+		*flavour = '\0'; /* limit multiver match to non-flavour part */
+		flavour++;
 	}
 
 	while ((cp = strsep(&token, ",")) != NULL) {
@@ -397,9 +397,9 @@ multiversion_match(const char *pattern, const char *pkg)
 				break;
 		}
 	}
-	if (!result || !flavor)
+	if (!result || !flavour)
 		return result;
-	return flavorcmp(find_flavor(find_version(pkg)), flavor);
+	return flavourcmp(find_flavour(find_version(pkg)), flavour);
 }
 
 /* perform simple match on "pkg" against "pattern" */
@@ -433,7 +433,7 @@ pmatch(const char *pattern, const char *pkg)
 			/* perform relational dewey match on version number */
 			return dewey_match(pattern, pkg);
 		} else {
-			/* special case: one version, one flavor */
+			/* special case: one version, one flavour */
 			return multiversion_match(pattern, pkg);
 		}
 			

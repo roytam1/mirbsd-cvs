@@ -1,4 +1,4 @@
-# $MirOS: ports/devel/libgsf/Makefile,v 1.7 2007/04/11 17:06:20 bsiegert Exp $
+# $MirOS: ports/devel/libgsf/Makefile,v 1.8 2007/07/05 20:59:50 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.7 2004/12/10 20:33:59 marcm Exp $
 
 COMMENT=		GNOME Structured File library
@@ -35,11 +35,11 @@ AUTOCONF_NEW=		Yes
 CONFIGURE_ARGS+=	${CONFIGURE_SHARED}
 CONFIGURE_ARGS+=	--disable-gtk-doc
 
-PSEUDO_FLAVORS=	no_gnome
-FLAVOR?=
+PSEUDO_FLAVOURS=	no_gnome
+FLAVOUR?=
 
 MULTI_PACKAGES=
-.if !${FLAVOR:L:Mno_gnome}
+.if !${FLAVOUR:L:Mno_gnome}
 MULTI_PACKAGES+= -gnome
 .endif
 SUBPACKAGE?=

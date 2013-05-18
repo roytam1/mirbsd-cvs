@@ -10,9 +10,9 @@ MASTER_SITES=	http://www.cs.arizona.edu/icon/ftp/doc/
 V=9.3
 DISTNAME=	icon-book-$V
 
-FLAVORS=two_sided
-FLAVOR?=
-.if ${FLAVOR:L} == "two_sided"
+FLAVOURS=two_sided
+FLAVOUR?=
+.if ${FLAVOUR:L} == "two_sided"
 DISTFILES=	lb2up.pdf
 FULLPKGNAME=	icon-book-two_sided-$V-0
 .else
@@ -37,6 +37,6 @@ PKG_ARCH=*
 
 do-install:
 	${INSTALL_DATA_DIR} ${PREFIX}/share/doc/icon
-	${INSTALL_DATA} ${FULLDISTDIR}/${DISTFILES} ${PREFIX}/share/doc/icon/icon-book${FLAVOR_EXT}.pdf
+	${INSTALL_DATA} ${FULLDISTDIR}/${DISTFILES} ${PREFIX}/share/doc/icon/icon-book${FLAVOUR_EXT}.pdf
 
 .include <bsd.port.mk>

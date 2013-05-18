@@ -21,6 +21,6 @@ form of shell comments).
 Warning: do not use the "plaintext" flavour unless ABSOLUTELY necessary;
 the default settings allow the use of plaintext passwords over SSL/TLS.
 
-Flavors:
+Flavours:
 	ldap		build with support for LDAP
 	plaintext	allow unencrypted passwords

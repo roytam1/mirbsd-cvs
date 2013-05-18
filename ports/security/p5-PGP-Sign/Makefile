@@ -1,4 +1,4 @@
-# $MirOS: ports/security/p5-PGP-Sign/Makefile,v 1.2 2005/07/07 21:26:11 bsiegert Exp $
+# $MirOS: ports/security/p5-PGP-Sign/Makefile,v 1.3 2006/09/14 00:13:14 tg Exp $
 # $OpenBSD: Makefile,v 1.9 2002/07/15 03:26:24 shell Exp $
 
 COMMENT=			perl module to create/verify PGP signatures
@@ -12,18 +12,18 @@ PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
-FLAVORS=	pgp pgp+ pgp5
-FLAVOR?=	
+FLAVOURS=	pgp pgp+ pgp5
+FLAVOUR?=	
 
-.if ${FLAVOR:L:Mpgp}
+.if ${FLAVOUR:L:Mpgp}
 RUN_DEPENDS=	:pgp-2.*:security/pgp
 CONFIGURE_ARGS=	PGPV="${LOCALBASE}/bin/pgpv" PGPS="${LOCALBASE}/bin/pgps" PGPSTYLE="PGP"
 
-.elif ${FLAVOR:L:Mpgp+}
+.elif ${FLAVOUR:L:Mpgp+}
 RUN_DEPENDS=	:pgp-2.*:security/pgp+
 CONFIGURE_ARGS=	PGPV="${LOCALBASE}/bin/pgpv" PGPS="${LOCALBASE}/bin/pgps" PGPSTYLE="PGP"
 
-.elif ${FLAVOR:L:Mpgp5}
+.elif ${FLAVOUR:L:Mpgp5}
 RUN_DEPENDS=	:pgp-5.*:security/pgp5
 CONFIGURE_ARGS=	PGPV="${LOCALBASE}/bin/pgpv" PGPS="${LOCALBASE}/bin/pgps" PGPSTYLE="PGP5"
 

@@ -1,4 +1,4 @@
-# $MirOS: ports/shells/bash/Makefile,v 1.5 2006/06/18 10:36:54 tg Exp $
+# $MirOS: ports/shells/bash/Makefile,v 1.6 2006/09/14 00:13:25 tg Exp $
 # $OpenBSD: Makefile,v 1.27 2004/01/13 20:09:39 naddy Exp $
 
 COMMENT=			GNU Bourne Again Shell
@@ -21,15 +21,15 @@ DISTFILES=	${DISTNAME}.tar.gz ${DISTNAME:S/-/-doc-/}.tar.gz
 PATCHFILES+=	bash205b-${i}:0
 .endfor
 
-FLAVORS=	static
-FLAVOR?=
+FLAVOURS=	static
+FLAVOUR?=
 
 CONFIGURE_STYLE= gnu
 MODGNU_CONFIG_GUESS_DIRS= ${WRKSRC} ${WRKSRC}/support
 CONFIGURE_ENV+=	ac_cv_lib_intl=no
 CONFIGURE_ENV+=	ac_cv_lib_intl_bindtextdomain=no
 
-.if ${FLAVOR:L} == "static"
+.if ${FLAVOUR:L} == "static"
 CONFIGURE_ARGS+=--enable-static-link
 .endif
 

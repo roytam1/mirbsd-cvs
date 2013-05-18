@@ -1,4 +1,4 @@
-# $MirOS: ports/mailnews/pine/Makefile,v 1.21 2006/09/14 00:10:45 tg Exp $
+# $MirOS: ports/mailnews/pine/Makefile,v 1.22 2006/09/20 22:24:50 tg Exp $
 # $OpenBSD: Makefile,v 1.56 2003/10/05 21:42:29 jakob Exp $
 
 ONLY_FOR_PLATFORM=	OpenBSD:*:* MirBSD:*:*
@@ -42,8 +42,8 @@ PERMIT_DISTFILES_FTP=	Yes
 
 NO_REGRESS=		Yes
 
-FLAVORS=		ldap plaintext
-FLAVOR?=
+FLAVOURS=		ldap plaintext
+FLAVOUR?=
 
 .include <mirports.sys.mk>
 
@@ -56,7 +56,7 @@ PINE_BUILD_FLAGS=	CC="${CC}" EXTRACFLAGS="${CFLAGS}" \
 PINE_BUILD_FLAGS+=	NO_SHARED_LIBS=yes
 .endif
 
-.if ${FLAVOR:L:Mldap}
+.if ${FLAVOUR:L:Mldap}
 PINE_BUILD_FLAGS+=	LDAPLIBS="-L${LOCALBASE}/lib -lldap -llber" \
 			LDAPCFLAGS="-DENABLE_LDAP -I${LOCALBASE}/include"
 .  if ${SUBPACKAGE} != "-pico" && ${SUBPACKAGE} != "-pilot"
@@ -64,7 +64,7 @@ LIB_DEPENDS+=		ldap.2:openldap-client-2.*:databases/openldap
 .  endif
 .endif
 
-.if ${FLAVOR:L:Mplaintext}
+.if ${FLAVOUR:L:Mplaintext}
 PINE_BUILD_FLAGS+=	SSLTYPE="unix"
 .else
 PINE_BUILD_FLAGS+=	SSLTYPE="unix.nopwd"

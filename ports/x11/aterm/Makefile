@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/x11/aterm/Makefile,v 1.4 2007/05/07 19:39:06 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.33 2004/04/09 04:24:44 jolan Exp $
 
 COMMENT=	color vt102 terminal emulator with transparency support
@@ -18,10 +18,10 @@ USE_X11=	Yes
 CONFIGURE_STYLE= gnu
 CONFIGURE_ARGS=	--enable-xgetdefault --enable-ttygid --enable-utmp
 
-FLAVORS=	big5 lite
-FLAVOR?=
+FLAVOURS=	big5 lite
+FLAVOUR?=
 
-.if ${FLAVOR:L:Mbig5}
+.if ${FLAVOUR:L:Mbig5}
 PERMIT_PACKAGE_CDROM=	dependency chinese/taipeifonts is not allowed for CDROM
 PERMIT_PACKAGE_FTP=	dependency chinese/taipeifonts is not allowed for FTP
 RUN_DEPENDS=	${LOCALBASE}/lib/X11/fonts/chinese/taipei16.pcf.gz::chinese/taipeifonts
@@ -37,7 +37,7 @@ post-patch:
 PATCH_LIST=
 .endif
 
-.if ${FLAVOR:L:Mlite}
+.if ${FLAVOUR:L:Mlite}
 CONFIGURE_ARGS+= --without-xpm --disable-transparency \
 		--disable-background-image --disable-fading \
 		--without-jpeg --without-png

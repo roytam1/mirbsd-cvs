@@ -8,5 +8,5 @@ ${SYSCONFDIR}/tetex.cfg for details. This procedure is NOT part of the
 official teTeX distribution, so send all questions regarding tetex.cfg
 or tetex_setup to the MAINTAINER of this port!
 
-FLAVORS:
+FLAVOURS:
         no_x11 -- no support for x11

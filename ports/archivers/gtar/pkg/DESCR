@@ -11,5 +11,5 @@ Note that this port will install these utilities with a 'g' prefix,
 e.g. gtar, but the texinfo documentation will refer to them without
 the 'g' prefix.
 
-Available flavors:
+Available flavours:
 	static  - link statically

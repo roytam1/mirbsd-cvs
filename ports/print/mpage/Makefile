@@ -13,20 +13,20 @@ PERMIT_DISTFILES_FTP=	Yes
 MASTER_SITES=	ftp://ftp.mesa.nl/pub/mpage/
 EXTRACT_SUFX=	.tgz
 
-FLAVORS=	letter legal a4
-FLAVOR?=	a4
+FLAVOURS=	letter legal a4
+FLAVOUR?=	a4
 
 ALL_TARGET=	default
 MAKE_FLAGS=	CC='${CC}' CFLAGS='${CFLAGS} $${DEFS}' PREFIX='${PREFIX}'
 
-.if   ${FLAVOR:L} == "letter"
+.if   ${FLAVOUR:L} == "letter"
 MAKE_FLAGS+=	PAGESIZE=Letter
-.elif ${FLAVOR:L} == "legal"
+.elif ${FLAVOUR:L} == "legal"
 MAKE_FLAGS+=	PAGESIZE=Legal
-.elif ${FLAVOR:L} == "a4"
+.elif ${FLAVOUR:L} == "a4"
 MAKE_FLAGS+=	PAGESIZE=A4
 .else
-ERRORS+=	"Fatal: You must set exactly ONE flavor: ${FLAVORS}"
+ERRORS+=	"Fatal: You must set exactly ONE flavour: ${FLAVOURS}"
 .endif
 
 NO_REGRESS=	Yes

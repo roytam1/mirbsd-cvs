@@ -1,4 +1,4 @@
-# $MirOS: ports/mailnews/xfmail/Makefile,v 1.3 2006/02/09 11:12:02 tg Exp $
+# $MirOS: ports/mailnews/xfmail/Makefile,v 1.4 2006/09/14 00:10:53 tg Exp $
 # $OpenBSD: Makefile,v 1.32 2004/01/25 03:24:41 naddy Exp $
 # $NetBSD: Makefile,v 1.2 1998/07/04 09:19:04 mycroft Exp $
 # $RuOBSD: Makefile,v 1.4 2002/05/18 04:21:36 form Exp $
@@ -28,10 +28,10 @@ CONFIGURE_STYLE=	autogen
 CONFIGURE_ARGS=		--without-nas-sound
 MODGNU_CONFIG_AUTOGEN=	${WRKSRC}/autogen.sh
 
-FLAVORS=		esd
-FLAVOR?=
+FLAVOURS=		esd
+FLAVOUR?=
 
-.if ${FLAVOR:L:Mesd}
+.if ${FLAVOUR:L:Mesd}
 CONFIGURE_ARGS+=	--with-esd-sound
 LIB_DEPENDS+=		esd.2::audio/esound
 .else

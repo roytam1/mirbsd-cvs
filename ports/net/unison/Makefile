@@ -23,9 +23,9 @@ MODULES=	lang/ocaml
 USE_GMAKE=	Yes
 USE_X11=	Yes
 
-FLAVORS=	gtk
-FLAVOR?=
-.if ${FLAVOR:L:Mgtk}
+FLAVOURS=	gtk
+FLAVOUR?=
+.if ${FLAVOUR:L:Mgtk}
 BUILD_DEPENDS+=	::x11/lablgtk
 LIB_DEPENDS=	gtk.1.2,gdk.1.2::x11/gtk+
 MAKE_FLAGS=	UISTYLE=gtk

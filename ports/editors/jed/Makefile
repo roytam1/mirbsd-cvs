@@ -22,10 +22,10 @@ PERMIT_DISTFILES_FTP=	Yes
 CONFIGURE_STYLE= gnu
 CONFIGURE_ENV=	JED_ROOT="${PREFIX}/lib/jed"
 
-FLAVORS=	no_x11
-FLAVOR?=
+FLAVOURS=	no_x11
+FLAVOUR?=
 
-.if ${FLAVOR:L} == "no_x11"
+.if ${FLAVOUR:L} == "no_x11"
 ALL_TARGET=	all getmail
 .else
 USE_X11=	Yes

@@ -1,4 +1,4 @@
-# $MirOS: ports/games/uqm/Makefile,v 1.4 2005/07/07 21:21:16 bsiegert Exp $
+# $MirOS: ports/games/uqm/Makefile,v 1.5 2006/09/14 00:09:36 tg Exp $
 # $OpenBSD: Makefile,v 1.9 2004/03/31 03:42:16 jolan Exp $
 
 # 64-bit issues, unaligned memory access
@@ -46,23 +46,23 @@ USE_GMAKE=	Yes
 USE_X11=	Yes
 USE_CXX=	Yes
 
-PSEUDO_FLAVORS=	no_3domusic no_remix1 no_remix2 no_voice
-FLAVOR?=
+PSEUDO_FLAVOURS=	no_3domusic no_remix1 no_remix2 no_voice
+FLAVOUR?=
 
 MULTI_PACKAGES=
-.if !${FLAVOR:L:Mno_3domusic}
+.if !${FLAVOUR:L:Mno_3domusic}
 DISTFILES+=	${MDIST}
 MULTI_PACKAGES+=-3domusic
 .endif
-.if !${FLAVOR:L:Mno_remix1}
+.if !${FLAVOUR:L:Mno_remix1}
 DISTFILES+=	${RM1DIST}
 MULTI_PACKAGES+=-remix1
 .endif
-.if !${FLAVOR:L:Mno_remix2}
+.if !${FLAVOUR:L:Mno_remix2}
 DISTFILES+=	${RM2DIST}
 MULTI_PACKAGES+=-remix2
 .endif
-.if !${FLAVOR:L:Mno_voice}
+.if !${FLAVOUR:L:Mno_voice}
 DISTFILES+=	${VDIST}
 MULTI_PACKAGES+=-voice
 .endif
@@ -116,19 +116,19 @@ do-install:
 		${PREFIX}/share/uqm/content
 	${INSTALL_DATA} ${FULLDISTDIR}/${CDIST} \
 		${PREFIX}/share/uqm/content/packages
-.if !${FLAVOR:L:Mno_3domusic}
+.if !${FLAVOUR:L:Mno_3domusic}
 	${INSTALL_DATA} ${FULLDISTDIR}/${MDIST} \
 		${PREFIX}/share/uqm/content/packages
 .endif
-.if !${FLAVOR:L:Mno_remix1}
+.if !${FLAVOUR:L:Mno_remix1}
 	${INSTALL_DATA} ${FULLDISTDIR}/${RM1DIST} \
 		${PREFIX}/share/uqm/content/packages/addons/uqmremix
 .endif
-.if !${FLAVOR:L:Mno_remix2}
+.if !${FLAVOUR:L:Mno_remix2}
 	${INSTALL_DATA} ${FULLDISTDIR}/${RM2DIST} \
 		${PREFIX}/share/uqm/content/packages/addons/uqmremix
 .endif
-.if !${FLAVOR:L:Mno_voice}
+.if !${FLAVOUR:L:Mno_voice}
 	${INSTALL_DATA} ${FULLDISTDIR}/${VDIST} \
 		${PREFIX}/share/uqm/content/packages
 .endif

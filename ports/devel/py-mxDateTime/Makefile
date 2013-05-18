@@ -16,13 +16,13 @@ PERMIT_DISTFILES_FTP=	Yes
 PERMIT_DISTFILES_CDROM=	Yes
 
 USE_CXX=	Yes
-FLAVORS=	py2.3
-FLAVOR?=	py2.3
+FLAVOURS=	py2.3
+FLAVOUR?=	py2.3
 
-.if ${FLAVOR} == "py2.3"
-MODPY_VERSION=	${FLAVOR:S/py//}
+.if ${FLAVOUR} == "py2.3"
+MODPY_VERSION=	${FLAVOUR:S/py//}
 .else
-ERRORS+=	"Fatal: Conflicting flavor: ${FLAVOR}"
+ERRORS+=	"Fatal: Conflicting flavour: ${FLAVOUR}"
 .endif
 
 MODULES=	lang/python

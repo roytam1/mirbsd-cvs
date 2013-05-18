@@ -19,16 +19,16 @@ PERMIT_DISTFILES_FTP=	Yes
 
 WRKDIST=		${WRKDIR}/gated-public-3_6
 
-FLAVORS=snmp gii
-FLAVOR?=
+FLAVOURS=snmp gii
+FLAVOUR?=
 
-.if ${FLAVOR:L:Msnmp}
+.if ${FLAVOUR:L:Msnmp}
 CONFIGURE_ARGS+=	--enable-smux
 .else
 CONFIGURE_ARGS+=	--disable-smux
 .endif
 
-.if ${FLAVOR:L:Mgii}
+.if ${FLAVOUR:L:Mgii}
 CONFIGURE_ARGS+=	--enable-gii
 .else
 CONFIGURE_ARGS+=	--disable-gii

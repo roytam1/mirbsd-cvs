@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/x11/evilwm/Makefile,v 1.6 2006/10/27 17:56:35 tg Exp $
 
 COMMENT=		minimalist window manager for keyboard or mouse
 CATEGORIES=		x11
@@ -13,11 +13,11 @@ PERMIT_DISTFILES_FTP=	Yes
 PERMIT_PACKAGE_CDROM=	Yes
 PERMIT_PACKAGE_FTP=	Yes
 
-FLAVORS=		miros oldmove
-FLAVOR?=		miros
+FLAVOURS=		miros oldmove
+FLAVOUR?=		miros
 
-.if ${FLAVOR:Mmiros}
-FLAVOR=			miros
+.if ${FLAVOUR:Mmiros}
+FLAVOUR=			miros
 CVS_DISTREPO=		${_MIROS_ANONCVS}
 CVS_DISTDATE=		2006/10/27
 CVS_DISTMODS=		X11/extras/evilwm
@@ -35,11 +35,11 @@ SUPDISTFILES+=		mirvilwm-20061027.mcz
 
 USE_X11=		Yes
 
-.if ${FLAVOR:Moldmove}
+.if ${FLAVOUR:Moldmove}
 CPPFLAGS+=		-DOLD_MOVE_BEHAVIOUR
 .endif
 
-.if !${FLAVOR:Mmiros}
+.if !${FLAVOUR:Mmiros}
 post-extract:
 	@cp ${FILESDIR}/Makefile ${WRKSRC}/
 .endif

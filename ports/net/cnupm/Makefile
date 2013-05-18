@@ -18,10 +18,10 @@ MASTER_SITES=		${HOMEPAGE}/files/
 MAKE_ENV=		BINDIR=${TRUEPREFIX}/sbin MANDIR=${TRUEPREFIX}/man/cat
 CFLAGS+=		-DCNUPM_USER=\"_cnupm\"
 
-FLAVORS=		static
-FLAVOR?=
+FLAVOURS=		static
+FLAVOUR?=
 
-.if ${FLAVOR:Mstatic}
+.if ${FLAVOUR:Mstatic}
 LDSTATIC=		-static
 MAKE_ENV+=		LDSTATIC=${LDSTATIC}
 .endif

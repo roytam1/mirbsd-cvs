@@ -1,4 +1,4 @@
-# $MirOS: ports/japanese/kinput2/Makefile,v 1.3 2006/09/14 00:10:14 tg Exp $
+# $MirOS: ports/japanese/kinput2/Makefile,v 1.4 2007/04/12 20:20:03 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.14 2003/08/04 13:11:48 espie Exp $
 
 COMMENT-canna=			X input method for Japanese, canna support
@@ -18,14 +18,14 @@ PERMIT_DISTFILES_FTP=	Yes
 
 CONFIGURE_STYLE=	imake
 USE_X11=		Yes
-FLAVORS=		canna wnn
-FLAVOR?=		wnn
+FLAVOURS=		canna wnn
+FLAVOUR?=		wnn
 
-.if ${FLAVOR:L:Mwnn}
+.if ${FLAVOUR:L:Mwnn}
 BUILD_DEPENDS+=		::japanese/Wnn
 .endif
 
-.if ${FLAVOR:L:Mcanna}
+.if ${FLAVOUR:L:Mcanna}
 LIB_DEPENDS=		canna16::japanese/canna
 .endif
 
@@ -34,10 +34,10 @@ PORT_DOCDIR=		${PREFIX}/share/doc/kinput2
 pre-configure:
 	mv -f ${WRKSRC}/Kinput2.conf ${WRKSRC}/Kinput2.conf.org
 	cp ${FILESDIR}/Kinput2.conf ${WRKSRC}/Kinput2.conf
-.if ${FLAVOR:L:Mwnn}
+.if ${FLAVOUR:L:Mwnn}
 	echo "#define UseWnn" >>${WRKSRC}/Kinput2.conf
 .endif
-.if ${FLAVOR:L:Mcanna}
+.if ${FLAVOUR:L:Mcanna}
 	echo "#define UseCanna" >>${WRKSRC}/Kinput2.conf
 .endif
 

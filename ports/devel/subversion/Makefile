@@ -1,4 +1,4 @@
-# $MirOS: ports/devel/subversion/Makefile,v 1.14 2007/05/17 16:37:35 bsiegert Exp $
+# $MirOS: ports/devel/subversion/Makefile,v 1.15 2007/09/17 21:02:05 bsiegert Exp $
 
 COMMENT=		Subversion revision control system
 VERSION=		1.4.5
@@ -17,14 +17,14 @@ PERMIT_DISTFILES_FTP=	Yes
 MASTER_SITES=		http://subversion.tigris.org/tarballs/
 EXTRACT_SUFX=		.tar.bz2
 
-FLAVORS=		bsddb
-FLAVOR?=
+FLAVOURS=		bsddb
+FLAVOUR?=
 
 LIB_DEPENDS+=		apr::devel/apr/apr
 LIB_DEPENDS+=		neon::net/neon
 RUN_DEPENDS+=		:p5-URI-*:www/p5-URI
 
-.if ${FLAVOR:L:Mbsddb}
+.if ${FLAVOUR:L:Mbsddb}
 LIB_DEPENDS+=		db.4.2::databases/db
 LIB_DEPENDS+=		aprutil::devel/apr/util,bsddb
 CONFIGURE_ARGS+=	--with-berkeley-db

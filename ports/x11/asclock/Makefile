@@ -20,15 +20,15 @@ LANGUAGES=	english german portuguese dutch norwegian italian \
 		swedish spanish hungarian breton french czech russian \
 		ukrainian slovene indonesian danish hebrew japanese
 
-FLAVORS=	${THEMES:L} ${LANGUAGES}
-FLAVOR?=	classic english
+FLAVOURS=	${THEMES:L} ${LANGUAGES}
+FLAVOUR?=	classic english
 
 CONFIGURE_STYLE= imake
 USE_X11=	Yes
 
 pre-configure:
 	@THEMES='${THEMES}' CLASSICS='${CLASSICS}' LANGUAGES='${LANGUAGES}' \
-	     WRKSRC=${WRKSRC} FLAVOR='${FLAVOR}' perl -w ${FILESDIR}/configure conf
+	     WRKSRC=${WRKSRC} FLAVOUR='${FLAVOUR}' perl -w ${FILESDIR}/configure conf
 
 NO_REGRESS=	Yes
 

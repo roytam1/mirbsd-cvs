@@ -1,4 +1,4 @@
-# $MirOS: ports/editors/abiword/Makefile,v 1.5 2006/09/14 00:09:00 tg Exp $
+# $MirOS: ports/editors/abiword/Makefile,v 1.6 2007/04/11 17:05:30 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.32 2004/01/10 22:51:14 couderc Exp $
 
 COMMENT=		open-source, cross-platform WYSIWYG word processor
@@ -31,10 +31,10 @@ CONFIGURE_STYLE=	autoconf
 AUTOCONF_NEW=		Yes
 CONFIGURE_ARGS=		--without-pspell
 
-FLAVORS=		gnome
-FLAVOR?=
+FLAVOURS=		gnome
+FLAVOUR?=
 
-.if ${FLAVOR:L:Mgnome}
+.if ${FLAVOUR:L:Mgnome}
 LIB_DEPENDS+=		gnomeprintui-2-2::x11/gnome/libgnomeprintui \
 			nautilus::x11/gnome/nautilus
 CONFIGURE_ARGS+=	--enable-gnome

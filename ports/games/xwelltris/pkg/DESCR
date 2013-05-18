@@ -1,4 +1,4 @@
 XWelltris is a tetris-like game that has a "2.5D" environment.
 
-Flavors:
+Flavours:
         no_sdl - do not build with SDL support

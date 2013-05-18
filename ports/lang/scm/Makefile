@@ -33,10 +33,10 @@ SCM_DATA=	COPYING Iedline.scm Init5d3.scm Link.scm \
 FEATURES=arrays bignums cautious edit-line curses posix socket unix \
 dynamic-linking i/o-extensions inexact regex
 
-FLAVORS=no_x11
+FLAVOURS=no_x11
 
-FLAVOR?=
-.if ${FLAVOR:L:Mno_x11}
+FLAVOUR?=
+.if ${FLAVOUR:L:Mno_x11}
 .else
 FEATURES+=	x
 OPTIONS+=	--compiler-options=-I${X11BASE}/include
@@ -82,7 +82,7 @@ do-install:
 	${INSTALL_DATA} ${WRKSRC}/${file} ${PREFIX}/share/scm
 .endfor
 	${INSTALL_DATA} ${WRKSRC}/scm.info ${PREFIX}/info
-.if ${FLAVOR:L:Mno_x11}
+.if ${FLAVOUR:L:Mno_x11}
 .else
 	${INSTALL_DATA} ${WRKSRC}/Xlibscm.info ${PREFIX}/info
 .endif

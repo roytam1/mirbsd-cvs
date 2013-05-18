@@ -1,4 +1,4 @@
-# $MirOS: ports/comms/hylafax/Makefile,v 1.3 2006/09/14 00:07:35 tg Exp $
+# $MirOS: ports/comms/hylafax/Makefile,v 1.4 2007/03/31 22:01:55 tg Exp $
 # $OpenBSD: Makefile,v 1.41 2003/11/11 22:24:19 todd Exp $
 
 COMMENT=		send/receive faxes and share modems
@@ -6,8 +6,8 @@ DISTNAME=		hylafax-4.1.5
 DASH_VER=		1
 CATEGORIES=		comms
 
-FLAVORS=		a4
-FLAVOR?=		a4
+FLAVOURS=		a4
+FLAVOUR?=		a4
 HOMEPAGE=		http://www.HylaFAX.org/
 
 MASTER_SITES=		ftp://ftp.hylafax.org/source/
@@ -36,7 +36,7 @@ CONFIGURE_ENV+=		CCOMPILER="${CC}" CXXCOMPILER="${CXX}" \
 			GCOPTS="${CFLAGS}" GCXXOPTS="${CXXFLAGS}" \
 			PREFIX="${PREFIX}" LOCALBASE="${LOCALBASE}"
 
-.if ${FLAVOR:L} == "a4"
+.if ${FLAVOUR:L} == "a4"
 CONFIGURE_ARGS+=	--with-PAGESIZE=A4
 .endif
 

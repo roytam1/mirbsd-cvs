@@ -1,4 +1,4 @@
-# $MirOS: ports/databases/openldap/Makefile,v 1.6 2006/02/09 09:35:43 tg Exp $
+# $MirOS: ports/databases/openldap/Makefile,v 1.7 2006/09/14 00:07:50 tg Exp $
 # $OpenBSD: Makefile,v 1.40 2004/04/04 21:53:37 jakob Exp $
 
 COMMENT=			Open source LDAP software (client)
@@ -68,15 +68,15 @@ CONFIGURE_ARGS+=	\
 			--enable-slurpd \
 			${CONFIGURE_SHARED}
 
-FLAVORS=		sasl
-FLAVOR?=
+FLAVOURS=		sasl
+FLAVOUR?=
 
 REGRESS_TARGET=		test
 
 MULTI_PACKAGES=		-server
 SUBPACKAGE?=
 
-.if ${FLAVOR:L:Msasl}
+.if ${FLAVOUR:L:Msasl}
 CONFIGURE_ARGS+=	--with-cyrus-sasl \
 			--enable-spasswd
 LIB_DEPENDS+=		sasl2::security/cyrus-sasl2
@@ -86,7 +86,7 @@ CONFIGURE_ARGS+=	--without-cyrus-sasl \
 			--disable-spasswd
 .endif
 
-.if ${FLAVOR:L:Mbdb}
+.if ${FLAVOUR:L:Mbdb}
 CONFIGURE_ARGS+=	--enable-bdb
 BUILD_DEPENDS+=   	:db-4.*:databases/db
 CPPFLAGS+=		-I${LOCALBASE}/include/db4

@@ -1,4 +1,4 @@
-.\" $MirOS$
+.\" $MirOS: ports/infrastructure/pkgtools/rtfm/packages.7,v 1.2 2005/08/05 20:34:04 bsiegert Exp $
 .\" $OpenBSD: packages.7,v 1.18 2003/12/25 18:35:00 espie Exp $
 .\"
 .\" Copyright (c) 2000 Marc Espie
@@ -25,7 +25,7 @@
 .\" (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
 .\" THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .\"
-.Dd May 1, 2000
+.Dd $Mdocdate$
 .Dt PACKAGES 7
 .Os
 .Sh NAME
@@ -176,7 +176,7 @@ install a basic
 package that holds those files, and is not useful as a stand-alone package.
 .Sh PACKAGE NAMING
 Most package names follow the pattern
-.Qq name-version-patchlevel-flavor ,
+.Qq name-version-patchlevel-flavour ,
 where
 .Qq name
 is the actual package name,
@@ -184,7 +184,7 @@ is the actual package name,
 is the version number,
 .Qq patchlevel
 is the "revision" of the package and
-.Qq flavor
+.Qq flavour
 denotes some options that were used when creating the package.
 .Pp
 Packages with the same name will usually not coexist peacefully, as
@@ -234,7 +234,7 @@ dependencies required to obtain a functional package.
 Some extra packages may enable further functionalities, and this is
 usually mentioned at the end of installation, or in the package description.
 .Pp
-Some flavors are also explicitly provided to avoid having to depend on the
+Some flavours are also explicitly provided to avoid having to depend on the
 kitchen sink.
 For instance, an
 .Nm emacs-no_x11

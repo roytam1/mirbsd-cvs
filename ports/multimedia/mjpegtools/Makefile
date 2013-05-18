@@ -1,4 +1,4 @@
-# $MirOS: ports/multimedia/mjpegtools/Makefile,v 1.5 2006/09/14 00:11:27 tg Exp $
+# $MirOS: ports/multimedia/mjpegtools/Makefile,v 1.6 2007/04/13 19:27:52 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.1.1.1 2004/07/09 11:58:39 sturm Exp $
 
 COMMENT=			tools to edit/modify/encode video streams
@@ -30,10 +30,10 @@ CONFIGURE_ARGS+=	--with-x --enable-xfree-ext \
 			--with-dv=${LOCALBASE} --with-dv-yv12 \
 			--disable-zalpha
 
-FLAVORS=		quicktime optimized
-FLAVOR?=
+FLAVOURS=		quicktime optimized
+FLAVOUR?=
 
-.if ${FLAVOR:L:Moptimized}
+.if ${FLAVOUR:L:Moptimized}
 CONFIGURE_ARGS+=	--enable-simd-accel
 .  if ${MACHINE_ARCH} == "i386"
 BUILD_DEPENDS+=		::devel/nasm
@@ -44,7 +44,7 @@ CONFIGURE_ARGS+=	--disable-cmov-extension \
 			--disable-simd-accel
 .endif
 
-.if ${FLAVOR:L:Mquicktime}
+.if ${FLAVOUR:L:Mquicktime}
 LIB_DEPENDS+=		quicktime.0::multimedia/libquicktime
 CONFIGURE_ARGS+=	--with-quicktime
 .else

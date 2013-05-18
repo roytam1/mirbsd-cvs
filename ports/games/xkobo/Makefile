@@ -8,10 +8,10 @@ CATEGORIES=	games
 MASTER_SITES=	${MASTER_SITE_XCONTRIB:=games/}  \
 		ftp://ftp.uoknor.edu/mirrors/X/contrib/games/
 
-FLAVORS=harder
-FLAVOR?=
+FLAVOURS=harder
+FLAVOUR?=
 
-.if ${FLAVOR:L} == "harder"
+.if ${FLAVOUR:L} == "harder"
 PATCH_LIST=patch-* extra-hard
 .endif
 

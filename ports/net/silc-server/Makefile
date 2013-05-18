@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/net/silc-server/Makefile,v 1.3 2007/04/13 19:38:45 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.15 2004/03/03 18:17:13 brad Exp $
 
 .if ${MACHINE_ARCH} == "powerpc"
@@ -30,10 +30,10 @@ MASTER_SITES=	http://ftp.silcnet.org/server/sources/ \
 
 MODULES=	converters/libiconv
 
-FLAVORS=	operops
-FLAVOR?=
+FLAVOURS=	operops
+FLAVOUR?=
 
-.if ${FLAVOR:L:Moperops}
+.if ${FLAVOUR:L:Moperops}
 PATCH_LIST+=	operops-* patch-*
 .endif
 

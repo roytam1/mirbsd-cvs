@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/editors/nvi-m17n/Makefile,v 1.4 2007/04/11 17:05:30 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.18 2003/05/12 18:02:44 sturm Exp $
 # NetBSD: Makefile,v 1.6 2000/01/19 12:28:44 hubertf Exp
 # FreeBSD Id: Makefile,v 1.11 1999/04/17 10:51:03 itojun Exp
@@ -23,8 +23,8 @@ PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
 
-FLAVORS= canna
-FLAVOR?=
+FLAVOURS= canna
+FLAVOUR?=
 
 PATCH_DIST_STRIP=-p1
 WRKSRC=	${WRKDIR}/${DISTNAME}/build
@@ -33,7 +33,7 @@ CONFIGURE_STYLE=gnu dest
 CONFIGURE_ENV=	OPTFLAG='-D_PATH_SYSEXRC=\"${SYSCONFDIR}/vi.exrc\"' 
 CONFIGURE_ARGS+=--enable-multibyte --program-prefix=n --host=${ARCH}-unknown-netbsd
 
-.if ${FLAVOR:L} == "canna"
+.if ${FLAVOUR:L} == "canna"
 LIB_DEPENDS+=	canna.1.::japanese/canna
 CONFIGURE_ARGS+=--enable-canna=${LOCALBASE}
 USE_X11=	Yes # depends on canna, which needs X11

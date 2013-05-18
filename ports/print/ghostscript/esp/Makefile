@@ -1,4 +1,4 @@
-# $MirOS: ports/print/ghostscript/esp/Makefile,v 1.10 2007/03/19 16:21:03 bsiegert Exp $
+# $MirOS: ports/print/ghostscript/esp/Makefile,v 1.11 2008/03/08 21:23:06 bsiegert Exp $
 
 COMMENT=		ESP Ghostscript, a PostScript interpreter
 VERSION=		8.15.4
@@ -43,21 +43,21 @@ CONFIGURE_ARGS=		${CONFIGURE_SHARED} --with-ijs \
 
 NO_REGRESS=		Yes
 
-FLAVORS=		no_x11 cups
-FLAVOR?=
+FLAVOURS=		no_x11 cups
+FLAVOUR?=
 
 .include <mirports.sys.mk>
 
 CFLAGS+=		-DA4
 
-.if ${FLAVOR:L:Mno_x11}
+.if ${FLAVOUR:L:Mno_x11}
 CONFIGURE_ARGS+=	--without-x
 .else
 USE_X11=		Yes
 CONFIGURE_ARGS+=	--with-x
 .endif
 
-.if ${FLAVOR:L:Mcups}
+.if ${FLAVOUR:L:Mcups}
 USE_CXX=		Yes  # depends on cups, which needs C++
 LIB_DEPENDS+=		cups.2::print/cups \
 			cupsimage.2::print/cups
@@ -79,7 +79,7 @@ pre-install:
 	${INSTALL_DATA_DIR} ${PREFIX}/share/examples/cups
 
 post-install:
-.if ${FLAVOR:L:Mcups}
+.if ${FLAVOUR:L:Mcups}
 	${INSTALL_DATA} ${WRKSRC}/pstoraster/pstoraster.convs \
 		${PREFIX}/share/examples/cups
 .endif

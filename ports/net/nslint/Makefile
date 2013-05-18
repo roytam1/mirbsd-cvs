@@ -14,10 +14,10 @@ PERMIT_DISTFILES_FTP=	Yes
 
 MASTER_SITES=		ftp://ftp.ee.lbl.gov/
 
-FLAVORS=		static
-FLAVOR?=
+FLAVOURS=		static
+FLAVOUR?=
 
-.if ${FLAVOR:L} == "static"
+.if ${FLAVOUR:L} == "static"
 CONFIGURE_ENV+=		LDFLAGS=-static
 .endif
 

@@ -1,4 +1,4 @@
-# $MirOS: ports/multimedia/xawtv/Makefile,v 1.4 2006/02/09 11:12:11 tg Exp $
+# $MirOS: ports/multimedia/xawtv/Makefile,v 1.5 2006/09/14 00:11:29 tg Exp $
 # $OpenBSD: Makefile,v 1.1.1.1 2003/11/16 16:17:58 sturm Exp $
 
 ONLY_FOR_PLATFORM=	*:*:i386 *:*:macppc
@@ -21,9 +21,9 @@ LIB_DEPENDS=		jpeg.62::graphics/jpeg \
 MODULES+=		devel/pkgconfig
 
 .if ${MACHINE_ARCH} == "i386"
-FLAVORS=		mmx
-FLAVOR?=
-.  if ${FLAVOR:L:Mmmx}
+FLAVOURS=		mmx
+FLAVOUR?=
+.  if ${FLAVOUR:L:Mmmx}
 CONFIGURE_ARGS+=	--enable-mmx
 .  else
 CONFIGURE_ARGS+=	--disable-mmx

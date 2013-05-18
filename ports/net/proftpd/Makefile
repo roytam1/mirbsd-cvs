@@ -1,4 +1,4 @@
-# $MirOS: ports/net/proftpd/Makefile,v 1.2 2006/02/09 11:12:24 tg Exp $
+# $MirOS: ports/net/proftpd/Makefile,v 1.3 2006/09/14 00:12:11 tg Exp $
 
 COMMENT=			highly configurable ftp daemon
 DISTNAME=	proftpd-1.2.9
@@ -26,27 +26,27 @@ PERMIT_PACKAGE_FTP=     Yes
 PERMIT_DISTFILES_CDROM= Yes
 PERMIT_DISTFILES_FTP=   Yes
 
-FLAVORS=		ldap mysql pgsql ssl
-FLAVOR?=
+FLAVOURS=		ldap mysql pgsql ssl
+FLAVOUR?=
 
 MOD=			mod_ratio:mod_readme:mod_wrap
 
-.if ${FLAVOR:L:Mldap}
+.if ${FLAVOUR:L:Mldap}
 LIB_DEPENDS+=		ldap.2,lber:openldap-client-2.*:databases/openldap
 MOD:=			${MOD}:mod_ldap
 .endif
 
-.if ${FLAVOR:L:Mmysql}
+.if ${FLAVOUR:L:Mmysql}
 LIB_DEPENDS+=		lib/mysql/mysqlclient.10:mysql-client-3.23.*:databases/mysql
 MOD:=			${MOD}:mod_sql:mod_sql_mysql
 .endif
 
-.if ${FLAVOR:L:Mpgsql}
+.if ${FLAVOUR:L:Mpgsql}
 LIB_DEPENDS+=		pq.2::databases/postgresql
 MOD:=			${MOD}:mod_sql:mod_sql_postgres
 .endif
 
-.if ${FLAVOR:L:Mssl}
+.if ${FLAVOUR:L:Mssl}
 CFLAGS+=		-DHAVE_OPENSSL
 LDFLAGS+=		-lssl -lcrypto
 .endif

@@ -1,4 +1,4 @@
-# $MirOS: ports/graphics/gimp/Makefile,v 1.3 2006/02/09 11:11:46 tg Exp $
+# $MirOS: ports/graphics/gimp/Makefile,v 1.4 2006/09/14 00:09:53 tg Exp $
 # $OpenBSD: Makefile,v 1.6 2005/07/08 07:50:55 fgsch Exp $
 
 BROKEN=		porting in progress
@@ -39,10 +39,10 @@ CONFIGURE_ARGS=	${CONFIGURE_SHARED}
 CONFIGURE_ARGS+= --disable-print --disable-gtkhtml --disable-svg \
 		 --disable-sse
 
-FLAVORS=	altivec
-FLAVOR?=
+FLAVOURS=	altivec
+FLAVOUR?=
 
-.if ${FLAVOR:L} == "altivec"
+.if ${FLAVOUR:L} == "altivec"
 ONLY_FOR_PLATFORM=	*:*:powerpc
 CONFIGURE_ARGS+= --enable-altivec
 .else

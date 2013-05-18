@@ -1,4 +1,4 @@
-# $MirOS: ports/net/irssi/Makefile,v 1.4 2006/09/14 00:11:49 tg Exp $
+# $MirOS: ports/net/irssi/Makefile,v 1.5 2007/05/07 19:19:06 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.24 2004/05/13 07:11:56 pvalchev Exp $
 
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
@@ -31,8 +31,8 @@ CONFIGURE_ARGS+=	--datadir=${PREFIX}/share/doc --enable-perl=yes \
 			--enable-ipv6 --with-included-gettext --with-proxy \
 			--with-glib1
 
-FLAVORS=		socks
-FLAVOR?=
+FLAVOURS=		socks
+FLAVOUR?=
 
 PERL_VERSION!=		perl -V:version | sed s/[^0-9]//g
 
@@ -46,7 +46,7 @@ CONFIGURE_ARGS+=	--datadir=${PREFIX}/share/doc --enable-ipv6 \
 	--with-perl-lib=${PREFIX}/libdata/perl5/site_perl --with-glib1
 
 
-.if ${FLAVOR:L:Msocks}
+.if ${FLAVOUR:L:Msocks}
 CONFIGURE_ARGS+=	--with-socks
 BUILD_DEPENDS+=		::security/dante
 .endif

@@ -1,4 +1,4 @@
-# $MirOS: ports/databases/postgresql/Makefile,v 1.6 2006/12/20 15:31:10 tg Exp $
+# $MirOS: ports/databases/postgresql/Makefile,v 1.7 2007/02/22 20:51:00 tg Exp $
 # $OpenBSD: Makefile,v 1.68 2004/02/04 07:39:18 sturm Exp $
 
 COMMENT=		PostgreSQL RDBMS clients and utilities
@@ -102,12 +102,12 @@ MASTER_SITES=	\
 	ftp://ftp22.us.postgresql.org/mirrors/ftp.postgresql.org/source/v${VERSION}/ \
 	ftp://ftp24.us.postgresql.org/postgresql/source/v${VERSION}/
 
-PSEUDO_FLAVORS+=	tcl
+PSEUDO_FLAVOURS+=	tcl
 .if ${OStype} == "OpenBSD"
-FLAVORS+=		kerberos
-FLAVOR?=		kerberos
+FLAVOURS+=		kerberos
+FLAVOUR?=		kerberos
 .else
-FLAVOR?=
+FLAVOUR?=
 .endif
 
 .if ${OStype} != "MirBSD"
@@ -157,7 +157,7 @@ DOCS=			${WRKSRC}/COPYRIGHT ${WRKSRC}/HISTORY \
 			${WRKSRC}/doc/FAQ{,_DEV,_[a-z]*} ${WRKSRC}/doc/TODO
 
 # For tcl
-.if ${FLAVOR:L:Mtcl}
+.if ${FLAVOUR:L:Mtcl}
 MULTI_PACKAGES+=	-tcl
 
 TCL_INCDIR=		${LOCALBASE}/include/tcl8.3
@@ -183,7 +183,7 @@ RUN_DEPENDS+=		::databases/postgresql
 .  endif
 .endif
 
-.if ${FLAVOR:L:Mkerberos}
+.if ${FLAVOUR:L:Mkerberos}
 CONFIGURE_ARGS+=	--with-includes=/usr/include/kerberosV
 CONFIGURE_ARGS+=	--with-krb5=/usr/lib
 .else

@@ -21,20 +21,20 @@ FAKE_FLAGS=		prefix="${WRKINST}${PREFIX}"
 WRKDIST=        	${WRKDIR}/mico
 NO_REGRESS=		Yes
 
-FLAVORS=		ssl gtk tcl
-FLAVOR?=
+FLAVOURS=		ssl gtk tcl
+FLAVOUR?=
 
-.if ${FLAVOR:L:Mssl}
+.if ${FLAVOUR:L:Mssl}
 CONFIGURE_ARGS+=	--with-ssl
 .endif
 
-.if ${FLAVOR:L:Mgtk}
+.if ${FLAVOUR:L:Mgtk}
 LIB_DEPENDS+=		gtk.1.2::x11/gtk+
 CONFIGURE_ARGS+=	--with-gtk
 USE_X11=		Yes
 .endif
 
-.if ${FLAVOR:L:Mtcl}
+.if ${FLAVOUR:L:Mtcl}
 LIB_DEPENDS+=		tcl.8::lang/tcl
 CONFIGURE_ARGS+=	--with-tcl
 USE_X11=		Yes

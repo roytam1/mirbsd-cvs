@@ -1,4 +1,4 @@
-# $MirOS: ports/net/pure-ftpd/Makefile,v 1.4 2006/09/14 00:12:11 tg Exp $
+# $MirOS: ports/net/pure-ftpd/Makefile,v 1.5 2007/04/13 19:35:09 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.31 2004/03/08 03:57:16 brad Exp $
 
 COMMENT=	small, easy to set up, fast and very secure FTP server
@@ -29,17 +29,17 @@ CONFIGURE_ARGS+= --with-everything \
 		 --with-tls \
 		 --with-largefile
 
-FLAVORS=	ldap mysql postgresql no_banner virtual_chroot
-FLAVOR?=
+FLAVOURS=	ldap mysql postgresql no_banner virtual_chroot
+FLAVOUR?=
 
-.if ${FLAVOR:L:Mldap}
+.if ${FLAVOUR:L:Mldap}
 LIB_DEPENDS+=	ldap.2,lber:openldap-client-2.*:databases/openldap
 CONFIGURE_ARGS+=--with-ldap="${LOCALBASE}"
 DOCS+=		README.LDAP pureftpd.schema
 CONF_FILE+= 	pureftpd-ldap.conf
 .endif
 
-.if ${FLAVOR:L:Mmysql}
+.if ${FLAVOUR:L:Mmysql}
 USE_CXX=	Yes
 LIB_DEPENDS+= lib/mysql/mysqlclient.10::databases/mysql
 CONFIGURE_ARGS+= --with-mysql="${LOCALBASE}"
@@ -47,7 +47,7 @@ DOCS+=	README.MySQL
 CONF_FILE+= pureftpd-mysql.conf
 .endif
 
-.if ${FLAVOR:L:Mpostgresql}
+.if ${FLAVOUR:L:Mpostgresql}
 PERMIT_PACKAGE_CDROM=	dependency databases/postgresql is not allowed for CDROM
 LIB_DEPENDS+=	pq.2::databases/postgresql
 CONFIGURE_ARGS+=--with-pgsql="${LOCALBASE}"
@@ -55,11 +55,11 @@ DOCS+=		README.PGSQL
 CONF_FILE+= 	pureftpd-pgsql.conf
 .endif
 
-.if ${FLAVOR:L:Mno_banner}
+.if ${FLAVOUR:L:Mno_banner}
 CONFIGURE_ARGS+=--without-banner
 .endif
 
-.if ${FLAVOR:L:Mvirtual_chroot}
+.if ${FLAVOUR:L:Mvirtual_chroot}
 CONFIGURE_ARGS+=--with-virtualchroot
 .endif
 

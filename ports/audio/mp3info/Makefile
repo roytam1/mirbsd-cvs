@@ -1,4 +1,4 @@
-# $MirOS: ports/audio/mp3info/Makefile,v 1.3 2006/09/14 00:07:09 tg Exp $
+# $MirOS: ports/audio/mp3info/Makefile,v 1.4 2007/04/04 18:00:25 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.17 2003/12/13 01:17:52 margarida Exp $
 
 COMMENT=	MP3 information tool
@@ -15,10 +15,10 @@ PERMIT_DISTFILES_FTP=	Yes
 
 EXTRACT_SUFX=		.tgz
 
-FLAVORS=	no_x11
-FLAVOR?=
+FLAVOURS=	no_x11
+FLAVOUR?=
 
-.if ${FLAVOR:L:Mno_x11}
+.if ${FLAVOUR:L:Mno_x11}
 ALL_TARGET=	mp3info doc
 INSTALL_TARGET=	install-no_x11
 .else

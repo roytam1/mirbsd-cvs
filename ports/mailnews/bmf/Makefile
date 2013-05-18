@@ -1,4 +1,4 @@
-# $MirOS: ports/mailnews/bmf/Makefile,v 1.8 2007/04/12 20:22:18 bsiegert Exp $
+# $MirOS: ports/mailnews/bmf/Makefile,v 1.9 2007/04/15 19:54:08 tg Exp $
 # $OpenBSD: Makefile,v 1.8 2004/02/02 23:11:28 pvalchev Exp $
 
 COMMENT=		easy to use Bayesian spam filter
@@ -17,10 +17,10 @@ MASTER_SITES=		${MASTER_SITE_SOURCEFORGE:=bmf/}
 
 CONFIGURE_STYLE=	simple
 
-FLAVORS=		mysql
-FLAVOR?=
+FLAVOURS=		mysql
+FLAVOUR?=
 
-.if ${FLAVOR:L:Mmysql}
+.if ${FLAVOUR:L:Mmysql}
 LIB_DEPENDS+=		:mysql-client-*:databases/mysql
 CONFIGURE_ARGS=		--without-libdb --with-mysql="${LOCALBASE}"
 CFLAGS+=		"-I${LOCALBASE}/include/mysql"

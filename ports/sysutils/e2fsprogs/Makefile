@@ -1,4 +1,4 @@
-# $MirOS: ports/sysutils/e2fsprogs/Makefile,v 1.5 2006/02/09 09:36:18 tg Exp $
+# $MirOS: ports/sysutils/e2fsprogs/Makefile,v 1.6 2006/09/14 00:13:31 tg Exp $
 # $OpenBSD: Makefile,v 1.1.1.1 2004/02/20 19:54:58 espie Exp $
 # $FreeBSD: ports/sysutils/e2fsprogs/Makefile,v 1.8 2003/02/20 19:00:47 knu Exp $
 
@@ -17,10 +17,10 @@ PERMIT_PACKAGE_FTP=     Yes
 
 .include <mirports.sys.mk>
 
-FLAVORS=		static
-FLAVOR?=
+FLAVOURS=		static
+FLAVOUR?=
 
-.if ${FLAVOR:L:Mstatic}
+.if ${FLAVOUR:L:Mstatic}
 LDSTATIC=		-static
 NO_SHARED_LIBS=		Yes
 .endif

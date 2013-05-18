@@ -20,5 +20,5 @@ Main advantages over other tar implementations:
     support for file flags	- star supports extended file flags.
     fully ansi compatible	- star is fully ANSI/POSIX 1003.1 compatible.
 
-Available flavors:
+Available flavours:
 	static  - link statically

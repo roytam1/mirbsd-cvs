@@ -1,4 +1,4 @@
-# $MirOS: ports/www/squid/Makefile,v 1.5 2006/02/09 09:36:20 tg Exp $
+# $MirOS: ports/www/squid/Makefile,v 1.6 2006/09/14 00:14:59 tg Exp $
 # $OpenBSD: Makefile,v 1.61 2004/04/21 11:11:19 brad Exp $
 
 COMMENT=			WWW and FTP proxy cache and accelerator
@@ -50,8 +50,8 @@ PERMIT_DISTFILES_FTP=	Yes
 SQUIDDIR?=	/var/squid
 SUBST_VARS=	SQUIDDIR
 
-FLAVORS=	transparent
-FLAVOR?=
+FLAVOURS=	transparent
+FLAVOUR?=
 
 CONFIGURE_STYLE= autoconf no-autoheader
 MODGNU_CONFIG_GUESS_DIRS= ${WRKSRC} ${WRKSRC}/cfgaux
@@ -61,7 +61,7 @@ CONFIGURE_ARGS=	--enable-removal-policies="lru heap" \
 		--datadir="${PREFIX}/share/squid" \
 		--localstatedir="${SQUIDDIR}"
 
-.if ${FLAVOR:L:Mtransparent}
+.if ${FLAVOUR:L:Mtransparent}
 CONFIGURE_ARGS+= --enable-pf-transparent
 .endif
 

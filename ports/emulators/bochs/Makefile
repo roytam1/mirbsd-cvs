@@ -1,4 +1,4 @@
-# $MirOS: ports/emulators/bochs/Makefile,v 1.1.7.1 2005/03/18 15:45:52 tg Exp $
+# $MirOS: ports/emulators/bochs/Makefile,v 1.2 2006/09/14 00:09:08 tg Exp $
 # $OpenBSD: Makefile,v 1.36 2004/05/12 22:40:11 pedro Exp $
 # $NetBSD: Makefile,v 1.2 1998/09/22 06:11:36 garbled Exp $
 
@@ -23,53 +23,53 @@ CONFIGURE_ARGS=	--enable-cdrom \
 		--with-term \
 		--enable-all-optimizations
 
-FLAVORS=	debug i386 i486 i686 x86_64 smp smp_4 smp_8 \
+FLAVOURS=	debug i386 i486 i686 x86_64 smp smp_4 smp_8 \
 		no_x11 no_mmx no_comp no_pci no_debug_readline
-FLAVOR?=
+FLAVOUR?=
 
-.if ${FLAVOR:L:Mdebug}
+.if ${FLAVOUR:L:Mdebug}
 CONFIGURE_ARGS+= --enable-debugger --enable-disasm --enable-x86-debugger
-.  if ${FLAVOR:L:Mno_debug_readline}
+.  if ${FLAVOUR:L:Mno_debug_readline}
 CONFIGURE_ARGS+= --enable-readline
 .  endif
 .endif
 
 USE_CXX=	Yes
-.if !${FLAVOR:L:Mno_x11}
+.if !${FLAVOUR:L:Mno_x11}
 USE_X11=	Yes
 CONFIGURE_ARGS+= --with-x11
 .endif
 
-.if ${FLAVOR:L:Mi386}
-FLAVOR+=	no_mmx
+.if ${FLAVOUR:L:Mi386}
+FLAVOUR+=	no_mmx
 CONFIGURE_ARGS+= --enable-cpu-level="3" --disable-mmx
-. if ${FLAVOR:L:Mi486} || ${FLAVOR:L:Mi686} || ${FLAVOR:L:Mx86_64}
-ERRORS +=	"Fatal: cannot use i486, i686, or x86_64 flavors with i386"
+. if ${FLAVOUR:L:Mi486} || ${FLAVOUR:L:Mi686} || ${FLAVOUR:L:Mx86_64}
+ERRORS +=	"Fatal: cannot use i486, i686, or x86_64 flavours with i386"
 . endif
 .endif
 
-.if ${FLAVOR:L:Mi486}
-FLAVOR+=	no_mmx
+.if ${FLAVOUR:L:Mi486}
+FLAVOUR+=	no_mmx
 CONFIGURE_ARGS+= --enable-cpu-level="4" --disable-mmx
-. if ${FLAVOR:L:Mi386} ||  ${FLAVOR:L:Mi686} || ${FLAVOR:L:Mx86_64}
-ERRORS +=	"Fatal: cannot use i386, i686, or x86_64 flavors with i486"
+. if ${FLAVOUR:L:Mi386} ||  ${FLAVOUR:L:Mi686} || ${FLAVOUR:L:Mx86_64}
+ERRORS +=	"Fatal: cannot use i386, i686, or x86_64 flavours with i486"
 . endif
 .endif
 
-.if ! ${FLAVOR:L:Mi386} && ! ${FLAVOR:L:Mi486} && ! ${FLAVOR:L:Mi686}
+.if ! ${FLAVOUR:L:Mi386} && ! ${FLAVOUR:L:Mi486} && ! ${FLAVOUR:L:Mi686}
 CONFIGURE_ARGS+= --enable-cpu-level="5"
 .endif
 
-.if ${FLAVOR:L:Mi686}
+.if ${FLAVOUR:L:Mi686}
 CONFIGURE_ARGS+= --enable-cpu-level="6"
-. if ${FLAVOR:L:Mi386} ||  ${FLAVOR:L:Mi486}
-ERRORS +=	"Fatal: cannot use i386 or i486 flavors with i686"
+. if ${FLAVOUR:L:Mi386} ||  ${FLAVOUR:L:Mi486}
+ERRORS +=	"Fatal: cannot use i386 or i486 flavours with i686"
 . endif
 .endif
 
-.if ${FLAVOR:L:Mx86_64}
-.  if !${FLAVOR:L:Mi686}
-ERRORS+=	"Fatal: i686 flavor required for x86_64"
+.if ${FLAVOUR:L:Mx86_64}
+.  if !${FLAVOUR:L:Mi686}
+ERRORS+=	"Fatal: i686 flavour required for x86_64"
 .  else
 CONFIGURE_ARGS+= --enable-x86-64
 .  endif
@@ -77,17 +77,17 @@ CONFIGURE_ARGS+= --enable-x86-64
 CONFIGURE_ARGS+= --disable-x86-64
 .endif
 
-.if !${FLAVOR:L:Mno_pci}
+.if !${FLAVOUR:L:Mno_pci}
 CONFIGURE_ARGS+= --enable-pci
 .endif
 
-.if ${FLAVOR:L:Msmp} || ${FLAVOR:L:Msmp_4} || ${FLAVOR:L:Msmp_8}
-. if ! ${FLAVOR:L:Mi686}
-ERRORS += "Fatal: i686 flavor required for smp"
+.if ${FLAVOUR:L:Msmp} || ${FLAVOUR:L:Msmp_4} || ${FLAVOUR:L:Msmp_8}
+. if ! ${FLAVOUR:L:Mi686}
+ERRORS += "Fatal: i686 flavour required for smp"
 . endif
-. if ${FLAVOR:L:Msmp_8}
+. if ${FLAVOUR:L:Msmp_8}
 CONFIGURE_ARGS+= --enable-processors=8
-. elif ${FLAVOR:L:Msmp_4}
+. elif ${FLAVOUR:L:Msmp_4}
 CONFIGURE_ARGS+= --enable-processors=4
 . else
 CONFIGURE_ARGS+= --enable-processors=2
@@ -97,11 +97,11 @@ CONFIGURE_ARGS+= --enable-apic
 CONFIGURE_ARGS+= --disable-apic
 .endif
 
-.if !${FLAVOR:L:Mno_mmx}
+.if !${FLAVOUR:L:Mno_mmx}
 CONFIGURE_ARGS+= --enable-mmx
 .endif
 
-.if !${FLAVOR:L:Mno_comp}
+.if !${FLAVOUR:L:Mno_comp}
 CONFIGURE_ARGS+= --enable-compressed-hd
 .endif
 

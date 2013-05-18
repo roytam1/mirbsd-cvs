@@ -1,4 +1,4 @@
-# $MirOS: ports/audio/libmikmod/Makefile,v 1.4 2006/04/27 21:34:19 bsiegert Exp $
+# $MirOS: ports/audio/libmikmod/Makefile,v 1.5 2006/09/14 00:07:04 tg Exp $
 # $OpenBSD: Makefile,v 1.7 2004/01/24 19:57:34 pvalchev Exp $
 
 COMMENT=			mikmod sound library
@@ -21,10 +21,10 @@ CONFIGURE_ARGS+= ${CONFIGURE_SHARED}
 CONFIGURE_ARGS+= --disable-dl \
 		 --enable-oss
 
-FLAVORS=	esd
-FLAVOR?=
+FLAVOURS=	esd
+FLAVOUR?=
 
-.if ${FLAVOR:L:Mesd}
+.if ${FLAVOUR:L:Mesd}
 CONFIGURE_ARGS+= --enable-esd
 LIB_DEPENDS+=	esd.2::audio/esound
 .else

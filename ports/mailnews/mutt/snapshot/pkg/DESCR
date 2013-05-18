@@ -14,7 +14,7 @@ Other features include:
 - PGP/MIME (RFC2015)
 - small and efficient
 
-Flavors:
+Flavours:
 	slang	   - build using the S-Lang library for screen handling.
 	compressed - build with compressed folder support 
 		     (see: http://www.spinnaker.de/mutt/compressed/)

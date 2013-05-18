@@ -2,11 +2,11 @@ MAME stands for Multi Arcade Machine Emulator. As the name suggests, it is
 a program that emulates the hardware (and low-level firmware) of a massive
 variety of arcade machines.
 
-Packages can be built with additional FLAVORs:
+Packages can be built with additional FLAVOURs:
 
   x11:  built with x11 support (default).
 
   gl:   built with GL support.
 
   sdl:  built with SDL support.
-        This FLAVOR requires the sdl package.
+        This FLAVOUR requires the sdl package.

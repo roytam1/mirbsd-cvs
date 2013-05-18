@@ -1,4 +1,4 @@
-# $MirOS: ports/x11/ogle_gui/Makefile,v 1.4 2006/09/14 00:15:32 tg Exp $
+# $MirOS: ports/x11/ogle_gui/Makefile,v 1.5 2007/05/07 19:48:16 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.8 2004/04/02 19:07:05 sturm Exp $
 
 
@@ -21,10 +21,10 @@ LIB_DEPENDS=	dvdcontrol.9,msgevents.6::x11/ogle \
 		xml2::textproc/libxml \
 USE_X11=	Yes
 
-FLAVORS=gtk1
-FLAVOR?=
+FLAVOURS=gtk1
+FLAVOUR?=
 
-.if ${FLAVOR:L} == "gtk1"
+.if ${FLAVOUR:L} == "gtk1"
 LIB_DEPENDS+= 	glade.5.0::devel/libglade0 \
 		gtk.1.2::x11/gtk+1
 .else

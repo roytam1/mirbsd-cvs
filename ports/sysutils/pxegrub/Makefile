@@ -1,4 +1,4 @@
-# $MirOS: ports/sysutils/pxegrub/Makefile,v 1.12 2006/09/14 00:13:42 tg Exp $
+# $MirOS: ports/sysutils/pxegrub/Makefile,v 1.13 2007/02/22 22:57:57 tg Exp $
 #
 # Although you can only netboot a kernel with this, it's still included.
 # Maybe one day someone will include the correct parametres for disc kernels.
@@ -53,22 +53,22 @@ FILES=			stage1/stage1 stage2/e2fs_stage1_5 \
 			stage2/stage2_eltorito stage2/ufs2_stage1_5 \
 			stage2/vstafs_stage1_5 stage2/xfs_stage1_5
 
-FLAVORS=		x3c503 x3c503_aui x3c503_shmem x3c507 x3c509 x3c529 \
+FLAVOURS=		x3c503 x3c503_aui x3c503_shmem x3c507 x3c509 x3c529 \
 			x3c595 x3c90x cs89x0 davicom depca eepro eepro100 \
 			epic100 exos205 lance natsemi ne ne2100 ni5010 \
 			ni5210 ni6510 ns8390 otulip rtl8139 sis900 sk_g16 \
 			smc9000 tiara tulip via_rhine w89c840 wd nopcibios
 # The most common ones. The more you choose, the higher the
 # probability that the generated binaries do not work.
-FLAVOR?=		x3c90x eepro100 ne ns8390 via_rhine
+FLAVOUR?=		x3c90x eepro100 ne ns8390 via_rhine
 
-.if ${FLAVOR:L:Mx3c503}
+.if ${FLAVOUR:L:Mx3c503}
 CONFIGURE_ARGS+=	--enable-3c503
 HAVE_NETCARD=		defined
 .endif
 
-.if ${FLAVOR:L:Mx3c503_aui}
-.  if ${FLAVOR:L:Mx3c503}
+.if ${FLAVOUR:L:Mx3c503_aui}
+.  if ${FLAVOUR:L:Mx3c503}
 CONFIGURE_ARGS+=	--enable-3c503-aui
 .  else
 BROKEN=			"Flavour x3c503_aui depends on x3c503"
@@ -77,8 +77,8 @@ BROKEN=			"Flavour x3c503_aui depends on x3c503"
 CONFIGURE_ARGS+=	--disable-3c503-aui
 .endif
 
-.if ${FLAVOR:L:Mx3c503_shmem}
-.  if ${FLAVOR:L:Mx3c503}
+.if ${FLAVOUR:L:Mx3c503_shmem}
+.  if ${FLAVOUR:L:Mx3c503}
 CONFIGURE_ARGS+=	--enable-3c503-shmem
 .  else
 BROKEN=			"Flavour x3c503_shmem depends on x3c503"
@@ -87,152 +87,152 @@ BROKEN=			"Flavour x3c503_shmem depends on x3c503"
 CONFIGURE_ARGS+=	--disable-3c503-shmem
 .endif
 
-.if ${FLAVOR:L:Mx3c507}
+.if ${FLAVOUR:L:Mx3c507}
 CONFIGURE_ARGS+=	--enable-3c507
 HAVE_NETCARD=		defined
 .endif
 
-.if ${FLAVOR:L:Mx3c509}
+.if ${FLAVOUR:L:Mx3c509}
 CONFIGURE_ARGS+=	--enable-3c509
 HAVE_NETCARD=		defined
 .endif
 
-.if ${FLAVOR:L:Mx3c529}
+.if ${FLAVOUR:L:Mx3c529}
 CONFIGURE_ARGS+=	--enable-3c529
 HAVE_NETCARD=		defined
 .endif
 
-.if ${FLAVOR:L:Mx3c595}
+.if ${FLAVOUR:L:Mx3c595}
 CONFIGURE_ARGS+=	--enable-3c595
 HAVE_NETCARD=		defined
 .endif
 
-.if ${FLAVOR:L:Mx3c90x}
+.if ${FLAVOUR:L:Mx3c90x}
 CONFIGURE_ARGS+=	--enable-3c90x
 HAVE_NETCARD=		defined
 .endif
 
-.if ${FLAVOR:L:Mcs89x0}
+.if ${FLAVOUR:L:Mcs89x0}
 CONFIGURE_ARGS+=	--enable-cs89x0
 HAVE_NETCARD=		defined
 .endif
 
-.if ${FLAVOR:L:Mdavicom}
+.if ${FLAVOUR:L:Mdavicom}
 CONFIGURE_ARGS+=	--enable-davicom
 HAVE_NETCARD=		defined
 .endif
 
-.if ${FLAVOR:L:Mdepca}
+.if ${FLAVOUR:L:Mdepca}
 CONFIGURE_ARGS+=	--enable-depca
 HAVE_NETCARD=		defined
 .endif
 
-.if ${FLAVOR:L:Meepro}
+.if ${FLAVOUR:L:Meepro}
 CONFIGURE_ARGS+=	--enable-eepro
 HAVE_NETCARD=		defined
 .endif
 
-.if ${FLAVOR:L:Meepro100}
+.if ${FLAVOUR:L:Meepro100}
 CONFIGURE_ARGS+=	--enable-eepro100
 HAVE_NETCARD=		defined
 .endif
 
-.if ${FLAVOR:L:Mepic100}
+.if ${FLAVOUR:L:Mepic100}
 CONFIGURE_ARGS+=	--enable-epic100
 HAVE_NETCARD=		defined
 .endif
 
-.if ${FLAVOR:L:Mexos205}
+.if ${FLAVOUR:L:Mexos205}
 CONFIGURE_ARGS+=	--enable-exos205
 HAVE_NETCARD=		defined
 .endif
 
-.if ${FLAVOR:L:Mlance}
+.if ${FLAVOUR:L:Mlance}
 CONFIGURE_ARGS+=	--enable-lance
 HAVE_NETCARD=		defined
 .endif
 
-.if ${FLAVOR:L:Mnatsemi}
+.if ${FLAVOUR:L:Mnatsemi}
 CONFIGURE_ARGS+=	--enable-natsemi
 HAVE_NETCARD=		defined
 .endif
 
-.if ${FLAVOR:L:Mne}
+.if ${FLAVOUR:L:Mne}
 CONFIGURE_ARGS+=	--enable-ne
 HAVE_NETCARD=		defined
 .endif
 
-.if ${FLAVOR:L:Mne2100}
+.if ${FLAVOUR:L:Mne2100}
 CONFIGURE_ARGS+=	--enable-ne2100
 HAVE_NETCARD=		defined
 .endif
 
-.if ${FLAVOR:L:Mni5010}
+.if ${FLAVOUR:L:Mni5010}
 CONFIGURE_ARGS+=	--enable-ni5010
 HAVE_NETCARD=		defined
 .endif
 
-.if ${FLAVOR:L:Mni5210}
+.if ${FLAVOUR:L:Mni5210}
 CONFIGURE_ARGS+=	--enable-ni5210
 HAVE_NETCARD=		defined
 .endif
 
-.if ${FLAVOR:L:Mni6510}
+.if ${FLAVOUR:L:Mni6510}
 CONFIGURE_ARGS+=	--enable-ni6510
 HAVE_NETCARD=		defined
 .endif
 
-.if ${FLAVOR:L:Mns8390}
+.if ${FLAVOUR:L:Mns8390}
 CONFIGURE_ARGS+=	--enable-ns8390
 HAVE_NETCARD=		defined
 .endif
 
-.if ${FLAVOR:L:Motulip}
+.if ${FLAVOUR:L:Motulip}
 CONFIGURE_ARGS+=	--enable-otulip
 HAVE_NETCARD=		defined
 .endif
 
-.if ${FLAVOR:L:Mrtl8139}
+.if ${FLAVOUR:L:Mrtl8139}
 CONFIGURE_ARGS+=	--enable-rtl8139
 HAVE_NETCARD=		defined
 .endif
 
-.if ${FLAVOR:L:Msis900}
+.if ${FLAVOUR:L:Msis900}
 CONFIGURE_ARGS+=	--enable-sis900
 HAVE_NETCARD=		defined
 .endif
 
-.if ${FLAVOR:L:Msk_g16}
+.if ${FLAVOUR:L:Msk_g16}
 CONFIGURE_ARGS+=	--enable-sk-g16
 HAVE_NETCARD=		defined
 .endif
 
-.if ${FLAVOR:L:Msmc9000}
+.if ${FLAVOUR:L:Msmc9000}
 CONFIGURE_ARGS+=	--enable-smc9000
 HAVE_NETCARD=		defined
 .endif
 
-.if ${FLAVOR:L:Mtiara}
+.if ${FLAVOUR:L:Mtiara}
 CONFIGURE_ARGS+=	--enable-tiara
 HAVE_NETCARD=		defined
 .endif
 
-.if ${FLAVOR:L:Mtulip}
+.if ${FLAVOUR:L:Mtulip}
 CONFIGURE_ARGS+=	--enable-tulip
 HAVE_NETCARD=		defined
 .endif
 
-.if ${FLAVOR:L:Mvia_rhine}
+.if ${FLAVOUR:L:Mvia_rhine}
 CONFIGURE_ARGS+=	--enable-via-rhine
 HAVE_NETCARD=		defined
 .endif
 
-.if ${FLAVOR:L:Mw89c840}
+.if ${FLAVOUR:L:Mw89c840}
 CONFIGURE_ARGS+=	--enable-w89c840
 HAVE_NETCARD=		defined
 .endif
 
-.if ${FLAVOR:L:Mwd}
+.if ${FLAVOUR:L:Mwd}
 CONFIGURE_ARGS+=	--enable-wd
 HAVE_NETCARD=		defined
 .endif
@@ -245,7 +245,7 @@ CONFIGURE_ARGS+=	--disable-diskless
 CPPFLAGS+=		-DGRUB_OPENBSD_LOCAL
 .endif
 
-.if ${FLAVOR:L:Mnopcibios}
+.if ${FLAVOUR:L:Mnopcibios}
 CONFIGURE_ARGS+=	--enable-pci-direct
 .endif
 

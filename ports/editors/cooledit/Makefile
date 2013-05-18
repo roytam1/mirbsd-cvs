@@ -8,12 +8,12 @@ HOMEPAGE= 	http://cooledit.sourceforge.net/
 DISTNAME=	cooledit-3.17.7
 
 
-FLAVORS=	python
-FLAVOR?=
+FLAVOURS=	python
+FLAVOUR?=
 
 PYTHON_VER=	2.3
 
-.if ${FLAVOR:L:Mpython}
+.if ${FLAVOUR:L:Mpython}
 LIB_DEPENDS+=	python${PYTHON_VER}.0.0:python-${PYTHON_VER}*:lang/python/${PYTHON_VER}
 CFLAGS+=	-pthread
 CONFIGURE_ENV+=	PYTHON_VER=${PYTHON_VER}

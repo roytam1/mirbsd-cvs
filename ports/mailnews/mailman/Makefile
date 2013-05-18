@@ -44,9 +44,9 @@ CONFIGURE_ARGS+=	--prefix='${MMHOME}' \
 			--with-var-prefix='${MMSPOOL}' \
 			--without-permcheck
 
-FLAVORS=	postfix
-FLAVOR?=
-.if ${FLAVOR:L:Mpostfix}
+FLAVOURS=	postfix
+FLAVOUR?=
+.if ${FLAVOUR:L:Mpostfix}
 CONFIGURE_ARGS+=--with-mail-gid=nobody
 .else
 CONFIGURE_ARGS+=--with-mail-gid=daemon

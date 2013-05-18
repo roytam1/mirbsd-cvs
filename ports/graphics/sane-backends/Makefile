@@ -1,4 +1,4 @@
-# $MirOS: ports/graphics/sane-backends/Makefile,v 1.3 2006/09/14 00:10:06 tg Exp $
+# $MirOS: ports/graphics/sane-backends/Makefile,v 1.4 2007/04/07 14:38:38 bsiegert Exp $
 # Original from: Antoine Jacoutot <ajacoutot@lphp.org>
 
 COMMENT=	API for accessing scanners, backends
@@ -29,13 +29,13 @@ CONFIGURE_STYLE=	autoconf
 CONFIGURE_ARGS+=	${CONFIGURE_SHARED}
 CONFIGURE_ARGS+=	--enable-static
 
-FLAVORS=	gphoto2
-FLAVOR?=
+FLAVOURS=	gphoto2
+FLAVOUR?=
 
-.if ${FLAVOR:L} == "gphoto2"
+.if ${FLAVOUR:L} == "gphoto2"
 LIB_DEPENDS+=		gphoto2::graphics/gphoto2
 CONFIGURE_ARGS+=	--with-gphoto2
-PLIST=			${PKGDIR}/PLIST.${FLAVOR}
+PLIST=			${PKGDIR}/PLIST.${FLAVOUR}
 .else
 CONFIGURE_ARGS+=	--without-gphoto2
 .endif

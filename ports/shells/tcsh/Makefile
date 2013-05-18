@@ -1,4 +1,4 @@
-# $MirOS: ports/shells/tcsh/Makefile,v 1.1.7.1 2005/03/18 15:51:57 tg Exp $
+# $MirOS: ports/shells/tcsh/Makefile,v 1.2 2006/09/14 00:13:26 tg Exp $
 
 COMMENT=			C shell with file name completion and command line editing
 DISTNAME=	tcsh-6.13.00
@@ -14,12 +14,12 @@ PERMIT_DISTFILES_FTP=	Yes
 
 MASTER_SITES=	ftp://ftp.astron.com/pub/tcsh/
 
-FLAVORS=	static
-FLAVOR?=
+FLAVOURS=	static
+FLAVOUR?=
 
 CONFIGURE_STYLE=gnu
 
-.if ${FLAVOR:L} == "static"
+.if ${FLAVOUR:L} == "static"
 LDSTATIC=	-static
 .endif
 

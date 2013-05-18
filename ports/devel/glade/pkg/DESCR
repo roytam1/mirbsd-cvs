@@ -3,7 +3,7 @@ Glade can produce C source code itself. C++, Ada95, Python &
 Perl support is also available, via external tools which
 process the XML interface description files output by Glade.
 
-Available flavors:
+Available flavours:
 
 	gnome: Build with gnome support
 

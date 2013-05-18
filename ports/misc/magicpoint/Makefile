@@ -1,4 +1,4 @@
-# $MirOS: ports/misc/magicpoint/Makefile,v 1.6 2007/05/14 03:40:13 tg Exp $
+# $MirOS: ports/misc/magicpoint/Makefile,v 1.7 2007/05/14 04:13:20 tg Exp $
 # $OpenBSD: Makefile,v 1.32 2004/04/09 09:52:09 espie Exp $
 
 COMMENT=		X11-based presentation tool
@@ -14,8 +14,8 @@ PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
-FLAVORS=		no_gif freetype2
-FLAVOR?=
+FLAVOURS=		no_gif freetype2
+FLAVOUR?=
 
 LIB_DEPENDS+=		png.2::graphics/png \
 			mng::graphics/libmng
@@ -27,7 +27,7 @@ CONFIGURE_ARGS+=	--disable-vflib
 CONFIGURE_ENV+=		mplocalbase=${LOCALBASE:Q}
 EXTRA_MAKE_FLAGS+=	CCOPTIONS=
 
-.if !${FLAVOR:L:Mfreetype2}
+.if !${FLAVOUR:L:Mfreetype2}
 CONFIGURE_ARGS+=	--enable-freetype \
 			--enable-freetype-charset16 \
 			--disable-xft2
@@ -39,7 +39,7 @@ CONFIGURE_ARGS+=	--disable-freetype \
 MODULES+=		converters/libiconv
 .endif
 
-.if ${FLAVOR:L:Mno_gif}
+.if ${FLAVOUR:L:Mno_gif}
 CONFIGURE_ARGS+=	--disable-gif
 .else
 USE_CXX=		Yes

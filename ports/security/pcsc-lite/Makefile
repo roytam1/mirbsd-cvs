@@ -1,4 +1,4 @@
-# $MirOS: ports/security/pcsc-lite/Makefile,v 1.5 2007/03/31 22:02:08 tg Exp $
+# $MirOS: ports/security/pcsc-lite/Makefile,v 1.6 2007/04/16 18:29:53 bsiegert Exp $
 
 COMMENT=		Smartcard middleware
 DISTNAME=		pcsc-lite-1.2.0
@@ -13,8 +13,8 @@ PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
-FLAVORS=		debug
-FLAVOR?=
+FLAVOURS=		debug
+FLAVOUR?=
 
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 CONFIGURE_STYLE=	autoconf
@@ -30,7 +30,7 @@ USE_GMAKE=		Yes
 USE_CXX=		Yes # depends on libusb, which uses CXX
 
 .include <mirports.sys.mk>
-.if ${FLAVOR:L:Mdebug}
+.if ${FLAVOUR:L:Mdebug}
 CFLAGS+=		-DPCSC_DEBUG -DATR_DEBUG
 CONFIGURE_ARGS+=	--enable-debug --enable-debugatr
 .endif

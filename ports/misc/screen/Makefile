@@ -1,4 +1,4 @@
-# $MirOS: ports/misc/screen/Makefile,v 1.21 2007/08/07 20:49:44 tg Exp $
+# $MirOS: ports/misc/screen/Makefile,v 1.22 2007/09/26 15:49:29 tg Exp $
 # $OpenBSD: Makefile,v 1.52 2004/01/17 05:34:28 brad Exp $
 
 NOT_FOR_PLATFORM=	Interix:*:*
@@ -26,15 +26,15 @@ CONFIGURE_ARGS+=	--enable-colors256 \
 CONFIGURE_ARGS+=	--with-sys-screenrc=${SYSCONFDIR:Q}/screenrc
 EXTRA_MAKE_FLAGS+=	BRANDING=-D'PORT_VERSION=\"-${DASH_VER}\"'
 
-FLAVORS=		static shm
-FLAVOR?=
+FLAVOURS=		static shm
+FLAVOUR?=
 
 .include <mirports.sys.mk>
 
-.if ${FLAVOR:L} == "static"
+.if ${FLAVOUR:L} == "static"
 LDFLAGS+=		-static
 .endif
-.if ${FLAVOR:L} == "shm"
+.if ${FLAVOUR:L} == "shm"
 PATCH_LIST=		patch-* shmpatch-*
 .endif
 

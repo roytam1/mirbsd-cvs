@@ -1,4 +1,4 @@
-# $MirOS: ports/net/bind/Makefile,v 1.5 2007/03/11 21:05:06 bsiegert Exp $
+# $MirOS: ports/net/bind/Makefile,v 1.6 2007/07/25 20:15:35 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.42 2003/04/10 18:08:56 jsyn Exp $
 
 COMMENT=		ISC BIND 9 libraries, audited OpenBSD version
@@ -35,10 +35,10 @@ SUBST_VARS+=		DATADIR
 
 MULTI_PACKAGES=		-server -client
 SUBPACKAGE?=
-FLAVORS=		static threads
-FLAVOR?=
+FLAVOURS=		static threads
+FLAVOUR?=
 
-.if defined(PACKAGING) && ${FLAVOR} != "static"
+.if defined(PACKAGING) && ${FLAVOUR} != "static"
 . if ${SUBPACKAGE} == "-client"
 RUN_DEPENDS=		:bind-lib-${VERSION}:net/bind
 . elif ${SUBPACKAGE} == "-server"
@@ -47,7 +47,7 @@ RUN_DEPENDS=		:bind-lib-${VERSION}:net/bind \
 . endif
 .endif
 
-.if ${FLAVOR:L:Mstatic}
+.if ${FLAVOUR:L:Mstatic}
 CFLAGS+=		"-static"
 NO_SHARED_LIBS=		Yes
 .endif
@@ -70,7 +70,7 @@ CONFIGURE_ARGS+=	--disable-libbind
 CONFIGURE_ARGS+=	--with-openssl=/usr
 CONFIGURE_ARGS+=	--with-randomdev=/dev/arandom
 
-.if ${FLAVOR:L:Mthreads}
+.if ${FLAVOUR:L:Mthreads}
 CONFIGURE_ARGS+=	--enable-threads
 .else
 CONFIGURE_ARGS+=	--disable-threads

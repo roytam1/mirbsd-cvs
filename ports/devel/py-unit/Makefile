@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/devel/py-unit/Makefile,v 1.4 2007/04/11 17:11:44 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.12 2004/01/25 16:46:30 sturm Exp $
 
 
@@ -20,14 +20,14 @@ PERMIT_DISTFILES_FTP=	Yes
 
 MASTER_SITES=		${MASTER_SITE_SOURCEFORGE:=pyunit/}
 
-FLAVORS=		no_x11
-FLAVOR?=
+FLAVOURS=		no_x11
+FLAVOUR?=
 
 USE_CXX=	Yes
 
 MODULES=	lang/python
 
-.if !${FLAVOR:L:Mno_x11}
+.if !${FLAVOUR:L:Mno_x11}
 BUILD_DEPENDS=	${RUN_DEPENDS}
 RUN_DEPENDS=	:python-tkinter-${MODPY_VERSION}*:lang/python/${MODPY_VERSION},-tkinter
 .else

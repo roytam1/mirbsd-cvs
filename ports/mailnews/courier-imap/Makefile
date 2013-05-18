@@ -1,4 +1,4 @@
-# $MirOS: ports/mailnews/courier-imap/Makefile,v 1.3 2006/02/09 11:11:58 tg Exp $
+# $MirOS: ports/mailnews/courier-imap/Makefile,v 1.4 2006/09/14 00:10:32 tg Exp $
 # $OpenBSD: Makefile,v 1.37 2004/02/16 17:14:52 avsm Exp $ 
 
 COMMENT=			imap server for maildir format mailboxes
@@ -28,7 +28,7 @@ PERMIT_DISTFILES_FTP=	Yes
 
 MULTI_PACKAGES=	-pop3
 SUBPACKAGE?=
-FLAVOR?=
+FLAVOUR?=
 
 COURIERCONF=	${SYSCONFDIR}/courier-imap
 COURIERSTATE=	/var/run/courier-imap
@@ -49,8 +49,8 @@ CONFIGURE_ARGS=	--disable-root-check --datadir=${PREFIX}/sbin \
 		--without-ipv6
 
 # mysql
-PSEUDO_FLAVORS+=	no_mysql
-.if ${FLAVOR:L:Mno_mysql}
+PSEUDO_FLAVOURS+=	no_mysql
+.if ${FLAVOUR:L:Mno_mysql}
 CONFIGURE_ARGS+=	--without-authmysql
 .else
 MULTI_PACKAGES+=	-mysql
@@ -62,8 +62,8 @@ MYSQL_DEPENDS+=		lib/mysql/mysqlclient.10::databases/mysql
 .endif
 
 # openldap
-PSEUDO_FLAVORS+=	no_ldap
-.if ${FLAVOR:L:Mno_ldap}
+PSEUDO_FLAVOURS+=	no_ldap
+.if ${FLAVOUR:L:Mno_ldap}
 CONFIGURE_ARGS+=	--without-authldap
 .else
 MULTI_PACKAGES+=	-ldap
@@ -72,8 +72,8 @@ LDAP_DEPENDS+=		ldap.2,lber.2:openldap-client-2.*:databases/openldap
 .endif
 
 # postgresql
-PSEUDO_FLAVORS+=	no_pgsql
-.if !${FLAVOR:L:Mno_pgsql}
+PSEUDO_FLAVOURS+=	no_pgsql
+.if !${FLAVOUR:L:Mno_pgsql}
 MULTI_PACKAGES+=	-pgsql
 CONFIGURE_ARGS+=	--with-pgsql-libs=${LOCALBASE}/lib \
 			--with-pgsql-includes=${LOCALBASE}/include/postgresql

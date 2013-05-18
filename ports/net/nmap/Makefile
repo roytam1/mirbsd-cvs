@@ -1,4 +1,4 @@
-# $MirOS: ports/net/nmap/Makefile,v 1.2 2005/03/30 18:13:43 bsiegert Exp $
+# $MirOS: ports/net/nmap/Makefile,v 1.3 2006/09/14 00:11:58 tg Exp $
 # $OpenBSD: Makefile,v 1.49 2004/05/16 08:38:12 jolan Exp $
 
 COMMENT=			scan ports and fingerprint stack of network hosts
@@ -25,12 +25,12 @@ MODGNU_CONFIG_GUESS_DIRS= ${WRKSRC} ${WRKSRC}/nbase \
 PATCH_LIST=	patch-* hppa-*
 .endif
 
-FLAVORS=	no_x11
-FLAVOR?=	
+FLAVOURS=	no_x11
+FLAVOUR?=	
 
 LIB_DEPENDS+=	pcre::devel/pcre
 
-.if ${FLAVOR:L:Mno_x11}
+.if ${FLAVOUR:L:Mno_x11}
 ALL_TARGET=	nmap
 CONFIGURE_ARGS+=--without-nmapfe
 .else

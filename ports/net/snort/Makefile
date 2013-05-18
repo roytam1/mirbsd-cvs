@@ -20,25 +20,25 @@ CONFIGURE_STYLE= gnu
 
 LIB_DEPENDS=     pcre::devel/pcre
 
-FLAVORS=	postgresql mysql smbalert flexresp
-FLAVOR?=	
+FLAVOURS=	postgresql mysql smbalert flexresp
+FLAVOUR?=	
 
-.if ${FLAVOR:L:Mflexresp}
+.if ${FLAVOUR:L:Mflexresp}
 LIB_DEPENDS+=	net::net/libnet
 CONFIGURE_ARGS+= --enable-flexresp
 .endif
 
-.if ${FLAVOR:L:Mpostgresql}
+.if ${FLAVOUR:L:Mpostgresql}
 LIB_DEPENDS+=	pq.2::databases/postgresql
 CONFIGURE_ARGS+= --with-postgresql="${LOCALBASE}"
 .endif
 
-.if ${FLAVOR:L:Mmysql}
+.if ${FLAVOUR:L:Mmysql}
 LIB_DEPENDS+=	lib/mysql/mysqlclient.10::databases/mysql
 CONFIGURE_ARGS+= --with-mysql="${LOCALBASE}"
 .endif
 
-.if ${FLAVOR:L:Msmbalert}
+.if ${FLAVOUR:L:Msmbalert}
 BUILD_DEPENDS+=	:samba-*:net/samba
 RUN_DEPENDS+=	:samba-*:net/samba
 CONFIGURE_ARGS+= --enable-smbalerts

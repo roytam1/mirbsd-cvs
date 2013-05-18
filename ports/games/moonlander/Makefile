@@ -24,10 +24,10 @@ USE_CXX=	Yes
 
 WRKDIST=	${WRKDIR}/moon-lander
 
-FLAVORS=	no_sound
-FLAVOR?=
+FLAVOURS=	no_sound
+FLAVOUR?=
 
-.if ${FLAVOR:L:Mno_sound}
+.if ${FLAVOUR:L:Mno_sound}
 CFLAGS+=	-DNOSOUND
 .endif
 

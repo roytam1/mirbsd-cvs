@@ -1,4 +1,4 @@
-# $MirOS: ports/sysutils/gkrellm/gkrellm/Makefile,v 1.6 2006/02/09 11:15:26 tg Exp $
+# $MirOS: ports/sysutils/gkrellm/gkrellm/Makefile,v 1.7 2006/09/14 00:13:33 tg Exp $
 # $OpenBSD: Makefile,v 1.10 2004/05/18 14:49:56 naddy Exp $
 
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
@@ -23,11 +23,11 @@ PERMIT_DISTFILES_FTP=   Yes
 MASTER_SITES=	http://web.wt.net/~billw/gkrellm/
 EXTRACT_SUFX=	.tar.bz2
 
-PSEUDO_FLAVORS=	no_client
-FLAVOR?=
+PSEUDO_FLAVOURS=	no_client
+FLAVOUR?=
 
 MULTI_PACKAGES=
-.if !${FLAVOR:L:Mno_client}
+.if !${FLAVOUR:L:Mno_client}
 MULTI_PACKAGES+=-client
 .endif
 SUBPACKAGE?=

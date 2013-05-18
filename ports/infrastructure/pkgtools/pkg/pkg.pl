@@ -1,5 +1,5 @@
 #!/usr/bin/perl
-# $MirOS: ports/infrastructure/pkgtools/pkg/pkg.pl,v 1.4 2007/07/09 19:35:05 bsiegert Exp $
+# $MirOS: ports/infrastructure/pkgtools/pkg/pkg.pl,v 1.5 2007/07/09 20:20:15 bsiegert Exp $
 # $OpenBSD: pkg.pl,v 1.7 2001/11/17 10:42:11 espie Exp $
 #
 # Copyright (c) 2001 Marc Espie.
@@ -132,7 +132,7 @@ sub check_version
 	return @deweys == 0 ? 0 : 1;
 }
 
-sub check_1flavor
+sub check_1flavour
 {
 	my ($f, $spec) = @_;
 	local $_;
@@ -149,20 +149,20 @@ sub check_1flavor
 	return 1;
 }
 
-sub check_flavor
+sub check_flavour
 {
 	my ($f, $spec) = @_;
 	local $_;
-	# no flavor constraints
+	# no flavour constraints
 	return 1 if $spec eq '';
 
 	$spec =~ s/^-//;
-	# retrieve all flavors
+	# retrieve all flavours
 	my %f = map +($_, 1), split /\-/, $f;
 
-	# check each flavor constraint
+	# check each flavour constraint
 	for (split /,/, $spec) {
-		if (check_1flavor(\%f, $_)) {
+		if (check_1flavour(\%f, $_)) {
 			return 1;
 		}
 	}
@@ -174,7 +174,7 @@ sub subpattern_match
 	my ($p, $list) = @_;
 	local $_;
 
-	my ($stemspec, $vspec, $flavorspec);
+	my ($stemspec, $vspec, $flavourspec);
 
 	# first, handle special characters (shell -> perl)
 	$p =~ s/\./\\\./g;
@@ -189,13 +189,13 @@ sub subpattern_match
 	# - must start with a digit,
 	# - not contain - or ,
 	if ($p =~ m/\-((?:\>|\>\=|\<|\<\=)?\d[^-]*(-\d+)?)/) {
-		($stemspec, $vspec, $flavorspec) = ($`, $1, $');
+		($stemspec, $vspec, $flavourspec) = ($`, $1, $');
 	# `any version' matcher
 	} elsif ($p =~ m/\-(\.\*)/) {
-		($stemspec, $vspec, $flavorspec) = ($`, $1, $');
-	# okay, so no version marker. Assume no flavor spec.
+		($stemspec, $vspec, $flavourspec) = ($`, $1, $');
+	# okay, so no version marker. Assume no flavour spec.
 	} else {
-		($stemspec, $vspec, $flavorspec) = ($p, '', '');
+		($stemspec, $vspec, $flavourspec) = ($p, '', '');
 	}
 
 	$p = "$stemspec-\.\*" if $vspec ne '';
@@ -204,14 +204,14 @@ sub subpattern_match
 	my @l = grep {/^$p$/} @$list;
 
 	my @result = ();
-	# Now, have to extract the version number, and the flavor...
+	# Now, have to extract the version number, and the flavour...
 	for (@l) {
-		my ($stem, $v, $flavor);
+		my ($stem, $v, $flavour);
 		if (m/\-(\d[^-]*(-\d+)?)/) {
-			($stem, $v, $flavor) = ($`, $1, $');
+			($stem, $v, $flavour) = ($`, $1, $');
 			if ($stem =~ m/^$stemspec$/ &&
 			    check_version($v, $vspec) &&
-			    check_flavor($flavor, $flavorspec)) {
+			    check_flavour($flavour, $flavourspec)) {
 			    	push(@result, $_);
 			}
 	    	}

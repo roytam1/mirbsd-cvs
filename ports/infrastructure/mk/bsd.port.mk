@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.191 2008/02/22 21:43:43 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.192 2008/02/24 11:36:29 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -19,8 +19,8 @@
 # is internal to bsd.port.mk, not part of the user's API, and liable to
 # change without notice.
 
-.if ${.MAKEFLAGS:MFLAVOR=*}
-ERRORS+=		"Use 'env FLAVOR=${FLAVOR:Q} ${MAKE}' instead."
+.if ${.MAKEFLAGS:MFLAVOUR=*}
+ERRORS+=		"Use 'env FLAVOUR=${FLAVOUR:Q} ${MAKE}' instead."
 .endif
 .if ${.MAKEFLAGS:MSUBPACKAGE=*}
 ERRORS+=		"Use 'env SUBPACKAGE=${SUBPACKAGE:Q} ${MAKE}' instead."
@@ -136,8 +136,8 @@ show:
 .endif
 
 FAKE?=			Yes
-_LIBLIST=		${WRKDIR}/.liblist-${ARCH}${_FLAVOR_EXT2}
-_BUILDLIBLIST=		${WRKDIR}/.buildliblist-${ARCH}${_FLAVOR_EXT2}
+_LIBLIST=		${WRKDIR}/.liblist-${ARCH}${_FLAVOUR_EXT2}
+_BUILDLIBLIST=		${WRKDIR}/.buildliblist-${ARCH}${_FLAVOUR_EXT2}
 
 # need to go through an extra var because clean is set in stone,
 # on the cmdline.
@@ -158,7 +158,7 @@ _clean+=		fake
 _clean+=		-f
 .endif
 # check that clean is clean
-_okay_words=		-f bulk depends dist fake flavors force install \
+_okay_words=		-f bulk depends dist fake flavours force install \
 			package packages readme sub work
 .for _w in ${_clean:L}
 .  if !${_okay_words:M${_w}}
@@ -258,12 +258,12 @@ CONFIGURE_STYLE+=	gnu
 .endif
 
 SUBPACKAGE?=
-FLAVOR?=
-FLAVORS?=
-PSEUDO_FLAVORS?=
-FLAVORS+=		${PSEUDO_FLAVORS}
+FLAVOUR?=
+FLAVOURS?=
+PSEUDO_FLAVOURS?=
+FLAVOURS+=		${PSEUDO_FLAVOURS}
 
-.if !empty(FLAVORS:L:Mregress) && empty(FLAVOR:L:Mregress)
+.if !empty(FLAVOURS:L:Mregress) && empty(FLAVOUR:L:Mregress)
 NO_REGRESS=		Yes
 .endif
 
@@ -295,7 +295,7 @@ MASTER_SITES?=		${_MASTER_SITE_MIRBSD}
 PKGNAME?=		${DISTNAME}-${DASH_VER}
 WRKDIST?=		${WRKDIR}/${DISTNAME}
 .endif
-FULLPKGNAME?=		${PKGNAME}${FLAVOR_EXT}
+FULLPKGNAME?=		${PKGNAME}${FLAVOUR_EXT}
 PKGFILE=		${PKGREPOSITORY}/${FULLPKGNAME}${PKG_SUFX}
 _MASTER?=
 
@@ -303,9 +303,9 @@ _MASTER?=
 .  for _s in ${MULTI_PACKAGES}
 .    if !defined(FULLPKGNAME${_s})
 .      if defined(PKGNAME${_s})
-FULLPKGNAME${_s} =	${PKGNAME${_s}}${FLAVOR_EXT}
+FULLPKGNAME${_s} =	${PKGNAME${_s}}${FLAVOUR_EXT}
 .      else
-FULLPKGNAME${_s} =	${PKGNAME}${_s}${FLAVOR_EXT}
+FULLPKGNAME${_s} =	${PKGNAME}${_s}${FLAVOUR_EXT}
 .      endif
 .    endif
 PKGFILE${_s} =		${PKGREPOSITORY}/${FULLPKGNAME${_s}}${PKG_SUFX}
@@ -444,15 +444,15 @@ UNZIP?=			unzip
 BZIP2?=			bzip2
 
 .if !empty(FAKEOBJDIR_${PKGPATH})
-WRKINST?=		${FAKEOBJDIR_${PKGPATH}}/${PKGNAME}${_FLAVOR_EXT2}
+WRKINST?=		${FAKEOBJDIR_${PKGPATH}}/${PKGNAME}${_FLAVOUR_EXT2}
 .else
-WRKINST?=		${WRKDIR}/fake-${ARCH}${_FLAVOR_EXT2}
+WRKINST?=		${WRKDIR}/fake-${ARCH}${_FLAVOUR_EXT2}
 .endif
 
 .if !empty(WRKOBJDIR_${PKGPATH})
-WRKDIR?=		${WRKOBJDIR_${PKGPATH}}/${PKGNAME}${_FLAVOR_EXT2}
+WRKDIR?=		${WRKOBJDIR_${PKGPATH}}/${PKGNAME}${_FLAVOUR_EXT2}
 .else
-WRKDIR?=		${.CURDIR}/w-${PKGNAME}${_FLAVOR_EXT2}
+WRKDIR?=		${.CURDIR}/w-${PKGNAME}${_FLAVOUR_EXT2}
 .endif
 
 WRKSRC?=		${WRKDIST}
@@ -475,25 +475,25 @@ _MODULES_DONE=
 .  include "${PORTSDIR}/infrastructure/mk/modules.port.mk"
 .endif
 
-# Build FLAVOR_EXT, checking that no flavours are misspelled
-FLAVOR_EXT:=
-# _FLAVOR_EXT2 is used internally for working directories.
+# Build FLAVOUR_EXT, checking that no flavours are misspelled
+FLAVOUR_EXT:=
+# _FLAVOUR_EXT2 is used internally for working directories.
 # It encodes flavours and pseudo-flavours.
-_FLAVOR_EXT2:=
+_FLAVOUR_EXT2:=
 
 # Create the basic sed substitution pipeline for fragments
 # (applies only to PLIST for now)
-.if !empty(FLAVORS)
-.  for _i in ${FLAVORS:L}
-.    if empty(FLAVOR:L:M${_i})
+.if !empty(FLAVOURS)
+.  for _i in ${FLAVOURS:L}
+.    if empty(FLAVOUR:L:M${_i})
 SED_PLIST+=	|sed \
 		-e '/^!%%${_i}%%$$/r${PKGDIR}/PFRAG.no-${_i}${SUBPACKAGE}' \
 		-e '//d' \
 		-e '/^%%${_i}%%$$/d'
 .    else
-_FLAVOR_EXT2:=	${_FLAVOR_EXT2}-${_i}
-.    if empty(PSEUDO_FLAVORS:L:M${_i})
-FLAVOR_EXT:=	${FLAVOR_EXT}-${_i}
+_FLAVOUR_EXT2:=	${_FLAVOUR_EXT2}-${_i}
+.    if empty(PSEUDO_FLAVOURS:L:M${_i})
+FLAVOUR_EXT:=	${FLAVOUR_EXT}-${_i}
 .    endif
 SED_PLIST+=	|sed \
 		-e '/^!%%${_i}%%$$/d' \
@@ -503,16 +503,16 @@ SED_PLIST+=	|sed \
 .  endfor
 .endif
 
-.if !empty(FLAVORS:M[0-9]*)
+.if !empty(FLAVOURS:M[0-9]*)
 ERRORS+=		"Flavour cannot start with a digit."
 .endif
 
-.if !empty(FLAVOR)
-.  if !empty(FLAVORS)
-.    for _i in ${FLAVOR:L}
-.      if empty(FLAVORS:L:M${_i})
+.if !empty(FLAVOUR)
+.  if !empty(FLAVOURS)
+.    for _i in ${FLAVOUR:L}
+.      if empty(FLAVOURS:L:M${_i})
 ERRORS+=		"Unknown flavour: ${_i}"
-ERRORS+=		"Possible flavours are: ${FLAVORS}"
+ERRORS+=		"Possible flavours are: ${FLAVOURS}"
 .      endif
 .    endfor
 .  else
@@ -540,7 +540,7 @@ ${_PACKAGE_COOKIE}:
 .else
 ${_PACKAGE_COOKIE}: ${_PACKAGE_COOKIE_DEPS}
 .endif
-	@cd ${.CURDIR} && SUBPACKAGE= FLAVOR=${FLAVOR:Q} PACKAGING= exec ${MAKE} _package
+	@cd ${.CURDIR} && SUBPACKAGE= FLAVOUR=${FLAVOUR:Q} PACKAGING= exec ${MAKE} _package
 .if !defined(PACKAGE_NOINSTALL)
 	@${_MAKE_COOKIE} $@
 .endif
@@ -551,13 +551,13 @@ _PACKAGE_COOKIES+=	${_PACKAGE_COOKIE${_s}}
 .endfor
 
 .if empty(SUBPACKAGE)
-.  if empty(FLAVOR_EXT)
+.  if empty(FLAVOUR_EXT)
 FULLPKGPATH=		${PKGPATH},
 .  else
-FULLPKGPATH=		${PKGPATH}${FLAVOR_EXT:S/-/,/g}
+FULLPKGPATH=		${PKGPATH}${FLAVOUR_EXT:S/-/,/g}
 .  endif
 .else
-FULLPKGPATH=		${PKGPATH},${SUBPACKAGE}${FLAVOR_EXT:S/-/,/g}
+FULLPKGPATH=		${PKGPATH},${SUBPACKAGE}${FLAVOUR_EXT:S/-/,/g}
 .endif
 
 # A few aliases for *-install targets
@@ -608,12 +608,12 @@ _SYSTRACE_SED_SUBST+=	-e 's,$${${_v}},${${_v}},g'
 
 # Create the generic variable substitution list, from subst vars
 SUBST_VARS+=		MACHINE_ARCH ARCH HOMEPAGE PREFIX SYSCONFDIR \
-			FLAVOR_EXT RESPONSIBLE
+			FLAVOUR_EXT RESPONSIBLE
 _SED_SUBST=		sed
 .for _v in ${SUBST_VARS}
 _SED_SUBST+=		-e 's|$${${_v}}|${${_v}}|g'
 .endfor
-_SED_SUBST+=		-e 's,$${FLAVORS},${FLAVOR_EXT},g' -e 's,$$\\,$$,g'
+_SED_SUBST+=		-e 's,$${FLAVOURS},${FLAVOUR_EXT},g' -e 's,$$\\,$$,g'
 # and append it to the PLIST substitution pipeline
 SED_PLIST+=		|${_SED_SUBST}
 
@@ -621,18 +621,18 @@ SED_PLIST+=		| (cd ${WRKINST}${PREFIX}; LOCALBASE=${LOCALBASE} perl -W ${PORTSDI
 
 # find out the most appropriate PLIST source
 .if !defined(PLIST) \
-    && exists(${PKGDIR}/PLIST${SUBPACKAGE}${FLAVOR_EXT}.${ARCH})
-PLIST=			${PKGDIR}/PLIST${SUBPACKAGE}${FLAVOR_EXT}.${ARCH}
+    && exists(${PKGDIR}/PLIST${SUBPACKAGE}${FLAVOUR_EXT}.${ARCH})
+PLIST=			${PKGDIR}/PLIST${SUBPACKAGE}${FLAVOUR_EXT}.${ARCH}
 .elif !defined(PLIST) \
-    && exists(${PKGDIR}/PLIST${SUBPACKAGE}${FLAVOR_EXT}.${MACHINE_ARCH})
-PLIST=			${PKGDIR}/PLIST${SUBPACKAGE}${FLAVOR_EXT}.${MACHINE_ARCH}
+    && exists(${PKGDIR}/PLIST${SUBPACKAGE}${FLAVOUR_EXT}.${MACHINE_ARCH})
+PLIST=			${PKGDIR}/PLIST${SUBPACKAGE}${FLAVOUR_EXT}.${MACHINE_ARCH}
 .endif
 .if !defined(PLIST) && ${NO_SHARED_LIBS:L} == "yes" \
-    && exists(${PKGDIR}/PLIST${SUBPACKAGE}${FLAVOR_EXT}.noshared)
-PLIST=			${PKGDIR}/PLIST${SUBPACKAGE}${FLAVOR_EXT}.noshared
+    && exists(${PKGDIR}/PLIST${SUBPACKAGE}${FLAVOUR_EXT}.noshared)
+PLIST=			${PKGDIR}/PLIST${SUBPACKAGE}${FLAVOUR_EXT}.noshared
 .endif
-.if !defined(PLIST) && exists(${PKGDIR}/PLIST${SUBPACKAGE}${FLAVOR_EXT})
-PLIST=			${PKGDIR}/PLIST${SUBPACKAGE}${FLAVOR_EXT}
+.if !defined(PLIST) && exists(${PKGDIR}/PLIST${SUBPACKAGE}${FLAVOUR_EXT})
+PLIST=			${PKGDIR}/PLIST${SUBPACKAGE}${FLAVOUR_EXT}
 .endif
 .if !defined(PLIST) && exists(${PKGDIR}/PLIST${SUBPACKAGE}.${ARCH})
 PLIST=			${PKGDIR}/PLIST${SUBPACKAGE}.${ARCH}
@@ -646,8 +646,8 @@ PLIST=			${PKGDIR}/PLIST${SUBPACKAGE}.noshared
 PLIST?=			${PKGDIR}/PLIST${SUBPACKAGE}
 
 # Likewise for DESCR/MESSAGE/COMMENT
-.if defined(COMMENT${SUBPACKAGE}${FLAVOR_EXT})
-_COMMENT=		${COMMENT${SUBPACKAGE}${FLAVOR_EXT}}
+.if defined(COMMENT${SUBPACKAGE}${FLAVOUR_EXT})
+_COMMENT=		${COMMENT${SUBPACKAGE}${FLAVOUR_EXT}}
 .elif defined(COMMENT${SUBPACKAGE})
 _COMMENT=		${COMMENT${SUBPACKAGE}}
 .endif
@@ -1300,7 +1300,7 @@ ${_PACKAGE_COOKIE}:
 .else
 ${_PACKAGE_COOKIE}: ${_PACKAGE_COOKIE_DEPS}
 .endif
-	@cd ${.CURDIR} && SUBPACKAGE= FLAVOR=${FLAVOR:Q} \
+	@cd ${.CURDIR} && SUBPACKAGE= FLAVOUR=${FLAVOUR:Q} \
 	    PACKAGING= exec ${MAKE} _package
 .if !defined(PACKAGE_NOINSTALL)
 	@${_MAKE_COOKIE} $@
@@ -1313,7 +1313,7 @@ ${_PACKAGE_COOKIE${_s}}:
 .  else
 ${_PACKAGE_COOKIE${_s}}: ${_PACKAGE_COOKIE_DEPS}
 .  endif
-	@cd ${.CURDIR} && SUBPACKAGE=${_s:Q} FLAVOR=${FLAVOR:Q} \
+	@cd ${.CURDIR} && SUBPACKAGE=${_s:Q} FLAVOUR=${FLAVOUR:Q} \
 	    PACKAGING=${_s:Q} exec ${MAKE} _package
 .endfor
 
@@ -1396,8 +1396,8 @@ ${WRKPKG}/DESCR${SUBPACKAGE}: ${DESCR}
 .if defined(HOMEPAGE)
 	@fgrep -q '$${HOMEPAGE}' $? || echo "\nWWW: "${HOMEPAGE:Q} >>$@
 .endif
-.if !empty(FLAVORS)
-	@echo "\nFlavours available:" ${FLAVORS} >>$@
+.if !empty(FLAVOURS)
+	@echo "\nFlavours available:" ${FLAVOURS} >>$@
 .endif
 
 ${WRKPKG}/mtree.spec: ${MTREE_FILE}
@@ -1501,7 +1501,7 @@ _print-packagename:
     ${NO_DEPENDS:L} == "no"
 .    for _i in ${${_DEP:U}_DEPENDS}
 ${WRKDIR}/.${_DEP}${_i:C,[|:./<=>*],-,g}: ${_WRKDIR_COOKIE}
-	@unset PACKAGING DEPENDS_TARGET FLAVOR SUBPACKAGE \
+	@unset PACKAGING DEPENDS_TARGET FLAVOUR SUBPACKAGE \
 	    _MASTER WRKDIR|| true; \
 	echo ${_i:Q}|{ \
 		IFS=:; read dep pkg dir target; \
@@ -2347,7 +2347,7 @@ _delete-package-links:
 clean:
 .if ${_clean:L:Mdepends} && ${_CLEANDEPENDS:L} == "yes"
 	@${MAKE} all-dir-depends | tsort -r | while read dir; do \
-		unset FLAVOR SUBPACKAGE || true; \
+		unset FLAVOUR SUBPACKAGE || true; \
 		${_flavour_fragment}; \
 		eval $$toset ${MAKE} _CLEANDEPENDS=No clean; \
 	done
@@ -2357,7 +2357,7 @@ clean:
 	@if cd ${WRKINST} 2>/dev/null; then ${SUDO} rm -rf ${WRKINST}; fi
 .  endif
 .  if ${_clean:L:Mwork}
-.    if ${_clean:L:Mflavors}
+.    if ${_clean:L:Mflavours}
 	@for i in ${.CURDIR}/w-*; do \
 		if [ -L $$i ]; then ${SUDO} rm -rf $$(readlink $$i); fi; \
 		${SUDO} rm -rf $$i; \
@@ -2433,7 +2433,7 @@ plist update-plist: fake
 	PKGREPOSITORY=${PKGREPOSITORY} \
 	PLIST=${PLIST} \
 	PFRAG=${PKGDIR}/PFRAG \
-	FLAVORS=${FLAVORS:Q} MULTI_PACKAGES=${MULTI_PACKAGES:Q} \
+	FLAVOURS=${FLAVOURS:Q} MULTI_PACKAGES=${MULTI_PACKAGES:Q} \
 	OKAY_FILES=${_FAKE_COOKIE:Q}\ ${_INSTALL_PRE_COOKIE:Q} \
 	perl ${PORTSDIR}/infrastructure/scripts/make-plist ${PKGDIR} ${_tmpvars}
 .endif
@@ -2600,11 +2600,11 @@ _EXTRA_DESCRIBE=
 .endif
 describe:
 .if defined(MULTI_PACKAGES) && !defined(PACKAGING)
-	@cd ${.CURDIR} && SUBPACKAGE=${SUBPACKAGE:Q} FLAVOR=${FLAVOR:Q} \
+	@cd ${.CURDIR} && SUBPACKAGE=${SUBPACKAGE:Q} FLAVOUR=${FLAVOUR:Q} \
 	    PACKAGING=${SUBPACKAGE:Q} exec ${MAKE} describe
 .  if empty(SUBPACKAGE)
 .    for _sub in ${MULTI_PACKAGES}
-	@cd ${.CURDIR} && SUBPACKAGE=${_sub:Q} FLAVOR=${FLAVOR:Q} \
+	@cd ${.CURDIR} && SUBPACKAGE=${_sub:Q} FLAVOUR=${FLAVOUR:Q} \
 	    PACKAGING=${_sub:Q} exec ${MAKE} describe
 .    endfor
 .  endif
@@ -2671,11 +2671,11 @@ describe:
 
 readmes:
 .if defined(MULTI_PACKAGES) && !defined(PACKAGING)
-	@cd ${.CURDIR} && SUBPACKAGE=${SUBPACKAGE:Q} FLAVOR=${FLAVOR:Q} \
+	@cd ${.CURDIR} && SUBPACKAGE=${SUBPACKAGE:Q} FLAVOUR=${FLAVOUR:Q} \
 	    PACKAGING=${SUBPACKAGE:Q} exec ${MAKE} readmes
 .  if empty(SUBPACKAGE)
 .    for _sub in ${MULTI_PACKAGES}
-	@cd ${.CURDIR} && SUBPACKAGE=${_sub:Q} FLAVOR=${FLAVOR:Q} \
+	@cd ${.CURDIR} && SUBPACKAGE=${_sub:Q} FLAVOUR=${FLAVOUR:Q} \
 	    PACKAGING=${_sub:Q} exec ${MAKE} readmes
 .    endfor
 .  endif
@@ -2765,7 +2765,7 @@ print-depends: print-build-depends print-run-depends
 full-${_i}-depends:
 	@${MAKE} ${_i}-dir-depends | tsort -r | sed -e '$$d' \
 	    | while read dir; do \
-		unset FLAVOR SUBPACKAGE || true; \
+		unset FLAVOUR SUBPACKAGE || true; \
 		${_flavour_fragment}; \
 		eval $$toset ${MAKE} _print-packagename ; \
 	done
@@ -2773,7 +2773,7 @@ full-${_i}-depends:
 for-${_i}-depends:
 	@${MAKE} ${_i}-dir-depends | tsort -r | sed -e '$$d' \
 	    | while read dir; do \
-		unset FLAVOR SUBPACKAGE || true; \
+		unset FLAVOUR SUBPACKAGE || true; \
 		${_flavour_fragment}; \
 		eval $$toset ${for-${_i}-depends}; \
 	done
@@ -2784,7 +2784,7 @@ relevant-checks:
     || ${USE_CXX:L} == "yes" || ${USE_X11:L} == "yes"
 	@${MAKE} all-dir-depends | tsort -r | sed -e '$$d' \
 	    | while read dir; do \
-		unset FLAVOR SUBPACKAGE || true; \
+		unset FLAVOUR SUBPACKAGE || true; \
 		${_flavour_fragment}; \
 		export _MASTER_PERMIT_CDROM=${PERMIT_PACKAGE_CDROM:Q} \
 		    _MASTER_PERMIT_FTP=${PERMIT_PACKAGE_FTP:Q} \
@@ -2814,7 +2814,7 @@ _relevant-checks:
 .for _i in CXX X11
 .  if defined(_MASTER_USE_${_i}) \
     && ${_MASTER_USE_${_i}:L} != "yes" && ${USE_${_i}:L} == "yes" \
-    && !${FLAVORS:U:MNO_${_i}}
+    && !${FLAVOURS:U:MNO_${_i}}
 	@echo >&2 "Warning: dependency ${PKGPATH} uses ${_i}"
 .  endif
 .endfor
@@ -2822,7 +2822,7 @@ _relevant-checks:
 .for _i in RUN BUILD LIB
 ${_i:L}-depends-list:
 .  if !empty(_${_i}_DEP2)
-	@unset FLAVOR SUBPACKAGE || true; \
+	@unset FLAVOUR SUBPACKAGE || true; \
 	: $${_INITIAL_ECHO:='echo -n "This port requires \""'}; \
 	: $${_ECHO='echo -n'}; \
 	: $${_FINAL_ECHO:='echo "\" for ${_i:L}."'}; space=; \
@@ -2840,7 +2840,7 @@ ${_i:L}-depends-list:
 # Print list of all libraries that we may depend upon.
 _recurse-lib-depends-check:
 .for _i in ${LIB_DEPENDS}
-	@unset FLAVOR SUBPACKAGE  || true; \
+	@unset FLAVOUR SUBPACKAGE  || true; \
 	echo ${_i:Q} | { \
 		IFS=:; read dep pkg dir target; \
 		IFS=,; for j in $$dep; do echo $$j; done; \
@@ -2852,7 +2852,7 @@ _recurse-lib-depends-check:
 	}
 .endfor
 .for _i in ${RUN_DEPENDS}
-	@unset FLAVOR SUBPACKAGE  || true; \
+	@unset FLAVOUR SUBPACKAGE  || true; \
 	echo ${_i:Q} | { \
 		IFS=:; read dep pkg dir target; \
 		if ! fgrep -q "|$$dir|" $${_DEPENDS_FILE}; then \
@@ -2867,7 +2867,7 @@ _recurse-lib-depends-check:
 # Write a correct list of dependencies for packages.
 _recurse-solve-package-depends:
 .for _i in ${RUN_DEPENDS}
-	@unset FLAVOR SUBPACKAGE || true; \
+	@unset FLAVOUR SUBPACKAGE || true; \
 	echo ${_i:Q} |{ \
 		IFS=:; read dep pkg dir target; \
 		if [[ -n $$dir ]]; then \
@@ -2892,7 +2892,7 @@ _recurse-solve-package-depends:
 .endfor
 .if ${NO_SHARED_LIBS:L} != "yes"
 .  for _i in ${LIB_DEPENDS}
-	@unset FLAVOR SUBPACKAGE || true; \
+	@unset FLAVOUR SUBPACKAGE || true; \
 	echo ${_i:Q}|{ \
 		IFS=:; read dep pkg dir target; \
 		${_flavour_fragment}; \
@@ -2960,7 +2960,7 @@ _recurse-solve-package-depends:
 # recursively build a list of dirs for package running, ready for tsort
 _recurse-run-dir-depends:
 .for _dir in ${_ALWAYS_DEP} ${_RUN_DEP}
-	@unset FLAVOR SUBPACKAGE || true; \
+	@unset FLAVOUR SUBPACKAGE || true; \
 	echo "$$self ${_dir}"; \
 	if ! fgrep -q "|${_dir}|" $${_DEPENDS_FILE}; then \
 		echo "|${_dir}|" >>$${_DEPENDS_FILE}; \
@@ -2990,7 +2990,7 @@ run-dir-depends:
 # second and further stages need _RUN_DEP.
 _recurse-all-dir-depends:
 .for _dir in ${_ALWAYS_DEP} ${_BUILD_DEP} ${_RUN_DEP} ${_FETCH_DEP}
-	@unset FLAVOR SUBPACKAGE || true; \
+	@unset FLAVOUR SUBPACKAGE || true; \
 	echo "$$self ${_dir}"; \
 	if ! fgrep -q "|${_dir}|" $${_DEPENDS_FILE}; then \
 		echo "|${_dir}|" >>$${_DEPENDS_FILE}; \
@@ -3007,7 +3007,7 @@ _recurse-all-dir-depends:
 # first stage does not need _RUN_DEP
 _build-dir-depends:
 .for _dir in ${_ALWAYS_DEP} ${_BUILD_DEP}
-	@unset FLAVOR SUBPACKAGE || true; \
+	@unset FLAVOUR SUBPACKAGE || true; \
 	echo "$$self ${_dir}"; \
 	if ! fgrep -q "|${_dir}|" $${_DEPENDS_FILE}; then \
 		echo "|${_dir}|" >>$${_DEPENDS_FILE}; \

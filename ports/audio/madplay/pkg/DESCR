@@ -23,5 +23,5 @@ rounding algorithm. However, dithering may unfavorably affect an analytic
 examination of the output (such as compliance testing), and therefore it
 may optionally be disabled at runtime.
 
-Available flavors:
+Available flavours:
 	esd - additional EsounD interface module

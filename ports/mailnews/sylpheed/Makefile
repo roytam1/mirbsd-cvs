@@ -1,4 +1,4 @@
-# $MirOS: ports/mailnews/sylpheed/Makefile,v 1.4 2006/09/14 00:10:49 tg Exp $
+# $MirOS: ports/mailnews/sylpheed/Makefile,v 1.5 2007/04/12 20:24:58 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.48 2004/04/10 19:13:50 couderc Exp $
 
 COMMENT=		mail/news client in gtk+
@@ -22,10 +22,10 @@ CONFIGURE_STYLE=	autoconf
 AUTOCONF_NEW=		Yes
 MODULES+=		devel/pkgconfig converters/libiconv
 
-FLAVORS=	compface gpgme ldap
-FLAVOR?=
+FLAVOURS=	compface gpgme ldap
+FLAVOUR?=
 
-.if ${FLAVOR:L:Mcompface}
+.if ${FLAVOUR:L:Mcompface}
 PERMIT_PACKAGE_CDROM=	"No Fee"
 PERMIT_DISTFILES_CDROM=	"No Fee"
 LIB_DEPENDS+=		compface.1::mail/faces
@@ -33,7 +33,7 @@ LIB_DEPENDS+=		compface.1::mail/faces
 CONFIGURE_ARGS+=	--disable-compface
 .endif
 
-.if ${FLAVOR:L:Mgpgme}
+.if ${FLAVOUR:L:Mgpgme}
 PERMIT_PACKAGE_CDROM=	dependency security/gnupg is not allowed for CDROM
 LIB_DEPENDS+=		gpgme.4::security/gpgme
 CONFIGURE_ARGS+=	--enable-gpgme
@@ -41,7 +41,7 @@ CONFIGURE_ARGS+=	--enable-gpgme
 CONFIGURE_ARGS+=	--disable-gpgme
 .endif
 
-.if ${FLAVOR:L:Mldap}
+.if ${FLAVOUR:L:Mldap}
 LIB_DEPENDS+=		ldap.2,lber.2::databases/openldap
 CONFIGURE_ARGS+=	--enable-ldap
 .else

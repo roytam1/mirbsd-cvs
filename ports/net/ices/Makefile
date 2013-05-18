@@ -1,4 +1,4 @@
-# $MirOS: ports/net/ices/Makefile,v 1.5 2007/04/03 19:45:13 tg Exp $
+# $MirOS: ports/net/ices/Makefile,v 1.6 2007/04/13 19:38:19 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.2 2003/07/26 13:34:40 sturm Exp $
 
 COMMENT=	icecast source for streaming MP3
@@ -27,10 +27,10 @@ LIB_DEPENDS=	mp3lame.0:lame-*:audio/lame,no_x11 \
 		shout.3::net/libshout \
 		xml2.2.6::textproc/libxml
 
-FLAVORS=	python
-FLAVOR?=
+FLAVOURS=	python
+FLAVOUR?=
 
-.if ${FLAVOR:L:Mpython}
+.if ${FLAVOUR:L:Mpython}
 PYTHON_VER=	2.2
 CONFIGURE_ARGS+=--with-python=${LOCALBASE}/bin/python${PYTHON_VER}
 B_R_DEPENDS+=	:python-${PYTHON_VER}*:lang/python/${PYTHON_VER}

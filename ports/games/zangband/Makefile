@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/games/zangband/Makefile,v 1.4 2007/04/11 17:58:20 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.5 2003/02/15 14:28:25 espie Exp $
 
 COMMENT=	Zangband (Zelazny Angband) with color, X11 support
@@ -25,10 +25,10 @@ CONFIGURE_ENV=		TRUEPREFIX="${TRUEPREFIX}"
 
 WRKDIST=		${WRKDIR}/zangband
 
-FLAVORS=		no_x11
-FLAVOR?=	
+FLAVOURS=		no_x11
+FLAVOUR?=	
 
-.if !${FLAVOR:L:Mno_x11}
+.if !${FLAVOUR:L:Mno_x11}
 USE_X11=		Yes
 CONFIGURE_ARGS+=	--with-x
 .else

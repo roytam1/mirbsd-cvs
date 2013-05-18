@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/russian/xruskb/Makefile,v 1.3 2007/05/07 22:58:21 tg Exp $
 # $OpenBSD: Makefile,v 1.33 2003/08/15 09:56:59 grange Exp $
 
 COMMENT=		english-russian keyboard switcher for X11
@@ -15,13 +15,13 @@ PERMIT_DISTFILES_FTP=	Yes
 USE_X11=		Yes
 CONFIGURE_STYLE=	gnu
 
-FLAVORS=		motif
-FLAVOR?=
+FLAVOURS=		motif
+FLAVOUR?=
 
-.if ${FLAVOR:Mopenmotif} || ${FLAVOR:Mlesstif}
-FLAVOR+=		motif
+.if ${FLAVOUR:Mopenmotif} || ${FLAVOUR:Mlesstif}
+FLAVOUR+=		motif
 .endif
-.if ${FLAVOR:L:Mmotif}
+.if ${FLAVOUR:L:Mmotif}
 USE_MOTIF=		any
 CONFIGURE_ARGS=		--with-motif --without-Xaw
 .else

@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/sysutils/dbus/Makefile,v 1.1 2007/06/17 18:15:13 bsiegert Exp $
 # $NetBSD: Makefile,v 1.23 2007/01/17 02:46:59 dmcmahill Exp $
 #
 
@@ -9,8 +9,8 @@ MASTER_SITES=		http://dbus.freedesktop.org/releases/dbus/
 
 HOMEPAGE=		http://www.freedesktop.org/Software/dbus
 
-FLAVOR?=
-FLAVORS=		no_x11
+FLAVOUR?=
+FLAVOURS=		no_x11
 
 # GPL
 PERMIT_PACKAGE_CDROM=	Yes
@@ -38,7 +38,7 @@ CONFIGURE_ARGS+=	--enable-checks
 CONFIGURE_ARGS+=	--with-xml=expat
 CONFIGURE_ARGS+=	--with-dbus-user=_dbus
 
-.if ${FLAVOR:Mno_x11}
+.if ${FLAVOUR:Mno_x11}
 CONFIGURE_ARGS+=	--without-x
 .else
 USE_X11=		Yes

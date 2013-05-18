@@ -15,10 +15,10 @@ PERMIT_DISTFILES_FTP=	Yes
 
 CONFIGURE_STYLE= gnu dest
 
-FLAVORS=	static
-FLAVOR?=
+FLAVOURS=	static
+FLAVOUR?=
 
-.if ${FLAVOR:L} == "static"
+.if ${FLAVOUR:L} == "static"
 CONFIGURE_ENV=	LDFLAGS="-static"
 .endif
 

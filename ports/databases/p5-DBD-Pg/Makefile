@@ -14,10 +14,10 @@ LIB_DEPENDS=	pq.2::databases/postgresql
 BUILD_DEPENDS=	::databases/p5-DBI
 RUN_DEPENDS=	${BUILD_DEPENDS}
 
-FLAVOR?=
-FLAVORS=	regress
+FLAVOUR?=
+FLAVOURS=	regress
 
-.if ${FLAVOR:L:Mregress}
+.if ${FLAVOUR:L:Mregress}
 MAKE_ENV+=	DBI_DSN="dbi:Pg:dbname=template1" DBI_USER="_postgresql" DBI_PASS=""
 .endif
 

@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/print/lyx/Makefile,v 1.3 2007/04/13 19:27:21 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.32 2004/04/25 15:34:08 sturm Exp $
 
 COMMENT=	graphical frontend for LaTeX (nearly WYSIWYG)
@@ -14,8 +14,8 @@ MASTER_SITES=	ftp://ftp.lyx.org/pub/lyx/stable/ \
 		ftp://ftp.chg.ru/pub/TeX/lyx/stable/
 
 
-# In XForms flavor: quasi-GPL (linked to closed source library)
-# In Qt flavor: GPL (this should be preferred for CD distribution)
+# In XForms flavour: quasi-GPL (linked to closed source library)
+# In Qt flavour: GPL (this should be preferred for CD distribution)
 # see http://www.lyx.org/about/license.php3 for additional info
 PERMIT_PACKAGE_CDROM=	Yes
 PERMIT_PACKAGE_FTP=	Yes
@@ -29,10 +29,10 @@ RUN_DEPENDS+=	:teTeX_base-*:print/teTeX/base \
 		:ispell-*:textproc/ispell
 USE_GMAKE=	Yes
 
-FLAVORS=	qt xforms
-FLAVOR?=	qt
+FLAVOURS=	qt xforms
+FLAVOUR?=	qt
 
-.if ${FLAVOR:L} == "qt"
+.if ${FLAVOUR:L} == "qt"
 USE_CXX=	Yes
 MODULES+=	x11/qt3
 MODQT_MT=	Yes
@@ -40,10 +40,10 @@ CONFIGURE_ARGS=	--with-frontend=qt ${MODQT_CONFIGURE_ARGS}
 CONFIGURE_ENV=	LIBS=-pthread
 # A hack until LyX developers apply the patch to qt.m4 to respect $MOC and $UIC
 CONFIGURE_ENV+=	ac_moc1=${MODQT_MOC} ac_uic=${MODQT_UIC}
-.elif ${FLAVOR:L} == "xforms"
+.elif ${FLAVOUR:L} == "xforms"
 LIB_DEPENDS+=	forms.1::x11/xforms
 .else
-ERRORS+= "Fatal: Conflicting flavor: ${FLAVOR}"
+ERRORS+= "Fatal: Conflicting flavour: ${FLAVOUR}"
 .endif
 
 CONFIGURE_STYLE=		gnu

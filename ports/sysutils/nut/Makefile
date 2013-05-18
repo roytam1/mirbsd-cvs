@@ -30,10 +30,10 @@ CONFIGURE_ARGS+=	--with-statepath=${NUT_STATEDIR}
 CONFIGURE_ARGS+=	--with-user=${NUT_USER}
 CONFIGURE_ARGS+=	--with-ssl
 
-PSEUDO_FLAVORS=		no_cgi
-FLAVOR?=
+PSEUDO_FLAVOURS=		no_cgi
+FLAVOUR?=
 MULTI_PACKAGES=
-.if !${FLAVOR:L:Mno_cgi}
+.if !${FLAVOUR:L:Mno_cgi}
 MULTI_PACKAGES+=	-cgi
 .endif
 SUBPACKAGE?=

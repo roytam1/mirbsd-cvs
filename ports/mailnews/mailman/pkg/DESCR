@@ -31,5 +31,5 @@ mailing list manager, and more:
 
 - Support for virtual domains.
 
-Flavors:
+Flavours:
     postfix - makes the mailwrapper work with postfix

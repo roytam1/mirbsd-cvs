@@ -4,7 +4,7 @@ including POP3, IMAP, NNTP, multiple accounts, threading, filtering,
 MIME attachments, APOP, SMTP AUTH, SSL, IPv6, GnuPG, internalization,
 and more.
 
-Packages can be built with additional FLAVORs:
+Packages can be built with additional FLAVOURs:
     - compface:         use compface (X-Face)
     - gpgme:            enable GnuPG support using GPGME
     - jpilot:           enable JPilot support

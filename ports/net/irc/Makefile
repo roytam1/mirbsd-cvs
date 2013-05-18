@@ -1,4 +1,4 @@
-# $MirOS: ports/net/irc/Makefile,v 1.3 2006/01/01 05:25:30 tg Exp $
+# $MirOS: ports/net/irc/Makefile,v 1.4 2006/09/14 00:11:49 tg Exp $
 # $OpenBSD: Makefile,v 1.24 2003/11/11 15:17:34 margarida Exp $
 # $FreeBSD: Makefile,v 1.19 1998/12/09 20:15:29 billf Exp $
 
@@ -24,10 +24,10 @@ CONFIGURE_ARGS=	--logdir="/var/log/ircd" \
 		--localstatedir="/var/run" \
 		--sysconfdir=${CONFDIR}
 
-FLAVORS=	ipv6
-FLAVOR?=	ipv6
+FLAVOURS=	ipv6
+FLAVOUR?=	ipv6
 
-.if ${FLAVOR:L:Mipv6}
+.if ${FLAVOUR:L:Mipv6}
 CONFIGURE_ARGS+=	--enable-ip6
 .endif
 

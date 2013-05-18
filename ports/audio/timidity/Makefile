@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/audio/timidity/Makefile,v 1.4 2007/05/07 22:58:17 tg Exp $
 # $OpenBSD: Makefile,v 1.25 2003/10/26 23:49:31 naddy Exp $
 
 COMMENT=		MIDI to WAV renderer and player
@@ -16,20 +16,20 @@ PERMIT_PACKAGE_FTP=	"copyrighted patches"
 PERMIT_DISTFILES_CDROM=	"copyrighted patches"
 PERMIT_DISTFILES_FTP=	"copyrighted patches"
 
-FLAVORS=		motif curses slang
-FLAVOR?=		motif
+FLAVOURS=		motif curses slang
+FLAVOUR?=		motif
 
-.if ${FLAVOR:L:Mcurses}
+.if ${FLAVOUR:L:Mcurses}
 MAKE_FLAGS+=		-DCURSES
 .endif
-.if ${FLAVOR:Mopenmotif} || ${FLAVOR:Mlesstif}
-FLAVOR+=		motif
+.if ${FLAVOUR:Mopenmotif} || ${FLAVOUR:Mlesstif}
+FLAVOUR+=		motif
 .endif
-.if ${FLAVOR:L:Mmotif}
+.if ${FLAVOUR:L:Mmotif}
 MAKE_FLAGS+=		-DMOTIF
 USE_MOTIF=		any
 .endif
-.if ${FLAVOR:L:Mslang}
+.if ${FLAVOUR:L:Mslang}
 MAKE_FLAGS+=		-DSLANG
 LIB_DEPENDS+=		slang::devel/libslang
 .endif

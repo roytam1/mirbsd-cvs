@@ -22,10 +22,10 @@ CONFIGURE_STYLE=	gnu
 CONFIGURE_ARGS+=	--with-setgid=games
 CONFIGURE_ENV=          TRUEPREFIX="${TRUEPREFIX}"
 
-FLAVORS=		no_x11
-FLAVOR?=
+FLAVOURS=		no_x11
+FLAVOUR?=
 
-.if ${FLAVOR:L:Mno_x11}
+.if ${FLAVOUR:L:Mno_x11}
 CONFIGURE_ARGS+=	--without-x
 .else
 USE_X11=		Yes

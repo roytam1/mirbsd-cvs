@@ -23,10 +23,10 @@ WRKDIST=	${WRKDIR}/${PKGNAME}
 
 CONFIGURE_STYLE=gnu
 
-FLAVORS=	no_sdl
-FLAVOR?=
+FLAVOURS=	no_sdl
+FLAVOUR?=
 
-.if ${FLAVOR:L:Mno_sdl}
+.if ${FLAVOUR:L:Mno_sdl}
 CONFIGURE_ARGS+=--with-x
 .else
 CONFIGURE_ARGS+=--with-sdl

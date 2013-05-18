@@ -1,4 +1,4 @@
-# $MirOS: ports/devel/asp2php/Makefile,v 1.2 2005/03/30 18:13:20 bsiegert Exp $
+# $MirOS: ports/devel/asp2php/Makefile,v 1.3 2006/09/14 00:08:01 tg Exp $
 # $OpenBSD: Makefile,v 1.16 2002/09/15 11:01:25 shell Exp $
 
 COMMENT=			convert ASP code to PHP code
@@ -15,10 +15,10 @@ PERMIT_PACKAGE_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 PERMIT_DISTFILES_CDROM=	Yes
 
-FLAVORS=	no_x11
-FLAVOR?=		
+FLAVOURS=	no_x11
+FLAVOUR?=		
 
-.if ${FLAVOR} != "no_x11"
+.if ${FLAVOUR} != "no_x11"
 USE_X11=	Yes
 LIB_DEPENDS+=	gtk.1.2,gdk.1.2::x11/gtk+1
 ALL_TARGET=	all gui

@@ -16,15 +16,15 @@ PERMIT_DISTFILES_FTP=	Yes
 
 MASTER_SITES=	${MASTER_SITE_SOURCEFORGE:=xmp/}
 
-PSEUDO_FLAVORS=	no_xmms
+PSEUDO_FLAVOURS=	no_xmms
 .if ${MACHINE_ARCH} == "hppa" || ${MACHINE_ARCH} == "vax"
-FLAVOR?=	no_xmms
+FLAVOUR?=	no_xmms
 .else
-FLAVOR?=
+FLAVOUR?=
 .endif
 
 MULTI_PACKAGES=
-.if !{FLAVOR:L:Mno_xmms}
+.if !{FLAVOUR:L:Mno_xmms}
 MULTI_PACKAGES+= -xmms
 .endif
 SUBPACKAGE?=

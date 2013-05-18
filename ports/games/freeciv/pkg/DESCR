@@ -11,7 +11,7 @@ and then start civclient with:
 E.g.: civclient -P sdl -S /home/deraadt/civsounds/file.spec
 (Note: Sound specs might have relative paths.)
 
-Flavors:
+Flavours:
  * gtk1 - build UI using GTK 1 widgets
  * xaw - build UI using Xaw3d (Athena) widgets
  * sdl - sound support using SDL library

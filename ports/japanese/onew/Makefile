@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/japanese/onew/Makefile,v 1.4 2007/04/12 20:20:41 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.9 2003/08/04 13:11:48 espie Exp $
 
 COMMENT=			library for Japanese Input Method Wnn4
@@ -6,7 +6,7 @@ COMMENT=			library for Japanese Input Method Wnn4
 COMMENT-wnn4=			library for Japanese Input Method Wnn4
 COMMENT-canna=			library for Japanese Input Method canna
 COMMENT-wnn4-canna=		library for Japanese Input Method canna or wnn4
-FULLPKGNAME=		ja-onew${FLAVOR_EXT}-2.2.10-0
+FULLPKGNAME=		ja-onew${FLAVOUR_EXT}-2.2.10-0
 
 DISTNAME=	jvim2.0r+onew2.2.10
 CATEGORIES=	japanese
@@ -20,19 +20,19 @@ PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
-FLAVORS=wnn4 canna
-FLAVOR?=canna
-.if empty(FLAVOR)
+FLAVOURS=wnn4 canna
+FLAVOUR?=canna
+.if empty(FLAVOUR)
 ERRORS+=	"Fatal: You must choose a converter"
 .endif
 
-.if ${FLAVOR:L:Mwnn4}
+.if ${FLAVOUR:L:Mwnn4}
 BUILD_DEPENDS=	::japanese/Wnn
 USE_X11=	Yes
 USE_CXX=	Yes # depends on groff, which uses CXX
 .endif
 
-.if ${FLAVOR:L:Mcanna}
+.if ${FLAVOUR:L:Mcanna}
 PERMIT_PACKAGE_CDROM=	"Canna prevents it"
 LIB_DEPENDS+=	canna.1::japanese/canna
 USE_X11=	Yes
@@ -41,15 +41,15 @@ USE_X11=	Yes
 WRKDIST=	${WRKDIR}/onew
 ALL_TARGET=	
 
-ONEW_CONF=	${FILESDIR}/ONEW_CONF-for${FLAVOR_EXT}
-LIB_NAME=	libonew${FLAVOR_EXT}.a
-PORT_DOCDIR=	${PREFIX}/share/doc/ja-onew${FLAVOR_EXT}
+ONEW_CONF=	${FILESDIR}/ONEW_CONF-for${FLAVOUR_EXT}
+LIB_NAME=	libonew${FLAVOUR_EXT}.a
+PORT_DOCDIR=	${PREFIX}/share/doc/ja-onew${FLAVOUR_EXT}
 
 post-patch:
 	ln -s ${ONEW_CONF} ${WRKSRC}/ONEW_CONF
 
 MAKE_FLAGS=LOCALBASE=${LOCALBASE} CFLAGS='${CFLAGS}'
-SUBST_VARS=FLAVOR_EXT
+SUBST_VARS=FLAVOUR_EXT
 
 NO_REGRESS=	Yes
 

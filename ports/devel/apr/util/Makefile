@@ -1,17 +1,17 @@
-# $MirOS: ports/devel/apr/util/Makefile,v 1.2 2006/12/20 15:31:21 tg Exp $
+# $MirOS: ports/devel/apr/util/Makefile,v 1.3 2007/12/27 15:33:10 bsiegert Exp $
 
 COMMENT=		companion library to APR
 VERSION=		0.9.15
 DISTNAME=		apr-util-${VERSION}
 
-FLAVORS=		bsddb
-FLAVOR?=
+FLAVOURS=		bsddb
+FLAVOUR?=
 
 LIB_DEPENDS+=		xml2::textproc/libxml
 LIB_DEPENDS+=		apr::devel/apr/apr
 MODULES=		textproc/expat converters/libiconv
 
-.if ${FLAVOR:L:Mbsddb}
+.if ${FLAVOUR:L:Mbsddb}
 LIB_DEPENDS+=		db.4.2::databases/db
 CONFIGURE_ARGS+=	--with-dbm=db42 --with-berkeley-db
 .else

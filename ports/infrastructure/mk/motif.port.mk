@@ -1,18 +1,18 @@
-# $MirOS: ports/infrastructure/mk/motif.port.mk,v 1.1 2007/05/07 22:34:12 tg Exp $
+# $MirOS: ports/infrastructure/mk/motif.port.mk,v 1.2 2007/05/07 22:54:24 tg Exp $
 
 .if ${USE_MOTIF:L} == "any" || ${USE_MOTIF:L} == "yes"
-FLAVORS+=		openmotif lesstif
-.  if ${FLAVOR:Mopenmotif} && ${FLAVOR:Mlesstif}
+FLAVOURS+=		openmotif lesstif
+.  if ${FLAVOUR:Mopenmotif} && ${FLAVOUR:Mlesstif}
 ERRORS+=		"Choose openmotif or lesstif, not both."
-.  elif ${FLAVOR:Mopenmotif}
+.  elif ${FLAVOUR:Mopenmotif}
 USE_MOTIF=		openmotif
-.  elif ${FLAVOR:Mlesstif}
+.  elif ${FLAVOUR:Mlesstif}
 USE_MOTIF=		lesstif
 .  else
 # default: no flavour selected, use the one "we like best"
 # at the moment, this is lesstif, since openmotif is broken
 USE_MOTIF=		lesstif
-FLAVOR+=		${USE_MOTIF}
+FLAVOUR+=		${USE_MOTIF}
 .  endif
 .endif
 

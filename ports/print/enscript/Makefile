@@ -16,12 +16,12 @@ PERMIT_DISTFILES_FTP=	Yes
 MASTER_SITES=		http://people.ssh.fi/mtr/genscript/ \
 			${MASTER_SITE_GNU:=enscript/}
 
-FLAVORS=		a4
-FLAVOR?=		a4
+FLAVOURS=		a4
+FLAVOUR?=		a4
 
 CONFIGURE_STYLE=	gnu automake
 
-.if !${FLAVOR:L:Ma4}
+.if !${FLAVOUR:L:Ma4}
 CONFIGURE_ARGS+=	--with-media=Letter
 .endif
 

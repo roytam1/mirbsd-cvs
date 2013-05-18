@@ -1,4 +1,4 @@
-# $MirOS: ports/audio/xmms/Makefile,v 1.8 2006/12/20 15:30:40 tg Exp $
+# $MirOS: ports/audio/xmms/Makefile,v 1.9 2007/04/22 20:55:16 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.33 2004/05/24 13:17:40 robert Exp $
 
 COMMENT=		Multimedia player for the X Window System
@@ -29,19 +29,19 @@ MASTER_SITES=		${HOMEPAGE}/files/$V/ \
 			ftp://ftp.sunet.se/pub/multimedia/xmms/$V/ \
 			ftp://ftp.stealth.net/xmms/$V/
 
-PSEUDO_FLAVORS=		no_esd no_vorbis no_mikmod no_mp3
-FLAVOR?=
+PSEUDO_FLAVOURS=		no_esd no_vorbis no_mikmod no_mp3
+FLAVOUR?=
 MULTI_PACKAGES=
-.if !${FLAVOR:L:Mno_esd}
+.if !${FLAVOUR:L:Mno_esd}
 MULTI_PACKAGES+=	-esd
 .endif
-.if !${FLAVOR:L:Mno_vorbis}
+.if !${FLAVOUR:L:Mno_vorbis}
 MULTI_PACKAGES+=	-vorbis
 .endif
-.if !${FLAVOR:L:Mno_mikmod}
+.if !${FLAVOUR:L:Mno_mikmod}
 MULTI_PACKAGES+=	-mikmod
 .endif
-.if !${FLAVOR:L:Mno_mp3}
+.if !${FLAVOUR:L:Mno_mp3}
 MULTI_PACKAGES+=	-mp3
 .endif
 

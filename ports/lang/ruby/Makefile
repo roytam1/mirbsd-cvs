@@ -1,4 +1,4 @@
-# $MirOS: ports/lang/ruby/Makefile,v 1.5 2006/12/20 15:31:28 tg Exp $
+# $MirOS: ports/lang/ruby/Makefile,v 1.6 2007/04/11 17:57:44 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.27 2004/02/20 22:52:57 couderc Exp $
 
 # to fix this, use ${OStriplet} or OSname+OSREV or OSname+OSver
@@ -27,10 +27,10 @@ CONFIGURE_STYLE=	autoconf no-autoheader
 AUTOCONF_NEW=		Yes
 CONFIGURE_ARGS+=	${CONFIGURE_SHARED}
 
-FLAVORS=		tk
-FLAVOR?=
+FLAVOURS=		tk
+FLAVOUR?=
 
-.if ${FLAVOR:L} == "tk"
+.if ${FLAVOUR:L} == "tk"
 LIB_DEPENDS=		tcl84.::lang/tcl/8.4 \
 			tk84.::x11/tk/8.4
 

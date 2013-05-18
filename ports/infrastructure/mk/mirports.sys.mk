@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/mirports.sys.mk,v 1.42 2006/12/29 01:14:04 tg Exp $
+# $MirOS: ports/infrastructure/mk/mirports.sys.mk,v 1.43 2007/03/22 01:27:11 tg Exp $
 #-
 # Copyright (c) 2005, 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -235,7 +235,7 @@ _flavour_fragment= \
 	toset="PKGPATH=$$dir"; \
 	[[ -z $$multi ]] || toset="$$toset SUBPACKAGE=\"$$multi\""; \
 	if $$sawflavour; then \
-		toset="$$toset FLAVOR=\"$$flavour\""; \
+		toset="$$toset FLAVOUR=\"$$flavour\""; \
 	fi; \
 	IFS=:; found_dir=false; bases=${PORTSDIR_PATH}; \
 	for base in $$bases; do \

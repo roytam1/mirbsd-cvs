@@ -1,4 +1,4 @@
-# $MirOS: ports/devel/sdl/Makefile,v 1.10 2007/02/22 22:57:49 tg Exp $
+# $MirOS: ports/devel/sdl/Makefile,v 1.11 2007/04/03 19:42:11 tg Exp $
 # $OpenBSD: Makefile,v 1.32 2004/04/23 12:09:18 robert Exp $
 # Uses pthreads
 
@@ -35,8 +35,8 @@ CONFIGURE_ARGS+=	${CONFIGURE_SHARED} \
 			--enable-dlopen \
 			--enable-pthread-sem
 
-FLAVORS=		sun esd aa no_x11
-FLAVOR?=		sun
+FLAVOURS=		sun esd aa no_x11
+FLAVOUR?=		sun
 
 .if ${MACHINE_ARCH} == "i386"
 BUILD_DEPENDS+=		nasm::lang/nasm
@@ -45,13 +45,13 @@ CONFIGURE_ARGS+=	--enable-nasm
 CONFIGURE_ARGS+=	--disable-nasm
 .endif
 
-.if ${FLAVOR:L:Msun}
+.if ${FLAVOUR:L:Msun}
 CONFIGURE_ARGS+=	--enable-openbsdaudio
 .else
 CONFIGURE_ARGS+=	--disable-openbsdaudio
 .endif
 
-.if ${FLAVOR:L:Mesd}
+.if ${FLAVOUR:L:Mesd}
 LIB_DEPENDS+=		esd::audio/esound
 CONFIGURE_ARGS+=	--enable-esd
 .else
@@ -60,14 +60,14 @@ CONFIGURE_ARGS+=	--disable-esd
 
 CONFIGURE_ARGS+=	--disable-arts
 
-.if ${FLAVOR:L:Maa}
+.if ${FLAVOUR:L:Maa}
 LIB_DEPENDS+=		aa::graphics/aalib
 CONFIGURE_ARGS+=	--enable-video-aalib
 .else
 CONFIGURE_ARGS+=	--disable-video-aalib
 .endif
 
-.if ${FLAVOR:L:Mno_x11}
+.if ${FLAVOUR:L:Mno_x11}
 CONFIGURE_ARGS+=	--without-x \
 			--disable-video-x11
 .else

@@ -19,10 +19,10 @@ PERMIT_DISTFILES_FTP=	No
 
 RUN_DEPENDS=	:tcl-8.4.*:lang/tcl/8.4
 
-FLAVORS=	no_x11
-FLAVOR?=
+FLAVOURS=	no_x11
+FLAVOUR?=
 
-.if ${FLAVOR:L} == "no_x11"
+.if ${FLAVOUR:L} == "no_x11"
 USE_X11=	No
 .else
 USE_X11=	Yes
@@ -30,7 +30,7 @@ RUN_DEPENDS+=	:tk-8.4.*:x11/tk/8.4
 .endif
 
 do-build:
-.if ${FLAVOR:L} == "no_x11"
+.if ${FLAVOUR:L} == "no_x11"
 	sed s,y0y0y0,${PREFIX}, ${FILESDIR}/xml2rfc.no_x11 >${WRKSRC}/xml2rfc
 .else
 	sed s,y0y0y0,${PREFIX}, ${FILESDIR}/xml2rfc >${WRKSRC}/xml2rfc

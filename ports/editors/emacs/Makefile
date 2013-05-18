@@ -1,4 +1,4 @@
-# $MirOS: ports/editors/emacs/Makefile,v 1.5 2007/01/24 21:00:02 tg Exp $
+# $MirOS: ports/editors/emacs/Makefile,v 1.6 2007/03/31 22:01:58 tg Exp $
 # $OpenBSD: Makefile,v 1.21 2004/02/04 07:39:18 sturm Exp $
 
 COMMENT=		GNU editor: extensible, customizable, self documenting
@@ -26,8 +26,8 @@ DISTFILES=		emacs-${VERSION}.tar.gz leim-${VERSION}.tar.gz
 MULTI_PACKAGES=		-el -leim
 SUBPACKAGE?=
 
-FLAVORS=		no_x11
-FLAVOR?=
+FLAVOURS=		no_x11
+FLAVOUR?=
 
 .if ${OSname} == "mirbsd"
 GCCARCH=		${ARCH}-ecce-openbsd3.5
@@ -45,7 +45,7 @@ LDFLAGS+=		-Z
 
 SUBST_VARS=		GCCARCH VERSION
 
-.if ${FLAVOR:L:Mno_x11}
+.if ${FLAVOUR:L:Mno_x11}
 CONFIGURE_ARGS+=	--with-x=no
 .else
 USE_X11=Yes

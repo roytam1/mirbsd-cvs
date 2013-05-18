@@ -1,4 +1,4 @@
-# $MirOS: ports/net/centericq/Makefile,v 1.30 2007/03/12 01:00:41 tg Exp $
+# $MirOS: ports/net/centericq/Makefile,v 1.31 2007/12/23 23:27:27 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.24 2004/02/03 08:37:55 brad Exp $
 
 # bus error on start
@@ -25,12 +25,12 @@ PERMIT_PACKAGE_FTP=     Yes
 PERMIT_DISTFILES_CDROM= Yes
 PERMIT_DISTFILES_FTP=   Yes
 
-FLAVORS=		no_msn gnupg
-FLAVOR?=
+FLAVOURS=		no_msn gnupg
+FLAVOUR?=
 
 GCC_VERSION!=		${CC} -v 2>&1 | fgrep "cc version" | sed 's!^.*cc version \([0-9\.]*\).*$!\1!'
 .if ${GCC_VERSION:M3.2*} || ${GCC_VERSION:M3.3*}
-FLAVOR+=		no_msn	# needs gcc 3.4+
+FLAVOUR+=		no_msn	# needs gcc 3.4+
 .endif
 
 MODULES+=		converters/libiconv
@@ -48,11 +48,11 @@ CONFIGURE_ARGS+=	--enable-locales-fix \
 			--with-libjpeg
 CPPFLAGS+=		-DPORT_VERSION=\"${V}-${DASH_VER}\"
 
-.if ${FLAVOR:L:Mno_msn}
+.if ${FLAVOUR:L:Mno_msn}
 CONFIGURE_ARGS+=	--disable-msn
 .endif
 
-.if ${FLAVOR:L:Mgnupg}
+.if ${FLAVOUR:L:Mgnupg}
 CONFIGURE_ARGS+=	--with-gpgme=${LOCALBASE:Q}
 LIB_DEPENDS+=		gpgme::security/gpgme
 .else

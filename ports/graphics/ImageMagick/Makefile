@@ -1,4 +1,4 @@
-# $MirOS: ports/graphics/ImageMagick/Makefile,v 1.11 2006/10/30 18:51:34 tg Exp $
+# $MirOS: ports/graphics/ImageMagick/Makefile,v 1.12 2007/04/07 14:35:57 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.83 2005/06/28 18:08:23 naddy Exp $
 
 COMMENT=	image processing tools
@@ -51,10 +51,10 @@ CPPFLAGS+=		-I${LOCALBASE}/include/libxml2
 LDFLAGS+=		-L${WRKBUILD}/magick/.libs -L${WRKBUILD}/wand/.libs
 CONFIGURE_ENV+=		ac_cv_path_LaunchDelegate=no
 
-FLAVORS=	no_x11
-FLAVOR?=
+FLAVOURS=	no_x11
+FLAVOUR?=
 
-.if ${FLAVOR:L:Mno_x11}
+.if ${FLAVOUR:L:Mno_x11}
 BUILD_DEPENDS+=	:ghostscript-*:print/ghostscript/esp,no_x11
 RUN_DEPENDS+=	:ghostscript-*:print/ghostscript/esp,no_x11
 CONFIGURE_ARGS+= --without-x --without-ttf

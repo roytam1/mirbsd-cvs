@@ -1,4 +1,4 @@
-# $MirOS: ports/archivers/star/Makefile,v 1.3 2006/09/14 00:06:52 tg Exp $
+# $MirOS: ports/archivers/star/Makefile,v 1.4 2007/03/31 22:01:53 tg Exp $
 # $OpenBSD: Makefile,v 1.13 2003/02/18 12:59:10 naddy Exp $
 # $FreeBSD: Makefile,v 1.7 1998/12/24 13:15:23 dirk Exp $
 
@@ -18,8 +18,8 @@ PERMIT_DISTFILES_FTP=	Yes
 MASTER_SITES=	ftp://ftp.berlios.de/pub/star/
 EXTRACT_SUFX=	.tar.bz2
 
-FLAVORS=	static
-FLAVOR?=
+FLAVOURS=	static
+FLAVOUR?=
 
 RUN_DEPENDS=	:bzip2-*:archivers/bzip2
 
@@ -27,7 +27,7 @@ RUN_DEPENDS=	:bzip2-*:archivers/bzip2
 
 USE_SCHILY=	Yes
 MAKE_ENV+=	COPTX=${CFLAGS:Q}
-.if ${FLAVOR:L:Mstatic}
+.if ${FLAVOUR:L:Mstatic}
 MAKE_ENV+=	LDOPTX=-static
 .endif
 

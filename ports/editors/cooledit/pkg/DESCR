@@ -9,5 +9,5 @@ Cooledit is a suite of programs consisting of the following:
    - coolicon - a utility to place icons directly on your desktop which runs
 	under any window manager
 
-FLAVOR=python  
+FLAVOUR=python  
 	turns it into a programmable editor, must have python 2.

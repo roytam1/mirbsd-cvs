@@ -17,10 +17,10 @@ MASTER_SITES=		ftp://mcrypt.hellug.gr/pub/mcrypt/shash/
 
 CONFIGURE_STYLE=	gnu
 
-FLAVORS=		static
-FLAVOR?=
+FLAVOURS=		static
+FLAVOUR?=
 
-.if ${FLAVOR:L:Mstatic}
+.if ${FLAVOUR:L:Mstatic}
 BUILD_DEPENDS+=		::security/mhash
 CONFIGURE_ARGS+=	--enable-static-link
 .else

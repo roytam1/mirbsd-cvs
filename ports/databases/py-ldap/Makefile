@@ -1,4 +1,4 @@
-# $MirOS: ports/databases/py-ldap/Makefile,v 1.4 2006/09/14 00:07:58 tg Exp $
+# $MirOS: ports/databases/py-ldap/Makefile,v 1.5 2007/03/31 22:01:55 tg Exp $
 # $OpenBSD: Makefile,v 1.3 2004/02/17 20:47:45 xsa Exp $
 
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
@@ -18,16 +18,16 @@ PERMIT_DISTFILES_CDROM=	Yes
 
 MASTER_SITES=	${MASTER_SITE_SOURCEFORGE:=python-ldap/}
 
-FLAVORS=	p2.3
-FLAVOR?=	p2.3
+FLAVOURS=	p2.3
+FLAVOUR?=	p2.3
 
 MODULES=	lang/python
 
-#.if ${FLAVOR} == "p2.1" || ${FLAVOR} == "p2.2" || ${FLAVOR} == "p2.3"
-.if ${FLAVOR} == "p2.3"
-MODPY_VERSION=	${FLAVOR:S/p//}
+#.if ${FLAVOUR} == "p2.1" || ${FLAVOUR} == "p2.2" || ${FLAVOUR} == "p2.3"
+.if ${FLAVOUR} == "p2.3"
+MODPY_VERSION=	${FLAVOUR:S/p//}
 .else
-ERRORS+=	"Fatal: Conflicting flavor: ${FLAVOR}"
+ERRORS+=	"Fatal: Conflicting flavour: ${FLAVOUR}"
 .endif
 
 LIB_DEPENDS=	ldap,lber::databases/openldap

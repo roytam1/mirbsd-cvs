@@ -1,5 +1,5 @@
 #!/bin/sh
-# $MirOS$
+# $MirOS: ports/graphics/xsane/pkg/DEINSTALL,v 1.1.7.1 2005/03/18 15:47:15 tg Exp $
 #
 # xsane de-installation
 
@@ -13,7 +13,7 @@ do_notice()
 {
     echo ""
     echo "+--------------------"
-    echo "| If you used the "gimp" flavor of xsane make sure"
+    echo "| If you used the "gimp" flavour of xsane make sure"
     echo "| to remove the xsane gimp-plugin link (if you created it)"
     echo "| by issuing the following command as root:"
     echo "|  --> rm ${PREFIX}/lib/gimp/1.2/plug-ins/xsane"

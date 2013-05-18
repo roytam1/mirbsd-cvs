@@ -1,4 +1,4 @@
-# $MirOS: ports/lang/expect/Makefile,v 1.3 2006/02/09 09:36:00 tg Exp $
+# $MirOS: ports/lang/expect/Makefile,v 1.4 2006/09/14 00:10:18 tg Exp $
 # $OpenBSD: Makefile,v 1.42 2004/04/18 19:55:47 jolan Exp $
 
 COMMENT=			sophisticated scripter based on Tcl/Tk
@@ -17,8 +17,8 @@ PERMIT_DISTFILES_FTP=	Yes
 
 LIB_DEPENDS+=	tcl84::lang/tcl/8.4
 
-FLAVORS=	no_tk
-FLAVOR?=
+FLAVOURS=	no_tk
+FLAVOUR?=
 
 SUBST_VARS+=		V _V
 CONFIGURE_STYLE=	gnu
@@ -26,7 +26,7 @@ CONFIGURE_ARGS+=	${CONFIGURE_SHARED}
 CONFIGURE_ARGS+=	--with-tclconfig="${LOCALBASE}/lib/tcl8.4"\
 			--with-tclinclude="${LOCALBASE}/include/tcl8.4"
 
-.if !${FLAVOR:L:Mno_tk}
+.if !${FLAVOUR:L:Mno_tk}
 USE_X11=		Yes
 LIB_DEPENDS+=		tk84::x11/tk/8.4
 CONFIGURE_ARGS+=	--with-tkconfig="${LOCALBASE}/lib/tk8.4" \

@@ -1,4 +1,4 @@
-# $MirOS: ports/x11/xscreensaver/Makefile,v 1.5 2006/09/14 00:16:01 tg Exp $
+# $MirOS: ports/x11/xscreensaver/Makefile,v 1.6 2007/05/07 19:49:10 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.23 2004/04/02 19:07:05 sturm Exp $
 
 COMMENT=		screen saver and locker for the X Window System
@@ -38,10 +38,10 @@ CONFIGURE_ARGS+=	--with-zippy=/usr/games/fortune
 CONFIGURE_ARGS+=	--without-kerberos
 CONFIGURE_ARGS+=	--with-xml
 
-FLAVORS=		no_gle gtk2
-FLAVOR?=		no_gle
+FLAVOURS=		no_gle gtk2
+FLAVOUR?=		no_gle
 
-.if !${FLAVOR:L:Mno_gle}
+.if !${FLAVOUR:L:Mno_gle}
 PERMIT_PACKAGE_CDROM=	dependency graphics/gle is not allowed for CDROM
 PERMIT_PACKAGE_FTP=	dependency graphics/gle is not allowed for FTP
 USE_CXX=		Yes # depends on gle, which uses CXX
@@ -51,7 +51,7 @@ CONFIGURE_ARGS+=	--with-gle
 CONFIGURE_ARGS+=	--without-gle
 .endif
 
-.if ${FLAVOR:L:Mgtk2}
+.if ${FLAVOUR:L:Mgtk2}
 MODULES+=		devel/pkgconfig
 LIB_DEPENDS+=		gdk_pixbuf_xlib-2.0.0.0::x11/gtk+ \
 			glade-2.0.0.0::devel/libglade

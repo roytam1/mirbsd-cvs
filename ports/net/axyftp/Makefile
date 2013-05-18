@@ -18,10 +18,10 @@ PERMIT_DISTFILES_FTP=	Yes
 USE_X11=	Yes
 CONFIGURE_STYLE= gnu
 
-FLAVORS=	gtk
-FLAVOR?=
+FLAVOURS=	gtk
+FLAVOUR?=
 
-.if ${FLAVOR:L:Mgtk}
+.if ${FLAVOUR:L:Mgtk}
 LIB_DEPENDS=    gtk.1.2::x11/gtk+
 CONFIGURE_ARGS=	--with-gui=gtk
 .else

@@ -24,11 +24,11 @@ USE_GMAKE=		Yes
 USE_CXX=		Yes
 
 MULTI_PACKAGES=-server
-FLAVORS=		sdl ggi
-FLAVOR?=		sdl
+FLAVOURS=		sdl ggi
+FLAVOUR?=		sdl
 
-.if ${FLAVOR:L:Msdl} && ${FLAVOR:L:Mggi}
-ERRORS="Fatal: Choose only one flavor: sdl or ggi"
+.if ${FLAVOUR:L:Msdl} && ${FLAVOUR:L:Mggi}
+ERRORS="Fatal: Choose only one flavour: sdl or ggi"
 .endif
 
 SUBPACKAGE?=
@@ -38,14 +38,14 @@ CONFIGURE_ARGS=		--enable-release
 CONFIGURE_ARGS+=	--bindir=/bin
 CONFIGURE_ARGS+=	--with-opengl=no --with-opengl-includes=no
 
-.if ${FLAVOR:L:Msdl}
+.if ${FLAVOUR:L:Msdl}
 .  if !defined(PACKAGING) || ${SUBPACKAGE} == ""
 LIB_DEPENDS=		SDL::devel/sdl
 .  endif
 CONFIGURE_ARGS+=	--with-sdl=${LOCALBASE} --without-ggi
 MAKE_FLAGS=	HAS_X11=no
 CFLAGS+=		-pthread
-.elif ${FLAVOR:L:Mggi}
+.elif ${FLAVOUR:L:Mggi}
 .  if !defined(PACKAGING) || ${SUBPACKAGE} == ""
 LIB_DEPENDS=		ggi.::graphics/ggi
 .  endif

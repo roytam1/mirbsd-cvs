@@ -21,10 +21,10 @@ CONFIGURE_STYLE= gnu
 
 NO_REGRESS=	Yes
 
-FLAVORS=	slang
-FLAVOR?=
+FLAVOURS=	slang
+FLAVOUR?=
 
-.if ${FLAVOR:L:Mslang}
+.if ${FLAVOUR:L:Mslang}
 LIB_DEPENDS=	slang.14::devel/libslang
 CONFIGURE_ARGS=	--with-slang=${LOCALBASE}
 CONFIGURE_ENV=	LIBS=-lcurses

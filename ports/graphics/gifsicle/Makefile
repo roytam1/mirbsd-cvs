@@ -17,14 +17,14 @@ MASTER_SITES=	${HOMEPAGE}/ \
 		ftp://ftp.lcdf.org/pub/ \
 		ftp://ftp.lcdf.org/pub/OLD-VERSIONS/
 
-FLAVORS=	no_x11
-FLAVOR?=
+FLAVOURS=	no_x11
+FLAVOUR?=
 
 CONFIGURE_STYLE=	gnu
 CONFIGURE_ARGS=		--enable-gifdiff
 
 
-.if ${FLAVOR:L:Mno_x11}
+.if ${FLAVOUR:L:Mno_x11}
 CONFIGURE_ARGS+=	--disable-gifview
 .else
 USE_X11=	Yes

@@ -1,4 +1,4 @@
-# $MirOS: ports/graphics/imlib2/Makefile,v 1.6 2006/02/09 11:11:49 tg Exp $
+# $MirOS: ports/graphics/imlib2/Makefile,v 1.7 2006/09/14 00:09:55 tg Exp $
 # $OpenBSD: Makefile,v 1.1.1.1 2004/04/18 02:01:25 jolan Exp $
 
 COMMENT=			image manipulation library
@@ -13,8 +13,8 @@ PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
-FLAVORS=		no_cxx
-FLAVOR?=
+FLAVOURS=		no_cxx
+FLAVOUR?=
 
 USE_X11=		Yes
 MODULES+=		devel/pkgconfig graphics/png
@@ -30,7 +30,7 @@ CONFIGURE_ARGS+=	${CONFIGURE_SHARED}
 CONFIGURE_ARGS+=	--enable-mmx
 .endif
 
-.if ${FLAVOR:L:Mno_cxx}
+.if ${FLAVOUR:L:Mno_cxx}
 CONFIGURE_ARGS+=	--disable-gif
 .else
 LIB_DEPENDS+=		ungif::graphics/libungif

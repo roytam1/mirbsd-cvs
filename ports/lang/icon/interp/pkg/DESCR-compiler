@@ -16,4 +16,4 @@ fast if it were using C arithmetic.
 Nonetheless, the resulting code is about twice as fast as the interpreted
 code.
 
-There is a no_x11 flavor, that does not require X11 to run.
+There is a no_x11 flavour, that does not require X11 to run.

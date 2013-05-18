@@ -1,4 +1,4 @@
-# $MirOS: ports/www/lynx/Makefile,v 1.18 2007/08/13 14:35:38 tg Exp $
+# $MirOS: ports/www/lynx/Makefile,v 1.19 2007/10/18 21:32:57 tg Exp $
 
 COMMENT=		standard text-mode world wide web browser
 CATEGORIES=		www essentials
@@ -21,8 +21,8 @@ PERMIT_DISTFILES_FTP=	Yes
 PERMIT_PACKAGE_CDROM=	Yes
 PERMIT_PACKAGE_FTP=	Yes
 
-FLAVORS=		wide
-FLAVOR?=		wide
+FLAVOURS=		wide
+FLAVOUR?=		wide
 
 WRKDIST=		${WRKDIR}/lynx2-8-7
 MAKE_FILE=		makefile
@@ -81,7 +81,7 @@ CONFIGURE_ENV+=		ac_cv_path_TELNET=telnet \
 CONFIGURE_ARGS+=	--disable-ipv6
 .endif
 
-.if ${FLAVOR:Mwide}
+.if ${FLAVOUR:Mwide}
 MODULES+=		devel/libncursesw
 .else
 CONFIGURE_ARGS+=	--with-screen=ncurses \

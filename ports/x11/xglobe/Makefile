@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/x11/xglobe/Makefile,v 1.4 2007/05/07 19:48:41 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.21 2003/02/25 10:34:02 espie Exp $
 
 COMMENT=	display the Earth on X11
@@ -23,9 +23,9 @@ USE_CXX=		Yes
 
 MAKE_FLAGS=	XGLOBE_DIR=${PREFIX}
 
-FLAVORS=	no_map
-FLAVOR?=
-.if ${FLAVOR:L:Mno_map}
+FLAVOURS=	no_map
+FLAVOUR?=
+.if ${FLAVOUR:L:Mno_map}
 DISTFILES=	${DISTNAME}-no-map${EXTRACT_SUFX}
 
 # Kludge install for no map around

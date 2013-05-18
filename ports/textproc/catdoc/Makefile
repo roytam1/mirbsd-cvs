@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/textproc/catdoc/Makefile,v 1.3 2007/04/16 19:05:00 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.21 2004/03/02 20:56:09 ish Exp $
 
 COMMENT=	MS Word -> ASCII or TeX, Tk viewer included
@@ -16,10 +16,10 @@ PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
-FLAVORS=	tk
-FLAVOR?=
+FLAVOURS=	tk
+FLAVOUR?=
 
-.if ${FLAVOR:L:Mtk}
+.if ${FLAVOUR:L:Mtk}
 RUN_DEPENDS=	::x11/tk/8.0
 USE_X11=	Yes
 .else

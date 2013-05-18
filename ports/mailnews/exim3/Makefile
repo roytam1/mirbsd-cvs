@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/mailnews/exim3/Makefile,v 1.5 2007/04/12 20:22:18 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.39 2004/05/10 08:42:42 brad Exp $
 
 COMMENT=	flexible mail transfer agent
@@ -19,32 +19,32 @@ PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
 # ldap - once openldap is supported by exim
-FLAVORS=	no_x11 no_perl mysql postgresql ldap no_ssl
-FLAVOR?=
+FLAVOURS=	no_x11 no_perl mysql postgresql ldap no_ssl
+FLAVOUR?=
 
-MAKE_ENV=	FLAVOR="${FLAVOR}"
+MAKE_ENV=	FLAVOUR="${FLAVOUR}"
 
 EXIM_MAKECAT=
 EXIM_LOOKUP_INCLUDE=
 EXIM_LOOKUP_LIBS=
 
-.if !${FLAVOR:L:Mno_x11}
+.if !${FLAVOUR:L:Mno_x11}
 USE_X11=	Yes
 EXIM_MAKECAT+=	"EXIM_MONITOR=eximon.bin\n"
 .endif
 
-.if !${FLAVOR:L:Mno_perl}
+.if !${FLAVOUR:L:Mno_perl}
 EXIM_MAKECAT+=	"EXIM_PERL=perl.o\n"
 .endif
 
-.if ${FLAVOR:L:Mldap}
+.if ${FLAVOUR:L:Mldap}
 LIB_DEPENDS+=	ldap.2,lber:openldap-client-2.*:databases/openldap
 EXIM_MAKECAT+=	"LOOKUP_LDAP=yes\nLDAP_LIB_TYPE=OPENLDAP2\n"
 EXIM_LOOKUP_INCLUDE+=	-I${LOCALBASE}/include
 EXIM_LOOKUP_LIBS+=	-L${LOCALBASE}/lib -lldap -llber
 .endif
 
-.if ${FLAVOR:L:Mmysql}
+.if ${FLAVOUR:L:Mmysql}
 USE_CXX=	Yes
 LIB_DEPENDS+=	lib/mysql/mysqlclient.10::databases/mysql
 EXIM_MAKECAT+=	"LOOKUP_MYSQL=yes\n"
@@ -52,7 +52,7 @@ EXIM_LOOKUP_INCLUDE+=	-I${LOCALBASE}/include/mysql
 EXIM_LOOKUP_LIBS+=	-L${LOCALBASE}/lib/mysql -lmysqlclient
 .endif
 
-.if ${FLAVOR:L:Mpostgresql}
+.if ${FLAVOUR:L:Mpostgresql}
 LIB_DEPENDS+=	pq.2::databases/postgresql
 EXIM_MAKECAT+=	"LOOKUP_PGSQL=yes\n"
 EXIM_LOOKUP_INCLUDE+=	-I${LOCALBASE}/include/postgresql
@@ -60,7 +60,7 @@ EXIM_LOOKUP_LIBS+=	-L${LOCALBASE}/lib -lpq
 PERMIT_PACKAGE_CDROM=	dependency databases/postgresql is not allowed for CDROM
 .endif
 
-.if !${FLAVOR:L:Mno_ssl}
+.if !${FLAVOUR:L:Mno_ssl}
 EXIM_MAKECAT+=	"SUPPORT_TLS=yes\nTLS_LIBS=-lssl -lcrypto\n"
 .endif
 
@@ -69,7 +69,7 @@ NO_REGRESS=	Yes
 do-configure:
 	@mkdir -p ${WRKSRC}/Local
 	@cp ${FILESDIR}/Makefile ${WRKSRC}/Local
-.if !${FLAVOR:L:Mno_x11}
+.if !${FLAVOUR:L:Mno_x11}
 	@cp ${FILESDIR}/eximon.conf ${WRKSRC}/Local
 .endif
 	@echo -n ${EXIM_MAKECAT} >> ${WRKSRC}/Local/Makefile

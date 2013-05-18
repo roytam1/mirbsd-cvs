@@ -1,4 +1,4 @@
-# $MirOS: ports/x11/eterm/Makefile,v 1.3 2006/09/14 00:15:11 tg Exp $
+# $MirOS: ports/x11/eterm/Makefile,v 1.4 2007/05/07 19:42:28 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.18 2003/10/08 17:13:16 sturm Exp $
 
 COMMENT=		color X11 terminal emulator with transparency support
@@ -25,10 +25,10 @@ CONFIGURE_STYLE=	autoconf
 CONFIGURE_ARGS+=	${CONFIGURE_SHARED}
 CONFIGURE_ARGS+=	--enable-static
 
-FLAVORS=		kanji
-FLAVOR?=
+FLAVOURS=		kanji
+FLAVOUR?=
 
-.if ${FLAVOR:L:Mkanji}
+.if ${FLAVOUR:L:Mkanji}
 CFLAGS+=		-DKANJI
 CATEGORIES+=		japanese
 .endif

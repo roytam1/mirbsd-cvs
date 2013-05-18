@@ -1,6 +1,6 @@
 # $OpenBSD: Makefile,v 1.26 2004/05/14 18:59:18 lebel Exp $
 
-COMMENT=		Z shell, Bourne shell-compatible, release flavor
+COMMENT=		Z shell, Bourne shell-compatible
 COMMENT-zftp=		Z shell embedded ftp client
 
 VERSION=		4.2.0
@@ -24,13 +24,13 @@ PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
-FLAVORS=		static
+FLAVOURS=		static
 
 .if ${MACHINE_ARCH:Malpha} || ${MACHINE_ARCH:Mvax}
 # for the time being, force static on alpha
-FLAVOR?=        	static
+FLAVOUR?=        	static
 .else
-FLAVOR?=
+FLAVOUR?=
 .endif
 
 CONFIGURE_STYLE=	autoconf
@@ -39,11 +39,11 @@ CONFIGURE_ARGS+=	--enable-zsh-mem \
 			--enable-zsh-secure-free \
 			--enable-maildir-support
 
-.if ${FLAVOR:L} == "static"
+.if ${FLAVOUR:L} == "static"
 LDFLAGS+=		-static
 CONFIGURE_ARGS+=	--disable-dynamic
 .else
-# we only enable sub-packages if the FLAVOR is not static
+# we only enable sub-packages if the FLAVOUR is not static
 MULTI_PACKAGES=		-zftp
 SUBPACKAGE?=
 .  for i in ${MULTI_PACKAGES}

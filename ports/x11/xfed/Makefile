@@ -1,4 +1,4 @@
-# $MirOS: ports/x11/xfed/Makefile,v 1.2 2005/07/07 21:29:33 bsiegert Exp $
+# $MirOS: ports/x11/xfed/Makefile,v 1.3 2006/09/14 00:15:57 tg Exp $
 # $OpenBSD: Makefile,v 1.19 2002/10/29 19:48:59 naddy Exp $
 
 COMMENT=			X11 fonts (.bdf files) editor
@@ -16,12 +16,12 @@ PERMIT_DISTFILES_FTP=	Yes
 USE_X11=		Yes
 CONFIGURE_STYLE=	imake
 
-FLAVORS=		n8 n12 n14 n16
-FLAVOR?=
+FLAVOURS=		n8 n12 n14 n16
+FLAVOUR?=
 NORM_SIZE?=
 
-.for _i in ${FLAVORS}
-.  if ${FLAVOR:L:M${_i}}
+.for _i in ${FLAVOURS}
+.  if ${FLAVOUR:L:M${_i}}
 NORM_SIZE=		${_i:S/^n//}
 PATCH_LIST=		normalize-*
 .  endif

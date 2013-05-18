@@ -1,4 +1,4 @@
-# $MirOS: ports/print/psutils/Makefile,v 1.4 2006/08/10 18:17:33 tg Exp $
+# $MirOS: ports/print/psutils/Makefile,v 1.5 2006/09/14 00:12:45 tg Exp $
 # $OpenBSD: Makefile,v 1.18 2004/02/21 01:20:09 pvalchev Exp $
 
 COMMENT=			manipulating PostScript documents
@@ -15,12 +15,12 @@ PERMIT_DISTFILES_FTP=	Yes
 
 WRKDIST=		${WRKDIR}/psutils
 
-FLAVORS=		a3 a4 a5 b5 executive folio ledger legal \
+FLAVOURS=		a3 a4 a5 b5 executive folio ledger legal \
 			letter p10x14 quarto statement tabloid
-FLAVOR?=		a4
+FLAVOUR?=		a4
 
-POSSIBLE_SIZES=		${FLAVORS:L:S/p10x14/10x14/}
-PAPERSIZE=		${FLAVOR:L:S/p10x14/10x14/}
+POSSIBLE_SIZES=		${FLAVOURS:L:S/p10x14/10x14/}
+PAPERSIZE=		${FLAVOUR:L:S/p10x14/10x14/}
 
 .undef PP
 .for _i in ${POSSIBLE_SIZES}

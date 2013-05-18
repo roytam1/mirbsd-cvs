@@ -5,7 +5,7 @@ fast, feature rich, and easy to configure and use.
 
 Each user must run wmaker.inst before running Window Maker.
 
-The i18n flavor enables locale support and installs locale files.
+The i18n flavour enables locale support and installs locale files.
 To select a particular locale at runtime you must set the LANG
 environment variable to the locale you want.  If your language uses
 multi-byte characters, such as Japanese or Korean, you must set the

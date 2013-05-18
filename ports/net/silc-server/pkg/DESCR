@@ -24,7 +24,7 @@ encrypted in the SILC network. Each connection has their own session keys,
 all channels have channel specific keys, and all private messages can be
 secured with private message specific keys.
 
-FLAVORs:
+FLAVOURs:
 
 	operops - Patches in the ability for a SILC operator to give
 		  themselves operator status on any channel.  Please

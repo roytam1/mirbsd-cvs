@@ -7,7 +7,7 @@ and recipient addresses, for refusing mail from specified hosts,
 networks, or senders, and for controlling mail relaying. This version
 also supports the STARTTLS extension.
 
-This port can be built with the following flavors:
+This port can be built with the following flavours:
 
 * no_x11	- do not build eximon which requires X11
 * no_perl	- do not include perl support
@@ -16,4 +16,4 @@ This port can be built with the following flavors:
 * postgresql	- support postgresql queries for lookups
 * ldap		- support ldap (OpenLDAP) queries for lookups
 
-All these flavors are independent of each other.
+All these flavours are independent of each other.

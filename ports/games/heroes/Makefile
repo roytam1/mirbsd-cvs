@@ -31,18 +31,18 @@ USE_GMAKE=	Yes
 
 MODULES=	devel/gettext
 
-FLAVORS=	sdl ggi
-FLAVOR?=	sdl
+FLAVOURS=	sdl ggi
+FLAVOUR?=	sdl
 
-.if empty(FLAVOR:L:Msdl) && empty(FLAVOR:L:Mggi)
-ERRORS+=	"Fatal:	Must choose one flavor: sdl or ggi"
+.if empty(FLAVOUR:L:Msdl) && empty(FLAVOUR:L:Mggi)
+ERRORS+=	"Fatal:	Must choose one flavour: sdl or ggi"
 .endif
 
-.if ${FLAVOR:L:Msdl} && ${FLAVOR:L:Mggi}
-ERRORS+=	"Fatal: Choose only one flavor: sdl or ggi"
+.if ${FLAVOUR:L:Msdl} && ${FLAVOUR:L:Mggi}
+ERRORS+=	"Fatal: Choose only one flavour: sdl or ggi"
 .endif
 
-.if ${FLAVOR:L:Msdl}
+.if ${FLAVOUR:L:Msdl}
 LIB_DEPENDS+=	SDL::devel/sdl \
 		SDL_mixer::devel/sdl-mixer
 
@@ -51,8 +51,8 @@ CONFIGURE_ARGS+= --with-sdl="${LOCALBASE}"
 CONFIGURE_ARGS+= --without-sdl --without-sdl-mixer
 .endif
 
-.if ${FLAVOR:L:Mggi}
-# Sound support is disabled with the ggi flavor since it is dependent
+.if ${FLAVOUR:L:Mggi}
+# Sound support is disabled with the ggi flavour since it is dependent
 # on sdl-mixer.  No alternatives for now.
 LIB_DEPENDS+=	ggi.2.0:ggi-*:graphics/ggi
 CONFIGURE_ARGS+= --with-ggi="${LOCALBASE}"

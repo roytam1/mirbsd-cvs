@@ -7,8 +7,8 @@ Currently this module only works with text data.  Support for binary
 data is high on the list of features I want to add.
 
 By default, it works with the GNU Privacy Guard (security/gnupg),
-and the following flavors are available for alternatives:
+and the following flavours are available for alternatives:
 
-Flavors:
+Flavours:
  pgp  - Use PGP 2.x
  pgp5 - Use PGP 5.x

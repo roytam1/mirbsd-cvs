@@ -1,4 +1,4 @@
-# $MirOS: ports/devel/libtool/Makefile,v 1.8 2006/09/14 00:08:24 tg Exp $
+# $MirOS: ports/devel/libtool/Makefile,v 1.9 2007/05/07 21:56:24 tg Exp $
 
 COMMENT=		complete GNU libtool with MirLibtool patches added
 CATEGORIES=		devel
@@ -23,10 +23,10 @@ CONFIGURE_ARGS+=	${CONFIGURE_SHARED}
 AUTOCONF_NEW=		Yes
 AUTOMAKE_VERSION=	1.9
 
-FLAVORS=		no_cxx
-FLAVOR?=
+FLAVOURS=		no_cxx
+FLAVOUR?=
 
-.if !${FLAVOR:Mno_cxx}
+.if !${FLAVOUR:Mno_cxx}
 USE_CXX=		Yes
 REGRESS_TARGET=		check
 .else

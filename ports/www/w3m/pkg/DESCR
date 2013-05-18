@@ -6,7 +6,7 @@ it has several features Lynx doesn't have:
 * w3m can display documents from standard input
 * w3m is small
 
-Available flavors:
+Available flavours:
   image     - Support displaying inline images when run from an X11
               terminal emulator.
   japanese  - Provide Japanese menus and documentation, and properly

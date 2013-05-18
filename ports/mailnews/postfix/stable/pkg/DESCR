@@ -1,6 +1,6 @@
 Postfix attempts to be fast, easy to administer, and secure, while at the
 same time being sendmail compatible enough to not upset existing users.
-Thus, the outside has a sendmail-ish flavor, but the inside is completely
+Thus, the outside has a sendmail-ish flavour, but the inside is completely
 different.
 
 Extra features always included:
@@ -9,7 +9,7 @@ Extra features always included:
 - IPv6 (${IPV6HOMEPAGE})
 - table lookups using PCRE (Perl-Compatible Regular Expression)
 
-Optional fetures included using flavors:
+Optional fetures included using flavours:
 
 - authenticated SMTP using Cyrus SASL v2
 - table lookups using LDAP

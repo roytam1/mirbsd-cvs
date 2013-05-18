@@ -24,8 +24,8 @@ LIB_DEPENDS=		gtk.1.2,gdk.1.2::x11/gtk+ \
 
 MODULES=		devel/gettext
 
-FLAVORS=		gnome esd
-FLAVOR?=
+FLAVOURS=		gnome esd
+FLAVOUR?=
 
 USE_X11=		Yes
 CONFIGURE_STYLE=	autoconf
@@ -34,7 +34,7 @@ CONFIGURE_ARGS=		--with-audiofile-prefix=${LOCALBASE} \
 			--disable-sgi \
 			--disable-oss
 
-.if ${FLAVOR:L:Mgnome}
+.if ${FLAVOUR:L:Mgnome}
 LIB_DEPENDS+=	gnome.36,gnomesupport.0,gnomeui.46,art_lgpl.4::x11/gnome/libs \
 		gdk_pixbuf::graphics/gdk-pixbuf
 CONFIGURE_ARGS+=--with-gdk-pixbuf-prefix=${LOCALBASE}
@@ -43,7 +43,7 @@ USE_CXX=		Yes
 CONFIGURE_ARGS+=--disable-gnome --disable-splash
 .endif
 
-.if ${FLAVOR:L:Mesd}
+.if ${FLAVOUR:L:Mesd}
 LIB_DEPENDS+=		esd.2::audio/esound
 .else
 CONFIGURE_ARGS+=	--disable-esd

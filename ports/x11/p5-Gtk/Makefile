@@ -1,4 +1,4 @@
-# $MirOS: ports/x11/p5-Gtk/Makefile,v 1.7 2007/03/31 22:02:12 tg Exp $
+# $MirOS: ports/x11/p5-Gtk/Makefile,v 1.8 2007/05/07 19:48:39 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.15 2004/06/26 23:09:15 jcs Exp $
 
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
@@ -43,10 +43,10 @@ FAKE_FLAGS=	${MAKE_FLAGS} \
 		INSTALLMAN3DIR="${DESTDIR}/${PREFIX}/man/man3p" \
 		INSTALLSITEMAN3DIR="${DESTDIR}/${PREFIX}/man/man3p"
 
-FLAVORS=	gtkglarea #gnome #XXX needs gnome2?
-FLAVOR?=	
+FLAVOURS=	gtkglarea #gnome #XXX needs gnome2?
+FLAVOUR?=	
 
-.if ${FLAVOR:L:Mgtkglarea}
+.if ${FLAVOUR:L:Mgtkglarea}
 LIB_DEPENDS+=	gtkgl.1.2::x11/gtkglarea
 CONFIGURE_ARGS+= --with-gtkglarea-force
 SED_PLIST+=     |sed -e '/^!%%gtkglarea%%/r${PKGDIR}/PFRAG.gtkglarea' -e '//d'
@@ -55,7 +55,7 @@ CONFIGURE_ARGS+= --without-gtkglarea
 SED_PLIST+=     |sed -e '/^!%%gtkglarea%%/d'
 .endif
 
-.if ${FLAVOR:L:Mgnome}
+.if ${FLAVOUR:L:Mgnome}
 LIB_DEPENDS+=	gnome.1::x11/gnome/libs
 CONFIGURE_ARGS+= --with-gnome
 SED_PLIST+=     |sed -e '/^!%%gnome%%/r${PKGDIR}/PFRAG.gnome' -e '//d'

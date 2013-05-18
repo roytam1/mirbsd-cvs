@@ -1,4 +1,4 @@
-# $MirOS: ports/net/gaim/Makefile,v 1.5 2006/02/09 11:12:14 tg Exp $
+# $MirOS: ports/net/gaim/Makefile,v 1.6 2006/09/14 00:11:43 tg Exp $
 # $OpenBSD: Makefile,v 1.73 2005/01/28 16:33:28 fgsch Exp $
 
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
@@ -39,23 +39,23 @@ CONFIGURE_ARGS+=	 --disable-gevolution \
 			 --disable-tk \
 			 --enable-openssl
 
-FLAVORS=		audio debug gtkspell
-FLAVOR?=	
+FLAVOURS=		audio debug gtkspell
+FLAVOUR?=	
 
-.if ${FLAVOR:L:Maudio}
+.if ${FLAVOUR:L:Maudio}
 LIB_DEPENDS+=		audiofile::devel/libaudiofile \
 			ao.3::audio/libao
 .else
 CONFIGURE_ARGS+=	 --disable-audio
 .endif
 
-.if ${FLAVOR:L:Mdebug}
+.if ${FLAVOUR:L:Mdebug}
 CFLAGS=			-O0
 CONFIGURE_ARGS+=	--enable-debug
 INSTALL_STRIP=
 .endif
 
-.if ${FLAVOR:L:Mgtkspell}
+.if ${FLAVOUR:L:Mgtkspell}
 LIB_DEPENDS+=		gtkspell::textproc/gtkspell
 .else
 CONFIGURE_ARGS+=	--disable-gtkspell

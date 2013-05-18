@@ -1,4 +1,4 @@
-# $MirOS: ports/net/djbdns/Makefile,v 1.30 2006/11/16 21:51:55 tg Exp $
+# $MirOS: ports/net/djbdns/Makefile,v 1.31 2007/02/09 15:25:09 tg Exp $
 
 COMMENT=		collection of Domain Name System server and tools
 VERSION=		1.05
@@ -16,8 +16,8 @@ PERMIT_DISTFILES_FTP=	Yes
 PERMIT_PACKAGE_CDROM=	"http://cr.yp.to/distributors.html"
 PERMIT_PACKAGE_FTP=	"http://cr.yp.to/distributors.html"
 
-FLAVORS=		eorsn icann opennic
-FLAVOR?=		eorsn
+FLAVOURS=		eorsn icann opennic
+FLAVOUR?=		eorsn
 
 DISTFILES=		${DISTNAME}${EXTRACT_SUFX} \
 			${DISTNAME}-man-${MANVER}${EXTRACT_SUFX}:0
@@ -31,7 +31,7 @@ NO_REGRESS=		Yes
 .undef DNSROOT
 DNSROOT6=		eorsn6
 
-.if ${FLAVOR:L:Mopennic}
+.if ${FLAVOUR:L:Mopennic}
 .  ifdef DNSROOT
 BROKEN=			Multiple DNS Roots chosen; invalid combination
 .  else
@@ -39,7 +39,7 @@ DNSROOT=		opennic
 .  endif
 .endif
 
-.if ${FLAVOR:L:Micann}
+.if ${FLAVOUR:L:Micann}
 .  ifdef DNSROOT
 BROKEN=			Multiple DNS Roots chosen; invalid combination
 .  else
@@ -47,7 +47,7 @@ DNSROOT=		icann
 .  endif
 .endif
 
-.if ${FLAVOR:L:Meorsn}
+.if ${FLAVOUR:L:Meorsn}
 .  ifdef DNSROOT
 BROKEN=			Multiple DNS Roots chosen; invalid combination
 .  else

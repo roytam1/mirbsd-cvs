@@ -31,10 +31,10 @@ CONFIGURE_ARGS+=	--with-libtool \
 
 MODGNU_CONFIG_GUESS_DIRS= ${WRKSRC}
 
-FLAVORS=		threads
-FLAVOR?=
+FLAVOURS=		threads
+FLAVOUR?=
 
-.if ${FLAVOR:L:Mthreads}
+.if ${FLAVOUR:L:Mthreads}
 CONFIGURE_ARGS+=	--enable-threads
 .else
 CONFIGURE_ARGS+=	--disable-threads

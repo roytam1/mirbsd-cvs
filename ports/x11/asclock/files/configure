@@ -7,7 +7,7 @@ use strict;
 my @themes = split " ", $ENV{THEMES} or die "$0: must define THEMES\n";
 my @classics = split " ", $ENV{CLASSICS} or die "$0: must define CLASSICS\n";
 my @languages = split " ", $ENV{LANGUAGES} or die "$0: must define LANGUAGES\n";
-my @flavor = split " ", $ENV{FLAVOR} or die "$0: must define FLAVOR\n";
+my @flavour = split " ", $ENV{FLAVOUR} or die "$0: must define FLAVOUR\n";
 my (%theme, %classic, %lang);
 my $action;
 
@@ -27,34 +27,34 @@ foreach my $i (@languages) { $lang{$i} = 1 };
 
 chdir $wrksrc or die "$0: can't chdir to $wrksrc: $!\n" if $action;
 
-if ($#flavor == 0) {
-    &invalid_flavor if !$theme{$flavor[0]} || $classic{$flavor[0]};
-    symlink "themes/$theme{$flavor[0]}", "default_theme" if $action;
-} elsif ($#flavor == 1) {
-    if ($classic{$flavor[0]} && $lang{$flavor[1]}) {
+if ($#flavour == 0) {
+    &invalid_flavour if !$theme{$flavour[0]} || $classic{$flavour[0]};
+    symlink "themes/$theme{$flavour[0]}", "default_theme" if $action;
+} elsif ($#flavour == 1) {
+    if ($classic{$flavour[0]} && $lang{$flavour[1]}) {
 	;
-    } elsif ($classic{$flavor[1]} && $lang{$flavor[0]}) {
-	@flavor = ($flavor[1], $flavor[0]);
+    } elsif ($classic{$flavour[1]} && $lang{$flavour[0]}) {
+	@flavour = ($flavour[1], $flavour[0]);
     } else {
-	&invalid_flavor;
+	&invalid_flavour;
     }
     mkdir "default_theme" if $action;
     foreach my $i (qw(config date.xpm clock.xpm led.xpm hour.xpm
 		      minute.xpm second.xpm beats.xpm)) {
-	symlink "../themes/$theme{$flavor[0]}/$i","default_theme/$i" if $action;
+	symlink "../themes/$theme{$flavour[0]}/$i","default_theme/$i" if $action;
     }
     foreach my $i (qw(month.xpm weekday.xpm)) {
-	symlink "../languages/$flavor[1]/$i", "default_theme/$i" if $action;
+	symlink "../languages/$flavour[1]/$i", "default_theme/$i" if $action;
     }
 } else {
-    &invalid_flavor;
+    &invalid_flavour;
 }
 
-sub invalid_flavor {
+sub invalid_flavour {
     my (@a, $i);
 
-    print STDERR "$0: invalid FLAVOR: @flavor\n\n";
-    print STDERR "Available flavors are:\n";
+    print STDERR "$0: invalid FLAVOUR: @flavour\n\n";
+    print STDERR "Available flavours are:\n";
     @a = sort keys %theme;
     for ($i = 0; $i <= $#a; $i++) {
 	print STDERR "\t" if $i % 4 == 0;

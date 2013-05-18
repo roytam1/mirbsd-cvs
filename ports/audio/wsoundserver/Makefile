@@ -1,4 +1,4 @@
-# $MirOS: ports/audio/wsoundserver/Makefile,v 1.2 2005/07/07 21:17:35 bsiegert Exp $
+# $MirOS: ports/audio/wsoundserver/Makefile,v 1.3 2006/09/14 00:07:20 tg Exp $
 # $OpenBSD: Makefile,v 1.20 2004/04/19 13:36:50 wilfried Exp $
 
 COMMENT=			sound server for Window Maker
@@ -26,10 +26,10 @@ NO_REGRESS=		Yes
 CONFIGURE_STYLE=	gnu
 CONFIGURE_ARGS+=	${CONFIGURE_SHARED} --enable-static
 
-FLAVORS=		esd
-FLAVOR?=
+FLAVOURS=		esd
+FLAVOUR?=
 
-.if ${FLAVOR:L:Mesd}
+.if ${FLAVOUR:L:Mesd}
 LIB_DEPENDS+=		esd::audio/esound
 CONFIGURE_ARGS+=	--enable-esd
 .else

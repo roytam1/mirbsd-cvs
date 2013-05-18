@@ -22,10 +22,10 @@ FAKE_FLAGS=		PREFIX=${PREFIX} DESTDIR=${WRKINST}
 NHDIR=	${PREFIX}/lib/slashemdir
 MAKE_ENV+= NHDIR=${NHDIR} NETHACKCONFIG=${NETHACKCONFIG}
 
-FLAVORS=		no_x11
-FLAVOR?=
+FLAVOURS=		no_x11
+FLAVOUR?=
 
-.if ${FLAVOR:L} == "no_x11"
+.if ${FLAVOUR:L} == "no_x11"
 NETHACKCONFIG=${FILESDIR}/simple-config
 .else
 NETHACKCONFIG=${FILESDIR}/x-config
@@ -48,7 +48,7 @@ post-install:
 	${INSTALL_PROGRAM} ${WRKBUILD}/util/strecover ${PREFIX}/bin
 	@cd ${WRKSRC}/doc && \
 	    ${INSTALL_MAN} slashem.6 strecover.6 ${PREFIX}/man/man6
-.if ${FLAVOR} == ""
+.if ${FLAVOUR} == ""
 	${INSTALL_DATA_DIR} ${PREFIX}/lib/X11/app-defaults
 	@cd ${WRKSRC}/win/X11 && \
 	    ${INSTALL_DATA} SlashEM.ad ${PREFIX}/lib/X11/app-defaults/SlashEM

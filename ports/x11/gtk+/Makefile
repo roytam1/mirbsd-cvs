@@ -1,4 +1,4 @@
-# $MirOS: ports/x11/gtk+/Makefile,v 1.13 2007/07/10 19:16:49 bsiegert Exp $
+# $MirOS: ports/x11/gtk+/Makefile,v 1.14 2007/09/04 20:32:29 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.14 2004/03/30 15:48:29 sturm Exp $
 
 NOT_FOR_PLATFORM=		${NOPIC_PLATFORMS}
@@ -28,8 +28,8 @@ EXTRACT_SUFX=           	.tar.bz2
 MULTI_PACKAGES=         	-docs
 SUBPACKAGE?=
 
-FLAVORS=			cups
-FLAVOR?=
+FLAVOURS=			cups
+FLAVOUR?=
 
 .if ${SUBPACKAGE} != "-docs"
 MODULES=			devel/gettext devel/pkgconfig graphics/png
@@ -39,7 +39,7 @@ LIB_DEPENDS=			glib-2.0.0.800,gmodule-2.0.0.800,gobject-2.0.0.800,gthread-2.0.0.
 				atk-1.0.0.1011::devel/atk \
 				tiff::graphics/tiff \
 				jpeg.62::graphics/jpeg
-. if ${FLAVOR:L:Mcups}
+. if ${FLAVOUR:L:Mcups}
 LIB_DEPENDS+=			cups,cupsimage::print/cups
 . endif
 .endif
@@ -57,7 +57,7 @@ CONFIGURE_ARGS+=		--enable-static
 CONFIGURE_ARGS+=		${CONFIGURE_SHARED}
 CONFIGURE_ARGS+= 		--disable-gtk-doc
 
-.if !${FLAVOR:L:Mcups}
+.if !${FLAVOUR:L:Mcups}
 CONFIGURE_ARGS+=		--without-cups
 .endif
 

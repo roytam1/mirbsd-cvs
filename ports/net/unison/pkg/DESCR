@@ -4,5 +4,5 @@ different hosts (or different disks on the same host), modified
 separately, and then brought up to date by propagating the changes in
 each replica to the other.
 
-Flavors:
+Flavours:
 	gtk 	- build with a Gtk GUI (recommended for X users)

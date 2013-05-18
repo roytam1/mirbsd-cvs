@@ -1,4 +1,4 @@
-# $MirOS: ports/graphics/cqcam/Makefile,v 1.5 2006/02/09 11:11:44 tg Exp $
+# $MirOS: ports/graphics/cqcam/Makefile,v 1.6 2006/09/14 00:09:48 tg Exp $
 # $OpenBSD: Makefile,v 1.6 2002/12/29 20:08:46 fgsch Exp $
 
 ONLY_FOR_PLATFORM=	OpenBSD:*:i386 MirBSD:*:i386
@@ -25,10 +25,10 @@ CONFIGURE_ARGS=	--enable-jpeg --enable-asm
 
 NO_REGRESS=	Yes
 
-FLAVORS=	no_x11
-FLAVOR?=	
+FLAVOURS=	no_x11
+FLAVOUR?=	
 
-.if ${FLAVOR:L:Mno_x11}
+.if ${FLAVOUR:L:Mno_x11}
 EXTRA_XAKE_FLAGS=	CLIENTS="cli webcam"
 .else
 USE_X11=	Yes

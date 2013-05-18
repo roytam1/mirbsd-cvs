@@ -16,8 +16,8 @@ PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_CDROM=	Yes 
 PERMIT_DISTFILES_FTP=	Yes 
 
-FLAVORS=	slang
-FLAVOR?=
+FLAVOURS=	slang
+FLAVOUR?=
 
 MODULES=	devel/gettext
 
@@ -25,7 +25,7 @@ CONFIGURE_STYLE=autoconf
 AUTOCONF_NEW=	Yes
 CONFIGURE_ARGS=	--enable-all
 
-.if ${FLAVOR:L:Mslang}
+.if ${FLAVOUR:L:Mslang}
 LIB_DEPENDS+=	slang.14::devel/libslang
 CONFIGURE_ARGS+=--with-slang="${LOCALBASE}"
 .endif

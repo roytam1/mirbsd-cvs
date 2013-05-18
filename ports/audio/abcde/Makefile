@@ -26,13 +26,13 @@ DISTFILES=	${DISTNAME}.tar.gz \
 
 RUN_DEPENDS=	:cdparanoia-*:audio/cdparanoia
 
-FLAVORS=	lame
-FLAVOR?=	
+FLAVOURS=	lame
+FLAVOUR?=	
 
 NO_REGRESS=	Yes
 WRKDIST=	${WRKDIR}/abcde-$V
 
-.if ${FLAVOR:L:Mlame}
+.if ${FLAVOUR:L:Mlame}
 DISTFILES+=		id3_0.12.orig.tar.gz:1
 RUN_DEPENDS+=		:lame-*:audio/lame
 USE_X11=		Yes # inherited
@@ -43,14 +43,14 @@ USE_CXX=		Yes # inherited
 .endif
 
 post-patch:
-.if ${FLAVOR:L:Mlame}
+.if ${FLAVOUR:L:Mlame}
 	perl -pi -e 's,OUTPUTTYPE=ogg,OUTPUTTYPE=mp3,g' ${WRKSRC}/abcde
 .endif
 
 do-build:
 	cd ${WRKDIR}/cd-discid-${V2} && \
 		${CC} ${CFLAGS} -o cd-discid cd-discid.c
-.if ${FLAVOR:L:Mlame}
+.if ${FLAVOUR:L:Mlame}
 	cd ${WRKDIR}/id3-0.12 && \
 		perl -pi -e 's,#include <getopt.h>,/*#include <getopt.h>*/,g' id3.c && \
 		${CC} ${CFLAGS} -o id3 id3.c
@@ -65,7 +65,7 @@ do-install:
 	${INSTALL_MAN} ${WRKDIR}/cd-discid-${V2}/cd-discid.1 ${PREFIX}/man/man1
 	${INSTALL_DATA_DIR} ${PREFIX}/share/examples/abcde
 	${INSTALL_DATA} ${WRKSRC}/abcde.conf ${PREFIX}/share/examples/abcde
-.if ${FLAVOR:L:Mlame}
+.if ${FLAVOUR:L:Mlame}
 	${INSTALL_PROGRAM} ${WRKDIR}/id3-0.12/id3 ${PREFIX}/bin
 	${INSTALL_MAN} ${WRKDIR}/id3-0.12/id3.1 ${PREFIX}/man/man1
 .endif

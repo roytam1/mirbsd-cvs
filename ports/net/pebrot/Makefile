@@ -21,10 +21,10 @@ NO_REGRESS=	Yes
 
 MODULES=	lang/python
 
-FLAVORS=	cjk
-FLAVOR?=
+FLAVOURS=	cjk
+FLAVOUR?=
 
-.if ${FLAVOR:L:Mcjk}
+.if ${FLAVOUR:L:Mcjk}
 RUN_DEPENDS=	:py-cjkcodecs-*:converters/py-cjkcodecs
 .endif
 

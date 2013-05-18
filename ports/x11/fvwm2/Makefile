@@ -1,4 +1,4 @@
-# $MirOS: ports/x11/fvwm2/Makefile,v 1.5 2006/09/14 00:15:13 tg Exp $
+# $MirOS: ports/x11/fvwm2/Makefile,v 1.6 2007/05/07 19:42:28 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.31 2004/02/04 07:39:19 sturm Exp $
 
 COMMENT=		multiple virtual desktop window manager, with icons
@@ -32,10 +32,10 @@ LIB_DEPENDS=	gtk.1.2:gtk+-*:x11/gtk+1 \
 MULTI_PACKAGES=	-fvwm2 -fvicons
 SUBPACKAGE?=
 
-FLAVORS=	rplay debug i18n
-FLAVOR?=
+FLAVOURS=	rplay debug i18n
+FLAVOUR?=
 
-.if ${FLAVOR:L:Mrplay} && !${SUBPACKAGE} == "-fvicons"
+.if ${FLAVOUR:L:Mrplay} && !${SUBPACKAGE} == "-fvicons"
 LIB_DEPENDS+=	rplay.0.:rplay-*:audio/rplay
 CONFIGURE_ARGS+= --with-rplay-includes="${LOCALBASE}/include" \
 		 --with-rplay-library="${LOCALBASE}/lib"
@@ -43,11 +43,11 @@ CONFIGURE_ARGS+= --with-rplay-includes="${LOCALBASE}/include" \
 CONFIGURE_ARGS+= --without-rplay
 .endif
 
-.if ${FLAVOR:L:Mdebug}
+.if ${FLAVOUR:L:Mdebug}
 CONFIGURE_ARGS+= --enable-debug-msgs
 .endif
 
-.if ${FLAVOR:L:Mi18n}
+.if ${FLAVOUR:L:Mi18n}
 # the multibyte character support is experimental
 CONFIGURE_ARGS+= --enable-multibyte
 .else

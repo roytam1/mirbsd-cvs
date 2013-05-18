@@ -1,4 +1,4 @@
-# $MirOS: ports/editors/vim/stable/Makefile,v 1.14 2007/05/07 22:58:20 tg Exp $
+# $MirOS: ports/editors/vim/stable/Makefile,v 1.15 2008/03/04 20:48:27 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.93 2004/06/09 18:43:16 lebel Exp $
 
 COMMENT=		vi clone, many additional features
@@ -48,10 +48,10 @@ MODULES+=		devel/gettext
 MULTI_PACKAGES=		-lang
 SUBPACKAGE?=
 .if defined(PACKAGING) && ${SUBPACKAGE} == "-lang"
-.  for i in ${FLAVOR:L}
-_flavor:=${_flavor},$i
+.  for i in ${FLAVOUR:L}
+_flavour:=${_flavour},$i
 .  endfor
-RUN_DEPENDS=		::editors/vim/stable${_flavor}
+RUN_DEPENDS=		::editors/vim/stable${_flavour}
 PKG_ARCH=		*
 .endif
 
@@ -59,25 +59,25 @@ PKG_ARCH=		*
 PKGNAME$i=		vim$i-${VERSION}-${DASH_VER}
 .endfor
 
-FLAVORS=		huge gtk gtk2 athena motif no_x11 perl python ruby
-FLAVOR?=		gtk
+FLAVOURS=		huge gtk gtk2 athena motif no_x11 perl python ruby
+FLAVOUR?=		gtk
 
 CONFIGURE_STYLE=	gnu
 CONFIGURE_ARGS+=	--with-tlib="curses" --enable-multibyte
 
-.if ${FLAVOR:Mopenmotif} || ${FLAVOR:Mlesstif}
-FLAVOR+=		motif
+.if ${FLAVOUR:Mopenmotif} || ${FLAVOUR:Mlesstif}
+FLAVOUR+=		motif
 .endif
 
-.if ${FLAVOR:L:Mhuge}
+.if ${FLAVOUR:L:Mhuge}
 CONFIGURE_ARGS+=	--with-features=huge
 .endif
 
-.if ${FLAVOR:L:Mperl}
+.if ${FLAVOUR:L:Mperl}
 CONFIGURE_ARGS+=	--enable-perlinterp
 .endif
 
-.if ${FLAVOR:L:Mpython}
+.if ${FLAVOUR:L:Mpython}
 PYTHON_VER=		2.3
 CONFIGURE_ENV+=		vi_cv_path_python=${LOCALBASE:Q}/bin/python${PYTHON_VER}
 CONFIGURE_ARGS+=	--enable-pythoninterp \
@@ -85,20 +85,20 @@ CONFIGURE_ARGS+=	--enable-pythoninterp \
 LIB_DEPENDS+=		python${PYTHON_VER}.0.0:python-${PYTHON_VER}*:lang/python/${PYTHON_VER}
 .endif
 
-.if ${FLAVOR:L:Mruby}
+.if ${FLAVOUR:L:Mruby}
 CONFIGURE_ARGS+=	--enable-rubyinterp
 MAKE_ENV+=		RUBY=${LOCALBASE:Q}/bin/ruby
 LIB_DEPENDS+=		ruby::lang/ruby
 .endif
 
-.if ${FLAVOR:L:Mno_x11} && \
-    !${FLAVOR:L:Mgtk} && !${FLAVOR:L:Mmotif} && !${FLAVOR:L:Mathena} && \
-    !${FLAVOR:L:Mgtk2}
+.if ${FLAVOUR:L:Mno_x11} && \
+    !${FLAVOUR:L:Mgtk} && !${FLAVOUR:L:Mmotif} && !${FLAVOUR:L:Mathena} && \
+    !${FLAVOUR:L:Mgtk2}
 CONFIGURE_ARGS+=	--disable-gui \
 			--without-x
-.elif ${FLAVOR:L:Mmotif} && \
-    !${FLAVOR:L:Mgtk} && !${FLAVOR:L:Mno_x11} && !${FLAVOR:L:Mathena} && \
-    !${FLAVOR:L:Mgtk2}
+.elif ${FLAVOUR:L:Mmotif} && \
+    !${FLAVOUR:L:Mgtk} && !${FLAVOUR:L:Mno_x11} && !${FLAVOUR:L:Mathena} && \
+    !${FLAVOUR:L:Mgtk2}
 USE_X11=		Yes
 CONFIGURE_ARGS+=	--enable-gui=motif \
 			--with-x \
@@ -106,17 +106,17 @@ CONFIGURE_ARGS+=	--enable-gui=motif \
 			--enable-xim
 CONFIGURE_ENV+=		MOTIFHOME=${X11BASE:Q}
 USE_MOTIF=		any
-.elif ${FLAVOR:L:Mathena} && \
-    !${FLAVOR:L:Mgtk} && !${FLAVOR:L:Mno_x11} && !${FLAVOR:L:Mmotif} && \
-    !${FLAVOR:L:Mgtk2}
+.elif ${FLAVOUR:L:Mathena} && \
+    !${FLAVOUR:L:Mgtk} && !${FLAVOUR:L:Mno_x11} && !${FLAVOUR:L:Mmotif} && \
+    !${FLAVOUR:L:Mgtk2}
 USE_X11=		Yes
 CONFIGURE_ARGS+=	--enable-gui=athena \
 			--with-x \
 			--enable-fontset \
 			--enable-xim
-.elif ${FLAVOR:L:Mgtk} && \
-    !${FLAVOR:L:Mmotif} && !${FLAVOR:L:Mno_x11} && !${FLAVOR:L:Mathena} && \
-    !${FLAVOR:L:Mgtk2}
+.elif ${FLAVOUR:L:Mgtk} && \
+    !${FLAVOUR:L:Mmotif} && !${FLAVOUR:L:Mno_x11} && !${FLAVOUR:L:Mathena} && \
+    !${FLAVOUR:L:Mgtk2}
 USE_X11=		Yes
 LIB_DEPENDS+=		gtk.1.2,gdk.1.2::x11/gtk+1
 CONFIGURE_ARGS+=	--enable-gui=gtk \
@@ -124,9 +124,9 @@ CONFIGURE_ARGS+=	--enable-gui=gtk \
 			--enable-fontset \
 			--enable-xim \
 			--disable-gtk2-check
-.elif ${FLAVOR:L:Mgtk2} && \
-    !${FLAVOR:L:Mmotif} && !${FLAVOR:L:Mno_x11} && !${FLAVOR:L:Mathena} && \
-    !${FLAVOR:L:Mgtk}
+.elif ${FLAVOUR:L:Mgtk2} && \
+    !${FLAVOUR:L:Mmotif} && !${FLAVOUR:L:Mno_x11} && !${FLAVOUR:L:Mathena} && \
+    !${FLAVOUR:L:Mgtk}
 USE_X11=		Yes
 MODULES+=		devel/pkgconfig
 LIB_DEPENDS+=		gdk-x11-2.0.0.11,gdk_pixbuf-2.0.0.11,gtk-x11-2.0.0.11::x11/gtk+

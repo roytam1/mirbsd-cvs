@@ -1,4 +1,4 @@
-# $MirOS: ports/net/mtr/Makefile,v 1.2 2005/03/30 18:13:42 bsiegert Exp $
+# $MirOS: ports/net/mtr/Makefile,v 1.3 2006/09/14 00:11:55 tg Exp $
 # $OpenBSD: Makefile,v 1.25 2003/10/09 08:40:27 jakob Exp $
 
 COMMENT=			Matt's traceroute - network diagnostic tool
@@ -25,10 +25,10 @@ CONFIGURE_STYLE=	gnu
 CONFIGURE_ARGS+=	--enable-ipv6
 USE_GMAKE=	yes
 
-FLAVORS=        no_x11
+FLAVOURS=        no_x11
 
-FLAVOR?=
-.if ${FLAVOR:L} == "no_x11"
+FLAVOUR?=
+.if ${FLAVOUR:L} == "no_x11"
 CONFIGURE_ARGS+=	--without-gtk
 .else
 USE_X11=		Yes

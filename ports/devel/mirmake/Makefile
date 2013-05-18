@@ -1,4 +1,4 @@
-# $MirOS: ports/devel/mirmake/Makefile,v 1.30 2008/02/24 12:50:52 tg Exp $
+# $MirOS: ports/devel/mirmake/Makefile,v 1.31 2008/03/09 16:42:41 tg Exp $
 #-
 # This port should contain no patches.
 
@@ -16,7 +16,7 @@ PERMIT_PACKAGE_CDROM=	Yes
 PERMIT_PACKAGE_FTP=	Yes
 
 # never ever set a flavour from the list below manually!
-FLAVORS=		wrapper setup
+FLAVOURS=		wrapper setup
 
 WRKDIST=		${WRKDIR}/mirmake
 NO_REGRESS=		Yes

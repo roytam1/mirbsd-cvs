@@ -10,22 +10,22 @@ PKGNAME=		amaya-${AMAYA_VERSION}-1
 
 HOMEPAGE=		http://www.w3.org/Amaya/
 
-FLAVORS=		motif gtk
-FLAVOR?=		motif
+FLAVOURS=		motif gtk
+FLAVOUR?=		motif
 
 LIB_DEPENDS+=	 	expat.2::textproc/expat
 
-.if ${FLAVOR:Mopenmotif} || ${FLAVOR:Mlesstif}
-FLAVOR+=		motif
+.if ${FLAVOUR:Mopenmotif} || ${FLAVOUR:Mlesstif}
+FLAVOUR+=		motif
 .endif
 
-.if ${FLAVOR:L} == "gtk"
+.if ${FLAVOUR:L} == "gtk"
 
 CONFIGURE_ARGS+=	--with-gtk=${LOCALBASE}
 # I'm too lazy to write a proper imlib autoconf test.
 LIB_DEPENDS+=		gdk_imlib.19::graphics/imlib
 
-.elif ${FLAVOR:Mmotif}
+.elif ${FLAVOUR:Mmotif}
 
 USE_MOTIF=		any
 LIB_DEPENDS+=		jpeg.62::graphics/jpeg
@@ -35,7 +35,7 @@ CONFIGURE_ARGS+=	--without-gtk \
 			--with-motif-libraries=${LOCALBASE}/lib
 
 .else
-ERRORS+=		"Fatal: Conflicting or missing flavor: '${FLAVOR}'"
+ERRORS+=		"Fatal: Conflicting or missing flavour: '${FLAVOUR}'"
 .endif
 
 WRKSRC=			${WRKDIR}/Amaya

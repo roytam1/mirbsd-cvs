@@ -1,4 +1,4 @@
-# $MirOS: ports/devel/pcre/Makefile,v 1.8 2007/11/20 21:14:11 bsiegert Exp $
+# $MirOS: ports/devel/pcre/Makefile,v 1.9 2008/02/25 10:04:09 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.12 2004/01/14 17:21:52 jakob Exp $
 
 COMMENT=		perl-compatible regular expression library
@@ -14,8 +14,8 @@ PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
-FLAVORS=		no_cxx
-FLAVOR?=
+FLAVOURS=		no_cxx
+FLAVOUR?=
 
 CONFIGURE_STYLE=	autoconf
 AUTOCONF_NEW=		Yes
@@ -25,7 +25,7 @@ CONFIGURE_ARGS+=	${CONFIGURE_SHARED} \
 			--enable-unicode-properties \
 			--enable-newline-is-any
 
-.if ${FLAVOR:Mno_cxx}
+.if ${FLAVOUR:Mno_cxx}
 CONFIGURE_ARGS+=	--disable-cpp
 .else
 USE_CXX=		Yes

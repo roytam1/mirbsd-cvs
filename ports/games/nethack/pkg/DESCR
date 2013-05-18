@@ -12,7 +12,7 @@ Xserver(1), also /usr/X11R6/lib/X11/xdm or
 The tty version with colors uses ANSI colors, unless it finds a suitable
 termcap entry, for instance xterm-color. 
 
-Flavors:
+Flavours:
 no_x11
 	runs without X11.
 qt

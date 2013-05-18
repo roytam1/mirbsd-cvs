@@ -3,6 +3,6 @@ Icecast v1 and v2 servers. Due to Perl being shipped on OpenBSD by
 default, custom playlist handlers written in Perl are always supported
 by this port.
 
-Flavor:
+Flavour:
 
   python      - support custom playlist handlers written in Python

@@ -1,4 +1,4 @@
-# $MirOS: ports/mailnews/sylpheed-claws/Makefile,v 1.6 2006/09/14 00:10:50 tg Exp $
+# $MirOS: ports/mailnews/sylpheed-claws/Makefile,v 1.7 2007/04/12 20:24:59 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.5 2004/02/04 07:39:18 sturm Exp $
 
 COMMENT=			lightweight GTK+ based mail/news client
@@ -38,18 +38,18 @@ CONFIGURE_ARGS=		--enable-ipv6 --enable-openssl \
 			--enable-spamassassin-plugin \
 			--enable-dillo-viewer-plugin
 
-FLAVORS=		compface gpgme jpilot ldap pixbuf
-FLAVOR?=
+FLAVOURS=		compface gpgme jpilot ldap pixbuf
+FLAVOUR?=
 
 MULTI_PACKAGES=		-dillo -imageviewer -spamassassin -themes
 
 # Need GNU/aspell >= 0.50
-#.if ${FLAVOR:L:Maspell}
+#.if ${FLAVOUR:L:Maspell}
 #LIB_DEPENDS+=		aspell::textproc/aspell
 #CONFIGURE_ARGS+=	--enable-aspell
 #.endif
 
-.if ${FLAVOR:L:Mcompface}
+.if ${FLAVOUR:L:Mcompface}
 PERMIT_PACKAGE_CDROM=   "No Fee"
 PERMIT_DISTFILES_CDROM= "No Fee"
 LIB_DEPENDS+=		compface.1::mailnews/faces
@@ -58,23 +58,23 @@ CONFIGURE_ARGS+=	--enable-compface
 CONFIGURE_ARGS+=	--disable-compface
 .endif
 
-.if ${FLAVOR:L:Mgpgme}
+.if ${FLAVOUR:L:Mgpgme}
 LIB_DEPENDS+=		gpgme.4::security/gpgme
 CONFIGURE_ARGS+=	--enable-gpgme
 .endif
 
-.if ${FLAVOR:L:Mjpilot}
+.if ${FLAVOUR:L:Mjpilot}
 LIB_DEPENDS+=		pisock.4::comms/pilot-link
 RUN_DEPENDS+=		:jpilot-*:comms/jpilot
 CONFIGURE_ARGS+= 	--enable-jpilot
 .endif
 
-.if ${FLAVOR:L:Mldap}
+.if ${FLAVOUR:L:Mldap}
 LIB_DEPENDS+=		ldap.2,lber.2:openldap-client-*:databases/openldap
 CONFIGURE_ARGS+=	--enable-ldap
 .endif
 
-.if !${FLAVOR:L:Mpixbuf}
+.if !${FLAVOUR:L:Mpixbuf}
 LIB_DEPENDS+=		gdk_imlib.19::graphics/imlib
 CONFIGURE_ARGS+=	--enable-imblib --disable-gdk-pixbuf
 .else

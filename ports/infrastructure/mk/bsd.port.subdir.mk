@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.subdir.mk,v 1.9 2007/04/03 22:08:30 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.subdir.mk,v 1.10 2007/05/07 23:40:20 tg Exp $
 # $OpenBSD: bsd.port.subdir.mk,v 1.64 2004/04/07 13:06:33 espie Exp $
 # $FreeBSD: bsd.port.subdir.mk,v 1.20 1997/08/22 11:16:15 asami Exp $
 #
@@ -91,7 +91,7 @@ _subdir_fragment= \
 			while read flavour; do \
 				f=$$([[ -z $$flavour ]] || echo "$$flavour" \
 				    | sed -e 's/ /,/g'); \
-				tmp_toset="$$toset FLAVOR=\"$$flavour\""; \
+				tmp_toset="$$toset FLAVOUR=\"$$flavour\""; \
 				eval $${echo_msg} "===\> $$dir,$$f"; \
 				if ! eval $$tmp_toset ${MAKE} $$target; then \
 					${REPORT_PROBLEM}; \
@@ -125,7 +125,7 @@ clean:
 .if defined(clean) && ${clean:L:Mdepends}
 	@{ target=all-dir-depends; echo_msg=:; \
 	${_depfile_fragment}; ${_subdir_fragment}; }| tsort -r|while read dir; do \
-		unset FLAVOR SUBPACKAGE || true; \
+		unset FLAVOUR SUBPACKAGE || true; \
 		${_flavour_fragment}; \
 		eval $$toset ${MAKE} _CLEANDEPENDS=No clean; \
 	done

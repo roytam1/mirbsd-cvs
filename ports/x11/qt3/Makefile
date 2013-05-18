@@ -1,4 +1,4 @@
-# $MirOS: ports/x11/qt3/Makefile,v 1.11 2006/02/09 11:15:54 tg Exp $
+# $MirOS: ports/x11/qt3/Makefile,v 1.12 2006/09/14 00:15:35 tg Exp $
 # $OpenBSD: Makefile,v 1.58 2006/01/02 16:59:37 espie Exp $
 # $FreeBSD: Makefile,v 1.33 1999/02/27 03:09:57 andreas Exp $
 
@@ -34,9 +34,9 @@ pre-configure:
 
 HOMEPAGE=		http://www.trolltech.com/qt/
 
-FLAVORS=		debug
-PSEUDO_FLAVORS=		mt no_mysql no_postgresql
-FLAVOR?=		no_mysql no_postgresql
+FLAVOURS=		debug
+PSEUDO_FLAVOURS=		mt no_mysql no_postgresql
+FLAVOUR?=		no_mysql no_postgresql
 
 # GPL/QPL
 PERMIT_PACKAGE_CDROM=	Yes
@@ -80,7 +80,7 @@ CONFIGURE_ARGS+=	-qt-gif -system-libmng -system-libpng \
 
 MULTI_PACKAGES+=	-html
 
-.if ${FLAVOR:L:Mdebug}
+.if ${FLAVOUR:L:Mdebug}
 CONFIGURE_ARGS+=	-debug
 PKGDEBUG=		-debug
 .else
@@ -89,7 +89,7 @@ PKGDEBUG=
 
 CONFIGURE_ARGS+=	-thread
 
-.if !${FLAVOR:L:Mdebug}
+.if !${FLAVOUR:L:Mdebug}
 MULTI_PACKAGES+=	-examples
 .else
 ALL_TARGET=		sub-src sub-tools
@@ -108,14 +108,14 @@ BUILD_DEPENDS+=		::graphics/jpeg
 #BUILD_DEPENDS+=	::print/cups
 
 e=
-.if ${FLAVOR:L:Mno_mysql}
+.if ${FLAVOUR:L:Mno_mysql}
 e:=$e,no_mysql
 .endif
-.if ${FLAVOR:L:Mno_postgresql}
+.if ${FLAVOUR:L:Mno_postgresql}
 e:=$e,no_postgresql
 .endif
 
-.if !empty(FLAVOR:L:Mno_mysql)
+.if !empty(FLAVOUR:L:Mno_mysql)
 CONFIGURE_ARGS+=	-no-sql-mysql
 .else
 MULTI_PACKAGES+=	-mysql
@@ -126,7 +126,7 @@ CONFIGURE_ARGS+=	-I${LOCALBASE}/include/mysql -L${LOCALBASE}/lib/mysql \
 			-plugin-sql-mysql
 .endif
 
-.if !empty(FLAVOR:L:Mno_postgresql)
+.if !empty(FLAVOUR:L:Mno_postgresql)
 CONFIGURE_ARGS+=	-no-sql-psql
 .else
 MULTI_PACKAGES+=	-postgresql
@@ -181,7 +181,7 @@ post-patch:
 	print '%g/@@CC@@/s//${CC}/\n%g/@@CXX@@/s//${CXX}/\nwq' \
 	    | ed -s ${WRKSRC}/mkspecs/openbsd-g++/qmake.conf
 
-.if !${FLAVOR:L:Mdebug}
+.if !${FLAVOUR:L:Mdebug}
 post-configure:
 	@cd ${WRKSRC} && cp -R examples examples-src
 	@find ${WRKSRC}/examples-src -name '*.orig' |xargs rm -f
@@ -272,11 +272,11 @@ do-install:
 		${QT_PLUGINSDIR}/sqldrivers ${QT_PLUGINSDIR}/styles \
 		${QT_PLUGINSDIR}/inputmethods
 
-.if empty(FLAVOR:L:Mno_postgresql)
+.if empty(FLAVOUR:L:Mno_postgresql)
 	${INSTALL_DATA} ${WRKBUILD}/plugins/sqldrivers/libqsqlpsql.so \
 	    ${QT_PLUGINSDIR}/sqldrivers
 .endif
-.if empty(FLAVOR:L:Mno_mysql)
+.if empty(FLAVOUR:L:Mno_mysql)
 	${INSTALL_DATA} ${WRKBUILD}/plugins/sqldrivers/libqsqlmysql.so \
 	    ${QT_PLUGINSDIR}/sqldrivers
 .endif

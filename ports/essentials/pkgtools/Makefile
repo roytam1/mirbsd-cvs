@@ -1,4 +1,4 @@
-# $MirOS: ports/essentials/pkgtools/Makefile,v 1.43 2007/09/07 21:06:36 tg Exp $
+# $MirOS: ports/essentials/pkgtools/Makefile,v 1.44 2007/10/03 17:49:17 tg Exp $
 #-
 # This port should contain no patches, to aid the installer,
 # and have no dependencies, to aid the upgrading sysop.
@@ -24,7 +24,7 @@ PERMIT_PACKAGE_CDROM=	Yes
 PERMIT_PACKAGE_FTP=	Yes
 
 # never ever set a flavour from the list below manually!
-FLAVORS=		opt_t
+FLAVOURS=		opt_t
 
 WRKDIST=		${WRKDIR}/pkgtools
 NO_REGRESS=		Yes

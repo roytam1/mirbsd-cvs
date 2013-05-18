@@ -3,7 +3,7 @@ enough of the x86 CPU (by default it emulates 586 instruction set),
 related AT hardware, and BIOS to run DOS, Windows 95/98, Minix 2.0 and
 other OS's, all on your workstation.
 
-Flavors:
+Flavours:
 	debug   - build with Bochs' internal debugging support
 	i386    - emulate 386 instruction set
 	i486    - emulate 486 instruction set

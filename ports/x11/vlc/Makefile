@@ -1,4 +1,4 @@
-# $MirOS: ports/x11/vlc/Makefile,v 1.5 2006/02/09 11:15:55 tg Exp $
+# $MirOS: ports/x11/vlc/Makefile,v 1.6 2006/09/14 00:15:41 tg Exp $
 # $OpenBSD: Makefile,v 1.11 2004/04/28 01:30:53 jolan Exp $
 
 COMMENT=			videolan client; multimedia player
@@ -52,8 +52,8 @@ CONFIGURE_ARGS+=--disable-oss \
 
 USE_CXX=	Yes
 
-FLAVORS=	no_dvd
-FLAVOR?=
+FLAVOURS=	no_dvd
+FLAVOUR?=
 
 .if ${MACHINE_ARCH} == "i386"
 SED_PLIST+=	|sed -e '/^IF${MACHINE_ARCH}:/s///'
@@ -72,7 +72,7 @@ SED_PLIST+=	|sed -e '/^IFpowerpc:/d'
 CFLAGS+=-mhard-quad-float
 .endif
 
-.if ${FLAVOR:L:Mno_dvd}
+.if ${FLAVOUR:L:Mno_dvd}
 CONFIGURE_ARGS+=--disable-a52 --disable-dvdplay --disable-dvdread
 .else
 CONFIGURE_ARGS+=--enable-a52 --enable-dvdplay --enable-dvdread

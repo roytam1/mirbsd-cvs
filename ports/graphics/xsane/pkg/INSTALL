@@ -1,5 +1,5 @@
 #!/bin/sh
-# $MirOS$
+# $MirOS: ports/graphics/xsane/pkg/INSTALL,v 1.1.7.1 2005/03/18 15:47:15 tg Exp $
 #
 # pre/post-installation setup of xsane
 
@@ -13,7 +13,7 @@ do_notice()
 {
     echo ""
     echo "+--------------------"
-    echo "| If you installed the "gimp" flavor of xsane, you can"
+    echo "| If you installed the "gimp" flavour of xsane, you can"
     echo "| make the xsane gimp-plugin available globally by"
     echo "| issuing the following command as root:"
     echo "|  --> ln -s ${PREFIX}/bin/xsane ${PREFIX}/lib/gimp/1.2/plug-ins/"

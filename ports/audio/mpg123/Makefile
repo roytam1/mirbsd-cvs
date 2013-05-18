@@ -1,4 +1,4 @@
-# $MirOS: ports/audio/mpg123/Makefile,v 1.4 2006/09/04 18:57:25 tg Exp $
+# $MirOS: ports/audio/mpg123/Makefile,v 1.5 2006/09/14 00:07:11 tg Exp $
 # $OpenBSD: Makefile,v 1.30 2003/11/13 20:51:50 margarida Exp $
 
 ONLY_FOR_PLATFORM=	MirBSD:*:* OpenBSD:*:*
@@ -26,8 +26,8 @@ PATCHFILES=		mpg123-059r-v6-20000713b.diff.gz:0 \
 			l3.diff.gz:1
 PATCH_DIST_STRIP=	-p1
 
-FLAVORS=		esd
-FLAVOR?=
+FLAVOURS=		esd
+FLAVOUR?=
 
 OBJECTS=		term.o
 CPPFLAGS+=		-DOPENBSD -DREAL_IS_FLOAT -DTERM_CONTROL -DINET6 \
@@ -42,7 +42,7 @@ OBJECTS+=		decode_i386.o decode_i586.o dct64_i386.o
 OBJECTS+=		decode.o dct64.o
 .endif
 
-.if ${FLAVOR:L:Mesd}
+.if ${FLAVOUR:L:Mesd}
 LIB_DEPENDS=		esd.2::audio/esound
 OBJECTS+=		audio_esd.o
 .else

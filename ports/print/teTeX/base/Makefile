@@ -1,4 +1,4 @@
-# $MirOS: ports/print/teTeX/base/Makefile,v 1.7 2007/03/04 23:30:29 tg Exp $
+# $MirOS: ports/print/teTeX/base/Makefile,v 1.8 2007/03/08 10:15:10 tg Exp $
 # $OpenBSD: Makefile,v 1.25 2003/04/04 21:19:23 sturm Exp $
 
 COMMENT=		TeX distribution, executables
@@ -32,9 +32,9 @@ CONFIGURE_ARGS+=	--disable-multiplatform \
 			--with-pnglib-include=${LOCALBASE}/include/libpng \
 			--with-system-zlib
 
-FLAVORS=		no_x11
-FLAVOR?=
-.if ${FLAVOR:L:Mno_x11}
+FLAVOURS=		no_x11
+FLAVOUR?=
+.if ${FLAVOUR:L:Mno_x11}
 CONFIGURE_ARGS+=	--without-x
 .else
 CONFIGURE_ARGS+=	--with-system-t1lib \

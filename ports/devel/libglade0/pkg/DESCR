@@ -2,7 +2,7 @@ This library allows you to load glade interface files in a program at runtime.
 It doesn't require GLADE to be used, but GLADE is by far the easiest way to
 create the interface files.
 
-Available flavors:
+Available flavours:
 
 	gnome: Build with GNOME support
 

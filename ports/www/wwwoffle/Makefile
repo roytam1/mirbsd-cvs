@@ -18,10 +18,10 @@ MASTER_SITES=		${MASTER_SITE_SUNSITE:=apps/www/servers/} \
 
 EXTRACT_SUFX=		.tgz
 
-FLAVORS=		de fr es ru pl it
-FLAVOR?=		
+FLAVOURS=		de fr es ru pl it
+FLAVOUR?=		
 
-MAKE_ENV=		FLAVOR="${FLAVOR}"
+MAKE_ENV=		FLAVOUR="${FLAVOUR}"
 MAKE_FLAGS=		prefix="${PREFIX}"
 
 NO_REGRESS=		Yes

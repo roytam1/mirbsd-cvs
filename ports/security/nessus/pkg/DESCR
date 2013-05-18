@@ -17,5 +17,5 @@ What is the Nessus Project ?
        not an easy thing.  Thus, the Nessus project provides a simple
        interface which clearly highlights the security holes.
 
-Flavors:
+Flavours:
 	no_x11		no X11 frontend

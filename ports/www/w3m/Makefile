@@ -1,4 +1,4 @@
-# $MirOS: ports/www/w3m/Makefile,v 1.7 2006/12/20 15:32:08 tg Exp $
+# $MirOS: ports/www/w3m/Makefile,v 1.8 2007/05/28 13:35:47 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.59 2005/02/22 10:23:39 alek Exp $
 
 COMMENT=		pager/text-based web browser
@@ -20,8 +20,8 @@ MASTER_SITES0=	http://www2u.biglobe.ne.jp/~hsaka/w3m/patch/
 MODULES=	devel/gettext
 LIB_DEPENDS=	gc.1::devel/boehm-gc
 
-FLAVORS=	image japanese
-FLAVOR?=
+FLAVOURS=	image japanese
+FLAVOUR?=
 
 CONFIGURE_STYLE=gnu
 CONFIGURE_ARGS=	--disable-xface \
@@ -35,7 +35,7 @@ DOCS=	FAQ.html HISTORY MANUAL.html README README.dict README.func \
 	README.m17n README.mouse README.pre_form README.tab STORY.html \
 	keymap.default keymap.lynx menu.default menu.submenu
 
-.if ${FLAVOR:L:Mimage}
+.if ${FLAVOUR:L:Mimage}
 LIB_DEPENDS+=	gdk_pixbuf.2,gdk_pixbuf_xlib.2::graphics/gdk-pixbuf
 CONFIGURE_ARGS+=--with-imagelib=gdk-pixbuf
 DOCS+=		README.img
@@ -43,8 +43,8 @@ DOCS+=		README.img
 CONFIGURE_ARGS+=--enable-image=no
 .endif
 
-.if ${FLAVOR:L:Mjapanese}
-FULLPKGNAME=	ja-${DISTNAME}-${DASH_VER}${FLAVOR_EXT:S/-japanese//}
+.if ${FLAVOUR:L:Mjapanese}
+FULLPKGNAME=	ja-${DISTNAME}-${DASH_VER}${FLAVOUR_EXT:S/-japanese//}
 CATEGORIES+=	japanese
 CONFIGURE_ARGS+=--enable-japanese=E
 DOCS+=		README.SSL README.cookie README.keymap \

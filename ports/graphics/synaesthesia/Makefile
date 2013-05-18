@@ -16,8 +16,8 @@ PERMIT_DISTFILES_FTP=	Yes
 MASTER_SITES=		http://yoyo.cc.monash.edu.au/~pfh/
 
 # esound default so it works with mpg123-esd and not just CDs
-FLAVORS=	esd
-FLAVOR?=	esd
+FLAVOURS=	esd
+FLAVOUR?=	esd
 
 LIB_DEPENDS=		SDL.::devel/sdl
 
@@ -26,7 +26,7 @@ USE_GMAKE=		Yes
 USE_CXX=		Yes
 CONFIGURE_STYLE=	gnu
 
-.if ${FLAVOR:L:Mesd}
+.if ${FLAVOUR:L:Mesd}
 LIB_DEPENDS+=	esd.2::audio/esound
 CONFIGURE_ARGS+=	--with-esound
 .else

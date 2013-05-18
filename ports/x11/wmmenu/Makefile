@@ -20,10 +20,10 @@ USE_X11=		Yes
 
 LIB_DEPENDS=		dockapp::devel/libdockapp
 
-FLAVORS=		gdk_pixbuf
-FLAVOR?=
+FLAVOURS=		gdk_pixbuf
+FLAVOUR?=
 
-.if ${FLAVOR:L:Mgdk_pixbuf}
+.if ${FLAVOUR:L:Mgdk_pixbuf}
 MAKE_FLAGS=		GDKPIXBUF=1
 LIB_DEPENDS+=		gdk_pixbuf_xlib::graphics/gdk-pixbuf
 .endif

@@ -150,7 +150,7 @@ lib/ruby/${REV}/matrix.rb
 lib/ruby/${REV}/md5.rb
 lib/ruby/${REV}/mkmf.rb
 lib/ruby/${REV}/monitor.rb
-lib/ruby/${REV}/multi${FLAVOR_EXT}.rb
+lib/ruby/${REV}/multi${FLAVOUR_EXT}.rb
 lib/ruby/${REV}/mutex_m.rb
 lib/ruby/${REV}/net/ftp.rb
 lib/ruby/${REV}/net/ftptls.rb

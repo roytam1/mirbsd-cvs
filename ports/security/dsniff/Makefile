@@ -1,4 +1,4 @@
-# $MirOS: ports/security/dsniff/Makefile,v 1.1.7.1 2005/03/18 15:51:23 tg Exp $
+# $MirOS: ports/security/dsniff/Makefile,v 1.2 2006/09/14 00:12:57 tg Exp $
 # $OpenBSD: Makefile,v 1.32 2004/05/07 15:28:31 naddy Exp $
 
 COMMENT=			sniffing tools for penetration testing
@@ -17,10 +17,10 @@ PERMIT_DISTFILES_FTP=	Yes
 
 CONFIGURE_STYLE=	autoconf
 
-FLAVORS=		no_x11
-FLAVOR?=
+FLAVOURS=		no_x11
+FLAVOUR?=
 
-.if ${FLAVOR:L} == "no_x11"
+.if ${FLAVOUR:L} == "no_x11"
 CONFIGURE_ARGS+=	--without-x
 .else
 USE_X11=		Yes

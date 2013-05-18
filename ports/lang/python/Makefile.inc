@@ -1,4 +1,4 @@
-# $MirOS: ports/lang/python/Makefile.inc,v 1.12 2007/08/24 14:23:40 tg Exp $
+# $MirOS: ports/lang/python/Makefile.inc,v 1.13 2007/12/29 16:57:34 bsiegert Exp $
 # $OpenBSD: Makefile.inc,v 1.32 2005/06/06 20:47:04 alek Exp $
 
 .include <mirports.sys.mk>
@@ -35,11 +35,11 @@ PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
-FLAVORS+=		no_bsddb no_cxx no_expat no_gdbm no_idle no_mpz no_tkinter
-FLAVOR?=		no_bsddb
+FLAVOURS+=		no_bsddb no_cxx no_expat no_gdbm no_idle no_mpz no_tkinter
+FLAVOUR?=		no_bsddb
 
-.if ${FLAVOR:L:Mno_cxx}
-FLAVOR+=		no_bsddb no_expat no_gdbm no_idle no_mpz no_tkinter
+.if ${FLAVOUR:L:Mno_cxx}
+FLAVOUR+=		no_bsddb no_expat no_gdbm no_idle no_mpz no_tkinter
 CONFIGURE_ARGS+=	--without-cxx
 MULTI_PACKAGES=
 .else
@@ -60,7 +60,7 @@ CPPFLAGS+=		-I${WRKDIR}/include	# XXX hack, see below
 .if defined(PACKAGING)
 #  All subpackages depend on the main python package.
 .  if !empty(SUBPACKAGE)
-.    if ${FLAVOR:L:Mno_cxx}
+.    if ${FLAVOUR:L:Mno_cxx}
 RUN_DEPENDS+=		::lang/python/${VERSION},no_cxx
 .    else
 RUN_DEPENDS+=		::lang/python/${VERSION}
@@ -69,13 +69,13 @@ LIB_DEPENDS=
 .  endif
 .endif
 
-# On architectures with shared libs, no_xxx flavors are a convenient
+# On architectures with shared libs, no_xxx flavours are a convenient
 # way to avoid pulling in dependencies, and don't actually show up
 # in the final package names.  On architectures without shared libs,
-# no_xxx flavors dictate what gets linked into the Python binary.
+# no_xxx flavours dictate what gets linked into the Python binary.
 
-.if empty(FLAVOR:L:Mno_bsddb)
-.  if ${FLAVOR:L:Mno_cxx}
+.if empty(FLAVOUR:L:Mno_bsddb)
+.  if ${FLAVOUR:L:Mno_cxx}
 BUILD_DEPENDS+=		::databases/db,no_cxx
 .  else
 BUILD_DEPENDS+=		::databases/db
@@ -92,7 +92,7 @@ LIB_DEPENDS+=		db.4.2::databases/db
 LIB_DEPENDS+=		db.4.2::databases/db
 .endif
 
-.if empty(FLAVOR:L:Mno_gdbm)
+.if empty(FLAVOUR:L:Mno_gdbm)
 BUILD_DEPENDS+=		::databases/gdbm
 SETUP_LOCAL+=		Setup.gdbm
 .  if !defined(NO_SHARED_LIBS) || ${NO_SHARED_LIBS:U} != YES
@@ -106,7 +106,7 @@ LIB_DEPENDS+=		gdbm.3::databases/gdbm
 LIB_DEPENDS+=		gdbm.3::databases/gdbm
 .endif
 
-.if empty(FLAVOR:L:Mno_idle) && empty(FLAVOR:L:Mno_tkinter)
+.if empty(FLAVOUR:L:Mno_idle) && empty(FLAVOUR:L:Mno_tkinter)
 .  if !defined(NO_SHARED_LIBS) || ${NO_SHARED_LIBS:U} != YES
 MULTI_PACKAGES+=	-idle
 .  endif
@@ -116,7 +116,7 @@ MULTI_PACKAGES+=	-idle
 RUN_DEPENDS+=		::lang/python/${VERSION},-tkinter
 .endif
 
-.if empty(FLAVOR:L:Mno_tkinter)
+.if empty(FLAVOUR:L:Mno_tkinter)
 USE_X11=		Yes
 BUILD_DEPENDS+=		::x11/tk/8.4
 SETUP_LOCAL+=		Setup.tkinter
@@ -136,7 +136,7 @@ SED_PLIST+=		| sed -e '/^%%tkinter%%/d'
 LIB_DEPENDS+=		tk84::x11/tk/8.4
 .endif
 
-.if empty(FLAVOR:L:Mno_mpz) && ${VERSION} == "2.3"
+.if empty(FLAVOUR:L:Mno_mpz) && ${VERSION} == "2.3"
 BUILD_DEPENDS+=		::devel/gmp
 SETUP_LOCAL+=		Setup.mpz
 .  if !defined(NO_SHARED_LIBS) || ${NO_SHARED_LIBS:U} != YES
@@ -156,7 +156,7 @@ MODPY_LOCAL_EXPAT=	# nothing, it’s in base since MirOS #8
 MODPY_LOCAL_EXPAT=	expat.4.0:expat->=1.95.6:textproc/expat
 .endif
 
-.if empty(FLAVOR:L:Mno_expat) && ${VERSION} == "2.3"
+.if empty(FLAVOUR:L:Mno_expat) && ${VERSION} == "2.3"
 SETUP_LOCAL+=		Setup.expat
 .  if !defined(NO_SHARED_LIBS) || ${NO_SHARED_LIBS:U} != YES
 .    if !defined(PACKAGING)
@@ -172,11 +172,11 @@ LIB_DEPENDS+=		${MODPY_LOCAL_EXPAT}
 LIB_DEPENDS+=		${MODPY_LOCAL_EXPAT}
 .endif
 
-# Strip off no_xxx flavors from the package name if we are not
+# Strip off no_xxx flavours from the package name if we are not
 # building the "monster" Python for platforms without shared libraries.
 
 .if !defined(NO_SHARED_LIBS) || ${NO_SHARED_LIBS:U} != YES
-FULLPKGNAME=		${PKGNAME}${FLAVOR_EXT:S/-no_bsddb//:S/-no_expat//:S/-no_gdbm//:S/-no_idle//:S/-no_mpz//:S/-no_tkinter//}
+FULLPKGNAME=		${PKGNAME}${FLAVOUR_EXT:S/-no_bsddb//:S/-no_expat//:S/-no_gdbm//:S/-no_idle//:S/-no_mpz//:S/-no_tkinter//}
 .endif
 
 FULLPKGNAME-bsddb=	python-bsddb-${VERSION}${PATCHLEVEL}-${DASH_VER}

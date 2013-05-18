@@ -18,8 +18,8 @@ PERMIT_PACKAGE_FTP=     Yes
 PERMIT_DISTFILES_CDROM= Yes
 PERMIT_DISTFILES_FTP=   Yes
 
-FLAVORS=	apop 
-FLAVOR?=
+FLAVOURS=	apop 
+FLAVOUR?=
 
 CONFIGURE_STYLE= gnu
 CONFIGURE_ARGS+= --localstatedir="/var/spool/spop3d" \
@@ -30,7 +30,7 @@ CONFIGURE_ARGS+= --localstatedir="/var/spool/spop3d" \
 NO_REGRESS=	Yes
 
 # enable support for APOP authentication.
-.if ${FLAVOR:L:Mapop}
+.if ${FLAVOUR:L:Mapop}
 CONFIGURE_ARGS+= --enable-userconfig --enable-apop
 PKGNAME=${DISTNAME}-1
 .else

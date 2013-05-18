@@ -19,10 +19,10 @@ MASTER_SITES=		${HOMEPAGE}dl/
 MAKE_ENV=		CC="${CC}"
 USE_X11=		Yes
 
-FLAVORS=		zoltrix
-FLAVOR?=
+FLAVOURS=		zoltrix
+FLAVOUR?=
 
-.if ${FLAVOR:L} == "zoltrix"
+.if ${FLAVOUR:L} == "zoltrix"
 CFLAGS+=		-DZOLTRIX
 BINMODE=		4555
 ONLY_FOR_PLATFORM=	OpenBSD:*:i386 MirBSD:*:i386

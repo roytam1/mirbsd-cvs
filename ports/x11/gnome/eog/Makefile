@@ -1,4 +1,4 @@
-# $MirOS: ports/x11/gnome/eog/Makefile,v 1.3 2006/09/14 00:15:16 tg Exp $
+# $MirOS: ports/x11/gnome/eog/Makefile,v 1.4 2007/04/18 20:05:04 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.6 2005/02/13 18:50:25 alek Exp $
 
 COMMENT=		Eye of GNOME: an image viewing and cataloging program
@@ -33,10 +33,10 @@ AUTOCONF_NEW=		Yes
 CONFIGURE_ARGS+=	--with-gconf-schema-file-dir=${LOCALBASE}/share/schemas/eog \
 			--disable-schemas-install
 
-FLAVORS=		exif
-FLAVOR?=
+FLAVOURS=		exif
+FLAVOUR?=
 
-.if ${FLAVOR:L:Mexif}
+.if ${FLAVOUR:L:Mexif}
 CONFIGURE_ARGS+=	--with-libexif
 LIB_DEPENDS+=		exif::graphics/libexif
 .else

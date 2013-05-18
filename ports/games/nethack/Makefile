@@ -25,12 +25,12 @@ FAKE_FLAGS=PREFIX=${PREFIX} DESTDIR=${WRKINST}
 NHDIR=	${PREFIX}/lib/nethackdir
 MAKE_ENV+= NHDIR=${NHDIR} NETHACKCONFIG=${NETHACKCONFIG}
 
-FLAVORS=no_x11 qt
-FLAVOR?=
+FLAVOURS=no_x11 qt
+FLAVOUR?=
 
-.if ${FLAVOR:L} == "no_x11"
+.if ${FLAVOUR:L} == "no_x11"
 NETHACKCONFIG=${FILESDIR}/simple-config
-.elif ${FLAVOR:L} == "qt"
+.elif ${FLAVOUR:L} == "qt"
 SED_PLIST=|sed -e '/^!%%no_x11%%/d'
 NETHACKCONFIG=${FILESDIR}/qt-config
 MODULES=	x11/qt3
@@ -54,7 +54,7 @@ post-install:
 	${INSTALL_PROGRAM} ${WRKBUILD}/util/recover ${PREFIX}/bin
 	@cd ${WRKSRC}/doc && \
 	    ${INSTALL_MAN} nethack.6 recover.6 ${PREFIX}/man/man6
-.if ${FLAVOR:L} == ""
+.if ${FLAVOUR:L} == ""
 	${INSTALL_DATA_DIR} ${PREFIX}/lib/X11/app-defaults
 	@cd ${WRKSRC}/win/X11 && cp NetHack.ad NetHack && \
 	    ${INSTALL_DATA} NetHack ${PREFIX}/lib/X11/app-defaults

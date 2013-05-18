@@ -1,4 +1,4 @@
-# $MirOS: ports/comms/pilot-link/Makefile,v 1.2 2005/07/07 21:18:02 bsiegert Exp $
+# $MirOS: ports/comms/pilot-link/Makefile,v 1.3 2006/09/14 00:07:36 tg Exp $
 # $OpenBSD: Makefile,v 1.31 2003/10/07 17:17:31 fgsch Exp $
 
 COMMENT=			PalmPilot communication utilities
@@ -19,8 +19,8 @@ HOMEPAGE=	http://www.pilot-link.org
 
 MASTER_SITES=	${HOMEPAGE}/source/
 
-FLAVORS=	debug
-FLAVOR?=
+FLAVOURS=	debug
+FLAVOUR?=
 
 USE_GMAKE=	Yes
 CONFIGURE_STYLE= autoconf
@@ -31,7 +31,7 @@ CONFIGURE_ARGS= --enable-static \
 		--without-python \
 		--without-java
 
-.if ${FLAVOR:L:Mdebug} 
+.if ${FLAVOUR:L:Mdebug} 
 LIB_DEPENDS=	tk83::x11/tk/8.3
 .else
 CONFIGURE_ARGS+= --without-tk

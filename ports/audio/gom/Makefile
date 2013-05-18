@@ -1,4 +1,4 @@
-# $MirOS: ports/audio/gom/Makefile,v 1.2 2006/02/09 09:35:36 tg Exp $
+# $MirOS: ports/audio/gom/Makefile,v 1.3 2006/09/14 00:07:01 tg Exp $
 # $OpenBSD: Makefile,v 1.16 2002/12/29 19:29:56 fgsch Exp $
 
 COMMENT=			generic audio mixer
@@ -14,14 +14,14 @@ PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
-FLAVORS=	no_x11
-FLAVOR?=
+FLAVOURS=	no_x11
+FLAVOUR?=
 
 AUTOCONF_NEW=	Yes
 CONFIGURE_STYLE=autoconf
 CONFIGURE_ARGS+= ${CONFIGURE_SHARED}
 
-.if ${FLAVOR:L:Mno_x11}
+.if ${FLAVOUR:L:Mno_x11}
 CONFIGURE_ARGS+= --disable-x-gomii
 .else
 CONFIGURE_ARGS+= --enable-x-gomii
