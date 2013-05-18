@@ -1,4 +1,4 @@
-/* $MirOS: src/usr.sbin/httpd/src/include/http_conf_globals.h,v 1.3 2005/04/17 04:38:32 tg Exp $ */
+/* $MirOS: src/usr.sbin/httpd/src/include/http_conf_globals.h,v 1.4 2006/09/20 23:45:04 tg Exp $ */
 /* $OpenBSD: http_conf_globals.h,v 1.16 2006/02/22 15:07:12 henning Exp $ */
 
 /* ====================================================================
@@ -82,6 +82,9 @@ extern API_VAR_EXPORT int ap_max_data_per_child;
 extern API_VAR_EXPORT int ap_max_nofile_per_child;
 extern API_VAR_EXPORT int ap_max_rss_per_child;
 extern API_VAR_EXPORT int ap_max_stack_per_child;
+#ifdef RLIMIT_TIME
+extern API_VAR_EXPORT int ap_max_time_per_child;
+#endif
 extern API_VAR_EXPORT int ap_threads_per_child;
 extern API_VAR_EXPORT int ap_excess_requests_per_child;
 extern API_VAR_EXPORT struct sockaddr_storage ap_bind_address;

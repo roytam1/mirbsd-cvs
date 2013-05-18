@@ -1,4 +1,4 @@
-/* $MirOS: src/usr.sbin/httpd/src/include/httpd.h,v 1.7 2005/12/04 15:33:01 tg Exp $ */
+/* $MirOS: src/usr.sbin/httpd/src/include/httpd.h,v 1.8 2006/09/20 23:45:04 tg Exp $ */
 /* $OpenBSD: httpd.h,v 1.27 2006/02/22 15:07:12 henning Exp $ */
 
 /* ====================================================================
@@ -378,6 +378,9 @@ extern "C" {
 #endif
 #ifndef DEFAULT_MAX_STACK_PER_CHILD
 #define DEFAULT_MAX_STACK_PER_CHILD 0
+#endif
+#ifndef DEFAULT_MAX_TIME_PER_CHILD
+#define DEFAULT_MAX_TIME_PER_CHILD 0
 #endif
 
 /* The maximum length of the queue of pending connections, as defined

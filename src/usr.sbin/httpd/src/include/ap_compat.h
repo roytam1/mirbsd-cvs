@@ -1,3 +1,5 @@
+/* $MirOS$ */
+
 /*
 **  ap_compat.h -- Apache Backward Compatibility
 **
@@ -211,6 +213,9 @@ extern "C" {
 #define max_nofile_per_child           ap_max_nofile_per_child
 #define max_rss_per_child              ap_max_rss_per_child
 #define max_stack_per_child            ap_max_stack_per_child
+#ifdef RLIMIT_TIME
+#define max_time_per_child             ap_max_time_per_child
+#endif
 #define md5                            ap_md5
 #define meets_conditions               ap_meets_conditions
 #define merge_per_dir_configs          ap_merge_per_dir_configs

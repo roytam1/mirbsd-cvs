@@ -88,6 +88,8 @@
 #include "util_script.h"
 #include "http_conf_globals.h"
 
+__RCSID("$MirOS$");
+
 typedef struct {
     char *name;                 /* matching module name */
     char *info;                 /* additional info */
@@ -494,10 +496,18 @@ static int display_info(request_rec *r)
                         "<tt>RLIMIT_DATA: %d &nbsp;&nbsp; </tt><br>\n"
                         "<tt>RLIMIT_NOFILE: %d &nbsp;&nbsp; </tt><br>\n"
                         "<tt>RLIMIT_RSS: %d &nbsp;&nbsp; </tt><br>\n"
-                        "<tt>RLIMIT_STACK: %d &nbsp;&nbsp; </tt><br>\n",
+                        "<tt>RLIMIT_STACK: %d &nbsp;&nbsp; </tt><br>\n"
+#ifdef RLIMIT_TIME
+                        "<tt>RLIMIT_TIME: %d &nbsp;&nbsp; </tt><br>\n"
+#endif
+			,
                         ap_max_cpu_per_child, ap_max_data_per_child,
                         ap_max_nofile_per_child, ap_max_rss_per_child,
-                        ap_max_stack_per_child);
+                        ap_max_stack_per_child
+#ifdef RLIMIT_TIME
+			, ap_max_time_per_child
+#endif
+			);
             ap_rprintf(r, "<strong>Max Requests:</strong> "
                         "<tt>per child: %d &nbsp;&nbsp; "
                         "keep alive: %s &nbsp;&nbsp; "

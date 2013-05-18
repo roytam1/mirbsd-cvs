@@ -1,4 +1,4 @@
-/* $MirOS: src/usr.sbin/httpd/src/main/http_config.c,v 1.5 2007/02/08 02:56:03 tg Exp $ */
+/* $MirOS: src/usr.sbin/httpd/src/main/http_config.c,v 1.6 2008/03/19 23:07:19 tg Exp $ */
 /* $OpenBSD: http_config.c,v 1.18 2007/11/19 14:59:10 robert Exp $ */
 
 /* ====================================================================
@@ -86,6 +86,8 @@
 #include "http_vhost.h"
 #include "explain.h"
 #include "fnmatch.h"
+
+__RCSID("$MirOS$");
 
 DEF_Explain
 
@@ -1557,6 +1559,9 @@ static void init_config_globals(pool *p)
     ap_max_nofile_per_child = DEFAULT_MAX_NOFILE_PER_CHILD;
     ap_max_rss_per_child = DEFAULT_MAX_RSS_PER_CHILD;
     ap_max_stack_per_child = DEFAULT_MAX_STACK_PER_CHILD;
+#ifdef RLIMIT_TIME
+    ap_max_time_per_child = DEFAULT_MAX_TIME_PER_CHILD;
+#endif
     ap_listeners = NULL;
     ap_listenbacklog = DEFAULT_LISTENBACKLOG;
     ap_extended_status = 0;

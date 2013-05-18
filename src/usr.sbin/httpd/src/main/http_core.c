@@ -1,4 +1,4 @@
-/* $MirOS: src/usr.sbin/httpd/src/main/http_core.c,v 1.5 2006/09/20 23:45:05 tg Exp $ */
+/* $MirOS: src/usr.sbin/httpd/src/main/http_core.c,v 1.6 2008/03/19 23:07:19 tg Exp $ */
 /* $OpenBSD: http_core.c,v 1.22 2007/08/24 11:31:29 mbalmer Exp $ */
 
 /* ====================================================================
@@ -76,6 +76,8 @@
 #include "sa_len.h"
 
 #include <sys/mman.h>
+
+__RCSID("$MirOS$");
 
 /* mmap support for static files based on ideas from John Heidemann's
  * patch against 1.0.5.  See
@@ -2287,6 +2289,19 @@ static const char *set_child_rl_stack(cmd_parms *cmd, void *dummy, char *arg)
     return NULL;
 }
 
+#ifdef RLIMIT_TIME
+static const char *set_child_rl_time(cmd_parms *cmd, void *dummy, char *arg) 
+{
+    const char *err = ap_check_cmd_context(cmd, GLOBAL_ONLY);
+    if (err != NULL) {
+        return err;
+    }
+
+    ap_max_time_per_child = atoi(arg);
+    return NULL;
+}
+#endif
+
 static const char *set_max_requests(cmd_parms *cmd, void *dummy, char *arg)
 {
     const char *err = ap_check_cmd_context(cmd, GLOBAL_ONLY);
@@ -3261,14 +3276,13 @@ static const command_rec core_cmds[] = {
   "Maximum amount of physical memory a child can use (rlimit)." },
 { "MaxSTACKPerChild", set_child_rl_stack, NULL, RSRC_CONF, TAKE1,
   "Maximum amount of stack space a child can use (rlimit)." },
+#ifdef RLIMIT_TIME
+{ "MaxTIMEPerChild", set_child_rl_time, NULL, RSRC_CONF, TAKE1,
+  "Maximum lifetime (in seconds) of a child (rlimit)." },
+#endif
 { "RLimitCPU",
   set_limit_cpu, (void*)XtOffsetOf(core_dir_config, limit_cpu),
   OR_ALL, TAKE12, "Soft/hard limits for max CPU usage in seconds" },
-#ifdef RLIMIT_TIME
-{ "RLimitTime",
-  set_limit_time, (void*)XtOffsetOf(core_dir_config, limit_time),
-  OR_ALL, TAKE12, "Soft/hard limits for max human time in seconds" },
-#endif
 { "RLimitMEM",
   set_limit_mem, (void*)XtOffsetOf(core_dir_config, limit_mem),
   OR_ALL, TAKE12, "Soft/hard limits for max memory usage per process" },
@@ -3278,6 +3292,11 @@ static const command_rec core_cmds[] = {
 { "RLimitNOFILE",
   set_limit_nofile, (void*)XtOffsetOf(core_dir_config, limit_nofile),
    OR_ALL, TAKE12, "soft/hard limits for max number of files per process" },
+#ifdef RLIMIT_TIME
+{ "RLimitTIME",
+  set_limit_time, (void*)XtOffsetOf(core_dir_config, limit_time),
+  OR_ALL, TAKE12, "Soft/hard limits for max human time in seconds" },
+#endif
 { "BindAddress", set_bind_address, NULL, RSRC_CONF, TAKE1,
   "'*', a numeric IP address, or the name of a host with a unique IP address"},
 { "Listen", set_listener, NULL, RSRC_CONF, TAKE12,

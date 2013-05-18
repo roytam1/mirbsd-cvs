@@ -3,7 +3,7 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
-    <meta name="generator" content="HTML Tidy, see www.w3.org" />
+    <meta name="RCSID" content="$MirOS$" />
 
     <title>Apache Performance Notes</title>
   </head>
@@ -324,7 +324,7 @@ DirectoryIndex index.cgi index.pl index.shtml index.html
     <p>Related to process creation is process death induced by the <a
     href="../mod/core.html#maxfooperchild"><code>MaxFOOPerChild</code></a>
     setting, where FOO is one of the system resource limits. There are
-    directives to control the CPU, DATA, NOFILE, RSS and STACK rlimits.
+    directives to control the CPU, DATA, NOFILE, RSS, STACK, and TIME rlimits.
     By default, they are set to 0, meaning that the system default values
     will be used for the child. On a busy server with script interpreters
     and memory caches, these should be set to some appropriate finite
@@ -1063,4 +1063,3 @@ munmap(0x400e3000, 6144)                = 0
     </p>
   </body>
 </html>
-

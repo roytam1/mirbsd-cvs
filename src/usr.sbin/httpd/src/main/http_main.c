@@ -1,4 +1,4 @@
-/* $MirOS: src/usr.sbin/httpd/src/main/http_main.c,v 1.8 2007/07/03 06:36:28 tg Exp $ */
+/* $MirOS: src/usr.sbin/httpd/src/main/http_main.c,v 1.9 2008/03/19 23:07:20 tg Exp $ */
 /* $OpenBSD: http_main.c,v 1.49 2007/08/09 10:44:54 martynas Exp $ */
 
 /* ====================================================================
@@ -112,7 +112,7 @@
 #endif
 #include "sa_len.h"
 
-__RCSID("$MirOS: src/usr.sbin/httpd/src/main/http_main.c,v 1.8 2007/07/03 06:36:28 tg Exp $");
+__RCSID("$MirOS: src/usr.sbin/httpd/src/main/http_main.c,v 1.9 2008/03/19 23:07:20 tg Exp $");
 
 /* This next function is never used. It is here to ensure that if we
  * make all the modules into shared libraries that core httpd still
@@ -169,6 +169,9 @@ API_VAR_EXPORT int ap_max_data_per_child=0;
 API_VAR_EXPORT int ap_max_nofile_per_child=0;
 API_VAR_EXPORT int ap_max_rss_per_child=0;
 API_VAR_EXPORT int ap_max_stack_per_child=0;
+#ifdef RLIMIT_TIME
+API_VAR_EXPORT int ap_max_time_per_child=0;
+#endif
 API_VAR_EXPORT int ap_threads_per_child=0;
 API_VAR_EXPORT int ap_excess_requests_per_child=0;
 API_VAR_EXPORT char *ap_pid_fname=NULL;
@@ -2366,6 +2369,17 @@ static void child_main(int child_num_arg)
 	    clean_child_exit(APEXIT_CHILDFATAL);
 	}
     }
+#ifdef RLIMIT_TIME
+    if (ap_max_time_per_child != 0){
+	rlp.rlim_cur = rlp.rlim_max = ap_max_time_per_child;
+	if (setrlimit(RLIMIT_TIME, &rlp) == -1){
+	    ap_log_error(APLOG_MARK, APLOG_ALERT, server_conf,
+		"setrlimit: unable to set humantime limit to %d",
+		ap_max_time_per_child);
+	    clean_child_exit(APEXIT_CHILDFATAL);
+	}
+    }
+#endif
 
     /* Get a sub pool for global allocations in this child, so that
      * we can have cleanups occur when the child exits.

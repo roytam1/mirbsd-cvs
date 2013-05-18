@@ -5,7 +5,7 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
-    <meta name="generator" content="HTML Tidy, see www.w3.org" />
+    <meta name="RCSID" content="$MirOS$" />
 
     <title>Server-Wide Configuration</title>
   </head>
@@ -116,6 +116,12 @@
          <a href="mod/core.html#maxclients">MaxClients</a><br />
          <a
         href="mod/core.html#maxrequestsperchild">MaxRequestsPerChild</a><br />
+         <a href="mod/core.html#maxfooperchild">MaxCPUPerChild</a><br />
+         <a href="mod/core.html#maxfooperchild">MaxDATAPerChild</a><br />
+         <a href="mod/core.html#maxfooperchild">MaxNOFILEPerChild</a><br />
+         <a href="mod/core.html#maxfooperchild">MaxRSSPerChild</a><br />
+         <a href="mod/core.html#maxfooperchild">MaxSTACKPerChild</a><br />
+         <a href="mod/core.html#maxfooperchild">MaxTIMEPerChild</a><br />
          <a
         href="mod/core.html#maxspareservers">MaxSpareServers</a><br />
          <a
@@ -164,6 +170,10 @@
     possible. In addition, unless <a href="suexec.html">suexec</a>
     is used, these directives also set the privileges which will be
     inherited by CGI scripts.</p>
+
+    <p><a href="mod/core.html#maxfooperchild"><code>MaxFOOPerChild</code></a>
+    sets rlimits on a child process to prevent a leaky module from
+    taking down the whole server.</p>
 
     <p><code>MaxRequestsPerChild</code> controls how frequently the
     server recycles processes by killing old ones and launching new
@@ -251,7 +261,7 @@
          <a
         href="mod/core.html#limitrequestline">LimitRequestLine</a><br />
          <a href="mod/core.html#rlimitcpu">RLimitCPU</a><br />
-         <a href="mod/core.html#rlimittime">RLimitTime</a><br />
+         <a href="mod/core.html#rlimittime">RLimitTIME</a><br />
          <a href="mod/core.html#rlimitmem">RLimitMEM</a><br />
          <a href="mod/core.html#rlimitnproc">RLimitNPROC</a><br />
          <a href="mod/core.html#rlimitnofile">RLimitNOFILE</a><br />
@@ -280,5 +290,3 @@
 
   </body>
 </html>
-
-
