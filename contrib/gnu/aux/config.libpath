@@ -1,9 +1,10 @@
 #! /bin/sh
 # $MirOS$
+#-
 # Output a system dependent set of variables, describing how to set the
 # run time search path of shared libraries in an executable at run time.
 #
-#   Copyright 1996-2004 Free Software Foundation, Inc.
+#   Copyright 1996-2007 Free Software Foundation, Inc.
 #   Taken from GNU libtool, 2003
 #   Originally by Gordon Matzigkeit <gord@gnu.ai.mit.edu>, 1996
 #
@@ -18,8 +19,8 @@
 #   General Public License for more details.
 #
 #   You should have received a copy of the GNU General Public License
-#   along with this program; if not, write to the Free Software
-#   Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+#   along with this program; if not, write to the Free Software Foundation,
+#   Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 #
 #   As a special exception to the GNU General Public License, if you
 #   distribute this file as part of a program that contains a
@@ -55,7 +56,7 @@ case $host_os in
   beos*)
     shlibpath_var=LIBRARY_PATH
     ;;
-  bsdi4*)
+  bsdi[45]*)
     shlibpath_var=LD_LIBRARY_PATH
     ;;
   cygwin* | mingw* | pw32*)
@@ -65,19 +66,25 @@ case $host_os in
   darwin* | rhapsody*)
     shlibpath_var=DYLD_LIBRARY_PATH
     ;;
-  freebsd1*)
-    ;;
-  kfreebsd*-gnu)
+  dgux*)
     shlibpath_var=LD_LIBRARY_PATH
     ;;
-  freebsd*)
+  freebsd1*)
+    ;;
+  freebsd* | dragonfly* | midnightbsd*)
     shlibpath_var=LD_LIBRARY_PATH
     ;;
   gnu*)
     shlibpath_var=LD_LIBRARY_PATH
     ;;
   hpux9* | hpux10* | hpux11*)
-    shlibpath_var=SHLIB_PATH
+    case "$host_cpu" in
+      ia64* | hppa*64*) shlibpath_var=LD_LIBRARY_PATH ;;
+      *) shlibpath_var=SHLIB_PATH ;;
+    esac
+    ;;
+  interix[3-9]*)
+    shlibpath_var=LD_LIBRARY_PATH
     ;;
   irix5* | irix6* | nonstopux*)
     case $host_os in
@@ -95,10 +102,9 @@ case $host_os in
     esac
     shlibpath_var=LD_LIBRARY${shlibsuff}_PATH
     ;;
-  linux-gnu*)
-    shlibpath_var=LD_LIBRARY_PATH
+  linux*oldld* | linux*aout* | linux*coff*)
     ;;
-  knetbsd*-gnu)
+  linux* | k*bsd*-gnu)
     shlibpath_var=LD_LIBRARY_PATH
     ;;
   netbsd*)
@@ -107,7 +113,10 @@ case $host_os in
   newsos6)
     shlibpath_var=LD_LIBRARY_PATH
     ;;
-  ekkobsd* | microbsd* | mirbsd* | openbsd*)
+  nto-qnx*)
+    shlibpath_var=LD_LIBRARY_PATH
+    ;;
+  openbsd* | mirbsd*)
     shlibpath_var=LD_LIBRARY_PATH
     ;;
   os2*)
@@ -116,8 +125,7 @@ case $host_os in
   osf3* | osf4* | osf5*)
     shlibpath_var=LD_LIBRARY_PATH
     ;;
-  sco3.2v5*)
-    shlibpath_var=LD_LIBRARY_PATH
+  rdos*)
     ;;
   solaris*)
     shlibpath_var=LD_LIBRARY_PATH
@@ -125,13 +133,7 @@ case $host_os in
   sunos4*)
     shlibpath_var=LD_LIBRARY_PATH
     ;;
-  sysv4 | sysv4.2uw2* | sysv4.3* | sysv5*)
-    shlibpath_var=LD_LIBRARY_PATH
-    ;;
-  uts4*)
-    shlibpath_var=LD_LIBRARY_PATH
-    ;;
-  dgux*)
+  sysv4 | sysv4.3*)
     shlibpath_var=LD_LIBRARY_PATH
     ;;
   sysv4*MP*)
@@ -139,9 +141,15 @@ case $host_os in
       shlibpath_var=LD_LIBRARY_PATH
     fi
     ;;
+  sysv5* | sco3.2v5* | sco5v6* | unixware* | OpenUNIX* | sysv4*uw2*)
+    shlibpath_var=LD_LIBRARY_PATH
+    ;;
+  uts4*)
+    shlibpath_var=LD_LIBRARY_PATH
+    ;;
 esac
 
-sed -e 's/^\([a-zA-Z0-9_]*\)=/acl_cv_\1=/' <<EOF
+LC_ALL=C sed -e 's/^\([a-zA-Z0-9_]*\)=/acl_cv_\1=/' <<EOF
 
 # This is the shared library path variable.
 shlibpath_var=$shlibpath_var

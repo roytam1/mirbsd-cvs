@@ -1,4 +1,4 @@
-# $MirOS: contrib/gnu/aux/update.mk,v 1.5 2007/01/08 17:39:46 tg Exp $
+# $MirOS: contrib/gnu/aux/update.mk,v 1.6 2008/05/03 19:16:09 tg Exp $
 
 ONLY?=
 SOURCES=
@@ -29,15 +29,15 @@ POSSIBLE_SOURCES+=					\
 	automake/lib/mdate-sh				\
 	automake/lib/missing				\
 	automake/lib/ylwrap				\
+	aux/config.libpath				\
+	aux/install-reloc				\
 	aux/install-sh					\
 	aux/mkinstalldirs				\
 	aux/move-if-change				\
+	aux/reloc-ldflags				\
 	config/config.guess				\
 	config/config.sub				\
 	gettext/autoconf-lib-link/config.rpath		\
-	gettext/config/config.libpath			\
-	gettext/config/install-reloc			\
-	gettext/config/reloc-ldflags			\
 	libtool/libtool.m4				\
 	libtool/ltmain.sh				\
 	libtool/m4salt.inc				\
