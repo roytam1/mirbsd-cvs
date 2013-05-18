@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.217 2009/07/15 07:23:18 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.218 2009/07/16 15:24:02 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -4476,4 +4476,14 @@ Tag: mksh
  Debhelper v5, and as such, the mksh package has been converted over from
  Debhelper v4 (yay, RCS IDs in debhelper configuration files! but what about
  changelog (no-no) and menu? dunno…).</p>
+----
+Title: new netinstall snapshot for i386 online
+Date: 17.07.2009 15:04
+Author: tg@
+Tag: news snapshot
+
+<p>The <a href="@@ABSPATH@@/MirOS/current/i386/">NetInstall</a> directory
+ contains a new intermediate snapshot of MirOS BSD/i386 built last night.
+ I also brought the <a href="@@ABSPATH@@/MirOS/current/older/">fixes for
+ older snapshots</a> a little more up to date. Enjoy!</p>
 ----
