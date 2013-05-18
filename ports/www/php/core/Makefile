@@ -1,4 +1,4 @@
-# $MirOS: ports/www/php/core/Makefile,v 1.14 2006/09/14 00:14:57 tg Exp $
+# $MirOS: ports/www/php/core/Makefile,v 1.15 2007/02/02 12:01:43 tg Exp $
 # $OpenBSD: Makefile,v 1.12 2005/12/29 23:03:29 sturm Exp $
 
 MULTI_PACKAGES=		-pear
@@ -12,10 +12,8 @@ FULLPKGNAME-pear=	php-pear-${V}-${PV}
 CONFIGURE_ARGS+=	--with-apxs=/usr/sbin/apxs \
 			--without-mysql \
 			--enable-xml \
-			--with-libxml-dir=${LOCALBASE:Q} \
 			--enable-wddx \
 			--enable-cli \
-			--with-iconv=${ICONV_PREFIX:Q} \
 			--without-gettext \
 			--enable-dio \
 			--with-pear=${PEAR_DIR:Q} \
@@ -33,7 +31,6 @@ CONFIGURE_ARGS+=	--with-apxs=/usr/sbin/apxs \
 			--enable-sysvshm \
 			--enable-exif \
 			--with-libedit \
-			--with-sqlite=${LOCALBASE:Q} \
 			--disable-sqlite-utf8
 
 .include <mirports.sys.mk>

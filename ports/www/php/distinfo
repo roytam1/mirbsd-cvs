@@ -6,3 +6,5 @@ SHA1 (hardening-patch-5.0.5-0.4.8.patch.gz) = d7a3da2edd8c265aeb8405e1ca0403f593
 SHA1 (php-5.0.5.tar.gz) = 031ac2b1f56f4f6b20b17206a52627790b51f3bb
 SIZE (hardening-patch-5.0.5-0.4.8.patch.gz) = 59288
 SIZE (php-5.0.5.tar.gz) = 6082082
+TIGER (hardening-patch-5.0.5-0.4.8.patch.gz) = cd42824d6b22f7ed4b4b9df57a019e85f547df8afe21b938
+TIGER (php-5.0.5.tar.gz) = 7726599bc761405691e6dbbf9ae1ac4290ed3e35887f18cd

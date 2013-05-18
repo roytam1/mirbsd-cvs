@@ -1,4 +1,4 @@
-# $MirOS: ports/www/php/Makefile.inc,v 1.13 2006/12/26 18:01:34 tg Exp $
+# $MirOS: ports/www/php/Makefile.inc,v 1.14 2007/02/02 12:01:38 tg Exp $
 # $OpenBSD: Makefile.inc,v 1.1.1.1 2004/10/02 11:32:35 robert Exp $
 
 # This port currently only works with archs supporting dynamic loading
@@ -52,6 +52,9 @@ CONFIGURE_ARGS+=	--enable-shared \
 			--with-config-file-path=${PHP_CONFIG_PATH:Q} \
 			--with-config-file-scan-dir=${PHP_CONFIG_PATH:Q}/php \
 			--enable-inline-optimization \
+			--with-libxml-dir=${LOCALBASE:Q} \
+			--with-iconv=${ICONV_PREFIX:Q} \
+			--with-sqlite=${LOCALBASE:Q} \
 			--with-pic
 
 # default included extensions
