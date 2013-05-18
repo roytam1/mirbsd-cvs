@@ -1524,3 +1524,26 @@ Author: tg@
  wbx@'s Zaurus, even if it takes a week or so. Cross fingers for me.</p>
 <p>Seems as if ciruZ likes the geocacheing concept. Oh wonder…</p>
 ----
+Date: 12.08.2007
+Author: tg@
+Title: A Good Day™
+
+<p>Today was quite the nice day. After sleeping long I started my day with
+ style: chilly, having a coffee, and booting my cell phone, which I turned
+ off during the night because I phoned the battery empty last evening… wbx
+ called me, came over later (after some mksh(1) hackery: set -o arc4random
+ was added), and we went geocacheing again. And hacking. The SPARC build’s
+ complete, Ewe (that single-threaded embedded VM for Java™ which CacheWolf
+ uses, that’s the application Dr. Pfeffer likes to use for geocacheing and
+ I’d even use as a GPS navigator…) works natively on MirBSD – what more do
+ I want? (Ok, I could think of some things, but I’m happy nevertheless.) I
+ face bad future though: we infected wbx@ with the gc virus, so he’ll make
+ me port X11 to FreeWRT to use it on the OpenMoko with his nokernel target
+ I guess. *sigh*<br />Oh well, I can use his Zaurus in exchange then; that
+ beast at least has longer-lasting batteries than my notebook.</p>
+<p>I've uploaded the snapshot to <tt>/MirOS/current/sparc/</tt> (the older
+ one is archived at <tt>sparc9</tt>), but did not announce it yet, because
+ we need to have some more persons actually test it and report success for
+ especially the vt100 wscons change. The floppy image is probably going to
+ die though, and installboot doesn’t like the miniroot (yet).</p>
+----
