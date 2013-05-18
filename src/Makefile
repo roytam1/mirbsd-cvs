@@ -1,4 +1,4 @@
-# $MirOS: src/Makefile,v 1.46 2006/05/26 17:09:20 tg Exp $
+# $MirOS: src/Makefile,v 1.45 2006/05/25 21:34:41 tg Exp $
 # $OpenBSD: Makefile,v 1.103 2004/05/03 15:18:18 drahn Exp $
 
 .if defined(MAKECONF) && exists(${MAKECONF})
@@ -136,7 +136,7 @@ do-htman:
 
 base-distbuild:
 	cd ${.CURDIR} && exec ${MAKE} mksystrace-obj
-	cd ${.CURDIR}/distrib ${_STCMD_OBJ} ${MAKE} depend && \
+	cd ${.CURDIR}/distrib && ${_STCMD_OBJ} ${MAKE} depend && \
 	    exec ${_STCMD_OBJ} ${MAKE}
 	-rm -f ${_STFILE_OBJ}
 
