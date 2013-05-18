@@ -13,7 +13,7 @@
 #include <locale.h>
 #endif
 
-__RCSID("$MirOS: src/bin/mksh/main.c,v 1.67 2007/01/12 10:18:21 tg Exp $");
+__RCSID("$MirOS: src/bin/mksh/main.c,v 1.68 2007/01/15 00:18:47 tg Exp $");
 
 extern char **environ;
 
@@ -280,6 +280,7 @@ main(int argc, char *argv[])
 	j_init(i);
 	/* Do this after j_init(), as tty_fd is not initialised 'til then */
 	if (Flag(FTALKING)) {
+#ifndef MKSH_ASSUME_UTF8
 #if HAVE_SETLOCALE_CTYPE
 #define isuc(x)	(((x) != NULL) && \
 		    (strcasestr((x), "UTF-8") || strcasestr((x), "utf8")))
@@ -293,6 +294,9 @@ main(int argc, char *argv[])
 			Flag(FUTFHACK) = isuc(cc);
 		}
 #undef isuc
+#endif
+#else
+		Flag(FUTFHACK) = 1;
 #endif
 		x_init();
 	}
