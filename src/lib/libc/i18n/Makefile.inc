@@ -1,4 +1,4 @@
-# $MirOS: src/lib/libc/i18n/Makefile.inc,v 1.21 2006/11/01 19:49:33 tg Exp $
+# $MirOS: src/lib/libc/i18n/Makefile.inc,v 1.22 2006/11/20 23:50:48 tg Exp $
 
 .PATH: ${LIBCSRCDIR}/i18n
 .PATH: ${LIBCSRCDIR}/locale
@@ -70,11 +70,13 @@ SRCS+=	wcstoll.c
 SRCS+=	wcstoul.c
 SRCS+=	wcstoull.c
 
+.ifdef __CRAZY
 CFLAGS_wcstod.o+=	-Wno-cast-qual
 CFLAGS_wcstol.o+=	-Wno-cast-qual
 CFLAGS_wcstoll.o+=	-Wno-cast-qual
 CFLAGS_wcstoul.o+=	-Wno-cast-qual
 CFLAGS_wcstoull.o+=	-Wno-cast-qual
+.endif
 
 MAN+=	btowc.3
 MAN+=	iswalnum.3

@@ -1,4 +1,4 @@
-# $MirOS: src/lib/libc/gen/Makefile.inc,v 1.8 2006/11/03 01:21:49 tg Exp $
+# $MirOS: src/lib/libc/gen/Makefile.inc,v 1.9 2006/11/03 18:10:43 tg Exp $
 # $OpenBSD: Makefile.inc,v 1.37 2005/02/01 15:12:28 millert Exp $
 
 # gen sources
@@ -32,6 +32,7 @@ SRCS+=	fpclassifyd_ieee754.c fpclassifyf_ieee754.c infinity_ieee754.c \
 SRCS+=	_sys_errlist.c _sys_nerr.c _sys_siglist.c
 
 # for now...
+.ifdef __CRAZY
 CFLAGS_auth_subr.o+= -Wno-error
 CFLAGS_authenticate.o+= -Wno-error
 CFLAGS_disklabel.o+= -Wno-error
@@ -50,6 +51,7 @@ CFLAGS_syslog.o+= -Wno-missing-format-attribute		# gcc problem
 CFLAGS_syslog.o+= -Wno-cast-qual
 CFLAGS_ttyname.o+= -Wno-shadow
 CFLAGS__sys_nerr.o+= -Wno-error
+.endif
 
 # machine-dependent gen sources
 # m-d Makefile.inc must include sources for:

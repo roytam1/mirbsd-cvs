@@ -1,4 +1,4 @@
-# $MirOS: src/lib/libc/string/Makefile.inc,v 1.11 2006/06/16 16:50:00 tg Exp $
+# $MirOS: src/lib/libc/string/Makefile.inc,v 1.12 2006/11/09 14:31:12 tg Exp $
 # $OpenBSD: Makefile.inc,v 1.17 2005/05/26 12:56:01 otto Exp $
 
 # string sources
@@ -20,6 +20,7 @@ SRCS+=	wcsdup.c
 SRCS+=	wcstok.c
 SRCS+=	wcsxfrm.c
 
+.ifdef __CRAZY
 CFLAGS_strcasestr.o+= -Wno-cast-qual
 CFLAGS_strerror_r.o+= -Wno-error
 CFLAGS_strpbrk.o+= -Wno-cast-qual
@@ -30,6 +31,7 @@ CFLAGS_wcsrchr.o+= -Wno-cast-qual
 CFLAGS_wcsstr.o+= -Wno-cast-qual
 CFLAGS_wcswcs.o+= -Wno-cast-qual
 CFLAGS_wmemchr.o+= -Wno-cast-qual
+.endif
 
 .for _i _j in str STR wcs WCS
 .  for _k _l in cpy CAT cat CPY

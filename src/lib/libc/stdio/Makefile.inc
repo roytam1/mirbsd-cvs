@@ -20,6 +20,7 @@ SRCS+=	asprintf.c clrerr.c fclose.c fdopen.c feof.c ferror.c fflush.c fgetc.c \
 
 SRCS+=	getline.c
 
+.ifdef __CRAZY
 CFLAGS_findfp.o+= -Wno-error
 CFLAGS_fputs.o+= -Wno-cast-qual
 CFLAGS_funopen.o+= -Wno-cast-qual
@@ -32,6 +33,7 @@ CFLAGS_vfprintf.o+= -Wno-error
 CFLAGS_vfscanf.o+= -Wno-error
 CFLAGS___svfscanf.o+= -Wno-error
 CFLAGS_vsscanf.o+= -Wno-cast-qual
+.endif
 
 MAN+=	fclose.3 ferror.3 fflush.3 fgetln.3 fgets.3 fopen.3 fputs.3 \
 	fread.3 fseek.3 funopen.3 getc.3 mktemp.3 perror.3 printf.3 putc.3 \
