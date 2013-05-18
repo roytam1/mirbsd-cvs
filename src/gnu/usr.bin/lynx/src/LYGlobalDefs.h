@@ -1,4 +1,4 @@
-/* $MirOS$ */
+/* $MirOS: src/gnu/usr.bin/lynx/src/LYGlobalDefs.h,v 1.2 2005/03/27 22:42:36 tg Exp $ */
 
 /* global variable definitions */
 
@@ -223,7 +223,7 @@ extern "C" {
     extern BOOLEAN jump_buffer;	/* TRUE if offering default shortcut */
     extern BOOLEAN long_url_ok;
     extern BOOLEAN lynx_mode;
-    extern BOOLEAN more;	/* is there more document to display? */
+    extern BOOLEAN more_text;	/* is there more document to display? */
     extern BOOLEAN news_ok;
     extern BOOLEAN number_fields_on_left;
     extern BOOLEAN number_links_on_left;

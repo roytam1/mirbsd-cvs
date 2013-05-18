@@ -1,4 +1,4 @@
-# $MirOS: src/gnu/usr.bin/lynx/Makefile.bsd-wrapper,v 1.2 2005/06/22 11:15:43 tg Exp $
+# $MirOS: src/gnu/usr.bin/lynx/Makefile.bsd-wrapper,v 1.3 2005/10/21 22:06:55 tg Exp $
 # $OpenBSD: Makefile.bsd-wrapper,v 1.12 2003/05/01 18:59:36 avsm Exp $
 
 MAN=		lynx.1
@@ -8,7 +8,7 @@ FSFMAKEFILE=	makefile
 CFARGS=		--libdir=/etc --prefix=/usr --with-ssl=/usr --with-zlib \
 		--enable-addrlist-page --enable-charset-choice \
 		--enable-color-style --disable-japanese-utf8 \
-		--disable-full-paths --enable-warnings --enable-justify-elts \
+		--disable-full-paths --enable-warnings \
 		--enable-internal-links --enable-kbd-layout --enable-ipv6 \
 		--enable-nested-tables --disable-nls --enable-nsl-fork \
 		--with-screen=ncurses --disable-scrollbar --enable-cjk \
@@ -30,9 +30,9 @@ HTMLFILES=	Lynx_users_guide.html about_lynx.html help_files.txt \
 		keystrokes/visited_help.html keystrokes/xterm_help.html
 HTMLSAMPLES=	blue-background.lss bright-blue.lss cernrules.txt \
 		installdirs.html jumpsUnix.html keepviewer lynx-keymaps \
-		lynxdump mailcap mailto-form.pl mild-colors.lss mime.types
+		lynx.lss mailcap mailto-form.pl mild-colors.lss mime.types
 HTMLTESTS=	ALT88592.html ISO_LATIN1_test.html README.txt \
-		TestComment.html c1.html iso8859-1.html iso88592.html \
+		TestComment.html c1.html iso-8859-1.html iso-8859-2.html \
 		koi8-r.html quickbrown.html raw8bit.html sgml.html \
 		spaces.html special_urls.html tabtest.html tags.html \
 		unicode.html utf-8-demo.html
