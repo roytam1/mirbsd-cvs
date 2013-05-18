@@ -1,4 +1,4 @@
-/**	$MirOS: ports/infrastructure/pkgtools/lib/exec.c,v 1.8 2008/11/02 18:19:52 tg Exp $ */
+/**	$MirOS: ports/infrastructure/pkgtools/lib/exec.c,v 1.9 2008/11/02 18:56:29 tg Exp $ */
 /*	$OpenBSD: exec.c,v 1.8 2003/09/05 19:40:42 tedu Exp $	*/
 
 /*
@@ -26,64 +26,11 @@
 #include "lib.h"
 #include <sys/wait.h>
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/exec.c,v 1.8 2008/11/02 18:19:52 tg Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/exec.c,v 1.9 2008/11/02 18:56:29 tg Exp $");
 
 #ifdef AS_USER
 static bool PrivsDropped = false;
 #endif
-
-/*
- * Yet another way to run an external command *sigh*
- */
-int
-runcomm_(const char *whom, int nargs, const char * const *args,
-    const char *outf)
-{
-	int i = 0;
-	pid_t pid;
-
-	if (Verbose) {
-		fputs("Running \"", stdout);
-		while (i < nargs)
-			printf("%s ", args[i++]);
-		if (outf)
-			printf(">%s", outf);
-		fputs("\"\n", stdout);
-	}
-
-	if ((pid = fork()) < 0)
-		err(2, "failed to fork");
-	else if (pid == 0) {
-		union mksh_ccphack {
-			char **rw;
-			const char * const *ro;
-		} argvec;
-
-		if (outf) {
-			int fd;
-
-			if ((fd = open(outf, O_WRONLY | O_CREAT | O_TRUNC,
-			    0666)) < 0) {
-				warn("cannot open '%s' for writing", outf);
-				return (-1);
-			}
-			if (dup2(fd, STDOUT_FILENO) == -1) {
-				warn("cannot dup2");
-				return (-1);
-			}
-			if (fd != STDOUT_FILENO)
-				/* do not care about errors here */
-				close(fd);
-		}
-		/* stupid API */
-		argvec.ro = args;
-		execvp(whom, argvec.rw);
-		warn("failed to execute %s command", whom);
-		return (-1);
-	}
-	wait(&i);
-	return (i);
-}
 
 /*
  * Execute the command, read one line of output, and return it as a

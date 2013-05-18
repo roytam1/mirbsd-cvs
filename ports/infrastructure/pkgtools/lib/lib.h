@@ -1,4 +1,4 @@
-/**	$MirOS: ports/infrastructure/pkgtools/lib/lib.h,v 1.20 2008/11/02 18:56:30 tg Exp $ */
+/**	$MirOS: ports/infrastructure/pkgtools/lib/lib.h,v 1.21 2008/11/02 19:02:00 tg Exp $ */
 /*	$OpenBSD: lib.h,v 1.14 2003/08/21 20:24:57 espie Exp $	*/
 
 /*
@@ -149,10 +149,6 @@ typedef int (*matchfn)(const char *found, char *data, int len);
 
 /* Prototypes */
 /* Misc */
-#define runcomm(cmd, nargs, args, outf) runcomm_((const char *)(cmd), \
-	    (nargs), (const char * const *)(args), (outf))
-int		runcomm_(const char *, int, const char * const *,
-		    const char *);
 char		*piperead(const char *);
 void		cleanup(int);
 char		*make_playpen(char *, size_t, size_t);

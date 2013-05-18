@@ -1,4 +1,4 @@
-/* $MirOS: ports/infrastructure/pkgtools/create/perform.c,v 1.10 2008/10/12 14:35:16 tg Exp $ */
+/* $MirOS: ports/infrastructure/pkgtools/create/perform.c,v 1.11 2008/10/12 15:35:21 tg Exp $ */
 /* $OpenBSD: perform.c,v 1.17 2003/08/27 06:51:26 jolan Exp $	*/
 
 /*
@@ -32,7 +32,7 @@
 #include <signal.h>
 #include <unistd.h>
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/create/perform.c,v 1.10 2008/10/12 14:35:16 tg Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/create/perform.c,v 1.11 2008/10/12 15:35:21 tg Exp $");
 
 static void sanity_check(void);
 static void make_dist(char *, char *, const char *, package_t *);
@@ -267,7 +267,7 @@ make_dist(char *homepath, char *pkg, const char *fsuffix, package_t *plist)
     FILE *flist = 0;
     int nargs = 0;
     int i, compression;
-    char *lztmp;
+    char *lztmp, *cp;
 
     args[nargs++] = strdup("tar");	/* argv[0] */
 
@@ -380,13 +380,15 @@ make_dist(char *homepath, char *pkg, const char *fsuffix, package_t *plist)
 
     /* fork/exec tar to create the package */
 
-    if ((ret = runcomm("tar", nargs, args, NULL)) == -1) {
+    cp = format_comm(args);
+    if ((ret = sxsystem(false, cp)) == -1) {
 	for (i = 0; i < current; i++)
 	    unlink(tempfile[i]);
 	if (compression == 2)
 	    unlink(lztmp);
 	exit(2);
     }
+    xfree(cp);
     for (i = 0; i < current; i++)
 	unlink(tempfile[i]);
     if (BaseDir) {
@@ -413,7 +415,8 @@ make_dist(char *homepath, char *pkg, const char *fsuffix, package_t *plist)
     cargs[nargs++] = "-z7fc";
     cargs[nargs++] = lztmp;
     cargs[nargs] = NULL;
-    if ((ret = runcomm("lzma", nargs, cargs, tball))) {
+    cp = format_comm(cargs);
+    if ((ret = sxsystem(false, cp))) {
 	unlink(lztmp);
 	unlink(tball);
 	cleanup(0);
@@ -421,6 +424,7 @@ make_dist(char *homepath, char *pkg, const char *fsuffix, package_t *plist)
     }
     unlink(lztmp);
     free(lztmp);
+    xfree(cp);
 }
 
 static void
