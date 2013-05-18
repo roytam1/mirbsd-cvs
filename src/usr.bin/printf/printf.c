@@ -47,7 +47,7 @@
 #define vstrchr strchr
 #endif
 
-__RCSID("$MirOS: src/usr.bin/printf/printf.c,v 1.16 2011/03/13 01:14:16 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/printf/printf.c,v 1.17 2011/03/13 15:10:09 tg Exp $");
 
 static int	 print_escape_str(const char *);
 static int	 print_escape(const char *);
@@ -481,12 +481,13 @@ static char *
 mklong(const char *str, int ch)
 {
 	static char *copy;
-	static int copysize;
-	int len;
+	static size_t copysize;
+	size_t len;
 
 	len = strlen(str) + 2;
 	if (copysize < len) {
 		char *newcopy;
+
 		copysize = len + 256;
 
 		newcopy = realloc(copy, copysize);
@@ -634,7 +635,7 @@ s_prt(int c)
 		ts[0] = c;
 		c = 1;
 	} else
-		c = utf_wctomb(ts, c - 0x100);
+		c = (int)utf_wctomb(ts, c - 0x100);
 
 	shf_write(ts, c, shl_stdout);
 }
