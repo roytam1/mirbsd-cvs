@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/install.sub,v 1.38 2008/07/18 14:28:33 tg Exp $
+# $MirOS: src/distrib/common/install.sub,v 1.39 2008/07/18 14:53:23 tg Exp $
 # $OpenBSD: install.sub,v 1.388 2005/07/02 00:55:48 uwe Exp $
 # $NetBSD: install.sub,v 1.5.2.8 1996/09/02 23:25:02 pk Exp $
 #
@@ -1666,6 +1666,7 @@ finish_up() {
 		print done.
 	fi
 
+	[ -x /mnt/$MODE.fixes ] && /mnt/usr/sbin/chroot /mnt /$MODE.fixes
 	[ -x /mnt/$MODE.site ] && /mnt/usr/sbin/chroot /mnt /$MODE.site
 
 	# Pat on the back.
