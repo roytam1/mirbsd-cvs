@@ -1,4 +1,4 @@
-# $MirOS: ports/net/samba2/Makefile,v 1.6 2006/09/14 00:12:16 tg Exp $
+# $MirOS: ports/net/samba2/Makefile,v 1.7 2006/12/28 19:21:11 tg Exp $
 # $OpenBSD: Makefile,v 1.21 2003/10/26 09:33:23 sturm Exp $
 
 COMMENT=		SMB and CIFS client and server for UNIX
@@ -19,7 +19,10 @@ PERMIT_PACKAGE_FTP=	Yes
 
 EXTRA_MAKE_FLAGS+=	PASSWD_PROGRAM=/usr/bin/passwd
 EXTRA_FAKE_FLAGS+=	prefix=${WRKINST:Q}${PREFIX:Q} \
+			mandir=${WRKINST:Q}${PREFIX:Q}/man \
+			MANDIR=${WRKINST:Q}${PREFIX:Q}/man \
 			BASEDIR=${WRKINST:Q}${PREFIX:Q} \
+			DATADIR=${WRKINST:Q}${PREFIX:Q}/share \
 			LIBDIR=${WRKINST:Q}${PREFIX:Q}/lib/samba \
 			PIDDIR=${WRKINST:Q}/var/run \
 			SWATDIR=${WRKINST:Q}${PREFIX:Q}/share/swat \
@@ -35,7 +38,7 @@ LIB_DEPENDS+=		popt::devel/popt \
 			readline::devel/libreadline
 CONFIGURE_STYLE=	autoconf
 CONFIGURE_ARGS+=	--libdir=${PREFIX:Q}/lib/samba \
-			--localstatedir="/var" \
+			--localstatedir=/var \
 			--sbindir=${PREFIX:Q}/libexec \
 			--disable-cups \
 			--with-configdir=${CONFDIR:Q} \
