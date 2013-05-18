@@ -1,4 +1,4 @@
-/* $MirOS: src/share/misc/licence.template,v 1.20 2006/12/11 21:04:56 tg Rel $ */
+/* $MirOS: src/lib/libc/string/strlfun.c,v 1.13 2007/01/07 02:09:49 tg Exp $ */
 
 /*-
  * Copyright (c) 2006
@@ -22,7 +22,8 @@
  * The strlcat() code below has been written by Thorsten Glaser. Bodo
  * Eggert suggested optimising the strlcpy() code, originally written
  * by Todd C. Miller (see below), which was carried out by Th. Glaser
- * as well as writing wcslcat() and wcslcpy() equivalents.
+ * as well as merging this code with strxfrm() for ISO-10646-only sy-
+ * stems and writing wcslcat(), wcslcpy() and wcsxfrm() equivalents.
  */
 
 #ifdef STRXFRM
@@ -78,7 +79,7 @@ extern size_t strlen(const char *);
 #endif
 
 #if !defined(_KERNEL) && !defined(_STANDALONE)
-__RCSID("$MirOS: src/lib/libc/string/strlfun.c,v 1.12 2006/11/21 02:38:32 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/string/strlfun.c,v 1.13 2007/01/07 02:09:49 tg Exp $");
 #endif
 
 size_t strlcat(char *, const char *, size_t);
