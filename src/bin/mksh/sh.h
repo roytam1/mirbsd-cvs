@@ -8,7 +8,7 @@
 /*	$OpenBSD: c_test.h,v 1.4 2004/12/20 11:34:26 otto Exp $	*/
 /*	$OpenBSD: tty.h,v 1.5 2004/12/20 11:34:26 otto Exp $	*/
 
-#define MKSH_SH_H_ID "$MirOS: src/bin/mksh/sh.h,v 1.96.2.1 2007/03/03 21:37:59 tg Exp $"
+#define MKSH_SH_H_ID "$MirOS: src/bin/mksh/sh.h,v 1.96.2.2 2007/03/03 22:38:25 tg Exp $"
 #define MKSH_VERSION "R29 2007/02/16"
 
 #if HAVE_SYS_PARAM_H
@@ -1145,7 +1145,7 @@ struct tbl *findcom(const char *, int);
 void flushcom(int);
 const char *search(const char *, const char *, int, int *);
 int search_access(const char *, int, int *);
-int pr_menu(char *const *);
+int pr_menu(const char *const *);
 int pr_list(char *const *);
 /* expr.c */
 int evaluate(const char *, long *, int, bool);
@@ -1182,7 +1182,7 @@ int c_unset(const char **);
 int c_ulimit(const char **);
 int c_times(const char **);
 int timex(struct op *, int);
-void timex_hook(struct op *, char ** volatile *);
+void timex_hook(struct op *, const char ** volatile *);
 int c_exec(const char **);
 int c_builtin(const char **);
 int c_test(const char **);
