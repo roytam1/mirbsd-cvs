@@ -1,11 +1,10 @@
-# $MirOS: ports/security/libgcrypt/Makefile,v 1.3 2006/09/14 00:13:02 tg Exp $
+# $MirOS: ports/security/libgcrypt/Makefile,v 1.4 2007/02/22 22:57:56 tg Exp $
 # $OpenBSD: Makefile,v 1.5 2004/05/08 06:41:47 sturm Exp $
 
-COMMENT=			crypto library based on code used in GnuPG
-VERSION=		1.2.0
-DISTNAME=		libgcrypt-${VERSION}
+COMMENT=		crypto library based on code used in GnuPG
+DISTNAME=		libgcrypt-1.4.0
 CATEGORIES=		security
-HOMEPAGE=		http://directory.fsf.org/security/libgcrypt.html
+HOMEPAGE=		http://directory.fsf.org/project/libgcrypt/
 
 # GNU LGPL
 PERMIT_PACKAGE_CDROM=	Yes
@@ -19,13 +18,13 @@ MASTER_SITES=	ftp://ftp.gnupg.org/gcrypt/libgcrypt/ \
 		http://sunsite.dk/pub/security/gcrypt/libgcrypt/ \
 		http://ftp.linux.it/pub/mirrors/gnupg/libgcrypt/
 
-LIB_DEPENDS=		gpg-error::security/libgpg-error
-
+LIB_DEPENDS+=		gpg-error::security/libgpg-error
 
 CONFIGURE_STYLE=	autoconf
 AUTOCONF_NEW=		Yes
 CONFIGURE_ARGS+=	${CONFIGURE_SHARED} \
 			--enable-static \
+			--disable-padlock-support \
 			--disable-asm
 
 post-extract:

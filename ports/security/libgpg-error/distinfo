@@ -1,5 +1,7 @@
-MD5 (libgpg-error-1.4.tar.gz) = 86e60e9a03205fb706e99be101a2387e
-RMD160 (libgpg-error-1.4.tar.gz) = f7bbfc222ab8b6061634bf47b81c3c7813433484
-SHA1 (libgpg-error-1.4.tar.gz) = a1f42d6b8d795d657a1f592138a14991f5aeeb85
-SIZE (libgpg-error-1.4.tar.gz) = 614446
-TIGER (libgpg-error-1.4.tar.gz) = 3f896d1890a3fa96b69ecf4dff5051467613f071ec49296b
+$MirOS$
+
+MD5 (libgpg-error-1.6.tar.bz2) = f3e9870e213518b407a959f8d29cd554
+RMD160 (libgpg-error-1.6.tar.bz2) = 5015a9e0a9c59fe5e9a45d203c324af3736c5d68
+SHA1 (libgpg-error-1.6.tar.bz2) = 2f387d0c34dd55eaf3b5f3c2570e9033eb540bc3
+SIZE (libgpg-error-1.6.tar.bz2) = 382110
+TIGER (libgpg-error-1.6.tar.bz2) = 719b9e165b3c920af6ef30c2eaad8c44d0bffc538155e045

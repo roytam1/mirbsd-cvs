@@ -1,3 +1,7 @@
-MD5 (libgcrypt-1.2.0.tar.gz) = 5c508072d8387ce17d1ab05075c2be40
-RMD160 (libgcrypt-1.2.0.tar.gz) = bb198eb9dfa4c9e1466b905f1c412bdb3eb493c5
-SHA1 (libgcrypt-1.2.0.tar.gz) = 3785a47abcb1c15079b18c5df47a474dfe647ec2
+$MirOS$
+
+MD5 (libgcrypt-1.4.0.tar.gz) = 4f80e46b38a71767479a3d953af22bdd
+RMD160 (libgcrypt-1.4.0.tar.gz) = e40d171e5dcc9344ae1a0a92fa0ea0013cc305cb
+SHA1 (libgcrypt-1.4.0.tar.gz) = 69183b7100b60da8eb1648f49836a611454541bb
+SIZE (libgcrypt-1.4.0.tar.gz) = 1204533
+TIGER (libgcrypt-1.4.0.tar.gz) = c9da9c0644ecf2238c60dbabd99d7eb0ea2a9da95ce72dfe

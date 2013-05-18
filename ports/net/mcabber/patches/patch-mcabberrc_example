@@ -1,9 +1,9 @@
-$MirOS: ports/net/mcabber/patches/patch-mcabberrc_example,v 1.3 2008/02/27 22:19:29 tg Exp $
+$MirOS: ports/net/mcabber/patches/patch-mcabberrc_example,v 1.4 2008/02/27 23:58:49 tg Exp $
 --- mcabberrc.example.orig	Sun Jan 13 10:36:04 2008
-+++ mcabberrc.example	Wed Feb 27 23:58:13 2008
++++ mcabberrc.example	Thu Apr  3 21:19:28 2008
 @@ -1,4 +1,5 @@
 -# Sample ~/.mcabber/mcabberrc file
-+# $MirOS$
++# $MirOS: ports/net/mcabber/patches/patch-mcabberrc_example,v 1.4 2008/02/27 23:58:49 tg Exp $
 +# Sample ~/.etc/mcabber/mcabberrc file
  
  # Note about this file syntax:
@@ -77,7 +77,11 @@ $MirOS: ports/net/mcabber/patches/patch-mcabberrc_example,v 1.3 2008/02/27 22:19
  
  # Colors
  # Colors are: black, red, green, yellow, blue, magenta, cyan, white
-@@ -402,8 +403,8 @@ set escdelay = 50
+@@ -399,11 +400,12 @@ set escdelay = 50
+ # Set otr to 1 to enable OTR support.
+ # You cannot change this option once mcabber is running.
+ #set otr = 0
++#otrpolicy default opportunistic
  #
  # OTR directory
  # You can specify the OTR directory with the otr_dir option
