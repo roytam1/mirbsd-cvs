@@ -1,4 +1,4 @@
-/**	$MirOS: src/include/stdlib.h,v 1.19 2008/04/06 22:37:36 tg Exp $ */
+/**	$MirOS: src/include/stdlib.h,v 1.20 2008/05/17 16:02:32 tg Exp $ */
 /*	$OpenBSD: stdlib.h,v 1.34 2005/05/27 17:45:56 millert Exp $	*/
 /*	$NetBSD: stdlib.h,v 1.25 1995/12/27 21:19:08 jtc Exp $	*/
 
@@ -162,6 +162,8 @@ int	 system(const char *);
 #if !defined(_ANSI_SOURCE) && !defined(_POSIX_SOURCE)
 #if defined(alloca) && (alloca == __builtin_alloca) && (__GNUC__ < 2)
 void  *alloca(int);     /* built-in for gcc */
+#elif defined(__PCC__)
+#define alloca(size)	__builtin_alloca(size)
 #else
 void  *alloca(size_t);
 #endif /* __GNUC__ */
