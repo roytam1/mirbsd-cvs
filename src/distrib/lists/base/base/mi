@@ -614,8 +614,10 @@
 ./usr/local/share/examples
 ./usr/mdec
 ./usr/mdec/boot
+./usr/mdec/boot.fd
 ./usr/mdec/bootxx
 ./usr/mdec/bootxx.sh
+./usr/mdec/bootxx.tar
 ./usr/mdec/installboot
 ./usr/obj
 ./usr/ports

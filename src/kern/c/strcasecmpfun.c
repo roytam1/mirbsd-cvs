@@ -21,7 +21,7 @@
 #include <sys/types.h>
 #include <libckern.h>
 
-__RCSID("$MirOS: src/share/misc/licence.template,v 1.28 2008/11/14 15:33:44 tg Rel $");
+__RCSID("$MirOS: src/kern/c/strcasecmpfun.c,v 1.1 2010/01/10 20:18:48 tg Exp $");
 
 #undef c_size
 #undef c_wide
@@ -37,6 +37,7 @@ __RCSID("$MirOS: src/share/misc/licence.template,v 1.28 2008/11/14 15:33:44 tg R
 #endif
 
 #ifdef c_wide
+#undef abs
 #include <wctype.h>
 #define CHAR		wchar_t
 #define	LC(x)		L ## x
@@ -54,7 +55,7 @@ __RCSID("$MirOS: src/share/misc/licence.template,v 1.28 2008/11/14 15:33:44 tg R
 })
 #endif
 
-__RCSID("$MirOS: src/lib/libc/string/strcasecmpfun.c,v 1.6 2007/08/08 20:57:41 tg Exp $");
+__RCSID("$MirOS: src/kern/c/strcasecmpfun.c,v 1.1 2010/01/10 20:18:48 tg Exp $");
 
 #ifndef c_size
 int
