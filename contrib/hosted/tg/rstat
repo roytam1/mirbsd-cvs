@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: contrib/hosted/tg/rstat,v 1.1 2010/09/24 18:47:12 tg Exp $
+# $MirOS: contrib/hosted/tg/rstat,v 1.2 2010/09/24 18:50:11 tg Exp $
 #-
 # Copyright © 2010
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -70,11 +70,12 @@ while :; do
 	#print D: $count ${stats[*]}
 
 	set -A lines
-	lines[0]="entropy $count bits!total ${stats[0]} bits ${stats[11]} sleeping waits"
-	lines[1]="used/read ${stats[1]} bits!srandom read ${stats[2]} times"
+	lines[0]="entropy $((count/8)) bytes!total $((stats[0]/8)) bytes ${stats[11]} sleeping waits"
+	lines[1]="used/read $((stats[1]/8)) bytes!srandom read ${stats[2]} times"
 	lines[2]="arc4 read ${stats[3]} bytes!stirred ${stats[4]} times, using ${stats[5]} bytes"
-	lines[3]="${stats[12]} enqueue calls!${stats[13]} dequeue calls"
+	lines[3]="${stats[12]} tytso pool enqueue calls!${stats[13]} tytso pool dequeue calls"
 	lines[4]="${stats[14]} queue-full drops!${stats[15]} low watermark low entropy"
+	lines[5]="${stats[6]} lopool dequeue calls @ 128by!${stats[7]} enqueue calls, ${stats[8]} bytes"
 	tabularise 2 - 5
 
 	i=-1
@@ -92,23 +93,23 @@ while :; do
 	set -A lines
 	l=
 	i=0 t=TRUE
-	l=$l${l:+!}"$t(${stats[48+i]})!${stats[56+i]}b"
+	l=$l${l:+!}"$t(${stats[48+i]})!$((stats[56+i]/8))"
 	i=1 t=TIMER
-	l=$l${l:+!}"$t(${stats[48+i]})!${stats[56+i]}b"
+	l=$l${l:+!}"$t(${stats[48+i]})!$((stats[56+i]/8))"
 	i=2 t=MOUSE
-	l=$l${l:+!}"$t(${stats[48+i]})!${stats[56+i]}b"
+	l=$l${l:+!}"$t(${stats[48+i]})!$((stats[56+i]/8))"
 	i=3 t=TTY
-	l=$l${l:+!}"$t(${stats[48+i]})!${stats[56+i]}b"
+	l=$l${l:+!}"$t(${stats[48+i]})!$((stats[56+i]/8))"
 	lines[0]=$l
 	l=
 	i=4 t=DISK
-	l=$l${l:+!}"$t(${stats[48+i]})!${stats[56+i]}b"
+	l=$l${l:+!}"$t(${stats[48+i]})!$((stats[56+i]/8))"
 	i=5 t=NET
-	l=$l${l:+!}"$t(${stats[48+i]})!${stats[56+i]}b"
-	i=6 t=AUDIO
-	l=$l${l:+!}"$t(${stats[48+i]})!${stats[56+i]}b"
-	i=7 t=VIDEO
-	l=$l${l:+!}"$t(${stats[48+i]})!${stats[56+i]}b"
+	l=$l${l:+!}"$t(${stats[48+i]})!$((stats[56+i]/8))"
+	i=6 t=A/V
+	l=$l${l:+!}"$t(${stats[48+i]})!$((stats[56+i]/8))"
+	i=7 t=IMACS
+	l=$l${l:+!}"$t(${stats[48+i]})!$((stats[56+i]/8))"
 	lines[1]=$l
 	tabularise 8 RL 3 1
 done

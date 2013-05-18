@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/net/netisr.h,v 1.3 2007/05/29 08:42:31 tg Exp $ */
+/**	$MirOS: src/sys/net/netisr.h,v 1.4 2010/09/24 19:27:33 tg Exp $ */
 /*	$OpenBSD: netisr.h,v 1.20 2004/11/28 23:39:45 canacar Exp $	*/
 /*	$NetBSD: netisr.h,v 1.12 1995/08/12 23:59:24 mycroft Exp $	*/
 
@@ -57,19 +57,21 @@
 #define	NETISR_RND	1
 #define	NETISR_IP	2		/* same as AF_INET */
 #define	NETISR_IMP	3		/* same as AF_IMPLINK */
+#define	NETISR_PPP	4		/* for PPP processing */
+#define	NETISR_PPPOE	5		/* for pppoe processing */
 #define	NETISR_NS	6		/* same as AF_NS */
 #define	NETISR_ISO	7		/* same as AF_ISO */
+#define	NETISR_BRIDGE	8		/* for bridge processing */
+#define	NETISR_PLIP	9		/* for PLIP processing */
 #define	NETISR_CCITT	10		/* same as AF_CCITT */
+/* 13..15 overlap with regular RND_SRC_NET (XXX this is stupid) */
 #define	NETISR_ATALK	16		/* same as AF_APPLETALK */
 #define	NETISR_ARP	18		/* same as AF_LINK */
 #define	NETISR_IPX	23		/* same as AF_IPX */
 #define	NETISR_IPV6	24		/* same as AF_INET6 */
 #define	NETISR_ISDN	26		/* same as AF_E164 */
 #define	NETISR_NATM	27		/* same as AF_ATM */
-#define	NETISR_PPP	28		/* for PPP processing */
-#define	NETISR_BRIDGE	29		/* for bridge processing */
-#define	NETISR_PLIP	30		/* for PLIP processing */
-#define	NETISR_PPPOE	31		/* for pppoe processing */
+/* 29..31 overlap with early RND_SRC_NET */
 
 #ifndef _LOCORE
 #ifdef _KERNEL

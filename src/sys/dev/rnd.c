@@ -1,4 +1,4 @@
-/**	$MirOS$ */
+/**	$MirOS: src/sys/dev/rnd.c,v 1.63 2010/09/19 18:55:34 tg Exp $ */
 /*	$OpenBSD: rnd.c,v 1.78 2005/07/07 00:11:24 djm Exp $	*/
 
 /*
@@ -151,8 +151,7 @@
  *	void add_tty_randomness(int c);
  *	void add_disk_randomness(int n);
  *	void add_net_randomness(int isr);
- *	void add_audio_randomness(int n);
- *	void add_video_randomness(int n);
+ *	void add_auvis_randomness(int n);
  *	void add_imacs_randomness(int data);
  *
  * add_true_randomness() uses true random number generators present
@@ -174,15 +173,13 @@
  * add_disk_randomness() times the finishing time of disk requests as well
  * as feeding both xfer size & time into the entropy pool.
  *
- * add_audio_randomness() times the finishing of audio codec dma
+ * add_auvis_randomness() times the finishing of audio/video codec dma
  * requests for both recording and playback, apparently supplies quite
  * a lot of entropy. I'd blame it on low resolution audio clock generators.
  *
- * add_video_randomness() does the same for video cards, I suppose.
- *
  * add_imacs_randomness() is called from keyboard drivers in order
  * to be able to use things that won't end up as tty randomness,
- * such as meta/alt/ctrl/shift key events.
+ * such as (local) meta/alt/ctrl/shift key events.
  *
  * All of these routines (except for add_true_randomness() of course)
  * try to estimate how many bits of randomness are in a particular
@@ -568,25 +565,26 @@ add_entropy_words(buf, n)
  *
  */
 void
-enqueue_randomness(int rstate, int val)
+enqueue_randomness(state, val)
+	int	state, val;
 {
 	register struct timer_rand_state *p;
 	register struct rand_event *rep;
 	struct timeval	tv;
 	u_int	time_, nbits;
-	int s, sstate;
+	int s;
 
 	/* XXX on i386 and maybe sparc we get here before randomattach() */
 	if (!rnd_attached) {
 #if 1
-		/* since we get a *lot* of information here */
-		rnd_lopool_addv(val + (rstate << 28));
+		/* since we get a *lot* of information here, early */
+		rnd_lopool_addv(val + (state << 29));
 #else
 		RNDEBUG(RD_ALWAYS, "rnd: premature enqueue_randomness\n");
 #endif
 		return;
 	}
-#define rndebugtmp(x) rstate == RND_SRC_ ## x ? #x :
+#define rndebugtmp(x) state == RND_SRC_ ## x ? #x :
 	RNDEBUG(RD_ENQUEUE, "rnd: enqueue(%s, %u)\n",
 	    rndebugtmp(TRUE)
 	    rndebugtmp(TIMER)
@@ -594,21 +592,18 @@ enqueue_randomness(int rstate, int val)
 	    rndebugtmp(TTY)
 	    rndebugtmp(DISK)
 	    rndebugtmp(NET)
-	    rndebugtmp(AUDIO)
-	    rndebugtmp(VIDEO)
+	    rndebugtmp(AUVIS)
 	    rndebugtmp(IMACS)
 	    "unknown", val);
 #undef rndebugtmp
 
-	sstate = rstate == RND_SRC_IMACS ? RND_SRC_TTY : rstate;
-
 #ifdef DIAGNOSTIC
-	if (sstate < 0 || sstate >= RND_SRC_NUM)
+	if (state < 0 || state >= RND_SRC_NUM)
 		return;
 #endif
 
-	p = &rnd_states[rstate];
-	val += rstate << 13;
+	p = &rnd_states[state];
+	val += state << 13;
 
 	microtime(&tv);
 	time_ = tv.tv_usec ^ tv.tv_sec;
@@ -687,8 +682,8 @@ enqueue_randomness(int rstate, int val)
 
 	rndstats.rnd_enqs++;
 	rndstats.rnd_ed[nbits]++;
-	rndstats.rnd_sc[sstate]++;
-	rndstats.rnd_sb[sstate] += nbits;
+	rndstats.rnd_sc[state]++;
+	rndstats.rnd_sb[state] += nbits;
 
 	if (rnd_qlen() > QEVSLOW/2 && !random_state.tmo) {
 		random_state.tmo++;

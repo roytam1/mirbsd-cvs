@@ -6944,8 +6944,9 @@
 ./man9/VOP_SYMLINK.htm
 ./man9/VOP_UNLOCK.htm
 ./man9/abs.htm
-./man9/add_audio_randomness.htm
+./man9/add_auvis_randomness.htm
 ./man9/add_disk_randomness.htm
+./man9/add_imacs_randomness.htm
 ./man9/add_mouse_randomness.htm
 ./man9/add_net_randomness.htm
 ./man9/add_timer_randomness.htm

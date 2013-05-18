@@ -1,4 +1,4 @@
-/* $MirOS: src/sys/crypto/randcore.c,v 1.1 2010/09/19 18:55:33 tg Exp $ */
+/* $MirOS: src/sys/crypto/randcore.c,v 1.2 2010/09/21 17:42:51 tg Exp $ */
 
 /*-
  * Copyright © 2010
@@ -104,6 +104,8 @@ rnd_pool_add(struct rnd_pooladd *sa, const void *d, size_t n)
 	arc4random_roundhash(lopool_uhash, &lopool_uptr, sa, sizeof(*sa));
 	arc4random_roundhash(lopool_uhash, &lopool_uptr, d, n);
 	lopool_content += n;
+	rndstats.lopool_bytes += n;
+	++rndstats.lopool_enq;
 	splx(s);
 }
 
@@ -225,6 +227,8 @@ rnd_lopool_dequeue(void *arg __unused)
 		 * to anything save arc4random_reinit, and we don’t care
 		 * about bias here either, this is just for distribution
 		 */
+
+		++rndstats.lopool_deq;
 	}
 
 	/* 1 + [0;2[ seconds */

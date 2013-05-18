@@ -1,4 +1,4 @@
-# $MirOS: src/share/man/man9/Makefile,v 1.3 2005/03/29 18:06:08 tg Exp $
+# $MirOS: src/share/man/man9/Makefile,v 1.4 2005/07/09 22:25:01 tg Exp $
 
 MANSECT=	9
 
@@ -118,9 +118,10 @@ MLINKS+=random.9 add_true_randomness.9 \
 	random.9 add_timer_randomness.9 \
 	random.9 add_mouse_randomness.9 \
 	random.9 add_tty_randomness.9 \
-	random.9 add_net_randomness.9 \
 	random.9 add_disk_randomness.9 \
-	random.9 add_audio_randomness.9 \
+	random.9 add_net_randomness.9 \
+	random.9 add_auvis_randomness.9 \
+	random.9 add_imacs_randomness.9 \
 	random.9 get_random_bytes.9 \
 	random.9 arc4random.9
 MLINKS+=pfind.9 pgfind.9

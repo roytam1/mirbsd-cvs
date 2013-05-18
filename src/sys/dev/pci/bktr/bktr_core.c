@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/dev/pci/bktr/bktr_core.c,v 1.2 2005/03/06 21:27:51 tg Exp $ */
+/**	$MirOS: src/sys/dev/pci/bktr/bktr_core.c,v 1.3 2005/07/04 03:36:28 tg Exp $ */
 /*	$OpenBSD: bktr_core.c,v 1.17 2005/06/23 14:57:48 robert Exp $	*/
 /*	$FreeBSD: src/sys/dev/bktr/bktr_core.c,v 1.114 2000/10/31 13:09:56 roger Exp $ */
 
@@ -773,7 +773,7 @@ common_bktr_intr( void *arg )
 		OUTB(bktr, BKTR_CAP_CTL, bktr->bktr_cap_ctl);
 
 #ifdef __OpenBSD__
-		add_video_randomness(tdec_save);
+		add_auvis_randomness(tdec_save);
 #endif
 		return 1;
 	}
@@ -788,7 +788,7 @@ common_bktr_intr( void *arg )
  */
 
 #ifdef __OpenBSD__
-	add_video_randomness(INL(bktr, BKTR_RISC_COUNT));
+	add_auvis_randomness(INL(bktr, BKTR_RISC_COUNT));
 #endif
 
 	/*

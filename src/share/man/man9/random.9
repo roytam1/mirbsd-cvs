@@ -1,4 +1,4 @@
-.\"	$MirOS: src/share/man/man9/random.9,v 1.4 2007/02/02 16:45:13 tg Exp $
+.\"	$MirOS: src/share/man/man9/random.9,v 1.5 2010/09/21 17:41:32 tg Exp $
 .\"	$OpenBSD: random.9,v 1.19 2004/04/04 13:19:36 jmc Exp $
 .\"
 .\" Copyright (c) 1996,2000 Michael Shalayeff
@@ -24,7 +24,7 @@
 .\" (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
 .\" THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .\"
-.Dd $Mdocdate$
+.Dd $Mdocdate: September 21 2010 $
 .Dt RND 9
 .Os
 .Sh NAME
@@ -45,9 +45,7 @@
 .Ft void
 .Fn add_net_randomness "int"
 .Ft void
-.Fn add_audio_randomness "int"
-.Ft void
-.Fn add_video_randomness "int"
+.Fn add_auvis_randomness "int"
 .Ft void
 .Fn add_imacs_randomness "int"
 .Ft void
@@ -68,8 +66,7 @@ The
 .Fn add_tty_randomness ,
 .Fn add_net_randomness ,
 .Fn add_disk_randomness ,
-.Fn add_audio_randomness ,
-.Fn add_video_randomness ,
+.Fn add_auvis_randomness ,
 and
 .Fn add_imacs_randomness
 routines are used to

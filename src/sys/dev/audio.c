@@ -2027,7 +2027,7 @@ audio_pint(v)
 
 	blksize = cb->blksize;
 
-	add_audio_randomness((long)cb);
+	add_auvis_randomness((long)cb);
 
 	cb->outp += blksize;
 	if (cb->outp >= cb->end)
@@ -2138,7 +2138,7 @@ audio_rint(v)
 	if (!sc->sc_open)
 		return;		/* ignore interrupt if not open */
 
-	add_audio_randomness((long)cb);
+	add_auvis_randomness((long)cb);
 
 	blksize = cb->blksize;
 

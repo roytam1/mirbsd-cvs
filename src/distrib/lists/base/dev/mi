@@ -7581,8 +7581,9 @@
 ./usr/share/man/cat9/VOP_SYMLINK.0
 ./usr/share/man/cat9/VOP_UNLOCK.0
 ./usr/share/man/cat9/abs.0
-./usr/share/man/cat9/add_audio_randomness.0
+./usr/share/man/cat9/add_auvis_randomness.0
 ./usr/share/man/cat9/add_disk_randomness.0
+./usr/share/man/cat9/add_imacs_randomness.0
 ./usr/share/man/cat9/add_mouse_randomness.0
 ./usr/share/man/cat9/add_net_randomness.0
 ./usr/share/man/cat9/add_timer_randomness.0
