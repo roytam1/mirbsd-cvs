@@ -1,0 +1,3 @@
+@comment $MirOS$
+@comment hand-crafted, no @lib please
+lib/libgiconv.2.dylib

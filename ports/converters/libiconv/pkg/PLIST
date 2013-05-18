@@ -1,5 +1,4 @@
-@comment $MirOS: ports/converters/libiconv/pkg/PLIST,v 1.2 2005/07/19 18:10:06 bsiegert Exp $
-@comment $OpenBSD: PLIST,v 1.5 2003/12/24 00:08:02 brad Exp $
+@comment $MirOS$
 bin/iconv
 giconv/include/iconv.h
 giconv/include/libcharset.h
@@ -15,6 +14,7 @@ share/doc/libiconv/iconv.1.html
 share/doc/libiconv/iconv.3.html
 share/doc/libiconv/iconv_close.3.html
 share/doc/libiconv/iconv_open.3.html
+%%SHARED%%
 @dirrm share/doc/libiconv
 @dirrm giconv/lib
 @dirrm giconv/include

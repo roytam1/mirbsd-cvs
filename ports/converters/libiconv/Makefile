@@ -1,9 +1,9 @@
-# $MirOS: ports/converters/libiconv/Makefile,v 1.5 2006/02/01 17:23:35 tg Exp $
+# $MirOS: ports/converters/libiconv/Makefile,v 1.6 2006/02/09 09:35:42 tg Exp $
 # $OpenBSD: Makefile,v 1.16 2003/12/24 00:08:02 brad Exp $
 
 COMMENT=	"character set conversion library"
 DISTNAME=	libiconv-1.9.1
-PKGNAME=	${DISTNAME}-3
+PKGNAME=	${DISTNAME}-4
 CATEGORIES=	converters devel
 MASTER_SITES=	${MASTER_SITE_GNU:=libiconv/}
 HOMEPAGE=	http://www.gnu.org/software/libiconv/
@@ -33,5 +33,12 @@ pre-patch:
 	cd ${WRKSRC}/autoconf && cp \
 	    config.libpath install-reloc reloc-ldflags ../
 	cd ${WRKSRC}/libcharset/autoconf && cp aclocal.m4 config.libpath ../
+
+# Because LIB_DEPENDS cannot lie outside of ${LOCALBASE}/lib
+# we seem to need this ugly kludge (idea from old kde ports)
+post-install:
+	cd ${PREFIX}/lib; . ${PREFIX}/giconv/lib/libiconv.la; \
+	    ln -s ../giconv/lib/$$dlname \
+	    $$(echo $$dlname | sed s/libiconv/libgiconv/)
 
 .include <bsd.port.mk>

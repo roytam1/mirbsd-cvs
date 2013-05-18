@@ -37,8 +37,8 @@ USE_ICONV=	port
 # The RUN_DEPENDS entry is to ensure libiconv is installed. This is
 # necessary so that we have charset.alias installed on static archs.
 # Typically installed in PREFIX/lib.
-BUILD_DEPENDS+=	:libiconv-*:converters/libiconv
-RUN_DEPENDS+=	:libiconv-*:converters/libiconv
+LIB_DEPENDS+=	giconv::converters/libiconv
+RUN_DEPENDS+=	:libiconv->=1.9.1-4:converters/libiconv
 ICONV_PREFIX=	${LOCALBASE}/giconv
 .elif ${USE_ICONV:L} == "base"
 ICONV_PREFIX=	/usr
