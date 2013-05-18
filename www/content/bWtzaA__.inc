@@ -1,5 +1,5 @@
 <!-- PageID: mksh -->
-<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.55 2006/09/09 15:24:45 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.56 2006/09/09 16:23:09 tg Exp $</small>
 
 <h1>mksh(1) R28</h1>
 <p>This is the MirBSD&trade; Korn Shell, a more or less portable
@@ -35,6 +35,8 @@
 <p>Changes in the current (unreleased) development version:</p><ul>
  <li>Begin porting mksh to the <a href="http://9fans.net/">Plan 9</a>
   ANSI'n'POSIX Environment (not finished)</li>
+ <li>Fix portability of regression tests using fgrep(1)</li>
+ <li>Fix description of $RANDOM in manual page</li>
 </ul>
 <p>Upgrading to mksh R28 with these changes is highly recommended:</p><ul>
  <li>For these who build software as root, the regression testsuite
@@ -451,6 +453,7 @@
   <li>Darwin 8.7.0 Mac OSX 10.4 (powerpc)</li>
   <li>Debian GNU/Linux 3.1-unstable (all architectures) &ndash; debianised</li>
   <li>OpenBSD 3.9 (sparc64) &ndash; via <a href="http://www.mirbsd.org/GBG/mksh-obsdport.tgz">contributed port</a></li>
+  <li>Debian GNU/Linux 3.1-stable 2.4.27-2-k7 (i386) &ndash; via an experimental pkgsrc&reg; package submitted to dfjoerg for inclusion in at least pkgsrc-wip</li>
   <li>CYGWIN_NT-5.0 1.5.19(0.150/4/2) 2006-01-20 13:28 (i386) &ndash; testsuite not run</li>
   <li>Interix SFU 3.5 (Windows&reg; 2000 Pro) SP-8.0.1969.1 (i386) &ndash; testsuite not run</li>
   <li>NetBSD 3.0 (mac68k) &ndash; tested by Jonathan "ciruZ" Schleifer</li>
