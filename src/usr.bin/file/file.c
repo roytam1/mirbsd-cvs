@@ -1,6 +1,6 @@
-/**	$MirOS: src/usr.bin/file/file.c,v 1.3 2005/11/23 17:36:12 tg Exp $ */
+/**	$MirOS: src/usr.bin/file/file.c,v 1.4 2007/07/05 23:09:41 tg Exp $ */
 /*	$OpenBSD: LEGAL.NOTICE,v 1.6 2003/06/13 18:31:14 deraadt Exp $	*/
-/*	$OpenBSD: file.c,v 1.16 2004/12/04 19:55:12 jaredy Exp $ */
+/*	$OpenBSD: file.c,v 1.17 2007/02/19 13:02:08 tom Exp $ */
 /*
  * Copyright (c) Ian F. Darwin 1986-1995.
  * Software written by Ian F. Darwin and others;
@@ -77,7 +77,7 @@
 
 #include "patchlevel.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.bin/file/file.c,v 1.4 2007/07/05 23:09:41 tg Exp $");
 
 #ifdef S_IFLNK
 #define SYMLINKFLAG "L"
@@ -131,7 +131,7 @@ main(int argc, char *argv[])
 	int flags = 0;
 	char *home, *usermagic;
 	struct stat sb;
-#define OPTSTRING	"bcCdf:F:ikLm:nNprsvz"
+#define OPTSTRING	"bcCdf:F:kLm:nNprsvz"
 #ifdef HAVE_GETOPT_LONG
 	int longindex;
 	private struct option long_options[] =
@@ -143,7 +143,6 @@ main(int argc, char *argv[])
 		{"debug", 0, 0, 'd'},
 		{"files-from", 1, 0, 'f'},
 		{"separator", 1, 0, 'F'},
-		{"mime", 0, 0, 'i'},
 		{"keep-going", 0, 0, 'k'},
 #ifdef S_IFLNK
 		{"dereference", 0, 0, 'L'},
@@ -228,9 +227,6 @@ main(int argc, char *argv[])
 			break;
 		case 'F':
 			separator = optarg;
-			break;
-		case 'i':
-			flags |= MAGIC_MIME;
 			break;
 		case 'k':
 			flags |= MAGIC_CONTINUE;
@@ -513,7 +509,6 @@ help(void)
 "                               before installing it\n"
 "  -f, --files-from FILE      read the filenames to be examined from FILE\n"
 "  -F, --separator string     use string as separator instead of `:'\n"
-"  -i, --mime                 output mime type strings\n"
 "  -k, --keep-going           don't stop at the first match\n"
 "  -L, --dereference          causes symlinks to be followed\n"
 "  -n, --no-buffer            do not buffer output\n"
