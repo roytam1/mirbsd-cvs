@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.477 2012/11/20 18:56:49 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.478 2012/11/26 23:14:49 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -800,10 +800,23 @@ exec /usr/bin/ld "${args[@]}"</pre>
  please note: it’s <tt>mksh</tt> or “The MirBSD Korn Shell” (“MidnightBSD
  Korn Shell” is also appropriate), but <em>never</em> <del>Mksh</del> or
  somesuch!</p>
-<p id="pcur"><i>current</i>: Honours <tt>LDSTATIC</tt> (which is appended
- to <tt>LDFLAGS</tt> and, if not empty (e.g. consists of whitespace), adds
- more mksh-local code to to the build to avoid pulling in more libc code
- and improving LTO effect. <i>(unfinished…)</i></p>
+<!--
+<p id="pcur"><i>current</i>: <i>(unfinished…)</i></p>
+-->
+<p id="p41">R41: We’re using POSIX ustar archives now. Honours
+ <tt>LDSTATIC</tt> (which is appended to <tt>LDFLAGS</tt> and, if not empty
+ (e.g. consists of whitespace), adds more mksh-local code to to the build to
+ avoid pulling in more libc code and improving LTO effect. The
+ <tt>-long-options</tt> for <tt>Build.sh</tt> are gone. <tt>MKSH_SMALL</tt>
+ no longer implies <tt>-fno-inline</tt>. A “legacy ksh” can now be built.
+ <a href="http://gcc.gnu.org/bugzilla/show_bug.cgi?id=55009">A GCC bug</a>
+ may lead to assertion failures at <tt>Build.sh</tt> check time; in that
+ case, you <em>may</em> use a workaround <strong>only if you ensure that
+ a run-time test succeeds</strong> (i.e. must not cross-compile except if
+ the result is manually checked afterwards): <tt>arith-mandatory</tt> in
+ <tt>check.t</tt> <strong>must</strong> pass if <tt>-DMKSH_GCC55009</tt>
+ is given (the Debian and OpenSuSE Buildservice packages do the same test
+ without using the Perl testsuite).</p>
 <p><strong>Warning!</strong> The current <tt>Build.sh</tt> interface
  <em>will</em> change in the future. With run-time checks, mandatory
  testsuite parts, etc. it’s already at its limit, and we’ll be needing
@@ -1048,7 +1061,13 @@ exec /usr/bin/ld "${args[@]}"</pre>
 <h2 id="caveat">Users' Upgrade Caveat</h2>
 <p>This does not necessarily list new features, only these which users
  should be aware of for existing scripts.</p>
+<!--
 <p id="ccur"><i>current</i>: … <i>(unfinished…)</i></p>
+-->
+<p id="c41">R41: Deprecated features (set ±o arc4random; beginning an input
+ line with ‘!’ instead of ‘r’+space) are gone. Numbers beginning with 0 are
+ no longer interpreted as octal (except in lksh). Several fixes may have
+ user-visible impact on the language.</p>
 <p>For mksh R41 and up, being a feature superset of OpenBSD ksh (except the
  broken (GNU bash-style) <tt>PS1</tt> and mail support) is demoted, no longer
  a primary but a secondary release criterium. This was changed to facilitate
@@ -1109,15 +1128,19 @@ exec /usr/bin/ld "${args[@]}"</pre>
   (not finished, but maybe the rest is a kernel bug?)</li -->
  <!-- li>Import the GNU bash- and zsh-style ability to get and set multiple
   limits in a single invocation from oksh (thanks millert) -->
+ <li>[tg] Make <tt>-DMKSH_DISABLE_EXPERIMENTAL</tt> a nop again</li>
+ <li>[tg] Re-enable <tt>${ precmd;}</tt> in <tt>dot.mkshrc</tt></li>
+</ul>
+<p id="r41">mksh R41 brings a number of bugfixes and new features:</p><ul>
  <li>[tg] Drop “set ±o arc4random” (deprecated in R40)</li>
  <li>[tg] Drop old <tt>Build.sh</tt> -long-options (deprecated in R40)</li>
  <li>[tg] Change the internal hash algorithm from Bob Jenkins’ one-at-a-time
-  to its NUL-counting, always-changing, never-zero, better-avalanching MirOS
-  variant <a href="@@ABSPATH@@/cvs.cgi/src/kern/include/nzat.h">NZAT</a></li>
+  to its NUL-counting, always-changing, better-avalanching MirOS variant <a
+  href="@@ABSPATH@@/cvs.cgi/src/kern/include/nzat.h">NZAAT</a> (with feedback
+  from ciruZ; aligned names and 75% fill level are reasonable)</li>
  <li>[tg] Use <tt>$'…'</tt> for non-ASCII parameters for re-entry printing</li>
  <li>[tg] Use sane spelling of “read-only” consistently</li>
  <li>[tg] Improve tree <tt>-DDEBUG</tt> functions (internal/developer use)</li>
- <li>[tg] Fix regression in re-entry printing single-char strings</li><!-- nuke that on release/upload -->
  <li>[tg] Reduce stack usage a bit; speed up hash tables at size cost</li>
  <li>[tg] <tt>MKSH_SMALL</tt> no longer implies <tt>-fno-inline</tt></li>
  <li>[tg] Support optional seed in <tt>${parameter@#seed}</tt> for security</li>
@@ -1130,9 +1153,6 @@ exec /usr/bin/ld "${args[@]}"</pre>
  <li>[tg, RT] Better portability to 386BSD, Debian 0.91, ancient Unicēs</li>
  <li>[tg] No longer use mkstemp(3) or tempnam(3) functions, do our own</li>
  <li>[tg] Fix some bugs in the manual page and <tt>Build.sh</tt></li>
- <li>[tg, ciruZ] Switch from NZAT to NZAAT hash for better range coverage;
-  turns out that the never-zero property of NZAT was not in fact needed for
-  hash tables as implemented in mksh (also, align, and 75% are enough)</li>
  <li>[tg] Add MKSH_NO_CMDLINE_EDITING, MKSH_DISABLE_TTY_WARNING</li>
  <li>[RT] Port to Coherent UNIX</li>
  <li>[tg] Enable some options by default for some ports, for instance, since
@@ -1185,9 +1205,8 @@ exec /usr/bin/ld "${args[@]}"</pre>
  <li>[tg] Optimise sh -c “[^]\t\n"-$&amp;-*;-?[\\`|]*” to exec, inspired by
   Jilles Tjoelker (<tt>-DMKSH_DISABLE_EXPERIMENTAL</tt> to ostracise)</li>
  <li>[tg] Fix <tt>$?</tt> inside <tt>eval</tt> (RedHat BZ#865121)</li>
- <li>[tg] Implement ksh93 feature <tt>${ foo;}</tt> (second attempt, exclude
-  with <tt>-DMKSH_DISABLE_EXPERIMENTAL</tt>, using tempfiles this time),
-  but do not use it in <tt>dot.mkshrc</tt> yet (until stable)</li><!-- nuke this line on release -->
+ <li>[tg] Implement ksh93 feature <tt>${ foo;}</tt> (using tempfiles this
+  time; exclude with <tt>-DMKSH_DISABLE_EXPERIMENTAL</tt> in R41)</li>
  <li>[tg] Run SIGINT check more reliably in the cat builtin (LP#1058815)</li>
  <li>[tg] Handle ^C in here documents, COMSUB, arithmetics (LP#1069428)</li>
  <li>[tg] Make <tt>dot.mkshrc</tt> usable with “set -o nounset” / “set -u”</li>
@@ -1198,10 +1217,15 @@ exec /usr/bin/ld "${args[@]}"</pre>
  <li>[tg] Improve documentation, <tt>#ksh</tt> IRC channel homepage</li>
  <li>[tg, RT] Minix 2 also doesn’t have gettimeofday(2) ⇒ check for it</li>
  <li>[tg] Fix an input command line editing display redrawing issue</li>
+ <li>[tg] Track the tty to keep <tt>$COLUMNS</tt> and <tt>$LINES</tt>
+  up-to-date after a <tt>SIGWINCH</tt> even in scripts</li>
 </ul>
+<!--
 <p>Changes in the current (unreleased) stable branch:</p><ul>
+NB: this for R40-stable!
  <li>[tg] Fix a bug in the manual page</li>
 </ul>
+-->
 <p id="r40f">mksh R40f fixes a critical bug as well as this:</p><ul>
  <li>[tg, RT] Implement fcntl(2)-based advisory locking as an alternative
   iff flock(2) is not found (LP: #912691); keep trying in the face of EINTR</li>
@@ -1529,9 +1553,6 @@ exec /usr/bin/ld "${args[@]}"</pre>
 <li>whence -p -a foo</li>
 <li>read -e (or something): use the edit.c stuff for inputting</li>
 <li>Allow trimming arrays (e.g. <tt>${foo[*]@Q}</tt>)</li>
-<li>Keep <tt>tty_fd</tt> open to handle <tt>SIGWINCH</tt> dynamically
- even in scripts with <tt>+m</tt></li>
-<li>Consider doing <tt>${ foo;}</tt> with tempfiles</li>
 <li><a href="mksh_old.htm#plans">older/unrealistic plans</a></li>
 <li>… such as a better website, more clearly arranged, etc…</li>
 </ul>
