@@ -1,9 +1,9 @@
-# $MirOS: ports/devel/popt/Makefile,v 1.2 2005/10/11 20:43:30 bsiegert Exp $
+# $MirOS: ports/devel/popt/Makefile,v 1.3 2006/02/09 09:35:47 tg Exp $
 # $OpenBSD: Makefile,v 1.12 2003/07/15 16:50:22 jolan Exp $
 
 COMMENT=		"getopt(3)-like library with a number of enhancements"
 DISTNAME=		popt-1.7
-PKGNAME=		${DISTNAME}-1
+PKGNAME=		${DISTNAME}-2
 CATEGORIES=		devel
 MASTER_SITES=		ftp://ftp.rpm.org/pub/rpm/dist/rpm-4.1.x/ \
 			ftp://ftp.mirror.ac.uk/sites/ftp.rpm.org/pub/rpm/dist/rpm-4.1.x/
@@ -20,5 +20,6 @@ CONFIGURE_STYLE=	autoconf
 AUTOCONF_NEW=		Yes
 CONFIGURE_ARGS+=	${CONFIGURE_SHARED}
 CONFIGURE_ARGS+=	--disable-nls
+MODULES+=		converters/libiconv
 
 .include <bsd.port.mk>
