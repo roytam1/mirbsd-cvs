@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.409 2012/12/16 22:59:15 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.410 2012/12/31 22:36:33 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -9644,5 +9644,6 @@ Tag: debian mksh
  new snapshot some time in January. The Grml 2012.12 also contains a pretty
  up-to-date MirBSD, with a boot(8/i386)loader that now ignores GUID partition
  table entries when deciding what to use for the ‘a’ slice.</p>
-<p>If you haven’t already done so, read Benjamin Mako Hill’s writings!</p>
+<p>If you haven’t already done so, read <a href="http://mako.cc/">Benjamin
+ Mako Hill</a>’s writings!</p>
 ----
