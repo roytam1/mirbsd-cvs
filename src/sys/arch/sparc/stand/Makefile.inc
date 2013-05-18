@@ -1,4 +1,4 @@
-# $MirOS: src/sys/arch/sparc/stand/Makefile.inc,v 1.8 2008/07/13 19:42:39 tg Exp $
+# $MirOS: src/sys/arch/sparc/stand/Makefile.inc,v 1.9 2008/08/01 15:47:14 tg Exp $
 # $OpenBSD: Makefile.inc,v 1.12 2004/07/13 21:03:38 marc Exp $
 # $NetBSD: Makefile.inc,v 1.5 1996/02/01 22:33:01 mycroft Exp $
 
@@ -32,20 +32,6 @@ CLEANFILES+=	machine
 .BEGIN:
 	@([ X$(S) = X -o -h machine ] || ln -s $(S)/arch/sparc/include machine)
 .endif
-
-### Figure out what to use for libkern
-LIBKERNDIR=		${.CURDIR}/../libkern
-
-.if exists(${LIBKERNDIR}/obj.${MACHINE})
-LIBKERNOBJDIR=		${LIBKERNDIR}/obj.${MACHINE}
-.elif exists(${LIBKERNDIR}/obj)
-LIBKERNOBJDIR=		${LIBKERNDIR}/obj
-.else
-LIBKERNOBJDIR=		${LIBKERNDIR}
-.endif
-
-DLIBKERN=		${LIBKERNOBJDIR}/libkern.a
-LLIBKERN=		-L${LIBKERNOBJDIR} -lkern
 
 ### Figure out what to use for libsa
 LIBSADIR=		${.CURDIR}/../libsa

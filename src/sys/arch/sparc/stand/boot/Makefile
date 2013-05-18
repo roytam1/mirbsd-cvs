@@ -1,4 +1,4 @@
-# $MirOS: src/sys/arch/sparc/stand/boot/Makefile,v 1.6 2008/07/13 19:42:40 tg Exp $
+# $MirOS: src/sys/arch/sparc/stand/boot/Makefile,v 1.7 2008/08/01 15:47:14 tg Exp $
 # $OpenBSD: Makefile,v 1.12 2003/08/11 06:35:45 deraadt Exp $
 # $NetBSD: Makefile,v 1.2 1995/09/30 21:43:38 pk Exp $
 
@@ -21,11 +21,11 @@ CPPFLAGS+=	-I${.CURDIR}/../common -I${.CURDIR}/../../../../arch \
 		-DSPARC_BOOT_AOUT -DSPARC_BOOT_ELF
 
 CLEANFILES+=	${PROG}.elf
-LIBS=		${DLIBSA} ${DLIBKERN}
+LIBS=		${DLIBSA}
 
 ${PROG}: ${OBJS} ${LIBS}
 	${LD} -N -Ttext ${RELOC2} --format a.out-sparc-netbsd \
-	    -e start ${OBJS} --start-group ${LLIBSA} ${LLIBKERN} \
+	    -e start ${OBJS} --start-group ${LLIBSA} \
 	    $$(${CC} -print-libgcc-file-name) --end-group -o ${PROG}.elf
 	@size ${PROG}.elf
 	strip -s ${PROG}.elf

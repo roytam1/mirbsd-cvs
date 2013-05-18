@@ -1,4 +1,4 @@
-# $MirOS: src/sys/arch/sparc/stand/libsa/Makefile,v 1.5 2008/08/01 15:47:15 tg Exp $
+# $MirOS: src/sys/arch/sparc/stand/libsa/Makefile,v 1.6 2008/08/01 18:09:32 tg Exp $
 # $OpenBSD: Makefile,v 1.3 2004/07/13 21:03:39 marc Exp $
 
 .include "${.CURDIR}/../Makefile.inc"
@@ -6,6 +6,8 @@
 LIB=	sa
 
 .PATH:	${.CURDIR}/../../../../lib/libsa
+.PATH:	${.CURDIR}/../../../../lib/libkern
+.PATH:	${.CURDIR}/../../../../lib/libkern/arch/sparc
 
 S=		${.CURDIR}/../../../..
 SADIR=		${.CURDIR}/..
@@ -34,7 +36,7 @@ beforedepend: ${ZLIB_GENHDRS}
 
 # stand routines
 SRCS+=	alloc.c exit.c exec.c getfile.c gets.c globals.c \
-	memcpy.c printf.c snprintf.c strerror.c strncpy.c
+	memcpy.c printf.c snprintf.c strerror.c strncpy.c strncmp.c
 
 # io routines
 SRCS+=	close.c closeall.c dev.c disklabel.c dkcksum.c fstat.c ioctl.c lseek.c \

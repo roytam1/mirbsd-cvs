@@ -1,4 +1,4 @@
-# $MirOS: src/sys/arch/sparc/stand/bootxx/Makefile,v 1.14 2007/10/16 22:01:37 tg Exp $
+# $MirOS: src/sys/arch/sparc/stand/bootxx/Makefile,v 1.15 2007/10/20 20:24:41 tg Exp $
 # $OpenBSD: Makefile,v 1.7 2003/08/11 06:35:45 deraadt Exp $
 # $NetBSD: Makefile,v 1.2 1995/09/30 21:43:38 pk Exp $
 
@@ -9,13 +9,6 @@ PROG=		bootxx
 NOMAN=		yes
 INSTALL_STRIP=	#empty
 SRCS=		srt0.S bootxx.c btable.S closeall.c dvma.c promdev.c
-
-# pre-built bits of libkern
-KOBJS=		__main.o bzero.o udiv.o urem.o
-_KOBJS=		${KOBJS:S,^,${LIBKERNOBJDIR}/,g}
-# pre-built bits of libsa
-SOBJS=		alloc.o exit.o memcpy.o memset.o printf.o
-_SOBJS=		${SOBJS:S,^,${LIBSAOBJDIR}/,g}
 
 CPPFLAGS+=	-I${.CURDIR}/../common -I${.CURDIR}/../../../../arch \
 		-I${.CURDIR}/../../../.. -I${.CURDIR}/../../../../lib/libsa \
@@ -33,7 +26,7 @@ ${PROG}: ${PROG}.elf
 LINK.prog=	:
 
 ${PROG}.elf: ${OBJS}
-	${LD} -N -Ttext ${RELOC} -e start ${OBJS} ${_SOBJS} ${_KOBJS} -o $@
+	${LD} -N -Ttext ${RELOC} -e start ${OBJS} ${LLIBSA} -o $@
 
 bxinst: ${.CURDIR}/mkbxinst.sh ${PROG}
 	${MKSH} ${.CURDIR}/mkbxinst.sh ${PROG} >$@
