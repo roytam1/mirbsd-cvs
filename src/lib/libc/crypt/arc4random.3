@@ -1,4 +1,4 @@
-.\" $MirOS: src/lib/libc/crypt/arc4random.3,v 1.14 2010/09/21 17:41:30 tg Exp $
+.\" $MirOS: src/lib/libc/crypt/arc4random.3,v 1.15 2010/09/21 19:38:21 tg Exp $
 .\" $OpenBSD: arc4random.3,v 1.27 2008/12/23 18:31:02 deraadt Exp $
 .\"
 .\" Copyright (c) 2010
@@ -131,8 +131,7 @@ has been used to queue some data for doing so.
 .Pp
 The
 .Fn arc4random_pushb_fast
-function, whose existence can be tested for because a macro with
-the same name exists, will queue the data passed for upload on the
+function will queue the data passed for upload on the
 next stir using a (non-cryptographic) hash algorithm, which is only
 used for collapsing/compressing the data into the queue buffer.
 The deprecated
@@ -140,10 +139,10 @@ The deprecated
 function behaves the same, except instead of being passed a buffer
 and its size for pushing, it takes a direct numeric argument.
 The deprecated
-.Nm arc4random_pushk
-macro is a C preprocessor alias (macro) for the deprecated
+.Fn arc4random_pushk
+and
 .Fn arc4random_pushb
-function, which will call
+functions do exactly the same, namely call
 .Fn arc4random_pushb_fast
 and then call
 .Fn arc4random
@@ -190,15 +189,10 @@ first appeared in
 first appeared in
 .Mx 10 .
 .Fn arc4random_pushk
-(temporarily as a function but now only as a macro) and
+and
 .Fn arc4random_pushb_fast
 first appeared in
 .Mx 11 .
 All these functions were rewritten for
-.Mx 11 .
-.Pp
-The deprecated functions
-.Fn arc4random_push ,
-.Fn arc4random_pushb ,
-.Fn arc4random_pushk
-will be available only as compatibility macros on the next libc major bump.
+.Mx 11
+and macros for every function are now defined for easy existence checks.
