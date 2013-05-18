@@ -1,5 +1,5 @@
 <!-- PageID: clog-2006 -->
-<small class="rcsid">$MirOS: www/content/Y2xvZy0yMDA2.inc,v 1.8 2006/02/15 13:20:35 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/Y2xvZy0yMDA2.inc,v 1.9 2006/02/26 12:22:24 tg Exp $</small>
 <!--
  Full list of release focuses in freshmeat.net-compatible format:
 	N/A
@@ -47,7 +47,8 @@
  <li>ports: some more improvements</li>
 </ul><p>This snapshot has been published as ISO9660 image on FOSDEM 2006
  and via BitTorrent. It primarily updates OpenSSH for security reasons
- and also fixes a few other bugs and cleans up the code.</p>
+ and also fixes a few other bugs and cleans up the code.
+ <strong>Update</strong>: the www/php port is broken, cvs up it please.</p>
 
 <p id="snap0215">15.02.2006<br />Changes relative to the <a
  href="#snap0113">2006-01-13 snapshot</a> below:</p><ul>

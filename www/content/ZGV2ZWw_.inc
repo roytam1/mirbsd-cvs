@@ -1,5 +1,5 @@
 <!-- PageID: devel -->
-<small class="rcsid">$MirOS: www/content/ZGV2ZWw_.inc,v 1.9 2006/01/27 01:09:38 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/ZGV2ZWw_.inc,v 1.10 2006/01/27 01:10:51 tg Exp $</small>
 <h1>MirOS Project Members</h1>
 <p>The links below show details about every MirOS Project
  team member - developer or contributor. The content is whatever
@@ -7,7 +7,7 @@
 <h2>Developers</h2>
 <h3>active</h3><ul>
 <li><a href="http://wiki.mirbsd.de/BennySiegert">bsiegert@</a> (Benny Siegert)</li>
-<li><a href="http://wiki.mirbsd.de/MirAbile">tg@</a> (Thorsten Glaser)</li>
+<li>tg@ (Thorsten Glaser)</li>
 </ul><h3>inactive</h3><ul>
 <li>cnuke@ (Josef S&ouml;ntgen)</li>
 <li>dave@ (Dave Steinberg)</li>

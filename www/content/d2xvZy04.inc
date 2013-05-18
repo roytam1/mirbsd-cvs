@@ -1,5 +1,5 @@
 <!-- PageID: wlog-8 -->
-<small class="rcsid">$MirOS: www/content/d2xvZy04.inc,v 1.46 2006/02/26 01:18:15 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy04.inc,v 1.47 2006/02/27 20:52:03 tg Exp $</small>
 <h1>MirBSD &ndash; WTF, We Have a Release!?</h1>
 <p><small><a href="#eof">bottom</a> or <a href="/?older">older</a>
  editions</small></p>
@@ -574,6 +574,130 @@ celebrate this event, rotate the wlog and start a new one.</p>
  <p>Benny is back in Strasbourg (France) and I hope he'll join us people
   working on MirOS again soon if his girlfriend allows... I'm also still
   expecting a wlog entry from his &#x65e5;&#x672c; holiday.</p>
+</div>
+
+<div class="wlentry">
+ <h3 id="e20060301">01.03.2006 by tg@</h3>
+ <p>Really should make a <tt>/?features</tt> out of the following...</p>
+ <!-- begin -->
+	<h2 id="diffmir">Differences to MirOS #7</h2>
+
+	<p>There should be a complete change log, but we have about 30 MiB of
+	 CVS commit logs to read for writing one, so we're only listing the
+	 most important ones here:</p><ul>
+	<li>Much faster</li>
+	<li>Improved and portable MirPorts Framework</li>
+	<li>Updated lots of ports and base system programmes</li>
+	<li>64 bit time_t (on i386)</li>
+	<li>Correct leap second handling</li>
+	<li>Full gcc-3.4.6 (prerelease; propolice) support for C, C++,
+	 Objective-C, Pascal, (on i386) Java&trade;, Ada</li>
+	<li>GNU CVS 1.12 including own enhancements</li>
+	<li>uname(1) now returns <tt>MirBSD</tt></li>
+	<li>compat_openbsd(8) &ndash; binary compatibility layer for
+	 OpenBSD-3.8 and MirOS #7-stable systems (almost 100%) and
+	 most old MirOS #7-current versions</li>
+	<li>compat_linux(8) and OSS audio improvements</li>
+	<li>Working LKMs (loadable kernel modules)</li>
+	<li>Improvements in the random number generators, ext2fs, msdosfs,
+	 and ntfs support</li>
+	<li>Kernel pppoe(4) support, much faster and can terminate
+	 unknown sessions (useful after reboot)</li>
+	<li>Using sv4cpio/sv4crc instead of ustar as package format</li>
+	<li>USB 2.0 support</li>
+	<li>Update to XFree86&reg; 4.5</li>
+	<li>Ramdisk (<tt>bsd.rd</tt>) now uses GENERIC kernel, comes with
+	 many rescue tools (even sshd(8))</li>
+	<li>Package tools are now part of MirPorts</li>
+	<li>libpng, libexpat are now part of the base system</li>
+	<li>Reiser CCCP used as fall-back cpp(1)</li>
+	<li>Support for rsh removed</li>
+	<li>8-bit (latin1 and EUC-JP) manual page support in nrcon (nroff),
+	 HTML manual pages, french spacing</li>
+	<li>New tools: gzsig(1), getcap(1), ifwatchd(8), ntpd(8), spamd(8) and
+	 friends, tcpdrop(8), wssetfont(8), xmlwf(1), ...</li>
+	<li>Support for hardcoding ARP table entries at boot in /etc/arp.conf</li>
+	</ul>
+
+	<p>We're quite sure this list isn't complete and we might even have
+	 forgotten some change of major importance, but this should give you
+	 a good idea why to upgrade.</p>
+
+
+	<h2 id="diffopen">Differences to OpenBSD</h2>
+
+	<p>We always get asked how we compare to the other BSDs. Since we have
+	 originally forked off OpenBSD we'll list a few &quot;main differences&quot;
+	 (the list is nowhere complete, but a good start):</p><ul>
+	<li>No hot-tempered head developer</li>
+	<li>Portable porting framework</li>
+	<li>Much better infrastructure</li>
+	<li>Generic framework for wrapping GNU autotools</li>
+	<li>Up-to-date third-party tools (GNU Binutils, GCC, CVS, RCS, Sendmail,
+	 Perl, Lynx, Texinfo, X-Window, Libtool) avoiding the many porting errors</li>
+	<li>Compilers for C, C++, Objective-C, Pascal, (on i386) Java&trade;, Ada</li>
+	<li>Slim base system &ndash; no Kerberos, AFS, YP/NIS+, SMP, binary
+	 compatibility for unused operating systems, BIND, non-C code</li>
+	<li>ISDN support</li>
+	<li>Privacy improvements</li>
+	<li>Support for the i386 and (not now) sparc architectures</li>
+	<li>Feature enhancements in the Linux emulation</li>
+	<li>Binary compatibility to OpenBSD (almost 100%)</li>
+	<li>evilwm replaces wm2</li>
+	<li>We still use XFree86&trade; 4.5</li>
+	<li>BSD d&aelig;mon</li>
+	<li>Rewritten master and partition boot record with boot manager support</li>
+	<li>GENERIC kernel is used on <tt>bsd.rd</tt></li>
+	<li>The ramdisk contains a lot of rescue tools, even sshd(8)</li>
+	<li>Support for disabling <tt>fsck(8)</tt> for ffs filesystems with softdep
+	 enabled (default in the MirOS installer) in <tt>/etc/fstab</tt>.
+	 Includes automatic sorting of the fstab file implemented in korn shell.</li>
+	<li>Highly improved set of shell script infrastructure using security
+	 features of the Korn shell which is <tt>/bin/sh</tt> in MirOS. Automatic
+	 discovery of IDE hard disc drives which need their write cache disabled.</li>
+	<li>mksh(1) is the Korn shell, highly improved</li>
+	<li>CTM, growfs(8), ffsinfo, wtf(1)</li>
+	<li>TLS-enabled Lynx and Sendmail with automatically generated server
+	 certificate (boot-time) and CAcert.org support</li>
+	<li>AT&amp;T nroff instead of GNU groff</li>
+	<li>Default <tt>/etc/profile</tt> file for smoother user interface</li>
+	<li>Support for hardcoding ARP table entries at boot in /etc/arp.conf</li>
+	<li>Many more ports which are not in OpenBSD for political reasons</li>
+	</ul>
+ <!-- end; -->
+ <p>... and more.</p>
+ <p>Built a cross-compiler to i386-gnu-linux-gnu with Debian GNU/Linux's
+  libs and headers. Built printf(1) - all other tools I attempted didn't
+  work: sh(1) mksh(1) date(1) id(1) and maybe more. GCC also builds okay
+  natively (tested that, including libjava - poor odem).</p>
+ <p>Next up is bringing the sparc (32-bit) port back in shape. Some nice
+  discussions with Tonnerre in IRC reaffirm my decision to not ever have
+  a sparc64 port (gcc sucks). i386 is our primary platform, sparc and in
+  the future amd64 will be secondary platforms, with the option to add a
+  macppc or alpha port if Benny or Tonnerre are up to the task.</p>
+ <p>To the curious reader: I will import OpenBSD 3.9-STABLE at some time
+  into the vendor branch and merge it all. But at the moment, sparc will
+  come first because we have got actual customers ;) hi CcSsNET</p>
+ <p>gcc 4.1.0 is out &ndash; all I can do is laugh at the bug list shown
+  in <a href="http://article.gmane.org/gmane.comp.gcc.announce/29">their
+  release announcement</a>... GNU Tar (a version with a known (directory
+  traversal, I think) bug), and the other thing, and that gcc 4.1.1 will
+  take another two months (wondering what else will go wrong). Positive,
+  however, is the ProPolice &#x2161; built-in support and that it's said
+  it runs on Interix unpatched. I wonder if we should better make a port
+  out of it (for MirPorts) instead of our system compiler &ndash; OTOH I
+  think many people (centericq on OpenBSD users, for instance) benefit a
+  lot of a mgcc(1) mirport...</p>
+ <p>I'll visit my best friend tomorrow, stay until sunday evening, so no
+  internet for me (no computer at all, even). Probably he'll be the only
+  person to celebrate (post morten ;) my birthday with. Not many people,
+  as usual, remembered it anyway. (He forgot it too.) But I nevertheless
+  had had a great time. No, I won't tell.</p>
+ <p>My mobile phone (&gt; 6 years old Trium Astral) is making trouble...
+  the first time since about a year it has had this kind of error (shows
+  connection to a GSM provider but it's away as soon as I try to place a
+  call). Any ideas? No, I won't change cell phones. Only fix.</p>
+ <p>No idea what else to write. BENNY! I'm still waiting!</p>
 </div>
 
 <p id="eof">Good luck, have fun, take care etc.pp</p>
