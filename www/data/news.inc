@@ -609,5 +609,7 @@ Date: 24.02.2008
 <p>Despite the crappy WLAN and no LAN availability even for booths, Benny
  and I managed to hack on stuff (e.g., mksh). We also made plans for a
  very short-term follow-up #10semel release; mostly, security updates for
- XFree86® and a lot of ports.</p>
+ XFree86® and a lot of ports. (FOSDEM was great as usual, though.)</p>
+<p>The &lt;link rel=…&gt; tags for RSS have been fixed; the feeds still do
+ not work with Opera though. Does anybody know why? (RSS sucks…)</p>
 ----
