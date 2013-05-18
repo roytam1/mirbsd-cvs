@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/distrib/i386/livecd/munge_it.sh,v 1.3 2006/04/05 23:39:47 tg Exp $
+# $MirOS: src/distrib/i386/livecd/munge_it.sh,v 1.4 2006/04/05 23:50:17 tg Exp $
 #-
 # Copyright (c) 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -63,7 +63,7 @@ ed -s etc/ntpd.conf <<-'EOF'
 EOF
 ed -s etc/rc <<-'EOF'
 	1i
-		# $MirOS: src/distrib/i386/livecd/munge_it.sh,v 1.3 2006/04/05 23:39:47 tg Exp $
+		# $MirOS: src/distrib/i386/livecd/munge_it.sh,v 1.4 2006/04/05 23:50:17 tg Exp $
 	.
 	/^rm.*fastboot$/a
 
@@ -79,7 +79,7 @@ ed -s etc/rc <<-'EOF'
 		do_mfsmount tmp 524288
 		do_mfsmount var
 		sleep 2
-		tar xzphf /home/fsrw.cgz
+		gzip -dc /home/fsrw.cgz | tar xphf -
 		sleep 1
 		do_mfsmount home
 		print ' done'
