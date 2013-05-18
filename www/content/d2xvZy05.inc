@@ -1,5 +1,5 @@
 <!-- PageID: wlog-9 -->
-<small class="rcsid">$MirOS: www/content/d2xvZy05.inc,v 1.64 2006/11/05 21:34:20 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy05.inc,v 1.65 2006/11/12 22:19:06 tg Exp $</small>
 <h1>MirBSD &ndash; WTF is Verpeilungsfaktor?</h1>
 <p><small><a href="#eof">bottom</a> or <a href="/?older">older</a>
  editions</small></p>
@@ -1095,6 +1095,36 @@ plot [150:200] 	"bs06.4Kmin.txt" using 1:3 with lines title "exc{\350}s en chlor
  </div><p style="margin-top:0px;">Idea is originally from Ricardas Cepas
   &lt;rch@pub.osf.lt&gt; (mail currently down, due to a misconfiguration
   on their side).</p>
+</div>
+
+<div class="wlentry">
+ <h3 id="e20061113">13.11.2006 by bsiegert@</h3>
+<p>I spent nine hours in the train today, two more than planned. I had
+ 20 minutes for changing trains but mine was 22 minutes late. Tough
+ luck.</p>
+
+<p>I was going to rewrite the dependency handling stuff in the pkgtools
+ but I had to clean up the convoluted mess that is pkg_do() in pkg_add.
+ The function contained more than 500 lines of code. I did some
+ refactoring: the automatic loading of dependencies is now done in
+ separate functions. I think recursive autoloading via ftp is broken but
+ we don't have binary packages on ftp anyway. However, recording of
+ dependencies is now handled much more sanely. Before, the tools did two
+ passes over the plist: one for checking the dependencies and one for
+ recording them.  Wildcards were newly expanded each time so you could
+ not be sure you record the dependency on the same package you checked
+ earlier.</p>
+
+<p>For the user, there should be no functional change. pkg_add now
+ creates a <tt>$LOCALBASE/db/pkg/pkgname/+DEPENDS</tt> file,
+ which contains the correct forward dependencies for the package. This
+ file is essentially unused at the moment but will be more important
+ later.</p>
+
+<p>These changes will eventually lead to abandoning the dependency
+ checker in perl. I already got rid of all calls to <tt>pkg dependencies
+ check</tt> in bsd.port.mk; these can be replaced by calling
+ <tt>pkg_info -qe</tt>.</p>
 </div>
 
 <p id="eof">Good luck, have fun, take care etc.pp</p>
