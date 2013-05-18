@@ -1,0 +1,37 @@
+$MirOS$
+--- configure.ac.orig	Sun Sep  6 15:21:07 2009
++++ configure.ac	Sun Sep  6 15:42:43 2009
+@@ -409,7 +409,7 @@ if test -n "$auto_cflags" && test ."$ans
+ fi
+ if test -n "$auto_ldflags"; then
+   case "${enable_zsh_debug}$host_os" in
+-    yesaix*|yeshpux*|yesnetbsd*|yesopenbsd*) ;;  # "ld -g" is not valid on these systems
++    yesaix*|yeshpux*|yesmirbsd*|yesnetbsd*|yesopenbsd*) ;;  # "ld -g" is not valid on these systems
+     darwin*) LDFLAGS=-Wl,-x ;;
+     yes*)    LDFLAGS=-g ;;
+     *)       LDFLAGS=-s ;;
+@@ -701,7 +701,7 @@ AH_TEMPLATE([ZSH_NO_XOPEN],
+ AC_CACHE_CHECK(if _XOPEN_SOURCE_EXTENDED should not be defined,
+ zsh_cv_no_xopen,
+ [[case "$host_os" in
+-  *openbsd*|*freebsd5*|*freebsd6.[012]*|*aix*)
++  *openbsd*|*mirbsd*|*freebsd5*|*freebsd6.[012]*|*aix*)
+   zsh_cv_no_xopen=yes
+   ;;
+   *)
+@@ -2616,6 +2616,7 @@ char *argv[];
+     solaris*|sysv4*|esix*) DLLDFLAGS="${DLLDFLAGS=-G}" ;;
+     darwin*)      DLLDFLAGS="${DLLDFLAGS=-bundle -flat_namespace -undefined suppress}" ;;
+     beos*|haiku*) DLLDFLAGS="${DLLDFLAGS=-nostart}" ;;
++    mirbsd*)      DLLDFLAGS="${DLLDFLAGS=-shared -fPIC}" ;;
+     openbsd*)
+       if test x$zsh_cv_sys_elf = xyes; then
+ 	DLLDFLAGS="${DLLDFLAGS=-shared -fPIC}"
+@@ -2633,6 +2634,7 @@ char *argv[];
+   esac
+   case "$host" in
+     *-hpux*)  EXTRA_LDFLAGS="${EXTRA_LDFLAGS=-Wl,-E}" ;;
++    *mirbsd*) EXTRA_LDFLAGS="${EXTRA_LDFLAGS=-Wl,-E}" ;;
+     *openbsd*)
+        if test x$zsh_cv_sys_elf = xyes; then
+ 	 EXTRA_LDFLAGS="${EXTRA_LDFLAGS=-Wl,-E}"

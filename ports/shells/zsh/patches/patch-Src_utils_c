@@ -1,0 +1,19 @@
+$MirOS$
+--- Src/utils.c.orig	Tue May 19 11:17:47 2009
++++ Src/utils.c	Sun Sep  6 15:32:17 2009
+@@ -536,11 +536,14 @@ wcs_nicechar(wchar_t c, size_t *widthp, 
+ 	 * This comparison fails and generates a compiler warning
+ 	 * if wchar_t is 16 bits, but the code is still correct.
+ 	 */
++#if !defined(__WCHAR_MAX__) || (__WCHAR_MAX__ > 65535U)
+ 	if (c >=  0x10000) {
+ 	    sprintf(buf, "\\U%.8x", (unsigned int)c);
+ 	    if (widthp)
+ 		*widthp = 10;
+-	} else if (c >= 0x100) {
++	} else
++#endif
++	  if (c >= 0x100) {
+ 	    sprintf(buf, "\\u%.4x", (unsigned int)c);
+ 	    if (widthp)
+ 		*widthp = 6;

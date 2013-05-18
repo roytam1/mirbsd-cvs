@@ -1,18 +1,24 @@
-$OpenBSD: patch-Completion_BSD_Command__bsd_pkg,v 1.4 2003/07/03 12:56:52 lebel Exp $
---- Completion/BSD/Command/_bsd_pkg.orig	Tue Oct 15 13:59:37 2002
-+++ Completion/BSD/Command/_bsd_pkg	Fri May 23 10:13:59 2003
-@@ -6,15 +6,19 @@ _bsd_pkg_pkgfiles() {
+$MirOS$
+$OpenBSD: patch-Completion_BSD_Command__bsd_pkg,v 1.2 2006/01/29 20:41:02 sturm Exp $
+--- Completion/BSD/Command/_bsd_pkg.orig	Wed Jan 21 13:53:06 2004
++++ Completion/BSD/Command/_bsd_pkg	Sun Sep  6 15:15:10 2009
+@@ -5,16 +5,24 @@ _bsd_pkg_pkgfiles() {
+   local ret=1 paths portsdir pkgsdir
  
    case $OSTYPE in
++  mirbsd*)
++    portsdir=${PORTSDIR:-/usr/ports}
++    pkgsdir=${PACKAGES:-$portsdir/Packages}
++    ;;
    netbsd*)
 -    portsdir=/usr/pkgsrc
 +    portsdir=${PORTSDIR:-/usr/pkgsrc}
 +    pkgsdir=${PACKAGES:-$portsdir/packages}/All
-+    ;;
+     ;;
 +  openbsd*)
 +    portsdir=${PORTSDIR:-/usr/ports}
 +    pkgsdir=${PACKAGES:-$portsdir/packages}/$(arch -s)/All
-     ;;
++    ;;
    *)
      portsdir=${PORTSDIR:-/usr/ports}
 +    pkgsdir=${PACKAGES:-$portsdir/packages}/All
@@ -22,9 +28,9 @@ $OpenBSD: patch-Completion_BSD_Command__bsd_pkg,v 1.4 2003/07/03 12:56:52 lebel 
 -  pkgsdir=${PACKAGES:-$portsdir/packages}/All
 -
    paths=( "${(@)${(@s.:.)PKG_PATH}:#}" )
-   _files "$@" -g '*.t[bg]z' && ret=0
-   (( $#path )) && _files "$@" -W paths -g '*.t[bg]z' && ret=0
-@@ -25,7 +29,7 @@ _bsd_pkg_pkgfiles() {
+   _files "$@" -g '*.t[bg]z(-.)' && ret=0
+   (( $#path )) && _files "$@" -W paths -g '*.t[bg]z(-.)' && ret=0
+@@ -25,7 +33,7 @@ _bsd_pkg_pkgfiles() {
  
  (( $+functions[_bsd_pkg_pkgs] )) ||
  _bsd_pkg_pkgs() {
@@ -33,7 +39,7 @@ $OpenBSD: patch-Completion_BSD_Command__bsd_pkg,v 1.4 2003/07/03 12:56:52 lebel 
  }
  
  (( $+functions[_bsd_pkg_pkgs_and_files] )) ||
-@@ -48,11 +52,11 @@ _bsd_pkg() {
+@@ -48,11 +56,11 @@ _bsd_pkg() {
    pkg_add)
      flags=(
        '-f[force installation]'
@@ -48,7 +54,7 @@ $OpenBSD: patch-Completion_BSD_Command__bsd_pkg,v 1.4 2003/07/03 12:56:52 lebel 
        '-S[run in slave mode]'
        '-t[specify mktemp template]:mktemp template:_files -/'
        '-v[be verbose]'
-@@ -67,9 +71,9 @@ _bsd_pkg() {
+@@ -67,9 +75,9 @@ _bsd_pkg() {
        ;;
      netbsd*)
        flags=(
@@ -61,7 +67,7 @@ $OpenBSD: patch-Completion_BSD_Command__bsd_pkg,v 1.4 2003/07/03 12:56:52 lebel 
        )
        ;;
      esac
-@@ -83,37 +87,37 @@ _bsd_pkg() {
+@@ -83,37 +91,37 @@ _bsd_pkg() {
      case "$OSTYPE" in
      freebsd*)
        flags=(
@@ -125,7 +131,7 @@ $OpenBSD: patch-Completion_BSD_Command__bsd_pkg,v 1.4 2003/07/03 12:56:52 lebel 
        )
        ;;
      esac
-@@ -124,10 +128,10 @@ _bsd_pkg() {
+@@ -124,10 +132,10 @@ _bsd_pkg() {
  
    pkg_delete)
      flags=(
@@ -138,7 +144,7 @@ $OpenBSD: patch-Completion_BSD_Command__bsd_pkg,v 1.4 2003/07/03 12:56:52 lebel 
        '-p[specify prefix]:prefix directory:_files -/'
        '-v[be verbose]'
      )
-@@ -136,35 +140,43 @@ _bsd_pkg() {
+@@ -136,35 +144,43 @@ _bsd_pkg() {
      freebsd*)
        flags=(
          $flags[@]
@@ -175,7 +181,7 @@ $OpenBSD: patch-Completion_BSD_Command__bsd_pkg,v 1.4 2003/07/03 12:56:52 lebel 
 -      $flags[@] \
 -      '(-a)*:package name:_bsd_pkg_pkgs_and_files'
 +    case "$OSTYPE" in
-+    openbsd*)
++    mirbsd*|openbsd*)
 +      _arguments -s \
 +        $flags[@] \
 +        '*:installed package name:_bsd_pkg_pkgs'
@@ -194,7 +200,7 @@ $OpenBSD: patch-Completion_BSD_Command__bsd_pkg,v 1.4 2003/07/03 12:56:52 lebel 
        '-c[show comment fields]'
        '-D[show install-message files]'
        '-d[show long descriptions]'
-@@ -188,30 +200,41 @@ _bsd_pkg() {
+@@ -188,30 +204,41 @@ _bsd_pkg() {
        flags=(
          $flags[@]
          '-G[do not expand glob patterns]'
@@ -236,7 +242,7 @@ $OpenBSD: patch-Completion_BSD_Command__bsd_pkg,v 1.4 2003/07/03 12:56:52 lebel 
 -      $flags[@] \
 -      '(-a)*:package name:_bsd_pkg_pkgs_and_files'
 +    case "$OSTYPE" in
-+    openbsd*)
++    mirbsd*|openbsd*)
 +      _arguments -s \
 +        '(* -)-a[show all installed packages]' \
 +        $flags[@] \
