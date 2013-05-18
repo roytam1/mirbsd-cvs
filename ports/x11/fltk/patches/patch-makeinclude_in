@@ -1,7 +1,20 @@
+$MirOS$
 $OpenBSD: patch-makeinclude_in,v 1.2 2002/12/16 16:58:12 wilfried Exp $
---- makeinclude.in.orig	Mon Aug  5 19:58:16 2002
-+++ makeinclude.in	Mon Dec 16 17:27:38 2002
-@@ -98,32 +98,24 @@ POSTBUILD	= @POSTBUILD@
+--- makeinclude.in.orig	Thu Jan 30 21:38:02 2003
++++ makeinclude.in	Fri Nov 19 18:15:22 2010
+@@ -53,8 +53,9 @@ MAKEDEPEND	= @MAKEDEPEND@
+ 
+ # flags for C++ compiler:
+ OPTIM		= @OPTIM@
+-CFLAGS		= $(OPTIM) @CFLAGS@
+-CXXFLAGS	= $(OPTIM) @CXXFLAGS@
++CPPFLAGS	= @CPPFLAGS@ -DSYSCONFDIR=\"${SYSCONFDIR:Q}\"
++CFLAGS		= $(OPTIM) ${CPPFLAGS} @CFLAGS@
++CXXFLAGS	= $(OPTIM) ${CPPFLAGS} @CXXFLAGS@
+ 
+ # program to make the archive:
+ LIBNAME		= @LIBNAME@
+@@ -98,32 +99,24 @@ POSTBUILD	= @POSTBUILD@
  CAT1EXT		= @CAT1EXT@
  CAT3EXT		= @CAT3EXT@
  
