@@ -1,4 +1,4 @@
-# $MirOS: src/share/misc/bsdstats,v 1.27 2007/05/10 00:32:32 tg Exp $
+# $MirOS: src/share/misc/bsdstats,v 1.28 2007/05/15 01:09:10 tg Exp $
 # $FreeBSD: ports/sysutils/bsdstats/files/300.statistics,v 1.38 2006/12/05 13:49:45 scrappy Exp $
 #-
 # Copyright (c) 2007
@@ -101,7 +101,7 @@ function report_ports
 	qs="token=$stats_key&key=$stats_token$qs"
 	qs="POST $path HTTP/1.0
 Host: $host
-User-Agent: bsdstats \$MirOS: src/share/misc/bsdstats,v 1.27 2007/05/10 00:32:32 tg Exp $
+User-Agent: bsdstats \$MirOS: src/share/misc/bsdstats,v 1.28 2007/05/15 01:09:10 tg Exp $
 Connection: close
 Content-Type: application/x-www-form-urlencoded
 Content-Length: ${#qs}
@@ -118,15 +118,24 @@ host=${rpt#http://}
 host=${host%%/*}
 # do it twice in case DNS is slow
 [[ -x /usr/bin/host ]] && if [[ $host = *bsdstats.org ]]; then
-	res=$(host -t txt bsdstats.org 2>/dev/null; sleep 3; \
-	    host -t txt bsdstats.org 2>/dev/null)
+	res=$(host -t txt bsdstats.org. & dnspid=$!; \
+	    (sleep 12; kill $dnspid) >&- 2>&- & wait $dnspid)
+	[[ $res = *@(not\ found)* || $res = *NXDOMAIN* ]] && res=
+	[[ $res = *UP* ]] || res=$(host -t txt bsdstats.org. & dnspid=$!; \
+	    (sleep 12; kill $dnspid) >&- 2>&- & wait $dnspid)
+	[[ $res = *@(not\ found)* || $res = *NXDOMAIN* ]] && res=
 	if [[ $res != *UP* ]]; then
 		print not connecting to $host: bsdstats.org not up
 		return 0
 	fi
 else
-	res=$(host -t a $host 2>/dev/null; sleep 3; host -t a $host 2>/dev/null)
-	if [[ $res != *$host* ]]; then
+	res=$(host -t a ${host%%+(.)}. & dnspid=$!; \
+	    (sleep 12; kill $dnspid) >&- 2>&- & wait $dnspid)
+	[[ $res = *@(not\ found)* || $res = *NXDOMAIN* ]] && res=
+	[[ $res = *UP* ]] || res=$(host -t a ${host%%+(.)}. & dnspid=$!; \
+	    (sleep 12; kill $dnspid) >&- 2>&- & wait $dnspid)
+	[[ $res = *@(not\ found)* || $res = *NXDOMAIN* ]] && res=
+	if [[ $res != *${host%%+(.)}* ]]; then
 		print not connecting to $host: cannot resolve
 		return 0
 	fi
