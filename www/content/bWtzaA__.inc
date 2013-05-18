@@ -1,14 +1,15 @@
-
 <!-- PageID: mksh -->
-<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.27 2006/05/27 11:40:46 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.28 2006/05/27 19:45:06 tg Exp $</small>
 
-<h1>mksh(1) R26c</h1>
+<h1>mksh(1) R27e</h1>
 <p>This is the MirBSD&trade; Korn Shell, a more or less portable
  version of the pdksh derivate which comes, as an alternative to
  the default (and not used by anyone sane) C Shell, or (ancient)
  Bourne shell, with MirOS.</p>
 <p>This website is always accessible via a redirection at <a
- href="http://mirbsd.de/mksh">http://mirbsd.de/mksh</a></p>
+ href="http://mirbsd.de/mksh">http://mirbsd.de/mksh</a> and <a
+ href="http://mirbsd.de/mksh-fornow">this page</a> is accessible
+ even if the main webserver is unreachable again.</p>
 
 <h2>Table of Contents</h2><ul>
  <li><a href="#clog">ChangeLog</a></li>
@@ -23,11 +24,26 @@
  <li><a href="#regress">Testsuite Results</a></li>
  <li><a href="#contrib">Additional information</a></li>
  <li><a href="#manual">Online manual page</a></li>
+ <li><a href="#irc">Internet Relay Chat</a></li>
  <li><a href="#licence">Licence</a></li>
 </ul>
 
 <h2 id="clog">Recent Changes</h2>
 <!-- p>Changes in the current (unreleased) development version:</p><ul -->
+<p>We recommend mksh <b>R27e</b> to be used:</p><ul>
+ <li>Allow <tt>Test.sh</tt> to be passed parameters (-v)</li>
+ <li>Fix all <tt>-Wchar-subscripts</tt> on Solaris/sparc64
+  and NetBSD&reg;/alpha and remove <tt>-Wno-char-subscripts</tt>
+  from Build.sh</li>
+ <li>Correct date in version and manual page</li>
+</ul>
+<p>What became of mksh <b>R27d</b> in the meanwhile?</p><ul>
+ <li>Changes for easier crossbuildability</li>
+ <li>Honour $CPPFLAGS in gensigs.sh</li>
+ <li>Only source ${ENV:-~/.mkshrc} for interactive (FTALKING) shells</li>
+ <li>There's a chance that non-MirOS systems have arc4random_push(3)
+  at some time in the future, so make it configurable.</li>
+</ul>
 <p>Featuring mksh <b>R27c</b> with these changes:</p><ul>
  <li>emacs-usemeta now behaves like vi-show8 (be careful with 0x80-0x9F)</li>
  <li>Portability cleanup and speed-up; refine pr&aelig;processor defns</li>
@@ -182,12 +198,13 @@
 <h2 id="fetch">Getting The Source</h2>
 
 <p>The current version is <a
- href="http://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R26c.cpio.gz">http://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R26c.cpio.gz</a></p>
+ href="http://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R27e.cpio.gz">http://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R27e.cpio.gz</a></p>
 <ul>
- <li>Please use gzsig(1) to verify the integrity of the distfile instead!</li>
- <li>RMD160 (mksh-R26c.cpio.gz) = a8b079639328528a7f0e19d643ea6002026fe8fd</li>
- <li>549554166 228360 /MirOS/dist/mir/mksh/mksh-R26c.cpio.gz</li>
- <li>MD5 (mksh-R26c.cpio.gz) = b2fcc52314b07b31d4b4452da5f6ffc8</li>
+ <li>Please use gzsig(1) to verify the integrity of the distfile instead!
+  Hashes are only so you know which distfile you want.</li>
+ <li>RMD160 (mksh-R27e.cpio.gz) = b34047aa96366bdba79f99a0c7cdc9fc944be3b4</li>
+ <li>3239984152 229752 /MirOS/dist/mir/mksh/mksh-R27e.cpio.gz</li>
+ <li>MD5 (mksh-R27e.cpio.gz) = 2eeb5c5fab32cc7a20ca3c7c2c6fda46</li>
 </ul>
 
 <h2>Installation</h2>
@@ -202,13 +219,13 @@
  please note that most of them, seen on Mozilla&reg; and
  its derivates as well as Microsoft Internet Explorer,
  have a bug where the file is saved correctly
- as <em>mksh-R26c.cpio.gz</em> but already decompressed.</p>
+ as <em>mksh-R27e.cpio.gz</em> but already decompressed.</p>
 
 <h3 id="extract">Unpacking</h3>
-<p>On decent systems, you can just use <tt>tar xzf mksh-R26c.cpio.gz</tt>
+<p>On decent systems, you can just use <tt>tar xzf mksh-R27e.cpio.gz</tt>
  to extract the file. On quite damaged systems such as everything which
  is not MirOS or anything else with <a href="/?MirCpio">MirCpio</a>
- (paxmirabilis), use <tt>gzip -dc mksh-R26c.cpio.gz | cpio -mid</tt></p>
+ (paxmirabilis), use <tt>gzip -dc mksh-R27e.cpio.gz | cpio -mid</tt></p>
 <p>Of course, skip the gzip stage (use cat) or the 'z' flag
  if your browser already decompressed the file.</p>
 
@@ -231,18 +248,21 @@
  current directory, not the source directory, if these are different.</p>
 <h3 id="buildbsd">Most operating systems (BSD)</h3>
 <ul>
- <li>cd mksh; sh Build.sh &amp;&amp; ./Test.sh</li>
+ <li>cd mksh; env SHELL=/bin/sh sh Build.sh &amp;&amp; ./Test.sh</li>
  <li>install -c -s -o root -g bin -m 555 mksh /bin/mksh</li>
  <li>echo /bin/mksh &gt;&gt;/etc/shells</li>
  <li>install -c -o root -g bin -m 444 mksh.cat1 /usr/share/man/cat1/mksh.0</li>
 </ul>
-<p>Attention: NetBSD 1.6.1/pmax (on a DECstation 5000/260) does not
- come with a <em>stdbool.h</em> - simply write one yourself:</p>
-<pre>
- typedef int bool;
- #define true 1
- #define false 0
-</pre><p>This is pretty dead simple but enough for mksh.</p>
+<p style="margin-bottom:0px;">Attention: NetBSD 1.6.1/pmax (for example
+ on a DECstation 5000/260) does not come with a <em>stdbool.h</em> &ndash;
+ simply write one yourself:</p>
+<div style="border:4px ridge blue; margin:0px 24px 0px 24px; padding:12px;">
+ <pre>
+	typedef int bool;
+	#define true 1
+	#define false 0
+ </pre>
+</div><p style="margin-top:0px;">This is pretty simple but enough for mksh.</p>
 
 <h3 id="buildsol">Solaris</h3>
 <p>The Solaris port of mksh is sponsored by Der Verein <a
@@ -251,16 +271,19 @@
  box. Let me express a &quot;thank you&quot; to these guys;
  I suggest to support them because they are doing great
  things like Netzladen e.V. where I are involved in.</p>
+<p>Tonnerre LOMBARD has made it possible to build and
+ test (from time to time) mksh on a Solaris 10 box.</p>
 <ul>
- <li>cd mksh; sh Build.sh -r &amp;&amp; ./Test.sh</li>
+ <li>cd mksh; env SHELL=/bin/sh sh Build.sh -r &amp;&amp; ./Test.sh</li>
  <li>/usr/ucb/install -c -s -o root -g bin -m 555 mksh ~/.bin/mksh</li>
 </ul>
 <p>If you get a <em>mksh</em> binary, install it to a place of your likes.
- Get a preformatted manual page from another operating system.</p>
+ Get a preformatted manual page from another operating system, or install
+ nroff (or GNU groff) with the mdoc package to build it yourself.</p>
 
 <h3 id="buildgnu">Mac OSX, GNU/Linux (and possibly others)</h3>
 <ul>
- <li>cd mksh; sh Build.sh -r &amp;&amp; ./Test.sh</li>
+ <li>cd mksh; env SHELL=/bin/sh sh Build.sh -r &amp;&amp; ./Test.sh</li>
  <li>install -c -s -o root -g bin -m 555 mksh /bin/mksh</li>
  <li>echo /bin/mksh &gt;&gt;/etc/shells</li>
  <li><em>and one of</em> (usually the first one on non-GNU/Linux)</li>
@@ -309,17 +332,41 @@
 
 <p>The MirOS Project has tested mksh on the following operating systems:</p>
 <ul>
- <li>mksh R26c<ul>
-  <li>Debian GNU/Linux: works (debianised)</li>
-  <li>MirOS #8/i386: both as part of base installation and via ports</li>
-  <li>Solaris 8/sparc64: works</li>
-  <li>Windows&reg; 2000 / Interix: works, no testsuite (perl too old)</li>
+ <li>mksh R27e<ul>
+  <li>Debian GNU/Linux (i386, S/390): works (debianised)</li>
+  <li>FreeWRT GNU/Linux (mipsel): works (package contained)</li>
+  <li>MirOS #9 (i386, sparc): both as part of base installation and via ports</li>
+  <li>Solaris 8 (sparc64): works (testsuite and usage on the shell
+   account; please do not distribute the binaries)</li>
+  <li>Generic GNU/Linux information: on most distributions, the testsuite
+   succeeds without trouble after installing ed(1). We must build a dynamic
+   executable because otherwise it dlopen(3)s at runtime the exact versions
+   of the shared libraries available at build time and stuff might break, so
+   do not distribute binaries, they are distribution- and buildhost-specific.
+   Manual page generation usually succeeds with recent versions of GNU groff,
+   but the place to install them is not unified.</li>
  </ul></li>
- <li>mksh R26b contains no code changes relative to mksh R26</li>
+ <li>mksh R27d<ul>
+  <li>There are both a FreeBSD port and a DragonFly pkgsrc in
+   preparation, I wonder why they haven't been committed yet.</li>
+  <li>Has been verified to build on NetBSD/alpha.</li>
+ </ul></li>
+ <li>mksh R27c<ul>
+  <li>Solaris 10: Tonnerre says it passes test suite. His X login
+   manager crashes when using mksh as default shell (also under
+   GNU/Linux for him, can't reproduce), and scp(1) seems to fail.</li>
+ </ul></li>
+ <li>mksh R26c<ul>
+  <li>Windows&reg; 2000 / Interix (SFU 3.5): works, no testsuite (perl
+   too old); can be used to replace system shell except for its I18N
+   and Win32 features.</li>
+  <li>NetBSD&reg; 1.6.1/pmax: I have replaced the standard shell
+   with mksh with good success and only one testsuite failure
+   in <em>heredoc-tmpfile-8</em>. On NetBSD&reg; 1.5/pmax this
+   trick does not work because the system scripts are not compatible
+   with the Korn shell.</li>
+ </ul></li>
  <li>mksh R26<ul>
-  <li>MirOS #8: Obviously works, as part of the base install.</li>
-  <li>MirOS #8: The portable mksh also works through its test suite and
-   usability tests.</li>
   <li>CRUX GNU/Linux: Han Boetes said it works.</li>
  </ul></li>
  <li>mksh R25b<ul>
@@ -327,25 +374,10 @@
   <li>GNU/Cygwin: builds, testsuite succeeds, basic usage.</li>
  </ul></li>
  <li>mksh R25<ul>
-  <li>NetBSD&reg; 1.6.1/pmax: I have replaced the standard shell
-   with mksh with good success and only one testsuite failure
-   in <em>heredoc-tmpfile-8</em>. On NetBSD&reg; 1.5/pmax it does
-   not work because the system scripts are not compatible
-   with the Korn shell.</li>
-  <li>NetBSD&reg; 2.0.2/i386: works well too</li>
+  <li>NetBSD&reg; 2.0.2/i386: works well</li>
   <li>DragonFly BSD: Portable mksh builds; the test suite succeeds.</li>
-  <li>GNU/Linux: The test suite succeeds. Basic
-   command line usage works as well. The binary is not statically
-   linked, and there is no standard on where to install the man
-   page. Do not distribute the binaries outside your distribution's
-   package management system.</li>
-  <li>Solaris 8: The testsuite works, and I'm using it on my shell account.
-   Please do not redistribute the binaries either; they are
-   dynamically linked.</li>
   <li>Mac OSX Tiger: The testsuite works, and it can be used to play around.
    Apple does not install the tools needed for a static build.</li>
-  <li>Interix/SFU 3.5: Works unmodified, better than system shell, good
-   success. Does not have msksh's I18N and Win32 features though.</li>
  </ul></li>
  <li>mksh R24<ul>
   <li>Mac OSX Panther: I don't see a difference to Tiger.</li>
@@ -353,6 +385,19 @@
 </ul>
 
 <h2 id="contrib">Tab Completion, and the Prompt</h2>
+
+<h3>Official samples</h3>
+
+<p>The Debian package comes with a sample <tt>~/.mkshrc</tt> since
+ mksh 27.4-1 (mksh R27e). The MirPort and FreeWRT package both
+ contain the same sample &ndash; the MirPort has it in the <a
+ href="http://cvs.mirbsd.de/ports/shells/mksh/pkg/DESCR">package
+ description</a>, FreeWRT amends <tt>/etc/profile</tt> in postinstall.
+ For more ideas what one can do with <strong>mksh</strong> I recommend
+ one to look at both the -rHEAD revision and the revision history of
+ the files shown below.</p>
+
+<h3>More (outdated) hints</h3>
 
 <p>Tab Completion is enabled by default.
  You might want to have a look at <a
@@ -369,6 +414,10 @@
 <p>(Note that <em>etc_profile</em> is outdated and no longer maintained.)</p>
 
 <h2>The history file</h2>
+<p>Since a few versions, mksh does not write a history file by default
+ any more. To enable writing of a persistent history (not clashing with
+ other shells' history files), execute the following command:</p>
+<pre>echo 'case $KSH_VERSION in *MIRBSD*) export HISTFILE=~/.mksh-history ;; esac' &gt;&gt;~/.profile</pre>
 <p>If you don't want mksh to overwrite your other shell's history file
  with its own format...</p>
 <pre>echo '[ -n "$KSH_VERSION" ] &amp;&amp; unset HISTFILE' &gt;&gt;~/.profile</pre>
@@ -376,10 +425,22 @@
 <h2>Porting</h2>
 <p>Contact the MirOS discussion mailing list, either via
  eMail, or via <a href="news:gmane.os.miros.general">news:gmane.os.miros.general</a>
- on news.gmane.org, if you are interested in having a new target supported.</p>
+ on news.gmane.org, if you are interested in having a new target supported.
+ You're also welcome on <a href="#irc">IRC</a>.</p>
 
 <h2 id="manual">The Manual Page</h2>
 <p>Online manpage: mksh(1)</p>
+
+<h2 id="irc">Internet Relay Chat</h2>
+
+<p>The official portable mksh discussion channel is <tt>#mksh</tt> in
+ the Freenode IRC network (irc.freenode.net:6667 non-SSL). However,
+ you will find more activity in the channel <tt>#mirbsd</tt> in the
+ Freeforge IRC network (irc.mirbsd.org:6668 SSL, irc.mirbsd.org:6666
+ non-SSL) instead, where mksh discussions are on topic as well.</p>
+
+<p>Read our <a href="/?irc">MirOS IRC page</a> for detailled information
+ about the networks.</p>
 
 <h1 id="licence">Licence</h1>
 <p>MirbsdKsh as a whole is licenced under the BSD/MIT/X11-style <a
@@ -392,6 +453,6 @@
  terms</a> in CVSweb.</p>
 <p>pdksh originally was public domain, with a few exceptions,
  but these files are not part of mksh R21 or higher. The
- mksh author (mirabile) acknowledges the contributions of
+ mksh author (mirabilos) acknowledges the contributions of
  these people who dedicated pdksh to the public, and asserts
  a collective copyright on the code.</p>
