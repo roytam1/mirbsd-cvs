@@ -1,8 +1,8 @@
-# $MirOS: ports/editors/joe/Makefile,v 1.8 2006/10/16 13:29:31 tg Exp $
+# $MirOS: ports/editors/joe/Makefile,v 1.9 2006/10/18 01:09:10 tg Exp $
 
 COMMENT=		Joe's Own Editor (including jupp)
 CATEGORIES=		editors
-DISTNAME=		joe-3.1jupp6
+DISTNAME=		joe-3.1jupp7
 EXTRACT_SUFX=		.cpio.gz
 HOMEPAGE=		http://mirbsd.de/jupp
 RESPONSIBLE=		Thorsten Glaser <tg@mirbsd.de>
@@ -22,8 +22,6 @@ DOCS=			HINTS INFO LIST NEWS README TODO docs/help-system.html
 
 post-install:
 	${INSTALL_DATA_DIR} ${PREFIX}/share/doc/joe
-.for _i in ${DOCS}
-	${INSTALL_DATA} ${WRKSRC}/${_i} ${PREFIX}/share/doc/joe/
-.endfor
+	cd ${WRKSRC} && ${INSTALL_DATA} ${DOCS} ${PREFIX}/share/doc/joe/
 
 .include <bsd.port.mk>
