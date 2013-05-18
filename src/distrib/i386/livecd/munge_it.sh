@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/distrib/i386/livecd/munge_it.sh,v 1.8 2006/04/06 00:18:46 tg Exp $
+# $MirOS: src/distrib/i386/livecd/munge_it.sh,v 1.9 2006/04/06 00:25:48 tg Exp $
 #-
 # Copyright (c) 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -63,7 +63,7 @@ ed -s etc/ntpd.conf <<-'EOF'
 EOF
 ed -s etc/rc <<-'EOF'
 	1i
-		# $MirOS: src/distrib/i386/livecd/munge_it.sh,v 1.8 2006/04/06 00:18:46 tg Exp $
+		# $MirOS: src/distrib/i386/livecd/munge_it.sh,v 1.9 2006/04/06 00:25:48 tg Exp $
 	.
 	/^rm.*fastboot$/a
 
@@ -90,6 +90,7 @@ ed -s etc/rc <<-'EOF'
 		cp -r etc/skel home/live
 		chown -R 32762:32762 home/live
 	.
+	/openssl genrsa/s/4096/1024/
 	wq
 EOF
 ed -s etc/rc.conf <<-'EOF'
