@@ -1,9 +1,11 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.10 2004/02/25 02:35:15 naddy Exp $
 
-COMMENT=			indenter and formatter of C/C++/Java source files
+COMMENT=		indenter and formatter of C/C++/Java source files
 
 DISTNAME=		astyle_1.15.3
-PKGNAME=		${DISTNAME:S/_/-/}-0
+DASH_VER=		1
+PKGNAME=		${DISTNAME:S/_/-/}-${DASH_VER}
 CATEGORIES=		devel
 
 HOMEPAGE=		http://astyle.sourceforge.net/
