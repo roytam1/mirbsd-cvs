@@ -1,4 +1,4 @@
-# $MirOS: src/sys/conf/Makefile.inc,v 1.14 2006/06/12 21:57:09 tg Exp $
+# $MirOS: src/sys/conf/Makefile.inc,v 1.15 2006/06/15 19:56:43 tg Exp $
 #-
 # Copyright (c) 2005, 2006
 #	Thorsten "mirabilos" Glaser <tg@mirbsd.de>
@@ -75,9 +75,6 @@ SYSTEM_LD_GZIP=	echo gzip -n9 $@; rm -f $@.gz; gzip -n9 $@; mv $@.gz $@
 .if ${MKC_USAP:L} == "yes"
 CPPFLAGS+=	-DMSDOSFS_NO_LFN
 .endif
-
-# XXX no a.out arches in MirOS?
-CPPFLAGS+=	-DDB_NO_AOUT
 
 HOSTCC=		${CC}
 HOSTCPPFLAGS=	${CPPFLAGS:N-nostdinc:N-D_KERNEL}
