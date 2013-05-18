@@ -1,4 +1,4 @@
-/*	$OpenBSD: ip_icmp.c,v 1.69 2005/10/17 08:43:34 henning Exp $	*/
+/*	$OpenBSD: ip_icmp.c,v 1.67 2005/06/30 08:51:31 markus Exp $	*/
 /*	$NetBSD: ip_icmp.c,v 1.19 1996/02/13 23:42:22 christos Exp $	*/
 
 /*
@@ -128,16 +128,15 @@ icmp_init(void)
 }
 
 struct mbuf *
-icmp_do_error(struct mbuf *n, int type, int code, n_long dest, int destmtu)
+icmp_do_error(struct mbuf *n, int type, int code, n_long dest,
+    struct ifnet *destifp)
 {
 	struct ip *oip = mtod(n, struct ip *), *nip;
 	unsigned oiplen = oip->ip_hl << 2;
 	struct icmp *icp;
 	struct mbuf *m;
+	struct m_tag *mtag;
 	unsigned icmplen, mblen;
-#if NPF > 0
-	struct pf_mtag	*mtag;
-#endif
 
 #ifdef ICMPPRINTFS
 	if (icmpprintfs)
@@ -224,8 +223,8 @@ icmp_do_error(struct mbuf *n, int type, int code, n_long dest, int destmtu)
 			icp->icmp_pptr = code;
 			code = 0;
 		} else if (type == ICMP_UNREACH &&
-		    code == ICMP_UNREACH_NEEDFRAG && destmtu)
-			icp->icmp_nextmtu = htons(destmtu);
+		    code == ICMP_UNREACH_NEEDFRAG && destifp)
+			icp->icmp_nextmtu = htons(destifp->if_mtu);
 	}
 
 	icp->icmp_code = code;
@@ -253,14 +252,13 @@ icmp_do_error(struct mbuf *n, int type, int code, n_long dest, int destmtu)
 	nip->ip_p = IPPROTO_ICMP;
 	nip->ip_src = oip->ip_src;
 	nip->ip_dst = oip->ip_dst;
-#if NPF > 0
-	/* move PF_GENERATED to new packet, if existant XXX preserve more? */
-	if ((mtag = pf_find_mtag(n)) != NULL &&
-	    mtag->flags & PF_TAG_GENERATED) {
-		mtag = pf_get_tag(m);
-		mtag->flags |= PF_TAG_GENERATED;
+	/* move PF_GENERATED m_tag to new packet, if it exists */
+	mtag = m_tag_find(n, PACKET_TAG_PF_GENERATED, NULL);
+	if (mtag != NULL) {
+		m_tag_unlink(n, mtag);
+		m_tag_prepend(m, mtag);
 	}
-#endif
+
 	m_freem(n);
 	return (m);
 
@@ -276,11 +274,12 @@ freeit:
  * The ip packet inside has ip_off and ip_len in host byte order.
  */
 void
-icmp_error(struct mbuf *n, int type, int code, n_long dest, int destmtu)
+icmp_error(struct mbuf *n, int type, int code, n_long dest,
+    struct ifnet *destifp)
 {
 	struct mbuf *m;
 
-	m = icmp_do_error(n, type, code, dest, destmtu);
+	m = icmp_do_error(n, type, code, dest, destifp);
 	if (m != NULL)
 		icmp_reflect(m);
 }

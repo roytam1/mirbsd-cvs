@@ -396,7 +396,7 @@ ipv4_input(m)
 	 * Packet filter
 	 */
 	pfrdr = ip->ip_dst.s_addr;
-	if (pf_test(PF_IN, m->m_pkthdr.rcvif, &m, NULL) != PF_PASS)
+	if (pf_test(PF_IN, m->m_pkthdr.rcvif, &m) != PF_PASS)
 		goto bad;
 	if (m == NULL)
 		return;
@@ -1431,9 +1431,13 @@ ip_forward(m, srcrt)
 	struct ip *ip = mtod(m, struct ip *);
 	struct sockaddr_in *sin;
 	struct rtentry *rt;
-	int error, type = 0, code = 0, destmtu = 0;
+	int error, type = 0, code = 0;
 	struct mbuf *mcopy;
 	n_long dest;
+	struct ifnet *destifp;
+#ifdef IPSEC
+	struct ifnet dummyifp;
+#endif
 
 	dest = 0;
 #ifdef DIAGNOSTIC
@@ -1530,6 +1534,7 @@ ip_forward(m, srcrt)
 	}
 	if (mcopy == NULL)
 		return;
+	destifp = NULL;
 
 	switch (error) {
 
@@ -1553,11 +1558,16 @@ ip_forward(m, srcrt)
 #ifdef IPSEC
 		if (ipforward_rt.ro_rt) {
 			struct rtentry *rt = ipforward_rt.ro_rt;
-
-			if (rt->rt_rmx.rmx_mtu)
-				destmtu = rt->rt_rmx.rmx_mtu;
-			else
-				destmtu = ipforward_rt.ro_rt->rt_ifp->if_mtu;
+			destifp = ipforward_rt.ro_rt->rt_ifp;
+			/*
+			 * XXX BUG ALERT
+			 * The "dummyifp" code relies upon the fact
+			 * that icmp_error() touches only ifp->if_mtu.
+			 */
+			if (rt->rt_rmx.rmx_mtu) {
+				dummyifp.if_mtu = rt->rt_rmx.rmx_mtu;
+				destifp = &dummyifp;
+			}
 		}
 #endif /*IPSEC*/
 		ipstat.ips_cantfrag++;
@@ -1581,7 +1591,7 @@ ip_forward(m, srcrt)
 #endif
 	}
 
-	icmp_error(mcopy, type, code, dest, destmtu);
+	icmp_error(mcopy, type, code, dest, destifp);
 }
 
 int

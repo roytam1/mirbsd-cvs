@@ -1,8 +1,7 @@
-/**	$MirOS: src/sys/netinet/tcp_input.c,v 1.5 2005/07/01 14:16:07 tg Exp $ */
+/**	$MirOS: src/sys/netinet/tcp_input.c,v 1.6 2005/12/19 20:50:18 tg Exp $ */
 /*	$OpenBSD: tcp_input.c,v 1.168 2004/05/21 11:36:23 markus Exp $	*/
 /*	$OpenBSD: tcp_input.c,v 1.158.2.3 2005/01/11 04:40:29 brad Exp $	*/
 /*	$OpenBSD: tcp_input.c,v 1.178 2004/11/25 15:32:08 markus Exp $	*/
-/*	$OpenBSD: tcp_input.c,v 1.191 2005/10/17 08:43:34 henning Exp $	*/
 /*	$NetBSD: tcp_input.c,v 1.23 1996/02/13 23:43:44 christos Exp $	*/
 
 /*
@@ -625,25 +624,19 @@ findpcb:
 		break;
 	}
 	if (inp == 0) {
-		int	inpl_flags = 0;
-#if NPF > 0
-		struct pf_mtag *t;
-
-		if ((t = pf_find_mtag(m)) != NULL &&
-		    t->flags & PF_TAG_TRANSLATE_LOCALHOST)
-			inpl_flags = INPLOOKUP_WILDCARD;
-#endif
 		++tcpstat.tcps_pcbhashmiss;
 		switch (af) {
 #ifdef INET6
 		case AF_INET6:
 			inp = in6_pcblookup_listen(&tcbtable,
-			    &ip6->ip6_dst, th->th_dport, inpl_flags);
+			    &ip6->ip6_dst, th->th_dport, m_tag_find(m,
+			    PACKET_TAG_PF_TRANSLATE_LOCALHOST, NULL) != NULL);
 			break;
 #endif /* INET6 */
 		case AF_INET:
 			inp = in_pcblookup_listen(&tcbtable,
-			    ip->ip_dst, th->th_dport, inpl_flags);
+			    ip->ip_dst, th->th_dport, m_tag_find(m,
+			    PACKET_TAG_PF_TRANSLATE_LOCALHOST, NULL) != NULL);
 			break;
 		}
 		/*

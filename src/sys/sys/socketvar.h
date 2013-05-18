@@ -106,7 +106,6 @@ struct socket {
 	caddr_t	so_upcallarg;		/* Arg for above */
 	uid_t	so_euid, so_ruid;	/* who opened the socket */
 	gid_t	so_egid, so_rgid;
-	pid_t	so_cpid;		/* pid of process that opened socket */
 };
 
 #define	SB_EMPTY_FIXUP(sb)						\

@@ -1,5 +1,5 @@
-/**	$MirOS: src/sys/net/if_ethersubr.c,v 1.3 2005/12/19 20:50:17 tg Exp $ */
-/*	$OpenBSD: if_ethersubr.c,v 1.98 2005/10/17 08:43:35 henning Exp $	*/
+/**	$MirOS: src/sys/net/if_ethersubr.c,v 1.4 2005/12/19 22:22:10 tg Exp $ */
+/*	$OpenBSD: if_ethersubr.c,v 1.81 2004/11/28 23:39:45 canacar Exp $	*/
 /*	$NetBSD: if_ethersubr.c,v 1.19 1996/05/07 02:40:30 thorpej Exp $	*/
 
 /*
@@ -250,14 +250,9 @@ ether_output(ifp, m0, dst, rt0)
 		if (!arpresolve(ac, rt, m, dst, edst))
 			return (0);	/* if not yet resolved */
 		/* If broadcasting on a simplex interface, loopback a copy */
-		if ((m->m_flags & M_BCAST) && (ifp->if_flags & IFF_SIMPLEX)) {
-#if NPF > 0
-			struct pf_mtag	*t;
-
-			if ((t = pf_find_mtag(m)) == NULL || !t->routed)
-#endif
-				mcopy = m_copy(m, 0, (int)M_COPYALL);
-		}
+		if ((m->m_flags & M_BCAST) && (ifp->if_flags & IFF_SIMPLEX) &&
+		    m_tag_find(m, PACKET_TAG_PF_ROUTED, NULL) == NULL)
+			mcopy = m_copy(m, 0, (int)M_COPYALL);
 		etype = htons(ETHERTYPE_IP);
 		break;
 #endif
@@ -577,14 +572,6 @@ ether_input(ifp, eh, m)
 #endif /* NCARP > 0 */
 
 	ac = (struct arpcom *)ifp;
-
-	/*
-	 * If packet has been filtered by the bpf listener, drop it now
-	 */
-	if (m->m_flags & M_FILDROP) {
-		m_free(m);
-		return;
-	}
 
 	/*
 	 * If packet is unicast and we're in promiscuous mode, make sure it

@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/net/if.h,v 1.3 2005/07/04 03:36:35 tg Exp $ */
+/**	$MirOS: src/sys/net/if.h,v 1.4 2005/12/19 22:22:10 tg Exp $ */
 /*	$OpenBSD: if.h,v 1.76 2005/06/14 04:00:39 henning Exp $	*/
 /*	$NetBSD: if.h,v 1.23 1996/05/07 02:40:27 thorpej Exp $	*/
 
@@ -169,13 +169,12 @@ TAILQ_HEAD(ifnet_head, ifnet);		/* the actual queue head */
 /*
  * Length of interface description, including terminating '\0'.
  */
-#define	IFDESCRSIZE	64
+#define	IFDESCRSIZE	2
 
 struct ifnet {				/* and the entries */
 	void	*if_softc;		/* lower-level data for this if */
 	TAILQ_ENTRY(ifnet) if_list;	/* all struct ifnets are chained */
 	TAILQ_HEAD(, ifaddr) if_addrlist; /* linked list of addresses per if */
-	TAILQ_HEAD(, ifg_list) if_groups; /* linked list of groups per if */
 	struct hook_desc_head *if_addrhooks; /* address change callbacks */
 	struct hook_desc_head *if_linkstatehooks; /* link change callbacks */
 	char	if_xname[IFNAMSIZ];	/* external name (name + unit) */
@@ -423,54 +422,6 @@ struct if_announcemsghdr {
 #define IFAN_DEPARTURE	1	/* interface departure */
 
 /*
- * interface groups
- */
-
-#define	IFG_ALL		"all"		/* group contains all interfaces */
-#define	IFG_EGRESS	"egress"	/* if(s) default route(s) point to */
-
-struct ifg_group {
-	char				 ifg_group[IFNAMSIZ];
-	u_int				 ifg_refcnt;
-	caddr_t				 ifg_pf_kif;
-	TAILQ_HEAD(, ifg_member)	 ifg_members;
-	TAILQ_ENTRY(ifg_group)		 ifg_next;
-};
-
-struct ifg_member {
-	TAILQ_ENTRY(ifg_member)	 ifgm_next;
-	struct ifnet		*ifgm_ifp;
-};
-
-struct ifg_list {
-	struct ifg_group	*ifgl_group;
-	TAILQ_ENTRY(ifg_list)	 ifgl_next;
-};
-
-struct ifg_req {
-	union {
-		char			 ifgrqu_group[IFNAMSIZ];
-		char			 ifgrqu_member[IFNAMSIZ];
-	} ifgrq_ifgrqu;
-#define	ifgrq_group	ifgrq_ifgrqu.ifgrqu_group
-#define	ifgrq_member	ifgrq_ifgrqu.ifgrqu_member
-};
-
-/*
- * Used to lookup groups for an interface
- */
-struct ifgroupreq {
-	char	ifgr_name[IFNAMSIZ];
-	u_int	ifgr_len;
-	union {
-		char	ifgru_group[IFNAMSIZ];
-		struct	ifg_req *ifgru_groups;
-	} ifgr_ifgru;
-#define ifgr_group	ifgr_ifgru.ifgru_group
-#define ifgr_groups	ifgr_ifgru.ifgru_groups
-};
-
-/*
  * Interface request structure used for socket
  * ioctl's.  All interface ioctl's must have parameter
  * definitions which begin with ifr_name.  The
@@ -694,9 +645,6 @@ int	ifconf(u_long, caddr_t);
 void	ifinit(void);
 int	ifioctl(struct socket *, u_long, caddr_t, struct proc *);
 int	ifpromisc(struct ifnet *, int);
-int	if_addgroup(struct ifnet *, const char *);
-int	if_delgroup(struct ifnet *, const char *);
-void	if_group_routechange(struct sockaddr *, struct sockaddr *);
 struct	ifnet *ifunit(const char *);
 
 struct	ifaddr *ifa_ifwithaddr(struct sockaddr *);

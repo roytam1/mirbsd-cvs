@@ -2297,7 +2297,7 @@ bridge_ipsec(int dir, int af, int hlen, struct mbuf *m)
 #ifdef INET
 			case AF_INET:
 				if (pf_test(dir, &encif[0].sc_if,
-				    &m, NULL) != PF_PASS) {
+				    &m) != PF_PASS) {
 					m_freem(m);
 					return (1);
 				}
@@ -2306,7 +2306,7 @@ bridge_ipsec(int dir, int af, int hlen, struct mbuf *m)
 #ifdef INET6
 			case AF_INET6:
 				if (pf_test6(dir, &encif[0].sc_if,
-				    &m, NULL) != PF_PASS) {
+				    &m) != PF_PASS) {
 					m_freem(m);
 					return (1);
 				}
@@ -2432,7 +2432,7 @@ bridge_filter(struct bridge_softc *sc, int dir, struct ifnet *ifp,
 #if NPF > 0
 		/* Finally, we get to filter the packet! */
 		m->m_pkthdr.rcvif = ifp;
-		if (pf_test(dir, ifp, &m, eh) != PF_PASS)
+		if (pf_test_eh(dir, ifp, &m, eh) != PF_PASS)
 			goto dropit;
 		if (m == NULL)
 			goto dropit;
@@ -2478,7 +2478,7 @@ bridge_filter(struct bridge_softc *sc, int dir, struct ifnet *ifp,
 #endif /* IPSEC */
 
 #if NPF > 0
-		if (pf_test6(dir, ifp, &m, eh) != PF_PASS)
+		if (pf_test6_eh(dir, ifp, &m, eh) != PF_PASS)
 			goto dropit;
 		if (m == NULL)
 			return (NULL);
@@ -2670,7 +2670,7 @@ bridge_send_icmp_err(struct bridge_softc *sc, struct ifnet *ifp,
 		m_freem(n);
 		return;
 	}
-	m = icmp_do_error(n, type, code, 0, ifp->if_mtu);
+	m = icmp_do_error(n, type, code, 0, ifp);
 	if (m == NULL) {
 		m_freem(n2);
 		return;

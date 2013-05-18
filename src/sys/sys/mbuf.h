@@ -1,4 +1,4 @@
-/*	$OpenBSD: mbuf.h,v 1.83 2005/10/17 08:43:34 henning Exp $	*/
+/*	$OpenBSD: mbuf.h,v 1.75 2004/04/25 18:32:43 itojun Exp $	*/
 /*	$NetBSD: mbuf.h,v 1.19 1996/02/09 18:25:14 christos Exp $	*/
 
 /*
@@ -142,7 +142,6 @@ struct mbuf {
 #define M_COMP		0x1000  /* payload was compressed (IPCOMP) */
 #define M_AUTH_AH	0x2000  /* header was authenticated (AH) */
 #define M_TUNNEL	0x4000  /* IP-in-IP added by tunnel mode IPsec */
-#define M_FILDROP	0x0080	/* dropped by bpf filter */
 
 /* Checksumming flags */
 #define	M_IPV4_CSUM_OUT		0x0001	/* IPv4 checksum needed */
@@ -594,7 +593,11 @@ struct m_tag *m_tag_next(struct mbuf *, struct m_tag *);
 #define PACKET_TAG_GIF				8  /* GIF processing done */
 #define PACKET_TAG_GRE				9  /* GRE processing done */
 #define PACKET_TAG_IN_PACKET_CHECKSUM		10 /* NIC checksumming done */
-#define PACKET_TAG_PF				11 /* PF */
+#define PACKET_TAG_PF_GENERATED			11 /* PF generated, pass always */
+#define PACKET_TAG_PF_ROUTED			12 /* PF routed, no route loops */
+#define PACKET_TAG_PF_FRAGCACHE			13 /* PF fragment cached */
+#define	PACKET_TAG_PF_QID			14 /* PF queue id */
+#define PACKET_TAG_PF_TAG			15 /* PF tags */
 #define PACKET_TAG_CARP				16 /* CARP info */
 #define PACKET_TAG_PF_TRANSLATE_LOCALHOST	17 /* translated to localhost */
 

@@ -1,5 +1,5 @@
-/**	$MirOS: src/usr.sbin/tcpdump/print-pfsync.c,v 1.3 2005/12/04 15:47:56 tg Exp $ */
-/*	$OpenBSD: print-pfsync.c,v 1.29 2005/11/04 08:24:15 mcbride Exp $	*/
+/**	$MirOS: src/usr.sbin/tcpdump/print-pfsync.c,v 1.4 2005/12/19 20:06:00 tg Exp $ */
+/*	$OpenBSD: print-pfsync.c,v 1.28 2005/05/28 15:10:07 ho Exp $	*/
 
 /*
  * Copyright (c) 2002 Michael Shalayeff
@@ -58,7 +58,7 @@ struct rtentry;
 #include "pfctl_parser.h"
 #include "pfctl.h"
 
-__RCSID("$MirOS: src/usr.sbin/tcpdump/print-pfsync.c,v 1.3 2005/12/04 15:47:56 tg Exp $");
+__RCSID("$MirOS: src/usr.sbin/tcpdump/print-pfsync.c,v 1.4 2005/12/19 20:06:00 tg Exp $");
 
 const char *pfsync_acts[] = { PFSYNC_ACTIONS };
 
@@ -114,7 +114,9 @@ pfsync_print(struct pfsync_header *hdr, int len)
 	struct pfsync_state_clr *c;
 	struct pfsync_state_upd_req *r;
 	struct pfsync_state_bus *b;
+#ifdef PFSYNC_ACT_TDB_UPD
 	struct pfsync_tdb *t;
+#endif
 	int i, flags = 0, min, sec;
 	u_int64_t id;
 
@@ -163,10 +165,10 @@ pfsync_print(struct pfsync_header *hdr, int len)
 			memmove(&st.rt_addr, &s->rt_addr, sizeof(st.rt_addr));
 			st.creation = ntohl(s->creation);
 			st.expire = ntohl(s->expire);
-			pf_state_counter_ntoh(s->packets[0], st.packets[0]);
-			pf_state_counter_ntoh(s->packets[1], st.packets[1]);
-			pf_state_counter_ntoh(s->bytes[0], st.bytes[0]);
-			pf_state_counter_ntoh(s->bytes[1], st.bytes[1]);
+			st.packets[0] = ntohl(s->packets[0]);
+			st.packets[1] = ntohl(s->packets[1]);
+			st.bytes[0] = ntohl(s->bytes[0]);
+			st.bytes[1] = ntohl(s->bytes[1]);
 			st.creatorid = s->creatorid;
 			st.af = s->af;
 			st.proto = s->proto;
@@ -230,6 +232,7 @@ pfsync_print(struct pfsync_header *hdr, int len)
 			}
 		}
 		break;
+#ifdef PFSYNC_ACT_TDB_UPD
 	case PFSYNC_ACT_TDB_UPD:
 		for (i = 1, t = (void *)((char *)hdr + PFSYNC_HDRLEN);
 		    i <= hdr->count && i * sizeof(*t) <= len; i++, t++)
@@ -238,6 +241,7 @@ pfsync_print(struct pfsync_header *hdr, int len)
 			    betoh64(t->cur_bytes));
 			/* XXX add dst and sproto? */
 		break;
+#endif
 	default:
 		break;
 	}

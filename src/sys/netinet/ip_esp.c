@@ -707,11 +707,12 @@ esp_output(struct mbuf *m, struct tdb *tdb, struct mbuf **mp, int skip,
 
 	struct cryptodesc *crde = NULL, *crda = NULL;
 	struct cryptop *crp;
-#if NBPFILTER > 0
-	struct ifnet *ifn = &(encif[0].sc_if);
 
-	if (ifn->if_bpf) {
+#if NBPFILTER > 0
+	{
+		struct ifnet *ifn;
 		struct enchdr hdr;
+		struct mbuf m1;
 
 		bzero (&hdr, sizeof(hdr));
 
@@ -722,7 +723,15 @@ esp_output(struct mbuf *m, struct tdb *tdb, struct mbuf **mp, int skip,
 		if (esph)
 			hdr.flags |= M_AUTH;
 
-		bpf_mtap_hdr(ifn->if_bpf, (char *)&hdr, ENC_HDRLEN, m);
+		m1.m_flags = 0;
+		m1.m_next = m;
+		m1.m_len = ENC_HDRLEN;
+		m1.m_data = (char *) &hdr;
+
+		ifn = &(encif[0].sc_if);
+
+		if (ifn->if_bpf)
+			bpf_mtap(ifn->if_bpf, &m1);
 	}
 #endif
 
