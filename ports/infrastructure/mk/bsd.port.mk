@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.165 2007/03/30 23:20:09 bsiegert Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.166 2007/03/30 23:22:09 bsiegert Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -1683,6 +1683,7 @@ fetch:
 
 
 checksum: fetch
+	@-cd ${DISTDIR} && rm -f ${_CKSUMFILES:S!^!{CDROM,FTP}/!} 2>/dev/null
 .  if !defined(NO_CHECKSUM)
 	@checksum_file=${CHECKSUM_FILE}; \
 	integer new_cksum=0${_CKSUM_SIZE}; \
@@ -1797,6 +1798,29 @@ checksum: fetch
 		  fi; \
 		fi ; \
   fi
+.  endif
+.  if ${PERMIT_DISTFILES_FTP:L} == "yes"
+	@cd ${DISTDIR}; all=; for i in ${_CKSUMFILES:H}; do \
+		[[ " $$all " = *" $$i "* ]] || all="$$all $$i"; \
+	done; \
+	mkdir -p CDROM FTP; \
+	(cd CDROM; mkdir -p $$all); \
+	(cd FTP; mkdir -p $$all); \
+	for i in $$all; do \
+		if [[ ! -w $$i || ! -w CDROM/$$i || ! -w FTP/$$i ]]; then \
+			print -u2 'Warning: some subdirectory of ${DISTDIR}' \
+			    'is not writable for you!'; \
+			break; \
+		fi; \
+	done
+.    if ${PERMIT_DISTFILES_CDROM:L} == "yes"
+.      for _i in ${_CKSUMFILES}
+	@ln ${DISTDIR}/${_i} ${DISTDIR}/CDROM/${_i}
+.      endfor
+.    endif
+.    for _i in ${_CKSUMFILES}
+	@ln ${DISTDIR}/${_i} ${DISTDIR}/FTP/${_i}
+.    endfor
 .  endif
 
 _refetch:
