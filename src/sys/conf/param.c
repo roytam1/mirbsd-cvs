@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/conf/param.c,v 1.2 2006/04/06 10:50:39 tg Exp $ */
+/**	$MirOS: src/sys/conf/param.c,v 1.3 2007/05/17 01:09:38 tg Exp $ */
 /*	$OpenBSD: param.c,v 1.23 2004/01/01 20:17:34 millert Exp $	*/
 /*	$NetBSD: param.c,v 1.16 1996/03/12 03:08:40 mrg Exp $	*/
 
@@ -85,7 +85,9 @@ struct	timezone tz = { TIMEZONE, DST };
 #define	NPROC (20 + 16 * MAXUSERS)
 int	maxproc = NPROC;
 #define	NTEXT (80 + NPROC / 8)	/* actually the object cache */
+#ifndef NVNODE
 #define	NVNODE (NPROC * 2 + NTEXT + 100)
+#endif
 int	desiredvnodes = NVNODE;
 int	maxfiles = 3 * (NPROC + MAXUSERS) + 80;
 int	nmbclust = NMBCLUSTERS;
