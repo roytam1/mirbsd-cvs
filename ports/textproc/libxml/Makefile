@@ -1,11 +1,11 @@
-# $MirOS: ports/textproc/libxml/Makefile,v 1.12 2007/02/22 22:57:58 tg Exp $
+# $MirOS: ports/textproc/libxml/Makefile,v 1.13 2007/06/22 22:29:41 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.76 2004/04/21 04:42:26 robert Exp $
 
 COMMENT=		XML parsing library
-VERSION=		2.6.27
-DASH_VER=		1
+VERSION=		2.6.31
+DASH_VER=		0
 DISTNAME=		libxml2-${VERSION}
-PKGNAME=		libxml-${VERSION}-1
+PKGNAME=		libxml-${VERSION}-${DASH_VER}
 CATEGORIES=		textproc
 MASTER_SITES=		ftp://xmlsoft.org/libxml2/ \
 			${HOMEPAGE}sources/ \
@@ -19,7 +19,7 @@ PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
 FLAVORS=		python
-FLAVOR?=
+FLAVOR?=		
 
 MODULES=		converters/libiconv
 MODULES+=		devel/pkgconfig
