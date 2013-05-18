@@ -1,10 +1,9 @@
-# $MirOS: ports/print/ghostscript/esp/Makefile,v 1.6 2006/09/14 00:12:41 tg Exp $
+# $MirOS: ports/print/ghostscript/esp/Makefile,v 1.7 2006/11/08 18:59:12 bsiegert Exp $
 
 COMMENT=		ESP Ghostscript, a PostScript interpreter
 VERSION=		8.15.3
-DASH_VER=		-0
 DISTNAME=		espgs-${VERSION}-source
-PKGNAME=		ghostscript-${VERSION}${DASH_VER}
+PKGNAME=		ghostscript-${VERSION}-${DASH_VER}
 CATEGORIES=		print
 HOMEPAGE=		http://www.cups.org/
 RESPONSIBLE=		Benny Siegert <bsiegert@gmx.de>
