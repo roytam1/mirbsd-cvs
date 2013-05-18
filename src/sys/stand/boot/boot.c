@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/stand/boot/boot.c,v 1.9 2006/10/13 19:18:04 tg Exp $	*/
+/**	$MirOS: src/sys/stand/boot/boot.c,v 1.10 2006/11/21 02:53:39 tg Exp $	*/
 /*	$OpenBSD: boot.c,v 1.30 2004/01/29 00:54:08 tom Exp $	*/
 
 /*
@@ -81,6 +81,7 @@ boot(dev_t bootdev)
 	printf(" = %s\n", cmd.bootdev);
 	strlcpy(cmd.image, bootfile, sizeof(cmd.image));
 
+	cmd.conf = NULL;
 #ifdef IN_PXEBOOT
 	ip = bootplayer.yip;
 
@@ -97,8 +98,7 @@ boot(dev_t bootdev)
 	cmd.addr = (void *)DEFAULT_KERNEL_ADDRESS;
 	cmd.timeout = 5;
 
-	if ((st = read_conf()))
-		printf("Attempt to read %s failed.\n", cmd.conf);
+	st = read_conf();
 #elif !defined(SMALL_BOOT)
 	if (hook_value) {
 		cmd.boothowto = 0;
@@ -108,12 +108,15 @@ boot(dev_t bootdev)
 		cmd.addr = (void *)DEFAULT_KERNEL_ADDRESS;
 		cmd.timeout = 5;
 
-		if ((st = read_conf()) < 0)
-			printf("Attempt to read %s failed.\n", cmd.conf);
+		st = read_conf();
 	}
 #endif
 
 	if (st < 0) {
+#if defined(IN_PXEBOOT) || !defined(SMALL_BOOT)
+		if (cmd.conf)
+			printf("Attempt to read %s failed.\n", cmd.conf);
+#endif
 		cmd.boothowto = 0;
 		cmd.conf = "/boot.cfg";
 		cmd.addr = (void *)DEFAULT_KERNEL_ADDRESS;
