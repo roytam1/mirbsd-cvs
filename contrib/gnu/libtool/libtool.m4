@@ -1,4 +1,4 @@
-# $MirOS: contrib/gnu/libtool/libtool.m4,v 1.60 2008/05/02 23:42:39 tg Exp $
+# $MirOS: contrib/gnu/libtool/libtool.m4,v 1.61 2008/05/02 23:55:09 tg Exp $
 #-
 # libtool.m4 - Configure libtool for the host system. -*-Autoconf-*-
 ## Copyright 1996, 1997, 1998, 1999, 2000, 2001, 2003, 2004, 2005, 2006
@@ -544,7 +544,14 @@ if test "X${echo_test_string+set}" != Xset; then
   done
 fi
 
-if test "X`($echo '\t') 2>/dev/null`" = 'X\t' &&
+if test -n "$KSH_VERSION" &&
+   test "X`(print -r '\t') 2>/dev/null`" = 'X\t' &&
+   echo_testing_string=`(print -r "$echo_test_string") 2>/dev/null` &&
+   test "X$echo_testing_string" = "X$echo_test_string"; then
+  # This shell has a builtin print -r that does the trick.
+  #XXX append -- ?
+  echo='print -r'
+elif test "X`($echo '\t') 2>/dev/null`" = 'X\t' &&
    echo_testing_string=`($echo "$echo_test_string") 2>/dev/null` &&
    test "X$echo_testing_string" = "X$echo_test_string"; then
   :
