@@ -1,5 +1,5 @@
 <!-- PageID: mksh -->
-<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.36 2006/07/24 01:18:32 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.37 2006/07/24 01:25:36 tg Exp $</small>
 
 <h1>mksh(1) R27e</h1>
 <p>This is the MirBSD&trade; Korn Shell, a more or less portable
@@ -326,7 +326,7 @@
  and uploaded by Bastian "waldi" Blank as a sponsor; it is
  now part of Debian unstable and Debian testing. A Gentoo ebuild
  is available, written by Hanno Boeck, just "emerge mksh" to
- install it.</p>
+ install it. mksh is also part of Fink, named "mirbsdksh" there.</p>
 
 <h3 id="buildsfu">Microsoft Services for Unix</h3>
 <p>It is recommended to use the C shell instead of the
@@ -386,6 +386,8 @@
   <li>Solaris 10: Tonnerre says it passes test suite. His X login
    manager crashes when using mksh as default shell (also under
    GNU/Linux for him, can't reproduce), and scp(1) seems to fail.</li>
+  <li>An <a href="http://pdb.finkproject.org/pdb/package.php/mirbsdksh">mksh
+   package</a> exists in the Fink package manager for Mac OSX.</li>
  </ul></li>
  <li>mksh R26c<ul>
   <li>Windows&reg; 2000 / Interix (SFU 3.5): works, no testsuite (perl
