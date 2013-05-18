@@ -13,6 +13,7 @@ RUN_DEPENDS+=	:gkrellm->=2.2.0:sysutils/gkrellm/gkrellm,-client
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 NO_REGRESS=	Yes
 USE_GMAKE=	Yes
+USE_X11=	Yes
 
 PLUGINDIR=	${PREFIX}/lib/gkrellm2/plugins
 
