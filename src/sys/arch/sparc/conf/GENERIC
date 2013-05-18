@@ -1,12 +1,11 @@
-# $MirOS: src/sys/arch/sparc/conf/GENERIC,v 1.10 2006/07/05 22:49:15 tg Exp $
-# $MirBSD: GENERIC,v 1.2.2.5 2003/11/19 16:39:58 tg Exp $
+# $MirOS: src/sys/arch/sparc/conf/GENERIC,v 21.11 2007/01/26 19:33:11 tg Exp $
 # $OpenBSD: GENERIC,v 1.75 2004/03/09 15:24:27 miod Exp $
 # $NetBSD: GENERIC,v 1.48 1997/08/23 19:19:01 mjacob Exp $
 
 # Machine architecture; required by config(8)
-machine		sparc
+machine		sparc			# arch, used by config; REQUIRED
 
-# _MirOS: src/sys/arch/i386/conf/GENERIC,v 1.27 2006/05/25 12:20:30 tg Exp $
+# $miros: src/sys/arch/i386/conf/GENERIC,v 1.32 2007/02/12 19:12:47 tg Exp $
 # $OpenBSD: GENERIC,v 1.112 2004/11/28 23:39:45 canacar Exp $
 #
 # Machine-independent option; used by all architectures.
