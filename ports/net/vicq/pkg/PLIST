@@ -1,5 +1,0 @@
-@comment $OpenBSD: PLIST,v 1.2 2002/02/05 09:03:51 kevlo Exp $
-bin/vicq
-libdata/perl5/site_perl/Net/vICQ.pm
-share/examples/vicq/vicqrc.example
-@dirrm share/examples/vicq

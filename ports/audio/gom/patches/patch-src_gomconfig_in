@@ -1,9 +1,0 @@
-$MirOS$
---- src/gomconfig.in.orig	Thu May 27 12:50:14 2004
-+++ src/gomconfig.in	Mon Aug 23 10:22:52 2004
-@@ -1,4 +1,4 @@
--#!/bin/bash -e
-+#!/bin/sh -e
- # @GOM_COPYRIGHT@
- #
- # Configuration script for gom

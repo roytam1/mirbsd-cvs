@@ -1,7 +1,0 @@
-Chemtool is a small program for drawing chemical structures on Unix
-systems using the GTK toolkit under X11. 
-
-Chemtool relies on transfig by Brian Smith for postscript printing and
-exporting files in PicTeX and EPS formats. Its companion program, XFig,
-is recommended for enhancing the output of chemtool, and for creation of
-2D diagrams and schematics in general.
