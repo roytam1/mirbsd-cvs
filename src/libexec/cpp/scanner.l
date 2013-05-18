@@ -38,9 +38,13 @@
 #include <fcntl.h>
 #include <errno.h>
 
+#ifndef __MirBSD__
 #include "compat.h"
+#endif
 #include "cpp.h"
-#include "y.tab.h"
+#include "cpy.h"
+
+__RCSID("$MirOS$");
 %}
 
 %{
