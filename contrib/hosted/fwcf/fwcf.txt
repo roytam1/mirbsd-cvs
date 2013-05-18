@@ -20,7 +20,7 @@ display the following acknowledgement:
 	This product includes material provided by Thorsten Glaser
 	for the FreeWRT Project.
 
-This work is provided "AS IS" and WITHOUT WARRANTY of any kind, to
+This work is provided “AS IS” and WITHOUT WARRANTY of any kind, to
 the utmost extent permitted by applicable law, neither express nor
 implied; without malicious intent or gross negligence. In no event
 may a licensor, author or contributor be held liable for indirect,
@@ -111,7 +111,8 @@ would lead to data loss. The user must remove this file to override.
 -------------------------------
 
 A new memory filesystem (tmpfs) will be createt at /tmp/.fwcf/temp
-and populated with the data currently in /etc. Then, NEW IN 1.02,
+and populated with the data currently in /etc. Now, NEW IN 1.02,
+the /tmp/.fwcf/status.gz file is recreated. Then, ALSO NEW IN 1.02,
 files in /tmp/.fwcf/root but not in /tmp/.fwcf/temp will be listed
 in /tmp/.fwcf/temp/.fwcf_deleted, newline-separated. Now, all files
 with exactly the same content in /tmp/.fwcf/root will be removed
@@ -363,4 +364,4 @@ They are provided as hint only and not part of the specifi-
 cation itself. They may change without notice.
 
 ________________________________________________________________________
-$MirOS: contrib/hosted/fwcf/fwcf.txt,v 1.25 2007/02/20 20:02:13 tg Exp $
+$MirOS: contrib/hosted/fwcf/fwcf.txt,v 1.26 2007/02/20 21:00:31 tg Exp $

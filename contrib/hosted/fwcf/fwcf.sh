@@ -1,5 +1,5 @@
 #!/bin/sh
-# $MirOS: contrib/hosted/fwcf/fwcf.sh,v 1.16 2007/02/20 20:02:13 tg Exp $
+# $MirOS: contrib/hosted/fwcf/fwcf.sh,v 1.17 2007/02/20 21:00:31 tg Exp $
 #-
 # Copyright (c) 2006, 2007
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -142,6 +142,9 @@ if test $1 = commit; then
 	fi
 	mount -t tmpfs swap /tmp/.fwcf/temp
 	(cd /etc; tar cf - .) | (cd /tmp/.fwcf/temp; tar xpf -)
+	cd /tmp/.fwcf/temp
+	find . -type f | grep -v -e '^./.fwcf' -e '^./.rnd$' | sort | \
+	    xargs md5sum | sed 's!  ./! !' | gzip -9 >/tmp/.fwcf/status.gz
 	cd /tmp/.fwcf/root
 	rm -f /tmp/.fwcf/temp/.fwcf_deleted
 	find . -type f | while read f; do
