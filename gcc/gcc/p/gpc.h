@@ -1,6 +1,6 @@
 /*Global definitions for GNU Pascal
 
-  Copyright (C) 1987-2005 Free Software Foundation, Inc.
+  Copyright (C) 1987-2006 Free Software Foundation, Inc.
 
   Authors: Peter Gerwinski <peter@gerwinski.de>
            Frank Heckenbach <frank@pascal.gnu.de>
@@ -26,6 +26,8 @@
 #ifndef _GPC_H_
 #define _GPC_H_
 
+#define PG__NEW_STRINGS
+
 /* GPC compile time configuration switches */
 
 #define USE_GPI_DEBUG_KEY  /* Use debugging keys in GPI files */
@@ -47,27 +49,67 @@
 
 #include "gbe.h"
 
-#undef abort
-#define abort() USE_ASSERT_RATHER_THAN_ABORT
+#ifdef GCC_4_0
+extern tree xnon_lvalue (tree x);
+// #define non_lvalue(x) (build1 (NON_LVALUE_EXPR, TREE_TYPE (x), x))
+#define non_lvalue(x) (xnon_lvalue (x))
+#define PASCAL_BIT_FIELD_REF_UNSIGNED(x) \
+  (TREE_CHECK2(x, BIT_FIELD_REF, PASCAL_BIT_FIELD_REF)->common.unsigned_flag)
+#define fold(x) (pascal_fold1 (x))
+#define build_int_cst_wide(x, y, z) (pascal_build_int_cst ((x), (y), (z)))
+#define usizetype sizetype
+#define ubitsizetype bitsizetype
+#define build_int_2(x, y)  (build_int_cst_wide (integer_type_node, x, y))
+#define build_type_copy(x) (build_variant_type_copy (x))
 
-/* NOTE: GPC relies on an assert macro that always evaluates its argument exactly once! */
-/* Don't use the system's <assert.h>, see the comments in ../dwarfout.c */
-#undef assert
-#ifdef GPC_NO_ASSERTIONS
-#define assert(expression) ((void) (expression))  /* Do evaluate expression */
+extern tree
+pascal_build_int_cst (tree type, unsigned HOST_WIDE_INT low, HOST_WIDE_INT hi);
+extern tree pascal_fold1 (tree t);
+
+extern int lvalue_or_else (tree ref, const char *string);
+extern tree builtin_function (const char *name, tree type, int function_code,
+       enum built_in_class class, const char *library_name, tree dummy);
+#include "plant.h"
 #else
+#define PASCAL_BIT_FIELD_REF_UNSIGNED(x) TREE_UNSIGNED (x)
+#define tcc_exceptional 'x'
+#define tcc_constant 'c'
+#define tcc_type 't'
+#define tcc_declaration 'd'
+#define tcc_reference 'r'
+#define tcc_comparison '<'
+#define tcc_unary '1'
+#define tcc_binary '2'
+#define tcc_expression 'e'
+#endif
+
+#undef abort
+#define abort() USE_GCC_ASSERT_RATHER_THAN_ABORT
+#undef assert
+#define assert(x) USE_GCC_ASSERT_RATHER_THAN_ASSERT
+
+/* GCC 4.0.0 and up have gcc_assert and gcc_unreachable. Timing data shows
+   that removing asserts, but keeping gcc_unreachable's speeds up the compile.
+   gcc_assert does not evaluate the expression if assertions are disabled. */
+#ifndef GCC_4_0
 #ifndef __GNUC__
 #define __PRETTY_FUNCTION__ NULL
 #endif
-#define assert(expression) \
+#ifdef GPC_NO_ASSERTIONS
+#define gcc_assert(expression)
+#else
+#define gcc_assert(expression) \
   ((void) ((expression) ? 0 : (assert_fail (#expression, __FILE__, __PRETTY_FUNCTION__, __LINE__), 0)))
+#endif
+#define gcc_unreachable() (assert_fail ("unreachable code", __FILE__, __PRETTY_FUNCTION__, __LINE__))
 #endif
 
 /* @@ gcc-3 has a similar mechanism via abort(). Check this after porting to gcc-3. */
-#define abort_confused (error ("confused by previous errors, bailing out"), exit (FATAL_EXIT_CODE), 0)
+#define abort_confused() (error ("confused by previous errors, bailing out"), exit (FATAL_EXIT_CODE), 0)
 
 #define EM(t) (TREE_CODE (t) == ERROR_MARK)
 #define CHK_EM(t) do { if (EM (t)) return error_mark_node; } while (0)
+#define CHK_EM_VOID(t) do { if (EM (t)) return; } while (0)
 
 #ifndef EGCS97
 #define SET_DECL_ASSEMBLER_NAME(x, y) (DECL_ASSEMBLER_NAME (x) = (y))
@@ -94,10 +136,11 @@
 #define sbitsizetype ssizetype
 #define ubitsizetype usizetype
 #define TREE_CHECK(t, code) (t)
-#define TYPE_P(TYPE) (TREE_CODE_CLASS (TREE_CODE (TYPE)) == 't')
-#define DECL_P(DECL) (TREE_CODE_CLASS (TREE_CODE (DECL)) == 'd')
+#define TYPE_P(TYPE) (TREE_CODE_CLASS (TREE_CODE (TYPE)) == tcc_type)
+#define DECL_P(DECL) (TREE_CODE_CLASS (TREE_CODE (DECL)) == tcc_declaration)
 #define IS_EXPR_CODE_CLASS(CLASS) \
-  (CLASS == '<' || CLASS == '1' || CLASS == '2' || CLASS == 'e')
+  (CLASS == tcc_comparison || CLASS == tcc_unary || \
+   CLASS == tcc_binary || CLASS == tcc_expression)
 #define IDENTIFIER_NODE_CHECK(NODE) (TREE_CHECK (NODE, IDENTIFIER_NODE))
 #define INTERFACE_NAME_NODE_CHECK(NODE) (TREE_CHECK (NODE, INTERFACE_NAME_NODE))
 #define IMPORT_NODE_CHECK(NODE) (TREE_CHECK (NODE, IMPORT_NODE))
@@ -124,12 +167,7 @@ enum
   ANY_PASCAL             = 0x7FFFFFFF,
 
   /* Abbreviations for combinations of these flags */
-  E_O_PASCAL         = EXTENDED_PASCAL | OBJECT_PASCAL,
-  E_O_M_PASCAL       = E_O_PASCAL | MAC_PASCAL,
-  C_E_O_PASCAL       = CLASSIC_PASCAL_LEVEL_0 | CLASSIC_PASCAL_LEVEL_1 | E_O_PASCAL,
-  C_E_O_U_PASCAL     = C_E_O_PASCAL | UCSD_PASCAL,
-  C_E_O_M_PASCAL     = C_E_O_PASCAL | MAC_PASCAL,
-  C_E_O_U_M_PASCAL   = C_E_O_U_PASCAL | MAC_PASCAL,
+  CLASSIC_PASCAL     = CLASSIC_PASCAL_LEVEL_0 | CLASSIC_PASCAL_LEVEL_1,
   B_D_PASCAL         = BORLAND_PASCAL | BORLAND_DELPHI,
   B_D_M_PASCAL       = B_D_PASCAL | MAC_PASCAL,
   U_M_PASCAL         = UCSD_PASCAL | MAC_PASCAL,
@@ -138,11 +176,18 @@ enum
   U_B_D_M_O_PASCAL   = U_B_D_M_PASCAL | OBJECT_PASCAL,
   O_D_PASCAL         = OBJECT_PASCAL | BORLAND_DELPHI,
   O_B_D_PASCAL       = O_D_PASCAL | B_D_PASCAL,
+  O_D_M_PASCAL       = O_D_PASCAL | MAC_PASCAL,
   O_B_D_M_PASCAL     = O_B_D_PASCAL | MAC_PASCAL,
+  E_O_PASCAL         = EXTENDED_PASCAL | OBJECT_PASCAL,
+  E_O_M_PASCAL       = E_O_PASCAL | MAC_PASCAL,
   E_O_D_PASCAL       = E_O_PASCAL | O_D_PASCAL,
   E_O_B_D_PASCAL     = E_O_PASCAL | B_D_PASCAL,
   E_O_B_D_M_PASCAL   = E_O_B_D_PASCAL | MAC_PASCAL,
-  NOT_CLASSIC_PASCAL = ANY_PASCAL & ~(CLASSIC_PASCAL_LEVEL_0 | CLASSIC_PASCAL_LEVEL_1)
+  C_E_O_PASCAL       = CLASSIC_PASCAL | E_O_PASCAL,
+  C_E_O_U_PASCAL     = C_E_O_PASCAL | UCSD_PASCAL,
+  C_E_O_M_PASCAL     = C_E_O_PASCAL | MAC_PASCAL,
+  C_E_O_U_M_PASCAL   = C_E_O_U_PASCAL | MAC_PASCAL,
+  NOT_CLASSIC_PASCAL = ANY_PASCAL & ~CLASSIC_PASCAL
 };
 
 #define PEDANTIC(dialect) (pedantic || (co->pascal_dialect && !(co->pascal_dialect & (dialect))))
@@ -175,19 +220,19 @@ enum pascal_tree_code
 #ifndef EGCS97
 #define NUMBER_OF_OPERANDS(code) \
   (((code) == SAVE_EXPR || (code) == WITH_CLEANUP_EXPR) ? 1 \
-  : ((code) == CALL_EXPR) ? 2 \
-  : ((code) == METHOD_CALL_EXPR) ? 3 \
-  : tree_code_length[(int) (code)])
+   : ((code) == CALL_EXPR) ? 2 \
+   : ((code) == METHOD_CALL_EXPR) ? 3 \
+   : tree_code_length[(int) (code)])
 #else
 #if !defined (GCC_3_4)
 #define NUMBER_OF_OPERANDS(code) \
   (((code) == SAVE_EXPR || (code) == WITH_CLEANUP_EXPR) ? 1 \
-  : ((code) == METHOD_CALL_EXPR) ? 3 \
-  : tree_code_length[(int) (code)])
+   : ((code) == METHOD_CALL_EXPR) ? 3 \
+   : tree_code_length[(int) (code)])
 #else
 #define NUMBER_OF_OPERANDS(code) \
   (((code) == SAVE_EXPR || (code) == WITH_CLEANUP_EXPR) ? 1 \
-  : tree_code_length[(int) (code)])
+   : tree_code_length[(int) (code)])
 #endif
 #endif
 
@@ -229,18 +274,18 @@ struct tree_import GTY(())
 #define PREDEF_TYPE(NAME, TYPE, DIALECT)
 #define PREDEF_SYNTAX(NAME, SIG, ATTRIBUTES, DIALECT)
 #define PREDEF_SYMBOL(SYMBOL, RTS_NAME, ALIAS_NAME, SIG, ATTRIBUTES)
-/* Do not use CONCAT2 here because it would expand possble macros like `EOF' or `static' too early. */
+/* Do not use CONCAT2 here because it would expand possible macros like `EOF' or `static' too early. */
 #if defined (__STDC__) || defined (ALMOST_STDC)
 #define PREDEF_ID(NAME, DIALECT) ,p_##NAME
-#define PREDEF_INTERFACE(NAME, CONTENT, DIALECT) ,p_##NAME
-#define PREDEF_VAR(NAME, DIALECT) ,p_##NAME
+#define PREDEF_INTERFACE(NAME, DIALECT) ,p_##NAME
+#define PREDEF_VAR(NAME, VAR, DIALECT) ,p_##NAME
 #define PREDEF_ROUTINE(NAME, SIG, ATTRIBUTES, DIALECT) ,p_##NAME
 #define PREDEF_ALIAS(NAME, RTS_NAME, SIG, ATTRIBUTES, DIALECT) ,p_##NAME
 #define PREDEF_ROUTINE_NO_ID(NAME, SIG, ATTRIBUTES) ,p_##NAME
 #else
-#define PREDEF_ID(NAME) ,p_/**/NAME
-#define PREDEF_INTERFACE(NAME) ,p_/**/NAME
-#define PREDEF_VAR(NAME, DIALECT) ,p_/**/NAME
+#define PREDEF_ID(NAME, DIALECT) ,p_/**/NAME
+#define PREDEF_INTERFACE(NAME, DIALECT) ,p_/**/NAME
+#define PREDEF_VAR(NAME, VAR, DIALECT) ,p_/**/NAME
 #define PREDEF_ROUTINE(NAME, SIG, ATTRIBUTES, DIALECT) ,p_/**/NAME
 #define PREDEF_ALIAS(NAME, RTS_NAME, SIG, ATTRIBUTES, DIALECT) ,p_/**/NAME
 #define PREDEF_ROUTINE_NO_ID(NAME, SIG, ATTRIBUTES) ,p_/**/NAME
@@ -248,7 +293,7 @@ struct tree_import GTY(())
 enum
 {
   MIN_EXTRA_SYMBOL = 1000  /* must be greater than all parser tokens */
-#include <predef.h>
+#include <predef.def>
 };
 
 enum built_in_kind
@@ -263,7 +308,8 @@ enum built_in_kind
 #define ER_EXTERNAL   8
 #define ER_STATIC    16
 #define KW_WEAK      32
-#define KW_INFORMED  64
+#define KW_DIRECTIVE 64
+#define KW_INFORMED 128
 
 struct predef GTY(())
 {
@@ -339,7 +385,8 @@ union lang_tree_node
 #define HAS_EXP_ORIGINAL_CODE_FIELD(exp) \
   (IS_EXPR_CODE_CLASS (TREE_CODE_CLASS (TREE_CODE (exp))) && TREE_CODE (exp) != CONSTRUCTOR)
 
-#define IS_EXPR_OR_REF_CODE_CLASS(c) (IS_EXPR_CODE_CLASS (c) || c == 'r')
+#define IS_EXPR_OR_REF_CODE_CLASS(c) (IS_EXPR_CODE_CLASS (c) || \
+                                      c == tcc_reference)
 
 #define PROMOTING_INTEGER_TYPE(t) \
   (TREE_CODE (t) == INTEGER_TYPE && TYPE_PRECISION (t) < TYPE_PRECISION (integer_type_node))
@@ -382,6 +429,10 @@ union lang_tree_node
    and FUNCTION_TYPE nodes. */
 #define PASCAL_TREE_IGNORABLE(t) TREE_LANG_FLAG_2 (t)
 
+/* Set if this and the previous parameter are part of the same id_list.
+   Used in PARM_DECL and TREE_LIST nodes. */
+#define PASCAL_PAR_SAME_ID_LIST(decl) TREE_LANG_FLAG_2 (decl)
+
 /* Set if the parameter is a value parameter passed by reference.
    This is necessary for undiscriminated strings/schemata and
    conformant/open arrays passed by value. Used in *_TYPE nodes. */
@@ -405,22 +456,27 @@ union lang_tree_node
 /* Set for BP initializer lists. Used in initializer TREE_LIST nodes. */
 #define PASCAL_BP_INITIALIZER_LIST(list) TREE_LANG_FLAG_4 (list)
 
+/* Set for expressions in parentheses. Used in *_CST and NON_LVALUE_EXPR nodes. */
+#define PASCAL_CST_PARENTHESES(list) TREE_LANG_FLAG_4 (list)
+
+/* Set for fresh constants (ordinal, real, string). Used in *_CST nodes. */
+#define PASCAL_CST_FRESH(expr) TREE_LANG_FLAG_5 (expr)
+
 /* Set for packed array access constructs.
    Used in NON_LVALUE_EXPR and TREE_LIST nodes. */
 #define PASCAL_TREE_PACKED(expr) TREE_LANG_FLAG_5 (expr)
 
-/* Flag for fresh constants (integer, enum, char, Boolean, real, string).
-   Used in *_CST nodes. */
-#define PASCAL_TREE_FRESH_CST(expr) TREE_LANG_FLAG_5 (expr)
-
 /* Set for virtual methods. Used in FUNCTION_DECL nodes. */
 #define PASCAL_VIRTUAL_METHOD(decl) TREE_LANG_FLAG_5 (decl)
 
-/* Set for set CONSTRUCTOR nodes that consist of only INTEGER_CSTs. */
+/* Set for set CONSTRUCTOR nodes that consist of only integer constants. */
 #define PASCAL_CONSTRUCTOR_INT_CST(expr) TREE_LANG_FLAG_5 (expr)
 
-/* Set artificial VAR_DECL nodes whose value contains side-effects. */
+/* Set for artificial VAR_DECL nodes whose value contains side-effects. */
 #define PASCAL_HAD_SIDE_EFFECTS(expr) TREE_LANG_FLAG_5 (expr)
+
+/* Set for pointer types representing Delphi classes */
+#define PASCAL_TYPE_CLASS(type) TREE_LANG_FLAG_5 (type)
 
 /* Set for abstract methods. Used in FUNCTION_DECL nodes. */
 #define PASCAL_ABSTRACT_METHOD(decl) TREE_LANG_FLAG_6 (decl)
@@ -459,8 +515,20 @@ union lang_tree_node
    keep a clean conscience. Used in VAR_DECL nodes. */
 #define PASCAL_DECL_TYPED_CONST(NODE) DECL_LANG_FLAG_3 (NODE)
 
+/* Set if a field is shadowed by a child method or field or a view */
+#define PASCAL_FIELD_SHADOWED(NODE) DECL_LANG_FLAG_3 (NODE)
+
+/* Set if a method is shadowed by a child method or field or a view */
+#define PASCAL_METHOD_SHADOWED(NODE) DECL_LANG_FLAG_3 (NODE)
+
+/* Set if a method has an override directive */
+#define PASCAL_METHOD_OVERRIDE(NODE) DECL_LANG_FLAG_3 (NODE)
+
 /* Set if the label has been set. Used in LABEL_DECL nodes. */
 #define PASCAL_LABEL_SET(NODE) DECL_LANG_FLAG_3 (NODE)
+
+/* Set if the label was used for a nonlocal `goto'. Used in LABEL_DECL nodes. */
+#define PASCAL_LABEL_NONLOCAL(NODE) DECL_LANG_FLAG_4 (NODE)
 
 /* Set for fields of explicitly packed structures. Used in FIELD_DECL nodes. */
 #define DECL_PACKED_FIELD(NODE) DECL_LANG_FLAG_4 (NODE)
@@ -486,6 +554,9 @@ union lang_tree_node
    referenced. Used in PARM_DECL nodes. */
 #define PASCAL_PROCEDURAL_PARAMETER(decl) DECL_LANG_FLAG_6 (decl)
 
+/* Set if a method has `reintroduce' diective */
+#define PASCAL_METHOD_REINTRODUCE(decl) DECL_LANG_FLAG_6 (decl)
+
 /* Set for forward declarations. Used in FUNCTION_DECL nodes. */
 #define PASCAL_FORWARD_DECLARATION(decl) DECL_LANG_FLAG_7 (decl)
 
@@ -499,14 +570,22 @@ union lang_tree_node
 
 struct lang_decl GTY(())
 {
-  tree info;
+  tree info1;
   tree info2;
   tree info3;
+  tree info4;
+  long used_in_scope;
 };
 
-#define DECL_LANG_INFO1(decl) (DECL_LANG_SPECIFIC (decl)->info)
+#define DECL_LANG_INFO1(decl) (DECL_LANG_SPECIFIC (decl)->info1)
 #define DECL_LANG_INFO2(decl) (DECL_LANG_SPECIFIC (decl)->info2)
 #define DECL_LANG_INFO3(decl) (DECL_LANG_SPECIFIC (decl)->info3)
+#define DECL_LANG_INFO4(decl) (DECL_LANG_SPECIFIC (decl)->info4)
+
+/* If self_id, indicates that this DECL_LANG_SPECIFIC is shared and only
+   `used_in_scope' used. self_id is arbitrary, but we have to put a valid
+   tree node there, to avoid confusing ggc. */
+#define LANG_SPECIFIC_SHARED(lang_specific) ((lang_specific)->info4)
 
 /* The meaning of DECL_LANG_FIXUPLIST:
    - undiscriminated schema: list, pointing to fixup places
@@ -534,12 +613,18 @@ struct lang_decl GTY(())
   ((DECL_LANG_SPECIFIC (decl) && !PASCAL_METHOD (decl)) ? DECL_LANG_INFO3 (decl) : NULL_TREE)
 #define SET_DECL_LANG_OPERATOR_DECL(decl, t) (DECL_LANG_INFO3 (decl) = (t))
 
+/* Used in FUNCTION_DECL nodes. */
+#define DECL_LANG_NONLOCAL_EXIT_LABEL(decl) DECL_LANG_INFO4 (decl)
+
 /* GPC specific type node extensions. */
 
 /* This flag is set if the type is `packed' */
 #define PASCAL_TYPE_PACKED(type) TYPE_PACKED (type)
 
-/* Type flags 0, 6 are still available. */
+/* Type flag 6 is still available. */
+
+/* Set for set constant */
+#define PASCAL_TYPE_CANONICAL_SET(type) TYPE_LANG_FLAG_0 (type)
 
 /* Set for the type of an IO-critical function. Used in FUNCTION_TYPE nodes. */
 #define PASCAL_TYPE_IOCRITICAL(type) TYPE_LANG_FLAG_1 (type)
@@ -553,12 +638,18 @@ struct lang_decl GTY(())
 /* Set for BP "open array" parameters. Used in ARRAY_TYPE and INTEGER_TYPE nodes. */
 #define PASCAL_TYPE_OPEN_ARRAY(type) TYPE_LANG_FLAG_4 (type)
 
+/* Set for the structure containing record variants. Used in RECORD_TYPE and UNION_TYPE nodes. */
+#define PASCAL_TYPE_RECORD_VARIANTS(type) TYPE_LANG_FLAG_4 (type)
+
 /* Set for conformant array bound types. Used in ordinal type nodes. */
 #define PASCAL_TYPE_CONFORMANT_BOUND(type) TYPE_LANG_FLAG_5 (type)
 
 /* Set for intermediate array types in array type declarations with several
    index types. Used in ARRAY_TYPE nodes. */
 #define PASCAL_TYPE_INTERMEDIATE_ARRAY(type) TYPE_LANG_FLAG_5 (type)
+
+/* Set if the variants of a record have initializers. Used in RECORD_TYPE nodes. */
+#define PASCAL_TYPE_INITIALIZER_VARIANTS(type) TYPE_LANG_FLAG_5 (type)
 
 struct lang_type GTY(())
 {
@@ -778,10 +869,14 @@ typedef const char *filename_t;
 typedef char *filename_t;
 #endif
 
+#define check_boolean(t) \
+  ((EM (TREE_TYPE (t)) || TREE_CODE (TREE_TYPE (t)) == BOOLEAN_TYPE) \
+   ? t : (error ("condition must be of Boolean type"), error_mark_node))
+
 /* parse.y */
 
-extern void set_yydebug PARAMS ((int));
-extern int yyparse PARAMS ((void));
+extern void set_yydebug (int);
+extern int yyparse (void);
 
 /* Bison doesn't put this in parse.h, so declare it here for all source files, also parse.y */
 typedef struct
@@ -930,6 +1025,13 @@ struct options
   /* Nonzero means to use `longjmp' for all nonlocal labels, not only those in the main program. */
   int longjmp_all_nonlocal_labels;
 
+  /* Nonzero means to enforce ISO rule forbiding jumps into structured
+     instructions. */
+  int iso_goto_restrictions;
+
+  /* Nonzero means to allow non-local `Exit' statements. */
+  int nonlocal_exit;
+
   /* Nonzero means to produce a blank in front of positive reals (required by ISO). */
   int real_blank;
 
@@ -969,6 +1071,15 @@ struct options
   /* Nonzero means to check for IOResult after each I/O operation. */
   int io_checking;
 
+  /* Nonzero means to validate pointers before dereferencing. */
+  int pointer_checking;
+
+  /* Nonzero means to use a user-defined procedure for validating pointers. */
+  int pointer_checking_user_defined;
+
+  /* Nonzero means to check for valid objects on virtual method calls. */
+  int object_checking;
+
   /* Nonzero means to do range checking. A value > 1 means to handle range
      errors as I/O errors (only used internally for `Read', `Val', etc.). */
   int range_checking;
@@ -982,6 +1093,15 @@ struct options
   /* Nonzero means printing of needed options was requested. */
   int print_needed_options;
 
+  /* Nonzero means the input file is already preprocessed. */
+  int preprocessed;
+
+  /* Nonzero means only preprocess, do not compile */
+  int preprocess_only;
+
+  /* Nonzero means print the names of included files */
+  int print_deps;
+
   /* Nonzero means to warn about a semicolon after `then', `else' or `do'. */
   int warn_semicolon;
 
@@ -994,6 +1114,9 @@ struct options
   /* Nonzero if only the implementation part of a unit/module should be compiled. */
   int implementation_only;
 
+  /* Nonzero means to enable implicit `Result' for functions. */
+  int implicit_result;
+
   /* 2 means to warn about an identifier written with varying case.
      1 means only within one program/module/unit. */
   int warn_id_case;
@@ -1003,6 +1126,15 @@ struct options
 
   /* Nonzero means to make all methods virtual. */
   int methods_always_virtual;
+
+  /* Nonzero to turn objects into references. */
+  int objects_are_references;
+
+  /* Nonzero to require override directive for objects */
+  int objects_require_override;
+
+  /* Nonzero to silently shadow old methods definitions */
+  int delphi_method_shadowing;
 
   /* Nonzero means to warn when an object type not declared `abstract' contains an abstract method. */
   int warn_implicit_abstract;
@@ -1052,27 +1184,26 @@ struct options
 
 extern struct options *lexer_options, *compiler_options, *co;
 extern int extra_inits_used;
-extern char *save_string PARAMS ((const char *));
-extern void pascal_decode_option_1 PARAMS ((const char *p));
-extern int pascal_decode_option PARAMS ((int, const char *const *));
-extern int is_pascal_option PARAMS ((const char *));
-extern int process_pascal_directive PARAMS ((char *, int));
-extern void activate_options PARAMS ((struct options *, int));
+extern char *save_string (const char *);
+extern void pascal_decode_option_1 (const char *p);
+extern int pascal_decode_option (int, const char *const *);
+extern int is_pascal_option (const char *);
+extern int process_pascal_directive (char *, int);
+extern void activate_options (struct options *, int);
 #ifndef GCC_3_4
-extern void pascal_init_options PARAMS ((void));
+extern void pascal_init_options (void);
 #else
 extern unsigned int pascal_init_options (unsigned int argc, const char **argv);
 #endif
-extern void do_deferred_options PARAMS ((void));
-extern void error_or_warning PARAMS ((int, const char *));
-extern void dialect_msg PARAMS ((int, unsigned long, const char *, const char *, const char *));
-extern void warn_about_keyword_redeclaration PARAMS ((tree, int));
+extern void do_deferred_options (void);
+extern void error_or_warning (int, const char *);
+extern void dialect_msg (int, unsigned long, const char *, const char *, const char *);
+extern void warn_about_keyword_redeclaration (tree, int);
 
 /* declarations.c */
 
 extern int defining_packed_type;
 extern int size_volatile;
-extern int current_structor_object_type_constructor;
 #ifndef EGCS97
 extern tree ptr_type_node;
 extern tree null_pointer_node;
@@ -1104,274 +1235,288 @@ extern tree unsigned_intSI_type_node;
 extern tree unsigned_type_node;
 extern tree void_type_node;
 #endif
-extern struct lang_type *allocate_type_lang_specific PARAMS ((void));
-extern void copy_type_lang_specific PARAMS ((tree));
-extern struct lang_decl *allocate_decl_lang_specific PARAMS ((void));
-extern int pascal_global_bindings_p PARAMS ((void));
-extern void type_attributes PARAMS ((tree *, tree));
-extern void routine_attributes PARAMS ((tree *, tree, tree *));
-extern tree check_assembler_name PARAMS ((tree));
-extern tree declare_routine PARAMS ((tree, tree, int));
-extern tree build_implicit_routine_decl PARAMS ((tree, tree, tree, int));
-extern tree numeric_label PARAMS ((tree));
-extern void declare_label PARAMS ((tree));
-extern void do_setjmp PARAMS ((void));
-extern tree build_type_decl PARAMS ((tree, tree, tree));
-extern void declare_types PARAMS ((void));
-extern tree pascal_shadow_record_fields PARAMS ((tree, tree));
-extern void restore_identifiers PARAMS ((tree));
-extern void cleanup_routine PARAMS ((void));
-extern void finish_routine PARAMS ((void));
-extern tree build_routine_heading PARAMS ((tree, tree, tree, tree, tree, int));
-extern tree build_operator_heading PARAMS ((tree, tree, tree, tree));
-extern void check_routine_decl PARAMS ((tree, tree, tree, int, int, int, tree, filename_t, int));
-extern tree start_routine PARAMS ((tree, tree));
-extern tree start_implicit_routine PARAMS ((tree, tree, tree, tree));
-extern void sort_fields PARAMS ((tree));
-extern tree finish_struct PARAMS ((tree, tree, int));
-extern tree getdecls PARAMS ((void));
-extern int global_bindings_p PARAMS ((void));
-extern void init_decl_processing PARAMS ((void));
-extern void set_forward_decl PARAMS ((tree, int));
-extern void clear_forward_decls PARAMS ((void));
-extern void check_forward_decls PARAMS ((int));
-extern void insert_block PARAMS ((tree));
-extern void set_block PARAMS ((tree));
-extern void check_duplicate_id PARAMS ((tree));
-extern tree lookup_name PARAMS ((tree));
-extern tree lookup_name_current_level PARAMS ((tree));
-extern tree get_pointer_domain_type PARAMS ((tree));
-extern void set_identifier_spelling PARAMS ((tree, const char *, const char *, int, int));
-extern tree make_identifier PARAMS ((const char *, int));
-extern tree get_identifier_with_spelling PARAMS ((const char *, const char *));
-extern tree get_unique_identifier PARAMS ((const char *));
-extern tree build_qualified_id PARAMS ((tree, tree));
-extern tree build_qualified_or_component_access PARAMS ((tree, tree));
-extern tree check_identifier PARAMS ((tree));
-extern tree de_capitalize PARAMS ((tree));
-extern tree pascal_mangle_names PARAMS ((const char *, const char *));
-extern tree build_formal_param PARAMS ((tree, tree, int, int));
-extern tree build_procedural_type PARAMS ((tree, tree));
-extern tree build_formal_param_list PARAMS ((tree, tree, tree *));
-extern tree add_parm_decl PARAMS ((tree, tree, tree));
-extern tree poplevel PARAMS ((int, int, int));
-extern void pushlevel_expand PARAMS ((void));
-extern tree poplevel_expand PARAMS ((int, int));
-extern tree pushdecl PARAMS ((tree));
-extern tree pushdecl_import PARAMS ((tree, int));
-extern tree pushdecl_nocheck PARAMS ((tree));
-extern void pushlevel PARAMS ((int));
-extern tree start_struct PARAMS ((enum tree_code));
-extern tree build_enum_type PARAMS ((tree));
-extern tree declare_constant PARAMS ((tree, tree));
-extern tree declare_variables PARAMS ((tree, tree, tree, int, tree));
-extern tree declare_variable PARAMS ((tree, tree, tree, int));
-extern tree make_new_variable PARAMS ((const char *, tree));
-extern tree new_string_by_model PARAMS ((tree, tree, int));
-extern tree set_structor_object PARAMS ((tree, int));
+extern void allocate_type_lang_specific (tree);
+extern void copy_type_lang_specific (tree);
+extern void allocate_decl_lang_specific (tree);
+extern void copy_decl_lang_specific (tree);
+extern int pascal_global_bindings_p (void);
+extern void type_attributes (tree *, tree);
+extern void routine_attributes (tree *, tree, tree *);
+extern tree check_assembler_name (tree);
+extern tree declare_routine (tree, tree, int);
+extern tree build_implicit_routine_decl (tree, tree, tree, int);
+extern tree numeric_label (tree);
+extern tree declare_label (tree);
+extern void set_label (tree);
+extern void pascal_expand_goto (tree);
+extern void do_setjmp (void);
+extern tree build_type_decl (tree, tree, tree);
+extern void patch_type (tree type, tree otype);
+extern void declare_types (void);
+extern tree pascal_shadow_record_fields (tree, tree);
+extern void restore_identifiers (tree);
+extern void cleanup_routine (void);
+extern void finish_routine (tree);
+extern tree build_routine_heading (tree, tree, tree, tree, tree, int);
+extern tree build_operator_heading (tree, tree, tree, tree);
+extern int compare_routine_decls (tree, tree);
+extern int check_routine_decl (tree, tree, tree, int, int, int, tree, int);
+extern tree start_routine (tree, tree);
+extern tree start_implicit_routine (tree, tree, tree, tree);
+extern void sort_fields (tree);
+extern tree finish_struct (tree, tree, int);
+extern tree getdecls (void);
+extern int global_bindings_p (void);
+extern void init_decl_processing (void);
+extern void set_forward_decl (tree, int);
+extern void clear_forward_decls (void);
+extern void check_forward_decls (int);
+extern void insert_block (tree);
+extern void set_block (tree);
+extern void check_duplicate_id (tree);
+extern tree lookup_name (tree);
+extern tree lookup_name_current_level (tree);
+extern tree get_pointer_domain_type (tree);
+extern void set_identifier_spelling (tree, const char *, const char *, int, int);
+extern tree make_identifier (const char *, int);
+extern tree get_identifier_with_spelling (const char *, const char *);
+extern tree get_unique_identifier (const char *);
+extern tree build_qualified_id (tree, tree);
+extern tree build_qualified_or_component_access (tree, tree);
+extern tree check_identifier (tree);
+extern tree de_capitalize (tree);
+extern tree pascal_mangle_names (const char *, const char *);
+extern tree build_formal_param (tree, tree, int, int);
+extern tree build_procedural_type (tree, tree);
+extern tree build_formal_param_list (tree, tree, tree *);
+extern tree add_parm_decl (tree, tree, tree);
+extern tree poplevel (int, int, int);
+extern void pop_param_level (tree, tree);
+extern void pop_record_level (tree);
+extern void push_scope (void);
+extern void pushlevel_expand (int);
+extern tree poplevel_expand (int, int);
+extern void mark_temporary_levels (void);
+extern void release_temporary_levels (void);
+extern tree pushdecl (tree);
+extern void pushdecl_import (tree, int);
+extern tree pushdecl_nocheck (tree);
+extern void pushlevel (int);
+extern tree start_struct (enum tree_code);
+extern tree build_enum_type (tree);
+extern tree declare_constant (tree, tree);
+extern tree declare_variables (tree, tree, tree, int, tree);
+extern tree declare_variable (tree, tree, tree, int);
+extern tree make_new_variable (const char *, tree);
+extern tree new_string_by_model (tree, tree, int);
 
 /* expressions.c */
 
-extern tree build_pascal_unary_op PARAMS ((enum tree_code, tree));
-extern tree build_pascal_pointer_reference PARAMS ((tree));
-extern tree undo_schema_dereference PARAMS ((tree));
-extern tree build_pascal_address_expression PARAMS ((tree, int));
-extern tree build_pascal_lvalue_address_expression PARAMS ((tree));
-extern tree get_operator PARAMS ((const char *, const char *, tree, tree, int));
-extern tree build_operator_call PARAMS ((tree, tree, tree, int));
-extern tree start_boolean_binary_op PARAMS ((enum tree_code, tree));
-extern tree finish_boolean_binary_op PARAMS ((enum tree_code, tree, tree, tree));
-extern int const_plus1_lt PARAMS ((tree, tree));
-extern tree parser_build_binary_op PARAMS ((enum tree_code, tree, tree));
-extern tree set_exp_original_code PARAMS ((tree, enum tree_code));
-extern tree build_pascal_binary_op PARAMS ((enum tree_code, tree, tree));
-extern tree build_implicit_pascal_binary_op PARAMS ((enum tree_code, tree, tree));
+extern tree build_pascal_unary_op (enum tree_code, tree);
+extern tree build_pascal_pointer_reference (tree);
+extern tree undo_schema_dereference (tree);
+extern tree build_variable_or_routine_access (tree);
+extern tree build_pascal_address_expression (tree, int);
+extern tree build_pascal_lvalue_address_expression (tree);
+extern tree get_operator (const char *, const char *, tree, tree, int);
+extern tree build_operator_call (tree, tree, tree, int);
+extern tree start_boolean_binary_op (enum tree_code, tree);
+extern tree finish_boolean_binary_op (enum tree_code, tree, tree, tree);
+extern int const_plus1_lt (tree, tree);
+extern tree const_set_constructor_binary_op (enum tree_code, tree, tree);
+extern tree parser_build_binary_op (enum tree_code, tree, tree);
+extern tree set_exp_original_code (tree, enum tree_code);
+extern tree build_pascal_binary_op (enum tree_code, tree, tree);
+extern tree build_implicit_pascal_binary_op (enum tree_code, tree, tree);
 extern int operators_defined;
-extern tree build_string_constant PARAMS ((const char *, int, int));
-extern tree build_caret_string_constant PARAMS ((int));
-extern tree combine_strings PARAMS ((tree, int));
-extern void constant_expression_warning PARAMS ((tree));
-extern tree range_check_2 PARAMS ((tree, tree, tree));
-extern tree range_check PARAMS ((tree, tree));
-extern tree convert_and_check PARAMS ((tree, tree));
-extern tree truthvalue_conversion PARAMS ((tree));
-extern tree build_binary_op PARAMS ((enum tree_code, tree, tree));
-extern tree build_unary_op PARAMS ((enum tree_code, tree, int));
-extern tree build_type_cast PARAMS ((tree, tree));
-extern tree build_indirect_ref PARAMS ((tree, const char *));
-extern int allow_function_calls PARAMS ((int));
-extern tree function_result_type PARAMS ((tree));
-extern tree maybe_call_function PARAMS ((tree, int));
-extern tree probably_call_function PARAMS ((tree));
-extern tree build_iocheck PARAMS ((void));
-extern tree build_routine_call PARAMS ((tree, tree));
-extern tree build_iso_set_constructor PARAMS ((tree, tree, int));
-extern tree build_iso_constructor PARAMS ((tree, tree));
-extern tree build_call_or_cast PARAMS ((tree, tree));
-extern tree build_modify_expr PARAMS ((tree, enum tree_code, tree));
+extern tree build_string_constant (const char *, int, int);
+extern tree build_caret_string_constant (int);
+extern tree combine_strings (tree, int);
+extern void constant_expression_warning (tree);
+extern tree build_range_check (tree min, tree max, tree expr, int is_io, int gimplifying);
+extern tree range_check_2 (tree, tree, tree);
+extern tree range_check (tree, tree);
+extern tree convert_and_check (tree, tree);
+extern tree discriminant_mismatch_error (tree);
+extern tree check_discriminants (tree, tree);
+extern tree truthvalue_conversion (tree);
+extern tree build_binary_op (enum tree_code, tree, tree);
+extern tree build_unary_op (enum tree_code, tree, int);
+extern tree build_type_cast (tree, tree);
+extern tree build_indirect_ref (tree, const char *);
+extern int allow_function_calls (int);
+extern tree function_result_type (tree);
+extern tree maybe_call_function (tree, int);
+extern tree probably_call_function (tree);
+extern tree build_iocheck (void);
+extern tree build_routine_call (tree, tree);
+extern tree build_iso_set_constructor (tree, tree, int);
+extern tree build_iso_constructor (tree, tree);
+extern tree build_call_or_cast (tree, tree);
+extern tree build_modify_expr (tree, enum tree_code, tree);
 
 /* statements.c */
 
-extern void expand_expr_stmt1 PARAMS ((tree));
-extern void pascal_expand_asm_operands PARAMS ((tree, tree, tree, tree, int));
-extern int mark_lvalue PARAMS ((tree, const char *, int));
-extern int check_reference_parameter PARAMS ((tree, int));
-extern void expand_return_statement PARAMS ((tree));
-extern tree pascal_expand_start_case PARAMS ((tree));
-extern void pascal_pushcase PARAMS ((tree));
-extern void set_label PARAMS ((tree));
-extern void pascal_expand_goto PARAMS ((tree));
-extern tree start_for_loop PARAMS ((tree, tree, tree, enum tree_code));
-extern void finish_for_loop PARAMS ((tree, enum tree_code));
-extern tree start_for_set_loop PARAMS ((tree, tree));
-extern void finish_for_set_loop PARAMS ((tree, tree));
-extern tree assign_tags PARAMS ((tree, tree));
-extern int contains_file_p PARAMS ((tree));
-extern int contains_auto_initialized_part_p PARAMS ((tree, int));
-extern void init_any PARAMS ((tree, int, int));
-extern void un_initialize_block PARAMS ((tree, int, int));
-extern void expand_call_statement PARAMS ((tree));
-extern void expand_pascal_assignment PARAMS ((tree, tree));
-extern tree assign_set PARAMS ((tree, tree));
-extern tree assign_string PARAMS ((tree, const tree));
-extern void start_main_program PARAMS ((void));
-extern void finish_main_program PARAMS ((void));
-extern void start_constructor PARAMS ((int));
-extern void finish_constructor PARAMS ((void));
-extern void start_destructor PARAMS ((void));
-extern void finish_destructor PARAMS ((void));
-extern void implicit_module_structors PARAMS ((void));
+extern void expand_expr_stmt1 (tree);
+extern void pascal_expand_asm_operands (tree, tree, tree, tree, int);
+extern int mark_lvalue (tree, const char *, int);
+extern int check_reference_parameter (tree, int);
+extern void expand_return_statement (tree);
+extern tree pascal_expand_start_case (tree);
+extern void pascal_pushcase (tree);
+extern tree start_for_loop (tree, tree, tree, enum tree_code);
+extern void finish_for_loop (tree, enum tree_code);
+extern tree start_for_set_loop (tree, tree);
+extern void finish_for_set_loop (tree, tree);
+extern tree assign_tags (tree, tree);
+extern int contains_file_p (tree);
+extern int contains_auto_initialized_part (tree, int);
+extern void init_any (tree, int, int);
+extern void un_initialize_block (tree, int, int);
+extern void expand_call_statement (tree);
+extern void expand_pascal_assignment (tree, tree);
+extern tree assign_set (tree, tree);
+extern tree assign_string (tree, const tree);
+extern void start_main_program (void);
+extern void finish_main_program (void);
+extern void start_constructor (int);
+extern void finish_constructor (void);
+extern void start_destructor (void);
+extern void finish_destructor (void);
+extern void implicit_module_structors (void);
 
 /* typecheck.c */
 
-extern void cstring_inform PARAMS ((void));
-extern void ptrarith_inform PARAMS ((void));
-extern tree require_complete_type PARAMS ((tree));
-extern void incomplete_type_error PARAMS ((tree, tree));
-extern int contains_discriminant PARAMS ((tree, tree));
-extern tree build_discriminated_schema_type PARAMS ((tree, tree, int));
-extern tree default_conversion PARAMS ((tree));
-extern tree convert_array_to_pointer PARAMS ((tree));
-extern tree convert_arguments PARAMS ((tree, tree, tree));
-extern int check_pascal_initializer PARAMS ((tree, tree));
-extern tree common_type PARAMS ((tree, tree));
-extern int comptypes PARAMS ((tree, tree));
-extern int strictly_comp_types PARAMS ((tree, tree));
-extern int comp_target_types PARAMS ((tree, tree));
-extern int comp_object_or_schema_pointer_types PARAMS ((tree, tree));
-extern int lvalue_p PARAMS ((tree));
+extern tree copy_expr (tree);
+extern void cstring_inform (void);
+extern void ptrarith_inform (void);
+extern tree require_complete_type (tree);
+extern void incomplete_type_error (tree, tree);
+extern int contains_discriminant (tree, tree);
+extern tree build_discriminated_schema_type (tree, tree, int);
+extern tree default_conversion (tree);
+extern tree convert_array_to_pointer (tree);
+extern tree convert_arguments (tree, tree, tree);
+extern int check_pascal_initializer (tree, tree);
+extern tree common_type (tree, tree);
+extern int comptypes (tree, tree);
+extern int strictly_comp_types (tree, tree);
+extern int comp_target_types (tree, tree);
+extern int comp_object_or_schema_pointer_types (tree, tree, int);
+extern int lvalue_p (tree);
 #ifdef GCC_3_3
-extern bool mark_addressable PARAMS ((tree));
-extern bool mark_addressable2 PARAMS ((tree, int));
+extern bool mark_addressable (tree);
+extern bool mark_addressable2 (tree, int);
 #else
-extern int mark_addressable2 PARAMS ((tree, int));
+extern int mark_addressable2 (tree, int);
 #endif
 #ifndef EGCS
-extern int mark_addressable PARAMS ((tree));
+extern int mark_addressable (tree);
 #endif
-extern tree convert_for_assignment PARAMS ((tree, tree, const char *, tree, int));
-extern tree initializer_constant_valid_p PARAMS ((tree, tree));
-extern tree digest_init PARAMS ((tree, tree, int));
-extern tree build_pascal_initializer PARAMS ((tree, tree, const char *, int));
-extern tree find_variant_selector PARAMS ((tree, tree));
+extern tree convert_for_assignment (tree, tree, const char *, tree, int);
+extern tree initializer_constant_valid_p (tree, tree);
+extern tree digest_init (tree, tree, int);
+extern tree build_pascal_initializer (tree, tree, const char *, int);
+extern tree find_variant (tree, tree);
+// extern int allow_packed_addresses;
 
 /* types.c */
 
-extern tree signed_or_unsigned_type PARAMS ((int, tree));
-extern tree unsigned_type PARAMS ((tree));
-extern tree signed_type PARAMS ((tree));
-extern tree type_for_size PARAMS ((unsigned, int));
-extern tree type_for_mode PARAMS ((enum machine_mode, int));
-extern tree check_result_type PARAMS ((tree));
-extern tree convert PARAMS ((tree, tree));
-extern tree build_set_constructor PARAMS ((tree));
-extern tree construct_set PARAMS ((tree, tree, int));
-extern tree build_set_type PARAMS ((tree));
-extern tree build_pascal_pointer_type PARAMS ((tree));
-extern tree convert_to_cstring PARAMS ((tree));
-extern tree string_may_be_char PARAMS ((tree, int));
-extern tree char_may_be_string PARAMS ((tree));
-extern tree build_pascal_string_schema PARAMS ((tree));
-extern tree build_pascal_packed_array_ref  PARAMS ((tree, tree, tree, int));
-extern int is_string_compatible_type PARAMS ((tree, int));
-extern int is_string_type PARAMS ((tree, int));
-extern int is_of_string_type PARAMS ((tree, int));
-extern int is_variable_string_type PARAMS ((tree));
-extern tree build_discriminants PARAMS ((tree, tree));
-extern tree maybe_schema_discriminant PARAMS ((tree));
-extern tree build_schema_type PARAMS ((tree, tree, tree));
-extern int number_of_schema_discriminants PARAMS ((tree));
-extern void prediscriminate_schema PARAMS ((tree));
-extern tree base_type PARAMS ((tree));
-extern tree build_file_type PARAMS ((tree, tree, int));
-extern tree build_field PARAMS ((tree, tree));
-extern tree add_type_initializer PARAMS ((tree, tree));
-extern tree build_fields PARAMS ((tree, tree, tree));
-extern tree build_record PARAMS ((tree, tree, tree));
-extern tree pack_type PARAMS ((tree));
-extern int is_packed_field PARAMS ((tree));
-extern tree count_bits PARAMS ((tree));
-extern tree pascal_array_type_nelts PARAMS ((tree));
-extern tree size_of_type PARAMS ((tree));
-extern int const_lt PARAMS ((tree, tree));
-extern tree select_signed_integer_type PARAMS ((tree));
-extern tree select_integer_type PARAMS ((tree, tree, enum tree_code));
-extern int check_subrange PARAMS ((tree, tree));
-extern tree save_nonconstants PARAMS ((tree));
-extern tree build_pascal_range_type PARAMS ((tree, tree));
-extern tree build_pascal_subrange_type PARAMS ((tree, tree, int));
-extern tree find_field PARAMS ((tree, tree, int));
-extern tree build_component_ref PARAMS ((tree, tree));
-extern tree simple_component_ref PARAMS ((tree, tree));
-extern tree build_component_ref_no_schema_dereference PARAMS ((tree, tree, int));
-extern tree build_pascal_array_type PARAMS ((tree, tree));
-extern tree build_array_slice_ref PARAMS ((tree, tree, tree));
-extern tree fold_array_ref PARAMS ((tree));
-extern tree build_array_ref_or_constructor PARAMS ((tree, tree));
-extern tree build_pascal_array_ref PARAMS ((tree, tree));
-extern tree build_array_ref PARAMS ((tree, tree));
-extern tree build_simple_array_type PARAMS ((tree, tree));
-extern tree build_boolean_type PARAMS ((unsigned));
-extern void new_main_variant PARAMS ((tree));
-extern tree pascal_type_variant PARAMS ((tree, int));
-extern tree p_build_type_variant PARAMS ((tree, int, int));
-extern tree build_type_of PARAMS ((tree));
+extern tree signed_or_unsigned_type (int, tree);
+extern tree unsigned_type (tree);
+extern tree signed_type (tree);
+extern tree type_for_size (unsigned, int);
+extern tree type_for_mode (enum machine_mode, int);
+extern tree check_result_type (tree);
+extern tree convert (tree, tree);
+extern tree build_set_constructor (tree);
+extern tree construct_set (tree, tree, int);
+extern tree build_set_type (tree);
+extern tree build_pascal_pointer_type (tree);
+extern tree convert_to_cstring (tree);
+extern tree string_may_be_char (tree, int);
+extern tree char_may_be_string (tree);
+extern tree build_pascal_string_schema (tree);
+extern tree build_pascal_packed_array_ref  (tree, tree, tree, int);
+extern int is_string_compatible_type (tree, int);
+extern int is_string_type (tree, int);
+extern int is_of_string_type (tree, int);
+extern int is_variable_string_type (tree);
+extern tree build_discriminants (tree, tree, tree);
+extern tree maybe_schema_discriminant (tree);
+extern tree build_schema_type (tree, tree, tree, tree);
+extern int number_of_schema_discriminants (tree);
+extern void prediscriminate_schema (tree);
+extern tree base_type (tree);
+extern tree build_file_type (tree, tree, int);
+extern tree build_field (tree, tree);
+extern tree add_type_initializer (tree, tree);
+extern tree build_fields (tree, tree, tree);
+extern tree build_record (tree, tree, tree);
+extern tree pack_type (tree);
+extern int is_packed_field (tree);
+extern tree count_bits (tree, int *);
+extern tree pascal_array_type_nelts (tree);
+extern tree size_of_type (tree);
+extern int const_lt (tree, tree);
+extern tree select_signed_integer_type (tree);
+extern tree select_integer_type (tree, tree, enum tree_code);
+extern int check_subrange (tree, tree);
+extern tree save_nonconstants (tree);
+extern tree build_pascal_range_type (tree, tree);
+extern tree build_pascal_subrange_type (tree, tree, int);
+extern tree find_field (tree, tree, int);
+extern tree build_component_ref (tree, tree);
+extern tree simple_component_ref (tree, tree);
+extern tree build_component_ref_no_schema_dereference (tree, tree, int);
+extern tree build_pascal_array_type (tree, tree);
+extern tree build_array_slice_ref (tree, tree, tree);
+extern tree fold_array_ref (tree);
+extern tree build_array_ref_or_constructor (tree, tree);
+extern tree build_pascal_array_ref (tree, tree);
+extern tree build_array_ref (tree, tree);
+extern tree build_simple_array_type (tree, tree);
+extern tree build_boolean_type (unsigned);
+extern void new_main_variant (tree);
+extern tree pascal_type_variant (tree, int);
+extern tree p_build_type_variant (tree, int, int);
+extern tree build_type_of (tree);
 
 #ifdef EGCS
 /* copied from c-decl.c */
 /* Add qualifiers to a type, in the fashion for C. */
-extern tree c_build_qualified_type PARAMS ((tree, int));
+extern tree c_build_qualified_type (tree, int);
 #undef c_build_type_variant
 #define c_build_type_variant(TYPE, CONST_P, VOLATILE_P)     \
   c_build_qualified_type (TYPE,                             \
                           ((CONST_P) ? TYPE_QUAL_CONST : 0) \
                           | ((VOLATILE_P) ? TYPE_QUAL_VOLATILE : 0))
 #else
-extern tree c_build_type_variant PARAMS ((tree, int, int));
+extern tree c_build_type_variant (tree, int, int);
 #endif
 
 /* objects.c */
 
-extern tree simple_get_field PARAMS ((tree, tree, const char *));
-extern tree get_vmt_field PARAMS ((tree));
-extern const char *check_private_protected PARAMS ((tree));
-extern tree call_method PARAMS ((tree, tree));
-extern tree build_inherited_method PARAMS ((tree));
-extern tree get_method_name PARAMS ((tree, tree));
-extern tree start_object_type PARAMS ((tree));
-extern tree finish_object_type PARAMS ((tree, tree, tree, int));
-extern tree build_is_as PARAMS ((tree, tree, int));
+extern tree simple_get_field (tree, tree, const char *);
+extern tree get_vmt_field (tree);
+extern const char *check_private_protected (tree);
+extern tree call_method (tree, tree);
+extern tree build_inherited_method (tree);
+extern tree get_method_name (tree, tree);
+extern tree start_object_type (tree, int);
+extern tree finish_object_type (tree, tree, tree, int);
+extern tree finish_view_type (tree, tree, tree, tree);
+extern tree build_is_as (tree, tree, int);
 
 /* predef.c */
 
-extern void init_predef PARAMS ((void));
-extern tree save_expr_string PARAMS ((tree));
-extern void build_exit_statement PARAMS ((tree));
-extern tree build_predef_call PARAMS ((int, tree));
-extern tree build_buffer_ref PARAMS ((tree, int));
-extern tree get_builtin_variable PARAMS ((tree));
-extern tree build_memcpy PARAMS ((tree, tree, tree));
-extern tree build_memset PARAMS ((tree, tree, tree));
+extern void init_predef (void);
+extern tree save_expr_string (tree);
+extern tree build_predef_call (int, tree);
+extern tree build_buffer_ref (tree, int);
+extern tree build_memcpy (tree, tree, tree);
+extern tree build_memset (tree, tree, tree);
+extern tree build_new_dispose (int, tree, tree, tree);
 
 /* module.c */
 
@@ -1395,55 +1540,57 @@ struct module GTY(())
   tree assembler_name;  /* The "linker name" of this module. */
   tree parms;  /* Module parameters. */
   tree autoexport;  /* What shall be exported automatically? */
-  tree output_file_node;  /* Standard output for this module. */
-  tree input_file_node;  /* Standard input for this module. */
-  tree error_file_node;  /* Standard error file handle for this module. */
+
+  int input_available;
+  int output_available;
 
   int implementation;  /* Nonzero while compiling a program or unit/module implementation. */
   int interface;  /* Nonzero if this module has an interface part. */
   string_list * GTY((skip(""))) link_files;  /* Files this module wishes to be linked. */
   int main_program;  /* Nonzero if this is the main program. */
+  int bp_qualids;
   struct module *next;  /* Next module. */
 /* NOTE: Add future fields of type tree above and note MODULE_T_LAST_TREE_FIELD below! */
 
 };
-#define MODULE_T_LAST_TREE_FIELD error_file_node
+#define MODULE_T_LAST_TREE_FIELD autoexport
 
 typedef struct module *module_t;
 
 #define NULL_MODULE ((module_t) 0)
 
 extern module_t current_module;
-extern void associate_external_objects PARAMS ((tree));
-extern void check_external_objects PARAMS ((tree));
-extern void handle_autoexport PARAMS ((tree));
-extern void add_automake_gpc_options PARAMS ((const char *));
-extern void append_string_list PARAMS ((string_list **, const char *, int));
-extern void add_to_link_file_list PARAMS ((const char *));
-extern char *locate_file PARAMS ((const char *, locate_file_t));
-extern void store_executable_name PARAMS ((void));
-extern int compile_module PARAMS ((const char *, const char *));
-extern tree itab_get_initializers PARAMS ((tree));
-extern void create_gpi_files PARAMS ((void));
-extern void initialize_module PARAMS ((tree, tree, int));
-extern void start_module_interface PARAMS ((void));
-extern void start_unit_implementation PARAMS ((void));
-extern void finalize_module PARAMS ((int));
-extern void import_interface PARAMS ((tree, tree, import_type, tree));
-extern void export_interface PARAMS ((tree, tree));
-extern void do_extra_import PARAMS ((void));
-extern int is_gpi_special_node PARAMS ((tree));
+extern void associate_external_objects (tree);
+extern void check_external_objects (tree);
+extern void handle_autoexport (tree);
+extern void add_automake_gpc_options (const char *);
+extern void append_string_list (string_list **, const char *, int);
+extern void add_to_link_file_list (const char *);
+extern char *locate_file (const char *, locate_file_t);
+extern void store_executable_name (void);
+extern int compile_module (const char *, const char *);
+extern tree itab_get_initializers (tree);
+extern void create_gpi_files (void);
+extern void initialize_module (tree, tree, int);
+extern void start_module_interface (void);
+extern void start_unit_implementation (void);
+extern void finalize_module (int);
+extern void import_interface (tree, tree, import_type, tree);
+extern void export_interface (tree, tree);
+extern void do_extra_import (void);
+extern int is_gpi_special_node (tree);
 
 /* lang.c */
 
-extern const char *pascal_decl_name PARAMS ((tree, int));
-extern void get_current_routine_name PARAMS ((const char **, const char **));
+extern const char *pascal_decl_name (tree, int);
+extern void get_current_routine_name (const char **, const char **);
 #ifndef EGCS
-extern void add_pascal_tree_codes PARAMS ((void));
+extern void add_pascal_tree_codes (void);
 #endif
-extern void pascal_decl_attributes PARAMS ((tree *, tree));
-extern void exit_compilation PARAMS ((void));
-extern void assert_fail PARAMS ((const char *, const char *, const char *, int)) ATTRIBUTE_NORETURN;
+extern void init_gpcpp (void);
+extern void pascal_decl_attributes (tree *, tree);
+extern void exit_compilation (void);
+extern void assert_fail (const char *, const char *, const char *, int) ATTRIBUTE_NORETURN;
 
 /* gpc-lex.c */
 
@@ -1452,17 +1599,16 @@ extern int column;
 extern int lexer_lineno, lexer_column, compiler_lineno, compiler_column;
 extern int syntax_errors;
 extern int lex_const_equal;
-extern int check_newline PARAMS ((void));
-extern void yyerror PARAMS ((const char *));
-extern void yyerror_id PARAMS ((tree, const YYLTYPE *));
-extern int peek_token PARAMS ((int));
-extern void set_old_input_filename PARAMS ((const char *));
-extern int yylex PARAMS ((void));
-extern void pascal_init_lex PARAMS ((const char *));
-extern void init_gpc_lex PARAMS ((const char *));
-extern void discard_input PARAMS ((void));
+extern int check_newline (void);
+extern void yyerror (const char *);
+extern void yyerror_id (tree, const YYLTYPE *);
+extern int peek_token (int);
+extern void set_old_input_filename (const char *);
+extern int yylex (void);
+extern void init_gpc_lex (const char *);
+extern void discard_input (void);
 #ifdef GCC_3_4
-extern FILE * finput;
+extern FILE *finput;
 #endif
 
 /* Put all global tree node variables here (don't use static ones) */
@@ -1503,78 +1649,92 @@ extern FILE * finput;
 #define const_string_schema_par_type PGT(28)
 #define string255_type_node PGT(29)
 #define empty_set_type_node PGT(30)
+#define root_object_type_node PGT(31)
 
 /* Constants */
-#define pascal_maxint_node PGT(31)
+#define pascal_maxint_node PGT(32)
 #ifndef GCC_3_4
-#define boolean_false_node PGT(32)
-#define boolean_true_node PGT(33)
+#define boolean_false_node PGT(33)
+#define boolean_true_node PGT(34)
 #endif
-#define char_max_node PGT(34)
-#define real_max_node PGT(35)
-#define real_min_node PGT(36)
-#define real_eps_node PGT(37)
-#define real_zero_node PGT(38)
-#define real_half_node PGT(39)
-#define real_pi_node PGT(40)
-#define complex_zero_node PGT(41)
-#define empty_string_node PGT(42)
+#define char_max_node PGT(35)
+#define real_max_node PGT(36)
+#define real_min_node PGT(37)
+#define real_eps_node PGT(38)
+#define real_zero_node PGT(39)
+#define real_half_node PGT(40)
+#define real_pi_node PGT(41)
+#define complex_zero_node PGT(42)
+#define empty_string_node PGT(43)
 
 /* Variables */
-#define null_pseudo_const_node PGT(43)
-#define inoutres_variable_node PGT(44)
-#define paramcount_variable_node PGT(45)
-#define paramstr_variable_node PGT(46)
-#define global_input_file_node PGT(47)
-#define global_output_file_node PGT(48)
-#define global_error_file_node PGT(49)
+#define null_pseudo_const_node PGT(44)
+#define inoutres_variable_node PGT(45)
+#define paramcount_variable_node PGT(46)
+#define paramstr_variable_node PGT(47)
+#define input_variable_node PGT(48)
+#define output_variable_node PGT(49)
+#define error_variable_node PGT(50)
+#define validate_pointer_ptr_node PGT(51)
 
 /* Routines */
-#define memcpy_routine_node PGT(50)
-#define memset_routine_node PGT(51)
-#define strlen_routine_node PGT(52)
-#define setjmp_routine_node PGT(53)
-#define longjmp_routine_node PGT(54)
-#define return_address_routine_node PGT(55)
-#define frame_address_routine_node PGT(56)
-#define checkinoutres_routine_node PGT(57)
+#define memcpy_routine_node PGT(52)
+#define memset_routine_node PGT(53)
+#define strlen_routine_node PGT(54)
+#define setjmp_routine_node PGT(55)
+#define longjmp_routine_node PGT(56)
+#define return_address_routine_node PGT(57)
+#define frame_address_routine_node PGT(58)
+#define checkinoutres_routine_node PGT(59)
+#define setbits_routine_node PGT(60)
 
 /* Identifiers */
-#define self_id PGT(58)
-#define schema_id PGT(59)
-#define vmt_id PGT(60)
+#define self_id PGT(61)
+#define schema_id PGT(62)
+#define vmt_id PGT(63)
 
 /* All the nodes above are once initialized and should not change afterwards. */
 
 /* A list of all exported names in all modules seen so far.
    TREE_VALUE is an IDENTIFIER_NODE of an exported interface name, TREE_PURPOSE
    is a TREE_LIST of the names exported by this interface. */
-#define exported_interface_list PGT(61)
-
-/* The types in the current `type' declaration part. */
-#define current_type_list PGT(62)
+#define exported_interface_list PGT(64)
 
 /* A list of all initializers that were deferred. */
-#define deferred_initializers PGT(63)
+#define deferred_initializers PGT(65)
 
-/* For type checking while the body of a `case' statement is parsed. */
-#define current_case_expression PGT(64)
+/* The types in the current `type' declaration part. */
+#define current_type_list PGT(66)
 
-/* The last expression parsed within parentheses. */
-#define last_parenthesized_expression PGT(65)
+/* While in a `case' statement, a TREE_LIST:
+   TREE_VALUE: current case expression
+   TREE_PURPOSE: list of case ranges seen (if needed) */
+#define current_case_values PGT(67)
 
-#define current_structor_object_type PGT(66)
+/* While in a schema definition, (incomplete) type of the schema */
+#define current_schema PGT(68)
 
-#define PTI_MAX 67
+#define cword_boolean_type_node PGT(69)
+
+#define global_save_list PGT(70)
+
+#define current_statement_list PGT(71)
+
+/* #define global_var_type_list (72) */
+
+#define PTI_MAX 72
+
 extern GTY(()) tree pascal_global_trees[PTI_MAX];
 
 #define pascal_integer_type_node  ptrsize_integer_type_node
 #define pascal_cardinal_type_node ptrsize_unsigned_type_node
 
+#ifndef GCC_3_3
 /* @@ gcc>3.2 defines size_type_node in tree.h. After dropping support for
       gcc-3.2.x, we can remove pascal_size_type_node (or make it #ifndef EGCS97
       if gcc-2 support is still wanted), and remove the following definition. */
 #undef size_type_node
 #define size_type_node pascal_size_type_node
+#endif
 
 #endif /* _GPC_H_ */

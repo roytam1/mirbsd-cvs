@@ -60,7 +60,7 @@
   General Public License. }
 
 {$gnu-pascal,I-}
-{$if __GPC_RELEASE__ <> 20060215}
+{$if __GPC_RELEASE__ <> 20060325}
 {$error
 Trying to compile gpc.pas with a non-matching GPC version is likely
 to cause problems.

@@ -1,4 +1,4 @@
-/* $MirOS: gcc/gcc/p/gpcpp.c,v 1.4 2005/11/20 12:28:11 tg Exp $ */
+/* $MirOS: gcc/gcc/p/gpcpp.c,v 1.5 2006/03/27 11:58:57 tg Exp $ */
 
 /*GNU Pascal Compiler Preprocessor (GPCPP)
 
@@ -1197,7 +1197,9 @@ gpcpp_process_options (int argc, char **argv)
       make_undef (pend_undefs[i], &outbuf);
     if (pend_defs[i])
     {
+#ifndef GCC_3_3 
       int c;
+#endif
       char *p = pend_defs[i];
       make_definition (p, pend_defs_case_sensitive[i]);
 #ifndef GCC_3_3 

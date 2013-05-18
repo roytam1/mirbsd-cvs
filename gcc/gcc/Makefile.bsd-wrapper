@@ -1,4 +1,4 @@
-# $MirOS: gcc/gcc/Makefile.bsd-wrapper,v 1.35 2006/03/01 20:13:57 tg Exp $
+# $MirOS: gcc/gcc/Makefile.bsd-wrapper,v 1.36 2006/03/27 11:19:49 tg Exp $
 
 .include <bsd.own.mk>
 .include "${GNUSYSTEM_AUX_DIR}/locations.mk"
@@ -48,6 +48,9 @@ __LANGS:=	${__LANGS},java
 .endif
 .if !defined(NO_PASCAL) || ${NO_PASCAL:L} == "no"
 __LANGS:=	${__LANGS},pascal
+# must use c99 because of // comments in pascal
+# must use gnu extensions because of crtstuff
+COPTS+=		-std=gnu99
 .endif
 
 BOOT_CFLAGS?=	${FSFCFLAGS}

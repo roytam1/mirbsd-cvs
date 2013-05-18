@@ -36,6 +36,7 @@ enum {
 #define BINDING_NAME_LENGTH 2048
 
 // #ifndef EGCS
+tree xnon_lvalue (tree x);
 tree
 xnon_lvalue (tree x)
 {

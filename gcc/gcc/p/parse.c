@@ -8569,7 +8569,7 @@ yysplitStack (yyGLRStack* yystack, size_t yyk)
     }
   if (yystack->yytops.yysize >= yystack->yytops.yycapacity)
     {
-      yyGLRState** yynewStates;
+      yyGLRState** yynewStates = NULL;
       if (! ((yystack->yytops.yycapacity
 	      <= (YYSIZEMAX / (2 * sizeof yynewStates[0])))
 	     && (yynewStates =
@@ -9391,9 +9391,6 @@ yyparse (void)
 
 /* DEBUGGING ONLY */
 #ifdef YYDEBUG
-static void yypstack (yyGLRStack* yystack, size_t yyk)
-  __attribute__ ((__unused__));
-static void yypdumpstack (yyGLRStack* yystack) __attribute__ ((__unused__));
 
 static void
 yy_yypstack (yyGLRState* yys)
@@ -9406,59 +9403,10 @@ yy_yypstack (yyGLRState* yys)
   fprintf (stderr, "%d@%lu", yys->yylrState, (unsigned long int) yys->yyposn);
 }
 
-static void
-yypstates (yyGLRState* yyst)
-{
-  if (yyst == NULL)
-    fprintf (stderr, "<null>");
-  else
-    yy_yypstack (yyst);
-  fprintf (stderr, "\n");
-}
-
-static void
-yypstack (yyGLRStack* yystack, size_t yyk)
-{
-  yypstates (yystack->yytops.yystates[yyk]);
-}
-
 #define YYINDEX(YYX)							     \
     ((YYX) == NULL ? -1 : (yyGLRStackItem*) (YYX) - yystack->yyitems)
 
 
-static void
-yypdumpstack (yyGLRStack* yystack)
-{
-  yyGLRStackItem* yyp;
-  size_t yyi;
-  for (yyp = yystack->yyitems; yyp < yystack->yynextFree; yyp += 1)
-    {
-      fprintf (stderr, "%3lu. ", (unsigned long int) (yyp - yystack->yyitems));
-      if (*(yybool *) yyp)
-	{
-	  fprintf (stderr, "Res: %d, LR State: %d, posn: %lu, pred: %ld",
-		   yyp->yystate.yyresolved, yyp->yystate.yylrState,
-		   (unsigned long int) yyp->yystate.yyposn,
-		   (long int) YYINDEX (yyp->yystate.yypred));
-	  if (! yyp->yystate.yyresolved)
-	    fprintf (stderr, ", firstVal: %ld",
-		     (long int) YYINDEX (yyp->yystate.yysemantics.yyfirstVal));
-	}
-      else
-	{
-	  fprintf (stderr, "Option. rule: %d, state: %ld, next: %ld",
-		   yyp->yyoption.yyrule,
-		   (long int) YYINDEX (yyp->yyoption.yystate),
-		   (long int) YYINDEX (yyp->yyoption.yynext));
-	}
-      fprintf (stderr, "\n");
-    }
-  fprintf (stderr, "Tops:");
-  for (yyi = 0; yyi < yystack->yytops.yysize; yyi += 1)
-    fprintf (stderr, "%lu: %ld; ", (unsigned long int) yyi,
-	     (long int) YYINDEX (yystack->yytops.yystates[yyi]));
-  fprintf (stderr, "\n");
-}
 #endif
 
 

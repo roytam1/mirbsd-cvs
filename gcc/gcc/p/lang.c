@@ -1629,6 +1629,13 @@ bool
 #else
 int
 #endif
+pascal_mark_addressable (tree exp);
+
+#ifdef GCC_3_3
+bool
+#else
+int
+#endif
 pascal_mark_addressable (tree exp)
 {
   return mark_addressable2 (exp, 1);
