@@ -1,4 +1,4 @@
-# $MirOS: src/etc/mtree/4.4BSD.dist,v 1.17 2006/06/05 02:47:16 tg Exp $
+# $MirOS: src/etc/mtree/4.4BSD.dist,v 1.18 2006/06/08 23:48:41 tg Exp $
 # $OpenBSD: 4.4BSD.dist,v 1.176 2005/06/03 22:25:50 deraadt Exp $
 
 /set type=dir uname=root gname=wheel mode=0755
@@ -1365,7 +1365,7 @@ crash		mode=770
 ..
 
 # ./var/cron
-cron		mode=0555
+cron		mode=0755
 
 # ./var/cron/atjobs
 atjobs		gname=crontab mode=01770
@@ -1423,32 +1423,6 @@ spool
 # ./var/spool/clientmqueue
 clientmqueue	mode=0770 uname=smmsp gname=smmsp
 # ./var/spool/clientmqueue
-..
-
-# ./var/spool/ftp
-ftp		mode=0555
-
-# ./var/spool/ftp/bin
-bin		mode=0511
-# ./var/spool/ftp/bin
-..
-
-# ./var/spool/ftp/etc
-etc		mode=0511
-# ./var/spool/ftp/etc
-..
-
-# ./var/spool/ftp/hidden
-hidden		mode=0111
-# ./var/spool/ftp/hidden
-..
-
-# ./var/spool/ftp/pub			XXX
-#pub		mode=0555
-# ./var/spool/ftp/pub			XXX
-#..
-
-# ./var/spool/ftp
 ..
 
 # ./var/spool/lock
