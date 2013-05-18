@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/baselive/rc.netselect.common,v 1.14 2007/09/28 20:46:53 tg Exp $
+# $MirOS: src/distrib/baselive/rc.netselect.common,v 1.15 2008/07/07 13:57:13 tg Exp $
 #-
 # Copyright (c) 2006, 2007
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -178,4 +178,22 @@ function do_before {
 
 function do_after {
 	rm -f /etc/hostname.done
+}
+
+function do_shell {
+	if ! grep -w ^console /etc/ttys | grep -qw secure; then
+		oldIFS=$IFS; IFS=:
+		set -A p -- $(grep ^root: /etc/master.passwd | head -1)
+		IFS=$oldIFS
+		print "DEBUG: ${p[1]}"
+		print Gimme a root password, please.
+		if [[ ${p[1]} != $(/usr/bin/encrypt -pS "${p[1]}") ]]; then
+			print root login failed.
+			continue
+		fi
+		set -A p
+	fi
+
+	HOME=/ /bin/mksh -l
+	print
 }

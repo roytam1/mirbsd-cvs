@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/baselive/sparc/rc.netselect,v 1.6 2008/05/13 12:14:30 tg Exp $
+# $MirOS: src/distrib/baselive/sparc/rc.netselect,v 1.7 2008/07/07 13:57:16 tg Exp $
 #-
 # Copyright (c) 2006, 2007
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -44,10 +44,7 @@ while [[ $x != @(1|2|3) ]]; do
 	fi
 	print -n "Your choice? "
 	read x
-	if [[ $x = 9 ]]; then
-		HOME=/ /bin/mksh -l
-		print
-	fi
+	[[ $x = 9 ]] && do_shell
 done
 
 case $x {
