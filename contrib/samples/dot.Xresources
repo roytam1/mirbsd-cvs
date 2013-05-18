@@ -1,7 +1,7 @@
 ! $MirSecuCron$
-! $MirOS: contrib/samples/dot.Xresources,v 1.16 2010/01/28 16:12:11 tg Exp $
+! $MirOS: contrib/samples/dot.Xresources,v 1.17 2010/01/31 00:36:34 tg Exp $
 !-
-! Copyright © 2003, 2004, 2005, 2006, 2007, 2009, 2010
+! Copyright © 2003, 2004, 2005, 2006, 2007, 2009, 2010, 2011
 !	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
 !
 ! Provided that these terms and disclaimer and all copyright notices
@@ -22,6 +22,13 @@
 ! Xresources file for xterm, xterm with terminus, xterm with vga,
 ! kterm, netscape with mouse wheel, and whatever else pleases you.
 
+! TODO: think about this (breaks mouse copying between screen tabs):
+!	!! Do NOT use cut buffers in xterm. They are evil and obsolete.
+!	*VT100*translations: #override \n\
+!	    ~Shift~Ctrl<Btn2Up>: insert-selection(PRIMARY) \n\
+!	    Shift~Ctrl<Btn2Up>:  insert-selection(CLIPBOARD) \n\
+!	    <BtnUp>:select-end(PRIMARY)
+
 ! TODO: use cursorUnderLine (xterm #237 and up)
 
 !--- generic XTerm settings ---
@@ -37,7 +44,7 @@ XTerm*VT100*foreground:		lightgrey
 XTerm*termName:			xterm-xfree86
 XTerm*cursorColor:		black
 XTerm*VT100*colorMode:		true
-XTerm*VT100*boldColors:		false
+XTerm*VT100*boldColors:		true
 XTerm*VT100*dynamicColors:	true
 XTerm*VT100*utf8:		1
 XTerm*VT100*color0:		black
@@ -49,7 +56,7 @@ XTerm*VT100*color4:		rgb:11/11/EE
 XTerm*VT100*color5:		magenta3
 XTerm*VT100*color6:		cyan3
 XTerm*VT100*color7:		gray90
-XTerm*VT100*color8:		gray30
+XTerm*VT100*color8:		gray40
 XTerm*VT100*color9:		red
 XTerm*VT100*color10:		green
 XTerm*VT100*color11:		yellow
@@ -224,7 +231,7 @@ UXTerm*VT100*foreground:	lightgrey
 UXTerm*termName:		xterm-xfree86
 UXTerm*cursorColor:		black
 UXTerm*VT100*colorMode:		true
-UXTerm*VT100*boldColors:	false
+UXTerm*VT100*boldColors:	true
 UXTerm*VT100*dynamicColors:	true
 UXTerm*VT100*utf8:		1
 UXTerm*VT100*color0:		black
@@ -236,7 +243,7 @@ UXTerm*VT100*color4:		rgb:11/11/EE
 UXTerm*VT100*color5:		magenta3
 UXTerm*VT100*color6:		cyan3
 UXTerm*VT100*color7:		gray90
-UXTerm*VT100*color8:		gray30
+UXTerm*VT100*color8:		gray40
 UXTerm*VT100*color9:		red
 UXTerm*VT100*color10:		green
 UXTerm*VT100*color11:		yellow
