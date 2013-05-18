@@ -1,4 +1,4 @@
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.87 2008/03/05 00:49:38 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.88 2008/03/05 20:05:07 tg Exp $'
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -704,13 +704,16 @@ mws_content <<'EOF'
  <li>Debian GNU/kFreeBSD 6.3-1-686 (i386 gcc4.2.3-2) <em>by himalia1 buildd via Debian’s package</em></li>
  <li>Debian GNU/kFreeBSD 6.3-1-amd64-k8 (amd64 gcc4.2.3-2) <em>by shockley buildd via Debian’s package</em></li>
  <li>Mac OSX Leopard 10.5.2 Darwin 9.2.0 (i386 gcc4.0.1 Apple Inc. build 5465) <em>by gecko2 via Fink package</em></li>
+ <li>Debian GNU/Linux 2.6.18-4-alpha-generic (alpha gcc4.2.3-2) <em>by goetz buildd via Debian’s package</em></li>
  <li>Debian GNU/Linux 2.6.22-3-vserver-amd64 (amd64 gcc4.2.3-2) <em>by excelsior buildd via Debian’s package</em></li>
- <li>Debian GNU/Linux 2.6.20 (armeb gcc4.2.3-1) <em>by europa buildd via Debian’s package</em></li>
+ <li>Debian GNU/Linux 2.6.20 (arm gcc4.2.3-1) <em>by europa buildd via Debian’s package</em></li>
  <li>Debian GNU/Linux 2.6.23-rc8-iop32x (armel gcc4.2.3-2) <em>by ALL6500 buildd via Debian’s package</em></li>
  <li>Debian GNU/Linux 2.6.22-14-hppa64 (hppa gcc4.2.3-2) <em>by bld-3 buildd via Debian’s package</em></li>
  <li>Debian GNU/Linux 2.6.24.1 (i386 gcc4.2.3-2) <em>by ninsei buildd via Debian’s package</em></li>
  <li>Debian GNU/Linux 2.6.18-dsa-mckinley (IA64 gcc4.2.3-1) <em>by mundy buildd via Debian’s package</em></li>
  <li>Debian GNU/Linux 2.6.24-1-mac (mac68k gcc4.2.3-1) <em>by poseidon buildd via Debian’s package</em></li>
+ <li>Debian GNU/Linux 2.6.25-rc3-00000-g84d8498-dirty (mips gcc4.2.3-2) <em>by ball buildd via Debian’s package</em></li>
+ <li>Debian GNU/Linux 2.6.17-1-sb1-bcm91250a (mipsel gcc4.2.3-2) <em>by rem buildd via Debian’s package</em></li>
  <li>Debian GNU/Linux 2.6.18-5-s390x (S/390 gcc4.2.3-2) <em>by debian-31 buildd via Debian’s package</em></li>
  <li>Debian GNU/Linux 2.6.23.16 (sparc64,V8 gcc4.2.3-2) <em>by lebrun buildd via Debian’s package</em></li>
  <li style="list-style:none;">– known to <strong>FAIL</strong> building</li>
@@ -743,6 +746,9 @@ mws_content <<'EOF'
 <p>Patching mksh’s to look for ed in ANY other location is a MUST NOT.</p>
 
 <h2 id="plans">Future Plans</h2><ul>
+<li>when typing then moving in the history, push current (eventually even
+ empty) line into history buffer first, so that, when we go down the
+ history again, do not lose what was typed first</li>
 <li>bash-style multiline command line editing, as an option (the current
  horizontally scrolled one is finally (with R28) bug-free even with
  multiline and very long prompts optionally with embedded newlines,
