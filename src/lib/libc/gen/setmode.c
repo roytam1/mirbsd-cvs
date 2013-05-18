@@ -33,17 +33,13 @@
  * SUCH DAMAGE.
  */
 
-#ifdef IN_MKSH
-#include "sh.h"
-#undef SETMODE_DEBUG
-#else
-
 #include <sys/types.h>
 #include <sys/stat.h>
 
 #include <ctype.h>
 #include <errno.h>
 #include <signal.h>
+#include <stdint.h>
 #include <stdlib.h>
 #include <unistd.h>
 
@@ -51,34 +47,8 @@
 #include <stdio.h>
 #endif
 
-#endif
-
 __SCCSID("@(#)setmode.c	8.2 (Berkeley) 3/25/94");
-__RCSID("$MirOS: src/lib/libc/gen/setmode.c,v 1.12 2009/06/10 18:12:42 tg Exp $");
-
-#ifdef IN_MKSH
-
-#ifdef ksh_isdigit
-#undef isdigit
-#define isdigit		ksh_isdigit
-#endif
-
-#else
-
-#ifndef S_ISTXT
-#define S_ISTXT		0001000
-#endif
-
-#ifndef SIZE_MAX
-#ifdef SIZE_T_MAX
-#define SIZE_MAX	SIZE_T_MAX
-#else
-#define SIZE_MAX	((size_t)-1)
-#endif
-#endif
-
-#endif
-
+__RCSID("$MirOS: src/lib/libc/gen/setmode.c,v 1.14 2010/09/14 21:26:04 tg Exp $");
 
 #define	SET_LEN		6	/* initial # of bitcmd struct to malloc */
 #define	SET_LEN_INCR	4	/* # of bitcmd structs to add as needed */
@@ -95,7 +65,7 @@ typedef struct bitcmd {
 #define	CMD2_OBITS	0x08
 #define	CMD2_UBITS	0x10
 
-static BITCMD	*addcmd(BITCMD *, int, int, int, unsigned int);
+static BITCMD	*addcmd(BITCMD *, int, int, int, u_int);
 static void	 compress_mode(BITCMD *);
 #ifdef SETMODE_DEBUG
 static void	 dumpmode(BITCMD *);
@@ -120,7 +90,7 @@ getmode(const void *bbox, mode_t omode)
 		/*
 		 * When copying the user, group or other bits around, we "know"
 		 * where the bits are in the mode so that we can do shifts to
-		 * copy them around. If we don't use shifts, it gets real
+		 * copy them around.  If we don't use shifts, it gets real
 		 * grundgy with lots of single bit checks and bit sets.
 		 */
 		case 'u':
@@ -136,7 +106,7 @@ getmode(const void *bbox, mode_t omode)
  common:
 			if (set->cmd2 & CMD2_CLR) {
 				clrval =
-				    (set->cmd2 & CMD2_SET) ? S_IRWXO : value;
+				    (set->cmd2 & CMD2_SET) ?  S_IRWXO : value;
 				if (set->cmd2 & CMD2_UBITS)
 					newmode &= ~((clrval<<6) & set->bits);
 				if (set->cmd2 & CMD2_GBITS)
@@ -205,14 +175,14 @@ setmode(const char *p)
 	sigset_t signset, sigoset;
 	mode_t mask;
 	int equalopdone = 0, permXbits, setlen;
-	unsigned long perml;
+	u_long perml;
 
 	if (!*p)
 		return (NULL);
 
 	/*
 	 * Get a copy of the mask for the permissions that are mask relative.
-	 * Flip the bits, we want what's not set. Since it's possible that
+	 * Flip the bits, we want what's not set.  Since it's possible that
 	 * the caller is opening files inside a signal handler, protect them
 	 * as best we can.
 	 */
@@ -223,7 +193,7 @@ setmode(const char *p)
 	(void)sigprocmask(SIG_SETMASK, &sigoset, NULL);
 
 	setlen = SET_LEN + 2;
-
+	
 	if (notoktomul(setlen, sizeof(BITCMD)) ||
 	    (set = malloc(setlen * sizeof(BITCMD))) == NULL)
 		return (NULL);
@@ -375,7 +345,7 @@ setmode(const char *p)
 }
 
 static BITCMD *
-addcmd(BITCMD *set, int op, int who, int oparg, unsigned int mask)
+addcmd(BITCMD *set, int op, int who, int oparg, u_int mask)
 {
 	switch (op) {
 	case '=':
@@ -405,7 +375,7 @@ addcmd(BITCMD *set, int op, int who, int oparg, unsigned int mask)
 			set->cmd2 = CMD2_UBITS | CMD2_GBITS | CMD2_OBITS;
 			set->bits = mask;
 		}
-
+	
 		if (oparg == '+')
 			set->cmd2 |= CMD2_SET;
 		else if (oparg == '-')
@@ -434,8 +404,8 @@ dumpmode(BITCMD *set)
 
 /*
  * Given an array of bitcmd structures, compress by compacting consecutive
- * '+', '-' and 'X' commands into at most 3 commands, one of each. The 'u',
- * 'g' and 'o' commands continue to be separate. They could probably be
+ * '+', '-' and 'X' commands into at most 3 commands, one of each.  The 'u',
+ * 'g' and 'o' commands continue to be separate.  They could probably be
  * compacted, but it's not worth the effort.
  */
 static void
