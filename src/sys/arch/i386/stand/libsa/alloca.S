@@ -1,4 +1,4 @@
-/* $MirOS: src/sys/arch/i386/stand/libsa/alloca.S,v 1.2 2005/03/06 21:27:05 tg Exp $ */
+/* $MirOS: src/sys/arch/i386/stand/libsa/alloca.S,v 1.3 2005/12/17 05:46:24 tg Exp $ */
 
 /*-
  * Copyright (c) 2003
@@ -32,7 +32,7 @@ ENTRY(alloca)
 	pop	eax		/* size to allocate */
 	mov	ecx,esp		/* old frame pointer */
 	add	eax,3
-	and	eax,0xFFFFFFFC	/* round to next doubleword */
+	and	al,0xFC		/* round to next doubleword */
 	sub	esp,eax
 	mov	eax,esp		/* pointer to allocated space */
 	push	dword ptr [ecx+12]
