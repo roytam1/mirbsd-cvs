@@ -1,28 +1,21 @@
-/* $MirOS: src/sys/lib/libsa/fat.c,v 1.7 2008/12/28 05:17:59 tg Exp $ */
-
 /*-
- * Copyright (c) 2005
- *	Thorsten "mirabilos" Glaser <tg@mirbsd.org>
+ * Copyright (c) 2005, 2008
+ *	Thorsten Glaser <tg@mirbsd.org>
  *
- * Licensee is hereby permitted to deal in this work without restric-
- * tion, including unlimited rights to use, publicly perform, modify,
- * merge, distribute, sell, give away or sublicence, provided all co-
- * pyright notices above, these terms and the disclaimer are retained
- * in all redistributions or reproduced in accompanying documentation
- * or other materials provided with binary redistributions.
+ * Provided that these terms and disclaimer and all copyright notices
+ * are retained or reproduced in an accompanying document, permission
+ * is granted to deal in this work without restriction, including un-
+ * limited rights to use, publicly perform, distribute, sell, modify,
+ * merge, give away, or sublicence.
  *
- * All advertising materials mentioning features or use of this soft-
- * ware must display the following acknowledgement:
- *	This product includes material provided by Thorsten Glaser.
- *
- * Licensor offers the work "AS IS" and WITHOUT WARRANTY of any kind,
- * express, or implied, to the maximum extent permitted by applicable
- * law, without malicious intent or gross negligence; in no event may
- * licensor, an author or contributor be held liable for any indirect
- * or other damage, or direct damage except proven a consequence of a
- * direct error of said person and intended use of this work, loss or
- * other issues arising in any way out of its use, even if advised of
- * the possibility of such damage or existence of a nontrivial bug.
+ * This work is provided "AS IS" and WITHOUT WARRANTY of any kind, to
+ * the utmost extent permitted by applicable law, neither express nor
+ * implied; without malicious intent or gross negligence. In no event
+ * may a licensor, author or contributor be held liable for indirect,
+ * direct, other damage, loss, or other issues arising in any way out
+ * of dealing in the work, even if advised of the possibility of such
+ * damage or existence of a defect, except proven that it results out
+ * of said person's immediate fault when using the work as intended.
  */
 
 #include <sys/param.h>
@@ -31,6 +24,8 @@
 #include <sys/slibkern.h>
 #include <lib/libsa/stand.h>
 #include <lib/libsa/fat.h>
+
+__RCSID("$MirOS: src/share/misc/licence.template,v 1.28 2008/11/14 15:33:44 tg Rel $");
 
 #if BYTE_ORDER != LITTLE_ENDIAN
 #define getlew(ofs) (buf[(ofs)] + ((unsigned)buf[(ofs) + 1] << 8))
@@ -65,10 +60,13 @@ struct fat_file {
 static int rd(struct open_file *, void *, daddr_t, size_t);
 static uint32_t getfat(struct fat_file *, uint32_t);
 static int search_dir(struct open_file *, char *);
-static __inline int fillbuf(struct fat_file *);
-static __inline unsigned char locase(unsigned char);
 
 static unsigned char fat_dirbuf[32];
+
+#define fillbuf(ff)	rd((ff)->open_file, (ff)->databuf, \
+			    ((ff)->datasec - 2) * ((ff)->bpc / 512) + \
+			    (ff)->firstds, (ff)->bpc)
+#define locase(c)	(((c) < 'A') || ((c) > 'Z') ? (c) : (c) - 'A' + 'a')
 
 static int
 rd(struct open_file *f, void *buf, daddr_t blk, size_t size)
@@ -243,7 +241,7 @@ fat_open(char *path, struct open_file *f)
 
 	/* found terminal component */
 	rv = 0;
-out:
+ out:
 	if (buf)
 		free(buf, 512);
 	if (rv) {
@@ -304,7 +302,7 @@ fat_read(struct open_file *f, void *buf, size_t size, size_t *resid)
 			goto filled;
 		}
 		if ((ff->datasec == 0) || (ff->datasec >= ff->invalc)) {
-invclust:
+ invclust:
 			ff->datasec = rv = 0;
 			goto out;
 		}
@@ -314,12 +312,12 @@ invclust:
 				goto invclust;
 		}
 		if ((rv = fillbuf(ff))) {
-rderr:
+ rderr:
 			ff->datasec = 0;
 			goto out;
 		}
 	}
-filled:
+ filled:
 
 	while (size > 0) {
 		/* don't read beyond EOF */
@@ -327,7 +325,7 @@ filled:
 			break;
 
 		otmp = ff->nodeseekp % blksiz;
-		stmp = blksiz - otmp;
+		stmp = MIN(blksiz, ff->nodesize - ff->nodeseekp) - otmp;
 		if (stmp >= size)
 			stmp = size;
 		memmove(buf, ff->databuf + otmp, stmp);
@@ -336,7 +334,7 @@ filled:
 		buf += stmp;
 		ff->nodeseekp += stmp;
 
-		if ((blksiz - otmp) >= size) {
+		if (ff->nodeseekp % blksiz == 0) {
 			if (isroot) {
 				ff->datasec++;
 				if ((rv = rd(f, ff->databuf, ff->datasec, 512)))
@@ -344,15 +342,14 @@ filled:
 				goto refilled;
 			}
 			ff->datasec = getfat(ff, ff->datasec);
-			if ((rv = fillbuf(ff))) {
+			if ((ff->datasec >= ff->invalc) || (rv = fillbuf(ff)))
 				ff->datasec = 0;
-				if (size)
-					goto out;
-			}
-refilled:		;
-		}
+			if (ff->datasec == 0 && size)
+				goto out;
+ refilled:		;
+ 		}
 	}
-out:
+ out:
 	if (resid)
 		*resid = size;
 	return (rv);
@@ -405,7 +402,7 @@ fat_readdir(struct open_file *f, char *name)
 {
 	struct fat_file *ff = f->f_fsdata;
 	int rv;
-	char *cp;
+	char ch, *cp;
 	size_t sr;
 
 	/* reset? */
@@ -414,7 +411,7 @@ fat_readdir(struct open_file *f, char *name)
 		return (0);
 	}
 
-getrec:
+ getrec:
 	if ((rv = fat_read(f, fat_dirbuf, sizeof (fat_dirbuf), &sr)))
 		return (rv);
 	if (sr)
@@ -437,7 +434,8 @@ getrec:
 	cp = fat_dirbuf;
 	rv = 0;
 	while (*cp != 0x20) {
-		*name++ = locase(*cp++);
+		ch = *cp++;
+		*name++ = locase(ch);
 		if (++rv == 8)
 			break;
 	}
@@ -446,7 +444,8 @@ getrec:
 		*name++ = '.';
 	rv = 0;
 	while (*cp != 0x20) {
-		*name++ = locase(*cp++);
+		ch = *cp++;
+		*name++ = locase(ch);
 		if (++rv == 3)
 			break;
 	}
@@ -479,19 +478,4 @@ search_dir(struct open_file *f, char *name)
 			return (0);
 		}
 	return (ENOENT);
-}
-
-static __inline int
-fillbuf(struct fat_file *ff)
-{
-	return (rd(ff->open_file, ff->databuf,
-	    (ff->datasec - 2) * (ff->bpc / 512) + ff->firstds, ff->bpc));
-}
-
-static __inline unsigned char
-locase(unsigned char c)
-{
-	if ((c < 'A') || (c > 'Z'))
-		return (c);
-	return (c - 'A' + 'a');
 }

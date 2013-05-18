@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/stand/boot/conf.c,v 1.9 2008/08/01 11:24:58 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/stand/boot/conf.c,v 1.10 2008/08/01 12:39:07 tg Exp $ */
 /*	$OpenBSD: conf.c,v 1.39 2008/04/19 23:20:22 weingart Exp $	*/
 
 /*
@@ -33,8 +33,8 @@
 #include <lib/libsa/ufs.h>
 #include <lib/libsa/cd9660.h>
 #include <tori.h>
-#ifdef notdef
 #include <lib/libsa/fat.h>
+#ifdef notdef
 #include <lib/libsa/nfs.h>
 #include <lib/libsa/tftp.h>
 #include <lib/libsa/netif.h>
@@ -71,9 +71,9 @@ struct fs_ops file_system[] = {
 	{ ufs_open,    ufs_close,    ufs_read,    ufs_write,    ufs_seek,
 	  ufs_stat,    ufs_readdir    },
 #ifndef SMALL_BOOT
-#ifdef notdef
 	{ fat_open,    fat_close,    fat_read,    fat_write,    fat_seek,
 	  fat_stat,    fat_readdir    },
+#ifdef notdef
 	{ nfs_open,    nfs_close,    nfs_read,    nfs_write,    nfs_seek,
 	  nfs_stat,    nfs_readdir    },
 #endif
