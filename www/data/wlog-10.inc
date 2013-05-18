@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.184 2009/04/18 20:02:08 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.185 2009/04/22 17:10:19 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -3858,7 +3858,8 @@ Language: de
  ist auch nett, hat öfters Tips und so. Schade ist, daß man die Coins
  nicht als Nichtmitglied in einem Klub bestellen kann. Bei Bertelsmann
  bin ich ja auch raus.</p><!-- RSS stop -->
-<p>[…] sorry, muß erst auf Erlaubnis zum Deeplink warten.</p>
+<p><img src="http://www.naturalnik.de/photosharing/t5cacher.jpg"
+ alt="T5-Cacher ☺ geocaching, spontane Gedanken" /></p>
 ----
 Date: 22.04.2009 16:58
 Author: tg@
