@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/lang/pawn/doku/Makefile,v 1.1.1.1 2008/08/08 15:53:57 tg Exp $
 
 COMMENT=		language and toolkit documentation for Pawn
 DISTNAME=		pawn-docs-20080808
@@ -22,7 +22,7 @@ NO_REGRESS=		Yes
 
 do-install:
 	${INSTALL_DATA_DIR} ${DOCDIR} ${EXDIR}/rnd/{amx,include}
-	${INSTALL_DATA} ${WRKSRC}/*.pdf ${WRKSRC}/DebugProc.txt ${DOCDIR}/
+	${INSTALL_DATA} ${WRKDIR}/*.pdf ${WRKSRC}/DebugProc.txt ${DOCDIR}/
 	${INSTALL_DATA} ${WRKSRC}/amx/rnd.c ${EXDIR}/rnd/amx/
 	${INSTALL_DATA} ${WRKSRC}/examples/* ${WRKSRC}/rnd.txt ${EXDIR}/rnd/
 	${INSTALL_DATA} ${WRKSRC}/include/*.inc ${EXDIR}/rnd/include/

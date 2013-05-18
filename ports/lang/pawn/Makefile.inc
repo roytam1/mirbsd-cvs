@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/lang/pawn/Makefile.inc,v 1.1.1.1 2008/08/08 15:53:57 tg Exp $
 
 CATEGORIES=		lang
 HOMEPAGE=		http://www.compuphase.com/pawn/pawn.htm
@@ -12,7 +12,6 @@ PERMIT_PACKAGE_FTP=	Yes
 
 MASTER_SITES+=		http://www.compuphase.com/pawn/
 
-EXTRACT_CASES+=		*.pdf) cp ${FULLDISTDIR}/$$archive ${WRKDIST}/ ;;
 EXTRACT_CASES+=		*.tgz) tar -C ${WRKDIST} \
 			    -xzf ${FULLDISTDIR}/$$archive ;;
 EXTRACT_CASES+=		*.zip) ${UNZIP} -a -q ${FULLDISTDIR}/$$archive \

@@ -7,9 +7,6 @@ PKGNAME=	luna-1.9-0
 CATEGORIES=	astro
 EXTRACT_SUFX=	.lzh
 
-EXTRACT_CASES=	*.lzh) lha xw=${WRKDIR}/${DISTNAME} ${FULLDISTDIR}/$$archive ;;
-
-
 PERMIT_PACKAGE_CDROM=	"copyrighted"
 PERMIT_PACKAGE_FTP=	"copyrighted"
 PERMIT_DISTFILES_CDROM=	"copyrighted"

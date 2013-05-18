@@ -8,8 +8,6 @@ CATEGORIES=	mail news
 MASTER_SITES=	http://www.rdrop.com/users/billmc/
 DISTFILES=	adcomplain.pl.uu
 
-EXTRACT_CASES=	*.uu) uudecode ${FULLDISTDIR}/$$archive;;
-
 HOMEPAGE=	http://www.rdrop.com/users/billmc/adcomplain.html
 
 PERMIT_PACKAGE_CDROM=	Yes

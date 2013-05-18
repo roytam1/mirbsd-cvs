@@ -1,4 +1,4 @@
-# $MirOS: ports/plan9/9wm/Makefile,v 1.5 2007/04/13 19:27:53 bsiegert Exp $
+# $MirOS: ports/plan9/9wm/Makefile,v 1.6 2008/03/09 19:16:06 tg Exp $
 # $OpenBSD: Makefile,v 1.19 2002/10/28 02:13:21 naddy Exp $
 
 ONLY_FOR_PLATFORM=	MirBSD:*:* OpenBSD:*:*
@@ -12,8 +12,6 @@ CATEGORIES=	plan9
 HOMEPAGE=	http://unauthorised.org/dhog/9wm.html
 MASTER_SITES=	http://unauthorised.org/dhog/9wm/
 EXTRACT_SUFX=	.shar.gz
-EXTRACT_CASES=	*.shar.gz) ${GZIP_CMD} -dc ${FULLDISTDIR}/$$archive | /bin/sh;;
-
 
 PERMIT_PACKAGE_CDROM=	Yes
 PERMIT_PACKAGE_FTP=	Yes

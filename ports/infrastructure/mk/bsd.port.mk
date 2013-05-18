@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.219 2008/10/10 20:06:14 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.220 2008/10/12 13:35:04 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -935,12 +935,22 @@ EXTRACT_ONLY?=		${_DISTFILES}
 .if !empty(EXTRACT_ONLY:M*.zip)
 _USE_ZIP?=		Yes
 .endif
-.if !empty(EXTRACT_ONLY:M*.tar.bz2) \
-    || (defined(PATCHFILES) && !empty(_PATCHFILES:M*.bz2))
+.if !empty(EXTRACT_ONLY:M*.tar.bz2) || !empty(EXTRACT_ONLY:M*.tbz) || \
+    !empty(EXTRACT_ONLY:M*.cpio.bz2) || !empty(EXTRACT_ONLY:M*.cbz) || \
+    (defined(PATCHFILES) && !empty(_PATCHFILES:M*.bz2))
 _USE_BZIP2?=		Yes
+.endif
+.if !empty(EXTRACT_ONLY:L:M*.l[zh][ha])
+_USE_LHARC?=		Yes
+.endif
+.if !empty(EXTRACT_ONLY:M*.tar.lzma) || !empty(EXTRACT_ONLY:M*.tlz) || \
+    !empty(EXTRACT_ONLY:M*.cpio.lzma) || !empty(EXTRACT_ONLY:M*.clz)
+_USE_LZMA?=		Yes
 .endif
 _USE_ZIP?=		No
 _USE_BZIP2?=		No
+_USE_LHARC?=		No
+_USE_LZMA?=		No
 
 EXTRACT_CASES?=
 
@@ -959,19 +969,35 @@ EXTRACT_CASES+=		\
     *.tar.bz2 | *.tbz | *.cpio.bz2 | *.cbz) \
 	${BZIP2} -dc ${FULLDISTDIR}/$$archive | ${TAR} xf - ;;
 .endif
+.if ${_USE_LHARC:L} != "no"
+BUILD_DEPENDS+=		:lha-*:archivers/lha
 EXTRACT_CASES+=		\
-    *.tar.gz | *.tgz | *.cpio.gz | *.cgz | *.mcz)			\
+    *.[Ll][Zz][Hh] | *.[Ll][Hh][Aa]) \
+	lha xw=${WRKDIR}/${DISTNAME} ${FULLDISTDIR}/$$archive ;;
+.endif
+.if ${_USE_LZMA:L} != "no"
+BUILD_DEPENDS+=		:lzma-*:archivers/lzma
+EXTRACT_CASES+=		\
+    *.tar.lzma | *.tlz | *.cpio.lzma | *.clz) \
+	lzma -dc ${FULLDISTDIR}/$$archive | ${TAR} xf - ;;
+.endif
+EXTRACT_CASES+=		\
+    *.tar.gz | *.t.gz | *.tgz | *.cpio.gz | *.cgz | *.mcz)		\
 	${GZIP_CMD} -dc ${FULLDISTDIR}/$$archive | ${TAR} xf - ;;	\
     *.tar | *.cpio)							\
 	${TAR} xf ${FULLDISTDIR}/$$archive ;;				\
     *.shar.gz | *.shar.Z | *.sh.gz | *.sh.Z)				\
 	${GZIP_CMD} -dc ${FULLDISTDIR}/$$archive |			\
 	    ${_PERL_FIX_SHAR} | ${SH} ;;				\
-    *.shar | *.sh)							\
+    *.shar | *.sh | *.shr)						\
 	${_PERL_FIX_SHAR} ${FULLDISTDIR}/$$archive | ${SH} ;;		\
     *.gz)								\
 	${GZIP_CMD} -dc ${FULLDISTDIR}/$$archive			\
 	    >$$(basename $$archive .gz) ;;				\
+    *.jar | *.pdf | *.txi)						\
+	cp ${FULLDISTDIR}/$$archive ${WRKDIR}/ ;;			\
+    *.uu)								\
+	uudecode ${FULLDISTDIR}/$$archive ;;				\
     *)									\
 	${GZIP_CMD} -dc ${FULLDISTDIR}/$$archive | ${TAR} xf - ;;
 

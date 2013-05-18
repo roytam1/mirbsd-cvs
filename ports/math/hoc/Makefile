@@ -9,8 +9,6 @@ CATEGORIES=	math
 
 MASTER_SITES=	http://cm.bell-labs.com/cm/cs/who/bwk/
 EXTRACT_SUFX=	.sh
-EXTRACT_CASES=	*.sh) /bin/sh ${FULLDISTDIR}/$$archive;;
-
 
 HOMEPAGE=	http://cm.bell-labs.com/cm/cs/who/bwk/
 

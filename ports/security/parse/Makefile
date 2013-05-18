@@ -13,7 +13,6 @@ PERMIT_DISTFILES_FTP=	Yes
 
 MASTER_SITES=	ftp://ftp.sdsc.edu/pub/security/PICS/parse/
 EXTRACT_SUFX=	.t.gz
-EXTRACT_CASES=	*.t.gz) ${GZIP_CMD} -dc ${FULLDISTDIR}/$$archive | ${TAR} xf -;;
 
 NO_REGRESS=	Yes
 
