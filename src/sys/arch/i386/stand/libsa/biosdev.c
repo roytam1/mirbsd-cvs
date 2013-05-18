@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/stand/libsa/biosdev.c,v 1.9 2008/12/28 05:45:10 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/stand/libsa/biosdev.c,v 1.10 2008/12/28 18:18:04 tg Exp $ */
 /*	$OpenBSD: biosdev.c,v 1.74 2008/06/25 15:32:18 reyk Exp $	*/
 
 /*
@@ -707,15 +707,121 @@ biosioctl(struct open_file *f, u_long cmd, void *data)
 int
 disk_trylabel(struct diskinfo *dip)
 {
-	const char *st;
+	const char *st = NULL;
+	bios_diskinfo_t *bd = &dip->bios_info;
+	struct dos_mbr mbr;
+	int i, totsiz;
 
-	if (dip->bios_info.flags & BDI_BADLABEL){
+	if (dip->bios_info.flags & BDI_GOODLABEL)
+		return (0);
+
+	if (dip->bios_info.flags & BDI_BADLABEL) {
 		st = bios_getdisklabel(&dip->bios_info, &dip->disklabel);
-		if (st != NULL) {
-			printf("%s\n", st);
-			return ERDLAB;
-		}
-		dip->bios_info.flags &= !BDI_BADLABEL;
+		if (st == NULL)
+			dip->bios_info.flags &= ~BDI_BADLABEL;
 	}
+
+	if (dip->bios_info.flags & BDI_BADLABEL ||
+	    !(dip->bios_info.flags & BDI_GOODLABEL)) {
+		/* create an imaginary disk label */
+
+		st = "failed to read disklabel";
+		if (bd->bios_heads == 0 || bd->bios_sectors == 0)
+			goto out;
+
+		totsiz = 1474560;
+
+		if (bd->bios_number & 0x80) {
+			/* read MBR */
+			i = biosd_io(F_READ, bd, DOSBBSECTOR, 1, &mbr);
+			if (i)
+				goto nombr;
+			if (mbr.dmbr_sign != DOSMBR_SIGNATURE)
+				goto nombr;
+			for (i = 0; i < NDOSPART; i++)
+				if (mbr.dmbr_parts[i].dp_typ &&
+				    (mbr.dmbr_parts[i].dp_start +
+				    mbr.dmbr_parts[i].dp_size > totsiz))
+					totsiz = mbr.dmbr_parts[i].dp_start +
+					    mbr.dmbr_parts[i].dp_size;
+		}
+		goto mbrok;
+ nombr:
+		for (i = 0; i < NDOSPART; i++)
+			mbr.dmbr_parts[i].dp_typ = 0;
+ mbrok:
+
+		dip->disklabel.d_secsize = 512;
+		dip->disklabel.d_ntracks = bd->bios_heads;
+		dip->disklabel.d_nsectors = bd->bios_sectors;
+		dip->disklabel.d_secpercyl = dip->disklabel.d_ntracks *
+		    dip->disklabel.d_nsectors;
+		totsiz += dip->disklabel.d_secpercyl - 1;
+		dip->disklabel.d_ncylinders = totsiz /
+		    dip->disklabel.d_secpercyl;
+		memcpy(dip->disklabel.d_typename, "FAKE", 5);
+		dip->disklabel.d_type = DTYPE_VND;
+		strncpy(dip->disklabel.d_packname, "fictitious",
+		    sizeof (dip->disklabel.d_packname));
+		dip->disklabel.d_secperunit = dip->disklabel.d_ncylinders *
+		    dip->disklabel.d_secpercyl;
+		totsiz = dip->disklabel.d_secperunit;
+		dip->disklabel.d_rpm = 3600;
+		dip->disklabel.d_interleave = 1;
+
+		dip->disklabel.d_bbsize = 8192;
+		dip->disklabel.d_sbsize = 65536;
+
+		bzero(dip->disklabel.d_partitions,
+		    sizeof (dip->disklabel.d_partitions));
+
+		/* 'a' partition covering the "whole" disk */
+		dip->disklabel.d_partitions[0].p_offset = 0;
+		dip->disklabel.d_partitions[0].p_size = totsiz;
+		dip->disklabel.d_partitions[0].p_fstype = FS_OTHER;
+
+		/* The raw partition is special */
+		dip->disklabel.d_partitions[RAW_PART].p_offset = 0;
+		dip->disklabel.d_partitions[RAW_PART].p_size = totsiz;
+		dip->disklabel.d_partitions[RAW_PART].p_fstype = FS_UNUSED;
+
+		for (i = 0; i < NDOSPART; i++) {
+			if (!mbr.dmbr_parts[i].dp_typ)
+				continue;
+			dip->disklabel.d_partitions[RAW_PART+i+1].p_offset =
+			    mbr.dmbr_parts[i].dp_start;
+			dip->disklabel.d_partitions[RAW_PART+i+1].p_size =
+			    mbr.dmbr_parts[i].dp_size;
+			dip->disklabel.d_partitions[RAW_PART+i+1].p_fstype =
+			    FS_MANUAL;
+			if (dip->disklabel.d_partitions[0].p_fstype ==
+			    FS_MANUAL)
+				continue;
+			/* 'a' partition covering the first partition */
+			dip->disklabel.d_partitions[0].p_offset =
+			    mbr.dmbr_parts[i].dp_start;
+			dip->disklabel.d_partitions[0].p_size =
+			    mbr.dmbr_parts[i].dp_size;
+			dip->disklabel.d_partitions[0].p_fstype = FS_MANUAL;
+		}
+
+		dip->disklabel.d_npartitions = MAXPARTITIONS;
+
+		dip->disklabel.d_magic = DISKMAGIC;
+		dip->disklabel.d_magic2 = DISKMAGIC;
+		dip->disklabel.d_checksum = dkcksum(&dip->disklabel);
+
+		dip->bios_info.flags &= ~BDI_BADLABEL;
+		dip->bios_info.flags |= BDI_GOODLABEL;
+		st = NULL;
+	}
+ out:
+	if (dip->bios_info.flags & BDI_BADLABEL)
+		st = "*none*";
+	if (st != NULL) {
+		printf("%s\n", st);
+		return ERDLAB;
+	}
+
 	return (0);
 }
