@@ -1,4 +1,4 @@
-# $MirOS: src/gnu/usr.sbin/sendmail/cf/cf/Makefile,v 1.5 2006/08/09 21:36:08 tg Exp $
+# $MirOS: src/gnu/usr.sbin/sendmail/cf/cf/Makefile,v 1.6 2006/10/28 20:07:01 tg Exp $
 # $OpenBSD: Makefile,v 1.22 2006/03/22 18:43:53 millert Exp $
 #
 #  Makefile for configuration files.
@@ -71,7 +71,7 @@ dist-install:
 	    openbsd-localhost.cf ${DESTDIR}/etc/mail/localhost.cf
 	${INSTALL} ${INSTALL_COPY} -o root -g wheel -m 644 \
 	    submit.cf ${DESTDIR}/etc/mail/submit.cf
-	cd ${.CURDIR} && ${INSTALL} ${INSTALL_COPY} -o root -g wheel -m 644 \
+	cd ${.CURDIR} && ${INSTALL} ${INSTALL_COPY} -o root -g wheel -m 640 \
 	    ${FILES} ${DESTDIR}/etc/mail/
 
 regen-databases:
@@ -90,12 +90,12 @@ regen-databases:
 		esac; \
 		if test -e $$db; then \
 			chown ${BINOWN}:${CONFGRP} $$db; \
-			chmod 644 $$db; \
+			chmod 640 $$db; \
 			rm -f $${db}.db; \
 			echo $$cmd; \
 			eval $$cmd; \
 			chown ${BINOWN}:${CONFGRP} $${db}.db; \
-			chmod 644 $${db}.db; \
+			chmod 640 $${db}.db; \
 		else \
 			true; \
 		fi; \
