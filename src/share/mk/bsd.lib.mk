@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/bsd.lib.mk,v 1.63 2007/06/07 17:22:38 tg Exp $
+# $MirOS: src/share/mk/bsd.lib.mk,v 1.64 2007/06/12 09:41:58 tg Exp $
 # $OpenBSD: bsd.lib.mk,v 1.43 2004/09/20 18:52:38 espie Exp $
 # $NetBSD: bsd.lib.mk,v 1.67 1996/01/17 20:39:26 mycroft Exp $
 # @(#)bsd.lib.mk	5.26 (Berkeley) 5/2/91
@@ -251,11 +251,13 @@ realinstall:
 	${LINK.shlib} -install_name ${LIBDIR}/${SHLIB_SONAME} -o ${SHLIB_SONAME}
 .    endif
 	${INSTALL} ${INSTALL_COPY} -o ${LIBOWN} -g ${LIBGRP} -m 600 \
-	    ${SHLIB_SONAME} ${DESTDIR}${LIBDIR}/
+	    ${SHLIB_SONAME} ${DESTDIR}${LIBDIR}/${SHLIB_SONAME}~
 .    if !defined(MKC_DEBG) || ${MKC_DEBG:L} == "no"
-	strip ${_SODISCARD} ${DESTDIR}${LIBDIR}/${SHLIB_SONAME}
+	strip ${_SODISCARD} ${DESTDIR}${LIBDIR}/${SHLIB_SONAME}~
 .    endif
-	chmod ${LIBMODE} ${DESTDIR}${LIBDIR}/${SHLIB_SONAME}
+	cd ${DESTDIR}${LIBDIR} && \
+	    chmod ${LIBMODE} ${SHLIB_SONAME}~ && \
+	    mv -f ${SHLIB_SONAME}~ ${SHLIB_SONAME}
 .    for _i in ${SHLIB_LINKS}
 	@rm -f ${DESTDIR}${LIBDIR}/${_i}
 	cd ${DESTDIR}${LIBDIR}; \
