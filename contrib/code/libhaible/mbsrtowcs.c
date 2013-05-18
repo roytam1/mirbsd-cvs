@@ -1,14 +1,19 @@
-/* $MirOS: contrib/code/libhaible/mbsrtowcs.c,v 1.12 2006/05/30 22:05:00 tg Exp $ */
+/* $MirOS: src/share/misc/licence.template,v 1.7 2006/04/09 22:08:49 tg Rel $ */
 
 /*-
  * Copyright (c) 2006
  *	Thorsten Glaser <tg@mirbsd.de>
- * Based upon code written by Bruno Haible for GNU libutf8:
- * Copyright (c) 1999, 2000, 2001
- *	Free Software Foundation, Inc.
  *
- * This work is licenced under the terms of the GNU Library General
- * Public License, Version 2, as in /usr/share/doc/legal/COPYING.LIB-2
+ * Licensee is hereby permitted to deal in this work without restric-
+ * tion, including unlimited rights to use, publicly perform, modify,
+ * merge, distribute, sell, give away or sublicence, provided all co-
+ * pyright notices above, these terms and the disclaimer are retained
+ * in all redistributions or reproduced in accompanying documentation
+ * or other materials provided with binary redistributions.
+ *
+ * All advertising materials mentioning features or use of this soft-
+ * ware must display the following acknowledgement:
+ *	This product includes material provided by Thorsten Glaser.
  *
  * Licensor offers the work "AS IS" and WITHOUT WARRANTY of any kind,
  * express, or implied, to the maximum extent permitted by applicable
@@ -20,86 +25,86 @@
  * the possibility of such damage or existence of a nontrivial bug.
  */
 
-#include <wchar.h>
 #include <errno.h>
+#include <wchar.h>
 
 #include "mir18n.h"
 
-__RCSID("$MirOS: contrib/code/libhaible/mbsrtowcs.c,v 1.12 2006/05/30 22:05:00 tg Exp $");
+__RCSID("$MirOS: contrib/code/libhaible/mbsrtowcs.c,v 1.13 2006/05/30 22:08:46 tg Exp $");
 
 size_t
-mbsrtowcs(wchar_t *__restrict__ pwcs, const char **__restrict__ s,
+mbsrtowcs(wchar_t *__restrict__ pwcs, const char **__restrict__ sb,
     size_t n, mbstate_t *__restrict__ ps)
 {
-	static mbstate_t internal = { 0, 0 };
-	const unsigned char *src = (const unsigned char *)(*s);
+	static mbstate_t internal_mbstate = { 0, 0 };
+	const unsigned char *s = (const unsigned char *)(*sb);
 	wint_t c, w;
-	size_t num, numb = 0;
+	size_t frag, numb = 0;
 
-	if (ps == NULL)
-		ps = &internal;
+	if (__predict_false(ps == NULL))
+		ps = &internal_mbstate;
 
-	if (!__locale_is_utf8) {
-		while (((pwcs == NULL) ? 1 : n--) > 0) {
-			c = *src++;
-			if (c > MIR18N_SB_CVT) {
+	frag = __locale_is_utf8 ? ps->count : 0;
+
+	while (((pwcs == NULL) ? 1 : n--) > 0) {
+		if (__predict_true(frag == 0)) {
+			if ((w = *s++) == L'\0')
+				goto one_char;
+			if (__predict_true(!__locale_is_utf8)) {
+				if (__predict_true(w <= MIR18N_SB_CVT))
+					goto one_char;
  ilseq:
 				errno = EILSEQ;
 				return ((size_t)(-1));
 			}
-			if (pwcs != NULL)
-				pwcs[numb] = (wchar_t)c;
-			if (c == '\0') {
-				src = NULL;
-				break;
+			if (w < 0x80) {
+				goto one_char;
+			} else if (w < 0xC2) {
+				/* < 0xC0: spurious second byte */
+				/* < 0xC2: would map to 0x80 */
+				goto ilseq;
+			} else if (w < 0xE0) {
+				frag = 1; /* one byte follows */
+				w = (w & 0x1F) << 6;
+			} else if (w < 0xF0) {
+				frag = 2; /* two bytes follow */
+				w = (w & 0x0F) << 12;
+			} else {
+				/* we don't support more than UCS-2 */
+				goto ilseq;
 			}
-			numb++;
+		} else
+			w = ps->value << 6;
+
+ conv_byte:
+		if (((c = *s++) & 0xC0) != 0x80)
+			goto ilseq;
+		c &= 0x3F;
+		w |= c << (6 * --frag);
+
+		if (__predict_false(frag)) {
+			/* Check for non-minimalistic mapping
+			 * encoding error in 3-byte sequences */
+			if (__predict_false(w < 0x800))
+				goto ilseq;
+			else
+				goto conv_byte;
 		}
-	} else {
-		num = ps->count;
-		while (((pwcs == NULL) ? 1 : n--) > 0) {
-			if (num == 0) {
-				c = *src;
-				if (c < 0x80) {
-					if (pwcs != NULL)
-						pwcs[numb] = (wchar_t)c;
-					if (c == '\0') {
-						src = NULL;
-						break;
-					}
-					src++;
-					numb++;
-					continue;
-				} else if (c < 0xC2)
-					goto ilseq;
-				if (c < 0xE0) {
-					w = (wchar_t)(c & 0x1F) << 6;
-					num = 1;
-				} else if (c < 0xF0) {
-					w = (wchar_t)(c & 0x0F) << 12;
-					num = 2;
-				} else
-					goto ilseq;
-				src++;
-			} else
-				w = ps->value << 6;
-			for (;;) {
-				c = *src++ ^ 0x80;
-				if (!(c < 0x40))
-					goto ilseq;
-				w |= (wchar_t)c << (6 * --num);
-				if (num == 0)
-					break;
-				if (w < (1 << (5 * num + 6)))
-					goto ilseq;
-			}
-			if (pwcs != NULL)
-				pwcs[numb] = w;
-			numb++;
+
+		if (__predict_false(w > MIR18N_MB_MAX))
+			goto ilseq;
+
+ one_char:
+		if (pwcs != NULL)
+			pwcs[numb] = w;
+		if (w == L'\0') {
+			s = NULL;
+			break;
 		}
+		numb++;
 	}
 	if (pwcs != NULL) {
-		*s = (const char *)src;
+		*sb = (const char *)s;
 		ps->count = 0;
 	}
 	return (numb);
