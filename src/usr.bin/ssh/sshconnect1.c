@@ -1,4 +1,4 @@
-/* $OpenBSD: sshconnect1.c,v 1.64 2006/03/25 13:17:02 djm Exp $ */
+/* $OpenBSD: sshconnect1.c,v 1.65 2006/04/25 08:02:27 dtucker Exp $ */
 /*
  * Author: Tatu Ylonen <ylo@cs.hut.fi>
  * Copyright (c) 1995 Tatu Ylonen <ylo@cs.hut.fi>, Espoo, Finland
@@ -14,7 +14,7 @@
  */
 
 #include "includes.h"
-__RCSID("$MirOS: src/usr.bin/ssh/sshconnect1.c,v 1.5 2006/02/21 02:12:25 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/sshconnect1.c,v 1.6 2006/04/19 10:40:56 tg Exp $");
 
 #include <openssl/bn.h>
 #include <md5.h>
@@ -198,7 +198,7 @@ try_rsa_authentication(int idx)
 	BIGNUM *challenge;
 	Key *public, *private;
 	char buf[300], *passphrase, *comment, *authfile;
-	int i, type, quit;
+	int i, perm_ok = 1, type, quit;
 
 	public = options.identity_keys[idx];
 	authfile = options.identity_files[idx];
@@ -244,15 +244,16 @@ try_rsa_authentication(int idx)
 	if (public->flags & KEY_FLAG_EXT)
 		private = public;
 	else
-		private = key_load_private_type(KEY_RSA1, authfile, "", NULL);
-	if (private == NULL && !options.batch_mode) {
+		private = key_load_private_type(KEY_RSA1, authfile, "", NULL,
+		    &perm_ok);
+	if (private == NULL && !options.batch_mode && perm_ok) {
 		snprintf(buf, sizeof(buf),
 		    "Enter passphrase for RSA key '%.100s': ", comment);
 		for (i = 0; i < options.number_of_password_prompts; i++) {
 			passphrase = read_passphrase(buf, 0);
 			if (strcmp(passphrase, "") != 0) {
 				private = key_load_private_type(KEY_RSA1,
-				    authfile, passphrase, NULL);
+				    authfile, passphrase, NULL, NULL);
 				quit = 0;
 			} else {
 				debug2("no passphrase given, try next key");
@@ -269,7 +270,7 @@ try_rsa_authentication(int idx)
 	xfree(comment);
 
 	if (private == NULL) {
-		if (!options.batch_mode)
+		if (!options.batch_mode && perm_ok)
 			error("Bad passphrase.");
 
 		/* Send a dummy response packet to avoid protocol error. */

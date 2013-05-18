@@ -13,7 +13,7 @@
  */
 
 #include "includes.h"
-__RCSID("$MirOS: src/usr.bin/ssh/readconf.c,v 1.9 2006/02/22 02:16:47 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/readconf.c,v 1.10 2006/04/19 10:40:50 tg Exp $");
 
 #include <sys/stat.h>
 
@@ -144,11 +144,6 @@ static struct {
 	{ "challengeresponseauthentication", oChallengeResponseAuthentication },
 	{ "skeyauthentication", oChallengeResponseAuthentication }, /* alias */
 	{ "tisauthentication", oChallengeResponseAuthentication },  /* alias */
-	{ "kerberosauthentication", oUnsupported },
-	{ "kerberostgtpassing", oUnsupported },
-	{ "afstokenpassing", oUnsupported },
-	{ "gssapiauthentication", oUnsupported },
-	{ "gssapidelegatecredentials", oUnsupported },
 	{ "fallbacktorsh", oDeprecated },
 	{ "usersh", oDeprecated },
 	{ "identityfile", oIdentityFile },

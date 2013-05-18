@@ -1,4 +1,4 @@
-/* $OpenBSD: sshconnect2.c,v 1.151 2006/03/25 13:17:02 djm Exp $ */
+/* $OpenBSD: sshconnect2.c,v 1.153 2006/05/08 10:49:48 djm Exp $ */
 /*
  * Copyright (c) 2000 Markus Friedl.  All rights reserved.
  *
@@ -24,7 +24,7 @@
  */
 
 #include "includes.h"
-__RCSID("$MirOS: src/usr.bin/ssh/sshconnect2.c,v 1.5 2006/02/22 01:23:53 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/sshconnect2.c,v 1.6 2006/04/19 10:40:56 tg Exp $");
 
 #include <sys/wait.h>
 #include <sys/queue.h>
@@ -507,7 +507,7 @@ userauth_passwd(Authctxt *authctxt)
  * parse PASSWD_CHANGEREQ, prompt user and send SSH2_MSG_USERAUTH_REQUEST
  */
 void
-input_userauth_passwd_changereq(int type, uint32_t seqnr, void *ctxt)
+input_userauth_passwd_changereq(int type, u_int32_t seqnr, void *ctxt)
 {
 	Authctxt *authctxt = ctxt;
 	char *info, *lang, *password = NULL, *retype = NULL;
@@ -714,14 +714,16 @@ load_identity_file(char *filename)
 {
 	Key *private;
 	char prompt[300], *passphrase;
-	int quit, i;
+	int perm_ok, quit, i;
 	struct stat st;
 
 	if (stat(filename, &st) < 0) {
 		debug3("no such identity: %s", filename);
 		return NULL;
 	}
-	private = key_load_private_type(KEY_UNSPEC, filename, "", NULL);
+	private = key_load_private_type(KEY_UNSPEC, filename, "", NULL, &perm_ok);
+	if (!perm_ok)
+		return NULL;
 	if (private == NULL) {
 		if (options.batch_mode)
 			return NULL;
@@ -730,8 +732,8 @@ load_identity_file(char *filename)
 		for (i = 0; i < options.number_of_password_prompts; i++) {
 			passphrase = read_passphrase(prompt, 0);
 			if (strcmp(passphrase, "") != 0) {
-				private = key_load_private_type(KEY_UNSPEC, filename,
-				    passphrase, NULL);
+				private = key_load_private_type(KEY_UNSPEC,
+				    filename, passphrase, NULL, NULL);
 				quit = 0;
 			} else {
 				debug2("no passphrase given, try next key");

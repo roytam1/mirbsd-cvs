@@ -1,4 +1,4 @@
-/* $OpenBSD: ssh-keygen.c,v 1.143 2006/03/30 11:05:17 dtucker Exp $ */
+/* $OpenBSD: ssh-keygen.c,v 1.144 2006/05/17 12:43:34 markus Exp $ */
 /*
  * Author: Tatu Ylonen <ylo@cs.hut.fi>
  * Copyright (c) 1994 Tatu Ylonen <ylo@cs.hut.fi>, Espoo, Finland
@@ -13,7 +13,7 @@
  */
 
 #include "includes.h"
-__RCSID("$MirOS: src/usr.bin/ssh/ssh-keygen.c,v 1.11 2006/02/22 02:16:49 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/ssh-keygen.c,v 1.12 2006/04/19 10:40:54 tg Exp $");
 
 #include <sys/stat.h>
 
@@ -600,8 +600,10 @@ do_fingerprint(struct passwd *pw)
 		xfree(fp);
 		exit(0);
 	}
-	if (comment)
+	if (comment) {
 		xfree(comment);
+		comment = NULL;
+	}
 
 	f = fopen(identity_file, "r");
 	if (f != NULL) {

@@ -1,4 +1,4 @@
-/* $OpenBSD: ssh.c,v 1.275 2006/03/30 10:41:25 djm Exp $ */
+/* $OpenBSD: ssh.c,v 1.276 2006/04/25 08:02:27 dtucker Exp $ */
 /*
  * Author: Tatu Ylonen <ylo@cs.hut.fi>
  * Copyright (c) 1995 Tatu Ylonen <ylo@cs.hut.fi>, Espoo, Finland
@@ -41,7 +41,7 @@
  */
 
 #include "includes.h"
-__RCSID("$MirOS: src/usr.bin/ssh/ssh.c,v 1.10 2006/02/22 02:16:49 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/ssh.c,v 1.11 2006/04/19 10:40:55 tg Exp $");
 
 #include <sys/resource.h>
 #include <sys/ioctl.h>
@@ -678,11 +678,11 @@ main(int ac, char **av)
 
 		PRIV_START;
 		sensitive_data.keys[0] = key_load_private_type(KEY_RSA1,
-		    _PATH_HOST_KEY_FILE, "", NULL);
+		    _PATH_HOST_KEY_FILE, "", NULL, NULL);
 		sensitive_data.keys[1] = key_load_private_type(KEY_DSA,
-		    _PATH_HOST_DSA_KEY_FILE, "", NULL);
+		    _PATH_HOST_DSA_KEY_FILE, "", NULL, NULL);
 		sensitive_data.keys[2] = key_load_private_type(KEY_RSA,
-		    _PATH_HOST_RSA_KEY_FILE, "", NULL);
+		    _PATH_HOST_RSA_KEY_FILE, "", NULL, NULL);
 		PRIV_END;
 
 		if (options.hostbased_authentication == 1 &&

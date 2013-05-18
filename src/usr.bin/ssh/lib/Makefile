@@ -1,9 +1,10 @@
-# $MirOS: src/usr.bin/ssh/lib/Makefile,v 1.3 2005/04/14 19:49:36 tg Exp $
-# $OpenBSD: Makefile,v 1.53 2006/04/18 10:44:28 dtucker Exp $
+# $MirOS: src/usr.bin/ssh/lib/Makefile,v 1.4 2006/04/19 10:40:59 tg Exp $
+# $OpenBSD: Makefile,v 1.54 2006/05/28 16:45:09 deraadt Exp $
 
 .PATH:		${.CURDIR}/..
 
 LIB=	ssh
+WANTLINT=
 SRCS=	authfd.c authfile.c bufaux.c bufbn.c buffer.c canohost.c channels.c \
 	cipher.c cipher-3des1.c cipher-bf1.c cipher-ctr.c \
 	cleanup.c compat.c compress.c crc32.c deattack.c fatal.c \

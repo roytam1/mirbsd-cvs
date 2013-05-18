@@ -11,7 +11,7 @@
  */
 
 #include "includes.h"
-__RCSID("$MirOS: src/usr.bin/ssh/servconf.c,v 1.7 2006/02/22 02:16:48 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/servconf.c,v 1.8 2006/04/19 10:40:51 tg Exp $");
 
 #include "ssh.h"
 #include "log.h"
@@ -258,14 +258,6 @@ static struct {
 	{ "rsaauthentication", sRSAAuthentication },
 	{ "pubkeyauthentication", sPubkeyAuthentication },
 	{ "dsaauthentication", sPubkeyAuthentication },			/* alias */
-	{ "kerberosauthentication", sUnsupported },
-	{ "kerberosorlocalpasswd", sUnsupported },
-	{ "kerberosticketcleanup", sUnsupported },
-	{ "kerberosgetafstoken", sUnsupported },
-	{ "kerberostgtpassing", sUnsupported },
-	{ "afstokenpassing", sUnsupported },
-	{ "gssapiauthentication", sUnsupported },
-	{ "gssapicleanupcredentials", sUnsupported },
 	{ "passwordauthentication", sPasswordAuthentication },
 	{ "kbdinteractiveauthentication", sKbdInteractiveAuthentication },
 	{ "challengeresponseauthentication", sChallengeResponseAuthentication },

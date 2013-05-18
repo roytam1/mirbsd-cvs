@@ -1,4 +1,4 @@
-/* $OpenBSD: sshd.c,v 1.330 2006/03/25 13:17:02 djm Exp $ */
+/* $OpenBSD: sshd.c,v 1.331 2006/06/01 09:21:48 markus Exp $ */
 /*
  * Author: Tatu Ylonen <ylo@cs.hut.fi>
  * Copyright (c) 1995 Tatu Ylonen <ylo@cs.hut.fi>, Espoo, Finland
@@ -43,7 +43,7 @@
  */
 
 #include "includes.h"
-__RCSID("$MirOS: src/usr.bin/ssh/sshd.c,v 1.6 2006/02/22 02:16:50 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/sshd.c,v 1.7 2006/04/19 10:40:57 tg Exp $");
 
 #include <sys/ioctl.h>
 #include <sys/wait.h>
@@ -1586,7 +1586,13 @@ main(int ac, char **av)
 	 * We use get_canonical_hostname with usedns = 0 instead of
 	 * get_remote_ipaddr here so IP options will be checked.
 	 */
-	remote_ip = get_canonical_hostname(0);
+	(void) get_canonical_hostname(0);
+	/*
+	 * The rest of the code depends on the fact that
+	 * get_remote_ipaddr() caches the remote ip, even if
+	 * the socket goes away.
+	 */
+	remote_ip = get_remote_ipaddr();
 
 #ifdef LIBWRAP
 	/* Check whether logins are denied from this host. */

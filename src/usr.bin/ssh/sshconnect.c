@@ -1,4 +1,4 @@
-/* $OpenBSD: sshconnect.c,v 1.180 2006/03/25 13:17:02 djm Exp $ */
+/* $OpenBSD: sshconnect.c,v 1.182 2006/05/17 12:43:34 markus Exp $ */
 /*
  * Author: Tatu Ylonen <ylo@cs.hut.fi>
  * Copyright (c) 1995 Tatu Ylonen <ylo@cs.hut.fi>, Espoo, Finland
@@ -14,7 +14,7 @@
  */
 
 #include "includes.h"
-__RCSID("$MirOS: src/usr.bin/ssh/sshconnect.c,v 1.4 2006/02/22 01:23:52 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/sshconnect.c,v 1.5 2006/04/19 10:40:56 tg Exp $");
 
 #include <sys/wait.h>
 #include <sys/stat.h>
@@ -300,17 +300,14 @@ ssh_connect(const char *host, struct sockaddr_storage * hostaddr,
 		fatal("%s: %.100s: %s", __progname, host,
 		    gai_strerror(gaierr));
 
-	/*
-	 * Try to connect several times.  On some machines, the first time
-	 * will sometimes fail.  In general socket code appears to behave
-	 * quite magically on many machines.
-		 */
-	for (attempt = 0; ;) {
+	for (attempt = 0; attempt < connection_attempts; attempt++) {
 		if (attempt > 0)
 			debug("Trying again...");
 
-		/* Loop through addresses for this host, and try each one in
-		   sequence until the connection succeeds. */
+		/*
+		 * Loop through addresses for this host, and try each one in
+		 * sequence until the connection succeeds.
+		 */
 		for (ai = aitop; ai; ai = ai->ai_next) {
 			if (ai->ai_family != AF_INET && ai->ai_family != AF_INET6)
 				continue;
@@ -337,21 +334,13 @@ ssh_connect(const char *host, struct sockaddr_storage * hostaddr,
 			} else {
 				debug("connect to address %s port %s: %s",
 				    ntop, strport, strerror(errno));
-				/*
-				 * Close the failed socket; there appear to
-				 * be some problems when reusing a socket for
-				 * which connect() has already returned an
-				 * error.
-				 */
 				close(sock);
+				sock = -1;
 			}
 		}
-		if (ai)
+		if (sock != -1)
 			break;	/* Successful connection. */
 
-		attempt++;
-		if (attempt >= connection_attempts)
-			break;
 		/* Sleep a moment before retrying. */
 		sleep(1);
 	}
@@ -359,7 +348,7 @@ ssh_connect(const char *host, struct sockaddr_storage * hostaddr,
 	freeaddrinfo(aitop);
 
 	/* Return failure if we didn't get a successful connection. */
-	if (attempt >= connection_attempts) {
+	if (sock == -1) {
 		error("ssh: connect to host %s port %s: %s",
 		    host, strport, strerror(errno));
 		return (-1);
@@ -929,6 +918,7 @@ ssh_login(Sensitive *sensitive, const char *orighost,
 		ssh_kex(host, hostaddr);
 		ssh_userauth1(local_user, server_user, host, sensitive);
 	}
+	xfree(local_user);
 }
 
 void

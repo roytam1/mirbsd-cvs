@@ -38,7 +38,7 @@
  */
 
 #include "includes.h"
-__RCSID("$MirOS: src/usr.bin/ssh/packet.c,v 1.5 2006/02/22 02:16:47 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/packet.c,v 1.6 2006/04/19 10:40:49 tg Exp $");
 
 #include <sys/queue.h>
 
@@ -1590,7 +1590,7 @@ static void
 packet_consume_ignoremsg(void)
 {
 	u_int n;
-	uint8_t *b;
+	u_int8_t *b;
 	int x;
 
 	if ((b = packet_get_raw(&n)) == NULL)

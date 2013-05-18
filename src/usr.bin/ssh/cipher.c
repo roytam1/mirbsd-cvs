@@ -36,7 +36,7 @@
  */
 
 #include "includes.h"
-__RCSID("$MirOS: src/usr.bin/ssh/cipher.c,v 1.4 2006/02/22 02:16:45 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/cipher.c,v 1.5 2006/04/19 10:40:46 tg Exp $");
 
 #include "xmalloc.h"
 #include "log.h"
@@ -201,8 +201,8 @@ cipher_init(CipherContext *cc, Cipher *cipher,
 	{
 		MD4_CTX md4ctx;
 		u_int8_t digest[MD4_DIGEST_LENGTH];
-		volatile uint64_t value = (uint64_t)time(NULL)
-		    * (uint64_t)getpid() * (uint64_t)getppid();
+		volatile u_int64_t value = (u_int64_t)time(NULL)
+		    * (u_int64_t)getpid() * (u_int64_t)getppid();
 
 		MD4Init(&md4ctx);
 		if (key && keylen)
@@ -217,8 +217,8 @@ cipher_init(CipherContext *cc, Cipher *cipher,
 		value ^= *((u_int64_t *)&digest[8]);
 		bzero(digest, MD4_DIGEST_LENGTH);
 
-		value ^= (((uint64_t)((intptr_t)cc)) << 32
-		    | ((uint64_t)((intptr_t)cipher)));
+		value ^= (((u_int64_t)((intptr_t)cc)) << 32
+		    | ((u_int64_t)((intptr_t)cipher)));
 		arc4random_push((int)((value >> 32) ^ value));
 		value = 0;
 	}
