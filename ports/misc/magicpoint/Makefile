@@ -1,4 +1,4 @@
-# $MirOS: ports/misc/magicpoint/Makefile,v 1.5 2007/05/12 23:13:30 tg Exp $
+# $MirOS: ports/misc/magicpoint/Makefile,v 1.6 2007/05/14 03:40:13 tg Exp $
 # $OpenBSD: Makefile,v 1.32 2004/04/09 09:52:09 espie Exp $
 
 COMMENT=		X11-based presentation tool
@@ -21,7 +21,6 @@ LIB_DEPENDS+=		png.2::graphics/png \
 			mng::graphics/libmng
 RUN_DEPENDS+=		pnmscale::graphics/netpbm
 
-MODULES=		devel/gettext
 USE_X11=		Yes
 CONFIGURE_STYLE=	autoconf gnu imake no-autoheader
 CONFIGURE_ARGS+=	--disable-vflib
@@ -33,10 +32,11 @@ CONFIGURE_ARGS+=	--enable-freetype \
 			--enable-freetype-charset16 \
 			--disable-xft2
 LIB_DEPENDS+=		ttf.1::print/freetype
+MODULES+=		devel/gettext
 .else
 CONFIGURE_ARGS+=	--disable-freetype \
 			--enable-xft2
-MODULES=		converters/libiconv
+MODULES+=		converters/libiconv
 .endif
 
 .if ${FLAVOR:L:Mno_gif}
