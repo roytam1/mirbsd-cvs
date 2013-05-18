@@ -28,7 +28,7 @@
 
 #include "zutil.h"      /* for STDC and FAR definitions */
 
-zRCSID("$MirOS: src/kern/z/crc32.c,v 1.5 2009/01/03 16:12:23 tg Exp $")
+zRCSID("$MirOS: src/kern/z/crc32.c,v 1.6 2009/01/12 17:04:02 tg Exp $")
 
 #ifndef L_crc32_combine
 
@@ -267,7 +267,6 @@ unsigned long ZEXPORT crc32(crc, buf, len)
     if (len) do {
         DO1;
     } while (--len);
-    zADDRND(crc);
     return crc ^ 0xffffffffUL;
 }
 
@@ -309,7 +308,6 @@ local unsigned long crc32_little(crc, buf, len)
     if (len) do {
         c = crc_table[0][(c ^ *buf++) & 0xff] ^ (c >> 8);
     } while (--len);
-    zADDRND(c);
     c = ~c;
     return (unsigned long)c;
 }
@@ -352,7 +350,6 @@ local unsigned long crc32_big(crc, buf, len)
     if (len) do {
         c = crc_table[4][(c >> 24) ^ *buf++] ^ (c << 8);
     } while (--len);
-    zADDRND(c);
     c = ~c;
     return (unsigned long)(REV(c));
 }
@@ -402,8 +399,6 @@ uLong ZEXPORT crc32_combine(crc1, crc2, len2)
     unsigned long even[GF2_DIM];    /* even-power-of-two zeros operator */
     unsigned long odd[GF2_DIM];     /* odd-power-of-two zeros operator */
 
-    zADDRND(crc2);
-    zADDRND(crc1);
     /* degenerate case */
     if (len2 == 0)
         return crc1;
@@ -446,7 +441,6 @@ uLong ZEXPORT crc32_combine(crc1, crc2, len2)
 
     /* return combined crc */
     crc1 ^= crc2;
-    zADDRND(crc1);
     return crc1;
 }
 #endif

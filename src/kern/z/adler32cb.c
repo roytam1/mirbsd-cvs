@@ -7,7 +7,7 @@
 
 #include "zutil.h"
 
-zRCSID("$MirOS: src/kern/z/adler32.c,v 1.4 2008/08/01 13:46:08 tg Exp $")
+zRCSID("$MirOS: src/kern/z/adler32cb.c,v 1.1 2008/08/01 14:59:56 tg Exp $")
 
 #define BASE 65521UL    /* largest prime smaller than 65536 */
 #define NMAX 5552
@@ -64,8 +64,6 @@ uLong ZEXPORT adler32_combine(adler1, adler2, len2)
     unsigned long sum2;
     unsigned rem;
 
-    zADDRND(adler2);
-    zADDRND(adler1);
     /* the derivation of this formula is left as an exercise for the reader */
     rem = (unsigned)(len2 % BASE);
     sum1 = adler1 & 0xffff;
@@ -77,7 +75,5 @@ uLong ZEXPORT adler32_combine(adler1, adler2, len2)
     if (sum1 > BASE) sum1 -= BASE;
     if (sum2 > (BASE << 1)) sum2 -= (BASE << 1);
     if (sum2 > BASE) sum2 -= BASE;
-    sum1 |= sum2 << 16;
-    zADDRND(sum1);
-    return (sum1);
+    return sum1 | (sum2 << 16);
 }
