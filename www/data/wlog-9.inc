@@ -2233,3 +2233,21 @@ Author: tg@
  (alias Turodagnir) and myself. It’s good weather today. And because I’m
  not going to have tomorrow off I’d better enjoy the weekend.</p>
 ----
+Date: 14.10.2007
+Author: tg@
+
+<p>FWIW, current CacheWolf development snapshots are available from <a
+ href="https://herc.mirbsd.org/pub/cw/">my server</a>, please don’t
+ overuse its bandwidth…</p>
+<p>I did another <img src="http://www.opencaching.de/statpics/106521.jpg"
+ alt="stats fun" />two geocaches with Dr. Pfeffer, who doesn’t have any
+ internet access nor a statpic yet though.</p>
+<p><a href="@@RELPATH@@mksh.htm">mksh</a> R31d is released, I just didn’t
+ have any time to prepare a distfile yet. Please see the list of changes,
+ <strong>everybody</strong> is strongly advised to upgrade.</p>
+<p>Ordering things online sucks. I still do not have my SCSI converters.
+ No progress on the MirBSD server front yet. I hope to be able to host a
+ little box at my workplace. Maybe a VM. And the other equipment I wanted
+ (flashlights for geocacheing, for instance) only has been brought to the
+ packet service now, let’s see how long it takes… I wish I had a beer.</p>
+----
