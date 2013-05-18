@@ -1387,6 +1387,7 @@
 ./usr/include/sys/filedesc.h
 ./usr/include/sys/filio.h
 ./usr/include/sys/hash.h
+./usr/include/sys/ieee754.h
 ./usr/include/sys/ioccom.h
 ./usr/include/sys/ioctl.h
 ./usr/include/sys/ioctl_compat.h
@@ -5251,6 +5252,8 @@
 ./usr/share/man/cat3/bufferevent_write_buffer.0
 ./usr/share/man/cat3/byteorder.0
 ./usr/share/man/cat3/bzero.0
+./usr/share/man/cat3/cabs.0
+./usr/share/man/cat3/cabsf.0
 ./usr/share/man/cat3/calloc.0
 ./usr/share/man/cat3/callrpc.0
 ./usr/share/man/cat3/can_change_color.0
@@ -5688,6 +5691,7 @@
 ./usr/share/man/cat3/form_userptr.0
 ./usr/share/man/cat3/form_win.0
 ./usr/share/man/cat3/fparseln.0
+./usr/share/man/cat3/fpclassify.0
 ./usr/share/man/cat3/fpgetmask.0
 ./usr/share/man/cat3/fpgetround.0
 ./usr/share/man/cat3/fpgetsticky.0
@@ -5736,7 +5740,9 @@
 ./usr/share/man/cat3/fwrite.0
 ./usr/share/man/cat3/gai_strerror.0
 ./usr/share/man/cat3/gamma.0
+./usr/share/man/cat3/gamma_r.0
 ./usr/share/man/cat3/gammaf.0
+./usr/share/man/cat3/gammaf_r.0
 ./usr/share/man/cat3/gcvt.0
 ./usr/share/man/cat3/get_myaddress.0
 ./usr/share/man/cat3/get_wch.0
@@ -5915,7 +5921,7 @@
 ./usr/share/man/cat3/idcok.0
 ./usr/share/man/cat3/idlok.0
 ./usr/share/man/cat3/ieee.0
-./usr/share/man/cat3/ieeef.0
+./usr/share/man/cat3/ieee_test.0
 ./usr/share/man/cat3/ievent_priority_set.0
 ./usr/share/man/cat3/if_freenameindex.0
 ./usr/share/man/cat3/if_indextoname.0
@@ -5972,7 +5978,6 @@
 ./usr/share/man/cat3/inflateReset.0
 ./usr/share/man/cat3/inflateSetDictionary.0
 ./usr/share/man/cat3/inflateSync.0
-./usr/share/man/cat3/infnan.0
 ./usr/share/man/cat3/init_color.0
 ./usr/share/man/cat3/init_pair.0
 ./usr/share/man/cat3/initgroups.0
@@ -6011,12 +6016,14 @@
 ./usr/share/man/cat3/isdigit.0
 ./usr/share/man/cat3/isendwin.0
 ./usr/share/man/cat3/isfdtype.0
+./usr/share/man/cat3/isfinite.0
 ./usr/share/man/cat3/isgraph.0
 ./usr/share/man/cat3/isinf.0
 ./usr/share/man/cat3/isinff.0
 ./usr/share/man/cat3/islower.0
 ./usr/share/man/cat3/isnan.0
 ./usr/share/man/cat3/isnanf.0
+./usr/share/man/cat3/isnormal.0
 ./usr/share/man/cat3/isprint.0
 ./usr/share/man/cat3/ispunct.0
 ./usr/share/man/cat3/isspace.0
@@ -6122,7 +6129,9 @@
 ./usr/share/man/cat3/letoh64.0
 ./usr/share/man/cat3/lfind.0
 ./usr/share/man/cat3/lgamma.0
+./usr/share/man/cat3/lgamma_r.0
 ./usr/share/man/cat3/lgammaf.0
+./usr/share/man/cat3/lgammaf_r.0
 ./usr/share/man/cat3/lh_delete.0
 ./usr/share/man/cat3/lh_doall.0
 ./usr/share/man/cat3/lh_doall_arg.0
@@ -6145,6 +6154,10 @@
 ./usr/share/man/cat3/link_fieldtype.0
 ./usr/share/man/cat3/link_ntoa.0
 ./usr/share/man/cat3/llabs.0
+./usr/share/man/cat3/llrint.0
+./usr/share/man/cat3/llrintf.0
+./usr/share/man/cat3/llround.0
+./usr/share/man/cat3/llroundf.0
 ./usr/share/man/cat3/localeconv.0
 ./usr/share/man/cat3/localtime.0
 ./usr/share/man/cat3/localtime_r.0
@@ -6154,6 +6167,8 @@
 ./usr/share/man/cat3/log10f.0
 ./usr/share/man/cat3/log1p.0
 ./usr/share/man/cat3/log1pf.0
+./usr/share/man/cat3/log2.0
+./usr/share/man/cat3/log2f.0
 ./usr/share/man/cat3/logb.0
 ./usr/share/man/cat3/logbf.0
 ./usr/share/man/cat3/logf.0
@@ -6176,10 +6191,13 @@
 ./usr/share/man/cat3/longjmperror.0
 ./usr/share/man/cat3/longname.0
 ./usr/share/man/cat3/lrand48.0
+./usr/share/man/cat3/lrint.0
+./usr/share/man/cat3/lrintf.0
+./usr/share/man/cat3/lround.0
+./usr/share/man/cat3/lroundf.0
 ./usr/share/man/cat3/lsearch.0
 ./usr/share/man/cat3/malloc.0
 ./usr/share/man/cat3/math.0
-./usr/share/man/cat3/mathf.0
 ./usr/share/man/cat3/mblen.0
 ./usr/share/man/cat3/mbrlen.0
 ./usr/share/man/cat3/mbrtowc.0
@@ -6342,6 +6360,9 @@
 ./usr/share/man/cat3/mvwscanw.0
 ./usr/share/man/cat3/mvwvline.0
 ./usr/share/man/cat3/mvwvline_set.0
+./usr/share/man/cat3/nan.0
+./usr/share/man/cat3/nanf.0
+./usr/share/man/cat3/nanl.0
 ./usr/share/man/cat3/napms.0
 ./usr/share/man/cat3/ncurses.0
 ./usr/share/man/cat3/ndbm.0
@@ -6621,6 +6642,8 @@
 ./usr/share/man/cat3/rip.0
 ./usr/share/man/cat3/ripoffline.0
 ./usr/share/man/cat3/rmd160.0
+./usr/share/man/cat3/round.0
+./usr/share/man/cat3/roundf.0
 ./usr/share/man/cat3/rpc.0
 ./usr/share/man/cat3/rpc_createerr.0
 ./usr/share/man/cat3/rpcauth.0
@@ -6787,6 +6810,7 @@
 ./usr/share/man/cat3/signal_initialized.0
 ./usr/share/man/cat3/signal_pending.0
 ./usr/share/man/cat3/signal_set.0
+./usr/share/man/cat3/signbit.0
 ./usr/share/man/cat3/significand.0
 ./usr/share/man/cat3/significandf.0
 ./usr/share/man/cat3/sigpause.0
@@ -7011,6 +7035,8 @@
 ./usr/share/man/cat3/tputs.0
 ./usr/share/man/cat3/trace.0
 ./usr/share/man/cat3/tree.0
+./usr/share/man/cat3/trunc.0
+./usr/share/man/cat3/truncf.0
 ./usr/share/man/cat3/tsearch.0
 ./usr/share/man/cat3/ttyname.0
 ./usr/share/man/cat3/ttyname_r.0

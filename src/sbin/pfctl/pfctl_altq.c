@@ -1,4 +1,4 @@
-/**	$MirOS: src/sbin/pfctl/pfctl_altq.c,v 1.4 2005/12/19 23:35:39 tg Exp $	*/
+/**	$MirOS: src/sbin/pfctl/pfctl_altq.c,v 1.5 2005/12/20 19:41:08 tg Exp $	*/
 /*	$OpenBSD: pfctl_altq.c,v 1.84 2004/04/26 02:50:04 kjc Exp $	*/
 
 /*
@@ -44,7 +44,7 @@
 #include "pfctl_parser.h"
 #include "pfctl.h"
 
-__RCSID("$MirOS: src/sbin/pfctl/pfctl_altq.c,v 1.4 2005/12/19 23:35:39 tg Exp $");
+__RCSID("$MirOS: src/sbin/pfctl/pfctl_altq.c,v 1.5 2005/12/20 19:41:08 tg Exp $");
 
 #define is_sc_null(sc)	(((sc) == NULL) || ((sc)->m1 == 0 && (sc)->m2 == 0))
 
@@ -895,6 +895,7 @@ print_hfsc_opts(const struct pf_altq *a, const struct node_queue_opt *qopts)
 /*
  * admission control using generalized service curve
  */
+#undef INFINITY			  /* <math.h> INFINITY is float not double */
 #define	INFINITY	HUGE_VAL  /* positive infinity defined in <math.h> */
 
 /* add a new service curve to a generalized service curve */

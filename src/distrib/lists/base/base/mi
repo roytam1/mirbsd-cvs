@@ -461,7 +461,7 @@
 ./usr/lib/i18n/libmapper_serial.so.5.0
 ./usr/lib/i18n/libmapper_std.so.5.0
 ./usr/lib/i18n/libmapper_zone.so.5.0
-./usr/lib/libc.so.40.0
+./usr/lib/libc.so.40.1
 ./usr/lib/libcrypto.so.14.0
 ./usr/lib/libcurses.so.14.0
 ./usr/lib/libdes.so.11.0
@@ -471,7 +471,7 @@
 ./usr/lib/libformw.so.6.0
 ./usr/lib/libiconv.so.5.0
 ./usr/lib/libkvm.so.10.1
-./usr/lib/libm.so.5.1
+./usr/lib/libm.so.5.2
 ./usr/lib/libmenu.so.6.0
 ./usr/lib/libmenuw.so.6.0
 ./usr/lib/libmilter.so.1.0

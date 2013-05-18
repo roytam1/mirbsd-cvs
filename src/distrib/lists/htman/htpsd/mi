@@ -1506,6 +1506,8 @@
 ./man3/bufferevent_write_buffer.htm
 ./man3/byteorder.htm
 ./man3/bzero.htm
+./man3/cabs.htm
+./man3/cabsf.htm
 ./man3/calloc.htm
 ./man3/callrpc.htm
 ./man3/can_change_color.htm
@@ -1944,6 +1946,7 @@
 ./man3/form_userptr.htm
 ./man3/form_win.htm
 ./man3/fparseln.htm
+./man3/fpclassify.htm
 ./man3/fpgetmask.htm
 ./man3/fpgetround.htm
 ./man3/fpgetsticky.htm
@@ -1992,7 +1995,9 @@
 ./man3/fwrite.htm
 ./man3/gai_strerror.htm
 ./man3/gamma.htm
+./man3/gamma_r.htm
 ./man3/gammaf.htm
+./man3/gammaf_r.htm
 ./man3/gcvt.htm
 ./man3/get_myaddress.htm
 ./man3/get_wch.htm
@@ -2411,7 +2416,7 @@
 ./man3/idcok.htm
 ./man3/idlok.htm
 ./man3/ieee.htm
-./man3/ieeef.htm
+./man3/ieee_test.htm
 ./man3/ievent_priority_set.htm
 ./man3/if_freenameindex.htm
 ./man3/if_indextoname.htm
@@ -2468,7 +2473,6 @@
 ./man3/inflateReset.htm
 ./man3/inflateSetDictionary.htm
 ./man3/inflateSync.htm
-./man3/infnan.htm
 ./man3/init_color.htm
 ./man3/init_pair.htm
 ./man3/initgroups.htm
@@ -2507,12 +2511,14 @@
 ./man3/isdigit.htm
 ./man3/isendwin.htm
 ./man3/isfdtype.htm
+./man3/isfinite.htm
 ./man3/isgraph.htm
 ./man3/isinf.htm
 ./man3/isinff.htm
 ./man3/islower.htm
 ./man3/isnan.htm
 ./man3/isnanf.htm
+./man3/isnormal.htm
 ./man3/isprint.htm
 ./man3/ispunct.htm
 ./man3/isspace.htm
@@ -2618,7 +2624,9 @@
 ./man3/letoh64.htm
 ./man3/lfind.htm
 ./man3/lgamma.htm
+./man3/lgamma_r.htm
 ./man3/lgammaf.htm
+./man3/lgammaf_r.htm
 ./man3/lh_delete.htm
 ./man3/lh_doall.htm
 ./man3/lh_doall_arg.htm
@@ -2641,6 +2649,10 @@
 ./man3/link_fieldtype.htm
 ./man3/link_ntoa.htm
 ./man3/llabs.htm
+./man3/llrint.htm
+./man3/llrintf.htm
+./man3/llround.htm
+./man3/llroundf.htm
 ./man3/localeconv.htm
 ./man3/localtime.htm
 ./man3/localtime_r.htm
@@ -2650,6 +2662,8 @@
 ./man3/log10f.htm
 ./man3/log1p.htm
 ./man3/log1pf.htm
+./man3/log2.htm
+./man3/log2f.htm
 ./man3/logb.htm
 ./man3/logbf.htm
 ./man3/logf.htm
@@ -2672,10 +2686,13 @@
 ./man3/longjmperror.htm
 ./man3/longname.htm
 ./man3/lrand48.htm
+./man3/lrint.htm
+./man3/lrintf.htm
+./man3/lround.htm
+./man3/lroundf.htm
 ./man3/lsearch.htm
 ./man3/malloc.htm
 ./man3/math.htm
-./man3/mathf.htm
 ./man3/mblen.htm
 ./man3/mbrlen.htm
 ./man3/mbrtowc.htm
@@ -2838,6 +2855,9 @@
 ./man3/mvwscanw.htm
 ./man3/mvwvline.htm
 ./man3/mvwvline_set.htm
+./man3/nan.htm
+./man3/nanf.htm
+./man3/nanl.htm
 ./man3/napms.htm
 ./man3/ncurses.htm
 ./man3/ndbm.htm
@@ -3117,6 +3137,8 @@
 ./man3/rip.htm
 ./man3/ripoffline.htm
 ./man3/rmd160.htm
+./man3/round.htm
+./man3/roundf.htm
 ./man3/rpc.htm
 ./man3/rpc_createerr.htm
 ./man3/rpcauth.htm
@@ -3283,6 +3305,7 @@
 ./man3/signal_initialized.htm
 ./man3/signal_pending.htm
 ./man3/signal_set.htm
+./man3/signbit.htm
 ./man3/significand.htm
 ./man3/significandf.htm
 ./man3/sigpause.htm
@@ -3507,6 +3530,8 @@
 ./man3/tputs.htm
 ./man3/trace.htm
 ./man3/tree.htm
+./man3/trunc.htm
+./man3/truncf.htm
 ./man3/tsearch.htm
 ./man3/ttyname.htm
 ./man3/ttyname_r.htm
