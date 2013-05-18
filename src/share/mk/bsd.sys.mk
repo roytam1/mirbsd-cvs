@@ -1,15 +1,24 @@
-# $MirOS: src/share/mk/bsd.sys.mk,v 1.16 2007/04/27 20:05:09 tg Exp $
+# $MirOS: src/share/mk/bsd.sys.mk,v 1.17 2007/05/17 18:38:36 tg Exp $
 # $OpenBSD: bsd.sys.mk,v 1.8 2000/07/06 23:12:41 millert Exp $
 # $NetBSD: bsd.sys.mk,v 1.2 1995/12/13 01:25:07 cgd Exp $
 
 .if !defined(BSD_SYS_MK)
 BSD_SYS_MK=1
 
+# just in case...
+.if !defined(BSD_OWN_MK)
+.  include <bsd.own.mk>
+.endif
+
 # The "if" is in case we want the current directory to have
 # preference, due to gcc (GNU cpp, actually) brain-deadness
 # The :N:S works around make idiocy, :M doesn't expand vars
 .if ${CPPFLAGS:N0:S/-I${.CURDIR}/0/:M0} == ""
 CPPFLAGS+=	-idirafter ${.CURDIR}
+.endif
+
+.if ${OBJECT_FMT} == "ELF"
+LDFLAGS+=	-Wl,-O2		# optimise hash table
 .endif
 
 # The following is only wanted for source tree builds, not MirPorts
