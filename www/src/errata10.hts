@@ -2,7 +2,7 @@
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname errata/10 "Errata for MirOS #10"
-mws_putheader '$MirOS: www/src/errata10.hts,v 1.18 2008/07/18 13:29:39 tg Exp $'
+mws_putheader '$MirOS: www/src/errata10.hts,v 1.19 2008/07/18 13:31:22 tg Exp $'
 mws_content <<'EOF'
 <h1>Errata for MirOS #10</h1>
 
@@ -12,7 +12,7 @@ mws_content <<'EOF'
 <p>By upgrading to the <tt>MIRBSD_10</tt> branch on CVS in the
  <tt>src</tt> module, you gain the following fixes:</p><ul>
 <li>
- Pull up mksh R35b.
+ Pull up mksh R36b.
 </li><li>
  Fix content of htmd10.ngz dist set.
 </li><li>
