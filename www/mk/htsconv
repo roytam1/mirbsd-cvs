@@ -1,4 +1,4 @@
-# $MirOS: www/mk/htsconv,v 1.8 2007/06/03 23:06:12 tg Exp $
+# $MirOS: www/mk/htsconv,v 1.1 2007/06/09 23:29:54 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -24,7 +24,7 @@ function mws_putheader {
 #DEPEND mk/tmpl.pre
 	mws_content <"$TOP"/mk/tmpl.pre
 	cat <<-'EOF'
-		<!-- $MirOS: www/mk/htsconv,v 1.8 2007/06/03 23:06:12 tg Exp $ -->
+		<!-- $MirOS: www/mk/htsconv,v 1.1 2007/06/09 23:29:54 tg Exp $ -->
 	EOF
 	print -nr '<small class="rcsid">Generated on '"$(TZ=UTC date +"%F %T")"
 	[[ -n $rcsid ]] && print -nr " from $rcsid"
@@ -44,4 +44,16 @@ function mws_content {
 	    -e 's\([0-9A-z][-.,0-9A-z]*\)(\(SMM\))<a href="/cman/man\2/\1.htm">&</a>g' \
 	    -e 's\([0-9A-z][-.,0-9A-z]*\)(\(USD\))<a href="/cman/man\2/\1.htm">&</a>g' \
 	    -e 's\([0-9A-z][-.,0-9A-z]*\)(\([1-9]\)[/0-9A-Za-z]*)<a href="/cman/man\2/\1.htm">&</a>g'
+}
+
+function mws_push {
+	for param in _pagename _relpath; do
+		eval mws__push_$param=\$mws_$param
+	done
+}
+
+function mws_pop {
+	for param in _pagename _relpath; do
+		eval mws_$param=\$mws__push_$param
+	done
 }
