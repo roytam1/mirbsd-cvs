@@ -439,3 +439,47 @@ Title: my first advisory
  away from here. We’ll see – at least I’m going to take a big chance when I
  see one, and peek into how it is over there. Even if Benny is on Malle.</p>
 ----
+Date: 17.04.2008 20:47
+Author: tg@
+Title: Geocacheing in Basel
+
+<p>This time I <em>did</em> find a geocache far away from home…</p>
+<p><img src="http://img.geocaching.com/stats/img.aspx?txt=Gr&#xFC;ezi+&#x2F;+Salut+&#x2F;+Bonjour!&amp;uid=d6aaa6ad-797c-419a-91b3-8cf6a5b40658"
+ alt="Only two OCs here, sadly…" /></p>
+<p>… in contrast to when I was in Bruxelles, as Benny and gecko2 didn’t seem
+ to want to have time for that (or walk at all, they coerced me into the
+ tram). This time, I went cacheing with Tonnerre, and he kind of lined it.</p>
+<p>Time to push opencaching in Switzerland. He said he might even drop some
+ caches (although – jokingly I hope/suppose – his first idea was „Finding
+ Sandro“, where the cache is a person… or his home appartement). Likewise,
+ I’ll push OC (and, a little, TC) whereever I’m going to live or lived.</p>
+<p>While here, special greetings to the TGIF@BS meeting which I won’t attend,
+ as I’ll take an earlier train back home tomorrow. It was nice here, much more
+ so than in, for instance, Berlin.</p>
+<p>Perl is evil. But knowing the basics of other programming languages helps.
+ I guess I’ll invest some time into learning perl better, so that I can get
+ rid of it (in MirPorts, for example), and better understand what others try
+ to write in it (so it can be converted to mksh if possible, or at least
+ fixed or optimised).</p>
+<p>People can be quite annoying at times (mostly in Jabber, but also via
+ eMail or IRC). Hey, if I just don’t reply my current location per eMail,
+ sending another one asking specifically for it <em>again</em> isn’t going
+ to improve my mood. Neither is constantly annoying me with enquiries about
+ whether I’m really gonna move („zügeln“) here or not, <em>after</em> I had
+ already stated I’ll think over it next weekend (or so), since I have a few
+ reasons pro et contra, some of which are <em>orthogonal</em> to what I see
+ here. I concentrate on getting a feel right now. Oh, and texting me one
+ messager after another in Jabber (or, worse, by SMS to my Natel) even if
+ I don’t reply (which, on the other hand, does <em>not</em> imply I’m willing
+ to conversate either!) just gets on my nerves. And: go fucking RTFM, and
+ don’t fucking bother me with „the XXXXU2B controller doesn’t exist, because
+ the vendor website only lists the XXXXU2W“ – if you know <em>any</em> vendor
+ websites you should long know better than to trust them.</p>
+<p>For what it’s worth: for building MirEwe, you need <em>very current</em>
+ MirMake (at least 20080411), g++, GTK+1.2, GTK+2, libjpeg, zlib, and their
+ development headers. It should work on GNU/Linux and the BSDs for now. No
+ platform other than i386 has been tested yet, but I’ll take on the Zaurus
+ running OpenBSD, I guess, as I finally got the uplcom(4) working. Ah, and
+ to rebuild the class libraries you need ecj and paxmirabilis/MirCpio – I
+ did the ecj part on Debian and the rest on MirBSD.</p>
+----
