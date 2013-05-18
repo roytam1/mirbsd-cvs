@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.142 2006/11/04 00:29:15 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.143 2006/11/08 16:51:22 bsiegert Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -1675,6 +1675,7 @@ checksum: fetch
 		${ECHO_MSG} ">> No checksum file."; \
 	else \
 		if (( new_cksum )); then \
+			mkdir -p ${WRKDIR}; \
 			syntax=; first=; \
 			for cipher in ${_CIPHERS}; do \
 				if ! (echo | ${_CKSUM_A} $$cipher \
