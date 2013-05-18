@@ -6,3 +6,5 @@ SHA1 (centericq-4.21.0.msn.patch) = dd444f08c735c4bf226680976fa1e1551c1c7bb0
 SHA1 (centericq-4.21.0.tar.gz) = 8b5fbd8b945a5a6f0fd57e831ccfaef520a96315
 SIZE (centericq-4.21.0.msn.patch) = 2726305
 SIZE (centericq-4.21.0.tar.gz) = 1939915
+TIGER (centericq-4.21.0.msn.patch) = 9ec6a51ba4f965ef0e6d3e5ff9a5f66d12ab91f04a0d3542
+TIGER (centericq-4.21.0.tar.gz) = a00ba852e92a2b73867886a1dcaa2831c80932507a7651ef

@@ -1,14 +1,14 @@
-# $MirOS: ports/net/centericq/Makefile,v 1.20 2006/08/16 20:47:30 tg Exp $
+# $MirOS: ports/net/centericq/Makefile,v 1.21 2006/09/14 00:11:35 tg Exp $
 # $OpenBSD: Makefile,v 1.24 2004/02/03 08:37:55 brad Exp $
 
 # bus error on start
 NOT_FOR_PLATFORM+=	Darwin:*:*
 
-COMMENT=			curses-based multiprotocol IM client implementation
+COMMENT=		curses-based multiprotocol IM client implementation
 DISTNAME=		centericq-${V}
 PKGNAME=		${DISTNAME}-${PL}
 V=			4.21.0
-PL=			4
+PL=			5
 CATEGORIES=		net
 PATCHFILES=		centericq-${V}.msn.patch:0
 PATCH_DIST_STRIP=	-p1
@@ -26,14 +26,13 @@ PERMIT_PACKAGE_FTP=     Yes
 PERMIT_DISTFILES_CDROM= Yes
 PERMIT_DISTFILES_FTP=   Yes
 
-FLAVORS=		no_msn
+FLAVORS=		no_msn gnupg
+FLAVOR?=
 
 GCC_VERSION!=		${CC} -v 2>&1 | fgrep "cc version" | sed 's!^.*cc version \([0-9\.]*\).*$!\1!'
 .if ${GCC_VERSION:M3.2*} || ${GCC_VERSION:M3.3*}
-FLAVOR?=		no_msn	# needs gcc 3.4+
+FLAVOR+=		no_msn	# needs gcc 3.4+
 .endif
-
-FLAVOR?=
 
 MODULES+=		converters/libiconv
 LIB_DEPENDS+=		curl::net/curl
@@ -45,12 +44,18 @@ CONFIGURE_STYLE=	autoconf no-autoheader
 AUTOCONF_NEW=		Yes
 CONFIGURE_ARGS+=	--with-openssl \
 			--with-libjpeg \
-			--without-gpgme \
 			--disable-nls
 CPPFLAGS+=		-DPORT_VERSION=\"${V}-${PL}\"
 
 .if ${FLAVOR:L:Mno_msn}
 CONFIGURE_ARGS+=	--disable-msn
+.endif
+
+.if ${FLAVOR:L:Mgnupg}
+CONFIGURE_ARGS+=	--with-gpgme=${LOCALBASE:Q}
+LIB_DEPENDS+=		gpgme::security/gpgme
+.else
+CONFIGURE_ARGS+=	--without-gpgme
 .endif
 
 MODGNU_CONFIG_GUESS_DIRS= ${WRKSRC} ${WRKSRC}/connwrap-0.1 \
