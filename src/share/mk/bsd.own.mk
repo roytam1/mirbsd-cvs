@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/bsd.own.mk,v 1.45 2007/03/09 10:07:32 tg Exp $
+# $MirOS: src/share/mk/bsd.own.mk,v 1.46 2007/03/09 10:24:51 tg Exp $
 # $OpenBSD: bsd.own.mk,v 1.92 2005/01/18 00:28:42 mickey Exp $
 # $NetBSD: bsd.own.mk,v 1.24 1996/04/13 02:08:09 thorpej Exp $
 
@@ -35,7 +35,7 @@ CFLAGS+=	-Wall -Wextra -Wunused -Wdeclaration-after-statement -Wundef \
 		-Wendif-labels -Wshadow -Wpointer-arith -Wbad-function-cast \
 		-Wcast-qual -Wcast-align -Wwrite-strings -Wstrict-prototypes \
 		-Wold-style-definition -Wmissing-prototypes -Winline \
-		-Wmissing-declarations -Wmissing-noreturn -pedantic \
+		-Wmissing-declarations -Wmissing-noreturn -Winit-self \
 		-Wmissing-format-attribute -Wredundant-decls -std=gnu99
 .endif
 
