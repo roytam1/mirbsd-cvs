@@ -1,4 +1,4 @@
-# $MirOS: gcc/gcc/Makefile.bsd-wrapper,v 1.48 2007/06/10 17:19:23 tg Exp $
+# $MirOS: gcc/gcc/Makefile.bsd-wrapper,v 1.49 2007/06/12 22:18:28 tg Exp $
 
 .include <bsd.own.mk>
 .include "${GNUSYSTEM_AUX_DIR}/locations.mk"
@@ -158,7 +158,7 @@ doc/mgcc.1: .MADE doc/gcc.1
 post-install:
 .if (${GCC_NATIVE:L} == "yes") && (${NOPIC:L} == "no") && \
     ((${CROSS_MODE:L} != "yes") || defined(_CROSSBUILD))
-	${INSTALL} ${INSTALL_COPY} -o ${LIBOWN} -g ${LIBGRP} -m ${LIBMODE} \
+	-${INSTALL} ${INSTALL_COPY} -o ${LIBOWN} -g ${LIBGRP} -m ${LIBMODE} \
 	    libgcc_s_fpic.so.${LIBGCC_REV} \
 	    ${DESTDIR}${GCC_PREFIX}/lib/libgcc_s.so.${LIBGCC_REV}
 .endif
