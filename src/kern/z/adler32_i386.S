@@ -1,7 +1,7 @@
-/* $MirOS: src/kern/z/adler32_i386.S,v 1.1 2007/02/12 20:59:47 tg Exp $ */
+/* $MirOS: src/kern/z/adler32_i386.S,v 1.2 2007/02/18 16:51:44 tg Exp $ */
 
 /*-
- * Copyright (c) 2006
+ * Copyright (c) 2006, 2007
  *	Thorsten Glaser <tg@mirbsd.de>
  * The adler32 algorithm is
  * Copyright (C) 1995 Mark Adler
@@ -26,14 +26,17 @@
  * of said person's immediate fault when using the work as intended.
  *-
  * See also:
- *	contrib/hosted/fwcf/adler.h,v
+ *	contrib/hosted/fwcf/adler.h
  *	kern/z/adler32s.c
  *	kern/z/adler32_i386.S
  */
 
 #include <machine/asm.h>
+#ifdef _KERNEL
+#include <dev/rndvar.h>
+#endif
 
-RCSID("$MirOS$")
+RCSID("$MirOS: src/kern/z/adler32_i386.S,v 1.2 2007/02/18 16:51:44 tg Exp $")
 
 #define BASE	65521	/* largest prime smaller than 65536 */
 #define NMAX	5552	/* largest n: 255n(n+1)/2 + (n+1)(BASE-1) <= 2^32-1 */
@@ -88,7 +91,29 @@ ENTRY(adler32)
 	jmp	.L1
 .L4:	/* return */
 	shl	edi,16
+#ifdef _KERNEL
+	mov	eax,[rnd_addpool_allow]
+	or	eax,eax			/* allowed to rnd_addpool_add? */
+#endif
 	lea	eax,[edi+ebx]
+#ifdef _KERNEL
+	jz	.Ladrn			/* no, just return the value */
+	mov	ebx,[rnd_addpool_num]	/* where are we at? */
+	xor	[rnd_addpool_buf+4*ecx],eax
+	inc	ebx
+	cmp	bl,rnd_addpool_size	/* ring buffer wraparound? */
+	jb	.Ladrw
+	xor	ebx,ebx
+.Ladrw:	mov	[rnd_addpool_num],ebx
+.Ladrn:
+#endif
+#if !defined(_KERNEL) && !defined(_STANDALONE)
+	push	eax			/* return value */
+	push	eax			/* function argument */
+	call	_C_LABEL(arc4random_push)
+	pop	eax			/* dummy */
+	pop	eax			/* return value */
+#endif
 	pop	edi
 	pop	esi
 	pop	ebx

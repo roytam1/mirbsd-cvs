@@ -1,4 +1,4 @@
-/* $MirOS: src/share/misc/licence.template,v 1.20 2006/12/11 21:04:56 tg Rel $ */
+/* $MirOS: src/kern/z/adler32s.c,v 1.1 2007/02/12 20:59:47 tg Exp $ */
 
 /*-
  * Copyright (c) 2006
@@ -26,14 +26,14 @@
  * of said person's immediate fault when using the work as intended.
  *-
  * See also:
- *	contrib/hosted/fwcf/adler.h,v
+ *	contrib/hosted/fwcf/adler.h
  *	kern/z/adler32s.c
  *	kern/z/adler32_i386.S
  */
 
 #ifdef _STANDALONE
 #define zADDRND(x)	/* nothing */
-#define zRCSID(x)	/* nothing, for space reasons */
+#define zRCSID(x)	/* nothing, we can't guarantee it's defined */
 #include <limits.h>
 #else
 #include <sys/param.h>
@@ -42,7 +42,7 @@
 #include <sys/limits.h>
 #include <dev/rndvar.h>
 #define zADDRND(x)	rnd_addpool_add((uint32_t)(x) ^ (uint32_t)time.tv_sec)
-#define zRCSID(x)	/* nothing, for space reasons */
+#define zRCSID(x)	__RCSID(x);
 #else
 #include <limits.h>
 #include <stdlib.h>
@@ -51,7 +51,7 @@
 #endif
 #endif
 
-zRCSID("$MirOS: src/sys/lib/libsa/adler32s.c,v 1.3 2006/12/11 23:55:06 tg Exp $")
+zRCSID("$MirOS: src/kern/z/adler32s.c,v 1.1 2007/02/12 20:59:47 tg Exp $")
 
 unsigned long adler32(unsigned long, const unsigned char *, unsigned);
 
