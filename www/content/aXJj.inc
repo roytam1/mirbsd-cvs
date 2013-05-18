@@ -1,5 +1,5 @@
 <!-- PageID: irc -->
-<small class="rcsid">$MirOS: www/content/aXJj.inc,v 1.2 2006/04/12 18:17:55 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/aXJj.inc,v 1.3 2006/05/17 12:42:24 tg Exp $</small>
 
 <h1>The MirOS Project on IRC</h1>
 
@@ -56,10 +56,10 @@
  by Thorsten Glaser of MirOS). They use ratbox-ircd and some kind
  of weird services on top of that; one however gets used to these
  rather quickly. <a href="http://freeforge.net/">This poor excuse
- of a website</a> has now been filled with some content, but this
- page you are currently reading (please note the semi-official <a
- href="http://mirbsd.mirsolutions.de/?irc">reference link</a>) is
- the primary source of information regarding Freeforge.</p>
+ of a website</a> has now been filled with some outdated content,
+ so this page you are currently reading (or, at the semi-official
+ <a href="http://www.mirbsd.org/?irc">reference link</a>) is (for
+ now) the primary source of information regarding Freeforge.</p>
 
 <p>Freeforge guarantees that all server-to-server communication is
  secured by strong TLS encryption and also offers IRCS (IRC over
@@ -96,40 +96,40 @@
 <h3 id="ffcon">List of Servers</h3>
 <p>The standard way to connect to IRC is to open a TCP connection to
  one of the servers on port 6666 (non-SSL) or 6668 (TLS secured).
- However, most of Freeforge's servers also offer IRC on the legacy
+ Some of Freeforge's servers also offer IRC on the legacy
  port 6667 (also non-encrypted).</p>
 
 <p>Thorsten Glaser of MirOS has set up a DNS round-robin for these who
- want to "simply connect to Port 6667/6668 and it works". (Note that,
- for some of the IPv6 servers, Port 6667 does not work &ndash; however,
- Port 6668 (encrypted) or 6666 (plaintext) always does.) You can use
+ want to "simply connect to Port 6666/6668 and it works". You can use
  either of irc.mirbsd.org, irc4.mirbsd.org or irc6.mirbsd.org (for
- both address families, IPv4 only, and IPv6 only, respectively). Also,
- you can use irc.66h.42h.de, irc4.66h.42h.de, irc6.66h.42h.de, in case
- you cannot resolve the mirbsd.org domain.</p>
+ both address families, IPv4 only, and IPv6 only, respectively).</p>
 
 <p>The following is a list of servers, indicating their capabilities,
  connectivity, etc.</p><ul>
-<li>zeus: zeus.freeforge.net (IPv4 only), gecko2.tb.as8758.net (IPv6
+<!-- li>zeus: zeus.freeforge.net (IPv4 only), gecko2.tb.as8758.net (IPv6
  only <strong>but no port 6667</strong>, only 6666 (non-SSL), 6668 (TLS)).
  The IPv4 portion of this server is included in the MirBSD round-robin;
  the IPv6 portion as well (beware!).
  This server is located at Strato, Berlin, Germany with an 100 Mbit
- IPv4 connection and an IPv6 tunnel to Switzerland.</li>
+ IPv4 connection and an IPv6 tunnel to Switzerland.</li -->
+<li>zeus: this server has been cancelled.</li>
 <li>thor: this server has been cancelled.</li>
+<li>maou: this server has been cancelled.</li>
 <!-- li>maou: maou.66h.42h.de (IPv4 only). Included in the MirBSD round-robin.
  Also located at Strato, Berlin, Germany with an 100 Mbit pipe.</li -->
-<li>maou: this server is out of order at the moment.</li>
-<li>herc: herc.66h.42h.de (IPv4/IPv6). Both are included in the MirBSD
- round-robin (and support 6666/6667/6668). Located in Bad Godesberg,
+<li>herc: This server supports both IPv4 and IPv6 and all three ports
+ (6668 TLS/SSL secured, 6666 and 6667 unencrypted), and both addresses
+ are included in the MirBSD round-robin, although its DNS entry,
+ <tt>herc.66h.42h.de</tt>, is IPv6-only and IPv4 connections are unstable
+ due to gouvernment-mandated ISP regulations). Located in Bad Godesberg,
  Germany, behind a customer-grade ADSL connection with 0.5 Mbit IPv4
- to Cologne and an IPv6 tunnel to Hamburg. Sometimes, the IPv4 portion
- is only reachable under y.shacknet.nu or mirabile.cjb.net (but IPv6
- should be stable).</li>
+ to Cologne and an IPv6 tunnel to Hamburg.</li>
+<li>bender: missing information will be filled in later</li>
+<li>hephaistos: missing information will be filled in later</li>
 </ul>
 
 <p>As a special service to our customers, the IRC servers listed
- above can also be used as time servers (NTP/SNTP; also time/daytime
- on the 66h.42h.de servers).</p>
+ above (except bender) can also be used as time servers (NTP/SNTP;
+ also time/daytime on the 66h.42h.de servers).</p>
 
 <address>(to be continued)</address>

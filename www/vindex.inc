@@ -11,7 +11,7 @@
 <li><a href="/?getting">Download</a><ul class="lv2">
 	<li><a href="/?mirrors">Mirrors</a></li>
     </ul></li>
-<li><a href="http://mirbsd.de/irc">IRC</a></li>
+<li><a href="/?irc">IRC</a></li>
 <li><a href="/?projects">Project Ideas</a></li>
 <li><a href="/?danke">Donate</a></li>
 <li style="list-style:none;"></li>

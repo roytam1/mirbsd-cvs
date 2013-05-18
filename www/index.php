@@ -1,5 +1,5 @@
 <?php
-/* $MirOS: www/index.php,v 1.21 2006/07/05 05:19:11 tg Exp $ */
+/* $MirOS: www/index.php,v 1.23 2006/07/30 20:33:09 bsiegert Exp $ */
 /*-
  * The MirOS Project - Webpages
  * Copyrighted material; read LICENCE for terms of use.
@@ -51,6 +51,7 @@
 </div>
 <div class="content">
  <?php	if (!(($rq == "content/bWtzaA__.inc") ||
+	    ($rq == "content/aXJj.inc") ||
 	    ($rq == "content/YnQ_.inc") ||
 	    ($rq == "content/bWFpbg__.inc") ||
 	    ($rq == "content/d2xvZy0w.inc") ||
