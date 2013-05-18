@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.255 2009/07/18 16:13:17 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.256 2009/07/19 15:14:22 tg Exp $'
 mws_content <<'EOF'
 <h2>mksh(1) R38c</h2>
 
@@ -244,7 +244,7 @@ mws_content <<'EOF'
 <p>If <tt>CPPFLAGS</tt> contain any of the following definitions, the resulting
  binary will be compiled with a specific flavour:</p><ul>
 <li><tt>-DMKSH_SMALL</tt> – build a really small mksh(1), e.g. for embedded
- systems</li>
+ systems (see below for details of what this entails)</li>
 <li><tt>-DMKSH_ASSUME_UTF8=0</tt> – do not use setlocale(3) or
  nl_langinfo(CODESET); do not assume the terminal is in UTF-8 mode
  (mksh R38c and up)</li>
@@ -257,13 +257,14 @@ mws_content <<'EOF'
 <li><tt>-DMKSH_CONSERVATIVE_FDS</tt> – use less filedescriptors (32/10 ipv
  56/24), e.g. if the system supports few (mksh R37c and up)</li>
 <li><tt>-DMKSH_MIDNIGHTBSD01ASH_COMPAT</tt> – parse “--” on the shell command
- line like MidnightBSD 0.1 <tt>/bin/sh</tt> but different from all other
- shells; <em>requires</em> <tt>-DMKSH_BINSHREDUCED</tt> (mksh R38 and up)</li>
-<li><tt>-DMKSH_NOPWNAM</tt> – if MKSH_SMALL is not set, still omit getpwnam(3)
- calls in order to not pull in the nsswitch or PAM libraries</li>
-<li><tt>-DMKSH_NOVI</tt> – if this or MKSH_SMALL is set, the vi command line
- editing mode (which is orphaned anyway, yet functional) is omitted</li>
+ line like MidnightBSD 0.1 <tt>/bin/sh</tt> (different from all other shells);
+ <em>requires</em> <tt>-DMKSH_BINSHREDUCED</tt> or "-o posix" (R38+)</li>
+<li><tt>-DMKSH_NOPWNAM</tt> – omit getpwnam(3) calls (<tt>~foo/</tt> expansion)
+ in order to not pull in the nsswitch or PAM libraries</li>
+<li><tt>-DMKSH_NOVI</tt> – omit the vi command line editing mode (which is
+ orphaned anyway, yet functional)</li>
 <li><tt>-DMKSH_NO_LIMITS</tt> – don’t compile the ulimit code (R38c+)</li>
+<li><tt>-DMKSH_UNEMPLOYED</tt> – compile without job control (R37b+)</li>
 <li><tt>-DUSE_REALLOC_MALLOC=0</tt> – if <tt>realloc(NULL, n)</tt> is not
  equivalent to <tt>malloc(n)</tt> (n &gt; 0) as ANSI C89 prescribes</li>
 </ul>
@@ -276,6 +277,14 @@ mws_content <<'EOF'
  0 if you know that it won’t ever return UTF-8), HAVE_PERSISTENT_HISTORY (0 to
  not include this feature), HAVE_FLOCK_EX (if flock or mmap do not work on
  files), HAVE_EXPSTMT (if <tt>({</tt> expression statements are buggy).</p>
+<p>Defining <tt>MKSH_SMALL</tt> will disable persistent history (to re-enable,
+ env HAVE_PERSISTENT_HISTORY=x), try to compile with <tt>-fno-inline</tt>,
+ disable the mknod(2), realpath(3) and revoke(2) externs (to re-enable these,
+ follow the above schema); (not overridable) implies traditional/conservative
+ filedescriptor usage, MKSH_NOPWNAM; omits shebang checking in scripts, the Vi
+ command line editing mode, certain verbose error messages, the entire ‘-T’
+ command line option, the fancy <tt>$RANDOM</tt> handling; replaces inlines
+ with separate functions for size over speed optimisation, etc.</p>
 
 <h4 id="oespec">Operating Environment specific notes</h4>
 
@@ -600,9 +609,14 @@ mws_content <<'EOF'
  ChangeLog</a>, these are the packager-visible upgrade notes regarding
  changes in the build system (<tt>Build.sh</tt> and friends, compiler
  support, packaging conventions, bad examples, etc).</p>
-<p>mksh R38c adds QNX fixes, build system fixes, and the ability to
- use <tt>-DMKSH_ASSUME_UTF8=0</tt> to skip the environment checks
- (leading to one (supposedly un-)expected regression test failure).
+<p>mksh R39 has user-visible changes regarding "set -u" ("set -o nounset")
+ and alias/function name conflicts regarding whitespace before parenthesēs,
+ as well as a much enhanced <tt>dot.mkshrc</tt> sample file I urge to install.
+ People using a Makefile to build it may need to regenerate their set of
+ CPPFLAGS used; CPPFLAGS handling in general has improved.</p>
+<p>mksh R38c adds QNX fixes, build system fixes, and the (not recommended)
+ ability to use <tt>-DMKSH_ASSUME_UTF8=0</tt> to skip the environment checks
+ for locale (leading to one (supposedly un-)expected regression test failure).
  Use <tt>-DMKSH_NO_LIMITS</tt> to skip the ulimit builtin (klibc).</p>
 <p>mksh R38b works on QNX 6.4 out of the box.</p>
 <p>mksh R38 offers <tt>-DMKSH_MIDNIGHTBSD01ASH_COMPAT</tt> and users
@@ -1044,7 +1058,15 @@ mws_content <<'EOF'
  <li>[tg] Aligh “set -o nounset” / “set -u” behaviour with future POSIX
   standard, as discussed with GNU bash maintainers, David Korn from AT&amp;T
   ksh93, and The Open Group; prompted by use of it in Debian, cf. #522255</li>
- <li>[tg] Build system is now more reliable wrt. passed CPPFLAGS</li>
+ <li>[tg] «development branch» add a way to make printf(1) a builtin</li>
+ <li>[tg] Build system and regression test code and comment improvements:
+  better and more comments matching reality better; more reliability w.r.t.
+  passed CPPFLAGS; more of the MKSH_SMALL changes may be overridden, all of
+  them are now enumerated on the webpage</li>
+ <li>[tg] MKSH_NOPWNAM and MKSH_SMALL will now both disable the <tt>~fac/</tt>
+  (homedir) expansion code wholly if defined, not just getpwnam(3) calls</li>
+ <li>[tg] shells without job control no longer define the standard "stop" and
+  "suspend" aliases (they are pointless anyway); regression tests know</li>
 </ul>
 <p id="r38c">mksh R38c contains the following fixes:</p><ul>
  <li>[tg] Fix regression tests on OSes insisting on a shebang (Cygwin)</li>
