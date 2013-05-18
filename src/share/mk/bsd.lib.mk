@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/bsd.lib.mk,v 1.36 2006/03/19 20:10:13 tg Exp $
+# $MirOS: src/share/mk/bsd.lib.mk,v 1.37 2006/05/21 13:04:45 tg Exp $
 # $OpenBSD: bsd.lib.mk,v 1.43 2004/09/20 18:52:38 espie Exp $
 # $NetBSD: bsd.lib.mk,v 1.67 1996/01/17 20:39:26 mycroft Exp $
 # @(#)bsd.lib.mk	5.26 (Berkeley) 5/2/91
@@ -61,16 +61,18 @@ LINKER?=	${CC}
 .  undef SHLIB_LINKS
 .elif ${RTLD_TYPE} == "dyld"
 LINK.shlib?=	${LINKER} ${CFLAGS} ${SHLIB_FLAGS} -dynamiclib \
-		$$(${LORDER} ${SOBJS}|tsort -q) \
+		$$(${LORDER} ${SOBJS}|tsort -q) ${LDADD} \
 		-compatibility_version ${SHLIB_VERSION} \
 		-current_version ${SHLIB_VERSION}
 .elif ${RTLD_TYPE} == "GNU"
 LINK.shlib?=	${LINKER} ${CFLAGS} ${SHLIB_FLAGS} -shared \
 		$$(${LORDER} ${SOBJS}|tsort -q) \
+		-Wl,--start-group ${LDADD} -Wl,--end-group \
 		-Wl,-h,${SHLIB_SONAME:R}
 .else
 LINK.shlib?=	${LINKER} ${CFLAGS} ${SHLIB_FLAGS} -shared \
-		$$(${LORDER} ${SOBJS}|tsort -q)
+		$$(${LORDER} ${SOBJS}|tsort -q) \
+		-Wl,--start-group ${LDADD} -Wl,--end-group
 .endif
 
 .MAIN: all
@@ -186,7 +188,7 @@ ${SHLIB_SONAME}: ${SOBJS} ${CRTBEGIN} ${CRTEND} ${CRTI} ${CRTN} ${DPADD}
 	@echo building shared library ${SHLIB_SONAME}
 .endif
 	@rm -f ${SHLIB_SONAME}
-	${LINK.shlib} -Wl,--start-group ${LDADD} -Wl,--end-group -o $@
+	${LINK.shlib} -o $@
 .for _i in ${SHLIB_LINKS}
 	@rm -f ${_i}
 	ln -s ${SHLIB_SONAME} ${_i} || cp ${SHLIB_SONAME} ${_i}
@@ -225,8 +227,7 @@ realinstall:
 .  ifdef SHLIB_SONAME
 .    if ${OBJECT_FMT} == "Mach-O"
 	@echo Relinking dynamic ${LIB} library
-	${LINK.shlib} -Wl,--start-group ${LDADD} -Wl,--end-group \
-	    -install_name ${LIBDIR}/${SHLIB_SONAME} -o ${SHLIB_SONAME}
+	${LINK.shlib} -install_name ${LIBDIR}/${SHLIB_SONAME} -o ${SHLIB_SONAME}
 .    endif
 	${INSTALL} ${INSTALL_COPY} -o ${LIBOWN} -g ${LIBGRP} -m ${LIBMODE} \
 	    ${SHLIB_SONAME} ${DESTDIR}${LIBDIR}/

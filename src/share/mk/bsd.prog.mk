@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/bsd.prog.mk,v 1.20 2006/02/21 18:01:55 tg Exp $
+# $MirOS: src/share/mk/bsd.prog.mk,v 1.21 2006/03/19 20:10:13 tg Exp $
 # $OpenBSD: bsd.prog.mk,v 1.44 2005/04/15 17:18:57 espie Exp $
 # $NetBSD: bsd.prog.mk,v 1.55 1996/04/08 21:19:26 jtc Exp $
 # @(#)bsd.prog.mk	5.26 (Berkeley) 6/25/91
@@ -39,8 +39,12 @@ LINKER?=	${CC}
 .  endif
 
 .  if defined(OBJS) && !empty(OBJS)
+.    if ${RTLD_TYPE} == "dyld"
+LINK.prog?=	${LINKER} ${LDFLAGS} ${LDSTATIC} ${OBJS} ${LDADD}
+.    else
 LINK.prog?=	${LINKER} ${LDFLAGS} ${LDSTATIC} \
 		${OBJS} -Wl,--start-group ${LDADD} -Wl,--end-group
+.    endif
 
 ${PROG}: ${LIBCRT0} ${OBJS} ${LIBC} ${CRTBEGIN} ${CRTEND} ${CRTI} ${CRTN} ${DPADD}
 	${LINK.prog} -o $@
