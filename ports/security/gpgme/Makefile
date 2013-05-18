@@ -1,9 +1,9 @@
-# $MirOS: ports/security/gpgme/Makefile,v 1.3 2006/09/14 00:13:00 tg Exp $
+# $MirOS: ports/security/gpgme/Makefile,v 1.4 2006/09/17 20:35:08 tg Exp $
 # $OpenBSD: Makefile,v 1.10 2003/05/27 14:16:48 couderc Exp $
 
 COMMENT=		GnuPG Made Easy
 DISTNAME=		gpgme-1.0.3
-PKGNAME=		${DISTNAME}-1
+PKGNAME=		${DISTNAME}-2
 CATEGORIES=     	security devel
 HOMEPAGE=		http://www.gnupg.org/gpgme.html
 
@@ -32,8 +32,9 @@ CONFIGURE_ENV+=		MAKEINFO="makeinfo --no-split"
 # disable pthread
 CONFIGURE_ENV+=		ac_cv_lib_pthread_pthread_create=no
 
-BUILD_DEPENDS=		:gnupg->=1.2.2:security/gnupg
-RUN_DEPENDS=		${BUILD_DEPENDS}
+B_R_DEPENDS+=		:gnupg->=1.2.2:security/gnupg
+BUILD_DEPENDS+=		${B_R_DEPENDS}
+RUN_DEPENDS+=		${B_R_DEPENDS}
 LIB_DEPENDS+=		gpg-error::security/libgpg-error
 
 post-extract:
