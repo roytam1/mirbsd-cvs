@@ -1,4 +1,6 @@
-# $MirOS: src/gnu/usr.bin/binutils/Makefile,v 1.6 2006/07/03 16:30:32 tg Exp $
+# $MirOS: src/gnu/usr.bin/binutils/Makefile,v 1.7 2007/06/07 00:46:24 tg Exp $
+
+.include <bsd.own.mk>
 
   # libraries
 # SUBDIR+= libiberty	# now pulled from src/lib/Makefile
@@ -8,7 +10,9 @@
   # executables
   SUBDIR+= binutils
   SUBDIR+= gas
+.if ${NOPIC:L} == "no"
   SUBDIR+= gdb
+.endif
   SUBDIR+= ld
 
 build prereq: _SUBDIRUSE
