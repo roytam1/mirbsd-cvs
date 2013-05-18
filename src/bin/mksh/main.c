@@ -925,6 +925,7 @@ newenv(int type)
 	ep->loc = e->loc;
 	ep->savefd = NULL;
 	ep->temps = NULL;
+	ep->yyrecursive_statep = NULL;
 	ep->type = type;
 	ep->flags = 0;
 	/* jump buffer is invalid because flags == 0 */
@@ -938,6 +939,8 @@ quitenv(struct shf *shf)
 	char *cp;
 	int fd;
 
+	while (e->yyrecursive_statep)
+		yyrecursive_pop();
 	if (ep->oenv && ep->oenv->loc != ep->loc)
 		popblock();
 	if (ep->savefd != NULL) {
