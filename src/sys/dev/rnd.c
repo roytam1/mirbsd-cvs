@@ -424,7 +424,7 @@ int filt_rndwrite(struct knote *kn, long hint);
 struct filterops rndwrite_filtops =
 	{ 1, NULL, filt_rndwdetach, filt_rndwrite};
 
-uint32_t rnd_addpool_buf[rnd_addpool_size];
+uint32_t rnd_addpool_buf[rnd_addpool_size], rnd_bootpool = 1 /* adler32 */;
 uint32_t rnd_addpool_num, rnd_addpool_allow = 1;
 int rnd_attached;
 int arc4random_initialized;
@@ -667,6 +667,8 @@ randomattach(void)
 	rnd_addpool_reinit(NULL);
 
 	++rnd_attached;
+	/* this one is enqueued in init_main.c */
+	rnd_bootpool ^= random() << 8;
 }
 
 int

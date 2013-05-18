@@ -143,6 +143,7 @@
 	.globl	_C_LABEL(proc0paddr), _C_LABEL(curpcb), _C_LABEL(PTDpaddr)
 	.globl	_C_LABEL(dynamic_gdt)
 	.globl	_C_LABEL(bootapiver), _C_LABEL(bootargc), _C_LABEL(bootargv)
+	.globl	_C_LABEL(rnd_bootpool)
 
 _C_LABEL(cpu):		.long	0	# are we 386, 386sx, 486, 586 or 686
 _C_LABEL(cpu_id):	.long	0	# saved from 'cpuid' instruction
@@ -202,6 +203,80 @@ start:	movw	$0x1234,0x472			# warm boot
 	/* First, reset the PSL. */
 	pushl	$PSL_MBO
 	popfl
+
+	/* Hash all of the lower memory */
+	.intel_syntax noprefix
+	pushad
+	pushfd
+/*-
+ * Copyright (c) 2006
+ *	Thorsten Glaser <tg@mirbsd.de>
+ * Copyright (C) 1995 Mark Adler
+ *
+ * Licensee is hereby permitted to deal in this work without restric-
+ * tion, including unlimited rights to use, publicly perform, modify,
+ * merge, distribute, sell, give away or sublicence, provided all co-
+ * pyright notices above, these terms and the disclaimer are retained
+ * in all redistributions or reproduced in accompanying documentation
+ * or other materials provided with binary redistributions.
+ *
+ * All advertising materials mentioning features or use of this soft-
+ * ware must display the following acknowledgement:
+ *	This product includes material provided by Thorsten Glaser.
+ *
+ * Licensor offers the work "AS IS" and WITHOUT WARRANTY of any kind,
+ * express, or implied, to the maximum extent permitted by applicable
+ * law, without malicious intent or gross negligence; in no event may
+ * licensor, an author or contributor be held liable for any indirect
+ * or other damage, or direct damage except proven a consequence of a
+ * direct error of said person and intended use of this work, loss or
+ * other issues arising in any way out of its use, even if advised of
+ * the possibility of such damage or existence of a nontrivial bug.
+ */
+	xor	esi,esi
+	mov	ecx,1048576+65536
+	mov	edi,[RELOC(_C_LABEL(rnd_bootpool))]
+	xor	ebx,ebx
+	mov	bx,di		/* EBX = s1 (lower half) */
+	shr	edi,16		/* EDI = s2 (upper half) */
+
+	cld
+1:	jecxz	4f
+	mov	edx,5552
+	cmp	ecx,edx
+	jae	2f
+	mov	edx,ecx
+2:	sub	ecx,edx
+	/* do at most NMAX bytes at a time */
+	xor	eax,eax
+3:	lodsb
+	add	ebx,eax
+	add	edi,ebx
+	dec	edx
+	jnz	3b
+	/* s{1,2} %= BASE; */
+	push	ebp
+	mov	ebp,65521
+	/* EDX is already 0, cool */
+	xor	eax,eax
+	xchg	eax,ebx
+	div	ebp
+	xchg	ebx,edx
+	/* EDX is 0 again, cool */
+	mov	eax,edi
+	div	ebp
+	mov	edi,edx
+	pop	ebp
+	/* and loop */
+	jmp	1b
+4:	/* return */
+	shl	edi,16
+	or	edi,ebx
+	mov	[RELOC(_C_LABEL(rnd_bootpool))],edi
+	/* and out of the adler32 subroutine */
+	popfd
+	popad
+	.att_syntax
 
 	/* Find out our CPU type. */
 

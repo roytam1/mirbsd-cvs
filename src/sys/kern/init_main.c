@@ -184,6 +184,7 @@ main(/* XXX should go away */ void *framep)
 	struct timeval rtv;
 	quad_t lim;
 	int s, i;
+	extern uint32_t rnd_bootpool;
 	extern struct pdevinit pdevinit[];
 	extern void scheduler_start(void);
 	extern void disk_init(void);
@@ -359,7 +360,7 @@ main(/* XXX should go away */ void *framep)
 	for (pdev = pdevinit; pdev->pdev_attach != NULL; pdev++)
 		if (pdev->pdev_count > 0)
 			(*pdev->pdev_attach)(pdev->pdev_count);
-	rnd_addpool_add((u_long)ticks);
+	rnd_bootpool += ticks;
 
 #ifdef	CRYPTO
 	swcr_init();
@@ -480,9 +481,9 @@ main(/* XXX should go away */ void *framep)
 #endif	/* CRYPTO */
 
 	microtime(&rtv);
-	srandom((u_long)(rtv.tv_sec ^ rtv.tv_usec));
-	rnd_addpool_add((u_long)ticks ^ rtv.tv_usec);
-
+	add_true_randomness(rtv.tv_sec ^ rtv.tv_usec);
+	add_true_randomness(rnd_bootpool);
+	srandom(arc4random());
 	randompid = 1;
 
 	/*
