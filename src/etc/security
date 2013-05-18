@@ -1,6 +1,6 @@
 #!/bin/mksh
 # $Id$
-# $MirOS: src/etc/security,v 1.12 2008/05/07 12:16:12 tg Exp $
+# $MirOS: src/etc/security,v 1.13 2008/05/25 20:09:13 tg Exp $
 # $OpenBSD: security,v 1.71 2005/02/22 10:50:55 otto Exp $
 # from: @(#)security	8.1 (Berkeley) 6/9/93
 
@@ -8,6 +8,117 @@ export TZ=UTC PATH=/usr/dbin:/bin:/usr/bin:/usr/dsbin:/sbin:/usr/sbin
 cd /
 
 umask 077
+
+function _diffhdr {
+	print
+	print ======
+	print -r -- "$1 diffs (-OLD  +NEW)"
+	print ======
+}
+function _stripcom {
+	cat "$@" | { set -o noglob; while read _line; do
+		_line=${_line%%#*}
+		[[ -n $_line ]] && print -r -- $_line
+	done; }
+}
+rm -f /var/backups/rcs.log
+
+# fback [-m|-n] <file> [<backupfile>]
+function fback {
+	local fn bf cf
+	local wd o fd fo ft fa fp
+
+	if [[ $1 = -m ]]; then
+		o=md5
+		shift
+	elif [[ $1 = -n ]]; then
+		o=nodiff
+		shift
+	elif [[ $1 = -- ]]; then
+		shift
+	fi
+	fn=$1
+	cf=$fn
+	bf=$2
+	ft=$3
+	[[ -s $fn ]] || return
+	[[ -n $bf ]] || bf=$(sed 's/^\///;s/\//_/g' <<<"$fn")
+	[[ -n $ft ]] || ft=$fn
+
+	wd="$(pwd)"
+	cd /var/backups
+
+	if [[ $o = md5 ]]; then
+		cf=$DIR/_md5
+		md5 <"$fn" >$cf
+		[[ -e "$bf".current.md5 ]] && \
+		    mv "$bf".current.md5 "$bf".md5.current
+		[[ -e "$bf".backup.md5 ]] && \
+		    mv "$bf".backup.md5 "$bf".md5.backup
+		bf=$bf.md5
+	fi
+
+	if [[ ! -x /usr/bin/co ]]; then
+		# Do it without RCS tools
+		if [[ ! -e $bf.current ]] || ! cmp -s "$cf" "$bf.current"; then
+			[[ -e $bf.current ]] && \
+			    cp -p "$bf.current" "$bf.backup"
+			cp -p "$cf" "$bf.current"
+			[[ $o = nodiff ]] || _diffhdr "$ft"
+			[[ $o = nodiff ]] || if [[ -e $bf.backup ]]; then
+				diff -up /var/backups/"$bf.backup" \
+				    /var/backups/"$bf.current"
+			else
+				diff -u /dev/null /var/backups/"$bf.current"
+			fi
+			chown 0:0 "$bf.current"
+			chmod 0600 "$bf.current"
+		fi
+		cd "$wd"
+		return
+	fi
+
+	if [[ -e $bf.backup ]]; then
+		[[ -e RCS/$bf,v ]] && co -M -T -l "$bf" >>rcs.log 2>&1
+		fd=$(stat -f '%Sm' -t '%Y/%m/%d %H:%M:%S' "$bf.backup")
+		fo=$(stat -f '%Su' "$bf.backup")
+		mv -f "$bf.backup" "$bf"
+		ci -M -T -u -d"$fd" -t-"automatic backup for $fn" -w"$fo" \
+		    -sAncient -f -m"legacy backup $fn" "$bf" >>rcs.log 2>&1
+	fi
+	if [[ -e $bf.current ]]; then
+		[[ -e RCS/$bf,v ]] && co -M -T -l "$bf" >>rcs.log 2>&1
+		fd=$(stat -f '%Sm' -t '%Y/%m/%d %H:%M:%S' "$bf.current")
+		fo=$(stat -f '%Su' "$bf.current")
+		mv -f "$bf.current" "$bf"
+		ci -M -T -u -d"$fd" -t-"automatic backup for $fn" -w"$fo" \
+		    -sLegacy -f -m"legacy current $fn" "$bf" >>rcs.log 2>&1
+	fi
+	rm -f "$bf.backup" "$bf.current"
+	if [[ ! -e $bf ]] || ! cmp -s "$cf" "$bf"; then
+		[[ -e RCS/$bf,v ]] && co -M -T -l "$bf" >>rcs.log 2>&1
+		rm -f "$bf"
+		cp -p "$cf" "$bf"
+		fd=$(stat -f '%Sm' -t '%Y/%m/%d %H:%M:%S' "$fn")
+		fo=$(stat -f '%Su' "$fn")
+		fa=$(stat -f '%u:%g' "$fn")
+		fp=$(stat -f '%Mp%Lp' "$fn")
+		[[ $o = nodiff ]] || _diffhdr "$ft"
+		[[ $o = nodiff ]] || if [[ -e RCS/$bf,v ]]; then
+			rcsdiff -q -u -p /var/backups/"$bf"
+		else
+			diff -u /dev/null /var/backups/"$bf"
+		fi
+		ci -M -T -u -d"$fd" -t-"automatic backup for $fn" -w"$fo" \
+		    -sBackup -m"$(date) backup for $fn" "$bf" >>rcs.log 2>&1
+		cp -p "$bf" "$cf"
+		chown 0:0 "$bf" "RCS/$bf,v"
+		chmod 0400 "$bf" "RCS/$bf,v"
+		chown $fa "$cf"
+		chmod $fp "$cf"
+	fi
+	cd "$wd"
+}
 
 DIR=$(mktemp -d /tmp/_secure.XXXXXXXXXX) || exit 1
 ERR=$DIR/_secure1
@@ -76,27 +187,14 @@ if [ -s $TMP2 ] ; then
 	done < $TMP2 | column
 fi
 
-# Backup the master password file; a special case, the normal backup
-# mechanisms also print out file differences and we don't want to do
-# that because this file has encrypted passwords in it.
-if [ ! -d /var/backups ] ; then
-	mkdir /var/backups
-	chmod 700 /var/backups
+if [[ ! -d /var/backups/RCS/. ]]; then
+	mkdir -p /var/backups/RCS
+	chmod 700 /var/backups /var/backups/RCS
 fi
-CUR=/var/backups/$(basename $MP).current
-BACK=/var/backups/$(basename $MP).backup
-if [ -s $CUR ] ; then
-	if cmp -s $CUR $MP; then
-		:
-	else
-		cp -p $CUR $BACK
-		cp -p $MP $CUR
-		chown root:wheel $CUR
-	fi
-else
-	cp -p $MP $CUR
-	chown root:wheel $CUR
-fi
+for i in current backup; do
+	f=/var/backups/master.passwd.$i
+	[[ -e $f ]] && mv $f /var/backups/etc_master.passwd.$i
+done
 
 # Check the group file syntax.
 GRP=/etc/group
@@ -542,65 +640,33 @@ else
 	echo /etc/mtree is missing
 fi
 
-# List of files that get backed up and checked for any modifications.  Each
+# List of files that get backed up and checked for any modifications.
+# We try to use GNU RCS for versioning backups, otherwise, rotate: Each
 # file is expected to have two backups, /var/backups/file.{current,backup}.
 # Any changes cause the files to rotate.
-_fnchg() {
-	echo "$1" | sed 's/^\///;s/\//_/g'
-}
 if [ -s /etc/changelist ] ; then
 	# Handle /etc/changelist.local
-	R=$(mktemp)
-	if [ $? -eq 0 ]; then
+	if R=$(mktemp); then
 		cat /etc/changelist >$R
 		[ -e /etc/changelist.local ] && \
 		    cat /etc/changelist.local >>$R
-	  else
+	else
 		R=/etc/changelist
 	fi
 	# Now check
+	_stripcom $R | while read file; do
+		case $file {
+		(+*)	fback -m "${file#+}" ;;
+		(-*)	fback -n "${file#-}" ;;
+		(/*)	fback -- "${file}" ;;
+		}
+	done
+
 	for file in $(egrep -v "^(#|\+|$MP)" $R); do
-		CUR=/var/backups/$(_fnchg  "$file").current
-		BACK=/var/backups/$(_fnchg "$file").backup
-		if [ -s $file -a ! -d $file ] ; then
-			if [ -s $CUR ] ; then
-				diff -u $CUR $file > $OUTPUT
-				if [ -s $OUTPUT ] ; then
-		echo "\n======\n${file} diffs (-OLD  +NEW)\n======"
-					cat $OUTPUT
-					cp -p $CUR $BACK
-					cp -p $file $CUR
-					chown root:wheel $CUR $BACK
-				fi
-			else
-				cp -p $file $CUR
-				chown root:wheel $CUR
-			fi
-		fi
+		fback -- "$file"
 	done
 	for file in $(egrep "^\+" $R); do
-		file="${file#+}"
-		CUR=/var/backups/$(_fnchg  "$file").current.md5
-		BACK=/var/backups/$(_fnchg "$file").backup.md5
-		if [ -s $file -a ! -d $file ] ; then
-			MD5_NEW=$(md5 $file | sed 's/^.* //')
-			if [ -s $CUR ] ; then
-				MD5_OLD="$(cat $CUR)"
-				if [ "$MD5_NEW" != "$MD5_OLD" ]; then
-		echo "\n======\n${file} MD5 checksums\n======"
-					echo "OLD: $MD5_OLD"
-					echo "NEW: $MD5_NEW"
-					cp -p $CUR $BACK
-					echo $MD5_NEW > $CUR
-					chown root:wheel $CUR $BACK
-					chmod 600 $CUR
-				fi
-			else
-				echo $MD5_NEW > $CUR
-				chown root:wheel $CUR
-				chmod 600 $CUR
-			fi
-		fi
+		fback -m "${file#+}"
 	done
 	[ /etc/changelist = $R ] || rm -f $R
 fi
@@ -608,23 +674,7 @@ fi
 # Make backups of the labels for any mounted disks and produce diffs
 # when they change.
 for d in `df -ln | sed -n 's:^/dev/\([a-z]*[0-9]*\)[a-p].*$:\1:p' | sort -u`; do
-	file=/var/backups/disklabel.$d
-	CUR=$file.current
-	BACK=$file.backup
-	if disklabel $d > $file 2>&1 ; then
-		if [ -s $CUR ] ; then
-			diff -u $CUR $file > $OUTPUT
-			if [ -s $OUTPUT ] ; then
-	echo "\n======\n${d} diffs (-OLD  +NEW)\n======"
-				cat $OUTPUT
-				cp -p $CUR $BACK
-				cp -p $file $CUR
-				chown root:wheel $CUR $BACK
-			fi
-		else
-			cp -p $file $CUR
-			chown root:wheel $CUR
-		fi
+	if disklabel $d >$DIR/_disklabel 2>&1; then
+		fback -- $DIR/_disklabel disklabel.$d
 	fi
-	rm -f $file
 done

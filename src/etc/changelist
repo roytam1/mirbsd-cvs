@@ -1,11 +1,12 @@
-# $MirOS: src/etc/changelist,v 1.13 2007/06/27 01:53:21 tg Exp $
+# $MirOS: src/etc/changelist,v 1.14 2008/05/07 12:16:12 tg Exp $
 # $OpenBSD: changelist,v 1.52 2007/02/28 01:37:15 david Exp $
 #
 # List of files which the security script backs up and checks
 # for modifications.
 #
 # Files prefixed with a '+' will have their md5 checksums stored,
-# not the actual files.
+# not the actual files. Files prefixed with a '-' will not have
+# their diffs printed, but the actual content stored.
 
 /.profile
 /boot.cfg
@@ -86,7 +87,7 @@
 /etc/mailer.conf
 /etc/make.cfg
 /etc/man.conf
-/etc/master.passwd
+-/etc/master.passwd
 /etc/moduli
 /etc/monthly
 /etc/monthly.local

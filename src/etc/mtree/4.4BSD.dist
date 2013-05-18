@@ -1,4 +1,4 @@
-# $MirOS: src/etc/mtree/4.4BSD.dist,v 1.28 2008/11/08 23:10:14 tg Exp $
+# $MirOS: src/etc/mtree/4.4BSD.dist,v 1.29 2008/11/29 17:03:52 tg Exp $
 # $OpenBSD: 4.4BSD.dist,v 1.186 2007/05/23 07:28:15 hshoexer Exp $
 
 /set type=dir uname=root gname=wheel mode=0755
@@ -1375,6 +1375,12 @@ dev		mode=0555
 
 # ./var/backups
 backups		mode=0700
+
+# ./var/backups/RCS
+RCS		mode=0700
+# ./var/backups/RCS
+..
+
 # ./var/backups
 ..
 
