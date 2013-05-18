@@ -1,7 +1,7 @@
-/* $MirOS: src/sys/arch/i386/stand/boot/srt0.S,v 1.9 2006/08/19 14:20:28 tg Exp $ */
+/* $MirOS: src/share/misc/licence.template,v 1.20 2006/12/11 21:04:56 tg Rel $ */
 
 /*-
- * Copyright (c) 2003, 2004, 2005, 2006
+ * Copyright (c) 2003, 2004, 2005, 2006, 2007
  *	Thorsten Glaser <tg@mirbsd.de>
  *
  * Provided that these terms and disclaimer and all copyright notices
@@ -52,6 +52,7 @@
 /* It's hard to fight vs. broken BIOSes */
 #ifdef	UTEST
 #ifdef	UHARD
+/* XXX does not work on Intel Mac with broken BIOS.EFI app */
 #define	UD(x)	push bp; mov bp,(0x4040 + x); \
 		gs mov [(0x0C80 + (2 * x))], bp; pop bp; \
 		push ax; xor ax,ax; int 0x16; pop ax
@@ -298,7 +299,10 @@ LisCD:	mov	bx,SA_LINKSEG	/* target segment */
 L..37a:	pop	si
 	call	Lotxt
 #endif
-	xor	ax,ax
+L..37l:	mov	ah,1
+	int	0x16
+	jz	L..37l		/* crude hack for Intel Mac */
+	mov	ah,0		/* ACK the key for the PIC */
 	int	0x16
 	jmp	0xF000,0xFFF0
 #endif
