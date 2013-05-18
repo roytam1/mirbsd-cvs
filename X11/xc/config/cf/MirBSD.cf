@@ -1,4 +1,4 @@
-XCOMM platform:	$MirOS: X11/xc/config/cf/MirBSD.cf,v 1.29 2008/11/22 06:36:10 tg Exp $
+XCOMM platform:	$MirOS: X11/xc/config/cf/MirBSD.cf,v 1.30 2008/11/22 07:49:13 tg Exp $
 XCOMM platform:	$OpenBSD: OpenBSD.cf,v 1.140 2004/10/10 14:47:28 matthieu Exp $
 XCOMM platform:	$XFree86: xc/config/cf/OpenBSD.cf,v 3.79 2003/01/12 17:03:23 herrb Exp $
 
@@ -173,25 +173,30 @@ XCOMM operating system:  OSName (OSMajorVersion./**/OSMinorVersion./**/OSTeenyVe
 #endif
 
 #if defined(MirBSD_Reiser_CCCP) || defined(MirBSD_pcc_cpp)
-#define	CppCmd			/usr/libexec/cpp
 #ifdef MirBSD_pcc_cpp
-#define	RawCppCmd		/usr/libexec/cpp	/* pcc cpp */
-#define	StandardCppDefines	StandardCppOptions StandardDefines -D__STDC_HOSTED__ -D__MirBSD__ -D__OpenBSD__ -D__unix__ -D__STDC_ISO_10646__=200009L $(CPPFLAGS) -D__WCHAR_MAX__=65535U '-D__WCHAR_TYPE__=short unsigned int' '-D__WINT_TYPE__=unsigned int' CppArchitecturePCC CppELF
+#define	MirBSD_CppDefines	StandardCppOptions StandardDefines -D__STDC_HOSTED__ -D__MirBSD__ -D__OpenBSD__ -D__unix__ -D__STDC_ISO_10646__=200009L -D__WCHAR_MAX__=65535U '-D__WCHAR_TYPE__=short unsigned int' '-D__WINT_TYPE__=unsigned int' CppArchitecturePCC CppELF
+#define	MirBSD_CppUndef		/* nothing */		/* pcc cpp */
+#define	StandardCppOptions	-t
 #else
-#define	RawCppCmd		/usr/libexec/cpp -undef	/* Reiser CCCP */
-#define	StandardCppDefines	StandardCppOptions StandardDefines -DUNIXCPP -D__MirBSD__ -D__OpenBSD__ -D__unix__ -D__STDC_ISO_10646__=200009L $(CPPFLAGS) -D__WCHAR_MAX__=65535U '-D__WCHAR_TYPE__=short unsigned int' '-D__WINT_TYPE__=unsigned int' CppArchitectureCCCP CppELF
+#define	MirBSD_CppDefines	StandardCppOptions StandardDefines -DUNIXCPP -D__MirBSD__ -D__OpenBSD__ -D__unix__ -D__STDC_ISO_10646__=200009L -D__WCHAR_MAX__=65535U '-D__WCHAR_TYPE__=short unsigned int' '-D__WINT_TYPE__=unsigned int' CppArchitectureCCCP CppELF
+#define	MirBSD_CppUndef		-undef			/* Reiser CCCP */
+#define	StandardCppOptions	/* nothing */
 #endif
+#define	CppCmd			/usr/libexec/cpp MirBSD_CppDefines
 #define	GnuCpp			NO
 #define	CPPAsmOptions		/**/
 #else
-#ifndef	CppCmd
-#define	CppCmd			/usr/bin/mcpp		/* GNU cpp */
-#endif
+#define	MirBSD_CppUndef		-undef			/* GNU cpp */
 #define	StandardCppOptions	-traditional
-#define	StandardCppDefines	$(CPPFLAGS)
+#ifndef	CppCmd
+#define	CppCmd			/usr/bin/mcpp
+#endif
 #define	GnuCpp			YES
 #endif
+#define	StandardCppDefines	$(CPPFLAGS)
+#define	ModuleCppCmd		CppCmd
 #define	PreProcessCmd		CppCmd
+#define	RawCppCmd		CppCmd MirBSD_CppUndef
 #define	PreIncDir		DefaultGccIncludeDir
 #define	DependFlags		-D__IN_MKDEP
 
