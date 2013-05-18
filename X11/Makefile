@@ -1,4 +1,4 @@
-# $MirOS: X11/Makefile,v 1.27 2006/07/01 20:48:02 tg Exp $
+# $MirOS: X11/Makefile,v 1.28 2006/07/01 22:17:09 tg Exp $
 
 .include <bsd.own.mk>
 .include "${BSDSRCDIR}/Makefile.inc"
@@ -51,7 +51,7 @@ compile:
 	    exec ${SUDO} ${MAKE} install X11BASE=${SUBOBJDIR}/xc/exports
 	${SUDO} chown -R $$(id -u) ${SUBOBJDIR}/xc/exports
 	cd ${SUBOBJDIR}/xc/exports/include/freetype2/freetype; \
-	    ln -s ${SUBOBJDIR}/xc/extras/freetype2/include/freetype/internal
+	    ln -sf ${SUBOBJDIR}/xc/extras/freetype2/include/freetype/internal
 	rm -f ${CONFHOSTDEF}
 	${INSTALL} ${HOSTDEF} ${CONFHOSTDEF}
 .if defined(NOFONTS) && ${NOFONTS:L} != "no"
@@ -87,7 +87,7 @@ fix-appd:
 			rmdir ${DESTDIR}${LOCALAPPD}; \
 		fi; \
 		mkdir -p ${DESTDIR}${LOCALAPPX}; \
-		ln -s ${REALAPPD} ${DESTDIR}${LOCALAPPD}; \
+		ln -sf ${REALAPPD} ${DESTDIR}${LOCALAPPD}; \
 	fi
 
 clean: ${_STFILE_SUB}
