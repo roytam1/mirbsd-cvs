@@ -1,8 +1,8 @@
-# $MirOS: ports/archivers/mpczar/Makefile,v 1.5 2006/06/24 00:36:59 tg Exp $
+# $MirOS: ports/archivers/mpczar/Makefile,v 1.6 2006/09/14 00:06:49 tg Exp $
 
-COMMENT=			MirPorts CpioZ archiver for distfiles
+COMMENT=		MirPorts CpioZ archiver for distfiles
 CATEGORIES=		archivers essentials
-DISTNAME=		mpczar-20060624
+DISTNAME=		mpczar-20061119
 EXTRACT_SUFX=		.cgz
 RESPONSIBLE=		Thorsten Glaser <tg@66h.42h.de>
 MASTER_SITES=		${_MASTER_SITE_MIRBSD:distfiles/=dist/mir/mpczar/}
@@ -14,7 +14,7 @@ PERMIT_PACKAGE_CDROM=	Yes
 PERMIT_PACKAGE_FTP=	Yes
 
 WRKDIST=		${WRKDIR}/mpczar
-RUN_DEPENDS+=		:paxmirabilis->=20051118:archivers/mircpio
+RUN_DEPENDS+=		:paxmirabilis->=20060829:archivers/mircpio
 
 pre-build:
 	print '1s!/bin/mksh!${MKSH}!\nwq' | ed -s ${WRKSRC}/mpczar/mpczar.sh
