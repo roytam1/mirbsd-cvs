@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/scripts/xbuild-gcc.sh,v 1.13 2006/06/11 21:16:08 tg Exp $
+# $MirOS: src/scripts/xbuild-gcc.sh,v 1.14 2006/06/11 22:35:02 tg Exp $
 #-
 # Copyright (c) 2004, 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -36,6 +36,11 @@ else
 fi
 
 [[ -n $1 ]] && TARGET=$1
+if [[ -z $TARGET ]]; then
+	print -u2 No target given.
+	exit 1
+fi
+
 if [[ $TARGET != *-* ]]; then
 	case $TARGET {
 	(alpha|amd64|hppa|i386|m68k|m88k|powerpc|sparc|sparc64|vax)
@@ -62,11 +67,6 @@ fi
 
 . $CROSSDIR/T_BASEENV
 export NOMAN=yes
-
-if [[ -z $TARGET ]]; then
-	print -u2 No target given.
-	exit 1
-fi
 
 set -e
 set -x
