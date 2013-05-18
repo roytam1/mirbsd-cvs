@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/distrib/common/ekeyrng,v 1.2 2009/11/05 22:53:34 tg Exp $
+# $MirOS: src/distrib/common/ekeyrng,v 1.3 2009/11/12 19:15:21 tg Exp $
 #-
 # Copyright (c) 2009
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -46,6 +46,7 @@ if [[ $1 = -R && -n $2 && -c $2 ]]; then
 		print -n $s
 	}
 	# start cu as co-routine, redirect output appropriately
+	mkdir -p /var/spool/lock /var/log
 	cu -l $2 >/dev/wrandom |&
 	subpid=$!
 	cleanup() {
@@ -84,10 +85,10 @@ dmesg | cat /var/run/dmesg.boot - 2>/dev/null | \
 # look for the umodem(4) device and if there's an ucom(4) attached to it
 umodemdev=$(sed -n \
     '/^umodem\([0-9][0-9]*\): Simtec Electronics Entropy Key.*$/s//\1/p' \
-    <$T | tail -n 1)
+    <$T | sed -n '$p')
 [[ -n $umodemdev ]] && ucomdev=$(sed -n \
     '/^ucom\([0-9][0-9]*\) at umodem'$x'.*$/s//\1/p' \
-    <$T | tail -n 1)
+    <$T | sed -n '$p')
 rm $T
 # none found? bye
 [[ -n $ucomdev ]] || exit 3
