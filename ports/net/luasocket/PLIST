@@ -36,9 +36,9 @@ share/lua/5.1/socket/http.lua
 share/lua/5.1/socket/smtp.lua
 share/lua/5.1/socket/tp.lua
 share/lua/5.1/socket/url.lua
-share/lua/5.1/socket/
-share/lua/5.1/mime/
-share/examples/luasocket/
-share/doc/luasocket/
-lib/lua/5.1/socket/
-lib/lua/5.1/mime/
+@dirrm share/lua/5.1/socket
+@dirrm share/lua/5.1/mime
+@dirrm share/examples/luasocket
+@dirrm share/doc/luasocket
+@dirrm lib/lua/5.1/socket
+@dirrm lib/lua/5.1/mime
