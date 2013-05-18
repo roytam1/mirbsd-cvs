@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/net/if_spppsubr.c,v 1.8 2006/10/17 20:48:49 tg Exp $ */
+/**	$MirOS: src/sys/net/if_spppsubr.c,v 1.9 2007/05/29 10:23:07 tg Exp $ */
 /*	$OpenBSD: if_spppsubr.c,v 1.34 2005/06/08 06:55:33 henning Exp $	*/
 /*
  * Synchronous PPP/Cisco link level subroutines.
@@ -3911,7 +3911,7 @@ sppp_keepalive(void *dummy)
 			if_down (ifp);
 			sppp_qflush (&sp->pp_cpq);
 			if (! (sp->pp_flags & PP_CISCO)) {
-				printf (SPP_FMT "LCP keepalive timeout",
+				printf (SPP_FMT "LCP keepalive timeout\n",
 				    SPP_ARGS(ifp));
 				sp->pp_alivecnt = 0;
 
