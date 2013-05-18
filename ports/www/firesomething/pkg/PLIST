@@ -1,7 +1,9 @@
-@comment $MirOS: ports/www/firesomething/pkg/PLIST,v 1.14 2008/12/08 22:38:53 tg Exp $
+@comment $MirOS: ports/www/firesomething/pkg/PLIST,v 1.15 2008/12/18 21:01:57 bsiegert Exp $
 @comment $OpenBSD: PLIST,v 1.13 2005/09/24 16:19:29 bernd Exp $
 @pkgcfl mozilla-firebird-*
 @pkgcfl mozilla-firefox-*
+@unexec rm -f %D/components/compreg.dat
+@unexec rm -f %D/components/xpti.dat
 bin/firefox
 bin/firesomething
 firesomething/.autoreg
