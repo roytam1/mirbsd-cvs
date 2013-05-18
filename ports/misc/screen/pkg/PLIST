@@ -1,9 +1,11 @@
-@comment $MirOS: ports/misc/screen/pkg/PLIST,v 1.1.7.1 2005/03/18 15:50:35 tg Exp $
+@comment $MirOS: ports/misc/screen/pkg/PLIST,v 1.2 2005/05/01 18:26:51 bsiegert Exp $
 @comment $OpenBSD: PLIST,v 1.20 2003/10/10 01:27:38 brad Exp $
 @unexec install-info --delete --info-dir=%D/info %D/info/screen.info
 bin/screen
 info/screen.info
 man/man1/screen.1
+share/examples/screen/screencap
+share/examples/screen/screeninfo.src
 share/examples/screen/screenrc
 @sample ${SYSCONFDIR}/screenrc
 share/screen/utf8encodings/01

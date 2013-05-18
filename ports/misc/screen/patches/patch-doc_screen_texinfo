@@ -1,0 +1,12 @@
+$MirOS$
+--- doc/screen.texinfo.orig	Fri Dec  5 13:51:24 2003
++++ doc/screen.texinfo	Tue Oct 31 03:35:59 2006
+@@ -2888,7 +2888,7 @@ h=^B:l=^F:$=^E} would set some keys to b
+ users.
+ If your terminal sends characters, that cause you to abort copy mode,
+ then this command may help by binding these characters to do nothing.
+-The no-op character is `@' and is used like this: @code{markkeys @@=L=H}
++The no-op character is @samp{@@} and is used like this: @code{markkeys @@=L=H}
+ if you do not want to use the `H' or `L' commands any longer. 
+ As shown in this example, multiple keys can be assigned to one function
+ in a single statement.
