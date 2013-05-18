@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/miniroot/install.sub,v 1.19 2005/12/23 13:16:03 tg Exp $
+# $MirOS: src/distrib/miniroot/install.sub,v 1.20 2006/01/11 20:42:12 tg Exp $
 # $OpenBSD: install.sub,v 1.388 2005/07/02 00:55:48 uwe Exp $
 # $NetBSD: install.sub,v 1.5.2.8 1996/09/02 23:25:02 pk Exp $
 #
@@ -1532,7 +1532,7 @@ questions() {
 		echo 'This setting affects the machdep.allowaperture sysctl.'
 		echo 'If you respond negatively, you must enable it later in'
 		echo '/etc/sysctl.conf in order to be able to run XFree86®.'
-		ask_yn "Do you expect to run the X Window System?" yes
+		ask_yn "Do you expect to run the X Window System?"
 		if [[ $resp == y ]]; then
 			sed -e "/^#\(machdep\.allowaperture=${MDXAPERTURE}\)/s//\1	/" \
 			    /mnt/etc/sysctl.conf >/tmp/sysctl.conf
