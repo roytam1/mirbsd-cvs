@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/baselive/Makefile,v 1.31 2008/07/22 21:31:38 tg Exp $
+# $MirOS: src/distrib/baselive/Makefile,v 1.32 2008/07/22 21:44:48 tg Exp $
 
 .include <bsd.own.mk>
 
@@ -179,8 +179,8 @@ cdrom-generate:
 	    exec 3>&-; exec 5>&-; \
 	    (cat <&4; cat <&6) | gzip -n9 >CKSUM.gz; \
 	    dd if=/dev/zero bs=256 count=5 >>CKSUM.gz; \
-	    ${SUDO} chown 0:0 00-README CKSUM.gz ?oot* ?sd*; \
-	    ${SUDO} chmod 444 00-README CKSUM.gz ?oot* ?sd*; \
+	    ${SUDO} chown 0:0 0?-* NONFREE.TXT CKSUM.gz ?oot* ?sd*; \
+	    ${SUDO} chmod 444 0?-* NONFREE.TXT CKSUM.gz ?oot* ?sd*; \
 	    ${SUDO} chown 0:0 .; ${SUDO} chmod 555 .; \
 	    ${SUDO} ${MKSH} ${.CURDIR}/mklocatedb.sh ${REALOBJDIR}/${IMAGE}
 	${SUDO} mkisofs -R -f -L -d -D -N -v -v ${CDROM_MDOPTS} \
