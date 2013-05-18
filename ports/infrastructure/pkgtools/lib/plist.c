@@ -1,4 +1,4 @@
-/**	$MirOS: ports/infrastructure/pkgtools/lib/plist.c,v 1.16 2009/10/20 19:32:50 bsiegert Exp $ */
+/**	$MirOS: ports/infrastructure/pkgtools/lib/plist.c,v 1.17 2009/11/29 13:56:37 bsiegert Exp $ */
 /*	$OpenBSD: plist.c,v 1.17 2003/08/21 20:24:57 espie Exp $	*/
 
 /*
@@ -26,9 +26,7 @@
 #include <md5.h>
 #include "rcdb.h"
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/plist.c,v 1.16 2009/10/20 19:32:50 bsiegert Exp $");
-
-#define NULLMD5 "d41d8cd98f00b204e9800998ecf8427e"
+__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/plist.c,v 1.17 2009/11/29 13:56:37 bsiegert Exp $");
 
 /* this struct defines a plist command type */
 typedef struct cmd_t {
@@ -412,9 +410,7 @@ delete_package(bool keep_files, bool nukedirs, rm_cfg_t remove_config,
 		if (check_md5 && p->next && p->next->type == PLIST_COMMENT && !strncmp(p->next->name, "MD5:", 4)) {
 		    char buf[LegibleChecksumLen];
 
-		    if (!strcmp(p->next->name + 4, NULLMD5))
-			printf("Not checking MD5 sum for %s\n", tmp);
-		    else if ((cp = MD5File(tmp, buf)) != NULL) {
+		    if ((cp = MD5File(tmp, buf)) != NULL) {
 			/* Mismatch? */
 			if (strcmp(cp, p->next->name + 4)) {
 			    printf("%s fails original MD5 checksum - %s\n",
