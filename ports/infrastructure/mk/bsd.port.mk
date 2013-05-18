@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.242 2008/11/11 02:50:07 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.243 2008/11/11 20:41:05 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -437,6 +437,8 @@ BUILD_DEPENDS+=		:llvm-gcc*:lang/llvm-gcc
 _DEFCOPTS:=		${_DEFCOPTS_llvm}
 _ORIG_CC:=		llvm-gcc
 _ORIG_CXX:=		llvm-g++
+.elif ${USE_COMPILER:L} != "system"
+.  error invalid compiler: ${USE_COMPILER}
 .endif
 _USE_CC:=		${_ORIG_CC}
 _USE_CXX:=		${_ORIG_CXX}
@@ -1504,6 +1506,19 @@ ${WRKPKG}/PLIST${SUBPACKAGE}: ${PLIST} ${WRKPKG}/depends${SUBPACKAGE}
 	    "cdrom=${PERMIT_PACKAGE_CDROM:L:S/"/\"/g}" \
 	    "ftp=${PERMIT_PACKAGE_FTP:L:S/"/\"/g}" \
 	    >$@.tmp
+.if ${PERMIT_PACKAGE_CDROM:L} == "yes"
+	echo "@comment @tag permit cdrom" >>$@.tmp
+.endif
+.if ${PERMIT_PACKAGE_FTP:L} == "yes"
+	echo "@comment @tag permit ftp" >>$@.tmp
+.endif
+	echo "@comment @tag cc ${USE_COMPILER:L}" >>$@.tmp
+.if ${NO_CXX:L} != "no"
+	echo "@comment @tag dep cxx" >>$@.tmp
+.endif
+.if ${USE_X11:L} == "yes"
+	echo "@comment @tag dep x11" >>$@.tmp
+.endif
 	echo "@comment" \
 	    "portdir=http://cvs.mirbsd.de/ports/${PKGPATH}/" \
 	    >>$@.tmp
