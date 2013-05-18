@@ -1,9 +1,10 @@
-$MirOS$
+$MirOS: ports/lang/pcc/patches/patch-cc_cc_cc_c,v 1.2 2008/10/28 12:00:47 tg Exp $
 
+	• Support for -g0
 	• String cleanup
 
 --- cc/cc/cc.c.orig	Thu Jan  1 00:00:00 1970
-+++ cc/cc/cc.c	Tue Oct 28 11:54:55 2008
++++ cc/cc/cc.c	Mon Nov 10 01:48:41 2008
 @@ -128,7 +128,8 @@ char	*tmp3;
  char	*tmp4;
  char	*outfile, *ermfile;
@@ -14,7 +15,19 @@ $MirOS$
  int getsuf(char *);
  int main(int, char *[]);
  void error(char *, ...);
-@@ -862,8 +863,9 @@ nocom:
+@@ -412,7 +413,10 @@ main(int argc, char *argv[])
+ 				break;
+ 
+ 			case 'g': /* create debug output */
+-				gflag++;
++				if (argv[i][2] == '0')
++					gflag = 0;
++				else
++					gflag++;
+ 				break;
+ 
+ 			case 'i':
+@@ -862,8 +866,9 @@ nocom:
  		}
  		if (outfile) {
  #ifdef MSLINKER
@@ -26,7 +39,7 @@ $MirOS$
  			av[j++] = s;
  #else
  			av[j++] = "-o";
-@@ -922,12 +924,13 @@ nocom:
+@@ -922,12 +927,13 @@ nocom:
  		if (pthreads)
  			av[j++] = "-lpthread";
  		if (!nostdlib) {
@@ -43,7 +56,7 @@ $MirOS$
  			av[j++] = s;
  			if (pgflag) {
  				for (i = 0; libclibs_profile[i]; i++)
-@@ -1042,6 +1045,7 @@ Bprefix(char *s)
+@@ -1042,6 +1048,7 @@ Bprefix(char *s)
  {
  	char *suffix;
  	char *str;
@@ -51,7 +64,7 @@ $MirOS$
  
  	if (Bflag == NULL || s[0] != '/')
  		return s;
-@@ -1050,8 +1054,8 @@ Bprefix(char *s)
+@@ -1050,8 +1057,8 @@ Bprefix(char *s)
  	if (suffix == NULL)
  		suffix = s;
  
@@ -62,7 +75,7 @@ $MirOS$
  	return str;
  }
  
-@@ -1073,7 +1077,7 @@ setsuf(char *s, char ch)
+@@ -1073,7 +1080,7 @@ setsuf(char *s, char ch)
  {
  	char *p;
  
@@ -71,7 +84,7 @@ $MirOS$
  	if ((p = strrchr(s, '.')) == NULL) {
  		p = s + strlen(s);
  		p[0] = '.';
-@@ -1187,13 +1191,15 @@ callsys(char *f, char *v[])
+@@ -1187,13 +1194,15 @@ callsys(char *f, char *v[])
   * Make a copy of string as, mallocing extra bytes in the string.
   */
  char *
@@ -88,7 +101,7 @@ $MirOS$
  	return rv;
  }
  
-@@ -1225,7 +1231,7 @@ gettmp(void)
+@@ -1225,7 +1234,7 @@ gettmp(void)
  		fprintf(stderr, "%s:\n", pathBuffer);
  		exit(8);
  	}
@@ -97,7 +110,7 @@ $MirOS$
  }
  
  #else
-@@ -1233,7 +1239,7 @@ gettmp(void)
+@@ -1233,7 +1242,7 @@ gettmp(void)
  char *
  gettmp(void)
  {

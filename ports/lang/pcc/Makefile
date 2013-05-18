@@ -1,4 +1,4 @@
-# $MirOS: ports/lang/pcc/Makefile,v 1.3 2008/07/17 21:17:38 tg Exp $
+# $MirOS: ports/lang/pcc/Makefile,v 1.4 2008/10/28 12:00:45 tg Exp $
 
 ONLY_FOR_PLATFORM=	Darwin:*:i386 \
 			Darwin:*:powerpc \
@@ -21,6 +21,7 @@ CATEGORIES=		lang
 CVS_DISTREPO=		:pserver:anonymous@pcc.ludd.ltu.se:/cvsroot
 CVS_DISTDATE=		2008/10/28
 CVS_DISTMODS=		pcc
+DASH_VER=		1
 HOMEPAGE=		http://pcc.ludd.ltu.se/
 RESPONSIBLE=		Thorsten Glaser <tg@mirbsd.de>
 
