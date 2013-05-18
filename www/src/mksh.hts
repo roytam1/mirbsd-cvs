@@ -2,7 +2,7 @@
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.140 2008/07/11 11:14:42 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.141 2008/07/11 14:48:13 tg Exp $'
 mws_content <<'EOF'
 <h1>mksh(1) R35</h1>
 <p>This is the website of the MirBSD™ Korn Shell, an actively developed free
@@ -733,7 +733,6 @@ mws_content <<'EOF'
  <li>FreeBSD 6.2-RELEASE (i386 gcc3.4.6-20060305)</li>
  <li>NetBSD 3.0_STABLE (i386 gcc3.3.3_nb3_20040520)</li>
  <li>OpenBSD 4.3 GENERIC#207 (zaurus gcc3.3.5)</li>
- <li>MidnightBSD 0.1.1-RELEASE (amd64 gcc3.4.4-20050518)</li>
  <li>MidnightBSD 0.2-CURRENT (i386 gcc3.4.6-20060305)</li>
  <li>MidnightBSD 0.2-CURRENT (i386 pcc-20080502-MirPorts-0) + <tt>LIBS=-lgcc</tt></li>
  <li>DEC ULTRIX 4.5 0 RISC (mips cc3.0 ucode9.2)</li>
@@ -781,11 +780,12 @@ mws_content <<'EOF'
  <li>Red Hat GNU/Linux RHEL5 2.6.18-8.1.6.el5 (amd64 gcc4.1.1-52)</li>
  <li>SuSE GNU/Linux SLES10 2.6.16.27-0.9-smp (amd64 gcc4.1.0)</li>
  <li>SuSE GNU/Linux SLES10 2.6.16.27-0.9-default (IA64 gcc4.1.0)</li>
- <li style="list-style:none;">– other build system integration –</li>
- <li>See the <a href="#otheros">Inclusion</a> section for general information</li>
+ <li style="list-style:none;">– tests by the project, using ports –</li>
  <li>MirOS #10-current (i386 gcc3.4.6) via MirOS SRPM</li>
  <li>OpenBSD 4.3 GENERIC#207 (zaurus gcc3.3.5) via MirOS OpenBSD-Port</li>
  <li>Debian GNU/Linux 4.0 etch 2.6.18-4-686 (i386 gcc4.1.1-21) via MirOS SRPM</li>
+ <li style="list-style:none;">– tests by third parties (Build.sh) –</li>
+ <li>MidnightBSD 0.1.1-RELEASE (amd64 gcc3.4.4-20050518)</li>
 </ul>
 <h3 id="regress_dev">Development Versions</h3>
 <ul>
