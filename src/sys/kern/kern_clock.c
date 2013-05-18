@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/kern/kern_clock.c,v 1.6 2008/04/09 06:06:43 tg Exp $ */
+/**	$MirOS: src/sys/kern/kern_clock.c,v 1.7 2010/09/12 18:20:01 tg Exp $ */
 /*	$OpenBSD: kern_clock.c,v 1.42 2003/06/02 23:28:05 millert Exp $	*/
 /*	$NetBSD: kern_clock.c,v 1.34 1996/06/09 04:51:03 briggs Exp $	*/
 
@@ -51,7 +51,7 @@
 #include <sys/sysctl.h>
 #include <sys/sched.h>
 
-#include <dev/rndvar.h>
+#include <crypto/randimpl.h>
 #include <machine/cpu.h>
 
 #ifdef CPU_HARDCLOCKENT_DECL
@@ -69,7 +69,7 @@ static u_quad_t hce_value;
 			if (hce_value & hce_mask)			\
 				hce_entropy++;				\
 		}							\
-	rnd_lopool_addv(hce_entropy);					\
+	rnd_lopool_addvq(hce_entropy);					\
 } while (/* CONSTCOND */ 0)
 #endif
 

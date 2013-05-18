@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/i386/via.c,v 1.2 2008/03/21 20:57:29 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/i386/via.c,v 1.3 2008/03/27 22:39:08 tg Exp $ */
 /*	$OpenBSD: via.c,v 1.1 2004/04/11 18:12:10 deraadt Exp $	*/
 /*	$NetBSD: machdep.c,v 1.214 1996/11/10 03:16:17 thorpej Exp $	*/
 
@@ -529,9 +529,8 @@ struct timeout viac3_rnd_tmo;
 int viac3_rnd_present;
 
 void
-viac3_rnd(void *v)
+viac3_rnd(void *v __unused)
 {
-	struct timeout *tmo = v;
 	unsigned int *p, i, rv, creg0, len = VIAC3_RNG_BUFSIZ;
 	static int buffer[VIAC3_RNG_BUFSIZ + 2];	/* XXX why + 2? */
 
@@ -552,6 +551,6 @@ viac3_rnd(void *v)
 	for (i = 0, p = buffer; i < VIAC3_RNG_BUFSIZ; i++, p++)
 		add_true_randomness(*p);
 
-	timeout_add(tmo, (hz > 100) ? (hz / 100) : 1);
+	timeout_add(&viac3_rnd_tmo, (hz > 100) ? (hz / 100) : 1);
 }
 #endif /* defined(I686_CPU) */

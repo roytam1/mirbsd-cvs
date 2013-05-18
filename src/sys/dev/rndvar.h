@@ -1,8 +1,8 @@
-/**	$MirOS: src/sys/dev/rndvar.h,v 1.24 2010/09/12 18:50:25 tg Exp $ */
+/**	$MirOS: src/sys/dev/rndvar.h,v 1.25 2010/09/12 21:25:18 tg Exp $ */
 /*	$OpenBSD: rndvar.h,v 1.19 2003/11/03 18:24:28 tedu Exp $	*/
 
 /*
- * Copyright (c) 2004, 2005, 2006, 2008, 2009
+ * Copyright (c) 2004, 2005, 2006, 2008, 2009, 2010
  *	Thorsten Glaser <tg@mirbsd.org>
  * Copyright (c) 1996,2000 Michael Shalayeff.
  *
@@ -53,10 +53,9 @@
 #define	RND_SRC_NET	5
 #define	RND_SRC_AUDIO	6
 #define	RND_SRC_VIDEO	7
-#define	RND_SRC_TRUST	8	/* not yet in stats */
-#define	RND_SRC_POOL	9	/* not yet in stats */
-#define	RND_SRC_IMACS	10	/* not yet in stats */
-#define	RND_SRC_NUM	8	/* size of stats structure */
+#define	RND_SRC_IMACS	8	/* not yet in stats */
+/* size of stats structure */
+#define	RND_SRC_NUM	8
 
 struct rndstats {
 	quad_t rnd_total;	/* total bits of entropy generated */
@@ -98,14 +97,14 @@ extern struct rndstats rndstats;
 void enqueue_randomness(int, int);
 void get_random_bytes(void *, size_t)
     __attribute__((bounded (string, 1, 2)));
-void rnd_bootpool_add(const void *, size_t)
-    __attribute__((bounded (string, 1, 2)));
-void arc4random_bytes(void *, size_t)
+void arc4random_buf(void *, size_t)
     __attribute__((bounded (string, 1, 2)));
 u_int32_t arc4random(void);
 
+void rnd_bootpool_add(const void *, size_t)
+    __attribute__((bounded (string, 1, 2)));
 void rnd_lopool_add(const void *, size_t)
-    __attribute__((bounded (buffer, 1, 2)));
+    __attribute__((bounded (string, 1, 2)));
 void rnd_lopool_addv(unsigned long);
 
 #endif /* _KERNEL */

@@ -65,6 +65,7 @@
 
 #include <machine/bus.h>
 
+#include <dev/rndvar.h>
 #include <dev/ic/lemacreg.h>
 #include <dev/ic/lemacvar.h>
 
@@ -1022,9 +1023,12 @@ lemac_intr(void *arg)
 	    LEMAC_INB(sc, LEMAC_REG_CTL) ^ LEMAC_CTL_LED);
 	LEMAC_INTR_ENABLE(sc);		/* Unmask interrupts */
 
-#if 0
+#ifdef __MirBSD__
 	if (cs_value)
+		rnd_lopool_addv(cs_value);
+#if 0
 		rnd_add_uint32(&sc->rnd_source, cs_value);
+#endif
 #endif
 
 	return (1);

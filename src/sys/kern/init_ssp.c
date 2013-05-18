@@ -1,4 +1,4 @@
-/* $MirOS: src/sys/kern/init_ssp.c,v 1.3 2006/12/11 23:55:05 tg Exp $ */
+/* $MirOS: src/sys/kern/init_ssp.c,v 1.4 2008/11/08 23:04:22 tg Exp $ */
 
 /*-
  * Copyright (c) 2004
@@ -48,10 +48,10 @@ init_ssp(void)
 	int i = GUARDLEN;
 
 	/*
-	 * this is so arc4random_bytes does not
+	 * this is so arc4random_buf does not
 	 * cause a kernel panic for smashing...
 	 */
-	arc4random_bytes(tmp, sizeof(tmp));
+	arc4random_buf(tmp, sizeof(tmp));
 	while (i--)
 		__guard[i] = tmp[i];
 #endif

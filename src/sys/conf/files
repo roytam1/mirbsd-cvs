@@ -1,4 +1,4 @@
-# $MirOS: src/sys/conf/files,v 1.14 2008/08/01 15:12:39 tg Exp $
+# $MirOS: src/sys/conf/files,v 1.15 2010/04/16 22:44:03 tg Exp $
 # $OpenBSD: files,v 1.339 2005/05/26 00:33:45 pedro Exp $
 # $NetBSD: files,v 1.634 2003/09/25 15:58:14 pooka Exp $
 # @(#)files.newconf	7.5 (Berkeley) 5/10/93
@@ -460,6 +460,8 @@ file dev/mulaw.c			mulaw
 file dev/sequencer.c			sequencer		needs-flag
 file dev/systrace.c			systrace		needs-flag
 file dev/vnd.c				vnd			needs-flag
+file crypto/arc4random.c
+file crypto/randcore.c
 file dev/rnd.c
 file dev/raidframe/rf_acctrace.c	raid			needs-flag
 file dev/raidframe/rf_alloclist.c	raid			needs-flag

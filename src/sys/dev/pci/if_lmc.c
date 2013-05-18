@@ -95,6 +95,7 @@
 #endif
 
 #if defined(__OpenBSD__)
+#include <dev/rndvar.h>
 #include <dev/pci/pcidevs.h>
 #endif
 
@@ -849,6 +850,9 @@ lmc_intr_handler(lmc_softc_t * const sc, int *progress_p)
 
     while ((csr = LMC_CSR_READ(sc, csr_status)) & sc->lmc_intrmask) {
 
+#ifdef __MirBSD__
+	rnd_lopool_addv(csr);
+#endif
 #if defined(__NetBSD__)
 #if NRND > 0
 	    rnd_add_uint32(&sc->lmc_rndsource, csr);

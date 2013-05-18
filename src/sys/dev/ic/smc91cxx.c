@@ -125,6 +125,7 @@
 #include <net/bpf.h>
 #endif
 
+#include <dev/rndvar.h>
 #include <dev/ic/smc91cxxreg.h>
 #include <dev/ic/smc91cxxvar.h>
 
@@ -825,6 +826,10 @@ smc91cxx_intr(arg)
 	mask |= bus_space_read_1(bst, bsh, INTR_MASK_REG_B);
 	bus_space_write_1(bst, bsh, INTR_MASK_REG_B, mask);
 
+#ifdef __MirBSD__
+	if (status)
+		rnd_lopool_addv(status);
+#endif
 #if NRND > 0
 	if (status)
 		rnd_add_uint32(&sc->rnd_source, status);

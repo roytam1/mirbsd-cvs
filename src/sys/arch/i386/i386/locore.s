@@ -1,8 +1,9 @@
-/**	$MirOS: src/sys/arch/i386/i386/locore.s,v 1.9 2008/08/03 21:02:03 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/i386/locore.s,v 1.10 2009/01/21 19:58:13 tg Exp $ */
 /*	$OpenBSD: locore.s,v 1.77.2.1 2005/02/27 00:39:58 brad Exp $	*/
 /*	$NetBSD: locore.s,v 1.145 1996/05/03 19:41:19 christos Exp $	*/
 
 /*-
+ * Copyright (c) 2010 Thorsten Glaser <tg@mirbsd.org>
  * Copyright (c) 1993, 1994, 1995 Charles M. Hannum.  All rights reserved.
  * Copyright (c) 1990 The Regents of the University of California.
  * All rights reserved.
@@ -203,71 +204,49 @@ start:	movw	$0x1234,0x472			# warm boot
 	pushl	$PSL_MBO
 	popfl
 
-	/* Hash all of the lower memory */
+	/* Then, hash all of the lower memory. */
 	.intel_syntax noprefix
 	pushad
 	pushfd
-/*-
- * Copyright (c) 2006
- *	Thorsten Glaser <tg@mirbsd.de>
- * Copyright (C) 1995 Mark Adler
- *
- * Provided that these terms and disclaimer and all copyright notices
- * are retained or reproduced in an accompanying document, permission
- * is granted to deal in this work without restriction, including un-
- * limited rights to use, publicly perform, distribute, sell, modify,
- * merge, give away, or sublicence.
- *
- * This work is provided "AS IS" and WITHOUT WARRANTY of any kind, to
- * the utmost extent permitted by applicable law, neither express nor
- * implied; without malicious intent or gross negligence. In no event
- * may a licensor, author or contributor be held liable for indirect,
- * direct, other damage, loss, or other issues arising in any way out
- * of dealing in the work, even if advised of the possibility of such
- * damage or existence of a defect, except proven that it results out
- * of said person's immediate fault when using the work as intended.
- */
-	xor	esi,esi
-	mov	ecx,1048576+65536
-	mov	edi,[RELOC(_C_LABEL(initial_entropy))]
-	xor	ebx,ebx
-	mov	bx,di		/* EBX = s1 (lower half) */
-	shr	edi,16		/* EDI = s2 (upper half) */
 
 	cld
-1:	jecxz	4f
-	mov	edx,5552
-	cmp	ecx,edx
-	jae	2f
-	mov	edx,ecx
-2:	sub	ecx,edx
-	/* do at most NMAX bytes at a time */
+	xor	ebx,ebx
+	mov	bh,1
+	mov	ecx,1048576+65536
+	xor	esi,esi
 	xor	eax,eax
-3:	lodsb
+	call	1f
+
+	/* assert: ecx == 0 */
+	lea	esi,[RELOC(_C_LABEL(initial_entropy))]
+	mov	edi,esi
+	mov	cl,4
+	call	1f
+
+	/* OAAT0Final */
+	lea	eax,[ebx*8+ebx]
+	mov	ebx,eax
+	shr	ebx,11
+	xor	eax,ebx
+	mov	ebx,eax
+	shl	ebx,15
+	add	eax,ebx
+	jmp	2f
+
+	/* OAAT0Update */
+1:	lodsb
 	add	ebx,eax
-	add	edi,ebx
-	dec	edx
-	jnz	3b
-	/* s{1,2} %= BASE; */
-	push	ebp
-	mov	ebp,65521
-	/* EDX is already 0, cool */
-	xor	eax,eax
-	xchg	eax,ebx
-	div	ebp
-	xchg	ebx,edx
-	/* EDX is 0 again, cool */
-	mov	eax,edi
-	div	ebp
-	mov	edi,edx
-	pop	ebp
-	/* and loop */
-	jmp	1b
-4:	/* return */
-	shl	edi,16
-	or	edi,ebx
-	mov	[RELOC(_C_LABEL(initial_entropy))],edi
-	/* and out of the adler32 subroutine */
+	mov	edx,ebx
+	shl	edx,10
+	add	ebx,edx
+	mov	edx,ebx
+	shr	edx,6
+	xor	ebx,edx
+	dec	ecx
+	jnz	1b
+	ret
+
+2:	mov	[edi],eax
 	popfd
 	popad
 	.att_syntax

@@ -51,6 +51,8 @@
 #include <sys/ioctl.h>
 #include <sys/conf.h>
 
+#include <dev/rndvar.h>
+
 #include <dev/usb/usb.h>
 #include <dev/usb/usbhid.h>
 
@@ -404,6 +406,9 @@ uhidev_intr(usbd_xfer_handle xfer, usbd_private_handle addr, usbd_status status)
 	if (scd->sc_in_rep_size != cc)
 		printf("%s: bad input length %d != %d\n",USBDEVNAME(sc->sc_dev),
 		       scd->sc_in_rep_size, cc);
+#endif
+#ifdef __MirBSD__
+	rnd_lopool_addv((uintptr_t)(sc->sc_ibuf));
 #endif
 #if defined(__NetBSD__) && NRND > 0
 	rnd_add_uint32(&scd->rnd_source, (uintptr_t)(sc->sc_ibuf));

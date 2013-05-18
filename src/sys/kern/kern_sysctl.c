@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/kern/kern_sysctl.c,v 1.16 2008/06/13 14:13:57 tg Exp $ */
+/**	$MirOS: src/sys/kern/kern_sysctl.c,v 1.17 2010/09/12 18:20:01 tg Exp $ */
 /*	$NetBSD: kern_sysctl.c,v 1.146 2003/09/28 13:24:48 dsl Exp $	*/
 /*	$OpenBSD: kern_sysctl.c,v 1.126 2005/06/04 05:10:40 tedu Exp $	*/
 /*	$NetBSD: kern_sysctl.c,v 1.17 1996/05/20 17:49:05 mrg Exp $	*/
@@ -424,24 +424,31 @@ kern_sysctl(name, namelen, oldp, oldlenp, newp, newlen, p)
 	case KERN_RND:
 		return (sysctl_rdstruct(oldp, oldlenp, newp, &rndstats,
 		    sizeof(rndstats)));
-	case KERN_ARND:
-	{
-		uint32_t buf[64];
+	case KERN_ARND: {
+		size_t n, o = 0;
+		/* typical userspace writes are 256 bytes */
+		uint8_t buf[256];
 
-		if (newlen > sizeof (buf))
-			newlen = sizeof (buf);
-		if (newp && newlen) {
-			if ((error = copyin(newp, buf, newlen)))
+		if (newp) while (newlen) {
+			n = min(newlen, sizeof(buf));
+			if ((error = copyin(newp + o, buf, n)))
 				return (error);
-			rnd_lopool_add(buf, newlen);
+			rnd_lopool_add(buf, n);
+			o += n;
+			newlen -= n;
 		}
 
-		if (*oldlenp > sizeof(buf))
-			*oldlenp = sizeof(buf);
 		if (oldp) {
-			arc4random_bytes(buf, *oldlenp);
-			if ((error = copyout(buf, oldp, *oldlenp)))
-				return (error);
+			newlen = *oldlenp;
+			o = 0;
+			while (newlen) {
+				n = min(newlen, sizeof(buf));
+				arc4random_buf(buf, n);
+				if ((error = copyout(buf, oldp + o, n)))
+					return (error);
+				o += n;
+				newlen -= n;
+			}
 		}
 		return (0);
 	}

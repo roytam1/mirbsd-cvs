@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/dev/ata/wd.c,v 1.2 2005/03/06 21:27:36 tg Exp $	*/
+/**	$MirOS: src/sys/dev/ata/wd.c,v 1.3 2005/07/01 14:50:38 tg Exp $	*/
 /*	$OpenBSD: wd.c,v 1.42 2005/05/15 18:09:29 grange Exp $ */
 /*	$NetBSD: wd.c,v 1.193 1999/02/28 17:15:27 explorer Exp $ */
 
@@ -96,6 +96,7 @@
 #include <machine/intr.h>
 #include <machine/bus.h>
 
+#include <dev/rndvar.h>
 #include <dev/ata/atareg.h>
 #include <dev/ata/atavar.h>
 #include <dev/ata/wdvar.h>
@@ -656,6 +657,9 @@ noerror:	if ((wd->sc_wdc_bio.flags & ATA_CORR) || wd->retries > 0)
 	}
 	disk_unbusy(&wd->sc_dk, (bp->b_bcount - bp->b_resid),
 	    (bp->b_flags & B_READ));
+#ifdef __MirBSD__
+	rnd_lopool_addv(bp->b_blkno);
+#endif
 #if NRND > 0
 	rnd_add_uint32(&wd->rnd_source, bp->b_blkno);
 #endif

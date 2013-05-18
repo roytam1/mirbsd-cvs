@@ -130,6 +130,7 @@
 #endif
 
 #if defined(__OpenBSD__)
+#include <dev/rndvar.h>
 #include <netinet/if_ether.h>
 #endif
 
@@ -3920,6 +3921,9 @@ tulip_hardintr_handler(
      */
     tulip_softintr_mask |= (1U << sc->tulip_unit);
 
+#ifdef __MirBSD__
+	rnd_lopool_addv(sc->tulip_flags);
+#endif
 #if defined(__NetBSD__) && NRND > 0
     /*
      * This isn't all that random (the value we feed in) but it is
