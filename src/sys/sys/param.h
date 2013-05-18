@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/sys/param.h,v 1.57 2007/02/07 01:37:50 tg Exp $ */
+/**	$MirOS: src/sys/sys/param.h,v 1.58 2007/02/07 02:49:18 tg Exp $ */
 /*	$OpenBSD: param.h,v 1.54 2004/02/27 18:06:55 deraadt Exp $	*/
 /*	$NetBSD: param.h,v 1.23 1996/03/17 01:02:29 thorpej Exp $	*/
 
@@ -182,33 +182,11 @@
 #endif
 #define	roundup(x,y)	(howmany((x), (y)) * (y))
 #define	powerof2(x)	((((x)-1)&(x))==0)
-
-#ifdef __GNUC__
-#define MIN(x,y)	__extension__({		\
-	typeof (x) __SP_x = (x);		\
-	typeof (y) __SP_y = (y);		\
-	((__SP_x < __SP_y) ? __SP_x : __SP_y);	\
-})
-#define MAX(x,y)	__extension__({		\
-	typeof (x) __SP_x = (x);		\
-	typeof (y) __SP_y = (y);		\
-	((__SP_x > __SP_y) ? __SP_x : __SP_y);	\
-})
-#define __BOUNDINT(minv,maxv,x)	__extension__({	\
-	typeof (minv) __SP_minv = (minv);	\
-	typeof (maxv) __SP_maxv = (maxv);	\
-	typeof (x) __SP_x = (x);		\
-	( (__SP_x < __SP_minv) ? __SP_minv :	\
-	  (__SP_x > __SP_maxv) ? __SP_maxv :	\
-	  __SP_x );				\
-})
-#else
 #define	MIN(a,b)	(((a)<(b))?(a):(b))
 #define	MAX(a,b)	(((a)>(b))?(a):(b))
+
 #define	__BOUNDINT(minv,maxv,v)	\
 	( ((v) < (minv)) ? (minv) : ( ((v) > (maxv)) ? (maxv) : (v) ) )
-#endif /* !__GNUC__ */
-
 #define __BOUNDINT0(maxv,x)	__BOUNDINT(0,(maxv),(x))
 #define __BOUNDINTU(maxv,x)	MIN((maxv),(x))
 
