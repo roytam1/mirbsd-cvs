@@ -1,5 +1,5 @@
-/**	$MirOS: src/usr.bin/ftp/ftp_var.h,v 1.3 2006/04/11 20:17:14 tg Exp $ */
-/*	$OpenBSD: ftp_var.h,v 1.23 2006/05/16 16:20:42 deraadt Exp $	*/
+/**	$MirOS: src/usr.bin/ftp/ftp_var.h,v 1.4 2006/10/03 19:22:17 tg Exp $ */
+/*	$OpenBSD: ftp_var.h,v 1.24 2007/06/13 13:52:26 pyr Exp $	*/
 /*	$NetBSD: ftp_var.h,v 1.18 1997/08/18 10:20:25 lukem Exp $	*/
 
 /*
@@ -162,6 +162,7 @@ History  *hist;			/* editline(3) history structure */
 char	 *cursor_pos;		/* cursor position we're looking for */
 size_t	  cursor_argc;		/* location of cursor in margv */
 size_t	  cursor_argo;		/* offset of cursor in margv[cursor_argc] */
+char	 *cookiefile;		/* cookie jar to use */
 #endif /* !SMALL */
 
 off_t	bytes;			/* current # of bytes read */

@@ -1,5 +1,5 @@
-/**	$MirOS: src/usr.bin/ftp/main.c,v 1.6 2006/10/03 19:22:17 tg Exp $ */
-/*	$OpenBSD: main.c,v 1.61 2006/05/16 16:20:42 deraadt Exp $	*/
+/**	$MirOS: src/usr.bin/ftp/main.c,v 1.7 2006/10/03 19:46:14 tg Exp $ */
+/*	$OpenBSD: main.c,v 1.65 2007/06/16 08:58:33 espie Exp $	*/
 /*	$NetBSD: main.c,v 1.24 1997/08/18 10:20:26 lukem Exp $	*/
 
 /*
@@ -80,7 +80,7 @@
 
 __COPYRIGHT("@(#)Copyright (c) 1985, 1989, 1993, 1994\n\
 	The Regents of the University of California.  All rights reserved.\n");
-__RCSID("$MirOS: src/usr.bin/ftp/main.c,v 1.6 2006/10/03 19:22:17 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ftp/main.c,v 1.7 2006/10/03 19:46:14 tg Exp $");
 
 int family = PF_UNSPEC;
 
@@ -91,6 +91,7 @@ main(volatile int argc, char *argv[])
 	struct passwd *pw = NULL;
 	char *cp, homedir[MAXPATHLEN];
 	char *outfile = NULL;
+	const char *errstr;
 	int dumb_terminal = 0;
 
 	ftpport = "ftp";
@@ -114,6 +115,7 @@ main(volatile int argc, char *argv[])
 	editing = 0;
 	el = NULL;
 	hist = NULL;
+	cookiefile = NULL;
 #endif
 	mark = HASHBYTES;
 	marg_sl = sl_init();
@@ -170,7 +172,11 @@ main(volatile int argc, char *argv[])
 	if (isatty(fileno(ttyout)) && !dumb_terminal && foregroundproc())
 		progress = 1;		/* progress bar on if tty is usable */
 
-	while ((ch = getopt(argc, argv, "46AadEegimno:pP:r:tvV")) != -1) {
+#ifndef SMALL
+	cookiefile = getenv("http_cookies");
+#endif
+
+	while ((ch = getopt(argc, argv, "46Aac:dEegik:mno:pP:r:tvV")) != -1) {
 		switch (ch) {
 		case '4':
 			family = PF_INET;
@@ -185,6 +191,12 @@ main(volatile int argc, char *argv[])
 
 		case 'a':
 			anonftp = 1;
+			break;
+
+		case 'c':
+#ifndef SMALL
+			cookiefile = optarg;
+#endif
 			break;
 
 		case 'd':
@@ -210,6 +222,15 @@ main(volatile int argc, char *argv[])
 			interactive = 0;
 			break;
 
+		case 'k':
+			keep_alive_timeout = strtonum(optarg, 0, INT_MAX, 
+			    &errstr);
+			if (errstr != NULL) {
+				warnx("keep alive amount is %s: %s", errstr, 
+					optarg);
+				usage();
+			}
+			break;
 		case 'm':
 			progress = -1;
 			break;
@@ -234,10 +255,12 @@ main(volatile int argc, char *argv[])
 			break;
 
 		case 'r':
-			if (isdigit(*optarg))
-				retry_connect = atoi(optarg);
-			else
-				errx(1, "-r requires numeric argument");
+			retry_connect = strtonum(optarg, 0, INT_MAX, &errstr);
+			if (errstr != NULL) {
+				warnx("retry amount is %s: %s", errstr, 
+					optarg);
+				usage();
+			}
 			break;
 
 		case 't':
@@ -258,6 +281,10 @@ main(volatile int argc, char *argv[])
 	}
 	argc -= optind;
 	argv += optind;
+
+#ifndef SMALL
+	cookie_load();
+#endif
 
 	cpend = 0;	/* no pending replies */
 	proxy = 0;	/* proxy not active */
@@ -725,7 +752,9 @@ void
 usage(void)
 {
 	(void)fprintf(stderr,
-	    "usage: %s [-46AadEegimnptVv] [-P port] [-r seconds] [host [port]]\n"
+	    "usage: %s [-46AadEegimnptVv] [-c cookie] [-k seconds] "
+	    "[-P port] [-r seconds]\n"
+	    "           [host [port]]\n"
 	    "       %s [-o output] ftp://[user:password@]host[:port]/file[/]\n"
 	    "       %s [-o output] http://host[:port]/file\n"
 #ifndef SMALL

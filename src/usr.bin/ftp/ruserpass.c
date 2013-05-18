@@ -1,4 +1,4 @@
-/*	$OpenBSD: ruserpass.c,v 1.20 2006/05/16 23:43:16 ray Exp $	*/
+/*	$OpenBSD: ruserpass.c,v 1.25 2007/06/20 17:56:37 moritz Exp $	*/
 /*	$NetBSD: ruserpass.c,v 1.14 1997/07/20 09:46:01 lukem Exp $	*/
 
 /*
@@ -44,7 +44,7 @@
 #include "ftp_var.h"
 
 __SCCSID("@(#)ruserpass.c	8.4 (Berkeley) 4/27/95");
-__RCSID("$MirOS: src/usr.bin/ftp/ruserpass.c,v 1.3 2005/04/29 18:35:09 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ftp/ruserpass.c,v 1.4 2006/10/03 19:22:17 tg Exp $");
 
 static	int token(void);
 static	FILE *cfile;
@@ -76,7 +76,7 @@ static struct toktab {
 int
 ruserpass(const char *host, char **aname, char **apass, char **aacct)
 {
-	char *hdir, buf[BUFSIZ], *tmp;
+	char *hdir, buf[MAXPATHLEN], *tmp;
 	char myname[MAXHOSTNAMELEN], *mydomain;
 	int t, i, c, usedefault = 0;
 	struct stat stb;
@@ -84,9 +84,8 @@ ruserpass(const char *host, char **aname, char **apass, char **aacct)
 	hdir = getenv("HOME");
 	if (hdir == NULL || *hdir == '\0')
 		return (0);
-	if (strlen(hdir) + sizeof(".netrc") < sizeof(buf)) {
-		(void)snprintf(buf, sizeof buf, "%s/.netrc", hdir);
-	} else {
+	i = snprintf(buf, sizeof(buf), "%s/.netrc", hdir);
+	if (i < 0 || i >= sizeof(buf)) {
 		warnx("%s/.netrc: %s", hdir, strerror(ENAMETOOLONG));
 		return (0);
 	}
@@ -101,7 +100,7 @@ ruserpass(const char *host, char **aname, char **apass, char **aacct)
 	if ((mydomain = strchr(myname, '.')) == NULL)
 		mydomain = "";
 next:
-	while ((t = token())) switch(t) {
+	while ((t = token()) > 0) switch(t) {
 
 	case DEFAULT:
 		usedefault = 1;
@@ -109,7 +108,9 @@ next:
 
 	case MACH:
 		if (!usedefault) {
-			if (token() != ID)
+			if ((t = token()) == -1)
+				goto bad;
+			if (t != ID)
 				continue;
 			/*
 			 * Allow match either for user's input host name
@@ -135,13 +136,17 @@ next:
 			continue;
 		}
 	match:
-		while ((t = token()) && t != MACH && t != DEFAULT) switch(t) {
+		while ((t = token()) > 0 &&
+		    t != MACH && t != DEFAULT) switch(t) {
 
 		case LOGIN:
-			if (token()) {
-				if (*aname == 0)
-					*aname = strdup(tokval);
-				else {
+			if ((t = token()) == -1)
+				goto bad;
+			if (t) {
+				if (*aname == 0) {
+					if ((*aname = strdup(tokval)) == NULL)
+						err(1, "strdup");
+				} else {
 					if (strcmp(*aname, tokval))
 						goto next;
 				}
@@ -155,8 +160,12 @@ next:
 	warnx("Remove password or make file unreadable by others.");
 				goto bad;
 			}
-			if (token() && *apass == 0)
-				*apass = strdup(tokval);
+			if ((t = token()) == -1)
+				goto bad;
+			if (t && *apass == 0) {
+				if ((*apass = strdup(tokval)) == NULL)
+					err(1, "strdup");
+			}
 			break;
 		case ACCOUNT:
 			if (fstat(fileno(cfile), &stb) >= 0
@@ -165,8 +174,12 @@ next:
 	warnx("Remove account or make file unreadable by others.");
 				goto bad;
 			}
-			if (token() && *aacct == 0)
-				*aacct = strdup(tokval);
+			if ((t = token()) == -1)
+				goto bad;
+			if (t && *aacct == 0) {
+				if ((*aacct = strdup(tokval)) == NULL)
+					err(1, "strdup");
+			}
 			break;
 		case MACDEF:
 			if (proxy) {
@@ -221,9 +234,13 @@ next:
 				}
 				*tmp = c;
 				if (*tmp == '\n') {
-					if (*(tmp-1) == '\0') {
-					   macros[macnum++].mac_end = tmp - 1;
-					   break;
+					if (tmp == macros[macnum].mac_start) {
+						macros[macnum++].mac_end = tmp;
+						break;
+					} else if (*(tmp-1) == '\0') {
+						macros[macnum++].mac_end =
+						    tmp - 1;
+						break;
 					}
 					*tmp = '\0';
 				}
@@ -241,6 +258,8 @@ next:
 		goto done;
 	}
 done:
+	if (t == -1)
+		goto bad;
 	(void)fclose(cfile);
 	return (0);
 bad:
@@ -265,17 +284,25 @@ token(void)
 	cp = tokval;
 	if (c == '"') {
 		while ((c = fgetc(cfile)) != EOF && c != '"') {
-			if (c == '\\')
-				c = fgetc(cfile);
+			if (c == '\\' && (c = fgetc(cfile)) == EOF)
+				break;
 			*cp++ = c;
+			if (cp == tokval + sizeof(tokval)) {
+				warnx("Token in .netrc too long");
+				return (-1);
+			}
 		}
 	} else {
 		*cp++ = c;
 		while ((c = fgetc(cfile)) != EOF
 		    && c != '\n' && c != '\t' && c != ' ' && c != ',') {
-			if (c == '\\')
-				c = fgetc(cfile);
+			if (c == '\\' && (c = fgetc(cfile)) == EOF)
+				break;
 			*cp++ = c;
+			if (cp == tokval + sizeof(tokval)) {
+				warnx("Token in .netrc too long");
+				return (-1);
+			}
 		}
 	}
 	*cp = 0;

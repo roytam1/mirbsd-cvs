@@ -1,5 +1,5 @@
-# $MirOS: src/usr.bin/ftp/Makefile,v 1.4 2006/05/26 18:48:50 tg Exp $
-# $OpenBSD: Makefile,v 1.21 2006/05/16 16:20:42 deraadt Exp $
+# $MirOS: src/usr.bin/ftp/Makefile,v 1.5 2006/10/03 19:22:16 tg Exp $
+# $OpenBSD: Makefile,v 1.22 2007/06/13 13:52:26 pyr Exp $
 
 .include <bsd.own.mk>
 
@@ -14,7 +14,7 @@ LDADD+=		-lsocks5
 
 PROG=	ftp
 SRCS=	cmds.c cmdtab.c complete.c domacro.c fetch.c ftp.c main.c ruserpass.c \
-	stringlist.c util.c
+	cookie.c stringlist.c util.c
 
 .ifndef NO_INET6
 CPPFLAGS+=	-DINET6
