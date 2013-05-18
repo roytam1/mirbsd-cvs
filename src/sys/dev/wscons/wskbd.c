@@ -1,4 +1,4 @@
-/* $MirOS: src/sys/dev/wscons/wskbd.c,v 1.7 2007/02/06 20:54:51 tg Exp $ */
+/* $MirOS: src/sys/dev/wscons/wskbd.c,v 1.8 2007/02/06 22:27:25 tg Exp $ */
 /* $OpenBSD: wskbd.c,v 1.53 2006/08/14 17:41:08 miod Exp $ */
 /* $NetBSD: wskbd.c,v 1.80 2005/05/04 01:52:16 augustss Exp $ */
 
@@ -116,7 +116,7 @@
 #define	NWSKBD_HOTKEY 0
 #else
 #define	BURNER_SUPPORT
-#define	SCROLLBACK_SUPPORT
+#define	WSDISPLAY_SCROLLBACK_SUPPORT
 #endif
 
 #ifdef WSKBD_DEBUG
