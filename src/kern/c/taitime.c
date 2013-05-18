@@ -1,4 +1,4 @@
-/* $MirOS: src/share/misc/licence.template,v 1.20 2006/12/11 21:04:56 tg Rel $ */
+/* $MirOS: src/kern/c/taitime.c,v 1.1 2007/02/07 20:43:23 tg Exp $ */
 
 /*-
  * Copyright (c) 2004, 2005, 2006, 2007
@@ -29,7 +29,7 @@
 #include <sys/types.h>
 #include <sys/taitime.h>
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/kern/c/taitime.c,v 1.1 2007/02/07 20:43:23 tg Exp $");
 
 #ifdef L_tai_isleap
 int
@@ -163,8 +163,6 @@ mjd2tm(mjd_t m)
 	int month, day, yday, wday, sec, leap;
 	struct tm res;
 
-	bzero(&res, sizeof (res));
-
 	year = m.mjd;
 	sec = m.sec;
 
@@ -240,6 +238,10 @@ mjd2tm(mjd_t m)
 	res.tm_year = year - 1900;
 	res.tm_wday = wday;
 	res.tm_yday = yday;
+
+	res.tm_isdst = 0;
+	res.tm_gmtoff = 0L;
+	res.tm_zone = (char *)0L;
 
 	return (res);
 }
