@@ -1,4 +1,4 @@
-! $MirOS: contrib/samples/dot.Xmodmap,v 1.12 2007/06/16 16:30:34 tg WIP $
+! $MirOS: contrib/samples/dot.Xmodmap,v 1.13 2007/07/15 20:43:41 tg Exp $
 !-
 ! Copyright © 2004, 2007
 !	Thorsten “mirabilos” Glaser <tg@mirbsd.de>
@@ -28,7 +28,7 @@
 ! for 105-key PC keyboards (usable with 102-key or laptop keyboards,
 ! too). Emulating Meta with Mode_switch helps with X11 applications.
 ! All ISO-8859-1 code points are directly typable on a 101-key board
-! and all directly typable code points can be represented in cp1252.
+! and most directly typable code points are a part of codepage 1252.
 !
 ! Diversions from pristine XFree86(R) and Windows(R) 2000 US layout:
 ! • The Alt_L key generates Meta_L	(adds 0x80 to latin1 code)
@@ -56,8 +56,8 @@
 ! • The ModeSwitch-F8 combination generates U+2019 (’) right squot
 ! • The ModeSwitch-F9 combination generates U+0332 ( ̲) comb. under
 ! • The ModeSwitch-F10 combination generates U+0305 ( ̅) comb. over
-! • The ModeSwitch-F11☁combination generates U+0333 ( ̳) c. low dbl
-! • The ModeSwitch-F12☁combination generates U+033F ( ̿) c. dblover
+! • The ModeSwitch-F11 combination generates U+2023 (‣) triangular
+! • The ModeSwitch-F12 combination generates U+2025 (‥) TPinterval
 ! • The ModeSwitch-Shift-F1 combination generates U+250C (┌) up-lf
 ! • The ModeSwitch-Shift-F2 combination generates U+2500 (─) horiz
 ! • The ModeSwitch-Shift-F3 combination generates U+2510 (┐) up-rt
@@ -85,8 +85,8 @@ keycode	0x49 =	F7		XF86_Switch_VT_7	U2018	U251C
 keycode	0x4A =	F8		XF86_Switch_VT_8	U2019	U2524
 keycode	0x4B =	F9		XF86_Switch_VT_9	U0332	U253C
 keycode	0x4C =	F10		XF86_Switch_VT_10	U0305	U252C
-keycode	0x5F =	F11		XF86_Switch_VT_11	U0333	U2534
-keycode	0x60 =	F12		XF86_Switch_VT_12	U033F	U2588
+keycode	0x5F =	F11		XF86_Switch_VT_11	U2023	U2534
+keycode	0x60 =	F12		XF86_Switch_VT_12	U2025	U2588
 keycode	0x6F =	Print		Sys_Req
 keycode	0x4E =	Scroll_Lock	Pointer_Accelerate
 keycode	0x6E =	Pause		Break
