@@ -3,7 +3,7 @@
 
 mws_setname hosted/ksh-chan "The #ksh on Freenode page"
 mws_setheadline 'Channel page for #ksh'
-mws_putheader '$MirOS: www/src/ksh-chan.hts,v 1.45 2013/02/24 14:35:27 tg Exp $'
+mws_putheader '$MirOS: www/src/ksh-chan.hts,v 1.46 2013/03/05 17:08:30 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of contents</h2>
 EOF
@@ -46,19 +46,17 @@ mws_content <<'EOF'
 		curl -F "sprunge=&lt;-" http://sprunge.us
 	}
   </pre></li>
- <li><a href="http://sial.org/pbot/ksh/">http://sial.org/pbot/ksh/</a></li>
- <li><a href="http://nopaste.snit.ch/">http://nopaste.snit.ch/</a></li>
- <li><a href="http://paste.pocoo.org/">http://paste.pocoo.org/</a></li>
+ <li>(Sorry, the others are down.)</li>
 </ul>
 
 <h2 id="vsns">Korn Shell versions</h2>
-<p>This information is current as of: 2013-02-24 (24 February 2013)</p>
+<p>This information is current as of: 2013-04-26 (26 April 2013)</p>
 <p><a href="http://www.kornshell.com/">AT&amp;T Korn Shell</a>: latest is
- ksh93v- (alpha) dated 2013-02-22 (22 February 2013) and ksh93u+ (stable)
+ ksh93v- (alpha) dated 2013-04-22 (22 April 2013) and ksh93u+ (stable)
  dated 2012-08-01; actively developed</p>
 <p><a href="@@RELPATH@@mksh.htm">MirBSD Korn Shell</a>: latest is
- mksh R44, dated 2013-03-05 (5 March 2013) and, in the oldstable bugfix
- series, mksh R41c, dated 2013-02-15 (15 February 2013); link to active <a
+ mksh R45, dated 2013-04-26 (26 April 2013) and, in the oldstable bugfix
+ series, mksh R44, dated 2013-03-05 (5 March 2013); link to active <a
  href="@@RELPATH@@mksh.htm#clog">development trunk changelog</a></p>
 <p><a href="http://www.cs.mun.ca/~michael/pdksh/">Public Domain Korn
  Shell</a>: latest is pdksh-5.2.14 dated 1999-07-13 (13 July 1999)</p>
