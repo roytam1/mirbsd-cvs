@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/share/misc/licence.template,v 1.8 2006/06/16 23:03:39 tg Rel $
+# $MirOS: src/usr.sbin/adduser/adduser,v 1.1 2006/07/08 21:42:56 tg Exp $
 #-
 # Copyright (c) 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -35,6 +35,7 @@ function die
 (( $(id -u) )) && die need root
 
 T=$(mktemp /etc/pwd.tmp.XXXXXXXXXX) || die mktemp failed
+trap 'rm -f $T; exit 1' 1 2 3 13 15
 
 function Lstripcom
 {
