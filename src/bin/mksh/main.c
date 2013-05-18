@@ -33,7 +33,7 @@
 #include <locale.h>
 #endif
 
-__RCSID("$MirOS: src/bin/mksh/main.c,v 1.132 2009/06/10 18:12:47 tg Exp $");
+__RCSID("$MirOS: src/bin/mksh/main.c,v 1.133 2009/06/11 12:42:19 tg Exp $");
 
 extern char **environ;
 
@@ -141,7 +141,7 @@ main(int argc, const char *argv[])
 	/* set up variable and command dictionaries */
 	ktinit(&taliases, APERM, 0);
 	ktinit(&aliases, APERM, 0);
-#ifndef MKSH_SMALL
+#ifndef MKSH_NOPWNAM
 	ktinit(&homedirs, APERM, 0);
 #endif
 
