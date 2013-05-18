@@ -1,4 +1,4 @@
-$MirOS: src/share/doc/legal/LICENCE-GNU,v 1.9 2008/04/22 13:09:28 tg Exp $
+$MirOS: src/share/doc/legal/LICENCE-GNU,v 1.10 2008/12/10 18:40:15 tg Exp $
 
 Special rules for GNU and similar less free software
 ====================================================
@@ -94,6 +94,19 @@ be obtained for free from our CVSweb unless distributed with
 the MirOS release/snapshot you obtained. Note that the bina-
 ries you receive need not correspond to the source code (for
 non-GPL binaries only).
+
+Opinions
+-- -- --
+
+>I believe if you include all of the sources in the exact state you
+>used to build the binary that includes tinyirc as a part of it, as far
+>as I'm concerned you've satisfied the license.
+	-- Nathan Laredo
+
+This was regarding crunchgen(1) and tinyirc. The solution was
+to add tinyirc to a source tarball as usual, and link it only
+against unmodified stock MirOS source from CVS, which is made
+available via AnonCVS regularily and long-livingly.
 
 GPLv3
 -----
