@@ -1,4 +1,4 @@
-/* $LynxId: LYStrings.c,v 1.206 2012/08/13 00:18:00 tom Exp $ */
+/* $LynxId: LYStrings.c,v 1.213 2013/05/04 12:21:36 tom Exp $ */
 #include <HTUtils.h>
 #include <HTCJK.h>
 #include <UCAux.h>
@@ -576,21 +576,21 @@ char *LYstrncpy(char *dst,
 		const char *src,
 		int n)
 {
-    char *val;
+    char *val = dst;
     int len;
 
     if (src == 0)
 	src = "";
     len = (int) strlen(src);
 
-    if (n < 0)
+    if (n > 0) {
+	if (n > len)
+	    n = len;
+	(void) StrNCpy(dst, src, n);
+    } else {
 	n = 0;
-
-    val = StrNCpy(dst, src, n);
-    if (len < n)
-	*(dst + len) = '\0';
-    else
-	*(dst + n) = '\0';
+    }
+    dst[n] = '\0';
     return val;
 }
 
@@ -924,12 +924,6 @@ static SLKeyMap_List_Type *Keymap_List;
 #define MOUSE_KEYSYM 0x0400
 #endif
 
-#define SQUOTE '\''
-#define DQUOTE '"'
-#define ESCAPE '\\'
-#define LPAREN '('
-#define RPAREN ')'
-
 /*
  * For ncurses, we use the predefined keysyms, since that lets us also reuse
  * the CSI logic and other special cases for VMS, NCSA telnet, etc.
@@ -992,8 +986,7 @@ static const char *expand_tiname(const char *first, size_t len, char **result, c
     char name[BUFSIZ];
     int code;
 
-    StrNCpy(name, first, len);
-    name[len] = '\0';
+    LYStrNCpy(name, first, len);
     if ((code = lookup_tiname(name, strnames)) >= 0
 	|| (code = lookup_tiname(name, strfnames)) >= 0) {
 	if (cur_term->type.Strings[code] != 0) {
@@ -1174,8 +1167,7 @@ int map_string_to_keysym(const char *str, int *keysym)
 	    char buf[BUFSIZ];
 
 	    if (othersym >= 0 && other - str - 4 < BUFSIZ) {
-		StrNCpy(buf, str + 4, (other - str - 4));
-		buf[other - str - 4] = '\0';
+		LYStrNCpy(buf, str + 4, (other - str - 4));
 		*keysym = lacname_to_lac(buf);
 		if (*keysym >= 0) {
 		    *keysym = LACLEC_TO_LKC0(*keysym, othersym);
@@ -2959,8 +2951,14 @@ void LYSetupEdit(EDREC * edit, char *old_value, size_t buffer_limit, int display
     StrLen = strlen(old_value);
     Buf = typecallocn(char, MaxLen + 1);
 
+    if (Buf == 0)
+	outofmem(__FILE__, "LYSetupEdit");
+
     LYStrNCpy(Buf, old_value, buffer_limit);
     Offs2Col = typecallocn(int, MaxLen + 1);
+
+    if (Offs2Col == 0)
+	outofmem(__FILE__, "LYSetupEdit");
 }
 
 #ifdef SUPPORT_MULTIBYTE_EDIT
@@ -5294,6 +5292,7 @@ int LYgetBString(bstring **inputline,
 	    fep_off();
 #endif
 	    LYFinishEdit(edit);
+	    BStrCopy0(*inputline, "");
 	    return (-1);
 
 	case LYE_STOP:
@@ -5304,6 +5303,7 @@ int LYgetBString(bstring **inputline,
 #ifdef TEXTFIELDS_MAY_NEED_ACTIVATION
 	    textfields_need_activation = TRUE;
 	    LYFinishEdit(edit);
+	    BStrCopy0(*inputline, "");
 	    return (-1);
 #else
 #ifdef ENHANCED_LINEEDIT
@@ -5413,6 +5413,7 @@ int LYscanFloat2(const char **source, float *result)
     const char *src = *source;
 
     src = LYSkipCBlanks(src);
+    *result = 0.0;
     if (strchr(src, '.') != 0) {
 	long frc_part = 0;
 	float scale = 1.0;
@@ -5447,6 +5448,7 @@ int LYscanFloat2(const char **source, float *result)
 		if (sscanf(extra, "%f", &scale) == 1) {
 		    *result *= scale;
 		}
+		FREE(extra);
 		src = LYSkipCNonBlanks(src);
 	    } else {
 		src = 0;
@@ -5956,8 +5958,7 @@ char *SNACopy(char **dest,
 	    outofmem(__FILE__, "SNACopy");
 	    assert(*dest != NULL);
 	}
-	StrNCpy(*dest, src, n);
-	*(*dest + n) = '\0';	/* terminate */
+	LYStrNCpy(*dest, src, n);
     }
     return *dest;
 }
@@ -5978,8 +5979,7 @@ char *SNACat(char **dest,
 	    if (*dest == NULL)
 		outofmem(__FILE__, "SNACat");
 	    assert(*dest != NULL);
-	    StrNCpy(*dest + length, src, n);
-	    *(*dest + length + n) = '\0';	/* terminate */
+	    LYStrNCpy(*dest + length, src, n);
 	} else {
 	    *dest = typeMallocn(char, (unsigned) n + 1);
 

@@ -1,5 +1,5 @@
 /*
- * $LynxId: LYReadCFG.c,v 1.168 2012/08/13 00:09:29 tom Exp $
+ * $LynxId: LYReadCFG.c,v 1.172 2013/05/04 12:24:06 tom Exp $
  */
 #ifndef NO_RULES
 #include <HTRules.h>
@@ -756,7 +756,7 @@ static int keymap_fun(char *key)
 		fprintf(stderr,
 			gettext("key remapping of %s to %s for %s failed\n"),
 			key, func, efunc + 1);
-	    } else if (func && !strcmp("TOGGLE_HELP", func)) {
+	    } else if (!strcmp("TOGGLE_HELP", func)) {
 		LYUseNoviceLineTwo = FALSE;
 	    }
 	    return 0;
@@ -764,7 +764,7 @@ static int keymap_fun(char *key)
 	    fprintf(stderr, gettext("key remapping of %s to %s failed\n"),
 		    key, func);
 	} else {
-	    if (func && !strcmp("TOGGLE_HELP", func))
+	    if (!strcmp("TOGGLE_HELP", func))
 		LYUseNoviceLineTwo = FALSE;
 	}
 	if (efunc) {
@@ -1724,6 +1724,7 @@ static Config_Type Config_Table [] =
      PARSE_INT(RC_TIMEOUT,              lynx_timeout),
 #endif
      PARSE_PRG(RC_TOUCH_PATH,           ppTOUCH),
+     PARSE_SET(RC_TRACK_INTERNAL_LINKS, track_internal_links),
      PARSE_SET(RC_TRIM_INPUT_FIELDS,    LYtrimInputFields),
 #ifdef EXEC_LINKS
      PARSE_DEF(RC_TRUSTED_EXEC,         EXEC_PATH),
@@ -1968,8 +1969,12 @@ BOOL LYSetConfigValue(const char *name,
 #ifdef VMS
 		Define_VMSLogical(temp_name, value);
 #else
-		if (q->str_value == 0)
+		if (q->str_value == 0) {
 		    q->str_value = typecalloc(char *);
+
+		    if (q->str_value == 0)
+			outofmem(__FILE__, "LYSetConfigValue");
+		}
 
 		HTSprintf0(q->str_value, "%s=%s", temp_name, value);
 		putenv(*(q->str_value));
@@ -1990,12 +1995,10 @@ BOOL LYSetConfigValue(const char *name,
 	if (*(q->lst_value) == NULL) {
 	    *(q->lst_value) = HTList_new();
 	}
-	if (q->lst_value != 0) {
-	    char *my_value = NULL;
-
-	    StrAllocCopy(my_value, value);
-	    HTList_appendObject(*(q->lst_value), my_value);
-	}
+	temp_value = NULL;
+	StrAllocCopy(temp_value, value);
+	HTList_appendObject(*(q->lst_value), temp_value);
+	temp_value = NULL;
 	break;
 
 #if defined(EXEC_LINKS) || defined(LYNXCGI_LINKS)
