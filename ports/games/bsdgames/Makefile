@@ -1,4 +1,4 @@
-# $MirOS: ports/games/bsdgames/Makefile,v 1.16 2008/03/14 18:24:48 tg Exp $
+# $MirOS: ports/games/bsdgames/Makefile,v 1.17 2008/05/25 20:56:38 tg Exp $
 
 COMMENT=		BSD base system games
 CATEGORIES=		games
@@ -21,7 +21,7 @@ IGNORE+=		"requires use of SUDO=sudo"
 .endif
 
 PREFIX=			/usr
-EXTRA_MAKE_FLAGS=	HOSTCC=${CC:Q}
+EXTRA_MAKE_FLAGS=	HOSTCC=${_PASS_CC:Q}
 EXTRA_FAKE_FLAGS=	MANDIR=${PREFIX:Q}/share/man/cat
 
 EXTRA_FORTUNES=		alexander.griesser alexander.talos andreas.krennmair \

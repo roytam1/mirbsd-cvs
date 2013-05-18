@@ -1,4 +1,4 @@
-# $MirOS: ports/x11/qt3/Makefile,v 1.13 2008/03/09 17:23:44 tg Exp $
+# $MirOS: ports/x11/qt3/Makefile,v 1.14 2008/03/24 20:38:50 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.58 2006/01/02 16:59:37 espie Exp $
 # $FreeBSD: Makefile,v 1.33 1999/02/27 03:09:57 andreas Exp $
 
@@ -47,7 +47,7 @@ PERMIT_DISTFILES_FTP=	Yes
 USE_X11=		Yes
 USE_CXX=		Yes
 MAKE_ENV+=		QTDIR=${WRKDIST:Q} EXTRA_SAMPLES=${EXTRA_SAMPLES:Q} \
-			SYS_CXX=${CXX:Q} SYS_CXXFLAGS=${CXXFLAGS:Q}
+			SYS_CXX=${_PASS_CXX:Q} SYS_CXXFLAGS=${CXXFLAGS:Q}
 
 .include <mirports.sys.mk>
 .if defined(_OUR_LDLIBPATH) && !empty(_OUR_LDLIBPATH)
@@ -180,8 +180,8 @@ PROGRAMS=		assistant linguist lrelease lupdate qm2ts \
 			qmake qtconfig
 
 post-patch:
-	print '%g/@@CC@@/s//${CC}/\n%g/@@CXX@@/s//${CXX}/\nwq' \
-	    | ed -s ${WRKSRC}/mkspecs/openbsd-g++/qmake.conf
+	print '%g/@@CC@@/s//'${_PASS_CC:Q}'/\n%g/@@CXX@@/s//'${_PASS_CXX:Q}'/\nwq' | \
+	    ed -s ${WRKSRC}/mkspecs/openbsd-g++/qmake.conf
 
 .if !${FLAVOUR:L:Mdebug}
 post-configure:

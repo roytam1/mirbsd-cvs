@@ -1,4 +1,4 @@
-# $MirOS: ports/lang/lua/Makefile,v 1.1.7.1 2005/03/18 15:47:45 tg Exp $
+# $MirOS: ports/lang/lua/Makefile,v 1.2 2006/09/14 00:10:24 tg Exp $
 # $OpenBSD: Makefile,v 1.11 2004/05/25 12:14:30 pedro Exp $
 
 COMMENT=			powerful, light-weight programming language
@@ -26,7 +26,7 @@ ALL_TARGET+=	all so sobin
 .endif
 
 post-build:
-	cd ${WRKDIST} && ${CC} ${CFLAGS} -o bin/bin2c etc/bin2c.c
+	cd ${WRKDIST} && ${_PASS_CC} ${CFLAGS} -o bin/bin2c etc/bin2c.c
 
 do-install:
 	${INSTALL_DATA_DIR} ${PREFIX}/include

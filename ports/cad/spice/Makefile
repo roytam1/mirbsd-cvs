@@ -16,7 +16,7 @@ DISTFILES=		sp3f4.kit.tar.gz sp3f4.patch.tar.gz
 
 USE_X11=		Yes
 WRKDIST=		${WRKDIR}
-MAKE_ENV=		MAKE_PROGRAM='${MAKE_PROGRAM}' CC="${CC}"
+MAKE_ENV=		MAKE_PROGRAM='${MAKE_PROGRAM}' CC=${_PASS_CC:Q}
 
 NO_REGRESS=		Yes
 

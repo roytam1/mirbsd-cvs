@@ -1,4 +1,4 @@
-# $MirOS: ports/net/ucspi-tcp/Makefile,v 1.3 2006/09/14 00:12:25 tg Exp $
+# $MirOS: ports/net/ucspi-tcp/Makefile,v 1.4 2008/03/17 02:10:50 tg Exp $
 
 COMMENT=		tools for building TCP client-server applications
 CATEGORIES=		net
@@ -22,8 +22,8 @@ INSTALL_TARGET=		setup check
 NO_REGRESS=		Yes
 
 pre-build:
-	@print -r -- ${CC:Q} ${CFLAGS:Q} >${WRKSRC}/conf-cc
-	@print -r -- ${CC:Q} -s ${LDFLAGS:Q} >${WRKSRC}/conf-ld
+	@print -r -- ${_PASS_CC:Q} ${CFLAGS:Q} >${WRKSRC}/conf-cc
+	@print -r -- ${_PASS_CC:Q} -s ${LDFLAGS:Q} >${WRKSRC}/conf-ld
 	@print -r -- ${PREFIX:Q} >${WRKSRC}/conf-home
 
 pre-install:

@@ -35,7 +35,7 @@ pre-build:
 
 do-build:
 	cd ${WRKSRC} && \
-		${CC} ${CFLAGS} -o write-highscores write-highscores.c \
+		${_PASS_CC} ${CFLAGS} -o write-highscores write-highscores.c \
 		&& ./makehtml
 
 do-install:

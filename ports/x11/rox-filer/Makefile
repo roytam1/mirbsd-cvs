@@ -1,4 +1,4 @@
-# $MirOS: ports/x11/rox-filer/Makefile,v 1.6 2007/05/07 19:50:10 bsiegert Exp $
+# $MirOS: ports/x11/rox-filer/Makefile,v 1.7 2008/03/23 13:51:19 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.20 2004/04/02 19:07:05 sturm Exp $
 
 COMMENT=		gtk file manager with desktop features
@@ -35,7 +35,7 @@ post-patch:
 		mv ${FILE_TO_PATCH}.tmp ${FILE_TO_PATCH}
 
 do-build:
-	@cd ${WRKSRC} && ${SETENV} CC="${CC}" CFLAGS="${CFLAGS}" \
+	@cd ${WRKSRC} && ${SETENV} CC=${_PASS_CC:Q} CFLAGS="${CFLAGS}" \
 		${CONFIGURE_ENV} \
 		ROX-Filer/AppRun --compile
 

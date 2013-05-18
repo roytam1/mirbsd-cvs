@@ -1,4 +1,4 @@
-# $MirOS: ports/www/xmhtml/Makefile,v 1.2 2005/07/07 21:28:27 bsiegert Exp $
+# $MirOS: ports/www/xmhtml/Makefile,v 1.3 2006/09/14 00:15:02 tg Exp $
 # $OpenBSD: Makefile,v 1.7 2003/10/18 19:45:01 sturm Exp $
 # $FreeBSD: ports/x11-toolkits/xmhtml/Makefile,v 1.15 2001/06/29 05:19:06 lkoeller Exp $
 # Original from: Peter Hawkins <thepish@freebsd.org>
@@ -24,7 +24,7 @@ LIB_DEPENDS=	jpeg.62::graphics/jpeg \
 
 NO_REGRESS=	Yes
 
-MAKE_ENV=	CC="${LIBTOOL} ${CC}"
+MAKE_ENV=	CC=${LIBTOOL:Q}\ ${_PASS_CC:Q}
 
 USE_X11=	Yes
 USE_GMAKE=	Yes

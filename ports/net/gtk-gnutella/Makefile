@@ -1,4 +1,4 @@
-# $MirOS: ports/net/gtk-gnutella/Makefile,v 1.3 2006/02/09 11:12:18 tg Exp $
+# $MirOS: ports/net/gtk-gnutella/Makefile,v 1.4 2006/09/14 00:11:44 tg Exp $
 # $OpenBSD: Makefile,v 1.14 2004/05/15 14:35:01 sturm Exp $
 
 COMMENT=			Gtk-based GUI client for the Gnutella Network
@@ -32,7 +32,7 @@ CONFIGURE_ARGS=		-d  -e \
 			-D mansrc="${PREFIX}/man/man1" \
 			-D prefix="${PREFIX}" \
 			-D privlib="${PREFIX}/share/gtk-gnutella" \
-			-D cc="${CC}" \
+			-D cc=${_PASS_CC:Q} \
 			-D ccflags="${CFLAGS} -I${LOCALBASE}/include" \
 			-D official="true" \
 			-U optimize

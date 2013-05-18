@@ -1,4 +1,4 @@
-# $MirOS: ports/audio/xmms-bonk/Makefile,v 1.3 2005/07/07 21:17:36 bsiegert Exp $
+# $MirOS: ports/audio/xmms-bonk/Makefile,v 1.4 2006/09/14 00:07:22 tg Exp $
 # $OpenBSD: Makefile,v 1.6 2004/02/25 02:35:15 naddy Exp $
 
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
@@ -21,7 +21,7 @@ MASTER_SITES=		http://www.proustmedia.de/bonk-xmms/
 
 LIB_DEPENDS=		xmms.3::audio/xmms
 
-MAKE_ENV=		CXX="${CXX}"
+MAKE_ENV=		CXX=${_PASS_CXX:Q}
 ALL_TARGET=
 
 NO_REGRESS=		Yes

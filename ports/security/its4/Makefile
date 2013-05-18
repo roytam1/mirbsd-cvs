@@ -15,7 +15,7 @@ PERMIT_DISTFILES_FTP=	"commercial. licensing restrictions."
 CONFIGURE_STYLE= gnu dest old
 
 CONFIGURE_ARGS=	--datadir='$${DESTDIR}${PREFIX}/share/its4' \
-		--with-cpp="${CXX}"
+		--with-cpp=${_PASS_CXX:Q}
 
 WRKDIST=	${WRKDIR}/its4
 

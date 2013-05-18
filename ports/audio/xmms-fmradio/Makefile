@@ -22,7 +22,7 @@ EXTRACT_SUFX=	.tgz
 
 LIB_DEPENDS=	xmms.2::audio/xmms
 
-MAKE_ENV=	CC="${CC}"
+MAKE_ENV=	CC=${_PASS_CC:Q}
 
 NO_REGRESS=	Yes
 

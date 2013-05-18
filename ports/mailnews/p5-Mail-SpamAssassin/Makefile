@@ -1,4 +1,4 @@
-# $MirOS: ports/mailnews/p5-Mail-SpamAssassin/Makefile,v 1.2 2005/07/07 21:22:59 bsiegert Exp $
+# $MirOS: ports/mailnews/p5-Mail-SpamAssassin/Makefile,v 1.3 2006/09/14 00:10:43 tg Exp $
 # $OpenBSD: Makefile,v 1.29 2004/01/21 08:01:59 brad Exp $
 
 COMMENT=			mailfilter to identify and mark spam
@@ -21,7 +21,7 @@ BUILD_DEPENDS=		:p5-HTML-Parser-*:www/p5-HTML-Parser
 RUN_DEPENDS=		:p5-Net-DNS-*:net/p5-Net-DNS \
 			:p5-HTML-Parser-*:www/p5-HTML-Parser
 
-MAKE_ENV+=		CC="${CC}"
+MAKE_ENV+=		CC=${_PASS_CC:Q}
 
 CONFIGURE_STYLE=	perl
 INSTALL_TARGET=		LOCAL_RULES_DIR=${WRKINST}${SAMPLE_CONFIG_DIR} install

@@ -1,4 +1,4 @@
-# $MirOS: ports/lang/nhc98/Makefile,v 1.2 2005/04/10 21:50:17 tg Exp $
+# $MirOS: ports/lang/nhc98/Makefile,v 1.3 2006/09/14 00:10:24 tg Exp $
 # $OpenBSD: Makefile,v 1.2 2004/05/16 23:37:58 pvalchev Exp $
 # $NetBSD: Makefile,v 1.29 2004/03/26 21:19:53 wiz Exp $
 
@@ -18,8 +18,6 @@ DISTFILES=	nhc98src-${V}.tar.gz nhc98-${V}-regress.tar.bz2:0
 
 # these are vendor patches
 PATCHFILES=	patch-${V}-typesyn:0 patch-${V}-ghc6:0
-
-CC=		gcc
 
 USE_GMAKE=	Yes
 CONFIGURE_STYLE=simple

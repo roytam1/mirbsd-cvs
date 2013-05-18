@@ -67,7 +67,7 @@ MAKE_AUXLIBS+=	-L${LOCALBASE}/lib -lpq
 
 do-configure:
 	@cd ${WRKSRC}; ${MAKE_PROGRAM} makefiles \
-		CC="${CC}" OPT="${CFLAGS}" DEBUG="${MAKE_DEBUG}" \
+		CC=${_PASS_CC:Q} OPT="${CFLAGS}" DEBUG="${MAKE_DEBUG}" \
 		CCARGS='${MAKE_CCARGS}' AUXLIBS="${MAKE_AUXLIBS}"
 
 do-install:

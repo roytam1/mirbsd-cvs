@@ -15,7 +15,7 @@ FAKE_FLAGS=		PREFIX=${WRKINST}${PREFIX}
 LIB_DEPENDS=	gdbm.::databases/gdbm
 
 CONFIGURE_STYLE=autoconf
-CONFIGURE_ARGS=	`$(CC) -dumpmachine`
+CONFIGURE_ARGS+=	$$(${_ORIG_CC} -dumpmachine)
 
 pre-configure:
 	@cp ${FILESDIR}/openbsdplay.c ${WRKSRC}/config/openbsdplay.c

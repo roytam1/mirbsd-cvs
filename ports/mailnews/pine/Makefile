@@ -1,4 +1,4 @@
-# $MirOS: ports/mailnews/pine/Makefile,v 1.22 2006/09/20 22:24:50 tg Exp $
+# $MirOS: ports/mailnews/pine/Makefile,v 1.23 2008/03/09 17:23:07 tg Exp $
 # $OpenBSD: Makefile,v 1.56 2003/10/05 21:42:29 jakob Exp $
 
 ONLY_FOR_PLATFORM=	OpenBSD:*:* MirBSD:*:*
@@ -50,7 +50,7 @@ FLAVOUR?=
 MULTI_PACKAGES=		-cclient -daemon -mailutil -pico -pilot
 SUBPACKAGE?=
 
-PINE_BUILD_FLAGS=	CC="${CC}" EXTRACFLAGS="${CFLAGS}" \
+PINE_BUILD_FLAGS=	CC=${_PASS_CC:Q} EXTRACFLAGS="${CFLAGS}" \
 			LOCALBASE="${LOCALBASE}" PICFLAG="${PICFLAG}"
 .if defined(NO_SHARED_LIBS) && ${NO_SHARED_LIBS:L} == "yes"
 PINE_BUILD_FLAGS+=	NO_SHARED_LIBS=yes

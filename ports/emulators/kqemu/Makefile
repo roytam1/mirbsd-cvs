@@ -1,4 +1,4 @@
-# $MirOS: ports/emulators/kqemu/Makefile,v 1.1 2008/05/07 15:07:48 tg Exp $
+# $MirOS: ports/emulators/kqemu/Makefile,v 1.2 2008/05/11 19:28:11 tg Exp $
 # $OpenBSD: Makefile,v 1.5 2008/04/29 20:38:03 todd Exp $
 
 ONLY_FOR_PLATFORMS=	\
@@ -22,8 +22,8 @@ PERMIT_PACKAGE_FTP=	Yes
 USE_GMAKE=		Yes
 CONFIGURE_STYLE=	simple
 CONFIGURE_ARGS=		--prefix=${PREFIX:Q} \
-			--cc=${CC:Q} \
-			--host-cc=${CC:Q} \
+			--cc=${_PASS_CC:Q} \
+			--host-cc=${_PASS_CC:Q} \
 			--make=${MAKE_PROGRAM:Q}
 
 INSTDIR=		${PREFIX}/libdata

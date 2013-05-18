@@ -1,4 +1,4 @@
-# $MirOS: ports/astro/wmspaceweather/Makefile,v 1.4 2006/03/23 21:20:44 tg Exp $
+# $MirOS: ports/astro/wmspaceweather/Makefile,v 1.5 2006/09/14 00:06:55 tg Exp $
 # $OpenBSD: Makefile,v 1.14 2002/09/17 14:46:06 wilfried Exp $
 
 COMMENT=			wm-dockapp; space weather monitor
@@ -16,7 +16,7 @@ MASTER_SITES=		http://nis-www.lanl.gov/~mgh/WindowMaker/
 
 RUN_DEPENDS=		:wget-*:net/wget
 
-MAKE_ENV=		CC="${CC}"
+MAKE_ENV=		CC=${_PASS_CC:Q}
 USE_X11=		Yes
 NO_REGRESS=		Yes
 

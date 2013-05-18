@@ -17,7 +17,7 @@ EXTRACT_SUFX=		.shar.Z
 MAKE_FILE=		makefile
 WRKDIST=		${WRKDIR}/macutil
 MAKE_ENV=		CF="${CFLAGS}" \
-			CC=${CC}
+			CC=${_PASS_CC:Q}
 
 NO_REGRESS=		Yes
 

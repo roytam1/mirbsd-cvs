@@ -1,4 +1,4 @@
-# $MirOS: ports/astro/wmsun/Makefile,v 1.4 2006/03/23 21:20:45 tg Exp $
+# $MirOS: ports/astro/wmsun/Makefile,v 1.5 2006/09/14 00:06:56 tg Exp $
 # $OpenBSD: Makefile,v 1.13 2002/09/17 14:46:06 wilfried Exp $
 
 COMMENT=			wm-dockapp; shows sunrise/sunset times
@@ -15,7 +15,7 @@ PERMIT_DISTFILES_FTP=	Yes
 
 MASTER_SITES=		http://nis-www.lanl.gov/~mgh/WindowMaker/
 
-MAKE_ENV=		CC="${CC}"
+MAKE_ENV=		CC=${_PASS_CC:Q}
 USE_X11=		Yes
 NO_REGRESS=		Yes
 

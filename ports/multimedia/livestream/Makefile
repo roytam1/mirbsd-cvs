@@ -1,4 +1,4 @@
-# $MirOS: ports/multimedia/livestream/Makefile,v 1.6 2005/12/28 18:12:02 tg Exp $
+# $MirOS: ports/multimedia/livestream/Makefile,v 1.7 2006/09/14 00:11:27 tg Exp $
 
 COMMENT=			library for live.com streaming servers
 V=			2005.12.23
@@ -18,7 +18,7 @@ PERMIT_DISTFILES_FTP=	Yes
 USE_CXX=		Yes
 WRKDIST=		${WRKDIR}/live
 MAKE_FILE=		${FILESDIR}/BSDmakefile
-MAKE_FLAGS+=		WRKSRC="${WRKSRC}" CC="${CC}" CXX="${CXX}" \
+MAKE_FLAGS+=		WRKSRC="${WRKSRC}" CC=${_PASS_CC:Q} CXX=${_PASS_CXX:Q} \
 			COPTS="${COPTS}" LD="${LD}"
 FAKE_FLAGS+=		WRKSRC="${WRKSRC:C/${PREFIX}/${TRUEPREFIX}/}"
 

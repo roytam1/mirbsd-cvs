@@ -1,6 +1,8 @@
 # $OpenBSD: Makefile,v 1.14 2003/02/12 15:40:39 naddy Exp $
 
-COMMENT=			faster and improved version of dd
+BROKEN=			this is wrong, we probably want to remove the .if below and use machine-openbsd-mpcc.rul always
+
+COMMENT=		faster and improved version of dd
 
 DISTNAME=	sdd-1.31
 CATEGORIES=	sysutils
@@ -15,13 +17,13 @@ PERMIT_DISTFILES_FTP=	Yes
 MASTER_SITES=	ftp://ftp.berlios.de/pub/sdd/
 
 USE_GMAKE=	Yes
-MAKE_ENV=	MAKEPROG="${MAKE_PROGRAM}" CCOM="${CC}" COPTX="${CFLAGS}"
+MAKE_ENV=	MAKEPROG="${MAKE_PROGRAM}" CCOM=${_PASS_CC:Q} COPTX=${CFLAGS:Q}
 
-.if ${MACHINE} != "i386" || ${CC} != "cc"
+#.if ${MACHINE} != "i386" || ${_PASS_CC} != "cc"
 do-configure:
 	@ln -sf ${WRKSRC}/RULES/i386-openbsd-cc.rul \
 		${WRKSRC}/RULES/${MACHINE}-openbsd-${CC}.rul
-.endif
+#.endif
 
 NO_REGRESS=	Yes
 

@@ -1,4 +1,4 @@
-# $MirOS: ports/emulators/qemu/stable/Makefile,v 1.1 2008/05/07 15:46:05 tg Exp $
+# $MirOS: ports/emulators/qemu/stable/Makefile,v 1.2 2008/05/11 20:35:48 tg Exp $
 # $OpenBSD: Makefile,v 1.7 2005/11/05 12:11:05 todd Exp $
 
 # no success on other platforms yet
@@ -23,7 +23,7 @@ USE_GMAKE=		Yes
 USE_X11=		Yes
 CONFIGURE_STYLE=	simple
 CONFIGURE_ARGS+=	--prefix=${PREFIX:Q} \
-			--cc=${CC:Q} \
+			--cc=${_PASS_CC:Q} \
 			--make=${GMAKE:Q} \
 			--interp-prefix=${LOCALBASE:Q}/share/qemu/gnemul-%M \
 			--extra-cflags=${CFLAGS:M*:Q} \

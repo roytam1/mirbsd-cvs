@@ -49,11 +49,11 @@ post-patch:
 
 do-build:
 	cd ${WRKDIR}/cd-discid-${V2} && \
-		${CC} ${CFLAGS} -o cd-discid cd-discid.c
+		${_PASS_CC} ${CFLAGS} -o cd-discid cd-discid.c
 .if ${FLAVOUR:L:Mlame}
 	cd ${WRKDIR}/id3-0.12 && \
 		perl -pi -e 's,#include <getopt.h>,/*#include <getopt.h>*/,g' id3.c && \
-		${CC} ${CFLAGS} -o id3 id3.c
+		${_PASS_CC} ${CFLAGS} -o id3 id3.c
 .endif
 
 do-install:

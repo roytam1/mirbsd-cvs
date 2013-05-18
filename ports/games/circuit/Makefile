@@ -1,4 +1,4 @@
-# $MirOS: ports/games/circuit/Makefile,v 1.2 2005/03/30 18:13:25 bsiegert Exp $
+# $MirOS: ports/games/circuit/Makefile,v 1.3 2006/09/14 00:09:20 tg Exp $
 # $OpenBSD: Makefile,v 1.5 2002/12/16 19:55:15 espie Exp $
 
 COMMENT=			finish-the-cycle logic puzzle
@@ -20,7 +20,7 @@ LIB_DEPENDS=	gtk.1.2,gdk.1.2::x11/gtk+1
 USE_X11=	Yes
 
 do-build:
-	cd ${WRKBUILD} && $(CC) $(CFLAGS) `gtk-config --cflags --libs` circuit.c -o circuit
+	cd ${WRKBUILD} && ${_PASS_CC} $(CFLAGS) `gtk-config --cflags --libs` circuit.c -o circuit
 
 do-install:
 	${INSTALL_PROGRAM} ${WRKBUILD}/circuit ${PREFIX}/bin

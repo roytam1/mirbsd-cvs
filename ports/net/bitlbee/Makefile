@@ -1,4 +1,4 @@
-# $MirOS: ports/net/bitlbee/Makefile,v 1.4 2005/12/27 23:43:44 bsiegert Exp $
+# $MirOS: ports/net/bitlbee/Makefile,v 1.5 2006/09/14 00:11:34 tg Exp $
 # $OpenBSD: Makefile,v 1.10 2004/02/01 07:12:39 pvalchev Exp $
 
 COMMENT=			IRC proxy to connect to ICQ, AOL, MSN and Jabber
@@ -38,7 +38,7 @@ CONFIGURE_ARGS+=	--bindir=${PREFIX}/libexec \
 			--ssl=openssl
 
 USE_GMAKE=		Yes
-MAKE_ENV=		CC="${CC}"
+MAKE_ENV=		CC=${_PASS_CC:Q}
 FAKE_FLAGS=		${DESTDIRNAME}=${WRKINST} ETCDIR=${EXAMPLEDIR}
 FAKE_TARGET=		install install-etc
 

@@ -1,4 +1,4 @@
-# $MirOS: ports/x11/gtk-theme-switch/Makefile,v 1.2 2005/03/30 18:13:57 bsiegert Exp $
+# $MirOS: ports/x11/gtk-theme-switch/Makefile,v 1.3 2006/09/14 00:15:25 tg Exp $
 # $OpenBSD: Makefile,v 1.1.1.1 2003/01/14 01:01:19 naddy Exp $
 
 COMMENT=			switch GTK+ themes quickly
@@ -19,7 +19,7 @@ MASTER_SITES=		http://www.muhri.net/
 
 LIB_DEPENDS=		gtk.1.2,gdk.1.2::x11/gtk+1
 
-MAKE_FLAGS=		CC="${CC}" \
+MAKE_FLAGS=		CC=${_PASS_CC:Q} \
 			CFLAGS="${CFLAGS} `gtk-config --cflags`" \
 			LIBS="${LIBS} `gtk-config --libs`"
 

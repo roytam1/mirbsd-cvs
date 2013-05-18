@@ -13,7 +13,7 @@ PERMIT_DISTFILES_FTP=	"no license"
 MASTER_SITES=   ftp://ftp.inria.fr/archives/system/benchmark/
 EXTRACT_SUFX=	.tar.Z
 
-MAKE_ENV=	CC="${CC}"
+MAKE_ENV=	CC=${_PASS_CC:Q}
 
 NO_REGRESS=	Yes
 

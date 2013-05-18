@@ -16,7 +16,7 @@ PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
 WRKDIST=		${WRKDIR}/tracker
-EXTRA_XAKE_FLAGS=	MACHINE=openbsd CC=$(CC) INSTALL="$(INSTALL)" \
+EXTRA_XAKE_FLAGS=	MACHINE=openbsd CC=${_PASS_CC:Q} INSTALL="$(INSTALL)" \
 		CFLAGS_openbsd='-O3 -funroll-loops -finline-functions ${COPTS}' \
 		INST_BIN_OPT="-c -s -m $(BINMODE) -o $(BINOWN) -g $(BINGRP)" \
 		INST_MAN_OPT="-c -m 644 -o $(BINOWN) -g $(BINGRP)" \

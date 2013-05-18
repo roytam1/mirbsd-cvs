@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/net/dss/Makefile,v 1.6 2007/04/13 19:38:45 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.4 2003/10/26 23:49:37 naddy Exp $
 
 BROKEN=			security issues
@@ -63,7 +63,7 @@ post-patch:
 		's,-g -Wall,-Wall,g'
 
 do-build:
-	cd ${WRKSRC}; env CC="${CC}" CFLAGS="${CFLAGS}" ./Buildit
+	cd ${WRKSRC}; env CC=${_PASS_CC:Q} CFLAGS=${CFLAGS:Q} ./Buildit
 
 post-build:
 	rm -fr ${WRKTMP}/{server,proxy}

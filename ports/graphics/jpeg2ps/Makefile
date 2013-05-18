@@ -15,6 +15,6 @@ MASTER_SITES=	${HOMEPAGE}
 HOMEPAGE=	http://www.pdflib.com/jpeg2ps/
 
 REGRESS_TARGET=	test
-MAKE_FLAGS=	CFLAGS='${CFLAGS} -c' LD='${CC}'
+MAKE_FLAGS=	CFLAGS='${CFLAGS} -c' LD=${_PASS_CC:Q}
 
 .include <bsd.port.mk>

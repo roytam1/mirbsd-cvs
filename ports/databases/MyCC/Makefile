@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/databases/MyCC/Makefile,v 1.5 2007/04/11 17:57:00 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.15 2004/01/30 18:05:35 sturm Exp $
 
 COMMENT=		GUI client for MySQL
@@ -29,7 +29,7 @@ USE_CXX=		Yes
 LIB_DEPENDS=		lib/mysql/mysqlclient.10::databases/mysql
 
 MAKE_ENV=		LOCALBASE=${LOCALBASE} HACK_CFLAGS="${CFLAGS}"
-MAKE_FLAGS=   		LINK=${CXX}
+MAKE_FLAGS=   		LINK=${_PASS_CXX:Q}
 
 USE_X11=		Yes
 CONFIGURE_STYLE=	gnu

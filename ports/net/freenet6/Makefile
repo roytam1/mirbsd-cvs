@@ -1,4 +1,4 @@
-# $MirOS: ports/net/freenet6/Makefile,v 1.3 2006/02/09 11:12:14 tg Exp $
+# $MirOS: ports/net/freenet6/Makefile,v 1.4 2006/09/14 00:11:43 tg Exp $
 
 COMMENT=			Freenet6 IPv6 Tunnel Broker Client
 NO_REGRESS=	Yes
@@ -18,7 +18,7 @@ PERMIT_DISTFILES_FTP=   Yes
 EXTRACT_SUFX=	.tgz
 MASTER_SITES=	${_MASTER_SITE_MIRBSD}
 
-MAKE_FLAGS+=	target=mirbsd CC="$(CC)"
+MAKE_FLAGS+=	target=mirbsd CC=${_PASS_CC:Q}
 WRKDIST=	${WRKDIR}/tspc2
 TRUEPREFIX?=	${PREFIX}
 TSPDIR=		${TRUEPREFIX}/libexec/tspc

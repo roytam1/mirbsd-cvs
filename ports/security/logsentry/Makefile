@@ -29,7 +29,7 @@ CFG_FILES=	logcheck.sh logcheck.hacking logcheck.ignore \
 SUBST_VARS+=	DOC_DIR
 
 do-build:
-	${CC} ${CFLAGS} -o ${WRKSRC}/src/logtail ${WRKSRC}/src/logtail.c
+	${_PASS_CC} ${CFLAGS} -o ${WRKSRC}/src/logtail ${WRKSRC}/src/logtail.c
 
 do-install:
 	${INSTALL_PROGRAM} ${WRKSRC}/src/logtail ${PREFIX}/bin

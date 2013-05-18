@@ -1,4 +1,4 @@
-# $MirOS: ports/audio/cdparanoia/Makefile,v 1.2 2005/07/07 21:17:13 bsiegert Exp $
+# $MirOS: ports/audio/cdparanoia/Makefile,v 1.3 2006/09/14 00:06:59 tg Exp $
 # $OpenBSD: Makefile,v 1.13 2004/03/02 04:59:51 brad Exp $
 
 COMMENT=			CDDA reading utility with extra data verification features
@@ -18,7 +18,7 @@ EXTRACT_SUFX=	.src.tgz
 
 CONFIGURE_STYLE=	autoconf autoheader
 AUTOCONF_NEW=		Yes
-CONFIGURE_ENV=		GCC=${CC}
+CONFIGURE_ENV=		GCC=${_PASS_CC:Q}
 
 NO_REGRESS=		Yes
 

@@ -21,7 +21,7 @@ do-configure:
 	@perl -pi -e 's,/usr/lib,${X11BASE}/lib,g' ${WRKSRC}/giftrans.c
 
 do-build:
-	cd ${WRKSRC} && ${CC} ${CFLAGS} giftrans.c -o giftrans
+	cd ${WRKSRC} && ${_PASS_CC} ${CFLAGS} giftrans.c -o giftrans
 
 do-install:
 	${INSTALL_PROGRAM} ${WRKSRC}/giftrans ${PREFIX}/bin

@@ -1,4 +1,4 @@
-# $MirOS: ports/japanese/jvim/Makefile,v 1.4 2007/04/12 20:21:22 bsiegert Exp $
+# $MirOS: ports/japanese/jvim/Makefile,v 1.5 2008/03/09 17:22:58 tg Exp $
 # $OpenBSD: Makefile,v 1.20 2003/08/04 13:11:48 espie Exp $
 # $FreeBSD: Makefile,v 1.1.1.1 1998/07/10 14:05:19 kuriyama Exp $
 
@@ -60,7 +60,7 @@ BFLAGS=		JPDEF='${JPDEF}' \
 		PREFIX='${PREFIX}' \
 		MANDIR='$${PREFIX}/man/ja_JP.EUC' \
 		MACHINE=-DBSD_UNIX \
-		CC='${CC} ${CFLAGS} -Wall'
+		CC=${_PASS_CC:Q}\ ${CFLAGS:Q}\ -Wall
 
 MAKE_FILE=	makefile.junx
 ALL_TARGET=	jvim jcat jfold jgrep
