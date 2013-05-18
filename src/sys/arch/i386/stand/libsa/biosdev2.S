@@ -1,4 +1,4 @@
-/* $MirOS: src/sys/arch/i386/stand/libsa/biosdev2.S,v 1.5 2009/01/12 19:37:48 tg Exp $ */
+/* $MirOS: src/sys/arch/i386/stand/libsa/biosdev2.S,v 1.6 2009/01/12 20:13:12 tg Exp $ */
 
 /*-
  * Copyright (c) 2009
@@ -45,6 +45,15 @@ biosdev_lbaprobe:
 	push	ebx
 	push	esi
 	push	edi
+	mov	edi,offset bounce_buf
+	mov	al,0x13
+	stosb
+	xor	eax,eax
+	stosd
+	stosd
+	stosd
+	stosd
+	stosd
 	xor	edx,edx
 	mov	dl,[ebp+8]
 	call	prot_to_real
@@ -72,13 +81,6 @@ biosdev_lbaprobe:
 	push	ss
 	pop	ds
 	xor	si,si
-	xor	eax,eax
-	mov	byte ptr ds:[0],19
-	mov	ds:[1],eax
-	mov	ds:[5],eax
-	mov	ds:[9],eax
-	mov	ds:[13],eax
-	mov	ds:[17],eax
 	mov	ax,0x4B01
 	int	0x13
 	pop	edx
