@@ -1,3 +1,4 @@
+.\" $MirOS$
 .TH SIRC 1 "" "Roger Espel Llima" "BSD Reference Manual"
 .SH NAME
 sirc \- an IRC client in perl
@@ -6,64 +7,65 @@ sirc \- an IRC client in perl
 [options] [nickname [server]]
 .SH OPTIONS
 .TP
-.BR "-d"
+.BR "\-d"
 Starts
 .B sirc
 in dumb mode (without the full-screen front-end).
 .TP
-.BR "-p \fI<port>\fR"
+.BR "\-p \fI<port>\fR"
 Specifies the port number to connect to.
+Prefix the number with a "s" to use SSL.
 .TP
-.BR "-i \fI<name>\fR"
+.BR "\-i \fI<name>\fR"
 Specifies the IRCNAME to use (the default being "sirc user").
 .TP
-.BR "-n \fI<nick>\fR"
+.BR "\-n \fI<nick>\fR"
 Sets the nickname.
 .TP
-.BR "-s \fI<server>\fR"
+.BR "\-s \fI<server>\fR"
 Sets the server that
 .B sirc
 should connect to.
 .TP
-.BR "-l \fI<filename>\fR"
+.BR "\-l \fI<filename>\fR"
 Specifies a file to be loaded instead of ~/.etc/sircrc.pl.
 .TP
-.BR "-L \fI<filename>\fR"
+.BR "\-L \fI<filename>\fR"
 Specifies a file of commands to run, instead of ~/.etc/sircrc.
 .TP
-.BR "-H \fI<hostname>\fR"
+.BR "\-H \fI<hostname>\fR"
 Specifies a hostname to bind to, as a virtual host.
 .TP
-.BR "-q"
+.BR "\-q"
 Doesn't load ~/.etc/sircrc.pl or the system-wide sircrc.pl.
 .TP
-.BR "-Q"
+.BR "\-Q"
 Doesn't run commands from ~/.etc/sircrc or the system-wide sircrc.
 .TP
-.BR "-R"
+.BR "\-R"
 Runs in restricted mode (no shell access, no access to files).
 .TP
-.BR "-7"
-Runs in seven-bit mode, stripping iso-8859-1 and utf-8 accented characters.
+.BR "\-7"
+Runs in seven-bit mode, stripping ISO-8859-1 and UTF-8 accented characters.
 .TP
-.BR "-U"
-Disables the automatic conversion from iso-8859-1 on the local terminal
-to utf-8 on the wire, and, vice versa, iso-8859-1, iso-8859-15, windows-1252
-and utf-8 on the wire to iso-8859-1 on the local terminal.
-The input is still tried to be parsed as utf-8 first.
+.BR "\-U"
+Disables the automatic conversion from ISO-8859-1 on the local terminal
+to UTF-8 on the wire, and, vice versa, ISO-8859-1, ISO-8859-15, windows-1252
+and UTF-8 on the wire to ISO-8859-1 on the local terminal.
+The input is still tried to be parsed as UTF-8 first.
 .TP
-.BR "-C \fI<charset>\fR"
-Sets the local character set from iso-8859-1 (see the \fB-U\fR option above)
+.BR "\-C \fI<charset>\fR"
+Sets the local character set from ISO-8859-1 (see the \fB\-U\fR option above)
 to \fIcharset\fR.
 Supported charsets are listed in Encode(3p).
 .TP
-.BR "-X"
-Sets the local character set (see the \fB-C\fR option above) to UTF-8.
+.BR "\-X"
+Sets the local character set (see the \fB\-C\fR option above) to UTF-8.
 Automatically enabled if the current locale is a UTF-8 locale,
 and the operating system supports detection via the locale(1)
 command or the LANG, LC_CTYPE and LC_ALL environment variables.
 .TP
-.BR "-T"
+.BR "\-T"
 Do not show timestamps on messages.
 .SH ARGUMENTS
 .TP
@@ -79,7 +81,7 @@ password can be given in the form \fIserver.host\fR:\fIport\fR:\fIpasswd\fR.
 .B sirc
 is an IRC client that is designed to act much like ircII, except for
 the scripting interface, which uses perl.
-mIRC colour codes and Colloquy-induced Ctrl\-A characters framing
+mIRC colour codes and Colloquy-induced ^A characters framing
 brackets around nicknames are automatically stripped.
 .PP
 All IRC commands start with a /, and a detailed description of them is given by
@@ -166,7 +168,7 @@ location of your .sircrc file; defaults to ~/.etc/sircrc.
 location of your .sircrc.pl file; defaults to ~/.etc/sircrc.pl.
 .TP
 .BR "SIRCSSL"
-extra arguments to openssl; defaults to -CApath /etc/ssl/certs.
+extra arguments to openssl; defaults to \-CApath /etc/ssl/certs.
 .TP
 .BR "IRCFINGER"
 default reply to CTCP FINGERs.
