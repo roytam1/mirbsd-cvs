@@ -1,4 +1,4 @@
-/**	$MirOS: src/lib/libc/stdlib/setenv.c,v 1.4 2006/06/02 02:29:55 tg Exp $ */
+/**	$MirOS: src/lib/libc/stdlib/setenv.c,v 1.5 2006/07/04 21:38:13 tg Exp $ */
 /*	$OpenBSD: setenv.c,v 1.9 2005/08/08 08:05:37 espie Exp $ */
 /*
  * Copyright (c) 1987 Regents of the University of California.
@@ -29,10 +29,11 @@
  * SUCH DAMAGE.
  */
 
+#include <errno.h>
 #include <stdlib.h>
 #include <string.h>
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/lib/libc/stdlib/setenv.c,v 1.5 2006/07/04 21:38:13 tg Exp $");
 
 char *__findenv(const char *name, int *offset);
 
