@@ -1,10 +1,10 @@
-# $MirOS: www/src/mksh_old.hts,v 1.7 2008/03/02 18:12:20 tg Exp $
+# $MirOS: www/src/mksh_old.hts,v 1.8 2008/03/24 20:02:40 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/mksh/old "mksh – old versions"
-mws_putheader '$MirOS: www/src/mksh_old.hts,v 1.7 2008/03/02 18:12:20 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh_old.hts,v 1.8 2008/03/24 20:02:40 tg Exp $'
 mws_content <<'EOF'
 <h1><a href="mksh.htm">mksh</a> – old versions</h1>
 <p>This page lists information about mksh R29 and earlier.</p>
@@ -51,6 +51,9 @@ mws_content <<'EOF'
 <p>The MirOS Project has tested mksh on the following operating systems,
  asked people to test, and hunted mksh down in these packaging systems:</p>
 <ul>
+ <li>mksh R33a-d<ul>
+  <li>Interix 3.5 SP-8.0.1969.1 (i386 gcc3.3 win2k) <em>via MirOS provided pkgsrc® source package</em></li>
+ </ul></li>
  <li>mksh up to R32<ul>
   <li>MirOS #10 RC7 (i386 pcc20071025) <em>optimisation disabled</em></li>
   <li>MirOS #10 RC6 (sparc gcc3.4.6)</li>
