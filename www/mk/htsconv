@@ -1,4 +1,4 @@
-rcsid_htsconv='$MirOS: www/mk/htsconv,v 1.40 2009/09/25 18:36:55 tg Exp $'
+rcsid_htsconv='$MirOS: www/mk/htsconv,v 1.41 2009/09/25 18:39:08 tg Exp $'
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -52,6 +52,23 @@ function mws_basepath {
 	mws__canonpath=$mws__canonsite/$1
 }
 
+function mws_makepic {
+	local hpic htit fsiz hmag
+
+	htit=$1
+	fsiz=${2:-0}
+	hmag=${3:-u}
+
+	(( fsiz > 2 && fsiz < 255 )) || unset fsiz
+
+	hpic=$(cksum -a oaat <<<"$hmag,$fsiz,$htit").png
+	if [[ ! -s hashed/$hpic ]]; then
+		mkdir -p hashed
+		php "$TOP"/mk/ttf2png "$htit" $fsiz >hashed/$hpic
+	fi
+	print $hpic
+}
+
 function mws_putheader {
 	local rcsid=$1 hpic
 
@@ -60,12 +77,7 @@ function mws_putheader {
 		exit 1
 	fi
 	if [[ -n $mws__headline ]]; then
-		hpic=$(cksum -a adler32 <<<"$mws__fontsize,$mws__headline").png
-		if [[ ! -s hashed/$hpic ]]; then
-			mkdir -p hashed
-			php "$TOP"/mk/ttf2png "$mws__headline" \
-			    $mws__fontsize >hashed/$hpic
-		fi
+		hpic=$(mws_makepic "$mws__headline" "$mws__fontsize" s)
 		mws__headline="$nl<h1><img alt=\"$mws__headline\""
 		mws__headline="$mws__headline src=\"@@RELPATH@@hashed/$hpic\" /></h1>"
 	fi

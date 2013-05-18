@@ -1,8 +1,7 @@
 mws_setname subprojects/kwalletcli "kwalletcli – CLI for the KDE Wallet"
 mws_setheadline CLI for the KDE Wallet
-mws_putheader '$MirOS: www/src/kwalletcli.hts,v 1.6 2009/09/25 18:25:20 tg Exp $'
+mws_putheader '$MirOS: www/src/kwalletcli.hts,v 1.7 2009/09/25 18:28:31 tg Exp $'
 mws_content <<'EOF'
-
 <table width="100%"><tr><td>
 <p>There isn’t any content yet. Please see <a
  href="@@RELPATH@@permalinks/wlog-10_e20090708-tg.htm">the wlog entry
@@ -18,6 +17,13 @@ mws_content <<'EOF'
  <li>2355082724 11524 <a href="@@ABSPATH@@/MirOS/dist/hosted/kwalletcli/kwalletcli-1.00.tar.gz">/MirOS/dist/hosted/kwalletcli/kwalletcli-1.00.tar.gz</a></li>
  <li>MD5 (kwalletcli-1.00.tar.gz) = 76ef3c1d611a11ea13dc805d67d82208</li>
 </ul>
+EOF
+ttxt="kwalletcli"
+tpic=$(mws_makepic "$ttxt" $tsiz)
+mws_content <<EOF
+<h2><img alt="$ttxt" src="@@RELPATH@@hashed/$tpic" /></h2>
+<p>Update: we also have KDE4 bindings; new distfile, Debian packaging
+ etc. coming soon…</p.
 EOF
 mws_putfooter
 exit 0
