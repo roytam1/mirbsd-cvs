@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.sbin/vnconfig/vnconfig.c,v 1.9 2006/02/22 00:44:27 tg Exp $ */
+/**	$MirOS: src/usr.sbin/vnconfig/vnconfig.c,v 1.10 2006/02/24 01:12:21 tg Exp $ */
 /*	$OpenBSD: vnconfig.c,v 1.16 2004/09/14 22:35:51 deraadt Exp $	*/
 /*
  * Copyright (c) 2006 Thorsten Glaser
@@ -61,7 +61,7 @@
 #include <openssl/evp.h>
 #include <openssl/pem.h>
 
-__RCSID("$MirOS: src/usr.sbin/vnconfig/vnconfig.c,v 1.9 2006/02/22 00:44:27 tg Exp $");
+__RCSID("$MirOS: src/usr.sbin/vnconfig/vnconfig.c,v 1.10 2006/02/24 01:12:21 tg Exp $");
 
 #define DEFAULT_VND	"vnd0"
 
@@ -271,8 +271,6 @@ usage(void)
 	exit(1);
 }
 
-#define PEM_STRING_ASN1_OCTET_STRING "ASN1 OCTET STRING"
-
 static int
 make_key(const char *algo, FILE *fp, const char *key2)
 {
@@ -312,9 +310,7 @@ make_key(const char *algo, FILE *fp, const char *key2)
 		errx(2, "cannot set ASN.1 octet string: %s",
 		    ERR_error_string(ERR_get_error(), NULL));
 
-	i = PEM_ASN1_write(i2d_ASN1_OCTET_STRING,
-	    PEM_STRING_ASN1_OCTET_STRING, fp, (char *)aos,
-	    enc, NULL, 0, NULL, NULL);
+	i = PEM_write_ASN1_OCTET_STRING(fp, aos, enc, NULL, 0, NULL, NULL);
 	ASN1_STRING_free(aos);
 	if (!i)
 		errx(2, "cannot encode svnd keyfile: %s",
@@ -333,9 +329,7 @@ extract_key(FILE *fp, char **key, int *klen)
 
 	ERR_load_crypto_strings();
 	OpenSSL_add_all_ciphers();
-	if ((aos = (ASN1_OCTET_STRING *)PEM_ASN1_read(
-	    (char *(*)(char **, unsigned char **, long))d2i_ASN1_OCTET_STRING,
-	    PEM_STRING_ASN1_OCTET_STRING, fp, NULL, NULL, NULL)) == NULL) {
+	if ((aos = PEM_read_ASN1_OCTET_STRING(fp, NULL, NULL, NULL)) == NULL) {
 		ERR_print_errors_fp(stderr);
 		errx(2, "cannot decode svnd keyfile");
 	}

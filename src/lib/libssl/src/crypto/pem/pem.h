@@ -1,5 +1,7 @@
+/* $MirOS$ */
 /* crypto/pem/pem.h */
 /* Copyright (C) 1995-1997 Eric Young (eay@cryptsoft.com)
+ * Copyright (c) 2006 Thorsten Glaser (tg@mirbsd.de)
  * All rights reserved.
  *
  * This package is an SSL implementation written
@@ -126,6 +128,7 @@ extern "C" {
 #define PEM_STRING_DHPARAMS	"DH PARAMETERS"
 #define PEM_STRING_SSL_SESSION	"SSL SESSION PARAMETERS"
 #define PEM_STRING_DSAPARAMS	"DSA PARAMETERS"
+#define PEM_STRING_ASN1_OCTET_STRING	"ASN1 OCTET STRING"
 
   /* Note that this structure is initialised by PEM_SealInit and cleaned up
      by PEM_SealFinal (at least for now) */
@@ -377,6 +380,10 @@ int PEM_write_bio_##name(BIO *bp, type *x, const EVP_CIPHER *enc, \
 			PEM_STRING_X509,fp, \
                         (char *)x, NULL,NULL,0,NULL,NULL)
 
+#define	PEM_write_ASN1_OCTET_STRING(fp,x,enc,kstr,klen,cb,u) \
+		PEM_ASN1_write((int (*)())i2d_ASN1_OCTET_STRING,PEM_STRING_ASN1_OCTET_STRING,fp,\
+			(char *)x,enc,kstr,klen,cb,u)
+
 #define	PEM_read_SSL_SESSION(fp,x,cb,u) (SSL_SESSION *)PEM_ASN1_read( \
 	(char *(*)())d2i_SSL_SESSION,PEM_STRING_SSL_SESSION,fp,(char **)x,cb,u)
 #define	PEM_read_X509(fp,x,cb,u) (X509 *)PEM_ASN1_read( \
@@ -402,6 +409,9 @@ int PEM_write_bio_##name(BIO *bp, type *x, const EVP_CIPHER *enc, \
 		(NETSCAPE_CERT_SEQUENCE *)PEM_ASN1_read( \
         (char *(*)())d2i_NETSCAPE_CERT_SEQUENCE,PEM_STRING_X509,fp,\
 							(char **)x,cb,u)
+
+#define	PEM_read_ASN1_OCTET_STRING(fp,x,cb,u) (ASN1_OCTET_STRING *)PEM_ASN1_read( \
+	(char *(*)())d2i_ASN1_OCTET_STRING,PEM_STRING_ASN1_OCTET_STRING,fp,(char **)x,cb,u)
 
 #define PEM_write_bio_SSL_SESSION(bp,x) \
 		PEM_ASN1_write_bio((int (*)())i2d_SSL_SESSION, \
@@ -444,6 +454,10 @@ int PEM_write_bio_##name(BIO *bp, type *x, const EVP_CIPHER *enc, \
 			PEM_STRING_X509,bp, \
                         (char *)x, NULL,NULL,0,NULL,NULL)
 
+#define	PEM_write_bio_ASN1_OCTET_STRING(bp,x,enc,kstr,klen,cb,u) \
+		PEM_ASN1_write_bio((int (*)())i2d_ASN1_OCTET_STRING,PEM_STRING_ASN1_OCTET_STRING,\
+			bp,(char *)x,enc,kstr,klen,cb,u)
+
 #define	PEM_read_bio_SSL_SESSION(bp,x,cb,u) (SSL_SESSION *)PEM_ASN1_read_bio( \
 	(char *(*)())d2i_SSL_SESSION,PEM_STRING_SSL_SESSION,bp,(char **)x,cb,u)
 #define	PEM_read_bio_X509(bp,x,cb,u) (X509 *)PEM_ASN1_read_bio( \
@@ -472,6 +486,9 @@ int PEM_write_bio_##name(BIO *bp, type *x, const EVP_CIPHER *enc, \
 		(NETSCAPE_CERT_SEQUENCE *)PEM_ASN1_read_bio( \
         (char *(*)())d2i_NETSCAPE_CERT_SEQUENCE,PEM_STRING_X509,bp,\
 							(char **)x,cb,u)
+
+#define	PEM_read_bio_ASN1_OCTET_STRING(bp,x,cb,u) (ASN1_OCTET_STRING *)PEM_ASN1_read_bio( \
+	(char *(*)())d2i_ASN1_OCTET_STRING,PEM_STRING_ASN1_OCTET_STRING,bp,(char **)x,cb,u)
 
 #endif
 
@@ -579,6 +596,8 @@ DECLARE_PEM_rw(DSAparams, DSA)
 DECLARE_PEM_rw(DHparams, DH)
 
 #endif
+
+DECLARE_PEM_rw_cb(ASN1_OCTET_STRING, ASN1_OCTET_STRING)
 
 DECLARE_PEM_rw_cb(PrivateKey, EVP_PKEY)
 
