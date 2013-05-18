@@ -1,4 +1,4 @@
-							MirOS#9 BSD/i386
+						       MirOS#9 BSD/sparc
 
 Setup CD for MirOS/sparc
 ========================
@@ -92,5 +92,5 @@ Some of the supplied software is covered by GNU licences. The source
 code is available at http://www.mirbsd.org/ and its mirrors; further
 information can be found at /usr/share/doc/legal/ as well.
 
-_________________________________________________________________________
-$MirOS: src/distrib/i386/iso/00-README,v 1.14 2006/06/25 01:03:45 tg Exp $
+___________________________________________________________________________
+$MirOS: src/distrib/sparc/cdfs/00-README,v 1.1 2006/07/05 04:51:23 tg Exp $

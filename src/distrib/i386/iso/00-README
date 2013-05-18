@@ -124,5 +124,5 @@ Some of the supplied software is covered by GNU licences. The source
 code is available at http://www.mirbsd.org/ and its mirrors; further
 information can be found at /usr/share/doc/legal/ as well.
 
-_________________________________________________________________________
-$MirOS: src/distrib/i386/iso/00-README,v 1.13 2006/06/25 01:03:04 tg Exp $
+__________________________________________________________________________
+$MirOS: src/distrib/i386/iso/00-README,v 1.14 2006/06/25 01:03:45 tg Exp $
