@@ -3,7 +3,7 @@
 
 #include "sh.h"
 
-__RCSID("$MirOS: src/bin/mksh/histrap.c,v 1.39 2007/01/12 02:06:34 tg Exp $");
+__RCSID("$MirOS: src/bin/mksh/histrap.c,v 1.40 2007/01/15 02:48:27 tg Exp $");
 
 Trap sigtraps[NSIG + 1];
 static struct sigaction Sigact_ign, Sigact_trap;
@@ -991,8 +991,6 @@ inittraps(void)
 			}
 #if HAVE_SYS_SIGLIST
 			sigtraps[i].mess = sys_siglist[i];
-#elif HAVE__SYS_SIGLIST
-			sigtraps[i].mess = _sys_siglist[i];
 #elif HAVE_STRSIGNAL
 			sigtraps[i].mess = strsignal(i);
 #else
