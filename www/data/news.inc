@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/news.inc,v 1.101 2009/02/08 21:23:59 tg Exp $
+RCSID: $MirOS: www/data/news.inc,v 1.102 2009/02/09 11:44:00 tg Exp $
 Title: Older news from the MirOS Project
 Date: 01.03.2006
 
@@ -1432,4 +1432,24 @@ Tag: security snapshot
  <strong>no longer warn</strong> about empty passwords for the anoncvs
  and anonrsync users: “anoncvs”, “_anoncvs”, “rsync”, “_rsync”, and by
  chance, “__anoncvs” and other versions with more underscores, too.</p>
+----
+Title: Talk "Painless Perl Ports with cpan2port" online
+Date: 13.02.2009 21:55
+Author: bsiegert@
+Tag: talk fosdem
+
+<p>“CPAN is the host for hundreds of Perl modules. Creating ports for these
+ modules is often trivial but may still take some time. cpan2port is a
+ new utility available in MirPorts, the MirOS ports framework, designed
+ to facilitate this task. It should be easily adaptable for other
+ platforms, e.g.  pkgsrc®.</p>
+
+<p>“The aim of this talk is to present the implementation and practical
+ usage of the utility. Interested developers from other BSD projects are
+ very welcome, some hints for porting the tool will be given.”</p>
+
+<p><a
+href="http://www.slideshare.net/bsiegert/painless-perl-ports-with-cpan2port">The
+ slides for bsiegert@'s talk at FOSDEM 2009 are now available on
+ slideshare.</a></p>
 ----
