@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.332 2011/03/26 10:58:04 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.333 2011/03/26 11:23:15 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -7684,4 +7684,48 @@ Tag: debian
  of the fact that this is my only Debian shirt – although I’m thinking
  how to get Tartan Trousers if money were no issue – and nobody had ever
  commented on my various BSD, FOSDEM, FrOSCon, etc. wear…)</p>
+----
+Date: 19.05.2011 20:29
+Author: bsiegert@
+Title: :(
+
+<p>I hope I will never again have to attend a funeral for a friend who
+ committed suicide.</p>
+
+<p>That is all.</p>
+----
+Date: 19.05.2011 20:47
+Author: bsiegert@
+Title: Progress with pkgsrc
+Tag: pkgsrc
+
+<p>The MirOS support for pkgsrc is progressing, albeit very slowly. This
+ is because I spend more time traveling for work than in the office.
+ After a long day of meetings and conferences, I am no longer motivated
+ to code in my free time. What’s more, several different projects at
+ work have tight deadlines.</p>
+
+<p>Having said this, I committed MirOS support for libtool-2.2.6b in
+ pkgsrc the other day, after a positive review by agc. As for the bmake
+ patch, which is still available from
+ <a href="@@RELPATH@@pkgsrc.htm">our pkgsrc page</a>, I was told to
+ redo the patch, this time for <tt>src/usr.bin/make</tt> directly. When
+ this patch will have gone in, somebody else (joerg?) will sync
+ <tt>pkgsrc/devel/bmake</tt>, and MirOS will be able to bootstrap pkgsrc
+ without patches. Let’s try to get to this point before the 2011Q2
+ branch.</p>
+
+<p>The new “showcase” machine that I bought a while ago, does not have
+ working network connectivity and SATA under MirOS. tg@ recommended an
+ installation into an HVM guest under Xen. I am currently trying to set
+ this up, however I must first succeed to get a stable NetBSD Dom0
+ system. I am using NetBSD-current because it has the right network
+ driver and a custom kernel, however the console seems flakey, and
+ accessing <tt>/kern/xen</tt> (even just ls!) leaves the process hanging
+ in the “tstile” state. pkgsrc has four versions of Xen, so I should
+ just test them all until I find one that works.</p>
+
+<p>PS: My Go package,
+ <a href="http://golang.org/pkg/image/tiff">image/tiff</a> is now part
+ of the standard library. Yay!</p>
 ----
