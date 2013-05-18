@@ -1,4 +1,4 @@
-! $MirOS: contrib/samples/dot.Xmodmap.xapps,v 1.1 2006/01/26 22:33:04 tg Exp $
+! $MirOS: contrib/samples/dot.Xmodmap.xapps,v 1.2 2006/01/26 22:50:42 tg Exp $
 !-
 ! Copyright (c) 2006
 !	Thorsten Glaser <tg@mirbsd.de>
@@ -28,13 +28,12 @@
 ! well). Emulating Meta with ModeSwitch helps with X11 applications.
 !
 ! Diversions from US layout:
-! * The Alt_L key generates ModeSwitch
+! * The Alt_L key generates Meta_L
 ! * The Win_L key generates Alt_L
-! * The < > | key generates Alt_L
+! * The < > | key generates Mode_switch
 ! * The Win_R key generates Meta_R
 ! * The Win_M key generates Compose
 ! * The CapsLock key generates Euro, Trademark, Ellipsis and CheckedBox
-! * The InternetExplorer key generates Meta_L (jusr so that it's def'd)
 
 keycode	0x09 =	Escape		Escape		U009B		U009B
 keycode	0x43 =	F1		XF86_Switch_VT_1
@@ -115,7 +114,7 @@ keycode	0x54 =	KP_Begin	KP_5
 keycode	0x55 =	KP_Right	KP_6
 
 keycode	0x32 =	Shift_L
-keycode	0x5E =	Alt_L
+keycode	0x5E =	Mode_switch
 keycode	0x34 =	z		Z		U00FA		U00DA
 keycode	0x35 =	x		X		U00F8		U00D8
 keycode	0x36 =	c		C		U00E3		U00C3
@@ -135,7 +134,7 @@ keycode	0x6C =	KP_Enter	Return
 
 keycode	0x25 =	Control_L
 keycode	0x73 =	Alt_L
-keycode	0x40 =	Mode_switch
+keycode	0x40 =	Meta_L
 keycode	0x41 =	space		space		U00A0		U00A0
 keycode	0x71 =	Alt_R
 keycode	0x74 =	Meta_R
@@ -146,8 +145,6 @@ keycode	0x68 =	Down
 keycode	0x66 =	Right
 keycode	0x5A =	KP_Insert
 keycode	0x5B =	KP_Delete
-
-keycode	0xB2 =	Meta_L
 
 clear	Shift
 clear	Lock
