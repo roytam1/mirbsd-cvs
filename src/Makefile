@@ -1,4 +1,4 @@
-# $MirOS: src/Makefile,v 1.97 2007/03/09 11:31:49 tg Exp $
+# $MirOS: src/Makefile,v 1.98 2007/05/09 06:57:47 tg Exp $
 # $OpenBSD: Makefile,v 1.103 2004/05/03 15:18:18 drahn Exp $
 
 .if defined(MAKECONF) && exists(${MAKECONF})
@@ -369,14 +369,14 @@ _do-dist:
 	-cd ${BSDRELDIR}/rel; \
 	    ${SUDO} rm -f CKSUM* index.txt; \
 	    ( \
-		/bin/ls -d1 !(index.txt*); \
+		/bin/ls -d1 !(@(Build|index.txt)*); \
 		echo CKSUM; \
 		echo CKSUM.gz; \
 		echo index.txt; \
 	    ) | ${SUDO} sort -uo index.txt; \
 	    sort -k3 |& exec 3>&p; exec 4<&p; \
 	    sort |& exec 5>&p; exec 6<&p; \
-	    cksum -a cksum -a rmd160 -a tiger !(CKSUM*) | \
+	    cksum -a cksum -a rmd160 -a tiger !(@(Build|CKSUM)*) | \
 	    while IFS= read -r line; do \
 		if [[ $$line = *" = "+([0-9a-fA-F]) ]]; then \
 			print -ru5 "$$line"; \
