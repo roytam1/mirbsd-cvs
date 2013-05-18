@@ -25,7 +25,7 @@
 
 #include "sh.h"
 
-__RCSID("$MirOS: src/bin/mksh/funcs.c,v 1.119 2009/07/30 19:11:11 tg Exp $");
+__RCSID("$MirOS: src/bin/mksh/funcs.c,v 1.120 2009/08/08 13:08:50 tg Exp $");
 
 #if HAVE_KILLPG
 /*
@@ -1130,7 +1130,7 @@ c_alias(const char **wp)
 		const char *alias = *wp, *val, *newval;
 		char *xalias = NULL;
 		struct tbl *ap;
-		int h;
+		uint32_t h;
 
 		if ((val = cstrchr(alias, '='))) {
 			strndupx(xalias, alias, val++ - alias, ATEMP);
