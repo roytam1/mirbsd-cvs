@@ -1,9 +1,10 @@
-# $MirOS: ports/print/gentium-font/Makefile,v 1.5 2006/09/14 00:12:41 tg Exp $
+# $MirOS: ports/print/ttf-sil-gentium-basic/Makefile,v 1.1 2009/06/22 11:01:03 tg Exp $
 
 COMMENT=		smart Unicode font families (Basic and Book Basic) based on Gentium
 CATEGORIES=		print graphics textproc productivity x11
 PKGSTEM=		ttf-sil-gentium-basic
 VERSION=		1.1
+DASH_VER=		1
 DISTNAME=		${PKGSTEM}_${VERSION}.orig
 PKGNAME=		${PKGSTEM}-${VERSION}-${DASH_VER}
 HOMEPAGE=		http://scripts.sil.org/Gentium_basic
@@ -34,7 +35,6 @@ do-install:
 	cd ${FONTDIR} && \
 	    ${X11BASE}/bin/mkfontscale . && \
 	    ${X11BASE}/bin/mkfontdir .
-	${X11BASE}/bin/fc-cache ${FONTDIR}
 	cd ${WRKSRC} && ${INSTALL_DATA} ${DOCS} ${FONTDIR}/
 
 .include <bsd.port.mk>

@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.252 2009/05/24 19:51:40 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.253 2009/06/18 20:55:36 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -681,6 +681,9 @@ _SYSTRACE_SED_SUBST+=	-e 's,$${${_v}},${${_v}},g'
 # Create the generic variable substitution list, from subst vars
 SUBST_VARS+=		MACHINE_ARCH ARCH HOMEPAGE PREFIX SYSCONFDIR \
 			FLAVOUR_EXT RESPONSIBLE
+.if ${USE_X11:L} == "yes"
+SUBST_VARS+=		X11BASE
+.endif
 _SED_SUBST=		sed
 .for _v in ${SUBST_VARS}
 _SED_SUBST+=		-e 's|$${${_v}}|${${_v}}|g'

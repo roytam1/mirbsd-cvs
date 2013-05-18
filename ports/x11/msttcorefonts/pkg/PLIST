@@ -32,7 +32,10 @@ lib/X11/fonts/mscorefonts/verdanab.ttf
 lib/X11/fonts/mscorefonts/verdanai.ttf
 lib/X11/fonts/mscorefonts/verdanaz.ttf
 lib/X11/fonts/mscorefonts/webdings.ttf
-@unexec /bin/rm %D/lib/X11/fonts/mscorefonts/fonts.cache-1 2>/dev/null || /usr/bin/true
+@exec print 'Add "%B" to your font path, both in a FontPath directive in'
+@exec print 'the Files section of /etc/X11/XF86Config, as well as with:'
+@exec print '$ xset fp+ %B; xset fp rehash'
+@exec env HOME=/ ${X11BASE}/bin/fc-cache %B
+@unexec rm -f %B/fonts.cache-1
 @dirrm lib/X11/fonts/mscorefonts
 @dirrm lib/X11/fonts
-@exec HOME=/tmp fc-cache -f %D/lib/X11/fonts/mscorefonts

@@ -1,8 +1,9 @@
-# $MirOS: ports/x11/msttcorefonts/Makefile,v 1.1.7.1 2005/03/18 16:00:44 tg Exp $
+# $MirOS: ports/x11/msttcorefonts/Makefile,v 1.2 2006/09/14 00:15:29 tg Exp $
 # $OpenBSD: Makefile,v 1.8 2004/02/01 20:17:47 sturm Exp $
 
-COMMENT=			Microsoft TrueType core fonts
+COMMENT=		Microsoft TrueType core fonts
 DISTNAME=		msttcorefonts-1.2
+DASH_VER=		1
 CATEGORIES=		x11
 DIST_SUBDIR=		${DISTNAME}
 HOMEPAGE=		http://corefonts.sourceforge.net/
@@ -17,6 +18,7 @@ MASTER_SITES=		${MASTER_SITE_SOURCEFORGE:=corefonts/}
 DIST_SUBDIR=		${DISTNAME}
 
 BUILD_DEPENDS=		cabextract:cabextract-*:archivers/cabextract
+USE_X11=		Yes
 NO_BUILD=		Yes
 PKG_ARCH=		*
 
