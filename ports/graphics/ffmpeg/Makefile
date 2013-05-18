@@ -1,7 +1,7 @@
-# $MirOS: ports/graphics/ffmpeg/Makefile,v 1.4 2006/06/24 23:39:47 bsiegert Exp $
+# $MirOS: ports/graphics/ffmpeg/Makefile,v 1.5 2006/09/14 00:09:49 tg Exp $
 # $OpenBSD: Makefile,v 1.9 2004/04/18 00:36:22 jolan Exp $
 
-COMMENT=			audio/video converter and streamer with bktr(4) support
+COMMENT=	audio/video converter and streamer with bktr(4) support
 DISTNAME=	ffmpeg-0.4.9-pre1
 PKGNAME=	${DISTNAME:S/-pre/pre/}-0
 CATEGORIES=	graphics x11
@@ -15,7 +15,7 @@ HOMEPAGE=	http://ffmpeg.sourceforge.net/
 # GPL
 PERMIT_DISTFILES_CDROM=	"patents"
 PERMIT_DISTFILES_FTP=	Yes
-PERMIT_PACKAGE_CDROM=	Yes
+PERMIT_PACKAGE_CDROM=	"patents"
 PERMIT_PACKAGE_FTP=	Yes
 
 LIB_DEPENDS=	SDL::devel/sdl \
