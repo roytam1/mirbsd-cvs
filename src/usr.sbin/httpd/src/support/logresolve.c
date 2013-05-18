@@ -1,4 +1,4 @@
-/* $MirOS: src/usr.sbin/httpd/src/support/logresolve.c,v 1.2 2005/03/13 19:16:59 tg Exp $ */
+/* $MirOS: src/usr.sbin/httpd/src/support/logresolve.c,v 1.3 2005/04/17 04:38:42 tg Exp $ */
 
 /*
  * logresolve 1.1
@@ -293,13 +293,9 @@ static void stats (FILE *output)
 
 static int getline (char *s, int n)
 {
-    char *cp;
-
     if (!fgets(s, n, stdin))
 	return (0);
-    cp = strchr(s, '\n');
-    if (cp)
-	*cp = '\0';
+    s[strcspn(s, "\n")] = '\0';
     return (1);
 }
 

@@ -1,4 +1,4 @@
-/* $MirOS: src/usr.sbin/httpd/src/modules/proxy/proxy_util.c,v 1.5 2006/04/03 20:54:45 tg Exp $ */
+/* $MirOS: src/usr.sbin/httpd/src/modules/proxy/proxy_util.c,v 1.6 2007/07/03 06:36:30 tg Exp $ */
 
 /* ====================================================================
  * The Apache Software License, Version 1.1
@@ -68,7 +68,7 @@
 #include "util_date.h"          /* get ap_checkmask() decl. */
 #include "sa_len.h"
 
-__RCSID("$MirOS: src/usr.sbin/httpd/src/modules/proxy/proxy_util.c,v 1.5 2006/04/03 20:54:45 tg Exp $");
+__RCSID("$MirOS: src/usr.sbin/httpd/src/modules/proxy/proxy_util.c,v 1.6 2007/07/03 06:36:30 tg Exp $");
 
 static int proxy_match_ipaddr(struct dirconn_entry *This, request_rec *r);
 static int proxy_match_domainname(struct dirconn_entry *This, request_rec *r);
@@ -1424,7 +1424,7 @@ void ap_proxy_clear_connection(pool *p, table *headers)
             name = next;
             while (*next && !ap_isspace(*next) && (*next != ','))
                 ++next;
-            while (*next && (ap_isspace(*next) || (*next == ','))) {
+            while (ap_isspace(*next) || (*next == ',')) {
                 *next = '\0';
                 ++next;
             }

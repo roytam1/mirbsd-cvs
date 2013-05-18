@@ -1,4 +1,4 @@
-/* $MirOS: src/usr.sbin/httpd/src/include/http_core.h,v 1.2 2005/03/13 19:16:44 tg Exp $ */
+/* $MirOS: src/usr.sbin/httpd/src/include/http_core.h,v 1.3 2005/04/17 04:38:32 tg Exp $ */
 
 /* ====================================================================
  * The Apache Software License, Version 1.1
@@ -287,6 +287,7 @@ typedef struct {
 #endif
     struct rlimit *limit_mem;
     struct rlimit *limit_nproc;
+    struct rlimit *limit_nofile;
     unsigned long limit_req_body;  /* limit on bytes in request msg body */
 
     /* logging options */

@@ -1,4 +1,4 @@
-/* $MirOS: src/usr.sbin/httpd/src/modules/proxy/mod_proxy.h,v 1.2 2005/03/13 19:16:51 tg Exp $ */
+/* $MirOS: src/usr.sbin/httpd/src/modules/proxy/mod_proxy.h,v 1.3 2006/09/20 23:45:09 tg Exp $ */
 
 /* ====================================================================
  * The Apache Software License, Version 1.1
@@ -260,7 +260,7 @@ typedef struct {
 
 struct per_thread_data {
     struct hostent hpbuf;
-    u_long ipaddr;
+    in_addr_t ipaddr;
     char *charpbuf[2];
 };
 /* Function prototypes */

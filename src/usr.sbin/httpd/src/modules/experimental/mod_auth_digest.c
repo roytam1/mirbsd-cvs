@@ -1,4 +1,4 @@
-/* $MirOS: src/usr.sbin/httpd/src/modules/experimental/mod_auth_digest.c,v 1.4 2006/09/20 23:45:08 tg Exp $ */
+/* $MirOS: src/usr.sbin/httpd/src/modules/experimental/mod_auth_digest.c,v 1.5 2007/08/08 19:09:50 tg Exp $ */
 
 /* ====================================================================
  * The Apache Software License, Version 1.1
@@ -95,42 +95,6 @@
  *       The only problem is that it allows replay attacks when somebody
  *       captures a packet sent to one server and sends it to another
  *       one. Should we add "AuthDigestNcCheck Strict"?
- */
-
-/* The section for the Configure script:
- * MODULE-DEFINITION-START
- * Name: digest_auth_module
- * ConfigStart
-
-    RULE_DEV_RANDOM=`sh ./helpers/CutRule DEV_RANDOM $file`
-    if [ "$RULE_DEV_RANDOM" = "default" ]; then
-	if [ -r "/dev/random" ]; then
-	    RULE_DEV_RANDOM="/dev/random"
-	elif [ -r "/dev/urandom" ]; then
-	    RULE_DEV_RANDOM="/dev/urandom"
-	else
-	    RULE_DEV_RANDOM="truerand"
-	    if sh helpers/TestCompile func randbyte; then
-		:
-	    elif sh helpers/TestCompile lib rand randbyte; then
-		:
-	    else
-		echo "      (mod_auth_digest) truerand library missing!"
-		echo "** This will most probably defeat successful compilation."
-		echo "** See Rule DEV_RANDOM in src/Configuration.tmpl for more information."
-	    fi
-	fi
-    fi
-    if [ "$RULE_DEV_RANDOM" = "truerand" ]; then
-	echo "      using truerand library (-lrand) for the random seed"
-	LIBS="$LIBS -L/usr/local/lib -lrand"
-    else
-	echo "      using $RULE_DEV_RANDOM for the random seed"
-	CFLAGS="$CFLAGS -DDEV_RANDOM=$RULE_DEV_RANDOM"
-    fi
-
- * ConfigEnd
- * MODULE-DEFINITION-END
  */
 
 #include "httpd.h"

@@ -1,5 +1,5 @@
-/**	$MirOS: src/usr.sbin/httpd/src/main/http_protocol.c,v 1.7 2006/09/20 23:45:07 tg Exp $ */
-/*	$OpenBSD: http_protocol.c,v 1.30 2006/02/11 19:15:57 otto Exp $ */
+/**	$MirOS: src/usr.sbin/httpd/src/main/http_protocol.c,v 1.8 2006/10/13 18:23:50 tg Exp $ */
+/*	$OpenBSD: http_protocol.c,v 1.32 2008/01/24 11:56:29 krw Exp $ */
 /* ====================================================================
  * The Apache Software License, Version 1.1
  *
@@ -3097,7 +3097,7 @@ int ap_read_etag_state(pool *pconf)
 
     /* read 4 random 32-bit uints from file and update the hash context */
     for (u = 0; u < 4; u++) {
-        if (read(fd, &rnd, sizeof(rnd)) < sizeof(rnd))
+        if (read(fd, &rnd, sizeof(rnd)) != sizeof(rnd))
             return (-1);
 
         ap_SHA1Update_binary(&baseCtx, (const unsigned char *)&rnd,

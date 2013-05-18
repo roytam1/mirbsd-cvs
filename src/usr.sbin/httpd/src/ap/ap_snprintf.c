@@ -1,5 +1,5 @@
-/* $MirOS$ */
-/* $OpenBSD: ap_snprintf.c,v 1.15 2005/03/28 21:11:22 niallo Exp $ */
+/* $MirOS: src/usr.sbin/httpd/src/ap/ap_snprintf.c,v 1.2 2007/09/13 15:55:54 tg Exp $ */
+/* $OpenBSD: ap_snprintf.c,v 1.16 2007/02/03 18:01:52 espie Exp $ */
 
 /* ====================================================================
  * The Apache Software License, Version 1.1
@@ -73,10 +73,11 @@
 #include <stdarg.h>
 #include <string.h>
 #include <stdlib.h>
+#include <stdint.h>
 #include <math.h>
 #include "sa_len.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.sbin/httpd/src/ap/ap_snprintf.c,v 1.2 2007/09/13 15:55:54 tg Exp $");
 
 typedef enum {
         NO = 0, YES = 1
@@ -88,17 +89,13 @@ typedef enum {
 #ifndef TRUE
 #define TRUE			1
 #endif
-#ifndef AP_LONGEST_LONG
-#define AP_LONGEST_LONG		long
-#endif
 #define NUL			'\0'
 #define WIDE_INT		long
-#define WIDEST_INT		AP_LONGEST_LONG
 
 typedef WIDE_INT wide_int;
 typedef unsigned WIDE_INT u_wide_int;
-typedef WIDEST_INT widest_int;
-typedef unsigned WIDEST_INT u_widest_int;
+typedef intmax_t widest_int;
+typedef uintmax_t u_widest_int;
 typedef int bool_int;
 
 #define S_NULL			"(null)"
@@ -1098,39 +1095,12 @@ ap_vformatter(int (*flush_func)(ap_vformatter_buff *),
 			 */
 			case 'p':
 				switch(*++fmt) {
-					/*
-					* If the pointer size is equal to or
-					* smaller than the size of the largest
-					* unsigned int, we convert the pointer
-					* to a hex number,
-					* otherwise we print "%p" to indicate
-					* that we don't handle "%p".
-					*/
 				case 'p':
-			#ifdef AP_VOID_P_IS_QUAD
-					if (sizeof(void *)
-					    <= sizeof(u_widest_int)) {
-						ui_quad = (u_widest_int)
-						    va_arg(ap, void *);
-						s = conv_p2_quad(ui_quad, 4,
-						    'x', &num_buf[NUM_BUF_SIZE],
-						    &s_len);
-					}
-			#else
-					if (sizeof(void *)
-					    <= sizeof(u_wide_int)) {
-						ui_num = (u_wide_int) va_arg(ap,
-						    void *);
-						s = conv_p2(ui_num, 4, 'x',
-						    &num_buf[NUM_BUF_SIZE],
-						    &s_len);
-					}
-			#endif
-					else {
-						s = "%p";
-						s_len = 2;
-						prefix_char = NUL;
-					}
+					ui_quad = (u_widest_int)(uintptr_t)
+					    va_arg(ap, void *);
+					s = conv_p2_quad(ui_quad, 4,
+					    'x', &num_buf[NUM_BUF_SIZE],
+					    &s_len);
 					pad_char = ' ';
 					break;
 

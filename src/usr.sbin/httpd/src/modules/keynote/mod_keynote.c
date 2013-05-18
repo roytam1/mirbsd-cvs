@@ -1,4 +1,4 @@
-/* $MirOS$ */
+/* $MirOS: src/usr.sbin/httpd/src/modules/keynote/mod_keynote.c,v 1.4 2005/04/19 14:37:53 tg Exp $ */
 /*
  * Copyright (c) 1998, 1999 Niels Provos.  All rights reserved.
  * Copyright (c) 1999, 2000, 2001 Niklas Hallqvist.  All rights reserved.
@@ -157,7 +157,7 @@ add_action_attributes(int sessid, request_rec *r)
     add_action_attribute(sessid, "LocalTimeOfDay", mytimeofday, r);
 
     add_action_attribute(sessid, "local_address", r->connection->local_ip, r);
-    add_action_attribute(sessid, "remote_adress", r->connection->remote_ip, r);
+    add_action_attribute(sessid, "remote_address", r->connection->remote_ip, r);
 
     if (r->connection->local_host != NULL)
 	add_action_attribute(sessid, "local_hostname",

@@ -1,4 +1,4 @@
-/* $MirOS: src/usr.sbin/httpd/src/main/util_script.c,v 1.3 2005/04/17 04:38:35 tg Exp $ */
+/* $MirOS: src/usr.sbin/httpd/src/main/util_script.c,v 1.4 2006/04/03 20:54:42 tg Exp $ */
 
 /* ====================================================================
  * The Apache Software License, Version 1.1
@@ -516,7 +516,7 @@ API_EXPORT(int) ap_scan_script_header_err_core(request_rec *r, char *buffer,
 	}
 
 	*l++ = '\0';
-	while (*l && ap_isspace(*l)) {
+	while (ap_isspace(*l)) {
 	    ++l;
 	}
 

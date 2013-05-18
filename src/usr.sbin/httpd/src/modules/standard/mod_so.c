@@ -1,5 +1,5 @@
-/**	$MirOS: src/usr.sbin/httpd/src/modules/standard/mod_so.c,v 1.2 2005/03/13 19:16:57 tg Exp $ */
-/*	$OpenBSD: mod_so.c,v 1.14 2005/02/09 12:13:10 henning Exp $ */
+/**	$MirOS: src/usr.sbin/httpd/src/modules/standard/mod_so.c,v 1.3 2005/04/17 04:38:41 tg Exp $ */
+/*	$OpenBSD: mod_so.c,v 1.15 2007/03/01 20:48:34 david Exp $ */
 
 /* ====================================================================
  * The Apache Software License, Version 1.1
@@ -303,7 +303,7 @@ static const char *load_module(cmd_parms *cmd, void *dummy,
 
 /*
  * This implements the LoadFile directive and loads an arbitrary
- * shared object file into the adress space of the server process.
+ * shared object file into the address space of the server process.
  */
 
 static const char *load_file(cmd_parms *cmd, void *dummy, char *filename)

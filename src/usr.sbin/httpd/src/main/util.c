@@ -1,4 +1,4 @@
-/* $MirOS: src/usr.sbin/httpd/src/main/util.c,v 1.6 2006/09/20 23:45:08 tg Exp $ */
+/* $MirOS: src/usr.sbin/httpd/src/main/util.c,v 1.7 2007/07/03 06:36:30 tg Exp $ */
 
 /* ====================================================================
  * The Apache Software License, Version 1.1
@@ -81,7 +81,7 @@
  */
 #include "test_char.h"
 
-__RCSID("$MirOS: src/usr.sbin/httpd/src/main/util.c,v 1.6 2006/09/20 23:45:08 tg Exp $");
+__RCSID("$MirOS: src/usr.sbin/httpd/src/main/util.c,v 1.7 2007/07/03 06:36:30 tg Exp $");
 
 /* we assume the folks using this ensure 0 <= c < 256... which means
  * you need a cast to (unsigned char) first, you can't just plug a
@@ -581,7 +581,7 @@ API_EXPORT(char *) ap_make_dirstr_parent(pool *p, const char *s)
 
 
 /*
- * This function is deprecated.  Use one of the preceeding two functions
+ * This function is deprecated.  Use one of the preceding two functions
  * which are faster.
  */
 API_EXPORT(char *) ap_make_dirstr(pool *p, const char *s, int n)
@@ -754,7 +754,7 @@ API_EXPORT(char *) ap_getword_conf(pool *p, const char **line)
     char *res;
     char quote;
 
-    while (*str && ap_isspace(*str))
+    while (ap_isspace(*str))
 	++str;
 
     if (!*str) {
@@ -786,7 +786,7 @@ API_EXPORT(char *) ap_getword_conf(pool *p, const char **line)
 	res = substring_conf(p, str, strend - str, 0);
     }
 
-    while (*strend && ap_isspace(*strend))
+    while (ap_isspace(*strend))
 	++strend;
     *line = strend;
     return res;
@@ -1318,7 +1318,7 @@ API_EXPORT(char *) ap_get_token(pool *p, const char **accept_line, int accept_wh
 
     /* Find first non-white byte */
 
-    while (*ptr && ap_isspace(*ptr))
+    while (ap_isspace(*ptr))
 	++ptr;
 
     tok_start = ptr;
@@ -1340,7 +1340,7 @@ API_EXPORT(char *) ap_get_token(pool *p, const char **accept_line, int accept_wh
 
     /* Advance accept_line pointer to the next non-white byte */
 
-    while (*ptr && ap_isspace(*ptr))
+    while (ap_isspace(*ptr))
 	++ptr;
 
     *accept_line = ptr;
