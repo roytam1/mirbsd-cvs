@@ -1,4 +1,4 @@
-# $MirOS: contrib/code/libhaible/Makefile,v 1.29 2006/06/01 21:54:50 tg Exp $
+# $MirOS: contrib/code/libhaible/Makefile,v 1.30 2006/06/01 21:58:15 tg Exp $
 
 LIB=	haible
 NOPIC=	Yes	# for now
@@ -58,10 +58,6 @@ CLEANFILES+=	${GENERATED}
 beforedepend: ${GENERATED}
 
 # manual pages
-MAN+=		catgets.3
-MLINKS+=	catgets.3 catopen.3
-MLINKS+=	catgets.3 catclose.3
-
 MAN+=		MB_CUR_MAX.3 wcswidth.3 wcwidth.3
 MLINKS+=	MB_CUR_MAX.3 MB_LEN_MAX.3
 
