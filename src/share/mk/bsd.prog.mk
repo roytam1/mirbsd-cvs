@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/bsd.prog.mk,v 1.14 2005/10/06 22:04:21 tg Exp $
+# $MirOS: src/share/mk/bsd.prog.mk,v 1.15 2005/10/20 12:47:06 tg Exp $
 # $OpenBSD: bsd.prog.mk,v 1.44 2005/04/15 17:18:57 espie Exp $
 # $NetBSD: bsd.prog.mk,v 1.55 1996/04/08 21:19:26 jtc Exp $
 # @(#)bsd.prog.mk	5.26 (Berkeley) 6/25/91
@@ -82,7 +82,7 @@ realinstall:
 	@echo Relinking ${PROG}
 	${LINK.prog} -o ${PROG}
 .      endif
-.      if ${DEBUGPROGS:L} != "yes"
+.      if (${DEBUGPROGS:L} != "yes") || empty(INSTALL_STRIP)
 	${INSTALL} ${INSTALL_COPY} ${INSTALL_STRIP} -o ${BINOWN} -g ${BINGRP} \
 	    -m ${BINMODE} ${PROG} ${DESTDIR}${BINDIR}/
 .      else
