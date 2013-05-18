@@ -1,4 +1,4 @@
-# $MirOS: ports/Makefile,v 1.28 2008/06/08 13:41:45 bsiegert Exp $
+# $MirOS: ports/Makefile,v 1.29 2008/09/11 21:34:40 tg Exp $
 # $OpenBSD: Makefile,v 1.43 2003/12/15 17:56:40 espie Exp $
 # $FreeBSD: Makefile,v 1.36 1997/10/04 15:54:31 jkh Exp $
 #-
@@ -170,7 +170,8 @@ setup: Setup.sh
 	    '%g!TMPDIR!s!..TMPDIR.!/etc/.mirports.test.*!g' '%g!DISTDIR!d' \
 	    '%g!WRKDIR!s!..WRKDIR.!/usr/mpkg!g' | ${SUDO} ed -s /usr/mpkg/.sst
 	/bin/systrace -e -i -a -f /usr/mpkg/.sst /usr/bin/env CC=${CC:Q} \
-	    SHELL=${MKSH} MKSH=${MKSH} ${SUDO} /bin/sh ${.CURDIR}/Setup.sh -T
+	    SHELL=${MKSH:Q} MKSH=${MKSH:Q} NO_SYSTRACE=bootstrap \
+	    ${SUDO} ${MKSH} ${.CURDIR}/Setup.sh -T
 	${SUDO} rm -rf /usr/mpkg/.sst /etc/.mirports.test.*
 
 nfo: Setup.sh.nfo
