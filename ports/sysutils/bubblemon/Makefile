@@ -1,7 +1,7 @@
-# $MirOS: ports/sysutils/bubblemon/Makefile,v 1.3 2006/02/09 11:15:25 tg Exp $
+# $MirOS: ports/sysutils/bubblemon/Makefile,v 1.4 2006/09/14 00:13:29 tg Exp $
 # $OpenBSD: Makefile,v 1.14 2003/09/23 21:18:30 marcm Exp $
 
-COMMENT=			GNOME panel applet that displays the CPU + memory load
+COMMENT=		GNOME panel applet that displays the CPU + memory load
 
 DISTNAME=		bubblemon-2.0.1
 CATEGORIES=		sysutils x11/gnome
@@ -21,6 +21,7 @@ PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
 USE_X11=		Yes
+USE_CXX=		Yes # multiple dependencies use CXX
 USE_GMAKE=		Yes
 CONFIGURE_STYLE= 	gnu
 CONFIGURE_ARGS+= 	${CONFIGURE_SHARED}
