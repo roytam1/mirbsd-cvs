@@ -1156,6 +1156,7 @@
 ./usr/libexec/cvs/contrib/mfpipe
 ./usr/libexec/cvs/contrib/newcvsroot
 ./usr/libexec/cvs/contrib/pvcs2rcs
+./usr/libexec/cvs/contrib/rcs-5.7-commitid.patch
 ./usr/libexec/cvs/contrib/rcs-to-cvs
 ./usr/libexec/cvs/contrib/rcs2log
 ./usr/libexec/cvs/contrib/rcslock
