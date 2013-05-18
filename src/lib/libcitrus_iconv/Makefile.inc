@@ -1,4 +1,4 @@
-# $MirOS: src/lib/libcitrus_iconv/Makefile.inc,v 1.3 2006/01/31 19:13:42 tg Exp $
+# $MirOS: src/lib/libcitrus_iconv/Makefile.inc,v 1.4 2006/09/07 16:35:23 tg Exp $
 
 .ifndef _MODSRC_LIB_LIBCITRUS_ICONV_MAKEFILE_INC
 _MODSRC_LIB_LIBCITRUS_ICONV_MAKEFILE_INC=1
@@ -10,7 +10,6 @@ NBLIBC=		${NBBASE}/libc
 
 # oh my goddess!
 CPPFLAGS+=	-D'__UNCONST(a)=((void *)(unsigned long)(const void *)(a))'
-CPPFLAGS+=	-D'_DIAGASSERT(x)='
 .if ${OBJECT_FMT} == "ELF"
 CPPFLAGS+=	-D'_C_LABEL_STRING(x)=x'
 .elif (${OBJECT_FMT} == "a.out") || (${OBJECT_FMT} == "PE")

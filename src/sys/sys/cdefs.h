@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/sys/cdefs.h,v 1.11 2006/09/29 21:39:22 tg Exp $ */
+/**	$MirOS: src/sys/sys/cdefs.h,v 1.12 2006/10/03 19:46:14 tg Exp $ */
 /*	$OpenBSD: cdefs.h,v 1.18 2005/05/27 21:28:12 millert Exp $	*/
 /*	$NetBSD: cdefs.h,v 1.16 1996/04/03 20:46:39 christos Exp $	*/
 
@@ -225,6 +225,10 @@
 #endif
 #define __RCSID(x)		__IDSTRING(rcsid,x)
 #define __SCCSID(x)		__IDSTRING(sccsid,x)
+
+#ifndef _DIAGASSERT
+#define _DIAGASSERT(x)		/* nothing */
+#endif
 
 /*
  * "The nice thing about standards is that there are so many to choose from."
