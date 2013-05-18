@@ -1,4 +1,4 @@
-/**	$MirOS: ports/infrastructure/pkgtools/lib/lib.h,v 1.28.2.7 2010/02/27 16:20:19 bsiegert Exp $ */
+/**	$MirOS: ports/infrastructure/pkgtools/lib/lib.h,v 1.28.2.8 2010/03/04 18:03:38 bsiegert Exp $ */
 /*	$OpenBSD: lib.h,v 1.14 2003/08/21 20:24:57 espie Exp $	*/
 
 /*
@@ -324,6 +324,8 @@ const struct cfg_sourcelist* cfg_get_sourcelist(void);
 /* source list */
 struct matchlist* findmatchingname_srcs(const struct cfg_sourcelist*, const char*);
 void		matchlist_destroy(struct matchlist*);
+void		print_matchlist_menu(struct matchlist*);
+struct match*	match_by_number(struct matchlist*, int);
  
 
 #endif /* _INST_LIB_LIB_H_ */

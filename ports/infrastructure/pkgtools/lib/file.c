@@ -1,4 +1,4 @@
-/* $MirOS: ports/infrastructure/pkgtools/lib/file.c,v 1.25.2.2 2010/02/27 16:20:18 bsiegert Exp $ */
+/* $MirOS: ports/infrastructure/pkgtools/lib/file.c,v 1.25.2.3 2010/03/04 18:03:38 bsiegert Exp $ */
 /* $OpenBSD: file.c,v 1.26 2003/08/21 20:24:57 espie Exp $	*/
 
 /*
@@ -33,7 +33,7 @@
 #include <libgen.h>
 #include <unistd.h>
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/file.c,v 1.25.2.2 2010/02/27 16:20:18 bsiegert Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/file.c,v 1.25.2.3 2010/03/04 18:03:38 bsiegert Exp $");
 
 /* block size for file copying */
 #define BLOCKSIZE 1024
@@ -509,7 +509,10 @@ fileFindByPath(char *base, char *fname)
 	static char tmp[FILENAME_MAX];
 	bool found = false;
 	const struct cfg_sourcelist *srcs;
-	struct cfg_source *sp;
+	/*struct cfg_source *sp;*/
+	struct matchlist *matches;
+	struct match *mp = NULL;
+	int choice;
 
 	srcs = cfg_get_sourcelist();
 
@@ -522,20 +525,27 @@ fileFindByPath(char *base, char *fname)
 	 * for you.
 	 */ 
 
-	LIST_FOREACH(sp, srcs, entries) {
-		if (sp->remote) {
-			snprintf(tmp, sizeof(tmp), "%s/%s", sp->source,
-					ensure_tgz(fname));
-			/* FIXME needs to be implemented */
-			found = true;
-			break;
+
+	matches = findmatchingname_srcs(srcs, fname);
+	if (!TAILQ_EMPTY(matches)) {
+		if (TAILQ_FIRST(matches) == TAILQ_LAST(matches, matchlist)) {
+			/* one match */
+			mp = TAILQ_FIRST(matches);
 		} else {
-			if (pkg_existing(sp->source, fname, tmp, sizeof(tmp))) {
-				found = true;
-				break;
-			}
+			print_matchlist_menu(matches);
+			if ((scanf("%d", &choice)) == 1)
+				mp = match_by_number(matches, choice);
+		}
+		if (mp) {
+			assert(mp->pkgname != NULL);
+			assert(mp->source != NULL);
+			snprintf(tmp, sizeof(tmp), "%s/%s",
+					mp->source, mp->pkgname);
+			found = true;
 		}
 	}
+	matchlist_destroy(matches);
+	free(matches);
 	
 	if (base)
 		cfg_remove_source(base);

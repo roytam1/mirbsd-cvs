@@ -1,4 +1,4 @@
-/* $MirOS: ports/infrastructure/pkgtools/lib/srclist.c,v 1.1.2.2 2010/03/06 15:25:23 bsiegert Exp $ */
+/* $MirOS: ports/infrastructure/pkgtools/lib/srclist.c,v 1.1.2.3 2010/03/07 15:56:03 bsiegert Exp $ */
 
 /*-
  * Copyright (c) 2010
@@ -31,7 +31,7 @@
 #include <err.h>
 #include "lib.h"
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/srclist.c,v 1.1.2.2 2010/03/06 15:25:23 bsiegert Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/srclist.c,v 1.1.2.3 2010/03/07 15:56:03 bsiegert Exp $");
 
 /* A word on memory management:
  * The strings to be entered into "source" above are just the pointers
@@ -134,4 +134,37 @@ matchlist_destroy(struct matchlist *matches)
 		TAILQ_REMOVE(matches, mp, entries);
 		free(mp);
 	}
+}
+
+/* Print the list of matches prefixed with a number, as a menu
+ * to let the user choose one.
+ */
+void
+print_matchlist_menu(struct matchlist *matches)
+{
+	struct match *mp;
+	int i = 1;
+
+	if (!matches)
+		return;
+
+	TAILQ_FOREACH(mp, matches, entries)
+		printf("%2d. %-26s at %s\n", i++, mp->pkgname, mp->source);
+}
+
+/* Given a number from the menu, return the corresponding entry from
+ * the list, or NULL if it was not found.
+ */
+struct match *
+match_by_number(struct matchlist *matches, int num)
+{
+	struct match *mp;
+	int i = 1;
+
+	TAILQ_FOREACH(mp, matches, entries) {
+		if (i == num)
+			return mp;
+		i++;
+	}
+	return NULL;
 }
