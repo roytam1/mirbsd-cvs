@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.427 2011/10/25 22:59:41 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.428 2011/11/08 22:14:58 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -1047,7 +1047,6 @@ exec /usr/bin/ld "${args[@]}"</pre>
   to its NUL-counting, always-changing, never-zero, better-avalanching MirOS
   variant <a href="@@ABSPATH@@/cvs.cgi/src/kern/include/nzat.h">NZAT</a></li>
  <li>[tg] Use <tt>$'…'</tt> for non-ASCII parameters for re-entry printing</li>
- <li>[RT, Chris “ir0nh34d” Sutcliffe] Port to MSYS</li>
 </ul>
 <p>Changes in the current (unreleased) stable branch:</p><ul>
  <li>[tg, Wouter Verhelst] Fix <tt>${foo%\?}</tt> in <tt>-o sh</tt></li>
@@ -1062,6 +1061,12 @@ exec /usr/bin/ld "${args[@]}"</pre>
  <li>[tg] Avoid identifiers and cpp(1) macros with two underscores in a row,
   and those with a trailing underscore; they are reserved for the OS</li>
  <li>[tg] Fix accidental behavioural change wrt some built-in parameters</li>
+ <li>[RT, Chris “ir0nh34d” Sutcliffe] Port to MSYS</li>
+ <li>[tg, Markus Duft, Bruno Haible] Interix select(2) bug workaround</li>
+ <li>[tg] Manpage fixes</li>
+ <li>[tg] Deprecate the “command line begins with ‘!’ for fc -e -” wbx hack</li>
+ <li>[tg] Promote <tt>x=(a b); x+=(c d)</tt> to a core mksh(1) feature</li>
+ <li>[tg] Testsuite fixes for Hurd, MSYS; warning fixes for dietlibc</li>
 </ul>
 <p id="r40b">mksh R40b introduces several <em>desired</em> fixes:</p><ul>
  <li>[tg] Don’t busy-loop on <tt>nameref ARY=ARY</tt> (LHS = RHS)</li>
