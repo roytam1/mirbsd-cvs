@@ -1,7 +1,7 @@
-$MirOS: ports/misc/screen/patches/patch-screen_c,v 1.10 2007/03/04 22:21:29 tg Exp $
+$MirOS: ports/misc/screen/patches/patch-screen_c,v 1.11 2007/04/17 23:41:02 tg Exp $
 $OpenBSD: shmpatch-screen_c,v 1.1 2003/11/22 00:56:58 espie Exp $
 --- screen.c.orig	Mon Sep  8 14:26:19 2003
-+++ screen.c	Tue Apr 17 23:31:53 2007
++++ screen.c	Thu May 10 12:06:22 2007
 @@ -27,6 +27,19 @@
   * Free Software Foundation, Inc.,
   * 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA
@@ -143,14 +143,14 @@ $OpenBSD: shmpatch-screen_c,v 1.1 2003/11/22 00:56:58 espie Exp $
  	      break;
  	    case 'a':
  	      sprintf(p, tm->tm_hour >= 12 ? "pm" : "am");
-@@ -3174,3 +3243,79 @@ char *p;
+@@ -3174,3 +3243,83 @@ char *p;
    return 0;
  }
  
 +#if defined(ENCODINGS) && defined(UTF8) && defined(POSIX)
-+__RCSID("$miros: src/usr.sbin/wsconfig/wsconfig.c,v 1.14 2007/04/17 23:41:01 tg Exp $");
-+__RCSID("$miros: ports/sysutils/chkuterm/dist/chkuterm.c,v 1.10 2007/04/17 23:41:01 tg Exp $");
-+__RCSID("$MirOS: ports/misc/screen/patches/patch-screen_c,v 1.11 2007/04/17 23:41:02 tg Exp $");
++__RCSID("$miros: src/usr.sbin/wsconfig/wsconfig.c,v 1.16 2007/05/10 13:02:21 tg Exp $");
++__RCSID("$miros: ports/sysutils/chkuterm/dist/chkuterm.c,v 1.11 2007/05/10 13:02:22 tg Exp $");
++__RCSID("$MirOS: ports/misc/screen/patches/patch-screen_c,v 1.12 2007/05/10 13:02:23 tg Exp $");
 +static const char sfe_qs[] = "\030\032\r\xE2\x82\xAC.\033[6n";
 +
 +int
@@ -174,8 +174,12 @@ $OpenBSD: shmpatch-screen_c,v 1.1 2003/11/22 00:56:58 espie Exp $
 +	tcflush(fd, TCIOFLUSH);
 +	if (tcsetattr(fd, TCSANOW, &tio))
 +		goto out;
++	tv.tv_sec = 0;
++	tv.tv_usec = 75;
++	select(0, NULL, NULL, NULL, &tv);	/* sleep 75 msec */
 +	if ((size_t)write(fd, sfe_qs, strlen(sfe_qs)) != strlen(sfe_qs))
 +		goto noin;
++	select(0, NULL, NULL, NULL, &tv);	/* sleep 75 msec */
 +	FD_ZERO(&fds);
 +	FD_SET(fd, &fds);
 +	tv.tv_sec = 2;

@@ -1,4 +1,4 @@
-/* $MirOS: src/usr.sbin/wsconfig/wsconfig.c,v 1.14 2007/04/17 23:41:01 tg Exp $ */
+/* $MirOS: src/usr.sbin/wsconfig/wsconfig.c,v 1.15 2007/04/19 10:17:54 tg Exp $ */
 
 /*-
  * Copyright (c) 2006, 2007
@@ -35,9 +35,9 @@
 #include <termios.h>
 #include <unistd.h>
 
-__RCSID("$MirOS: src/usr.sbin/wsconfig/wsconfig.c,v 1.14 2007/04/17 23:41:01 tg Exp $");
-__RCSID("$miros: ports/sysutils/chkuterm/dist/chkuterm.c,v 1.10 2007/04/17 23:41:01 tg Exp $");
-__RCSID("$miros: ports/misc/screen/patches/patch-screen_c,v 1.11 2007/04/17 23:41:02 tg Exp $");
+__RCSID("$MirOS: src/usr.sbin/wsconfig/wsconfig.c,v 1.16 2007/05/10 13:02:21 tg Exp $");
+__RCSID("$miros: ports/sysutils/chkuterm/dist/chkuterm.c,v 1.11 2007/05/10 13:02:22 tg Exp $");
+__RCSID("$miros: ports/misc/screen/patches/patch-screen_c,v 1.12 2007/05/10 13:02:23 tg Exp $");
 
 #define DEFDEV	"/dev/ttyCcfg"
 
@@ -235,11 +235,15 @@ main(int argc, char **argv)
 			warn("tcsetattr\r");
 			goto tios_err;
 		}
+		tv.tv_sec = 0;
+		tv.tv_usec = 75;
+		select(0, NULL, NULL, NULL, &tv);	/* sleep 75 msec */
 		if ((size_t)write(wsfd, ctype_qstr, strlen(ctype_qstr)) !=
 		    strlen(ctype_qstr)) {
 			warn("write\r");
 			goto noin;
 		}
+		select(0, NULL, NULL, NULL, &tv);	/* sleep 75 msec */
 		FD_ZERO(&fds);
 		FD_SET(wsfd, &fds);
 		tv.tv_sec = 2;
