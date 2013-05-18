@@ -1,4 +1,4 @@
-/* $MirOS: src/sys/arch/i386/stand/boot/srt0.S,v 1.24 2009/01/01 22:23:24 tg Exp $ */
+/* $MirOS: src/sys/arch/i386/stand/boot/srt0.S,v 1.26 2009/01/02 04:14:35 tg Exp $ */
 
 /*-
  * Copyright (c) 2003, 2004, 2005, 2006, 2007, 2008
@@ -92,9 +92,6 @@
 	.globl	_C_LABEL(end)
 	.globl	_ASM_LABEL(pmm_init)
 	.globl	_C_LABEL(tori_bootflag)
-#if 0 /* ndef SMALL_BOOT */
-	.globl	_C_LABEL(tori_pblk)
-#endif
 
 _start:	cli
 	jmp	_star2
@@ -240,22 +237,6 @@ LisRel:	UD(5)			/** E: done reloc, or not needed */
 	push	ax
 	lret
 
-#if 0 /* ndef SMALL_BOOT */
-/*
- * Stuff which MUST NOT be placed in the .bss section
- */
-
-_C_LABEL(tori_bootflag):
-	.long	0
-_C_LABEL(tori_pblk):
-Ltblk:	.long	0x13,0,0,0	/* El Torito parameter block */
-	.byte	0,0,0
-Lbdev:	.byte	0		/* local copy of BIOS boot device */
-Llba:	.word	0x0010		/* LBA parameter block */
-	.word	0x0001
-	.long	0,0,0
-#endif
-
 /*
  * Code which can assume sane location
  */
@@ -270,277 +251,19 @@ Lstart:	UD(6)			/** F: jump successful */
 	mov	es,ax
 	mov	ebx,offset Lbdev - SA_LOADADDR
 	mov	[bx],dl
-#ifdef	EXTRALOUD
-	call	L..e1
-	.asciz	"00 at DL\r\n"
-L..e1:	mov	al,dl
-	pop	si
-	mov	di,si
-	call	LpBY
-	call	Lotxt
-#endif
-#ifdef	LOUD
-	mov	si,offset Lsrt0
-	call	Lotxt
-#endif
-#ifdef	DEBUG_OFS
-	mov	[Lofsd],esi
-#endif
 
-#ifdef SMALL_BOOT
-	jmp	LpreFD /* L..12 */
-#else
+#ifndef SMALL_BOOT
 	mov	ebx,offset _rval - SA_LOADADDR
 	mov	eax,[bx]
 	mov	al,0		/* partp (patched in) doesn't matter */
 	cmp	eax,0x6A6D4F00
-#if 1
 	je	LpreFD
 	xor	eax,eax
 	dec	eax
 	mov	al,dl
 	mov	ebx,offset _C_LABEL(tori_bootflag) - SA_LOADADDR
 	mov	[bx],eax
-	jmp	LpreFD
-#else
-	jne	LfCD
-#ifdef	WANT_ELTORITO_CHECK */
-	/* check for El Torito */
-	mov	ax,0x4B01
-	mov	si,offset Ltblk
-	int	0x13
-#ifdef	EXTRALOUD
-	pushf
-	pusha
-	pushf
-	call	L..e2
-	.ascii	"Load SPEC returned, DL = "
-L..e21:	.ascii	"00; CF="
-L..e22:	.ascii	"00; [SI+2]="
-L..e23:	.asciz	"00\r\n"
-L..e2:	xor	ax,ax
-	pop	bp
-	popf
-	adc	al,0
-	mov	di,offset L..e22
-	call	LpBY
-	mov	al,dl
-	mov	di,offset L..e21
-	call	LpBY
-	mov	al,[si+2]
-	mov	di,offset L..e23
-	call	LpBY
-	mov	si,bp
-	call	Lotxt
-	popa
-	popf
-#endif
-	jc	LnoCD
-	UD(7)			/** G: El Torito found */
-	xor	eax,eax
-	dec	eax
-	mov	al,dl
-	mov	[_C_LABEL(tori_bootflag)],eax
-
-	/*
-	 * now we have to find out where on the CD-ROM the bootable
-	 * image is located (looking for "default" image)
-	 */
-
-	/* get boot record */
-	mov	eax,0x11
-	call	LcdLDS		/* loads to FS:0x0000 */
-	UD(8)			/** H: boot record loaded */
-	fs mov	eax,[0]
-	cmp	eax,0x30444300	/* '\0CD001' magic */
-	jne	LbmCD		/* bad magic CD */
-
-	/* get boot catalogue */
-	fs mov	eax,[0x47]
-	call	LcdLDS
-	UD(9)			/** I: boot catalogue loaded */
-	fs mov	ax,[0]
-	dec	ax
-	jne	LbmCD
-	fs mov	ax,[0x1E]
-	cmp	ax,0xAA55
-	jne	LbmCD
-	fs mov	ax,[0x20]
-	cmp	ax,0x0088	/* no emulation, default entry */
-	jne	LbmCD
-	fs mov	eax,[0x28]	/* address */
-	UD(10)			/** J: boot image found, no fake */
-#else	/* not WANT_ELTORITO_CHECK */
-	jmp	LnoCD
-#endif	/* not def WANT_ELTORITO_CHECK */
-
-LisCD:	mov	bx,SA_LINKSEG	/* target segment */
-	inc	eax		/* don't load the first sector again */
-	add	bx,0x80		/* 2048 bytes in paragraphs */
-	UDX(2)
-	mov	byte ptr [2+Llba],31	/* we don't load more anyways */
-	push	fs
-	mov	fs,bx
-	call	LcdLDS
-	UDX(3)
-	pop	fs
-	UD(11)			/** K: boot image loaded */
-#ifdef	DEBUG_OFS
-	mov	eax,[Lofsd]
-	cmp	eax,0xfeedcafe
-	je	L..37
-	UD(37)			/** e: magic check failed */
-#ifdef	LOUD
-	call	L..37a
-	.asciz	"Load magic failed!\r\nPress a key to reboot..."
-L..37a:	pop	si
-	call	Lotxt
-#endif
-L..37l:	mov	ah,1
-	int	0x16
-	jz	L..37l		/* crude hack for Intel Mac */
-	mov	ah,0		/* ACK the key for the PIC */
-	int	0x16
-	jmp	0xF000,0xFFF0
-
-#endif
-L..37:	jmp	LpreCD		/* prepare boot from CD */
-
-LfCD:	xor	eax,eax
-	dec	eax
-	mov	al,dl
-	mov	[_C_LABEL(tori_bootflag)],eax
-	jmp	LpreFD
-#endif /* 0 */
 #endif /* !SMALL_BOOT */
-
-#ifdef	LOUD
-Lotxt:	lodsb
-	or	al,al
-	je	Lretn
-	mov	ah,0x0E
-	mov	bx,7
-	int	0x10
-	jmp	Lotxt
-
-Lsrt0:	.ascii	"MirOS boot v"
-	.ascii	__BOOT_VER
-	.asciz	" srt0 initialising\r\n"
-#endif
-
-#ifndef SMALL_BOOT
-#if 0
-LcdLDS:	pusha
-	push	eax
-	UDX(4)
-#ifdef	EXTRALOUD
-	pusha
-	call	L..e3
-	.ascii	"called LDS at LBA="
-L..e31:	.ascii	"00000000 DL="
-L..e32:	.ascii	"00 #="
-L..e33:	.asciz	"0000 "
-L..e3:	mov	di,offset L..e31
-	call	LpDW
-	mov	al,dl
-	pop	si
-	mov	di,offset L..e32
-	call	LpBY
-	mov	di,offset L..e33
-	mov	ax,[2+Llba]
-	call	LpWO
-	call	Lotxt
-	popa
-	pop	eax
-	push	eax
-#endif
-	xor	bp,bp
-	mov	[8+Llba],eax	/* block number */
-	mov	ax,fs
-	mov	[6+Llba],ax	/* transfer address */
-LcdLD0:	mov	ah,0x42
-	mov	si,offset Llba
-	int	0x13
-#ifdef	UANAL
-	pushf
-	UDX(5)
-	popf
-#endif
-	jc	LcdLD1
-	UDX(6)
-	pop	eax
-	popa
-Lretn:	ret
-LcdLD1:	pusha
-	UDX(33)
-	xor	ah,ah
-	int	0x13
-	mov	ax,0x0E40
-	mov	bx,7
-	int	0x10
-	popa
-	inc	bp
-	cmp	bp,5
-	jb	LcdLD0
-	UDX(34)
-	UD(33)			/** a: CD read failed */
-	/* FALL-THROUGH */
-
-LbmCD:	UD(34)			/** b: CD bad magic */
-#ifdef	LOUD
-	call	L..34
-	.asciz	"Bad Magic reading from CD\r\n"
-L..34:	pop	si
-	call	Lotxt
-#endif
-	xor	eax,eax		/* reset to default floppy boot */
-	mov	[_C_LABEL(tori_bootflag)],eax
-	/* FALL-THROUGH */
-
-LnoCD:	mov	ebp,0xcafebabe	/* kludge! */
-	mov	eax,ebp
-	xchg	eax,[Lbofs]	/* only once */
-	cmp	eax,ebp
-	je	L..12
-	push	eax
-	UD(36)			/** d: attention fake torito */
-#ifdef	LOUD
-	call	L..36
-	.asciz	"Attention: faking El Torito boot!\r\n"
-L..36:	pop	si
-	call	Lotxt
-#endif
-	UDX(1)
-	mov	dl,[Lbdev]
-	xor	eax,eax
-	dec	eax
-	mov	al,dl
-	mov	[_C_LABEL(tori_bootflag)],eax
-	mov	[2+Ltblk],al
-	mov	ax,0x07C0
-	mov	[12+Ltblk],ax
-	mov	ax,32
-	mov	[14+Ltblk],ax
-	pop	eax
-	mov	[4+Ltblk],eax
-	jmp	LisCD		/* and be it the devil */
-#endif /* !SMALL_BOOT */
-
-	/* "real" floppy boot */
-L..12:	UD(12)			/** L: floppy boot */
-#ifdef	LOUD
-	call	LdebFD		/* debug msgs */
-#endif
-	jmp	LpreFD
-
-#ifndef SMALL_BOOT
-LpreCD:	UD(13)			/** M: cd-rom boot */
-#ifdef	LOUD
-	call	LdebCD		/* debug msgs */
-#endif
-	/* FALL-THROUGH */
-#endif
-#endif /* 0 */
 
 LpreFD:	/* prepare booting */
 #ifdef BOOTSELECT_HOOK
