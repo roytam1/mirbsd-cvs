@@ -1,10 +1,10 @@
-# $MirOS: www/src/mksh.hts,v 1.34 2007/07/26 20:32:36 tg Exp $
+# $MirOS: www/src/mksh.hts,v 1.35 2007/07/26 22:03:40 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.34 2007/07/26 20:32:36 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.35 2007/07/26 22:03:40 tg Exp $'
 mws_content <<'EOF'
 <h1>mksh(1) R30</h1>
 <p>This is the website of the MirBSD™ Korn Shell, an actively developed free
@@ -391,7 +391,8 @@ mws_content <<'EOF'
 <li><a href="http://www.debian.org/">Debian</a> GNU/Linux, GNU/HURD and
  GNU/kFreeBSD have an <a href="http://packages.debian.org/mksh">mksh package</a>
  maintained by the MirOS Project and uploaded (sponsored) by Bastian “waldi”
- Blank; the debconf questions were taken from dash.</li>
+ Blank; the debconf questions were taken from dash. The source package is <a
+ href="/MirOS/dist/mir/mksh/ports/mksh_30.1-1.dsc">here, too</a>.</li>
 <li><a href="http://www.gentoo.org/">Gentoo GNU/Linux</a> has an mksh <a
  href="http://sources.gentoo.org/viewcvs.py/gentoo-x86/app-shells/mksh/">ebuild</a>
  created by Hanno Böck.</li>
@@ -410,7 +411,8 @@ mws_content <<'EOF'
 <li>In the <a href="https://www.freewrt.org/trac/">FreeWRT Embedded GNU/Linux
  Appliance Development Kit (meta distribution)</a>, the <a
  href="https://www.freewrt.org/svn/trunk/freewrt/package/mksh/">mksh
- package</a> is maintained by us.</li>
+ package</a> is maintained by us. mksh is also the default shell in FreeWRT
+ trunk (soon to be 1.1) and above.</li>
 <li><a href="http://openwrt.org/">OpenWrt Embedded GNU/Linux Distribution</a>
  also <a href="https://dev.openwrt.org/browser/packages/utils/mksh">provides
  mksh</a> on ADSL/WLAN routers thanks to Felix “nbd” Fietkau.</li>
@@ -441,7 +443,9 @@ mws_content <<'EOF'
 <li><a href="http://www.pkgsrc.org/">NetBSD® pkgsrc®</a> (native also on recent
  DragonFly BSD; available for many other operating systems as well) has a <a
  href="http://cvsweb.netbsd.org/bsdweb.cgi/pkgsrc/shells/mksh/">package</a>
- created by the MirOS Project and kept up to date by Jörg Sonnenberger.</li>
+ created by the MirOS Project and kept up to date by Jörg Sonnenberger. And <a
+ href="/MirOS/dist/mir/mksh/ports/mksh-pkgsrc.tgz">this source package</a> is
+ provided by us in case he doesn't – i.e. usually.</li>
 <li>The MirPorts Framework brings mksh to OpenBSD, Mac OSX and Interix as
  well as older MirOS BSD versions, which have mksh as native Korn Shell.</li>
 <li><a href="http://www.openbsd.org/">OpenBSD</a> ports do <em>not</em>
@@ -478,7 +482,7 @@ mws_content <<'EOF'
  emacs editing mode has been changed for Unicode/UTF-8 mode, which adds a
  new <tt>set -o utf8-hack</tt> mode. The <tt>set -o sh</tt> command has
  been completely removed, <tt>set -o posix</tt> merely turns off brace
- expansion as side effect. There is no limit (well, 2³¹ probably) on
+ expansion and some aliases as side effect. There is no limit (well, 2³¹ probably) on
  array sizes any more. Many bugs and security holes have been closed in
  mksh and are still in oksh and OpenBSD ksh. The user interface has much
  less bugs and surprises; emacs editing mode is enabled by default.</p>
