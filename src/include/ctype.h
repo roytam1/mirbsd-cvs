@@ -1,4 +1,4 @@
-/* $MirOS: src/share/misc/licence.template,v 1.14 2006/08/09 19:35:23 tg Rel $ */
+/* $MirOS: src/include/ctype.h,v 1.2 2006/11/01 19:49:32 tg Exp $ */
 
 /*-
  * Copyright (c) 2006
@@ -68,55 +68,42 @@ int	toascii(int);
 
 #if !defined(_ANSI_LIBRARY) && !defined(lint)
 
-/* extern __inline is a GNU C extension */
 #ifdef __GNUC__
-#define	__CTYPE_INLINE	extern __inline
+#define __CTYPE_IMPL(ch,t) __extension__({			\
+	unsigned c = (ch);					\
+	(c > 255) ? 0 :						\
+	 ((__C_attribute_table_pg[c] & (_ctp_ ## t & 0xFF)) &&	\
+	 !(__C_attribute_table_pg[c] & (_ctp_ ## t >> 8)));	\
+})
 #else
-#define	__CTYPE_INLINE	static __inline
+#define __CTYPE_IMPL(c,t)						\
+	(((((int)(c)) < 0) || (((int)(c)) > 255)) ? 0 :			\
+	 ((__C_attribute_table_pg[((int)(c))] & (_ctp_ ## t & 0xFF)) &&	\
+	 !(__C_attribute_table_pg[((int)(c))] & (_ctp_ ## t >> 8))))
 #endif
 
-#define __CTYPE_IMPL(t)							     \
-	__CTYPE_INLINE int is ## t (int c)				     \
-	{								     \
-		if ((c < 0) || (c > 255))				     \
-			return (0);					     \
-		return ((__C_attribute_table_pg[c] & (_ctp_ ## t & 0xFF)) && \
-		    !(__C_attribute_table_pg[c] & (_ctp_ ## t >> 8)));	     \
-	}
-
-__CTYPE_IMPL(alnum)
-__CTYPE_IMPL(alpha)
-__CTYPE_IMPL(cntrl)
-__CTYPE_IMPL(digit)
-__CTYPE_IMPL(graph)
-__CTYPE_IMPL(lower)
-__CTYPE_IMPL(print)
-__CTYPE_IMPL(punct)
-__CTYPE_IMPL(space)
-__CTYPE_IMPL(upper)
-__CTYPE_IMPL(xdigit)
+#define isalnum(c)	__CTYPE_IMPL((c),alnum)
+#define isalpha(c)	__CTYPE_IMPL((c),alpha)
+#define iscntrl(c)	__CTYPE_IMPL((c),cntrl)
+#define isdigit(c)	__CTYPE_IMPL((c),digit)
+#define isgraph(c)	__CTYPE_IMPL((c),graph)
+#define islower(c)	__CTYPE_IMPL((c),lower)
+#define isprint(c)	__CTYPE_IMPL((c),print)
+#define ispunct(c)	__CTYPE_IMPL((c),punct)
+#define isspace(c)	__CTYPE_IMPL((c),space)
+#define isupper(c)	__CTYPE_IMPL((c),upper)
+#define isxdigit(c)	__CTYPE_IMPL((c),xdigit)
 
 #if !defined(_ANSI_SOURCE) && !defined(_POSIX_SOURCE)
-__CTYPE_INLINE int isascii(int c)
-{
-	return ((unsigned int)c <= 0177);
-}
-
-__CTYPE_IMPL(blank)
-
-__CTYPE_INLINE int toascii(int c)
-{
-	return (c & 0177);
-}
+#define isascii(c)	((unsigned int)(c) <= 0177)
+#define isblank(c)	__CTYPE_IMPL((c),blank)
+#define toascii(c)	((c) & 0177)
 
 /* SUSv3 says these are always macros */
 #define _tolower(c)	((c) - 'A' + 'a')
 #define _toupper(c)	((c) - 'a' + 'A')
 
 #endif /* !_ANSI_SOURCE && !_POSIX_SOURCE */
-
-#undef __CTYPE_IMPL
-#undef __CTYPE_INLINE
 
 #endif /* !_ANSI_LIBRARY && !lint */
 
