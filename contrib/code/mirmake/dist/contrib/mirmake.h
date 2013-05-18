@@ -1,4 +1,4 @@
-/* $MirOS: contrib/code/mirmake/dist/contrib/mirmake.h,v 1.33 2008/03/12 22:06:21 tg Exp $ */
+/* $MirOS: contrib/code/mirmake/dist/contrib/mirmake.h,v 1.34 2008/03/12 22:11:07 tg Exp $ */
 
 /*-
  * Copyright (c) 2005, 2006, 2008
@@ -221,6 +221,15 @@
 #define htobe16(x)	OSSwapHostToBigInt16(x)
 #define htobe32(x)	OSSwapHostToBigInt32(x)
 #define htobe64(x)	OSSwapHostToBigInt64(x)
+#endif
+
+#if defined(be16toh) && !defined(betoh16)
+#define betoh16(x)	be16toh(x)
+#define betoh32(x)	be32toh(x)
+#define betoh64(x)	be64toh(x)
+#define letoh16(x)	le16toh(x)
+#define letoh32(x)	le32toh(x)
+#define letoh64(x)	le64toh(x)
 #endif
 
 #ifdef _MIRMAKE_DEFNS
