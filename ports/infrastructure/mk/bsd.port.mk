@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.223 2008/10/12 13:57:01 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.224 2008/10/12 14:01:16 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -964,8 +964,7 @@ EXTRACT_CASES+=		\
     *.tar.bz2 | *.tbz | *.cpio.bz2 | *.cbz)				\
 	${BZIP2} -dc ${FULLDISTDIR}/$$archive | ${TAR} xf - ;;		\
     *.bz2)								\
-	${BZIP2} -dc ${FULLDISTDIR}/$$archive				\
-	    >$$(basename $$archive .bz2) ;;				\
+	${BZIP2} -dc ${FULLDISTDIR}/$$archive >$$(basename $$archive .bz2) ;;
 .endif
 
 .if ${_USE_LHARC:L} != "no"
@@ -981,8 +980,7 @@ EXTRACT_CASES+=		\
     *.tar.lzma | *.tlz | *.cpio.lzma | *.clz)				\
 	lzma -dc ${FULLDISTDIR}/$$archive | ${TAR} xf - ;;		\
     *.lzma)								\
-	lzma -dc ${FULLDISTDIR}/$$archive				\
-	    >$$(basename $$archive .lzma) ;;				\
+	lzma -dc ${FULLDISTDIR}/$$archive >$$(basename $$archive .lzma) ;;
 .endif
 
 .if ${_USE_ZIP:L} != "no"
