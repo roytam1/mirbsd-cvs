@@ -1,10 +1,10 @@
-# $MirOS: ports/print/foomatic/filters/Makefile,v 1.2 2005/07/07 21:25:28 bsiegert Exp $
+# $MirOS: ports/print/foomatic/filters/Makefile,v 1.3 2006/09/14 00:12:40 tg Exp $
 
-COMMENT=			universal print filter script
+COMMENT=		universal print filter script
 
 VERSION=		3.0.2
 DISTNAME=		foomatic-filters-${VERSION}
-PKGNAME=		${DISTNAME}-0
+DASH_VER=		1
 CATEGORIES=		print
 
 HOMEPAGE=		http://www.linuxprinting.org/foomatic.html
@@ -19,6 +19,9 @@ PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
 CONFIGURE_STYLE= 	gnu
+
+B_R_DEPENDS+=		::print/a2ps
+B_R_DEPENDS+=		::print/cups
 
 do-install:
 	${INSTALL_DATA_DIR} ${PREFIX}/share/examples/foomatic
