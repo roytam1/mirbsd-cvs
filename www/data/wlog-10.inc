@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.287 2010/03/03 11:47:52 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.288 2010/03/04 19:54:58 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -6343,4 +6343,26 @@ Tag: debian
 <p>Sort of a PITA, considering gettextize runs interactively, and there's
  a lot of files to remove in debian/rules:clean for a double-build to not
  add nonsensical files to the .diff.gz; but I did it in the end.</p>
+----
+Title: CLT 2010
+Author: tg@
+Date: 07.03.2010 01:01
+Tag: debian event news
+
+<p>Quite surprisingly, I’ll attend the Chemnitzer Linuxtage 2010 in Eastern
+ Germany. This is a happenstance, I managed to get fast transportation (via
+ my boss) and accomodation (in a hotel). I will try to help staffing the <a
+ href="http://wiki.debian.org/DebianEventsChemnitzerLinuxTage2010">booth of
+ Debian</a> this time (so I cannot be called Traitor any longer). Schedule,
+ due to the spontaneousness of this, no, though. I may not even be there on
+ Sunday, dunno…</p>
+<p>No RCBD (or night) though, some real life and a new release (with fix of
+ an FTBFS-on-hurd-i386 bug) though:<br />
+ RMD160 (<a href="@@ABSPATH@@/MirOS/dist/mir/makefs/makefs-20100306.tar.gz">/MirOS/dist/mir/makefs/makefs-20100306.tar.gz</a>)
+ = f65bd8ef5cf3306a9112587dd4915b6255e479fe<br />
+ This version pulls in NetBSD® changes (Acorn Archimedes support, for one),
+ but I’ve also coded support for boot-info-table (J�rg compatible), as well
+ as setting the PVD dates (used by GNU GRUB 2 for “UUID”s).</p>
+<p>On MirBSD, cdio(1) can now be used to burn (TAO) and blank (quick) CD-RW
+ media (I backported some OpenBSD changes) too.</p>
 ----
