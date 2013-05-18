@@ -1,4 +1,4 @@
-/* config.h.in.  Generated from configure.in by autoheader.  */
+/* config.h.in.  Generated from configure.in by autoheader 2.61-MirPorts-1.  */
 
 /* Define this to a NULL terminated list of allowed path prefixes (for
    directories) and paths to files the CVS server will allow configuration to
@@ -445,6 +445,14 @@
 /* Define to 1 if you have the <OS.h> header file. */
 #undef HAVE_OS_H
 
+/* Define to enable system authentication with PAM instead of using the simple
+   getpwnam interface. This allows authentication (in theory) with any PAM
+   module, e.g. on systems with shadow passwords or via LDAP */
+#undef HAVE_PAM
+
+/* Define to 1 if pam/pam_appl.h is available */
+#undef HAVE_PAM_PAM_APPL_H
+
 /* Define to 1 if getcwd works, except it sometimes fails when it shouldn't,
    setting errno to ERANGE, ENAMETOOLONG, or ENOENT. If __GETCWD_PREFIX is not
    defined, it doesn't matter whether HAVE_PARTLY_WORKING_GETCWD is defined.
@@ -492,8 +500,14 @@
 /* Define to 1 if you have the <search.h> header file. */
 #undef HAVE_SEARCH_H
 
+/* Define to 1 if security/pam_appl.h is available */
+#undef HAVE_SECURITY_PAM_APPL_H
+
 /* Define to 1 if you have the `setenv' function. */
 #undef HAVE_SETENV
+
+/* Define if the diff library should use setmode for binary files. */
+#undef HAVE_SETMODE
 
 /* Define to 1 if you have the `sigaction' function. */
 #undef HAVE_SIGACTION
@@ -763,6 +777,12 @@
 /* Define to a substitute value for mmap()'s MAP_ANONYMOUS flag. */
 #undef MAP_ANONYMOUS
 
+/* By default, CVS stores its modules and other such items in flat text files
+   (MY_NDBM enables this). Turning off MY_NDBM causes CVS to look for a
+   system-supplied ndbm database library and use it instead. That may speed
+   things up, but the default setting generally works fine too. */
+#undef MY_NDBM
+
 /* Define to the address where bug reports for this package should be sent. */
 #undef PACKAGE_BUGREPORT
 
@@ -777,6 +797,12 @@
 
 /* Define to the version of this package. */
 #undef PACKAGE_VERSION
+
+/* Define to set a service name for PAM. This must be defined. Define to
+   `program_name', without the quotes, to use whatever name CVS was invoked
+   as. Otherwise, define to a double-quoted literal string, such as `"cvs"'.
+   */
+#undef PAM_SERVICE_NAME
 
 /* the number of pending output bytes on stream `fp' */
 #undef PENDING_OUTPUT_N_BYTES
@@ -955,10 +981,17 @@
 /* Define if wint_t is the first integer type detected with its size. */
 #undef UNIQUE_INT_TYPE_WINT_T
 
+/* Define if setmode is required when writing binary data to stdout. */
+#undef USE_SETMODE_STDOUT
+
 /* Define to 1 if you want getc etc. to use unlocked I/O if available.
    Unlocked I/O can improve performance in unithreaded apps, but it is not
    safe for multithreaded apps. */
 #undef USE_UNLOCKED_IO
+
+/* Define if utime requires write access to the file (true on Windows, but not
+   Unix). */
+#undef UTIME_EXPECTS_WRITABLE
 
 /* Define if unsetenv() returns void, not int. */
 #undef VOID_UNSETENV

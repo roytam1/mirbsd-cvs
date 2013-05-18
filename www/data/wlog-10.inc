@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.308 2010/08/24 14:54:53 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.309 2010/08/28 20:31:16 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -7068,4 +7068,23 @@ Tag: android debian geocache hardware mksh news release snapshot
  uncooperative. (They (Henning and others) did burn the T-Shirt I gave
  Theo as a gift some day for making OpenBSD what it was. I won’t comment
  on that, again, now.)</p>
+----
+Title: Don’t use HEAD right now, working on RNG and CVS
+Author: tg@
+Date: 16.09.2010 21:24
+Tag: snapshot
+
+<p>I’m currently working on two very important subsystems to MirBSD:
+ the entropy subsystem arc4random(3), arandom(4), arc4random(9);
+ the cvs(GNU) implementation. That’s why it’s extremely encouraged to
+ <strong>not</strong> update to -rHEAD right now.</p>
+<p>The entropy subsystem receives completely – except arc4random_uniform(3) –
+ rewritten arcfour and arc4random* code (userspace already done) including
+ quite a speedup, and a new structure of the kernel pools and how they
+ interact (also for speedup, but better hashing as well).</p>
+<p>Our GNU CVS implementation has received a number of patches from Debian’s,
+ and not only did I synchronise the port with base again, but also created
+ I an (unofficial) “WTF” *.deb package from it, since Debian’s has, as we
+ discovered years ago, some broken (but hey, ISO compliant!) date format.</p>
+<p>I’d suggest let me finish doing, unbreaking ;-) and testing it.</p>
 ----

@@ -1,4 +1,4 @@
-/* $MirOS$ */
+/* $MirOS: src/gnu/usr.bin/cvs/lib/md5.h,v 1.2 2005/03/13 15:50:35 tg Exp $ */
 
 #ifndef	MD5_H
 #define	MD5_H
@@ -7,11 +7,12 @@
 
 /* ridiculous. */
 
+#define	md5_uint32			uint32_t
 #define	/* struct */ md5_ctx		/* struct */ MD5Context
 
 #define	md5_init_ctx			MD5Init
 #define	md5_process_bytes(buf,len,ctx)	MD5Update(ctx,buf,len)
-#define	md5_finish_ctx(ctx,md)		MD5Final(md,ctx)
+#define	md5_finish_ctx(ctx,md)		MD5Final((void *)md,ctx)
 
 /* one up */
 
