@@ -1,7 +1,7 @@
-$MirOS$
---- sysdeps/freebsd/proctime.c.orig	2005-03-01 20:39:45.000000000 +0100
-+++ sysdeps/freebsd/proctime.c	2005-03-01 20:46:02.000000000 +0100
-@@ -126,7 +126,7 @@ glibtop_get_proc_time_p (glibtop *server
+$MirOS: ports/devel/libgtop/patches/patch-sysdeps_freebsd_proctime_c,v 1.1.7.1 2005/03/18 15:44:51 tg Exp $
+--- sysdeps/freebsd/proctime.c.orig	Tue Jan  2 23:50:05 2007
++++ sysdeps/freebsd/proctime.c	Tue Jun 26 22:46:45 2007
+@@ -117,7 +117,7 @@ glibtop_get_proc_time_p (glibtop *server
  			 pid_t pid)
  {
  	struct kinfo_proc *pinfo;
@@ -10,7 +10,7 @@ $MirOS$
  	register struct rusage *rup;
  #else
  	struct user *u_addr = (struct user *)USRSTACK;
-@@ -170,7 +170,7 @@ glibtop_get_proc_time_p (glibtop *server
+@@ -153,7 +153,7 @@ glibtop_get_proc_time_p (glibtop *server
  	buf->frequency = 1000000;
  	buf->flags = _glibtop_sysdeps_proc_time;
  

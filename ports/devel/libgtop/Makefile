@@ -1,15 +1,15 @@
-# $MirOS: ports/devel/libgtop/Makefile,v 1.4 2006/02/09 11:11:24 tg Exp $
+# $MirOS: ports/devel/libgtop/Makefile,v 1.5 2006/09/14 00:08:21 tg Exp $
 # $OpenBSD: Makefile,v 1.14 2004/12/11 17:41:52 marcm Exp $
 
-COMMENT=			portable library for obtaining system information
+COMMENT=		portable library for obtaining system information
 
-V=			2.8.2
+V=			2.14.6
 DISTNAME=		libgtop-${V}
 PKGNAME=		libgtop2-${V}-0
-CATEGORIES=		devel
+CATEGORIES=		devel x11/gnome
 
 HOMEPAGE=		http://www.gnome.org
-MASTER_SITES=		${MASTER_SITE_GNOME:=sources/libgtop/2.8/}
+MASTER_SITES=		${MASTER_SITE_GNOME:=sources/libgtop/2.14/}
 EXTRACT_SUFX=		.tar.bz2
 
 # GPL
