@@ -1,4 +1,4 @@
-# $MirOS: src/usr.sbin/makefs/Makefile,v 1.22 2010/03/15 17:20:39 tg Exp $
+# $MirOS: src/usr.sbin/makefs/Makefile,v 1.23 2010/03/16 22:05:54 tg Exp $
 # $NetBSD: Makefile,v 1.25 2009/04/22 15:23:05 lukem Exp $
 
 WARNS?=	3	# XXX -Wsign-compare
@@ -78,11 +78,8 @@ SRCS+=		stat_flags.c
 
 .  ifdef FEDORA
 CPPFLAGS+=	-DFEDORA -I${BSDSRCDIR}/include
-SRCS+=		unvis.c
+SRCS+=		setmode.c unvis.c
 .PATH: ${BSDSRCDIR}/lib/libc/gen
-
-SRCS+=		setmode.c
-.PATH: ${BSDSRCDIR}/bin/mksh
 
 SRCS+=		fgetln.c
 .PATH: ${BSDSRCDIR}/../contrib/code/mirmake/dist/contrib
