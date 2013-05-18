@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.235 2009/09/07 17:28:15 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.236 2009/09/10 18:54:27 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -5082,4 +5082,27 @@ fi)'"$ca$ce[0m$ca[$USER@$HOSTNAME:\$(twd)]$PS1 "
   larger article later. I just needed to get started.</li>
 </ol>
 <p>This article will be updated in-place.</p>
+----
+Title: Getting closer: new snapshots soon
+Date: 13.09.2009 16:57
+Author: tg@
+Tag: snapshot
+
+<p>I'm closer to getting a new bi-arch snapshot ISO done: i386 is in a
+ pretty shape, and the sparc looks good, will be compiling this night,
+ and a few subsequent ones... so both architectures are on the same
+ level. I'll need to do clean installation builds for the snapshots of
+ course. There will probably be a ISO like the Easter 2009 snapshot on
+ BitTorrent again (no TPB, mind you), including the (admittedly slightly
+ dusty) MirGRML.</p>
+<p>Since we have over 1 GiB worth of binary packages, mostly compiled by
+ bsiegert@, some of which depend on libgcc_s.so.1.1, while the snapshots
+ will have libgcc_s.so.2.0, <tt>fixes10.ngz</tt> will contain a binary
+ plug of the older one (built just before the ABI change) for convenience
+ in using the binary packages. Be advised to install it.</p>
+<p>mksh(1) is currently being actively developed; the snapshot may come
+ before mksh R40 will be released, but contain a <em>lot</em> of changes
+ from R39 (see <a href="@@RELPATH@@mksh.htm#clog">the changelog</a>).</p>
+<!-- RSS stop --><p>I feel like I'm going ill again, bed day for me. This
+ sucks. And I even don't know why.</p>
 ----
