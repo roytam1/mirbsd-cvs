@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/listbeg.sparc,v 1.2 2006/08/18 20:48:46 tg Exp $
+# $MirOS: src/distrib/common/list.sparc-fdd,v 1.1 2008/07/12 22:06:14 tg Exp $
 
 SRCDIRS	distrib/special sys/arch/sparc/stand
 SRCDIRS	bin sbin usr.bin usr.sbin libexec
@@ -32,7 +32,6 @@ LINK	instbin					sbin/init
 LINK	instbin					sbin/mount
 LINK	instbin					sbin/mount_cd9660
 LINK	instbin					sbin/mount_ffs
-LINK	instbin					sbin/mount_nfs
 LINK	instbin					sbin/newfs sbin/mount_mfs
 LINK	instbin					sbin/reboot sbin/halt
 LINK	instbin					sbin/route
