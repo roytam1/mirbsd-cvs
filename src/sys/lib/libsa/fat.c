@@ -25,7 +25,7 @@
 #include <lib/libsa/stand.h>
 #include <lib/libsa/fat.h>
 
-__RCSID("$MirOS: src/sys/lib/libsa/fat.c,v 1.12 2009/01/03 12:43:05 tg Exp $");
+__RCSID("$MirOS: src/sys/lib/libsa/fat.c,v 1.13 2009/01/15 21:32:27 tg Exp $");
 
 #if BYTE_ORDER != LITTLE_ENDIAN
 #define getlew(ofs) (buf[(ofs)] + ((unsigned)buf[(ofs) + 1] << 8))
@@ -139,7 +139,7 @@ fat_open(char *path, struct open_file *f)
 
 	/* allocate fs specific data structure */
 	ff = alloc(sizeof (struct fat_file));
-	memset(ff, 0, sizeof (struct fat_file));
+	bzero(ff, sizeof (struct fat_file));
 	f->f_fsdata = ff;
 	ff->open_file = f;
 
@@ -365,35 +365,33 @@ fat_write(struct open_file *f, void *buf, size_t size, size_t *resid)
 off_t
 fat_seek(struct open_file *f, off_t offset, int where)
 {
-	struct fat_file *ff = f->f_fsdata;
-
 	switch (where) {
 	case SEEK_SET:
-		ff->nodeseekp = offset;
+		((struct fat_file *)f->f_fsdata)->nodeseekp = offset;
 		break;
 	case SEEK_CUR:
-		ff->nodeseekp += offset;
+		((struct fat_file *)f->f_fsdata)->nodeseekp += offset;
 		break;
 	case SEEK_END:
-		ff->nodeseekp = ff->nodesize - offset;
+		((struct fat_file *)f->f_fsdata)->nodeseekp =
+		    ((struct fat_file *)f->f_fsdata)->nodesize - offset;
 		break;
 	default:
 		return (-1);
 	}
 	/* invalidate file data buffer */
-	ff->datasec = 0;
-	return (ff->nodeseekp);
+	((struct fat_file *)f->f_fsdata)->datasec = 0;
+	return (((struct fat_file *)f->f_fsdata)->nodeseekp);
 }
 
 int
 fat_stat(struct open_file *f, struct stat *sb)
 {
-	struct fat_file *ff = f->f_fsdata;
-
 	/* quick and dirty */
-	memset(sb, 0, sizeof (struct stat));
-	sb->st_mode = (ff->nodetype == 1) ? 040555 : 0444;
-	sb->st_size = ff->nodesize;
+	bzero(sb, sizeof (struct stat));
+	sb->st_mode = (((struct fat_file *)f->f_fsdata)->nodetype == 1) ?
+	    040555 : 0444;
+	sb->st_size = ((struct fat_file *)f->f_fsdata)->nodesize;
 
 	return (0);
 }
@@ -401,14 +399,13 @@ fat_stat(struct open_file *f, struct stat *sb)
 int
 fat_readdir(struct open_file *f, char *name)
 {
-	struct fat_file *ff = f->f_fsdata;
 	int rv;
 	char ch, *cp;
 	size_t sr;
 
 	/* reset? */
 	if (name == NULL) {
-		ff->nodeseekp = 0;
+		((struct fat_file *)f->f_fsdata)->nodeseekp = 0;
 		return (0);
 	}
 
