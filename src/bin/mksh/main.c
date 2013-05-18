@@ -13,7 +13,7 @@
 #include <locale.h>
 #endif
 
-__RCSID("$MirOS: src/bin/mksh/main.c,v 1.67.2.2 2007/03/03 21:43:50 tg Exp $");
+__RCSID("$MirOS: src/bin/mksh/main.c,v 1.67.2.3 2007/03/03 23:38:37 tg Exp $");
 
 extern char **environ;
 
@@ -313,7 +313,7 @@ main(int argc, const char *argv[])
 	l = e->loc;
 	l->argv = &argv[argi - 1];
 	l->argc = argc - argi;
-	l->argv[0] = (char *)kshname;
+	l->argv[0] = kshname;
 	getopts_reset(1);
 
 	/* Disable during .profile/ENV reading */
@@ -352,7 +352,7 @@ main(int argc, const char *argv[])
 			"ENV", "SHELL",
 			NULL
 		};
-		shcomexec((char **)restr_com);
+		shcomexec(restr_com);
 		/* After typeset command... */
 		Flag(FRESTRICTED) = 1;
 	}
