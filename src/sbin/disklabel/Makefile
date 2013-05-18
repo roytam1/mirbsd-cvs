@@ -1,4 +1,4 @@
-# $MirOS: src/sbin/disklabel/Makefile,v 1.6 2006/06/17 22:12:40 tg Exp $
+# $MirOS: src/sbin/disklabel/Makefile,v 1.7 2006/06/30 23:18:04 tg Exp $
 # $OpenBSD: Makefile,v 1.38 2005/04/01 16:00:09 deraadt Exp $
 
 .include <bsd.own.mk>
@@ -16,7 +16,7 @@ manpage.c: disklabel.cat8
 .endif
 
 manpage.c:
-	print 'char manpage[] = ' >$@
+	print 'const unsigned char manpage[] = ' >$@
 .if defined(NOMAN) && ${NOMAN:L} != "no"
 	print -r '"no manual\n"' >>$@
 .else

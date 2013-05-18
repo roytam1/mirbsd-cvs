@@ -1,4 +1,4 @@
-/**	$MirOS: src/sbin/disklabel/editor.c,v 1.3 2005/04/29 18:34:54 tg Exp $ */
+/**	$MirOS: src/sbin/disklabel/editor.c,v 1.4 2006/02/02 01:12:15 tg Exp $ */
 /*	$OpenBSD: editor.c,v 1.99 2005/01/07 21:58:14 otto Exp $	*/
 
 /*
@@ -43,7 +43,7 @@
 #include "extern.h"
 #include "pathnames.h"
 
-__RCSID("$MirOS: src/sbin/disklabel/editor.c,v 1.3 2005/04/29 18:34:54 tg Exp $");
+__RCSID("$MirOS: src/sbin/disklabel/editor.c,v 1.4 2006/02/02 01:12:15 tg Exp $");
 
 /* flags for getuint() */
 #define	DO_CONVERSIONS	0x00000001
@@ -293,7 +293,7 @@ editor(struct disklabel *lp, int f, char *dev, char *fstabfile)
 		case 'M': {
 			sig_t opipe = signal(SIGPIPE, SIG_IGN);
 			char *pager;
-			extern char manpage[];
+			extern const unsigned char manpage[];
 
 			if ((pager = getenv("PAGER")) == NULL || *pager == '\0')
 				pager = _PATH_LESS;
