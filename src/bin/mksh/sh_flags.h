@@ -88,6 +88,9 @@ FN("nounset", FNOUNSET, 'u', OF_ANY)
 /* ./.	don't do logical cds/pwds (non-standard) */
 FN("physical", FPHYSICAL, 0, OF_ANY)
 
+/* ./.	errorlevel of a pipeline is the rightmost nonzero value */
+FN("pipefail", FPIPEFAIL, 0, OF_ANY)
+
 /* ./.	adhere more closely to POSIX even when undesirable */
 FN("posix", FPOSIX, 0, OF_ANY)
 

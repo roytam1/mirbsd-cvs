@@ -6294,6 +6294,28 @@ expected-stdout:
 	PIPESTATUS[0]=0
 	8 PIPESTATUS[0]=0 PIPESTATUS[1]=0 .
 ---
+name: pipeline-4
+description:
+	Check that "set -o pipefail" does what it's supposed to
+stdin:
+	echo 1 "$("$__progname" -c '(exit 12) | (exit 23) | (exit 42); echo $?')" .
+	echo 2 "$("$__progname" -c '! (exit 12) | (exit 23) | (exit 42); echo $?')" .
+	echo 3 "$("$__progname" -o pipefail -c '(exit 12) | (exit 23) | (exit 42); echo $?')" .
+	echo 4 "$("$__progname" -o pipefail -c '! (exit 12) | (exit 23) | (exit 42); echo $?')" .
+	echo 5 "$("$__progname" -c '(exit 23) | (exit 42) | :; echo $?')" .
+	echo 6 "$("$__progname" -c '! (exit 23) | (exit 42) | :; echo $?')" .
+	echo 7 "$("$__progname" -o pipefail -c '(exit 23) | (exit 42) | :; echo $?')" .
+	echo 8 "$("$__progname" -o pipefail -c '! (exit 23) | (exit 42) | :; echo $?')" .
+expected-stdout:
+	1 42 .
+	2 0 .
+	3 42 .
+	4 0 .
+	5 0 .
+	6 1 .
+	7 42 .
+	8 0 .
+---
 name: persist-history-1
 description:
 	Check if persistent history saving works
