@@ -1,7 +1,7 @@
-! $MirOS: contrib/samples/dot.Xmodmap,v 1.20 2008/09/01 06:17:55 tg Exp $
+! $MirOS: contrib/samples/dot.Xmodmap,v 1.22 2008/11/08 22:56:50 tg Exp $
 !-
-! Copyright © 2004, 2007, 2008
-!	Thorsten “mirabilos” Glaser <tg@mirbsd.de>
+! Copyright © 2004, 2007, 2008, 2010
+!	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
 !
 ! Provided that these terms and disclaimer and all copyright notices
 ! are retained or reproduced in an accompanying document, permission
@@ -42,7 +42,7 @@
 ! • The Alt_L, Win_L, Win_R, CapsLock keys retain common behaviour
 ! • The Win_M key also keeps common behaviour; there is no Compose
 ! The following behavioural differences can be seen on X11 platform:
-! • The IBM Thinkpad X40 Page_Left key is an alias for Mode_switch
+! • The IBM Thinkpad X40 Page_Left key is Alt_L: there’s no Winkey
 ! • The IBM Thinkpad X40 Page_Right key can be used as Compose key
 ! • In unshifted states, Escape and U+0060 (`) have switched place
 ! • The ModeSwitch-F1 combination generates U+263B (☻) good smiley
@@ -196,7 +196,7 @@ keycode	0x7F =
 keycode	0x80 =
 keycode	0x9C =
 
-keycode	0xEA =	Mode_switch	Mode_switch
+keycode	0xEA =	Alt_L		Alt_L
 keycode	0xE9 =	Multi_key	Multi_key
 
 clear	Shift
