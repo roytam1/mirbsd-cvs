@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.324 2010/03/11 15:27:34 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.325 2010/03/13 17:02:21 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -68,8 +68,9 @@ mws_content <<'EOF'
  Thanks to DEChengst from #UnixNL for providing access to a HP/Compaq Tru64
  (OSF/1 V5.1B) system, an OSF/1 V2.0 system and an Ultrix 4.5 system. Thanks
  to Adam “replaced” Hoka for a BSDi BSD/OS 3.1 ISO9660 image and offering to
- help with HP-sUX testing (now that HP TestDrive went down) and porting to
- Haiku. Thanks to André “naaina” Wösten for ssh on a QNX box. Thanks to
+ help with HP-sUX testing (now that HP TestDrive went down) and initial
+ porting to Haiku, which was continued at CLT 2010 with help from Stephan
+ Aßmus. Thanks to André “naaina” Wösten for ssh on a QNX box. Thanks to
  Olivier Duchateau for testing on Slackware and Zenwalk GNU/Linux.
  (Did I miss anyone? Mail me if so. Some of these are past, anyway.)</p>
 <p>What is mksh(1)? – Short answer: The MirBSD Korn Shell. Okay, but what
@@ -248,7 +249,7 @@ mws_content <<'EOF'
  processor used unless <tt>-r</tt> is given</li>
 <li><tt>TARGET_OS</tt> (uname -s || uname) – the operating system to compile
  for; set this during cross compilation; valid: AIX BeOS (not yet) BSD/OS
- CYGWIN* Darwin DragonFly FreeBSD GNU (Hurd) GNU/kFreeBSD Haiku (not yet)
+ CYGWIN* Darwin DragonFly FreeBSD GNU (Hurd) GNU/kFreeBSD Haiku
  HP-UX Interix IRIX* Linux MidnightBSD Minix MirBSD NetBSD OpenBSD OSF1
  Plan9 (not yet) PW32* (not yet) QNX SunOS syllable (not yet) ULTRIX UWIN*</li>
 <li><tt>TARGET_OSREV</tt> (uname -r) – the operating system revision number
@@ -485,8 +486,8 @@ mws_content <<'EOF'
 <h5 id="oe_beos">OS: BeOS / Haiku</h5>
 <p>ahoka@ had begun porting. mksh R39c has been tested on 2010-03-13; <a
  href="http://dev.haiku-os.org/ticket/5567">a kernel from r35836 up</a>
- is required due to a bugfix wrt. signal handling. (This for Haiku; we
- have no idea about BeOS.)</p>
+ is required due to a bugfix wrt. signal handling. (This for <a
+ href="http://www.haiku-os.org/">Haiku</a>; we have no idea about BeOS.)</p>
 
 <h5 id="oe_bsi">OS: BSDi BSD/OS</h5>
 <p>BSD/OS 3.1 works fine with mksh R33.</p>
@@ -825,7 +826,7 @@ mws_content <<'EOF'
  worked on), iPhoneOS (compile yourself; being worked on), Knoppix and
  SIDUX (just add them), Nexenta (need a contact person), Arch native (use
  AUR), PC-BSD (use pkgsrc® or so; need a contact person for PBI), OpenSolaris
- (being worked on), OpenBSD (use unofficial port), BeOS/Haiku (broken),
+ (being worked on), OpenBSD (use unofficial port), BeOS (maybe broken) / Haiku,
  Plan 9 (slightly broken), Syllable Desktop (broken, kernel issue, may have
  been fixed in the meantime), ...</li>
 </ul>
