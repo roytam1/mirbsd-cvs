@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/ksh-chan.inc,v 1.5 2011/08/13 22:16:51 tg Exp $
+RCSID: $MirOS: www/data/ksh-chan.inc,v 1.6 2011/08/26 19:42:05 tg Exp $
 Title: Homepage of the original Korn Shell
 Link: http://www.kornshell.com/
 
@@ -27,6 +27,11 @@ Link: http://www.cs.mun.ca/~michael/pdksh/
 This is the homepage of the Public Domain Korn Shell (pdksh),
 where last development happened in 1999, when the original
 Korn Shell used to be commercial/proprietary software.
+----
+Title: AT&amp;T Beta Downloads
+Link: http://www2.research.att.com/sw/download/beta/
+
+Beta versions of the original Korn Shell can often be found here.
 ----
 Title: CVSweb for OpenBSD’s ksh
 Link: http://www.openbsd.org/cgi-bin/cvsweb/src/bin/ksh/
