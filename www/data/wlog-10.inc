@@ -81,7 +81,7 @@ Date: 15.03.2008
 Author: tg@
 Subject: The Unicode Release
 
-<p>MirOS ξ (MirOS XI) is not only our eleventh release (as I started
+<p>MirOS ξ (MirOS xi) is not only our eleventh release (as I started
  counting at zero), it is also the Unicode release. While it finally
  makes sparc a fully supported platform, the real focus is on Unicode,
  and bsiegert@’s girlfriend seems to have realised that better than I
@@ -104,4 +104,30 @@ Subject: The Unicode Release
  own. We still track OpenBSD, but that’s no longer the focus. Benny’s
  girlfriend also got that right. And her mouse did attract the users,
  and stayed topic on the other BSDs’ websites. Wow.</p>
+----
+Date: 19.03.2008
+Author: tg@
+
+<p>In addition to my primary geocaching site, OpenCaching.de, and the
+ commercial crap site, GeoCaching.com, which has most users, I now also
+ registered at TerraCaching.com, which is a semi-closed site providing
+ “high-quality” caches. Stats bar gallery:</p>
+<p><img src="http://www.opencaching.de/statpics/106521.jpg"
+ alt="OC" /> <img src="http://img.geocaching.com/stats/img.aspx?txt=Hacking+MirBSD+since+2002&amp;uid=d6aaa6ad-797c-419a-91b3-8cf6a5b40658"
+ alt="GC" /> <img src="http://www.terracaching.com/statsban/15089.gif"
+ alt="TC" /></p>
+<p>Of course, I didn’t find any TCxxxxx caches yet. I need to get fully
+ registered (“sponsored”) at the site first. This isn’t a big issue tho.</p>
+<hr />
+<p>gecko2@ just called me. He operates <tt>www.mirbsd.org</tt> and got
+ a little surprise on his daily traffic report. Summing it up, his server
+ and myself, and a friend of mine, together, adding HTTP and BitTorrent
+ transfers, have had about 500 GiB traffic in the 2½ days the #10 release
+ is now available. Alone the HTTP direct downloads of clients that got the
+ ISO in one piece (not HTTP 206) number sits at 861 at the time of this
+ writing (850 five minutes ago, 825 ¼h ago).</p>
+<p>As an immediate measure protecting his server against being taken
+ offline for traffic limit trespassing, I redirected to allbsd.org for
+ direct downloads on getting.htm and suggested him to install bandwidth
+ throttling/limiting for apache. Don’t be surprised.</p>
 ----
