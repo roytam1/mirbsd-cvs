@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.144 2009/01/21 08:48:19 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.145 2009/01/21 13:09:24 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -2926,4 +2926,38 @@ Date: 21.01.2009 13:08
  <img src="https://call.mirbsd.org/sp.cgi?tc" alt="Rare Jewels" />
  <img src="https://call.mirbsd.org/sp.cgi?nc" alt="Broken Webpages²" />
  <br />Incr(Caches);</p>
+----
+Author: tg@
+Title: Sponsor for FOSDEM
+Date: 21.01.2009 20:02
+
+<p>My employer, <a href="http://www.tarent.com/">tarent Gesellschaft
+ für Software-Entwicklung und IT-Beratung mbH</a>, is sponsoring the
+ entirety of the attending MirOS Project representatives – which are
+ bsiegert@ and gecko2@ as well as me – for FOSDEM, covering the Bonn
+ to Bruxelles travel of gecko2@ and me (and two colleagues, where <a
+ href="http://rschuster.blogs.evolvis.org/2008/12/21/serving-cross-compiled-openjdk-with-icedtea/">one
+ of them</a> had already been mentioned before I entered the company
+ ☺) and hotel costs of all three of us. Thank you!</p>
+<p><img width="341" height="71" alt="Logo der tarent GmbH (FrOSCon)"
+ src="http://www.froscon.de/uploads/pics/tarent-logo.jpg" /></p>
+<p>tarent GmbH develops IT solutions and supports open source and <a
+ href="http://evolvis.org/">evolvis</a> hosts almost three dozen OSS
+ projects, mostly written in Java™, for various fields of endeavour.
+ The <a href="http://wiki.evolvis.org/freedroidz/index.php/LinuxTag_2008">Freedroidz</a>
+ robots are well known on the “house” events. Jalimo is a Java™ 2 SE
+ platform targetting mobile devices. And this is just the beginning.
+ We are also internally using a lot of open source projects’ work; I
+ already mentioned the FreeWRT, MirBSD and OpenBSD boxen…</p>
+<hr />
+<p>Sponsors make it possible for us to attend popular events, paying
+ for travel and accomodation (we do not necessarily require a hotel,
+ though, but it should be a clean place to sleep) cost. We are still
+ looking for more sponsors making it possible to travel to even more
+ events (Linuxtage Chemnitz, Essen, Graz, Luxembourg, for example) –
+ flyers and CDs are already covered by AllBSD.de or ourselves, so it
+ would just be that and, if you have money to spare, food and drink.
+ Come and <a href="@@RELPATH@@irc.htm">talk</a> if you’re interested
+ (in return, like here, we will publicly thank you or provide custom
+ MirOS editions, possibly Live DVDs with binary packages, etc).</p>
 ----
