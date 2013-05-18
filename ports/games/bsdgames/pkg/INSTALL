@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: ports/games/bsdgames/pkg/INSTALL,v 1.1.7.1 2005/03/18 15:46:07 tg Exp $
+# $MirOS: ports/games/bsdgames/pkg/INSTALL,v 1.2 2005/11/19 23:03:01 tg Exp $
 #
 # pre-/post-installation setup for bsdgames
 
@@ -23,7 +23,12 @@ PRE-INSTALL)
 	: nothing to pre-install for this port
 	;;
 POST-INSTALL)
-	if [[ -d /var/games ]]; then
+	found=0
+	for files in /var/games/*; do
+		[[ -e $files ]] && found=1
+		break
+	done
+	if [[ $found = 1 ]]; then
 		print "Warning: check /var/games with the $1 package's"
 		print "contents in $PREFIX/share/games/_tarball.dist"
 	else

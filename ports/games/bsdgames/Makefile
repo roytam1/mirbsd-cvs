@@ -1,8 +1,8 @@
-# $MirOS: ports/games/bsdgames/Makefile,v 1.14 2007/02/22 22:12:43 tg Exp $
+# $MirOS: ports/games/bsdgames/Makefile,v 1.15 2007/03/02 01:47:08 tg Exp $
 
 COMMENT=		BSD base system games
 CATEGORIES=		games
-DASH_VER=		1
+DASH_VER=		2
 CVS_DISTREPO=		anoncvs@anoncvs.ca.openbsd.org:/cvs
 CVS_DISTDATE=		2007/02/22
 CVS_DISTMODS=		src/games
