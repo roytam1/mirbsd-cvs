@@ -46,7 +46,7 @@
 # OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 # SUCH DAMAGE.
 #
-# $MirOS: www/files/cvs.cgi,v 1.2 2008/11/08 22:24:35 tg Exp $
+# $MirOS: www/files/cvs.cgi,v 1.3 2009/08/15 21:07:58 tg Exp $
 # $FreeBSD: projects/cvsweb/cvsweb.cgi,v 1.291 2005/01/22 12:43:55 scop Exp $
 # $Id$
 # $Idaemons: /home/cvs/cvsweb/cvsweb.cgi,v 1.84 2001/10/07 20:50:10 knu Exp $
@@ -3848,7 +3848,7 @@ sub navigateHeader($$$$$;$)
 
   print <<EOF;
 $HTML_DOCTYPE
-<html>
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <title>$qpath$qfile - $title$trev</title>
 $HTML_META$CSS</head>
@@ -4310,7 +4310,7 @@ sub html_header($;$)
   http_header('text/html', $moddate);
   print <<EOH;
 $HTML_DOCTYPE
-<html>
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <title>$title</title>
 $HTML_META$css</head>
