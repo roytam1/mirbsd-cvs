@@ -1,20 +1,20 @@
-# $MirOS: ports/graphics/netpbm/Makefile,v 1.5 2006/09/14 00:10:00 tg Exp $
+# $MirOS: ports/graphics/netpbm/Makefile,v 1.6 2007/04/13 19:30:04 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.30 2004/02/23 08:20:11 pvalchev Exp $
 # $NetBSD: Makefile,v 1.25 1999/03/04 14:18:54 tron Exp $
 
-COMMENT=			toolkit for converting images between different formats
-COMMENT-hpcd=			convert photo CD images into ppm format
+COMMENT=		toolkit for converting images between different formats
+COMMENT-hpcd=		convert photo CD images into ppm format
 VERSION=		9.24
 DISTNAME=		netpbm-${VERSION}
-PKGNAME=		${DISTNAME}-2
-PKGNAME-hpcd=		hpcdtoppm-${VERSION}-2
+DASH_VER=		3
+PKGNAME-hpcd=		hpcdtoppm-${VERSION}-${DASH_VER}
 CATEGORIES=		graphics
 MASTER_SITES=		${MASTER_SITE_SOURCEFORGE:=netpbm/}
 EXTRACT_SUFX=		.tgz
 HOMEPAGE=		http://netpbm.sourceforge.net/
 LIB_DEPENDS=		tiff::graphics/tiff \
-			jpeg::graphics/jpeg \
-			png::graphics/png
+			jpeg::graphics/jpeg
+MODULES+=		graphics/png
 
 MULTI_PACKAGES=		-hpcd
 SUBPACKAGE?=
