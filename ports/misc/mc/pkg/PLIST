@@ -1,4 +1,4 @@
-@comment $MirOS: ports/misc/mc/pkg/PLIST,v 1.5 2006/02/21 15:12:15 tg Exp $
+@comment $MirOS: ports/misc/mc/pkg/PLIST,v 1.6 2006/09/28 20:31:52 tg Exp $
 bin/mc
 bin/mcedit
 bin/mcmfmt
@@ -56,7 +56,7 @@ share/mc/mc.hint
 share/mc/mc.hlp
 share/mc/mc.lib
 share/mc/mc.menu
-share/mc/mc.menu.sr
+@comment share/mc/mc.menu.sr
 share/mc/syntax/Syntax
 share/mc/syntax/ada95.syntax
 share/mc/syntax/aspx.syntax
