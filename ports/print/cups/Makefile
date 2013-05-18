@@ -1,9 +1,9 @@
-# $MirOS: ports/print/cups/Makefile,v 1.8 2006/07/26 19:56:00 bsiegert Exp $
+# $MirOS: ports/print/cups/Makefile,v 1.9 2006/09/14 00:12:38 tg Exp $
 
-COMMENT=			Common Unix Printing System
+COMMENT=		Common Unix Printing System
 
 VERSION=		1.2.1
-DASH_VER=		-1
+DASH_VER=		-2
 DISTNAME=		cups-${VERSION}-source
 PKGNAME=		${DISTNAME:S/-source//}${DASH_VER}
 CATEGORIES=		print sysutils
