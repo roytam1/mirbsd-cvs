@@ -1,7 +1,7 @@
-/* $MirOS: src/sys/arch/i386/stand/bootxx/bootxx.S,v 1.9 2007/09/28 20:51:27 tg Exp $ */
+/* $MirOS: src/sys/arch/i386/stand/bootxx/bootxx.S,v 1.10 2008/08/05 17:57:08 tg Exp $ */
 
 /*-
- * Copyright (c) 2003, 2004, 2005, 2007
+ * Copyright (c) 2003, 2004, 2005, 2007, 2009
  *	Thorsten Glaser <tg@mirbsd.de>
  *
  * Provided that these terms and disclaimer and all copyright notices
@@ -9,10 +9,6 @@
  * is granted to deal in this work without restriction, including un-
  * limited rights to use, publicly perform, distribute, sell, modify,
  * merge, give away, or sublicence.
- *
- * Advertising materials mentioning features or use of this work must
- * display the following acknowledgement:
- *	This product includes material provided by Thorsten Glaser.
  *
  * This work is provided "AS IS" and WITHOUT WARRANTY of any kind, to
  * the utmost extent permitted by applicable law, neither express nor
@@ -209,13 +205,7 @@ Lmlp2:	movsb			/* copy over as many bytes as needed */
 	push	fs
 	push	cx
 	/* check some "random" ASCII string, i.e. the boot magic */
-	mov	eax,0x6A6D4F00
-	/* manipulate here, but first byte MBZ */
-	magicofs = . - 3
-	.globl	magicofs
-
-	xchg	eax,dword ptr fs:[0x50]
-	cmp	eax,0x6A6D4F00
+	cmp	dword ptr fs:[0x50],0x6A6D4F00
 	mov	si,offset Lerr		/* "bad magic" */
 	jne	Lbarf			/* it isn't correct, barf out */
 	/* new line, for the fine look */

@@ -1,18 +1,14 @@
 #!/bin/mksh
-rcsid='$MirOS: src/sys/arch/i386/stand/bootxx/mkbxinst.sh,v 1.7 2008/10/20 23:15:38 tg Exp $'
+rcsid='$MirOS: src/sys/arch/i386/stand/bootxx/mkbxinst.sh,v 1.8 2008/10/21 01:20:30 tg Exp $'
 #-
-# Copyright (c) 2007, 2008
-#	Thorsten Glaser <tg@mirbsd.de>
+# Copyright (c) 2007, 2008, 2009
+#	Thorsten Glaser <tg@mirbsd.org>
 #
 # Provided that these terms and disclaimer and all copyright notices
 # are retained or reproduced in an accompanying document, permission
 # is granted to deal in this work without restriction, including un-
 # limited rights to use, publicly perform, distribute, sell, modify,
 # merge, give away, or sublicence.
-#
-# Advertising materials mentioning features or use of this work must
-# display the following acknowledgement:
-#	This product includes material provided by Thorsten Glaser.
 #
 # This work is provided "AS IS" and WITHOUT WARRANTY of any kind, to
 # the utmost extent permitted by applicable law, neither express nor
@@ -37,7 +33,7 @@ function die {
 
 nm $1 |&
 while read -p adr typ sym; do
-	[[ $sym = @(_start|blkcnt|blktbl|bpbspt|bpbtpc|partp|magicofs|secsizofs) ]] || continue
+	[[ $sym = @(_start|blkcnt|blktbl|bpbspt|bpbtpc|partp|secsizofs) ]] || continue
 	eval typeset -i10 sym_$sym=0x\$adr
 done
 
@@ -53,8 +49,8 @@ print "# $rcsid"
 print "# \$miros:${rcsid#*:}"
 cat <<'EOF'
 #-
-# Copyright (c) 2007, 2008
-#	Thorsten Glaser <tg@mirbsd.de>
+# Copyright (c) 2007, 2008, 2009
+#	Thorsten Glaser <tg@mirbsd.org>
 #
 # Provided that these terms and disclaimer and all copyright notices
 # are retained or reproduced in an accompanying document, permission
@@ -83,7 +79,6 @@ print typeset -i ofs_numheads=$((sym_bpbtpc - sym__start))
 print typeset -i ofs_numsecs=$((sym_bpbspt - sym__start))
 print typeset -i ofs_partp=$((sym_partp - sym__start))
 print typeset -i begptr=$((sym_blktbl - sym__start))
-print typeset -i ofs_magic=$((sym_magicofs - sym__start))
 print typeset -i ofs_secsiz=$((sym_secsizofs - sym__start))
 cat <<'EOF'
 typeset -Uui8 thecode
@@ -228,7 +223,6 @@ thecode[511]=0xAA
 if (( bsz != 5 )); then
 	print -u2 "using sectors of 2^$((bsz + 4)) bytes"
 	(( thecode[ofs_secsiz] = bsz ))
-	(( thecode[ofs_magic]++ ))
 fi
 
 # create the output string
