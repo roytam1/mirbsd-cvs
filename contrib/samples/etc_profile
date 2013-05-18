@@ -1,4 +1,4 @@
-# $MirOS: contrib/samples/etc_profile,v 1.4 2006/07/07 22:11:11 tg Exp $
+# $MirOS: contrib/samples/etc_profile,v 1.5 2006/07/23 18:44:25 tg Exp $
 # _MirBSD: src/etc/profile,v 1.51 2004/08/23 21:23:03 tg Stab $
 #-
 # Copyright (c) 1999, 2000, 2003, 2004, 2005
@@ -221,6 +221,10 @@ function ggr		# Google GRoups
 function ge		# German English
 {
 	${BROWSER:-lynx} "http://dict.leo.org/?search=$*"
+}
+function ges		# German Spanish
+{
+	${BROWSER:-lynx} "http://dict.leo.org/esde?search=$*"
 }
 function ulynx		# uxterm lynx (UTF-8)
 {
