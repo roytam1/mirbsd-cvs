@@ -1765,8 +1765,8 @@ Author: tg@
  nuggets, because it’s easier (also for Ewe and Jewel) to have the classes
  from external libraries unpacked in the tree.</p>
 <p>GNU ed sucks – it is less BSD ed(1) compatible in more recent versions…
- I bet they’ll be using GPLv3 next – and GFDL for the <stroke>man</stroke>
- <stroke>texinfo</stroke> pages (now what, GNU software doesn’t use manual
+ I bet they’ll be using GPLv3 next – and GFDL for the <span style="text-decoration:line-through;">man</span>
+ er… <span style="text-decoration:line-through;">texinfo</span> pages (now what, GNU software doesn’t use manual
  pages any more, and almost no GNU/Linux distribution has texinfo).</p>
 <p>I would have listened to the grml talk at MoeLUG tonight, but nobody of
  my mates with cars wanted to go. Too bad, I really liked the Altbier.</p>

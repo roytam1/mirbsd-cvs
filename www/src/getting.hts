@@ -1,10 +1,10 @@
-# $MirOS$
+# $MirOS: www/src/getting.hts,v 1.1 2007/08/28 19:23:44 bsiegert Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname getting "Get MirOS!"
-mws_putheader '$MirOS$'
+mws_putheader '$MirOS: www/src/getting.hts,v 1.1 2007/08/28 19:23:44 bsiegert Exp $'
 mws_content <<'EOF'
 <h1>Get MirOS!</h1>
 
@@ -32,7 +32,7 @@ mws_content <<'EOF'
  the usual pricing is: at least 15 EUR per CD (25 for both) to Germany.
  We cannot ship to outside the European Union and Switzerland.</p>
 
-<h2>Downloads</h1>
+<h2>Downloads</h2>
 
 <p>Please verify the gzsig(1) signature of the checksums and the integrity of
  all checksummed files!</p>
@@ -70,7 +70,7 @@ mws_content <<'EOF'
  </tr>
 </table>
 
-<h2>Source code via anonymous CVS</h1>
+<h2>Source code via anonymous CVS</h2>
 
 <p>To access the source code in the CVS repository, either point your
  browser to <a href="http://cvs.mirbsd.de">cvs.mirbsd.de (CVSweb)</a>
