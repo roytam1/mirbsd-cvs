@@ -1,5 +1,5 @@
 #!MKSH
-# $MirOS: ports/www/php/core/files/phpxs,v 1.3 2006/01/25 12:48:05 tg Exp $
+# $MirOS: ports/www/php/core/files/phpxs,v 1.4 2009/03/29 13:04:08 tg Exp $
 # $OpenBSD: phpxs,v 1.2 2004/11/24 17:37:49 robert Exp $
 #
 # Copyright (c) 2002-2004 Anil Madhavapeddy <anil@recoil.org>
@@ -35,27 +35,21 @@ showusage() {
     exit 2
 }
 
-set -- $(getopt sarc: $*)
-if test $? != 0 ; then
-    showusage;
-fi
-
-add=0; remove=0;
-for i; do
-    case "$i"
-    in
-        -s)
-            setup=1; shift;;
-        -a)
-            add=1; shift;;
-        -r)
-            remove=1; shift;;
-        -c)
-            php_cfg=$2; shift; shift;;
-        --)
-            shift; break;;
-    esac
+add=0
+remove=0
+setup=0
+while getopts "ac:rs" ch; do
+	case $ch {
+	(a) add=1 ;;
+	(c) php_cfg=$OPTARG ;;
+	(r) remove=1 ;;
+	(s) setup=1 ;;
+	(*) showusage ;;
+	}
 done
+shift $((OPTIND - 1))
+
+(( add + remove + setup )) || showusage
 
 module=$1
 
