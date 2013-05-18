@@ -1,4 +1,4 @@
-# $MirOS: ports/devel/autoconf/2.63/Makefile,v 1.4 2009/11/18 20:54:27 bsiegert Exp $
+# $MirOS: ports/devel/autoconf/2.63/Makefile,v 1.5 2009/11/21 16:44:35 tg Exp $
 
 COMMENT=		automatically configure source code on many Un*x platforms
 SUFFIX=			-2.63
@@ -22,7 +22,8 @@ B_R_DEPENDS+=		${MODM4_DEPENDS}
 CONFIGURE_STYLE=	gnu
 CONFIGURE_ARGS+=	--program-suffix=${SUFFIX} \
 			--without-lispdir
-CONFIGURE_ENV+=		M4=${M4:Q} AWK=${AWK:Q}
+CONFIGURE_ENV+=		M4=${M4:Q}
+CONFIGURE_ENV+=		AWK=${AWK:Q}
 EXTRA_XAKE_FLAGS+=	pkgdatadir=${PREFIX:Q}/share/autoconf${SUFFIX}
 EXTRA_FAKE_FLAGS+=	DESTDIR=${WRKINST:Q} lispdir=
 SUBST_VARS=		SUFFIX
