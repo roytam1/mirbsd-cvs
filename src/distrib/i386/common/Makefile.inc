@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/i386/common/Makefile.inc,v 1.23 2006/07/05 21:06:15 tg Exp $
+# $MirOS: src/distrib/i386/common/Makefile.inc,v 1.24 2006/07/05 22:58:56 tg Exp $
 # $OpenBSD: Makefile.inc,v 1.15 2004/11/25 22:02:08 deraadt Exp $
 
 .ifndef _MODSRC_DISTRIB_I386_COMMON_MAKEFILE_INC
@@ -6,6 +6,7 @@ _MODSRC_DISTRIB_I386_COMMON_MAKEFILE_INC=1
 
 .include <bsd.own.mk>
 
+USE_MAKEFS=	#defined
 TOP=		${.CURDIR}/..
 REALOBJDIR!=	readlink -nf ${.OBJDIR} || ( cd ${.OBJDIR} && pwd )
 IMAGE=		mr.fs
