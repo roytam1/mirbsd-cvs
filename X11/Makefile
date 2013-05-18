@@ -1,4 +1,4 @@
-# $MirOS: X11/Makefile,v 1.29 2006/07/01 22:18:28 tg Exp $
+# $MirOS: X11/Makefile,v 1.30 2006/07/02 17:42:05 tg Exp $
 
 .include <bsd.own.mk>
 .include "${BSDSRCDIR}/Makefile.inc"
@@ -130,7 +130,7 @@ release:
 	mkdir -p ${DESTDIR} ${BSDRELDIR}/rel
 	${INSTALL} -d -o ${DIROWN} -g ${DIRGRP} -m ${DIRMODE} \
 	    ${DESTDIR}/etc ${DESTDIR}/etc/X11 \
-	    ${DESTDIR}/usr/X11R6 ${DESTDIR}/usr/X11R6/man/cat1 \
+	    ${DESTDIR}/usr/X11R6/bin ${DESTDIR}/usr/X11R6/man/cat1 \
 	    ${DESTDIR}/usr/local ${DESTDIR}/usr/local/lib/X11
 	cd ${.CURDIR} && exec ${MAKE} install
 .if (${MACHINE_ARCH} == "macppc") || (${MACHINE_ARCH} == "sparc")

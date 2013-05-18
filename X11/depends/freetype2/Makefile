@@ -1,4 +1,4 @@
-# $MirOS: X11/depends/freetype2/Makefile,v 1.2 2006/06/29 20:11:14 tg Exp $
+# $MirOS: X11/depends/freetype2/Makefile,v 1.3 2006/06/29 20:57:31 tg Exp $
 
 .include "../Makefile.inc"
 .include <bsd.own.mk>
@@ -228,19 +228,19 @@ NOMAN=			Yes
   INCS+=		ttunpat.h
 
 beforeinstall:
-	@mkdir -p ${X11BASE}/lib/pkgconfig \
-	    ${X11BASE}/include/freetype2/freetype/config
+	@mkdir -p ${DESTDIR}${X11BASE}/lib/pkgconfig \
+	    ${DESTDIR}${X11BASE}/include/freetype2/freetype/config
 .for _i in ${INCS}
 	${INSTALL} ${INSTALL_COPY} -o ${BINOWN} -g ${BINGRP} -m ${NONBINMODE} \
 	    ${FT2_DIR}/include/freetype/${_i} \
-	    ${X11BASE}/include/freetype2/freetype/${_i}
+	    ${DESTDIR}${X11BASE}/include/freetype2/freetype/${_i}
 .endfor
 	${INSTALL} ${INSTALL_COPY} -o ${BINOWN} -g ${BINGRP} -m ${NONBINMODE} \
 	    ${FT2_DIR}/builds/unix/ft2unix.h \
-	    ${X11BASE}/include/freetype2/ft2build.h
+	    ${DESTDIR}${X11BASE}/include/freetype2/ft2build.h
 	${INSTALL} ${INSTALL_COPY} -o ${BINOWN} -g ${BINGRP} -m ${BINMODE} \
-	    freetype-config ${BINDIR}/
+	    freetype-config ${DESTDIR}${BINDIR}/
 	${INSTALL} ${INSTALL_COPY} -o ${BINOWN} -g ${BINGRP} -m ${SHAREMODE} \
-	    freetype2.pc ${X11BASE}/lib/pkgconfig/
+	    freetype2.pc ${DESTDIR}${X11BASE}/lib/pkgconfig/
 
 .include <bsd.lib.mk>
