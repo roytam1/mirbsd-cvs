@@ -13,7 +13,7 @@
 
 #include <sendmail.h>
 
-SM_RCSID("$MirOS: src/gnu/usr.sbin/sendmail/sendmail/conf.c,v 1.7 2007/02/05 17:13:45 tg Exp $")
+SM_RCSID("$MirOS: src/gnu/usr.sbin/sendmail/sendmail/conf.c,v 1.8 2007/04/29 20:44:14 tg Exp $")
 SM_RCSID("@(#)$Sendmail: conf.c,v 8.1128 2007/04/03 21:32:29 ca Exp $")
 
 #include <sm/sendmail.h>
@@ -1514,7 +1514,7 @@ getla()
 		sm_dprintf("getla: symbol address = %#lx\n",
 			(unsigned long) Nl[X_AVENRUN].n_value);
 	if (lseek(kmem, (off_t) Nl[X_AVENRUN].n_value, SEEK_SET) == -1 ||
-	    read(kmem, (char *) avenrun, sizeof(avenrun)) < sizeof(avenrun))
+	    read(kmem, (char *) avenrun, sizeof(avenrun)) != sizeof(avenrun))
 	{
 		/* thank you Ian */
 		if (tTd(3, 1))
@@ -1836,7 +1836,7 @@ getla(void)
 
 	if (lseek(kmem, CAST_SYSMP(sysmp(MP_KERNADDR, MPKA_AVENRUN)), SEEK_SET)
 		== -1 ||
-	    read(kmem, (char *) avenrun, sizeof(avenrun)) < sizeof(avenrun))
+	    read(kmem, (char *) avenrun, sizeof(avenrun)) != sizeof(avenrun))
 	{
 		if (tTd(3, 1))
 			sm_dprintf("getla: lseek or read: %s\n",
@@ -1944,6 +1944,13 @@ getla()
 	}
 
 	r = read(afd, &avenrun, sizeof(avenrun));
+	if (r != sizeof(avenrun))
+	{
+		sm_syslog(LOG_ERR, NOQID,
+			"can't read %s: %s", _PATH_AVENRUN,
+			r == -1 ? sm_errstring(errno) : "short read");
+		return -1;
+	}
 
 	if (tTd(3, 5))
 		sm_dprintf("getla: avenrun = %d\n", avenrun);
