@@ -1,4 +1,4 @@
-.\" $MirOS: ports/infrastructure/pkgtools/rtfm/bsd.port.mk.5,v 1.35 2009/11/22 18:23:33 tg Exp $
+.\" $MirOS: ports/infrastructure/pkgtools/rtfm/bsd.port.mk.5,v 1.36 2010/09/29 19:11:57 tg Exp $
 .\" $OpenBSD: bsd.port.mk.5,v 1.134 2004/02/18 13:39:02 xsa Exp $
 .\"
 .\" Copyright (c) 2007, 2008, 2009, 2010 Thorsten Glaser
@@ -79,7 +79,7 @@
 .\" with -mandoc, it might implement .Mx itself, but we want to
 .\" use our own definition. And .Dd must come *first*, always.
 .\"
-.Dd $Mdocdate: November 22 2009 $
+.Dd $Mdocdate: September 29 2010 $
 .\"
 .\" Check which macro package we use
 .\"
@@ -1753,6 +1753,9 @@ The following variables can be set by the user:
 Name of the top-level directory to check out to.
 Optional (derived from the basename of
 .Ev SVN_DISTPATH ) .
+If this is only a dash
+.Pq Sq - ,
+a single-file checkout is done.
 .It Ev SVN_DISTFILE
 The file name prefix.
 Optional (derived from the basename of

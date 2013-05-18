@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: ports/infrastructure/scripts/mkmcz,v 1.17 2008/11/02 14:49:37 tg Exp $
+# $MirOS: ports/infrastructure/scripts/mkmcz,v 1.18 2009/03/29 13:04:07 tg Exp $
 #-
 # Copyright (c) 2005, 2006, 2008
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -39,6 +39,7 @@ tag=
 CVSARGS="-qd $repo co -PA"
 [[ $CVS = cvs && $repo != :* ]] && export CVSREADONLYFS=1
 
+redirection=
 if [[ $CVS = svn ]]; then
 	if [[ -n $4 ]]; then
 		tag=$4
@@ -47,6 +48,11 @@ if [[ $CVS = svn ]]; then
 	fi
 	[[ -n $3 ]] && repo=$repo@$3
 	CVSARGS="co --non-interactive -q $repo"
+	if [[ $tag = - ]]; then
+		CVSARGS='cat'
+		redirection='>SINGLEFILE'
+		tag=$repo
+	fi
 elif [[ -n $3 && -n $4 ]]; then
 	tag="-r$4:$3"
 elif [[ -z $3 ]]; then
@@ -62,7 +68,8 @@ if ! T=$(mktemp -d $TMPDIR/mkmcz.XXXXXXXXXX); then
 fi
 cd $T
 print -r -- - "$CVS $CVSARGS $tag $5"
-if ! ( umask 022; exec env CVSUMASK=022 $CVS $CVSARGS "$tag" $5 ); then
+if ! ( umask 022; \
+    eval 'exec env CVSUMASK=022 $CVS $CVSARGS "$tag" $5' $redirection ); then
 	cd /
 	rm -rf "$T"
 	print -u2 mkmcz: Checkout failed
