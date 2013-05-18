@@ -1,8 +1,9 @@
-arngc (20130120) xunstable; urgency=low
+arngc (20130222) unstable; urgency=low
 
   * fix start on slow systems (eg. busy m68k buildd)
+  * document missing IP support, only Legacy IP works
 
- -- Thorsten Glaser <tg@mirbsd.de>  Sun, 20 Jan 2013 18:18:00 +0000
+ -- Thorsten Glaser <tg@mirbsd.de>  Fri, 22 Feb 2013 12:47:39 +0000
 
 arngc (20120509) unstable; urgency=low
 
