@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/special/mksh/Makefile,v 1.24 2008/05/17 18:27:53 tg Exp $
+# $MirOS$
 # $miros: src/bin/mksh/Makefile,v 1.29 2007/01/18 16:05:05 tg Exp $
 
 .include <bsd.own.mk>
@@ -34,6 +34,6 @@ regress: ${PROG} check.pl check.t
 	mkdir -p regress-dir
 	echo export FNORD=666 >regress-dir/.mkshrc
 	HOME=$$(readlink -nf regress-dir) perl ${SRCDIR}/check.pl \
-	    -s ${SRCDIR}/check.t -v -p ./${PROG} -C pdksh,smksh,dutf
+	    -s ${SRCDIR}/check.t -v -p ./${PROG} -C smksh,no-histfile
 
 .include <bsd.prog.mk>
