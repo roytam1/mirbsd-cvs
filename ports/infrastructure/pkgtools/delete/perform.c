@@ -1,4 +1,4 @@
-/**	$MirOS: ports/infrastructure/pkgtools/delete/perform.c,v 1.12 2008/11/02 18:19:52 tg Exp $ */
+/**	$MirOS: ports/infrastructure/pkgtools/delete/perform.c,v 1.13 2008/11/02 18:56:29 tg Exp $ */
 /*	$OpenBSD: perform.c,v 1.16 2003/08/21 20:24:56 espie Exp $	*/
 
 /*
@@ -29,7 +29,7 @@
 #include "delete.h"
 #include <libgen.h>
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/delete/perform.c,v 1.12 2008/11/02 18:19:52 tg Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/delete/perform.c,v 1.13 2008/11/02 18:56:29 tg Exp $");
 
 static int pkg_do(char *);
 static void sanity_check(char *);
@@ -235,7 +235,7 @@ pkg_do(char *pkg)
 	/* Some packages aren't packed right, so we need to just ignore delete_package()'s status.  Ugh! :-( */
 	if (delete_package(KeepFiles, CleanDirs, CleanConf, CheckMD5, &Plist) == -1)
 	    pwarnx(
-	"couldn't entirely delete package (perhaps the packing list is\n"
+	"couldn't entirely delete package (perhaps the packing list is "
 	"incorrectly specified?)");
     }
     /* Remove package dependencies */
