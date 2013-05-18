@@ -1,9 +1,9 @@
-# $MirOS: ports/x11/wxgtk/Makefile,v 1.7 2006/09/14 00:15:45 tg Exp $
+# $MirOS: ports/x11/wxgtk/Makefile,v 1.8 2007/05/07 19:48:16 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.5 2003/10/08 17:13:18 sturm Exp $
 
 COMMENT=		C++ cross-platform GUI toolkit
 DISTNAME=		wxGTK-2.6.1
-PKGNAME=		${DISTNAME:L}-0
+PKGNAME=		${DISTNAME:L}-${DASH_VER}
 CATEGORIES=		x11
 MASTER_SITES=		${MASTER_SITE_SOURCEFORGE:=wxwindows/}
 EXTRACT_SUFX=   	.tar.gz
@@ -12,9 +12,9 @@ HOMEPAGE=		http://wxWindows.org/
 LIB_DEPENDS+=		gdk.,gtk.::x11/gtk+1 \
 			glib.,gmodule.,gthread.::devel/glib1 \
 			jpeg.62::graphics/jpeg \
-			tiff.35::graphics/tiff \
-			expat::textproc/expat
+			tiff.35::graphics/tiff
 MODULES+=		graphics/png
+MODULES+=		textproc/expat
 
 CONFIGURE_STYLE=	autoconf no-autoheader
 AUTOCONF_NEW=		Yes

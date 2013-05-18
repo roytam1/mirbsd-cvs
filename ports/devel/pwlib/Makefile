@@ -1,6 +1,6 @@
-# $MirOS: ports/devel/pwlib/Makefile,v 1.2 2006/02/09 11:11:27 tg Exp $
+# $MirOS: ports/devel/pwlib/Makefile,v 1.3 2006/09/14 00:08:49 tg Exp $
 
-COMMENT=			cross platform C++ socket and stuff library
+COMMENT=		cross platform C++ socket and stuff library
 VERSION=		1.6.3
 DISTNAME=		pwlib-${VERSION}
 CATEGORIES=		net
@@ -16,8 +16,8 @@ MASTER_SITES=		http://www.gnomemeeting.org/admin/downloads/latest/sources/source
 
 WRKDIST=        	${WRKDIR}/pwlib
 
-BUILD_DEPENDS=		::devel/bison \
-			::textproc/expat
+BUILD_DEPENDS+=		::devel/bison
+MODULES+=		textproc/expat
 
 #			::databases/openldap \
 #			::devel/sdl \
@@ -29,7 +29,8 @@ CONFIGURE_STYLE=	autoconf
 CONFIGURE_ENV=		STDCCFLAGS="-I${LOCALBASE}/include/ptlib/unix"
 CONFIGURE_ARGS+=	--enable-internalregex
 CONFIGURE_ARGS+=	--disable-openssl		# broken for now
-CONFIGURE_ARGS+=	--disable-sdl --disable-openldap
+CONFIGURE_ARGS+=	--disable-sdl \
+			--disable-openldap
 MAKE_ENV=		PWLIBDIR=${WRKDIST}
 ALL_TARGET=		optshared
 

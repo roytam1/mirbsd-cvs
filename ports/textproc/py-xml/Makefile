@@ -1,18 +1,15 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.18 2004/01/29 17:13:37 sturm Exp $
 
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
-COMMENT=			python module for writing basic XML applications
-
-VERSION=	0.7.1
-DISTNAME=	PyXML-${VERSION}
-PKGNAME=	py-xml-${VERSION}-0
-CATEGORIES=	textproc devel
-
-MASTER_SITES=	${MASTER_SITE_SOURCEFORGE:=pyxml/}
-
-HOMEPAGE=	http://pyxml.sourceforge.net/
-
+COMMENT=		python module for writing basic XML applications
+VERSION=		0.7.1
+DISTNAME=		PyXML-${VERSION}
+PKGNAME=		py-xml-${VERSION}-${DASH_VER}
+CATEGORIES=		textproc devel
+MASTER_SITES=		${MASTER_SITE_SOURCEFORGE:=pyxml/}
+HOMEPAGE=		http://pyxml.sourceforge.net/
 
 # BSD, badly worded
 PERMIT_PACKAGE_FTP=	Yes
@@ -20,9 +17,9 @@ PERMIT_PACKAGE_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 PERMIT_DISTFILES_CDROM=	Yes
 
-MODULES=	lang/python
+MODULES+=		lang/python
 
-MODPY_DISTUTILS_BUILDARGS=	--with-libexpat=${LOCALBASE}
+MODPY_DISTUTILS_BUILDARGS=	--with-libexpat=${EXPAT_PREFIX}
 
 # pyexpat - use our own pyexpat.so
 # otherwise use the python-expat version
@@ -30,10 +27,10 @@ MODPY_DISTUTILS_BUILDARGS=	--with-libexpat=${LOCALBASE}
 FLAVOURS=pyexpat
 FLAVOUR?=
 
-LIB_DEPENDS=	expat.2::textproc/expat
+MODULES+=		textproc/expat
 
 .if !${FLAVOUR:L:Mpyexpat}
-BUILD_DEPENDS+=	:python-expat-${MODPY_VERSION}*:lang/python/${MODPY_VERSION},-expat
+BUILD_DEPENDS+=		${MODPY_EXPAT_DEPENDS}
 .endif
 
 NO_REGRESS=	Yes
@@ -48,6 +45,6 @@ post-install:
 	${INSTALL_DATA_DIR} ${DOC_DIR}/xmlproc
 	${INSTALL_DATA} ${SRC_DOCDIR}/4DOM/* ${DOC_DIR}/4DOM/
 	${INSTALL_DATA} ${SRC_DOCDIR}/xmlproc/* ${DOC_DIR}/xmlproc/
-	@cd ${SRC_DOCDIR}/ && ${INSTALL_DATA} ${DOCEXT} ${DOC_DIR}
+	cd ${SRC_DOCDIR}/ && ${INSTALL_DATA} ${DOCEXT} ${DOC_DIR}/
 
 .include <bsd.port.mk>

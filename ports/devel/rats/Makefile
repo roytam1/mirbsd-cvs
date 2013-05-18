@@ -1,12 +1,10 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.12 2002/10/17 21:08:26 jsyn Exp $
 
-COMMENT=			source code auditing tool
-
+COMMENT=		source code auditing tool
 DISTNAME=		rats-2.1
 CATEGORIES=     	devel security
-
 HOMEPAGE=		http://www.securesoftware.com/rats/
-
 
 # GPL
 PERMIT_PACKAGE_CDROM=	Yes
@@ -17,7 +15,7 @@ PERMIT_DISTFILES_FTP=	Yes
 MASTER_SITES=		http://www.securesoftware.com/rats/ \
 			${MASTER_SITE_PACKETSTORM:=UNIX/security/}
 
-LIB_DEPENDS=		expat.2::textproc/expat
+MODULES+=		textproc/expat
 
 CONFIGURE_STYLE=	gnu dest
 CONFIGURE_ARGS+=	--with-expat-lib=${LOCALBASE}/lib \
@@ -32,6 +30,6 @@ NO_REGRESS=		Yes
 
 post-install:
 	${INSTALL_DATA_DIR} ${PREFIX}/share/doc/rats
-	${INSTALL_DATA} ${WRKSRC}/README ${PREFIX}/share/doc/rats
+	${INSTALL_DATA} ${WRKSRC}/README ${PREFIX}/share/doc/rats/
 
 .include <bsd.port.mk>

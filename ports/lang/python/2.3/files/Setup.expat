@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/lang/python/2.3/files/Setup.expat,v 1.2 2005/11/04 14:02:46 tg Exp $
 # $OpenBSD: Setup.expat,v 1.2 2004/12/30 23:45:08 alek Exp $
 
 @NOSHARED@*shared*
@@ -15,4 +15,4 @@
 # More information on Expat can be found at www.libexpat.org.
 #
 #EXPAT_DIR=/usr/local/src/expat-1.95.2
-pyexpat pyexpat.c -DHAVE_EXPAT_H -I${LOCALBASE}/include -L${LOCALBASE}/lib -lexpat
+pyexpat pyexpat.c -DHAVE_EXPAT_H -I${EXPAT_PREFIX}/include -L${EXPAT_PREFIX}/lib -lexpat

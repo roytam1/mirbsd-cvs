@@ -1,3 +1,4 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.11 2003/12/20 01:17:43 espie Exp $
 #
 # Many variables moved to ../Makefile.inc
@@ -13,7 +14,7 @@ HOMEPAGE=		http://www.w3.org/Amaya/
 FLAVOURS=		motif gtk
 FLAVOUR?=		motif
 
-LIB_DEPENDS+=	 	expat.2::textproc/expat
+MODULES+=		textproc/expat
 
 .if ${FLAVOUR:Mopenmotif} || ${FLAVOUR:Mlesstif}
 FLAVOUR+=		motif
@@ -58,7 +59,7 @@ post-configure:
 	@cd ${WRKBUILD} && cp Options.orig Options
 
 NO_REGRESS=		Yes
-	
+
 pre-install:
 	${STRIP} ${WRKBUILD}/bin/amaya
 	${STRIP} ${WRKBUILD}/bin/print
