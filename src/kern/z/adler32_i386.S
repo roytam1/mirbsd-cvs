@@ -1,7 +1,7 @@
-/* $MirOS: src/kern/z/adler32_i386.S,v 1.6 2007/05/07 15:50:40 tg Exp $ */
+/* $MirOS: src/kern/z/adler32_i386.S,v 1.7 2007/05/07 16:15:57 tg Exp $ */
 
 /*-
- * Copyright (c) 2006, 2007
+ * Copyright (c) 2006, 2007, 2008
  *	Thorsten Glaser <tg@mirbsd.de>
  * The adler32 algorithm is
  * Copyright (C) 1995 Mark Adler
@@ -37,7 +37,7 @@
 #include <dev/rndvar.h>
 #endif
 
-RCSID("$MirOS: src/kern/z/adler32_i386.S,v 1.6 2007/05/07 15:50:40 tg Exp $")
+RCSID("$MirOS: src/kern/z/adler32_i386.S,v 1.7 2007/05/07 16:15:57 tg Exp $")
 
 #define BASE	65521	/* largest prime smaller than 65536 */
 #define NMAX	5552	/* largest n: 255n(n+1)/2 + (n+1)(BASE-1) <= 2^32-1 */
@@ -104,8 +104,11 @@ ENTRY(adler32)
 #endif
 #if !defined(_KERNEL) && !defined(_STANDALONE)
 	push	eax			/* return value */
-	push	eax			/* function argument */
-	call	_C_LABEL(arc4random_push)
+	lea	eax,[esp]		/* == function argument */
+	push	4			/* size */
+	push	eax			/* address */
+	call	_C_LABEL(arc4random_pushk)
+	pop	eax			/* dummy */
 	pop	eax			/* dummy */
 	pop	eax			/* return value */
 #endif

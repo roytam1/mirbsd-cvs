@@ -1,7 +1,7 @@
-/* $MirOS: src/kern/z/adler32s.c,v 1.4 2007/05/07 15:50:40 tg Exp $ */
+/* $MirOS: src/kern/z/adler32s.c,v 1.5 2007/05/07 16:15:57 tg Exp $ */
 
 /*-
- * Copyright (c) 2006
+ * Copyright (c) 2006, 2008
  *	Thorsten Glaser <tg@mirbsd.de>
  * The adler32 algorithm is
  * Copyright (C) 1995 Mark Adler
@@ -47,12 +47,16 @@
 #else
 #include <limits.h>
 #include <stdlib.h>
-#define zADDRND(x)	arc4random_push((int)(x))
+#define zADDRND(x)	__extension__({				\
+	uint32_t zADDRND_x = ((uint32_t)(x));			\
+								\
+	arc4random_pushk(&zADDRND_x, sizeof (zADDRND_x));	\
+})
 #define zRCSID(x)	__RCSID(x);
 #endif
 #endif
 
-zRCSID("$MirOS: src/kern/z/adler32s.c,v 1.4 2007/05/07 15:50:40 tg Exp $")
+zRCSID("$MirOS: src/kern/z/adler32s.c,v 1.5 2007/05/07 16:15:57 tg Exp $")
 
 unsigned long adler32(unsigned long, const unsigned char *, unsigned);
 

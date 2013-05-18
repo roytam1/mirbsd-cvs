@@ -1,4 +1,4 @@
-/**	$MirOS: src/lib/libz/zutil.h,v 1.11 2007/04/17 21:59:26 tg Exp $ */
+/**	$MirOS: src/lib/libz/zutil.h,v 1.12 2007/04/17 22:10:59 tg Exp $ */
 /*	$OpenBSD: zutil.h,v 1.9 2005/07/20 15:56:42 millert Exp $	*/
 /* zutil.h -- internal interface and configuration of the compression library
  * Copyright (C) 1995-2005 Jean-loup Gailly.
@@ -142,7 +142,11 @@ void   zcfree  OF((voidpf opaque, voidpf ptr));
 #include <dev/rndvar.h>
 #define zADDRND(x)	rnd_addpool_add((x) ^ (uint32_t)time.tv_sec)
 #else /* userland */
-#define zADDRND(x)	arc4random_push(x)
+#define zADDRND(x)	__extension__({				\
+	uint32_t zADDRND_x = ((uint32_t)(x));			\
+								\
+	arc4random_pushk(&zADDRND_x, sizeof (zADDRND_x));	\
+})
 #endif
 
 #endif /* ZUTIL_H */
