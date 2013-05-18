@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: ports/infrastructure/install/setup.ksh,v 1.37 2005/12/17 05:46:19 tg Exp $
+# $MirOS: ports/infrastructure/install/setup.ksh,v 1.38 2005/12/18 03:42:47 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -495,10 +495,8 @@ EOF
 	DISTDIR=	$DISTDIR
 EOF
 
-[[ -s $localbase/db/make.cfg ]] && cat >&2 <<-EOF
-	Warning: $localbase/db/make.cfg already exists!
-	Please verify if this file contains desired settings.
-EOF
+warn_makecfg=0
+[[ -s $localbase/db/make.cfg ]] && warn_makecfg=1
 if [[ ! -s $localbase/db/make.cfg ]]; then
 	cat >$localbase/db/make.cfg <<-EOF
 		# Default to include system-wide configuration
@@ -623,6 +621,10 @@ else
 	print Please add the required users to your system manually.
 fi
 
+[[ $warn_makecfg = 1 ]] && cat >&2 <<-EOF
+	Warning: $localbase/db/make.cfg already existed before!
+	Please verify if this file contains desired settings.
+EOF
 if [[ $ismirbsd = yes && $myuid = root && $localbase = /usr/mpkg ]]; then
 	print Finished first-time setup... have fun.
 else
