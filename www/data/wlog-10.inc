@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.378 2012/01/06 08:10:32 bsiegert Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.379 2012/01/06 12:48:14 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -8912,6 +8912,8 @@ Tag: debian pcli tip
  you can just press <tt>^T</tt> (Ctrl-T) when dd(1) runs; this sends
  it a <tt>SIGINFO</tt> (cf. sigaction(2)) which asks it to display
  (progress) information to the tty. This includes kFreeBSD, btw.</p>
+<p><strong>Update</strong> 07.01.2012 – this also works on Hurd.
+ Linux neither has SIGINFO nor (cooked mode tty) support for it.</p>
 <p class="boxhead">There’s also pv:</p><div class="boxtext">
  <pre>
 	dd if=/dev/mapper/vg01-${customername}--hudson bs=1048576 | \
