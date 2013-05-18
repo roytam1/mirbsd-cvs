@@ -1,4 +1,4 @@
-/* $MirOS: src/sys/arch/i386/stand/boot/srt0.S,v 1.38 2009/01/02 16:18:21 tg Exp $ */
+/* $MirOS: src/sys/arch/i386/stand/boot/srt0.S,v 1.39 2009/01/02 16:38:36 tg Exp $ */
 
 /*-
  * Copyright (c) 2003, 2004, 2005, 2006, 2007, 2008, 2009
@@ -105,10 +105,8 @@ _C_LABEL(bios_bootpte):
 	.p2align 4
 Ltblk:	.long	0x13,0,0,0	/* El Torito parameter block */
 	.byte	0,0,0
-	. = _start + 0x43
-Lstart:	mov	ax,cs
-	mov	ss,ax
-	mov	esp,0xFFFC	/* cross fingers */
+	. = _start + 0x4C
+Lstart:	cld
 	call	Linit
 _rval:	.long	0x6A6D4F00	/* _start + 0x50 */
 Linit:	pop	di
@@ -199,20 +197,17 @@ Lirrf:	jnz	Lirrf		/* forever loop */
 	mov	ecx,offset _rval - SA_LINKADDR
 	shr	ecx,4
 	sub	ax,cx		/* source */
+	mov	ss,ax
+	mov	esp,offset istackend - SA_LINKADDR
 	cmp	ax,SA_LINKSEG
 	je	LisRel
 	UD(2)			/** B: relocation needed */
-	mov	bx,SA_LINKSEG + 0x2000		/* stack above */
 	cmp	ax,SA_LINKSEG - 0x1000		/* lower boundry */
 	jb	Lrel2		/* below target area, relocate once */
-	mov	bx,SA_LINKSEG - 0x2000		/* stack below */
 	cmp	ax,SA_LINKSEG + 0x1000		/* upper boundary */
 	ja	Lrel2		/* above target area, relocate once */
 	/* within target area, relocate twice */
 	UD(3)			/** C: relocate twice */
-	xor	bx,bx		/* stack at very bottom */
-	mov	ss,bx		/* safe stack */
-	mov	sp,0xFFFC
 	mov	bx,SA_LINKSEG + 0x2000
 	mov	es,bx		/* safe target: above */
 	mov	ds,ax		/* original source */
@@ -221,17 +216,16 @@ Lirrf:	jnz	Lirrf		/* forever loop */
 	mov	cx,0x4000
 	rep	movsd
 	push	es
-	mov	eax,offset Lrel2 - SA_LINKADDR
+	mov	eax,offset Lrel1 - SA_LINKADDR
 	push	ax
 	mov	ax,es		/* target -> new source */
-	mov	bx,SA_LINKSEG - 0x2000		/* stack below */
 	lret
+Lrel1:	mov	ss,ax
+	mov	esp,offset istackend - SA_LINKADDR
 Lrel2:	mov	ds,ax		/* source (original or above) */
 	UD(4)			/** D: relocate once */
 	mov	ax,SA_LINKSEG
 	mov	es,ax		/* new target: final destination */
-	mov	ss,bx		/* stack (above or below) */
-	mov	sp,0xFFFC
 	xor	si,si
 	xor	di,di
 	mov	cx,0x4000
@@ -249,9 +243,9 @@ LisRel:	UD(5)			/** E: done reloc, or not needed */
  */
 
 Lmain:	UD(6)			/** F: jump successful */
-	mov	ax,SA_LOADSEG + 0x1000
+	mov	ax,SA_LINKSEG
 	mov	ss,ax
-	mov	sp,0xFFFC	/* another nearly-64K for stack */
+	mov	esp,offset istackend - SA_LINKADDR
 	mov	ax,cs
 	mov	ds,ax
 	mov	es,ax
@@ -391,7 +385,7 @@ Lmbhdr:	.long	0x1BADB002		/* magic */
 
 Lmbrun:	mov	edx,[ebx+12]		/* boot_device */
 	shr	edx,24
-	mov	esp,0x00028000		/* minimal stack */
+	mov	esp,offset istackend
 	/* relocate */
 	xor	eax,eax
 	push	eax
@@ -410,9 +404,9 @@ Lmb2rm:	lgdt	Gdtr
 	.code16
 Lmbret:	mov	ax,0xB800
 	mov	gs,ax
-	mov	bx,SA_LOADSEG
+	mov	bx,SA_LINKSEG
 	mov	ss,bx
-	mov	esp,0xC0
+	mov	esp,offset istackend - SA_LINKADDR
 	push	dx
 	mov	ax,bx
 	add	ah,0x10
@@ -422,3 +416,10 @@ Lmbret:	mov	ax,0xB800
 	popfd
 	jmp	LisRel
 #endif
+
+	.p2align 4
+istackbeg:
+	.long	0xDEADBEEF
+	. = istackbeg + 512
+istackend:
+	.long	0xCAFEBABE
