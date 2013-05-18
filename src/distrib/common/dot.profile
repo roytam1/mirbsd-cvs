@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/dot.profile,v 1.18 2007/07/07 20:32:06 tg Exp $
+# $MirOS: src/distrib/common/dot.profile,v 1.19 2007/07/26 10:49:47 tg Exp $
 # $OpenBSD: dot.profile,v 1.4 2002/09/13 21:38:47 deraadt Exp $
 # $NetBSD: dot.profile,v 1.1 1995/12/18 22:54:43 pk Exp $
 #
@@ -74,7 +74,9 @@ rootdisk=/dev/${rootdisk:-rd0a}
 
 if [ ! -f /.profile.done ]; then
 	# first of all, we need a /tmp - use all memory minus 4 MiB
-	mount_mfs -s $(($(sysctl -n hw.usermem)/512-8192)) swap /tmp
+	integer avmem="$(sysctl -n hw.usermem) / 512"
+	(( avmem < 8200 )) || mount_mfs -s $((avmem - 8192)) swap /tmp
+	unset avmem
 
 	# on sparc, use the nvram to provide some additional entropy
 	# also read some stuff from the HDD etc. (doesn't matter if it breaks)
@@ -87,7 +89,6 @@ if [ ! -f /.profile.done ]; then
 	# say hello and legalese
 	echo '
 Welcome to MirOS #10!
-This is the old installer, expect it to be replaced really soon.
 
 Welcome to the MirOS BSD operating system installer.  This work is
 licenced open source software; for further information please read
@@ -138,4 +139,4 @@ fi
 export TERM=vt220
 print -n '\nAvailable editor: ed'
 [ -s /ed.hlp ] && print -n ' - help with # less /ed.hlp'
-print; print
+print '\n'
