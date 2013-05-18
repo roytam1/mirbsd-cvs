@@ -353,7 +353,7 @@ pkg_do(char *pkg)
 	    continue;
 	}
 	diag("Package '%s' depends on '%s'\n", dep.pkgname, dep.pattern);
-	if (match_libspec(dep.libspec, getenv(PKG_PREFIX_VNAME), LD_DYLD)
+	if (match_libspec(dep.libspec, getenv(PKG_PREFIX_VNAME), get_ld_type(&Plist))
 		&& findmatchingname(dbdir, dep.pattern, check_if_installed, insttst, sizeof(insttst))) {
 	    diag(" - '%s' already installed\n", insttst);
 	    register_dep(pkg, insttst);
@@ -564,45 +564,44 @@ static int
 install_dep_ftp(char *base, char *pattern)
 {
     char *cp;
+    char *saved_Current;   /* allocated/set by save_dirs(), */
+    char *saved_Previous;  /* freed by restore_dirs() */
 
-    if (ispkgpattern(pattern)){
+    if (ispkgpattern(pattern)) {
 	pwarnx("can't install dependent pkg '%s' via FTP, "
 	     "please install manually!", pattern);
 	/* ... until we come up with a better solution - HF */
 	return 1;
-    } else {
-	char *saved_Current;   /* allocated/set by save_dirs(), */
-	char *saved_Previous;  /* freed by restore_dirs() */
+    }
 
-	save_dirs(&saved_Current, &saved_Previous);
+    save_dirs(&saved_Current, &saved_Previous);
 
-	if ((cp = fileGetURL(base, pattern)) != NULL) {
-	    if (Verbose)
-		printf("Finished loading '%s' over FTP\n", pattern);
-	    /*system(solve_deps); * XXX */
-	    if (!fexists(CONTENTS_FNAME)) {
-		pwarnx("autoloaded package '%s' has no %s file?",
-		      pattern, CONTENTS_FNAME);
-		if (!Force)
-		    return 1;
-	    } else if (xsystem(false, "(pwd; cat %s) | pkg_add %s%s %s-S",
-			     CONTENTS_FNAME,
-			     Prefix ? "-p " : "",
-			     Prefix ? Prefix : "",
-			     Verbose ? "-v " : "")) {
-		pwarnx("add of dependency '%s' failed%s",
-		      pattern, Force ? " (proceeding anyway)" : "!");
-		if (!Force)
-		    return 1;
-	    } else if (Verbose)
-		printf("\t'%s' loaded successfully\n", pattern);
-	    /* Nuke the temporary playpen */
-	    leave_playpen(cp);
-	    free(cp);
+    if ((cp = fileGetURL(base, pattern)) != NULL) {
+	if (Verbose)
+	    printf("Finished loading '%s' over FTP\n", pattern);
+	/*system(solve_deps); * XXX */
+	if (!fexists(CONTENTS_FNAME)) {
+	    pwarnx("autoloaded package '%s' has no %s file?",
+		  pattern, CONTENTS_FNAME);
+	    if (!Force)
+		return 1;
+	} else if (xsystem(false, "(pwd; cat %s) | pkg_add %s%s %s-S",
+			 CONTENTS_FNAME,
+			 Prefix ? "-p " : "",
+			 Prefix ? Prefix : "",
+			 Verbose ? "-v " : "")) {
+	    pwarnx("add of dependency '%s' failed%s",
+		  pattern, Force ? " (proceeding anyway)" : "!");
+	    if (!Force)
+		return 1;
+	} else if (Verbose)
+	    printf("\t'%s' loaded successfully\n", pattern);
+	/* Nuke the temporary playpen */
+	leave_playpen(cp);
+	free(cp);
 
-	    restore_dirs(saved_Current, saved_Previous);
-	    register_dep(base, pattern);
-	}
+	restore_dirs(saved_Current, saved_Previous);
+	register_dep(base, pattern);
     }
     return 0;
 }

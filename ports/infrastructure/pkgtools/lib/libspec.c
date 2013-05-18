@@ -1,4 +1,4 @@
-/* $MirOS: ports/infrastructure/pkgtools/lib/cfgfile.c,v 1.1.2.13 2010/03/06 15:25:23 bsiegert Exp $ */
+/* $MirOS: ports/infrastructure/pkgtools/lib/libspec.c,v 1.1.2.1 2010/05/31 20:25:19 bsiegert Exp $ */
 
 /*-
  * Copyright (c) 2010
@@ -32,7 +32,7 @@
 #include <err.h>
 #include "lib.h"
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/cfgfile.c,v 1.1.2.13 2010/03/06 15:25:23 bsiegert Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/libspec.c,v 1.1.2.1 2010/05/31 20:25:19 bsiegert Exp $");
 
 /* special value for major below if the libspec was of the ".la" type */
 #define LIBSPEC_LA -1
@@ -40,8 +40,8 @@ __RCSID("$MirOS: ports/infrastructure/pkgtools/lib/cfgfile.c,v 1.1.2.13 2010/03/
 struct libspec {
 	const char *libname;
 	const char *path;
-	int major;
-	int minor;
+	long int major;
+	long int minor;
 };
 
 /* find a dot followed by one or more digits at the end of str.
@@ -102,15 +102,17 @@ parse_libspec(char *spec, struct libspec *ls)
 	*dot = '\0';
 	if ((dot2 = strrdot(spec)) == NULL) {
 		/* foo.2 */
-		ls->major = (int)strtol(dot + 1, NULL, 10);
+		ls->major = strtol(dot + 1, NULL, 10);
 		ls->minor = 0;
 	} else {
 		/* foo.2.1 */
-		ls->major = (int)strtol(dot2 + 1, NULL, 10);
-		ls->minor = (int)strtol(dot + 1, NULL, 10);
+		ls->major = strtol(dot2 + 1, NULL, 10);
+		ls->minor = strtol(dot + 1, NULL, 10);
 		*dot2 = '\0';
 	}
 	ls->libname = spec;
+	if (!ls->path)
+		ls->path = "lib";
 	return;
 }
 
@@ -118,7 +120,7 @@ parse_libspec(char *spec, struct libspec *ls)
  * and minor. path contains the full path up to and including libname.
  */
 static bool
-library_matches(char *filename, const char *path, int major, int minor)
+library_matches(char *filename, const char *path, long int major, long int minor)
 {
 	char *endptr;
 	long num;
@@ -140,9 +142,9 @@ library_matches(char *filename, const char *path, int major, int minor)
 	if (strlen(filename) > 3 && !strncmp(filename, "so.", 3))
 		filename += 3;
 	num = strtol(filename, &endptr, 10);
-	if (filename == endptr || num < (long)major)
+	if (filename == endptr || num < major)
 		return false;
-	if (num > (long)major || (num == (long)major && minor == 0))
+	if (num > major || (num == major && minor == 0L))
 		return true;
 
 	/* check minor */
@@ -150,7 +152,7 @@ library_matches(char *filename, const char *path, int major, int minor)
 	if (*filename == '.')
 		filename++;
 	num = strtol(filename, &endptr, 10);
-	if (filename == endptr || num < (long)minor)
+	if (filename == endptr || num < minor)
 		return false;
 
 	return true;
@@ -164,7 +166,6 @@ match_libspec(char *spec, const char *prefix, ld_type_t ld_type)
 {
 	struct libspec ls;
 	char *s, filename[FILENAME_MAX];
-	/*int curdir_fd;*/
 	int i;
 	bool found;
 	glob_t pglob;
@@ -181,8 +182,7 @@ match_libspec(char *spec, const char *prefix, ld_type_t ld_type)
 			diag(" searching for libtool library %s in %s",
 				ls.libname, ls.path ? ls.path : "lib");
 			snprintf(filename, sizeof (filename), "%s/%s/lib%s",
-					prefix, ls.path ? ls.path : "lib",
-					ls.libname);
+					prefix, ls.path, ls.libname);
 			if (!fexists(filename)) {
 				diag(" - not found\n");
 				return false;
@@ -190,13 +190,12 @@ match_libspec(char *spec, const char *prefix, ld_type_t ld_type)
 			diag(" - found\n");
 			continue;
 		} else
-			diag(" searching for shared library %s (at least %d.%d) in %s",
-				ls.libname, ls.major, ls.minor,
-				ls.path ? ls.path : "lib");
+			diag(" searching for shared library %s (at least %ld.%ld) in %s\n",
+				ls.libname, ls.major, ls.minor,	ls.path);
 
 		snprintf(filename, sizeof (filename), ld_type == LD_DYLD ?
 				"%s/%s/lib%s*dylib" : "%s/%s/lib%s.so.*",
-				prefix, ls.path ? ls.path : "lib", ls.libname);
+				prefix, ls.path, ls.libname);
 		memset(&pglob, 0, sizeof (pglob));
 		glob(filename, 0, NULL, &pglob);
 		if (pglob.gl_matchc == 0) {
@@ -204,7 +203,7 @@ match_libspec(char *spec, const char *prefix, ld_type_t ld_type)
 			return false;
 		}
 		snprintf(filename, sizeof (filename), "%s/%s/lib%s",
-				prefix, ls.path ? ls.path : "lib", ls.libname);
+				prefix, ls.path, ls.libname);
 		found = false;
 		for (i = 0; i < pglob.gl_matchc; i++) {
 			if (library_matches(pglob.gl_pathv[i], filename,

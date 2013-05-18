@@ -1,4 +1,4 @@
-/**	$MirOS: ports/infrastructure/pkgtools/lib/lib.h,v 1.28.2.9 2010/05/11 19:08:08 bsiegert Exp $ */
+/**	$MirOS: ports/infrastructure/pkgtools/lib/lib.h,v 1.28.2.10 2010/05/31 20:25:19 bsiegert Exp $ */
 /*	$OpenBSD: lib.h,v 1.14 2003/08/21 20:24:57 espie Exp $	*/
 
 /*
@@ -251,6 +251,7 @@ plist_t		*new_plist_entry(void);
 plist_t		*last_plist(package_t *);
 plist_t		*find_plist(package_t *, pl_ent_t, const char *);
 char		*find_plist_option(package_t *, const char *);
+ld_type_t	get_ld_type(package_t *pkg);
 void		plist_delete(package_t *, bool, pl_ent_t, char *);
 void		free_plist(package_t *);
 void		mark_plist(package_t *);

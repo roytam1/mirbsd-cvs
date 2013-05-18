@@ -1,4 +1,4 @@
-/**	$MirOS: ports/infrastructure/pkgtools/lib/plist.c,v 1.17 2009/11/29 13:56:37 bsiegert Exp $ */
+/**	$MirOS: ports/infrastructure/pkgtools/lib/plist.c,v 1.18 2009/12/08 18:49:17 bsiegert Exp $ */
 /*	$OpenBSD: plist.c,v 1.17 2003/08/21 20:24:57 espie Exp $	*/
 
 /*
@@ -26,7 +26,7 @@
 #include <md5.h>
 #include "rcdb.h"
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/plist.c,v 1.17 2009/11/29 13:56:37 bsiegert Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/plist.c,v 1.18 2009/12/08 18:49:17 bsiegert Exp $");
 
 /* this struct defines a plist command type */
 typedef struct cmd_t {
@@ -191,6 +191,30 @@ find_plist_option(package_t *pkg, const char *name)
 		}
 	}
 	return NULL;
+}
+
+/* Look for one of the options determining the linker type in the plist
+ * and return it. First one wins.
+ */
+ld_type_t
+get_ld_type(package_t *pkg)
+{
+	plist_t *pp;
+
+	for (pp = pkg->head; pp; pp = pp->next) {
+		if (pp->type != PLIST_OPTION)
+			 continue;
+		if (!strcmp(pp->name, "ldcache"))
+			return LD_BSD;
+		if (!strcmp(pp->name, "dylib"))
+			return LD_DYLD;
+		if (!strcmp(pp->name, "gnu-ld"))
+			return LD_GNU;
+		if (!strcmp(pp->name, "static"))
+			return LD_STATIC;
+	}
+
+	return LD_STATIC;
 }
 
 /*
