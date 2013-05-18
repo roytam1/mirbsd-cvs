@@ -1,4 +1,4 @@
-# $MirOS: ports/audio/libao/Makefile,v 1.5 2006/02/09 09:35:36 tg Exp $
+# $MirOS: ports/audio/libao/Makefile,v 1.6 2006/02/09 12:25:13 tg Exp $
 # $OpenBSD: Makefile,v 1.23 2003/10/08 16:01:45 naddy Exp $
 
 COMMENT=		"portable audio output library"
@@ -26,6 +26,7 @@ USE_CXX=		Yes
 
 PSEUDO_FLAVORS=		no_arts no_esd
 FLAVOR?=		no_arts
+FLAVOR+=no_arts #XXX no KDE for now
 
 MULTI_PACKAGES=
 .if !${FLAVOR:L:Mno_arts}

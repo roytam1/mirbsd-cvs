@@ -1,5 +1,7 @@
-# $MirOS$
+# $MirOS: ports/astro/wmglobe/Makefile,v 1.3 2006/03/23 21:20:43 tg Exp $
 # $OpenBSD: Makefile,v 1.14 2002/09/17 15:22:26 wilfried Exp $
+
+BROKEN=			dependency x11/windowmaker is marked BROKEN
 
 COMMENT=		'wm-dockapp; displays the earth on an icon'
 DISTNAME=		wmglobe-1.3

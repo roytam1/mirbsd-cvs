@@ -33,10 +33,13 @@ NO_REGRESS=	Yes
 WRKDIST=	${WRKDIR}/abcde-$V
 
 .if ${FLAVOR:L:Mlame}
-DISTFILES+=	id3_0.12.orig.tar.gz:1
-RUN_DEPENDS+=	:lame-*:audio/lame
+DISTFILES+=		id3_0.12.orig.tar.gz:1
+RUN_DEPENDS+=		:lame-*:audio/lame
+USE_X11=		Yes # inherited
+PERMIT_PACKAGE_CDROM=	dependency lame not allowed
 .else
-RUN_DEPENDS+=	:vorbis-tools-*:audio/vorbis-tools
+RUN_DEPENDS+=		:vorbis-tools-*:audio/vorbis-tools
+USE_CXX=		Yes # inherited
 .endif
 
 post-patch:
