@@ -1,4 +1,4 @@
-# $MirOS: src/usr.bin/ssh/Makefile.inc,v 1.8 2007/06/27 13:40:22 tg Exp $
+# $MirOS: src/usr.bin/ssh/Makefile.inc,v 1.9 2007/06/27 13:41:48 tg Exp $
 # $OpenBSD: Makefile.inc,v 1.30 2005/06/17 02:45:19 djm Exp $
 
 .ifndef _MODSRC_USR_BIN_SSH_MAKEFILE_INC
@@ -37,7 +37,5 @@ DPADD+=         ${.CURDIR}/../lib/libssh.a
 .if exists(../Makefile.inc)
 .  include "../Makefile.inc"
 .endif
-
-COPTS+=		${PICFLAG} -DPIC
 
 .endif
