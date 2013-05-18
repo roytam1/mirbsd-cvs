@@ -1,4 +1,4 @@
-# $MirOS: src/usr.bin/make/Makefile.boot,v 1.5 2005/04/13 17:12:26 tg Exp $
+# $MirOS: src/usr.bin/make/Makefile.boot,v 1.6 2005/05/25 23:50:27 tg Exp $
 # $OpenPackages: Makefile.boot,v 1.5 2001/04/06 00:09:55 will Exp $
 # $OpenBSD: Makefile.boot,v 1.8 2001/05/29 12:41:18 espie Exp $
 #
@@ -82,10 +82,3 @@ condhashconsts.h: generate
 clean:
 	rm -f ${OBJ} ${LIBOBJ} ${PORTOBJ} ${GENOBJ} ${OHASHOBJ} bmake
 	rm -f varhashconsts.h condhashconsts.h generate
-
-copy-libc:
-	cp -R ${LIBCDIR}/ohash .
-	cp ${INCLDIR}/ohash.h .
-	cp ${LIBCDIR}/string/strlfun.c .
-	cp ${LIBCDIR}/stdlib/getopt_long.c .
-	cp ${INCLDIR}/getopt.h .
