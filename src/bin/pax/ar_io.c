@@ -57,7 +57,7 @@
 #include <sys/mtio.h>
 #endif
 
-__RCSID("$MirOS: src/bin/pax/ar_io.c,v 1.13 2012/02/16 17:11:45 tg Exp $");
+__RCSID("$MirOS: src/bin/pax/ar_io.c,v 1.14 2012/02/16 17:27:30 tg Exp $");
 
 /*
  * Routines which deal directly with the archive I/O device/file.
@@ -877,9 +877,9 @@ ar_rev(off_t sksz)
 {
 	off_t cpos;
 #if HAS_TAPE
+	int phyblk;
 	struct mtop mb;
 #endif
-	int phyblk;
 
 	/*
 	 * make sure we do not have try to reverse on a flawed archive
