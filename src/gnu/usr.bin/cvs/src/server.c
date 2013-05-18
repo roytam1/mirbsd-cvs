@@ -20,6 +20,8 @@
 #include "getline.h"
 #include "getnline.h"
 
+__RCSID("$MirOS: ports/devel/cvs/patches/patch-src_server_c,v 1.3 2010/09/15 23:41:21 tg Exp $");
+
 int server_active = 0;
 
 #if defined (SERVER_SUPPORT) || defined (CLIENT_SUPPORT)
@@ -796,6 +798,14 @@ serve_root (char *arg)
 	if (alloc_pending (80 + strlen (arg)))
 	    sprintf (pending_error_text,
 		     "E Protocol error: Duplicate Root request, for %s", arg);
+	return;
+    }
+
+    if (root_allow_used() && !root_allow_ok(arg))
+    {
+	if (alloc_pending (80 + strlen (arg)))
+	    sprintf (pending_error_text,
+		     "E Bad root %s", arg);
 	return;
     }
 
@@ -6889,7 +6899,7 @@ cleanup:
 static int
 check_pam_password (char **username, char *password)
 {
-    int retval, err;
+    int retval;
     struct pam_conv conv = { cvs_pam_conv, 0 };
     char *pam_stage = "start";
 
@@ -6932,7 +6942,7 @@ check_pam_password (char **username, char *password)
 
     return retval == PAM_SUCCESS;       /* indicate success */
 }
-#endif
+#else /* !HAVE_PAM */
 
 static int
 check_system_password (char *username, char *password)
@@ -6998,6 +7008,7 @@ error 0 %s: no such user\n", username);
 #endif
     return 1;
 }
+#endif /* !HAVE_PAM */
 
 
 

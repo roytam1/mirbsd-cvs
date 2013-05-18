@@ -18,7 +18,7 @@
 #include <assert.h>
 #include "getline.h"
 
-__RCSID("$MirOS: src/gnu/usr.bin/cvs/src/root.c,v 1.5 2005/12/16 16:09:46 tg Exp $");
+__RCSID("$MirOS: ports/devel/cvs/patches/patch-src_root_c,v 1.3 2010/09/15 20:57:02 tg Exp $");
 
 /* Printable names for things in the current_parsed_root->method enum variable.
    Watch out if the enum is changed in cvs.h! */
@@ -295,6 +295,12 @@ root_allow_free (void)
     dellist (&root_allow);
 }
 
+int
+root_allow_used (void)
+{
+    return (root_allow != NULL);
+}
+
 bool
 root_allow_ok (const char *arg)
 {
@@ -537,6 +543,12 @@ parse_cvsroot (const char *root_in)
 	    method = "";
 #endif /* defined (CLIENT_SUPPORT) || defined (SERVER_SUPPORT) */
 
+    if (NULL == method)
+	{
+	    error (0, 0, "Missing method in CVSROOT.");
+	    goto error_exit;
+	}
+
 	/* Now we have an access method -- see if it's valid. */
 
 	if (!strcasecmp (method, "local"))
@@ -549,6 +561,18 @@ parse_cvsroot (const char *root_in)
 	    newroot->method = gserver_method;
 	else if (!strcasecmp (method, "server"))
 	    newroot->method = server_method;
+	else if (strncmp (method, "ext=", 4) == 0)
+	{
+	    const char *rsh = method + 4;
+	    setenv ("CVS_RSH", rsh, 1); /* This is a hack, but simplifies */
+	    newroot->method = ext_method;
+	}
+	else if (strncmp (method, "extssh", 6) == 0)
+	{
+	    const char *rsh = method + 3;
+	    setenv ("CVS_RSH", rsh, 1); /* This is a hack, but simplifies */
+	    newroot->method = ext_method;
+	}
 	else if (!strcasecmp (method, "ext"))
 	    newroot->method = ext_method;
 	else if (!strcasecmp (method, "fork"))

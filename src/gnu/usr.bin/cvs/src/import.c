@@ -6,13 +6,13 @@
  *
  * Portions Copyright (C) 1992, Brian Berliner and Jeff Polk
  * Portions Copyright (C) 1989-1992, Brian Berliner
- *
+ * 
  * You may distribute under the terms of the GNU General Public License as
  * specified in the README file that comes with the CVS source distribution.
- *
+ * 
  * "import" checks in the vendor release located in the current directory into
  * the CVS source repository.  The CVS vendor branch support is utilized.
- *
+ * 
  * At least three arguments are expected to follow the options:
  *	repository	Where the source belongs relative to the CVSROOT
  *	VendorTag	Vendor's major tag
@@ -25,7 +25,7 @@
 #include "lstat.h"
 #include "save-cwd.h"
 
-__RCSID("$MirOS: src/gnu/usr.bin/cvs/src/import.c,v 1.7 2007/02/01 23:24:27 tg Exp $");
+__RCSID("$MirOS: ports/devel/cvs/patches/patch-src_import_c,v 1.4 2010/09/15 20:57:01 tg Exp $");
 
 static char *get_comment (const char *user);
 static int add_rev (char *message, RCSNode *rcs, char *vfile,
@@ -250,8 +250,8 @@ import (int argc, char **argv)
 	if (regexec (&pat, vbranch, 0, NULL, 0))
 	{
 	    error (0, 0,
-"warning: you are using an even vendor branch, which can\n"
-"lead to problems: '%s'.  Use for example: '1.1.3' or '1.1.5'.",
+		   "warning: you are using an even vendor branch, which can\n"
+		   "lead to problems: '%s'.  Use for example: '1.1.3' or '1.1.5'.",
 		   vbranch);
 	}
 	regfree (&pat);
@@ -608,7 +608,7 @@ process_import_file (char *message, char *vfile, char *vtag, int targc,
 	       created in the attic!  */
 	    if (!killnew)
 	        free (attic_name);
-	    else
+	    else 
 	    {
 		free (rcs);
 		rcs = attic_name;
@@ -616,7 +616,7 @@ process_import_file (char *message, char *vfile, char *vtag, int targc,
 		/* Attempt to make the Attic directory, in case it
 		   does not exist.  */
 		(void) sprintf (rcs, "%s/%s", repository, CVSATTIC);
-		if (CVS_MKDIR (rcs, 0777 ) != 0 && errno != EEXIST)
+		if (noexec == 0 && CVS_MKDIR (rcs, 0777 ) != 0 && errno != EEXIST)
 		    error (1, errno, "cannot make directory `%s'", rcs);
 
 		/* Note that the above clobbered the path name, so we
@@ -714,7 +714,7 @@ update_rcs_file (char *message, char *vfile, char *vtag, int targc,
 	 * this revision with the import file; if they match exactly, there
 	 * is no need to install the new import file as a new revision to the
 	 * branch.  Just tag the revision with the new import tags.
-	 *
+	 * 
 	 * This is to try to cut down the number of "C" conflict messages for
 	 * locally modified import source files.
 	 */
@@ -1714,7 +1714,7 @@ add_log (int ch, char *fname)
  * This is the recursive function that walks the argument directory looking
  * for sub-directories that have CVS administration files in them and updates
  * them recursively.
- *
+ * 
  * Note that we do not follow symbolic links here, which is a feature!
  */
 static int

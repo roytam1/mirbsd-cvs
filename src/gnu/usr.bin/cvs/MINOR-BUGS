@@ -59,3 +59,10 @@ particular reason to think the bug is fixed -kingdon, Sep 96).
   belong under the "checkout" function?  Perhaps it is more logically
   grouped with the "history" function or we should create a new "info"
   function?
+
+
+Note that it is the opinion of the MirBSD founder that the CVSROOT
+environment variable ought to *never* be set at all. This prevents
+a lot of trouble. Almost all CVS tutorials are perceived bogus.
+
+$MirOS: ports/devel/cvs/patches/patch-MINOR-BUGS,v 1.1 2010/09/15 20:56:57 tg Exp $

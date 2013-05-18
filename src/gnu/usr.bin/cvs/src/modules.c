@@ -29,7 +29,7 @@
 #include "cvs.h"
 #include "save-cwd.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: ports/devel/cvs/patches/patch-src_modules_c,v 1.3 2010/09/15 20:57:02 tg Exp $");
 
 /* Defines related to the syntax of the modules file.  */
 

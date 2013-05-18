@@ -26,6 +26,7 @@
 # include <wchar.h>
 #endif
 
+__RCSID("$MirOS: ports/devel/cvs/patches/patch-src_subr_c,v 1.3 2010/09/15 20:57:03 tg Exp $");
 
 
 extern char *getlogin (void);

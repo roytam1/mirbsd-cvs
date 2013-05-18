@@ -1,4 +1,5 @@
 #! /bin/sh
+# $MirOS: ports/devel/cvs/patches/patch-contrib_rcs2log_sh,v 1.2 2010/09/15 20:56:57 tg Exp $
 
 # Copyright (C) 1995-2005 The Free Software Foundation, Inc.
 
@@ -68,6 +69,9 @@ under the terms of the GNU General Public License.
 For more information about these matters, see the files named COPYING.
 Author: Paul Eggert <eggert@twinsun.com>'
 
+# functions
+@MKTEMP_SH_FUNCTION@
+
 # Use the traditional C locale.
 LANG=C
 LANGUAGE=C
@@ -91,6 +95,7 @@ nl='
 # Parse options.
 
 # defaults
+: ${MKTEMP="@MKTEMP@"}
 : ${AWK=awk}
 : ${TMPDIR=/tmp}
 
@@ -195,7 +200,7 @@ month_data='
 	m[9]="Oct"; m[10]="Nov"; m[11]="Dec"
 '
 
-logdir=$(/usr/bin/mktemp -d $TMPDIR/rcs2log.XXXXXXXXXX)
+logdir=$($MKTEMP -d $TMPDIR/rcs2log.XXXXXXXXXX)
 test -n "$logdir" || exit
 llogout=$logdir/l
 trap exit 1 2 13 15
@@ -628,7 +633,7 @@ $AWK '
 # Sort the log entries, first by date+time (in reverse order),
 # then by author, then by log entry, and finally by file name and revision
 # (just in case).
-sort -t"$SOH" +2 -4r +4 +0 |
+sort -t"$SOH" -k 3,4r -k 5 -k 1 |
 
 # Finally, reformat the sorted log entries.
 $AWK -F"$SOH" '

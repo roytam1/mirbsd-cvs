@@ -24,7 +24,11 @@
 #include "strftime.h"
 #include "xgethostname.h"
 
-__RCSID("$MirOS: src/gnu/usr.bin/cvs/src/main.c,v 1.8 2007/03/10 23:53:41 tg Exp $");
+#ifdef USE_LIBBSD
+#include <bsd/bsd.h>
+#endif
+
+__RCSID("$MirOS: ports/devel/cvs/patches/patch-src_main_c,v 1.7 2010/09/15 23:41:21 tg Exp $");
 
 const char *program_name;
 const char *program_path;
@@ -481,7 +485,7 @@ main (int argc, char **argv)
     int help = 0;		/* Has the user asked for help?  This
 				   lets us support the `cvs -H cmd'
 				   convention to give help for cmd. */
-    static const char short_options[] = "+QqrwtnRvb:T:e:d:Hfz:s:xa";
+    static const char short_options[] = "+QqrwtnRvb:T:e:d:Hfz:s:xal";
     static struct option long_options[] =
     {
         {"help", 0, NULL, 'H'},
@@ -639,6 +643,9 @@ main (int argc, char **argv)
 		noexec = 1;
 		logoff = 1;
 		break;
+	    case 'l':
+		/* no-op to simply ignore the old -l option */
+		break;
 	    case 'v':
 		(void) fputs ("\n", stdout);
 		version (0, NULL);    
@@ -738,8 +745,8 @@ distribution kit for a complete list of contributors and copyrights.\n",
     /* Calculate the cvs global session ID */
 
     global_session_id = Xasprintf ("1%010llX%04X%04X", (uint64_t)time (NULL),
-				   (int)getpid() & 0xFFFF,
-				   (int)arc4random() & 0xFFFF);
+				   (int)(getpid() & 0xFFFF),
+				   (int)(arc4random() & 0xFFFF));
 
     TRACE (TRACE_FUNCTION, "main: Session ID is %s", global_session_id);
 

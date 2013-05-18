@@ -2,11 +2,11 @@
 @comment Documentation for CVS.
 @setfilename cvs.info
 @afourpaper
-@comment $MirOS: src/gnu/usr.bin/cvs/doc/cvs.texinfo,v 1.8 2007/06/06 13:46:45 tg Exp $
+@comment $MirOS: ports/devel/cvs/patches/patch-doc_cvs_texinfo,v 1.6 2010/09/16 17:05:44 tg Exp $
 @macro copyleftnotice
 @noindent
 Copyright @copyright{} 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000,
-                       2001, 2002, 2003, 2004, 2005, 2006, 2009
+                       2001, 2002, 2003, 2004, 2005
                        Free Software Foundation, Inc.
 
 @multitable @columnfractions .12 .88
@@ -2387,13 +2387,15 @@ There is no need to edit @file{inetd.conf} or start a
 There are two access methods that you use in @code{CVSROOT}
 for rsh.  @code{:server:} specifies an internal rsh
 client, which is supported only by some @sc{cvs} ports.
+This is not supported on most Unix-style systems.
 @code{:ext:} specifies an external rsh program.  By
 default this is @code{rsh} (unless otherwise specified
 by the @file{--with-rsh} flag to configure) but you may set the
 @code{CVS_RSH} environment variable to invoke another
 program which can access the remote server (for
 example, @code{remsh} on HP-UX 9 because @code{rsh} is
-something different).  It must be a program which can
+something different, or @code{ssh} to allow the use of secure
+and/or compressed connections).  It must be a program which can
 transmit data to and from the server without modifying
 it; for example the Windows NT @code{rsh} is not
 suitable since it by default translates between CRLF
@@ -2406,6 +2408,12 @@ replacement, the instructions in the rest of this
 section concerning @file{.rhosts} and so on are likely
 to be inapplicable; consult the documentation for your rsh
 replacement.
+
+In the Debian and MirBSD versions of @sc{cvs}, you can
+also specify @code{:extssh:} to force use of the Secure
+Shell, or @code{:ext=prog:} or @code{:ext=/path/to/prog:}
+to specify the remote shell to use without needing to
+touch the @code{CVS_RSH} environment variable.
 
 You may choose to specify the @var{CVS_RSH} option as a method option
 in the @var{CVSROOT} string to allow you to use different connection tools
@@ -7189,6 +7197,10 @@ The date and time (UTC) the revision was checked in.
 The date (UTC) the revision was checked in, in a format suitable
 for the Berkeley mdoc macro processing.
 
+@example
+$Mdocdate: September 16 2010 $
+@end example
+
 @cindex Header keyword
 @item $@splitrcskeyword{Header}$
 A standard header containing the full pathname of the
@@ -8540,7 +8552,7 @@ further updates in the same directory will use the same date
 slightly different way; @pxref{history options}).
 
 For a complete description of the date formats accepted by @sc{cvs},
-@ref{Date input formats}.
+@pxref{Date input formats}.
 @c What other formats should we accept?  I don't want
 @c to start accepting a whole mess of non-standard
 @c new formats (there are a lot which are in wide use in
@@ -9526,11 +9538,11 @@ that the argument file contains the log message.
 At @code{commit}, a unique commitid is placed in the @sc{rcs}
 file inside the repository. All files committed at once
 get the same commitid, a string consisting only of hexadecimal
-digits (usually 16 in GNU CVS, 19 in MirOS BSD and MirPorts GNU CVS).
+digits (usually 16 in GNU CVS, 19 in MirBSD and MirDebian GNU CVS).
 FSF GNU CVS 1.11, MirOS GNU CVS 1.11, and OpenBSD OpenCVS do not
 support commitids yet.
 The commitid can be retrieved with
-the @code{log} and @code{status} command; see @ref{log},
+the @code{log} and @code{status} command; see @ref{log} and
 @ref{File status}.
 
 @menu
@@ -9713,7 +9725,7 @@ compared.  If any directories are given, all files
 under them will be compared.
 
 The exit status for diff is different than for other
-@sc{cvs} commands; for details @ref{Exit status}.
+@sc{cvs} commands; for details @pxref{Exit status}.
 
 @menu
 * diff options::                diff options
@@ -12741,7 +12753,7 @@ U first-dir/sdir/sfile
 @item @var{mname} [ options ] @var{dir} [ @var{files}@dots{} ]
 In the simplest case, this form of module definition
 reduces to @samp{@var{mname} @var{dir}}.  This defines
-all the files in directory @var{dir} as module mname.
+all the files in directory @var{dir} as module @var{mname}.
 @var{dir} is a relative path (from @code{$CVSROOT}) to a
 directory of source in the source repository.  In this
 case, on checkout, a single directory called
@@ -14472,7 +14484,7 @@ Unique Session ID of the @sc{cvs} process. This is a
 random string of printable characters of at least 16
 characters length. Users should assume that it may
 someday grow to at most 256 characters in length.
-Currently, MirPorts GNU CVS uses 19 characters.
+Currently, MirBSD/MirDebian/MirPorts GNU CVS uses 19 characters.
 @end table
 
 If you want to pass a value to the administrative files

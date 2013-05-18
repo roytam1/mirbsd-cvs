@@ -1,5 +1,5 @@
 ## Process this file with automake to produce Makefile.in
-# $MirOS: src/gnu/usr.bin/cvs/src/Makefile.am,v 1.3 2005/04/19 20:58:20 tg Exp $
+# $MirOS: src/gnu/usr.bin/cvs/src/Makefile.am,v 1.4 2005/12/05 22:12:46 tg Exp $
 # Makefile for GNU CVS program.
 #
 # Copyright (C) 1986-2005 The Free Software Foundation, Inc.
@@ -99,6 +99,10 @@ cvs_SOURCES = \
 	update.h \
 	watch.h
 
+EXTRA_cvs_SOURCES = gssapi-client.c gssapi-client.h \
+                    kerberos4-client.c kerberos4-client.h \
+		    socket-client.c socket-client.h
+
 cvs_DEPENDENCIES = $(cvs_client_objects) \
 	../diff/libdiff.a \
 	../lib/libcvs.a \
@@ -113,6 +117,12 @@ cvs_LDADD = $(cvs_client_objects) \
 
 # General
 EXTRA_DIST = \
+	.cvsignore \
+	ChangeLog-9194 \
+	ChangeLog-9395 \
+	ChangeLog-96 \
+	ChangeLog-97 \
+	build_src.com \
 	sanity.sh
 
 check-local: localcheck remotecheck proxycheck

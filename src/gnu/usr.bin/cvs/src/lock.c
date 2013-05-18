@@ -71,7 +71,8 @@
 
 #include "cvs.h"
 
-__RCSID("$MirOS: src/gnu/usr.bin/cvs/src/lock.c,v 1.3 2006/03/27 11:36:22 tg Exp $");
+__RCSID("$MirOS: ports/devel/cvs/patches/patch-src_lock_c,v 1.3 2010/09/15 20:57:01 tg Exp $");
+
 
 struct lock {
     /* This is the directory in which we may have a lock named by the

@@ -14,6 +14,8 @@
 #include "getline.h"
 #include "fileattr.h"
 
+__RCSID("$MirOS: ports/devel/cvs/patches/patch-src_fileattr_c,v 1.2 2010/09/15 20:57:00 tg Exp $");
+
 static void fileattr_read (void);
 static int writeattr_proc (Node *, void *);
 

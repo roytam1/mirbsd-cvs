@@ -1,3 +1,5 @@
+/* $MirOS: ports/devel/cvs/patches/patch-src_cvs_h,v 1.3 2010/09/15 20:57:00 tg Exp $ */
+
 /*
  * Copyright (C) 1986-2005 The Free Software Foundation, Inc.
  *
@@ -150,7 +152,7 @@ char *strerror (int);
    CVSADM to avoid creating a new reserved directory name which users cannot
    use, but is a separate #define because if anyone changes it (which I don't
    recommend), one needs to deal with old, unconverted, repositories.
-
+   
    See fileattr.h for details about file attributes, the only thing stored
    in CVSREP currently.  */
 #define CVSREP "CVS"
@@ -611,7 +613,7 @@ void rename_file (const char *from, const char *to);
    in the working directory).  The result is placed in *PARGC and *PARGV;
    the *PARGV array itself and all the strings it contains are newly
    malloc'd.  It is OK to call it with PARGC == &ARGC or PARGV == &ARGV.  */
-void expand_wild (int argc, char **argv,
+void expand_wild (int argc, char **argv, 
                   int *pargc, char ***pargv);
 
 /* exithandle.c */

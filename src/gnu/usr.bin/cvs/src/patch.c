@@ -20,7 +20,7 @@
 #include "cvs.h"
 #include "getline.h"
 
-__RCSID("$MirOS: src/gnu/usr.bin/cvs/src/patch.c,v 1.2 2007/02/16 19:41:59 tg Exp $");
+__RCSID("$MirOS: ports/devel/cvs/patches/patch-src_patch_c,v 1.3 2010/09/15 20:57:02 tg Exp $");
 
 static RETSIGTYPE patch_cleanup (int);
 static Dtype patch_dirproc (void *callerdat, const char *dir,
@@ -54,7 +54,7 @@ static const char *const patch_usage[] =
     "\t-l\tLocal directory only, not recursive\n",
     "\t-R\tProcess directories recursively.\n",
     "\t-c\tContext diffs (default)\n",
-    "\t-u\tUnidiff format (-p like diff).\n",
+    "\t-u\tUnidiff format (-p works the same as in diff).\n",
     "\t-s\tShort patch - one liner per file.\n",
     "\t-t\tTop two diffs - last change made to the file.\n",
     "\t-V vers\tUse RCS Version \"vers\" for keyword expansion.\n",

@@ -19,6 +19,8 @@
 #include <grp.h>
 #endif
 
+__RCSID("$MirOS: ports/devel/cvs/patches/patch-src_admin_c,v 1.2 2010/09/15 20:56:59 tg Exp $");
+
 static Dtype admin_dirproc (void *callerdat, const char *dir,
                             const char *repos, const char *update_dir,
                             List *entries);

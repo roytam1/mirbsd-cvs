@@ -1,5 +1,5 @@
+# $MirOS: src/gnu/usr.bin/cvs/Makefile.am,v 1.2 2005/03/13 15:50:29 tg Exp $
 ## Process this file with automake to produce Makefile.in
-# $MirOS$
 # Master Makefile for the GNU Concurrent Versions System.
 # Copyright (C) 1986, 1987, 1988, 1989, 1990, 1991, 1992, 1993, 1994,
 #               1995, 1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003
@@ -25,9 +25,26 @@ SUBDIRS = $(USOURCE_SUBDIRS) man doc contrib
 ACLOCAL_AMFLAGS = -I m4
 
 EXTRA_DIST = \
+	.cvsignore \
 	BUGS \
+	ChangeLog.zoo \
+	DEVEL-CVS \
 	FAQ \
-	MINOR-BUGS
+	HACKING \
+	MINOR-BUGS \
+	PROJECTS \
+	README.VMS \
+	TESTS \
+	build.com \
+	cvs-format.el \
+	cvsnt.dep \
+	cvsnt.dsp \
+	cvsnt.dsw \
+	cvsnt.mak \
+	cvs.spec \
+	mktemp.sh \
+	m4/ChangeLog \
+	m4/README
 
 
 ## MAINTAINER Targets

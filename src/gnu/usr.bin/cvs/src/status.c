@@ -1,6 +1,11 @@
 /*
- * Copyright (c) 1992, Brian Berliner and Jeff Polk
- * Copyright (c) 1989-1992, Brian Berliner
+ * Copyright (C) 1986-2005 The Free Software Foundation, Inc.
+ *
+ * Portions Copyright (C) 1998-2005 Derek Price, Ximbiot <http://ximbiot.com>,
+ *                                  and others.
+ *
+ * Portions Copyright (C) 1992, Brian Berliner and Jeff Polk
+ * Portions Copyright (C) 1989-1992, Brian Berliner
  * 
  * You may distribute under the terms of the GNU General Public License as
  * specified in the README file that comes with the CVS source distribution.
@@ -9,6 +14,8 @@
  */
 
 #include "cvs.h"
+
+__RCSID("$MirOS: ports/devel/cvs/patches/patch-src_status_c,v 1.1 2010/09/15 20:57:03 tg Exp $");
 
 static Dtype status_dirproc (void *callerdat, const char *dir,
                              const char *repos, const char *update_dir,
@@ -102,10 +109,9 @@ cvsstatus (int argc, char **argv)
 #endif
 
     /* start the recursion processor */
-    err = start_recursion
-	( status_fileproc, (FILESDONEPROC) NULL,
-	  status_dirproc, (DIRLEAVEPROC) NULL, NULL, argc, argv, local,
-	  W_LOCAL, 0, CVS_LOCK_READ, (char *) NULL, 1, (char *) NULL);
+    err = start_recursion (status_fileproc, NULL, status_dirproc,
+			   NULL, NULL, argc, argv, local, W_LOCAL,
+			   0, CVS_LOCK_READ, NULL, 1, NULL);
 
     return (err);
 }
@@ -120,9 +126,9 @@ status_fileproc (void *callerdat, struct file_info *finfo)
     Ctype status;
     char *sstat;
     Vers_TS *vers;
+    Node *node;
 
-    status = Classify_File (finfo, (char *) NULL, (char *) NULL, (char *) NULL,
-			    1, 0, &vers, 0);
+    status = Classify_File (finfo, NULL, NULL, NULL, 1, 0, &vers, 0);
     sstat = "Classify Error";
     switch (status)
     {
@@ -136,12 +142,14 @@ status_fileproc (void *callerdat, struct file_info *finfo)
 	    sstat = "Needs Patch";
 	    break;
 	case T_CONFLICT:
-	    /* FIXME - This message needs to be clearer.  It comes up now
-	     * only when a file exists or has been added in the local sandbox
+	    /* FIXME - This message could be clearer.  It comes up
+	     * when a file exists or has been added in the local sandbox
 	     * and a file of the same name has been committed indepenently to
-	     * the repository from a different sandbox.  It also comes up
-	     * whether an update has been attempted or not, so technically, I
-	     * think it is not actually a conflict yet.
+	     * the repository from a different sandbox, as well as when a
+	     * timestamp hasn't changed since a merge resulted in conflicts.
+	     * It also comes up whether an update has been attempted or not, so
+	     * technically, I think the double-add case is not actually a
+	     * conflict yet.
 	     */
 	    sstat = "Unresolved Conflict";
 	    break;
@@ -152,9 +160,7 @@ status_fileproc (void *callerdat, struct file_info *finfo)
 	    sstat = "Locally Removed";
 	    break;
 	case T_MODIFIED:
-	    if ( vers->ts_conflict
-		 && ( file_has_conflict ( finfo, vers->ts_conflict )
-		       || file_has_markers ( finfo ) ) )
+	    if (file_has_markers (finfo))
 		sstat = "File had conflicts on merge";
 	    else
 		/* Note that we do not re Register() the file when we spot
@@ -191,8 +197,7 @@ status_fileproc (void *callerdat, struct file_info *finfo)
     else
     {
 	char *buf;
-	buf = xmalloc (strlen (finfo->file) + strlen (sstat) + 80);
-	sprintf (buf, "File: %-17s\tStatus: %s\n\n", finfo->file, sstat);
+	buf = Xasprintf ("File: %-17s\tStatus: %s\n\n", finfo->file, sstat);
 	cvs_output (buf, 0);
 	free (buf);
     }
@@ -205,21 +210,14 @@ status_fileproc (void *callerdat, struct file_info *finfo)
     }
     else if (vers->vn_user[0] == '0' && vers->vn_user[1] == '\0')
 	cvs_output ("   Working revision:\tNew file!\n", 0);
-#ifdef SERVER_SUPPORT
-    else if (server_active)
-    {
-	cvs_output ("   Working revision:\t", 0);
-	cvs_output (vers->vn_user, 0);
-	cvs_output ("\n", 0);
-    }
-#endif
     else
     {
 	cvs_output ("   Working revision:\t", 0);
 	cvs_output (vers->vn_user, 0);
 
-	/* Only add the UTC timezone if there is a time to use. */
-	if (strlen (vers->ts_rcs) > 0)
+	/* Only add the UTC timezone if there is a time to use.
+	 * ts_rcs sometimes contains only "=" character so we check len > 1 */
+	if (!server_active && strlen (vers->ts_rcs) > 1)
 	{
 	    /* Convert from the asctime() format to ISO 8601 */
 	    char *buf;
@@ -243,6 +241,20 @@ status_fileproc (void *callerdat, struct file_info *finfo)
 	cvs_output ("\t", 0);
 	cvs_output (vers->srcfile->print_path, 0);
 	cvs_output ("\n", 0);
+
+	node = findnode(vers->srcfile->versions,vers->vn_rcs);
+	if (node)
+	{
+	    RCSVers *v;
+	    v=(RCSVers*)node->data;
+	    node = findnode(v->other_delta,"commitid");
+	    cvs_output("   Commit Identifier:\t", 0);
+	    if(node && node->data)
+	        cvs_output(node->data, 0);
+	    else
+	        cvs_output("(none)",0);
+	    cvs_output("\n",0);
+	}
     }
 
     if (vers->entdata)
@@ -356,11 +368,9 @@ tag_list_proc (Node *p, void *closure)
     if (RCS_nodeisbranch (xrcsnode, p->key))
 	branch = RCS_whatbranch(xrcsnode, p->key) ;
 
-    buf = xmalloc (80 + strlen (p->key)
-		   + (branch ? strlen (branch) : strlen (p->data)));
-    sprintf (buf, "\t%-25s\t(%s: %s)\n", p->key,
-	     branch ? "branch" : "revision",
-	     branch ? branch : (char *)p->data);
+    buf = Xasprintf ("\t%-25s\t(%s: %s)\n", p->key,
+		     branch ? "branch" : "revision",
+		     branch ? branch : (char *)p->data);
     cvs_output (buf, 0);
     free (buf);
 

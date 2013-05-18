@@ -31,6 +31,8 @@ GNU General Public License for more details.
 #include "diff.h"
 #include "cmpbuf.h"
 
+__RCSID("$MirOS: ports/devel/cvs/patches/patch-diff_analyze_c,v 1.1 2010/09/15 23:41:20 tg Exp $");
+
 extern int no_discards;
 
 static int *xvec, *yvec;	/* Vectors being compared. */
@@ -358,7 +360,7 @@ compareseq (xoff, xlim, yoff, ylim, minimal)
   else
     {
       int c;
-      struct partition part;
+      struct partition part = { 0, 0, 0, 0 };
 
       /* Find a point of correspondence in the middle of the files.  */
 

@@ -1,4 +1,4 @@
-/* $MirOS: src/gnu/usr.bin/cvs/lib/getdate.h,v 1.2 2005/03/13 15:50:35 tg Exp $ */
+/* $MirOS: ports/devel/cvs/patches/patch-lib_getdate_h,v 1.1 2006/10/02 05:59:16 tg Exp $ */
 
 /* Parse a string into an internal time stamp.
 

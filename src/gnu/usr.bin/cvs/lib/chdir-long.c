@@ -13,11 +13,13 @@
 
    You should have received a copy of the GNU General Public License
    along with this program; if not, write to the Free Software Foundation,
-   Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.  */
+   Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.  */
 
 /* written by Jim Meyering */
 
-#include <config.h>
+#ifdef HAVE_CONFIG_H
+# include <config.h>
+#endif
 
 #include "chdir-long.h"
 
@@ -33,13 +35,13 @@
 #include "memrchr.h"
 #include "openat.h"
 
+__RCSID("$MirOS: ports/devel/cvs/patches/patch-lib_chdir-long_c,v 1.1 2010/09/15 20:56:58 tg Exp $");
+
 #ifndef O_DIRECTORY
 # define O_DIRECTORY 0
 #endif
 
-#ifndef PATH_MAX
-# error "compile this file only if your system defines PATH_MAX"
-#endif
+#ifdef PATH_MAX
 
 struct cd_buf
 {
@@ -267,8 +269,10 @@ main (int argc, char *argv[])
 }
 #endif
 
+#endif /* PATH_MAX */
+
 /*
 Local Variables:
-compile-command: "gcc -DTEST_CHDIR=1 -DHAVE_CONFIG_H -I.. -g -O -W -Wall chdir-long.c libfetish.a"
+compile-command: "gcc -DTEST_CHDIR=1 -DHAVE_CONFIG_H -I.. -g -O -W -Wall chdir-long.c libcoreutils.a"
 End:
 */

@@ -22,7 +22,7 @@
 #include "getopt.h"
 #include "diffrun.h"
 
-__RCSID("$MirOS: src/gnu/usr.bin/cvs/diff/diff3.c,v 1.2 2005/03/13 15:50:31 tg Exp $");
+__RCSID("$MirOS: ports/devel/cvs/patches/patch-diff_diff3_c,v 1.3 2010/09/15 20:56:57 tg Exp $");
 
 /* diff3.c has a real initialize_main function. */
 #ifdef initialize_main

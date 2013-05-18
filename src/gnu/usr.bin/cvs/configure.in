@@ -1,4 +1,4 @@
-dnl $MirOS: src/gnu/usr.bin/cvs/configure.in,v 1.4 2005/04/19 21:34:57 tg Exp $
+dnl $MirOS: ports/devel/cvs/patches/patch-configure_in,v 1.3 2010/09/16 00:13:44 tg Exp $
 dnl
 dnl configure.in for cvs
 
@@ -17,8 +17,8 @@ but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.])
 
-AC_INIT([Concurrent Versions System (CVS)],[1.12.13-MirOS],
-	[bug-cvs@nongnu.org],[cvs])
+AC_INIT([Concurrent Versions System (CVS)],[1.12.13-MirOS-0AAC],
+	[miros-discuss@mirbsd.org],[cvs])
 AC_CONFIG_SRCDIR(src/cvs.h)
 AM_INIT_AUTOMAKE([gnu 1.9.2 dist-bzip2 no-define])
 AC_PREREQ(2.59)
@@ -40,6 +40,16 @@ AC_EXEEXT
 
 AC_PATH_PROG(PERL, perl, no)
 AC_PATH_PROG(CSH, csh, no)
+# for contrib/rcs2log.sh & src/cvsbug.in.
+AC_PATH_PROG(MKTEMP, mktemp, mktemp)
+if test x"$MKTEMP" = xmktemp; then
+	MKTEMP_SH_FUNCTION=$srcdir/mktemp.sh
+else
+	MKTEMP_SH_FUNCTION=/dev/null
+fi
+AC_SUBST_FILE(MKTEMP_SH_FUNCTION)
+# for src/cvsbug.in
+AC_PATH_PROG(SENDMAIL, sendmail, no, [$PATH:/usr/sbin:/usr/lib])
 # For diff/util.c
 AC_PATH_PROG(PR, pr, no)
 if test x"$PR" != xno; then
@@ -54,7 +64,7 @@ dnl
 dnl Yeah, put the value in a variable add it to the substitution list
 dnl then have configure create sanity.sh from sanity.sh.in...
 glocs="$PATH:/usr/local/bin:/usr/contrib/bin:/usr/gnu/bin:/local/bin:/local/gnu/bin:/gnu/bin"
-AC_PATH_PROGS(ROFF, groff roff nroff, $missing_dir/missing roff, $glocs)
+AC_PATH_PROGS(ROFF, nroff gnroff groff roff, $missing_dir/missing roff, $glocs)
 AC_PATH_PROG(PS2PDF, ps2pdf, $missing_dir/missing ps2pdf)
 AC_PATH_PROG(TEXI2DVI, texi2dvi, $missing_dir/missing texi2dvi)
 
@@ -65,6 +75,7 @@ if test X"$ac_cv_sys_interpreter" != X"yes" ; then
   AC_MSG_WARN($ac_msg)
 fi
 
+# BSD's logo is a devil for a reason, hey?
 AC_CACHE_CHECK(for BSD VPATH bug in make, ccvs_cv_bsd_make_vpath_bug,
 [if test ! -d ac_test_dir ; then
 	AC_TRY_COMMAND([mkdir ac_test_dir])
@@ -503,8 +514,8 @@ AC_ARG_WITH(
   [with_rsh="ssh rsh"])
 
 if test no = "$with_rsh"; then
-  AC_MSG_WARN([Failed to find usable remote shell. Using 'ssh'.])
-  with_rsh=ssh
+  AC_MSG_WARN([Failed to find usable remote shell. Using 'rsh'.])
+  with_rsh=rsh
 elif test yes = "$with_rsh"; then
   # Make --with-rsh mean the same thing as --with-rsh=rsh
   with_rsh=rsh
@@ -523,7 +534,7 @@ if echo $with_rsh |grep ^/ >/dev/null; then
   fi
 else
   # Search for a remote shell
-  AC_CHECK_PROGS([with_default_rsh], [$with_rsh], "ssh")
+  AC_CHECK_PROGS([with_default_rsh], [$with_rsh], "rsh")
 fi
 
 AC_DEFINE_UNQUOTED(
@@ -567,7 +578,7 @@ fi
 # Set the default when --with-editor wasn't supplied or when it was supplied
 # without an argument.
 if test yes = $with_editor; then
-  with_editor="vim vi emacs nano pico edit ed"
+  with_editor="vim vi emacs nano pico edit"
 fi
 
 if echo $with_editor |grep ^/ >/dev/null; then
@@ -620,6 +631,34 @@ dnl done finding an editor
 dnl
 dnl end --with-editor
 dnl
+
+
+
+dnl
+dnl --with-hardcoded-pam-service-name
+dnl
+AC_ARG_WITH(
+  [hardcoded-pam-service-name],
+  AC_HELP_STRING(
+    [--with-hardcoded-pam-service-name],
+    [Use this to hard code a service name for PAM CVS authentication.  The
+     special name, `program_name', will cause CVS to use whatever name it
+     was invoked as as the service name.  (defaults to `cvs')]),,
+    [with_hardcoded_pam_service_name=cvs])
+
+if test "x$with_hardcoded_pam_service_name" = xno ||
+   test "x$with_hardcoded_pam_service_name" = xprogram_name; then
+  AC_DEFINE([PAM_SERVICE_NAME], [program_name],
+    [Define to set a service name for PAM.  This must be defined.  Define to
+     `program_name', without the quotes, to use whatever name CVS was invoked
+      as.  Otherwise, define to a double-quoted literal string, such as
+      `"cvs"'.])
+else
+  if test x"$with_hardcoded_pam_service_name" = xyes; then
+    with_hardcoded_pam_service_name=cvs
+  fi
+  AC_DEFINE_UNQUOTED([PAM_SERVICE_NAME], ["$with_hardcoded_pam_service_name"])
+fi
 
 
 
@@ -733,6 +772,45 @@ fi
 dnl
 dnl Done setting CVS Administrator Group
 dnl
+
+dnl
+dnl Set the NDBM library to use.
+dnl
+dnl XXX - FIXME - FIXME - FIXME - XXX
+dnl
+dnl This is very bad.  It should really autodetect an appropriate NDBM library
+dnl and, if it doesn't find one, decide to use MY_NDBM.  I'm am defining
+dnl this here since this is no worse than it worked when it was in options.h
+dnl and I am cleaning out options.h so that the Windows version of CVS will
+dnl compile properly for the next release.
+dnl
+dnl That's why this option is in the --with-* section rather than the
+dnl --enable-* section.
+dnl
+dnl XXX - FIXME - FIXME - FIXME - XXX
+dnl
+AC_ARG_ENABLE(
+  [cvs-ndbm],
+  AC_HELP_STRING(
+    [--enable-cvs-ndbm],
+    [Use the NDBM library distributed with CVS rather than attempting to use
+     a system NDBM library.  Disabling this may not work.  (default)]), ,
+  [enable_cvs_ndbm=yes])
+if test no != "$enable_cvs_ndbm"; then
+  AC_DEFINE(
+    [MY_NDBM], [1],
+    [By default, CVS stores its modules and other such items in flat
+     text files (MY_NDBM enables this).  Turning off MY_NDBM causes CVS
+     to look for a system-supplied ndbm database library and use it
+     instead.  That may speed things up, but the default setting
+     generally works fine too.])
+fi
+
+dnl
+dnl Done selecting NDBM library.
+dnl
+
+
 
 dnl
 dnl end --with-*
@@ -938,6 +1016,56 @@ if test no != "$enable_proxy"; then
 fi
 dnl
 dnl end --enable-proxy
+dnl
+
+
+dnl
+dnl begin --enable-pam
+dnl
+
+dnl
+dnl Check if PAM authentication is enabled
+dnl
+AC_ARG_ENABLE(
+  [pam],
+  AC_HELP_STRING(
+    [--enable-pam],
+    [Use to enable system authentication with PAM instead of using the 
+    simple getpwnam interface.  This allows authentication (in theory) 
+    with any PAM module, e.g. on systems with shadow passwords or via LDAP]), ,
+  [enable_pam=no]
+  )
+
+if test yes = $enable_pam; then
+  ac_pam_header_available=
+
+  AC_CHECK_HEADER([security/pam_appl.h], [
+    AC_DEFINE([HAVE_SECURITY_PAM_APPL_H], 1, [Define to 1 if security/pam_appl.h is available])
+    ac_pam_header_available=1])
+
+  if test -z "$ac_pam_header_available"; then
+  AC_CHECK_HEADER([pam/pam_appl.h], [
+    AC_DEFINE([HAVE_PAM_PAM_APPL_H], 1, [Define to 1 if pam/pam_appl.h is available])
+    ac_pam_header_available=1])
+  fi
+
+  if test -z "$ac_pam_header_available"; then
+    AC_MSG_ERROR([Could not find PAM headers])
+  else
+    AC_DEFINE(HAVE_PAM, 1, 
+    [Define to enable system authentication with PAM instead of using the 
+    simple getpwnam interface.  This allows authentication (in theory) 
+    with any PAM module, e.g. on systems with shadow passwords or via LDAP])
+    AC_CHECK_LIB(pam, pam_start, [LIBS="${LIBS} -lpam"],
+      AC_MSG_ERROR([Could not find PAM libraries but the headers exist.
+      Give the --disable-pam option to compile without PAM support (or fix
+      your broken configuration)])
+    )
+  fi
+fi
+
+dnl
+dnl end --enable-pam
 dnl
 
 
@@ -1186,7 +1314,7 @@ AC_ARG_ENABLE(
   [config-override],
   AC_HELP_STRING(
     [--enable-config-override],
-    [Set to a comma-seperated list of paths to directories (designated by
+    [Set to a comma-separated list of paths to directories (designated by
      trailing `/') and files, specifies the path prefixes (for directories) and
      paths to files the CVS server commands will allow configuration to be read
      from.  Specify `--enable-config-override=no' to disable config file
@@ -1250,6 +1378,35 @@ dnl PreservePermissions stuff.  I have this sinking feeling that
 dnl things won't be that simple, before long.
 dnl AC_DEFINE(PRESERVE_PERMISSIONS_SUPPORT, 1,
 dnl [Define if this system supports chown(), link(), and friends.])
+
+dnl On cygwin32, we configure like a Unix system, but we need some support
+dnl libraries.  We do this at the end so that the new libraries are added at
+dnl the end of LIBS.
+dnl
+dnl FIXME: We should be trying to meet the autoconf ideal of checking for
+dnl the properties of the system rather than the name of the os here.  In other
+dnl words, we should check the case sensitivty of the system and then for
+dnl the support functions we are using and which library we find them in.
+AC_CACHE_CHECK(for cygwin32, ccvs_cv_sys_cygwin32,
+[AC_TRY_COMPILE([], [return __CYGWIN32__;],
+ccvs_cv_sys_cygwin32=yes, ccvs_cv_sys_cygwin32=no)])
+if test $ccvs_cv_sys_cygwin32 = yes; then
+  LIBS="$LIBS -ladvapi32"
+
+  dnl On Windows you can only change file times if you can write to
+  dnl the file.  cygwin32 should really handle this for us, but as of
+  dnl January 1998 it doesn't.
+  AC_DEFINE(UTIME_EXPECTS_WRITABLE, 1,
+[Define if utime requires write access to the file (true on Windows,
+but not Unix).])
+
+  dnl On Windows we must use setmode to change between binary and text
+  dnl mode.  This probably doesn't really require two macro definitions
+  AC_DEFINE(USE_SETMODE_STDOUT, 1,
+[Define if setmode is required when writing binary data to stdout.])
+  AC_DEFINE(HAVE_SETMODE, 1,
+[Define if the diff library should use setmode for binary files.])
+fi
 
 dnl associate the setting of the execute bit with the individual scripts
 AC_CONFIG_FILES(contrib/validate_repo, [chmod +x contrib/validate_repo])

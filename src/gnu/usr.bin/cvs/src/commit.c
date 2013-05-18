@@ -25,7 +25,7 @@
 #include "fileattr.h"
 #include "hardlink.h"
 
-__RCSID("$MirOS: src/gnu/usr.bin/cvs/src/commit.c,v 1.7 2007/02/01 23:24:27 tg Exp $");
+__RCSID("$MirOS: ports/devel/cvs/patches/patch-src_commit_c,v 1.4 2010/09/15 20:56:59 tg Exp $");
 
 static Dtype check_direntproc (void *callerdat, const char *dir,
                                const char *repos, const char *update_dir,
@@ -2241,7 +2241,7 @@ checkaddfile (const char *file, const char *repository, const char *tag,
 				  + (ct->tm_year < 100 ? 0 : 1900),
 				 ct->tm_mon + 1, ct->tm_mday,
 				 ct->tm_hour, ct->tm_min, ct->tm_sec);
-
+			 
 		/* commit a dead revision. */
 		revnum = RCS_whatbranch (rcs, tag);
 		retcode = RCS_checkin (rcs, NULL, NULL, tmp, revnum, headtime,

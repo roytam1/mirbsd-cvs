@@ -15,6 +15,8 @@
 #include "cvs.h"
 #include "buffer.h"
 
+__RCSID("$MirOS: ports/devel/cvs/patches/patch-src_rsh-client_c,v 1.2 2010/09/15 20:57:03 tg Exp $");
+
 #ifdef CLIENT_SUPPORT
 
 #include "rsh-client.h"

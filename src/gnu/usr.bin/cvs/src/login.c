@@ -15,6 +15,8 @@
 #include "cvs.h"
 #include "getline.h"
 
+__RCSID("$MirOS: ports/devel/cvs/patches/patch-src_login_c,v 1.1 2010/09/15 20:57:01 tg Exp $");
+
 /* There seems to be very little agreement on which system header
    getpass is declared in.  With a lot of fancy autoconfiscation,
    we could perhaps detect this, but for now we'll just rely on
@@ -200,11 +202,21 @@ password_entry_parseline (const char *cvsroot_canonical,
 	    return NULL;
 	}
 	*p = ' ';
-	tmp_root_canonical = normalize_cvsroot (tmp_root);
-	if (strcmp (cvsroot_canonical, tmp_root_canonical) == 0)
-	    password = p + 1;
-
-	free (tmp_root_canonical);
+	switch (tmp_root->method)
+	{
+	    case gserver_method:
+	    case pserver_method:
+#ifdef HAVE_KERBEROS
+	    case kserver_method:
+#endif /* HAVE_KERBEROS */
+		tmp_root_canonical = normalize_cvsroot (tmp_root);
+		if (strcmp (cvsroot_canonical, tmp_root_canonical) == 0)
+	    	    password = p + 1;
+		free (tmp_root_canonical);
+		break;
+	    default:
+		break;
+	}
     }
 
     return password;
@@ -309,7 +321,10 @@ internal error: can only call password_entry_operation with pserver method");
     fp = CVS_FOPEN (passfile, "r");
     if (fp == NULL)
     {
-	error (0, errno, "warning: failed to open %s for reading", passfile);
+    if (errno == ENOENT)
+        error (0, 0, "CVS password file %s does not exist - creating a new file", passfile);
+    else
+        error (0, errno, "warning: failed to open %s for reading", passfile);
 	goto process;
     }
 

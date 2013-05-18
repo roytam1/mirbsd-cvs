@@ -1,5 +1,4 @@
 ## Makefile.am for GNU DIFF
-## $MirOS$
 ## Copyright (C) 2001 Free Software Foundation, Inc.
 ##
 ## This file is part of GNU DIFF.
@@ -23,4 +22,10 @@ libdiff_a_SOURCES = diff.c diff3.c analyze.c cmpbuf.c cmpbuf.h io.c \
         side.c system.h diffrun.h
 
 EXTRA_DIST = \
-	diagmeet.note
+	.cvsignore \
+	ChangeLog \
+	build_diff.com \
+	diagmeet.note \
+	libdiff.dep \
+	libdiff.dsp \
+	libdiff.mak

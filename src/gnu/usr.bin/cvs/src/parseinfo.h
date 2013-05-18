@@ -1,3 +1,5 @@
+/* $MirOS: ports/devel/cvs/patches/patch-src_parseinfo_h,v 1.2 2010/09/15 20:57:02 tg Exp $ */
+
 /*
  *    Copyright (c) 2004  Derek Price, Ximbiot <http://ximbiot.com>,
  *                        and the Free Software Foundation

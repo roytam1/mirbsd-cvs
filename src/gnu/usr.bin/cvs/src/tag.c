@@ -20,7 +20,7 @@
 #include "cvs.h"
 #include "save-cwd.h"
 
-__RCSID("$MirOS: src/gnu/usr.bin/cvs/src/tag.c,v 1.5 2006/03/27 11:36:22 tg Exp $");
+__RCSID("$MirOS: ports/devel/cvs/patches/patch-src_tag_c,v 1.4 2010/09/16 00:13:45 tg Exp $");
 
 static int rtag_proc (int argc, char **argv, char *xwhere,
 		      char *mwhere, char *mfile, int shorten,
@@ -1241,14 +1241,14 @@ tag_fileproc (void *callerdat, struct file_info *finfo)
     else if (strcmp (version, "0") == 0)
     {
 	if (!quiet)
-	    error (0, 0, "couldn't tag added but un-commited file `%s'",
+	    error (0, 0, "couldn't tag added but un-committed file `%s'",
 	           finfo->file);
 	goto free_vars_and_return;
     }
     else if (version[0] == '-')
     {
 	if (!quiet)
-	    error (0, 0, "skipping removed but un-commited file `%s'",
+	    error (0, 0, "skipping removed but un-committed file `%s'",
 		   finfo->file);
 	goto free_vars_and_return;
     }

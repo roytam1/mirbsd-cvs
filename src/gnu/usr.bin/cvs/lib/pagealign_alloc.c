@@ -48,6 +48,8 @@
 #include <stdio.h>
 #endif
 
+__RCSID("$MirOS: ports/devel/cvs/patches/patch-lib_pagealign_alloc_c,v 1.3 2010/09/15 20:56:59 tg Exp $");
+
 #define _(str) gettext (str)
 
 #if HAVE_MMAP

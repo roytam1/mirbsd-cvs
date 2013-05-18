@@ -21,6 +21,8 @@ and this notice must be preserved on all copies.  */
 
 #include "diff.h"
 
+__RCSID("$MirOS: ports/devel/cvs/patches/patch-diff_ifdef_c,v 1.1 2010/09/15 23:41:20 tg Exp $");
+
 struct group
 {
   struct file_data const *file;
@@ -189,7 +191,7 @@ format_group (doit, format, endchar, groups)
 
 	    default:
 	      {
-		int value;
+		int value = 0;
 		char *speclim;
 
 		f = scan_printf_spec (spec);
@@ -322,7 +324,7 @@ print_ifdef_lines (doit, format, group)
 
 		default:
 		  {
-		    int value;
+		    int value = 0;
 		    char *speclim;
 
 		    f = scan_printf_spec (spec);

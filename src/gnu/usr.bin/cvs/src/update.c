@@ -51,16 +51,16 @@
 #include "buffer.h"
 #include "hardlink.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: ports/devel/cvs/patches/patch-src_update_c,v 1.3 2010/09/15 20:57:03 tg Exp $");
 
 static int checkout_file (struct file_info *finfo, Vers_TS *vers_ts,
 				 int adding, int merging, int update_server);
 #ifdef SERVER_SUPPORT
 static void checkout_to_buffer (void *, const char *, size_t);
 static int patch_file (struct file_info *finfo,
-                       Vers_TS *vers_ts,
+                       Vers_TS *vers_ts, 
                        int *docheckout, struct stat *file_info,
-                       unsigned char *checksum);
+                       md5_uint32 *checksum);
 static void patch_file_write (void *, const char *, size_t);
 #endif
 static int merge_file (struct file_info *finfo, Vers_TS *vers);
@@ -253,7 +253,7 @@ update (int argc, char **argv)
     argv += optind;
 
 #ifdef CLIENT_SUPPORT
-    if (current_parsed_root->isremote)
+    if (current_parsed_root->isremote) 
     {
 	int pass;
 
@@ -297,7 +297,7 @@ update (int argc, char **argv)
 	    {
                 unsigned int flags = 0;
 
-		/* If the server supports the command "update-patches", that
+		/* If the server supports the command "update-patches", that 
 		   means that it knows how to handle the -u argument to update,
 		   which means to send patches instead of complete files.
 
@@ -562,7 +562,7 @@ get_linkinfo_proc (void *callerdat, struct file_info *finfo)
 	   a file that was removed. */
 	return 0;
     }
-
+    
     /* Create a new, empty hardlink_info node. */
     hlinfo = xmalloc (sizeof (struct hardlink_info));
 
@@ -584,7 +584,7 @@ get_linkinfo_proc (void *callerdat, struct file_info *finfo)
  * set to the path relative to where we started (for pretty printing).
  * repository is the repository. entries and srcfiles are the pre-parsed
  * entries and source control files.
- *
+ * 
  * This routine decides what needs to be done for each file and does the
  * appropriate magic for checkout
  */
@@ -627,7 +627,7 @@ update_fileproc (void *callerdat, struct file_info *finfo)
 	/*
 	 * We just return success without doing anything if any of the really
 	 * funky cases occur
-	 *
+	 * 
 	 * If there is still a valid RCS file, do a regular checkout type
 	 * operation
 	 */
@@ -697,7 +697,7 @@ update_fileproc (void *callerdat, struct file_info *finfo)
                     status = T_CHECKOUT;
                     retval = checkout_file (finfo, vers, 0, 0, 1);
                 }
-                else
+                else 
                 {
                     if (vers->ts_conflict)
                     {
@@ -709,7 +709,7 @@ update_fileproc (void *callerdat, struct file_info *finfo)
                         else
                         {
                             /* Reregister to clear conflict flag. */
-                            Register (finfo->entries, finfo->file,
+                            Register (finfo->entries, finfo->file, 
                                       vers->vn_rcs, vers->ts_rcs,
                                       vers->options, vers->tag,
                                       vers->date, NULL);
@@ -725,7 +725,7 @@ update_fileproc (void *callerdat, struct file_info *finfo)
 		{
 		    int docheckout;
 		    struct stat file_info;
-		    unsigned char checksum[16];
+		    md5_uint32 checksum[4];
 
 		    retval = patch_file (finfo,
 					 vers, &docheckout,
@@ -737,7 +737,8 @@ update_fileproc (void *callerdat, struct file_info *finfo)
 					    (rcs_diff_patches
 					     ? SERVER_RCS_DIFF
 					     : SERVER_PATCHED),
-					    file_info.st_mode, checksum,
+					    file_info.st_mode,
+					    (void *)checksum,
 					    NULL);
 			break;
 		    }
@@ -1345,7 +1346,7 @@ VERS: ", 0);
 
 	    wrap_fromcvs_process_file (finfo->file);
 
-	    xvers_ts = Version_TS (finfo, options, tag, date,
+	    xvers_ts = Version_TS (finfo, options, tag, date, 
 				   force_tag_match, set_time);
 	    if (strcmp (xvers_ts->options, "-V4") == 0)
 		xvers_ts->options[0] = '\0';
@@ -1513,7 +1514,7 @@ struct patch_file_data
  */
 static int
 patch_file (struct file_info *finfo, Vers_TS *vers_ts, int *docheckout,
-	    struct stat *file_info, unsigned char *checksum)
+	    struct stat *file_info, md5_uint32 *checksum)
 {
     char *backup;
     char *file1;
@@ -1644,7 +1645,7 @@ patch_file (struct file_info *finfo, Vers_TS *vers_ts, int *docheckout,
 	    fail = 1;
 	else
 	    md5_finish_ctx (&data.context, checksum);
-    }
+    }	  
 
     retcode = 0;
     if (! fail)
@@ -2252,8 +2253,8 @@ join_file (struct file_info *finfo, Vers_TS *vers)
            for removal.  FIXME: If we are doing a checkout, this has
            the effect of first checking out the file, and then
            removing it.  It would be better to just register the
-           removal.
-
+           removal. 
+	
 	   The same goes for a removal then an add.  e.g.
 	   cvs up -rbr -jbr2 could remove and readd the same file
 	 */
@@ -2841,7 +2842,7 @@ special_file_mismatch (struct file_info *finfo, char *rev1, char *rev2)
 		   (rev2 == NULL ? "working file" : rev2));
 	    result = 1;
 	}
-
+    
 	/* Compare permissions. */
 	if (check_modes &&
 	    (rev1_mode & 07777) != (rev2_mode & 07777))

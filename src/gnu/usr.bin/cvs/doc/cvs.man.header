@@ -1,10 +1,12 @@
+.\" $MirOS: ports/devel/cvs/patches/patch-doc_cvs_man_header,v 1.2 2010/09/16 00:13:44 tg Exp $
+.\"
 .\" This is the man page for CVS.  It is auto-generated from the
 .\" cvs.man.header, cvs.texinfo, & cvs.man.footer files.  Please make changes
 .\" there.  A full copyright & license notice may also be found in cvs.texinfo.
 .\"
-.\" Copyright 2004 The Free Software Foundation,
-.\"                Derek R. Price,
-.\"                & Ximbiot <http://ximbiot.com>
+.\" Man page autogeneration, including this header file, is
+.\" Copyright 2004-2005 The Free Software Foundation, Inc.,
+.\"                     Derek R. Price, & Ximbiot <http://ximbiot.com>.
 .\"
 .\" This documentation is free software; you can redistribute it and/or modify
 .\" it under the terms of the GNU General Public License as published by
@@ -23,7 +25,9 @@
 .ds Rv \\$3
 .ds Dt \\$4
 ..
-.TH CVS 1 "\*(Dt"
+.de IX
+..
+.TH CVS 1
 .\" Full space in nroff; half space in troff
 .de SP
 .if n .sp
@@ -55,6 +59,7 @@ This manpage is a summary of some of the features of
 \fBcvs\fP.  It is auto-generated from an appendix of the CVS manual.
 For more in-depth documentation, please consult the
 Cederqvist manual (via the
+cvs(GNU) link in the MirBSD online (HTML) manual pages, the
 .B info CVS
 command or otherwise,
 as described in the SEE ALSO section of this manpage).  Cross-references

@@ -1,12 +1,12 @@
 /*
- * Copyright (C) 1986-2006 The Free Software Foundation, Inc.
+ * Copyright (C) 1986-2005 The Free Software Foundation, Inc.
  *
  * Portions Copyright (C) 1998-2005 Derek Price, Ximbiot <http://ximbiot.com>,
  *                                  and others.
  *
  * Portions Copyright (C) 1992, Brian Berliner and Jeff Polk
  * Portions Copyright (C) 1989-1992, Brian Berliner
- *
+ * 
  * You may distribute under the terms of the GNU General Public License as
  * specified in the README file that comes with the CVS source distribution.
  */
@@ -15,7 +15,7 @@
 #include "cvs.h"
 #include "getline.h"
 
-__RCSID("$MirOS: src/gnu/usr.bin/cvs/src/logmsg.c,v 1.9 2007/03/10 23:53:41 tg Exp $");
+__RCSID("$MirOS: ports/devel/cvs/patches/patch-src_logmsg_c,v 1.6 2010/09/16 00:13:45 tg Exp $");
 
 static int find_type (Node * p, void *closure);
 static int fmt_proc (Node * p, void *closure);
@@ -185,7 +185,7 @@ fmt_proc (Node *p, void *closure)
  * Builds a temporary file using setup_tmpfile() and invokes the user's
  * editor on the file.  The header garbage in the resultant file is then
  * stripped and the log message is stored in the "message" argument.
- *
+ * 
  * If REPOSITORY is non-NULL, process rcsinfo for that repository; if it
  * is NULL, use the CVSADM_TEMPLATE file instead.  REPOSITORY should be
  * NULL when running in client mode.
@@ -371,7 +371,11 @@ do_editor (const char *dir, char **messagep, const char *repository,
 	*messagep = NULL;
     }
 
-    if (pre_stbuf.st_mtime == post_stbuf.st_mtime || *messagep == NULL)
+    if (pre_stbuf.st_mtime == post_stbuf.st_mtime || 
+        *messagep == NULL ||
+        (*messagep)[0] == '\0' ||
+        strcmp (*messagep, "\n") == 0 ||
+        strcmp (*messagep, "\n\n") == 0)
     {
 	for (;;)
 	{
@@ -417,10 +421,10 @@ do_editor (const char *dir, char **messagep, const char *repository,
     goto again;
 }
 
-/* Runs the user-defined verification script as part of the commit or import
-   process.  This verification is meant to be run whether or not the user
-   included the -m attribute.  unlike the do_editor function, this is
-   independant of the running of an editor for getting a message.
+/* Runs the user-defined verification script as part of the commit or import 
+   process.  This verification is meant to be run whether or not the user 
+   included the -m attribute.  unlike the do_editor function, this is 
+   independent of the running of an editor for getting a message.
  */
 void
 do_verify (char **messagep, const char *repository, List *changes)

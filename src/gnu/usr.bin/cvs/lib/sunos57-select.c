@@ -40,7 +40,7 @@
 #include <sys/stat.h>
 #include <errno.h>
 
-#if defined STDC_HEADERS || defined HAVE_STRING_H
+#if defined(STDC_HEADERS) || defined(HAVE_STRING_H)
 # include <string.h>
 #else
 # include <strings.h>
@@ -51,6 +51,8 @@
 
 #include "minmax.h"
 #include "xtime.h"
+
+__RCSID("$MirOS: ports/devel/cvs/patches/patch-lib_sunos57-select_c,v 1.2 2010/09/15 20:56:59 tg Exp $");
 
 static struct stat devnull;
 static int devnull_set = -1;

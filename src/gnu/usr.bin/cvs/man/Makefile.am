@@ -1,5 +1,5 @@
+# $MirOS: src/gnu/usr.bin/cvs/man/Makefile.am,v 1.3 2005/04/19 20:58:19 tg Exp $
 ## Process this file with automake to produce Makefile.in
-# $MirOS: src/gnu/usr.bin/cvs/man/Makefile.am,v 1.2 2005/03/13 15:50:37 tg Exp $
 # Makefile.am for GNU CVS man pages.
 #
 # Copyright (C) 1986-2005 The Free Software Foundation, Inc.
@@ -19,6 +19,7 @@
 
 man_MANS = cvs.5
 EXTRA_DIST = \
+	.cvsignore \
 	$(man_MANS)
 
 INSTALL_MAN=install-man

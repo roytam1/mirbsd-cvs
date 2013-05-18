@@ -451,7 +451,7 @@ static unsigned int re_string_context_at (const re_string_t *input,
 #define re_string_skip_bytes(pstr,idx) ((pstr)->cur_idx += (idx))
 #define re_string_set_index(pstr,idx) ((pstr)->cur_idx = (idx))
 
-#ifndef __MirBSD__
+#ifdef HAVE_ALLOCA_H
 #include <alloca.h>
 #endif
 

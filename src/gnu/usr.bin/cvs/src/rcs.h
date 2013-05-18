@@ -1,3 +1,5 @@
+/* $MirOS: ports/devel/cvs/patches/patch-src_rcs_h,v 1.2 2010/09/15 20:57:02 tg Exp $ */
+
 /*
  * Copyright (C) 1986-2005 The Free Software Foundation, Inc.
  *

@@ -30,9 +30,6 @@ char *config_string = "\n";
 #endif
 #endif
 
-#ifndef PACKAGE_STRINGADD
-#define PACKAGE_STRINGADD	"-unknown"
-#endif
 
 
 static const char *const version_usage[] =
@@ -64,7 +61,7 @@ version (int argc, char **argv)
     /* Having the year here is a good idea, so people have
        some idea of how long ago their version of CVS was
        released.  */
-    (void) fputs (PACKAGE_STRING PACKAGE_STRINGADD, stdout);
+    (void) fputs (PACKAGE_STRING, stdout);
     (void) fputs (config_string, stdout);
 
 #ifdef CLIENT_SUPPORT

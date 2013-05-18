@@ -1,5 +1,5 @@
+# $MirOS: src/gnu/usr.bin/cvs/lib/Makefile.am,v 1.5 2005/12/05 22:44:35 tg Exp $
 ## Process this file with automake to produce Makefile.in
-# $MirOS: src/gnu/usr.bin/cvs/lib/Makefile.am,v 1.4 2005/12/05 22:12:45 tg Exp $
 # Makefile for library files used by GNU CVS.
 #
 # Copyright (C) 1986-2005 The Free Software Foundation, Inc.
@@ -46,6 +46,13 @@ TESTS =
 check_PROGRAMS =
 
 EXTRA_DIST = \
+	.cvsignore \
+	ChangeLog.fsf \
+	Makefile.gnulib \
+	build_lib.com \
+	libcvs.dep \
+	libcvs.dsp \
+	libcvs.mak \
 	test-getdate.sh
 
 ## begin gnulib module alloca

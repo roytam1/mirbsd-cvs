@@ -15,7 +15,7 @@
 #include "getline.h"
 #include "history.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: ports/devel/cvs/patches/patch-src_parseinfo_c,v 1.3 2010/09/15 20:57:02 tg Exp $");
 
 /*
  * Parse the INFOFILE file for the specified REPOSITORY.  Invoke CALLPROC for

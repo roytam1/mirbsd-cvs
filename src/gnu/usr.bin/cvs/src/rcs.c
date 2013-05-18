@@ -33,7 +33,7 @@
 # endif
 #endif
 
-__RCSID("$MirOS: src/gnu/usr.bin/cvs/src/rcs.c,v 1.8 2008/03/02 20:34:02 tg Exp $");
+__RCSID("$MirOS: ports/devel/cvs/patches/patch-src_rcs_c,v 1.6 2010/09/15 20:57:02 tg Exp $");
 
 /* The RCS -k options, and a set of enums that must match the array.
    These come first so that we can use enum kflag in function
@@ -3720,13 +3720,13 @@ expand_keywords (RCSNode *rcs, RCSVers *ver, const char *name, const char *log,
 	srch_len -= (srch_next + 1) - srch;
 	srch = srch_next + 1;
 
-	/* Look for the first non alphabetic character after the '$'.  */
+	/* Look for the first non alphanumeric character after the '$'.  */
 	send = srch + srch_len;
 	for (s = srch; s < send; s++)
-	    if (! isalpha ((unsigned char) *s))
+	    if (! isalnum ((unsigned char) *s))
 		break;
 
-	/* If the first non alphabetic character is not '$' or ':',
+	/* If the first non alphanumeric character is not '$' or ':',
            then this is not an RCS keyword.  */
 	if (s == send || (*s != '$' && *s != ':'))
 	    continue;

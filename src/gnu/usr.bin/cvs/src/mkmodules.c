@@ -15,7 +15,7 @@
 #include "history.h"
 #include "save-cwd.h"
 
-__RCSID("$MirOS: src/gnu/usr.bin/cvs/src/mkmodules.c,v 1.7 2007/03/10 23:53:41 tg Exp $");
+__RCSID("$MirOS: ports/devel/cvs/patches/patch-src_mkmodules_c,v 1.5 2010/09/16 00:13:45 tg Exp $");
 
 #ifndef DBLKSIZ
 #define	DBLKSIZ	4096			/* since GNU ndbm doesn't define it */
@@ -85,7 +85,7 @@ static const char *const loginfo_contents[] = {
     "# Thus %{sv} is a legal format string, but will only be replaced with\n",
     "# file name and new revision.\n",
     "# It also generates multiple arguments for each file being operated upon.\n",
-    "# That is, if two files, file1 & file2, are being commited from 1.1 to\n",
+    "# That is, if two files, file1 & file2, are being committed from 1.1 to\n",
     "# version 1.1.2.1 and from 1.1.2.2 to 1.1.2.3, respectively, %{sVv} will\n",
     "# generate the following six arguments in this order:\n",
     "# file1, 1.1, 1.1.2.1, file2, 1.1.2.2, 1.1.2.3.\n",
@@ -127,7 +127,7 @@ static const char *const verifymsg_contents[] = {
     "#\n",
     "#   Making sure that the entered bug-id number is correct.\n",
     "#   Validating that the code that was reviewed is indeed the code being\n",
-    "#       checked in (using the bug-id number or a seperate review\n",
+    "#       checked in (using the bug-id number or a separate review\n",
     "#       number to identify this particular code set.).\n",
     "#\n",
     "# If any of the above test failed, then the commit would be aborted.\n",
@@ -590,7 +590,7 @@ static const char *const config_contents[] = {
     "# Set 'MaxCommentLeaderLength' to the maximum length permitted for the\n",
     "# automagically determined comment leader used when expanding the Log\n",
     "# keyword, in bytes.  CVS's behavior when the automagically determined\n",
-    "# comment leader exceeds this length is dependant on the value of\n",
+    "# comment leader exceeds this length is dependent on the value of\n",
     "# 'UseArchiveCommentLeader' set in this file.  'unlimited' is a valid\n",
     "# setting for this value.  Defaults to 20 bytes.\n",
     "#\n",

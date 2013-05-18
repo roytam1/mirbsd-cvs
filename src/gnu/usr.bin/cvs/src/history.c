@@ -191,7 +191,7 @@
 #include "history.h"
 #include "save-cwd.h"
 
-__RCSID("$MirOS: src/gnu/usr.bin/cvs/src/history.c,v 1.5 2005/12/05 23:07:55 tg Exp $");
+__RCSID("$MirOS: ports/devel/cvs/patches/patch-src_history_c,v 1.3 2010/09/15 20:57:00 tg Exp $");
 
 static struct hrec
 {
@@ -1563,8 +1563,7 @@ report_hrecs (void)
 	    tm = localtime (&(lr->date));
 
 	(void) printf ("%c %04d-%02d-%02d %02d:%02d %s %-*s", ty,
-		  (int)tm->tm_year+1900, tm->tm_mon + 1, tm->tm_mday,
-		  tm->tm_hour,
+		  (int)(tm->tm_year+1900), tm->tm_mon + 1, tm->tm_mday, tm->tm_hour,
 		  tm->tm_min, tz_name, user_len, lr->user);
 
 	workdir = xmalloc (strlen (lr->dir) + strlen (lr->end) + 10);

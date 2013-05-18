@@ -1,5 +1,10 @@
 /*
- * Copyright (c) 1993 david d zuhn
+ * Copyright (C) 1986-2005 The Free Software Foundation, Inc.
+ *
+ * Portions Copyright (C) 1998-2005 Derek Price, Ximbiot <http://ximbiot.com>,
+ *                                  and others.
+ *
+ * Portions Copyright (C) 1993 david d zuhn
  * 
  * Written by david d `zoo' zuhn while at Cygnus Support
  * 
@@ -11,6 +16,8 @@
 
 #include "cvs.h"
 #include "getline.h"
+
+__RCSID("$MirOS: ports/devel/cvs/patches/patch-src_cvsrc_c,v 1.2 2010/09/15 23:41:21 tg Exp $");
 
 /* this file is to be found in the user's home directory */
 
@@ -36,6 +43,7 @@ read_cvsrc (int *argc, char ***argv, const char *cmdname)
     size_t line_chars_allocated;
 
     char *optstart;
+    int white_len = 0;
 
     int command_len;
     int found = 0;
@@ -83,7 +91,7 @@ read_cvsrc (int *argc, char ***argv, const char *cmdname)
     line = NULL;
     line_chars_allocated = 0;
     command_len = strlen (cmdname);
-    cvsrcfile = open_file (homeinit, "r");
+    cvsrcfile = xfopen (homeinit, "r");
     while ((line_length = getline (&line, &line_chars_allocated, cvsrcfile))
 	   >= 0)
     {
@@ -91,9 +99,12 @@ read_cvsrc (int *argc, char ***argv, const char *cmdname)
 	if (line[0] == '#')
 	    continue;
 
+	while (isspace(line[white_len]))
+		++white_len;
+
 	/* stop if we match the current command */
-	if (!strncmp (line, cmdname, command_len)
-	    && isspace ((unsigned char) *(line + command_len)))
+	if (!strncmp (line + white_len, cmdname, command_len)
+	    && isspace ((unsigned char) *(line + white_len + command_len)))
 	{
 	    found = 1;
 	    break;
@@ -109,13 +120,13 @@ read_cvsrc (int *argc, char ***argv, const char *cmdname)
 
     new_argc = 1;
     max_new_argv = (*argc) + GROW;
-    new_argv = (char **) xmalloc (max_new_argv * sizeof (char*));
+    new_argv = xnmalloc (max_new_argv, sizeof (char *));
     new_argv[0] = xstrdup ((*argv)[0]);
 
     if (found)
     {
 	/* skip over command in the options line */
-	for (optstart = strtok (line + command_len, "\t \n");
+	for (optstart = strtok (line + white_len + command_len, "\t \n");
 	     optstart;
 	     optstart = strtok (NULL, "\t \n"))
 	{
@@ -124,7 +135,7 @@ read_cvsrc (int *argc, char ***argv, const char *cmdname)
 	    if (new_argc >= max_new_argv)
 	    {
 		max_new_argv += GROW;
-		new_argv = (char **) xrealloc (new_argv, max_new_argv * sizeof (char*));
+		new_argv = xnrealloc (new_argv, max_new_argv, sizeof (char *));
 	    }
 	}
     }
@@ -137,12 +148,10 @@ read_cvsrc (int *argc, char ***argv, const char *cmdname)
     if (new_argc + *argc > max_new_argv)
     {
 	max_new_argv = new_argc + *argc;
-	new_argv = (char **) xrealloc (new_argv, max_new_argv * sizeof (char*));
+	new_argv = xnrealloc (new_argv, max_new_argv, sizeof (char *));
     }
-    for (i=1; i < *argc; i++)
-    {
+    for (i = 1; i < *argc; i++)
 	new_argv [new_argc++] = xstrdup ((*argv)[i]);
-    }
 
     if (old_argv != NULL)
     {

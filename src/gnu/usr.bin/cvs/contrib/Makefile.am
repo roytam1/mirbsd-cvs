@@ -1,5 +1,5 @@
+# $MirOS: src/gnu/usr.bin/cvs/contrib/Makefile.am,v 1.4 2005/12/05 22:12:42 tg Exp $
 ## Process this file with automake to produce Makefile.in
-# $MirOS: src/gnu/usr.bin/cvs/contrib/Makefile.am,v 1.3 2005/04/19 20:58:12 tg Exp $
 # Makefile for GNU CVS contributed sources.
 # Do not use this makefile directly, but only from `../Makefile'.
 #
@@ -49,6 +49,7 @@ contrib_MANS = \
 	sandbox_status.man
 
 EXTRA_DIST = \
+	.cvsignore \
 	$(contrib_DATA) \
 	$(contrib_MANS) \
 	cvs2vendor.sh \
@@ -65,7 +66,33 @@ EXTRA_DIST = \
 	rcs2log.sh \
 	rcs2sccs.sh
 
-CLEANFILES = $(contrib_SCRIPTS)
+CLEANFILES = $(bin_LINKS) $(contrib_SCRIPTS)
+
+# we'd rather have a link here rather than two copies of a script
+install-data-local:
+	: FIXME - this path should be determined dynamically from bindir
+	: and contribdir
+	@$(NORMAL_INSTALL)
+	$(mkinstalldirs) $(DESTDIR)$(bindir)
+	@list='$(bin_LINKS)'; for p in $$list; do \
+	    echo "test ! -f $(DESTDIR)$(bindir)/`echo $$p|sed '$(transform)'`"; \
+	    echo "  && cd $(DESTDIR)$(bindir) && $(LN_S) ../share/$(PACKAGE)/contrib/`echo $$p|sed '$(transform)'` ."; \
+	    (test ! -f $(DESTDIR)$(bindir)/`echo $$p|sed '$(transform)'` \
+	        && cd $(DESTDIR)$(bindir) && $(LN_S) ../share/$(PACKAGE)/contrib/`echo $$p|sed '$(transform)'` .) \
+	      || (echo "Link creation failed" && if test -f $$p; then \
+	           echo " $(INSTALL_SCRIPT) $$p $(DESTDIR)$(bindir)/`echo $$p|sed '$(transform)'`"; \
+	           $(INSTALL_SCRIPT) $$p $(DESTDIR)$(bindir)/`echo $$p|sed '$(transform)'`; \
+	         else if test -f $(srcdir)/$$p; then \
+	           echo " $(INSTALL_SCRIPT) $(srcdir)/$$p $(DESTDIR)$(bindir)/`echo $$p|sed '$(transform)'`"; \
+	           $(INSTALL_SCRIPT) $(srcdir)/$$p $(DESTDIR)$(bindir)/`echo $$p|sed '$(transform)'`; \
+	         else :; fi; fi); \
+	done
+
+uninstall-local:
+	@$(NORMAL_UNINSTALL)
+	list='$(bin_LINKS)'; for p in $$list; do \
+	  rm -f $(DESTDIR)$(bindir)/`echo $$p|sed '$(transform)'`; \
+	done
 
 SUFFIXES = .sh
 

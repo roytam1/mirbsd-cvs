@@ -17,6 +17,8 @@ GNU General Public License for more details.
 
 #include "diff.h"
 
+__RCSID("$MirOS: ports/devel/cvs/patches/patch-diff_util_c,v 1.2 2010/09/15 20:56:57 tg Exp $");
+
 #if __STDC__
 #include <stdarg.h>
 #else

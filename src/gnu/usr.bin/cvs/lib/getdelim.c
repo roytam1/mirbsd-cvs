@@ -28,6 +28,8 @@
 
 #include "getdelim.h"
 
+__RCSID("$MirOS: ports/devel/cvs/patches/patch-lib_getdelim_c,v 1.2 2010/09/15 20:56:59 tg Exp $");
+
 #if !HAVE_FLOCKFILE
 # undef flockfile
 # define flockfile(x) ((void) 0)

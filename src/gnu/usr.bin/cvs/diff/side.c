@@ -21,7 +21,7 @@ and this notice must be preserved on all copies.  */
 
 #include "diff.h"
 
-__RCSID("$MirOS: src/gnu/usr.bin/cvs/diff/side.c,v 1.2 2005/03/13 15:50:31 tg Exp $");
+__RCSID("$MirOS: ports/devel/cvs/patches/patch-diff_side_c,v 1.3 2010/09/15 20:56:57 tg Exp $");
 
 static unsigned print_half_line PARAMS((char const * const *, unsigned, unsigned));
 static unsigned tab_from_to PARAMS((unsigned, unsigned));
