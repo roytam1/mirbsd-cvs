@@ -1,45 +1,44 @@
-# $MirOS: ports/print/freetype/Makefile,v 1.3 2006/02/09 09:36:15 tg Exp $
+# $MirOS: ports/print/freetype/Makefile,v 1.4 2006/09/14 00:12:40 tg Exp $
 # $OpenBSD: Makefile,v 1.31 2004/02/04 07:39:18 sturm Exp $
 # $FreeBSD: Makefile,v 1.6 1998/06/21 02:42:33 jseger Exp $
 
-COMMENT=			free and portable TrueType font rendering engine
-COMMENT-doc=			documentation for FreeType
-VERSION=	1.3.1
-DISTNAME=	freetype-${VERSION}
-PKGNAME=	${DISTNAME}p1-0
-PKGNAME-doc=	freetype-doc-${VERSION}-0
-CATEGORIES=	print
-MASTER_SITES=	${MASTER_SITE_SOURCEFORGE:=freetype/}
-HOMEPAGE=	http://www.freetype.org/
+COMMENT=		free and portable TrueType font rendering engine
+COMMENT-doc=		documentation for FreeType
+VERSION=		1.3.1
+DISTNAME=		freetype-${VERSION}
+PKGNAME=		${DISTNAME}p1-0
+PKGNAME-doc=		freetype-doc-${VERSION}-0
+CATEGORIES=		print
+MASTER_SITES=		${MASTER_SITE_SOURCEFORGE:=freetype/}
+HOMEPAGE=		http://www.freetype.org/
 
 PERMIT_PACKAGE_CDROM=	Yes
 PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
-USE_GMAKE=	Yes
-CONFIGURE_STYLE= autoconf dest no-autoheader
-CONFIGURE_ARGS+= ${CONFIGURE_SHARED}
-CONFIGURE_ARGS+= --enable-static --disable-nls
+USE_GMAKE=		Yes
+CONFIGURE_STYLE=	autoconf dest no-autoheader
+CONFIGURE_ARGS+=	${CONFIGURE_SHARED}
+CONFIGURE_ARGS+=	--enable-static --disable-nls
 
-.include <bsd.own.mk>
-MKC_USAP?=	Yes
+.include <mirports.sys.mk>
 .if ${MKC_USAP:L} == "yes"
 # See http://www.freetype.org/patents.html
 # bytecode interpreter disabled
-CPPFLAGS+=	-DTT_CONFIG_OPTION_NO_INTERPRETER
+CPPFLAGS+=		-DTT_CONFIG_OPTION_NO_INTERPRETER
 .endif
 
-MULTI_PACKAGES= -doc
+MULTI_PACKAGES= 	-doc
 SUBPACKAGE?=
 
 .if defined(PACKAGING) && ${SUBPACKAGE} == "-doc"
-PKG_ARCH=	*
+PKG_ARCH=		*
 .endif
 
-FT_DOC=		${PREFIX}/share/doc/freetype
-SFT_DOC=	${WRKSRC}/docs
-SRCTYPE=	*.txt *.htm *.lsm credits FAQ TODO
+FT_DOC=			${PREFIX}/share/doc/freetype
+SFT_DOC=		${WRKSRC}/docs
+SRCTYPE=		*.txt *.htm *.lsm credits FAQ TODO
 
 post-install:
 	${INSTALL_DATA_DIR} ${FT_DOC}/image
