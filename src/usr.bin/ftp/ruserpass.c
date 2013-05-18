@@ -44,8 +44,9 @@
 #include "ftp_var.h"
 
 __SCCSID("@(#)ruserpass.c	8.4 (Berkeley) 4/27/95");
-__RCSID("$MirOS: src/usr.bin/ftp/ruserpass.c,v 1.4 2006/10/03 19:22:17 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ftp/ruserpass.c,v 1.5 2007/07/15 20:01:09 tg Exp $");
 
+#ifndef SMALL
 static	int token(void);
 static	FILE *cfile;
 
@@ -313,3 +314,4 @@ token(void)
 			return (t->tval);
 	return (ID);
 }
+#endif
