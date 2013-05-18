@@ -1,4 +1,6 @@
 /*-
+ * Copyright (c) 2010
+ *	Thorsten Glaser <tg@mirbsd.org>
  * Copyright (c) 2006, 2007
  *	Benny Siegert <bsiegert@mirbsd.org>
  *
@@ -24,7 +26,7 @@
 #include "lib.h"
 #include <sys/wait.h>
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/exec.c,v 1.11 2008/11/02 19:28:43 tg Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/exec.c,v 1.12 2008/11/02 19:32:53 tg Exp $");
 
 #ifdef AS_USER
 static bool PrivsDropped = false;
@@ -38,11 +40,16 @@ static bool PrivsDropped = false;
 char *
 piperead(const char *command)
 {
+	size_t len;
+	char *cmdp, *shellp;
 	static char buf[FILENAME_MAX]; /* XXX arbitrary size */
-	int len;
 	FILE *stream;
 
-	stream = popen(command, "r");
+	/* shellp := 「mksh -c 'escaped-command'」 */
+	xasprintf(&shellp, "mksh -c %s", (cmdp = format_arg(command)));
+	xfree(cmdp);
+
+	stream = popen(shellp, "r");
 	buf[0] = '\0';
 	(void)fgets(buf, sizeof(buf), stream);
 	if (ferror(stream)) {
@@ -56,7 +63,9 @@ piperead(const char *command)
 	if (pclose(stream) == -1) {
 		pwarn("Failed to close pipe to '%s'", command);
 	}
-	return buf;
+
+	xfree(shellp);
+	return (buf);
 }
 
 /*
@@ -115,13 +124,13 @@ have_emulation(char *emul)
 	bool rv = false;
 
 	if (!emul || !emul[0])
-		return true;
+		return (true);
 
 	/* first: are we already running the right OS? */
 	if (!strcasecmp(emul, piperead("uname -s"))) {
 		if (Verbose)
 			printf("- natively running %s\n", emul);
-		return true;
+		return (true);
 	}
 
 	/* On BSD: is the emulation enabled? */

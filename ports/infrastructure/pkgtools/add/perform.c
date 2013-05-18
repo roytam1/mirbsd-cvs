@@ -1,4 +1,4 @@
-/* $MirOS: ports/infrastructure/pkgtools/add/perform.c,v 1.28 2009/12/14 19:20:02 bsiegert Exp $ */
+/* $MirOS: ports/infrastructure/pkgtools/add/perform.c,v 1.29 2009/12/18 22:27:08 bsiegert Exp $ */
 /* $OpenBSD: perform.c,v 1.32 2003/08/21 20:24:56 espie Exp $	*/
 
 /*
@@ -29,7 +29,7 @@
 #include <signal.h>
 #include <errno.h>
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/add/perform.c,v 1.28 2009/12/14 19:20:02 bsiegert Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/add/perform.c,v 1.29 2009/12/18 22:27:08 bsiegert Exp $");
 
 static int pkg_do(char *);
 static int sanity_check(char *);
@@ -142,7 +142,7 @@ pkg_do(char *pkg)
 	    }
 	    where_to = Home;
 	    strlcpy(pkg_fullname, pkg, sizeof(pkg_fullname));
-	    system(solve_deps);
+	    sxsystem(false, solve_deps);
 	    cfile = fopen(CONTENTS_FNAME, "r");
 	    if (!cfile) {
 		pwarnx(
@@ -180,7 +180,7 @@ pkg_do(char *pkg)
 		pkg_fullname);
 		goto bomb;
 	    }
-	    system(solve_deps);
+	    sxsystem(false, solve_deps);
 	    cfile = fopen(CONTENTS_FNAME, "r");
 	    if (!cfile) {
 		pwarnx(
@@ -554,7 +554,7 @@ install_dep_ftp(char *base, char *pattern)
 	if ((cp = fileGetURL(base, pattern)) != NULL) {
 	    if (Verbose)
 		printf("Finished loading '%s' over FTP\n", pattern);
-	    /*system(solve_deps); * XXX */
+	    /*sxsystem(false, solve_deps); * XXX */
 	    if (!fexists(CONTENTS_FNAME)) {
 		pwarnx("autoloaded package '%s' has no %s file?",
 		      pattern, CONTENTS_FNAME);

@@ -1,4 +1,4 @@
-/* $MirOS: ports/infrastructure/pkgtools/add/extract.c,v 1.14 2009/10/20 19:32:48 bsiegert Exp $ */
+/* $MirOS: ports/infrastructure/pkgtools/add/extract.c,v 1.15 2009/11/29 17:00:25 bsiegert Exp $ */
 /* $OpenBSD: extract.c,v 1.16 2003/07/04 17:31:19 avsm Exp $ */
 
 /*
@@ -28,7 +28,7 @@
 #include "add.h"
 #include "rcdb.h"
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/add/extract.c,v 1.14 2009/10/20 19:32:48 bsiegert Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/add/extract.c,v 1.15 2009/11/29 17:00:25 bsiegert Exp $");
 
 #if 0 /* defined(__OpenBSD__) && !defined(__MirBSD__) */
 /* this gets rid of the requirement to run paxmirabilis
@@ -42,9 +42,9 @@ __RCSID("$MirOS: ports/infrastructure/pkgtools/add/extract.c,v 1.14 2009/10/20 1
 
 #define PUSHOUT(todir) /* push out string */				\
         if (where_count > sizeof(STARTSTRING)-1) {			\
-		    strlcat(where_args, "|tar xpf - -C ", maxargs); \
+		    strlcat(where_args, "|tar xpf - -C ", maxargs);	\
 		    strlcat(where_args, todir, maxargs);		\
-		    if (system(where_args)) {				\
+		    if (sxsystem(false, where_args)) {			\
 			cleanup(0);					\
 			errx(2, "can not invoke %lu byte tar pipeline: %s", \
 				(u_long)strlen(where_args), where_args); \
@@ -335,10 +335,10 @@ extract_plist(const char *home, package_t *pkg)
 
 	    PUSHOUT(Directory);
 	    if (Verbose) {
-		system("echo current wd is: $(pwd); ls -la");
+		sxsystem(false, "echo current wd is: $(pwd); ls -la");
 		printf("extract: execute '%s'\n", cmd);
 	    }
-	    if (!Fake && system(cmd))
+	    if (!Fake && sxsystem(false, cmd))
 		pwarnx("command '%s' failed", cmd);
 	    break;
 
@@ -402,7 +402,7 @@ extract_plist(const char *home, package_t *pkg)
 		    if (Verbose)
 			printf("extract: install configuration file '%s'\n", tf);
 		    if (!Fake) {
-			if (system(cmd))
+			if (sxsystem(false, cmd))
 			    pwarnx("command '%s' failed", cmd);
 			else
 			    apply_perms(NULL, tf);

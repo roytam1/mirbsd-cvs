@@ -1,4 +1,4 @@
-/**	$MirOS: ports/infrastructure/pkgtools/lib/plist.c,v 1.18 2009/12/08 18:49:17 bsiegert Exp $ */
+/**	$MirOS: ports/infrastructure/pkgtools/lib/plist.c,v 1.19 2010/03/15 17:25:31 tg Exp $ */
 /*	$OpenBSD: plist.c,v 1.17 2003/08/21 20:24:57 espie Exp $	*/
 
 /*
@@ -26,7 +26,7 @@
 #include <md5.h>
 #include "rcdb.h"
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/plist.c,v 1.18 2009/12/08 18:49:17 bsiegert Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/plist.c,v 1.19 2010/03/15 17:25:31 tg Exp $");
 
 /* this struct defines a plist command type */
 typedef struct cmd_t {
@@ -387,7 +387,7 @@ delete_package(bool keep_files, bool nukedirs, rm_cfg_t remove_config,
 	    } else {
 		if (Verbose)
 		    printf("Execute '%s'\n", tmp);
-		if (!Fake && system(tmp)) {
+		if (!Fake && sxsystem(false, tmp)) {
 		    pwarnx("unexec command for '%s' failed", tmp);
 		    fail = -1;
 		}

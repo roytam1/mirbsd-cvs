@@ -1,4 +1,4 @@
-/**	$MirOS: ports/infrastructure/pkgtools/create/pl.c,v 1.24 2008/11/02 18:56:29 tg Exp $ */
+/**	$MirOS: ports/infrastructure/pkgtools/create/pl.c,v 1.25 2009/10/20 19:32:49 bsiegert Exp $ */
 /*	$OpenBSD: pl.c,v 1.11 2003/08/15 00:03:22 espie Exp $	*/
 
 /*
@@ -29,7 +29,7 @@
 #include <md5.h>
 #include <unistd.h>
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/create/pl.c,v 1.24 2008/11/02 18:56:29 tg Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/create/pl.c,v 1.25 2009/10/20 19:32:49 bsiegert Exp $");
 
 ld_type_t LdType = LD_STATIC;
 
@@ -258,8 +258,8 @@ trylink(const char *from, const char *to)
 #define TOOBIG(str) strlen(str) + 6 + strlen(home) + where_count > maxargs
 #define PUSHOUT() /* push out string */					\
 	if (where_count > sizeof(STARTSTRING)-1) {			\
-		    strlcat(where_args, "|tar xpf -", maxargs); \
-		    if (system(where_args)) {				\
+		    strlcat(where_args, "|tar xpf -", maxargs);		\
+		    if (sxsystem(false, where_args)) {			\
 			cleanup(0);					\
 			errx(2, "can't invoke tar pipeline");		\
 		    }							\
