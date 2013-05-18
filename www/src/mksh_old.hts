@@ -1,11 +1,11 @@
-# $MirOS: www/src/mksh_old.hts,v 1.30 2010/06/24 18:08:35 tg Exp $
+# $MirOS: www/src/mksh_old.hts,v 1.31 2010/10/08 20:46:20 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/mksh/old "mksh – old versions"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh_old.hts,v 1.30 2010/06/24 18:08:35 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh_old.hts,v 1.31 2010/10/08 20:46:20 tg Exp $'
 mws_content <<'EOF'
 <h2><a href="mksh.htm">mksh</a> – old versions</h2>
 
@@ -1224,6 +1224,12 @@ mws_content <<'EOF'
 <p>Patching mksh’s code to look for ed in ANY other location is a MUST NOT.</p>
 
 <h2 id="plans">Future Plans</h2><ul>
+<li>Synchronise wide character width table with Unicode 6.1.</li>
+<li>Fix Debian #599484: keep errorlevel upon trap entry.</li>
+<li>Implement <tt>+=</tt> for at least arrays, if not scalar variables.
+ Consider changing <tt>=(…)</tt>, and maybe <tt>set -A</tt> (if ksh93
+ matches), to not unset the array, but merely empty it (<tt>unset A[*]</tt>),
+ to protect its locality (typeset).</li>
 <li>Implement <tt>read -A</tt> (from ksh93), <tt>read -a</tt> (dump octets
  or wide characters, depending on <tt>set ±U</tt>, into an array which is
  its (only) argument, from stdin as if using hd(1), <tt>read -d</tt> (with
