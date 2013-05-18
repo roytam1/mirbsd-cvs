@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/scripts/xbuild-env.sh,v 1.9 2006/03/01 14:04:07 tg Exp $
+# $MirOS: src/scripts/xbuild-env.sh,v 1.10 2006/03/01 14:04:32 tg Exp $
 #-
 # Copyright (c) 2004, 2005, 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -29,6 +29,11 @@
 
 MACHINE=$1
 TARGET=$2
+
+if [[ -z $TARGET && $MACHINE = *-* ]]; then
+	TARGET=$MACHINE
+	MACHINE=${TARGET%%-*}
+fi
 
 [[ -z $MACHINE && -n $TARGET ]] && MACHINE=${TARGET%%-*}
 
