@@ -1,5 +1,5 @@
 <!-- PageID: mksh -->
-<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.86 2007/03/05 00:12:26 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.87 2007/03/05 01:41:43 tg Exp $</small>
 
 <h1>mksh(1) R28</h1>
 <p>This is the MirBSD&trade; Korn Shell, a more or less portable
@@ -36,7 +36,7 @@
  defined to some subset of -DMKSH_SMALL (as small as possible),
  -DMKSH_ASSUME_UTF8 (don't look for setlocale(3) and nl_langinfo(CODESET)
  but always enable the utf-8 command line editing mode), -DMKSH_NEED_MKNOD
- (integrate mknod(1) in mksh even if compiled with -DMKSH_SMALL, e.g.
+ (integrate mknod(8) in mksh even if compiled with -DMKSH_SMALL, e.g.
  for the install floppy), -DMKSH_NOPWNAM (do not link in the calls to
  getpwnam(3) so that mksh can be built statically on OSes with PAM).
  There's also support for <tt>~/.mkshrc</tt>, which is sourced by all
@@ -181,7 +181,7 @@
  <li>mention failure to revoke(2) is possibly insecure</li>
  <li>if MKSH_SMALL, don't include -T support and don't scan
   for revoke() function</li>
- <li>new #ifdef MKSH_NEED_MKNOD to embed mknod(1) even if
+ <li>new #ifdef MKSH_NEED_MKNOD to embed mknod(8) even if
   MKSH_SMALL is enabled</li>
  <li>do not scan for revoke() on GNU/Linux since it always fails</li>
  <li>simplify GNU/Linux CPPFLAGS and use them for GNU/HURD and
