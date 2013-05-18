@@ -43,6 +43,9 @@
 #include <term_entry.h>
 
 MODULE_ID("$Id$")
+#ifdef __MirBSD__
+__RCSID("$MirOS$");
+#endif
 
 #if !HAVE_TELL
 #define tell(fd) lseek(fd, 0, SEEK_CUR)		/* lseek() is POSIX, but not tell() */

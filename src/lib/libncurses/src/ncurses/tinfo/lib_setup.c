@@ -54,6 +54,9 @@
 #include <term.h>		/* lines, columns, cur_term */
 
 MODULE_ID("$Id$")
+#ifdef __MirBSD__
+__RCSID("$MirOS$");
+#endif
 
 /****************************************************************************
  *
@@ -345,9 +348,9 @@ NCURSES_EXPORT(char *)
 _nc_get_locale(void)
 {
 #ifdef __MirBSD__
-    static const char lcl[] = "en_US.UTF-8";
+    static char lcl[] = "en_US.UTF-8";
 
-    return ((char *)lcl);
+    return (lcl);
 #else
     char *env;
 #if HAVE_LOCALE_H

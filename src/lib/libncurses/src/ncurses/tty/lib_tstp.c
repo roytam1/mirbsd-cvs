@@ -47,6 +47,9 @@
 #endif
 
 MODULE_ID("$Id$")
+#ifdef __MirBSD__
+__RCSID("$MirOS$");
+#endif
 
 #if defined(SIGTSTP) && (HAVE_SIGACTION || HAVE_SIGVEC)
 #define USE_SIGTSTP 1
@@ -231,7 +234,7 @@ tstp(int dummy GCC_UNUSED)
 }
 #endif /* USE_SIGTSTP */
 
-static void
+static __dead void
 cleanup(int sig)
 {
     static int nested;

@@ -37,6 +37,9 @@
 #include <term_entry.h>
 
 MODULE_ID("$Id$")
+#ifdef __MirBSD__
+__RCSID("$MirOS$");
+#endif
 
 /*
 **      _nc_init_keytry()

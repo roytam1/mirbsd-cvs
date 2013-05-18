@@ -59,6 +59,9 @@
 #include <term_entry.h>
 
 MODULE_ID("$Id$")
+#ifdef __MirBSD__
+__RCSID("$MirOS$");
+#endif
 
 #if !PURE_TERMINFO
 
@@ -772,7 +775,8 @@ copy_tc_token(char *dst, const char *src, size_t len)
  * Get an entry for terminal name in buffer bp from the termcap file.
  */
 static int
-_nc_tgetent(char *bp, char **sourcename, int *lineno, const char *name)
+_nc_tgetent(char *bp, char **sourcename, int *lineno __attribute__((unused)),
+    const char *name)
 {
     static char *the_source;
 

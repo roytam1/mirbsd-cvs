@@ -89,7 +89,7 @@ char *ttyname(int fd);
 #endif
 
 /* this is just to stifle a missing-prototype warning */
-#if 1
+#if defined(linux) || defined(BSD)
 # include <sys/ioctl.h>
 #endif
 
@@ -104,6 +104,9 @@ char *ttyname(int fd);
 #include <transform.h>
 
 MODULE_ID("$Id$")
+#ifdef __MirBSD__
+__RCSID("$MirOS$");
+#endif
 
 extern char **environ;
 

@@ -34,6 +34,7 @@
 
 
 /*
+ * $MirOS$
  * $Id$
  *
  *	curses.priv.h
@@ -1092,7 +1093,8 @@ extern NCURSES_EXPORT(char *) _nc_strstr (const char *, const char *);
 #endif
 
 /* safe_sprintf.c */
-extern NCURSES_EXPORT(char *) _nc_printf_string (const char *, va_list);
+extern NCURSES_EXPORT(char *) _nc_printf_string (const char *, va_list)
+		GCC_PRINTFLIKE(1,0);
 
 /* tries.c */
 extern NCURSES_EXPORT(void) _nc_add_to_try (struct tries **, const char *, unsigned short);

@@ -1,4 +1,5 @@
 #!/bin/sh
+# $MirOS$
 # $OpenBSD: MKfallback.sh,v 1.3 2001/01/22 18:01:50 millert Exp $
 # $From: MKfallback.sh,v 1.10 2000/12/10 00:14:39 tom Exp $
 #

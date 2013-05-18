@@ -30,9 +30,13 @@
  *   Author:  Thomas E. Dickey                                              *
  ****************************************************************************/
 
+#define TRACE
 #include "form.priv.h"
 
 MODULE_ID("$Id$")
+#ifdef __MirBSD__
+__RCSID("$MirOS$");
+#endif
 
 NCURSES_EXPORT(FIELD **)
 _nc_retrace_field_ptr(FIELD **code)

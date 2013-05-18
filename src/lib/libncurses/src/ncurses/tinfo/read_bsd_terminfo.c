@@ -1,8 +1,7 @@
-/**	$MirOS: src/lib/libncurses/src/ncurses/tinfo/read_bsd_terminfo.c,v 1.4 2006/10/27 16:13:46 tg Exp $ */
 /*	$OpenBSD: read_bsd_terminfo.c,v 1.14 2003/06/17 21:56:24 millert Exp $	*/
 
 /*
- * Copyright (c) 2006 Thorsten Glaser <tg@mirbsd.de>
+ * Copyright (c) 2006, 2009 Thorsten Glaser <tg@mirbsd.org>
  * Copyright (c) 1998, 1999, 2000 Todd C. Miller <Todd.Miller@courtesan.com>
  *
  * Permission to use, copy, modify, and distribute this software for any
@@ -19,14 +18,14 @@
  *
  * The following disclaimer must also be retained in all copies:
  *
- * Licensor offers the work "AS IS" and WITHOUT WARRANTY of any kind,
- * express, or implied, to the maximum extent permitted by applicable
- * law, without malicious intent or gross negligence; in no event may
- * licensor, an author or contributor be held liable for any indirect
- * or other damage, or direct damage except proven a consequence of a
- * direct error of said person and intended use of this work, loss or
- * other issues arising in any way out of its use, even if advised of
- * the possibility of such damage or existence of a defect.
+ * This work is provided "AS IS" and WITHOUT WARRANTY of any kind, to
+ * the utmost extent permitted by applicable law, neither express nor
+ * implied; without malicious intent or gross negligence. In no event
+ * may a licensor, author or contributor be held liable for indirect,
+ * direct, other damage, loss, or other issues arising in any way out
+ * of dealing in the work, even if advised of the possibility of such
+ * damage or existence of a defect, except proven that it results out
+ * of said person's immediate fault when using the work as intended.
  */
 
 #include <curses.priv.h>
@@ -34,14 +33,16 @@
 #include <term.h>	/* lines, columns, cur_term */
 #include <term_entry.h>
 
-__RCSID("$MirOS: src/lib/libncurses/src/ncurses/tinfo/read_bsd_terminfo.c,v 1.4 2006/10/27 16:13:46 tg Exp $");
+__RCSID("$MirOS: src/lib/libncurses/src/ncurses/tinfo/read_bsd_terminfo.c,v 1.5 2006/10/31 02:52:39 tg Exp $");
 
 #ifndef _PATH_TERMINFO
 #define _PATH_TERMINFO	"/usr/share/misc/terminfo"
 #endif /* ! _PATH_TERMINFO */
 
+static char _path_terminfo[] = _PATH_TERMINFO;
+
 /* Function prototypes for private functions, */
-static int _nc_lookup_bsd_terminfo_entry(const char *const, const char *const, TERMTYPE *);
+static int _nc_lookup_bsd_terminfo_entry(char *, char *, TERMTYPE * const);
 
 /*
  * Look up ``tn'' in the BSD terminfo.db file and fill in ``tp''
@@ -49,16 +50,18 @@ static int _nc_lookup_bsd_terminfo_entry(const char *const, const char *const, T
  * Returns 1 on success, 0 on failure.
  */
 int
-_nc_read_bsd_terminfo_entry(tn, filename, tp)
-    const char *const tn;
-    char *const filename;
-    TERMTYPE *const tp;
+_nc_read_bsd_terminfo_entry(const char * const tn_, char * const filename,
+    TERMTYPE * const tp)
 {
     char **fname, *p;
     char   envterm[PATH_MAX];		/* local copy of $TERMINFO */
     char   hometerm[PATH_MAX];		/* local copy of $HOME/.terminfo */
     char  *pathvec[4];			/* list of possible terminfo files */
+    char  *tn;
     size_t len;
+
+    if ((tn = strdup(tn_)) == NULL)
+	return (0);
 
     fname = pathvec;
     /* $TERMINFO may hold a path to a terminfo file */
@@ -76,7 +79,7 @@ _nc_read_bsd_terminfo_entry(tn, filename, tp)
     }
 
     /* Finally we check the system terminfo file */
-    *fname++ = _PATH_TERMINFO;
+    *fname++ = _path_terminfo;
     *fname = NULL;
 
     /*
@@ -87,9 +90,11 @@ _nc_read_bsd_terminfo_entry(tn, filename, tp)
 	if (_nc_lookup_bsd_terminfo_entry(tn, *fname, tp) == 1) {
 	    /* Set copyout parameter and return */
 	    (void)strlcpy(filename, *fname, PATH_MAX);
+	    free(tn);
 	    return (1);
 	}
     }
+    free(tn);
     return (0);
 }
 
@@ -99,9 +104,7 @@ _nc_read_bsd_terminfo_entry(tn, filename, tp)
  * Returns 1 on success, 0 on failure.
  */
 int
-_nc_read_bsd_terminfo_file(filename, tp)
-    const char *const filename;
-    TERMTYPE *const tp;
+_nc_read_bsd_terminfo_file(const char * const filename, TERMTYPE * const tp)
 {
     char path[PATH_MAX];		/* path to terminfo.db */
     char *tname;			/* name of terminal to look up */
@@ -126,10 +129,7 @@ _nc_read_bsd_terminfo_file(filename, tp)
  * Returns 1 on success, 0 on failure.
  */
 static int
-_nc_lookup_bsd_terminfo_entry(tn, filename, tp)
-    const char *const tn;
-    const char *const filename;
-    TERMTYPE *const tp;
+_nc_lookup_bsd_terminfo_entry(char *tn, char *filename, TERMTYPE * const tp)
 {
     char  *pathvec[2], *sfn;
     char  *capbuf, *cptr, *infobuf, *iptr;
@@ -138,9 +138,9 @@ _nc_lookup_bsd_terminfo_entry(tn, filename, tp)
     ENTRY  thisentry;
 
     if (asprintf(&sfn, "getcap(%s)", filename) == -1)
-	sfn = (char *)filename;
+	sfn = filename;
 
-    pathvec[0] = (char *)filename;
+    pathvec[0] = filename;
     pathvec[1] = NULL;
     capbuf = NULL;
     infobuf = NULL;
@@ -151,7 +151,7 @@ _nc_lookup_bsd_terminfo_entry(tn, filename, tp)
     (void) cgetset(NULL);
 
     /* Lookup tn in 'filename' */
-    error = cgetent(&capbuf, pathvec, (char *)tn);      
+    error = cgetent(&capbuf, pathvec, tn);
     if (error == 0) {
 	/*
 	 * To make the terminfo parser happy we need to, as a minimum,

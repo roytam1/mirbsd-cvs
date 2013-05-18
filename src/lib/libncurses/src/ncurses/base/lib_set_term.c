@@ -45,6 +45,9 @@
 #include <tic.h>
 
 MODULE_ID("$Id$")
+#ifdef __MirBSD__
+__RCSID("$MirOS$");
+#endif
 
 NCURSES_EXPORT(SCREEN *)
 set_term(SCREEN *screenp)

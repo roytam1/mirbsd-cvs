@@ -1,4 +1,4 @@
-# $MirOS: src/lib/libncurses/Makefile.inc,v 1.7 2006/10/28 19:15:38 tg Exp $
+# $MirOS: src/lib/libncurses/Makefile.inc,v 1.8 2006/10/29 12:01:54 tg Exp $
 
 # XXX should be defined elsewhere
 AWK?=		/usr/bin/awk
@@ -7,6 +7,9 @@ NCSRCDIR=	${LIBNCDIR}/src
 CPPFLAGS+=	-D'SYSTEM_NAME="${OSname}${OSrev}"' -DHAVE_CONFIG_H -DNDEBUG
 CPPFLAGS+=	-D_XOPEN_SOURCE_EXTENDED -DXTSTRINGDEFINES
 CPPFLAGS+=	-I. -I${NCSRCDIR}/include -I${NCSRCDIR}
+
+CDIAGFLAGS+=		-Wno-redundant-decls
+CFLAGS_lib_gen.o+=	-Wno-unused
 
 HOSTCFLAGS?=	${CFLAGS}
 HOSTLDFLAGS?=	${LDFLAGS}

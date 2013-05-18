@@ -40,6 +40,9 @@
 #include <parametrized.h>	/* so is this */
 
 MODULE_ID("$Id$")
+#ifdef __MirBSD__
+__RCSID("$MirOS$");
+#endif
 
 #define INDENT			8
 #define DISCARD(string) string = ABSENT_STRING

@@ -1,10 +1,13 @@
-# $MirOS: src/lib/libform/Makefile,v 1.5 2007/05/17 18:38:32 tg Exp $
+# $MirOS: src/lib/libform/Makefile,v 1.6 2009/08/30 18:01:19 tg Exp $
 
 LIB=		form
 DPADD+=		${LIBCURSES}
 LDADD+=		-lcurses
 LIBLINKS=	formw
 SHLIB_VERSION?=	6.0
+
+# bogus API
+CFLAGS_fld_def.o+=	-Wno-cast-qual
 
 NCMANSRCS+=	form.3x
 NCMANSRCS+=	form_cursor.3x
