@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.390 2012/06/15 08:06:14 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.391 2012/07/15 09:19:04 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -9096,7 +9096,7 @@ Tag: debian pcli tip
 
 	exec /usr/bin/X -retro -nolisten tcp "$@"
  </pre>
-</div><p class="boxfoot">For display managers,similar files exist in
+</div><p class="boxfoot">For display managers, similar files exist in
  <tt>/etc/kde4/kdm</tt> and related places.</p><!-- RSS stop -->
 <p>On the other front, worked on Debian packaging, and upstream on
  pax(1) and <a href="@@RELPATH@@jupp.htm">jupp</a>, with more things
