@@ -1,5 +1,0 @@
-1a
-# $MirOS: contrib/code/mirmake/dist/scripts/mkdep.sh.ed,v 1.1.7.1 2005/02/05 02:36:15 tg Exp $
-.
-1s!/bin/mksh!@@mksh@@!
-wq

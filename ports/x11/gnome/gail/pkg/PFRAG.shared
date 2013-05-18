@@ -1,4 +1,0 @@
-@comment $OpenBSD: PFRAG.shared,v 1.5 2004/12/10 20:36:43 marcm Exp $
-lib/gtk-2.0/modules/libferret.so
-lib/gtk-2.0/modules/libgail.so
-@lib lib/libgailutil.so.17.1

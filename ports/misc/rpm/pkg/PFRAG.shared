@@ -1,5 +1,0 @@
-@comment $MirOS$
-@comment $OpenBSD: PFRAG.shared,v 1.5 2001/03/07 16:24:58 brad Exp $
-@lib lib/libpopt.so.0.0
-@lib lib/librpm.so.0.1
-@lib lib/librpmbuild.so.0.0

@@ -1,4 +1,0 @@
-@comment $MirOS$
-@comment $OpenBSD: PFRAG.shared,v 1.2 2003/12/22 21:48:00 jolan Exp $
-@lib lib/libxfce4mcs-client.so.1.1
-@lib lib/libxfce4mcs-manager.so.1.1

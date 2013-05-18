@@ -1,4 +1,0 @@
-@comment $MirOS$
-@comment $OpenBSD: PFRAG.shared,v 1.1.1.1 2003/02/18 15:20:14 espie Exp $
-${KDE}/libkparts_kmplayer.so.0.0
-@lib lib/libkdeinit_kmplayer.so.0.0
