@@ -1,14 +1,12 @@
 $MirOS$
---- configure.in.orig	2004-07-24 16:01:20.000000000 +0000
-+++ configure.in	2004-07-24 16:11:24.000000000 +0000
-@@ -102,8 +102,8 @@ fi
- 
- #--------------------------------------------------------------------
- 
--AC_LIBLTDL_CONVENIENCE
--AC_CONFIG_SUBDIRS(libltdl)
-+INCLTDL=""
-+LIBLTDL="-lltdl"
- 
- AC_PROG_CC
- AC_PROG_CPP
+--- configure.in.orig	Wed Jul 18 23:17:16 2007
++++ configure.in	Wed Jul 18 23:17:06 2007
+@@ -541,7 +541,7 @@ AC_HEADER_SYS_WAIT
+ #   fenv.h - available in C99, but not older systems
+ #   process.h - mingw specific
+ #
+-AC_CHECK_HEADERS([complex.h fenv.h io.h libc.h limits.h malloc.h memory.h process.h string.h \
++AC_CHECK_HEADERS([complex.h fenv.h io.h libc.h limits.h memory.h process.h string.h \
+ regex.h rxposix.h rx/rxposix.h sys/dir.h sys/ioctl.h sys/select.h \
+ sys/time.h sys/timeb.h sys/times.h sys/stdtypes.h sys/types.h \
+ sys/utime.h time.h unistd.h utime.h pwd.h grp.h sys/utsname.h \
