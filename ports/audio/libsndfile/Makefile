@@ -1,9 +1,9 @@
-# $MirOS: ports/audio/libsndfile/Makefile,v 1.2 2006/09/14 00:07:05 tg Exp $
+# $MirOS: ports/audio/libsndfile/Makefile,v 1.3 2009/05/26 21:24:47 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.4 2004/02/27 23:35:46 naddy Exp $
 
 COMMENT=	library to handle various audio file formats
 DISTNAME=	libsndfile-1.0.7
-DASH_VER=	1
+DASH_VER=	2
 CATEGORIES=	audio
 HOMEPAGE=	http://www.mega-nerd.com/libsndfile/
 
