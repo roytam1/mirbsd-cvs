@@ -1,4 +1,4 @@
-/* $MirOS: src/lib/libpng/png.h,v 1.7 2008/03/23 17:54:53 tg Exp $ */
+/* $MirOS: src/lib/libpng/png.h,v 1.8 2008/04/07 19:54:33 tg Exp $ */
 
 /* png.h - header file for MirOS in-tree PNG library
  *
@@ -109,9 +109,9 @@
  */
 
 /* Version information for png.h - this should match the version in png.c */
-#define PNG_LIBPNG_VER_STRING "1.2.26-MirOS"
+#define PNG_LIBPNG_VER_STRING "1.2.32-MirOS"
 #define PNG_HEADER_VERSION_STRING \
-   " libpng version 1.2.26-MirOS - April 2, 2008\n"
+   " libpng version 1.2.32-MirOS - September 18, 2008\n"
 
 #define PNG_LIBPNG_VER_SONUM   0
 #define PNG_LIBPNG_VER_DLLNUM  13
@@ -119,7 +119,7 @@
 /* These should match the first 3 components of PNG_LIBPNG_VER_STRING: */
 #define PNG_LIBPNG_VER_MAJOR   1
 #define PNG_LIBPNG_VER_MINOR   2
-#define PNG_LIBPNG_VER_RELEASE 26
+#define PNG_LIBPNG_VER_RELEASE 32
 /* This should match the numeric part of the final component of
  * PNG_LIBPNG_VER_STRING, omitting any leading zero: */
 
@@ -147,7 +147,7 @@
  * Versions 0.7 through 1.0.0 were in the range 0 to 100 here (only
  * version 1.0.0 was mis-numbered 100 instead of 10000).  From
  * version 1.0.1 it's    xxyyzz, where x=major, y=minor, z=release */
-#define PNG_LIBPNG_VER 10226 /* 1.2.26 */
+#define PNG_LIBPNG_VER 10232 /* 1.2.32 */
 
 #ifndef PNG_VERSION_INFO_ONLY
 /* include the compression library's header */
@@ -918,7 +918,7 @@ struct png_struct_def
    png_uint_32 row_number;    /* current row in interlace pass */
    png_bytep prev_row;        /* buffer to save previous (unfiltered) row */
    png_bytep row_buf;         /* buffer to save current (unfiltered) row */
-#ifndef PNG_NO_WRITE_FILTERING
+#ifndef PNG_NO_WRITE_FILTER
    png_bytep sub_row;         /* buffer to save "sub" row when filtering */
    png_bytep up_row;          /* buffer to save "up" row when filtering */
    png_bytep avg_row;         /* buffer to save "avg" row when filtering */
@@ -1147,13 +1147,17 @@ struct png_struct_def
 
 /* New members added in libpng-1.2.26 */
   png_uint_32 old_big_row_buf_size, old_prev_row_size;
+
+/* New member added in libpng-1.2.30 */
+  png_charp chunkdata;  /* buffer for reading chunk data */
+
 };
 
 
 /* This triggers a compiler error in png.c, if png.c and png.h
  * do not agree upon the version number.
  */
-typedef png_structp version_1_2_26;
+typedef png_structp version_1_2_32;
 
 typedef png_struct FAR * FAR * png_structpp;
 
@@ -2279,6 +2283,7 @@ extern PNG_EXPORT(png_uint_32,png_get_user_height_max) PNGARG((png_structp
    png_ptr));
 #endif
 
+
 /* Maintainer: Put new public prototypes here ^, in libpng.3, and project defs */
 
 #ifdef PNG_READ_COMPOSITE_NODIV_SUPPORTED
@@ -2660,8 +2665,8 @@ PNG_EXTERN void png_crc_read PNGARG((png_structp png_ptr, png_bytep buf,
 /* Decompress data in a chunk that uses compression */
 #if defined(PNG_zTXt_SUPPORTED) || defined(PNG_iTXt_SUPPORTED) || \
     defined(PNG_iCCP_SUPPORTED) || defined(PNG_sPLT_SUPPORTED)
-PNG_EXTERN png_charp png_decompress_chunk PNGARG((png_structp png_ptr,
-   int comp_type, png_charp chunkdata, png_size_t chunklength,
+PNG_EXTERN void png_decompress_chunk PNGARG((png_structp png_ptr,
+   int comp_type, png_size_t chunklength,
    png_size_t prefix_length, png_size_t *data_length));
 #endif
 
@@ -3182,6 +3187,9 @@ PNG_EXTERN png_uint_32 png_get_pHYs_dpi PNGARG((png_structp png_ptr,
 png_infop info_ptr, png_uint_32 *res_x, png_uint_32 *res_y, int *unit_type));
 #endif /* PNG_pHYs_SUPPORTED */
 #endif  /* PNG_INCH_CONVERSIONS && PNG_FLOATING_POINT_SUPPORTED */
+
+/* Read the chunk header (length + type name) */
+PNG_EXTERN png_uint_32 png_read_chunk_header PNGARG((png_structp png_ptr));
 
 /* Maintainer: Put new private prototypes here ^ and in libpngpf.3 */
 
