@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/d2xvZy04.inc,v 1.12 2006/01/13 22:42:14 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy04.inc,v 1.13 2006/01/15 22:42:38 tg Exp $</small>
 <h1>MirBSD &ndash; WTF, We Have a Release!?</h1>
 <p><small><a href="#eof">bottom</a> or <a href="/?older">older</a>
  editions</small></p>
@@ -178,6 +178,37 @@ celebrate this event, rotate the wlog and start a new one.</p>
   the hoster regarding the domain issues. They're worse than appearing
   at first, since the wildcard is gone.</p>
  <p>Fixed some annoying minor bugs in roff2htm and /cvs/CVSROOT.</p>
+</div>
+
+<div class="wlentry">
+ <h3>17.01.2006 by tg@</h3>
+ <p>Wow, I've been attending university once again. This time for that
+  #1 boring thing &ndash; Economics (BWL), held by a female VWL doctor
+  with a voice more cruel than should be allowed... at least we do not
+  have to do an exam, only attend and do a presentation and home work.
+  And I scored well in English (the other class in which attendance is
+  mandatory). I've worked on my Maths, and theorectical CS is trivial.
+  But as for the others, I don't know. Plus in the beginning they told
+  us that we would automatically be subscribed for the exams &ndash; I
+  was told today I should better have done that myself in December. So
+  I probably can't do any exams except English this semester.</p>
+ <p>Been working on djbdns today, once again. Now I've incorportated a
+  lot more patches (from tinydns.org) and can do AXFR via inetd(8). So
+  I will probably use AXFR and NOTIFY requests in the future, with two
+  friends (bogus and maybe gecko2 or someone else) doing backup NS for
+  me (and HERC might still do too, but using classical rsync/scp). And
+  the best thing: it actually works and required virtually no patches.
+  There's still no (working) UCSPI-TCP port though. We did have one in
+  the past, from OpenBSD, but it never worked correctly, nor addressed
+  all the issues we had with it. (DJB sucks.)</p>
+ <p>I discovered more bugs in pkg_upgrade(8) which bsiegert@ hopefully
+  will fix (or at least decide which fix is correct, I can think of at
+  least three possible fixes, preferring the one most complex).</p>
+ <p>I had announced the <a href="/?clog-2006#snap0113">snapshot of Jan
+  13</a> on FM and it actually showed up.</p>
+ <p><tt>*.mirsolutions.de</tt> works, once again. Costly phone call to
+  the provider sponsored by yours truly. Now go and click some ads, or
+  better, <a href="/?danke">donate</a> some money via PayPal.</p>
 </div>
 
 <p id="eof">Good luck, have fun, take care etc.pp</p>
