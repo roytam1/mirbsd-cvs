@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.95 2008/02/17 15:42:16 bsiegert Exp $
+# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.96 2008/02/22 21:38:37 tg Exp $
 #-
 # Copyright (c) 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -83,7 +83,7 @@ dt_bin=$new_prefix/bin
 dt_man=$new_prefix/${new_manpth}1
 dt_mk=$new_prefix/share/${new_exenam}
 
-HAVE_GETOPT=no
+is_getopt_incompat=0
 
 if [[ $new_manpth = *@(cat)* ]]; then
 	is_catman=1
@@ -120,7 +120,7 @@ Darwin)
 	_obfm=Mach-O
 	_rtld=dyld
 	CPPFLAGS="$CPPFLAGS -DHAVE_STRLCPY -DHAVE_STRLCAT"
-	HAVE_GETOPT=yes
+	is_getopt_incompat=1
 	;;
 *Interix)
 	_obfm=PE
@@ -215,7 +215,7 @@ cp $d_src/lib/libc/string/strlfun.c \
 cp $d_src/share/mk/*.mk $d_build/mk/
 cp $d_src/include/{md4,md5,rmd160,sha1,sha2,tiger}.h \
     $d_script/../contrib/mirmake.h $d_build/F/
-if [[ $HAVE_GETOPT != yes ]]; then
+if [[ $is_getopt_incompat = 0 ]]; then
 	cp $d_src/lib/libc/stdlib/getopt_long.c $d_build/
 	cp $d_src/include/getopt.h $d_build/F/
 fi
@@ -248,9 +248,7 @@ EOF
 
 # Build bmake
 getopt_long_o=getopt_long.o
-if [[ $HAVE_GETOPT = yes ]]; then
-	getopt_long_o=
-fi
+[[ $is_getopt_incompat = 0 ]] || getopt_long_o=
 cd $d_build
 if ! $OLDMAKE -f Makefile.boot bmake CC="$CC" MACHINE="${new_machin}" \
     MACHINE_ARCH="${new_macarc}" MACHINE_OS="${new_machos}" \
@@ -492,14 +490,12 @@ sed -e 's/hashinc/tiger.h/g' -e 's/HASH/TIGER/g' \
 cp  $d_src/lib/libc/hash/{md4,md5,rmd160,sha1,sha2,tiger}.c \
     $d_src/lib/libc/stdlib/strtoll.c \
     $d_src/lib/libc/stdio/{{,v}asprintf,mktemp}.c .
-if [[ $HAVE_GETOPT != yes ]]; then
-	cp $d_src/lib/libc/stdlib/getopt_long.c .
-fi
+[[ $is_getopt_incompat = 1 ]] || cp $d_src/lib/libc/stdlib/getopt_long.c .
 SRCS="${add_fgetln%.[co]}.c $add_strlfun $add_arcfour" \
     ${d_build}/bmake -m ${d_build}/mk -f $d_script/Makefile.lib NOOBJ=yes clean
 SRCS="${add_fgetln%.[co]}.c $add_strlfun $add_arcfour" \
-    ${d_build}/bmake -m ${d_build}/mk -f $d_script/Makefile.lib NOOBJ=yes HAVE_GETOPT="$HAVE_GETOPT" || \
-    exit 1
+    ${d_build}/bmake -m ${d_build}/mk -f $d_script/Makefile.lib NOOBJ=yes \
+    getopt_long_o="${getopt_long_o}" || exit 1
 cd $top
 if [[ -s $d_build/libmirmake/libmirmake.a ]]; then
 	cat >>Install.sh <<EOF
