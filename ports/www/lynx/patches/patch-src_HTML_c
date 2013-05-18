@@ -1,0 +1,14 @@
+$MirOS$
+--- src/HTML.c.orig	Sat Dec 11 15:26:08 2010
++++ src/HTML.c	Tue Feb 22 20:40:32 2011
+@@ -4774,8 +4774,10 @@ static int HTML_start_element(HTStructur
+ 		 */
+ 		I.value = ImageSrc;
+ 	    }
++#if 0
+ 	    if (present && present[HTML_INPUT_READONLY])
+ 		I.disabled = YES;
++#endif
+ 	    if (present && present[HTML_INPUT_CHECKED])
+ 		I.checked = YES;
+ 	    if (present && present[HTML_INPUT_SIZE] &&
