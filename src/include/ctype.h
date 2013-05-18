@@ -1,4 +1,4 @@
-/* $MirOS: src/include/ctype.h,v 1.14 2007/02/08 04:34:47 tg Exp $ */
+/* $MirOS: src/include/ctype.h,v 1.15 2007/03/22 03:06:48 tg Exp $ */
 
 /*-
  * Copyright (c) 2006, 2007
@@ -121,11 +121,10 @@ extern const unsigned char __C_attribute_table_pg[256];
 #endif /* !_ANSI_SOURCE && !_POSIX_SOURCE */
 
 #if __OPENBSD_VISIBLE
-#define isbinry(ch)	__extension__({		\
-	uint8_t c = (ch);			\
-	((ch == 0x00) ||			\
-	    (ch == 0xC0) || (ch == 0xC1) ||	\
-	    ((ch >= 0xF0) && (ch <= 0xFF)));	\
+#define isbinry(ch)	__extension__({	\
+	uint8_t c = (ch);		\
+	((c == 0x00) || (c == 0xC0) ||	\
+	    (c == 0xC1) || (c > 0xEF));	\
 })
 #endif
 

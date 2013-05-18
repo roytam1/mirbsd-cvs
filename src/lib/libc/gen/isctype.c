@@ -1,4 +1,4 @@
-/* $MirOS: src/lib/libc/gen/isctype.c,v 1.7 2007/02/02 21:06:19 tg Exp $ */
+/* $MirOS: src/lib/libc/gen/isctype.c,v 1.8 2007/03/22 03:06:49 tg Exp $ */
 
 /*-
  * Copyright (c) 2006, 2007
@@ -24,7 +24,7 @@
 #include <ctype.h>
 #include <stdio.h>
 
-__RCSID("$MirOS: src/lib/libc/gen/isctype.c,v 1.7 2007/02/02 21:06:19 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/gen/isctype.c,v 1.8 2007/03/22 03:06:49 tg Exp $");
 
 #undef isalnum
 #undef isalpha
@@ -91,7 +91,6 @@ int
 isbinry(int ch)
 {
 	uint8_t c = ch;
-	return ((ch == 0x00) ||
-	    (ch == 0xC0) || (ch == 0xC1) ||
-	    ((ch >= 0xF0) && (ch <= 0xFF)));
+	return ((c == 0x00) || (c == 0xC0) ||
+	    (c == 0xC1) || (c > 0xEF));
 }
