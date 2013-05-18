@@ -1,4 +1,4 @@
-# $MirOS: src/etc/rc,v 1.27 2006/08/09 13:31:38 tg Exp $
+# $MirOS: src/etc/rc,v 1.28 2006/08/09 14:08:29 tg Exp $
 # $OpenBSD: rc,v 1.277 2006/01/12 21:54:15 deraadt Exp $
 #-
 # System startup script run by init on autoboot or after single-user.
@@ -28,7 +28,8 @@ function stripcom
 	local _line
 
 	set -o noglob
-	cat "$@" | while read _line; do
+	cat "$@" |&
+	while read -p _line; do
 		_line=${_line%%#*}
 		[[ -n $_line ]] && echo $_line
 	done
