@@ -1,5 +1,5 @@
 #!/bin/sh
-# $MirOS: contrib/hosted/fwcf/fwcf.sh,v 1.14 2007/02/12 20:47:47 tg Exp $
+# $MirOS: contrib/hosted/fwcf/fwcf.sh,v 1.15 2007/02/12 21:49:08 tg Exp $
 #-
 # Copyright (c) 2006, 2007
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -121,6 +121,9 @@ if test $1 = setup; then
 	fi
 	umount /tmp/.fwcf/temp
 	echo complete | logger -t 'fwcf setup'
+	cd /etc
+	find . -type f | grep -v -e '^./.fwcf' -e '^./.rnd$' | sort | \
+	    xargs md5sum | sed 's!  ./! !' | gzip -9 >/tmp/.fwcf/status.gz
 	exit 0
 fi
 

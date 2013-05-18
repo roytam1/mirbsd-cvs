@@ -94,7 +94,7 @@ end of the 64 KiB block the end of data resides in will be written
 to /dev/urandom.
 
 NEW IN 1.02: Afterwards, a sorted list of all files is given to the
-busybox md5sum applet, the output is stored as /etc/.fwcf_status.gz
+busybox md5sum applet, the output is stored as /tmp/.fwcf/status.gz
 
 If the "fwcf" mtd partition does not start with the four letters
 FWCF on invoking 'fwcf setup', it is erased (i.e. populated with
@@ -363,4 +363,4 @@ They are provided as hint only and not part of the specifi-
 cation itself. They may change without notice.
 
 ________________________________________________________________________
-$MirOS: contrib/hosted/fwcf/fwcf.txt,v 1.23 2007/02/12 21:49:08 tg Exp $
+$MirOS: contrib/hosted/fwcf/fwcf.txt,v 1.24 2007/02/12 22:19:37 tg Exp $
