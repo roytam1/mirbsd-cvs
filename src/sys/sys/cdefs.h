@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/sys/cdefs.h,v 1.26 2011/07/06 20:29:08 tg Exp $ */
+/**	$MirOS: src/sys/sys/cdefs.h,v 1.27 2011/10/18 20:35:36 tg Exp $ */
 /*	$OpenBSD: cdefs.h,v 1.18 2005/05/27 21:28:12 millert Exp $	*/
 /*	$NetBSD: cdefs.h,v 1.16 1996/04/03 20:46:39 christos Exp $	*/
 
@@ -44,8 +44,6 @@
 #ifdef __KPRINTF_ATTRIBUTE__
 #undef __KPRINTF_ATTRIBUTE__
 #endif
-
-#include <machine/cdefs.h>
 
 #if defined(__cplusplus)
 #define	__BEGIN_DECLS	extern "C" {
