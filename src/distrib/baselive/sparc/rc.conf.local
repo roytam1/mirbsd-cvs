@@ -1,5 +1,5 @@
-# $MirOS: src/distrib/baselive/rc.conf.local,v 1.1 2006/08/17 19:58:01 tg Exp $
+# $MirOS: src/distrib/baselive/sparc/rc.conf.local,v 1.1 2006/08/18 22:18:26 tg Exp $
 
 httpd_flags="-u -DSSL"
-ntpd_flags=""
+ntpd_flags=
 portmap=YES

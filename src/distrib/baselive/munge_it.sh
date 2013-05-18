@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/distrib/baselive/munge_it.sh,v 1.6 2006/08/22 21:51:40 tg Exp $
+# $MirOS: src/distrib/baselive/munge_it.sh,v 1.7 2006/09/13 01:08:21 tg Exp $
 #-
 # Copyright (c) 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -72,7 +72,7 @@ ed -s etc/ntpd.conf <<-'EOF'
 EOF
 ed -s etc/rc <<-'EOF'
 	1i
-		# $MirOS: src/distrib/baselive/munge_it.sh,v 1.6 2006/08/22 21:51:40 tg Exp $
+		# $MirOS: src/distrib/baselive/munge_it.sh,v 1.7 2006/09/13 01:08:21 tg Exp $
 	.
 	/shutdown request/ka
 	/^fi/a
@@ -167,6 +167,8 @@ install -c -o root -g staff -m 644 \
     $myplace/$MACHINE/rc.conf.local etc/rc.conf.local
 install -c -o root -g staff -m 644 \
     $myplace/$MACHINE/rc.netselect etc/rc.netselect
+install -c -o root -g staff -m 644 \
+    $myplace/rc.netselect.common etc/rc.netselect.common
 install -c -o root -g staff -m 644 \
     $myplace/dot.xsession etc/skel/.xsession
 install -c -o root -g bin -m 555 \

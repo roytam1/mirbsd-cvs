@@ -1,9 +1,7 @@
-# $MirOS: src/distrib/baselive/rc.conf.local,v 1.1 2006/08/17 19:58:01 tg Exp $
+# $MirOS: src/distrib/baselive/i386/rc.conf.local,v 1.1 2006/08/18 22:18:25 tg Exp $
 
-apmd_flags=""
-#bootparamd_flags=-s
+apmd_flags=
 httpd_flags="-u -DSSL"
-ntpd_flags=""
+ntpd_flags=
 portmap=YES
-#rarpd_flags=-a
-wsmoused_flags="-2"
+wsmoused_flags=-2
