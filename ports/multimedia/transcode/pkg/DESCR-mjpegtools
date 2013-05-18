@@ -1,5 +1,0 @@
-transcode is a text console video-stream processing tool.
-
-This module adds MPEG 1/2 audio and video as well as YUV4MPEG video
-encoding functionality to transcode with help from the mjpegtools
-package.
