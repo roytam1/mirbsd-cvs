@@ -1,9 +1,9 @@
-# $MirOS: ports/devel/mirmake/Makefile,v 1.31 2008/03/09 16:42:41 tg Exp $
+# $MirOS: ports/devel/mirmake/Makefile,v 1.32 2008/03/09 17:22:31 tg Exp $
 #-
 # This port should contain no patches.
 
 COMMENT=		portable MirOS make(1) variant
-DISTNAME=		mirmake-20080309
+DISTNAME=		mirmake-20080314
 CATEGORIES=		devel essentials
 RESPONSIBLE=		Thorsten Glaser <tg@mirbsd.de>
 MASTER_SITES=		${_MASTER_SITE_MIRBSD:distfiles/=dist/mir/make/}
@@ -21,12 +21,6 @@ FLAVOURS=		wrapper setup
 WRKDIST=		${WRKDIR}/mirmake
 NO_REGRESS=		Yes
 MAKE_ENV+=		NROFF=${NROFF:M*:Q}
-
-.if ${OStype} == "Interix"
-SED_PLIST+=		| sed -e '/^IFSFU:/s///'
-.else
-SED_PLIST+=		| sed -e '/^IFSFU:/d'
-.endif
 
 do-build:
 	cd ${WRKBUILD} && ${SETENV} ${MAKE_ENV} \

@@ -1,12 +1,14 @@
-@comment $MirOS: ports/devel/mirmake/pkg/PLIST,v 1.5 2006/10/13 16:55:32 tg Exp $
+@comment $MirOS: ports/devel/mirmake/pkg/PLIST,v 1.6 2008/03/09 16:42:42 tg Exp $
 @option base-package
-IFSFU:bin/install
+bin/binstall
+bin/lndir
 bin/lorder
 bin/mkdep
 bin/mmake
 bin/readlink
 bin/tsort
-IFSFU:man/cat1/install.0
+man/cat1/binstall.0
+man/cat1/lndir.0
 man/cat1/lorder.0
 man/cat1/mkdep.0
 man/cat1/mmake.0
