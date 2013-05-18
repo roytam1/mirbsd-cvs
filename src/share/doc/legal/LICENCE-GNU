@@ -1,4 +1,4 @@
-$MirOS: src/share/doc/legal/LICENCE-GNU,v 1.6 2006/06/15 19:18:49 tg Exp $
+$MirOS: src/share/doc/legal/LICENCE-GNU,v 1.7 2007/01/25 13:25:50 tg Exp $
 
 Special rules for GNU and similar less free software
 ====================================================
@@ -95,9 +95,10 @@ non-GPL binaries only).
 GPLv3
 -----
 
-We do not yet have a stance on the GPLv3, because it has not
-yet been released. We however hope that there will not be an
-additional liability or responsibility burdened upon us.
+We do not yet have a stance on the GPLv3. No work covered by
+that licence will be included in the MirOS base system, gcc,
+and X11 modules. Ports should not be a problem, but for set-
+ting the PERMIT_* flags, we will have to evaluate it first.
 
 
 Obtaining source code

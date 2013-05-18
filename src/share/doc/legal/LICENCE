@@ -1,4 +1,4 @@
-$MirOS: src/share/doc/legal/LICENCE,v 1.16 2007/01/22 06:21:31 tg Exp $
+$MirOS: src/share/doc/legal/LICENCE,v 1.17 2007/05/17 22:25:44 tg Rel $
 
 MirOS base system and BSD - TOU
 -------------------------------
@@ -20,7 +20,7 @@ MirBSD is defined as the content of the MirOS Project's lea-
 der's /usr/src and /usr/ports directories; usually MirOS BSD
 and MirPorts; thus, MirOS is derived from MirBSD™.
 
-# MirOS is Copyright © 2003, 2004, 2005, 2006, 2007
+# MirOS is Copyright © 2003, 2004, 2005, 2006, 2007, 2008
 #		The MirOS Project <miros-dev@MirBSD.org>
 # and its contributors.
 #
