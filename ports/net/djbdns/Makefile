@@ -1,20 +1,19 @@
-# $MirOS: ports/net/djbdns/Makefile,v 1.31 2007/02/09 15:25:09 tg Exp $
+# $MirOS: ports/net/djbdns/Makefile,v 1.32 2008/03/09 17:23:16 tg Exp $
 
 COMMENT=		collection of Domain Name System server and tools
 VERSION=		1.05
 CATEGORIES=		net
 DISTNAME=		djbdns-${VERSION}
+DASH_VER=		32
 MANVER=			20031023
-PKGNAME=		djbdns-${VERSION}-32
 HOMEPAGE=		http://cr.yp.to/djbdns.html
 RESPONSIBLE=		Thorsten Glaser <tg@66h.42h.de>
 
-# May distribute unchanged distfiles. May distribute patches.
-# Must not distribute binaries (changed or not).
+# Public Domain: http://cr.yp.to/distributors.html
+PERMIT_PACKAGE_CDROM=	Yes
+PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
-PERMIT_PACKAGE_CDROM=	"http://cr.yp.to/distributors.html"
-PERMIT_PACKAGE_FTP=	"http://cr.yp.to/distributors.html"
 
 FLAVOURS=		eorsn icann opennic
 FLAVOUR?=		eorsn

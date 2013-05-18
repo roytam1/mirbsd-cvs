@@ -1,20 +1,18 @@
-# $MirOS: ports/sysutils/daemontools/Makefile,v 1.8 2006/11/16 20:22:43 tg Exp $
+# $MirOS: ports/sysutils/daemontools/Makefile,v 1.9 2006/11/16 20:45:41 tg Exp $
 
 COMMENT=		collection of tools for managing unix services
 CATEGORIES=		sysutils
 DISTNAME=		daemontools-0.76
+DASH_VER=		4
 MANVER=			20020131
-PKGNAME=		${DISTNAME}-4
 HOMEPAGE=		http://cr.yp.to/daemontools.html
 RESPONSIBLE=		Thorsten Glaser <tg@66h.42h.de>
 
-# May distribute patches.
-# Must not distribute binaries.
-# Must not distribute distfiles.
-PERMIT_PACKAGE_CDROM=	No
-PERMIT_PACKAGE_FTP=	No
-PERMIT_DISTFILES_CDROM=	No
-PERMIT_DISTFILES_FTP=	"http://cr.yp.to/distributors.html"
+# Public Domain: http://cr.yp.to/distributors.html
+PERMIT_PACKAGE_CDROM=	Yes
+PERMIT_PACKAGE_FTP=	Yes
+PERMIT_DISTFILES_CDROM=	Yes
+PERMIT_DISTFILES_FTP=	Yes
 
 DISTFILES=		${DISTNAME}${EXTRACT_SUFX} \
 			${DISTNAME}-man-${MANVER}${EXTRACT_SUFX}:0
