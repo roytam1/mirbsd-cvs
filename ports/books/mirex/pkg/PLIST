@@ -1,11 +1,14 @@
-@comment $MirOS: ports/books/mirex/pkg/PLIST,v 1.1.7.1 2005/03/18 15:43:30 tg Exp $
+@comment $MirOS: ports/books/mirex/pkg/PLIST,v 1.2 2005/03/29 21:28:40 tg Exp $
 share/examples/mirex/daemon.png
 share/examples/mirex/devel-keys
-share/examples/mirex/dot.Xmodmap
 share/examples/mirex/dot.Xmodmap.light
+share/examples/mirex/dot.Xmodmap.us_jp
+share/examples/mirex/dot.Xmodmap.xapps
 share/examples/mirex/dot.Xresources
 share/examples/mirex/dot.xinitrc
 share/examples/mirex/etc_profile
+share/examples/mirex/gzsigkey.1
+share/examples/mirex/gzsigkey.2
 share/examples/mirex/kbd-layout
 share/examples/mirex/kbd-layout.80c
 share/examples/mirex/kbd-layout.euc-jp
