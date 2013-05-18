@@ -1,4 +1,4 @@
-# $MirOS: src/sys/arch/i386/conf/RAMDISK,v 1.15 2008/07/13 23:57:36 tg Exp $
+# $MirOS: src/sys/arch/i386/conf/RAMDISK,v 1.16 2009/04/25 15:29:16 tg Exp $
 # $miros: src/sys/arch/i386/conf/GENERIC,v 1.42 2009/02/16 21:21:01 tg Exp $
 
 machine		i386			# arch, used by config; REQUIRED
@@ -26,7 +26,7 @@ option		NO_PROPOLICE		# remove stack protector
 option		BOOT_CONFIG		# add support for boot -c
 option		TIMEZONE=0		# time zone to adjust RTC time by
 option		DST=0			# daylight saving time used by RTC
-option		MINIROOTSIZE=2816	# size of ramdisk array
+option		MINIROOTSIZE=3072	# size of ramdisk array
 option		RAMDISK_HOOKS		# allow using initrd
 
 #option		CRYPTO			# Cryptographic framework
@@ -86,7 +86,7 @@ option		INET6			# IPv6 (needs INET)
 #pseudo-device	faith	1		# IPv{4,6} tcp relay translation iface
 #pseudo-device	strip	1		# Starmode Radio IP interface
 
-pseudo-device	pty	8		# pseudo-terminals (can grow runtime)
+pseudo-device	pty	4		# pseudo-terminals (can grow runtime)
 #pseudo-device	tb	1		# tablet line discipline
 pseudo-device	vnd	2		# paging to files
 #pseudo-device	ccd	4		# concatenated disk devices
@@ -265,7 +265,7 @@ pcmcia*	at pcic? controller ? socket ?
 #radio*	at udsbr?			# USB radio
 #ugen*	at uhub? port ? configuration ? # USB Generic driver
 
-#puc*	at pci?				# PCI "universal" communication device
+puc*	at pci?				# PCI "universal" communication device
 
 npx0	at isa? port 0xf0 irq 13	# math coprocessor (required)
 isadma0	at isa?
@@ -311,7 +311,7 @@ pccom2	at isa? port 0x3e8 irq 5
 #pccom*	at hsq? slave ?
 pccom*	at pcmcia? function ?		# PCMCIA modems/serial ports
 pccom*	at isapnp?
-#pccom*	at puc? port ?
+pccom*	at puc? port ?
 
 # option for using CD1400 handshaking for incoming data
 # requires a special cable that exchanges the RTS and DTR lines
@@ -323,7 +323,7 @@ pccom*	at isapnp?
 lpt0	at isa? port 0x378 irq 7	# standard PC parallel ports
 lpt1	at isa? port 0x278 irq 5
 lpt2	at isa? port 0x3bc		# Hercules cards don't have an IRQ
-#lpt*	at puc? port ?
+lpt*	at puc? port ?
 
 #lms0	at isa? port 0x23c irq 5	# Logitech bus mouse
 #lms1	at isa? port 0x238 irq 5
@@ -333,11 +333,11 @@ lpt2	at isa? port 0x3bc		# Hercules cards don't have an IRQ
 #wsmouse*	at lms? mux 0
 #wsmouse*	at mms? mux 0
 
-#bha0	at isa? port 0x330 irq ? drq ?	# BusLogic [57]4X SCSI controllers
-#bha1	at isa? disable port 0x334 irq ? drq ?
-#bha2	at isa? disable port ? irq ?
-#bha*	at pci? dev ? function ?
-#scsibus* at bha?
+bha0	at isa? port 0x330 irq ? drq ?	# BusLogic [57]4X SCSI controllers
+bha1	at isa? disable port 0x334 irq ? drq ?
+bha2	at isa? disable port ? irq ?
+bha*	at pci? dev ? function ?
+scsibus* at bha?
 aha0	at isa? port 0x330 irq ? drq ?	# Adaptec 154[02] SCSI controllers
 aha1	at isa? port 0x334 irq ? drq ?
 aha*	at isapnp?
@@ -362,10 +362,10 @@ scsibus* at ahc?
 #scsibus* at iha?
 #isp*	at pci? dev ? function ?	# Qlogic ISP [12]0x0 SCSI/FibreChannel
 #scsibus* at isp?
-#aic0	at isa? port 0x340 irq 11	# Adaptec 152[02] SCSI controllers
-#aic*	at pcmcia? function ?		# PCMCIA based aic SCSI controllers
-#aic*	at isapnp? 			# isapnp configured aic SCSI controllers
-#scsibus* at aic?
+aic0	at isa? port 0x340 irq 11	# Adaptec 152[02] SCSI controllers
+aic*	at pcmcia? function ?		# PCMCIA based aic SCSI controllers
+aic*	at isapnp? 			# isapnp configured aic SCSI controllers
+scsibus* at aic?
 #esp*	at pcmcia? function ?		# PCMCIA based NCR 53C9X SCSI
 #scsibus* at esp?
 #ncr*	at pci? dev ? function ?	# NCR 538XX SCSI controllers(old)
@@ -422,11 +422,11 @@ scsibus* at atapiscsi?
 #wt0	at isa? disable port 0x308 irq 5 drq 1	# Archive and Wangtek QIC tape
 
 # Networking devices
-#we0	at isa? port 0x280 iomem 0xd0000 irq 9	# WD/SMC 80x3 ethernet
-#we1	at isa? port 0x300 iomem 0xcc000 irq 10
-#we2	at isa? disable port 0x280 iomem 0xd0000 irq 3
-#we*	at isapnp?
-#ec0	at isa? port 0x250 iomem 0xd8000 irq 9	# 3C503 ethernet
+we0	at isa? port 0x280 iomem 0xd0000 irq 9	# WD/SMC 80x3 ethernet
+we1	at isa? port 0x300 iomem 0xcc000 irq 10
+we2	at isa? disable port 0x280 iomem 0xd0000 irq 3
+we*	at isapnp?
+ec0	at isa? port 0x250 iomem 0xd8000 irq 9	# 3C503 ethernet
 ne0	at isa? port 0x240 irq 9		# NE[12]000 ethernet
 ne1	at isa? port 0x300 irq 10
 ne2	at isa? port 0x280 irq 9
@@ -437,12 +437,12 @@ ep0	at isa? port ? irq ?			# 3C509 ethernet
 ep*	at isa? port ? irq ?
 ep*	at isapnp?				# 3C509 PnP ethernet
 ef*	at isapnp?				# 3C515 PnP ethernet
-#ie0	at isa? port 0x360 iomem 0xd0000 irq 7	# StarLAN and 3C507
-#ie1	at isa? disable port 0x300 irq 10	# EtherExpress
+ie0	at isa? port 0x360 iomem 0xd0000 irq 7	# StarLAN and 3C507
+ie1	at isa? disable port 0x300 irq 10	# EtherExpress
 lc0	at isa? port 0x200 irq ?		# DEC EtherWorks
 lc1	at isa? port 0x280 irq ?		# DEC EtherWorks
 le0	at isa? port 0x360 irq 15 drq 6		# IsoLan, NE2100, and DEPCA
-#ex0	at isa? port 0x320 irq 5		# Intel EtherExpress PRO/10
+ex0	at isa? port 0x320 irq 5		# Intel EtherExpress PRO/10
 #tr0	at isa? port 0xa20 iomem 0xd8000 irq ?	# IBM TROPIC based Token-Ring
 #tr1	at isa? port 0xa24 iomem 0xd0000 irq ?
 #tr*	at isa? port ? irq ?			# 3COM TROPIC based Token-Ring
@@ -456,19 +456,19 @@ ne*	at pci? dev ? function ?		# NE2000-compat ethernet
 ep*	at pci? dev ? function ?		# 3C59x ethernet
 ne*	at pcmcia? function ?			# PCMCIA based NE2000 ethernet
 ep*	at pcmcia? function ?			# PCMCIA based 3C5xx ethernet
-#sm*	at pcmcia? function ?			# PCMCIA based sm ethernet
+sm*	at pcmcia? function ?			# PCMCIA based sm ethernet
 xe*	at pcmcia? function ?			# Xircom ethernet
 #fpa*	at pci? dev ? function ?		# DEC DEFPA FDDI
 xl*	at pci? dev ? function ?		# 3C9xx ethernet
 #xl*	at cardbus? dev ? function ?		# 3C575/3C656 ethernet
 rl*	at pci? dev ? function ?		# RealTek 81[23]9 ethernet
 #rl*	at cardbus? dev ? function ?
-#mtd*	at pci? dev ? function ?		# Myson MTD800/803/891
-#tx*	at pci? dev ? function ?		# SMC 83C170 EPIC ethernet
-#tl*	at pci? dev ? function ?		# Compaq Thunderlan ethernet
+mtd*	at pci? dev ? function ?		# Myson MTD800/803/891
+tx*	at pci? dev ? function ?		# SMC 83C170 EPIC ethernet
+tl*	at pci? dev ? function ?		# Compaq Thunderlan ethernet
 vr*	at pci? dev ? function ?		# VIA Rhine ethernet
 wb*	at pci? dev ? function ?		# Winbond W89C840F ethernet
-#sf*	at pci? dev ? function ?		# Adaptec AIC-6915 ethernet
+sf*	at pci? dev ? function ?		# Adaptec AIC-6915 ethernet
 sis*	at pci? dev ? function ?		# SiS 900/7016 ethernet
 ste*	at pci? dev ? function ?		# Sundance ST201 ethernet
 dc*	at pci? dev ? function ?		# 21143, "tulip" clone ethernet
@@ -483,7 +483,7 @@ dc*	at pci? dev ? function ?		# 21143, "tulip" clone ethernet
 #stge*	at pci? dev ? function ?		# Sundance TC9021 GigE
 #lge*	at pci? dev ? function ?		# Level1 LXT1001 GigE
 #hme*	at pci? dev ? function ?		# Sun Happy Meal
-#bce*	at pci? dev ? function ?		# Broadcom BCM4401
+bce*	at pci? dev ? function ?		# Broadcom BCM4401
 #re*	at pci?					# Realtek 8169/8169S/8110S
 #re*	at cardbus?
 #vge*	at pci?					# VIA VT612x

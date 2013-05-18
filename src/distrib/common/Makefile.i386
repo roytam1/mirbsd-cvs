@@ -1,9 +1,9 @@
-# $MirOS: src/distrib/common/Makefile.i386,v 1.10 2010/01/16 23:36:45 tg Exp $
+# $MirOS: src/distrib/common/Makefile.i386,v 1.11 2010/01/17 00:35:07 tg Exp $
 
-IMAGESIZE=	2816
+IMAGESIZE=	3072
 
 LISTADDS=	boot-fd cd9660 dhclient disktools dl-noman ext2fs i386 \
-		msdos nettools no-huge pager-more pppd-off
+		msdos nettools no-huge pager-more ppp-off
 
 .if defined(SERIALSPEED)
 FLOPPY?=	floppy${SERIALSPEED}.fs
