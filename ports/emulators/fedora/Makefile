@@ -1,4 +1,4 @@
-# $MirOS: ports/emulators/fedora/Makefile,v 1.1 2008/08/27 09:32:00 tg Exp $
+# $MirOS: ports/emulators/fedora/Makefile,v 1.2 2008/10/29 14:06:58 tg Exp $
 # $OpenBSD: Makefile,v 1.8 2008/06/12 16:33:21 miod Exp $
 # $OpenBSD: Makefile,v 1.3 2007/09/16 00:45:13 merdely Exp $
 # $OpenBSD: Makefile.inc,v 1.1.1.1 2006/10/17 22:33:44 sturm Exp $
@@ -8,6 +8,7 @@ EMUL=			linux
 CATEGORIES=		emulators
 COMMENT=		Linux compatibility package based on Fedora Core 4
 PKGNAME=		fedora-libs-4.0-${DASH_VER}
+DASH_VER=		1
 
 PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
@@ -70,19 +71,31 @@ RPMS=		atk-1.9.1-1.i386.rpm \
 		xorg-x11-libs-6.8.2-37.FC4.49.2.1.i386.rpm:0 \
 		zlib-1.2.2.2-5.fc4.i386.rpm:0
 
-REMOVE_DIRS=	usr/X11R6/man /usr/doc /usr/info /usr/man /usr/share/doc \
-		/usr/share/man /usr/share/zoneinfo
-REMOVE_FILES=	/etc/localtime
+REMOVE_DIRS=		usr/X11R6/man /usr/doc /usr/info /usr/man \
+			/usr/share/doc /usr/share/man /usr/share/zoneinfo
+REMOVE_FILES=		/etc/localtime
 
 PATCH_LIST=
+
+USE_CPIO=		mircpio
+.if ${OStype} == "MirBSD"
+.  if ${OSrev} > 10
+USE_CPIO=		/usr/dbin/cpio
+.  elif ${OSrev} == 10
+.    if ${OSver:E} > 161
+USE_CPIO=		/usr/dbin/cpio
+.    endif
+.  endif
+.endif
+.if ${USE_CPIO} == "mircpio"
+BUILD_DEPENDS+=		:paxmirabilis->=20081030:archivers/mircpio
+.endif
 
 do-install:
 	${INSTALL_DATA_DIR} ${FEDORADIR}/usr/{,X11R6/}lib
 .for rpm in ${RPMS:S/:0//}
-	cd ${FEDORADIR}; rpm2cpio ${RPMDIR}/${rpm} | cpio -mid
+	cd ${FEDORADIR}; rpm2cpio ${RPMDIR}/${rpm} | ${USE_CPIO} -mid
 .endfor
-# fix gcpio -d creating dirs with mode 700
-	find ${FEDORADIR} -type d -perm 700 | xargs -r chmod 755
 
 # get rid of some unnecessary files and directories
 .for D in ${REMOVE_DIRS}
@@ -102,8 +115,8 @@ do-install:
 		ln -s /dev/sound ${FEDORADIR}/dev/dsp; \
 		ln -s /dev/null ${FEDORADIR}/dev/null
 
-	cd ${FEDORADIR} && ${PATCH} -p0 --forward --quiet -E \
-	    <${PATCHDIR}/patch-ldd
+	cd ${FEDORADIR} && \
+	    ${PATCH} -p0 --forward --quiet -E <${PATCHDIR}/patch-ldd
 	${INSTALL_DATA} ${FILESDIR}/ld.so.conf ${FEDORADIR}/etc
 	mv ${FEDORADIR}/sbin/ldconfig ${FEDORADIR}/sbin/ldconfig.bin
 	${INSTALL_SCRIPT} ${FILESDIR}/ldconfig ${FEDORADIR}/sbin
@@ -119,6 +132,6 @@ do-install:
 # better safe than sorry
 	find ${FEDORADIR} -perm -4000 | xargs -r chmod u-s
 	find ${FEDORADIR} \( -user 37 -o -user 5041 -o -group 37 \) -print | \
-		xargs -r chown -h root:wheel
+	    xargs -r chown -h root:wheel
 
 .include <bsd.port.mk>
