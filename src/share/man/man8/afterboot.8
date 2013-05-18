@@ -1,4 +1,4 @@
-.\"	$MirOS: src/share/man/man8/afterboot.8,v 1.9 2006/04/19 18:41:35 tg Exp $
+.\"	$MirOS: src/share/man/man8/afterboot.8,v 1.10 2006/04/19 18:43:16 tg Exp $
 .\"	$OpenBSD: afterboot.8,v 1.110 2005/07/14 21:12:17 jmc Exp $
 .\"
 .\" Copyright (c) 1997 Marshall M. Midden
@@ -532,19 +532,6 @@ for more information.
 The
 .Pa /etc/mail/localhost.cf
 file already has this disabled.
-.Ss Automounter daemon (AMD)
-If using the
-.Xr amd 8
-package,
-go into the
-.Pa /etc/amd
-directory and set it up by
-renaming
-.Pa master.sample
-to
-.Pa master
-and editing it and creating other maps as needed.
-Alternatively, you can get your maps with YP.
 .Ss Name server (DNS)
 If you are using a name server from MirPorts (djbdns or BIND 9),
 check the
@@ -658,7 +645,7 @@ but you can get the order correct by looking at
 Several services depend on the RPC portmapper,
 .Xr portmap 8 ,
 being running for proper operation.
-This includes YP and NFS exports, among other services.
+This includes NFS exports, among other services.
 To get the RPC portmapper to start automatically on boot,
 you will need to have this line in
 .Pa /etc/rc.conf.local :
