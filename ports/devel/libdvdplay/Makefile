@@ -3,7 +3,7 @@
 COMMENT=	"simple library designed for DVD navigation"
 
 DISTNAME=	libdvdplay-1.0.1
-PKGNAME=	${DISTNAME}-1
+PKGNAME=	${DISTNAME}-2
 CATEGORIES=	devel
 MASTER_SITES=	http://www.videolan.org/pub/libdvdplay/1.0.1/
 
@@ -17,6 +17,8 @@ PERMIT_PACKAGE_CDROM=	Yes
 PERMIT_PACKAGE_FTP=	Yes
 
 LIB_DEPENDS=	dvdread::devel/libdvdread
+
+CONFIGURE_ARGS+=${CONFIGURE_SHARED}
 
 CONFIGURE_STYLE=autoconf
 AUTOCONF_NEW=	Yes
