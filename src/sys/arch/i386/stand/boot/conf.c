@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/stand/boot/conf.c,v 1.11 2008/12/28 05:29:07 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/stand/boot/conf.c,v 1.12 2008/12/31 16:38:36 tg Exp $ */
 /*	$OpenBSD: conf.c,v 1.39 2008/04/19 23:20:22 weingart Exp $	*/
 
 /*
@@ -36,7 +36,7 @@
 #ifndef SMALL_BOOT
 #include <lib/libsa/fat.h>
 #endif
-#ifdef notdef
+#if 1 //def notdef
 #include <lib/libsa/nfs.h>
 #include <lib/libsa/tftp.h>
 #include <lib/libsa/netif.h>
@@ -44,6 +44,8 @@
 #include <biosdev.h>
 #include <dev/cons.h>
 #include "debug.h"
+#include "pxeboot.h"
+#include "pxe_net.h"
 
 const char version[] = __BOOT_VER;
 int	debug = 1;
@@ -52,15 +54,20 @@ void (*sa_cleanup)(void) = NULL;
 
 void (*i386_probe1[])(void) = {
 	ps2probe, gateA20on, /* debug_init, */ cninit,
-	apmprobe, pciprobe, /* smpprobe, */ memprobe
+	apmprobe, pciprobe, /* smpprobe, */ pxeprobe, memprobe
 };
 void (*i386_probe2[])(void) = {
  	diskprobe
 };
+void (*i386_probe3[])(void) = {
+	pxeinfo
+/*	netprobe_pxe, netprobe_mac, netprobe_inet4, netprobe_bootdev */
+};
 
 struct i386_boot_probes probe_list[] = {
 	{ "probing", i386_probe1, NENTS(i386_probe1) },
-	{ "disk",    i386_probe2, NENTS(i386_probe2) }
+	{ "disk",    i386_probe2, NENTS(i386_probe2) },
+	{ "net",     i386_probe3, NENTS(i386_probe3) },
 };
 int nibprobes = NENTS(probe_list);
 
@@ -75,9 +82,11 @@ struct fs_ops file_system[] = {
 #ifndef SMALL_BOOT
 	{ fat_open,    fat_close,    fat_read,    fat_write,    fat_seek,
 	  fat_stat,    fat_readdir    },
-#ifdef notdef
+#if 1 //def notdef
 	{ nfs_open,    nfs_close,    nfs_read,    nfs_write,    nfs_seek,
 	  nfs_stat,    nfs_readdir    },
+	{ tftp_open,   tftp_close,   tftp_read,   tftp_write,   tftp_seek,
+	  tftp_stat,   tftp_readdir   },
 #endif
 #endif
 };
@@ -94,7 +103,11 @@ struct devsw	devsw[] = {
 };
 int ndevs = NENTS(devsw);
 
-#ifdef notdef
+struct devsw	netsw[] = {
+	{ "net",  net_strategy, net_open, net_close, net_ioctl },
+};
+
+#if 1 //def notdef
 struct netif_driver	*netif_drivers[] = {
 	NULL
 };
