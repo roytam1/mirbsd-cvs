@@ -200,3 +200,15 @@ Author: tg@
  Most use cases should work with the SUSv3 functions, anyway.</p>
 <p>I still haven’t ported mksh to BSD/OS 3.1, OSF/1 V2.0 and Ultrix V4.5…</p>
 ----
+Date: 22.03.2008
+Author: tg@
+
+<p>This night, my internet connection failed every so few minutes (returning
+ a PAP failure, despite me being in midst of a session). I took the chance to
+ upgrade herc’s software (kernel, userland, a few packages) and spotted that
+ sendmail(8) bug. I also took the chance to rebuild the two RAID 1s (one for
+ <tt>/</tt>, the other for <tt>/MirOS</tt> and the CVS repositories), which
+ took me a while and about a dozen attempts, but finally I succeeded.</p>
+<p>Other than that, I didn’t hack much. I walked about 5‥6 km (single way) to
+ buy myself a Döner though ☺ bad weather doesn’t have to mean stay inside.</p>
+----
