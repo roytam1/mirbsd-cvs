@@ -1,4 +1,4 @@
-.\"	$MirOS: src/bin/md5/md5.1,v 1.3 2006/05/09 22:17:34 tg Exp $
+.\"	$MirOS: src/bin/md5/md5.1,v 1.4 2006/05/09 22:50:31 tg Exp $
 .\"	$OpenBSD: md5.1,v 1.20 2004/08/24 21:22:25 tom Exp $
 .\"
 .\" Copyright (c) 2003, 2004 Todd C. Miller <Todd.Miller@courtesan.com>
@@ -19,22 +19,94 @@
 .\" Agency (DARPA) and Air Force Research Laboratory, Air Force
 .\" Materiel Command, USAF, under agreement number F39502-99-1-0512.
 .\"
-.Dd April 30, 2004
+.\"-
+.\" Try to make GNU groff and AT&T nroff more compatible
+.\" * ` generates ‘ in groff, so use \`
+.\" * ' generates ’ in groff, \' generates ´, so use \*(aq
+.\" * - generates ‐ in groff, \- generates −, fixed in tmac/mdoc/doc-groff
+.\"   thus use - for hyphens and \- for minus signs and option dashes
+.\" * ~ is size-reduced and placed atop in groff, so use \*(TI
+.\" * ^ is size-reduced and placed atop in groff, so use \*(ha
+.\" * \(en does not work in nroff, so use \*(en
+.ie \n(.g \{\
+.	ds aq \(aq
+.	ds TI \(ti
+.	ds ha \(ha
+.	ds en \(en
+.\}
+.el \{\
+.	ds aq '
+.	ds TI ~
+.	ds ha ^
+.	ds en \(em
+.\}
+.\"
+.\" Implement .Dd with the Mdocdate RCS keyword
+.rn Dd xD
+.de Dd
+.ie \\$1$Mdocdate: \{\
+.	xD \\$2 \\$3, \\$4
+.\}
+.el .xD \\$1 \\$2 \\$3 \\$4 \\$5 \\$6 \\$7 \\$8
+..
+.\"
+.\" .Dd must come before definition of .Mx, because when called
+.\" with -mandoc, it might implement .Mx itself, but we want to
+.\" use our own definition. And .Dd must come *first*, always.
+.Dd $Mdocdate: April 17 2008 $
+.\"
+.\" Implement .Mx (MirBSD)
+.de Mx
+.nr cF \\n(.f
+.nr cZ \\n(.s
+.ds aa \&\f\\n(cF\s\\n(cZ
+.if \\n(aC==0 \{\
+.	ie \\n(.$==0 \&MirOS\\*(aa
+.	el .aV \\$1 \\$2 \\$3 \\$4 \\$5 \\$6 \\$7 \\$8 \\$9
+.\}
+.if \\n(aC>\\n(aP \{\
+.	nr aP \\n(aP+1
+.	ie \\n(C\\n(aP==2 \{\
+.		as b1 \&MirOS\ #\&\\*(A\\n(aP\\*(aa
+.		ie \\n(aC>\\n(aP \{\
+.			nr aP \\n(aP+1
+.			nR
+.		\}
+.		el .aZ
+.	\}
+.	el \{\
+.		as b1 \&MirOS\\*(aa
+.		nR
+.	\}
+.\}
+..
 .Dt MD5 1
 .Os
 .Sh NAME
 .Nm md5
 .Nd calculate a message-digest fingerprint (checksum) for a file
 .Sh SYNOPSIS
-.Nm md5
+.Nm
+.Bk -words
+.Op Fl b
 .Oo
-.Oo Fl b Oc
-.Fl p | t | x |
-.Fl c Oo Ar checklist ... Oc |
-.Fl s Ar string |
-.Oo Fl b Oc
+.Fl p | s Ar string |
 .Ar file ...
 .Oc
+.Ek
+.Nm
+.Bk -words
+.Fl G
+.Op Ar file ...
+.Ek
+.Nm
+.Bk -words
+.Fl t | x |
+.Fl c Op Ar checklist ...
+.Ek
+.Nm md5sum
+.Op Fl b | t
+.Op Ar file ...
 .Sh DESCRIPTION
 .Nm
 takes as input a message of arbitrary length and produces
@@ -58,6 +130,7 @@ The options are as follows:
 .Bl -tag -width Ds
 .It Fl b
 Print the checksum as binary to stdout.
+Ignored in GNU mode.
 .It Xo
 .Fl c
 .Op Ar checklist ...
@@ -70,6 +143,12 @@ and an OK or FAILED for the result of the comparison.
 This will validate any of the supported checksums (see
 .Xr cksum 1 ) .
 If no file is given, stdin is used.
+.It Fl G
+Enable GNU
+.Nm md5sum
+compatible output mode.
+Can also be enabled by calling this programme as
+.Nm md5sum .
 .It Fl p
 Echoes stdin to stdout and appends the
 .Em MD5
@@ -79,6 +158,7 @@ Prints a checksum of the given
 .Ar string .
 .It Fl t
 Runs a built-in time trial.
+Ignored in GNU mode.
 .It Fl x
 Runs a built-in test script.
 .El

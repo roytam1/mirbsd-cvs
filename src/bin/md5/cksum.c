@@ -15,18 +15,14 @@
  */
 
 /*-
- * Copyright (c) 2007
- *	Thorsten Glaser <tg@mirbsd.de>
+ * Copyright (c) 2007, 2009
+ *	Thorsten Glaser <tg@mirbsd.org>
  *
  * Provided that these terms and disclaimer and all copyright notices
  * are retained or reproduced in an accompanying document, permission
  * is granted to deal in this work without restriction, including un-
  * limited rights to use, publicly perform, distribute, sell, modify,
  * merge, give away, or sublicence.
- *
- * Advertising materials mentioning features or use of this work must
- * display the following acknowledgement:
- *	This product includes material provided by Thorsten Glaser.
  *
  * This work is provided "AS IS" and WITHOUT WARRANTY of any kind, to
  * the utmost extent permitted by applicable law, neither express nor
@@ -61,7 +57,7 @@
 #include <tiger.h>
 #include <whirlpool.h>
 
-__RCSID("$MirOS: src/bin/md5/cksum.c,v 1.5 2008/03/09 14:18:59 tg Exp $");
+__RCSID("$MirOS: src/bin/md5/cksum.c,v 1.6 2008/04/06 16:44:27 tg Exp $");
 
 #define MAX_DIGEST_LEN			128
 
@@ -319,7 +315,7 @@ struct hash_functions {
 };
 
 __dead void usage(void);
-void digest_file(const char *, struct hash_functions **, int, int);
+void digest_file(const char *, struct hash_functions **, int, int, int);
 int digest_filelist(const char *, struct hash_functions *);
 void digest_string(char *, struct hash_functions **, int);
 void digest_test(struct hash_functions **);
@@ -332,13 +328,13 @@ main(int argc, char **argv)
 {
 	struct hash_functions *hf = NULL, *hashes[NHASHES + 1];
 	int fl, i, error;
-	int cflag, pflag, tflag, xflag, bflag;
+	int cflag, pflag, tflag, xflag, bflag, gnuflag;
 	char *cp, *input_string;
 
 	input_string = NULL;
-	error = cflag = pflag = tflag = xflag = bflag = 0;
+	error = cflag = pflag = tflag = xflag = bflag = gnuflag = 0;
 	memset(hashes, 0, sizeof(hashes));
-	while ((fl = getopt(argc, argv, "a:bco:ps:tx")) != -1) {
+	while ((fl = getopt(argc, argv, "a:bcGo:ps:tx")) != -1) {
 		switch (fl) {
 		case 'a':
 			while ((cp = strsep(&optarg, " \t,")) != NULL) {
@@ -363,6 +359,9 @@ main(int argc, char **argv)
 			break;
 		case 'c':
 			cflag = 1;
+			break;
+		case 'G':
+			gnuflag = 1;
 			break;
 		case 'o':
 			if (strcmp(optarg, "1") == 0)
@@ -402,21 +401,52 @@ main(int argc, char **argv)
 	/* Most arguments are mutually exclusive */
 	fl = pflag + tflag + xflag + cflag + (input_string != NULL) +
 	    bflag - (bflag & (pflag || input_string != NULL));
-	if (fl > 1 || (fl && argc && cflag == 0 && bflag == 0))
+	if (fl > 1 || (fl && argc && cflag == 0 && bflag == 0) ||
+	    (gnuflag && fl))
 		usage();
 	if (cflag != 0 && hashes[1] != NULL)
 		errx(1, "only a single algorithm may be specified in -c mode");
 
 	/* No algorithm specified, check the name we were called as. */
 	if (hashes[0] == NULL) {
+		char *progname2;
+
+		if ((progname2 = strdup(__progname)) == NULL)
+			err(1, "out of memory");
+		if (strlen(progname2) > 3) {
+			cp = progname2 + strlen(progname2) - 3;
+			if (strcasecmp(cp, "sum") == 0) {
+				gnuflag |= 2;
+				*cp = '\0';
+			}
+		}
+
 		for (hf = functions; hf->name != NULL; hf++) {
-			if (strcasecmp(hf->name, __progname) == 0) {
+			if ((gnuflag & 2) &&
+			    strcasecmp(hf->name, __progname) == 0) {
+				gnuflag &= ~2;
+				hashes[0] = hf;
+				break;
+			} else if (strcasecmp(hf->name, progname2) == 0) {
 				hashes[0] = hf;
 				break;
 			}
 		}
 		if (hashes[0] == NULL)
 			hashes[0] = &functions[0];	/* default to cksum */
+		if (gnuflag & 2) {
+			if (cflag || pflag || input_string || xflag) {
+				fprintf(stderr,
+				    "usage: %s [-b] [-t] [file ...]\n"
+				    "note: GNU syntax -c and -w are not supported.\n",
+				    __progname);
+				__progname = progname2;
+				usage();
+			}
+			bflag = 0;
+			tflag = 0;
+		}
+		free(progname2);
 	}
 
 	if (tflag)
@@ -432,10 +462,10 @@ main(int argc, char **argv)
 			while (argc--)
 				error += digest_filelist(*argv++, hashes[0]);
 	} else if (pflag || argc == 0)
-		digest_file("-", hashes, pflag, bflag);
+		digest_file("-", hashes, pflag, bflag, gnuflag);
 	else
 		while (argc--)
-			digest_file(*argv++, hashes, 0, bflag);
+			digest_file(*argv++, hashes, 0, bflag, gnuflag);
 
 	return(error ? EXIT_FAILURE : EXIT_SUCCESS);
 }
@@ -490,7 +520,7 @@ digest_print_sfv(const char *name __attribute__((unused)),
 
 void
 digest_file(const char *file, struct hash_functions **hashes, int echo,
-    int dobin)
+    int dobin, int dognu)
 {
 	struct hash_functions **hfp;
 	int fd;
@@ -533,6 +563,9 @@ digest_file(const char *file, struct hash_functions **hashes, int echo,
 		cksum_addpool(digest);
 		if (dobin)
 			(*hfp)->printbin(digest);
+		else if (dognu)
+			printf("%s  %s\n", digest,
+			    fd == STDIN_FILENO ? "-" : file);
 		else if (fd == STDIN_FILENO)
 			(void)puts(digest);
 		else
@@ -792,7 +825,7 @@ void
 usage(void)
 {
 	fprintf(stderr, "usage: %s [-[b]p | -t | -x | -c [cklst ...] | "
-	    "-[b]s string | [-b] file ...]\n", __progname);
+	    "-[b]s string | [-bG] file ...]\n", __progname);
 	if (strcmp(__progname, "cksum") == 0)
 		fprintf(stderr, "             [-a algorithms]] [-o 1 | 2]\n");
 
