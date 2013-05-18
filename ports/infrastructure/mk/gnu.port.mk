@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/gnu.port.mk,v 1.49 2008/10/13 21:35:15 tg Exp $
+# $MirOS: ports/infrastructure/mk/gnu.port.mk,v 1.50 2008/11/01 19:57:15 tg Exp $
 # $OpenBSD: gnu.port.mk,v 1.19 2004/06/06 11:49:08 espie Exp $
 
 AUTOCONF_NEW?=		No
@@ -143,24 +143,26 @@ _MODGNU_loop+=	print "Updating to MirLibtool in $$d"; touch $$F; \
 _MODGNU_loop+=	${_MODGNU_loop_hooks}
 
 # 4. run the various GNU tools
-.if ${CONFIGURE_STYLE:L:Mautoupdate}
+.if !${CONFIGURE_STYLE:L:Mautogen}
+.  if ${CONFIGURE_STYLE:L:Mautoupdate}
 _MODGNU_loop+=	echo "Running autoupdate-${AUTOCONF_VERSION} in $$d"; \
 		${_SYSTRACE_CMD} ${SETENV} ${AUTOCONF_ENV} ${AUTOUPDATE};
-.endif
-.if ${CONFIGURE_STYLE:L:Mautoconf}
+.  endif
+.  if ${CONFIGURE_STYLE:L:Mautoconf}
 _MODGNU_loop+=	echo "Running autoconf-${AUTOCONF_VERSION} in $$d"; \
 		${_SYSTRACE_CMD} ${SETENV} ${AUTOCONF_ENV} ${AUTOCONF};
-.endif
-.if ${CONFIGURE_STYLE:L:Mdetectheader}
+.  endif
+.  if ${CONFIGURE_STYLE:L:Mdetectheader}
 _MODGNU_loop+=	F=configure.ac; test -e $$F || F=configure.in; if \
 		    ! test -e $$F || fgrep -qe AC_CONFIG_HEADERS -e \
 		    AM_CONFIG_HEADER $$F; then \
 		echo "Running autoheader-${AUTOCONF_VERSION} in $$d"; \
 		${_SYSTRACE_CMD} ${SETENV} ${AUTOCONF_ENV} ${AUTOHEADER}; \
 		fi;
-.elif ${CONFIGURE_STYLE:L:Mautoheader}
+.  elif ${CONFIGURE_STYLE:L:Mautoheader}
 _MODGNU_loop+=	echo "Running autoheader-${AUTOCONF_VERSION} in $$d"; \
 		${_SYSTRACE_CMD} ${SETENV} ${AUTOCONF_ENV} ${AUTOHEADER};
+.  endif
 .endif
 
 # finally: everything run after patch
