@@ -1,5 +1,7 @@
 <!-- PageID: about -->
-<small class="rcsid">$MirOS: www/content/YWJvdXQ_.inc,v 1.14 2006/10/29 22:22:43 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/YWJvdXQ_.inc,v 1.15 2007/05/20 17:25:34 tg Exp $</small>
+
+<h1>About MirOS</h1>
 
 <p>On this page:</p>
 
@@ -16,7 +18,7 @@
  </ul></li>
 </ul>
 
-<h1 id="mirbsd">MirOS BSD</h1>
+<h2 id="mirbsd">MirOS BSD</h1>
 
 <p>MirOS is available as a BSD flavour which originated
  as an OpenBSD patchkit, but has grown very much on its own, though
@@ -36,7 +38,7 @@
  developer. The main maintainer of MirPorts is BennySiegert. There are
  several more persons working as contributors on the project.</p>
 
-<h2 id="why">Why not just use OpenBSD?</h2>
+<h3 id="why">Why not just use OpenBSD?</h2>
 
 <!-- most of these are copied verbatim from the English flyer, need
 to elaborate more -->
@@ -80,7 +82,7 @@ to elaborate more -->
   Project</a></li>
 </ul>
 
-<h2 id="livecd">Live CD</h2>
+<h3 id="livecd">Live CD</h2>
 
 <p>In snapshots of MirOS, the installation CD is also a live CD.  That means
  that you can boot a full MirOS system (although without any ports installed)
@@ -91,7 +93,7 @@ to elaborate more -->
 <p>Releases do not contain the live CD as we cannot (yet) make it dual-bootable
  for the i386 and sparc architecture.</p>
 
-<h2 id="licence">Licencing information</h2>
+<h3 id="licence">Licencing information</h2>
 
 <p>For the full copyright statement of MirOS, please refer to the
  <a href="/cvs.cgi/src/share/doc/legal/">1stREAD and LICENCE</a>
@@ -104,7 +106,7 @@ to elaborate more -->
  licence stops after the first *- followed by instructions only, and
  is way below 1 Kibibyte.)</p>
 
-<h1 id="mirports">MirPorts</h1>
+<h2 id="mirports">MirPorts</h1>
 
 <p>MirPorts&mdash;a derivative of the OpenBSD ports tree&mdash;is our solution
  for installing additional software packages not contained in the base
@@ -128,7 +130,7 @@ to elaborate more -->
  in-place package upgrades and installing your own MirPorts instance as a
  non-root user.</p>
 
-<h2 id="whymirports">Why use MirPorts</h2>
+<h3 id="whymirports">Why use MirPorts</h2>
 
 <p><b>Support for multiple platforms.</b> &nbsp; Out of the box, MirPorts has
  support for the following operating systems:</p>

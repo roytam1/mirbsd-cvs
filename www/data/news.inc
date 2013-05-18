@@ -509,7 +509,7 @@ Date: 25.10.2007
  that FSH invocations will be able to define all common aliases again.</p>
 ----
 Title: herc down, mirbsd.org mail unavailable
-Date: 22.10.2007
+Date: 22.11.2007
 
 <p>Due to a technical problem, mail service for <tt>mirbsd.org</tt> is
  not available. tg@ is also absent but you can reach a MirOS developer
@@ -521,7 +521,7 @@ Date: 22.10.2007
  and cvsweb do work.</p>
 ----
 Title: Security updates
-Date: 26.10.2007
+Date: 26.11.2007
 
 <p>A security update for perl in the base system has been committed.
  To install it, update <tt>src/gnu/usr.bin/perl</tt> via cvs and
@@ -543,4 +543,16 @@ Date: 26.12.2007
  Communication Congress at Berlin, Germany. We will have (maybe) a table
  in the hackcenter. There will be many interesting talks about hacking,
  society and similar topics.</p>
+----
+Title: New website design
+Date: 28.12.2007
+
+<p>As you surely see, this page sports a brand-new design based on the old
+ <a href="http://www.mirbsd.org/newsite/">/newsite</a> CSS and the old one
+ for www.mirbsd.org. The colors have been inverted (i.e. dark text on light
+ background) and the header has changed. If you happen to notice any problems,
+ contact us.</p>
+
+<p>The design was tested on Camino (Mozilla), Firefox, Safari, IE6, Opera,
+ and lynx. I hope that covers the ususal suspects.</p>
 ----

@@ -1,23 +1,13 @@
 </div>
 <div class="heading">
- <img class="hdrlnks" src="@@RELPATH@@pics/logosmw.png"
-  alt="MirOS Logo" />
-<pre class="hdrflf">     ___                                                  __
-    -   ---___- ,,                  /\\,/\\,            ,-||-,     -_-/
-       (' ||    ||                 /| || ||   '        ('|||  )   (_ /
-      ((  ||    ||/\\  _-_         || || ||  \\ ,._-_ (( |||--)) (_ --_
-     ((   ||    || || || \\        ||=|= ||  ||  ||   (( |||--))   --_ )
-      (( //     || || ||/         ~|| || ||  ||  ||    ( / |  )   _/  ))
-        -____-  \\ |/ \\,/         |, \\,\\, \\  \\,    -____-   (_-_-
-                  _/              _-                    <a href="@@RELPATH@@LICENCE"><small>Website Licence</small></a></pre>
- <img class="hdrrhts" src="@@RELPATH@@pics/quilt.png"
-  alt="Collage with MirOS and MirPorts impressions" />
+ <a href="@@RELPATH@@main.htm"><img class="hdrlnks"
+  src="@@RELPATH@@pics/logo-grey.png" alt="MirOS Logo" /></a>
 </div>
 <div class="footer"><p>• <a
  href="http://mirbsd.de/impressum">Impressum</a> • <a
  href="http://validator.w3.org/check/referer">Valid HTML!</a> • <a
  href="mailto:miros-discuss@66h.42h.de">E-Mail</a> contact to the
- MirOS Project <!-- $MirOS: www/mk/tmpl.post,v 1.4 2007/10/21 00:52:36 tg Exp $
+ MirOS Project <!-- $MirOS: www/mk/tmpl.post,v 1.5 2007-12-28 14:56:25 bsiegert Exp $
  -->•</p>
  @@HEADER@@</div>
 </body></html>

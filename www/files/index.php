@@ -1,5 +1,5 @@
 <?php
-/* $MirOS: www/files/index.php,v 1.1 2007/06/09 23:29:51 tg Exp $ */
+/* $MirOS: www/files/index.php,v 1.2 2007/10/02 18:55:00 tg Exp $ */
 /*-
  * The MirOS Project - Webpages
  * Copyrighted material; read LICENCE for terms of use.
@@ -94,32 +94,7 @@
  </ul>
 </div>
 <div class="content">
- <?php	if (!(($rq == "content/bWtzaA__.inc") ||
-	    ($rq == "content/aXJj.inc") ||
-	    ($rq == "content/YnQ_.inc") ||
-	    ($rq == "content/bGljZW5jZQ__.inc") ||
-	    ($rq == "content/bWFpbg__.inc") ||
-	    ($rq == "content/d2xvZy0w.inc") ||
-	    ($rq == "content/d2xvZy0x.inc") ||
-	    ($rq == "content/d2xvZy0y.inc") ||
-	    ($rq == "content/d2xvZy0z.inc") ||
-	    ($rq == "content/d2xvZy00.inc") ||
-	    ($rq == "content/d2xvZy01.inc") ||
-	    ($rq == "content/d2xvZy02.inc") ||
-	    ($rq == "content/d2xvZy03.inc") ||
-	    ($rq == "content/d2xvZy04.inc") ||
-	    ($rq == "content/d2xvZy05.inc") ||
-	    ($rq == "content/YWJvdXQ_.inc"))) { ?>
- <div style="border:4px ridge red; margin:0px 24px 0px 24px; padding:12px;">
-  <h1>Important message</h1>
-  <p>This website is currently under reconstruction. The information
-   you find here is probably out of date and not maintained any more
-   in favour of the new website. If you want to volunteer helping us
-   to set up the new website (same design, KISS content), mail Benny
-   at bsiegert@mirbsd.de, thanks.</p>
- </div>
  <?php
-	}
 	$cmsc = get_include_contents($rq);
 	if ($cmsc === false) {
  ?>
@@ -135,17 +110,7 @@
  ?>
 </div>
 <div class="heading">
- <img class="hdrlnks" src="pics/logosmw.png"
+ <img class="hdrlnks" src="pics/logo-grey.png"
   alt="MirOS Logo" />
-<pre class="hdrflf">     ___                                                  __
-    -   ---___- ,,                  /\\,/\\,            ,-||-,     -_-/
-       (' ||    ||                 /| || ||   '        ('|||  )   (_ /
-      ((  ||    ||/\\  _-_         || || ||  \\ ,._-_ (( |||--)) (_ --_
-     ((   ||    || || || \\        ||=|= ||  ||  ||   (( |||--))   --_ )
-      (( //     || || ||/         ~|| || ||  ||  ||    ( / |  )   _/  ))
-        -____-  \\ |/ \\,/         |, \\,\\, \\  \\,    -____-   (_-_-
-                  _/              _-                    <a href="/LICENCE"><small>Website Licence</small></a></pre>
- <img class="hdrrhts" src="pics/quilt.png"
-  alt="Collage with MirOS and MirPorts impressions" />
 </div>
 <?php include("vend.php"); ?>
