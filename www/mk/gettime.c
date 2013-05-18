@@ -1,10 +1,5 @@
-/* $MirOS: www/mk/getdate.h,v 1.2 2007/08/05 23:22:19 tg Exp $ */
-/* $miros: src/gnu/usr.bin/cvs/lib/getdate.h,v 1.3 2005/12/05 22:12:45 tg Exp $ */
-
-/* Parse a string into an internal time stamp.
-
-   Copyright (C) 1995, 1997, 1998, 2003, 2004, 2005
-   Free Software Foundation, Inc.
+/* gettime -- get the system clock
+   Copyright (C) 2002, 2004, 2005 Free Software Foundation, Inc.
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -20,25 +15,29 @@
    along with this program; if not, write to the Free Software Foundation,
    Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.  */
 
-#ifndef GETDATE_H
-#define GETDATE_H
+/* Written by Paul Eggert.  */
 
-#include <sys/param.h>
-
-#if HAVE_CONFIG_H
+#ifdef HAVE_CONFIG_H
 # include <config.h>
 #endif
 
-#include <stdbool.h>
-#include <stdint.h>
-#ifndef IN_RCS
-#include "timespec.h"
-#else
-#include <sys/time.h>
-#include <time.h>
-void gettime (struct timespec *ts);
-#endif
+#include "getdate.h"
 
-bool get_date (struct timespec *, char const *, struct timespec const *);
+/* Get the system time into *TS.  */
 
-#endif /* GETDATE_H */
+void
+gettime (struct timespec *ts)
+{
+# ifdef CLOCK_REALTIME
+  if (clock_gettime (CLOCK_REALTIME, ts) == 0)
+    return;
+# endif
+
+  {
+    struct timeval tv;
+    gettimeofday (&tv, NULL);
+    ts->tv_sec = tv.tv_sec;
+    ts->tv_nsec = tv.tv_usec * 1000;
+  }
+
+}

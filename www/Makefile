@@ -1,4 +1,4 @@
-# $MirOS: www/Makefile,v 1.10 2007/08/05 23:23:22 tg Exp $
+# $MirOS: www/Makefile,v 1.11 2007/08/09 19:14:55 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -66,7 +66,7 @@ reinstall: deinstall .WAIT install
 all: ${OBJS}
 
 CLEANFILES+=	getdate
-getdate: ${TOP}/mk/getdate.c ${TOP}/mk/getdate.h
+getdate: ${TOP}/mk/getdate.c ${TOP}/mk/getdate.h ${TOP}/mk/gettime.c
 	${LINK.c} ${COPTS} -I${TOP}/mk -DTEST -DIN_RCS -o $@ ${.ALLSRC:N*.h}
 
 site.tgz: _reinstall
