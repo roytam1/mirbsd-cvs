@@ -1,5 +1,5 @@
 #!/usr/bin/env mksh
-# $MirOS: src/distrib/baselive/munge_it.sh,v 1.41 2008/10/31 22:35:09 tg Exp $
+# $MirOS: src/distrib/baselive/munge_it.sh,v 1.42 2008/10/31 23:43:45 tg Exp $
 #-
 # Copyright (c) 2006, 2007, 2008
 #	Thorsten “mirabilos” Glaser <tg@mirbsd.de>
@@ -78,7 +78,7 @@ ed -s etc/ntpd.conf <<-'EOMD'
 EOMD
 ed -s etc/rc <<-'EOMD'
 	1i
-		# $MirOS: src/distrib/baselive/munge_it.sh,v 1.41 2008/10/31 22:35:09 tg Exp $
+		# $MirOS: src/distrib/baselive/munge_it.sh,v 1.42 2008/10/31 23:43:45 tg Exp $
 	.
 	/cprng.*pr16/d
 	i
@@ -204,6 +204,16 @@ done
 rm -f sbin/dbins
 
 (cd usr/libdata/ldscripts; rm !(*mbsd*))
+
+# sync with src/distrib/common/listend.i386-big
+(saveIFS=$IFS
+ tail -3 <usr/share/doc/README | grep '^key ' | \
+    while IFS="	" read keynr keyfile; do
+	IFS=" :"
+	set -A keyno -- $keynr
+	IFS=$saveIFS
+	print -r -- $keyfile >gzsigkey.${keyno[1]}
+done)
 
 (cd usr/X11R6/lib/X11/fonts; rm -rf 100dpi OTF Speedo Type1 cyrillic local \
     misc/*-ISO8859-@(1[013456]|[2345789]).* misc/*{KOI8,JISX0201}* \

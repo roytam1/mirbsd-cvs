@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/baselive/Makefile,v 1.39 2008/10/30 17:47:32 tg Exp $
+# $MirOS: src/distrib/baselive/Makefile,v 1.40 2008/10/31 23:43:44 tg Exp $
 
 .include <bsd.own.mk>
 
@@ -242,7 +242,7 @@ cdrom-prepare: bsd.gz
 	    done <CKSUM~ >>CKSUM
 .endif
 	cd ${WRKDIR}; \
-	    cksum -a cksum -a rmd160 -a tiger 0* bsd b_* stand/* >>CKSUM
+	    cksum -a cksum -a rmd160 -a tiger 0* bsd b_* gzs* stand/* >>CKSUM
 	-${SUDO} rm -f ${CDROM}* ${WRKDIR}/CKSUM~
 
 cdrom-generate:
@@ -267,9 +267,9 @@ cdrom-generate:
 	    (cat <&4; cat <&6) | gzip -n9 >CKSUM.gz; \
 	    dd if=/dev/zero bs=256 count=5 >>CKSUM.gz; \
 	    ${SUDO} chown 0:0 0?-* $$([[ ! -e NONFREE.TXT ]] || \
-	    print NONFREE.TXT) CKSUM.gz b_* ?oot* ?sd*; \
+	    print NONFREE.TXT) CKSUM.gz b_* gzsig* ?oot* ?sd*; \
 	    ${SUDO} chmod 444 0?-* $$([[ ! -e NONFREE.TXT ]] || \
-	    print NONFREE.TXT) CKSUM.gz b_* ?oot* ?sd*; \
+	    print NONFREE.TXT) CKSUM.gz b_* gzsig* ?oot* ?sd*; \
 	    ${SUDO} chown 0:0 .; ${SUDO} chmod 555 .; \
 	    ${SUDO} ${MKSH} ${.CURDIR}/mklocatedb.sh ${REALOBJDIR}/${IMAGE}
 	(gzip -d <${WRKDIR}/CKSUM.gz | fgrep -v stand/locate.database; \
