@@ -947,6 +947,15 @@
 ./man3/TAILQ_NEXT.htm
 ./man3/TAILQ_PREV.htm
 ./man3/TAILQ_REMOVE.htm
+./man3/TIGERData.htm
+./man3/TIGEREnd.htm
+./man3/TIGERFile.htm
+./man3/TIGERFileChunk.htm
+./man3/TIGERFinal.htm
+./man3/TIGERInit.htm
+./man3/TIGERPad.htm
+./man3/TIGERTransform.htm
+./man3/TIGERUpdate.htm
 ./man3/XAddConnectionWatch.htm
 ./man3/XAddHost.htm
 ./man3/XAllocClassHint.htm
@@ -3364,6 +3373,7 @@
 ./man3/tgetnum.htm
 ./man3/tgetstr.htm
 ./man3/tgoto.htm
+./man3/tiger.htm
 ./man3/tigetflag.htm
 ./man3/tigetnum.htm
 ./man3/tigetstr.htm

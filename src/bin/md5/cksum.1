@@ -1,4 +1,4 @@
-.\"	$MirOS: src/bin/md5/cksum.1,v 1.9 2006/05/26 11:55:16 tg Exp $
+.\"	$MirOS: src/bin/md5/cksum.1,v 1.10 2006/06/04 11:46:49 tg Exp $
 .\"	$OpenBSD: cksum.1,v 1.5 2005/03/07 23:41:53 jmc Exp $
 .\"
 .\" Copyright (c) 2006
@@ -63,8 +63,8 @@ The
 .Nm cksum
 utility writes to the standard output a single line for each input file.
 The format of this line varies with the algorithm being used as follows:
-.Bl -tag -width Ds
-.It cksum
+.Bl -tag -width allXothers
+.It Ar cksum
 The output line consists of three whitespace separated fields: a
 .Tn CRC
 checksum, the number of octets in the input,
@@ -73,7 +73,7 @@ Binary output consists of two 64-bit parts,
 corresponding to the checksum and length, respectively.
 If no file name is specified, the standard input is used and no file name
 is written.
-.It sum
+.It Ar sum
 The output line consists of three whitespace separated fields: a
 .Tn CRC
 checksum, the number of kilobytes in the input,
@@ -82,7 +82,7 @@ Binary output consists of two 64-bit parts,
 corresponding to the checksum and length, respectively.
 If no file name is specified, the standard input is used and no file name
 is written.
-.It sysvsum
+.It Ar sysvsum
 The output line consists of three whitespace separated fields: a
 .Tn CRC
 checksum, the number of 512-byte blocks in the input,
@@ -91,7 +91,15 @@ Binary output consists of two 64-bit parts,
 corresponding to the checksum and length, respectively.
 If no file name is specified, the standard input is used and no file name
 is written.
-.It all others
+.It Ar sfv
+The output line consists of the file name followed by a space,
+unless the data to be processed is read from standard input,
+followed by a
+.Xr cksfv 1
+compatible
+.Tn CRC
+expressed as eight sedecimal numbers.
+.It Ar all others
 The output line consists of four whitespace separated fields:
 the name of the algorithm used, the name of the file or string in
 parentheses, an equals sign, and the cryptographic hash of the input.
@@ -99,10 +107,11 @@ Binary output consists of simply the sedecimal hash value, read from left
 to right (big endian), converted into bytes; the length is not encoded.
 If no file name is specified, the standard input is used and only
 the cryptographic hash is output.
-.It suma
-The output is a 33-bit
+In the
+.Ar suma
+case, the output is a 33-bit
 .Tn CRC
-over the file, expressed as eight sedecimal numbers, in the above format.
+over the file, expressed as eight sedecimal numbers.
 Both input processing and binary output are in little-endian convention.
 .El
 .Pp
@@ -124,14 +133,16 @@ Supported algorithms include
 .Ar md4 ,
 .Ar md5 ,
 .Ar rmd160 ,
+.Ar sfv ,
 .Ar sha1 ,
 .Ar sha256 ,
 .Ar sha384 ,
 .Ar sha512 ,
 .Ar sum ,
 .Ar suma ,
+.Ar sysvsum ,
 and
-.Ar sysvsum .
+.Ar tiger .
 Multiple algorithms may be specified, separated by a comma or whitespace.
 Additionally, multiple
 .Fl a
@@ -153,6 +164,17 @@ The
 option may not be used in conjunction with more than a single
 .Fl a
 option.
+.Pp
+The
+.Ar checklist
+must either be in normal
+.Nm
+format or in GNU
+.Nm md5sum
+compatible format.
+Verifying
+.Nm cksfv Ns -style
+input is not supported.
 .It Fl o Ar 1 | 2
 Use historic algorithms instead of the (superior) default one
 (see below).
@@ -166,6 +188,7 @@ Prints a checksum of the given
 Runs a built-in time trial.
 .It Fl x
 Runs a built-in test script.
+The output conforms to the NESSIE test vector format, Set 1.
 .El
 .Pp
 Algorithm 1 (aka
@@ -250,8 +273,15 @@ The bit sequence is complemented and the result is the CRC.
 .Ed
 .Pp
 The
+.Ar sfv
+.Tn CRC
+is undocumented, cf\.
+.Pa http://www.fodder.org/cksfv/
+.Pp
+The
 .Ar suma
-CRC uses little endian 32-bit block reading conventions,
+.Tn CRC
+uses little endian 32-bit block reading conventions,
 initialisation of the CRC with an all-ones word and a
 different 33-bit polynomial.
 .Pp
@@ -267,7 +297,13 @@ utilities exit 0 on success or >0 if an error occurred.
 .Xr md5 1 ,
 .Xr rmd160 1 ,
 .Xr sha1 1 ,
-.Xr adler32 3
+.Xr adler32 3 ,
+.Xr md4 3 ,
+.Xr md5 3 ,
+.Xr rmd160 3 ,
+.Xr sha1 3 ,
+.Xr sha2 3 ,
+.Xr tiger 3
 .Pp
 The default calculation is identical to that given in pseudo-code
 in the following
@@ -279,6 +315,8 @@ article:
 .%J "Communications of the \\*(tNACM\\*(sP"
 .%D "August 1988"
 .Re
+.Pp
+.Pa http://www.cryptonessie.org/
 .Sh STANDARDS
 The
 .Nm cksum
@@ -293,17 +331,36 @@ command appeared in
 The
 .Nm cksum
 utility appeared in
-.Bx 4.4 .
-.Sh WARNING
+.Bx 4.4
+and has been enhanced by new algorithms in
+.Ox
+and several times in
+.Mx .
+.Sh CAVEATS
 Do not use the
 .Ar adler32 ,
 .Ar cksum ,
 .Ar md4 ,
+.Ar md5 ,
+.Ar sfv ,
+.Ar sha1 ,
 .Ar sum ,
 .Ar suma ,
 or
 .Ar sysvsum
 algorithms to detect hostile binary modifications.
-An attacker can trivially produce backdoored daemons which have the same
-checksum as the standard versions.
-Use a cryptographically strong checksum (such as RIPEMD-160) instead.
+For most of the algorithms listed above, an attacker can trivially produce
+backdoored daemons which have the same checksum as the standard versions.
+Even
+.Ar md4
+has been long broken, collisions for
+.Ar md5
+are published and picked up by script kiddies, and the attack used for
+.Ar md5
+has already been successfully mounted on a reduced form of
+.Ar sha1 .
+Use a cryptographically strong checksum (such as RIPEMD\-160) instead,
+or combine two algorithms from different families, for example,
+.Xr rmd160 ,
+.Xr tiger ,
+and, optionally, one of the CRCs.

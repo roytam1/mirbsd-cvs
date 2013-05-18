@@ -1,8 +1,8 @@
-# $MirOS: src/bin/md5/Makefile,v 1.6 2006/05/26 11:55:15 tg Exp $
+# $MirOS: src/bin/md5/Makefile,v 1.7 2006/07/30 23:39:47 tg Exp $
 # $OpenBSD: Makefile,v 1.10 2005/05/24 21:57:47 millert Exp $
 
 PROG=		cksum
-SRCS=		adler32.c crc.c md5.c suma.c
+SRCS=		adler32.c crc.c md5.c sfv.c suma.c
 .if ${MACHINE_ARCH} == "i386"
 SRCS+=		ad32-x86.S suma-x86.S
 CPPFLAGS+=	-DUSE_ASM

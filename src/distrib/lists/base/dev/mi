@@ -1468,6 +1468,7 @@
 ./usr/include/term.h
 ./usr/include/termcap.h
 ./usr/include/termios.h
+./usr/include/tiger.h
 ./usr/include/time.h
 ./usr/include/ttyent.h
 ./usr/include/tzfile.h
@@ -5023,6 +5024,15 @@
 ./usr/share/man/cat3/TAILQ_NEXT.0
 ./usr/share/man/cat3/TAILQ_PREV.0
 ./usr/share/man/cat3/TAILQ_REMOVE.0
+./usr/share/man/cat3/TIGERData.0
+./usr/share/man/cat3/TIGEREnd.0
+./usr/share/man/cat3/TIGERFile.0
+./usr/share/man/cat3/TIGERFileChunk.0
+./usr/share/man/cat3/TIGERFinal.0
+./usr/share/man/cat3/TIGERInit.0
+./usr/share/man/cat3/TIGERPad.0
+./usr/share/man/cat3/TIGERTransform.0
+./usr/share/man/cat3/TIGERUpdate.0
 ./usr/share/man/cat3/_Exit.0
 ./usr/share/man/cat3/_longjmp.0
 ./usr/share/man/cat3/_setjmp.0
@@ -6851,6 +6861,7 @@
 ./usr/share/man/cat3/tgetnum.0
 ./usr/share/man/cat3/tgetstr.0
 ./usr/share/man/cat3/tgoto.0
+./usr/share/man/cat3/tiger.0
 ./usr/share/man/cat3/tigetflag.0
 ./usr/share/man/cat3/tigetnum.0
 ./usr/share/man/cat3/tigetstr.0

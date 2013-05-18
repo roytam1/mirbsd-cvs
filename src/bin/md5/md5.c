@@ -1,4 +1,4 @@
-/**	$MirOS: src/bin/md5/md5.c,v 1.12 2006/06/04 11:46:50 tg Exp $ */
+/**	$MirOS: src/bin/md5/md5.c,v 1.13 2006/06/08 19:03:00 tg Exp $ */
 /*	$OpenBSD: md5.c,v 1.32 2004/12/29 17:32:44 millert Exp $	*/
 
 /*
@@ -37,11 +37,12 @@
 #include <rmd160.h>
 #include <sha1.h>
 #include <sha2.h>
-#include <crc.h>
+#include <tiger.h>
 #include "adler32.h"
+#include "crc.h"
 #include "suma.h"
 
-__RCSID("$MirOS: src/bin/md5/md5.c,v 1.12 2006/06/04 11:46:50 tg Exp $");
+__RCSID("$MirOS: src/bin/md5/md5.c,v 1.13 2006/06/08 19:03:00 tg Exp $");
 
 #define MAX_DIGEST_LEN	128
 
@@ -58,16 +59,19 @@ union ANY_CTX {
 	SYSVSUM_CTX sysvsum;
 	SUMA_CTX suma;
 	ADLER32_CTX adler32;
+	SFV_CTX sfv;
+	TIGER_CTX tiger;
 };
 
 void digest_print(const char *, const char *, const char *);
 void digest_print_short(const char *, const char *, const char *);
 void digest_print_string(const char *, const char *, const char *);
+void digest_print_sfv(const char *, const char *, const char *);
 void digest_printbin_pad(const char *);
 void digest_printbin_string(const char *);
 void digest_printbin_stringle(const char *);
 
-#define NHASHES	12
+#define NHASHES	14
 struct hash_functions {
 	const char *name;
 	size_t digestlen;
@@ -196,6 +200,26 @@ struct hash_functions {
 		(void (*)(void *))SHA512_Init,
 		(void (*)(void *, const unsigned char *, unsigned int))SHA512_Update,
 		(char *(*)(void *, char *))SHA512_End,
+		digest_printbin_string,
+		digest_print,
+		digest_print_string
+	}, {
+		"SFV",
+		SFV_DIGEST_LENGTH * 2,
+		NULL,
+		(void (*)(void *))SFV_Init,
+		(void (*)(void *, const unsigned char *, unsigned int))SFV_Update,
+		(char *(*)(void *, char *))SFV_End,
+		digest_printbin_stringle,
+		digest_print_sfv,
+		digest_print_sfv
+	}, {
+		"TIGER",
+		TIGER_DIGEST_LENGTH * 2,
+		NULL,
+		(void (*)(void *))TIGERInit,
+		(void (*)(void *, const unsigned char *, unsigned int))TIGERUpdate,
+		(char *(*)(void *, char *))TIGEREnd,
 		digest_printbin_string,
 		digest_print,
 		digest_print_string
@@ -361,6 +385,14 @@ digest_print_short(const char *name __attribute__((unused)),
     const char *what, const char *digest)
 {
 	(void)printf("%s %s\n", digest, what);
+}
+
+void
+digest_print_sfv(const char *name __attribute__((unused)),
+    const char *what, const char *digest)
+
+{
+	(void)printf("%s %s\n", what, digest);
 }
 
 void
