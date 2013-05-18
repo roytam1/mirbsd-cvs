@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.419 2011/07/26 14:50:10 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.420 2011/07/26 17:37:07 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -841,12 +841,12 @@ exec /usr/bin/ld "${args[@]}"</pre>
  created by <a href="http://www.hboeck.de/">Hanno Böck</a>.</li>
 <li class="cr"><img class="fr" width="64" height="64" alt="[Fedora logo]"
  src="@@RELPATH@@pics/logos/fedora.png" /><a
- href="http://fedoraproject.org/">Fedora</a> GNU/Linux 8, 9, 10, 11,
- and <a href="http://www.redhat.com/rhel/">RHEL</a> 4 and 5 (via EPEL) now
+ href="http://fedoraproject.org/">Fedora</a> GNU/Linux 14, 15 and 16,
+ and <a href="http://www.redhat.com/rhel/">RHEL</a> 4, 5 and 6 (via EPEL) now
  officially contain <a
  href="http://fedoraproject.org/wiki/Packages/mksh">an mksh package</a> (<a
- href="http://cvs.fedoraproject.org/viewvc/devel/mksh/mksh.spec">spec
- file</a>). There are some <a
+ href="http://pkgs.fedoraproject.org/gitweb/?p=mksh.git;a=summary">git pkg
+ repo</a>). There are some <a
  href="http://fedoraproject.org/wiki/EPEL/FAQ#How_can_I_install_the_packages_from_the_EPEL_software_repository.3F">Instructions</a>
  for activating EPEL (RHEL only), then just type <tt>yum install mksh</tt>.</li>
 <li>Red Hat Enterprise Linux (RHEL 6) will ship mksh for their customers
