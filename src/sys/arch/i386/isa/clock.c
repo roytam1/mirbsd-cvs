@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/isa/clock.c,v 1.12 2010/09/12 19:02:16 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/isa/clock.c,v 1.13 2011/02/19 13:04:59 tg Exp $ */
 /*	$OpenBSD: clock.c,v 1.31 2004/02/27 21:07:49 grange Exp $	*/
 /*	$NetBSD: clock.c,v 1.39 1996/05/12 23:11:54 mycroft Exp $	*/
 
@@ -495,7 +495,7 @@ calibrate_cyclecounter(void)
 	__asm __volatile("rdtsc" : "=A" (last_count));
 	delay(1000000);
 	__asm __volatile("rdtsc" : "=A" (next_count));
-	pentium_mhz = ((next_count - last_count) + 500000) / 1000000;
+	pentium_mhz = ((next_count - last_count) + 999999) / 1000000;
 
 	disable_intr();
 	time = tv;
