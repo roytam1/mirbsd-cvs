@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/bWlycm9ycw__.inc,v 1.6 2005/12/20 08:57:32 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bWlycm9ycw__.inc,v 1.7 2006/01/13 03:49:36 tg Exp $</small>
 <h1>MirOS mirrors</h1>
 
 <h2>Kinds of mirrors</h2>
@@ -18,7 +18,7 @@
 </ul>
 <p>Note: distfiles is <tt>/MirOS/distfiles/</tt> &ndash; where you can
  retrieve sources for both MirOS offsprings (such as the now-famous <a
- href="http://wiki.mirbsd.de/MirbsdKsh">MirbsdKsh</a>) and third-party
+ href="/?mksh">MirbsdKsh</a>) and third-party
  sources (such as BIND, Joe 2.8, WineX).</p>
 
 <h3>CVSweb</h3>
@@ -31,7 +31,7 @@
 </ul>
 
 <h3>anonCVS</h3>
-<p>...</p>
+<p>_anoncvs@thor.66h.42h.de:/cvs</p>
 
 <h3>anonRSYNC</h3>
 <p>click <a href="/?anoncvs">...</a> for more info until some lazy bum
@@ -39,20 +39,20 @@
 <p>Look at <a href="http://www.allbsd.org/">AllBSD</a> as well.</p>
 
 <h3>CTM</h3>
-<p>...</p>
+<p>none yet</p>
 
 <h3>CVSup</h3>
-<p>...</p>
+<p>probably none, unless allbsd.org offers them; we don't support it</p>
 
 <h3>CVSync</h3>
-<p>...</p>
+<p>probably none, unless allbsd.org offers them; we don't support it</p>
 
 <h3>Download Area</h3>
 <p>These are mirrors of the MirOS http/ftp download area. Note: Do not
  use or advocate FTP. It's a bad, ancient protocol and barely deserves
  to die peacefully. Use https, http or rsync instead, or participiate
  in BitTorrent file swarming.</p><ul>
-<li>ftp.gwdg.de</li>
+<li>ftp.gwdg.de (?)</li>
 <li>...?</li>
 </ul>
 

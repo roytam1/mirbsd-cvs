@@ -1,6 +1,10 @@
-<small class="rcsid">$MirOS: www/content/bmV3cw__.inc,v 1.48 2006/01/15 22:42:38 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bmV3cw__.inc,v 1.49 2006/01/20 13:08:10 tg Exp $</small>
 
 <h1>Current MirOS News</h1><ul>
+
+<li>24.01.2006<br />Progress is being made both in ports as in base. A new
+	snapshot is scheduled to be uploaded in a few days also fixing the
+	HTML problems with the online manual pages.</li>
 
 <li>20.01.2006<br />Some of the domain issues have been solved, and the #1
 	well-known mirror (mirbsd.mirsolutions.de) is back up and running,

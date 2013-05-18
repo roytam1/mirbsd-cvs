@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/Y2xvZy0yMDA2.inc,v 1.3 2006/01/13 04:04:43 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/Y2xvZy0yMDA2.inc,v 1.4 2006/01/15 22:42:37 tg Exp $</small>
 <!--
  Full list of release focuses in freshmeat.net-compatible format:
 	N/A
@@ -16,10 +16,20 @@
 <h3>Infos &ndash; <a href="#eof">bottom</a></h3>
 
 <!--
+ <li>base: do not generate isakmpd(8) keys any more</li>
  <li>base: sample ssh/known_hosts aliases sync with reality</li>
+ <li>base: savecore(8) handles gzip(1)d kernels</li>
+ <li>base: use the same RSA private key for httpd(8), sendmail(8), sshd(8), increase its size to 4 Kibit</li>
  <li>build: roff2man now generates correct manual pages again</li>
  <li>cvs: correct handling of backslash escapes in log messages</li>
  <li>cvs: save space in commit messages with unexpand(1)</li>
+ <li>kernel: disallow mount(2), umount(2) at secureleven 2+</li>
+ <li>kernel: documentation fixes</li>
+ <li>lynx: do not add .com .org etc. to failing URIs any more</li>
+ <li>ports: display fixes for sirc/ssfe</li>
+ <li>ports: make axfrdns in djbdns work with inetd(8)</li>
+ <li>www: remove ads</li>
+ <li>x11: do not ssh-agent in xinitrc, we do it in /etc/profile</li>
 -->
 
 <p id="snap0113">13.01.2006<br />Changes relative to the <a

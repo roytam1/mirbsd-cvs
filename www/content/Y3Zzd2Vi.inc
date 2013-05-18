@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/Y3Zzd2Vi.inc,v 1.8 2005/12/29 17:48:55 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/Y3Zzd2Vi.inc,v 1.9 2006/01/13 03:49:34 tg Exp $</small>
 <h1>Accessing the MirOS source by CVSweb</h1>
 
 <h3>Short introduction into CVSweb</h3>
@@ -14,15 +14,9 @@
 
 <h3>Accessing CVSweb</h3>
 
-<p>If you are using a CVSweb-enabled mirror (such as 
- <a href="http://www.66h.42h.de/">mirbsd.mirsolutions.de</a>),
- click <a href="/cvs.cgi/">here to access CVSWeb</a>.<br/>
- If you are currently on a different mirror of the MirOS
- Project homepage, feel free to directly <!-- a
- href="https://MirBSD.BSDadvocacy.org:8890/cvs.cgi/" -->jump into
- the MirOS CVSweb<!-- /a --> utility service at <a
- href="https://mirbsd.mirsolutions.de:445/cvs.cgi/">various</a> <!-- a
- href="http://mirbsd.agentdero.com/cvs.cgi/" -->mirrors<!-- /a -->.</p>
+<p>The main entry point into <a href="http://cvs.mirbsd.de/">MirOS
+ CVSweb</a> usually redirects you to a working mirror. For fun, try
+ the CVSweb on the various <a href="/?mirrors">listed mirrors</a>.</p>
 
 <h3>Tags</h3><ul>
 <li>HEAD - contains current MirOS development code</li>

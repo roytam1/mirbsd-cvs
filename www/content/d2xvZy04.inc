@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/d2xvZy04.inc,v 1.17 2006/01/18 08:30:33 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy04.inc,v 1.18 2006/01/20 13:08:10 tg Exp $</small>
 <h1>MirBSD &ndash; WTF, We Have a Release!?</h1>
 <p><small><a href="#eof">bottom</a> or <a href="/?older">older</a>
  editions</small></p>
@@ -254,6 +254,15 @@ celebrate this event, rotate the wlog and start a new one.</p>
   with wbx, le, Angelo (the first Mac OSX worm creator), Judith, miro,
   bogus etc.; then using <a href="http://www.netzladen.org/">the usual
   place</a> to hang around, maybe hack on the website some more.</p>
+</div>
+
+<div class="wlentry">
+ <h3>24.01.2006 by tg@</h3>
+ <p>Got something decent to eat, drink (beer, cola) and snack. Hacked,
+  djbdns-axfr, sirc/ssfe now improved, savecore(8) does gzip(1)d files
+  and the zlib API sucks. compress(1)' implementation also sucks.</p>
+ <p>All hardware sucks, all software sucks... but actually the overall
+  suckage of MirOS is pretty darn low.</p>
 </div>
 
 <p id="eof">Good luck, have fun, take care etc.pp</p>

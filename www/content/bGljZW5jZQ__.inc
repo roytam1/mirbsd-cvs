@@ -1,11 +1,11 @@
-<small class="rcsid">$MirOS: www/content/bGljZW5jZQ__.inc,v 1.3 2005/12/06 00:00:43 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bGljZW5jZQ__.inc,v 1.4 2006/01/20 13:08:09 tg Exp $</small>
 <h1>The MirOS Licence Template</h1>
 
-<pre>/* &#36;MirOS: src/share/misc/licence.template,v 1.4 2005/12/15 02:46:54 tg Rel $ */
+<pre>/* &#36;MirOS: src/share/misc/licence.template,v 1.6 2006/01/24 22:24:02 tg Rel $ */
 
 /*-
  * Copyright (c) year, year, year...
- *	First M. Last &lt;<a href="#manual">user@host.domain</a>&gt;
+ *	First M. Last &lt;user@host.domain&gt;
  *
  * Licensee is hereby permitted to deal in this work without restric-
  * tion, including unlimited rights to use, publicly perform, modify,
@@ -23,44 +23,37 @@
  * other issues arising in any way out of its use, even if advised of
  * the possibility of such damage or existence of a nontrivial bug.
  *-
+ * <span id="manual">INSTRUCTIONS</span>:
+ * When applying the template specify the legal name of the copyright
+ * holders, the real names of the authors if different, and the years
+ * of copyright (separated by comma, not as range). Avoid adding text
+ * at all if possible; be careful to not add any restrictions.
+ *
  * OPTIONAL ADVERTISING CLAUSE:
- * Adding advertising clauses is not recommended, because they reduce
- * the interoperability of the licence and place, if overused, a huge
- * load on distributors. Still there are cases in which adding an ad-
- * vertising clause might be appropriate. To add an advertising clau-
- * se, insert the following paragraph in between the first and second
- * paragraph shown above:
+ * Adding advertising clauses is not recommended because they accumu-
+ * late (MirOS #8 had a required list of 131 acknowledgements, out of
+ * which several were duplicates with only minor changes), but if the
+ * author wishes to be credited he should use the following template,
+ * to be inserted between the two paragraphs of the licence above. It
+ * is an mksh(1)-like expression, alternatives separated by |, optio-
+ * nal content prefixed with a question mark; parentheses group.
  *
  * All advertising materials mentioning features or use of this soft-
  * ware must display the following acknowledgement:
  *	This product includes (material|software) (provided by|devel-
- *	oped (at|?(or owned )by|under|for?( use (in|with)))) &lt;<i>NAME</i>&gt;?(
- *	?, and (its|their|by other) contributors)?( (for|by) &lt;<i>NAME</i>&gt;).
- *
- * Please adjust the above mksh-like expression for your needs; items
- * prefixed with a question mark can be left out.
- *
- * <a id="manual">INSTRUCTIONS</a>:
- * When applying the template specify the year(s) of copyright; addi-
- * tional years should be separated by commas, not denoted by range.
- * When adding extra text, be careful to not add further restrictions
- * and avoid adding text at all if possible.
+ *	oped (at|?(or owned )by|under|for?( use (in|with)))) &lt;NAME&gt;?(
+ *	?, and (its|their|by other) contributors)?( (for|by) &lt;NAME&gt;).
  *
  * RATIONALE:
- * This template contains the preferred licence for new work (code or
- * data, e.g. documentation, fonts, audio/video) added to MirOS. This
- * licence is OSD<a id="rf1" href="#fn1">[1]</a> 1.9 compliant.
+ * This template contains the preferred licence for any work (such as
+ * source code, documentation, fonts, multimedia, etc.) part of MirOS
+ * and is OSD<a id="rf1" href="#fn1">[1]</a> 1.9 and DFSG<a id="rf2" href="#fn2">[2]</a> 1.1 compliant.
  * Because in some (droit d'auteur) countries you cannot disclaim all
  * liabilities this licence is drafted to behave better under Europe-
  * an law but otherwise be equivalent to the "historic permission no-
- * tice"<a id="rf2" href="#fn2">[2]</a>.
- *
- * ADDITIONAL NOTES:
- * This template does not imply a choice of law; the MirOS project<a id="rf3" href="#fn3">[3]</a>
- * sets forth applicable law to be German law and site of court to be
- * Bonn, Germany (in an extra provision and only for MirOS). We think
- * this licence thus is compatible to the GNU GPL (unless an explicit
- * advertising clause is used).
+ * tice"<a id="rf3" href="#fn3">[3]</a>. There is no implied choice of law (we<a id="rf4" href="#fn4">[4]</a> have extra pro-
+ * vision for that); the licence is GPL-compatible (as long as no ad-
+ * vertising clause is used).
  *
  * Licensor and Licensee are not defined by the licence text, neither
  * is there a statement like "perpetual, non-exclusive, irrevocable".
@@ -76,7 +69,8 @@
  * and seek a an amicable solution for all parties.
  *
  * REFERENCES:
- * <a href="#rf1" id="fn1">[1]</a> <a href="http://www.opensource.org/docs/definition_plain.php">http://www.opensource.org/docs/definition_plain.php</a>
- * <a href="#rf2" id="fn2">[2]</a> <a href="http://www.opensource.org/licenses/historical.php">http://www.opensource.org/licenses/historical.php</a>
- * <a href="#rf3" id="fn3">[3]</a> <a href="http://mirbsd.de/">http://mirbsd.de/</a>
+ * <a href="#rf1" id="fn1">[1]</a> http://www.opensource.org/docs/definition_plain.php
+ * <a href="#rf2" id="fn2">[2]</a> http://www.debian.org/social_contract#guidelines
+ * <a href="#rf3" id="fn3">[3]</a> http://www.opensource.org/licenses/historical.php
+ * <a href="#rf4" id="fn4">[4]</a> http://mirbsd.de/
  */</pre>
