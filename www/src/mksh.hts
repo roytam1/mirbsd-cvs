@@ -2,7 +2,7 @@
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.127 2008/06/29 19:52:03 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.128 2008/06/29 19:56:26 tg Exp $'
 mws_content <<'EOF'
 <h1>mksh(1) R33d</h1>
 <p>This is the website of the MirBSD™ Korn Shell, an actively developed free
@@ -748,6 +748,7 @@ mws_content <<'EOF'
  <li>HP-UX 11i v2 B.11.23 U ia64 (IA64 aCC B3910B A.06.10 [Mar 22 2006], ld 92453-07 B.12.45)</li>
  <li>HP-UX 11i v2 B.11.23 U ia64 (IA64 gcc3.4.3)</li>
  <li>HP-UX 11i v3 B.11.31 U PA-RISC 9000/800 (hppa aCC HP92453-01 B.11.X.36086-36089-36092.GP, ld 92453-07 B.11.60 070209)</li>
+ <li>HP-UX 11i v3 B.11.31 U ia64 (IA64 aCC B3910B A.06.14 [Feb 22 2007], ld 92453-07 B.12.43)</li>
  <li>Mac OSX Leopard 10.5.2 Darwin 9.2.0 (i386 gcc4.0.1 Apple Inc. build 5465)</li>
  <li>Mac OSX Leopard 10.5.3 (9D34) Darwin 9.3.0 (i386 gcc4.2.1 Apple Inc. build 5558)</li>
  <li>Mac OSX Leopard 10.5.3 (9D34) Darwin 9.3.0 (i386 llvmgcc4.2.1-Apple_5555-LLVM_2030)</li>
@@ -773,6 +774,7 @@ mws_content <<'EOF'
  <li>Debian GNU/Linux 4.0 etch 2.6.18-4-k7 (i386 tcc0.9.23) <em>FAIL to link executable</em></li>
  <li>Debian GNU/Linux 4.0 etch 2.6.18-4-k7 (i386 TenDRA-4.1.2)</li>
  <li>Debian GNU/Linux 4.0 etch 2.6.18-4-k7 (i386 dietlibc-0.30-4 gcc4.1.1-21)</li>
+ <li>Debian GNU/Linux 4.0 etch 2.6.18-6-mckinley (IA64 gcc4.1.1-21)</li>
  <li>Debian GNU/Linux 4.0 testing 2.6.22-3-686 (i386 gcc3.4.6-6)</li>
  <li>Debian GNU/Linux 4.0 testing 2.6.22-3-686 (i386 gcc4.1.2-18</li>
  <li>Debian GNU/Linux 4.0 testing 2.6.22-3-686 (i386 gcc4.3-20080202-1/r132072)</li>
@@ -992,12 +994,13 @@ mws_content <<'EOF'
  <li>Use proper <tt>ptrdiff_t</tt> casts for pointer arithmetics, inspired
   by an oksh commit from Federico Schwindt</li>
  <li>Remove check category “pdksh” from <tt>check.t</tt> and test script</li>
- <li>Improve SUNpro, Darwin version reporting</li>
+ <li>Improve SUNpro, Darwin, HP aCC version reporting</li>
  <li>Support GNU bash “&amp;&gt;” extension, even better than they do,
   suggested by Lukas “smultron” Upton from MidnightBSD</li>
  <li>Basic support for LLVM+clang in the build system with experimental
   “ccc” compiler driver; llvm-gcc worked as-is before already</li>
  <li>Better support for contributed <tt>arc4random.c</tt> file</li>
+ <li>Do not spin if unlink(2) fails on $HISTFILE, from Decklin Foster</li>
 </ul>
 <p id="r33d">mksh R33d is a quick security-update with these changes:</p><ul>
  <li>Move a portability define from <tt>sh.h</tt> to the <tt>setmode.c</tt>
