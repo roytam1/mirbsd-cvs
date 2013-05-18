@@ -1,4 +1,4 @@
-# $MirOS: src/etc/etc.i386/disktab,v 1.5 2006/08/18 21:36:29 tg Exp $
+# $MirOS: src/etc/etc.i386/disktab,v 1.6 2007/05/24 22:20:21 tg Exp $
 # $OpenBSD: disktab,v 1.18 2005/02/07 06:08:10 david Exp $
 # $OpenBSD: disktab,v 1.21 2003/03/01 00:46:24 miod Exp $
 #	@(#)disktab	5.5 (Berkeley) 2/27/91
@@ -30,28 +30,31 @@
 #	t[a-p]	partition types (filesystem, swap, etc)
 
 rdroot|ramdisk miniroot image for boot floppy:\
-	:ty=ramdisk:se#512:nt#8:rm#300:ns#16:nc#23:\
+	:ty=ramdisk:rm#300:se#512:nc#23:nt#8:ns#16:\
 	:pa#2944:oa#0:ta=4.2BSD:ba#4096:fa#512:\
 	:pc#2944:oc#0:
 
 ipldisc|ramdisk miniroot image for bsd.rd:\
-	:ty=ramdisk:se#512:nt#8:rm#300:ns#32:nc#32:\
+	:ty=ramdisk:rm#300:se#512:nc#64:nt#8:ns#16:\
 	:pa#8192:oa#0:ta=4.2BSD:ba#4096:fa#512:\
 	:pc#8192:oc#0:
 
 floppy|floppy3|3in|floppy1440|3.5in High Density Floppy, 1440 KiB:\
-	:dt=floppy:ty=floppy:se#512:nt#2:rm#300:ns#18:nc#80:\
+	:dt=floppy:ty=floppy:rm#300:se#512:nc#80:nt#2:ns#18:\
 	:pa#2880:oa#0:ta=4.2BSD:ba#4096:fa#512:\
+	:pb#2880:ob#0:\
 	:pc#2880:oc#0:
 
 floppy288|floppy3ed|floppy2880|3.5in Extra Density Floppy, 2880 KiB:\
-	:dt=floppy:ty=floppy:se#512:nt#2:rm#300:ns#36:nc#80:\
+	:dt=floppy:ty=floppy:rm#300:se#512:nc#80:nt#2:ns#36:\
 	:pa#5760:oa#0:ta=4.2BSD:ba#4096:fa#512:\
+	:pb#5760:ob#0:\
 	:pc#5760:oc#0:
 
 floppy5|5in|floppy1200|5.25in High Density Floppy, 1200 KiB:\
-	:dt=floppy:ty=floppy:se#512:nt#2:rm#300:ns#15:nc#80:\
+	:dt=floppy:ty=floppy:rm#300:se#512:nc#80:nt#2:ns#15:\
 	:pa#2400:oa#0:ta=4.2BSD:ba#4096:fa#512:\
+	:pb#2400:ob#0:\
 	:pc#2400:oc#0:
 
 qp120at|Quantum Peripherals 120MB IDE:\
