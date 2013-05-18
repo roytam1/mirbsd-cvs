@@ -1,6 +1,7 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.14 2004/05/16 21:10:08 naddy Exp $
 
-COMMENT=			universal digital camera picture control tool
+COMMENT=	universal digital camera picture control tool
 
 DISTNAME=	gphoto-0.4.3
 CATEGORIES=	graphics
@@ -19,6 +20,7 @@ CONFIGURE_STYLE= gnu
 CPPFLAGS+=		-DDOCDIR="${PREFIX}/share/doc/gphoto"
 
 USE_CXX=	Yes
+USE_X11=	Yes
 
 post-extract:
 	@perl -pi -e 's/\r$$//' ${WRKSRC}/sony/command.c

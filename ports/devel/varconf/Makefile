@@ -1,6 +1,7 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.3 2002/10/19 08:38:49 pvalchev Exp $
 
-COMMENT=			configuration system for the STAGE server
+COMMENT=	configuration system for the STAGE server
 
 VERSION=	0.5.4
 DISTNAME=	varconf-${VERSION}
@@ -22,6 +23,7 @@ LIB_DEPENDS=	Atlas.1.1:atlas-*:devel/atlas \
 		sigc.0.0:libsigc++-*:devel/libsigc++
 
 USE_CXX=	Yes
+USE_X11=	Yes
 CONFIGURE_STYLE= gnu
 CONFIGURE_ARGS=	${CONFIGURE_SHARED}
 

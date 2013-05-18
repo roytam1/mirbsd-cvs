@@ -1,6 +1,7 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.5 2002/10/27 00:03:16 naddy Exp $
 
-COMMENT=			very small and pretty fast gdk/Imlib image viewer
+COMMENT=		very small and pretty fast gdk/Imlib image viewer
 
 DISTNAME=		qiv-1.8
 CATEGORIES=		graphics
@@ -19,6 +20,7 @@ PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
+USE_X11=		Yes
 USE_GMAKE=		Yes
 USE_CXX=		Yes
 

@@ -1,6 +1,7 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.20 2004/04/09 09:47:10 sturm Exp $
 
-COMMENT=			two-dimensional drawing tool and hyper-object browser
+COMMENT=	two-dimensional drawing tool and hyper-object browser
 
 DISTNAME=	tgif-QPL-4.1.43
 PKGNAME=	${DISTNAME:S/-QPL//}-0
@@ -21,6 +22,7 @@ PERMIT_DISTFILES_FTP=	yes
 RUN_DEPENDS=	::graphics/netpbm
 
 CONFIGURE_STYLE=imake
+USE_X11=	Yes
 
 MAKE_FLAGS=	MODULE_CFLAGS="${CFLAGS}"
 

@@ -1,4 +1,4 @@
-# $MirOS: ports/devel/gconf-editor/Makefile,v 1.3 2006/09/14 00:08:11 tg Exp $
+# $MirOS: ports/devel/gconf-editor/Makefile,v 1.4 2007/03/31 22:01:56 tg Exp $
 
 COMMENT=		editor for the GConf configuration system
 DISTNAME=		gconf-editor-2.4.0
@@ -17,6 +17,7 @@ EXTRACT_SUFX=		.tar.bz2
 LIB_DEPENDS=		gconf-2::devel/gconf
 MODULES+=		devel/pkgconfig
 
+USE_X11=		Yes
 USE_GMAKE=		Yes
 CONFIGURE_STYLE=	autoconf
 AUTOCONF_NEW=		yes
