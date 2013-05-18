@@ -1,5 +1,6 @@
---- macros.in.orig	Mon Dec  4 15:27:59 2000
-+++ macros.in	Mon Dec  4 15:28:33 2000
+$MirOS$
+--- macros.in.orig	Mon Aug 28 15:19:23 2000
++++ macros.in	Fri Jul 11 13:28:49 2008
 @@ -86,7 +86,7 @@
  %_builddir		%{_topdir}/BUILD
  %_buildshell		/bin/sh
@@ -9,3 +10,12 @@
  %_dbpath_rebuild	%{_dbpath}
  %_defaultdocdir		%{_usr}/doc
  #
+@@ -115,7 +115,7 @@
+ %_sourcedir		%{_topdir}/SOURCES
+ %_specdir		%{_topdir}/SPECS
+ %_srcrpmdir		%{_topdir}/SRPMS
+-%_tmppath		%{_var}/tmp
++%_tmppath		/var/tmp
+ %_topdir		%{_usrsrc}/redhat
+ 
+ #==============================================================================

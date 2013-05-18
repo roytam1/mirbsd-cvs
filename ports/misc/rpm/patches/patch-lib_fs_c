@@ -1,7 +1,8 @@
+$MirOS$
 $OpenBSD: patch-lib_fs_c,v 1.1 2002/04/07 00:31:55 espie Exp $
---- lib/fs.c.orig	Sun Apr  7 02:16:12 2002
-+++ lib/fs.c	Sun Apr  7 02:17:44 2002
-@@ -3,6 +3,72 @@
+--- lib/fs.c.orig	Wed Jun 14 12:34:08 2000
++++ lib/fs.c	Fri Jul 11 12:40:27 2008
+@@ -3,6 +3,73 @@
  #include <rpmlib.h>
  #include <rpmmacro.h>
  
@@ -13,7 +14,7 @@ $OpenBSD: patch-lib_fs_c,v 1.1 2002/04/07 00:31:55 espie Exp $
 +#endif
 +
 +#if HAVE_STRUCT_MNTTAB 
-+static our_mntent * getmntent(FILE *filep) {
++static our_mntent * u_getmntent(FILE *filep) {
 +    static struct mnttab entry;
 +    static our_mntent item;
 +
@@ -23,7 +24,7 @@ $OpenBSD: patch-lib_fs_c,v 1.1 2002/04/07 00:31:55 espie Exp $
 +    return &item;
 +}
 +#else 
-+static our_mntent *getmntent(FILE *filep) {
++static our_mntent *u_getmntent(FILE *filep) {
 +    static our_mntent item = { NULL };
 +    char buf[1024], * start;
 +    char * chptr;
@@ -69,14 +70,9 @@ $OpenBSD: patch-lib_fs_c,v 1.1 2002/04/07 00:31:55 espie Exp $
 +    return NULL;
 +}
 +#endif
++#define getmntent u_getmntent
 +#endif
 +
  struct fsinfo {
      /*@only@*/ const char * mntPoint;
      dev_t dev;
-@@ -301,3 +367,5 @@ int rpmGetFilesystemUsage(const char ** 
- 
-     return 0;
- }
-+
-+
