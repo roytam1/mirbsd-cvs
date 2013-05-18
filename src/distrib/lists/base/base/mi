@@ -2764,7 +2764,9 @@
 ./usr/share/zoneinfo/America/Argentina/La_Rioja
 ./usr/share/zoneinfo/America/Argentina/Mendoza
 ./usr/share/zoneinfo/America/Argentina/Rio_Gallegos
+./usr/share/zoneinfo/America/Argentina/Salta
 ./usr/share/zoneinfo/America/Argentina/San_Juan
+./usr/share/zoneinfo/America/Argentina/San_Luis
 ./usr/share/zoneinfo/America/Argentina/Tucuman
 ./usr/share/zoneinfo/America/Argentina/Ushuaia
 ./usr/share/zoneinfo/America/Aruba
@@ -2823,8 +2825,10 @@
 ./usr/share/zoneinfo/America/Indiana/Knox
 ./usr/share/zoneinfo/America/Indiana/Marengo
 ./usr/share/zoneinfo/America/Indiana/Petersburg
+./usr/share/zoneinfo/America/Indiana/Tell_City
 ./usr/share/zoneinfo/America/Indiana/Vevay
 ./usr/share/zoneinfo/America/Indiana/Vincennes
+./usr/share/zoneinfo/America/Indiana/Winamac
 ./usr/share/zoneinfo/America/Indianapolis
 ./usr/share/zoneinfo/America/Inuvik
 ./usr/share/zoneinfo/America/Iqaluit
@@ -2842,6 +2846,7 @@
 ./usr/share/zoneinfo/America/Maceio
 ./usr/share/zoneinfo/America/Managua
 ./usr/share/zoneinfo/America/Manaus
+./usr/share/zoneinfo/America/Marigot
 ./usr/share/zoneinfo/America/Martinique
 ./usr/share/zoneinfo/America/Mazatlan
 ./usr/share/zoneinfo/America/Mendoza
@@ -2875,13 +2880,16 @@
 ./usr/share/zoneinfo/America/Rankin_Inlet
 ./usr/share/zoneinfo/America/Recife
 ./usr/share/zoneinfo/America/Regina
+./usr/share/zoneinfo/America/Resolute
 ./usr/share/zoneinfo/America/Rio_Branco
 ./usr/share/zoneinfo/America/Rosario
+./usr/share/zoneinfo/America/Santarem
 ./usr/share/zoneinfo/America/Santiago
 ./usr/share/zoneinfo/America/Santo_Domingo
 ./usr/share/zoneinfo/America/Sao_Paulo
 ./usr/share/zoneinfo/America/Scoresbysund
 ./usr/share/zoneinfo/America/Shiprock
+./usr/share/zoneinfo/America/St_Barthelemy
 ./usr/share/zoneinfo/America/St_Johns
 ./usr/share/zoneinfo/America/St_Kitts
 ./usr/share/zoneinfo/America/St_Lucia
@@ -2942,6 +2950,7 @@
 ./usr/share/zoneinfo/Asia/Dushanbe
 ./usr/share/zoneinfo/Asia/Gaza
 ./usr/share/zoneinfo/Asia/Harbin
+./usr/share/zoneinfo/Asia/Ho_Chi_Minh
 ./usr/share/zoneinfo/Asia/Hong_Kong
 ./usr/share/zoneinfo/Asia/Hovd
 ./usr/share/zoneinfo/Asia/Irkutsk
@@ -2953,7 +2962,9 @@
 ./usr/share/zoneinfo/Asia/Kamchatka
 ./usr/share/zoneinfo/Asia/Karachi
 ./usr/share/zoneinfo/Asia/Kashgar
+./usr/share/zoneinfo/Asia/Kathmandu
 ./usr/share/zoneinfo/Asia/Katmandu
+./usr/share/zoneinfo/Asia/Kolkata
 ./usr/share/zoneinfo/Asia/Krasnoyarsk
 ./usr/share/zoneinfo/Asia/Kuala_Lumpur
 ./usr/share/zoneinfo/Asia/Kuching
