@@ -1,4 +1,4 @@
-# $MirOS: src/Makefile,v 1.131 2008/07/12 21:39:51 tg Exp $
+# $MirOS: src/Makefile,v 1.132 2008/07/14 12:14:38 tg Exp $
 # $OpenBSD: Makefile,v 1.103 2004/05/03 15:18:18 drahn Exp $
 
 .if defined(MAKECONF) && exists(${MAKECONF})
@@ -83,8 +83,10 @@ distrib-dirs:
 	grep -v -e '^fd' -e dev/fd ${.CURDIR}/etc/mtree/special | \
 	    ${SUDO} mtree -p ${DESTDIR}/ -Uqde
 	cd ${DESTDIR}/var/anoncvs/anoncvs && \
-	    ${SUDO} rm -f usr var && \
-	    ${SUDO} ln -s . var
+	    if [[ ! -h var || $$(readlink var) != . ]]; then \
+		${SUDO} rm -f var; \
+		${SUDO} ln -s . var; \
+	fi
 	for i in ${DESTDIR}/usr/{ports,src}; do \
 		[[ -d $$i ]] || \
 		    ${SUDO} ${INSTALL} -d -o root -g wsrc -m 775 $$i; \
