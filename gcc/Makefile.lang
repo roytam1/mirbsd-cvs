@@ -1,4 +1,4 @@
-# $MirOS: gcc/Makefile.lang,v 1.3 2006/06/17 17:17:28 tg Exp $
+# $MirOS: gcc/Makefile.lang,v 1.4 2006/06/30 23:18:04 tg Exp $
 
 .ifndef _MODGCC_MAKEFILE_LANG
 _MODGCC_MAKEFILE_LANG=1
@@ -7,37 +7,38 @@ _MODGCC_MAKEFILE_LANG=1
 
 .if ${OStype} == "MirBSD"
 .  if ${MACHINE_ARCH} == "i386"
-NO_ADA?=	Yes #No
 NO_CXX?=	No
 NO_OBJC?=	No
-NO_JAVA?=	Yes #No
 NO_PASCAL?=	No
-NO_THREADS?=	No	# mainly needed for gcj
-.  else
+.  endif
 NO_ADA?=	Yes
 NO_CXX?=	Yes
 NO_OBJC?=	Yes
 NO_JAVA=	Yes
 NO_PASCAL?=	Yes
-NO_THREADS=	Yes
-.  endif
-NO_BOEHMGC=	Yes	# noone uses libobjc_gc anyway
 .else
 GCC_NATIVE=	No
 NO_ADA?=	Yes	# helps bootstrapping
 NO_JAVA=	Yes	# never
-NO_THREADS=	Yes
-NO_BOEHMGC=	Yes
+.endif
+NO_THREADS?=	Yes
+
+.if ${NO_THREADS:L} != "no"
+NO_JAVA=	Yes #implied
 .endif
 
 .if defined(NO_CXX) && ${NO_CXX:L} != "no"
 NO_JAVA=	Yes #implied
 .endif
 
-.if defined(NO_OBJC) && defined(NO_JAVA) \
-    && ${NO_OBJC:L} != "no" && ${NO_JAVA:L} != "no"
-NO_BOEHMGC=	Yes
-.endif
+# only check java since nobody uses libobjc_gc anyway
+# (noone sane uses libobjc anyway, to state truth...)
+.if !defined(NO_JAVA) || ${NO_JAVA:L} == "no"
 NO_BOEHMGC?=	No
+.  if ${NO_BOEHMGC:L} != "no"
+NO_JAVA=	Yes #implied
+.  endif
+.endif
+NO_BOEHMGC?=	Yes
 
 .endif
