@@ -67,7 +67,7 @@ Author: tg@
  has an interesting article about MirOS BSD, and with mksh(1) getting more
  and more popular, I decided to skip on sleep and fun today and continue
  hacking on what I had already done for the website. Mostly content today.
- The <a href="mksh.htm">MirBSD Korn Shell</a> page got completely rewritten.
+ The <a href="@@RELPATH@@mksh.htm">MirBSD Korn Shell</a> page got completely rewritten.
  If you find something, tell me. The theme will probably stay similar like
  the current one, not like <a href="/newsite/">Benny's</a>, but the index
  on the left will look totally different in some days. I'm only migrating
