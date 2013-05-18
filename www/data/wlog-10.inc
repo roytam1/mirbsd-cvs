@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.71 2008/08/16 22:26:03 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.72 2008/08/24 10:11:21 bsiegert Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -1328,7 +1328,7 @@ Title: HEAD may be broken, but improvements coming, OPTU-8 charset
 <p>I’d just like to warn people that HEAD (MirOS-current) is a pretty
  moving target at the moment.</p>
 ----
-Date: 08.08.08 22:18
+Date: 08.08.2008 22:18
 Author: bsiegert@
 Title: Improving MirPorts by porting stuff
 
@@ -1433,4 +1433,76 @@ Title: pkg-config woes, FrOSCon
  currently in the train on the way. The party ("social event") yesterday
  was quite good, even though the weather was not as good as last
  year&mdash;it was cold and humid.</p>
+----
+Date: 25.08.2008 13:02
+Author: tg@
+Title: FrOSCon redux
+
+<p>Hum. This year’s FrOSCon… sucks. At least the catering, which was
+ so much better last year (remembering the Chili con Carne, as well
+ as the Chili non (sin) Carne, fondly… these were produced by wbx@’s
+ family members, which haven’t been included in this year’s planning
+ so some other persons did the catering). And being waked up at 04:00
+ in the morning due to a call on the mobile phone, for taking care of
+ some drunken booth slave *grml…*, didn’t help either.</p>
+<p>The evening’s social event also sucked totally. Since it had been
+ raining until shortly before, they decided to have it inside, except
+ the barbecue of course, but didn’t adjust the volume of the music
+ played to the environment, which caused me to leave the MirOS/XF86
+ booth in favour of the Debian/grml booth, talking to Mika and Joey…
+ who, like me, didn’t quite like being LITERALLY punched into our
+ stomach by the basses. I left relatively early then, especially as
+ the cocktails (Vutral brought me one, since I couldn’t go near the
+ counter due to the volume of the… whatever they call music) tasted
+ pretty bad and had a (too?) high percentage of alcohol. But talking
+ to the various people, not just Mika and Joey, was good.</p>
+<p>Other than that, we had quite a lot of fun at the conference, as
+ usual. I still think it has chances to close up to FOSDEM, but they
+ will have to make sure the catering does not get even worse. While
+ FOSDEM does not have <em>any</em> catering, FrOSCon 2006 and 2007
+ had good food, and regressions count as malus.<br /> Once I found
+ Marc Aurele La France at the train station (which was quite a task),
+ things went well – he even fixed a bug in our xdm configuration at
+ the conference. The bug was inherited from OpenBSD, as usual ☺<br />
+ Marc also said he enjoyed himself.</p>
+<p>I hacked an Asus EeePC… MirOS mostly works (no NIC though), and the
+ graphics card runs at 640x480 VESA… with the new 915resolution port of
+ today, it might do the 800x480, but I can’t test now.</p>
+<p>I took the chance to discover a geocache in St. Augustin yesterday,
+ but, while Benny suggested we (him, me and gecko2) go caching in Bonn
+ today, they seem to prefer hacking on the laptops (considering the
+ weather, this is not the worst idea though), so I got time to write a
+ wlog entry (too). I still have some things on my TODO, like fixing the
+ ports with unfetchable distfiles, but hey.<br /> Taking the day before
+ and the day after the conference off is A Good Thing™.<br /> Next one
+ will be the <a href="http://softwarefreedomday.eu/">Software Freedom
+ Day</a> in Baarn, Nederland – where not even Wim will go ☺ But I need
+ a car… parents don’t help even if you ask them <em>once</em> a year,
+ but maybe Jonathan from (near) Aachen will join me, he has a car.</p>
+<p>My Thinkpad X40 will probably arrive today or tomorrow. Sadly, I
+ didn’t invest any time in evaluating the products before… I learned
+ that the ‘T’ series has 2.5" HDDs instead of the sucky 1.6" HDDs, and
+ a much more solid lid chassis, at FrOSCon. My decision to buy an X40
+ was based <em>solely</em> on the observation that it was “in” at most
+ OpenBSD developers some years ago (and thusly would most certainly
+ work well with MirOS). Don’t do that then…</p>
+<p>Once it’s there, I got to set it up and continue working. It’s bad
+ <tt>odem</tt> broke so badly, especially as my current contractor
+ (employer, except not quite so) would rather have me working full-time
+ on the project, which is not entirely possible since I still have a
+ life here. But upon setting it up, I might upgrade and/or fix some of
+ the ports, since I’m at it anyway. Plus I get <tt>/home</tt> encryption.</p>
+<p>Marc agreed to merging as much of our <tt>X11</tt> changes (both these
+ inherited from OpenBSD’s <tt>XF4</tt> module and our own patches) into
+ the XFree86® main tree, some ifdef’d, and helping us migrate to the new
+ 4.7 or upcoming 4.8 release (or probably, 4.8.99.01, since I don’t think
+ the merge will be there in time for 4.8 proper). He was a fun guy and
+ well understanding our issues. The most funny part however was Thomas
+ from <a href="http://sourcemage.org/">Sourcemage</a> (SMGL), who also
+ maintains the <a href="@@RELPATH@@mksh.htm">mksh</a> spell in their
+ grimoire, considering to retain supporting XFree86® (and modular X.org,
+ but not the buggy monolithic X.org) iff it’s still actively developed,
+ which Marc assured me it is.</p>
+<p>Benny agrees that the “Kaiser’s BIO-Kaffee” is decent, despite its
+ pricing of only 3.99 €/£ (may be my high quality milk too, though).</p>
 ----
