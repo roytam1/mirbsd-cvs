@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.158 2009/02/09 11:58:30 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.159 2009/02/15 15:26:22 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -3280,4 +3280,30 @@ Tag: event
 <p>MirOS/sparc users, show yourselves, if you want snapshots to be built
  and provided more often. Talk to us, so we see the effort to support a
  second platform is not in vain.</p>
+----
+Author: tg@
+Date: 16.02.2009 21:21
+Title: still recovering
+
+<p>I admit I hacked a little for leisure tonight, but I’m still
+ recovering from a rather bad case of the “common cold” (grippaler
+ Infekt) so I’ll yet have to do some catch-up on my duties, read
+ and respond to mails and other communiques, etc. So don’t get
+ your hopes up <em>too</em> soon. But I could go to my dayjob
+ again today, which my doctor gave me a permit to not do for the
+ end of last week. Paid about 50 € for remedies and the health
+ insurance *grml…*</p>
+<p>Not exactly sure where my priorities lie at the moment. The
+ computer related things will come a little short in the next
+ while; I’ll probably hack some more entropy and bootloader
+ related stuff for fun, do another snapshot, while trying to
+ get <tt>tear</tt> <em>finally</em> done, but that’s about it.
+ The debs are postponed, no matter how much a decent lynx-secure
+ package (linked against OpenSSL!) is needed; other MirOS work
+ probably too. (Except little things here and there; helping the
+ users which give actual feedback, especially for mksh; maybe,
+ once we have enough Qs, put up a FAQ.)</p>
+<p>I guess I have some catching up on sleep, life duties, and
+ non-computer-related activities to do, considering how much
+ the new job and the FOSDEM preparations strained.</p>
 ----
