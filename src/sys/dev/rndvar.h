@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/dev/rndvar.h,v 1.17 2008/07/26 19:40:51 tg Exp $ */
+/**	$MirOS: src/sys/dev/rndvar.h,v 1.18 2008/11/09 17:23:35 tg Exp $ */
 /*	$OpenBSD: rndvar.h,v 1.19 2003/11/03 18:24:28 tedu Exp $	*/
 
 /*
@@ -38,7 +38,7 @@
 #define POOLWORDS 1024	/* Power of 2 - note that this is 32-bit words */
 #endif
 #ifndef rnd_addpool_size
-#define	rnd_addpool_size 32 /* 32-bit words; don't change */
+#define	rnd_addpool_size 32	/* Power of 2 – 32-bit words; don't change */
 #endif
 
 #ifndef _ASM_SOURCE
@@ -88,11 +88,10 @@ struct rndstats {
 extern struct rndstats rndstats;
 
 extern uint32_t rnd_addpool_buf[];
-extern int rnd_addpool_num;	/* ring buffer write pointer */
+extern int rnd_addpool_num;	/* ring buffer write pointer (wrapping) */
 
 #define	rnd_addpool_add(x) do {						\
-	rnd_addpool_buf[rnd_addpool_num] ^= (x);			\
-	rnd_addpool_num = (rnd_addpool_num + 1) % rnd_addpool_size;	\
+	rnd_addpool_buf[rnd_addpool_num++ % rnd_addpool_size] ^= (x);	\
 } while (/* CONSTCOND */ 0)
 
 #define rnd_bootpool_add(addr, len) \
