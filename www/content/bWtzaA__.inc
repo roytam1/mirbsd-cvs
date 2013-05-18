@@ -1,5 +1,5 @@
 <!-- PageID: mksh -->
-<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.69 2006/11/23 22:35:44 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.70 2006/11/23 23:01:08 tg Exp $</small>
 
 <h1>mksh(1) R28</h1>
 <p>This is the MirBSD&trade; Korn Shell, a more or less portable
@@ -494,7 +494,7 @@
  to webinterface)</a>, which is hosted at at least two mirrors, a <a
  href="http://ftp.gwdg.de/pub/linux/misc/suser-guru/rpm/packages/System/mksh/">primary</a>
  and a <a href="http://ftp.skynet.be/pub/suser-guru/rpm/packages/System/mksh/">fast</a>
- site.
+ site. Arch GNU/Linux is said to also package mksh.
 </p>
 
 <h3 id="buildsfu">Microsoft Services for Unix</h3>
