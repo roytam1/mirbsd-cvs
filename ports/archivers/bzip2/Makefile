@@ -1,8 +1,8 @@
-# $MirOS: ports/archivers/bzip2/Makefile,v 1.6 2006/11/16 20:13:02 tg Exp $
+# $MirOS: ports/archivers/bzip2/Makefile,v 1.7 2007/03/11 20:08:59 tg Exp $
 # $OpenBSD: Makefile,v 1.47 2004/04/06 06:33:29 brad Exp $
 
 COMMENT=		block-sorting file compressor, unencumbered
-VERSION=		1.0.4
+VERSION=		1.0.5
 DISTNAME=		bzip2-${VERSION}
 CATEGORIES=		archivers
 HOMEPAGE=		http://www.bzip.org/
@@ -14,7 +14,7 @@ PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
-NO_REGRESS=		Yes	# not adapted for the moment
+#NO_REGRESS=		Yes	# not adapted for the moment
 
 post-extract:
 	cp ${FILESDIR}/Makefile ${WRKSRC}/

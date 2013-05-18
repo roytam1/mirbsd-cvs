@@ -1,4 +1,4 @@
-# $MirOS: ports/archivers/bzip2/files/Makefile.bzip2,v 1.1 2005/05/21 12:54:56 bsiegert Exp $
+# $MirOS: ports/archivers/bzip2/files/Makefile.bzip2,v 1.2 2007/03/11 20:09:00 tg Exp $
 
 SRCDIR=		${.CURDIR}/..
 DOCDIR=		${PREFIX}/share/doc/bzip2
@@ -32,6 +32,6 @@ beforeinstall:
 	${BSD_INSTALL_SCRIPT} ${SRCDIR}/$i ${DESTDIR}${BINDIR}/
 .endfor
 	${BSD_INSTALL_DATA_DIR} ${DESTDIR}${DOCDIR}
-	${BSD_INSTALL_DATA} ${SRCDIR}/manual*.html ${DESTDIR}${DOCDIR}/
+	${BSD_INSTALL_DATA} ${SRCDIR}/manual* ${DESTDIR}${DOCDIR}/
 
 .include <bsd.prog.mk>

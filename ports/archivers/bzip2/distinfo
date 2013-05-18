@@ -1,5 +1,7 @@
-MD5 (bzip2-1.0.4.tar.gz) = fc310b254f6ba5fbb5da018f04533688
-RMD160 (bzip2-1.0.4.tar.gz) = 438365cb911ef84b3bd6643e0d39f6b7567f0447
-SHA1 (bzip2-1.0.4.tar.gz) = f2388ec8f2c506e02aa89e67577b3c6331cbaa4c
-SIZE (bzip2-1.0.4.tar.gz) = 841221
-TIGER (bzip2-1.0.4.tar.gz) = a0f7124d5d67a230458184ea261c61abfa73512446e24734
+$MirOS$
+
+MD5 (bzip2-1.0.5.tar.gz) = 3c15a0c8d1d3ee1c46a1634d00617b1a
+RMD160 (bzip2-1.0.5.tar.gz) = 2b31a22138e3914d82a656fee28e2bf029cbc3d4
+SHA1 (bzip2-1.0.5.tar.gz) = 8b02713ea0c8eb501cc8bdac4432d7f29700f767
+SIZE (bzip2-1.0.5.tar.gz) = 841402
+TIGER (bzip2-1.0.5.tar.gz) = b9762cb8bd698e29c9d6ab74e6647cee972a882a281ed401
