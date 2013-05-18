@@ -1,4 +1,4 @@
-/**	$MirOS: src/include/stdlib.h,v 1.3 2005/07/25 19:16:10 tg Exp $ */
+/**	$MirOS: src/include/stdlib.h,v 1.4 2005/09/22 19:53:04 tg Exp $ */
 /*	$OpenBSD: stdlib.h,v 1.34 2005/05/27 17:45:56 millert Exp $	*/
 /*	$NetBSD: stdlib.h,v 1.25 1995/12/27 21:19:08 jtc Exp $	*/
 
@@ -88,7 +88,7 @@ typedef struct {
 
 #define	RAND_MAX	0x7fffffff
 
-#define	MB_CUR_MAX	(__mb_cur_max())
+#define	MB_CUR_MAX	__libc_mb_cur_max
 
 #include <sys/cdefs.h>
 
@@ -245,13 +245,13 @@ void	setprogname(const char *);
 const char *getprogname(void);
 #endif /* !_ANSI_SOURCE && !_POSIX_SOURCE */
 
-size_t	__mb_cur_max(void);
 int	mblen(const char *, size_t);
 int	mbtowc(wchar_t *__restrict__, const char *__restrict__, size_t);
 int	wctomb(char *, wchar_t);
 size_t	mbstowcs(wchar_t *__restrict__, const char *__restrict__, size_t);
 size_t	wcstombs(char *__restrict__, const wchar_t *__restrict__, size_t);
 
+extern int __libc_mb_cur_max;
 __END_DECLS
 
 #endif /* _STDLIB_H_ */

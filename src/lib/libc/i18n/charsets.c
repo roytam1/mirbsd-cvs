@@ -1,4 +1,4 @@
-/* $MirOS: src/lib/libc/i18n/charsets.c,v 1.4 2005/09/22 21:48:02 tg Exp $ */
+/* $MirOS: src/lib/libc/i18n/charsets.c,v 1.5 2005/09/30 21:45:26 tg Exp $ */
 
 /*-
  * Copyright (c) 2005
@@ -29,9 +29,10 @@
 #include <langinfo.h>
 #include <locale.h>
 #include <nl_types.h>
+#include <stdlib.h>
 #include <wchar.h>
 
-__RCSID("$MirOS: src/lib/libc/i18n/charsets.c,v 1.4 2005/09/22 21:48:02 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/i18n/charsets.c,v 1.5 2005/09/30 21:45:26 tg Exp $");
 
 /* simple locale support (C and UTF-8) */
 
@@ -70,6 +71,7 @@ __weak_setlocale(int category, const char *locale)
 getlocale:
 	if (locale_is_utf8)
 		memcpy(rv, UTF8, UTF8L);
+	__libc_mb_cur_max = (locale_is_utf8 ? MB_LEN_MAX : 1);
 	return (rv);
 }
 

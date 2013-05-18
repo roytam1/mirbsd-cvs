@@ -1,4 +1,4 @@
-/* $MirOS: src/lib/libc/i18n/mbcurmax.c,v 1.1 2005/09/22 21:48:02 tg Exp $ */
+/* $MirOS: src/lib/libc/i18n/mbcurmax.c,v 1.2 2005/09/22 21:52:28 tg Exp $ */
 
 /*-
  * Copyright (c) 2005
@@ -28,10 +28,6 @@
 #include <locale.h>
 #include <wchar.h>
 
-__RCSID("$MirOS: src/lib/libc/i18n/mbcurmax.c,v 1.1 2005/09/22 21:48:02 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/i18n/mbcurmax.c,v 1.2 2005/09/22 21:52:28 tg Exp $");
 
-size_t
-__mb_cur_max(void)
-{
-	return (locale_is_utf8 ? MB_LEN_MAX : 1);
-}
+int __libc_mb_cur_max = 1;
