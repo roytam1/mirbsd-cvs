@@ -1,4 +1,4 @@
-# $MirOS: gcc/Makefile.lang,v 1.1 2005/12/18 16:36:50 tg Exp $
+# $MirOS: gcc/Makefile.lang,v 1.2 2006/04/06 11:10:18 tg Exp $
 
 .ifndef _MODGCC_MAKEFILE_LANG
 _MODGCC_MAKEFILE_LANG=1
@@ -21,6 +21,7 @@ NO_JAVA=	Yes
 NO_PASCAL?=	Yes
 NO_THREADS=	Yes
 .  endif
+NO_BOEHMGC=	Yes	# noone uses libobjc_gc anyway
 .else
 GCC_NATIVE=	No
 NO_ADA?=	Yes	# helps bootstrapping
