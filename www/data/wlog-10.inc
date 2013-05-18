@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.220 2009/07/18 19:02:52 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.221 2009/07/27 09:20:40 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -4514,4 +4514,21 @@ Tag: news
  the third quarter of last year, remember?). Autoindent is still off,
  by default, though – with reason.</p>
 <p>Now give it a try. Hint: <tt>^J</tt> (Ctrl-J) invokes the help.</p>
+----
+Title: Deutſcher, kauf nicht bei Apple!
+Date: 30.07.2009 19:56
+Author: tg@
+
+<p>My <a href="https://eurynome.mirbsd.org/debs/debidx.htm">play <tt>*.deb</tt>
+ repository</a> no longer carries binaries for <tt>iPhoneOS 2.2</tt>, or any
+ other version for that matter. Apple prides themselves in DRM (Digital
+ Restrictions Management) in a way that makes them look <a
+ href="http://www.theregister.co.uk/2009/07/29/apple_jailbreaking_patent_office_response/">totally
+ ridiculous</a> to anyone with only the tiniest amount of technical knowledge
+ or political empathy. Gah. I don't see why I should support that with free
+ software. Besides, it's not a good tool for geocaching, either.</p>
+<p>Some years ago, this would not have surprised me, but these days it's rare
+ to find a company doing similar stunts. While the iPhone may help them through
+ the current economical crisis, I dare suggest they build more variants of the
+ iMer instead :þ At least these have hack value.</p>
 ----
