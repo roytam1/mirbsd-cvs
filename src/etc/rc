@@ -1,5 +1,5 @@
-# $MirOS: src/etc/rc,v 1.14 2006/01/24 21:43:16 tg Exp $
-# $OpenBSD: rc,v 1.276 2005/11/30 16:04:33 tom Exp $
+# $MirOS$
+# $OpenBSD: rc,v 1.277 2006/01/12 21:54:15 deraadt Exp $
 #-
 # System startup script run by init on autoboot or after single-user.
 # Output and error are redirected to console by init, and the console
@@ -396,7 +396,8 @@ fi
 
 sysctl_conf
 
-mixerctl_conf
+# configure wscons(4) early, in case someone needs to interrupt e.g. dhclient
+wsconsctl_conf
 
 # set hostname, turn on network
 echo starting network
@@ -762,7 +763,7 @@ fi
 
 echo .
 
-wsconsctl_conf
+mixerctl_conf
 
 if [[ $sshagent_autostart != NO ]]; then
 	echo Setting up ssh-agent directories...
