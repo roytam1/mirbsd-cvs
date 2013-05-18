@@ -1,5 +1,5 @@
 divert(-1)dnl
-# $MirOS: contrib/gnu/libtool/m4salt.inc,v 1.10 2006/08/16 20:36:53 tg Exp $
+# $MirOS: ports/infrastructure/db/m4salt.inc,v 1.4 2006/08/16 20:39:29 tg Exp $
 # _MirOS: contrib/gnu/libtool/m4salt.inc,v 1.10 2006/08/16 20:36:53 tg Exp $
 #-
 # Copyright (c) 2004, 2005, 2006
@@ -13,16 +13,6 @@ divert(-1)dnl
 # pyright notices above, these terms and the disclaimer are retained
 # in all redistributions or reproduced in accompanying documentation
 # or other materials provided with binary redistributions.
-#
-# Advertising materials mentioning features or use of this work must
-# display the following acknowledgement:
-#	This product includes material provided by Thorsten Glaser.
-# This acknowledgement does not need to be reprinted if this work is
-# linked into a bigger work whose licence does not allow such clause
-# and the author of this work is given due credit in the bigger work
-# or its documentation. Specifically, re-using this code in any work
-# covered by the GNU General Public License version 1 or Library Ge-
-# neral Public License (any version) is permitted.
 #
 # Licensor offers the work "AS IS" and WITHOUT WARRANTY of any kind,
 # express, or implied, to the maximum extent permitted by applicable

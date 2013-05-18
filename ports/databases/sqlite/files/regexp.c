@@ -8,16 +8,6 @@
  * limited rights to use, publicly perform, distribute, sell, modify,
  * merge, give away, or sublicence.
  *
- * Advertising materials mentioning features or use of this work must
- * display the following acknowledgement:
- *	This product includes material provided by Thorsten Glaser.
- * This acknowledgement does not need to be reprinted if this work is
- * linked into a bigger work whose licence does not allow such clause
- * and the author of this work is given due credit in the bigger work
- * or its documentation. Specifically, re-using this code in any work
- * covered by the GNU General Public License version 1 or Library Ge-
- * neral Public License (any version) is permitted.
- *
  * This work is provided "AS IS" and WITHOUT WARRANTY of any kind, to
  * the utmost extent permitted by applicable law, neither express nor
  * implied; without malicious intent or gross negligence. In no event
@@ -36,7 +26,7 @@
 #include "sqlite3.h"
 #include "regexp.h"
 
-__RCSID("$MirOS: ports/databases/sqlite/files/regexp.c,v 1.3 2006/10/06 21:01:22 tg Exp $");
+__RCSID("$MirOS: ports/databases/sqlite/files/regexp.c,v 1.4 2007/05/06 20:22:30 tg Exp $");
 
 #define ERRSTR_TEXT	"REGEXP error: "
 #define ERRSTR_SIZE	14			/* strlen(ERRSTR_TEXT) */

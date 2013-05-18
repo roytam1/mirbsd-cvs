@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/share/misc/licence.template,v 1.20 2006/12/11 21:04:56 tg Rel $
+# $MirOS: src/share/misc/licence.template,v 1.24 2008/04/22 11:43:31 tg Rel $
 #-
 # Copyright (c) 2004, 2005, 2007
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -9,10 +9,6 @@
 # is granted to deal in this work without restriction, including un-
 # limited rights to use, publicly perform, distribute, sell, modify,
 # merge, give away, or sublicence.
-#
-# Advertising materials mentioning features or use of this work must
-# display the following acknowledgement:
-#	This product includes material provided by Thorsten Glaser.
 #
 # This work is provided "AS IS" and WITHOUT WARRANTY of any kind, to
 # the utmost extent permitted by applicable law, neither express nor
@@ -80,7 +76,7 @@ done <userlist.db
 sort -t: -nk3 -o $1/etc/master.passwd $1/etc/master.passwd
 if [[ $fflag = 1 ]]; then
 	{
-		print '# $MirOS: ports/infrastructure/install/mkuserdb.ksh,v 1.4 2005/12/17 05:46:18 tg Exp $'
+		print '# $MirOS: ports/infrastructure/install/mkuserdb.ksh,v 1.5 2007/02/02 16:53:19 tg Exp $'
 		print '#'
 		print '# Users who are not allowed to use ftp access; read by ftpd(8)'
 		print

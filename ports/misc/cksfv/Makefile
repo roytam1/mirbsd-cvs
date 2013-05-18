@@ -1,10 +1,10 @@
-# $MirOS: ports/misc/cksfv/Makefile,v 1.3 2005/12/30 17:56:51 tg Exp $
+# $MirOS: ports/misc/cksfv/Makefile,v 1.4 2006/09/14 00:11:10 tg Exp $
 
-COMMENT=			checksummer for .sfv files
-V=			1.3
+COMMENT=		checksummer for .sfv files
+VERSION=		1.3
 CATEGORIES=		archivers misc net
-DISTNAME=		cksfv-$V
-PKGNAME=		${DISTNAME}-1
+DISTNAME=		cksfv-${VERSION}
+DASH_VER=		2
 HOMEPAGE=		http://www.fodder.org/cksfv/
 RESPONSIBLE=		Thorsten Glaser <tg@mirbsd.de>
 
@@ -17,7 +17,7 @@ PERMIT_DISTFILES_FTP=	Yes
 MASTER_SITES=		${HOMEPAGE}
 
 MAKE_FILE=		BSDmakefile
-CPPFLAGS+=		-DVERSION=\"$V\"
+CPPFLAGS+=		-DVERSION=\"${VERSION}\"
 
 pre-patch:
 	cp ${FILESDIR}/BSDmakefile ${FILESDIR}/cksfv.1 ${WRKSRC}/
