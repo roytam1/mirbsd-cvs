@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.366 2011/09/21 13:34:58 bsiegert Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.367 2011/09/30 22:16:14 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -8686,4 +8686,25 @@ Comment: the mtime of this item is not by accident…
  equivalent for ECMAscript, as I am trying to strip down some,
  inherited (GPL, yes) code for a hobby project, but Geo-people
  seem to produce illegible code?</p>
+----
+Date: 06.10.2011 22:42
+Author: tg@
+Title: eMail
+Tag: debian rant
+
+<p>Would MTAs <strong>please</strong> stop sending hi-bit7 messages
+ to other MTAs which do not advertise <tt>8BITMIME</tt>! Recode it
+ to QP or BASE64, damnit! The receiving MTA is entitled to strip the
+ set bit7, which kinda makes things hard to read (while I know how
+ to deal with <tt>blvde Stra_e</tt>, the advent of UTF-8 makes that
+ <tt>blC6de StraC?e</tt>, introduces C0 control characters and makes
+ typographic quotation marks into NUL-containing octet sequences (as
+ their UTF-8 representation contains 0x80 octets) which let every
+ sensible MDA terminate the line there). I even filed in the Debian
+ BTS against the BTS (might be Drexim's fault, though).</p>
+<p>Would MUAs <em>please</em> default to Quoted-Printable!</p>
+<p>And mail hosters should use the same server when retrying delivery,
+ to benefit greylisting. Or at least publish a list of outgoing IPv4
+ addresses they use for sending. Or use IPv6. Oh, and <tt>STARTTLS</tt>,
+ while we are on my wishlist.</p>
 ----
