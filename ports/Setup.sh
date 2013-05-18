@@ -1,5 +1,5 @@
 #!/bin/sh
-# $MirOS: ports/Setup.sh,v 1.28 2006/05/27 10:42:18 tg Exp $
+# $MirOS: ports/Setup.sh,v 1.29 2006/06/25 00:54:19 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -339,6 +339,9 @@ fi
 
 # Build mksh
 cd $T/mksh
+case $SHELL in
+*csh) SHELL=/bin/sh ;;
+esac
 SHELL=${SHELL:-/bin/sh}; export SHELL
 $SHELL ./Build.sh || rm -f mksh
 if test ! -s mksh; then
