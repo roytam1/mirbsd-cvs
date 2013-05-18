@@ -1,4 +1,4 @@
-# $MirOS: src/sys/arch/i386/stand/Makefile.inc,v 1.12 2007/05/24 21:03:52 tg Exp $
+# $MirOS: src/sys/arch/i386/stand/Makefile.inc,v 1.13 2008/08/01 11:24:58 tg Exp $
 # $OpenBSD: Makefile.inc,v 1.40 2007/11/26 10:26:02 deraadt Exp $
 
 .ifndef MODSRC_SYS_ARCH_I386_STAND_MAKEFILE_INC
@@ -22,7 +22,7 @@ COPTS+=		-Os
 COPTS+=		-Os
 .endif
 CPPFLAGS+=	-I${S} -I${SADIR}/libsa -I. -Dmemmove=memcpy \
-		-I${.CURDIR} -D__BOOT_VER="${_V}" -I${KERNBASE}/include
+		-I${.CURDIR} -D__BOOT_VER="${_V}p1" -I${KERNBASE}/include
 SACFLAGS=	-D_STANDALONE
 DEBUGFLAGS=
 # DEBUGFLAGS+=-DDEBUG
