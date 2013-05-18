@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.326 2011/03/11 17:58:36 bsiegert Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.327 2011/03/12 14:16:23 bsiegert Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -7558,4 +7558,49 @@ Author: bsiegert@
  will get much faster in the future. It is already faster than Python in
  most cases (easy, since it is a compiled language) but just as easy for
  many.</p>
+----
+Date: 16.03.2011 21:21
+Author: tg@
+Title: HOWTO OpenID Delegate with Launchpad Login Service
+Tag: debian grml tip
+
+<p>Rhonda suggested I document how to use the LLS (Launchpad Login
+ Service – their implementation of an OpenID provider) as Delegate,
+ which basically means, you can put something up on your webpage,
+ which can be a simple static (X)HTML page like mine (a /index.htm
+ is especially nice, a <tt>/~<i>user</i>/index.htm</tt> works too),
+ and use its URI and not <tt>https://launchpad.net/~<i>me</i></tt>
+ to login. For example, this often hides the LLS from view e.g. in
+ blog comments, such as those where Canonical is being criticised
+ ☺ – but it’s also <strong>yours</strong>, easier to type and to
+ change if you switch service providers.</p>
+<p>The basic idea is to go to your Launchpad user page and view its
+ page source. Look for openid relation links in the header – on <a
+ href="https://launchpad.net/~rhonda">Rhonda’s</a> the value we’re
+ looking for is “cyLQbcp”, and you see it several times.</p>
+<p class="boxhead">Now you put this on your web page:</p><div class="boxtext">
+ <pre>
+	&lt;!-- begin: OpenID delegation to LP --&gt;
+	 &lt;link rel="openid.server" href="https://login.launchpad.net/+openid" /&gt;
+	 &lt;link rel="openid.delegate" href="https://login.launchpad.net/+id/<i>cyLQbcp</i>" /&gt;
+	 &lt;link rel="openid2.provider" href="https://login.launchpad.net/+openid" /&gt;
+	 &lt;link rel="openid2.local_id" href="https://login.launchpad.net/+id/<i>cyLQbcp</i>" /&gt;
+	&lt;!-- end: OpenID delegation --&gt;
+ </pre>
+</div><p class="boxfoot">Of course, insert your, not Rhonda’s, ID.
+ Do note that we <em>don’t</em> copy the <tt>X-XRDS-Location</tt>
+ tag (that breaks things for some unknown reason), but otherwise,
+ what we insert on our page is pretty much a copy of the info on
+ the user page (maybe it’s a Delegate page, too?).</p>
+<p>As usual, try at your own risk, bug Canonical if it breaks. It
+ works with <a href="http://archiveofourown.org/">AO3</a>, Gerrit
+ Code Review, and others though (interestingly enough, better in
+ <a href="http://lynx.isc.org/">Lynx</a> than GUI browsers because
+ I stay logged in across Lynx sessions (and just have to confirm
+ sending “my information” to the accessing site), whereas I have
+ to re-login to the LLS in every GUI browser session).</p>
+<p>As with the LLS generally, “to access a site which is <i>not</i>
+ recognised” is <a
+ href="https://answers.launchpad.net/canonical-identity-provider/+question/147960">expected</a>
+ and worked on with low urgency (mostly cosmetical, I think).</p>
 ----
