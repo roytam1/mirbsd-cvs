@@ -1,4 +1,4 @@
-/* $MirOS: src/sys/arch/i386/stand/liveboot/hook.S,v 1.9 2006/04/19 11:04:41 tg Exp $ */
+/* $MirOS: src/sys/arch/i386/stand/liveboot/hook.S,v 1.10 2006/04/19 17:00:18 tg Exp $ */
 
 /*-
  * Copyright (c) 2006
@@ -30,7 +30,7 @@
 
 	.data
 lbl_title:
-	.asciz	"MirOS #8-current Setup/Live CD"
+	.asciz	"MirOS #9-current Setup/Live CD"
 lbl_menus:
 	.byte	4
 	.word	lbl_menu0
