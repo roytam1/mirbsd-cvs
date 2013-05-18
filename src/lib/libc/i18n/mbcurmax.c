@@ -1,4 +1,4 @@
-/* $MirOS: src/lib/libc/i18n/wctob.c,v 1.1 2005/09/22 21:43:35 tg Exp $ */
+/* $MirOS: src/share/misc/licence.template,v 1.2 2005/03/03 19:43:30 tg Rel $ */
 
 /*-
  * Copyright (c) 2005
@@ -10,6 +10,10 @@
  * pyright notices above, these terms and the disclaimer are retained
  * in all redistributions or reproduced in accompanying documentation
  * or other materials provided with binary redistributions.
+ *
+ * All advertising materials mentioning features or use of this soft-
+ * ware must display the following acknowledgement:
+ *	This product includes material provided by Thorsten Glaser.
  *
  * Licensor hereby provides this work "AS IS" and WITHOUT WARRANTY of
  * any kind, expressed or implied, to the maximum extent permitted by
@@ -24,8 +28,8 @@
 
 __RCSID("$MirOS$");
 
-int
-wctob(wint_t c)
+size_t
+__mb_cur_max(void)
 {
-	return ((c <= (locale_is_utf8 ? 0x7E : 0xFF)) ? c : EOF);
+	return (locale_is_utf8 ? MB_LEN_MAX : 1);
 }

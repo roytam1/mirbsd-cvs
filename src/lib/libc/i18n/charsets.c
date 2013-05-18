@@ -1,4 +1,4 @@
-/* $MirOS: src/lib/libc/i18n/charsets.c,v 1.2 2005/09/22 21:24:47 tg Exp $ */
+/* $MirOS: src/lib/libc/i18n/charsets.c,v 1.3 2005/09/22 21:36:48 tg Exp $ */
 
 /*-
  * Copyright (c) 2005
@@ -31,11 +31,9 @@
 #include <nl_types.h>
 #include <wchar.h>
 
-__RCSID("$MirOS: src/lib/libc/i18n/charsets.c,v 1.2 2005/09/22 21:24:47 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/i18n/charsets.c,v 1.3 2005/09/22 21:36:48 tg Exp $");
 
 /* simple locale support (C and UTF-8) */
-
-int locale_is_utf8 = 0;
 
 char *
 __weak_setlocale(int category, const char *locale)
@@ -64,12 +62,6 @@ __weak_setlocale(int category, const char *locale)
 
 	locale_is_utf8 = 0;
 	return ("C");
-}
-
-size_t
-__mb_cur_max(void)
-{
-	return (locale_is_utf8 ? MB_LEN_MAX : 1);
 }
 
 __weak_alias(setlocale, __weak_setlocale);

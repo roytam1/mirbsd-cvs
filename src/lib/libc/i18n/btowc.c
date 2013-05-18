@@ -1,4 +1,4 @@
-/* $MirOS: src/share/misc/licence.template,v 1.2 2005/03/03 19:43:30 tg Rel $ */
+/* $MirOS: src/lib/libc/i18n/btowc.c,v 1.1 2005/09/22 21:39:21 tg Exp $ */
 
 /*-
  * Copyright (c) 2005
@@ -21,6 +21,8 @@
  */
 
 #include <wchar.h>
+
+__RCSID("$MirOS$");
 
 wint_t
 btowc(int c)
