@@ -1,5 +1,7 @@
-MD5 (curl-7.16.2.tar.gz) = efa3301691d3ad6d454475f4d276c562
-RMD160 (curl-7.16.2.tar.gz) = a5b699356b223ffdc4a62b75c2ee314d1fae2823
-SHA1 (curl-7.16.2.tar.gz) = 630cc1a3570ea041f673e4e874c67af1fd7d1764
-SIZE (curl-7.16.2.tar.gz) = 2121758
-TIGER (curl-7.16.2.tar.gz) = 9eaa2851992911b8b25bd7e1c7e59b3c390b1a3a04e236e0
+$MirOS$
+
+MD5 (curl-7.18.1.tar.gz) = 6315db7c4373b586bac5f528322ba10e
+RMD160 (curl-7.18.1.tar.gz) = 621915caef7150bac166b008ff05ee8a34e7b6df
+SHA1 (curl-7.18.1.tar.gz) = 5d72f9fbf3eab6474a8dc22192056119030087f6
+SIZE (curl-7.18.1.tar.gz) = 2225578
+TIGER (curl-7.18.1.tar.gz) = c29575c5ced5e1d12ea8ce08e409040acfc16a5e8fd930c3

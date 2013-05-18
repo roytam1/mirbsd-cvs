@@ -1,0 +1,48 @@
+$MirOS$
+--- src/main.c.orig	Wed Jan 23 22:19:59 2008
++++ src/main.c	Sat Apr  5 19:14:31 2008
+@@ -2240,7 +2240,7 @@ static ParameterError getparameter(char 
+               if(!n)
+                 return PARAM_NO_MEM;
+               if (nlen > 0) /* only append '=' if we have a name */
+-                snprintf(n, outlen, "%.*s=%s", nlen, nextarg, enc);
++                snprintf(n, outlen, "%.*s=%s", (int)nlen, nextarg, enc);
+               else
+                 strcpy(n, enc);
+               curl_free(enc);
+@@ -2603,7 +2603,7 @@ static ParameterError getparameter(char 
+               "A specfied range MUST include at least one dash (-). "
+               "Appending one for you!\n");
+         off = curlx_strtoofft(nextarg, NULL, 10);
+-        snprintf(buffer, sizeof(buffer), "%Od-", off);
++        snprintf(buffer, sizeof(buffer), "%lld-", (long long)off);
+         GetStr(&config->range, buffer);
+       }
+       {
+@@ -3371,7 +3371,7 @@ int my_trace(CURL *handle, curl_infotype
+   now = localtime(&secs);  /* not multithread safe but we don't care */
+   if(config->tracetime)
+     snprintf(timebuf, sizeof(timebuf), "%02d:%02d:%02d.%06d ",
+-             now->tm_hour, now->tm_min, now->tm_sec, tv.tv_usec);
++             now->tm_hour, now->tm_min, now->tm_sec, (int)tv.tv_usec);
+   else
+     timebuf[0]=0;
+ 
+@@ -3689,7 +3689,7 @@ CURLcode _my_setopt(CURL *curl, struct C
+   }
+   else {
+     curl_off_t oval = va_arg(arg, curl_off_t);
+-    snprintf(value, sizeof(value), "(curl_off_t)%Od", oval);
++    snprintf(value, sizeof(value), "(curl_off_t)%lld", (long long)oval);
+     ret = curl_easy_setopt(curl, tag, oval);
+   }
+ 
+@@ -4769,7 +4769,7 @@ operate(struct Configurable *config, int
+                 /* We have written data to a output file, we truncate file
+                  */
+                 if(!(config->conf&CONF_MUTE))
+-                  fprintf(stderr, "Throwing away %Od bytes\n", outs.bytes);
++                  fprintf(stderr, "Throwing away %lld bytes\n", (long long)outs.bytes);
+                 fflush(outs.stream);
+                 /* truncate file at the position where we started appending */
+ #ifdef HAVE_FTRUNCATE
