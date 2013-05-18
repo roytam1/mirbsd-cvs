@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/news.inc,v 1.115 2009/05/27 21:30:34 tg Exp $
+RCSID: $MirOS: www/data/news.inc,v 1.116 2009/06/10 20:21:54 tg Exp $
 Title: Older news from the MirOS Project
 Date: 01.03.2006
 
@@ -1609,4 +1609,29 @@ Tag: mksh
  of the <a href="@@RELPATH@@mksh.htm#r38c">fixes</a> for crashes and the
  likes. Read the online manual page in HTML – mksh(1) – or as <a
  href="@@ABSPATH@@/MirOS/dist/mir/mksh/mksh.pdf">PDF</a> for printing.</p>
+----
+Title: MirOS project at Linuxtag 2007
+Date: 19.06.2009 18:20
+Author: tg@
+Tag: event
+
+<p><a href="@@RELPATH@@main.htm">The MirOS Project</a> will be represented
+ at <a href="http://www.linuxtag.org/2009/">LinuxTag 2009, Berlin, .de</a>
+ by tg@ mostly at the booth of <a href="http://www.tarent.com/">tarent
+ GmbH</a> who kindly sponsored buttons, some at the joint booth of AllBSD
+ who kindly sponsored CDs and flyers as usual, and may be seen at the
+ Holarse booth which has history with MirBSD&trade; on LinuxTag.</p>
+<p>We will distribute MirOS BSD CDs (i386 Live, i386 Install, sparc
+ Install, i386 MirGRML 2009.01) as well as grml CDs (containing grml
+ 2009.05 Lackdose-Allergie, which includes MirOS bsd4grml/i386). There
+ will probably not be any MidnightBSD CDs due to lack of an image in
+ time for the deadline. Furthermore, besides the giveaway flyers, there
+ are a couple of buttons for MirBSD, grml, mksh, MidnightBSD and <a
+ href="http://9fans.net/">Glenda</a>. We would like to ask for a small
+ donation (the amount does not really matter) in return for these; also,
+ donations for the CDs are welcome to cover printing costs and will go
+ to the respective sponsors (this is especially valid for the grml CDs,
+ as they are not strictly covered by AllBSD).</p>
+<p>The next event will be FrOSCon in St. Augustin, which will see tg@
+ as well as bsiegert@ and gecko2@ as usual.</p>
 ----
