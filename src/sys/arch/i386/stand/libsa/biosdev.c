@@ -1,10 +1,10 @@
-/**	$MirOS: src/sys/arch/i386/stand/libsa/biosdev.c,v 1.17 2008/12/31 16:38:36 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/stand/libsa/biosdev.c,v 1.18 2009/01/01 17:46:20 tg Exp $ */
 /*	$OpenBSD: biosdev.c,v 1.74 2008/06/25 15:32:18 reyk Exp $	*/
 
 /*
  * Copyright (c) 1996 Michael Shalayeff
  * Copyright (c) 2003 Tobias Weingartner
- * Copyright (c) 2002, 2003, 2004, 2005, 2008
+ * Copyright (c) 2002, 2003, 2004, 2005, 2008, 2009
  *	Thorsten "mirabilos" Glaser <tg@mirbsd.org>
  * All rights reserved.
  *

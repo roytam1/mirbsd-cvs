@@ -1,7 +1,7 @@
-/* $MirOS: src/sys/arch/i386/stand/boot/srt0.S,v 1.28 2009/01/02 04:27:43 tg Exp $ */
+/* $MirOS: src/sys/arch/i386/stand/boot/srt0.S,v 1.29 2009/01/02 04:58:40 tg Exp $ */
 
 /*-
- * Copyright (c) 2003, 2004, 2005, 2006, 2007, 2008
+ * Copyright (c) 2003, 2004, 2005, 2006, 2007, 2008, 2009
  *	Thorsten Glaser <tg@mirbsd.de>
  *
  * Provided that these terms and disclaimer and all copyright notices
@@ -9,10 +9,6 @@
  * is granted to deal in this work without restriction, including un-
  * limited rights to use, publicly perform, distribute, sell, modify,
  * merge, give away, or sublicence.
- *
- * Advertising materials mentioning features or use of this work must
- * display the following acknowledgement:
- *	This product includes material provided by Thorsten Glaser.
  *
  * This work is provided "AS IS" and WITHOUT WARRANTY of any kind, to
  * the utmost extent permitted by applicable law, neither express nor

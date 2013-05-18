@@ -1,9 +1,9 @@
-/**	$MirOS: src/sys/arch/i386/stand/libsa/diskprobe.c,v 1.8 2008/11/08 23:04:08 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/stand/libsa/diskprobe.c,v 1.9 2009/01/02 04:58:41 tg Exp $ */
 /*	$OpenBSD: diskprobe.c,v 1.29 2007/06/18 22:11:20 krw Exp $	*/
 
 /*
  * Copyright (c) 1997 Tobias Weingartner
- * Copyright (c) 2002, 2003
+ * Copyright (c) 2002, 2003, 2009
  *	Thorsten "mirabilos" Glaser <tg@mirbsd.org>
  * All rights reserved.
  *

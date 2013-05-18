@@ -1,7 +1,7 @@
-/* $MirOS: src/sys/arch/i386/stand/mbr/mbr.S,v 1.6 2007/03/18 02:29:58 tg Exp $ */
+/* $MirOS: src/sys/arch/i386/stand/mbr/mbr.S,v 1.7 2008/12/28 20:15:23 tg Exp $ */
 
 /*-
- * Copyright (c) 2004, 2005, 2007
+ * Copyright (c) 2004, 2005, 2007, 2008
  *	Thorsten Glaser <tg@mirbsd.de>
  *
  * Provided that these terms and disclaimer and all copyright notices
@@ -9,10 +9,6 @@
  * is granted to deal in this work without restriction, including un-
  * limited rights to use, publicly perform, distribute, sell, modify,
  * merge, give away, or sublicence.
- *
- * Advertising materials mentioning features or use of this work must
- * display the following acknowledgement:
- *	This product includes material provided by Thorsten Glaser.
  *
  * This work is provided "AS IS" and WITHOUT WARRANTY of any kind, to
  * the utmost extent permitted by applicable law, neither express nor
