@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/distrib/i386/livecd/munge_it.sh,v 1.6 2006/04/05 23:58:35 tg Exp $
+# $MirOS: src/distrib/i386/livecd/munge_it.sh,v 1.7 2006/04/06 00:16:31 tg Exp $
 #-
 # Copyright (c) 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -63,7 +63,7 @@ ed -s etc/ntpd.conf <<-'EOF'
 EOF
 ed -s etc/rc <<-'EOF'
 	1i
-		# $MirOS: src/distrib/i386/livecd/munge_it.sh,v 1.6 2006/04/05 23:58:35 tg Exp $
+		# $MirOS: src/distrib/i386/livecd/munge_it.sh,v 1.7 2006/04/06 00:16:31 tg Exp $
 	.
 	/^rm.*fastboot$/a
 
@@ -79,7 +79,7 @@ ed -s etc/rc <<-'EOF'
 		do_mfsmount tmp 600000
 		do_mfsmount var
 		sleep 2
-		gzip -dc /home/fsrw.cgz | tar xphf -
+		cpio -mid </home/fsrw.cpio
 		sleep 1
 		do_mfsmount home
 		print ' done'
@@ -139,8 +139,7 @@ pwd_mkdb -pd $(readlink -nf etc) master.passwd
 dd if=/dev/urandom bs=4096 count=1 of=var/db/host.random
 
 # tmp because of perms
-find dev etc root tmp var | sort | cpio -oC512 -Hsv4crc -Mset | \
-    gzip -n9 >home/fsrw.cgz
+find dev etc root tmp var | sort | cpio -oC512 -Hsv4crc -Mset >home/fsrw.cpio
 rm -rf root var
 mkdir root var
 
