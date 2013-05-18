@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/i386/common/Makefile.inc,v 1.25 2006/07/05 23:01:19 tg Exp $
+# $MirOS: src/distrib/i386/common/Makefile.inc,v 1.26 2006/07/16 13:07:48 tg Exp $
 # $OpenBSD: Makefile.inc,v 1.15 2004/11/25 22:02:08 deraadt Exp $
 
 .ifndef _MODSRC_DISTRIB_I386_COMMON_MAKEFILE_INC
@@ -66,8 +66,9 @@ do-floppy:
 	cp bsd.gz ${MOUNT_POINT}/bsd
 	${SUDO} chown -R 0:0 ${MOUNT_POINT}
 	${SUDO} chmod -R u=rwX,go=rX ${MOUNT_POINT}
-	makefs -o minfree=0,optimization=space,bsize=4096,fsize=512 \
-	    -s ${FLOPPYSIZE}b ${REALIMAGE} ${MOUNT_POINT}
+	${SUDO} makefs -s ${FLOPPYSIZE}b -o \
+	    minfree=0,optimization=space,bsize=4096,fsize=512 \
+	    ${REALIMAGE} ${MOUNT_POINT}
 	${SUDO} vnconfig -v -c ${VND} ${REALIMAGE}
 	${SUDO} disklabel -w -r ${VND} ${FLOPPYTYPE}
 	${SUDO} mount -r ${VND_DEV} ${MOUNT_POINT}
